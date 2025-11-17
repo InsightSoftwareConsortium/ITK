@@ -706,11 +706,11 @@ GiplImageIO::Write(const void * buffer)
       if (m_IsCompressed)
       {
         gzwrite(
-          m_Internal->m_GzFile, reinterpret_cast<char *>(&(value)), static_cast<unsigned int>(sizeof(unsigned short)));
+          m_Internal->m_GzFile, reinterpret_cast<char *>(&value), static_cast<unsigned int>(sizeof(unsigned short)));
       }
       else
       {
-        m_Ofstream.write(reinterpret_cast<char *>(&(value)), sizeof(unsigned short));
+        m_Ofstream.write(reinterpret_cast<char *>(&value), sizeof(unsigned short));
       }
     }
     else
@@ -727,7 +727,7 @@ GiplImageIO::Write(const void * buffer)
       if (m_IsCompressed)
       {
         gzwrite(
-          m_Internal->m_GzFile, reinterpret_cast<char *>(&(value)), static_cast<unsigned int>(sizeof(unsigned short)));
+          m_Internal->m_GzFile, reinterpret_cast<char *>(&value), static_cast<unsigned int>(sizeof(unsigned short)));
       }
       else
       {

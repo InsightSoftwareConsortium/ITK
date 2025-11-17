@@ -24,13 +24,6 @@
 namespace itk
 {
 //----------------------------------------------------------------------------
-// Constructor
-template <typename TInputImage, typename TOutputImage>
-IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::IterativeInverseDisplacementFieldImageFilter()
-  : m_NumberOfIterations(5)
-{}
-
-//----------------------------------------------------------------------------
 template <typename TInputImage, typename TOutputImage>
 void
 IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
@@ -93,14 +86,6 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
   {
     // calculate the inverted field
     const double spacing = inputPtr->GetSpacing()[0];
-
-
-    const InputImageRegionType region = inputPtr->GetLargestPossibleRegion();
-    unsigned int               numberOfPoints = 1;
-    for (unsigned int i = 0; i < ImageDimension; ++i)
-    {
-      numberOfPoints *= region.GetSize()[i];
-    }
 
     ProgressReporter               progress(this, 0, inputPtr->GetLargestPossibleRegion().GetNumberOfPixels());
     OutputIterator                 OutputIt(outputPtr, outputPtr->GetRequestedRegion());

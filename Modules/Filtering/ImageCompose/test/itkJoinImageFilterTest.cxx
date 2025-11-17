@@ -18,23 +18,21 @@
 
 #include "itkJoinImageFilter.h"
 #include "itkRGBAPixel.h"
-#include "vnl/vnl_sample.h"
 #include "itkImageRegionIterator.h"
 #include "itkTestingMacros.h"
+#include <algorithm> // For generate.
+#include <random>    // For mt19937.
 
 int
 itkJoinImageFilterTest(int, char *[])
 {
   // Define the dimension of the images
-  constexpr unsigned int myDimension = 2;
+  constexpr unsigned int myDimension{ 2 };
 
   // Declare the types of the images
   using myImageType1 = itk::Image<signed char, myDimension>;
   using myImageType2 = itk::Image<itk::Vector<unsigned short, 2>, myDimension>;
   using myImageType3 = itk::Image<itk::RGBAPixel<short>, myDimension>;
-
-  // Declare the type of the index to access images
-  using myIndexType = itk::Index<myDimension>;
 
   // Declare the type of the size
   using mySizeType = itk::Size<myDimension>;
@@ -47,16 +45,12 @@ itkJoinImageFilterTest(int, char *[])
   auto inputImageB = myImageType2::New();
   auto inputImageC = myImageType3::New();
 
-  // Define their size, and start index
+  // Define their size and region
   mySizeType size;
   size[0] = 5;
   size[1] = 8;
 
-  myIndexType start;
-  start[0] = 0;
-  start[1] = 0;
-
-  const myRegionType region{ start, size };
+  const myRegionType region{ size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -75,6 +69,11 @@ itkJoinImageFilterTest(int, char *[])
   using myIteratorType2 = itk::ImageRegionIterator<myImageType2>;
   using myIteratorType3 = itk::ImageRegionIterator<myImageType3>;
 
+  std::mt19937 randomNumberEngine{};
+
+  std::uniform_int_distribution<> randomNumberDistribution1(std::numeric_limits<myImageType1::PixelType>::min(),
+                                                            std::numeric_limits<myImageType1::PixelType>::max());
+
   // Create one iterator for Image A (this is a light object)
   myIteratorType1 it1(inputImageA, region);
 
@@ -82,10 +81,12 @@ itkJoinImageFilterTest(int, char *[])
   std::cout << "Image #1 " << std::endl;
   while (!it1.IsAtEnd())
   {
-    it1.Set(static_cast<char>(vnl_sample_uniform(0, 255)));
+    it1.Set(static_cast<myImageType1::PixelType>(randomNumberDistribution1(randomNumberEngine)));
     std::cout << static_cast<int>(it1.Get()) << std::endl;
     ++it1;
   }
+
+  std::uniform_int_distribution<unsigned short> randomNumberDistribution2(0, 32765);
 
   // Create one iterator for Image B (this is a light object)
   myIteratorType2 it2(inputImageB, region);
@@ -96,12 +97,15 @@ itkJoinImageFilterTest(int, char *[])
   itk::Vector<unsigned short, 2> vec;
   while (!it2.IsAtEnd())
   {
-    vec[0] = static_cast<unsigned short>(vnl_sample_uniform(0, 32765));
-    vec[1] = static_cast<unsigned short>(vnl_sample_uniform(0, 32765));
+    std::generate(vec.begin(), vec.end(), [&randomNumberEngine, &randomNumberDistribution2] {
+      return randomNumberDistribution2(randomNumberEngine);
+    });
     it2.Set(vec);
     std::cout << it2.Get() << std::endl;
     ++it2;
   }
+
+  std::uniform_int_distribution<short> randomNumberDistribution3(0, 255);
 
   // Create one iterator for Image C (this is a light object)
   myIteratorType3 itRGBA(inputImageC, region);
@@ -112,10 +116,9 @@ itkJoinImageFilterTest(int, char *[])
   itk::RGBAPixel<short> rgbaVec;
   while (!itRGBA.IsAtEnd())
   {
-    rgbaVec[0] = static_cast<short>(vnl_sample_uniform(0, 255));
-    rgbaVec[1] = static_cast<short>(vnl_sample_uniform(0, 255));
-    rgbaVec[2] = static_cast<short>(vnl_sample_uniform(0, 255));
-    rgbaVec[3] = static_cast<short>(vnl_sample_uniform(0, 255));
+    std::generate(rgbaVec.begin(), rgbaVec.end(), [&randomNumberEngine, &randomNumberDistribution3] {
+      return randomNumberDistribution3(randomNumberEngine);
+    });
     itRGBA.Set(rgbaVec);
     //  std::cout << itRGBA.Get() << std::endl;
     ++itRGBA;

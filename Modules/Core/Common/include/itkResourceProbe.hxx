@@ -222,7 +222,7 @@ ResourceProbe<ValueType, MeanType>::GetStandardDeviation()
                  m_ProbeValueList.end(),
                  diff.begin(),
                  // Subtract mean from every value;
-                 [realMean](const ValueType v) { return (static_cast<InternalComputeType>(v) - realMean); });
+                 [realMean](const ValueType v) { return static_cast<InternalComputeType>(v) - realMean; });
   const InternalComputeType sqsum = std::inner_product(diff.begin(), diff.end(), diff.begin(), InternalComputeType{});
 
   const InternalComputeType sz = static_cast<InternalComputeType>(m_ProbeValueList.size()) - 1.0;

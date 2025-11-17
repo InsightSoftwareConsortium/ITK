@@ -39,11 +39,11 @@ namespace itk
 
 namespace
 { // local namespace for managing globals
-constexpr size_t ITK_GLOBAL_INDEX_NAMES_NUMBER = 10;
-constexpr size_t ITK_GLOBAL_INDEX_NAMES_LENGTH = 3;
-constexpr char   globalIndexNames[ITK_GLOBAL_INDEX_NAMES_NUMBER][ITK_GLOBAL_INDEX_NAMES_LENGTH] = {
-  "_0", "_1", "_2", "_3", "_4", "_5", "_6", "_7", "_8", "_9"
-};
+constexpr size_t ITK_GLOBAL_INDEX_NAMES_NUMBER{ 10 };
+constexpr size_t ITK_GLOBAL_INDEX_NAMES_LENGTH{ 3 };
+constexpr char   globalIndexNames[ITK_GLOBAL_INDEX_NAMES_NUMBER][ITK_GLOBAL_INDEX_NAMES_LENGTH]{ "_0", "_1", "_2", "_3",
+                                                                                                 "_4", "_5", "_6", "_7",
+                                                                                                 "_8", "_9" };
 
 } // namespace
 

@@ -85,7 +85,7 @@ RunFilter(const TImageType *             img,
 
 TEST(SliceImageFilterTests, PhysicalPoint1)
 {
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
   using PixelType = itk::Point<double, ImageDimension>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
@@ -125,7 +125,7 @@ TEST(SliceImageFilterTests, PhysicalPoint1)
 
 TEST(SliceImageFilterTests, PhysicalPoint2)
 {
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
   using PixelType = itk::Point<double, ImageDimension>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
@@ -167,7 +167,7 @@ TEST(SliceImageFilterTests, PhysicalPoint2)
 
 TEST(SliceImageFilterTests, PhysicalPoint3)
 {
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
   using PixelType = itk::Point<double, ImageDimension>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
@@ -205,7 +205,7 @@ TEST(SliceImageFilterTests, PhysicalPoint3)
 
 TEST(SliceImageFilterTests, Empty)
 {
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
   using PixelType = itk::Point<double, ImageDimension>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
@@ -243,7 +243,7 @@ TEST(SliceImageFilterTests, Empty)
 
 TEST(SliceImageFilterTests, Coverage)
 {
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
   using ImageType = itk::Image<float, ImageDimension>;
 
   using FilterType = itk::SliceImageFilter<ImageType, ImageType>;
@@ -279,13 +279,13 @@ TEST(SliceImageFilterTests, Coverage)
 
 TEST(SliceImageFilterTests, Sizes)
 {
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
   using ImageType = itk::Image<float, ImageDimension>;
 
   using SourceType = itk::GaussianImageSource<ImageType>;
   auto source = SourceType::New();
 
-  constexpr SourceType::SizeType size = { { 64, 64, 64 } };
+  constexpr SourceType::SizeType size{ 64, 64, 64 };
   source->SetSize(size);
   source->ReleaseDataFlagOn();
 
@@ -333,7 +333,7 @@ TEST(SliceImageFilterTests, Sizes)
 
 TEST(SliceImageFilterTests, ExceptionalCases)
 {
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
   using ImageType = itk::Image<float, ImageDimension>;
 
   using SourceType = itk::GaussianImageSource<ImageType>;

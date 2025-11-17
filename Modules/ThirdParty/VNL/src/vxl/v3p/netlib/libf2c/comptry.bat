@@ -1,5 +1,13 @@
-%1 %2 %3 %4 %5 %6 %7 %8 %9
+%*
 if errorlevel 1 goto nolonglong
 exit 0
 :nolonglong
-%1 -DNO_LONG_LONG %2 %3 %4 %5 %6 %7 %8 %9
+%* -DNO_LONG_LONG
+if errorlevel 1 goto nossizet
+exit 0
+:nossizet
+%* -DNO_SSIZE_T
+if errorlevel 1 goto noboth
+exit 0
+:noboth
+%* -DNO_LONG_LONG -DNO_SSIZE_T

@@ -51,8 +51,8 @@ itkPermuteAxesImageFilterTest(int, char *[])
 
 
   // define a small input test
-  constexpr ImageType::IndexType index = { { 10, 20, 30, 40 } };
-  constexpr ImageType::SizeType  size = { { 5, 4, 3, 2 } };
+  constexpr ImageType::IndexType index{ 10, 20, 30, 40 };
+  constexpr ImageType::SizeType  size{ 5, 4, 3, 2 };
   const ImageType::RegionType    region{ index, size };
 
   double spacing[ImageDimension] = { 1.1, 1.2, 1.3, 1.4 };

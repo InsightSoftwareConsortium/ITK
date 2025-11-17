@@ -82,7 +82,7 @@ DomainThreader<TDomainPartitioner, TAssociate>::DetermineNumberOfWorkUnitsUsed()
 
   if (this->m_NumberOfWorkUnitsUsed > numberOfWorkUnits)
   {
-    itkExceptionMacro(
+    itkExceptionStringMacro(
       "A subclass of ThreadedDomainPartitioner::PartitionDomain returned more subdomains than were requested");
   }
 }

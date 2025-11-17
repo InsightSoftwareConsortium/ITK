@@ -28,8 +28,8 @@
 
 
 // Typedefs used for registration
-constexpr unsigned int ImageDimension = 3;
-constexpr unsigned int ImageWidth = 16;
+constexpr unsigned int ImageDimension{ 3 };
+constexpr unsigned int ImageWidth{ 16 };
 
 using InputImagePixelType = unsigned char;
 using DeformationFieldPixelType = float;
@@ -38,7 +38,7 @@ using InputImageType = itk::Image<InputImagePixelType, ImageDimension>;
 using DeformationFieldVectorType = itk::Vector<DeformationFieldPixelType, ImageDimension>;
 using DeformationFieldImageType = itk::Image<DeformationFieldVectorType, ImageDimension>;
 
-constexpr unsigned int PixelsPerElement = 1;
+constexpr unsigned int PixelsPerElement{ 1 };
 using Element2DType = itk::fem::Element2DC0LinearQuadrilateralMembrane;
 using Element3DType = itk::fem::Element3DC0LinearHexahedronMembrane;
 using FEMObjectType = itk::fem::FEMObject<ImageDimension>;

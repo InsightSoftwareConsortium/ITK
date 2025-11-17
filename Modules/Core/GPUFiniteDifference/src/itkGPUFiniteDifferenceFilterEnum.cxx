@@ -27,8 +27,7 @@ operator<<(std::ostream & out, const GPUFiniteDifferenceFilterEnum value)
     {
       case GPUFiniteDifferenceFilterEnum::UNINITIALIZED:
         return "GPUFiniteDifferenceImageFilter<TInputImage,TOutputImage,TParentImageFilter>::"
-               "GPUFiniteDifferenceFilterEnum::"
-               "UNINITIALIZED";
+               "GPUFiniteDifferenceFilterEnum::UNINITIALIZED";
       case GPUFiniteDifferenceFilterEnum::INITIALIZED:
         return "GPUFiniteDifferenceFilterEnum::INITIALIZED";
       default:

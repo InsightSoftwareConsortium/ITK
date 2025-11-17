@@ -27,10 +27,10 @@
 int
 itkImageToListSampleFilterTest3(int, char *[])
 {
-  constexpr unsigned int MeasurementVectorSize = 8;
+  constexpr unsigned int MeasurementVectorSize{ 8 };
   using MeasurementComponentType = float;
 
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
   using ImageType = itk::VectorImage<MeasurementComponentType, ImageDimension>;
 
   using MaskImageType = itk::Image<unsigned char, ImageDimension>;
@@ -124,7 +124,7 @@ itkImageToListSampleFilterTest3(int, char *[])
     ++lit;
   }
 
-  constexpr double epsilon = 1e-6;
+  constexpr double epsilon{ 1e-6 };
 
   if (itk::Math::abs(sum - 420.0) > epsilon)
   {

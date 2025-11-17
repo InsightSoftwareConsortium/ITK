@@ -99,7 +99,7 @@ itkSimilarityIndexImageFilterTest(int, char *[])
 
 
   // check results
-  constexpr FilterType::RealType trueOverlap = 0.5 / 0.75;
+  constexpr FilterType::RealType trueOverlap{ 0.5 / 0.75 };
   const FilterType::RealType     overlap = filter->GetSimilarityIndex();
 
   std::cout << " True index: " << trueOverlap << std::endl;
@@ -116,12 +116,10 @@ itkSimilarityIndexImageFilterTest(int, char *[])
   auto image4 = Image2Type::New();
 
   image3->SetRegions(image1->GetBufferedRegion());
-  image3->Allocate();
-  image3->FillBuffer(0);
+  image3->AllocateInitialized();
 
   image4->SetRegions(image2->GetBufferedRegion());
-  image4->Allocate();
-  image4->FillBuffer(0);
+  image4->AllocateInitialized();
 
   filter->SetInput1(image3);
   filter->SetInput2(image4);

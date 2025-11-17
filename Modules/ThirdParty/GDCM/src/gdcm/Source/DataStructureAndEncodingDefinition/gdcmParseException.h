@@ -68,7 +68,7 @@ public:
     return strwhat.c_str();
     }
 */
-  void SetLastElement(DataElement& de)
+  void SetLastElement(const DataElement& de)
     {
     LastElement = de;
     }

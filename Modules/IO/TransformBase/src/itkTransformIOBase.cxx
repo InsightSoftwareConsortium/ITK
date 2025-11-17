@@ -26,9 +26,7 @@ namespace itk
 {
 
 template <typename TParametersValueType>
-TransformIOBaseTemplate<TParametersValueType>::TransformIOBaseTemplate()
-
-  = default;
+TransformIOBaseTemplate<TParametersValueType>::TransformIOBaseTemplate() = default;
 
 template <typename TParametersValueType>
 TransformIOBaseTemplate<TParametersValueType>::~TransformIOBaseTemplate() = default;

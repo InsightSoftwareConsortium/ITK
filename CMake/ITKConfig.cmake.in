@@ -116,8 +116,11 @@ set(ITK_WRAPPING "@ITK_WRAPPING@")
 # ITK_WRAP_DOC is disabled by default.
 
 # expose C++ standard used to build ITK for supporting external packages
-set(ITK_CXX_STANDARD CMAKE_CXX_STANDARD)
-
+set(ITK_CXX_STANDARD "@CMAKE_CXX_STANDARD@")
+if( NOT DEFINED CMAKE_CXX_STANDARD )
+  # If not explicitly set, initialize external modules to the same standard as ITK.
+  set(CMAKE_CXX_STANDARD ${ITK_CXX_STANDARD})
+endif()
 if( NOT DEFINED ITK_WRAP_PYTHON)
   set(ITK_WRAP_PYTHON "@ITK_WRAP_PYTHON@")
 endif()

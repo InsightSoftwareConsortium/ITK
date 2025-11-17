@@ -218,9 +218,9 @@ Element3DC0LinearTriangular::Float
 Element3DC0LinearTriangular::JacobianDeterminant(const VectorType & /*HACK pt*/, const MatrixType * /*HACK pJ*/) const
 {
   // use heron's formula
-  constexpr int na = 0;
-  constexpr int nb = 1;
-  constexpr int nc = 2;
+  constexpr int na{ 0 };
+  constexpr int nb{ 1 };
+  constexpr int nc{ 2 };
 
   const VectorType & A = this->GetNode(na)->GetCoordinates();
   const VectorType & B = this->GetNode(nb)->GetCoordinates();
@@ -284,7 +284,7 @@ invJ2[1][1]=idet*((*pJ)[0][0]-(*pJ)[2][0]);
 invJ2[1][2]=idet*((*pJ)[1][0]-(*pJ)[0][0]);
 
 std::cout << " pJ " << std::endl;
-std::cout << (*pJ) << std::endl;
+std::cout << *pJ << std::endl;
 
 std::cout << " invJ " << std::endl;
 std::cout << (invJ) << std::endl;
@@ -350,7 +350,7 @@ Element3DC0LinearTriangular::Determinant2x2(const VectorType & c1, const VectorT
 void
 Element3DC0LinearTriangular::PopulateEdgeIds()
 {
-  this->m_EdgeIds.resize(0);
+  this->m_EdgeIds.clear();
 
   std::vector<int> edgePtIds;
   edgePtIds.resize(2);

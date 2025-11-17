@@ -18,6 +18,7 @@
 #ifndef itkDelaunayConformingQuadEdgeMeshFilter_hxx
 #define itkDelaunayConformingQuadEdgeMeshFilter_hxx
 
+#include <array>
 
 namespace itk
 {
@@ -124,8 +125,7 @@ DelaunayConformingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Process()
 
   m_FlipEdge->SetInput(output);
 
-  typename std::vector<OutputQEType *>           list_qe(5);
-  typename std::vector<OutputQEType *>::iterator it;
+  std::array<OutputQEType *, 5> list_qe{};
 
   while (!m_PriorityQueue->Empty())
   {
@@ -161,9 +161,8 @@ DelaunayConformingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Process()
       ++this->m_NumberOfEdgeFlips;
       list_qe[4] = qe;
 
-      for (it = list_qe.begin(); it != list_qe.end(); ++it)
+      for (OutputQEType * e_it : list_qe)
       {
-        OutputQEType * e_it = *it;
         if (e_it)
         {
           CriterionValueType value = Dyer07Criterion(output, e_it);

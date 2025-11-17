@@ -40,12 +40,12 @@ SumOfSquaresImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const Index
 
   if (image == nullptr)
   {
-    return (NumericTraits<RealType>::max());
+    return NumericTraits<RealType>::max();
   }
 
   if (!this->IsInsideBuffer(index))
   {
-    return (NumericTraits<RealType>::max());
+    return NumericTraits<RealType>::max();
   }
 
   const ShapedImageNeighborhoodRange<const InputImageType> neighborhoodRange(*image, index, m_NeighborhoodOffsets);
@@ -57,7 +57,7 @@ SumOfSquaresImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const Index
     sumOfSquares += value * value;
   }
 
-  return (sumOfSquares);
+  return sumOfSquares;
 }
 
 template <typename TInputImage, typename TCoordinate>

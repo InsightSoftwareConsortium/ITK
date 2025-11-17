@@ -123,7 +123,7 @@ public:
   void
   DeleteAllMembershipFunctions()
   {
-    m_MembershipFunctions.resize(0);
+    m_MembershipFunctions.clear();
   }
 
   /** Add a membership function corresponding to the class index.
@@ -139,7 +139,7 @@ public:
   Update();
 
 protected:
-  ImageModelEstimatorBase();
+  ImageModelEstimatorBase() = default;
   ~ImageModelEstimatorBase() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

@@ -203,7 +203,7 @@ MersenneTwisterRandomVariateGenerator::reload()
   static constexpr unsigned int M = 397;
 
   // get rid of VS warning
-  constexpr auto index = int{ M } - int{ StateVectorLength };
+  constexpr int index{ int{ M } - int{ StateVectorLength } };
 
   IntegerType * p = m_State;
 
@@ -236,7 +236,7 @@ MersenneTwisterRandomVariateGenerator::GetIntegerVariate()
   s1 ^= (s1 >> 11);
   s1 ^= (s1 << 7) & 0x9d2c5680;
   s1 ^= (s1 << 15) & 0xefc60000;
-  return (s1 ^ (s1 >> 18));
+  return s1 ^ (s1 >> 18);
 }
 
 

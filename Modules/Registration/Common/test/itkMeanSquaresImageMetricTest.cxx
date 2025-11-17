@@ -50,7 +50,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
   // Create two simple images
   //------------------------------------------------------------
 
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
 
   using PixelType = double;
 
@@ -71,8 +71,8 @@ itkMeanSquaresImageMetricTest(int, char *[])
   FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
   MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  constexpr FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
-  constexpr MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
+  constexpr FixedImageType::PointValueType  fixedImageOrigin[]{ 0.0f, 0.0f };
+  constexpr MovingImageType::PointValueType movingImageOrigin[]{ 0.0f, 0.0f };
 
   auto movingImageSource = MovingImageSourceType::New();
   auto fixedImageSource = FixedImageSourceType::New();
@@ -268,7 +268,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
   // used to verify the correctness of the metric under a particular
   // usage scenario.
   metric->SetNumberOfWorkUnits(8);
-  constexpr int numThreads = 2;
+  constexpr int numThreads{ 2 };
   itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numThreads);
   metric->Initialize();
 
@@ -300,8 +300,8 @@ itkMeanSquaresImageMetricTest(int, char *[])
   metric->Print(std::cout);
 
   // Check consistency between BSplineTransform derivatives computed with vs omitting weights caching.
-  constexpr unsigned int splineOrder = 3;
-  constexpr unsigned int nodesPerDimension = 8;
+  constexpr unsigned int splineOrder{ 3 };
+  constexpr unsigned int nodesPerDimension{ 8 };
   using BSplineTransformType = itk::BSplineTransform<CoordinateRepresentationType, ImageDimension, splineOrder>;
   using InitializerType = itk::BSplineTransformInitializer<BSplineTransformType, MovingImageType>;
   using GeneratorType = itk::Statistics::MersenneTwisterRandomVariateGenerator;

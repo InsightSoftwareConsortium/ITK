@@ -77,7 +77,7 @@ public:
   bool
   operator==(R r) const
   {
-    return (m_Pointer == (ObjectType *)r);
+    return m_Pointer == (ObjectType *)r;
   }
 
 #ifndef ITK_EXPERIMENTAL_CXX20_REWRITTEN_UNEQUAL_OPERATOR

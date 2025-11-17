@@ -74,7 +74,7 @@ std::vector<Tag> MoveStudyRootQuery::GetTagListByLevel(const EQueryLevel& inQuer
   case eImage:
     return mImage.GetUniqueTags(eStudyRootType);
   default: //have to return _something_ if a query level isn't given
-	  assert(0);
+	  gdcm_assert(0);
 	  {
 		  std::vector<Tag> empty;
 		  return empty;

@@ -25,8 +25,8 @@
 extern "C" {
 #endif
 #include "v3p_f2c_original.h"
-char *F77_aloc(integer Len, char *whence);
-void sig_die(char *s, int kill);
+char *F77_aloc(integer Len, const char *whence);
+void sig_die(const char *s, int kill);
 integer i_dnnt(doublereal *x);
 double f__cabs(double real_value, double imag_value);
 void exit_(integer *rc);
@@ -44,9 +44,9 @@ integer pow_ii(integer *ap, integer *bp);
 VOID r_cnjg(complex *r, complex *z);
 double r_imag(complex *z);
 double r_sign(real *a, real *b);
-int s_copy(char *a, char *b, ftnlen la, ftnlen lb);
+void s_copy(char *a, char *b, ftnlen la, ftnlen lb);
 integer s_cmp(char *a0, char *b0, ftnlen la, ftnlen lb);
-int s_cat(char *lp, char **rpp, integer *rnp, integer* np, ftnlen ll);
+void s_cat(char *lp, char *rpp[], ftnint rnp[], ftnint *np, ftnlen ll);
 double z_abs(doublecomplex *z);
 void z_div(doublecomplex *c, doublecomplex *a, doublecomplex *b);
 void z_sqrt(doublecomplex *r, doublecomplex *z);

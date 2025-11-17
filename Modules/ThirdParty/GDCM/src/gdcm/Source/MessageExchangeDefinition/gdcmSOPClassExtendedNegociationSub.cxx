@@ -28,14 +28,14 @@ SOPClassExtendedNegociationSub::SOPClassExtendedNegociationSub()
   UIDLength = 0;
 
   ItemLength = (uint16_t)(Size() - 4);
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 }
 
 std::istream &SOPClassExtendedNegociationSub::Read(std::istream &is)
 {
   //uint8_t itemtype = 0x0;
   //is.read( (char*)&itemtype, sizeof(ItemType) );
-  //assert( itemtype == ItemType );
+  //gdcm_assert( itemtype == ItemType );
   uint8_t reserved2;
   is.read( (char*)&reserved2, sizeof(Reserved2) );
   uint16_t itemlength;
@@ -49,13 +49,13 @@ std::istream &SOPClassExtendedNegociationSub::Read(std::istream &is)
   UIDLength = uidlength;
 
   char name[256];
-  assert( uidlength < 256 );
+  gdcm_assert( uidlength < 256 );
   is.read( name, uidlength );
   Name = std::string(name,uidlength);
 
-  assert( uidlength < ItemLength );
+  gdcm_assert( uidlength < ItemLength );
   uint16_t bloblength = (uint16_t)(ItemLength - 2 - uidlength);
-  assert( bloblength == 6 ); (void)bloblength;
+  gdcm_assert( bloblength == 6 ); (void)bloblength;
   SCAI.Read( is );
 
   return is;
@@ -120,7 +120,7 @@ void SOPClassExtendedNegociationSub::SetTuple(const char *uid, uint8_t levelofsu
     ItemLength = (uint16_t)(Size() - 4);
     }
   // post condition
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 }
 
 } // end namespace network

@@ -50,7 +50,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
   unsigned long count = 0;
   for (float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1)
   {
-    constexpr float radius = 100.0;
+    constexpr float radius{ 100.0 };
     PointType       fixedPoint;
     fixedPoint[0] = radius * std::cos(theta);
     fixedPoint[1] = radius * std::sin(theta);
@@ -83,12 +83,12 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
 
   // check various alpha values between accepted values of [1.0, 2.0]
 
-  constexpr unsigned int numberOfAlphaValues = 6;
-  constexpr float        alphaValues[] = { 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f };
+  constexpr unsigned int numberOfAlphaValues{ 6 };
+  constexpr float        alphaValues[]{ 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f };
 
-  constexpr unsigned int evaluationKNeighborhood = 50;
+  constexpr unsigned int evaluationKNeighborhood{ 50 };
   auto                   useAnisotropicCovariances = false;
-  constexpr unsigned int covarianceKNeighborhood = 5;
+  constexpr unsigned int covarianceKNeighborhood{ 5 };
 
   for (unsigned int i = 0; i < numberOfAlphaValues; ++i)
   {

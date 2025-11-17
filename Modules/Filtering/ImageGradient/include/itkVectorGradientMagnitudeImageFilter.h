@@ -472,7 +472,7 @@ protected:
 
     // Return the difference in length between the first two principle axes.
     // Note that other edge strength metrics may be appropriate here instead..
-    return (E.get_eigenvalue(ImageDimension - 1) - E.get_eigenvalue(ImageDimension - 2));
+    return E.get_eigenvalue(ImageDimension - 1) - E.get_eigenvalue(ImageDimension - 2);
   }
 
   /** The weights used to scale derivatives during processing */

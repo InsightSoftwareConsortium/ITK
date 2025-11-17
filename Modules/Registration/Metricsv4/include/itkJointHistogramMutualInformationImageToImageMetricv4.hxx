@@ -136,10 +136,8 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
     }
     ++mi;
   }
-  itkDebugMacro(" FixedImageMin: " << this->m_FixedImageTrueMin << " FixedImageMax: " << this->m_FixedImageTrueMax
-                                   << std::endl);
-  itkDebugMacro(" MovingImageMin: " << this->m_MovingImageTrueMin << " MovingImageMax: " << this->m_MovingImageTrueMax
-                                    << std::endl);
+  itkDebugMacro(" FixedImageMin: " << this->m_FixedImageTrueMin << " FixedImageMax: " << this->m_FixedImageTrueMax);
+  itkDebugMacro(" MovingImageMin: " << this->m_MovingImageTrueMin << " MovingImageMax: " << this->m_MovingImageTrueMax);
 
 
   // Allocate memory for the joint PDF.
@@ -348,7 +346,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
   3- The ComputeMutualInformation() iterator range should cover the entire PDF.
   4- The normalization is done based on NumberOfHistogramBins-1 instead of NumberOfHistogramBins. */
 
-  constexpr TInternalComputationValueType             eps = NumericTraits<TInternalComputationValueType>::epsilon();
+  constexpr TInternalComputationValueType             eps{ NumericTraits<TInternalComputationValueType>::epsilon() };
   CompensatedSummation<TInternalComputationValueType> total_mi;
   for (SizeValueType ii = 0; ii < m_NumberOfHistogramBins; ++ii)
   {
@@ -375,7 +373,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
       total_mi += local_mi;
     } // over jh bins 2
   } // over jh bins 1
-  return (-1.0 * total_mi.GetSum() / this->m_Log2);
+  return -1.0 * total_mi.GetSum() / this->m_Log2;
 }
 
 template <typename TFixedImage,

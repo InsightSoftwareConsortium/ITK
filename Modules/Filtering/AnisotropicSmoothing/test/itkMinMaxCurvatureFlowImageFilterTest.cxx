@@ -18,7 +18,7 @@
 
 #include "itkMinMaxCurvatureFlowImageFilter.h"
 #include "itkCommand.h"
-#include "vnl/vnl_sample.h"
+#include <random> // For mt19937.
 
 namespace
 {
@@ -38,7 +38,7 @@ public:
 };
 } // namespace
 
-constexpr unsigned int MAXRUNS = 5; // maximum number of runs
+constexpr unsigned int MAXRUNS{ 5 }; // maximum number of runs
 
 template <unsigned int VImageDimension>
 int
@@ -141,9 +141,9 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
    * and background of 255 with added salt and pepper noise.
    */
   const double        sqrRadius = itk::Math::sqr(radius); // radius of the circle/sphere
-  constexpr double    fractionNoise = 0.30;               // salt & pepper noise fraction
-  constexpr PixelType foreground = 0.0;                   // intensity value of the foreground
-  constexpr PixelType background = 255.0;                 // intensity value of the background
+  constexpr double    fractionNoise{ 0.30 };              // salt & pepper noise fraction
+  constexpr PixelType foreground{ 0.0 };                  // intensity value of the foreground
+  constexpr PixelType background{ 255.0 };                // intensity value of the background
 
   std::cout << "Create an image of circle/sphere with noise" << std::endl;
   auto circleImage = ImageType::New();
@@ -155,6 +155,11 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
   circleImage->SetLargestPossibleRegion(region);
   circleImage->SetBufferedRegion(region);
   circleImage->Allocate();
+
+  std::mt19937                              randomNumberEngine{};
+  std::uniform_real_distribution<double>    randomNumberDistributionBetweenZeroAndOne(0.0, 1.0);
+  std::uniform_real_distribution<PixelType> randomNumberDistributionBetweenForgroundAndBackground(
+    std::min(foreground, background), std::max(foreground, background));
 
   IteratorType circleIter(circleImage, circleImage->GetBufferedRegion());
 
@@ -170,9 +175,9 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
     }
     float value = (lhs < sqrRadius) ? foreground : background;
 
-    if (vnl_sample_uniform(0.0, 1.0) < fractionNoise)
+    if (randomNumberDistributionBetweenZeroAndOne(randomNumberEngine) < fractionNoise)
     {
-      value = vnl_sample_uniform(std::min(foreground, background), std::max(foreground, background));
+      value = randomNumberDistributionBetweenForgroundAndBackground(randomNumberEngine);
     }
 
     circleIter.Set(value);

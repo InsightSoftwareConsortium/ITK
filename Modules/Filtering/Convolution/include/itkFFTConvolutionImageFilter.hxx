@@ -505,7 +505,7 @@ template <typename TInputImage, typename TKernelImage, typename TOutputImage, ty
 bool
 FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::GetXDimensionIsOdd() const
 {
-  return (m_PaddedInputRegion.GetSize()[0] % 2 != 0);
+  return m_PaddedInputRegion.GetSize()[0] % 2 != 0;
 }
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>

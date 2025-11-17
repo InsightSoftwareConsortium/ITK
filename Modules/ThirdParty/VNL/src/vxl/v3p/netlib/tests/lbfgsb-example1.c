@@ -64,7 +64,7 @@
     integer i__1;
     doublereal d__1, d__2;
 
-    /* Subroutine */ int s_copy(char *, char *, ftnlen, ftnlen);
+    /* Subroutine */ void s_copy(char *a, char *b, ftnlen la, ftnlen lb);
     integer s_cmp(char *, char *, ftnlen, ftnlen);
 
     /* Local variables */

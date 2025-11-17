@@ -162,7 +162,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetTotalOverlap() const -> RealTyp
     return NumericTraits<RealType>::max();
   }
 
-  return (numerator / denominator);
+  return numerator / denominator;
 }
 
 template <typename TLabelImage>
@@ -211,7 +211,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetUnionOverlap() const -> RealTyp
     return NumericTraits<RealType>::max();
   }
 
-  return (numerator / denominator);
+  return numerator / denominator;
 }
 
 template <typename TLabelImage>
@@ -243,7 +243,7 @@ auto
 LabelOverlapMeasuresImageFilter<TLabelImage>::GetMeanOverlap() const -> RealType
 {
   const RealType uo = this->GetUnionOverlap();
-  return (2.0 * uo / (1.0 + uo));
+  return 2.0 * uo / (1.0 + uo);
 }
 
 template <typename TLabelImage>
@@ -251,7 +251,7 @@ auto
 LabelOverlapMeasuresImageFilter<TLabelImage>::GetMeanOverlap(LabelType label) const -> RealType
 {
   const RealType uo = this->GetUnionOverlap(label);
-  return (2.0 * uo / (1.0 + uo));
+  return 2.0 * uo / (1.0 + uo);
 }
 
 template <typename TLabelImage>
@@ -276,7 +276,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetVolumeSimilarity() const -> Rea
     return NumericTraits<RealType>::max();
   }
 
-  return (2.0 * numerator / denominator);
+  return 2.0 * numerator / denominator;
 }
 
 template <typename TLabelImage>
@@ -317,7 +317,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseNegativeError() const -> R
     return NumericTraits<RealType>::max();
   }
 
-  return (numerator / denominator);
+  return numerator / denominator;
 }
 
 template <typename TLabelImage>
@@ -370,7 +370,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError() const -> R
     return NumericTraits<RealType>::max();
   }
 
-  return (numerator / denominator);
+  return numerator / denominator;
 }
 
 template <typename TLabelImage>
@@ -424,7 +424,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseDiscoveryRate() const -> R
     return NumericTraits<RealType>::max();
   }
 
-  return (numerator / denominator);
+  return numerator / denominator;
 }
 
 template <typename TLabelImage>

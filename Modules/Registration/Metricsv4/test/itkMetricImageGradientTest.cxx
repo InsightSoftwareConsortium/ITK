@@ -224,7 +224,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
   // Fill images, with a border
   itk::ImageRegionIteratorWithIndex<ImageType> it(image, region);
   it.GoToBegin();
-  constexpr unsigned int imageBorder = 20;
+  constexpr unsigned int imageBorder{ 20 };
   while (!it.IsAtEnd())
   {
     it.Set(0);
@@ -263,7 +263,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
   const typename TTransform::Pointer movingTransform = transform->GetInverseTransform().GetPointer();
 
   // Write out the images if requested, for debugging only
-  constexpr bool writeImages = false;
+  constexpr bool writeImages{ false };
   if constexpr (writeImages)
   {
     using OutputPixelType = double;
@@ -367,12 +367,12 @@ int
 itkMetricImageGradientTest(int argc, char * argv[])
 {
   using DimensionSizeType = unsigned int;
-  constexpr DimensionSizeType imageSize = 60;
+  constexpr DimensionSizeType imageSize{ 60 };
   unsigned int                dimensionality = 3;
   double                      minimumAverage = itk::NumericTraits<double>::max();
   double                      rotationDegrees = 0.0; // (3.0);
-  constexpr double            maxDegrees = 359.0;
-  constexpr double            degreeStep = 15.0; //(3.0);
+  constexpr double            maxDegrees{ 359.0 };
+  constexpr double            degreeStep{ 15.0 }; //(3.0);
 
   std::string outputPath("");
   if (argc >= 2)
@@ -455,7 +455,7 @@ itkMetricImageGradientTest(int argc, char * argv[])
     }
 
     std::cout << "minimumAverage: " << minimumAverage << std::endl;
-    constexpr double threshold = 0.96;
+    constexpr double threshold{ 0.96 };
     if (minimumAverage < threshold)
     {
       std::cerr << "Minimum average of all runs is below threshold of " << threshold << std::endl;

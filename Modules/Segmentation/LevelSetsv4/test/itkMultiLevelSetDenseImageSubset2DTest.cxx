@@ -32,7 +32,7 @@
 int
 itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
 {
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = unsigned short;
   using InputImageType = itk::Image<InputPixelType, Dimension>;
@@ -86,14 +86,12 @@ itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
   input->SetRegions(region);
   input->SetSpacing(spacing);
   input->SetOrigin(origin);
-  input->Allocate();
-  input->FillBuffer(InputPixelType{});
+  input->AllocateInitialized();
 
   index.Fill(910);
   size.Fill(80);
 
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   InputIteratorType iIt(input, region);
   iIt.GoToBegin();
@@ -106,21 +104,18 @@ itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
   index.Fill(0);
   size.Fill(100);
   origin.Fill(900.0);
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   // Binary initialization
   auto binary = InputImageType::New();
   binary->SetRegions(region);
   binary->SetSpacing(spacing);
   binary->SetOrigin(origin);
-  binary->Allocate();
-  binary->FillBuffer(InputPixelType{});
+  binary->AllocateInitialized();
 
   index.Fill(30);
   size.Fill(40);
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   InputIteratorType bIt(binary, region);
   bIt.GoToBegin();
@@ -161,8 +156,7 @@ itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
 
   index.Fill(900);
   size.Fill(100);
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   auto idImage = IdListImageType::New();
   idImage->SetRegions(input->GetLargestPossibleRegion());

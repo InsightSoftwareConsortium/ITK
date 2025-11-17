@@ -60,7 +60,7 @@ itkMeshSpatialObjectTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(meshSO, MeshSpatialObject, SpatialObject);
 
 
-  constexpr double isInsidePrecisionInObjectSpace = 1;
+  constexpr double isInsidePrecisionInObjectSpace{ 1 };
   meshSO->SetIsInsidePrecisionInObjectSpace(isInsidePrecisionInObjectSpace);
   ITK_TEST_SET_GET_VALUE(isInsidePrecisionInObjectSpace, meshSO->GetIsInsidePrecisionInObjectSpace());
 

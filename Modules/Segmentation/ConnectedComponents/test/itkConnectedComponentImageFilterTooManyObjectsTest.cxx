@@ -24,7 +24,7 @@ itkConnectedComponentImageFilterTooManyObjectsTest(int itkNotUsed(argc), char *[
 {
 
   using PixelType = unsigned char;
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // create a test input image with more objects in it than what the output type
@@ -32,8 +32,7 @@ itkConnectedComponentImageFilterTooManyObjectsTest(int itkNotUsed(argc), char *[
   auto img = ImageType::New();
   auto size = ImageType::SizeType::Filled(512);
   img->SetRegions(size);
-  img->Allocate();
-  img->FillBuffer(0);
+  img->AllocateInitialized();
   for (int x = 0; x < 512; x += 2)
   {
     ImageType::IndexType idx;

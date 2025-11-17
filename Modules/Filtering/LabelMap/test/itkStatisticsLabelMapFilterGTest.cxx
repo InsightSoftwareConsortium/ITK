@@ -63,8 +63,7 @@ protected:
 
       auto imageSize = ImageType::SizeType::Filled(25);
       image->SetRegions(typename ImageType::RegionType(imageSize));
-      image->Allocate();
-      image->FillBuffer(0);
+      image->AllocateInitialized();
 
       return image;
     }
@@ -76,8 +75,7 @@ protected:
 
       auto imageSize = ImageType::SizeType::Filled(25);
       image->SetRegions(typename ImageType::RegionType(imageSize));
-      image->Allocate();
-      image->FillBuffer(0);
+      image->AllocateInitialized();
 
       srand(randSeed);
 
@@ -98,8 +96,7 @@ protected:
 
       auto imageSize = LabelImageType::SizeType::Filled(25);
       image->SetRegions(typename ImageType::RegionType(imageSize));
-      image->Allocate();
-      image->FillBuffer(0);
+      image->AllocateInitialized();
 
       return image;
     }
@@ -164,7 +161,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_zero)
   auto image = Utils::CreateImage();
   auto labelImage = Utils::CreateLabelImage();
 
-  constexpr Utils::LabelPixelType label = 1;
+  constexpr Utils::LabelPixelType label{ 1 };
   labelImage->FillBuffer(label);
 
 
@@ -191,7 +188,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_ones_with_outliers)
   using namespace itk::GTest::TypedefsAndConstructors::Dimension2;
 
   auto                       image = Utils::CreateImage();
-  constexpr Utils::PixelType value = 1;
+  constexpr Utils::PixelType value{ 1 };
   image->FillBuffer(value);
 
   // Test with outliers outside the label.
@@ -200,7 +197,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_ones_with_outliers)
 
 
   auto                            labelImage = Utils::CreateLabelImage();
-  constexpr Utils::LabelPixelType label = 1;
+  constexpr Utils::LabelPixelType label{ 1 };
   labelImage->FillBuffer(label);
   labelImage->SetPixel(itk::MakeIndex(0, 0), 0);
   labelImage->SetPixel(itk::MakeIndex(0, 1), 0);
@@ -236,7 +233,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_rand_with_outliers)
   image->SetPixel(itk::MakeIndex(0, 2), 0);
   image->SetPixel(itk::MakeIndex(0, 3), 500);
 
-  constexpr Utils::LabelPixelType label = 1;
+  constexpr Utils::LabelPixelType label{ 1 };
   labelImage->FillBuffer(label);
   labelImage->SetPixel(itk::MakeIndex(0, 0), 0);
   labelImage->SetPixel(itk::MakeIndex(0, 1), 0);
@@ -270,7 +267,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_even)
   image->SetPixel(itk::MakeIndex(0, 2), 1);
   image->SetPixel(itk::MakeIndex(0, 3), 200);
 
-  constexpr Utils::LabelPixelType label = 1;
+  constexpr Utils::LabelPixelType label{ 1 };
   labelImage->SetPixel(itk::MakeIndex(0, 0), label);
   labelImage->SetPixel(itk::MakeIndex(0, 1), label);
   labelImage->SetPixel(itk::MakeIndex(0, 2), label);
@@ -307,7 +304,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_three)
   image->SetPixel(itk::MakeIndex(0, 1), 3);
   image->SetPixel(itk::MakeIndex(0, 2), 10);
 
-  constexpr Utils::LabelPixelType label = 1;
+  constexpr Utils::LabelPixelType label{ 1 };
   labelImage->SetPixel(itk::MakeIndex(0, 0), label);
   labelImage->SetPixel(itk::MakeIndex(0, 1), label);
   labelImage->SetPixel(itk::MakeIndex(0, 2), label);

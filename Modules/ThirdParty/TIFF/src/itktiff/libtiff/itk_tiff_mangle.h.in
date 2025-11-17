@@ -37,7 +37,7 @@ The fifth command only prints out those symbols which have not been mangled with
 The sixth command removes duplicates
 The seventh and eighth commmands mangles the symbols and formats the output in such a way to be easily copy and pasted below.
 
-The developer will then need to *MANUALLY* add the symbols to the list below. Please try to keep the symbols in a sorted order (you can use sort utility, in Linux don't forget to to set environmental variable LC_COLLATE=POSIX to deal with the underscores correctly)
+The developer will then need to *MANUALLY* add the symbols to the list below. Please try to keep the symbols in a sorted order (you can use sort utility, in Linux don't forget to set environmental variable LC_COLLATE=POSIX to deal with the underscores correctly)
 */
 
 #define TIFFAccessTagMethods @MANGLE_PREFIX@_TIFFAccessTagMethods

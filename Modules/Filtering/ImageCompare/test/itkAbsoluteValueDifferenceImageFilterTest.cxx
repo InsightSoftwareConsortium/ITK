@@ -26,25 +26,22 @@ itkAbsoluteValueDifferenceImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int myDimension = 3;
+  constexpr unsigned int myDimension{ 3 };
 
   // Define the values of the input images
-  constexpr float input1Value = 3.0;
-  constexpr float input2Value = 4.0;
+  constexpr float input1Value{ 3.0 };
+  constexpr float input2Value{ 4.0 };
 
   // Define the values of the output images
-  constexpr float outputValue = 1.0;
+  constexpr float outputValue{ 1.0 };
 
   // Define the precision for output comparison
-  constexpr float epsilon = 1e-6;
+  constexpr float epsilon{ 1e-6 };
 
   // Declare the types of the images
   using myImageType1 = itk::Image<float, myDimension>;
   using myImageType2 = itk::Image<float, myDimension>;
   using myImageType4 = itk::Image<float, myDimension>;
-
-  // Declare the type of the index to access images
-  using myIndexType = itk::Index<myDimension>;
 
   // Declare the type of the size
   using mySizeType = itk::Size<myDimension>;
@@ -56,18 +53,10 @@ itkAbsoluteValueDifferenceImageFilterTest(int, char *[])
   auto inputImageA = myImageType1::New();
   auto inputImageB = myImageType2::New();
 
-  // Define their size, and start index
-  mySizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2;
+  // Define their size and region
+  auto size = mySizeType::Filled(2);
 
-  myIndexType start;
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  const myRegionType region{ start, size };
+  const myRegionType region{ size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);

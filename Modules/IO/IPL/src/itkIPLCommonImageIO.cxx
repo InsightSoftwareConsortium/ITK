@@ -404,7 +404,7 @@ IPLCommonImageIO::hdr2Short(char * hdr)
 
   memcpy(&shortValue, hdr, sizeof(short));
   ByteSwapper<short>::SwapFromSystemToBigEndian(&shortValue);
-  return (shortValue);
+  return shortValue;
 }
 
 int
@@ -414,7 +414,7 @@ IPLCommonImageIO::hdr2Int(char * hdr)
 
   memcpy(&intValue, hdr, sizeof(int));
   ByteSwapper<int>::SwapFromSystemToBigEndian(&intValue);
-  return (intValue);
+  return intValue;
 }
 
 float
@@ -425,7 +425,7 @@ IPLCommonImageIO::hdr2Float(char * hdr)
   memcpy(&floatValue, hdr, 4);
   ByteSwapper<float>::SwapFromSystemToBigEndian(&floatValue);
 
-  return (floatValue);
+  return floatValue;
 }
 
 double
@@ -436,7 +436,7 @@ IPLCommonImageIO::hdr2Double(char * hdr)
   memcpy(&doubleValue, hdr, sizeof(double));
   ByteSwapper<double>::SwapFromSystemToBigEndian(&doubleValue);
 
-  return (doubleValue);
+  return doubleValue;
 }
 
 int

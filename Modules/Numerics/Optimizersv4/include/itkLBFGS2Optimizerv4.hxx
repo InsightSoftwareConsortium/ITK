@@ -219,6 +219,7 @@ template <typename TInternalComputationValueType>
 typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::StopConditionReturnStringType
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetStopConditionDescription() const
 {
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
   switch (m_StatusCode)
   {
     case 100:
@@ -290,7 +291,22 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetStopConditionDescri
     case LBFGSERR_INCREASEGRADIENT:
       return "Current search direction increases objective function";
   }
-  return "Unknown status";
+  std::string candidate_return_code = lbfgs_strerror(m_StatusCode);
+  if (candidate_return_code == "(unknown)")
+  {
+    return "Unknown status";
+  }
+  else
+  {
+    return candidate_return_code.c_str();
+  }
+#else
+  // The libLBFGS upstream added support for returning strings for each code.
+  // This will be more reliable and consistent across use of libLBFGS, but may
+  // cause regression for systems that use the exact string values for testing or processing.
+  // The strings in the libLBFGS are different than the strings used for ITK.
+  return lbfgs_strerror(m_StatusCode);
+#endif
 }
 
 template <typename TInternalComputationValueType>

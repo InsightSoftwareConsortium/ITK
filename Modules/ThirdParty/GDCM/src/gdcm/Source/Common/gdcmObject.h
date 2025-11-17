@@ -55,7 +55,7 @@ public:
   virtual ~Object() {
     // If your debugger reach here it means you are doing something silly
     // like using SmartPointer on object allocated on the stack (vs heap)
-    assert(ReferenceCount == 0);
+    gdcm_forced_assert(ReferenceCount == 0);
     }
 
   // http://www.parashift.com/c++-faq-lite/freestore-mgmt.html#faq-16.24
@@ -71,10 +71,10 @@ protected:
   // For the purpose of the invasive SmartPointer implementation
   void Register() {
     ReferenceCount++;
-    assert( ReferenceCount > 0 );
+    gdcm_assert( ReferenceCount > 0 );
   }
   void UnRegister() {
-    assert( ReferenceCount > 0 );
+    gdcm_assert( ReferenceCount > 0 );
     ReferenceCount--;
     if(!ReferenceCount)
       {

@@ -159,16 +159,16 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(deformFilter, DeformableSimplexMesh3DFilter, MeshToMeshFilter);
 
 
-  constexpr unsigned int numberOfCycles = 100;
+  constexpr unsigned int numberOfCycles{ 100 };
 
   for (unsigned int i = 0; i < numberOfCycles; ++i)
   {
-    constexpr double       alpha = 0.1;
-    constexpr double       beta = -0.1;
-    constexpr double       gamma = 0.05;
-    constexpr double       damping = 0.65;
-    constexpr int          iterations = 5;
-    constexpr unsigned int rigidity = 1;
+    constexpr double       alpha{ 0.1 };
+    constexpr double       beta{ -0.1 };
+    constexpr double       gamma{ 0.05 };
+    constexpr double       damping{ 0.65 };
+    constexpr int          iterations{ 5 };
+    constexpr unsigned int rigidity{ 1 };
     // must disconnect the pipeline
     simplexMesh->DisconnectPipeline();
     deformFilter->SetInput(simplexMesh);

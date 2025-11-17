@@ -32,25 +32,20 @@ DoIt(int argc, char * argv[], const std::string & pixelType)
   }
   const char * outputImageFileName = argv[1];
 
-  constexpr int height = 20;
-  constexpr int width = 20;
-
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using PixelType = TPixel;
   using InputImageType = itk::Image<bool, Dimension>;
   using OutputImageType = itk::Image<PixelType, Dimension>;
   using IndexType = typename InputImageType::IndexType;
 
-  auto                              inputimg = InputImageType::New();
-  constexpr IndexType               index{};
-  typename InputImageType::SizeType size;
-  size[0] = width;
-  size[1] = height;
+  auto                               inputimg = InputImageType::New();
+  constexpr IndexType                index{};
+  constexpr int                      height{ 20 };
+  constexpr int                      width{ 20 };
+  constexpr InputImageType::SizeType size{ width, height };
 
-  typename InputImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  typename InputImageType::RegionType region{ index, size };
 
   inputimg->SetRegions(region);
   inputimg->Allocate();

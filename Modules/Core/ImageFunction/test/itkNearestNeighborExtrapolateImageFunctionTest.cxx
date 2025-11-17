@@ -30,9 +30,9 @@ int
 itkNearestNeighborExtrapolateImageFunctionTest(int, char *[])
 {
   using CoordRep = double;
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
   using PixelType = unsigned char;
-  constexpr unsigned int VectorDimension = 4;
+  constexpr unsigned int VectorDimension{ 4 };
   using VectorPixelType = itk::Vector<PixelType, VectorDimension>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using VectorImageType = itk::Image<VectorPixelType, ImageDimension>;

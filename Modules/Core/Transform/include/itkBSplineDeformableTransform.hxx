@@ -113,8 +113,7 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::Upda
     this->m_ValidRegionFirst[j] = index[j];
     this->m_ValidRegionLast[j] = index[j] + static_cast<typename RegionType::IndexValueType>(size[j]) - 1;
   }
-  this->m_ValidRegion.SetSize(size);
-  this->m_ValidRegion.SetIndex(index);
+  this->m_ValidRegion = { index, size };
 }
 
 // Set the grid region

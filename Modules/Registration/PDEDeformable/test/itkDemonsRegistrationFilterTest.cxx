@@ -147,8 +147,8 @@ itkDemonsRegistrationFilterTest(int, char *[])
   initField->Allocate();
 
   double              center[ImageDimension];
-  constexpr PixelType fgnd = 250;
-  constexpr PixelType bgnd = 15;
+  constexpr PixelType fgnd{ 250 };
+  constexpr PixelType bgnd{ 15 };
 
   // fill moving with circle
   center[0] = 64;
@@ -192,7 +192,7 @@ itkDemonsRegistrationFilterTest(int, char *[])
   registrator->SetNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, registrator->GetNumberOfIterations());
 
-  constexpr double                               standardDeviationsVal = 1.0;
+  constexpr double                               standardDeviationsVal{ 1.0 };
   const RegistrationType::StandardDeviationsType standardDeviations{ standardDeviationsVal };
   registrator->SetStandardDeviations(standardDeviationsVal);
   ITK_TEST_SET_GET_VALUE(standardDeviations, registrator->GetStandardDeviations());
@@ -204,7 +204,7 @@ itkDemonsRegistrationFilterTest(int, char *[])
   registrator->SetMaximumError(maximumError);
   ITK_TEST_SET_GET_VALUE(maximumError, registrator->GetMaximumError());
 
-  constexpr unsigned int maximumKernelWidth = 10;
+  constexpr unsigned int maximumKernelWidth{ 10 };
   registrator->SetMaximumKernelWidth(maximumKernelWidth);
   ITK_TEST_SET_GET_VALUE(maximumKernelWidth, registrator->GetMaximumKernelWidth());
 
@@ -218,7 +218,7 @@ itkDemonsRegistrationFilterTest(int, char *[])
   auto smoothUpdateField = false;
   ITK_TEST_SET_GET_BOOLEAN(registrator, SmoothUpdateField, smoothUpdateField);
 
-  constexpr double                               updateFieldStandardDeviationsVal = 1.0;
+  constexpr double                               updateFieldStandardDeviationsVal{ 1.0 };
   const RegistrationType::StandardDeviationsType updateFieldStandardDeviations{ updateFieldStandardDeviationsVal };
   registrator->SetUpdateFieldStandardDeviations(updateFieldStandardDeviationsVal);
   ITK_TEST_SET_GET_VALUE(updateFieldStandardDeviations, registrator->GetUpdateFieldStandardDeviations());

@@ -35,7 +35,7 @@ itkBoundedReciprocalImageFilterTest(int argc, char * argv[])
 
   auto testStatus = EXIT_SUCCESS;
 
-  constexpr int Dimension = 2;
+  constexpr int Dimension{ 2 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -62,7 +62,7 @@ itkBoundedReciprocalImageFilterTest(int argc, char * argv[])
   ImageIterator inIter(inputImage, inputImage->GetBufferedRegion());
   ImageIterator outIter(outputImage, outputImage->GetBufferedRegion());
 
-  constexpr double tolerance = 10e-6;
+  constexpr double tolerance{ 10e-6 };
   std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
 
   for (; !inIter.IsAtEnd() || !outIter.IsAtEnd(); ++inIter, ++outIter)

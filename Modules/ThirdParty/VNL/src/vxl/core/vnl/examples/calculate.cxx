@@ -230,7 +230,7 @@ isoperator(char c)
 int
 put_brackets(std::string & expr, unsigned long s, int l)
 {
-  int k;
+  int k = 0;
   if (l <= 0)
     return l; // do nothing on empty string
   if (expr[s] == ')')
@@ -299,7 +299,7 @@ put_brackets(std::string & expr, unsigned long s, int l)
       ErrorExit(expr, "opening bracket missing", s + k);
     while (k < j - 1)
     { // bracket inside each argument
-      int i = k + 1 + arglength(expr, s + k + 1, j - k - 1);
+      const int i = k + 1 + arglength(expr, s + k + 1, j - k - 1);
       k += 1 + put_brackets(expr, s + k + 1, i - k - 1);
       l += k - i;
       j += k - i;
@@ -319,7 +319,7 @@ put_brackets(std::string & expr, unsigned long s, int l)
 int
 hierarchy_brackets(std::string & expr, unsigned long s, int l)
 {
-  int i, previ, bl, strength = 0;
+  int i = 0, previ = 0, bl = 0, strength = 0;
 
   if (expr[s] == ')')
     ErrorExit(expr, "substring starts with closing bracket", s);
@@ -350,7 +350,7 @@ hierarchy_brackets(std::string & expr, unsigned long s, int l)
     }
     if (expr[s + i] == '(' && (expr[s + i + 1] < '0' || expr[s + i + 1] > '9'))
     { // no number
-      int k = hierarchy_brackets(expr, s + i, bl);
+      const int k = hierarchy_brackets(expr, s + i, bl);
       l += k - bl;
       bl = k;
     }
@@ -363,7 +363,7 @@ hierarchy_brackets(std::string & expr, unsigned long s, int l)
       while (m < bl + i)
       {
         j = arglength(expr, s + m, bl + i - m);
-        int k = hierarchy_brackets(expr, s + m, j);
+        const int k = hierarchy_brackets(expr, s + m, j);
         bl += k - j;
         l += k - j;
         m += 1 + k;
@@ -437,7 +437,7 @@ build_tree(const std::string & expr, unsigned long s, int l)
       ErrorExit(expr, "unknown function call", s);
     n.param1 = new node();
     n.param2 = nullptr;
-    int i;
+    int i = 0;
     for (i = j; i < l - 1; ++i)
       if (expr[s + i] == ',')
         break;
@@ -538,7 +538,7 @@ calc(node * n)
     return n->func1(calc((node *)n->param2));
   else
     ErrorExit("", "This should not happen!", 0L);
-  return vnl_decnum("0"); // never reached...
+  return { "0" }; // never reached...
 }
 
 int
@@ -551,11 +551,11 @@ main(int argc, char * argv[])
   }
   if (argc == 2)
   {
-    std::string expression = simplify(argv[1]); // bracketed and cleaned up version of argv[1]
+    const std::string expression = simplify(argv[1]); // bracketed and cleaned up version of argv[1]
     node root = build_tree(expression, 0L, expression.length());
     vnl_decnum result = calc(&root);
     std::cout << result;
-    unsigned long len = result.data().length();
+    const unsigned long len = result.data().length();
     result.compactify();
     if (result.data().length() < len)
       std::cout << " = " << result;
@@ -574,12 +574,12 @@ main(int argc, char * argv[])
       std::cin.getline(s, 4000);
       if (!s[0])
         return 0; // empty line, or EOF
-      std::string expression = simplify(s);
+      const std::string expression = simplify(s);
       node root = build_tree(expression, 0L, expression.length());
       vnl_decnum result = calc(&root);
       std::cout << s << "\t=\t" << result;
       result.compactify();
-      unsigned long len = result.data().length();
+      const unsigned long len = result.data().length();
       result.compactify();
       if (result.data().length() < len)
         std::cout << " = " << result;

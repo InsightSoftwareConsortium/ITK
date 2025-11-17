@@ -116,7 +116,7 @@ itkNrrdDiffusionTensor3DImageReadTest(int argc, char * argv[])
   err += itk::Math::abs(sample(1, 2) - 0.43205333);
   err += itk::Math::abs(sample(2, 2) - 5.3755102);
 
-  constexpr double thresh = 0.00000041;
+  constexpr double thresh{ 0.00000041 };
   if (err > thresh)
   {
     std::cout << "failure because err == " << err << "> " << thresh << std::endl;

@@ -34,6 +34,8 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
   // The correct image should match the image on the right where a + indicates a
   // value of 255
 
+  // spell-check-disable
+
   // input image with search index      |        output image with sampled
   // and region constraint indicated    |        points indicated by +
   // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
@@ -62,6 +64,7 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
   // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
   // ooooooooooooooooooooooooo          |        ooooooooooooooooooooooooo
 
+  // spell-check-enable
   std::cout << "SpatialNeighborSubsampler Test \n \n";
 
   using PixelType = unsigned int;

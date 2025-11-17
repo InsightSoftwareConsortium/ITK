@@ -30,22 +30,16 @@ HDF5ReadWriteTest(const char * fileName)
   std::cout << fileName << std::endl;
   int success(EXIT_SUCCESS);
   using ImageType = typename itk::Image<TPixel, 3>;
-  typename ImageType::RegionType  imageRegion;
-  typename ImageType::SizeType    size;
-  typename ImageType::IndexType   index;
   typename ImageType::SpacingType spacing;
   typename ImageType::PointType   origin;
-
   for (unsigned int i = 0; i < 3; ++i)
   {
-    size[i] = 5;
-    index[i] = 0;
     spacing[i] = 1.0 + static_cast<double>(i);
     origin[i] = static_cast<double>(i) * 5.0;
   }
-  imageRegion.SetSize(size);
-  imageRegion.SetIndex(index);
-  const typename ImageType::Pointer im =
+  constexpr typename ImageType::SizeType size{ 5, 5, 5 };
+  typename ImageType::RegionType         imageRegion{ size };
+  const typename ImageType::Pointer      im =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(imageRegion, spacing);
 
   itk::Matrix<itk::SpacePrecisionType> mat;
@@ -70,22 +64,22 @@ HDF5ReadWriteTest(const char * fileName)
   constexpr unsigned char metaDataUChar('u');
   itk::EncapsulateMetaData<unsigned char>(metaDict, "TestUChar", metaDataUChar);
 
-  constexpr short metaDataShort(1);
+  constexpr short metaDataShort{ 1 };
   itk::EncapsulateMetaData<short>(metaDict, "TestShort", metaDataShort);
 
-  constexpr unsigned short metaDataUShort(3);
+  constexpr unsigned short metaDataUShort{ 3 };
   itk::EncapsulateMetaData<unsigned short>(metaDict, "TestUShort", metaDataUShort);
 
-  constexpr int metaDataInt(5);
+  constexpr int metaDataInt{ 5 };
   itk::EncapsulateMetaData<int>(metaDict, "TestInt", metaDataInt);
 
-  constexpr unsigned int metaDataUInt(7);
+  constexpr unsigned int metaDataUInt{ 7 };
   itk::EncapsulateMetaData<unsigned int>(metaDict, "TestUInt", metaDataUInt);
 
-  constexpr long metaDataLong(5);
+  constexpr long metaDataLong{ 5 };
   itk::EncapsulateMetaData<long>(metaDict, "TestLong", metaDataLong);
 
-  constexpr unsigned long metaDataULong(7);
+  constexpr unsigned long metaDataULong{ 7 };
   itk::EncapsulateMetaData<unsigned long>(metaDict, "TestULong", metaDataULong);
 
   constexpr long long metaDataLLong(-5);
@@ -315,7 +309,7 @@ HDF5ReadWriteTest(const char * fileName)
 int
 HDF5ReuseReadWriteTest(const char * fileName)
 {
-  constexpr int success(EXIT_SUCCESS);
+  constexpr int success{ EXIT_SUCCESS };
 
   const itk::HDF5ImageIO::Pointer io = itk::HDF5ImageIO::New();
   io->SetFileName(fileName);

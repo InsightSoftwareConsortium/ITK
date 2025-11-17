@@ -63,7 +63,7 @@ int
 itkSampleToSubsampleFilterTest1(int, char *[])
 {
 
-  constexpr unsigned int MeasurementVectorSize = 17;
+  constexpr unsigned int MeasurementVectorSize{ 17 };
 
   using MeasurementVectorType = itk::FixedArray<float, MeasurementVectorSize>;
 

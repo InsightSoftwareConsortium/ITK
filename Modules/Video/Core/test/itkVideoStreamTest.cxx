@@ -36,8 +36,7 @@ SetUpSpatialRegion(unsigned int x, unsigned int y)
   size[0] = x;
   size[1] = y;
   start.Fill(0);
-  out.SetSize(size);
-  out.SetIndex(start);
+  out = { start, size };
   return out;
 }
 
@@ -163,8 +162,8 @@ itkVideoStreamTest(int, char *[])
 
   // Set the buffered temporal region
   VideoType::TemporalRegionType temporalRegion;
-  constexpr SizeValueType       startFrame = 0;
-  constexpr SizeValueType       numFrames = 5;
+  constexpr SizeValueType       startFrame{ 0 };
+  constexpr SizeValueType       numFrames{ 5 };
   temporalRegion.SetFrameStart(startFrame);
   temporalRegion.SetFrameDuration(numFrames);
   video1->SetLargestPossibleTemporalRegion(temporalRegion);
@@ -258,25 +257,17 @@ itkVideoStreamTest(int, char *[])
   }
 
   // Set the cached meta-data for a non-buffered frame
-  FrameType::RegionType            spatReg;
-  FrameType::RegionType::SizeType  sz;
-  FrameType::RegionType::IndexType start;
-  FrameType::SpacingType           space;
-  FrameType::PointType             orgn;
-  FrameType::DirectionType         direction;
-  sz[0] = 10;
-  sz[1] = 20;
-  start.Fill(0);
-  spatReg.SetSize(sz);
-  spatReg.SetIndex(start);
-  space[0] = 0.1;
-  space[1] = 0.5;
-  orgn[0] = 5.432;
-  orgn[1] = -23.4;
+  constexpr FrameType::RegionType::SizeType sz{ 10, 20 };
+  FrameType::RegionType                     spatReg = { sz };
+  FrameType::SpacingType                    space{ { 0.1, 0.5 } };
+  FrameType::PointType                      orgn{ { 5.432, -23.4 } };
+
+  FrameType::DirectionType direction;
   direction[0][0] = 1;
   direction[0][1] = 2;
   direction[1][0] = -2;
   direction[1][1] = 1;
+
   video1->SetFrameLargestPossibleSpatialRegion(0, spatReg);
   video1->SetFrameRequestedSpatialRegion(0, spatReg);
   video1->SetFrameBufferedSpatialRegion(0, spatReg);

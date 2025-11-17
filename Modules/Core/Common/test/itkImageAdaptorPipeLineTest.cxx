@@ -69,20 +69,12 @@ itkImageAdaptorPipeLineTest(int, char *[])
   //                 Create and Allocate the image
   //-------------------------------------------------------------
 
-  // Define their size, and start index
-  mySizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2; // Small size, because we are printing it
+  // Define their size and region
+  auto size = mySizeType::Filled(2); // Small size, because we are printing it
 
-  myIndexType start;
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
+  const myRegionType region{ size };
 
-  const myRegionType region{ start, size };
-
-  constexpr float spacing[3] = { 1.0, 1.0, 1.0 };
+  constexpr float spacing[3]{ 1.0, 1.0, 1.0 };
 
   //-------------------------------------------------------------
   //                 Create and Initialize the RGBPixel image
@@ -143,7 +135,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
 
   myFloatIteratorType itf(myFloatImage, myFloatImage->GetRequestedRegion());
 
-  constexpr myFloatPixelType initialFloatValue = 5.0;
+  constexpr myFloatPixelType initialFloatValue{ 5.0 };
 
   while (!itf.IsAtEnd())
   {

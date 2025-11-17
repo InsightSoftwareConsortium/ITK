@@ -162,7 +162,7 @@ function(generate_castxml_commandline_flags)
   #Write compile definitions and include paths to file.  @CONFIG_CASTXML_INC_CONTENTS@ expanded in configure_file
   set(
     castxml_inc_file
-    "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml_inputs/${library_name}.castxml.inc"
+    "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml_inputs/${WRAPPER_LIBRARY_NAME}.castxml.inc"
   )
   configure_file(
     "${ITK_WRAP_CASTXML_SOURCE_DIR}/cast_xml.inc.in"

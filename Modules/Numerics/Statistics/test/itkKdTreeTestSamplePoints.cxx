@@ -26,12 +26,12 @@ itkKdTreeTestSamplePoints(int, char *[])
   using MeasurementVectorType = itk::Array<double>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
-  constexpr SampleType::MeasurementVectorSizeType measurementVectorSize = 2;
+  constexpr SampleType::MeasurementVectorSizeType measurementVectorSize{ 2 };
 
   auto sample = SampleType::New();
   sample->SetMeasurementVectorSize(measurementVectorSize);
 
-  constexpr unsigned int numberOfDataPoints = 5;
+  constexpr unsigned int numberOfDataPoints{ 5 };
   MeasurementVectorType  mv(measurementVectorSize);
   mv[0] = 0.0342;
   mv[1] = 0.5175;
@@ -60,7 +60,7 @@ itkKdTreeTestSamplePoints(int, char *[])
   using TreeGeneratorType = itk::Statistics::KdTreeGenerator<SampleType>;
   auto treeGenerator = TreeGeneratorType::New();
 
-  constexpr unsigned int bucketSize = 1;
+  constexpr unsigned int bucketSize{ 1 };
 
   treeGenerator->SetSample(sample);
   treeGenerator->SetBucketSize(bucketSize);
@@ -72,7 +72,7 @@ itkKdTreeTestSamplePoints(int, char *[])
 
   MeasurementVectorType queryPoint(measurementVectorSize);
 
-  constexpr unsigned int                 numberOfNeighbors = 1;
+  constexpr unsigned int                 numberOfNeighbors{ 1 };
   TreeType::InstanceIdentifierVectorType neighbors;
 
   MeasurementVectorType result(measurementVectorSize);

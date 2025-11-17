@@ -36,18 +36,11 @@ itkDiscreteGaussianDerivativeImageFilterTest(int argc, char * argv[])
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << "inputFileName"
-                 " outputFileName"
-                 " orderX"
-                 " orderY"
-                 " sigma"
-                 " [maximumError]"
-                 " [maximumKernelWidth]"
-              << std::endl;
+              << "inputFileName outputFileName orderX orderY sigma [maximumError] [maximumKernelWidth]" << std::endl;
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using PixelType = float;
   using OutputPixelType = unsigned short;
@@ -109,10 +102,10 @@ itkDiscreteGaussianDerivativeImageFilterTest(int argc, char * argv[])
   derivativeFilter->SetMaximumKernelWidth(maxKernelWidth);
   ITK_TEST_SET_GET_VALUE(maxKernelWidth, derivativeFilter->GetMaximumKernelWidth());
 
-  constexpr bool useImageSpacing = true;
+  constexpr bool useImageSpacing{ true };
   ITK_TEST_SET_GET_BOOLEAN(derivativeFilter, UseImageSpacing, useImageSpacing);
 
-  constexpr bool normalizeAcrossScale = false;
+  constexpr bool normalizeAcrossScale{ false };
   ITK_TEST_SET_GET_BOOLEAN(derivativeFilter, NormalizeAcrossScale, normalizeAcrossScale);
 
   constexpr unsigned int internalNumberOfStreamDivisions = DerivativeFilterType::InputImageType::GetImageDimension() *

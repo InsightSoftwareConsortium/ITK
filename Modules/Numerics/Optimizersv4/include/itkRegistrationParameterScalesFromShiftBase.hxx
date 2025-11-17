@@ -164,7 +164,7 @@ RegistrationParameterScalesFromShiftBase<TMetric>::EstimateLocalStepScales(const
 {
   if (!this->TransformHasLocalSupportForScalesEstimation())
   {
-    itkExceptionMacro(
+    itkExceptionStringMacro(
       "EstimateLocalStepScales: the transform doesn't have local support (displacement field or b-spline).");
   }
 

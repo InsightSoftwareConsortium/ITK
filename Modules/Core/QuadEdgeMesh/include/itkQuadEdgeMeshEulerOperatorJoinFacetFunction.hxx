@@ -29,20 +29,20 @@ QuadEdgeMeshEulerOperatorJoinFacetFunction<TMesh, TQEType>::Evaluate(QEType * e)
   if (!e)
   {
     itkDebugMacro("Input is not an edge.");
-    return ((QEType *)nullptr);
+    return (QEType *)nullptr;
   }
 
   if (!this->m_Mesh)
   {
     itkDebugMacro("No mesh present.");
-    return ((QEType *)nullptr);
+    return (QEType *)nullptr;
   }
 #endif
 
   if (!e->IsInternal())
   {
     itkDebugMacro("The edge is either border or wire.");
-    return ((QEType *)nullptr);
+    return (QEType *)nullptr;
   }
 
   //     Initial state                           Final state        //
@@ -75,7 +75,7 @@ QuadEdgeMeshEulerOperatorJoinFacetFunction<TMesh, TQEType>::Evaluate(QEType * e)
   // Build a new face in replacement of the one we deleted:
   this->m_Mesh->AddFace(return_e);
   this->m_Mesh->Modified();
-  return (return_e);
+  return return_e;
 }
 
 } // end namespace itk

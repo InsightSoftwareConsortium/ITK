@@ -133,8 +133,7 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateGaussianCoef
       itkWarningMacro("Kernel size has exceeded the specified maximum width of "
                       << m_MaximumKernelWidth << " and has been truncated to "
                       << static_cast<unsigned long>(coeff.size())
-                      << " elements.  You can raise "
-                         "the maximum width using the SetMaximumKernelWidth method.");
+                      << " elements.  You can raise the maximum width using the SetMaximumKernelWidth method.");
       break;
     }
   }
@@ -223,7 +222,7 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 double
 GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int n, double y)
 {
-  constexpr double DIGITS = 10.0;
+  constexpr double DIGITS{ 10.0 };
 
   if (n < 2)
   {

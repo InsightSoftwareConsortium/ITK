@@ -106,12 +106,12 @@ public:
   bool
   operator>(TimeStamp & ts) const
   {
-    return (m_ModifiedTime > ts.m_ModifiedTime);
+    return m_ModifiedTime > ts.m_ModifiedTime;
   }
   bool
   operator<(TimeStamp & ts) const
   {
-    return (m_ModifiedTime < ts.m_ModifiedTime);
+    return m_ModifiedTime < ts.m_ModifiedTime;
   }
   /** @ITKEndGrouping */
   /** Allow for typecasting to unsigned long.  */

@@ -84,7 +84,7 @@ BypassAdaptorSupportModifyScalars(itk::Image<float, 3> * img)
 void
 AdaptorSupportedModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
 {
-  constexpr unsigned int N = 3;
+  constexpr unsigned int N{ 3 };
   using VectorType = itk::Vector<float, N>;
 
   itk::ImageRegionIteratorWithIndex<itk::Image<VectorType, 3>> it(img, img->GetRequestedRegion());
@@ -105,7 +105,7 @@ AdaptorSupportedModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
 void
 NoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
 {
-  constexpr unsigned int N = 3;
+  constexpr unsigned int N{ 3 };
   using VectorType = itk::Vector<float, N>;
 
   itk::ImageRegionIterator<itk::Image<VectorType, 3>> it(img, img->GetRequestedRegion());
@@ -127,7 +127,7 @@ NoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
 void
 BypassAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
 {
-  constexpr unsigned int N = 3;
+  constexpr unsigned int N{ 3 };
   using VectorType = itk::Vector<float, N>;
 
   itk::ImageRegionIteratorWithIndex<itk::Image<VectorType, 3>> it(img, img->GetRequestedRegion());
@@ -147,7 +147,7 @@ BypassAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
 void
 BypassNoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
 {
-  constexpr unsigned int N = 3;
+  constexpr unsigned int N{ 3 };
   using VectorType = itk::Vector<float, N>;
 
   itk::ImageRegionIterator<itk::Image<VectorType, 3>> it(img, img->GetRequestedRegion());
@@ -170,17 +170,9 @@ itkAdaptorComparisonTest(int, char *[])
   using VectorImageType = itk::Image<itk::Vector<float, 3>, 3>;
 
   // Set up some images
-  itk::ImageRegion<3> region;
-  itk::Size<3>        size;
-  size[0] = 100;
-  size[1] = 100;
-  size[2] = 100;
-  itk::Index<3> index;
-  index[0] = 0;
-  index[1] = 0;
-  index[2] = 0;
-  region.SetSize(size);
-  region.SetIndex(index);
+  constexpr itk::Size<3>  size{ 100, 100, 100 };
+  constexpr itk::Index<3> index{ 0, 0, 0 };
+  itk::ImageRegion<3>     region = { index, size };
 
   auto scalar_image = ScalarImageType::New();
   auto vector_image = VectorImageType::New();

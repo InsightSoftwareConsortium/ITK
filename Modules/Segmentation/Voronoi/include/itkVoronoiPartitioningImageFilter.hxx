@@ -41,7 +41,7 @@ VoronoiPartitioningImageFilter<TInputImage, TOutputImage>::ClassifyDiagram()
     VertList.clear();
     for (currPit = currCell->PointIdsBegin(); currPit != currPitEnd; ++currPit)
     {
-      this->m_WorkingVD->GetPoint((*currPit), &(currP));
+      this->m_WorkingVD->GetPoint(*currPit, &currP);
       VertList.push_back(currP);
     }
 
@@ -106,7 +106,7 @@ VoronoiPartitioningImageFilter<TInputImage, TOutputImage>::MakeSegmentBoundary()
     nitend = this->m_WorkingVD->NeighborIdsEnd(i);
     for (nit = this->m_WorkingVD->NeighborIdsBegin(i); nit != nitend; ++nit)
     {
-      if ((*nit) > i)
+      if (*nit > i)
       {
         this->drawLine(this->m_WorkingVD->GetSeed(i), this->m_WorkingVD->GetSeed(*nit));
       }
@@ -138,7 +138,7 @@ VoronoiPartitioningImageFilter<TInputImage, TOutputImage>::MakeSegmentObject()
     VertList.clear();
     for (currPit = currCell->PointIdsBegin(); currPit != currPitEnd; ++currPit)
     {
-      this->m_WorkingVD->GetPoint((*currPit), &(currP));
+      this->m_WorkingVD->GetPoint(*currPit, &currP);
       VertList.push_back(currP);
     }
     // Need to fill with an segment identifier
@@ -169,7 +169,7 @@ VoronoiPartitioningImageFilter<TInputImage, TOutputImage>::TestHomogeneity(Index
     savevar = std::sqrt((addpp - (addp * addp) / static_cast<double>(num)) / (static_cast<double>(num) - 1.0));
   }
 
-  return (savevar >= 0 && std::sqrt(savevar) < m_SigmaThreshold);
+  return savevar >= 0 && std::sqrt(savevar) < m_SigmaThreshold;
 }
 
 template <typename TInputImage, typename TOutputImage>

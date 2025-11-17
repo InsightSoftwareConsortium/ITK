@@ -8,7 +8,7 @@
 
 template <int N>
 void
-test_finite_int(vnl_finite_int<N>)
+test_finite_int(const vnl_finite_int<N> &)
 {
   std::cout << "\n --- Testing vnl_finite_int<" << N << "> ---\n";
 
@@ -222,7 +222,7 @@ test_finite_int(vnl_finite_int<N>)
 
 template <int N, int M>
 void
-test_finite_poly(vnl_finite_int_poly<N, M>, const std::string & s)
+test_finite_poly(const vnl_finite_int_poly<N, M> &, const std::string & s)
 {
   std::cout << "\n --- Testing vnl_finite_int_poly<" << N << ',' << M << "> ---\n";
 

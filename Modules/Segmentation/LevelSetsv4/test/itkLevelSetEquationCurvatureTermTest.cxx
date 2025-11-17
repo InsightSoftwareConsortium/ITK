@@ -34,7 +34,7 @@ itkLevelSetEquationCurvatureTermTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = unsigned short;
   using InputImageType = itk::Image<InputPixelType, Dimension>;
@@ -80,14 +80,12 @@ itkLevelSetEquationCurvatureTermTest(int argc, char * argv[])
   binary->SetRegions(region);
   binary->SetSpacing(spacing);
   binary->SetOrigin(origin);
-  binary->Allocate();
-  binary->FillBuffer(InputPixelType{});
+  binary->AllocateInitialized();
 
   index.Fill(10);
   size.Fill(30);
 
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   InputImageIteratorType iIt(binary, region);
   iIt.GoToBegin();
@@ -188,7 +186,7 @@ itkLevelSetEquationCurvatureTermTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr bool useCurvatureImage = false;
+  constexpr bool useCurvatureImage{ false };
   ITK_TEST_SET_GET_BOOLEAN(term, UseCurvatureImage, useCurvatureImage);
 
   if (itk::Math::NotAlmostEquals(term->Evaluate(index), value))

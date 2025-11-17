@@ -97,7 +97,7 @@ public:
   {
     const ContinuousIndexType index =
       this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordinate>(point);
-    return (this->EvaluateAtContinuousIndex(index));
+    return this->EvaluateAtContinuousIndex(index);
   }
 
   /** Interpolate the image at a continuous index position

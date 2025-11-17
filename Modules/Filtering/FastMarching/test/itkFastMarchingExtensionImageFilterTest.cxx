@@ -44,7 +44,7 @@ int
 itkFastMarchingExtensionImageFilterTest(int, char *[])
 {
   // create a fastmarching object
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PixelType = float;
 
   using FloatImageType = itk::Image<PixelType, Dimension>;
@@ -74,7 +74,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   // setup alive points
   auto AlivePoints = NodePairContainerType::New();
 
-  constexpr FloatImageType::OffsetType offset0 = { { 28, 35 } };
+  constexpr FloatImageType::OffsetType offset0{ 28, 35 };
 
   itk::Index<2> index{};
 
@@ -113,7 +113,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   marcher->SetTrialPoints(TrialPoints);
 
   // specify the size of the output image
-  constexpr FloatImageType::SizeType size = { { 64, 64 } };
+  constexpr FloatImageType::SizeType size{ 64, 64 };
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones
@@ -123,13 +123,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   speedImage->SetLargestPossibleRegion(region);
   speedImage->SetBufferedRegion(region);
   speedImage->Allocate();
-
-  itk::ImageRegionIterator<FloatImageType> speedIter(speedImage, speedImage->GetBufferedRegion());
-  while (!speedIter.IsAtEnd())
-  {
-    speedIter.Set(1.0);
-    ++speedIter;
-  }
+  speedImage->FillBuffer(1.0);
 
   marcher->SetInput(speedImage);
 

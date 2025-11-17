@@ -135,7 +135,7 @@ public:
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputImagePixelType>));
 
 protected:
-  ValuedRegionalExtremaImageFilter();
+  ValuedRegionalExtremaImageFilter() = default;
   ~ValuedRegionalExtremaImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -154,7 +154,7 @@ protected:
   GenerateData() override;
 
 private:
-  typename TInputImage::PixelType m_MarkerValue{};
+  typename TInputImage::PixelType m_MarkerValue{ 0 };
 
   bool m_FullyConnected{ false };
   bool m_Flat{ false };

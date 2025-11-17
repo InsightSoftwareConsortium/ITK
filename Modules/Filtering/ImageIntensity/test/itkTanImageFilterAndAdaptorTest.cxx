@@ -27,7 +27,7 @@ itkTanImageFilterAndAdaptorTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
 
   // Declare the pixel types of the images
   using PixelType = float;
@@ -40,9 +40,6 @@ itkTanImageFilterAndAdaptorTest(int, char *[])
   using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
   using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<ImageDimension>;
-
   // Declare the type of the size
   using SizeType = itk::Size<ImageDimension>;
 
@@ -52,20 +49,9 @@ itkTanImageFilterAndAdaptorTest(int, char *[])
   // Create the input image
   auto inputImage = InputImageType::New();
 
-  // Define its size, and start index
-  SizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2;
-
-  IndexType start;
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  // Define its size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize the input image
   inputImage->SetRegions(region);
@@ -75,7 +61,7 @@ itkTanImageFilterAndAdaptorTest(int, char *[])
   InputIteratorType it(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of the input image
-  constexpr double value = itk::Math::pi / 6.0;
+  constexpr double value{ itk::Math::pi / 6.0 };
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
@@ -105,7 +91,7 @@ itkTanImageFilterAndAdaptorTest(int, char *[])
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
 
   // Check the content of the result image
-  constexpr OutputImageType::PixelType epsilon = 1e-6;
+  constexpr OutputImageType::PixelType epsilon{ 1e-6 };
   ot.GoToBegin();
   it.GoToBegin();
   while (!ot.IsAtEnd())

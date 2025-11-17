@@ -10,6 +10,7 @@ readonly subtree="Modules/ThirdParty/NIFTI/src/nifti"
 readonly repo="https://github.com/InsightSoftwareConsortium/nifti_clib.git"
 readonly tag="master"
 readonly shortlog=false
+readonly exact_tree_match=false
 readonly paths="
 CMakeLists.txt
 CTestConfig.cmake

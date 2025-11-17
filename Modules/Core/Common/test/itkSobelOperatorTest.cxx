@@ -24,14 +24,14 @@ int
 itkSobelOperatorTest(int, char *[])
 {
 
-  constexpr unsigned int Dimension2D = 2;
-  constexpr unsigned int Dimension3D = 3;
-  constexpr unsigned int Dimension4D = 4;
+  constexpr unsigned int Dimension2D{ 2 };
+  constexpr unsigned int Dimension3D{ 3 };
+  constexpr unsigned int Dimension4D{ 4 };
 
   using PixelType = float;
 
   {
-    constexpr unsigned int Length = 9;
+    constexpr unsigned int Length{ 9 };
 
     using SobelOperatorType = itk::SobelOperator<PixelType, Dimension2D>;
     SobelOperatorType sobelOperator;
@@ -76,7 +76,7 @@ itkSobelOperatorTest(int, char *[])
   }
 
   {
-    constexpr unsigned int Length = 27;
+    constexpr unsigned int Length{ 27 };
 
     using SobelOperatorType = itk::SobelOperator<PixelType, Dimension3D>;
     SobelOperatorType sobelOperator;
@@ -136,7 +136,7 @@ itkSobelOperatorTest(int, char *[])
     using SobelOperatorType = itk::SobelOperator<PixelType, Dimension4D>;
     SobelOperatorType sobelOperator;
 
-    constexpr unsigned long direction = 0;
+    constexpr unsigned long direction{ 0 };
     sobelOperator.SetDirection(direction);
     auto radius = itk::Size<Dimension4D>::Filled(1);
     ITK_TRY_EXPECT_EXCEPTION(sobelOperator.CreateToRadius(radius));

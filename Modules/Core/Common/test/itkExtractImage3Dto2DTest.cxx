@@ -32,7 +32,7 @@ itkExtractImage3Dto2DTest(int, char *[])
   auto src = RandomImageSourceType::New();
   src->SetMin(0);
   src->SetMax(255);
-  constexpr Image3DType::SizeType size = { { 16, 16, 16 } };
+  constexpr Image3DType::SizeType size{ 16, 16, 16 };
   src->SetSize(size);
   src->Update();
   const Image3DType::Pointer im3d(src->GetOutput());
@@ -58,8 +58,7 @@ itkExtractImage3Dto2DTest(int, char *[])
   extractIndex[2] = extractIndex[1] = extractIndex[0] = 0;
 
   extract->SetInput(im3d);
-  extractRegion.SetSize(extractSize);
-  extractRegion.SetIndex(extractIndex);
+  extractRegion = { extractIndex, extractSize };
   extract->SetExtractionRegion(extractRegion);
   extract->Update();
 
@@ -81,8 +80,7 @@ itkExtractImage3Dto2DTest(int, char *[])
   extractIndex[2] = extractIndex[1] = extractIndex[0] = 0;
 
   extract->SetInput(im3d);
-  extractRegion.SetSize(extractSize);
-  extractRegion.SetIndex(extractIndex);
+  extractRegion = { extractIndex, extractSize };
   extract->SetExtractionRegion(extractRegion);
   extract->Update();
   // remove first column/row, should obtain :

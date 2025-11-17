@@ -42,7 +42,7 @@ constexpr unsigned int HEIGHT = (64);
 constexpr unsigned int WIDTH = (64);
 constexpr unsigned int DEPTH = (64);
 
-constexpr int RADIUS = (std::min(std::min(HEIGHT, WIDTH), DEPTH) / 4);
+constexpr int RADIUS{ (std::min(std::min(HEIGHT, WIDTH), DEPTH) / 4) };
 
 // Distance transform function for a sphere
 float
@@ -52,7 +52,7 @@ sphere(unsigned int x, unsigned int y, unsigned int z)
               (y - float{ HEIGHT } / 2.0) * (y - float{ HEIGHT } / 2.0) +
               (z - float{ DEPTH } / 2.0) * (z - float{ DEPTH } / 2.0);
   dis = RADIUS - std::sqrt(dis);
-  return (-dis);
+  return -dis;
 }
 
 // Distance transform function for a cube
@@ -67,7 +67,7 @@ cube(unsigned int x, unsigned int y, unsigned int z)
   {
     dis = RADIUS - (std::max(std::max(X, Y), Z));
   }
-  return (-dis);
+  return -dis;
 }
 
 // Evaluates a function at each pixel in the itk volume
@@ -222,22 +222,19 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
 
-  constexpr int n = 100;                // Number of iterations
-  constexpr int numberOfWorkUnits = 11; // Number of work units to be used
+  constexpr int n{ 100 };                // Number of iterations
+  constexpr int numberOfWorkUnits{ 11 }; // Number of work units to be used
 
   auto im_init = ImageType::New();
   auto im_target = ImageType::New();
 
-  ImageType::RegionType          r;
-  constexpr ImageType::SizeType  sz = { { PSFLSIFT::HEIGHT, PSFLSIFT::WIDTH, PSFLSIFT::DEPTH } };
-  constexpr ImageType::IndexType idx = { { 0, 0, 0 } };
-  r.SetSize(sz);
-  r.SetIndex(idx);
+  constexpr ImageType::SizeType sz{ PSFLSIFT::HEIGHT, PSFLSIFT::WIDTH, PSFLSIFT::DEPTH };
+  ImageType::RegionType         r{ sz };
 
   ImageType::PointType     origin;
   ImageType::SpacingType   spacing;

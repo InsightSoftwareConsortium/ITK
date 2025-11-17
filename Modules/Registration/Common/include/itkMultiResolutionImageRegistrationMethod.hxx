@@ -223,7 +223,6 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PreparePyrami
 
   const SizeValueType numberOfLevels = m_FixedImagePyramid->GetNumberOfLevels();
 
-  m_FixedImageRegionPyramid.reserve(numberOfLevels);
   m_FixedImageRegionPyramid.resize(numberOfLevels);
 
   // Compute the FixedImageRegion corresponding to each level of the
@@ -247,8 +246,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PreparePyrami
       start[dim] =
         static_cast<typename IndexType::IndexValueType>(std::ceil(static_cast<float>(inputStart[dim]) / scaleFactor));
     }
-    m_FixedImageRegionPyramid[level].SetSize(size);
-    m_FixedImageRegionPyramid[level].SetIndex(start);
+    m_FixedImageRegionPyramid[level] = { start, size };
   }
 }
 

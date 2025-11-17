@@ -62,17 +62,16 @@ public:
   ExceptionObject() noexcept = default;
 
   explicit ExceptionObject(std::string         file,
-                           unsigned int        lineNumber = 0,
-                           std::string         description = "None",
-                           std::string         location = {},
-                           const LightObject * thrower = nullptr);
+                           unsigned int        lineNumber,
+                           std::string         description,
+                           std::string         location,
+                           const LightObject * thrower);
 
   explicit ExceptionObject(std::string  file,
-                           unsigned int lineNumber,
-                           std::string  description,
-                           std::string  location,
-                           const void * thrower,
-                           ...);
+                           unsigned int lineNumber = 0,
+                           std::string  description = "None",
+                           std::string  location = {},
+                           const void * thrower = nullptr);
 
   /** Copy-constructor. */
   ExceptionObject(const ExceptionObject &) noexcept = default;

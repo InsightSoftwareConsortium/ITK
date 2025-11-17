@@ -208,7 +208,7 @@ Element2DC0LinearTriangular::JacobianInverse(const VectorType & pt, MatrixType &
 void
 Element2DC0LinearTriangular::PopulateEdgeIds()
 {
-  this->m_EdgeIds.resize(0);
+  this->m_EdgeIds.clear();
 
   std::vector<int> edgePtIds;
   edgePtIds.resize(2);

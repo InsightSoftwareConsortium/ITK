@@ -60,7 +60,7 @@ public:
 
   ObjectType& operator * () const
     {
-    assert( Pointer );
+    gdcm_assert( Pointer );
     return *Pointer; 
     }
 

@@ -64,7 +64,7 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(RegionConstrainedSubsampler);
 
-  /** type alias alias for the source data container */
+  /** type alias for the source data container */
   using SampleType = TSample;
   using SampleConstPointer = typename SampleType::ConstPointer;
   using MeasurementVectorType = typename TSample::MeasurementVectorType;

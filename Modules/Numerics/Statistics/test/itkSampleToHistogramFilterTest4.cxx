@@ -24,7 +24,7 @@ int
 itkSampleToHistogramFilterTest4(int, char *[])
 {
 
-  constexpr unsigned int numberOfComponents = 3;
+  constexpr unsigned int numberOfComponents{ 3 };
 
   //
   // Note:
@@ -146,7 +146,7 @@ itkSampleToHistogramFilterTest4(int, char *[])
   HistogramType::ConstIterator       histogramItr = histogram->Begin();
   const HistogramType::ConstIterator histogramEnd = histogram->End();
 
-  constexpr unsigned int expectedFrequency1 = 1;
+  constexpr unsigned int expectedFrequency1{ 1 };
   while (histogramItr != histogramEnd)
   {
     if (histogramItr.GetFrequency() != expectedFrequency1)

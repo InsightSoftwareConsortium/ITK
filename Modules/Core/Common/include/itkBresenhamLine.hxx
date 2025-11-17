@@ -32,7 +32,7 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
 
   Direction.Normalize();
   // we are going to start at 0
-  constexpr IndexType StartIndex = { { 0 } };
+  constexpr IndexType StartIndex{ 0 };
   IndexType           LastIndex;
   for (unsigned int i = 0; i < VDimension; ++i)
   {
@@ -99,7 +99,7 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
 
     ++steps;
   }
-  return (result);
+  return result;
 }
 
 template <unsigned int VDimension>

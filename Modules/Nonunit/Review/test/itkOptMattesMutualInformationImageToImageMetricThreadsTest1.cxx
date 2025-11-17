@@ -46,7 +46,7 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
 
 
   using PixelType = unsigned char;
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using ImageType = itk::Image<PixelType>;
 
@@ -151,7 +151,7 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
 
   bool testFailed = false;
 
-  constexpr double tolerance = 1e-7;
+  constexpr double tolerance{ 1e-7 };
 
   for (unsigned int i = 0; i < values.size(); ++i)
   {

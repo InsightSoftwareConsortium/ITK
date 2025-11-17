@@ -163,6 +163,7 @@ protected:
   void
   DefineCorners();
 
+  // spell-check-disable
   /** \brief
    * Calculate the planes which define the volume.
    *
@@ -174,6 +175,7 @@ protected:
    * in the world x,y,z dirn [3]) and finally also to return the length
    * of the sides of the lines in mm.
    */
+  // spell-check-enable
   void
   CalcPlanesAndCorners();
 
@@ -404,7 +406,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcPl
         break;
     }
 
+    // spell-check-disable
     // lines from one corner to another in x,y,z dirns
+    // spell-check-enable
     const double line1x = m_BoundingCorner[c1][0] - m_BoundingCorner[c2][0];
     const double line2x = m_BoundingCorner[c1][0] - m_BoundingCorner[c3][0];
 
@@ -432,8 +436,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcPl
     {
       itk::ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation(ITK_LOCATION);
-      err.SetDescription("Division by zero (planes) "
-                         "- CalcPlanesAndCorners().");
+      err.SetDescription("Division by zero (planes) - CalcPlanesAndCorners().");
       throw err;
     }
   }
@@ -447,7 +450,7 @@ template <typename TInputImage, typename TCoordinate>
 bool
 RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcRayIntercepts()
 {
-  constexpr unsigned int numSides = 6; // =6 to allow truncation: =4 to remove truncated rays
+  constexpr unsigned int numSides{ 6 }; // =6 to allow truncation: =4 to remove truncated rays
 
   // Calculate intercept of ray with planes
   double interceptx[6];
@@ -918,8 +921,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Adjust
   {
     itk::ExceptionObject err(__FILE__, __LINE__);
     err.SetLocation(ITK_LOCATION);
-    err.SetDescription("The ray traversal direction is unset "
-                       "- AdjustRayLength().");
+    err.SetDescription("The ray traversal direction is unset - AdjustRayLength().");
     throw err;
   }
 
@@ -968,7 +970,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Adjust
     }
   } while ((!(startOK && endOK)) && (m_TotalRayVoxelPlanes > 1));
 
-  return (startOK && endOK);
+  return startOK && endOK;
 }
 
 /* -----------------------------------------------------------------------
@@ -1145,8 +1147,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Initia
     {
       itk::ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation(ITK_LOCATION);
-      err.SetDescription("The ray traversal direction is unset "
-                         "- InitialiseVoxelPointers().");
+      err.SetDescription("The ray traversal direction is unset - InitialiseVoxelPointers().");
       throw err;
     }
   }
@@ -1227,8 +1228,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::GetCur
     {
       itk::ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation(ITK_LOCATION);
-      err.SetDescription("The ray traversal direction is unset "
-                         "- GetCurrentIntensity().");
+      err.SetDescription("The ray traversal direction is unset - GetCurrentIntensity().");
       throw err;
     }
   }
@@ -1402,7 +1402,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::Evaluate(const PointT
   ray.SetRay(rayPosition, direction);
   ray.IntegrateAboveThreshold(integral, m_Threshold);
 
-  return (static_cast<OutputType>(integral));
+  return static_cast<OutputType>(integral);
 }
 
 template <typename TInputImage, typename TCoordinate>

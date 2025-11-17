@@ -101,9 +101,7 @@ Segmenter<TInputImage>::GenerateData()
     // Set LOW face
     idx[i] = regionToProcess.GetIndex()[i];
     sz[i] = 1;
-    ImageRegionType reg;
-    reg.SetSize(sz);
-    reg.SetIndex(idx);
+    ImageRegionType reg{ idx, sz };
 
     if (reg.GetIndex()[i] == largestPossibleRegion.GetIndex()[i])
     {
@@ -124,8 +122,7 @@ Segmenter<TInputImage>::GenerateData()
 
     // Set HIGH face
     idx[i] = (regionToProcess.GetIndex()[i] + regionToProcess.GetSize()[i]) - 1;
-    reg.SetSize(sz);
-    reg.SetIndex(idx);
+    reg = { idx, sz };
     if ((reg.GetIndex()[i] + reg.GetSize()[i]) ==
         (largestPossibleRegion.GetIndex()[i] + largestPossibleRegion.GetSize()[i]))
     {
@@ -141,10 +138,8 @@ Segmenter<TInputImage>::GenerateData()
       boundary->SetValid(true, i, 1);
     }
   }
-  thresholdImageRegion.SetSize(tsz);
-  thresholdImageRegion.SetIndex(tidx);
-  thresholdLargestPossibleRegion.SetSize(tlsz);
-  thresholdLargestPossibleRegion.SetIndex(tlidx);
+  thresholdImageRegion = { tidx, tsz };
+  thresholdLargestPossibleRegion = { tlidx, tlsz };
 
   // Now create and allocate the threshold image.  We need a single pixel
   // border around the NxM region we are segmenting.  This means that for faces
@@ -197,8 +192,7 @@ Segmenter<TInputImage>::GenerateData()
     irsz[i] = thresholdImageRegion.GetSize()[i] - 2;
     iridx[i] = thresholdImageRegion.GetIndex()[i] + 1;
   }
-  regionToProcess.SetIndex(iridx);
-  regionToProcess.SetSize(irsz);
+  regionToProcess = { iridx, irsz };
 
   //
   // Initialize the connectivity information that will be used by the
@@ -250,8 +244,7 @@ Segmenter<TInputImage>::GenerateData()
 
       sz_b[b_idx.first] = 1;
 
-      reg_b.SetIndex(idx_b);
-      reg_b.SetSize(sz_b);
+      reg_b = { idx_b, sz_b };
 
       boundary->GetFace(b_idx)->SetRegions(reg_b);
       boundary->GetFace(b_idx)->Allocate();
@@ -1006,9 +999,7 @@ Segmenter<TInputImage>::BuildRetainingWall(InputImageTypePointer img, ImageRegio
     typename ImageRegionType::IndexType idx = region.GetIndex(); // LOW face
     typename ImageRegionType::SizeType  sz = region.GetSize();
     sz[i] = 1;
-    ImageRegionType reg;
-    reg.SetIndex(idx);
-    reg.SetSize(sz);
+    ImageRegionType reg{ idx, sz };
     Segmenter::SetInputImageValues(img, reg, value);
     idx[i] = region.GetSize()[i] + region.GetIndex()[i] - 1; // HIGH face
     reg.SetIndex(idx);

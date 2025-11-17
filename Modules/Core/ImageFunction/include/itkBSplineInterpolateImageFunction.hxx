@@ -34,6 +34,7 @@
 
 #include "itkVector.h"
 
+#include "itkMath.h"
 #include "itkMatrix.h"
 #include "itkPrintHelper.h"
 
@@ -46,7 +47,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::BSpl
   , m_CoefficientFilter(CoefficientFilter::New())
   , m_NumberOfWorkUnits(1)
 {
-  constexpr unsigned int SplineOrder = 3;
+  constexpr unsigned int SplineOrder{ 3 };
   this->SetSplineOrder(SplineOrder);
 }
 
@@ -144,11 +145,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetS
   m_CoefficientFilter->SetSplineOrder(SplineOrder);
 
   // this->SetPoles();
-  m_MaxNumberInterpolationPoints = 1;
-  for (unsigned int n = 0; n < ImageDimension; ++n)
-  {
-    m_MaxNumberInterpolationPoints *= (m_SplineOrder + 1);
-  }
+  m_MaxNumberInterpolationPoints = Math::UnsignedPower(SplineOrder + 1, ImageDimension);
   this->GeneratePointsToIndex();
 }
 
@@ -518,7 +515,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::Eval
     interpolated += w * m_Coefficients->GetPixel(coefficientIndex);
   }
 
-  return (interpolated);
+  return interpolated;
 }
 
 template <typename TImageType, typename TCoordinate, typename TCoefficientType>
@@ -648,7 +645,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::Eval
     return inputImage->TransformLocalVectorToPhysicalVector(derivativeValue);
   }
 
-  return (derivativeValue);
+  return derivativeValue;
 }
 } // namespace itk
 

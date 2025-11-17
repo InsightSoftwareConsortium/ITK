@@ -281,7 +281,7 @@ RealTimeStamp::operator>(const Self & other) const
     return false;
   }
 
-  return (this->m_MicroSeconds > other.m_MicroSeconds);
+  return this->m_MicroSeconds > other.m_MicroSeconds;
 }
 
 /**
@@ -300,7 +300,7 @@ RealTimeStamp::operator<(const Self & other) const
     return false;
   }
 
-  return (this->m_MicroSeconds < other.m_MicroSeconds);
+  return this->m_MicroSeconds < other.m_MicroSeconds;
 }
 
 /**
@@ -319,7 +319,7 @@ RealTimeStamp::operator>=(const Self & other) const
     return false;
   }
 
-  return (this->m_MicroSeconds >= other.m_MicroSeconds);
+  return this->m_MicroSeconds >= other.m_MicroSeconds;
 }
 
 /**
@@ -338,7 +338,7 @@ RealTimeStamp::operator<=(const Self & other) const
     return false;
   }
 
-  return (this->m_MicroSeconds <= other.m_MicroSeconds);
+  return this->m_MicroSeconds <= other.m_MicroSeconds;
 }
 
 
@@ -348,7 +348,7 @@ RealTimeStamp::operator<=(const Self & other) const
 bool
 RealTimeStamp::operator==(const Self & other) const
 {
-  return ((this->m_MicroSeconds == other.m_MicroSeconds) && (this->m_Seconds == other.m_Seconds));
+  return (this->m_MicroSeconds == other.m_MicroSeconds) && (this->m_Seconds == other.m_Seconds);
 }
 
 /** Default print out of a RealTimeStamp */

@@ -22,6 +22,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageScanlineIterator.h"
 
+#include <array>
 
 namespace itk
 {
@@ -202,16 +203,12 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
   // The input region has 2^ImageDimension corners, each
   // of which is either on the inferior or superior edge
   // along each dimension.
-  unsigned int numberOfInputCorners = 1;
-  for (unsigned int dim = 0; dim < InputImageType::ImageDimension; ++dim)
-  {
-    numberOfInputCorners *= 2;
-  }
+  static constexpr unsigned int numberOfInputCorners{ 1u << InputImageType::ImageDimension };
   using ContinuousIndexValueType = ContinuousIndex<SpacePrecisionType>::ValueType;
   using ContinuousInputIndexType = ContinuousIndex<ContinuousIndexValueType, InputImageType::ImageDimension>;
   using ContinuousOutputIndexType = ContinuousIndex<ContinuousIndexValueType, OutputImageType::ImageDimension>;
 
-  std::vector<ContinuousOutputIndexType> outputCorners(numberOfInputCorners);
+  std::array<ContinuousOutputIndexType, numberOfInputCorners> outputCorners{};
 
 
   for (unsigned int count = 0; count < numberOfInputCorners; ++count)

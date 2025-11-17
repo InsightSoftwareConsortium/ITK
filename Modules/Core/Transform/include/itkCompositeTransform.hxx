@@ -836,10 +836,8 @@ CompositeTransform<TParametersValueType, VDimension>::UpdateTransformParameters(
 
   if (update.Size() != numberOfParameters)
   {
-    itkExceptionMacro("Parameter update size, " << update.Size()
-                                                << ", must "
-                                                   " be same as transform parameter size, "
-                                                << numberOfParameters << std::endl);
+    itkExceptionMacro("Parameter update size, " << update.Size() << ", must  be same as transform parameter size, "
+                                                << numberOfParameters);
   }
 
   NumberOfParametersType offset{};
@@ -992,7 +990,7 @@ CompositeTransform<TParametersValueType, VDimension>::InternalClone() const
        ++tqIt, ++tfIt, ++i)
   {
     clone->AddTransform((*tqIt)->Clone().GetPointer());
-    clone->SetNthTransformToOptimize(i, (*tfIt));
+    clone->SetNthTransformToOptimize(i, *tfIt);
   }
   return loPtr;
 }

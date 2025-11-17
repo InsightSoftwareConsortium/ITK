@@ -148,7 +148,7 @@ public:
   void
   Initialize() override
   {
-    m_Start = this->GetZeroIndex();
+    m_Start = {};
     this->Clear();
   }
 

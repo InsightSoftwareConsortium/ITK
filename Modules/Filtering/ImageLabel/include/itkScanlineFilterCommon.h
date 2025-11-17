@@ -242,7 +242,7 @@ protected:
 
     if (!this->m_FullyConnected)
     {
-      return (diffSum <= 1); // indices can differ only along one dimension
+      return diffSum <= 1; // indices can differ only along one dimension
     }
     return true;
   }
@@ -474,7 +474,7 @@ protected:
         auto it = this->m_LineOffsets.begin();
         while (it != this->m_LineOffsets.end())
         {
-          const OffsetValueType neighIdx = thisIdx + (*it);
+          const OffsetValueType neighIdx = thisIdx + *it;
           // check if the neighbor is in the map
           if (neighIdx >= 0 && neighIdx < linecount && !m_LineMap[neighIdx].empty())
           {

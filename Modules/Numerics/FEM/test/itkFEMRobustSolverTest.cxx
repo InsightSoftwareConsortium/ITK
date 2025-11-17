@@ -51,8 +51,8 @@
 int
 itkFEMRobustSolverTest(int, char *[])
 {
-  constexpr unsigned int DataDimension = 2;
-  constexpr unsigned int ParameterDimension = 2;
+  constexpr unsigned int DataDimension{ 2 };
+  constexpr unsigned int ParameterDimension{ 2 };
 
   /** Solver type alias support */
   using SolverType = itk::fem::RobustSolver<DataDimension>;

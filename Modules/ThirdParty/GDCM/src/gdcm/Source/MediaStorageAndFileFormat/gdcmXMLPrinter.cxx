@@ -109,8 +109,8 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
     }
 
   //as DataSetHelper would have been called
-  assert( refvr != VR::US_SS );
-  assert( refvr != VR::OB_OW );
+  gdcm_assert( refvr != VR::US_SS );
+  gdcm_assert( refvr != VR::OB_OW );
 
   if( !de.IsEmpty() )
   {
@@ -119,21 +119,21 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
     {
     sqi = de.GetValueAsSQ();
     refvr = VR::SQ;
-    assert( refvr == VR::SQ );
+    gdcm_assert( refvr == VR::SQ );
     }
 #if 0
   else if( vr == VR::SQ && vr_read != VR::SQ )
     {
     sqi = de.GetValueAsSQ();
     refvr = VR::SQ;
-    assert( refvr == VR::SQ );
+    gdcm_assert( refvr == VR::SQ );
     }
 #endif
   }
 
   if( (vr_read == VR::INVALID || vr_read == VR::UN ) && vl_read.IsUndefined() )
     {
-    assert( refvr == VR::SQ );
+    gdcm_assert( refvr == VR::SQ );
     }
 
 //  if( vr_read == VR::SQ || vr_read == VR::UN )
@@ -142,7 +142,7 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
 //    }
   if( vr != VR::INVALID && (!vr.Compatible( vr_read ) || vr_read == VR::INVALID || vr_read == VR::UN ) )
     {
-    assert( vr != VR::INVALID );
+    gdcm_assert( vr != VR::INVALID );
 
     /*
     No need as we will save only the VR to which it is stored by GDCM in the XML file
@@ -164,7 +164,7 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
     // the vr
     // eg. CD1/647662/647663/6471066 has a SQ at (2001,9000)
 
-    assert( refvr == VR::INVALID );
+    gdcm_assert( refvr == VR::INVALID );
     refvr = VR::SQ;
     }
 
@@ -191,7 +191,7 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
       /* retired element */
       else if( retired )
         {
-        assert( t.IsPublic() || t.GetElement() == 0x0 ); // Is there such thing as private and retired element ?
+        gdcm_assert( t.IsPublic() || t.GetElement() == 0x0 ); // Is there such thing as private and retired element ?
         //os << name;
         //os = PrintXML_char(os,name);
         }
@@ -248,7 +248,7 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
       } \
       else { if( de.IsEmpty() ) \
                  {} } } \
-      else { assert( de.IsEmpty()); } \
+      else { gdcm_assert( de.IsEmpty()); } \
     } break
 
 
@@ -263,25 +263,25 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
       }
     else
       {
-      assert( de.IsEmpty() );
+      gdcm_assert( de.IsEmpty() );
       }
     }
   else if( refvr & VR::VRASCII )
     {
-    //assert( !sqi && !sqf);
-    assert(!sqi);
+    //gdcm_assert( !sqi && !sqf);
+    gdcm_assert(!sqi);
     if( bv )
       {
       bv->PrintASCIIXML(os);    //new function to print each value in new child tag
       }
     else
       {
-      assert( de.IsEmpty() );
+      gdcm_assert( de.IsEmpty() );
       }
     }
   else
     {
-    assert( refvr & VR::VRBINARY || (vr == VR::INVALID && refvr == VR::INVALID) );
+    gdcm_assert( refvr & VR::VRBINARY || (vr == VR::INVALID && refvr == VR::INVALID) );
     std::string s;
     switch(refvr)
       {
@@ -324,7 +324,7 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
           }
         else if ( sqf )
           {
-          assert( t == Tag(0x7fe0,0x0010) );
+          gdcm_assert( t == Tag(0x7fe0,0x0010) );
           }
         else if ( sqi )
           {
@@ -332,13 +332,13 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
           }
         else
           {
-          assert( !sqi && !sqf );
-          assert( de.IsEmpty() );
+          gdcm_assert( !sqi && !sqf );
+          gdcm_assert( de.IsEmpty() );
           }
         }
       break;
     case VR::US_SS:
-      assert( refvr != VR::US_SS );
+      gdcm_assert( refvr != VR::US_SS );
       break;
     case VR::SQ://The below info need not be printed into the XML infoset acc. to the standard
       if( !sqi && !de.IsEmpty() && de.GetValue().GetLength() )
@@ -374,8 +374,8 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
         }
       else
         {
-        assert( !sqi && !sqf );
-        assert( de.IsEmpty() );
+        gdcm_assert( !sqi && !sqf );
+        gdcm_assert( de.IsEmpty() );
         }
       break;
     /* ASCII are treated elsewhere but we do not want to use default: here to get warnings */
@@ -405,7 +405,7 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
     case VR::VR_VM1:
     case VR::VRALL:
     case VR::VR_END:
-      assert(0 && "No Match! Impossible!!");
+      gdcm_assert(0 && "No Match! Impossible!!");
       break;
       }
     }

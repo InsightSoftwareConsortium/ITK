@@ -26,7 +26,7 @@ int
 itkGradientVectorFlowImageFilterTest(int, char *[])
 {
   // Define the dimension of the images
-  constexpr unsigned int myDimension = 2;
+  constexpr unsigned int myDimension{ 2 };
 
   // Declare gradient type
   using myGradientType = itk::CovariantVector<double, myDimension>;
@@ -57,17 +57,14 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
 
 
   // Define their size, and start index
-  mySizeType size;
-  size[0] = 128;
-  size[1] = 128;
-
+  mySizeType  size{ 128, 128 };
   myIndexType start{};
 
   myRegionType region{ start, size };
 
   // Initialize Image A
   inputImage->SetRegions(region);
-  inputImage->Allocate();
+  inputImage->AllocateInitialized();
 
   interImage->SetRegions(region);
   interImage->Allocate();
@@ -80,17 +77,8 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
 
   using myOutputIteratorType = itk::ImageRegionIteratorWithIndex<myGradientImageType>;
 
-  // Create one iterator for the Input Image A (this is a light object)
-  myIteratorType it(inputImage, inputImage->GetRequestedRegion());
-
   // Initialize the content of Image A
   std::cout << "Input Image initialization " << std::endl;
-
-  while (!it.IsAtEnd())
-  {
-    it.Set(0.0);
-    ++it;
-  }
 
   size[0] = 100;
   size[1] = 100;
@@ -99,8 +87,7 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
   start[1] = 14;
 
   // Create one iterator for an internal region
-  region.SetSize(size);
-  region.SetIndex(start);
+  region = { start, size };
   myIteratorType itb(inputImage, region);
 
   // Initialize the content the internal region
@@ -141,15 +128,15 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
   m_GVFFilter->SetLaplacianFilter(m_LFilter);
   ITK_TEST_SET_GET_VALUE(m_LFilter, m_GVFFilter->GetLaplacianFilter());
 
-  constexpr double noiseLevel = 500;
+  constexpr double noiseLevel{ 500 };
   m_GVFFilter->SetNoiseLevel(noiseLevel);
   ITK_TEST_SET_GET_VALUE(noiseLevel, m_GVFFilter->GetNoiseLevel());
 
-  constexpr double timeStep = 0.001;
+  constexpr double timeStep{ 0.001 };
   m_GVFFilter->SetTimeStep(timeStep);
   ITK_TEST_SET_GET_VALUE(timeStep, m_GVFFilter->GetTimeStep());
 
-  constexpr int iterationNum = 2;
+  constexpr int iterationNum{ 2 };
   m_GVFFilter->SetIterationNum(iterationNum);
   ITK_TEST_SET_GET_VALUE(iterationNum, m_GVFFilter->GetIterationNum());
 

@@ -20,6 +20,8 @@
 #include "itksys/SystemTools.hxx"
 
 #include "itk_jpeg.h"
+
+#include <array>
 #include <csetjmp>
 
 #define JPEGIO_JPEG_MESSAGES 1
@@ -542,13 +544,11 @@ JPEGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
   {
     // store the spacing information as pixels per inch or cm, depending on which option
     // retains as much precision as possible
-    std::vector<UINT16> densityPerInch(2);
-    densityPerInch[0] = static_cast<UINT16>(25.4 / m_Spacing[0] + 0.5);
-    densityPerInch[1] = static_cast<UINT16>(25.4 / m_Spacing[1] + 0.5);
+    const std::array<UINT16, 2> densityPerInch{ static_cast<UINT16>(25.4 / m_Spacing[0] + 0.5),
+                                                static_cast<UINT16>(25.4 / m_Spacing[1] + 0.5) };
 
-    std::vector<UINT16> densityPerCm(2);
-    densityPerCm[0] = static_cast<UINT16>(10.0 / m_Spacing[0] + 0.5);
-    densityPerCm[1] = static_cast<UINT16>(10.0 / m_Spacing[1] + 0.5);
+    const std::array<UINT16, 2> densityPerCm{ static_cast<UINT16>(10.0 / m_Spacing[0] + 0.5),
+                                              static_cast<UINT16>(10.0 / m_Spacing[1] + 0.5) };
 
     if (itk::Math::abs(25.4 / m_Spacing[0] - densityPerInch[0]) +
           itk::Math::abs(25.4 / m_Spacing[1] - densityPerInch[1]) <=

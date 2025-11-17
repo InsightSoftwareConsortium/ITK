@@ -10,6 +10,7 @@ readonly subtree="Modules/ThirdParty/VNL/src/vxl"
 readonly repo="https://github.com/vxl/vxl.git"
 readonly tag="master"
 readonly shortlog=false
+readonly exact_tree_match=false
 readonly paths="
   CMakeLists.txt
   config/cmake

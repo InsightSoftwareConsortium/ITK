@@ -129,7 +129,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   // Given that the size is scaled by a constant factor eq:
   // inputIndex = outputIndex * factorSize
   // is equivalent up to a fixed offset which we now compute
-  constexpr OffsetValueType zeroOffset = 0;
+  constexpr OffsetValueType zeroOffset{ 0 };
   OutputOffsetType          offsetIndex;
   for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
@@ -203,7 +203,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   // Given that the size is scaled by a constant factor eq:
   // inputIndex = outputIndex * factorSize
   // is equivalent up to a fixed offset which we now compute
-  constexpr OffsetValueType zeroOffset = 0;
+  constexpr OffsetValueType zeroOffset{ 0 };
   OutputOffsetType          offsetIndex;
   for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
@@ -225,9 +225,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
     inputRequestedRegionSize[i] = (outputRequestedRegionSize[i] - 1) * factorSize[i] + 1;
   }
 
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion.SetIndex(inputRequestedRegionIndex);
-  inputRequestedRegion.SetSize(inputRequestedRegionSize);
+  typename TInputImage::RegionType inputRequestedRegion{ inputRequestedRegionIndex, inputRequestedRegionSize };
   inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion());
 
   inputPtr->SetRequestedRegion(inputRequestedRegion);
@@ -261,7 +259,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   {
     outputSpacing[i] = inputSpacing[i] * static_cast<double>(m_ShrinkFactors[i]);
 
-    // Round down so that all output pixels fit input input region
+    // Round down so that all output pixels fit input region
     outputSize[i] = static_cast<SizeValueType>(
       std::floor(static_cast<double>(inputSize[i]) / static_cast<double>(m_ShrinkFactors[i])));
 

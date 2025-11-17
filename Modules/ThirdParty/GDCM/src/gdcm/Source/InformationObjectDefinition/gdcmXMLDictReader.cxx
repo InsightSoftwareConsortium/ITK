@@ -26,10 +26,10 @@ XMLDictReader::XMLDictReader():ParsingDescription(false),Description()
 
 void XMLDictReader::HandleEntry(const char **atts)
 {
-  assert( !ParsingDescription );
+  gdcm_assert( !ParsingDescription );
   VR vr;
   VM vm;
-  assert( vm == VM::VM0 );
+  gdcm_assert( vm == VM::VM0 );
   std::string name;
   bool ret;
 
@@ -51,25 +51,25 @@ void XMLDictReader::HandleEntry(const char **atts)
 
   while(*current /*&& current+1*/)
     {
-    assert( *(current + 1) );
+    gdcm_assert( *(current + 1) );
     if( group == *current )
       {
       unsigned int v;
       const char *raw = *(current+1);
       int r = sscanf(raw, "%04x", &v);
-      assert( r == 1 );
-      assert( v <= 0xFFFF );
+      gdcm_assert( r == 1 );
+      gdcm_assert( v <= 0xFFFF );
 
       char sv[4+1];
       r = snprintf(sv, sizeof(sv), "%04x", v);
-      assert( r == 4 );
+      gdcm_assert( r == 4 );
       if( strncmp(raw, sv, 4) == 0 ) // GroupXX
         {
         tag.SetGroup( v );
         }
       else
         {
-        assert( (raw[0] == '5' && raw[1] == '0') || (raw[0] == '6' && raw[1] == '0') );
+        gdcm_assert( (raw[0] == '5' && raw[1] == '0') || (raw[0] == '6' && raw[1] == '0') );
         if( raw[0] == '5' ) tag.SetGroup( 0x5000 );
         if( raw[0] == '6' ) tag.SetGroup( 0x6000 );
         CurrentDE.SetGroupXX( true );
@@ -80,19 +80,19 @@ void XMLDictReader::HandleEntry(const char **atts)
       unsigned int v;
       const char *raw = *(current+1);
       int r = sscanf(raw, "%04x", &v);
-      assert( r == 1 );
-      assert( v <= 0xFFFF );
+      gdcm_assert( r == 1 );
+      gdcm_assert( v <= 0xFFFF );
 
       char sv[4+1];
       r = snprintf(sv, sizeof(sv), "%04x", v);
-      assert( r == 4 );
+      gdcm_assert( r == 4 );
       if( strncmp(raw, sv, 4) == 0 )
         {
         tag.SetElement( v );
         }
       else
         {
-        assert( raw[0] == '3' && raw[1] == '1' );
+        gdcm_assert( raw[0] == '3' && raw[1] == '1' );
         tag.SetElement( 0x3100 );
         CurrentDE.SetElementXX( true );
         }
@@ -100,14 +100,14 @@ void XMLDictReader::HandleEntry(const char **atts)
     else if( strvr == *current )
       {
       vr = VR::GetVRTypeFromFile( *(current + 1) );
-      //assert( vr != VR::INVALID );
+      //gdcm_assert( vr != VR::INVALID );
       }
     else if( strvm == *current )
       {
       vm = VM::GetVMType( *(current + 1) );
-      //assert( *(current+1) != '\0' );
-      //assert( vm != VM::VM0 );
-      //assert( vm != VM::VM_END );
+      //gdcm_assert( *(current+1) != '\0' );
+      //gdcm_assert( vm != VM::VM0 );
+      //gdcm_assert( vm != VM::VM_END );
       }
     else if( retired == *current )
       {
@@ -121,7 +121,7 @@ void XMLDictReader::HandleEntry(const char **atts)
         }
       else
         {
-        assert(0);
+        gdcm_assert(0);
         }
       }
     else if( version == *current )
@@ -134,7 +134,7 @@ void XMLDictReader::HandleEntry(const char **atts)
       }
     else
       {
-      assert(0);
+      gdcm_assert(0);
       }
     // goes on to the next attribute (need to skip value)
     ++current;
@@ -146,9 +146,9 @@ void XMLDictReader::HandleEntry(const char **atts)
 
 void XMLDictReader::HandleDescription(const char **atts)
 {
-  assert( ParsingDescription );
-  assert( *atts == NULL );
-  assert( Description == "" );
+  gdcm_assert( ParsingDescription );
+  gdcm_assert( *atts == NULL );
+  gdcm_assert( Description == "" );
 #if 0
   DictEntry &de = CurrentDE;
 
@@ -156,7 +156,7 @@ void XMLDictReader::HandleDescription(const char **atts)
   std::string description;
   while(*current /*&& current+1*/)
     {
-    assert( *(current + 1) );
+    gdcm_assert( *(current + 1) );
     ++current;
     }
   // Done !
@@ -188,7 +188,7 @@ void XMLDictReader::StartElement(const char *name, const char **atts)
   else
     {
     std::cerr << name << std::endl;
-    assert(0);
+    gdcm_assert(0);
     }
 }
 
@@ -204,7 +204,7 @@ void XMLDictReader::EndElement(const char *name)
     }
   else if( description == name )
     {
-    assert( ParsingDescription );
+    gdcm_assert( ParsingDescription );
     ParsingDescription = false;
 
     // TODO: do something with description ??
@@ -215,7 +215,7 @@ void XMLDictReader::EndElement(const char *name)
     }
   else
     {
-    assert(0);
+    gdcm_assert(0);
     }
 }
 
@@ -224,7 +224,7 @@ void XMLDictReader::CharacterDataHandler(const char *data, int length)
   if( ParsingDescription )
     {
     std::string name( data, length);
-    assert( length == strlen( name.c_str() ) );
+    gdcm_assert( length == strlen( name.c_str() ) );
     Description.append( name );
     }
 }

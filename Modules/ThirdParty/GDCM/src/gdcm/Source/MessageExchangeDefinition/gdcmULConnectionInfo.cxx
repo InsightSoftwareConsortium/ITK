@@ -57,10 +57,10 @@ bool ULConnectionInfo::Initialize(UserInformation const & inUserInformation,
   if (inCalledIPAddress == 0 && inCalledComputerName.empty()){
     return false;
   }
-  assert( inCalledAETitle );
-  assert( inCallingAETitle );
-  assert( AAssociateRQPDU::IsAETitleValid( inCalledAETitle ) );
-  assert( AAssociateRQPDU::IsAETitleValid( inCallingAETitle ) );
+  gdcm_assert( inCalledAETitle );
+  gdcm_assert( inCallingAETitle );
+  gdcm_assert( AAssociateRQPDU::IsAETitleValid( inCalledAETitle ) );
+  gdcm_assert( AAssociateRQPDU::IsAETitleValid( inCallingAETitle ) );
   const size_t lcalled  = strlen( inCalledAETitle );
   const size_t lcalling = strlen( inCallingAETitle );
   mCalledAETitle = std::string(inCalledAETitle, lcalled > 16 ? 16 : lcalled );

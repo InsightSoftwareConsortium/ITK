@@ -28,25 +28,25 @@ QuadEdgeMeshEulerOperatorSplitVertexFunction<TMesh, TQEType>::Evaluate(QEType * 
   if (!this->m_Mesh)
   {
     itkDebugMacro("No mesh present.");
-    return ((QEType *)nullptr);
+    return (QEType *)nullptr;
   }
 
   if ((h == (QEType *)nullptr) || (g == (QEType *)nullptr))
   {
     itkDebugMacro("One or more argument(s) is(are) null.");
-    return ((QEType *)nullptr);
+    return (QEType *)nullptr;
   }
 
   if (h == g)
   {
     itkDebugMacro("The two half-edges are the same. No antenna allowed.");
-    return ((QEType *)nullptr);
+    return (QEType *)nullptr;
   }
 
   if (h->GetDestination() != g->GetDestination())
   {
     itkDebugMacro("The two half-edges must be incident to the same vertex.");
-    return ((QEType *)nullptr);
+    return (QEType *)nullptr;
   }
 
   // delete the faces
@@ -64,7 +64,7 @@ QuadEdgeMeshEulerOperatorSplitVertexFunction<TMesh, TQEType>::Evaluate(QEType * 
   this->m_Mesh->AddFace(g->GetSym());
   this->m_Mesh->Modified();
 
-  return (ReturnedEdge);
+  return ReturnedEdge;
 }
 } // end namespace itk
 

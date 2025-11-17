@@ -301,9 +301,7 @@ public:
   void
   ComputeJacobianWithRespectToPosition(const InputPointType &, JacobianPositionType &) const override
   {
-    itkExceptionMacro("ComputeJacobianWithRespectToPosition not yet implemented "
-                      "for "
-                      << this->GetNameOfClass());
+    itkExceptionMacro("ComputeJacobianWithRespectToPosition not yet implemented for " << this->GetNameOfClass());
   }
   using Superclass::ComputeJacobianWithRespectToPosition;
 
@@ -384,7 +382,7 @@ protected:
   InsideValidRegion(ContinuousIndexType &) const = 0;
 
   // NOTE:  There is a natural duality between the
-  //       two representations of of the coefficients
+  //       two representations of the coefficients
   //       whereby the m_InternalParametersBuffer is
   //       needed to fit into the optimization framework
   //       and the m_CoefficientImages is needed for

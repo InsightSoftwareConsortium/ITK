@@ -41,9 +41,7 @@ itkSymmetricSecondRankTensorImageReadTest(int argc, char * argv[])
 
   auto size = MatrixImageType::SizeType::Filled(10);
 
-  constexpr MatrixImageType::IndexType start{};
-
-  const MatrixImageType::RegionType region{ start, size };
+  const MatrixImageType::RegionType region{ size };
 
   matrixImage->SetRegions(region);
   matrixImage->Allocate();
@@ -85,7 +83,7 @@ itkSymmetricSecondRankTensorImageReadTest(int argc, char * argv[])
     const TensorImageType::ConstPointer tensorImage = itk::ReadImage<TensorImageType>(argv[1]);
 
     // Compare the read values to the original values
-    constexpr float tolerance = 1e-5;
+    constexpr float tolerance{ 1e-5 };
 
     itk::ImageRegionConstIterator<TensorImageType> tItr(tensorImage, region);
     itk::ImageRegionConstIterator<MatrixImageType> mItr(matrixImage, region);

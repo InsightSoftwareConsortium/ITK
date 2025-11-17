@@ -27,7 +27,7 @@ itkBinaryMagnitudeImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   // Declare the pixel types of the images
   using PixelType = float;
@@ -36,9 +36,6 @@ itkBinaryMagnitudeImageFilterTest(int, char *[])
   using InputImageType1 = itk::Image<PixelType, Dimension>;
   using InputImageType2 = itk::Image<PixelType, Dimension>;
   using OutputImageType = itk::Image<PixelType, Dimension>;
-
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<Dimension>;
 
   // Declare the type of the size
   using SizeType = itk::Size<Dimension>;
@@ -50,20 +47,9 @@ itkBinaryMagnitudeImageFilterTest(int, char *[])
   auto inputImageA = InputImageType1::New();
   auto inputImageB = InputImageType2::New();
 
-  // Define their size, and start index
-  SizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2;
-
-  IndexType start;
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  // Define their size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -82,7 +68,7 @@ itkBinaryMagnitudeImageFilterTest(int, char *[])
   InputImage1IteratorType it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
-  constexpr InputImageType1::PixelType input1Value = 3.0;
+  constexpr InputImageType1::PixelType input1Value{ 3.0 };
   while (!it1.IsAtEnd())
   {
     it1.Set(input1Value);
@@ -93,7 +79,7 @@ itkBinaryMagnitudeImageFilterTest(int, char *[])
   InputImage2IteratorType it2(inputImageB, inputImageB->GetBufferedRegion());
 
   // Initialize the content of Image B
-  constexpr InputImageType2::PixelType input2Value = 4.0;
+  constexpr InputImageType2::PixelType input2Value{ 4.0 };
   while (!it2.IsAtEnd())
   {
     it2.Set(input2Value);
@@ -101,7 +87,7 @@ itkBinaryMagnitudeImageFilterTest(int, char *[])
   }
 
   // Define the values of the output image
-  constexpr OutputImageType::PixelType outputValue = 5.0;
+  constexpr OutputImageType::PixelType outputValue{ 5.0 };
 
 
   // Declare the type for the BinaryMagnitudeImageFilter
@@ -127,7 +113,7 @@ itkBinaryMagnitudeImageFilterTest(int, char *[])
   OutputImageIteratorType oIt(outputImage, outputImage->GetBufferedRegion());
 
   // Check the content of the result image
-  constexpr float epsilon = 1e-6;
+  constexpr float epsilon{ 1e-6 };
   while (!oIt.IsAtEnd())
   {
     if (!itk::Math::FloatAlmostEqual(oIt.Get(), outputValue, 10, epsilon))

@@ -149,7 +149,7 @@ public:
     bool
     operator==(const ConstIterator & it) const
     {
-      return (this->m_Iter == it.m_Iter);
+      return this->m_Iter == it.m_Iter;
     }
 
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);
@@ -243,14 +243,14 @@ public:
   }
 
 protected:
-  VectorContainerToListSampleAdaptor();
+  VectorContainerToListSampleAdaptor() = default;
 
   ~VectorContainerToListSampleAdaptor() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  VectorContainerConstPointer m_VectorContainer{};
+  VectorContainerConstPointer m_VectorContainer{ nullptr };
 }; // end of class VectorContainerToListSampleAdaptor
 } // namespace itk::Statistics
 

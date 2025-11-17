@@ -110,7 +110,7 @@ isNoPreambleDicom(std::ifstream & file) // NOTE: Similar function is in itkGDCMI
       auto * uilength = reinterpret_cast<unsigned int *>(lengthChars);
       itk::ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(uilength);
 
-      length = (*uilength);
+      length = *uilength;
     }
     if (length <= 0)
     {

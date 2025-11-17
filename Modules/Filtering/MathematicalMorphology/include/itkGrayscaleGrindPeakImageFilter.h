@@ -113,7 +113,7 @@ public:
   itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
 
 protected:
-  GrayscaleGrindPeakImageFilter();
+  GrayscaleGrindPeakImageFilter() = default;
   ~GrayscaleGrindPeakImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

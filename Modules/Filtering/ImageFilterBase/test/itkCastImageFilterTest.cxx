@@ -211,7 +211,7 @@ TestCastFromTo()
       //         << outValue << " may not equal " << expectedValue
       //         << "  Casting out of range floating point values to integers is 'undefined' behavior."
       //         << std::flush << std::endl;
-      continue; // Simply skip the case where where the conversion is undefined.
+      continue; // Simply skip the case where the conversion is undefined.
     }
 
 

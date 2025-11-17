@@ -148,7 +148,7 @@ public:
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
 
 protected:
-  ScalarImageKmeansImageFilter();
+  ScalarImageKmeansImageFilter() = default;
   ~ScalarImageKmeansImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

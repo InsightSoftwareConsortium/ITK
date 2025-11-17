@@ -50,16 +50,16 @@ public:
   double
   f(const vnl_vector<double> & x) override
   {
-    double a = 10 * (x[1] - x[0] * x[0]);
-    double b = 1 - x[0];
+    const double a = 10 * (x[1] - x[0] * x[0]);
+    const double b = 1 - x[0];
     return a * a + b * b;
   }
 
   void
   gradf(const vnl_vector<double> & x, vnl_vector<double> & g) override
   {
-    double a = 10 * (x[1] - x[0] * x[0]);
-    double b = 1 - x[0];
+    const double a = 10 * (x[1] - x[0] * x[0]);
+    const double b = 1 - x[0];
     g[0] = 2 * a * (-20 * x[0]) - 2 * b;
     g[1] = 20 * a;
   }

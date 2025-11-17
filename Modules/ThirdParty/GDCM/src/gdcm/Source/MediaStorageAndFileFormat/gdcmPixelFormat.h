@@ -93,7 +93,7 @@ public:
     {
     gdcmAssertMacro( spp <= 4 );
     SamplesPerPixel = spp;
-    assert( SamplesPerPixel == 1 || SamplesPerPixel == 3 || SamplesPerPixel == 4 );
+    gdcm_assert( SamplesPerPixel == 1 || SamplesPerPixel == 3 || SamplesPerPixel == 4 );
     }
 
   /// BitsAllocated see Tag (0028,0100) US Bits Allocated
@@ -128,7 +128,7 @@ public:
   /// BitsStored see Tag (0028,0101) US Bits Stored
   unsigned short GetBitsStored() const
     {
-    assert( BitsStored <= BitsAllocated );
+    gdcm_assert( BitsStored <= BitsAllocated );
     return BitsStored;
     }
   void SetBitsStored(unsigned short bs)
@@ -151,7 +151,7 @@ public:
   /// HighBit see Tag (0028,0102) US High Bit
   unsigned short GetHighBit() const
     {
-    assert( HighBit < BitsStored );
+    gdcm_assert( HighBit < BitsStored );
     return HighBit;
     }
   void SetHighBit(unsigned short hb)
@@ -165,7 +165,9 @@ public:
       case 0x0ffe: hb = 11; break;
       case 0x00fe: hb =  7; break;
       }
-    if( hb < BitsStored )
+    if( BitsStored > 1 && hb == 0 )
+      HighBit = BitsStored - 1;
+    else if( hb < BitsStored )
       HighBit = hb;
     }
 

@@ -61,7 +61,7 @@ OpenCLGetAvailableDevices(cl_platform_id platform, cl_device_type devType, cl_ui
   errid = clGetDeviceIDs(platform, devType, totalNumDevices, totalDevices, nullptr);
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
-  (*numAvailableDevices) = 0;
+  *numAvailableDevices = 0;
 
   // check available devices
   for (cl_uint i = 0; i < totalNumDevices; ++i)
@@ -75,7 +75,7 @@ OpenCLGetAvailableDevices(cl_platform_id platform, cl_device_type devType, cl_ui
     }
   }
 
-  availableDevices = (cl_device_id *)malloc((*numAvailableDevices) * sizeof(cl_device_id));
+  availableDevices = (cl_device_id *)malloc(*numAvailableDevices * sizeof(cl_device_id));
 
   int idx = 0;
   for (cl_uint i = 0; i < totalNumDevices; ++i)
@@ -334,7 +334,7 @@ OpenCLCheckError(cl_int error, const char * filename, int lineno, const char * l
       "CL_INVALID_GLOBAL_WORK_SIZE",
     };
     // print error message
-    constexpr int      errorCount = std::size(errorString);
+    constexpr int      errorCount{ std::size(errorString) };
     const int          index = -error;
     std::ostringstream errorMsg;
 

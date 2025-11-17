@@ -255,8 +255,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
   {
     // Select a "slice" of the image.
     const Index<TInputImage::ImageDimension> inIndex = inputImage->ComputeIndex(offset);
-    inRegion.SetIndex(inIndex);
-    inRegion.SetSize(inSize);
+    inRegion = { inIndex, inSize };
 
     // Copy the selected "slice" into the output image.
     ImageAlgorithm::Copy(inputImage, outputImage.GetPointer(), inRegion, outRegion);
@@ -282,7 +281,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
                                                  << m_MetaDataDictionaryArray->size() << '.');
         }
         DictionaryRawPointer dictionary = (*m_MetaDataDictionaryArray)[slice];
-        m_ImageIO->SetMetaDataDictionary((*dictionary));
+        m_ImageIO->SetMetaDataDictionary(*dictionary);
       }
       else
       {

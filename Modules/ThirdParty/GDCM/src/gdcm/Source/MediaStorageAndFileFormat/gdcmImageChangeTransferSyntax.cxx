@@ -30,7 +30,7 @@ namespace gdcm
 bool ImageChangeTransferSyntax::TryRAWCodecIcon(const DataElement &pixelde)
 {
   unsigned long len = Input->GetIconImage().GetBufferLength();
-  //assert( len == pixelde.GetByteValue()->GetLength() );
+  //gdcm_assert( len == pixelde.GetByteValue()->GetLength() );
   const TransferSyntax &ts = GetTransferSyntax();
 
   RAWCodec codec;
@@ -71,7 +71,7 @@ void UpdatePhotometricInterpretation( Bitmap const &input, Bitmap &output )
     {
     output.SetPhotometricInterpretation( PhotometricInterpretation::YBR_FULL );
     }
-  assert( output.GetPhotometricInterpretation() == PhotometricInterpretation::RGB
+  gdcm_assert( output.GetPhotometricInterpretation() == PhotometricInterpretation::RGB
     || output.GetPhotometricInterpretation() == PhotometricInterpretation::YBR_FULL
     || output.GetPhotometricInterpretation() == PhotometricInterpretation::MONOCHROME1
     || output.GetPhotometricInterpretation() == PhotometricInterpretation::MONOCHROME2
@@ -82,7 +82,7 @@ void UpdatePhotometricInterpretation( Bitmap const &input, Bitmap &output )
 bool ImageChangeTransferSyntax::TryRAWCodec(const DataElement &pixelde, Bitmap const &input, Bitmap &output)
 {
   unsigned long len = input.GetBufferLength(); (void)len;
-  //assert( len == pixelde.GetByteValue()->GetLength() );
+  //gdcm_assert( len == pixelde.GetByteValue()->GetLength() );
   const TransferSyntax &ts = GetTransferSyntax();
 
   RAWCodec codec;
@@ -112,7 +112,7 @@ bool ImageChangeTransferSyntax::TryRAWCodec(const DataElement &pixelde, Bitmap c
 bool ImageChangeTransferSyntax::TryRLECodec(const DataElement &pixelde, Bitmap const &input, Bitmap &output)
 {
   unsigned long len = input.GetBufferLength(); (void)len;
-  //assert( len == pixelde.GetByteValue()->GetLength() );
+  //gdcm_assert( len == pixelde.GetByteValue()->GetLength() );
   const TransferSyntax &ts = GetTransferSyntax();
 
   RLECodec codec;
@@ -151,7 +151,7 @@ bool ImageChangeTransferSyntax::TryRLECodec(const DataElement &pixelde, Bitmap c
 bool ImageChangeTransferSyntax::TryJPEGCodec(const DataElement &pixelde, Bitmap const &input, Bitmap &output)
 {
   unsigned long len = input.GetBufferLength(); (void)len;
-  //assert( len == pixelde.GetByteValue()->GetLength() );
+  //gdcm_assert( len == pixelde.GetByteValue()->GetLength() );
   const TransferSyntax &ts = GetTransferSyntax();
 
   JPEGCodec jpgcodec;
@@ -160,7 +160,7 @@ bool ImageChangeTransferSyntax::TryJPEGCodec(const DataElement &pixelde, Bitmap 
   // that can be both lossy and lossless:
   if( ts.IsLossy() )
     {
-    //assert( !ts.IsLossless() ); // I cannot do since since Try* functions are called with all TS, I could be receiving a JPEGLS TS...
+    //gdcm_assert( !ts.IsLossless() ); // I cannot do since since Try* functions are called with all TS, I could be receiving a JPEGLS TS...
     jpgcodec.SetLossless( false );
     }
 
@@ -224,7 +224,7 @@ bool ImageChangeTransferSyntax::TryJPEGCodec(const DataElement &pixelde, Bitmap 
       // HACK
       //Image *i = (Image*)this;
       //i->SetPhotometricInterpretation( codec.GetPhotometricInterpretation() );
-      assert(0);
+      gdcm_assert(0);
       }
     return true;
     }
@@ -234,7 +234,7 @@ bool ImageChangeTransferSyntax::TryJPEGCodec(const DataElement &pixelde, Bitmap 
 bool ImageChangeTransferSyntax::TryJPEGLSCodec(const DataElement &pixelde, Bitmap const &input, Bitmap &output)
 {
   unsigned long len = input.GetBufferLength(); (void)len;
-  //assert( len == pixelde.GetByteValue()->GetLength() );
+  //gdcm_assert( len == pixelde.GetByteValue()->GetLength() );
   const TransferSyntax &ts = GetTransferSyntax();
 
   JPEGLSCodec jlscodec;
@@ -259,7 +259,7 @@ bool ImageChangeTransferSyntax::TryJPEGLSCodec(const DataElement &pixelde, Bitma
     if( input.AreOverlaysInPixelData() || input.UnusedBitsPresentInPixelData() )
       {
       ByteValue *bv = const_cast<ByteValue*>(pixelde.GetByteValue());
-      assert( bv );
+      gdcm_assert( bv );
       gdcm::DataElement tmp;
       tmp.SetByteValue( bv->GetPointer(), bv->GetLength());
       bv = const_cast<ByteValue*>(tmp.GetByteValue());
@@ -294,7 +294,7 @@ bool ImageChangeTransferSyntax::TryJPEGLSCodec(const DataElement &pixelde, Bitma
 bool ImageChangeTransferSyntax::TryJPEG2000Codec(const DataElement &pixelde, Bitmap const &input, Bitmap &output)
 {
   unsigned long len = input.GetBufferLength(); (void)len;
-  //assert( len == pixelde.GetByteValue()->GetLength() );
+  //gdcm_assert( len == pixelde.GetByteValue()->GetLength() );
   const TransferSyntax &ts = GetTransferSyntax();
 
   JPEG2000Codec j2kcodec;
@@ -332,13 +332,13 @@ bool ImageChangeTransferSyntax::TryJPEG2000Codec(const DataElement &pixelde, Bit
           }
         else
           {
-          assert( ts == TransferSyntax::JPEG2000 );
+          gdcm_assert( ts == TransferSyntax::JPEG2000 );
           output.SetPhotometricInterpretation( PhotometricInterpretation::YBR_ICT );
           }
         }
       else
         {
-        assert( input.GetPhotometricInterpretation().IsSameColorSpace( PhotometricInterpretation::YBR_FULL ) );
+        gdcm_assert( input.GetPhotometricInterpretation().IsSameColorSpace( PhotometricInterpretation::YBR_FULL ) );
         if( ts == TransferSyntax::JPEG2000Lossless )
           {
           output.SetPhotometricInterpretation( PhotometricInterpretation::YBR_FULL );
@@ -348,7 +348,7 @@ bool ImageChangeTransferSyntax::TryJPEG2000Codec(const DataElement &pixelde, Bit
           }
         else
           {
-          assert( ts == TransferSyntax::JPEG2000 );
+          gdcm_assert( ts == TransferSyntax::JPEG2000 );
           //output.SetPhotometricInterpretation( PhotometricInterpretation::YBR_ICT );
           // FIXME: technically when doing lossy we could be standard compliant and first convert to
           // RGB THEN compress to YBR_ICT. For now produce improper j2k image
@@ -358,7 +358,7 @@ bool ImageChangeTransferSyntax::TryJPEG2000Codec(const DataElement &pixelde, Bit
       }
     else
       {
-      assert( input.GetPixelFormat().GetSamplesPerPixel() == 1 );
+      gdcm_assert( input.GetPixelFormat().GetSamplesPerPixel() == 1 );
       }
 
     if( !r ) return false;
@@ -435,7 +435,7 @@ bool ImageChangeTransferSyntax::Change()
     Output->SetTransferSyntax( TS );
     if( !success )
       {
-      //assert(0);
+      //gdcm_assert(0);
       return false;
       }
 
@@ -446,7 +446,7 @@ bool ImageChangeTransferSyntax::Change()
       {
       Bitmap &outbitmap = *Output;
       Pixmap *outpixmap = dynamic_cast<Pixmap*>( &outbitmap );
-      assert( outpixmap != nullptr );
+      gdcm_assert( outpixmap != nullptr );
       if( !pixmap->GetIconImage().IsEmpty() )
         {
         // same goes for icon
@@ -469,16 +469,16 @@ bool ImageChangeTransferSyntax::Change()
         outpixmap->GetIconImage().SetTransferSyntax( TS );
         if( !success )
           {
-          //assert(0);
+          //gdcm_assert(0);
           return false;
           }
-        assert( outpixmap->GetIconImage().GetTransferSyntax() == TS );
+        gdcm_assert( outpixmap->GetIconImage().GetTransferSyntax() == TS );
         }
       }
 
     //Output->ComputeLossyFlag();
-    assert( Output->GetTransferSyntax() == TS );
-    //if( TS.IsLossy() ) assert( Output->IsLossy() );
+    gdcm_assert( Output->GetTransferSyntax() == TS );
+    //if( TS.IsLossy() ) gdcm_assert( Output->IsLossy() );
     return success;
     }
 
@@ -492,7 +492,7 @@ bool ImageChangeTransferSyntax::Change()
   Output->SetTransferSyntax( TS );
   if( !success )
     {
-    //assert(0);
+    //gdcm_assert(0);
     return false;
     }
 
@@ -514,16 +514,16 @@ bool ImageChangeTransferSyntax::Change()
       outpixmap->GetIconImage().SetTransferSyntax( TS );
       if( !success )
         {
-        //assert(0);
+        //gdcm_assert(0);
         return false;
         }
-      assert( outpixmap->GetIconImage().GetTransferSyntax() == TS );
+      gdcm_assert( outpixmap->GetIconImage().GetTransferSyntax() == TS );
       }
     }
 
   //Output->ComputeLossyFlag();
 
-  assert( Output->GetTransferSyntax() == TS );
+  gdcm_assert( Output->GetTransferSyntax() == TS );
   return success;
 }
 

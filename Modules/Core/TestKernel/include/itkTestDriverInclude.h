@@ -52,7 +52,7 @@
 #include "itkIntTypes.h"
 #include "itkWin32Header.h"
 
-constexpr int ITK_TEST_DIMENSION_MAX = 6;
+constexpr int ITK_TEST_DIMENSION_MAX{ 6 };
 
 extern int
 RegressionTestImage(const char *       testImageFilename,

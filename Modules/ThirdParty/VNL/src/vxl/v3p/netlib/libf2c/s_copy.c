@@ -12,9 +12,9 @@ extern "C" {
 /* assign strings:  a = b */
 
 #ifdef KR_headers
-int s_copy(a, b, la, lb) char *a, *b; ftnlen la, lb;
+VOID s_copy(a, b, la, lb) register char *a, *b; ftnlen la, lb;
 #else
-int s_copy(char *a, char *b, ftnlen la, ftnlen lb)
+void s_copy(char *a, char *b, ftnlen la, ftnlen lb)
 #endif
 {
         register char *aend, *bend;
@@ -51,7 +51,6 @@ int s_copy(char *a, char *b, ftnlen la, ftnlen lb)
                 while(a < aend)
                         *a++ = ' ';
                 }
-        return 0;
         }
 #ifdef __cplusplus
 }

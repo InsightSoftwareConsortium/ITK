@@ -192,7 +192,9 @@ itkFEMLoadBCMFCTestUser(int, char *[])
 
   itk::fem::LoadBCMFC::Pointer bcmfc = itk::fem::LoadBCMFC::New();
   bcmfc->SetGlobalNumber(5);
+  // spell-check-disable
   //  itk::fem::LoadBCMFC bcmfc;
+  // spell-check-enable
   bcmfc->AddLeftHandSideTerm(itk::fem::LoadBCMFC::MFCTerm(femObject->GetElement(0).GetPointer(), 1, 1));
   bcmfc->AddLeftHandSideTerm(itk::fem::LoadBCMFC::MFCTerm(femObject->GetElement(1).GetPointer(), 3, -1));
   bcmfc->AddRightHandSideTerm(0.0);

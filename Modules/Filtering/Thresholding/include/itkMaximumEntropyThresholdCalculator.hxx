@@ -45,7 +45,7 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   typename HistogramType::InstanceIdentifier threshold = 0;
 
-  constexpr double tolerance = itk::NumericTraits<double>::epsilon();
+  constexpr double tolerance{ itk::NumericTraits<double>::epsilon() };
   const int        total = histogram->GetTotalFrequency();
 
   std::vector<double> norm_histo(size); // normalized histogram
@@ -114,7 +114,7 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
     const double tot_ent = ent_back + ent_obj; // total entropy
     // IJ.log(""+max_ent+"  "+tot_ent);
 
-    constexpr double tol = 0.00001;
+    constexpr double tol{ 0.00001 };
 
     if (max_ent < (tot_ent - tol))
     {

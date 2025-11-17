@@ -36,12 +36,11 @@ itkMeanSquaresImageToImageMetricv4SpeedTest(int argc, char * argv[])
 
   std::cout << "image dim: " << imageSize << ", reps: " << numberOfReps << std::endl;
 
-  constexpr unsigned int imageDimensionality = 3;
+  constexpr unsigned int imageDimensionality{ 3 };
   using ImageType = itk::Image<double, imageDimensionality>;
 
-  auto                           size = ImageType::SizeType::Filled(imageSize);
-  constexpr ImageType::IndexType index{};
-  const ImageType::RegionType    region{ index, size };
+  auto                        size = ImageType::SizeType::Filled(imageSize);
+  const ImageType::RegionType region{ size };
 
   /* Create simple test images. */
   auto fixedImage = ImageType::New();

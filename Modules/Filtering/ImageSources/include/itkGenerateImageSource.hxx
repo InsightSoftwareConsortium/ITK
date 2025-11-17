@@ -69,9 +69,7 @@ GenerateImageSource<TOutputImage>::GenerateOutputInformation()
     }
     else
     {
-      typename TOutputImage::RegionType outputLargestPossibleRegion;
-      outputLargestPossibleRegion.SetSize(m_Size);
-      outputLargestPossibleRegion.SetIndex(m_StartIndex);
+      typename TOutputImage::RegionType outputLargestPossibleRegion{ m_StartIndex, m_Size };
       outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 
       outputPtr->SetSpacing(m_Spacing);

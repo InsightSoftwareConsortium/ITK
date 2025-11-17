@@ -22,11 +22,6 @@
 namespace itk
 {
 template <typename TImage>
-LevelSetDomainPartitionImageWithKdTree<TImage>::LevelSetDomainPartitionImageWithKdTree()
-  : m_KdTree(nullptr)
-{}
-
-template <typename TImage>
 void
 LevelSetDomainPartitionImageWithKdTree<TImage>::PopulateListDomain()
 {

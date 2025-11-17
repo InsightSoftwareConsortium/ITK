@@ -733,10 +733,11 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedAlloc
   m_Data[ThreadId].m_Semaphore[0] = 0;
   m_Data[ThreadId].m_Semaphore[1] = 0;
 
-  const std::size_t bufferLayerSize = 2 * m_NumberOfLayers + 1;
+  using LayerSizeType = unsigned int; // needs to hold 2 * std::numeric_limits<LayerCountType>::max + 1
+  const LayerSizeType bufferLayerSize = 2 * m_NumberOfLayers + 1;
   // Allocate the layers for the sparse field.
   m_Data[ThreadId].m_Layers.reserve(bufferLayerSize);
-  for (unsigned int i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
+  for (LayerSizeType i = 0; i < bufferLayerSize; ++i)
   {
     m_Data[ThreadId].m_Layers.push_back(LayerType::New());
   }
@@ -749,7 +750,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedAlloc
   // Layers used as buffers for transferring pixels during load balancing
 
   m_Data[ThreadId].m_LoadTransferBufferLayers = new LayerListType[bufferLayerSize];
-  for (unsigned int i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
+  for (LayerSizeType i = 0; i < bufferLayerSize; ++i)
   {
     m_Data[ThreadId].m_LoadTransferBufferLayers[i].reserve(m_NumOfWorkUnits);
 
@@ -785,15 +786,16 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedAlloc
   // for the Downlists
   m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[1] = new LayerPointerType *[m_NumberOfLayers + 1];
 
-  for (unsigned int i = 0; i < static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
+  const LayerSizeType one_plus_number_of_layers = m_NumberOfLayers + 1;
+  for (LayerSizeType i = 0; i < one_plus_number_of_layers; ++i)
   {
     m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[0][i] = new LayerPointerType[m_NumOfWorkUnits];
     m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[1][i] = new LayerPointerType[m_NumOfWorkUnits];
   }
 
-  for (unsigned int i = 0; i < static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
+  for (LayerSizeType i = 0; i < one_plus_number_of_layers; ++i)
   {
-    for (unsigned int j = 0; j < m_NumOfWorkUnits; ++j)
+    for (LayerSizeType j = 0; j < m_NumOfWorkUnits; ++j)
     {
       m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[0][i][j] = LayerType::New();
       m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[1][i][j] = LayerType::New();
@@ -1030,7 +1032,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Iterate()
 
   // Controls how often we check for balance of the load among the threads and
   // perform load balancing (if needed) by redistributing the load.
-  constexpr unsigned int LOAD_BALANCE_ITERATION_FREQUENCY = 30;
+  constexpr unsigned int LOAD_BALANCE_ITERATION_FREQUENCY{ 30 };
 
   if (!this->m_IsInitialized)
   {
@@ -2035,7 +2037,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CheckLoadBala
 {
   // This parameter defines a degree of unbalancedness of the load among
   // threads.
-  constexpr float MAX_PIXEL_DIFFERENCE_PERCENT = 0.025;
+  constexpr float MAX_PIXEL_DIFFERENCE_PERCENT{ 0.025 };
 
   m_BoundaryChanged = false;
 
@@ -2328,7 +2330,7 @@ template <typename TInputImage, typename TOutputImage>
 unsigned int
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::GetThreadNumber(unsigned int splitAxisValue)
 {
-  return (m_MapZToThreadNumber[splitAxisValue]);
+  return m_MapZToThreadNumber[splitAxisValue];
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -2403,7 +2405,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::WaitForNeighb
   if (td.m_Semaphore[SemaphoreArrayNumber] == 0)
   {
     td.m_Condition[SemaphoreArrayNumber].wait(
-      mutexHolder, [&td, SemaphoreArrayNumber] { return (td.m_Semaphore[SemaphoreArrayNumber] != 0); });
+      mutexHolder, [&td, SemaphoreArrayNumber] { return td.m_Semaphore[SemaphoreArrayNumber] != 0; });
   }
   --td.m_Semaphore[SemaphoreArrayNumber];
 }

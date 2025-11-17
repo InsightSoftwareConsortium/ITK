@@ -27,7 +27,7 @@ itkImageToImageToleranceTest(int, char *[])
   auto image1 = ImageType::New();
   auto image2 = ImageType::New();
 
-  constexpr ImageType::SizeType size = { { 3, 3, 3 } };
+  constexpr ImageType::SizeType size{ 3, 3, 3 };
   image1->SetRegions(size);
   image1->Allocate();
   image1->FillBuffer(1);

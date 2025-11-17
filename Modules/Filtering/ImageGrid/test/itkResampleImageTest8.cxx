@@ -118,8 +118,8 @@ int
 itkResampleImageTest8(int, char *[])
 {
 
-  constexpr unsigned int InputImageDimensions = 2;
-  constexpr unsigned int OutputImageDimensions = 3;
+  constexpr unsigned int InputImageDimensions{ 2 };
+  constexpr unsigned int OutputImageDimensions{ 3 };
 
   using PixelType = float;
 
@@ -143,7 +143,7 @@ itkResampleImageTest8(int, char *[])
   // Create and configure an image
   const InputImagePointerType  inputImage = InputImageType::New();
   InputImageIndexType          inputIndex = { { 0, 0 } };
-  constexpr InputImageSizeType inputSize = { { 18, 12 } };
+  constexpr InputImageSizeType inputSize{ 18, 12 };
   const InputImageRegionType   inputRegion{ inputIndex, inputSize };
   inputImage->SetLargestPossibleRegion(inputRegion);
   inputImage->SetBufferedRegion(inputRegion);
@@ -163,7 +163,7 @@ itkResampleImageTest8(int, char *[])
 
   // OutputImagePointerType outputImage = OutputImageType::New();
   OutputImageIndexType          outputIndex = { { 0, 0, 0 } };
-  constexpr OutputImageSizeType outputSize = { { 18, 12, 5 } };
+  constexpr OutputImageSizeType outputSize{ 18, 12, 5 };
 
   // Create a linear interpolation image function
   auto interp = InterpolatorType::New();
@@ -198,7 +198,7 @@ itkResampleImageTest8(int, char *[])
   // Check if desired results were obtained
   bool                              passed = true;
   const OutputImageType::RegionType region2 = resample->GetOutput()->GetRequestedRegion();
-  constexpr double                  tolerance = 1e-30;
+  constexpr double                  tolerance{ 1e-30 };
   for (itk::ImageRegionIteratorWithIndex<OutputImageType> iter2(resample->GetOutput(), region2); !iter2.IsAtEnd();
        ++iter2)
   {

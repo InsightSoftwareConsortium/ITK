@@ -49,10 +49,10 @@
 
 #include "itkIOTestHelper.h"
 
-constexpr unsigned char RPI = 16;      /*Bit pattern 0 0 0  10000*/
-constexpr unsigned char LEFT = 128;    /*Bit pattern 1 0 0  00000*/
-constexpr unsigned char ANTERIOR = 64; /*Bit pattern 0 1 0  00000*/
-constexpr unsigned char SUPERIOR = 32; /*Bit pattern 0 0 1  00000*/
+constexpr unsigned char RPI{ 16 };      /*Bit pattern 0 0 0  10000*/
+constexpr unsigned char LEFT{ 128 };    /*Bit pattern 1 0 0  00000*/
+constexpr unsigned char ANTERIOR{ 64 }; /*Bit pattern 0 1 0  00000*/
+constexpr unsigned char SUPERIOR{ 32 }; /*Bit pattern 0 0 1  00000*/
 
 // Specializations of this function template are only implemented for 1D to 4D (defined in the cxx file).
 template <unsigned int TDimension>
@@ -250,7 +250,7 @@ int
 TestImageOfSymMats(const std::string & fname)
 {
 
-  constexpr int dimsize = 2;
+  constexpr int dimsize{ 2 };
   /** Deformation field pixel type. */
   //  using PixelType = typename itk::DiffusionTenor3D<ScalarType>;
 
@@ -468,21 +468,11 @@ RGBTest(int argc, char * argv[])
   }
 
   using RGBImageType = typename itk::Image<RGBPixelType, 3>;
-  typename RGBImageType::SizeType    size;
-  typename RGBImageType::IndexType   index;
-  typename RGBImageType::SpacingType spacing;
-  typename RGBImageType::PointType   origin;
+  constexpr typename RGBImageType::SizeType  size{ 5, 5, 5 };
+  constexpr typename RGBImageType::IndexType index{};
+  typename RGBImageType::RegionType          imageRegion{ index, size };
+  typename RGBImageType::SpacingType         spacing{ { 1., 1., 1. } };
 
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    size[i] = 5;
-    index[i] = 0;
-    spacing[i] = 1.0;
-    origin[i] = 0;
-  }
-  typename RGBImageType::RegionType imageRegion;
-  imageRegion.SetSize(size);
-  imageRegion.SetIndex(index);
   const typename RGBImageType::Pointer im =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<RGBImageType>(imageRegion, spacing);
   vnl_random                             randgen(12345678);

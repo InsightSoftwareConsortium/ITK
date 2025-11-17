@@ -92,7 +92,7 @@ public:
   itkBooleanMacro(ReverseOrdering);
   /** @ITKEndGrouping */
 protected:
-  AttributeRelabelLabelMapFilter();
+  AttributeRelabelLabelMapFilter() = default;
   ~AttributeRelabelLabelMapFilter() override = default;
 
   void

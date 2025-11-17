@@ -439,12 +439,13 @@ public:
   }
 
 private:
-  void
-  ExceptionThrowingBoundsCheck(size_type pos) const
+  static void
+  ExceptionThrowingBoundsCheck(size_type pos)
   {
     if (pos >= VDimension)
     {
-      throw std::out_of_range("array::ExceptionThrowingBoundsCheck");
+      throw std::out_of_range("Out of range: `itk::Offset::at` argument `pos` (which is " + std::to_string(pos) +
+                              ") should be less than `Dimension` (which is " + std::to_string(VDimension) + ")!");
     }
   }
 

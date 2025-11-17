@@ -22,11 +22,6 @@
 namespace itk
 {
 template <typename TInputImage, typename TFeatureImage>
-RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>::RegionBasedLevelSetFunctionData()
-  : m_HeavisideFunctionOfLevelSetImage(nullptr)
-{}
-
-template <typename TInputImage, typename TFeatureImage>
 void
 RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>::CreateHeavisideFunctionOfLevelSetImage(
   const InputImageType * image)

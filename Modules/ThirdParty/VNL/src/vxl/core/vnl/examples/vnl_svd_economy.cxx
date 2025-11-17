@@ -41,14 +41,14 @@ main()
 
     vul_timer timer;
     for (int i = 0; i < 1000; ++i)
-      vnl_svd<double> svd(N);
+      const vnl_svd<double> svd(N);
 
-    int t1 = timer.user();
+    const int t1 = timer.user();
     timer.mark();
     for (int i = 0; i < 1000; ++i)
-      vnl_svd_economy<double> svd_e(N);
+      const vnl_svd_economy<double> svd_e(N);
 
-    int t2 = timer.user();
+    const int t2 = timer.user();
 
     std::cerr << "time for 1000*svd(1000x10) : vnl_svd = " << t1 << " msec, "
               << "vnl_svd_economy = " << t2 << " msec.\n";

@@ -35,7 +35,7 @@
 int
 itkPointSetToPointSetRegistrationTest(int, char *[])
 {
-  constexpr unsigned int PointSetDimension = 2;
+  constexpr unsigned int PointSetDimension{ 2 };
 
   using PointSetPointType = float;
 
@@ -43,7 +43,7 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
   using FixedPointSetType = itk::PointSet<PointSetPointType, PointSetDimension>;
   auto fixedPointSet = FixedPointSetType::New();
 
-  constexpr unsigned int numberOfPoints = 500;
+  constexpr unsigned int numberOfPoints{ 500 };
 
   fixedPointSet->SetPointData(FixedPointSetType::PointDataContainer::New());
 
@@ -117,10 +117,10 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
   OptimizerType::ScalesType scales(transform->GetNumberOfParameters());
   scales.Fill(1.0);
 
-  constexpr unsigned long numberOfIterations = 100;
-  constexpr double        gradientTolerance = 1e-1; // convergence criterion
-  constexpr double        valueTolerance = 1e-1;    // convergence criterion
-  constexpr double        epsilonFunction = 1e-9;   // convergence criterion
+  constexpr unsigned long numberOfIterations{ 100 };
+  constexpr double        gradientTolerance{ 1e-1 }; // convergence criterion
+  constexpr double        valueTolerance{ 1e-1 };    // convergence criterion
+  constexpr double        epsilonFunction{ 1e-9 };   // convergence criterion
 
   optimizer->SetScales(scales);
   optimizer->SetNumberOfIterations(numberOfIterations);
@@ -183,7 +183,7 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
   // Test with the Danielsson distance map.
   //
 
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
 
   using BinaryImageType = itk::Image<unsigned char, ImageDimension>;
   using ImageType = itk::Image<unsigned short, ImageDimension>;

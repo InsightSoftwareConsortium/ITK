@@ -29,10 +29,10 @@ itkIsolatedConnectedImageFilterTest(int argc, char * argv[])
   if (argc < 8)
   {
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " InputImage OutputImage FindUpper seed1_x seed1_y seed2_x seed2_y [seed1_x2 seed1_y2"
-                 " seed2_x2 seed2_y2]"
-              << std::endl;
+    std::cerr
+      << "Usage: " << itkNameOfTestExecutableMacro(argv)
+      << " InputImage OutputImage FindUpper seed1_x seed1_y seed2_x seed2_y [seed1_x2 seed1_y2 seed2_x2 seed2_y2]"
+      << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -76,24 +76,24 @@ itkIsolatedConnectedImageFilterTest(int argc, char * argv[])
   }
 
   // The min and max values for a .png image
-  constexpr FilterType::InputImagePixelType lower = 0;
+  constexpr FilterType::InputImagePixelType lower{ 0 };
   filter->SetLower(lower);
   ITK_TEST_SET_GET_VALUE(lower, filter->GetLower());
 
 #if !defined(ITK_LEGACY_REMOVE)
-  constexpr FilterType::InputImagePixelType upperValueLimit = 255;
+  constexpr FilterType::InputImagePixelType upperValueLimit{ 255 };
   filter->SetUpperValueLimit(upperValueLimit);
   ITK_TEST_SET_GET_VALUE(upperValueLimit, filter->GetUpperValueLimit());
 #endif
-  constexpr FilterType::InputImagePixelType upper = 255;
+  constexpr FilterType::InputImagePixelType upper{ 255 };
   filter->SetUpper(upper);
   ITK_TEST_SET_GET_VALUE(upper, filter->GetUpper());
 
-  constexpr FilterType::OutputImagePixelType replaceValue = 255;
+  constexpr FilterType::OutputImagePixelType replaceValue{ 255 };
   filter->SetReplaceValue(replaceValue);
   ITK_TEST_SET_GET_VALUE(replaceValue, filter->GetReplaceValue());
 
-  constexpr FilterType::InputImagePixelType isolatedValueTolerance = 1;
+  constexpr FilterType::InputImagePixelType isolatedValueTolerance{ 1 };
   filter->SetIsolatedValueTolerance(isolatedValueTolerance);
   ITK_TEST_SET_GET_VALUE(isolatedValueTolerance, filter->GetIsolatedValueTolerance());
 

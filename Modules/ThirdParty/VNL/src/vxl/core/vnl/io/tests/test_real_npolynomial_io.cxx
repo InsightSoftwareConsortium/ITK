@@ -31,7 +31,7 @@ test_real_npolynomial_io()
   exponents(2, 1) = 7;
   exponents(3, 1) = 8;
 
-  vnl_vector<double> coeffs2 = coeffs * 2.0;
+  const vnl_vector<double> coeffs2 = coeffs * 2.0;
 
   // vsl_print_summary(std::cout, coeffs);
 

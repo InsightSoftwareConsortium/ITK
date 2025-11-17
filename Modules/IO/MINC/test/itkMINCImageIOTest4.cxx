@@ -157,7 +157,7 @@ itkMINCImageIOTest4(int argc, char * argv[])
     }
   }
 
-  constexpr double epsilon = 1e-3;
+  constexpr double epsilon{ 1e-3 };
 
   try
   {

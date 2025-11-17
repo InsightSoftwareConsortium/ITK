@@ -22,9 +22,6 @@
 namespace itk
 {
 template <typename TInputPix, typename TCompare>
-AnchorErodeDilateLine<TInputPix, TCompare>::AnchorErodeDilateLine() = default;
-
-template <typename TInputPix, typename TCompare>
 void
 AnchorErodeDilateLine<TInputPix, TCompare>::DoLine(std::vector<TInputPix> & buffer,
                                                    std::vector<TInputPix> & inbuffer,
@@ -185,7 +182,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::StartLine(std::vector<TInputPix> & b
   if (sentinel > inRightP)
   {
     // finish
-    return (false);
+    return false;
   }
   ++outLeftP;
   buffer[outLeftP] = Extreme;
@@ -200,7 +197,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::StartLine(std::vector<TInputPix> & b
       ++outLeftP;
       buffer[outLeftP] = Extreme;
       inLeftP = currentP;
-      return (true);
+      return true;
     }
     ++currentP;
     ++outLeftP;
@@ -216,7 +213,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::StartLine(std::vector<TInputPix> & b
     ++outLeftP;
     buffer[outLeftP] = Extreme;
     inLeftP = currentP;
-    return (true);
+    return true;
   }
 
   // Now we need a histogram
@@ -240,7 +237,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::StartLine(std::vector<TInputPix> & b
       ++outLeftP;
       buffer[outLeftP] = Extreme;
       inLeftP = currentP;
-      return (true);
+      return true;
     }
 
     // update histogram
@@ -252,7 +249,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::StartLine(std::vector<TInputPix> & b
     ++outLeftP;
     buffer[outLeftP] = Extreme;
   }
-  return (false);
+  return false;
 }
 
 template <typename TInputPix, typename TCompare>

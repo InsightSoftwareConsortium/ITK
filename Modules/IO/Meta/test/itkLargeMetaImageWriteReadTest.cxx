@@ -53,11 +53,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
 
     image->SetRegions(region);
 
-    size_t numberOfPixels = 1;
-    for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
-    {
-      numberOfPixels *= region.GetSize(i);
-    }
+    const size_t numberOfPixels = size.CalculateProductOfElements();
 
     const size_t sizeInMebiBytes = sizeof(PixelType) * numberOfPixels / (1024 * 1024);
 
@@ -155,9 +151,7 @@ itkLargeMetaImageWriteReadTest(int argc, char * argv[])
   if (argc < 3)
   {
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " outputFileName numberOfPixelsInOneDimension "
-                 "[numberOfZslices]"
-              << std::endl;
+              << " outputFileName numberOfPixelsInOneDimension [numberOfZslices]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -165,7 +159,7 @@ itkLargeMetaImageWriteReadTest(int argc, char * argv[])
 
   if (argc == 3)
   {
-    constexpr unsigned int Dimension = 2;
+    constexpr unsigned int Dimension{ 2 };
 
     using PixelType = unsigned short;
     using ImageType = itk::Image<PixelType, Dimension>;
@@ -175,7 +169,7 @@ itkLargeMetaImageWriteReadTest(int argc, char * argv[])
     return ActualTest<ImageType>(filename, size);
   }
 
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   using PixelType = unsigned short;
   using ImageType = itk::Image<PixelType, Dimension>;

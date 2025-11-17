@@ -99,7 +99,7 @@ public:
 
   /** The ReinitializeLevelSet filter is used to evaluate the distance from
       every pixel to the border of the binary mask. It uses internally a
-      FastMarching filter for propagating a from from the edges of the binary
+      FastMarching filter for propagating a from the edges of the binary
       mask.  */
   using DistanceFilterType = ReinitializeLevelSetImageFilter<RealImageType>;
   using DistanceFilterPointer = typename DistanceFilterType::Pointer;

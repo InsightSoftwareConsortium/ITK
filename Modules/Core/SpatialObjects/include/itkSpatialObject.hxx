@@ -123,7 +123,7 @@ SpatialObject<TDimension>::DerivativeAtInObjectSpace(const PointType &          
       DerivativeAtInObjectSpace(p1, order - 1, v1, depth, name, offsetDiv2);
       DerivativeAtInObjectSpace(p2, order - 1, v2, depth, name, offsetDiv2);
 
-      (*it) = ((*it_v2) - (*it_v1)) / 2;
+      *it = (*it_v2 - *it_v1) / 2;
     }
   }
 }

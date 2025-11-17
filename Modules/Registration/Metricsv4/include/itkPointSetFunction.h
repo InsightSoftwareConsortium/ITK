@@ -110,13 +110,13 @@ public:
   Evaluate(const InputPointType & point) const override = 0;
 
 protected:
-  PointSetFunction();
+  PointSetFunction() = default;
   ~PointSetFunction() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Const pointer to the input image. */
-  InputPointSetConstPointer m_PointSet{};
+  InputPointSetConstPointer m_PointSet{ nullptr };
 };
 
 } // end namespace itk

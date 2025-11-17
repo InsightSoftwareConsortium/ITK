@@ -52,15 +52,18 @@ set(_Eigen3_min_version 3.3)
 
 if(ITK_USE_SYSTEM_EIGEN)
   set(_Eigen3_SYSTEM_OR_INTERNAL "Eigen3")
-  find_package(${_Eigen3_SYSTEM_OR_INTERNAL} ${_Eigen3_min_version} REQUIRED CONFIG)
+  find_package(${_Eigen3_SYSTEM_OR_INTERNAL} REQUIRED CONFIG)
   set(Eigen3_DIR_INSTALL ${Eigen3_DIR})
   set(Eigen3_DIR_BUILD ${Eigen3_DIR})
 else()
   set(_Eigen3_SYSTEM_OR_INTERNAL "ITKInternalEigen3")
-  find_package(${_Eigen3_SYSTEM_OR_INTERNAL} ${_Eigen3_min_version} REQUIRED CONFIG)
+  find_package(${_Eigen3_SYSTEM_OR_INTERNAL} REQUIRED CONFIG)
   set(Eigen3_DIR_INSTALL "\${ITK_MODULES_DIR}")
   set(_eigen3_build_dir "${ITK_BINARY_DIR}/ITKInternalEigen3-build")
   set(Eigen3_DIR_BUILD "${_eigen3_build_dir}")
+endif()
+if(${_Eigen3_SYSTEM_OR_INTERNAL}_VERSION VERSION_LESS ${_Eigen3_min_version})
+  message(FATAL_ERROR "Eigen3 version ${_Eigen3_min_version} or later is required.")
 endif()
 
 # Eigen3 is header only, but there are compile definitions that we want to provide
@@ -77,12 +80,18 @@ set(ITKEigen3_INCLUDE_DIRS
 set(ITKEigen3_EXPORT_CODE_INSTALL "
 set(ITK_USE_SYSTEM_EIGEN \"${ITK_USE_SYSTEM_EIGEN}\")
 set(${_Eigen3_SYSTEM_OR_INTERNAL}_DIR \"${Eigen3_DIR_INSTALL}\")
-find_package(${_Eigen3_SYSTEM_OR_INTERNAL} ${_Eigen3_min_version} REQUIRED CONFIG)
+find_package(${_Eigen3_SYSTEM_OR_INTERNAL} REQUIRED CONFIG)
+if(${_Eigen3_SYSTEM_OR_INTERNAL}_VERSION VERSION_LESS ${_Eigen3_min_version})
+  message(FATAL_ERROR \"Eigen3 version ${_Eigen3_min_version} or later is required.\")
+endif()
 ")
 set(ITKEigen3_EXPORT_CODE_BUILD "
 set(ITK_USE_SYSTEM_EIGEN \"${ITK_USE_SYSTEM_EIGEN}\")
 set(${_Eigen3_SYSTEM_OR_INTERNAL}_DIR \"${Eigen3_DIR_BUILD}\")
-find_package(${_Eigen3_SYSTEM_OR_INTERNAL} ${_Eigen3_min_version} REQUIRED CONFIG)
+find_package(${_Eigen3_SYSTEM_OR_INTERNAL} REQUIRED CONFIG)
+if(${_Eigen3_SYSTEM_OR_INTERNAL}_VERSION VERSION_LESS ${_Eigen3_min_version})
+  message(FATAL_ERROR \"Eigen3 version ${_Eigen3_min_version} or later is required.\")
+endif()
 ")
 
 # Eigen3 targets are not installed if ITK_USE_SYSTEM_EIGEN==True

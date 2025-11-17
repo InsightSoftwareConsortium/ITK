@@ -41,7 +41,7 @@ public:
     {
     delete TheRegion;
     TheRegion = r.Clone();
-    assert( TheRegion );
+    gdcm_assert( TheRegion );
     Modified = true;
     }
   Region *GetRegion() const
@@ -144,7 +144,7 @@ bool ImageRegionReader::ReadInformation()
     return false;
     }
   std::streampos fileoffset = GetStreamPtr()->tellg();
-  assert( fileoffset != std::streampos(-1) );
+  gdcm_assert( fileoffset != std::streampos(-1) );
   Internals->SetFileOffset( fileoffset );
 
   const File &file = GetFile();
@@ -153,7 +153,7 @@ bool ImageRegionReader::ReadInformation()
 
   MediaStorage ms;
   ms.SetFromFile(file);
-  assert( ms != MediaStorage::VLWholeSlideMicroscopyImageStorage );
+  gdcm_assert( ms != MediaStorage::VLWholeSlideMicroscopyImageStorage );
   if( !MediaStorage::IsImage( ms ) )
     {
     gdcmDebugMacro( "Not an image recognized. Giving up");
@@ -173,7 +173,7 @@ bool ImageRegionReader::ReadInformation()
   // FIXME: Only SC is allowed not to have spacing:
   if( !spacing.empty() )
     {
-    assert( spacing.size() >= pixeldata.GetNumberOfDimensions() ); // In MR, you can have a Z spacing, but store a 2D image
+    gdcm_assert( spacing.size() >= pixeldata.GetNumberOfDimensions() ); // In MR, you can have a Z spacing, but store a 2D image
     pixeldata.SetSpacing( spacing.data() );
     if( spacing.size() > pixeldata.GetNumberOfDimensions() ) // FIXME HACK
       {
@@ -252,8 +252,8 @@ bool ImageRegionReader::ReadRAWIntoBuffer(char *buffer, size_t buflen)
   unsigned int ymax = boundingbox.GetYMax();
   unsigned int zmin = boundingbox.GetZMin();
   unsigned int zmax = boundingbox.GetZMax();
-  assert( xmax >= xmin );
-  assert( ymax >= ymin );
+  gdcm_assert( xmax >= xmin );
+  gdcm_assert( ymax >= ymin );
   unsigned int rowsize = xmax - xmin + 1;
   unsigned int colsize = ymax - ymin + 1;
   unsigned int bytesPerPixel = pixelInfo.GetPixelSize();
@@ -281,8 +281,8 @@ bool ImageRegionReader::ReadRAWIntoBuffer(char *buffer, size_t buflen)
         }
 #if 0
       const char * check = &(buffer[((z-zmin)*rowsize*colsize + (y-ymin)*rowsize)*bytesPerPixel]);
-      assert( check >= buffer && check < buffer + buflen );
-      assert( check + rowsize*bytesPerPixel <= buffer + buflen );
+      gdcm_assert( check >= buffer && check < buffer + buflen );
+      gdcm_assert( check + rowsize*bytesPerPixel <= buffer + buflen );
 #endif
       memcpy(&(buffer[((z-zmin)*rowsize*colsize + (y-ymin)*rowsize)*bytesPerPixel]),
         tmpBuffer2, rowsize*bytesPerPixel);
@@ -326,8 +326,8 @@ bool ImageRegionReader::ReadRLEIntoBuffer(char *buffer, size_t buflen)
   unsigned int zmin = boundingbox.GetZMin();
   unsigned int zmax = boundingbox.GetZMax();
 
-  assert( xmax >= xmin );
-  assert( ymax >= ymin );
+  gdcm_assert( xmax >= xmin );
+  gdcm_assert( ymax >= ymin );
 
   bool ret = theCodec.DecodeExtent(
     buffer,
@@ -375,8 +375,8 @@ bool ImageRegionReader::ReadJPEG2000IntoBuffer(char *buffer, size_t buflen)
   unsigned int zmin = boundingbox.GetZMin();
   unsigned int zmax = boundingbox.GetZMax();
 
-  assert( xmax >= xmin );
-  assert( ymax >= ymin );
+  gdcm_assert( xmax >= xmin );
+  gdcm_assert( ymax >= ymin );
 
   bool ret = theCodec.DecodeExtent(
     buffer,
@@ -425,8 +425,8 @@ bool ImageRegionReader::ReadJPEGIntoBuffer(char *buffer, size_t buflen)
   unsigned int zmin = boundingbox.GetZMin();
   unsigned int zmax = boundingbox.GetZMax();
 
-  assert( xmax >= xmin );
-  assert( ymax >= ymin );
+  gdcm_assert( xmax >= xmin );
+  gdcm_assert( ymax >= ymin );
 
   bool ret = theCodec.DecodeExtent(
     buffer,
@@ -474,8 +474,8 @@ bool ImageRegionReader::ReadJPEGLSIntoBuffer(char *buffer, size_t buflen)
   unsigned int zmin = boundingbox.GetZMin();
   unsigned int zmax = boundingbox.GetZMax();
 
-  assert( xmax >= xmin );
-  assert( ymax >= ymin );
+  gdcm_assert( xmax >= xmin );
+  gdcm_assert( ymax >= ymin );
 
   bool ret = theCodec.DecodeExtent(
     buffer,
@@ -502,7 +502,7 @@ bool ImageRegionReader::ReadIntoBuffer(char *buffer, size_t buflen)
     gdcmDebugMacro( "buffer cannot be smaller than computed buffer length" );
     return false;
     }
-  assert( Internals->GetFileOffset() != std::streampos(-1) );
+  gdcm_assert( Internals->GetFileOffset() != std::streampos(-1) );
   gdcmDebugMacro( "Using FileOffset: " << Internals->GetFileOffset() );
   std::istream* theStream = GetStreamPtr();
   theStream->seekg( Internals->GetFileOffset() );

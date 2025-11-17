@@ -34,7 +34,7 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using VectorComponentType = float;
 
   using VectorType = itk::Vector<VectorComponentType, Dimension>;
@@ -58,17 +58,9 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   // Creating an input displacement field
   auto field = DisplacementFieldType::New();
 
-  DisplacementFieldType::SizeType size;
-  size[0] = 128;
-  size[1] = 128;
-
-  DisplacementFieldType::IndexType start;
-  start[0] = 0;
-  start[1] = 0;
-
+  DisplacementFieldType::SizeType   size{ 128, 128 };
+  DisplacementFieldType::IndexType  start{};
   DisplacementFieldType::RegionType region{ start, size };
-  region.SetSize(size);
-  region.SetIndex(start);
   field->SetRegions(region);
   field->Allocate();
 
@@ -100,7 +92,7 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
 
   filter->SetInput(field);
 
-  constexpr unsigned int subsamplingFactor = 16;
+  constexpr unsigned int subsamplingFactor{ 16 };
   filter->SetSubsamplingFactor(subsamplingFactor);
   ITK_TEST_SET_GET_VALUE(subsamplingFactor, filter->GetSubsamplingFactor());
 

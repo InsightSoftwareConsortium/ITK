@@ -42,7 +42,7 @@ execute(void * ptr)
   }
   sharedMutex->unlock();
 
-  constexpr int n = 10;
+  constexpr int n{ 10 };
   const int     m = *data;
   double        sum = 1.0;
 

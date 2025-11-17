@@ -65,7 +65,7 @@ public:
     // otherwise that is a pretty useless measurement vector.
     const MeasurementVectorLength len = NumericTraits<TVectorType>::GetLength({});
 
-    return (len == 0);
+    return len == 0;
   }
 
   template <typename TValue1, unsigned int VLength, typename TValue2, unsigned int VLength2>

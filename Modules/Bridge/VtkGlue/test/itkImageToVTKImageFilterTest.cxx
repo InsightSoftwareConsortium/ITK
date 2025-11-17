@@ -25,7 +25,7 @@
 int
 itkImageToVTKImageFilterTest(int, char *[])
 {
-  constexpr int dim = 3;
+  constexpr int dim{ 3 };
   using ImageType = itk::Image<float, dim>;
   using SourceType = itk::RandomImageSource<ImageType>;
   using SpacingType = SourceType::SpacingType;

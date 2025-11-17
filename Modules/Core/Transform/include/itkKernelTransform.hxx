@@ -90,7 +90,7 @@ KernelTransform<TParametersValueType, VDimension>::ComputeDeformationContributio
                                                                                   OutputPointType &      result) const
 {
   /*
-   * Default implementation of the the method. This can be overloaded
+   * Default implementation of the method. This can be overloaded
    * in transforms whose kernel produce diagonal G matrices.
    */
   const PointIdentifier numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();

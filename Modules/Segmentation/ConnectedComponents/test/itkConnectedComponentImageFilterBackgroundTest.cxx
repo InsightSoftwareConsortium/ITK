@@ -32,7 +32,7 @@ itkConnectedComponentImageFilterBackgroundTest(int argc, char * argv[])
   }
 
   using PixelType = int;
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using ImageType = itk::Image<PixelType, Dimension>;
 
   auto background = static_cast<PixelType>(std::stoi(argv[1]));
@@ -42,8 +42,7 @@ itkConnectedComponentImageFilterBackgroundTest(int argc, char * argv[])
   auto image = ImageType::New();
   auto size = ImageType::SizeType::Filled(512);
   image->SetRegions(size);
-  image->Allocate();
-  image->FillBuffer(0);
+  image->AllocateInitialized();
 
   // Set up islands
   ImageType::IndexType index1;

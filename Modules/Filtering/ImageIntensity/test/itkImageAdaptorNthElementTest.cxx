@@ -72,15 +72,9 @@ itkImageAdaptorNthElementTest(int, char *[])
   //-------------------------------------------------------------
 
   // Define their size, and start index
-  mySizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2; // Small size, because we are printing it
+  auto size = mySizeType::Filled(2); // Small size, because we are printing it
 
-  constexpr myIndexType start{};
-
-
-  const myRegionType region{ start, size };
+  const myRegionType region{ size };
 
   float spacing[3];
   spacing[0] = 1.0;
@@ -146,7 +140,7 @@ itkImageAdaptorNthElementTest(int, char *[])
 
   myFloatIteratorType itf(myFloatImage, myFloatImage->GetRequestedRegion());
 
-  constexpr myFloatPixelType initialFloatValue = 5.0;
+  constexpr myFloatPixelType initialFloatValue{ 5.0 };
 
   while (!itf.IsAtEnd())
   {

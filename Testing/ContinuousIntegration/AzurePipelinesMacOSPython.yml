@@ -31,8 +31,7 @@ jobs:
   timeoutInMinutes: 0
   cancelTimeoutInMinutes: 300
   pool:
-    # https://github.com/actions/runner-images?tab=readme-ov-file#available-images
-    vmImage: macos-13
+    vmImage: macos-15
   steps:
     - checkout: self
       clean: true

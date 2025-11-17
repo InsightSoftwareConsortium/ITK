@@ -18,6 +18,7 @@
 
 #include "itkNeighborhoodIteratorTestCommon.hxx"
 #include "itkConstNeighborhoodIterator.h"
+#include <array>
 
 void
 println(const char * s)
@@ -50,26 +51,13 @@ GetTestImage(int d1, int d2, int d3, int d4)
 int
 itkConstNeighborhoodIteratorTest(int, char *[])
 {
-  const TestImageType::Pointer                             img = GetTestImage(10, 10, 5, 3);
-  itk::ConstNeighborhoodIterator<TestImageType>::IndexType loc;
-  loc[0] = 4;
-  loc[1] = 4;
-  loc[2] = 2;
-  loc[3] = 1;
+  const TestImageType::Pointer                              img = GetTestImage(10, 10, 5, 3);
+  itk::ConstNeighborhoodIterator<TestImageType>::IndexType  loc{ 4, 4, 2, 1 };
+  itk::ConstNeighborhoodIterator<TestImageType>::RadiusType radius{ 1, 1, 1, 1 };
 
-  itk::ConstNeighborhoodIterator<TestImageType>::RadiusType radius;
-  radius[0] = radius[1] = radius[2] = radius[3] = 1;
-
-  itk::ConstNeighborhoodIterator<TestImageType>::RegionType reg;
-  itk::ConstNeighborhoodIterator<TestImageType>::SizeType   sz;
-  itk::ConstNeighborhoodIterator<TestImageType>::IndexType  idx;
-  idx[0] = idx[1] = idx[2] = 0;
-  idx[3] = 1;
-  sz[0] = sz[1] = 10;
-  sz[2] = 5;
-  sz[3] = 1;
-  reg.SetIndex(idx);
-  reg.SetSize(sz);
+  constexpr itk::ConstNeighborhoodIterator<TestImageType>::SizeType  sz{ 10, 10, 5, 1 };
+  constexpr itk::ConstNeighborhoodIterator<TestImageType>::IndexType idx{ 0, 0, 0, 1 };
+  itk::ConstNeighborhoodIterator<TestImageType>::RegionType          reg = { idx, sz };
 
   println("Creating ConstNeighborhoodIterator");
   itk::ConstNeighborhoodIterator<TestImageType> it(radius, img, reg);
@@ -224,7 +212,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   // Test IndexInBounds
   //
   println("Testing IndexInBounds");
-  constexpr int                dims[4] = { 13, 11, 9, 7 };
+  constexpr int                dims[4]{ 13, 11, 9, 7 };
   const TestImageType::Pointer iib_img = GetTestImage(dims[0], dims[1], dims[2], dims[3]);
   radius[0] = 4;
   radius[1] = 3;
@@ -316,11 +304,8 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   {
     // Create an image
     using ChangeRegionTestImageType = itk::Image<int, 2>;
-    constexpr ChangeRegionTestImageType::IndexType imageCorner{};
-
-    auto imageSize = ChangeRegionTestImageType::SizeType::Filled(4);
-
-    const ChangeRegionTestImageType::RegionType imageRegion(imageCorner, imageSize);
+    auto                                        imageSize = ChangeRegionTestImageType::SizeType::Filled(4);
+    const ChangeRegionTestImageType::RegionType imageRegion{ imageSize };
 
     auto image = ChangeRegionTestImageType::New();
     image->SetRegions(imageRegion);
@@ -356,17 +341,8 @@ itkConstNeighborhoodIteratorTest(int, char *[])
     using NeighborhoodIteratorType = itk::ConstNeighborhoodIterator<ChangeRegionTestImageType>;
     NeighborhoodIteratorType neighborhoodIterator(neighborhoodRadius, image, region1);
 
-    std::vector<int> expectedValuesRegion1(9);
-    expectedValuesRegion1[0] = 0;
-    expectedValuesRegion1[1] = 255;
-    expectedValuesRegion1[2] = 255;
-    expectedValuesRegion1[3] = 0;
-    expectedValuesRegion1[4] = 255;
-    expectedValuesRegion1[5] = 255;
-    expectedValuesRegion1[6] = 0;
-    expectedValuesRegion1[7] = 255;
-    expectedValuesRegion1[8] = 255;
-    unsigned int counter = 0;
+    static constexpr std::array<int, 9> expectedValuesRegion1{ 0, 255, 255, 0, 255, 255, 0, 255, 255 };
+    unsigned int                        counter = 0;
 
     for (NeighborhoodIteratorType::ConstIterator pixelIterator = neighborhoodIterator.Begin();
          pixelIterator < neighborhoodIterator.End();
@@ -387,16 +363,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
     neighborhoodIterator.SetRegion(region2);
     neighborhoodIterator.GoToBegin();
 
-    std::vector<int> expectedValuesRegion2(9);
-    expectedValuesRegion2[0] = 255;
-    expectedValuesRegion2[1] = 255;
-    expectedValuesRegion2[2] = 255;
-    expectedValuesRegion2[3] = 255;
-    expectedValuesRegion2[4] = 255;
-    expectedValuesRegion2[5] = 255;
-    expectedValuesRegion2[6] = 255;
-    expectedValuesRegion2[7] = 255;
-    expectedValuesRegion2[8] = 255;
+    static constexpr std::array<int, 9> expectedValuesRegion2{ 255, 255, 255, 255, 255, 255, 255, 255, 255 };
     counter = 0;
     for (NeighborhoodIteratorType::ConstIterator pixelIterator = neighborhoodIterator.Begin();
          pixelIterator < neighborhoodIterator.End();

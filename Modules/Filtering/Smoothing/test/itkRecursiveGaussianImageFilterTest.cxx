@@ -34,7 +34,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
   { // 3D test
 
     // Define the dimension of the images
-    constexpr unsigned int myDimension = 3;
+    constexpr unsigned int myDimension{ 3 };
 
     // Declare the types of the images
     using myImageType = itk::Image<float, myDimension>;
@@ -53,33 +53,19 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
 
 
     // Define their size, and start index
-    mySizeType size;
-    size[0] = 100;
-    size[1] = 100;
-    size[2] = 100;
-
-    myIndexType start{};
-
+    mySizeType   size{ 100, 100, 100 };
+    myIndexType  start{};
     myRegionType region{ start, size };
 
     // Initialize Image A
     inputImage->SetRegions(region);
-    inputImage->Allocate();
+    inputImage->AllocateInitialized();
 
     // Declare Iterator types appropriate for each image
     using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
 
-
-    // Create one iterator for the Input Image A (this is a light object)
-    myIteratorType it(inputImage, inputImage->GetRequestedRegion());
-
     // Initialize the content of Image A
     std::cout << "Input Image initialization " << std::endl;
-    while (!it.IsAtEnd())
-    {
-      it.Set(0.0);
-      ++it;
-    }
 
     size[0] = 60;
     size[1] = 60;
@@ -90,8 +76,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     start[2] = 20;
 
     // Create one iterator for an internal region
-    region.SetSize(size);
-    region.SetIndex(start);
+    region = { start, size };
     myIteratorType itb(inputImage, region);
 
     // Initialize the content the internal region
@@ -110,7 +95,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, RecursiveGaussianImageFilter, RecursiveSeparableImageFilter);
 
 
-    constexpr unsigned int direction = 2; // apply along Z
+    constexpr unsigned int direction{ 2 }; // apply along Z
     filter->SetDirection(direction);
     ITK_TEST_SET_GET_VALUE(direction, filter->GetDirection());
 
@@ -192,18 +177,15 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     IndexType start;
     start[0] = 0;
 
-    RegionType region;
-    region.SetIndex(start);
-    region.SetSize(size);
+    RegionType region{ start, size };
 
     SpacingType spacing;
     spacing[0] = 1.0;
 
     auto inputImage = ImageType::New();
     inputImage->SetRegions(region);
-    inputImage->Allocate();
+    inputImage->AllocateInitialized();
     inputImage->SetSpacing(spacing);
-    inputImage->FillBuffer(PixelType{});
 
     IndexType index;
     index[0] = (size[0] - 1) / 2; // the middle pixel
@@ -222,7 +204,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
       auto normalizeAcrossScale = true;
       ITK_TEST_SET_GET_BOOLEAN(filter, NormalizeAcrossScale, normalizeAcrossScale);
 
-      constexpr double sigmaA = 2.0;
+      constexpr double sigmaA{ 2.0 };
       filter->SetSigma(sigmaA);
       ITK_TEST_SET_GET_VALUE(sigmaA, filter->GetSigma());
 
@@ -232,7 +214,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
 
       normalizeAcrossScale = false;
       filter->SetNormalizeAcrossScale(normalizeAcrossScale);
-      constexpr double sigmaB = 2.0;
+      constexpr double sigmaB{ 2.0 };
       filter->SetSigma(sigmaB);
 
       filter->Update();
@@ -263,7 +245,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
 
       // size of image is 21, so a sigma of 2 gives up 5 std-devs and
       // an expected error of >1e-5 due to truncation
-      constexpr double sigmaA = 2.0;
+      constexpr double sigmaA{ 2.0 };
       filter->SetSigma(sigmaA);
       filter->Update();
 
@@ -317,7 +299,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
       // positions and use them as bounds for the value of the first order
       // derivative returned by the filter.
 
-      constexpr double sigmaC = 3.0;
+      constexpr double sigmaC{ 3.0 };
       filter->SetSigma(sigmaC);
 
       filter->SetZeroOrder();
@@ -467,18 +449,15 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     IndexType start;
     start[0] = 0;
 
-    RegionType region;
-    region.SetIndex(start);
-    region.SetSize(size);
+    RegionType region{ start, size };
 
     SpacingType spacing;
     spacing[0] = 1.0;
 
     auto inputImage = ImageType::New();
     inputImage->SetRegions(region);
-    inputImage->Allocate();
+    inputImage->AllocateInitialized();
     inputImage->SetSpacing(spacing);
-    inputImage->FillBuffer(PixelType{});
 
     IndexType index;
     index[0] = (size[0] - 1) / 2; // the middle pixel

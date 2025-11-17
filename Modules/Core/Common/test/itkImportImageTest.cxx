@@ -32,7 +32,7 @@ itkImportImageTest(int, char *[])
     rawImage[i] = i;
   }
   // typedefs to simplify the syntax
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PixelType = short;
 
   using ImportImageFilter = itk::ImportImageFilter<PixelType, Dimension>;
@@ -44,11 +44,9 @@ itkImportImageTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(basicImport, ImportImageFilter, ImageSource);
 
   ShortImage::Pointer                              image;
-  itk::ImageRegion<Dimension>                      region;
   constexpr itk::ImageRegion<Dimension>::IndexType index = { { 0, 0 } };
   constexpr itk::ImageRegion<Dimension>::SizeType  size = { { 8, 12 } };
-  region.SetIndex(index);
-  region.SetSize(size);
+  itk::ImageRegion<Dimension>                      region = { index, size };
   // local scope to make sure that imported data is not deleted with ImportImageFilter
   // but with the ImportImageContainer is creates.
   {
@@ -56,19 +54,19 @@ itkImportImageTest(int, char *[])
     const ImportImageFilter::Pointer import = ImportImageFilter::New();
 
     // Test the SetVectorMacros and GetVectorMacros
-    constexpr itk::SpacePrecisionType data[2] = { 1.0, 1.0 };
+    constexpr itk::SpacePrecisionType data[2]{ 1.0, 1.0 };
     import->SetSpacing(data);
 
-    constexpr float data2[2] = { 1.0, 1.0 };
+    constexpr float data2[2]{ 1.0, 1.0 };
     import->SetSpacing(data2);
 
     const itk::SpacePrecisionType * spacingValue = import->GetSpacing().GetDataPointer();
     std::cout << "import->GetSpacing(): " << spacingValue << std::endl;
 
-    constexpr double data3[2] = { 1.0, 1.0 };
+    constexpr double data3[2]{ 1.0, 1.0 };
     import->SetOrigin(data3);
 
-    constexpr float data4[2] = { 1.0, 1.0 };
+    constexpr float data4[2]{ 1.0, 1.0 };
     import->SetOrigin(data4);
 
     const itk::SpacePrecisionType * originValue = import->GetOrigin().GetDataPointer();

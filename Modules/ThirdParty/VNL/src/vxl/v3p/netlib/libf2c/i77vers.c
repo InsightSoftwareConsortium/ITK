@@ -58,7 +58,7 @@ wrtfmt.c:
 
 /* 28 Nov. 1989: corrections for IEEE and Cray arithmetic */
 /* 29 Nov. 1989: change various int return types to long for f2c */
-/* 30 Nov. 1989: various types from v3p_f2c.h */
+/* 30 Nov. 1989: various types from f2c.h */
 /*  6 Dec. 1989: types corrected various places */
 /* 19 Dec. 1989: make iostat= work right for internal I/O */
 /*  8 Jan. 1990: add rsne, wsne -- routines for handling NAMELIST */

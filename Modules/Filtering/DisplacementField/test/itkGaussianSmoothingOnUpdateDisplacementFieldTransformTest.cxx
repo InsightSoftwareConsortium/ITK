@@ -33,7 +33,7 @@ int
 itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
 {
 
-  constexpr unsigned int dimensions = 2;
+  constexpr unsigned int dimensions{ 2 };
   using DisplacementTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<double, dimensions>;
 
   /* Create a displacement field transform */
@@ -41,14 +41,9 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   using FieldType = DisplacementTransformType::DisplacementFieldType;
   auto field = FieldType::New(); // This is based on itk::Image
 
-  FieldType::SizeType   size;
-  FieldType::IndexType  start;
-  FieldType::RegionType region;
-  constexpr int         dimLength = 20;
-  size.Fill(dimLength);
-  start.Fill(0);
-  region.SetSize(size);
-  region.SetIndex(start);
+  constexpr int                 dimLength{ 20 };
+  constexpr FieldType::SizeType size{ dimLength, dimLength };
+  FieldType::RegionType         region = { size };
   field->SetRegions(region);
   field->Allocate();
 
@@ -62,7 +57,7 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   using ParametersValueType = DisplacementTransformType::ParametersValueType;
   constexpr ParametersValueType                            paramsZero{};
   DisplacementTransformType::ParametersType                paramsFill(displacementTransform->GetNumberOfParameters());
-  constexpr DisplacementTransformType::ParametersValueType paramsFillValue = 0.0;
+  constexpr DisplacementTransformType::ParametersValueType paramsFillValue{ 0.0 };
   paramsFill.Fill(paramsFillValue);
   // Add an outlier to visually see that some smoothing is taking place.
   constexpr unsigned int outlier = dimLength * dimensions * 4 + dimLength * dimensions / 2;

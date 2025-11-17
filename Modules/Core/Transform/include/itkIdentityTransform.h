@@ -193,7 +193,7 @@ public:
   bool
   GetInverse(Self * inverseTransform) const
   {
-    return (inverseTransform != nullptr);
+    return inverseTransform != nullptr;
   }
 
   /** Return an inverse of the identity transform - another identity transform.

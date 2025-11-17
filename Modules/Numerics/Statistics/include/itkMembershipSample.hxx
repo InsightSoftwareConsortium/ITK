@@ -21,9 +21,6 @@
 namespace itk::Statistics
 {
 template <typename TSample>
-MembershipSample<TSample>::MembershipSample() = default;
-
-template <typename TSample>
 void
 MembershipSample<TSample>::SetNumberOfClasses(unsigned int numberOfClasses)
 {

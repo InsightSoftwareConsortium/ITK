@@ -115,7 +115,7 @@ protected:
   T* m_This;
   TMemberFunctionPointer m_MemberFunction;
   TConstMemberFunctionPointer m_ConstMemberFunction;
-  MemberCommand():m_MemberFunction(nullptr),m_ConstMemberFunction(nullptr) {}
+  MemberCommand():m_This(nullptr),m_MemberFunction(nullptr),m_ConstMemberFunction(nullptr) {}
   ~MemberCommand() override= default;
 
 };

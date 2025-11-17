@@ -33,9 +33,9 @@
 namespace AntiAliasBinaryImageFilterTestNamespace
 {
 
-constexpr int V_WIDTH = 64;
-constexpr int V_HEIGHT = 64;
-constexpr int V_DEPTH = 64;
+constexpr int V_WIDTH{ 64 };
+constexpr int V_HEIGHT{ 64 };
+constexpr int V_DEPTH{ 64 };
 
 float
 sphere(float x, float y, float z)
@@ -44,7 +44,7 @@ sphere(float x, float y, float z)
     (x - float{ V_WIDTH } / 2.0) * (x - float{ V_WIDTH } / 2.0) / ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
     (y - float{ V_HEIGHT } / 2.0) * (y - float{ V_HEIGHT } / 2.0) / ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
     (z - float{ V_DEPTH } / 2.0) * (z - float{ V_DEPTH } / 2.0) / ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
-  return (1.0f - dis);
+  return 1.0f - dis;
 }
 
 void
@@ -96,16 +96,9 @@ itkAntiAliasBinaryImageFilterTest(int argc, char * argv[])
 
   // Create a binary image of a sphere.
   auto                                   image = BinaryImageType::New();
-  BinaryImageType::RegionType            region;
-  BinaryImageType::RegionType::SizeType  sz;
-  BinaryImageType::RegionType::IndexType idx;
-  for (unsigned int k = 0; k < 3; ++k)
-  {
-    sz[k] = 64;
-    idx[k] = 0;
-  }
-  region.SetSize(sz);
-  region.SetIndex(idx);
+  BinaryImageType::RegionType::SizeType  sz{ 64, 64, 64 };
+  BinaryImageType::RegionType::IndexType idx{};
+  BinaryImageType::RegionType            region = { idx, sz };
   image->SetRegions(region);
   image->Allocate();
   AntiAliasBinaryImageFilterTestNamespace::evaluate_function(image, AntiAliasBinaryImageFilterTestNamespace::sphere);

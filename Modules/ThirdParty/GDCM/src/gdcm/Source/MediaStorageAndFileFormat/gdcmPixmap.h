@@ -43,11 +43,11 @@ public:
 
   /// Curve: group 50xx
   Curve& GetCurve(size_t i = 0) {
-    assert( i < Curves.size() );
+    gdcm_assert( i < Curves.size() );
     return Curves[i];
   }
   const Curve& GetCurve(size_t i = 0) const {
-    assert( i < Curves.size() );
+    gdcm_assert( i < Curves.size() );
     return Curves[i];
   }
   size_t GetNumberOfCurves() const { return Curves.size(); }
@@ -55,17 +55,17 @@ public:
 
   /// Overlay: group 60xx
   Overlay& GetOverlay(size_t i = 0) {
-    assert( i < Overlays.size() );
+    gdcm_assert( i < Overlays.size() );
     return Overlays[i];
   }
   const Overlay& GetOverlay(size_t i = 0) const {
-    assert( i < Overlays.size() );
+    gdcm_assert( i < Overlays.size() );
     return Overlays[i];
   }
   size_t GetNumberOfOverlays() const { return Overlays.size(); }
   void SetNumberOfOverlays(size_t n) { Overlays.resize(n); }
   void RemoveOverlay(size_t i) {
-    assert( i < Overlays.size() );
+    gdcm_assert( i < Overlays.size() );
     Overlays.erase( Overlays.begin() + i );
   }
 

@@ -25,7 +25,7 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   // Declare the pixel types of the images
   using PixelType = float;
@@ -35,9 +35,6 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
   using InputImageType2 = itk::Image<PixelType, Dimension>;
   using InputImageType3 = itk::Image<PixelType, Dimension>;
   using OutputImageType = itk::Image<PixelType, Dimension>;
-
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<Dimension>;
 
   // Declare the type of the size
   using SizeType = itk::Size<Dimension>;
@@ -50,20 +47,9 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
   auto inputImageB = InputImageType2::New();
   auto inputImageC = InputImageType3::New();
 
-  // Define their size, and start index
-  SizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2;
-
-  IndexType start;
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  // Define their size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -87,7 +73,7 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
   InputImage1IteratorType it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
-  constexpr InputImageType1::PixelType valueA = 2.0;
+  constexpr InputImageType1::PixelType valueA{ 2.0 };
   while (!it1.IsAtEnd())
   {
     it1.Set(valueA);
@@ -98,7 +84,7 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
   InputImage2IteratorType it2(inputImageB, inputImageB->GetBufferedRegion());
 
   // Initialize the content of Image B
-  constexpr InputImageType2::PixelType valueB = 3.0;
+  constexpr InputImageType2::PixelType valueB{ 3.0 };
   while (!it2.IsAtEnd())
   {
     it2.Set(valueB);
@@ -109,7 +95,7 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
   InputImage3IteratorType it3(inputImageC, inputImageC->GetBufferedRegion());
 
   // Initialize the content of Image C
-  constexpr InputImageType3::PixelType valueC = 4.0;
+  constexpr InputImageType3::PixelType valueC{ 4.0 };
   while (!it3.IsAtEnd())
   {
     it3.Set(valueC);
@@ -142,7 +128,7 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
   OutputImageIteratorType oIt(outputImage, outputImage->GetBufferedRegion());
 
   // Check the content of the result image
-  constexpr float epsilon = 1e-6;
+  constexpr float epsilon{ 1e-6 };
   oIt.GoToBegin();
   it1.GoToBegin();
   it2.GoToBegin();

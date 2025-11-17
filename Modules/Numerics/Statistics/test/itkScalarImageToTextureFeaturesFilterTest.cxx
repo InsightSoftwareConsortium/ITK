@@ -27,9 +27,9 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
 {
 
   // Data definitions
-  constexpr unsigned int IMGWIDTH = 5;
-  constexpr unsigned int IMGHEIGHT = 5;
-  constexpr unsigned int NDIMENSION = 2;
+  constexpr unsigned int IMGWIDTH{ 5 };
+  constexpr unsigned int IMGHEIGHT{ 5 };
+  constexpr unsigned int NDIMENSION{ 2 };
 
 
   //------------------------------------------------------
@@ -44,13 +44,9 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
 
   auto image = InputImageType::New();
 
-  constexpr InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
+  constexpr InputImageType::SizeType inputImageSize{ IMGWIDTH, IMGHEIGHT };
 
-  constexpr InputImageType::IndexType index{};
-  InputImageType::RegionType          region;
-
-  region.SetSize(inputImageSize);
-  region.SetIndex(index);
+  InputImageType::RegionType region{ inputImageSize };
 
   //--------------------------------------------------------------------------
   // Set up the image first. It looks like:
@@ -196,8 +192,8 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     TextureFilterType::FeatureValueVectorPointer means = texFilter->GetFeatureMeans();
     TextureFilterType::FeatureValueVectorPointer stds = texFilter->GetFeatureStandardDeviations();
 
-    constexpr double expectedMeans[6] = { 0.505, 0.992738, 0.625, 0.75, 0.0959999, 0.2688 };
-    constexpr double expectedDeviations[6] = { 0.00866027, 0.0125788, 0.216506351, 0.433012702, 0.166277, 0.465575 };
+    constexpr double expectedMeans[6]{ 0.505, 0.992738, 0.625, 0.75, 0.0959999, 0.2688 };
+    constexpr double expectedDeviations[6]{ 0.00866027, 0.0125788, 0.216506351, 0.433012702, 0.166277, 0.465575 };
 
 
     {
@@ -232,8 +228,8 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     means = texFilter->GetFeatureMeans();
     stds = texFilter->GetFeatureStandardDeviations();
 
-    constexpr double expectedMeans2[6] = { 0.5, 1.0, 0.5, 1.0, 0.0, 0.0 };
-    constexpr double expectedDeviations2[6] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+    constexpr double expectedMeans2[6]{ 0.5, 1.0, 0.5, 1.0, 0.0, 0.0 };
+    constexpr double expectedDeviations2[6]{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 
     {
       TextureFilterType::FeatureValueVector::ConstIterator mIt = means->Begin();
@@ -291,8 +287,8 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     means = texFilter->GetFeatureMeans();
     stds = texFilter->GetFeatureStandardDeviations();
 
-    constexpr double expectedMeans3[6] = { 0.5, 1.0, 0.5, 1.0, 0.0, 0.0 };
-    constexpr double expectedDeviations3[6] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+    constexpr double expectedMeans3[6]{ 0.5, 1.0, 0.5, 1.0, 0.0, 0.0 };
+    constexpr double expectedDeviations3[6]{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 
     {
       TextureFilterType::FeatureValueVector::ConstIterator mIt = means->Begin();

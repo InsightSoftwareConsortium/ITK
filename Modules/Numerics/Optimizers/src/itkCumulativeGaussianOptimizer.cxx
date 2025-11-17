@@ -70,7 +70,7 @@ CumulativeGaussianOptimizer::FindAverageSumOfSquaredDifferences(MeasureType * ar
   {
     sum = sum + (array1->get(i) - array2->get(i)) * (array1->get(i) - array2->get(i));
   }
-  return (sum / size);
+  return sum / size;
 }
 
 void
@@ -105,7 +105,7 @@ CumulativeGaussianOptimizer::FindParametersOfGaussian(MeasureType * sampledGauss
   extendedArray = ExtendGaussian(sampledGaussianArray, extendedArray, sampledGaussianArraySize);
 
   MeasureGaussianParameters(extendedArray);
-  constexpr bool smallChangeBetweenIterations = false;
+  constexpr bool smallChangeBetweenIterations{ false };
   while (averageSumOfSquaredDifferences >= m_DifferenceTolerance)
   {
     for (int j = 0; j < extendedArraySize; ++j)
@@ -358,7 +358,7 @@ CumulativeGaussianOptimizer::VerticalBestShift(MeasureType * originalArray, Meas
   {
     c -= newArray->get(i);
   }
-  return (c / size);
+  return c / size;
 }
 
 std::string

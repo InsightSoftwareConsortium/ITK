@@ -101,7 +101,7 @@ public:
   itkBooleanMacro(SubtractMean);
   /** @ITKEndGrouping */
 protected:
-  NormalizedCorrelationImageToImageMetric();
+  NormalizedCorrelationImageToImageMetric() = default;
   ~NormalizedCorrelationImageToImageMetric() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

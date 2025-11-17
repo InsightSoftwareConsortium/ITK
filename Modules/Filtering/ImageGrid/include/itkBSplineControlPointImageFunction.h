@@ -269,9 +269,9 @@ public:
   EvaluateHessianAtIndex(const IndexType &, const unsigned int) const;
 
   /**
-   * Evaluate the Hessian of the resulting B-spline object at a specified con-
-   * tinuous index within the parametric domain.  Since the Hessian for a vector
-   * function is a 3-tensor, one must specify the component.
+   * Evaluate the Hessian of the resulting B-spline object at a specified
+   * continuous index within the parametric domain.  Since the Hessian for a
+   * vector function is a 3-tensor, one must specify the component.
    */
   HessianComponentType
   EvaluateHessianAtContinuousIndex(const ContinuousIndexType &, const unsigned int) const;

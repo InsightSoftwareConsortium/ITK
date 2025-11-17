@@ -55,12 +55,12 @@ const DictEntry &Dicts::GetDictEntry(const Tag& tag, const char *owner) const
     }
   else if( tag.IsPublic() )
     {
-    assert( owner == nullptr );
+    gdcm_assert( owner == nullptr );
     return PublicDict.GetDictEntry(tag);
     }
   else
     {
-    assert( tag.IsPrivate() );
+    gdcm_assert( tag.IsPrivate() );
     if( owner && *owner )
       {
       size_t len = strlen(owner); (void)len;
@@ -78,10 +78,10 @@ const DictEntry &Dicts::GetDictEntry(const Tag& tag, const char *owner) const
         }
       else if( tag.IsPrivateCreator() )
         {
-        assert( !tag.IsIllegal() );
-        assert( tag.GetElement() ); // Not a group length !
-        assert( tag.IsPrivate() );
-        assert( owner == nullptr );
+        gdcm_assert( !tag.IsIllegal() );
+        gdcm_assert( tag.GetElement() ); // Not a group length !
+        gdcm_assert( tag.IsPrivate() );
+        gdcm_assert( owner == nullptr );
         static const DictEntry Dummy("Private Creator", "PrivateCreator", VR::LO, VM::VM1, false);
         return Dummy;
         }
@@ -109,7 +109,7 @@ const char *Dicts::GetConstructorString(ConstructorType type)
 
 const Dict &Dicts::GetPublicDict() const
 {
-  //assert( PublicType < PublicDicts.size() );
+  //gdcm_assert( PublicType < PublicDicts.size() );
   return PublicDict; //[PublicType];
 }
 

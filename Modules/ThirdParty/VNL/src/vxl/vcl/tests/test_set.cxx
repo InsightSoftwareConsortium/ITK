@@ -8,7 +8,7 @@
 int
 test_set_main(int /*argc*/, char * /*argv*/[])
 {
-  typedef std::set<int, std::less<int>> myset;
+  using myset = std::set<int, std::less<int>>;
   myset s;
 
   s.insert(1);

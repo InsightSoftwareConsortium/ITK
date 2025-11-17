@@ -31,7 +31,7 @@
 int
 itkWatershedImageFilterBadValuesTest(int argc, char * argv[])
 {
-  constexpr int result = 0;
+  constexpr int result{ 0 };
 
   if (argc < 2)
   {

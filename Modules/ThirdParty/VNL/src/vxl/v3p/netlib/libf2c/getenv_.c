@@ -8,7 +8,7 @@ extern char *F77_aloc(), *getenv();
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern char *F77_aloc(ftnlen, char*);
+extern char *F77_aloc(ftnlen, const char*);
 #endif
 
 /*

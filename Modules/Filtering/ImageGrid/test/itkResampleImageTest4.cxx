@@ -27,7 +27,7 @@ int
 itkResampleImageTest4(int argc, char * argv[])
 {
 
-  constexpr unsigned int VDimension = 2;
+  constexpr unsigned int VDimension{ 2 };
 
   using PixelType = float;
 

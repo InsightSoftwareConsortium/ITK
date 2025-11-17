@@ -109,8 +109,7 @@ ExtractImageFilterCopyRegion(const typename BinaryUnsignedIntDispatch<T1, T2>::F
       ++count;
     }
   }
-  destRegion.SetIndex(destIndex);
-  destRegion.SetSize(destSize);
+  destRegion = { destIndex, destSize };
 }
 
 /** \class ExtractImageFilterRegionCopier

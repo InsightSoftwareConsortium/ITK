@@ -41,7 +41,7 @@ test_cstdio_main(int argc, char * argv[])
   ASSERT(rc == EOF, "std::getchar() read a value from a closed stream");
 
   ASSERT(argc >= 2, "no file name given as the first command line argument");
-  std::FILE * fh = std::fopen(argv[1], "r");
+  std::FILE * const fh = std::fopen(argv[1], "r");
   ASSERT1(fh, "couldn't open %s\n      (skipping file tests)", argv[1]);
 
   if (fh)

@@ -38,7 +38,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PixelType = itk::Vector<float, Dimension>;
   using OutputPixelType = unsigned long;
   using LabelPixelType = unsigned char;
@@ -48,13 +48,12 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
   using LabelImageType = itk::Image<LabelPixelType, Dimension>;
 
   // create an image of vectors
-  auto                  image = ImageType::New();
-  ImageType::RegionType region;
-  auto                  size = ImageType::SizeType::Filled(100);
-  ImageType::IndexType  index{};
+  auto image = ImageType::New();
 
-  region.SetSize(size);
-  region.SetIndex(index);
+  auto                 size = ImageType::SizeType::Filled(100);
+  ImageType::IndexType index{};
+
+  ImageType::RegionType region = { index, size };
   image->SetRegions(region);
   image->Allocate();
 
@@ -66,8 +65,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
 
   index[0] = 0;
   index[1] = 0;
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   {
     PixelType pixel;
     pixel[0] = 1;
@@ -85,8 +83,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
 
   index[0] = width / 2;
   index[1] = 0;
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   {
     PixelType pixel;
     pixel[0] = 0;
@@ -104,8 +101,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
 
   index[0] = 0;
   index[1] = width / 2;
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   {
     PixelType pixel;
     pixel[0] = -1;
@@ -123,8 +119,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
 
   index[0] = width / 2;
   index[1] = width / 2;
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   {
     PixelType pixel;
     pixel[0] = 0;
@@ -144,8 +139,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
   index[1] = width / 4;
   size[0] = width / 2;
   size[1] = width / 2;
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   {
     PixelType pixel;
     pixel[0] = 1;

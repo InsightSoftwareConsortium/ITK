@@ -25,7 +25,7 @@
 
 
 // Set up type alias for test
-constexpr unsigned int Dimension = 2;
+constexpr unsigned int Dimension{ 2 };
 using InputPixelType = unsigned char;
 using InputFrameType = itk::Image<InputPixelType, Dimension>;
 using InputVideoType = itk::VideoStream<InputFrameType>;
@@ -50,13 +50,8 @@ CreateInputFrame(InputPixelType val)
 {
   auto out = InputFrameType::New();
 
-  InputFrameType::RegionType          largestRegion;
-  InputFrameType::SizeType            sizeLR;
-  constexpr InputFrameType::IndexType startLR{};
-  sizeLR[0] = 50;
-  sizeLR[1] = 40;
-  largestRegion.SetSize(sizeLR);
-  largestRegion.SetIndex(startLR);
+  InputFrameType::SizeType   sizeLR{ 50, 40 };
+  InputFrameType::RegionType largestRegion{ sizeLR };
   out->SetRegions(largestRegion);
 
   out->Allocate();
@@ -90,7 +85,7 @@ itkFrameDifferenceVideoFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
 
   // Set up an input VideoStream
   auto                    inputVideo = InputVideoType::New();
-  constexpr SizeValueType numInputFrames = 50;
+  constexpr SizeValueType numInputFrames{ 50 };
   inputVideo->SetNumberOfBuffers(numInputFrames);
   itk::TemporalRegion inputTempRegion;
   inputTempRegion.SetFrameStart(0);
@@ -141,7 +136,7 @@ itkFrameDifferenceVideoFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
     filter->Update();
 
     // Check the results
-    constexpr OutputPixelType expectedVal = 1;
+    constexpr OutputPixelType expectedVal{ 1 };
     const OutputPixelType     actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
     if (expectedVal != actualVal)
     {
@@ -183,7 +178,7 @@ itkFrameDifferenceVideoFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
   filter->Update();
   for (unsigned int i = outputStart; i < outputStart + outputDuration; ++i)
   {
-    constexpr OutputPixelType expectedVal = 4; // Difference of 2 squared
+    constexpr OutputPixelType expectedVal{ 4 }; // Difference of 2 squared
     const OutputPixelType     actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
     if (expectedVal != actualVal)
     {

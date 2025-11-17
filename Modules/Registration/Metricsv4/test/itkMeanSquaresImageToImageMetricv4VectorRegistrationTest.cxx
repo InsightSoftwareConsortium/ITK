@@ -75,7 +75,7 @@ itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char * argv[]
   std::cout << " affine iterations " << numberOfAffineIterations << " displacementIterations "
             << numberOfDisplacementIterations << std::endl;
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   // RGBPixel type is not supported by GradientRecursiveGaussianFilter at this point.
   // using PixelType = itk::RGBPixel<FloatType>;
@@ -181,7 +181,7 @@ itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char * argv[]
   metric->SetMovingImage(movingImage);
   metric->SetFixedTransform(identityTransform);
   metric->SetMovingTransform(affineTransform);
-  constexpr bool gaussian = false;
+  constexpr bool gaussian{ false };
   metric->SetUseMovingImageGradientFilter(gaussian);
   metric->SetUseFixedImageGradientFilter(gaussian);
   metric->Initialize();

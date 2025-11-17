@@ -36,7 +36,7 @@ VnlFFTCommon::IsDimensionSizeLegal(TSizeValue n)
     }
     ifac += l;
   }
-  return (n == 1); // return false if decomposition failed
+  return n == 1; // return false if decomposition failed
 }
 
 template <typename TImage>

@@ -35,7 +35,7 @@ static integer c__65 = 65;
     char ch__1[2];
 
     /* Builtin functions */
-    /* Subroutine */ int s_cat(char *, char **, integer *, integer *, ftnlen);
+    /* Subroutine */ void s_cat(char *lp, char *rpp[], ftnint rnp[], ftnint *np, ftnlen ll);
 
     /* Local variables */
     integer i__;

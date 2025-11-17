@@ -73,8 +73,8 @@ SobelOperator<TPixel, VDimension, TAllocator>::Fill(const CoefficientVector & co
   }
   else
   {
-    itkExceptionMacro("The ND version of the Sobel operator is not yet implemented.  Currently only the 2D and 3D "
-                      "versions are available.");
+    itkExceptionStringMacro("The ND version of the Sobel operator is not yet implemented.  Currently only the 2D and "
+                            "3D versions are available.");
   }
 }
 
@@ -83,7 +83,7 @@ auto
 SobelOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
   CoefficientVector     coeff;
-  constexpr std::size_t coeff_size = (VDimension == 2) ? 9 : 27;
+  constexpr std::size_t coeff_size{ (VDimension == 2) ? 9 : 27 };
   coeff.reserve(coeff_size);
   if (VDimension == 2 && this->GetDirection() == 0)
   {
@@ -207,8 +207,8 @@ SobelOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> Coeffic
   }
   else
   {
-    itkExceptionMacro("The ND version of the Sobel operator has not been implemented.  Currently only 2D and 3D "
-                      "versions are available.");
+    itkExceptionStringMacro("The ND version of the Sobel operator has not been implemented.  Currently only 2D and 3D "
+                            "versions are available.");
   }
 
   return coeff;

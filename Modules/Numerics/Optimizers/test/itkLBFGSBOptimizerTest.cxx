@@ -193,12 +193,12 @@ itkLBFGSBOptimizerTest(int, char *[])
 
   itkOptimizer->SetCostFunction(costFunction);
 
-  constexpr bool trace = false;
+  constexpr bool trace{ false };
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Trace, trace);
 
-  constexpr double F_Convergence_Factor = 1e+7;  // Function value tolerance
-  constexpr double Projected_G_Tolerance = 1e-5; // Proj gradient tolerance
-  constexpr int    Max_Iterations = 100;         // Maximum number of iterations
+  constexpr double F_Convergence_Factor{ 1e+7 };  // Function value tolerance
+  constexpr double Projected_G_Tolerance{ 1e-5 }; // Proj gradient tolerance
+  constexpr int    Max_Iterations{ 100 };         // Maximum number of iterations
 
   itkOptimizer->SetCostFunctionConvergenceFactor(F_Convergence_Factor);
   ITK_TEST_SET_GET_VALUE(F_Convergence_Factor, itkOptimizer->GetCostFunctionConvergenceFactor());
@@ -212,13 +212,13 @@ itkLBFGSBOptimizerTest(int, char *[])
   itkOptimizer->SetMaximumNumberOfEvaluations(Max_Iterations);
   ITK_TEST_SET_GET_VALUE(Max_Iterations, itkOptimizer->GetMaximumNumberOfEvaluations());
 
-  constexpr unsigned int maximumNumberOfCorrections = 5;
+  constexpr unsigned int maximumNumberOfCorrections{ 5 };
   itkOptimizer->SetMaximumNumberOfCorrections(maximumNumberOfCorrections);
   ITK_TEST_SET_GET_VALUE(maximumNumberOfCorrections, itkOptimizer->GetMaximumNumberOfCorrections());
 
   ITK_TEST_EXPECT_TRUE(!itkOptimizer->CanUseScales());
 
-  constexpr unsigned int        SpaceDimension = 2;
+  constexpr unsigned int        SpaceDimension{ 2 };
   OptimizerType::ParametersType initialValue(SpaceDimension);
 
   // Starting point
@@ -299,7 +299,7 @@ itkLBFGSBOptimizerTest(int, char *[])
   bool        pass = true;
   std::string errorIn;
 
-  constexpr double trueParameters[2] = { 4.0 / 3.0, -1.0 };
+  constexpr double trueParameters[2]{ 4.0 / 3.0, -1.0 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

@@ -63,13 +63,13 @@ public:
     if (!e)
     {
       itkDebugMacro("Input is not an edge.");
-      return ((QEType *)nullptr);
+      return (QEType *)nullptr;
     }
 
     if (!this->m_Mesh)
     {
       itkDebugMacro("No mesh present.");
-      return ((QEType *)nullptr);
+      return (QEType *)nullptr;
     }
 
     m_SplitVertex->SetInput(this->m_Mesh);
@@ -79,7 +79,7 @@ public:
   const PointIdentifier
   GetNewPointID()
   {
-    return (m_SplitVertex->GetNewPointID());
+    return m_SplitVertex->GetNewPointID();
   }
 
 protected:

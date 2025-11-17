@@ -91,7 +91,7 @@ public:
   const char *
   GetNameOfClass()
   {
-    return (m_Process ? m_Process->GetNameOfClass() : "None");
+    return m_Process ? m_Process->GetNameOfClass() : "None";
   }
 
   /** Methods to control the verbosity of the messages. Quiet

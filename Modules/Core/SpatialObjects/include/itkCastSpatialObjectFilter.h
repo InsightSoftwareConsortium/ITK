@@ -221,7 +221,7 @@ public:
   }
 
 protected:
-  CastSpatialObjectFilter();
+  CastSpatialObjectFilter() = default;
   ~CastSpatialObjectFilter() override = default;
 
   void
@@ -229,7 +229,7 @@ protected:
 
 
 private:
-  typename InputSpatialObjectType::Pointer m_Input{};
+  typename InputSpatialObjectType::Pointer m_Input{ nullptr };
 
 }; // End class CastSpatialObjectFilter
 

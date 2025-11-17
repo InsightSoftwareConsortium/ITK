@@ -29,7 +29,7 @@ itkVTKPolyDataWriterTest01(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int PointDimension = 3;
+  constexpr unsigned int PointDimension{ 3 };
 
   using PointType = float;
 
@@ -44,12 +44,12 @@ itkVTKPolyDataWriterTest01(int argc, char * argv[])
 
   auto mesh = MeshType::New();
 
-  constexpr unsigned int numberOfPoints = 4;
-  constexpr unsigned int numberOfCells = 9;
+  constexpr unsigned int numberOfPoints{ 4 };
+  constexpr unsigned int numberOfCells{ 9 };
 
-  constexpr float rawPoints[12] = { 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0 };
+  constexpr float rawPoints[12]{ 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0 };
 
-  constexpr unsigned long rawCells[24] = { 0, 2, 1, 0, 1, 3, 0, 3, 2, 1, 2, 3, 0, 1, 0, 2, 0, 3, 1, 2, 1, 3, 2, 3 };
+  constexpr unsigned long rawCells[24]{ 0, 2, 1, 0, 1, 3, 0, 3, 2, 1, 2, 3, 0, 1, 0, 2, 0, 3, 1, 2, 1, 3, 2, 3 };
 
   mesh->GetPoints()->Reserve(numberOfPoints);
   mesh->GetCells()->Reserve(numberOfCells);

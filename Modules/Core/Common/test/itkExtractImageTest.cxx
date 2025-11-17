@@ -35,15 +35,15 @@ ExtractImageInPlaceTest()
 
   using SourceType = itk::RandomImageSource<ImageType>;
   auto                          source = SourceType::New();
-  constexpr ImageType::SizeType size = { { 32, 32, 32 } };
+  constexpr ImageType::SizeType size{ 32, 32, 32 };
   source->SetSize(size);
 
   source->UpdateLargestPossibleRegion();
 
 
-  constexpr ImageType::IndexType extractIndex = { { 16, 16, 16 } };
-  constexpr ImageType::SizeType  extractSize = { { 8, 8, 8 } };
-  constexpr ImageType::SizeType  zeroSize = { { 0, 0, 0 } };
+  constexpr ImageType::IndexType extractIndex{ 16, 16, 16 };
+  constexpr ImageType::SizeType  extractSize{ 8, 8, 8 };
+  constexpr ImageType::SizeType  zeroSize{ 0, 0, 0 };
 
   using ExtractFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
   auto extract = ExtractFilterType::New();
@@ -150,18 +150,15 @@ itkExtractImageTest(int, char *[])
             << extract->GetOutput()->GetSpacing()[1] << std::endl;
 
 
-  ShortImage::RegionType requestedRegion;
-
   // CASE 1
   extractIndex[0] = 1;
   extractIndex[1] = 2;
   extractSize[0] = 5;
   extractSize[1] = 6;
-  extractRegion.SetSize(extractSize);
-  extractRegion.SetIndex(extractIndex);
+  extractRegion = { extractIndex, extractSize };
   extract->SetExtractionRegion(extractRegion);
   extract->UpdateLargestPossibleRegion();
-  requestedRegion = extract->GetOutput()->GetRequestedRegion();
+  ShortImage::RegionType requestedRegion = extract->GetOutput()->GetRequestedRegion();
 
   itk::ImageRegionIterator<ShortImage> iteratorIn1(extract->GetOutput(), requestedRegion);
 
@@ -217,8 +214,7 @@ itkExtractImageTest(int, char *[])
   extractIndex[1] = 1;
   extractSize[0] = 7;
   extractSize[1] = 11;
-  extractRegion.SetSize(extractSize);
-  extractRegion.SetIndex(extractIndex);
+  extractRegion = { extractIndex, extractSize };
   extract->SetExtractionRegion(extractRegion);
 
   // Create a stream
@@ -302,8 +298,7 @@ itkExtractImageTest(int, char *[])
   extractIndex[1] = 0;
   extractSize[0] = 0;
   extractSize[1] = 3;
-  extractRegion.SetIndex(extractIndex);
-  extractRegion.SetSize(extractSize);
+  extractRegion = { extractIndex, extractSize };
 
   lineExtract->SetExtractionRegion(extractRegion);
   lineExtract->UpdateLargestPossibleRegion();

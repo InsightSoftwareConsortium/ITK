@@ -23,7 +23,7 @@
 int
 itkLevelSetDomainPartitionImageTest(int, char *[])
 {
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = unsigned short;
   using InputImageType = itk::Image<InputPixelType, Dimension>;
@@ -47,19 +47,16 @@ itkLevelSetDomainPartitionImageTest(int, char *[])
   spacing[0] = 1.0;
   spacing[1] = 1.0;
 
-  constexpr InputImageType::IndexType index{};
-
-  const InputImageType::RegionType region{ index, size };
+  const InputImageType::RegionType region{ size };
 
   // Binary initialization
   auto binary = InputImageType::New();
   binary->SetRegions(region);
   binary->SetSpacing(spacing);
   binary->SetOrigin(origin);
-  binary->Allocate();
-  binary->FillBuffer(InputPixelType{});
+  binary->AllocateInitialized();
 
-  constexpr IdentifierType numberOfLevelSetFunctions = 2;
+  constexpr IdentifierType numberOfLevelSetFunctions{ 2 };
 
   LevelSetDomainRegionVectorType regionVector;
   regionVector.resize(numberOfLevelSetFunctions);

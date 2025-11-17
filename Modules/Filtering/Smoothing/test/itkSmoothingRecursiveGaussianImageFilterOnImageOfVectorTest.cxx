@@ -25,7 +25,7 @@ itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int myDimension = 3;
+  constexpr unsigned int myDimension{ 3 };
 
   using VectorPixelType = itk::Vector<float, 3>;
 
@@ -41,20 +41,15 @@ itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest(int, char *[])
   // Declare the type of the Region
   using myRegionType = itk::ImageRegion<myDimension>;
 
-  constexpr unsigned int numberOfComponents = 3;
+  constexpr unsigned int numberOfComponents{ 3 };
 
   // Create the image
   auto inputImage = myImageType::New();
 
 
   // Define their size, and start index
-  mySizeType size;
-  size[0] = 8;
-  size[1] = 8;
-  size[2] = 8;
-
-  myIndexType start{};
-
+  mySizeType   size{ 8, 8, 8 };
+  myIndexType  start{};
   myRegionType region{ start, size };
 
   // Initialize Image A
@@ -86,8 +81,7 @@ itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest(int, char *[])
   start[2] = 2;
 
   // Create one iterator for an internal region
-  region.SetSize(size);
-  region.SetIndex(start);
+  region = { start, size };
   myIteratorType itb(inputImage, region);
 
   // Initialize the content the internal region

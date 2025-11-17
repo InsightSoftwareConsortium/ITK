@@ -2,7 +2,7 @@
 #define GIFTI_IO_H
 
 #include <itk_zlib.h>
-#include <expat.h>
+#include <itk_expat.h>
 #include <nifti1_io.h>
 
 #ifdef  __cplusplus

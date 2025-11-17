@@ -50,7 +50,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
 
   // Create a Fast Marching image filter object
   using PixelType = float;
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using FloatImageType = itk::Image<PixelType, Dimension>;
 
@@ -75,7 +75,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   marcher->AddObserver(itk::ProgressEvent(), command);
 
   // Specify the size of the output image
-  constexpr FloatImageType::SizeType size = { { 64, 64 } };
+  constexpr FloatImageType::SizeType size{ 64, 64 };
   marcher->SetOutputSize(size);
 
   // Set up a speed image of ones
@@ -85,15 +85,15 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   speedImage->SetLargestPossibleRegion(region);
   speedImage->SetBufferedRegion(region);
   speedImage->Allocate();
+  speedImage->FillBuffer(1.0);
 
   // Set up an 'alive image'
   auto aliveImage = FloatImageType::New();
   aliveImage->SetLargestPossibleRegion(region);
   aliveImage->SetBufferedRegion(region);
-  aliveImage->Allocate();
-  aliveImage->FillBuffer(0.0);
+  aliveImage->AllocateInitialized();
 
-  constexpr FloatImageType::OffsetType offset0 = { { 28, 35 } };
+  constexpr FloatImageType::OffsetType offset0{ 28, 35 };
 
   itk::Index<Dimension> index{};
   index += offset0;
@@ -104,8 +104,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   auto trialImage = FloatImageType::New();
   trialImage->SetLargestPossibleRegion(region);
   trialImage->SetBufferedRegion(region);
-  trialImage->Allocate();
-  trialImage->FillBuffer(0.0);
+  trialImage->AllocateInitialized();
 
   index[0] += 1;
   trialImage->SetPixel(index, 1.0);
@@ -128,11 +127,9 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   maskImage->SetBufferedRegion(region);
   maskImage->Allocate();
 
-  itk::ImageRegionIterator<FloatImageType>          speedIter(speedImage, speedImage->GetBufferedRegion());
   itk::ImageRegionIteratorWithIndex<FloatImageType> maskIter(maskImage, maskImage->GetBufferedRegion());
-  while (!speedIter.IsAtEnd())
+  while (!maskIter.IsAtEnd())
   {
-    speedIter.Set(1.0);
     FloatImageType::IndexType idx = maskIter.GetIndex();
     if (((idx[0] > 22) && (idx[0] < 42) && (idx[1] > 27) && (idx[1] < 37)) ||
         ((idx[1] > 22) && (idx[1] < 42) && (idx[0] > 27) && (idx[0] < 37)))
@@ -145,7 +142,6 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
     }
 
     ++maskIter;
-    ++speedIter;
   }
 
   marcher->SetInput(speedImage);
@@ -157,7 +153,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   ITK_EXERCISE_BASIC_OBJECT_METHODS(adaptor, FastMarchingImageToNodePairContainerAdaptor, Object);
 
 
-  constexpr bool isForbiddenImageBinaryMask = true;
+  constexpr bool isForbiddenImageBinaryMask{ true };
   ITK_TEST_SET_GET_BOOLEAN(adaptor, IsForbiddenImageBinaryMask, isForbiddenImageBinaryMask);
 
   adaptor->SetAliveImage(aliveImage.GetPointer());
@@ -200,7 +196,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
 
   bool passed = true;
 
-  constexpr double threshold = 1.42;
+  constexpr double threshold{ 1.42 };
   while (!iterator.IsAtEnd())
   {
     FloatImageType::IndexType tempIndex = iterator.GetIndex();

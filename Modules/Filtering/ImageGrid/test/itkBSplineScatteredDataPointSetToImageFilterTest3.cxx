@@ -40,8 +40,8 @@ itkBSplineScatteredDataPointSetToImageFilterTest3(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int ParametricDimension = 1;
-  constexpr unsigned int DataDimension = 3;
+  constexpr unsigned int ParametricDimension{ 1 };
+  constexpr unsigned int DataDimension{ 3 };
 
   using RealType = double;
   using OutputPixelType = unsigned char;
@@ -113,7 +113,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest3(int argc, char * argv[])
   // fails because of the choice of B-spline epsilon
   filter->SetNumberOfLevels(15);
 
-  constexpr bool generateOutputImage = true;
+  constexpr bool generateOutputImage{ true };
   filter->SetGenerateOutputImage(generateOutputImage);
   ITK_TEST_SET_GET_VALUE(generateOutputImage, filter->GetGenerateOutputImage());
 

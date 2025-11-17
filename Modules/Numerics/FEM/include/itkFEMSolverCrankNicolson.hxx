@@ -137,10 +137,10 @@ SolverCrankNicolson<VDimension>::AssembleKandM()
     int Ne = this->m_FEMObject->GetElement(e)->GetNumberOfDegreesOfFreedom();
 
     Me = Me * m_Rho;
-    // Step over all rows in in element matrix
+    // Step over all rows in element matrix
     for (int j = 0; j < Ne; ++j)
     {
-      // Step over all columns in in element matrix
+      // Step over all columns in element matrix
       for (int k = 0; k < Ne; ++k)
       {
         // Error checking. all GFN should be =>0 and <NGFN

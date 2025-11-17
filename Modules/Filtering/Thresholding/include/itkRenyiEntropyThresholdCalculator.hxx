@@ -44,7 +44,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
     return;
   }
 
-  constexpr double tolerance = itk::Math::eps;
+  constexpr double tolerance{ itk::Math::eps };
 
   InstanceIdentifier ih;
 
@@ -232,7 +232,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding2(
   InstanceIdentifier threshold =
     0; // was MIN_INT in original code, but if an empty image is processed it gives an error later on.
   double           max_ent = NumericTraits<double>::min();
-  constexpr double alpha = 0.5;
+  constexpr double alpha{ 0.5 };
   const double     term = 1.0 / (1.0 - alpha);
 
   for (InstanceIdentifier it = m_FirstBin; it <= m_LastBin; ++it)
@@ -281,7 +281,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding3(
   InstanceIdentifier threshold =
     0; // was MIN_INT in original code, but if an empty image is processed it gives an error later on.
   double           max_ent = 0.0;
-  constexpr double alpha = 2.0;
+  constexpr double alpha{ 2.0 };
   const double     term = 1.0 / (1.0 - alpha);
   for (InstanceIdentifier it = m_FirstBin; it <= m_LastBin; ++it)
   {

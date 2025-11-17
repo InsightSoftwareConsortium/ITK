@@ -114,7 +114,7 @@ public:
   itkGetConstMacro(PrecomputeFlag, bool);
 
 protected:
-  FiniteDifferenceSparseImageFilter();
+  FiniteDifferenceSparseImageFilter() = default;
   ~FiniteDifferenceSparseImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -206,7 +206,7 @@ private:
   bool m_PrecomputeFlag{};
 
   /** The Sparse function type. */
-  SparseFunctionType * m_SparseFunction{};
+  SparseFunctionType * m_SparseFunction{ nullptr };
 
   /** A list of subregions of the active set of pixels in the sparse image
       which are passed to each thread for parallel processing. */

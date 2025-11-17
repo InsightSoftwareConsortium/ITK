@@ -45,7 +45,7 @@ itkMINCImageIOTest2(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(mincIO1, MINCImageIO, ImageIOBase);
 
 
-  constexpr unsigned int     supportedDimCount = 4; // includes the degenerate 0-dimensional case
+  constexpr unsigned int     supportedDimCount{ 4 }; // includes the degenerate 0-dimensional case
   std::vector<unsigned long> supportedDims(supportedDimCount);
   std::iota(std::begin(supportedDims), std::end(supportedDims), 0);
   for (const auto & value : supportedDims)

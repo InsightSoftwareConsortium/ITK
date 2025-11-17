@@ -12,9 +12,10 @@ extern "C" {
 #endif
 extern double f__cabs(double, double);
 
+//VXL_SPECIALIZATION
 #undef complex
 #define complex v3p_netlib_complex
-
+//VXL_SPECIALIZATION
 void c_sqrt(complex *r, complex *z)
 #endif
 {

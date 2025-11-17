@@ -87,11 +87,11 @@ itkImageSeriesWriterTest(int argc, char * argv[])
 
     writer->SetInput(rescaler->GetOutput());
 
-    constexpr itk::SizeValueType startIndex = 1;
+    constexpr itk::SizeValueType startIndex{ 1 };
     writer->SetStartIndex(startIndex);
     ITK_TEST_SET_GET_VALUE(startIndex, writer->GetStartIndex());
 
-    constexpr itk::SizeValueType incrementIndex = 1;
+    constexpr itk::SizeValueType incrementIndex{ 1 };
     writer->SetIncrementIndex(incrementIndex);
     ITK_TEST_SET_GET_VALUE(incrementIndex, writer->GetIncrementIndex());
 
@@ -132,7 +132,7 @@ itkImageSeriesWriterTest(int argc, char * argv[])
     const ImageNDType::RegionType region = reader->GetOutput()->GetBufferedRegion();
     ImageNDType::SizeType         size = region.GetSize();
 
-    constexpr itk::SizeValueType startIndex = 0;
+    constexpr itk::SizeValueType startIndex{ 0 };
     fit->SetStartIndex(startIndex);
     ITK_TEST_SET_GET_VALUE(startIndex, fit->GetStartIndex());
 
@@ -140,7 +140,7 @@ itkImageSeriesWriterTest(int argc, char * argv[])
     fit->SetEndIndex(endIndex); // The number of slices to write
     ITK_TEST_SET_GET_VALUE(endIndex, fit->GetEndIndex());
 
-    constexpr itk::SizeValueType incrementIndex = 1;
+    constexpr itk::SizeValueType incrementIndex{ 1 };
     fit->SetIncrementIndex(incrementIndex);
     ITK_TEST_SET_GET_VALUE(incrementIndex, fit->GetIncrementIndex());
 
@@ -156,7 +156,7 @@ itkImageSeriesWriterTest(int argc, char * argv[])
       std::cerr << "Wrong default use compression value" << std::endl;
       return EXIT_FAILURE;
     }
-    constexpr bool useCompression = false;
+    constexpr bool useCompression{ false };
     ITK_TEST_SET_GET_BOOLEAN(writer, UseCompression, useCompression);
 
     ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());

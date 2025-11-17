@@ -62,7 +62,7 @@ VerifyPixel(int row, int col, short val, float & expected)
     col -= 12;
   }
   expected = 8 * col + row;
-  return (itk::Math::AlmostEquals(val, expected));
+  return itk::Math::AlmostEquals(val, expected);
 }
 
 

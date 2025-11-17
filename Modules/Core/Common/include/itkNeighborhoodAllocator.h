@@ -133,12 +133,12 @@ public:
   iterator
   end()
   {
-    return (m_Data.get() + m_ElementCount);
+    return m_Data.get() + m_ElementCount;
   }
   [[nodiscard]] const_iterator
   end() const
   {
-    return (m_Data.get() + m_ElementCount);
+    return m_Data.get() + m_ElementCount;
   }
   [[nodiscard]] unsigned int
   size() const

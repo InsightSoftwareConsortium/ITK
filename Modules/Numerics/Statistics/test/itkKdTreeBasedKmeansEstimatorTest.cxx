@@ -40,7 +40,7 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
 
 
   char *        dataFileName = argv[1];
-  constexpr int dataSize = 2000;
+  constexpr int dataSize{ 2000 };
   const int     bucketSize = std::stoi(argv[2]);
   const double  minStandardDeviation = std::stod(argv[3]);
 
@@ -55,7 +55,7 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
   initialMeans[1] = 80.0;
   initialMeans[2] = 180.0;
   initialMeans[3] = 180.0;
-  constexpr int maximumIteration = 200;
+  constexpr int maximumIteration{ 200 };
 
   /* Loading point data */
   using PointSetType = itk::PointSet<double, 2>;
@@ -114,7 +114,7 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
 
   // Set the centroid position change threshold
   estimator->SetCentroidPositionChangesThreshold(0.0);
-  constexpr double tolerance = 0.1;
+  constexpr double tolerance{ 0.1 };
   if (itk::Math::abs(estimator->GetCentroidPositionChangesThreshold() - 0.0) > tolerance)
   {
     std::cerr << "Set/GetCentroidPositionChangesThreshold() " << std::endl;

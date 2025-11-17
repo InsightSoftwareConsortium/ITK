@@ -61,11 +61,11 @@ itkMathRoundProfileTest1(int, char *[])
   IntArrayType output3;
   IntArrayType output4;
 
-  constexpr unsigned long numberOfValues = 1000L;
+  constexpr unsigned long numberOfValues{ 1000L };
 
-  constexpr double initialValue = -10.0;
+  constexpr double initialValue{ -10.0 };
 
-  constexpr double valueIncrement = (-initialValue - initialValue) / numberOfValues;
+  constexpr double valueIncrement{ (-initialValue - initialValue) / numberOfValues };
 
   std::cout << "Initial Value   = " << initialValue << std::endl;
   std::cout << "Value Increment = " << valueIncrement << std::endl;
@@ -204,7 +204,7 @@ itkMathRoundProfileTest1(int, char *[])
 
   while (inpItr != inputEnd)
   {
-    if ((*outItr1) != (*outItr2))
+    if (*outItr1 != *outItr2)
     {
       std::cout << "Warning*** For input: " << *inpItr << " if-round: " << *outItr1
                 << " differs from itk::Math::Round: " << *outItr2 << std::endl;

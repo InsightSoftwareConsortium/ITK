@@ -42,7 +42,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   const std::string inputVolume(argv[1]);
   const std::string input3DSkullStripVolume(argv[2]);
   const std::string outputLabelMapVolume(argv[3]);
-  constexpr float   numberOfStdDeviations = 10.0;
+  constexpr float   numberOfStdDeviations{ 10.0 };
 
 
   const bool debug = true;
@@ -76,7 +76,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   }
 
   using PixelType = short;
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   using ImageType = itk::Image<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
@@ -87,8 +87,8 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   auto maskReader = ReaderType::New();
   maskReader->SetFileName(input3DSkullStripVolume);
 
-  constexpr PixelType imageExclusion = -32000;
-  constexpr PixelType maskThresholdBelow = 5; // someday with more generality?
+  constexpr PixelType imageExclusion{ -32000 };
+  constexpr PixelType maskThresholdBelow{ 5 }; // someday with more generality?
 
   /* The Threshold Image Filter is used to produce the brain clipping mask from a 3DSkullStrip result image. */
   using ThresholdFilterType = itk::ThresholdImageFilter<ImageType>;
@@ -185,7 +185,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   auto kmeansFilter = KMeansFilterType::New();
   kmeansFilter->SetInput(clippedBrainT1Pointer);
 
-  constexpr bool useNonContiguousLabels = true;
+  constexpr bool useNonContiguousLabels{ true };
 
   RealPixelType backgroundInitialMean = imageExclusion;
   //  RealPixelType bloodInitialMean = imageMax;    // ARTERIAL blood.

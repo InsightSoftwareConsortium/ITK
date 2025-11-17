@@ -52,8 +52,7 @@ HDF5TransformIOFactory::GetITKSourceVersion() const
 const char *
 HDF5TransformIOFactory::GetDescription() const
 {
-  return "HD5 TransformIO Factory, allows the"
-         " loading of HDF5 transforms into insight";
+  return "HD5 TransformIO Factory, allows the loading of HDF5 transforms into insight";
 }
 
 // Undocumented API used to register during static initialization.

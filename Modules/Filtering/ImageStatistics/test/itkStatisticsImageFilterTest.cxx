@@ -46,16 +46,12 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
 
   itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(987);
 
-  auto                            image = FloatImage::New();
-  FloatImage::RegionType          region;
-  auto                            size = FloatImage::SizeType::Filled(64);
-  constexpr FloatImage::IndexType index{};
-
-  region.SetIndex(index);
-  region.SetSize(size);
+  auto                   image = FloatImage::New();
+  auto                   size = FloatImage::SizeType::Filled(64);
+  FloatImage::RegionType region{ size };
 
   // first try a constant image
-  constexpr float fillValue = -100.0;
+  constexpr float fillValue{ -100.0 };
   image->SetRegions(region);
   image->Allocate();
   image->FillBuffer(static_cast<FloatImage::PixelType>(fillValue));
@@ -120,8 +116,8 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   FloatImage::SizeValueType randomSize[3] = { 17, 8, 241 };
 
   source->SetSize(randomSize);
-  constexpr float minValue = -100.0;
-  constexpr float maxValue = 1000.0;
+  constexpr float minValue{ -100.0 };
+  constexpr float maxValue{ 1000.0 };
 
   source->SetMin(static_cast<FloatImage::PixelType>(minValue));
   source->SetMax(static_cast<FloatImage::PixelType>(maxValue));
@@ -131,7 +127,7 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->UpdateLargestPossibleRegion());
 
   const double     expectedSigma = std::sqrt((maxValue - minValue) * (maxValue - minValue) / 12.0);
-  constexpr double epsilon = (maxValue - minValue) * .001;
+  constexpr double epsilon{ (maxValue - minValue) * .001 };
 
   if (itk::Math::abs(filter->GetSigma() - expectedSigma) > epsilon)
   {
@@ -141,18 +137,14 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   // Now generate an image with a known mean and variance
   const itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer rvgen =
     itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
-  constexpr double knownMean = 12.0;
-  constexpr double knownVariance = 10.0;
+  constexpr double knownMean{ 12.0 };
+  constexpr double knownVariance{ 10.0 };
 
   using DoubleImage = itk::Image<double, 3>;
   auto                    dImage = DoubleImage::New();
-  DoubleImage::SizeType   dsize;
-  DoubleImage::IndexType  dindex;
-  DoubleImage::RegionType dregion;
-  dsize.Fill(50);
-  dindex.Fill(0);
-  dregion.SetSize(dsize);
-  dregion.SetIndex(dindex);
+  DoubleImage::SizeType   dsize{ 50, 50, 50 };
+  DoubleImage::IndexType  dindex{};
+  DoubleImage::RegionType dregion = { dindex, dsize };
   dImage->SetRegions(dregion);
   dImage->Allocate();
   itk::ImageRegionIterator<DoubleImage> it(dImage, dregion);

@@ -64,8 +64,7 @@ struct ITKIOTIFF : public ::testing::Test
     typename ImageType::RegionType region;
     region.SetSize(size);
     img->SetRegions(region);
-    img->Allocate();
-    img->FillBuffer(0);
+    img->AllocateInitialized();
 
     for (unsigned int z = 0; z < z_size; ++z)
     {
@@ -90,7 +89,7 @@ TEST_F(ITKIOTIFF, ReverseOrder_with_ImageIO)
   // Create a series of 3 TIFF files with different values using native itk::Image
   const unsigned int z_size = 3;
   using PixelType = unsigned char;
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using ImageType = itk::Image<PixelType, Dimension>;
 
 

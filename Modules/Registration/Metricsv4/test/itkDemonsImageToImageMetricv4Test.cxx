@@ -32,13 +32,12 @@ int
 itkDemonsImageToImageMetricv4Test(int, char ** const)
 {
 
-  constexpr unsigned int imageSize = 5;
-  constexpr unsigned int imageDimensionality = 3;
+  constexpr unsigned int imageSize{ 5 };
+  constexpr unsigned int imageDimensionality{ 3 };
   using ImageType = itk::Image<double, imageDimensionality>;
 
-  auto                           size = ImageType::SizeType::Filled(imageSize);
-  constexpr ImageType::IndexType index{};
-  const ImageType::RegionType    region{ index, size };
+  auto                        size = ImageType::SizeType::Filled(imageSize);
+  const ImageType::RegionType region{ size };
 
 
   /* Create simple test images. */

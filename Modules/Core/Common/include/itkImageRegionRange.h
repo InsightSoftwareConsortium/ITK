@@ -24,7 +24,6 @@
 #include <cstddef>     // For ptrdiff_t.
 #include <iterator>    // For bidirectional_iterator_tag.
 #include <functional>  // For multiplies.
-#include <numeric>     // For accumulate.
 #include <type_traits> // For conditional, enable_if, and is_const.
 
 #include "itkImageHelper.h"
@@ -440,8 +439,7 @@ public:
   [[nodiscard]] size_t
   size() const noexcept
   {
-    return std::accumulate(
-      m_IterationRegionSize.begin(), m_IterationRegionSize.end(), size_t{ 1 }, std::multiplies<size_t>{});
+    return m_IterationRegionSize.CalculateProductOfElements();
   }
 
 

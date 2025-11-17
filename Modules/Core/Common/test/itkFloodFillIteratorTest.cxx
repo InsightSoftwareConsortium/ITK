@@ -28,7 +28,7 @@
 int
 itkFloodFillIteratorTest(int, char *[])
 {
-  constexpr unsigned int dim = 3;
+  constexpr unsigned int dim{ 3 };
 
   // Image type alias
   using TImageType = itk::Image<int, dim>;
@@ -60,17 +60,9 @@ itkFloodFillIteratorTest(int, char *[])
   // the requested region to what we just defined.
   sourceImage->SetRegions(largestPossibleRegion);
   // Now allocate memory for the sourceImage
-  sourceImage->Allocate();
+  sourceImage->AllocateInitialized();
 
   std::cout << "New sourceImage allocated" << std::endl;
-
-  // Initialize the image to hold all 0's
-  itk::ImageRegionIterator<TImageType> it(sourceImage, largestPossibleRegion);
-
-  for (it.GoToBegin(); !it.IsAtEnd(); ++it)
-  {
-    it.Set(0);
-  }
 
   //---------Create and initialize a spatial function-----------
 
@@ -92,7 +84,7 @@ itkFloodFillIteratorTest(int, char *[])
 
   //---------Create and initialize a spatial function iterator-----------
   TImageType::IndexType                seedPos;
-  constexpr TImageType::IndexValueType pos[] = { 10, 10, 10 };
+  constexpr TImageType::IndexValueType pos[]{ 10, 10, 10 };
   seedPos.SetIndex(pos);
 
   using TItType = itk::FloodFilledSpatialFunctionConditionalIterator<TImageType, TFunctionType>;

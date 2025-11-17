@@ -98,8 +98,7 @@ AutoCropLabelMapFilter<TInputImage>::GenerateOutputInformation()
   {
     regionSize[i] = maxIdx[i] - minIdx[i] + 1;
   }
-  cropRegion.SetIndex(minIdx);
-  cropRegion.SetSize(regionSize);
+  cropRegion = { minIdx, regionSize };
 
   // pad the crop border while ensuring border is not larger than the largest
   // possible region of the input image

@@ -42,7 +42,7 @@ itkGridImageSourceTest(int argc, char * argv[])
   }
 
 
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
   using PixelType = float;
 
   using ImageType = itk::Image<PixelType, ImageDimension>;
@@ -65,7 +65,7 @@ itkGridImageSourceTest(int argc, char * argv[])
   gridImage->SetDirection(direction);
 
   // Specify grid parameters
-  constexpr double scale = 255.0;
+  constexpr double scale{ 255.0 };
   gridImage->SetScale(scale);
   ITK_TEST_SET_GET_VALUE(scale, gridImage->GetScale());
 

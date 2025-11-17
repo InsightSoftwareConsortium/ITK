@@ -515,7 +515,7 @@ public:
    * will copy meta-data from the first input to all of its
    * outputs. See ProcessObject::GenerateOutputInformation().  Each
    * subclass of DataObject is responsible for being able to copy
-   * whatever meta-data it needs from from another DataObject.
+   * whatever meta-data it needs from another DataObject.
    * The default implementation of this method is empty. If a subclass
    * overrides this method, it should always call its superclass'
    * version. */

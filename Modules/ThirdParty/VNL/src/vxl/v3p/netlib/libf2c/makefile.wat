@@ -8,7 +8,7 @@
 # to the objects in the "w =" list below.
 
 CC = wcc386
-CFLAGS = -fpd -DMSDOS -DUSE_CLOCK -DNO_ONEXIT -bt=nt
+CFLAGS = -fpd -DMSDOS -DUSE_CLOCK -DNO_ONEXIT -bt=nt -DNO_My_ctype
 
 .c.obj:
         $(CC) $(CFLAGS) $*.c

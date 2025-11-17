@@ -23,7 +23,7 @@
 
 namespace
 {
-constexpr unsigned int Dimension = 3;
+constexpr unsigned int Dimension{ 3 };
 
 // This function assumes that the center of mass of both images is the
 // geometrical center.
@@ -91,7 +91,7 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   const TransformType::InputPointType &   center1 = transform->GetCenter();
   const TransformType::OutputVectorType & translation1 = transform->GetTranslation();
   const TransformType::OffsetType &       offset1 = transform->GetOffset();
-  constexpr double                        tolerance = 1e-3;
+  constexpr double                        tolerance{ 1e-3 };
 
   // Verifications for the Geometry Mode
   for (unsigned int k = 0; k < Dimension; ++k)
@@ -171,8 +171,7 @@ template <typename TImage>
 void
 PopulateImage(itk::SmartPointer<TImage> image)
 {
-  image->Allocate();
-  image->FillBuffer(0);
+  image->AllocateInitialized();
 
   using ImageType = TImage;
   using RegionType = typename ImageType::RegionType;
@@ -183,27 +182,15 @@ PopulateImage(itk::SmartPointer<TImage> image)
   const SizeType &   size = region.GetSize();
   const IndexType &  index = region.GetIndex();
 
-  RegionType internalRegion;
-  SizeType   internalSize;
-  IndexType  internalIndex;
 
-  constexpr unsigned int border = 20;
+  constexpr unsigned int border{ 20 };
 
   assert(2 * border < size[0]);
   assert(2 * border < size[1]);
   assert(2 * border < size[2]);
-
-  internalIndex[0] = index[0] + border;
-  internalIndex[1] = index[1] + border;
-  internalIndex[2] = index[2] + border;
-
-  internalSize[0] = size[0] - 2 * border;
-  internalSize[1] = size[1] - 2 * border;
-  internalSize[2] = size[2] - 2 * border;
-
-
-  internalRegion.SetSize(internalSize);
-  internalRegion.SetIndex(internalIndex);
+  IndexType  internalIndex{ index[0] + border, index[1] + border, index[2] + border };
+  SizeType   internalSize{ size[0] - 2 * border, size[1] - 2 * border, size[2] - 2 * border };
+  RegionType internalRegion = { internalIndex, internalSize };
 
   using Iterator = itk::ImageRegionIterator<ImageType>;
   Iterator it(image, internalRegion);

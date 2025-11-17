@@ -25,7 +25,7 @@
 
 namespace itkContourExtractor2DImageFilterTestNamespace
 {
-constexpr unsigned int Dimension = 2;
+constexpr unsigned int Dimension{ 2 };
 using PixelType = unsigned char;
 using ImageType = itk::Image<PixelType, Dimension>;
 using ReaderType = itk::ImageFileReader<ImageType>;
@@ -34,7 +34,7 @@ using VertexType = ExtractorType::VertexType;
 using MyVertexType = std::pair<double, double>;
 using MyVertexListType = std::vector<MyVertexType>;
 using MyVertexListList = std::vector<MyVertexListType>;
-constexpr float FLOAT_EPSILON = 0.0001;
+constexpr float FLOAT_EPSILON{ 0.0001 };
 } // namespace itkContourExtractor2DImageFilterTestNamespace
 
 /* ----------------------------------------------------------------------- */
@@ -479,9 +479,8 @@ ShowExtractorAsVariables(itkContourExtractor2DImageFilterTestNamespace::Extracto
     std::cout << name << i << ", ";
   }
   std::cout << std::endl << "};" << std::endl;
-  std::cout << "itkContourExtractor2DImageFilterTestNamespace::MyVertexListList "
-               "expected_values_as_"
-            << name << "_outputs(" << name << ", " << name << " + " << extractor->GetNumberOfIndexedOutputs() << ");"
+  std::cout << "itkContourExtractor2DImageFilterTestNamespace::MyVertexListList expected_values_as_" << name
+            << "_outputs(" << name << ", " << name << " + " << extractor->GetNumberOfIndexedOutputs() << ");"
             << std::endl;
 }
 
@@ -720,7 +719,7 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
     std::cout << "Test 6 ...";
     {
       using PixelType = unsigned char;
-      constexpr unsigned int Dimension = 2;
+      constexpr unsigned int Dimension{ 2 };
       using ImageType = itk::Image<PixelType, Dimension>;
       using ImagePointer = typename ImageType::Pointer;
       using RegionType = typename ImageType::RegionType;

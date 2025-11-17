@@ -42,7 +42,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>::BimodalTest(const std::vecto
     }
   }
 
-  return (modes == 2);
+  return modes == 2;
 }
 
 template <typename THistogram, typename TOutput>

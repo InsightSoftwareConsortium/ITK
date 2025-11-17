@@ -42,11 +42,11 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
   }
 
   char *        dataFileName = argv[1];
-  constexpr int dataSize = 2000;
-  constexpr int maximumIteration = 200;
+  constexpr int dataSize{ 2000 };
+  constexpr int maximumIteration{ 200 };
   using ParametersType = itk::Array<double>;
-  constexpr double            minStandardDeviation = 28.54746;
-  constexpr unsigned int      numberOfClasses = 2;
+  constexpr double            minStandardDeviation{ 28.54746 };
+  constexpr unsigned int      numberOfClasses{ 2 };
   std::vector<ParametersType> trueParameters(numberOfClasses);
   ParametersType              params(6);
   params[0] = 99.261;

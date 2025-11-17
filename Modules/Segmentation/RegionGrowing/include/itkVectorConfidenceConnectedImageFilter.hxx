@@ -38,9 +38,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::VectorConfidenc
   , m_ReplaceValue(NumericTraits<OutputImagePixelType>::OneValue())
   , m_InitialNeighborhoodRadius(1)
   , m_ThresholdFunction(DistanceThresholdFunctionType::New())
-{
-  m_Seeds.clear();
-}
+{}
 
 template <typename TInputImage, typename TOutputImage>
 void

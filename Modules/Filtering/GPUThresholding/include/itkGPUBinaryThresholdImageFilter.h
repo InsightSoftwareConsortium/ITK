@@ -69,10 +69,10 @@ public:
   int
   SetGPUKernelArguments(GPUKernelManager::Pointer KernelManager, int KernelHandle) override
   {
-    KernelManager->SetKernelArg(KernelHandle, 0, sizeof(TInput), &(m_LowerThreshold));
-    KernelManager->SetKernelArg(KernelHandle, 1, sizeof(TInput), &(m_UpperThreshold));
-    KernelManager->SetKernelArg(KernelHandle, 2, sizeof(TOutput), &(m_InsideValue));
-    KernelManager->SetKernelArg(KernelHandle, 3, sizeof(TOutput), &(m_OutsideValue));
+    KernelManager->SetKernelArg(KernelHandle, 0, sizeof(TInput), &m_LowerThreshold);
+    KernelManager->SetKernelArg(KernelHandle, 1, sizeof(TInput), &m_UpperThreshold);
+    KernelManager->SetKernelArg(KernelHandle, 2, sizeof(TOutput), &m_InsideValue);
+    KernelManager->SetKernelArg(KernelHandle, 3, sizeof(TOutput), &m_OutsideValue);
     return 4;
   }
 

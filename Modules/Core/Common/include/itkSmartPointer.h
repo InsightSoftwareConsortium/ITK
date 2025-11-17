@@ -247,19 +247,19 @@ template <class T, class TU>
 bool
 operator==(const SmartPointer<T> & l, const SmartPointer<TU> & r) noexcept
 {
-  return (l.GetPointer() == r.GetPointer());
+  return l.GetPointer() == r.GetPointer();
 }
 template <class T>
 bool
 operator==(const SmartPointer<T> & l, std::nullptr_t) noexcept
 {
-  return (l.GetPointer() == nullptr);
+  return l.GetPointer() == nullptr;
 }
 template <class T>
 bool
 operator==(std::nullptr_t, const SmartPointer<T> & r) noexcept
 {
-  return (nullptr == r.GetPointer());
+  return nullptr == r.GetPointer();
 }
 /** @ITKEndGrouping */
 /** Comparison of pointers. Not equal comparison. */
@@ -268,19 +268,19 @@ template <class T, class TU>
 bool
 operator!=(const SmartPointer<T> & l, const SmartPointer<TU> & r) noexcept
 {
-  return (l.GetPointer() != r.GetPointer());
+  return l.GetPointer() != r.GetPointer();
 }
 template <class T>
 bool
 operator!=(const SmartPointer<T> & l, std::nullptr_t) noexcept
 {
-  return (l.GetPointer() != nullptr);
+  return l.GetPointer() != nullptr;
 }
 template <class T>
 bool
 operator!=(std::nullptr_t, const SmartPointer<T> & r) noexcept
 {
-  return (nullptr != r.GetPointer());
+  return nullptr != r.GetPointer();
 }
 /** @ITKEndGrouping */
 
@@ -289,7 +289,7 @@ template <class T, class TU>
 bool
 operator<(const SmartPointer<T> & l, const SmartPointer<TU> & r) noexcept
 {
-  return (l.GetPointer() < r.GetPointer());
+  return l.GetPointer() < r.GetPointer();
 }
 
 /** Comparison of pointers. Greater than comparison.  */
@@ -297,7 +297,7 @@ template <class T, class TU>
 bool
 operator>(const SmartPointer<T> & l, const SmartPointer<TU> & r) noexcept
 {
-  return (l.GetPointer() > r.GetPointer());
+  return l.GetPointer() > r.GetPointer();
 }
 
 /** Comparison of pointers. Less than or equal to comparison.  */
@@ -305,7 +305,7 @@ template <class T, class TU>
 bool
 operator<=(const SmartPointer<T> & l, const SmartPointer<TU> & r) noexcept
 {
-  return (l.GetPointer() <= r.GetPointer());
+  return l.GetPointer() <= r.GetPointer();
 }
 
 /** Comparison of pointers. Greater than or equal to comparison.  */
@@ -313,7 +313,7 @@ template <class T, class TU>
 bool
 operator>=(const SmartPointer<T> & l, const SmartPointer<TU> & r) noexcept
 {
-  return (l.GetPointer() >= r.GetPointer());
+  return l.GetPointer() >= r.GetPointer();
 }
 
 template <typename T>

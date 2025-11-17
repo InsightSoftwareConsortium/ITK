@@ -80,7 +80,7 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
 
       std::cout << pixel1 << ' ';
 
-      // Check agreement of output from three three methods of accessing pixel values.
+      // Check agreement of output from three methods of accessing pixel values.
       if (pixel1 != pixel2 || pixel2 != pixel3)
       {
         success = false;
@@ -124,8 +124,8 @@ itkZeroFluxBoundaryConditionTest(int, char *[])
   // Test an image to cover one operator() method.
   auto image = ImageType::New();
 
-  constexpr SizeType  imageSize = { { 5, 5 } };
-  constexpr IndexType imageIndex = { { 0, 0 } };
+  constexpr SizeType  imageSize{ 5, 5 };
+  constexpr IndexType imageIndex{ 0, 0 };
   const RegionType    imageRegion{ imageIndex, imageSize };
   image->SetRegions(imageRegion);
   image->Allocate();
@@ -220,17 +220,11 @@ itkZeroFluxBoundaryConditionTest(int, char *[])
   requestIndex[1] = 0;
   requestSize[0] = 3;
   requestSize[1] = 2;
-  requestRegion.SetIndex(requestIndex);
-  requestRegion.SetSize(requestSize);
+  requestRegion = { requestIndex, requestSize };
 
-  IndexType expectedIndex;
-  expectedIndex[0] = 0;
-  expectedIndex[1] = 0;
-  SizeType expectedSize;
-  expectedSize[0] = 1;
-  expectedSize[1] = 2;
-  expectedRegion.SetIndex(expectedIndex);
-  expectedRegion.SetSize(expectedSize);
+  IndexType expectedIndex{};
+  SizeType  expectedSize{ 1, 2 };
+  expectedRegion = { expectedIndex, expectedSize };
 
   inputRegion = bc.GetInputRequestedRegion(imageRegion, requestRegion);
   if (!CheckInputRequestedRegion(imageRegion, inputRegion, expectedRegion))
@@ -246,15 +240,13 @@ itkZeroFluxBoundaryConditionTest(int, char *[])
   requestIndex[1] = 8;
   requestSize[0] = 3;
   requestSize[1] = 3;
-  requestRegion.SetIndex(requestIndex);
-  requestRegion.SetSize(requestSize);
+  requestRegion = { requestIndex, requestSize };
 
   expectedIndex[0] = 0;
   expectedIndex[1] = 4;
   expectedSize[0] = 1;
   expectedSize[1] = 1;
-  expectedRegion.SetIndex(expectedIndex);
-  expectedRegion.SetSize(expectedSize);
+  expectedRegion = { expectedIndex, expectedSize };
 
   inputRegion = bc.GetInputRequestedRegion(imageRegion, requestRegion);
   if (!CheckInputRequestedRegion(imageRegion, inputRegion, expectedRegion))

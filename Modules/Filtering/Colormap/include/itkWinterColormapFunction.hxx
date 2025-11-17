@@ -28,7 +28,7 @@ WinterColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const 
   const RealType value = this->RescaleInputValue(v);
 
   // Apply the color map.
-  constexpr RealType red = 0.0;
+  constexpr RealType red{ 0.0 };
 
   const RealType green = value;
 

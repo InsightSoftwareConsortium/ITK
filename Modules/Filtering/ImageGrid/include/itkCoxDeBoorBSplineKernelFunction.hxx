@@ -112,7 +112,7 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::CoxDeBoor(const un
     tmp /= den;
     poly2 = PolynomialType(tmp) * this->CoxDeBoor(order - 1, knots, i + 1, whichPiece);
   }
-  return (poly1 + poly2);
+  return poly1 + poly2;
 }
 
 template <unsigned int VSplineOrder, typename TRealValueType>

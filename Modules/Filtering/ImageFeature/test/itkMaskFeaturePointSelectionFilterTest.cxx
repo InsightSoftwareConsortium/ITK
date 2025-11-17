@@ -42,7 +42,7 @@ itkMaskFeaturePointSelectionFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   using InputPixelType = unsigned char;
   using OutputPixelType = itk::RGBPixel<InputPixelType>;

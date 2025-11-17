@@ -35,10 +35,10 @@ int
 itkSplineKernelTransformTest(int, char *[])
 {
 
-  constexpr double epsilon = 1e-12;
+  constexpr double epsilon{ 1e-12 };
 
   // 2-D case
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using ParametersValueType = double;
 
   using EBSTransform2DType = itk::ElasticBodySplineKernelTransform<ParametersValueType, Dimension>;
@@ -200,7 +200,7 @@ itkSplineKernelTransformTest(int, char *[])
 
   // NOTE: The following should set the default values explicitly
   {
-    constexpr double TestValue = 0.012345;
+    constexpr double TestValue{ 0.012345 };
     tps2D->SetStiffness(TestValue); // This value should not change the result at all.
 
     if (itk::Math::NotExactlyEquals(tps2D->GetStiffness(), TestValue))
@@ -456,7 +456,7 @@ itkSplineKernelTransformTest(int, char *[])
   tps3D->SetParameters(parameters1);
   TPSTransform3DType::ParametersType parameters2 = tps3D->GetParameters();
   const unsigned int                 numberOfParameters = parameters1.Size();
-  constexpr double                   tolerance = 1e-7;
+  constexpr double                   tolerance{ 1e-7 };
   for (unsigned int pr = 0; pr < numberOfParameters; ++pr)
   {
     if (itk::Math::abs(parameters1[pr] - parameters2[pr]) > tolerance)

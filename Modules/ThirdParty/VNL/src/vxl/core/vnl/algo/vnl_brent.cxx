@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include "vnl_brent.h"
+#include <cmath>
 #include <vnl/algo/vnl_bracket_minimum.h>
 
 vnl_brent::vnl_brent(vnl_cost_function * functor)
@@ -32,9 +33,9 @@ vnl_brent::minimize_given_bounds_and_1st_f(double ax, double bx, double fb, doub
 void
 vnl_brent::bracket_minimum(double * ax, double * bx, double * cx)
 {
-  double fa;
-  double fb;
-  double fc;
+  double fa = NAN;
+  double fb = NAN;
+  double fc = NAN;
   bracket_minimum(ax, bx, cx, &fa, &fb, &fc);
 }
 
@@ -51,9 +52,9 @@ vnl_brent::minimize(double x)
   double ax = x - 1.0;
   double xx = x + 1.0;
   double bx = 0.0;
-  double fa;
-  double fx;
-  double fb;
+  double fa = NAN;
+  double fx = NAN;
+  double fb = NAN;
   bracket_minimum(&ax, &xx, &bx, &fa, &fx, &fb);
   minimize_given_bounds(bx, xx, ax, ftol, &x);
   return x;

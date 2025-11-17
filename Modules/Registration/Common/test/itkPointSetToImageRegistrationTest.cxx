@@ -39,7 +39,7 @@
 int
 itkPointSetToImageRegistrationTest(int, char *[])
 {
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
 
   using PixelType = double;
 
@@ -68,7 +68,7 @@ itkPointSetToImageRegistrationTest(int, char *[])
   using FixedPointSetType = itk::PointSet<float, ImageDimension>;
   auto fixedPointSet = FixedPointSetType::New();
 
-  constexpr unsigned int numberOfPoints = 10000;
+  constexpr unsigned int numberOfPoints{ 10000 };
 
   fixedPointSet->SetPointData(FixedPointSetType::PointDataContainer::New());
 
@@ -142,10 +142,10 @@ itkPointSetToImageRegistrationTest(int, char *[])
   OptimizerType::ScalesType scales(transform->GetNumberOfParameters());
   scales.Fill(1.0);
 
-  constexpr unsigned long numberOfIterations = 50;
-  constexpr double        maximumStepLength = 1.0; // no step will be larger than this
-  constexpr double        minimumStepLength = 0.01;
-  constexpr double        gradientTolerance = 1e-6; // convergence criterion
+  constexpr unsigned long numberOfIterations{ 50 };
+  constexpr double        maximumStepLength{ 1.0 }; // no step will be larger than this
+  constexpr double        minimumStepLength{ 0.01 };
+  constexpr double        gradientTolerance{ 1e-6 }; // convergence criterion
 
   optimizer->SetScales(scales);
   optimizer->SetNumberOfIterations(numberOfIterations);

@@ -66,7 +66,7 @@ public:
     //"violet"          "red4"
     // They are a good selection of distinct colors for plotting and
     // overlays.
-    constexpr size_t        numColors = 30;
+    constexpr size_t        numColors{ 30 };
     constexpr unsigned char colors[numColors][3] = {
       { 255, 0, 0 },   { 0, 205, 0 },    { 0, 0, 255 },    { 0, 255, 255 },  { 255, 0, 255 },   { 255, 127, 0 },
       { 0, 100, 0 },   { 138, 43, 226 }, { 139, 35, 35 },  { 0, 0, 128 },    { 139, 139, 0 },   { 255, 62, 150 },

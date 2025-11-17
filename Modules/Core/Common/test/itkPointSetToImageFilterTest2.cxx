@@ -33,8 +33,8 @@ itkPointSetToImageFilterTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int PointSetDimension = 3;
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int PointSetDimension{ 3 };
+  constexpr unsigned int ImageDimension{ 3 };
 
   using PointSetPointType = float;
   using PixelType = unsigned char;

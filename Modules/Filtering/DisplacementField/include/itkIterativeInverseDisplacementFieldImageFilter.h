@@ -109,7 +109,7 @@ public:
                   (Concept::SameDimension<TInputImage::ImageDimension, TOutputImage::ImageDimension>));
 
 protected:
-  IterativeInverseDisplacementFieldImageFilter();
+  IterativeInverseDisplacementFieldImageFilter() = default;
   ~IterativeInverseDisplacementFieldImageFilter() override = default;
 
   void
@@ -118,7 +118,7 @@ protected:
   void
   GenerateData() override;
 
-  unsigned int m_NumberOfIterations{};
+  unsigned int m_NumberOfIterations{ 5 };
 
   double m_StopValue{};
   double m_Time{};

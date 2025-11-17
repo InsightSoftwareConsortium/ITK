@@ -19,6 +19,7 @@
 #include "itkVoronoiSegmentationImageFilter.h"
 #include "itkVoronoiSegmentationImageFilterBase.h"
 #include "itkTestingMacros.h"
+#include <random> // For mt19937.
 
 int
 itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
@@ -32,8 +33,8 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int width = 256;
-  constexpr int height = 256;
+  constexpr int width{ 256 };
+  constexpr int height{ 256 };
 
   using UShortImage = itk::Image<unsigned short, 2>;
   using PriorImage = itk::Image<unsigned char, 2>;
@@ -45,30 +46,31 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
     voronoiSegmenter, VoronoiSegmentationImageFilter, VoronoiSegmentationImageFilterBase);
 
   auto                            inputImage = UShortImage::New();
-  constexpr UShortImage::SizeType size = { { width, height } };
+  constexpr UShortImage::SizeType size{ width, height };
   UShortImage::IndexType          index{};
-
-  UShortImage::RegionType region;
-
-  region.SetSize(size);
-  region.SetIndex(index);
+  UShortImage::RegionType         region{ index, size };
 
   std::cout << "Allocating image" << std::endl;
   inputImage->SetRegions(region);
   inputImage->Allocate();
 
+  std::mt19937 randomNumberEngine{};
 
   itk::ImageRegionIteratorWithIndex<UShortImage> it(inputImage, region);
 
   // Background: random field with mean: 500, std: 50
+  std::uniform_int_distribution<unsigned short> backgroundRandomNumberDistribution(450, 550);
+
   std::cout << "Setting background random pattern image" << std::endl;
   while (!it.IsAtEnd())
   {
-    it.Set(static_cast<unsigned short>(vnl_sample_uniform(450, 550)));
+    it.Set(backgroundRandomNumberDistribution(randomNumberEngine));
     ++it;
   }
 
   // Object (2): random field with mean: 520, std: 20
+  std::uniform_int_distribution<unsigned short> forgroundRandomNumberDistribution(500, 540);
+
   std::cout << "Defining object #2" << std::endl;
   for (unsigned int i = 30; i < 94; ++i)
   {
@@ -76,7 +78,7 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
     for (unsigned int j = 30; j < 94; ++j)
     {
       index[1] = j;
-      inputImage->SetPixel(index, static_cast<unsigned short>(vnl_sample_uniform(500, 540)));
+      inputImage->SetPixel(index, forgroundRandomNumberDistribution(randomNumberEngine));
     }
   }
 
@@ -86,7 +88,7 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
     for (unsigned int j = 150; j < 214; ++j)
     {
       index[1] = j;
-      inputImage->SetPixel(index, static_cast<unsigned short>(vnl_sample_uniform(500, 540)));
+      inputImage->SetPixel(index, forgroundRandomNumberDistribution(randomNumberEngine));
     }
   }
 

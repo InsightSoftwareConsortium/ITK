@@ -80,7 +80,7 @@ public:
   PopulateListDomain() override;
 
 protected:
-  LevelSetDomainPartitionImageWithKdTree();
+  LevelSetDomainPartitionImageWithKdTree() = default;
   ~LevelSetDomainPartitionImageWithKdTree() override = default;
 
   /** Populate a list image with each pixel being a list of overlapping
@@ -89,7 +89,7 @@ protected:
   PopulateDomainWithKdTree();
 
 private:
-  KdTreePointer   m_KdTree{};
+  KdTreePointer   m_KdTree{ nullptr };
   NeighborsIdType m_NumberOfNeighbors{ 10 };
 };
 

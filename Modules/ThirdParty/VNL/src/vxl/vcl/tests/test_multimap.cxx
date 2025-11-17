@@ -6,7 +6,7 @@
 #  include "vcl_msvc_warnings.h"
 #endif
 
-typedef std::multimap<int, double, std::less<int>> mymap;
+using mymap = std::multimap<int, double, std::less<int>>;
 
 std::ostream &
 operator<<(std::ostream & s, const mymap::value_type & x)

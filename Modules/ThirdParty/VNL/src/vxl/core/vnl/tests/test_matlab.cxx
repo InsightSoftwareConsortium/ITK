@@ -90,8 +90,8 @@ test_matlab()
   // vnl_matlab_write, vnl_matlab_read
   {
     std::string tmp_nam = vul_temp_filename(), tmp_nam2 = vul_temp_filename();
-    const char * file = !tmp_nam.empty() ? tmp_nam.c_str() : "smoo.mat";
-    const char * file2 = !tmp_nam2.empty() ? tmp_nam2.c_str() : "smoo2.mat";
+    const char * const file = !tmp_nam.empty() ? tmp_nam.c_str() : "smoo.mat";
+    const char * const file2 = !tmp_nam2.empty() ? tmp_nam2.c_str() : "smoo2.mat";
     {
       std::ofstream f(file);
 #ifdef LEAVE_IMAGES_BEHIND

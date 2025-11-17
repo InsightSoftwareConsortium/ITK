@@ -180,7 +180,7 @@ vnl_levenberg_marquardt::minimize_without_gradient(vnl_vector<double> & x)
 
   num_iterations_ = 0;
   set_covariance_ = false;
-  long info;
+  long info = 0;
   start_error_ = 0; // Set to 0 so first call to lmdif_lsqfun will know to set it.
   v3p_netlib_lmdif_(lmdif_lsqfun,
                     &m,
@@ -354,15 +354,15 @@ vnl_levenberg_marquardt::minimize_using_gradient(vnl_vector<double> & x)
 
   num_iterations_ = 0;
   set_covariance_ = false;
-  long info;
+  long info = 0;
   start_error_ = 0; // Set to 0 so first call to lmder_lsqfun will know to set it.
 
 
   double factor = 100;
   long nprint = 1;
   long mode = 1;
-  long nfev;
-  long njev;
+  long nfev = 0;
+  long njev = 0;
 
   vnl_vector<double> diag(n, 0);
   vnl_vector<double> qtf(n, 0);

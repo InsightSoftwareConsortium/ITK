@@ -77,7 +77,7 @@ public:
   TInput
   GetDistanceThreshold()
   {
-    return (m_Threshold);
+    return m_Threshold;
   }
 
   bool
@@ -137,7 +137,7 @@ public:
   virtual InputPixelType
   GetDistanceThreshold()
   {
-    return (this->GetFunctor().GetDistanceThreshold());
+    return this->GetFunctor().GetDistanceThreshold();
   }
 
   itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<InputPixelType>));

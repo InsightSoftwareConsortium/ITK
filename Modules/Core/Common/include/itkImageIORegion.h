@@ -225,9 +225,7 @@ public:
     // ignored.
     //
     const unsigned int ioDimension = outIORegion.GetImageDimension();
-    const unsigned int imageDimension = VDimension;
-
-    const unsigned int minDimension = std::min(ioDimension, imageDimension);
+    const unsigned int minDimension = std::min(ioDimension, VDimension);
 
     const ImageSizeType &  size = inImageRegion.GetSize();
     const ImageIndexType & index = inImageRegion.GetIndex();
@@ -253,9 +251,6 @@ public:
           ImageRegionType &         outImageRegion,
           const ImageIndexType &    largestRegionIndex)
   {
-    auto           size = MakeFilled<ImageSizeType>(1); // initialize with default values
-    ImageIndexType index{};
-
     //
     // The ImageRegion and ImageIORegion objects may have different dimensions.
     // Here we only copy the common dimensions between the two. If the
@@ -268,18 +263,17 @@ public:
     // ignored.
     //
     const unsigned int ioDimension = inIORegion.GetImageDimension();
-    const unsigned int imageDimension = VDimension;
+    const unsigned int minDimension = std::min(ioDimension, VDimension);
 
-    const unsigned int minDimension = std::min(ioDimension, imageDimension);
-
+    auto           size = MakeFilled<ImageSizeType>(1); // initialize with default values
+    ImageIndexType index{};
     for (unsigned int i = 0; i < minDimension; ++i)
     {
       size[i] = inIORegion.GetSize(i);
       index[i] = inIORegion.GetIndex(i) + largestRegionIndex[i];
     }
 
-    outImageRegion.SetSize(size);
-    outImageRegion.SetIndex(index);
+    outImageRegion = { index, size };
   }
 };
 } // end namespace itk

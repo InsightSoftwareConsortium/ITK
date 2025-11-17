@@ -26,7 +26,7 @@ namespace itk
 SimplexMeshGeometry::SimplexMeshGeometry()
 
 {
-  constexpr double    c = 1.0 / 3.0;
+  constexpr double    c{ 1.0 / 3.0 };
   constexpr PointType p{};
 
   pos.Fill(0);

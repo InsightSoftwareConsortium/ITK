@@ -171,7 +171,7 @@ public:
   void
   SetMaximumError(const double maxerror)
   {
-    constexpr double Min = 0.00001;
+    constexpr double Min{ 0.00001 };
     const double     Max = 1.0 - Min;
 
     m_MaximumError = std::clamp(maxerror, Min, Max);

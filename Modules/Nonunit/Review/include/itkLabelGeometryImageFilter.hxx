@@ -932,9 +932,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetRegion(LabelPixelType
       index[i] = bbox[2 * i];
       size[i] = bbox[2 * i + 1] - bbox[2 * i] + 1;
     }
-    RegionType region;
-    region.SetSize(size);
-    region.SetIndex(index);
+    RegionType region{ index, size };
 
     return region;
   }

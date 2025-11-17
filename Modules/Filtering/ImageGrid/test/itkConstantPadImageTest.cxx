@@ -16,11 +16,14 @@
  *
  *=========================================================================*/
 
-#include <iostream>
 #include "itkConstantPadImageFilter.h"
+#include "itkImageBufferRange.h"
 #include "itkStreamingImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkMath.h"
+
+#include <iostream>
+#include <numeric> // For iota.
 
 int
 itkConstantPadImageTest(int, char *[])
@@ -33,21 +36,15 @@ itkConstantPadImageTest(int, char *[])
   auto image = ShortImage::New();
 
   // fill in an image
-  ShortImage::IndexType  index = { { 0, 0 } };
-  ShortImage::SizeType   size = { { 8, 12 } };
-  ShortImage::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  ShortImage::IndexType  index{ { 0, 0 } };
+  ShortImage::SizeType   size{ { 8, 12 } };
+  ShortImage::RegionType region{ index, size };
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
   image->Allocate();
 
-  itk::ImageRegionIterator<ShortImage> iterator(image, region);
-
-  for (short i = 0; !iterator.IsAtEnd(); ++iterator, ++i)
-  {
-    iterator.Set(i);
-  }
+  const itk::ImageBufferRange<ShortImage> imageBufferRange(*image);
+  std::iota(imageBufferRange.begin(), imageBufferRange.end(), short{});
 
   // Create a filter
   using PadFilterType = itk::ConstantPadImageFilter<ShortImage, FloatImage>;
@@ -61,7 +58,7 @@ itkConstantPadImageTest(int, char *[])
   SizeValueType upperFactors[2] = { 0, 0 };
   SizeValueType lowerFactors[2] = { 0, 0 };
 
-  constexpr float constant = 13.3f;
+  constexpr float constant{ 13.3f };
   constantPad->SetConstant(constant);
   // check the method using the SizeType rather than the simple table type.
   constexpr ShortImage::SizeType stfactors{};

@@ -143,7 +143,7 @@ DiffusionTensor3D<T>::GetInnerScalarProduct() const -> RealValueType
   const RealValueType yz = (*this)[4];
   const RealValueType zz = (*this)[5];
 
-  return (xx * xx + yy * yy + zz * zz + 2.0 * (xy * xy + xz * xz + yz * yz));
+  return xx * xx + yy * yy + zz * zz + 2.0 * (xy * xy + xz * xz + yz * yz);
 }
 } // end namespace itk
 

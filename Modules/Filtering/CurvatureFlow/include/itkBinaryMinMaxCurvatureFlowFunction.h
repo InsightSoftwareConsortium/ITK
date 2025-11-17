@@ -87,7 +87,7 @@ public:
                 const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
 
 protected:
-  BinaryMinMaxCurvatureFlowFunction();
+  BinaryMinMaxCurvatureFlowFunction() = default;
   ~BinaryMinMaxCurvatureFlowFunction() override = default;
 
 private:

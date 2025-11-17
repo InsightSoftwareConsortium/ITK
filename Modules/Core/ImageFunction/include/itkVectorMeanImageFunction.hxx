@@ -25,11 +25,6 @@ namespace itk
 {
 
 template <typename TInputImage, typename TCoordinate>
-VectorMeanImageFunction<TInputImage, TCoordinate>::VectorMeanImageFunction()
-  : m_NeighborhoodRadius(1)
-{}
-
-template <typename TInputImage, typename TCoordinate>
 void
 VectorMeanImageFunction<TInputImage, TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -88,7 +83,7 @@ VectorMeanImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexTy
     sum[dim] /= static_cast<double>(it.Size());
   }
 
-  return (sum);
+  return sum;
 }
 } // end namespace itk
 

@@ -23,7 +23,7 @@
 int
 itkGaussianExponentialDiffeomorphicTransformParametersAdaptorTest(int, char *[])
 {
-  constexpr unsigned int SpaceDimension = 3;
+  constexpr unsigned int SpaceDimension{ 3 };
   using CoordinateRepType = double;
   using TransformType = itk::GaussianExponentialDiffeomorphicTransform<CoordinateRepType, SpaceDimension>;
 
@@ -98,8 +98,8 @@ itkGaussianExponentialDiffeomorphicTransformParametersAdaptorTest(int, char *[])
   adaptor->SetRequiredOrigin(displacementField->GetOrigin());
   adaptor->SetRequiredDirection(displacementField->GetDirection());
 
-  constexpr float updateSmoothingVariance = 3.0;
-  constexpr float velocitySmoothingVariance = 0;
+  constexpr float updateSmoothingVariance{ 3.0 };
+  constexpr float velocitySmoothingVariance{ 0 };
 
   adaptor->SetGaussianSmoothingVarianceForTheUpdateField(updateSmoothingVariance);
   adaptor->SetGaussianSmoothingVarianceForTheConstantVelocityField(velocitySmoothingVariance);

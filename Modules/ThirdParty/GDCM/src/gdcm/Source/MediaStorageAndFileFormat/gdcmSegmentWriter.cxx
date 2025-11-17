@@ -45,7 +45,7 @@ SegmentWriter::SegmentVector & SegmentWriter::GetSegments()
 
 SmartPointer< Segment > SegmentWriter::GetSegment(const unsigned int idx /*= 0*/) const
 {
-  assert( idx < Segments.size() );
+  gdcm_assert( idx < Segments.size() );
   return Segments[idx];
 }
 
@@ -159,7 +159,7 @@ bool SegmentWriter::PrepareWrite()
   {
     // Fill the Segment Sequence
     const unsigned int              numberOfSegments  = this->GetNumberOfSegments();
-    assert( numberOfSegments );
+    gdcm_assert( numberOfSegments );
     const size_t nbItems           = segmentsSQ->GetNumberOfItems();
     if (nbItems < numberOfSegments)
     {
@@ -182,7 +182,7 @@ bool SegmentWriter::PrepareWrite()
   for (; it0 != it0End; it0++)
   {
     SmartPointer< Segment > segment = *it0;
-    assert( segment );
+    gdcm_assert( segment );
 
     Item &    segmentItem = segmentsSQ->GetItem(itemNumber);
     DataSet & segmentDS   = segmentItem.GetNestedDataSet();
@@ -389,7 +389,7 @@ bool SegmentWriter::Write()
     return false;
   }
 
-  assert( Stream );
+  gdcm_assert( Stream );
   if( !Writer::Write() )
   {
     return false;

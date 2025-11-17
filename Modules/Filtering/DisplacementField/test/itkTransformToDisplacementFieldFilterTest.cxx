@@ -44,10 +44,10 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
   }
 
   // Typedefs.
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using ScalarPixelType = float;
   using CoordRepresentationType = double;
-  constexpr unsigned int SplineOrder = 3;
+  constexpr unsigned int SplineOrder{ 3 };
 
   using VectorPixelType = itk::Vector<ScalarPixelType, Dimension>;
 

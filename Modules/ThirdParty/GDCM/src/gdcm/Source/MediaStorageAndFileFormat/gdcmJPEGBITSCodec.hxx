@@ -130,7 +130,7 @@ fill_input_buffer (j_decompress_ptr cinfo)
     }
 
   std::streamsize gcount = src->infile->gcount();
-  assert(gcount < INT_MAX);
+  gdcm_assert(gcount < INT_MAX);
   nbytes = (size_t)gcount;
 
   if (gcount <= 0) {
@@ -341,8 +341,8 @@ bool JPEGBITSCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
       if ( jerr.pub.msg_code == JERR_BAD_PRECISION /* 18 */ )
         {
         this->BitSample = jerr.pub.msg_parm.i[0];
-        assert( this->BitSample == 1 || this->BitSample == 8 || this->BitSample == 12 || this->BitSample == 16 );
-        assert( this->BitSample == cinfo.data_precision );
+        gdcm_assert( this->BitSample == 1 || this->BitSample == 8 || this->BitSample == 12 || this->BitSample == 16 );
+        gdcm_assert( this->BitSample == cinfo.data_precision );
         }
       jpeg_destroy_decompress(&cinfo);
       // TODO: www.dcm4che.org/jira/secure/attachment/10185/ct-implicit-little.dcm
@@ -383,7 +383,7 @@ bool JPEGBITSCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
         }
       else
         {
-        assert( 0 );
+        gdcm_assert( 0 );
         }
       }
     this->Dimensions[1] = cinfo.image_height;  /* Number of rows in image */
@@ -413,11 +413,11 @@ bool JPEGBITSCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
       }
     else
       {
-      assert( 0 );
+      gdcm_assert( 0 );
       }
     this->PF.SetPixelRepresentation( (uint16_t)prep );
     this->PF.SetBitsStored( (uint16_t)precision );
-    assert( (precision - 1) >= 0 );
+    gdcm_assert( (precision - 1) >= 0 );
     this->PF.SetHighBit( (uint16_t)(precision - 1) );
 
   this->PlanarConfiguration = 0;
@@ -444,24 +444,24 @@ bool JPEGBITSCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
         }
       else
         {
-        assert( 0 );
+        gdcm_assert( 0 );
         }
       }
     else if( cinfo.jpeg_color_space == JCS_GRAYSCALE )
       {
-      assert( cinfo.num_components == 1 );
+      gdcm_assert( cinfo.num_components == 1 );
       PI = PhotometricInterpretation::MONOCHROME2;
       this->PF.SetSamplesPerPixel( 1 );
       }
     else if( cinfo.jpeg_color_space == JCS_RGB )
       {
-      assert( cinfo.num_components == 3 );
+      gdcm_assert( cinfo.num_components == 3 );
       PI = PhotometricInterpretation::RGB;
       this->PF.SetSamplesPerPixel( 3 );
       }
     else if( cinfo.jpeg_color_space == JCS_YCbCr )
       {
-      assert( cinfo.num_components == 3 );
+      gdcm_assert( cinfo.num_components == 3 );
       PI = PhotometricInterpretation::YBR_FULL_422;
       if( cinfo.process == JPROC_LOSSLESS )
         PI = PhotometricInterpretation::RGB; // wotsit ?
@@ -470,20 +470,20 @@ bool JPEGBITSCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
       }
     else if( cinfo.jpeg_color_space == JCS_CMYK )
       {
-      assert( cinfo.num_components == 4 );
+      gdcm_assert( cinfo.num_components == 4 );
       PI = PhotometricInterpretation::CMYK;
       this->PF.SetSamplesPerPixel( 4 );
       }
     else if( cinfo.jpeg_color_space == JCS_YCCK )
       {
-      assert( cinfo.num_components == 4 );
+      gdcm_assert( cinfo.num_components == 4 );
       gdcmWarningMacro( "JCS_YCCK is not handled. Setting to CMYK for now." );
       PI = PhotometricInterpretation::CMYK; // non-sense...oh well
       this->PF.SetSamplesPerPixel( 4 );
       }
     else
       {
-      assert( 0 ); //TODO
+      gdcm_assert( 0 ); //TODO
       }
     }
   if( cinfo.process == JPROC_LOSSLESS )
@@ -519,13 +519,13 @@ bool JPEGBITSCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
       }
     else
       {
-      assert(0); // TODO
+      gdcm_assert(0); // TODO
       return false;
       }
     }
   else
     {
-    assert(0); // TODO
+    gdcm_assert(0); // TODO
     return false;
     }
   if( cinfo.process == JPROC_LOSSLESS )
@@ -573,7 +573,7 @@ UINT16 Y_density
         }
       break;
     case JCS_RGB:
-      assert( GetPhotometricInterpretation() == PhotometricInterpretation::RGB );
+      gdcm_assert( GetPhotometricInterpretation() == PhotometricInterpretation::RGB );
       break;
     case JCS_YCbCr:
       if( GetPhotometricInterpretation() != PhotometricInterpretation::YBR_FULL &&
@@ -597,11 +597,11 @@ UINT16 Y_density
         }
       break;
     default:
-      assert(0);
+      gdcm_assert(0);
       return false;
       }
-    //assert( cinfo.data_precision == BITS_IN_JSAMPLE );
-    //assert( cinfo.data_precision == this->BitSample );
+    //gdcm_assert( cinfo.data_precision == BITS_IN_JSAMPLE );
+    //gdcm_assert( cinfo.data_precision == this->BitSample );
 
     /* Step 4: set parameters for decompression */
     /* no op */
@@ -731,7 +731,7 @@ bool JPEGBITSCodec::DecodeByStreams(std::istream &is, std::ostream &os)
       if ( jerr.pub.msg_code == JERR_BAD_PRECISION /* 18 */ )
         {
         this->BitSample = jerr.pub.msg_parm.i[0];
-        //assert( this->BitSample == 8 || this->BitSample == 12 || this->BitSample == 16 );
+        //gdcm_assert( this->BitSample == 8 || this->BitSample == 12 || this->BitSample == 16 );
         }
       jpeg_destroy_decompress(&cinfo);
       // TODO: www.dcm4che.org/jira/secure/attachment/10185/ct-implicit-little.dcm
@@ -773,13 +773,13 @@ bool JPEGBITSCodec::DecodeByStreams(std::istream &is, std::ostream &os)
         // LJPEG_BuginGDCM12.dcm
         gdcmDebugMacro( "JWRN_MUST_DOWNSCALE" );
         this->BitSample = jerr.pub.msg_parm.i[0];
-        assert( cinfo.data_precision == this->BitSample );
+        gdcm_assert( cinfo.data_precision == this->BitSample );
         jpeg_destroy_decompress(&cinfo);
         return false;
         }
       else
         {
-        assert( 0 );
+        gdcm_assert( 0 );
         }
       }
     // Let's check the color space:
@@ -806,8 +806,8 @@ bool JPEGBITSCodec::DecodeByStreams(std::istream &is, std::ostream &os)
        */
       return false;
       }
-    assert( cinfo.image_width == dims[0] );
-    assert( cinfo.image_height == dims[1] );
+    gdcm_assert( cinfo.image_width == dims[0] );
+    gdcm_assert( cinfo.image_height == dims[1] );
 
     switch ( cinfo.jpeg_color_space )
       {
@@ -823,7 +823,7 @@ bool JPEGBITSCodec::DecodeByStreams(std::istream &is, std::ostream &os)
         }
       break;
     case JCS_RGB:
-      //assert( GetPhotometricInterpretation() == PhotometricInterpretation::RGB );
+      //gdcm_assert( GetPhotometricInterpretation() == PhotometricInterpretation::RGB );
         if ( cinfo.process == JPROC_LOSSLESS )
           {
           cinfo.jpeg_color_space = JCS_UNKNOWN;
@@ -866,7 +866,7 @@ bool JPEGBITSCodec::DecodeByStreams(std::istream &is, std::ostream &os)
         }
       break;
     case JCS_CMYK:
-      assert( GetPhotometricInterpretation() == PhotometricInterpretation::CMYK );
+      gdcm_assert( GetPhotometricInterpretation() == PhotometricInterpretation::CMYK );
       if ( cinfo.process == JPROC_LOSSLESS )
         {
         cinfo.jpeg_color_space = JCS_UNKNOWN;
@@ -881,11 +881,11 @@ bool JPEGBITSCodec::DecodeByStreams(std::istream &is, std::ostream &os)
         }
       break;
     default:
-      assert(0);
+      gdcm_assert(0);
       return false;
       }
-    //assert( cinfo.data_precision == BITS_IN_JSAMPLE );
-    //assert( cinfo.data_precision == this->BitSample );
+    //gdcm_assert( cinfo.data_precision == BITS_IN_JSAMPLE );
+    //gdcm_assert( cinfo.data_precision == this->BitSample );
 
     /* Step 4: set parameters for decompression */
     /* no op */
@@ -1264,7 +1264,7 @@ bool JPEGBITSCodec::InternalCode(const char* input, unsigned long len, std::ostr
   //  {
   //  cinfo.in_color_space = JCS_UNKNOWN;
   //  }
-  //assert( cinfo.image_height * cinfo.image_width * cinfo.input_components * sizeof(JSAMPLE) == len );
+  //gdcm_assert( cinfo.image_height * cinfo.image_width * cinfo.input_components * sizeof(JSAMPLE) == len );
 
   /* Now use the library's routine to set default compression parameters.
    * (You must set at least cinfo.in_color_space before calling this,
@@ -1290,7 +1290,7 @@ bool JPEGBITSCodec::InternalCode(const char* input, unsigned long len, std::ostr
    */
   if( !LossyFlag )
     {
-    assert( Quality == 100 );
+    gdcm_assert( Quality == 100 );
     }
   jpeg_set_quality(&cinfo, Quality, TRUE /* limit to baseline-JPEG values */);
 
@@ -1339,7 +1339,7 @@ bool JPEGBITSCodec::InternalCode(const char* input, unsigned long len, std::ostr
     row_pointer[0] = tempbuffer;
     int offset = image_height * image_width;
     while (cinfo.next_scanline < cinfo.image_height) {
-      assert( row_stride % 3 == 0 );
+      gdcm_assert( row_stride % 3 == 0 );
       JSAMPLE* ptempbuffer = tempbuffer;
       JSAMPLE* red   = image_buffer + cinfo.next_scanline * row_stride / 3;
       JSAMPLE* green = image_buffer + cinfo.next_scanline * row_stride / 3 + offset;
@@ -1486,7 +1486,7 @@ bool JPEGBITSCodec::EncodeBuffer(std::ostream &os, const char *data, size_t data
   //  {
   //  cinfo.in_color_space = JCS_UNKNOWN;
   //  }
-  //assert( cinfo.image_height * cinfo.image_width * cinfo.input_components * sizeof(JSAMPLE) == len );
+  //gdcm_assert( cinfo.image_height * cinfo.image_width * cinfo.input_components * sizeof(JSAMPLE) == len );
 
   /* Now use the library's routine to set default compression parameters.
    * (You must set at least cinfo.in_color_space before calling this,
@@ -1518,7 +1518,7 @@ bool JPEGBITSCodec::EncodeBuffer(std::ostream &os, const char *data, size_t data
    */
   if( !LossyFlag )
     {
-    assert( Quality == 100 );
+    gdcm_assert( Quality == 100 );
     }
   if( Internals->StateSuspension == 0 )
     {
@@ -1559,8 +1559,8 @@ bool JPEGBITSCodec::EncodeBuffer(std::ostream &os, const char *data, size_t data
 
   if ( Internals->StateSuspension == 1 )
     {
-    assert( this->GetPlanarConfiguration() == 0 );
-    assert( row_stride * sizeof(JSAMPLE) == datalen );
+    gdcm_assert( this->GetPlanarConfiguration() == 0 );
+    gdcm_assert( row_stride * sizeof(JSAMPLE) == datalen );
       {
       //while (cinfo.next_scanline < cinfo.image_height) {
       /* jpeg_write_scanlines expects an array of pointers to scanlines.
@@ -1569,8 +1569,8 @@ bool JPEGBITSCodec::EncodeBuffer(std::ostream &os, const char *data, size_t data
        */
       row_pointer[0] = & image_buffer[cinfo.next_scanline * row_stride * 0];
       const JDIMENSION nscanline = jpeg_write_scanlines(&cinfo, row_pointer, 1);
-      assert( nscanline == 1 ); (void)nscanline;
-      assert(cinfo.next_scanline <= cinfo.image_height);
+      gdcm_assert( nscanline == 1 ); (void)nscanline;
+      gdcm_assert(cinfo.next_scanline <= cinfo.image_height);
       //}
       }
     if(cinfo.next_scanline == cinfo.image_height)

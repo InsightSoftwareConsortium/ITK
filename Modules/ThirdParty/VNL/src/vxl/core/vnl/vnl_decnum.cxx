@@ -237,7 +237,7 @@ vnl_decnum::comp(const std::string & a, const std::string & b)
 #ifdef DEBUG
   std::cerr << "Entering vnl_decnum::comp with " << a << " and " << b << '\n';
 #endif
-  int i;
+  int i = 0;
   const int na = int(a.length());
   const int nb = int(b.length());
   const int nc = na < nb ? na : nb;

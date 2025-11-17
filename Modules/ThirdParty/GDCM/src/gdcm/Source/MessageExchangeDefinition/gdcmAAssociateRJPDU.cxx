@@ -34,7 +34,7 @@ std::istream &AAssociateRJPDU::Read(std::istream &is)
 {
   //uint8_t itemtype = 0;
   //is.read( (char*)&itemtype, sizeof(ItemType) );
-  //assert( itemtype == ItemType );
+  //gdcm_assert( itemtype == ItemType );
   uint8_t reserved2;
   is >> reserved2;
   uint32_t itemlength;
@@ -53,7 +53,7 @@ std::istream &AAssociateRJPDU::Read(std::istream &is)
   is >> reason;
   Reason = reason;
 
-  //assert( ItemLength + 4 + 1 + 1 == Size() );
+  //gdcm_assert( ItemLength + 4 + 1 + 1 == Size() );
 
   return is;
 }
@@ -73,7 +73,7 @@ static const char *PrintResultAsString( uint8_t result )
   case 0x2:
     return "rejected-transient";
     }
-  assert( 0 );
+  gdcm_assert( 0 );
   return nullptr;
 }
 
@@ -88,7 +88,7 @@ static const char *PrintSourceAsString( uint8_t source )
   case 0x2:
     return "DICOM UL service-provider (Presentation related function)";
     }
-  assert( 0 );
+  gdcm_assert( 0 );
   return nullptr;
 }
 
@@ -143,7 +143,7 @@ static const char *PrintReasonAsString( uint8_t source, uint8_t reason )
       return "3-7 - reserved";
       }
     }
-  assert( 0 );
+  gdcm_assert( 0 );
   return nullptr;
 }
 

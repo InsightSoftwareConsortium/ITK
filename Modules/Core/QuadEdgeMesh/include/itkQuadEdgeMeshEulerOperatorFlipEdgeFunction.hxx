@@ -108,22 +108,22 @@ QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::Evaluate(QEType * h) 
       return Process(h);
     case EdgeStatusEnum::EDGE_NULL:
       itkDebugMacro("No Edge to flip.");
-      return ((QEType *)nullptr);
+      return (QEType *)nullptr;
     case EdgeStatusEnum::MESH_NULL:
       itkDebugMacro("No mesh present.");
-      return ((QEType *)nullptr);
+      return (QEType *)nullptr;
     case EdgeStatusEnum::NON_INTERNAL_EDGE:
       itkDebugMacro("Can only flip internal edge.");
-      return ((QEType *)nullptr);
+      return (QEType *)nullptr;
     case EdgeStatusEnum::NON_TRIANGULAR_LEFT_FACE:
       itkDebugMacro("Can only flip edge for triangles.");
-      return ((QEType *)nullptr);
+      return (QEType *)nullptr;
     case EdgeStatusEnum::NON_TRIANGULAR_RIGHT_FACE:
       itkDebugMacro("Can only flip edge for triangles.");
-      return ((QEType *)nullptr);
+      return (QEType *)nullptr;
     case EdgeStatusEnum::EXISTING_OPPOSITE_EDGE:
       itkDebugMacro("The opposite edge already exists.");
-      return ((QEType *)nullptr);
+      return (QEType *)nullptr;
   }
 }
 
@@ -146,7 +146,7 @@ QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::Process(QEType * h) -
   auto splitFacet = SplitFacet::New();
   splitFacet->SetInput(this->m_Mesh);
 
-  return (splitFacet->Evaluate(H, G));
+  return splitFacet->Evaluate(H, G);
 }
 } // end namespace itk
 

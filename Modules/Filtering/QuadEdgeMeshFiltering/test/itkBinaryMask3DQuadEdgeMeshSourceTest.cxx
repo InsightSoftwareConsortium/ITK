@@ -28,7 +28,7 @@ itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   // Declare the types of the output images
   using ImageType = itk::Image<unsigned short, Dimension>;
@@ -47,17 +47,12 @@ itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
 
   using MeshSourceType = itk::BinaryMask3DMeshSource<ImageType, MeshType>;
 
-  constexpr PixelType backgroundValue = 0;
-  constexpr PixelType internalValue = 1;
+  constexpr PixelType backgroundValue{ 0 };
+  constexpr PixelType internalValue{ 1 };
 
-  SizeType size;
-  size[0] = 128;
-  size[1] = 128;
-  size[2] = 128;
+  auto size = SizeType::Filled(128);
 
-  constexpr IndexType start{};
-
-  const RegionType region{ start, size };
+  const RegionType region{ size };
 
   auto image = ImageType::New();
 
@@ -69,7 +64,7 @@ itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
   IteratorType it(image, region);
   it.GoToBegin();
 
-  IndexType centralIndex = start;
+  IndexType centralIndex{};
   centralIndex[0] += size[0] / 2;
   centralIndex[1] += size[1] / 2;
   centralIndex[2] += size[2] / 2;

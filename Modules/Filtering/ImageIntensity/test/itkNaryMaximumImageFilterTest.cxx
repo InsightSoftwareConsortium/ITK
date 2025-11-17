@@ -27,7 +27,7 @@ namespace NaryMaximumImageFilterTest
 {
 
 // Define the dimension of the images
-constexpr unsigned int Dimension = 3;
+constexpr unsigned int Dimension{ 3 };
 
 // Declare the pixel types of the images
 using PixelType = float;
@@ -35,9 +35,6 @@ using PixelType = float;
 // Declare the types of the images
 using InputImageType = itk::Image<PixelType, Dimension>;
 using OutputImageType = itk::Image<PixelType, Dimension>;
-
-// Declare the type of the index to access images
-using IndexType = itk::Index<Dimension>;
 
 // Declare the type of the size
 using SizeType = itk::Size<Dimension>;
@@ -58,17 +55,9 @@ InitializeImage(InputImageType * image, double value)
 {
   const InputImageType::Pointer inputImage(image);
 
-  // Define their size, and start index
-  SizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2;
-
-  constexpr IndexType start{};
-
-  RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  // Define their size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   inputImage->SetRegions(region);
   inputImage->Allocate();

@@ -29,7 +29,7 @@ itkRescaleIntensityImageFilterTest(int, char *[])
   std::cout << "itkRescaleIntensityImageFilterTest Start" << std::endl;
 
   // Define the dimension of the images
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
 
   // Declare the pixel types of the images
   using PixelType = float;
@@ -38,14 +38,8 @@ itkRescaleIntensityImageFilterTest(int, char *[])
   using TestInputImage = itk::Image<PixelType, ImageDimension>;
   using TestOutputImage = itk::Image<PixelType, ImageDimension>;
 
-  TestInputImage::RegionType region;
-
-  auto size = TestInputImage::SizeType::Filled(64);
-
-  constexpr TestInputImage::IndexType index{};
-
-  region.SetIndex(index);
-  region.SetSize(size);
+  auto                       size = TestInputImage::SizeType::Filled(64);
+  TestInputImage::RegionType region{ size };
 
 
   using FilterType = itk::RescaleIntensityImageFilter<TestInputImage, TestOutputImage>;
@@ -63,8 +57,8 @@ itkRescaleIntensityImageFilterTest(int, char *[])
 
   // Set up source
   source->SetSize(randomSize);
-  constexpr double minValue = -128.0;
-  constexpr double maxValue = 127.0;
+  constexpr double minValue{ -128.0 };
+  constexpr double maxValue{ 127.0 };
 
   source->SetMin(static_cast<TestInputImage::PixelType>(minValue));
   source->SetMax(static_cast<TestInputImage::PixelType>(maxValue));
@@ -72,8 +66,8 @@ itkRescaleIntensityImageFilterTest(int, char *[])
   filter->SetFunctor(filter->GetFunctor());
   filter->SetInput(source->GetOutput());
 
-  constexpr double desiredMinimum = -1.0;
-  constexpr double desiredMaximum = 1.0;
+  constexpr double desiredMinimum{ -1.0 };
+  constexpr double desiredMaximum{ 1.0 };
 
   filter->SetOutputMinimum(desiredMinimum);
   ITK_TEST_SET_GET_VALUE(desiredMinimum, filter->GetOutputMinimum());
@@ -90,7 +84,7 @@ itkRescaleIntensityImageFilterTest(int, char *[])
 
   calculator->Compute();
 
-  constexpr double tolerance = 1e-7;
+  constexpr double tolerance{ 1e-7 };
 
   const double obtainedMinimum = calculator->GetMinimum();
   const double obtainedMaximum = calculator->GetMaximum();

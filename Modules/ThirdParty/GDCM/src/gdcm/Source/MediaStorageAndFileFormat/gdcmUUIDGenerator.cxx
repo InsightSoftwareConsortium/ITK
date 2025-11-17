@@ -40,7 +40,7 @@ const char* UUIDGenerator::Generate()
   Unique.resize( 36 );
   char *uuid_data = &Unique[0];
 #if defined(HAVE_UUID_GENERATE)
-  assert( sizeof(uuid_t) == 16 );
+  gdcm_assert( sizeof(uuid_t) == 16 );
   uuid_t g;
   uuid_generate(g);
   uuid_unparse(g, uuid_data);
@@ -61,7 +61,7 @@ const char* UUIDGenerator::Generate()
 #else
 #error should not happen
 #endif
-  assert( IsValid( Unique.c_str() ) );
+  gdcm_assert( IsValid( Unique.c_str() ) );
 
   return Unique.c_str();
 }

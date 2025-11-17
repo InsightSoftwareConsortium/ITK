@@ -13,7 +13,7 @@ test_vector_fixed_ref()
     vnl_vector<double> v{ numbers, 4 };
     // vnl_vector_ref(numbers, 4); // Should fail to compile due to const double numbers
     const vnl_vector_ref<double> memory_access_vnl_ref{ v.size(), v.data_block() };
-    const vnl_vector_ref<double> const_cpprefvector{ memory_access_vnl_ref };
+    const vnl_vector_ref<double> & const_cpprefvector{ memory_access_vnl_ref };
 
     const_cpprefvector.as_ref();
     // const_cpprefvector.fill(-99); //<- This should fail to compile, but it modifies the data
@@ -58,11 +58,11 @@ test_vector_fixed_ref()
     TEST("test_front_back_const.back()", test_front_back_const.back(), 44);
   }
 
-  typedef vnl_vector_fixed<double, size> vf;
-  typedef vnl_vector_fixed_ref<double, size> vfr;
-  typedef vnl_vector_fixed_ref_const<double, size> vfrc;
+  using vf = vnl_vector_fixed<double, size>;
+  using vfr = vnl_vector_fixed_ref<double, size>;
+  using vfrc = vnl_vector_fixed_ref_const<double, size>;
 
-  int i;
+  int i = 0;
   vf vec; // copy in
   for (i = 0; i < size; ++i)
   {

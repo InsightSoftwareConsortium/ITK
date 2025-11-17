@@ -333,7 +333,7 @@ Euler3DTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(c
   }
 
   // compute derivatives for the translation part
-  constexpr unsigned int blockOffset = 3;
+  constexpr unsigned int blockOffset{ 3 };
   for (unsigned int dim = 0; dim < SpaceDimension; ++dim)
   {
     jacobian[dim][blockOffset + dim] = 1.0;

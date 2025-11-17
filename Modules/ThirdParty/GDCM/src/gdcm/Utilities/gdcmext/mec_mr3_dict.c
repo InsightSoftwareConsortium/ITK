@@ -13,8 +13,13 @@
 =========================================================================*/
 #include "mec_mr3_dict.h"
 
+// #define MEC_MR3_DICT_DEBUG
+
 #include <assert.h>
 #include <stddef.h>
+#ifdef MEC_MR3_DICT_DEBUG
+#include <stdio.h>
+#endif
 
 struct mec_mr3_dict {
   uint8_t group;
@@ -67,8 +72,7 @@ static const struct mec_mr3_dict dict[] = {
     {0x01, 0x000059d8, 0xff002400, ""},                                 //
     {0x01, 0x00006d61, 0xff002c00, "Requested Procedure ID"},           //
     {0x01, 0x00006d62, 0xff002c00, ""},                                 //
-    {0x01, 0x00006d63, 0xff002c00,
-     "Procedure Code Sequence: Coding Scheme Designator"},                    //
+    {0x01, 0x00006d63, 0xff002c00, "Procedure Code Sequence: Coding Scheme Designator"},                    //
     {0x01, 0x00006d64, 0xff002c00, "Procedure Code Sequence: Code Meaning"},  //
     {0x01, 0x00006d65, 0xff002c00, "Study Instance UID"},                     //
     {0x01, 0x00006d66, 0xff002c00, "Stentor Remote AETitle Element"},         //
@@ -77,8 +81,7 @@ static const struct mec_mr3_dict dict[] = {
     {0x01, 0x00006d69, 0xff002c00, "Requested Procedure ID"},                 //
     {0x01, 0x00006d71, 0xff002c00, ""},                                       //
     {0x01, 0x00006d72, 0xff002c00, "Procedure Code Sequence: Code Value"},    //
-    {0x01, 0x00006d73, 0xff002c00,
-     "Procedure Code Sequence: Coding Scheme Designator"},                    //
+    {0x01, 0x00006d73, 0xff002c00, "Procedure Code Sequence: Coding Scheme Designator"},                    //
     {0x01, 0x00006d74, 0xff002c00, "Procedure Code Sequence: Code Meaning"},  //
     {0x01, 0x00006d75, 0xff002c00, ""},                                       //
     {0x01, 0x00006d76, 0xff002c00, "Scheduled Procedure Step Description"},   //
@@ -208,7 +211,7 @@ static const struct mec_mr3_dict dict[] = {
     {0x02, 0x0000a81c, 0xff003200, ""},                                       //
     {0x02, 0x0000a81d, 0xff002a00, ""},                                       //
     {0x02, 0x0000a822, 0x00000500, ""},                                       //
-    {0x02, 0x0000a823, 0xff002c00, "MR Acquisition Type"},                      //
+    {0x02, 0x0000a823, 0xff002c00, "MR Acquisition Type"},                    //
     {0x02, 0x0000a824, 0xff002400, ""},                                       //
     {0x02, 0x0000a825, 0xff002400, ""},                                       //
     {0x02, 0x0000a826, 0xff003200, ""},                                       //
@@ -720,6 +723,8 @@ static const struct mec_mr3_dict dict[] = {
     {0x04, 0x00001809, 0xff002400, ""},                                       //
     {0x04, 0x00001bc4, 0xff002400, ""},                                       //
     {0x04, 0x00001bc5, 0xff002400, ""},                                       //
+    {0x04, 0x00001bca, 0xff002800, ""},                                      //
+    {0x04, 0x00001bcb, 0xff002800, ""},                                      //
     {0x04, 0x00001bcc, 0xff002c00, ""},                                       //
     {0x04, 0x0000a806, 0x00000500, "FOV"},                                    //
     {0x04, 0x0000b3b4, 0x00000b00, ""},                                       //
@@ -813,20 +818,36 @@ static const struct mec_mr3_dict dict[] = {
     {0x09, 0x00036728, 0xff002400, ""},                                       //
     {0x09, 0x0003672a, 0xff002400, ""},                                       //
     {0x09, 0x0003672b, 0x00000600, ""},                                       //
+    {0x0a, 0x00000c1d, 0xff002400, ""}, //
+    {0x0a, 0x00036718, 0xff002400, ""}, //
+    {0x0a, 0x00036719, 0x00000600, ""}, //
+    {0x0a, 0x0003671a, 0x00000600, ""}, //
+    {0x0a, 0x0003671b, 0x00000600, ""}, //
+    {0x0a, 0x0003671c, 0xff002800, ""}, //
+    {0x0a, 0x0003671e, 0xff002a00, ""}, //
+    {0x0a, 0x00036721, 0xff002400, ""}, //
+    {0x0a, 0x00036722, 0xff002a00, ""}, //
     {0x0a, 0x00036723, 0x00000600, ""},                                       //
     {0x0a, 0x00036724, 0x00000600, ""},                                       //
+    {0x0a, 0x00036725, 0xff002400, ""}, //
+    {0x0a, 0x00036727, 0xff002400, ""}, //
+    {0x0a, 0x00036728, 0xff002400, ""}, //
     {0x0a, 0x0003672a, 0xff002400, ""},                                       //
     {0x0a, 0x0003672b, 0x00000600, ""},                                       //
-    {0x0a, 0x00036722, 0xff002a00, ""},                                       //
-    {0x0a, 0x0003671e, 0xff002a00, ""},                                       //
-    {0x0a, 0x00036728, 0xff002400, ""},                                       //
-    {0x0a, 0x0003671c, 0xff002800, ""},                                       //
-    {0x0a, 0x00036727, 0xff002400, ""},                                       //
+    {0x0b, 0x0003671c, 0xff002800, ""}, //
+    {0x0b, 0x0003671e, 0xff002a00, ""}, //
+    {0x0b, 0x00036722, 0xff002a00, ""}, //
+    {0x0b, 0x00036723, 0x00000600, ""}, //
+    {0x0b, 0x00036724, 0x00000600, ""}, //
+    {0x0b, 0x00036727, 0xff002400, ""}, //
+    {0x0b, 0x00036728, 0xff002400, ""}, //
+    {0x0b, 0x0003672a, 0xff002400, ""}, //
+    {0x0b, 0x0003672b, 0x00000600, ""}, //
 };
 
 static const uint32_t dict_size = sizeof(dict) / sizeof(*dict);
 
-void check_mec_mr3_dict() {
+void check_mec_mr3_dict(void) {
   const struct mec_mr3_dict *prev = dict + 0;
   for (uint32_t i = 1; i < dict_size; ++i) {
     const struct mec_mr3_dict *next = dict + i;
@@ -840,7 +861,7 @@ void check_mec_mr3_dict() {
 
 bool check_mec_mr3_info(const uint8_t group, const uint32_t key,
                         const uint32_t type) {
-  assert(group > 0x0 && group < 0x9);
+  assert(group > 0x0 && group < 0xc);
   assert((key & 0xfff00000) == 0x0);
   assert((type & 0x000000ff) == 0x0);
   const uint32_t sign = type >> 24u;
@@ -853,6 +874,12 @@ bool check_mec_mr3_info(const uint8_t group, const uint32_t key,
       found = true;
     }
   }
+#ifdef MEC_MR3_DICT_DEBUG
+  if (!found) {
+    fprintf(stderr, "{0x%02x, 0x%08x, 0x%08x, \"\"}, //\n", group, key, type);
+    //    assert(0);
+  }
+#endif
   return found;
 }
 

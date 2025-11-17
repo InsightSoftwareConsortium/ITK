@@ -104,7 +104,7 @@ public:
   itkGetConstMacro(RegularizationConstant, double);
   /** @ITKEndGrouping */
 protected:
-  TikhonovDeconvolutionImageFilter();
+  TikhonovDeconvolutionImageFilter() = default;
   ~TikhonovDeconvolutionImageFilter() override = default;
 
   /** This filter uses a minipipeline to compute the output. */

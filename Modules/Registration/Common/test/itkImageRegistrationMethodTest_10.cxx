@@ -35,7 +35,7 @@ itkImageRegistrationMethodTest_10(int argc, char * argv[])
 
   bool pass = true;
 
-  constexpr unsigned int dimension = 2;
+  constexpr unsigned int dimension{ 2 };
 
   // Fixed Image Type
   using FixedImageType = itk::Image<float, dimension>;
@@ -77,9 +77,7 @@ itkImageRegistrationMethodTest_10(int argc, char * argv[])
 
   auto imageSource = ImageSourceType::New();
 
-  SizeType size;
-  size[0] = 100;
-  size[1] = 100;
+  auto size = SizeType::Filled(100);
 
   imageSource->GenerateImages(size);
 
@@ -179,7 +177,7 @@ itkImageRegistrationMethodTest_10(int argc, char * argv[])
   // We know that for the Affine transform the Translation parameters are at
   // the end of the list of parameters.
   const unsigned int offsetOrder = finalParameters.Size() - actualParameters.Size();
-  constexpr double   tolerance = 1.0; // equivalent to 1 pixel.
+  constexpr double   tolerance{ 1.0 }; // equivalent to 1 pixel.
 
   for (unsigned int i = 0; i < numbeOfParameters; ++i)
   {

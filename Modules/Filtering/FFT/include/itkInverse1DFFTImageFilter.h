@@ -76,7 +76,7 @@ public:
   }
 
 protected:
-  Inverse1DFFTImageFilter();
+  Inverse1DFFTImageFilter() = default;
   ~Inverse1DFFTImageFilter() override = default;
 
   void

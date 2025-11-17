@@ -31,7 +31,7 @@ itkAndImageFilterTest(int argc, char * argv[])
   }
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   // Declare the pixel type
   using PixelType = unsigned short;
@@ -40,9 +40,6 @@ itkAndImageFilterTest(int argc, char * argv[])
   using InputImage1Type = itk::Image<PixelType, Dimension>;
   using InputImage2Type = itk::Image<PixelType, Dimension>;
   using OutputImageType = itk::Image<PixelType, Dimension>;
-
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<Dimension>;
 
   // Declare the type of the size
   using SizeType = itk::Size<Dimension>;
@@ -54,20 +51,9 @@ itkAndImageFilterTest(int argc, char * argv[])
   auto inputImageA = InputImage1Type::New();
   auto inputImageB = InputImage2Type::New();
 
-  // Define their size and start index
-  SizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2;
-
-  IndexType start;
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  // Define their size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -86,7 +72,7 @@ itkAndImageFilterTest(int argc, char * argv[])
   it1.GoToBegin();
 
   // Initialize the content of Image A
-  constexpr InputImage1Type::PixelType valueA = 2;
+  constexpr InputImage1Type::PixelType valueA{ 2 };
   while (!it1.IsAtEnd())
   {
     it1.Set(valueA);
@@ -98,7 +84,7 @@ itkAndImageFilterTest(int argc, char * argv[])
   it2.GoToBegin();
 
   // Initialize the content of Image B
-  constexpr InputImage2Type::PixelType valueB = 3;
+  constexpr InputImage2Type::PixelType valueB{ 3 };
   while (!it2.IsAtEnd())
   {
     it2.Set(valueB);

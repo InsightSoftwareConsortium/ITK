@@ -59,5 +59,5 @@ itkOptImageToImageMetricsTest2(int, char * argv[])
 
   itk::BSplineLinearTest<FixedImageReaderType, MovingImageReaderType>(fixedImageReader, movingImageReader);
 
-  return (EXIT_SUCCESS);
+  return EXIT_SUCCESS;
 }

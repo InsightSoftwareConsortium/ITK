@@ -215,8 +215,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::SplitFixedRegion(
   }
 
   // set the split region ivars
-  splitRegion.SetIndex(splitIndex);
-  splitRegion.SetSize(splitSize);
+  splitRegion = { splitIndex, splitSize };
 
   itkDebugMacro("  Split Piece: " << splitRegion);
 

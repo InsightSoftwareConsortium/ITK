@@ -135,7 +135,7 @@ itkFlatStructuringElementTest2(int argc, char * argv[])
   lowerExtendRegion[0] = 1;
   lowerExtendRegion[1] = 1;
   padFilter->SetPadLowerBound(lowerExtendRegion);
-  constexpr ImageBoolType::PixelType constPixel = true;
+  constexpr ImageBoolType::PixelType constPixel{ true };
   padFilter->SetConstant(constPixel);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(padFilter->Update());

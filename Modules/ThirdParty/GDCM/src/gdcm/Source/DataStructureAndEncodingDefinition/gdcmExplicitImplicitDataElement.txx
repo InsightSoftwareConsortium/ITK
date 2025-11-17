@@ -44,7 +44,7 @@ std::istream &ExplicitImplicitDataElement::ReadPreValue(std::istream &is)
     {
     if( !is.eof() ) // FIXME This should not be needed
       {
-      assert(0 && "Should not happen" );
+      gdcm_assert(0 && "Should not happen" );
       }
     return is;
     }
@@ -54,7 +54,7 @@ std::istream &ExplicitImplicitDataElement::ReadPreValue(std::istream &is)
     pe.SetLastElement( *this );
     throw pe;
     }
-  //assert( TagField != Tag(0xfeff,0xdde0) );
+  //gdcm_assert( TagField != Tag(0xfeff,0xdde0) );
   const Tag itemDelItem(0xfffe,0xe00d);
   if( TagField == itemDelItem )
     {
@@ -63,7 +63,7 @@ std::istream &ExplicitImplicitDataElement::ReadPreValue(std::istream &is)
     //throw pe;
     if( !ValueLengthField.Read<TSwap>(is) )
       {
-      assert(0 && "Should not happen");
+      gdcm_assert(0 && "Should not happen");
       return is;
       }
     if( ValueLengthField )
@@ -80,7 +80,7 @@ std::istream &ExplicitImplicitDataElement::ReadPreValue(std::istream &is)
 #ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
   if( TagField == Tag(0x00ff, 0x4aa5) )
     {
-    //assert(0 && "Should not happen" );
+    //gdcm_assert(0 && "Should not happen" );
     // gdcmDataExtra/gdcmBreakers/DigitexAlpha_no_7FE0.dcm
     is.seekg( -4, std::ios::cur );
     TagField = Tag(0x7fe0,0x0010);
@@ -103,7 +103,7 @@ std::istream &ExplicitImplicitDataElement::ReadPreValue(std::istream &is)
     {
     if( !VRField.Read(is) )
       {
-      assert(0 && "Should not happen" );
+      gdcm_assert(0 && "Should not happen" );
       return is;
       }
   // Read Value Length
@@ -111,7 +111,7 @@ std::istream &ExplicitImplicitDataElement::ReadPreValue(std::istream &is)
     {
     if( !ValueLengthField.Read<TSwap>(is) )
       {
-      assert(0 && "Should not happen");
+      gdcm_assert(0 && "Should not happen");
       return is;
       }
     }
@@ -120,7 +120,7 @@ std::istream &ExplicitImplicitDataElement::ReadPreValue(std::istream &is)
     // 16bits only
     if( !ValueLengthField.template Read16<TSwap>(is) )
       {
-      assert(0 && "Should not happen");
+      gdcm_assert(0 && "Should not happen");
       return is;
       }
 #ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
@@ -145,11 +145,11 @@ std::istream &ExplicitImplicitDataElement::ReadPreValue(std::istream &is)
   const Tag itemStartItem(0xfffe,0xe000);
   if( TagField == itemStartItem ) return is;
 
-  //assert( TagField != Tag(0xfffe,0xe0dd) );
+  //gdcm_assert( TagField != Tag(0xfffe,0xe0dd) );
   // Read Value Length
   if( !ValueLengthField.Read<TSwap>(is) )
     {
-    //assert(0 && "Should not happen");
+    //gdcm_assert(0 && "Should not happen");
     throw Exception("Impossible");
     return is;
     }
@@ -162,9 +162,9 @@ std::istream &ExplicitImplicitDataElement::ReadPreValue(std::istream &is)
     }
   else if( ValueLengthField.IsUndefined() )
     {
-    //assert( de.GetVR() == VR::SQ );
+    //gdcm_assert( de.GetVR() == VR::SQ );
     // FIXME what if I am reading the pixel data...
-    //assert( TagField != Tag(0x7fe0,0x0010) );
+    //gdcm_assert( TagField != Tag(0x7fe0,0x0010) );
     if( TagField != Tag(0x7fe0,0x0010) )
       {
       ValueField = new SequenceOfItems;
@@ -202,7 +202,7 @@ std::istream &ExplicitImplicitDataElement::ReadPreValue(std::istream &is)
       is.seekg(-4, std::ios::cur );
       if( item == itemStart )
         {
-        assert( TagField != Tag(0x7fe0,0x0010) );
+        gdcm_assert( TagField != Tag(0x7fe0,0x0010) );
         ValueField = new SequenceOfItems;
         }
 #ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
@@ -219,7 +219,7 @@ std::istream &ExplicitImplicitDataElement::ReadPreValue(std::istream &is)
           {
           if( !ValueIO<ExplicitDataElement,SwapperDoOp>::Read(is,*ValueField,true) )
             {
-            assert(0 && "Should not happen");
+            gdcm_assert(0 && "Should not happen");
             }
           }
         catch( std::exception &ex2 )
@@ -237,7 +237,7 @@ std::istream &ExplicitImplicitDataElement::ReadPreValue(std::istream &is)
         ValueField->SetLength(ValueLengthField); // perform realloc
         if( !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField,true) )
           {
-          assert(0 && "Should not happen");
+          gdcm_assert(0 && "Should not happen");
           }
         return is;
         }
@@ -299,12 +299,12 @@ std::istream &ExplicitImplicitDataElement::ReadPreValue(std::istream &is)
   VL dummy = ValueField->GetLength();
   if( ValueLengthField != dummy )
     {
-    gdcmWarningMacro( "ValueLengthField was bogus" ); assert(0);
+    gdcmWarningMacro( "ValueLengthField was bogus" ); gdcm_assert(0);
     ValueLengthField = dummy;
     }
 #else
-  assert( ValueLengthField == ValueField->GetLength() );
-  assert( VRField == VR::INVALID );
+  gdcm_assert( ValueLengthField == ValueField->GetLength() );
+  gdcm_assert( VRField == VR::INVALID );
 #endif
 
   return is;
@@ -349,11 +349,11 @@ std::istream &ExplicitImplicitDataElement::ReadValue(std::istream &is, bool read
     }
 
   // Read the Value
-  //assert( ValueField == 0 );
+  //gdcm_assert( ValueField == 0 );
   if( VRField == VR::SQ )
     {
     // Check whether or not this is an undefined length sequence
-    assert( TagField != Tag(0x7fe0,0x0010) );
+    gdcm_assert( TagField != Tag(0x7fe0,0x0010) );
     ValueField = new SequenceOfItems;
     }
   else if( ValueLengthField.IsUndefined() )
@@ -364,7 +364,7 @@ std::istream &ExplicitImplicitDataElement::ReadValue(std::istream &is, bool read
       // Enhanced_MR_Image_Storage_PixelSpacingNotIn_0028_0030.dcm (illegal)
       // vs
       // undefined_length_un_vr.dcm
-      assert( TagField != Tag(0x7fe0,0x0010) );
+      gdcm_assert( TagField != Tag(0x7fe0,0x0010) );
       ValueField = new SequenceOfItems;
       ValueField->SetLength(ValueLengthField); // perform realloc
       try
@@ -372,7 +372,7 @@ std::istream &ExplicitImplicitDataElement::ReadValue(std::istream &is, bool read
         //if( !ValueIO<ExplicitDataElement,TSwap>::Read(is,*ValueField) ) // non cp246
         if( !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField,readvalues) ) // cp246 compliant
           {
-          assert(0);
+          gdcm_assert(0);
           }
         }
       catch( std::exception &)
@@ -389,14 +389,14 @@ std::istream &ExplicitImplicitDataElement::ReadValue(std::istream &is, bool read
     else
       {
       // Ok this is Pixel Data fragmented...
-      assert( TagField == Tag(0x7fe0,0x0010) );
-      assert( VRField & VR::OB_OW );
+      gdcm_assert( TagField == Tag(0x7fe0,0x0010) );
+      gdcm_assert( VRField & VR::OB_OW );
       ValueField = new SequenceOfFragments;
       }
     }
   else
     {
-    //assert( TagField != Tag(0x7fe0,0x0010) );
+    //gdcm_assert( TagField != Tag(0x7fe0,0x0010) );
     ValueField = new ByteValue;
     }
   // We have the length we should be able to read the value
@@ -415,17 +415,17 @@ std::istream &ExplicitImplicitDataElement::ReadValue(std::istream &is, bool read
   )
     {
     gdcmWarningMacro( "ByteSwaping Private SQ: " << TagField );
-    assert( VRField == VR::SQ );
-    assert( TagField.IsPrivate() );
+    gdcm_assert( VRField == VR::SQ );
+    gdcm_assert( TagField.IsPrivate() );
     try
       {
       if( !ValueIO<ExplicitDataElement,SwapperDoOp>::Read(is,*ValueField,readvalues) )
         {
-        assert(0 && "Should not happen");
+        gdcm_assert(0 && "Should not happen");
         }
       Value* v = &*ValueField;
       SequenceOfItems *sq = dynamic_cast<SequenceOfItems*>(v);
-      assert( sq );
+      gdcm_assert( sq );
       SequenceOfItems::Iterator it = sq->Begin();
       for( ; it != sq->End(); ++it)
         {
@@ -444,17 +444,17 @@ std::istream &ExplicitImplicitDataElement::ReadValue(std::istream &is, bool read
 #endif
 
   bool failed;
-  //assert( VRField != VR::UN );
+  //gdcm_assert( VRField != VR::UN );
   if( VRField & VR::VRASCII )
     {
-    //assert( VRField.GetSize() == 1 );
+    //gdcm_assert( VRField.GetSize() == 1 );
     failed = !ValueIO<ExplicitDataElement,TSwap>::Read(is,*ValueField,readvalues);
     }
   else
     {
-    assert( VRField & VR::VRBINARY );
+    gdcm_assert( VRField & VR::VRBINARY );
     unsigned int vrsize = VRField.GetSize();
-    assert( vrsize == 1 || vrsize == 2 || vrsize == 4 || vrsize == 8 );
+    gdcm_assert( vrsize == 1 || vrsize == 2 || vrsize == 4 || vrsize == 8 );
     if(VRField==VR::AT) vrsize = 2;
     switch(vrsize)
       {
@@ -472,7 +472,7 @@ std::istream &ExplicitImplicitDataElement::ReadValue(std::istream &is, bool read
       break;
     default:
     failed = true;
-      assert(0);
+      gdcm_assert(0);
       }
     }
   if( failed )

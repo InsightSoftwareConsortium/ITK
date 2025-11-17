@@ -41,7 +41,7 @@
 
 inline static void* vecalloc(size_t size)
 {
-#if     defined(_MSC_VER)
+#if     defined(_WIN32)
     void *memblock = _aligned_malloc(size, 16);
 #elif   defined(__APPLE__)  /* OS X always aligns on 16-byte boundaries */
     void *memblock = malloc(size);

@@ -535,7 +535,7 @@ TIFFImageIO::ReadImageInformation()
   if (!m_IsReadAsScalarPlusPalette)
   {
     // make sure the palette is empty
-    m_ColorPalette.resize(0);
+    m_ColorPalette.clear();
   }
 }
 
@@ -617,10 +617,10 @@ TIFFImageIO::InternalWrite(const void * buffer)
   const char * mode = "w";
 
   // If the size of the image is greater than 2 GiB then use big tiff
-  constexpr SizeType oneKibiByte = 1024;
-  constexpr SizeType oneMebiByte = 1024 * oneKibiByte;
-  constexpr SizeType oneGibiByte = 1024 * oneMebiByte;
-  constexpr SizeType twoGibiBytes = 2 * oneGibiByte;
+  constexpr SizeType oneKibiByte{ 1024 };
+  constexpr SizeType oneMebiByte{ 1024 * oneKibiByte };
+  constexpr SizeType oneGibiByte{ 1024 * oneMebiByte };
+  constexpr SizeType twoGibiBytes{ 2 * oneGibiByte };
 
   if (this->GetImageSizeInBytes() > twoGibiBytes)
   {
@@ -993,7 +993,7 @@ TIFFImageIO::PopulateColorPalette()
   else
   {
     // otherwise make sure that the stored palette is empty in the case it was already set
-    m_ColorPalette.resize(0);
+    m_ColorPalette.clear();
   }
 }
 
@@ -1515,7 +1515,7 @@ TIFFImageIO::PutPaletteRGB(TType *      to,
   {
     for (unsigned int x = xsize; x-- > 0;)
     {
-      const TFromType index = (*from) % m_TotalColors;
+      const TFromType index = *from % m_TotalColors;
 
       const auto red = static_cast<TType>(*(m_ColorRed + index));
       const auto green = static_cast<TType>(*(m_ColorGreen + index));

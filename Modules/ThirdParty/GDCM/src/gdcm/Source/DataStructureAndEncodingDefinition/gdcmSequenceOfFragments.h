@@ -85,7 +85,7 @@ public:
 template <typename TSwap>
 std::istream& Read(std::istream &is, bool readvalues = true)
 {
-  assert( SequenceLengthField.IsUndefined() );
+  gdcm_assert( SequenceLengthField.IsUndefined() );
   ReadPreValue<TSwap>(is);
   return ReadValue<TSwap>(is, readvalues);
 }
@@ -122,7 +122,7 @@ std::istream& ReadPreValue(std::istream &is)
     else
       {
       throw "Catch me if you can";
-      //assert(0);
+      //gdcm_assert(0);
       }
     }
 #else
@@ -145,7 +145,7 @@ std::istream& ReadValue(std::istream &is, bool /*readvalues*/)
       //gdcmDebugMacro( "Frag: " << frag );
       Fragments.push_back( frag );
       }
-    assert( frag.GetTag() == seqDelItem && frag.GetVL() == 0 );
+    gdcm_assert( frag.GetTag() == seqDelItem && frag.GetVL() == 0 );
     }
   catch(Exception &ex)
     {
@@ -165,9 +165,9 @@ std::istream& ReadValue(std::istream &is, bool /*readvalues*/)
     // 2. GENESIS_SIGNA-JPEG-CorruptFrag.dcm
     else if ( frag.GetTag() == Tag(0xddff,0x00e0) )
       {
-      assert( Fragments.size() == 1 );
+      gdcm_assert( Fragments.size() == 1 );
       const ByteValue *bv = Fragments[0].GetByteValue();
-      assert( (unsigned char)bv->GetPointer()[ bv->GetLength() - 1 ] == 0xfe );
+      gdcm_assert( (unsigned char)bv->GetPointer()[ bv->GetLength() - 1 ] == 0xfe );
       // Yes this is an extra copy, this is a bug anyway, go fix YOUR code
       Fragments[0].SetByteValue( bv->GetPointer(), bv->GetLength() - 1 );
       gdcmWarningMacro( "JPEG Fragment length was declared with an extra byte"
@@ -184,20 +184,20 @@ std::istream& ReadValue(std::istream &is, bool /*readvalues*/)
       // backward. This appears to be working on a set of DICOM/WSI files from
       // LEICA
       gdcmWarningMacro( "Trying to fix the even-but-odd value length bug #1" );
-      assert( Fragments.size() );
+      gdcm_assert( Fragments.size() );
       const size_t lastf = Fragments.size() - 1;
       const ByteValue *bv = Fragments[ lastf ].GetByteValue();
       const char *a = bv->GetPointer();
       gdcmAssertAlwaysMacro( (unsigned char)a[ bv->GetLength() - 1 ] == 0xfe );
       Fragments[ lastf ].SetByteValue( bv->GetPointer(), bv->GetLength() - 1 );
       is.seekg( -9, std::ios::cur );
-      assert( is.good() );
+      gdcm_assert( is.good() );
       while( frag.ReadBacktrack<TSwap>(is) && frag.GetTag() != seqDelItem )
         {
         gdcmDebugMacro( "Frag: " << frag );
         Fragments.push_back( frag );
         }
-      assert( frag.GetTag() == seqDelItem && frag.GetVL() == 0 );
+      gdcm_assert( frag.GetTag() == seqDelItem && frag.GetVL() == 0 );
       }
     // 4. LEICA/WSI (bis)
     else if ( frag.GetTag().GetGroup() == 0xe000 )
@@ -208,20 +208,20 @@ std::istream& ReadValue(std::istream &is, bool /*readvalues*/)
       // backward. This appears to be working on a set of DICOM/WSI files from
       // LEICA
       gdcmWarningMacro( "Trying to fix the even-but-odd value length bug #2" );
-      assert( Fragments.size() );
+      gdcm_assert( Fragments.size() );
       const size_t lastf = Fragments.size() - 1;
       const ByteValue *bv = Fragments[ lastf ].GetByteValue();
       const char *a = bv->GetPointer();
       gdcmAssertAlwaysMacro( (unsigned char)a[ bv->GetLength() - 2 ] == 0xfe );
       Fragments[ lastf ].SetByteValue( bv->GetPointer(), bv->GetLength() - 2 );
       is.seekg( -10, std::ios::cur );
-      assert( is.good() );
+      gdcm_assert( is.good() );
       while( frag.ReadBacktrack<TSwap>(is) && frag.GetTag() != seqDelItem )
         {
         gdcmDebugMacro( "Frag: " << frag );
         Fragments.push_back( frag );
         }
-      assert( frag.GetTag() == seqDelItem && frag.GetVL() == 0 );
+      gdcm_assert( frag.GetTag() == seqDelItem && frag.GetVL() == 0 );
       }
     // 5. LEICA/WSI (ter)
     else if ( (frag.GetTag().GetGroup() & 0x00ff) == 0x00e0
@@ -233,20 +233,20 @@ std::istream& ReadValue(std::istream &is, bool /*readvalues*/)
       // backward. This appears to be working on a set of DICOM/WSI files from
       // LEICA
       gdcmWarningMacro( "Trying to fix the even-but-odd value length bug #3" );
-      assert( Fragments.size() );
+      gdcm_assert( Fragments.size() );
       const size_t lastf = Fragments.size() - 1;
       const ByteValue *bv = Fragments[ lastf ].GetByteValue();
       const char *a = bv->GetPointer();
-      gdcmAssertAlwaysMacro( (unsigned char)a[ bv->GetLength() - 3 ] == 0xfe );
+      gdcmAssertAlwaysMacro( bv->GetLength() >= 3 && (unsigned char)a[ bv->GetLength() - 3 ] == 0xfe );
       Fragments[ lastf ].SetByteValue( bv->GetPointer(), bv->GetLength() - 3 );
       is.seekg( -11, std::ios::cur );
-      assert( is.good() );
+      gdcm_assert( is.good() );
       while( frag.ReadBacktrack<TSwap>(is) && frag.GetTag() != seqDelItem )
         {
         gdcmDebugMacro( "Frag: " << frag );
         Fragments.push_back( frag );
         }
-      assert( frag.GetTag() == seqDelItem && frag.GetVL() == 0 );
+      gdcm_assert( frag.GetTag() == seqDelItem && frag.GetVL() == 0 );
       }
     else
       {
@@ -267,7 +267,7 @@ std::ostream const &Write(std::ostream &os) const
 {
   if( !Table.Write<TSwap>(os) )
     {
-    assert(0 && "Should not happen");
+    gdcm_assert(0 && "Should not happen");
     return os;
     }
   for(ConstIterator it = Begin();it != End(); ++it)
@@ -301,7 +301,7 @@ public:
       {
       os << "  " << *it << "\n";
       }
-    assert( SequenceLengthField.IsUndefined() );
+    gdcm_assert( SequenceLengthField.IsUndefined() );
       {
       const Tag seqDelItem(0xfffe,0xe0dd);
       VL zero = 0;

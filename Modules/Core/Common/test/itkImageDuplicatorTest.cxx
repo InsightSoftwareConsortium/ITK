@@ -28,17 +28,11 @@ int
 itkImageDuplicatorTest(int, char *[])
 {
   using ImageType = itk::Image<float, 3>;
-  ImageType::RegionType region;
-  ImageType::SizeType   size;
-  size[0] = 10;
-  size[1] = 20;
-  size[2] = 30;
-  constexpr ImageType::IndexType index{};
-  region.SetSize(size);
-  region.SetIndex(index);
+  constexpr ImageType::SizeType size{ 10, 20, 30 };
+  ImageType::RegionType         region{ size };
 
   {
-    /** Create an image image */
+    /** Create an image */
     std::cout << "Creating simulated image: ";
     auto m_Image = ImageType::New();
     m_Image->SetRegions(region);
@@ -141,7 +135,7 @@ itkImageDuplicatorTest(int, char *[])
   }
 
   {
-    /** Create an RGB image image */
+    /** Create an RGB image */
     using RGBImageType = itk::Image<itk::RGBPixel<unsigned char>, 3>;
     std::cout << "Creating simulated image: ";
     auto m_RGBImage = RGBImageType::New();
@@ -246,7 +240,7 @@ itkImageDuplicatorTest(int, char *[])
 
 
   {
-    constexpr unsigned int Dimension = 3;
+    constexpr unsigned int Dimension{ 3 };
     constexpr unsigned int VectorLength = 2 * Dimension;
     using PixelType = float;
     using VectorImageType = itk::VectorImage<PixelType, Dimension>;

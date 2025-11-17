@@ -26,7 +26,7 @@
 int
 itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using PointSetType = itk::PointSet<unsigned int, Dimension>;
 
@@ -55,7 +55,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
   for (float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1)
   {
     PointType       fixedPoint;
-    constexpr float radius = 100.0;
+    constexpr float radius{ 100.0 };
     fixedPoint[0] = radius * std::cos(theta);
     fixedPoint[1] = radius * std::sin(theta);
     if constexpr (PointSetType::PointDimension > 2)
@@ -285,7 +285,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
 
   // applying the resultant transform to moving points and verify result
   std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
-  constexpr PointType::ValueType tolerance = 0.55;
+  constexpr PointType::ValueType tolerance{ 0.55 };
 
   float averageError = 0.0;
   for (unsigned int n = 0; n < movingPoints->GetNumberOfPoints(); ++n)

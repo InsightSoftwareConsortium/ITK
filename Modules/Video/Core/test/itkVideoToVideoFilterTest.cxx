@@ -21,7 +21,7 @@
 #include "itkTestingMacros.h"
 
 // type alias for test
-constexpr unsigned int Dimension = 2;
+constexpr unsigned int Dimension{ 2 };
 using InputPixelType = unsigned char;
 using InputFrameType = itk::Image<InputPixelType, Dimension>;
 using InputVideoType = itk::VideoStream<InputFrameType>;
@@ -41,13 +41,8 @@ CreateInputFrame(InputPixelType val)
 {
   auto out = InputFrameType::New();
 
-  InputFrameType::RegionType          largestRegion;
-  InputFrameType::SizeType            sizeLR;
-  constexpr InputFrameType::IndexType startLR{};
-  sizeLR[0] = 50;
-  sizeLR[1] = 40;
-  largestRegion.SetSize(sizeLR);
-  largestRegion.SetIndex(startLR);
+  constexpr InputFrameType::SizeType sizeLR{ 50, 40 };
+  InputFrameType::RegionType         largestRegion{ sizeLR };
   out->SetRegions(largestRegion);
 
   out->Allocate();
@@ -175,8 +170,8 @@ itkVideoToVideoFilterTest(int, char *[])
   // Set up an input video stream
   auto                    inputVideo = InputVideoType::New();
   itk::TemporalRegion     inputLargestTemporalRegion;
-  constexpr SizeValueType inputStart = 0;
-  constexpr SizeValueType inputDuration = 10;
+  constexpr SizeValueType inputStart{ 0 };
+  constexpr SizeValueType inputDuration{ 10 };
   inputLargestTemporalRegion.SetFrameStart(inputStart);
   inputLargestTemporalRegion.SetFrameDuration(inputDuration);
   inputVideo->SetLargestPossibleTemporalRegion(inputLargestTemporalRegion);
@@ -206,8 +201,7 @@ itkVideoToVideoFilterTest(int, char *[])
   size[1] = inputVideo->GetFrame(0)->GetLargestPossibleRegion().GetSize()[1] / 2;
   start[0] = inputVideo->GetFrame(0)->GetLargestPossibleRegion().GetSize()[0] / 4;
   start[1] = inputVideo->GetFrame(0)->GetLargestPossibleRegion().GetSize()[1] / 4;
-  outputRequestedSpatialRegion.SetSize(size);
-  outputRequestedSpatialRegion.SetIndex(start);
+  outputRequestedSpatialRegion = { start, size };
   filter->GetOutput()->SetAllRequestedSpatialRegions(outputRequestedSpatialRegion);
 
   // Set the number of frame buffers on the output so that we get all output
@@ -232,7 +226,7 @@ itkVideoToVideoFilterTest(int, char *[])
     itk::ImageRegionConstIterator<OutputFrameType> iter(frame, frame->GetRequestedRegion());
 
     const OutputPixelType     expectedVal = ((OutputPixelType)(i)-1.0 + (OutputPixelType)(i)) / 2.0;
-    constexpr OutputPixelType epsilon = .00001;
+    constexpr OutputPixelType epsilon{ .00001 };
     while (!iter.IsAtEnd())
     {
       if (iter.Get() < expectedVal - epsilon || iter.Get() > expectedVal + epsilon)

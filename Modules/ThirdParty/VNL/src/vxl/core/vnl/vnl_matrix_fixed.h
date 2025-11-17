@@ -427,8 +427,8 @@ public:
   operator-() const
   {
     vnl_matrix_fixed<typename vnl_numeric_traits<T>::signed_t, num_rows, num_cols> r;
-    for (int i = 0; i < num_rows; ++i)
-      for (int j = 0; j < num_cols; ++j)
+    for (unsigned i = 0; i < num_rows; ++i)
+      for (unsigned j = 0; j < num_cols; ++j)
         r(i, j) = -(*this)(i, j);
     return r;
   }

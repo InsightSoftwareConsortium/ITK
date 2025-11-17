@@ -28,7 +28,7 @@ namespace
 bool
 CheckEqual(const itk::Point<double, 2> & p1, const itk::Point<double, 2> & p2)
 {
-  constexpr double epsilon = 1e-5;
+  constexpr double epsilon{ 1e-5 };
 
   for (unsigned int i = 0; i < 2; ++i)
   {
@@ -50,8 +50,8 @@ itkEuler2DTransformTest(int, char *[])
   std::cout << "==================================" << std::endl;
   std::cout << "Testing Euler Angles 2D Transform" << std::endl << std::endl;
 
-  constexpr double       epsilon = 1e-10;
-  constexpr unsigned int N = 2;
+  constexpr double       epsilon{ 1e-10 };
+  constexpr unsigned int N{ 2 };
   bool                   Ok = true;
 
   using EulerTransformType = itk::Euler2DTransform<double>;
@@ -79,7 +79,7 @@ itkEuler2DTransformTest(int, char *[])
   eulerTransform->SetRotation(angle);
 
   // Rotate an itk::Point
-  constexpr EulerTransformType::InputPointType::ValueType pInit[2] = { 10, 10 };
+  constexpr EulerTransformType::InputPointType::ValueType pInit[2]{ 10, 10 };
   EulerTransformType::InputPointType                      p = pInit;
   EulerTransformType::InputPointType                      q;
 
@@ -300,7 +300,7 @@ itkEuler2DTransformTest(int, char *[])
     TransformType::JacobianType approxJacobian = jacobian2;
     for (unsigned int k = 0; k < t1->GetNumberOfParameters(); ++k)
     {
-      constexpr double              delta = 0.001;
+      constexpr double              delta{ 0.001 };
       TransformType::ParametersType plusParameters;
       TransformType::ParametersType minusParameters;
 

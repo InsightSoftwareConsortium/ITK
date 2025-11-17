@@ -35,7 +35,7 @@ square(unsigned int x, unsigned int y)
   {
     dis = RADIUS - std::max(X, Y);
   }
-  return (dis);
+  return dis;
 }
 
 // Evaluates a function at each pixel in the itk image
@@ -62,11 +62,8 @@ itkUnsharpMaskLevelSetImageFilterTest(int, char *[])
 
   auto im_init = ImageType::New();
 
-  ImageType::RegionType          r;
-  constexpr ImageType::SizeType  sz = { { HEIGHT, WIDTH } };
-  constexpr ImageType::IndexType idx = { { 0, 0 } };
-  r.SetSize(sz);
-  r.SetIndex(idx);
+  constexpr ImageType::SizeType sz{ HEIGHT, WIDTH };
+  ImageType::RegionType         r{ sz };
 
   im_init->SetRegions(r);
   im_init->Allocate();

@@ -27,7 +27,7 @@ itkTensorRelativeAnisotropyImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int myDimension = 3;
+  constexpr unsigned int myDimension{ 3 };
 
   // Declare the types of the images
   using myImageType = itk::Image<float, myDimension>;
@@ -46,31 +46,16 @@ itkTensorRelativeAnisotropyImageFilterTest(int, char *[])
 
 
   // Define their size, and start index
-  mySizeType size;
-  size[0] = 8;
-  size[1] = 8;
-  size[2] = 8;
-
-  myIndexType start{};
-
+  mySizeType   size{ 8, 8, 8 };
+  myIndexType  start{};
   myRegionType region{ start, size };
 
   // Initialize Image A
   inputImage->SetRegions(region);
-  inputImage->Allocate();
+  inputImage->AllocateInitialized();
 
   // Declare Iterator type for the input image
   using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
-
-  // Create one iterator for the Input Image A (this is a light object)
-  myIteratorType it(inputImage, inputImage->GetRequestedRegion());
-
-  // Initialize the content of Image A
-  while (!it.IsAtEnd())
-  {
-    it.Set(0.0);
-    ++it;
-  }
 
   size[0] = 4;
   size[1] = 4;
@@ -81,8 +66,7 @@ itkTensorRelativeAnisotropyImageFilterTest(int, char *[])
   start[2] = 2;
 
   // Create one iterator for an internal region
-  region.SetSize(size);
-  region.SetIndex(start);
+  region = { start, size };
   myIteratorType itb(inputImage, region);
 
   // Initialize the content the internal region

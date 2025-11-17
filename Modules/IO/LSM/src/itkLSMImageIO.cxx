@@ -32,9 +32,9 @@
 #include "itk_tiff.h"
 
 /* Structure with LSM-specific data ( only in the first image directory). */
-constexpr uint32_t TIF_CZ_LSMINFO = 34412; /* 0x866c, Type: TIF_BYTE, Length: 512 */
-constexpr uint32_t TIF_CZ_LSMINFO_SIZE_RESERVED = 90 + 6;
-constexpr uint32_t TIF_CZ_LSMINFO_SIZE = 512;
+constexpr uint32_t TIF_CZ_LSMINFO{ 34412 }; /* 0x866c, Type: TIF_BYTE, Length: 512 */
+constexpr uint32_t TIF_CZ_LSMINFO_SIZE_RESERVED{ 90 + 6 };
+constexpr uint32_t TIF_CZ_LSMINFO_SIZE{ 512 };
 
 namespace itk
 {
@@ -261,7 +261,7 @@ LSMImageIO::Write(const void * buffer)
       itkExceptionStringMacro("TIFF supports unsigned char and unsigned short");
   }
 
-  constexpr float resolution = -1;
+  constexpr float resolution{ -1 };
   TIFF *          tif = TIFFOpen(m_FileName.c_str(), "w");
   if (!tif)
   {

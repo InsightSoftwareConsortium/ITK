@@ -35,11 +35,6 @@
 namespace itk
 {
 template <typename TImage, typename TLabelImage>
-ShapeLabelMapFilter<TImage, TLabelImage>::ShapeLabelMapFilter()
-  : m_ComputePerimeter(true)
-{}
-
-template <typename TImage, typename TLabelImage>
 void
 ShapeLabelMapFilter<TImage, TLabelImage>::BeforeThreadedGenerateData()
 {
@@ -592,7 +587,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
         auto li = ls.begin();
         auto ni = ns.begin();
 
-        constexpr IndexValueType lZero = 0;
+        constexpr IndexValueType lZero{ 0 };
         IndexValueType           lMin = 0;
         IndexValueType           lMax = 0;
 

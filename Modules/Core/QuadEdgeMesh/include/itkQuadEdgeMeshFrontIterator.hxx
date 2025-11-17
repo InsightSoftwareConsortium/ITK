@@ -69,14 +69,14 @@ QuadEdgeMeshFrontBaseIterator<TMesh, TQE>::operator++()
   // We continue only if not previously marked as finish...
   if (!m_Start)
   {
-    return (*this);
+    return *this;
   }
 
   // ... or until the front is empty:
   if (m_Front->empty())
   {
     m_Start = false;
-    return (*this);
+    return *this;
   }
 
   // Sort on the Cost:
@@ -111,14 +111,14 @@ QuadEdgeMeshFrontBaseIterator<TMesh, TQE>::operator++()
 
     // We still want to handle oEdge
     m_CurrentEdge = oEdge;
-    return (*this);
+    return *this;
   }
 
   // All the edge->Origin() neighbours were already visited. Remove
   // the edge from the front, and move to next edge...
   m_Front->pop_front();
   m_CurrentEdge = (QEType *)nullptr;
-  return (this->operator++());
+  return this->operator++();
 }
 
 /**

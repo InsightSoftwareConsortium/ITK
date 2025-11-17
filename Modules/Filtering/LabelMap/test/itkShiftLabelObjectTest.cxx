@@ -30,7 +30,7 @@ itkShiftLabelObjectTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int dim = 2;
+  constexpr int dim{ 2 };
 
   using LabelObjectType = itk::LabelObject<unsigned long, dim>;
   using IndexType = LabelObjectType::IndexType;
@@ -47,8 +47,7 @@ itkShiftLabelObjectTest(int argc, char * argv[])
   sizeIn[0] = 12;
   sizeIn[1] = 12;
   image->SetRegions(sizeIn);
-  image->Allocate();
-  image->FillBuffer(0);
+  image->AllocateInitialized();
 
   IndexType idxHorizontal;
   idxHorizontal[1] = 6;

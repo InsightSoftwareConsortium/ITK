@@ -19,7 +19,7 @@
 #include "itksys/SystemTools.hxx"
 #include "itkMakeUniqueForOverwrite.h"
 #include <fstream>
-#include "expat.h"
+#include "itk_expat.h"
 
 namespace itk
 {

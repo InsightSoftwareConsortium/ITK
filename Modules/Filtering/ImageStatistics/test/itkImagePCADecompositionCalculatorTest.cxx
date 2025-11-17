@@ -46,9 +46,9 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
   // Data definitions
-  constexpr unsigned int IMGWIDTH = 2;
-  constexpr unsigned int IMGHEIGHT = 2;
-  constexpr unsigned int NDIMENSION = 2;
+  constexpr unsigned int IMGWIDTH{ 2 };
+  constexpr unsigned int IMGHEIGHT{ 2 };
+  constexpr unsigned int NDIMENSION{ 2 };
 
 
   //------------------------------------------------------
@@ -75,13 +75,9 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
 
   auto image8 = InputImageType::New();
 
-  constexpr InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
+  constexpr InputImageType::SizeType inputImageSize{ IMGWIDTH, IMGHEIGHT };
 
-  constexpr InputImageType::IndexType index{};
-  InputImageType::RegionType          region;
-
-  region.SetSize(inputImageSize);
-  region.SetIndex(index);
+  InputImageType::RegionType region{ inputImageSize };
 
   //--------------------------------------------------------------------------
   // Set up Image 1 first

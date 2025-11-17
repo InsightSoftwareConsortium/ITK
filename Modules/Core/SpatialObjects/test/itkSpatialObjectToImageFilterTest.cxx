@@ -56,15 +56,15 @@ itkSpatialObjectToImageFilterTest(int, char *[])
 
   imageFilter->SetInput(ellipse);
 
-  constexpr SpatialObjectToImageFilterType::ValueType insideValue = 2;
+  constexpr SpatialObjectToImageFilterType::ValueType insideValue{ 2 };
   imageFilter->SetInsideValue(insideValue);
   ITK_TEST_SET_GET_VALUE(insideValue, imageFilter->GetInsideValue());
 
-  constexpr SpatialObjectToImageFilterType::ValueType outsideValue = 0;
+  constexpr SpatialObjectToImageFilterType::ValueType outsideValue{ 0 };
   imageFilter->SetOutsideValue(0);
   ITK_TEST_SET_GET_VALUE(outsideValue, imageFilter->GetOutsideValue());
 
-  constexpr unsigned int childrenDepth = 1;
+  constexpr unsigned int childrenDepth{ 1 };
   imageFilter->SetChildrenDepth(childrenDepth);
   ITK_TEST_SET_GET_VALUE(childrenDepth, imageFilter->GetChildrenDepth());
 
@@ -83,10 +83,10 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   // Testing spacing
   std::cout << "Testing Spacing: ";
 
-  constexpr float  floatCheckValue = 1.5;
-  constexpr double doubleCheckValue = 1.25;
-  constexpr float  vspacingFloat[2] = { floatCheckValue, floatCheckValue };
-  constexpr double vspacingDouble[2] = { doubleCheckValue, doubleCheckValue };
+  constexpr float  floatCheckValue{ 1.5 };
+  constexpr double doubleCheckValue{ 1.25 };
+  constexpr float  vspacingFloat[2]{ floatCheckValue, floatCheckValue };
+  constexpr double vspacingDouble[2]{ doubleCheckValue, doubleCheckValue };
   {
     imageFilter->SetSpacing(vspacingFloat);
     const double * spacing_result = imageFilter->GetSpacing();
@@ -160,8 +160,8 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   // Testing Origin
   std::cout << "Testing Origin: ";
 
-  constexpr float  voriginFloat[2] = { floatCheckValue, floatCheckValue };
-  constexpr double voriginDouble[2] = { doubleCheckValue, doubleCheckValue };
+  constexpr float  voriginFloat[2]{ floatCheckValue, floatCheckValue };
+  constexpr double voriginDouble[2]{ doubleCheckValue, doubleCheckValue };
 
 
   {
@@ -204,8 +204,8 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   std::cout << "[PASSED]" << std::endl;
 
   // Now test with common values
-  constexpr double spacingDouble[2] = { 1.0, 1.0 };
-  constexpr double originDouble[2] = { 0.0, 0.0 };
+  constexpr double spacingDouble[2]{ 1.0, 1.0 };
+  constexpr double originDouble[2]{ 0.0, 0.0 };
   imageFilter->SetSpacing(spacingDouble);
   imageFilter->SetOrigin(originDouble);
   // Testing PrintSelf
@@ -245,7 +245,7 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   std::cout << "[PASSED]" << std::endl;
 
   // Test the UseObjectValue
-  constexpr bool useObjectValue = true;
+  constexpr bool useObjectValue{ true };
   imageFilter->SetUseObjectValue(useObjectValue);
   ITK_TEST_SET_GET_BOOLEAN(imageFilter, UseObjectValue, useObjectValue);
 

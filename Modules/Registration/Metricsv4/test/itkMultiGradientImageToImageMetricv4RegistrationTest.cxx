@@ -68,7 +68,7 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   }
   std::cout << " iterations " << numberOfIterations << std::endl;
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PixelType = double; // I assume png is unsigned short
 
   using FixedImageType = itk::Image<PixelType, Dimension>;

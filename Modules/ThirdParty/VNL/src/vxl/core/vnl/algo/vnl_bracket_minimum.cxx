@@ -7,6 +7,7 @@
 
 #include <cmath>
 #include <algorithm>
+#include <cmath>
 #include <vnl/algo/vnl_bracket_minimum.h>
 #include <vnl/algo/vnl_fit_parabola.h>
 
@@ -14,7 +15,7 @@ static const double GOLDEN_RATIO = 1.618033988749894848; // = 0.5*(std::sqrt(5)-
 static const double EPS = 1e-7;                          // Loose tolerance
 static const double EPSqr = 1e-14;
 inline void
-swap(double & a, double & b)
+swap(double & a, double & b) noexcept
 {
   const double x = a;
   a = b;
@@ -28,8 +29,9 @@ class vnl_bm_func
 
 public:
   vnl_bm_func(vnl_cost_function & fn)
+    : f(&fn)
   {
-    f = &fn;
+
     v.set_size(1);
   }
   double
@@ -68,8 +70,8 @@ vnl_bracket_minimum(vnl_cost_function & fn, double & a, double & b, double & c, 
   while (fc < fb) // Keep stepping until we go uphill again
   {
     // Use parabolic interpolation to estimate position of centre
-    double p;
-    double q;
+    double p = NAN;
+    double q = NAN;
     vnl_fit_parabola(a, b, c, fa, fb, fc, p, q);
 
     // Ensure q not within EPSqr of zero

@@ -320,7 +320,7 @@ ImageAdaptor<TImage, TAccessor>::GetMTime() const
   const ModifiedTimeType mtime1 = Superclass::GetMTime();
   const ModifiedTimeType mtime2 = m_Image->GetMTime();
 
-  return (mtime1 >= mtime2 ? mtime1 : mtime2);
+  return mtime1 >= mtime2 ? mtime1 : mtime2;
 }
 
 template <typename TImage, typename TAccessor>

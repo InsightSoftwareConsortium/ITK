@@ -12,6 +12,7 @@
 #ifdef VNL_USE_OLD_BRENT_MINIMIZER
 #  include <vnl/algo/vnl_brent.h>
 #else
+#  include <cmath>
 #  include <vnl/algo/vnl_brent_minimizer.h>
 #  include <vnl/algo/vnl_bracket_minimum.h>
 #endif
@@ -106,11 +107,11 @@ vnl_powell::minimize(vnl_vector<double> & p)
       vnl_brent_minimizer brent(f1d);
       double ax = 0.0;
       double xx = initial_step_;
-      double bx;
+      double bx = NAN;
       {
-        double fa;
-        double fxx;
-        double fb;
+        double fa = NAN;
+        double fxx = NAN;
+        double fb = NAN;
         vnl_bracket_minimum(f1d, ax, xx, bx, fa, fxx, fb);
       }
       brent.set_x_tolerance(linmin_xtol_);
@@ -165,11 +166,11 @@ vnl_powell::minimize(vnl_vector<double> & p)
         vnl_brent_minimizer brent(f1d);
         double ax = 0.0;
         double xx = 1.0;
-        double bx;
+        double bx = NAN;
         {
-          double fa;
-          double fxx;
-          double fb;
+          double fa = NAN;
+          double fxx = NAN;
+          double fb = NAN;
           vnl_bracket_minimum(f1d, ax, xx, bx, fa, fxx, fb);
         }
         brent.set_x_tolerance(linmin_xtol_);

@@ -156,7 +156,7 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
   }
   // write out an image -- using a random image source, but
   // the image data is irrelevant
-  constexpr int Dim(2);
+  constexpr int Dim{ 2 };
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, Dim>;
@@ -211,7 +211,7 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
   {
     // Add unsigned long
     const std::string       key("unsigned_long");
-    constexpr unsigned long value(27182818);
+    constexpr unsigned long value{ 27182818 };
     itk::EncapsulateMetaData<unsigned long>(dict, key, value);
   }
   {
@@ -235,7 +235,7 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
   {
     // Add unsigned int
     const std::string      key("unsigned_int");
-    constexpr unsigned int value(2718281);
+    constexpr unsigned int value{ 2718281 };
     itk::EncapsulateMetaData<unsigned int>(dict, key, value);
   }
   {
@@ -247,7 +247,7 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
   {
     // Add short
     const std::string      key("unsigned_short");
-    constexpr unsigned int value(8192);
+    constexpr unsigned int value{ 8192 };
     itk::EncapsulateMetaData<unsigned short>(dict, key, value);
   }
   {

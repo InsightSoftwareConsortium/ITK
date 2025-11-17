@@ -91,8 +91,8 @@ FreeSurferAsciiMeshIO::ReadMeshInformation()
   OpenFile();
 
   // Read the ASCII file information
-  constexpr int          numberOfInfoLines = 1;
-  constexpr unsigned int numberOfCellPoints = 3;
+  constexpr int          numberOfInfoLines{ 1 };
+  constexpr unsigned int numberOfCellPoints{ 3 };
   std::string            line;
 
   for (int ii = 0; ii < numberOfInfoLines; ++ii)
@@ -163,7 +163,7 @@ FreeSurferAsciiMeshIO::ReadCells(void * buffer)
   // Get cell buffer
   m_InputFile.precision(12);
   SizeValueType          index = 0;
-  constexpr unsigned int numberOfCellPoints = 3;
+  constexpr unsigned int numberOfCellPoints{ 3 };
   const auto             data = make_unique_for_overwrite<unsigned int[]>(this->m_NumberOfCells * numberOfCellPoints);
   float                  value = NAN;
 
@@ -319,7 +319,7 @@ FreeSurferAsciiMeshIO::WritePoints(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown point pixel component type" << std::endl);
+      itkExceptionStringMacro("Unknown point pixel component type");
     }
   }
 
@@ -415,7 +415,7 @@ FreeSurferAsciiMeshIO::WriteCells(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown cell pixel component type" << std::endl);
+      itkExceptionStringMacro("Unknown cell pixel component type");
     }
   }
 

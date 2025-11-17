@@ -27,7 +27,7 @@
 int
 itkLevelSetEquationBinaryMaskTermTest(int, char *[])
 {
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = unsigned short;
   using InputImageType = itk::Image<InputPixelType, Dimension>;
@@ -73,14 +73,12 @@ itkLevelSetEquationBinaryMaskTermTest(int, char *[])
   binary->SetRegions(region);
   binary->SetSpacing(spacing);
   binary->SetOrigin(origin);
-  binary->Allocate();
-  binary->FillBuffer(InputPixelType{});
+  binary->AllocateInitialized();
 
   index.Fill(10);
   size.Fill(30);
 
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   InputImageIteratorType iIt(binary, region);
   iIt.GoToBegin();

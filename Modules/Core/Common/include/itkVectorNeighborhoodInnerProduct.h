@@ -33,7 +33,7 @@ namespace itk
  * template specialization of NeighborhoodInnerProduct for itkVector.
  *
  * This class defines the inner product operation between an itk::Neighborhood
- * and and itk::NeighborhoodOperator.  The operator() method is overloaded
+ * and itk::NeighborhoodOperator.  The operator() method is overloaded
  * to support various types of neighborhoods as well as inner products with
  * slices of neighborhoods.
  *

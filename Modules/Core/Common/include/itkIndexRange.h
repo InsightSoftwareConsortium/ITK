@@ -39,7 +39,7 @@ namespace itk
   *
   * The following example prints all indices of an 2-D grid space of size 2x3.
     \code
-    constexpr unsigned int Dimension = 2;
+    constexpr unsigned int Dimension{ 2 };
     const Size<Dimension> size = { {2, 3} };
     const ZeroBasedIndexRange<Dimension> indexRange{ size };
 

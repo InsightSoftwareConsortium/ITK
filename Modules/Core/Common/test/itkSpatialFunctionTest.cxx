@@ -25,7 +25,7 @@ int
 itkSpatialFunctionTest(int, char *[])
 {
   // Change this parameter (and the positions, below) to work in higher or lower dimensions
-  constexpr unsigned int dim = 3;
+  constexpr unsigned int dim{ 3 };
 
   //---------Create and initialize a spatial function-----------
 

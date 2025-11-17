@@ -489,7 +489,6 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
     ${use_python_limited_api_default}
     CACHE BOOL
     "Use Python's limited API for Python minor version compatibility."
-    FORCE
   )
   mark_as_advanced(ITK_USE_PYTHON_LIMITED_API)
   unset(use_python_limited_api_default)

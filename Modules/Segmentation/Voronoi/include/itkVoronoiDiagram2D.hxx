@@ -24,9 +24,6 @@ namespace itk
 {
 
 template <typename TCoordinate>
-VoronoiDiagram2D<TCoordinate>::VoronoiDiagram2D() = default;
-
-template <typename TCoordinate>
 void
 VoronoiDiagram2D<TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -93,7 +90,7 @@ VoronoiDiagram2D<TCoordinate>::GetSeedsIDAroundEdge(VoronoiEdge * task) -> EdgeI
 
   answer[0] = m_LineList[task->m_LineID][0];
   answer[1] = m_LineList[task->m_LineID][1];
-  return (answer);
+  return answer;
 }
 
 

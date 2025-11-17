@@ -127,11 +127,9 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::RecomputeG
   auto centerIndex = KernelImageType::IndexType::Filled(2 * maxRadius); // include also boundaries
 
   // Create an image region to be used later that does not include boundaries
-  RegionType kernelRegion;
   size.Fill(2 * maxRadius + 1);
-  auto origin = RegionType::IndexType::Filled(maxRadius);
-  kernelRegion.SetSize(size);
-  kernelRegion.SetIndex(origin);
+  auto       origin = RegionType::IndexType::Filled(maxRadius);
+  RegionType kernelRegion = { origin, size };
 
   // Now create an image filter to perform successive convolutions
   using NeighborhoodFilterType = itk::NeighborhoodOperatorImageFilter<KernelImageType, KernelImageType>;
@@ -232,7 +230,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::EvaluateAt
 
   using NumberOfNeighborsType = unsigned int;
 
-  constexpr NumberOfNeighborsType neighbors = 1 << ImageDimension2;
+  constexpr NumberOfNeighborsType neighbors{ 1 << ImageDimension2 };
 
   // Compute base index = closet index below point
   // Compute distance from point to base index
@@ -285,7 +283,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::EvaluateAt
       break;
     }
   }
-  return (static_cast<OutputType>(value));
+  return static_cast<OutputType>(value);
 }
 } // end namespace itk
 

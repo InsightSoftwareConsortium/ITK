@@ -116,24 +116,23 @@ public:
   IncrementInput(InputType & input) const = 0;
 
 protected:
-  Path();
+  Path() = default;
   ~Path() override = default;
 
-  void
-  PrintSelf(std::ostream & os, Indent indent) const override;
+  /** Get zero offset - returns a constexpr OffsetType with all dimensions set to 0 */
+  static constexpr OffsetType
+  GetZeroOffset()
+  {
+    return OffsetType{};
+  }
 
-  itkGetConstMacro(ZeroOffset, OffsetType);
-  itkGetConstMacro(ZeroIndex, IndexType);
-
-private:
-  // These "constants" are initialized in the constructor
-  OffsetType m_ZeroOffset{}; // = 0 for all dimensions
-  IndexType  m_ZeroIndex{};  // = 0 for all dimensions
+  /** Get zero index - returns a constexpr IndexType with all dimensions set to 0 */
+  static constexpr IndexType
+  GetZeroIndex()
+  {
+    return IndexType{};
+  }
 };
 } // namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkPath.hxx"
-#endif
 
 #endif

@@ -24,7 +24,7 @@
 int
 itkLabelMapTest2(int, char *[])
 {
-  constexpr unsigned int dim = 3;
+  constexpr unsigned int dim{ 3 };
 
   using LabelObjectType = itk::LabelObject<unsigned long, dim>;
   using IndexType = LabelObjectType::IndexType;
@@ -34,10 +34,7 @@ itkLabelMapTest2(int, char *[])
 
   auto map = LabelMapType::New();
 
-  SizeType sizeIn;
-  sizeIn[0] = 10;
-  sizeIn[1] = 20;
-  sizeIn[2] = 30;
+  SizeType sizeIn{ 10, 20, 30 };
   map->SetRegions(sizeIn);
   map->Allocate();
 
@@ -47,17 +44,13 @@ itkLabelMapTest2(int, char *[])
   RegionType regionOut = map->GetRequestedRegion();
   map->Initialize();
 
-  IndexType index;
-  index[0] = 1;
-  index[1] = 3;
-  index[2] = 5;
+  IndexType index{ 1, 3, 5 };
 
   sizeIn[0] = 100;
   sizeIn[1] = 200;
   sizeIn[2] = 300;
 
-  regionIn.SetIndex(index);
-  regionIn.SetSize(sizeIn);
+  regionIn = { index, sizeIn };
   map->SetRegions(regionIn);
   map->Allocate();
 

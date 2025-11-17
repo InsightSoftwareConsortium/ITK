@@ -33,7 +33,7 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PixelType = float;
   using OutputPixelType = unsigned char;
 
@@ -46,27 +46,22 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
 
   // create a mask the size of the input file
   using MaskImageType = itk::Image<unsigned char, Dimension>;
-  auto                      mask1 = MaskImageType::New();
-  auto                      mask2 = MaskImageType::New();
-  MaskImageType::RegionType region;
-  MaskImageType::SizeType   size;
-  MaskImageType::IndexType  index;
+  auto mask1 = MaskImageType::New();
+  auto mask2 = MaskImageType::New();
 
-  region = input->GetOutput()->GetBufferedRegion();
+  MaskImageType::RegionType region = input->GetOutput()->GetBufferedRegion();
   mask1->SetRegions(region);
   mask1->AllocateInitialized();
 
   mask2->SetRegions(region);
   mask2->AllocateInitialized();
 
-
-  size = region.GetSize();
-  index = region.GetIndex();
-  const unsigned int width = size[0];
+  MaskImageType::SizeType  size = region.GetSize();
+  MaskImageType::IndexType index = region.GetIndex();
+  const unsigned int       width = size[0];
   size[0] = width / 2 - static_cast<unsigned int>(.25 * static_cast<float>(width));
   index[0] = size[0] + static_cast<unsigned int>(.25 * static_cast<float>(width));
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   {
     itk::ImageRegionIterator<MaskImageType> it(mask1, region);
     it.GoToBegin();
@@ -111,7 +106,7 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
   filter1->SetDefaultValue(defaultValue);
   ITK_TEST_SET_GET_VALUE(defaultValue, filter1->GetDefaultValue());
 
-  constexpr bool useDefaultValue = false;
+  constexpr bool useDefaultValue{ false };
   ITK_TEST_SET_GET_BOOLEAN(filter1, UseDefaultValue, useDefaultValue);
 
   auto filter2 = FilterType::New();

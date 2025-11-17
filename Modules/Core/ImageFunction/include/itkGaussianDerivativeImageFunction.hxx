@@ -130,7 +130,7 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussianKernel()
       while (it != dogNeighborhood.End())
       {
         pt[0] = dogNeighborhood.GetOffset(i)[direction] * directionSpacing;
-        (*it) = m_GaussianDerivativeSpatialFunction->Evaluate(pt);
+        *it = m_GaussianDerivativeSpatialFunction->Evaluate(pt);
         ++i;
         ++it;
       }
@@ -167,7 +167,7 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const Ind
 
     for (const TOutput & kernelValue : operatorNeighborhood.GetBufferReference())
     {
-      result += kernelValue * (*neighborhoodRangeIterator);
+      result += kernelValue * *neighborhoodRangeIterator;
       ++neighborhoodRangeIterator;
     }
     gradient[direction] = result;

@@ -34,7 +34,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
 
   bool pass = true;
 
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   // Fixed Image Type
   using FixedImageType = itk::Image<unsigned char, Dimension>;
@@ -53,30 +53,11 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   // Transform Type
   using TransformType = itk::VersorRigid3DTransform<double>;
 
-  SizeType size;
-  size[0] = 100;
-  size[1] = 100;
-  size[2] = 150;
-
-  PointType fixedOrigin;
-  fixedOrigin[0] = 0.0;
-  fixedOrigin[1] = 0.0;
-  fixedOrigin[2] = 0.0;
-
-  PointType movingOrigin;
-  movingOrigin[0] = 29.0;
-  movingOrigin[1] = 17.0;
-  movingOrigin[2] = 13.0;
-
-  SpacingType spacing;
-  spacing[0] = 1.5;
-  spacing[1] = 1.5;
-  spacing[2] = 1.0;
-
-  IndexType index;
-  index[0] = 0;
-  index[1] = 0;
-  index[2] = 0;
+  SizeType            size{ { 100, 100, 150 } };
+  PointType           fixedOrigin{};
+  PointType           movingOrigin{ { 29.0, 17.0, 13.0 } };
+  SpacingType         spacing{ { 1.5, 1.5, 1.0 } };
+  constexpr IndexType index{};
 
   const RegionType region{ index, size };
 
@@ -87,14 +68,12 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   fixedImage->SetRegions(region);
   fixedImage->SetSpacing(spacing);
   fixedImage->SetOrigin(fixedOrigin);
-  fixedImage->Allocate();
-  fixedImage->FillBuffer(0);
+  fixedImage->AllocateInitialized();
 
   movingImage->SetRegions(region);
   movingImage->SetSpacing(spacing);
   movingImage->SetOrigin(movingOrigin);
-  movingImage->Allocate();
-  movingImage->FillBuffer(0);
+  movingImage->AllocateInitialized();
 
   RegionType internalRegion;
   SizeType   internalSize;
@@ -109,8 +88,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   internalSize[2] = size[2] - 2 * 10;
 
 
-  internalRegion.SetSize(internalSize);
-  internalRegion.SetIndex(internalIndex);
+  internalRegion = { internalIndex, internalSize };
 
   using FixedIterator = itk::ImageRegionIterator<FixedImageType>;
   FixedIterator fi(fixedImage, internalRegion);
@@ -132,8 +110,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   internalSize[2] = size[2] - 2 * 30;
 
 
-  internalRegion.SetSize(internalSize);
-  internalRegion.SetIndex(internalIndex);
+  internalRegion = { internalIndex, internalSize };
 
 
   using MovingIterator = itk::ImageRegionIterator<MovingImageType>;
@@ -179,7 +156,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
     TransformType::InputVectorType relativeCenter = movingCenter - fixedCenter;
 
 
-    constexpr double tolerance = 1e-3;
+    constexpr double tolerance{ 1e-3 };
 
     for (unsigned int k = 0; k < Dimension; ++k)
     {

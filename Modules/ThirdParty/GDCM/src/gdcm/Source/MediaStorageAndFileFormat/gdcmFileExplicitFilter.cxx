@@ -92,10 +92,10 @@ bool FileExplicitFilter::ProcessDataSet(DataSet &ds, Dicts const & dicts)
     const DictEntry &entry = dicts.GetDictEntry(t,owner);
     const VR &vr = entry.GetVR();
 
-    //assert( de.GetVR() == VR::INVALID );
+    //gdcm_assert( de.GetVR() == VR::INVALID );
     VR cvr = DataSetHelper::ComputeVR(*F,ds, t);
     VR oldvr = de.GetVR();
-    if( cvr == VR::SQ ) { assert( oldvr == VR::SQ || oldvr == VR::UN || oldvr == VR::INVALID || oldvr == VR::OB ); }
+    if( cvr == VR::SQ ) { gdcm_assert( oldvr == VR::SQ || oldvr == VR::UN || oldvr == VR::INVALID || oldvr == VR::OB ); }
     //SequenceOfItems *sqi = de.GetSequenceOfItems();
     //SequenceOfItems *sqi = dynamic_cast<SequenceOfItems*>(&de.GetValue());
     SmartPointer<SequenceOfItems> sqi = nullptr;
@@ -115,15 +115,15 @@ bool FileExplicitFilter::ProcessDataSet(DataSet &ds, Dicts const & dicts)
     if( de.GetByteValue() && !sqi )
       {
       // all set
-      //assert( cvr != VR::SQ /*&& cvr != VR::UN*/ );
-      assert( cvr != VR::INVALID );
+      //gdcm_assert( cvr != VR::SQ /*&& cvr != VR::UN*/ );
+      gdcm_assert( cvr != VR::INVALID );
       if( cvr != VR::UN )
         {
         // about to change , make some paranoid test:
-        //assert( cvr.Compatible( oldvr ) ); // LT != LO but there are somewhat compatible
+        //gdcm_assert( cvr.Compatible( oldvr ) ); // LT != LO but there are somewhat compatible
         if( cvr & VR::VRASCII )
           {
-          //assert( oldvr & VR::VRASCII || oldvr == VR::INVALID || oldvr == VR::UN );
+          //gdcm_assert( oldvr & VR::VRASCII || oldvr == VR::INVALID || oldvr == VR::UN );
           // gdcm-JPEG-Extended.dcm has a couple of VR::OB private field
           // is this a good idea to change them to an ASCII when we know this might not work ?
           if( !(oldvr & VR::VRASCII || oldvr == VR::INVALID || oldvr == VR::UN || oldvr == VR::OB) )
@@ -143,7 +143,7 @@ bool FileExplicitFilter::ProcessDataSet(DataSet &ds, Dicts const & dicts)
           }
         else
           {
-          assert( 0 ); // programmer error
+          gdcm_assert( 0 ); // programmer error
           }
 
         // let's do one more check we are going to make this attribute explicit VR, there is
@@ -157,7 +157,7 @@ bool FileExplicitFilter::ProcessDataSet(DataSet &ds, Dicts const & dicts)
       }
     else if( sqi )
       {
-      assert( cvr == VR::SQ || cvr == VR::UN );
+      gdcm_assert( cvr == VR::SQ || cvr == VR::UN );
       de.SetVR( VR::SQ );
       if( de.GetByteValue() )
         {
@@ -165,7 +165,7 @@ bool FileExplicitFilter::ProcessDataSet(DataSet &ds, Dicts const & dicts)
         //de.SetVL( sqi->ComputeLength<ExplicitDataElement>() );
         }
       de.SetVLToUndefined();
-      assert( sqi->GetLength().IsUndefined() );
+      gdcm_assert( sqi->GetLength().IsUndefined() );
       // recursive
       SequenceOfItems::ItemVector::iterator sit = sqi->Items.begin();
       for(; sit != sqi->Items.end(); ++sit)
@@ -181,7 +181,7 @@ bool FileExplicitFilter::ProcessDataSet(DataSet &ds, Dicts const & dicts)
       }
     else if( de.GetSequenceOfFragments() )
       {
-      assert( cvr & VR::OB );
+      gdcm_assert( cvr & VR::OB );
       }
     else
       {

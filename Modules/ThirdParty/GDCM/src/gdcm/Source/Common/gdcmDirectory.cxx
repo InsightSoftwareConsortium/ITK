@@ -68,7 +68,7 @@ unsigned int Directory::Explore(FilenameType const &name, bool recursive)
   if ('\\' == dirName[dirName.size() - 1])
     dirName = dirName.substr(0, dirName.size() - 1);
   if ('/' != dirName[dirName.size() - 1]) dirName.push_back('/');
-  assert( '/' == dirName[dirName.size()-1] );
+  gdcm_assert( '/' == dirName[dirName.size()-1] );
   const std::wstring firstfile = dirName+L"*";
   HANDLE hFile = FindFirstFileW(firstfile.c_str(), &fileData);
 
@@ -106,7 +106,7 @@ unsigned int Directory::Explore(FilenameType const &name, bool recursive)
 #else
   std::string fileName;
   std::string dirName = name;
-  // assert( System::FileIsDirectory( dirName ) );
+  // gdcm_assert( System::FileIsDirectory( dirName ) );
   Directories.push_back(dirName);
   // Real POSIX implementation: scandir is a BSD extension only, and doesn't
   // work on debian for example
@@ -127,7 +127,7 @@ unsigned int Directory::Explore(FilenameType const &name, bool recursive)
   struct stat buf;
   dirent *d;
   if ('/' != dirName[dirName.size()-1]) dirName.push_back('/');
-  assert( '/' == dirName[dirName.size()-1] );
+  gdcm_assert( '/' == dirName[dirName.size()-1] );
   for (d = readdir(dir); d; d = readdir(dir))
     {
     fileName = dirName + d->d_name;
@@ -152,7 +152,7 @@ unsigned int Directory::Explore(FilenameType const &name, bool recursive)
         || strcmp( d->d_name, ".." ) == 0
         || d->d_name[0] == '.' ) // discard any hidden dir
         continue;
-      assert( d->d_name[0] != '.' ); // hidden directory ??
+      gdcm_assert( d->d_name[0] != '.' ); // hidden directory ??
       if ( recursive )
         {
         nFiles += Explore( fileName, recursive);

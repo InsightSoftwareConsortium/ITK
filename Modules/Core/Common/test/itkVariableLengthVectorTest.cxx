@@ -31,6 +31,8 @@
   ITK_GCC_PRAGMA_POP                                                                                               \
   ITK_MACROEND_NOOP_STATEMENT
 
+// spell-check-disable
+
 int
 itkVariableLengthVectorTest(int, char *[])
 {

@@ -48,8 +48,8 @@ itkNthElementPixelAccessorTest2(int, char *[])
 {
 
   // Typedefs for convenience
-  constexpr unsigned int Dimension = 2;
-  constexpr unsigned int VectorLength = 3;
+  constexpr unsigned int Dimension{ 2 };
+  constexpr unsigned int VectorLength{ 3 };
 
   using PrecisionType = float;
 

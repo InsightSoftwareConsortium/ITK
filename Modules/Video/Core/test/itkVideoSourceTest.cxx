@@ -21,7 +21,7 @@
 #include <mutex>
 
 // Set up type alias for test
-constexpr unsigned int Dimension = 2;
+constexpr unsigned int Dimension{ 2 };
 using PixelType = unsigned char;
 using FrameType = itk::Image<PixelType, Dimension>;
 using VideoType = itk::VideoStream<FrameType>;
@@ -109,26 +109,15 @@ protected:
 FrameType::Pointer
 CreateEmptyFrame()
 {
-  auto out = FrameType::New();
-
-  FrameType::RegionType          largestRegion;
-  FrameType::SizeType            sizeLR;
-  constexpr FrameType::IndexType startLR{};
-  sizeLR[0] = 50;
-  sizeLR[1] = 40;
-  largestRegion.SetSize(sizeLR);
-  largestRegion.SetIndex(startLR);
+  auto                          out = FrameType::New();
+  constexpr FrameType::SizeType sizeLR{ 50, 40 };
+  FrameType::RegionType         largestRegion{ sizeLR };
   out->SetLargestPossibleRegion(largestRegion);
 
-  FrameType::RegionType requestedRegion;
-  FrameType::SizeType   sizeReq;
-  auto                  startReq = FrameType::IndexType::Filled(2);
-  sizeReq[0] = 20;
-  sizeReq[1] = 10;
-  requestedRegion.SetSize(sizeReq);
-  requestedRegion.SetIndex(startReq);
+  constexpr FrameType::SizeType sizeReq{ 20, 10 };
+  constexpr auto                startReq = FrameType::IndexType::Filled(2);
+  FrameType::RegionType         requestedRegion = { startReq, sizeReq };
   out->SetRequestedRegion(requestedRegion);
-
   out->Allocate();
 
   return out;
@@ -274,7 +263,7 @@ itkVideoSourceTest(int, char *[])
 
   // Artificially set the output's largest possible temporal region duration
   itk::TemporalRegion    largestTempRegion = videoSource->GetOutput()->GetLargestPossibleTemporalRegion();
-  constexpr unsigned int newNumBuffers = 25;
+  constexpr unsigned int newNumBuffers{ 25 };
   largestTempRegion.SetFrameDuration(newNumBuffers);
   videoSource->GetOutput()->SetLargestPossibleTemporalRegion(largestTempRegion);
   videoSource->GetOutput()->SetRequestedTemporalRegion(emptyRegion);

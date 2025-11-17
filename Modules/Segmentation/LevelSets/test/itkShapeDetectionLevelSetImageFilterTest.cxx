@@ -34,7 +34,7 @@ int
 itkShapeDetectionLevelSetImageFilterTest(int, char *[])
 {
 
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
   using PixelType = unsigned char;
   using InternalPixelType = float;
 
@@ -52,8 +52,8 @@ itkShapeDetectionLevelSetImageFilterTest(int, char *[])
    * Create an input image.
    * A light square on a dark background.
    */
-  constexpr PixelType background = 0;
-  constexpr PixelType foreground = 190;
+  constexpr PixelType background{ 0 };
+  constexpr PixelType foreground{ 190 };
 
   auto inputImage = ImageType::New();
   inputImage->SetRegions(imageRegion);

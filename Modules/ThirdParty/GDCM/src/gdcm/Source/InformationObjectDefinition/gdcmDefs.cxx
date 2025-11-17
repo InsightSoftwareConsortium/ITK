@@ -49,7 +49,7 @@ void Defs::LoadDefaults()
 
 void Defs::LoadFromFile(const char *filename)
 {
-  assert( filename );
+  gdcm_assert( filename );
   TableReader tr(*this);
   tr.SetFilename(filename);
   tr.Read();

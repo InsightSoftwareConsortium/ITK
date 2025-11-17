@@ -22,8 +22,8 @@ vnl_fastops::AtA(vnl_matrix<double> & out, const vnl_matrix<double> & A)
 
   const unsigned int m = A.rows();
 
-  const double * const * a = A.data_array();
-  double ** ata = out.data_array();
+  const double * const * const a = A.data_array();
+  double ** const ata = out.data_array();
 
   /* Simple Implementation for reference:
       for (unsigned int i = 0; i < n; ++i)
@@ -43,7 +43,7 @@ vnl_fastops::AtA(vnl_matrix<double> & out, const vnl_matrix<double> & A)
       const double aki = a[k][i];
       const double * arow = a[k] + i;
       double * atarow = ata[i] + i;
-      const double * arowend = a[k] + n;
+      const double * const arowend = a[k] + n;
       while (arow != arowend)
         *atarow++ += aki * *arow++;
     }
@@ -74,9 +74,9 @@ vnl_fastops::AB(vnl_matrix<double> & out, const vnl_matrix<double> & A, const vn
   if (out.rows() != ma || out.columns() != nb)
     out.set_size(ma, nb);
 
-  const double * const * a = A.data_array();
-  const double * const * b = B.data_array();
-  double ** outdata = out.data_array();
+  const double * const * const a = A.data_array();
+  const double * const * const b = B.data_array();
+  double ** const outdata = out.data_array();
 
   for (unsigned int i = 0; i < ma; ++i)
     for (unsigned int j = 0; j < nb; ++j)
@@ -109,9 +109,9 @@ vnl_fastops::AtB(vnl_matrix<double> & out, const vnl_matrix<double> & A, const v
   if (out.rows() != na || out.columns() != nb)
     out.set_size(na, nb);
 
-  const double * const * a = A.data_array();
-  const double * const * b = B.data_array();
-  double ** outdata = out.data_array();
+  const double * const * const a = A.data_array();
+  const double * const * const b = B.data_array();
+  double ** const outdata = out.data_array();
 
   for (unsigned int i = 0; i < na; ++i)
     for (unsigned int j = 0; j < nb; ++j)
@@ -143,9 +143,9 @@ vnl_fastops::AtB(vnl_vector<double> & out, const vnl_matrix<double> & A, const v
   if (out.size() != n)
     out.set_size(n);
 
-  const double * const * a = A.data_array();
-  const double * b = B.data_block();
-  double * outdata = out.data_block();
+  const double * const * const a = A.data_array();
+  const double * const b = B.data_block();
+  double * const outdata = out.data_block();
 
   for (unsigned int i = 0; i < n; ++i)
   {
@@ -176,9 +176,9 @@ vnl_fastops::Ab(vnl_vector<double> & out, const vnl_matrix<double> & A, const vn
   if (out.size() != n)
     out.set_size(n);
 
-  const double * const * a = A.data_array();
-  const double * bb = b.data_block();
-  double * outdata = out.data_block();
+  const double * const * const a = A.data_array();
+  const double * const bb = b.data_block();
+  double * const outdata = out.data_block();
 
   for (unsigned int i = 0; i < n; ++i)
   {
@@ -210,9 +210,9 @@ vnl_fastops::ABt(vnl_matrix<double> & out, const vnl_matrix<double> & A, const v
   if (out.rows() != ma || out.columns() != mb)
     out.set_size(ma, mb);
 
-  const double * const * a = A.data_array();
-  const double * const * b = B.data_array();
-  double ** outdata = out.data_array();
+  const double * const * const a = A.data_array();
+  const double * const * const b = B.data_array();
+  double ** const outdata = out.data_array();
 
   for (unsigned int i = 0; i < ma; ++i)
     for (unsigned int j = 0; j < mb; ++j)
@@ -253,9 +253,9 @@ vnl_fastops::ABAt(vnl_matrix<double> & out, const vnl_matrix<double> & A, const 
     out.set_size(ma, mb);
 
 
-  const double * const * a = A.data_array();
-  const double * const * b = B.data_array();
-  double ** outdata = out.data_array();
+  const double * const * const a = A.data_array();
+  const double * const * const b = B.data_array();
+  double ** const outdata = out.data_array();
 
   // initialize
   for (unsigned int i = 0; i < ma; ++i)
@@ -294,8 +294,8 @@ vnl_fastops::btAb(const vnl_matrix<double> & A, const vnl_vector<double> & b)
   }
 
 
-  const double * const * a = A.data_array();
-  const double * bb = b.data_block();
+  const double * const * const a = A.data_array();
+  const double * const bb = b.data_block();
 
   double accum = 0;
   for (unsigned int i = 0; i < n; ++i)
@@ -322,8 +322,8 @@ vnl_fastops::inc_X_by_AtA(vnl_matrix<double> & X, const vnl_matrix<double> & A)
 
   const unsigned int l = A.rows();
 
-  const double * const * a = A.data_array();
-  double ** x = X.data_array();
+  const double * const * const a = A.data_array();
+  double ** const x = X.data_array();
 
   if (l == 2)
   {
@@ -379,9 +379,9 @@ vnl_fastops::inc_X_by_AB(vnl_matrix<double> & X, const vnl_matrix<double> & A, c
     std::abort();
   }
 
-  const double * const * a = A.data_array();
-  const double * const * b = B.data_array();
-  double ** x = X.data_array();
+  const double * const * const a = A.data_array();
+  const double * const * const b = B.data_array();
+  double ** const x = X.data_array();
 
   for (unsigned int i = 0; i < ma; ++i)
     for (unsigned int j = 0; j < nb; ++j)
@@ -415,9 +415,9 @@ vnl_fastops::dec_X_by_AB(vnl_matrix<double> & X, const vnl_matrix<double> & A, c
     std::abort();
   }
 
-  const double * const * a = A.data_array();
-  const double * const * b = B.data_array();
-  double ** x = X.data_array();
+  const double * const * const a = A.data_array();
+  const double * const * const b = B.data_array();
+  double ** const x = X.data_array();
 
   for (unsigned int i = 0; i < ma; ++i)
     for (unsigned int j = 0; j < nb; ++j)
@@ -451,9 +451,9 @@ vnl_fastops::inc_X_by_AtB(vnl_matrix<double> & X, const vnl_matrix<double> & A, 
     std::abort();
   }
 
-  const double * const * a = A.data_array();
-  const double * const * b = B.data_array();
-  double ** x = X.data_array();
+  const double * const * const a = A.data_array();
+  const double * const * const b = B.data_array();
+  double ** const x = X.data_array();
 
   for (unsigned int i = 0; i < na; ++i)
     for (unsigned int j = 0; j < nb; ++j)
@@ -491,9 +491,9 @@ vnl_fastops::dec_X_by_AtB(vnl_matrix<double> & X, const vnl_matrix<double> & A, 
     std::abort();
   }
 
-  const double * const * a = A.data_array();
-  const double * const * b = B.data_array();
-  double ** x = X.data_array();
+  const double * const * const a = A.data_array();
+  const double * const * const b = B.data_array();
+  double ** const x = X.data_array();
 
   for (unsigned int i = 0; i < na; ++i)
     for (unsigned int j = 0; j < nb; ++j)
@@ -529,9 +529,9 @@ vnl_fastops::inc_X_by_AtB(vnl_vector<double> & X, const vnl_matrix<double> & A, 
     std::abort();
   }
 
-  const double * const * a = A.data_array();
-  const double * b = B.data_block();
-  double * x = X.data_block();
+  const double * const * const a = A.data_array();
+  const double * const b = B.data_block();
+  double * const x = X.data_block();
 
   for (unsigned int i = 0; i < na; ++i)
   {
@@ -566,9 +566,9 @@ vnl_fastops::dec_X_by_AtB(vnl_vector<double> & X, const vnl_matrix<double> & A, 
     std::abort();
   }
 
-  const double * const * a = A.data_array();
-  const double * b = B.data_block();
-  double * x = X.data_block();
+  const double * const * const a = A.data_array();
+  const double * const b = B.data_block();
+  double * const x = X.data_block();
 
   for (unsigned int i = 0; i < na; ++i)
   {
@@ -595,8 +595,8 @@ vnl_fastops::dec_X_by_AtA(vnl_matrix<double> & X, const vnl_matrix<double> & A)
 
   const unsigned int l = A.rows();
 
-  const double * const * a = A.data_array();
-  double ** x = X.data_array();
+  const double * const * const a = A.data_array();
+  double ** const x = X.data_array();
 
   if (l == 2)
   {
@@ -680,9 +680,9 @@ vnl_fastops::inc_X_by_ABt(vnl_matrix<double> & X, const vnl_matrix<double> & A, 
     std::abort();
   }
 
-  const double * const * a = A.data_array();
-  const double * const * b = B.data_array();
-  double ** x = X.data_array();
+  const double * const * const a = A.data_array();
+  const double * const * const b = B.data_array();
+  double ** const x = X.data_array();
 
   if (na == 3)
   {
@@ -736,9 +736,9 @@ vnl_fastops::dec_X_by_ABt(vnl_matrix<double> & X, const vnl_matrix<double> & A, 
     std::abort();
   }
 
-  const double * const * a = A.data_array();
-  const double * const * b = B.data_array();
-  double ** x = X.data_array();
+  const double * const * const a = A.data_array();
+  const double * const * const b = B.data_array();
+  double ** const x = X.data_array();
 
   if (na == 3)
   {
@@ -796,9 +796,9 @@ vnl_fastops::inc_X_by_ABAt(vnl_matrix<double> & X, const vnl_matrix<double> & A,
     X.set_size(ma, mb);
 
 
-  const double * const * a = A.data_array();
-  const double * const * b = B.data_array();
-  double ** Xdata = X.data_array();
+  const double * const * const a = A.data_array();
+  const double * const * const b = B.data_array();
+  double ** const Xdata = X.data_array();
 
   for (unsigned int i = 0; i < ma; ++i)
     for (unsigned int j = 0; j < nb; ++j)

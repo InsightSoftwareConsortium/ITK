@@ -86,7 +86,7 @@ itkHilbertPathTest(int, char *[])
   int testStatus = EXIT_SUCCESS;
 
   // Set a maximum Hilbert path order
-  constexpr unsigned int maxHilbertPathOder = 5;
+  constexpr unsigned int maxHilbertPathOder{ 5 };
 
   // Test dimension = 2
   using HilbertPathType2D = itk::HilbertPath<IndexValueType, 2>;

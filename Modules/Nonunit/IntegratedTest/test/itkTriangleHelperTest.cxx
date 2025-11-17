@@ -22,7 +22,7 @@
 int
 itkTriangleHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using CoordinateType = double;
   using PointType = itk::Point<CoordinateType, Dimension>;
   using VectorType = PointType::VectorType;

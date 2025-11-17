@@ -53,12 +53,12 @@ public:
 int
 itkSupervisedImageClassifierTest(int, char *[])
 {
-  constexpr unsigned int IMGWIDTH = 2;
-  constexpr unsigned int IMGHEIGHT = 2;
-  constexpr unsigned int NFRAMES = 4;
-  constexpr unsigned int NUMBANDS = 2;
-  constexpr unsigned int NDIMENSION = 3;
-  constexpr unsigned int NUM_CLASSES = 3;
+  constexpr unsigned int IMGWIDTH{ 2 };
+  constexpr unsigned int IMGHEIGHT{ 2 };
+  constexpr unsigned int NFRAMES{ 4 };
+  constexpr unsigned int NUMBANDS{ 2 };
+  constexpr unsigned int NDIMENSION{ 3 };
+  constexpr unsigned int NUM_CLASSES{ 3 };
 
   //------------------------------------------------------
   // Create a simple test image with width, height, and
@@ -69,13 +69,8 @@ itkSupervisedImageClassifierTest(int, char *[])
 
   auto vecImage = VecImageType::New();
 
-  constexpr VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
-
-  constexpr VecImageType::IndexType index{};
-  VecImageType::RegionType          region;
-
-  region.SetSize(vecImgSize);
-  region.SetIndex(index);
+  constexpr VecImageType::SizeType vecImgSize{ IMGWIDTH, IMGHEIGHT, NFRAMES };
+  VecImageType::RegionType         region{ vecImgSize };
 
   vecImage->SetLargestPossibleRegion(region);
   vecImage->SetBufferedRegion(region);
@@ -173,14 +168,9 @@ itkSupervisedImageClassifierTest(int, char *[])
   using ClassImageType = itk::Image<unsigned short, NDIMENSION>;
   auto classImage = ClassImageType::New();
 
-  constexpr ClassImageType::SizeType classImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
+  constexpr ClassImageType::SizeType classImgSize{ IMGWIDTH, IMGHEIGHT, NFRAMES };
 
-  constexpr ClassImageType::IndexType classindex{};
-
-  ClassImageType::RegionType classregion;
-
-  classregion.SetSize(classImgSize);
-  classregion.SetIndex(classindex);
+  ClassImageType::RegionType classregion{ classImgSize };
 
   classImage->SetLargestPossibleRegion(classregion);
   classImage->SetBufferedRegion(classregion);

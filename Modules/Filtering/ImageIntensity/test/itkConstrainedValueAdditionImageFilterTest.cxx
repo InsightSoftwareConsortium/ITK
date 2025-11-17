@@ -32,7 +32,7 @@ itkConstrainedValueAdditionImageFilterTest(int argc, char * argv[])
   }
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   // Define the pixel types
   using InputPixelType = float;
@@ -42,9 +42,6 @@ itkConstrainedValueAdditionImageFilterTest(int argc, char * argv[])
   using InputImageType1 = itk::Image<InputPixelType, Dimension>;
   using InputImageType2 = itk::Image<InputPixelType, Dimension>;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
-
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<Dimension>;
 
   // Declare the type of the size
   using SizeType = itk::Size<Dimension>;
@@ -56,20 +53,9 @@ itkConstrainedValueAdditionImageFilterTest(int argc, char * argv[])
   auto inputImageA = InputImageType1::New();
   auto inputImageB = InputImageType2::New();
 
-  // Define their size, and start index
-  SizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2;
-
-  IndexType start;
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  // Define their size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);

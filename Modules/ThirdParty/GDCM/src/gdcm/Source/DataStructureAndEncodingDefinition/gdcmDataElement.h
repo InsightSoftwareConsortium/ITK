@@ -98,7 +98,7 @@ public:
   }
   /// \warning you need to set the ValueLengthField explicitly
   void SetValue(Value const & vl) {
-    //assert( ValueField == 0 );
+    //gdcm_assert( ValueField == 0 );
     ValueField = vl;
     ValueLengthField = vl.GetLength();
   }

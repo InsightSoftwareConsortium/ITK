@@ -63,7 +63,7 @@ QuadEdgeMeshBoundaryEdgesMeshFunction<TMesh>::Evaluate(const InputType & mesh) c
     {
       itkWarningMacro("Entry edge has not face adjacency.");
       delete ResultList;
-      return ((OutputType) nullptr);
+      return (OutputType) nullptr;
     }
 
     // Store this edge as representative of its Lnext() ring i.e.

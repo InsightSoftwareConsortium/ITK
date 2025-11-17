@@ -25,7 +25,7 @@
 int
 itkOtsuThresholdCalculatorTest(int, char *[])
 {
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   using PixelType = short;
   using SizeType = itk::Size<Dimension>;
@@ -39,7 +39,7 @@ itkOtsuThresholdCalculatorTest(int, char *[])
   // Allocate a simple test image
   auto image = ImageType::New();
   // Define the image size and physical coordinates
-  constexpr SizeType size = { { 20, 20, 20 } };
+  constexpr SizeType size{ 20, 20, 20 };
 
   ImageType::RegionType region;
   region.SetSize(size);
@@ -57,10 +57,10 @@ itkOtsuThresholdCalculatorTest(int, char *[])
   using IteratorType = itk::ImageRegionIterator<ImageType>;
   IteratorType iter(image, image->GetBufferedRegion());
 
-  constexpr ImageType::PixelType value1 = 10;
-  constexpr ImageType::PixelType value2 = 50;
-  constexpr ImageType::PixelType range = 5;
-  constexpr ImageType::PixelType r2 = range * 2 + 1;
+  constexpr ImageType::PixelType value1{ 10 };
+  constexpr ImageType::PixelType value2{ 50 };
+  constexpr ImageType::PixelType range{ 5 };
+  constexpr ImageType::PixelType r2{ range * 2 + 1 };
 
   // Fill one half of with values of value1 +- 2
   for (unsigned long i = 0; i < numPixels / 2; ++i)

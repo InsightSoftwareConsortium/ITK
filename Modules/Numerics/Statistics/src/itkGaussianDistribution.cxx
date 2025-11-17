@@ -211,7 +211,7 @@ GaussianDistribution::InverseCDF(double p)
   // the inverse of P(x) not Q(x) is desired.
   //
   // Original line: used for inverse of Q(x)
-  // if( dp <= 0.0 ){ dx = 13.0;  return ( (p <= 0.5) ? (dx) : (-dx) ); }
+  // if( dp <= 0.0 ){ dx = 13.0;  return  (p <= 0.5) ? (dx) : (-dx) ; }
 
   // replaced with this if construct for the inverse of P(x)
   if (p <= 0.0)
@@ -239,7 +239,7 @@ GaussianDistribution::InverseCDF(double p)
   }
 
   // original line when computing the inverse of Q(x)
-  // return ( (p <= 0.5) ? (dx) : (-dx) );  /* return with correct sign */
+  // return  (p <= 0.5) ? (dx) : (-dx) ;  /* return with correct sign */
   //
   // Note that P(-x) = Q(x), so whatever x was calculated for Q(x) = p,
   // we simply need to return the negative of x to get P(xp) = p.

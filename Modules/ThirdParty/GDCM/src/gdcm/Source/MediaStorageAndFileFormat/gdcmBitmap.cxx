@@ -63,16 +63,16 @@ Bitmap::~Bitmap() = default;
  */
 unsigned int Bitmap::GetNumberOfDimensions() const
 {
-  assert( NumberOfDimensions );
+  gdcm_assert( NumberOfDimensions );
   return NumberOfDimensions;
 }
 
 void Bitmap::SetNumberOfDimensions(unsigned int dim)
 {
   NumberOfDimensions = dim;
-  assert( NumberOfDimensions );
+  gdcm_assert( NumberOfDimensions );
   Dimensions.resize( 3 /*NumberOfDimensions*/ ); // fill with 0
-  assert( NumberOfDimensions == 2 || NumberOfDimensions == 3 );
+  gdcm_assert( NumberOfDimensions == 2 || NumberOfDimensions == 3 );
   if( NumberOfDimensions == 2 )
     {
     Dimensions[2] = 1;
@@ -82,25 +82,25 @@ void Bitmap::SetNumberOfDimensions(unsigned int dim)
 
 const unsigned int *Bitmap::GetDimensions() const
 {
-  assert( NumberOfDimensions );
+  gdcm_assert( NumberOfDimensions );
   return Dimensions.data();
 }
 
 unsigned int Bitmap::GetDimension(unsigned int idx) const
 {
-  assert( NumberOfDimensions );
+  gdcm_assert( NumberOfDimensions );
   return Dimensions[idx];
 }
 
 void Bitmap::SetDimensions(const unsigned int *dims)
 {
-  assert( NumberOfDimensions );
-  //assert( Dimensions.empty() );
+  gdcm_assert( NumberOfDimensions );
+  //gdcm_assert( Dimensions.empty() );
 #if 0
   Dimensions = std::vector<unsigned int>(dims,
     dims+NumberOfDimensions);
 #else
-  assert( Dimensions.size() == 3 );
+  gdcm_assert( Dimensions.size() == 3 );
   Dimensions[0] = dims[0];
   Dimensions[1] = dims[1];
   if( NumberOfDimensions == 2 )
@@ -112,13 +112,13 @@ void Bitmap::SetDimensions(const unsigned int *dims)
 
 void Bitmap::SetDimension(unsigned int idx, unsigned int dim)
 {
-  //assert( dim );
-  assert( NumberOfDimensions );
-  assert( idx < NumberOfDimensions );
+  //gdcm_assert( dim );
+  gdcm_assert( NumberOfDimensions );
+  gdcm_assert( idx < NumberOfDimensions );
   Dimensions.resize( 3 /*NumberOfDimensions*/ );
   // Can dim be 0 ??
   // -> no !
-  //assert( dim ); // PhilipsLosslessRice.dcm
+  //gdcm_assert( dim ); // PhilipsLosslessRice.dcm
   Dimensions[idx] = dim;
   if( NumberOfDimensions == 2 )
     {
@@ -145,7 +145,7 @@ unsigned int Bitmap::GetPlanarConfiguration() const
 void Bitmap::SetPlanarConfiguration(unsigned int pc)
 {
   // precondition
-  assert( pc == 0 || pc == 1 );
+  gdcm_assert( pc == 0 || pc == 1 );
   PlanarConfiguration = pc;
   if( pc )
     {
@@ -181,7 +181,7 @@ void Bitmap::SetPlanarConfiguration(unsigned int pc)
       }
     }
   // \postcondition
-  assert( PlanarConfiguration == 0 || PlanarConfiguration == 1 );
+  gdcm_assert( PlanarConfiguration == 0 || PlanarConfiguration == 1 );
 }
 
 
@@ -225,9 +225,9 @@ bool Bitmap::GetBuffer(char *buffer) const
     buffer = 0;
     return false;
     }
-  assert( bv );
+  gdcm_assert( bv );
   RAWCodec codec;
-  //assert( GetPhotometricInterpretation() == PhotometricInterpretation::MONOCHROME2 );
+  //gdcm_assert( GetPhotometricInterpretation() == PhotometricInterpretation::MONOCHROME2 );
   //codec.SetPhotometricInterpretation( GetPhotometricInterpretation() );
   if( GetPhotometricInterpretation() != PhotometricInterpretation::MONOCHROME2 )
     {
@@ -238,9 +238,9 @@ bool Bitmap::GetBuffer(char *buffer) const
   codec.SetPlanarConfiguration( 0 );
   DataElement out;
   bool r = codec.Decode(PixelData, out);
-  assert( r );
+  gdcm_assert( r );
   const ByteValue *outbv = out.GetByteValue();
-  assert( outbv );
+  gdcm_assert( outbv );
   //unsigned long check = outbv->GetLength();  // FIXME
   memcpy(buffer, outbv->GetPointer(), outbv->GetLength() );  // FIXME
   return r;
@@ -249,14 +249,14 @@ bool Bitmap::GetBuffer(char *buffer) const
 
 unsigned long Bitmap::GetBufferLength() const
 {
-  //assert( !IsEncapsulated() );
+  //gdcm_assert( !IsEncapsulated() );
   if( PF == PixelFormat::UNKNOWN ) return 0;
 
-  assert( NumberOfDimensions );
-  //assert( NumberOfDimensions == Dimensions.size() );
+  gdcm_assert( NumberOfDimensions );
+  //gdcm_assert( NumberOfDimensions == Dimensions.size() );
   if( NumberOfDimensions != Dimensions.size() )
     {
-    assert( Dimensions[2] == 1 );
+    gdcm_assert( Dimensions[2] == 1 );
     }
   unsigned long len = 0;
   unsigned int mul = 1;
@@ -274,23 +274,23 @@ unsigned long Bitmap::GetBufferLength() const
 #if 1
     mul *= PF.GetPixelSize();
 #else
-    assert( PF.GetSamplesPerPixel() == 1 );
+    gdcm_assert( PF.GetSamplesPerPixel() == 1 );
     unsigned int save = mul;
     save *= 12;
     save /= 8;
-    assert( save * 8 / 12 == mul );
+    gdcm_assert( save * 8 / 12 == mul );
     mul = save;
 #endif
     }
   else if( PF == PixelFormat::SINGLEBIT )
     {
-    assert( PF.GetSamplesPerPixel() == 1 );
+    gdcm_assert( PF.GetSamplesPerPixel() == 1 );
     const size_t bytesPerRow = Dimensions[0] / 8 + (Dimensions[0] % 8 != 0 ? 1 : 0);
     size_t save = bytesPerRow * Dimensions[1];
     if( NumberOfDimensions > 2 )
       save *= Dimensions[2];
     if(Dimensions[0] % 8 == 0 )
-      assert( save * 8 == mul );
+      gdcm_assert( save * 8 == mul );
     mul = (unsigned int)save;
     }
   else if( PF.GetBitsAllocated() % 8 != 0 )
@@ -299,12 +299,12 @@ unsigned long Bitmap::GetBufferLength() const
     // BitsAllocated      :14
     // BitsStored         :14
     // HighBit            :13
-    assert( PF.GetSamplesPerPixel() == 1 );
+    gdcm_assert( PF.GetSamplesPerPixel() == 1 );
     const ByteValue *bv = PixelData.GetByteValue();
-    assert( bv );
+    gdcm_assert( bv );
     unsigned int ref = bv->GetLength() / mul;
     if( !GetTransferSyntax().IsEncapsulated() )
-      assert( bv->GetLength() % mul == 0 );
+      gdcm_assert( bv->GetLength() % mul == 0 );
     mul *= ref;
     }
   else
@@ -313,7 +313,7 @@ unsigned long Bitmap::GetBufferLength() const
     }
   len = mul;
 
-  //assert( len != 0 );
+  //gdcm_assert( len != 0 );
   return len;
 }
 
@@ -358,7 +358,7 @@ bool Bitmap::TryRAWCodec(char *buffer, bool &lossyflag) const
       }
     if( !r ) return false;
     //const ByteValue *outbv = out.GetByteValue();
-    //assert( outbv );
+    //gdcm_assert( outbv );
     if( len != bv->GetLength() )
       {
       // SIEMENS_GBS_III-16-ACR_NEMA_1.acr
@@ -380,7 +380,7 @@ bool Bitmap::TryRAWCodec(char *buffer, bool &lossyflag) const
     unsigned long check; // = outbv->GetLength();  // FIXME
     check = len;
     // DermaColorLossLess.dcm
-    assert( check == len || check == len + 1 );
+    gdcm_assert( check == len || check == len + 1 );
     (void)check;// removing warning
     //if(buffer) memcpy(buffer, outbv->GetPointer(), outbv->GetLength() );  // FIXME
     return r;
@@ -410,7 +410,7 @@ bool Bitmap::TryJPEGCodec(char *buffer, bool &lossyflag) const
       bool b = codec.GetHeaderInfo( ss, ts2 );
       //bool b = codec.GetHeaderInfo( bv2.GetPointer(), bv2.GetLength() , ts2 );
       if(!b) return false;
-      assert( b );
+      gdcm_assert(b);
       lossyflag = codec.IsLossy();
       // we need to know the actual pixeltype after ::Read
 #if 0
@@ -525,7 +525,7 @@ bool Bitmap::TryJPEGCodec(char *buffer, bool &lossyflag) const
     //  i->SetPhotometricInterpretation( PhotometricInterpretation::RGB );
     //  }
     const ByteValue *outbv = out.GetByteValue();
-    assert( outbv );
+    gdcm_assert( outbv );
     unsigned long check = outbv->GetLength();  // FIXME
     (void)check;
     // DermaColorLossLess.dcm has a len of 63531, but DICOM will give us: 63532 ...
@@ -534,11 +534,11 @@ bool Bitmap::TryJPEGCodec(char *buffer, bool &lossyflag) const
       gdcmErrorMacro( "Impossible length: " << len << " should be (max): " << outbv->GetLength() );
       return false;
       }
-    assert( len <= outbv->GetLength() );
+    gdcm_assert( len <= outbv->GetLength() );
     if(buffer) memcpy(buffer, outbv->GetPointer(), len /*outbv->GetLength()*/ );  // FIXME
 
     lossyflag = codec.IsLossy();
-    //assert( codec.IsLossy() == ts.IsLossy() );
+    //gdcm_assert( codec.IsLossy() == ts.IsLossy() );
 
     return true;
     }
@@ -574,11 +574,11 @@ bool Bitmap::TryJPEGCodec2(std::ostream &os) const
       //i->SetPhotometricInterpretation( codec.GetPhotometricInterpretation() );
       }
     const ByteValue *outbv = out.GetByteValue();
-    assert( outbv );
+    gdcm_assert( outbv );
     unsigned long check = outbv->GetLength();  // FIXME
     (void)check;
     // DermaColorLossLess.dcm has a len of 63531, but DICOM will give us: 63532 ...
-    assert( outbv->GetLength() < len ); (void)len;
+    gdcm_assert( outbv->GetLength() < len ); (void)len;
     //memcpy(buffer, outbv->GetPointer(), outbv->GetLength() );
     os.write( outbv->GetPointer(), outbv->GetLength() );
 
@@ -606,21 +606,21 @@ bool Bitmap::TryPVRGCodec(char *buffer, bool &lossyflag) const
     bool r = codec.Decode(PixelData, out);
     if(!r) return false;
     codec.SetLossyFlag( ts.IsLossy() );
-    assert( r );
+    gdcm_assert( r );
     if ( GetPlanarConfiguration() != codec.GetPlanarConfiguration() )
       {
       Bitmap *i = const_cast<Bitmap*>(this);
       i->PlanarConfiguration = codec.GetPlanarConfiguration();
       }
     const ByteValue *outbv = out.GetByteValue();
-    assert( outbv );
+    gdcm_assert( outbv );
     unsigned long check = outbv->GetLength();  // FIXME
     (void)check;
-    assert( len <= outbv->GetLength() );
+    gdcm_assert( len <= outbv->GetLength() );
     if(buffer) memcpy(buffer, outbv->GetPointer(), len /*outbv->GetLength()*/ );  // FIXME
 
     lossyflag = codec.IsLossy();
-    //assert( codec.IsLossy() == ts.IsLossy() );
+    //gdcm_assert( codec.IsLossy() == ts.IsLossy() );
 
     return r;
     }
@@ -646,15 +646,15 @@ bool Bitmap::TryKAKADUCodec(char *buffer, bool &lossyflag) const
     bool r = codec.Decode(PixelData, out);
     if( !r ) return false;
     const ByteValue *outbv = out.GetByteValue();
-    assert( outbv );
+    gdcm_assert( outbv );
     unsigned long check = outbv->GetLength();  // FIXME
     (void)check;
-    assert( len <= outbv->GetLength() );
+    gdcm_assert( len <= outbv->GetLength() );
     // DermaColorLossLess.dcm has a len of 63531, but DICOM will give us: 63532 ...
-    assert( len <= outbv->GetLength() );
+    gdcm_assert( len <= outbv->GetLength() );
     if(buffer) memcpy(buffer, outbv->GetPointer(), len /*outbv->GetLength()*/ );  // FIXME
 
-    //assert( codec.IsLossy() == ts.IsLossy() );
+    //gdcm_assert( codec.IsLossy() == ts.IsLossy() );
     lossyflag = codec.IsLossy();
     if( codec.IsLossy() != ts.IsLossy() )
       {
@@ -720,15 +720,15 @@ bool Bitmap::TryJPEGLSCodec(char *buffer, bool &lossyflag) const
     bool r = codec.Decode(PixelData, out);
     if( !r ) return false;
     const ByteValue *outbv = out.GetByteValue();
-    assert( outbv );
+    gdcm_assert( outbv );
     unsigned long check = outbv->GetLength();  // FIXME
     (void)check;
-    assert( len <= outbv->GetLength() );
+    gdcm_assert( len <= outbv->GetLength() );
     // DermaColorLossLess.dcm has a len of 63531, but DICOM will give us: 63532 ...
-    assert( len <= outbv->GetLength() );
+    gdcm_assert( len <= outbv->GetLength() );
     memcpy(buffer, outbv->GetPointer(), len /*outbv->GetLength()*/ );  // FIXME
 
-    //assert( codec.IsLossy() == ts.IsLossy() );
+    //gdcm_assert( codec.IsLossy() == ts.IsLossy() );
     lossyflag = codec.IsLossy();
     if( codec.IsLossy() != ts.IsLossy() )
       {
@@ -877,19 +877,19 @@ bool Bitmap::TryJPEG2000Codec(char *buffer, bool &lossyflag) const
     DataElement out;
     bool r = codec.Decode(PixelData, out);
     if(!r) return false;
-    assert( r );
+    gdcm_assert( r );
     const ByteValue *outbv = out.GetByteValue();
-    assert( outbv );
+    gdcm_assert( outbv );
     unsigned long check = outbv->GetLength();  // FIXME
     (void)check;
-    assert( len <= outbv->GetLength() );
+    gdcm_assert( len <= outbv->GetLength() );
     memcpy(buffer, outbv->GetPointer(), len /*outbv->GetLength()*/ );  // FIXME
 
     lossyflag = codec.IsLossy();
     if( codec.IsLossy() && !ts.IsLossy() )
       {
-      assert( codec.IsLossy() );
-      assert( !ts.IsLossy() );
+      gdcm_assert( codec.IsLossy() );
+      gdcm_assert( !ts.IsLossy() );
       gdcmErrorMacro( "EVIL file, it is declared as lossless but is in fact lossy." );
       }
 #if 0
@@ -942,9 +942,9 @@ bool Bitmap::TryJPEG2000Codec2(std::ostream &os) const
     codec.SetNeedOverlayCleanup( AreOverlaysInPixelData() || UnusedBitsPresentInPixelData() );
     DataElement out;
     bool r = codec.Code(PixelData, out);
-    assert( r );
+    gdcm_assert( r );
     const ByteValue *outbv = out.GetByteValue();
-    assert( outbv );
+    gdcm_assert( outbv );
     unsigned long check = outbv->GetLength();  // FIXME
     (void)check;
     //memcpy(buffer, outbv->GetPointer(), outbv->GetLength() );  // FIXME
@@ -962,8 +962,8 @@ bool Bitmap::TryRLECodec(char *buffer, bool &lossyflag ) const
   RLECodec codec;
   if( codec.CanDecode( ts ) )
     {
-    //assert( sf->GetNumberOfFragments() == 1 );
-    //assert( sf->GetNumberOfFragments() == GetDimensions(2) );
+    //gdcm_assert( sf->GetNumberOfFragments() == 1 );
+    //gdcm_assert( sf->GetNumberOfFragments() == GetDimensions(2) );
     codec.SetDimensions( GetDimensions() );
     codec.SetNumberOfDimensions( GetNumberOfDimensions() );
     codec.SetPlanarConfiguration( GetPlanarConfiguration() );
@@ -978,7 +978,7 @@ bool Bitmap::TryRLECodec(char *buffer, bool &lossyflag ) const
     const ByteValue *outbv = out.GetByteValue();
     //unsigned long check = outbv->GetLength();  // FIXME
     // DermaColorLossLess.dcm has a len of 63531, but DICOM will give us: 63532 ...
-    assert( len <= outbv->GetLength() );
+    gdcm_assert( len <= outbv->GetLength() );
     if(buffer) memcpy(buffer, outbv->GetPointer(), len /*outbv->GetLength()*/ );  // FIXME
     lossyflag = false;
     return true;
@@ -1046,11 +1046,11 @@ bool Bitmap::IsTransferSyntaxCompatible( TransferSyntax const & ts ) const
 void Bitmap::Print(std::ostream &os) const
 {
   Object::Print(os);
-  //assert( NumberOfDimensions );
+  //gdcm_assert( NumberOfDimensions );
   if( !IsEmpty() )
     {
     os << "NumberOfDimensions: " << NumberOfDimensions << "\n";
-    assert( !Dimensions.empty() );
+    gdcm_assert( !Dimensions.empty() );
     os << "Dimensions: (";
     std::vector<unsigned int>::const_iterator it = Dimensions.begin();
     os << *it;

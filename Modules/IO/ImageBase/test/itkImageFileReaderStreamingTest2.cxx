@@ -38,9 +38,9 @@ bool
 SameRegionImage(ImageConstPointer test, ImageConstPointer baseline)
 {
 
-  constexpr PixelType    intensityTolerance = 0;
-  constexpr unsigned int radiusTolerance = 0;
-  constexpr unsigned int numberOfPixelTolerance = 0;
+  constexpr PixelType    intensityTolerance{ 0 };
+  constexpr unsigned int radiusTolerance{ 0 };
+  constexpr unsigned int numberOfPixelTolerance{ 0 };
 
   using ExtractImageFilter = itk::ExtractImageFilter<ImageType, ImageType>;
   auto extractor = ExtractImageFilter::New();

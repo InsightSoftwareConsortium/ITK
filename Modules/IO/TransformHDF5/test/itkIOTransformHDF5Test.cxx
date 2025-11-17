@@ -42,17 +42,16 @@ static int
 ReadWriteTest(const std::string & fileName, const bool isRealDisplacementField, const bool useCompression)
 {
   // First make a DisplacementField with known values
-  constexpr double aNumberThatCanNotBeRepresentedInFloatingPoint = 1e-5 + 1e-7 + 1e-9 + 1e-13;
-  constexpr double requiredSpacing = 1.2 + aNumberThatCanNotBeRepresentedInFloatingPoint;
-  constexpr double requiredOrigin = 23.0 + aNumberThatCanNotBeRepresentedInFloatingPoint;
+  constexpr double aNumberThatCanNotBeRepresentedInFloatingPoint{ 1e-5 + 1e-7 + 1e-9 + 1e-13 };
+  constexpr double requiredSpacing{ 1.2 + aNumberThatCanNotBeRepresentedInFloatingPoint };
+  constexpr double requiredOrigin{ 23.0 + aNumberThatCanNotBeRepresentedInFloatingPoint };
   auto             displacementTransform = DisplacementTransformType::New();
   using FieldType = typename DisplacementTransformType::DisplacementFieldType;
   auto knownField = FieldType::New(); // This is based on itk::Image
   {
-    constexpr int                        dimLength = 20;
+    constexpr int                        dimLength{ 20 };
     auto                                 size = FieldType::SizeType::Filled(dimLength);
-    const typename FieldType::IndexType  start{};
-    const typename FieldType::RegionType region{ start, size };
+    const typename FieldType::RegionType region{ size };
     knownField->SetRegions(region);
 
     auto spacing = itk::MakeFilled<typename FieldType::SpacingType>(requiredSpacing);
@@ -392,14 +391,14 @@ itkIOTransformHDF5Test(int argc, char * argv[])
     {
       const int result1 = oneTest<float>("Transforms_float.h5", "TransformsBad_float.h5", false);
       const int result2 = oneTest<double>("Transforms_double.hdf5", "TransformsBad_double.hdf5", false);
-      return (!(result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS));
+      return !(result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS);
     }
     if (testType == "compressed")
     {
       const int result1 = oneTest<float>("Transforms_float_compressed.h5", "TransformsBad_float_compressed.h5", true);
       const int result2 =
         oneTest<double>("Transforms_double_compressed.hdf5", "TransformsBad_double_compressed.hdf5", true);
-      return (!(result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS));
+      return !(result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS);
     }
     else if (itksys::SystemTools::FileExists(testType)) // Assume the final parameter is a filename to be read
     {

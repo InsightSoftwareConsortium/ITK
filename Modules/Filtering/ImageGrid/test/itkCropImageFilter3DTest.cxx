@@ -16,16 +16,19 @@
  *
  *=========================================================================*/
 
-#include <iostream>
 #include "itkCropImageFilter.h"
+#include "itkImageBufferRange.h"
 #include "itkTestingMacros.h"
+
+#include <iostream>
+#include <numeric> // For iota.
 
 int
 itkCropImageFilter3DTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
 
   // Declare the pixel types of the images
   using PixelType = unsigned short;
@@ -35,21 +38,17 @@ itkCropImageFilter3DTest(int, char *[])
 
   ImageType::RegionType                      region;
   constexpr unsigned int                     dimSize(8);
-  constexpr ImageType::RegionType::SizeType  size = { { dimSize, dimSize, dimSize } };
-  constexpr ImageType::RegionType::IndexType index = { { 0, 0, 0 } };
-  region.SetSize(size);
-  region.SetIndex(index);
+  constexpr ImageType::RegionType::SizeType  size{ dimSize, dimSize, dimSize };
+  constexpr ImageType::RegionType::IndexType index{ 0, 0, 0 };
+  region = { index, size };
 
   auto image = ImageType::New();
 
   image->SetRegions(region);
   image->Allocate();
 
-  itk::ImageRegionIterator<ImageType> it(image, region);
-  for (unsigned short i = 0; !it.IsAtEnd(); ++it, ++i)
-  {
-    it.Set(i);
-  }
+  const itk::ImageBufferRange<ImageType> imageBufferRange(*image);
+  std::iota(imageBufferRange.begin(), imageBufferRange.end(), PixelType{});
 
   const itk::CropImageFilter<ImageType, ImageType>::Pointer cropFilter =
     itk::CropImageFilter<ImageType, ImageType>::New();
@@ -59,7 +58,7 @@ itkCropImageFilter3DTest(int, char *[])
   cropFilter->SetInput(image);
 
   // Set the filter properties
-  constexpr ImageType::SizeType extractSize = { { 1, 1, 1 } };
+  constexpr ImageType::SizeType extractSize{ 1, 1, 1 };
 
   cropFilter->SetBoundaryCropSize(extractSize);
 
@@ -85,10 +84,9 @@ itkCropImageFilter3DTest(int, char *[])
     }
   }
   ImageType::RegionType                      subRegion;
-  constexpr ImageType::RegionType::SizeType  subSize = { { dimSize - 2, dimSize - 2, dimSize - 2 } };
-  constexpr ImageType::RegionType::IndexType subIndex = { { 1, 1, 1 } };
-  subRegion.SetSize(subSize);
-  subRegion.SetIndex(subIndex);
+  constexpr ImageType::RegionType::SizeType  subSize{ dimSize - 2, dimSize - 2, dimSize - 2 };
+  constexpr ImageType::RegionType::IndexType subIndex{ 1, 1, 1 };
+  subRegion = { subIndex, subSize };
 
   itk::ImageRegionIterator<ImageType> it1(image, subRegion);
   itk::ImageRegionIterator<ImageType> it2(croppedImage, croppedImage->GetLargestPossibleRegion());

@@ -22,7 +22,7 @@
 int
 itkComposeDisplacementFieldsImageFilterTest(int, char *[])
 {
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
 
   using VectorType = itk::Vector<float, ImageDimension>;
   using DisplacementFieldType = itk::Image<VectorType, ImageDimension>;

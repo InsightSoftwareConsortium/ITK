@@ -37,7 +37,7 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
 
   using InternalPixelType = unsigned short;
   using MaskPixelType = bool;
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using InternalImageType = itk::Image<InternalPixelType, Dimension>;
   using MaskImageType = itk::Image<MaskPixelType, Dimension>;
@@ -70,24 +70,18 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
   auto mask = MaskImageType::New();
   mask->SetRegions(reader->GetOutput()->GetLargestPossibleRegion());
   mask->CopyInformation(reader->GetOutput());
-  mask->Allocate();
-  mask->FillBuffer(MaskPixelType{});
+  mask->AllocateInitialized();
 
   const MaskImageType::RegionType maskRegion = mask->GetLargestPossibleRegion();
   MaskImageType::SizeType         maskSize = maskRegion.GetSize();
 
-  MaskImageType::RegionType region;
-  MaskImageType::SizeType   size;
-  MaskImageType::IndexType  index;
-
-  // use upper left corner
-  index.Fill(0);
+  MaskImageType::SizeType size;
   for (unsigned int i = 0; i < MaskImageType::ImageDimension; ++i)
   {
     size[i] = static_cast<unsigned long>(0.5 * maskSize[i]);
   }
-  region.SetIndex(index);
-  region.SetSize(size);
+  MaskImageType::IndexType  index{}; // use upper left corner
+  MaskImageType::RegionType region = { index, size };
 
   itk::ImageRegionIterator<MaskImageType> mit(mask, region);
   while (!mit.IsAtEnd())
@@ -102,8 +96,7 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
     index[i] = static_cast<long>(0.375 * maskSize[i]);
     size[i] = static_cast<unsigned long>(0.25 * maskSize[i]);
   }
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   itk::ImageRegionIterator<MaskImageType> mit2(mask, region);
   while (!mit2.IsAtEnd())

@@ -23,7 +23,6 @@
 int
 itkTIFFImageIOTest2(int argc, char * argv[])
 {
-
   if (argc != 2)
   {
     std::cerr << "Missing parameters." << std::endl;
@@ -32,24 +31,15 @@ itkTIFFImageIOTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, Dimension>;
 
   auto image = ImageType::New();
 
-  ImageType::RegionType region;
-  ImageType::IndexType  start;
-  ImageType::SizeType   size;
-
-  size[0] = 157;
-  size[1] = 129;
-
-  start[0] = 0;
-  start[1] = 0;
-
-  region.SetSize(size);
-  region.SetIndex(start);
+  ImageType::IndexType  start{};
+  ImageType::SizeType   size{ 157, 129 };
+  ImageType::RegionType region = { start, size };
 
   image->SetRegions(region);
   image->AllocateInitialized();
@@ -79,7 +69,7 @@ itkTIFFImageIOTest2(int argc, char * argv[])
 
   ImageType::SpacingType readSpacing = readImage->GetSpacing();
 
-  constexpr double tolerance = 1e-5;
+  constexpr double tolerance{ 1e-5 };
 
   for (unsigned int i = 0; i < ImageType::SpacingType::Dimension; ++i)
   {

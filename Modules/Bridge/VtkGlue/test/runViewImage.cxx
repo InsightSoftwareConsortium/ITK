@@ -54,7 +54,7 @@ runViewImage(int argc, char * argv[])
   }
   const std::string inputImage = argv[1];
 
-  constexpr unsigned int dimension = 3;
+  constexpr unsigned int dimension{ 3 };
   using PixelType = float;
   using ImageType = itk::Image<PixelType, dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;

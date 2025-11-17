@@ -10,6 +10,7 @@ readonly subtree="Modules/ThirdParty/HDF5/src/itkhdf5"
 readonly repo="https://github.com/HDFGroup/hdf5.git"
 readonly tag="hdf5_1.14.5"
 readonly shortlog=false
+readonly exact_tree_match=false
 readonly paths="
    ACKNOWLEDGMENTS
    CTestConfig.cmake

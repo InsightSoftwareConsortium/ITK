@@ -148,7 +148,7 @@ namespace gdcm
         SwapperNoOp::SwapArray<uint32_t>((uint32_t*)array,n);
         break;
       default:
-        assert(0);
+        gdcm_assert(0);
       }
     }
 
@@ -160,7 +160,7 @@ namespace gdcm
         SwapperNoOp::SwapArray<uint64_t>((uint64_t*)array,n);
         break;
       default:
-        assert(0);
+        gdcm_assert(0);
       }
     }
 
@@ -224,7 +224,7 @@ namespace gdcm
         SwapperDoOp::SwapArray<uint32_t>((uint32_t*)array,n);
         break;
       default:
-        assert(0);
+        gdcm_assert(0);
       }
     }
 
@@ -236,7 +236,7 @@ namespace gdcm
         SwapperDoOp::SwapArray<uint64_t>((uint64_t*)array,n);
         break;
       default:
-        assert(0);
+        gdcm_assert(0);
       }
     }
 

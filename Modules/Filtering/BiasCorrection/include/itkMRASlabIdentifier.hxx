@@ -142,8 +142,7 @@ MRASlabIdentifier<TInputImage>::GenerateSlabRegions()
     {
       slabIndex[m_SlicingDirection] = slabBegin;
       slabSize[m_SlicingDirection] = slabLength;
-      slabRegion.SetSize(slabSize);
-      slabRegion.SetIndex(slabIndex);
+      slabRegion = { slabIndex, slabSize };
       m_Slabs.push_back(slabRegion);
 
       prevSign = sign;
@@ -155,8 +154,7 @@ MRASlabIdentifier<TInputImage>::GenerateSlabRegions()
   }
   slabIndex[m_SlicingDirection] = slabBegin;
   slabSize[m_SlicingDirection] = slabLength;
-  slabRegion.SetIndex(slabIndex);
-  slabRegion.SetSize(slabSize);
+  slabRegion = { slabIndex, slabSize };
   m_Slabs.push_back(slabRegion);
 }
 

@@ -178,7 +178,6 @@ public:
 
       m_BoundingBoxVolume = 0;
       m_BoundingBoxSize.Fill(0);
-      m_PixelIndices.clear();
       m_Centroid.Fill(0);
       m_WeightedCentroid.Fill(0);
       m_ZeroOrderMoment = 0;

@@ -171,6 +171,7 @@ Element3DC0LinearTriangularLaplaceBeltrami::GetStiffnessMatrix(MatrixType & Ke) 
   //  std::cout <<  Ke <<std::endl;
 }
 
+// spell-check-disable
 /*
 void Element3DC0LinearTriangularLaplaceBeltrami::GetStiffnessMatrix(MatrixType& Ke) const
 {
@@ -291,6 +292,7 @@ for(int dd=0; dd<3; dd++) Ke[8][dd*3+2]=cot[2][dd];
 
 }
 */
+// spell-check-enable
 
 void
 Element3DC0LinearTriangularLaplaceBeltrami::PrintSelf(std::ostream & os, Indent indent) const

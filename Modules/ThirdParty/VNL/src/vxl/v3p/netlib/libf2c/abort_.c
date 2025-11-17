@@ -9,7 +9,7 @@ extern VOID sig_die();
 
 int abort_()
 #else
-extern void sig_die(char*,int);
+extern void sig_die(const char*,int);
 
 int abort_(void)
 #endif

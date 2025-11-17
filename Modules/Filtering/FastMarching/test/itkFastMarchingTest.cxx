@@ -78,7 +78,7 @@ itkFastMarchingTest(int argc, char * argv[])
 
   NodeType node;
 
-  constexpr FloatImage::OffsetType offset0 = { { 28, 35 } };
+  constexpr FloatImage::OffsetType offset0{ 28, 35 };
 
   itk::Index<2> index{};
 
@@ -181,12 +181,7 @@ itkFastMarchingTest(int argc, char * argv[])
   speedImage->SetLargestPossibleRegion(region);
   speedImage->SetBufferedRegion(region);
   speedImage->Allocate();
-
-  itk::ImageRegionIterator<FloatImage> speedIter(speedImage, speedImage->GetBufferedRegion());
-  for (; !speedIter.IsAtEnd(); ++speedIter)
-  {
-    speedIter.Set(1.0);
-  }
+  speedImage->FillBuffer(1.0);
 
   marcher->SetInput(speedImage);
   ITK_TEST_SET_GET_VALUE(speedImage, marcher->GetInput());

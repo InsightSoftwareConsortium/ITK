@@ -29,7 +29,7 @@ int
 itkCovariantVectorGeometryTest(int, char *[])
 {
   // Dimension & Type
-  constexpr unsigned int N = 3;
+  constexpr unsigned int N{ 3 };
   using ValueType = double;
 
   //  Vector type
@@ -137,7 +137,7 @@ itkCovariantVectorGeometryTest(int, char *[])
   {
     std::cout << "Test for CastFrom() method... ";
 
-    constexpr float tolerance = 1e-7;
+    constexpr float tolerance{ 1e-7 };
 
     //  CovariantVector Classes
     using DoubleCovariantVectorType = itk::CovariantVector<double, N>;
@@ -190,7 +190,7 @@ itkCovariantVectorGeometryTest(int, char *[])
     covariant[1] = 3.0;
     covariant[2] = 5.0;
 
-    constexpr double expectedValue = -28.0;
+    constexpr double expectedValue{ -28.0 };
 
     if (!itk::Math::FloatAlmostEqual(expectedValue, covariant * contravariant) ||
         !itk::Math::FloatAlmostEqual(expectedValue, contravariant * covariant))

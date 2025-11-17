@@ -34,7 +34,7 @@ StringFilter::~StringFilter()
 void StringFilter::SetDicts(const Dicts &dicts)
 {
   (void)dicts;
-  assert(0); // FIXME
+  gdcm_assert(0); // FIXME
 }
 
 std::string StringFilter::ToString(const Tag& t) const
@@ -169,7 +169,7 @@ bool StringFilter::ExecuteQuery(std::string const & query_const,
     if( subtokens[0] == "DicomNativeModel" )
       {
       // move to next state
-      assert( state == 0 );
+      gdcm_assert( state == 0 );
       state = 1;
       curds = &ds;
       }
@@ -180,7 +180,7 @@ bool StringFilter::ExecuteQuery(std::string const & query_const,
         state = -1;
         break;
         }
-      assert( subtokens[1] == "keyword" );
+      gdcm_assert( subtokens[1] == "keyword" );
       const char *k = subtokens[2].c_str();
       /*const DictEntry &dictentry = */pubdict.GetDictEntryByKeyword(k, t);
       if( !curds->FindDataElement( t ) )
@@ -192,9 +192,9 @@ bool StringFilter::ExecuteQuery(std::string const & query_const,
       }
     else if( subtokens[0] == "Item" )
       {
-      assert( state == 1 );
-      assert( curde );
-      assert( subtokens[1] == "number" );
+      gdcm_assert( state == 1 );
+      gdcm_assert( curde );
+      gdcm_assert( subtokens[1] == "number" );
       sqi = curde->GetValueAsSQ();
       if( !sqi )
         {
@@ -206,19 +206,19 @@ bool StringFilter::ExecuteQuery(std::string const & query_const,
       }
     else if( subtokens[0] == "Value" )
       {
-      assert( state == 1 );
+      gdcm_assert( state == 1 );
       // move to next state
       state = 2;
-      assert( subtokens[1] == "number" );
+      gdcm_assert( subtokens[1] == "number" );
 #if !defined(NDEBUG)
       const ByteValue * const bv = curde->GetByteValue(); (void)bv;
-      assert( bv );
+      gdcm_assert( bv );
       //bv->Print( std::cout << std::endl );
 #endif
       }
     else
       {
-      assert( !subtokens.empty() );
+      gdcm_assert( !subtokens.empty() );
       gdcmDebugMacro( "Unhandled token: " << subtokens[0] );
       state = -1;
       }
@@ -268,33 +268,33 @@ bool StringFilter::ExecuteQuery(std::string const & query_const,
     return false;
     }
 
-  assert( vr != VR::UN && vr != VR::INVALID );
+  gdcm_assert( vr != VR::UN && vr != VR::INVALID );
   //ret.first = entry.GetName();
   if( VR::IsASCII( vr ) )
     {
-    assert( vr & VR::VRASCII );
+    gdcm_assert( vr & VR::VRASCII );
     const ByteValue *bv = de.GetByteValue();
     if( de.GetVL() )
       {
-      assert( bv /*|| bv->IsEmpty()*/ );
+      gdcm_assert( bv /*|| bv->IsEmpty()*/ );
       retvalue = std::string( bv->GetPointer(), bv->GetLength() );
       // Let's remove any trailing \0 :
       retvalue.resize( std::min( retvalue.size(), strlen( retvalue.c_str() ) ) ); // strlen is guarantee to be lower or equal to ::size()
       }
     else
       {
-      //assert( bv == NULL );
+      //gdcm_assert( bv == NULL );
       retvalue = ""; // ??
       }
     }
   else
     {
-    assert( vr & VR::VRBINARY );
+    gdcm_assert( vr & VR::VRBINARY );
     const ByteValue *bv = de.GetByteValue();
     if( bv )
       {
       //VM::VMType vm = entry.GetVM();//!!mmr-- can I remove this, or will it mess with the stream?
-      //assert( vm == VM::VM1 );
+      //gdcm_assert( vm == VM::VM1 );
       if( vr.IsDual() ) // This mean vr was read from a dict entry:
         {
         vr = DataSetHelper::ComputeVR(GetFile(),ds, t);
@@ -317,7 +317,7 @@ bool StringFilter::ExecuteQuery(std::string const & query_const,
         StringFilterCase(UT);
       case VR::UN:
       case VR::US_SS:
-        assert(0);
+        gdcm_assert(0);
         break;
       case VR::OB:
       case VR::OW:
@@ -327,7 +327,7 @@ bool StringFilter::ExecuteQuery(std::string const & query_const,
         retvalue = "";
         break;
       default:
-        assert(0);
+        gdcm_assert(0);
         break;
         }
       }
@@ -358,7 +358,7 @@ std::pair<std::string, std::string> StringFilter::ToStringPairInternal(const Dat
     gdcmDebugMacro( "DataSet is empty or does not contains tag:" );
     return ret;
     }
-  //assert( de.GetTag().IsPublic() );
+  //gdcm_assert( de.GetTag().IsPublic() );
   std::string strowner;
   const char *owner = nullptr;
   const Tag &t = de.GetTag();
@@ -405,34 +405,34 @@ std::pair<std::string, std::string> StringFilter::ToStringPairInternal(const Dat
     return ret;
     }
 
-  assert( vr != VR::UN && vr != VR::INVALID );
+  gdcm_assert( vr != VR::UN && vr != VR::INVALID );
   //std::cerr << "Found " << vr << " for " << de.GetTag() << std::endl;
   ret.first = entry.GetName();
   if( VR::IsASCII( vr ) )
     {
-    assert( vr & VR::VRASCII );
+    gdcm_assert( vr & VR::VRASCII );
     const ByteValue *bv = de.GetByteValue();
     if( de.GetVL() )
       {
-      assert( bv /*|| bv->IsEmpty()*/ );
+      gdcm_assert( bv /*|| bv->IsEmpty()*/ );
       ret.second = std::string( bv->GetPointer(), bv->GetLength() );
       // Let's remove any trailing \0 :
       ret.second.resize( std::min( ret.second.size(), strlen( ret.second.c_str() ) ) ); // strlen is guarantee to be lower or equal to ::size()
       }
     else
       {
-      //assert( bv == NULL );
+      //gdcm_assert( bv == NULL );
       ret.second = ""; // ??
       }
     }
   else
     {
-    assert( vr & VR::VRBINARY );
+    gdcm_assert( vr & VR::VRBINARY );
     const ByteValue *bv = de.GetByteValue();
     if( bv )
       {
       //VM::VMType vm = entry.GetVM();//!!mmr-- can I remove this, or will it mess with the stream?
-      //assert( vm == VM::VM1 );
+      //gdcm_assert( vm == VM::VM1 );
       if( vr.IsDual() ) // This mean vr was read from a dict entry:
         {
         vr = DataSetHelper::ComputeVR(GetFile(),ds, t);
@@ -456,7 +456,7 @@ std::pair<std::string, std::string> StringFilter::ToStringPairInternal(const Dat
         StringFilterCase(UT);
       case VR::UN:
       case VR::US_SS:
-        assert(0);
+        gdcm_assert(0);
         break;
       case VR::OB:
       case VR::OW:
@@ -466,7 +466,7 @@ std::pair<std::string, std::string> StringFilter::ToStringPairInternal(const Dat
         ret.second = "";
         break;
       default:
-        assert(0);
+        gdcm_assert(0);
         break;
         }
         ret.second = retvalue;
@@ -493,7 +493,7 @@ std::pair<std::string, std::string> StringFilter::ToStringPairInternal(const Dat
 #if 0
 static inline size_t count_backslash(const char *s, size_t len)
 {
-  assert( s );
+  gdcm_assert( s );
   size_t c = 0;
   for(size_t i = 0; i < len; ++i, ++s)
     {
@@ -563,11 +563,11 @@ std::string StringFilter::FromString(const Tag&t, const char * value, size_t len
   if( vm.GetLength() == 0 )
     {
     // VM1_n
-    vl = (VL)( count * vr.GetSizeof());
+    vl = (VL)( (uint32_t)count * vr.GetSizeof());
 #if !defined(NDEBUG)
     VM check = VM::GetVMTypeFromLength(count, 1);
     if( vm != VM::VM0 )
-    assert( vm.Compatible( check ) );
+    gdcm_assert( vm.Compatible( check ) );
 #endif
     }
 
@@ -590,7 +590,7 @@ std::string StringFilter::FromString(const Tag&t, const char * value, size_t len
     FromStringFilterCase(US);
   default:
     gdcmErrorMacro( "Not implemented" );
-    assert(0);
+    gdcm_assert(0);
     }
   return os.str();
 }

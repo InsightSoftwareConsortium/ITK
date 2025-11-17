@@ -34,22 +34,20 @@ itkIteratorTests(int, char *[])
   double origin3D[3] = { 5, 2.1, 8.1 };
   double spacing3D[3] = { 1.5, 2.1, 1 };
 
-  constexpr ScalarImage::SizeType imageSize3D = { { 200, 200, 200 } };
-  constexpr ScalarImage::SizeType bufferSize3D = { { 200, 200, 200 } };
-  constexpr ScalarImage::SizeType regionSize3D = { { 190, 190, 190 } };
+  constexpr ScalarImage::SizeType imageSize3D{ 200, 200, 200 };
+  constexpr ScalarImage::SizeType bufferSize3D{ 200, 200, 200 };
+  constexpr ScalarImage::SizeType regionSize3D{ 190, 190, 190 };
 
-  constexpr ScalarImage::IndexType startIndex3D = { { 0, 0, 0 } };
-  constexpr ScalarImage::IndexType bufferStartIndex3D = { { 0, 0, 0 } };
-  constexpr ScalarImage::IndexType regionStartIndex3D = { { 5, 5, 5 } };
+  constexpr ScalarImage::IndexType startIndex3D{ 0, 0, 0 };
+  constexpr ScalarImage::IndexType bufferStartIndex3D{ 0, 0, 0 };
+  constexpr ScalarImage::IndexType regionStartIndex3D{ 5, 5, 5 };
 
 
   ScalarImage::RegionType region{ startIndex3D, imageSize3D };
   o3->SetLargestPossibleRegion(region);
-  region.SetSize(bufferSize3D);
-  region.SetIndex(bufferStartIndex3D);
+  region = { bufferStartIndex3D, bufferSize3D };
   o3->SetBufferedRegion(region);
-  region.SetSize(regionSize3D);
-  region.SetIndex(regionStartIndex3D);
+  region = { regionStartIndex3D, regionSize3D };
   o3->SetRequestedRegion(region);
 
   o3->SetOrigin(origin3D);
@@ -124,7 +122,7 @@ itkIteratorTests(int, char *[])
   start = clock();
   itk::ImageRegionIterator<ScalarImage> it(o3, region);
 
-  constexpr unsigned short scalar = 5;
+  constexpr unsigned short scalar{ 5 };
 
   {
     unsigned int i = 0;

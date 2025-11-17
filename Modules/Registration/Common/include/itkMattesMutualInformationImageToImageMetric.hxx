@@ -165,10 +165,9 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::Initialize
       }
     }
 
-    itkDebugMacro(" FixedImageMin: " << this->m_FixedImageTrueMin << " FixedImageMax: " << this->m_FixedImageTrueMax
-                                     << std::endl);
-    itkDebugMacro(" MovingImageMin: " << this->m_MovingImageTrueMin << " MovingImageMax: " << this->m_MovingImageTrueMax
-                                      << std::endl);
+    itkDebugMacro(" FixedImageMin: " << this->m_FixedImageTrueMin << " FixedImageMax: " << this->m_FixedImageTrueMax);
+    itkDebugMacro(" MovingImageMin: " << this->m_MovingImageTrueMin
+                                      << " MovingImageMax: " << this->m_MovingImageTrueMax);
   }
 
   /**
@@ -187,7 +186,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::Initialize
    * window.
    *
    */
-  constexpr int padding = 2; // this will pad by 2 bins
+  constexpr int padding{ 2 }; // this will pad by 2 bins
 
   this->m_FixedImageBinSize = (this->m_FixedImageTrueMax - this->m_FixedImageTrueMin) /
                               static_cast<PDFValueType>(this->m_NumberOfHistogramBins - 2 * padding);
@@ -780,7 +779,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAn
           for (unsigned int parameter = 0; parameter < this->m_NumberOfParameters; ++parameter, derivPtr++)
           {
             // Ref: eqn 23 of Thevenaz & Unser paper [3]
-            derivative[parameter] -= (*derivPtr) * pRatio;
+            derivative[parameter] -= *derivPtr * pRatio;
           } // end for-loop over parameters
         }
         else
@@ -854,8 +853,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::CommonGetV
 
   if (this->m_NumberOfPixelsCounted < this->m_NumberOfFixedImageSamples / 16)
   {
-    itkExceptionMacro("Too many samples map outside moving image buffer: "
-                      << this->m_NumberOfPixelsCounted << " / " << this->m_NumberOfFixedImageSamples << std::endl);
+    itkExceptionMacro("Too many samples map outside moving image buffer: " << this->m_NumberOfPixelsCounted << " / "
+                                                                           << this->m_NumberOfFixedImageSamples);
   }
 
   // Normalize the fixed image marginal PDF

@@ -265,7 +265,7 @@ TEST(IndexRange, CanBeUsedAsExpressionOfRangeBasedForLoop)
 
 TEST(IndexRange, SupportsImageRegion)
 {
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using ImageRegionIndexRangeType = ImageRegionIndexRange<Dimension>;
   using IndexType = ImageRegionIndexRangeType::IndexType;

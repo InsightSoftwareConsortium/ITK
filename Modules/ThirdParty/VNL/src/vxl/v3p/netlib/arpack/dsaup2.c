@@ -235,7 +235,7 @@ static logical c_true = TRUE_;
     /* Builtin functions */
     double pow_dd(doublereal *, doublereal *);
     integer s_cmp(char *, char *, ftnlen, ftnlen);
-    /* Subroutine */ int s_copy(char *, char *, ftnlen, ftnlen);
+    /* Subroutine */ void s_copy(register char *, register char *, ftnlen, ftnlen);
     double sqrt(doublereal);
 
     /* Local variables */

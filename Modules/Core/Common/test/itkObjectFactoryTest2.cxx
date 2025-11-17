@@ -54,10 +54,7 @@ MakeImage(const int count, T pixel)
   index[1] = 0;
   index[2] = 0;
 
-  SizeType size;
-  size[0] = count;
-  size[1] = count;
-  size[2] = count;
+  auto             size = SizeType::Filled(count);
   const RegionType region{ index, size };
 
   testImage->SetRegions(region);
@@ -73,12 +70,12 @@ ReallocateImage()
 
   auto testImage = ImageType::New();
 
-  constexpr SizeType size = { { 5, 3 } };
+  constexpr SizeType size{ 5, 3 };
 
   testImage->SetRegions(size);
   testImage->AllocateInitialized();
 
-  constexpr SizeType size2 = { { 100, 100 } };
+  constexpr SizeType size2{ 100, 100 };
   testImage->SetRegions(size2);
   testImage->AllocateInitialized();
 }
@@ -186,7 +183,7 @@ itkObjectFactoryTest2(int argc, char * argv[])
 
   ReallocateImage();
 
-  constexpr int status = EXIT_SUCCESS;
+  constexpr int status{ EXIT_SUCCESS };
 
   return status;
 }

@@ -18,8 +18,8 @@ namespace gdcm_ns
 
 VL Fragment::GetLength() const
 {
-  assert( !ValueLengthField.IsUndefined() );
-  assert( !ValueField || ValueField->GetLength() == ValueLengthField );
+  gdcm_assert( !ValueLengthField.IsUndefined() );
+  gdcm_assert( !ValueField || ValueField->GetLength() == ValueLengthField );
   return TagField.GetLength() + ValueLengthField.GetLength()
     + ValueLengthField;
 }
@@ -27,9 +27,9 @@ VL Fragment::GetLength() const
 VL Fragment::ComputeLength() const
 {
   const ByteValue *bv = GetByteValue();
-  assert( bv );
-  assert( !ValueLengthField.IsUndefined() );
-  //assert( !ValueField || ValueField->GetLength() == ValueLengthField );
+  gdcm_assert( bv );
+  gdcm_assert( !ValueLengthField.IsUndefined() );
+  //gdcm_assert( !ValueField || ValueField->GetLength() == ValueLengthField );
   return TagField.GetLength() + ValueLengthField.GetLength()
     + bv->ComputeLength() /*ValueLengthField*/;
 }

@@ -26,17 +26,12 @@
 namespace itk
 {
 
-template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
-LevelSetBase<TInput, VDimension, TOutput, TDomain>::LevelSetBase()
-
-  = default;
-
 // ----------------------------------------------------------------------------
 template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
 bool
 LevelSetBase<TInput, VDimension, TOutput, TDomain>::IsInside(const InputType & iP) const
 {
-  return (this->Evaluate(iP) <= OutputType{});
+  return this->Evaluate(iP) <= OutputType{};
 }
 
 // ----------------------------------------------------------------------------

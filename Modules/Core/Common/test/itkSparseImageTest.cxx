@@ -46,12 +46,10 @@ itkSparseImageTest(int, char *[])
   using SparseImageType = itk::SparseImage<NodeType, 2>;
   using ImageType = SparseImageType::Superclass;
 
-  auto                           im = SparseImageType::New();
-  ImageType::RegionType          r;
-  constexpr ImageType::SizeType  sz = { { 24, 24 } };
-  constexpr ImageType::IndexType idx = { { 0, 0 } };
-  r.SetSize(sz);
-  r.SetIndex(idx);
+  auto im = SparseImageType::New();
+
+  constexpr ImageType::SizeType sz{ 24, 24 };
+  ImageType::RegionType         r{ sz };
 
   im->SetRegions(r);
   im->Allocate();

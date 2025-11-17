@@ -17,9 +17,12 @@
  *=========================================================================*/
 
 #include "itkPointSet.h"
-#include "vnl/vnl_sample.h"
 #include "itkTestingMacros.h"
+
+#include <algorithm> // For generate.
+#include <iterator>  // For begin and end.
 #include <iostream>
+#include <random> // For mt19937.
 
 /**
  * Define a PointSet type that stores a PixelType of "int".  Use the defaults
@@ -37,8 +40,8 @@ using PointsVectorContainerPointer = typename PointsVectorContainer::Pointer;
 int
 itkPointSetTest(int, char *[])
 {
-  constexpr int pointDimension = 3;
-  constexpr int numOfPoints = 100;
+  constexpr int pointDimension{ 3 };
+  constexpr int numOfPoints{ 100 };
 
   /**
    * Define the 3d geometric positions for 8 points in a cube.
@@ -65,11 +68,15 @@ itkPointSetTest(int, char *[])
    */
   try
   {
+    std::mt19937                                             randomNumberEngine{};
+    std::uniform_real_distribution<PointSet::CoordinateType> randomNumberDistribution(-1.0, 1.0);
+
     for (int i = 0; i < numOfPoints; ++i)
     {
-      testPointCoords[0] = static_cast<PointSet::CoordinateType>(vnl_sample_uniform(-1.0, 1.0));
-      testPointCoords[1] = static_cast<PointSet::CoordinateType>(vnl_sample_uniform(-1.0, 1.0));
-      testPointCoords[2] = static_cast<PointSet::CoordinateType>(vnl_sample_uniform(-1.0, 1.0));
+      std::generate(
+        std::begin(testPointCoords), std::end(testPointCoords), [&randomNumberEngine, &randomNumberDistribution] {
+          return randomNumberDistribution(randomNumberEngine);
+        });
       pset->SetPoint(i, PointType(testPointCoords));
     }
   }
@@ -82,7 +89,7 @@ itkPointSetTest(int, char *[])
   // Test non-existing point id exception
   ITK_TRY_EXPECT_EXCEPTION(pset->GetPoint(pId));
 
-  constexpr PointSet::RegionType region = 0;
+  constexpr PointSet::RegionType region{ 0 };
   pset->SetRequestedRegion(region);
 
   pset->SetBufferedRegion(region);

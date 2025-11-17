@@ -412,19 +412,13 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
 
   // Calculate the number of vectors in the input data set
 
-  ImageSizeType size = inputImage->GetBufferedRegion().GetSize();
-
-  unsigned int totalNumVecsInInput = 1;
-  for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
-  {
-    totalNumVecsInInput *= (SizeValueType)size[i];
-  }
+  const SizeValueType totalNumVecsInInput = inputImage->GetBufferedRegion().GetNumberOfPixels();
 
   // Loop through the input image vectors
 
   InputPixelVectorType inputImagePixelVector;
 
-  for (unsigned int n = 0; n < totalNumVecsInInput; ++n)
+  for (SizeValueType n = 0; n < totalNumVecsInInput; ++n)
   {
     // Keep convention that ties go to lower index
     double bestdistortion = m_DoubleMaximum;

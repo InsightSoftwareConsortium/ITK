@@ -542,7 +542,6 @@ and the build tarballs from the `release` branch locally.
 Build the sdist and wheels for Linux (amd64):
 
 ```bash
-ssh blaster
 cd ~/Packaging/ITKPythonPackage
 
 export MANYLINUX_VERSION=_2_28
@@ -557,40 +556,44 @@ rm -f dist/*
 cd ..
 ./ITKPythonPackage/scripts/dockcross-manylinux-build-tarball.sh
 mv ITKPythonBuilds-linux.tar.zst ITKPythonBuilds-linux-manylinux_2_28.tar.zst
-
-export MANYLINUX_VERSION=2014
-cd ITKPythonPackage
-git reset --hard HEAD
-sudo git clean -fdx
-git fetch origin manylinux2014
-git cherry-pick origin/manylinux2014
-./scripts/dockcross-manylinux-build-wheels.sh
-# Create wheel archive
-tar cvzf /tmp/dist-linux-manylinux2014.tar.gz ./dist
-rm -f dist/*
-# Create build tarball
-cd ..
-./ITKPythonPackage/scripts/dockcross-manylinux-build-tarball.sh
-mv ITKPythonBuilds-linux.tar.zst ITKPythonBuilds-linux-manylinux2014.tar.zst
-cd ITKPythonPackage
-git reset --hard HEAD~1
 ```
 
-For Linux ARM builds, the steps are similar, but the wheel build step is:
+For Linux ARM builds, the steps are similar, but the wheel build step is on an
+ARM Mac:
 
 ```bash
-sudo podman run --privileged --rm tonistiigi/binfmt --install all
-podman run -it -v $(pwd):/work/ quay.io/pypa/manylinux_2_28_aarch64:2024-03-25-9206bd9 bash
-# In the container
-cd /work
+# FLOSS Docker on mac
+brew install colima
+colima start --cpu 9 --memory 20 --mount $PWD:/work:w
+
+# Get your UID, e.g. 501
+id -u
+# Get your GID, e.g. 20
+id -g
+docker run --name itk-manylinux-aarch64-base-2025-08-12 -it quay.io/pypa/manylinux_2_28_aarch64:2025.08.12-1
 # Upgrade GPG keys
 dnf upgrade -y almalinux-release
-# Newer Python.cmake module required for the SABI
-pipx upgrade cmake
-yum install sudo ninja-build
+yum install sudo ninja-build vim
+# Set up corresponding uid, gid accounts
+mkdir /home/manualuser
+echo "manualuser:x:501:20:,,,:/home/manualuser:/bin/bash" >> /etc/passwd
+# Ensure that a group exists for your GID in /etc/group
+chown -R manualuser:20 /home/manualuser
+sudo visudo
+# Add at the end: manualuser ALL=(ALL) NOPASSWD: ALL
+# Add to the end of /etc/shadow: manualuser:*:19485:0:99999:7:::
+exit
+docker commit itk-manylinux-aarch64-base-2025-08-12 itk-manylinux-aarch64-build-2025-08-12
+
+# For subsequent builds with the same base image, the previous steps can be
+# skipped
+docker run -it --rm -u $(id -u):$(id -g) -v /work/:/work/ itk-manylinux-aarch64-build-2025-08-12
+# In the container
+cd /work
 ./scripts/internal/manylinux-build-wheels.sh
 # Exit the container
 exit
+
 tar cvzf /tmp/dist-linux-manylinux_2_28_aarch64.tar.gz ./dist
 rm -f dist/*
 cd ..
@@ -601,20 +604,19 @@ mv ITKPythonBuilds-linux.tar.zst ITKPythonBuilds-linux-manylinux_2_28_aarch64.ta
 On the macOS build system, we use the same build toolchain, toolchain path, and build
 path as is used in the remote module GitHub Actions builds on the [macos-14 GitHub Action Runner].
 
-- Install Xcode 15.0.1 from https://developer.apple.com/downloads/all/
-- Unpack and move to /Applications/Xcode_15.0.1.app
+- Install Xcode 16.2 from https://developer.apple.com/downloads/all/
+- Unpack and move to /Applications/Xcode_16.2.app
 ``` bash
-sudo xcode-select -s /Applications/Xcode_15.0.1.app
+sudo xcode-select -s /Applications/Xcode_16.2.app
 sudo xcodebuild -license
 xcodebuild -version
-# Xcode 15.0.1
-# Build version 15A507
+# Xcode 16.2
+# Build version 16C5032a
 ```
 
-Build the wheels for macOS (both amd64 and ARM).
+Build the wheels for macOS.
 
 ```bash
-ssh misty
 cd /Users/svc-dashboard/D/P/ITKPythonPackage
 git reset --hard HEAD
 git checkout release
@@ -632,7 +634,6 @@ cd ..
 Build the wheels for Windows:
 
 ```bash
-vncviewer overload # Open Git Bash shell
 cd /c/P/IPP
 git reset --hard HEAD
 git checkout release

@@ -111,7 +111,7 @@ public:
     {
      ContinuousIndexType index;
      this->GetInputImage()->TransformPhysicalPointToContinuousIndex( point, index );
-     return ( this->EvaluateDerivativeAtContinuousIndex( index ) );
+     return  this->EvaluateDerivativeAtContinuousIndex( index ) ;
     }
 
     CovariantVectorType EvaluateDerivativeAtContinuousIndex( const ContinuousIndexType & x ) const;

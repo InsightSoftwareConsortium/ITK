@@ -76,7 +76,7 @@ NeedToDoFace(const TRegion AllImage, const TRegion face, const TLine line)
       return true;
     }
   }
-  return (false);
+  return false;
 }
 
 template <typename TImage, typename TBres, typename TLine>
@@ -134,7 +134,7 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
       {
         // no intersection
         start = end = 0;
-        return (0);
+        return 0;
       }
     }
   }
@@ -189,7 +189,7 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
     {
       //      std::cout << StartIndex << "No intersection" << std::endl;
       start = end = 0;
-      return (0);
+      return 0;
     }
   }
   else
@@ -261,7 +261,7 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
   }
   start = sPos;
   end = ePos;
-  return (1);
+  return 1;
 }
 
 template <typename TImage, typename TBres>
@@ -313,8 +313,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     R1.SetSize(S1);
 
     I2[i] = I2[i] + AllImage.GetSize()[i] - 1;
-    R2.SetSize(S1);
-    R2.SetIndex(I2);
+    R2 = { I2, S1 };
     faceList.push_back(R1);
     faceList.push_back(R2);
     //    std::cout << R1 << R2 << std::endl;
@@ -401,8 +400,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
         }
       }
     }
-    RelevantRegion.SetSize(NewSize);
-    RelevantRegion.SetIndex(NewStart);
+    RelevantRegion = { NewStart, NewSize };
   }
   else
   {
@@ -427,7 +425,7 @@ FillLineBuffer(typename TImage::ConstPointer             input,
   const int status = ComputeStartEnd<TImage, TBres, TLine>(StartIndex, line, tol, LineOffsets, AllImage, start, end);
   if (!status)
   {
-    return (status);
+    return status;
   }
   const unsigned int size = end - start + 1;
   // compat
@@ -436,7 +434,7 @@ FillLineBuffer(typename TImage::ConstPointer             input,
     itkAssertInDebugAndIgnoreInReleaseMacro(start + i < LineOffsets.size());
     inbuffer[i + 1] = input->GetPixel(StartIndex + LineOffsets[start + i]);
   }
-  return (1);
+  return 1;
 }
 
 template <typename TLine>

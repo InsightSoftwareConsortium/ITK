@@ -1067,13 +1067,13 @@ VTKImageIO::GetIORegionSizeInPixels() const
 ImageIOBase::SizeType
 VTKImageIO::GetIORegionSizeInComponents() const
 {
-  return (this->GetIORegionSizeInPixels() * m_NumberOfComponents);
+  return this->GetIORegionSizeInPixels() * m_NumberOfComponents;
 }
 
 ImageIOBase::SizeType
 VTKImageIO::GetIORegionSizeInBytes() const
 {
-  return (this->GetIORegionSizeInComponents() * this->GetComponentSize());
+  return this->GetIORegionSizeInComponents() * this->GetComponentSize();
 }
 
 void

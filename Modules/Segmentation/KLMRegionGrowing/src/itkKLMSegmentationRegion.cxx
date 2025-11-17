@@ -282,7 +282,7 @@ KLMSegmentationRegion::SpliceRegionBorders(Self * region)
   RegionBorderVectorType thisRegionBorder = m_RegionBorderVector;
 
   // clear output
-  m_RegionBorderVector.resize(0);
+  m_RegionBorderVector.clear();
 
   // Initialize the region iterators
 
@@ -299,7 +299,7 @@ KLMSegmentationRegion::SpliceRegionBorders(Self * region)
     // Ensure that there are no common borders in the new region
     if (((*thisRegionBordersIt)->GetRegion1() == (*thisRegionBordersIt)->GetRegion2()) ||
         ((*thatRegionBordersIt)->GetRegion1() == (*thatRegionBordersIt)->GetRegion2()) ||
-        ((*thisRegionBordersIt) == (*thatRegionBordersIt)))
+        (*thisRegionBordersIt == *thatRegionBordersIt))
     {
       itkExceptionStringMacro("Invalid region border list");
     }
@@ -321,7 +321,7 @@ KLMSegmentationRegion::SpliceRegionBorders(Self * region)
       // The border's region1 is the neighbor
       if ((*thatRegionBordersIt)->GetRegion2() == this)
       {
-        (*thatRegionBordersIt)->GetRegion1()->DeleteRegionBorder((*thatRegionBordersIt));
+        (*thatRegionBordersIt)->GetRegion1()->DeleteRegionBorder(*thatRegionBordersIt);
       } // end if (the border's region1 is the neighbor )
 
       // The border's region2 is the neighbor
@@ -416,7 +416,7 @@ KLMSegmentationRegion::UpdateRegionBorderLambda()
 void
 KLMSegmentationRegion::DeleteAllRegionBorders()
 {
-  m_RegionBorderVector.resize(0);
+  m_RegionBorderVector.clear();
 } // end DeleteAllRegionBorders
 
 KLMSegmentationRegion::RegionBorderVectorIterator
@@ -468,7 +468,7 @@ KLMSegmentationRegion::PrintRegionInfo()
     const int region1label = (*tempVectorIt)->GetRegion1()->GetRegionLabel();
     const int region2label = (*tempVectorIt)->GetRegion2()->GetRegionLabel();
 
-    std::cout << "Border Ptr :" << (*tempVectorIt) << "( " << region1label << " - " << region2label << " )"
+    std::cout << "Border Ptr :" << *tempVectorIt << "( " << region1label << " - " << region2label << " )"
               << " Lambda = " << (*tempVectorIt)->GetLambda() << std::endl;
 
     ++tempVectorIt;

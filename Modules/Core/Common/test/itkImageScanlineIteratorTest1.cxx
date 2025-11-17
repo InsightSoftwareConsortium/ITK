@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkImageScanlineIterator.h"
+#include <array>
 
 
 // This routine is used to make sure that we call the "const" version
@@ -56,23 +57,21 @@ itkImageScanlineIteratorTest1(int, char *[])
 
   using ImageType = itk::Image<itk::Vector<unsigned short, 5>, 3>;
 
-  constexpr ImageType::SizeType imageSize3D = { { 20, 40, 60 } };
-  constexpr ImageType::SizeType bufferSize3D = { { 8, 20, 14 } };
-  constexpr ImageType::SizeType regionSize3D = { { 4, 6, 6 } };
+  constexpr ImageType::SizeType imageSize3D{ 20, 40, 60 };
+  constexpr ImageType::SizeType bufferSize3D{ 8, 20, 14 };
+  constexpr ImageType::SizeType regionSize3D{ 4, 6, 6 };
 
-  constexpr ImageType::IndexType startIndex3D = { { 5, 4, 1 } };
-  constexpr ImageType::IndexType bufferStartIndex3D = { { 2, 3, 5 } };
-  constexpr ImageType::IndexType regionStartIndex3D = { { 5, 10, 12 } };
-  constexpr ImageType::IndexType regionEndIndex3D = { { 8, 15, 17 } };
+  constexpr ImageType::IndexType startIndex3D{ 5, 4, 1 };
+  constexpr ImageType::IndexType bufferStartIndex3D{ 2, 3, 5 };
+  constexpr ImageType::IndexType regionStartIndex3D{ 5, 10, 12 };
+  constexpr ImageType::IndexType regionEndIndex3D{ 8, 15, 17 };
 
 
   ImageType::RegionType region{ startIndex3D, imageSize3D };
   o3->SetLargestPossibleRegion(region);
-  region.SetSize(bufferSize3D);
-  region.SetIndex(bufferStartIndex3D);
+  region = { bufferStartIndex3D, bufferSize3D };
   o3->SetBufferedRegion(region);
-  region.SetSize(regionSize3D);
-  region.SetIndex(regionStartIndex3D);
+  region = { regionStartIndex3D, regionSize3D };
   o3->SetRequestedRegion(region);
 
   o3->SetOrigin(origin3D);
@@ -149,11 +148,8 @@ itkImageScanlineIteratorTest1(int, char *[])
   {
     // Create an image
     using TestImageType = itk::Image<int, 2>;
-    constexpr TestImageType::IndexType imageCorner{};
-
-    auto imageSize = TestImageType::SizeType::Filled(3);
-
-    const TestImageType::RegionType imageRegion(imageCorner, imageSize);
+    auto                            imageSize = TestImageType::SizeType::Filled(3);
+    const TestImageType::RegionType imageRegion{ imageSize };
 
     auto image = TestImageType::New();
     image->SetRegions(imageRegion);
@@ -180,20 +176,13 @@ itkImageScanlineIteratorTest1(int, char *[])
     }
 
     // Setup and iterate over the first region
-    constexpr TestImageType::IndexType region1Start{};
-
-    auto regionSize = TestImageType::SizeType::Filled(2);
-
-    const TestImageType::RegionType region1(region1Start, regionSize);
+    auto                            regionSize = TestImageType::SizeType::Filled(2);
+    const TestImageType::RegionType region1{ regionSize };
 
     itk::ImageScanlineConstIterator<TestImageType> imageIterator(image, region1);
 
-    std::vector<int> expectedValuesRegion1(4);
-    expectedValuesRegion1[0] = 0;
-    expectedValuesRegion1[1] = 255;
-    expectedValuesRegion1[2] = 0;
-    expectedValuesRegion1[3] = 255;
-    unsigned int counter = 0;
+    static constexpr std::array<int, 4> expectedValuesRegion1{ 0, 255, 0, 255 };
+    unsigned int                        counter = 0;
     while (!imageIterator.IsAtEnd())
     {
       while (!imageIterator.IsAtEndOfLine())
@@ -216,11 +205,7 @@ itkImageScanlineIteratorTest1(int, char *[])
     imageIterator.SetRegion(region2);
     imageIterator.GoToBegin();
 
-    std::vector<int> expectedValuesRegion2(4);
-    expectedValuesRegion2[0] = 255;
-    expectedValuesRegion2[1] = 255;
-    expectedValuesRegion2[2] = 255;
-    expectedValuesRegion2[3] = 255;
+    static constexpr std::array<int, 4> expectedValuesRegion2{ 255, 255, 255, 255 };
     counter = 0;
     while (!imageIterator.IsAtEnd())
     {

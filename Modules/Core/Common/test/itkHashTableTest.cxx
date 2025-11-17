@@ -119,7 +119,7 @@ itkHashTableTest(int, char *[])
     std::cout << "Set is empty." << std::endl;
   }
   months.rehash(50);
-  constexpr HashMapType::value_type p("psychotic break", 2);
+  constexpr HashMapType::value_type p{ "psychotic break", 2 };
   months.insert(p);
   auto              map_it = months.begin();
   const HashMapType MapCopy = months;

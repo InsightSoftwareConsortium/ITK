@@ -25,9 +25,9 @@ namespace CSIFTN
 using ImageType = itk::Image<float, 3>;
 using SeedImageType = itk::Image<signed char, 3>;
 
-constexpr int V_WIDTH = 64;
-constexpr int V_HEIGHT = 64;
-constexpr int V_DEPTH = 64;
+constexpr int V_WIDTH{ 64 };
+constexpr int V_HEIGHT{ 64 };
+constexpr int V_DEPTH{ 64 };
 
 float
 sphere(float x, float y, float z)
@@ -36,7 +36,7 @@ sphere(float x, float y, float z)
     (x - float{ V_WIDTH } / 2.0) * (x - float{ V_WIDTH } / 2.0) / ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
     (y - float{ V_HEIGHT } / 2.0) * (y - float{ V_HEIGHT } / 2.0) / ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
     (z - float{ V_DEPTH } / 2.0) * (z - float{ V_DEPTH } / 2.0) / ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
-  return (1.0f - dis);
+  return 1.0f - dis;
 }
 
 float
@@ -46,7 +46,7 @@ sphere2(float x, float y, float z)
     (x - float{ V_WIDTH } / 2.1) * (x - float{ V_WIDTH } / 2.1) / ((0.2f * V_WIDTH) * (0.2f * V_WIDTH)) +
     (y - float{ V_HEIGHT } / 2.0) * (y - float{ V_HEIGHT } / 2.0) / ((0.2f * V_HEIGHT) * (0.2f * V_HEIGHT)) +
     (z - float{ V_DEPTH } / 2.0) * (z - float{ V_DEPTH } / 2.0) / ((0.2f * V_DEPTH) * (0.2f * V_DEPTH));
-  return (1.0f - dis);
+  return 1.0f - dis;
 }
 
 void
@@ -153,13 +153,8 @@ itkCannySegmentationLevelSetImageFilterTest(int, char *[])
 {
   std::cout << "Last modified 11/08/02" << std::endl;
 
-  CSIFTN::ImageType::RegionType            reg;
-  CSIFTN::ImageType::RegionType::SizeType  sz;
-  CSIFTN::ImageType::RegionType::IndexType idx;
-  idx[0] = idx[1] = idx[2] = 0;
-  sz[0] = sz[1] = sz[2] = 64;
-  reg.SetSize(sz);
-  reg.SetIndex(idx);
+  constexpr CSIFTN::ImageType::RegionType::SizeType sz{ 64, 64, 64 };
+  CSIFTN::ImageType::RegionType                     reg{ sz };
 
   const CSIFTN::ImageType::Pointer     inputImage = CSIFTN::ImageType::New();
   const CSIFTN::SeedImageType::Pointer seedImage = CSIFTN::SeedImageType::New();

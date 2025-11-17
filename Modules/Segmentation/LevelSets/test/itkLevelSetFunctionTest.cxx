@@ -213,16 +213,13 @@ itkLevelSetFunctionTest(int, char *[])
 {
   using ImageType = itk::Image<float, 2>;
 
-  constexpr int n = 100; // Number of iterations
+  constexpr int n{ 100 }; // Number of iterations
 
   auto im_init = ImageType::New();
   auto im_target = ImageType::New();
 
-  ImageType::RegionType          r;
-  constexpr ImageType::SizeType  sz = { { LSFT::HEIGHT, LSFT::WIDTH } };
-  constexpr ImageType::IndexType idx = { { 0, 0 } };
-  r.SetSize(sz);
-  r.SetIndex(idx);
+  constexpr ImageType::SizeType sz{ LSFT::HEIGHT, LSFT::WIDTH };
+  ImageType::RegionType         r{ sz };
 
   im_init->SetRegions(r);
 

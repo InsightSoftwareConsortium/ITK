@@ -84,7 +84,7 @@ itkMatchCardinalityImageToImageMetricTest(int argc, char * argv[])
   }
 
   std::cout << "Now measure mismatches..." << std::endl;
-  constexpr bool measureMatches = false;
+  constexpr bool measureMatches{ false };
   ITK_TEST_SET_GET_BOOLEAN(metric, MeasureMatches, measureMatches);
 
   for (float x = -200.0; x <= 200.0; x += 50.0)

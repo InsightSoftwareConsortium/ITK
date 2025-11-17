@@ -46,7 +46,7 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
   const char * displacementFieldFileName = argv[2];
 
   // Typedefs.
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using ScalarPixelType = float;
   using CoordRepresentationType = double;
 
@@ -98,11 +98,10 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
   const RegionType region{ index, size };
   auto             image = ImageType::New();
   image->SetRegions(region);
-  image->Allocate();
+  image->AllocateInitialized();
   image->SetSpacing(spacing);
   image->SetOrigin(origin);
   image->SetDirection(inputDirection);
-  image->FillBuffer(ScalarPixelType{});
 
   float     incrValue = 100.0;
   IndexType pixelIndex;

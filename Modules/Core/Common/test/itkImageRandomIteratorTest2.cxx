@@ -37,7 +37,7 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
 
   using PixelType = unsigned long;
 
@@ -52,9 +52,7 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
 
   const unsigned long numberOfSamples = size[0] * size[1];
 
-  constexpr ImageType::IndexType start{};
-
-  const ImageType::RegionType region{ start, size };
+  const ImageType::RegionType region{ size };
 
   image->SetRegions(region);
   image->AllocateInitialized();

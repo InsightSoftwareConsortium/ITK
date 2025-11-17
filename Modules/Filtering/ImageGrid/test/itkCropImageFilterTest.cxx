@@ -16,17 +16,20 @@
  *
  *=========================================================================*/
 
-#include <iostream>
 #include "itkCropImageFilter.h"
+#include "itkImageBufferRange.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
+
+#include <iostream>
+#include <numeric> // For iota.
 
 int
 itkCropImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
 
   // Declare the pixel types of the images
   using PixelType = short;
@@ -37,23 +40,14 @@ itkCropImageFilterTest(int, char *[])
   auto inputImage = ImageType::New();
 
   // Fill in the image
-  constexpr ImageType::IndexType index = { { 0, 0 } };
-  constexpr ImageType::SizeType  size = { { 8, 12 } };
-  ImageType::RegionType          region;
-
-  region.SetSize(size);
-  region.SetIndex(index);
+  constexpr ImageType::SizeType size{ 8, 12 };
+  ImageType::RegionType         region{ size };
   inputImage->SetLargestPossibleRegion(region);
   inputImage->SetBufferedRegion(region);
   inputImage->Allocate();
 
-  itk::ImageRegionIterator<ImageType> iterator(inputImage, region);
-
-  short i = 0;
-  for (; !iterator.IsAtEnd(); ++iterator, ++i)
-  {
-    iterator.Set(i);
-  }
+  const itk::ImageBufferRange<ImageType> imageBufferRange(*inputImage);
+  std::iota(imageBufferRange.begin(), imageBufferRange.end(), PixelType{});
 
   // Create the filter
   const itk::CropImageFilter<ImageType, ImageType>::Pointer cropFilter =

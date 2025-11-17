@@ -144,7 +144,7 @@ public:
    * invokes start and end events and handles releasing data. It
    * eventually calls GenerateData() which does the actual writing.
    * Note: the write method will write data specified by the
-   * IORegion. If not set, then then the whole image is written.  Note
+   * IORegion. If not set, then the whole image is written.  Note
    * that the region will be cropped to fit the input image's
    * LargestPossibleRegion. */
   virtual void

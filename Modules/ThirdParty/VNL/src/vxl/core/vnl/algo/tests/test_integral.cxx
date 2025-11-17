@@ -25,11 +25,10 @@ public:
     : sr_(sr)
     , sz_(sz)
     , p0_(p0)
-  {
-    oneoversr2_ = 1.0 / sr_ / sr_;
-    oneoversz2_ = 1.0 / sz_ / sz_;
-    normalizer_ = -sr_ * sr_ / (sz_ * 2 * vnl_math::sqrt2pi);
-  }
+    , oneoversr2_(1.0 / sr_ / sr_)
+    , oneoversz2_(1.0 / sz_ / sz_)
+    , normalizer_(-sr_ * sr_ / (sz_ * 2 * vnl_math::sqrt2pi))
+  {}
 
   void
   set_varying_params(double theta, double phi)

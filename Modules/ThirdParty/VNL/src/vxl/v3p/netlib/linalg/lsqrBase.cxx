@@ -19,30 +19,34 @@
 #include "lsqrBase.h"
 
 #include <cmath>
+
+#include <cmath>
 #include <iostream>
 
 lsqrBase::lsqrBase()
+  : eps(1e-16)
+  , atol(1e-6)
+  , btol(1e-6)
+  , itnlim(10)
+  , nout(nullptr)
+  , istop(0)
+  , itn(0)
+  , Anorm(0.0)
+  , Acond(0.0)
+  , rnorm(0.0)
+  , Arnorm(0.0)
+  , xnorm(0.0)
+  , bnorm(0.0)
+  , dxmax(0.0)
+  , maxdx(0)
+  , wantse(false)
+  , se(nullptr)
+  , damp(0.0)
+  , damped(false)
 {
-  this->eps = 1e-16;
-  this->atol = 1e-6;
-  this->btol = 1e-6;
+
+
   this->conlim = 1.0 / ( 10 * sqrt( this->eps ) );
-  this->itnlim = 10;
-  this->nout = nullptr;
-  this->istop = 0;
-  this->itn = 0;
-  this->Anorm = 0.0;
-  this->Acond = 0.0;
-  this->rnorm = 0.0;
-  this->Arnorm = 0.0;
-  this->xnorm = 0.0;
-  this->bnorm = 0.0;
-  this->dxmax = 0.0;
-  this->maxdx = 0;
-  this->wantse = false;
-  this->se = nullptr;
-  this->damp = 0.0;
-  this->damped = false;
 }
 
 
@@ -219,7 +223,7 @@ lsqrBase::D2Norm( double a, double b ) const
 void
 lsqrBase::Scale( unsigned int n, double factor, double *x ) const
 {
-  double * xend = x + n;
+  double * const xend = x + n;
   while( x != xend )
     {
     *x++ *= factor;
@@ -404,38 +408,39 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
     }
 
 
-  double temp;
-  double test3;
-  double rtol;
+    double temp = NAN;
+    double test3 = NAN;
+    double rtol = NAN;
 
-
-  //
-  //  Main itertation loop
-  //
-  do {
-
-    this->itn++;
-
-    //----------------------------------------------------------------
-    //  Perform the next step of the bidiagonalization to obtain the
-    //  next beta, u, alpha, v.  These satisfy
-    //      beta*u = A*v  - alpha*u,
-    //     alpha*v = A'*u -  beta*v.
-    //----------------------------------------------------------------
-    this->Scale( m, (-alpha), u );
-
-    this->Aprod1( m, n, v, u );   //   u = A * v
-
-    beta = this->Dnrm2( m, u );
 
     //
-    //  Accumulate Anorm = ||Bk|| = norm([alpha beta damp]).
+    //  Main itertation loop
     //
-    temp   = this->D2Norm( alpha, beta );
-    temp   = this->D2Norm( temp , damp );
-    this->Anorm  = this->D2Norm( this->Anorm, temp );
+    do
+    {
 
-    if ( beta > zero )
+      this->itn++;
+
+      //----------------------------------------------------------------
+      //  Perform the next step of the bidiagonalization to obtain the
+      //  next beta, u, alpha, v.  These satisfy
+      //      beta*u = A*v  - alpha*u,
+      //     alpha*v = A'*u -  beta*v.
+      //----------------------------------------------------------------
+      this->Scale(m, (-alpha), u);
+
+      this->Aprod1(m, n, v, u); //   u = A * v
+
+      beta = this->Dnrm2(m, u);
+
+      //
+      //  Accumulate Anorm = ||Bk|| = norm([alpha beta damp]).
+      //
+      temp = this->D2Norm(alpha, beta);
+      temp = this->D2Norm(temp, damp);
+      this->Anorm = this->D2Norm(this->Anorm, temp);
+
+      if (beta > zero)
       {
       this->Scale( m, (one/beta), u );
       this->Scale( n, (- beta), v );

@@ -341,7 +341,7 @@ TEST(ImageBufferRange, IteratorsCanBePassedToStdReverseCopy)
 
   const ImageBufferRange<ImageType> range{ *image };
 
-  constexpr unsigned int numberOfPixels = sizeX * sizeY;
+  constexpr unsigned int numberOfPixels{ sizeX * sizeY };
 
   const std::vector<PixelType> stdVector(range.begin(), range.end());
   std::vector<PixelType>       reversedStdVector1(numberOfPixels);
@@ -532,7 +532,7 @@ TEST(ImageBufferRange, SupportsVectorImage)
     sizeZ = 2
   };
   const auto                             image = ImageType::New();
-  constexpr typename ImageType::SizeType imageSize = { { sizeX, sizeY, sizeZ } };
+  constexpr typename ImageType::SizeType imageSize{ { sizeX, sizeY, sizeZ } };
   image->SetRegions(imageSize);
   image->SetVectorLength(vectorLength);
   image->AllocateInitialized();
@@ -664,7 +664,7 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
 
   {
     // Expression to be tested: 'r += n'
-    constexpr difference_type n = 3;
+    constexpr difference_type n{ 3 };
 
     r = initialIterator;
     const auto expectedResult = [&r](const difference_type nn) {
@@ -685,7 +685,7 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
   }
   {
     // Expressions to be tested: 'a + n' and 'n + a'
-    constexpr difference_type n = 3;
+    constexpr difference_type n{ 3 };
 
     static_assert(std::is_same_v<decltype(a + n), X>, "Return type tested");
     static_assert(std::is_same_v<decltype(n + a), X>, "Return type tested");
@@ -701,7 +701,7 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
   }
   {
     // Expression to be tested: 'r -= n'
-    constexpr difference_type n = 3;
+    constexpr difference_type n{ 3 };
 
     r = initialIterator;
     const auto expectedResult = [&r](const difference_type nn) {
@@ -715,7 +715,7 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
   }
   {
     // Expression to be tested: 'a - n'
-    constexpr difference_type n = -3;
+    constexpr difference_type n{ -3 };
 
     static_assert(std::is_same_v<decltype(a - n), X>, "Return type tested");
 
@@ -737,7 +737,7 @@ TEST(ImageBufferRange, IteratorsSupportRandomAccess)
   }
   {
     // Expression to be tested: 'a[n]'
-    constexpr difference_type n = 3;
+    constexpr difference_type n{ 3 };
     static_assert(std::is_convertible_v<decltype(a[n]), reference>, "Return type tested");
     EXPECT_EQ(a[n], *(a + n));
   }
@@ -797,7 +797,7 @@ TEST(ImageBufferRange, ProvidesReverseIterators)
 
   const RangeType range{ *image };
 
-  constexpr unsigned int numberOfPixels = sizeX * sizeY;
+  constexpr unsigned int numberOfPixels{ sizeX * sizeY };
 
   const std::vector<PixelType> stdVector(range.begin(), range.end());
   std::vector<PixelType>       reversedStdVector1(numberOfPixels);

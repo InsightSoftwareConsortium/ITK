@@ -142,33 +142,14 @@ itkSymmetricSecondRankTensorTest(int, char *[])
 
   auto dti = ImageType::New();
 
-  ImageType::SizeType   size;
-  ImageType::IndexType  start;
-  ImageType::RegionType region;
-
-  size[0] = 128;
-  size[1] = 128;
-  size[2] = 128;
-
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  region.SetIndex(start);
-  region.SetSize(size);
+  constexpr ImageType::SizeType size{ 128, 128, 128 };
+  ImageType::RegionType         region = { size };
 
   dti->SetRegions(region);
   dti->Allocate();
 
-  ImageType::SpacingType spacing;
-  spacing[0] = 0.5;
-  spacing[1] = 0.5;
-  spacing[2] = 1.5;
-
-  ImageType::PointType origin;
-  origin[0] = 25.5;
-  origin[1] = 25.5;
-  origin[2] = 27.5;
+  ImageType::SpacingType spacing{ { 0.5, 0.5, 1.5 } };
+  ImageType::PointType   origin{ { 25.5, 25.5, 27.5 } };
 
   dti->SetOrigin(origin);
   dti->SetSpacing(spacing);
@@ -232,7 +213,7 @@ itkSymmetricSecondRankTensorTest(int, char *[])
     std::cout << "EigenVectors = " << std::endl;
     std::cout << eigenVectors << std::endl;
 
-    constexpr double tolerance = 1e-4;
+    constexpr double tolerance{ 1e-4 };
 
     {
       Double3DTensorType::EigenValuesArrayType expectedValues;
@@ -394,7 +375,7 @@ itkSymmetricSecondRankTensorTest(int, char *[])
     expectedTrace += tensor3D(1, 1);
     expectedTrace += tensor3D(2, 2);
 
-    constexpr double tolerance = 1e-4;
+    constexpr double tolerance{ 1e-4 };
 
     const AccumulateValueType computedTrace = tensor3D.GetTrace();
     if (itk::Math::abs(computedTrace - expectedTrace) > tolerance)
@@ -489,7 +470,7 @@ itkSymmetricSecondRankTensorTest(int, char *[])
     auto floatTensor3 = static_cast<Float3DTensorType>(intTensor);
 
     // Check that all floatTensors have are the same
-    constexpr float precision = 1e-6;
+    constexpr float precision{ 1e-6 };
     for (unsigned int i = 0; i < Float3DTensorType::InternalDimension; ++i)
     {
       auto intVal = static_cast<float>(intTensor[i]);

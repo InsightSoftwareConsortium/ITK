@@ -304,7 +304,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDeriv
   {
     /** FIXME: is there a way to avoid the extra copying step? */
     this->CalculateDerivatives(aiter->FixedImagePointValue, tempDeriv, jacobian);
-    (*aditer) = tempDeriv;
+    *aditer = tempDeriv;
   }
 
   DerivativeType derivB(numberOfParameters);
@@ -362,7 +362,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDeriv
       weight *= biter->MovingImageValue - aiter->MovingImageValue;
 
       totalWeight += weight;
-      derivative -= (*aditer) * weight;
+      derivative -= *aditer * weight;
     } // end of sample A loop
 
     derivative += derivB * totalWeight.GetSum();

@@ -18,7 +18,7 @@
 
 #include "itkBinaryMinMaxCurvatureFlowImageFilter.h"
 #include "itkCommand.h"
-#include "vnl/vnl_sample.h"
+#include <random> // For mt19937.
 
 
 // The following class is used to support callbacks
@@ -39,7 +39,7 @@ public:
 } // namespace
 
 
-constexpr unsigned int MAXRUNS = 5; // maximum number of runs
+constexpr unsigned int MAXRUNS{ 5 }; // maximum number of runs
 
 template <unsigned int VImageDimension>
 int
@@ -67,8 +67,8 @@ itkBinaryMinMaxCurvatureFlowImageFilterTest(int, char *[])
   itk::Size<2> size2D;
   size2D[0] = 64;
   size2D[1] = 64;
-  constexpr double radius = 20.0;
-  constexpr int    numberOfRuns = 2;
+  constexpr double radius{ 20.0 };
+  constexpr int    numberOfRuns{ 2 };
   unsigned int     niter[MAXRUNS] = { 100, 100 };
   unsigned long    radii[MAXRUNS] = { 1, 3 };
 
@@ -109,9 +109,9 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
    * and background of 255 with added salt and pepper noise.
    */
   const double        sqrRadius = itk::Math::sqr(radius); // radius of the circle/sphere
-  constexpr double    fractionNoise = 0.30;               // salt & pepper noise fraction
-  constexpr PixelType foreground = 0.0;                   // intensity value of the foreground
-  constexpr PixelType background = 255.0;                 // intensity value of the background
+  constexpr double    fractionNoise{ 0.30 };              // salt & pepper noise fraction
+  constexpr PixelType foreground{ 0.0 };                  // intensity value of the foreground
+  constexpr PixelType background{ 255.0 };                // intensity value of the background
 
   std::cout << "Create an image of circle/sphere with noise" << std::endl;
   auto circleImage = ImageType::New();
@@ -123,6 +123,11 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
   circleImage->SetLargestPossibleRegion(region);
   circleImage->SetBufferedRegion(region);
   circleImage->Allocate();
+
+  std::mt19937                              randomNumberEngine{};
+  std::uniform_real_distribution<double>    randomNumberDistributionBetweenZeroAndOne(0.0, 1.0);
+  std::uniform_real_distribution<PixelType> randomNumberDistributionBetweenForgroundAndBackground(
+    std::min(foreground, background), std::max(foreground, background));
 
   for (IteratorType circleIter(circleImage, circleImage->GetBufferedRegion()); !circleIter.IsAtEnd(); ++circleIter)
   {
@@ -140,9 +145,9 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
       value = foreground;
     }
 
-    if (vnl_sample_uniform(0.0, 1.0) < fractionNoise)
+    if (randomNumberDistributionBetweenZeroAndOne(randomNumberEngine) < fractionNoise)
     {
-      value = vnl_sample_uniform(std::min(foreground, background), std::max(foreground, background));
+      value = randomNumberDistributionBetweenForgroundAndBackground(randomNumberEngine);
     }
     circleIter.Set(value);
   }

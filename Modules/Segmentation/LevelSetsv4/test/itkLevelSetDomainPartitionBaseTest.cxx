@@ -52,13 +52,13 @@ protected:
 int
 itkLevelSetDomainPartitionBaseTest(int, char *[])
 {
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   using ImageType = itk::Image<double, Dimension>;
 
   using DomainPartitionBaseHelperType = itk::LevelSetDomainPartitionBaseHelper<ImageType>;
 
-  constexpr itk::IdentifierType count = 2;
+  constexpr itk::IdentifierType count{ 2 };
 
   auto function = DomainPartitionBaseHelperType::New();
   function->SetNumberOfLevelSetFunctions(count);

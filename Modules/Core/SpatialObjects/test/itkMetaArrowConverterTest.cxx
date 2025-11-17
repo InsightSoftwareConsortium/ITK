@@ -48,7 +48,7 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   }
 
   // type alias
-  constexpr unsigned int Dimensions = 3;
+  constexpr unsigned int Dimensions{ 3 };
   using SpatialObjectType = itk::ArrowSpatialObject<Dimensions>;
   using SpatialObjectParentType = itk::GroupSpatialObject<Dimensions>;
   using ConverterType = itk::MetaArrowConverter<Dimensions>;
@@ -94,7 +94,7 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   mPosition[2] = -3;
 
   // length
-  constexpr double length = 2.3;
+  constexpr double length{ 2.3 };
 
   // color
   float color[4];
@@ -129,7 +129,7 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   metaArrow->ParentID(itkParent->GetId());
 
   // precision limit for comparing floats and doubles
-  constexpr double precisionLimit = .000001;
+  constexpr double precisionLimit{ .000001 };
 
   //
   // test itk to metaArrow

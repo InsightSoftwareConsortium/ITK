@@ -27,7 +27,7 @@ itkGradientRecursiveGaussianFilterTest2(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int myDimension = 1;
+  constexpr unsigned int myDimension{ 1 };
 
   // Declare the types of the images
   using myImageType = itk::Image<float, myDimension>;
@@ -55,28 +55,17 @@ itkGradientRecursiveGaussianFilterTest2(int, char *[])
 
   // Initialize Image A
   inputImage->SetRegions(region);
-  inputImage->Allocate();
+  inputImage->AllocateInitialized();
 
   // Declare Iterator type for the input image
   using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
-
-  // Create one iterator for the Input Image A (this is a light object)
-  myIteratorType it(inputImage, inputImage->GetRequestedRegion());
-
-  // Initialize the content of Image A
-  while (!it.IsAtEnd())
-  {
-    it.Set(0.0);
-    ++it;
-  }
 
   size[0] = 32;
 
   start[0] = 16;
 
   // Create one iterator for an internal region
-  region.SetSize(size);
-  region.SetIndex(start);
+  region = { start, size };
   myIteratorType itb(inputImage, region);
 
   // Initialize the content the internal region

@@ -81,7 +81,7 @@ int
 itkMultiThreaderExceptionsTest(int, char *[])
 {
   using OutputPixelType = float;
-  constexpr unsigned int Dimension = 1;
+  constexpr unsigned int Dimension{ 1 };
 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 

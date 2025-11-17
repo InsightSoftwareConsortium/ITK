@@ -38,7 +38,7 @@ itkResampleImageTest6(int argc, char * argv[])
 
 
   // Resample a Vector image
-  constexpr unsigned int VDimension = 2;
+  constexpr unsigned int VDimension{ 2 };
 
   using ValueType = unsigned char;
 

@@ -25,7 +25,7 @@ itkLabelVotingImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   // Declare the pixel types of the images
   using PixelType = unsigned int;
@@ -42,9 +42,6 @@ itkLabelVotingImageFilterTest(int, char *[])
   const unsigned int combinationABC[8] = { 0, 1, 2, 3, 4, 5, 6, 9 };
   const unsigned int combinationAB[8] = { 8, 1, 8, 8, 4, 8, 8, 8 };
   const unsigned int combinationABundecided255[8] = { 255, 1, 255, 255, 4, 255, 255, 255 };
-
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<Dimension>;
 
   // Declare the type of the size
   using SizeType = itk::Size<Dimension>;
@@ -63,20 +60,9 @@ itkLabelVotingImageFilterTest(int, char *[])
   auto inputImageB = ImageType::New();
   auto inputImageC = ImageType::New();
 
-  // Define their size, and start index
-  SizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2;
-
-  IndexType start;
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  // Define their size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);

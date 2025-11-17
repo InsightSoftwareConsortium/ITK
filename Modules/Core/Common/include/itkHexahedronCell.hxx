@@ -385,7 +385,7 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
       fcol[i] -= x[i];
     }
 
-    constexpr unsigned int HARD_CODED_POINT_DIM = 3; // This variable is used to
+    constexpr unsigned int HARD_CODED_POINT_DIM{ 3 }; // This variable is used to
     static_assert(Self::PointDimension3D == HARD_CODED_POINT_DIM,
                   "ERROR: Self::PointDimension3D does not equal HARD_CODED_POINT_DIM (i.e. 3).");
     //  compute determinants and generate improvements
@@ -399,7 +399,9 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
 
     // ONLY 3x3 determinants are supported.
     const double d = vnl_determinant(mat);
+    // spell-check-disable
     // d=vtkMath::Determinant3x3(rcol,scol,tcol);
+    // spell-check-enable
     if (itk::Math::abs(d) < 1.e-20)
     {
       return false;
@@ -473,7 +475,7 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
 
   this->InterpolationFunctions(pcoords, weights);
 
-  constexpr unsigned int HARD_CODED_WEIGHTS_DIM = 8;
+  constexpr unsigned int HARD_CODED_WEIGHTS_DIM{ 8 };
   static_assert(Self::NumberOfPoints == HARD_CODED_WEIGHTS_DIM,
                 "ERROR: Self::NumberOfPoints does not equal HARD_CODED_WEIGHTS_DIM (i.e. 8)");
   if (weight)

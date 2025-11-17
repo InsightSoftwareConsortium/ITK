@@ -26,18 +26,15 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int myDimension = 2;
+  constexpr unsigned int myDimension{ 2 };
 
   // Define the values of the input images
-  constexpr unsigned short fgValue = 25;
-  constexpr unsigned short bgValue = 0;
-  constexpr unsigned short randomValue = 10;
+  constexpr unsigned short fgValue{ 25 };
+  constexpr unsigned short bgValue{ 0 };
+  constexpr unsigned short randomValue{ 10 };
 
   // Declare the types of the images
   using myImageType = itk::Image<unsigned short, myDimension>;
-
-  // Declare the type of the index to access images
-  using myIndexType = itk::Index<myDimension>;
 
   // Declare the type of the size
   using mySizeType = itk::Size<myDimension>;
@@ -48,16 +45,10 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
   // Create an image
   auto inputImage = myImageType::New();
 
-  // Define their size, and start index
-  mySizeType size;
-  size[0] = 20;
-  size[1] = 20;
+  // Define their size and region
+  auto size = mySizeType::Filled(20);
 
-  myIndexType start;
-  start[0] = 0;
-  start[1] = 0;
-
-  const myRegionType region{ start, size };
+  const myRegionType region{ size };
 
   // Initialize Image
   inputImage->SetRegions(region);
@@ -143,7 +134,7 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
   filter->SetErodeValue(fgValue);
   ITK_TEST_SET_GET_VALUE(fgValue, filter->GetErodeValue());
 
-  constexpr unsigned short backgroundValue = 5;
+  constexpr unsigned short backgroundValue{ 5 };
   filter->SetBackgroundValue(backgroundValue);
   ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
 

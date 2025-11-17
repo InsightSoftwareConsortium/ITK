@@ -15,15 +15,15 @@
 int
 main()
 {
-  double r[] = { 2, 7, 5, 1, 0, 9, 8, 5, 7, 4, 0, 7 };
+  const double r[] = { 2, 7, 5, 1, 0, 9, 8, 5, 7, 4, 0, 7 };
 
-  double i[] = { 0, 4, 9, 1, 4, 7, 8, 7, 1, 6, 5, 4 };
+  const double i[] = { 0, 4, 9, 1, 4, 7, 8, 7, 1, 6, 5, 4 };
 
   std::complex<double> cmplx[12];
   for (int k = 0; k < 12; ++k)
     cmplx[k] = std::complex<double>(r[k], i[k]);
 
-  vnl_matrix<std::complex<double>> C(cmplx, 4, 3);
+  const vnl_matrix<std::complex<double>> C(cmplx, 4, 3);
 
   std::cout << "C = " << C << std::endl;
 
@@ -38,7 +38,7 @@ main()
   rhs[1] = 9;
   rhs[2] = -2;
   rhs[3] = -8;
-  vnl_vector<std::complex<double>> b(rhs, 4);
+  const vnl_vector<std::complex<double>> b(rhs, 4);
 
   // From "C x = b" find x:
   std::cout << "x = " << C_svd.solve(b) << std::endl;

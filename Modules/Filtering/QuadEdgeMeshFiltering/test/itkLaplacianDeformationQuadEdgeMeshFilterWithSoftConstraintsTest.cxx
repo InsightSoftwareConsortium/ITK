@@ -36,7 +36,7 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest(int argc, char 
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using CoordType = double;
   using MeshType = itk::QuadEdgeMesh<CoordType, Dimension>;
 

@@ -110,7 +110,7 @@ CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::MergePoints(const InputCoordin
            pit != polygonCell->InternalPointIdsEnd();
            ++pit)
       {
-        points.push_back((*pit));
+        points.push_back(*pit);
       }
       output->AddFaceWithSecurePointList(points);
     }

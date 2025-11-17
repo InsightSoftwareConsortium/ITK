@@ -90,7 +90,7 @@ public:
   itkBooleanMacro(Inverse);
   /** @ITKEndGrouping */
 protected:
-  FFTShiftImageFilter();
+  FFTShiftImageFilter() = default;
   ~FFTShiftImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

@@ -27,9 +27,6 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
-GrayscaleFillholeImageFilter<TInputImage, TOutputImage>::GrayscaleFillholeImageFilter() = default;
-
-template <typename TInputImage, typename TOutputImage>
 void
 GrayscaleFillholeImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {

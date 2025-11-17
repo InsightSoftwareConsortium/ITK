@@ -52,7 +52,7 @@ public:
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
-  AnchorErodeDilateLine();
+  AnchorErodeDilateLine() = default;
   ~AnchorErodeDilateLine() = default;
 
 private:

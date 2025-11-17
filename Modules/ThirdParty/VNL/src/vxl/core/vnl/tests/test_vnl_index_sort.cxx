@@ -96,7 +96,7 @@ test_vnl_index_sort()
   using IndexVectorType = vnl_vector<RankValType>;
   using IndexMatrixType = vnl_matrix<RankValType>;
 
-  typedef vnl_index_sort<MeasurementValueType, RankValType> IndexSortType;
+  using IndexSortType = vnl_index_sort<MeasurementValueType, RankValType>;
 
   int caughtError = 0;
 
@@ -160,7 +160,7 @@ test_vnl_index_sort()
   // do the matrix sort row-wise
   indexSort.matrix_sort(IndexSortType::ByRow, randomValM, sortedValM, sortedIndicesM);
 
-  bool sortIndexCheckFail;
+  bool sortIndexCheckFail = false;
   sortCheckFail = sortIndexCheckFail = false;
 
   for (unsigned int rx = 0; rx < randomValM.rows() && !sortIndexCheckFail && !sortCheckFail; ++rx)

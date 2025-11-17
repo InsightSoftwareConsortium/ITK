@@ -42,8 +42,7 @@ CreateTestImageA()
 
   auto image = ImageType::New();
   image->SetRegions(ImageType::RegionType(itk::MakeSize(3u, 3u)));
-  image->Allocate();
-  image->FillBuffer(0);
+  image->AllocateInitialized();
 
   image->SetPixel({ { 0, 0 } }, 1);
 

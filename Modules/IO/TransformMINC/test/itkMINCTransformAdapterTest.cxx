@@ -150,10 +150,7 @@ compare_nonlinear_double(const char * nonlinear_transform)
 
   double                            spacing[] = { 2.0, 2.0, 2.0 };
   double                            origin[] = { -10.0, -10.0, -10.0 };
-  DisplacementFieldType::RegionType region;
-
-  region.SetSize(imageSize3D);
-  region.SetIndex(startIndex3D);
+  DisplacementFieldType::RegionType region{ startIndex3D, imageSize3D };
 
   field->SetRegions(region);
 
@@ -241,8 +238,8 @@ itkMINCTransformAdapterTest(int argc, char * argv[])
   }
 
 
-  constexpr unsigned int InputDimension = 3;
-  constexpr unsigned int OutputDimension = 3;
+  constexpr unsigned int InputDimension{ 3 };
+  constexpr unsigned int OutputDimension{ 3 };
 
   using ParametersValueType = double;
 
@@ -281,24 +278,24 @@ itkMINCTransformAdapterTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_EXCEPTION(xfm->GetParameters());
 
-  constexpr unsigned int InputDimensionExcp1 = 1;
-  constexpr unsigned int OutputDimensionExcp1 = 1;
+  constexpr unsigned int InputDimensionExcp1{ 1 };
+  constexpr unsigned int OutputDimensionExcp1{ 1 };
 
   using TransformAdapterTypeExcp11 =
     itk::MINCTransformAdapter<ParametersValueType, InputDimensionExcp1, OutputDimensionExcp1>;
 
   ITK_TRY_EXPECT_EXCEPTION(TransformAdapterTypeExcp11::New());
 
-  constexpr unsigned int InputDimensionExcp2 = 2;
-  constexpr unsigned int OutputDimensionExcp2 = 2;
+  constexpr unsigned int InputDimensionExcp2{ 2 };
+  constexpr unsigned int OutputDimensionExcp2{ 2 };
 
   using TransformAdapterTypeExcp22 =
     itk::MINCTransformAdapter<ParametersValueType, InputDimensionExcp2, OutputDimensionExcp2>;
 
   ITK_TRY_EXPECT_EXCEPTION(TransformAdapterTypeExcp22::New());
 
-  constexpr unsigned int InputDimensionExcp4 = 4;
-  constexpr unsigned int OutputDimensionExcp4 = 4;
+  constexpr unsigned int InputDimensionExcp4{ 4 };
+  constexpr unsigned int OutputDimensionExcp4{ 4 };
 
   using TransformAdapterTypeExcp44 =
     itk::MINCTransformAdapter<ParametersValueType, InputDimensionExcp4, OutputDimensionExcp4>;

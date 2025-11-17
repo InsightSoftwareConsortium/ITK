@@ -174,7 +174,7 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
 
   // Check results to see if it is within range
   bool             pass = true;
-  constexpr double trueParameters[2] = { 2, -2 };
+  constexpr double trueParameters[2]{ 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
@@ -260,9 +260,7 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
   };
   for (const auto & ee : allStopCondition)
   {
-    std::cout << "STREAMED ENUM VALUE "
-                 "RegularStepGradientDescentBaseOptimizerEnums::StopCondition: "
-              << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE RegularStepGradientDescentBaseOptimizerEnums::StopCondition: " << ee << std::endl;
   }
 
   std::cout << "Test finished." << std::endl;

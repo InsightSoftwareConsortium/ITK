@@ -24,7 +24,7 @@ VL CP246ExplicitDataElement::GetLength() const
 {
   if( ValueLengthField.IsUndefined() )
     {
-    assert( ValueField->GetLength().IsUndefined() );
+    gdcm_assert( ValueField->GetLength().IsUndefined() );
     Value *p = ValueField;
     // If this is a SQ we need to compute it's proper length
     SequenceOfItems *sq = dynamic_cast<SequenceOfItems*>(p);
@@ -37,18 +37,18 @@ VL CP246ExplicitDataElement::GetLength() const
     SequenceOfFragments *sf = dynamic_cast<SequenceOfFragments*>(p);
     if( sf )
       {
-      assert( VRField & VR::OB_OW );
+      gdcm_assert( VRField & VR::OB_OW );
       return TagField.GetLength() + VRField.GetLength()
         + ValueLengthField.GetLength() + sf->ComputeLength();
       }
-    assert(0);
+    gdcm_assert(0);
   return 0;
     }
   else
     {
     // Each time VR::GetLength() is 2 then Value Length is coded in 2
     //                              4 then Value Length is coded in 4
-    assert( !ValueField || ValueField->GetLength() == ValueLengthField );
+    gdcm_assert( !ValueField || ValueField->GetLength() == ValueLengthField );
     return TagField.GetLength() + 2*VRField.GetLength() + ValueLengthField;
     }
 }

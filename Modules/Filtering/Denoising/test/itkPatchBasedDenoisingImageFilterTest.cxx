@@ -108,14 +108,14 @@ doDenoising(const std::string & inputFileName,
   ITK_TEST_SET_GET_BOOLEAN(filter, ComputeConditionalDerivatives, computeConditionalDerivatives);
 
   // Patch radius is same for all dimensions of the image
-  constexpr unsigned int patchRadius = 4;
+  constexpr unsigned int patchRadius{ 4 };
   filter->SetPatchRadius(patchRadius);
   ITK_TEST_SET_GET_VALUE(patchRadius, filter->GetPatchRadius());
 
   // Instead of directly setting the weights, could also specify type
-  constexpr bool useSmoothDiscPatchWeights = true;
+  constexpr bool useSmoothDiscPatchWeights{ true };
   ITK_TEST_SET_GET_BOOLEAN(filter, UseSmoothDiscPatchWeights, useSmoothDiscPatchWeights);
-  constexpr bool useFastTensorComputations = true;
+  constexpr bool useFastTensorComputations{ true };
   ITK_TEST_SET_GET_BOOLEAN(filter, UseFastTensorComputations, useFastTensorComputations);
 
   // Noise model to use
@@ -140,7 +140,7 @@ doDenoising(const std::string & inputFileName,
   ITK_TEST_SET_GET_VALUE(noiseModel, filter->GetNoiseModel());
 
   // Stepsize or weight for smoothing term
-  constexpr double smoothingWeight = 1.0;
+  constexpr double smoothingWeight{ 1.0 };
   filter->SetSmoothingWeight(smoothingWeight);
   ITK_TEST_SET_GET_VALUE(smoothingWeight, filter->GetSmoothingWeight());
 
@@ -177,16 +177,16 @@ doDenoising(const std::string & inputFileName,
   ITK_TEST_SET_GET_VALUE(sampler, filter->GetSampler());
 
   // Automatic estimation of the kernel bandwidth
-  constexpr bool kernelBandwidthEstimation = true;
+  constexpr bool kernelBandwidthEstimation{ true };
   ITK_TEST_SET_GET_BOOLEAN(filter, KernelBandwidthEstimation, kernelBandwidthEstimation);
 
   // Update bandwidth every 'n' iterations
-  constexpr unsigned int kernelBandwidthUpdateFrequency = 3;
+  constexpr unsigned int kernelBandwidthUpdateFrequency{ 3 };
   filter->SetKernelBandwidthUpdateFrequency(kernelBandwidthUpdateFrequency);
   ITK_TEST_SET_GET_VALUE(kernelBandwidthUpdateFrequency, filter->GetKernelBandwidthUpdateFrequency());
 
   // Use 20% of the pixels for the sigma update calculation
-  constexpr double kernelBandwidthFractionPixelsForEstimation = 0.20;
+  constexpr double kernelBandwidthFractionPixelsForEstimation{ 0.20 };
   filter->SetKernelBandwidthFractionPixelsForEstimation(kernelBandwidthFractionPixelsForEstimation);
   ITK_TEST_SET_GET_VALUE(kernelBandwidthFractionPixelsForEstimation,
                          filter->GetKernelBandwidthFractionPixelsForEstimation());

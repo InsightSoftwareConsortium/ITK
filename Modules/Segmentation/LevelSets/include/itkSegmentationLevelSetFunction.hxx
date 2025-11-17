@@ -116,7 +116,7 @@ SegmentationLevelSetFunction<TImageType, TFeatureImageType>::AdvectionField(cons
     return (static_cast<VectorType>(m_VectorInterpolator->EvaluateAtContinuousIndex(cdx)));
   }
   // Just return the default else
-  return (m_AdvectionImage->GetPixel(idx));
+  return m_AdvectionImage->GetPixel(idx);
 }
 } // end namespace itk
 

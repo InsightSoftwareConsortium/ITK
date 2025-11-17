@@ -31,9 +31,6 @@ SpatialObjectProperty::Clear()
   m_Color.SetAlpha(1);
 
   m_Name = "";
-
-  m_ScalarDictionary.clear();
-  m_StringDictionary.clear();
 }
 
 void

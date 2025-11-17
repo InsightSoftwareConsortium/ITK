@@ -395,8 +395,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
     // image size
     this->m_GPUKernelManager->SetKernelArgWithImage(
       m_SmoothDisplacementFieldGPUKernelHandle, argidx++, m_GPUImageSizes);
-    this->m_GPUKernelManager->SetKernelArg(
-      m_SmoothDisplacementFieldGPUKernelHandle, argidx++, sizeof(int), &(ImageDim));
+    this->m_GPUKernelManager->SetKernelArg(m_SmoothDisplacementFieldGPUKernelHandle, argidx++, sizeof(int), &ImageDim);
 
     // smoothing kernel
     this->m_GPUKernelManager->SetKernelArgWithImage(
@@ -405,8 +404,8 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
       m_SmoothDisplacementFieldGPUKernelHandle, argidx++, sizeof(int), &(GPUSmoothingKernelSizes[indir]));
 
     // indir and outdir
-    this->m_GPUKernelManager->SetKernelArg(m_SmoothDisplacementFieldGPUKernelHandle, argidx++, sizeof(int), &(indir));
-    this->m_GPUKernelManager->SetKernelArg(m_SmoothDisplacementFieldGPUKernelHandle, argidx++, sizeof(int), &(outdir));
+    this->m_GPUKernelManager->SetKernelArg(m_SmoothDisplacementFieldGPUKernelHandle, argidx++, sizeof(int), &indir);
+    this->m_GPUKernelManager->SetKernelArg(m_SmoothDisplacementFieldGPUKernelHandle, argidx++, sizeof(int), &outdir);
 
     // shared memory below
     this->m_GPUKernelManager->SetKernelArg(m_SmoothDisplacementFieldGPUKernelHandle,

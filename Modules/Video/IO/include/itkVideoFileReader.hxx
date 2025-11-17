@@ -178,9 +178,7 @@ VideoFileReader<TOutputVideoStream>::InitializeVideoIO()
   //       Interpretation Layer
   if (m_VideoIO->GetNumberOfDimensions() != FrameType::ImageDimension)
   {
-    itkExceptionMacro("Cannot convert " << m_VideoIO->GetNumberOfDimensions()
-                                        << "D "
-                                           "image set to "
+    itkExceptionMacro("Cannot convert " << m_VideoIO->GetNumberOfDimensions() << "D image set to "
                                         << FrameType::ImageDimension << 'D');
   }
 

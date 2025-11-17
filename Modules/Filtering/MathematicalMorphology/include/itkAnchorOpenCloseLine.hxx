@@ -22,9 +22,6 @@
 namespace itk
 {
 template <typename TInputPix, typename TCompare>
-AnchorOpenCloseLine<TInputPix, TCompare>::AnchorOpenCloseLine() = default;
-
-template <typename TInputPix, typename TCompare>
 void
 AnchorOpenCloseLine<TInputPix, TCompare>::DoLine(std::vector<InputImagePixelType> & buffer, unsigned int bufflength)
 {
@@ -130,7 +127,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
   if (sentinel > outRightP)
   {
     // finish
-    return (false);
+    return false;
   }
   ++currentP;
   // ran m_Size pixels ahead
@@ -144,7 +141,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
         buffer[PP] = Extreme;
       }
       outLeftP = currentP;
-      return (true);
+      return true;
     }
     ++currentP;
   }
@@ -160,7 +157,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
       buffer[PP] = Extreme;
     }
     outLeftP = currentP;
-    return (true);
+    return true;
   }
 
   // Now we need a histogram
@@ -192,7 +189,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
         buffer[PP] = Extreme;
       }
       outLeftP = currentP;
-      return (true);
+      return true;
     }
 
     /* histogram update */
@@ -214,7 +211,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
     buffer[outLeftP] = Extreme;
     histo.AddPixel(Extreme);
   }
-  return (false);
+  return false;
 }
 
 template <typename TInputPix, typename TCompare>

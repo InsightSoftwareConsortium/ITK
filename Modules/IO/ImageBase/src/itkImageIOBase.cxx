@@ -227,13 +227,13 @@ ImageIOBase::GetImageSizeInPixels() const
 ImageIOBase::SizeType
 ImageIOBase::GetImageSizeInComponents() const
 {
-  return (this->GetImageSizeInPixels() * m_NumberOfComponents);
+  return this->GetImageSizeInPixels() * m_NumberOfComponents;
 }
 
 ImageIOBase::SizeType
 ImageIOBase::GetImageSizeInBytes() const
 {
-  return (this->GetImageSizeInComponents() * this->GetComponentSize());
+  return this->GetImageSizeInComponents() * this->GetComponentSize();
 }
 
 ImageIOBase::SizeType

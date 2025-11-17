@@ -26,8 +26,7 @@
 
 #include "itkComposeScaleSkewVersor3DTransform.h"
 #include <iostream>
-
-#include <vnl/vnl_sample.h>
+#include <random> // For mt19937.
 
 // -------------------------
 //
@@ -40,7 +39,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
 
   using ValueType = double;
 
-  constexpr ValueType epsilon = 1e-12;
+  constexpr ValueType epsilon{ 1e-12 };
 
   //  Versor Transform type
   using TransformType = itk::ComposeScaleSkewVersor3DTransform<ValueType>;
@@ -134,7 +133,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
 
     {
       // Rotate an itk::Point
-      constexpr TransformType::InputPointType::ValueType pInit[3] = { 1, 4, 9 };
+      constexpr TransformType::InputPointType::ValueType pInit[3]{ 1, 4, 9 };
       const TransformType::InputPointType                p = pInit;
       TransformType::OutputPointType                     q;
       q = versor.Transform(p);
@@ -313,7 +312,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
 
     ParametersType parameters2 = transform->GetParameters();
 
-    constexpr double tolerance = 1e-8;
+    constexpr double tolerance{ 1e-8 };
     for (unsigned int p = 0; p < np; ++p)
     {
       if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
@@ -365,7 +364,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
 
     ParametersType parameters2 = transform->GetParameters();
 
-    constexpr double tolerance = 1e-8;
+    constexpr double tolerance{ 1e-8 };
     for (unsigned int p = 0; p < np; ++p)
     {
       std::cout << parameters[p] << " = " << parameters2[p] << std::endl;
@@ -408,7 +407,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
 
     TransformType::ScaleVectorType rscale = transform->GetScale();
 
-    constexpr double tolerance = 1e-8;
+    constexpr double tolerance{ 1e-8 };
     for (unsigned int j = 0; j < 3; ++j)
     {
       if (itk::Math::abs(rscale[j] - scale[j]) > tolerance)
@@ -476,12 +475,16 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     std::cout << "SetMatrix parameters do match!" << std::endl;
 
     int diff = 0;
+
+    std::mt19937                              randomNumberEngine{};
+    std::uniform_real_distribution<ValueType> randomNumberDistribution(-100, 100);
+
     for (unsigned int p = 0; p < 100; ++p)
     {
       TransformType::InputPointType pnt;
       for (unsigned int i = 0; i < 3; ++i)
       {
-        pnt[i] = vnl_sample_uniform(-100, 100);
+        pnt[i] = randomNumberDistribution(randomNumberEngine);
       }
 
       TransformType::OutputPointType tPnt;

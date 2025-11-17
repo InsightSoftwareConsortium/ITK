@@ -128,7 +128,7 @@ public:
   itkGetConstMacro(NoiseVariance, double);
   /** @ITKEndGrouping */
 protected:
-  WienerDeconvolutionImageFilter();
+  WienerDeconvolutionImageFilter() = default;
   ~WienerDeconvolutionImageFilter() override = default;
 
   /** This filter uses a minipipeline to compute the output. */

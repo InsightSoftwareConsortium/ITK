@@ -88,7 +88,7 @@
 # any outside mailing list and no documentation of the change will be
 # written.
 
-cmake_minimum_required(VERSION 3.9...3.22 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.13...3.31 FATAL_ERROR)
 
 # Some configure checks depend upon the deployment target. Clear checks when
 # the deployment target changes.
@@ -148,11 +148,9 @@ if(KWSYS_STANDALONE OR CMake_SOURCE_DIR)
   set(KWSYS_USE_System 1)
   set(KWSYS_USE_SystemTools 1)
   set(KWSYS_USE_CommandLineArguments 1)
-  set(KWSYS_USE_Terminal 1)
   set(KWSYS_USE_FStream 1)
   set(KWSYS_USE_String 1)
   set(KWSYS_USE_SystemInformation 1)
-  set(KWSYS_USE_ConsoleBuf 1)
 endif()
 
 # Enforce component dependencies.
@@ -173,6 +171,9 @@ if(KWSYS_USE_Process)
   set(KWSYS_USE_System 1)
   set(KWSYS_USE_Encoding 1)
 endif()
+if(KWSYS_USE_Status)
+  set(KWSYS_USE_Encoding 1)
+endif()
 if(KWSYS_USE_SystemInformation)
   set(KWSYS_USE_Process 1)
 endif()
@@ -188,9 +189,6 @@ if(KWSYS_USE_DynamicLoader)
   set(KWSYS_USE_Encoding 1)
 endif()
 if(KWSYS_USE_FStream)
-  set(KWSYS_USE_Encoding 1)
-endif()
-if(KWSYS_USE_ConsoleBuf)
   set(KWSYS_USE_Encoding 1)
 endif()
 
@@ -314,7 +312,7 @@ endif()
 
 #-----------------------------------------------------------------------------
 # Adjust compiler flags for some platforms.
-if(NOT CMAKE_COMPILER_IS_GNUCXX)
+if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   if(CMAKE_SYSTEM MATCHES "OSF1-V.*")
     string(REGEX MATCH "-timplicit_local"
       KWSYS_CXX_FLAGS_HAVE_IMPLICIT_LOCAL "${CMAKE_CXX_FLAGS}")
@@ -352,12 +350,6 @@ endif()
 # Configure the standard library header wrappers based on compiler's
 # capabilities and parent project's request.  Enforce 0/1 as only
 # possible values for configuration into Configure.hxx.
-
-if(KWSYS_USE_Encoding)
-  # Look for type size helper macros.
-  KWSYS_PLATFORM_CXX_TEST(KWSYS_STL_HAS_WSTRING
-    "Checking whether wstring is available" DIRECT)
-endif()
 
 if(KWSYS_NAMESPACE MATCHES "^kwsys$")
   set(KWSYS_NAME_IS_KWSYS 1)
@@ -458,7 +450,7 @@ if(KWSYS_USE_SystemInformation)
     COMPILE_DEFINITIONS SIZEOF_VOID_P=${CMAKE_SIZEOF_VOID_P})
   if(NOT CYGWIN)
     include(CheckIncludeFiles)
-    CHECK_INCLUDE_FILES("sys/types.h;ifaddrs.h" KWSYS_SYS_HAS_IFADDRS_H)
+    check_include_files("sys/types.h;ifaddrs.h" KWSYS_SYS_HAS_IFADDRS_H)
     if(KWSYS_SYS_HAS_IFADDRS_H)
       set_property(SOURCE SystemInformation.cxx APPEND PROPERTY
         COMPILE_DEFINITIONS KWSYS_SYS_HAS_IFADDRS_H=1)
@@ -467,7 +459,7 @@ if(KWSYS_USE_SystemInformation)
   if(WIN32)
     include(CheckSymbolExists)
     set(CMAKE_REQUIRED_LIBRARIES psapi)
-    CHECK_SYMBOL_EXISTS(GetProcessMemoryInfo "windows.h;psapi.h" KWSYS_SYS_HAS_PSAPI)
+    check_symbol_exists(GetProcessMemoryInfo "windows.h;psapi.h" KWSYS_SYS_HAS_PSAPI)
     unset(CMAKE_REQUIRED_LIBRARIES)
     if(KWSYS_SYS_HAS_PSAPI)
       set_property(SOURCE SystemInformation.cxx APPEND PROPERTY
@@ -479,14 +471,14 @@ if(KWSYS_USE_SystemInformation)
     endif()
   endif()
   if(CMAKE_SYSTEM MATCHES "HP-UX")
-    CHECK_INCLUDE_FILES("sys/mpctl.h" KWSYS_SYS_HAS_MPCTL_H)
+    check_include_files("sys/mpctl.h" KWSYS_SYS_HAS_MPCTL_H)
     if(KWSYS_SYS_HAS_MPCTL_H)
       set_property(SOURCE SystemInformation.cxx APPEND PROPERTY
         COMPILE_DEFINITIONS KWSYS_SYS_HAS_MPCTL_H=1)
     endif()
   endif()
   if(CMAKE_SYSTEM MATCHES "BSD")
-    CHECK_INCLUDE_FILES("machine/cpu.h" KWSYS_SYS_HAS_MACHINE_CPU_H)
+    check_include_files("machine/cpu.h" KWSYS_SYS_HAS_MACHINE_CPU_H)
     if(KWSYS_SYS_HAS_MACHINE_CPU_H)
       set_property(SOURCE SystemInformation.cxx APPEND PROPERTY
         COMPILE_DEFINITIONS KWSYS_SYS_HAS_MACHINE_CPU_H=1)
@@ -509,7 +501,7 @@ if(KWSYS_USE_SystemInformation)
     if (NOT EXECINFO_LIB)
       set(EXECINFO_LIB "")
     endif()
-    CHECK_INCLUDE_FILE_CXX("execinfo.h" KWSYS_CXX_HAS_EXECINFOH)
+    check_include_file_cxx("execinfo.h" KWSYS_CXX_HAS_EXECINFOH)
     if (KWSYS_CXX_HAS_EXECINFOH)
       # we have the backtrace header check if it
       # can be used with this compiler
@@ -523,7 +515,7 @@ if(KWSYS_USE_SystemInformation)
         set_property(SOURCE SystemInformation.cxx APPEND PROPERTY
           COMPILE_DEFINITIONS KWSYS_SYSTEMINFORMATION_HAS_BACKTRACE=1)
         # check for symbol lookup using dladdr
-        CHECK_INCLUDE_FILE_CXX("dlfcn.h" KWSYS_CXX_HAS_DLFCNH)
+        check_include_file_cxx("dlfcn.h" KWSYS_CXX_HAS_DLFCNH)
         if (KWSYS_CXX_HAS_DLFCNH)
           # we have symbol lookup libraries and headers
           # check if they can be used with this compiler
@@ -540,7 +532,7 @@ if(KWSYS_USE_SystemInformation)
         endif()
         # c++ demangling support
         # check for cxxabi headers
-        CHECK_INCLUDE_FILE_CXX("cxxabi.h" KWSYS_CXX_HAS_CXXABIH)
+        check_include_file_cxx("cxxabi.h" KWSYS_CXX_HAS_CXXABIH)
         if (KWSYS_CXX_HAS_CXXABIH)
           # check if cxxabi can be used with this
           # system and compiler.
@@ -616,7 +608,7 @@ set(KWSYS_HXX_FILES Configure)
 # Add selected C++ classes.
 set(cppclasses
   Directory DynamicLoader Encoding Glob RegularExpression SystemTools
-  CommandLineArguments FStream SystemInformation ConsoleBuf Status
+  CommandLineArguments FStream SystemInformation Status
   )
 foreach(cpp IN LISTS cppclasses)
   if(KWSYS_USE_${cpp})
@@ -632,7 +624,7 @@ endforeach()
 
 # Add selected C components.
 foreach(c IN ITEMS
-    Process Base64 Encoding MD5 Terminal System String
+    Process Base64 Encoding MD5 System String
     )
   if(KWSYS_USE_${c})
     # Use the corresponding header file.
@@ -663,7 +655,7 @@ if(KWSYS_USE_Process)
 endif()
 
 # Add selected C sources.
-foreach(c IN ITEMS Base64 Encoding MD5 Terminal System String)
+foreach(c IN ITEMS Base64 Encoding MD5 System String)
   if(KWSYS_USE_${c})
     if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${c}C.c)
       list(APPEND KWSYS_C_SRCS ${c}C.c)
@@ -776,7 +768,7 @@ if(KWSYS_C_SRCS OR KWSYS_CXX_SRCS)
 
   if(KWSYS_USE_SystemInformation)
     if(WIN32)
-      target_link_libraries(${KWSYS_TARGET_INTERFACE} ${KWSYS_LINK_DEPENDENCY} ws2_32)
+      target_link_libraries(${KWSYS_TARGET_INTERFACE} ${KWSYS_LINK_DEPENDENCY} ws2_32 powrprof)
       # link in dbghelp.dll for symbol lookup if MSVC 1800 or later
       # Note that the dbghelp runtime is part of MS Windows OS
       if(MSVC_VERSION AND NOT MSVC_VERSION VERSION_LESS 1800)
@@ -919,16 +911,9 @@ endif()
 # Setup testing if not being built as part of another project.
 if(KWSYS_STANDALONE OR CMake_SOURCE_DIR)
   if(BUILD_TESTING)
-    # Compute the location of executables.
-    set(EXEC_DIR "${CMAKE_CURRENT_BINARY_DIR}")
-    if(CMAKE_RUNTIME_OUTPUT_DIRECTORY)
-      set(EXEC_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
-    endif()
-
     # C tests
     set(KWSYS_C_TESTS
       testEncode.c
-      testTerminal.c
       )
     if(KWSYS_STANDALONE)
       set(KWSYS_C_TESTS ${KWSYS_C_TESTS} testFail.c)
@@ -943,7 +928,7 @@ if(KWSYS_STANDALONE OR CMake_SOURCE_DIR)
     foreach(testfile IN LISTS KWSYS_C_TESTS)
       get_filename_component(test "${testfile}" NAME_WE)
       add_test(NAME kwsys.${test}
-        COMMAND ${EXEC_DIR}/${KWSYS_NAMESPACE}TestsC ${test} ${KWSYS_TEST_ARGS_${test}}
+        COMMAND ${KWSYS_NAMESPACE}TestsC ${test} ${KWSYS_TEST_ARGS_${test}}
         )
       set_property(TEST kwsys.${test} PROPERTY LABELS ${KWSYS_LABELS_TEST})
     endforeach()
@@ -956,34 +941,12 @@ if(KWSYS_STANDALONE OR CMake_SOURCE_DIR)
       testCommandLineArguments.cxx
       testCommandLineArguments1.cxx
       testDirectory.cxx
+      testEncoding.cxx
       )
-    if(KWSYS_STL_HAS_WSTRING)
-      set(KWSYS_CXX_TESTS ${KWSYS_CXX_TESTS}
-        testEncoding.cxx
-        )
-    endif()
     if(KWSYS_USE_FStream)
       set(KWSYS_CXX_TESTS ${KWSYS_CXX_TESTS}
         testFStream.cxx
         )
-    endif()
-    if(KWSYS_USE_ConsoleBuf)
-      add_executable(testConsoleBufChild testConsoleBufChild.cxx)
-      set_property(TARGET testConsoleBufChild PROPERTY C_CLANG_TIDY "")
-      set_property(TARGET testConsoleBufChild PROPERTY CXX_CLANG_TIDY "")
-      set_property(TARGET testConsoleBufChild PROPERTY C_INCLUDE_WHAT_YOU_USE "")
-      set_property(TARGET testConsoleBufChild PROPERTY CXX_INCLUDE_WHAT_YOU_USE "")
-      set_property(TARGET testConsoleBufChild PROPERTY LABELS ${KWSYS_LABELS_EXE})
-      target_link_libraries(testConsoleBufChild ${KWSYS_TARGET_LINK})
-      set(KWSYS_CXX_TESTS ${KWSYS_CXX_TESTS}
-        testConsoleBuf.cxx
-        )
-      if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND
-         CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "19.0.23506")
-        set_property(SOURCE testConsoleBuf.cxx testConsoleBufChild.cxx PROPERTY COMPILE_FLAGS /utf-8)
-      endif()
-      set_property(SOURCE testConsoleBuf.cxx APPEND PROPERTY COMPILE_DEFINITIONS
-        KWSYS_ENCODING_DEFAULT_CODEPAGE=${KWSYS_ENCODING_DEFAULT_CODEPAGE})
     endif()
     if(KWSYS_USE_SystemInformation)
       set(KWSYS_CXX_TESTS ${KWSYS_CXX_TESTS} testSystemInformation.cxx)
@@ -1013,7 +976,10 @@ if(KWSYS_STANDALONE OR CMake_SOURCE_DIR)
       KWSYS_CXX_TEST_SRCS ${KWSYS_NAMESPACE}TestsCxx.cxx
       ${KWSYS_CXX_TESTS}
       )
-    add_executable(${KWSYS_NAMESPACE}TestsCxx ${KWSYS_CXX_TEST_SRCS})
+    add_executable(${KWSYS_NAMESPACE}TestsCxx
+      ${KWSYS_CXX_TEST_SRCS}
+      test.manifest
+    )
     set_property(TARGET ${KWSYS_NAMESPACE}TestsCxx PROPERTY C_CLANG_TIDY "")
     set_property(TARGET ${KWSYS_NAMESPACE}TestsCxx PROPERTY CXX_CLANG_TIDY "")
     set_property(TARGET ${KWSYS_NAMESPACE}TestsCxx PROPERTY C_INCLUDE_WHAT_YOU_USE "")
@@ -1035,7 +1001,7 @@ if(KWSYS_STANDALONE OR CMake_SOURCE_DIR)
     if(CTEST_TEST_KWSYS)
       configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ExtraTest.cmake.in"
         "${CMAKE_CURRENT_BINARY_DIR}/ExtraTest.cmake")
-      set_directory_properties(PROPERTIES TEST_INCLUDE_FILE "${CMAKE_CURRENT_BINARY_DIR}/ExtraTest.cmake")
+      set_property(DIRECTORY APPEND PROPERTY TEST_INCLUDE_FILES "${CMAKE_CURRENT_BINARY_DIR}/ExtraTest.cmake")
     endif()
 
     set(KWSYS_TEST_ARGS_testCommandLineArguments
@@ -1069,7 +1035,7 @@ if(KWSYS_STANDALONE OR CMake_SOURCE_DIR)
     foreach(testfile IN LISTS KWSYS_CXX_TESTS)
       get_filename_component(test "${testfile}" NAME_WE)
       add_test(NAME kwsys.${test}
-        COMMAND ${EXEC_DIR}/${KWSYS_NAMESPACE}TestsCxx ${test} ${KWSYS_TEST_ARGS_${test}}
+        COMMAND ${KWSYS_NAMESPACE}TestsCxx ${test} ${KWSYS_TEST_ARGS_${test}}
         )
       set_property(TEST kwsys.${test} PROPERTY LABELS ${KWSYS_LABELS_TEST})
     endforeach()
@@ -1081,7 +1047,7 @@ if(KWSYS_STANDALONE OR CMake_SOURCE_DIR)
     #set(KWSYS_TEST_PROCESS_7 7) # uncomment to run timing-sensitive test locally
     foreach(n IN ITEMS 1 2 3 4 5 6 ${KWSYS_TEST_PROCESS_7} 9 10)
       add_test(NAME kwsys.testProcess-${n}
-        COMMAND ${EXEC_DIR}/${KWSYS_NAMESPACE}TestProcess ${n}
+        COMMAND ${KWSYS_NAMESPACE}TestProcess ${n}
         )
       set_property(TEST kwsys.testProcess-${n} PROPERTY LABELS ${KWSYS_LABELS_TEST})
       set_property(TEST kwsys.testProcess-${n} PROPERTY TIMEOUT 120)

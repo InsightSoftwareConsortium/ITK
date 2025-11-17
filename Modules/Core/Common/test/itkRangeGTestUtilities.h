@@ -203,7 +203,9 @@ private:
   {
     // Overload for the use of a pointer type as iterator. Intentionally does "nothing", as a pointer always
     // equals itself, by definition. Aims to avoid "warning: self-comparison always evaluates to false/true
+    // spell-check-disable
     // [-Wtautological-compare]", as produced by clang 13.0.1 on Ubuntu 20.04.
+    // spell-check-enable
   }
 };
 

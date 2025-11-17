@@ -105,36 +105,36 @@ public:
       m_OpType = r.m_OpType;
       m_Start = r.m_Start;
     }
-    return (*this);
+    return *this;
   }
 
-  [[nodiscard]] [[nodiscard]] QuadEdgeType *
+  [[nodiscard]] QuadEdgeType *
   GetStartEdge() const
   {
-    return (m_StartEdge);
+    return m_StartEdge;
   }
-  [[nodiscard]] [[nodiscard]] QuadEdgeType *
+  [[nodiscard]] QuadEdgeType *
   GetIterator() const
   {
-    return (m_Iterator);
+    return m_Iterator;
   }
-  [[nodiscard]] [[nodiscard]] int
+  [[nodiscard]] int
   GetOpType() const
   {
-    return (m_OpType);
+    return m_OpType;
   }
-  [[nodiscard]] [[nodiscard]] bool
+  [[nodiscard]] bool
   GetStart() const
   {
-    return (m_Start);
+    return m_Start;
   }
 
   /** Iteration methods. */
   bool
   operator==(const Self & r) const
   {
-    return ((m_StartEdge == r.m_StartEdge) && (m_Iterator == r.m_Iterator) && (m_OpType == r.m_OpType) &&
-            (m_Start == r.m_Start));
+    return (m_StartEdge == r.m_StartEdge) && (m_Iterator == r.m_Iterator) && (m_OpType == r.m_OpType) &&
+           (m_Start == r.m_Start);
   }
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
@@ -148,7 +148,7 @@ public:
       m_Start = !(m_Iterator == m_StartEdge);
     }
 
-    return (*this);
+    return *this;
   }
 
   Self &
@@ -159,7 +159,7 @@ public:
       this->GoToNext();
       m_Start = !(m_Iterator == m_StartEdge);
     }
-    return (*this);
+    return *this;
   }
 
 protected:
@@ -248,12 +248,12 @@ public:
   QuadEdgeType *
   Value()
   {
-    return (this->m_Iterator);
+    return this->m_Iterator;
   }
-  [[nodiscard]] [[nodiscard]] const QuadEdgeType *
+  [[nodiscard]] const QuadEdgeType *
   Value() const
   {
-    return (this->m_Iterator);
+    return this->m_Iterator;
   }
 };
 
@@ -284,7 +284,7 @@ public:
   OriginRefType
   operator*()
   {
-    return (this->m_Iterator->GetOrigin());
+    return this->m_Iterator->GetOrigin();
   }
 };
 
@@ -323,13 +323,13 @@ public:
     this->m_Iterator = r.GetIterator();
     this->m_OpType = r.GetOpType();
     this->m_Start = r.GetStart();
-    return (*this);
+    return *this;
   }
 
-  [[nodiscard]] [[nodiscard]] const QuadEdgeType *
+  [[nodiscard]] const QuadEdgeType *
   Value() const
   {
-    return (this->m_Iterator);
+    return this->m_Iterator;
   }
 };
 
@@ -370,13 +370,13 @@ public:
     this->m_Iterator = r.GetIterator();
     this->m_OpType = r.GetOpType();
     this->m_Start = r.GetStart();
-    return (*this);
+    return *this;
   }
 
   const OriginRefType
   operator*() const
   {
-    return (this->m_Iterator->GetOrigin());
+    return this->m_Iterator->GetOrigin();
   }
 };
 } // namespace itk

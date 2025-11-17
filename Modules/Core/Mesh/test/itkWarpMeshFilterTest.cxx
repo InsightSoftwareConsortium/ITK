@@ -24,7 +24,7 @@
 int
 itkWarpMeshFilterTest(int, char *[])
 {
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   // Declare the type of the input and output mesh
   using MeshTraits = itk::DefaultStaticMeshTraits<double, Dimension, Dimension, double, double, double>;
@@ -130,7 +130,7 @@ itkWarpMeshFilterTest(int, char *[])
   const MeshType::PointsContainer::ConstIterator lastInputPoint = inPoints->End();
   const MeshType::PointsContainer::ConstIterator lastOutputPoint = outPoints->End();
 
-  constexpr double tolerance = 1e-8;
+  constexpr double tolerance{ 1e-8 };
 
   while (inputPoint != lastInputPoint && outputPoint != lastOutputPoint)
   {

@@ -158,7 +158,7 @@ public:
     char vr[2];
     is.read(vr, 2);
     VRField = GetVRTypeFromFile(vr);
-    assert( VRField != VR::VR_END );
+    gdcm_assert( VRField != VR::VR_END );
     if( VRField == VR::INVALID )
     {
       // \0\2 Data/TheralysGDCM120Bug.dcm
@@ -199,8 +199,8 @@ public:
       //vrfield = VR::UN;
       }
     const char *vr = GetVRString(vrfield);
-    //assert( strlen( vr ) == 2 );
-    assert( vr[0] && vr[1] && vr[2] == 0 );
+    //gdcm_assert( strlen( vr ) == 2 );
+    gdcm_assert( vr[0] && vr[1] && vr[2] == 0 );
     os.write(vr, 2);
     // See PS 3.5, Data Element Structure With Explicit VR
     if( vrfield & VL32 )
@@ -369,7 +369,7 @@ inline unsigned int VR::GetSize() const
     case VR::VRALL:
     case VR::VR_END:
     default:
-       assert( 0 && "should not" );
+       gdcm_assert( 0 && "should not" );
   }
   return 0;
 }

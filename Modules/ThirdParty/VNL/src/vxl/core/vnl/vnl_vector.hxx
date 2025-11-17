@@ -356,6 +356,17 @@ vnl_vector<T>::operator+=(T value)
   return *this;
 }
 
+template <class T>
+vnl_vector<T> &
+vnl_vector<T>::operator-=(T value)
+{
+  for (size_t i = 0; i < this->num_elmts; i++)
+  {
+    this->data[i] -= value;
+  }
+  return *this;
+}
+
 //: Multiplies all elements of vector with value. O(n).
 
 template <class T>

@@ -44,11 +44,10 @@ LabelContourImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
   // We need all the input.
   const InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
 
-  if (!input)
+  if (input)
   {
-    return;
+    input->SetRequestedRegion(input->GetLargestPossibleRegion());
   }
-  input->SetRequestedRegion(input->GetLargestPossibleRegion());
 }
 
 // -----------------------------------------------------------------------------
@@ -168,7 +167,7 @@ LabelContourImageFilter<TInputImage, TOutputImage>::ThreadedIntegrateData(
     {
       for (auto I = this->m_LineOffsets.begin(); I != this->m_LineOffsets.end(); ++I)
       {
-        const OffsetValueType neighIdx = thisIdx + (*I);
+        const OffsetValueType neighIdx = thisIdx + *I;
 
         // check if the neighbor is in the map
         if (neighIdx >= 0 && neighIdx < linecount)

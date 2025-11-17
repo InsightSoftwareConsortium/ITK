@@ -105,7 +105,7 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ClosestPointInObje
     const double                                             curdistance = curpos.EuclideanDistanceTo(point);
     if (curdistance < closestPointDistance)
     {
-      closestPoint = (*it);
+      closestPoint = *it;
       closestPointDistance = curdistance;
     }
     ++it;
@@ -134,7 +134,7 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ClosestPointInWorl
     const double                                             curdistance = curpos.EuclideanDistanceTo(point);
     if (curdistance < closestPointDistance)
     {
-      closestPoint = (*it);
+      closestPoint = *it;
       closestPointDistance = curdistance;
     }
     ++it;

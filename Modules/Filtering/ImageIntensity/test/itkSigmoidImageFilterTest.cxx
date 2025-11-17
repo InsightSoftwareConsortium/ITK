@@ -26,7 +26,7 @@ itkSigmoidImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
 
   // Declare the types of the images
   using InputPixelType = float;
@@ -39,9 +39,6 @@ itkSigmoidImageFilterTest(int, char *[])
   using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
   using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<ImageDimension>;
-
   // Declare the type of the size
   using SizeType = itk::Size<ImageDimension>;
 
@@ -51,20 +48,9 @@ itkSigmoidImageFilterTest(int, char *[])
   // Create the input images
   auto inputImage = InputImageType::New();
 
-  // Define their size, and start index
-  SizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2;
-
-  IndexType start;
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  // Define their size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize the input image
   inputImage->SetRegions(region);
@@ -74,7 +60,7 @@ itkSigmoidImageFilterTest(int, char *[])
   InputIteratorType it(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of the input image
-  constexpr double value = 30;
+  constexpr double value{ 30 };
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
@@ -94,8 +80,8 @@ itkSigmoidImageFilterTest(int, char *[])
   filter->SetInput(inputImage);
 
   // Set the filter parameters
-  constexpr double alpha = 2.0;
-  constexpr double beta = 3.0;
+  constexpr double alpha{ 2.0 };
+  constexpr double beta{ 3.0 };
 
   filter->SetAlpha(alpha);
   ITK_TEST_SET_GET_VALUE(alpha, filter->GetAlpha());
@@ -103,8 +89,8 @@ itkSigmoidImageFilterTest(int, char *[])
   filter->SetBeta(beta);
   ITK_TEST_SET_GET_VALUE(beta, filter->GetBeta());
 
-  constexpr OutputPixelType maximum = 1.0;
-  constexpr OutputPixelType minimum = -1.0;
+  constexpr OutputPixelType maximum{ 1.0 };
+  constexpr OutputPixelType minimum{ -1.0 };
 
   filter->SetOutputMinimum(minimum);
   ITK_TEST_SET_GET_VALUE(minimum, filter->GetOutputMinimum());
@@ -124,7 +110,7 @@ itkSigmoidImageFilterTest(int, char *[])
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
 
   // Check the content of the result image
-  constexpr OutputImageType::PixelType epsilon = 1e-6;
+  constexpr OutputImageType::PixelType epsilon{ 1e-6 };
   ot.GoToBegin();
   it.GoToBegin();
   while (!ot.IsAtEnd())

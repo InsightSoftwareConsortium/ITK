@@ -204,7 +204,7 @@ public:
 protected:
   /** Default constructor*/
   /** @ITKStartGrouping */
-  LaplacianDeformationQuadEdgeMeshFilter();
+  LaplacianDeformationQuadEdgeMeshFilter() = default;
   ~LaplacianDeformationQuadEdgeMeshFilter() override = default;
   /** @ITKEndGrouping */
 
@@ -239,7 +239,7 @@ protected:
   CoefficientMapType       m_CoefficientMap{};
   AreaMapType              m_MixedAreaMap{};
 
-  CoefficientsComputationType * m_CoefficientsMethod{};
+  CoefficientsComputationType * m_CoefficientsMethod{ nullptr };
 
   unsigned int m_Order{ 1 };
   AreaEnum     m_AreaComputationType{ AreaEnum::NONE };

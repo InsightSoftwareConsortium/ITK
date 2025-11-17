@@ -172,7 +172,7 @@ public:
 
   /**
    * Initialization of the A matrix. First any existing data for matrix A
-   * must be be destroyed, and then a new matrix is created in the memory. All
+   * must be destroyed, and then a new matrix is created in the memory. All
    * elements in A must be set to zero.
    *
    * \param matrixIndex index of matrix to initialize

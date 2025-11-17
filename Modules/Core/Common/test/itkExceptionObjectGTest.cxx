@@ -35,7 +35,7 @@ public:
   using Self = TestLightObject;
   using Superclass = itk::LightObject;
   itkNewMacro(Self);
-  itkTypeMacro(TestLightObject, LightObject);
+  itkOverrideGetNameOfClassMacro(TestLightObject);
 };
 } // end anonymous namespace
 

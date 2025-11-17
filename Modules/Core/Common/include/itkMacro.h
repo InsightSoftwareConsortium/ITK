@@ -750,7 +750,7 @@ OutputWindowDisplayGenericOutputText(const char * file, unsigned int line, const
 // the cache lines. By aligning multi-threaded structures with the
 // cache lines, false shared can be reduced, and performance
 // increased.
-constexpr size_t ITK_CACHE_LINE_ALIGNMENT = 64;
+constexpr size_t ITK_CACHE_LINE_ALIGNMENT{ 64 };
 
 //
 // itkPadStruct will add padding to a structure to ensure a minimum size
@@ -976,7 +976,7 @@ compilers.
       itkDynamicCastInDebugMode<const DecoratorType *>(this->ProcessObject::GetInput(#name));                        \
     if (input == nullptr)                                                                                            \
     {                                                                                                                \
-      itkExceptionMacro("input" #name " is not set");                                                                \
+      itkExceptionStringMacro("input" #name " is not set");                                                          \
     }                                                                                                                \
     return input->Get();                                                                                             \
   }                                                                                                                  \
@@ -1462,7 +1462,7 @@ ContainerCopyWithCheck(MemberContainerType & m, const CopyFromContainerType & c,
       itkDynamicCastInDebugMode<const DecoratorType *>(this->ProcessObject::GetOutput(#name));                        \
     if (output == nullptr)                                                                                            \
     {                                                                                                                 \
-      itkExceptionMacro("output" #name " is not set");                                                                \
+      itkExceptionStringMacro("output" #name " is not set");                                                          \
     }                                                                                                                 \
     return output->Get();                                                                                             \
   }                                                                                                                   \

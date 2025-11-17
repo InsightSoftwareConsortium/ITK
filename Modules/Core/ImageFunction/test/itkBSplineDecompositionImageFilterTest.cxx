@@ -26,10 +26,10 @@
  *
  *=========================================================================*/
 #include "itkSimpleFilterWatcher.h"
-#include "vnl/vnl_sample.h"
 #include "makeRandomImageBsplineInterpolator.h"
 #include "itkMath.h"
 #include "itkTestingMacros.h"
+#include <random> // For mt19937.
 
 
 template <typename TFilter>
@@ -81,7 +81,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using BSplineInterpolatorFunctionType = itk::BSplineInterpolateImageFunction<ImageType, double, double>;
@@ -100,7 +100,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
 
   filter->SetInput(randImage);
 
-  constexpr int unsupportedSplineOrder = 6;
+  constexpr int unsupportedSplineOrder{ 6 };
 
   ITK_TRY_EXPECT_EXCEPTION(filter->SetSplineOrder(unsupportedSplineOrder));
 
@@ -112,7 +112,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
   ITK_TEST_EXPECT_EQUAL(filter->GetNumberOfPoles(), expectedSplinePoles.size());
 
   FilterType::SplinePolesVectorType resultSplinePoles = filter->GetSplinePoles();
-  constexpr double                  tolerance1 = 1e-10;
+  constexpr double                  tolerance1{ 1e-10 };
   for (unsigned int i = 0; i < resultSplinePoles.size(); ++i)
   {
     const FilterType::SplinePolesVectorType::value_type expectedSplinePole = expectedSplinePoles[i];
@@ -149,13 +149,17 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
   const double minValue = randImage->GetOrigin()[0];
   const double maxValue = lastPhysicalLocation[0];
 
-  constexpr double tolerance2 = 1e-5;
+  constexpr double tolerance2{ 1e-5 };
+
+  std::mt19937                                                         randomNumberEngine{};
+  std::uniform_real_distribution<ResampleFunctionType::CoordinateType> randomNumberDistribution(minValue, maxValue);
+
   for (unsigned int k = 0; k < 10; ++k)
   {
     ResampleFunctionType::PointType point;
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
-      point[j] = vnl_sample_uniform(minValue, maxValue);
+      point[j] = randomNumberDistribution(randomNumberEngine);
     }
 
     const double f = resample->Evaluate(point);

@@ -35,7 +35,7 @@ itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int Dimension = 2;
+  constexpr int Dimension{ 2 };
   using PixelType = unsigned char;
   using InputImageType = itk::Image<PixelType, Dimension>;
   using OutputImageType = itk::Image<PixelType, Dimension>;
@@ -56,11 +56,9 @@ itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
   auto inputImage = InputImageType::New();
 
   // Define regions of input image
-  RegionType          region;
   auto                size = SizeType::Filled(std::stoi(argv[2]));
   constexpr IndexType index{};
-  region.SetSize(size);
-  region.SetIndex(index);
+  RegionType          region = { index, size };
 
   // fill spacing and origin
   OriginType origin;

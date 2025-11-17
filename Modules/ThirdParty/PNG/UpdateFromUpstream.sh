@@ -9,6 +9,7 @@ readonly ownership="LIBPNG Upstream <png-mng-implement@lists.sourceforge.net>"
 readonly subtree="Modules/ThirdParty/PNG/src/itk$name"
 readonly repo="git://git.code.sf.net/p/libpng/code"
 readonly tag='v1.6.44' # Sept 12, 2024
+readonly exact_tree_match=false
 readonly paths="
 png*.c
 png*.h

@@ -82,7 +82,7 @@ itkImageTest(int, char *[])
   // test inverse direction
   std::cout << "Test inverse direction." << std::endl;
   Image::DirectionType product = direction * image->GetInverseDirection();
-  constexpr double     eps = 1e-06;
+  constexpr double     eps{ 1e-06 };
   if (itk::Math::abs(product[0][0] - 1.0) > eps || itk::Math::abs(product[1][1] - 1.0) > eps ||
       itk::Math::abs(product[0][1]) > eps || itk::Math::abs(product[1][0]) > eps)
   {
@@ -118,9 +118,8 @@ itkImageTest(int, char *[])
   direction.SetIdentity();
   image->SetDirection(direction);
 
-  constexpr Image::IndexType index{};
-  constexpr auto             size = Image::SizeType::Filled(4);
-  const Image::RegionType    region{ index, size };
+  constexpr auto          size = Image::SizeType::Filled(4);
+  const Image::RegionType region{ size };
   image->SetRegions(region);
 
   auto                       imageRef = Image::New();
@@ -131,9 +130,8 @@ itkImageTest(int, char *[])
   imageRef->SetSpacing(spacingRef);
   imageRef->SetOrigin(originRef);
   imageRef->SetDirection(directionRef);
-  constexpr Image::IndexType indexRef{};
-  constexpr auto             sizeRef = itk::MakeFilled<Image::SizeType>(5);
-  const Image::RegionType    regionRef{ indexRef, sizeRef };
+  constexpr auto          sizeRef = itk::MakeFilled<Image::SizeType>(5);
+  const Image::RegionType regionRef{ sizeRef };
   imageRef->SetRegions(regionRef);
 
   using TransformType = itk::Transform<double, Image::ImageDimension, Image::ImageDimension>;
@@ -211,5 +209,5 @@ itkImageTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  return (EXIT_SUCCESS);
+  return EXIT_SUCCESS;
 }

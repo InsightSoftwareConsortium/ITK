@@ -134,9 +134,7 @@ BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::Generate
 
   outputPtr->SetSpacing(outputSpacing);
 
-  typename TOutputImage::RegionType outputLargestPossibleRegion;
-  outputLargestPossibleRegion.SetSize(outputSize);
-  outputLargestPossibleRegion.SetIndex(outputStartIndex);
+  typename TOutputImage::RegionType outputLargestPossibleRegion{ outputStartIndex, outputSize };
 
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 }

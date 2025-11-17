@@ -26,7 +26,7 @@ int
 itkGradientDifferenceImageToImageMetricTest(int, char *[])
 {
   // Create two simple images.
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
   using PixelType = double;
   using CoordinateRepresentationType = double;
 
@@ -45,8 +45,8 @@ itkGradientDifferenceImageToImageMetricTest(int, char *[])
   FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
   MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  constexpr FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
-  constexpr MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
+  constexpr FixedImageType::PointValueType  fixedImageOrigin[]{ 0.0f, 0.0f };
+  constexpr MovingImageType::PointValueType movingImageOrigin[]{ 0.0f, 0.0f };
 
   auto movingImageSource = MovingImageSourceType::New();
   auto fixedImageSource = FixedImageSourceType::New();
@@ -81,7 +81,7 @@ itkGradientDifferenceImageToImageMetricTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, GradientDifferenceImageToImageMetric, ImageToImageMetric);
 
 
-  constexpr double derivativeDelta = 0.001;
+  constexpr double derivativeDelta{ 0.001 };
   metric->SetDerivativeDelta(derivativeDelta);
   ITK_TEST_SET_GET_VALUE(derivativeDelta, metric->GetDerivativeDelta());
 

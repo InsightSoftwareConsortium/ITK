@@ -7,6 +7,8 @@
 //-----------------------------------------------------------------------------
 
 #include "vnl_cost_function.h"
+#include <cmath>
+
 #include <cassert>
 
 static bool f_calling_compute;
@@ -27,7 +29,7 @@ vnl_cost_function::f(const vnl_vector<double> & x)
   // if we get back here from compute, neither vf was implemented.
   if (f_calling_compute)
     assert(!"vnl_cost_function: RECURSION");
-  double val;
+  double val = NAN;
   f_calling_compute = true;
   this->compute(x, &val, nullptr);
   f_calling_compute = false;

@@ -104,8 +104,8 @@ private:
     if ((inChannels != outChannels || (inChannels == 3 && outChannels == 3)) &&
         (iDepth == IPL_DEPTH_8S || iDepth == IPL_DEPTH_16S || iDepth == IPL_DEPTH_32S || iDepth == IPL_DEPTH_64F))
     {
-      itkGenericExceptionMacro("OpenCV IplImage to ITK Image conversion - the necessary color"
-                               " conversion is not supported for the input OpenCV pixel type");
+      itkGenericExceptionMacro("OpenCV IplImage to ITK Image conversion - the necessary color conversion is not "
+                               "supported for the input OpenCV pixel type");
     }
 
     // Manage input/output types mismatch
@@ -166,8 +166,8 @@ private:
     if ((inChannels != outChannels || (inChannels == 3 && outChannels == 3)) &&
         (iDepth == CV_8S || iDepth == CV_16S || iDepth == CV_32S || iDepth == CV_64F))
     {
-      itkGenericExceptionMacro("OpenCV Mat to ITK Image conversion - the necessary color"
-                               " conversion is not supported for the input OpenCV pixel type");
+      itkGenericExceptionMacro("OpenCV Mat to ITK Image conversion - the necessary color conversion is not supported "
+                               "for the input OpenCV pixel type");
     }
 
     // Manage input/output types mismatch
@@ -231,20 +231,16 @@ private:
     using OutputPixelType = typename ImageType::PixelType;
     using ConvertPixelTraits = DefaultConvertPixelTraits<OutputPixelType>;
 
-    bool isVectorImage(strcmp(out->GetNameOfClass(), "VectorImage") == 0);
-
-    typename ImageType::RegionType            region;
-    typename ImageType::RegionType::SizeType  size;
-    typename ImageType::RegionType::IndexType start;
-    typename ImageType::SpacingType           spacing;
+    bool                                     isVectorImage(strcmp(out->GetNameOfClass(), "VectorImage") == 0);
+    typename ImageType::RegionType::SizeType size;
     size.Fill(1);
     size[0] = imgWidth;
     size[1] = imgHeight;
-    start.Fill(0);
-    spacing.Fill(1);
-    region.SetSize(size);
-    region.SetIndex(start);
+    typename ImageType::RegionType::IndexType start{};
+    typename ImageType::RegionType            region = { start, size };
     out->SetRegions(region);
+    typename ImageType::SpacingType spacing;
+    spacing.Fill(1);
     out->SetSpacing(spacing);
     out->Allocate();
     size_t       lineLength = imgWidth * inChannels * sizeof(TPixel);

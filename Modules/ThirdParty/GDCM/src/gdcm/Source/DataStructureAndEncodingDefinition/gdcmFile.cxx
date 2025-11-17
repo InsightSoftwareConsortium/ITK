@@ -22,13 +22,13 @@ File::~File() = default;
 
 std::istream &File::Read(std::istream &is)
 {
-  assert(0);
+  gdcm_assert(0);
   return is;
 }
 
 std::ostream const &File::Write(std::ostream &os) const
 {
-  assert(0);
+  gdcm_assert(0);
   return os;
 }
 

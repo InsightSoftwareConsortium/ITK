@@ -118,12 +118,12 @@ public:
   double m_WeightedNumberOfPixelsInsideLevelSet{};
   double m_WeightedNumberOfPixelsOutsideLevelSet{};
 
-  InputImagePointer m_HeavisideFunctionOfLevelSetImage{};
+  InputImagePointer m_HeavisideFunctionOfLevelSetImage{ nullptr };
   InputIndexType    m_Start{};
   InputIndexType    m_End{};
 
 protected:
-  RegionBasedLevelSetFunctionData();
+  RegionBasedLevelSetFunctionData() = default;
   ~RegionBasedLevelSetFunctionData() override = default;
 };
 } // end namespace itk

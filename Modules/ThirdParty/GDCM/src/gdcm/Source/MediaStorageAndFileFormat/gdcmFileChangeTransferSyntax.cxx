@@ -124,7 +124,7 @@ bool FileChangeTransferSyntax::Change()
 
   Internals->Progress = 0;
   bool b = Internals->IC->StartEncode(os);
-  assert( b );
+  gdcm_assert(b);
   size_t len = 0; // actual size compressed:
   if( Internals->IC->IsRowEncoder() )
     {
@@ -145,7 +145,7 @@ bool FileChangeTransferSyntax::Change()
       for( unsigned int y = 0; y < dims[1]; ++y )
         {
         is.read( data, datalen );
-        assert( is.good() );
+        gdcm_assert( is.good() );
         b = Internals->IC->CleanupUnusedBits(data, datalen);
         if( !b ) return false;
         b = Internals->IC->AppendRowEncode(os, data, datalen);
@@ -189,7 +189,7 @@ bool FileChangeTransferSyntax::Change()
       std::streampos start = os.tellp();
         {
         is.read( data, datalen );
-        assert( is.good() );
+        gdcm_assert( is.good() );
         b = Internals->IC->CleanupUnusedBits(data, datalen);
         if( !b ) return false;
         b = Internals->IC->AppendFrameEncode(os, data, datalen);
@@ -221,7 +221,7 @@ bool FileChangeTransferSyntax::Change()
     return false;
     }
   b = Internals->IC->StopEncode(os);
-  assert( b );
+  gdcm_assert(b);
 
   const Tag seqDelItem(0xfffe,0xe0dd);
   seqDelItem.Write<SwapperNoOp>(os);
@@ -295,7 +295,7 @@ void FileChangeTransferSyntax::SetTransferSyntax( TransferSyntax const & ts )
       Internals->IC = codecs[i]->Clone();
       }
     }
-  assert( Internals->TS );
+  gdcm_assert( Internals->TS );
 }
 
 ImageCodec * FileChangeTransferSyntax::GetCodec()

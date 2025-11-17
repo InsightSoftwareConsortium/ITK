@@ -32,7 +32,7 @@ CoolColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const ->
 
   const RealType green = 1.0 - value;
 
-  constexpr RealType blue = 1.0;
+  constexpr RealType blue{ 1.0 };
 
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;

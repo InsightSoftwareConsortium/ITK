@@ -36,13 +36,9 @@ itkCovarianceSampleFilterTest(int, char *[])
   using ImageType = itk::Image<MeasurementVectorType, 3>;
   using MaskImageType = itk::Image<unsigned char, 3>;
 
-  auto                           image = ImageType::New();
-  ImageType::RegionType          region;
-  ImageType::SizeType            size;
-  constexpr ImageType::IndexType index{};
-  size.Fill(5);
-  region.SetIndex(index);
-  region.SetSize(size);
+  auto                          image = ImageType::New();
+  constexpr ImageType::SizeType size{ 5, 5, 5 };
+  ImageType::RegionType         region{ size };
 
 
   image->SetBufferedRegion(region);
@@ -120,7 +116,7 @@ itkCovarianceSampleFilterTest(int, char *[])
 
   covarianceFilter->Print(std::cout);
 
-  constexpr double epsilon = 1e-6;
+  constexpr double epsilon{ 1e-6 };
 
   // CHECK THE RESULTS
   const CovarianceSampleFilterType::MeasurementVectorDecoratedType * meanDecorator = covarianceFilter->GetMeanOutput();

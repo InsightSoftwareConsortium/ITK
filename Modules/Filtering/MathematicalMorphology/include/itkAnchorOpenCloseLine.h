@@ -39,7 +39,7 @@ public:
   /** Some convenient type alias. */
   /** @ITKStartGrouping */
   using InputImagePixelType = TInputPix;
-  AnchorOpenCloseLine();
+  AnchorOpenCloseLine() = default;
   ~AnchorOpenCloseLine() = default;
   /** @ITKEndGrouping */
   void

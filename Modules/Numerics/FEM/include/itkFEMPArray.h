@@ -99,7 +99,7 @@ public:
 };
 
 /**
- * Find function for for non-const objects
+ * Find function for non-const objects
  */
 template <typename T>
 auto
@@ -131,7 +131,7 @@ FEMPArray<T>::Find(int gn) -> ClassTypePointer
 }
 
 /**
- * Find function for for const objects
+ * Find function for const objects
  */
 template <typename T>
 auto

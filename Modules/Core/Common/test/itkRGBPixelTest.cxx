@@ -123,7 +123,7 @@ itkRGBPixelTest(int, char *[])
 
   const float     luminance = rgbl.GetLuminance();
   const float     realLuminance = rgbl[0] * 0.30 + rgbl[1] * 0.59 + rgbl[2] * 0.11;
-  constexpr float tolerance = 1e-4;
+  constexpr float tolerance{ 1e-4 };
 
   if (itk::Math::abs(luminance - realLuminance) > tolerance)
   {

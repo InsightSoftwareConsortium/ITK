@@ -165,18 +165,11 @@ auto
 TriangleHelper<TPoint>::ComputeCircumCenter(const PointType & iP1, const PointType & iP2, const PointType & iP3)
   -> PointType
 {
-  const PointType oPt{};
-
   const CoordinateType a = iP2.SquaredEuclideanDistanceTo(iP3);
   const CoordinateType b = iP1.SquaredEuclideanDistanceTo(iP3);
   const CoordinateType c = iP2.SquaredEuclideanDistanceTo(iP1);
-
-  CoordinateType Weight[3];
-  Weight[0] = a * (b + c - a);
-  Weight[1] = b * (c + a - b);
-  Weight[2] = c * (a + b - c);
-
-  return ComputeBarycenter(Weight[0], iP1, Weight[1], iP2, Weight[2], iP3);
+  const CoordinateType weight[3] = { a * (b + c - a), b * (c + a - b), c * (a + b - c) };
+  return ComputeBarycenter(weight[0], iP1, weight[1], iP2, weight[2], iP3);
 }
 
 template <typename TPoint>
@@ -188,18 +181,16 @@ TriangleHelper<TPoint>::ComputeConstrainedCircumCenter(const PointType & iP1,
   const CoordinateType a = iP2.SquaredEuclideanDistanceTo(iP3);
   const CoordinateType b = iP1.SquaredEuclideanDistanceTo(iP3);
   const CoordinateType c = iP2.SquaredEuclideanDistanceTo(iP1);
+  CoordinateType       weight[3] = { a * (b + c - a), b * (c + a - b), c * (a + b - c) };
 
-  CoordinateType Weight[3] = { a * (b + c - a), b * (c + a - b), c * (a + b - c) };
-
-  for (auto & i : Weight)
+  for (auto & w : weight)
   {
-    if (i < 0.0)
+    if (w < 0.0)
     {
-      i = 0.;
+      w = 0.0;
     }
   }
-
-  return ComputeBarycenter(Weight[0], iP1, Weight[1], iP2, Weight[2], iP3);
+  return ComputeBarycenter(weight[0], iP1, weight[1], iP2, weight[2], iP3);
 }
 
 template <typename TPoint>

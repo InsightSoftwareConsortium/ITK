@@ -123,7 +123,7 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
   using PixelType = float;
 
   using FixedImageType = itk::Image<PixelType, ImageDimension>;
@@ -139,8 +139,8 @@ main(int argc, char * argv[])
   //  \index{BSplineTransform!Instantiation}
   //
 
-  constexpr unsigned int SpaceDimension = ImageDimension;
-  constexpr unsigned int SplineOrder = 3;
+  constexpr unsigned int SpaceDimension{ ImageDimension };
+  constexpr unsigned int SplineOrder{ 3 };
   using CoordinateRepType = double;
 
   using TransformType = itk::BSplineTransform<CoordinateRepType, SpaceDimension, SplineOrder>;
@@ -195,7 +195,7 @@ main(int argc, char * argv[])
 
   registration->SetFixedImageRegion(fixedRegion);
 
-  constexpr unsigned int numberOfGridNodes = 8;
+  constexpr unsigned int numberOfGridNodes{ 8 };
 
   TransformType::PhysicalDimensionsType fixedPhysicalDimensions;
   TransformType::MeshSizeType           meshSize;

@@ -248,7 +248,7 @@ PNGImageIO::Read(void * buffer)
   if (setjmp(png_jmpbuf(png_ptr)))
   {
     png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
-    itkExceptionMacro("Error while reading file: " << this->GetFileName() << std::endl);
+    itkExceptionMacro("Error while reading file: " << this->GetFileName());
   }
   png_read_image(png_ptr, row_pointers.get());
   // close the file
@@ -415,7 +415,7 @@ PNGImageIO::ReadImageInformation()
   if (!m_IsReadAsScalarPlusPalette)
   {
     // make sure not palette is left
-    m_ColorPalette.resize(0);
+    m_ColorPalette.clear();
   }
 
   // minimum of a byte per pixel

@@ -2,6 +2,8 @@
 //:
 //  \file
 
+#include <cmath>
+
 #include <ctime>
 #include <cmath>
 #include "vnl_random.h"
@@ -123,9 +125,9 @@ vnl_random::normal()
   }
   else
   {
-    double x;
-    double y;
-    double r2;
+    double x = NAN;
+    double y = NAN;
+    double r2 = NAN;
     do
     {
       x = drand32(-1.0, 1.0);
@@ -155,9 +157,9 @@ vnl_random::normal64()
   }
   else
   {
-    double x;
-    double y;
-    double r2;
+    double x = NAN;
+    double y = NAN;
+    double r2 = NAN;
     do
     {
       x = drand64(-1.0, 1.0);
@@ -195,7 +197,7 @@ vnl_random::lrand32(int lower, int upper)
 
   const unsigned long range = upper - lower + 1;
   const unsigned long denom = 0xffffffff / range;
-  unsigned long ran;
+  unsigned long ran = 0;
   while ((ran = lrand32()) >= denom * range)
     ;
   return lower + int(ran / denom);
@@ -214,7 +216,7 @@ vnl_random::lrand32(int lower, int upper, int & count)
 
   const unsigned long range = upper - lower + 1;
   const unsigned long denom = 0xffffffff / range;
-  unsigned long ran;
+  unsigned long ran = 0;
   count = 1;
   while ((ran = lrand32()) >= denom * range)
     ++count;

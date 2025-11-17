@@ -211,7 +211,7 @@ Octree<TPixel, ColorTableSize, MappingFunctionType>::maskToOctree(const TPixel *
     OctreeNode * newbranch = q->GetLeaf(OctreeNode::LeafIdentifierEnum::SEVEN);
     newbranch->SetBranch(nodeArray[static_cast<uint8_t>(OctreeNode::LeafIdentifierEnum::SEVEN)]);
   }
-  return (q);
+  return q;
 }
 
 template <typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType>

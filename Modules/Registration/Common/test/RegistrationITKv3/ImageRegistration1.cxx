@@ -115,7 +115,7 @@ main(int argc, char * argv[])
   // dimension and the types to be used for representing image pixels.
   //
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PixelType = float;
 
 
@@ -278,8 +278,10 @@ main(int argc, char * argv[])
   //  \code{SetMaximumStepLength()}, while the tolerance for convergence is
   //  defined with the method \code{SetMinimumStepLength()}.
   //
+  //  spell-check-disable
   //  \index{itk::Regular\-Setp\-Gradient\-Descent\-Optimizer!SetMaximumStepLength()}
   //  \index{itk::Regular\-Step\-Gradient\-Descent\-Optimizer!SetMinimumStepLength()}
+  //  spell-check-enable
   //
 
   optimizer->SetMaximumStepLength(4.00);
@@ -292,7 +294,9 @@ main(int argc, char * argv[])
   //  iterations to be performed. This maximum number is defined with the
   //  method \code{SetNumberOfIterations()}.
   //
+  //  spell-check-disable
   //  \index{itk::Regular\-Setp\-Gradient\-Descent\-Optimizer!SetNumberOfIterations()}
+  //  spell-check-enable
   //
 
   optimizer->SetNumberOfIterations(200);

@@ -406,7 +406,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeTerminalNode : public KdTreeNode<TSample>
 
   KdTreeTerminalNode() = default;
 
-  ~KdTreeTerminalNode() override { this->m_InstanceIdentifiers.clear(); }
+  ~KdTreeTerminalNode() override = default;
 
   /** A terminal node. */
   [[nodiscard]] bool
@@ -547,7 +547,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** type alias alias for the source data container */
+  /** type alias for the source data container */
   using SampleType = TSample;
   using MeasurementVectorType = typename TSample::MeasurementVectorType;
   using MeasurementType = typename TSample::MeasurementType;

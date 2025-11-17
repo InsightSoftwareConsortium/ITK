@@ -29,14 +29,14 @@ AsynchronousOperationsWindowSub::AsynchronousOperationsWindowSub()
   MaximumNumberOperationsPerformed = 0;
 
   ItemLength = (uint16_t)(Size() - 4);
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 }
 
 std::istream &AsynchronousOperationsWindowSub::Read(std::istream &is)
 {
   //uint8_t itemtype = 0x0;
   //is.read( (char*)&itemtype, sizeof(ItemType) );
-  //assert( itemtype == ItemType );
+  //gdcm_assert( itemtype == ItemType );
   uint8_t reserved2;
   is.read( (char*)&reserved2, sizeof(Reserved2) );
   uint16_t itemlength;

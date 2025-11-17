@@ -29,7 +29,7 @@ bool
 testVector(const TVector & v1, const TVector & v2)
 {
   bool             pass = true;
-  constexpr double tolerance = 1e-10;
+  constexpr double tolerance{ 1e-10 };
 
   for (unsigned int i = 0; i < v1.Size() && i < v2.Size(); ++i)
   {
@@ -44,7 +44,7 @@ testVector(const TVector & v1, const TVector & v2)
 int
 itkDisplacementFieldTransformCloneTest(int, char *[])
 {
-  constexpr unsigned int Dimensions = 3;
+  constexpr unsigned int Dimensions{ 3 };
 
   using ParametersValueType = double;
   using DisplacementTransformType = itk::DisplacementFieldTransform<ParametersValueType, Dimensions>;
@@ -55,14 +55,9 @@ itkDisplacementFieldTransformCloneTest(int, char *[])
 
   auto field = FieldType::New();
 
-  FieldType::SizeType   size;
-  FieldType::IndexType  start;
-  FieldType::RegionType region;
-  constexpr int         dimLength = 20;
-  size.Fill(dimLength);
-  start.Fill(0);
-  region.SetSize(size);
-  region.SetIndex(start);
+  constexpr int                 dimLength{ 20 };
+  constexpr FieldType::SizeType size{ dimLength, dimLength, dimLength };
+  FieldType::RegionType         region = { size };
   field->SetRegions(region);
   field->Allocate();
 

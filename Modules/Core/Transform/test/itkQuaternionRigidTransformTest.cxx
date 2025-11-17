@@ -27,8 +27,8 @@ itkQuaternionRigidTransformTest(int, char *[])
   using CoordinateType = double;
   using TransformType = itk::QuaternionRigidTransform<CoordinateType>;
 
-  constexpr double       epsilon = 1e-10;
-  constexpr unsigned int N = 3;
+  constexpr double       epsilon{ 1e-10 };
+  constexpr unsigned int N{ 3 };
 
   bool Ok = true;
 
@@ -84,7 +84,7 @@ itkQuaternionRigidTransformTest(int, char *[])
 
     {
       // Translate an itk::Point
-      constexpr TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
+      constexpr TransformType::InputPointType::ValueType pInit[3]{ 10, 10, 10 };
       const TransformType::InputPointType                p = pInit;
       TransformType::InputPointType                      q;
       q = p + itransVector;
@@ -257,7 +257,7 @@ itkQuaternionRigidTransformTest(int, char *[])
 
     {
       // Rotate an itk::Point
-      constexpr TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
+      constexpr TransformType::InputPointType::ValueType pInit[3]{ 10, 10, 10 };
       TransformType::InputPointType                      p = pInit;
       TransformType::InputPointType                      q;
 
@@ -392,7 +392,7 @@ itkQuaternionRigidTransformTest(int, char *[])
 
     parameters.Fill(0.0);
 
-    constexpr double angle = 0.62 / 180.0 * itk::Math::pi;
+    constexpr double angle{ 0.62 / 180.0 * itk::Math::pi };
 
     parameters[0] = 2.0 * std::sin(0.5 * angle);
     parameters[1] = 5.0 * std::sin(0.5 * angle);
@@ -416,7 +416,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     TransformType::JacobianType approxJacobian = jacobian;
     for (unsigned int k = 0; k < quaternionRigid->GetNumberOfParameters(); ++k)
     {
-      constexpr double              delta = 0.001;
+      constexpr double              delta{ 0.001 };
       TransformType::ParametersType plusParameters;
       TransformType::ParametersType minusParameters;
 
@@ -583,7 +583,7 @@ itkQuaternionRigidTransformTest(int, char *[])
 
     {
       // Rotate an itk::Point
-      constexpr TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
+      constexpr TransformType::InputPointType::ValueType pInit[3]{ 10, 10, 10 };
       TransformType::InputPointType                      p = pInit;
       TransformType::InputPointType                      q;
 
@@ -763,7 +763,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     // attempt to set an orthogonal matrix
     matrix.GetVnlMatrix().set_identity();
 
-    constexpr double a = 1.0 / 180.0 * itk::Math::pi;
+    constexpr double a{ 1.0 / 180.0 * itk::Math::pi };
     matrix[0][0] = std::cos(a);
     matrix[0][1] = -1.0 * std::sin(a);
     matrix[1][0] = std::sin(a);

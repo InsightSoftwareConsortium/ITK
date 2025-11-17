@@ -64,8 +64,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateNextOutputRegion(long *
   //
   // Set what we have learned into the image region.
   //
-  outputRegion.SetIndex(nextIndex);
-  outputRegion.SetSize(nextSize);
+  outputRegion = { nextIndex, nextSize };
 
   //
   // If any dimension has zero size, then we do not need to process this
@@ -121,8 +120,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateNextInputRegion(long * 
   //
   // Set what we have learned into the image region.
   //
-  inputRegion.SetIndex(nextIndex);
-  inputRegion.SetSize(nextSize);
+  inputRegion = { nextIndex, nextSize };
 
   //
   // If any dimension has zero size, then we do not need to process this
@@ -239,7 +237,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::RegionIsOdd(long base, long tes
   }
 
   const long oddness = (test - base) / size;
-  return (oddness & 1);
+  return oddness & 1;
 }
 
 /**

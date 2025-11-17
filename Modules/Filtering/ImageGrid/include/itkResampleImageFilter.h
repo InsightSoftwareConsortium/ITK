@@ -220,7 +220,7 @@ public:
   itkGetConstReferenceMacro(Size, SizeType);
   /** @ITKEndGrouping */
   /** Get/Set the pixel value when a transformed pixel is outside of the
-   * image.  The default default pixel value is 0. */
+   * image.  The default pixel value is 0. */
   /** @ITKStartGrouping */
   itkSetMacro(DefaultPixelValue, PixelType);
   itkGetConstReferenceMacro(DefaultPixelValue, PixelType);

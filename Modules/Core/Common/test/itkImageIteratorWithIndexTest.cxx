@@ -41,9 +41,7 @@ public:
   {
     auto size = ImageType::SizeType::Filled(100);
 
-    const typename ImageType::IndexType start{};
-
-    const typename ImageType::RegionType region{ start, size };
+    const typename ImageType::RegionType region{ size };
 
     m_Image->SetRegions(region);
     m_Image->Allocate();

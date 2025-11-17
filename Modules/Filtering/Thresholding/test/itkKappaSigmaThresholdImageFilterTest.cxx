@@ -43,7 +43,7 @@ itkKappaSigmaThresholdImageFilterTest(int argc, char * argv[])
   using MaskPixelType = unsigned char;
   using OutputPixelType = unsigned char;
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using InputImageType = itk::Image<InputPixelType, Dimension>;
   using MaskImageType = itk::Image<MaskPixelType, Dimension>;

@@ -36,7 +36,7 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest(int argc, char 
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using CoordType = double;
   using MeshType = itk::QuadEdgeMesh<CoordType, Dimension>;
 
@@ -56,7 +56,7 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest(int argc, char 
 
   filter->SetInput(reader->GetOutput());
 
-  constexpr unsigned int order = 2;
+  constexpr unsigned int order{ 2 };
   filter->SetOrder(order);
   ITK_TEST_SET_GET_VALUE(order, filter->GetOrder());
 

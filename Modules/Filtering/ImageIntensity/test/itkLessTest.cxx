@@ -25,16 +25,13 @@ itkLessTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int myDimension = 3;
+  constexpr unsigned int myDimension{ 3 };
 
   // Declare the types of the images
   using myImageType1 = itk::Image<float, myDimension>;
   using myImageType2 = itk::Image<float, myDimension>;
   using myImageType3 = itk::Image<float, myDimension>;
   using PixelType = myImageType1::PixelType;
-
-  // Declare the type of the index to access images
-  using myIndexType = itk::Index<myDimension>;
 
   // Declare the type of the size
   using mySizeType = itk::Size<myDimension>;
@@ -59,18 +56,10 @@ itkLessTest(int, char *[])
   const myImageType1Pointer inputImageA = myImageType1::New();
   const myImageType2Pointer inputImageB = myImageType2::New();
 
-  // Define their size, and start index
-  mySizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2;
+  // Define their size and region
+  auto size = mySizeType::Filled(2);
 
-  myIndexType start;
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  const myRegionType region{ start, size };
+  const myRegionType region{ size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -130,7 +119,7 @@ itkLessTest(int, char *[])
       inputImageA, inputImageB, outputImage, FG, BG);
     if (status1 == EXIT_FAILURE)
     {
-      return (EXIT_FAILURE);
+      return EXIT_FAILURE;
     }
 
     std::cout << "Step 1 passed" << std::endl;
@@ -158,7 +147,7 @@ itkLessTest(int, char *[])
       inputImageA, C, outputImage, FG, BG);
     if (status2 == EXIT_FAILURE)
     {
-      return (EXIT_FAILURE);
+      return EXIT_FAILURE;
     }
 
     std::cout << "Step 2 passed " << std::endl;
@@ -183,7 +172,7 @@ itkLessTest(int, char *[])
       filter->GetConstant1(), inputImageB, outputImage, FG, BG);
     if (status3 == EXIT_FAILURE)
     {
-      return (EXIT_FAILURE);
+      return EXIT_FAILURE;
     }
 
     std::cout << "Step 3 passed" << std::endl;

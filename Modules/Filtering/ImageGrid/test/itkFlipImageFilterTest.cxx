@@ -35,14 +35,14 @@ itkFlipImageFilterTest(int argc, char * argv[])
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using FlipperType = itk::FlipImageFilter<ImageType>;
 
   // Define a small input image
-  constexpr ImageType::IndexType index = { { 10, 20, 30 } };
-  constexpr ImageType::SizeType  size = { { 5, 4, 3 } };
+  constexpr ImageType::IndexType index{ 10, 20, 30 };
+  constexpr ImageType::SizeType  size{ 5, 4, 3 };
   const ImageType::RegionType    region{ index, size };
 
   ImageType::SpacingType spacing;

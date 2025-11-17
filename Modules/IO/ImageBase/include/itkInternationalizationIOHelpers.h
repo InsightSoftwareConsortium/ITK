@@ -75,7 +75,7 @@ IsStringEncodingValid(const std::string & str)
   const int utf16_size =
     MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, str.c_str(), static_cast<int>(str.length()), nullptr, 0);
 
-  return (utf16_size != 0);
+  return utf16_size != 0;
 }
 
 #else
@@ -217,7 +217,7 @@ public:
   bool
   is_open()
   {
-    return (m_fd != -1);
+    return m_fd != -1;
   }
 
   void
@@ -252,7 +252,7 @@ public:
   bool
   is_open()
   {
-    return (m_fd != -1);
+    return m_fd != -1;
   }
 
   void

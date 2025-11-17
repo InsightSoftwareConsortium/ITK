@@ -186,9 +186,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
       static_cast<double>(outputRequestedRegionStartIndex[i]) / static_cast<double>(m_ExpandFactors[i]));
   }
 
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion.SetSize(inputRequestedRegionSize);
-  inputRequestedRegion.SetIndex(inputRequestedRegionStartIndex);
+  typename TInputImage::RegionType inputRequestedRegion{ inputRequestedRegionStartIndex, inputRequestedRegionSize };
 
   // crop the input requested region at the input's largest possible region
   if (inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()))

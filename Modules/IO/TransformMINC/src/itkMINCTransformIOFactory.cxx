@@ -54,8 +54,7 @@ MINCTransformIOFactory::GetITKSourceVersion() const
 const char *
 MINCTransformIOFactory::GetDescription() const
 {
-  return "MINC XFM TransformIO Factory, allows the"
-         " loading of Minc XFM transforms into insight";
+  return "MINC XFM TransformIO Factory, allows the loading of Minc XFM transforms into insight";
 }
 
 // Undocumented API used to register during static initialization.

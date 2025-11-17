@@ -247,7 +247,7 @@ itkNewMetaObjectTypeTest(int, char *[])
   auto binaryPoints = false;
   ITK_TEST_SET_GET_BOOLEAN(converter, BinaryPoints, binaryPoints);
 
-  constexpr unsigned int transformPrecision = 6;
+  constexpr unsigned int transformPrecision{ 6 };
   converter->SetTransformPrecision(transformPrecision);
   ITK_TEST_SET_GET_VALUE(transformPrecision, converter->GetTransformPrecision());
 

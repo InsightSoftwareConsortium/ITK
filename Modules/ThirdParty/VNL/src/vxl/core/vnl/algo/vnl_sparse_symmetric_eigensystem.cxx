@@ -279,7 +279,7 @@ vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double> & A,
   iParam[5] = 0; // output - number of converged Ritz values
   iParam[6] = 0; // No longer referenced. Implicit restarting is ALWAYS used
 
-  long mode;
+  long mode = 0;
 
   // if we have a sigma, it's mode 3, otherwise, mode 2
   // the mode determines the OP used in the solution
@@ -463,7 +463,7 @@ vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double> & A,
                      whichLength);
 
   // Copy the eigenvectors
-  int evIx;
+  int evIx = 0;
   for (evIx = 0; evIx < nvalues; evIx++)
   {
     const vnl_vector_ref<double> tempEVec(matSize, &Z[evIx * matSize]);
@@ -528,7 +528,7 @@ vnl_sparse_symmetric_eigensystem::RestoreVectors(int n, int m, double * q, int b
   if (base == 0)
     read_idx = 0;
 
-  double * temp = temp_store[read_idx];
+  double * const temp = temp_store[read_idx];
   std::memcpy(q, temp, n * m * sizeof(double));
 #ifdef DEBUG
   std::cout << "Restore vectors " << base << ' ' << temp << '\n';

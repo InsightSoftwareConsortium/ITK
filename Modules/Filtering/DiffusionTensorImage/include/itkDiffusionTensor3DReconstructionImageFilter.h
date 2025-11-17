@@ -222,7 +222,7 @@ public:
     if (m_GradientImageTypeEnumeration ==
         DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInASingleImage)
     {
-      itkExceptionMacro(
+      itkExceptionStringMacro(
         "Cannot call both methods:AddGradientImage and SetGradientImage. Please call only one of them.");
     }
 

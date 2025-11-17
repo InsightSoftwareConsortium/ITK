@@ -1,5 +1,6 @@
 #include <iostream>
 #include "vnl/vnl_vector.h"
+#include <cmath>
 #include <vnl/algo/vnl_bracket_minimum.h>
 
 #include "testlib/testlib_test.h"
@@ -37,10 +38,10 @@ test_bracket_minimum()
   bm_square1 f1;
   double a = 5;
   double b = 6;
-  double c;
-  double fa;
-  double fb;
-  double fc;
+  double c = NAN;
+  double fa = NAN;
+  double fb = NAN;
+  double fc = NAN;
 
   vnl_bracket_minimum(f1, a, b, c, fa, fb, fc);
 

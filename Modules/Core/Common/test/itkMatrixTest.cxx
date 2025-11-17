@@ -46,7 +46,7 @@ itkMatrixTest(int, char *[])
   std::cout << resultVector[1] << ", ";
   std::cout << resultVector[2] << std::endl;
 
-  constexpr PointType::ValueType p1Init[3] = { 3, 4, 5 };
+  constexpr PointType::ValueType p1Init[3]{ 3, 4, 5 };
   const PointType                p1 = p1Init;
 
   PointType resultPoint = matrix * p1;
@@ -87,7 +87,7 @@ itkMatrixTest(int, char *[])
 
   auto matrix5 = itk::MakeFilled<MatrixType>(1.7);
 
-  constexpr NumericType value = 2;
+  constexpr NumericType value{ 2 };
   matrix5[1][1] = value;
   if (itk::Math::NotExactlyEquals(matrix5[1][1], value))
   {
@@ -96,7 +96,7 @@ itkMatrixTest(int, char *[])
   }
 
   // Test access with the operator()(row,col)
-  constexpr NumericType value2 = 19;
+  constexpr NumericType value2{ 19 };
   matrix5(1, 1) = value2;
   if (itk::Math::NotExactlyEquals(matrix5[1][1], value2))
   {
@@ -195,8 +195,8 @@ itkMatrixTest(int, char *[])
 
 
   { // Test for Matrix addition and subtraction
-    constexpr unsigned int nc = 4;
-    constexpr unsigned int nr = 3;
+    constexpr unsigned int nc{ 4 };
+    constexpr unsigned int nr{ 3 };
 
     using AddSubtractMatrixType = itk::Matrix<double, nr, nc>;
 
@@ -231,7 +231,7 @@ itkMatrixTest(int, char *[])
 
     // Check the addition and subtraction values
     {
-      constexpr double tolerance = 1e-7;
+      constexpr double tolerance{ 1e-7 };
       for (unsigned int r = 0; r < nr; ++r)
       {
         for (unsigned int c = 0; c < nc; ++c)
@@ -257,7 +257,7 @@ itkMatrixTest(int, char *[])
 
     // Check the in-place addition and subtraction values
     {
-      constexpr double tolerance = 1e-7;
+      constexpr double tolerance{ 1e-7 };
       for (unsigned int r = 0; r < nr; ++r)
       {
         for (unsigned int c = 0; c < nc; ++c)
@@ -297,7 +297,7 @@ itkMatrixTest(int, char *[])
     MatrixType matrixB(vnlMatrixA); // Test constructor
 
     { // verify values
-      constexpr double tolerance = 1e-7;
+      constexpr double tolerance{ 1e-7 };
       for (unsigned int row = 0; row < 3; ++row)
       {
         for (unsigned int col = 0; col < 3; ++col)
@@ -315,7 +315,7 @@ itkMatrixTest(int, char *[])
     matrixC = vnlMatrixA; // Test assignment
 
     { // verify values
-      constexpr double tolerance = 1e-7;
+      constexpr double tolerance{ 1e-7 };
       for (unsigned int row = 0; row < 3; ++row)
       {
         for (unsigned int col = 0; col < 3; ++col)

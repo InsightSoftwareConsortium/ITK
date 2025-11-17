@@ -18,6 +18,7 @@
 
 #include "itkNeighborhoodIteratorTestCommon.hxx"
 #include "itkConstShapedNeighborhoodIterator.h"
+#include <array>
 
 void
 PrintShapedNeighborhood(const itk::ConstShapedNeighborhoodIterator<TestImageType> & n)
@@ -41,20 +42,12 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   loc[3] = 1;
 
   // radius of the iterator
-  itk::ConstShapedNeighborhoodIterator<TestImageType>::RadiusType radius;
-  radius[0] = radius[1] = radius[2] = radius[3] = 1;
-
+  itk::ConstShapedNeighborhoodIterator<TestImageType>::RadiusType radius{ 1, 1, 1, 1 };
   // region over which the iterator is defined
-  itk::ConstShapedNeighborhoodIterator<TestImageType>::RegionType reg;
-  itk::ConstShapedNeighborhoodIterator<TestImageType>::SizeType   sz;
-  itk::ConstShapedNeighborhoodIterator<TestImageType>::IndexType  idx;
-  idx[0] = idx[1] = idx[2] = 0;
-  idx[3] = 1;
-  sz[0] = sz[1] = 10;
-  sz[2] = 5;
-  sz[3] = 1;
-  reg.SetIndex(idx);
-  reg.SetSize(sz);
+
+  constexpr itk::ConstShapedNeighborhoodIterator<TestImageType>::SizeType  sz{ 10, 10, 5, 1 };
+  constexpr itk::ConstShapedNeighborhoodIterator<TestImageType>::IndexType idx{ 0, 0, 0, 1 };
+  itk::ConstShapedNeighborhoodIterator<TestImageType>::RegionType          reg = { idx, sz };
 
   // initialize an iterator
   println("Creating ConstShapedNeighborhoodIterator");
@@ -416,11 +409,8 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   {
     // Create an image
     using ChangeRegionTestImageType = itk::Image<int, 2>;
-    constexpr ChangeRegionTestImageType::IndexType imageCorner{};
-
-    auto imageSize = ChangeRegionTestImageType::SizeType::Filled(4);
-
-    const ChangeRegionTestImageType::RegionType imageRegion(imageCorner, imageSize);
+    auto                                        imageSize = ChangeRegionTestImageType::SizeType::Filled(4);
+    const ChangeRegionTestImageType::RegionType imageRegion{ imageSize };
 
     auto image = ChangeRegionTestImageType::New();
     image->SetRegions(imageRegion);
@@ -470,9 +460,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
       shapedNeighborhoodIterator.ActivateOffset(offset_item);
     }
 
-    std::vector<int> expectedValuesRegion1(2);
-    expectedValuesRegion1[0] = 0;
-    expectedValuesRegion1[1] = 255;
+    static constexpr std::array<int, 2> expectedValuesRegion1{ 0, 255 };
 
     unsigned int counter = 0;
     // while(!shapedNeighborhoodIterator.IsAtEnd()) // no need for this loop as we are only iterating over a 1x1 region
@@ -500,9 +488,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     shapedNeighborhoodIterator.SetRegion(region2);
     shapedNeighborhoodIterator.GoToBegin();
 
-    std::vector<int> expectedValuesRegion2(2);
-    expectedValuesRegion2[0] = 255;
-    expectedValuesRegion2[1] = 255;
+    static constexpr std::array<int, 2> expectedValuesRegion2{ 255, 255 };
 
     counter = 0;
     // while(!shapedNeighborhoodIterator.IsAtEnd()) // no need for this loop as we are only iterating over a 1x1 region

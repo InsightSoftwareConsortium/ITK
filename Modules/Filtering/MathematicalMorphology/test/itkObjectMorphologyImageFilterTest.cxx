@@ -33,11 +33,11 @@ int
 itkObjectMorphologyImageFilterTest(int, char *[])
 {
   // Define the dimension of the images
-  constexpr unsigned int myDimension = 3;
+  constexpr unsigned int myDimension{ 3 };
 
   // Define the values of the input images
-  constexpr unsigned short fgValue = 1;
-  constexpr unsigned short bgValue = 0;
+  constexpr unsigned short fgValue{ 1 };
+  constexpr unsigned short bgValue{ 0 };
 
   // Declare the types of the images
   using myImageType = itk::Image<unsigned short, myDimension>;
@@ -55,10 +55,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   auto inputImage = myImageType::New();
 
   // Define their size, and start index
-  mySizeType size;
-  size[0] = 20;
-  size[1] = 20;
-  size[2] = 20;
+  auto size = mySizeType::Filled(20);
 
   myIndexType index;
   index[0] = 0;

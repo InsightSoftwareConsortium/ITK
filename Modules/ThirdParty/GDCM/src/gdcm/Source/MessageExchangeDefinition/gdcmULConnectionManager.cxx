@@ -196,7 +196,7 @@ bool ULConnectionManager::EstablishConnection(const std::string& inAETitle,
     for( std::vector<BasePDU*>::const_iterator itor
       = thePDUs.begin(); itor != thePDUs.end(); itor++)
       {
-      //assert(*itor);
+      //gdcm_assert(*itor);
       if (*itor == nullptr) continue; //can have a nulled pdu, apparently
       (*itor)->Print(Trace::GetErrorStream());
       }
@@ -207,7 +207,7 @@ bool ULConnectionManager::EstablishConnection(const std::string& inAETitle,
     for( std::vector<BasePDU*>::const_iterator itor
       = thePDUs.begin(); itor != thePDUs.end(); itor++)
       {
-      assert(*itor);
+      gdcm_assert(*itor);
       if (*itor == nullptr) continue; //can have a nulled pdu, apparently
       (*itor)->Print(Trace::GetDebugStream());
       }
@@ -421,7 +421,7 @@ void ULConnectionManager::SendStore(const File & file, ULConnectionCallback* inC
 
   ULEvent theEvent(ePDATArequest, theDataPDU, pStream, dataSetOffset );
   EStateID theState = RunEventLoop(theEvent, mConnection, inCallback, false);
-  assert( theState == eSta6TransferReady || theState == eStaDoesNotExist ); (void)theState;
+  gdcm_assert( theState == eSta6TransferReady || theState == eStaDoesNotExist ); (void)theState;
 }
 
 std::vector<DataSet> ULConnectionManager::SendNEventReport	(const BaseQuery* inQuery)
@@ -677,7 +677,7 @@ EStateID ULConnectionManager::RunMoveEventLoop(ULEvent& currentEvent, ULConnecti
             Attribute<0x0,0x0800> at;
             at.SetFromDataElement( de );
             unsigned short datasettype = at.GetValue();
-            assert( datasettype == 0x0101 || datasettype == 0x1 ); (void)datasettype;
+            gdcm_assert( datasettype == 0x0101 || datasettype == 0x1 ); (void)datasettype;
           }
           if (theRSP.FindDataElement(Tag(0x0, 0x0900))){
             DataElement const & de = theRSP.GetDataElement(Tag(0x0,0x0900));
@@ -1134,7 +1134,7 @@ EStateID ULConnectionManager::RunEventLoop(ULEvent& currentEvent, ULConnection* 
                     {
                     delete theData[i];
                     }
-                  assert(inCallback);
+                  gdcm_assert(inCallback);
                     {
                     inCallback->HandleDataSet(theCompleteFindResponse);
                     }

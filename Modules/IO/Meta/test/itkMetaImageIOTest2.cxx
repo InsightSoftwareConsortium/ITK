@@ -40,13 +40,12 @@ TestUnknowMetaDataBug(const std::string & fname)
     using ImageType = itk::Image<PixelType, 2>;
 
     ImageType::RegionType         region;
-    constexpr ImageType::SizeType size = { { 32, 32 } };
+    constexpr ImageType::SizeType size{ 32, 32 };
     region.SetSize(size);
 
     auto image = ImageType::New();
     image->SetRegions(region);
-    image->Allocate();
-    image->FillBuffer(0);
+    image->AllocateInitialized();
 
     itk::MetaDataDictionary & dict = image->GetMetaDataDictionary();
 
@@ -102,5 +101,5 @@ itkMetaImageIOTest2(int argc, char * argv[])
   }
 
   const bool pass = (TestUnknowMetaDataBug(argv[1]) == EXIT_SUCCESS);
-  return (pass ? EXIT_SUCCESS : EXIT_FAILURE);
+  return pass ? EXIT_SUCCESS : EXIT_FAILURE;
 }

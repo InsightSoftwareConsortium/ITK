@@ -137,7 +137,7 @@ main(int argc, char * argv[])
     std::cerr << " [sliceAfterRegistration] " << std::endl;
     return EXIT_FAILURE;
   }
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using PixelType = float;
   using FixedImageType = itk::Image<PixelType, Dimension>;
   using MovingImageType = itk::Image<PixelType, Dimension>;
@@ -246,7 +246,7 @@ main(int argc, char * argv[])
   axis[0] = 0.0;
   axis[1] = 0.0;
   axis[2] = 1.0;
-  constexpr double angle = 0;
+  constexpr double angle{ 0 };
   rotation.Set(axis, angle);
   transform->SetRotation(rotation);
 
@@ -257,7 +257,7 @@ main(int argc, char * argv[])
   registration->SetInitialTransformParameters(transform->GetParameters());
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
-  constexpr double    translationScale = 1.0 / 1000.0;
+  constexpr double    translationScale{ 1.0 / 1000.0 };
   optimizerScales[0] = 1.0;
   optimizerScales[1] = 1.0;
   optimizerScales[2] = 1.0;

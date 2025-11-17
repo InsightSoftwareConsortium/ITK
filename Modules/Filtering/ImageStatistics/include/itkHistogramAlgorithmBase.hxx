@@ -22,11 +22,6 @@
 namespace itk
 {
 template <typename TInputHistogram>
-HistogramAlgorithmBase<TInputHistogram>::HistogramAlgorithmBase()
-  : m_InputHistogram(nullptr)
-{}
-
-template <typename TInputHistogram>
 void
 HistogramAlgorithmBase<TInputHistogram>::PrintSelf(std::ostream & os, Indent indent) const
 {

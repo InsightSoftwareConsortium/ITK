@@ -62,7 +62,7 @@ public:
   /** implement type-specific clone method */
   itkCloneMacro(Self);
 
-  /** type alias alias for the source data container */
+  /** type alias for the source data container */
   using SampleType = TSample;
   using SampleConstPointer = typename SampleType::ConstPointer;
   using MeasurementVectorType = typename TSample::MeasurementVectorType;

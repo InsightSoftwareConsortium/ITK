@@ -1,8 +1,10 @@
 #include "sysdep1.h"    /* here to get stat64 on some badly designed Linux systems */
 #include "v3p_f2c.h"
 #ifdef KR_headers
+#define Const /*nothing*/
 extern char *malloc();
 #else
+#define Const const
 #undef abs
 #undef min
 #undef max
@@ -10,6 +12,15 @@ extern char *malloc();
 #endif
 #include "fio.h"
 #include "fmt.h"        /* for struct syl */
+
+/* Compile this with -DNO_ISATTY if unistd.h does not exist or */
+/* if it does not define int isatty(int). */
+#ifdef NO_ISATTY
+#define isatty(x) 0
+#else
+#include <unistd.h>
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -21,7 +32,7 @@ cilist *f__elist;       /*active external io list*/
 icilist *f__svic;       /*active internal io list*/
 flag f__reading;        /*1 if reading, 0 if writing*/
 flag f__cplus,f__cblank;
-char *f__fmtbuf;
+Const char *f__fmtbuf;
 flag f__external;       /*1 if external io, 0 if internal */
 #ifdef KR_headers
 int (*f__doed)(),(*f__doned)();
@@ -44,7 +55,7 @@ int f__scale;
 char *f__icptr;
 
 /*error messages*/
-char *F_err[] =
+Const char *F_err[] =
 {
         "error in format",                              /* 100 */
         "illegal unit number",                          /* 101 */
@@ -140,7 +151,7 @@ f__canseek(FILE *f) /*SYSDEP*/
 #ifdef KR_headers
 f__fatal(n,s) char *s;
 #else
-f__fatal(int n, char *s)
+f__fatal(int n, const char *s)
 #endif
 {
         if(n<100 && n>=0) perror(s); /*SYSDEP*/
@@ -268,7 +279,7 @@ f__nowwriting(unit *x)
 #ifdef KR_headers
 err__fl(f, m, s) int f, m; char *s;
 #else
-err__fl(int f, int m, char *s)
+err__fl(int f, int m, const char *s)
 #endif
 {
         if (!f)

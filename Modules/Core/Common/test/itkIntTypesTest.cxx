@@ -28,14 +28,14 @@ template <typename T>
 bool
 CheckSize(size_t size, T * = nullptr)
 {
-  return (sizeof(T) == size);
+  return sizeof(T) == size;
 }
 
 template <typename T>
 bool
 CheckAtleastSize(size_t size, T * = nullptr)
 {
-  return (sizeof(T) >= size);
+  return sizeof(T) >= size;
 }
 
 

@@ -79,7 +79,7 @@ public:
   itkOverrideGetNameOfClassMacro(ProjectedLandweberDeconvolutionImageFilter);
 
 protected:
-  ProjectedLandweberDeconvolutionImageFilter();
+  ProjectedLandweberDeconvolutionImageFilter() = default;
   ~ProjectedLandweberDeconvolutionImageFilter() override;
 };
 } // end namespace itk

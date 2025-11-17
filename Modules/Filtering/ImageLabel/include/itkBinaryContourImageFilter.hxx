@@ -48,11 +48,10 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegio
 
   // We need all the input.
   const InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
-  if (!input)
+  if (input)
   {
-    return;
+    input->SetRequestedRegionToLargestPossibleRegion();
   }
-  input->SetRequestedRegionToLargestPossibleRegion();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -78,7 +77,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   // parallelize in a way which does not split the region along X axis
-  constexpr unsigned int restrictedDirection = 0;
+  constexpr unsigned int restrictedDirection{ 0 };
   this->GetMultiThreader()->template ParallelizeImageRegionRestrictDirection<ImageDimension>(
     restrictedDirection,
     reqRegion,
@@ -204,7 +203,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::ThreadedIntegrateData(const
     {
       for (auto I = this->m_LineOffsets.begin(); I != this->m_LineOffsets.end(); ++I)
       {
-        const OffsetValueType neighIdx = thisIdx + (*I);
+        const OffsetValueType neighIdx = thisIdx + *I;
 
         // check if the neighbor is in the map
         if (neighIdx >= 0 && neighIdx < OffsetValueType(linecount) && !m_BackgroundLineMap[neighIdx].empty())

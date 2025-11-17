@@ -19,23 +19,26 @@
 #include "itkOrientImageFilter.h"
 #include "itkImageToImageFilter.h"
 #include "itkTestingMacros.h"
-#include "vnl/vnl_sample.h"
+#include <random> // For mt19937.
 
 using ImageType = itk::Image<unsigned int, 3>;
 
 ImageType::Pointer
 CreateRandomImage()
 {
-  constexpr ImageType::SizeType  imageSize = { { 4, 4, 4 } };
-  constexpr ImageType::IndexType imageIndex = { { 0, 0, 0 } };
-  const ImageType::RegionType    region{ imageIndex, imageSize };
-  auto                           img = ImageType::New();
+  constexpr ImageType::SizeType imageSize{ 4, 4, 4 };
+  const ImageType::RegionType   region{ imageSize };
+  auto                          img = ImageType::New();
   img->SetRegions(region);
   img->Allocate();
+
+  std::mt19937                                randomNumberEngine{};
+  std::uniform_int_distribution<unsigned int> randomNumberDistribution(0, 32767);
+
   itk::ImageRegionIterator<ImageType> ri(img, region);
   while (!ri.IsAtEnd())
   {
-    ri.Set(static_cast<unsigned int>(vnl_sample_uniform(0, 32767)));
+    ri.Set(randomNumberDistribution(randomNumberEngine));
     ++ri;
   }
   return img;

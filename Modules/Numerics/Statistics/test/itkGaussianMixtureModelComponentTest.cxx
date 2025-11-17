@@ -37,9 +37,9 @@ itkGaussianMixtureModelComponentTest(int argc, char * argv[])
   }
 
   char *        dataFileName = argv[1];
-  constexpr int dataSize = 2000;
+  constexpr int dataSize{ 2000 };
   using ParametersType = itk::Array<double>;
-  constexpr unsigned int numberOfClasses = 2;
+  constexpr unsigned int numberOfClasses{ 2 };
 
   ParametersType params(6);
 

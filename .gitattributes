@@ -54,6 +54,7 @@ Modules/ThirdParty/** hooks-max-size=300000 hooks.style=
 Modules/ThirdParty/ZLIB/src/itkzlib-ng/crc32_braid_tbl.h hooks-max-size=700000
 Modules/ThirdParty/GDCM/src/gdcm/Source/DataDictionary/privatedicts.xml hooks-max-size=400000
 Modules/Filtering/Denoising/include/itkPatchBasedDenoisingImageFilter.hxx hooks-max-size=120000
+Modules/ThirdParty/Expat/src/expat/lib/xmlparse.c hooks-max-size=320000
 Documentation/docs/releases/* hooks-max-size=300000
 Documentation/Art/* hooks-max-size=300000
 pixi.lock hooks-max-size=1000000

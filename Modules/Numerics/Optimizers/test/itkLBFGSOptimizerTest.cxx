@@ -128,7 +128,7 @@ itkLBFGSOptimizerTest(int, char *[])
   auto costFunction = LBFGSCostFunction::New();
 
   // Set some optimizer parameters
-  constexpr bool trace = false;
+  constexpr bool trace{ false };
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Trace, trace);
 
   unsigned int maximumNumberOfFunctionEvaluations = 1000;
@@ -158,7 +158,7 @@ itkLBFGSOptimizerTest(int, char *[])
 
   vnlOptimizer->set_check_derivatives(0);
 
-  constexpr unsigned int        SpaceDimension = 2;
+  constexpr unsigned int        SpaceDimension{ 2 };
   OptimizerType::ParametersType initialValue(SpaceDimension);
 
   // We start not so far from  | 2 -2 |
@@ -219,7 +219,7 @@ itkLBFGSOptimizerTest(int, char *[])
   // check results to see if it is within range
   //
   bool             pass = true;
-  constexpr double trueParameters[2] = { 2, -2 };
+  constexpr double trueParameters[2]{ 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

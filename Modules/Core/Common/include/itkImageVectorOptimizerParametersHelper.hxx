@@ -31,8 +31,8 @@ ImageVectorOptimizerParametersHelper<TValue, VVectorDimension, VImageDimension>:
 {
   if (m_ParameterImage.IsNull())
   {
-    itkGenericExceptionMacro("ImageVectorOptimizerParametersHelper::"
-                             "MoveDataPointer: m_ParameterImage must be defined.");
+    itkGenericExceptionMacro(
+      "ImageVectorOptimizerParametersHelper::MoveDataPointer: m_ParameterImage must be defined.");
   }
   // The buffer for Image<Vector> points to Vector type, not TValue, so
   // have to cast.
@@ -61,8 +61,8 @@ ImageVectorOptimizerParametersHelper<TValue, VVectorDimension, VImageDimension>:
   auto * image = dynamic_cast<ParameterImageType *>(object);
   if (image == nullptr)
   {
-    itkGenericExceptionMacro("ImageVectorOptimizerParametersHelper::SetParametersObject: object is "
-                             "not of proper image type. Expected VectorImage, received "
+    itkGenericExceptionMacro("ImageVectorOptimizerParametersHelper::SetParametersObject: object is not of proper image "
+                             "type. Expected VectorImage, received "
                              << object->GetNameOfClass());
   }
   m_ParameterImage = image;

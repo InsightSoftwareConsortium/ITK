@@ -26,15 +26,12 @@ itkMinimumImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   using PixelType = unsigned char;
 
   // Declare the types of the images
   using ImageType = itk::Image<PixelType, Dimension>;
-
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<Dimension>;
 
   // Declare the type of the size
   using SizeType = itk::Size<Dimension>;
@@ -49,20 +46,9 @@ itkMinimumImageFilterTest(int, char *[])
   auto inputImageA = ImageType::New();
   auto inputImageB = ImageType::New();
 
-  // Define their size, and start index
-  SizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2;
-
-  IndexType start;
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  // Define their size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -73,8 +59,8 @@ itkMinimumImageFilterTest(int, char *[])
   inputImageB->Allocate();
 
   // Define the pixel values for each image
-  constexpr PixelType largePixelValue = 3;
-  constexpr PixelType smallPixelValue = 2;
+  constexpr PixelType largePixelValue{ 3 };
+  constexpr PixelType smallPixelValue{ 2 };
 
   // Declare Iterator types appropriate for each image
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
@@ -119,9 +105,9 @@ itkMinimumImageFilterTest(int, char *[])
   // Note that we are not comparing the entirety of the filter output in order
   // to keep compile time as small as possible
 
-  constexpr ImageType::IndexType pixelIndex = { { 0, 1, 1 } };
+  constexpr ImageType::IndexType pixelIndex{ 0, 1, 1 };
 
-  ITK_TEST_EXPECT_EQUAL(outputImage->GetPixel(start), smallPixelValue);
+  ITK_TEST_EXPECT_EQUAL(outputImage->GetPixel({}), smallPixelValue);
   ITK_TEST_EXPECT_EQUAL(outputImage->GetPixel(pixelIndex), smallPixelValue);
 
   // All objects should be automatically destroyed at this point

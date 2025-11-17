@@ -139,7 +139,7 @@ bool StreamImageReader::Read(char* inReadBuffer, const std::size_t& inBufferLeng
 bool StreamImageReader::ReadImageSubregionRAW(char* inReadBuffer, const std::size_t& inBufferLength)
 {
   //assumes that the file is organized in row-major format, with each row rastering across
-  assert( mFileOffset != -1 );
+  gdcm_assert( mFileOffset != -1 );
   (void)inBufferLength;
   int y, z;
   std::streamoff theOffset;
@@ -377,7 +377,7 @@ bool StreamImageReader::ReadImageInformation()
   if( mFileOffset == -1 ) return false;
 
   // postcondition
-  assert( mFileOffset != -1 );
+  gdcm_assert( mFileOffset != -1 );
 
   const File &file_t = mReader.GetFile();
   const DataSet &ds_t = file_t.GetDataSet();
@@ -485,7 +485,7 @@ File const &StreamImageReader::GetFile() const
     }
   else
     {
-    assert(0);
+    gdcm_assert(0);
     return mReader.GetFile();
     }
 }

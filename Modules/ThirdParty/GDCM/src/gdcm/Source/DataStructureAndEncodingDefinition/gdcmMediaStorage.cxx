@@ -178,13 +178,13 @@ MediaStorage::MSType MediaStorage::GetMSType(const char *str)
       }
     }
 
-  //assert(0);
+  //gdcm_assert(0);
   return MS_END;
 }
 
 const char* MediaStorage::GetMSString(MSType ms)
 {
-  assert( ms <= MS_END );
+  gdcm_assert( ms <= MS_END );
   return MSStrings[(int)ms];
 }
 
@@ -349,21 +349,21 @@ static const MSModalityType MSModalityTypes[] = {
 unsigned int MediaStorage::GetNumberOfMSType()
 {
   const unsigned int n = MS_END;
-  assert( n > 0 );
+  gdcm_assert( n > 0 );
   return n;
 }
 
 unsigned int MediaStorage::GetNumberOfMSString()
 {
   static const unsigned int n = sizeof( MSStrings ) / sizeof( *MSStrings );
-  assert( n > 0 );
+  gdcm_assert( n > 0 );
   return n - 1;
 }
 
 unsigned int MediaStorage::GetNumberOfModality()
 {
   static const unsigned int n = sizeof( MSModalityTypes ) / sizeof( *MSModalityTypes );
-  assert( n > 0 );
+  gdcm_assert( n > 0 );
   return n - 1;
 }
 
@@ -371,7 +371,7 @@ const char *MediaStorage::GetModality() const
 {
   if (!MSModalityTypes[MSField].Modality)
     return nullptr;
-  assert( MSModalityTypes[MSField].Modality[0] != ' ' ); // FIXME
+  gdcm_assert( MSModalityTypes[MSField].Modality[0] != ' ' ); // FIXME
   return MSModalityTypes[MSField].Modality;
 }
 
@@ -379,7 +379,7 @@ unsigned int MediaStorage::GetModalityDimension() const
 {
   if (!MSModalityTypes[MSField].Modality)
     return 0;
-  assert( MSModalityTypes[MSField].Dimension );
+  gdcm_assert( MSModalityTypes[MSField].Dimension );
   return MSModalityTypes[MSField].Dimension;
 }
 
@@ -485,7 +485,7 @@ void MediaStorage::SetFromSourceImageSequence(DataSet const &ds)
       const DataElement& de = subds.GetDataElement( referencedSOPClassUIDTag );
       const ByteValue *sopclassuid = de.GetByteValue();
       // LEADTOOLS_FLOWERS-8-PAL-Uncompressed.dcm
-      //assert( sopclassuid );
+      //gdcm_assert( sopclassuid );
       if( sopclassuid )
         {
         std::string sopclassuid_str(
@@ -498,7 +498,7 @@ void MediaStorage::SetFromSourceImageSequence(DataSet const &ds)
           sopclassuid_str = sopclassuid_str.substr(0,pos);
           }
         MediaStorage ms = MediaStorage::GetMSType(sopclassuid_str.c_str());
-        assert( ms != MS_END );
+        gdcm_assert( ms != MS_END );
         MSField = ms;
         }
       }
@@ -608,7 +608,7 @@ bool MediaStorage::SetFromFile(File const &file)
     ms2.SetFromSourceImageSequence(ds);
     if( MSField != ms2 && ms2 != MediaStorage::MS_END )
       {
-      assert( MediaStorage::IsImage( ms2 ) );
+      gdcm_assert( MediaStorage::IsImage( ms2 ) );
       gdcmWarningMacro( "Object is declared as SecondaryCaptureImageStorage but according"
         " to Source Image Sequence it was derived from " << ms2 << ". Using it instead" );
       MSField = ms2;

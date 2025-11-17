@@ -19,11 +19,15 @@
 #include "itkImageFileReader.h"
 #include "itkVoronoiSegmentationRGBImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include <iostream>
 #include "itkMath.h"
+
+#include <algorithm> // For generate.
+#include <iostream>
+#include <random> // For mt19937.
 
 // type alias for all functions
 using PixelType = itk::RGBPixel<unsigned char>;
+using PixelComponentType = PixelType::ComponentType;
 using ImageType = itk::Image<PixelType, 2>;
 using SegmentationType = itk::Image<unsigned char, 2>;
 using ReaderType = itk::ImageFileReader<ImageType>;
@@ -36,21 +40,21 @@ namespace VoronoiSegRGBTest
 //
 // global constants
 //
-constexpr unsigned int  width = 256;
-constexpr unsigned int  height = 256;
-constexpr unsigned char bgMean = 64;
-constexpr unsigned char bgStd = 10;
-constexpr unsigned char fgMean = 128;
-constexpr unsigned char fgStd = 5;
-constexpr unsigned int  objAStartX = 30;
-constexpr unsigned int  objAEndX = 94;
-constexpr unsigned int  objAStartY = 30;
-constexpr unsigned int  objAEndY = 94;
-constexpr unsigned int  objBStartX = 150;
-constexpr unsigned int  objBEndX = 214;
-constexpr unsigned int  objBStartY = 150;
-constexpr unsigned int  objBEndY = 214;
-constexpr double        minCorrectRate = .875; // .875 is all classified as background
+constexpr unsigned int  width{ 256 };
+constexpr unsigned int  height{ 256 };
+constexpr unsigned char bgMean{ 64 };
+constexpr unsigned char bgStd{ 10 };
+constexpr unsigned char fgMean{ 128 };
+constexpr unsigned char fgStd{ 5 };
+constexpr unsigned int  objAStartX{ 30 };
+constexpr unsigned int  objAEndX{ 94 };
+constexpr unsigned int  objAStartY{ 30 };
+constexpr unsigned int  objAEndY{ 94 };
+constexpr unsigned int  objBStartX{ 150 };
+constexpr unsigned int  objBEndX{ 214 };
+constexpr unsigned int  objBStartY{ 150 };
+constexpr unsigned int  objBEndY{ 214 };
+constexpr double        minCorrectRate{ .875 }; // .875 is all classified as background
 
 
 //
@@ -61,25 +65,31 @@ SetUpInputImage()
 {
   // initialize the test input image
   auto                          inputImage = ImageType::New();
-  constexpr ImageType::SizeType size = { { width, height } };
+  constexpr ImageType::SizeType size{ width, height };
   ImageType::RegionType         region;
   region.SetSize(size);
   inputImage->SetRegions(region);
   inputImage->Allocate();
 
+  std::mt19937 randomNumberEngine{};
+
   // add background random field
+  std::uniform_int_distribution<> backgroundRandomNumberDistribution(bgMean - bgStd, bgMean + bgStd);
+
   itk::ImageRegionIterator<ImageType> iter(inputImage, region);
   while (!iter.IsAtEnd())
   {
     PixelType px;
-    px[0] = static_cast<unsigned char>(vnl_sample_uniform(bgMean - bgStd, bgMean + bgStd));
-    px[1] = static_cast<unsigned char>(vnl_sample_uniform(bgMean - bgStd, bgMean + bgStd));
-    px[2] = static_cast<unsigned char>(vnl_sample_uniform(bgMean - bgStd, bgMean + bgStd));
+    std::generate(px.begin(), px.end(), [&randomNumberEngine, &backgroundRandomNumberDistribution] {
+      return static_cast<PixelComponentType>(backgroundRandomNumberDistribution(randomNumberEngine));
+    });
     iter.Set(px);
     ++iter;
   }
 
   // add objects to image
+  std::uniform_int_distribution<> forgroundRandomNumberDistribution(fgMean - fgStd, fgMean + fgStd);
+
   for (unsigned int x = objAStartX; x < objAEndX; ++x)
   {
     for (unsigned int y = objAStartY; y < objAEndY; ++y)
@@ -89,9 +99,9 @@ SetUpInputImage()
       idx[1] = y;
 
       PixelType px;
-      px[0] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
-      px[1] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
-      px[2] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
+      std::generate(px.begin(), px.end(), [&randomNumberEngine, &forgroundRandomNumberDistribution] {
+        return static_cast<PixelComponentType>(forgroundRandomNumberDistribution(randomNumberEngine));
+      });
       inputImage->SetPixel(idx, px);
     }
   }
@@ -104,9 +114,9 @@ SetUpInputImage()
       idx[1] = y;
 
       PixelType px;
-      px[0] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
-      px[1] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
-      px[2] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
+      std::generate(px.begin(), px.end(), [&randomNumberEngine, &forgroundRandomNumberDistribution] {
+        return static_cast<PixelComponentType>(forgroundRandomNumberDistribution(randomNumberEngine));
+      });
       inputImage->SetPixel(idx, px);
     }
   }
@@ -262,7 +272,7 @@ TestWithPrior(ImageType::Pointer inputImage)
   // set up the prior
   std::cout << "Setting up the prior image" << std::endl;
   auto                                  prior = BinaryObjectImage::New();
-  constexpr BinaryObjectImage::SizeType size = { { width, height } };
+  constexpr BinaryObjectImage::SizeType size{ width, height };
   BinaryObjectImage::RegionType         region;
   region.SetSize(size);
   prior->SetRegions(region);

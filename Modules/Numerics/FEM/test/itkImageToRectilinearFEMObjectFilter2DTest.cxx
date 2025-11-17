@@ -26,11 +26,11 @@
 int
 itkImageToRectilinearFEMObjectFilter2DTest(int argc, char * argv[])
 {
-  constexpr int inputFileDataCheckArgs = 8;
+  constexpr int inputFileDataCheckArgs{ 8 };
   // numberOfNodesToTest (a least 1) + nodeNumber (at least 1) + nodeCoords (2 per node)
-  constexpr unsigned int minArgNodes = 4;
+  constexpr unsigned int minArgNodes{ 4 };
   // numberOfElementsToTest (a least 1) + elementNumber (at least 1) + elementNodes (4 per element)
-  constexpr unsigned int minArgElements = 6;
+  constexpr unsigned int minArgElements{ 6 };
   int                    minArgC = inputFileDataCheckArgs + minArgNodes + minArgElements;
 
   if (argc < minArgC)
@@ -53,8 +53,8 @@ itkImageToRectilinearFEMObjectFilter2DTest(int argc, char * argv[])
   }
 
 
-  constexpr unsigned int Dimension = 2;
-  constexpr unsigned int nodeSize = 4;
+  constexpr unsigned int Dimension{ 2 };
+  constexpr unsigned int nodeSize{ 4 };
 
   // Check the provided node and element argument numbers
   const auto numberOfNodesToTest = static_cast<unsigned int>(std::stoi(argv[8]));

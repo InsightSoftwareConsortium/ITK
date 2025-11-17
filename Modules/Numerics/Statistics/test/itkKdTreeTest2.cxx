@@ -36,7 +36,7 @@ itkKdTreeTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using MeasurementValueType = float;
 
   using MeasurementVectorType = itk::Vector<MeasurementValueType, Dimension>;
@@ -104,7 +104,7 @@ itkKdTreeTest2(int argc, char * argv[])
 
     distanceMetric->SetOrigin(origin);
 
-    constexpr unsigned int                 numberOfNeighbors = 1;
+    constexpr unsigned int                 numberOfNeighbors{ 1 };
     TreeType::InstanceIdentifierVectorType neighbors;
 
     tree->Search(queryPoint, numberOfNeighbors, neighbors);

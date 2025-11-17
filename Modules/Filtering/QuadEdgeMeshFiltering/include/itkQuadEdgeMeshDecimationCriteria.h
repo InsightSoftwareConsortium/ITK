@@ -137,7 +137,7 @@ public:
                const ElementType & itkNotUsed(iElement),
                const MeasureType & itkNotUsed(iValue)) const override
   {
-    return (iMesh->GetNumberOfPoints() <= this->m_NumberOfElements);
+    return iMesh->GetNumberOfPoints() <= this->m_NumberOfElements;
   }
 
 protected:
@@ -184,7 +184,7 @@ public:
                const ElementType & itkNotUsed(iElement),
                const MeasureType & itkNotUsed(iValue)) const override
   {
-    return (iMesh->GetNumberOfFaces() <= this->m_NumberOfElements);
+    return iMesh->GetNumberOfFaces() <= this->m_NumberOfElements;
   }
 
 protected:
@@ -231,7 +231,7 @@ public:
                const ElementType & itkNotUsed(iElement),
                const MeasureType & iValue) const override
   {
-    return (iValue <= this->m_MeasureBound);
+    return iValue <= this->m_MeasureBound;
   }
 
 protected:
@@ -278,7 +278,7 @@ public:
   inline bool
   is_satisfied(MeshType *, const ElementType &, const MeasureType & iValue) const override
   {
-    return (iValue >= this->m_MeasureBound);
+    return iValue >= this->m_MeasureBound;
   }
 
 protected:

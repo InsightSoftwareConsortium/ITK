@@ -45,8 +45,8 @@ auto
 ShapePriorMAPCostFunctionBase<TFeatureImage, TOutputPixel>::GetValue(const ParametersType & parameters) const
   -> MeasureType
 {
-  return (this->ComputeLogInsideTerm(parameters) + this->ComputeLogGradientTerm(parameters) +
-          this->ComputeLogShapePriorTerm(parameters) + this->ComputeLogPosePriorTerm(parameters));
+  return this->ComputeLogInsideTerm(parameters) + this->ComputeLogGradientTerm(parameters) +
+         this->ComputeLogShapePriorTerm(parameters) + this->ComputeLogPosePriorTerm(parameters);
 }
 
 template <typename TFeatureImage, typename TOutputPixel>

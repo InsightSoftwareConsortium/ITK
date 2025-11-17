@@ -29,9 +29,9 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr double       nan = std::numeric_limits<double>::quiet_NaN();
-  constexpr unsigned int ARows = 3;
-  constexpr unsigned int ACols = 6;
+  constexpr double       nan{ std::numeric_limits<double>::quiet_NaN() };
+  constexpr unsigned int ARows{ 3 };
+  constexpr unsigned int ACols{ 6 };
 
   using ArrayType = itk::Array2D<double>;
   ArrayType array(ARows, ACols);
@@ -60,7 +60,7 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(array_writer, CSVNumericObjectFileWriter, LightProcessObject);
 
 
-  constexpr char delimiterCharacter = ',';
+  constexpr char delimiterCharacter{ ',' };
   array_writer->SetFieldDelimiterCharacter(delimiterCharacter);
 
   // should throw an exception as there is no input file nor any object
@@ -122,8 +122,8 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int VMRows = 3;
-  constexpr unsigned int VMCols = 4;
+  constexpr unsigned int VMRows{ 3 };
+  constexpr unsigned int VMCols{ 4 };
 
   using vnlMatrixType = vnl_matrix<double>;
   vnlMatrixType vnlmatrix(VMRows, VMCols);
@@ -165,8 +165,8 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int VRows = 3;
-  constexpr unsigned int VColumns = 3;
+  constexpr unsigned int VRows{ 3 };
+  constexpr unsigned int VColumns{ 3 };
 
   using fixedMatrixType = itk::Matrix<double, VRows, VColumns>;
   fixedMatrixType fixedmatrix;

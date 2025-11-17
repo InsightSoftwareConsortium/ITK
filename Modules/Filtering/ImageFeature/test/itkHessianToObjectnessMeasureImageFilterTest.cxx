@@ -36,7 +36,7 @@ itkHessianToObjectnessMeasureImageFilterTest(int argc, char * argv[])
   }
 
   // Define the dimension of the images
-  constexpr unsigned char Dimension = 2;
+  constexpr unsigned char Dimension{ 2 };
 
   using PixelType = float;
 
@@ -74,21 +74,21 @@ itkHessianToObjectnessMeasureImageFilterTest(int argc, char * argv[])
   objectnessFilter->SetInput(gaussianFilter->GetOutput());
 
   // Set the filter properties
-  constexpr bool scaleObjectnessMeasure = false;
+  constexpr bool scaleObjectnessMeasure{ false };
   ITK_TEST_SET_GET_BOOLEAN(objectnessFilter, ScaleObjectnessMeasure, scaleObjectnessMeasure);
 
   bool brightObject = true;
   ITK_TEST_SET_GET_BOOLEAN(objectnessFilter, BrightObject, brightObject);
 
-  constexpr double alphaValue = 0.5;
+  constexpr double alphaValue{ 0.5 };
   objectnessFilter->SetAlpha(alphaValue);
   ITK_TEST_SET_GET_VALUE(alphaValue, objectnessFilter->GetAlpha());
 
-  constexpr double betaValue = 0.5;
+  constexpr double betaValue{ 0.5 };
   objectnessFilter->SetBeta(betaValue);
   ITK_TEST_SET_GET_VALUE(betaValue, objectnessFilter->GetBeta());
 
-  constexpr double gammaValue = 0.5;
+  constexpr double gammaValue{ 0.5 };
   objectnessFilter->SetGamma(gammaValue);
   ITK_TEST_SET_GET_VALUE(gammaValue, objectnessFilter->GetGamma());
 

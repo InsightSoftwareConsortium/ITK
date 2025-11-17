@@ -61,7 +61,7 @@ public:
     // Update the length
     if( !IsUndefinedLength() )
       {
-      assert( 0 && "InsertDataElement" );
+      gdcm_assert( 0 && "InsertDataElement" );
       //ValueLengthField += de.GetLength();
       }
     }
@@ -99,7 +99,7 @@ public:
     {
         DataSet &nested = NestedDataSet;
         nested.Clear();
-        assert( nested.IsEmpty() );
+        gdcm_assert( nested.IsEmpty() );
     }
     if( !TagField.Read<TSwap>(is) )
       {
@@ -119,7 +119,7 @@ public:
 
       if( !ValueLengthField.Read<SwapperDoOp>(is) )
         {
-        assert(0 && "Should not happen");
+        gdcm_assert(0 && "Should not happen");
         return is;
         }
       // Self
@@ -133,7 +133,7 @@ public:
         }
       //else if( ValueLengthField == 0 )
       //  {
-      //  //assert( TagField == Tag( 0xfffe, 0xe0dd) );
+      //  //gdcm_assert( TagField == Tag( 0xfffe, 0xe0dd) );
       //  if( TagField != Tag( 0xfffe, 0xe0dd) )
       //    {
       //    gdcmErrorMacro( "SQ: " << TagField << " has a length of 0" );
@@ -143,7 +143,7 @@ public:
         {
         DataSet &nested = NestedDataSet;
         nested.Clear();
-        assert( nested.IsEmpty() );
+        gdcm_assert( nested.IsEmpty() );
         std::streampos start = is.tellg();
         try
           {
@@ -158,7 +158,7 @@ public:
           // You have to byteswap the length but not the tag...sigh
           gdcmWarningMacro( "Attempt to read nested Item without byteswapping the Value Length." );
           start -= is.tellg();
-          assert( start < 0 );
+          gdcm_assert( start < 0 );
           is.seekg( start, std::ios::cur );
           nested.Clear();
           nested.template ReadNested<TDE,SwapperNoOp>(is);
@@ -174,14 +174,14 @@ public:
           }
         catch(...)
           {
-          assert(0);
+          gdcm_assert(0);
           }
         }
       else /* if( ValueLengthField.IsUndefined() ) */
         {
         DataSet &nested = NestedDataSet;
         nested.Clear();
-        assert( nested.IsEmpty() );
+        gdcm_assert( nested.IsEmpty() );
         nested.template ReadWithLength<TDE,SwapperDoOp>(is, ValueLengthField);
         ByteSwapFilter bsf(nested);
         bsf.ByteSwap();
@@ -200,11 +200,11 @@ public:
       gdcmDebugMacro( "Invalid Item, found tag: " << TagField);
       throw Exception( "Not a valid Item" );
       }
-    assert( TagField == Tag(0xfffe, 0xe000) || TagField == Tag(0xfffe, 0xe0dd) );
+    gdcm_assert( TagField == Tag(0xfffe, 0xe000) || TagField == Tag(0xfffe, 0xe0dd) );
 
     if( !ValueLengthField.Read<TSwap>(is) )
       {
-      assert(0 && "Should not happen");
+      gdcm_assert(0 && "Should not happen");
       return is;
       }
     // Self
@@ -220,15 +220,15 @@ public:
       {
       DataSet &nested = NestedDataSet;
       nested.Clear();
-      assert( nested.IsEmpty() );
+      gdcm_assert( nested.IsEmpty() );
       nested.template ReadNested<TDE,TSwap>(is);
       }
     else /* if( ValueLengthField.IsUndefined() ) */
       {
-      assert( !ValueLengthField.IsUndefined() );
+      gdcm_assert( !ValueLengthField.IsUndefined() );
       DataSet &nested = NestedDataSet;
       nested.Clear();
-      assert( nested.IsEmpty() );
+      gdcm_assert( nested.IsEmpty() );
       nested.template ReadWithLength<TDE,TSwap>(is, ValueLengthField);
       }
 
@@ -252,12 +252,12 @@ public:
       if( TagField == Tag(0xfffe, 0xe0dd) )
         {
         gdcmWarningMacro( "SeqDelItem found in defined length Sequence" );
-        assert( ValueLengthField == 0 );
-        assert( NestedDataSet.Size() == 0 );
+        gdcm_assert( ValueLengthField == 0 );
+        gdcm_assert( NestedDataSet.Size() == 0 );
         }
       if( !TagField.Write<TSwap>(os) )
         {
-        assert(0 && "Should not happen");
+        gdcm_assert(0 && "Should not happen");
         return os;
         }
       }
@@ -265,18 +265,18 @@ public:
       {
       if( !ValueLengthField.Write<TSwap>(os) )
         {
-        assert(0 && "Should not happen");
+        gdcm_assert(0 && "Should not happen");
         return os;
         }
       }
     else
       {
       const VL dummy = NestedDataSet.GetLength<TDE>();
-      assert( dummy % 2 == 0 );
-      //assert( ValueLengthField == dummy );
+      gdcm_assert( dummy % 2 == 0 );
+      //gdcm_assert( ValueLengthField == dummy );
       if( !dummy.Write<TSwap>(os) )
         {
-        assert(0 && "Should not happen");
+        gdcm_assert(0 && "Should not happen");
         return os;
         }
       }

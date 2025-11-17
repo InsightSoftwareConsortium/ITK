@@ -79,7 +79,7 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
 
       std::cout << pixel1 << ' ';
 
-      // Check agreement of output from three three methods of accessing pixel values.
+      // Check agreement of output from three methods of accessing pixel values.
       if (pixel1 != pixel2 || pixel2 != pixel3)
       {
         success = false;
@@ -122,11 +122,9 @@ itkConstantBoundaryConditionTest(int, char *[])
 {
   // Test an image to cover one operator() method.
   auto                image = ImageType::New();
-  constexpr SizeType  imageSize = { { 5, 5 } };
-  constexpr IndexType imageIndex = { { 0, 0 } };
-  RegionType          imageRegion;
-  imageRegion.SetSize(imageSize);
-  imageRegion.SetIndex(imageIndex);
+  constexpr SizeType  imageSize{ 5, 5 };
+  constexpr IndexType imageIndex{ 0, 0 };
+  RegionType          imageRegion{ imageIndex, imageSize };
   image->SetRegions(imageRegion);
   image->Allocate();
 
@@ -159,7 +157,7 @@ itkConstantBoundaryConditionTest(int, char *[])
   itk::ConstantBoundaryCondition<ImageType>       bc;
   itk::ConstantBoundaryCondition<VectorImageType> vbc;
 
-  constexpr ImageType::PixelType constant = 3;
+  constexpr ImageType::PixelType constant{ 3 };
   bc.SetConstant(constant);
 
   if (bc.GetConstant() != constant)
@@ -222,9 +220,7 @@ itkConstantBoundaryConditionTest(int, char *[])
   std::cout << "GetInputRequestedRegion() Test 1" << std::endl;
   IndexType  requestIndex{};
   auto       requestSize = SizeType::Filled(2);
-  RegionType requestRegion;
-  requestRegion.SetIndex(requestIndex);
-  requestRegion.SetSize(requestSize);
+  RegionType requestRegion{ requestIndex, requestSize };
 
   RegionType expectedRegion = requestRegion;
 
@@ -242,8 +238,7 @@ itkConstantBoundaryConditionTest(int, char *[])
   requestIndex[1] = 0;
   requestSize[0] = 3;
   requestSize[1] = 2;
-  requestRegion.SetIndex(requestIndex);
-  requestRegion.SetSize(requestSize);
+  requestRegion = { requestIndex, requestSize };
 
   auto expectedIndex = itk::MakeFilled<IndexType>(0);
   expectedRegion.SetIndex(expectedIndex);
@@ -266,15 +261,13 @@ itkConstantBoundaryConditionTest(int, char *[])
   requestIndex[1] = 8;
   requestSize[0] = 3;
   requestSize[1] = 3;
-  requestRegion.SetIndex(requestIndex);
-  requestRegion.SetSize(requestSize);
+  requestRegion = { requestIndex, requestSize };
 
   expectedIndex[0] = 0;
   expectedIndex[1] = 0;
   expectedSize[0] = 0;
   expectedSize[1] = 0;
-  expectedRegion.SetIndex(expectedIndex);
-  expectedRegion.SetSize(expectedSize);
+  expectedRegion = { expectedIndex, expectedSize };
 
   inputRegion = bc.GetInputRequestedRegion(imageRegion, requestRegion);
   if (!CheckInputRequestedRegion(imageRegion, inputRegion, expectedRegion))

@@ -78,8 +78,9 @@ PyBuffer<TImage>::_get_image_view_from_contiguous_array(PyObject * arr, PyObject
 
   for (unsigned int i = 0; i < dimension; ++i)
   {
-    PyObject * const item = PySequence_Fast_GET_ITEM(shapeseq, i);
+    PyObject * const item = PySequence_GetItem(shapeseq, i);
     size[i] = static_cast<SizeValueType>(PyInt_AsLong(item));
+    Py_DECREF(item);
   }
 
   const SizeValueType numberOfPixels = size.CalculateProductOfElements();
@@ -111,7 +112,7 @@ PyBuffer<TImage>::_get_image_view_from_contiguous_array(PyObject * arr, PyObject
   using InternalPixelType = typename TImage::InternalPixelType;
   using ImporterType = ImportImageContainer<SizeValueType, InternalPixelType>;
   auto           importer = ImporterType::New();
-  constexpr bool importImageFilterWillOwnTheBuffer = false;
+  constexpr bool importImageFilterWillOwnTheBuffer{ false };
   auto * const   data = static_cast<InternalPixelType *>(buffer);
   importer->SetImportPointer(data, numberOfPixels, importImageFilterWillOwnTheBuffer);
 

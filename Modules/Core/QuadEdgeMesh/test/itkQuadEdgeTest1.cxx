@@ -1378,7 +1378,7 @@ itkQuadEdgeTest1(int, char *[])
     quadEdgeB2->SetOnext(quadEdgeA2);
 
     const unsigned int     quadEdgeA1Order = quadEdgeA1c->GetOrder();
-    constexpr unsigned int quadEdgeA1ExpectedOrder = 2;
+    constexpr unsigned int quadEdgeA1ExpectedOrder{ 2 };
     if (quadEdgeA1Order != quadEdgeA1ExpectedOrder)
     {
       std::cerr << "Error in GetOrder() A" << std::endl;
@@ -1388,7 +1388,7 @@ itkQuadEdgeTest1(int, char *[])
     }
 
     const unsigned int     quadEdgeB1Order = quadEdgeB1c->GetOrder();
-    constexpr unsigned int quadEdgeB1ExpectedOrder = 2;
+    constexpr unsigned int quadEdgeB1ExpectedOrder{ 2 };
     if (quadEdgeB1Order != quadEdgeB1ExpectedOrder)
     {
       std::cerr << "Error in GetOrder() B" << std::endl;
@@ -1398,7 +1398,7 @@ itkQuadEdgeTest1(int, char *[])
     }
 
     const unsigned int     quadEdgeC1Order = quadEdgeC1c->GetOrder();
-    constexpr unsigned int quadEdgeC1ExpectedOrder = 2;
+    constexpr unsigned int quadEdgeC1ExpectedOrder{ 2 };
     if (quadEdgeC1Order != quadEdgeC1ExpectedOrder)
     {
       std::cerr << "Error in GetOrder() C" << std::endl;
@@ -1408,7 +1408,7 @@ itkQuadEdgeTest1(int, char *[])
     }
 
     const unsigned int     quadEdgeA4Order = quadEdgeA4c->GetOrder();
-    constexpr unsigned int quadEdgeA4ExpectedOrder = 3;
+    constexpr unsigned int quadEdgeA4ExpectedOrder{ 3 };
     if (quadEdgeA4Order != quadEdgeA4ExpectedOrder)
     {
       std::cerr << "Error in GetOrder() D" << std::endl;

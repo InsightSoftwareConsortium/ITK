@@ -53,7 +53,7 @@ MomentsThresholdCalculator<THistogram, TOutput>::GenerateData()
   }
 
   // Calculate the first, second, and third order moments
-  constexpr double m0 = 1.0;
+  constexpr double m0{ 1.0 };
   double           m1 = 0.0;
   double           m2 = 0.0;
   double           m3 = 0.0;

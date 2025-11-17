@@ -14,7 +14,7 @@
 #include "vnl/vnl_det.h"
 
 inline vnl_rational
-vnl_sqrt(vnl_rational x)
+vnl_sqrt(const vnl_rational & x)
 {
   return { std::sqrt(double(x)) };
 }
@@ -352,7 +352,7 @@ test_sqrt()
   TEST("sqrt", vnl_sqrt(d), vnl_rational(4, 3));
   d = vnl_sqrt(vnl_rational(2L));
   const double sqrt2 = std::sqrt(2.0);
-  const double sqrt_2 = double(d);
+  const auto sqrt_2 = double(d);
   std::cout << "Best rational approximation of sqrt(2): " << d << " = " << sqrt_2 << '\n'
             << "Compare this with sqrt(2) in 20 decimals:                     " << sqrt2 << std::endl;
   TEST("sqrt(2)", sqrt2 - sqrt_2 < 1e-18 && sqrt_2 - sqrt2 < 1e-18, true);

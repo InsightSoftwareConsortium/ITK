@@ -119,7 +119,7 @@ public:
   bool
   operator==(const Self & other) const
   {
-    return (m_Radius == other.m_Radius && m_Size == other.m_Size && m_DataBuffer == other.m_DataBuffer);
+    return m_Radius == other.m_Radius && m_Size == other.m_Size && m_DataBuffer == other.m_DataBuffer;
   }
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);

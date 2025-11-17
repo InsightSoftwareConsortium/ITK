@@ -129,7 +129,7 @@ public:
     VersorType versorY;
     VersorType versorZ;
 
-    constexpr double deltaAngle = 0.00175; // in radians = about 0.1 degree
+    constexpr double deltaAngle{ 0.00175 }; // in radians = about 0.1 degree
 
     versorX.SetRotationAroundX(deltaAngle);
     versorY.SetRotationAroundY(deltaAngle);
@@ -207,7 +207,7 @@ itkVersorTransformOptimizerTest(int, char *[])
   axis[1] = 0.0f;
   axis[2] = 0.0f;
 
-  constexpr VersorType::ValueType angle = 0.0f;
+  constexpr VersorType::ValueType angle{ 0.0f };
 
   VersorType initialRotation;
   initialRotation.Set(axis, angle);

@@ -48,7 +48,7 @@ extern VOID f_init(), sig_die();
 extern int MAIN__();
 #define Int /* int */
 #else
-extern void f_init(void), sig_die(char*, int);
+extern void f_init(void), sig_die(const char*, int);
 extern int MAIN__(void);
 #define Int int
 #endif
@@ -103,6 +103,7 @@ char **xargv;
         }
 #endif
 
+ int
 #ifdef KR_headers
 main(argc, argv) int argc; char **argv;
 #else

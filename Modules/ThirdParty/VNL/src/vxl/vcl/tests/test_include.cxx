@@ -41,7 +41,7 @@
 #include <functional>
 #include <cassert>
 
-#include <ciso646>
+// #include <ciso646> // Deprecated in C++20
 #include <vcl_atomic_count.h>
 
 #include <climits>

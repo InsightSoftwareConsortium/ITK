@@ -254,7 +254,7 @@ public:
   itkGetConstMacro(BufferedRegion, RegionType);
 
 protected:
-  LevelSetBase();
+  LevelSetBase() = default;
   ~LevelSetBase() override = default;
 
   // If the RegionType is ITK_UNSTRUCTURED_REGION, then the following

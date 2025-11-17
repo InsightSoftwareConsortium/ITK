@@ -288,7 +288,7 @@ BilateralImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
           // normalization factor so filter integrates to one
           // (product of the domain and the range gaussian)
-          const OutputPixelRealType gaussianProduct = (*k_it) * rangeGaussian;
+          const OutputPixelRealType gaussianProduct = *k_it * rangeGaussian;
           normFactor += gaussianProduct;
 
           // Input Image * Domain Gaussian * Range Gaussian

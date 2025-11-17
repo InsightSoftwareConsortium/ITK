@@ -93,7 +93,7 @@ def argument_parser():
         default=[],
         metavar="FILE",
         help=(
-            "File to be included by swig (%include) in the generated " "interface file."
+            "File to be included by swig (%%include) in the generated interface file."
         ),
     )
     cmdln_arg_parser.add_argument(

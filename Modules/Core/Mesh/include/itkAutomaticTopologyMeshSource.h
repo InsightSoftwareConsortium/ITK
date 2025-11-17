@@ -395,7 +395,7 @@ public:
       std::sort(identifierArray1.begin(), identifierArray1.end());
       std::sort(identifierArray2.begin(), identifierArray2.end());
 
-      return (identifierArray1 == identifierArray2);
+      return identifierArray1 == identifierArray2;
     }
   };
 

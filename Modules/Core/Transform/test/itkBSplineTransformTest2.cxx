@@ -67,7 +67,7 @@ public:
   static int
   RunTest(int argc, char * argv[])
   {
-    constexpr unsigned int ImageDimension = 2;
+    constexpr unsigned int ImageDimension{ 2 };
 
     using PixelType = unsigned char;
     using FixedImageType = itk::Image<PixelType, ImageDimension>;
@@ -116,7 +116,7 @@ public:
 
     resampler->SetInput(movingReader->GetOutput());
 
-    constexpr unsigned int SpaceDimension = ImageDimension;
+    constexpr unsigned int SpaceDimension{ ImageDimension };
     using CoordinateRepType = double;
 
     using TransformType = itk::BSplineTransform<CoordinateRepType, SpaceDimension, VSplineOrder>;

@@ -33,7 +33,7 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
   }
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   // Declare the pixel types of the images
   using PixelType = itk::Matrix<unsigned short, Dimension, Dimension>;
@@ -44,15 +44,12 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   // Create a matrix image
-  auto                       image = InputImageType::New();
-  InputImageType::RegionType region;
+  auto image = InputImageType::New();
 
-  auto size = InputImageType::SizeType::Filled(100);
-
+  auto                      size = InputImageType::SizeType::Filled(100);
   InputImageType::IndexType index{};
 
-  region.SetSize(size);
-  region.SetIndex(index);
+  InputImageType::RegionType region = { index, size };
   image->SetRegions(region);
   image->Allocate();
 
@@ -67,8 +64,7 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
   // Populate upper half of image
   index[0] = 0;
   index[1] = 0;
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   {
     PixelType pixel;
     pixel[0][0] = 128;
@@ -88,8 +84,7 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
   // Populate lower half of image
   index[0] = 0;
   index[1] = height / 2;
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   {
     PixelType pixel;
     pixel[0][0] = 64;
@@ -114,8 +109,8 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
 
   filter->SetInput(image);
 
-  constexpr unsigned int indexA = 0;
-  constexpr unsigned int indexB = 1;
+  constexpr unsigned int indexA{ 0 };
+  constexpr unsigned int indexB{ 1 };
   filter->SetIndices(indexA, indexB);
 
   unsigned int testIndexA = 0;

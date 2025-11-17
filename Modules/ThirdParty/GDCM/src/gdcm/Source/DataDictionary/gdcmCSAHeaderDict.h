@@ -40,7 +40,7 @@ public:
   //static CSAHeaderDictEntry GroupLengthCSAHeaderDictEntry; // = CSAHeaderDictEntry("Group Length",VR::UL,VM::VM1);
 
   CSAHeaderDict():CSAHeaderDictInternal() {
-    assert( CSAHeaderDictInternal.empty() );
+    gdcm_assert( CSAHeaderDictInternal.empty() );
   }
   CSAHeaderDict &operator=(const CSAHeaderDict &_val) = delete;
   CSAHeaderDict(const CSAHeaderDict &_val) = delete;
@@ -57,7 +57,9 @@ public:
     MapCSAHeaderDictEntry::size_type s = CSAHeaderDictInternal.size();
 #endif
     CSAHeaderDictInternal.insert( de );
-    assert( s < CSAHeaderDictInternal.size() );
+#ifndef NDEBUG
+    gdcm_assert( s < CSAHeaderDictInternal.size() );
+#endif
     }
 
   const CSAHeaderDictEntry &GetCSAHeaderDictEntry(const char *name) const

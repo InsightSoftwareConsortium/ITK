@@ -25,7 +25,7 @@ int
 itkNeighborhoodSamplerTest1(int, char *[])
 {
 
-  constexpr unsigned int MeasurementVectorSize = 17;
+  constexpr unsigned int MeasurementVectorSize{ 17 };
 
   using MeasurementVectorType = itk::FixedArray<float, MeasurementVectorSize>;
 
@@ -64,8 +64,8 @@ itkNeighborhoodSamplerTest1(int, char *[])
 
 
   // Testing the settings of the Radius.
-  constexpr RadiusType radius1 = 237;
-  constexpr RadiusType radius2 = 179;
+  constexpr RadiusType radius1{ 237 };
+  constexpr RadiusType radius2{ 179 };
 
   filter->SetRadius(radius1);
 

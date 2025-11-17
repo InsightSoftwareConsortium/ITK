@@ -27,9 +27,7 @@ template <typename TInputImage, typename TOutputImage>
 OtsuMultipleThresholdsImageFilter<TInputImage, TOutputImage>::OtsuMultipleThresholdsImageFilter()
   : m_LabelOffset(OutputPixelType{})
 
-{
-  m_Thresholds.clear();
-}
+{}
 
 template <typename TInputImage, typename TOutputImage>
 void

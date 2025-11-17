@@ -33,7 +33,7 @@ itkListSampleTest(int argc, char * argv[])
   const SampleType::MeasurementVectorSizeType measurementVectorSize = std::stoi(argv[1]);
   std::cerr << "Measurement vector size: " << measurementVectorSize << std::endl;
 
-  constexpr unsigned int sampleSize = 25;
+  constexpr unsigned int sampleSize{ 25 };
 
   auto sample = SampleType::New();
 
@@ -369,7 +369,7 @@ itkListSampleTest(int argc, char * argv[])
 
   auto variableSizeSample = VariableSizeListSampleType::New();
 
-  constexpr unsigned int initialSize = 19;
+  constexpr unsigned int initialSize{ 19 };
   variableSizeSample->SetMeasurementVectorSize(initialSize);
 
   const unsigned int returnedSize = variableSizeSample->GetMeasurementVectorSize();
@@ -381,7 +381,7 @@ itkListSampleTest(int argc, char * argv[])
   }
 
   VariableSizeMeasurementVectorType variableLengthVector;
-  constexpr unsigned int            newsize = 42;
+  constexpr unsigned int            newsize{ 42 };
   variableLengthVector.SetSize(newsize);
 
   variableSizeSample->Clear();
@@ -402,7 +402,7 @@ itkListSampleTest(int argc, char * argv[])
 
 
   // Now, verify that it can be changed
-  constexpr unsigned int initialSize2 = 37;
+  constexpr unsigned int initialSize2{ 37 };
   variableSizeSample->Clear();
   variableSizeSample->SetMeasurementVectorSize(initialSize2);
 

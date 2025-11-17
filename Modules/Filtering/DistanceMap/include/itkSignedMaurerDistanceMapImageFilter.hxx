@@ -89,8 +89,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::SplitRequestedReg
   }
 
   // set the split region ivars
-  splitRegion.SetIndex(splitIndex);
-  splitRegion.SetSize(splitSize);
+  splitRegion = { splitIndex, splitSize };
 
   itkDebugMacro("Split Piece: " << splitRegion);
 
@@ -441,7 +440,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::Remove(OutputPixe
 
   const OutputPixelType value = (c * itk::Math::abs(d2) - b * itk::Math::abs(d1) - a * itk::Math::abs(df) - a * b * c);
 
-  return (value > 0);
+  return value > 0;
 }
 
 /**

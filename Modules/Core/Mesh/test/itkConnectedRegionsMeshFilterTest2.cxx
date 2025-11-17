@@ -45,7 +45,7 @@ itkConnectedRegionsMeshFilterTest2(int argc, char * argv[])
     imageSource = false;
   }
 
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using MeshType = itk::Mesh<float, Dimension>;
   MeshType::Pointer mesh;
 

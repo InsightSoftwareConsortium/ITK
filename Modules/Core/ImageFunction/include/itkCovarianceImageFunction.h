@@ -117,7 +117,7 @@ public:
   itkGetConstReferenceMacro(NeighborhoodRadius, unsigned int);
   /** @ITKEndGrouping */
 protected:
-  CovarianceImageFunction();
+  CovarianceImageFunction() = default;
   ~CovarianceImageFunction() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

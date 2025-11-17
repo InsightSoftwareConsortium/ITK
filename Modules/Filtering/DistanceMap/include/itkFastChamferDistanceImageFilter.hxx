@@ -95,8 +95,8 @@ template <typename TInputImage, typename TOutputImage>
 void
 FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
 {
-  constexpr int SIGN_MASK = 1;
-  constexpr int INNER_MASK = 2;
+  constexpr int SIGN_MASK{ 1 };
+  constexpr int INNER_MASK{ 2 };
 
   auto                              r = MakeFilled<typename NeighborhoodIterator<TInputImage>::RadiusType>(1);
   NeighborhoodIterator<TInputImage> it(r, this->GetOutput(), m_RegionToProcess);
@@ -177,7 +177,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
     m_NarrowBand->Clear();
   }
 
-  /** Precomputing the neighbor neighbor types */
+  /** Precomputing the neighbor types */
   neighbor_start = 0;
   neighbor_end = center_voxel - 1;
 

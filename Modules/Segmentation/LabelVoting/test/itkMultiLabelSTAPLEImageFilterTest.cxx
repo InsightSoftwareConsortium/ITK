@@ -23,9 +23,9 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 3;
-  constexpr unsigned int imageSizePerDimension = 2;
-  constexpr unsigned int imageSize = 8; // std::pow(imageSizePerDimension, Dimension);
+  constexpr unsigned int Dimension{ 3 };
+  constexpr unsigned int imageSizePerDimension{ 2 };
+  constexpr unsigned int imageSize{ 8 }; // std::pow(imageSizePerDimension, Dimension);
 
   // Declare the types of the images
   using ImageType = itk::Image<unsigned int, Dimension>;
@@ -39,9 +39,6 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   const unsigned int combinationABC[imageSize] = { 0, 1, 2, 3, 4, 5, 6, 9 };
   const unsigned int combinationAB[imageSize] = { 8, 1, 8, 8, 4, 8, 8, 8 };
   const unsigned int combinationABundecided255[imageSize] = { 255, 1, 255, 255, 4, 255, 255, 255 };
-
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<Dimension>;
 
   // Declare the type of the size
   using SizeType = itk::Size<Dimension>;
@@ -64,22 +61,9 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   const ImageTypePointer inputImageB = ImageType::New();
   const ImageTypePointer inputImageC = ImageType::New();
 
-  RegionType region;
-  {
-    // Define their size, and start index
-    SizeType size;
-    size[0] = imageSizePerDimension;
-    size[1] = imageSizePerDimension;
-    size[2] = imageSizePerDimension;
-
-    IndexType start;
-    start[0] = 0;
-    start[1] = 0;
-    start[2] = 0;
-
-    region.SetIndex(start);
-    region.SetSize(size);
-  }
+  // Define their size, and start index
+  constexpr SizeType size{ imageSizePerDimension, imageSizePerDimension, imageSizePerDimension };
+  RegionType         region = { size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -128,7 +112,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
 
   ITK_TEST_EXPECT_TRUE(!filter->GetHasMaximumNumberOfIterations());
 
-  constexpr unsigned int maximumNumberOfIterations = 100;
+  constexpr unsigned int maximumNumberOfIterations{ 100 };
   filter->SetMaximumNumberOfIterations(maximumNumberOfIterations);
   ITK_TEST_SET_GET_VALUE(maximumNumberOfIterations, filter->GetMaximumNumberOfIterations());
 

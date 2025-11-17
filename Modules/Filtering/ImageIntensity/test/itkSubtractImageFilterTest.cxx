@@ -27,7 +27,7 @@ itkSubtractImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   // Declare the pixel types of the images
   using PixelType = float;
@@ -40,10 +40,6 @@ itkSubtractImageFilterTest(int, char *[])
   // Declare appropriate Iterator types for each image
   using OutputImageIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
-
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<Dimension>;
-
   // Declare the type of the size
   using SizeType = itk::Size<Dimension>;
 
@@ -54,20 +50,9 @@ itkSubtractImageFilterTest(int, char *[])
   auto inputImageA = InputImageType1::New();
   auto inputImageB = InputImageType2::New();
 
-  // Define their size, and start index
-  SizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2;
-
-  IndexType start;
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  // Define their size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -78,11 +63,11 @@ itkSubtractImageFilterTest(int, char *[])
   inputImageB->Allocate();
 
   // Initialize the content of Image A
-  constexpr InputImageType1::PixelType valueA = 2.0;
+  constexpr InputImageType1::PixelType valueA{ 2.0 };
   inputImageA->FillBuffer(valueA);
 
   // Initialize the content of Image B
-  constexpr InputImageType2::PixelType valueB = 3.0;
+  constexpr InputImageType2::PixelType valueB{ 3.0 };
   inputImageB->FillBuffer(valueB);
 
 

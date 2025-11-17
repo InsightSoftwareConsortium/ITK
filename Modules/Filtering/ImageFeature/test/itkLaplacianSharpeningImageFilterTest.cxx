@@ -36,7 +36,7 @@ itkLaplacianSharpeningImageFilterTest(int argc, char * argv[])
   }
 
   using PixelType = float;
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using ImageType = itk::Image<PixelType, Dimension>;
 

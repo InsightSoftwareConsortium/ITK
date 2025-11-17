@@ -66,7 +66,7 @@ itk_feenableexcept(const fexcept_t excepts)
   const fexcept_t old_excepts = (fenv & FM_ALL_EXCEPT) << FE_EXCEPT_SHIFT;
 
   fenv = (fenv & ~new_excepts) | new_excepts;
-  return (fesetenv(&fenv) ? static_cast<fexcept_t>(-1) : old_excepts);
+  return fesetenv(&fenv) ? static_cast<fexcept_t>(-1) : old_excepts;
 }
 
 static fexcept_t
@@ -84,7 +84,7 @@ itk_fedisableexcept(const fexcept_t excepts)
   const fexcept_t old_excepts = (fenv & FM_ALL_EXCEPT) << FE_EXCEPT_SHIFT;
 
   fenv &= still_on;
-  return (fesetenv(&fenv) ? static_cast<fexcept_t>(-1) : old_excepts);
+  return fesetenv(&fenv) ? static_cast<fexcept_t>(-1) : old_excepts;
 }
 
 #elif defined(__i386__) || defined(__x86_64__) // Intel
@@ -124,7 +124,7 @@ itk_feenableexcept(const fexcept_t excepts)
   fenv._itk_control_word &= static_cast<fexcept_t>(~new_excepts);
   fenv.__mxcsr &= ~(new_excepts << 7);
 
-  return (fesetenv(&fenv) ? static_cast<fexcept_t>(-1) : old_excepts);
+  return fesetenv(&fenv) ? static_cast<fexcept_t>(-1) : old_excepts;
 }
 
 static fexcept_t
@@ -145,7 +145,7 @@ itk_fedisableexcept(const fexcept_t excepts)
   fenv._itk_control_word |= new_excepts;
   fenv.__mxcsr |= new_excepts << 7;
 
-  return (fesetenv(&fenv) ? static_cast<fexcept_t>(-1) : old_excepts);
+  return fesetenv(&fenv) ? static_cast<fexcept_t>(-1) : old_excepts;
 }
 
 #endif // PPC, INTEL

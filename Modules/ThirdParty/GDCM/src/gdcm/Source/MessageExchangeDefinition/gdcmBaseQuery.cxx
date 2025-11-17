@@ -87,7 +87,7 @@ namespace gdcm
       thePaddedValue.push_back(' ');
     }
 
-    assert(thePaddedValue.length() < std::numeric_limits<uint32_t>::max());
+    gdcm_assert(thePaddedValue.length() < std::numeric_limits<uint32_t>::max());
     de.SetByteValue(thePaddedValue.c_str(), (uint32_t)thePaddedValue.length());
 
     //Replace any existing values

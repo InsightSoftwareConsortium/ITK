@@ -180,7 +180,7 @@ Element2DC0LinearLine::DistanceToLine(const VectorType & x,
 void
 Element2DC0LinearLine::PopulateEdgeIds()
 {
-  this->m_EdgeIds.resize(0);
+  this->m_EdgeIds.clear();
 
   std::vector<int> edgePtIds;
   edgePtIds.resize(2);

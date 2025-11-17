@@ -137,8 +137,8 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   initField->Allocate();
 
   double              center[ImageDimension];
-  constexpr PixelType fgnd = 250;
-  constexpr PixelType bgnd = 15;
+  constexpr PixelType fgnd{ 250 };
+  constexpr PixelType bgnd{ 15 };
 
   // fill moving with circle
   center[0] = 64;
@@ -171,7 +171,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   registrator->SetStandardDeviations(2.0);
   registrator->SetStandardDeviations(1.0);
 
-  constexpr double intensityDifferenceThreshold = 0.001;
+  constexpr double intensityDifferenceThreshold{ 0.001 };
   registrator->SetIntensityDifferenceThreshold(intensityDifferenceThreshold);
   ITK_TEST_SET_GET_VALUE(intensityDifferenceThreshold, registrator->GetIntensityDifferenceThreshold());
 

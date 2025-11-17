@@ -62,7 +62,7 @@ namespace itk
  * \par INPUTS
  * The input to any subclass of this filter is the seed image for the initial
  * level set embedding.  As with other subclasses of the
- * SparseLevelSetImageFilter, the type of the input image is is not important.
+ * SparseLevelSetImageFilter, the type of the input image is not important.
  * The (RequestedRegion) size of the seed image must, however, match the
  * (RequestedRegion) size of the feature image.
  *

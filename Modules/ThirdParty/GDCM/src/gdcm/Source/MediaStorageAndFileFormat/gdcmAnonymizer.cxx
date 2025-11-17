@@ -210,7 +210,7 @@ bool Anonymizer::Replace( Tag const &t, const char *value, VL const & vl )
   else
     {
     // Ok this is a public element
-    assert( t.IsPublic() || t.IsPrivateCreator() );
+    gdcm_assert( t.IsPublic() || t.IsPrivateCreator() );
     const DictEntry &dictentry = dicts.GetDictEntry(t);
     if ( dictentry.GetVR() == VR::INVALID
       || dictentry.GetVR() == VR::UN
@@ -275,7 +275,7 @@ bool Anonymizer::Replace( Tag const &t, const char *value, VL const & vl )
     else
       {
       // vr from dict seems to be ascii, so it seems reasonable to write a ByteValue here:
-      assert( dictentry.GetVR() & VR::VRASCII );
+      gdcm_assert( dictentry.GetVR() & VR::VRASCII );
       if( value )
         {
         std::string padded( value, vl );
@@ -343,18 +343,18 @@ bool Anonymizer::Replace( PrivateTag const &pt, const char *value, VL const & vl
         needcreator = false;
         found = true;
       } else {
-        assert( start.GetElement() != 0xff );
+        gdcm_assert( start.GetElement() != 0xff );
         start.SetElement( start.GetElement() + 1 );
       }
     } while ( !found );
-    assert( start.GetGroup() == pt.GetGroup() );
+    gdcm_assert( start.GetGroup() == pt.GetGroup() );
     if(needcreator)
     {
       // add private creator:
       Element<VR::LO,VM::VM1> priv_creator;
       priv_creator.SetValue( pt.GetOwner() );
       DataElement creator = priv_creator.GetAsDataElement();
-      assert( start.GetElement() <= 0xff );
+      gdcm_assert( start.GetElement() <= 0xff );
       start.SetElement( start.GetElement() );
       creator.SetTag( start );
       ds.Insert(creator);
@@ -365,14 +365,14 @@ bool Anonymizer::Replace( PrivateTag const &pt, const char *value, VL const & vl
     const DictEntry &dictentry = dicts.GetDictEntry(pt);
     DataElement fake;
     Tag privateLocation(pt);
-    assert( pt.GetElement() <= 0xff );
+    gdcm_assert( pt.GetElement() <= 0xff );
     privateLocation.SetElement( start.GetElement() << 8 | pt.GetElement() );
-    assert( start == privateLocation.GetPrivateCreator() );
+    gdcm_assert( start == privateLocation.GetPrivateCreator() );
     fake.SetTag( privateLocation );
     fake.SetVR( dictentry.GetVR() );
     ds.Insert( fake );
 
-    assert(ds.FindDataElement(pt));
+    gdcm_assert(ds.FindDataElement(pt));
     return Replace( privateLocation, value, vl );
     }
 }
@@ -701,7 +701,7 @@ bool Anonymizer::BasicApplicationLevelConfidentialityProfile1()
           }
         else
           {
-          assert( de == encryptedds.GetDataElement( de.GetTag() ) );
+          gdcm_assert( de == encryptedds.GetDataElement( de.GetTag() ) );
           }
         }
       }
@@ -741,7 +741,7 @@ bool Anonymizer::BasicApplicationLevelConfidentialityProfile1()
     gdcmErrorMacro( "Problem with Encrypt" );
     return false;
   }
-  assert( encrypted_len <= encrypted_len2 );
+  gdcm_assert( encrypted_len <= encrypted_len2 );
   (void)encrypted_len2;//warning removal
 
     {
@@ -896,11 +896,11 @@ bool Anonymizer::CanEmptyTag(Tag const &tag, const IOD &iod) const
   const DataSet &ds = F->GetDataSet(); (void)ds;
   //Type told = defs.GetTypeFromTag(*F, tag);
   Type t = iod.GetTypeFromTag(defs, tag);
-  //assert( t == told );
+  //gdcm_assert( t == told );
 
   gdcmDebugMacro( "Type for tag=" << tag << " is " << t );
 
-  //assert( t != Type::UNKNOWN );
+  //gdcm_assert( t != Type::UNKNOWN );
 
   if( t == Type::T1 || t == Type::T1C )
     {
@@ -940,7 +940,7 @@ generate a DICOMDIR
 
   // This is a Type 3 attribute but with VR=UI
   // <entry group="0008" element="0014" vr="UI" vm="1" name="Instance Creator UID"/>
-  //assert( dicts.GetDictEntry(tag).GetVR() != VR::UI );
+  //gdcm_assert( dicts.GetDictEntry(tag).GetVR() != VR::UI );
   return !b;
 }
 
@@ -956,7 +956,7 @@ void Anonymizer::ClearInternalUIDs()
 bool Anonymizer::BALCPProtect(DataSet &ds, Tag const & tag, IOD const & iod)
 {
   // \precondition
-  assert( ds.FindDataElement(tag) );
+  gdcm_assert( ds.FindDataElement(tag) );
 
   AnonymizeEvent ae;
   ae.SetTag( tag );
@@ -1010,7 +1010,7 @@ bool Anonymizer::BALCPProtect(DataSet &ds, Tag const & tag, IOD const & iod)
       TagValueKey tvk;
       tvk.first = tag;
 
-      assert( dummyMapNonUIDTags.count( tvk ) == 0 || dummyMapNonUIDTags.count( tvk ) == 1 );
+      gdcm_assert( dummyMapNonUIDTags.count( tvk ) == 0 || dummyMapNonUIDTags.count( tvk ) == 1 );
       if( dummyMapNonUIDTags.count( tvk ) == 0 )
         {
         const char *ret = DummyValueGenerator::Generate( tvk.second.c_str() );
@@ -1068,7 +1068,7 @@ void Anonymizer::RecurseDataSet( DataSet & ds )
   DataSet::ConstIterator it = ds.Begin();
   for( ; it != ds.End(); /*++it*/ )
     {
-    assert( it != ds.End() );
+    gdcm_assert( it != ds.End() );
     DataElement de = *it; ++it;
     //const SequenceOfItems *sqi = de.GetSequenceOfItems();
     VR vr = DataSetHelper::ComputeVR(*F, ds, de.GetTag() );
@@ -1083,7 +1083,7 @@ void Anonymizer::RecurseDataSet( DataSet & ds )
       // Legacy behavior has been to create CP-246 / undefined length SQ as VR:UN...
       if( de.GetVR() == VR::OB ) de.SetVR( VR::UN );
       de.SetVLToUndefined();
-      assert( sqi->IsUndefinedLength() );
+      gdcm_assert( sqi->IsUndefinedLength() );
       //de.GetVL().SetToUndefined();
       //sqi->SetLengthToUndefined();
       SequenceOfItems::SizeType n = sqi->GetNumberOfItems();
@@ -1179,7 +1179,7 @@ bool Anonymizer::BasicApplicationLevelConfidentialityProfile2()
     gdcmDebugMacro( "Could not decrypt" );
     return false;
     }
-  assert( encrypted_len <= encrypted_len2 );
+  gdcm_assert( encrypted_len <= encrypted_len2 );
   (void)encrypted_len2;//warning removal
 
   std::stringstream ss;
@@ -1205,7 +1205,7 @@ bool Anonymizer::BasicApplicationLevelConfidentialityProfile2()
   //std::cout << des << std::endl;
   //std::cout << dummy << std::endl;
   //std::cout << ss.tellg() << std::endl;
-  assert( (size_t)ss.tellg() <= encrypted_len );
+  gdcm_assert( (size_t)ss.tellg() <= encrypted_len );
   // TODO: check that for i = ss.tellg() to encrypted_len, ss[i] == 0
   delete[] buf;
   delete[] orig;
@@ -1214,11 +1214,11 @@ bool Anonymizer::BasicApplicationLevelConfidentialityProfile2()
   // of the Modified Attributes Sequence (0400,0550) of the decoded dataset
   // into the main dataset, replacing dummy value Attributes that may be
   // present in the main dataset.
-  //assert( dummy.GetVR() == VR::SQ );
+  //gdcm_assert( dummy.GetVR() == VR::SQ );
 {
   //const SequenceOfItems *sqi = dummy.GetSequenceOfItems();
   SmartPointer<SequenceOfItems> sqi = dummy.GetValueAsSQ();
-  assert( sqi && sqi->GetNumberOfItems() == 1 );
+  gdcm_assert( sqi && sqi->GetNumberOfItems() == 1 );
   Item const & item2 = sqi->GetItem( 1 );
   const DataSet &nds2 = item2.GetNestedDataSet();
   DataSet::ConstIterator it = nds2.Begin();

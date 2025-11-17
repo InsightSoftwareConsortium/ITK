@@ -51,7 +51,7 @@ itkFFTDiscreteGaussianImageFilterTestProcedure(int argc, char ** argv)
   }
   for (auto & param : filter->GetVariance())
   {
-    constexpr double tolerance = 1e-6;
+    constexpr double tolerance{ 1e-6 };
     ITK_TEST_EXPECT_TRUE(std::fabs((sigma * sigma) - param) < tolerance);
   }
 

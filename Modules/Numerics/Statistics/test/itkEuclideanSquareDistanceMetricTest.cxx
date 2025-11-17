@@ -21,7 +21,7 @@
 int
 itkEuclideanSquareDistanceMetricTest(int, char *[])
 {
-  constexpr unsigned int MeasurementVectorSize = 3;
+  constexpr unsigned int MeasurementVectorSize{ 3 };
 
   using MeasurementVectorType = itk::Array<float>;
 
@@ -45,8 +45,7 @@ itkEuclideanSquareDistanceMetricTest(int, char *[])
   try
   {
     distance->Evaluate(measurementNew);
-    std::cerr << "Attempting to compute distance w/o setting measurement vector"
-                 "size, Exception should have been thrown"
+    std::cerr << "Attempting to compute distance w/o setting measurement vectorsize, Exception should have been thrown"
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -78,9 +77,9 @@ itkEuclideanSquareDistanceMetricTest(int, char *[])
   measurement[1] = 3.3;
   measurement[2] = 4.0;
 
-  constexpr double trueValue = 11.0;
+  constexpr double trueValue{ 11.0 };
   const double     distanceComputed = distance->Evaluate(measurement);
-  constexpr double tolerance = 0.001;
+  constexpr double tolerance{ 0.001 };
 
   if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
   {
@@ -96,7 +95,7 @@ itkEuclideanSquareDistanceMetricTest(int, char *[])
   measurement2[1] = 3.5;
   measurement2[2] = 3.5;
 
-  constexpr double trueValue2 = 1.29;
+  constexpr double trueValue2{ 1.29 };
   const double     distanceComputed2 = distance->Evaluate(measurement, measurement2);
 
   if (itk::Math::abs(distanceComputed2 - trueValue2) > tolerance)

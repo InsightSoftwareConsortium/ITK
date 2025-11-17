@@ -19,10 +19,10 @@ test_qsvd()
   long m = 3;
   long n = 3;
   long p = 3;
-  long k;
-  long l;
+  long k = 0;
+  long l = 0;
   long Iwork[3];
-  long info;
+  long info = 0;
 
   std::printf("m = 3, n = 3, p = 3\n");
   v3p_netlib_sggsvd_(

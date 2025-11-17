@@ -97,7 +97,7 @@ public:
   }
 
 protected:
-  ComplexToComplex1DFFTImageFilter();
+  ComplexToComplex1DFFTImageFilter() = default;
   ~ComplexToComplex1DFFTImageFilter() override = default;
 
   void

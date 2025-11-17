@@ -48,15 +48,8 @@ itkRawImageIOTest3(int argc, char * argv[])
   // Create a source object (in this case a random image generator).
   // The source object is templated on the output type.
   //
-  ImageType::SizeType size;
-  size[0] = 517; // prime numbers are good bug testers...
-  size[1] = 293;
-
-  ImageType::RegionType          region;
-  constexpr ImageType::IndexType index{};
-
-  region.SetIndex(index);
-  region.SetSize(size);
+  constexpr ImageType::SizeType size{ 517, 293 }; // prime numbers are good bug testers...
+  ImageType::RegionType         region{ size };
 
   auto image = ImageType::New();
   image->SetRegions(region);

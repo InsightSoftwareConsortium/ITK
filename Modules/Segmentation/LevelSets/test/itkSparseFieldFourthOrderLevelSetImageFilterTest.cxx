@@ -57,7 +57,7 @@ square(unsigned int x, unsigned int y)
   {
     dis = RADIUS - std::max(X, Y);
   }
-  return (dis);
+  return dis;
 }
 
 // Evaluates a function at each pixel in the itk image
@@ -140,11 +140,8 @@ itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char *[])
 
   auto image = ImageType::New();
 
-  ImageType::RegionType          r;
-  constexpr ImageType::SizeType  sz = { { SFFOLSIFT::HEIGHT, SFFOLSIFT::WIDTH } };
-  constexpr ImageType::IndexType idx = { { 0, 0 } };
-  r.SetSize(sz);
-  r.SetIndex(idx);
+  constexpr ImageType::SizeType sz{ SFFOLSIFT::HEIGHT, SFFOLSIFT::WIDTH };
+  ImageType::RegionType         r{ sz };
 
   image->SetRegions(r);
   image->Allocate();
@@ -157,11 +154,11 @@ itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char *[])
     filter, IsotropicDiffusionLevelSetFilter, SparseFieldFourthOrderLevelSetImageFilter);
 
 
-  constexpr unsigned int maxRefitIteration = 0;
+  constexpr unsigned int maxRefitIteration{ 0 };
   filter->SetMaxRefitIteration(maxRefitIteration);
   ITK_TEST_SET_GET_VALUE(maxRefitIteration, filter->GetMaxRefitIteration());
 
-  constexpr unsigned int maxNormalIteration = 100;
+  constexpr unsigned int maxNormalIteration{ 100 };
   filter->SetMaxNormalIteration(maxNormalIteration);
   ITK_TEST_SET_GET_VALUE(maxNormalIteration, filter->GetMaxNormalIteration());
 
@@ -173,7 +170,7 @@ itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char *[])
   filter->SetRMSChangeNormalProcessTrigger(rmsChangeNormalProcessTrigger);
   ITK_TEST_SET_GET_VALUE(rmsChangeNormalProcessTrigger, filter->GetRMSChangeNormalProcessTrigger());
 
-  constexpr int normalProcessType = 0;
+  constexpr int normalProcessType{ 0 };
   filter->SetNormalProcessType(normalProcessType);
   ITK_TEST_SET_GET_VALUE(normalProcessType, filter->GetNormalProcessType());
 
@@ -181,7 +178,7 @@ itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char *[])
   filter->SetNormalProcessConductance(normalProcessConductance);
   ITK_TEST_SET_GET_VALUE(normalProcessConductance, filter->GetNormalProcessConductance());
 
-  constexpr bool normalProcessUnsharpFlag = false;
+  constexpr bool normalProcessUnsharpFlag{ false };
   filter->SetNormalProcessUnsharpFlag(normalProcessUnsharpFlag);
   ITK_TEST_SET_GET_BOOLEAN(filter, NormalProcessUnsharpFlag, normalProcessUnsharpFlag);
 

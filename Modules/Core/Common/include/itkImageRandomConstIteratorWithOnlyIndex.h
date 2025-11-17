@@ -177,14 +177,14 @@ public:
   [[nodiscard]] bool
   IsAtBegin() const
   {
-    return (m_NumberOfSamplesDone == 0L);
+    return m_NumberOfSamplesDone == 0L;
   }
 
   /** Is the iterator at the end of the region? */
   [[nodiscard]] bool
   IsAtEnd() const
   {
-    return (m_NumberOfSamplesDone >= m_NumberOfSamplesRequested);
+    return m_NumberOfSamplesDone >= m_NumberOfSamplesRequested;
   }
 
   /** Increment (prefix) the selected dimension.

@@ -1,6 +1,8 @@
 // This is core/vnl/vnl_sample.cxx
 
 #include <cmath>
+
+#include <cmath>
 #include <ctime>
 #include "vnl_sample.h"
 #include "vnl/vnl_math.h"
@@ -48,7 +50,7 @@ vnl_sample_normal_2(double * x, double * y)
 double
 vnl_sample_normal(double mean, double sigma)
 {
-  double x;
+  double x = NAN;
   vnl_sample_normal_2(&x, nullptr);
   return mean + sigma * x;
 }

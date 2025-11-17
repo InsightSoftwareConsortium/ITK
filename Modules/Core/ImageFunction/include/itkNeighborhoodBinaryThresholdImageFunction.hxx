@@ -45,12 +45,12 @@ NeighborhoodBinaryThresholdImageFunction<TInputImage, TCoordinate>::EvaluateAtIn
 {
   if (!this->GetInputImage())
   {
-    return (false);
+    return false;
   }
 
   if (!this->IsInsideBuffer(index))
   {
-    return (false);
+    return false;
   }
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
@@ -76,7 +76,7 @@ NeighborhoodBinaryThresholdImageFunction<TInputImage, TCoordinate>::EvaluateAtIn
     }
   }
 
-  return (allInside);
+  return allInside;
 }
 } // end namespace itk
 

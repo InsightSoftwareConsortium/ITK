@@ -104,7 +104,7 @@ template <typename TElementIdentifier, typename TElement>
 bool
 MapContainer<TElementIdentifier, TElement>::IndexExists(ElementIdentifier id) const
 {
-  return (this->MapType::find(id) != this->MapType::end());
+  return this->MapType::find(id) != this->MapType::end();
 }
 
 /**

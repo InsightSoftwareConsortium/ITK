@@ -32,7 +32,7 @@ std::istream &AbstractSyntax::Read(std::istream &is)
 {
   uint8_t itemtype = 0x0;
   is.read( (char*)&itemtype, sizeof(ItemType) );
-  assert( itemtype == ItemType );
+  gdcm_assert( itemtype == ItemType );
   uint8_t reserved2;
   is.read( (char*)&reserved2, sizeof(Reserved2) );
   uint16_t itemlength;
@@ -41,7 +41,7 @@ std::istream &AbstractSyntax::Read(std::istream &is)
   ItemLength = itemlength;
 
   char name[256];
-  assert( itemlength < 256 );
+  gdcm_assert( itemlength < 256 );
   is.read( name, itemlength );
   Name = std::string(name,itemlength);
 
@@ -64,13 +64,13 @@ const std::ostream &AbstractSyntax::Write(std::ostream &os) const
 size_t AbstractSyntax::Size() const
 {
   size_t ret = 0;
-  assert( Name.size() == ItemLength );
+  gdcm_assert( Name.size() == ItemLength );
   ret += sizeof(ItemType);
   ret += sizeof(Reserved2);
   ret += sizeof(ItemLength);
   ret += ItemLength;
-  assert(ret <= (size_t)std::numeric_limits<uint16_t>::max);
-  assert(ret >= 4);
+  gdcm_assert(ret <= (size_t)std::numeric_limits<uint16_t>::max);
+  gdcm_assert(ret >= 4);
   return ret;
 }
 
@@ -84,9 +84,9 @@ void AbstractSyntax::UpdateName( const char *name )
       {
       Name = name;
       size_t lenTemp = Name.size();
-      assert(lenTemp < (size_t)std::numeric_limits<uint16_t>::max);
+      gdcm_assert(lenTemp < (size_t)std::numeric_limits<uint16_t>::max);
       ItemLength = (uint16_t)lenTemp;
-      assert( (size_t)ItemLength + 4 == Size() );
+      gdcm_assert( (size_t)ItemLength + 4 == Size() );
       return;
       }
     }

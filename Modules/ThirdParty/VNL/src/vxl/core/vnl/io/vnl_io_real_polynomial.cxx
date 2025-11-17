@@ -27,7 +27,7 @@ vsl_b_read(vsl_b_istream & is, vnl_real_polynomial & p)
   if (!is)
     return;
 
-  short ver;
+  short ver = 0;
   vnl_vector<double> coeffs;
   vsl_b_read(is, ver);
   switch (ver)

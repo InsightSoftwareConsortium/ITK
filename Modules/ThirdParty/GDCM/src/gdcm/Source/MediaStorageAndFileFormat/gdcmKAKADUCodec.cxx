@@ -155,9 +155,9 @@ bool KAKADUCodec::Decode(DataElement const &in, DataElement &out)
 
       std::ofstream outfile(input.c_str(), std::ios::binary);
       const Fragment &frag = sf->GetFragment(i);
-      assert( !frag.IsEmpty() );
+      gdcm_assert( !frag.IsEmpty() );
       const ByteValue *bv = frag.GetByteValue();
-      assert( bv );
+      gdcm_assert( bv );
       //sf->WriteBuffer(outfile);
       bv->WriteBuffer( outfile );
       outfile.close(); // flush !
@@ -203,7 +203,7 @@ bool KAKADUCodec::Decode(DataElement const &in, DataElement &out)
       free(tempoutput);
       }
     std::string str = os.str();
-    assert( str.size() );
+    gdcm_assert( str.size() );
     out.SetTag( Tag(0x7fe0,0x0010) );
     out.SetByteValue( &str[0], str.size() );
     }

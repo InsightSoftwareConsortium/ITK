@@ -26,8 +26,8 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
   // + 1/6.  This is done using a cubic order spline with controls points
   // (1, 0, 0, 1)
 
-  constexpr unsigned int ParametricDimension = 1;
-  constexpr unsigned int DataDimension = 1;
+  constexpr unsigned int ParametricDimension{ 1 };
+  constexpr unsigned int DataDimension{ 1 };
 
   using RealType = float;
   using VectorType = itk::Vector<RealType, DataDimension>;
@@ -45,8 +45,7 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
   phiLattice->SetOrigin(origin);
   phiLattice->SetSpacing(spacing);
   phiLattice->SetRegions(size);
-  phiLattice->Allocate();
-  phiLattice->FillBuffer(VectorType{});
+  phiLattice->AllocateInitialized();
 
   // To create the specified function, the first and last control points have
   // a value of 1.0;
@@ -79,7 +78,7 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
   bspliner->SetSize(size);
   ITK_TEST_SET_GET_VALUE(size, bspliner->GetSize());
 
-  constexpr unsigned int bSplineOrderValue = 3;
+  constexpr unsigned int bSplineOrderValue{ 3 };
   bspliner->SetSplineOrder(bSplineOrderValue);
   for (auto i : bspliner->GetSplineOrder())
   {
@@ -96,12 +95,12 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
   bspliner->SetSplineOrder(bSplineOrder);
   ITK_TEST_SET_GET_VALUE(bSplineOrder, bspliner->GetSplineOrder());
 
-  constexpr BSplinerType::ArrayType::ValueType closeDimensionValue = 0;
+  constexpr BSplinerType::ArrayType::ValueType closeDimensionValue{ 0 };
   auto closeDimension = itk::MakeFilled<BSplinerType::ArrayType>(closeDimensionValue);
   bspliner->SetCloseDimension(closeDimension);
   ITK_TEST_SET_GET_VALUE(closeDimension, bspliner->GetCloseDimension());
 
-  constexpr BSplinerType::RealType bSplineEpsilon = 1e-3;
+  constexpr BSplinerType::RealType bSplineEpsilon{ 1e-3 };
   bspliner->SetBSplineEpsilon(bSplineEpsilon);
   ITK_TEST_SET_GET_VALUE(bSplineEpsilon, bspliner->GetBSplineEpsilon());
 

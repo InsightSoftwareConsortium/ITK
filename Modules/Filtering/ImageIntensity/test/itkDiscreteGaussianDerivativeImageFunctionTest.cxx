@@ -27,10 +27,8 @@ template <int VDimension>
 int
 itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
 {
-  const unsigned int Dimension = VDimension;
-
   using PixelType = float;
-  using ImageType = itk::Image<PixelType, Dimension>;
+  using ImageType = itk::Image<PixelType, VDimension>;
 
   // Read the input image
   using ReaderType = itk::ImageFileReader<ImageType>;
@@ -123,8 +121,7 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
   output->SetLargestPossibleRegion(inputImage->GetLargestPossibleRegion());
   output->SetRequestedRegion(inputImage->GetRequestedRegion());
   output->SetBufferedRegion(inputImage->GetBufferedRegion());
-  output->Allocate();
-  output->FillBuffer(PixelType{});
+  output->AllocateInitialized();
 
 
   // Step over input and output images
@@ -169,7 +166,7 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
 
   // Rescale output
   using OutputPixelType = unsigned char;
-  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, VDimension>;
   using RescaleType = itk::RescaleIntensityImageFilter<ImageType, OutputImageType>;
 
   auto rescaler = RescaleType::New();
@@ -197,13 +194,7 @@ itkDiscreteGaussianDerivativeImageFunctionTest(int argc, char * argv[])
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << "inputFileName"
-                 " outputFileName"
-                 " order"
-                 " sigma"
-                 " [maximumError]"
-                 " [maximumKernelWidth]"
-              << std::endl;
+    std::cerr << "inputFileName outputFileName order sigma [maximumError] [maximumKernelWidth]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -211,7 +202,7 @@ itkDiscreteGaussianDerivativeImageFunctionTest(int argc, char * argv[])
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;

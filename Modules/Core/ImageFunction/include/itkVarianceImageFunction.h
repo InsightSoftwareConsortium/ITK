@@ -111,13 +111,13 @@ public:
   itkGetConstReferenceMacro(NeighborhoodRadius, unsigned int);
   /** @ITKEndGrouping */
 protected:
-  VarianceImageFunction();
+  VarianceImageFunction() = default;
   ~VarianceImageFunction() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  unsigned int m_NeighborhoodRadius{};
+  unsigned int m_NeighborhoodRadius{ 1 };
 };
 } // end namespace itk
 

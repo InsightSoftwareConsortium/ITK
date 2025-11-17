@@ -39,7 +39,7 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = unsigned short;
   using InputImageType = itk::Image<InputPixelType, Dimension>;
@@ -83,18 +83,11 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   auto binary = InputImageType::New();
   binary->SetRegions(input->GetLargestPossibleRegion());
   binary->CopyInformation(input);
-  binary->Allocate();
-  binary->FillBuffer(InputPixelType{});
+  binary->AllocateInitialized();
 
-  InputImageType::RegionType region;
-  InputImageType::IndexType  index;
-  InputImageType::SizeType   size;
-
-  index.Fill(10);
-  size.Fill(30);
-
-  region.SetIndex(index);
-  region.SetSize(size);
+  constexpr InputImageType::IndexType index{ 10, 10 };
+  constexpr InputImageType::SizeType  size{ 30, 30 };
+  InputImageType::RegionType          region = { index, size };
 
   InputIteratorType iIt(binary, region);
   iIt.GoToBegin();
@@ -237,8 +230,7 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   auto outputImage = OutputImageType::New();
   outputImage->SetRegions(input->GetLargestPossibleRegion());
   outputImage->CopyInformation(input);
-  outputImage->Allocate();
-  outputImage->FillBuffer(0);
+  outputImage->AllocateInitialized();
 
   using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
   OutputIteratorType oIt(outputImage, outputImage->GetLargestPossibleRegion());

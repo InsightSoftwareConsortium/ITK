@@ -138,8 +138,7 @@ TemporalProcessObject::GenerateOutputRequestedTemporalRegion(TemporalDataObject 
     output->SetRequestedTemporalRegion(requestedRegion);
 
     // Warn the user about this corner case
-    itkWarningMacro("Largest possible temporal region is infinite. Setting "
-                    "requested temporal region's duration to 1");
+    itkWarningMacro("Largest possible temporal region is infinite. Setting requested temporal region's duration to 1");
   }
 
   // If the current region is set to no duration, use the largest possible
@@ -388,7 +387,7 @@ TemporalProcessObject::UpdateOutputData(DataObject * itkNotUsed(output))
   // Release any inputs if marked for release
   this->ReleaseInputs();
 
-  // Mark that we are no OffsetValueTypeer updating the data in this filter
+  // Mark that we are no OffsetValueType-er updating the data in this filter
   m_Updating = false;
 }
 

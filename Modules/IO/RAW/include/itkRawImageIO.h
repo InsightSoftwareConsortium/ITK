@@ -98,7 +98,7 @@ public:
   bool
   SupportsDimension(unsigned long dim) override
   {
-    return (dim == m_FileDimensionality);
+    return dim == m_FileDimensionality;
   }
 
   /*-------- This part of the interface deals with reading data. ------ */

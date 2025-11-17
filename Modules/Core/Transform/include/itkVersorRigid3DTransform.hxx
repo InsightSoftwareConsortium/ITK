@@ -65,7 +65,7 @@ VersorRigid3DTransform<TParametersValueType>::SetParameters(const ParametersType
   const double norm =
     std::sqrt(parameters[0] * parameters[0] + parameters[1] * parameters[1] + parameters[2] * parameters[2]);
 
-  constexpr double epsilon = 1e-10;
+  constexpr double epsilon{ 1e-10 };
   if (norm >= 1.0 - epsilon)
   {
     axis = axis / (norm + epsilon * norm);
@@ -130,10 +130,8 @@ VersorRigid3DTransform<TParametersValueType>::UpdateTransformParameters(const De
 
   if (update.Size() != numberOfParameters)
   {
-    itkExceptionMacro("Parameter update size, " << update.Size()
-                                                << ", must "
-                                                   " be same as transform parameter size, "
-                                                << numberOfParameters << std::endl);
+    itkExceptionMacro("Parameter update size, " << update.Size() << ", must  be same as transform parameter size, "
+                                                << numberOfParameters);
   }
 
   /* Make sure m_Parameters is updated to reflect the current values in

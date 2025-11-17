@@ -32,6 +32,31 @@
  */
 
 
+/** A lightweight alternative for `ITK_EXERCISE_BASIC_OBJECT_METHODS`, using GoogleTest macro's. */
+#define ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(object, ClassName, SuperclassName) \
+  [object] {                                                                       \
+    std::ostringstream outputStreamForPrintExercise;                               \
+    object->Print(outputStreamForPrintExercise);                                   \
+    EXPECT_FALSE(outputStreamForPrintExercise.str().empty());                      \
+    EXPECT_STREQ(object->Self::GetNameOfClass(), #ClassName);                      \
+    EXPECT_STREQ(object->Superclass::GetNameOfClass(), #SuperclassName);           \
+  }()
+
+
+/** A lightweight alternative for `ITK_TEST_SET_GET_BOOLEAN`, using GoogleTest macro's. */
+#define ITK_GTEST_SET_GET_BOOLEAN(object, variable, value) \
+  object->Set##variable(false);                            \
+  object->Set##variable(true);                             \
+  EXPECT_TRUE(object->Get##variable());                    \
+  object->Set##variable(false);                            \
+  EXPECT_FALSE(object->Get##variable());                   \
+  object->variable##On();                                  \
+  EXPECT_TRUE(object->Get##variable());                    \
+  object->variable##Off();                                 \
+  EXPECT_FALSE(object->Get##variable());                   \
+  object->Set##variable(value)
+
+
 // end namespace itk
 
 #endif // itkGTest_h

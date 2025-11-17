@@ -6,7 +6,7 @@
 # to the objects in the "w =" list below.
 
 CC = cl
-CFLAGS = -DUSE_CLOCK -DMSDOS -DNO_ONEXIT -Ot1
+CFLAGS = -DUSE_CLOCK -DMSDOS -DNO_ONEXIT -Ot1 -DNO_My_ctype -DNO_ISATTY
 
 .c.obj:
         $(CC) -c $(CFLAGS) $*.c

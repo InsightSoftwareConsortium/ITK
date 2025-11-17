@@ -45,8 +45,10 @@ if(NOT VTK_RENDERING_BACKEND)
   endif()
 endif()
 set(_target_prefix "vtk")
+set(_vtk_sys_name "sys")
 if(VTK_VERSION VERSION_GREATER_EQUAL 8.90.0)
   set(_target_prefix "VTK::")
+  set(_vtk_sys_name "vtksys")
 endif()
 set(_target_freetypeopengl)
 if(TARGET ${_target_prefix}RenderingFreeType${VTK_RENDERING_BACKEND})
@@ -61,6 +63,18 @@ set(
   ${_target_prefix}IOImage
   ${_target_prefix}ImagingSources
 )
+
+if(VTK_VERSION VERSION_GREATER_EQUAL 8.90.0)
+  list(
+    APPEND
+    _required_vtk_libraries
+    "VTK::vtksys"
+    "VTK::kwiml"
+  )
+else()
+  list(APPEND _required_vtk_libraries "vtksys")
+endif()
+
 if(ITK_WRAP_PYTHON)
   list(
     APPEND

@@ -27,7 +27,7 @@
 namespace
 {
 
-constexpr double epsilon = 1e-10;
+constexpr double epsilon{ 1e-10 };
 
 template <typename TMatrix>
 bool
@@ -68,7 +68,7 @@ testVectorArray(const TVector & v1, const TVector & v2)
 
 /******/
 
-constexpr unsigned int itkMultiTransformTestNDimensions = 2;
+constexpr unsigned int itkMultiTransformTestNDimensions{ 2 };
 
 template <class TScalar = double, unsigned int VDimension = itkMultiTransformTestNDimensions>
 class MultiTransformTestTransform : public itk::MultiTransform<TScalar, VDimension>
@@ -106,8 +106,7 @@ public:
   ComputeJacobianWithRespectToParameters(const InputPointType & itkNotUsed(p),
                                          JacobianType &         itkNotUsed(jacobian)) const override
   {
-    itkExceptionMacro("ComputeJacobianWithRespectToParamters( InputPointType, JacobianType"
-                      " is unimplemented for "
+    itkExceptionMacro("ComputeJacobianWithRespectToParamters( InputPointType, JacobianType is unimplemented for "
                       << this->GetNameOfClass());
   }
 
@@ -121,7 +120,7 @@ protected:
 int
 itkMultiTransformTest(int, char *[])
 {
-  constexpr unsigned int VDimension = itkMultiTransformTestNDimensions;
+  constexpr unsigned int VDimension{ itkMultiTransformTestNDimensions };
 
   /* Create multi-transform */
   using MultiTransformType = MultiTransformTestTransform<double, VDimension>;
@@ -325,12 +324,9 @@ itkMultiTransformTest(int, char *[])
   auto field = FieldType::New(); // This is based on itk::Image
 
 
-  constexpr int                  dimLength = 4;
-  constexpr auto                 size = itk::MakeFilled<FieldType::SizeType>(dimLength);
-  constexpr FieldType::IndexType start{};
-  FieldType::RegionType          region;
-  region.SetSize(size);
-  region.SetIndex(start);
+  constexpr int         dimLength{ 4 };
+  constexpr auto        size = itk::MakeFilled<FieldType::SizeType>(dimLength);
+  FieldType::RegionType region{ size };
   field->SetRegions(region);
   field->Allocate();
 
@@ -590,7 +586,7 @@ itkMultiTransformTest(int, char *[])
     Superclass::ParametersType truth = multiTransform->GetParameters();
     Superclass::DerivativeType update(multiTransform->GetNumberOfParameters());
     update.Fill(10.0);
-    constexpr AffineType::ScalarType factor = 0.5;
+    constexpr AffineType::ScalarType factor{ 0.5 };
     truth += update * factor;
     multiTransform->UpdateTransformParameters(update, factor);
     const Superclass::ParametersType updateResult = multiTransform->GetParameters();

@@ -39,7 +39,7 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
 
   using InternalPixelType = unsigned short;
   using MaskPixelType = bool;
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using InternalImageType = itk::Image<InternalPixelType, Dimension>;
   using MaskImageType = itk::Image<MaskPixelType, Dimension>;
@@ -83,8 +83,7 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
   auto mask = MaskImageType::New();
   mask->SetRegions(threshold->GetOutput()->GetLargestPossibleRegion());
   mask->CopyInformation(threshold->GetOutput());
-  mask->Allocate();
-  mask->FillBuffer(MaskPixelType{});
+  mask->AllocateInitialized();
 
   const MaskImageType::RegionType maskRegion = mask->GetLargestPossibleRegion();
   MaskImageType::SizeType         maskSize = maskRegion.GetSize();
@@ -97,9 +96,7 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
   }
 
   MaskImageType::IndexType  index{};
-  MaskImageType::RegionType region;
-  region.SetIndex(index);
-  region.SetSize(size);
+  MaskImageType::RegionType region{ index, size };
 
   itk::ImageRegionIterator<MaskImageType> mit(mask, region);
   while (!mit.IsAtEnd())
@@ -114,8 +111,7 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
     index[i] = static_cast<long>(0.375 * maskSize[i]);
     size[i] = static_cast<unsigned long>(0.25 * maskSize[i]);
   }
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   itk::ImageRegionIterator<MaskImageType> mit2(mask, region);
   while (!mit2.IsAtEnd())

@@ -365,7 +365,7 @@ public:
   [[nodiscard]] bool
   IsAtBegin() const
   {
-    return (m_Offset == m_BeginOffset);
+    return m_Offset == m_BeginOffset;
   }
 
   /** Is the iterator at the end of the region? "End" is defined as one
@@ -373,7 +373,7 @@ public:
   [[nodiscard]] bool
   IsAtEnd() const
   {
-    return (m_Offset == m_EndOffset);
+    return m_Offset == m_EndOffset;
   }
 
 protected: // made protected so other iterators can access

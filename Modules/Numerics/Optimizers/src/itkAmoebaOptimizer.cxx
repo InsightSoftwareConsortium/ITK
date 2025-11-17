@@ -184,8 +184,8 @@ AmoebaOptimizer::StartOptimization()
   // automated initialization - previously hidden inside vnl
   if (this->m_AutomaticInitialSimplex)
   {
-    constexpr double       relativeDiameter = 0.05;
-    constexpr double       zeroTermDelta = 0.00025;
+    constexpr double       relativeDiameter{ 0.05 };
+    constexpr double       zeroTermDelta{ 0.00025 };
     InternalParametersType automaticDelta(n);
     for (unsigned int i = 0; i < n; ++i)
     {

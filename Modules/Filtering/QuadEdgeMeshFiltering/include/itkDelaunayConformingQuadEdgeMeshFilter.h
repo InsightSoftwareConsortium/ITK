@@ -215,7 +215,7 @@ protected:
       dotB = -1.;
     }
 
-    return (std::acos(dotA) + std::acos(dotB) - itk::Math::pi);
+    return std::acos(dotA) + std::acos(dotB) - itk::Math::pi;
   }
 };
 } // end namespace itk

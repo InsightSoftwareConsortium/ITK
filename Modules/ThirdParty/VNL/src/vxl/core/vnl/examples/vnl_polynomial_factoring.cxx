@@ -24,7 +24,7 @@ main(int argc, char * argv[])
   {
     std::cout
       << "Give the polynomial coefficients, starting with the constant term, and end with EOF (CTRL-Z or CTRL-D)\n";
-    long onecoef;
+    long onecoef = 0;
     while (std::cin >> onecoef)
       coef.push_back(onecoef);
   }

@@ -147,8 +147,7 @@ ImageBoundaryFacesCalculator<TImage>::Compute(const TImage & img, RegionType reg
       result.m_BoundaryFaces.emplace_back(fStart, fSize);
     }
   }
-  result.m_NonBoundaryRegion.SetSize(nbSize);
-  result.m_NonBoundaryRegion.SetIndex(nbStart);
+  result.m_NonBoundaryRegion = { nbStart, nbSize };
   return result;
 }
 

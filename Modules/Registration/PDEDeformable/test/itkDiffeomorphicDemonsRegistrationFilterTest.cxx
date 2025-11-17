@@ -166,8 +166,8 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   initField->SetDirection(direction);
 
   double              center[ImageDimension];
-  constexpr PixelType fgnd = 250;
-  constexpr PixelType bgnd = 15;
+  constexpr PixelType fgnd{ 250 };
+  constexpr PixelType bgnd{ 15 };
 
   // fill moving with circle
   center[0] = 64;

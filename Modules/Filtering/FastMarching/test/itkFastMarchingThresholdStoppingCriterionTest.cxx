@@ -23,7 +23,7 @@ int
 itkFastMarchingThresholdStoppingCriterionTest(int, char *[])
 {
   using PixelType = float;
-  constexpr unsigned int Dimension2D = 2;
+  constexpr unsigned int Dimension2D{ 2 };
 
   using ImageType = itk::Image<PixelType, Dimension2D>;
 
@@ -37,7 +37,7 @@ itkFastMarchingThresholdStoppingCriterionTest(int, char *[])
 
   std::cout << "Description: " << imageCriterion->GetDescription() << std::endl;
 
-  constexpr unsigned int Dimension3D = 3;
+  constexpr unsigned int Dimension3D{ 3 };
   using MeshType = itk::QuadEdgeMesh<PixelType, Dimension3D>;
 
   using MeshStoppingCriterionType = itk::FastMarchingThresholdStoppingCriterion<MeshType, MeshType>;

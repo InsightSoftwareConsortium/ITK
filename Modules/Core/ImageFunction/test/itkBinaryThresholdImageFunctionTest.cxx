@@ -29,13 +29,11 @@ itkBinaryThresholdImageFunctionTest(int, char *[])
 
   using FloatImage = itk::Image<float, 3>;
 
-  auto                   image = FloatImage::New();
-  FloatImage::RegionType region;
-  auto                   size = FloatImage::SizeType::Filled(64);
-  FloatImage::IndexType  index{};
+  auto                  image = FloatImage::New();
+  auto                  size = FloatImage::SizeType::Filled(64);
+  FloatImage::IndexType index{};
 
-  region.SetIndex(index);
-  region.SetSize(size);
+  FloatImage::RegionType region = { index, size };
 
   image->SetRegions(region);
   image->AllocateInitialized();
@@ -45,8 +43,7 @@ itkBinaryThresholdImageFunctionTest(int, char *[])
     size[i] -= 20;
     index[i] += 10;
   }
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   itk::ImageRegionIterator<FloatImage> it(image, region);
   while (!it.IsAtEnd())

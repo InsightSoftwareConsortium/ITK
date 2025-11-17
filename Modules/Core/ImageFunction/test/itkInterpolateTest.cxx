@@ -206,7 +206,7 @@ itkInterpolateTest(int, char *[])
   }
 
   // position near image border
-  constexpr itk::SpacePrecisionType epsilon = 1.0e-10;
+  constexpr itk::SpacePrecisionType epsilon{ 1.0e-10 };
   itk::SpacePrecisionType           darray3[3] = { 19 - epsilon, 20, 40 };
   cindex = ContinuousIndexType(darray3);
   passed = TestContinuousIndex<InterpolatorType>(interp, cindex, true, 79);

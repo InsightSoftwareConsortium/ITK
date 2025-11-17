@@ -24,7 +24,7 @@ int
 itkImageRegionTest(int, char *[])
 {
 
-  constexpr unsigned int dimension = 3;
+  constexpr unsigned int dimension{ 3 };
 
   using CoordinateType = double;
   using RegionType = itk::ImageRegion<dimension>;
@@ -38,18 +38,14 @@ itkImageRegionTest(int, char *[])
 
   bool passed = true;
 
-  constexpr SizeType sizeA = { { 10, 20, 30 } };
-  constexpr SizeType sizeB = { { 5, 10, 15 } };
+  constexpr SizeType sizeA{ 10, 20, 30 };
+  constexpr SizeType sizeB{ 5, 10, 15 };
 
-  constexpr IndexType startA = { { 12, 12, 12 } };
-  constexpr IndexType startB = { { 14, 14, 14 } };
-  constexpr IndexType endA = { { 21, 31, 41 } };
+  constexpr IndexType startA{ 12, 12, 12 };
+  constexpr IndexType startB{ 14, 14, 14 };
+  constexpr IndexType endA{ 21, 31, 41 };
 
-  RegionType regionA;
-  RegionType regionB;
-
-  regionA.SetSize(sizeA);
-  regionA.SetIndex(startA);
+  RegionType regionA = { startA, sizeA };
 
   if (regionA.GetUpperIndex() != endA)
   {
@@ -111,8 +107,7 @@ itkImageRegionTest(int, char *[])
     std::cout << "Caught expected exception" << err;
   }
 
-  regionB.SetSize(sizeB);
-  regionB.SetIndex(startB);
+  RegionType regionB = { startB, sizeB };
 
   // Test IsInside( integerIndex )
   IndexType index = startA;
@@ -269,7 +264,7 @@ itkImageRegionTest(int, char *[])
     std::cout << "NaN < -1 = " << (indexC[0] < -1.0) << std::endl;
     std::cout << "NaN > -1 = " << (indexC[0] > -1.0) << std::endl;
 
-    constexpr CoordinateType NaN = ContinuousIndexNumericTraits::quiet_NaN();
+    constexpr CoordinateType NaN{ ContinuousIndexNumericTraits::quiet_NaN() };
     std::cout << "RoundHalfIntegerUp(NaN): " << itk::Math::RoundHalfIntegerUp<CoordinateType>(NaN) << std::endl;
     std::cout << "RoundHalfIntegerUp< CoordinateType >(NaN) < static_cast<CoordinateType> (0): "
               << (itk::Math::RoundHalfIntegerUp<CoordinateType>(NaN) < static_cast<CoordinateType>(0)) << std::endl;
@@ -307,12 +302,10 @@ itkImageRegionTest(int, char *[])
   shrinkSize[0] = 33;
   shrinkSize[1] = 21;
   shrinkSize[2] = 3;
-  RegionType shrinkRegion;
-  shrinkRegion.SetIndex(shrinkIndex);
-  shrinkRegion.SetSize(shrinkSize);
+  RegionType shrinkRegion{ shrinkIndex, shrinkSize };
   RegionType padAndShrinkRegion = shrinkRegion;
 
-  constexpr itk::OffsetValueType offsetValueRadius = 4;
+  constexpr itk::OffsetValueType offsetValueRadius{ 4 };
   padAndShrinkRegion.PadByRadius(offsetValueRadius);
   padAndShrinkRegion.ShrinkByRadius(offsetValueRadius);
   if (shrinkRegion != padAndShrinkRegion)

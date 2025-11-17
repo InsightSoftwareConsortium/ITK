@@ -24,41 +24,23 @@
 int
 itkCovarianceImageFunctionTest(int, char *[])
 {
-
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using PixelComponentType = unsigned char;
-  constexpr unsigned int VectorDimension = 4;
+  constexpr unsigned int VectorDimension{ 4 };
 
   using PixelType = itk::FixedArray<PixelComponentType, VectorDimension>;
   using ImageType = itk::Image<PixelType, Dimension>;
   using FunctionType = itk::CovarianceImageFunction<ImageType>;
 
   // Create and allocate the image
-  auto                  image = ImageType::New();
-  ImageType::SizeType   size;
-  ImageType::IndexType  start;
-  ImageType::RegionType region;
-
-  size[0] = 20;
-  size[1] = 20;
-  size[2] = 20;
-
-  constexpr ImageType::IndexValueType imageValue = 0;
-  start.Fill(imageValue);
-
-  region.SetIndex(start);
-  region.SetSize(size);
+  auto                          image = ImageType::New();
+  constexpr ImageType::SizeType size{ 20, 20, 20 };
+  ImageType::RegionType         region = { size };
 
   image->SetRegions(region);
   image->Allocate();
 
-  ImageType::PixelType initialValue;
-
-  initialValue[0] = 11;
-  initialValue[1] = 13;
-  initialValue[2] = 17;
-  initialValue[3] = 19;
-
+  ImageType::PixelType initialValue{ { 11, 13, 17, 19 } };
   image->FillBuffer(initialValue);
 
   auto function = FunctionType::New();
@@ -66,35 +48,26 @@ itkCovarianceImageFunctionTest(int, char *[])
 
   function->SetInputImage(image);
 
-  constexpr unsigned int neighborhoodRadius = 5;
+  constexpr unsigned int neighborhoodRadius{ 5 };
   function->SetNeighborhoodRadius(neighborhoodRadius);
   ITK_TEST_SET_GET_VALUE(neighborhoodRadius, function->GetNeighborhoodRadius());
 
-  ImageType::IndexType index;
-  index[0] = 10;
-  index[1] = 10;
-  index[2] = 10;
+  constexpr ImageType::IndexType index{ 10, 10, 10 };
 
   FunctionType::OutputType covariance = function->EvaluateAtIndex(index);
   std::cout << "function->EvaluateAtIndex( index ): " << covariance << std::endl;
 
   // Test Evaluate
-  FunctionType::PointType point;
-  point[0] = 25;
-  point[1] = 25;
-  point[2] = 25;
+  FunctionType::PointType        point{ { 25, 25, 25 } };
   const FunctionType::OutputType covariance2 = function->Evaluate(point);
   std::cout << "function->Evaluate(point): " << covariance2 << std::endl;
 
   // Test EvaluateAtContinuousIndex
-  FunctionType::ContinuousIndexType cindex;
-  cindex[0] = 25;
-  cindex[1] = 25;
-  cindex[2] = 25;
-  const FunctionType::OutputType covariance3 = function->EvaluateAtContinuousIndex(cindex);
+  FunctionType::ContinuousIndexType cindex{ { 25, 25, 25 } };
+  const FunctionType::OutputType    covariance3 = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "function->EvaluateAtContinuousIndex(cindex): " << covariance3 << std::endl;
 
-
+  constexpr ImageType::IndexValueType imageValue{ 0 };
   // Since the input image is constant, the covariance should be equal to
   // the initial value
   for (unsigned int ix = 0; ix < VectorDimension; ++ix)

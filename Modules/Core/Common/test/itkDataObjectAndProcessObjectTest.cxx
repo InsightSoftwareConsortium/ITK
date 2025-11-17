@@ -551,7 +551,7 @@ public:
       return EXIT_FAILURE;
     }
     std::cout << "Test PASSED" << std::endl;
-    return (EXIT_SUCCESS);
+    return EXIT_SUCCESS;
   }
 };
 

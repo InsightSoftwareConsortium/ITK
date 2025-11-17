@@ -153,7 +153,7 @@ void DictConverter::Convert()
           }
         }
       else
-        assert(0);
+        gdcm_assert(0);
       }
     else if ( line[7] == 'x' && line[8] == 'x' )
       {
@@ -179,7 +179,7 @@ void DictConverter::Convert()
           }
         }
       else
-        assert(0);
+        gdcm_assert(0);
       }
     else
       {
@@ -206,7 +206,7 @@ bool DictConverter::ReadVR(const char *raw, VR::VRType &type)
     ++i;
   std::string vm(raw, raw+i-1);
   type = VR::GetVRType(vm.c_str());
-  assert( type != VR::VR_END );
+  gdcm_assert( type != VR::VR_END );
   return true;
 }
 
@@ -214,9 +214,9 @@ bool DictConverter::ReadVM(const char *raw, VM::VMType &type)
 {
   char vm[8];
   int r = sscanf(raw, "%s", vm);
-  assert( r == 1 );
+  gdcm_assert( r == 1 );
   type = VM::GetVMType(vm);
-  assert( type != VM::VM_END );
+  gdcm_assert( type != VM::VM_END );
   return true;
 }
 
@@ -224,11 +224,11 @@ bool DictConverter::Readuint16(const char *raw, uint16_t &ov)
 {
   unsigned int v;
   int r = sscanf(raw, "%04x", &v);
-  assert( r == 1 && "Wrong Value read for uint16");
+  gdcm_assert( r == 1 && "Wrong Value read for uint16");
   char sv[4+1];
   r = snprintf(sv, sizeof(sv), "%04x", v);
-  assert( r == 4 && "Wrong Value printed for uint16");
-  assert( strncmp(raw, sv, 4) == 0 );
+  gdcm_assert( r == 4 && "Wrong Value printed for uint16");
+  gdcm_assert( strncmp(raw, sv, 4) == 0 );
   ov = v;
   return true;
 }
@@ -302,7 +302,7 @@ bool DictConverter::ConvertToXML(const char *raw, std::string &cxx)
   VR::VRType vr;
   VM::VMType vm;
   Readuint16(raw, group);
-  assert( !(group%2) );
+  gdcm_assert( !(group%2) );
   Readuint16(raw+5, element);
   ReadVR(raw+10, vr);
   int len = 11+strlen(VR::GetVRString(vr));
@@ -331,7 +331,7 @@ bool DictConverter::ConvertToCXX(const char *raw, std::string &cxx)
   VR::VRType vr;
   VM::VMType vm;
   Readuint16(raw, group);
-  //assert( !(group%2) );
+  //gdcm_assert( !(group%2) );
   //
   Readuint16(raw+5, element);
   ReadVR(raw+10, vr);

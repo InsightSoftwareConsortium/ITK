@@ -82,7 +82,7 @@ public:
         Start = /*buffer =*/ newBuf;
         }
       }
-    assert( (int)Internal.capacity() >= len );
+    gdcm_assert( (int)Internal.capacity() >= len );
     return End;
     }
 

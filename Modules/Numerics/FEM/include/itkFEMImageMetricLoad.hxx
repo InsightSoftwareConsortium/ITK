@@ -78,25 +78,22 @@ ImageMetricLoad<TMoving, TFixed>::InitializeMetric()
   m_Metric->SetMovingImage(m_RefImage);
   m_Metric->SetFixedImage(m_TarImage);
 
-  typename FixedType::RegionType requestedRegion;
-  typename FixedType::SizeType   size;
-  typename FixedType::IndexType  tindex;
+  typename FixedType::SizeType size;
   //  typename MovingType::IndexType rindex;
   // initialize the offset/vector part
   for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     // Set the size of the image region
     size[k] = 1;
-    tindex[k] = 0;
   }
 
   // Set the number of integration points to zero (default for an element)
 
   m_NumberOfIntegrationPoints = 0;
 
+  typename FixedType::IndexType tindex{};
   // Set the associated region
-  requestedRegion.SetSize(size);
-  requestedRegion.SetIndex(tindex);
+  typename FixedType::RegionType requestedRegion = { tindex, size };
   m_TarImage->SetRequestedRegion(requestedRegion);
   m_Metric->SetFixedImageRegion(m_TarImage->GetRequestedRegion());
 
@@ -154,7 +151,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType
   {
     for (unsigned int i = 0; i < m_NumberOfIntegrationPoints; ++i)
     {
-      static_cast<Element *>((*elt))->GetIntegrationPointAndWeight(i, ip, w, m_NumberOfIntegrationPoints);
+      static_cast<Element *>(*elt)->GetIntegrationPointAndWeight(i, ip, w, m_NumberOfIntegrationPoints);
       // FIXME REMOVE WHEN ELEMENT NEW IS BASE CLASS
       shapef = (*elt)->ShapeFunctions(ip);
 
@@ -222,7 +219,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(Element::ArrayTyp
   {
     for (unsigned int i = 0; i < m_NumberOfIntegrationPoints; ++i)
     {
-      static_cast<Element *>((*elt))->GetIntegrationPointAndWeight(i, ip, w, m_NumberOfIntegrationPoints);
+      static_cast<Element *>(*elt)->GetIntegrationPointAndWeight(i, ip, w, m_NumberOfIntegrationPoints);
       // FIXME REMOVE WHEN ELEMENT NEW IS BASE CLASS
       shapef = (*elt)->ShapeFunctions(ip);
 
@@ -335,8 +332,7 @@ ImageMetricLoad<TMoving, TFixed>::Fe(VectorType Gpos, VectorType Gsol) -> Vector
 
   // Set the associated region
 
-  requestedRegion.SetSize(regionRadius);
-  requestedRegion.SetIndex(tindex);
+  requestedRegion = { tindex, regionRadius };
 
   m_TarImage->SetRequestedRegion(requestedRegion);
   m_Metric->SetFixedImageRegion(m_TarImage->GetRequestedRegion());
@@ -439,8 +435,7 @@ ImageMetricLoad<TMoving, TFixed>::GetMetric(VectorType InVec) -> Float
 
   // Set the associated region
 
-  requestedRegion.SetSize(regionRadius);
-  requestedRegion.SetIndex(tindex);
+  requestedRegion = { tindex, regionRadius };
 
   m_TarImage->SetRequestedRegion(requestedRegion);
   m_Metric->SetFixedImageRegion(m_TarImage->GetRequestedRegion());
@@ -633,8 +628,7 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
           }
         }
 
-        requestedRegion.SetIndex(temp);
-        requestedRegion.SetSize(regionRadius);
+        requestedRegion = { temp, regionRadius };
         m_TarImage->SetRequestedRegion(requestedRegion);
         m_Metric->SetFixedImageRegion(m_TarImage->GetRequestedRegion());
         measure[row + 1][col + 1] = 0.0;
@@ -683,8 +677,7 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
             }
           }
 
-          requestedRegion.SetIndex(temp);
-          requestedRegion.SetSize(regionRadius);
+          requestedRegion = { temp, regionRadius };
           m_TarImage->SetRequestedRegion(requestedRegion);
           m_Metric->SetFixedImageRegion(m_TarImage->GetRequestedRegion());
           measure3D[row + 1][col + 1][z + 1] = 0.0;
@@ -718,9 +711,9 @@ template <typename TMoving, typename TFixed>
 void
 ImageMetricLoad<TMoving, TFixed>::ApplyLoad(Element::ConstPointer element, Element::VectorType & _Fe)
 {
-  constexpr unsigned int TotalSolutionIndex = 1; /* Need to change if the index
-                                                  * changes in CrankNicolsonSolver
-                                                  */
+  constexpr unsigned int TotalSolutionIndex{ 1 }; /* Need to change if the index
+                                                   * changes in CrankNicolsonSolver
+                                                   */
 
   // has current solution state
   const typename Solution::ConstPointer S = this->GetSolution();

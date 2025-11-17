@@ -36,10 +36,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 ThresholdLabelerImageFilter<TInputImage, TOutputImage>::ThresholdLabelerImageFilter()
   : m_LabelOffset(OutputPixelType{})
-{
-  m_Thresholds.clear();
-  m_RealThresholds.clear();
-}
+{}
 
 template <typename TInputImage, typename TOutputImage>
 void

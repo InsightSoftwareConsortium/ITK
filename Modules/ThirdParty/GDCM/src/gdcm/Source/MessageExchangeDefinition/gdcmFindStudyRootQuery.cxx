@@ -76,7 +76,7 @@ std::vector<Tag> FindStudyRootQuery::GetTagListByLevel(const EQueryLevel& inQuer
   case eImage:
     return mImage.GetAllTags(eStudyRootType); 
   default: //have to return _something_ if a query level isn't given
-    assert(0);
+    gdcm_assert(0);
       {
       std::vector<Tag> empty;
       return empty;
@@ -232,7 +232,7 @@ bool FindStudyRootQuery::ValidateQuery(bool inStrict) const
       }
     if( thePresentTagCount != hiertags.size() )
       {
-      assert( !hiertags.empty() );
+      gdcm_assert( !hiertags.empty() );
       gdcmWarningMacro( "Missing Key found (within the hierarchical search ones): " << hiertags[0] );
       gdcmDebugMacro( "Current DataSet is: " << ds );
       theReturn = false;

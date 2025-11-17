@@ -170,7 +170,7 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
   std::cout << " iterations " << numberOfIterations << " displacementIterations " << numberOfDisplacementIterations
             << std::endl;
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PixelType = double; // I assume png is unsigned short
 
   using FixedImageType = itk::Image<PixelType, Dimension>;
@@ -275,7 +275,7 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
   metric->SetMovingImage(movingImage);
   metric->SetFixedTransform(identityTransform);
   metric->SetMovingTransform(affineTransform);
-  constexpr bool gaussian = false;
+  constexpr bool gaussian{ false };
   metric->SetUseMovingImageGradientFilter(gaussian);
   metric->SetUseFixedImageGradientFilter(gaussian);
   metric->Initialize();

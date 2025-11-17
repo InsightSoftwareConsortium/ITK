@@ -62,11 +62,11 @@ PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * const shape) 
   const Py_ssize_t   bufferLength = pyBuffer.len;
   const void * const buffer = pyBuffer.buf;
 
-  PyObject * const   shapeseq = PySequence_Fast(shape, "expected sequence");
-  const unsigned int dimension = PySequence_Size(shape);
+  PyObject * const shapeseq = PySequence_Fast(shape, "expected sequence");
 
-  PyObject * const item = PySequence_Fast_GET_ITEM(shapeseq, 0); // Only one dimension
+  PyObject * const item = PySequence_GetItem(shapeseq, 0); // Only one dimension
   const size_t     numberOfElements = static_cast<size_t>(PyInt_AsLong(item));
+  Py_DECREF(item);
 
   const size_t len = numberOfElements * sizeof(DataType);
   if (bufferLength < 0 || static_cast<size_t>(bufferLength) != len)
@@ -120,13 +120,13 @@ PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * const shape) 
   const Py_ssize_t   bufferLength = pyBuffer.len;
   const void * const buffer = pyBuffer.buf;
 
-  PyObject * const   shapeseq = PySequence_Fast(shape, "expected sequence");
-  const unsigned int dimension = PySequence_Size(shape);
+  PyObject * const shapeseq = PySequence_Fast(shape, "expected sequence");
 
   for (unsigned int i = 0; i < 2; ++i)
   {
-    PyObject * const item = PySequence_Fast_GET_ITEM(shapeseq, i);
+    PyObject * const item = PySequence_GetItem(shapeseq, i);
     size[i] = static_cast<unsigned int>(PyInt_AsLong(item));
+    Py_DECREF(item);
     numberOfElements *= size[i];
   }
 

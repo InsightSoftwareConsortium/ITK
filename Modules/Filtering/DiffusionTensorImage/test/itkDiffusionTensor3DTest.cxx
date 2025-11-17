@@ -152,33 +152,14 @@ itkDiffusionTensor3DTest(int, char *[])
 
   auto dti = ImageType::New();
 
-  ImageType::SizeType   size;
-  ImageType::IndexType  start;
-  ImageType::RegionType region;
-
-  size[0] = 128;
-  size[1] = 128;
-  size[2] = 128;
-
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  region.SetIndex(start);
-  region.SetSize(size);
+  constexpr ImageType::SizeType size{ 128, 128, 128 };
+  ImageType::RegionType         region = { size };
 
   dti->SetRegions(region);
   dti->Allocate();
 
-  ImageType::SpacingType spacing;
-  spacing[0] = 0.5;
-  spacing[1] = 0.5;
-  spacing[2] = 1.5;
-
-  ImageType::PointType origin;
-  origin[0] = 25.5;
-  origin[1] = 25.5;
-  origin[2] = 27.5;
+  ImageType::SpacingType spacing{ { 0.5, 0.5, 1.5 } };
+  ImageType::PointType   origin{ { 25.5, 25.5, 27.5 } };
 
   dti->SetOrigin(origin);
   dti->SetSpacing(spacing);
@@ -211,10 +192,7 @@ itkDiffusionTensor3DTest(int, char *[])
 
     Double3DTensorType tensor2;
 
-    double v[3];
-    v[0] = 19.0;
-    v[1] = 23.0;
-    v[2] = 29.0;
+    constexpr double v[3]{ 19.0, 23.0, 29.0 };
 
     tensor2(0, 0) = v[0];
     tensor2(0, 1) = 0.0;
@@ -240,7 +218,7 @@ itkDiffusionTensor3DTest(int, char *[])
     std::cout << "EigenVectors = " << std::endl;
     std::cout << eigenVectors << std::endl;
 
-    constexpr double tolerance = 1e-4;
+    constexpr double tolerance{ 1e-4 };
 
     {
       Double3DTensorType::EigenValuesArrayType expectedValues;
@@ -366,7 +344,7 @@ itkDiffusionTensor3DTest(int, char *[])
     expectedTrace += tensor3(1, 1);
     expectedTrace += tensor3(2, 2);
 
-    constexpr double tolerance = 1e-4;
+    constexpr double tolerance{ 1e-4 };
 
     const AccumulateValueType computedTrace = tensor3.GetTrace();
     if (itk::Math::abs(computedTrace - expectedTrace) > tolerance)
@@ -378,7 +356,7 @@ itkDiffusionTensor3DTest(int, char *[])
     }
 
     // Test the value of internal scalar product
-    constexpr RealValueType expectedInternalScalarProduct = 1829;
+    constexpr RealValueType expectedInternalScalarProduct{ 1829 };
 
     const RealValueType computedInternalScalarProduct = tensor3.GetInnerScalarProduct();
     if (itk::Math::abs(computedInternalScalarProduct - expectedInternalScalarProduct) > tolerance)
@@ -391,7 +369,7 @@ itkDiffusionTensor3DTest(int, char *[])
 
 
     // Test the value of Fractional Anisotropy
-    constexpr RealValueType expectedFractionalAnisotropy = 0.349177;
+    constexpr RealValueType expectedFractionalAnisotropy{ 0.349177 };
 
     const RealValueType computedFractionalAnisotropy = tensor3.GetFractionalAnisotropy();
     if (itk::Math::abs(computedFractionalAnisotropy - expectedFractionalAnisotropy) > tolerance)
@@ -403,7 +381,7 @@ itkDiffusionTensor3DTest(int, char *[])
     }
 
     // Test the value of Relative Anisotropy
-    constexpr RealValueType expectedRelativeAnisotropy = 1.9044;
+    constexpr RealValueType expectedRelativeAnisotropy{ 1.9044 };
 
     const RealValueType computedRelativeAnisotropy = tensor3.GetRelativeAnisotropy();
     if (itk::Math::abs(computedRelativeAnisotropy - expectedRelativeAnisotropy) > tolerance)
@@ -465,7 +443,7 @@ itkDiffusionTensor3DTest(int, char *[])
     auto floatTensor3 = static_cast<Float3DTensorType>(intTensor);
 
     // Check that all floatTensors have are the same
-    constexpr float precision = 1e-6;
+    constexpr float precision{ 1e-6 };
     for (unsigned int i = 0; i < Float3DTensorType::InternalDimension; ++i)
     {
       auto intVal = static_cast<float>(intTensor[i]);
@@ -478,5 +456,5 @@ itkDiffusionTensor3DTest(int, char *[])
     }
   }
 
-  return (passed ? EXIT_SUCCESS : EXIT_FAILURE);
+  return passed ? EXIT_SUCCESS : EXIT_FAILURE;
 }

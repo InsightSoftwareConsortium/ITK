@@ -210,7 +210,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   metric->SetMovingImage(imgMoving);
 
   // set the number of histogram bins
-  constexpr itk::SizeValueType numberOfHistogramBins = 50;
+  constexpr itk::SizeValueType numberOfHistogramBins{ 50 };
   metric->SetNumberOfHistogramBins(numberOfHistogramBins);
   ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, metric->GetNumberOfHistogramBins());
 
@@ -288,8 +288,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   // set the region over which to compute metric
   index.Fill(2);
   size.Fill(96);
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   metric->SetFixedImageRegion(region);
 
   // initialize the metric before use
@@ -360,7 +359,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   typename MetricType::MeasureType measurePlus;
   typename MetricType::MeasureType measureMinus;
 
-  constexpr double delta = 0.001;
+  constexpr double delta{ 0.001 };
 
   bool testFailed = false;
 

@@ -35,7 +35,10 @@
 #include "itkThinPlateSplineKernelTransform.h"
 #include "itkVolumeSplineKernelTransform.h"
 #include "itkIntTypes.h"
-#include <vnl/vnl_sample.h>
+
+#include <algorithm> // For generate.
+#include <iterator>  // For begin and end.
+#include <random>    // For mt19937.
 
 
 // Generic Kernel Transform Tester
@@ -55,17 +58,20 @@ TestKernelTransform(const char * name, KernelType *)
   sourceLandmarks->GetPoints()->Reserve(4);
 
   // Generate some random coordinates
-  typename KernelPointSetType::CoordinateType randomCoords[3];
+  typename KernelPointSetType::CoordinateType                                 randomCoords[3];
+  std::mt19937                                                                randomNumberEngine{};
+  std::uniform_real_distribution<typename KernelPointSetType::CoordinateType> randomNumberDistribution(-1.0, 1.0);
+
   for (int i = 0; i < 4; ++i)
   {
-    randomCoords[0] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
-    randomCoords[1] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
-    randomCoords[2] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
+    std::generate(std::begin(randomCoords), std::end(randomCoords), [&randomNumberEngine, &randomNumberDistribution] {
+      return randomNumberDistribution(randomNumberEngine);
+    });
     targetLandmarks->GetPoints()->SetElement(i, randomCoords);
 
-    randomCoords[0] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
-    randomCoords[1] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
-    randomCoords[2] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
+    std::generate(std::begin(randomCoords), std::end(randomCoords), [&randomNumberEngine, &randomNumberDistribution] {
+      return randomNumberDistribution(randomNumberEngine);
+    });
     sourceLandmarks->GetPoints()->SetElement(i, randomCoords);
   }
 

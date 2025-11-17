@@ -193,7 +193,7 @@ public:
     bool
     operator==(const ConstIterator & it) const
     {
-      return (m_Iter == it.m_Iter);
+      return m_Iter == it.m_Iter;
     }
 
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);
@@ -296,13 +296,13 @@ public:
   }
 
 protected:
-  ImageToListSampleAdaptor();
+  ImageToListSampleAdaptor() = default;
   ~ImageToListSampleAdaptor() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ImageConstPointer             m_Image{};
+  ImageConstPointer             m_Image{ nullptr };
   mutable MeasurementVectorType m_MeasurementVectorInternal{};
 
 }; // end of class ImageToListSampleAdaptor

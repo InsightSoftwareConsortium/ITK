@@ -35,7 +35,7 @@ itkGradientRecursiveGaussianFilterSpeedTest(int argc, char * argv[])
   std::cout << "imageSize: " << imageSize << " reps: " << reps << std::endl;
 
   // Define the dimension of the images
-  constexpr unsigned int myDimension = 3;
+  constexpr unsigned int myDimension{ 3 };
 
   // Declare the types of the images
   using myImageType = itk::Image<float, myDimension>;
@@ -54,10 +54,7 @@ itkGradientRecursiveGaussianFilterSpeedTest(int argc, char * argv[])
 
 
   // Define their size, and start index
-  mySizeType size;
-  size[0] = imageSize;
-  size[1] = imageSize;
-  size[2] = imageSize;
+  auto size = mySizeType::Filled(imageSize);
 
   myIndexType start{};
 
@@ -65,20 +62,10 @@ itkGradientRecursiveGaussianFilterSpeedTest(int argc, char * argv[])
 
   // Initialize Image A
   inputImage->SetRegions(region);
-  inputImage->Allocate();
+  inputImage->AllocateInitialized();
 
   // Declare Iterator type for the input image
   using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
-
-  // Create one iterator for the Input Image A (this is a light object)
-  myIteratorType it(inputImage, inputImage->GetRequestedRegion());
-
-  // Initialize the content of Image A
-  while (!it.IsAtEnd())
-  {
-    it.Set(0.0);
-    ++it;
-  }
 
   size.Fill(imageSize - 4);
 

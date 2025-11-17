@@ -36,7 +36,7 @@ itkRenyiEntropyMaskedThresholdImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = short;
   using OutputPixelType = unsigned char;

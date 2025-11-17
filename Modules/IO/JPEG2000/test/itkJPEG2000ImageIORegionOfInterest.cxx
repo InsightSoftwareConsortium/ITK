@@ -41,7 +41,7 @@ itkJPEG2000ImageIORegionOfInterest(int argc, char * argv[])
   //  Image types are defined below.
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using InputImageType = itk::Image<InputPixelType, Dimension>;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
@@ -61,17 +61,12 @@ itkJPEG2000ImageIORegionOfInterest(int argc, char * argv[])
   //  indicating how many pixels the region has along each dimension. In this
   //  example, the specification of the region is taken from the command line
   //  arguments (this example assumes that a 2D image is being processed).
-  OutputImageType::IndexType start;
-  start[0] = std::stoi(argv[3]);
-  start[1] = std::stoi(argv[4]);
+  OutputImageType::IndexType     start{ std::stoi(argv[3]), std::stoi(argv[4]) };
+  OutputImageType::SizeValueType start_x = std::stoi(argv[5]);
+  OutputImageType::SizeValueType start_y = std::stoi(argv[6]);
+  OutputImageType::SizeType      size{ start_x, start_y };
 
-  OutputImageType::SizeType size;
-  size[0] = std::stoi(argv[5]);
-  size[1] = std::stoi(argv[6]);
-
-  OutputImageType::RegionType desiredRegion;
-  desiredRegion.SetSize(size);
-  desiredRegion.SetIndex(start);
+  OutputImageType::RegionType desiredRegion{ start, size };
   //  Then the region is passed to the filter using the
   //  SetRegionOfInterest() method.
 

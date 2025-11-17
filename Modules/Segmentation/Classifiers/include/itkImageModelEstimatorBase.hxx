@@ -24,11 +24,6 @@
 namespace itk
 {
 template <typename TInputImage, typename TMembershipFunction>
-ImageModelEstimatorBase<TInputImage, TMembershipFunction>::ImageModelEstimatorBase()
-
-  = default;
-
-template <typename TInputImage, typename TMembershipFunction>
 void
 ImageModelEstimatorBase<TInputImage, TMembershipFunction>::Update()
 {

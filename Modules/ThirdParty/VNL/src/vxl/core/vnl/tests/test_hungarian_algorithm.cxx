@@ -118,7 +118,7 @@ make_up_solution(const unsigned M, const unsigned N)
   std::vector<unsigned> true_assn(M);
   for (unsigned i = 0; i < M; ++i)
   {
-    bool okay;
+    bool okay = false;
     do
     {
       true_assn[i] = randgen.lrand32(N);

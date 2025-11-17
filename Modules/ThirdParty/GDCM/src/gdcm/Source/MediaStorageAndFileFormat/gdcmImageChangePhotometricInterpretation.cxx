@@ -77,14 +77,14 @@ bool ImageChangePhotometricInterpretation::ChangeMonochrome()
   //Output->GetPixelFormat().SetSamplesPerPixel( 3 );
   //Output->SetPlanarConfiguration( 0 ); // FIXME OT-PAL-8-face.dcm has a PlanarConfiguration while being PALETTE COLOR...
   //const TransferSyntax &ts = image.GetTransferSyntax();
-  ////assert( ts == TransferSyntax::RLELossless );
+  ////gdcm_assert( ts == TransferSyntax::RLELossless );
   //if( ts.IsExplicit() )
   //  {
   //  Output->SetTransferSyntax( TransferSyntax::ExplicitVRLittleEndian );
   //  }
   //else
   //  {
-  //  assert( ts.IsImplicit() );
+  //  gdcm_assert( ts.IsImplicit() );
   //  Output->SetTransferSyntax( TransferSyntax::ImplicitVRLittleEndian );
   //  }
 
@@ -101,7 +101,7 @@ bool ImageChangePhotometricInterpretation::ChangeYBR2RGB()
   // mistake. just like Largest Image Pixel Value and other would be wrong
   const Bitmap &image = *Input;
   PhotometricInterpretation pi = image.GetPhotometricInterpretation();
-  //assert( pi == PhotometricInterpretation::MONOCHROME1 || pi == PhotometricInterpretation::MONOCHROME2 );
+  //gdcm_assert( pi == PhotometricInterpretation::MONOCHROME1 || pi == PhotometricInterpretation::MONOCHROME2 );
   if( pi == PI )
   {
     return true;
@@ -153,14 +153,14 @@ bool ImageChangePhotometricInterpretation::ChangeYBR2RGB()
   //Output->GetPixelFormat().SetSamplesPerPixel( 3 );
   //Output->SetPlanarConfiguration( 0 ); // FIXME OT-PAL-8-face.dcm has a PlanarConfiguration while being PALETTE COLOR...
   //const TransferSyntax &ts = image.GetTransferSyntax();
-  ////assert( ts == TransferSyntax::RLELossless );
+  ////gdcm_assert( ts == TransferSyntax::RLELossless );
   //if( ts.IsExplicit() )
   //  {
   //  Output->SetTransferSyntax( TransferSyntax::ExplicitVRLittleEndian );
   //  }
   //else
   //  {
-  //  assert( ts.IsImplicit() );
+  //  gdcm_assert( ts.IsImplicit() );
   //  Output->SetTransferSyntax( TransferSyntax::ImplicitVRLittleEndian );
   //  }
 
@@ -178,7 +178,7 @@ bool ImageChangePhotometricInterpretation::ChangeRGB2YBR()
   // mistake. just like Largest Image Pixel Value and other would be wrong
   const Bitmap &image = *Input;
   PhotometricInterpretation pi = image.GetPhotometricInterpretation();
-  //assert( pi == PhotometricInterpretation::MONOCHROME1 || pi == PhotometricInterpretation::MONOCHROME2 );
+  //gdcm_assert( pi == PhotometricInterpretation::MONOCHROME1 || pi == PhotometricInterpretation::MONOCHROME2 );
   if( pi == PI )
   {
     return true;
@@ -230,14 +230,14 @@ bool ImageChangePhotometricInterpretation::ChangeRGB2YBR()
   //Output->GetPixelFormat().SetSamplesPerPixel( 3 );
   //Output->SetPlanarConfiguration( 0 ); // FIXME OT-PAL-8-face.dcm has a PlanarConfiguration while being PALETTE COLOR...
   //const TransferSyntax &ts = image.GetTransferSyntax();
-  ////assert( ts == TransferSyntax::RLELossless );
+  ////gdcm_assert( ts == TransferSyntax::RLELossless );
   //if( ts.IsExplicit() )
   //  {
   //  Output->SetTransferSyntax( TransferSyntax::ExplicitVRLittleEndian );
   //  }
   //else
   //  {
-  //  assert( ts.IsImplicit() );
+  //  gdcm_assert( ts.IsImplicit() );
   //  Output->SetTransferSyntax( TransferSyntax::ImplicitVRLittleEndian );
   //  }
 
