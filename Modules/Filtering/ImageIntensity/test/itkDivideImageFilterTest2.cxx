@@ -40,10 +40,6 @@ itkDivideImageFilterTest2(int, char *[])
   // Declare appropriate Iterator types for each image
   using OutputImageIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
-
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<Dimension>;
-
   // Declare the type of the size
   using SizeType = itk::Size<Dimension>;
 
@@ -55,9 +51,8 @@ itkDivideImageFilterTest2(int, char *[])
   auto inputImageB = InputImageType2::New();
 
   // Define their size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);

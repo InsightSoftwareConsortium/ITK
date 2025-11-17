@@ -115,7 +115,6 @@ itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using VectorType = itk::Vector<float, ImageDimension>;
   using FieldType = itk::Image<VectorType, ImageDimension>;
-  using IndexType = ImageType::IndexType;
   using SizeType = ImageType::SizeType;
   using RegionType = ImageType::RegionType;
 
@@ -125,9 +124,7 @@ itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   SizeType                 size;
   size.SetSize(sizeArray);
 
-  constexpr IndexType index{};
-
-  const RegionType region{ index, size };
+  const RegionType region{ size };
 
   auto moving = ImageType::New();
   auto fixed = ImageType::New();

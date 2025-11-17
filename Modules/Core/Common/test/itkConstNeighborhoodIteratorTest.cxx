@@ -35,9 +35,7 @@ GetTestImage(int d1, int d2, int d3, int d4)
   sizeND[2] = d3;
   sizeND[3] = d4;
 
-  constexpr itk::Index<4> origND{};
-
-  const itk::ImageRegion<4> RegionND{ origND, sizeND };
+  const itk::ImageRegion<4> RegionND{ sizeND };
 
   auto imageND = TestImageType::New();
   imageND->SetRegions(RegionND);

@@ -53,13 +53,11 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   // Transform Type
   using TransformType = itk::VersorRigid3DTransform<double>;
 
-  SizeType            size{ { 100, 100, 150 } };
-  PointType           fixedOrigin{};
-  PointType           movingOrigin{ { 29.0, 17.0, 13.0 } };
-  SpacingType         spacing{ { 1.5, 1.5, 1.0 } };
-  constexpr IndexType index{};
-
-  const RegionType region{ index, size };
+  SizeType         size{ { 100, 100, 150 } };
+  PointType        fixedOrigin{};
+  PointType        movingOrigin{ { 29.0, 17.0, 13.0 } };
+  SpacingType      spacing{ { 1.5, 1.5, 1.0 } };
+  const RegionType region{ size };
 
 
   auto fixedImage = FixedImageType::New();
@@ -79,9 +77,9 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   SizeType   internalSize;
   IndexType  internalIndex;
 
-  internalIndex[0] = index[0] + 20;
-  internalIndex[1] = index[1] + 30;
-  internalIndex[2] = index[2] + 10;
+  internalIndex[0] = 20;
+  internalIndex[1] = 30;
+  internalIndex[2] = 10;
 
   internalSize[0] = size[0] - 2 * 20;
   internalSize[1] = size[1] - 2 * 30;
@@ -101,9 +99,9 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   }
 
 
-  internalIndex[0] = index[0] + 10;
-  internalIndex[1] = index[1] + 20;
-  internalIndex[2] = index[2] + 30;
+  internalIndex[0] = 10;
+  internalIndex[1] = 20;
+  internalIndex[2] = 30;
 
   internalSize[0] = size[0] - 2 * 10;
   internalSize[1] = size[1] - 2 * 20;

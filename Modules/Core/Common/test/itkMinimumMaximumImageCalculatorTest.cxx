@@ -98,8 +98,7 @@ itkMinimumMaximumImageCalculatorTest(int, char *[])
 
   // Set the region over which perform the computations
   constexpr itk::Size<3>                 regionSize{ { 4, 4, 4 } };
-  constexpr itk::Index<3>                idx{ { 0, 0, 0 } };
-  const MinMaxCalculatorType::RegionType computationRegion{ idx, regionSize };
+  const MinMaxCalculatorType::RegionType computationRegion{ regionSize };
 
   calculator->SetRegion(computationRegion);
 

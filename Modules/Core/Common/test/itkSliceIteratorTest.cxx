@@ -147,10 +147,9 @@ itkSliceIteratorTest(int, char *[])
   try
   {
 
-    constexpr itk::Size<2>  hoodRadius{ 2, 2 };
-    constexpr itk::Size<2>  imgSize{ 20, 20 };
-    constexpr itk::Index<2> zeroIndex{};
-    itk::ImageRegion<2>     reg = { zeroIndex, imgSize };
+    constexpr itk::Size<2> hoodRadius{ 2, 2 };
+    constexpr itk::Size<2> imgSize{ 20, 20 };
+    itk::ImageRegion<2>    reg{ imgSize };
 
     const std::slice                                         hslice(10, 5, 1); // slice through the horizontal center
     const std::slice                                         vslice(2, 5, 5);  // slice through the vertical center

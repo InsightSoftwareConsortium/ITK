@@ -52,8 +52,7 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
   auto                                    inImage = FloatImage::New();
   constexpr typename SizeType::value_type regionSizeVal = 35;
   constexpr auto                          sz = SizeType::Filled(regionSizeVal);
-  constexpr IndexType                     idx{};
-  const RegionType                        region{ idx, sz };
+  const RegionType                        region{ sz };
 
   inImage->SetRegions(region);
   inImage->AllocateInitialized();
