@@ -29,7 +29,7 @@ else()
   set(_castxml_url)
   set(_castxml_hash)
   set(_castxml_version 2025.09.03)
-
+  set(_castxml_git_tag v0.6.13)
   # If 64 bit Linux build host, use the CastXML binary
   if(
     CMAKE_HOST_SYSTEM_NAME
@@ -345,7 +345,7 @@ else()
     ExternalProject_Add(
       castxml
       GIT_REPOSITORY https://github.com/CastXML/CastXML.git
-      GIT_TAG v${_castxml_version}
+      GIT_TAG ${_castxml_git_tag}
       UPDATE_COMMAND
         ""
       DEPENDS
