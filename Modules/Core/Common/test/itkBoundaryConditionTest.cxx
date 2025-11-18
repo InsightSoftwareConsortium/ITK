@@ -129,22 +129,11 @@ itkBoundaryConditionTest(int, char *[])
   image3D->Allocate();
   imageND->Allocate();
 
-  const itk::ImageRegionIterator<ImageType2D> it2D(image2D, image2D->GetRequestedRegion());
-  itk::ImageRegionIterator<ImageType3D>       it3D(image3D, image3D->GetRequestedRegion());
-  itk::ImageRegionIterator<ImageTypeND>       itND(imageND, imageND->GetRequestedRegion());
-
   println("Initializing some images");
 
-  //  for (; !it2D.IsAtEnd(); ++it2D) *it2D = 1.0f;
   filln(image2D);
-  for (; !it3D.IsAtEnd(); ++it3D)
-  {
-    it3D.Set(1.0f);
-  }
-  for (; !itND.IsAtEnd(); ++itND)
-  {
-    itND.Set(1.0f);
-  }
+  image3D->FillBuffer(1.0f);
+  imageND->FillBuffer(1.0f);
 
   println("Initializing smart neighborhood iterators");
   itk::Size<2> sz2;
