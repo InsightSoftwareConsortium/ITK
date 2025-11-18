@@ -50,10 +50,6 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
   InputImageType::RegionType region;
 
   region.SetSize(inputImageSize);
-  {
-    constexpr InputImageType::IndexType index{};
-    region.SetIndex(index);
-  }
 
   //--------------------------------------------------------------------------
   // Set up the image first. It looks like:

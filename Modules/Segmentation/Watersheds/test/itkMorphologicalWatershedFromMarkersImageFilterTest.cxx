@@ -81,9 +81,7 @@ itkMorphologicalWatershedFromMarkersImageFilterTest(int argc, char * argv[])
     size[i] = size[i] * 2;
   }
 
-  constexpr ImageType::RegionType::IndexType index{};
-
-  region = { index, size };
+  region = { size };
 
   const FilterType::LabelImageType::Pointer largerMarkerImage = FilterType::LabelImageType::New();
   largerMarkerImage->SetBufferedRegion(region);

@@ -50,15 +50,13 @@ itkImageMaskSpatialObjectTest3(int, char *[])
   auto spacing = itk::MakeFilled<ImageType::SpacingType>(1);
   image->SetSpacing(spacing);
 
-  constexpr ImageType::IndexType index{};
-
   ImageType::DirectionType direction{};
   direction[0][1] = 1;
   direction[1][0] = 1;
   direction[2][2] = 1;
   image->SetDirection(direction);
 
-  ImageType::RegionType region{ index, size };
+  ImageType::RegionType region{ size };
   image->SetRegions(region);
   image->AllocateInitialized();
 

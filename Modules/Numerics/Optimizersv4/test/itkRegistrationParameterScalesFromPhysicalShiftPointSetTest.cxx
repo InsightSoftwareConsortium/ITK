@@ -289,8 +289,6 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   using RegionType = itk::ImageRegion<Dimension>;
   RegionType region;
   region.SetSize(virtualDomainSize);
-  constexpr RegionType::IndexType index{};
-  region.SetIndex(index);
 
   auto field = FieldType::New();
   field->SetRegions(region);
