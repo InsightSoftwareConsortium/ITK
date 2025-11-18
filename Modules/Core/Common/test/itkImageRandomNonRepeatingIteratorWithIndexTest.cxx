@@ -63,13 +63,8 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   // zeros.  Then pixels from the zero region should be selected
   // preferentially.
   std::cout << "Building Priority image" << std::endl;
-  PriorityIteratorType pit(priorityImage, priorityRegion);
-  pit.GoToBegin();
-  while (!pit.IsAtEnd())
-  {
-    pit.Set(1);
-    ++pit;
-  }
+  priorityImage->FillBuffer(1);
+
   PriorityImageType::IndexType substart;
   substart[0] = 15;
   substart[1] = 16;
