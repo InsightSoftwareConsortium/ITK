@@ -21,7 +21,8 @@
   <Function><Name>Microsoft::WRL::Details::ComPtrRef.*</Name><Action>NoStepInto</Action></Function>
   <Function><Name>operator new</Name><Action>NoStepInto</Action></Function>
 
-  <Function><Name>itk::SmartPointer.+</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>itk::SmartPointer.*</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>vtkSmartPointer.*</Name><Action>NoStepInto</Action></Function>
   <Function><Name>std::.+</Name><Action>NoStepInto</Action></Function>
   <Function><Name>itk::Object::Register</Name><Action>NoStepInto</Action></Function>
 </StepFilter>
