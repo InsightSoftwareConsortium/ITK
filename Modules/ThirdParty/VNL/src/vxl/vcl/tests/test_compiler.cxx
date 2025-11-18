@@ -109,7 +109,7 @@ vcl_test_implicit_instantiation(int n)
   v = v;
   v.clear();
 
-  typedef std::map<int, mystery_type, std::less<int>> map_t;
+  using map_t = std::map<int, mystery_type, std::less<int>>;
   map_t m;
   for (int i = 0; i < n; ++i)
     m.insert(map_t::value_type(0, mystery_type(i, i / float(n))));

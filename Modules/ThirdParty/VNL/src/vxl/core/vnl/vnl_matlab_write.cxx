@@ -3,6 +3,8 @@
 // \file
 // \author fsm
 
+#include <cmath>
+
 #include <iostream>
 #include <complex>
 #include <cstring>
@@ -83,7 +85,7 @@ vnl_write_real(std::ostream & s, const double * data, unsigned n)
 static void
 vnl_write_real(std::ostream & s, const std::complex<float> * data, unsigned n)
 {
-  float dummy;
+  float dummy = NAN;
   for (unsigned i = 0; i < n; ++i)
   { // real block
     dummy = std::real(data[i]);
@@ -94,7 +96,7 @@ vnl_write_real(std::ostream & s, const std::complex<float> * data, unsigned n)
 static void
 vnl_write_real(std::ostream & s, const std::complex<double> * data, unsigned n)
 {
-  double dummy;
+  double dummy = NAN;
   for (unsigned i = 0; i < n; ++i)
   { // real block
     dummy = std::real(data[i]);
@@ -115,7 +117,7 @@ vnl_write_imag(std::ostream &, const double *, unsigned)
 static void
 vnl_write_imag(std::ostream & s, const std::complex<float> * data, unsigned n)
 {
-  float dummy;
+  float dummy = NAN;
   for (unsigned i = 0; i < n; ++i)
   { // imag block
     dummy = std::imag(data[i]);
@@ -126,7 +128,7 @@ vnl_write_imag(std::ostream & s, const std::complex<float> * data, unsigned n)
 static void
 vnl_write_imag(std::ostream & s, const std::complex<double> * data, unsigned n)
 {
-  double dummy;
+  double dummy = NAN;
   for (unsigned i = 0; i < n; ++i)
   { // imag block
     dummy = std::imag(data[i]);

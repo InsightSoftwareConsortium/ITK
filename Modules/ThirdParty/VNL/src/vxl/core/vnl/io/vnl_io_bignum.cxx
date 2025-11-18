@@ -24,7 +24,7 @@ vsl_b_read(vsl_b_istream & is, vnl_bignum & p)
 {
   if (!is)
     return;
-  short ver;
+  short ver = 0;
   std::string s;
   vsl_b_read(is, ver);
   switch (ver)

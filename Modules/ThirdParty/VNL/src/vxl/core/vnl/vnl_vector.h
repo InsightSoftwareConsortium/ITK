@@ -232,10 +232,7 @@ public:
 
   //: Subtract scalar value from all elements
   vnl_vector<T> &
-  operator-=(T value)
-  {
-    return *this += T(-value);
-  }
+  operator-=(T value);
 
   //: Multiply all elements by scalar
   vnl_vector<T> & operator*=(T);

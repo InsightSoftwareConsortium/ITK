@@ -1,4 +1,6 @@
 // This is core/vnl/vnl_erf.cxx
+#include <cmath>
+
 #include "vnl_erf.h"
 //:
 // \file
@@ -34,11 +36,11 @@ vnl_erfc(double x)
 
 
   // Local variables
-  double xden;
-  double xnum;
-  double result;
-  double del;
-  double ysq;
+  double xden = NAN;
+  double xnum = NAN;
+  double result = NAN;
+  double del = NAN;
+  double ysq = NAN;
 
   // ------------------------------------------------------------------
 

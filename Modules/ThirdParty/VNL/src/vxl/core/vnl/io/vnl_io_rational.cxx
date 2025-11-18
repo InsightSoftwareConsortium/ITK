@@ -24,8 +24,8 @@ vsl_b_read(vsl_b_istream & is, vnl_rational & p)
 {
   if (!is)
     return;
-  short ver;
-  long n, d;
+  short ver = 0;
+  long n = 0, d = 0;
   vsl_b_read(is, ver);
   switch (ver)
   {

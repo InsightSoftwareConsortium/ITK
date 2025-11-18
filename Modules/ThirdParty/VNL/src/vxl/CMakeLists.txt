@@ -13,9 +13,11 @@
 #
 #   vxl-maintainers@lists.sf.net
 
-cmake_minimum_required(VERSION 3.16.3)
+cmake_minimum_required(VERSION 3.10.2...3.31.9)
 if(CMAKE_VERSION VERSION_LESS 3.12.0)
   cmake_policy(VERSION ${CMAKE_VERSION})
+else()
+  cmake_policy(VERSION 3.10.2...3.31.9)
 endif()
 
 if(NOT CMAKE_CXX_STANDARD)
@@ -27,9 +29,9 @@ endif()
 if(NOT CMAKE_CXX_EXTENSIONS)
   set(CMAKE_CXX_EXTENSIONS OFF)
 endif()
-set(VALID_CXX_STANDARDS "11" "14" "17" "20")
+set(VALID_CXX_STANDARDS "11" "14" "17" "20" "23")
 if(NOT CMAKE_CXX_STANDARD IN_LIST VALID_CXX_STANDARDS )
-   MESSAGE(FATAL_ERROR "CMAKE_CXX_STANDARD:STRING=${CMAKE_CXX_STANDARD} not in know standards list\n ${VALID_CXX_STANDARDS}.")
+   MESSAGE(FATAL_ERROR "CMAKE_CXX_STANDARD:STRING=${CMAKE_CXX_STANDARD} not in known standards list\n ${VALID_CXX_STANDARDS}.")
 endif()
 
 if(NOT CMAKE_C_STANDARD)
@@ -43,7 +45,7 @@ if(NOT CMAKE_C_EXTENSIONS)
 endif()
 set(VALID_C_STANDARDS "90" "99" "11" "17" "23")
 if(NOT CMAKE_C_STANDARD IN_LIST VALID_C_STANDARDS )
-   MESSAGE(FATAL_ERROR "CMAKE_C_STANDARD:STRING=${CMAKE_C_STANDARD} not in know standards list\n ${VALID_C_STANDARDS}.")
+   MESSAGE(FATAL_ERROR "CMAKE_C_STANDARD:STRING=${CMAKE_C_STANDARD} not in known standards list\n ${VALID_C_STANDARDS}.")
 endif()
 
 # Set policies consistent with newer versions of cmake
@@ -65,7 +67,7 @@ foreach(p
 endforeach()
 
 project(VXL #Project name must be all caps to have properly generated VXL_VERSION_* variables
-    VERSION 6.0.0.0 # defines #MAJOR,MINOR,PATCH,TWEAK}
+    VERSION 6.1.0.1 # defines #MAJOR,MINOR,PATCH,TWEAK}
     DESCRIPTION "A multi-platform collection of C++ software libraries for Computer Vision and Image Understanding."
     LANGUAGES CXX C)
 

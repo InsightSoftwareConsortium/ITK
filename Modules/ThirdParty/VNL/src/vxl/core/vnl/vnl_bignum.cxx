@@ -668,8 +668,8 @@ operator<<(std::ostream & os, const vnl_bignum & b)
   if (d.is_infinity())
     return os << "Inf";
   vnl_bignum q;
-  vnl_bignum r;                              // Temp quotient and remainder
-  char * cbuf = new char[5 * (b.count + 1)]; // Temp character buffer
+  vnl_bignum r;                                    // Temp quotient and remainder
+  char * const cbuf = new char[5 * (b.count + 1)]; // Temp character buffer
   Counter i = 0;
   do
   {                                  // repeat:
@@ -923,7 +923,7 @@ vnl_bignum::resize(short new_count)
   assert(new_count >= 0);
   if (new_count == this->count)
     return;
-  Data * new_data = (new_count > 0 ? new Data[new_count] : nullptr); // Allocate data if necessary
+  Data * const new_data = (new_count > 0 ? new Data[new_count] : nullptr); // Allocate data if necessary
 
   if (this->count <= new_count)
   { // Copy old data into new
@@ -957,10 +957,10 @@ vnl_bignum::trim()
     if (this->data[i - 1] != 0)
       break; //   that are zero
   if (i < this->count)
-  {                                                    // If there are some such words
-    this->count = i;                                   // Update the count
-    Data * new_data = (i > 0 ? new Data[i] : nullptr); // Allocate data if necessary
-    for (; i > 0; i--)                                 // Copy old data into new
+  {                                                          // If there are some such words
+    this->count = i;                                         // Update the count
+    Data * const new_data = (i > 0 ? new Data[i] : nullptr); // Allocate data if necessary
+    for (; i > 0; i--)                                       // Copy old data into new
       new_data[i - 1] = this->data[i - 1];
     delete[] this->data;   // Delete old data
     this->data = new_data; // Point to new data
@@ -973,8 +973,8 @@ vnl_bignum::trim()
 void
 add(const vnl_bignum & b1, const vnl_bignum & b2, vnl_bignum & sum)
 {
-  const vnl_bignum * bmax;
-  const vnl_bignum * bmin; // Determine which of the two
+  const vnl_bignum * bmax = nullptr;
+  const vnl_bignum * bmin = nullptr; // Determine which of the two
   if (b1.count >= b2.count)
   {             //   addends has the most
     bmax = &b1; //   data.
@@ -986,7 +986,7 @@ add(const vnl_bignum & b1, const vnl_bignum & b2, vnl_bignum & sum)
     bmin = &b1;
   }
   sum.resize(bmax->count); // Allocate data for their sum
-  unsigned long temp;
+  unsigned long temp = 0;
   unsigned long carry = 0;
   Counter i = 0;
   if (b1.data)
@@ -1044,7 +1044,7 @@ void
 subtract(const vnl_bignum & bmax, const vnl_bignum & bmin, vnl_bignum & diff)
 {
   diff.resize(bmax.count); // Allocate data for difference
-  unsigned long temp;
+  unsigned long temp = 0;
   int borrow = 0;
   Counter i = 0;
   for (; i < bmin.count; i++)
@@ -1203,7 +1203,7 @@ divide_aux(const vnl_bignum & b1, Data d, vnl_bignum & q, Data & r)
 Data
 estimate_q_hat(const vnl_bignum & u, const vnl_bignum & v, Counter j)
 {
-  Data q_hat;
+  Data q_hat = 0;
   const Data & v1 = v.data[v.count - 1]; // localize frequent data
   const Data & v2 = v.data[v.count - 2];
   const Data & u0 = u.data[u.count - 1 - j];
@@ -1268,7 +1268,7 @@ multiply_subtract(vnl_bignum & u, const vnl_bignum & v, Data q_hat, Counter j)
   rslt.resize(v.count + 1u); // allocate data for it
 
   // simultaneous computation of u - v*q_hat
-  unsigned long diff;
+  unsigned long diff = 0;
   Data carry = 0;
   Data borrow = 0;
   Counter i = 0;
@@ -1282,7 +1282,7 @@ multiply_subtract(vnl_bignum & u, const vnl_bignum & v, Data q_hat, Counter j)
     borrow = (diff / 0x10000L == 0) ? 1 : 0; //   keep track of any borrows
     carry = Data(prod / 0x10000L);           //   keep track of carries
   }
-  const Counter tmpcnt = Counter(u.count - v.count + i - j - 1);
+  const auto tmpcnt = Counter(u.count - v.count + i - j - 1);
   diff = (unsigned long)u.data[tmpcnt] //  special case for the last digit
          + (0x10000L - (unsigned long)borrow);
   diff -= (unsigned long)carry;

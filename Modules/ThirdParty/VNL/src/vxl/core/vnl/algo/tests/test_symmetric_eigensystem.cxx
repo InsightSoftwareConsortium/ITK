@@ -15,6 +15,7 @@
 #include "vnl/vnl_double_3x3.h"
 #include "vnl/vnl_double_3.h"
 #include "vnl/vnl_random.h"
+#include <cmath>
 #include <vnl/algo/vnl_symmetric_eigensystem.h>
 
 // extern "C"
@@ -81,9 +82,9 @@ test_symmetric_eigensystem()
   }
 
   { // test I with specialised 3x3 version
-    double l1;
-    double l2;
-    double l3;
+    double l1 = NAN;
+    double l2 = NAN;
+    double l3 = NAN;
     vnl_symmetric_eigensystem_compute_eigenvals(1.0, 0.0, 0.0, 1.0, 0.0, 1.0, l1, l2, l3);
     std::cout << "Eigenvals: " << l1 << ' ' << l2 << ' ' << l3 << std::endl;
     TEST("Correct eigenvalues for I", l1 == 1.0 && l2 == 1.0 && l3 == 1.0, true);
@@ -163,9 +164,9 @@ test_symmetric_eigensystem()
   }
 
   {
-    double v1;
-    double v2;
-    double v3;
+    double v1 = NAN;
+    double v2 = NAN;
+    double v3 = NAN;
     vnl_symmetric_eigensystem_compute_eigenvals(4199.0, 0.0, 0.0, 4199.0, 0.0, 4801.0, v1, v2, v3);
     TEST_NEAR("Numerically difficult values are ok v1", v1, 4199, 1e-3);
     TEST_NEAR("Numerically difficult values are ok v2", v2, 4199, 1e-3);

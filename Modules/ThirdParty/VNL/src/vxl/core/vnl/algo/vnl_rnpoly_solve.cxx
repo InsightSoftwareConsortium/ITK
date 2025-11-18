@@ -793,7 +793,7 @@ Perform_Distributed_Task(const std::vector<unsigned int> & ideg,
   std::vector<vnl_rnpoly_solve_cmplx> x;
   std::vector<unsigned int> icount(dim_, 1);
   icount[0] = 0;
-  bool solflag; // flag used to remember if a root is found
+  bool solflag = false; // flag used to remember if a root is found
 #ifdef DEBUG
   char const * FILENAM = "/tmp/cont.results";
   std::ofstream F(FILENAM);
@@ -929,7 +929,7 @@ vnl_rnpoly_solve::compute()
   std::vector<std::vector<vnl_rnpoly_solve_cmplx>> ans = Perform_Distributed_Task(ideg, terms, polyn, coeff);
 
   // Print out the answers
-  vnl_vector<double> *rp, *ip;
+  vnl_vector<double> *rp = nullptr, *ip = nullptr;
 #ifdef DEBUG
   std::cout << "Total degree: " << totdegree << std::endl << "# solutions : " << ans.size() << std::endl;
 #endif

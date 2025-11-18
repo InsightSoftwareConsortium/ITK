@@ -118,7 +118,7 @@ vnl_na_extract_type(std::istream & is, T & value)
 
   while (!is.eof())
   {
-    std::stringstream::char_type c;
+    std::stringstream::char_type c = 0;
     std::istream::int_type p = is.peek();
     if (char_processed_count == 0)
     { // The first character is the start of the token of interest.

@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include <iostream>
 #include <cmath>
 #include "vnl_adaptsimpson_integral.h"
@@ -32,7 +34,7 @@ vnl_adaptsimpson_integral::adaptivesimpson(double (*f)(double *),
   double e = 0.5 * (c + b);
   const double two_simpson = h * (f(&a) + 4.0 * f(&d) + 2.0 * f(&c) + 4.0 * f(&e) + f(&b)) / 12.0;
   /* Check for level */
-  double result;
+  double result = NAN;
   if (level + 1 >= level_max)
   {
     result = two_simpson;

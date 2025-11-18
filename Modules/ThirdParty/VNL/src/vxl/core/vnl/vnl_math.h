@@ -147,7 +147,7 @@ angle_minuspi_to_pi(double angle);
 namespace vnl_math
 {
 #if defined(_MSC_VER)
-// MSVC does not properly implement isfinite, iinf, isnan for C++11 conformance for integral types
+// MSVC does not properly implement isfinite, isinf, isnan for C++11 conformance for integral types
 // For integral types only:
 template <typename T>
 _Check_return_ typename std::enable_if<std::is_integral<T>::value, bool>::type
