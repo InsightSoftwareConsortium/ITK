@@ -1686,11 +1686,19 @@ def set_inputs(
             import itk
 
             if type(value) in [list, tuple]:
-                try:
-                    output_value = [itk.output(x) for x in value]
-                    attrib(*output_value)
-                except Exception:
-                    attrib(itk.output(value))
+                # Special case for FileNames which expects a container, not unpacked arguments.
+                # Most ITK Set* methods that take multiple values expect them as separate arguments
+                # (e.g., SetSpacing(x, y, z)), so lists are unpacked with *.
+                # However, SetFileNames expects a single container argument (vector<string>),
+                # so we pass the list directly without unpacking.
+                if attribName == "FileNames":
+                    attrib(value)
+                else:
+                    try:
+                        output_value = [itk.output(x) for x in value]
+                        attrib(*output_value)
+                    except Exception:
+                        attrib(itk.output(value))
             else:
                 attrib(itk.output(value))
 
