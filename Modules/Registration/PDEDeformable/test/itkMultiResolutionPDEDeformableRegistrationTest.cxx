@@ -74,24 +74,6 @@ public:
 } // namespace
 
 
-// Template function to fill in an image with a value
-template <typename TImage>
-void
-FillImage(TImage * image, typename TImage::PixelType value)
-{
-
-  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
-  Iterator it(image, image->GetBufferedRegion());
-  it.GoToBegin();
-
-  while (!it.IsAtEnd())
-  {
-    it.Set(value);
-    ++it;
-  }
-}
-
-
 // Template function to fill in an image with a circle.
 template <typename TImage>
 void
@@ -200,7 +182,8 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
 
   initField->SetLargestPossibleRegion(region);
   initField->SetBufferedRegion(region);
-  initField->Allocate();
+  // fill initial deformation with zero vectors
+  initField->AllocateInitialized();
   initField->SetOrigin(origin);
   initField->SetSpacing(spacing);
 
@@ -219,10 +202,6 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   center[1] = 120;
   radius = 65;
   FillWithCircle<ImageType>(fixed, center, radius, fgnd, bgnd);
-
-  // fill initial deformation with zero vectors
-  constexpr VectorType zeroVec{};
-  FillImage<FieldType>(initField, zeroVec);
 
   //----------------------------------------------------------------
   std::cout << "Run registration." << std::endl;

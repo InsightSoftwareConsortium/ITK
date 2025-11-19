@@ -36,20 +36,6 @@ using DeformationFieldImageType = itk::Image<DeformationFieldVectorType, ImageDi
 using ElementType = itk::fem::Element3DC0LinearHexahedronMembrane;
 
 
-// Template function to fill in an image with a value.
-template <typename TImage>
-void
-FillImage(TImage * image, typename TImage::PixelType value)
-{
-  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
-  Iterator it(image, image->GetBufferedRegion());
-
-  for (it.GoToBegin(); !it.IsAtEnd(); ++it)
-  {
-    it.Set(value);
-  }
-}
-
 // Template function to fill in an image with a circle.
 template <typename TImage>
 void
@@ -122,7 +108,8 @@ itkFEMRegistrationFilterTest(int argc, char * argv[])
 
   initField->SetLargestPossibleRegion(region);
   initField->SetBufferedRegion(region);
-  initField->Allocate();
+  // Fill initial deformation with zero vectors
+  initField->AllocateInitialized();
 
   double              center[ImageDimension];
   double              radius;
@@ -143,10 +130,6 @@ itkFEMRegistrationFilterTest(int argc, char * argv[])
   // Fill moving image with a circle
   radius = 5;
   FillWithCircle<InputImageType>(movingImage, center, radius, fgnd, bgnd);
-
-  // Fill initial deformation with zero vectors
-  DeformationFieldVectorType zeroVec{};
-  FillImage<DeformationFieldImageType>(initField, zeroVec);
 
 
   using FEMObjectType = itk::fem::FEMObject<ImageDimension>;
