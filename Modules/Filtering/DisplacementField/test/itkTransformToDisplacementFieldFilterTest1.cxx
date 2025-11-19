@@ -72,9 +72,8 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
 
 
   // Create input image.
-  auto                size = SizeType::Filled(24);
-  constexpr IndexType index{};
-  SpacingType         spacing;
+  auto        size = SizeType::Filled(24);
+  SpacingType spacing;
   spacing[0] = 1.1;
   spacing[1] = 2.2;
   spacing[2] = 3.3;
@@ -95,7 +94,7 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
   inputDirection[2][1] = -1;
   inputDirection[2][2] = 0;
 
-  const RegionType region{ index, size };
+  const RegionType region{ size };
   auto             image = ImageType::New();
   image->SetRegions(region);
   image->AllocateInitialized();
@@ -131,10 +130,9 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
   }
 
   // Set Output information.
-  constexpr IndexType outputIndex{};
-  SpacingType         outputSpacing;
-  auto                outputSize = SizeType::Filled(24);
-  const RegionType    outputRegion{ outputIndex, outputSize };
+  SpacingType      outputSpacing;
+  auto             outputSize = SizeType::Filled(24);
+  const RegionType outputRegion{ outputSize };
   outputSpacing[0] = 1.0;
   outputSpacing[1] = 2.0;
   outputSpacing[2] = 3.0;

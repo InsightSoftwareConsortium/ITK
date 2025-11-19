@@ -65,9 +65,8 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
     using ReferenceRegionType = ReferenceImageType::RegionType;
     using ReferenceIndexType = ReferenceRegionType::IndexType;
     using ReferenceSizeType = ReferenceRegionType::SizeType;
-    constexpr ReferenceSizeType  sizeReferenceImage{ 4, 4, 4 };
-    constexpr ReferenceIndexType indexReferenceImage{ 0, 0, 0 };
-    const ReferenceRegionType    regionReferenceImage{ indexReferenceImage, sizeReferenceImage };
+    constexpr ReferenceSizeType sizeReferenceImage{ 4, 4, 4 };
+    const ReferenceRegionType   regionReferenceImage{ sizeReferenceImage };
     referenceImage->SetRegions(regionReferenceImage);
     referenceImage->Allocate();
     referenceImage->FillBuffer(100);

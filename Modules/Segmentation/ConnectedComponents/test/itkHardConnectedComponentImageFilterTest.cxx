@@ -40,12 +40,11 @@ DoIt(int argc, char * argv[], const std::string & pixelType)
   using IndexType = typename InputImageType::IndexType;
 
   auto                               inputimg = InputImageType::New();
-  constexpr IndexType                index{};
   constexpr int                      height{ 20 };
   constexpr int                      width{ 20 };
   constexpr InputImageType::SizeType size{ width, height };
 
-  typename InputImageType::RegionType region{ index, size };
+  typename InputImageType::RegionType region{ size };
 
   inputimg->SetRegions(region);
   inputimg->Allocate();

@@ -157,12 +157,11 @@ itkImageTest(int, char *[])
   volume->SetDirection(directionVol);
 
 
-  constexpr Image3D::IndexType indexCuboid{};
-  Image3D::SizeType            sizeCuboid;
+  Image3D::SizeType sizeCuboid;
   sizeCuboid[0] = 1;
   sizeCuboid[1] = 2;
   sizeCuboid[2] = 3;
-  const Image3D::RegionType cuboid{ indexCuboid, sizeCuboid };
+  const Image3D::RegionType cuboid{ sizeCuboid };
   volume->SetRegions(cuboid);
 
   using ProjectionTransformType = TestTransform<Image3D::ImageDimension>;

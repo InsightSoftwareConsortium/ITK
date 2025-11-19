@@ -38,14 +38,12 @@ itkIteratorTests(int, char *[])
   constexpr ScalarImage::SizeType bufferSize3D{ 200, 200, 200 };
   constexpr ScalarImage::SizeType regionSize3D{ 190, 190, 190 };
 
-  constexpr ScalarImage::IndexType startIndex3D{ 0, 0, 0 };
-  constexpr ScalarImage::IndexType bufferStartIndex3D{ 0, 0, 0 };
   constexpr ScalarImage::IndexType regionStartIndex3D{ 5, 5, 5 };
 
 
-  ScalarImage::RegionType region{ startIndex3D, imageSize3D };
+  ScalarImage::RegionType region{ imageSize3D };
   o3->SetLargestPossibleRegion(region);
-  region = { bufferStartIndex3D, bufferSize3D };
+  region = { bufferSize3D };
   o3->SetBufferedRegion(region);
   region = { regionStartIndex3D, regionSize3D };
   o3->SetRequestedRegion(region);

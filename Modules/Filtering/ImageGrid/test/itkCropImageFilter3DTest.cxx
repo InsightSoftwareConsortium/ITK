@@ -36,11 +36,10 @@ itkCropImageFilter3DTest(int, char *[])
   // Declare the types of the images
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  ImageType::RegionType                      region;
-  constexpr unsigned int                     dimSize(8);
-  constexpr ImageType::RegionType::SizeType  size{ dimSize, dimSize, dimSize };
-  constexpr ImageType::RegionType::IndexType index{ 0, 0, 0 };
-  region = { index, size };
+  ImageType::RegionType                     region;
+  constexpr unsigned int                    dimSize(8);
+  constexpr ImageType::RegionType::SizeType size{ dimSize, dimSize, dimSize };
+  region = { size };
 
   auto image = ImageType::New();
 
