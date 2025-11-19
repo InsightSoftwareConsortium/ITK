@@ -28,7 +28,6 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
 
   using InputPixelType = unsigned char;
   using InputImageType = itk::Image<InputPixelType, Dimension>;
-  using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -63,15 +62,8 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
 
   auto input = InputImageType::New();
   input->SetRegions(region);
-  input->AllocateInitialized();
-
-  InputIteratorType it(input, input->GetLargestPossibleRegion());
-  it.GoToBegin();
-  while (!it.IsAtEnd())
-  {
-    it.Set(1);
-    ++it;
-  }
+  input->Allocate();
+  input->FillBuffer(1);
 
   auto input1 = ImageType::New();
   input1->SetRegions(region);

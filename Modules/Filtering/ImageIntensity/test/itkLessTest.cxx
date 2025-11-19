@@ -70,9 +70,8 @@ itkLessTest(int, char *[])
   inputImageB->Allocate();
 
 
-  // Declare Iterator types appropriate for each image
+  // Declare Iterator type appropriate for Image A
   using myIteratorType1 = itk::ImageRegionIteratorWithIndex<myImageType1>;
-  using myIteratorType2 = itk::ImageRegionIteratorWithIndex<myImageType2>;
 
   // Create one iterator for Image A (this is a light object)
   myIteratorType1 it1(inputImageA, inputImageA->GetBufferedRegion());
@@ -86,15 +85,8 @@ itkLessTest(int, char *[])
     ++it1;
   }
 
-  // Create one iterator for Image B (this is a light object)
-  myIteratorType2 it2(inputImageB, inputImageB->GetBufferedRegion());
-
   // Initialize the content of Image B
-  while (!it2.IsAtEnd())
-  {
-    it2.Set(3.0);
-    ++it2;
-  }
+  inputImageB->FillBuffer(3.0);
 
   {
     // Create a logic Filter

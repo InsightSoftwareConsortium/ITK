@@ -132,7 +132,9 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   auto imgMovingMask = MovingImageType::New();
   imgMovingMask->CopyInformation(imgMoving);
   imgMovingMask->SetRegions(region);
-  imgMovingMask->AllocateInitialized();
+  imgMovingMask->Allocate();
+  // Set all moving mask voxels to 1
+  imgMovingMask->FillBuffer(1);
 
   auto imgFixedMask = FixedImageType::New();
   imgFixedMask->CopyInformation(imgFixed);
@@ -140,34 +142,23 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   imgFixedMask->AllocateInitialized();
 
   int NumberFixedImageMaskVoxels = 0;
-  { // Set up a mask that only has every 10th voxel listed is used in
+  { // Set up a mask that only has every 17th voxel listed is used in
     // fixed image region.
     // This should result in only about 588 samples
-    {
-      ReferenceIteratorType ri1(imgMovingMask, region);
-      ri1.GoToBegin();
-      while (!ri1.IsAtEnd()) // Set all moving mask voxels to 1
-      {
-        ri1.Set(1);
-        ++ri1;
-      }
-    }
 
+    int                count = 0;
+    TargetIteratorType ti1(imgFixedMask, region);
+    ti1.GoToBegin();
+    while (!ti1.IsAtEnd()) // Set a subset of fixed mask voxels to 1, so that requested number can be made more than
+                           // possible number
     {
-      int                count = 0;
-      TargetIteratorType ti1(imgFixedMask, region);
-      ti1.GoToBegin();
-      while (!ti1.IsAtEnd()) // Set a subset of fixed mask voxels to 1, so that requested number can be made more than
-                             // possible number
+      if (count % 17 == 0)
       {
-        if (count % 17 == 0)
-        {
-          ti1.Set(1);
-          ++NumberFixedImageMaskVoxels;
-        }
-        count++;
-        ++ti1;
+        ti1.Set(1);
+        ++NumberFixedImageMaskVoxels;
       }
+      count++;
+      ++ti1;
     }
   }
 
