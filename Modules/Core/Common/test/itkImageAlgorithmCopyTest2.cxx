@@ -24,8 +24,11 @@
 #include "itkTestingComparisonImageFilter.h"
 
 #include "itkImageAdaptor.h"
+#include "itkImageBufferRange.h"
 #include "itkAbsImageAdaptor.h"
 #include "itkMath.h"
+
+#include <algorithm> // For all_of.
 
 namespace
 {
@@ -34,19 +37,12 @@ template <typename TImageType>
 bool
 CheckBuffer(const TImageType * image, typename TImageType::PixelType p)
 {
-  using ImageIterator = itk::ImageRegionConstIterator<TImageType>;
+  const itk::ImageBufferRange<const TImageType> imageBufferRange(*image);
 
-  ImageIterator iter(image, image->GetBufferedRegion());
-
-  while (!iter.IsAtEnd())
-  {
-    if (itk::Math::NotExactlyEquals(iter.Get(), p))
-    {
-      return false;
-    }
-    ++iter;
-  }
-  return true;
+  return std::all_of(
+    imageBufferRange.cbegin(), imageBufferRange.cend(), [p](const typename TImageType::PixelType pixelValue) {
+      return itk::Math::ExactlyEquals(pixelValue, p);
+    });
 }
 
 } // namespace
