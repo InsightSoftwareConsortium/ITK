@@ -21,7 +21,10 @@
 #include "itkGTest.h"
 #include "itkBSplineTransform.h"
 
+#include "itkImageBufferRange.h"
 #include "itkImageRegionConstIterator.h"
+
+#include <algorithm> // For generate.
 
 namespace
 {
@@ -107,7 +110,6 @@ TEST(ITKBSplineTransform, CopyingClone)
 
   using BSplineType = itk::BSplineTransform<double, 2, 3>;
   using ImageType = typename BSplineType::ImageType;
-  using ImageIterator = typename itk::ImageRegionIterator<ImageType>;
 
   typename BSplineType::CoefficientImageArray coeffImageArray;
 
@@ -139,14 +141,8 @@ TEST(ITKBSplineTransform, CopyingClone)
 
     coeffImage->Allocate();
 
-    ImageIterator iter(coeffImage, coeffImage->GetBufferedRegion());
-
-
-    while (!iter.IsAtEnd())
-    {
-      iter.Set(px_value++);
-      ++iter;
-    }
+    const itk::ImageBufferRange<ImageType> imageBufferRange(*coeffImage);
+    std::generate(imageBufferRange.begin(), imageBufferRange.end(), [&px_value] { return px_value++; });
   }
 
   auto bspline1 = BSplineType::New();
