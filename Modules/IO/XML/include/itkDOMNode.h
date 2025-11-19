@@ -95,12 +95,12 @@ public:
   /** @ITKEndGrouping */
   /** Retrieve the tag name of this node. */
   /** @ITKStartGrouping */
-  itkSetMacro(Name, const std::string &);
+  itkSetMacro(Name, std::string);
   itkGetConstReferenceMacro(Name, std::string);
   /** @ITKEndGrouping */
   /** Retrieve the special attribute "id" of this node. */
   /** @ITKStartGrouping */
-  itkSetMacro(ID, const std::string &);
+  itkSetMacro(ID, std::string);
   itkGetConstReferenceMacro(ID, std::string);
   /** @ITKEndGrouping */
   /** Retrieve an attribute by key (return an empty string if not found). */

@@ -56,7 +56,7 @@ public:
 
   /** Functions to set/get the enclosed text of this node. */
   /** @ITKStartGrouping */
-  itkSetMacro(Text, const std::string &);
+  itkSetMacro(Text, std::string);
   itkGetConstReferenceMacro(Text, std::string);
   /** @ITKEndGrouping */
 protected:
