@@ -168,7 +168,7 @@ TEST(ResampleImageFilter, FilterPreservesMinAndMaxInt64PixelValuesByDefault)
 }
 
 
-TEST(ResampleImageFilter, Expect_ResampleImageFilter_thows_on_incomplete_configuration)
+TEST(ResampleImageFilter, ThrowsOnIncompleteConfiguration)
 {
   Expect_ResampleImageFilter_thows_on_incomplete_configuration(128.0);
 }

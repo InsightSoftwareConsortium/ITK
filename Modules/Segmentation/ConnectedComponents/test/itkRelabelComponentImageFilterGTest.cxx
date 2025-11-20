@@ -57,7 +57,7 @@ CreateTestImageA()
 }
 } // namespace
 
-TEST(RelabelComponentImageFilter, nosort_nosize)
+TEST(RelabelComponentImageFilter, NoSortNoSize)
 {
   auto image = CreateTestImageA();
   using ImageType = decltype(image)::ObjectType;
@@ -75,7 +75,7 @@ TEST(RelabelComponentImageFilter, nosort_nosize)
 }
 
 
-TEST(RelabelComponentImageFilter, nosort_size)
+TEST(RelabelComponentImageFilter, NoSortSize)
 {
   auto image = CreateTestImageA();
   using ImageType = decltype(image)::ObjectType;
@@ -92,7 +92,7 @@ TEST(RelabelComponentImageFilter, nosort_size)
   EXPECT_EQ(filter->GetOutput()->GetPixel({ { 2, 2 } }), 2u);
 }
 
-TEST(RelabelComponentImageFilter, sort_size)
+TEST(RelabelComponentImageFilter, SortSize)
 {
   auto image = CreateTestImageA();
   using ImageType = decltype(image)::ObjectType;
@@ -110,7 +110,7 @@ TEST(RelabelComponentImageFilter, sort_size)
 }
 
 
-TEST(RelabelComponentImageFilter, sort_nosize)
+TEST(RelabelComponentImageFilter, SortNoSize)
 {
   auto image = CreateTestImageA();
   using ImageType = decltype(image)::ObjectType;
@@ -128,7 +128,7 @@ TEST(RelabelComponentImageFilter, sort_nosize)
 }
 
 
-TEST(RelabelComponentImageFilter, big_zero)
+TEST(RelabelComponentImageFilter, BigZero)
 {
 
   using namespace itk::GTest::TypedefsAndConstructors::Dimension3;
@@ -151,7 +151,7 @@ TEST(RelabelComponentImageFilter, big_zero)
 }
 
 
-TEST(RelabelComponentImageFilter, big_random)
+TEST(RelabelComponentImageFilter, BigRandom)
 {
 
   using namespace itk::GTest::TypedefsAndConstructors::Dimension3;
