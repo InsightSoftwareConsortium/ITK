@@ -54,19 +54,6 @@ using DemonsRegistrationMetricType =
   itk::DemonsRegistrationFunction<InputImageType, InputImageType, DeformationFieldImageType>;
 
 
-// Template function to fill in an image with a value.
-template <typename TImage>
-void
-FillImage(TImage * image, typename TImage::PixelType value)
-{
-  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
-  Iterator it(image, image->GetBufferedRegion());
-  for (it.GoToBegin(); !it.IsAtEnd(); ++it)
-  {
-    it.Set(value);
-  }
-}
-
 // Template function to fill in an image with a circle.
 template <typename TImage>
 void
@@ -406,7 +393,8 @@ itkFEMFiniteDifferenceFunctionLoadTest(int argc, char * argv[])
 
   initField->SetLargestPossibleRegion(region);
   initField->SetBufferedRegion(region);
-  initField->Allocate();
+  // Fill initial deformation with zero vectors
+  initField->AllocateInitialized();
   initField->SetSpacing(spacing);
   initField->SetOrigin(origin);
 
@@ -433,10 +421,6 @@ itkFEMFiniteDifferenceFunctionLoadTest(int argc, char * argv[])
   // Fill moving image with a circle
   radius = ImageWidth / 4.0;
   FillWithCircle<InputImageType>(movingImage, center, radius, fgnd, bgnd);
-
-  // Fill initial deformation with zero vectors
-  DeformationFieldVectorType zeroVec{};
-  FillImage<DeformationFieldImageType>(initField, zeroVec);
 
   using ImageWriterType = itk::ImageFileWriter<InputImageType>;
   auto        writer = ImageWriterType::New();
