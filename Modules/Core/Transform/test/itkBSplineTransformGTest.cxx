@@ -71,9 +71,9 @@ bspline_eq(const itk::BSplineTransform<TParametersValueType, VDimension, VSpline
     ImageConstIterator iter1(coeffImage1, coeffImage1->GetBufferedRegion());
     ImageConstIterator iter2(coeffImage2, coeffImage2->GetBufferedRegion());
 
-
-    while (!iter1.IsAtEnd() && iter2.IsAtEnd())
+    while (!iter1.IsAtEnd())
     {
+      ASSERT_FALSE(iter2.IsAtEnd());
       EXPECT_EQ(iter1.Get(), iter2.Get()) << description << " Expected value at: " << iter1.GetIndex();
       ++iter1;
       ++iter2;
