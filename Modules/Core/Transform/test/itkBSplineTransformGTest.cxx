@@ -97,7 +97,7 @@ TEST(ITKBSplineTransform, Construction)
   bspline_eq(bspline2.GetPointer(), bspline1.GetPointer());
 }
 
-TEST(ITKBSplineTransform, Copying_Clone)
+TEST(ITKBSplineTransform, CopyingClone)
 {
   // This test sets up an non-trivial bspline transform then,
   // test various interface to set the parameters to the a new

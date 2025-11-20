@@ -53,7 +53,7 @@ CreateTestImageA()
 } // namespace
 
 
-TEST(ConnectedComponentImageFilter, checkerboard_3D)
+TEST(ConnectedComponentImageFilter, Checkerboard3D)
 {
   auto image = CreateTestImageA();
   using ImageType = decltype(image)::ObjectType;
