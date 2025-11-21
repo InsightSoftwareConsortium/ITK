@@ -148,7 +148,14 @@ private:
     void
     Increment() noexcept
     {
-      m_BufferIterator += m_OffsetTable[VIndex];
+      if constexpr (VIndex == 0)
+      {
+        ++m_BufferIterator;
+      }
+      else
+      {
+        m_BufferIterator += m_OffsetTable[VIndex];
+      }
 
       if constexpr (VIndex < (ImageDimension - 1))
       {
@@ -172,7 +179,14 @@ private:
     void
     Decrement() noexcept
     {
-      m_BufferIterator -= m_OffsetTable[VIndex];
+      if constexpr (VIndex == 0)
+      {
+        --m_BufferIterator;
+      }
+      else
+      {
+        m_BufferIterator -= m_OffsetTable[VIndex];
+      }
 
       if constexpr (VIndex < (ImageDimension - 1))
       {
