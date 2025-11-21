@@ -59,6 +59,11 @@ if(ITK_WRAP_PYTHON)
     EXPRESSION "instance = itk.MeanSquaresImageToImageMetricv4.New()"
   )
 
+  itk_python_add_test(
+    NAME itkObjectToObjectMultiMetricv4PythonTest
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/itkObjectToObjectMultiMetricv4Test.py
+  )
+
   itk_python_expression_add_test(
     NAME itkPointSetToPointSetMetricv4PythonTest
     EXPRESSION "instance = itk.PointSetToPointSetMetricv4.New()"
