@@ -21,7 +21,11 @@
 #include "itkTextOutput.h"
 
 #include "itkImagePCADecompositionCalculator.h"
+#include "itkImageBufferRange.h"
 #include "itkTestingMacros.h"
+
+#include <algorithm> // For copy.
+#include <iterator>
 
 // class to support progress feedback
 
@@ -337,11 +341,10 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
   for (const auto & basis_it : basis_check)
   {
     std::cout << '[';
-    InputImageIterator basisImage_it(basis_it, basis_it->GetBufferedRegion());
-    for (basisImage_it.GoToBegin(); !basisImage_it.IsAtEnd(); ++basisImage_it)
-    {
-      std::cout << basisImage_it.Get() << ' ';
-    }
+    const itk::ImageBufferRange<const InputImageType> imageBufferRange(*basis_it);
+    std::copy(imageBufferRange.cbegin(),
+              imageBufferRange.cend(),
+              std::ostream_iterator<InputImageType::PixelType>(std::cout, " "));
     std::cout << ']' << std::endl;
   }
 
@@ -358,11 +361,10 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
   for (const auto & basis_it : basis_check_2)
   {
     std::cout << '[';
-    InputImageIterator basisImage_it(basis_it, basis_it->GetBufferedRegion());
-    for (basisImage_it.GoToBegin(); !basisImage_it.IsAtEnd(); ++basisImage_it)
-    {
-      std::cout << basisImage_it.Get() << ' ';
-    }
+    const itk::ImageBufferRange<const InputImageType> imageBufferRange(*basis_it);
+    std::copy(imageBufferRange.cbegin(),
+              imageBufferRange.cend(),
+              std::ostream_iterator<InputImageType::PixelType>(std::cout, " "));
     std::cout << ']' << std::endl;
   }
 
