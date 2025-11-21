@@ -69,43 +69,17 @@ itkTernaryMagnitudeImageFilterTest(int argc, char * argv[])
   inputImageC->SetRegions(region);
   inputImageC->Allocate();
 
-  // Declare Iterator types for each image
-  using InputImage1IteratorType = itk::ImageRegionIteratorWithIndex<InputImage1Type>;
-  using InputImage2IteratorType = itk::ImageRegionIteratorWithIndex<InputImage2Type>;
-  using InputImage3IteratorType = itk::ImageRegionIteratorWithIndex<InputImage3Type>;
-
-  // Create one iterator for Image A (this is a light object)
-  InputImage1IteratorType it1(inputImageA, inputImageA->GetBufferedRegion());
-
   // Initialize the content of Image A
   constexpr InputImage1Type::PixelType valueA{ 2.0 };
-  while (!it1.IsAtEnd())
-  {
-    it1.Set(valueA);
-    ++it1;
-  }
-
-  // Create one iterator for Image B (this is a light object)
-  InputImage2IteratorType it2(inputImageB, inputImageB->GetBufferedRegion());
+  inputImageA->FillBuffer(valueA);
 
   // Initialize the content of Image B
   constexpr InputImage2Type::PixelType valueB{ 3.0 };
-  while (!it2.IsAtEnd())
-  {
-    it2.Set(valueB);
-    ++it2;
-  }
-
-  // Create one iterator for Image C (this is a light object)
-  InputImage3IteratorType it3(inputImageC, inputImageC->GetBufferedRegion());
+  inputImageB->FillBuffer(valueB);
 
   // Initialize the content of Image C
   constexpr InputImage3Type::PixelType valueC{ 4.0 };
-  while (!it3.IsAtEnd())
-  {
-    it3.Set(valueC);
-    ++it3;
-  }
+  inputImageC->FillBuffer(valueC);
 
   using TernaryMagnitudeImageFilterType =
     itk::TernaryMagnitudeImageFilter<InputImage1Type, InputImage2Type, InputImage3Type, OutputImageType>;

@@ -74,33 +74,21 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
 
   // Initialize the content of Image A
   constexpr InputImageType1::PixelType valueA{ 2.0 };
-  while (!it1.IsAtEnd())
-  {
-    it1.Set(valueA);
-    ++it1;
-  }
+  inputImageA->FillBuffer(valueA);
 
   // Create one iterator for Image B (this is a light object)
   InputImage2IteratorType it2(inputImageB, inputImageB->GetBufferedRegion());
 
   // Initialize the content of Image B
   constexpr InputImageType2::PixelType valueB{ 3.0 };
-  while (!it2.IsAtEnd())
-  {
-    it2.Set(valueB);
-    ++it2;
-  }
+  inputImageB->FillBuffer(valueB);
 
   // Create one iterator for Image C (this is a light object)
   InputImage3IteratorType it3(inputImageC, inputImageC->GetBufferedRegion());
 
   // Initialize the content of Image C
   constexpr InputImageType3::PixelType valueC{ 4.0 };
-  while (!it3.IsAtEnd())
-  {
-    it3.Set(valueC);
-    ++it3;
-  }
+  inputImageC->FillBuffer(valueC);
 
 
   // Declare the type for the TernaryMagnitudeSquaredImageFilter
