@@ -66,12 +66,7 @@ itkAcosImageFilterAndAdaptorTest(int, char *[])
   // Initialize the content of Image A
   const double pi = std::atan(1.0) * 4.0;
   const double value = pi / 6.0;
-  it.GoToBegin();
-  while (!it.IsAtEnd())
-  {
-    it.Set(value);
-    ++it;
-  }
+  inputImage->FillBuffer(value);
 
   // Declare the type for the Acos filter
   using FilterType = itk::AcosImageFilter<InputImageType, OutputImageType>;

@@ -60,14 +60,9 @@ itkNotImageFilterTest(int, char *[])
 
   // Create one iterator for Image A (this is a light object)
   InputIteratorType it(inputImage, inputImage->GetBufferedRegion());
-  it.GoToBegin();
 
   // Initialize the content of Image A
-  while (!it.IsAtEnd())
-  {
-    it.Set(true);
-    ++it;
-  }
+  inputImage->FillBuffer(true);
 
   // Create the filter
   auto filter = NotImageFilterType::New();

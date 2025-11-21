@@ -64,12 +64,7 @@ InitializeImage(InputImageType * image, double value)
 
   InImageIteratorType it(inputImage, inputImage->GetRequestedRegion());
 
-  it.GoToBegin();
-  while (!it.IsAtEnd())
-  {
-    it.Set(value);
-    ++it;
-  }
+  inputImage->FillBuffer(value);
 }
 
 // Function for image printing

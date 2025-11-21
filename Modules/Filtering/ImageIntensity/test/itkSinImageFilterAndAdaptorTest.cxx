@@ -63,12 +63,7 @@ itkSinImageFilterAndAdaptorTest(int, char *[])
 
   // Initialize the content of Image A
   constexpr double value{ itk::Math::pi / 6.0 };
-  it.GoToBegin();
-  while (!it.IsAtEnd())
-  {
-    it.Set(value);
-    ++it;
-  }
+  inputImage->FillBuffer(value);
 
   // Declare the type for the Sin filter
   using FilterType = itk::SinImageFilter<InputImageType, OutputImageType>;

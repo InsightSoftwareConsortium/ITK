@@ -62,12 +62,7 @@ itkTanImageFilterAndAdaptorTest(int, char *[])
 
   // Initialize the content of the input image
   constexpr double value{ itk::Math::pi / 6.0 };
-  it.GoToBegin();
-  while (!it.IsAtEnd())
-  {
-    it.Set(value);
-    ++it;
-  }
+  inputImage->FillBuffer(value);
 
   // Declare the type for the Tan filter
   using FilterType = itk::TanImageFilter<InputImageType, OutputImageType>;
