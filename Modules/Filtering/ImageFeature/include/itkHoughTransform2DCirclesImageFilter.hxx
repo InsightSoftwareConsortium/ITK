@@ -23,6 +23,7 @@
 #include "itkGaussianDerivativeImageFunction.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -282,6 +283,7 @@ void
 HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPixelType>::PrintSelf(std::ostream & os,
                                                                                                    Indent indent) const
 {
+  using namespace itk::print_helper;
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Threshold: " << m_Threshold << std::endl;
@@ -297,15 +299,7 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
 
   itkPrintSelfObjectMacro(RadiusImage);
 
-  os << indent << "CirclesList: " << std::endl;
-  unsigned int i = 0;
-  auto         it = m_CirclesList.begin();
-  while (it != m_CirclesList.end())
-  {
-    os << indent << '[' << i << "]: " << *it << std::endl;
-    ++it;
-    ++i;
-  }
+  os << indent << "CirclesList: " << m_CirclesList << std::endl;
 
   os << indent << "OldModifiedTime: " << NumericTraits<ModifiedTimeType>::PrintType(m_OldModifiedTime) << std::endl;
 }

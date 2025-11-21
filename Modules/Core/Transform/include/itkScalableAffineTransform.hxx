@@ -20,6 +20,7 @@
 
 #include "itkMath.h"
 #include "itkNumericTraits.h"
+#include "itkPrintHelper.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 
 namespace itk
@@ -77,19 +78,10 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 ScalableAffineTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace itk::print_helper;
   Superclass::PrintSelf(os, indent);
-  os << indent << "Scale : ";
-  for (unsigned int i = 0; i < VDimension; ++i)
-  {
-    os << m_Scale[i] << ' ';
-  }
-  os << std::endl;
-  os << indent << "MatrixScale : ";
-  for (unsigned int i = 0; i < VDimension; ++i)
-  {
-    os << m_MatrixScale[i] << ' ';
-  }
-  os << std::endl;
+  os << indent << "Scale: " << m_Scale << std::endl;
+  os << indent << "MatrixScale: " << m_MatrixScale << std::endl;
 }
 
 template <typename TParametersValueType, unsigned int VDimension>

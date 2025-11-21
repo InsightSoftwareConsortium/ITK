@@ -1895,6 +1895,7 @@ set(
   itkOptimizerParametersGTest.cxx
   itkPointGTest.cxx
   itkPointSetGTest.cxx
+  itkPrintHelperGTest.cxx
   itkRGBAPixelGTest.cxx
   itkRGBPixelGTest.cxx
   itkShapedImageNeighborhoodRangeGTest.cxx
