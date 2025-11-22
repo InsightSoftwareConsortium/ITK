@@ -565,8 +565,6 @@ podman run -it -v $(pwd):/work/ quay.io/pypa/manylinux_2_28_aarch64:2024-03-25-9
 cd /work
 # Upgrade GPG keys
 dnf upgrade -y almalinux-release
-# Newer Python.cmake module required for the SABI
-pipx upgrade cmake
 yum install sudo ninja-build
 ./scripts/internal/manylinux-build-wheels.sh
 # Exit the container
