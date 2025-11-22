@@ -70,12 +70,7 @@ itkRGBToLuminanceImageFilterAndAdaptorTest(int, char *[])
   pixel.SetGreen(1.0);
   pixel.SetBlue(1.0);
 
-  it.GoToBegin();
-  while (!it.IsAtEnd())
-  {
-    it.Set(pixel);
-    ++it;
-  }
+  inputImage->FillBuffer(pixel);
 
   // Declare the type for the RGBToLuminance filter
   using FilterType = itk::RGBToLuminanceImageFilter<InputImageType, OutputImageType>;

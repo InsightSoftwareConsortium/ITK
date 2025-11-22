@@ -61,12 +61,7 @@ itkComplexToImaginaryFilterAndAdaptorTest(int, char *[])
 
   // Initialize the content of Image A
   constexpr InputPixelType value(13, 25);
-  it.GoToBegin();
-  while (!it.IsAtEnd())
-  {
-    it.Set(value);
-    ++it;
-  }
+  inputImage->FillBuffer(value);
 
   // Declare the type for the ComplexToImaginary filter
   using FilterType = itk::ComplexToImaginaryImageFilter<InputImageType, OutputImageType>;

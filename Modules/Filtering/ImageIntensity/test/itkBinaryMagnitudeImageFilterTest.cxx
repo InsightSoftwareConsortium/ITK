@@ -59,32 +59,16 @@ itkBinaryMagnitudeImageFilterTest(int, char *[])
   inputImageB->SetRegions(region);
   inputImageB->Allocate();
 
-  // Declare appropriate Iterator types for each image
-  using InputImage1IteratorType = itk::ImageRegionIteratorWithIndex<InputImageType1>;
-  using InputImage2IteratorType = itk::ImageRegionIteratorWithIndex<InputImageType2>;
+  // Declare appropriate Iterator type
   using OutputImageIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
-
-  // Create one iterator for Image A (this is a light object)
-  InputImage1IteratorType it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
   constexpr InputImageType1::PixelType input1Value{ 3.0 };
-  while (!it1.IsAtEnd())
-  {
-    it1.Set(input1Value);
-    ++it1;
-  }
-
-  // Create one iterator for Image B (this is a light object)
-  InputImage2IteratorType it2(inputImageB, inputImageB->GetBufferedRegion());
+  inputImageA->FillBuffer(input1Value);
 
   // Initialize the content of Image B
   constexpr InputImageType2::PixelType input2Value{ 4.0 };
-  while (!it2.IsAtEnd())
-  {
-    it2.Set(input2Value);
-    ++it2;
-  }
+  inputImageB->FillBuffer(input2Value);
 
   // Define the values of the output image
   constexpr OutputImageType::PixelType outputValue{ 5.0 };

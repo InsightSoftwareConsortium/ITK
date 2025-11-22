@@ -65,12 +65,7 @@ itkComplexToModulusFilterAndAdaptorTest(int, char *[])
   const double modulus = std::sqrt(value.real() * value.real() + value.imag() * value.imag());
 
   std::cout << "Modulus of input pixel = " << modulus << std::endl;
-  it.GoToBegin();
-  while (!it.IsAtEnd())
-  {
-    it.Set(value);
-    ++it;
-  }
+  inputImage->FillBuffer(value);
 
   // Declare the type for the ComplexToModulus filter
   using FilterType = itk::ComplexToModulusImageFilter<InputImageType, OutputImageType>;

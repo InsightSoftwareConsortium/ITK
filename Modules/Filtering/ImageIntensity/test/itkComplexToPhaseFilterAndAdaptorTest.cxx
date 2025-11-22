@@ -61,12 +61,7 @@ itkComplexToPhaseFilterAndAdaptorTest(int, char *[])
 
   // Initialize the content of Image A
   constexpr InputPixelType value(13, 25);
-  it.GoToBegin();
-  while (!it.IsAtEnd())
-  {
-    it.Set(value);
-    ++it;
-  }
+  inputImage->FillBuffer(value);
 
   // Declare the type for the ComplexToPhase filter
   using FilterType = itk::ComplexToPhaseImageFilter<InputImageType, OutputImageType>;

@@ -61,12 +61,7 @@ itkSigmoidImageFilterTest(int, char *[])
 
   // Initialize the content of the input image
   constexpr double value{ 30 };
-  it.GoToBegin();
-  while (!it.IsAtEnd())
-  {
-    it.Set(value);
-    ++it;
-  }
+  inputImage->FillBuffer(value);
 
   // Declare the type for the Sigmoid filter
   using FilterType = itk::SigmoidImageFilter<InputImageType, OutputImageType>;

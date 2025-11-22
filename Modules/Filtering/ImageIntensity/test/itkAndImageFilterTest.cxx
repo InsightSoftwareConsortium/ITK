@@ -63,33 +63,13 @@ itkAndImageFilterTest(int argc, char * argv[])
   inputImageB->SetRegions(region);
   inputImageB->Allocate();
 
-  // Declare Iterator types appropriate for each image
-  using InputImage1IteratorType = itk::ImageRegionIteratorWithIndex<InputImage1Type>;
-  using InputImage2IteratorType = itk::ImageRegionIteratorWithIndex<InputImage2Type>;
-
-  // Create one iterator for Image A (this is a light object)
-  InputImage1IteratorType it1(inputImageA, inputImageA->GetBufferedRegion());
-  it1.GoToBegin();
-
   // Initialize the content of Image A
   constexpr InputImage1Type::PixelType valueA{ 2 };
-  while (!it1.IsAtEnd())
-  {
-    it1.Set(valueA);
-    ++it1;
-  }
-
-  // Create one iterator for Image B (this is a light object)
-  InputImage2IteratorType it2(inputImageB, inputImageB->GetBufferedRegion());
-  it2.GoToBegin();
+  inputImageA->FillBuffer(valueA);
 
   // Initialize the content of Image B
   constexpr InputImage2Type::PixelType valueB{ 3 };
-  while (!it2.IsAtEnd())
-  {
-    it2.Set(valueB);
-    ++it2;
-  }
+  inputImageB->FillBuffer(valueB);
 
   using AndImageFilterType = itk::AndImageFilter<InputImage1Type, InputImage2Type, OutputImageType>;
 

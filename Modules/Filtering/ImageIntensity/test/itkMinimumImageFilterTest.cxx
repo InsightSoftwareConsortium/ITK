@@ -62,28 +62,11 @@ itkMinimumImageFilterTest(int, char *[])
   constexpr PixelType largePixelValue{ 3 };
   constexpr PixelType smallPixelValue{ 2 };
 
-  // Declare Iterator types appropriate for each image
-  using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
-
-  // Create one iterator for Image A (this is a light object)
-  IteratorType it1(inputImageA, inputImageA->GetBufferedRegion());
-
   // Initialize the content of Image A
-  while (!it1.IsAtEnd())
-  {
-    it1.Set(smallPixelValue);
-    ++it1;
-  }
-
-  // Create one iterator for Image B (this is a light object)
-  IteratorType it2(inputImageB, inputImageB->GetBufferedRegion());
+  inputImageA->FillBuffer(smallPixelValue);
 
   // Initialize the content of Image B
-  while (!it2.IsAtEnd())
-  {
-    it2.Set(largePixelValue);
-    ++it2;
-  }
+  inputImageB->FillBuffer(largePixelValue);
 
   // Create the filter
   auto minimumImageFilter = MinimumFilterType::New();

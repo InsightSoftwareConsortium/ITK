@@ -133,11 +133,7 @@ public:
     // Create one iterator for the input image (this is a light object)
     IteratorType it(inputImage, inputImage->GetRequestedRegion());
     // Initialize the content of the input image
-    while (!it.IsAtEnd())
-    {
-      it.Set(tensorValue);
-      ++it;
-    }
+    inputImage->FillBuffer(tensorValue);
 
     // Create the filter
     auto filter = SymmetricEigenAnalysisImageFilterType::New();
@@ -230,11 +226,7 @@ public:
     // Create one iterator for the input image (this is a light object)
     IteratorType it(inputImage, inputImage->GetRequestedRegion());
     // Initialize the content of the input image
-    while (!it.IsAtEnd())
-    {
-      it.Set(tensorValue);
-      ++it;
-    }
+    inputImage->FillBuffer(tensorValue);
 
     // Create the filter
     const typename SymmetricEigenAnalysisFixedDimensionImageFilterType::Pointer filter =
