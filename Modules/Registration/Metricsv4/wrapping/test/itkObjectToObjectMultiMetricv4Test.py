@@ -37,7 +37,6 @@ multi_metric.AddMetric(ms_metric)
 assert multi_metric.GetNumberOfMetrics() == 1
 
 # Set metric weights
-import itk.support.types as types
 weights = itk.Array[itk.D](1)
 weights[0] = 0.5
 multi_metric.SetMetricWeights(weights)
