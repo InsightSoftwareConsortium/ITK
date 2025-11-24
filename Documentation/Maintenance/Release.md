@@ -585,8 +585,6 @@ podman run -it -v $(pwd):/work/ quay.io/pypa/manylinux_2_28_aarch64:2024-03-25-9
 cd /work
 # Upgrade GPG keys
 dnf upgrade -y almalinux-release
-# Newer Python.cmake module required for the SABI
-pipx upgrade cmake
 yum install sudo ninja-build
 ./scripts/internal/manylinux-build-wheels.sh
 # Exit the container
@@ -599,16 +597,16 @@ mv ITKPythonBuilds-linux.tar.zst ITKPythonBuilds-linux-manylinux_2_28_aarch64.ta
 ```
 
 On the macOS build system, we use the same build toolchain, toolchain path, and build
-path as is used in the remote module GitHub Actions builds on the [macos-14 GitHub Action Runner].
+path as is used in the remote module GitHub Actions builds on the [macos-15 GitHub Action Runner].
 
-- Install Xcode 15.0.1 from https://developer.apple.com/downloads/all/
-- Unpack and move to /Applications/Xcode_15.0.1.app
+- Install Xcode 16.2 from https://developer.apple.com/downloads/all/
+- Unpack and move to /Applications/Xcode_16.2.app
 ``` bash
-sudo xcode-select -s /Applications/Xcode_15.0.1.app
+sudo xcode-select -s /Applications/Xcode_16.2.app
 sudo xcodebuild -license
 xcodebuild -version
-# Xcode 15.0.1
-# Build version 15A507
+# Xcode 16.2
+# Build version 16C5032a
 ```
 
 Build the wheels for macOS (both amd64 and ARM).
@@ -1016,4 +1014,4 @@ excellent packaging.
 [SourceForge]: https://sourceforge.net/downloads/itk/itk/
 [ITK GitHub Releases]: https://github.com/InsightSoftwareConsortium/ITK/releases
 [ITK GitHub Milestones]: https://github.com/InsightSoftwareConsortium/ITK/milestones
-[macos-14 GitHub Action Runner]: https://github.com/actions/runner-images/blob/main/images/macos/macos-14-Readme.md
+[macos-15 GitHub Action Runner]: https://github.com/actions/runner-images/blob/main/images/macos/macos-15-Readme.md
