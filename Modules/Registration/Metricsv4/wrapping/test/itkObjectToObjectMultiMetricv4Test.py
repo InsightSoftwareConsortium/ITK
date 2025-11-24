@@ -26,8 +26,8 @@ ImageType = itk.Image[itk.F, Dimension]
 multi_metric = itk.ObjectToObjectMultiMetricv4[Dimension, Dimension, ImageType].New()
 assert multi_metric is not None
 
-# Create a simple metric to add
-ms_metric = itk.MeanSquaresImageToImageMetricv4[ImageType, ImageType].New()
+# Create a simple metric to add - now with explicit TVirtualImage
+ms_metric = itk.MeanSquaresImageToImageMetricv4[ImageType, ImageType, ImageType].New()
 assert ms_metric is not None
 
 # Add metric to the multi-metric
