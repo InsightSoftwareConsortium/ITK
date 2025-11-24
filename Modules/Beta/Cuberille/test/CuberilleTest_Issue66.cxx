@@ -25,8 +25,8 @@
 const unsigned int Dimension = 3;
 using TPixel = unsigned char;
 using TImage = itk::Image<TPixel, Dimension>;
-// using TMesh = itk::Mesh<double, 3>;
-using TMesh = itk::QuadEdgeMesh<double, 3>;
+using TMesh = itk::Mesh<double, 3>;
+// using TMesh = itk::QuadEdgeMesh<double, 3>;
 using TExtract = itk::CuberilleImageToMeshFilter<TImage, TMesh>;
 using TMeshWriter = itk::MeshFileWriter<TMesh>;
 
