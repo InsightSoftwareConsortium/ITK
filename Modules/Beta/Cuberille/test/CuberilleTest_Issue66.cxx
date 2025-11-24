@@ -63,14 +63,35 @@ as an issue in case anyone else had any insight--pun intended. ;-D
 
 */
 
-int
-CuberilleTest_Issue66(int argc, char * argv[])
+TImage::Pointer
+case1()
 {
   const auto         image = TImage::New();
   TImage::RegionType region({ { 0, 0, 0 } }, { { 5, 4, 4 } });
   image->SetBufferedRegion(region);
-  image->Allocate();
-  image->FillBuffer(0);
+  image->AllocateInitialized(); // zero filled image
+
+  image->SetPixel({ { 1, 1, 1 } }, 1); // A
+  image->SetPixel({ { 2, 2, 1 } }, 1); // B
+
+  image->SetPixel({ { 1, 1, 0 } }, 1); // C
+  image->SetPixel({ { 1, 2, 0 } }, 1); // D
+  image->SetPixel({ { 2, 2, 0 } }, 1); // E
+
+  image->SetPixel({ { 1, 1, 2 } }, 1); // F
+  image->SetPixel({ { 1, 2, 2 } }, 1); // G
+  image->SetPixel({ { 2, 2, 2 } }, 1); // H
+
+  return image;
+}
+
+TImage::Pointer
+case2()
+{
+  const auto         image = TImage::New();
+  TImage::RegionType region({ { 0, 0, 0 } }, { { 5, 4, 4 } });
+  image->SetBufferedRegion(region);
+  image->AllocateInitialized(); // zero filled image
 
   image->SetPixel({ { 1, 1, 1 } }, 1); // A
   image->SetPixel({ { 2, 1, 1 } }, 1); // B
@@ -83,31 +104,47 @@ CuberilleTest_Issue66(int argc, char * argv[])
   image->SetPixel({ { 2, 2, 2 } }, 1); // G
   image->SetPixel({ { 3, 2, 2 } }, 1); // H
 
-  itk::WriteImage(image, "input_issue66.nrrd");
+  return image;
+}
 
-  const auto extract = TExtract::New();
-  extract->SetInput(image);
-  extract->SavePixelAsCellDataOn();
-  extract->GenerateTriangleFacesOff();
-  extract->ProjectVerticesToIsoSurfaceOff();
 
-  const auto m_writer = TMeshWriter::New();
-  m_writer->SetInput(extract->GetOutput());
-  m_writer->SetFileName("mesh.obj");
-  m_writer->Update();
-
-  const auto n_cell = extract->GetOutput()->GetNumberOfCells();
-  const auto n_data = extract->GetOutput()->GetCellData()->Size();
-
-  if (n_cell != n_data)
+int
+CuberilleTest_Issue66(int argc, char * argv[])
+{
+  int countFailed = 0;
+  for (const auto image : { case1(), case2() })
   {
-    std::cout << "This fails if using itk::QuadEdgeMesh." << std::endl;
-    std::cout << "n_cell: " << n_cell << std::endl;
-    std::cout << "n_data: " << n_data << std::endl;
-    return EXIT_FAILURE;
+
+    const auto extract = TExtract::New();
+    extract->SetInput(image);
+    extract->SavePixelAsCellDataOn();
+    extract->GenerateTriangleFacesOff();
+    extract->ProjectVerticesToIsoSurfaceOff();
+
+    const auto m_writer = TMeshWriter::New();
+    m_writer->SetInput(extract->GetOutput());
+    m_writer->SetFileName("mesh.obj");
+    m_writer->Update();
+
+    const auto n_cell = extract->GetOutput()->GetNumberOfCells();
+    const auto n_data = extract->GetOutput()->GetCellData()->Size();
+
+    if (n_cell != n_data)
+    {
+      std::cout << "This fails if using itk::QuadEdgeMesh." << std::endl;
+      std::cout << "n_cell: " << n_cell << std::endl;
+      std::cout << "n_data: " << n_data << std::endl;
+      ++countFailed;
+    }
+    else
+    {
+      std::cout << "This succeeds if using itk::Mesh." << std::endl;
+    }
   }
 
-  std::cout << "This succeeds if using itk::Mesh." << std::endl;
-
-  return EXIT_SUCCESS;
+  if (countFailed == 0)
+  {
+    return EXIT_SUCCESS;
+  }
+  return EXIT_FAILURE;
 }
