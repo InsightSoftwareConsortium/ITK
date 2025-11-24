@@ -8,6 +8,7 @@ set(
   CuberilleTest02.cxx
   CuberilleTest03.cxx
   CuberilleTest04.cxx
+  CuberilleTest_Issue66.cxx
 )
 
 createtestdriver(Cuberille "${Cuberille-Test_LIBRARIES}" "${CuberilleTests}")
@@ -332,6 +333,12 @@ add_test(
 #  0.85    # Step length relaxation factor
 #  25      # Maximum number of steps
 #)
+
+add_test(
+  NAME CuberilleIssue66
+  COMMAND
+    ${itk-module}TestDriver CuberilleTest_Issue66
+)
 
 itk_add_test(
   NAME CuberilleTestDirectionMatrix
