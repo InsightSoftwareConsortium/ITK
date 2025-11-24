@@ -18,9 +18,10 @@
 
 #include "itkCenteredVersorTransformInitializer.h"
 
-#include "itkImageRegionIterator.h"
+#include "itkImageRegionRange.h"
 #include "itkTestingMacros.h"
 
+#include <algorithm> // For fill.
 
 /**
  *  This program tests the use of the CenteredVersorTransformInitializer class
@@ -88,16 +89,8 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
 
   internalRegion = { internalIndex, internalSize };
 
-  using FixedIterator = itk::ImageRegionIterator<FixedImageType>;
-  FixedIterator fi(fixedImage, internalRegion);
-
-  fi.GoToBegin();
-  while (!fi.IsAtEnd())
-  {
-    fi.Set(200);
-    ++fi;
-  }
-
+  const itk::ImageRegionRange<FixedImageType> fixedImageRegionRange(*fixedImage, internalRegion);
+  std::fill(fixedImageRegionRange.begin(), fixedImageRegionRange.end(), 200);
 
   internalIndex[0] = 10;
   internalIndex[1] = 20;
@@ -110,16 +103,8 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
 
   internalRegion = { internalIndex, internalSize };
 
-
-  using MovingIterator = itk::ImageRegionIterator<MovingImageType>;
-  MovingIterator mi(movingImage, internalRegion);
-
-  mi.GoToBegin();
-  while (!mi.IsAtEnd())
-  {
-    mi.Set(200);
-    ++mi;
-  }
+  const itk::ImageRegionRange<MovingImageType> movingImageRegionRange(*movingImage, internalRegion);
+  std::fill(movingImageRegionRange.begin(), movingImageRegionRange.end(), 200);
 
   auto transform = TransformType::New();
   transform->SetIdentity();
