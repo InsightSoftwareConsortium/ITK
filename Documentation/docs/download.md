@@ -4,7 +4,7 @@ Download ITK
 💾 Current release
 ------------------
 
-More information on this release can be found in the [release notes](releases/5.4.0.md).
+More information on this release can be found in the [release notes](releases/5.4.5.md).
 
 ### Python packages
 
@@ -20,31 +20,31 @@ Additionally, wheels for external modules are available through the Python Packa
 
 **Guide and Textbook**
 
-- [InsightSoftwareGuide-Book1-5.4.4.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightSoftwareGuide-Book1-5.4.4.pdf)
-- [InsightSoftwareGuide-Book2-5.4.4.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightSoftwareGuide-Book2-5.4.4.pdf)
+- [InsightSoftwareGuide-Book1-5.4.5.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightSoftwareGuide-Book1-5.4.5.pdf)
+- [InsightSoftwareGuide-Book2-5.4.5.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightSoftwareGuide-Book2-5.4.5.pdf)
 
 **Library Sources**
 
-- [InsightToolkit-5.4.4.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightToolkit-5.4.4.tar.gz)
-- [InsightToolkit-5.4.4.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightToolkit-5.4.4.zip)
+- [InsightToolkit-5.4.5.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightToolkit-5.4.5.tar.gz)
+- [InsightToolkit-5.4.5.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightToolkit-5.4.5.zip)
 
 **Testing Data**
 
 Unpack optional testing data in the same directory where the Library Source is unpacked.
 
-- [InsightData-5.4.4.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightData-5.4.4.tar.gz)
-- [InsightData-5.4.4.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightData-5.4.4.zip)
+- [InsightData-5.4.5.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightData-5.4.5.tar.gz)
+- [InsightData-5.4.5.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightData-5.4.5.zip)
 
 **Checksums and Signatures**
 
-- [InsightToolkit-5.4.4.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightToolkit-5.4.4.tar.gz.asc)
-- [InsightToolkit-5.4.4.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightToolkit-5.4.4.zip.asc)
+- [InsightToolkit-5.4.5.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightToolkit-5.4.5.tar.gz.asc)
+- [InsightToolkit-5.4.5.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightToolkit-5.4.5.zip.asc)
 
-- [InsightData-5.4.4.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightData-5.4.4.tar.gz.asc)
-- [InsightData-5.4.4.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightData-5.4.4.zip.asc)
+- [InsightData-5.4.5.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightData-5.4.5.tar.gz.asc)
+- [InsightData-5.4.5.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightData-5.4.5.zip.asc)
 
-- [MD5SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/MD5SUMS)
-- [SHA512SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/SHA512SUMS)
+- [MD5SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/MD5SUMS)
+- [SHA512SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/SHA512SUMS)
 
 Additional releases can be downloaded from [ITK's GitHub Releases page].
 
@@ -152,9 +152,9 @@ where `ITKLatestRelease` is the name of the local repository created.
 Additionally, specific releases can be cloned using the tags, for example:
 
 ```bash
-git clone -b v5.4.4 https://github.com/InsightSoftwareConsortium/ITK ITK-5.4.4
+git clone -b v5.4.5 https://github.com/InsightSoftwareConsortium/ITK ITK-5.4.5
 ```
-where `v5.4.4` corresponds to ITK 5.4.4, and the `ITK-5.4.4` is the name
+where `v5.4.5` corresponds to ITK 5.4.5, and the `ITK-5.4.5` is the name
 of the local repository created.
 
 ### Update
@@ -189,7 +189,7 @@ instructions to update it.
 Alternatively, one may checkout a specific release tag using
 
 ```bash
-git checkout v5.4.4
+git checkout v5.4.5
 ```
 
 Release tags never move. Repeat the command with a different tag to get a
