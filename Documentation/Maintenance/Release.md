@@ -602,7 +602,7 @@ mv ITKPythonBuilds-linux.tar.zst ITKPythonBuilds-linux-manylinux_2_28_aarch64.ta
 ```
 
 On the macOS build system, we use the same build toolchain, toolchain path, and build
-path as is used in the remote module GitHub Actions builds on the [macos-14 GitHub Action Runner].
+path as is used in the remote module GitHub Actions builds on the [macos-15 GitHub Action Runner].
 
 - Install Xcode 16.2 from https://developer.apple.com/downloads/all/
 - Unpack and move to /Applications/Xcode_16.2.app
@@ -1017,4 +1017,4 @@ excellent packaging.
 [SourceForge]: https://sourceforge.net/downloads/itk/itk/
 [ITK GitHub Releases]: https://github.com/InsightSoftwareConsortium/ITK/releases
 [ITK GitHub Milestones]: https://github.com/InsightSoftwareConsortium/ITK/milestones
-[macos-14 GitHub Action Runner]: https://github.com/actions/runner-images/blob/main/images/macos/macos-14-Readme.md
+[macos-15 GitHub Action Runner]: https://github.com/actions/runner-images/blob/main/images/macos/macos-15-Readme.md
