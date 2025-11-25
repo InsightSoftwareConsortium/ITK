@@ -16,10 +16,13 @@
  *
  *=========================================================================*/
 
-#include <fstream>
 #include "itkMatrixIndexSelectionImageFilter.h"
 #include "itkImageFileWriter.h"
+#include "itkImageRegionRange.h"
 #include "itkTestingMacros.h"
+
+#include <algorithm> // For fill.
+#include <fstream>
 
 int
 itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
@@ -72,13 +75,8 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
     pixel[1][0] = 0;
     pixel[1][1] = 64;
 
-    itk::ImageRegionIterator<InputImageType> it(image, region);
-    it.GoToBegin();
-    while (!it.IsAtEnd())
-    {
-      it.Set(pixel);
-      ++it;
-    }
+    const itk::ImageRegionRange<InputImageType> imageRegionRange(*image, region);
+    std::fill(imageRegionRange.begin(), imageRegionRange.end(), pixel);
   }
 
   // Populate lower half of image
@@ -92,13 +90,8 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
     pixel[1][0] = 255;
     pixel[1][1] = 192;
 
-    itk::ImageRegionIterator<InputImageType> it(image, region);
-    it.GoToBegin();
-    while (!it.IsAtEnd())
-    {
-      it.Set(pixel);
-      ++it;
-    }
+    const itk::ImageRegionRange<InputImageType> imageRegionRange(*image, region);
+    std::fill(imageRegionRange.begin(), imageRegionRange.end(), pixel);
   }
 
   using SelectionFilterType = itk::MatrixIndexSelectionImageFilter<InputImageType, OutputImageType>;
