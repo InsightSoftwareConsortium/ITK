@@ -663,7 +663,7 @@ Histogram<TMeasurement, TFrequencyContainer>::PrintSelf(std::ostream & os, Inden
   os << indent << "OffsetTable: " << std::endl;
   for (const auto & elem : m_OffsetTable)
   {
-    os << indent.GetNextIndent() << "[" << &elem - &*(m_OffsetTable.begin()) << "]: " << elem << std::endl;
+    os << indent.GetNextIndent() << "[" << &elem - m_OffsetTable.data() << "]: " << elem << std::endl;
   }
 
   itkPrintSelfObjectMacro(FrequencyContainer);
@@ -675,7 +675,7 @@ Histogram<TMeasurement, TFrequencyContainer>::PrintSelf(std::ostream & os, Inden
   {
     for (const auto & elem : elemVec)
     {
-      os << indent.GetNextIndent() << "[" << &elem - &*(elemVec.begin())
+      os << indent.GetNextIndent() << "[" << &elem - elemVec.data()
          << "]: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(elem) << std::endl;
     }
   }
@@ -685,7 +685,7 @@ Histogram<TMeasurement, TFrequencyContainer>::PrintSelf(std::ostream & os, Inden
   {
     for (const auto & elem : elemVec)
     {
-      os << indent.GetNextIndent() << "[" << &elem - &*(elemVec.begin())
+      os << indent.GetNextIndent() << "[" << &elem - elemVec.data()
          << "]: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(elem) << std::endl;
     }
   }
