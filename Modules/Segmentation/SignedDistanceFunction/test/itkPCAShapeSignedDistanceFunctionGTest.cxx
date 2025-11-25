@@ -18,11 +18,12 @@
 
 #include "itkPCAShapeSignedDistanceFunction.h"
 
-#include "vnl/vnl_sample.h"
 #include "itkImageRegionIterator.h"
 #include "itkEuler2DTransform.h"
 
 #include <gtest/gtest.h>
+
+#include <random> // For mt19937.
 
 /**
  * This module tests the functionality of the PCAShapeSignedDistanceFunction
@@ -65,7 +66,8 @@ TEST(PCAShapeSignedDistanceFunction, Test)
 
 
   // set up the random number generator
-  vnl_sample_reseed();
+  std::mt19937                     randomNumberEngine{};
+  std::normal_distribution<double> randomNumberDistribution(0.0, 1.0);
 
   // set up the mean image
   auto meanImage = ImageType::New();
@@ -77,7 +79,7 @@ TEST(PCAShapeSignedDistanceFunction, Test)
 
   for (meanImageIt.GoToBegin(); !meanImageIt.IsAtEnd(); ++meanImageIt)
   {
-    ImageType::PixelType randomPixel = vnl_sample_normal(0, 1);
+    ImageType::PixelType randomPixel = randomNumberDistribution(randomNumberEngine);
     meanImageIt.Set(randomPixel);
   }
 
@@ -99,7 +101,7 @@ TEST(PCAShapeSignedDistanceFunction, Test)
 
     for (pcImageIts[i].GoToBegin(); !pcImageIts[i].IsAtEnd(); ++pcImageIts[i])
     {
-      ImageType::PixelType randomPixel = vnl_sample_normal(0, 1);
+      ImageType::PixelType randomPixel = randomNumberDistribution(randomNumberEngine);
       pcImageIts[i].Set(randomPixel);
     }
   }
@@ -112,7 +114,7 @@ TEST(PCAShapeSignedDistanceFunction, Test)
 
   for (unsigned int i = 0; i < NumberOfPCs; ++i)
   {
-    pcStandardDeviations[i] = vnl_sample_normal(0, 1);
+    pcStandardDeviations[i] = randomNumberDistribution(randomNumberEngine);
   }
 
   shape->SetPrincipalComponentStandardDeviations(pcStandardDeviations);
@@ -126,7 +128,7 @@ TEST(PCAShapeSignedDistanceFunction, Test)
 
   for (unsigned int i = 0; i < numberOfParameters; ++i)
   {
-    parameters[i] = vnl_sample_normal(0, 1);
+    parameters[i] = randomNumberDistribution(randomNumberEngine);
   }
 
   shape->SetParameters(parameters);
