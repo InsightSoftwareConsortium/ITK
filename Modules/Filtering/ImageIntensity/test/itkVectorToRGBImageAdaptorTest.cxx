@@ -81,12 +81,7 @@ itkVectorToRGBImageAdaptorTest(int, char *[])
   vector[2] = 1.4;
 
   // Initializing all the pixel in the image
-  it1.GoToBegin();
-  while (!it1.IsAtEnd())
-  {
-    it1.Set(vector);
-    ++it1;
-  }
+  image->FillBuffer(vector);
 
   // Reading the values to verify the image content
   std::cout << "--- Before --- " << std::endl;

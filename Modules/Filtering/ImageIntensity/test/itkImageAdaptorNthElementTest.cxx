@@ -98,11 +98,7 @@ itkImageAdaptorNthElementTest(int, char *[])
   initialPixelValue[1] = 11;
   initialPixelValue[2] = 17;
 
-  while (!it.IsAtEnd())
-  {
-    it.Set(initialPixelValue);
-    ++it;
-  }
+  myContainerPixelImage->FillBuffer(initialPixelValue);
 
   std::cout << "Initial Container Image Values : " << std::endl;
   it.GoToBegin();
@@ -142,11 +138,7 @@ itkImageAdaptorNthElementTest(int, char *[])
 
   constexpr myFloatPixelType initialFloatValue{ 5.0 };
 
-  while (!itf.IsAtEnd())
-  {
-    itf.Set(initialFloatValue);
-    ++itf;
-  }
+  myFloatImage->FillBuffer(initialFloatValue);
 
   std::cout << "Initial Float Image Values : " << std::endl;
   itf.GoToBegin();
