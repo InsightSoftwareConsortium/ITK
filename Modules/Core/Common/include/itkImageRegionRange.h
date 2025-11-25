@@ -397,7 +397,7 @@ public:
     endRegionIndex.back() += m_IterationRegionSize.back();
 
     OffsetType iterationOffset{ {} }; // Initialize offsets to 0, by aggregate initializer
-    *(iterationOffset.rbegin()) = m_IterationRegionSize.back();
+    iterationOffset.back() = m_IterationRegionSize.back();
 
     return iterator{ m_BufferBegin + Self::ComputeOffset(m_OffsetTable, m_BufferedRegionIndex, endRegionIndex),
                      m_OffsetTable,
