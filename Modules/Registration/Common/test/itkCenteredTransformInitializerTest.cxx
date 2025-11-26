@@ -18,7 +18,9 @@
 
 #include "itkVersorRigid3DTransform.h"
 #include "itkCenteredTransformInitializer.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageRegionRange.h"
+
+#include <algorithm> // For fill.
 
 
 namespace
@@ -192,15 +194,8 @@ PopulateImage(itk::SmartPointer<TImage> image)
   SizeType   internalSize{ size[0] - 2 * border, size[1] - 2 * border, size[2] - 2 * border };
   RegionType internalRegion = { internalIndex, internalSize };
 
-  using Iterator = itk::ImageRegionIterator<ImageType>;
-  Iterator it(image, internalRegion);
-
-  it.GoToBegin();
-  while (!it.IsAtEnd())
-  {
-    it.Set(200);
-    ++it;
-  }
+  const itk::ImageRegionRange<TImage> imageRegionRange(*image, internalRegion);
+  std::fill(imageRegionRange.begin(), imageRegionRange.end(), 200);
 }
 
 } // namespace

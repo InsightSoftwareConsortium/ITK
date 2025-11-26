@@ -21,8 +21,11 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkImageRegionRange.h"
 #include "itkSobelOperator.h"
 #include "itkTestingMacros.h"
+
+#include <algorithm> // For fill.
 
 int
 itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
@@ -63,24 +66,14 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
   index[0] = size[0] + static_cast<unsigned int>(.25 * static_cast<float>(width));
   region = { index, size };
   {
-    itk::ImageRegionIterator<MaskImageType> it(mask1, region);
-    it.GoToBegin();
-    while (!it.IsAtEnd())
-    {
-      it.Set(1);
-      ++it;
-    }
+    const itk::ImageRegionRange<MaskImageType> imageRegionRange(*mask1, region);
+    std::fill(imageRegionRange.begin(), imageRegionRange.end(), 1);
   }
   index[0] = 0;
   region.SetIndex(index);
   {
-    itk::ImageRegionIterator<MaskImageType> it(mask2, region);
-    it.GoToBegin();
-    while (!it.IsAtEnd())
-    {
-      it.Set(1);
-      ++it;
-    }
+    const itk::ImageRegionRange<MaskImageType> imageRegionRange(*mask2, region);
+    std::fill(imageRegionRange.begin(), imageRegionRange.end(), 1);
   }
 
   // Create a filter
