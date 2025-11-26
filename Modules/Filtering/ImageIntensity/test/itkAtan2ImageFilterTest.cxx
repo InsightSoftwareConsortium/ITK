@@ -68,24 +68,14 @@ itkAtan2ImageFilterTest(int, char *[])
 
   // Initialize the content of Image A
   const double sinValue = std::sin(itk::Math::pi / 6.0);
-  it1.GoToBegin();
-  while (!it1.IsAtEnd())
-  {
-    it1.Set(sinValue);
-    ++it1;
-  }
+  sinImage->FillBuffer(sinValue);
 
   // Create one iterator for the Input Image (this is a light object)
   InputIteratorType it2(cosImage, cosImage->GetBufferedRegion());
 
   // Initialize the content of Image A
   const double cosValue = std::cos(itk::Math::pi / 6.0);
-  it2.GoToBegin();
-  while (!it2.IsAtEnd())
-  {
-    it2.Set(cosValue);
-    ++it2;
-  }
+  cosImage->FillBuffer(cosValue);
 
   // Declare the type for the Atan filter
   using FilterType = itk::Atan2ImageFilter<InputImageType, InputImageType, OutputImageType>;
