@@ -20,7 +20,6 @@
 
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkTimeProbesCollectorBase.h"
-#include "vnl/vnl_sample.h"
 
 #include <iostream>
 
@@ -83,7 +82,6 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
 
   const double     s = static_cast<double>(region.GetSize()[0]) / 2.0;
   constexpr double mag{ 200.0 };
-  constexpr double noisemag{ 0.0 }; // ended up yielding best results
 
   itk::Point<double, 2>  p;
   itk::Vector<double, 2> d;
@@ -123,8 +121,6 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
     ++ti;
   }
 
-  vnl_sample_reseed(2334237);
-
   gri.GoToBegin();
   while (!gri.IsAtEnd())
   {
@@ -134,8 +130,7 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
     //    d += displacement;
     const double x = d[0];
     const double y = d[1];
-    gri.Set(
-      static_cast<unsigned char>((mag * std::exp(-(x * x + y * y) / (s * s))) + vnl_sample_normal(0.0, noisemag)));
+    gri.Set(static_cast<unsigned char>(mag * std::exp(-(x * x + y * y) / (s * s))));
     ++gri;
   }
 
@@ -147,8 +142,7 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
     d = p - center;
     const double x = d[0];
     const double y = d[1];
-    gti.Set(
-      static_cast<unsigned char>((mag * std::exp(-(x * x + y * y) / (s * s))) + vnl_sample_normal(0.0, noisemag)));
+    gti.Set(static_cast<unsigned char>(mag * std::exp(-(x * x + y * y) / (s * s))));
     ++gti;
   }
 
