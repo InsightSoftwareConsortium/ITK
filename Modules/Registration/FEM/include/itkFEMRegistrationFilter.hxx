@@ -1508,7 +1508,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintSelf(std::ost
   os << indent << "LandmarkArray: ";
   for (const auto & elem : m_LandmarkArray)
   {
-    os << indent.GetNextIndent() << "[" << &elem - &*(m_LandmarkArray.begin()) << "]: " << *elem << std::endl;
+    os << indent.GetNextIndent() << "[" << &elem - m_LandmarkArray.data() << "]: " << *elem << std::endl;
   }
 
   itkPrintSelfObjectMacro(Interpolator);

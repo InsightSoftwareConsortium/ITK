@@ -54,7 +54,7 @@ itkBilateralImageFilterTest2(int argc, char * argv[])
   auto domainSigma = filter->GetDomainSigma();
   for (auto & value : domainSigma)
   {
-    auto index = &value - &*(domainSigma.begin());
+    auto index = &value - domainSigma.data();
     ITK_TEST_SET_GET_VALUE(domainSigmaValue, filter->GetDomainSigma()[index]);
   }
 
