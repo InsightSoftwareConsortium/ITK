@@ -250,9 +250,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<GroupType, ImageType>;
   auto imageFilter = SpatialObjectToImageFilterType::New();
   imageFilter->SetInput(group);
-  ImageType::SizeType size;
-  size[0] = 200;
-  size[1] = 200;
+  auto size = ImageType::SizeType::Filled(200);
   imageFilter->SetSize(size);
   imageFilter->Update();
 

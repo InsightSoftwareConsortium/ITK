@@ -72,11 +72,7 @@ itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv[])
 
 
   imageFilter->SetInput(mySphereMeshSource->GetOutput());
-  ImageType::SizeType size;
-
-  size[0] = 100;
-  size[1] = 100;
-  size[2] = 100;
+  auto size = ImageType::SizeType::Filled(100);
   imageFilter->SetSize(size);
 
   constexpr double dspacing[3]{ 2.0, 2.0, 2.0 };

@@ -60,9 +60,7 @@ itkNthElementPixelAccessorTest2(int, char *[])
   using AdaptorType = itk::AdaptImageFilter<VectorImageType, ScalarImageType, AccessorType>;
 
   // Test on variable length vector image
-  VectorImageType::SizeType size;
-  size[0] = 1;
-  size[1] = 1;
+  auto size = VectorImageType::SizeType::Filled(1);
 
   VectorImageType::IndexType index;
   index[0] = 0;

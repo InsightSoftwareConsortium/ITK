@@ -71,9 +71,7 @@ itkPolylineMaskImageFilterTest(int argc, char * argv[])
   origin[1] = 0.0;
   origin[2] = 20.0;
 
-  inputImageType::SizeType size;
-  size[0] = 40;
-  size[1] = 40;
+  auto size = inputImageType::SizeType::Filled(40);
   size[2] = 35;
 
   imageGenerationFilter->SetOrigin(origin);

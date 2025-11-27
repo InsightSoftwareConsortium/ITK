@@ -68,9 +68,7 @@ itkPathToImageFilterTest(int, char *[])
   pathToImageFilter->SetBackgroundValue(backgroundValue);
   ITK_TEST_SET_GET_VALUE(backgroundValue, pathToImageFilter->GetBackgroundValue());
 
-  ImageType::SizeType size;
-  size[0] = 256;
-  size[1] = 256;
+  auto size = ImageType::SizeType::Filled(256);
   pathToImageFilter->SetSize(size);
   ITK_TEST_SET_GET_VALUE(size, pathToImageFilter->GetSize());
 

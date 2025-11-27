@@ -52,9 +52,7 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
   index[0] = 0;
   index[1] = 0;
 
-  ImageType::SizeType size;
-  size[0] = 10;
-  size[1] = 10;
+  auto size = ImageType::SizeType::Filled(10);
 
   const ImageType::RegionType region{ index, size };
 

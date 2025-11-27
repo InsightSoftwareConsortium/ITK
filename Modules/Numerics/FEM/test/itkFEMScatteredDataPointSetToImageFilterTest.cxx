@@ -127,9 +127,7 @@ itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(elementSpacing, filter->GetSpacingPerElement());
 
   // Set the output
-  DeformationFieldType::SizeType size;
-  size[0] = 5;
-  size[1] = 5;
+  auto size = DeformationFieldType::SizeType::Filled(5);
   filter->SetSize(size);
 
   DeformationFieldType::SpacingType spacing;

@@ -74,9 +74,7 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   imageFilter->SetIndex(indx);
   ITK_TEST_SET_GET_VALUE(indx, imageFilter->GetIndex());
 
-  ImageType::SizeType size;
-  size[0] = 50;
-  size[1] = 50;
+  auto size = ImageType::SizeType::Filled(50);
   imageFilter->SetSize(size);
   ITK_TEST_SET_GET_VALUE(size, imageFilter->GetSize());
 

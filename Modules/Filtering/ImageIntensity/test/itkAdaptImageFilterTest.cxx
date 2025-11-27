@@ -65,9 +65,7 @@ itkAdaptImageFilterTest(int, char *[])
 {
 
 
-  myRGBImageType::SizeType size;
-  size[0] = 2;
-  size[1] = 2;
+  auto size = myRGBImageType::SizeType::Filled(2);
 
   myRGBImageType::IndexType index;
   index[0] = 0;

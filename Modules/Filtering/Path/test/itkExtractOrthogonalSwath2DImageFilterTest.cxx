@@ -58,9 +58,7 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
   IndexType start;
   start[0] = 0;
   start[1] = 0;
-  ImageType::SizeType size;
-  size[0] = 128;
-  size[1] = 128;
+  auto                        size = ImageType::SizeType::Filled(128);
   const ImageType::RegionType region{ start, size };
   inputImage->SetRegions(region);
   double spacing[ImageType::ImageDimension];

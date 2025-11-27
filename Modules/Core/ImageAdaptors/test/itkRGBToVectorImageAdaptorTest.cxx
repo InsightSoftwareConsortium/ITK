@@ -56,9 +56,7 @@ itkRGBToVectorImageAdaptorTest(int, char *[])
 
   using RedIteratorType = itk::ImageRegionIteratorWithIndex<ImageAdaptorType>;
 
-  ImageType::SizeType size;
-  size[0] = 2;
-  size[1] = 2;
+  auto size = ImageType::SizeType::Filled(2);
 
   ImageType::IndexType index;
   index[0] = 0;
