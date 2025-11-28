@@ -52,9 +52,7 @@ itkGPUImageTest(int argc, char * argv[])
   ItkImage1f::IndexType start;
   start[0] = 0;
   start[1] = 0;
-  ItkImage1f::SizeType size;
-  size[0] = width;
-  size[1] = height;
+  ItkImage1f::SizeType   size{ width, height };
   ItkImage1f::RegionType region{ start, size };
 
   // create

@@ -496,9 +496,7 @@ itkBSplineTransformTest2()
     spacing[j] = 10.0;
     origin[j] = -10.0;
   }
-  ImageType::SizeType size;
-  size[0] = 5;
-  size[1] = 7;
+  ImageType::SizeType size{ 5, 7 };
 
   ImageType::RegionType region;
   region.SetSize(size);

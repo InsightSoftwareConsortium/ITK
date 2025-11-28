@@ -160,10 +160,7 @@ itkImageRandomConstIteratorWithOnlyIndexTest(int, char *[])
     start[1] = 12;
     start[2] = 14;
 
-    ImageType::SizeType size;
-    size[0] = 11;
-    size[1] = 12;
-    size[2] = 13;
+    ImageType::SizeType size{ 11, 12, 13 };
 
     const ImageType::RegionType region{ start, size };
 
