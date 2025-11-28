@@ -174,7 +174,10 @@ convert_filter.UseReferenceImageOn()
 convert_filter.SetReferenceImage(fixed_image)
 convert_filter.Update()
 field1 = convert_filter.GetOutput()
+field1.Update()
 field1 = np.array(field1)
+
+print(field1)
 
 convert_filter = itk.TransformToDisplacementFieldFilter.IVF22D.New()
 convert_filter.SetTransform(serialize_deserialize)
@@ -182,6 +185,17 @@ convert_filter.UseReferenceImageOn()
 convert_filter.SetReferenceImage(fixed_image)
 convert_filter.Update()
 field2 = convert_filter.GetOutput()
+field2.Update()
 field2 = np.array(field2)
 
-assert np.array_equal(np.array(field1), np.array(field2))
+
+if not np.array_equal(field1, field2):
+    print(f"Field1 shape: {field1.shape}, dtype: {field1.dtype}")
+    print(f"Field2 shape: {field2.shape}, dtype: {field2.dtype}")
+    print(f"Field1 min: {field1.min()}, max: {field1.max()}, mean: {field1.mean()}")
+    print(f"Field2 min: {field2.min()}, max: {field2.max()}, mean: {field2.mean()}")
+    print(f"Max absolute difference: {np.abs(field1 - field2).max()}")
+    print(f"Number of different elements: {np.sum(field1 != field2)}")
+    if field1.shape == field2.shape:
+        print(f"Are they close (atol=1e-6)? {np.allclose(field1, field2, atol=1e-6)}")
+assert np.array_equal(field1, field2)

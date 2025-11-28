@@ -682,13 +682,67 @@ str = str
 
 %define DECL_PYTHON_IMAGE_CLASS(swig_name)
   %extend swig_name {
-      %pythoncode {
-          def __array__(self, dtype=None):
+      %pythoncode %{
+          def __buffer__(self, flags = 0, / ) -> memoryview:
               import itk
-              import numpy as np
-              array = itk.array_from_image(self)
-              return np.asarray(array, dtype=dtype)
-      }
+              from itk.itkPyBufferPython import _get_formatstring
+
+              itksize = self.GetBufferedRegion().GetSize()
+
+              shape = list(itksize)
+              if self.GetNumberOfComponentsPerPixel() > 1 or isinstance(self, itk.VectorImage):
+                shape = shape.append(self.GetNumberOfComponentsPerPixel())
+
+              shape.reverse()
+
+              container_template = itk.template(self)
+              if container_template is None:
+                  raise BufferError("Cannot determine template parameters for ImportImageContainer")
+
+              # Extract pixel type (second template parameter)
+              pixel_code = container_template[1][0].short_name
+              format = _get_formatstring(pixel_code)
+
+              memview = memoryview(self.GetPixelContainer())
+
+              return memview.cast(format, shape=shape)
+
+      %}
+  }
+%enddef
+
+%define DECL_PYTHON_IMPORTIMAGECONTAINER_CLASS(swig_name)
+  %extend swig_name {
+      %pythoncode %{
+          def __buffer__(self, flags = 0, / ) -> memoryview:
+              """Return a buffer interface for the container.
+
+              This allows ImportImageContainer to be used with Python's buffer protocol,
+              enabling direct memory access from NumPy and other buffer-aware libraries.
+              """
+              import itk
+              # Get the pixel type from the container template parameters
+              # The container is templated as ImportImageContainer<IdentifierType, PixelType>
+              container_template = itk.template(self)
+              if container_template is None:
+                  raise BufferError("Cannot determine template parameters for ImportImageContainer")
+
+              # Extract pixel type (second template parameter)
+              pixel_type = container_template[1][1]
+
+
+              # Call the PyBuffer method to get the memory view
+              # We need to determine the appropriate PyBuffer type
+              try:
+                  # Try to get the PyBuffer class for this pixel type
+                  # PyBuffer is templated over Image types, but we can use a dummy 1D image type
+                  ImageType = itk.Image[pixel_type, 2]
+                  PyBufferType = itk.PyBuffer[ImageType]
+
+                  return PyBufferType._GetMemoryViewFromImportImageContainer(self)
+              except (AttributeError, KeyError) as e:
+                  raise BufferError(f"PyBuffer not available for this pixel type: {e}")
+      %}
   }
 %enddef
 
