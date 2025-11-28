@@ -30,6 +30,16 @@ else()
   set(_castxml_hash)
   set(_castxml_version 2025.09.03)
   set(_castxml_git_tag v0.6.13)
+  # castxml 2025.09.03 currently not compatible with AppleClang 17 (XCode 26)
+  if(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "17")
+      message(
+        FATAL_ERROR
+        "Apple Clang ${CMAKE_CXX_COMPILER_VERSION} is not supported. Need AppleClang < 17."
+      )
+    endif()
+  endif()
+
   # If 64 bit Linux build host, use the CastXML binary
   if(
     CMAKE_HOST_SYSTEM_NAME
