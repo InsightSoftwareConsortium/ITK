@@ -87,11 +87,7 @@ itkTriangleMeshToBinaryImageFilterTest2(int argc, char * argv[])
 
   imageFilter->SetInput(triangleMesh);
 
-  ImageType::SizeType size;
-
-  size[0] = 100;
-  size[1] = 100;
-  size[2] = 100;
+  auto size = ImageType::SizeType::Filled(100);
   imageFilter->SetSize(size);
 
   auto index = ImageType::IndexType::Filled(-50);

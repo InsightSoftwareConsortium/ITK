@@ -227,9 +227,7 @@ itkCenteredTransformInitializerTest(int, char *[])
     using IndexType = FixedImageType::IndexType;
     using RegionType = FixedImageType::RegionType;
 
-    SizeType size;
-    size[0] = 100;
-    size[1] = 100;
+    auto size = SizeType::Filled(100);
     size[2] = 60;
 
     PointType fixedOrigin;
@@ -287,9 +285,7 @@ itkCenteredTransformInitializerTest(int, char *[])
     using RegionType = FixedImageType::RegionType;
     using DirectionType = FixedImageType::DirectionType;
 
-    SizeType size;
-    size[0] = 100;
-    size[1] = 100;
+    auto size = SizeType::Filled(100);
     size[2] = 60;
 
     PointType fixedOrigin;

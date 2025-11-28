@@ -60,9 +60,7 @@ itkAdaptImageFilterTest2(int, char *[])
 {
 
 
-  myVectorImageType::SizeType size;
-  size[0] = 2;
-  size[1] = 2;
+  auto size = myVectorImageType::SizeType::Filled(2);
 
   myVectorImageType::IndexType index;
   index[0] = 0;

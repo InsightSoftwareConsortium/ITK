@@ -34,11 +34,7 @@ itkImageSliceIteratorTest(int, char *[])
 
   auto myImage = ImageType::New();
 
-  ImageType::SizeType size;
-
-  size[0] = 100;
-  size[1] = 100;
-  size[2] = 100;
+  auto size = ImageType::SizeType::Filled(100);
 
   ImageType::IndexType start{};
 

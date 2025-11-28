@@ -263,9 +263,7 @@ itkFEMRobustSolverTest(int, char *[])
   spacing[1] = 1.0;
   solver->SetSpacing(spacing);
 
-  InterpolationGridType::SizeType size;
-  size[0] = 5;
-  size[1] = 5;
+  auto                             size = InterpolationGridType::SizeType::Filled(5);
   InterpolationGridType::IndexType start;
   start[0] = 0;
   start[1] = 0;

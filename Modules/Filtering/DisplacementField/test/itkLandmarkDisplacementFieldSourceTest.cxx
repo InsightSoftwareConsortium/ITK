@@ -54,9 +54,7 @@ itkLandmarkDisplacementFieldSourceTest(int argc, char * argv[])
   const itk::SimpleFilterWatcher watcher(filter);
 
 
-  DisplacementFieldType::SizeType size;
-  size[0] = 128;
-  size[1] = 128;
+  auto                             size = DisplacementFieldType::SizeType::Filled(128);
   DisplacementFieldType::IndexType start;
   start[0] = 0;
   start[1] = 0;

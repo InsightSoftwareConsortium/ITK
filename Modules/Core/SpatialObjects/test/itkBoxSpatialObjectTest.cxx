@@ -140,9 +140,7 @@ itkBoxSpatialObjectTest(int argc, char * argv[])
   auto imageFilter = SpatialObjectToImageFilterType::New();
   imageFilter->SetInput(scene);
 
-  OutputImageType::SizeType size;
-  size[0] = 100;
-  size[1] = 100;
+  auto size = OutputImageType::SizeType::Filled(100);
   imageFilter->SetSize(size);
 
   SpatialObjectToImageFilterType::PointType origin;

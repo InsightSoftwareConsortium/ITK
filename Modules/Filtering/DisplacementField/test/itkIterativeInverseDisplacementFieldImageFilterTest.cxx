@@ -62,9 +62,7 @@ itkIterativeInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   // Creating an input displacement field
   auto field = DisplacementFieldType::New();
 
-  DisplacementFieldType::SizeType size;
-  size[0] = 128;
-  size[1] = 128;
+  auto size = DisplacementFieldType::SizeType::Filled(128);
 
   DisplacementFieldType::IndexType start;
   start[0] = 0;
