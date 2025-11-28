@@ -446,7 +446,11 @@ macro(check_compiler_platform_flags)
       )
     endif()
 
-    check_sse2_flags(ITK_SSE2_CFLAGS_IF_AVAILABLE)
+    if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+      # Setting sse2 flags only make sense on 32 bit architectures
+      # on 64bit systems, sse2 support is required, and compiler support is defaulted
+      check_sse2_flags(ITK_SSE2_CFLAGS_IF_AVAILABLE)
+    endif()
     set(
       ITK_REQUIRED_CXX_FLAGS
       "${ITK_REQUIRED_CXX_FLAGS} ${ITK_SSE2_CFLAGS_IF_AVAILABLE}"
