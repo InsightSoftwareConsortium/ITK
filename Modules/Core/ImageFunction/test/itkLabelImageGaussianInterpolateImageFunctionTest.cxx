@@ -106,9 +106,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
   {
     RegionType region;
     {
-      SizeType size;
-      size[0] = large_xSize;
-      size[1] = large_ySize;
+      SizeType size{ large_xSize, large_ySize };
       region = { size };
     }
 

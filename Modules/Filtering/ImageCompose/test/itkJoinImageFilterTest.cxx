@@ -46,9 +46,7 @@ itkJoinImageFilterTest(int, char *[])
   auto inputImageC = myImageType3::New();
 
   // Define their size and region
-  mySizeType size;
-  size[0] = 5;
-  size[1] = 8;
+  mySizeType size{ 5, 8 };
 
   const myRegionType region{ size };
 

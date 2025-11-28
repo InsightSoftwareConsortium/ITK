@@ -146,10 +146,7 @@ itkImageLinearIteratorTest(int, char *[])
     start[1] = 20;
     start[2] = 30;
 
-    ImageType::SizeType size;
-    size[0] = 2;
-    size[1] = 3;
-    size[2] = 4;
+    ImageType::SizeType size{ 2, 3, 4 };
 
     const ImageType::RegionType region{ start, size };
 
@@ -225,10 +222,7 @@ itkImageLinearIteratorTest(int, char *[])
     start[1] = 12;
     start[2] = 14;
 
-    ImageType::SizeType size;
-    size[0] = 11;
-    size[1] = 12;
-    size[2] = 13;
+    ImageType::SizeType size{ 11, 12, 13 };
 
     const ImageType::RegionType region{ start, size };
 
@@ -271,10 +265,7 @@ itkImageLinearIteratorTest(int, char *[])
     start[1] = 12;
     start[2] = 14;
 
-    ImageType::SizeType size;
-    size[0] = 11;
-    size[1] = 12;
-    size[2] = 13;
+    ImageType::SizeType size{ 11, 12, 13 };
 
     const ImageType::RegionType region{ start, size };
 
@@ -317,10 +308,7 @@ itkImageLinearIteratorTest(int, char *[])
     start[1] = 12;
     start[2] = 14;
 
-    ImageType::SizeType size;
-    size[0] = 11;
-    size[1] = 12;
-    size[2] = 13;
+    ImageType::SizeType size{ 11, 12, 13 };
 
     const ImageType::RegionType region{ start, size };
 
@@ -361,10 +349,7 @@ itkImageLinearIteratorTest(int, char *[])
     start[1] = 12;
     start[2] = 14;
 
-    ImageType::SizeType size;
-    size[0] = 11;
-    size[1] = 12;
-    size[2] = 13;
+    ImageType::SizeType size{ 11, 12, 13 };
 
     const ImageType::RegionType region{ start, size };
 
@@ -405,10 +390,7 @@ itkImageLinearIteratorTest(int, char *[])
     start[1] = 12;
     start[2] = 14;
 
-    ImageType::SizeType size;
-    size[0] = 11;
-    size[1] = 12;
-    size[2] = 13;
+    ImageType::SizeType size{ 11, 12, 13 };
 
     const ImageType::RegionType region{ start, size };
 
@@ -456,10 +438,7 @@ itkImageLinearIteratorTest(int, char *[])
     start[1] = 12;
     start[2] = 14;
 
-    ImageType::SizeType size;
-    size[0] = 11;
-    size[1] = 12;
-    size[2] = 13;
+    ImageType::SizeType size{ 11, 12, 13 };
 
     const ImageType::RegionType region{ start, size };
 
@@ -513,10 +492,7 @@ itkImageLinearIteratorTest(int, char *[])
     start[1] = 12;
     start[2] = 14;
 
-    ImageType::SizeType size;
-    size[0] = 11;
-    size[1] = 12;
-    size[2] = 13;
+    ImageType::SizeType size{ 11, 12, 13 };
 
     const ImageType::RegionType region{ start, size };
 
@@ -554,10 +530,7 @@ itkImageLinearIteratorTest(int, char *[])
     start[1] = 12;
     start[2] = 14;
 
-    ImageType::SizeType size;
-    size[0] = 11;
-    size[1] = 12;
-    size[2] = 13;
+    ImageType::SizeType size{ 11, 12, 13 };
 
     const ImageType::RegionType region{ start, size };
 

@@ -124,11 +124,8 @@ itkImageFunctionTest(int, char *[])
 
   auto image = ImageType::New();
 
-  auto     start = IndexType::Filled(1);
-  SizeType size;
-  size[0] = 3;
-  size[1] = 4;
-  size[2] = 5;
+  auto       start = IndexType::Filled(1);
+  SizeType   size{ 3, 4, 5 };
   RegionType region{ start, size };
 
   image->SetRegions(region);

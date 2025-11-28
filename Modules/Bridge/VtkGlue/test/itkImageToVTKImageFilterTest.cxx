@@ -33,11 +33,8 @@ itkImageToVTKImageFilterTest(int, char *[])
   using DirectionType = SourceType::DirectionType;
   using ConnectorType = itk::ImageToVTKImageFilter<ImageType>;
 
-  ImageType::SizeType size;
-  size[0] = 40;
-  size[1] = 10;
-  size[2] = 20;
-  auto source = SourceType::New();
+  ImageType::SizeType size{ 40, 10, 20 };
+  auto                source = SourceType::New();
   source->SetSize(size);
 
   SpacingType spacing;
