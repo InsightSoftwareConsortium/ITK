@@ -70,9 +70,11 @@ DataObjectError::GetDataObject() const noexcept
 
 
 void
-DataObjectError::PrintSelf(std::ostream & os, Indent indent) const
+DataObjectError::Print(std::ostream & os) const
 {
   ExceptionObject::Print(os);
+
+  const Indent indent{};
 
   os << indent << "Data object: ";
   if (m_DataObject)
@@ -98,12 +100,6 @@ InvalidRequestedRegionError::InvalidRequestedRegionError(const InvalidRequestedR
 
 InvalidRequestedRegionError &
 InvalidRequestedRegionError::operator=(const InvalidRequestedRegionError &) noexcept = default;
-
-void
-InvalidRequestedRegionError::PrintSelf(std::ostream & os, Indent indent) const
-{
-  DataObjectError::PrintSelf(os, indent);
-}
 
 //----------------------------------------------------------------------------
 DataObject::DataObject()
