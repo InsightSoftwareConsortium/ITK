@@ -18,6 +18,17 @@ cmake_minimum_required(
   FATAL_ERROR
 )
 
+## For experimental purpose only!
+message(
+  WARNING
+  "Experimental build: Changes the default char type to unsigned!"
+)
+if(CMAKE_GENERATOR MATCHES "Visual Studio")
+  add_compile_options(/J)
+else()
+  add_compile_options(-funsigned-char)
+endif()
+
 #
 # Now enumerate specific policies newer than ITK_NEWEST_VALIDATED_POLICIES_VERSION
 # that may need to be individually set to NEW/OLD
