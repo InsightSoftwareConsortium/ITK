@@ -20,16 +20,16 @@ fi
 
 # Update the git tag for the version you are merging
 git_url="https://github.com/CastXML/pygccxml"
-git_tag="v2.4.0"
-upstream_sha="ce011e1bc57248d205cfda60dd51b3182acbe106"
+git_tag="v3.0.2"
+upstream_sha="62f600c98ec6a25fd3d264774c6fc811ec3c46e4"
 
 #
 # Once the merge has been done
 # EDIT THIS SCRIPT to change the hash tag at which to begin the
 # next update...
 #
-# This merge was done on: April 9th, 2024
-git branch pygccxml-upstream b39a0bbb81bf02fc6541131b331f36254b3971d4
+# This merge was done with respect to pygccxml v3.0.2 as of : March 16th, 2025
+git branch pygccxml-upstream de4804643f66c89d38725a3ae1742071cd354efc
 
 #
 # Make a temp directory to handle the import of the upstream source
@@ -81,8 +81,8 @@ cd ..
 rm -fr pygccxml-Tmp
 
 #
-# checkout a new update branch off master
-git checkout -b pygccxml-update master
+# checkout a new update branch off main
+git checkout -b pygccxml-update main
 #
 # use subtree merge to bring in upstream changes
 git merge -s recursive -X subtree=Modules/ThirdParty/pygccxml/src/pygccxml pygccxml-upstream

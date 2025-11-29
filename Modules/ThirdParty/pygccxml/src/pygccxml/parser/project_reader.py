@@ -353,7 +353,12 @@ class project_reader_t(object):
                 header_content.append(
                     '#include "%s" %s' %
                     (header, os.linesep))
-        return self.read_string(''.join(header_content))
+        declarations = self.read_string(''.join(header_content))
+        declarations = self._join_top_namespaces(declarations, [])
+        for ns in declarations:
+            if isinstance(ns, pygccxml.declarations.namespace_t):
+                declarations_joiner.join_declarations(ns)
+        return declarations
 
     def read_string(self, content):
         """Parse a string containing C/C++ source code.
@@ -420,15 +425,24 @@ class project_reader_t(object):
     def _join_top_namespaces(main_ns_list, other_ns_list):
         answer = main_ns_list[:]
         for other_ns in other_ns_list:
-            main_ns = pygccxml.declarations.find_declaration(
+            same_name_namespaces = pygccxml.declarations.find_all_declarations(
                 answer,
                 decl_type=pygccxml.declarations.namespace_t,
-                name=other_ns._name,
-                recursive=False)
-            if main_ns:
-                main_ns.take_parenting(other_ns)
-            else:
+                name=other_ns.name,
+                parent=None,  # top-level only
+                recursive=False
+            )
+            if len(same_name_namespaces) == 0:
                 answer.append(other_ns)
+            elif len(same_name_namespaces) == 1:
+                same_name_namespaces[0].take_parenting(other_ns)
+            else:
+                primary_ns = same_name_namespaces[0]
+                for extra_ns in same_name_namespaces[1:]:
+                    primary_ns.take_parenting(extra_ns)
+                    answer.remove(extra_ns)
+                # then unify the new other_ns
+                primary_ns.take_parenting(other_ns)
         return answer
 
     @staticmethod
@@ -548,11 +562,13 @@ class project_reader_t(object):
                     if name == "rebind<std::__tree_node" + \
                             "<std::basic_string<char>, void *> >":
                         continue
+                    if name == "type":
+                        continue
 
                     msg = []
                     msg.append(
                         "Unable to find out actual class definition: '%s'." %
-                        decl_wrapper_type.declaration._name)
+                        name)
                     msg.append((
                         "Class definition has been changed from one " +
                         "compilation to an other."))

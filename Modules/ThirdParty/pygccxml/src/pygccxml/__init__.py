@@ -52,5 +52,5 @@ else:
     from importlib import metadata
 
 # Begin ITK edit
-__version__ = "2.4.0"
+__version__ = "3.0.2"
 # __version__ = metadata.version("pygccxml")

@@ -266,12 +266,24 @@ class calldef_t(declaration.declaration_t):
 
     @property
     def exceptions(self):
-        """The list of exceptions.
-            @type: list of :class:`declaration_t`"""
+        """
+        The list of exceptions.
+
+        Useless with c++17 and above as dynamich exceptions
+        are not allowed anymore:
+        https://developers.redhat.com/articles/2021/08/06/porting-your-code-c17-gcc-11#exception_specification_changes # noqa
+        
+            @type: list of :class:`declaration_t`
+        """
         return self._exceptions
 
     @exceptions.setter
     def exceptions(self, exceptions):
+        """
+        Useless with c++17 and above as dynamich exceptions
+        are not allowed anymore:
+        https://developers.redhat.com/articles/2021/08/06/porting-your-code-c17-gcc-11#exception_specification_changes # noqa
+        """
         self._exceptions = exceptions
 
     @property
