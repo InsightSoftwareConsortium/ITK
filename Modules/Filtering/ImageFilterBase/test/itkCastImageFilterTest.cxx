@@ -400,6 +400,50 @@ TestVectorImageCast2()
 }
 
 
+bool
+TestVectorImageCast3()
+{
+  // This function casts an Image<Vector<float, 3>, 3>
+  // to a VectorImage<float, 3>
+  std::cout << "Casting from an Image<Vector<float,3>, 3> to VectorImage<float, 3> ... ";
+
+  using VectorFloatImageType = itk::Image<itk::Vector<float, 3>, 3>;
+  using FloatVectorImageType = itk::VectorImage<float, 3>;
+
+  // Create a 1x3 image of 2D vectors
+  auto image = VectorFloatImageType::New();
+
+  constexpr itk::Size<3>    size{ { 1, 1, 4 } };
+  const itk::ImageRegion<3> region{ size };
+  image->SetRegions(region);
+  image->AllocateInitialized();
+  VectorFloatImageType::PixelType vec{ { 1.3, 5.3, 6.4 } };
+  // Only the first pixel will be the vector (1.3, 5.3, 6.4)
+  image->SetPixel(itk::Index<3>(), vec);
+
+  using CastImageFilterType = itk::CastImageFilter<VectorFloatImageType, FloatVectorImageType>;
+  auto castImageFilter = CastImageFilterType::New();
+  castImageFilter->SetInput(image);
+  castImageFilter->SetNumberOfWorkUnits(1);
+  castImageFilter->Update();
+
+  bool success = true;
+  if (std::memcmp(castImageFilter->GetOutput()->GetBufferPointer(),
+                  image->GetBufferPointer(),
+                  sizeof(float) * size.CalculateProductOfElements()) == 0)
+  {
+    std::cout << "[PASSED]" << std::endl;
+  }
+  else
+  {
+    std::cout << "[FAILED]" << std::endl;
+    success = false;
+  }
+
+  return success;
+}
+
+
 int
 itkCastImageFilterTest(int, char *[])
 {
@@ -431,6 +475,7 @@ itkCastImageFilterTest(int, char *[])
   success &= TestCastFrom<double>();
   success &= TestVectorImageCast1();
   success &= TestVectorImageCast2();
+  success &= TestVectorImageCast3();
 
   std::cout << std::endl;
   if (!success)

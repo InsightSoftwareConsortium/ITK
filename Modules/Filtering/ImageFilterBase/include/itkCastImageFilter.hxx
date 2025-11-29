@@ -145,12 +145,12 @@ CastImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDataDispatche
   ImageScanlineConstIterator inputIt(inputPtr, inputRegionForThread);
   ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
 
-  OutputPixelType value{ outputIt.Get() };
   while (!inputIt.IsAtEnd())
   {
     while (!inputIt.IsAtEndOfLine())
     {
       const InputPixelType & inputPixel = inputIt.Get();
+      OutputPixelType        value{ outputIt.Get() };
       for (unsigned int k = 0; k < componentsPerPixel; ++k)
       {
         value[k] = static_cast<typename OutputPixelType::ValueType>(inputPixel[k]);
