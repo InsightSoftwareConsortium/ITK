@@ -27,6 +27,7 @@
 #include "itkFloatingPointExceptions.h"
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
+#include "itkTimeProbe.h"
 
 namespace itk
 {}
@@ -444,6 +445,47 @@ TestVectorImageCast3()
 }
 
 
+template <typename TInputImage, typename TOutputImage>
+void
+TimeImageCast()
+{
+  std::cout << "Timing cast from " << GetCastTypeName<typename TInputImage::PixelType>() << " to "
+            << GetCastTypeName<typename TOutputImage::PixelType>() << " ... ";
+
+  // Create a 512^3 image
+  auto image = TInputImage::New();
+
+  typename TInputImage::SizeType size;
+  size.Fill(512);
+  typename TInputImage::RegionType region{ size };
+  image->SetRegions(region);
+  image->SetNumberOfComponentsPerPixel(3);
+  image->AllocateInitialized();
+
+
+  using CastImageFilterType = itk::CastImageFilter<TInputImage, TOutputImage>;
+  auto castImageFilter = CastImageFilterType::New();
+  castImageFilter->SetInput(image);
+  castImageFilter->SetNumberOfWorkUnits(1); // Single-threaded for consistent timing
+
+  // Warm-up run
+  castImageFilter->Update();
+
+  // Timed run
+  itk::TimeProbe timer;
+  timer.Start();
+  castImageFilter->Modified();
+  castImageFilter->Update();
+  timer.Stop();
+
+  const double totalPixels = size.CalculateProductOfElements();
+  const double timeInSeconds = timer.GetMean();
+  const double megapixelsPerSecond = (totalPixels / 1e6) / timeInSeconds;
+
+  std::cout << megapixelsPerSecond << " Mpixels/sec (" << timeInSeconds << " seconds)" << std::endl;
+}
+
+
 int
 itkCastImageFilterTest(int, char *[])
 {
@@ -476,6 +518,14 @@ itkCastImageFilterTest(int, char *[])
   success &= TestVectorImageCast1();
   success &= TestVectorImageCast2();
   success &= TestVectorImageCast3();
+
+
+  std::cout << std::endl;
+  std::cout << "Performance timing tests (512^3 images):" << std::endl;
+  TimeImageCast<itk::Image<itk::Vector<float, 3>, 3>, itk::Image<itk::RGBPixel<double>, 3>>();
+  TimeImageCast<itk::Image<itk::Vector<float, 3>, 3>, itk::VectorImage<double, 3>>();
+
+  TimeImageCast<itk::VectorImage<float, 3>, itk::Image<itk::RGBPixel<double>, 3>>();
 
   std::cout << std::endl;
   if (!success)

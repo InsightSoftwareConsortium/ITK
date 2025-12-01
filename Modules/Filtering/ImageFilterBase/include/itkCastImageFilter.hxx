@@ -20,6 +20,7 @@
 
 #include "itkProgressReporter.h"
 #include "itkImageAlgorithm.h"
+#include "itkImageRegionRange.h"
 
 namespace itk
 {
@@ -139,18 +140,21 @@ CastImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDataDispatche
 
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
-  const unsigned int componentsPerPixel = outputPtr->GetNumberOfComponentsPerPixel();
 
+#if 0
   // Define the iterators
   ImageScanlineConstIterator inputIt(inputPtr, inputRegionForThread);
   ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
 
+
+  const unsigned int componentsPerPixel  = inputPtr->GetNumberOfComponentsPerPixel();
   while (!inputIt.IsAtEnd())
   {
     while (!inputIt.IsAtEndOfLine())
     {
       const InputPixelType & inputPixel = inputIt.Get();
       OutputPixelType        value{ outputIt.Get() };
+
       for (unsigned int k = 0; k < componentsPerPixel; ++k)
       {
         value[k] = static_cast<typename OutputPixelType::ValueType>(inputPixel[k]);
@@ -163,6 +167,32 @@ CastImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDataDispatche
     inputIt.NextLine();
     outputIt.NextLine();
   }
+#else
+
+  auto inputRange = ImageRegionRange<const TInputImage>(*inputPtr, inputRegionForThread);
+  auto outputRange = ImageRegionRange<TOutputImage>(*outputPtr, outputRegionForThread);
+
+  auto       inputIt = inputRange.begin();
+  auto       outputIt = outputRange.begin();
+  const auto inputEnd = inputRange.end();
+
+
+  OutputPixelType    outputPixel{ *outputIt };
+  const unsigned int componentsPerPixel = NumericTraits<OutputPixelType>::GetLength(outputPixel);
+  while (inputIt != inputEnd)
+  {
+    InputPixelType inputPixel = *inputIt;
+    for (unsigned int k = 0; k < componentsPerPixel; ++k)
+    {
+      outputPixel[k] = static_cast<typename OutputPixelType::ValueType>(inputPixel[k]);
+    }
+    *outputIt = outputPixel;
+
+    ++inputIt;
+    ++outputIt;
+  }
+
+#endif
 }
 
 } // end namespace itk
