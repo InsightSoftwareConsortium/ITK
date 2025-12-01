@@ -6,6 +6,7 @@ set(
   itkVectorNeighborhoodOperatorImageFilterTest.cxx
   itkMaskNeighborhoodOperatorImageFilterTest.cxx
   itkCastImageFilterTest.cxx
+  itkImageIterationPerformanceTest.cxx
 )
 
 # Disable optimization on the tests below to avoid possible
@@ -58,6 +59,13 @@ itk_add_test(
   COMMAND
     ITKImageFilterBaseTestDriver
     itkCastImageFilterTest
+)
+itk_add_test(
+  NAME itkImageIterationPerformanceTest
+  COMMAND
+    ITKImageFilterBaseTestDriver
+    itkImageIterationPerformanceTest
+    256
 )
 
 set(ITKImageFilterBaseGTests itkGeneratorImageFilterGTest.cxx)
