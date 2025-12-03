@@ -157,14 +157,14 @@ public:
   }
 
   /** Return the length of the array. */
-  static unsigned int
+  static constexpr unsigned int
   GetLength(const FixedArray<T, D> &)
   {
     return D;
   }
 
   /** Return the length of the array. */
-  static unsigned int
+  static constexpr unsigned int
   GetLength()
   {
     return D;

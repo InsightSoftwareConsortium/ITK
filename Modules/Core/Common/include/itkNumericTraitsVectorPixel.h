@@ -203,14 +203,14 @@ public:
   }
 
   /** Return the size of the vector. */
-  static unsigned int
+  static constexpr unsigned int
   GetLength(const Vector<T, D> &)
   {
     return D;
   }
 
   /** Return the size of the vector. */
-  static unsigned int
+  static constexpr unsigned int
   GetLength()
   {
     return D;

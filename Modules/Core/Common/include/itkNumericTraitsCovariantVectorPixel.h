@@ -161,14 +161,14 @@ public:
   }
 
   /** Return the length of the vector. */
-  static unsigned int
+  static constexpr unsigned int
   GetLength(const CovariantVector<T, D> &)
   {
     return D;
   }
 
   /** Return the length of the vector. */
-  static unsigned int
+  static constexpr unsigned int
   GetLength()
   {
     return D;
