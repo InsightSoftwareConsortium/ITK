@@ -198,14 +198,14 @@ public:
    * VariableLengthVector will provide a different implementation
    * where a vector of the correct size is built.
    */
-  static unsigned int
+  static constexpr unsigned int
   GetLength(const T &)
   {
     return GetLength();
   }
 
   /** Return the length of the scalar: 1. Array types can return a different value */
-  static unsigned int
+  static constexpr unsigned int
   GetLength()
   {
     return 1;

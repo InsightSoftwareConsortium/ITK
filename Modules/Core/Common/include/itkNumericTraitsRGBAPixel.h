@@ -188,14 +188,14 @@ public:
   }
 
   /** Return the dimensionality of the pixel. Always returns 4. */
-  static unsigned int
+  static constexpr unsigned int
   GetLength(const RGBAPixel<T> &)
   {
     return 4;
   }
 
   /** Return the dimensionality of the pixel. Always returns 4. */
-  static unsigned int
+  static constexpr unsigned int
   GetLength()
   {
     return 4;
