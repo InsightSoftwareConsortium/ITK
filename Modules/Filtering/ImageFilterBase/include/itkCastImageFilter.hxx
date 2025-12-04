@@ -20,6 +20,7 @@
 
 #include "itkProgressReporter.h"
 #include "itkImageAlgorithm.h"
+#include "itkImageRegionRange.h"
 
 namespace itk
 {
@@ -139,29 +140,30 @@ CastImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDataDispatche
 
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
-  const unsigned int componentsPerPixel = outputPtr->GetNumberOfComponentsPerPixel();
+  ImageRegionRange<const TInputImage> inputRange(*inputPtr, inputRegionForThread);
+  ImageRegionRange<TOutputImage>      outputRange(*outputPtr, outputRegionForThread);
 
-  // Define the iterators
-  ImageScanlineConstIterator inputIt(inputPtr, inputRegionForThread);
-  ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
+  auto       inputIt = inputRange.begin();
+  auto       outputIt = outputRange.begin();
+  const auto inputEnd = inputRange.end();
 
-  while (!inputIt.IsAtEnd())
+  // Note: This loop has been timed for performance with conversions between image of vectors and VectorImages and other
+  // combinations. The following was evaluated to be the best performance usage of iterators. Important considerations:
+  //  - Usage of NumericTraits::GetLength() is sometimes consant vs virutal method GetNumberOfComponentsPerPixel()
+  //  - The construction of inputPixel and outputPixel for VectorImages both reference the internal buffer and don't
+  //  require memory allocations.
+  const unsigned int componentsPerPixel = itk::NumericTraits<OutputPixelType>::GetLength(*outputIt);
+  while (inputIt != inputEnd)
   {
-    while (!inputIt.IsAtEndOfLine())
+    const InputPixelType & inputPixel = *inputIt;
+    OutputPixelType        outputPixel{ *outputIt };
+    for (unsigned int k = 0; k < componentsPerPixel; ++k)
     {
-      const InputPixelType & inputPixel = inputIt.Get();
-      OutputPixelType        value{ outputIt.Get() };
-      for (unsigned int k = 0; k < componentsPerPixel; ++k)
-      {
-        value[k] = static_cast<typename OutputPixelType::ValueType>(inputPixel[k]);
-      }
-      outputIt.Set(value);
-
-      ++inputIt;
-      ++outputIt;
+      outputPixel[k] = static_cast<typename OutputPixelType::ValueType>(inputPixel[k]);
     }
-    inputIt.NextLine();
-    outputIt.NextLine();
+    *outputIt = outputPixel;
+    ++inputIt;
+    ++outputIt;
   }
 }
 
