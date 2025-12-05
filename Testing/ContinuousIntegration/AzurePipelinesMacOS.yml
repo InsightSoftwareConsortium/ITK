@@ -103,3 +103,93 @@ jobs:
         testRunTitle: 'CTest $(Agent.OS)'
       condition: succeededOrFailed()
       displayName: 'Publish test results'
+
+
+- job: PerformanceMacOS
+  displayName: 'macOS Performance Benchmarks'
+  timeoutInMinutes: 0
+  cancelTimeoutInMinutes: 300
+  pool:
+    vmImage: macos-11
+  steps:
+    - checkout: self
+      clean: true
+      fetchDepth: 5
+    - bash: |
+        set -x
+        if [ -n "$(System.PullRequest.SourceCommitId)" ]; then
+          git checkout $(System.PullRequest.SourceCommitId)
+        fi
+      displayName: Checkout pull request HEAD
+
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.9'
+        architecture: 'x64'
+
+    - bash: |
+        set -x
+        python -m pip install ninja
+        python -m pip install --upgrade pip
+        python -m pip install --upgrade setuptools
+        python -m pip install scikit-ci-addons
+      displayName: 'Install dependencies'
+
+    - script: |
+        mkdir ITK-build
+        cd ITK-build
+        cmake -DCMAKE_C_COMPILER:FILEPATH="clang" -DBUILD_SHARED_LIBS:BOOL=OFF -DCMAKE_CXX_COMPILER="clang++" -DCMAKE_BUILD_TYPE:STRING=Release -DBUILD_TESTING:BOOL=OFF -GNinja $(Build.SourcesDirectory)
+        ninja
+      workingDirectory: $(Agent.BuildDirectory)
+      displayName: 'Build ITK'
+
+    - bash: |
+        set -x
+        git clone --single-branch https://github.com/InsightSoftwareConsortium/ITKPerformanceBenchmarking.git
+      workingDirectory: $(Agent.BuildDirectory)
+      displayName: 'Download performance benchmarks'
+
+    - script: |
+        set -x
+
+        c++ --version
+        cmake --version
+
+        mkdir ITKPerformanceBenchmarking-build
+        cd ITKPerformanceBenchmarking-build
+        cmake -DCMAKE_C_COMPILER:FILEPATH="clang" -DBUILD_SHARED_LIBS:BOOL=OFF -DCMAKE_CXX_COMPILER="clang++" -DCMAKE_BUILD_TYPE:STRING=Release -DBUILD_TESTING:BOOL=OFF -GNinja -DITK_DIR:PATH=$(Agent.BuildDirectory)/ITK-build $(Agent.BuildDirectory)/ITKPerformanceBenchmarking
+        ninja
+      workingDirectory: $(Agent.BuildDirectory)
+      displayName: 'Build performance benchmarks module'
+
+    - bash: |
+        set -x
+
+        c++ --version
+        cmake --version
+
+        python ./ITKPerformanceBenchmarking/evaluate-itk-performance.py run --rev-list HEAD~1.. $(Build.SourcesDirectory) $(Agent.BuildDirectory)/ITK-build $(Agent.BuildDirectory)/ITKPerformanceBenchmarking-build
+
+        cd $(Build.SourcesDirectory)
+        git fetch --unshallow
+        git branch master-unshallow origin/master
+        merge_base=`git merge-base master-unshallow $(System.PullRequest.SourceCommitId)`
+        if [[ -z "${merge_base}" ]]; then
+           echo "Could not determine the merge base. Was this topic branched from upstream/master?"
+           exit 1
+        fi
+        cd -
+
+        python ./ITKPerformanceBenchmarking/evaluate-itk-performance.py run --rev-list ${merge_base}~1..${merge_base} $(Build.SourcesDirectory) $(Agent.BuildDirectory)/ITK-build $(Agent.BuildDirectory)/ITKPerformanceBenchmarking-build
+
+        cd $(Agent.BuildDirectory)/ITKPerformanceBenchmarking-build
+        find ..
+        tar cvzf BenchmarkResults.macOS.tar.gz BenchmarkResults
+        mv BenchmarkResults.macOS.tar.gz $(Agent.BuildDirectory)
+      workingDirectory: $(Agent.BuildDirectory)
+      displayName: 'Evaluate performance benchmarks'
+
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: 'MacOSBenchmarkResults'
+        targetPath: '$(Agent.BuildDirectory)/BenchmarkResults.macOS.tar.gz'
