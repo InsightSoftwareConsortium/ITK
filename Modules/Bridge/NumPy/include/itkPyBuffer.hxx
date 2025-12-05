@@ -51,6 +51,38 @@ PyBuffer<TImage>::_GetArrayViewFromImage(ImageType * image)
 }
 
 template <class TImage>
+PyObject *
+PyBuffer<TImage>::_GetMemoryViewFromImportImageContainer(typename ImageType::PixelContainer * container)
+{
+  using ContainerType = typename ImageType::PixelContainer;
+  Py_buffer pyBuffer{};
+
+  if (!container)
+  {
+    throw std::runtime_error("Input container is null");
+  }
+
+  void * const buffer = container->GetBufferPointer();
+
+  if (!buffer)
+  {
+    throw std::runtime_error("Container buffer pointer is null");
+  }
+
+  // If the container does not own the buffer then issue a warning
+  if (!container->GetContainerManageMemory())
+  {
+    PyErr_WarnEx(PyExc_RuntimeWarning, "The ImportImageContainer does not own the exported buffer.", 1);
+  }
+
+  const SizeValueType size = container->Size();
+  const auto          len = static_cast<Py_ssize_t>(size * sizeof(typename ContainerType::Element));
+
+  PyBuffer_FillInfo(&pyBuffer, nullptr, buffer, len, 0, PyBUF_CONTIG);
+  return PyMemoryView_FromBuffer(&pyBuffer);
+}
+
+template <class TImage>
 auto
 PyBuffer<TImage>::_get_image_view_from_contiguous_array(PyObject * arr, PyObject * shape, PyObject * numOfComponent)
   -> OutputImagePointer
