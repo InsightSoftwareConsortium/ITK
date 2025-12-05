@@ -790,12 +790,11 @@ str = str
               # Extract pixel type (second template parameter)
               pixel_type = container_template[1][1]
 
-
               # Call the PyBuffer method to get the memory view
               # We need to determine the appropriate PyBuffer type
               try:
                   # Try to get the PyBuffer class for this pixel type
-                  # PyBuffer is templated over Image types, but we can use a dummy 1D image type
+                  # PyBuffer is templated over Image types, use a 2D image as representative
                   ImageType = itk.Image[pixel_type, 2]
                   PyBufferType = itk.PyBuffer[ImageType]
 
