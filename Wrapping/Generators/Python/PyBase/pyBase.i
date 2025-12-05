@@ -698,12 +698,17 @@ str = str
               # This returns a 1-D memoryview of the raw buffer
               raw_memview = PyBufferType._GetArrayViewFromImage(self)
 
-              # Get shape information
+              # Get shape information - matches the logic in PyBuffer.i.in
               itksize = self.GetBufferedRegion().GetSize()
-              shape = list(itksize)
+              dim = len(itksize)
+              shape = [int(itksize[idx]) for idx in range(dim)]
+              
               n_components = self.GetNumberOfComponentsPerPixel()
               if n_components > 1 or isinstance(self, itk.VectorImage):
-                  shape.append(n_components)
+                  # Prepend components, not append
+                  shape = [n_components] + shape
+              
+              # Reverse to get C-order indexing (NumPy convention)
               shape.reverse()
 
               # Get the pixel type for format string
