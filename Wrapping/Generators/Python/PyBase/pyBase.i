@@ -687,14 +687,26 @@ str = str
               import itk
               from itk.itkPyBufferPython import _get_formatstring
 
+              # Get the PyBuffer class for this image type
+              ImageType = type(self)
+              try:
+                  PyBufferType = itk.PyBuffer[ImageType]
+              except (AttributeError, KeyError) as e:
+                  raise BufferError(f"PyBuffer not available for this image type: {e}")
+
+              # Get the memoryview from PyBuffer using the existing C++ method
+              # This returns a 1-D memoryview of the raw buffer
+              raw_memview = PyBufferType._GetArrayViewFromImage(self)
+
+              # Get shape information
               itksize = self.GetBufferedRegion().GetSize()
-
               shape = list(itksize)
-              if self.GetNumberOfComponentsPerPixel() > 1 or isinstance(self, itk.VectorImage):
-                shape.append(self.GetNumberOfComponentsPerPixel())
-
+              n_components = self.GetNumberOfComponentsPerPixel()
+              if n_components > 1 or isinstance(self, itk.VectorImage):
+                  shape.append(n_components)
               shape.reverse()
 
+              # Get the pixel type for format string
               container_template = itk.template(self)
               if container_template is None:
                   raise BufferError("Cannot determine template parameters for Image")
@@ -703,9 +715,8 @@ str = str
               pixel_code = container_template[1][0].short_name
               format = _get_formatstring(pixel_code)
 
-              memview = memoryview(self.GetPixelContainer())
-
-              return memview.cast(format, shape=shape)
+              # Cast the 1-D byte memoryview to the proper shape and format
+              return raw_memview.cast(format, shape=shape)
 
           def __array__(self, dtype=None):
               import numpy as np
