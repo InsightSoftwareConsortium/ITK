@@ -712,12 +712,25 @@ str = str
               shape.reverse()
 
               # Get the pixel type for format string
+              # We need to extract the component type, not the pixel type
               container_template = itk.template(self)
               if container_template is None:
                   raise BufferError("Cannot determine template parameters for Image")
 
-              # Extract pixel type (second template parameter)
-              pixel_code = container_template[1][0].short_name
+              # Extract pixel type (first template parameter of Image)
+              pixel_type = container_template[1][0]
+              
+              # For composite types (RGB, RGBA, Vector, etc.), get the component type
+              # by checking if the pixel type itself has template parameters
+              pixel_type_template = itk.template(pixel_type)
+              if pixel_type_template and len(pixel_type_template[1]) > 0:
+                  # Composite type - extract component type (first template parameter)
+                  component_type = pixel_type_template[1][0]
+                  pixel_code = component_type.short_name
+              else:
+                  # Scalar type - use directly
+                  pixel_code = pixel_type.short_name
+              
               format = _get_formatstring(pixel_code)
 
               # Cast the 1-D byte memoryview to the proper shape and format
