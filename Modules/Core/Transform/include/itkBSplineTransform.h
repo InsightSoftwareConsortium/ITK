@@ -82,7 +82,7 @@ namespace itk
  * are the same buffered region. The following illustrates the API:
  * \code
 
-   TransformType::ImageConstPointer images[2];
+   TransformType::ImagePointer images[2];
 
    // Fill the images up with values
 
