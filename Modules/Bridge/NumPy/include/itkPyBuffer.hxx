@@ -22,6 +22,7 @@
 #include "itkImportImageContainer.h"
 #include <algorithm> // For reverse.
 #include <memory>    // For unique_ptr.
+#include <limits>    // For numeric_limits.
 
 namespace itk
 {
@@ -76,7 +77,15 @@ PyBuffer<TImage>::_GetMemoryViewFromImportImageContainer(typename ImageType::Pix
   }
 
   const SizeValueType size = container->Size();
-  const auto          len = static_cast<Py_ssize_t>(size * sizeof(typename ContainerType::Element));
+  const SizeValueType elementSize = sizeof(typename ContainerType::Element);
+  
+  // Check for potential overflow before multiplication
+  if (size > static_cast<SizeValueType>(std::numeric_limits<Py_ssize_t>::max() / elementSize))
+  {
+    throw std::runtime_error("Container size too large for buffer protocol");
+  }
+  
+  const auto len = static_cast<Py_ssize_t>(size * elementSize);
 
   PyBuffer_FillInfo(&pyBuffer, nullptr, buffer, len, 0, PyBUF_CONTIG);
   return PyMemoryView_FromBuffer(&pyBuffer);

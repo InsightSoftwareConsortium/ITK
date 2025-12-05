@@ -685,7 +685,27 @@ str = str
       %pythoncode %{
           def __buffer__(self, flags = 0, / ) -> memoryview:
               import itk
-              from itk.itkPyBufferPython import _get_formatstring
+              
+              # Import _get_formatstring from the PyBuffer module
+              # This is defined in Modules/Bridge/NumPy/wrapping/PyBuffer.i.init
+              try:
+                  from itk import itkPyBufferPython
+                  _get_formatstring = itkPyBufferPython._get_formatstring
+              except (ImportError, AttributeError):
+                  # Fallback: define it inline if import fails
+                  def _get_formatstring(itk_Image_type):
+                      _format_map = {
+                          "UC": "B", "US": "H", "UI": "I", "UL": "L", "ULL": "Q",
+                          "SC": "b", "SS": "h", "SI": "i", "SL": "l", "SLL": "q",
+                          "F": "f", "D": "d",
+                      }
+                      import os
+                      if os.name == 'nt':
+                          _format_map['UL'] = 'I'
+                          _format_map['SL'] = 'i'
+                      if itk_Image_type not in _format_map:
+                          raise ValueError(f"Unknown ITK image type: {itk_Image_type}")
+                      return _format_map[itk_Image_type]
 
               # Get the PyBuffer class for this image type
               ImageType = type(self)
@@ -705,10 +725,12 @@ str = str
               
               n_components = self.GetNumberOfComponentsPerPixel()
               if n_components > 1 or isinstance(self, itk.VectorImage):
-                  # Prepend components, not append
+                  # Prepend components dimension to shape list
+                  # After reversing, this becomes the last dimension (channels-last convention)
                   shape = [n_components] + shape
               
               # Reverse to get C-order indexing (NumPy convention)
+              # This makes spatial dimensions come first, components last
               shape.reverse()
 
               # Get the pixel type for format string
