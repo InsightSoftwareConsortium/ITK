@@ -86,7 +86,7 @@ outputPoint = transform->TransformPoint( inputPoint );
  *
 \code
 
-TransformType::ImageConstPointer images[2];
+TransformType::ImagePointer images[2];
 
 // Fill the images up with values
 
