@@ -21,6 +21,7 @@
 #include "itkObjectFactory.h"
 #include "itkTotalProgressReporter.h"
 #include "itkImageAlgorithm.h"
+#include "itkImageScanlineIterator.h"
 
 namespace itk
 {
