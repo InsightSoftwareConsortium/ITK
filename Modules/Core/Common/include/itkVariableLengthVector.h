@@ -20,6 +20,7 @@
 
 #include <cassert>
 #include <algorithm>
+#include <iterator>
 #include <type_traits>
 #include "itkNumericTraits.h"
 #include "itkMetaProgrammingLibrary.h"
@@ -313,6 +314,17 @@ public:
 
   /** Typedef used to indicate the number of elements in the vector */
   using ElementIdentifier = unsigned int;
+
+  // Nested types from C++ Standard section "Container requirements" [container.reqmts], and from `std::vector`:
+  using value_type = TValue;
+  using reference = TValue &;
+  using const_reference = const TValue &;
+  using iterator = TValue *;
+  using const_iterator = const TValue *;
+  using difference_type = ptrdiff_t;
+  using size_type = size_t;
+  using reverse_iterator = std::reverse_iterator<iterator>;
+  using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
   /** Default constructor. It is created with an empty array
    *  it has to be allocated later by assignment, \c SetSize() or \c Reserve().
@@ -983,11 +995,156 @@ public:
     return !m_LetArrayManageMemory;
   }
 
+  [[nodiscard]] bool
+  empty() const noexcept
+  {
+    return m_NumElements == 0;
+  }
+
+  [[nodiscard]] size_type
+  size() const noexcept
+  {
+    return m_NumElements;
+  }
+
+  [[nodiscard]] reference
+  at(size_type pos)
+  {
+    ExceptionThrowingBoundsCheck(pos);
+    return m_Data[pos];
+  }
+
+  [[nodiscard]] const_reference
+  at(size_type pos) const
+  {
+    ExceptionThrowingBoundsCheck(pos);
+    return m_Data[pos];
+  }
+
+  [[nodiscard]] reference
+  front()
+  {
+    return m_Data[0];
+  }
+
+  [[nodiscard]] const_reference
+  front() const
+  {
+    return m_Data[0];
+  }
+
+  [[nodiscard]] reference
+  back()
+  {
+    return m_Data[m_NumElements - 1];
+  }
+
+  [[nodiscard]] const_reference
+  back() const
+  {
+    return m_Data[m_NumElements - 1];
+  }
+
+  [[nodiscard]] TValue *
+  data() noexcept
+  {
+    return m_Data;
+  }
+
+  [[nodiscard]] const TValue *
+  data() const noexcept
+  {
+    return m_Data;
+  }
+
+  [[nodiscard]] const_iterator
+  cbegin() const noexcept
+  {
+    return m_Data;
+  }
+
+  [[nodiscard]] iterator
+  begin() noexcept
+  {
+    return m_Data;
+  }
+
+  [[nodiscard]] const_iterator
+  begin() const noexcept
+  {
+    return cbegin();
+  }
+
+  [[nodiscard]] const_iterator
+  cend() const noexcept
+  {
+    return m_Data + m_NumElements;
+  }
+
+  [[nodiscard]] iterator
+  end() noexcept
+  {
+    return m_Data + m_NumElements;
+  }
+
+  [[nodiscard]] const_iterator
+  end() const noexcept
+  {
+    return cend();
+  }
+
+  [[nodiscard]] reverse_iterator
+  rbegin()
+  {
+    return reverse_iterator{ end() };
+  }
+
+  [[nodiscard]] const_reverse_iterator
+  crbegin() const
+  {
+    return const_reverse_iterator{ cend() };
+  }
+
+  [[nodiscard]] const_reverse_iterator
+  rbegin() const
+  {
+    return crbegin();
+  }
+
+  [[nodiscard]] reverse_iterator
+  rend()
+  {
+    return reverse_iterator{ begin() };
+  }
+
+  [[nodiscard]] const_reverse_iterator
+  crend() const
+  {
+    return const_reverse_iterator{ cbegin() };
+  }
+
+  [[nodiscard]] const_reverse_iterator
+  rend() const
+  {
+    return crend();
+  }
+
 private:
   bool m_LetArrayManageMemory{ true }; // if true, the array is responsible
                                        // for memory of data
   TValue *          m_Data{};          // Array to hold data
   ElementIdentifier m_NumElements{ 0 };
+
+  void
+  ExceptionThrowingBoundsCheck(size_type pos) const
+  {
+    if (pos >= m_NumElements)
+    {
+      throw std::out_of_range("Out of range: `itk::VariableLengthVector::at` argument `pos` (which is " +
+                              std::to_string(pos) + ") should be less than `m_NumElements` (which is " +
+                              std::to_string(m_NumElements) + ")!");
+    }
+  }
 };
 
 /// \cond HIDE_META_PROGRAMMING
