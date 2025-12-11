@@ -1902,6 +1902,7 @@ set(
   itkSizeGTest.cxx
   itkSmartPointerGTest.cxx
   itkSymmetricSecondRankTensorGTest.cxx
+  itkVariableLengthVectorGTest.cxx
   itkVectorContainerGTest.cxx
   itkVectorGTest.cxx
   itkWeakPointerGTest.cxx
