@@ -157,6 +157,29 @@ try_compile(
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasSchedGetAffinity.cxx
 )
 
+# Check for thread-local locale functions for NumericLocale
+try_compile(
+  ITK_HAS_NEWLOCALE
+  ${ITK_BINARY_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasNewlocale.cxx
+)
+
+try_compile(
+  ITK_HAS_CONFIGTHREADLOCALE
+  ${ITK_BINARY_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasConfigthreadlocale.cxx
+)
+
+# Warn if no thread-safe locale method is available
+if(NOT ITK_HAS_NEWLOCALE AND NOT ITK_HAS_CONFIGTHREADLOCALE)
+  message(
+    WARNING
+    "Neither POSIX newlocale/uselocale nor Windows _configthreadlocale detected. "
+    "Thread-safe numeric locale handling is not available. "
+    "Locale must be managed at the application level if needed."
+  )
+endif()
+
 #-----------------------------------------------------------------------------
 # Make default visibility as an option for generated export header
 
