@@ -12,11 +12,11 @@ set(PYTHON_VERSION_MAX 3.999)
 if(DEFINED Python3_EXECUTABLE) # if already specified
   set(_specified_Python3_EXECUTABLE ${Python3_EXECUTABLE})
   # If a specific Python executable is provided, lock the Python version range
-  # to the exact version of that executable so FindPython3 searches that version.
+  # to the exact version down to the minor release of that executable so FindPython3 searches that version.
   execute_process(
     COMMAND
       "${_specified_Python3_EXECUTABLE}" -c
-      "import sys; print('{}.{}'.format(sys.version_info[0], sys.version_info[1]))"
+      "import sys; print('{}.{}.{}'.format(sys.version_info[0], sys.version_info[1], sys.version_info[2]))"
     OUTPUT_VARIABLE _specified_Python3_VERSION_MM
     ERROR_VARIABLE _specified_Python3_VERSION_MM_ERR
     OUTPUT_STRIP_TRAILING_WHITESPACE
