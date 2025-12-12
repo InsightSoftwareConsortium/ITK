@@ -19,8 +19,7 @@
 #define itkImageAlgorithm_hxx
 
 #include "itkArray.h"
-#include "itkImageRegionIterator.h"
-#include "itkImageScanlineIterator.h"
+#include "itkImageRegionRange.h"
 
 #include <array>
 
@@ -35,33 +34,17 @@ ImageAlgorithm::DispatchedCopy(const InputImageType *                       inIm
                                const typename OutputImageType::RegionType & outRegion,
                                FalseType)
 {
-  if (inRegion.GetSize()[0] == outRegion.GetSize()[0])
+  ImageRegionRange<OutputImageType> outputRange(*outImage, outRegion);
+
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+
+  auto outputIt = outputRange.begin();
+
+  for (const InputPixelType & inputPixel : ImageRegionRange<const InputImageType>(*inImage, inRegion))
   {
-    itk::ImageScanlineConstIterator it(inImage, inRegion);
-    itk::ImageScanlineIterator      ot(outImage, outRegion);
-
-    while (!it.IsAtEnd())
-    {
-      while (!it.IsAtEndOfLine())
-      {
-        ot.Set(static_cast<typename OutputImageType::PixelType>(it.Get()));
-        ++ot;
-        ++it;
-      }
-      ot.NextLine();
-      it.NextLine();
-    }
-    return;
-  }
-
-  itk::ImageRegionConstIterator<InputImageType> it(inImage, inRegion);
-  itk::ImageRegionIterator<OutputImageType>     ot(outImage, outRegion);
-
-  while (!it.IsAtEnd())
-  {
-    ot.Set(static_cast<typename OutputImageType::PixelType>(it.Get()));
-    ++ot;
-    ++it;
+    *outputIt = static_cast<OutputPixelType>(inputPixel);
+    ++outputIt;
   }
 }
 

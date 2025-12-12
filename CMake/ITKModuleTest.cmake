@@ -278,8 +278,8 @@ function(CreateGoogleTestDriver KIT KIT_LIBS KitTests)
   target_link_libraries(
     ${exe}
     ${KIT_LIBS}
-    GTest::GTest
-    GTest::Main
+    GTest::gtest
+    GTest::gtest_main
   )
   target_link_options(
     ${exe}

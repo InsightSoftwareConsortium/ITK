@@ -1,3 +1,4 @@
+set(ExternalData_SOURCE_ROOT "${PROJECT_SOURCE_DIR}")
 get_filename_component(_ITKExternalData_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
 include(${_ITKExternalData_DIR}/ExternalData.cmake)
 
@@ -28,10 +29,10 @@ list(
   APPEND
   ExternalData_OBJECT_STORES
   # Local data store populated by the ITK pre-commit hook
-  "${CMAKE_SOURCE_DIR}/.ExternalData"
+  "${PROJECT_SOURCE_DIR}/.ExternalData"
 )
 
-set(ExternalData_BINARY_ROOT ${CMAKE_BINARY_DIR}/ExternalData)
+set(ExternalData_BINARY_ROOT ${PROJECT_BINARY_DIR}/ExternalData)
 
 # Expands %(algo:lower)
 set(ExternalData_URL_ALGO_CID_lower cid)

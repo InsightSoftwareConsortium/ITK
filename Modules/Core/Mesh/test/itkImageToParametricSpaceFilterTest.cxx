@@ -63,9 +63,7 @@ itkImageToParametricSpaceFilterTest(int, char *[])
   const ImagePointer imageY = ImageType::New();
   const ImagePointer imageZ = ImageType::New();
 
-  ImageType::SizeType size;
-  size[0] = 10;
-  size[1] = 10;
+  auto size = ImageType::SizeType::Filled(10);
 
   const ImageType::RegionType region{ size };
 

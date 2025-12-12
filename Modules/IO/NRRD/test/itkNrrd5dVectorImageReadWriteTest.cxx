@@ -34,9 +34,7 @@ void
 GenerateImageSequence(int numberOfTimePoints, std::vector<typename ImageType::Pointer> & imageList)
 {
   // Region
-  typename ImageType::SizeType size;
-  size[0] = 8;
-  size[1] = 12;
+  typename ImageType::SizeType size{ 8, 12 };
   if (ImageType::SizeType::Dimension > 2)
   {
     size[2] = 10;

@@ -148,14 +148,14 @@ public:
   }
 
   /** Return the dimensionality of the point. */
-  static unsigned int
+  static constexpr unsigned int
   GetLength(const Point<T, D> &)
   {
     return D;
   }
 
   /** Return the dimensionality of the point. */
-  static unsigned int
+  static constexpr unsigned int
   GetLength()
   {
     return D;

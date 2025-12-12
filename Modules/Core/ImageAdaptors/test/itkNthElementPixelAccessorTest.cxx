@@ -55,9 +55,7 @@ itkNthElementPixelAccessorTest(int, char *[])
   using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
   using myNthIteratorType = itk::ImageRegionIteratorWithIndex<myNthAdaptorType>;
 
-  myImageType::SizeType size;
-  size[0] = 2;
-  size[1] = 2;
+  auto size = myImageType::SizeType::Filled(2);
 
   myImageType::IndexType index;
   index[0] = 0;

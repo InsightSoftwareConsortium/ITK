@@ -45,9 +45,7 @@ itkPathIteratorTest(int, char *[])
   IndexType start;
   start[0] = 0;
   start[1] = 0;
-  ImageType::SizeType size;
-  size[0] = 128;
-  size[1] = 128;
+  auto                        size = ImageType::SizeType::Filled(128);
   const ImageType::RegionType region{ start, size };
   image->SetRegions(region);
   double spacing[ImageType::ImageDimension];

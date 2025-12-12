@@ -163,14 +163,14 @@ public:
   }
 
   /** Return the size of the underlying FixedArray. */
-  static unsigned int
+  static constexpr unsigned int
   GetLength(const SymmetricSecondRankTensor<T, D> &)
   {
     return GetLength();
   }
 
   /** Return the size of the underlying FixedArray. */
-  static unsigned int
+  static constexpr unsigned int
   GetLength()
   {
     return D * (D + 1) / 2;

@@ -152,9 +152,9 @@ where `ITKLatestRelease` is the name of the local repository created.
 Additionally, specific releases can be cloned using the tags, for example:
 
 ```bash
-git clone -b v5.4.4 https://github.com/InsightSoftwareConsortium/ITK ITK-5.4.4
+git clone -b v5.4.5 https://github.com/InsightSoftwareConsortium/ITK ITK-5.4.5
 ```
-where `v5.4.4` corresponds to ITK 5.4.4, and the `ITK-5.4.4` is the name
+where `v5.4.5` corresponds to ITK 5.4.5, and the `ITK-5.4.5` is the name
 of the local repository created.
 
 ### Update
@@ -189,7 +189,7 @@ instructions to update it.
 Alternatively, one may checkout a specific release tag using
 
 ```bash
-git checkout v5.4.4
+git checkout v5.4.5
 ```
 
 Release tags never move. Repeat the command with a different tag to get a

@@ -83,9 +83,7 @@ itkLevelSetDenseImageTest(int, char *[])
   index[0] = 0;
   index[1] = 0;
 
-  ImageType::SizeType size;
-  size[0] = 10;
-  size[1] = 20;
+  ImageType::SizeType size{ 10, 20 };
 
   const ImageType::RegionType region{ index, size };
 

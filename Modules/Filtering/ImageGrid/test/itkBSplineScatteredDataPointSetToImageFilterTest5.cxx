@@ -140,9 +140,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest5(int argc, char * argv[])
   spacing[1] = 0.01;
   filter->SetSpacing(spacing);
 
-  ImageType::SizeType size;
-  size[0] = 1000;
-  size[1] = 100;
+  ImageType::SizeType size{ 1000, 100 };
 
   constexpr ImageType::PointType origin{};
 

@@ -56,9 +56,7 @@ itkVectorToRGBImageAdaptorTest(int, char *[])
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
   using RGBIteratorType = itk::ImageRegionIteratorWithIndex<ImageAdaptorType>;
 
-  ImageType::SizeType size;
-  size[0] = 2;
-  size[1] = 2;
+  auto size = ImageType::SizeType::Filled(2);
 
   ImageType::IndexType index;
   index[0] = 0;
@@ -81,12 +79,7 @@ itkVectorToRGBImageAdaptorTest(int, char *[])
   vector[2] = 1.4;
 
   // Initializing all the pixel in the image
-  it1.GoToBegin();
-  while (!it1.IsAtEnd())
-  {
-    it1.Set(vector);
-    ++it1;
-  }
+  image->FillBuffer(vector);
 
   // Reading the values to verify the image content
   std::cout << "--- Before --- " << std::endl;

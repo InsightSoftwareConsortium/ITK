@@ -161,10 +161,7 @@ itkHistogramMatchingImageFilterTest()
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using Iterator = itk::ImageRegionIterator<ImageType>;
 
-  typename ImageType::SizeType size;
-  size[0] = 30;
-  size[1] = 20;
-  size[2] = 2;
+  typename ImageType::SizeType size{ 30, 20, 2 };
 
   typename ImageType::RegionType region;
   region.SetSize(size);

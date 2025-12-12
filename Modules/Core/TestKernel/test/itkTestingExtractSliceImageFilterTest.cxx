@@ -39,10 +39,7 @@ itkTestingExtractSliceImageFilterTest(int, char *[])
 
   auto inputImage = InputImageType::New();
 
-  InputImageType::SizeType size;
-  size[0] = 20;
-  size[1] = 20;
-  size[2] = 20;
+  auto size = InputImageType::SizeType::Filled(20);
 
   InputImageType::RegionType region;
   region.SetSize(size);

@@ -102,9 +102,7 @@ itkOrthogonalSwath2DPathFilterTest(int, char *[])
   IndexType start;
   start[0] = 0;
   start[1] = 0;
-  UCharImageType::SizeType size;
-  size[0] = 128;
-  size[1] = 128;
+  auto                             size = UCharImageType::SizeType::Filled(128);
   const UCharImageType::RegionType region{ start, size };
   inputImage->SetRegions(region);
   double spacing[UCharImageType::ImageDimension];

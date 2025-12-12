@@ -20,6 +20,8 @@
 
 #include "itkProgressReporter.h"
 #include "itkImageAlgorithm.h"
+#include "itkImageRegionRange.h"
+#include "itkVariableLengthVector.h"
 
 namespace itk
 {
@@ -139,29 +141,37 @@ CastImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDataDispatche
 
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
-  const unsigned int componentsPerPixel = outputPtr->GetNumberOfComponentsPerPixel();
+  ImageRegionRange<const TInputImage> inputRange(*inputPtr, inputRegionForThread);
+  ImageRegionRange<TOutputImage>      outputRange(*outputPtr, outputRegionForThread);
 
-  // Define the iterators
-  ImageScanlineConstIterator inputIt(inputPtr, inputRegionForThread);
-  ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
+  auto       inputIt = inputRange.begin();
+  auto       outputIt = outputRange.begin();
+  const auto inputEnd = inputRange.end();
 
-  OutputPixelType value{ outputIt.Get() };
-  while (!inputIt.IsAtEnd())
+  // Note: This loop has been timed for performance with conversions between image of vectors and VectorImages and other
+  // combinations. The following was evaluated to be the best performance usage of iterators. Important considerations:
+  //  - Usage of NumericTraits::GetLength() is sometimes consant vs virutal method GetNumberOfComponentsPerPixel()
+  //  - The construction of inputPixel and outputPixel for VectorImages both reference the internal buffer and don't
+  //  require memory allocations.
+  const unsigned int componentsPerPixel = itk::NumericTraits<OutputPixelType>::GetLength(*outputIt);
+  while (inputIt != inputEnd)
   {
-    while (!inputIt.IsAtEndOfLine())
-    {
-      const InputPixelType & inputPixel = inputIt.Get();
-      for (unsigned int k = 0; k < componentsPerPixel; ++k)
-      {
-        value[k] = static_cast<typename OutputPixelType::ValueType>(inputPixel[k]);
-      }
-      outputIt.Set(value);
+    const InputPixelType & inputPixel = *inputIt;
 
-      ++inputIt;
-      ++outputIt;
+    using OutputPixelValueType = typename OutputPixelType::ValueType;
+
+    constexpr bool isVariableLengthVector = std::is_same_v<OutputPixelType, VariableLengthVector<OutputPixelValueType>>;
+
+    // If the output pixel type is a VariableLengthVector, it behaves as a "reference" to the internal data. Otherwise
+    // declare outputPixel as a reference, `OutputPixelType &`, to allow it to access the internal buffer directly.
+    std::conditional_t<isVariableLengthVector, OutputPixelType, OutputPixelType &> outputPixel{ *outputIt };
+
+    for (unsigned int k = 0; k < componentsPerPixel; ++k)
+    {
+      outputPixel[k] = static_cast<OutputPixelValueType>(inputPixel[k]);
     }
-    inputIt.NextLine();
-    outputIt.NextLine();
+    ++inputIt;
+    ++outputIt;
   }
 }
 

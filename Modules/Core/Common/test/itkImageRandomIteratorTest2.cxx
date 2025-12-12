@@ -45,10 +45,7 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
 
   auto image = ImageType::New();
 
-  ImageType::SizeType size;
-
-  size[0] = 1000;
-  size[1] = 1000;
+  auto size = ImageType::SizeType::Filled(1000);
 
   const unsigned long numberOfSamples = size[0] * size[1];
 

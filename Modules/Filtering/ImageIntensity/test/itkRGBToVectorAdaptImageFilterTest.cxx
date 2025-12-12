@@ -63,9 +63,7 @@ itkRGBToVectorAdaptImageFilterTest(int, char *[])
 
   using myVectorIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
 
-  RGBImageType::SizeType size;
-  size[0] = 100;
-  size[1] = 100;
+  auto size = RGBImageType::SizeType::Filled(100);
 
   RGBImageType::IndexType index;
   index[0] = 0;

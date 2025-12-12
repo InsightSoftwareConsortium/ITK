@@ -163,14 +163,14 @@ public:
   }
 
   /** Return the size of the tensor. Always returns 6. */
-  static unsigned int
+  static constexpr unsigned int
   GetLength(const DiffusionTensor3D<T> &)
   {
     return 6;
   }
 
   /** Return the size of the tensor. Always returns 6. */
-  static unsigned int
+  static constexpr unsigned int
   GetLength()
   {
     return 6;
