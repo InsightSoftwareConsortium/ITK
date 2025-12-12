@@ -120,7 +120,7 @@ public:
 
   /** STL-style iterator support for the memory buffer. */
   /** @ITKStartGrouping */
-  iterator
+  [[nodiscard]] iterator
   begin()
   {
     return m_Data.get();
@@ -130,7 +130,7 @@ public:
   {
     return m_Data.get();
   }
-  iterator
+  [[nodiscard]] iterator
   end()
   {
     return m_Data.get() + m_ElementCount;
@@ -173,7 +173,7 @@ public:
     }
   }
 
-  TPixel *
+  [[nodiscard]] TPixel *
   data() noexcept
   {
     return m_Data.get();

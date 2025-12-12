@@ -139,13 +139,13 @@ public:
 
   virtual ~IPLFileNameList();
 
-  IteratorType
+  [[nodiscard]] IteratorType
   begin()
   {
     return m_List.begin();
   }
 
-  IteratorType
+  [[nodiscard]] IteratorType
   end()
   {
     return m_List.end();

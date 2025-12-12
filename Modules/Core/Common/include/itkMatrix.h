@@ -341,14 +341,14 @@ public:
   }
 
   /** Returns an iterator to the first element. */
-  iterator
+  [[nodiscard]] iterator
   begin()
   {
     return m_Matrix.begin();
   }
 
   /** Returns an iterator just beyond the last element. */
-  iterator
+  [[nodiscard]] iterator
   end()
   {
     return m_Matrix.end();

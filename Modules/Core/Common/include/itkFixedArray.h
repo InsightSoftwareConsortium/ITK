@@ -324,7 +324,7 @@ public:
     return m_InternalArray;
   }
 
-  ValueType *
+  [[nodiscard]] ValueType *
   data()
   {
     return m_InternalArray;
@@ -370,7 +370,7 @@ public:
     return m_InternalArray;
   }
 
-  constexpr iterator
+  [[nodiscard]] constexpr iterator
   begin() noexcept
   {
     return m_InternalArray;
@@ -388,7 +388,7 @@ public:
     return m_InternalArray + VLength;
   }
 
-  constexpr iterator
+  [[nodiscard]] constexpr iterator
   end() noexcept
   {
     return m_InternalArray + VLength;
@@ -400,7 +400,7 @@ public:
     return this->cend();
   }
 
-  reverse_iterator
+  [[nodiscard]] reverse_iterator
   rbegin()
   {
     return reverse_iterator{ this->end() };
@@ -418,7 +418,7 @@ public:
     return this->crbegin();
   }
 
-  reverse_iterator
+  [[nodiscard]] reverse_iterator
   rend()
   {
     return reverse_iterator{ this->begin() };
