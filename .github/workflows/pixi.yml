@@ -28,7 +28,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
-    ExternalDataVersion: 5.4.0
+    ExternalDataVersion: 5.4.5
 
 jobs:
     Pixi-Cxx:
