@@ -304,7 +304,7 @@ public:
     return &m_InternalArray[0];
   }
 
-  constexpr iterator
+  [[nodiscard]] constexpr iterator
   begin()
   {
     return &m_InternalArray[0];
@@ -322,7 +322,7 @@ public:
     return &m_InternalArray[VDimension];
   }
 
-  constexpr iterator
+  [[nodiscard]] constexpr iterator
   end()
   {
     return &m_InternalArray[VDimension];
@@ -334,7 +334,7 @@ public:
     return &m_InternalArray[VDimension];
   }
 
-  reverse_iterator
+  [[nodiscard]] reverse_iterator
   rbegin()
   {
     return reverse_iterator(end());
@@ -346,7 +346,7 @@ public:
     return const_reverse_iterator(end());
   }
 
-  reverse_iterator
+  [[nodiscard]] reverse_iterator
   rend()
   {
     return reverse_iterator(begin());
@@ -402,7 +402,7 @@ public:
     return m_InternalArray[pos];
   }
 
-  constexpr reference
+  [[nodiscard]] constexpr reference
   front()
   {
     return *begin();
@@ -414,7 +414,7 @@ public:
     return *begin();
   }
 
-  constexpr reference
+  [[nodiscard]] constexpr reference
   back()
   {
     return VDimension ? *(end() - 1) : *end();
@@ -426,7 +426,7 @@ public:
     return VDimension ? *(end() - 1) : *end();
   }
 
-  OffsetValueType *
+  [[nodiscard]] OffsetValueType *
   data()
   {
     return &m_InternalArray[0];
