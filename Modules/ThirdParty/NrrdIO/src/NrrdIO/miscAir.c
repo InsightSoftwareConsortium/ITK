@@ -35,16 +35,22 @@
 static int
 _airSscanfLocaleIndependent(const char *str, const char *fmt, void *ptr) {
   int ret;
-  char *old_locale;
+  char *old_locale = NULL;
   
   /* Save current LC_NUMERIC locale */
-  old_locale = setlocale(LC_NUMERIC, NULL);
-  if (old_locale) {
-    old_locale = strdup(old_locale);
+  const char *current_locale = setlocale(LC_NUMERIC, NULL);
+  if (current_locale) {
+    old_locale = strdup(current_locale);
   }
   
   /* Temporarily switch to C locale for parsing */
-  setlocale(LC_NUMERIC, "C");
+  if (setlocale(LC_NUMERIC, "C") == NULL) {
+    /* Failed to set C locale, free allocated memory and fall back to regular sscanf */
+    if (old_locale) {
+      free(old_locale);
+    }
+    return sscanf(str, fmt, ptr);
+  }
   
   /* Perform the actual parsing */
   ret = sscanf(str, fmt, ptr);
@@ -61,16 +67,22 @@ _airSscanfLocaleIndependent(const char *str, const char *fmt, void *ptr) {
 static int
 _airSprintfLocaleIndependent(char *str, const char *fmt, double val) {
   int ret;
-  char *old_locale;
+  char *old_locale = NULL;
   
   /* Save current LC_NUMERIC locale */
-  old_locale = setlocale(LC_NUMERIC, NULL);
-  if (old_locale) {
-    old_locale = strdup(old_locale);
+  const char *current_locale = setlocale(LC_NUMERIC, NULL);
+  if (current_locale) {
+    old_locale = strdup(current_locale);
   }
   
   /* Temporarily switch to C locale for formatting */
-  setlocale(LC_NUMERIC, "C");
+  if (setlocale(LC_NUMERIC, "C") == NULL) {
+    /* Failed to set C locale, free allocated memory and fall back to regular sprintf */
+    if (old_locale) {
+      free(old_locale);
+    }
+    return sprintf(str, fmt, val);
+  }
   
   /* Perform the actual formatting */
   ret = sprintf(str, fmt, val);
