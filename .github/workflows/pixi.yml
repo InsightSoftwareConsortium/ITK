@@ -24,7 +24,7 @@ on:
             - 'Utilities/Maintenance/**'
 
 env:
-    ExternalDataVersion: 5.3.0
+    ExternalDataVersion: 5.4.5
 
 jobs:
     Pixi-Cxx:
@@ -48,7 +48,7 @@ jobs:
           run: |
             curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v${{ env.ExternalDataVersion }}/InsightData-${{ env.ExternalDataVersion }}.tar.gz -O
             cmake -E tar xfz InsightData-${{ env.ExternalDataVersion }}.tar.gz
-            cmake -E rename InsightToolkit-${{ env.ExternalDataVersion }}/.ExternalData/MD5 ${{ github.workspace }}/.ExternalData/MD5
+            cmake -E rename InsightToolkit-${{ env.ExternalDataVersion }}/.ExternalData/CID ${{ github.workspace }}/.ExternalData/CID
 
         - name: Set up Pixi
           uses: prefix-dev/setup-pixi@v0.8.1
