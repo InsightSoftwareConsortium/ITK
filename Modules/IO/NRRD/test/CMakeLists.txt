@@ -17,6 +17,7 @@ set(
   itkNrrdVectorImageUnitLabelReadTest.cxx
   itkNrrd5dVectorImageReadWriteTest.cxx
   itkNrrdMetaDataTest.cxx
+  itkNrrdLocaleTest.cxx
 )
 
 # For itkNrrdImageIOTest.h.
@@ -354,5 +355,13 @@ itk_add_test(
   COMMAND
     ITKIONRRDTestDriver
     itkNrrdMetaDataTest
+    ${ITK_TEST_OUTPUT_DIR}
+)
+
+itk_add_test(
+  NAME itkNrrdLocaleTest
+  COMMAND
+    ITKIONRRDTestDriver
+    itkNrrdLocaleTest
     ${ITK_TEST_OUTPUT_DIR}
 )
