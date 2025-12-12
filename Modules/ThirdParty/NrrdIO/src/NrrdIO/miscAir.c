@@ -25,6 +25,65 @@
 
 #include "NrrdIO.h"
 #include "privateAir.h"
+#include <locale.h>
+#include <string.h>
+#include <stdlib.h>
+
+/* Modified for ITK: Locale-independent sscanf and sprintf for floating-point operations.
+ * This prevents parsing/formatting errors when the system locale uses comma as decimal separator.
+ * See: https://github.com/InsightSoftwareConsortium/ITK/issues/XXXX */
+static int
+_airSscanfLocaleIndependent(const char *str, const char *fmt, void *ptr) {
+  int ret;
+  char *old_locale;
+  
+  /* Save current LC_NUMERIC locale */
+  old_locale = setlocale(LC_NUMERIC, NULL);
+  if (old_locale) {
+    old_locale = strdup(old_locale);
+  }
+  
+  /* Temporarily switch to C locale for parsing */
+  setlocale(LC_NUMERIC, "C");
+  
+  /* Perform the actual parsing */
+  ret = sscanf(str, fmt, ptr);
+  
+  /* Restore the original locale */
+  if (old_locale) {
+    setlocale(LC_NUMERIC, old_locale);
+    free(old_locale);
+  }
+  
+  return ret;
+}
+
+static int
+_airSprintfLocaleIndependent(char *str, const char *fmt, double val) {
+  int ret;
+  char *old_locale;
+  
+  /* Save current LC_NUMERIC locale */
+  old_locale = setlocale(LC_NUMERIC, NULL);
+  if (old_locale) {
+    old_locale = strdup(old_locale);
+  }
+  
+  /* Temporarily switch to C locale for formatting */
+  setlocale(LC_NUMERIC, "C");
+  
+  /* Perform the actual formatting */
+  ret = sprintf(str, fmt, val);
+  
+  /* Restore the original locale */
+  if (old_locale) {
+    setlocale(LC_NUMERIC, old_locale);
+    free(old_locale);
+  }
+  
+  return ret;
+}
+
 /* timer functions */
 #ifdef _WIN32
 #include <io.h>
@@ -218,10 +277,11 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
     default:
       if (p2 || p5) {
         /* got "%g" or "%lg", see if it would be better to use "%f" */
-        sprintf(buff, "%f", val);
-        sscanf(buff, "%lf", &fVal);
-        sprintf(buff, "%g", val);
-        sscanf(buff, "%lf", &gVal);
+        /* Modified for ITK: use locale-independent version */
+        _airSprintfLocaleIndependent(buff, "%f", val);
+        _airSscanfLocaleIndependent(buff, "%lf", &fVal);
+        _airSprintfLocaleIndependent(buff, "%g", val);
+        _airSscanfLocaleIndependent(buff, "%lf", &gVal);
         if (fVal != gVal) {
           /* using %g (or %lg) lost precision!! Use %f (or %lf) instead */
           if (p2) {

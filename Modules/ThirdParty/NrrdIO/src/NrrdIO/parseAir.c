@@ -24,6 +24,38 @@
 */
 
 #include "NrrdIO.h"
+#include <locale.h>
+#include <string.h>
+#include <stdlib.h>
+
+/* Modified for ITK: Locale-independent sscanf for floating-point parsing.
+ * This prevents parsing errors when the system locale uses comma as decimal separator.
+ * See: https://github.com/InsightSoftwareConsortium/ITK/issues/XXXX */
+static int
+_airSscanfLocaleIndependent(const char *str, const char *fmt, void *ptr) {
+  int ret;
+  char *old_locale;
+  
+  /* Save current LC_NUMERIC locale */
+  old_locale = setlocale(LC_NUMERIC, NULL);
+  if (old_locale) {
+    old_locale = strdup(old_locale);
+  }
+  
+  /* Temporarily switch to C locale for parsing */
+  setlocale(LC_NUMERIC, "C");
+  
+  /* Perform the actual parsing */
+  ret = sscanf(str, fmt, ptr);
+  
+  /* Restore the original locale */
+  if (old_locale) {
+    setlocale(LC_NUMERIC, old_locale);
+    free(old_locale);
+  }
+  
+  return ret;
+}
 
 static const char *
 _airBoolStr[] = {
@@ -106,7 +138,8 @@ airSingleSscanf(const char *str, const char *fmt, void *ptr) {
     }
     else {
       /* nothing special matched; pass it off to sscanf() */
-      ret = sscanf(str, fmt, ptr);
+      /* Modified for ITK: use locale-independent version */
+      ret = _airSscanfLocaleIndependent(str, fmt, ptr);
       free(tmp);
       return ret;
     }
@@ -139,7 +172,8 @@ airSingleSscanf(const char *str, const char *fmt, void *ptr) {
     return 1;
   } else {
     /* not a float, double, or size_t, let sscanf handle it */
-    return sscanf(str, fmt, ptr);
+    /* Modified for ITK: use locale-independent version for safety */
+    return _airSscanfLocaleIndependent(str, fmt, ptr);
   }
 }
 
