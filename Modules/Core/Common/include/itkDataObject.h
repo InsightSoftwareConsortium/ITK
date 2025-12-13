@@ -90,8 +90,8 @@ protected:
    * specific exception subtypes.  The default is to print out the
    * location where the exception was first thrown and any description
    * provided by the "thrower".   */
-  virtual void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  void
+  Print(std::ostream & os) const override;
 
 private:
   DataObject * m_DataObject{ nullptr };
@@ -126,14 +126,6 @@ public:
 
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(InvalidRequestedRegionError);
-
-protected:
-  /** Print exception information.  This method can be overridden by
-   * specific exception subtypes.  The default is to print out the
-   * location where the exception was first thrown and any description
-   * provided by the "thrower".   */
-  void
-  PrintSelf(std::ostream & os, Indent indent) const override;
 };
 
 /*----------------------------Data Object--------------------------------*/
