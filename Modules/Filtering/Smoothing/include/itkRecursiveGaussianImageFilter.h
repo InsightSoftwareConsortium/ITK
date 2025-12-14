@@ -200,7 +200,7 @@ public:
   SetSecondOrder();
 
 protected:
-  RecursiveGaussianImageFilter();
+  RecursiveGaussianImageFilter() = default;
   ~RecursiveGaussianImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -254,12 +254,12 @@ private:
   ComputeRemainingCoefficients(bool symmetric);
 
   /** Sigma of the gaussian kernel. */
-  ScalarRealType m_Sigma{};
+  ScalarRealType m_Sigma{ 1.0 };
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale{};
 
-  GaussianOrderEnum m_Order{};
+  GaussianOrderEnum m_Order{ GaussianOrderEnum::ZeroOrder };
 };
 } // end namespace itk
 
