@@ -63,16 +63,6 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
 {
   constexpr ScalarRealType spacingTolerance{ 1e-8 };
 
-  /**  Parameters of exponential series. */
-  ScalarRealType A1[3];
-  ScalarRealType B1[3];
-  ScalarRealType W1;
-  ScalarRealType L1;
-  ScalarRealType A2[3];
-  ScalarRealType B2[3];
-  ScalarRealType W2;
-  ScalarRealType L2;
-
   ScalarRealType direction = 1.0;
 
   if (spacing < 0.0)
@@ -89,25 +79,15 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
   const ScalarRealType sigmad = m_Sigma / spacing;
   ScalarRealType       across_scale_normalization = 1.0;
 
-
-  A1[0] = static_cast<ScalarRealType>(1.3530);
-  B1[0] = static_cast<ScalarRealType>(1.8151);
-  W1 = static_cast<ScalarRealType>(0.6681);
-  L1 = static_cast<ScalarRealType>(-1.3932);
-  A2[0] = static_cast<ScalarRealType>(-0.3531);
-  B2[0] = static_cast<ScalarRealType>(0.0902);
-  W2 = static_cast<ScalarRealType>(2.0787);
-  L2 = static_cast<ScalarRealType>(-1.3732);
-
-  A1[1] = static_cast<ScalarRealType>(-0.6724);
-  B1[1] = static_cast<ScalarRealType>(-3.4327);
-  A2[1] = static_cast<ScalarRealType>(0.6724);
-  B2[1] = static_cast<ScalarRealType>(0.6100);
-
-  A1[2] = static_cast<ScalarRealType>(-1.3563);
-  B1[2] = static_cast<ScalarRealType>(5.2318);
-  A2[2] = static_cast<ScalarRealType>(0.3446);
-  B2[2] = static_cast<ScalarRealType>(-2.2355);
+  /**  Parameters of exponential series. */
+  constexpr ScalarRealType A1[3]{ 1.3530, -0.6724, -1.3563 };
+  constexpr ScalarRealType B1[3]{ 1.8151, -3.4327, 5.2318 };
+  constexpr ScalarRealType W1{ 0.6681 };
+  constexpr ScalarRealType L1{ -1.3932 };
+  constexpr ScalarRealType A2[3]{ -0.3531, 0.6724, 0.3446 };
+  constexpr ScalarRealType B2[3]{ 0.0902, 0.6100, -2.2355 };
+  constexpr ScalarRealType W2{ 2.0787 };
+  constexpr ScalarRealType L2{ -1.3732 };
 
   ScalarRealType SD; /*one-line-declaration*/
   ScalarRealType DD; /*one-line-declaration*/
