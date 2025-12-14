@@ -138,36 +138,36 @@ protected:
 
 protected:
   /** Causal coefficients that multiply the input data. */
-  ScalarRealType m_N0{};
-  ScalarRealType m_N1{};
-  ScalarRealType m_N2{};
-  ScalarRealType m_N3{};
+  ScalarRealType m_N0{ 1.0 };
+  ScalarRealType m_N1{ 1.0 };
+  ScalarRealType m_N2{ 1.0 };
+  ScalarRealType m_N3{ 1.0 };
 
   /** Recursive coefficients that multiply previously computed values
    * at the output. These are the same for the causal and
    * anti-causal parts of the filter. */
-  ScalarRealType m_D1{};
-  ScalarRealType m_D2{};
-  ScalarRealType m_D3{};
-  ScalarRealType m_D4{};
+  ScalarRealType m_D1{ 0.0 };
+  ScalarRealType m_D2{ 0.0 };
+  ScalarRealType m_D3{ 0.0 };
+  ScalarRealType m_D4{ 0.0 };
 
   /** Anti-causal coefficients that multiply the input data. */
-  ScalarRealType m_M1{};
-  ScalarRealType m_M2{};
-  ScalarRealType m_M3{};
-  ScalarRealType m_M4{};
+  ScalarRealType m_M1{ 0.0 };
+  ScalarRealType m_M2{ 0.0 };
+  ScalarRealType m_M3{ 0.0 };
+  ScalarRealType m_M4{ 0.0 };
 
   /** Recursive coefficients to be used at the boundaries to simulate
    * edge extension boundary conditions. */
-  ScalarRealType m_BN1{};
-  ScalarRealType m_BN2{};
-  ScalarRealType m_BN3{};
-  ScalarRealType m_BN4{};
+  ScalarRealType m_BN1{ 0.0 };
+  ScalarRealType m_BN2{ 0.0 };
+  ScalarRealType m_BN3{ 0.0 };
+  ScalarRealType m_BN4{ 0.0 };
 
-  ScalarRealType m_BM1{};
-  ScalarRealType m_BM2{};
-  ScalarRealType m_BM3{};
-  ScalarRealType m_BM4{};
+  ScalarRealType m_BM1{ 0.0 };
+  ScalarRealType m_BM2{ 0.0 };
+  ScalarRealType m_BM3{ 0.0 };
+  ScalarRealType m_BM4{ 0.0 };
 
 
   template <typename T1, typename T2>
