@@ -37,7 +37,7 @@ namespace itk
  *
  * Details of the implementation are described in the technical report:
  * R. Deriche, "Recursively Implementing The Gaussian and Its Derivatives",
- * INRIA, 1993, ftp://ftp.inria.fr/INRIA/tech-reports/RR/RR-1893.ps.gz
+ * INRIA, 1993, https://inria.hal.science/inria-00074778
  *
  * Further improvements of the algorithm are described in \cite farneback2006.
  *
