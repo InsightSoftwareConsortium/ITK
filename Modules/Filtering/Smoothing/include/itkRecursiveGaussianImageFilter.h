@@ -219,7 +219,7 @@ protected:
 
 private:
   /** Compute the N coefficients in the recursive filter. */
-  void
+  static void
   ComputeNCoefficients(ScalarRealType   sigmad,
                        ScalarRealType   A1,
                        ScalarRealType   B1,
