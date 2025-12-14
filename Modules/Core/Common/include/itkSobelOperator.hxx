@@ -82,25 +82,27 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 auto
 SobelOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
-  if (VDimension == 2 && this->GetDirection() == 0)
+  if constexpr (VDimension == 2)
   {
-    return { -1, 0, 1, -2, 0, 2, -1, 0, 1 };
+    switch (this->GetDirection())
+    {
+      case 0:
+        return { -1, 0, 1, -2, 0, 2, -1, 0, 1 };
+      case 1:
+        return { -1, -2, -1, 0, 0, 0, 1, 2, 1 };
+    }
   }
-  if (VDimension == 2 && this->GetDirection() == 1)
+  if constexpr (VDimension == 3)
   {
-    return { -1, -2, -1, 0, 0, 0, 1, 2, 1 };
-  }
-  if (VDimension == 3 && this->GetDirection() == 0)
-  {
-    return { -1, 0, 1, -3, 0, 3, -1, 0, 1, -3, 0, 3, -6, 0, 6, -3, 0, 3, -1, 0, 1, -3, 0, 3, -1, 0, 1 };
-  }
-  if (VDimension == 3 && this->GetDirection() == 1)
-  {
-    return { -1, -3, -1, 0, 0, 0, 1, 3, 1, -3, -6, -3, 0, 0, 0, 3, 6, 3, -1, -3, -1, 0, 0, 0, 1, 3, 1 };
-  }
-  if (VDimension == 3 && this->GetDirection() == 2)
-  {
-    return { -1, -3, -1, -3, -6, -3, -1, -3, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1, 3, 6, 3, 1, 3, 1 };
+    switch (this->GetDirection())
+    {
+      case 0:
+        return { -1, 0, 1, -3, 0, 3, -1, 0, 1, -3, 0, 3, -6, 0, 6, -3, 0, 3, -1, 0, 1, -3, 0, 3, -1, 0, 1 };
+      case 1:
+        return { -1, -3, -1, 0, 0, 0, 1, 3, 1, -3, -6, -3, 0, 0, 0, 3, 6, 3, -1, -3, -1, 0, 0, 0, 1, 3, 1 };
+      case 2:
+        return { -1, -3, -1, -3, -6, -3, -1, -3, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1, 3, 6, 3, 1, 3, 1 };
+    }
   }
   itkExceptionStringMacro(
     "The ND version of the Sobel operator has not been implemented. Currently only 2D and 3D versions are available.");
