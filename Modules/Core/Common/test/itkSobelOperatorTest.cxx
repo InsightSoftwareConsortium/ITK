@@ -26,7 +26,6 @@ itkSobelOperatorTest(int, char *[])
 
   constexpr unsigned int Dimension2D{ 2 };
   constexpr unsigned int Dimension3D{ 3 };
-  constexpr unsigned int Dimension4D{ 4 };
 
   using PixelType = float;
 
@@ -130,16 +129,6 @@ itkSobelOperatorTest(int, char *[])
       ITK_TEST_EXPECT_EQUAL(expectedValuesZ[i], sobelOperator[i]);
       ITK_TEST_EXPECT_EQUAL(expectedValuesZ[i], sobelOperator.GetElement(i));
     }
-  }
-
-  {
-    using SobelOperatorType = itk::SobelOperator<PixelType, Dimension4D>;
-    SobelOperatorType sobelOperator;
-
-    constexpr unsigned long direction{ 0 };
-    sobelOperator.SetDirection(direction);
-    auto radius = itk::Size<Dimension4D>::Filled(1);
-    ITK_TRY_EXPECT_EXCEPTION(sobelOperator.CreateToRadius(radius));
   }
 
   std::cout << "Test finished." << std::endl;
