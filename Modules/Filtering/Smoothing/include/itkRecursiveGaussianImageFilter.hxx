@@ -24,9 +24,7 @@
 
 namespace itk
 {
-/**
- *   Explicitly set a zeroth order derivative.
- */
+// Explicitly set a zeroth order derivative.
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetZeroOrder()
@@ -34,9 +32,8 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetZeroOrder()
   this->SetOrder(GaussianOrderEnum::ZeroOrder);
 }
 
-/**
- *   Explicitly set a first order derivative.
- */
+
+// Explicitly set a first order derivative.
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetFirstOrder()
@@ -44,9 +41,8 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetFirstOrder()
   this->SetOrder(GaussianOrderEnum::FirstOrder);
 }
 
-/**
- *   Explicitly set a second order derivative.
- */
+
+// Explicitly set a second order derivative.
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSecondOrder()
@@ -54,9 +50,8 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSecondOrder()
   this->SetOrder(GaussianOrderEnum::SecondOrder);
 }
 
-/**
- *   Compute filter for Gaussian kernel.
- */
+
+// Compute filter for Gaussian kernel.
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType spacing)
@@ -192,9 +187,8 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
   }
 }
 
-/**
- * Compute the N coefficients.
- */
+
+// Compute the N coefficients.
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage, TOutputImage>::ComputeNCoefficients(ScalarRealType   sigmad,
@@ -236,9 +230,8 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::ComputeNCoefficients(Sc
   EN = N1 + 4 * N2 + 9 * N3;
 }
 
-/**
- * Compute the D coefficients.
- */
+
+// Compute the D coefficients.
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage, TOutputImage>::ComputeDCoefficients(ScalarRealType   sigmad,
@@ -269,9 +262,8 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::ComputeDCoefficients(Sc
   ED = this->m_D1 + 4 * this->m_D2 + 9 * this->m_D3 + 16 * this->m_D4;
 }
 
-/**
- * Compute the M coefficients and the boundary coefficients.
- */
+
+// Compute the M coefficients and the boundary coefficients.
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage, TOutputImage>::ComputeRemainingCoefficients(bool symmetric)
@@ -308,6 +300,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::ComputeRemainingCoeffic
   this->m_BM4 = this->m_D4 * SM / SD;
 }
 
+
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveGaussianImageFilter<TInputImage, TOutputImage>::VerifyPreconditions() const
@@ -319,6 +312,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::VerifyPreconditions() c
     itkExceptionStringMacro("Sigma must be greater than zero.");
   }
 }
+
 
 template <typename TInputImage, typename TOutputImage>
 void
