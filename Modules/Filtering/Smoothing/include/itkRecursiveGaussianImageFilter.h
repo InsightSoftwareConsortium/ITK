@@ -73,7 +73,7 @@ static constexpr GaussianOrderEnum SecondOrder = GaussianOrderEnum::SecondOrder;
  *
  * Details of the implementation are described in the technical report:
  * R. Deriche, "Recursively Implementing The Gaussian and Its Derivatives",
- * INRIA, 1993, ftp://ftp.inria.fr/INRIA/tech-reports/RR/RR-1893.ps.gz
+ * INRIA, 1993, https://inria.hal.science/inria-00074778
  *
  * Further improvements of the algorithm are described in \cite farneback2006.
  *
@@ -200,7 +200,7 @@ public:
   SetSecondOrder();
 
 protected:
-  RecursiveGaussianImageFilter();
+  RecursiveGaussianImageFilter() = default;
   ~RecursiveGaussianImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -219,7 +219,7 @@ protected:
 
 private:
   /** Compute the N coefficients in the recursive filter. */
-  void
+  static void
   ComputeNCoefficients(ScalarRealType   sigmad,
                        ScalarRealType   A1,
                        ScalarRealType   B1,
@@ -254,12 +254,12 @@ private:
   ComputeRemainingCoefficients(bool symmetric);
 
   /** Sigma of the gaussian kernel. */
-  ScalarRealType m_Sigma{};
+  ScalarRealType m_Sigma{ 1.0 };
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale{};
 
-  GaussianOrderEnum m_Order{};
+  GaussianOrderEnum m_Order{ GaussianOrderEnum::ZeroOrder };
 };
 } // end namespace itk
 
