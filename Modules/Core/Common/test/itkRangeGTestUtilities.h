@@ -43,6 +43,15 @@ public:
 
   template <typename TRange>
   static void
+  ExpectReverseBeginIsReverseEndWhenRangeIsDefaultConstructed()
+  {
+    TRange defaultConstructedRange;
+    EXPECT_EQ(std::rbegin(defaultConstructedRange), std::rend(defaultConstructedRange));
+  }
+
+
+  template <typename TRange>
+  static void
   ExpectZeroSizeWhenRangeIsDefaultConstructed()
   {
     TRange defaultConstructedRange;
@@ -156,6 +165,55 @@ public:
   }
 
 
+  // Checks the nested types that are required according to the C++ Standard section "Container requirements"
+  // [container.reqmts].
+  template <typename TContainer, typename TValue = typename TContainer::ValueType>
+  static constexpr bool
+  CheckContainerRequirementsOnNestedTypes()
+  {
+    AssertSameType<typename TContainer::value_type, TValue>();
+    AssertSameType<typename TContainer::reference, TValue &>();
+    AssertSameType<typename TContainer::const_reference, const TValue &>();
+
+    // The C++ Standard requires that "the type `iterator` is convertible to `const_iterator`".
+    static_assert(std::is_convertible_v<typename TContainer::iterator, typename TContainer::const_iterator>);
+
+    using difference_type = typename TContainer::difference_type;
+    using size_type = typename TContainer::size_type;
+
+    static_assert(std::is_signed_v<difference_type>);
+    static_assert(std::is_integral_v<difference_type>);
+
+    // `size_type` must be "an unsigned integer type that can represent any non-negative value of `difference_type`."
+    static_assert(std::is_unsigned_v<size_type>);
+    static_assert(sizeof(size_type) >= sizeof(difference_type));
+    return true;
+  }
+
+
+  // Expects that `distance(begin, end)` is equal to `size`, for the specified container.
+  template <typename TContainer>
+  static void
+  ExpectDistanceFromBeginToEndEqualsSize(const TContainer & container)
+  {
+    const auto distance = std::distance(std::begin(container), std::end(container));
+    ASSERT_GE(distance, 0);
+    EXPECT_EQ(static_cast<size_t>(distance), std::size(container));
+  }
+
+
+  // Expects that `distance(&front, &back) + 1` is equal to `size`, for the specified (non-empty) container.
+  template <typename TContainer>
+  static void
+  ExpectDistanceFromFrontToBackPlusOneEqualsSize(const TContainer & container)
+  {
+    ASSERT_FALSE(std::empty(container));
+    const auto distance = std::distance(&container.front(), &container.back());
+    ASSERT_GE(distance, 0);
+    EXPECT_EQ(static_cast<size_t>(distance + 1), std::size(container));
+  }
+
+
   // Tells if `distance(&front, &back) + 1` is equal to `size`, for the specified container.
   template <typename TContainer>
   static constexpr bool
@@ -177,6 +235,13 @@ public:
   }
 
 private:
+  template <typename T1, typename T2>
+  static constexpr void
+  AssertSameType()
+  {
+    static_assert(std::is_same_v<T1, T2>);
+  }
+
   template <typename TRange>
   static void
   ExpectRangesHaveEqualBeginAndEnd(const TRange & range1, const TRange & range2)
