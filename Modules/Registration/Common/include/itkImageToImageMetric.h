@@ -352,7 +352,7 @@ public:
   using MultiThreaderType = MultiThreaderBase;
   /** Get the Threader. */
   /** @ITKStartGrouping */
-  itkGetModifiableObjectMacro(Threader, MultiThreaderType);
+  itkGetModifiableObjectMacro(Threader, MultiThreaderBase);
   const TransformPointer *
   GetThreaderTransform()
   {
@@ -600,7 +600,7 @@ protected:
   /**
    * \class MultiThreaderWorkUnitInfoImageToImageMetricWrapper
    * This helper local class is used to extract information from the
-   * MultiThreaderType::WorkUnitInfo info type
+   * MultiThreaderBase::WorkUnitInfo info type
    * Do not allow inheritance for objects that are intended for static_cast<void *>
    * \ingroup ITKRegistrationCommon
    */
@@ -608,7 +608,7 @@ protected:
   {
   public:
     MultiThreaderWorkUnitInfoImageToImageMetricWrapper(const void * workunitInfoAsVoid)
-      : m_WorkUnitInfo(static_cast<const typename MultiThreaderType::WorkUnitInfo *>(workunitInfoAsVoid))
+      : m_WorkUnitInfo(static_cast<const MultiThreaderBase::WorkUnitInfo *>(workunitInfoAsVoid))
     {}
     [[nodiscard]] ThreadIdType
     GetThreadId() const
@@ -622,10 +622,10 @@ protected:
     }
 
   private:
-    const typename MultiThreaderType::WorkUnitInfo * m_WorkUnitInfo;
+    const MultiThreaderBase::WorkUnitInfo * m_WorkUnitInfo;
   };
 
-  MultiThreaderType::Pointer              m_Threader{};
+  MultiThreaderBase::Pointer              m_Threader{};
   std::unique_ptr<ConstantPointerWrapper> m_ConstSelfWrapper;
   mutable std::unique_ptr<unsigned int[]> m_ThreaderNumberOfMovingImageSamples;
   bool                                    m_WithinThreadPreProcess{ false };

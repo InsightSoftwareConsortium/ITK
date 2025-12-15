@@ -501,7 +501,7 @@ public:
   /** @ITKEndGrouping */
 
   /** Return the multithreader used by this class. */
-  MultiThreaderType *
+  MultiThreaderBase *
   GetMultiThreader() const
   {
     return m_MultiThreader;
@@ -509,7 +509,7 @@ public:
 
   /** Set the multithreader used by this class. */
   void
-  SetMultiThreader(MultiThreaderType * threader);
+  SetMultiThreader(MultiThreaderBase * threader);
 
   /** An opportunity to deallocate a ProcessObject's bulk data
    *  storage. Some filters may wish to reuse existing bulk data
@@ -1002,7 +1002,7 @@ private:
 
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */
-  itk::SmartPointer<MultiThreaderType> m_MultiThreader;
+  itk::SmartPointer<MultiThreaderBase> m_MultiThreader;
   ThreadIdType                         m_NumberOfWorkUnits{};
 
   bool m_ThreaderUpdateProgress{ true };
