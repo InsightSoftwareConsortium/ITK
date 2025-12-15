@@ -41,40 +41,8 @@ if(ITK_WRAPPING)
     # When wrapping, the multi-config generators can only be used in degraded state
     # of allowing only a single element int the CMAKE_CONFIGURATION_TYPES and enforcing
     # that CMAKE_BUILD_TYPE match that type (see Wrapping/CMakeLists.txt enforcement)
-    set(
-      CMAKE_LIBRARY_OUTPUT_DIRECTORY
-      "$<1:${ITK_PYTHON_PACKAGE_DIR}>"
-      CACHE PATH
-      "Shared library directory with generator override"
-      FORCE
-    )
-    set(
-      CMAKE_RUNTIME_OUTPUT_DIRECTORY
-      "$<1:${ITK_PYTHON_PACKAGE_DIR}>"
-      CACHE PATH
-      "Shared library directory with generator override"
-      FORCE
-    )
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "$<1:${ITK_PYTHON_PACKAGE_DIR}>")
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "$<1:${ITK_PYTHON_PACKAGE_DIR}>")
   endif()
-else()
-  set(
-    CMAKE_LIBRARY_OUTPUT_DIRECTORY
-    ${NO_WRAP_CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-    CACHE PATH
-    "Shared library directory"
-  )
-  set(
-    CMAKE_RUNTIME_OUTPUT_DIRECTORY
-    ${NO_WRAP_CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-    CACHE PATH
-    "Runtime library directory"
-  )
 endif()
-mark_as_advanced(
-  FORCE
-  CMAKE_RUNTIME_OUTPUT_DIRECTORY
-  CMAKE_LIBRARY_OUTPUT_DIRECTORY
-  NO_WRAP_CMAKE_LIBRARY_OUTPUT_DIRECTORY
-  NO_WRAP_CMAKE_RUNTIME_OUTPUT_DIRECTORY
-  Python3_ROOT_DIR
-)
+mark_as_advanced(FORCE Python3_ROOT_DIR)

@@ -60,13 +60,8 @@ set(
 )
 
 if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
-  # See ITK/CMakeLists.txt for rational for overwriting multi-config default behavior of appending $<CONFIG>
-  set(
-    CMAKE_LIBRARY_OUTPUT_DIRECTORY
-    "$<1:${WrapITK_BINARY_DIR}/lib>"
-    CACHE INTERNAL
-    "Single output directory for building all libraries."
-  )
+  # See ITK/WrappingConfigCommon.cmake for rational for overwriting multi-config default behavior of appending $<CONFIG>
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "$<1:${WrapITK_BINARY_DIR}/lib>")
 endif()
 
 if(NOT EXECUTABLE_OUTPUT_PATH)
