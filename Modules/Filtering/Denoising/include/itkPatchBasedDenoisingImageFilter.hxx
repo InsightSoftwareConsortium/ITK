@@ -856,9 +856,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Compute3x3EigenAnalys
   // n = (I1/3)^2 - I2/3
   // s = (I1/3)^3 - I1*I2/6 + I3/2
 
-  RealTensorValueT n;     /*one-line-declaration*/
-  RealTensorValueT sqrtn; /*one-line-declaration*/
-  RealTensorValueT s;     /*one-line-declaration*/
+  RealTensorValueT n;
+  RealTensorValueT sqrtn;
+  RealTensorValueT s;
   n = I1div3 * I1div3 - I2 / 3;
   s = I1div3 * I1div3 * I1div3 - I1 * I2 / 6 + I3 / 2;
   sqrtn = std::sqrt(n);
