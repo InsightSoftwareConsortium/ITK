@@ -79,7 +79,9 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
   const ScalarRealType sigmad = m_Sigma / spacing;
   ScalarRealType       across_scale_normalization = 1.0;
 
-  /**  Parameters of exponential series. */
+  // Parameters of exponential series.
+  // These numbers correspond with Table 3, "Proposed new parameters in the approximation of the Gaussian and its
+  // derivatives..." of the article "Improving Deriche-style Recursive Gaussian Filters" [farneback2006].
   constexpr ScalarRealType A1[3]{ 1.3530, -0.6724, -1.3563 };
   constexpr ScalarRealType B1[3]{ 1.8151, -3.4327, 5.2318 };
   constexpr ScalarRealType W1{ 0.6681 };
