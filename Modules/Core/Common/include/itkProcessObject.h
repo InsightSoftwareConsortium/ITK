@@ -164,8 +164,12 @@ public:
   /** STL array of data object names */
   using NameArray = std::vector<DataObjectIdentifierType>;
 
-  /** Type of general multi-threader interface */
-  using MultiThreaderType = MultiThreaderBase;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  /** Type of general multi-threader interface
+   * \deprecated Please use `itk::MultiThreaderBase` directly.
+   */
+  using MultiThreaderType [[deprecated("Please use `itk::MultiThreaderBase` directly.")]] = MultiThreaderBase;
+#endif
 
   /** \brief Return an array with the names of the inputs defined.
    *

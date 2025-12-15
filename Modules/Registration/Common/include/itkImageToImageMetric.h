@@ -349,7 +349,11 @@ public:
   itkGetConstReferenceMacro(UseCachingOfBSplineWeights, bool);
   itkBooleanMacro(UseCachingOfBSplineWeights);
   /** @ITKEndGrouping */
-  using MultiThreaderType = MultiThreaderBase;
+
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using MultiThreaderType [[deprecated("Please use `itk::MultiThreaderBase` directly.")]] = MultiThreaderBase;
+#endif
+
   /** Get the Threader. */
   /** @ITKStartGrouping */
   itkGetModifiableObjectMacro(Threader, MultiThreaderBase);
