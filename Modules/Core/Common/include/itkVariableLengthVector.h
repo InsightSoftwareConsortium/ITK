@@ -344,6 +344,9 @@ public:
    */
   explicit VariableLengthVector(unsigned int length);
 
+  /** Constructor with size and initial value for each element. */
+  explicit VariableLengthVector(unsigned int length, const TValue & value);
+
   /** Constructor that initializes array with contents from a user supplied
    * buffer.
    * The pointer to the buffer and the length is specified. By default, the

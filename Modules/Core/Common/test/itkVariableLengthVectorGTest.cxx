@@ -140,3 +140,25 @@ TEST(VariableLengthVector, ReverseIteration)
     }
   }
 }
+
+
+// Tests constructing with the specified length and value.
+TEST(VariableLengthVector, ConstructWithSpecifiedLengthAndValue)
+{
+  using ValueType = int;
+  using VariableLengthVectorType = itk::VariableLengthVector<ValueType>;
+  using ValueLimits = std::numeric_limits<ValueType>;
+
+  for (const auto value : { ValueLimits::min(), ValueType{}, ValueType{ 1 }, ValueLimits::max() })
+  {
+    EXPECT_TRUE(VariableLengthVectorType(0, value).empty());
+
+    for (unsigned int length{ 1 }; length < 4; ++length)
+    {
+      const VariableLengthVectorType variableLengthVector(length, value);
+
+      EXPECT_EQ(variableLengthVector.size(), length);
+      EXPECT_EQ(std::count(variableLengthVector.cbegin(), variableLengthVector.cend(), value), length);
+    }
+  }
+}
