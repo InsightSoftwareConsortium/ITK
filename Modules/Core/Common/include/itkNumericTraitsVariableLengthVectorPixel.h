@@ -95,45 +95,31 @@ public:
   static const Self
   max(const Self & a)
   {
-    Self b(a.Size());
-
-    b.Fill(NumericTraits<T>::max());
-    return b;
+    return Self(a.Size(), NumericTraits<T>::max());
   }
 
   static const Self
   min(const Self & a)
   {
-    Self b(a.Size());
-
-    b.Fill(NumericTraits<T>::min());
-    return b;
+    return Self(a.Size(), NumericTraits<T>::min());
   }
 
   static const Self
   ZeroValue(const Self & a)
   {
-    Self b(a.Size());
-
-    b.Fill(T{});
-    return b;
+    return Self(a.Size(), T{});
   }
 
   static const Self
   OneValue(const Self & a)
   {
-    Self b(a.Size());
-
-    b.Fill(NumericTraits<T>::OneValue());
-    return b;
+    return Self(a.Size(), NumericTraits<T>::OneValue());
   }
 
   static const Self
   NonpositiveMin(const Self & a)
   {
-    Self b(a.Size());
-    b.Fill(NumericTraits<T>::NonpositiveMin());
-    return b;
+    return Self(a.Size(), NumericTraits<T>::NonpositiveMin());
   }
 
   static bool
