@@ -22,54 +22,12 @@
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
 #include "itkFloatingPointExceptions.h"
+#include "itkNumericLocale.h"
 
 #include <sstream>
-#include <locale.h>
-#include <cstring>
-#include <cstdlib>
 
 namespace
 {
-// RAII class to temporarily set LC_NUMERIC locale to "C" for locale-independent
-// parsing of floating-point numbers in NRRD headers.
-// This prevents issues in locales that use comma as decimal separator (e.g., de_DE.UTF-8).
-class ScopedCNumericLocale
-{
-public:
-  ScopedCNumericLocale()
-  {
-    // Save current LC_NUMERIC locale
-    const char * currentLocale = setlocale(LC_NUMERIC, nullptr);
-    if (currentLocale)
-    {
-      m_SavedLocale = strdup(currentLocale);
-    }
-    // Set to C locale for parsing
-    setlocale(LC_NUMERIC, "C");
-  }
-
-  ~ScopedCNumericLocale()
-  {
-    // Restore original locale
-    if (m_SavedLocale)
-    {
-      setlocale(LC_NUMERIC, m_SavedLocale);
-      free(m_SavedLocale);
-    }
-  }
-
-  // Delete copy and move operations
-  ScopedCNumericLocale(const ScopedCNumericLocale &) = delete;
-  ScopedCNumericLocale &
-  operator=(const ScopedCNumericLocale &) = delete;
-  ScopedCNumericLocale(ScopedCNumericLocale &&) = delete;
-  ScopedCNumericLocale &
-  operator=(ScopedCNumericLocale &&) = delete;
-
-private:
-  char * m_SavedLocale{ nullptr };
-};
-
 // This function determines which NRRD axis should be used for pixel component in the ITK image,
 // and which NRRD axes should be used for the ITK image axes.
 // The pixel component axis is the first NRRD range axis (preferably a non-list axis).
@@ -441,7 +399,8 @@ NrrdImageIO::ReadImageInformation()
     // Set LC_NUMERIC to "C" locale to ensure locale-independent parsing
     // of floating-point values in NRRD headers (spacing, origin, direction, etc.).
     // This prevents issues in locales that use comma as decimal separator.
-    ScopedCNumericLocale cLocale;
+    // Using thread-safe NumericLocale from ITKCommon.
+    NumericLocale cLocale;
 
     // this is the mechanism by which we tell nrrdLoad to read
     // just the header, and none of the data
@@ -973,7 +932,8 @@ NrrdImageIO::Read(void * buffer)
 
   // Set LC_NUMERIC to "C" locale to ensure locale-independent parsing
   // of floating-point values in NRRD headers.
-  ScopedCNumericLocale cLocale;
+  // Using thread-safe NumericLocale from ITKCommon.
+  NumericLocale cLocale;
 
   // Read in the nrrd.  Yes, this means that the header is being read
   // twice: once by NrrdImageIO::ReadImageInformation, and once here
@@ -1392,7 +1352,8 @@ NrrdImageIO::Write(const void * buffer)
 
   // Set LC_NUMERIC to "C" locale to ensure locale-independent formatting
   // of floating-point values when writing NRRD headers.
-  ScopedCNumericLocale cLocale;
+  // Using thread-safe NumericLocale from ITKCommon.
+  NumericLocale cLocale;
 
   // Write the nrrd to file.
   if (nrrdSave(this->GetFileName(), nrrd, nio))
