@@ -101,6 +101,10 @@ public:
 
   itkOverrideGetNameOfClassMacro(SobelOperator);
 
+  static_assert(
+    VDimension == 2 || VDimension == 3,
+    "The ND version of the Sobel operator has not been implemented. Currently only 2D and 3D versions are available.");
+
   /** Creates the operator with length only in the specified direction.
    * The radius of the operator will be 0 except along the axis on which
    * the operator will work.

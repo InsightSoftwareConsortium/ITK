@@ -28,42 +28,39 @@ SobelOperator<TPixel, VDimension, TAllocator>::Fill(const CoefficientVector & co
 {
   this->InitializeToZero();
 
-  if constexpr (VDimension == 2 || VDimension == 3)
+  // Note that this code is only good for 2d and 3d operators.  Places the
+  // coefficients in the exact center of the neighborhood
+  const unsigned int center = this->GetCenterNeighborhoodIndex();
+
+  if constexpr (VDimension == 2)
   {
-    // Note that this code is only good for 2d and 3d operators.  Places the
-    // coefficients in the exact center of the neighborhood
-    const unsigned int center = this->GetCenterNeighborhoodIndex();
-
-    if constexpr (VDimension == 3)
+    unsigned int coeff_index = 0;
+    for (int y = -1; y <= 1; ++y)
     {
-      unsigned int coeff_index = 0;
-      for (int z = -1; z <= 1; ++z)
+      for (int x = -1; x <= 1; ++x)
       {
-        for (int y = -1; y <= 1; ++y)
-        {
-          for (int x = -1; x <= 1; ++x)
-          {
-            const int pos = center + z * this->GetStride(2) + y * this->GetStride(1) + x * this->GetStride(0);
+        const int pos = center + y * this->GetStride(1) + x * this->GetStride(0);
+        // Note, The following line copies the double precision
+        // coefficients of SobelOperator to the pixel type
+        // of the neighborhood operator which may not support
+        // negative numbers, or floating point numbers.
+        this->operator[](pos) = static_cast<TPixel>(coeff[coeff_index]);
 
-            this->operator[](pos) = static_cast<TPixel>(coeff[coeff_index]);
-
-            ++coeff_index;
-          }
-        }
+        ++coeff_index;
       }
     }
-    else // So now VDimension == 2
+  }
+  if constexpr (VDimension == 3)
+  {
+    unsigned int coeff_index = 0;
+    for (int z = -1; z <= 1; ++z)
     {
-      unsigned int coeff_index = 0;
       for (int y = -1; y <= 1; ++y)
       {
         for (int x = -1; x <= 1; ++x)
         {
-          const int pos = center + y * this->GetStride(1) + x * this->GetStride(0);
-          // Note, The following line copies the double precision
-          // coefficients of SobelOperator to the pixel type
-          // of the neighborhood operator which may not support
-          // negative numbers, or floating point numbers.
+          const int pos = center + z * this->GetStride(2) + y * this->GetStride(1) + x * this->GetStride(0);
+
           this->operator[](pos) = static_cast<TPixel>(coeff[coeff_index]);
 
           ++coeff_index;
@@ -71,147 +68,38 @@ SobelOperator<TPixel, VDimension, TAllocator>::Fill(const CoefficientVector & co
       }
     }
   }
-  else
-  {
-    itkExceptionStringMacro("The ND version of the Sobel operator is not yet implemented.  Currently only the 2D and "
-                            "3D versions are available.");
-  }
 }
 
 template <typename TPixel, unsigned int VDimension, typename TAllocator>
 auto
 SobelOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
-  CoefficientVector     coeff;
-  constexpr std::size_t coeff_size{ (VDimension == 2) ? 9 : 27 };
-  coeff.reserve(coeff_size);
-  if (VDimension == 2 && this->GetDirection() == 0)
+  const unsigned int direction = this->GetDirection();
+
+  if constexpr (VDimension == 2)
   {
-    coeff.push_back(-1.0);
-    coeff.push_back(0.0);
-    coeff.push_back(1.0);
-    coeff.push_back(-2.0);
-    coeff.push_back(0.0);
-    coeff.push_back(2);
-    coeff.push_back(-1.0);
-    coeff.push_back(0.0);
-    coeff.push_back(1.0);
+    switch (direction)
+    {
+      case 0:
+        return { -1, 0, 1, -2, 0, 2, -1, 0, 1 };
+      case 1:
+        return { -1, -2, -1, 0, 0, 0, 1, 2, 1 };
+    }
   }
-  else if (VDimension == 2 && this->GetDirection() == 1)
+  if constexpr (VDimension == 3)
   {
-    coeff.push_back(-1.0);
-    coeff.push_back(-2);
-    coeff.push_back(-1.0);
-    coeff.push_back(0.0);
-    coeff.push_back(0.0);
-    coeff.push_back(0.0);
-    coeff.push_back(1.0);
-    coeff.push_back(2);
-    coeff.push_back(1.0);
+    switch (direction)
+    {
+      case 0:
+        return { -1, 0, 1, -3, 0, 3, -1, 0, 1, -3, 0, 3, -6, 0, 6, -3, 0, 3, -1, 0, 1, -3, 0, 3, -1, 0, 1 };
+      case 1:
+        return { -1, -3, -1, 0, 0, 0, 1, 3, 1, -3, -6, -3, 0, 0, 0, 3, 6, 3, -1, -3, -1, 0, 0, 0, 1, 3, 1 };
+      case 2:
+        return { -1, -3, -1, -3, -6, -3, -1, -3, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1, 3, 6, 3, 1, 3, 1 };
+    }
   }
-  else if (VDimension == 3 && this->GetDirection() == 0)
-  {
-    coeff.push_back(-1.0);
-    coeff.push_back(0.0);
-    coeff.push_back(1.0);
-    coeff.push_back(-3.0);
-    coeff.push_back(0.0);
-    coeff.push_back(3.0);
-    coeff.push_back(-1.0);
-    coeff.push_back(0.0);
-    coeff.push_back(1.0);
-
-    coeff.push_back(-3.0);
-    coeff.push_back(0.0);
-    coeff.push_back(3.0);
-    coeff.push_back(-6.0);
-    coeff.push_back(0.0);
-    coeff.push_back(6.0);
-    coeff.push_back(-3.0);
-    coeff.push_back(0.0);
-    coeff.push_back(3.0);
-
-    coeff.push_back(-1.0);
-    coeff.push_back(0.0);
-    coeff.push_back(1.0);
-    coeff.push_back(-3.0);
-    coeff.push_back(0.0);
-    coeff.push_back(3.0);
-    coeff.push_back(-1.0);
-    coeff.push_back(0.0);
-    coeff.push_back(1.0);
-  }
-  else if (VDimension == 3 && this->GetDirection() == 1)
-  {
-    coeff.push_back(-1.0);
-    coeff.push_back(-3.0);
-    coeff.push_back(-1.0);
-    coeff.push_back(0.0);
-    coeff.push_back(0.0);
-    coeff.push_back(0.0);
-    coeff.push_back(1.0);
-    coeff.push_back(3.0);
-    coeff.push_back(1.0);
-
-    coeff.push_back(-3.0);
-    coeff.push_back(-6.0);
-    coeff.push_back(-3.0);
-    coeff.push_back(0.0);
-    coeff.push_back(0.0);
-    coeff.push_back(0.0);
-    coeff.push_back(3.0);
-    coeff.push_back(6.0);
-    coeff.push_back(3.0);
-
-    coeff.push_back(-1.0);
-    coeff.push_back(-3.0);
-    coeff.push_back(-1.0);
-    coeff.push_back(0.0);
-    coeff.push_back(0.0);
-    coeff.push_back(0.0);
-    coeff.push_back(1.0);
-    coeff.push_back(3.0);
-    coeff.push_back(1.0);
-  }
-  else if (VDimension == 3 && this->GetDirection() == 2)
-  {
-    coeff.push_back(-1.0);
-    coeff.push_back(-3.0);
-    coeff.push_back(-1.0);
-    coeff.push_back(-3.0);
-    coeff.push_back(-6.0);
-    coeff.push_back(-3.0);
-    coeff.push_back(-1.0);
-    coeff.push_back(-3.0);
-    coeff.push_back(-1.0);
-
-    coeff.push_back(0.0);
-    coeff.push_back(0.0);
-    coeff.push_back(0.0);
-    coeff.push_back(0.0);
-    coeff.push_back(0.0);
-    coeff.push_back(0.0);
-    coeff.push_back(0.0);
-    coeff.push_back(0.0);
-    coeff.push_back(0.0);
-
-    coeff.push_back(1.0);
-    coeff.push_back(3.0);
-    coeff.push_back(1.0);
-    coeff.push_back(3.0);
-    coeff.push_back(6.0);
-    coeff.push_back(3.0);
-    coeff.push_back(1.0);
-    coeff.push_back(3.0);
-    coeff.push_back(1.0);
-  }
-  else
-  {
-    itkExceptionStringMacro("The ND version of the Sobel operator has not been implemented.  Currently only 2D and 3D "
-                            "versions are available.");
-  }
-
-  return coeff;
+  itkExceptionMacro("The direction value (" << direction << ") should be less than the dimensionality (" << VDimension
+                                            << ").");
 }
 } // namespace itk
 
