@@ -63,7 +63,7 @@ ProcessObject::ProcessObject()
   m_IndexedInputs.push_back(m_Inputs.insert(p).first);
   m_IndexedOutputs.push_back(m_Outputs.insert(std::move(p)).first);
 
-  this->Self::SetMultiThreader(MultiThreaderType::New());
+  this->Self::SetMultiThreader(MultiThreaderBase::New());
 }
 
 
@@ -1552,7 +1552,7 @@ ProcessObject::GenerateOutputRequestedRegion(DataObject * output)
 
 
 void
-ProcessObject::SetMultiThreader(MultiThreaderType * threader)
+ProcessObject::SetMultiThreader(MultiThreaderBase * threader)
 {
   if (this->m_MultiThreader != threader)
   {

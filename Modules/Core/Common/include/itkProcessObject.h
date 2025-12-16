@@ -164,8 +164,12 @@ public:
   /** STL array of data object names */
   using NameArray = std::vector<DataObjectIdentifierType>;
 
-  /** Type of general multi-threader interface */
-  using MultiThreaderType = MultiThreaderBase;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  /** Type of general multi-threader interface
+   * \deprecated Please use `itk::MultiThreaderBase` directly.
+   */
+  using MultiThreaderType [[deprecated("Please use `itk::MultiThreaderBase` directly.")]] = MultiThreaderBase;
+#endif
 
   /** \brief Return an array with the names of the inputs defined.
    *
@@ -501,7 +505,7 @@ public:
   /** @ITKEndGrouping */
 
   /** Return the multithreader used by this class. */
-  MultiThreaderType *
+  MultiThreaderBase *
   GetMultiThreader() const
   {
     return m_MultiThreader;
@@ -509,7 +513,7 @@ public:
 
   /** Set the multithreader used by this class. */
   void
-  SetMultiThreader(MultiThreaderType * threader);
+  SetMultiThreader(MultiThreaderBase * threader);
 
   /** An opportunity to deallocate a ProcessObject's bulk data
    *  storage. Some filters may wish to reuse existing bulk data
@@ -1002,7 +1006,7 @@ private:
 
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */
-  itk::SmartPointer<MultiThreaderType> m_MultiThreader;
+  itk::SmartPointer<MultiThreaderBase> m_MultiThreader;
   ThreadIdType                         m_NumberOfWorkUnits{};
 
   bool m_ThreaderUpdateProgress{ true };
