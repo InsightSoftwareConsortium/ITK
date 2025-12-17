@@ -36,6 +36,13 @@ VariableLengthVector<TValue>::VariableLengthVector(unsigned int length)
 }
 
 template <typename TValue>
+VariableLengthVector<TValue>::VariableLengthVector(unsigned int length, const TValue & value)
+  : VariableLengthVector(length)
+{
+  std::fill_n(m_Data, length, value);
+}
+
+template <typename TValue>
 VariableLengthVector<TValue>::VariableLengthVector(ValueType * datain, unsigned int sz, bool LetArrayManageMemory)
   : m_LetArrayManageMemory(LetArrayManageMemory)
   , m_Data(datain)
