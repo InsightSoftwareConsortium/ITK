@@ -51,7 +51,7 @@ itkTIFFErrorHandlerExtR([[maybe_unused]] TIFF * tif,
   {
     char out[256];
     ITK_GCC_PRAGMA_PUSH
-    ITK_GCC_SUPPRESS_Wformat_nonliteral;
+    ITK_GCC_SUPPRESS_Wformat_nonliteral
     vsnprintf(out, sizeof(out), fmt, ap);
     ITK_GCC_PRAGMA_POP
     const std::string nameOfClass = std::string("libtiff(").append(module != nullptr ? module : "").append(")");
@@ -74,7 +74,7 @@ itkTIFFWarningHandlerExtR([[maybe_unused]] TIFF * tif,
   {
     char out[256];
     ITK_GCC_PRAGMA_PUSH
-    ITK_GCC_SUPPRESS_Wformat_nonliteral;
+    ITK_GCC_SUPPRESS_Wformat_nonliteral
     vsnprintf(out, sizeof(out), fmt, ap);
     ITK_GCC_PRAGMA_POP
     const std::string nameOfClass = std::string("libtiff(") + (module != nullptr ? module : "") + "))";
