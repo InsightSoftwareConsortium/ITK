@@ -36,6 +36,8 @@ NumericLocale::NumericLocale()
   if (currentLocale)
   {
     m_SavedLocale = _strdup(currentLocale);
+    // If _strdup fails (returns nullptr), m_SavedLocale remains nullptr
+    // and the locale will not be restored in the destructor
   }
 
   // Set to C locale for parsing
@@ -64,26 +66,27 @@ NumericLocale::~NumericLocale()
 NumericLocale::NumericLocale()
 {
   // Create a new C locale
+  // If newlocale fails (returns nullptr), m_CLocale remains nullptr
+  // and the locale will not be changed - this is a safe fallback
   m_CLocale = newlocale(LC_NUMERIC_MASK, "C", nullptr);
 
   if (m_CLocale)
   {
     // Set the C locale for this thread and save the previous locale
+    // uselocale returns the previous locale, which may be LC_GLOBAL_LOCALE
     m_PreviousLocale = uselocale(m_CLocale);
   }
 }
 
 NumericLocale::~NumericLocale()
 {
-  // Restore the previous locale for this thread
-  if (m_PreviousLocale)
-  {
-    uselocale(m_PreviousLocale);
-  }
-
-  // Free the C locale
+  // If we created and installed a C locale for this thread,
+  // restore the previous locale and free the C locale.
+  // Always restore if m_CLocale is set, as m_PreviousLocale may be
+  // LC_GLOBAL_LOCALE which is a valid non-null value.
   if (m_CLocale)
   {
+    uselocale(m_PreviousLocale);
     freelocale(m_CLocale);
   }
 }
@@ -100,6 +103,8 @@ std::mutex localeMutex;
 NumericLocale::NumericLocale()
 {
   // Lock mutex to protect global locale state
+  // Using direct lock/unlock instead of lock_guard to maintain compatibility
+  // with the RAII pattern where unlock happens in destructor
   localeMutex.lock();
 
   // Save current LC_NUMERIC locale
@@ -107,13 +112,16 @@ NumericLocale::NumericLocale()
   if (currentLocale)
   {
     m_SavedLocale = strdup(currentLocale);
+    // If strdup fails (returns nullptr), m_SavedLocale remains nullptr
+    // and the locale will not be restored in the destructor
   }
 
   // Set to C locale for parsing
+  // Note: setlocale is a C function and does not throw exceptions
   setlocale(LC_NUMERIC, "C");
 }
 
-NumericLocale::~NumericLocale()
+NumericLocale::~NumericLocale() noexcept
 {
   // Restore original locale
   if (m_SavedLocale)
@@ -122,7 +130,7 @@ NumericLocale::~NumericLocale()
     free(m_SavedLocale);
   }
 
-  // Unlock mutex
+  // Unlock mutex - must always happen to avoid deadlock
   localeMutex.unlock();
 }
 

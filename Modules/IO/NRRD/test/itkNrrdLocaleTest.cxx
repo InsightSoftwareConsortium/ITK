@@ -24,7 +24,7 @@
 #include "itkTestingMacros.h"
 
 // Test that NRRD reader handles locale-dependent parsing correctly.
-// This test verifies the fix for: https://github.com/InsightSoftwareConsortium/ITK/issues/XXXX
+// This test verifies the fix for: https://github.com/InsightSoftwareConsortium/ITK/issues/5683
 
 int
 itkNrrdLocaleTest(int argc, char * argv[])
@@ -55,11 +55,11 @@ itkNrrdLocaleTest(int argc, char * argv[])
   image->FillBuffer(42.0f);
 
   // Set spacing with fractional values that would be misparsed
-  // in locales using comma as decimal separator
+  // in locales using comma as decimal separator (without the fix)
   ImageType::SpacingType spacing;
-  spacing[0] = 3.5;   // Would be parsed correctly even with truncation
-  spacing[1] = 0.878906; // Would become 0.0 in de_DE locale, causing error
-  spacing[2] = 2.2;   // Would be parsed incorrectly
+  spacing[0] = 3.5;       // Without fix: would be truncated to 3 in de_DE locale
+  spacing[1] = 0.878906;  // Without fix: would become 0.0 in de_DE locale, causing zero-spacing error
+  spacing[2] = 2.2;       // Without fix: would be truncated to 2 in de_DE locale
 
   image->SetSpacing(spacing);
 
