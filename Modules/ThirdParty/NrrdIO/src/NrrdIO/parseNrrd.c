@@ -206,7 +206,7 @@ _nrrdReadNrrdParse_type(FILE *file, Nrrd *nrrd,
 }
 
 #define _PARSE_ONE_VAL(FIELD, CONV, TYPE)                         \
-  if (1 != sscanf(info, CONV, &(FIELD))) {                        \
+  if (1 != airSingleSscanf(info, CONV, &(FIELD))) {               \
     biffMaybeAddf(useBiff, NRRD, "%s: couldn't parse " TYPE       \
                   " from \"%s\"", me, info);                      \
     return 1;                                                     \
@@ -1299,24 +1299,54 @@ _nrrdReadNrrdParse_data_file(FILE *ffile, Nrrd *nrrd,
     sspn = strspn(nums, _nrrdFieldSep);
     nums[0] = 0;   /* terminate so that format is now in info */
     nums += sspn;
-    if (!( 3 == sscanf(nums, "%d %d %d",&(nio->dataFNMin),
-                       &(nio->dataFNMax), &(nio->dataFNStep)) )) {
-      biffMaybeAddf(useBiff, NRRD,
-                    "%s: couldn't parse three ints (min, max, step) after "
-                    "data filename template", me);
-      airMopError(mop); return 1;
-    }
-    if ( 4 == sscanf(nums, "%d %d %d %u", &(nio->dataFNMin),
-                     &(nio->dataFNMax), &(nio->dataFNStep),
-                     &(nio->dataFileDim)) ) {
-      if (!AIR_IN_CL(1, nio->dataFileDim, nrrd->dim)) {
+    /* Parse three integers one at a time for locale independence */
+    {
+      char *numsCopy = airStrdup(nums);
+      char *ptr = numsCopy;
+      int parsed = 0;
+      if (1 == airSingleSscanf(ptr, "%d", &(nio->dataFNMin))) {
+        while (*ptr && !isspace(*ptr)) ptr++;
+        while (*ptr && isspace(*ptr)) ptr++;
+        if (1 == airSingleSscanf(ptr, "%d", &(nio->dataFNMax))) {
+          while (*ptr && !isspace(*ptr)) ptr++;
+          while (*ptr && isspace(*ptr)) ptr++;
+          if (1 == airSingleSscanf(ptr, "%d", &(nio->dataFNStep))) {
+            parsed = 3;
+          }
+        }
+      }
+      airFree(numsCopy);
+      if (3 != parsed) {
         biffMaybeAddf(useBiff, NRRD,
-                      "%s: datafile dimension %u outside valid range [1,%u]",
-                      me, nio->dataFileDim, nrrd->dim);
+                      "%s: couldn't parse three ints (min, max, step) after "
+                      "data filename template", me);
         airMopError(mop); return 1;
       }
-    } else {
-      nio->dataFileDim = nrrd->dim-1;
+    }
+    /* Try to parse optional fourth integer */
+    {
+      char *numsCopy = airStrdup(nums);
+      char *ptr = numsCopy;
+      int parsed = 0;
+      /* Skip past the three already parsed integers */
+      for (int i = 0; i < 3 && *ptr; i++) {
+        while (*ptr && !isspace(*ptr)) ptr++;
+        while (*ptr && isspace(*ptr)) ptr++;
+      }
+      if (*ptr && 1 == airSingleSscanf(ptr, "%u", &(nio->dataFileDim))) {
+        parsed = 4;
+        if (!AIR_IN_CL(1, nio->dataFileDim, nrrd->dim)) {
+          biffMaybeAddf(useBiff, NRRD,
+                        "%s: datafile dimension %u outside valid range [1,%u]",
+                        me, nio->dataFileDim, nrrd->dim);
+          airFree(numsCopy);
+          airMopError(mop); return 1;
+        }
+      }
+      airFree(numsCopy);
+      if (4 != parsed) {
+        nio->dataFileDim = nrrd->dim-1;
+      }
     }
     if (0 == nio->dataFNStep) {
       biffMaybeAddf(useBiff, NRRD,
@@ -1353,7 +1383,7 @@ _nrrdReadNrrdParse_data_file(FILE *ffile, Nrrd *nrrd,
     }
     info += strlen(NRRD_LIST_FLAG);
     if (info[0]) {
-      if (1 == sscanf(info, "%u", &(nio->dataFileDim))) {
+      if (1 == airSingleSscanf(info, "%u", &(nio->dataFileDim))) {
         if (!AIR_IN_CL(1, nio->dataFileDim, nrrd->dim)) {
           biffMaybeAddf(useBiff, NRRD, "%s: datafile dimension %u outside "
                         "valid range [1,%u]",

@@ -356,3 +356,8 @@ itk_add_test(
     itkNrrdMetaDataTest
     ${ITK_TEST_OUTPUT_DIR}
 )
+
+# GTest tests
+set(ITKIONRRDGTests itkNrrdLocaleGTest.cxx)
+
+creategoogletestdriver(ITKIONRRD "${ITKIONRRD-Test_LIBRARIES}" "${ITKIONRRDGTests}")

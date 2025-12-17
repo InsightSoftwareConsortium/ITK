@@ -23,7 +23,14 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
+#include <locale>
+#include <sstream>
+#include <string>
+#include <stdexcept>
+
+extern "C" {
 #include "NrrdIO.h"
+}
 
 static const char *
 _airBoolStr[] = {
@@ -105,10 +112,29 @@ airSingleSscanf(const char *str, const char *fmt, void *ptr) {
       val = AIR_POS_INF;
     }
     else {
-      /* nothing special matched; pass it off to sscanf() */
-      ret = sscanf(str, fmt, ptr);
+      /* nothing special matched; use C++ stream with classic locale */
+      std::istringstream iss(str);
+      iss.imbue(std::locale::classic());
+
+      if (!strncmp(fmt, "%l", 2)) {
+        /* we were given a double pointer */
+        double dval;
+        if (!(iss >> dval)) {
+          free(tmp);
+          return 0;
+        }
+        *((double *)(ptr)) = dval;
+      } else {
+        /* we were given a float pointer */
+        float fval;
+        if (!(iss >> fval)) {
+          free(tmp);
+          return 0;
+        }
+        *((float *)(ptr)) = fval;
+      }
       free(tmp);
-      return ret;
+      return 1;
     }
     /* else we matched "nan", "-inf", or "inf", and set val accordingly */
     if (!strncmp(fmt, "%l", 2)) {
@@ -138,8 +164,36 @@ airSingleSscanf(const char *str, const char *fmt, void *ptr) {
     *((size_t *)(ptr)) = tsz;
     return 1;
   } else {
-    /* not a float, double, or size_t, let sscanf handle it */
-    return sscanf(str, fmt, ptr);
+    /* not a float, double, or size_t, use C++ stream with classic locale */
+    std::istringstream iss(str);
+    iss.imbue(std::locale::classic());
+
+    if (!strcmp(fmt, "%d")) {
+      int ival;
+      if (!(iss >> ival)) return 0;
+      *((int *)(ptr)) = ival;
+      return 1;
+    } else if (!strcmp(fmt, "%u")) {
+      unsigned int uival;
+      if (!(iss >> uival)) return 0;
+      *((unsigned int *)(ptr)) = uival;
+      return 1;
+    } else if (!strcmp(fmt, "%ld")) {
+      long lival;
+      if (!(iss >> lival)) return 0;
+      *((long *)(ptr)) = lival;
+      return 1;
+    } else if (!strcmp(fmt, "%lu")) {
+      unsigned long ulval;
+      if (!(iss >> ulval)) return 0;
+      *((unsigned long *)(ptr)) = ulval;
+      return 1;
+    }
+    /* fallback to sscanf for unknown formats - should never reach here! */
+    std::string error_msg = std::string("airSingleSscanf: Unsupported format '") + 
+                            fmt + "' for string '" + str + 
+                            "' - fallback to locale-dependent sscanf would be used!";
+    throw std::runtime_error(error_msg);
   }
 }
 
