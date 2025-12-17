@@ -147,7 +147,7 @@ public:
   /** Remove a child.
    *
    * Removes its child nodes as well.
-   * /
+   */
   virtual bool
   RemoveChild(int number);
 
