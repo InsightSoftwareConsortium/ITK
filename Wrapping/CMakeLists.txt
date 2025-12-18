@@ -138,6 +138,32 @@ set(WRAP_ITK_LIB_DIRECTORY "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 set(ITK_TEST_DRIVER "itkTestDriver")
 
 ###############################################################################
+# Check for IPO/LTO support once globally for all wrapper modules
+###############################################################################
+
+if(NOT MSVC)
+  include(CheckIPOSupported)
+  check_ipo_supported(RESULT ITK_WRAP_IPO_SUPPORTED OUTPUT ipo_check_output)
+  if(ITK_WRAP_IPO_SUPPORTED)
+    message(STATUS "IPO/LTO supported for ITK wrapper modules")
+  else()
+    message(
+      STATUS
+      "IPO/LTO not supported for ITK wrapper modules: ${ipo_check_output}"
+    )
+  endif()
+  set(
+    ITK_WRAP_IPO_SUPPORTED
+    ${ITK_WRAP_IPO_SUPPORTED}
+    CACHE INTERNAL
+    "Whether IPO/LTO is supported for wrapper modules"
+  )
+  unset(ipo_check_output)
+else()
+  set(ITK_WRAP_IPO_SUPPORTED FALSE CACHE INTERNAL "IPO/LTO not checked on MSVC")
+endif()
+
+###############################################################################
 # The real work on wrappers
 ###############################################################################
 
