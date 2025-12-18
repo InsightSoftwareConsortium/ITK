@@ -67,12 +67,7 @@ runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, co
   // -------
 
   // test 1~8 threads for CPU
-  std::vector<int> nThreadVec;
-  nThreadVec.push_back(1);
-  nThreadVec.push_back(2);
-  nThreadVec.push_back(4);
-  nThreadVec.push_back(8);
-  nThreadVec.push_back(128);
+  std::vector<int> nThreadVec{ 1, 2, 4, 8, 128 };
 
   for (unsigned int idx = 0; idx < nThreadVec.size(); ++idx)
   {

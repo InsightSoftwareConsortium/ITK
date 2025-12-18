@@ -273,9 +273,7 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
   // Set the parameters of the clusterer
   //----------------------------------------------------------------------
   // add the first two vectors to the projection basis
-  ImagePCAShapeModelEstimatorType::BasisImagePointerVector basis;
-  basis.push_back(image1);
-  basis.push_back(image2);
+  ImagePCAShapeModelEstimatorType::BasisImagePointerVector basis{ image1, image2 };
   decomposer->SetBasisImages(basis);
 
   ImagePCAShapeModelEstimatorType::BasisImagePointerVector basisObtained = decomposer->GetBasisImages();

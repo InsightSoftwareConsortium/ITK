@@ -49,9 +49,7 @@ itkLevelSetDomainMapImageFilterTest(int, char *[])
 
   for (unsigned int i = 0; i < 10; ++i)
   {
-    ListPixelType ll;
-    ll.push_back(i);
-    ll.push_back(i + 1);
+    ListPixelType ll{ static_cast<int>(i), static_cast<int>(i + 1) };
 
     index[0] = index[1] = i;
     input->SetPixel(index, ll);

@@ -58,8 +58,7 @@ itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, char * 
   index[0] = 29;
   index[1] = 47;
 
-  std::vector<IndexType> seedList;
-  seedList.push_back(index);
+  std::vector<IndexType> seedList{ index };
 
   RegionType region = reader->GetOutput()->GetBufferedRegion();
 

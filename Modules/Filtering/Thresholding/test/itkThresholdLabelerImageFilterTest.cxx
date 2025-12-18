@@ -53,28 +53,16 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
 
   // Stripe y indexes
   using IndexValueVectorType = std::vector<InputImageType::IndexType::IndexValueType>;
-  IndexValueVectorType yindexes;
-  yindexes.push_back(0);
-  yindexes.push_back(8);
-  yindexes.push_back(16);
-  yindexes.push_back(24);
+  IndexValueVectorType yindexes{ 0, 8, 16, 24 };
 
   // Set the values for each stripe
-  std::vector<InputPixelType> values;
-  values.push_back(0.5);
-  values.push_back(1.5);
-  values.push_back(2.5);
-  values.push_back(3.5);
+  std::vector<InputPixelType> values{ 0.5, 1.5, 2.5, 3.5 };
 
   // Set the value for the offset
   constexpr unsigned long offset{ 4 };
 
   //  Set the labels vector
-  std::vector<LabeledPixelType> labels;
-  labels.push_back(0 + offset);
-  labels.push_back(1 + offset);
-  labels.push_back(2 + offset);
-  labels.push_back(3 + offset);
+  std::vector<LabeledPixelType> labels{ 0 + offset, 1 + offset, 2 + offset, 3 + offset };
 
   // Fill in the image
   {
@@ -102,10 +90,7 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
   labelerFilter->SetInput(inputImage);
 
   // Test exception when providing unsorted thresholds
-  std::vector<LabelerFilterType::RealThresholdType> unsrtThresholds;
-  unsrtThresholds.push_back(2.0);
-  unsrtThresholds.push_back(1.0);
-  unsrtThresholds.push_back(3.0);
+  std::vector<LabelerFilterType::RealThresholdType> unsrtThresholds{ 2.0, 1.0, 3.0 };
 
   labelerFilter->SetRealThresholds(unsrtThresholds);
 
@@ -114,10 +99,7 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
   if (!useRealTypeThresholds)
   {
     // Set the thresholds between values
-    std::vector<InputPixelType> thresholds;
-    thresholds.push_back(1.0);
-    thresholds.push_back(2.0);
-    thresholds.push_back(3.0);
+    std::vector<InputPixelType> thresholds{ 1.0, 2.0, 3.0 };
 
     labelerFilter->SetThresholds(thresholds);
     // ITK_TEST_SET_GET_VALUE( thresholds, labelerFilter->GetThresholds() );
@@ -125,10 +107,7 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
   else
   {
     // Set the thresholds between values
-    std::vector<LabelerFilterType::RealThresholdType> thresholds;
-    thresholds.push_back(1.0);
-    thresholds.push_back(2.0);
-    thresholds.push_back(3.0);
+    std::vector<LabelerFilterType::RealThresholdType> thresholds{ 1.0, 2.0, 3.0 };
 
     labelerFilter->SetRealThresholds(thresholds);
     // ITK_TEST_SET_GET_VALUE( thresholds, labelerFilter->GetRealThresholds() );

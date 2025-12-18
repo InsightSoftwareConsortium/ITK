@@ -90,10 +90,7 @@ itkDerivativeOperatorTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(order, op1.GetOrder());
 
 
-  OperatorType::CoefficientVector expected1;
-  expected1.push_back(0.5);
-  expected1.push_back(0.0);
-  expected1.push_back(-0.5);
+  OperatorType::CoefficientVector expected1{ 0.5, 0.0, -0.5 };
 
   // Check actual coefficient values
   if (!op1.CheckCoefficients(expected1))
@@ -126,10 +123,7 @@ itkDerivativeOperatorTest(int, char *[])
   }
 
   // Test second order
-  OperatorType::CoefficientVector expected2;
-  expected2.push_back(1);
-  expected2.push_back(-2);
-  expected2.push_back(1);
+  OperatorType::CoefficientVector expected2{ 1, -2, 1 };
 
   OperatorType op2;
 

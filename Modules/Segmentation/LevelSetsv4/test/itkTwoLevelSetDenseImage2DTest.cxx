@@ -127,9 +127,7 @@ itkTwoLevelSetDenseImage2DTest(int argc, char * argv[])
   fastMarching->SetOutputSize(inputBufferedRegionSize);
   fastMarching->Update();
 
-  IdListType list_ids;
-  list_ids.push_back(1);
-  list_ids.push_back(2);
+  IdListType list_ids{ 1, 2 };
 
   auto id_image = IdListImageType::New();
   id_image->SetRegions(input->GetLargestPossibleRegion());

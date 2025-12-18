@@ -181,9 +181,7 @@ itkLineSpatialObjectTest(int, char *[])
     // Assign
     const LinePointType pAssign = pOriginal;
 
-    std::vector<LinePointType> pointVector;
-    pointVector.push_back(pCopy);
-    pointVector.push_back(pAssign);
+    std::vector<LinePointType> pointVector{ pCopy, pAssign };
 
     for (const auto & pv : pointVector)
     {

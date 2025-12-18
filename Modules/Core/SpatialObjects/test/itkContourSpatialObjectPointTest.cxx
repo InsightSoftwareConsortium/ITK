@@ -150,9 +150,7 @@ itkContourSpatialObjectPointTest(int, char *[])
     // Assign
     const ContourSpatialObjectPoint3DType pAssign = pOriginal;
 
-    std::vector<ContourSpatialObjectPoint3DType> pointVector;
-    pointVector.push_back(pCopy);
-    pointVector.push_back(pAssign);
+    std::vector<ContourSpatialObjectPoint3DType> pointVector{ pCopy, pAssign };
 
     for (const auto & pv : pointVector)
     {

@@ -113,9 +113,7 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   const SparseLevelSetType::Pointer level_set1 = adaptor1->GetModifiableLevelSet();
 
   // Create a list image specifying both level set ids
-  IdListType list_ids;
-  list_ids.push_back(1);
-  list_ids.push_back(2);
+  IdListType list_ids{ 1, 2 };
 
   auto id_image = IdListImageType::New();
   id_image->SetRegions(input->GetLargestPossibleRegion());

@@ -49,9 +49,7 @@ itkBinaryProjectionImageFilterTest(int argc, char * argv[])
   using LabelerType = itk::ThresholdLabelerImageFilter<ImageType, ImageType>;
   auto labeler = LabelerType::New();
   labeler->SetInput(reader->GetOutput());
-  LabelerType::RealThresholdVector thresholds;
-  thresholds.push_back(100);
-  thresholds.push_back(200);
+  LabelerType::RealThresholdVector thresholds{ 100, 200 };
   labeler->SetRealThresholds(thresholds);
 
   using ChangeType = itk::ChangeLabelImageFilter<ImageType, ImageType>;

@@ -243,11 +243,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   // Test a row (using index access)
   const std::vector<double> test_row_1 = dfo->GetRow(1);
 
-  std::vector<double> row_1;
-  row_1.push_back(99);
-  row_1.push_back(0);
-  row_1.push_back(3.75);
-  row_1.push_back(0.008);
+  std::vector<double> row_1{ 99, 0, 3.75, 0.008 };
 
   if (!testVector(row_1, test_row_1))
   {
@@ -260,12 +256,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   // Test a row (using string access)
   const std::vector<double> test_row_Jan = dfo->GetRow("Jan");
 
-  std::vector<double> row_Jan;
-  row_Jan.push_back(nan);
-  row_Jan.push_back(1e+9);
-  row_Jan.push_back(5);
-  row_Jan.push_back(9);
-  row_Jan.push_back(6.1);
+  std::vector<double> row_Jan{ nan, 1e+9, 5, 9, 6.1 };
 
   if (!testVector(row_Jan, test_row_Jan))
   {
@@ -278,10 +269,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   // Test a column (using index)
   const std::vector<double> test_col_2 = dfo->GetColumn(2);
 
-  std::vector<double> col_2;
-  col_2.push_back(5);
-  col_2.push_back(3.75);
-  col_2.push_back(9);
+  std::vector<double> col_2{ 5, 3.75, 9 };
 
   if (!testVector(col_2, test_col_2))
   {
@@ -295,10 +283,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   // Test a column (using string access)
   const std::vector<double> test_col_Africa = dfo->GetColumn("Africa");
 
-  std::vector<double> col_Africa;
-  col_Africa.push_back(nan);
-  col_Africa.push_back(99);
-  col_Africa.push_back(1);
+  std::vector<double> col_Africa{ nan, 99, 1 };
 
   if (!testVector(col_Africa, test_col_Africa))
   {

@@ -34,8 +34,7 @@ checkAlphaExists()
 {
 #if LOCAL_USE_WIN32_WOPEN
   // mingw has _wfopen
-  std::wstring wstr;
-  wstr.push_back((wchar_t)(0x03B1));
+  std::wstring wstr{ (wchar_t)(0x03B1) };
   wstr += L".txt";
   FILE * tmp = _wfopen(wstr.c_str(), L"r");
 #else
@@ -61,8 +60,7 @@ removeAlpha()
 {
 #if LOCAL_USE_WIN32_WOPEN
   // mingw has _wunlink
-  std::wstring wstr;
-  wstr.push_back((wchar_t)(0x03B1));
+  std::wstring wstr{ (wchar_t)(0x03B1) };
   wstr += L".txt";
   return (_wunlink(wstr.c_str()) != -1);
 #else
@@ -100,8 +98,7 @@ main(int, char *[])
 
 #if LOCAL_USE_WIN32_WOPEN
   // Check that the string to wide string conversion works
-  std::wstring utf16_str;
-  utf16_str.push_back((wchar_t)(0x03B1));
+  std::wstring utf16_str{ (wchar_t)(0x03B1) };
   utf16_str += L".txt";
   const std::wstring fromutf8_utf16_str = itk::i18n::Utf8StringToWString(utf8_str);
 
@@ -112,9 +109,7 @@ main(int, char *[])
   }
 
   // Create a non utf8 std::string
-  std::string bad_utf8_str;
-  bad_utf8_str.push_back('\xCE');
-  bad_utf8_str.push_back('\xCE');
+  std::string bad_utf8_str{ '\xCE', '\xCE' };
   bad_utf8_str += ".txt";
 
   // Check if we actually find it is a non-valid utf-8 string

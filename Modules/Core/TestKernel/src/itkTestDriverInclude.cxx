@@ -208,8 +208,7 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
         std::cerr << "Warning: argument does not appear to be a valid md5 hash \"" << md5hash0 << "\"." << std::endl;
       }
 
-      std::vector<std::string> hashVector;
-      hashVector.push_back(md5hash0);
+      std::vector<std::string> hashVector{ md5hash0 };
 
       *argv += 3;
       *argc -= 3;

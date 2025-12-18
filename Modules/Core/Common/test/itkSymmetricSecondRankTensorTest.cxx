@@ -408,10 +408,7 @@ itkSymmetricSecondRankTensorTest(int, char *[])
     tensor3D(2, 2) = 29.0;
 
     auto                matrix3D = itk::MakeFilled<Double3DMatrixType>(1.0);
-    std::vector<double> ans;
-    ans.push_back(26);
-    ans.push_back(23);
-    ans.push_back(36);
+    std::vector<double> ans{ 26, 23, 36 };
 
     Double3DMatrixType result1 = tensor3D.PreMultiply(matrix3D);
     std::cout << result1 << std::endl;

@@ -441,9 +441,7 @@ test_VXLVideoIO(char *        input,
   std::cout << "VXLVIdeoIO::SetWriterParameters..." << std::endl;
 
   // Reset the saved parameters
-  std::vector<itk::SizeValueType> size;
-  size.push_back(width);
-  size.push_back(height);
+  std::vector<itk::SizeValueType> size{ width, height };
   vxlIO_write->SetWriterParameters(fps, size, fourCC, nChannels, itk::IOComponentEnum::UCHAR);
 
   // Make sure they set correctly
