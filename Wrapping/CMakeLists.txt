@@ -64,15 +64,6 @@ if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "$<1:${WrapITK_BINARY_DIR}/lib>")
 endif()
 
-if(NOT EXECUTABLE_OUTPUT_PATH)
-  set(
-    EXECUTABLE_OUTPUT_PATH
-    ${WrapITK_BINARY_DIR}/bin
-    CACHE INTERNAL
-    "Single output directory for building all executables."
-  )
-endif()
-
 # Set WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER to a non-null value, like
 # "Wrapping", which will be inserted into the wrapping install component name.
 # This can be used to split installation package components.
@@ -92,11 +83,8 @@ endif()
 
 mark_as_advanced(
   CMAKE_LIBRARY_OUTPUT_DIRECTORY
-  EXECUTABLE_OUTPUT_PATH
   WRAP_ITK_INSTALL_PREFIX
 )
-
-set(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
 
 ###############################################################################
 # Additional files for installation
