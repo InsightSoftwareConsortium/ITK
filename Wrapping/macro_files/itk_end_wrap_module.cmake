@@ -540,20 +540,15 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
     # Link the modules together
     target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES})
 
-    # Set IPO if it is supported
-    if(NOT MSVC)
-      include(CheckIPOSupported)
-      check_ipo_supported(RESULT ipo_is_supported)
-      if(ipo_is_supported)
-        set_property(
-          TARGET
-            ${lib}
-          PROPERTY
-            INTERPROCEDURAL_OPTIMIZATION_RELEASE
-              TRUE
-        )
-      endif()
-      unset(ipo_is_supported)
+    # Set IPO if it is supported (check is done once globally in Wrapping/CMakeLists.txt)
+    if(NOT MSVC AND ITK_WRAP_IPO_SUPPORTED)
+      set_property(
+        TARGET
+          ${lib}
+        PROPERTY
+          INTERPROCEDURAL_OPTIMIZATION_RELEASE
+            TRUE
+      )
     endif()
 
     if(USE_COMPILER_HIDDEN_VISIBILITY)
