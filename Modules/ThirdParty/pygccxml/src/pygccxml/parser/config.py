@@ -11,6 +11,7 @@ Defines C++ parser configuration classes.
 import os
 import copy
 import platform
+import shutil
 import subprocess
 import warnings
 # In py3, ConfigParser was renamed to the more-standard configparser.
@@ -129,16 +130,12 @@ class parser_configuration_t(object):
 
     @property
     def xml_generator(self):
-        """get xml_generator (gccxml or castxml)"""
+        """get xml_generator"""
         return self.__xml_generator
 
     @xml_generator.setter
     def xml_generator(self, xml_generator):
-        """set xml_generator (gccxml or castxml)"""
-        if "real" in xml_generator:
-            # Support for gccxml.real from newer gccxml package
-            # Can be removed once gccxml support is dropped.
-            xml_generator = "gccxml"
+        """set xml_generator"""
         self.__xml_generator = xml_generator
 
     @property
@@ -241,9 +238,8 @@ class parser_configuration_t(object):
         self.__ensure_dir_exists(self.working_directory, 'working directory')
         for idir in self.include_paths:
             self.__ensure_dir_exists(idir, 'include directory')
-        if self.__xml_generator not in ["castxml", "gccxml"]:
-            msg = ('xml_generator("%s") should either be ' +
-                   '"castxml" or "gccxml".') % self.xml_generator
+        if self.__xml_generator != "castxml":
+            msg = f"xml_generator ({self.xml_generator}) can only be 'castxml'"
             raise RuntimeError(msg)
 
 
@@ -378,7 +374,7 @@ def load_xml_generator_configuration(configuration, **defaults):
 
     An example configuration file skeleton can be found
     `here <https://github.com/gccxml/pygccxml/blob/develop/
-    unittests/xml_generator.cfg>`_.
+    tests/xml_generator.cfg>`_.
 
     """
     parser = configuration
@@ -456,34 +452,19 @@ def create_compiler_path(xml_generator, compiler_path):
     if xml_generator == 'castxml' and compiler_path is None:
         if platform.system() == 'Windows':
             # Look for msvc
-            compiler_path = __get_first_compiler_in_path('where', 'cl')
+            compiler_path = shutil.which('cl')
             # No msvc found; look for mingw
-            if compiler_path == '':
-                compiler_path = __get_first_compiler_in_path('where', 'mingw')
+            if compiler_path is None:
+                compiler_path = shutil.which('mingw')
         else:
             # OS X or Linux
             # Look for clang first, then gcc
-            compiler_path = __get_first_compiler_in_path('which', 'clang++')
+            compiler_path = shutil.which('clang++')
             # No clang found; use gcc
-            if compiler_path == '':
-                compiler_path = __get_first_compiler_in_path('which', 'c++')
-
-        if compiler_path == "":
-            compiler_path = None
+            if compiler_path is None:
+                compiler_path = shutil.which('c++')
 
     return compiler_path
-
-
-def __get_first_compiler_in_path(command, compiler_name):
-    p = subprocess.Popen(
-        [command, compiler_name],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE)
-    path = p.stdout.read().decode("utf-8").rstrip().split("\r\n")[0].rstrip()
-    p.wait()
-    p.stdout.close()
-    p.stderr.close()
-    return path
 
 
 if __name__ == '__main__':
