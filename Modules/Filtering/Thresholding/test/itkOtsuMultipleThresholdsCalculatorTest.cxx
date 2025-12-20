@@ -52,11 +52,7 @@ itkOtsuMultipleThresholdsCalculatorTest(int argc, char * argv[])
 
   // Create vector of values
   using ValuesVectorType = std::vector<MeasurementType>;
-  ValuesVectorType values;
-  values.push_back(8.0);
-  values.push_back(16.0);
-  values.push_back(32.0);
-  values.push_back(48.0);
+  ValuesVectorType values{ 8.0, 16.0, 32.0, 48.0 };
 
   constexpr MeasurementType range{ 2.0 };
 

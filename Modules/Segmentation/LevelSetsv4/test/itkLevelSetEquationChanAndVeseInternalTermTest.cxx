@@ -108,8 +108,7 @@ itkLevelSetEquationChanAndVeseInternalTermTest(int argc, char * argv[])
 
   const SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
 
-  IdListType list_ids;
-  list_ids.push_back(1);
+  IdListType list_ids{ 1 };
 
   auto id_image = IdListImageType::New();
   id_image->SetRegions(binary->GetLargestPossibleRegion());

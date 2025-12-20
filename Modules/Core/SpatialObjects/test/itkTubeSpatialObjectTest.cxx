@@ -484,8 +484,7 @@ itkTubeSpatialObjectTest(int, char *[])
   using PointBasedType = itk::PointBasedSpatialObject<3>;
   auto                                       pBSO = PointBasedType::New();
   PointBasedType::SpatialObjectPointType     pnt;
-  PointBasedType::SpatialObjectPointListType ll;
-  ll.push_back(pnt);
+  PointBasedType::SpatialObjectPointListType ll{ pnt };
   pBSO->SetPoints(ll);
   pBSO->GetPoint(0);
   pBSO->Update();
@@ -543,9 +542,7 @@ itkTubeSpatialObjectTest(int, char *[])
     // Assign
     const TubePointType pAssign = pOriginal;
 
-    std::vector<TubePointType> pointVector;
-    pointVector.push_back(pCopy);
-    pointVector.push_back(pAssign);
+    std::vector<TubePointType> pointVector{ pCopy, pAssign };
 
     for (const auto & pv : pointVector)
     {

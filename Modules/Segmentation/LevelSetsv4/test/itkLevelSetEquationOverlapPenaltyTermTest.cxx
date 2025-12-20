@@ -103,9 +103,7 @@ itkLevelSetEquationOverlapPenaltyTermTest(int, char *[])
   const SparseLevelSetType::Pointer level_set1 = adaptor1->GetModifiableLevelSet();
   const SparseLevelSetType::Pointer level_set2 = adaptor2->GetModifiableLevelSet();
 
-  IdListType list_ids;
-  list_ids.push_back(1);
-  list_ids.push_back(2);
+  IdListType list_ids{ 1, 2 };
 
   auto id_image = IdListImageType::New();
   id_image->SetRegions(binary->GetLargestPossibleRegion());

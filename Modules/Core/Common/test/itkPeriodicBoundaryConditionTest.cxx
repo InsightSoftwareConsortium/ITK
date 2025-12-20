@@ -284,10 +284,7 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   IterType              testIter(radius, testImage, testRegion);
   BoundaryConditionType boundaryCondition;
   testIter.OverrideBoundaryCondition(&boundaryCondition);
-  std::vector<IterType::OffsetType> back;
-  back.push_back({ { -1, 0 } });
-  back.push_back({ { 0, -1 } });
-  back.push_back({ { 0, 0 } });
+  std::vector<IterType::OffsetType> back{ { { -1, 0 } }, { { 0, -1 } }, { { 0, 0 } } };
   testIter.SetNeedToUseBoundaryCondition(true);
   testIter.GoToBegin();
   float sum = 0.0f;

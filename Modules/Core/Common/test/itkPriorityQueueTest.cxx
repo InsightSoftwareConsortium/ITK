@@ -35,20 +35,7 @@ itkPriorityQueueTest(int, char *[])
   using MaxPQType = itk::PriorityQueueContainer<MaxPQElementType, MaxPQElementType, double, ElementIdentifier>;
   auto max_priority_queue = MaxPQType::New();
 
-  std::list<double> sequence;
-  sequence.push_back(-0.1);
-  sequence.push_back(0.1);
-  sequence.push_back(0.4);
-  sequence.push_back(-0.2);
-  sequence.push_back(-0.3);
-  sequence.push_back(0.3);
-  sequence.push_back(0.2);
-  sequence.push_back(0.5);
-  sequence.push_back(-0.6);
-  sequence.push_back(-0.5);
-  sequence.push_back(0.6);
-  sequence.push_back(1.);
-  sequence.push_back(-1.);
+  std::list<double> sequence{ -0.1, 0.1, 0.4, -0.2, -0.3, 0.3, 0.2, 0.5, -0.6, -0.5, 0.6, 1., -1. };
 
   auto   it = sequence.begin();
   size_t i = 0;

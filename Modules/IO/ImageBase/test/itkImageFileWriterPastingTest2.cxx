@@ -110,16 +110,9 @@ itkImageFileWriterPastingTest2(int argc, char * argv[])
 
   // create a valid region from the largest
   itk::ImageIORegion            ioregion(3);
-  itk::ImageIORegion::IndexType index;
-
-  index.push_back(pasteIndex[0]);
-  index.push_back(pasteIndex[1]);
-  index.push_back(pasteIndex[2]);
+  itk::ImageIORegion::IndexType index{ pasteIndex[0], pasteIndex[1], pasteIndex[2] };
   ioregion.SetIndex(index);
-  itk::ImageIORegion::SizeType size;
-  size.push_back(pasteSize[0]);
-  size.push_back(pasteSize[1]);
-  size.push_back(pasteSize[2]);
+  itk::ImageIORegion::SizeType size{ pasteSize[0], pasteSize[1], pasteSize[2] };
   ioregion.SetSize(size);
   writer->SetIORegion(ioregion);
 

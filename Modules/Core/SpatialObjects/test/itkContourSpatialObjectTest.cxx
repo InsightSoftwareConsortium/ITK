@@ -74,11 +74,7 @@ itkContourSpatialObjectTest(int, char *[])
   // Test Control Points (SetControlPoints, GetControlPoints,
   // GetNumberOfControlPoints, GetControlPoint)
   //
-  SpatialObjectType::ContourPointListType controlPointList;
-  controlPointList.push_back(pt1);
-  controlPointList.push_back(pt2);
-  controlPointList.push_back(pt3);
-  controlPointList.push_back(pt4);
+  SpatialObjectType::ContourPointListType controlPointList{ pt1, pt2, pt3, pt4 };
 
   contour->SetControlPoints(controlPointList);
 
@@ -191,9 +187,7 @@ itkContourSpatialObjectTest(int, char *[])
   pnt[1] = 0;
   intPt2.SetPositionInObjectSpace(pnt);
 
-  SpatialObjectType::ContourPointListType interpPointList;
-  interpPointList.push_back(intPt1);
-  interpPointList.push_back(intPt2);
+  SpatialObjectType::ContourPointListType interpPointList{ intPt1, intPt2 };
 
   contour->SetControlPoints(interpPointList);
   contour->SetInterpolationMethod(SpatialObjectType::InterpolationMethodEnum::NO_INTERPOLATION);

@@ -434,9 +434,7 @@ test_OpenCVVideoIO(char *          input,
   std::cout << "OpenCVVIdeoIO::SetWriterParameters..." << std::endl;
 
   // Reset the saved parameters
-  std::vector<itk::SizeValueType> size;
-  size.push_back(width);
-  size.push_back(height);
+  std::vector<itk::SizeValueType> size{ width, height };
   opencvIO->SetWriterParameters(fps, size, fourCC, nChannels, itk::IOComponentEnum::UCHAR);
 
   // Make sure they set correctly

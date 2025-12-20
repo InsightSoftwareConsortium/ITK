@@ -455,12 +455,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
     //     pid[i] = mesh->AddPoint( points[i] );
     //     }
 
-    PointIdList quadPointIds;
-
-    quadPointIds.push_back(pid[0]);
-    quadPointIds.push_back(pid[2]);
-    quadPointIds.push_back(pid[3]);
-    quadPointIds.push_back(pid[4]);
+    PointIdList quadPointIds{ pid[0], pid[2], pid[3], pid[4] };
 
     MeshType::QEPrimal * quadFace = mesh->AddFace(quadPointIds);
 
@@ -481,12 +476,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
       pid[i] = mesh->AddPoint(points[i]);
     }
 
-    PointIdList quadPointIds2;
-
-    quadPointIds2.push_back(pid[0]);
-    quadPointIds2.push_back(pid[2]);
-    quadPointIds2.push_back(pid[4]);
-    quadPointIds2.push_back(pid[3]);
+    PointIdList quadPointIds2{ pid[0], pid[2], pid[4], pid[3] };
 
     MeshType::QEPrimal * quadFace2 = mesh->AddFace(quadPointIds2);
 
@@ -535,12 +525,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
     //                                                        //
     std::cout << "Adding a face with five edges" << std::endl;
 
-    PointIdList fivePointIds;
-    fivePointIds.push_back(pid[0]);
-    fivePointIds.push_back(pid[1]);
-    fivePointIds.push_back(pid[2]);
-    fivePointIds.push_back(pid[3]);
-    fivePointIds.push_back(pid[4]);
+    PointIdList fivePointIds{ pid[0], pid[1], pid[2], pid[3], pid[4] };
 
     MeshType::QEPrimal * fiveFace = mesh->AddFace(fivePointIds);
 

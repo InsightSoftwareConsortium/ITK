@@ -198,9 +198,7 @@ test_FileListVideoIO(const char *  input,
   std::cout << "FileListVideoIO::SetWriterParameters..." << std::endl;
 
   // Reset the saved parameters
-  std::vector<itk::SizeValueType> size;
-  size.push_back(width);
-  size.push_back(height);
+  std::vector<itk::SizeValueType> size{ width, height };
   fileListIO->SetWriterParameters(fps, size, fourCC, nChannels, itk::IOComponentEnum::UCHAR);
 
   // Make sure they set correctly

@@ -196,9 +196,7 @@ itkSurfaceSpatialObjectTest(int, char *[])
     // Assign
     const SurfacePointType pAssign = pOriginal;
 
-    std::vector<SurfacePointType> pointVector;
-    pointVector.push_back(pCopy);
-    pointVector.push_back(pAssign);
+    std::vector<SurfacePointType> pointVector{ pCopy, pAssign };
 
     for (const auto & pv : pointVector)
     {
