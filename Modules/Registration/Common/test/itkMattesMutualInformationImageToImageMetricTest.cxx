@@ -581,8 +581,7 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
   // Set up a B-spline deformable transform parameters
   //------------------------------------------------------------
   const unsigned int numberOfParameters = transformer->GetNumberOfParameters();
-  ParametersType     parameters(numberOfParameters);
-  parameters.Fill(0.0);
+  ParametersType     parameters(numberOfParameters, 0.0);
 
   //---------------------------------------------------------
   // Print out mutual information values

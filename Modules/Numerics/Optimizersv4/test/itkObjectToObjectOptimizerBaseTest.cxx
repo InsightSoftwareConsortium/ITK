@@ -174,8 +174,7 @@ itkObjectToObjectOptimizerBaseTest(int, char *[])
   const ObjectToObjectOptimizerBaseTestOptimizer::NumberOfParametersType scalesSize =
     metric->GetNumberOfLocalParameters();
   using ScalesType = ObjectToObjectOptimizerBaseTestOptimizer::ScalesType;
-  ScalesType scales(scalesSize);
-  scales.Fill(3.19);
+  ScalesType scales(scalesSize, 3.19);
   optimizer->SetScales(scales);
   const ScalesType & scalesReturn = optimizer->GetScales();
   if (scalesReturn != scales)
@@ -219,8 +218,7 @@ itkObjectToObjectOptimizerBaseTest(int, char *[])
   }
 
   /* Test set/get of weights */
-  ScalesType weights(weightsSize);
-  weights.Fill(3.19);
+  ScalesType weights(weightsSize, 3.19);
   optimizer->SetWeights(weights);
   weightsReturn = optimizer->GetWeights();
   if (weightsReturn != weights)

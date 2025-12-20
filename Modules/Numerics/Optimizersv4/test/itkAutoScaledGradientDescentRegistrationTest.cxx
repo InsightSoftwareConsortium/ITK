@@ -157,8 +157,8 @@ itkAutoScaledGradientDescentRegistrationTestTemplated(int                 number
   optimizer->SetDoEstimateScales(estimateScales);
 
   // Set initial scales to bad values
-  OptimizerType::ScalesType initScales(metric->GetNumberOfParameters());
-  initScales.Fill(static_cast<OptimizerType::ScalesType::ValueType>(999999));
+  OptimizerType::ScalesType initScales(metric->GetNumberOfParameters(),
+                                       static_cast<OptimizerType::ScalesType::ValueType>(999999));
   optimizer->SetScales(initScales);
   std::cout << "Initial Scales: " << optimizer->GetScales() << std::endl;
 

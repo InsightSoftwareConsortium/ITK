@@ -415,8 +415,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   TEST_INITIALIZATION_ERROR(CostFunction, nullptr, costFunction);
   TEST_INITIALIZATION_ERROR(Optimizer, nullptr, optimizer);
 
-  CostFunctionType::ArrayType badParameters(shape->GetNumberOfShapeParameters() - 1);
-  badParameters.Fill(2.0);
+  CostFunctionType::ArrayType badParameters(shape->GetNumberOfShapeParameters() - 1, 2.0);
 
   TEST_INITIALIZATION_ERROR(InitialParameters, badParameters, parameters);
 

@@ -536,8 +536,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
   // Test setting parameters with wrong size
 
-  DisplacementTransformType::ParametersType paramsWrongSize(1);
-  paramsWrongSize.Fill(0);
+  DisplacementTransformType::ParametersType paramsWrongSize(1, 0);
 
   ITK_TRY_EXPECT_EXCEPTION(displacementTransform->SetParameters(paramsWrongSize));
 

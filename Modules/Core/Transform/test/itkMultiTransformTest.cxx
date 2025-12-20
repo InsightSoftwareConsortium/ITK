@@ -583,9 +583,8 @@ itkMultiTransformTest(int, char *[])
    */
   {
     std::cout << "Testing UpdateTransformParameters 1. " << std::endl;
-    Superclass::ParametersType truth = multiTransform->GetParameters();
-    Superclass::DerivativeType update(multiTransform->GetNumberOfParameters());
-    update.Fill(10.0);
+    Superclass::ParametersType       truth = multiTransform->GetParameters();
+    Superclass::DerivativeType       update(multiTransform->GetNumberOfParameters(), 10.0);
     constexpr AffineType::ScalarType factor{ 0.5 };
     truth += update * factor;
     multiTransform->UpdateTransformParameters(update, factor);

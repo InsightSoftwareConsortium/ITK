@@ -171,8 +171,7 @@ itkMaskImageFilterTest(int, char *[])
 
   // Check that the outside value consists of three zeros.
   const myVectorImageType::PixelType outsideValue3 = vectorFilter->GetOutsideValue();
-  myVectorImageType::PixelType       threeZeros(3);
-  threeZeros.Fill(0.0f);
+  myVectorImageType::PixelType       threeZeros(3, 0.0f);
   if (outsideValue3 != threeZeros)
   {
     std::cerr << "Unexpected default outside value after running filter "
@@ -218,8 +217,7 @@ itkMaskImageFilterTest(int, char *[])
   }
 
   // Reset the outside value to zero vector of length 23.
-  myVectorImageType::PixelType zeros23(23);
-  zeros23.Fill(0.0f);
+  myVectorImageType::PixelType zeros23(23, 0.0f);
   vectorFilter->SetOutsideValue(zeros23);
 
   try
@@ -235,8 +233,7 @@ itkMaskImageFilterTest(int, char *[])
 
   // Check updated outside value.
   const myVectorImageType::PixelType outsideValue5 = vectorFilter->GetOutsideValue();
-  myVectorImageType::PixelType       fiveZeros(5);
-  fiveZeros.Fill(0.0f);
+  myVectorImageType::PixelType       fiveZeros(5, 0.0f);
   if (outsideValue5 != fiveZeros)
   {
     std::cerr << "Unexpected default outside value after running filter "

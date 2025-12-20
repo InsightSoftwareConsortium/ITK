@@ -97,8 +97,7 @@ itkBSplineDeformableTransformTest1()
    * Allocate memory for the parameters
    */
   const unsigned long numberOfParameters = transform->GetNumberOfParameters();
-  ParametersType      parameters(numberOfParameters);
-  parameters.Fill(ParametersType::ValueType{});
+  ParametersType      parameters(numberOfParameters, ParametersType::ValueType{});
 
   /**
    * Define N * N-D grid of spline coefficients by wrapping the
@@ -364,8 +363,7 @@ itkBSplineDeformableTransformTest1()
     bool pass = false;
     try
     {
-      ParametersType temp(transform->GetNumberOfParameters() - 1);
-      temp.Fill(4.0);
+      ParametersType temp(transform->GetNumberOfParameters() - 1, 4.0);
       transform->SetParameters(temp);
     }
     catch (const itk::ExceptionObject & err)

@@ -37,9 +37,7 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
 
   histogram->SetMeasurementVectorSize(measurementVectorSize);
 
-  HistogramType::SizeType size(measurementVectorSize);
-
-  size.Fill(HISTOGRAM_AXIS_LEN);
+  HistogramType::SizeType size(measurementVectorSize, HISTOGRAM_AXIS_LEN);
 
   HistogramType::MeasurementVectorType lowerBound(measurementVectorSize);
   HistogramType::MeasurementVectorType upperBound(measurementVectorSize);

@@ -145,8 +145,7 @@ itkVariableSizeMatrixTest(int, char *[])
     std::cout << "d13 should not be equal to dw" << std::endl;
     return EXIT_FAILURE;
   }
-  itk::Array<float> array(3);
-  array.Fill(10.0);
+  itk::Array<float> array(3, 10.0);
 
   FloatVariableSizeMatrixType fm(5, 3);
   fm.Fill(10.0);
@@ -166,8 +165,7 @@ itkVariableSizeMatrixTest(int, char *[])
   d53.Fill(1);
   DoubleVariableSizeMatrixType d34(3, 4);
   d34.Fill(2);
-  itk::Array<double> darray(5);
-  darray.Fill(10.0);
+  itk::Array<double> darray(5, 10.0);
 
   std::cout << "***** d53" << std::endl << d53 << std::endl;
   std::cout << "***** d34" << std::endl << d34 << std::endl;

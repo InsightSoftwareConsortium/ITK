@@ -95,8 +95,7 @@ itkSampleToHistogramFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  HistogramSizeType histogramSize0(numberOfComponents);
-  histogramSize0.Fill(1);
+  HistogramSizeType histogramSize0(numberOfComponents, 1);
   filter->SetHistogramSize(histogramSize0);
 
   // Test exception when calling Update() without having

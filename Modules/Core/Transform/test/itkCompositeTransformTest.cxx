@@ -758,8 +758,7 @@ itkCompositeTransformTest(int, char *[])
     /* Single transform full update, of last transform only */
     compositeTransform->SetOnlyMostRecentTransformToOptimizeOn();
     CompositeType::ParametersType truth = compositeTransform->GetParameters();
-    CompositeType::DerivativeType update(compositeTransform->GetNumberOfParameters());
-    update.Fill(10);
+    CompositeType::DerivativeType update(compositeTransform->GetNumberOfParameters(), 10);
     truth += update;
     compositeTransform->UpdateTransformParameters(update);
     CompositeType::ParametersType updateResult = compositeTransform->GetParameters();
@@ -849,8 +848,7 @@ itkCompositeTransformTest(int, char *[])
   for (itk::SizeValueType n = 0; n < 12; ++n)
   {
     translationTransformVector[n] = TranslationTransformType::New();
-    TranslationTransformType::ParametersType params(VDimension);
-    params.Fill(n);
+    TranslationTransformType::ParametersType params(VDimension, n);
     translationTransformVector[n]->SetParameters(params);
   }
 

@@ -129,8 +129,7 @@ itkObjectToObjectMetricBaseTest(int, char *[])
 
   using ParametersType = ObjectMetricType::ParametersType;
 
-  ParametersType parameters(13);
-  parameters.Fill(19.5);
+  ParametersType parameters(13, 19.5);
 
   ITK_TEST_EXPECT_EQUAL(objectMetric->GetValue(), 1.0);
 

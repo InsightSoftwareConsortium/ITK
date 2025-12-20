@@ -494,8 +494,7 @@ itkChiSquareDistributionTest(int, char *[])
 
 
   const unsigned int               wrongNumberOfParameters = distributionFunction->GetNumberOfParameters() * 42;
-  DistributionType::ParametersType wrongParameters(wrongNumberOfParameters);
-  wrongParameters.Fill(1.0);
+  DistributionType::ParametersType wrongParameters(wrongNumberOfParameters, 1.0);
 
   distributionFunction->SetParameters(wrongParameters);
 

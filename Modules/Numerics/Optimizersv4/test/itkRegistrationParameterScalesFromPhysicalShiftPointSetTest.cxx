@@ -337,9 +337,8 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   //
   // Testing the step scale for the displacement field transform
   //
-  DisplacementTransformType::ParametersType displacementStep(displacementTransform->GetNumberOfParameters());
-  displacementStep.Fill(1.0);
-  const FloatType localStepScale = shiftScaleEstimator->EstimateStepScale(displacementStep);
+  DisplacementTransformType::ParametersType displacementStep(displacementTransform->GetNumberOfParameters(), 1.0);
+  const FloatType                           localStepScale = shiftScaleEstimator->EstimateStepScale(displacementStep);
   std::cout << "The step scale of shift for the displacement field transform = " << localStepScale << std::endl;
   const FloatType localLearningRate = 1.0 / localStepScale;
   std::cout << "The learning rate of shift for the displacement field transform = " << localLearningRate << std::endl;

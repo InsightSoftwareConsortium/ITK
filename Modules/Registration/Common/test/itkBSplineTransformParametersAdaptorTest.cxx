@@ -58,8 +58,7 @@ itkBSplineTransformParametersAdaptorTest(int, char *[])
    */
   using ParametersType = TransformType::ParametersType;
   const unsigned long numberOfParameters = transform->GetNumberOfParameters();
-  ParametersType      parameters(numberOfParameters);
-  parameters.Fill(ParametersType::ValueType{});
+  ParametersType      parameters(numberOfParameters, ParametersType::ValueType{});
 
   /**
    * Set the parameters in the transform

@@ -122,8 +122,7 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
   std::cout << "Testing UpdateTransformParameters..." << std::endl;
   /* fill with 0 */
   field->FillBuffer(zeroVector);
-  DisplacementTransformType::DerivativeType update(displacementTransform->GetNumberOfParameters());
-  update.Fill(1.2);
+  DisplacementTransformType::DerivativeType update(displacementTransform->GetNumberOfParameters(), 1.2);
   displacementTransform->UpdateTransformParameters(update);
   params = displacementTransform->GetParameters();
   // std::cout  << "params: " << std::endl << params << std::endl;

@@ -277,8 +277,7 @@ public:
       std::cerr << e << std::endl;
     }
 
-    typename TransformType::DerivativeType update(transform->GetNumberOfParameters());
-    update.Fill(1);
+    typename TransformType::DerivativeType update(transform->GetNumberOfParameters(), 1);
     try
     {
       transform->UpdateTransformParameters(update);

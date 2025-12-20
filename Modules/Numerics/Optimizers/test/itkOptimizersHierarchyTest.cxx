@@ -49,9 +49,7 @@ itkOptimizersHierarchyTest(int, char *[])
 
   OptimizerType::ParametersType       initialPosition(spaceDimension);
   const OptimizerType::ParametersType currentPosition(spaceDimension);
-  OptimizerType::ScalesType           parameterScale(spaceDimension);
-
-  parameterScale.Fill(1.5);
+  OptimizerType::ScalesType           parameterScale(spaceDimension, 1.5);
   initialPosition.Fill(2.0);
 
   genericOptimizer->SetInitialPosition(initialPosition);

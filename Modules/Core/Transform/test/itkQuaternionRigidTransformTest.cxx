@@ -388,9 +388,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     std::cout << "Testing ComputeJacobianWithRespectToParameters()" << std::endl;
 
     auto                          quaternionRigid = TransformType::New();
-    TransformType::ParametersType parameters(quaternionRigid->GetNumberOfParameters());
-
-    parameters.Fill(0.0);
+    TransformType::ParametersType parameters(quaternionRigid->GetNumberOfParameters(), 0.0);
 
     constexpr double angle{ 0.62 / 180.0 * itk::Math::pi };
 
@@ -794,8 +792,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     // Check the computed parameters
 
     using ParametersType = TransformType::ParametersType;
-    ParametersType e(t->GetNumberOfParameters());
-    e.Fill(0.0);
+    ParametersType e(t->GetNumberOfParameters(), 0.0);
     e[2] = std::sin(0.5 * a);
     e[3] = std::cos(0.5 * a);
 

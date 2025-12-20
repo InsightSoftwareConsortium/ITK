@@ -435,8 +435,7 @@ itkMetricImageGradientTest(int argc, char * argv[])
         transform->Rotate3D(axis1, angleRad);
         transform->Scale(1.2);
         transform->Shear(0, 1, 0.05);
-        TransformType::ParametersType center(3);
-        center.Fill((imageSize - 1) / 2.0);
+        TransformType::ParametersType center(3, (imageSize - 1) / 2.0);
         transform->SetFixedParameters(center);
 
         using ImageType = itk::Image<double, 3>;

@@ -160,8 +160,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
 
   // Testing Parameters
   std::cout << "Testing Set/Get Parameters: ";
-  EulerTransformType::ParametersType parameters(9);
-  parameters.Fill(0);
+  EulerTransformType::ParametersType parameters(9, 0);
   for (unsigned int i = 0; i < 3; ++i)
   {
     parameters[i] = i;

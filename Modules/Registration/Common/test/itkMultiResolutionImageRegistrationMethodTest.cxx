@@ -127,8 +127,7 @@ itkMultiResolutionImageRegistrationMethodTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(numberOfLevels, registration->GetNumberOfLevels());
 
   using ParametersType = RegistrationType::ParametersType;
-  ParametersType initialParameters(transform->GetNumberOfParameters());
-  initialParameters.Fill(0);
+  ParametersType initialParameters(transform->GetNumberOfParameters(), 0);
   registration->SetInitialTransformParameters(initialParameters);
   ITK_TEST_SET_GET_VALUE(initialParameters, registration->GetInitialTransformParameters());
 

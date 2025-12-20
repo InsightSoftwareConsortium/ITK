@@ -157,8 +157,7 @@ itkGradientDescentOptimizerv4Test2(int, char *[])
   using ParametersType = GradientDescentOptimizerv4Test2Metric::ParametersType;
   using NumberOfParametersType = GradientDescentOptimizerv4Test2Metric::NumberOfParametersType;
 
-  ParametersType initialPosition(metric->GetNumberOfParameters());
-  initialPosition.Fill(0);
+  ParametersType initialPosition(metric->GetNumberOfParameters(), 0);
   metric->SetParameters(initialPosition);
 
   itkOptimizer->SetLearningRate(1.0);

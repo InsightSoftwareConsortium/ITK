@@ -242,8 +242,7 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   auto costFunction = LMCostFunction::New();
 
   using ParametersType = LMCostFunction::ParametersType;
-  ParametersType parameters(LMCostFunction::SpaceDimension);
-  parameters.Fill(0.0);
+  ParametersType parameters(LMCostFunction::SpaceDimension, 0.0);
   costFunction->GetValue(parameters);
 
   std::cout << "Number of Values = " << costFunction->GetNumberOfValues() << '\n';

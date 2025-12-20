@@ -236,8 +236,7 @@ testFancyStringWithItkArray()
 
   itk::FancyString svalue;
 
-  DataType dataIn(10);
-  dataIn.Fill(-0.1);
+  DataType dataIn(10, -0.1);
   svalue << dataIn;
   // add one more data element to the end of the string
   svalue.Append(" 10 ");
@@ -261,8 +260,7 @@ testFancyStringWithItkArray()
   std::cout << "testFancyStringWithItkArray: dataOut1 OK!" << std::endl;
 
   // read all data elements for the output vector
-  DataType dataOut2(5);
-  dataOut2.Fill(0.0);
+  DataType dataOut2(5, 0.0);
   s = svalue;
   s >> dataOut2;
   // check successful or not
@@ -280,8 +278,7 @@ testFancyStringWithItkArray()
   std::cout << "testFancyStringWithItkArray: dataOut2 OK!" << std::endl;
 
   // read user-specified number of data elements (output data exist)
-  DataType dataOut3(10);
-  dataOut3.Fill(0.0);
+  DataType dataOut3(10, 0.0);
   s = svalue;
   s.ToData(dataOut3, 5);
   // check successful or not

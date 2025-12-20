@@ -201,8 +201,7 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
 
   // Specify weight
   using WeightArrayType = FilterType::WeightArrayType;
-  WeightArrayType weightArray(sample->Size());
-  weightArray.Fill(1.0);
+  WeightArrayType weightArray(sample->Size(), 1.0);
 
   filter->SetWeights(weightArray);
 

@@ -244,8 +244,7 @@ itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
   //
   std::cout << "Test optimization with non-identity scales:" << std::endl;
   metric->SetParameters(initialPosition);
-  ScalesType scales(metric->GetNumberOfLocalParameters());
-  scales.Fill(0.5);
+  ScalesType scales(metric->GetNumberOfLocalParameters(), 0.5);
   itkOptimizer->SetScales(scales);
   itkOptimizer->SetLowerLimit(0);
   itkOptimizer->SetUpperLimit(5);

@@ -78,8 +78,7 @@ itkBSplineExponentialDiffeomorphicTransformTest(int, char *[])
   const DisplacementTransformType::NumberOfParametersType numberOfParameters =
     displacementTransform->GetNumberOfParameters();
 
-  DisplacementTransformType::DerivativeType update1(numberOfParameters);
-  update1.Fill(1.2);
+  DisplacementTransformType::DerivativeType update1(numberOfParameters, 1.2);
 
   displacementTransform->UpdateTransformParameters(update1);
   DisplacementTransformType::ParametersType params = displacementTransform->GetParameters();
@@ -140,9 +139,7 @@ itkBSplineExponentialDiffeomorphicTransformTest(int, char *[])
   /* fill with 0 */
   field->FillBuffer(zeroVector);
 
-  DisplacementTransformType::DerivativeType update(displacementTransform->GetNumberOfParameters());
-
-  update.Fill(1.2);
+  DisplacementTransformType::DerivativeType update(displacementTransform->GetNumberOfParameters(), 1.2);
   displacementTransform->UpdateTransformParameters(update);
   params = displacementTransform->GetParameters();
   // std::cout  << "params: " << std::endl << params << std::endl;

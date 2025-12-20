@@ -487,8 +487,7 @@ itkVersorRigid3DTransformTest(int, char *[])
 
     // Check the computed parameters
 
-    ParametersType e(t->GetNumberOfParameters());
-    e.Fill(0.0);
+    ParametersType e(t->GetNumberOfParameters(), 0.0);
     e[2] = std::sin(0.5 * a);
 
     t = TransformType::New();

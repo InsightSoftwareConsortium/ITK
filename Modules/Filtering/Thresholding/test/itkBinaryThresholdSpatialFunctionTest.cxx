@@ -53,8 +53,7 @@ itkBinaryThresholdSpatialFunctionTest(int, char *[])
   // We must initialize the sphere before use
   sphere->Initialize();
 
-  ParametersType parameters(sphere->GetNumberOfParameters());
-  parameters.Fill(0.0);
+  ParametersType parameters(sphere->GetNumberOfParameters(), 0.0);
   parameters[0] = 5.0;
 
   sphere->SetParameters(parameters);

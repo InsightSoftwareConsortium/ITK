@@ -51,8 +51,7 @@ TEST(SphereSignedDistanceFunction, Test)
   // we must initialize the function before use
   function->Initialize();
 
-  ParametersType parameters(function->GetNumberOfParameters());
-  parameters.Fill(0.0);
+  ParametersType parameters(function->GetNumberOfParameters(), 0.0);
   parameters[0] = 5.0;
 
   function->SetParameters(parameters);

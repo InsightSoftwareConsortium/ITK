@@ -536,8 +536,7 @@ TEST(ImageBufferRange, SupportsVectorImage)
   image->SetRegions(imageSize);
   image->SetVectorLength(vectorLength);
   image->AllocateInitialized();
-  PixelType fillPixelValue(vectorLength);
-  fillPixelValue.Fill(42);
+  PixelType fillPixelValue(vectorLength, 42);
   image->FillBuffer(fillPixelValue);
 
   using RangeType = ImageBufferRange<ImageType>;
@@ -548,8 +547,7 @@ TEST(ImageBufferRange, SupportsVectorImage)
     EXPECT_EQ(pixelValue, fillPixelValue);
   }
 
-  PixelType otherPixelValue(vectorLength);
-  otherPixelValue.Fill(1);
+  PixelType otherPixelValue(vectorLength, 1);
   image->SetPixel({ {} }, otherPixelValue);
 
   RangeType::const_iterator it = range.begin();

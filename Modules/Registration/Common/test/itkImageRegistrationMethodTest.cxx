@@ -98,11 +98,9 @@ itkImageRegistrationMethodTest(int, char *[])
   std::cout << registration->GetInitialTransformParameters() << std::endl;
 
   using ParametersType = RegistrationType::ParametersType;
-  ParametersType initialParameters(transform->GetNumberOfParameters());
-  initialParameters.Fill(0);
+  ParametersType initialParameters(transform->GetNumberOfParameters(), 0);
 
-  ParametersType badParameters(2);
-  badParameters.Fill(5);
+  ParametersType badParameters(2, 5);
 
   registration->SetInitialTransformParameters(initialParameters);
 

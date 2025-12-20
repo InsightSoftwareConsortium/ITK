@@ -276,8 +276,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2(int, char *[])
   //
   // Set up the standard deviations
   // TODO: this parameter is not in Leventon's paper
-  TransformType::ParametersType pcaStdDev(numberOfPCA);
-  pcaStdDev.Fill(1.0);
+  TransformType::ParametersType pcaStdDev(numberOfPCA, 1.0);
 
   shape->SetNumberOfPrincipalComponents(numberOfPCA);
   shape->SetMeanImage(meanImage);

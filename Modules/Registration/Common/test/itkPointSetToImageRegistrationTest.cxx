@@ -139,8 +139,7 @@ itkPointSetToImageRegistrationTest(int, char *[])
   iterationCommand->SetOptimizer(optimizer);
 
   // Scale the translation components of the Transform in the Optimizer
-  OptimizerType::ScalesType scales(transform->GetNumberOfParameters());
-  scales.Fill(1.0);
+  OptimizerType::ScalesType scales(transform->GetNumberOfParameters(), 1.0);
 
   constexpr unsigned long numberOfIterations{ 50 };
   constexpr double        maximumStepLength{ 1.0 }; // no step will be larger than this
