@@ -356,3 +356,15 @@ TEST(FixedArray, ValueInitialized)
   expectEachElementValueInitialized(itk::FixedArray<float, 3>{});
   expectEachElementValueInitialized(itk::FixedArray<void *, 3>{});
 }
+
+
+// Tests that empty() always returns false for FixedArray.
+TEST(FixedArray, EmptyIsFalse)
+{
+  static_assert(!itk::FixedArray<int>{}.empty());
+  static_assert(!itk::FixedArray<float, 1>{}.empty());
+  static_assert(!itk::FixedArray<void *, 2>{}.empty());
+  static_assert(!itk::FixedArray<double>::Filled(1.0).empty());
+
+  EXPECT_FALSE(itk::FixedArray<int>({ 0, 1, 2 }).empty());
+}

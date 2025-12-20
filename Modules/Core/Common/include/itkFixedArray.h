@@ -448,6 +448,12 @@ public:
     return VLength;
   }
 
+  [[nodiscard]] constexpr bool
+  empty() const noexcept
+  {
+    return false;
+  }
+
   /** Set all the elements of the container to the input value. */
   void
   Fill(const ValueType &);
