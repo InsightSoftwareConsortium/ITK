@@ -114,8 +114,7 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(registration, PointSetToPointSetRegistrationMethod, ProcessObject);
 
   // Scale the translation components of the Transform in the Optimizer
-  OptimizerType::ScalesType scales(transform->GetNumberOfParameters());
-  scales.Fill(1.0);
+  OptimizerType::ScalesType scales(transform->GetNumberOfParameters(), 1.0);
 
   constexpr unsigned long numberOfIterations{ 100 };
   constexpr double        gradientTolerance{ 1e-1 }; // convergence criterion

@@ -211,10 +211,8 @@ itkEuler3DTransformTest(int, char *[])
 
   // Testing fixed parameters
   std::cout << "Testing Set/Get Fixed Parameters: ";
-  EulerTransformType::FixedParametersType oldVersion(3);
-  oldVersion.Fill(0);
-  EulerTransformType::FixedParametersType newVersion(4);
-  newVersion.Fill(0);
+  EulerTransformType::FixedParametersType oldVersion(3, 0);
+  EulerTransformType::FixedParametersType newVersion(4, 0);
   eulerTransform->SetFixedParameters(oldVersion);
   eulerTransform->SetComputeZYX(true);
   EulerTransformType::FixedParametersType res = eulerTransform->GetFixedParameters();
@@ -438,8 +436,7 @@ itkEuler3DTransformTest(int, char *[])
 
     // Check the computed parameters
     using ParametersType = TransformType::ParametersType;
-    ParametersType e(t->GetNumberOfParameters());
-    e.Fill(0.0);
+    ParametersType e(t->GetNumberOfParameters(), 0.0);
     e[2] = a;
 
     t = TransformType::New();

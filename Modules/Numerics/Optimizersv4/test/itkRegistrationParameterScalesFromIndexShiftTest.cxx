@@ -305,9 +305,8 @@ itkRegistrationParameterScalesFromIndexShiftTest(int, char *[])
   //
   // Testing the step scale for the displacement field transform
   //
-  DisplacementTransformType::ParametersType displacementStep(displacementTransform->GetNumberOfParameters());
-  displacementStep.Fill(1.0);
-  const FloatType localStepScale = shiftScaleEstimator->EstimateStepScale(displacementStep);
+  DisplacementTransformType::ParametersType displacementStep(displacementTransform->GetNumberOfParameters(), 1.0);
+  const FloatType                           localStepScale = shiftScaleEstimator->EstimateStepScale(displacementStep);
   std::cout << "The step scale of shift for the displacement field transform = " << localStepScale << std::endl;
   const FloatType localLearningRate = 1.0 / localStepScale;
   std::cout << "The learning rate of shift for the displacement field transform = " << localLearningRate << std::endl;
@@ -339,8 +338,8 @@ itkRegistrationParameterScalesFromIndexShiftTest(int, char *[])
   std::cout << "Shift scales for the translation transform = " << fixedScales << std::endl;
 
   // Check the correctness
-  RegistrationParameterScalesFromShiftType::ScalesType theoreticalFixedScales(fixedTransform->GetNumberOfParameters());
-  theoreticalFixedScales.Fill(1.0);
+  RegistrationParameterScalesFromShiftType::ScalesType theoreticalFixedScales(fixedTransform->GetNumberOfParameters(),
+                                                                              1.0);
 
   bool translationPass = true;
   for (itk::SizeValueType p = 0; p < theoreticalFixedScales.GetSize(); ++p)

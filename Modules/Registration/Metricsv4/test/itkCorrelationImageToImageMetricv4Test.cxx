@@ -244,8 +244,8 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
 
   // Test that non-overlapping images will generate a warning
   // and return max value for metric value.
-  MovingTransformType::ParametersType parameters(imageDimensionality);
-  parameters.Fill(static_cast<MovingTransformType::ParametersValueType>(1000));
+  MovingTransformType::ParametersType parameters(imageDimensionality,
+                                                 static_cast<MovingTransformType::ParametersValueType>(1000));
   movingTransform->SetParameters(parameters);
   constexpr MetricType::MeasureType expectedMetricMax{ itk::NumericTraits<MetricType::MeasureType>::max() };
   std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;

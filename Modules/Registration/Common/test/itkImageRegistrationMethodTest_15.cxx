@@ -188,9 +188,7 @@ itkImageRegistrationMethodTest_15(int, char *[])
 
   // set the translation scale
   using ScalesType = OptimizerType::ScalesType;
-  ScalesType parametersScales(transform->GetNumberOfParameters());
-
-  parametersScales.Fill(1.0);
+  ScalesType parametersScales(transform->GetNumberOfParameters(), 1.0);
 
   for (unsigned int j = 9; j < 12; ++j)
   {
@@ -238,9 +236,7 @@ itkImageRegistrationMethodTest_15(int, char *[])
   registration->SetInterpolator(interpolator);
 
   // set initial parameters to identity
-  RegistrationType::ParametersType initialParameters(transform->GetNumberOfParameters());
-
-  initialParameters.Fill(0.0);
+  RegistrationType::ParametersType initialParameters(transform->GetNumberOfParameters(), 0.0);
   initialParameters[0] = 1.0;
   initialParameters[4] = 1.0;
   initialParameters[8] = 1.0;
@@ -283,8 +279,7 @@ itkImageRegistrationMethodTest_15(int, char *[])
   std::cout << "Solution is: " << solution << std::endl;
 
 
-  RegistrationType::ParametersType trueParameters(transform->GetNumberOfParameters());
-  trueParameters.Fill(0.0);
+  RegistrationType::ParametersType trueParameters(transform->GetNumberOfParameters(), 0.0);
   trueParameters[0] = 1 / scale[0];
   trueParameters[4] = 1 / scale[1];
   trueParameters[8] = 1 / scale[2];

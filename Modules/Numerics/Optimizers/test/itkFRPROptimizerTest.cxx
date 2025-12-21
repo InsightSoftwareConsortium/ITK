@@ -87,8 +87,7 @@ public:
     std::cout << x << ' ';
     std::cout << y << ") = ";
 
-    DerivativeType temp(SpaceDimension);
-    temp.Fill(0);
+    DerivativeType temp(SpaceDimension, 0);
     derivative = temp;
     derivative[0] = 3 * x + 2 * y - 2;
     derivative[1] = 2 * x + 6 * y + 8;

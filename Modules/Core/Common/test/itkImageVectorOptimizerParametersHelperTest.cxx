@@ -131,8 +131,7 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
   result = testMemoryAccess(params, imageOfVectors, dimLength);
 
   // Test MoveDataPointer
-  itk::Array<ValueType> array(imageOfVectors->GetPixelContainer()->Size());
-  array.Fill(1.23);
+  itk::Array<ValueType> array(imageOfVectors->GetPixelContainer()->Size(), 1.23);
   params.MoveDataPointer(array.data_block());
 
   // Test null image pointer

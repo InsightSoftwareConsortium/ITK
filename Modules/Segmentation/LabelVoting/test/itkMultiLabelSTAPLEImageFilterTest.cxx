@@ -136,8 +136,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   ITK_TEST_EXPECT_TRUE(!filter->GetHasPriorProbabilities());
 
   constexpr typename FilterType::PriorProbabilitiesType::ValueType priorProbabilitiesVal(0.0);
-  typename FilterType::PriorProbabilitiesType                      priorProbabilities(1);
-  priorProbabilities.Fill(priorProbabilitiesVal);
+  typename FilterType::PriorProbabilitiesType                      priorProbabilities(1, priorProbabilitiesVal);
   filter->SetPriorProbabilities(priorProbabilities);
   ITK_TEST_SET_GET_VALUE(priorProbabilities, filter->GetPriorProbabilities());
 

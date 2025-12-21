@@ -162,8 +162,7 @@ testVectorImageBasicMethods()
   image->SetNumberOfComponentsPerPixel(VectorLength);
   image->Allocate();
 
-  typename VectorImageType::PixelType f(VectorLength);
-  f.Fill(3.14f);
+  typename VectorImageType::PixelType f(VectorLength, 3.14f);
 
   image->FillBuffer(f);
 
@@ -181,8 +180,7 @@ testVectorImageBasicMethods()
 
   // test get by reference methods
 
-  typename VectorImageType::PixelType v(VectorLength);
-  v.Fill(2.22f);
+  typename VectorImageType::PixelType v(VectorLength, 2.22f);
 
   // note: this VectorImage method requires the compiler to perform return value
   // optimization to work as expected
@@ -455,8 +453,7 @@ itkVectorImageTest(int, char * argv[])
       auto                                 vectorImage = VectorImageType::New();
       VectorImageType::IndexType           start;
       itk::VariableLengthVector<PixelType> f(VectorLength);
-      itk::VariableLengthVector<PixelType> ZeroPixel(VectorLength);
-      ZeroPixel.Fill(PixelType{});
+      itk::VariableLengthVector<PixelType> ZeroPixel(VectorLength, PixelType{});
       for (unsigned int i = 0; i < VectorLength; ++i)
       {
         f[i] = i;
@@ -770,8 +767,7 @@ itkVectorImageTest(int, char * argv[])
       auto offset = itk::MakeFilled<ConstNeighborhoodIteratorType::OffsetType>(1);
       cNit -= offset;
       const itk::VariableLengthVector<PixelType> pixel = cNit.GetCenterPixel();
-      itk::VariableLengthVector<PixelType>       correctAnswer(VectorLength);
-      correctAnswer.Fill(3);
+      itk::VariableLengthVector<PixelType>       correctAnswer(VectorLength, 3);
       if (pixel != correctAnswer)
       {
         std::cerr << "  operator- [FAILED]" << std::endl;
@@ -800,8 +796,7 @@ itkVectorImageTest(int, char * argv[])
       using NeighborhoodIteratorType = itk::NeighborhoodIterator<VectorImageType>;
       NeighborhoodIteratorType nit(radius, vectorImage, region);
       nit.SetLocation(location);
-      itk::VariableLengthVector<PixelType> p(VectorLength);
-      p.Fill(100.0);
+      itk::VariableLengthVector<PixelType> p(VectorLength, 100.0);
       nit.SetNext(1, 1, p);
 
       // Test SetNext()

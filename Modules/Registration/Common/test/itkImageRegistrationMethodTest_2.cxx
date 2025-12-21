@@ -104,8 +104,7 @@ itkImageRegistrationMethodTest_2(int argc, char * argv[])
   iterationCommand->SetOptimizer(optimizer);
 
   // Scale the translation components of the Transform in the Optimizer
-  OptimizerType::ScalesType scales(transform->GetNumberOfParameters());
-  scales.Fill(1.0);
+  OptimizerType::ScalesType scales(transform->GetNumberOfParameters(), 1.0);
 
 
   unsigned long numberOfIterations = 100;

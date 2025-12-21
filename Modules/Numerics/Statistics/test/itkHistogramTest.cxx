@@ -42,9 +42,8 @@ itkHistogramTest(int, char *[])
   using IndexType = HistogramType::IndexType;
 
   // initializes a 64 x 64 x 64 histogram with equal size interval
-  HistogramType::SizeType size(numberOfComponents);
-  size.Fill(64);
-  const unsigned long totalSize = size[0] * size[1] * size[2];
+  HistogramType::SizeType size(numberOfComponents, 64);
+  const unsigned long     totalSize = size[0] * size[1] * size[2];
 
   MeasurementVectorType lowerBound(numberOfComponents);
   MeasurementVectorType upperBound(numberOfComponents);
@@ -66,8 +65,7 @@ itkHistogramTest(int, char *[])
 
   double interval = (upperBound[0] - lowerBound[0]) / static_cast<HistogramType::MeasurementType>(size[0]);
 
-  MeasurementVectorType measurements(numberOfComponents);
-  measurements.Fill(512);
+  MeasurementVectorType measurements(numberOfComponents, 512);
 
   IndexType index(numberOfComponents);
   IndexType ind(numberOfComponents);
@@ -443,8 +441,7 @@ itkHistogramTest(int, char *[])
   ITK_TEST_EXPECT_TRUE(!getindex2);
 
   // Test GetIndex() for values that are above the median value of the bin.
-  IndexType pindex(numberOfComponents);
-  pindex.Fill(32);
+  IndexType             pindex(numberOfComponents, 32);
   MeasurementVectorType measurementVector = histogram->GetMeasurementVector(pindex);
 
   for (unsigned int gik1 = 0; gik1 < numberOfComponents; ++gik1)

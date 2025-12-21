@@ -574,8 +574,7 @@ itkSimilarity3DTransformTest(int, char *[])
     center[1] = 16.0;
     center[2] = 17.0;
 
-    ParametersType e(t->GetNumberOfParameters());
-    e.Fill(0.0);
+    ParametersType e(t->GetNumberOfParameters(), 0.0);
     e[2] = std::sin(0.5 * a);
     e[6] = 0.5;
 

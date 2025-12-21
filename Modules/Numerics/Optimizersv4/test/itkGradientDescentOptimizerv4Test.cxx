@@ -264,8 +264,7 @@ itkGradientDescentOptimizerv4Test(int, char *[])
 
   // test with non-identity scales
   std::cout << "Test optimization with non-identity scales:" << std::endl;
-  ScalesType scales(metric->GetNumberOfLocalParameters());
-  scales.Fill(0.5);
+  ScalesType scales(metric->GetNumberOfLocalParameters(), 0.5);
   itkOptimizer->SetScales(scales);
   metric->SetParameters(initialPosition);
   if (GradientDescentOptimizerv4RunTest(itkOptimizer, trueParameters) == EXIT_FAILURE)

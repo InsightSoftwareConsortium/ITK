@@ -151,8 +151,7 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
   /** Test the parameters */
   std::cout << "Setting/Getting parameters: ";
 
-  FCoRAffine2DType::ParametersType parameters(6);
-  parameters.Fill(0);
+  FCoRAffine2DType::ParametersType parameters(6, 0);
 
   point2[0] = 1;
   point2[1] = 2;

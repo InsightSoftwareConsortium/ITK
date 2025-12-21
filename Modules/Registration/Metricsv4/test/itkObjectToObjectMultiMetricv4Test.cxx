@@ -127,8 +127,8 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
   MeasureType metricValue{};
   MeasureType weightedMetricValue{};
 
-  MultiMetricType::DerivativeType DerivResultOfGetValueAndDerivativeTruth(multiVariateMetric->GetNumberOfParameters());
-  DerivResultOfGetValueAndDerivativeTruth.Fill(MultiMetricType::DerivativeValueType{});
+  MultiMetricType::DerivativeType DerivResultOfGetValueAndDerivativeTruth(multiVariateMetric->GetNumberOfParameters(),
+                                                                          MultiMetricType::DerivativeValueType{});
   MultiMetricType::DerivativeValueType totalMagnitude{};
 
   for (itk::SizeValueType i = 0; i < multiVariateMetric->GetNumberOfMetrics(); ++i)

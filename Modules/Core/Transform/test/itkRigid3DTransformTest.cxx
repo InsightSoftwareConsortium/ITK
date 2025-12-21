@@ -568,8 +568,7 @@ itkRigid3DTransformTest(int, char *[])
       p = t->GetParameters();
 
       // check if all elements is the expected value to within tolerance
-      ParametersType pIdeal(t->GetNumberOfParameters());
-      pIdeal.Fill(0.0);
+      ParametersType pIdeal(t->GetNumberOfParameters(), 0.0);
       pIdeal[0] = 1.0;
       pIdeal[4] = 1.0;
       pIdeal[8] = 1.0;

@@ -309,8 +309,7 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   // Testing scales with local support done
 
   // Testing the step scale for the displacement field transform
-  DisplacementTransformType::ParametersType displacementStep(displacementTransform->GetNumberOfParameters());
-  displacementStep.Fill(1.0);
+  DisplacementTransformType::ParametersType displacementStep(displacementTransform->GetNumberOfParameters(), 1.0);
   const FloatType localStepScale = jacobianScaleEstimator->EstimateStepScale(displacementStep);
   std::cout << "The step scale of Jacobian for the displacement field transform = " << localStepScale << std::endl;
   const FloatType localLearningRate = 1.0 / localStepScale;

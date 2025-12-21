@@ -172,13 +172,11 @@ itkMaskNegatedImageFilterTest(int, char *[])
 
   // Check that the outside value consists of three zeros.
   const myVectorImageType::PixelType outsideValue3 = vectorFilter->GetOutsideValue();
-  myVectorImageType::PixelType       threeZeros(3);
-  threeZeros.Fill(0.0f);
+  myVectorImageType::PixelType       threeZeros(3, 0.0f);
   ITK_TEST_EXPECT_EQUAL(outsideValue3, threeZeros);
 
   // Reset the outside value to zero vector of length 23.
-  myVectorImageType::PixelType zeros23(23);
-  zeros23.Fill(1.0f);
+  myVectorImageType::PixelType zeros23(23, 1.0f);
   vectorFilter->SetOutsideValue(zeros23);
 
   ITK_TRY_EXPECT_EXCEPTION(vectorFilter->Update());

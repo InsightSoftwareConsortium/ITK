@@ -314,8 +314,7 @@ itkGaussianDistributionTest(int, char *[])
             << std::endl;
 
   const unsigned int               wrongNumberOfParameters = distributionFunction->GetNumberOfParameters() * 42;
-  DistributionType::ParametersType wrongParameters(wrongNumberOfParameters);
-  wrongParameters.Fill(1.0);
+  DistributionType::ParametersType wrongParameters(wrongNumberOfParameters, 1.0);
   distributionFunction->SetParameters(wrongParameters);
 
   ITK_TRY_EXPECT_EXCEPTION(distributionFunction->GetVariance());
@@ -366,8 +365,7 @@ itkGaussianDistributionTest(int, char *[])
   distributionFunction->SetParameters(parameters0);
   distributionFunction->Print(std::cout);
 
-  DistributionType::ParametersType parameters1(1);
-  parameters1.Fill(1.0);
+  DistributionType::ParametersType parameters1(1, 1.0);
   distributionFunction->SetParameters(parameters1);
   distributionFunction->Print(std::cout);
 

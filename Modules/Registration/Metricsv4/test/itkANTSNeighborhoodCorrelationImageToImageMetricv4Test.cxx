@@ -352,8 +352,9 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
 
   // Test that non-overlapping images will generate a warning
   // and return max value for metric value.
-  DisplacementTransformType::ParametersType parameters(transformMdisplacement->GetNumberOfParameters());
-  parameters.Fill(static_cast<DisplacementTransformType::ParametersValueType>(1000.0));
+  DisplacementTransformType::ParametersType parameters(
+    transformMdisplacement->GetNumberOfParameters(),
+    static_cast<DisplacementTransformType::ParametersValueType>(1000.0));
   transformMdisplacement->SetParameters(parameters);
   constexpr MetricType::MeasureType expectedMetricMax{ itk::NumericTraits<MetricType::MeasureType>::max() };
   std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;

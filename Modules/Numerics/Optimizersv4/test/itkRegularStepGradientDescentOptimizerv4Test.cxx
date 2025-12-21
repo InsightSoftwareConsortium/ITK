@@ -204,14 +204,12 @@ RegularStepGradientDescentOptimizerv4TestHelper(
   ITK_TEST_SET_GET_VALUE(currentLearningRateRelaxation, optimizer->GetCurrentLearningRateRelaxation());
 
   // Test exceptions
-  ScalesType parametersScaleExcp(spaceDimension - 1);
-  parametersScaleExcp.Fill(1.0);
+  ScalesType parametersScaleExcp(spaceDimension - 1, 1.0);
   optimizer->SetScales(parametersScaleExcp);
 
   ITK_TRY_EXPECT_EXCEPTION(optimizer->StartOptimization());
 
-  ScalesType parametersScale(spaceDimension);
-  parametersScale.Fill(1.0);
+  ScalesType parametersScale(spaceDimension, 1.0);
   optimizer->SetScales(parametersScale);
 
   optimizer->SetRelaxationFactor(relaxationFactor);

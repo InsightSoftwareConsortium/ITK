@@ -179,9 +179,7 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
 
   // set the translation scale
   using ScalesType = OptimizerType::ScalesType;
-  ScalesType parametersScales(transform->GetNumberOfParameters());
-
-  parametersScales.Fill(1.0);
+  ScalesType parametersScales(transform->GetNumberOfParameters(), 1.0);
 
   for (unsigned int j = 4; j < 7; ++j)
   {
@@ -228,9 +226,7 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
   registration->SetFixedImageRegion(fixedImage->GetBufferedRegion());
 
   // set initial parameters to identity
-  RegistrationType::ParametersType initialParameters(transform->GetNumberOfParameters());
-
-  initialParameters.Fill(0.0);
+  RegistrationType::ParametersType initialParameters(transform->GetNumberOfParameters(), 0.0);
   initialParameters[3] = 1.0;
 
 
@@ -276,8 +272,7 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
   std::cout << "Solution is: " << solution << std::endl;
 
 
-  RegistrationType::ParametersType trueParameters(transform->GetNumberOfParameters());
-  trueParameters.Fill(0.0);
+  RegistrationType::ParametersType trueParameters(transform->GetNumberOfParameters(), 0.0);
   trueParameters[2] = std::sin(angle / 2.0);
   trueParameters[3] = std::cos(angle / 2.0);
   trueParameters[4] = -1.0 * (displacement[0] * std::cos(angle) - displacement[1] * std::sin(angle));
