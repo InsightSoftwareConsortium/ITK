@@ -267,6 +267,18 @@ static_assert(itk::RangeGTestUtilities::CheckConstexprBeginAndEndOfContainer<itk
 static_assert(Check_FixedArray_value_type<int>() && Check_FixedArray_value_type<double>());
 
 
+// Tests that FixedArray may be zero-sized. May be? Maybe not? Experimental code!!! Not intended to be merged!!!
+TEST(FixedArray, MayBeZeroSized)
+{
+  static constexpr itk::FixedArray<int, 0> constZeroSizedFixedArray{};
+  static_assert(constZeroSizedFixedArray.size() == 0);
+
+  itk::FixedArray<int, 0> nonConstZeroSizedFixedArray;
+  nonConstZeroSizedFixedArray = constZeroSizedFixedArray;
+  EXPECT_EQ(nonConstZeroSizedFixedArray.Size(), 0);
+}
+
+
 // Tests that the values of a FixedArray (either const or non-const) can be retrieved by a
 // range-based for-loop.
 TEST(FixedArray, SupportsRetrievingValuesByRangeBasedForLoop)
