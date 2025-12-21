@@ -52,6 +52,8 @@ namespace itk
 template <typename TValue, unsigned int VLength = 3>
 class ITK_TEMPLATE_EXPORT FixedArray
 {
+  static_assert(VLength > 0);
+
 public:
   /** Length constant */
   static constexpr unsigned int Length = VLength;
