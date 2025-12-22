@@ -21,26 +21,7 @@
 #include "itkMacro.h"
 #include "ITKCommonExport.h"
 
-#include <locale.h>
-#include <cstring>
-#include <cstdlib>
-
-// Platform-specific includes for thread-safe locale handling
-#if defined(_WIN32)
-#  include <windows.h>
-#elif defined(__APPLE__) || defined(__linux__) || defined(__unix__)
-// POSIX systems provide newlocale/uselocale in locale.h (C11) or xlocale.h (older)
-#  if defined(__APPLE__)
-#    include <xlocale.h>
-#  elif defined(__GLIBC__)
-// glibc provides locale_t in locale.h
-#  else
-// Try xlocale.h for other systems, fall back to locale.h
-#    if __has_include(<xlocale.h>)
-#      include <xlocale.h>
-#    endif
-#  endif
-#endif
+#include <memory>
 
 namespace itk
 {
@@ -57,10 +38,10 @@ namespace itk
  * separator (like NRRD, VTK, etc.) regardless of the system locale setting.
  *
  * Thread safety:
- * - On POSIX systems (Linux, macOS, BSD): Uses thread-local locale via uselocale()
- * - On Windows: Uses thread-local locale via _configthreadlocale()
- * - Fallback: Uses global setlocale() with mutex protection (not fully thread-safe
- *   for concurrent I/O operations, but prevents corruption of locale state)
+ * - On POSIX systems (when newlocale/uselocale are available): Uses thread-local locale
+ * - On Windows (when _configthreadlocale is available): Uses thread-specific locale
+ * - Fallback (when neither is available): Issues a warning if locale differs from "C",
+ *   but does not change the locale. Applications must manage locale externally.
  *
  * Example usage:
  * \code
@@ -92,18 +73,10 @@ public:
   operator=(NumericLocale &&) = delete;
 
 private:
-#if defined(_WIN32)
-  // Windows: store previous thread-specific locale setting
-  int m_PreviousThreadLocaleSetting{ -1 };
-  char * m_SavedLocale{ nullptr };
-#elif defined(__APPLE__) || defined(__linux__) || defined(__unix__)
-  // POSIX: store previous thread-local locale
-  locale_t m_PreviousLocale{ nullptr };
-  locale_t m_CLocale{ nullptr };
-#else
-  // Fallback: global locale (protected by mutex in implementation)
-  char * m_SavedLocale{ nullptr };
-#endif
+  // Forward declaration of implementation structure
+  struct Impl;
+  // Pointer to implementation (pImpl idiom)
+  std::unique_ptr<Impl> m_Impl;
 };
 
 } // end namespace itk

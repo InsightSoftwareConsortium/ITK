@@ -17,25 +17,53 @@
  *=========================================================================*/
 
 #include "itkNumericLocale.h"
+#include "itkConfigurePrivate.h"
 
-#include <mutex>
+#include <locale.h>
+#include <cstring>
+#include <cstdlib>
+
+// Include platform-specific headers based on detected features
+#ifdef ITK_HAS_NEWLOCALE
+#  if defined(__APPLE__)
+#    include <xlocale.h>
+#  endif
+#endif
 
 namespace itk
 {
 
-#if defined(_WIN32)
+// Implementation structure definition
+struct NumericLocale::Impl
+{
+#ifdef ITK_HAS_CONFIGTHREADLOCALE
+  // Windows: thread-specific locale
+  int  m_PreviousThreadLocaleSetting{ -1 };
+  char * m_SavedLocale{ nullptr };
+#elif defined(ITK_HAS_NEWLOCALE)
+  // POSIX: thread-local locale
+  locale_t m_PreviousLocale{ nullptr };
+  locale_t m_CLocale{ nullptr };
+#else
+  // Fallback: no locale change, only check and warn
+  bool m_WarningIssued{ false };
+#endif
+};
+
+#ifdef ITK_HAS_CONFIGTHREADLOCALE
 
 // Windows implementation using thread-specific locale
 NumericLocale::NumericLocale()
+  : m_Impl(new Impl())
 {
   // Enable thread-specific locale for this thread
-  m_PreviousThreadLocaleSetting = _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
+  m_Impl->m_PreviousThreadLocaleSetting = _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
 
   // Save current LC_NUMERIC locale
   const char * currentLocale = setlocale(LC_NUMERIC, nullptr);
   if (currentLocale)
   {
-    m_SavedLocale = _strdup(currentLocale);
+    m_Impl->m_SavedLocale = _strdup(currentLocale);
     // If _strdup fails (returns nullptr), m_SavedLocale remains nullptr
     // and the locale will not be restored in the destructor
   }
@@ -47,34 +75,35 @@ NumericLocale::NumericLocale()
 NumericLocale::~NumericLocale()
 {
   // Restore original locale
-  if (m_SavedLocale)
+  if (m_Impl->m_SavedLocale)
   {
-    setlocale(LC_NUMERIC, m_SavedLocale);
-    free(m_SavedLocale);
+    setlocale(LC_NUMERIC, m_Impl->m_SavedLocale);
+    free(m_Impl->m_SavedLocale);
   }
 
   // Restore previous thread-specific locale setting
-  if (m_PreviousThreadLocaleSetting != -1)
+  if (m_Impl->m_PreviousThreadLocaleSetting != -1)
   {
-    _configthreadlocale(m_PreviousThreadLocaleSetting);
+    _configthreadlocale(m_Impl->m_PreviousThreadLocaleSetting);
   }
 }
 
-#elif defined(__APPLE__) || defined(__linux__) || defined(__unix__)
+#elif defined(ITK_HAS_NEWLOCALE)
 
 // POSIX implementation using thread-local locale (uselocale/newlocale)
 NumericLocale::NumericLocale()
+  : m_Impl(new Impl())
 {
   // Create a new C locale
   // If newlocale fails (returns nullptr), m_CLocale remains nullptr
   // and the locale will not be changed - this is a safe fallback
-  m_CLocale = newlocale(LC_NUMERIC_MASK, "C", nullptr);
+  m_Impl->m_CLocale = newlocale(LC_NUMERIC_MASK, "C", nullptr);
 
-  if (m_CLocale)
+  if (m_Impl->m_CLocale)
   {
     // Set the C locale for this thread and save the previous locale
     // uselocale returns the previous locale, which may be LC_GLOBAL_LOCALE
-    m_PreviousLocale = uselocale(m_CLocale);
+    m_Impl->m_PreviousLocale = uselocale(m_Impl->m_CLocale);
   }
 }
 
@@ -84,54 +113,36 @@ NumericLocale::~NumericLocale()
   // restore the previous locale and free the C locale.
   // Always restore if m_CLocale is set, as m_PreviousLocale may be
   // LC_GLOBAL_LOCALE which is a valid non-null value.
-  if (m_CLocale)
+  if (m_Impl->m_CLocale)
   {
-    uselocale(m_PreviousLocale);
-    freelocale(m_CLocale);
+    uselocale(m_Impl->m_PreviousLocale);
+    freelocale(m_Impl->m_CLocale);
   }
 }
 
 #else
 
-// Fallback implementation using global locale with mutex protection
-// This is not ideal but provides some protection against concurrent access
-namespace
-{
-std::mutex localeMutex;
-}
-
+// Fallback implementation - only check locale and issue warning if not "C"
+// Do not modify the locale, application must manage it externally
 NumericLocale::NumericLocale()
+  : m_Impl(new Impl())
 {
-  // Lock mutex to protect global locale state
-  // Using direct lock/unlock instead of lock_guard to maintain compatibility
-  // with the RAII pattern where unlock happens in destructor
-  localeMutex.lock();
-
-  // Save current LC_NUMERIC locale
+  // Check if current locale is compatible with expected "C" locale
   const char * currentLocale = setlocale(LC_NUMERIC, nullptr);
-  if (currentLocale)
+  if (currentLocale && std::strcmp(currentLocale, "C") != 0)
   {
-    m_SavedLocale = strdup(currentLocale);
-    // If strdup fails (returns nullptr), m_SavedLocale remains nullptr
-    // and the locale will not be restored in the destructor
+    // Issue warning only once per instance
+    itkWarningMacro("LC_NUMERIC locale is '" << currentLocale << "' (not 'C'). "
+                    << "Thread-safe locale functions not available. "
+                    << "Locale-dependent number parsing may cause issues. "
+                    << "Please manage locale at application level.");
+    m_Impl->m_WarningIssued = true;
   }
-
-  // Set to C locale for parsing
-  // Note: setlocale is a C function and does not throw exceptions
-  setlocale(LC_NUMERIC, "C");
 }
 
-NumericLocale::~NumericLocale() noexcept
+NumericLocale::~NumericLocale()
 {
-  // Restore original locale
-  if (m_SavedLocale)
-  {
-    setlocale(LC_NUMERIC, m_SavedLocale);
-    free(m_SavedLocale);
-  }
-
-  // Unlock mutex - must always happen to avoid deadlock
-  localeMutex.unlock();
+  // No action needed in fallback - we don't change the locale
 }
 
 #endif
