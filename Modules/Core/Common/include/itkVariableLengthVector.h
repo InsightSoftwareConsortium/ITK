@@ -404,11 +404,10 @@ public:
    */
   template <typename T>
   VariableLengthVector(const VariableLengthVector<T> & v)
-    : m_NumElements(v.Size())
+    : VariableLengthVector(v.Size())
   {
     if (m_NumElements != 0)
     {
-      m_Data = this->AllocateElements(m_NumElements);
       itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != nullptr);
       for (ElementIdentifier i = 0; i < m_NumElements; ++i)
       {

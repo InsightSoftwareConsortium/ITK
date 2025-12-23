@@ -18,6 +18,7 @@
 #ifndef itkVariableLengthVector_hxx
 #define itkVariableLengthVector_hxx
 
+#include "itkMakeUniqueForOverwrite.h"
 #include "itkNumericTraitsVariableLengthVectorPixel.h"
 #include "itkMath.h"
 #include <cstring>
@@ -28,9 +29,9 @@ namespace itk
 
 template <typename TValue>
 VariableLengthVector<TValue>::VariableLengthVector(unsigned int length)
-  : m_Data(nullptr)
+  : m_Data(new TValue[length])
+  , m_NumElements(length)
 {
-  Reserve(length);
   // postcondition(s)
   itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != nullptr);
 }
@@ -58,11 +59,10 @@ VariableLengthVector<TValue>::VariableLengthVector(const ValueType * datain, uns
 
 template <typename TValue>
 VariableLengthVector<TValue>::VariableLengthVector(const VariableLengthVector<TValue> & v)
-  : m_NumElements(v.Size())
+  : VariableLengthVector(v.m_NumElements)
 {
   if (m_NumElements != 0)
   {
-    m_Data = this->AllocateElements(m_NumElements);
     itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != nullptr);
     itkAssertInDebugAndIgnoreInReleaseMacro(v.m_Data != nullptr);
     std::copy_n(&v.m_Data[0], m_NumElements, &this->m_Data[0]);
@@ -131,10 +131,9 @@ template <typename VariableLengthVectorExpression1, typename VariableLengthVecto
 VariableLengthVector<TValue>::VariableLengthVector(
   const VariableLengthVectorExpression<VariableLengthVectorExpression1, VariableLengthVectorExpression2, TBinaryOp> &
     rhs)
-  : m_NumElements(rhs.Size())
+  : VariableLengthVector(rhs.Size())
 {
-  m_Data = this->AllocateElements(m_NumElements);
-  // allocate Elements post-condition
+  // VariableLengthVector(length) post-condition
   itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != nullptr);
   for (ElementIdentifier i = 0; i < m_NumElements; ++i)
   {
@@ -176,23 +175,23 @@ VariableLengthVector<TValue>::Reserve(ElementIdentifier size)
   {
     if (size > m_NumElements)
     {
-      TValue * temp = this->AllocateElements(size);
+      auto temp = make_unique_for_overwrite<TValue[]>(size);
       itkAssertInDebugAndIgnoreInReleaseMacro(temp);
       itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements > 0 && m_Data != nullptr));
       // only copy the portion of the data used in the old buffer
-      std::copy_n(m_Data, m_NumElements, temp);
+      std::copy_n(m_Data, m_NumElements, temp.get());
       if (m_LetArrayManageMemory)
       {
         delete[] m_Data;
       }
-      m_Data = temp;
+      m_Data = temp.release();
       m_LetArrayManageMemory = true;
       m_NumElements = size;
     }
   }
   else
   {
-    m_Data = this->AllocateElements(size);
+    m_Data = new TValue[size];
     m_NumElements = size;
     m_LetArrayManageMemory = true;
   }
@@ -273,16 +272,16 @@ VariableLengthVector<TValue>::SetSize(unsigned int sz, TReallocatePolicy realloc
 
   if (reallocatePolicy(sz, m_NumElements) || !m_LetArrayManageMemory)
   {
-    TValue * temp = this->AllocateElements(sz); // may throw
+    auto temp = make_unique_for_overwrite<TValue[]>(sz); // may throw
     itkAssertInDebugAndIgnoreInReleaseMacro(temp);
     itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements > 0 && m_Data != nullptr));
-    keepValues(sz, m_NumElements, m_Data, temp); // possible leak if TValue copy may throw
+    keepValues(sz, m_NumElements, m_Data, temp.get());
     // commit changes
     if (m_LetArrayManageMemory)
     {
       delete[] m_Data;
     }
-    m_Data = temp;
+    m_Data = temp.release();
     m_LetArrayManageMemory = true;
   }
   m_NumElements = sz;
