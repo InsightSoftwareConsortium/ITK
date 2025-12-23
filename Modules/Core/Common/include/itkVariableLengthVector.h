@@ -761,12 +761,15 @@ public:
   void
   Reserve(ElementIdentifier size);
 
+#ifndef ITK_FUTURE_LEGACY_REMOVE
   /** Allocate memory of certain size and return it.
    * \return a non-null pointer to an array of \c size elements (0 is a valid
    * parameter).
+   * \deprecated Please consider calling `std::make_unique<TValue[]>(size)` instead.
    */
-  [[nodiscard]] TValue *
+  [[deprecated("Please consider calling `std::make_unique<TValue[]>(size)` instead.")]] [[nodiscard]] TValue *
   AllocateElements(ElementIdentifier size) const;
+#endif
 
   [[nodiscard]] const TValue *
   GetDataPointer() const
