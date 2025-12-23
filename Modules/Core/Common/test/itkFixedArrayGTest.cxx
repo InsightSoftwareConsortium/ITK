@@ -368,3 +368,12 @@ TEST(FixedArray, EmptyIsFalse)
 
   EXPECT_FALSE(itk::FixedArray<int>({ 0, 1, 2 }).empty());
 }
+
+
+// Tests front() and back().
+TEST(FixedArray, CheckFrontAndBack)
+{
+  itk::RangeGTestUtilities::CheckFrontAndBack(itk::FixedArray<int, 1>{});
+  itk::RangeGTestUtilities::CheckFrontAndBack(itk::FixedArray<int>({ 0, 1, 2 }));
+  itk::RangeGTestUtilities::CheckFrontAndBack(itk::FixedArray<double>::Filled(std::numeric_limits<double>::max()));
+}

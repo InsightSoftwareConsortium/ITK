@@ -313,6 +313,31 @@ public:
     return m_InternalArray[index];
   }
   /** @ITKEndGrouping */
+
+  [[nodiscard]] constexpr reference
+  front()
+  {
+    return m_InternalArray[0];
+  }
+
+  [[nodiscard]] constexpr const_reference
+  front() const
+  {
+    return m_InternalArray[0];
+  }
+
+  [[nodiscard]] constexpr reference
+  back()
+  {
+    return m_InternalArray[VLength - 1];
+  }
+
+  [[nodiscard]] constexpr const_reference
+  back() const
+  {
+    return m_InternalArray[VLength - 1];
+  }
+
   /** Return a pointer to the data. */
   ValueType *
   GetDataPointer()

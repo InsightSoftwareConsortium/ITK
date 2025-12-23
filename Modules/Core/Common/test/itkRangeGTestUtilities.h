@@ -223,6 +223,22 @@ public:
   }
 
 
+  template <typename TRange>
+  static void
+  CheckFrontAndBack(TRange && range)
+  {
+    ASSERT_FALSE(std::empty(range));
+
+    // Check that front() is at the begin, and back() is just before the end.
+    EXPECT_EQ(&range.front(), &*std::cbegin(range));
+    EXPECT_EQ(&range.back(), &*std::prev(std::cend(range)));
+
+    // Check that const and non-const overloads return a reference to the same element.
+    EXPECT_EQ(&std::as_const(range).front(), &range.front());
+    EXPECT_EQ(&std::as_const(range).back(), &range.back());
+  }
+
+
   // Checks that each element of the specified range is zero.
   template <typename TRange>
   static void
