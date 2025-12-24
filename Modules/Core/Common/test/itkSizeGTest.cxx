@@ -174,3 +174,11 @@ TEST(Size, CalculateProductOfElements)
   checkArbitrarySize(itk::MakeSize(2, 4));
   checkArbitrarySize(itk::MakeSize(1, 2, 3));
 }
+
+
+// Tests front() and back().
+TEST(Size, CheckFrontAndBack)
+{
+  itk::RangeGTestUtilities::CheckFrontAndBack(itk::Size<1>{});
+  itk::RangeGTestUtilities::CheckFrontAndBack(itk::Size<>{ 1, 2 });
+}
