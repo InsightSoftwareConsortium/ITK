@@ -19,6 +19,7 @@
 // First include the header file to be tested:
 #include "itkOffset.h"
 #include "itkRangeGTestUtilities.h"
+#include <gtest/gtest.h>
 
 
 static_assert(itk::RangeGTestUtilities::CheckConstexprBeginAndEndOfContainer<itk::Offset<>>() &&
@@ -28,3 +29,11 @@ static_assert(itk::RangeGTestUtilities::CheckConstexprBeginAndEndOfContainer<itk
 static_assert(itk::RangeGTestUtilities::IsDistanceFromFrontToBackPlusOneEqualToSize(itk::Offset<>()) &&
                 itk::RangeGTestUtilities::IsDistanceFromFrontToBackPlusOneEqualToSize(itk::Offset<1>()),
               "Check that `distance(&front, &back) + 1` is equal to `size`");
+
+
+// Tests front() and back().
+TEST(Offset, CheckFrontAndBack)
+{
+  itk::RangeGTestUtilities::CheckFrontAndBack(itk::Offset<1>{});
+  itk::RangeGTestUtilities::CheckFrontAndBack(itk::Offset<>{ 1, 2 });
+}

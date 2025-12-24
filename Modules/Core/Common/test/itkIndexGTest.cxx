@@ -102,3 +102,11 @@ TEST(Index, Make)
   const auto values = { 1, 2, 3, 4 };
   EXPECT_TRUE(std::equal(itkIndex.begin(), itkIndex.end(), values.begin(), values.end()));
 }
+
+
+// Tests front() and back().
+TEST(Index, CheckFrontAndBack)
+{
+  itk::RangeGTestUtilities::CheckFrontAndBack(itk::Index<1>{});
+  itk::RangeGTestUtilities::CheckFrontAndBack(itk::Index<>{ 1, 2 });
+}
