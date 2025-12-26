@@ -345,44 +345,22 @@ if(NOT DEFINED CMAKE_FIND_USE_PACKAGE_REGISTRY)
   set(CMAKE_FIND_USE_PACKAGE_REGISTRY 0)
 endif()
 
-# Setup build locations for shared libraries ----START
-#     ITK/CMakeLists.txt -- use ITK_BINARY_DIR as root
-#     ITK/CMake/ITKModuleExternal.cmake -- use ITK_DIR as root
+# Setup build locations for libraries ----START
 #
-# The default path when not wrapping.  Restore standard build location
-# if python wrapping is turned on, and then turned off.
+# When Wrapping is enabled the CMAKE_*_OUTPUT_DIRECTORY(s) will be explicitly set
+include(WrappingConfigCommon)
+
+# Only set default is not prior configured by wrapping or the user
 if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
-  set(
-    NO_WRAP_CMAKE_LIBRARY_OUTPUT_DIRECTORY
-    ${ITK_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}
-    CACHE PATH
-    "Shared library directory"
-  )
-else()
-  set(
-    NO_WRAP_CMAKE_LIBRARY_OUTPUT_DIRECTORY
-    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-    CACHE PATH
-    "Shared library directory"
-  )
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
 endif()
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
-  set(
-    NO_WRAP_CMAKE_RUNTIME_OUTPUT_DIRECTORY
-    ${ITK_BINARY_DIR}/bin
-    CACHE PATH
-    "Shared library directory"
-  )
-else()
-  set(
-    NO_WRAP_CMAKE_RUNTIME_OUTPUT_DIRECTORY
-    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-    CACHE PATH
-    "Shared library directory"
-  )
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/bin)
+endif()
+if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
+  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
 endif()
 
-include(WrappingConfigCommon)
 # Setup build locations for shared libraries ----STOP
 
 if(CMAKE_CONFIGURATION_TYPES AND ITK_WRAPPING)
@@ -399,9 +377,6 @@ if(CMAKE_CONFIGURATION_TYPES AND ITK_WRAPPING)
   )
 endif()
 
-if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
-  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
-endif()
 set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 
 #-----------------------------------------------------------------------------
