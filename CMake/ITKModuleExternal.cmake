@@ -75,55 +75,18 @@ if(NOT DEFINED CMAKE_INSTALL_LIBDIR)
   set(CMAKE_INSTALL_LIBDIR "lib")
 endif()
 
-# The default path when not wrapping.  Restore standard build location
-# if python wrapping is turned on, and then turned off.
+# When Wrapping is enabled the CMAKE_*_OUTPUT_DIRECTORY(s) will be explicitly set
+include(WrappingConfigCommon)
+
+# Only set default if not prior configured by wrapping or the user
 if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
-  set(
-    NO_WRAP_CMAKE_LIBRARY_OUTPUT_DIRECTORY
-    ${ITK_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}
-    CACHE PATH
-    "Shared library directory"
-  )
-else()
-  set(
-    NO_WRAP_CMAKE_LIBRARY_OUTPUT_DIRECTORY
-    ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-    CACHE PATH
-    "Shared library directory"
-  )
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
 endif()
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
-  set(
-    NO_WRAP_CMAKE_RUNTIME_OUTPUT_DIRECTORY
-    ${ITK_BINARY_DIR}/bin
-    CACHE PATH
-    "Shared library directory"
-  )
-else()
-  set(
-    NO_WRAP_CMAKE_RUNTIME_OUTPUT_DIRECTORY
-    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-    CACHE PATH
-    "Shared library directory"
-  )
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/bin)
 endif()
-
-include(WrappingConfigCommon)
-# Setup build locations for shared libraries ----STOP
-
 if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
-  set(
-    CMAKE_ARCHIVE_OUTPUT_DIRECTORY
-    ${ITK_DIR}/${CMAKE_INSTALL_LIBDIR}
-    CACHE PATH
-    "Static library install directory"
-  )
-  set(
-    CMAKE_RUNTIME_OUTPUT_DIRECTORY
-    ${NO_WRAP_CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-    CACHE PATH
-    "Runtime library directory"
-  )
+  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
 endif()
 
 # ITK installation structure
