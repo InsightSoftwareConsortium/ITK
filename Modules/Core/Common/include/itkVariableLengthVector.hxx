@@ -29,18 +29,15 @@ namespace itk
 
 template <typename TValue>
 VariableLengthVector<TValue>::VariableLengthVector(unsigned int length)
-  : m_Data(new TValue[length])
+  : m_Data(length == 0 ? nullptr : new TValue[length])
   , m_NumElements(length)
-{
-  // postcondition(s)
-  itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != nullptr);
-}
+{}
 
 template <typename TValue>
 VariableLengthVector<TValue>::VariableLengthVector(unsigned int length, const TValue & value)
   : VariableLengthVector(length)
 {
-  std::fill_n(m_Data, length, value);
+  Fill(value);
 }
 
 template <typename TValue>
@@ -66,10 +63,6 @@ VariableLengthVector<TValue>::VariableLengthVector(const VariableLengthVector<TV
     itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != nullptr);
     itkAssertInDebugAndIgnoreInReleaseMacro(v.m_Data != nullptr);
     std::copy_n(&v.m_Data[0], m_NumElements, &this->m_Data[0]);
-  }
-  else
-  {
-    m_Data = nullptr;
   }
 }
 
@@ -133,8 +126,6 @@ VariableLengthVector<TValue>::VariableLengthVector(
     rhs)
   : VariableLengthVector(rhs.Size())
 {
-  // VariableLengthVector(length) post-condition
-  itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != nullptr);
   for (ElementIdentifier i = 0; i < m_NumElements; ++i)
   {
     this->m_Data[i] = static_cast<TValue>(rhs[i]);
@@ -191,11 +182,14 @@ VariableLengthVector<TValue>::Reserve(ElementIdentifier size)
   }
   else
   {
-    m_Data = new TValue[size];
+    // At this point, m_Data is null.
+    if (size > 0)
+    {
+      m_Data = new TValue[size];
+    }
     m_NumElements = size;
     m_LetArrayManageMemory = true;
   }
-  itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != nullptr);
 }
 
 #ifndef ITK_FUTURE_LEGACY_REMOVE
@@ -274,10 +268,15 @@ VariableLengthVector<TValue>::SetSize(unsigned int sz, TReallocatePolicy realloc
 
   if (reallocatePolicy(sz, m_NumElements) || !m_LetArrayManageMemory)
   {
-    auto temp = make_unique_for_overwrite<TValue[]>(sz); // may throw
-    itkAssertInDebugAndIgnoreInReleaseMacro(temp);
-    itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements > 0 && m_Data != nullptr));
-    keepValues(sz, m_NumElements, m_Data, temp.get());
+    std::unique_ptr<TValue[]> temp;
+
+    if (sz > 0)
+    {
+      temp = make_unique_for_overwrite<TValue[]>(sz); // may throw
+      itkAssertInDebugAndIgnoreInReleaseMacro(temp);
+      itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements > 0 && m_Data != nullptr));
+      keepValues(sz, m_NumElements, m_Data, temp.get());
+    }
     // commit changes
     if (m_LetArrayManageMemory)
     {
@@ -293,10 +292,11 @@ template <typename TValue>
 void
 VariableLengthVector<TValue>::Fill(const TValue & v)
 {
-  itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements > 0 && m_Data != nullptr));
-  // VC++ version of std::fill_n() expects the output iterator to be valid
-  // instead of expecting the range [OutIt, OutIt+n) to be valid.
-  std::fill(&this->m_Data[0], &this->m_Data[m_NumElements], v);
+  if (m_NumElements > 0)
+  {
+    itkAssertInDebugAndIgnoreInReleaseMacro(m_Data);
+    std::fill_n(m_Data, m_NumElements, v);
+  }
 }
 
 template <typename TValue>
