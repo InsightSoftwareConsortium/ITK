@@ -1,26 +1,28 @@
-#ifndef itk_NrrdIO_mangle_h
-#define itk_NrrdIO_mangle_h
+#ifndef __@MANGLE_PREFIX@_NrrdIO_mangle_h__
+#define __@MANGLE_PREFIX@_NrrdIO_mangle_h__
 
 /*
-This header file mangles all symbols exported from the
-NrrdIO library. It is included in all files while building
-the NrrdIO library.  Due to namespace pollution, no NrrdIO
-headers should be included in .h files in ITK.
+This header file mangles all symbols exported from the NrrdIO library,
+to be included in all .c files while building NrrdIO in settings that
+require symbol renaming.
 
-This file was created via the mangle.pl script in the
-NrrdIO distribution:
+This file was made by the mangle.py script in the NrrdIO distribution:
 
-  perl mangle.pl @MANGLE_PREFIX@ > itk_NrrdIO_mangle.h
+  python mangle.py @MANGLE_PREFIX@ itk
 
-This uses nm to list all text (T), data (D) symbols, as well
-read-only (R) things (seen on Linux) and "other" (S) things
-(seen on Mac).  On Macs, the preceeding underscore is removed.
+and then > redirecting that to the current file, via the "0-gen.sh itk"
+script in the NrrdIO distribution.
+This uses nm to list all text (T), data (D) symbols, as well as
+read-only (R) things (on Linux) and "other" (S) things (on Mac).
+On Macs, the preceding underscore is removed.
 
-Also ensures that a few others starting with nrrd are included, and
-prevents variables ending with .N* where N is some number, from inclusion.
+This also ensures that a few others things starting with nrrd are
+included, and prevents variables ending with .N* where N is some
+number, from inclusion.
 */
 
 #define airExists @MANGLE_PREFIX@_airExists
+#define airFPClass_ae @MANGLE_PREFIX@_airFPClass_ae
 #define airFPClass_d @MANGLE_PREFIX@_airFPClass_d
 #define airFPClass_f @MANGLE_PREFIX@_airFPClass_f
 #define airFPFprintf_d @MANGLE_PREFIX@_airFPFprintf_d
@@ -31,14 +33,12 @@ prevents variables ending with .N* where N is some number, from inclusion.
 #define airFPPartsToVal_f @MANGLE_PREFIX@_airFPPartsToVal_f
 #define airFPValToParts_d @MANGLE_PREFIX@_airFPValToParts_d
 #define airFPValToParts_f @MANGLE_PREFIX@_airFPValToParts_f
+#define airFloatNaN @MANGLE_PREFIX@_airFloatNaN
 #define airFloatNegInf @MANGLE_PREFIX@_airFloatNegInf
 #define airFloatPosInf @MANGLE_PREFIX@_airFloatPosInf
-#define airFloatQNaN @MANGLE_PREFIX@_airFloatQNaN
-#define airFloatSNaN @MANGLE_PREFIX@_airFloatSNaN
 #define airIsInf_d @MANGLE_PREFIX@_airIsInf_d
 #define airIsInf_f @MANGLE_PREFIX@_airIsInf_f
 #define airIsNaN @MANGLE_PREFIX@_airIsNaN
-#define airMyQNaNHiBit @MANGLE_PREFIX@_airMyQNaNHiBit
 #define airNaN @MANGLE_PREFIX@_airNaN
 #define airMopAdd @MANGLE_PREFIX@_airMopAdd
 #define airMopDebug @MANGLE_PREFIX@_airMopDebug
@@ -59,27 +59,20 @@ prevents variables ending with .N* where N is some number, from inclusion.
 #define airArrayStructCB @MANGLE_PREFIX@_airArrayStructCB
 #define airAtod @MANGLE_PREFIX@_airAtod
 #define airBool @MANGLE_PREFIX@_airBool
-#define airParseStr @MANGLE_PREFIX@_airParseStr
 #define airParseStrB @MANGLE_PREFIX@_airParseStrB
 #define airParseStrC @MANGLE_PREFIX@_airParseStrC
 #define airParseStrD @MANGLE_PREFIX@_airParseStrD
 #define airParseStrE @MANGLE_PREFIX@_airParseStrE
 #define airParseStrF @MANGLE_PREFIX@_airParseStrF
+#define airParseStrH @MANGLE_PREFIX@_airParseStrH
 #define airParseStrI @MANGLE_PREFIX@_airParseStrI
-#define airParseStrLI @MANGLE_PREFIX@_airParseStrLI
+#define airParseStrL @MANGLE_PREFIX@_airParseStrL
 #define airParseStrS @MANGLE_PREFIX@_airParseStrS
+#define airParseStrUH @MANGLE_PREFIX@_airParseStrUH
 #define airParseStrUI @MANGLE_PREFIX@_airParseStrUI
-#define airParseStrULI @MANGLE_PREFIX@_airParseStrULI
+#define airParseStrUL @MANGLE_PREFIX@_airParseStrUL
 #define airParseStrZ @MANGLE_PREFIX@_airParseStrZ
 #define airSingleSscanf @MANGLE_PREFIX@_airSingleSscanf
-#define airDioInfo @MANGLE_PREFIX@_airDioInfo
-#define airDioMalloc @MANGLE_PREFIX@_airDioMalloc
-#define airDioRead @MANGLE_PREFIX@_airDioRead
-#define airDioTest @MANGLE_PREFIX@_airDioTest
-#define airDioWrite @MANGLE_PREFIX@_airDioWrite
-#define airDisableDio @MANGLE_PREFIX@_airDisableDio
-#define airMyDio @MANGLE_PREFIX@_airMyDio
-#define airNoDioErr @MANGLE_PREFIX@_airNoDioErr
 #define airInsaneErr @MANGLE_PREFIX@_airInsaneErr
 #define airSanity @MANGLE_PREFIX@_airSanity
 #define airEndian @MANGLE_PREFIX@_airEndian
@@ -92,7 +85,6 @@ prevents variables ending with .N* where N is some number, from inclusion.
 #define airStrlen @MANGLE_PREFIX@_airStrlen
 #define airStrntok @MANGLE_PREFIX@_airStrntok
 #define airStrtok @MANGLE_PREFIX@_airStrtok
-#define airStrtokQuoting @MANGLE_PREFIX@_airStrtokQuoting
 #define airStrtrans @MANGLE_PREFIX@_airStrtrans
 #define airToLower @MANGLE_PREFIX@_airToLower
 #define airToUpper @MANGLE_PREFIX@_airToUpper
@@ -114,7 +106,9 @@ prevents variables ending with .N* where N is some number, from inclusion.
 #define airSprintPtrdiff_t @MANGLE_PREFIX@_airSprintPtrdiff_t
 #define airSprintSize_t @MANGLE_PREFIX@_airSprintSize_t
 #define airTeemReleaseDate @MANGLE_PREFIX@_airTeemReleaseDate
+#define airTeemReleaseDone @MANGLE_PREFIX@_airTeemReleaseDone
 #define airTeemVersion @MANGLE_PREFIX@_airTeemVersion
+#define airTeemVersionSprint @MANGLE_PREFIX@_airTeemVersionSprint
 #define biffAdd @MANGLE_PREFIX@_biffAdd
 #define biffAddf @MANGLE_PREFIX@_biffAddf
 #define biffCheck @MANGLE_PREFIX@_biffCheck
@@ -129,17 +123,13 @@ prevents variables ending with .N* where N is some number, from inclusion.
 #define biffSetStr @MANGLE_PREFIX@_biffSetStr
 #define _biffMsgAddVL @MANGLE_PREFIX@__biffMsgAddVL
 #define _biffMsgMoveVL @MANGLE_PREFIX@__biffMsgMoveVL
-#define _biffMsgNoop @MANGLE_PREFIX@__biffMsgNoop
 #define biffMsgAdd @MANGLE_PREFIX@_biffMsgAdd
 #define biffMsgClear @MANGLE_PREFIX@_biffMsgClear
 #define biffMsgErrNum @MANGLE_PREFIX@_biffMsgErrNum
-#define biffMsgLineLenMax @MANGLE_PREFIX@_biffMsgLineLenMax
 #define biffMsgMove @MANGLE_PREFIX@_biffMsgMove
 #define biffMsgMovef @MANGLE_PREFIX@_biffMsgMovef
 #define biffMsgNew @MANGLE_PREFIX@_biffMsgNew
 #define biffMsgNix @MANGLE_PREFIX@_biffMsgNix
-#define biffMsgNoop @MANGLE_PREFIX@_biffMsgNoop
-#define biffMsgStrAlloc @MANGLE_PREFIX@_biffMsgStrAlloc
 #define biffMsgStrGet @MANGLE_PREFIX@_biffMsgStrGet
 #define biffMsgStrSet @MANGLE_PREFIX@_biffMsgStrSet
 #define biffMsgStrlen @MANGLE_PREFIX@_biffMsgStrlen
@@ -164,10 +154,11 @@ prevents variables ending with .N* where N is some number, from inclusion.
 #define _nrrdLLongMinHelp @MANGLE_PREFIX@__nrrdLLongMinHelp
 #define _nrrdULLongMaxHelp @MANGLE_PREFIX@__nrrdULLongMaxHelp
 #define nrrdDefaultCenter @MANGLE_PREFIX@_nrrdDefaultCenter
-#define nrrdDefaultSpacing @MANGLE_PREFIX@_nrrdDefaultSpacing
+#define nrrdDefaultVerboseIO @MANGLE_PREFIX@_nrrdDefaultVerboseIO
 #define nrrdDefaultWriteBareText @MANGLE_PREFIX@_nrrdDefaultWriteBareText
 #define nrrdDefaultWriteCharsPerLine @MANGLE_PREFIX@_nrrdDefaultWriteCharsPerLine
 #define nrrdDefaultWriteEncodingType @MANGLE_PREFIX@_nrrdDefaultWriteEncodingType
+#define nrrdDefaultWriteMoreThanFloatInText @MANGLE_PREFIX@_nrrdDefaultWriteMoreThanFloatInText
 #define nrrdDefaultWriteValsPerLine @MANGLE_PREFIX@_nrrdDefaultWriteValsPerLine
 #define nrrdStateAlwaysSetContent @MANGLE_PREFIX@_nrrdStateAlwaysSetContent
 #define nrrdStateDisableContent @MANGLE_PREFIX@_nrrdStateDisableContent
@@ -176,10 +167,6 @@ prevents variables ending with .N* where N is some number, from inclusion.
 #define nrrdStateKeyValueReturnInternalPointers @MANGLE_PREFIX@_nrrdStateKeyValueReturnInternalPointers
 #define nrrdStateKindNoop @MANGLE_PREFIX@_nrrdStateKindNoop
 #define nrrdStateUnknownContent @MANGLE_PREFIX@_nrrdStateUnknownContent
-#define nrrdStateVerboseIO @MANGLE_PREFIX@_nrrdStateVerboseIO
-#define _nrrdEncodingType @MANGLE_PREFIX@__nrrdEncodingType
-#define _nrrdFormatType @MANGLE_PREFIX@__nrrdFormatType
-#define _nrrdType @MANGLE_PREFIX@__nrrdType
 #define nrrdCenter @MANGLE_PREFIX@_nrrdCenter
 #define nrrdEncodingType @MANGLE_PREFIX@_nrrdEncodingType
 #define nrrdField @MANGLE_PREFIX@_nrrdField
@@ -228,18 +215,13 @@ prevents variables ending with .N* where N is some number, from inclusion.
 #define _nrrdCenter @MANGLE_PREFIX@__nrrdCenter
 #define _nrrdCenter2 @MANGLE_PREFIX@__nrrdCenter2
 #define _nrrdKindAltered @MANGLE_PREFIX@__nrrdKindAltered
-#define _nrrdSpaceVecExists @MANGLE_PREFIX@__nrrdSpaceVecExists
 #define nrrdAxisInfoCopy @MANGLE_PREFIX@_nrrdAxisInfoCopy
 #define nrrdAxisInfoGet_nva @MANGLE_PREFIX@_nrrdAxisInfoGet_nva
 #define nrrdAxisInfoGet_va @MANGLE_PREFIX@_nrrdAxisInfoGet_va
-#define nrrdAxisInfoIdx @MANGLE_PREFIX@_nrrdAxisInfoIdx
-#define nrrdAxisInfoIdxRange @MANGLE_PREFIX@_nrrdAxisInfoIdxRange
-#define nrrdAxisInfoMinMaxSet @MANGLE_PREFIX@_nrrdAxisInfoMinMaxSet
 #define nrrdAxisInfoPos @MANGLE_PREFIX@_nrrdAxisInfoPos
 #define nrrdAxisInfoPosRange @MANGLE_PREFIX@_nrrdAxisInfoPosRange
 #define nrrdAxisInfoSet_nva @MANGLE_PREFIX@_nrrdAxisInfoSet_nva
 #define nrrdAxisInfoSet_va @MANGLE_PREFIX@_nrrdAxisInfoSet_va
-#define nrrdAxisInfoSpacingSet @MANGLE_PREFIX@_nrrdAxisInfoSpacingSet
 #define nrrdDomainAxesGet @MANGLE_PREFIX@_nrrdDomainAxesGet
 #define nrrdKindIsDomain @MANGLE_PREFIX@_nrrdKindIsDomain
 #define nrrdKindSize @MANGLE_PREFIX@_nrrdKindSize
@@ -258,6 +240,7 @@ prevents variables ending with .N* where N is some number, from inclusion.
 #define nrrdCheck @MANGLE_PREFIX@_nrrdCheck
 #define nrrdContentSet_va @MANGLE_PREFIX@_nrrdContentSet_va
 #define nrrdDescribe @MANGLE_PREFIX@_nrrdDescribe
+#define nrrdDescribeMore @MANGLE_PREFIX@_nrrdDescribeMore
 #define nrrdElementNumber @MANGLE_PREFIX@_nrrdElementNumber
 #define nrrdElementSize @MANGLE_PREFIX@_nrrdElementSize
 #define nrrdOriginCalculate @MANGLE_PREFIX@_nrrdOriginCalculate
@@ -287,42 +270,34 @@ prevents variables ending with .N* where N is some number, from inclusion.
 #define nrrdKeyValueIndex @MANGLE_PREFIX@_nrrdKeyValueIndex
 #define nrrdKeyValueSize @MANGLE_PREFIX@_nrrdKeyValueSize
 #define nrrdSwapEndian @MANGLE_PREFIX@_nrrdSwapEndian
-#define _nrrdContainsPercentThisAndMore @MANGLE_PREFIX@__nrrdContainsPercentThisAndMore
 #define _nrrdDataFNCheck @MANGLE_PREFIX@__nrrdDataFNCheck
 #define _nrrdDataFNNumber @MANGLE_PREFIX@__nrrdDataFNNumber
 #define _nrrdReadNrrdParseField @MANGLE_PREFIX@__nrrdReadNrrdParseField
-#define _nrrdSpaceVectorParse @MANGLE_PREFIX@__nrrdSpaceVectorParse
+#define nrrdContainsPercentThisAndMore @MANGLE_PREFIX@_nrrdContainsPercentThisAndMore
 #define nrrdFieldInfoParse @MANGLE_PREFIX@_nrrdFieldInfoParse
+#define nrrdStringValsParse @MANGLE_PREFIX@_nrrdStringValsParse
 #define _nrrdGzClose @MANGLE_PREFIX@__nrrdGzClose
 #define _nrrdGzDummySymbol @MANGLE_PREFIX@__nrrdGzDummySymbol
 #define _nrrdGzOpen @MANGLE_PREFIX@__nrrdGzOpen
 #define _nrrdGzRead @MANGLE_PREFIX@__nrrdGzRead
 #define _nrrdGzWrite @MANGLE_PREFIX@__nrrdGzWrite
+#define _nrrdByteSkipSkip @MANGLE_PREFIX@__nrrdByteSkipSkip
 #define _nrrdCalloc @MANGLE_PREFIX@__nrrdCalloc
+#define _nrrdCharIsFieldSep @MANGLE_PREFIX@__nrrdCharIsFieldSep
 #define _nrrdFieldSep @MANGLE_PREFIX@__nrrdFieldSep
-#define _nrrdHeaderStringOneLine @MANGLE_PREFIX@__nrrdHeaderStringOneLine
-#define _nrrdHeaderStringOneLineStrlen @MANGLE_PREFIX@__nrrdHeaderStringOneLineStrlen
-#define _nrrdLineSep @MANGLE_PREFIX@__nrrdLineSep
 #define _nrrdNoSpaceVector @MANGLE_PREFIX@__nrrdNoSpaceVector
-#define _nrrdOneLine @MANGLE_PREFIX@__nrrdOneLine
-#define _nrrdRead @MANGLE_PREFIX@__nrrdRead
-#define _nrrdRelativePathFlag @MANGLE_PREFIX@__nrrdRelativePathFlag
 #define _nrrdSplitName @MANGLE_PREFIX@__nrrdSplitName
 #define _nrrdTextSep @MANGLE_PREFIX@__nrrdTextSep
 #define nrrdByteSkip @MANGLE_PREFIX@_nrrdByteSkip
 #define nrrdLineSkip @MANGLE_PREFIX@_nrrdLineSkip
 #define nrrdLoad @MANGLE_PREFIX@_nrrdLoad
 #define nrrdLoadMulti @MANGLE_PREFIX@_nrrdLoadMulti
+#define nrrdOneLine @MANGLE_PREFIX@_nrrdOneLine
 #define nrrdRead @MANGLE_PREFIX@_nrrdRead
 #define nrrdStringRead @MANGLE_PREFIX@_nrrdStringRead
-#define _nrrdEncodingMaybeSet @MANGLE_PREFIX@__nrrdEncodingMaybeSet
 #define _nrrdFieldInteresting @MANGLE_PREFIX@__nrrdFieldInteresting
-#define _nrrdFormatMaybeGuess @MANGLE_PREFIX@__nrrdFormatMaybeGuess
-#define _nrrdFormatMaybeSet @MANGLE_PREFIX@__nrrdFormatMaybeSet
 #define _nrrdFprintFieldInfo @MANGLE_PREFIX@__nrrdFprintFieldInfo
 #define _nrrdSprintFieldInfo @MANGLE_PREFIX@__nrrdSprintFieldInfo
-#define _nrrdStrcatSpaceVector @MANGLE_PREFIX@__nrrdStrcatSpaceVector
-#define _nrrdWrite @MANGLE_PREFIX@__nrrdWrite
 #define nrrdIoStateEncodingGet @MANGLE_PREFIX@_nrrdIoStateEncodingGet
 #define nrrdIoStateEncodingSet @MANGLE_PREFIX@_nrrdIoStateEncodingSet
 #define nrrdIoStateFormatGet @MANGLE_PREFIX@_nrrdIoStateFormatGet
@@ -341,11 +316,6 @@ prevents variables ending with .N* where N is some number, from inclusion.
 #define _nrrdFormatURLLine1 @MANGLE_PREFIX@__nrrdFormatURLLine1
 #define _nrrdHeaderCheck @MANGLE_PREFIX@__nrrdHeaderCheck
 #define nrrdFormatNRRD @MANGLE_PREFIX@_nrrdFormatNRRD
-#define nrrdIoStateDataFileIterBegin @MANGLE_PREFIX@_nrrdIoStateDataFileIterBegin
-#define nrrdIoStateDataFileIterNext @MANGLE_PREFIX@_nrrdIoStateDataFileIterNext
-#define _nrrdEncodingUnknown @MANGLE_PREFIX@__nrrdEncodingUnknown
-#define nrrdEncodingArray @MANGLE_PREFIX@_nrrdEncodingArray
-#define nrrdEncodingUnknown @MANGLE_PREFIX@_nrrdEncodingUnknown
 #define _nrrdEncodingRaw @MANGLE_PREFIX@__nrrdEncodingRaw
 #define nrrdEncodingRaw @MANGLE_PREFIX@_nrrdEncodingRaw
 #define _nrrdEncodingAscii @MANGLE_PREFIX@__nrrdEncodingAscii
@@ -354,51 +324,22 @@ prevents variables ending with .N* where N is some number, from inclusion.
 #define nrrdEncodingHex @MANGLE_PREFIX@_nrrdEncodingHex
 #define _nrrdEncodingGzip @MANGLE_PREFIX@__nrrdEncodingGzip
 #define nrrdEncodingGzip @MANGLE_PREFIX@_nrrdEncodingGzip
+#define _nrrdEncodingZRL @MANGLE_PREFIX@__nrrdEncodingZRL
+#define nrrdEncodingZRL @MANGLE_PREFIX@_nrrdEncodingZRL
+#define _nrrdEncodingBzip2 @MANGLE_PREFIX@__nrrdEncodingBzip2
+#define nrrdEncodingBzip2 @MANGLE_PREFIX@_nrrdEncodingBzip2
+#define nrrdEncodingArray @MANGLE_PREFIX@_nrrdEncodingArray
+#define nrrdEncodingUnknown @MANGLE_PREFIX@_nrrdEncodingUnknown
 #define nrrdCrop @MANGLE_PREFIX@_nrrdCrop
 #define nrrdSlice @MANGLE_PREFIX@_nrrdSlice
-#define _nrrdEncodingBzip2 @MANGLE_PREFIX@__nrrdEncodingBzip2
-#define _nrrdEncodingBzip2_available @MANGLE_PREFIX@__nrrdEncodingBzip2_available
-#define _nrrdEncodingBzip2_read @MANGLE_PREFIX@__nrrdEncodingBzip2_read
-#define _nrrdEncodingBzip2_write @MANGLE_PREFIX@__nrrdEncodingBzip2_write
-#define nrrdEncodingBzip2 @MANGLE_PREFIX@_nrrdEncodingBzip2
 #define _nrrdFormatEPS @MANGLE_PREFIX@__nrrdFormatEPS
-#define _nrrdFormatEPS_available @MANGLE_PREFIX@__nrrdFormatEPS_available
-#define _nrrdFormatEPS_contentStartsLike @MANGLE_PREFIX@__nrrdFormatEPS_contentStartsLike
-#define _nrrdFormatEPS_fitsInto @MANGLE_PREFIX@__nrrdFormatEPS_fitsInto
-#define _nrrdFormatEPS_nameLooksLike @MANGLE_PREFIX@__nrrdFormatEPS_nameLooksLike
-#define _nrrdFormatEPS_read @MANGLE_PREFIX@__nrrdFormatEPS_read
-#define _nrrdFormatEPS_write @MANGLE_PREFIX@__nrrdFormatEPS_write
 #define nrrdFormatEPS @MANGLE_PREFIX@_nrrdFormatEPS
 #define _nrrdFormatPNG @MANGLE_PREFIX@__nrrdFormatPNG
-#define _nrrdFormatPNG_available @MANGLE_PREFIX@__nrrdFormatPNG_available
-#define _nrrdFormatPNG_contentStartsLike @MANGLE_PREFIX@__nrrdFormatPNG_contentStartsLike
-#define _nrrdFormatPNG_fitsInto @MANGLE_PREFIX@__nrrdFormatPNG_fitsInto
-#define _nrrdFormatPNG_nameLooksLike @MANGLE_PREFIX@__nrrdFormatPNG_nameLooksLike
-#define _nrrdFormatPNG_read @MANGLE_PREFIX@__nrrdFormatPNG_read
-#define _nrrdFormatPNG_write @MANGLE_PREFIX@__nrrdFormatPNG_write
 #define nrrdFormatPNG @MANGLE_PREFIX@_nrrdFormatPNG
 #define _nrrdFormatPNM @MANGLE_PREFIX@__nrrdFormatPNM
-#define _nrrdFormatPNM_available @MANGLE_PREFIX@__nrrdFormatPNM_available
-#define _nrrdFormatPNM_contentStartsLike @MANGLE_PREFIX@__nrrdFormatPNM_contentStartsLike
-#define _nrrdFormatPNM_fitsInto @MANGLE_PREFIX@__nrrdFormatPNM_fitsInto
-#define _nrrdFormatPNM_nameLooksLike @MANGLE_PREFIX@__nrrdFormatPNM_nameLooksLike
-#define _nrrdFormatPNM_read @MANGLE_PREFIX@__nrrdFormatPNM_read
-#define _nrrdFormatPNM_write @MANGLE_PREFIX@__nrrdFormatPNM_write
 #define nrrdFormatPNM @MANGLE_PREFIX@_nrrdFormatPNM
 #define _nrrdFormatText @MANGLE_PREFIX@__nrrdFormatText
-#define _nrrdFormatText_available @MANGLE_PREFIX@__nrrdFormatText_available
-#define _nrrdFormatText_contentStartsLike @MANGLE_PREFIX@__nrrdFormatText_contentStartsLike
-#define _nrrdFormatText_fitsInto @MANGLE_PREFIX@__nrrdFormatText_fitsInto
-#define _nrrdFormatText_nameLooksLike @MANGLE_PREFIX@__nrrdFormatText_nameLooksLike
-#define _nrrdFormatText_read @MANGLE_PREFIX@__nrrdFormatText_read
-#define _nrrdFormatText_write @MANGLE_PREFIX@__nrrdFormatText_write
 #define nrrdFormatText @MANGLE_PREFIX@_nrrdFormatText
 #define _nrrdFormatVTK @MANGLE_PREFIX@__nrrdFormatVTK
-#define _nrrdFormatVTK_available @MANGLE_PREFIX@__nrrdFormatVTK_available
-#define _nrrdFormatVTK_contentStartsLike @MANGLE_PREFIX@__nrrdFormatVTK_contentStartsLike
-#define _nrrdFormatVTK_fitsInto @MANGLE_PREFIX@__nrrdFormatVTK_fitsInto
-#define _nrrdFormatVTK_nameLooksLike @MANGLE_PREFIX@__nrrdFormatVTK_nameLooksLike
-#define _nrrdFormatVTK_read @MANGLE_PREFIX@__nrrdFormatVTK_read
-#define _nrrdFormatVTK_write @MANGLE_PREFIX@__nrrdFormatVTK_write
 #define nrrdFormatVTK @MANGLE_PREFIX@_nrrdFormatVTK
-#endif  /* itk_NrrdIO_mangle_h */
+#endif  /* __@MANGLE_PREFIX@_NrrdIO_mangle_h__ */

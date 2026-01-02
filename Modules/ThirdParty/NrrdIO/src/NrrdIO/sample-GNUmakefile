@@ -1,8 +1,8 @@
 #
-# NrrdIO: stand-alone code for basic nrrd functionality
-# Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-# Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-# Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+# NrrdIO: C library for NRRD file IO (with optional compression)
+# Copyright (C) 2009--2025  University of Chicago
+# Copyright (C) 2005--2008  Gordon Kindlmann
+# Copyright (C) 1998--2004  University of Utah
 #
 # This software is provided 'as-is', without any express or implied
 # warranty.  In no event will the authors be held liable for any
@@ -25,23 +25,7 @@
 
 ### For the time being, this will have to do as a makefile for NrrdIO
 
-### These have to be set to reflect the current platform:
-###
-### -DTEEM_DIO=0, -DTEEM_DIO=1: This platform can (1) or cannot (0) do
-### DirectIO, which is the fast way to do multi-gigabyte I/O.
-### Currently, only available on SGIs.
-###
-### -DTEEM_QNANHIBIT=1, -DTEEM_QNANHIBIT=0: The 23nd bit of a 32-bit
-### quiet-NaN is either 1 (1) or 0 (0).  This is needed as part of
-### handling IEEE floating point special values.  This quantity is
-### independent of endianness.
-###
-###
-PLATFORM_DEFS = \
-  -DTEEM_DIO=0 \
-  -DTEEM_QNANHIBIT=1
-
-CC = gcc
+CC = cc
 
 ### Flags to cc. These now include all the various warnings that proved
 ### useful when cleaning up NrrdIO
@@ -81,14 +65,14 @@ libNrrdIO.a : $(patsubst %.c,%.o,$(shell cat NrrdIO_Srcs.txt))
 ### Compiling the source files will also have some platform-specific stuff
 ###
 %.o : %.c
-	$(CC) $(CCFLAGS) $(PLATFORM_DEFS) \
-          -DTEEM_ZLIB=1 $(ZLIB_IPATH) -c $^ -o $@
+	$(CC) $(CCFLAGS) \
+          -DTEEM_ZLIB=1 -DTEEM_BZIP2=1 $(ZLIB_IPATH) -c $^ -o $@
 
 ### this creates the sampleIO program
 ###
 sampleIO : sampleIO.c
-	$(CC) $(CCFLAGS) $(PLATFORM_DEFS) -DTEEM_ZLIB=1 $(ZLIB_IPATH) \
-	$^ -o $@ -L. -lNrrdIO $(ZLIB_LPATH) -lz -lm
+	$(CC) $(CCFLAGS) -DTEEM_ZLIB=1 -DTEEM_BZIP2=1 $(ZLIB_IPATH) \
+	$^ -o $@ -L. -lNrrdIO $(ZLIB_LPATH) -lz -lm -lbz2
 
 ### how to clean up
 ###
