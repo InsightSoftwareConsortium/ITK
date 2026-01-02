@@ -198,6 +198,7 @@ VariableLengthVector<TValue>::Reserve(ElementIdentifier size)
   itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != nullptr);
 }
 
+#ifndef ITK_FUTURE_LEGACY_REMOVE
 template <typename TValue>
 TValue *
 VariableLengthVector<TValue>::AllocateElements(ElementIdentifier size) const
@@ -213,6 +214,7 @@ VariableLengthVector<TValue>::AllocateElements(ElementIdentifier size) const
     itkGenericExceptionMacro("Failed to allocate memory of length " << size << " for VariableLengthVector.");
   }
 }
+#endif
 
 template <typename TValue>
 void
