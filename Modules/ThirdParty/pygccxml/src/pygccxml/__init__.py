@@ -41,9 +41,7 @@ warnings.simplefilter("always", DeprecationWarning)
 
 version = sys.version_info
 
-if version < (3, 8):
-    import importlib_metadata as metadata
-elif version < (3, 9, 10) or (3, 10, 0) <= version < (3, 10, 2):
+if version < (3, 9, 10) or (3, 10, 0) <= version < (3, 10, 2):
     try:
         import importlib_metadata as metadata
     except ModuleNotFoundError:
@@ -52,5 +50,5 @@ else:
     from importlib import metadata
 
 # Begin ITK edit
-__version__ = "2.4.0"
+__version__ = "3.0.2"
 # __version__ = metadata.version("pygccxml")

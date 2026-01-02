@@ -56,6 +56,7 @@ XML_AN_SIZE = "size"
 XML_AN_STATIC = "static"
 XML_AN_THROW = "throw"
 XML_AN_TYPE = "type"
+XML_AN_ORIGINAL_TYPE = "original_type"
 XML_AN_VIRTUAL = "virtual"
 XML_AN_VOLATILE = "volatile"
 XML_NN_ARGUMENT = "Argument"
@@ -196,6 +197,16 @@ class scanner_t(xml.sax.handler.ContentHandler):
             "__vr_offs",
         ]
 
+        # With CastXML and clang some __va_list_tag declarations are
+        # present in the tree
+        # With llvm 3.9 there is a __NSConstantString(_tag) in the tree
+        self.__declarations_to_skip = [
+            "__va_list_tag",
+            "__va_list",
+            "__NSConstantString_tag",
+            "__NSConstantString"
+        ]
+
         self.__xml_generator_from_xml_file = None
 
     @property
@@ -284,7 +295,6 @@ class scanner_t(xml.sax.handler.ContentHandler):
         return self.__members
 
     def startElement(self, name, attrs):
-
         try:
             if name not in self.__readers:
                 return
@@ -297,21 +307,10 @@ class scanner_t(xml.sax.handler.ContentHandler):
             self.__read_access(attrs)
             element_id = attrs.get(XML_AN_ID)
 
-            # With CastXML and clang some __va_list_tag declarations are
-            # present in the tree: we do not want to have these in the tree.
-            # With llvm 3.9 there is a __NSConstantString(_tag) in the tree
-            # We hide these declarations by default
-            rm1 = "f1" not in self.config.flags
-            names = [
-                "__va_list_tag",
-                "__NSConstantString_tag",
-                "__NSConstantString"]
-
             if isinstance(obj, declarations.declaration_t):
 
-                if rm1 and str(obj.name) in names:
+                if obj.name in self.__declarations_to_skip:
                     return
-
                 self.__update_membership(attrs)
                 self.__declarations[element_id] = obj
                 if not isinstance(obj, declarations.namespace_t):
@@ -558,7 +557,10 @@ class scanner_t(xml.sax.handler.ContentHandler):
                 XML_AN_NAME,
                 'arg%d' % len(
                     self.__inst.arguments))
-            argument.decl_type = attrs[XML_AN_TYPE]
+            argument.decl_type = attrs.get(
+                XML_AN_ORIGINAL_TYPE,
+                attrs.get(XML_AN_TYPE)
+            )
             argument.default_value = attrs.get(XML_AN_DEFAULT)
             self.__read_attributes(argument, attrs)
             self.__inst.arguments.append(argument)
@@ -576,8 +578,8 @@ class scanner_t(xml.sax.handler.ContentHandler):
         if is_declaration:
             self.__calldefs.append(calldef)
             calldef.name = attrs.get(XML_AN_NAME, '')
-            calldef.has_extern = attrs.get(XML_AN_EXTERN, False)
-            calldef.has_inline = bool(attrs.get(XML_AN_INLINE, "") == "1")
+            calldef.has_extern = bool(attrs.get(XML_AN_EXTERN, False))
+            calldef.has_inline = bool(attrs.get(XML_AN_INLINE, False))
             throw_stmt = attrs.get(XML_AN_THROW)
             if None is throw_stmt:
                 calldef.does_throw = True
@@ -593,9 +595,9 @@ class scanner_t(xml.sax.handler.ContentHandler):
 
     def __read_member_function(self, calldef, attrs, is_declaration):
         self.__read_calldef(calldef, attrs, is_declaration)
-        calldef.has_const = attrs.get(XML_AN_CONST, False)
+        calldef.has_const = bool(attrs.get(XML_AN_CONST, False))
         if is_declaration:
-            calldef.has_static = attrs.get(XML_AN_STATIC, False)
+            calldef.has_static = bool(attrs.get(XML_AN_STATIC, False))
             if XML_AN_PURE_VIRTUAL in attrs:
                 calldef.virtuality = declarations.VIRTUALITY_TYPES.PURE_VIRTUAL
             elif XML_AN_VIRTUAL in attrs:
@@ -626,9 +628,9 @@ class scanner_t(xml.sax.handler.ContentHandler):
 
     def __read_variable(self, attrs):
         type_qualifiers = declarations.type_qualifiers_t()
-        type_qualifiers.has_mutable = attrs.get(XML_AN_MUTABLE, False)
-        type_qualifiers.has_static = attrs.get(XML_AN_STATIC, False)
-        type_qualifiers.has_extern = attrs.get(XML_AN_EXTERN, False)
+        type_qualifiers.has_mutable = bool(attrs.get(XML_AN_MUTABLE, False))
+        type_qualifiers.has_static = bool(attrs.get(XML_AN_STATIC, False))
+        type_qualifiers.has_extern = bool(attrs.get(XML_AN_EXTERN, False))
         bits = attrs.get(XML_AN_BITS)
         if bits:
             bits = int(bits)
@@ -652,6 +654,12 @@ class scanner_t(xml.sax.handler.ContentHandler):
         name = attrs.get(XML_AN_NAME, '')
         if '$' in name or '.' in name:
             name = ''
+        if "<" in name and " >" in name:
+            # Name with template. In some rare cases there
+            # is a space before > (and only there), so remove
+            # it to be consistent with the other names that
+            # have no space there
+            name = name.replace(" >", ">")
         if XML_AN_INCOMPLETE in attrs:
             decl = self.__decl_factory.create_class_declaration(name=name)
         else:
