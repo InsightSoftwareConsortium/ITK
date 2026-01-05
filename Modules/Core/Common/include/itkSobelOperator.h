@@ -61,14 +61,12 @@ namespace itk
  * The current implementation of the Sobel operator is for 2 and 3 dimensions only.
  * The ND version is planned for future releases.
  *
- * The extension to 3D was described in \cite sobel1995.
- *
  * The Sobel operator in 3D has the kernel
  *
  * \verbatim
- * -1 -3 -1   0 0 0  1 3 1
- * -3 -6 -3   0 0 0  3 6 3
- * -1 -3 -1   0 0 0  1 3 1
+ * -1 -2 -1   0 0 0  1 2 1
+ * -2 -4 -2   0 0 0  2 4 2
+ * -1 -2 -1   0 0 0  1 2 1
  *
  *    x-1       x     x+1
  * \endverbatim

@@ -88,8 +88,8 @@ itkSobelOperatorTest(int, char *[])
     sobelOperator.CreateToRadius(radius);
 
     itk::FixedArray<SobelOperatorType::PixelType, Length> expectedValuesX{
-      { { -1.0, 0.0,  1.0, -3.0, 0.0,  3.0, -1.0, 0.0,  1.0, -3.0, 0.0,  3.0, -6.0, 0.0,
-          6.0,  -3.0, 0.0, 3.0,  -1.0, 0.0, 1.0,  -3.0, 0.0, 3.0,  -1.0, 0.0, 1.0 } }
+      { { -1.0, 0.0,  1.0, -2.0, 0.0,  2.0, -1.0, 0.0,  1.0, -2.0, 0.0,  2.0, -4.0, 0.0,
+          4.0,  -2.0, 0.0, 2.0,  -1.0, 0.0, 1.0,  -2.0, 0.0, 2.0,  -1.0, 0.0, 1.0 } }
     };
     const unsigned int size = sobelOperator.GetBufferReference().size();
     for (itk::SizeValueType i = 0; i < size; ++i)
@@ -105,8 +105,8 @@ itkSobelOperatorTest(int, char *[])
 
     ITK_TEST_SET_GET_VALUE(direction, sobelOperator.GetDirection());
     itk::FixedArray<SobelOperatorType::PixelType, Length> expectedValuesY{
-      { { -1.0, -3.0, -1.0, 0.0, 0.0,  0.0,  1.0,  3.0, 1.0, -3.0, -6.0, -3.0, 0.0, 0.0,
-          0.0,  3.0,  6.0,  3.0, -1.0, -3.0, -1.0, 0.0, 0.0, 0.0,  1.0,  3.0,  1.0 } }
+      { { -1.0, -2.0, -1.0, 0.0, 0.0,  0.0,  1.0,  2.0, 1.0, -2.0, -4.0, -2.0, 0.0, 0.0,
+          0.0,  2.0,  4.0,  2.0, -1.0, -2.0, -1.0, 0.0, 0.0, 0.0,  1.0,  2.0,  1.0 } }
     };
     for (itk::SizeValueType i = 0; i < size; ++i)
     {
@@ -121,8 +121,8 @@ itkSobelOperatorTest(int, char *[])
     sobelOperator.CreateDirectional();
 
     itk::FixedArray<SobelOperatorType::PixelType, Length> expectedValuesZ{
-      { { -1.0, -3.0, -1.0, -3.0, -6.0, -3.0, -1.0, -3.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-          0.0,  0.0,  0.0,  0.0,  1.0,  3.0,  1.0,  3.0,  6.0,  3.0, 1.0, 3.0, 1.0 } }
+      { { -1.0, -2.0, -1.0, -2.0, -4.0, -2.0, -1.0, -2.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0,  0.0,  0.0,  0.0,  1.0,  2.0,  1.0,  2.0,  4.0,  2.0, 1.0, 2.0, 1.0 } }
     };
     for (itk::SizeValueType i = 0; i < size; ++i)
     {

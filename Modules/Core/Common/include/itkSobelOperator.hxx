@@ -91,11 +91,11 @@ SobelOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> Coeffic
     switch (direction)
     {
       case 0:
-        return { -1, 0, 1, -3, 0, 3, -1, 0, 1, -3, 0, 3, -6, 0, 6, -3, 0, 3, -1, 0, 1, -3, 0, 3, -1, 0, 1 };
+        return { -1, 0, 1, -2, 0, 2, -1, 0, 1, -2, 0, 2, -4, 0, 4, -2, 0, 2, -1, 0, 1, -2, 0, 2, -1, 0, 1 };
       case 1:
-        return { -1, -3, -1, 0, 0, 0, 1, 3, 1, -3, -6, -3, 0, 0, 0, 3, 6, 3, -1, -3, -1, 0, 0, 0, 1, 3, 1 };
+        return { -1, -2, -1, 0, 0, 0, 1, 2, 1, -2, -4, -2, 0, 0, 0, 2, 4, 2, -1, -2, -1, 0, 0, 0, 1, 2, 1 };
       case 2:
-        return { -1, -3, -1, -3, -6, -3, -1, -3, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1, 3, 6, 3, 1, 3, 1 };
+        return { -1, -2, -1, -2, -4, -2, -1, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 2, 4, 2, 1, 2, 1 };
     }
   }
   itkExceptionMacro("The direction value (" << direction << ") should be less than the dimensionality (" << VDimension
