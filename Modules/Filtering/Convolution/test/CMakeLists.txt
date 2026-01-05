@@ -641,11 +641,11 @@ itk_add_test(
     ITKConvolutionTestDriver
     --compare
     DATA{Baseline/itkConvolutionImageFilterStreamingTestOutput.mha}
-    ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterStreamingTestOutput.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterStreamingValidTestOutput.mha
     itkConvolutionImageFilterStreamingTest
     spatial
     DATA{Input/cthead1.mha}
-    ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterStreamingTestOutput.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterStreamingValidTestOutput.mha
     50
     75
     150
@@ -658,11 +658,11 @@ itk_add_test(
     ITKConvolutionTestDriver
     --compare
     DATA{Baseline/itkConvolutionImageFilterStreamingTestOutput.mha}
-    ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterStreamingTestOutput.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterStreamingValidTestOutput.mha
     itkConvolutionImageFilterStreamingTest
     frequency
     DATA{Input/cthead1.mha}
-    ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterStreamingTestOutput.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterStreamingValidTestOutput.mha
     50
     75
     150
