@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - uses: InsightSoftwareConsortium/ITKClangFormatLinterAction@master
+    - uses: InsightSoftwareConsortium/ITKClangFormatLinterAction@main
       with:
         itk-branch: master
         error-message: "Remote module code is inconsistent with ITK Coding Style as of 20241205."
