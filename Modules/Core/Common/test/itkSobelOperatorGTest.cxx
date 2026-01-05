@@ -32,16 +32,21 @@ using ExpectedKernelType = std::vector<int>;
 
 template <unsigned int VDimension>
 void
-CheckKernelCoordinates(const std::array<ExpectedKernelType, VDimension> & expectedKernels)
+CheckKernelCoordinates(const bool                                         useLegacyCoordinates,
+                       const std::array<ExpectedKernelType, VDimension> & expectedKernels)
 {
   using PixelType = float;
   for (unsigned int direction{}; direction < VDimension; ++direction)
   {
-    SCOPED_TRACE("`VDimension` = " + std::to_string(VDimension) + ", `direction` = " + std::to_string(direction));
+    SCOPED_TRACE("`VDimension` = " + std::to_string(VDimension) + ", `useLegacyCoordinates` = " +
+                 (useLegacyCoordinates ? "true" : "false") + ", `direction` = " + std::to_string(direction));
 
     itk::SobelOperator<PixelType, VDimension> sobelOperator;
     sobelOperator.SetDirection(direction);
     EXPECT_EQ(sobelOperator.GetDirection(), direction);
+
+    sobelOperator.UseLegacyCoefficients(useLegacyCoordinates);
+    EXPECT_EQ(sobelOperator.IsUsingLegacyCoefficients(), useLegacyCoordinates);
 
     sobelOperator.CreateToRadius(itk::Size<VDimension>::Filled(1));
 
@@ -71,10 +76,20 @@ TEST(SobelOperator, ExerciseBasicObjectMethods)
 // Checks that the coordinates of the kernels have the expected values.
 TEST(SobelOperator, CheckKernelCoordinates)
 {
-  CheckKernelCoordinates<2>(
-    { ExpectedKernelType{ -1, 0, 1, -2, 0, 2, -1, 0, 1 }, ExpectedKernelType{ -1, -2, -1, 0, 0, 0, 1, 2, 1 } });
+  for (const bool useLegacyCoordinates : { false, true })
+  {
+    CheckKernelCoordinates<2>(
+      useLegacyCoordinates,
+      { ExpectedKernelType{ -1, 0, 1, -2, 0, 2, -1, 0, 1 }, ExpectedKernelType{ -1, -2, -1, 0, 0, 0, 1, 2, 1 } });
+  }
   CheckKernelCoordinates<3>(
+    true,
     { ExpectedKernelType{ -1, 0, 1, -3, 0, 3, -1, 0, 1, -3, 0, 3, -6, 0, 6, -3, 0, 3, -1, 0, 1, -3, 0, 3, -1, 0, 1 },
       ExpectedKernelType{ -1, -3, -1, 0, 0, 0, 1, 3, 1, -3, -6, -3, 0, 0, 0, 3, 6, 3, -1, -3, -1, 0, 0, 0, 1, 3, 1 },
       ExpectedKernelType{ -1, -3, -1, -3, -6, -3, -1, -3, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1, 3, 6, 3, 1, 3, 1 } });
+  CheckKernelCoordinates<3>(
+    false,
+    { ExpectedKernelType{ -1, 0, 1, -2, 0, 2, -1, 0, 1, -2, 0, 2, -4, 0, 4, -2, 0, 2, -1, 0, 1, -2, 0, 2, -1, 0, 1 },
+      ExpectedKernelType{ -1, -2, -1, 0, 0, 0, 1, 2, 1, -2, -4, -2, 0, 0, 0, 2, 4, 2, -1, -2, -1, 0, 0, 0, 1, 2, 1 },
+      ExpectedKernelType{ -1, -2, -1, -2, -4, -2, -1, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 2, 4, 2, 1, 2, 1 } });
 }

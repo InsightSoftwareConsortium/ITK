@@ -61,14 +61,22 @@ namespace itk
  * The current implementation of the Sobel operator is for 2 and 3 dimensions only.
  * The ND version is planned for future releases.
  *
- * The extension to 3D was described in \cite sobel1995.
- *
- * The Sobel operator in 3D has the kernel
+ * The Sobel operator in 3D has the following kernel, when using legacy coefficients:
  *
  * \verbatim
  * -1 -3 -1   0 0 0  1 3 1
  * -3 -6 -3   0 0 0  3 6 3
  * -1 -3 -1   0 0 0  1 3 1
+ *
+ *    x-1       x     x+1
+ * \endverbatim
+ *
+ * And it has the following kernel, when it is not using legacy coefficients:
+ *
+ * \verbatim
+ * -1 -2 -1   0 0 0  1 2 1
+ * -2 -4 -2   0 0 0  2 4 2
+ * -1 -2 -1   0 0 0  1 2 1
  *
  *    x-1       x     x+1
  * \endverbatim
@@ -124,6 +132,21 @@ public:
    * \sa CreateDirectional \sa Fill */
   // virtual void CreateToRadius(const unsigned long);
 
+  /** Allows specifying whether or not `GenerateCoefficients()` should return the legacy coordinate values, compatible
+   * with ITK <= 5.4. */
+  void
+  UseLegacyCoefficients(const bool useLegacyCoefficients)
+  {
+    m_UseLegacyCoefficients = useLegacyCoefficients;
+  }
+
+  /** Tells whether or not `GenerateCoefficients()` returns the legacy coordinate values, compatible with ITK <= 5.4. */
+  bool
+  IsUsingLegacyCoefficients() const
+  {
+    return m_UseLegacyCoefficients;
+  }
+
 protected:
   itkConceptMacro(SignedOutputPixelType, (Concept::Signed<typename NumericTraits<TPixel>::ValueType>));
 
@@ -137,6 +160,9 @@ protected:
   /** Arranges coefficients spatially in the memory buffer. */
   void
   Fill(const CoefficientVector & coeff) override;
+
+private:
+  bool m_UseLegacyCoefficients{ true };
 };
 } // namespace itk
 
