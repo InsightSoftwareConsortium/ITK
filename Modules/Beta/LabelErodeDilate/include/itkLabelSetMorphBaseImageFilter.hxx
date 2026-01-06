@@ -201,7 +201,7 @@ LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::GenerateData(
   // Set up the multithreaded processing
   typename ImageSource<TOutputImage>::ThreadStruct str;
   str.Filter = this;
-  ProcessObject::MultiThreaderType * multithreader = this->GetMultiThreader();
+  MultiThreaderBase * multithreader = this->GetMultiThreader();
   multithreader->SetNumberOfWorkUnits(nbthreads);
   multithreader->SetSingleMethod(this->ThreaderCallback, &str);
 
