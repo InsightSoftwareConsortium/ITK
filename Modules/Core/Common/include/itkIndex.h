@@ -456,25 +456,25 @@ public:
   [[nodiscard]] constexpr reference
   front()
   {
-    return *begin();
+    return m_InternalArray[0];
   }
 
   [[nodiscard]] constexpr const_reference
   front() const
   {
-    return *begin();
+    return m_InternalArray[0];
   }
 
   [[nodiscard]] constexpr reference
   back()
   {
-    return VDimension ? *(end() - 1) : *end();
+    return m_InternalArray[VDimension - 1];
   }
 
   [[nodiscard]] constexpr const_reference
   back() const
   {
-    return VDimension ? *(end() - 1) : *end();
+    return m_InternalArray[VDimension - 1];
   }
 
   [[nodiscard]] IndexValueType *
