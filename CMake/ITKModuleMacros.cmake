@@ -194,20 +194,43 @@ macro(itk_module_impl)
     list(APPEND ${itk-module}_INCLUDE_DIRS ${${itk-module}_BINARY_DIR}/include)
   endif()
 
-  if(${itk-module}_INCLUDE_DIRS)
-    include_directories(${${itk-module}_INCLUDE_DIRS})
-  endif()
-  if(${itk-module}_SYSTEM_INCLUDE_DIRS)
-    # _SYSTEM_INCLUDE_DIRS should searched after internal _INCLUDE_DIRS
-    include_directories(AFTER ${${itk-module}_SYSTEM_INCLUDE_DIRS})
-  endif()
+  # Prepare include directories with generator expressions for use in targets
+  set(${itk-module}_GENEX_INCLUDE_DIRS "")
+  foreach(_dir ${${itk-module}_INCLUDE_DIRS})
+    list(APPEND ${itk-module}_GENEX_INCLUDE_DIRS "$<BUILD_INTERFACE:${_dir}>")
+  endforeach()
+  list(
+    APPEND
+    ${itk-module}_GENEX_INCLUDE_DIRS
+    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${${itk-module}_INSTALL_INCLUDE_DIR}>"
+  )
 
-  if(${itk-module}_SYSTEM_LIBRARY_DIRS)
-    link_directories(${${itk-module}_SYSTEM_LIBRARY_DIRS})
+  # Prepare system include directories with generator expressions
+  set(${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS "")
+  if(${itk-module}_SYSTEM_INCLUDE_DIRS)
+    foreach(_dir ${${itk-module}_SYSTEM_INCLUDE_DIRS})
+      list(
+        APPEND
+        ${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS
+        "$<BUILD_INTERFACE:${_dir}>"
+      )
+      list(
+        APPEND
+        ${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS
+        "$<INSTALL_INTERFACE:${_dir}>"
+      )
+    endforeach()
   endif()
 
   if(${itk-module}_THIRD_PARTY)
     itk_module_warnings_disable(C CXX)
+    if(${itk-module}_INCLUDE_DIRS)
+      include_directories(${${itk-module}_INCLUDE_DIRS})
+    endif()
+    if(${itk-module}_SYSTEM_INCLUDE_DIRS)
+      # _SYSTEM_INCLUDE_DIRS should searched after internal _INCLUDE_DIRS
+      include_directories(AFTER ${${itk-module}_SYSTEM_INCLUDE_DIRS})
+    endif()
   else()
     if(ITK_USE_KWSTYLE)
       itk_module_kwstyle_test(${itk-module})
@@ -371,6 +394,12 @@ macro(itk_module_impl)
     "${itk-module-RUNTIME_LIBRARY_DIRS-build}"
   )
   set(itk-module-INCLUDE_DIRS "${itk-module-INCLUDE_DIRS-build}")
+  # set itk-module-GENEX_INCLUDE_DIRS so that includes both install interface and build interface path in appropriate generator expressions
+  set(itk-module-GENEX_INCLUDE_DIRS "")
+  foreach(_dir ${itk-module-INCLUDE_DIRS-build})
+    list(APPEND itk-module-GENEX_INCLUDE_DIRS "$<BUILD_INTERFACE:${_dir}>")
+  endforeach()
+
   set(itk-module-EXPORT_CODE "${itk-module-EXPORT_CODE-build}")
   set(itk-module-TARGETS_FILE "${itk-module-TARGETS_FILE-build}")
   configure_file(
@@ -626,6 +655,25 @@ macro(itk_module_add_library _name)
     ${ARGN}
   )
   target_compile_features(${_name} PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
+
+  # Add module include directories to target
+  target_include_directories(
+    ${_name}
+    PUBLIC
+      ${${itk-module}_GENEX_INCLUDE_DIRS}
+  )
+
+  # Add module system include directories to target
+  target_include_directories(
+    ${_name}
+    SYSTEM
+    PUBLIC
+      ${${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS}
+  )
+
+  # Add module library directories to target
+  target_link_directories(${_name} PUBLIC ${${itk-module}_SYSTEM_LIBRARY_DIRS})
+
   target_link_options(
     ${_name}
     PUBLIC
