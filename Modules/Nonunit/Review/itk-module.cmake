@@ -9,6 +9,8 @@ case, they may be removed or made available as an ExternalModule."
 itk_module(
   ITKReview
   DEPENDS
+    ITKIOImageBase
+  COMPILE_DEPENDS
     ITKAnisotropicSmoothing
     ITKAntiAlias
     ITKBiasCorrection
@@ -34,7 +36,6 @@ itk_module(
     ITKImageIntensity
     ITKImageLabel
     ITKImageStatistics
-    ITKIOImageBase
     ITKIOBioRad
     ITKIOBMP
     ITKIOGDCM
@@ -80,7 +81,6 @@ itk_module(
     ITKVoronoi
     ITKVTK
     ITKWatersheds
-  COMPILE_DEPENDS
     ITKIOTransformBase
     ITKOpenJPEG
     ITKLabelMap
@@ -91,6 +91,7 @@ itk_module(
     ITKIOMesh
     ITKIOCSV
     ITKIOLSM
+    ITKRegistrationCommon
   DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
 )
