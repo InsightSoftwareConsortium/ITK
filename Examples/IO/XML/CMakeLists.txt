@@ -1,5 +1,10 @@
 add_executable(DOMFindDemo DOMFindDemo.cxx)
-target_link_libraries(DOMFindDemo ${ITK_LIBRARIES})
+target_link_libraries(
+  DOMFindDemo
+  PRIVATE
+    ITK::ITKCommonModule
+    ITK::ITKIOXMLModule
+)
 
 add_executable(
   ParticleSwarmOptimizerReadWrite
@@ -9,4 +14,10 @@ add_executable(
   itkParticleSwarmOptimizerSAXReader.cxx
   itkParticleSwarmOptimizerSAXWriter.cxx
 )
-target_link_libraries(ParticleSwarmOptimizerReadWrite ${ITK_LIBRARIES})
+target_link_libraries(
+  ParticleSwarmOptimizerReadWrite
+  PRIVATE
+    ITK::ITKCommonModule
+    ITK::ITKOptimizersModule
+    ITK::ITKIOXMLModule
+)

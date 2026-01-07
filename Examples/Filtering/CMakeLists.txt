@@ -1,98 +1,249 @@
 project(FilteringExamples)
 
 add_executable(CompositeFilterExample CompositeFilterExample.cxx)
-target_link_libraries(CompositeFilterExample ${ITK_LIBRARIES})
+target_link_libraries(
+  CompositeFilterExample
+  PRIVATE
+    ITK::ITKImageGradientModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKThresholdingModule
+    ITK::ITKImageIO
+)
 add_executable(FlipImageFilter FlipImageFilter.cxx)
-target_link_libraries(FlipImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  FlipImageFilter
+  PRIVATE
+    ITK::ITKImageGridModule
+    ITK::ITKImageIO
+)
 add_executable(FFTImageFilter FFTImageFilter.cxx)
-target_link_libraries(FFTImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  FFTImageFilter
+  PRIVATE
+    ITK::ITKFFTModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 if(ITK_USE_FFTWF)
   add_executable(FFTDirectInverse2 FFTDirectInverse2.cxx)
-  target_link_libraries(FFTDirectInverse2 ${ITK_LIBRARIES})
+  target_link_libraries(
+    FFTDirectInverse2
+    PRIVATE
+      ITK::ITKFFTModule
+      ITK::ITKImageIntensityModule
+      ITK::ITKImageIO
+  )
 endif()
 add_executable(GradientMagnitudeImageFilter GradientMagnitudeImageFilter.cxx)
-target_link_libraries(GradientMagnitudeImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  GradientMagnitudeImageFilter
+  PRIVATE
+    ITK::ITKImageGradientModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(
   GradientMagnitudeRecursiveGaussianImageFilter
   GradientMagnitudeRecursiveGaussianImageFilter.cxx
 )
 target_link_libraries(
   GradientMagnitudeRecursiveGaussianImageFilter
-  ${ITK_LIBRARIES}
+  PRIVATE
+    ITK::ITKImageGradientModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
 )
 add_executable(
   GradientRecursiveGaussianImageFilter
   GradientRecursiveGaussianImageFilter.cxx
 )
-target_link_libraries(GradientRecursiveGaussianImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  GradientRecursiveGaussianImageFilter
+  PRIVATE
+    ITK::ITKImageGradientModule
+    ITK::ITKImageIO
+)
 add_executable(
   GrayscaleFunctionDilateImageFilter
   GrayscaleFunctionDilateImageFilter.cxx
 )
-target_link_libraries(GrayscaleFunctionDilateImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  GrayscaleFunctionDilateImageFilter
+  PRIVATE
+    ITK::ITKMathematicalMorphologyModule
+    ITK::ITKImageIO
+)
 add_executable(BinaryThresholdImageFilter BinaryThresholdImageFilter.cxx)
-target_link_libraries(BinaryThresholdImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  BinaryThresholdImageFilter
+  PRIVATE
+    ITK::ITKThresholdingModule
+    ITK::ITKImageIO
+)
 add_executable(BinaryMedianImageFilter BinaryMedianImageFilter.cxx)
-target_link_libraries(BinaryMedianImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  BinaryMedianImageFilter
+  PRIVATE
+    ITK::ITKLabelVotingModule
+    ITK::ITKImageIO
+)
 add_executable(OrientImageFilter OrientImageFilter.cxx)
-target_link_libraries(OrientImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  OrientImageFilter
+  PRIVATE
+    ITK::ITKImageGridModule
+    ITK::ITKImageIO
+)
 add_executable(OtsuThresholdImageFilter OtsuThresholdImageFilter.cxx)
-target_link_libraries(OtsuThresholdImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  OtsuThresholdImageFilter
+  PRIVATE
+    ITK::ITKThresholdingModule
+    ITK::ITKImageIO
+)
 add_executable(
   OtsuMultipleThresholdImageFilter
   OtsuMultipleThresholdImageFilter.cxx
 )
-target_link_libraries(OtsuMultipleThresholdImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  OtsuMultipleThresholdImageFilter
+  PRIVATE
+    ITK::ITKStatisticsModule
+    ITK::ITKThresholdingModule
+    ITK::ITKImageIO
+)
 add_executable(ThresholdImageFilter ThresholdImageFilter.cxx)
-target_link_libraries(ThresholdImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  ThresholdImageFilter
+  PRIVATE
+    ITK::ITKThresholdingModule
+    ITK::ITKImageIO
+)
 add_executable(CastingImageFilters CastingImageFilters.cxx)
-target_link_libraries(CastingImageFilters ${ITK_LIBRARIES})
+target_link_libraries(
+  CastingImageFilters
+  PRIVATE
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(CannyEdgeDetectionImageFilter CannyEdgeDetectionImageFilter.cxx)
-target_link_libraries(CannyEdgeDetectionImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  CannyEdgeDetectionImageFilter
+  PRIVATE
+    ITK::ITKImageFeatureModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(MedianImageFilter MedianImageFilter.cxx)
-target_link_libraries(MedianImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  MedianImageFilter
+  PRIVATE
+    ITK::ITKSmoothingModule
+    ITK::ITKImageIO
+)
 add_executable(MeanImageFilter MeanImageFilter.cxx)
-target_link_libraries(MeanImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  MeanImageFilter
+  PRIVATE
+    ITK::ITKSmoothingModule
+    ITK::ITKImageIO
+)
 add_executable(
   MathematicalMorphologyBinaryFilters
   MathematicalMorphologyBinaryFilters.cxx
 )
-target_link_libraries(MathematicalMorphologyBinaryFilters ${ITK_LIBRARIES})
+target_link_libraries(
+  MathematicalMorphologyBinaryFilters
+  PRIVATE
+    ITK::ITKBinaryMathematicalMorphologyModule
+    ITK::ITKMathematicalMorphologyModule
+    ITK::ITKThresholdingModule
+    ITK::ITKImageIO
+)
 add_executable(
   MathematicalMorphologyGrayscaleFilters
   MathematicalMorphologyGrayscaleFilters.cxx
 )
-target_link_libraries(MathematicalMorphologyGrayscaleFilters ${ITK_LIBRARIES})
+target_link_libraries(
+  MathematicalMorphologyGrayscaleFilters
+  PRIVATE
+    ITK::ITKMathematicalMorphologyModule
+    ITK::ITKImageIO
+)
 add_executable(
   BinaryMinMaxCurvatureFlowImageFilter
   BinaryMinMaxCurvatureFlowImageFilter.cxx
 )
-target_link_libraries(BinaryMinMaxCurvatureFlowImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  BinaryMinMaxCurvatureFlowImageFilter
+  PRIVATE
+    ITK::ITKCurvatureFlowModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(DiscreteGaussianImageFilter DiscreteGaussianImageFilter.cxx)
-target_link_libraries(DiscreteGaussianImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  DiscreteGaussianImageFilter
+  PRIVATE
+    ITK::ITKImageIntensityModule
+    ITK::ITKSmoothingModule
+    ITK::ITKImageIO
+)
 add_executable(GaussianBlurImageFunction GaussianBlurImageFunction.cxx)
-target_link_libraries(GaussianBlurImageFunction ${ITK_LIBRARIES})
+target_link_libraries(
+  GaussianBlurImageFunction
+  PRIVATE
+    ITK::ITKImageFunctionModule
+    ITK::ITKImageIO
+)
 add_executable(
   LaplacianRecursiveGaussianImageFilter1
   LaplacianRecursiveGaussianImageFilter1.cxx
 )
-target_link_libraries(LaplacianRecursiveGaussianImageFilter1 ${ITK_LIBRARIES})
+target_link_libraries(
+  LaplacianRecursiveGaussianImageFilter1
+  PRIVATE
+    ITK::ITKImageIntensityModule
+    ITK::ITKSmoothingModule
+    ITK::ITKImageIO
+)
 add_executable(ScaleSpaceGenerator2D ScaleSpaceGenerator2D.cxx)
-target_link_libraries(ScaleSpaceGenerator2D ${ITK_LIBRARIES})
+target_link_libraries(
+  ScaleSpaceGenerator2D
+  PRIVATE
+    ITK::ITKImageFeatureModule
+    ITK::ITKImageIO
+)
 add_executable(BinomialBlurImageFilter BinomialBlurImageFilter.cxx)
-target_link_libraries(BinomialBlurImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  BinomialBlurImageFilter
+  PRIVATE
+    ITK::ITKImageIntensityModule
+    ITK::ITKSmoothingModule
+    ITK::ITKImageIO
+)
 add_executable(
   CurvatureAnisotropicDiffusionImageFilter
   CurvatureAnisotropicDiffusionImageFilter.cxx
 )
-target_link_libraries(CurvatureAnisotropicDiffusionImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  CurvatureAnisotropicDiffusionImageFilter
+  PRIVATE
+    ITK::ITKAnisotropicSmoothingModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(
   VectorGradientAnisotropicDiffusionImageFilter
   VectorGradientAnisotropicDiffusionImageFilter.cxx
 )
 target_link_libraries(
   VectorGradientAnisotropicDiffusionImageFilter
-  ${ITK_LIBRARIES}
+  PRIVATE
+    ITK::ITKAnisotropicSmoothingModule
+    ITK::ITKImageGradientModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
 )
 add_executable(
   VectorCurvatureAnisotropicDiffusionImageFilter
@@ -100,32 +251,79 @@ add_executable(
 )
 target_link_libraries(
   VectorCurvatureAnisotropicDiffusionImageFilter
-  ${ITK_LIBRARIES}
+  PRIVATE
+    ITK::ITKAnisotropicSmoothingModule
+    ITK::ITKImageGradientModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
 )
 add_executable(RGBToGrayscale RGBToGrayscale.cxx)
-target_link_libraries(RGBToGrayscale ${ITK_LIBRARIES})
+target_link_libraries(
+  RGBToGrayscale
+  PRIVATE
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(BilateralImageFilter BilateralImageFilter.cxx)
-target_link_libraries(BilateralImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  BilateralImageFilter
+  PRIVATE
+    ITK::ITKImageFeatureModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(ResampleImageFilter2 ResampleImageFilter2.cxx)
-target_link_libraries(ResampleImageFilter2 ${ITK_LIBRARIES})
+target_link_libraries(
+  ResampleImageFilter2
+  PRIVATE
+    ITK::ITKImageFunctionModule
+    ITK::ITKImageGridModule
+    ITK::ITKTransformModule
+    ITK::ITKImageIO
+)
 add_executable(
   GradientAnisotropicDiffusionImageFilter
   GradientAnisotropicDiffusionImageFilter.cxx
 )
-target_link_libraries(GradientAnisotropicDiffusionImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  GradientAnisotropicDiffusionImageFilter
+  PRIVATE
+    ITK::ITKAnisotropicSmoothingModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(CurvatureFlowImageFilter CurvatureFlowImageFilter.cxx)
-target_link_libraries(CurvatureFlowImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  CurvatureFlowImageFilter
+  PRIVATE
+    ITK::ITKCurvatureFlowModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(GradientVectorFlowImageFilter GradientVectorFlowImageFilter.cxx)
-target_link_libraries(GradientVectorFlowImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  GradientVectorFlowImageFilter
+  PRIVATE
+    ITK::ITKImageFeatureModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(SigmoidImageFilter SigmoidImageFilter.cxx)
-target_link_libraries(SigmoidImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  SigmoidImageFilter
+  PRIVATE
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(
   RGBCurvatureAnisotropicDiffusionImageFilter
   RGBCurvatureAnisotropicDiffusionImageFilter.cxx
 )
 target_link_libraries(
   RGBCurvatureAnisotropicDiffusionImageFilter
-  ${ITK_LIBRARIES}
+  PRIVATE
+    ITK::ITKAnisotropicSmoothingModule
+    ITK::ITKImageIO
 )
 add_executable(
   RGBGradientAnisotropicDiffusionImageFilter
@@ -133,134 +331,342 @@ add_executable(
 )
 target_link_libraries(
   RGBGradientAnisotropicDiffusionImageFilter
-  ${ITK_LIBRARIES}
+  PRIVATE
+    ITK::ITKAnisotropicSmoothingModule
+    ITK::ITKImageIO
 )
 add_executable(
   SignedDanielssonDistanceMapImageFilter
   SignedDanielssonDistanceMapImageFilter.cxx
 )
-target_link_libraries(SignedDanielssonDistanceMapImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  SignedDanielssonDistanceMapImageFilter
+  PRIVATE
+    ITK::ITKDistanceMapModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(
   SecondDerivativeRecursiveGaussianImageFilter
   SecondDerivativeRecursiveGaussianImageFilter.cxx
 )
 target_link_libraries(
   SecondDerivativeRecursiveGaussianImageFilter
-  ${ITK_LIBRARIES}
+  PRIVATE
+    ITK::ITKSmoothingModule
+    ITK::ITKImageIO
 )
 add_executable(DerivativeImageFilter DerivativeImageFilter.cxx)
-target_link_libraries(DerivativeImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  DerivativeImageFilter
+  PRIVATE
+    ITK::ITKImageFeatureModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(
   DanielssonDistanceMapImageFilter
   DanielssonDistanceMapImageFilter.cxx
 )
-target_link_libraries(DanielssonDistanceMapImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  DanielssonDistanceMapImageFilter
+  PRIVATE
+    ITK::ITKConnectedComponentsModule
+    ITK::ITKDistanceMapModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(AntiAliasBinaryImageFilter AntiAliasBinaryImageFilter.cxx)
-target_link_libraries(AntiAliasBinaryImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  AntiAliasBinaryImageFilter
+  PRIVATE
+    ITK::ITKAntiAliasModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(ResampleImageFilter ResampleImageFilter.cxx)
-target_link_libraries(ResampleImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  ResampleImageFilter
+  PRIVATE
+    ITK::ITKImageFunctionModule
+    ITK::ITKImageGridModule
+    ITK::ITKTransformModule
+    ITK::ITKImageIO
+)
 add_executable(
   SmoothingRecursiveGaussianImageFilter
   SmoothingRecursiveGaussianImageFilter.cxx
 )
-target_link_libraries(SmoothingRecursiveGaussianImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  SmoothingRecursiveGaussianImageFilter
+  PRIVATE
+    ITK::ITKImageIntensityModule
+    ITK::ITKSmoothingModule
+    ITK::ITKImageIO
+)
 add_executable(
   SmoothingRecursiveGaussianImageFilter2
   SmoothingRecursiveGaussianImageFilter2.cxx
 )
-target_link_libraries(SmoothingRecursiveGaussianImageFilter2 ${ITK_LIBRARIES})
+target_link_libraries(
+  SmoothingRecursiveGaussianImageFilter2
+  PRIVATE
+    ITK::ITKImageIntensityModule
+    ITK::ITKSmoothingModule
+    ITK::ITKImageIO
+)
 add_executable(
   LaplacianRecursiveGaussianImageFilter2
   LaplacianRecursiveGaussianImageFilter2.cxx
 )
-target_link_libraries(LaplacianRecursiveGaussianImageFilter2 ${ITK_LIBRARIES})
+target_link_libraries(
+  LaplacianRecursiveGaussianImageFilter2
+  PRIVATE
+    ITK::ITKImageFeatureModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(MorphologicalImageEnhancement MorphologicalImageEnhancement.cxx)
-target_link_libraries(MorphologicalImageEnhancement ${ITK_LIBRARIES})
+target_link_libraries(
+  MorphologicalImageEnhancement
+  PRIVATE
+    ITK::ITKIOPNGModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKMathematicalMorphologyModule
+    ITK::ITKImageIO
+)
 add_executable(
   MinMaxCurvatureFlowImageFilter
   MinMaxCurvatureFlowImageFilter.cxx
 )
-target_link_libraries(MinMaxCurvatureFlowImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  MinMaxCurvatureFlowImageFilter
+  PRIVATE
+    ITK::ITKCurvatureFlowModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(
   FFTImageFilterFourierDomainFiltering
   FFTImageFilterFourierDomainFiltering.cxx
 )
-target_link_libraries(FFTImageFilterFourierDomainFiltering ${ITK_LIBRARIES})
+target_link_libraries(
+  FFTImageFilterFourierDomainFiltering
+  PRIVATE
+    ITK::ITKFFTModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(LaplacianImageFilter LaplacianImageFilter.cxx)
-target_link_libraries(LaplacianImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  LaplacianImageFilter
+  PRIVATE
+    ITK::ITKImageFeatureModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(ResampleImageFilter3 ResampleImageFilter3.cxx)
-target_link_libraries(ResampleImageFilter3 ${ITK_LIBRARIES})
+target_link_libraries(
+  ResampleImageFilter3
+  PRIVATE
+    ITK::ITKImageFunctionModule
+    ITK::ITKImageGridModule
+    ITK::ITKTransformModule
+    ITK::ITKImageIO
+)
 add_executable(ResampleImageFilter4 ResampleImageFilter4.cxx)
-target_link_libraries(ResampleImageFilter4 ${ITK_LIBRARIES})
+target_link_libraries(
+  ResampleImageFilter4
+  PRIVATE
+    ITK::ITKImageGridModule
+    ITK::ITKTransformModule
+    ITK::ITKImageIO
+)
 add_executable(
   VotingBinaryHoleFillingImageFilter
   VotingBinaryHoleFillingImageFilter.cxx
 )
-target_link_libraries(VotingBinaryHoleFillingImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  VotingBinaryHoleFillingImageFilter
+  PRIVATE
+    ITK::ITKLabelVotingModule
+    ITK::ITKImageIO
+)
 add_executable(
   VotingBinaryIterativeHoleFillingImageFilter
   VotingBinaryIterativeHoleFillingImageFilter.cxx
 )
 target_link_libraries(
   VotingBinaryIterativeHoleFillingImageFilter
-  ${ITK_LIBRARIES}
+  PRIVATE
+    ITK::ITKLabelVotingModule
+    ITK::ITKImageIO
 )
 add_executable(ResampleImageFilter5 ResampleImageFilter5.cxx)
-target_link_libraries(ResampleImageFilter5 ${ITK_LIBRARIES})
+target_link_libraries(
+  ResampleImageFilter5
+  PRIVATE
+    ITK::ITKImageGridModule
+    ITK::ITKTransformModule
+    ITK::ITKImageIO
+)
 add_executable(ResampleImageFilter6 ResampleImageFilter6.cxx)
-target_link_libraries(ResampleImageFilter6 ${ITK_LIBRARIES})
+target_link_libraries(
+  ResampleImageFilter6
+  PRIVATE
+    ITK::ITKImageGridModule
+    ITK::ITKTransformModule
+    ITK::ITKImageIO
+)
 add_executable(ResampleImageFilter8 ResampleImageFilter8.cxx)
-target_link_libraries(ResampleImageFilter8 ${ITK_LIBRARIES})
+target_link_libraries(
+  ResampleImageFilter8
+  PRIVATE
+    ITK::ITKImageFunctionModule
+    ITK::ITKImageGridModule
+    ITK::ITKTransformModule
+    ITK::ITKImageIO
+)
 add_executable(ResampleImageFilter9 ResampleImageFilter9.cxx)
-target_link_libraries(ResampleImageFilter9 ${ITK_LIBRARIES})
+target_link_libraries(
+  ResampleImageFilter9
+  PRIVATE
+    ITK::ITKImageFunctionModule
+    ITK::ITKImageGridModule
+    ITK::ITKTransformModule
+    ITK::ITKImageIO
+)
 add_executable(ResampleVolumesToBeIsotropic ResampleVolumesToBeIsotropic.cxx)
-target_link_libraries(ResampleVolumesToBeIsotropic ${ITK_LIBRARIES})
+target_link_libraries(
+  ResampleVolumesToBeIsotropic
+  PRIVATE
+    ITK::ITKImageGridModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKSmoothingModule
+    ITK::ITKTransformModule
+    ITK::ITKImageIO
+)
 add_executable(SubsampleVolume SubsampleVolume.cxx)
-target_link_libraries(SubsampleVolume ${ITK_LIBRARIES})
+target_link_libraries(
+  SubsampleVolume
+  PRIVATE
+    ITK::ITKImageGridModule
+    ITK::ITKSmoothingModule
+    ITK::ITKTransformModule
+    ITK::ITKImageIO
+)
 add_executable(SpatialObjectToImage1 SpatialObjectToImage1.cxx)
-target_link_libraries(SpatialObjectToImage1 ${ITK_LIBRARIES})
+target_link_libraries(
+  SpatialObjectToImage1
+  PRIVATE
+    ITK::ITKSpatialObjectsModule
+    ITK::ITKImageIO
+)
 add_executable(SpatialObjectToImage2 SpatialObjectToImage2.cxx)
-target_link_libraries(SpatialObjectToImage2 ${ITK_LIBRARIES})
+target_link_libraries(
+  SpatialObjectToImage2
+  PRIVATE
+    ITK::ITKSpatialObjectsModule
+    ITK::ITKImageIO
+)
 add_executable(SpatialObjectToImage3 SpatialObjectToImage3.cxx)
-target_link_libraries(SpatialObjectToImage3 ${ITK_LIBRARIES})
+target_link_libraries(
+  SpatialObjectToImage3
+  PRIVATE
+    ITK::ITKSpatialObjectsModule
+    ITK::ITKImageIO
+)
 add_executable(
   LaplacianSharpeningImageFilter
   LaplacianSharpeningImageFilter.cxx
 )
-target_link_libraries(LaplacianSharpeningImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  LaplacianSharpeningImageFilter
+  PRIVATE
+    ITK::ITKImageFeatureModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(VectorIndexSelection VectorIndexSelection.cxx)
-target_link_libraries(VectorIndexSelection ${ITK_LIBRARIES})
+target_link_libraries(
+  VectorIndexSelection
+  PRIVATE
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
+)
 add_executable(VesselnessMeasureImageFilter VesselnessMeasureImageFilter.cxx)
-target_link_libraries(VesselnessMeasureImageFilter ${ITK_LIBRARIES})
+target_link_libraries(
+  VesselnessMeasureImageFilter
+  PRIVATE
+    ITK::ITKImageFeatureModule
+    ITK::ITKImageIO
+)
 add_executable(
   DiffusionTensor3DReconstructionImageFilter
   DiffusionTensor3DReconstructionImageFilter.cxx
 )
 target_link_libraries(
   DiffusionTensor3DReconstructionImageFilter
-  ${ITK_LIBRARIES}
+  PRIVATE
+    ITK::ITKDiffusionTensorImageModule
+    ITK::ITKIONRRDModule
+    ITK::ITKImageIO
 )
 add_executable(FFTDirectInverse FFTDirectInverse.cxx)
-target_link_libraries(FFTDirectInverse ${ITK_LIBRARIES})
+target_link_libraries(
+  FFTDirectInverse
+  PRIVATE
+    ITK::ITKFFTModule
+    ITK::ITKImageGridModule
+    ITK::ITKImageIO
+)
 add_executable(
   ZeroCrossingBasedEdgeDetectionImageFilter
   ZeroCrossingBasedEdgeDetectionImageFilter.cxx
 )
 target_link_libraries(
   ZeroCrossingBasedEdgeDetectionImageFilter
-  ${ITK_LIBRARIES}
+  PRIVATE
+    ITK::ITKImageFeatureModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKImageIO
 )
 add_executable(WarpImageFilter1 WarpImageFilter1.cxx)
-target_link_libraries(WarpImageFilter1 ${ITK_LIBRARIES})
+target_link_libraries(
+  WarpImageFilter1
+  PRIVATE
+    ITK::ITKImageGridModule
+    ITK::ITKImageIO
+)
 add_executable(SurfaceExtraction SurfaceExtraction.cxx)
-target_link_libraries(SurfaceExtraction ${ITK_LIBRARIES})
+target_link_libraries(
+  SurfaceExtraction
+  PRIVATE
+    ITK::ITKMeshModule
+    ITK::ITKImageIO
+)
 add_executable(
   DigitallyReconstructedRadiograph1
   DigitallyReconstructedRadiograph1.cxx
 )
-target_link_libraries(DigitallyReconstructedRadiograph1 ${ITK_LIBRARIES})
+target_link_libraries(
+  DigitallyReconstructedRadiograph1
+  PRIVATE
+    ITK::ITKImageFunctionModule
+    ITK::ITKImageGridModule
+    ITK::ITKImageIntensityModule
+    ITK::ITKTransformModule
+    ITK::ITKImageIO
+)
 add_executable(ResampleImageFilter7 ResampleImageFilter7.cxx)
-target_link_libraries(ResampleImageFilter7 ${ITK_LIBRARIES})
+target_link_libraries(
+  ResampleImageFilter7
+  PRIVATE
+    ITK::ITKImageFunctionModule
+    ITK::ITKImageGridModule
+    ITK::ITKTransformModule
+    ITK::ITKImageIO
+)
 
 if(BUILD_TESTING)
   add_subdirectory(test)

@@ -3,25 +3,23 @@
 
 import os, sys
 import re
+import argparse
 
 program = sys.argv[0]
-if len(sys.argv) < 3:
-    print(
-        """
-Usage: WhatModulesITK.py itkSourceTree applicationFiles...
-    Generate a FindPackage(ITK COMPONENTS) that lists all modules referenced by a set of files
 
-    For example:
-      Running from the ITK source,
-        ./Utilities/Maintenance/WhatModulesITK.py . Modules/Filtering/Smoothing/test/itkDiscreteGaussianImageFilterTest.cxx
-      Produces
-        Find_Package(ITK COMPONENTS
-          ITKImageFilterBase
-          ITKSmoothing
-          ITKTestKernel
-          )
-       To select many files from an application,
-         ./Utilities/Maintenance/WhatModulesITK.py . $(find /path/to/itk/project/ -type f)
+# Parse command line arguments
+parser = argparse.ArgumentParser(
+    description="Generate CMake find_package or target_link_libraries commands for ITK modules",
+    epilog="""
+Examples:
+  Running from the ITK source:
+    ./Utilities/Maintenance/WhatModulesITK.py . Modules/Filtering/Smoothing/test/itkDiscreteGaussianImageFilterTest.cxx
+
+  With --link option:
+    ./Utilities/Maintenance/WhatModulesITK.py --link . Examples/Filtering/AntiAliasBinaryImageFilter.cxx
+
+  To select many files from an application:
+    ./Utilities/Maintenance/WhatModulesITK.py . $(find /path/to/itk/project/ -type f)
 
 NOTE: The modules list is created by looking at the itk include
       files used by the application files. Some programs do not include
@@ -35,9 +33,23 @@ NOTE: IO modules, other than ITKIOImageBase, are not discovered
       unless their include file is present in the application
       code. If ITKIOImageBase is present, a cmake variable
       ITK_IO_MODULES_USED is created and added to the module list.
-"""
-    )
-    exit(0)
+""",
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+)
+parser.add_argument(
+    "--link",
+    action="store_true",
+    help="Output target_link_libraries command with Module suffix instead of find_package",
+)
+parser.add_argument("itkSourceTree", help="Path to ITK source tree")
+parser.add_argument(
+    "applicationFiles", nargs="+", help="Application source files to analyze"
+)
+
+args = parser.parse_args()
+itk_source_tree = args.itkSourceTree
+application_files = args.applicationFiles
+use_link_command = args.link
 
 
 # Build a dict that maps include files to paths
@@ -58,7 +70,7 @@ def IncludesToPaths(path):
 def FindModules(path):
     pathToModule = dict()
     fileProg = re.compile(r"itk-module.cmake")
-    moduleProg = re.compile(".*itk_module[^(]*\\(([^ \n]*)", re.S)
+    moduleProg = re.compile(r".*itk_module[^(]*\(\s*([^\s)]+)", re.S)
     for root, dirs, files in os.walk(path):
         for f in files:
             if fileProg.match(f):
@@ -90,15 +102,15 @@ def FindIncludes(path):
 # Start the program
 
 # Generate dict's for mapping includes to modules
-includesToPaths = IncludesToPaths(os.path.join(sys.argv[1], "Modules"))
-pathsToModules = FindModules(os.path.join(sys.argv[1], "Modules"))
+includesToPaths = IncludesToPaths(os.path.join(itk_source_tree, "Modules"))
+pathsToModules = FindModules(os.path.join(itk_source_tree, "Modules"))
 
 # Test to see if ITK source is provided
 if len(pathsToModules) == 0:
     print(
         program
         + ": "
-        + sys.argv[1]
+        + itk_source_tree
         + " is not an ITK source directory. It does not contain any itk-module.cmake files."
     )
     exit(1)
@@ -106,9 +118,7 @@ if len(pathsToModules) == 0:
 # Build a set of includes for all command line files
 allIncludes = set()
 
-sys.argv.pop(0)
-sys.argv.pop(0)
-for f in sys.argv:
+for f in application_files:
     if os.path.isfile(f):
         allIncludes.update(FindIncludes(f))
     else:
@@ -121,21 +131,41 @@ for inc in allIncludes:
         module = includesToPaths[inc]
         allModules.add(pathsToModules[includesToPaths[inc]])
 
-# Print a useful cmake command
-print("find_package(ITK COMPONENTS")
-for module in sorted(allModules):
-    print("  " + module)
-if "ITKIOImageBase" in allModules:
-    print(r"  ITKImageIO")
-if "ITKIOMeshBase" in allModules:
-    print(r"  ITKMeshIO")
-if "ITKIOTransformBase" in allModules:
-    print(r"  ITKTransformIO")
-print(")")
+# Map IO base modules to their corresponding Meta factory modules
+io_module_map = [
+    ("ITKIOImageBase", "ITKImageIO"),
+    ("ITKIOMeshBase", "ITKMeshIO"),
+    ("ITKIOTransformBase", "ITKTransformIO"),
+]
+
+# Store original count before modifying allModules
+original_module_count = len(allModules)
+
+# Print output based on --link option
+if use_link_command:
+    # Output target_link_libraries with namespaced Module suffix
+    print("target_link_libraries(\n YourTarget\n PRIVATE")
+
+    for base_module, io_module in io_module_map:
+        if base_module in allModules:
+            allModules.discard(base_module)
+            print("    " + io_module)
+    for module in sorted(allModules):
+        print("    " + module + "Module")
+    print(")")
+else:
+    # Original find_package output
+    print("find_package(ITK COMPONENTS")
+    for module in sorted(allModules):
+        print("  " + module)
+    for base_module, io_module in io_module_map:
+        if base_module in allModules:
+            print("  " + io_module)
+    print(")")
 
 print(
     "Your application code includes "
-    + str(len(allModules))
+    + str(original_module_count)
     + " of "
     + str(len(pathsToModules))
     + " itk modules."

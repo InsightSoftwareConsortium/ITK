@@ -6,7 +6,6 @@ if(NOT ITK_BUILD_DEFAULT_MODULES)
 endif()
 
 find_package(ITK REQUIRED)
-include(${ITK_USE_FILE})
 
 set(ITK_TEST_DRIVER itkTestDriver)
 
