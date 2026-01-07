@@ -428,6 +428,45 @@ macro(init_module_vars)
   set(${itk-module}-targets-build "${ITK_BINARY_DIR}/ITKTargets.cmake")
 endmacro()
 
+#----------------------------------------------------------------------
+# Create factory meta-module interface libraries
+# These are created for ITKImageIO, ITKMeshIO, ITKTransformIO and FFTImageFilterInit factories
+foreach(_factory_name IN ITEMS ImageIO MeshIO TransformIO FFTImageFilterInit)
+  set(itk-module ITK${_factory_name})
+  if(NOT TARGET ${itk-module})
+    add_library(${itk-module} INTERFACE)
+    set_target_properties(
+      ${itk-module}
+      PROPERTIES
+        EXPORT_NAME
+          ITK::${itk-module}
+    )
+    add_library(ITK::${itk-module} ALIAS ${itk-module})
+
+    init_module_vars(${itk-module})
+    set(ITK_MODULE_${itk-module}_DECLARED 1)
+
+    # Factory modules will be added as dependencies to this meta-module.
+    # When itk_generate_factory_registration() is called, it adds the include
+    # directory containing the generated FactoryRegisterManager header file.
+    #
+    # Note: Compilation errors like "itkImageIOFactoryRegisterManager.h: No such file or directory"
+    # indicate that itk_generate_factory_registration() has not been called to generate the header files.
+
+    # Add factory registration compile definition
+    string(TOUPPER ${_factory_name} _factory_uc)
+    target_compile_definitions(
+      ${itk-module}
+      INTERFACE
+        ITK_${_factory_uc}_FACTORY_REGISTER_MANAGER
+    )
+
+    # Export and install the factory interface library
+    itk_module_target_export(${itk-module})
+    itk_module_target_install(${itk-module})
+  endif()
+endforeach()
+
 # Build all modules.
 foreach(itk-module ${ITK_MODULES_ENABLED})
   if(NOT ${itk-module}_IS_TEST)
