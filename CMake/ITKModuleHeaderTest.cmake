@@ -123,27 +123,9 @@ macro(itk_module_headertest _name)
       target_link_libraries(
         ${_test_name}
         PUBLIC
-          ${${_name}_LIBRARIES}
+          ${_name}Module
           itksys
       )
-
-      # Add module include directories to target
-      if(${_name}_INCLUDE2_DIRS)
-        target_include_directories(
-          ${_test_name}
-          PRIVATE
-            ${${_name}_INCLUDE2_DIRS}
-        )
-      endif()
-
-      # Add module system include directories to target
-      if(${_name}_SYSTEM_INCLUDE_DIRS)
-        target_include_directories(
-          ${_test_name}
-          PRIVATE
-            ${${_name}_SYSTEM_INCLUDE_DIRS}
-        )
-      endif()
 
       target_link_options(
         ${_test_name}

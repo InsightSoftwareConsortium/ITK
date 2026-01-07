@@ -100,6 +100,29 @@ macro(itk_module_check itk-module _needed_by stack)
   endif()
 endmacro()
 
+#----------------------------------------------------------------------
+# Create factory meta-module interface libraries
+# These are created for ITKImageIO, ITKMeshIO, ITKTransformIO factories
+foreach(_factory_name ImageIO MeshIO TransformIO FFTImageFilterInit)
+  set(itk_module ITK${_factory_name})
+  if(NOT TARGET ${itk_module})
+    add_library(${itk_module} INTERFACE)
+
+    # Factory modules aggregate all modules that provide that factory type
+    # Link to all modules that contribute to this factory
+    # This will be populated when modules with FACTORY_NAMES are configured
+
+    # Export and install the factory interface library
+    export(
+      TARGETS
+        ${itk_module}
+      APPEND
+      FILE "${ITK_BINARY_DIR}/ITKTargets.cmake"
+    )
+    install(TARGETS ${itk_module} EXPORT ITKTargets)
+  endif()
+endforeach()
+
 set(ModuleEnablementNeedsToRerun ON) # this needs to run at least once
 while(ModuleEnablementNeedsToRerun)
   itk_module_load_dag()

@@ -328,6 +328,61 @@ macro(itk_module_impl)
     endif()
   endif()
 
+  ####
+  # Create ${itk-module}Module interface library for ITK Modules
+  ####
+  add_library(${itk-module}Module INTERFACE)
+
+  target_link_libraries(
+    ${itk-module}Module
+    INTERFACE
+      ${${itk-module}_LIBRARIES}
+  )
+
+  # Add include directories with generator expressions
+  target_include_directories(
+    ${itk-module}Module
+    INTERFACE
+      ${${itk-module}_INCLUDE2_DIRS}
+  )
+  target_include_directories(
+    ${itk-module}Module
+    SYSTEM
+    INTERFACE
+      ${${itk-module}_SYSTEM_INCLUDE2_DIRS}
+  )
+
+  # Link transitive dependencies (public + compile depends) through ${itk-module}Module interface
+  foreach(dep IN LISTS ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS)
+    target_link_libraries(${itk-module}Module INTERFACE ${dep}Module)
+  endforeach()
+
+  # Link this module to factory meta-module interfaces if it provides factories
+  if(ITK_MODULE_${itk-module}_FACTORY_NAMES)
+    foreach(_factory_format ${ITK_MODULE_${itk-module}_FACTORY_NAMES})
+      # Extract factory name from <factory_name>::<format>
+      string(
+        REGEX
+        REPLACE
+        "^(.*)::(.*)$"
+        "\\1"
+        _factory_name
+        "${_factory_format}"
+      )
+      set(_meta_module ITK${_factory_name})
+
+      # Add this module to the factory meta-module
+      target_link_libraries(${_meta_module} INTERFACE ${itk-module}Module)
+    endforeach()
+  endif()
+
+  # Export and install the interface library
+  itk_module_target_export(${itk-module}Module)
+  itk_module_target_install(${itk-module}Module)
+  ####
+  # End ITK Modules interface library creation
+  ####
+
   set(itk-module-EXPORT_CODE-build "${${itk-module}_EXPORT_CODE_BUILD}")
   set(itk-module-EXPORT_CODE-install "${${itk-module}_EXPORT_CODE_INSTALL}")
   if(ITK_SOURCE_DIR)
@@ -667,9 +722,6 @@ macro(itk_module_add_library _name)
 
   # Add module include directories to target
   target_include_directories(${_name} PUBLIC ${${itk-module}_INCLUDE2_DIRS})
-
-  #message(STATUS "Adding ${itk-module} include dirs to ${_name} target")
-  #message(STATUS "  ${${itk-module}_INCLUDE2_DIRS}")
 
   # Add module system include directories to target
   target_include_directories(
