@@ -126,6 +126,25 @@ macro(itk_module_headertest _name)
           ${${_name}_LIBRARIES}
           itksys
       )
+
+      # Add module include directories to target
+      if(${_name}_INCLUDE2_DIRS)
+        target_include_directories(
+          ${_test_name}
+          PRIVATE
+            ${${_name}_INCLUDE2_DIRS}
+        )
+      endif()
+
+      # Add module system include directories to target
+      if(${_name}_SYSTEM_INCLUDE_DIRS)
+        target_include_directories(
+          ${_test_name}
+          PRIVATE
+            ${${_name}_SYSTEM_INCLUDE_DIRS}
+        )
+      endif()
+
       target_link_options(
         ${_test_name}
         PRIVATE
