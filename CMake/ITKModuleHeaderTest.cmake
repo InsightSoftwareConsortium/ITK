@@ -123,22 +123,8 @@ macro(itk_module_headertest _name)
       target_link_libraries(
         ${_test_name}
         PUBLIC
-          ${${_name}_LIBRARIES}
+          ITK::${_name}Module
           itksys
-      )
-
-      # Add module include directories to target
-      target_include_directories(
-        ${_test_name}
-        PRIVATE
-          ${${_name}_GENEX_INCLUDE_DIRS}
-      )
-
-      # Add module system include directories to target
-      target_include_directories(
-        ${_test_name}
-        PRIVATE
-          ${${_name}_GENEX_SYSTEM_INCLUDE_DIRS}
       )
 
       target_link_options(
