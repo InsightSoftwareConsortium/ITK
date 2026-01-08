@@ -18,6 +18,7 @@
 #ifndef itkSobelOperator_hxx
 #define itkSobelOperator_hxx
 
+#include "itkIndexRange.h"
 #include "itkObject.h"
 
 namespace itk
@@ -32,41 +33,26 @@ SobelOperator<TPixel, VDimension, TAllocator>::Fill(const CoefficientVector & co
   // coefficients in the exact center of the neighborhood
   const unsigned int center = this->GetCenterNeighborhoodIndex();
 
-  if constexpr (VDimension == 2)
+  using IndexType = Index<VDimension>;
+
+  unsigned int coeff_index = 0;
+  for (const IndexType & index :
+       ImageRegionIndexRange<VDimension>(ImageRegion{ IndexType::Filled(-1), SizeType::Filled(3) }))
   {
-    unsigned int coeff_index = 0;
-    for (int y = -1; y <= 1; ++y)
+    auto pos = static_cast<int>(center);
+
+    for (unsigned int i{}; i < VDimension; ++i)
     {
-      for (int x = -1; x <= 1; ++x)
-      {
-        const int pos = center + y * this->GetStride(1) + x * this->GetStride(0);
-        // Note, The following line copies the double precision
-        // coefficients of SobelOperator to the pixel type
-        // of the neighborhood operator which may not support
-        // negative numbers, or floating point numbers.
-        this->operator[](pos) = static_cast<TPixel>(coeff[coeff_index]);
-
-        ++coeff_index;
-      }
+      pos += static_cast<int>(index[i] * this->GetStride(i));
     }
-  }
-  if constexpr (VDimension == 3)
-  {
-    unsigned int coeff_index = 0;
-    for (int z = -1; z <= 1; ++z)
-    {
-      for (int y = -1; y <= 1; ++y)
-      {
-        for (int x = -1; x <= 1; ++x)
-        {
-          const int pos = center + z * this->GetStride(2) + y * this->GetStride(1) + x * this->GetStride(0);
 
-          this->operator[](pos) = static_cast<TPixel>(coeff[coeff_index]);
+    // Note, The following line copies the double precision
+    // coefficients of SobelOperator to the pixel type
+    // of the neighborhood operator which may not support
+    // negative numbers, or floating point numbers.
+    this->operator[](pos) = static_cast<TPixel>(coeff[coeff_index]);
 
-          ++coeff_index;
-        }
-      }
-    }
+    ++coeff_index;
   }
 }
 
