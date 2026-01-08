@@ -88,7 +88,7 @@ public:
 
 
   /** Add two offsets. */
-  const Self
+  Self
   operator+(const Self & vec) const
   {
     Self result;
@@ -101,7 +101,7 @@ public:
   }
 
   /** Add a size to an offset.  */
-  const Self
+  Self
   operator+(const Size<VDimension> & sz) const
   {
     Self result;
@@ -136,7 +136,7 @@ public:
   }
 
   /** Subtract two offsets. */
-  const Self
+  Self
   operator-(const Self & vec) const
   {
     Self result;

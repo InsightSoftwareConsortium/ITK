@@ -97,35 +97,35 @@ public:
    * minimum positive normalize value.
    */
   /** @ITKStartGrouping */
-  static const Self
+  static Self
   max(const Self & a)
   {
     Self b(a.Size(), NumericTraits<T>::max());
     return b;
   }
 
-  static const Self
+  static Self
   min(const Self & a)
   {
     Self b(a.Size(), NumericTraits<T>::min());
     return b;
   }
 
-  static const Self
+  static Self
   ZeroValue(const Self & a)
   {
     Self b(a.Size(), T{});
     return b;
   }
 
-  static const Self
+  static Self
   OneValue(const Self & a)
   {
     Self b(a.Size(), NumericTraits<T>::OneValue());
     return b;
   }
 
-  static const Self
+  static Self
   NonpositiveMin(const Self & a)
   {
     Self b(a.Size(), NumericTraits<T>::NonpositiveMin());
