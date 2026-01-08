@@ -136,10 +136,11 @@
 # Caveats
 # -------
 #
-# Since the both include directory containing the registration manager headers
-# and the `ITK_IO_FACTORY_REGISTER_MANAGER` COMPILE_DEFINITIONS are set as
-# directory properties, including external project (themselves including ITK)
-# after including ITK can have unintended side effects.
+# The include directory containing the registration manager headers and the
+# `ITK_<FACTORY_NAME>_FACTORY_REGISTER_MANAGER` COMPILE_DEFINITIONS are set as
+# target interface properties on the factory meta-module targets (ITKImageIO,
+# ITKMeshIO, ITKTransformIO, ITKFFTImageFilterInit). This ensures proper propagation
+# to dependent targets through modern CMake usage requirements.
 #
 
 # _itk_configure_FactoryRegisterManager(<factory_type> <formats>)
@@ -148,6 +149,8 @@
 # `<CMAKE_CURRENT_BINARY_DIR>/ITKFactoryRegistration/`.
 #
 # Header is named using the template `itk<factory_type>FactoryRegisterManager.h`
+# The include directory and compile definitions are added to the corresponding
+# factory meta-module target's INTERFACE properties.
 #
 function(_itk_configure_FactoryRegisterManager factory_type formats)
   set(LIST_OF_FACTORIES_REGISTRATION "")
@@ -168,6 +171,14 @@ function(_itk_configure_FactoryRegisterManager factory_type formats)
     ${ITK_CMAKE_DIR}/itk${factory_type}FactoryRegisterManager.h.in
     "${CMAKE_CURRENT_BINARY_DIR}/ITKFactoryRegistration/itk${factory_type}FactoryRegisterManager.h"
     @ONLY
+  )
+
+  # Add the header directory to the factory meta-module's include properties
+  set(_meta_module ITK${factory_type})
+  target_include_directories(
+    ${_meta_module}
+    INTERFACE
+      "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/ITKFactoryRegistration>"
   )
 endfunction()
 
