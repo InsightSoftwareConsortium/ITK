@@ -97,7 +97,7 @@ public:
 
 
   /** Add a size to an index.  */
-  const Self
+  Self
   operator+(const SizeType & sz) const
   {
     Self result;
@@ -122,7 +122,7 @@ public:
 
   /** Subtract a size from an index.
    */
-  const Self
+  Self
   operator-(const SizeType & sz) const
   {
     Self result;
@@ -146,7 +146,7 @@ public:
   }
 
   /** Add an offset to an index. */
-  const Self
+  Self
   operator+(const OffsetType & offset) const
   {
     Self result;
@@ -181,7 +181,7 @@ public:
   }
 
   /** Subtract an offset from an index. */
-  const Self
+  Self
   operator-(const OffsetType & off) const
   {
     Self result;
@@ -209,7 +209,7 @@ public:
   /**
    * Multiply an index by a size (elementwise product).
    */
-  const Self
+  Self
   operator*(const SizeType & vec) const
   {
     Self result;

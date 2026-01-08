@@ -90,7 +90,7 @@ public:
   }
 
   /** Add two sizes.  */
-  const Self
+  Self
   operator+(const Self & vec) const
   {
     Self result;
@@ -114,7 +114,7 @@ public:
   }
 
   /** Subtract two sizes.  */
-  const Self
+  Self
   operator-(const Self & vec) const
   {
     Self result;
@@ -138,7 +138,7 @@ public:
   }
 
   /** Multiply two sizes (elementwise product).  */
-  const Self
+  Self
   operator*(const Self & vec) const
   {
     Self result;

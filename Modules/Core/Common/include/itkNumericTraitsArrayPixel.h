@@ -68,31 +68,31 @@ public:
    * \note minimum value for floating pointer types is defined as
    * minimum positive normalize value.
    */
-  static const Self
+  static Self
   max(const Self & a)
   {
     return Self(a.Size(), NumericTraits<T>::max());
   }
 
-  static const Self
+  static Self
   min(const Self & a)
   {
     return Self(a.Size(), NumericTraits<T>::min());
   }
 
-  static const Self
+  static Self
   ZeroValue(const Self & a)
   {
     return Self(a.Size(), T{});
   }
 
-  static const Self
+  static Self
   OneValue(const Self & a)
   {
     return Self(a.Size(), NumericTraits<T>::OneValue());
   }
 
-  static const Self
+  static Self
   NonpositiveMin(const Self & a)
   {
     return Self(a.Size(), NumericTraits<T>::NonpositiveMin());
