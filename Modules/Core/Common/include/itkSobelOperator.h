@@ -99,6 +99,9 @@ public:
   using Self = SobelOperator;
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
+  /** Additional type alias. */
+  using typename Superclass::SizeType;
+
   itkOverrideGetNameOfClassMacro(SobelOperator);
 
   static_assert(
