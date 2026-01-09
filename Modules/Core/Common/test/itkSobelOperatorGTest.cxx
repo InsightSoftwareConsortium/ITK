@@ -17,11 +17,10 @@
  *=========================================================================*/
 
 #include "itkSobelOperator.h"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
 
 
-int
-itkSobelOperatorTest(int, char *[])
+TEST(SobelOperator, Test)
 {
 
   constexpr unsigned int Dimension2D{ 2 };
@@ -35,13 +34,14 @@ itkSobelOperatorTest(int, char *[])
     using SobelOperatorType = itk::SobelOperator<PixelType, Dimension2D>;
     SobelOperatorType sobelOperator;
 
-    ITK_EXERCISE_BASIC_OBJECT_METHODS((&sobelOperator), SobelOperator, NeighborhoodOperator);
+    auto * const sobelOperatorPtr = &sobelOperator;
+    ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(sobelOperatorPtr, SobelOperator, NeighborhoodOperator);
 
 
     // Horizontal
     unsigned long direction = 0;
     sobelOperator.SetDirection(direction);
-    ITK_TEST_SET_GET_VALUE(direction, sobelOperator.GetDirection());
+    EXPECT_EQ(sobelOperator.GetDirection(), direction);
 
     auto radius = itk::Size<Dimension2D>::Filled(1);
     sobelOperator.CreateToRadius(radius);
@@ -53,14 +53,14 @@ itkSobelOperatorTest(int, char *[])
     const unsigned int size = sobelOperator.GetBufferReference().size();
     for (itk::SizeValueType i = 0; i < size; ++i)
     {
-      ITK_TEST_EXPECT_EQUAL(expectedValuesHoriz[i], sobelOperator[i]);
-      ITK_TEST_EXPECT_EQUAL(expectedValuesHoriz[i], sobelOperator.GetElement(i));
+      EXPECT_EQ(expectedValuesHoriz[i], sobelOperator[i]);
+      EXPECT_EQ(expectedValuesHoriz[i], sobelOperator.GetElement(i));
     }
 
     // Vertical
     direction = 1;
     sobelOperator.SetDirection(direction);
-    ITK_TEST_SET_GET_VALUE(direction, sobelOperator.GetDirection());
+    EXPECT_EQ(sobelOperator.GetDirection(), direction);
 
     sobelOperator.CreateDirectional();
 
@@ -69,8 +69,8 @@ itkSobelOperatorTest(int, char *[])
     };
     for (itk::SizeValueType i = 0; i < size; ++i)
     {
-      ITK_TEST_EXPECT_EQUAL(expectedValuesVert[i], sobelOperator[i]);
-      ITK_TEST_EXPECT_EQUAL(expectedValuesVert[i], sobelOperator.GetElement(i));
+      EXPECT_EQ(expectedValuesVert[i], sobelOperator[i]);
+      EXPECT_EQ(expectedValuesVert[i], sobelOperator.GetElement(i));
     }
   }
 
@@ -82,7 +82,7 @@ itkSobelOperatorTest(int, char *[])
 
     unsigned long direction = 0;
     sobelOperator.SetDirection(direction);
-    ITK_TEST_SET_GET_VALUE(direction, sobelOperator.GetDirection());
+    EXPECT_EQ(sobelOperator.GetDirection(), direction);
 
     auto radius = itk::Size<Dimension3D>::Filled(1);
     sobelOperator.CreateToRadius(radius);
@@ -94,8 +94,8 @@ itkSobelOperatorTest(int, char *[])
     const unsigned int size = sobelOperator.GetBufferReference().size();
     for (itk::SizeValueType i = 0; i < size; ++i)
     {
-      ITK_TEST_EXPECT_EQUAL(expectedValuesX[i], sobelOperator[i]);
-      ITK_TEST_EXPECT_EQUAL(expectedValuesX[i], sobelOperator.GetElement(i));
+      EXPECT_EQ(expectedValuesX[i], sobelOperator[i]);
+      EXPECT_EQ(expectedValuesX[i], sobelOperator.GetElement(i));
     }
 
     direction = 1;
@@ -103,20 +103,20 @@ itkSobelOperatorTest(int, char *[])
 
     sobelOperator.CreateDirectional();
 
-    ITK_TEST_SET_GET_VALUE(direction, sobelOperator.GetDirection());
+    EXPECT_EQ(sobelOperator.GetDirection(), direction);
     itk::FixedArray<SobelOperatorType::PixelType, Length> expectedValuesY{
       { { -1.0, -3.0, -1.0, 0.0, 0.0,  0.0,  1.0,  3.0, 1.0, -3.0, -6.0, -3.0, 0.0, 0.0,
           0.0,  3.0,  6.0,  3.0, -1.0, -3.0, -1.0, 0.0, 0.0, 0.0,  1.0,  3.0,  1.0 } }
     };
     for (itk::SizeValueType i = 0; i < size; ++i)
     {
-      ITK_TEST_EXPECT_EQUAL(expectedValuesY[i], sobelOperator[i]);
-      ITK_TEST_EXPECT_EQUAL(expectedValuesY[i], sobelOperator.GetElement(i));
+      EXPECT_EQ(expectedValuesY[i], sobelOperator[i]);
+      EXPECT_EQ(expectedValuesY[i], sobelOperator.GetElement(i));
     }
 
     direction = 2;
     sobelOperator.SetDirection(direction);
-    ITK_TEST_SET_GET_VALUE(direction, sobelOperator.GetDirection());
+    EXPECT_EQ(sobelOperator.GetDirection(), direction);
 
     sobelOperator.CreateDirectional();
 
@@ -126,11 +126,8 @@ itkSobelOperatorTest(int, char *[])
     };
     for (itk::SizeValueType i = 0; i < size; ++i)
     {
-      ITK_TEST_EXPECT_EQUAL(expectedValuesZ[i], sobelOperator[i]);
-      ITK_TEST_EXPECT_EQUAL(expectedValuesZ[i], sobelOperator.GetElement(i));
+      EXPECT_EQ(expectedValuesZ[i], sobelOperator[i]);
+      EXPECT_EQ(expectedValuesZ[i], sobelOperator.GetElement(i));
     }
   }
-
-  std::cout << "Test finished." << std::endl;
-  return EXIT_SUCCESS;
 }
