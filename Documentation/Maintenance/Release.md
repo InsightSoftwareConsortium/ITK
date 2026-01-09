@@ -1,6 +1,5 @@
 There are typically two feature releases a year, around June and December, and
-  IdentityFile=~/.ssh/id_git_itk
-one to three bug fix release between feature releases. Releasing ITK has many
+one to three bug fix releases between feature releases. Releasing ITK has many
 steps. This document is a central location for all of the tribal knowledge
 around it.
 
