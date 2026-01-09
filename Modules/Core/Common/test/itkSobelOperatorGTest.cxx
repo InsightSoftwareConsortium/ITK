@@ -16,118 +16,65 @@
  *
  *=========================================================================*/
 
+// First include the header file to be tested:
 #include "itkSobelOperator.h"
 #include "itkGTest.h"
 
+// Standard C++ header files:
+#include <array>
+#include <string>
+#include <vector>
 
-TEST(SobelOperator, Test)
+
+namespace
 {
+using ExpectedKernelType = std::vector<int>;
 
-  constexpr unsigned int Dimension2D{ 2 };
-  constexpr unsigned int Dimension3D{ 3 };
-
+template <unsigned int VDimension>
+void
+CheckKernelCoordinates(const std::array<ExpectedKernelType, VDimension> & expectedKernels)
+{
   using PixelType = float;
-
+  for (unsigned int direction{}; direction < VDimension; ++direction)
   {
-    constexpr unsigned int Length{ 9 };
+    SCOPED_TRACE("`VDimension` = " + std::to_string(VDimension) + ", `direction` = " + std::to_string(direction));
 
-    using SobelOperatorType = itk::SobelOperator<PixelType, Dimension2D>;
-    SobelOperatorType sobelOperator;
-
-    auto * const sobelOperatorPtr = &sobelOperator;
-    ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(sobelOperatorPtr, SobelOperator, NeighborhoodOperator);
-
-
-    // Horizontal
-    unsigned long direction = 0;
+    itk::SobelOperator<PixelType, VDimension> sobelOperator;
     sobelOperator.SetDirection(direction);
     EXPECT_EQ(sobelOperator.GetDirection(), direction);
 
-    auto radius = itk::Size<Dimension2D>::Filled(1);
-    sobelOperator.CreateToRadius(radius);
+    sobelOperator.CreateToRadius(itk::Size<VDimension>::Filled(1));
 
-    itk::FixedArray<SobelOperatorType::PixelType, Length> expectedValuesHoriz{
-      { { -1.0, 0.0, 1.0, -2.0, 0.0, 2.0, -1.0, 0.0, 1.0 } }
-    };
+    const ExpectedKernelType & expectedKernel = expectedKernels[direction];
 
-    const unsigned int size = sobelOperator.GetBufferReference().size();
-    for (itk::SizeValueType i = 0; i < size; ++i)
+    const unsigned int numberOfCoordinates{ sobelOperator.GetBufferReference().size() };
+
+    ASSERT_EQ(numberOfCoordinates, expectedKernel.size());
+
+    for (itk::SizeValueType i = 0; i < numberOfCoordinates; ++i)
     {
-      EXPECT_EQ(expectedValuesHoriz[i], sobelOperator[i]);
-      EXPECT_EQ(expectedValuesHoriz[i], sobelOperator.GetElement(i));
-    }
-
-    // Vertical
-    direction = 1;
-    sobelOperator.SetDirection(direction);
-    EXPECT_EQ(sobelOperator.GetDirection(), direction);
-
-    sobelOperator.CreateDirectional();
-
-    itk::FixedArray<SobelOperatorType::PixelType, Length> expectedValuesVert{
-      { { -1.0, -2.0, -1.0, 0.0, 0.0, 0.0, 1.0, 2.0, 1.0 } }
-    };
-    for (itk::SizeValueType i = 0; i < size; ++i)
-    {
-      EXPECT_EQ(expectedValuesVert[i], sobelOperator[i]);
-      EXPECT_EQ(expectedValuesVert[i], sobelOperator.GetElement(i));
+      EXPECT_EQ(sobelOperator[i], expectedKernel[i]) << "  with `i` = " << i;
     }
   }
+}
+} // namespace
 
-  {
-    constexpr unsigned int Length{ 27 };
 
-    using SobelOperatorType = itk::SobelOperator<PixelType, Dimension3D>;
-    SobelOperatorType sobelOperator;
+TEST(SobelOperator, ExerciseBasicObjectMethods)
+{
+  itk::SobelOperator<float, 2> sobelOperator;
+  auto * const                 sobelOperatorPtr = &sobelOperator;
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(sobelOperatorPtr, SobelOperator, NeighborhoodOperator);
+}
 
-    unsigned long direction = 0;
-    sobelOperator.SetDirection(direction);
-    EXPECT_EQ(sobelOperator.GetDirection(), direction);
 
-    auto radius = itk::Size<Dimension3D>::Filled(1);
-    sobelOperator.CreateToRadius(radius);
-
-    itk::FixedArray<SobelOperatorType::PixelType, Length> expectedValuesX{
-      { { -1.0, 0.0,  1.0, -3.0, 0.0,  3.0, -1.0, 0.0,  1.0, -3.0, 0.0,  3.0, -6.0, 0.0,
-          6.0,  -3.0, 0.0, 3.0,  -1.0, 0.0, 1.0,  -3.0, 0.0, 3.0,  -1.0, 0.0, 1.0 } }
-    };
-    const unsigned int size = sobelOperator.GetBufferReference().size();
-    for (itk::SizeValueType i = 0; i < size; ++i)
-    {
-      EXPECT_EQ(expectedValuesX[i], sobelOperator[i]);
-      EXPECT_EQ(expectedValuesX[i], sobelOperator.GetElement(i));
-    }
-
-    direction = 1;
-    sobelOperator.SetDirection(direction);
-
-    sobelOperator.CreateDirectional();
-
-    EXPECT_EQ(sobelOperator.GetDirection(), direction);
-    itk::FixedArray<SobelOperatorType::PixelType, Length> expectedValuesY{
-      { { -1.0, -3.0, -1.0, 0.0, 0.0,  0.0,  1.0,  3.0, 1.0, -3.0, -6.0, -3.0, 0.0, 0.0,
-          0.0,  3.0,  6.0,  3.0, -1.0, -3.0, -1.0, 0.0, 0.0, 0.0,  1.0,  3.0,  1.0 } }
-    };
-    for (itk::SizeValueType i = 0; i < size; ++i)
-    {
-      EXPECT_EQ(expectedValuesY[i], sobelOperator[i]);
-      EXPECT_EQ(expectedValuesY[i], sobelOperator.GetElement(i));
-    }
-
-    direction = 2;
-    sobelOperator.SetDirection(direction);
-    EXPECT_EQ(sobelOperator.GetDirection(), direction);
-
-    sobelOperator.CreateDirectional();
-
-    itk::FixedArray<SobelOperatorType::PixelType, Length> expectedValuesZ{
-      { { -1.0, -3.0, -1.0, -3.0, -6.0, -3.0, -1.0, -3.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-          0.0,  0.0,  0.0,  0.0,  1.0,  3.0,  1.0,  3.0,  6.0,  3.0, 1.0, 3.0, 1.0 } }
-    };
-    for (itk::SizeValueType i = 0; i < size; ++i)
-    {
-      EXPECT_EQ(expectedValuesZ[i], sobelOperator[i]);
-      EXPECT_EQ(expectedValuesZ[i], sobelOperator.GetElement(i));
-    }
-  }
+// Checks that the coordinates of the kernels have the expected values.
+TEST(SobelOperator, CheckKernelCoordinates)
+{
+  CheckKernelCoordinates<2>(
+    { ExpectedKernelType{ -1, 0, 1, -2, 0, 2, -1, 0, 1 }, ExpectedKernelType{ -1, -2, -1, 0, 0, 0, 1, 2, 1 } });
+  CheckKernelCoordinates<3>(
+    { ExpectedKernelType{ -1, 0, 1, -3, 0, 3, -1, 0, 1, -3, 0, 3, -6, 0, 6, -3, 0, 3, -1, 0, 1, -3, 0, 3, -1, 0, 1 },
+      ExpectedKernelType{ -1, -3, -1, 0, 0, 0, 1, 3, 1, -3, -6, -3, 0, 0, 0, 3, 6, 3, -1, -3, -1, 0, 0, 0, 1, 3, 1 },
+      ExpectedKernelType{ -1, -3, -1, -3, -6, -3, -1, -3, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1, 3, 6, 3, 1, 3, 1 } });
 }
