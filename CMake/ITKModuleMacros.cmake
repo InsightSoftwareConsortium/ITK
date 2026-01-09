@@ -409,10 +409,6 @@ macro(itk_module_impl)
     itk-module-INCLUDE_DIRS-install
     "\${ITK_INSTALL_PREFIX}/${${itk-module}_INSTALL_INCLUDE_DIR}"
   )
-  set(
-    itk-module-INCLUDE_DIRS-install2
-    "$<INSTALL_INTERFACE:\${ITK_INSTALL_PREFIX}/${${itk-module}_INSTALL_INCLUDE_DIR}>"
-  )
   if(${itk-module}_SYSTEM_INCLUDE_DIRS)
     list(
       APPEND
@@ -423,11 +419,6 @@ macro(itk_module_impl)
       APPEND
       itk-module-INCLUDE_DIRS-install
       "${${itk-module}_SYSTEM_INCLUDE_DIRS}"
-    )
-    list(
-      APPEND
-      itk-module-INCLUDE_DIRS-install2
-      "$<INSTALL_INTERFACE:${${itk-module}_SYSTEM_INCLUDE_DIRS}>"
     )
   endif()
   if(WIN32)
@@ -459,9 +450,6 @@ macro(itk_module_impl)
   set(itk-module-GENEX_INCLUDE_DIRS "")
   foreach(_dir ${itk-module-INCLUDE_DIRS-build})
     list(APPEND itk-module-GENEX_INCLUDE_DIRS "$<BUILD_INTERFACE:${_dir}>")
-  endforeach()
-  foreach(_dir ${itk-module-INCLUDE_DIRS-install2})
-    list(APPEND itk-module-GENEX_INCLUDE_DIRS "${_dir}")
   endforeach()
 
   set(itk-module-EXPORT_CODE "${itk-module-EXPORT_CODE-build}")
