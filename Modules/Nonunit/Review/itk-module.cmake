@@ -88,6 +88,7 @@ itk_module(
     ITKImageFusion
   TEST_DEPENDS
     ITKTestKernel
+    ITKIOMeta
     ITKIOMesh
     ITKIOCSV
     ITKIOLSM
