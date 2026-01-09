@@ -199,28 +199,28 @@ macro(itk_module_impl)
   endif()
 
   # Prepare include directories with generator expressions for use in targets
-  set(${itk-module}_INCLUDE2_DIRS "")
+  set(${itk-module}_GENEX_INCLUDE_DIRS "")
   foreach(_dir ${${itk-module}_INCLUDE_DIRS})
-    list(APPEND ${itk-module}_INCLUDE2_DIRS "$<BUILD_INTERFACE:${_dir}>")
+    list(APPEND ${itk-module}_GENEX_INCLUDE_DIRS "$<BUILD_INTERFACE:${_dir}>")
   endforeach()
   list(
     APPEND
-    ${itk-module}_INCLUDE2_DIRS
+    ${itk-module}_GENEX_INCLUDE_DIRS
     "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${${itk-module}_INSTALL_INCLUDE_DIR}>"
   )
 
   # Prepare system include directories with generator expressions
-  set(${itk-module}_SYSTEM_INCLUDE2_DIRS "")
+  set(${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS "")
   if(${itk-module}_SYSTEM_INCLUDE_DIRS)
     foreach(_dir ${${itk-module}_SYSTEM_INCLUDE_DIRS})
       list(
         APPEND
-        ${itk-module}_SYSTEM_INCLUDE2_DIRS
+        ${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS
         "$<BUILD_INTERFACE:${_dir}>"
       )
       list(
         APPEND
-        ${itk-module}_SYSTEM_INCLUDE2_DIRS
+        ${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS
         "$<INSTALL_INTERFACE:${_dir}>"
       )
     endforeach()
@@ -343,13 +343,13 @@ macro(itk_module_impl)
   target_include_directories(
     ${itk-module}Module
     INTERFACE
-      ${${itk-module}_INCLUDE2_DIRS}
+      ${${itk-module}_GENEX_INCLUDE_DIRS}
   )
   target_include_directories(
     ${itk-module}Module
     SYSTEM
     INTERFACE
-      ${${itk-module}_SYSTEM_INCLUDE2_DIRS}
+      ${${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS}
   )
 
   # Link transitive dependencies (public + compile depends) through ${itk-module}Module interface
@@ -455,13 +455,13 @@ macro(itk_module_impl)
     "${itk-module-RUNTIME_LIBRARY_DIRS-build}"
   )
   set(itk-module-INCLUDE_DIRS "${itk-module-INCLUDE_DIRS-build}")
-  # set itk-module-INCLUDE2_DIRS so that includes both install interface and build interface path in appropriate generator expressions
-  set(itk-module-INCLUDE2_DIRS "")
+  # set itk-module-GENEX_INCLUDE_DIRS so that includes both install interface and build interface path in appropriate generator expressions
+  set(itk-module-GENEX_INCLUDE_DIRS "")
   foreach(_dir ${itk-module-INCLUDE_DIRS-build})
-    list(APPEND itk-module-INCLUDE2_DIRS "$<BUILD_INTERFACE:${_dir}>")
+    list(APPEND itk-module-GENEX_INCLUDE_DIRS "$<BUILD_INTERFACE:${_dir}>")
   endforeach()
   foreach(_dir ${itk-module-INCLUDE_DIRS-install2})
-    list(APPEND itk-module-INCLUDE2_DIRS "${_dir}")
+    list(APPEND itk-module-GENEX_INCLUDE_DIRS "${_dir}")
   endforeach()
 
   set(itk-module-EXPORT_CODE "${itk-module-EXPORT_CODE-build}")
@@ -721,14 +721,18 @@ macro(itk_module_add_library _name)
   target_compile_features(${_name} PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
 
   # Add module include directories to target
-  target_include_directories(${_name} PUBLIC ${${itk-module}_INCLUDE2_DIRS})
+  target_include_directories(
+    ${_name}
+    PUBLIC
+      ${${itk-module}_GENEX_INCLUDE_DIRS}
+  )
 
   # Add module system include directories to target
   target_include_directories(
     ${_name}
     SYSTEM
     PUBLIC
-      ${${itk-module}_SYSTEM_INCLUDE2_DIRS}
+      ${${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS}
   )
 
   # Add module library directories to target
