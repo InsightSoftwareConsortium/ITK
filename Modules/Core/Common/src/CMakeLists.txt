@@ -66,6 +66,7 @@ set(
   itkLogger.cxx
   itkLogOutput.cxx
   itkLoggerOutput.cxx
+  itkNumericLocale.cxx
   itkProgressAccumulator.cxx
   itkTotalProgressReporter.cxx
   itkNumericTraits.cxx
