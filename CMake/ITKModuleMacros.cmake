@@ -332,6 +332,13 @@ macro(itk_module_impl)
   # Create ${itk-module}Module interface library for ITK Modules
   ####
   add_library(${itk-module}Module INTERFACE)
+  set_target_properties(
+    ${itk-module}Module
+    PROPERT
+    EXPORT_NAME
+    ITK::${itk-module}Module
+  )
+  add_library(ITK::${itk-module}Module ALIAS ${itk-module}Module)
 
   target_link_libraries(
     ${itk-module}Module

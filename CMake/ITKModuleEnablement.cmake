@@ -107,6 +107,13 @@ foreach(_factory_name ImageIO MeshIO TransformIO FFTImageFilterInit)
   set(itk_module ITK${_factory_name})
   if(NOT TARGET ${itk_module})
     add_library(${itk_module} INTERFACE)
+    set_target_properties(
+      ${itk_module}
+      PROPERTIES
+        EXPORT_NAME
+          ITK::${itk_module}
+    )
+    add_library(ITK::${itk_module} ALIAS ${itk_module})
 
     # Factory modules will be added as dependencies to this meta-module.
     # When itk_generate_factory_registration() is called, it adds the include

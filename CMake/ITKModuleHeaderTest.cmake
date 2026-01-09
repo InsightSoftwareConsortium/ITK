@@ -123,7 +123,7 @@ macro(itk_module_headertest _name)
       target_link_libraries(
         ${_test_name}
         PUBLIC
-          ${_name}Module
+          ITK::${_name}Module
           itksys
       )
 
