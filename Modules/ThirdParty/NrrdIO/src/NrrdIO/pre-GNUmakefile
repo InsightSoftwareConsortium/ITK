@@ -1,8 +1,8 @@
 #
-# NrrdIO: stand-alone code for basic nrrd functionality
-# Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-# Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-# Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+# NrrdIO: C library for NRRD file IO (with optional compression)
+# Copyright (C) 2009--2025  University of Chicago
+# Copyright (C) 2005--2008  Gordon Kindlmann
+# Copyright (C) 1998--2004  University of Utah
 #
 # This software is provided 'as-is', without any express or implied
 # warranty.  In no event will the authors be held liable for any
@@ -23,36 +23,22 @@
 # 3. This notice may not be removed or altered from any source distribution.
 #
 
-### The process of creating the NrrdIO source distribution from a Teem
-### source distribution is automated, and is controlled by this GNU
-### makefile:
+### The process of creating the NrrdIO source distribution from a Teem source
+### distribution is automated, and is controlled by this GNUmakefile.
 ###
-### for the NrrdIO in ITK:
+### First, set environment variable TEEM_SRC_ROOT to root of Teem source: the
+### full path to the directory containing `src` (with `src/air`, `src/biff`,
+### `src/nrrd` subidrectories). Then run:
 ###
-###    svn update
-###    rm -f itk_NrrdIO_mangle.h
-###    touch itk_NrrdIO_mangle.h
-###    make -f pre-GNUmakefile clean
-###    setenv ITK_NRRDIO
-###    make -f pre-GNUmakefile
-###    unsetenv ITK_NRRDIO
-###    make -f sample-GNUmakefile
-###    perl mangle.pl itk >! itk_NrrdIO_mangle.h
-###    make -f sample-GNUmakefile clean
+###    ./0-gen.sh       # for generating regular NrrdIO
 ###
-### for a NrrdIO in any other application
+### or:
 ###
-###    svn update
-###    make -f pre-GNUmakefile clean
-###    make -f pre-GNUmakefile
-###    make -f sample-GNUmakefile
-###    make -f sample-GNUmakefile clean
+###    ./0-gen.sh itk   # for generating NrrdIO for ITK
 ###
-### This file is the single place where the required Teem source files
-### are listed.  Once the NrrdIO source distribution is created, this
-### GNU makefile is completely moot.  TEEM_SRC_ROOT must be set in order
-### to locate the Teem source.  We use this instead of TEEM_ROOT to avoid
-### conflict with Teem's own make system
+### This pre-GNUmakefile file is the single place where the required Teem source
+### files are listed, and this file is only used for creating the NrrdIO source
+### distribution (not for compiling it)
 
 $(if $(TEEM_SRC_ROOT),,\
 $(warning *)\
@@ -63,38 +49,38 @@ $(warning * distribution (rather than a Teem installation))\
 $(warning *)\
 $(error Make quitting))
 
+### Like Teem, we rely on clang-format for auto-formatting sources
+### (The .clang-format is copied from Teem)
+CLANG_FORMAT = clang-format --style=file --assume-filename=foo.c
+
 ### The following sources are pretty much stubs, to create the symbols,
 ### but not the functionality of different formats and the bzip2 encoding.
 ### As such, they are NOT copied from Teem but are made for NrrdIO.
 ###
-NEED_NOT = encodingBzip2.c formatEPS.c formatPNG.c formatPNM.c \
+NEED_NOT = formatEPS.c formatPNG.c formatPNM.c \
   formatText.c formatVTK.c
 
-### These are still needed for exact same functionality as in Teem
-###
-TEEM_HDRS = $(addprefix teem/, \
-  teemDio.h teemPng.h teemQnanhibit.h)
+# Gone in TeemV2: TEEM_HDRS = $(addprefix teem/, teemDio.h teemPng.h teemQnanhibit.h)
 
 ### NEED_{AIR,BIFF,NRRD}: the source files from teem that we need
 ### NEED_HDRS: the headers that we need
 ###
 NEED_AIR = $(addprefix air/, \
-  754.c mop.c array.c parseAir.c dio.c \
+  754.c mop.c array.c parseAir.c \
   sane.c endianAir.c string.c enum.c miscAir.c)
 NEED_BIFF = $(addprefix biff/, biffbiff.c biffmsg.c)
 NEED_NRRD = $(addprefix nrrd/, \
   accessors.c defaultsNrrd.c enumsNrrd.c arraysNrrd.c methodsNrrd.c \
   reorder.c axis.c simple.c comment.c keyvalue.c endianNrrd.c \
   parseNrrd.c gzio.c read.c write.c format.c formatNRRD.c \
-  encoding.c encodingRaw.c encodingAscii.c encodingHex.c encodingGzip.c \
-  subset.c)
+  encodingRaw.c encodingAscii.c encodingHex.c encodingGzip.c encodingZRL.c \
+  encodingBzip2.c encoding.c subset.c)
 NEED_SRCS = $(NEED_AIR) $(NEED_BIFF) $(NEED_NRRD)
 NEED_PUB_HDRS = air/air.h biff/biff.h \
   $(addprefix nrrd/, nrrdDefines.h nrrdEnums.h nrrdMacros.h nrrd.h)
 NEED_PRIV_HDRS = air/privateAir.h biff/privateBiff.h nrrd/privateNrrd.h
 
-### Building NrrdIO requires the teem*.h headers, and the processed sources
-### from air, biff, and nrrd
+### Building NrrdIO requires processed sources from air, biff, and nrrd
 ###
 .PHONY: all
 ifeq (undefined,$(origin ITK_NRRDIO))
@@ -102,31 +88,34 @@ ifeq (undefined,$(origin ITK_NRRDIO))
 else
   NRRDIO_H = NrrdIO.h.in
 endif
-all: $(TEEM_HDRS) $(NEED_SRCS) $(NEED_PRIV_HDRS) $(NRRDIO_H) NrrdIO_Srcs.txt
+all: $(NEED_SRCS) $(NEED_PRIV_HDRS) $(NRRDIO_H) NrrdIO_Srcs.txt
 
 ### NrrdIO.h is basically the result of cat'ing together all the
 ### teem headers in $(NEED_HDRS), but we do need to "unteem" them.
 ### In the case of ITK, we have to put this into NrrdIO.h.in, so
-### that ITK's CMake to process the #cmakedefine line.  But we still
-### a NrrdIO.h to build the library here, in order to run nm to get
+### that ITK's CMake can process the #cmakedefine line.  But we still
+### need a NrrdIO.h to build the library here, in order to run nm to get
 ### all the symbols for name mangling
 ###
 $(NEED_PUB_HDRS):
-	perl tail.pl < $(TEEM_SRC_ROOT)/src/$@ \
-         | perl unteem.pl \
-         | grep -v HAS_BEEN_INCLUDED > $(notdir $@)
+	./tail.py < $(TEEM_SRC_ROOT)/src/$@ \
+          | ./unteem.py \
+          | grep -v HAS_BEEN_INCLUDED > $(notdir $@)
 $(NEED_PRIV_HDRS):
-	perl tail.pl < $(TEEM_SRC_ROOT)/src/$@ \
-         | cat preamble.c - \
-         | perl unteem.pl \
-         | grep -v HAS_BEEN_INCLUDED > $(notdir $@)
+	./tail.py < $(TEEM_SRC_ROOT)/src/$@ \
+          | cat preamble.c - \
+          | ./unteem.py \
+          | grep -v HAS_BEEN_INCLUDED \
+          | $(CLANG_FORMAT) > $(notdir $@)
 ifeq (undefined,$(origin ITK_NRRDIO))
 $(NRRDIO_H): $(NEED_PUB_HDRS)
-	cat preamble.c $(notdir $(NEED_PUB_HDRS)) > $(NRRDIO_H)
+	cat preamble.c $(notdir $(NEED_PUB_HDRS)) \
+          | $(CLANG_FORMAT) > $(NRRDIO_H)
 	rm -f $(notdir $(NEED_PUB_HDRS))
 else
 $(NRRDIO_H): $(NEED_PUB_HDRS)
-	cat preamble.c $(notdir $(NEED_PUB_HDRS)) > $(NRRDIO_H)
+	cat preamble.c $(notdir $(NEED_PUB_HDRS)) \
+          | $(CLANG_FORMAT) > $(NRRDIO_H)
 	grep -v cmakedefine NrrdIO.h.in > NrrdIO.h
 	rm -f $(notdir $(NEED_PUB_HDRS))
 endif
@@ -137,26 +126,20 @@ endif
 NrrdIO_Srcs.txt:
 	echo $(notdir $(NEED_SRCS)) $(NEED_NOT) > $@
 
-### The teem*.h headers: we need only change the pre-amble here
-###
-teem/%.h:
-	perl tail.pl < $(TEEM_SRC_ROOT)/include/$(notdir $@) \
-          | cat preamble.c - > $(notdir $@)
-
 ### The rest: by design, these targets have the library names as part
 ### of the name (e.g. nrrd/simple.c) and that allows us to locate the
 ### source file without any VPATH games
 ###
 %.h %.c:
-	perl tail.pl < $(TEEM_SRC_ROOT)/src/$@ \
+	./tail.py < $(TEEM_SRC_ROOT)/src/$@ \
           | cat preamble.c - \
-          | perl unteem.pl \
-          | grep -v HAS_BEEN_INCLUDED > $(notdir $@)
-
+          | ./unteem.py \
+          | grep -v HAS_BEEN_INCLUDED \
+          | $(CLANG_FORMAT) > $(notdir $@)
 ### To start from scratch
 ###
 clean:
-	rm -f $(notdir $(TEEM_HDRS) $(NEED_SRCS) \
+	rm -f $(notdir $(NEED_SRCS) \
                        $(NEED_PUB_HDRS) $(NEED_PRIV_HDRS)) \
               NrrdIO.in.h NrrdIO.h NrrdIO_Srcs.txt \
               *.o libNrrdIO.a sampleIO
