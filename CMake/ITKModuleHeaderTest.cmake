@@ -123,9 +123,10 @@ macro(itk_module_headertest _name)
       target_link_libraries(
         ${_test_name}
         PUBLIC
-          ${${_name}_LIBRARIES}
+          ITK::${_name}Module
           itksys
       )
+
       target_link_options(
         ${_test_name}
         PRIVATE
