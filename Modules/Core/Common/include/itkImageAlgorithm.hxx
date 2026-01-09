@@ -20,11 +20,49 @@
 
 #include "itkArray.h"
 #include "itkImageRegionRange.h"
+#include "itkImageScanlineIterator.h"
 
 #include <array>
 
 namespace itk
 {
+
+template <typename InputImageType, typename OutputImageType>
+void
+ImageAlgorithm::ReferenceCopy(const InputImageType *                       inImage,
+                              OutputImageType *                            outImage,
+                              const typename InputImageType::RegionType &  inRegion,
+                              const typename OutputImageType::RegionType & outRegion)
+{
+  if (inRegion.GetSize()[0] == outRegion.GetSize()[0])
+  {
+    itk::ImageScanlineConstIterator<InputImageType> it(inImage, inRegion);
+    itk::ImageScanlineIterator                      ot(outImage, outRegion);
+
+    while (!it.IsAtEnd())
+    {
+      while (!it.IsAtEndOfLine())
+      {
+        ot.Set(static_cast<typename OutputImageType::PixelType>(it.Get()));
+        ++ot;
+        ++it;
+      }
+      ot.NextLine();
+      it.NextLine();
+    }
+    return;
+  }
+
+  itk::ImageRegionConstIterator<InputImageType> it(inImage, inRegion);
+  itk::ImageRegionIterator<OutputImageType>     ot(outImage, outRegion);
+
+  while (!it.IsAtEnd())
+  {
+    ot.Set(static_cast<typename OutputImageType::PixelType>(it.Get()));
+    ++ot;
+    ++it;
+  }
+}
 
 template <typename InputImageType, typename OutputImageType>
 void

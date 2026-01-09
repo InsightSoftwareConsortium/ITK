@@ -73,7 +73,9 @@ struct ImageAlgorithm
        const typename InputImageType::RegionType &  inRegion,
        const typename OutputImageType::RegionType & outRegion)
   {
-    ImageAlgorithm::DispatchedCopy(inImage, outImage, inRegion, outRegion);
+    // There are overloaded method of Copy for Image and VectorImage,
+    // this case may be an unknow image type, or mixed image types, so use the reference implementation.
+    ImageAlgorithm::ReferenceCopy(inImage, outImage, inRegion, outRegion);
   }
 
   /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
@@ -153,6 +155,14 @@ private:
                  const typename InputImageType::RegionType &  inRegion,
                  const typename OutputImageType::RegionType & outRegion,
                  FalseType                                    isSpecialized = FalseType());
+
+  /** this is the reference image iterator implementation */
+  template <typename InputImageType, typename OutputImageType>
+  static void
+  ReferenceCopy(const InputImageType *                       inImage,
+                OutputImageType *                            outImage,
+                const typename InputImageType::RegionType &  inRegion,
+                const typename OutputImageType::RegionType & outRegion);
 
 
   /** A utility class to get the number of internal pixels to make up
