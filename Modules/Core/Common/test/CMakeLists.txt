@@ -109,7 +109,6 @@ set(
   VNLSparseLUSolverTraitsTest.cxx
   itkSobelOperatorImageConvolutionTest.cxx
   itkSobelOperatorImageFilterTest.cxx
-  itkSobelOperatorTest.cxx
 )
 set(
   ITKCommon2Tests
@@ -594,13 +593,6 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/sf4.png}
     1
     ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterVertTest.tiff
-)
-
-itk_add_test(
-  NAME itkSobelOperatorTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkSobelOperatorTest
 )
 
 itk_add_test(
@@ -1901,6 +1893,7 @@ set(
   itkShapedImageNeighborhoodRangeGTest.cxx
   itkSizeGTest.cxx
   itkSmartPointerGTest.cxx
+  itkSobelOperatorGTest.cxx
   itkSymmetricSecondRankTensorGTest.cxx
   itkVariableLengthVectorGTest.cxx
   itkVectorContainerGTest.cxx
