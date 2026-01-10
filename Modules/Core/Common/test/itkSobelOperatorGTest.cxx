@@ -78,10 +78,28 @@ TEST(SobelOperator, CheckKernelCoordinates)
 {
   for (const bool useLegacyCoordinates : { false, true })
   {
+    CheckKernelCoordinates<1>(useLegacyCoordinates, { ExpectedKernelType{ -1, 0, 1 } });
     CheckKernelCoordinates<2>(
       useLegacyCoordinates,
       { ExpectedKernelType{ -1, 0, 1, -2, 0, 2, -1, 0, 1 }, ExpectedKernelType{ -1, -2, -1, 0, 0, 0, 1, 2, 1 } });
+    CheckKernelCoordinates<4>(
+      useLegacyCoordinates,
+      { ExpectedKernelType{ -1, 0, 1, -2, 0, 2, -1, 0, 1, -2, 0, 2, -4, 0, 4, -2, 0, 2, -1, 0, 1, -2, 0, 2, -1, 0, 1,
+                            -2, 0, 2, -4, 0, 4, -2, 0, 2, -4, 0, 4, -8, 0, 8, -4, 0, 4, -2, 0, 2, -4, 0, 4, -2, 0, 2,
+                            -1, 0, 1, -2, 0, 2, -1, 0, 1, -2, 0, 2, -4, 0, 4, -2, 0, 2, -1, 0, 1, -2, 0, 2, -1, 0, 1 },
+        ExpectedKernelType{ -1, -2, -1, 0, 0, 0, 1, 2, 1, -2, -4, -2, 0, 0, 0, 2, 4, 2, -1, -2, -1, 0, 0, 0, 1, 2, 1,
+                            -2, -4, -2, 0, 0, 0, 2, 4, 2, -4, -8, -4, 0, 0, 0, 4, 8, 4, -2, -4, -2, 0, 0, 0, 2, 4, 2,
+                            -1, -2, -1, 0, 0, 0, 1, 2, 1, -2, -4, -2, 0, 0, 0, 2, 4, 2, -1, -2, -1, 0, 0, 0, 1, 2, 1 },
+        ExpectedKernelType{ -1, -2, -1, -2, -4, -2, -1, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 2, 4, 2, 1, 2, 1,
+                            -2, -4, -2, -4, -8, -4, -2, -4, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 2, 4, 8, 4, 2, 4, 2,
+                            -1, -2, -1, -2, -4, -2, -1, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 2, 4, 2, 1, 2, 1 },
+        ExpectedKernelType{ -1, -2, -1, -2, -4, -2, -1, -2, -1, -2, -4, -2, -4, -8, -4, -2, -4, -2, -1, -2, -1,
+                            -2, -4, -2, -1, -2, -1, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                            0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  2,  1,  2,  4,  2,  1,  2,  1,
+                            2,  4,  2,  4,  8,  4,  2,  4,  2,  1,  2,  1,  2,  4,  2,  1,  2,  1 } });
   }
+
+  // For 3D, the legacy and the non-legacy coordinates are different.
   CheckKernelCoordinates<3>(
     true,
     { ExpectedKernelType{ -1, 0, 1, -3, 0, 3, -1, 0, 1, -3, 0, 3, -6, 0, 6, -3, 0, 3, -1, 0, 1, -3, 0, 3, -1, 0, 1 },
