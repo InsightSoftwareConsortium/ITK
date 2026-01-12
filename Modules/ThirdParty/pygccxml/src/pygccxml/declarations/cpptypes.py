@@ -9,6 +9,7 @@ defines classes, that describe C++ types
 
 from . import algorithms_cache
 from . import byte_info
+from . import elaborated_info
 
 
 class type_t(byte_info.byte_info):
@@ -593,10 +594,10 @@ class elaborated_t(compound_t):
         compound_t.__init__(self, base)
 
     def build_decl_string(self, with_defaults=True):
-        if hasattr(self.base.declaration, "elaborated_type_specifier"):
+        prefix = ""
+        if isinstance(self.base, type(declarated_t)) and \
+                isinstance(self.base.declaration, type(elaborated_info)):
             prefix = self.base.declaration.elaborated_type_specifier + " "
-        else:
-            prefix = ""
         return prefix + self.base.build_decl_string(with_defaults)
 
     def _clone_impl(self):

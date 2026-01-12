@@ -7,34 +7,10 @@
 
 import os
 import sys
-import platform
 import logging
 import tempfile
 import shutil
-import subprocess
 import warnings
-
-
-def is_str(string):
-    """
-    Python 2 and 3 compatible string checker.
-
-    Args:
-        string (str | basestring): the string to check
-
-    Returns:
-        bool: True or False
-
-    """
-    warnings.warn(
-        "The is_str function is deprecated. \
-        Use isinstance(string, str) instead.",
-        DeprecationWarning)
-
-    if sys.version_info[:2] >= (3, 0):
-        return isinstance(string, str)
-
-    return isinstance(string, basestring)
 
 
 def find_xml_generator(name="castxml", search_path=None):
