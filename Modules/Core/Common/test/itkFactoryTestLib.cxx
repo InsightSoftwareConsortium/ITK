@@ -178,7 +178,7 @@ private:
  */
 static ImportImageContainerFactory::Pointer staticImportImageContainerFactory;
 itk::ObjectFactoryBase *
-itkLoad()
+ITK_LOAD_FUNCTION_NAME()
 {
   staticImportImageContainerFactory = ImportImageContainerFactory::New();
   return staticImportImageContainerFactory;

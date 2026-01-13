@@ -31,12 +31,12 @@
 extern "C"
 {
   ITKIOImageBase_EXPORT itk::ObjectFactoryBase *
-                        itkLoad();
+                        ITK_LOAD_FUNCTION_NAME();
 }
 
 
 itk::ObjectFactoryBase *
-itkLoad()
+ITK_LOAD_FUNCTION_NAME()
 {
   static itk::FileFreeImageIOFactory::Pointer f = itk::FileFreeImageIOFactory::New();
   return f;

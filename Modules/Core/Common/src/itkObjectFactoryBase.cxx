@@ -39,6 +39,11 @@
 #include <algorithm>
 #include <atomic>
 
+
+#define ITK_NAMESPACE_TO_STRING0(x) #x
+#define ITK_NAMESPACE_TO_STRING(x) ITK_NAMESPACE_TO_STRING0(x)
+#define ITK_LOAD_SYMBOL ITK_NAMESPACE_TO_STRING(ITK_LOAD_FUNCTION_NAME)
+
 namespace
 {
 /** \class OverrideInformation
@@ -406,7 +411,7 @@ ObjectFactoryBase::LoadLibrariesInPath(const char * path)
         /**
          * Look for the symbol itkLoad in the library
          */
-        auto loadfunction = (ITK_LOAD_FUNCTION)DynamicLoader::GetSymbolAddress(lib, "itkLoad");
+        auto loadfunction = (ITK_LOAD_FUNCTION)DynamicLoader::GetSymbolAddress(lib, ITK_LOAD_SYMBOL);
         /**
          * if the symbol is found call it to create the factory
          * from the library

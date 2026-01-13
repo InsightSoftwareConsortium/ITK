@@ -25,4 +25,9 @@
 #define itk ITK_NAMESPACE
 #endif
 
+// Defines the symbol name for the load function used by ITK's Object
+// Factory for dynamic loading of shared libraries.
+#define ITK_LOAD_FUNCTION_NAME ITK_NAMESPACE##Load
+
+
 #endif //itkNamespace_h

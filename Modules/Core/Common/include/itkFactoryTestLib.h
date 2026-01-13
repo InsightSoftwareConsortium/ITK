@@ -29,7 +29,7 @@
 extern "C"
 {
   ITK_ABI_EXPORT itk::ObjectFactoryBase *
-                 itkLoad();
+                 ITK_LOAD_FUNCTION_NAME();
 }
 
 #endif
