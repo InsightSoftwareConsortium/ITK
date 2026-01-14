@@ -122,9 +122,9 @@ macro(itk_module_headertest _name)
       add_executable(${_test_name} ${_header_test_src})
       target_link_libraries(
         ${_test_name}
-        PUBLIC
-          ITK::${_name}Module
-          itksys
+        PRIVATE
+          ${ITK_MODULE_${_name}_TARGETS_NAMESPACE}${_name}Module
+          ${ITK_MODULE_${_name}_TARGETS_NAMESPACE}ITKKWSysModule
       )
 
       target_link_options(

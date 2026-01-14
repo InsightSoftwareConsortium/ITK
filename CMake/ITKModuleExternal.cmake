@@ -197,6 +197,8 @@ set(
 set(${itk-module}_TARGETS_FILE_BUILD "${${itk-module}-targets-build}")
 file(WRITE "${${itk-module}_TARGETS_FILE_BUILD}" "") # Clear targets
 set(${itk-module}_ENABLE_SHARED "${ITK_MODULE_${itk-module}_ENABLE_SHARED}")
+set(${itk-module}-targets-namespace "")
+
 itk_module_impl()
 
 if(

@@ -435,13 +435,6 @@ foreach(_factory_name IN ITEMS ImageIO MeshIO TransformIO FFTImageFilterInit)
   set(itk-module ITK${_factory_name})
   if(NOT TARGET ${itk-module})
     add_library(${itk-module} INTERFACE)
-    set_target_properties(
-      ${itk-module}
-      PROPERTIES
-        EXPORT_NAME
-          ITK::${itk-module}
-    )
-    add_library(ITK::${itk-module} ALIAS ${itk-module})
 
     init_module_vars(${itk-module})
     set(ITK_MODULE_${itk-module}_DECLARED 1)
@@ -460,6 +453,14 @@ foreach(_factory_name IN ITEMS ImageIO MeshIO TransformIO FFTImageFilterInit)
       INTERFACE
         ITK_${_factory_uc}_FACTORY_REGISTER_MANAGER
     )
+
+    set(ITK_MODULE_${itk-module}_TARGETS_NAMESPACE "")
+    if(ITK_LIBRARY_NAMESPACE)
+      set(
+        ITK_MODULE_${itk-module}_TARGETS_NAMESPACE
+        "${ITK_LIBRARY_NAMESPACE}::"
+      )
+    endif()
 
     # Export and install the factory interface library
     itk_module_target_export(${itk-module})
