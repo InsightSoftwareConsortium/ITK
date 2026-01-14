@@ -360,7 +360,7 @@ macro(itk_module_impl)
 
   # Link transitive dependencies (public + compile depends) through ${itk-module}Module interface
   foreach(dep IN LISTS ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS)
-    target_link_libraries(${itk-module}Module INTERFACE ${dep}Module)
+    target_link_libraries(${itk-module}Module INTERFACE ITK::${dep}Module)
   endforeach()
 
   # Link this module to factory meta-module interfaces if it provides factories
@@ -378,7 +378,7 @@ macro(itk_module_impl)
       set(_meta_module ITK${_factory_name})
 
       # Add this module to the factory meta-module
-      target_link_libraries(${_meta_module} INTERFACE ${itk-module}Module)
+      target_link_libraries(${_meta_module} INTERFACE ITK::${itk-module}Module)
     endforeach()
   endif()
 
@@ -493,28 +493,28 @@ endmacro()
 macro(itk_module_link_dependencies)
   # link to public dependencies
   foreach(dep IN LISTS ITK_MODULE_${itk-module}_PUBLIC_DEPENDS)
-    if(DEFINED ${dep}_LIBRARIES)
-      target_link_libraries(${itk-module} LINK_PUBLIC ${${dep}_LIBRARIES})
+    if(ITK_MODULE_${dep}_DECLARED)
+      target_link_libraries(${itk-module} LINK_PUBLIC ITK::${dep}Module)
     elseif(DEFINED ${dep})
       target_link_libraries(${itk-module} LINK_PUBLIC ${${dep}})
     else()
       message(
         FATAL_ERROR
-        "Dependency \"${dep}\" not found: could not find [${dep}] or [${dep}_LIBRARIES]"
+        "Dependency \"${dep}\" not found: could not find [${dep}] or [ITK::${dep}Module]"
       )
     endif()
   endforeach()
 
   # link to private dependencies
   foreach(dep IN LISTS ITK_MODULE_${itk-module}_PRIVATE_DEPENDS)
-    if(DEFINED ${dep}_LIBRARIES)
-      target_link_libraries(${itk-module} LINK_PRIVATE ${${dep}_LIBRARIES})
+    if(ITK_MODULE_${dep}_DECLARED)
+      target_link_libraries(${itk-module} LINK_PRIVATE ITK::${dep}Module)
     elseif(DEFINED ${dep})
       target_link_libraries(${itk-module} LINK_PRIVATE ${${dep}})
     else()
       message(
         FATAL_ERROR
-        "Dependency \"${dep}\" not found: could not find [${dep}] or [${dep}_LIBRARIES]"
+        "Dependency \"${dep}\" not found: could not find [${dep}] or [ITK::${dep}Module]"
       )
     endif()
   endforeach()
@@ -525,7 +525,7 @@ macro(itk_module_test)
   set(${itk-module-test}_LIBRARIES "")
   itk_module_use(${ITK_MODULE_${itk-module-test}_DEPENDS})
   foreach(dep IN LISTS ITK_MODULE_${itk-module-test}_DEPENDS)
-    list(APPEND ${itk-module-test}_LIBRARIES "${${dep}_LIBRARIES}")
+    list(APPEND ${itk-module-test}_LIBRARIES "ITK::${dep}Module")
   endforeach()
   set(ITK_TEST_OUTPUT_DIR "${ITK_TEST_OUTPUT_DIR}/${itk-module}")
   file(MAKE_DIRECTORY "${ITK_TEST_OUTPUT_DIR}")
