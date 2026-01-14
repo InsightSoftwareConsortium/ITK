@@ -426,6 +426,11 @@ macro(init_module_vars)
     "${ITK_INSTALL_PACKAGE_DIR}/ITKTargets.cmake"
   )
   set(${itk-module}-targets-build "${ITK_BINARY_DIR}/ITKTargets.cmake")
+
+  set(${itk-module}-targets-namespace "")
+  if(ITK_LIBRARY_NAMESPACE)
+    set(${itk-module}-targets-namespace "${ITK_LIBRARY_NAMESPACE}::")
+  endif()
 endmacro()
 
 #----------------------------------------------------------------------
@@ -435,13 +440,6 @@ foreach(_factory_name IN ITEMS ImageIO MeshIO TransformIO FFTImageFilterInit)
   set(itk-module ITK${_factory_name})
   if(NOT TARGET ${itk-module})
     add_library(${itk-module} INTERFACE)
-    set_target_properties(
-      ${itk-module}
-      PROPERTIES
-        EXPORT_NAME
-          ITK::${itk-module}
-    )
-    add_library(ITK::${itk-module} ALIAS ${itk-module})
 
     init_module_vars(${itk-module})
     set(ITK_MODULE_${itk-module}_DECLARED 1)

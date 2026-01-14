@@ -175,7 +175,7 @@ function(_itk_configure_FactoryRegisterManager factory_type formats)
 
   # These functions may be called in the ITK source ( or a fetch content sub-project ),
   # so support is needed when the namespaced meta-module target is an alias to the real target.
-  set(_meta_module ITK::ITK${factory_type})
+  set(_meta_module ${ITK_LIBRARY_NAMESPACE}::ITK${factory_type})
   get_property(
     aliased_target_name
     TARGET ${_meta_module}
