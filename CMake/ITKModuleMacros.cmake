@@ -122,14 +122,10 @@ macro(itk_module _name)
   )
   unset(ITK_MODULE_${itk-module}_COMPILE_DEPENDS)
   list(SORT ITK_MODULE_${itk-module}_DEPENDS) # Deterministic order.
-  if(ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS) # Don't sort an empty list
-    list(SORT ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS) # Deterministic order.
-  endif()
+  list(SORT ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS) # Deterministic order.
   list(SORT ITK_MODULE_${itk-module}_PRIVATE_DEPENDS) # Deterministic order.
   list(SORT ITK_MODULE_${itk-module-test}_DEPENDS) # Deterministic order.
-  if(ITK_MODULE_${itk-module}_FACTORY_NAMES) # Don't sort an empty list
-    list(SORT ITK_MODULE_${itk-module}_FACTORY_NAMES) # Deterministic order.
-  endif()
+  list(SORT ITK_MODULE_${itk-module}_FACTORY_NAMES) # Deterministic order.
 endmacro()
 
 macro(itk_module_check_name _name)
