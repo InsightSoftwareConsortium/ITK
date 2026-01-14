@@ -141,6 +141,8 @@ io_module_map = [
 # Store original count before modifying allModules
 original_module_count = len(allModules)
 
+namespace_prefix = "ITK::"
+
 # Print output based on --link option
 if use_link_command:
     # Output target_link_libraries with namespaced Module suffix
@@ -149,9 +151,9 @@ if use_link_command:
     for base_module, io_module in io_module_map:
         if base_module in allModules:
             allModules.discard(base_module)
-            print("    " + io_module)
+            print("    " + namespace_prefix + io_module)
     for module in sorted(allModules):
-        print("    " + module + "Module")
+        print("    " + namespace_prefix + module + "Module")
     print(")")
 else:
     # Original find_package output
