@@ -93,7 +93,11 @@ public:
 
   /**  Pointer to a gaussian filter.  */
   using GaussianFilterPointer = typename GaussianFilterType::Pointer;
-  using GaussianFiltersArray = std::vector<GaussianFilterPointer>;
+
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using GaussianFiltersArray [[deprecated("This type alias is deprecated from ITK 6!")]] =
+    std::vector<GaussianFilterPointer>;
+#endif
 
   /**  Pointer to a derivative filter.  */
   using DerivativeFilterAPointer = typename DerivativeFilterAType::Pointer;
