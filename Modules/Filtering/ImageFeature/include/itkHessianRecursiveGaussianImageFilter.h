@@ -23,6 +23,7 @@
 #include "itkImage.h"
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkPixelTraits.h"
+#include <array>
 
 namespace itk
 {
@@ -154,10 +155,10 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
-  GaussianFiltersArray      m_SmoothingFilters{};
-  DerivativeFilterAPointer  m_DerivativeFilterA{};
-  DerivativeFilterBPointer  m_DerivativeFilterB{};
-  OutputImageAdaptorPointer m_ImageAdaptor{};
+  std::array<GaussianFilterPointer, NumberOfSmoothingFilters> m_SmoothingFilters{};
+  DerivativeFilterAPointer                                    m_DerivativeFilterA{};
+  DerivativeFilterBPointer                                    m_DerivativeFilterB{};
+  OutputImageAdaptorPointer                                   m_ImageAdaptor{};
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale{};

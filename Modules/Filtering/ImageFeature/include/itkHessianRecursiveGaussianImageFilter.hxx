@@ -20,6 +20,7 @@
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressAccumulator.h"
+#include <algorithm> // For generate.
 
 namespace itk
 {
@@ -31,15 +32,14 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::HessianRecursive
   // note: this is not constant to suppress a warning
   const unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
 
-  for (unsigned int i = 0; i < numberOfSmoothingFilters; ++i)
-  {
+  std::generate(m_SmoothingFilters.begin(), m_SmoothingFilters.end(), [this] {
     const GaussianFilterPointer filter = GaussianFilterType::New();
     filter->SetOrder(GaussianOrderEnum::ZeroOrder);
     filter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
     filter->InPlaceOn();
     filter->ReleaseDataFlagOn();
-    m_SmoothingFilters.push_back(filter);
-  }
+    return filter;
+  });
 
   m_DerivativeFilterA = DerivativeFilterAType::New();
   m_DerivativeFilterB = DerivativeFilterBType::New();
