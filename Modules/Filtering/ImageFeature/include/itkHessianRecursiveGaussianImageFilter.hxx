@@ -80,11 +80,9 @@ template <typename TInputImage, typename TOutputImage>
 void
 HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigma(RealType sigma)
 {
-  const unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
-
-  for (unsigned int i = 0; i < numberOfSmoothingFilters; ++i)
+  for (const auto & filter : m_SmoothingFilters)
   {
-    m_SmoothingFilters[i]->SetSigma(sigma);
+    filter->SetSigma(sigma);
   }
   m_DerivativeFilterA->SetSigma(sigma);
   m_DerivativeFilterB->SetSigma(sigma);
@@ -168,9 +166,9 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   // note: this is not constant to suppress a warning
   const unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
 
-  for (unsigned int i = 0; i < numberOfSmoothingFilters; ++i)
+  for (const auto & filter : m_SmoothingFilters)
   {
-    progress->RegisterInternalFilter(m_SmoothingFilters[i], weight);
+    progress->RegisterInternalFilter(filter, weight);
   }
   progress->RegisterInternalFilter(m_DerivativeFilterA, weight);
   progress->RegisterInternalFilter(m_DerivativeFilterB, weight);

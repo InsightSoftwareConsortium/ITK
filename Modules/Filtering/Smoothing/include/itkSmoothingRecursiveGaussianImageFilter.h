@@ -24,6 +24,7 @@
 #include "itkImage.h"
 #include "itkPixelTraits.h"
 #include "itkCommand.h"
+#include <array>
 
 namespace itk
 {
@@ -167,9 +168,9 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
-  InternalGaussianFilterPointer m_SmoothingFilters[ImageDimension - 1]{};
-  FirstGaussianFilterPointer    m_FirstSmoothingFilter{};
-  CastingFilterPointer          m_CastingFilter{};
+  std::array<InternalGaussianFilterPointer, ImageDimension - 1> m_SmoothingFilters{};
+  FirstGaussianFilterPointer                                    m_FirstSmoothingFilter{};
+  CastingFilterPointer                                          m_CastingFilter{};
 
   bool m_NormalizeAcrossScale{ false };
 

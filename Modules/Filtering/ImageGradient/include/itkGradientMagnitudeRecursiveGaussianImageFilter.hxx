@@ -21,6 +21,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkProgressAccumulator.h"
 #include "itkMath.h"
+#include <algorithm> // For generate.
 
 namespace itk
 {
@@ -36,13 +37,13 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,
   m_DerivativeFilter->InPlaceOff();
   m_DerivativeFilter->ReleaseDataFlagOn();
 
-  for (unsigned int i = 0; i < ImageDimension - 1; ++i)
-  {
-    m_SmoothingFilters[i] = GaussianFilterType::New();
-    m_SmoothingFilters[i]->SetOrder(GaussianOrderEnum::ZeroOrder);
-    m_SmoothingFilters[i]->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
-    m_SmoothingFilters[i]->InPlaceOn();
-  }
+  std::generate(m_SmoothingFilters.begin(), m_SmoothingFilters.end(), [this] {
+    const GaussianFilterPointer filter = GaussianFilterType::New();
+    filter->SetOrder(GaussianOrderEnum::ZeroOrder);
+    filter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
+    filter->InPlaceOn();
+    return filter;
+  });
 
   m_SmoothingFilters[0]->SetInput(m_DerivativeFilter->GetOutput());
   for (unsigned int i = 1; i < ImageDimension - 1; ++i)
@@ -89,9 +90,9 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSig
 {
   if (Math::NotExactlyEquals(sigma, this->GetSigma()))
   {
-    for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+    for (const auto & filter : m_SmoothingFilters)
     {
-      m_SmoothingFilters[i]->SetSigma(sigma);
+      filter->SetSigma(sigma);
     }
     m_DerivativeFilter->SetSigma(sigma);
 
@@ -112,9 +113,9 @@ void
 GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNumberOfWorkUnits(ThreadIdType nb)
 {
   Superclass::SetNumberOfWorkUnits(nb);
-  for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+  for (const auto & filter : m_SmoothingFilters)
   {
-    m_SmoothingFilters[i]->SetNumberOfWorkUnits(nb);
+    filter->SetNumberOfWorkUnits(nb);
   }
   m_DerivativeFilter->SetNumberOfWorkUnits(nb);
   m_SqrSpacingFilter->SetNumberOfWorkUnits(nb);
@@ -129,9 +130,9 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNor
   {
     m_NormalizeAcrossScale = normalize;
 
-    for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+    for (const auto & filter : m_SmoothingFilters)
     {
-      m_SmoothingFilters[i]->SetNormalizeAcrossScale(normalize);
+      filter->SetNormalizeAcrossScale(normalize);
     }
     m_DerivativeFilter->SetNormalizeAcrossScale(normalize);
 
@@ -211,9 +212,9 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::Genera
 
   const unsigned int numberOfFilterRuns = 1 + ImageDimension * (ImageDimension + 1);
   progress->RegisterInternalFilter(m_DerivativeFilter, 1.0f / numberOfFilterRuns);
-  for (unsigned int k = 0; k < ImageDimension - 1; ++k)
+  for (const auto & filter : m_SmoothingFilters)
   {
-    progress->RegisterInternalFilter(m_SmoothingFilters[k], 1.0f / numberOfFilterRuns);
+    progress->RegisterInternalFilter(filter, 1.0f / numberOfFilterRuns);
   }
   progress->RegisterInternalFilter(m_SqrSpacingFilter, 1.0f / numberOfFilterRuns);
   progress->RegisterInternalFilter(m_SqrtFilter, 1.0f / numberOfFilterRuns);

@@ -22,6 +22,7 @@
 #include "itkProgressAccumulator.h"
 #include "itkCastImageFilter.h"
 #include "itkBinaryGeneratorImageFilter.h"
+#include <algorithm> // For generate.
 
 namespace itk
 {
@@ -30,14 +31,14 @@ template <typename TInputImage, typename TOutputImage>
 LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::LaplacianRecursiveGaussianImageFilter()
 
 {
-  for (unsigned int i = 0; i < NumberOfSmoothingFilters; ++i)
-  {
-    m_SmoothingFilters[i] = GaussianFilterType::New();
-    m_SmoothingFilters[i]->SetOrder(GaussianOrderEnum::ZeroOrder);
-    m_SmoothingFilters[i]->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
-    m_SmoothingFilters[i]->ReleaseDataFlagOn();
-    m_SmoothingFilters[i]->InPlaceOn();
-  }
+  std::generate(m_SmoothingFilters.begin(), m_SmoothingFilters.end(), [this] {
+    const GaussianFilterPointer filter = GaussianFilterType::New();
+    filter->SetOrder(GaussianOrderEnum::ZeroOrder);
+    filter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
+    filter->ReleaseDataFlagOn();
+    filter->InPlaceOn();
+    return filter;
+  });
 
   m_DerivativeFilter = DerivativeFilterType::New();
   m_DerivativeFilter->SetOrder(GaussianOrderEnum::SecondOrder);
@@ -64,9 +65,9 @@ template <typename TInputImage, typename TOutputImage>
 void
 LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigma(RealType sigma)
 {
-  for (unsigned int i = 0; i < NumberOfSmoothingFilters; ++i)
+  for (const auto & filter : m_SmoothingFilters)
   {
-    m_SmoothingFilters[i]->SetSigma(sigma);
+    filter->SetSigma(sigma);
   }
   m_DerivativeFilter->SetSigma(sigma);
 
@@ -86,9 +87,9 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNormalizeAc
 {
   m_NormalizeAcrossScale = normalize;
 
-  for (unsigned int i = 0; i < NumberOfSmoothingFilters; ++i)
+  for (const auto & filter : m_SmoothingFilters)
   {
-    m_SmoothingFilters[i]->SetNormalizeAcrossScale(normalize);
+    filter->SetNormalizeAcrossScale(normalize);
   }
   m_DerivativeFilter->SetNormalizeAcrossScale(normalize);
 
@@ -113,10 +114,9 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   itkDebugMacro("LaplacianRecursiveGaussianImageFilter generating data ");
 
-  // Set the number of threads on all the filters
-  for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+  for (const auto & filter : m_SmoothingFilters)
   {
-    m_SmoothingFilters[i]->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
+    filter->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   }
   m_DerivativeFilter->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
 
@@ -128,9 +128,9 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   const unsigned int numberOfFilters = (ImageDimension * ImageDimension) + ImageDimension + 1;
 
   // register (most) filters with the progress accumulator
-  for (unsigned int i = 0; i < NumberOfSmoothingFilters; ++i)
+  for (const auto & filter : m_SmoothingFilters)
   {
-    progress->RegisterInternalFilter(m_SmoothingFilters[i], 1.0 / numberOfFilters);
+    progress->RegisterInternalFilter(filter, 1.0 / numberOfFilters);
   }
   progress->RegisterInternalFilter(m_DerivativeFilter, 1.0 / numberOfFilters);
 
