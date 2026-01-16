@@ -21,6 +21,7 @@
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkImage.h"
 #include "itkCommand.h"
+#include <array>
 
 namespace itk
 {
@@ -129,8 +130,8 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
-  GaussianFilterPointer   m_SmoothingFilters[NumberOfSmoothingFilters]{};
-  DerivativeFilterPointer m_DerivativeFilter{};
+  std::array<GaussianFilterPointer, NumberOfSmoothingFilters> m_SmoothingFilters{};
+  DerivativeFilterPointer                                     m_DerivativeFilter{};
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale{};
