@@ -90,9 +90,9 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSig
 {
   if (Math::NotExactlyEquals(sigma, this->GetSigma()))
   {
-    for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+    for (const auto & filter : m_SmoothingFilters)
     {
-      m_SmoothingFilters[i]->SetSigma(sigma);
+      filter->SetSigma(sigma);
     }
     m_DerivativeFilter->SetSigma(sigma);
 
@@ -113,9 +113,9 @@ void
 GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNumberOfWorkUnits(ThreadIdType nb)
 {
   Superclass::SetNumberOfWorkUnits(nb);
-  for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+  for (const auto & filter : m_SmoothingFilters)
   {
-    m_SmoothingFilters[i]->SetNumberOfWorkUnits(nb);
+    filter->SetNumberOfWorkUnits(nb);
   }
   m_DerivativeFilter->SetNumberOfWorkUnits(nb);
   m_SqrSpacingFilter->SetNumberOfWorkUnits(nb);
@@ -130,9 +130,9 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNor
   {
     m_NormalizeAcrossScale = normalize;
 
-    for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+    for (const auto & filter : m_SmoothingFilters)
     {
-      m_SmoothingFilters[i]->SetNormalizeAcrossScale(normalize);
+      filter->SetNormalizeAcrossScale(normalize);
     }
     m_DerivativeFilter->SetNormalizeAcrossScale(normalize);
 
@@ -212,9 +212,9 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::Genera
 
   const unsigned int numberOfFilterRuns = 1 + ImageDimension * (ImageDimension + 1);
   progress->RegisterInternalFilter(m_DerivativeFilter, 1.0f / numberOfFilterRuns);
-  for (unsigned int k = 0; k < ImageDimension - 1; ++k)
+  for (const auto & filter : m_SmoothingFilters)
   {
-    progress->RegisterInternalFilter(m_SmoothingFilters[k], 1.0f / numberOfFilterRuns);
+    progress->RegisterInternalFilter(filter, 1.0f / numberOfFilterRuns);
   }
   progress->RegisterInternalFilter(m_SqrSpacingFilter, 1.0f / numberOfFilterRuns);
   progress->RegisterInternalFilter(m_SqrtFilter, 1.0f / numberOfFilterRuns);

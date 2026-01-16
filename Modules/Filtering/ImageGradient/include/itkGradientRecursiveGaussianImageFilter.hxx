@@ -118,11 +118,9 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNormalizeAcr
 {
   m_NormalizeAcrossScale = normalize;
 
-  static_assert(ImageDimension > 0, "Images shall have one dimension at least");
-  const unsigned int imageDimensionMinus1 = ImageDimension - 1;
-  for (unsigned int i = 0; i != imageDimensionMinus1; ++i)
+  for (const auto & filter : m_SmoothingFilters)
   {
-    m_SmoothingFilters[i]->SetNormalizeAcrossScale(normalize);
+    filter->SetNormalizeAcrossScale(normalize);
   }
   m_DerivativeFilter->SetNormalizeAcrossScale(normalize);
 
@@ -174,9 +172,9 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   const unsigned int imageDimensionMinus1 = ImageDimension - 1;
   if constexpr (ImageDimension > 1)
   {
-    for (unsigned int i = 0; i != imageDimensionMinus1; ++i)
+    for (const auto & filter : m_SmoothingFilters)
     {
-      progress->RegisterInternalFilter(m_SmoothingFilters[i], weight);
+      progress->RegisterInternalFilter(filter, weight);
     }
   }
 
