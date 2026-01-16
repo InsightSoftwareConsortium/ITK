@@ -6,7 +6,7 @@ set(
 itk_module(
   ITKDenoising
   ENABLE_SHARED
-  COMPILE_DEPENDS
+  DEPENDS
     ITKImageAdaptors
     ITKImageGrid
     ITKImageStatistics
