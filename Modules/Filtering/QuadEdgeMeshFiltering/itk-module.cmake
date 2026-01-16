@@ -14,7 +14,6 @@ itk_module(
   ENABLE_SHARED
   DEPENDS
     ITKMesh
-  COMPILE_DEPENDS
     ITKQuadEdgeMesh
   TEST_DEPENDS
     ITKTestKernel

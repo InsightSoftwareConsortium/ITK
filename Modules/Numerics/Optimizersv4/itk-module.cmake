@@ -12,11 +12,11 @@ itk_module(
   DEPENDS
     ITKOptimizers
     ITKLIBLBFGS
-  COMPILE_DEPENDS
-    ITKCommon
     ITKTransform
     ITKImageGrid
     ITKDisplacementField
+  COMPILE_DEPENDS
+    ITKCommon
   TEST_DEPENDS
     ITKTestKernel
     ITKMetricsv4

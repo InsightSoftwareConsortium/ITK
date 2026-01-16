@@ -9,7 +9,7 @@ operations on the fly."
 
 itk_module(
   ITKImageAdaptors
-  PRIVATE_DEPENDS
+  COMPILE_DEPENDS
     ITKCommon
   TEST_DEPENDS
     ITKTestKernel

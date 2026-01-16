@@ -8,7 +8,8 @@ computes a tensor image from a set of gradient images."
 itk_module(
   ITKDiffusionTensorImage
   ENABLE_SHARED
-  COMPILE_DEPENDS
+  DEPENDS
+    ITKCommon
     ITKSpatialObjects
   TEST_DEPENDS
     ITKTestKernel

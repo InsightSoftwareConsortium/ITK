@@ -8,11 +8,13 @@ interesting to look at the \\\\ref ITKAnisotropicSmoothing group of filters."
 itk_module(
   ITKSmoothing
   ENABLE_SHARED
-  COMPILE_DEPENDS
+  DEPENDS
+    ITKCommon
     ITKConvolution
+    ITKImageSources
+  COMPILE_DEPENDS
     ITKFFT
     ITKImageFunction
-    ITKImageSources
   TEST_DEPENDS
     ITKConvolution
     ITKTestKernel
