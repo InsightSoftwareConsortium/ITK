@@ -22,6 +22,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkPrintHelper.h"
+#include <algorithm> // For generate.
 
 namespace itk
 {
@@ -34,16 +35,14 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GradientRecursi
   const unsigned int imageDimensionMinus1 = ImageDimension - 1;
   if constexpr (ImageDimension > 1)
   {
-    m_SmoothingFilters.resize(imageDimensionMinus1);
-
-    for (unsigned int i = 0; i != imageDimensionMinus1; ++i)
-    {
-      m_SmoothingFilters[i] = GaussianFilterType::New();
-      m_SmoothingFilters[i]->SetOrder(GaussianOrderEnum::ZeroOrder);
-      m_SmoothingFilters[i]->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
-      m_SmoothingFilters[i]->InPlaceOn();
-      m_SmoothingFilters[i]->ReleaseDataFlagOn();
-    }
+    std::generate(m_SmoothingFilters.begin(), m_SmoothingFilters.end(), [this] {
+      const GaussianFilterPointer filter = GaussianFilterType::New();
+      filter->SetOrder(GaussianOrderEnum::ZeroOrder);
+      filter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
+      filter->InPlaceOn();
+      filter->ReleaseDataFlagOn();
+      return filter;
+    });
   }
 
   m_DerivativeFilter = DerivativeFilterType::New();

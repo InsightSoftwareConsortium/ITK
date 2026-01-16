@@ -23,6 +23,7 @@
 #include "itkImage.h"
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkPixelTraits.h"
+#include <array>
 
 namespace itk
 {
@@ -92,7 +93,11 @@ public:
 
   /**  Pointer to a gaussian filter.  */
   using GaussianFilterPointer = typename GaussianFilterType::Pointer;
-  using GaussianFiltersArray = std::vector<GaussianFilterPointer>;
+
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using GaussianFiltersArray [[deprecated("This type alias is deprecated from ITK 6!")]] =
+    std::vector<GaussianFilterPointer>;
+#endif
 
   /**  Pointer to a derivative filter.  */
   using DerivativeFilterAPointer = typename DerivativeFilterAType::Pointer;
@@ -154,10 +159,10 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
-  GaussianFiltersArray      m_SmoothingFilters{};
-  DerivativeFilterAPointer  m_DerivativeFilterA{};
-  DerivativeFilterBPointer  m_DerivativeFilterB{};
-  OutputImageAdaptorPointer m_ImageAdaptor{};
+  std::array<GaussianFilterPointer, NumberOfSmoothingFilters> m_SmoothingFilters{};
+  DerivativeFilterAPointer                                    m_DerivativeFilterA{};
+  DerivativeFilterBPointer                                    m_DerivativeFilterB{};
+  OutputImageAdaptorPointer                                   m_ImageAdaptor{};
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale{};

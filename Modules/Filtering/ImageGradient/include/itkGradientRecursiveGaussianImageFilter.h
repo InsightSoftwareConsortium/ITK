@@ -26,7 +26,7 @@
 #include "itkProgressAccumulator.h"
 #include "itkImageRegionIterator.h"
 #include "itkVectorImage.h"
-#include <vector>
+#include <array>
 
 namespace itk
 {
@@ -246,9 +246,9 @@ private:
   }
 
 
-  std::vector<GaussianFilterPointer> m_SmoothingFilters{};
-  DerivativeFilterPointer            m_DerivativeFilter{};
-  OutputImageAdaptorPointer          m_ImageAdaptor{};
+  std::array<GaussianFilterPointer, ImageDimension - 1> m_SmoothingFilters{};
+  DerivativeFilterPointer                               m_DerivativeFilter{};
+  OutputImageAdaptorPointer                             m_ImageAdaptor{};
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale{};

@@ -19,6 +19,7 @@
 #ifndef itkPrintHelper_h
 #define itkPrintHelper_h
 
+#include <array>
 #include <iostream>
 #include <iterator>
 #include <list>
@@ -64,6 +65,22 @@ operator<<(std::ostream & os, const std::list<T> & l)
   os << '[';
   std::copy(l.begin(), std::prev(l.end()), std::ostream_iterator<T>(os, ", "));
   return os << l.back() << ']';
+}
+
+template <typename T, size_t VLength>
+std::ostream &
+operator<<(std::ostream & os, [[maybe_unused]] const std::array<T, VLength> & container)
+{
+  if constexpr (VLength == 0)
+  {
+    return os << "()";
+  }
+  else
+  {
+    os << '(';
+    std::copy(container.cbegin(), std::prev(container.cend()), std::ostream_iterator<T>(os, ", "));
+    return os << container.back() << ')';
+  }
 }
 
 // Stream insertion operator for C-style arrays, excluding character arrays (strings)
