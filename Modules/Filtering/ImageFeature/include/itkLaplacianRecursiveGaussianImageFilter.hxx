@@ -22,6 +22,7 @@
 #include "itkProgressAccumulator.h"
 #include "itkCastImageFilter.h"
 #include "itkBinaryGeneratorImageFilter.h"
+#include <algorithm> // For generate.
 
 namespace itk
 {
@@ -30,14 +31,14 @@ template <typename TInputImage, typename TOutputImage>
 LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::LaplacianRecursiveGaussianImageFilter()
 
 {
-  for (unsigned int i = 0; i < NumberOfSmoothingFilters; ++i)
-  {
-    m_SmoothingFilters[i] = GaussianFilterType::New();
-    m_SmoothingFilters[i]->SetOrder(GaussianOrderEnum::ZeroOrder);
-    m_SmoothingFilters[i]->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
-    m_SmoothingFilters[i]->ReleaseDataFlagOn();
-    m_SmoothingFilters[i]->InPlaceOn();
-  }
+  std::generate(m_SmoothingFilters.begin(), m_SmoothingFilters.end(), [this] {
+    const GaussianFilterPointer filter = GaussianFilterType::New();
+    filter->SetOrder(GaussianOrderEnum::ZeroOrder);
+    filter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
+    filter->ReleaseDataFlagOn();
+    filter->InPlaceOn();
+    return filter;
+  });
 
   m_DerivativeFilter = DerivativeFilterType::New();
   m_DerivativeFilter->SetOrder(GaussianOrderEnum::SecondOrder);
