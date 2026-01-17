@@ -22,6 +22,7 @@
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
 #include "itkFloatingPointExceptions.h"
+#include "itkNumericLocale.h"
 
 #include <sstream>
 
@@ -394,6 +395,12 @@ NrrdImageIO::ReadImageInformation()
       saveFPEState = FloatingPointExceptions::GetEnabled();
       FloatingPointExceptions::Disable();
     }
+
+    // Set LC_NUMERIC to "C" locale to ensure locale-independent parsing
+    // of floating-point values in NRRD headers (spacing, origin, direction, etc.).
+    // This prevents issues in locales that use comma as decimal separator.
+    // Using thread-safe NumericLocale from ITKCommon.
+    NumericLocale cLocale;
 
     // this is the mechanism by which we tell nrrdLoad to read
     // just the header, and none of the data
@@ -923,6 +930,11 @@ NrrdImageIO::Read(void * buffer)
   FloatingPointExceptions::Disable();
 #endif
 
+  // Set LC_NUMERIC to "C" locale to ensure locale-independent parsing
+  // of floating-point values in NRRD headers.
+  // Using thread-safe NumericLocale from ITKCommon.
+  NumericLocale cLocale;
+
   // Read in the nrrd.  Yes, this means that the header is being read
   // twice: once by NrrdImageIO::ReadImageInformation, and once here
   if (nrrdLoad(nrrd, this->GetFileName(), nullptr) != 0)
@@ -1337,6 +1349,11 @@ NrrdImageIO::Write(const void * buffer)
       nio->endian = airEndianLittle;
       break;
   }
+
+  // Set LC_NUMERIC to "C" locale to ensure locale-independent formatting
+  // of floating-point values when writing NRRD headers.
+  // Using thread-safe NumericLocale from ITKCommon.
+  NumericLocale cLocale;
 
   // Write the nrrd to file.
   if (nrrdSave(this->GetFileName(), nrrd, nio))

@@ -33,4 +33,9 @@
 // defined if fenv_t struct as __cw member
 #cmakedefine ITK_HAS_STRUCT_FENV_T_CW
 
+// defined if newlocale/uselocale are available (POSIX thread-local locale)
+#cmakedefine ITK_HAS_NEWLOCALE
+// defined if _configthreadlocale is available (Windows thread-local locale)
+#cmakedefine ITK_HAS_CONFIGTHREADLOCALE
+
 #endif //itkConfigurePrivate_h
