@@ -35,10 +35,17 @@
 # No need to copy Teem's use of 3.25 because we don't need "try_compile" since
 # here the AIR_EXISTS macro always expands into a airExists() function call.
 # 3.12 improved find_package() (including its use for ZLIB and BZip2).
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.12...3.31)
 project(NrrdIO
         DESCRIPTION "NrrdIO: C library for NRRD file IO (with optional compressions)"
         LANGUAGES C)
+
+# Set NRRDIO_PREFIX manually when configuring with cmake
+# so that the generated library does not conflict with the
+# public name of the Teem library. By default this variable
+# is empty and the library name defaults to the project name
+# of NrrdIO.
+set(NRRDIO_LIBRARY_NAME ${NRRDIO_PREFIX}${PROJECT_NAME})
 
 set(nrrdio_SRCS
     754.c
@@ -90,11 +97,18 @@ set(nrrdio_SRCS
 # the proper dll export def's are used.
 add_definitions(-DTEEM_BUILD=1)
 
-set(NRRDIO_COMPRESSION_LIBRARIES "")
+if ( NOT "${NRRDIO_PREFIX}" STREQUAL "ITK" ) # <-- ITK START_REMOVE
+
+# Configure (and learn how to find) NrrdIO.h
+configure_file(${NrrdIO_SOURCE_DIR}/NrrdIO.h.in ${NrrdIO_BINARY_DIR}/NrrdIO.h)
+include_directories( ${NrrdIO_BINARY_DIR} )
+
+## Override configuring zlib in ../CMakeLists.txt
+
 option(NRRDIO_USE_ZLIB "Enable support for ZLIB compression" ON)
 if(NRRDIO_USE_ZLIB)
   # Possibly turn on usage of zlib compression (requires linking with libz)
-  # (i.e., programs compiled with ITKNrrdIO must also be compiled with zlib)
+  # (i.e., programs compiled with ${NRRDIO_LIBRARY_NAME}NrrdIO must also be compiled with zlib)
   add_definitions(-DTEEM_ZLIB=1)
   find_package(ZLIB)
   list(APPEND NRRDIO_COMPRESSION_LIBRARIES ZLIB::ZLIB)
@@ -103,21 +117,50 @@ endif()
 option(NRRDIO_USE_BZIP2 "Enable support for BZIP2 compression" OFF)
 if(NRRDIO_USE_BZIP2)
   # Possibly turn on usage of bzip2 compression (requires linking with bz2)
-  # (i.e., programs compiled with ITKNrrdIO must also be compiled with bz2)
+  # (i.e., programs compiled with ${NRRDIO_LIBRARY_NAME}NrrdIO must also be compiled with bz2)
   add_definitions(-DTEEM_BZIP2=1)
   find_package(BZip2)
   list(APPEND NRRDIO_COMPRESSION_LIBRARIES BZip2::BZip2)
 endif()
 
 # Build the library
-add_library(NrrdIO ${nrrdio_SRCS} )
-
+add_library(${NRRDIO_LIBRARY_NAME} ${nrrdio_SRCS} )
 # Link optional compression libs
 if(NRRDIO_USE_ZLIB OR NRRDIO_USE_BZIP2)
-  target_link_libraries(NrrdIO PRIVATE ${NRRDIO_COMPRESSION_LIBRARIES})
+  target_link_libraries(${NRRDIO_LIBRARY_NAME} PRIVATE ${NRRDIO_COMPRESSION_LIBRARIES})
 endif()
 
+else() # <-- ITK START_REPLACE
 ## These are ITK-specific
-#target_link_libraries(NrrdIO ${ITK_ZLIB_LIBRARIES} )
-#install_targets(/lib/InsightToolkit ITKNrrdIO)
-#install_files(/include/InsightToolkit/Utilities/NrrdIO "(\\.h)$")
+  # Build the library
+  add_library(${NRRDIO_LIBRARY_NAME} ${nrrdio_SRCS} )
+  target_link_libraries(${NRRDIO_LIBRARY_NAME} PRIVATE ${NRRDIO_COMPRESSION_LIBRARIES})
+  if(NOT BUILD_SHARED_LIBS)
+   set(TEEM_STATIC 1)
+  endif()
+
+  set(MANGLE_PREFIX itk)
+  configure_file(${NrrdIO_SOURCE_DIR}/itk_NrrdIO_mangle.h.in
+    ${NrrdIO_BINARY_DIR}/itk_NrrdIO_mangle.h
+    @ONLY
+  )
+
+  if(ITK_LIBRARY_PROPERTIES)
+    set_target_properties(${NRRDIO_LIBRARY_NAME} PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+  endif()
+
+  install(TARGETS ${NRRDIO_LIBRARY_NAME}
+    EXPORT ${ITK3P_INSTALL_EXPORT_NAME}
+    RUNTIME DESTINATION ${ITK3P_INSTALL_RUNTIME_DIR} COMPONENT RuntimeLibraries
+    LIBRARY DESTINATION ${ITK3P_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
+    ARCHIVE DESTINATION ${ITK3P_INSTALL_ARCHIVE_DIR} COMPONENT Development
+    )
+
+  install(FILES ${NrrdIO_BINARY_DIR}/NrrdIO.h ${NrrdIO_BINARY_DIR}/itk_NrrdIO_mangle.h
+    DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR} # TODO: itk_NrrdIO.h #include "itkNrrdIO/NrrdIO.h"
+    COMPONENT Development)
+
+  if(CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-strict-aliasing")
+  endif()
+endif() # <-- ITK END_REPLACE
