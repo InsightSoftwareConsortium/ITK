@@ -998,6 +998,7 @@ itk_add_test(
 )
 
 add_executable(itkUnicodeIOTest itkUnicodeIOTest.cxx)
+target_link_libraries(itkUnicodeIOTest ${ITKIOImageBase-Test_LIBRARIES})
 itk_module_target_label(itkUnicodeIOTest)
 itk_add_test(NAME itkUnicodeIOTest COMMAND itkUnicodeIOTest)
 
