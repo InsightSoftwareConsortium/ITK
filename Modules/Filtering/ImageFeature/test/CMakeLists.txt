@@ -553,3 +553,7 @@ itk_add_test(
     0
     ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput2.mha
 )
+
+set(ITKImageFeatureGTests itkSobelEdgeDetectionImageFilterGTest.cxx)
+
+creategoogletestdriver(ITKImageFeature "${ITKImageFeature-Test_LIBRARIES}" "${ITKImageFeatureGTests}")

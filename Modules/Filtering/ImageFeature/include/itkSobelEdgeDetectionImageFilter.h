@@ -108,6 +108,12 @@ public:
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
   itkConceptMacro(OutputPixelIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputPixelType>));
 
+  /** Set/Get whether to use the legacy Sobel operator coefficients (compatible with ITK <= 5.4). True by default.
+   * \sa SobelOperator::SetUseLegacyCoefficients */
+  itkSetMacro(UseLegacyOperatorCoefficients, bool);
+  itkGetConstReferenceMacro(UseLegacyOperatorCoefficients, bool);
+  itkBooleanMacro(UseLegacyOperatorCoefficients);
+
 protected:
   SobelEdgeDetectionImageFilter() = default;
   ~SobelEdgeDetectionImageFilter() override = default;
@@ -127,6 +133,9 @@ protected:
   {
     Superclass::PrintSelf(os, indent);
   }
+
+private:
+  bool m_UseLegacyOperatorCoefficients{ true };
 };
 } // end namespace itk
 
