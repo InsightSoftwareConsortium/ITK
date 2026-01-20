@@ -13,11 +13,11 @@ itk_module(
   DEPENDS
     ITKTransform
   PRIVATE_DEPENDS
-    ITKMesh
     ITKCommon
   COMPILE_DEPENDS
     ITKImageFunction
     ITKMetaIO
+    ITKMesh
   TEST_DEPENDS
     ITKTestKernel
     ITKMetaIO
