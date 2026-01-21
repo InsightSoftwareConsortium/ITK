@@ -220,7 +220,7 @@ target_link_options(
     "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>"
 )
 itk_module_target_label(itkMathTest)
-target_link_libraries(itkMathTest LINK_PUBLIC ${ITKCommon_LIBRARIES})
+target_link_libraries(itkMathTest LINK_PUBLIC ${ITKCommon-Test_LIBRARIES})
 itk_add_test(NAME itkMathTest COMMAND itkMathTest)
 
 add_executable(itkSystemInformation itkSystemInformation.cxx)
@@ -230,7 +230,11 @@ target_link_options(
     "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>"
 )
 itk_module_target_label(itkSystemInformation)
-target_link_libraries(itkSystemInformation LINK_PUBLIC ${ITKCommon_LIBRARIES})
+target_link_libraries(
+  itkSystemInformation
+  LINK_PUBLIC
+    ${ITKCommon-Test_LIBRARIES}
+)
 itk_add_test(NAME SystemInformation COMMAND itkSystemInformation)
 
 itk_add_test(
@@ -245,7 +249,7 @@ if(ITK_BUILD_SHARED_LIBS)
   set(FactoryTest_Source itkFactoryTestLib.cxx)
   add_library(FactoryTestLib MODULE ${FactoryTest_Source})
   itk_module_target_label(FactoryTestLib)
-  target_link_libraries(FactoryTestLib LINK_PUBLIC ${ITKCommon_LIBRARIES})
+  target_link_libraries(FactoryTestLib LINK_PUBLIC ${ITKCommon-Test_LIBRARIES})
   set_property(
     TARGET
       FactoryTestLib
@@ -1692,6 +1696,7 @@ if("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin|Linux")
 endif()
 
 add_executable(itkCMakeConfigurationTest itkCMakeConfigurationTest.cxx)
+target_link_libraries(itkCMakeConfigurationTest ${ITKCommon-Test_LIBRARIES})
 itk_module_target_label(itkCMakeConfigurationTest)
 itk_add_test(
   NAME itkCMakeConfigurationTest
@@ -1801,7 +1806,7 @@ if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
     target_link_libraries(
       ClientTestLibrary${_name}
       LINK_PUBLIC
-        ${ITKCommon_LIBRARIES}
+        ${ITKCommon-Test_LIBRARIES}
     )
     set_property(
       TARGET
@@ -1931,7 +1936,7 @@ if(
     target_link_libraries(
       SharedTestLibrary${_name}
       LINK_PUBLIC
-        ${ITKCommon_LIBRARIES}
+        ${ITKCommon-Test_LIBRARIES}
     )
     set_property(
       TARGET

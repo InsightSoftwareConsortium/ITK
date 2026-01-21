@@ -75,10 +75,9 @@ With those criteria in mind the following choices were made:
 itk_module(
   ITKQuadEdgeMesh
   ENABLE_SHARED
-  PRIVATE_DEPENDS
-    ITKMesh
   COMPILE_DEPENDS
     ITKCommon
+    ITKMesh
   TEST_DEPENDS
     ITKTestKernel
     ITKMesh
