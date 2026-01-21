@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2026  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -26,81 +26,70 @@
 #include "NrrdIO.h"
 #include "privateNrrd.h"
 
-int
+static int
 _nrrdFormatVTK_available(void) {
 
   return AIR_FALSE;
 }
 
-int
+static int
 _nrrdFormatVTK_nameLooksLike(const char *fname) {
 
   return airEndsWith(fname, NRRD_EXT_VTK);
 }
 
-int
-_nrrdFormatVTK_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
-                        int useBiff) {
-  char me[]="_nrrdFormatVTK_fitsInto", err[AIR_STRLEN_MED];
+static int /* Biff: maybe:3:AIR_FALSE */
+_nrrdFormatVTK_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding, int useBiff) {
+  static const char me[] = "_nrrdFormatVTK_fitsInto";
 
   AIR_UNUSED(nrrd);
   AIR_UNUSED(encoding);
   AIR_UNUSED(useBiff);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatVTK->name);
-  biffMaybeAdd(NRRD, err, useBiff);
+  biffMaybeAddf(useBiff, NRRD, "%s: Sorry, %s format not available in NrrdIO", me,
+                nrrdFormatVTK->name);
   return AIR_FALSE;
-
 }
 
-int
+static int
 _nrrdFormatVTK_contentStartsLike(NrrdIoState *nio) {
 
   AIR_UNUSED(nio);
   return AIR_FALSE;
-
 }
 
-int
+static int /* Biff: 1 */
 _nrrdFormatVTK_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
-  char me[]="_nrrdReadVTK", err[AIR_STRLEN_MED];
+  static const char me[] = "_nrrdFormatVTK_read";
 
   AIR_UNUSED(file);
   AIR_UNUSED(nrrd);
   AIR_UNUSED(nio);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatVTK->name);
-  biffAdd(NRRD, err);
+  biffAddf(NRRD, "%s: Sorry, %s format not available in NrrdIO", me,
+           nrrdFormatVTK->name);
   return 1;
 }
 
 /* this strongly assumes that nrrdFitsInFormat() was true */
-int
-_nrrdFormatVTK_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
-  char me[]="_nrrdFormatVTK_write", err[AIR_STRLEN_MED];
+static int /* Biff: 1 */
+_nrrdFormatVTK_write(FILE *file, const Nrrd *_nrrd, NrrdIoState *nio) {
+  static const char me[] = "_nrrdFormatVTK_write";
 
   AIR_UNUSED(file);
-  AIR_UNUSED(nrrd);
+  AIR_UNUSED(_nrrd);
   AIR_UNUSED(nio);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatVTK->name);
-  biffAdd(NRRD, err);
+  biffAddf(NRRD, "%s: Sorry, %s format not available in NrrdIO", me,
+           nrrdFormatVTK->name);
   return 1;
 }
 
-const NrrdFormat
-_nrrdFormatVTK = {
-  "VTK",
-  AIR_FALSE,  /* isImage */
-  AIR_FALSE,  /* readable */
-  AIR_FALSE,  /* usesDIO */
-  _nrrdFormatVTK_available,
-  _nrrdFormatVTK_nameLooksLike,
-  _nrrdFormatVTK_fitsInto,
-  _nrrdFormatVTK_contentStartsLike,
-  _nrrdFormatVTK_read,
-  _nrrdFormatVTK_write
-};
+const NrrdFormat nrrd__FormatVTK = {"VTK",
+                                    AIR_FALSE, /* isImage */
+                                    AIR_FALSE, /* readable */
+                                    _nrrdFormatVTK_available,
+                                    _nrrdFormatVTK_nameLooksLike,
+                                    _nrrdFormatVTK_fitsInto,
+                                    _nrrdFormatVTK_contentStartsLike,
+                                    _nrrdFormatVTK_read,
+                                    _nrrdFormatVTK_write};
 
-const NrrdFormat *const
-nrrdFormatVTK = &_nrrdFormatVTK;
+const NrrdFormat *const nrrdFormatVTK = &nrrd__FormatVTK;

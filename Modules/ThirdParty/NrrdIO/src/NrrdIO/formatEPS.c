@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2026  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -26,80 +26,69 @@
 #include "NrrdIO.h"
 #include "privateNrrd.h"
 
-int
+static int
 _nrrdFormatEPS_available(void) {
 
   return AIR_FALSE;
 }
 
-int
+static int
 _nrrdFormatEPS_nameLooksLike(const char *filename) {
 
   return airEndsWith(filename, NRRD_EXT_EPS);
 }
 
-int
-_nrrdFormatEPS_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
-                        int useBiff) {
-  char me[]="_nrrdFormatEPS_fitsInto", err[AIR_STRLEN_MED];
+static int /* Biff: maybe:3:AIR_FALSE */
+_nrrdFormatEPS_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding, int useBiff) {
+  static const char me[] = "_nrrdFormatEPS_fitsInto";
 
   AIR_UNUSED(nrrd);
   AIR_UNUSED(encoding);
-  AIR_UNUSED(useBiff);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatEPS->name);
-  biffMaybeAdd(NRRD, err, useBiff);
+  biffMaybeAddf(useBiff, NRRD, "%s: Sorry, %s format not available in NrrdIO", me,
+                nrrdFormatEPS->name);
   return AIR_FALSE;
-
 }
 
-int
+static int
 _nrrdFormatEPS_contentStartsLike(NrrdIoState *nio) {
 
   AIR_UNUSED(nio);
+  /* this is a write-only format */
   return AIR_FALSE;
-
 }
 
-int
+static int /* Biff: 1 */
 _nrrdFormatEPS_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
-  char me[]="_nrrdReadEPS", err[AIR_STRLEN_MED];
+  static const char me[] = "_nrrdFormatEPS_read";
 
   AIR_UNUSED(file);
   AIR_UNUSED(nrrd);
   AIR_UNUSED(nio);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatEPS->name);
-  biffAdd(NRRD, err);
+  biffAddf(NRRD, "%s: Sorry, %s format not available in NrrdIO", me,
+           nrrdFormatEPS->name);
   return 1;
 }
 
-int
-_nrrdFormatEPS_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
-  char me[]="_nrrdFormatEPS_write", err[AIR_STRLEN_MED];
+static int /* Biff: 1 */
+_nrrdFormatEPS_write(FILE *file, const Nrrd *_nrrd, NrrdIoState *nio) {
+  static const char me[] = "_nrrdFormatEPS_write";
 
   AIR_UNUSED(file);
-  AIR_UNUSED(nrrd);
+  AIR_UNUSED(_nrrd);
   AIR_UNUSED(nio);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatEPS->name);
-  biffAdd(NRRD, err);
+  biffAddf(NRRD, "%s: Sorry, %s format not available in NrrdIO", me,
+           nrrdFormatEPS->name);
   return 1;
 }
 
-const NrrdFormat
-_nrrdFormatEPS = {
-  "EPS",
-  AIR_FALSE,  /* isImage */
-  AIR_FALSE,  /* readable */
-  AIR_FALSE,  /* usesDIO */
-  _nrrdFormatEPS_available,
-  _nrrdFormatEPS_nameLooksLike,
-  _nrrdFormatEPS_fitsInto,
-  _nrrdFormatEPS_contentStartsLike,
-  _nrrdFormatEPS_read,
-  _nrrdFormatEPS_write
-};
+const NrrdFormat nrrd__FormatEPS = {"EPS",
+                                    AIR_FALSE, /* isImage */
+                                    AIR_FALSE, /* readable */
+                                    _nrrdFormatEPS_available,
+                                    _nrrdFormatEPS_nameLooksLike,
+                                    _nrrdFormatEPS_fitsInto,
+                                    _nrrdFormatEPS_contentStartsLike,
+                                    _nrrdFormatEPS_read,
+                                    _nrrdFormatEPS_write};
 
-const NrrdFormat *const
-nrrdFormatEPS = &_nrrdFormatEPS;
+const NrrdFormat *const nrrdFormatEPS = &nrrd__FormatEPS;

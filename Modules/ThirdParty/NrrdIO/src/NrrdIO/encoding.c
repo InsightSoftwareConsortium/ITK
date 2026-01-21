@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2026  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -45,18 +45,17 @@
 */
 
 static int
-_nrrdEncodingUnknown_available(void) {
+encodingUnknown_available(void) {
 
   /* insert code here */
 
   return AIR_FALSE;
 }
 
-static int
-_nrrdEncodingUnknown_read(FILE *file, void *data,
-                          size_t elementNum, Nrrd *nrrd,
-                          struct NrrdIoState_t *nio) {
-  static const char me[]="_nrrdEncodingUnknown_read";
+static int /* Biff: 1 */
+encodingUnknown_read(FILE *file, void *data, size_t elementNum, Nrrd *nrrd,
+                     struct NrrdIoState_t *nio) {
+  static const char me[] = "encodingUnknown_read";
 
   /* insert code here, and remove error handling below */
   AIR_UNUSED(file);
@@ -69,11 +68,10 @@ _nrrdEncodingUnknown_read(FILE *file, void *data,
   return 1;
 }
 
-static int
-_nrrdEncodingUnknown_write(FILE *file, const void *data,
-                           size_t elementNum, const Nrrd *nrrd,
-                           struct NrrdIoState_t *nio) {
-  static const char me[]="_nrrdEncodingUnknown_write";
+static int /* Biff: 1 */
+encodingUnknown_write(FILE *file, const void *data, size_t elementNum, const Nrrd *nrrd,
+                      struct NrrdIoState_t *nio) {
+  static const char me[] = "encodingUnknown_write";
 
   /* insert code here, and remove error handling below */
   AIR_UNUSED(file);
@@ -86,27 +84,17 @@ _nrrdEncodingUnknown_write(FILE *file, const void *data,
   return 1;
 }
 
-const NrrdEncoding
-_nrrdEncodingUnknown = {
-  "unknown",  /* name */
-  "unknown",  /* suffix */
-  AIR_FALSE,  /* endianMatters */
-  AIR_FALSE,  /* isCompression */
-  _nrrdEncodingUnknown_available,
-  _nrrdEncodingUnknown_read,
-  _nrrdEncodingUnknown_write
+static const NrrdEncoding encodingUnknown = {"unknown", /* name */
+                                             "unknown", /* suffix */
+                                             AIR_FALSE, /* endianMatters */
+                                             AIR_FALSE, /* isCompression */
+                                             encodingUnknown_available,
+                                             encodingUnknown_read,
+                                             encodingUnknown_write};
+
+const NrrdEncoding *const nrrdEncodingUnknown = &encodingUnknown;
+
+const NrrdEncoding *const nrrdEncodingArray[NRRD_ENCODING_TYPE_MAX + 1] = {
+  &encodingUnknown,    &nrrd__EncodingRaw,   &nrrd__EncodingAscii, &nrrd__EncodingHex,
+  &nrrd__EncodingGzip, &nrrd__EncodingBzip2, &nrrd__EncodingZRL,
 };
-
-const NrrdEncoding *const
-nrrdEncodingUnknown = &_nrrdEncodingUnknown;
-
-const NrrdEncoding *const
-nrrdEncodingArray[NRRD_ENCODING_TYPE_MAX+1] = {
-  &_nrrdEncodingUnknown,
-  &_nrrdEncodingRaw,
-  &_nrrdEncodingAscii,
-  &_nrrdEncodingHex,
-  &_nrrdEncodingGzip,
-  &_nrrdEncodingBzip2
-};
-

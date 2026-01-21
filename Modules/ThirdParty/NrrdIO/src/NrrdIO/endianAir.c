@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2026  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -44,7 +44,7 @@ airMyEndian(void) {
      (the "first" byte in memory ordering).
      On big endian, we're getting the most significant byte (0);
      on little endian, we're getting least significant byte (1) */
-  leastbyte = *(AIR_CAST(char*, &tmpI));
+  leastbyte = *(AIR_CAST(char *, &tmpI));
   if (leastbyte) {
     ret = airEndianLittle;
   } else {
@@ -53,37 +53,37 @@ airMyEndian(void) {
   return ret;
 }
 
+/* clang-format off */
 static const char *
-_airEndianStr[] = {
+endianStr[] = {
   "(unknown endian)",
   "little",
   "big"
 };
 
 static const char *
-_airEndianDesc[] = {
+endianDesc[] = {
   "unknown endianness",
   "Intel and compatible",
   "Everyone besides Intel and compatible"
 };
 
 static const int
-_airEndianVal[] = {
+endianVal[] = {
   airEndianUnknown,
   airEndianLittle,
   airEndianBig,
 };
 
 static const airEnum
-_airEndian = {
+endian_ae = {
   "endian",
   2,
-  _airEndianStr, _airEndianVal,
-  _airEndianDesc,
+  endianStr, endianVal,
+  endianDesc,
   NULL, NULL,
   AIR_FALSE
 };
 
-const airEnum *const
-airEndian = &_airEndian;
-
+const airEnum *const airEndian = &endian_ae;
+/* clang-format on */

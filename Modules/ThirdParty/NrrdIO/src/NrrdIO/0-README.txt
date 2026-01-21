@@ -2,10 +2,10 @@
 License -------------------------------------------------------------------
 ---------------------------------------------------------------------------
 
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2026  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -66,7 +66,7 @@ NrrdIO API crash course ---------------------------------------------------
 Please read <http://teem.sourceforge.net/nrrd/lib.html>.  The functions that
 are explained in detail are all present in NrrdIO.  Be aware, however, that
 NrrdIO currently supports ONLY the NRRD file format, and not: PNG, PNM, VTK,
-or EPS.
+EPS, or any others.
 
 The functionality in Teem's nrrd library which is NOT in NrrdIO is basically
 all those non-trivial manipulations of the values in the nrrd, or their
@@ -99,18 +99,14 @@ CMakeLists.txt: to build NrrdIO with CMake
 pre-GNUmakefile: how NrrdIO sources are created from the Teem
 sources. Requires that TEEM_SRC_ROOT be set, and uses the following two files.
 
-tail.pl, unteem.pl: used to make small modifications to the source files to
+tail.py, unteem.py: used to make small modifications to the source files to
 convert them from Teem to NrrdIO sources
 
-mangle.pl: used to generate a #include file for name-mangling the external
+mangle.py: used to generate a #include file for name-mangling the external
 symbols in the NrrdIO library, to avoid possible problems with programs
 that link with both NrrdIO and the rest of Teem.
 
 preamble.c: the preamble describing the non-copyleft licensing of NrrdIO.
-
-qnanhibit.c: discover a variable which, like endianness, is architecture
-dependent and which is required for building NrrdIO (as well as Teem), but
-unlike endianness, is completely obscure and unheard of.
 
 encodingBzip2.c, formatEPS.c, formatPNG.c, formatPNM.c, formatText.c,
 formatVTK.c: These files create stubs for functionality which is fully present
@@ -118,5 +114,4 @@ in Teem, but which has been removed from NrrdIO in the interest of simplicity.
 The filenames are in fact unfortunately misleading, but they should be
 understood as listing the functionality that is MISSING in NrrdIO.
 
-All other files: copied/modified from the air, biff, and nrrd libraries of
-Teem.
+All other files: copied/modified from the air, biff, and nrrd libraries of Teem.

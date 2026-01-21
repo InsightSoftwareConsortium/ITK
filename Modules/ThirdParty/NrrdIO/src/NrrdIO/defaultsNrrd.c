@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2026  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -42,16 +42,19 @@
 
 int nrrdDefaultWriteEncodingType = nrrdEncodingTypeRaw;
 int nrrdDefaultWriteBareText = AIR_TRUE;
+int nrrdDefaultWriteMoreThanFloatInText = AIR_FALSE;
 unsigned int nrrdDefaultWriteCharsPerLine = 75;
 unsigned int nrrdDefaultWriteValsPerLine = 8;
 int nrrdDefaultCenter = nrrdCenterCell;
-double nrrdDefaultSpacing = 1.0;
+/* new for TeemV2; emulate pre-TeemV2 nrrdStateVerboseIO=1 initialization */
+int nrrdDefaultIoVerbose = 0;
+/* new for TeemV2; pre-TeemV2 behavior equivalent to this being AIR_TRUE */
+int nrrdDefaultIoHeaderDoubleExcessPrecision = AIR_FALSE;
 
 /* these aren't really "defaults" because there's no other channel for
    specifying this information.  It is just global state.  Obviously,
    like defaults, they are not thread-safe if different threads ever
    set them differently. */
-int nrrdStateVerboseIO = 0;
 int nrrdStateKeyValuePairsPropagate = AIR_FALSE;
 int nrrdStateAlwaysSetContent = AIR_TRUE;
 int nrrdStateDisableContent = AIR_FALSE;
@@ -64,18 +67,21 @@ int nrrdStateKeyValueReturnInternalPointers = AIR_FALSE;
    Nrrd is only going to implement the most converative kind of logic
    anyway, based on existing sementics nailed down by the format spec. */
 int nrrdStateKindNoop = AIR_FALSE;
+/* new for TeemV2: if true, ~emulate pre-TeemV2 behavior of ascii encoding
+   when reading NRRD files, almost treating commas as whitespace */
+int nrrdStateEncodingAsciiCommaAllow = AIR_FALSE;
 
 /* these are helper functions for min/max testing */
-airLLong
-_nrrdLLongMaxHelp(airLLong val) {
-  return val*2 + 1;
+airLLong /* Biff: (private) nope */
+nrrd__LLongMaxHelp(airLLong val) {
+  return val * 2 + 1;
 }
-airLLong
-_nrrdLLongMinHelp(airLLong val) {
-  return val*2;
+airLLong /* Biff: (private) nope */
+nrrd__LLongMinHelp(airLLong val) {
+  return val * 2;
 }
-airULLong
-_nrrdULLongMaxHelp(airULLong val) {
+airULLong /* Biff: (private) nope */
+nrrd__ULLongMaxHelp(airULLong val) {
   return val + 1;
 }
 
@@ -84,4 +90,3 @@ _nrrdULLongMaxHelp(airULLong val) {
 
 /* Are there other assumptions currently built into nrrd which could
    stand to be user-controllable? */
-
