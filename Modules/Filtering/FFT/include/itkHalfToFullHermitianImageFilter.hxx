@@ -131,8 +131,7 @@ HalfToFullHermitianImageFilter<TInputImage>::DynamicThreadedGenerateData(
     conjugateRegionSize[0] = outputRegionMaximumIndex[0] - conjugateRegionIndex[0];
     const OutputImageRegionType conjugateRegion(conjugateRegionIndex, conjugateRegionSize);
 
-    ImageRegionIteratorWithIndex<OutputImageType> oIt(outputPtr, conjugateRegion);
-    for (oIt.GoToBegin(); !oIt.IsAtEnd(); ++oIt)
+    for (ImageRegionIteratorWithIndex<OutputImageType> oIt(outputPtr, conjugateRegion); !oIt.IsAtEnd(); ++oIt)
     {
       OutputImageIndexType conjugateIndex = oIt.GetIndex();
 

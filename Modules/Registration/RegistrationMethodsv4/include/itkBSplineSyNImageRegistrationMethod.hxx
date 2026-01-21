@@ -143,9 +143,10 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
 
     if (this->m_AverageMidPointGradients)
     {
-      ImageRegionIteratorWithIndex<DisplacementFieldType> ItF(
-        fixedToMiddleSmoothUpdateField, fixedToMiddleSmoothUpdateField->GetLargestPossibleRegion());
-      for (ItF.GoToBegin(); !ItF.IsAtEnd(); ++ItF)
+      for (ImageRegionIteratorWithIndex<DisplacementFieldType> ItF(
+             fixedToMiddleSmoothUpdateField, fixedToMiddleSmoothUpdateField->GetLargestPossibleRegion());
+           !ItF.IsAtEnd();
+           ++ItF)
       {
         ItF.Set(ItF.Get() - movingToMiddleSmoothUpdateField->GetPixel(ItF.GetIndex()));
         movingToMiddleSmoothUpdateField->SetPixel(ItF.GetIndex(), -ItF.Get());

@@ -251,8 +251,6 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
 
       const ScalarRealType spacing = inputImage->GetSpacing()[dim];
 
-      it.GoToBegin();
-      ot.GoToBegin();
       while (!it.IsAtEnd())
       {
         auto outValue = static_cast<OutputComponentType>(

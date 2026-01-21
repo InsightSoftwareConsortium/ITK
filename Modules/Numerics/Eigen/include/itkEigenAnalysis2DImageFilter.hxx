@@ -149,10 +149,6 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ge
   // support progress methods/callbacks
   ProgressReporter progress(this, 0, region.GetNumberOfPixels());
 
-  outputIt1.GoToBegin();
-  outputIt2.GoToBegin();
-  outputIt3.GoToBegin();
-
   EigenVectorType eigenVector;
 
   while (!inputIt1.IsAtEnd())
