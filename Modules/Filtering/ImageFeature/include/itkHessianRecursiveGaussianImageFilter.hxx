@@ -277,8 +277,7 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
       // Deal with the 2D case.
       if (numberOfSmoothingFilters > 0)
       {
-        const int                   temp_dim = int{ ImageDimension } - 3;
-        const GaussianFilterPointer lastFilter = m_SmoothingFilters[temp_dim];
+        const GaussianFilterPointer lastFilter = m_SmoothingFilters.back();
         lastFilter->UpdateLargestPossibleRegion();
         derivativeImage = lastFilter->GetOutput();
       }
@@ -317,7 +316,7 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   // manually release memory in last filter in the pipeline
   if (numberOfSmoothingFilters > 0)
   {
-    m_SmoothingFilters[numberOfSmoothingFilters - 1]->GetOutput()->ReleaseData();
+    m_SmoothingFilters.back()->GetOutput()->ReleaseData();
   }
   else
   {

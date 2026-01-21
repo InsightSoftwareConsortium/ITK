@@ -52,7 +52,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,
   }
 
   m_SqrSpacingFilter = SqrSpacingFilterType::New();
-  m_SqrSpacingFilter->SetInput(1, m_SmoothingFilters[ImageDimension - 2]->GetOutput());
+  m_SqrSpacingFilter->SetInput(1, m_SmoothingFilters.back()->GetOutput());
   // run that filter in place for much efficiency
   m_SqrSpacingFilter->InPlaceOn();
 
