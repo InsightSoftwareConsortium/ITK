@@ -50,7 +50,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::LaplacianRecur
 
   m_SmoothingFilters[0]->SetInput(m_DerivativeFilter->GetOutput());
 
-  if (NumberOfSmoothingFilters > 1)
+  if constexpr (NumberOfSmoothingFilters > 1)
   {
     for (unsigned int i = 1; i < NumberOfSmoothingFilters; ++i)
     {

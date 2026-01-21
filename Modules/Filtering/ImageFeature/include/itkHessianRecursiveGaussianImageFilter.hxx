@@ -58,7 +58,7 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::HessianRecursive
   m_DerivativeFilterB->ReleaseDataFlagOn(); // output is only used once
 
   // Deal with the 2D case.
-  if (NumberOfSmoothingFilters > 0)
+  if constexpr (NumberOfSmoothingFilters > 0)
   {
     m_SmoothingFilters[0]->SetInput(m_DerivativeFilterB->GetOutput());
   }
@@ -269,7 +269,7 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
       typename RealImageType::Pointer derivativeImage;
 
       // Deal with the 2D case.
-      if (NumberOfSmoothingFilters > 0)
+      if constexpr (NumberOfSmoothingFilters > 0)
       {
         const GaussianFilterPointer lastFilter = m_SmoothingFilters.back();
         lastFilter->UpdateLargestPossibleRegion();
@@ -308,7 +308,7 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
 
   // manually release memory in last filter in the pipeline
-  if (NumberOfSmoothingFilters > 0)
+  if constexpr (NumberOfSmoothingFilters > 0)
   {
     m_SmoothingFilters.back()->GetOutput()->ReleaseData();
   }
