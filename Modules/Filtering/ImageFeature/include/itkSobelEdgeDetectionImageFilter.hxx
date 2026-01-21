@@ -111,6 +111,7 @@ SobelEdgeDetectionImageFilter<TInputImage, TOutputImage>::GenerateData()
     multFilter[i] = MultFilter::New();
 
     // Set boundary condition and operator for this axis.
+    opers[i].UseLegacyCoefficients(m_UseLegacyOperatorCoefficients);
     opers[i].SetDirection(i);
     opers[i].CreateDirectional();
     opFilter[i]->OverrideBoundaryCondition(&nbc);
