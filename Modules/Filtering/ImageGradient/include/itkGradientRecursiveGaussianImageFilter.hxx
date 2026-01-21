@@ -36,7 +36,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GradientRecursi
   if constexpr (ImageDimension > 1)
   {
     std::generate(m_SmoothingFilters.begin(), m_SmoothingFilters.end(), [this] {
-      const GaussianFilterPointer filter = GaussianFilterType::New();
+      const auto filter = GaussianFilterType::New();
       filter->SetOrder(GaussianOrderEnum::ZeroOrder);
       filter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
       filter->InPlaceOn();
