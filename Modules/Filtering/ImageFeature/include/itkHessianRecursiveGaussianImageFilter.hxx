@@ -29,9 +29,6 @@ template <typename TInputImage, typename TOutputImage>
 HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::HessianRecursiveGaussianImageFilter()
 
 {
-  // note: this is not constant to suppress a warning
-  const unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
-
   std::generate(m_SmoothingFilters.begin(), m_SmoothingFilters.end(), [this] {
     const GaussianFilterPointer filter = GaussianFilterType::New();
     filter->SetOrder(GaussianOrderEnum::ZeroOrder);
@@ -61,12 +58,12 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::HessianRecursive
   m_DerivativeFilterB->ReleaseDataFlagOn(); // output is only used once
 
   // Deal with the 2D case.
-  if (numberOfSmoothingFilters > 0)
+  if (NumberOfSmoothingFilters > 0)
   {
     m_SmoothingFilters[0]->SetInput(m_DerivativeFilterB->GetOutput());
   }
   // connect up smoothing filter chain if necessary
-  for (unsigned int i = 1; i < numberOfSmoothingFilters; ++i)
+  for (unsigned int i = 1; i < NumberOfSmoothingFilters; ++i)
   {
     m_SmoothingFilters[i]->SetInput(m_SmoothingFilters[i - 1]->GetOutput());
   }
@@ -163,9 +160,6 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   // dima = 0 and dimb = 1.
   const double weight = 1.0 / (ImageDimension * (ImageDimension * (ImageDimension + 1) / 2));
 
-  // note: this is not constant to suppress a warning
-  const unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
-
   for (const auto & filter : m_SmoothingFilters)
   {
     progress->RegisterInternalFilter(filter, weight);
@@ -219,7 +213,7 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
           ++j;
         }
         // find the direction for all the other filters
-        while (i < numberOfSmoothingFilters)
+        while (i < NumberOfSmoothingFilters)
         {
           while (j < ImageDimension)
           {
@@ -253,7 +247,7 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
 
         unsigned int i = 0;
         unsigned int j = 0;
-        while (i < numberOfSmoothingFilters)
+        while (i < NumberOfSmoothingFilters)
         {
           while (j < ImageDimension)
           {
@@ -275,7 +269,7 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
       typename RealImageType::Pointer derivativeImage;
 
       // Deal with the 2D case.
-      if (numberOfSmoothingFilters > 0)
+      if (NumberOfSmoothingFilters > 0)
       {
         const GaussianFilterPointer lastFilter = m_SmoothingFilters.back();
         lastFilter->UpdateLargestPossibleRegion();
@@ -314,7 +308,7 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
 
   // manually release memory in last filter in the pipeline
-  if (numberOfSmoothingFilters > 0)
+  if (NumberOfSmoothingFilters > 0)
   {
     m_SmoothingFilters.back()->GetOutput()->ReleaseData();
   }
