@@ -114,7 +114,6 @@ PadImageFilterBase<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   {
     // There is no overlap. Apply to the boundary condition for every pixel.
     ImageRegionIteratorWithIndex<TOutputImage> outIter(outputPtr, outputRegionForThread);
-    outIter.GoToBegin();
     while (!outIter.IsAtEnd())
     {
       auto value = static_cast<OutputImagePixelType>(m_BoundaryCondition->GetPixel(outIter.GetIndex(), inputPtr));

@@ -38,10 +38,8 @@ RobustAutomaticThresholdCalculator<TInputImage, TGradientImage>::Compute()
     itkExceptionStringMacro("Input or gradient image(s) not set.");
   }
 
-  ImageRegionConstIteratorWithIndex<InputImageType> iIt(m_Input, m_Input->GetRequestedRegion());
-  iIt.GoToBegin();
+  ImageRegionConstIteratorWithIndex<InputImageType>    iIt(m_Input, m_Input->GetRequestedRegion());
   ImageRegionConstIteratorWithIndex<GradientImageType> gIt(m_Gradient, m_Gradient->GetRequestedRegion());
-  gIt.GoToBegin();
 
   // Init the values
   double n = 0;

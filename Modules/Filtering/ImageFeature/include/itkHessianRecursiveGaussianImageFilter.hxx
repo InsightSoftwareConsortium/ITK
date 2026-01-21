@@ -301,8 +301,6 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
 
       const RealType factor = spacingA * spacingB;
 
-      it.GoToBegin();
-      ot.GoToBegin();
       while (!it.IsAtEnd())
       {
         ot.Set(it.Get() / factor);
