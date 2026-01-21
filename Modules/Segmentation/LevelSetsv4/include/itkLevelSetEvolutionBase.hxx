@@ -152,7 +152,6 @@ LevelSetEvolutionBase<TEquationContainer, TLevelSet>::InitializeIteration()
       using LevelSetListImageDomainType = typename DomainMapImageFilterType::LevelSetDomain;
       const LevelSetListImageDomainType &               levelSetListImageDomain = mapIt->second;
       ImageRegionConstIteratorWithIndex<InputImageType> it(inputImage, *(levelSetListImageDomain.GetRegion()));
-      it.GoToBegin();
 
       while (!it.IsAtEnd())
       {
@@ -180,7 +179,6 @@ LevelSetEvolutionBase<TEquationContainer, TLevelSet>::InitializeIteration()
   {
     const TermContainerPointer                        termContainer = this->m_EquationContainer->GetEquation(0);
     ImageRegionConstIteratorWithIndex<InputImageType> it(inputImage, inputImage->GetRequestedRegion());
-    it.GoToBegin();
     while (!it.IsAtEnd())
     {
       termContainer->Initialize(it.GetIndex());

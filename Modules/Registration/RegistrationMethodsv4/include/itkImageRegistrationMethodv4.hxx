@@ -944,8 +944,9 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
           static_cast<unsigned long>(std::ceil(1.0 / this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel]));
         unsigned long count =
           sampleCount; // Start at sampleCount to keep behavior backwards identical, using first element.
-        ImageRegionConstIteratorWithIndex<VirtualDomainImageType> It(virtualImage, virtualDomainRegion);
-        for (It.GoToBegin(); !It.IsAtEnd(); ++It)
+        for (ImageRegionConstIteratorWithIndex<VirtualDomainImageType> It(virtualImage, virtualDomainRegion);
+             !It.IsAtEnd();
+             ++It)
         {
           if (count == sampleCount)
           {

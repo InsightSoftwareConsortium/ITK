@@ -198,7 +198,6 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
     const typename ReferenceImageType::Pointer refImage =
       static_cast<ReferenceImageType *>(this->ProcessObject::GetInput(0));
     ImageRegionConstIteratorWithIndex<ReferenceImageType> it(refImage, outputRegionForThread);
-    it.GoToBegin();
 
     using GradientIteratorType = ImageRegionConstIterator<GradientImageType>;
     std::vector<GradientIteratorType *> gradientItContainer;

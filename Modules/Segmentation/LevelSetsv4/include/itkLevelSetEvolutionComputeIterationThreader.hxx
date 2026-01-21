@@ -42,7 +42,6 @@ LevelSetEvolutionComputeIterationThreader<LevelSetDenseImage<TImage>,
   const RegionType subRegion(index, imageSubRegion.GetSize());
 
   ImageRegionConstIteratorWithIndex<LevelSetImageType> imageIt(levelSetImage, subRegion);
-  imageIt.GoToBegin();
 
   if (this->m_Associate->m_LevelSetContainer->HasDomainMap())
   {
@@ -118,7 +117,6 @@ LevelSetEvolutionComputeIterationThreader<
   while (mapIt != imageSubDomain.End())
   {
     ImageRegionConstIteratorWithIndex<InputImageType> it(inputImage, *(mapIt->second.GetRegion()));
-    it.GoToBegin();
 
     while (!it.IsAtEnd())
     {
