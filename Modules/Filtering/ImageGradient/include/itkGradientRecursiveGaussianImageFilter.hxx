@@ -36,7 +36,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GradientRecursi
   if constexpr (ImageDimension > 1)
   {
     std::generate(m_SmoothingFilters.begin(), m_SmoothingFilters.end(), [this] {
-      const GaussianFilterPointer filter = GaussianFilterType::New();
+      const auto filter = GaussianFilterType::New();
       filter->SetOrder(GaussianOrderEnum::ZeroOrder);
       filter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
       filter->InPlaceOn();
@@ -230,8 +230,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
       typename RealImageType::Pointer derivativeImage;
       if constexpr (ImageDimension > 1)
       {
-        const auto                  imageDimensionMinus2 = static_cast<unsigned int>(ImageDimension - 2);
-        const GaussianFilterPointer lastFilter = m_SmoothingFilters[imageDimensionMinus2];
+        const GaussianFilterPointer lastFilter = m_SmoothingFilters.back();
         lastFilter->UpdateLargestPossibleRegion();
         derivativeImage = lastFilter->GetOutput();
       }
@@ -265,8 +264,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   // manually release memory in last filter in the mini-pipeline
   if constexpr (ImageDimension > 1)
   {
-    const int temp_dim = int{ ImageDimension } - 2;
-    m_SmoothingFilters[temp_dim]->GetOutput()->ReleaseData();
+    m_SmoothingFilters.back()->GetOutput()->ReleaseData();
   }
   else
   {

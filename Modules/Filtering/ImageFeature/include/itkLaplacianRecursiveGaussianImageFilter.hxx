@@ -32,7 +32,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::LaplacianRecur
 
 {
   std::generate(m_SmoothingFilters.begin(), m_SmoothingFilters.end(), [this] {
-    const GaussianFilterPointer filter = GaussianFilterType::New();
+    const auto filter = GaussianFilterType::New();
     filter->SetOrder(GaussianOrderEnum::ZeroOrder);
     filter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
     filter->ReleaseDataFlagOn();
@@ -50,7 +50,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::LaplacianRecur
 
   m_SmoothingFilters[0]->SetInput(m_DerivativeFilter->GetOutput());
 
-  if (NumberOfSmoothingFilters > 1)
+  if constexpr (NumberOfSmoothingFilters > 1)
   {
     for (unsigned int i = 1; i < NumberOfSmoothingFilters; ++i)
     {
@@ -196,7 +196,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
     }
     m_DerivativeFilter->SetDirection(dim);
 
-    const GaussianFilterPointer lastFilter = m_SmoothingFilters[ImageDimension - 2];
+    const GaussianFilterPointer lastFilter = m_SmoothingFilters.back();
 
     // scale the new value by the inverse of the spacing squared
     const RealType spacing2 = itk::Math::sqr(inputImage->GetSpacing()[dim]);
@@ -218,7 +218,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   // pipelined the data must be manually released
   if constexpr (ImageDimension > 1)
   {
-    m_SmoothingFilters[ImageDimension - 2]->GetOutput()->ReleaseData();
+    m_SmoothingFilters.back()->GetOutput()->ReleaseData();
   }
   else
   {

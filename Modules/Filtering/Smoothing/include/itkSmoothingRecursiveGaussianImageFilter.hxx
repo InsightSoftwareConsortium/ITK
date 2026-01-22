@@ -58,7 +58,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SmoothingRecur
   }
 
   m_CastingFilter = CastingFilterType::New();
-  m_CastingFilter->SetInput(m_SmoothingFilters[ImageDimension - 2]->GetOutput());
+  m_CastingFilter->SetInput(m_SmoothingFilters.back()->GetOutput());
   m_CastingFilter->InPlaceOn();
 
   this->InPlaceOff();
