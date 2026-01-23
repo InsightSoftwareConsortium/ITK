@@ -1887,6 +1887,7 @@ set(
   itkMersenneTwisterRandomVariateGeneratorGTest.cxx
   itkNeighborhoodAllocatorGTest.cxx
   itkNumberToStringGTest.cxx
+  itkNumericLocaleGTest.cxx
   itkObjectFactoryBaseGTest.cxx
   itkOffsetGTest.cxx
   itkOptimizerParametersGTest.cxx
