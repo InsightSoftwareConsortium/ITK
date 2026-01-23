@@ -135,3 +135,53 @@ TEST(GradientDifferenceImageToImageMetric, Test)
   // Exercise Print() method.
   metric->Print(std::cout);
 }
+
+
+TEST(GradientDifferenceImageToImageMetric, IsUsingLegacySobelOperatorCoordinatesByDefault)
+{
+  using ImageType = itk::Image<double>;
+  const auto metric = itk::GradientDifferenceImageToImageMetric<ImageType, ImageType>::New();
+  EXPECT_TRUE(metric->IsUsingLegacySobelOperatorCoordinates());
+}
+
+
+// Tests that the UseLegacySobelOperatorCoordinates flag affects the metric value in 3D.
+TEST(GradientDifferenceImageToImageMetric, UseLegacySobelOperatorCoordinatesFor3D)
+{
+  static constexpr unsigned int dimension{ 3 };
+  using ImageType = itk::Image<double, dimension>;
+  const itk::ImageRegion<dimension> region{ itk::Size<dimension>::Filled(4) };
+
+  const auto fixedImage = ImageType::New();
+  fixedImage->SetRegions(region);
+  fixedImage->AllocateInitialized();
+  fixedImage->SetPixel({}, 1.0);
+
+  const auto movingImage = ImageType::New();
+  movingImage->SetRegions(region);
+  movingImage->AllocateInitialized();
+  movingImage->SetPixel(itk::Index<dimension>::Filled(1), -1.0);
+
+  const auto getValueFromMetric = [fixedImage, movingImage](const bool useLegacySobelOperatorCoordinates) {
+    const auto metric = itk::GradientDifferenceImageToImageMetric<ImageType, ImageType>::New();
+
+    metric->SetFixedImage(fixedImage);
+    metric->SetMovingImage(movingImage);
+
+    metric->SetTransform(itk::TranslationTransform<double, dimension>::New());
+
+    const auto interpolator = itk::LinearInterpolateImageFunction<ImageType, double>::New();
+    interpolator->SetInputImage(movingImage);
+    metric->SetInterpolator(interpolator);
+    metric->SetFixedImageRegion(fixedImage->GetBufferedRegion());
+    metric->UseLegacySobelOperatorCoordinates(useLegacySobelOperatorCoordinates);
+    metric->Initialize();
+    return metric->GetValue(itk::OptimizerParameters<double>(dimension, 0.0));
+  };
+
+  const double valueUsingLegacySobelOperatorCoordinates{ getValueFromMetric(true) };
+  const double valueUsingNewSobelOperatorCoordinates{ getValueFromMetric(false) };
+
+  // For this test, it is sufficient to check that the two metric values are different.
+  EXPECT_NE(valueUsingLegacySobelOperatorCoordinates, valueUsingNewSobelOperatorCoordinates);
+}
