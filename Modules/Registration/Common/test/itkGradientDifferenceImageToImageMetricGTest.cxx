@@ -19,11 +19,10 @@
 #include "itkGradientDifferenceImageToImageMetric.h"
 #include "itkGaussianImageSource.h"
 #include "itkTranslationTransform.h"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
 
 
-int
-itkGradientDifferenceImageToImageMetricTest(int, char *[])
+TEST(GradientDifferenceImageToImageMetric, Test)
 {
   // Create two simple images.
   constexpr unsigned int ImageDimension{ 2 };
@@ -78,12 +77,12 @@ itkGradientDifferenceImageToImageMetricTest(int, char *[])
 
   auto metric = MetricType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, GradientDifferenceImageToImageMetric, ImageToImageMetric);
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(metric, GradientDifferenceImageToImageMetric, ImageToImageMetric);
 
 
   constexpr double derivativeDelta{ 0.001 };
   metric->SetDerivativeDelta(derivativeDelta);
-  ITK_TEST_SET_GET_VALUE(derivativeDelta, metric->GetDerivativeDelta());
+  EXPECT_EQ(metric->GetDerivativeDelta(), derivativeDelta);
 
   // Plug the images into the metric.
   metric->SetFixedImage(fixedImage);
@@ -115,37 +114,24 @@ itkGradientDifferenceImageToImageMetricTest(int, char *[])
   }
 
 
-  try
-  {
-    // Initialize the metric.
-    metric->Initialize();
+  // Initialize the metric.
+  metric->Initialize();
 
-    // Do some work
-    DerivativeType derivatives(numberOfParameters);
-    for (double y = -10.0; y <= 10.0; y += 5.0)
+  // Do some work
+  DerivativeType derivatives(numberOfParameters);
+  for (double y = -10.0; y <= 10.0; y += 5.0)
+  {
+    parameters[1] = y;
+    for (double x = -10.0; x <= 10.0; x += 5.0)
     {
-      parameters[1] = y;
-      for (double x = -10.0; x <= 10.0; x += 5.0)
-      {
-        parameters[0] = x;
-        MetricType::MeasureType value = NAN;
-        metric->GetValueAndDerivative(parameters, value, derivatives);
-        std::cout << "Parameters: " << parameters << ", Value: " << value << ", Derivatives: " << derivatives
-                  << std::endl;
-      }
+      parameters[0] = x;
+      MetricType::MeasureType value = NAN;
+      metric->GetValueAndDerivative(parameters, value, derivatives);
+      std::cout << "Parameters: " << parameters << ", Value: " << value << ", Derivatives: " << derivatives
+                << std::endl;
     }
-
-    // Exercise Print() method.
-    metric->Print(std::cout);
-
-    std::cout << "Test passed." << std::endl;
-  }
-  catch (const itk::ExceptionObject & ex)
-  {
-    std::cerr << "Exception caught!" << std::endl;
-    std::cerr << ex << std::endl;
-    return EXIT_FAILURE;
   }
 
-  return EXIT_SUCCESS;
+  // Exercise Print() method.
+  metric->Print(std::cout);
 }
