@@ -182,8 +182,13 @@ macro(itk_module_impl)
   if(DEFINED ${itk-module}_LIBRARIES)
     set(_libraries "")
     foreach(dep IN LISTS ${itk-module}_LIBRARIES)
-      # check if dep already has namespace and Module suffix
-      if("${dep}" MATCHES "^(.*)::(.*)$")
+      if(EXISTS "${dep}")
+        # If we are linking to a file, use it directly
+        message(DEBUG "Linking ${itk-module} to file dependency: ${dep}")
+        list(APPEND _libraries "${dep}")
+      elseif("${dep}" MATCHES "^(.*)::(.*)$")
+        # If dep is already namespaced, use it directly
+        message(DEBUG "Linking ${itk-module} to namespaced dependency: ${dep}")
         list(APPEND _libraries "${dep}")
       else()
         list(
