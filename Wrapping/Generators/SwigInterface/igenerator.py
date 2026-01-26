@@ -1948,7 +1948,10 @@ def main():
     pygccxml.declarations.scopedef_t.ALLOW_EMPTY_MDECL_WRAPPER = True
 
     pygccxml_config = pygccxml.parser.config.xml_generator_configuration_t(
-        xml_generator_path=options.castxml_path, xml_generator="castxml"
+        xml_generator_path=options.castxml_path,
+        xml_generator="castxml",
+        # Use castxml-output=1 to take advantage of the newer XML format
+        flags=["--castxml-output=1"],
     )
 
     submodule_names_list: list[str] = []

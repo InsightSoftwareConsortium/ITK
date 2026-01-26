@@ -205,7 +205,7 @@ function(generate_castxml_commandline_flags)
       ${xml_file}
     COMMAND
       ${_build_env} ${_ccache_cmd} ${CASTXML_EXECUTABLE} -o ${xml_file}
-      --castxml-gccxml ${_target} --castxml-start _wrapping_ ${_castxml_cc} -w
+      --castxml-output=1 ${_target} --castxml-start _wrapping_ ${_castxml_cc} -w
       -c # needed for ccache to think we are not calling for link
       @${castxml_inc_file} ${cxx_file}
     VERBATIM
