@@ -745,7 +745,10 @@ class SwigInputGenerator:
         if t.decl_string == "::PyObject *":
             # don't go further - we want to keep that one as is
             return "::PyObject *"
-        if isinstance(t, pygccxml.declarations.cpptypes.pointer_t):
+        if isinstance(t, pygccxml.declarations.cpptypes.array_t):
+            array_indicator = " *"
+            return SwigInputGenerator.get_declaration_string(t.base) + array_indicator
+        elif isinstance(t, pygccxml.declarations.cpptypes.pointer_t):
             return SwigInputGenerator.get_declaration_string(get_type(t.base)) + " *"
         elif isinstance(t, pygccxml.declarations.cpptypes.const_t):
             return (
@@ -1297,7 +1300,8 @@ def {snake_case}_init_docstring():
         constructor_declaration_str: str = f"    {typedef.name}({', '.join(args)});\n"
         if skip_constructor:
             # print(
-            #     f"WARNING: Unknown type in constructor argument (Perhaps RValueReferenceType argument move constructor): {constructor_declaration_str}"
+            #     "WARNING: Unknown type in constructor argument "
+            #     f"(Perhaps RValueReferenceType argument move constructor): {constructor_declaration_str}"
             # )
             return
         self.outputFile.write("  " * indent)
@@ -1449,7 +1453,8 @@ def {snake_case}_init_docstring():
             # (and never did)
             # See: https://github.com/CastXML/pygccxml/issues/263
             # print(
-            #    f"WARNING: Unknown type in method argument (Perhaps RValueReferenceType argument encountered): {method_definition}"
+            #    "WARNING: Unknown type in method argument"
+            #    f"(Perhaps RValueReferenceType argument encountered): {method_definition}"
             # )
             return
         self.outputFile.write(method_definition)
