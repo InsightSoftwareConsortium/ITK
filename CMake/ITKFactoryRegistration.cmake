@@ -187,10 +187,14 @@ function(_itk_configure_FactoryRegisterManager factory_type formats)
   if(aliased_target_name)
     set(_meta_module ${aliased_target_name})
   endif()
-  target_include_directories(
-    ${_meta_module}
-    INTERFACE
-      "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/ITKFactoryRegistration>"
+  # Override the include directories to the current generated FactoryRegistration path.
+  # Enables multiple calls to adding factories with different sets of factories, in a project.
+  set_property(
+    TARGET
+      ${_meta_module}
+    PROPERTY
+      INTERFACE_INCLUDE_DIRECTORIES
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/ITKFactoryRegistration>"
   )
 endfunction()
 
