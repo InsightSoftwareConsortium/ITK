@@ -19,7 +19,6 @@ set(
   itkImageRegistrationMethodTest_15.cxx
   itkImageRegistrationMethodTest_16.cxx
   itkMeanSquaresPointSetToImageMetricTest.cxx
-  itkGradientDifferenceImageToImageMetricTest.cxx
   itkHistogramImageToImageMetricTest.cxx
   itkMutualInformationHistogramImageToImageMetricTest.cxx
   itkMeanReciprocalSquareDifferencePointSetToImageMetricTest.cxx
@@ -191,12 +190,6 @@ itk_add_test(
   COMMAND
     ITKRegistrationCommonTestDriver
     itkMeanSquaresPointSetToImageMetricTest
-)
-itk_add_test(
-  NAME itkGradientDifferenceImageToImageMetricTest
-  COMMAND
-    ITKRegistrationCommonTestDriver
-    itkGradientDifferenceImageToImageMetricTest
 )
 itk_add_test(
   NAME itkHistogramImageToImageMetricTest
@@ -509,7 +502,11 @@ itk_add_test(
     1
 )
 
-set(ITKRegistrationGTests itkTransformInitializersGTest.cxx)
+set(
+  ITKRegistrationGTests
+  itkGradientDifferenceImageToImageMetricGTest.cxx
+  itkTransformInitializersGTest.cxx
+)
 creategoogletestdriver(ITKRegistration "${ITKRegistrationCommon-Test_LIBRARIES}" "${ITKRegistrationGTests}")
 
 if(BUILD_EXAMPLES)
