@@ -1,5 +1,17 @@
 # Function to fetch remote modules.
 
+#-----------------------------------------------------------------------------
+# Freeze remote module revisions to prevent git updates. This is useful
+# during development when working with modified remote modules to prevent
+# losing local changes during reconfiguration.
+#
+option(
+  ITK_FREEZE_REMOTE_MODULES
+  "Do not update remote modules to new revisions during reconfiguration"
+  OFF
+)
+mark_as_advanced(ITK_FREEZE_REMOTE_MODULES)
+
 # Helper to perform the initial git clone and checkout.
 function(_git_clone git_executable git_repository git_tag module_dir)
   execute_process(
@@ -194,6 +206,10 @@ endfunction()
 # facilitate testing of remote module branch behaviors without
 # requiring changes to the ITK code base. If Module_${name}_GIT_TAG is
 # "" then no git fetch or update will be performed.
+#
+# Alternatively, set ITK_FREEZE_REMOTE_MODULES=ON to prevent all remote
+# modules from being updated during reconfiguration. This is useful when
+# working with modified remote modules to avoid losing local changes.
 function(itk_fetch_module _name _description)
   include(CMakeParseArguments)
   cmake_parse_arguments(
@@ -261,6 +277,7 @@ function(itk_fetch_module _name _description)
     if(ITK_FORBID_DOWNLOADS)
       return()
     endif()
+
     itk_download_attempt_check(Module_${_name})
     find_package(Git)
     if(NOT GIT_EXECUTABLE)
@@ -296,6 +313,27 @@ function(itk_fetch_module _name _description)
         "      specified in file ${ITK_SOURCE_DIR}/Modules/Remote/${_name}.remote.cmake'"
       )
     endif()
+
+    # Check if we should freeze remote modules (skip updates for already-downloaded modules)
+    # This check comes after Module_${_name}_GIT_TAG override to allow per-module precedence
+    if(
+      ITK_FREEZE_REMOTE_MODULES
+      AND
+        EXISTS
+          "${ITK_SOURCE_DIR}/Modules/Remote/${_name}"
+      AND
+        NOT
+          REMOTE_GIT_TAG
+            STREQUAL
+            ""
+    )
+      message(
+        STATUS
+        "ITK_FREEZE_REMOTE_MODULES is ON: Skipping update of remote module ${_name}"
+      )
+      return()
+    endif()
+
     set(
       Module_${_name}_GIT_TAG
       "${REMOTE_GIT_TAG}"
