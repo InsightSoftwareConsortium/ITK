@@ -2,7 +2,7 @@ itk_module_test()
 
 set(MultipleImageIteratorTests DumpIntensities.cxx)
 
-createtestdriver(MultipleImageIterator "${MultipleImageIterator_LIBRARIES}" "${MultipleImageIteratorTests}")
+createtestdriver(MultipleImageIterator "${MultipleImageIterator-Test_LIBRARIES}" "${MultipleImageIteratorTests}")
 
 itk_add_test(
   NAME MultipleImageIteratorTest
