@@ -16,8 +16,6 @@ if(ITK_USE_GPU)
 
   write_gpu_kernels("${GPU_Kernels}" GPU_SRC)
 
-  add_library(${itk-module} ${GPU_SRC})
+  itk_module_add_library(${itk-module} ${GPU_SRC})
   target_link_libraries(${itk-module} ${INRIA_ITK_LIBRARIES} ${OPENCL_LIBRARIES})
-
-  itk_module_target(${itk-module})
 endif()
