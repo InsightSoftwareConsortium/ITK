@@ -706,7 +706,7 @@ endmacro()
 # handles the export of targets to make them available to other ITK modules and
 # external projects that use ITK.
 #
-# For library targets with a defined namespace (${itk-module}-targets-namespace),
+# For library targets with a defined namespace (ITK_MODULE_${itk-module}_TARGETS_NAMESPACE),
 # this macro creates an ALIAS target with the namespace prefix and sets the
 # EXPORT_NAME property accordingly. This ensures consistent naming when the target
 # is used through find_package(ITK).
