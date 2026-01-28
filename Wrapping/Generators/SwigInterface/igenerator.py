@@ -491,43 +491,43 @@ class SwigInputGenerator:
     """Generates a swig input .i file for an ITK module."""
 
     notWrapped = [
-        "std::_Deque_alloc<.+>",
-        "itk::AtomicInt<.+>",
-        "itk::MapContainer< unsigned long, itk::CellInterface<.+>",
-        "itk::VectorContainer< unsigned long, itk::CellInterface<.+>",
-        "itk::CellInterface< double, itk::QuadEdgeMeshCellTraitsInfo<.+>",
-        "itk::QuadEdgeMeshLineCell< itk::CellInterface<.+>",
-        "itk::LibHandle",
-        "itk::NeighborhoodAllocator<.+>",
+        r"std::_Deque_alloc<.+>",
+        r"itk::AtomicInt<.+>",
+        r"itk::MapContainer< *unsigned long, *itk::CellInterface<.+>",
+        r"itk::VectorContainer< *unsigned *long, *itk::CellInterface<.+>",
+        r"itk::CellInterface< *double, *itk::QuadEdgeMeshCellTraitsInfo<.+>",
+        r"itk::QuadEdgeMeshLineCell< *itk::CellInterface<.+>",
+        r"itk::LibHandle",
+        r"itk::NeighborhoodAllocator<.+>",
         # to avoid wrapping all the region for all the dims
-        "itk::ImageRegion<.+>",
-        "itk::ImportImageContainer<.+>",
-        "itk::DefaultPixelAccessor<.+>",
-        "itk::NeighborhoodAccessorFunctor<.+>",
-        "itk::DefaultVectorPixelAccessor<.+>",
-        "itk::VectorImageNeighborhoodAccessorFunctor<.+>",
-        "itk::.*Iterator.*",  # TODO: remove this one ?
-        "itk::Neighborhood<.+>",  # TODO: remove this one
-        "itk::ThreadFunctionType",
-        "itk::Functor::.+",
-        "itk::SmartPointer< itk::Functor::.+",
-        "itk::Function::.+",
-        "itk::.+Function.*",  # Level set functions
-        "itk::watershed::.+",  # ignore the internal classes of the watershed
+        r"itk::ImageRegion<.+>",
+        r"itk::ImportImageContainer<.+>",
+        r"itk::DefaultPixelAccessor<.+>",
+        r"itk::NeighborhoodAccessorFunctor<.+>",
+        r"itk::DefaultVectorPixelAccessor<.+>",
+        r"itk::VectorImageNeighborhoodAccessorFunctor<.+>",
+        r"itk::.*Iterator.*",  # TODO: remove this one ?
+        r"itk::Neighborhood<.+>",  # TODO: remove this one
+        r"itk::ThreadFunctionType",
+        r"itk::Functor::.+",
+        r"itk::SmartPointer< *itk::Functor::.+",
+        r"itk::Function::.+",
+        r"itk::.+Function.*",  # Level set functions
+        r"itk::watershed::.+",  # ignore the internal classes of the watershed
         # require to wrap too more type
-        "itk::SmartPointer< itk::VoronoiDiagram2D<.+> >",
+        r"itk::SmartPointer< *itk::VoronoiDiagram2D<.+> *>",
         # used internally in ImageToImageMetric
-        r"itk::Image< itk::CovariantVector< double, \d+u >, \d+u >",
-        "itk::FixedArray< itk::SmartPointer.+ >",
+        r"itk::Image< *itk::CovariantVector< *double, *\d+u *>, *\d+u *>",
+        r"itk::FixedArray *< *itk::SmartPointer.+ *>",
         # used internally in itkMattesMutualInformationImageToImageMetric
-        "itk::SmartPointer< itk::Image.+ >",
+        r"itk::SmartPointer< *itk::Image.+ *>",
         # used internally in itkImageRegistrationMethodv4
-        "itk::SmartPointer< const itk::Image.+ >",
-        "itk::SmartPointer< const itk::PointSet.+ >",
-        "itk::SmartPointer< const itk::Mesh.+ >",
-        "itk::ObjectFactoryBasePrivate",
-        "itk::ThreadPoolGlobals",
-        "itk::MultiThreaderBaseGlobals",
+        r"itk::SmartPointer< *const +itk::Image.+ *>",
+        r"itk::SmartPointer< *const +itk::PointSet.+ *>",
+        r"itk::SmartPointer< *const +itk::Mesh.+ *>",
+        r"itk::ObjectFactoryBasePrivate",
+        r"itk::ThreadPoolGlobals",
+        r"itk::MultiThreaderBaseGlobals",
         ".+[(][*][)][(].+",  # functor functions
     ]
 
