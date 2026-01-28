@@ -25,6 +25,28 @@ of the remote modules should **not** contain the "ITK" string prefix in them.
 Git hashes should be used to reference a given module revision. If a tagged version is
 required then the equivalent hash should be used in place of the tag string.
 
+## Working with Modified Remote Modules
+
+When working on remote modules locally, you may want to prevent CMake from updating
+them to the upstream versions during reconfiguration. There are two approaches:
+
+1. **Freeze all remote modules**: Set `ITK_FREEZE_REMOTE_MODULES=ON` to prevent all
+   remote modules from being updated. This is the simplest approach when working with
+   multiple modified remote modules.
+
+   ```bash
+   cmake -DITK_FREEZE_REMOTE_MODULES=ON /path/to/ITK
+   ```
+
+2. **Freeze individual modules**: Set `Module_<ModuleName>_GIT_TAG` to a specific
+   commit hash or empty string to control updates for individual modules.
+
+   ```bash
+   cmake -DModule_MinimalPathExtraction_GIT_TAG=e43a18f43272bea8c9de5ded7846efbffc81f0ad \
+         -DModule_Montage_GIT_TAG=9aafc48520b2cac963f0f1dfad97b32ed9ab89cf \
+         /path/to/ITK
+   ```
+
 
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
 
