@@ -66,6 +66,7 @@ from os.path import exists
 from pathlib import Path
 from keyword import iskeyword
 from typing import Any
+import logging
 
 
 def argument_parser():
@@ -219,8 +220,8 @@ def argument_parser():
 
 glb_options = argument_parser()
 sys.path.insert(1, glb_options.pygccxml_path)
-import pygccxml
-import logging
+import pygccxml  # noqa: E402
+
 
 # Global debugging variables
 pyi_approved_index_list: list[Path] = [
