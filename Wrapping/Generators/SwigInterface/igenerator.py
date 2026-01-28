@@ -291,6 +291,7 @@ class ITKClass:
 
 def remove_class_type(itkclass: str) -> (str, bool):
     typed = False
+    itkclass = str(itkclass)
     if itkclass.startswith("itk"):
         itkclass = itkclass[3:]
     if itkclass.endswith("vnl_lbfgs") and itkclass != "vnl_lbfgs":
@@ -819,7 +820,7 @@ class SwigInputGenerator:
         )
 
     @staticmethod
-    def kwarg_of_interest(member_name):
+    def kwarg_of_interest(member_name: str):
         """
         This function accepts a member function name and returns whether we
         want to list it explicitly in the process_object functional interface
@@ -1150,7 +1151,7 @@ class SwigInputGenerator:
                         kwargs_of_interest[member.name] = {arg_type}
 
     @staticmethod
-    def _get_typehint(bases, prefix, type_map):
+    def _get_typehint(bases: list[str], prefix: str, type_map: dict[str, str]) -> str:
         for key, value in type_map.items():
             if any([b.startswith(f"{key}{prefix}") for b in bases]):
                 return f": {value}" if prefix == "To" else f"-> {value}"
@@ -2010,7 +2011,7 @@ def main():
                 # exclude the lines which end with .mdx
                 pass
             else:
-                submodule_name = stripped.rsplit(".")[0]
+                submodule_name: str = stripped.rsplit(".")[0]
                 if submodule_name.startswith("(const char*)"):
                     submodule_name = submodule_name[len("(const char*)") :]
                 submodule_name = submodule_name.strip('"')
