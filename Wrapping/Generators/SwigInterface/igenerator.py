@@ -401,7 +401,7 @@ def get_arg_type(decls, arg_type, for_snake_case_hints=True):
         if python_type is not None:
             return f"Sequence[{python_type}]"
         elif item_type.startswith("itk::Offset<"):
-            return f"Sequence[Sequence[int]]"
+            return "Sequence[Sequence[int]]"
     elif arg_type_str.startswith("std::vector<"):
         item_type = decls.templates.split(arg_type_str)[1][0]
         python_type = SwigInputGenerator.cpp_to_python(item_type)
@@ -1221,7 +1221,7 @@ class SwigInputGenerator:
                         for kt in kwarg_types[:-1]:
                             kwargs_typehints += f"{kt}, "
                         kwargs_typehints += f"{kwarg_types[-1]}]"
-                    kwargs_typehints += f"=...,"
+                    kwargs_typehints += "=...,"
                 kwarg_dict = ",".join([f"'{k}':{k}" for k in kwarg_snakes])
 
                 return_typehint = self._get_typehint(
@@ -1239,7 +1239,7 @@ class SwigInputGenerator:
     instance = itk.{process_object}.New(*args, **kwargs)
 """
                 if snake_case == "transform_to_displacement_field_filter":
-                    instantiation = f"""
+                    instantiation = """
     transform = None
     if len(args):
         transform = args[0]
