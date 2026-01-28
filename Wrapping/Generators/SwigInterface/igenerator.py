@@ -893,21 +893,31 @@ class SwigInputGenerator:
         s = SwigInputGenerator.remove_std_allocator(s)
 
         # rename basic_string to std::string to make name shorter
-        s = s.replace("std::basic_string< char >", "std::string")
-        s = s.replace(
-            "std::basic_string< char, std::char_traits< char > >", "std::string"
+        s = re.sub(r"std::basic_string\s*<\s*char\s*>", "std::string", s)
+        s = re.sub(
+            r"std::basic_string\s*<\s*char\s*,\s*std::char_traits\s*<\s*char\s*>\s*>",
+            "std::string",
+            s,
         )
-        s = s.replace(
-            "std::basic_ostream< char, std::char_traits< char > >", "std::ostream"
+        s = re.sub(
+            r"std::basic_ostream\s*<\s*char\s*,\s*std::char_traits\s*<\s*char\s*>\s*>",
+            "std::ostream",
+            s,
         )
-        s = s.replace(
-            "std::basic_istream< char, std::char_traits< char > >", "std::istream"
+        s = re.sub(
+            r"std::basic_istream\s*<\s*char\s*,\s*std::char_traits\s*<\s*char\s*>\s*>",
+            "std::istream",
+            s,
         )
-        s = s.replace(
-            "std::basic_ofstream< char, std::char_traits< char > >", "std::ostream"
+        s = re.sub(
+            r"std::basic_ofstream\s*<\s*char\s*,\s*std::char_traits\s*<\s*char\s*>\s*>",
+            "std::ostream",
+            s,
         )
-        s = s.replace(
-            "std::basic_ifstream< char, std::char_traits< char > >", "std::istream"
+        s = re.sub(
+            r"std::basic_ifstream\s*<\s*char\s*,\s*std::char_traits\s*<\s*char\s*>\s*>",
+            "std::istream",
+            s,
         )
 
         # rename some types not renamed by gccxml (why ?)
