@@ -1275,19 +1275,26 @@ def {snake_case}_init_docstring():
             self.outputFile.write("#endif\n")
 
     def generate_constructor(self, typedef, constructor, indent, w):
+        skip_constructor = False
         # iterate over the arguments
         args = []
         for arg in constructor.arguments:
             s = f"{self.get_alias(self.get_declaration_string(arg), w)} {arg.name}"
-            if "unknown" in s:
-                continue
+            if "?unknown?" in s:
+                skip_constructor = True
             # append the default value if it exists
             if arg.default_value:
                 s += f" = {arg.default_value}"
             # and add the string to the arg list
             args.append(s)
+        constructor_declaration_str: str = f"    {typedef.name}({', '.join(args)});\n"
+        if skip_constructor:
+            # print(
+            #     f"WARNING: Unknown type in constructor argument (Perhaps RValueReferenceType argument move constructor): {constructor_declaration_str}"
+            # )
+            return
         self.outputFile.write("  " * indent)
-        self.outputFile.write(f"    {typedef.name}({', '.join(args)});\n")
+        self.outputFile.write(constructor_declaration_str)
 
     def generate_destructor(self, typedef, _destructor, indent, _w):
         self.outputFile.write("  " * indent)
@@ -1359,12 +1366,13 @@ def {snake_case}_init_docstring():
         # iterate over the arguments
         args = []
         method_hints = []
+        skip_method = False
         for argIndex in range(len(method.arguments)):
             arg = method.arguments[argIndex]
             arg_type = self.get_alias(self.get_declaration_string(arg), w)
             s = f"{arg_type} {arg.name}"
-            if "unknown" in s:
-                continue
+            if "?unknown?" in s:
+                skip_method = True
             if "(" in s:
                 self.warn(
                     1,
@@ -1429,6 +1437,14 @@ def {snake_case}_init_docstring():
             ", ".join(args),
             const,
         )
+        if skip_method:
+            # pygccxml version 3 as of 2026-01-27 does not support RValueReferenceType
+            # (and never did)
+            # See: https://github.com/CastXML/pygccxml/issues/263
+            # print(
+            #    f"WARNING: Unknown type in method argument (Perhaps RValueReferenceType argument encountered): {method_definition}"
+            # )
+            return
         self.outputFile.write(method_definition)
 
         if (
