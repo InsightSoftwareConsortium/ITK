@@ -447,12 +447,19 @@ def get_arg_type(decls, arg_type, for_snake_case_hints=True):
     return None
 
 
-def get_type(v):
-    if hasattr(v, "decl_type"):
-        return get_type(v.decl_type)
-    if hasattr(v, "declaration"):
-        return get_type(v.declaration)
-    return v
+def get_type(return_type):
+    # You should treat elaborated_t as syntactic noise and strip it.
+    if isinstance(return_type, pygccxml.declarations.elaborated_t):
+        return_type = pygccxml.declarations.remove_elaborated(return_type)
+
+    if hasattr(return_type, "decl_type"):
+        return_type = get_type(return_type.decl_type)
+    if hasattr(return_type, "declaration"):
+        return_type = get_type(return_type.declaration)
+
+    if isinstance(return_type, pygccxml.declarations.elaborated_t):
+        return_type = pygccxml.declarations.remove_elaborated(return_type)
+    return return_type
 
 
 class IdxGenerator:
