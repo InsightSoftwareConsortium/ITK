@@ -1191,31 +1191,13 @@ class SwigInputGenerator:
 
                 kwargs_typehints = ""
                 kwargs_of_interest = dict()
-                for member in class_type.get_members(access=decls.ACCESS_TYPES.PUBLIC):
-                    if isinstance(
-                        member, decls.member_function_t
-                    ) and self.kwarg_of_interest(member.name):
-                        if len(member.argument_types) > 0:
-                            arg_type = member.argument_types[0]
-                            if member.name in kwargs_of_interest:
-                                kwargs_of_interest[member.name].add(arg_type)
-                            else:
-                                kwargs_of_interest[member.name] = {arg_type}
+                self._extract_kwargs_from_class(class_type, decls, kwargs_of_interest)
                 base_index = 0
                 while recursive_bases[base_index].related_class.name != "ProcessObject":
                     base_class = recursive_bases[base_index].related_class
-                    for member in base_class.get_members(
-                        access=decls.ACCESS_TYPES.PUBLIC
-                    ):
-                        if isinstance(
-                            member, decls.member_function_t
-                        ) and self.kwarg_of_interest(member.name):
-                            if len(member.argument_types) > 0:
-                                arg_type = member.argument_types[0]
-                                if member.name in kwargs_of_interest:
-                                    kwargs_of_interest[member.name].add(arg_type)
-                                else:
-                                    kwargs_of_interest[member.name] = {arg_type}
+                    self._extract_kwargs_from_class(
+                        base_class, decls, kwargs_of_interest
+                    )
                     base_index += 1
                     if base_index >= len(recursive_bases):
                         # ImageDuplicator, ...
