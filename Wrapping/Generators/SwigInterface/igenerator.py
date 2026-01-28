@@ -1137,6 +1137,25 @@ class SwigInputGenerator:
             self.outputFile.write("  " * indent)
             self.outputFile.write("};\n\n\n")
 
+    def _extract_kwargs_from_class(self, class_type, decls, kwargs_of_interest):
+        for member in class_type.get_members(access=decls.ACCESS_TYPES.PUBLIC):
+            if isinstance(member, decls.member_function_t) and self.kwarg_of_interest(
+                member.name
+            ):
+                if len(member.argument_types) > 0:
+                    arg_type = member.argument_types[0]
+                    if member.name in kwargs_of_interest:
+                        kwargs_of_interest[member.name].add(arg_type)
+                    else:
+                        kwargs_of_interest[member.name] = {arg_type}
+
+    @staticmethod
+    def _get_typehint(bases, prefix, type_map):
+        for key, value in type_map.items():
+            if any([b.startswith(f"{key}{prefix}") for b in bases]):
+                return f": {value}" if prefix == "To" else f"-> {value}"
+        return ""
+
     def generate_process_object_snake_case_functions(self, typedefs):
         self.info("Generating snake case functions")
         process_objects = set()
@@ -1159,15 +1178,16 @@ class SwigInputGenerator:
                 recursive_bases = class_type.recursive_bases
                 bases = [base.related_class.name for base in recursive_bases]
 
-                args_typehint = ""
-                if any([b.startswith("ImageTo") for b in bases]):
-                    args_typehint = ": itkt.ImageLike"
-                elif any([b.startswith("MeshTo") for b in bases]):
-                    args_typehint = ": itkt.Mesh"
-                elif any([b.startswith("PathTo") for b in bases]):
-                    args_typehint = ": itkt.Path"
-                elif any([b.startswith("SpatialObjectTo") for b in bases]):
-                    args_typehint = ": itkt.SpatialObject"
+                args_typehint = self._get_typehint(
+                    bases,
+                    "To",
+                    {
+                        "Image": "itkt.ImageLike",
+                        "Mesh": "itkt.Mesh",
+                        "Path": "itkt.Path",
+                        "SpatialObject": "itkt.SpatialObject",
+                    },
+                )
 
                 kwargs_typehints = ""
                 kwargs_of_interest = dict()
@@ -1222,13 +1242,15 @@ class SwigInputGenerator:
                     kwargs_typehints += f"=...,"
                 kwarg_dict = ",".join([f"'{k}':{k}" for k in kwarg_snakes])
 
-                return_typehint = ""
-                if any([b.startswith("ImageSource") for b in bases]):
-                    return_typehint = "-> itkt.ImageSourceReturn"
-                elif any([b.startswith("MeshSource") for b in bases]):
-                    return_typehint = "-> itkt.MeshSourceReturn"
-                elif any([b.startswith("PathSource") for b in bases]):
-                    return_typehint = "-> itkt.PathSourceReturn"
+                return_typehint = self._get_typehint(
+                    bases,
+                    "Source",
+                    {
+                        "Image": "itkt.ImageSourceReturn",
+                        "Mesh": "itkt.MeshSourceReturn",
+                        "Path": "itkt.PathSourceReturn",
+                    },
+                )
 
                 instantiation = f"""
 
