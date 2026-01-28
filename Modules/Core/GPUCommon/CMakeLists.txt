@@ -33,20 +33,8 @@ if(ITK_USE_GPU)
   set(
     ITKGPUCommon_LIBRARIES
     ITKGPUCommon
-    ${OpenCL_LIBRARIES}
+    OpenCL::OpenCL
   )
-  if(APPLE)
-    list(APPEND ITKGPUCommon_LIBRARIES "-framework OpenCL")
-  elseif(WINDOWS)
-    list(
-      APPEND
-      ITKGPUCommon_LIBRARIES
-      cfgmgr32
-      OneCoreUAP
-    )
-  endif()
-
-  set(ITKGPUCommon_SYSTEM_INCLUDE_DIRS ${OpenCL_INCLUDE_DIRS})
 endif()
 
 if(NOT ITK_SOURCE_DIR)

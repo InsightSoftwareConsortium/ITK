@@ -6,5 +6,4 @@ if(ITK_USE_GPU)
   write_gpu_kernels("${ITKGPUSmoothing_Kernels}" ITKGPUSmoothing_SRCS)
 
   itk_module_add_library(ITKGPUSmoothing ${ITKGPUSmoothing_SRCS})
-  target_link_libraries(ITKGPUSmoothing LINK_PUBLIC ${OPENCL_LIBRARIES})
 endif()
