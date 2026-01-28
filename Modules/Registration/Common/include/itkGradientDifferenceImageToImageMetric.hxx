@@ -126,6 +126,27 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
   }
 }
 
+
+template <typename TFixedImage, typename TMovingImage>
+void
+GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::UseLegacySobelOperatorCoordinates(
+  const bool useLegacyCoefficients)
+{
+  if (useLegacyCoefficients != IsUsingLegacySobelOperatorCoordinates())
+  {
+    for (auto & sobelOperator : m_FixedSobelOperators)
+    {
+      sobelOperator.UseLegacyCoefficients(useLegacyCoefficients);
+    }
+    for (auto & sobelOperator : m_MovedSobelOperators)
+    {
+      sobelOperator.UseLegacyCoefficients(useLegacyCoefficients);
+    }
+    this->Modified();
+  }
+}
+
+
 template <typename TFixedImage, typename TMovingImage>
 void
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const

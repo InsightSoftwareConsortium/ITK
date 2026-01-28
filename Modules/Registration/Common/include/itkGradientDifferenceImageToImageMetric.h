@@ -137,6 +137,22 @@ public:
   itkSetMacro(DerivativeDelta, double);
   itkGetConstReferenceMacro(DerivativeDelta, double);
   /** @ITKEndGrouping */
+
+  /** Allows specifying whether or not the Sobel operators should use the legacy coordinate values, compatible with ITK
+   * <= 5.4.
+   * \sa SobelOperator::SetUseLegacyCoefficients */
+  void
+  UseLegacySobelOperatorCoordinates(const bool useLegacyCoefficients);
+
+  /** Tells whether or not the Sobel operators are using the legacy coordinate values, compatible with ITK <= 5.4.
+   * \sa SobelOperator::SetUseLegacyCoefficients */
+  bool
+  IsUsingLegacySobelOperatorCoordinates() const
+  {
+    // It is sufficient to just check the first operator, because this property is the same for all operators.
+    return m_FixedSobelOperators[0].IsUsingLegacyCoefficients();
+  }
+
 protected:
   GradientDifferenceImageToImageMetric();
   ~GradientDifferenceImageToImageMetric() override = default;
