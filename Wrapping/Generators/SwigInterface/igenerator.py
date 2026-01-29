@@ -66,6 +66,7 @@ from os.path import exists
 from pathlib import Path
 from keyword import iskeyword
 from typing import Any
+import logging
 
 
 def argument_parser():
@@ -219,8 +220,8 @@ def argument_parser():
 
 glb_options = argument_parser()
 sys.path.insert(1, glb_options.pygccxml_path)
-import pygccxml
-import logging
+import pygccxml  # noqa: E402
+
 
 # Global debugging variables
 pyi_approved_index_list: list[Path] = [
@@ -290,6 +291,7 @@ class ITKClass:
 
 def remove_class_type(itkclass: str) -> (str, bool):
     typed = False
+    itkclass = str(itkclass)
     if itkclass.startswith("itk"):
         itkclass = itkclass[3:]
     if itkclass.endswith("vnl_lbfgs") and itkclass != "vnl_lbfgs":
@@ -400,7 +402,7 @@ def get_arg_type(decls, arg_type, for_snake_case_hints=True):
         if python_type is not None:
             return f"Sequence[{python_type}]"
         elif item_type.startswith("itk::Offset<"):
-            return f"Sequence[Sequence[int]]"
+            return "Sequence[Sequence[int]]"
     elif arg_type_str.startswith("std::vector<"):
         item_type = decls.templates.split(arg_type_str)[1][0]
         python_type = SwigInputGenerator.cpp_to_python(item_type)
@@ -447,12 +449,19 @@ def get_arg_type(decls, arg_type, for_snake_case_hints=True):
     return None
 
 
-def get_type(v):
-    if hasattr(v, "decl_type"):
-        return get_type(v.decl_type)
-    if hasattr(v, "declaration"):
-        return get_type(v.declaration)
-    return v
+def get_type(return_type):
+    # You should treat elaborated_t as syntactic noise and strip it.
+    if isinstance(return_type, pygccxml.declarations.elaborated_t):
+        return_type = pygccxml.declarations.remove_elaborated(return_type)
+
+    if hasattr(return_type, "decl_type"):
+        return_type = get_type(return_type.decl_type)
+    if hasattr(return_type, "declaration"):
+        return_type = get_type(return_type.declaration)
+
+    if isinstance(return_type, pygccxml.declarations.elaborated_t):
+        return_type = pygccxml.declarations.remove_elaborated(return_type)
+    return return_type
 
 
 class IdxGenerator:
@@ -484,43 +493,43 @@ class SwigInputGenerator:
     """Generates a swig input .i file for an ITK module."""
 
     notWrapped = [
-        "std::_Deque_alloc<.+>",
-        "itk::AtomicInt<.+>",
-        "itk::MapContainer< unsigned long, itk::CellInterface<.+>",
-        "itk::VectorContainer< unsigned long, itk::CellInterface<.+>",
-        "itk::CellInterface< double, itk::QuadEdgeMeshCellTraitsInfo<.+>",
-        "itk::QuadEdgeMeshLineCell< itk::CellInterface<.+>",
-        "itk::LibHandle",
-        "itk::NeighborhoodAllocator<.+>",
+        r"std::_Deque_alloc<.+>",
+        r"itk::AtomicInt<.+>",
+        r"itk::MapContainer< *unsigned long, *itk::CellInterface<.+>",
+        r"itk::VectorContainer< *unsigned *long, *itk::CellInterface<.+>",
+        r"itk::CellInterface< *double, *itk::QuadEdgeMeshCellTraitsInfo<.+>",
+        r"itk::QuadEdgeMeshLineCell< *itk::CellInterface<.+>",
+        r"itk::LibHandle",
+        r"itk::NeighborhoodAllocator<.+>",
         # to avoid wrapping all the region for all the dims
-        "itk::ImageRegion<.+>",
-        "itk::ImportImageContainer<.+>",
-        "itk::DefaultPixelAccessor<.+>",
-        "itk::NeighborhoodAccessorFunctor<.+>",
-        "itk::DefaultVectorPixelAccessor<.+>",
-        "itk::VectorImageNeighborhoodAccessorFunctor<.+>",
-        "itk::.*Iterator.*",  # TODO: remove this one ?
-        "itk::Neighborhood<.+>",  # TODO: remove this one
-        "itk::ThreadFunctionType",
-        "itk::Functor::.+",
-        "itk::SmartPointer< itk::Functor::.+",
-        "itk::Function::.+",
-        "itk::.+Function.*",  # Level set functions
-        "itk::watershed::.+",  # ignore the internal classes of the watershed
+        r"itk::ImageRegion<.+>",
+        r"itk::ImportImageContainer<.+>",
+        r"itk::DefaultPixelAccessor<.+>",
+        r"itk::NeighborhoodAccessorFunctor<.+>",
+        r"itk::DefaultVectorPixelAccessor<.+>",
+        r"itk::VectorImageNeighborhoodAccessorFunctor<.+>",
+        r"itk::.*Iterator.*",  # TODO: remove this one ?
+        r"itk::Neighborhood<.+>",  # TODO: remove this one
+        r"itk::ThreadFunctionType",
+        r"itk::Functor::.+",
+        r"itk::SmartPointer< *itk::Functor::.+",
+        r"itk::Function::.+",
+        r"itk::.+Function.*",  # Level set functions
+        r"itk::watershed::.+",  # ignore the internal classes of the watershed
         # require to wrap too more type
-        "itk::SmartPointer< itk::VoronoiDiagram2D<.+> >",
+        r"itk::SmartPointer< *itk::VoronoiDiagram2D<.+> *>",
         # used internally in ImageToImageMetric
-        r"itk::Image< itk::CovariantVector< double, \d+u >, \d+u >",
-        "itk::FixedArray< itk::SmartPointer.+ >",
+        r"itk::Image< *itk::CovariantVector< *double, *\d+u *>, *\d+u *>",
+        r"itk::FixedArray *< *itk::SmartPointer.+ *>",
         # used internally in itkMattesMutualInformationImageToImageMetric
-        "itk::SmartPointer< itk::Image.+ >",
+        r"itk::SmartPointer< *itk::Image.+ *>",
         # used internally in itkImageRegistrationMethodv4
-        "itk::SmartPointer< const itk::Image.+ >",
-        "itk::SmartPointer< const itk::PointSet.+ >",
-        "itk::SmartPointer< const itk::Mesh.+ >",
-        "itk::ObjectFactoryBasePrivate",
-        "itk::ThreadPoolGlobals",
-        "itk::MultiThreaderBaseGlobals",
+        r"itk::SmartPointer< *const +itk::Image.+ *>",
+        r"itk::SmartPointer< *const +itk::PointSet.+ *>",
+        r"itk::SmartPointer< *const +itk::Mesh.+ *>",
+        r"itk::ObjectFactoryBasePrivate",
+        r"itk::ThreadPoolGlobals",
+        r"itk::MultiThreaderBaseGlobals",
         ".+[(][*][)][(].+",  # functor functions
     ]
 
@@ -738,7 +747,10 @@ class SwigInputGenerator:
         if t.decl_string == "::PyObject *":
             # don't go further - we want to keep that one as is
             return "::PyObject *"
-        if isinstance(t, pygccxml.declarations.cpptypes.pointer_t):
+        if isinstance(t, pygccxml.declarations.cpptypes.array_t):
+            array_indicator = " *"
+            return SwigInputGenerator.get_declaration_string(t.base) + array_indicator
+        elif isinstance(t, pygccxml.declarations.cpptypes.pointer_t):
             return SwigInputGenerator.get_declaration_string(get_type(t.base)) + " *"
         elif isinstance(t, pygccxml.declarations.cpptypes.const_t):
             return (
@@ -808,7 +820,7 @@ class SwigInputGenerator:
         )
 
     @staticmethod
-    def kwarg_of_interest(member_name):
+    def kwarg_of_interest(member_name: str):
         """
         This function accepts a member function name and returns whether we
         want to list it explicitly in the process_object functional interface
@@ -883,21 +895,31 @@ class SwigInputGenerator:
         s = SwigInputGenerator.remove_std_allocator(s)
 
         # rename basic_string to std::string to make name shorter
-        s = s.replace("std::basic_string< char >", "std::string")
-        s = s.replace(
-            "std::basic_string< char, std::char_traits< char > >", "std::string"
+        s = re.sub(r"std::basic_string\s*<\s*char\s*>", "std::string", s)
+        s = re.sub(
+            r"std::basic_string\s*<\s*char\s*,\s*std::char_traits\s*<\s*char\s*>\s*>",
+            "std::string",
+            s,
         )
-        s = s.replace(
-            "std::basic_ostream< char, std::char_traits< char > >", "std::ostream"
+        s = re.sub(
+            r"std::basic_ostream\s*<\s*char\s*,\s*std::char_traits\s*<\s*char\s*>\s*>",
+            "std::ostream",
+            s,
         )
-        s = s.replace(
-            "std::basic_istream< char, std::char_traits< char > >", "std::istream"
+        s = re.sub(
+            r"std::basic_istream\s*<\s*char\s*,\s*std::char_traits\s*<\s*char\s*>\s*>",
+            "std::istream",
+            s,
         )
-        s = s.replace(
-            "std::basic_ofstream< char, std::char_traits< char > >", "std::ostream"
+        s = re.sub(
+            r"std::basic_ofstream\s*<\s*char\s*,\s*std::char_traits\s*<\s*char\s*>\s*>",
+            "std::ostream",
+            s,
         )
-        s = s.replace(
-            "std::basic_ifstream< char, std::char_traits< char > >", "std::istream"
+        s = re.sub(
+            r"std::basic_ifstream\s*<\s*char\s*,\s*std::char_traits\s*<\s*char\s*>\s*>",
+            "std::istream",
+            s,
         )
 
         # rename some types not renamed by gccxml (why ?)
@@ -1116,6 +1138,25 @@ class SwigInputGenerator:
             self.outputFile.write("  " * indent)
             self.outputFile.write("};\n\n\n")
 
+    def _extract_kwargs_from_class(self, class_type, decls, kwargs_of_interest):
+        for member in class_type.get_members(access=decls.ACCESS_TYPES.PUBLIC):
+            if isinstance(member, decls.member_function_t) and self.kwarg_of_interest(
+                member.name
+            ):
+                if len(member.argument_types) > 0:
+                    arg_type = member.argument_types[0]
+                    if member.name in kwargs_of_interest:
+                        kwargs_of_interest[member.name].add(arg_type)
+                    else:
+                        kwargs_of_interest[member.name] = {arg_type}
+
+    @staticmethod
+    def _get_typehint(bases: list[str], prefix: str, type_map: dict[str, str]) -> str:
+        for key, value in type_map.items():
+            if any([b.startswith(f"{key}{prefix}") for b in bases]):
+                return f": {value}" if prefix == "To" else f"-> {value}"
+        return ""
+
     def generate_process_object_snake_case_functions(self, typedefs):
         self.info("Generating snake case functions")
         process_objects = set()
@@ -1138,43 +1179,26 @@ class SwigInputGenerator:
                 recursive_bases = class_type.recursive_bases
                 bases = [base.related_class.name for base in recursive_bases]
 
-                args_typehint = ""
-                if any([b.startswith("ImageTo") for b in bases]):
-                    args_typehint = ": itkt.ImageLike"
-                elif any([b.startswith("MeshTo") for b in bases]):
-                    args_typehint = ": itkt.Mesh"
-                elif any([b.startswith("PathTo") for b in bases]):
-                    args_typehint = ": itkt.Path"
-                elif any([b.startswith("SpatialObjectTo") for b in bases]):
-                    args_typehint = ": itkt.SpatialObject"
+                args_typehint = self._get_typehint(
+                    bases,
+                    "To",
+                    {
+                        "Image": "itkt.ImageLike",
+                        "Mesh": "itkt.Mesh",
+                        "Path": "itkt.Path",
+                        "SpatialObject": "itkt.SpatialObject",
+                    },
+                )
 
                 kwargs_typehints = ""
                 kwargs_of_interest = dict()
-                for member in class_type.get_members(access=decls.ACCESS_TYPES.PUBLIC):
-                    if isinstance(
-                        member, decls.member_function_t
-                    ) and self.kwarg_of_interest(member.name):
-                        if len(member.argument_types) > 0:
-                            arg_type = member.argument_types[0]
-                            if member.name in kwargs_of_interest:
-                                kwargs_of_interest[member.name].add(arg_type)
-                            else:
-                                kwargs_of_interest[member.name] = {arg_type}
+                self._extract_kwargs_from_class(class_type, decls, kwargs_of_interest)
                 base_index = 0
                 while recursive_bases[base_index].related_class.name != "ProcessObject":
                     base_class = recursive_bases[base_index].related_class
-                    for member in base_class.get_members(
-                        access=decls.ACCESS_TYPES.PUBLIC
-                    ):
-                        if isinstance(
-                            member, decls.member_function_t
-                        ) and self.kwarg_of_interest(member.name):
-                            if len(member.argument_types) > 0:
-                                arg_type = member.argument_types[0]
-                                if member.name in kwargs_of_interest:
-                                    kwargs_of_interest[member.name].add(arg_type)
-                                else:
-                                    kwargs_of_interest[member.name] = {arg_type}
+                    self._extract_kwargs_from_class(
+                        base_class, decls, kwargs_of_interest
+                    )
                     base_index += 1
                     if base_index >= len(recursive_bases):
                         # ImageDuplicator, ...
@@ -1198,23 +1222,25 @@ class SwigInputGenerator:
                         for kt in kwarg_types[:-1]:
                             kwargs_typehints += f"{kt}, "
                         kwargs_typehints += f"{kwarg_types[-1]}]"
-                    kwargs_typehints += f"=...,"
+                    kwargs_typehints += "=...,"
                 kwarg_dict = ",".join([f"'{k}':{k}" for k in kwarg_snakes])
 
-                return_typehint = ""
-                if any([b.startswith("ImageSource") for b in bases]):
-                    return_typehint = "-> itkt.ImageSourceReturn"
-                elif any([b.startswith("MeshSource") for b in bases]):
-                    return_typehint = "-> itkt.MeshSourceReturn"
-                elif any([b.startswith("PathSource") for b in bases]):
-                    return_typehint = "-> itkt.PathSourceReturn"
+                return_typehint = self._get_typehint(
+                    bases,
+                    "Source",
+                    {
+                        "Image": "itkt.ImageSourceReturn",
+                        "Mesh": "itkt.MeshSourceReturn",
+                        "Path": "itkt.PathSourceReturn",
+                    },
+                )
 
                 instantiation = f"""
 
     instance = itk.{process_object}.New(*args, **kwargs)
 """
                 if snake_case == "transform_to_displacement_field_filter":
-                    instantiation = f"""
+                    instantiation = """
     transform = None
     if len(args):
         transform = args[0]
@@ -1275,19 +1301,27 @@ def {snake_case}_init_docstring():
             self.outputFile.write("#endif\n")
 
     def generate_constructor(self, typedef, constructor, indent, w):
+        skip_constructor = False
         # iterate over the arguments
         args = []
         for arg in constructor.arguments:
             s = f"{self.get_alias(self.get_declaration_string(arg), w)} {arg.name}"
-            if "unknown" in s:
-                continue
+            if "?unknown?" in s:
+                skip_constructor = True
             # append the default value if it exists
             if arg.default_value:
                 s += f" = {arg.default_value}"
             # and add the string to the arg list
             args.append(s)
+        constructor_declaration_str: str = f"    {typedef.name}({', '.join(args)});\n"
+        if skip_constructor:
+            # print(
+            #     "WARNING: Unknown type in constructor argument "
+            #     f"(Perhaps RValueReferenceType argument move constructor): {constructor_declaration_str}"
+            # )
+            return
         self.outputFile.write("  " * indent)
-        self.outputFile.write(f"    {typedef.name}({', '.join(args)});\n")
+        self.outputFile.write(constructor_declaration_str)
 
     def generate_destructor(self, typedef, _destructor, indent, _w):
         self.outputFile.write("  " * indent)
@@ -1359,12 +1393,13 @@ def {snake_case}_init_docstring():
         # iterate over the arguments
         args = []
         method_hints = []
+        skip_method = False
         for argIndex in range(len(method.arguments)):
             arg = method.arguments[argIndex]
             arg_type = self.get_alias(self.get_declaration_string(arg), w)
             s = f"{arg_type} {arg.name}"
-            if "unknown" in s:
-                continue
+            if "?unknown?" in s:
+                skip_method = True
             if "(" in s:
                 self.warn(
                     1,
@@ -1429,6 +1464,15 @@ def {snake_case}_init_docstring():
             ", ".join(args),
             const,
         )
+        if skip_method:
+            # pygccxml version 3 as of 2026-01-27 does not support RValueReferenceType
+            # (and never did)
+            # See: https://github.com/CastXML/pygccxml/issues/263
+            # print(
+            #    "WARNING: Unknown type in method argument"
+            #    f"(Perhaps RValueReferenceType argument encountered): {method_definition}"
+            # )
+            return
         self.outputFile.write(method_definition)
 
         if (
@@ -1948,7 +1992,10 @@ def main():
     pygccxml.declarations.scopedef_t.ALLOW_EMPTY_MDECL_WRAPPER = True
 
     pygccxml_config = pygccxml.parser.config.xml_generator_configuration_t(
-        xml_generator_path=options.castxml_path, xml_generator="castxml"
+        xml_generator_path=options.castxml_path,
+        xml_generator="castxml",
+        # Use castxml-output=1 to take advantage of the newer XML format
+        flags=["--castxml-output=1"],
     )
 
     submodule_names_list: list[str] = []
@@ -1964,7 +2011,7 @@ def main():
                 # exclude the lines which end with .mdx
                 pass
             else:
-                submodule_name = stripped.rsplit(".")[0]
+                submodule_name: str = stripped.rsplit(".")[0]
                 if submodule_name.startswith("(const char*)"):
                     submodule_name = submodule_name[len("(const char*)") :]
                 submodule_name = submodule_name.strip('"')

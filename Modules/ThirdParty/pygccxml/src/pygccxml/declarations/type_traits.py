@@ -480,25 +480,57 @@ def is_fundamental(type_):
             (cpptypes.volatile_t, cpptypes.const_t))
 
 
+def _normalize(string):
+    return string.replace(' ', '').replace("::std", "std")
+
+
+def _normalize_equivalences(equivalences):
+    return [_normalize(eq) for eq in equivalences]
+
+
 string_equivalences = [
     (
-        '::std::basic_string<char,std::char_traits<char>,'
-        'std::allocator<char>>'),
-    '::std::basic_string<char>', '::std::string']
+        'std::basic_string<char, std::char_traits<char>, '
+        'std::allocator<char>>'
+    ),
+    'std::basic_string<char>',
+    'std::string'
+    ]
 
 wstring_equivalences = [
     (
-        '::std::basic_string<wchar_t,std::char_traits<wchar_t>,' +
-        'std::allocator<wchar_t>>'),
-    '::std::basic_string<wchar_t>', '::std::wstring']
+        'std::basic_string<wchar_t, std::char_traits<wchar_t>, '
+        'std::allocator<wchar_t>>'
+    ),
+    'std::basic_string<wchar_t>',
+    'std::wstring'
+    ]
 
 ostream_equivalences = [
-    '::std::basic_ostream<char,std::char_traits<char>>',
-    '::std::basic_ostream<char>', '::std::ostream']
+    'std::basic_ostream<char, std::char_traits<char>>',
+    'std::basic_ostream<char>',
+    'std::ostream'
+    ]
 
 wostream_equivalences = [
-    '::std::basic_ostream<wchar_t,std::char_traits<wchar_t>>',
-    '::std::basic_ostream<wchar_t>', '::std::wostream']
+    'std::basic_ostream<wchar_t, std::char_traits<wchar_t>>',
+    'std::basic_ostream<wchar_t>',
+    'std::wostream'
+    ]
+
+
+normalized_string_equivalences = _normalize_equivalences(
+    string_equivalences
+    )
+normalized_wstring_equivalences = _normalize_equivalences(
+    wstring_equivalences
+    )
+normalized_ostream_equivalences = _normalize_equivalences(
+    ostream_equivalences
+    )
+normalized_wostream_equivalences = _normalize_equivalences(
+    wostream_equivalences
+    )
 
 
 def is_std_string(type_):
@@ -508,12 +540,12 @@ def is_std_string(type_):
     """
 
     if isinstance(type_, str):
-        return type_ in string_equivalences
+        return _normalize(type_) in normalized_string_equivalences
 
     type_ = remove_alias(type_)
     type_ = remove_reference(type_)
     type_ = remove_cv(type_)
-    return type_.decl_string.replace(' ', '') in string_equivalences
+    return _normalize(type_.decl_string) in normalized_string_equivalences
 
 
 def is_std_wstring(type_):
@@ -523,12 +555,12 @@ def is_std_wstring(type_):
     """
 
     if isinstance(type_, str):
-        return type_ in wstring_equivalences
+        return _normalize(type_) in normalized_wstring_equivalences
 
     type_ = remove_alias(type_)
     type_ = remove_reference(type_)
     type_ = remove_cv(type_)
-    return type_.decl_string.replace(' ', '') in wstring_equivalences
+    return _normalize(type_.decl_string) in normalized_wstring_equivalences
 
 
 def is_std_ostream(type_):
@@ -538,12 +570,12 @@ def is_std_ostream(type_):
     """
 
     if isinstance(type_, str):
-        return type_ in ostream_equivalences
+        return _normalize(type_) in normalized_ostream_equivalences
 
     type_ = remove_alias(type_)
     type_ = remove_reference(type_)
     type_ = remove_cv(type_)
-    return type_.decl_string.replace(' ', '') in ostream_equivalences
+    return _normalize(type_.decl_string) in normalized_ostream_equivalences
 
 
 def is_std_wostream(type_):
@@ -553,9 +585,9 @@ def is_std_wostream(type_):
     """
 
     if isinstance(type_, str):
-        return type_ in wostream_equivalences
+        return _normalize(type_) in normalized_wostream_equivalences
 
     type_ = remove_alias(type_)
     type_ = remove_reference(type_)
     type_ = remove_cv(type_)
-    return type_.decl_string.replace(' ', '') in wostream_equivalences
+    return _normalize(type_.decl_string) in normalized_wostream_equivalences
