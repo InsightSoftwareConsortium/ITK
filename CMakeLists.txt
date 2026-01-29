@@ -188,6 +188,11 @@ set(main_project_name ${_ITKModuleMacros_DEFAULT_LABEL})
 #-----------------------------------------------------------------------------
 configure_file(CMake/ITKConfigVersion.cmake.in ITKConfigVersion.cmake @ONLY)
 
+#
+if(NOT DEFINED ITK_LIBRARY_NAMESPACE)
+  set(ITK_LIBRARY_NAMESPACE "ITK")
+endif()
+
 if(NOT CMAKE_INSTALL_LIBDIR)
   set(CMAKE_INSTALL_LIBDIR lib)
 endif()
