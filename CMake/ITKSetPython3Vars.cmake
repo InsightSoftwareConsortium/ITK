@@ -7,7 +7,7 @@
 # may become less reliable with newer versions of CMake (as opposed setting FindPython3 HINTS).  Current
 # implementation gives preference to active virtualenvs.
 cmake_policy(SET CMP0094 NEW) # makes FindPython3 prefer activated virtualenv Python to latest version
-set(PYTHON_VERSION_MIN 3.9)
+set(PYTHON_VERSION_MIN 3.10)
 set(PYTHON_VERSION_MAX 3.999)
 if(DEFINED Python3_EXECUTABLE) # if already specified
   set(_specified_Python3_EXECUTABLE ${Python3_EXECUTABLE})
