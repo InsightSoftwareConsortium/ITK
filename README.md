@@ -17,6 +17,7 @@ ITK: The Insight Toolkit
 | Azure Pipelines | macOS | [![Build Status](https://dev.azure.com/itkrobotmacos/ITK.macOS/_apis/build/status/ITK.macOS?branchName=main)](https://dev.azure.com/itkrobotmacos/ITK.macOS/_build/latest?definitionId=2&branchName=main) | [![Build Status](https://dev.azure.com/itkrobotmacospython/ITK.macOS.Python/_apis/build/status/ITK.macOS.Python?branchName=main)](https://dev.azure.com/itkrobotmacospython/ITK.macOS.Python/_build/latest?definitionId=2&branchName=main) |
 | GitHub Actions | Linux, Windows, macOS | [![ITK.Pixi](https://github.com/InsightSoftwareConsortium/ITK/actions/workflows/pixi.yml/badge.svg)](https://github.com/InsightSoftwareConsortium/ITK/actions/workflows/pixi.yml) | |
 | GitHub Actions | macOS (Apple Silicon)|  [![ITK.macOS.Arm64](https://github.com/InsightSoftwareConsortium/ITK/actions/workflows/macos-arm.yml/badge.svg)](https://github.com/InsightSoftwareConsortium/ITK/actions/workflows/macos-arm.yml)| |
+| GitHub Actions | Linux, macOS ARM64|  [![ITK.Arm64](https://github.com/InsightSoftwareConsortium/ITK/actions/workflows/arm.yml/badge.svg)](https://github.com/InsightSoftwareConsortium/ITK/actions/workflows/arm.yml)| |
 | Azure Pipelines | Linux (Code coverage)| [![Build Status](https://dev.azure.com/itkrobotbatch/ITK.Coverage/_apis/build/status/ITK.Coverage?branchName=main)](https://dev.azure.com/itkrobotbatch/ITK.Coverage/_build/latest?definitionId=3&branchName=main) | |
 
 Links
