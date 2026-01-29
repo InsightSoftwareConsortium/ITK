@@ -600,28 +600,6 @@ class SwigInputGenerator:
        protected:
      };
     """,
-        "LD": """class stdcomplexLD {
-           public:
-             ~stdcomplexLD();
-             stdcomplexLD & operator=(stdcomplexLD const & arg0);
-             stdcomplexLD(stdcomplexLD const & arg0);
-             stdcomplexLD(stdcomplexLD __z);
-             stdcomplexLD(long double r = 0.0f, long double i = 0.0f);
-             stdcomplexLD(stdcomplexD const & __z);
-             long double real();
-             long double const real() const;
-             long double imag();
-             long double const imag() const;
-             stdcomplexLD & operator=(long double __f);
-             stdcomplexLD & operator+=(long double __f);
-             stdcomplexLD & operator-=(long double __f);
-             stdcomplexLD & operator*=(long double __f);
-             stdcomplexLD & operator/=(long double __f);
-             // stdcomplexLD const & __rep() const;
-           private:
-           protected:
-         };
-        """,
     }
 
     new_override = '''
@@ -1039,8 +1017,6 @@ class SwigInputGenerator:
                 self.outputFile.write(self.stdcomplex_headers["D"] + "\n")
             elif typedef.name == "stdcomplexF":
                 self.outputFile.write(self.stdcomplex_headers["F"] + "\n")
-            elif typedef.name == "stdcomplexLD":
-                self.outputFile.write(self.stdcomplex_headers["LD"] + "\n")
             else:
                 assert (
                     False
