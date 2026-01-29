@@ -35,9 +35,6 @@ from . import _ITKCommonPython
 
 // must be included in the end to avoid wrong std::string typemaps
 %include std_iostream.i
-// broken for now when used after std_string.i: error: ‘basic_string’ has not been declared
-// TODO: make a bug report to swig
-// %include std_sstream.i
 
 // let str be usable as a template parameter instead of std::string
 %pythoncode {
