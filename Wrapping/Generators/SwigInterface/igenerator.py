@@ -880,11 +880,6 @@ class SwigInputGenerator:
         # normalize string
         s = SwigInputGenerator.normalize(s)
 
-        # workaround a bug - or is it a feature ? - somewhere
-        s = s.replace("complex float", "std::complex<float>")
-        s = s.replace("complex double", "std::complex<double>")
-        s = s.replace("complex long double", "std::complex<long double>")
-
         (s, end) = SwigInputGenerator.type_and_decorators(s)
 
         if s in self.aliases:
