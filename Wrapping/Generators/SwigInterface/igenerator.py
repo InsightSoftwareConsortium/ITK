@@ -492,6 +492,7 @@ class IdxGenerator:
 class SwigInputGenerator:
     """Generates a swig input .i file for an ITK module."""
 
+    previously_created_constructors_set = set()
     notWrapped = [
         r"std::_Deque_alloc<.+>",
         r"itk::AtomicInt<.+>",
@@ -1301,6 +1302,14 @@ def {snake_case}_init_docstring():
             #     f"(Perhaps RValueReferenceType argument move constructor): {constructor_declaration_str}"
             # )
             return
+        if constructor_declaration_str in self.previously_created_constructors_set:
+            # print(
+            #     "WARNING: Duplicate constructor attempted to be written: "
+            #     f"{constructor_declaration_str} for {typedef.name}"
+            # )
+            return
+
+        self.previously_created_constructors_set.add(constructor_declaration_str)
         self.outputFile.write("  " * indent)
         self.outputFile.write(constructor_declaration_str)
 
