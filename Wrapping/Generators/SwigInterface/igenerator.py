@@ -1076,7 +1076,9 @@ class SwigInputGenerator:
                             51, f"Member typedef are not supported: {member.name}", w
                         )
                     elif isinstance(member, decls.member_function_t):
-                        self.generate_method(typedef, member, indent, w)
+                        self.generate_method(
+                            typedef, member, indent, w, is_operator=False
+                        )
                     elif isinstance(member, decls.constructor_t):
                         self.generate_constructor(typedef, member, indent, w)
                     elif isinstance(member, decls.member_operator_t):
@@ -1333,7 +1335,7 @@ def {snake_case}_init_docstring():
             python_enum_names = [f"{enum.name}_{name.strip()}" for name in content]
             self.classes[self.current_class].enums += python_enum_names
 
-    def generate_method(self, typedef, method, indent, w, is_operator=False):
+    def generate_method(self, typedef, method, indent, w, is_operator):
         self.info(f"Generating interface for method  '{typedef.name}::{method.name}'.")
         # avoid the apply method for the class vnl_c_vector: the signature is
         # quite strange and currently confuse swig :-/
