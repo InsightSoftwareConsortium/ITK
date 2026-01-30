@@ -858,11 +858,6 @@ class SwigInputGenerator:
         # normalize string
         s = SwigInputGenerator.normalize(s)
 
-        # workaround a bug - or is it a feature ? - somewhere
-        s = s.replace("complex float", "std::complex<float>")
-        s = s.replace("complex double", "std::complex<double>")
-        s = s.replace("complex long double", "std::complex<long double>")
-
         (s, end) = SwigInputGenerator.type_and_decorators(s)
 
         if s in self.aliases:
@@ -1015,8 +1010,19 @@ class SwigInputGenerator:
         if typedef.name == "itkLightObject" and self.current_class is not None:
             self.classes[self.current_class].has_new_method = True
 
-        s = ""  # Set default superclass name to an empty string
-        if not typedef.name.startswith("stdcomplex"):
+        if typedef.name.startswith(
+            "stdcomplex"
+        ):  # Special processing for stdcomplex types
+            if typedef.name == "stdcomplexD":
+                self.outputFile.write(self.stdcomplex_headers["D"] + "\n")
+            elif typedef.name == "stdcomplexF":
+                self.outputFile.write(self.stdcomplex_headers["F"] + "\n")
+            else:
+                assert (
+                    False
+                ), f"Unknown stdcomplex type: {typedef.name}, only D and F are supported."
+        else:
+            s = ""  # Set default superclass name to an empty string
             for member in get_type(typedef).get_members(
                 access=decls.ACCESS_TYPES.PUBLIC
             ):
@@ -1108,35 +1114,7 @@ class SwigInputGenerator:
             # finally, close the class
             self.outputFile.write("  " * indent)
             self.outputFile.write("};\n\n")
-
-        elif typedef.name == "stdcomplexD":
-            self.outputFile.write(self.stdcomplex_headers["D"] + "\n")
-        elif typedef.name == "stdcomplexF":
-            self.outputFile.write(self.stdcomplex_headers["F"] + "\n")
-        else:
-            print("stdcomplex", typedef.name)
-            # stdcomplex is too difficult to wrap in some cases. Only wrap the
-            # constructor.
-            self.outputFile.write("  " * indent)
-            self.outputFile.write(f"class {typedef.name}{s} {{\n")
-
-            # iterate over access
-            for access in pygccxml.declarations.ACCESS_TYPES.ALL:
-
-                # the access type
-                self.outputFile.write("  " * indent)
-                self.outputFile.write(f"  {access}:\n")
-
-                # warnings or no warning?
-                w = access not in self.options.access_warnings
-                for member in get_type(typedef).get_members(access=access):
-                    if isinstance(member, decls.constructor_t):
-                        self.generate_constructor(typedef, member, indent, w)
-                    elif isinstance(member, decls.destructor_t):
-                        self.generate_destructor(typedef, member, indent, w)
-            # finally, close the class
-            self.outputFile.write("  " * indent)
-            self.outputFile.write("};\n\n\n")
+            # end else for non stdcomplex types
 
     def _extract_kwargs_from_class(self, class_type, decls, kwargs_of_interest):
         for member in class_type.get_members(access=decls.ACCESS_TYPES.PUBLIC):
