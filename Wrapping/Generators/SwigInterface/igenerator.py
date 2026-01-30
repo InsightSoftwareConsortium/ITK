@@ -1070,7 +1070,8 @@ class SwigInputGenerator:
                 w = access not in self.options.access_warnings
 
                 # iterate over the members
-                for member in get_type(typedef).get_members(access=access):
+                all_members = list(get_type(typedef).get_members(access=access))
+                for member in all_members:
                     if isinstance(member, decls.typedef.typedef_t):
                         self.warn(
                             51, f"Member typedef are not supported: {member.name}", w
