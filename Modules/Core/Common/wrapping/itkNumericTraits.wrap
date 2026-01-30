@@ -30,7 +30,6 @@ foreach(
   SL
   F
   D
-  LD
   B)
   itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
 endforeach()
@@ -51,7 +50,6 @@ foreach(
   SL
   F
   D
-  LD
   B)
   itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
 endforeach()
