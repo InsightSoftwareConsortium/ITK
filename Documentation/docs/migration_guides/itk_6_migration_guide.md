@@ -171,3 +171,22 @@ reoriented_image = itk.orient_image_filter(
     ),
 )
 ```
+
+Remove support for Python wrapped `long double` types
+-----------------------------------------------------
+
+The swig wrapping of `long double` types into python
+resulted in implicit type conversions to `double`,
+which results in silent loss of precision.
+
+There has never been an option for "ITK_WRAP_long_double"
+configuration, and manually wrapped functions in vnl for
+for long double were never needed by ITK based functions.
+
+Given the undefined behavior of wrapping long double types
+with swig, and given that there is no use case for long double
+support directly from the wrapped ITK API, these manual vnl
+wrappings could not be reached from ITK interfaces.
+
+The handful of manually wrapped long double functions were
+removed from python wrapping.

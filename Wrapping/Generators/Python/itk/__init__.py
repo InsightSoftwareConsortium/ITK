@@ -36,7 +36,6 @@ from itk.support.types import (
     UI,
     UL,
     SL,
-    LD,
     ULL,
     SC,
     SS,

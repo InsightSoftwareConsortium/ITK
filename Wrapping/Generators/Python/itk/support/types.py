@@ -127,21 +127,16 @@ class itkCType:
         if os.name == "nt":
             _UL: "itkCType" = itkCType("unsigned long", "UL", np.dtype(np.uint32))
             _SL: "itkCType" = itkCType("signed long", "SL", np.dtype(np.int32))
-            _LD: "itkCType" = itkCType("long double", "LD")
         else:
             _UL: "itkCType" = itkCType("unsigned long", "UL", np.dtype(np.uint64))
             _SL: "itkCType" = itkCType("signed long", "SL", np.dtype(np.int64))
-            if hasattr(np, "float128"):
-                _LD: "itkCType" = itkCType("long double", "LD", np.dtype(np.float128))
-            else:
-                _LD: "itkCType" = itkCType("long double", "LD")
         _ULL: "itkCType" = itkCType("unsigned long long", "ULL", np.dtype(np.uint64))
         _SC: "itkCType" = itkCType("signed char", "SC", np.dtype(np.int8))
         _SS: "itkCType" = itkCType("signed short", "SS", np.dtype(np.int16))
         _SI: "itkCType" = itkCType("signed int", "SI", np.dtype(np.int32))
         _SLL: "itkCType" = itkCType("signed long long", "SLL", np.dtype(np.int64))
         _B: "itkCType" = itkCType("bool", "B", np.dtype(np.bool_))
-        return _F, _D, _UC, _US, _UI, _UL, _SL, _LD, _ULL, _SC, _SS, _SI, _SLL, _B
+        return _F, _D, _UC, _US, _UI, _UL, _SL, _ULL, _SC, _SS, _SI, _SLL, _B
 
 
 # Define typing hints
@@ -152,7 +147,6 @@ US: itkCType
 UI: itkCType
 UL: itkCType
 SL: itkCType
-LD: itkCType
 ULL: itkCType
 SC: itkCType
 SS: itkCType
@@ -168,7 +162,6 @@ B: itkCType
     UI,
     UL,
     SL,
-    LD,
     ULL,
     SC,
     SS,

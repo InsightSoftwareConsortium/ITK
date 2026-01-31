@@ -39,9 +39,6 @@ set(ITKM_F "F") # Mangle
 set(ITKT_D "double") # Type
 set(ITKM_D "D") # Mangle
 
-set(ITKT_LD "long double") # Type
-set(ITKM_LD "LD") # Mangle
-
 set(ITKT_B "bool") # Type
 set(ITKM_B "B") # Mangle
 
