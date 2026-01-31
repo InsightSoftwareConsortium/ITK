@@ -34,7 +34,7 @@ from . import _ITKCommonPython
 %include <std_set.i>
 
 // must be included in the end to avoid wrong std::string typemaps
-%include std_iostream.i
+%include <std_iostream.i>
 
 // let str be usable as a template parameter instead of std::string
 %pythoncode {
