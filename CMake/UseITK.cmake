@@ -14,6 +14,16 @@
 # included directly, but rather through the ITK_USE_FILE setting
 # obtained from ITKConfig.cmake.
 
+set(
+  _use_itk_msg
+  "CMake/UseITK.cmake is deprecated. "
+  "Please update CMakeLists.txt to use `find_package(ITK)` and link to `${ITK_INTERFACE_LIBRARIES}`."
+)
+message(AUTHOR_WARNING "${_use_itk_msg}")
+if(${ITK_FUTURE_LEGACY_REMOVE})
+  message(FATAL_ERROR "${_use_itk_msg}")
+endif()
+
 # Add compiler flags needed to use ITK.
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ITK_REQUIRED_C_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ITK_REQUIRED_CXX_FLAGS}")

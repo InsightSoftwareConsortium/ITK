@@ -49,9 +49,16 @@ include(GenerateExportHeader)
 
 macro(itk_module _name)
   itk_module_check_name(${_name})
+
   set(itk-module ${_name})
   set(itk-module-test ${_name}-Test)
   set(_doing "")
+
+  # Note: All modules have the same namespace as initially configured in ITK
+  set(ITK_MODULE_${itk-module}_TARGETS_NAMESPACE "")
+  if(ITK_LIBRARY_NAMESPACE)
+    set(ITK_MODULE_${itk-module}_TARGETS_NAMESPACE "${ITK_LIBRARY_NAMESPACE}::")
+  endif()
   set(ITK_MODULE_${itk-module}_DECLARED 1)
   set(ITK_MODULE_${itk-module-test}_DECLARED 1)
   set(ITK_MODULE_${itk-module}_DEPENDS "")
@@ -122,14 +129,10 @@ macro(itk_module _name)
   )
   unset(ITK_MODULE_${itk-module}_COMPILE_DEPENDS)
   list(SORT ITK_MODULE_${itk-module}_DEPENDS) # Deterministic order.
-  if(ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS) # Don't sort an empty list
-    list(SORT ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS) # Deterministic order.
-  endif()
+  list(SORT ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS) # Deterministic order.
   list(SORT ITK_MODULE_${itk-module}_PRIVATE_DEPENDS) # Deterministic order.
   list(SORT ITK_MODULE_${itk-module-test}_DEPENDS) # Deterministic order.
-  if(ITK_MODULE_${itk-module}_FACTORY_NAMES) # Don't sort an empty list
-    list(SORT ITK_MODULE_${itk-module}_FACTORY_NAMES) # Deterministic order.
-  endif()
+  list(SORT ITK_MODULE_${itk-module}_FACTORY_NAMES) # Deterministic order.
 endmacro()
 
 macro(itk_module_check_name _name)
@@ -173,14 +176,56 @@ macro(itk_module_impl)
 
   itk_module_use(${ITK_MODULE_${itk-module}_DEPENDS})
 
-  if(NOT DEFINED ${itk-module}_LIBRARIES)
-    set(${itk-module}_LIBRARIES "")
-    foreach(dep IN LISTS ITK_MODULE_${itk-module}_DEPENDS)
-      list(APPEND ${itk-module}_LIBRARIES "${${dep}_LIBRARIES}")
+  # The ${itk-module}_LIBRARIES variable defined the libraries provided by this module.
+  # Transitive dependencies of this module are provided through the
+  # ${itk-module}Module interface library created below.
+  if(DEFINED ${itk-module}_LIBRARIES)
+    set(_libraries "")
+    foreach(dep IN LISTS ${itk-module}_LIBRARIES)
+      if(EXISTS "${dep}")
+        # If we are linking to a file, use it directly
+        message(DEBUG "Linking ${itk-module} to file dependency: ${dep}")
+        list(APPEND _libraries "${dep}")
+      elseif("${dep}" MATCHES "^(.*)::(.*)$")
+        # If dep is already namespaced, use it directly
+        message(DEBUG "Linking ${itk-module} to namespaced dependency: ${dep}")
+        list(APPEND _libraries "${dep}")
+      else()
+        list(
+          APPEND
+          _libraries
+          "${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${dep}"
+        )
+        if(NOT ITK_MODULE_${itk-module}_TARGETS_NAMESPACE STREQUAL "")
+          set(
+            ${itk-module}_EXPORT_CODE_INSTALL
+            "${${itk-module}_EXPORT_CODE_INSTALL}
+add_library(${dep} INTERFACE IMPORTED)
+set_target_properties(${dep}
+  PROPERTIES
+    INTERFACE_LINK_LIBRARIES ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${dep}
+    DEPRECATION \"Use ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${dep} instead\"
+)
+"
+          )
+          set(
+            ${itk-module}_EXPORT_CODE_BUILD
+            "${${itk-module}_EXPORT_CODE_BUILD}
+if(NOT TARGET ${dep})
+  add_library(${dep} INTERFACE IMPORTED)
+  set_target_properties(${dep}
+    PROPERTIES
+      INTERFACE_LINK_LIBRARIES ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${dep}
+      DEPRECATION \"Use ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${dep} instead\"
+  )
+endif()
+"
+          )
+        endif()
+      endif()
     endforeach()
-    if(${itk-module}_LIBRARIES)
-      list(REMOVE_DUPLICATES ${itk-module}_LIBRARIES)
-    endif()
+    set(${itk-module}_LIBRARIES "${_libraries}")
+    list(REMOVE_DUPLICATES ${itk-module}_LIBRARIES)
   endif()
 
   if(EXISTS ${${itk-module}_SOURCE_DIR}/include)
@@ -198,20 +243,39 @@ macro(itk_module_impl)
     list(APPEND ${itk-module}_INCLUDE_DIRS ${${itk-module}_BINARY_DIR}/include)
   endif()
 
-  if(${itk-module}_INCLUDE_DIRS)
-    include_directories(${${itk-module}_INCLUDE_DIRS})
-  endif()
-  if(${itk-module}_SYSTEM_INCLUDE_DIRS)
-    # _SYSTEM_INCLUDE_DIRS should searched after internal _INCLUDE_DIRS
-    include_directories(AFTER ${${itk-module}_SYSTEM_INCLUDE_DIRS})
-  endif()
+  # Prepare include directories with generator expressions for use in targets
+  set(${itk-module}_GENEX_INCLUDE_DIRS "")
+  foreach(_dir ${${itk-module}_INCLUDE_DIRS})
+    list(APPEND ${itk-module}_GENEX_INCLUDE_DIRS "$<BUILD_INTERFACE:${_dir}>")
+  endforeach()
+  list(
+    APPEND
+    ${itk-module}_GENEX_INCLUDE_DIRS
+    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${${itk-module}_INSTALL_INCLUDE_DIR}>"
+  )
 
-  if(${itk-module}_SYSTEM_LIBRARY_DIRS)
-    link_directories(${${itk-module}_SYSTEM_LIBRARY_DIRS})
+  # Prepare system include directories with generator expressions
+  set(${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS "")
+  if(${itk-module}_SYSTEM_INCLUDE_DIRS)
+    foreach(_dir ${${itk-module}_SYSTEM_INCLUDE_DIRS})
+      list(
+        APPEND
+        ${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS
+        "$<BUILD_INTERFACE:${_dir}>"
+        "$<INSTALL_INTERFACE:${_dir}>"
+      )
+    endforeach()
   endif()
 
   if(${itk-module}_THIRD_PARTY)
     itk_module_warnings_disable(C CXX)
+    if(${itk-module}_INCLUDE_DIRS)
+      include_directories(${${itk-module}_INCLUDE_DIRS})
+    endif()
+    if(${itk-module}_SYSTEM_INCLUDE_DIRS)
+      # _SYSTEM_INCLUDE_DIRS should searched after internal _INCLUDE_DIRS
+      include_directories(AFTER ${${itk-module}_SYSTEM_INCLUDE_DIRS})
+    endif()
   else()
     if(ITK_USE_KWSTYLE)
       itk_module_kwstyle_test(${itk-module})
@@ -312,6 +376,69 @@ macro(itk_module_impl)
     endif()
   endif()
 
+  ####
+  # Create ${itk-module}Module interface library for ITK Modules
+  ####
+  add_library(${itk-module}Module INTERFACE)
+
+  target_link_libraries(
+    ${itk-module}Module
+    INTERFACE
+      ${${itk-module}_LIBRARIES}
+  )
+
+  # Add include directories with generator expressions
+  target_include_directories(
+    ${itk-module}Module
+    INTERFACE
+      ${${itk-module}_GENEX_INCLUDE_DIRS}
+  )
+  target_include_directories(
+    ${itk-module}Module
+    SYSTEM
+    INTERFACE
+      ${${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS}
+  )
+
+  # Link transitive dependencies (public + compile depends) through ${itk-module}Module interface
+  foreach(dep IN LISTS ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS)
+    target_link_libraries(
+      ${itk-module}Module
+      INTERFACE
+        ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${dep}Module
+    )
+  endforeach()
+
+  # Link this module to factory meta-module interfaces if it provides factories
+  if(ITK_MODULE_${itk-module}_FACTORY_NAMES)
+    foreach(_factory_format ${ITK_MODULE_${itk-module}_FACTORY_NAMES})
+      # Extract factory name from <factory_name>::<format>
+      string(
+        REGEX
+        REPLACE
+        "^(.*)::(.*)$"
+        "\\1"
+        _factory_name
+        "${_factory_format}"
+      )
+      set(_meta_module ITK${_factory_name})
+
+      # Add this module to the factory meta-module
+      target_link_libraries(
+        ${_meta_module}
+        INTERFACE
+          ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${itk-module}Module
+      )
+    endforeach()
+  endif()
+
+  # Export and install the interface library
+  itk_module_target_export(${itk-module}Module)
+  itk_module_target_install(${itk-module}Module)
+  ####
+  # End ITK Modules interface library creation
+  ####
+
   set(itk-module-EXPORT_CODE-build "${${itk-module}_EXPORT_CODE_BUILD}")
   set(itk-module-EXPORT_CODE-install "${${itk-module}_EXPORT_CODE_INSTALL}")
   if(ITK_SOURCE_DIR)
@@ -333,6 +460,11 @@ macro(itk_module_impl)
   set(itk-module-PRIVATE_DEPENDS "${ITK_MODULE_${itk-module}_PRIVATE_DEPENDS}")
   set(itk-module-FACTORY_NAMES "${ITK_MODULE_${itk-module}_FACTORY_NAMES}")
   set(itk-module-LIBRARIES "${${itk-module}_LIBRARIES}")
+  set(
+    itk-module-INTERFACE_LIBRARY
+    "${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${itk-module}Module"
+  )
+
   set(itk-module-INCLUDE_DIRS-build "${${itk-module}_INCLUDE_DIRS}")
   set(
     itk-module-INCLUDE_DIRS-install
@@ -375,6 +507,12 @@ macro(itk_module_impl)
     "${itk-module-RUNTIME_LIBRARY_DIRS-build}"
   )
   set(itk-module-INCLUDE_DIRS "${itk-module-INCLUDE_DIRS-build}")
+  # set itk-module-GENEX_INCLUDE_DIRS so that includes both install interface and build interface path in appropriate generator expressions
+  set(itk-module-GENEX_INCLUDE_DIRS "")
+  foreach(_dir ${itk-module-INCLUDE_DIRS-build})
+    list(APPEND itk-module-GENEX_INCLUDE_DIRS "$<BUILD_INTERFACE:${_dir}>")
+  endforeach()
+
   set(itk-module-EXPORT_CODE "${itk-module-EXPORT_CODE-build}")
   set(itk-module-TARGETS_FILE "${itk-module-TARGETS_FILE-build}")
   configure_file(
@@ -408,41 +546,46 @@ endmacro()
 # Macro for linking to modules dependencies. Links this module to every
 # dependency given to itk_module either publicly or privately.
 macro(itk_module_link_dependencies)
-  # link to public dependencies
-  foreach(dep IN LISTS ITK_MODULE_${itk-module}_PUBLIC_DEPENDS)
-    if(DEFINED ${dep}_LIBRARIES)
-      target_link_libraries(${itk-module} LINK_PUBLIC ${${dep}_LIBRARIES})
-    elseif(DEFINED ${dep})
-      target_link_libraries(${itk-module} LINK_PUBLIC ${${dep}})
-    else()
-      message(
-        FATAL_ERROR
-        "Dependency \"${dep}\" not found: could not find [${dep}] or [${dep}_LIBRARIES]"
+  # link to dependencies
+  foreach(_link IN ITEMS PUBLIC INTERFACE PRIVATE)
+    foreach(dep IN LISTS ITK_MODULE_${itk-module}_${_link}_DEPENDS)
+      if(
+        ITK_MODULE_${dep}_LOADED
+        OR
+          TARGET
+            ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${dep}Module
       )
-    endif()
-  endforeach()
-
-  # link to private dependencies
-  foreach(dep IN LISTS ITK_MODULE_${itk-module}_PRIVATE_DEPENDS)
-    if(DEFINED ${dep}_LIBRARIES)
-      target_link_libraries(${itk-module} LINK_PRIVATE ${${dep}_LIBRARIES})
-    elseif(DEFINED ${dep})
-      target_link_libraries(${itk-module} LINK_PRIVATE ${${dep}})
-    else()
-      message(
-        FATAL_ERROR
-        "Dependency \"${dep}\" not found: could not find [${dep}] or [${dep}_LIBRARIES]"
-      )
-    endif()
+        target_link_libraries(
+          ${itk-module}
+          ${_link}
+          ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${dep}Module
+        )
+      elseif(DEFINED ${dep})
+        target_link_libraries(
+          ${itk-module}
+          ${_link}
+          ${${dep}}
+        )
+      else()
+        message(
+          FATAL_ERROR
+          "${_link} Dependency \"${dep}\" not found: could not find [${dep}] or [${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${dep}Module]"
+        )
+      endif()
+    endforeach()
   endforeach()
 endmacro()
 
 macro(itk_module_test)
   include(../itk-module.cmake) # Load module meta-data
   set(${itk-module-test}_LIBRARIES "")
-  itk_module_use(${ITK_MODULE_${itk-module-test}_DEPENDS})
   foreach(dep IN LISTS ITK_MODULE_${itk-module-test}_DEPENDS)
-    list(APPEND ${itk-module-test}_LIBRARIES "${${dep}_LIBRARIES}")
+    itk_module_load("${dep}")
+    list(
+      APPEND
+      ${itk-module-test}_LIBRARIES
+      "${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${dep}Module"
+    )
   endforeach()
   set(ITK_TEST_OUTPUT_DIR "${ITK_TEST_OUTPUT_DIR}/${itk-module}")
   file(MAKE_DIRECTORY "${ITK_TEST_OUTPUT_DIR}")
@@ -557,7 +700,42 @@ macro(itk_module_target_name _name)
   )
 endmacro()
 
+# itk_module_target_export(_name)
+#
+# Macro for exporting a target from an ITK module to the build tree. This macro
+# handles the export of targets to make them available to other ITK modules and
+# external projects that use ITK.
+#
+# For library targets with a defined namespace (ITK_MODULE_${itk-module}_TARGETS_NAMESPACE),
+# this macro creates an ALIAS target with the namespace prefix and sets the
+# EXPORT_NAME property accordingly. This ensures consistent naming when the target
+# is used through find_package(ITK).
+#
+# All targets are exported to the module's build tree targets file
+# (${itk-module}-targets-build) for use during the build process.
+#
+# Arguments:
+#   _name - The name of the target to export (typically ${itk-module} or ${itk-module}Module)
 macro(itk_module_target_export _name)
+  get_property(_ttype TARGET ${_name} PROPERTY TYPE)
+  if(
+    _ttype
+      MATCHES
+      ".*_LIBRARY$"
+    AND
+      ITK_MODULE_${itk-module}_TARGETS_NAMESPACE
+  )
+    add_library(
+      ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${_name}
+      ALIAS ${_name}
+    )
+    set_target_properties(
+      ${_name}
+      PROPERTIES
+        EXPORT_NAME
+          ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${_name}
+    )
+  endif()
   export(TARGETS ${_name} APPEND FILE ${${itk-module}-targets-build})
 endmacro()
 
@@ -630,6 +808,25 @@ macro(itk_module_add_library _name)
     ${ARGN}
   )
   target_compile_features(${_name} PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
+
+  # Add module include directories to target
+  target_include_directories(
+    ${_name}
+    PUBLIC
+      ${${itk-module}_GENEX_INCLUDE_DIRS}
+  )
+
+  # Add module system include directories to target
+  target_include_directories(
+    ${_name}
+    SYSTEM
+    PUBLIC
+      ${${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS}
+  )
+
+  # Add module library directories to target
+  target_link_directories(${_name} PUBLIC ${${itk-module}_SYSTEM_LIBRARY_DIRS})
+
   target_link_options(
     ${_name}
     PUBLIC
