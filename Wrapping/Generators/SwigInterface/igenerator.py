@@ -492,6 +492,7 @@ class IdxGenerator:
 class SwigInputGenerator:
     """Generates a swig input .i file for an ITK module."""
 
+    previously_created_constructors_set = set()
     notWrapped = [
         r"std::_Deque_alloc<.+>",
         r"itk::AtomicInt<.+>",
@@ -1070,13 +1071,16 @@ class SwigInputGenerator:
                 w = access not in self.options.access_warnings
 
                 # iterate over the members
-                for member in get_type(typedef).get_members(access=access):
+                all_members = list(get_type(typedef).get_members(access=access))
+                for member in all_members:
                     if isinstance(member, decls.typedef.typedef_t):
                         self.warn(
                             51, f"Member typedef are not supported: {member.name}", w
                         )
                     elif isinstance(member, decls.member_function_t):
-                        self.generate_method(typedef, member, indent, w)
+                        self.generate_method(
+                            typedef, member, indent, w, is_operator=False
+                        )
                     elif isinstance(member, decls.constructor_t):
                         self.generate_constructor(typedef, member, indent, w)
                     elif isinstance(member, decls.member_operator_t):
@@ -1298,6 +1302,14 @@ def {snake_case}_init_docstring():
             #     f"(Perhaps RValueReferenceType argument move constructor): {constructor_declaration_str}"
             # )
             return
+        if constructor_declaration_str in self.previously_created_constructors_set:
+            # print(
+            #     "WARNING: Duplicate constructor attempted to be written: "
+            #     f"{constructor_declaration_str} for {typedef.name}"
+            # )
+            return
+
+        self.previously_created_constructors_set.add(constructor_declaration_str)
         self.outputFile.write("  " * indent)
         self.outputFile.write(constructor_declaration_str)
 
@@ -1333,7 +1345,7 @@ def {snake_case}_init_docstring():
             python_enum_names = [f"{enum.name}_{name.strip()}" for name in content]
             self.classes[self.current_class].enums += python_enum_names
 
-    def generate_method(self, typedef, method, indent, w, is_operator=False):
+    def generate_method(self, typedef, method, indent, w, is_operator):
         self.info(f"Generating interface for method  '{typedef.name}::{method.name}'.")
         # avoid the apply method for the class vnl_c_vector: the signature is
         # quite strange and currently confuse swig :-/
