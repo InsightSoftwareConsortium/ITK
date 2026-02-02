@@ -5,10 +5,4 @@ set(
   itkPhilipsRECImageIOFactory.cxx
 )
 
-add_library(
-  ITKIOPhilipsREC
-  ${ITK_LIBRARY_BUILD_TYPE}
-  ${ITKIOPhilipsREC_SRC}
-)
-itk_module_link_dependencies()
-itk_module_target(ITKIOPhilipsREC)
+itk_module_add_library(ITKIOPhilipsREC ${ITKIOPhilipsREC_SRC})

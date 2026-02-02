@@ -190,3 +190,154 @@ wrappings could not be reached from ITK interfaces.
 
 The handful of manually wrapped long double functions were
 removed from python wrapping.
+
+
+Modern CMake Interface Libraries
+---------------------------------
+
+ITK 6 introduces modern CMake interface libraries for all ITK modules, providing improved dependency management and
+simplified linking. Each module now exports a namespaced interface library following the pattern `ITK::{ModuleName}Module`.
+
+### Key Changes
+
+**Interface Library Naming:**
+- All ITK module libraries are now exported with the `ITK::` namespace
+- Module interface libraries follow the pattern: `ITK::{ModuleName}Module`
+- Example: `ITKCommon` library is accessed as `ITK::ITKCommonModule`
+
+**Variable Behavior Changes:**
+- `${ModuleName}_LIBRARIES` now contains **only** libraries produced by that specific module
+- Transitive dependencies are automatically handled through the interface library
+- Previously, `${ModuleName}_LIBRARIES` included some transitive dependencies
+
+**Use Target-Specific Properties:**
+- CMake global and directory scoped properties such and include directories and libraries have been replaced with target-specific properties.
+- The interface libraries handle transitive dependencies, include paths, and compiler flags automatically through
+CMake's `INTERFACE` properties.
+- Eliminates the need for `UseITK.cmake` which modified global CMake state.
+
+Benefits:
+- Cleaner, more maintainable CMake code
+- Prevents conflicts between different dependency requirements
+- Explicit dependency relationships
+- Better IDE integration and IntelliSense support
+
+#### Application Configuration
+
+The usage of `${ITK_USE_FILE}` or UseITK.cmake` is now deprecated, and provides the legacy compatibility of setting global properties for include directory, CXX flags etc.
+
+For applications using ITK, use the interface library for proper dependency linking. See the
+[Installation Example](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Examples/Installation)
+for a complete working example.
+
+**Before:**
+```cmake
+find_package(ITK REQUIRED COMPONENTS MyModule)
+include(${ITK_USE_FILE})
+add_executable(Example Example.cxx)
+target_link_libraries(Example ${ITK_LIBRARIES})
+```
+
+**After:**
+```cmake
+find_package(ITK REQUIRED COMPONENTS MyModule)
+itk_generate_factory_registration()
+add_executable(Example Example.cxx)
+target_link_libraries(Example ITK::MyModuleModule)
+```
+
+Alternatively, the CMake variable `ITK_INTERFACE_LIBRARIES` can be used to link against all loaded modules.
+
+**Factory Registration with Meta Modules:**
+
+ITK uses factory registration to dynamically load IO formats and other pluggable components at runtime. ITK 6 uses
+meta modules that simplify factory registration by grouping related modules together.
+
+Factory meta modules include:
+- `ITKImageIO` - All image IO modules (JPEG, PNG, NIFTI, DICOM, etc.)
+- `ITKMeshIO` - All mesh IO modules
+- `ITKTransformIO` - Transform IO modules
+- `ITKIOFFT` - FFT implementations
+
+To use factory registration:
+
+```cmake
+find_package(ITK REQUIRED COMPONENTS ITKCommon ITKIOGDCM TKIONRRD ITKImageIO)
+itk_generate_factory_registration()
+```
+
+The `itk_generate_factory_registration()` macro must be called **before** adding executables. It generates registration
+code to register loaded IO modules and factory-enabled components from the modules specified in `find_package()`. In this case, only GDCM and NRRD ImageIO are loaded. If no components are specified, then all available factories will be enabled during the registration.
+
+
+**Determining Required Modules:**
+
+To identify which ITK modules your code depends on, use the `WhatModulesITK.py` utility:
+
+```bash
+python Utilities/Maintenance/WhatModulesITK.py /path/to/ITK/source file1.cxx file2.h
+```
+
+This script analyzes your source files and reports the required ITK modules based on the headers included.
+The output lists the modules you should specify in `find_package(ITK REQUIRED COMPONENTS ...)`.
+
+Use the `--link` option to generate `target_link_libraries()` commands with the interface library names.
+This outputs the namespaced interface libraries (e.g., `ITK::ITKCommonModule`) suitable for direct use in
+`target_link_libraries()` commands.
+
+
+### Migration for ITK Modules
+
+Remote modules should be updated to use modern CMake patterns for better integration with ITK 6.
+
+#### Using itk_module_add_library
+
+Replace direct `add_library()` calls with `itk_module_add_library()`:
+
+**Before:**
+```cmake
+set(MyModule_SRCS
+  itkClass1.cxx
+  itkClass2.cxx
+)
+add_library(MyModule ${ITK_LIBRARY_BUILD_TYPE} ${MyModule_SRCS})
+itk_module_link_dependencies(MyModule)
+itk_module_target(MyModule)
+```
+
+**After:**
+```cmake
+set(MyModule_SRCS
+  itkClass1.cxx
+  itkClass2.cxx
+)
+itk_module_add_library(MyModule ${MyModule_SRCS})
+```
+
+The `itk_module_add_library()` macro automatically:
+- Sets the appropriate library type (SHARED/STATIC)
+- Configures include directories using generator expressions
+- Links dependencies via the interface library
+- Sets up export targets
+
+In some cases when the dependencies of the module are not needed for the library, only `itk_module_target()` is needed.
+
+#### Using Interface Libraries for Executables
+
+When linking executables or examples, use the interface library instead of module variables:
+
+**Before:**
+```cmake
+add_executable(MyExample MyExample.cxx)
+target_link_libraries(MyExample ${MyModule_LIBRARIES})
+```
+
+**After:**
+```cmake
+add_executable(MyExample MyExample.cxx)
+target_link_libraries(MyExample ITK::MyModuleModule)
+```
+
+#### Backward Compatibility
+
+For backward compatibility, non-namespaced aliases are created with deprecation warnings. However, new code should use the namespaced `ITK::` targets exclusively.

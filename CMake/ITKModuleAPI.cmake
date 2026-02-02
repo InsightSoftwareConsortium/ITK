@@ -30,6 +30,7 @@ macro(_itk_module_config_recurse ns mod)
     list(APPEND _${ns}_USED_MODULES ${mod})
     itk_module_load("${mod}")
     list(APPEND ${ns}_LIBRARIES ${${mod}_LIBRARIES})
+    list(APPEND ${ns}_INTERFACE_LIBRARIES ${${mod}_INTERFACE_LIBRARY})
     list(APPEND ${ns}_INCLUDE_DIRS ${${mod}_INCLUDE_DIRS})
     list(APPEND ${ns}_LIBRARY_DIRS ${${mod}_LIBRARY_DIRS})
     list(APPEND ${ns}_RUNTIME_LIBRARY_DIRS ${${mod}_RUNTIME_LIBRARY_DIRS})
@@ -75,6 +76,7 @@ endmacro()
 #  <module>_TRANSITIVE_DEPENDS = List of dependencies on other modules (public link, compile)
 #  <module>_PRIVATE_DEPENDS    = List of dependencies on other modules (private link)
 #  <module>_LIBRARIES          = Libraries to link
+#  <module>_INTERFACE_LIBRARY  = Interface library for module
 #  <module>_INCLUDE_DIRS       = Header search path
 #  <module>_LIBRARY_DIRS       = Library search path (for outside dependencies)
 #  <module>_RUNTIME_LIBRARY_DIRS = Runtime linker search path
@@ -88,7 +90,15 @@ macro(itk_module_load mod)
     # than ITKTargets.cmake are created when modules are built externally. Do not
     # include the targets file inside the module itself -- which occurs in a module's
     # test configuration.
-    if(EXISTS "${${mod}_TARGETS_FILE}" AND NOT itk-module STREQUAL mod)
+    if(
+      EXISTS
+        "${${mod}_TARGETS_FILE}"
+      AND
+        NOT
+          "${itk-module}"
+            STREQUAL
+            "${mod}"
+    )
       include("${${mod}_TARGETS_FILE}")
     endif()
   endif()
@@ -97,7 +107,8 @@ endmacro()
 # itk_module_config(<namespace> [modules...])
 #
 # Configures variables describing the given modules and their dependencies:
-#  <namespace>_LIBRARIES    = Libraries to link
+#  <namespace>_LIBRARIES    = Libraries
+#  <namespace>_INTERFACE_LIBRARIES = Interface libraries to link with public interfaces
 #  <namespace>_INCLUDE_DIRS = Header search path
 #  <namespace>_LIBRARY_DIRS = Library search path (for outside dependencies)
 #  <namespace>_RUNTIME_LIBRARY_DIRS = Runtime linker search path
@@ -123,6 +134,7 @@ endmacro()
 # future. For more details, read documentation in CMake/UseITK.cmake.
 macro(itk_module_config ns)
   set(${ns}_LIBRARIES "")
+  set(${ns}_INTERFACE_LIBRARIES "")
   set(${ns}_INCLUDE_DIRS "")
   set(${ns}_LIBRARY_DIRS "")
   set(${ns}_RUNTIME_LIBRARY_DIRS "")
@@ -143,6 +155,7 @@ macro(itk_module_config ns)
   foreach(
     v
     ${ns}_LIBRARIES
+    ${ns}_INTERFACE_LIBRARIES
     ${ns}_INCLUDE_DIRS
     ${ns}_LIBRARY_DIRS
     ${ns}_RUNTIME_LIBRARY_DIRS
@@ -153,6 +166,7 @@ macro(itk_module_config ns)
       list(REMOVE_DUPLICATES ${v})
     endif()
   endforeach()
+
   foreach(_factory ${${ns}_FACTORY_LIST})
     list(SORT ${ns}_${_factory}) # Sort to ensure a deterministic order
   endforeach()
