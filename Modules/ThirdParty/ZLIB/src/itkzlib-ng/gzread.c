@@ -6,8 +6,10 @@
 #include "zbuild.h"
 #include "zutil_p.h"
 #include "gzguts.h"
+#include "gzread_mangle.h"
 
 /* Local functions */
+static int gz_read_init(gz_state *state);
 static int gz_load(gz_state *, unsigned char *, unsigned, unsigned *);
 static int gz_avail(gz_state *);
 static int gz_look(gz_state *);
@@ -15,6 +17,27 @@ static int gz_decomp(gz_state *);
 static int gz_fetch(gz_state *);
 static int gz_skip(gz_state *, z_off64_t);
 static size_t gz_read(gz_state *, void *, size_t);
+
+static int gz_read_init(gz_state *state) {
+    /* Allocate gz buffers */
+    if (gz_buffer_alloc(state) != 0) {
+        PREFIX(gz_error)(state, Z_MEM_ERROR, "out of memory");
+        return -1;
+    }
+
+    /* Initialize inflate state */
+    int ret = PREFIX(inflateInit2)(&(state->strm), MAX_WBITS + 16);
+    if (ret != Z_OK) {
+        gz_buffer_free(state);
+        if (ret == Z_MEM_ERROR) {
+            PREFIX(gz_error)(state, Z_MEM_ERROR, "out of memory");
+        } else {
+            PREFIX(gz_error)(state, Z_STREAM_ERROR, "invalid compression parameters");
+        }
+        return -1;
+    }
+    return 0;
+}
 
 /* Use read() to load a buffer -- return -1 on error, otherwise 0.  Read from
    state->fd, and update state->eof, state->err, and state->msg as appropriate.
@@ -31,7 +54,7 @@ static int gz_load(gz_state *state, unsigned char *buf, unsigned len, unsigned *
         *have += (unsigned)ret;
     } while (*have < len);
     if (ret < 0) {
-        gz_error(state, Z_ERRNO, zstrerror());
+        PREFIX(gz_error)(state, Z_ERRNO, zstrerror());
         return -1;
     }
     if (ret == 0)
@@ -81,33 +104,9 @@ static int gz_avail(gz_state *state) {
 static int gz_look(gz_state *state) {
     PREFIX3(stream) *strm = &(state->strm);
 
-    /* allocate read buffers and inflate memory */
-    if (state->size == 0) {
-        /* allocate buffers */
-        state->in = (unsigned char *)zng_alloc(state->want);
-        state->out = (unsigned char *)zng_alloc(state->want << 1);
-        if (state->in == NULL || state->out == NULL) {
-            zng_free(state->out);
-            zng_free(state->in);
-            gz_error(state, Z_MEM_ERROR, "out of memory");
-            return -1;
-        }
-        state->size = state->want;
-
-        /* allocate inflate memory */
-        state->strm.zalloc = NULL;
-        state->strm.zfree = NULL;
-        state->strm.opaque = NULL;
-        state->strm.avail_in = 0;
-        state->strm.next_in = NULL;
-        if (PREFIX(inflateInit2)(&(state->strm), MAX_WBITS + 16) != Z_OK) {    /* gunzip */
-            zng_free(state->out);
-            zng_free(state->in);
-            state->size = 0;
-            gz_error(state, Z_MEM_ERROR, "out of memory");
-            return -1;
-        }
-    }
+    /* allocate memory if this is the first time through */
+    if (state->size == 0 && gz_read_init(state) == -1)
+        return -1;
 
     /* get at least the magic bytes in the input buffer */
     if (strm->avail_in < 2) {
@@ -170,22 +169,22 @@ static int gz_decomp(gz_state *state) {
         if (strm->avail_in == 0 && gz_avail(state) == -1)
             return -1;
         if (strm->avail_in == 0) {
-            gz_error(state, Z_BUF_ERROR, "unexpected end of file");
+            PREFIX(gz_error)(state, Z_BUF_ERROR, "unexpected end of file");
             break;
         }
 
         /* decompress and handle errors */
         ret = PREFIX(inflate)(strm, Z_NO_FLUSH);
         if (ret == Z_STREAM_ERROR || ret == Z_NEED_DICT) {
-            gz_error(state, Z_STREAM_ERROR, "internal error: inflate stream corrupt");
+            PREFIX(gz_error)(state, Z_STREAM_ERROR, "internal error: inflate stream corrupt");
             return -1;
         }
         if (ret == Z_MEM_ERROR) {
-            gz_error(state, Z_MEM_ERROR, "out of memory");
+            PREFIX(gz_error)(state, Z_MEM_ERROR, "out of memory");
             return -1;
         }
         if (ret == Z_DATA_ERROR) {              /* deflate stream invalid */
-            gz_error(state, Z_DATA_ERROR, strm->msg == NULL ? "compressed data error" : strm->msg);
+            PREFIX(gz_error)(state, Z_DATA_ERROR, strm->msg == NULL ? "compressed data error" : strm->msg);
             return -1;
         }
     } while (strm->avail_out && ret != Z_STREAM_END);
@@ -210,6 +209,7 @@ static int gz_decomp(gz_state *state) {
    end of the input file has been reached and all data has been processed.  */
 static int gz_fetch(gz_state *state) {
     PREFIX3(stream) *strm = &(state->strm);
+    Assert(state->x.have == 0, "Invalid state->x.have");
 
     do {
         switch (state->how) {
@@ -230,6 +230,9 @@ static int gz_fetch(gz_state *state) {
             strm->next_out = state->out;
             if (gz_decomp(state) == -1)
                 return -1;
+            continue;
+        default:    // Can't happen
+            return -1;
         }
     } while (state->x.have == 0 && (!state->eof || strm->avail_in));
     return 0;
@@ -342,7 +345,7 @@ static size_t gz_read(gz_state *state, void *buf, size_t len) {
 }
 
 /* -- see zlib.h -- */
-int Z_EXPORT PREFIX(gzread)(gzFile file, void *buf, unsigned len) {
+z_int32_t Z_EXPORT PREFIX(gzread)(gzFile file, void *buf, z_uint32_t len) {
     gz_state *state;
 
     /* get internal structure */
@@ -357,8 +360,8 @@ int Z_EXPORT PREFIX(gzread)(gzFile file, void *buf, unsigned len) {
 
     /* since an int is returned, make sure len fits in one, otherwise return
        with an error (this avoids a flaw in the interface) */
-    if ((int)len < 0) {
-        gz_error(state, Z_STREAM_ERROR, "request does not fit in an int");
+    if ((z_int32_t)len < 0) {
+        PREFIX(gz_error)(state, Z_STREAM_ERROR, "request does not fit in an int");
         return -1;
     }
 
@@ -370,7 +373,7 @@ int Z_EXPORT PREFIX(gzread)(gzFile file, void *buf, unsigned len) {
         return -1;
 
     /* return the number of bytes read (this is assured to fit in an int) */
-    return (int)len;
+    return (z_int32_t)len;
 }
 
 /* -- see zlib.h -- */
@@ -394,7 +397,7 @@ size_t Z_EXPORT PREFIX(gzfread)(void *buf, size_t size, size_t nitems, gzFile fi
 
     /* compute bytes to read -- error on overflow */
     if (size && SIZE_MAX / size < nitems) {
-        gz_error(state, Z_STREAM_ERROR, "request does not fit in a size_t");
+        PREFIX(gz_error)(state, Z_STREAM_ERROR, "request does not fit in a size_t");
         return 0;
     }
     len = nitems * size;
@@ -404,9 +407,7 @@ size_t Z_EXPORT PREFIX(gzfread)(void *buf, size_t size, size_t nitems, gzFile fi
 }
 
 /* -- see zlib.h -- */
-#undef @ZLIB_SYMBOL_PREFIX@gzgetc
-#undef @ZLIB_SYMBOL_PREFIX@zng_gzgetc
-int Z_EXPORT PREFIX(gzgetc)(gzFile file) {
+z_int32_t Z_EXPORT PREFIX(gzgetc)(gzFile file) {
     unsigned char buf[1];
     gz_state *state;
 
@@ -437,7 +438,7 @@ int Z_EXPORT PREFIX(gzgetc_)(gzFile file) {
 #endif
 
 /* -- see zlib.h -- */
-int Z_EXPORT PREFIX(gzungetc)(int c, gzFile file) {
+z_int32_t Z_EXPORT PREFIX(gzungetc)(z_int32_t c, gzFile file) {
     gz_state *state;
 
     /* get internal structure */
@@ -476,7 +477,7 @@ int Z_EXPORT PREFIX(gzungetc)(int c, gzFile file) {
 
     /* if no room, give up (must have already done a gzungetc()) */
     if (state->x.have == (state->size << 1)) {
-        gz_error(state, Z_DATA_ERROR, "out of room to push characters");
+        PREFIX(gz_error)(state, Z_DATA_ERROR, "out of room to push characters");
         return -1;
     }
 
@@ -497,7 +498,7 @@ int Z_EXPORT PREFIX(gzungetc)(int c, gzFile file) {
 }
 
 /* -- see zlib.h -- */
-char * Z_EXPORT PREFIX(gzgets)(gzFile file, char *buf, int len) {
+char * Z_EXPORT PREFIX(gzgets)(gzFile file, char *buf, z_int32_t len) {
     unsigned left, n;
     char *str;
     unsigned char *eol;
@@ -558,7 +559,7 @@ char * Z_EXPORT PREFIX(gzgets)(gzFile file, char *buf, int len) {
 }
 
 /* -- see zlib.h -- */
-int Z_EXPORT PREFIX(gzdirect)(gzFile file) {
+z_int32_t Z_EXPORT PREFIX(gzdirect)(gzFile file) {
     gz_state *state;
 
     /* get internal structure */
@@ -577,7 +578,7 @@ int Z_EXPORT PREFIX(gzdirect)(gzFile file) {
 }
 
 /* -- see zlib.h -- */
-int Z_EXPORT PREFIX(gzclose_r)(gzFile file) {
+z_int32_t Z_EXPORT PREFIX(gzclose_r)(gzFile file) {
     int ret, err;
     gz_state *state;
 
@@ -594,11 +595,10 @@ int Z_EXPORT PREFIX(gzclose_r)(gzFile file) {
     /* free memory and close file */
     if (state->size) {
         PREFIX(inflateEnd)(&(state->strm));
-        zng_free(state->out);
-        zng_free(state->in);
+        gz_buffer_free(state);
     }
     err = state->err == Z_BUF_ERROR ? Z_BUF_ERROR : Z_OK;
-    gz_error(state, Z_OK, NULL);
+    PREFIX(gz_error)(state, Z_OK, NULL);
     free(state->path);
     ret = close(state->fd);
     zng_free(state);

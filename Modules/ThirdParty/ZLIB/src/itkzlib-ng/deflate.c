@@ -48,9 +48,9 @@
  */
 
 #include "zbuild.h"
+#include "functable.h"
 #include "deflate.h"
 #include "deflate_p.h"
-#include "functable.h"
 
 /* Avoid conflicts with zlib.h macros */
 #ifdef ZLIB_COMPAT
@@ -67,45 +67,6 @@ const char PREFIX(deflate_copyright)[] = " deflate 1.3.1 Copyright 1995-2024 Jea
  */
 
 /* ===========================================================================
- *  Architecture-specific hooks.
- */
-#ifdef S390_DFLTCC_DEFLATE
-#  include "arch/s390/dfltcc_deflate.h"
-/* DFLTCC instructions require window to be page-aligned */
-#  define PAD_WINDOW            PAD_4096
-#  define WINDOW_PAD_SIZE       4096
-#  define HINT_ALIGNED_WINDOW   HINT_ALIGNED_4096
-#else
-#  define PAD_WINDOW            PAD_64
-#  define WINDOW_PAD_SIZE       64
-#  define HINT_ALIGNED_WINDOW   HINT_ALIGNED_64
-/* Adjust the window size for the arch-specific deflate code. */
-#  define DEFLATE_ADJUST_WINDOW_SIZE(n) (n)
-/* Invoked at the beginning of deflateSetDictionary(). Useful for checking arch-specific window data. */
-#  define DEFLATE_SET_DICTIONARY_HOOK(strm, dict, dict_len) do {} while (0)
-/* Invoked at the beginning of deflateGetDictionary(). Useful for adjusting arch-specific window data. */
-#  define DEFLATE_GET_DICTIONARY_HOOK(strm, dict, dict_len) do {} while (0)
-/* Invoked at the end of deflateResetKeep(). Useful for initializing arch-specific extension blocks. */
-#  define DEFLATE_RESET_KEEP_HOOK(strm) do {} while (0)
-/* Invoked at the beginning of deflateParams(). Useful for updating arch-specific compression parameters. */
-#  define DEFLATE_PARAMS_HOOK(strm, level, strategy, hook_flush) do {} while (0)
-/* Returns whether the last deflate(flush) operation did everything it's supposed to do. */
-#  define DEFLATE_DONE(strm, flush) 1
-/* Adjusts the upper bound on compressed data length based on compression parameters and uncompressed data length.
- * Useful when arch-specific deflation code behaves differently than regular zlib-ng algorithms. */
-#  define DEFLATE_BOUND_ADJUST_COMPLEN(strm, complen, sourceLen) do {} while (0)
-/* Returns whether an optimistic upper bound on compressed data length should *not* be used.
- * Useful when arch-specific deflation code behaves differently than regular zlib-ng algorithms. */
-#  define DEFLATE_NEED_CONSERVATIVE_BOUND(strm) 0
-/* Invoked for each deflate() call. Useful for plugging arch-specific deflation code. */
-#  define DEFLATE_HOOK(strm, flush, bstate) 0
-/* Returns whether zlib-ng should compute a checksum. Set to 0 if arch-specific deflation code already does that. */
-#  define DEFLATE_NEED_CHECKSUM(strm) 1
-/* Returns whether reproducibility parameter can be set to a given value. */
-#  define DEFLATE_CAN_SET_REPRODUCIBLE(strm, reproducible) 1
-#endif
-
-/* ===========================================================================
  *  Function prototypes.
  */
 static int deflateStateCheck      (PREFIX3(stream) *strm);
@@ -120,7 +81,6 @@ Z_INTERNAL block_state deflate_rle   (deflate_state *s, int flush);
 Z_INTERNAL block_state deflate_huff  (deflate_state *s, int flush);
 static void lm_set_level         (deflate_state *s, int level);
 static void lm_init              (deflate_state *s);
-Z_INTERNAL unsigned read_buf  (PREFIX3(stream) *strm, unsigned char *buf, unsigned size);
 
 /* ===========================================================================
  * Local data
@@ -389,13 +349,6 @@ int32_t ZNG_CONDEXPORT PREFIX(deflateInit2)(PREFIX3(stream) *strm, int32_t level
      */
 
     s->pending_buf_size = s->lit_bufsize * 4;
-
-    if (s->window == NULL || s->prev == NULL || s->head == NULL || s->pending_buf == NULL) {
-        s->status = FINISH_STATE;
-        strm->msg = ERR_MSG(Z_MEM_ERROR);
-        PREFIX(deflateEnd)(strm);
-        return Z_MEM_ERROR;
-    }
 
 #ifdef LIT_MEM
     s->d_buf = (uint16_t *)(s->pending_buf + (s->lit_bufsize << 1));
@@ -781,29 +734,10 @@ unsigned long Z_EXPORT PREFIX(deflateBound)(PREFIX3(stream) *strm, unsigned long
 }
 
 /* =========================================================================
- * Flush as much pending output as possible. All deflate() output, except for
- * some deflate_stored() output, goes through this function so some
- * applications may wish to modify it to avoid allocating a large
- * strm->next_out buffer and copying into it. (See also read_buf()).
+ * Flush as much pending output as possible. See flush_pending_inline()
  */
 Z_INTERNAL void PREFIX(flush_pending)(PREFIX3(stream) *strm) {
-    uint32_t len;
-    deflate_state *s = strm->state;
-
-    zng_tr_flush_bits(s);
-    len = MIN(s->pending, strm->avail_out);
-    if (len == 0)
-        return;
-
-    Tracev((stderr, "[FLUSH]"));
-    memcpy(strm->next_out, s->pending_out, len);
-    strm->next_out  += len;
-    s->pending_out  += len;
-    strm->total_out += len;
-    strm->avail_out -= len;
-    s->pending      -= len;
-    if (s->pending == 0)
-        s->pending_out = s->pending_buf;
+    flush_pending_inline(strm);
 }
 
 /* ===========================================================================
@@ -837,7 +771,7 @@ int32_t Z_EXPORT PREFIX(deflate)(PREFIX3(stream) *strm, int32_t flush) {
 
     /* Flush as much pending output as possible */
     if (s->pending != 0) {
-        PREFIX(flush_pending)(strm);
+        flush_pending_inline(strm);
         if (strm->avail_out == 0) {
             /* Since avail_out is 0, deflate will be called again with
              * more output space, but possibly with both pending and
@@ -1023,7 +957,7 @@ int32_t Z_EXPORT PREFIX(deflate)(PREFIX3(stream) *strm, int32_t flush) {
         s->status = BUSY_STATE;
 
         /* Compression must start with an empty pending buffer */
-        PREFIX(flush_pending)(strm);
+        flush_pending_inline(strm);
         if (s->pending != 0) {
             s->last_flush = -1;
             return Z_OK;
@@ -1099,7 +1033,7 @@ int32_t Z_EXPORT PREFIX(deflate)(PREFIX3(stream) *strm, int32_t flush) {
         if (s->wrap == 1)
             put_uint32_msb(s, strm->adler);
     }
-    PREFIX(flush_pending)(strm);
+    flush_pending_inline(strm);
     /* If avail_out is zero, the application will call deflate again
      * to flush the rest.
      */
@@ -1178,37 +1112,6 @@ int32_t Z_EXPORT PREFIX(deflateCopy)(PREFIX3(stream) *dest, PREFIX3(stream) *sou
     ds->bl_desc.dyn_tree = ds->bl_tree;
 
     return Z_OK;
-}
-
-/* ===========================================================================
- * Read a new buffer from the current input stream, update the adler32
- * and total number of bytes read.  All deflate() input goes through
- * this function so some applications may wish to modify it to avoid
- * allocating a large strm->next_in buffer and copying from it.
- * (See also flush_pending()).
- */
-Z_INTERNAL unsigned PREFIX(read_buf)(PREFIX3(stream) *strm, unsigned char *buf, unsigned size) {
-    uint32_t len = MIN(strm->avail_in, size);
-    if (len == 0)
-        return 0;
-
-    strm->avail_in  -= len;
-
-    if (!DEFLATE_NEED_CHECKSUM(strm)) {
-        memcpy(buf, strm->next_in, len);
-#ifdef GZIP
-    } else if (strm->state->wrap == 2) {
-        FUNCTABLE_CALL(crc32_fold_copy)(&strm->state->crc_fold, buf, strm->next_in, len);
-#endif
-    } else if (strm->state->wrap == 1) {
-        strm->adler = FUNCTABLE_CALL(adler32_fold_copy)(strm->adler, buf, strm->next_in, len);
-    } else {
-        memcpy(buf, strm->next_in, len);
-    }
-    strm->next_in  += len;
-    strm->total_in += len;
-
-    return len;
 }
 
 /* ===========================================================================
@@ -1313,7 +1216,7 @@ void Z_INTERNAL PREFIX(fill_window)(deflate_state *s) {
          */
         Assert(more >= 2, "more < 2");
 
-        n = PREFIX(read_buf)(s->strm, s->window + s->strstart + s->lookahead, more);
+        n = read_buf(s->strm, s->window + s->strstart + s->lookahead, more);
         s->lookahead += n;
 
         /* Initialize the hash value now that we have some input: */

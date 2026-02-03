@@ -59,9 +59,8 @@ static const uint32_t crc_table[] = {
     0x5d681b02, 0x2a6f2b94, 0xb40bbe37, 0xc30c8ea1, 0x5a05df1b,
     0x2d02ef8d};
 
-#ifdef W
-
-#if W == 8
+#ifdef BRAID_W
+#  if BRAID_W == 8
 
 static const z_word_t crc_big_table[] = {
     0x0000000000000000, 0x9630077700000000, 0x2c610eee00000000,
@@ -151,7 +150,7 @@ static const z_word_t crc_big_table[] = {
     0x37be0bb400000000, 0xa18e0cc300000000, 0x1bdf055a00000000,
     0x8def022d00000000};
 
-#else /* W == 4 */
+#  else /* BRAID_W == 4 */
 
 static const z_word_t crc_big_table[] = {
     0x00000000, 0x96300777, 0x2c610eee, 0xba510999, 0x19c46d07,
@@ -207,13 +206,11 @@ static const z_word_t crc_big_table[] = {
     0x021b685d, 0x942b6f2a, 0x37be0bb4, 0xa18e0cc3, 0x1bdf055a,
     0x8def022d};
 
-#endif
+#  endif
+#endif /* BRAID_W */
 
-#endif /* W */
-
-#if N == 1
-
-#if W == 8
+#if BRAID_N == 1
+#  if BRAID_W == 8
 
 static const uint32_t crc_braid_table[][256] = {
    {0x00000000, 0xccaa009e, 0x4225077d, 0x8e8f07e3, 0x844a0efa,
@@ -1323,7 +1320,7 @@ static const z_word_t crc_braid_big_table[][256] = {
     0x0501c4a800000000, 0x9b016e6400000000, 0x7806e1ea00000000,
     0xe6064b2600000000}};
 
-#else /* W == 4 */
+#  else /* BRAID_W == 4 */
 
 static const uint32_t crc_braid_table[][256] = {
    {0x00000000, 0xb8bc6765, 0xaa09c88b, 0x12b5afee, 0x8f629757,
@@ -1745,12 +1742,10 @@ static const z_word_t crc_braid_big_table[][256] = {
     0xc3f6dbe9, 0xa6916751, 0x1fa9b0cc, 0x7ace0c74, 0x9461b966,
     0xf10605de}};
 
-#endif /* W */
-
-#endif /* N == 1 */
-#if N == 2
-
-#if W == 8
+#  endif /* BRAID_W */
+#endif /* BRAID_N == 1 */
+#if BRAID_N == 2
+#  if BRAID_W == 8
 
 static const uint32_t crc_braid_table[][256] = {
    {0x00000000, 0xae689191, 0x87a02563, 0x29c8b4f2, 0xd4314c87,
@@ -2860,7 +2855,7 @@ static const z_word_t crc_braid_big_table[][256] = {
     0x258db92400000000, 0xb41cd18a00000000, 0x46a819a300000000,
     0xd739710d00000000}};
 
-#else /* W == 4 */
+#  else /* BRAID_W == 4 */
 
 static const uint32_t crc_braid_table[][256] = {
    {0x00000000, 0xccaa009e, 0x4225077d, 0x8e8f07e3, 0x844a0efa,
@@ -3282,12 +3277,10 @@ static const z_word_t crc_braid_big_table[][256] = {
     0x8208ab6e, 0x1c0801a2, 0x0501c4a8, 0x9b016e64, 0x7806e1ea,
     0xe6064b26}};
 
-#endif /* W */
-
-#endif /* N == 2 */
-#if N == 3
-
-#if W == 8
+#  endif /* BRAID_W */
+#endif /* BRAID_N == 2 */
+#if BRAID_N == 3
+#  if BRAID_W == 8
 
 static const uint32_t crc_braid_table[][256] = {
    {0x00000000, 0x81256527, 0xd93bcc0f, 0x581ea928, 0x69069e5f,
@@ -4397,7 +4390,7 @@ static const z_word_t crc_braid_big_table[][256] = {
     0x792cd35100000000, 0x5e49f6d000000000, 0x76e0e88800000000,
     0x5185cd0900000000}};
 
-#else /* W == 4 */
+#  else /* BRAID_W == 4 */
 
 static const uint32_t crc_braid_table[][256] = {
    {0x00000000, 0x9ba54c6f, 0xec3b9e9f, 0x779ed2f0, 0x03063b7f,
@@ -4819,12 +4812,10 @@ static const z_word_t crc_braid_big_table[][256] = {
     0x7506baae, 0x1a4a1f35, 0x95a38741, 0xfaef22da, 0x0a3dbcad,
     0x65711936}};
 
-#endif /* W */
-
-#endif /* N == 3 */
-#if N == 4
-
-#if W == 8
+#  endif /* BRAID_W */
+#endif /* BRAID_N == 3 */
+#if BRAID_N == 4
+#  if BRAID_W == 8
 
 static const uint32_t crc_braid_table[][256] = {
    {0x00000000, 0xf1da05aa, 0x38c50d15, 0xc91f08bf, 0x718a1a2a,
@@ -5934,7 +5925,7 @@ static const z_word_t crc_braid_big_table[][256] = {
     0xa951db2a00000000, 0x035401db00000000, 0xbc5c1e1200000000,
     0x1659c4e300000000}};
 
-#else /* W == 4 */
+#  else /* BRAID_W == 4 */
 
 static const uint32_t crc_braid_table[][256] = {
    {0x00000000, 0xae689191, 0x87a02563, 0x29c8b4f2, 0xd4314c87,
@@ -6356,12 +6347,10 @@ static const z_word_t crc_braid_big_table[][256] = {
     0xc1e42877, 0x507540d9, 0x258db924, 0xb41cd18a, 0x46a819a3,
     0xd739710d}};
 
-#endif /* W */
-
-#endif /* N == 4 */
-#if N == 5
-
-#if W == 8
+#  endif /* BRAID_W */
+#endif /* BRAID_N == 4 */
+#if BRAID_N == 5
+#  if BRAID_W == 8
 
 static const uint32_t crc_braid_table[][256] = {
    {0x00000000, 0xaf449247, 0x85f822cf, 0x2abcb088, 0xd08143df,
@@ -7471,7 +7460,7 @@ static const z_word_t crc_braid_big_table[][256] = {
     0xedc528c300000000, 0xaa576c6c00000000, 0x22e7d04600000000,
     0x657594e900000000}};
 
-#else /* W == 4 */
+#  else /* BRAID_W == 4 */
 
 static const uint32_t crc_braid_table[][256] = {
    {0x00000000, 0x65673b46, 0xcace768c, 0xafa94dca, 0x4eedeb59,
@@ -7893,12 +7882,10 @@ static const z_word_t crc_braid_big_table[][256] = {
     0x2abb26f3, 0x6c804196, 0xff260577, 0xb91d6212, 0x7350cbbd,
     0x356bacd8}};
 
-#endif /* W */
-
-#endif /* N == 5 */
-#if N == 6
-
-#if W == 8
+#  endif /* BRAID_W */
+#endif /* BRAID_N == 5 */
+#if BRAID_N == 6
+#  if BRAID_W == 8
 
 static const uint32_t crc_braid_table[][256] = {
    {0x00000000, 0x3db1ecdc, 0x7b63d9b8, 0x46d23564, 0xf6c7b370,
@@ -9008,7 +8995,7 @@ static const z_word_t crc_braid_big_table[][256] = {
     0xcc95bac300000000, 0x10790bfe00000000, 0x744cd9b800000000,
     0xa8a0688500000000}};
 
-#else /* W == 4 */
+#  else /* BRAID_W == 4 */
 
 static const uint32_t crc_braid_table[][256] = {
    {0x00000000, 0x81256527, 0xd93bcc0f, 0x581ea928, 0x69069e5f,
@@ -9430,9 +9417,8 @@ static const z_word_t crc_braid_big_table[][256] = {
     0x297eeee1, 0x0e1bcb60, 0x792cd351, 0x5e49f6d0, 0x76e0e888,
     0x5185cd09}};
 
-#endif /* W */
-
-#endif /* N == 6 */
+#  endif /* BRAID_W */
+#endif /* BRAID_N == 6 */
 
 static const uint32_t x2n_table[] = {
     0x40000000, 0x20000000, 0x08000000, 0x00800000, 0x00008000,
