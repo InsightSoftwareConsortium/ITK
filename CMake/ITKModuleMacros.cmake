@@ -244,7 +244,6 @@ endif()
   endif()
 
   # Prepare include directories with generator expressions for use in targets
-  set(${itk-module}_GENEX_INCLUDE_DIRS "")
   foreach(_dir ${${itk-module}_INCLUDE_DIRS})
     list(APPEND ${itk-module}_GENEX_INCLUDE_DIRS "$<BUILD_INTERFACE:${_dir}>")
   endforeach()
@@ -255,7 +254,6 @@ endif()
   )
 
   # Prepare system include directories with generator expressions
-  set(${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS "")
   if(${itk-module}_SYSTEM_INCLUDE_DIRS)
     foreach(_dir ${${itk-module}_SYSTEM_INCLUDE_DIRS})
       list(
