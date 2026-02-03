@@ -964,12 +964,12 @@ template <typename TType>
 bool
 HDF5ImageIO::WriteMeta(const std::string & name, MetaDataObjectBase * metaObjBase)
 {
-  auto * metaObj = dynamic_cast<MetaDataObject<TType> *>(metaObjBase);
-  if (metaObj == nullptr)
+  if (metaObjBase == nullptr || metaObjBase->GetMetaDataObjectTypeInfo() != typeid(TType))
   {
     return false;
   }
-  TType val = metaObj->GetMetaDataObjectValue();
+  auto * metaObj = static_cast<MetaDataObject<TType> *>(metaObjBase);
+  TType  val = metaObj->GetMetaDataObjectValue();
   this->WriteScalar(name, val);
   return true;
 }
@@ -979,11 +979,11 @@ bool
 HDF5ImageIO::WriteMetaArray(const std::string & name, MetaDataObjectBase * metaObjBase)
 {
   using MetaDataArrayObject = MetaDataObject<Array<TType>>;
-  auto * metaObj = dynamic_cast<MetaDataArrayObject *>(metaObjBase);
-  if (metaObj == nullptr)
+  if (metaObjBase == nullptr || metaObjBase->GetMetaDataObjectTypeInfo() != typeid(Array<TType>))
   {
     return false;
   }
+  auto *             metaObj = static_cast<MetaDataArrayObject *>(metaObjBase);
   Array<TType>       val = metaObj->GetMetaDataObjectValue();
   std::vector<TType> vecVal(val.GetSize());
   for (unsigned int i = 0; i < val.size(); ++i)
