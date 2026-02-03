@@ -28,8 +28,8 @@ else()
   set(_download_castxml_binaries 0)
   set(_castxml_url)
   set(_castxml_hash)
-  set(_castxml_version 2025.09.03)
-  set(_castxml_git_tag v0.6.13)
+  set(_castxml_version 2026.01.30)
+  set(_castxml_git_tag 9864b1ee75ff08bda40dee12b8a339237fbac97d)
   # If 64 bit Linux build host, use the CastXML binary
   if(
     CMAKE_HOST_SYSTEM_NAME
@@ -42,7 +42,7 @@ else()
   )
     set(
       _castxml_hash
-      cadfe688e3402f5ee34e7b3d40e1362ff334e24f887cdd18178b31cbe4faf4ae
+      3aec9aa812c7a15b650f51bf0704da9503fc55309819bd4b2a296378f7b14f2b
     )
     set(
       _castxml_url
@@ -60,7 +60,7 @@ else()
   )
     set(
       _castxml_hash
-      c6b148a4a123788f2a5a612bd58014080fc9de0ff028202178c6870ade14d38e
+      3f2bb32f852ee9bcc4b29ef9b0a1239649883108f64061bc8b6a97caf1e17469
     )
     set(
       _castxml_url
@@ -80,7 +80,7 @@ else()
   )
     set(
       _castxml_hash
-      91b1daf54623b6dc43b333218e1d38b30ce595c481a1e2a307f99b423cfc4e1e
+      5ed409aba73247c7efd7599ebebd345982d78c7815d32464ac4eca1f5a8121b0
     )
     set(
       _castxml_url
@@ -107,11 +107,11 @@ else()
   )
     set(
       _castxml_hash
-      71b2465be9993de2c4a003d848edf49e4a8731a76f62aad3b253f88a0e1d93dc
+      a457bb99240be90d66513d961803dc8e361338b95a530199e0afdab32ea1bbcf
     )
     set(
       _castxml_url
-      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-macos-13-x86_64.tar.gz"
+      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-macos-15-intel-x86_64.tar.gz"
     )
     set(_download_castxml_binaries 1)
   elseif(
@@ -125,7 +125,7 @@ else()
   )
     set(
       _castxml_hash
-      acaee5ed191b886b437c6ed982f540d782df9dc4b8282cb4c28403d2f1d89120
+      c30861b8e10941818e76187a546203e0cdc105671d98d1764525b254fb5ab644
     )
     set(
       _castxml_url
