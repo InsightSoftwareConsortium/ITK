@@ -423,12 +423,41 @@ endif()
       )
       set(_meta_module ITK${_factory_name})
 
-      # Add this module to the factory meta-module
-      target_link_libraries(
-        ${_meta_module}
-        INTERFACE
-          ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${itk-module}Module
-      )
+      if(NOT TARGET ${_meta_module})
+        # When building a module outside ITK source tree, the factory meta-module may not be defined yet.
+        message(
+          STATUS
+          "Not adding ${itk-module}Module(${_factory_format}) to factory meta-module ${_meta_module} because it is outside ITK source tree."
+        )
+      else()
+        get_target_property(_is_imported ${_meta_module} IMPORTED)
+        if(_is_imported)
+          message(
+            DEBUG
+            "Not adding ${itk-module}Module(${_factory_format}) to factory meta-module ${_meta_module} because it is an imported target. "
+          )
+        else()
+          # Check if this module is already linked to the factory meta-module
+          set(
+            _module_target
+            ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${itk-module}Module
+          )
+          get_target_property(
+            _existing_deps
+            ${_meta_module}
+            INTERFACE_LINK_LIBRARIES
+          )
+          if(_existing_deps AND "${_module_target}" IN_LIST _existing_deps)
+            message(
+              DEBUG
+              "Module ${itk-module}Module is already linked to factory meta-module ${_meta_module}."
+            )
+          else()
+            # Add this module to the factory meta-module
+            target_link_libraries(${_meta_module} INTERFACE ${_module_target})
+          endif()
+        endif()
+      endif()
     endforeach()
   endif()
 
