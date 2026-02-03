@@ -4,6 +4,7 @@
  */
 
 #include "zbuild.h"
+#include "zutil.h"
 #include "zutil_p.h"
 #include "gzguts.h"
 
@@ -18,8 +19,37 @@
 #endif
 
 /* Local functions */
+static gzFile gz_state_init(void);
 static void gz_reset(gz_state *);
 static gzFile gz_open(const void *, int, const char *);
+
+/* Initialize struct for gzFile state */
+static gzFile gz_state_init(void) {
+    /* allocate gzFile structure to return */
+    gz_state *state = (gz_state *)zng_alloc(sizeof(gz_state));
+    if (state == NULL)
+        return NULL;
+
+    state->strm.zalloc = NULL;
+    state->strm.zfree = NULL;
+    state->strm.opaque = NULL;
+    state->strm.next_in = NULL;
+
+    state->size = 0;
+    state->want = GZBUFSIZE;
+    state->in = NULL;
+    state->out = NULL;
+    state->direct = 0;
+    state->mode = GZ_NONE;
+    state->level = Z_DEFAULT_COMPRESSION;
+    state->strategy = Z_DEFAULT_STRATEGY;
+    state->msg = NULL;
+    return (gzFile)state;
+}
+
+void Z_INTERNAL gz_state_free(gz_state *state) {
+    zng_free(state);
+}
 
 /* Reset gzip file state */
 static void gz_reset(gz_state *state) {
@@ -32,9 +62,47 @@ static void gz_reset(gz_state *state) {
     else                            /* for writing ... */
         state->reset = 0;           /* no deflateReset pending */
     state->seek = 0;                /* no seek request pending */
-    gz_error(state, Z_OK, NULL);    /* clear error */
+    PREFIX(gz_error)(state, Z_OK, NULL);    /* clear error */
     state->x.pos = 0;               /* no uncompressed data yet */
     state->strm.avail_in = 0;       /* no input data yet */
+}
+
+/* Allocate in/out buffers for gzFile */
+int Z_INTERNAL gz_buffer_alloc(gz_state *state) {
+    int want = state->want;
+    int in_size = want, out_size = want;
+
+    if (state->mode == GZ_WRITE) {
+        in_size = want * 2; // double input buffer for compression (ref: gzprintf)
+        if (state->direct)
+            out_size = 0; // output buffer not needed in write + direct mode
+    } else if (state->mode == GZ_READ) {
+        out_size = want * 2;  // double output buffer for decompression
+    }
+
+    state->buffers = (unsigned char *)zng_alloc_aligned((in_size + out_size), 64);
+    state->in = state->buffers;
+    if (out_size) {
+        state->out = state->buffers + (in_size); // Outbuffer goes after inbuffer
+    }
+
+    /* Return error if memory allocation failed */
+    if (state->in == NULL || (out_size && state->out == NULL)) {
+        gz_buffer_free(state);
+        PREFIX(gz_error)(state, Z_MEM_ERROR, "out of memory");
+        return -1;
+    }
+
+    state->size = want; // mark state as initialized
+    return 0;
+}
+
+void Z_INTERNAL gz_buffer_free(gz_state *state) {
+    zng_free_aligned(state->buffers);
+    state->buffers = NULL;
+    state->out = NULL;
+    state->in = NULL;
+    state->size = 0;
 }
 
 /* Open a gzip file either by name or file descriptor. */
@@ -53,19 +121,12 @@ static gzFile gz_open(const void *path, int fd, const char *mode) {
     if (path == NULL)
         return NULL;
 
-    /* allocate gzFile structure to return */
-    state = (gz_state *)zng_alloc(sizeof(gz_state));
+    /* Initialize gzFile state */
+    state = (gz_state *)gz_state_init();
     if (state == NULL)
         return NULL;
-    state->size = 0;            /* no buffers allocated yet */
-    state->want = GZBUFSIZE;    /* requested buffer size */
-    state->msg = NULL;          /* no error message yet */
 
     /* interpret mode */
-    state->mode = GZ_NONE;
-    state->level = Z_DEFAULT_COMPRESSION;
-    state->strategy = Z_DEFAULT_STRATEGY;
-    state->direct = 0;
     while (*mode) {
         if (*mode >= '0' && *mode <= '9') {
             state->level = *mode - '0';
@@ -83,7 +144,7 @@ static gzFile gz_open(const void *path, int fd, const char *mode) {
                 break;
 #endif
             case '+':       /* can't read and write at the same time */
-                zng_free(state);
+                gz_state_free(state);
                 return NULL;
             case 'b':       /* ignore -- will request binary anyway */
                 break;
@@ -121,14 +182,14 @@ static gzFile gz_open(const void *path, int fd, const char *mode) {
 
     /* must provide an "r", "w", or "a" */
     if (state->mode == GZ_NONE) {
-        zng_free(state);
+        gz_state_free(state);
         return NULL;
     }
 
     /* can't force transparent read */
     if (state->mode == GZ_READ) {
         if (state->direct) {
-            zng_free(state);
+            gz_state_free(state);
             return NULL;
         }
         state->direct = 1;      /* for empty file */
@@ -145,7 +206,7 @@ static gzFile gz_open(const void *path, int fd, const char *mode) {
         len = strlen((const char *)path);
     state->path = (char *)malloc(len + 1);
     if (state->path == NULL) {
-        zng_free(state);
+        gz_state_free(state);
         return NULL;
     }
 #ifdef WIDECHAR
@@ -190,7 +251,7 @@ static gzFile gz_open(const void *path, int fd, const char *mode) {
         open((const char *)path, oflag, 0666));
     if (state->fd == -1) {
         free(state->path);
-        zng_free(state);
+        gz_state_free(state);
         return NULL;
     }
     if (state->mode == GZ_APPEND) {
@@ -224,14 +285,13 @@ gzFile Z_EXPORT PREFIX4(gzopen)(const char *path, const char *mode) {
 
 /* -- see zlib.h -- */
 gzFile Z_EXPORT PREFIX(gzdopen)(int fd, const char *mode) {
-    char *path;         /* identifier for error messages */
     gzFile gz;
+    char path[32];         /* identifier for error messages */
 
-    if (fd == -1 || (path = (char *)malloc(7 + 3 * sizeof(int))) == NULL)
+    if (fd == -1)
         return NULL;
-    (void)snprintf(path, 7 + 3 * sizeof(int), "<fd:%d>", fd); /* for debugging */
+    (void)snprintf(path, 32, "<fd:%d>", fd); /* for debugging */
     gz = gz_open(path, fd, mode);
-    free(path);
     return gz;
 }
 
@@ -242,7 +302,7 @@ gzFile Z_EXPORT PREFIX(gzopen_w)(const wchar_t *path, const char *mode) {
 }
 #endif
 
-int Z_EXPORT PREFIX(gzclose)(gzFile file) {
+z_int32_t Z_EXPORT PREFIX(gzclose)(gzFile file) {
 #ifndef NO_GZCOMPRESS
     gz_state *state;
 
@@ -257,7 +317,7 @@ int Z_EXPORT PREFIX(gzclose)(gzFile file) {
 }
 
 /* -- see zlib.h -- */
-int Z_EXPORT PREFIX(gzbuffer)(gzFile file, unsigned size) {
+z_int32_t Z_EXPORT PREFIX(gzbuffer)(gzFile file, z_uint32_t size) {
     gz_state *state;
 
     /* get internal structure and check integrity */
@@ -281,7 +341,7 @@ int Z_EXPORT PREFIX(gzbuffer)(gzFile file, unsigned size) {
 }
 
 /* -- see zlib.h -- */
-int Z_EXPORT PREFIX(gzrewind)(gzFile file) {
+z_int32_t Z_EXPORT PREFIX(gzrewind)(gzFile file) {
     gz_state *state;
 
     /* get internal structure */
@@ -337,7 +397,7 @@ z_off64_t Z_EXPORT PREFIX4(gzseek)(gzFile file, z_off64_t offset, int whence) {
         state->eof = 0;
         state->past = 0;
         state->seek = 0;
-        gz_error(state, Z_OK, NULL);
+        PREFIX(gz_error)(state, Z_OK, NULL);
         state->strm.avail_in = 0;
         state->x.pos += offset;
         return state->x.pos;
@@ -439,7 +499,7 @@ z_off_t Z_EXPORT PREFIX(gzoffset)(gzFile file) {
 #endif
 
 /* -- see zlib.h -- */
-int Z_EXPORT PREFIX(gzeof)(gzFile file) {
+z_int32_t Z_EXPORT PREFIX(gzeof)(gzFile file) {
     gz_state *state;
 
     /* get internal structure and check integrity */
@@ -454,7 +514,7 @@ int Z_EXPORT PREFIX(gzeof)(gzFile file) {
 }
 
 /* -- see zlib.h -- */
-const char * Z_EXPORT PREFIX(gzerror)(gzFile file, int *errnum) {
+const char * Z_EXPORT PREFIX(gzerror)(gzFile file, z_int32_t *errnum) {
     gz_state *state;
 
     /* get internal structure and check integrity */
@@ -486,7 +546,7 @@ void Z_EXPORT PREFIX(gzclearerr)(gzFile file) {
         state->eof = 0;
         state->past = 0;
     }
-    gz_error(state, Z_OK, NULL);
+    PREFIX(gz_error)(state, Z_OK, NULL);
 }
 
 /* Create an error message in allocated memory and set state->err and
@@ -495,7 +555,7 @@ void Z_EXPORT PREFIX(gzclearerr)(gzFile file) {
    memory).  Simply save the error message as a static string.  If there is an
    allocation failure constructing the error message, then convert the error to
    out of memory. */
-void Z_INTERNAL gz_error(gz_state *state, int err, const char *msg) {
+void Z_INTERNAL PREFIX(gz_error)(gz_state *state, int err, const char *msg) {
     /* free previously allocated message and clear */
     if (state->msg != NULL) {
         if (state->err != Z_MEM_ERROR)

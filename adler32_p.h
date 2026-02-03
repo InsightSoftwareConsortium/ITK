@@ -12,11 +12,11 @@
 #define NMAX 5552
 /* NMAX is the largest n such that 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
 
-#define DO1(sum1, sum2, buf, i)  {(sum1) += buf[(i)]; (sum2) += (sum1);}
-#define DO2(sum1, sum2, buf, i)  {DO1(sum1, sum2, buf, i); DO1(sum1, sum2, buf, i+1);}
-#define DO4(sum1, sum2, buf, i)  {DO2(sum1, sum2, buf, i); DO2(sum1, sum2, buf, i+2);}
-#define DO8(sum1, sum2, buf, i)  {DO4(sum1, sum2, buf, i); DO4(sum1, sum2, buf, i+4);}
-#define DO16(sum1, sum2, buf)    {DO8(sum1, sum2, buf, 0); DO8(sum1, sum2, buf, 8);}
+#define ADLER_DO1(sum1, sum2, buf, i)  {(sum1) += buf[(i)]; (sum2) += (sum1);}
+#define ADLER_DO2(sum1, sum2, buf, i)  {ADLER_DO1(sum1, sum2, buf, i); ADLER_DO1(sum1, sum2, buf, i+1);}
+#define ADLER_DO4(sum1, sum2, buf, i)  {ADLER_DO2(sum1, sum2, buf, i); ADLER_DO2(sum1, sum2, buf, i+2);}
+#define ADLER_DO8(sum1, sum2, buf, i)  {ADLER_DO4(sum1, sum2, buf, i); ADLER_DO4(sum1, sum2, buf, i+4);}
+#define ADLER_DO16(sum1, sum2, buf)    {ADLER_DO8(sum1, sum2, buf, 0); ADLER_DO8(sum1, sum2, buf, 8);}
 
 static inline uint32_t adler32_len_1(uint32_t adler, const uint8_t *buf, uint32_t sum2) {
     adler += buf[0];
@@ -54,12 +54,12 @@ static inline uint32_t adler32_len_64(uint32_t adler, const uint8_t *buf, size_t
 #ifdef UNROLL_MORE
     while (len >= 16) {
         len -= 16;
-        DO16(adler, sum2, buf);
+        ADLER_DO16(adler, sum2, buf);
         buf += 16;
 #else
     while (len >= 8) {
         len -= 8;
-        DO8(adler, sum2, buf, 0);
+        ADLER_DO8(adler, sum2, buf, 0);
         buf += 8;
 #endif
     }

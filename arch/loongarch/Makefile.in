@@ -1,0 +1,99 @@
+# Makefile for zlib-ng
+# Copyright (C) 1995-2013 Jean-loup Gailly, Mark Adler
+# Copyright (C) 2024 Hans Kristian Rosbach
+# Copyright (C) 2025 Vladislav Shchapov <vladislav@shchapov.ru>
+# For conditions of distribution and use, see copyright notice in zlib.h
+
+CC=
+CFLAGS=
+SFLAGS=
+INCLUDES=
+SUFFIX=
+
+LSXFLAG=-mlsx
+LASXFLAG=-mlasx
+
+SRCDIR=.
+SRCTOP=../..
+TOPDIR=$(SRCTOP)
+
+all: \
+	loongarch_features.o loongarch_features.lo \
+	crc32_la.o crc32_la.lo \
+	adler32_lasx.o adler32_lasx.lo \
+	adler32_lsx.o adler32_lsx.lo \
+	chunkset_lasx.o chunkset_lasx.lo \
+	chunkset_lsx.o chunkset_lsx.lo \
+	compare256_lasx.o compare256_lasx.lo \
+	compare256_lsx.o compare256_lsx.lo \
+	slide_hash_lasx.o slide_hash_lasx.lo \
+	slide_hash_lsx.o slide_hash_lsx.lo
+
+loongarch_features.o: $(SRCDIR)/loongarch_features.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $(SRCDIR)/loongarch_features.c
+
+loongarch_features.lo: $(SRCDIR)/loongarch_features.c
+	$(CC) $(SFLAGS) -DPIC $(INCLUDES) -c -o $@ $(SRCDIR)/loongarch_features.c
+
+crc32_la.o: $(SRCDIR)/crc32_la.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $(SRCDIR)/crc32_la.c
+
+crc32_la.lo: $(SRCDIR)/crc32_la.c
+	$(CC) $(SFLAGS) -DPIC $(INCLUDES) -c -o $@ $(SRCDIR)/crc32_la.c
+
+adler32_lasx.o:
+	$(CC) $(CFLAGS) $(LASXFLAG) $(NOLTOFLAG) $(INCLUDES) -c -o $@ $(SRCDIR)/adler32_lasx.c
+
+adler32_lasx.lo:
+	$(CC) $(SFLAGS) $(LASXFLAG) $(NOLTOFLAG) -DPIC $(INCLUDES) -c -o $@ $(SRCDIR)/adler32_lasx.c
+
+adler32_lsx.o:
+	$(CC) $(CFLAGS) $(LSXFLAG) $(NOLTOFLAG) $(INCLUDES) -c -o $@ $(SRCDIR)/adler32_lsx.c
+
+adler32_lsx.lo:
+	$(CC) $(SFLAGS) $(LSXFLAG) $(NOLTOFLAG) -DPIC $(INCLUDES) -c -o $@ $(SRCDIR)/adler32_lsx.c
+
+chunkset_lasx.o:
+	$(CC) $(CFLAGS) $(LASXFLAG) $(NOLTOFLAG) $(INCLUDES) -c -o $@ $(SRCDIR)/chunkset_lasx.c
+
+chunkset_lasx.lo:
+	$(CC) $(SFLAGS) $(LASXFLAG) $(NOLTOFLAG) -DPIC $(INCLUDES) -c -o $@ $(SRCDIR)/chunkset_lasx.c
+
+chunkset_lsx.o:
+	$(CC) $(CFLAGS) $(LSXFLAG) $(NOLTOFLAG) $(INCLUDES) -c -o $@ $(SRCDIR)/chunkset_lsx.c
+
+chunkset_lsx.lo:
+	$(CC) $(SFLAGS) $(LSXFLAG) $(NOLTOFLAG) -DPIC $(INCLUDES) -c -o $@ $(SRCDIR)/chunkset_lsx.c
+
+compare256_lasx.o:
+	$(CC) $(CFLAGS) $(LASXFLAG) $(NOLTOFLAG) $(INCLUDES) -c -o $@ $(SRCDIR)/compare256_lasx.c
+
+compare256_lasx.lo:
+	$(CC) $(SFLAGS) $(LASXFLAG) $(NOLTOFLAG) -DPIC $(INCLUDES) -c -o $@ $(SRCDIR)/compare256_lasx.c
+
+compare256_lsx.o:
+	$(CC) $(CFLAGS) $(LSXFLAG) $(NOLTOFLAG) $(INCLUDES) -c -o $@ $(SRCDIR)/compare256_lsx.c
+
+compare256_lsx.lo:
+	$(CC) $(SFLAGS) $(LSXFLAG) $(NOLTOFLAG) -DPIC $(INCLUDES) -c -o $@ $(SRCDIR)/compare256_lsx.c
+
+slide_hash_lasx.o:
+	$(CC) $(CFLAGS) $(LASXFLAG) $(NOLTOFLAG) $(INCLUDES) -c -o $@ $(SRCDIR)/slide_hash_lasx.c
+
+slide_hash_lasx.lo:
+	$(CC) $(SFLAGS) $(LASXFLAG) $(NOLTOFLAG) -DPIC $(INCLUDES) -c -o $@ $(SRCDIR)/slide_hash_lasx.c
+
+slide_hash_lsx.o:
+	$(CC) $(CFLAGS) $(LSXFLAG) $(NOLTOFLAG) $(INCLUDES) -c -o $@ $(SRCDIR)/slide_hash_lsx.c
+
+slide_hash_lsx.lo:
+	$(CC) $(SFLAGS) $(LSXFLAG) $(NOLTOFLAG) -DPIC $(INCLUDES) -c -o $@ $(SRCDIR)/slide_hash_lsx.c
+
+mostlyclean: clean
+clean:
+	rm -f *.o *.lo *~
+	rm -rf objs
+	rm -f *.gcda *.gcno *.gcov
+
+distclean: clean
+	rm -f Makefile

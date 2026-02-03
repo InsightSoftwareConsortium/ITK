@@ -7,7 +7,7 @@
 
 #ifdef ARM_NEON
 uint32_t adler32_neon(uint32_t adler, const uint8_t *buf, size_t len);
-uint32_t chunksize_neon(void);
+uint32_t adler32_fold_copy_neon(uint32_t adler, uint8_t *dst, const uint8_t *src, size_t len);
 uint8_t* chunkmemset_safe_neon(uint8_t *out, uint8_t *from, unsigned len, unsigned left);
 
 #  ifdef HAVE_BUILTIN_CTZLL
@@ -19,8 +19,10 @@ void slide_hash_neon(deflate_state *s);
 void inflate_fast_neon(PREFIX3(stream) *strm, uint32_t start);
 #endif
 
-#ifdef ARM_ACLE
-uint32_t crc32_acle(uint32_t crc, const uint8_t *buf, size_t len);
+#ifdef ARM_CRC32
+uint32_t crc32_armv8(uint32_t crc, const uint8_t *buf, size_t len);
+void     crc32_fold_copy_armv8(crc32_fold *crc, uint8_t *dst, const uint8_t *src, size_t len);
+void     crc32_fold_armv8(crc32_fold *crc, const uint8_t *src, size_t len, uint32_t init_crc);
 #endif
 
 #ifdef ARM_SIMD
@@ -38,10 +40,10 @@ void slide_hash_armv6(deflate_state *s);
 #  if (defined(ARM_NEON) && (defined(__ARM_NEON__) || defined(__ARM_NEON))) || ARM_NOCHECK_NEON
 #    undef native_adler32
 #    define native_adler32 adler32_neon
+#    undef native_adler32_fold_copy
+#    define native_adler32_fold_copy adler32_fold_copy_neon
 #    undef native_chunkmemset_safe
 #    define native_chunkmemset_safe chunkmemset_safe_neon
-#    undef native_chunksize
-#    define native_chunksize chunksize_neon
 #    undef native_inflate_fast
 #    define native_inflate_fast inflate_fast_neon
 #    undef native_slide_hash
@@ -55,10 +57,14 @@ void slide_hash_armv6(deflate_state *s);
 #      define native_longest_match_slow longest_match_slow_neon
 #    endif
 #  endif
-// ARM - ACLE
-#  if defined(ARM_ACLE) && (defined(__ARM_ACLE) || defined(__ARM_FEATURE_CRC32))
+// ARM - CRC32
+#  if (defined(ARM_CRC32) && defined(__ARM_FEATURE_CRC32))
 #    undef native_crc32
-#    define native_crc32 crc32_acle
+#    define native_crc32 crc32_armv8
+#    undef native_crc32_fold
+#    define native_crc32_fold crc32_fold_armv8
+#    undef native_crc32_fold_copy
+#    define native_crc32_fold_copy crc32_fold_copy_armv8
 #  endif
 #endif
 
