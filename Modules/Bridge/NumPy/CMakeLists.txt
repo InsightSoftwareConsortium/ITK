@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.16.3)
 project(ITKBridgeNumPy)
 
-set(ITKBridgeNumPy_SYSTEM_INCLUDE_DIRS "${Python3_INCLUDE_DIRS}")
+set(
+  ITKBridgeNumPy_GENEX_SYSTEM_INCLUDE_DIRS
+  "$<BUILD_INTERFACE:${Python3_INCLUDE_DIRS}>"
+)
 
 if(NOT ITK_SOURCE_DIR)
   find_package(ITK REQUIRED)
