@@ -258,32 +258,12 @@ endif()
   set(${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS "")
   if(${itk-module}_SYSTEM_INCLUDE_DIRS)
     foreach(_dir ${${itk-module}_SYSTEM_INCLUDE_DIRS})
-      # Always add to BUILD_INTERFACE
       list(
         APPEND
         ${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS
         "$<BUILD_INTERFACE:${_dir}>"
+        "$<INSTALL_INTERFACE:${_dir}>"
       )
-      # Only add to INSTALL_INTERFACE if the directory is not within the source directory
-      # CMake does not allow INTERFACE properties to contain paths prefixed in the source directory
-      # Normalize the path to handle symlinks consistently
-      get_filename_component(_dir_real "${_dir}" REALPATH)
-      file(RELATIVE_PATH _relpath "${CMAKE_SOURCE_DIR}" "${_dir_real}")
-      # Check if directory is outside source tree:
-      # - Empty _relpath means _dir equals CMAKE_SOURCE_DIR (inside source)
-      # - Path starting with ".." means outside source tree
-      # - Pattern matches ".." at start followed by path separator (/ or \) or end of string
-      if(_relpath AND (_relpath MATCHES "^\\.\\.([/\\\\]|$)"))
-        # Directory is outside source directory, safe to add to INSTALL_INTERFACE
-        list(
-          APPEND
-          ${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS
-          "$<INSTALL_INTERFACE:${_dir}>"
-        )
-      else()
-        # Directory is within source directory or equals source directory
-        # Skip adding to INSTALL_INTERFACE as it's a build-time only dependency
-      endif()
     endforeach()
   endif()
 
