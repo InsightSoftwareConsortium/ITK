@@ -711,7 +711,7 @@ MINCImageIO::ReadImageInformation()
   switch (volume_data_type)
   {
     case MI_TYPE_BYTE:
-      EncapsulateMetaData<std::string>(thisDic, "storage_data_type", typeid(char).name());
+      EncapsulateMetaData<std::string>(thisDic, "storage_data_type", typeid(int8_t).name());
       break;
     case MI_TYPE_UBYTE:
       EncapsulateMetaData<std::string>(thisDic, "storage_data_type", typeid(unsigned char).name());
@@ -1394,7 +1394,7 @@ MINCImageIO::Write(const void * buffer)
       break;
     case IOComponentEnum::SCHAR:
       volume_data_type = MI_TYPE_BYTE;
-      get_buffer_min_max<signed char>(buffer, buffer_length, buffer_min, buffer_max);
+      get_buffer_min_max<int8_t>(buffer, buffer_length, buffer_min, buffer_max);
       break;
     case IOComponentEnum::USHORT:
       volume_data_type = MI_TYPE_USHORT;

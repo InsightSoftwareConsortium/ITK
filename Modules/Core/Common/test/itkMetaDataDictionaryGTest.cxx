@@ -20,6 +20,7 @@
 
 #include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
+#include "itkTestVerifyMetaData.h"
 
 #include <iterator>
 #include <numeric>     // For iota.
@@ -44,6 +45,112 @@ createMetaDataDictionary()
   return metaDataDictionary;
 }
 
+
+template <typename T>
+static int
+CheckMetaData(itk::MetaDataDictionary & metaDict, const std::string & key, const T & knownValue)
+{
+  itk::EncapsulateMetaData<T>(metaDict, key, knownValue);
+  return itk::VerifyMetaDataPrivateTestingUtility<T>(metaDict, key, knownValue);
+}
+
+
+static int
+doExposeMetaDatas()
+{
+  // Simplified version of tests found in HDF5 reading/writing
+  // that are broken out here to improve localization of bugs
+  // found during linux-arm building
+  itk::MetaDataDictionary metaDict;
+  int                     success = EXIT_SUCCESS;
+
+  if (CheckMetaData<bool>(metaDict, "TestBool", false) != EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+  if (CheckMetaData<char>(metaDict, "TestChar", 'c') != EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
+#endif
+  if (CheckMetaData<unsigned char>(metaDict, "TestUChar", 'u') != EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
+  if (CheckMetaData<short>(metaDict, "TestShort", 1) != EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
+  if (CheckMetaData<unsigned short>(metaDict, "TestUShort", 3) != EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
+  if (CheckMetaData<int>(metaDict, "TestInt", 5) != EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
+  if (CheckMetaData<unsigned int>(metaDict, "TestUInt", 7) != EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
+  if (CheckMetaData<long>(metaDict, "TestLong", 5) != EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
+  if (CheckMetaData<unsigned long>(metaDict, "TestULong", 7) != EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
+  if (CheckMetaData<long long>(metaDict, "TestLLong", -5) != EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
+  if (CheckMetaData<unsigned long long>(metaDict, "TestULLong", 7ull) != EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
+  if (CheckMetaData<float>(metaDict, "TestFloat", 1.23456f) != EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
+  if (CheckMetaData<double>(metaDict, "TestDouble", 1.23456) != EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
+
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+  itk::Array<char> metaDataCharArray(5);
+  metaDataCharArray[0] = 'h';
+  metaDataCharArray[1] = 'e';
+  metaDataCharArray[2] = 'l';
+  metaDataCharArray[3] = 'l';
+  metaDataCharArray[4] = 'o';
+  if (CheckMetaData<itk::Array<char>>(metaDict, "TestCharArray", metaDataCharArray) != EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
+#endif
+
+  itk::Array<double> metaDataDoubleArray(5);
+  metaDataDoubleArray[0] = 3.0;
+  metaDataDoubleArray[1] = 1.0;
+  metaDataDoubleArray[2] = 4.0;
+  metaDataDoubleArray[3] = 5.0;
+  metaDataDoubleArray[4] = 2.0;
+  if (CheckMetaData<itk::Array<double>>(metaDict, "TestDoubleArray", metaDataDoubleArray) != EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
+
+  if (CheckMetaData<std::string>(metaDict, "StdString", "Test std::string") != EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
+  return success;
+}
+
+
 template <typename T>
 itk::MetaDataObjectBase::Pointer
 createMetaDataObject(const T & invalue)
@@ -56,6 +163,9 @@ createMetaDataObject(const T & invalue)
 
 TEST(MetaDataDictionary, Basic)
 {
+  // Isolate
+  EXPECT_EQ(doExposeMetaDatas(), EXIT_SUCCESS);
+
   // This test exercises and checks the non-constant interface
   itk::MetaDataDictionary dic = createMetaDataDictionary();
 

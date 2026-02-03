@@ -250,7 +250,11 @@ testMetaImage(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  if (ReadWriteCompare<char, 3>(static_cast<char>(-8), "char"))
+  if (ReadWriteCompare<int8_t, 3>(static_cast<int8_t>(-8), "int8_t"))
+  {
+    return EXIT_FAILURE;
+  }
+  if (ReadWriteCompare<signed char, 3>(static_cast<signed char>(-8), "signed char"))
   {
     return EXIT_FAILURE;
   }

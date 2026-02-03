@@ -19,9 +19,10 @@
 #include "itkHDF5ImageIO.h"
 #include "itkHDF5ImageIOFactory.h"
 #include "itkIOTestHelper.h"
-#include "itkMetaDataObject.h"
+#include "itkTestVerifyMetaData.h"
 #include "itkMath.h"
 #include "itkTestingMacros.h"
+
 
 template <typename TPixel>
 int
@@ -55,45 +56,26 @@ HDF5ReadWriteTest(const char * fileName)
   //
   // add some unique metadata
   itk::MetaDataDictionary & metaDict(im->GetMetaDataDictionary());
-  constexpr bool            metaDataBool(false);
-  itk::EncapsulateMetaData<bool>(metaDict, "TestBool", metaDataBool);
 
-  constexpr char metaDataChar('c');
-  itk::EncapsulateMetaData<char>(metaDict, "TestChar", metaDataChar);
 
-  constexpr unsigned char metaDataUChar('u');
-  itk::EncapsulateMetaData<unsigned char>(metaDict, "TestUChar", metaDataUChar);
-
-  constexpr short metaDataShort{ 1 };
-  itk::EncapsulateMetaData<short>(metaDict, "TestShort", metaDataShort);
-
-  constexpr unsigned short metaDataUShort{ 3 };
-  itk::EncapsulateMetaData<unsigned short>(metaDict, "TestUShort", metaDataUShort);
-
-  constexpr int metaDataInt{ 5 };
-  itk::EncapsulateMetaData<int>(metaDict, "TestInt", metaDataInt);
-
-  constexpr unsigned int metaDataUInt{ 7 };
-  itk::EncapsulateMetaData<unsigned int>(metaDict, "TestUInt", metaDataUInt);
-
-  constexpr long metaDataLong{ 5 };
-  itk::EncapsulateMetaData<long>(metaDict, "TestLong", metaDataLong);
-
-  constexpr unsigned long metaDataULong{ 7 };
-  itk::EncapsulateMetaData<unsigned long>(metaDict, "TestULong", metaDataULong);
-
-  constexpr long long metaDataLLong(-5);
-  itk::EncapsulateMetaData<long long>(metaDict, "TestLLong", metaDataLLong);
-
-  constexpr unsigned long long metaDataULLong(7ull);
-  itk::EncapsulateMetaData<unsigned long long>(metaDict, "TestULLong", metaDataULLong);
-
-  constexpr float metaDataFloat(1.23456);
-  itk::EncapsulateMetaData<float>(metaDict, "TestFloat", metaDataFloat);
-
-  constexpr double metaDataDouble(1.23456);
-  itk::EncapsulateMetaData<double>(metaDict, "TestDouble", metaDataDouble);
-
+  itk::EncapsulateMetaData<bool>(metaDict, "TestBool", false);
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  // char is not portable across platforms
+  itk::EncapsulateMetaData<char>(metaDict, "TestChar", 'c');
+#endif
+  itk::EncapsulateMetaData<signed char>(metaDict, "TestSChar", 's');
+  itk::EncapsulateMetaData<unsigned char>(metaDict, "TestUChar", 'u');
+  itk::EncapsulateMetaData<short>(metaDict, "TestShort", 1);
+  itk::EncapsulateMetaData<unsigned short>(metaDict, "TestUShort", 3);
+  itk::EncapsulateMetaData<int>(metaDict, "TestInt", 5);
+  itk::EncapsulateMetaData<unsigned int>(metaDict, "TestUInt", 7);
+  itk::EncapsulateMetaData<long>(metaDict, "TestLong", 5);
+  itk::EncapsulateMetaData<unsigned long>(metaDict, "TestULong", 7);
+  itk::EncapsulateMetaData<long long>(metaDict, "TestLLong", -5);
+  itk::EncapsulateMetaData<unsigned long long>(metaDict, "TestULLong", 7ull);
+  itk::EncapsulateMetaData<float>(metaDict, "TestFloat", 1.23456f);
+  itk::EncapsulateMetaData<double>(metaDict, "TestDouble", 1.23456);
+#ifndef ITK_FUTURE_LEGACY_REMOVE
   itk::Array<char> metaDataCharArray(5);
   metaDataCharArray[0] = 'h';
   metaDataCharArray[1] = 'e';
@@ -101,6 +83,7 @@ HDF5ReadWriteTest(const char * fileName)
   metaDataCharArray[3] = 'l';
   metaDataCharArray[4] = 'o';
   itk::EncapsulateMetaData<itk::Array<char>>(metaDict, "TestCharArray", metaDataCharArray);
+#endif
 
   itk::Array<double> metaDataDoubleArray(5);
   metaDataDoubleArray[0] = 3.0;
@@ -110,8 +93,7 @@ HDF5ReadWriteTest(const char * fileName)
   metaDataDoubleArray[4] = 2.0;
   itk::EncapsulateMetaData<itk::Array<double>>(metaDict, "TestDoubleArray", metaDataDoubleArray);
 
-  const std::string metaDataStdString("Test std::string");
-  itk::EncapsulateMetaData<std::string>(metaDict, "StdString", metaDataStdString);
+  itk::EncapsulateMetaData<std::string>(metaDict, "StdString", "Test std::string");
 
   //
   // fill image buffer
@@ -134,6 +116,7 @@ HDF5ReadWriteTest(const char * fileName)
     std::cout << "itkHDF5ImageIOTest" << std::endl << "Exception Object caught: " << std::endl << err << std::endl;
     return EXIT_FAILURE;
   }
+  std::cout << "Writing image with metadata values to " << fileName << " : SUCCEEDED." << std::endl;
 
   if (im->GetOrigin() != im2->GetOrigin())
   {
@@ -152,146 +135,103 @@ HDF5ReadWriteTest(const char * fileName)
               << std::endl;
     return EXIT_FAILURE;
   }
+  std::cout << "Checking MetaDataDictionary Values:" << std::endl;
   //
   // Check MetaData
   const itk::MetaDataDictionary & metaDict2(im2->GetMetaDataDictionary());
 
-  bool metaDataBool2(false);
-
-  if (!itk::ExposeMetaData<bool>(metaDict2, "TestBool", metaDataBool2) || metaDataBool != metaDataBool2)
+  int missingKeysCount = 0;
+  for (const auto & key : metaDict.GetKeys())
   {
-    std::cerr << "Failure Reading metaData "
-              << "TestBool " << metaDataBool << ' ' << metaDataBool2 << std::endl;
-    success = EXIT_FAILURE;
+    if (metaDict2.Find(key) == metaDict2.End())
+    {
+      std::cout << "Missing key in the metadata dictionary extracted from image read in from disk: " << key
+                << std::endl;
+      ++missingKeysCount;
+    }
+  }
+  if (missingKeysCount != 0)
+  {
+    return EXIT_FAILURE;
   }
 
-  char metaDataChar2(0);
-  if (!itk::ExposeMetaData<char>(metaDict2, "TestChar", metaDataChar2) || metaDataChar2 != metaDataChar)
+
+  if (itk::VerifyMetaDataPrivateTestingUtility<bool>(metaDict2, "TestBool", false) != EXIT_SUCCESS)
   {
-    std::cerr << "Failure Reading metaData "
-              << "TestChar " << metaDataChar2 << ' ' << metaDataChar << std::endl;
+    metaDict2.Print(std::cerr);
     success = EXIT_FAILURE;
   }
-
-  unsigned char metaDataUChar2(0);
-  if (!itk::ExposeMetaData<unsigned char>(metaDict2, "TestUChar", metaDataUChar2) || metaDataUChar2 != metaDataUChar)
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  if (itk::VerifyMetaDataPrivateTestingUtility<char>(metaDict2, "TestChar", 'c') != EXIT_SUCCESS)
   {
-    std::cerr << "Failure Reading metaData "
-              << "TestUChar " << metaDataUChar2 << ' ' << metaDataUChar << std::endl;
     success = EXIT_FAILURE;
   }
-
-  short metaDataShort2(-1);
-  if (!itk::ExposeMetaData<short>(metaDict2, "TestShort", metaDataShort2) || metaDataShort2 != metaDataShort)
+#endif
+  if (itk::VerifyMetaDataPrivateTestingUtility<unsigned char>(metaDict2, "TestUChar", 'u') != EXIT_SUCCESS)
   {
-    std::cerr << "Failure Reading metaData "
-              << "TestShort " << metaDataShort2 << ' ' << metaDataShort << std::endl;
     success = EXIT_FAILURE;
   }
-
-  unsigned short metaDataUShort2(0);
-  if (!itk::ExposeMetaData<unsigned short>(metaDict2, "TestUShort", metaDataUShort2) ||
-      metaDataUShort2 != metaDataUShort)
+  if (itk::VerifyMetaDataPrivateTestingUtility<signed char>(metaDict2, "TestSChar", 's') != EXIT_SUCCESS)
   {
-    std::cerr << "Failure Reading metaData "
-              << "TestUShort " << metaDataUShort2 << ' ' << metaDataUShort << std::endl;
     success = EXIT_FAILURE;
   }
-
-  int metaDataInt2(1234);
-  if (!itk::ExposeMetaData<int>(metaDict2, "TestInt", metaDataInt2) || metaDataInt2 != metaDataInt)
+  if (itk::VerifyMetaDataPrivateTestingUtility<short>(metaDict2, "TestShort", 1) != EXIT_SUCCESS)
   {
-    std::cerr << "Failure Reading metaData "
-              << "TestInt " << metaDataInt2 << ' ' << metaDataInt << std::endl;
     success = EXIT_FAILURE;
   }
-
-  unsigned int metaDataUInt2(1234);
-  if (!itk::ExposeMetaData<unsigned int>(metaDict2, "TestUInt", metaDataUInt2) || metaDataUInt2 != metaDataUInt)
+  if (itk::VerifyMetaDataPrivateTestingUtility<unsigned short>(metaDict2, "TestUShort", 3) != EXIT_SUCCESS)
   {
-    std::cerr << "Failure Reading metaData "
-              << "TestUInt " << metaDataUInt2 << ' ' << metaDataUInt << std::endl;
     success = EXIT_FAILURE;
   }
-
-  long metaDataLong2(0);
-  if (!itk::ExposeMetaData<long>(metaDict2, "TestLong", metaDataLong2) || metaDataLong2 != metaDataLong)
+  if (itk::VerifyMetaDataPrivateTestingUtility<int>(metaDict2, "TestInt", 5) != EXIT_SUCCESS)
   {
-    std::cerr << "Failure Reading metaData "
-              << "TestLong " << metaDataLong2 << ' ' << metaDataLong << std::endl;
     success = EXIT_FAILURE;
   }
-
-  unsigned long metaDataULong2(0);
-  if (!itk::ExposeMetaData<unsigned long>(metaDict2, "TestULong", metaDataULong2) || metaDataULong2 != metaDataULong)
+  if (itk::VerifyMetaDataPrivateTestingUtility<unsigned int>(metaDict2, "TestUInt", 7) != EXIT_SUCCESS)
   {
-    std::cerr << "Failure Reading metaData "
-              << "TestULong " << metaDataULong2 << ' ' << metaDataULong << std::endl;
     success = EXIT_FAILURE;
   }
-
-  long long metaDataLLong2(0);
-  if (!itk::ExposeMetaData<long long>(metaDict2, "TestLLong", metaDataLLong2) || metaDataLLong2 != metaDataLLong)
+  if (itk::VerifyMetaDataPrivateTestingUtility<long>(metaDict2, "TestLong", 5) != EXIT_SUCCESS)
   {
-    std::cerr << "Failure Reading metaData "
-              << "TestLLong " << metaDataLLong2 << ' ' << metaDataLLong << std::endl;
     success = EXIT_FAILURE;
   }
-
-  unsigned long long metaDataULLong2(0);
-  if (!itk::ExposeMetaData<unsigned long long>(metaDict2, "TestULLong", metaDataULLong2) ||
-      metaDataULLong2 != metaDataULLong)
+  if (itk::VerifyMetaDataPrivateTestingUtility<unsigned long>(metaDict2, "TestULong", 7) != EXIT_SUCCESS)
   {
-    std::cerr << "Failure Reading metaData "
-              << "TestULLong " << metaDataULLong2 << ' ' << metaDataULLong << std::endl;
     success = EXIT_FAILURE;
   }
-
-  float metaDataFloat2(0.0f);
-  if (!itk::ExposeMetaData<float>(metaDict2, "TestFloat", metaDataFloat2) ||
-      itk::Math::NotAlmostEquals(metaDataFloat2, metaDataFloat))
+  if (itk::VerifyMetaDataPrivateTestingUtility<long long>(metaDict2, "TestLLong", -5) != EXIT_SUCCESS)
   {
-    std::cerr << "Failure Reading metaData "
-              << "TestFloat " << metaDataFloat2 << ' ' << metaDataFloat << std::endl;
     success = EXIT_FAILURE;
   }
-
-  double metaDataDouble2(0.0);
-  if (!itk::ExposeMetaData<double>(metaDict2, "TestDouble", metaDataDouble2) ||
-      itk::Math::NotAlmostEquals(metaDataDouble2, metaDataDouble))
+  if (itk::VerifyMetaDataPrivateTestingUtility<unsigned long long>(metaDict2, "TestULLong", 7ull) != EXIT_SUCCESS)
   {
-    std::cerr << "Failure reading metaData "
-              << "TestDouble " << metaDataDouble2 << ' ' << metaDataDouble << std::endl;
     success = EXIT_FAILURE;
   }
-
-  itk::Array<char> metaDataCharArray2{};
-  if (!itk::ExposeMetaData<itk::Array<char>>(metaDict2, "TestCharArray", metaDataCharArray2) ||
-      metaDataCharArray2 != metaDataCharArray)
+  if (itk::VerifyMetaDataPrivateTestingUtility<float>(metaDict2, "TestFloat", 1.23456f) != EXIT_SUCCESS)
   {
-    std::cerr << "Failure reading metaData "
-              << "TestCharArray" << metaDataCharArray2 << ' ' << metaDataCharArray2 << std::endl;
     success = EXIT_FAILURE;
   }
-
-  itk::Array<double> metaDataDoubleArray2{};
-  if (!itk::ExposeMetaData<itk::Array<double>>(metaDict2, "TestDoubleArray", metaDataDoubleArray2) ||
-      metaDataDoubleArray2 != metaDataDoubleArray)
+  if (itk::VerifyMetaDataPrivateTestingUtility<double>(metaDict2, "TestDouble", 1.23456) != EXIT_SUCCESS)
   {
-    std::cerr << "Failure reading metaData "
-              << "TestDoubleArray " << metaDataDoubleArray2 << ' ' << metaDataDoubleArray << std::endl;
     success = EXIT_FAILURE;
   }
-
-  std::string metaDataStdString2("");
-  if (!itk::ExposeMetaData<std::string>(metaDict2, "StdString", metaDataStdString2) ||
-      metaDataStdString2 != metaDataStdString)
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  if (itk::VerifyMetaDataPrivateTestingUtility<itk::Array<char>>(metaDict2, "TestCharArray", metaDataCharArray) !=
+      EXIT_SUCCESS)
   {
-    std::cerr << "Failure reading metaData "
-              << "StdString " << metaDataStdString2 << ' ' << metaDataStdString << std::endl;
     success = EXIT_FAILURE;
   }
-
+#endif
+  if (itk::VerifyMetaDataPrivateTestingUtility<itk::Array<double>>(metaDict2, "TestDoubleArray", metaDataDoubleArray) !=
+      EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
+  if (itk::VerifyMetaDataPrivateTestingUtility<std::string>(metaDict2, "StdString", std::string("Test std::string")) !=
+      EXIT_SUCCESS)
+  {
+    success = EXIT_FAILURE;
+  }
   itk::ImageRegionIterator<ImageType> it2(im2, im2->GetLargestPossibleRegion());
   for (it.GoToBegin(), it2.GoToBegin(); !it.IsAtEnd() && !it2.IsAtEnd(); ++it, ++it2)
   {
@@ -347,7 +287,7 @@ itkHDF5ImageIOTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(imageio, HDF5ImageIO, StreamingImageIOBase);
 
   int result(0);
-
+  result += HDF5ReadWriteTest<int8_t>("SCharImage.hdf5");
   result += HDF5ReadWriteTest<unsigned char>("UCharImage.hdf5");
   result += HDF5ReadWriteTest<float>("FloatImage.hdf5");
   result += HDF5ReadWriteTest<unsigned long long>("ULongLongImage.hdf5");

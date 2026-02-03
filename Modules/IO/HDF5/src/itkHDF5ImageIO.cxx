@@ -24,6 +24,7 @@
 #include "itkMakeUniqueForOverwrite.h"
 
 #include <algorithm>
+#include <type_traits> // For is_signed_v.
 
 namespace itk
 {
@@ -83,9 +84,18 @@ GetType()
   };                                         \
   ITK_MACROEND_NOOP_STATEMENT
 
-GetH5TypeSpecialize(float, H5::PredType::NATIVE_FLOAT);
-GetH5TypeSpecialize(double, H5::PredType::NATIVE_DOUBLE);
+#if !defined ITK_FUTURE_LEGACY_REMOVE
+/* The char type is intended to be storage of ASCII values
+ * where ASCII is only valid between 0-127 (aka 7-bit), so
+ * it should not matter if it is signed or unsigned
+ * Use signed for persistent cross-platform interpretation.
+ *
+ * Prefer int8_t (signed char) for signed numeric 8bit values.
+ * Prefer uint8_t (unsigned char) for unsigned numeric 8-bit values.
+ */
 GetH5TypeSpecialize(char, H5::PredType::NATIVE_CHAR);
+#endif
+GetH5TypeSpecialize(signed char, H5::PredType::NATIVE_SCHAR);
 GetH5TypeSpecialize(unsigned char, H5::PredType::NATIVE_UCHAR);
 GetH5TypeSpecialize(short, H5::PredType::NATIVE_SHORT);
 GetH5TypeSpecialize(short unsigned int, H5::PredType::NATIVE_USHORT);
@@ -95,10 +105,12 @@ GetH5TypeSpecialize(long, H5::PredType::NATIVE_LONG);
 GetH5TypeSpecialize(long unsigned int, H5::PredType::NATIVE_ULONG);
 GetH5TypeSpecialize(long long, H5::PredType::NATIVE_LLONG);
 GetH5TypeSpecialize(unsigned long long, H5::PredType::NATIVE_ULLONG);
+GetH5TypeSpecialize(float, H5::PredType::NATIVE_FLOAT);
+GetH5TypeSpecialize(double, H5::PredType::NATIVE_DOUBLE);
 
-/* The following types are not implemented.  This comment serves
- * to indicate that the full complement of possible H5::PredType
- * types are not implemented int the ITK IO reader/writer
+/* The following bool type is not implemented.  This comment serves
+ * to indicate that not all possible values of H5::PredType
+ * types are implemented in the ITK IO reader/writer
  * GetH5TypeSpecialize(bool,              H5::PredType::NATIVE_HBOOL)
  */
 
@@ -111,9 +123,13 @@ PredTypeToComponentType(H5::DataType & type)
   {
     return IOComponentEnum::UCHAR;
   }
-  if (type == H5::PredType::NATIVE_CHAR)
+  else if (type == H5::PredType::NATIVE_CHAR)
   {
-    return IOComponentEnum::CHAR;
+    return std::is_signed_v<char> ? IOComponentEnum::SCHAR : IOComponentEnum::UCHAR;
+  }
+  else if (type == H5::PredType::NATIVE_SCHAR)
+  {
+    return IOComponentEnum::SCHAR;
   }
   else if (type == H5::PredType::NATIVE_USHORT)
   {
@@ -166,7 +182,7 @@ ComponentToPredType(IOComponentEnum cType)
     case IOComponentEnum::UCHAR:
       return H5::PredType::NATIVE_UCHAR;
     case IOComponentEnum::SCHAR:
-      return H5::PredType::NATIVE_CHAR;
+      return H5::PredType::NATIVE_SCHAR;
     case IOComponentEnum::USHORT:
       return H5::PredType::NATIVE_USHORT;
     case IOComponentEnum::SHORT:
@@ -262,7 +278,7 @@ HDF5ImageIO::WriteScalar(const std::string & path, const bool value)
 {
   constexpr hsize_t   numScalars(1);
   const H5::DataSpace scalarSpace(1, &numScalars);
-  const H5::PredType  scalarType = H5::PredType::NATIVE_HBOOL;
+  const H5::PredType  scalarType = H5::PredType::STD_U8LE;
   H5::DataSet         scalarSet = m_H5File->createDataSet(path, scalarType, scalarSpace);
   //
   // HDF5 can't distinguish
@@ -274,7 +290,7 @@ HDF5ImageIO::WriteScalar(const std::string & path, const bool value)
   bool              trueVal(true);
   isBool.write(scalarType, &trueVal);
   isBool.close();
-  auto tempVal = static_cast<int>(value);
+  auto tempVal = static_cast<uint8_t>(value);
   scalarSet.write(&tempVal, scalarType);
   scalarSet.close();
 }
@@ -550,6 +566,27 @@ HDF5ImageIO::StoreMetaData(MetaDataDictionary * metaDict,
                            const std::string &  name,
                            unsigned long        numElements)
 {
+#ifdef ITK_FUTURE_LEGACY_REMOVE
+  static_assert(!std::is_same_v<TType, char>,
+                "HDF5 meta-data should not use the ambiguous 'char' to be stored"
+                "in HDF5 meta data, because it is not-cross platform consistent.");
+#else
+  if (std::is_same_v<TType, char>)
+  {
+    // Make best attempt, and preserve backward compatibility
+    // Be explicit about the storage type requested for persistence to be read back on any platform.
+    if constexpr (std::is_signed_v<char>)
+    {
+      this->StoreMetaData<signed char>(metaDict, HDFPath, name, numElements);
+    }
+    else
+    {
+      this->StoreMetaData<unsigned char>(metaDict, HDFPath, name, numElements);
+    }
+    return;
+  }
+#endif
+
   if (numElements == 1)
   {
     auto val = this->ReadScalar<TType>(HDFPath);
@@ -756,16 +793,7 @@ HDF5ImageIO::ReadImageInformation()
       // work around bool/int confusion on disk.
       if (metaDataType == H5::PredType::NATIVE_INT)
       {
-        if (doesAttrExist(metaDataSet, "isBool"))
-        {
-          // itk::Array<bool> apparently can't
-          // happen because vnl_vector<bool> isn't
-          // instantiated
-          auto tmpVal = this->ReadScalar<int>(localMetaDataName);
-          bool val = tmpVal != 0;
-          EncapsulateMetaData<bool>(metaDict, name, val);
-        }
-        else if (doesAttrExist(metaDataSet, "isLong"))
+        if (doesAttrExist(metaDataSet, "isLong"))
         {
           auto val = this->ReadScalar<long>(localMetaDataName);
           EncapsulateMetaData<long>(metaDict, name, val);
@@ -782,16 +810,39 @@ HDF5ImageIO::ReadImageInformation()
       }
       else if (metaDataType == H5::PredType::NATIVE_CHAR)
       {
-        this->StoreMetaData<char>(&metaDict, localMetaDataName, name, metaDataDims[0]);
+        if constexpr (std::numeric_limits<char>::is_signed)
+        {
+          this->StoreMetaData<signed char>(&metaDict, localMetaDataName, name, metaDataDims[0]);
+        }
+        else
+        {
+          if (doesAttrExist(metaDataSet, "isBool"))
+          {
+            // itk::Array<bool> apparently can't
+            // happen because vnl_vector<bool> isn't
+            // instantiated
+            auto tmpVal = this->ReadScalar<uint8_t>(localMetaDataName);
+            bool val = tmpVal != 0;
+            EncapsulateMetaData<bool>(metaDict, name, val);
+          }
+          else
+          {
+            this->StoreMetaData<unsigned char>(&metaDict, localMetaDataName, name, metaDataDims[0]);
+          }
+        }
       }
-      else if (metaDataType == H5::PredType::NATIVE_UCHAR)
+      else if (metaDataType == H5::PredType::NATIVE_SCHAR)
+      {
+        this->StoreMetaData<signed char>(&metaDict, localMetaDataName, name, metaDataDims[0]);
+      }
+      else if (metaDataType == H5::PredType::NATIVE_UCHAR || metaDataType == H5::PredType::STD_U8LE)
       {
         if (doesAttrExist(metaDataSet, "isBool"))
         {
           // itk::Array<bool> apparently can't
           // happen because vnl_vector<bool> isn't
           // instantiated
-          auto tmpVal = this->ReadScalar<int>(localMetaDataName);
+          auto tmpVal = this->ReadScalar<uint8_t>(localMetaDataName);
           bool val = tmpVal != 0;
           EncapsulateMetaData<bool>(metaDict, name, val);
         }
@@ -964,12 +1015,41 @@ template <typename TType>
 bool
 HDF5ImageIO::WriteMeta(const std::string & name, MetaDataObjectBase * metaObjBase)
 {
-  auto * metaObj = dynamic_cast<MetaDataObject<TType> *>(metaObjBase);
-  if (metaObj == nullptr)
+#ifdef ITK_FUTURE_LEGACY_REMOVE
+  static_assert(!std::is_same_v<TType, char>,
+                "HDF5 meta-data should not use the ambiguous 'char' to be stored"
+                "in HDF5 meta data, because it is not-cross platform consistent.");
+#else
+  if (std::is_same_v<TType, char>)
+  {
+    auto charObj = dynamic_cast<itk::MetaDataObject<char> *>(metaObjBase);
+    if (charObj == nullptr || charObj->GetMetaDataObjectTypeInfo() != typeid(char))
+    {
+      return false;
+    }
+    auto charValue = charObj->GetMetaDataObjectValue();
+    // Make the best attempt and preserve backward compatibility
+    // Be explicit about the storage type requested for persistence to be read back on any platform.
+    if constexpr (std::is_signed_v<char>)
+    {
+      auto tempMetaDataObject = MetaDataObject<signed char>::New();
+      tempMetaDataObject->SetMetaDataObjectValue(charValue);
+      return this->WriteMeta<signed char>(name, tempMetaDataObject);
+    }
+    else
+    {
+      auto tempMetaDataObject = MetaDataObject<unsigned char>::New();
+      tempMetaDataObject->SetMetaDataObjectValue(charValue);
+      return this->WriteMeta<unsigned char>(name, tempMetaDataObject);
+    }
+  }
+#endif
+  if (metaObjBase == nullptr || metaObjBase->GetMetaDataObjectTypeInfo() != typeid(TType))
   {
     return false;
   }
-  TType val = metaObj->GetMetaDataObjectValue();
+  auto * metaObj = dynamic_cast<MetaDataObject<TType> *>(metaObjBase);
+  TType  val = metaObj->GetMetaDataObjectValue();
   this->WriteScalar(name, val);
   return true;
 }
@@ -978,12 +1058,46 @@ template <typename TType>
 bool
 HDF5ImageIO::WriteMetaArray(const std::string & name, MetaDataObjectBase * metaObjBase)
 {
+#ifdef ITK_FUTURE_LEGACY_REMOVE
+  static_assert(!std::is_same_v<TType, char>,
+                "HDF5 meta-data should not use the ambiguous 'char' to be stored"
+                "in HDF5 meta data, because it is not-cross platform consistent.");
+#else
+  if (std::is_same_v<TType, char>)
+  {
+
+    auto charArrayObject = dynamic_cast<MetaDataObject<Array<char>> *>(metaObjBase);
+    if (charArrayObject == nullptr || charArrayObject->GetMetaDataObjectTypeInfo() != typeid(itk::Array<char>))
+    {
+      return false;
+    }
+    auto charArrayValue = charArrayObject->GetMetaDataObjectValue();
+
+    // Make the best attempt and preserve backward compatibility
+    // Be explicit about the storage type requested for persistence to be read back on any platform.
+    if constexpr (std::is_signed_v<char>)
+    {
+      Array<signed char> signedCharArray = charArrayValue;
+      auto               tempMetaDataObject = MetaDataObject<Array<signed char>>::New();
+      tempMetaDataObject->SetMetaDataObjectValue(signedCharArray);
+      return this->WriteMetaArray<signed char>(name, tempMetaDataObject);
+    }
+    else
+    {
+      Array<unsigned char> unsignedCharArray = charArrayValue;
+      auto                 tempMetaDataObject = MetaDataObject<Array<unsigned char>>::New();
+      tempMetaDataObject->SetMetaDataObjectValue(unsignedCharArray);
+      return this->WriteMetaArray<unsigned char>(name, tempMetaDataObject);
+    }
+  }
+#endif
+
   using MetaDataArrayObject = MetaDataObject<Array<TType>>;
-  auto * metaObj = dynamic_cast<MetaDataArrayObject *>(metaObjBase);
-  if (metaObj == nullptr)
+  if (metaObjBase == nullptr || metaObjBase->GetMetaDataObjectTypeInfo() != typeid(Array<TType>))
   {
     return false;
   }
+  auto *             metaObj = dynamic_cast<MetaDataArrayObject *>(metaObjBase);
   Array<TType>       val = metaObj->GetMetaDataObjectValue();
   std::vector<TType> vecVal(val.GetSize());
   for (unsigned int i = 0; i < val.size(); ++i)
@@ -1104,7 +1218,15 @@ HDF5ImageIO::WriteImageInformation()
       {
         continue;
       }
+#if !defined ITK_FUTURE_LEGACY_REMOVE
+      // Writing the ambiguous <char> type is not supported.
+      // Use unsigned char, signed char, std::uint8_t or int8_t
       if (this->WriteMeta<char>(objName, metaObj))
+      {
+        continue;
+      }
+#endif
+      if (this->WriteMeta<signed char>(objName, metaObj))
       {
         continue;
       }
@@ -1152,7 +1274,15 @@ HDF5ImageIO::WriteImageInformation()
       {
         continue;
       }
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+      // Make the best attempt and preserve backward compatibility
+      // Be explicit about the storage type requested for persistence to be read back on any platform.
       if (this->WriteMetaArray<char>(objName, metaObj))
+      {
+        continue;
+      }
+#endif
+      if (this->WriteMetaArray<signed char>(objName, metaObj))
       {
         continue;
       }
