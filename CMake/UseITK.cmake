@@ -16,12 +16,16 @@
 
 set(
   _use_itk_msg
-  "CMake/UseITK.cmake is deprecated. "
-  "Please update CMakeLists.txt to use `find_package(ITK)` and link to `${ITK_INTERFACE_LIBRARIES}`."
+  [=[
+CMake/UseITK.cmake is deprecated.
+Please update CMakeLists.txt to use `find_package(ITK)` and link to "${ITK_INTERFACE_LIBRARIES}".
+]=]
 )
-message(AUTHOR_WARNING "${_use_itk_msg}")
-if(${ITK_FUTURE_LEGACY_REMOVE})
+
+if(ITK_FUTURE_LEGACY_REMOVE)
   message(FATAL_ERROR "${_use_itk_msg}")
+elseif(NOT ITK_LEGACY_SILENT)
+  message(AUTHOR_WARNING "${_use_itk_msg}")
 endif()
 
 # Add compiler flags needed to use ITK.
