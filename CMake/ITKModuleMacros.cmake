@@ -244,7 +244,6 @@ endif()
   endif()
 
   # Prepare include directories with generator expressions for use in targets
-  set(${itk-module}_GENEX_INCLUDE_DIRS "")
   foreach(_dir ${${itk-module}_INCLUDE_DIRS})
     list(APPEND ${itk-module}_GENEX_INCLUDE_DIRS "$<BUILD_INTERFACE:${_dir}>")
   endforeach()
@@ -254,16 +253,11 @@ endif()
     "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${${itk-module}_INSTALL_INCLUDE_DIR}>"
   )
 
-  # Prepare system include directories with generator expressions
-  set(${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS "")
+  # System include directories are assumed to be external dependencies that are not installed,
+  # and thus do not have separate install interface paths.
   if(${itk-module}_SYSTEM_INCLUDE_DIRS)
     foreach(_dir ${${itk-module}_SYSTEM_INCLUDE_DIRS})
-      list(
-        APPEND
-        ${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS
-        "$<BUILD_INTERFACE:${_dir}>"
-        "$<INSTALL_INTERFACE:${_dir}>"
-      )
+      list(APPEND ${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS ${_dir})
     endforeach()
   endif()
 
