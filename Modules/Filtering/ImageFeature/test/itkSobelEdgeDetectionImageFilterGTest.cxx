@@ -29,11 +29,16 @@
 #include <vector>
 
 
-// Checks that the filter uses legacy Sobel operator coefficients by default.
-TEST(SobelEdgeDetectionImageFilter, UseLegacyOperatorCoefficientsByDefault)
+// Checks that the filter uses legacy Sobel operator coefficients by default, unless ITK_FUTURE_LEGACY_REMOVE is
+// enabled.
+TEST(SobelEdgeDetectionImageFilter, UseLegacyOperatorCoefficientsByDefaultUnlessFutureLegacyRemove)
 {
   const auto filter = itk::SobelEdgeDetectionImageFilter<itk::Image<int>, itk::Image<double>>::New();
+#ifdef ITK_FUTURE_LEGACY_REMOVE
+  EXPECT_FALSE(filter->GetUseLegacyOperatorCoefficients());
+#else
   EXPECT_TRUE(filter->GetUseLegacyOperatorCoefficients());
+#endif
 }
 
 

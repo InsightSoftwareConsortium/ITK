@@ -137,12 +137,17 @@ TEST(GradientDifferenceImageToImageMetric, Test)
 }
 
 
-// Checks that the metric uses legacy Sobel operator coefficients by default.
-TEST(GradientDifferenceImageToImageMetric, IsUsingLegacySobelOperatorCoordinatesByDefault)
+// Checks that the metric uses legacy Sobel operator coefficients by default, unless ITK_FUTURE_LEGACY_REMOVE is
+// enabled.
+TEST(GradientDifferenceImageToImageMetric, IsUsingLegacySobelOperatorCoordinatesByDefaultUnlessFutureLegacyRemove)
 {
   using ImageType = itk::Image<double>;
   const auto metric = itk::GradientDifferenceImageToImageMetric<ImageType, ImageType>::New();
+#ifdef ITK_FUTURE_LEGACY_REMOVE
+  EXPECT_FALSE(metric->IsUsingLegacySobelOperatorCoordinates());
+#else
   EXPECT_TRUE(metric->IsUsingLegacySobelOperatorCoordinates());
+#endif
 }
 
 

@@ -135,7 +135,11 @@ protected:
   }
 
 private:
+#ifdef ITK_FUTURE_LEGACY_REMOVE
+  bool m_UseLegacyOperatorCoefficients{ false };
+#else
   bool m_UseLegacyOperatorCoefficients{ true };
+#endif
 };
 } // end namespace itk
 
