@@ -47,5 +47,5 @@ itk_fetch_module(
   "Convert an ITK Mesh to a data structure compatible with vtkPolyData."
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKMeshToPolyData.git
-  GIT_TAG 45454052790b9f01bc1e1baf0e9400f68a3f1363
+  GIT_TAG 43338b42866c7e155d46c32d0658383d10ab3082
   )
