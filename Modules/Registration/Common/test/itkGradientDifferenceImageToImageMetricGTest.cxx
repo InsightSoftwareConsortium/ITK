@@ -137,6 +137,7 @@ TEST(GradientDifferenceImageToImageMetric, Test)
 }
 
 
+// Checks that the metric uses legacy Sobel operator coefficients by default.
 TEST(GradientDifferenceImageToImageMetric, IsUsingLegacySobelOperatorCoordinatesByDefault)
 {
   using ImageType = itk::Image<double>;
