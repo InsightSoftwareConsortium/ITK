@@ -129,7 +129,8 @@ else(ITK_USE_SYSTEM_DCMTK)
   endif()
   foreach(lib ${_ITKDCMTK_LIB_NAMES})
     # add it as an imported  library target
-    add_library(${lib} ${_ITKDCMTK_LIB_LINKAGE} IMPORTED GLOBAL)
+    # Note: because of the manual export, we can not use an ALIAS target for the namespace
+    add_library(${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${lib} ${_ITKDCMTK_LIB_LINKAGE} IMPORTED GLOBAL)
   endforeach()
 
   # Use DCMTK include files in place in the build directory.
@@ -161,13 +162,13 @@ set(ITKDCMTK_LINK_DEPENDENCIES ${ITKDCMTK_LIBDEP_WIN})
     set(ITKDCMTK_EXPORT_CODE_BUILD "
 ${ITKDCMTK_EXPORT_CODE_BUILD}
 foreach(lib ${_ITKDCMTK_LIB_NAMES})
-  if(NOT TARGET \${lib})
-    add_library(\${lib} ${_ITKDCMTK_LIB_LINKAGE} IMPORTED)
+  if(NOT TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib})
+    add_library(${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} ${_ITKDCMTK_LIB_LINKAGE} IMPORTED)
     foreach(c ${CMAKE_CONFIGURATION_TYPES})
       string(TOUPPER \"\${c}\" C)
-      set_property(TARGET \${lib} PROPERTY IMPORTED_LOCATION_\${C}
+      set_property(TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} PROPERTY IMPORTED_LOCATION_\${C}
         \"${lib_dir}/\${c}/${lib_prefix}\${lib}${lib_suffix}\")
-    set_property(TARGET \${lib} PROPERTY
+    set_property(TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} PROPERTY
       IMPORTED_LINK_INTERFACE_LIBRARIES
       ${ITKDCMTK_LINK_DEPENDENCIES})
     endforeach()
@@ -178,11 +179,11 @@ endforeach()
     set(ITKDCMTK_EXPORT_CODE_BUILD "
 ${ITKDCMTK_EXPORT_CODE_BUILD}
 foreach(lib ${_ITKDCMTK_LIB_NAMES})
-  if(NOT TARGET \${lib})
-    add_library(\${lib} ${_ITKDCMTK_LIB_LINKAGE} IMPORTED)
-    set_property(TARGET \${lib} PROPERTY IMPORTED_LOCATION
+  if(NOT TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib})
+    add_library(${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} ${_ITKDCMTK_LIB_LINKAGE} IMPORTED)
+    set_property(TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} PROPERTY IMPORTED_LOCATION
       \"${lib_dir}/${lib_prefix}\${lib}${lib_suffix}\")
-    set_property(TARGET \${lib} PROPERTY
+    set_property(TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} PROPERTY
       IMPORTED_LINK_INTERFACE_LIBRARIES
       ${ITKDCMTK_LINK_DEPENDENCIES})
   endif()
@@ -192,11 +193,11 @@ endforeach()
   # create imported targets when module is loaded from install tree
   set(ITKDCMTK_EXPORT_CODE_INSTALL "
 foreach(lib ${_ITKDCMTK_LIB_NAMES})
-  if(NOT TARGET \${lib})
-    add_library(\${lib} ${_ITKDCMTK_LIB_LINKAGE} IMPORTED)
-    set_property(TARGET \${lib} PROPERTY IMPORTED_LOCATION
+  if(NOT TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib})
+    add_library(${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} ${_ITKDCMTK_LIB_LINKAGE} IMPORTED)
+    set_property(TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} PROPERTY IMPORTED_LOCATION
             \"\${ITK_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${lib_prefix}\${lib}${lib_suffix}\")
-    set_property(TARGET \${lib} PROPERTY
+    set_property(TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} PROPERTY
       IMPORTED_LINK_INTERFACE_LIBRARIES
       ${ITKDCMTK_LINK_DEPENDENCIES})
   endif()
@@ -273,14 +274,14 @@ endforeach()
         list(APPEND DCMTK_BYPRODUCTS "${lib_dir}/${c}/${lib_prefix}${lib}${lib_suffix}")
       endforeach()
     else()
-      set_property(TARGET ${lib} PROPERTY IMPORTED_LOCATION
+      set_property(TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${lib} PROPERTY IMPORTED_LOCATION
         ${lib_dir}/${lib_prefix}${lib}${lib_suffix})
       list(APPEND DCMTK_BYPRODUCTS "${lib_dir}/${lib_prefix}${lib}${lib_suffix}")
     endif()
 
     # make the imported library depend on its prerequisite
     # libraries
-    set_property(TARGET ${lib} PROPERTY
+    set_property(TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${lib} PROPERTY
       IMPORTED_LINK_INTERFACE_LIBRARIES
       ${ITKDCMTK_LIBDEP} )
   endforeach()
@@ -343,7 +344,7 @@ endforeach()
     )
   foreach(lib ${_ITKDCMTK_LIB_NAMES})
     # make imported library target depend on external project target
-    add_dependencies(${lib} ${DCMTK_EPNAME})
+    add_dependencies(${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${lib} ${DCMTK_EPNAME})
   endforeach()
 
   # Tell CPack to install DCMTK stuff
