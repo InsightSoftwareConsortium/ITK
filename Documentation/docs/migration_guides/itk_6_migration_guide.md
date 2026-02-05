@@ -248,26 +248,40 @@ target_link_libraries(Example ITK::MyModuleModule)
 
 Alternatively, the CMake variable `ITK_INTERFACE_LIBRARIES` can be used to link against all loaded modules.
 
-**Factory Registration with Meta Modules:**
+**Factory Registration with Meta-Modules:**
 
-ITK uses factory registration to dynamically load IO formats and other pluggable components at runtime. ITK 6 uses
-meta modules that simplify factory registration by grouping related modules together.
+ITK uses factory registration to load IO formats and pluggable components at runtime. ITK 6 uses
+meta-modules that simplify factory registration by grouping related modules together.
 
-Factory meta modules include:
+Factory meta-modules include:
 - `ITKImageIO` - All image IO modules (JPEG, PNG, NIFTI, DICOM, etc.)
 - `ITKMeshIO` - All mesh IO modules
 - `ITKTransformIO` - Transform IO modules
-- `ITKIOFFT` - FFT implementations
+- `ITKFFTImageFilterInit` - FFT implementations
 
-To use factory registration:
+To register all factories:
 
 ```cmake
-find_package(ITK REQUIRED COMPONENTS ITKCommon ITKIOGDCM TKIONRRD ITKImageIO)
-itk_generate_factory_registration()
+find_package(ITK REQUIRED COMPONENTS ITKCommon ITKImageIO )
+itk_generate_factory_registration( )
+...
+target_link_libraries(MyTarget ${ITK_INTERFACE_LIBRARIES} ITK::ITKImageIO)
 ```
 
-The `itk_generate_factory_registration()` macro must be called **before** adding executables. It generates registration
-code to register loaded IO modules and factory-enabled components from the modules specified in `find_package()`. In this case, only GDCM and NRRD ImageIO are loaded. If no components are specified, then all available factories will be enabled during the registration.
+The `itk_generate_factory_registration()` macro *must* be called **before** adding executables. It optionally takes the factory types to register. The CMake macro generates registration code for the IO modules and factory-enabled components from the modules loaded in `find_package()`. The meta-module *must* be linked to the target to include and enable the generated registration code.
+
+In the above example, because `ITKImageIO` is provided as a required component, all available ImageIO modules are registered. Note that if no components are requested in `find_package()`, then all components are loaded and registered.
+
+To explicitly register factories:
+
+```cmake
+find_package(ITK REQUIRED COMPONENTS ITKCommon ITKIOGDCM ITKIONRRD )
+itk_generate_factory_registration( ImageIO )
+...
+target_link_libraries(MyTarget ${ITK_INTERFACE_LIBRARIES} ITK::ITKImageIO)
+```
+
+In this example, the GDCM and NRRD ImageIO modules are explicitly loaded. Only the ImageIO factory type is registered and generated.
 
 
 **Determining Required Modules:**
