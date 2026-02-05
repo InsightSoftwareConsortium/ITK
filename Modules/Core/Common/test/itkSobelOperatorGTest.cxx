@@ -73,6 +73,14 @@ TEST(SobelOperator, ExerciseBasicObjectMethods)
 }
 
 
+// Checks that the operator uses legacy coefficients by default.
+TEST(SobelOperator, IsUsingLegacyCoefficientsByDefault)
+{
+  itk::SobelOperator<float, 2> sobelOperator;
+  EXPECT_TRUE(sobelOperator.IsUsingLegacyCoefficients());
+}
+
+
 // Checks that the coordinates of the kernels have the expected values.
 TEST(SobelOperator, CheckKernelCoordinates)
 {
