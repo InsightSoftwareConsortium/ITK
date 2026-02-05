@@ -220,7 +220,7 @@ target_link_options(
     "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>"
 )
 itk_module_target_label(itkMathTest)
-target_link_libraries(itkMathTest LINK_PUBLIC ${ITKCommon-Test_LIBRARIES})
+target_link_libraries(itkMathTest PUBLIC ${ITKCommon-Test_LIBRARIES})
 itk_add_test(NAME itkMathTest COMMAND itkMathTest)
 
 add_executable(itkSystemInformation itkSystemInformation.cxx)
@@ -1843,8 +1843,8 @@ if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
   buildclienttestlibrary(A SHARED)
   buildclienttestlibrary(B MODULE)
   buildclienttestlibrary(C SHARED)
-  target_link_libraries(ITKCommon2TestDriver LINK_PUBLIC ClientTestLibraryA)
-  target_link_libraries(ITKCommon2TestDriver LINK_PUBLIC ClientTestLibraryC)
+  target_link_libraries(ITKCommon2TestDriver PUBLIC ClientTestLibraryA)
+  target_link_libraries(ITKCommon2TestDriver PUBLIC ClientTestLibraryC)
   itk_add_test(
     NAME itkDownCastTest
     COMMAND

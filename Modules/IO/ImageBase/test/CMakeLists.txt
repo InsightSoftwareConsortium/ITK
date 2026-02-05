@@ -918,7 +918,7 @@ if(ITK_BUILD_SHARED_LIBS)
   )
   add_library(FileFreeTestLib MODULE ${FileFreeTest_Source})
   itk_module_target_label(FileFreeTestLib)
-  target_link_libraries(FileFreeTestLib LINK_PUBLIC ${ITKIOImageBase_LIBRARIES})
+  target_link_libraries(FileFreeTestLib PUBLIC ${ITKIOImageBase_LIBRARIES})
   set_property(
     TARGET
       FileFreeTestLib

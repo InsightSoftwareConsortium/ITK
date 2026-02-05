@@ -8,7 +8,7 @@ add_library(ITKVideoBridgeVXL ${ITKVideoBridgeVXL_SRC})
 itk_module_link_dependencies()
 target_link_libraries(
   ITKVideoBridgeVXL
-  LINK_PUBLIC
+  PUBLIC
     vidl
     vul
 )

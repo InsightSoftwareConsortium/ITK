@@ -81,7 +81,7 @@ EM_ASM(
   )
   target_link_libraries(
     ${KIT}TestDriver
-    LINK_PUBLIC
+    PUBLIC
       ${KIT_LIBS}
       ${ITKTestKernel_LIBRARIES}
   )

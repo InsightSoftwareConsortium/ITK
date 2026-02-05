@@ -29,7 +29,7 @@ add_library(ITKIONIFTI-TestSupport itkNiftiImageIOTestHelper.cxx)
 itk_module_target_label(ITKIONIFTI-TestSupport)
 target_link_libraries(
   ITKIONIFTI-TestSupport
-  LINK_PUBLIC
+  PUBLIC
     ${ITKIONIFTI-Test_LIBRARIES}
 )
 

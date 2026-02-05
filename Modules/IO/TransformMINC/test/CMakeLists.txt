@@ -15,11 +15,7 @@ set(
 )
 
 createtestdriver(ITKIOTransformMINC "${ITKIOTransformMINC-Test_LIBRARIES}" "${ITKIOTransformMINCTests}")
-target_link_libraries(
-  ITKIOTransformMINCTestDriver
-  LINK_PUBLIC
-    ITKIOTransformBase
-)
+target_link_libraries(ITKIOTransformMINCTestDriver PUBLIC ITKIOTransformBase)
 
 itk_add_test(
   NAME itkIOTransformMINCTest

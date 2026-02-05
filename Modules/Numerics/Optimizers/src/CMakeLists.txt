@@ -33,4 +33,4 @@ set(
 )
 
 itk_module_add_library(ITKOptimizers ${ITKOptimizers_SRCS})
-target_link_libraries(ITKOptimizers LINK_PUBLIC ${ITKTransform_LIBRARIES})
+target_link_libraries(ITKOptimizers PUBLIC ${ITKTransform_LIBRARIES})

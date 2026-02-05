@@ -13,4 +13,4 @@ set(
 )
 
 itk_module_add_library(ITKOptimizersv4 ${ITKOptimizersv4_SRCS})
-target_link_libraries(ITKOptimizersv4 LINK_PUBLIC ${ITKMetricsv4_LIBRARIES})
+target_link_libraries(ITKOptimizersv4 PUBLIC ${ITKMetricsv4_LIBRARIES})
