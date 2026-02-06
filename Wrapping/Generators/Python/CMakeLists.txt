@@ -329,13 +329,20 @@ macro(
     )
   endif()
 
+  # Conditionally add -threads flag to release the GIL during ITK operations
+  set(_swig_threads_flag "")
+  if(ITK_PYTHON_RELEASE_GIL)
+    set(_swig_threads_flag "-threads")
+  endif()
+
   add_custom_command(
     OUTPUT
       ${cpp_file}
       ${python_file}
     COMMAND
-      ${swig_command} -c++ -python -fastdispatch -fvirtual -features autodoc=2
-      -doxygen -Werror -w302 # Identifier 'name' redefined (ignored)
+      ${swig_command} -c++ -python ${_swig_threads_flag} -fastdispatch -fvirtual
+      -features autodoc=2 -doxygen -Werror
+      -w302 # Identifier 'name' redefined (ignored)
       -w303 # %extend defined for an undeclared class 'name' (to avoid warning about customization in pyBase.i)
       -w312 # Unnamed nested class not currently supported (ignored)
       -w314 # 'identifier' is a lang keyword
@@ -366,6 +373,7 @@ macro(
 
   unset(dependencies)
   unset(swig_command)
+  unset(_swig_threads_flag)
 endmacro()
 
 macro(itk_end_wrap_submodule_python group_name)
