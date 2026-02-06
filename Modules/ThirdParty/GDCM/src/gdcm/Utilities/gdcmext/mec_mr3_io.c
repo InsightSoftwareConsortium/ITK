@@ -138,7 +138,7 @@ static bool read_info(struct app *self, const uint8_t group,
 }
 
 static void *aligned_alloc_impl(size_t alignment, size_t size) {
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__MINGW32__) || defined(__MINGW64__)
   return _aligned_malloc(size, alignment);
 #else
   // return aligned_alloc(alignment, size);
@@ -843,7 +843,7 @@ bool mec_mr3_print(const void *input, size_t len) {
     good = good && read_group(self, group, nitems, &info, &data);
   }
   // release memory:
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__MINGW32__) || defined(__MINGW64__)
   _aligned_free(data.buffer);
 #else
   free(data.buffer);
