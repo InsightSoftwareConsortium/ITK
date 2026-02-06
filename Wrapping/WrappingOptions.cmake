@@ -14,6 +14,14 @@ else()
 endif()
 
 cmake_dependent_option(
+  ITK_PYTHON_RELEASE_GIL
+  "Release Python Global Interpreter Lock (GIL) during ITK operations"
+  ON
+  "ITK_WRAP_PYTHON"
+  OFF
+)
+
+cmake_dependent_option(
   ITK_WRAP_unsigned_char
   "Wrap unsigned char type"
   ON
