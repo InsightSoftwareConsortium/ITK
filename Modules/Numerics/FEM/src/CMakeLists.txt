@@ -50,4 +50,4 @@ set(
 )
 
 itk_module_add_library(ITKFEM ${ITKFEM_SRCS})
-target_link_libraries(ITKFEM LINK_PUBLIC ${ITKMetaIO_LIBRARIES})
+target_link_libraries(ITKFEM PUBLIC ${ITKMetaIO_LIBRARIES})

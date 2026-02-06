@@ -21,12 +21,6 @@ if(NOT CMAKE_CONFIGURATION_TYPES)
   )
 endif()
 
-if(CMAKE_SH AND CMAKE_VERSION VERSION_LESS "3.17.0")
-  # Setting CMAKE_SH is required when using "MinGW Makefiles" generator with CMake < 3.17
-  # See https://github.com/InsightSoftwareConsortium/ITK/issues/66#issuecomment-424374973
-  list(APPEND _additional_external_project_args -DCMAKE_SH:PATH=${CMAKE_SH})
-endif()
-
 # Because the header-only nature of Eigen3, EIGEN_MPL2_ONLY definition could be leaked outside ITK.
 # This would wrongly enforce EIGEN_MPL2_ONLY to other libraries using Eigen.
 # We wrap this definition in ITK_USE_EIGEN_MPL2_ONLY, and only enabling it internally in the dashboards and CI,

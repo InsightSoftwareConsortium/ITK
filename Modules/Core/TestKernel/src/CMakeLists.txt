@@ -10,7 +10,7 @@ itk_module_add_library(ITKTestKernel ${ITKTestKernel_SRCS})
 
 if(NOT DO_NOT_BUILD_ITK_TEST_DRIVER)
   add_executable(itkTestDriver itkTestDriver.cxx)
-  target_link_libraries(itkTestDriver LINK_PRIVATE ${ITKTestKernel_LIBRARIES})
+  target_link_libraries(itkTestDriver PRIVATE ${ITKTestKernel_LIBRARIES})
 
   itk_module_target_label(itkTestDriver)
   itk_module_target_export(itkTestDriver)

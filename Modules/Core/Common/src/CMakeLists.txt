@@ -242,7 +242,7 @@ endif()
 ### generating libraries
 itk_module_add_library(ITKCommon ${ITKCommon_SRCS})
 
-target_link_libraries(ITKCommon LINK_PUBLIC itksys)
+target_link_libraries(ITKCommon PUBLIC itksys)
 
 if(UNIX)
   target_link_libraries(

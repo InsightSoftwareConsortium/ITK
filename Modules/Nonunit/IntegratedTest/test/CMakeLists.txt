@@ -26,7 +26,7 @@ target_link_options(
 itk_module_target_label(itkAlgorithmsPrintTest)
 target_link_libraries(
   itkAlgorithmsPrintTest
-  LINK_PUBLIC
+  PUBLIC
     ${ITKIntegratedTest-Test_LIBRARIES}
 )
 itk_add_test(NAME itkAlgorithmsPrintTest COMMAND itkAlgorithmsPrintTest)
@@ -40,7 +40,7 @@ target_link_options(
 itk_module_target_label(itkAlgorithmsPrintTest2)
 target_link_libraries(
   itkAlgorithmsPrintTest2
-  LINK_PUBLIC
+  PUBLIC
     ${ITKIntegratedTest-Test_LIBRARIES}
 )
 itk_add_test(NAME itkAlgorithmsPrintTest2 COMMAND itkAlgorithmsPrintTest)
@@ -54,7 +54,7 @@ target_link_options(
 itk_module_target_label(itkAlgorithmsPrintTest3)
 target_link_libraries(
   itkAlgorithmsPrintTest3
-  LINK_PUBLIC
+  PUBLIC
     ${ITKIntegratedTest-Test_LIBRARIES}
 )
 itk_add_test(NAME itkAlgorithmsPrintTest3 COMMAND itkAlgorithmsPrintTest)
@@ -68,7 +68,7 @@ target_link_options(
 itk_module_target_label(itkAlgorithmsPrintTest4)
 target_link_libraries(
   itkAlgorithmsPrintTest4
-  LINK_PUBLIC
+  PUBLIC
     ${ITKIntegratedTest-Test_LIBRARIES}
 )
 itk_add_test(NAME itkAlgorithmsPrintTest4 COMMAND itkAlgorithmsPrintTest)

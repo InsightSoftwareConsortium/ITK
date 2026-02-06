@@ -550,7 +550,7 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
     endif()
 
     # Link the modules together
-    target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES})
+    target_link_libraries(${lib} PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES})
 
     # Set IPO if it is supported (check is done once globally in Wrapping/CMakeLists.txt)
     if(NOT MSVC AND ITK_WRAP_IPO_SUPPORTED)
