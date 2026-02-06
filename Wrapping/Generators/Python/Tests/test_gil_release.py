@@ -9,6 +9,11 @@ import sys
 import threading
 import time
 
+# Threshold for determining if parallel execution is significantly faster than sequential
+# A value of 0.9 means parallel execution should be at least 10% faster to pass
+# This accounts for threading overhead and ensures GIL is being released
+PARALLEL_SPEEDUP_THRESHOLD = 0.9
+
 
 def test_gil_release():
     """Test that GIL is released during ITK operations."""
@@ -95,7 +100,7 @@ def test_gil_release():
     else:
         # Even without overlap, if parallel time is significantly less than sequential,
         # it suggests concurrent execution
-        if total_parallel_time < total_sequential_time * 0.9:
+        if total_parallel_time < total_sequential_time * PARALLEL_SPEEDUP_THRESHOLD:
             print("SUCCESS: Parallel execution is faster - GIL appears to be released")
             return 0
         else:
