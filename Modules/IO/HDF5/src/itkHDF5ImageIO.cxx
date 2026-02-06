@@ -80,32 +80,32 @@ GetType()
   H5::PredType GetType<CXXType>()            \
   {                                          \
     return H5Type;                           \
-  }
+  };                                         \
+  ITK_MACROEND_NOOP_STATEMENT
 
-GetH5TypeSpecialize(float, H5::PredType::NATIVE_FLOAT) GetH5TypeSpecialize(double, H5::PredType::NATIVE_DOUBLE)
-
-  GetH5TypeSpecialize(char, H5::PredType::NATIVE_CHAR) GetH5TypeSpecialize(unsigned char, H5::PredType::NATIVE_UCHAR)
-
-    GetH5TypeSpecialize(short, H5::PredType::NATIVE_SHORT)
-      GetH5TypeSpecialize(short unsigned int, H5::PredType::NATIVE_USHORT)
-
-        GetH5TypeSpecialize(int, H5::PredType::NATIVE_INT) GetH5TypeSpecialize(unsigned int, H5::PredType::NATIVE_UINT)
-
-          GetH5TypeSpecialize(long, H5::PredType::NATIVE_LONG)
-            GetH5TypeSpecialize(long unsigned int, H5::PredType::NATIVE_ULONG)
-
-              GetH5TypeSpecialize(long long, H5::PredType::NATIVE_LLONG)
-                GetH5TypeSpecialize(unsigned long long, H5::PredType::NATIVE_ULLONG)
+GetH5TypeSpecialize(float, H5::PredType::NATIVE_FLOAT);
+GetH5TypeSpecialize(double, H5::PredType::NATIVE_DOUBLE);
+GetH5TypeSpecialize(char, H5::PredType::NATIVE_CHAR);
+GetH5TypeSpecialize(unsigned char, H5::PredType::NATIVE_UCHAR);
+GetH5TypeSpecialize(short, H5::PredType::NATIVE_SHORT);
+GetH5TypeSpecialize(short unsigned int, H5::PredType::NATIVE_USHORT);
+GetH5TypeSpecialize(int, H5::PredType::NATIVE_INT);
+GetH5TypeSpecialize(unsigned int, H5::PredType::NATIVE_UINT);
+GetH5TypeSpecialize(long, H5::PredType::NATIVE_LONG);
+GetH5TypeSpecialize(long unsigned int, H5::PredType::NATIVE_ULONG);
+GetH5TypeSpecialize(long long, H5::PredType::NATIVE_LLONG);
+GetH5TypeSpecialize(unsigned long long, H5::PredType::NATIVE_ULLONG);
 
 /* The following types are not implemented.  This comment serves
  * to indicate that the full complement of possible H5::PredType
- * types are not implemented int the ITK IO reader/writer
+ * types is not implemented int the ITK IO reader/writer
  * GetH5TypeSpecialize(bool,              H5::PredType::NATIVE_HBOOL)
  */
 
 #undef GetH5TypeSpecialize
 
-                  inline IOComponentEnum PredTypeToComponentType(H5::DataType & type)
+inline IOComponentEnum
+PredTypeToComponentType(H5::DataType & type)
 {
   if (type == H5::PredType::NATIVE_UCHAR)
   {
@@ -964,12 +964,12 @@ template <typename TType>
 bool
 HDF5ImageIO::WriteMeta(const std::string & name, MetaDataObjectBase * metaObjBase)
 {
-  auto * metaObj = dynamic_cast<MetaDataObject<TType> *>(metaObjBase);
-  if (metaObj == nullptr)
+  if (metaObjBase == nullptr || metaObjBase->GetMetaDataObjectTypeInfo() != typeid(TType))
   {
     return false;
   }
-  TType val = metaObj->GetMetaDataObjectValue();
+  auto * metaObj = static_cast<MetaDataObject<TType> *>(metaObjBase);
+  TType  val = metaObj->GetMetaDataObjectValue();
   this->WriteScalar(name, val);
   return true;
 }
@@ -979,11 +979,11 @@ bool
 HDF5ImageIO::WriteMetaArray(const std::string & name, MetaDataObjectBase * metaObjBase)
 {
   using MetaDataArrayObject = MetaDataObject<Array<TType>>;
-  auto * metaObj = dynamic_cast<MetaDataArrayObject *>(metaObjBase);
-  if (metaObj == nullptr)
+  if (metaObjBase == nullptr || metaObjBase->GetMetaDataObjectTypeInfo() != typeid(Array<TType>))
   {
     return false;
   }
+  auto *             metaObj = static_cast<MetaDataArrayObject *>(metaObjBase);
   Array<TType>       val = metaObj->GetMetaDataObjectValue();
   std::vector<TType> vecVal(val.GetSize());
   for (unsigned int i = 0; i < val.size(); ++i)

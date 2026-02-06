@@ -115,7 +115,7 @@ int
 itkMINCImageIOTest4(int argc, char * argv[])
 {
   // Save the format stream variables for std::cout
-  // They will be restored when coutState goes out of scope
+  // They will be restored when coutState goes out of
   // scope.
   const itk::StdStreamStateSave coutState(std::cout);
 
@@ -129,8 +129,8 @@ itkMINCImageIOTest4(int argc, char * argv[])
 
   const char * input = argv[1];
   const char * output = argv[2];
-  int          RAStofromLPSTest = atoi(argv[3]);
-  bool         RAStofromLPS = RAStofromLPSTest < 0 ? false : RAStofromLPSTest == 1;
+  const int    RAStofromLPSTest = atoi(argv[3]);
+  const bool   RAStofromLPS = RAStofromLPSTest < 0 ? false : RAStofromLPSTest == 1;
 
   double total = 0.0;
   double mx = 0.0;
@@ -159,30 +159,29 @@ itkMINCImageIOTest4(int argc, char * argv[])
 
   constexpr double epsilon{ 1e-3 };
 
+  int ret = EXIT_SUCCESS;
   try
   {
-    int ret = EXIT_SUCCESS;
 
     std::cout.precision(10);
     if (test_image_moments<itk::Image<double, 3>>(input, nullptr, total, mx, my, mz, epsilon, RAStofromLPS) !=
         EXIT_SUCCESS)
     {
+      std::cerr << "Failed the double float precision read operation" << std::endl;
       ret = EXIT_FAILURE;
     }
     // write out only float image
     if (test_image_moments<itk::Image<float, 3>>(input, output, total, mx, my, mz, epsilon, RAStofromLPS) !=
         EXIT_SUCCESS)
     {
+      std::cerr << "Failed the single float precision read or write operation" << std::endl;
       ret = EXIT_FAILURE;
     }
-    return ret;
   }
   catch (const itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
+    ret = EXIT_FAILURE;
   }
-
-
-  return EXIT_SUCCESS;
+  return ret;
 }
