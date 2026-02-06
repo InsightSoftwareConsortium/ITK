@@ -158,7 +158,11 @@ protected:
   Fill(const CoefficientVector & coeff) override;
 
 private:
+#ifdef ITK_FUTURE_LEGACY_REMOVE
+  bool m_UseLegacyCoefficients{ false };
+#else
   bool m_UseLegacyCoefficients{ true };
+#endif
 };
 } // namespace itk
 
