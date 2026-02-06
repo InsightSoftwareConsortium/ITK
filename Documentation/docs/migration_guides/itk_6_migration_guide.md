@@ -192,6 +192,53 @@ The handful of manually wrapped long double functions were
 removed from python wrapping.
 
 
+Python Global Interpreter Lock (GIL) Release
+---------------------------------------------
+
+ITK now releases the Python Global Interpreter Lock (GIL) during C++ operations by default, 
+allowing for true multi-threaded execution of ITK operations from Python. This significantly 
+improves performance when using ITK in parallel computing frameworks like Dask, Ray, or 
+Python's standard `threading` module.
+
+### Key Changes
+
+**New CMake Option:**
+- `ITK_PYTHON_RELEASE_GIL` (default: `ON`) - Controls whether the GIL is released during ITK operations
+- When enabled, the `-threads` flag is passed to SWIG to generate thread-safe wrappers
+
+**Benefits:**
+- Multiple Python threads can execute ITK operations concurrently
+- Improves performance in parallel computing scenarios
+- Prevents thread blocking when using frameworks like Dask
+
+**Example:**
+
+```python
+import itk
+import threading
+
+def process_image(image_path):
+    # GIL is released during ITK operations
+    image = itk.imread(image_path)
+    smoothed = itk.median_image_filter(image, radius=5)
+    return smoothed
+
+# Multiple threads can now execute ITK operations concurrently
+threads = [
+    threading.Thread(target=process_image, args=(path,))
+    for path in image_paths
+]
+for thread in threads:
+    thread.start()
+for thread in threads:
+    thread.join()
+```
+
+**Note:** ITK callbacks and event monitoring may be affected by GIL release. If you encounter 
+issues with callbacks, you can disable GIL release by setting `-DITK_PYTHON_RELEASE_GIL=OFF` 
+when building ITK.
+
+
 Modern CMake Interface Libraries
 ---------------------------------
 
