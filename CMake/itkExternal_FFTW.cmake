@@ -63,6 +63,31 @@ if(NOT ITK_USE_SYSTEM_FFTW)
   )
 
   set(FFTW_STAGED_INSTALL_PREFIX "${ITK_BINARY_DIR}/fftw")
+
+  # Macro to generate library filename with appropriate prefix/suffix
+  # Args: output_var library_base_name
+  macro(_library_name_to_filename output_var library_base_name)
+    if(BUILD_SHARED_LIBS)
+      set(
+        ${output_var}
+        ${CMAKE_SHARED_LIBRARY_PREFIX}${library_base_name}${CMAKE_SHARED_LIBRARY_SUFFIX}
+      )
+    else()
+      set(
+        ${output_var}
+        ${CMAKE_STATIC_LIBRARY_PREFIX}${library_base_name}${CMAKE_STATIC_LIBRARY_SUFFIX}
+      )
+    endif()
+  endmacro()
+
+  _library_name_to_filename(_fftw3f_threads_lib fftw3f_threads)
+  _library_name_to_filename(_fftw3f_lib fftw3f)
+  set(
+    ITK_FFTWF_LIBRARIES_NAMES
+    $<BUILD_INTERFACE:${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${_fftw3f_threads_lib}>$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_LIBDIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/${_fftw3f_threads_lib}>
+    $<BUILD_INTERFACE:${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${_fftw3f_lib}>$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_LIBDIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/${_fftw3f_lib}>
+  )
+
   set(PROJ_FFTWD_DEPENDS "")
   if(ITK_USE_FFTWF)
     itk_download_attempt_check(FFTW)
@@ -99,6 +124,9 @@ if(NOT ITK_USE_SYSTEM_FFTW)
         -DCMAKE_OSX_ARCHITECTURES:STRING=${CMAKE_OSX_ARCHITECTURES}
         -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=${CMAKE_POSITION_INDEPENDENT_CODE}
         -DCMAKE_POLICY_VERSION_MINIMUM:STRING=${ITK_OLDEST_VALIDATED_POLICIES_VERSION}
+      INSTALL_BYPRODUCTS
+        ${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${_fftw3f_lib}
+        ${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${_fftw3f_threads_lib}
     )
     # set(
     #   FFTW3f_DIR ${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/cmake/fftw3f
@@ -113,16 +141,19 @@ if(NOT ITK_USE_SYSTEM_FFTW)
       ${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}
     )
     set(FFTW_INCLUDE ${FFTW3_INCLUDE_DIRS})
-    set(FFTW_LIBDIR ${FFTW3_LIBRARY_DIRS})
-    set(
-      ITK_FFTWF_LIBRARIES_NAMES
-      fftw3f_threads
-      fftw3f
-    )
+
     set(PROJ_FFTWD_DEPENDS "fftwf")
   endif()
 
   if(ITK_USE_FFTWD)
+    _library_name_to_filename(_fftw3_threads_lib fftw3_threads)
+    _library_name_to_filename(_fftw3_lib fftw3)
+    set(
+      ITK_FFTWD_LIBRARIES_NAMES
+      $<BUILD_INTERFACE:${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${_fftw3_threads_lib}>$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_LIBDIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/${_fftw3_threads_lib}>
+      $<BUILD_INTERFACE:${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${_fftw3_lib}>$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_LIBDIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/${_fftw3_lib}>
+    )
+
     itk_download_attempt_check(FFTW)
     ExternalProject_Add(
       fftwd
@@ -159,6 +190,9 @@ if(NOT ITK_USE_SYSTEM_FFTW)
         -DCMAKE_POLICY_VERSION_MINIMUM:STRING=${ITK_OLDEST_VALIDATED_POLICIES_VERSION}
       DEPENDS
         ${PROJ_FFTWD_DEPENDS} # Avoid potential collisions on install
+      INSTALL_BYPRODUCTS
+        ${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${_fftw3_lib}
+        ${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${_fftw3_threads_lib}
     )
     # set(
     #   FFTW3_DIR ${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/cmake/fftw3
@@ -173,12 +207,6 @@ if(NOT ITK_USE_SYSTEM_FFTW)
     )
 
     set(FFTW_INCLUDE ${FFTW3_INCLUDE_DIRS})
-    set(FFTW_LIBDIR ${FFTW3_LIBRARY_DIRS})
-    set(
-      ITK_FFTWD_LIBRARIES_NAMES
-      fftw3_threads
-      fftw3
-    )
   endif()
 
   #
