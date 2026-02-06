@@ -51,4 +51,9 @@ if(ITK_WRAP_PYTHON)
         DATA{Baseline/itkHoughTransform2DLinesImageFilterTest.png}
     )
   endif()
+
+  itk_python_expression_add_test(
+    NAME itkFastBilateralImageFilterPythonTest
+    EXPRESSION "instance = itk.FastBilateralImageFilter.New()"
+  )
 endif()
