@@ -302,12 +302,22 @@ itkVTKImageIOStreamTest(int argc, char * argv[])
   status += TestStreamRead<scalarType, 2>(argv[1], 0);                \
   status += TestStreamRead<scalarType, 2>(argv[1], numberOfStreams);  \
   status += TestStreamRead<scalarType, 3>(argv[1], 0);                \
-  status += TestStreamRead<scalarType, 3>(argv[1], numberOfStreams);
+  status += TestStreamRead<scalarType, 3>(argv[1], numberOfStreams);  \
+  ITK_MACROEND_NOOP_STATEMENT
 
-  ReadWriteTestMACRO(float) ReadWriteTestMACRO(double) ReadWriteTestMACRO(unsigned char) ReadWriteTestMACRO(char)
-    ReadWriteTestMACRO(unsigned short) ReadWriteTestMACRO(short) ReadWriteTestMACRO(unsigned int)
-      ReadWriteTestMACRO(int) ReadWriteTestMACRO(unsigned long) ReadWriteTestMACRO(long)
-        ReadWriteTestMACRO(unsigned long long) ReadWriteTestMACRO(long long)
+  ReadWriteTestMACRO(float);
+  ReadWriteTestMACRO(double);
+  ReadWriteTestMACRO(unsigned char);
+  ReadWriteTestMACRO(char);
+  ReadWriteTestMACRO(unsigned short);
+  ReadWriteTestMACRO(short);
+  ReadWriteTestMACRO(unsigned int);
+  ReadWriteTestMACRO(int);
+  ReadWriteTestMACRO(unsigned long);
+  ReadWriteTestMACRO(long);
+  ReadWriteTestMACRO(unsigned long long);
+  ReadWriteTestMACRO(long long);
 
-          return status;
+  return status;
+#undef ReadWriteTestMACRO
 }
