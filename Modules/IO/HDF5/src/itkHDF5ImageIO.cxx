@@ -80,22 +80,21 @@ GetType()
   H5::PredType GetType<CXXType>()            \
   {                                          \
     return H5Type;                           \
-  }
+  };                                         \
+  ITK_MACROEND_NOOP_STATEMENT
 
-GetH5TypeSpecialize(float, H5::PredType::NATIVE_FLOAT) GetH5TypeSpecialize(double, H5::PredType::NATIVE_DOUBLE)
-
-  GetH5TypeSpecialize(char, H5::PredType::NATIVE_CHAR) GetH5TypeSpecialize(unsigned char, H5::PredType::NATIVE_UCHAR)
-
-    GetH5TypeSpecialize(short, H5::PredType::NATIVE_SHORT)
-      GetH5TypeSpecialize(short unsigned int, H5::PredType::NATIVE_USHORT)
-
-        GetH5TypeSpecialize(int, H5::PredType::NATIVE_INT) GetH5TypeSpecialize(unsigned int, H5::PredType::NATIVE_UINT)
-
-          GetH5TypeSpecialize(long, H5::PredType::NATIVE_LONG)
-            GetH5TypeSpecialize(long unsigned int, H5::PredType::NATIVE_ULONG)
-
-              GetH5TypeSpecialize(long long, H5::PredType::NATIVE_LLONG)
-                GetH5TypeSpecialize(unsigned long long, H5::PredType::NATIVE_ULLONG)
+GetH5TypeSpecialize(float, H5::PredType::NATIVE_FLOAT);
+GetH5TypeSpecialize(double, H5::PredType::NATIVE_DOUBLE);
+GetH5TypeSpecialize(char, H5::PredType::NATIVE_CHAR);
+GetH5TypeSpecialize(unsigned char, H5::PredType::NATIVE_UCHAR);
+GetH5TypeSpecialize(short, H5::PredType::NATIVE_SHORT);
+GetH5TypeSpecialize(short unsigned int, H5::PredType::NATIVE_USHORT);
+GetH5TypeSpecialize(int, H5::PredType::NATIVE_INT);
+GetH5TypeSpecialize(unsigned int, H5::PredType::NATIVE_UINT);
+GetH5TypeSpecialize(long, H5::PredType::NATIVE_LONG);
+GetH5TypeSpecialize(long unsigned int, H5::PredType::NATIVE_ULONG);
+GetH5TypeSpecialize(long long, H5::PredType::NATIVE_LLONG);
+GetH5TypeSpecialize(unsigned long long, H5::PredType::NATIVE_ULLONG);
 
 /* The following types are not implemented.  This comment serves
  * to indicate that the full complement of possible H5::PredType
@@ -105,7 +104,8 @@ GetH5TypeSpecialize(float, H5::PredType::NATIVE_FLOAT) GetH5TypeSpecialize(doubl
 
 #undef GetH5TypeSpecialize
 
-                  inline IOComponentEnum PredTypeToComponentType(H5::DataType & type)
+inline IOComponentEnum
+PredTypeToComponentType(H5::DataType & type)
 {
   if (type == H5::PredType::NATIVE_UCHAR)
   {
