@@ -1051,7 +1051,6 @@ NiftiImageIO::SetImageIOMetadataFromNIfTI()
 void
 NiftiImageIO::ReadImageInformation()
 {
-
   const int image_FTYPE = is_nifti_file(this->GetFileName());
   if (image_FTYPE == 0)
   {
@@ -1072,14 +1071,9 @@ NiftiImageIO::ReadImageInformation()
   }
 
   m_Holder->ptr.reset(nifti_image_read(this->GetFileName(), false));
-  static std::string prev;
-  if (prev != this->GetFileName())
-  {
 #if defined(ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING)
-    DumpNiftiHeader(this->GetFileName());
+  DumpNiftiHeader(this->GetFileName());
 #endif
-    prev = this->GetFileName();
-  }
   if (m_Holder->ptr == nullptr)
   {
     itkExceptionMacro(<< this->GetFileName() << " is not recognized as a NIFTI file");
