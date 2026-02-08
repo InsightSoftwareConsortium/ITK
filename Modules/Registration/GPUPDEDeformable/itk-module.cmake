@@ -12,7 +12,6 @@ itk_module(
     ITKCommon
     ITKGPUCommon
     ITKGPUFiniteDifference
-  COMPILE_DEPENDS
     ITKPDEDeformableRegistration
     ITKGPURegistrationCommon
   TEST_DEPENDS
