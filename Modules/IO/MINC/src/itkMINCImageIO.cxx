@@ -33,8 +33,8 @@
 
 extern "C"
 {
-  void
-  MINCIOFreeTmpDimHandle(unsigned int size, midimhandle_t * ptr)
+  static void
+  MINCIOFreeTmpDimHandle(unsigned int size, const midimhandle_t * const ptr)
   {
     if (!ptr)
     {
