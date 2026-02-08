@@ -29,14 +29,13 @@
 #include "itkStdStreamStateSave.h"
 #include "itkTestingMacros.h"
 template <typename ImageType>
-int
+static int
 test_image_moments(const char * input_image,
                    const char * output_image,
                    double       total,
                    double       mx,
                    double       my,
                    double       mz,
-                   double       epsilon,
                    bool         RAStofromLPS)
 {
   if (RAStofromLPS)
@@ -45,25 +44,20 @@ test_image_moments(const char * input_image,
     my = -my;
   }
 
-  itk::MINCImageIO::Pointer mincIO1 = itk::MINCImageIO::New();
-  mincIO1->SetRAStoLPS(RAStofromLPS);
-
   using ReaderType = itk::ImageFileReader<ImageType>;
-
-  using WriterType = itk::ImageFileWriter<ImageType>;
-
-  using MomentsCalculatorType = itk::ImageMomentsCalculator<ImageType>;
-
   auto reader = ReaderType::New();
 
-  auto calculator = MomentsCalculatorType::New();
-
+  itk::MINCImageIO::Pointer mincIO1 = itk::MINCImageIO::New();
+  mincIO1->SetRAStoLPS(RAStofromLPS);
   if (itksys::SystemTools::StringEndsWith(input_image, ".mnc"))
     reader->SetImageIO(mincIO1);
 
   reader->SetFileName(input_image);
 
   reader->Update();
+
+  using MomentsCalculatorType = itk::ImageMomentsCalculator<ImageType>;
+  auto calculator = MomentsCalculatorType::New();
   calculator->SetImage(reader->GetOutput());
   calculator->Compute();
 
@@ -72,6 +66,7 @@ test_image_moments(const char * input_image,
 
   if (total > 0.0) // assume that if no total was provided this test should not be performed
   {
+    constexpr double epsilon{ 1e-3 };
     if (itk::Math::abs(calculator->GetTotalMass() - total) > epsilon)
     {
       std::cerr << "Total sum mismatch:" << calculator->GetTotalMass()
@@ -94,9 +89,14 @@ test_image_moments(const char * input_image,
       return EXIT_FAILURE;
     }
   }
+  else
+  {
+    std::cout << "No total mass provided, skipping moments test." << std::endl;
+  }
 
   if (output_image)
   {
+    using WriterType = itk::ImageFileWriter<ImageType>;
     auto writer = WriterType::New();
     writer->SetFileName(output_image);
     // writer should use default RAS to LPS flag, to satisfy comparison after
@@ -157,22 +157,18 @@ itkMINCImageIOTest4(int argc, char * argv[])
     }
   }
 
-  constexpr double epsilon{ 1e-3 };
-
   int ret = EXIT_SUCCESS;
   try
   {
 
     std::cout.precision(10);
-    if (test_image_moments<itk::Image<double, 3>>(input, nullptr, total, mx, my, mz, epsilon, RAStofromLPS) !=
-        EXIT_SUCCESS)
+    if (test_image_moments<itk::Image<double, 3>>(input, nullptr, total, mx, my, mz, RAStofromLPS) != EXIT_SUCCESS)
     {
       std::cerr << "Failed the double float precision read operation" << std::endl;
       ret = EXIT_FAILURE;
     }
     // write out only float image
-    if (test_image_moments<itk::Image<float, 3>>(input, output, total, mx, my, mz, epsilon, RAStofromLPS) !=
-        EXIT_SUCCESS)
+    if (test_image_moments<itk::Image<float, 3>>(input, output, total, mx, my, mz, RAStofromLPS) != EXIT_SUCCESS)
     {
       std::cerr << "Failed the single float precision read or write operation" << std::endl;
       ret = EXIT_FAILURE;
@@ -182,6 +178,14 @@ itkMINCImageIOTest4(int argc, char * argv[])
   {
     std::cerr << excp << std::endl;
     ret = EXIT_FAILURE;
+  }
+  if (ret == EXIT_SUCCESS)
+  {
+    std::cout << "test_image_moments succeeded" << std::endl;
+  }
+  else
+  {
+    std::cout << "test_image_moments failed" << std::endl;
   }
   return ret;
 }
