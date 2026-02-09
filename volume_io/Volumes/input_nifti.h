@@ -33,7 +33,7 @@ delete_nifti_format_input(
 
 /**
  * Read the next slice of an NIfTI-1 format file.
- * \param volume The volume associated with this input operation. 
+ * \param volume The volume associated with this input operation.
  * \param in_ptr State information for the current input operation.
  * \param fraction_done A number from 0 to 1 indicating the fraction
  * of the operation that has completed after this call returns.

@@ -4,11 +4,11 @@
 
 #if MINC2                       /* Ignore if not MINC2 */
 /* minc_compat.c
- * 
+ *
  * this code exists to provide a dispatch layer between the MI2* low-level
  * calls and their respective HDF5 and NetCDF implementations.
  *
- * Since each of these calls uses exactly one file descriptor, the logic is 
+ * Since each of these calls uses exactly one file descriptor, the logic is
  * simple: we just apply the correct operation based on a quick determination
  * of whether this is an HDF5 handle or a NetCDF file descriptor.
  */
@@ -59,7 +59,7 @@ MI2attinq(int fd, int varid, const char *attnm, nc_type *type_ptr,
             fprintf(stderr,
                     _("ncattinq: ncid %d: varid: %d: Attribute '%s' not found"),
                     fd, varid, attnm);
-	      
+
         }
         return (status);
     }
@@ -95,11 +95,11 @@ MI2varinq(int fd, int varid, char *varnm_ptr, nc_type *type_ptr,
           int *ndims_ptr, int *dims_ptr, int *natts_ptr)
 {
     if (MI2_ISH5OBJ(fd)) {
-        return (hdf_varinq(fd, varid, varnm_ptr, type_ptr, ndims_ptr, 
+        return (hdf_varinq(fd, varid, varnm_ptr, type_ptr, ndims_ptr,
                            dims_ptr, natts_ptr));
     }
     else {
-        return (ncvarinq(fd, varid, varnm_ptr, type_ptr, ndims_ptr, 
+        return (ncvarinq(fd, varid, varnm_ptr, type_ptr, ndims_ptr,
                          dims_ptr, natts_ptr));
     }
 }
@@ -154,7 +154,7 @@ MI2attget(int fd, int varid, const char *attnm, void *value)
 
 /* */
 MNCAPI int
-MI2attput(int fd, int varid, const char *attnm, nc_type val_typ, 
+MI2attput(int fd, int varid, const char *attnm, nc_type val_typ,
           int val_len, const void *val_ptr)
 {
     if (MI2_ISH5OBJ(fd)) {
@@ -180,7 +180,7 @@ MI2endef(int fd)
     else {
         return (ncendef(fd));
     }
-}  
+}
 
 /* */
 MNCAPI int
@@ -197,7 +197,7 @@ MI2vardef(int fd, const char *varnm, nc_type vartype, int ndims,
 
 /* */
 MNCAPI int
-MI2varget(int fd, int varid, const long *start_ptr, 
+MI2varget(int fd, int varid, const long *start_ptr,
           const long *count_ptr, void *val_ptr)
 {
     if (MI2_ISH5OBJ(fd)) {
@@ -271,7 +271,7 @@ MI2varputg(int fd, int varid, const long *startp, const long *countp,
 }
 
 MNCAPI int
-MI2attcopy(int infd, int invarid, const char *name, int outfd, 
+MI2attcopy(int infd, int invarid, const char *name, int outfd,
            int outvarid)
 {
     if (!MI2_ISH5OBJ(infd) && !MI2_ISH5OBJ(outfd)) {
@@ -292,7 +292,7 @@ MI2attcopy(int infd, int invarid, const char *name, int outfd,
             return (MI_ERROR);
         }
 
-        /* Special case for att_type == NC_CHAR && att_length == 0 
+        /* Special case for att_type == NC_CHAR && att_length == 0
          */
         if (att_type == NC_CHAR && att_length == 0) {
             val_ptr = malloc(1);
@@ -316,7 +316,7 @@ MI2attcopy(int infd, int invarid, const char *name, int outfd,
             status = MI2attput(outfd, outvarid, name, att_type, att_length,
                                val_ptr);
         }
-    
+
         free(val_ptr);
         return (status);
     }

@@ -23,14 +23,14 @@
 @NAME       : convert_voxel_to_value
 @INPUT      : volume
               voxel
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : real value
 @DESCRIPTION: Converts a voxel value to a real value.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Real  convert_voxel_to_value(
@@ -48,14 +48,14 @@ VIOAPI  VIO_Real  convert_voxel_to_value(
 @NAME       : convert_value_to_voxel
 @INPUT      : volume
               value
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : voxel value
 @DESCRIPTION: Converts a real value to a voxel value.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Real  convert_value_to_voxel(
@@ -77,14 +77,14 @@ VIOAPI  VIO_Real  convert_value_to_voxel(
               v2
               v3
               v4
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : Voxel value
 @DESCRIPTION: Returns the voxel at the specified voxel index.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Mar. 20, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Real  get_volume_voxel_value(
@@ -110,14 +110,14 @@ VIOAPI  VIO_Real  get_volume_voxel_value(
               v2
               v3
               v4
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Real value
 @DESCRIPTION: Returns the volume real value at the specified voxel index.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Mar. 20, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Real  get_volume_real_value(
@@ -146,14 +146,14 @@ VIOAPI  VIO_Real  get_volume_real_value(
               v3
               v4
               voxel
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the voxel at the specified voxel index.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Mar. 20, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_volume_voxel_value(
@@ -177,14 +177,14 @@ VIOAPI  void  set_volume_voxel_value(
               v3
               v4
               value
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the volume real value at the specified voxel index.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Mar. 20, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_volume_real_value(
@@ -317,16 +317,16 @@ static void trilinear_interpolate_rgb(
 @INPUT      : volume
               voxel
               outside_value
-@OUTPUT     : value    
+@OUTPUT     : value
               derivs
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Computes the trilinear interpolation of the 8 coefficients, passing
               the value back in the 'value' parameter.  If the derivs parameter
               is not null, then the 3 derivatives are also computed and
               passed back.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Mar. 20, 1995    David MacDonald
 @MODIFIED   : Jan.  8, 1996    D. MacDonald - now check for outside volume is
                                               done inside this procedure
@@ -537,14 +537,14 @@ static void trilinear_interpolate(
 @OUTPUT     : values        - pass back values
               first_deriv   - pass first derivs [n_values][n_dims]
               second_deriv  - pass back values  [n_values][n_dims][n_dims]
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Computes the interpolation of the box specified by coefs and
               its derivatives, if necessary.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Mar. 20, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 #define  MAX_DERIV_SIZE  100
@@ -671,13 +671,13 @@ static void   interpolate_volume(
               end
               inc
 @OUTPUT     : coefs
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Extracts the coefficients from a volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jun 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static void   extract_coefficients(
@@ -823,16 +823,16 @@ static  VIO_Real   interpolation_tolerance = 0.0;
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : set_volume_interpolation_tolerance
 @INPUT      : tolerance
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the tolerance which defines how close to a voxel centre we
               must be in order to just pass back the voxel value, rather than
               interpolating.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      :  
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Apr. 11, 1996    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_volume_interpolation_tolerance(
@@ -852,7 +852,7 @@ VIOAPI  void  set_volume_interpolation_tolerance(
 @OUTPUT     : values
               first_deriv
               second_deriv
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Takes a voxel space position and evaluates the value within
               the volume by nearest_neighbour, linear, quadratic, or
               cubic interpolation. degrees_continuity == 2 corresponds to
@@ -871,7 +871,7 @@ VIOAPI  void  set_volume_interpolation_tolerance(
               of x,y,z,RGB may be interpolated in 3D (x,y,z) for each of the
               3 RGB components, with one call to evaluate_volume.
 @CREATED    : Mar   1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 #define MAX_COEF_SPACE   1000
@@ -1191,7 +1191,7 @@ VIOAPI  int   evaluate_volume(
               deriv_yy
               deriv_yz
               deriv_zz
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Takes a world space position and evaluates the value within
               the volume.
               If deriv_x is not a null pointer, then the 3 derivatives are
@@ -1203,7 +1203,7 @@ VIOAPI  int   evaluate_volume(
               will be sizes[3] * sizes[4] values passed back.  The derivatives
               are converted to world space.
 @CREATED    : Mar   1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void   evaluate_volume_in_world(
@@ -1262,7 +1262,7 @@ VIOAPI  void   evaluate_volume_in_world(
 
     /*--- compute the number of values, the product of the sizes of the
           non-interpolating dimensions */
-    
+
     n_values = 1;
     for_less( d, 0, n_dims )
     {
@@ -1353,13 +1353,13 @@ VIOAPI  void   evaluate_volume_in_world(
             }
 
             /*--- now convert the results to world */
-    
+
             convert_voxel_normal_vector_to_world( volume, t[VIO_X],
                                               &deriv_xx[v], &ignore, &ignore );
-    
+
             convert_voxel_normal_vector_to_world( volume, t[VIO_Y],
                                           &deriv_xy[v], &deriv_yy[v], &ignore );
-    
+
             convert_voxel_normal_vector_to_world( volume, t[VIO_Z],
                                   &deriv_xz[v], &deriv_yz[v], &deriv_zz[v] );
         }

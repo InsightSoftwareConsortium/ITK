@@ -64,16 +64,16 @@ static  void  record_cache_no_hit(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : set_n_bytes_cache_threshold
 @INPUT      : threshold
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the threshold number of bytes which decides if a volume
               is small enough to be held entirely in memory, or whether it
               should be cached.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_n_bytes_cache_threshold(
@@ -85,17 +85,17 @@ VIOAPI  void  set_n_bytes_cache_threshold(
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_n_bytes_cache_threshold
-@INPUT      : 
-@OUTPUT     : 
+@INPUT      :
+@OUTPUT     :
 @RETURNS    : number of bytes
 @DESCRIPTION: Returns the number of bytes defining the cache threshold.  If it
               hasn't been set, returns the program initialized value, or the
               value set by the environment variable.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  int  get_n_bytes_cache_threshold( void )
@@ -117,16 +117,16 @@ VIOAPI  int  get_n_bytes_cache_threshold( void )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : set_default_max_bytes_in_cache
-@INPUT      : max_bytes 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      : max_bytes
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the default value for the maximum amount of memory
               in a single volume's cache.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Oct. 19, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_default_max_bytes_in_cache(
@@ -138,16 +138,16 @@ VIOAPI  void  set_default_max_bytes_in_cache(
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_default_max_bytes_in_cache
-@INPUT      : 
-@OUTPUT     : 
+@INPUT      :
+@OUTPUT     :
 @RETURNS    : number of bytes
 @DESCRIPTION: Returns the maximum number of bytes allowed for a single
               volume's cache.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  int  get_default_max_bytes_in_cache( void )
@@ -171,16 +171,16 @@ VIOAPI  int  get_default_max_bytes_in_cache( void )
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : set_default_cache_block_sizes
 @INPUT      : block_sizes
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the default values for the volume cache block sizes.
               A non-positive value will result in a block size equal to the
               number of voxels in that dimension of the volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Oct. 19, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_default_cache_block_sizes(
@@ -197,16 +197,16 @@ VIOAPI  void  set_default_cache_block_sizes(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : set_cache_block_sizes_hint
 @INPUT      : hint
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the hint for deciding on block sizes.  This turns off
               the default_block_sizes_set flag, thereby overriding any
               previous calls to set_default_cache_block_sizes().
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Oct. 25, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_cache_block_sizes_hint(
@@ -218,17 +218,17 @@ VIOAPI  void  set_cache_block_sizes_hint(
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_default_cache_block_sizes
-@INPUT      : 
+@INPUT      :
 @OUTPUT     : block_sizes[]
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the size (in voxels) of each dimension of a cache
               block.  If it hasn't been set, returns the program initialized
               value, or the value set by the environment variable.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  get_default_cache_block_sizes(
@@ -280,14 +280,14 @@ static  void  get_default_cache_block_sizes(
 @NAME       : initialize_volume_cache
 @INPUT      : cache
               volume
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Initializes the cache for a volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  initialize_volume_cache(
@@ -328,16 +328,16 @@ VIOAPI  void  initialize_volume_cache(
 @NAME       : alloc_volume_cache
 @INPUT      : cache
               volume
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Allocates the volume cache.  Uses the current value of the
               volumes max cache size and block sizes to decide how much to
               allocate.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  alloc_volume_cache(
@@ -409,13 +409,13 @@ VIOAPI  VIO_BOOL  volume_cache_is_alloced(
 @INPUT      : cache
               block_index
 @OUTPUT     : block_start[]
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Computes the starting voxel indices for a block.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  get_block_start(
@@ -438,15 +438,15 @@ static  void  get_block_start(
 @INPUT      : cache
               volume
               block
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Writes out a cache block to the appropriate position in the
               corresponding file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  write_cache_block(
@@ -493,7 +493,7 @@ static  void  write_cache_block(
                                   n_dims, cache->block_sizes, array_data_ptr,
                                   minc_file->to_volume_index,
                                   file_start, file_count );
-#elif  defined HAVE_MINC2 
+#elif  defined HAVE_MINC2
     /*TODO: Write out minc file using MINC2 api*/
 #endif
     cache->must_read_blocks_before_use = TRUE;
@@ -504,15 +504,15 @@ static  void  write_cache_block(
 @INPUT      : cache
               volume
               deleting_volume_flag
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Writes out all blocks that have been modified, unless we are
               writing to a temporary file and the volume is being deleted.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  flush_cache_blocks(
@@ -545,14 +545,14 @@ static  void  flush_cache_blocks(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : flush_volume_cache
 @INPUT      : volume
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Writes out all blocks that have been modified.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  flush_volume_cache(
@@ -566,15 +566,15 @@ VIOAPI  void  flush_volume_cache(
 @INPUT      : cache
               volume
               deleting_volume_flag  - TRUE if deleting the volume
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Deletes all cache blocks, writing out all blocks, if the volume
               has been modified.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  delete_cache_blocks(
@@ -617,14 +617,14 @@ static  void  delete_cache_blocks(
 @NAME       : delete_volume_cache
 @INPUT      : cache
               volume
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Deletes the volume cache.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  delete_volume_cache(
@@ -675,16 +675,16 @@ VIOAPI  void  delete_volume_cache(
 @NAME       : set_volume_cache_block_sizes
 @INPUT      : volume
               block_sizes
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Changes the sizes of the cache blocks for the volume,
               if it is a cached volume.  This flushes the cache blocks,
               since they have changed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Oct. 24, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_volume_cache_block_sizes(
@@ -737,16 +737,16 @@ VIOAPI  void  set_volume_cache_block_sizes(
 @NAME       : set_volume_cache_size
 @INPUT      : volume
               max_memory_bytes
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Changes the maximum amount of memory in the cache for this
               volume, if it is a cached volume.  This flushes the cache,
               in order to reallocate the hash table to a new size.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Oct. 24, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_volume_cache_size(
@@ -786,16 +786,16 @@ VIOAPI  void  set_volume_cache_size(
               original_filename  - if non-NULL copies auxiliary info from this
               history
               options
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Indicates that rather than using a temporary file for the
               cached volume, read and write to this file with the associated
               parameters (similar to output_modified_volume()).
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Nov.  4, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_cache_output_volume_parameters(
@@ -819,21 +819,21 @@ VIOAPI  void  set_cache_output_volume_parameters(
     volume->cache.history = create_string( history );
     copy_minc_output_options( options, &volume->cache.options );
 }
-    
+
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : open_cache_volume_input_file
 @INPUT      : cache
               volume
               filename
               options
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Opens the volume file for reading into the cache as needed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  open_cache_volume_input_file(
@@ -848,7 +848,7 @@ VIOAPI  void  open_cache_volume_input_file(
     cache->minc_file = initialize_minc_input( filename, volume, options );
 #elif defined  HAVE_MINC2
     cache->minc_file = initialize_minc2_input( filename, volume, options );
-#endif     
+#endif
 
     cache->must_read_blocks_before_use = TRUE;
 }
@@ -857,14 +857,14 @@ VIOAPI  void  open_cache_volume_input_file(
 @NAME       : open_cache_volume_output_file
 @INPUT      : cache
               volume
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Opens a volume file for reading and writing cache blocks.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_Status  open_cache_volume_output_file(
@@ -914,10 +914,10 @@ static  VIO_Status  open_cache_volume_output_file(
 
 /*#ifdef HAVE_MINC1*/
         out_dim_names = create_output_dim_names( volume,
-                                                 cache->original_filename, 
+                                                 cache->original_filename,
                                                  &cache->options, out_sizes );
 /*#elif defined  HAVE_MINC2*/
-/*TODO: adopt for MINC2*/	
+/*TODO: adopt for MINC2*/
 /*#endif */
         if( out_dim_names == NULL )
             return( VIO_ERROR );
@@ -947,7 +947,7 @@ static  VIO_Status  open_cache_volume_output_file(
                                         cache->file_voxel_max,
                                         get_voxel_to_world_transform(volume),
                                         volume, &cache->options );
-#endif 
+#endif
     if( out_minc_file == NULL )
         return( VIO_ERROR );
 
@@ -969,7 +969,7 @@ static  VIO_Status  open_cache_volume_output_file(
     status = set_minc_output_random_order( out_minc_file );
 #elif defined  HAVE_MINC2
     status = set_minc2_output_random_order( out_minc_file );
-#endif 
+#endif
 
     if( status != VIO_OK )
         return( status );
@@ -985,7 +985,7 @@ static  VIO_Status  open_cache_volume_output_file(
 #elif defined  HAVE_MINC2
         (void) output_minc2_volume( out_minc_file );
         (void) close_minc2_input( (Minc_file) cache->minc_file );
-#endif 
+#endif
 
         cache->must_read_blocks_before_use = TRUE;
     }
@@ -1018,15 +1018,15 @@ VIOAPI  void  cache_volume_range_has_changed(
 @INPUT      : cache
               volume
               file_offset
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the offset in the file for writing volumes.  Used when
               writing several cached volumes to a file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_cache_volume_file_offset(
@@ -1057,14 +1057,14 @@ VIOAPI  void  set_cache_volume_file_offset(
               volume
               block
               block_start
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Reads one cache block.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  read_cache_block(
@@ -1111,7 +1111,7 @@ static  void  read_cache_block(
                                  file_start, file_count );
 #elif defined HAVE_MINC2
     /*TODO: call minc2 api ?*/
-#endif 
+#endif
 }
 
 /* ----------------------------- MNI Header -----------------------------------
@@ -1119,14 +1119,14 @@ static  void  read_cache_block(
 @INPUT      : cache
               volume
 @OUTPUT     : block
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Finds an available cache block, either by allocating one, or
               stealing the least recently used one.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_cache_block_struct  *appropriate_a_cache_block(
@@ -1181,15 +1181,15 @@ static  VIO_cache_block_struct  *appropriate_a_cache_block(
 @NAME       : hash_block_index
 @INPUT      : key
               table_size
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : hash address
-@DESCRIPTION: Hashes a block index key into a table index, using 
+@DESCRIPTION: Hashes a block index key into a table index, using
               multiplicative hashing.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  int  hash_block_index(
@@ -1200,7 +1200,7 @@ static  int  hash_block_index(
     VIO_Real   v;
 
     v = (VIO_Real) key * HASH_FUNCTION_CONSTANT;
-    
+
     index = (int) (( v - (VIO_Real) ((int) v)) * (VIO_Real) table_size);
 
     return( index );
@@ -1221,11 +1221,11 @@ static  int  hash_block_index(
               gets called for every set or get voxel value, so it must be
               efficient.  On return, offset contains the integer offset
               of the voxel within the cache block.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_cache_block_struct  *get_cache_block_for_voxel(
@@ -1407,7 +1407,7 @@ static  VIO_cache_block_struct  *get_cache_block_for_voxel(
                 block->next_hash->prev_hash = block->prev_hash;
 
             /*--- place it at the front of the list */
-                
+
             block->next_hash = cache->hash_table[hash_index];
             if( block->next_hash != NULL )
                 block->next_hash->prev_hash = &block->next_hash;
@@ -1432,14 +1432,14 @@ static  VIO_cache_block_struct  *get_cache_block_for_voxel(
               z
               t
               v
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : voxel value
 @DESCRIPTION: Finds the voxel value for the given voxel in a cached volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Real  get_cached_volume_voxel(
@@ -1473,14 +1473,14 @@ VIOAPI  VIO_Real  get_cached_volume_voxel(
               t
               v
               value
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the voxel value for the given voxel in a cached volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_cached_volume_voxel(
@@ -1511,14 +1511,14 @@ VIOAPI  void  set_cached_volume_voxel(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : cached_volume_has_been_modified
 @INPUT      : cache
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if the volume has been modified since creation
 @DESCRIPTION: Determines if the volume has been modified.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  cached_volume_has_been_modified(

@@ -3,7 +3,7 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : minc.h
-@DESCRIPTION: Header file for minc (Medical Image NetCDF) file format 
+@DESCRIPTION: Header file for minc (Medical Image NetCDF) file format
               standard.
 @METHOD     : Includes name definitions for NetCDF dimensions, attributes
               and variables for the following :
@@ -17,7 +17,7 @@
                  MI study variable
                  MI acquisition variable
 @CREATED    : July 24, 1992. (Peter Neelin, Montreal Neurological Institute)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: minc.h,v $
  * Revision 6.21  2010-05-19 03:44:25  stever
  * Move definition of MNCAPI ahead of #include "minc_compat.h"; fix-up for
@@ -117,33 +117,33 @@
  *
  * Revision 2.3  95/01/23  08:28:31  neelin
  * Changed name of midecompress_file to miexpand_file.
- * 
+ *
  * Revision 2.2  95/01/20  15:21:16  neelin
  * Added midecompress_file with ability to decompress only the header of a file.
- * 
+ *
  * Revision 2.1  94/11/25  15:32:32  neelin
  * Added #undef for public if it wasn't previously defined so that C++
  * code won't get upset.
- * 
+ *
  * Revision 2.0  94/09/28  10:38:00  neelin
  * Release of minc version 0.2
- * 
+ *
  * Revision 1.29  94/09/28  10:37:24  neelin
  * Pre-release
- * 
+ *
  * Revision 1.28  93/11/03  13:08:37  neelin
  * Added prototypes for miopen, miclose, micreate.
- * 
+ *
  * Revision 1.27  93/11/03  12:29:11  neelin
  * Added error code for failure to uncompress a file.
- * 
+ *
  * Revision 1.26  93/08/11  12:06:34  neelin
  * Added RCS logging in source.
- * 
+ *
               July 15, 1993 (P.N.)
                  - added MI_ICV_DO_FILLVALUE and MI_FILLVALUE
 @COPYRIGHT  :
-              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre, 
+              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -187,13 +187,13 @@ extern "C" {
 #  define NC_INT NC_LONG
 #endif
 
-/* Constant used with nc_type variables to indicate that the data type 
+/* Constant used with nc_type variables to indicate that the data type
    should be taken from the source object or file. This replaces earlier
    use of NC_UNSPECIFIED and is equivalent to NetCDF NC_NAT in version 3.5
    and later. */
-#define MI_ORIGINAL_TYPE ((nc_type) 0) 
+#define MI_ORIGINAL_TYPE ((nc_type) 0)
 
-/* NC_UNSPECIFIED is defined here for backwards compatibility. With 
+/* NC_UNSPECIFIED is defined here for backwards compatibility. With
    NetCDF 2.x, NC_UNSPECIFIED may already be defined either through a macro
    or an enum. In the latter case, this macro will override the enum. */
 #ifndef NC_UNSPECIFIED
@@ -458,7 +458,7 @@ extern "C" {
 /* For setting input values to a specified fillvalue */
 #define MI_ICV_DO_FILLVALUE    30
 #define MI_ICV_FILLVALUE       31
-/* Image dimension properties. For each dimension, add the dimension 
+/* Image dimension properties. For each dimension, add the dimension
    number (counting from fastest to slowest). */
 #define MI_ICV_DIM_SIZE        1000
 #define MI_ICV_DIM_STEP        1100
@@ -499,12 +499,12 @@ extern "C" {
 /* MINC public functions */
 
 /* From netcdf_convenience.c */
-MNCAPI char *miexpand_file(const char *path, char *tempfile, 
+MNCAPI char *miexpand_file(const char *path, char *tempfile,
                            int header_only, int *created_tempfile);
 MNCAPI int miopen(const char *path, int mode);
 MNCAPI int micreate(const char *path, int cmode);
 MNCAPI int miclose(int cdfid);
-MNCAPI int miattget_with_sign(int cdfid, int varid, const char *name, 
+MNCAPI int miattget_with_sign(int cdfid, int varid, const char *name,
                               char *insign, nc_type datatype, char *outsign,
                               int max_length, void *value, int *att_length);
 MNCAPI int miattget(int cdfid, int varid, const char *name, nc_type datatype,
@@ -525,13 +525,13 @@ MNCAPI int mivarput(int cdfid, int varid, long start[], long count[],
 MNCAPI int mivarput1(int cdfid, int varid, long mindex[],
                      nc_type datatype, const char *sign, void *value);
 MNCAPI long *miset_coords(int nvals, long value, long coords[]);
-MNCAPI long *mitranslate_coords(int cdfid, 
+MNCAPI long *mitranslate_coords(int cdfid,
                                 int invar,  long incoords[],
                                 int outvar, long outcoords[]);
-MNCAPI int micopy_all_atts(int incdfid, int invarid, 
+MNCAPI int micopy_all_atts(int incdfid, int invarid,
                            int outcdfid, int outvarid);
 MNCAPI int micopy_var_def(int incdfid, int invarid, int outcdfid);
-MNCAPI int micopy_var_values(int incdfid, int invarid, 
+MNCAPI int micopy_var_values(int incdfid, int invarid,
                              int outcdfid, int outvarid);
 MNCAPI int micopy_all_var_defs(int incdfid, int outcdfid, int nexclude,
                                int excluded_vars[]);
@@ -547,9 +547,9 @@ MNCAPI int pop_ncopts(void);
 
 
 /* From minc_convenience.c */
-MNCAPI int miget_datatype(int cdfid, int imgid, 
+MNCAPI int miget_datatype(int cdfid, int imgid,
                           nc_type *datatype, int *is_signed);
-MNCAPI int miget_default_range(nc_type datatype, int is_signed, 
+MNCAPI int miget_default_range(nc_type datatype, int is_signed,
                                double default_range[]);
 MNCAPI int miget_valid_range(int cdfid, int imgid, double valid_range[]);
 MNCAPI int miset_valid_range(int cdfid, int imgid, const double valid_range[]);
@@ -558,7 +558,7 @@ MNCAPI int mivar_exists(int cdfid, const char *varname);
 MNCAPI int miattput_pointer(int cdfid, int varid, const char *name, int ptrvarid);
 MNCAPI int miattget_pointer(int cdfid, int varid, const char *name);
 MNCAPI int miadd_child(int cdfid, int parent_varid, int child_varid);
-MNCAPI int micreate_std_variable(int cdfid, const char *name, nc_type datatype, 
+MNCAPI int micreate_std_variable(int cdfid, const char *name, nc_type datatype,
                                  int ndims, int dim[]);
 MNCAPI int micreate_group_variable(int cdfid, const char *name);
 MNCAPI const char *miget_version(void);

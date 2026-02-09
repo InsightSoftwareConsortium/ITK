@@ -36,14 +36,14 @@ static  VIO_BOOL  match_dimension_names(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_minc_file_n_dimensions
 @INPUT      : filename
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : n_dims
 @DESCRIPTION: Returns the number of dimensions in the minc file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Nov. 4, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  int   get_minc_file_n_dimensions(
@@ -86,12 +86,12 @@ VIOAPI  int   get_minc_file_n_dimensions(
 @INPUT      : minc_id
               volume
               options
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : Minc_file
 @DESCRIPTION: Initializes input of volumes from an already opened MINC file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Nov. 15, 1996   D. MacDonald - added handling of space type
 @MODIFIED   : May  20, 1997   D. MacDonald - removed float arithmetic in
@@ -239,7 +239,7 @@ VIOAPI  Minc_file  initialize_minc_input_from_minc_id(
                                 file->to_volume_index ) )
     {
         print_error( "Error:  dimension names did not match: \n" );
-        
+
         print_error( "\n" );
         print_error( "Requested:\n" );
         for_less( d, 0, n_vol_dims )
@@ -451,7 +451,7 @@ VIOAPI  Minc_file  initialize_minc_input_from_minc_id(
             }
             else
                 converted_sign = file_datatype != NC_BYTE;
-    
+
             converted_type = file_datatype;
             set_volume_type( volume, converted_type, converted_sign, 0.0, 0.0 );
         }
@@ -463,7 +463,7 @@ VIOAPI  Minc_file  initialize_minc_input_from_minc_id(
 
     set_volume_sizes( volume, sizes );
 
-    for_less( d, 0, file->n_file_dimensions ) 
+    for_less( d, 0, file->n_file_dimensions )
     {
         if (file->to_volume_index[d] == INVALID_AXIS) {
             continue;
@@ -475,7 +475,7 @@ VIOAPI  Minc_file  initialize_minc_input_from_minc_id(
                                         irr_starts[d]);
             FREE( irr_starts[d] );
         }
-        
+
         if (irr_widths[d] != NULL) {
             set_volume_irregular_widths(volume, file->to_volume_index[d],
                                         file->sizes_in_file[d],
@@ -483,7 +483,7 @@ VIOAPI  Minc_file  initialize_minc_input_from_minc_id(
             FREE( irr_widths[d] );
         }
     }
-                                        
+
     /* --- create the image conversion variable */
 
     file->minc_icv = miicv_create();
@@ -508,7 +508,7 @@ VIOAPI  Minc_file  initialize_minc_input_from_minc_id(
     }
     else if( no_volume_data_type )
     {
-        if (miget_valid_range( file->cdfid, file->img_var, 
+        if (miget_valid_range( file->cdfid, file->img_var,
                                valid_range) == MI_ERROR) {
            valid_range[0] = valid_range[1] = 0.0;
         }
@@ -598,8 +598,8 @@ VIOAPI  Minc_file  initialize_minc_input_from_minc_id(
 
     set_ncopts(NC_VERBOSE | NC_FATAL);
 
-    /* --- decide how many full dimensions to read in at a time 
-       to max out the read/write buffer and make it like the 
+    /* --- decide how many full dimensions to read in at a time
+       to max out the read/write buffer and make it like the
        chunking dimensions for compression */
 
     file->n_slab_dims = 0;
@@ -642,17 +642,17 @@ VIOAPI  Minc_file  initialize_minc_input_from_minc_id(
 @NAME       : initialize_minc_input
 @INPUT      : filename
               volume
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : Minc_file
 @DESCRIPTION: Initializes the input of a MINC file, passing back a MINC
               file pointer.  It assumes that the volume has been created,
               with the desired type, or MI_ORIGINAL_TYPE type if it is desired
               to use whatever type is in the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  Minc_file  initialize_minc_input(
@@ -691,16 +691,16 @@ VIOAPI  Minc_file  initialize_minc_input(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_n_input_volumes
 @INPUT      : file
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : number of input volumes
 @DESCRIPTION: After initializing the file input with a specified volume,
               the user calls this function to decide how many volumes are
               stored in the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  int  get_n_input_volumes(
@@ -712,14 +712,14 @@ VIOAPI  int  get_n_input_volumes(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : close_minc_input
 @INPUT      : file
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Closes the minc input file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  close_minc_input(
@@ -757,14 +757,14 @@ VIOAPI  VIO_Status  close_minc_input(
               to_array
               start
               count
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Inputs a hyperslab from the file into the array pointer.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_minc_hyperslab(
@@ -882,7 +882,7 @@ VIOAPI  VIO_Status  input_minc_hyperslab(
         if( file->converting_to_colour )
         {
             for_less( dim, n_tmp_dims, VIO_MAX_DIMENSIONS )
-                tmp_sizes[dim] = 1;           
+                tmp_sizes[dim] = 1;
 
             size0 = tmp_sizes[0];
             size1 = tmp_sizes[1];
@@ -944,15 +944,15 @@ VIOAPI  VIO_Status  input_minc_hyperslab(
               volume
               start
               count
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Inputs a multidimensional slab from the file and copies it
               into the appropriate part of the volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static int input_slab(
@@ -1004,11 +1004,11 @@ static int input_slab(
 @DESCRIPTION: Reads another chunk from the input file, passes back the
               total fraction read so far, and returns FALSE when the whole
               volume has been read.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  input_more_minc_file(
@@ -1117,15 +1117,15 @@ VIOAPI  VIO_BOOL  input_more_minc_file(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : advance_input_volume
 @INPUT      : file
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if more volumes to read
 @DESCRIPTION: Advances the file indices to prepare for reading the next
               volume from the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  advance_input_volume(
@@ -1177,7 +1177,7 @@ VIOAPI  VIO_BOOL  advance_input_volume(
 
         for_less( c, 0, get_volume_n_dimensions(file->volume) )
             voxel[c] = 0.0;
-        
+
         convert_voxel_to_world( file->volume, voxel,
                                 &vol_world_space[VIO_X], &vol_world_space[VIO_Y],
                                 &vol_world_space[VIO_Z]);
@@ -1206,15 +1206,15 @@ VIOAPI  VIO_BOOL  advance_input_volume(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : reset_input_volume
 @INPUT      : file
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Rewinds the file indices to start inputting volumes from the
               file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  reset_input_volume(
@@ -1246,9 +1246,9 @@ VIOAPI  void  reset_input_volume(
               to any remaining file dimensions.  If a dimension matches
               on "any_spatial_dimension" or empty string, then the name from
               the file is copied to the volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Oct. 22, 1995   D. MacDonald    - copies the name from the file
                                                 to the volume
@@ -1343,15 +1343,15 @@ static  VIO_BOOL  match_dimension_names(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_minc_file_id
 @INPUT      : file
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : minc file id
 @DESCRIPTION: Returns the minc file id to allow user to perform MINC calls on
               this file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  int  get_minc_file_id(
@@ -1362,25 +1362,25 @@ VIOAPI  int  get_minc_file_id(
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : set_default_minc_input_options
-@INPUT      : 
+@INPUT      :
 @OUTPUT     : options
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the default minc input options.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_default_minc_input_options(
     minc_input_options  *options )
 {
     static  int     default_rgba_indices[4] = { 0, 1, 2, 3 };
-    
+
     /*mostly for debugging*/
     options->prefer_minc2_api=miget_cfg_bool(MICFG_MINC_PREFER_V2_API);
-    
+
     set_minc_input_promote_invalid_to_zero_flag( options, TRUE );
     set_minc_input_vector_to_scalar_flag( options, TRUE );
     set_minc_input_vector_to_colour_flag( options, FALSE );
@@ -1394,11 +1394,11 @@ VIOAPI  void  set_default_minc_input_options(
 @NAME       : set_minc_input_promote_invalid_to_zero_flag
 @INPUT      : flag
 @OUTPUT     : options
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the invalid promotion flag of the input options.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Oct. 25, 1996   D. MacDonald    - changed to promote to 0,
                                                 used to be min_valid
@@ -1415,13 +1415,13 @@ VIOAPI  void  set_minc_input_promote_invalid_to_zero_flag(
 @NAME       : set_minc_input_promote_invalid_to_zero_flag
 @INPUT      : flag
 @OUTPUT     : options
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the invalid promotion flag of the input options.  Maintained
               for functional interface backward compatibility.  Programmers
               should now be calling set_minc_input_promote_invalid_to_zero_flag.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Oct. 25, 1996   D. MacDonald    - replaced with above function
 ---------------------------------------------------------------------------- */
@@ -1437,13 +1437,13 @@ VIOAPI  void  set_minc_input_promote_invalid_to_min_flag(
 @NAME       : set_minc_input_vector_to_scalar_flag
 @INPUT      : flag
 @OUTPUT     : options
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the vector conversion flag of the input options.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_minc_input_vector_to_scalar_flag(
@@ -1457,15 +1457,15 @@ VIOAPI  void  set_minc_input_vector_to_scalar_flag(
 @NAME       : set_minc_input_vector_to_colour_flag
 @INPUT      : flag
 @OUTPUT     : options
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the colour conversion flag of the input options.  Any
               volume with a vector dimension of length 3 will be converted
               to a 32 bit colour.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_minc_input_vector_to_colour_flag(
@@ -1479,14 +1479,14 @@ VIOAPI  void  set_minc_input_vector_to_colour_flag(
 @NAME       : set_minc_input_colour_dimension_size
 @INPUT      : size
 @OUTPUT     : options
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the required number of vector components in a file that
               contains colour data.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_minc_input_colour_dimension_size(
@@ -1506,14 +1506,14 @@ VIOAPI  void  set_minc_input_colour_dimension_size(
 @NAME       : set_minc_input_colour_max_dimension_size
 @INPUT      : size
 @OUTPUT     : options
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the maximum number of vector components in a file that
               contains colour data.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_minc_input_colour_max_dimension_size(
@@ -1533,14 +1533,14 @@ VIOAPI  void  set_minc_input_colour_max_dimension_size(
 @NAME       : set_minc_input_colour_indices
 @INPUT      : indices
 @OUTPUT     : options
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the indices of the red, green, blue, and alpha in
               files that contain colours as the vector dimension.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_minc_input_colour_indices(
@@ -1557,17 +1557,17 @@ VIOAPI  void  set_minc_input_colour_indices(
 @NAME       : set_minc_input_user_real_range
 @INPUT      : minimum, maximum - real range for scaling of input
 @OUTPUT     : options
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the user-defined real range for scaling input when
               the Volume type is integer. The max must be greater than
               the min for this option to take effect. Setting this
               will force the Volume to have a particular real range,
               rather than using the full range of the input file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 2001            Peter Neelin
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_minc_input_user_real_range(

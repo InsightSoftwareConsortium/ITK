@@ -26,15 +26,15 @@
               chunk_size
               filename
               line_number
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the number of items allocated in the array to a multiple of
             : chunk_size larger than new_n_elems
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_array_size(

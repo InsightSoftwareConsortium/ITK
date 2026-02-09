@@ -44,18 +44,18 @@ static  void  show_multi_line_progress(
             : n_steps
             : title
 @OUTPUT     : progress             - structure is filled in
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Initializes the progress report, which is either a line of dots
             : crossing the screen, or if the progress is too slow, a line
             : every 20 seconds or so indicating the amount of time left.
             : If one_line_only is true, then it is always a single line of dots.
             : n_steps is the total number of items or times through the loop.
             : If it is really fast, no messages at all are displayed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  initialize_progress_report(
@@ -89,13 +89,13 @@ VIOAPI  void  initialize_progress_report(
 @NAME       : update_progress_report
 @INPUT      : progress
             : current_step   (an integer between 1 and n_steps)
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Checks the current time and determines if it is time to output
             : a progress message.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                 David MacDonald
 @MODIFIED   : Sep.  1, 1995   D. MacDonald - changed update rate to be relative
                                              to time so far
@@ -182,15 +182,15 @@ VIOAPI  void  update_progress_report(
 @NAME       : show_one_line_progress
 @INPUT      : progress
             : current_step
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Given the current_step, and the total number, ensures that the
             : number of dots on the line is representative.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  show_one_line_progress(
@@ -229,14 +229,14 @@ static  void  show_one_line_progress(
             : current_step
             : time_so_far
             : est_total_time
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Displays report about time so far, estimated time left, etc.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  show_multi_line_progress(
@@ -267,14 +267,14 @@ static  void  show_multi_line_progress(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : terminate_progress_report
 @INPUT      : progress
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Terminates the progress report.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  terminate_progress_report(

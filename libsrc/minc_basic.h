@@ -3,15 +3,15 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : minc_basic.h
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Constants and macros for private use by MINC routines.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : August 28, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: minc_basic.h,v $
  * Revision 6.8  2010-03-27 15:09:28  rotor
  *  * back to 1000000
@@ -59,15 +59,15 @@
  *
  * Revision 1.8  94/09/28  10:37:26  neelin
  * Pre-release
- * 
+ *
  * Revision 1.7  93/10/28  10:18:23  neelin
  * Added FILLVALUE_EPSILON for doing fillvalue checking in icv's.
- * 
+ *
  * Revision 1.6  93/08/11  12:06:37  neelin
  * Added RCS logging in source.
- * 
+ *
 @COPYRIGHT  :
-              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre, 
+              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -105,9 +105,9 @@
 
 
 
-/* Macros for converting data types. These macros are compound statements, 
+/* Macros for converting data types. These macros are compound statements,
    so don't put a semi-colon after them. dvalue should be a double, type
-   is an int NetCDF type, sign is one of MI_PRIV_UNSIGNED and 
+   is an int NetCDF type, sign is one of MI_PRIV_UNSIGNED and
    MI_PRIV_SIGNED and ptr is a void pointer */
 
 #define MI_TO_DOUBLE(dvalue, type, sign, ptr) \
@@ -148,7 +148,7 @@
          "Attempt to convert NC_NAT value to double"); \
       dvalue = 0; \
       break; \
-   } 
+   }
 
 #define MI_FROM_DOUBLE(dvalue, type, sign, ptr) \
    switch (type) { \

@@ -15,21 +15,7 @@
               express or implied warranty.
 ---------------------------------------------------------------------------- */
 
-#if HAVE_FLOAT_H
 #include <float.h>
-
-#else
-
-#if HAVE_VALUES_H
-#include <values.h>
-
-#ifndef DBL_MAX
-#define DBL_MAX  MAXDOUBLE
-#endif  /* DBL_MAX not defined */
-
-#endif /* HAVE_VALUES_H */
-#endif /* HAVE_FLOAT_H */
-
 #include <stdlib.h>
 
 #ifndef  EXIT_FAILURE

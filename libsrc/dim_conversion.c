@@ -1,8 +1,8 @@
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : dim_conversion.c
-@DESCRIPTION: File of functions to do dimension conversion for image 
-              conversion variables (icv). These variables allow conversion 
-              of netcdf variables (the MINC image variable, in particular) 
+@DESCRIPTION: File of functions to do dimension conversion for image
+              conversion variables (icv). These variables allow conversion
+              of netcdf variables (the MINC image variable, in particular)
               to a form more convenient for a program.
 @METHOD     : Routines included in this file :
               public :
@@ -16,7 +16,7 @@
                  MI_icv_dimconvert
                  MI_icv_dimconv_init
 @CREATED    : September 9, 1992. (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: dim_conversion.c,v $
  * Revision 6.6  2008-01-17 02:33:02  rotor
  *  * removed all rcsids
@@ -65,21 +65,21 @@
  *
  * Revision 2.0  94/09/28  10:37:52  neelin
  * Release of minc version 0.2
- * 
+ *
  * Revision 1.11  94/09/28  10:37:35  neelin
  * Pre-release
- * 
+ *
  * Revision 1.10  94/07/05  15:31:07  neelin
  * Assume that MIstep is positive if it is not found (for flipping dimensions).
- * 
+ *
  * Revision 1.9  94/03/16  10:30:00  neelin
  * Changed default MI_ICV_STEP: if not found use 1.0 (and 0.0 for start).
- * 
+ *
  * Revision 1.8  93/08/11  12:06:03  neelin
  * Added RCS logging in source.
- * 
+ *
 @COPYRIGHT  :
-              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre, 
+              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -96,7 +96,7 @@
 
 /* Private functions */
 PRIVATE int MI_icv_get_dim(mi_icv_type *icvp, int cdfid, int varid);
-PRIVATE int MI_get_dim_flip(mi_icv_type *icvp, int cdfid, int dimvid[], 
+PRIVATE int MI_get_dim_flip(mi_icv_type *icvp, int cdfid, int dimvid[],
                            int subsc[]);
 PRIVATE int MI_get_dim_scale(mi_icv_type *icvp, int cdfid, int dimvid[]);
 PRIVATE int MI_get_dim_bufsize_step(mi_icv_type *icvp, int subsc[]);
@@ -120,11 +120,11 @@ PRIVATE int MI_icv_dimconv_init(int operation, mi_icv_type *icvp,
 @DESCRIPTION: Attaches an open cdf file and variable to an image conversion
               variable for subsequent access through miicvget and miicvput.
               File must be in data mode.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : September 9, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miicv_attach(int icvid, int cdfid, int varid)
 {
@@ -137,7 +137,7 @@ MNCAPI int miicv_attach(int icvid, int cdfid, int varid)
    /* Check icv id */
    if ((icvp=MI_icv_chkid(icvid)) == NULL) MI_RETURN_ERROR(MI_ERROR);
 
-   /* Call routine to set variables for everything except dimension 
+   /* Call routine to set variables for everything except dimension
       conversion */
    {MI_CHK_ERR(miicv_ndattach(icvid, cdfid, varid))}
 
@@ -146,7 +146,7 @@ MNCAPI int miicv_attach(int icvid, int cdfid, int varid)
       MI_RETURN(MI_NOERROR);
    }
 
-   /* Reset cdfid and varid in icv structure in case something goes wrong 
+   /* Reset cdfid and varid in icv structure in case something goes wrong
       in dimension conversion calculations */
    icvp->cdfid = MI_ERROR;
    icvp->varid = MI_ERROR;
@@ -169,7 +169,7 @@ MNCAPI int miicv_attach(int icvid, int cdfid, int varid)
    /* Check if we have to zero user's buffer on GETs */
    icvp->derv_do_zero = FALSE;
    for (idim=0; idim<icvp->user_num_imgdims; idim++) {
-      user_dim_size = ((icvp->user_dim_size[idim]<=0) ? 
+      user_dim_size = ((icvp->user_dim_size[idim]<=0) ?
                        icvp->var_dim_size[idim] :
                        icvp->user_dim_size[idim]);
       if (icvp->derv_dim_grow[idim])
@@ -198,11 +198,11 @@ MNCAPI int miicv_attach(int icvid, int cdfid, int varid)
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Gets dimension info for the icv
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : August 10, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_icv_get_dim(mi_icv_type *icvp, int cdfid, int varid)
      /* ARGSUSED */
@@ -217,20 +217,20 @@ PRIVATE int MI_icv_get_dim(mi_icv_type *icvp, int cdfid, int varid)
 
    /* Check that the variable has at least icvp->user_num_imgdims dimensions */
    if (icvp->var_ndims < icvp->user_num_imgdims) {
-      MI_LOG_PKG_ERROR2(MI_ERR_TOOFEWDIMS, 
+      MI_LOG_PKG_ERROR2(MI_ERR_TOOFEWDIMS,
                        "Variable has too few dimensions to be an image");
       MI_RETURN_ERROR(MI_ERROR);
    }
 
    /* Check the first dimensions of the variable */
-   MI_CHK_ERR(ncdiminq(cdfid, icvp->var_dim[icvp->var_ndims-1], dimname, 
+   MI_CHK_ERR(ncdiminq(cdfid, icvp->var_dim[icvp->var_ndims-1], dimname,
                        &(icvp->var_vector_size)))
    icvp->var_is_vector = STRINGS_EQUAL(dimname, MIvector_dimension);
 
-   /* Check that the variable has at least icvp->user_num_imgdims+1 
+   /* Check that the variable has at least icvp->user_num_imgdims+1
       dimensions if it is a vector field */
    if (icvp->var_is_vector && (icvp->var_ndims < icvp->user_num_imgdims+1)) {
-      MI_LOG_PKG_ERROR2(MI_ERR_TOOFEWDIMS, 
+      MI_LOG_PKG_ERROR2(MI_ERR_TOOFEWDIMS,
                         "Variable has too few dimensions to be an image");
       MI_RETURN_ERROR(MI_ERROR);
    }
@@ -244,7 +244,7 @@ PRIVATE int MI_icv_get_dim(mi_icv_type *icvp, int cdfid, int varid)
 
    /* Get dimension variable ids */
    for (idim=0; idim < icvp->user_num_imgdims; idim++) {
-      {MI_CHK_ERR(ncdiminq(cdfid, icvp->var_dim[subsc[idim]], dimname, 
+      {MI_CHK_ERR(ncdiminq(cdfid, icvp->var_dim[subsc[idim]], dimname,
                        &(icvp->var_dim_size[idim])))};
       oldncopts =get_ncopts(); set_ncopts(0);
       dimvid[idim] = ncvarid(cdfid, dimname);
@@ -271,18 +271,18 @@ PRIVATE int MI_icv_get_dim(mi_icv_type *icvp, int cdfid, int varid)
 @INPUT      : icvp  - icv pointer
               cdfid - cdf file id
               dimvid - variable id
-              subsc - array of dimension subscripts for fastest varying 
+              subsc - array of dimension subscripts for fastest varying
                  dimensions
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Checks for flipping of icv.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : September 1, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
-PRIVATE int MI_get_dim_flip(mi_icv_type *icvp, int cdfid, int dimvid[], 
+PRIVATE int MI_get_dim_flip(mi_icv_type *icvp, int cdfid, int dimvid[],
                            int subsc[])
 {
    int oldncopts;             /* For saving value of ncopts */
@@ -298,18 +298,18 @@ PRIVATE int MI_get_dim_flip(mi_icv_type *icvp, int cdfid, int dimvid[],
    for (idim=0; idim < icvp->user_num_imgdims; idim++) {
 
       /* Get name of the dimension */
-      {MI_CHK_ERR(ncdiminq(cdfid, icvp->var_dim[subsc[idim]], dimname, 
+      {MI_CHK_ERR(ncdiminq(cdfid, icvp->var_dim[subsc[idim]], dimname,
                            NULL))}
 
       /* Should we look for dimension flipping? */
       icvp->derv_dim_flip[idim]=FALSE;
-      if (STRINGS_EQUAL(dimname, MIxspace) || 
+      if (STRINGS_EQUAL(dimname, MIxspace) ||
           STRINGS_EQUAL(dimname, MIxfrequency))
          dim_dir = icvp->user_xdim_dir;
-      else if (STRINGS_EQUAL(dimname, MIyspace) || 
+      else if (STRINGS_EQUAL(dimname, MIyspace) ||
                STRINGS_EQUAL(dimname, MIyfrequency))
          dim_dir = icvp->user_ydim_dir;
-      else if (STRINGS_EQUAL(dimname, MIzspace) || 
+      else if (STRINGS_EQUAL(dimname, MIzspace) ||
                STRINGS_EQUAL(dimname, MIzfrequency))
          dim_dir = icvp->user_zdim_dir;
       else
@@ -346,11 +346,11 @@ PRIVATE int MI_get_dim_flip(mi_icv_type *icvp, int cdfid, int dimvid[],
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Checks for scaling of images
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : September 1, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_get_dim_scale(mi_icv_type *icvp, int cdfid, int dimvid[])
 {
@@ -363,9 +363,9 @@ PRIVATE int MI_get_dim_scale(mi_icv_type *icvp, int cdfid, int dimvid[])
 
    MI_SAVE_ROUTINE_NAME("MI_get_dim_scale");
 
-   /* Loop through dimensions, calculating scale and looking for smallest 
-      one. For each dimension, check to see if we need to shrink or grow the 
-      image. (This is get-oriented: grow is TRUE if the variable dimension 
+   /* Loop through dimensions, calculating scale and looking for smallest
+      one. For each dimension, check to see if we need to shrink or grow the
+      image. (This is get-oriented: grow is TRUE if the variable dimension
       has to be expanded to fit the user's dimensions). */
 
    for (idim=0; idim < icvp->user_num_imgdims; idim++) {
@@ -384,7 +384,7 @@ PRIVATE int MI_get_dim_scale(mi_icv_type *icvp, int cdfid, int dimvid[])
          /* If growing */
          if (icvp->derv_dim_grow[idim]) {
             /* Get scale so that whole image fits in user array */
-            icvp->derv_dim_scale[idim] = 
+            icvp->derv_dim_scale[idim] =
                icvp->user_dim_size[idim] / icvp->var_dim_size[idim];
          }
 
@@ -421,7 +421,7 @@ PRIVATE int MI_get_dim_scale(mi_icv_type *icvp, int cdfid, int dimvid[])
 
    }           /* for each dimension, get scale */
 
-   /* Loop through dimensions, resetting scale if needed, setting offset 
+   /* Loop through dimensions, resetting scale if needed, setting offset
       and pixel step and start */
 
    for (idim=0; idim < icvp->user_num_imgdims; idim++) {
@@ -433,7 +433,7 @@ PRIVATE int MI_get_dim_scale(mi_icv_type *icvp, int cdfid, int dimvid[])
       }
 
       /* Get user's buffer size */
-      user_dim_size = ((icvp->user_dim_size[idim]<=0) ? 
+      user_dim_size = ((icvp->user_dim_size[idim]<=0) ?
                        icvp->var_dim_size[idim] :
                        icvp->user_dim_size[idim]);
 
@@ -442,7 +442,7 @@ PRIVATE int MI_get_dim_scale(mi_icv_type *icvp, int cdfid, int dimvid[])
       /* If growing */
       if (icvp->derv_dim_grow[idim]) {
          /* Calculate remainder and split it in half */
-         icvp->derv_dim_off[idim] = 
+         icvp->derv_dim_off[idim] =
             ( user_dim_size -
              icvp->var_dim_size[idim] * icvp->derv_dim_scale[idim] )
                                       / 2;
@@ -451,9 +451,9 @@ PRIVATE int MI_get_dim_scale(mi_icv_type *icvp, int cdfid, int dimvid[])
          the external variable must fit completely in the user's array */
       else {
          /* Calculate remainder and split it in half */
-         icvp->derv_dim_off[idim] = 
+         icvp->derv_dim_off[idim] =
             ( user_dim_size - 1 -
-             (icvp->var_dim_size[idim] - 1) 
+             (icvp->var_dim_size[idim] - 1)
                               / icvp->derv_dim_scale[idim] ) / 2 ;
       }
 
@@ -464,7 +464,7 @@ PRIVATE int MI_get_dim_scale(mi_icv_type *icvp, int cdfid, int dimvid[])
       dimstep = 1.0;
       (void) miattget1(cdfid, dimvid[idim], MIstep, NC_DOUBLE, &dimstep);
       /* Flip dimstep if needed */
-      if (icvp->derv_dim_flip[idim]) 
+      if (icvp->derv_dim_flip[idim])
          dimstep *= (-1);
       /* Get step size for user's image */
       icvp->derv_dim_step[idim] = icvp->derv_dim_grow[idim] ?
@@ -478,7 +478,7 @@ PRIVATE int MI_get_dim_scale(mi_icv_type *icvp, int cdfid, int dimvid[])
       if (icvp->derv_dim_flip[idim])
          dimstart -= dimstep * (icvp->var_dim_size[idim]-1);
       /* Calculate start position */
-      icvp->derv_dim_start[idim] = dimstart + 
+      icvp->derv_dim_start[idim] = dimstart +
          (icvp->derv_dim_step[idim] - dimstep) / 2.0 -
             icvp->derv_dim_off[idim] * icvp->derv_dim_step[idim];
       set_ncopts(oldncopts);
@@ -491,16 +491,16 @@ PRIVATE int MI_get_dim_scale(mi_icv_type *icvp, int cdfid, int dimvid[])
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : MI_icv_get_dim_bufsize_step
 @INPUT      : icvp  - icv pointer
-              subsc - array of dimension subscripts for fastest varying 
+              subsc - array of dimension subscripts for fastest varying
                  dimensions
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Sets the variables giving variable buffer size
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : September 3, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_get_dim_bufsize_step(mi_icv_type *icvp, int subsc[])
 {
@@ -516,9 +516,9 @@ PRIVATE int MI_get_dim_bufsize_step(mi_icv_type *icvp, int subsc[])
    icvp->derv_do_bufsize_step = (icvp->var_is_vector && icvp->user_do_scalar);
    if (icvp->derv_do_bufsize_step)
       icvp->derv_bufsize_step[icvp->var_ndims-1] = icvp->var_vector_size;
-      
+
    /* Check each dimension to see if we need to worry about the variable
-      buffer size. This only occurs if we are shrinking the dimension from 
+      buffer size. This only occurs if we are shrinking the dimension from
       the variable buffer to the user buffer. */
    for (idim=0; idim < icvp->user_num_imgdims; idim++) {
       if (!icvp->derv_dim_grow[idim])
@@ -533,16 +533,16 @@ PRIVATE int MI_get_dim_bufsize_step(mi_icv_type *icvp, int subsc[])
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : MI_icv_get_dim_conversion
 @INPUT      : icvp  - icv pointer
-              subsc - array of dimension subscripts for fastest varying 
+              subsc - array of dimension subscripts for fastest varying
                  dimensions
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Sets the variables for dimensions conversions
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : September 8, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_icv_get_dim_conversion(mi_icv_type *icvp, int subsc[])
      /* ARGSUSED */
@@ -579,7 +579,7 @@ PRIVATE int MI_icv_get_dim_conversion(mi_icv_type *icvp, int subsc[])
       if (icvp->derv_dim_grow[idim])
          icvp->derv_usr_pix_num *= icvp->derv_dim_scale[idim];
       else
-         icvp->derv_var_pix_num *= MIN(icvp->var_dim_size[idim], 
+         icvp->derv_var_pix_num *= MIN(icvp->var_dim_size[idim],
                                        icvp->derv_dim_scale[idim]);
    }
    icvp->derv_var_pix_off = MALLOC(icvp->derv_var_pix_num, long);
@@ -605,13 +605,13 @@ PRIVATE int MI_icv_get_dim_conversion(mi_icv_type *icvp, int subsc[])
 @OUTPUT     : values     - pointer to user's data area (for get)
               buffer     - pointer to variable buffer (for put)
 @RETURNS    : MI_ERROR if an error occurs
-@DESCRIPTION: Converts values and dimensions from an input buffer to the 
+@DESCRIPTION: Converts values and dimensions from an input buffer to the
               user's buffer. Called by MI_var_action.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : August 27, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_icv_dimconvert(int operation, mi_icv_type *icvp,
                               long start[], long count[], void *values,
@@ -630,7 +630,7 @@ PRIVATE int MI_icv_dimconvert(int operation, mi_icv_type *icvp,
    long ipix;                   /* Buffer subscript */
    int idim;                    /* Dimension subscript */
    int notmodified;             /* First dimension not reset */
-   int out_of_range;            /* Flag indicating one pixel of sum out of 
+   int out_of_range;            /* Flag indicating one pixel of sum out of
                                    range */
    double dmin, dmax, epsilon;  /* Range limits */
 
@@ -667,7 +667,7 @@ PRIVATE int MI_icv_dimconvert(int operation, mi_icv_type *icvp,
       /* Compress data by averaging if needed */
       if (!dcp->do_compress) {
          {MI_TO_DOUBLE(dvalue, dcp->intype, dcp->insign, iptr)}
-         out_of_range = (icvp->do_fillvalue && 
+         out_of_range = (icvp->do_fillvalue &&
                          ((dvalue < dmin) || (dvalue > dmax)));
       }
       else {
@@ -745,7 +745,7 @@ PRIVATE int MI_icv_dimconvert(int operation, mi_icv_type *icvp,
       else {
          /* If we reach the end of fastdim, then reset the counter and
             increment the next dimension down - keep going as needed.
-            The vectors ovecptr and ivecptr give the starting values of optr 
+            The vectors ovecptr and ivecptr give the starting values of optr
             and iptr for that dimension. */
          idim = fastdim;
          while ((idim>0) && (counter[idim] >= end[idim])) {
@@ -784,14 +784,14 @@ PRIVATE int MI_icv_dimconvert(int operation, mi_icv_type *icvp,
               bufstart   - start of variable buffer
               bufcount   - count of variable buffer
               buffer     - pointer to variable buffer (for get)
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Sets up stuff for MI_icv_dimconvert.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : September 4, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_icv_dimconv_init(int operation, mi_icv_type *icvp,
                               mi_icv_dimconv_type *dcp,
@@ -886,19 +886,19 @@ PRIVATE int MI_icv_dimconv_init(int operation, mi_icv_type *icvp,
                values_index = bufstart[idim]*scale
                   - icvp->derv_icv_start[idim] + offset;
             else
-               values_index = 
+               values_index =
                   (icvp->var_dim_size[jdim] - bufstart[idim])*scale
                   - 1 - icvp->derv_icv_start[idim] + offset;
          }
          else {
-            dcp->end[idim] = (bufcount[idim] - 1 + bufstart[idim]%scale) 
-                                     / scale + 1; 
+            dcp->end[idim] = (bufcount[idim] - 1 + bufstart[idim]%scale)
+                                     / scale + 1;
             buffer_index = -(bufstart[idim] % scale);
             if (!icvp->derv_dim_flip[jdim])
                values_index = bufstart[idim]/scale
                   - icvp->derv_icv_start[idim] + offset;
             else
-               values_index = 
+               values_index =
                   (icvp->var_dim_size[jdim] - bufstart[idim] - 1)/scale
                   - icvp->derv_icv_start[idim] + offset;
          }

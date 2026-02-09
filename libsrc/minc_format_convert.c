@@ -2,7 +2,7 @@
 @NAME       : minc_format_convert.c
 
 @COPYRIGHT  : Copyright 2013 Vladimir S. FONOV , McConnell Brain Imaging Centre,
-              Copyright 2003 Robert Vincent, McConnell Brain Imaging Centre, 
+              Copyright 2003 Robert Vincent, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -39,7 +39,7 @@ MNCAPI int minc_format_convert(const char *input,const char *output)
     int new_fd;
     int flags;
     struct mi2opts opts;
-    
+
     old_fd = miopen(input, NC_NOWRITE);
     if (old_fd < 0) {
         perror(input);
@@ -61,6 +61,6 @@ MNCAPI int minc_format_convert(const char *input,const char *output)
 
     miclose(old_fd);
     miclose(new_fd);
-    
+
     return MI_NOERROR;
 }

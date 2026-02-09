@@ -3,16 +3,16 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : minc_useful.h
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: A set of macros and definitions useful for MINC routines.
               (derived from mni_def.h)
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : July 15, 1991       David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: minc_useful.h,v $
  * Revision 6.2  2004-10-15 13:47:55  bert
  * Minor changes for Windows compatibility
@@ -40,15 +40,15 @@
  *
  * Revision 1.7  94/09/28  10:37:31  neelin
  * Pre-release
- * 
+ *
  * Revision 1.6  93/08/11  12:06:44  neelin
  * Added RCS logging in source.
- * 
+ *
               July 29, 1992       Peter Neelin
                  - changed name for MINC routines and added some macros
 @COPYRIGHT  :
-              Copyright 1993 David MacDonald and Peter Neelin, 
-              McConnell Brain Imaging Centre, 
+              Copyright 1993 David MacDonald and Peter Neelin,
+              McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -108,7 +108,7 @@
 #define  ABS( x )  ( ((x) > (0)) ? (x) : (-(x)) )
 
 /* ---------- Round to nearest integer - must be cast to integer in order
-              for rounding to take effect, and the cast must truncate 
+              for rounding to take effect, and the cast must truncate
               towards zero - eg. i = (int) ROUND(x);
               Same caveats as ABS                      ------------------ */
 

@@ -47,29 +47,29 @@ print_volume(FILE *fp, VIO_Volume volume)
     return;
   }
 
-  fprintf(fp, "VIO_Volume at %lx has %d dimensions.\n", 
+  fprintf(fp, "VIO_Volume at %lx has %d dimensions.\n",
           (unsigned long)volume, n_dimensions);
-  fprintf(fp, "  nc_data_type: %d, signed_flag: %d\n", 
+  fprintf(fp, "  nc_data_type: %d, signed_flag: %d\n",
           volume->nc_data_type, volume->signed_flag);
-  fprintf(fp,"  is_cached_volume: %d, is_rgba_data: %d\n", 
+  fprintf(fp,"  is_cached_volume: %d, is_rgba_data: %d\n",
           volume->is_cached_volume,
           volume->is_rgba_data);
-  fprintf(fp, "  voxel_min: %g, voxel_max: %g\n", 
+  fprintf(fp, "  voxel_min: %g, voxel_max: %g\n",
           volume->voxel_min, volume->voxel_max);
   fprintf(fp, "  real_range_set: %d\n", volume->real_range_set);
-  fprintf(fp, "  real_value_scale: %g, real_value_translation: %g\n", 
+  fprintf(fp, "  real_value_scale: %g, real_value_translation: %g\n",
           volume->real_value_scale,
           volume->real_value_translation);
-  fprintf(fp, "  voxel_to_world_transform_uptodate: %d\n", 
+  fprintf(fp, "  voxel_to_world_transform_uptodate: %d\n",
           volume->voxel_to_world_transform_uptodate);
   fprintf(fp, "  coordinate_system_name: %s\n", volume->coordinate_system_name);
   for (i = 0; i < n_dimensions; i++) {
     fprintf(fp, "  %d. %s %d size %d step %g start %g cosines:[%g %g %g]\n",
-            i, 
-            volume->dimension_names[i], 
-            volume->spatial_axes[i], 
+            i,
+            volume->dimension_names[i],
+            volume->spatial_axes[i],
             volume->array.sizes[i],
-            volume->separations[i], 
+            volume->separations[i],
             volume->starts[i],
             volume->direction_cosines[i][VIO_X],
             volume->direction_cosines[i][VIO_Y],
@@ -94,7 +94,7 @@ print_volume(FILE *fp, VIO_Volume volume)
               then look at the new_C_dev/Include/volume.h for the
               description of Volum and volume_input_struct.
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  start_volume_input(
@@ -121,7 +121,7 @@ VIOAPI  VIO_Status  start_volume_input(
         set_default_minc_input_options( &default_options );
         options = &default_options;
     }
-    
+
     if( create_volume_flag || *volume == (VIO_Volume) NULL )
     {
         if( n_dimensions < 1 || n_dimensions > VIO_MAX_DIMENSIONS )
@@ -171,7 +171,7 @@ VIOAPI  VIO_Status  start_volume_input(
 #if defined(HAVE_MINC2)
         input_info->file_format = MNC2_FORMAT;
 #endif
-        
+
 #if defined(HAVE_MINC1) && defined(HAVE_MINC2)
       } else {
 #endif
@@ -179,7 +179,7 @@ VIOAPI  VIO_Status  start_volume_input(
         input_info->file_format = MNC_FORMAT;
 #endif
 #if defined(HAVE_MINC1) && defined(HAVE_MINC2)
-      } 
+      }
 #endif
     }
     switch( input_info->file_format )
@@ -222,7 +222,7 @@ VIOAPI  VIO_Status  start_volume_input(
         status = initialize_free_format_input( expanded_filename,
                                                *volume, input_info );
         break;
-        
+
 #ifdef LIBMINC_NIFTI_SUPPORT
       case MGH_FORMAT:
         status = initialize_mgh_format_input( expanded_filename,
@@ -305,7 +305,7 @@ VIOAPI  void  delete_volume_input(
               rather than a read_entire_volume(), so that programs can
               multiprocess loading with other tasks.
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  input_more_of_volume(
@@ -361,12 +361,12 @@ VIOAPI  VIO_BOOL  input_more_of_volume(
 @NAME       : cancel_volume_input
 @INPUT      : volume
               input_info
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Cancels loading the volume.  Merely deletes the volume, then
               deletes the input buffer.
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  cancel_volume_input(
@@ -386,7 +386,7 @@ VIOAPI  void  cancel_volume_input(
 @RETURNS    : VIO_OK if loaded alright
 @DESCRIPTION: Inputs the entire volume.
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_volume(
@@ -449,15 +449,15 @@ VIOAPI  VIO_Status  input_volume(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_volume_input_minc_file
 @INPUT      : volume_input
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : Minc_file
 @DESCRIPTION: Returns the minc file attached to a particular volume
               input structure.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jun 15, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  Minc_file   get_volume_input_minc_file(

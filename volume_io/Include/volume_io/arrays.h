@@ -18,15 +18,15 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : arrays.h
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Macros for adding to and deleting from arrays.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 #include  <volume_io/alloc.h>
@@ -39,15 +39,15 @@
               previous_n_elems
               new_n_elems       - desired new array size
               chunk_size
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the number of items allocated in the array to a multiple of
             : chunk_size larger than new_n_elems
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 #define  SET_ARRAY_SIZE( array, previous_n_elems, new_n_elems, chunk_size )   \
@@ -62,14 +62,14 @@
             : n_elems       : current number of items in the array
             : elem_to_add   : the item to add
             : chunk_size    : the chunk_size for allocation
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Adds an element to the end of an array, and increments the n_elems
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 #define  ADD_ELEMENT_TO_ARRAY( array, n_elems, elem_to_add, chunk_size)        \
@@ -85,15 +85,15 @@
             : n_elems           : current number of items in the array
             : index_to_remove   : the index of the element to delete
             : chunk_size        : the chunk_size for allocation
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Deletes an element from an array, sliding down subsequent
             : elements, and decrements the n_elems
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 #define  DELETE_ELEMENT_FROM_ARRAY( array, n_elems, index_to_remove, chunk_size ) \
@@ -116,18 +116,18 @@
             : n_elems
             : elem_to_add
             : chunk_size
-@OUTPUT     : 
-@RETURNS    : 
-@DESCRIPTION: Adds an element to an array where a separate n_allocated and 
+@OUTPUT     :
+@RETURNS    :
+@DESCRIPTION: Adds an element to an array where a separate n_allocated and
             : n_elems is maintained.  n_allocated will always be greater than
             : or equal to n_elems.  This routine is useful so that you don't
             : have to call SET_ARRAY_SIZE every time you remove an element,
             : as in done in DELETE_ELEMENT_FROM_ARRAY
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 #define  ADD_ELEMENT_TO_ARRAY_WITH_SIZE( array, n_alloced, n_elems, elem_to_add, chunk_size )                                                         \

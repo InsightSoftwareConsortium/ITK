@@ -1,5 +1,5 @@
 #ifndef VOL_IO_MULTI_DIM_H
-#define VOL_IO_MULTI_DIM_H 
+#define VOL_IO_MULTI_DIM_H
 
 /* ----------------------------------------------------------------------------
 @COPYRIGHT  :
@@ -18,15 +18,15 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : multidim.h
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Multidimensional variable type arrays.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug. 14, 1995   David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 #define  VIO_MAX_DIMENSIONS     5

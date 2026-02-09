@@ -22,15 +22,15 @@ extern "C" {
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : volume_io.h
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Header for Volume IO API
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : July 15, 1991       David MacDonald
-@MODIFIED   :  
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 #ifndef VIO_PREFIX_NAMES
