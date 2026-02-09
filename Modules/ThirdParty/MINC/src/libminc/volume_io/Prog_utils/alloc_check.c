@@ -926,7 +926,7 @@ VIOAPI  void  output_alloc_to_file(
 }
 #endif
 
-#ifndef  NO_DEBUG_ALLOC
+#if 0
 
 VIOAPI  void  print_alloc_source_line(
     VIO_STR  filename,

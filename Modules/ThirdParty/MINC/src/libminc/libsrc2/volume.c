@@ -99,7 +99,7 @@ static int _generate_ident( char * id_str, size_t length )
 #endif
   strftime(time_str, sizeof(time_str), "%Y.%m.%d.%H.%M.%S", &tm_buf);
 
-  result = snprintf(id_str, length, "%s:%s:%s:%u:%u",
+  result = snprintf(id_str, length, "%s:%s:%s:%u:%d",
                     user_str,
                     host_str,
                     time_str,
@@ -281,7 +281,6 @@ int micreate_volume_image(mihandle_t volume)
 {
   char dimorder[MI2_CHAR_LENGTH];
   int i;
-  int dimorder_len=0;
   hid_t dataspace_id;
   hid_t dset_id;
   hsize_t hdf_size[MI2_MAX_VAR_DIMS];
@@ -1672,8 +1671,8 @@ void miinit_default_range(mitype_t mitype, double *valid_max, double *valid_min)
 {
   switch (mitype) {
   case MI_TYPE_BYTE:
-    *valid_min = (double)CHAR_MIN;
-    *valid_max = (double)CHAR_MAX;
+    *valid_min = (double)SCHAR_MIN;
+    *valid_max = (double)SCHAR_MAX;
     break;
   case MI_TYPE_SHORT:
     *valid_min = (double)SHRT_MIN;

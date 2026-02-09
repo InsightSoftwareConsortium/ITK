@@ -425,7 +425,7 @@ void MI2_log_pkg_error3 ( int p1, char *p2, char *p3 )
 
 void MI2_log_sys_error1 ( char *p1 )
 {
-  MI2_log_sys_error1(p1);
+  MI_log_sys_error1(p1);
 }
 
 

@@ -1237,7 +1237,7 @@ int miconvert_voxel_to_real(mihandle_t volume,
  */
 int miconvert_voxel_to_world(mihandle_t volume,
                                     const double voxel[],
-                                    double world[]);
+                                    double world[MI2_3D]);
 
 /** Converts a 3-dimensional spatial position in world coordinates into a
  * N-dimensional spatial position in voxel coordinates.
@@ -1250,7 +1250,7 @@ int miconvert_voxel_to_world(mihandle_t volume,
  * \ingroup mi2Cvt
  */
 int miconvert_world_to_voxel(mihandle_t volume,
-                                    const double world[],
+                                    const double world[MI2_3D],
                                     double voxel[]);
 
 /**
@@ -1262,8 +1262,8 @@ int miconvert_world_to_voxel(mihandle_t volume,
  */
 int
 miconvert_world_origin_to_start( mihandle_t volume,
-                                 double world[],
-                                 double starts[]);
+                                 double world[3],
+                                 double starts[3]);
 
 /**
  * This function calculates the start values for the volume dimensions,
@@ -1274,8 +1274,8 @@ miconvert_world_origin_to_start( mihandle_t volume,
  */
 int
 miconvert_spatial_frequency_origin_to_start( mihandle_t volume,
-                                             double world[],
-                                             double starts[]);
+                                             double world[3],
+                                             double starts[3]);
 
 /**
  * This function sets the world coordinates of the point (0,0,0) in voxel
@@ -1286,7 +1286,7 @@ miconvert_spatial_frequency_origin_to_start( mihandle_t volume,
  */
 int
 miset_spatial_frequency_origin(mihandle_t volume,
-                               double world[]);
+                               double world[3]);
 
 /** This function retrieves the real values of a position in the
  *  MINC volume.  The "real" value is the value at the given location

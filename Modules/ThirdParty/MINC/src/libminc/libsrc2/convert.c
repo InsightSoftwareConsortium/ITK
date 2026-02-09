@@ -518,7 +518,7 @@ int miset_voxel_value(mihandle_t volume,
 }
 
 
-int miget_volume_real_range(mihandle_t volume, double real_range[])
+int miget_volume_real_range(mihandle_t volume, double real_range[2])
 {
     hid_t spc_id;
     int n;

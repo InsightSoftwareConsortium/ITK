@@ -25,13 +25,9 @@
 
 #include <stdio.h>
 
-#ifdef HAVE_STDLIB_H
 #include <stdlib.h>
-#endif
 
-#ifdef HAVE_STRING_H
 #include <string.h>
-#endif
 
 #ifdef HAVE_INTTYPES_H
 #include <inttypes.h>
@@ -135,6 +131,12 @@ ParseLong(const char *argPtr, char **endPtr)
  *----------------------------------------------------------------------
  */
 
+/* argcPtr: Number of arguments in argv.  Modified to hold # args left
+            in argv at end. */
+/* argv: Array of arguments.  Modified to hold those that couldn't
+         be processed here. */
+/* argTable: Array of option descriptions */
+/* flags: Or'ed combination of various flag bits, such as ARGV_NO_DEFAULTS. */
 int
 ParseArgv(int *argcPtr, char **argv, ArgvInfo *argTable, int flags)
 {
@@ -344,6 +346,7 @@ ParseArgv(int *argcPtr, char **argv, ArgvInfo *argTable, int flags)
          return TRUE;
       case ARGV_VERSION:
          PrintVersion(argTable);
+         exit(0);
          return FALSE;
       default:
          FPRINTF(stderr, "bad argument type %d in ArgvInfo",
@@ -521,8 +524,7 @@ static void PrintVersion(ArgvInfo *argTable)
     {
         unsigned int major, minor, release;
         H5get_libversion(&major, &minor, &release);
-        printf("HDF5   : %d.%d.%d\n", major, minor, release);
+        printf("HDF5   : %u.%u.%u\n", major, minor, release);
     }
 #endif
-    exit(0);
 }

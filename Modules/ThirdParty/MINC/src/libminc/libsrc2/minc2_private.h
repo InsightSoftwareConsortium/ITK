@@ -149,7 +149,7 @@ int miset_attribute(mihandle_t volume, const char *varpath,
 
 void miget_voxel_to_world(mihandle_t volume, mi_lin_xfm_t voxel_to_world);
 
-void minormalize_vector(double vector[]);
+void minormalize_vector(double vector[MI2_3D]);
 
 void mitransform_coord(double out_coord[],
                               mi_lin_xfm_t transform,

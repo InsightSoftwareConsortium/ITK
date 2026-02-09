@@ -24,9 +24,7 @@
 # include <sys/time.h>
 #endif
 
-#if HAVE_TIME_H
-# include <time.h>
-#endif
+#include <time.h>
 
 #if HAVE_UNISTD_H
 #include  <unistd.h>

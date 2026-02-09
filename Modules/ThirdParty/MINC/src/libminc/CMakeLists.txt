@@ -3,6 +3,8 @@
 # Andrew Janke - a.janke@gmail.com
 # Vladimir S. FONOV - vladimir.fonov@gmail.com
 
+cmake_minimum_required(VERSION 3.10)
+
 project(LIBMINC)
 
 set(LIBMINC_PACKAGE_VERSION_MAJOR 2)
@@ -21,8 +23,6 @@ set(LIBMINC_PACKAGE_STRING  "${LIBMINC_PACKAGE_NAME} ${LIBMINC_PACKAGE_VERSION}"
 include(CTest)
 
 enable_testing()
-
-cmake_minimum_required(VERSION 3.10)
 
 if( POLICY CMP0063 )
   cmake_policy(SET CMP0063 NEW)
@@ -49,7 +49,9 @@ if(NOT LIBMINC_EXTERNALLY_CONFIGURED)
 
 
   option(LIBMINC_MINC1_SUPPORT           "Support minc1 file format, requires NETCDF" OFF)
+#START - ITK
   option(LIBMINC_BUILD_EZMINC            "Build C++ EMINC library based on libminc1" OFF)
+#END - ITK
   option(LIBMINC_BUILD_EZMINC_EXAMPLES   "Build EZminc examples" OFF)
   option(LIBMINC_USE_NIFTI               "Build with NIfTI support" OFF)
   option(LIBMINC_USE_SYSTEM_NIFTI        "Use system NIfTI-1 library" OFF)
@@ -144,7 +146,7 @@ endif()
 
 set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE=1 )
 
-CHECK_SYMBOL_EXISTS(rint     "math.h"  HAVE_RINT)
+CHECK_SYMBOL_EXISTS(rint     "math.h" HAVE_RINT)
 CHECK_SYMBOL_EXISTS(copysign "math.h" HAVE_COPYSIGN)
 CHECK_SYMBOL_EXISTS(round    "math.h" HAVE_ROUND)
 CHECK_SYMBOL_EXISTS(fabsf    "math.h" HAVE_FABSF)
@@ -183,24 +185,18 @@ else()
 endif()
 
 include(CheckIncludeFiles)
-CHECK_INCLUDE_FILES(float.h     HAVE_FLOAT_H)
 CHECK_INCLUDE_FILES(sys/dir.h   HAVE_SYS_DIR_H)
 CHECK_INCLUDE_FILES(sys/ndir.h  HAVE_SYS_NDIR_H)
 CHECK_INCLUDE_FILES(sys/stat.h  HAVE_SYS_STAT_H)
 CHECK_INCLUDE_FILES(sys/types.h HAVE_SYS_TYPES_H)
 CHECK_INCLUDE_FILES(sys/wait.h  HAVE_SYS_WAIT_H)
 CHECK_INCLUDE_FILES(sys/time.h  HAVE_SYS_TIME_H)
-CHECK_INCLUDE_FILES(time.h      HAVE_TIME_H)
-CHECK_INCLUDE_FILES(values.h    HAVE_VALUES_H)
 CHECK_INCLUDE_FILES(unistd.h    HAVE_UNISTD_H)
 CHECK_INCLUDE_FILES(dirent.h    HAVE_DIRENT_H)
-CHECK_INCLUDE_FILES(memory.h    HAVE_MEMORY_H)
-CHECK_INCLUDE_FILES(stdlib.h    HAVE_STDLIB_H)
 CHECK_INCLUDE_FILES(fcntl.h     HAVE_FCNTL_H)
 CHECK_INCLUDE_FILES(dlfcn.h     HAVE_DLFCN_H)
 CHECK_INCLUDE_FILES(vfork.h     HAVE_VFORK_H)
 CHECK_INCLUDE_FILES(inttypes.h  HAVE_INTTYPES_H)
-CHECK_INCLUDE_FILES(string.h    HAVE_STRING_H)
 CHECK_INCLUDE_FILES(strings.h   HAVE_STRINGS_H)
 CHECK_INCLUDE_FILES(pwd.h       HAVE_PWD_H)
 CHECK_INCLUDE_FILES(sys/select.h    HAVE_SYS_SELECT_H)
@@ -400,11 +396,15 @@ set(volume_io_HEADERS
     volume_io/Include/volume_io/volume_cache.h
 )
 
+#START - ITK
 set(LIBMINC_LIBRARY   ${LIBMINC_EXTERNAL_LIB_PREFIX}minc2)
+#STOP - ITK
 
 # a hack for APPLE
 if(LIBMINC_BUILD_SHARED_LIBS)
+#START - ITK
   set(LIBMINC_LIBRARY_STATIC ${LIBMINC_EXTERNAL_LIB_PREFIX}minc2_static)
+#STOP - ITK
 else()
   set(LIBMINC_LIBRARY_STATIC ${LIBMINC_LIBRARY})
 endif()
@@ -415,7 +415,6 @@ if(LIBMINC_NIFTI_SUPPORT)
     )
     get_filename_component(NIFTI_LIBRARY_NAME "${NIFTI_LIBRARY}" NAME)
     get_filename_component(ZNZ_LIBRARY_NAME "${ZNZ_LIBRARY}" NAME)
-
 else()
     set(NIFTI_LIBRARIES )
     set(NIFTI_LIBRARY )
@@ -433,6 +432,9 @@ get_filename_component(ZLIB_LIBRARY_NAME "${ZLIB_LIBRARY}" NAME)
 
 set(LIBMINC_LIBRARIES        ${LIBMINC_LIBRARY} ${HDF5_LIBRARY} ${NIFTI_LIBRARIES} ${ZLIB_LIBRARY})
 set(LIBMINC_LIBRARIES_CONFIG ${LIBMINC_LIBRARY} ${HDF5_LIBRARY_NAME} ${NIFTI_LIBRARY_NAME} ${ZNZ_LIBRARY_NAME} ${ZLIB_LIBRARY_NAME})
+#[[START - ITK
+message("LIBMINC_LIBRARIES_CONFIG=${LIBMINC_LIBRARIES_CONFIG}")
+#STOP - ITK ]]
 
 set(LIBMINC_STATIC_LIBRARIES ${LIBMINC_LIBRARY_STATIC} ${HDF5_LIBRARY} ${NIFTI_LIBRARIES} ${ZLIB_LIBRARY})
 set(LIBMINC_STATIC_LIBRARIES_CONFIG ${LIBMINC_LIBRARY_STATIC} ${HDF5_LIBRARY_NAME} ${NIFTI_LIBRARIES} ${ZLIB_LIBRARY_NAME})
@@ -455,7 +457,9 @@ endif()
 
 
 # Keep this variable for compatibility
+#START - ITK
 set(VOLUME_IO_LIBRARY  ${LIBMINC_EXTERNAL_LIB_PREFIX}minc2)
+#STOP - ITK
 set(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX})
 
 add_library(${LIBMINC_LIBRARY} ${LIBRARY_TYPE} ${minc_LIB_SRCS} ${minc_HEADERS} ${volume_io_LIB_SRCS} ${volume_io_HEADERS} )
@@ -470,7 +474,7 @@ target_link_libraries(${LIBMINC_LIBRARY} ${HDF5_LIBRARY} ${NIFTI_LIBRARIES} ${ZL
 if(LIBMINC_MINC1_SUPPORT)
   include_directories(${NETCDF_INCLUDE_DIR})
   target_link_libraries(${LIBMINC_LIBRARY} ${NETCDF_LIBRARY})
-    get_filename_component(NETCDF_LIBRARY_NAME "${NETCDF_LIBRARY}" NAME)
+  get_filename_component(NETCDF_LIBRARY_NAME "${NETCDF_LIBRARY}" NAME)
 else()
   set(NETCDF_LIBRARY_NAME )
 endif()
@@ -479,13 +483,12 @@ if(NOT LIBMINC_USE_SYSTEM_NIFTI AND NOT LIBMINC_EXTERNALLY_CONFIGURED AND NIFTI_
   add_dependencies(minc2 NIFTI)
 endif()
 
-#export(TARGETS ${LIBMINC_LIBRARY} FILE "${LIBMINC_EXPORTED_TARGETS}.cmake")
+export(TARGETS ${LIBMINC_LIBRARY} FILE "${LIBMINC_EXPORTED_TARGETS}.cmake")
 
 if(UNIX)
   target_link_libraries(${LIBMINC_LIBRARY} m ${CMAKE_DL_LIBS} )
 
-#ITK: Skip static library build
-if(0)
+#[[ ITK: Skip static library build
   if(LIBMINC_BUILD_SHARED_LIBS)
     add_library(${LIBMINC_LIBRARY_STATIC} STATIC ${minc_LIB_SRCS} ${minc_HEADERS} ${volume_io_LIB_SRCS} ${volume_io_HEADERS} )
     target_link_libraries(${LIBMINC_LIBRARY_STATIC} ${HDF5_LIBRARY} ${NIFTI_LIBRARIES} ${ZLIB_LIBRARY} ${RT_LIBRARY} m ${CMAKE_DL_LIBS} )
@@ -493,8 +496,7 @@ if(0)
       target_link_libraries(${LIBMINC_LIBRARY} ${NETCDF_LIBRARY})
     endif()
   endif()
-#ITK: Skip static library build
-endif()
+#ITK: Skip static library build ]]
 endif()
 
 set_target_properties(${LIBMINC_LIBRARY}

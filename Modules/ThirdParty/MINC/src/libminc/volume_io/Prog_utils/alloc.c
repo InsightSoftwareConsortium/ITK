@@ -531,8 +531,10 @@ VIOAPI  void  realloc_memory(
     size_t    type_size
     ALLOC_SOURCE_LINE_ARG_DEF )
 {
+#if 0
 #ifndef  NO_DEBUG_ALLOC
     void   *old_ptr = *ptr;
+#endif
 #endif
 
     if( n_elements != 0 )

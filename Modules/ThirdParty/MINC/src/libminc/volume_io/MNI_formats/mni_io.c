@@ -423,7 +423,7 @@ VIOAPI  void  output_comments(
         for( i = 0;  i < len;  ++i )
         {
             (void) output_character( file, comments[i] );
-            if( comments[i] == '\n' && i < len - 1 )
+            if( i < len - 1 && comments[i] == '\n' )
                 (void) output_character( file, COMMENT_CHAR1 );
         }
 

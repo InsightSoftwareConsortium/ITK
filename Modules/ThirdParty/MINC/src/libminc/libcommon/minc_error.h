@@ -35,6 +35,8 @@
 #ifndef MINC_ERROR_H
 #define MINC_ERROR_H
 
+
+
 /* minc1 message levels */
 #define MI_MSG_FATAL 0
 #define MI_MSG_ERROR 1
@@ -164,6 +166,14 @@ typedef enum mimsgcode {
     MI2_MSG_GENERIC
 } mimsgcode_t;
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+
+void milog_init(const char *);
+int milog_set_verbosity(int);
+
 int milog_message(mimsgcode_t code, ...);
 int mi2log_message(const char *file,int line, mimsgcode_t code, ...);
 
@@ -182,6 +192,10 @@ int MI_return_error(void);
 void MI_log_pkg_error2(int p1, char *p2);
 void MI_log_pkg_error3(int p1, char *p2, char *p3);
 void MI_log_sys_error1(char *p1);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 
 #define MI_LOG_ERROR(code,...) mi2log_message(__FILE__, __LINE__, code, ##__VA_ARGS__ )
