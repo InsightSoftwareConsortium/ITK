@@ -4,13 +4,13 @@ if(HAVE_MINC1)
   add_definitions( -DHAVE_MINC1=1)
 
   include_directories(${NETCDF_INCLUDE_DIR})
-endif(HAVE_MINC1)
+endif()
 
 if(HAVE_MINC2)
   set(MINC2 "1")
   add_definitions( -DMINC2=1 -DHAVE_MINC2=1)
 
   include_directories(${HDF5_INCLUDE_DIR})
-endif(HAVE_MINC2)
+endif()
 
 link_directories(${LIBMINC_LIBRARY_DIRS})

@@ -30,7 +30,7 @@ endif()
 
 if(MINC_TOOLKIT_BUILD)
   set(LIBMINC_EXTERNALLY_CONFIGURED ON)
-endif(MINC_TOOLKIT_BUILD)
+endif()
 
 set(LIBMINC_BUILD_V2 ON)
 
@@ -64,7 +64,7 @@ if(NOT LIBMINC_EXTERNALLY_CONFIGURED)
 
   if(LIBMINC_MINC1_SUPPORT)
     find_package(NETCDF REQUIRED)
-  endif(LIBMINC_MINC1_SUPPORT)
+  endif()
 
   # external packages
   find_package(ZLIB REQUIRED)
@@ -74,48 +74,48 @@ if(NOT LIBMINC_EXTERNALLY_CONFIGURED)
   if(LIBMINC_USE_NIFTI)
   if (LIBMINC_USE_SYSTEM_NIFTI)
     find_package(NIFTI)
-  else(LIBMINC_USE_SYSTEM_NIFTI)
+  else()
     include(ExternalProject)
     include(BuildNIFTI)
     build_nifti(${CMAKE_INSTALL_PREFIX} ${CMAKE_BINARY_DIR}/external)
-  endif(LIBMINC_USE_SYSTEM_NIFTI)
+  endif()
   else()
   set(NIFTI_FOUND OFF)
   endif()
 
   set(HAVE_ZLIB ON)
-else(NOT LIBMINC_EXTERNALLY_CONFIGURED)
+else()
   #TODO: set paths for HDF5 etc
-endif(NOT LIBMINC_EXTERNALLY_CONFIGURED)
+endif()
 
 if(NOT DEFINED CMAKE_MACOSX_RPATH)
   set(CMAKE_MACOSX_RPATH ON)
-endif(NOT DEFINED CMAKE_MACOSX_RPATH)
+endif()
 
 # Configure libminc
 if(LIBMINC_BUILD_SHARED_LIBS)
   set(LIBRARY_TYPE SHARED)
   set(LIBRARY_INSTALL LIBRARY)
-else(LIBMINC_BUILD_SHARED_LIBS)
+else()
   set(LIBRARY_TYPE STATIC)
   set(LIBRARY_INSTALL ARCHIVE)
-endif(LIBMINC_BUILD_SHARED_LIBS)
+endif()
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
   set(DEBUG "1")
-endif(CMAKE_BUILD_TYPE MATCHES Debug)
+endif()
 
 # add for building relocatable library
 if(UNIX)
   set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -fPIC")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-endif(UNIX)
+endif()
 
 
 if(LIBMINC_USE_ASAN)
   add_compile_options(-fno-omit-frame-pointer -fsanitize=address)
   add_link_options(-fno-omit-frame-pointer -fsanitize=address)
-endif(LIBMINC_USE_ASAN)
+endif()
 
 
 # check for prereqs
@@ -163,7 +163,7 @@ CHECK_LIBRARY_EXISTS(rt clock_gettime "time.h" HAVE_CLOCK_GETTIME_RT)
 if(HAVE_CLOCK_GETTIME_RT)
   set(RT_LIBRARY "rt")
   set(HAVE_CLOCK_GETTIME ON)
-else(HAVE_CLOCK_GETTIME_RT)
+else()
   # first check if the function is defined in header
   CHECK_SYMBOL_EXISTS(clock_gettime "time.h" HAVE_CLOCK_GETTIME_SYMBOL)
   # then check that it's available
@@ -180,7 +180,7 @@ else(HAVE_CLOCK_GETTIME_RT)
   endif()
 
 
-endif(HAVE_CLOCK_GETTIME_RT)
+endif()
 
 include(CheckIncludeFiles)
 CHECK_INCLUDE_FILES(float.h     HAVE_FLOAT_H)
@@ -210,7 +210,7 @@ add_definitions(-DHAVE_CONFIG_H)
 add_definitions(-DMINC2=1)
 if(NOT APPLE)
 add_definitions(-D_XOPEN_SOURCE=500)
-endif(NOT APPLE)
+endif()
 # aliases
 set(VERSION "${LIBMINC_EXTERNAL_LIB_PREFIX}${LIBMINC_PACKAGE_VERSION}")
 set(HAVE_MINC1 ${LIBMINC_MINC1_SUPPORT})
@@ -219,7 +219,7 @@ set(MINC2 "1")
 
 if(LIBMINC_MINC1_SUPPORT)
  add_definitions(-DHAVE_MINC1=1)
-endif(LIBMINC_MINC1_SUPPORT)
+endif()
 
 if(LIBMINC_BUILD_EZMINC)
   set(LIBMINC_INCLUDE_DIRS_CONFIG
@@ -228,7 +228,7 @@ if(LIBMINC_BUILD_EZMINC)
   include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/ezminc
    )
-endif(LIBMINC_BUILD_EZMINC)
+endif()
 
 if(NIFTI_FOUND)
     set(LIBMINC_NIFTI_SUPPORT ON)
@@ -237,7 +237,7 @@ if(NIFTI_FOUND)
       volume_io/Volumes/input_mgh.c
       volume_io/Volumes/input_nrrd.c
     )
-endif(NIFTI_FOUND)
+endif()
 
 # config files for build
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h @ONLY)
@@ -264,7 +264,7 @@ if(LIBMINC_NIFTI_SUPPORT)
     include_directories(
         ${NIFTI_INCLUDE_DIR}
     )
-endif(LIBMINC_NIFTI_SUPPORT)
+endif()
 
 set(minc_common_SRCS
   libcommon/minc2_error.c
@@ -379,7 +379,7 @@ if(LIBMINC_NIFTI_SUPPORT)
         ${volume_io_LIB_SRCS}
         ${LIBMINC_NIFTI_SOURCES}
     )
-endif(LIBMINC_NIFTI_SUPPORT)
+endif()
 
 
 set(volume_io_HEADERS
@@ -405,9 +405,9 @@ set(LIBMINC_LIBRARY   ${LIBMINC_EXTERNAL_LIB_PREFIX}minc2)
 # a hack for APPLE
 if(LIBMINC_BUILD_SHARED_LIBS)
   set(LIBMINC_LIBRARY_STATIC ${LIBMINC_EXTERNAL_LIB_PREFIX}minc2_static)
-else(LIBMINC_BUILD_SHARED_LIBS)
+else()
   set(LIBMINC_LIBRARY_STATIC ${LIBMINC_LIBRARY})
-endif(LIBMINC_BUILD_SHARED_LIBS)
+endif()
 
 if(LIBMINC_NIFTI_SUPPORT)
     set(NIFTI_LIBRARIES
@@ -416,13 +416,13 @@ if(LIBMINC_NIFTI_SUPPORT)
     get_filename_component(NIFTI_LIBRARY_NAME "${NIFTI_LIBRARY}" NAME)
     get_filename_component(ZNZ_LIBRARY_NAME "${ZNZ_LIBRARY}" NAME)
 
-else(LIBMINC_NIFTI_SUPPORT)
+else()
     set(NIFTI_LIBRARIES )
     set(NIFTI_LIBRARY )
     set(ZNZ_LIBRARY )
     set(NIFTI_LIBRARY_NAME )
     set(ZNZ_LIBRARY_NAME )
-endif(LIBMINC_NIFTI_SUPPORT)
+endif()
 
 if(NOT HDF5_LIBRARY AND HDF5_LIBRARIES)
     set(HDF5_LIBRARY ${HDF5_LIBRARIES})
@@ -443,7 +443,7 @@ if(UNIX)
 
   set(LIBMINC_LIBRARIES_CONFIG ${LIBMINC_LIBRARIES_CONFIG} m ${CMAKE_DL_LIBS} ${RT_LIBRARY_NAME})
   set(LIBMINC_STATIC_LIBRARIES_CONFIG ${LIBMINC_STATIC_LIBRARIES_CONFIG} m ${CMAKE_DL_LIBS} ${RT_LIBRARY_NAME})
-endif(UNIX)
+endif()
 
 set(minc_LIB_SRCS ${minc2_LIB_SRCS} ${minc_common_SRCS})
 set(minc_HEADERS  ${minc2_HEADERS} ${minc_common_HEADERS})
@@ -451,7 +451,7 @@ set(minc_HEADERS  ${minc2_HEADERS} ${minc_common_HEADERS})
 if(LIBMINC_MINC1_SUPPORT)
   set(minc_HEADERS  ${minc_HEADERS}  ${minc1_HEADERS})
   set(minc_LIB_SRCS ${minc_LIB_SRCS} ${minc1_LIB_SRCS})
-endif(LIBMINC_MINC1_SUPPORT)
+endif()
 
 
 # Keep this variable for compatibility
@@ -471,9 +471,9 @@ if(LIBMINC_MINC1_SUPPORT)
   include_directories(${NETCDF_INCLUDE_DIR})
   target_link_libraries(${LIBMINC_LIBRARY} ${NETCDF_LIBRARY})
     get_filename_component(NETCDF_LIBRARY_NAME "${NETCDF_LIBRARY}" NAME)
-else(LIBMINC_MINC1_SUPPORT)
+else()
   set(NETCDF_LIBRARY_NAME )
-endif(LIBMINC_MINC1_SUPPORT)
+endif()
 
 if(NOT LIBMINC_USE_SYSTEM_NIFTI AND NOT LIBMINC_EXTERNALLY_CONFIGURED AND NIFTI_FOUND)
   add_dependencies(minc2 NIFTI)
@@ -491,11 +491,11 @@ if(0)
     target_link_libraries(${LIBMINC_LIBRARY_STATIC} ${HDF5_LIBRARY} ${NIFTI_LIBRARIES} ${ZLIB_LIBRARY} ${RT_LIBRARY} m ${CMAKE_DL_LIBS} )
     if(LIBMINC_MINC1_SUPPORT)
       target_link_libraries(${LIBMINC_LIBRARY} ${NETCDF_LIBRARY})
-    endif(LIBMINC_MINC1_SUPPORT)
-  endif(LIBMINC_BUILD_SHARED_LIBS)
+    endif()
+  endif()
 #ITK: Skip static library build
-endif(0)
-endif(UNIX)
+endif()
+endif()
 
 set_target_properties(${LIBMINC_LIBRARY}
  PROPERTIES
@@ -507,7 +507,7 @@ if(LIBMINC_MINC1_SUPPORT)
 
   set(LIBMINC_LIBRARIES_CONFIG        ${LIBMINC_LIBRARIES_CONFIG} ${NETCDF_LIBRARY_NAME} )
   set(LIBMINC_STATIC_LIBRARIES_CONFIG ${LIBMINC_STATIC_LIBRARIES_CONFIG} ${NETCDF_LIBRARY_NAME} )
-endif(LIBMINC_MINC1_SUPPORT)
+endif()
 
 if( LIBMINC_INSTALL_LIB_DIR )
   install(
@@ -519,12 +519,12 @@ if( LIBMINC_INSTALL_LIB_DIR )
     ARCHIVE DESTINATION ${LIBMINC_INSTALL_LIB_DIR} COMPONENT libraries
     RUNTIME DESTINATION ${LIBMINC_INSTALL_LIB_DIR} COMPONENT libraries
   )
-endif( LIBMINC_INSTALL_LIB_DIR )
+endif()
 
 if(LIBMINC_INSTALL_INCLUDE_DIR AND NOT LIBMINC_INSTALL_NO_DEVELOPMENT)
   install(FILES   ${minc_HEADERS}      DESTINATION  ${LIBMINC_INSTALL_INCLUDE_DIR} COMPONENT headers )
   install(FILES   ${volume_io_HEADERS} DESTINATION  ${LIBMINC_INSTALL_INCLUDE_DIR}/volume_io COMPONENT headers)
-endif(LIBMINC_INSTALL_INCLUDE_DIR AND NOT LIBMINC_INSTALL_NO_DEVELOPMENT)
+endif()
 
 if(LIBMINC_BUILD_EZMINC AND LIBMINC_MINC1_SUPPORT)
   add_subdirectory( ezminc )
@@ -568,7 +568,7 @@ if(LIBMINC_MINC1_SUPPORT)
     set(LIBMINC_INCLUDE_DIRS_CONFIG ${LIBMINC_INCLUDE_DIRS_CONFIG}
       ${CMAKE_CURRENT_SOURCE_DIR}/ezminc )
   endif()
-endif(LIBMINC_MINC1_SUPPORT)
+endif()
 
 set(LIBMINC_LIBRARY_DIRS_CONFIG        ${CMAKE_CURRENT_BINARY_DIR})
 set(LIBMINC_LIBRARIES_CONFIG           ${LIBMINC_LIBRARIES})
@@ -577,7 +577,7 @@ set(EZMINC_LIBRARIES_CONFIG            ${EZMINC_LIBRARIES})
 
 if(LIBMINC_MINC1_SUPPORT)
   set(LIBMINC_LIBRARY_DIRS_CONFIG  ${LIBMINC_LIBRARY_DIRS_CONFIG} ${CMAKE_CURRENT_BINARY_DIR}/ezminc)
-endif(LIBMINC_MINC1_SUPPORT)
+endif()
 
 configure_file(LIBMINCConfig.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/LIBMINCConfig.cmake @ONLY )
@@ -594,13 +594,13 @@ if(LIBMINC_INSTALL_LIB_DIR AND NOT LIBMINC_INSTALL_NO_DEVELOPMENT)
     DESTINATION
      ${LIBMINC_INSTALL_LIB_DIR}/cmake
     COMPONENT Development)
-endif(LIBMINC_INSTALL_LIB_DIR AND NOT LIBMINC_INSTALL_NO_DEVELOPMENT)
+endif()
 
 # testing
 if(BUILD_TESTING)
   add_subdirectory(testdir)
-endif(BUILD_TESTING)
+endif()
 
 if(NOT LIBMINC_EXTERNALLY_CONFIGURED)
   include(CPack)
-endif(NOT LIBMINC_EXTERNALLY_CONFIGURED)
+endif()
