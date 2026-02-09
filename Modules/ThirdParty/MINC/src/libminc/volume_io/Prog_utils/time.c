@@ -22,7 +22,7 @@
 
 #if HAVE_GETTIMEOFDAY && HAVE_SYS_TIME_H
 # include <sys/time.h>
-#endif 
+#endif
 
 #if HAVE_TIME_H
 # include <time.h>
@@ -51,16 +51,16 @@ void sleep(unsigned milliseconds)
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_clock_ticks_per_second
-@INPUT      : 
-@OUTPUT     : 
+@INPUT      :
+@OUTPUT     :
 @RETURNS    : number clock ticks per second
 @DESCRIPTION: Returns the number of clock ticks per second in a system
               independent fashion
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jul 3, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static VIO_Real  get_clock_ticks_per_second( void )
@@ -74,15 +74,15 @@ static VIO_Real  get_clock_ticks_per_second( void )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : current_cpu_seconds
-@INPUT      : 
-@OUTPUT     : 
+@INPUT      :
+@OUTPUT     :
 @RETURNS    : # seconds
 @DESCRIPTION: Returns the number of cpu seconds used by the program to date.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI VIO_Real  current_cpu_seconds( void )
@@ -104,16 +104,16 @@ VIOAPI VIO_Real  current_cpu_seconds( void )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : current_realtime_seconds
-@INPUT      : 
-@OUTPUT     : 
+@INPUT      :
+@OUTPUT     :
 @RETURNS    : # seconds
 @DESCRIPTION: Returns the number of seconds since the first invocation of this
             : function.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Real  current_realtime_seconds( void )
@@ -146,7 +146,7 @@ VIOAPI  VIO_Real  current_realtime_seconds( void )
      */
     current_seconds = (VIO_Real) time(NULL);
 #endif
-    
+
     if( first_seconds < 0.0 )
     {
         first_seconds = current_seconds;
@@ -159,14 +159,14 @@ VIOAPI  VIO_Real  current_realtime_seconds( void )
 @INPUT      : format
             : seconds
 @OUTPUT     : str
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Decides what time unit to use and displays the seconds value
             : in str, using format.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_STR  format_time(
@@ -211,14 +211,14 @@ VIOAPI  VIO_STR  format_time(
 @NAME       : print_time
 @INPUT      : format
             : seconds
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Prints out the time in suitable units.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  print_time(
@@ -236,15 +236,15 @@ VIOAPI  void  print_time(
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_clock_time
-@INPUT      : 
+@INPUT      :
 @OUTPUT     : time_str
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Stores the current time of day in the "time_str".
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_STR  get_clock_time( void )
@@ -265,14 +265,14 @@ VIOAPI  VIO_STR  get_clock_time( void )
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : sleep_program
 @INPUT      : seconds
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Make the program sleep for the specified number of seconds.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  sleep_program( VIO_Real seconds )
@@ -291,15 +291,15 @@ VIOAPI  void  sleep_program( VIO_Real seconds )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_date
-@INPUT      : 
+@INPUT      :
 @OUTPUT     : date_str
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Fills in the date into the string.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_STR  get_date( void )

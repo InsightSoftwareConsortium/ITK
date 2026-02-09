@@ -9,7 +9,7 @@
  *  Uses temporary buffer of nelem/8 bytes
  */
 void restructure_array(size_t ndims,
-                      unsigned char *array, 
+                      unsigned char *array,
                       const size_t *lengths_perm,
                       size_t el_size,
                       const int *map,

@@ -23,7 +23,7 @@
 @OUTPUT     : ortho
 @RETURNS    :
 @DESCRIPTION: Creates a vector which is orthogonal to v.
-@METHOD     : 
+@METHOD     :
 @GLOBALS    :
 @CALLS      :
 @CREATED    : 1993            David MacDonald
@@ -50,14 +50,14 @@ VIOAPI  void  create_orthogonal_vector(
 @INPUT      : v
 @OUTPUT     : v1
               v2
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Creates two vectors which are perpendicular to each other and
               to the given vector.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  create_two_orthogonal_vectors(

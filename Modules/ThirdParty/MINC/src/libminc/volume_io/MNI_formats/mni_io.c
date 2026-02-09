@@ -31,11 +31,11 @@ static   const char      COMMENT_CHAR2 = '#';
               characters, and is thus the base routine for all MNI tag or
               transform file input.  Any part of a line starting with a
               comment character is ignored.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI VIO_Status  mni_get_nonwhite_character(
@@ -59,7 +59,7 @@ VIOAPI VIO_Status  mni_get_nonwhite_character(
         }
     }
     while( status == VIO_OK &&
-           (in_comment || *ch == ' ' || *ch == '\t' || *ch == '\n' || 
+           (in_comment || *ch == ' ' || *ch == '\t' || *ch == '\n' ||
             *ch == '\r') );     /* ignore carriage returns */
 
     if( status == VIO_ERROR )
@@ -72,15 +72,15 @@ VIOAPI VIO_Status  mni_get_nonwhite_character(
 @NAME       : mni_skip_expected_character
 @INPUT      : file
               expected_ch
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Gets the next nonwhite character.  If it is the expected
               character, fine, otherwise print an error message.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI VIO_Status  mni_skip_expected_character(
@@ -116,11 +116,11 @@ VIOAPI VIO_Status  mni_skip_expected_character(
 @RETURNS    : VIO_OK or VIO_END_OF_FILE
 @DESCRIPTION: Inputs a line of text from a file.  The carriage return is
               read, but not placed in the string.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI VIO_Status  mni_input_line(
@@ -164,11 +164,11 @@ VIOAPI VIO_Status  mni_input_line(
               one of the termination characters or a carriage return.  If
               the first nonwhite character is a '"', then the termination
               characters become '"'.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI VIO_Status  mni_input_string(
@@ -225,15 +225,15 @@ VIOAPI VIO_Status  mni_input_string(
 @INPUT      : file
               keyword
               print_error_message - whether to print error messages
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Inputs the desired keyword from the file and an equal sign.
               If there is no match, then an error message may be printed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI VIO_Status  mni_input_keyword_and_equal_sign(
@@ -266,17 +266,17 @@ VIOAPI VIO_Status  mni_input_keyword_and_equal_sign(
 @NAME       : unget_string
 @INPUT      : file
               str
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Places the first nonblank character of the string back onto
               the input stream, as an approximation to pushing the entire
               string back on the input stream, which only happens in error
               situations.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static void  unget_string(
@@ -300,11 +300,11 @@ static void  unget_string(
 @OUTPUT     : d
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Inputs an ascii representation of a real value.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI VIO_Status  mni_input_real(
@@ -335,11 +335,11 @@ VIOAPI VIO_Status  mni_input_real(
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Inputs an arbitrary number of real values, up to the next
               semicolon.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI VIO_Status  mni_input_reals(
@@ -365,11 +365,11 @@ VIOAPI VIO_Status  mni_input_reals(
 @OUTPUT     : i
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Inputs an integer from an ascii file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI VIO_Status  mni_input_int(
@@ -396,17 +396,17 @@ VIOAPI VIO_Status  mni_input_int(
 @NAME       : output_comments
 @INPUT      : file
               comments
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Outputs a string to the file, in comment format, by placing
               a comment at the beginning of the string, and after each
               carriage return.  An extra carriage return is placed after
               the comments, if the comments do not end in a carriage return.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  output_comments(

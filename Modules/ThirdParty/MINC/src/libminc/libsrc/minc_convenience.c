@@ -28,7 +28,7 @@
                  MI_add_stdgroup
                  MI_is_in_list
 @CREATED    : July 27, 1992. (Peter Neelin, Montreal Neurological Institute)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: minc_convenience.c,v $
  * Revision 6.21  2008-01-17 02:33:02  rotor
  *  * removed all rcsids
@@ -133,12 +133,12 @@
  *
  * Revision 1.18  94/09/28  10:37:12  neelin
  * Pre-release
- * 
+ *
  * Revision 1.17  93/08/11  12:06:19  neelin
  * Added RCS logging in source.
- * 
+ *
 @COPYRIGHT  :
-              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre, 
+              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -160,9 +160,9 @@
 #endif /* HAVE_UNISTD_H */
 
 /* Private functions */
-PRIVATE int MI_create_dim_variable(int cdfid, const char *name, 
+PRIVATE int MI_create_dim_variable(int cdfid, const char *name,
                                    nc_type datatype, int ndims);
-PRIVATE int MI_create_dimwidth_variable(int cdfid, const char *name, 
+PRIVATE int MI_create_dimwidth_variable(int cdfid, const char *name,
                                         nc_type datatype, int ndims);
 PRIVATE int MI_create_image_variable(int cdfid, const char *name, nc_type datatype,
                                      int ndims, const int dim[]);
@@ -185,13 +185,13 @@ PRIVATE int MI_is_in_list(const char *string, const char *list[]);
               is_signed - TRUE if type is signed
 @RETURNS    : MI_ERROR when an error occurs.
 @DESCRIPTION: Gets the datatype and sign of the image variable.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines.
 @CREATED    : August 15, 2001
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
-MNCAPI int miget_datatype(int cdfid, int imgid, 
+MNCAPI int miget_datatype(int cdfid, int imgid,
                           nc_type *datatype, int *is_signed)
 {
    int old_ncopts;
@@ -209,9 +209,9 @@ MNCAPI int miget_datatype(int cdfid, int imgid,
    set_ncopts(0);
 
    /* Get the sign information */
-   if ((miattgetstr(cdfid, imgid, MIsigntype, 
+   if ((miattgetstr(cdfid, imgid, MIsigntype,
                     MI_MAX_ATTSTR_LEN, attstr) != NULL)) {
-      
+
       use_default_sign = FALSE;
       if (strcmp(attstr, MI_SIGNED) == 0)
          *is_signed = TRUE;
@@ -245,13 +245,13 @@ MNCAPI int miget_datatype(int cdfid, int imgid,
 @OUTPUT     : default_range - array containing default range for variable
 @RETURNS    : MI_NOERROR
 @DESCRIPTION: Gets the default range for a data type.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines.
 @CREATED    : August 15, 2001
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
-MNCAPI int miget_default_range(nc_type datatype, int is_signed, 
+MNCAPI int miget_default_range(nc_type datatype, int is_signed,
                                double default_range[])
 {
    MI_SAVE_ROUTINE_NAME("miget_default_range");
@@ -259,15 +259,15 @@ MNCAPI int miget_default_range(nc_type datatype, int is_signed,
    switch (datatype) {
    case NC_INT:
       default_range[0] = (is_signed) ? INT_MIN : 0;
-      default_range[1] = (is_signed) ? INT_MAX : UINT_MAX; 
+      default_range[1] = (is_signed) ? INT_MAX : UINT_MAX;
       break;
    case NC_SHORT:
       default_range[0] = (is_signed) ? SHRT_MIN : 0;
-      default_range[1] = (is_signed) ? SHRT_MAX : USHRT_MAX; 
+      default_range[1] = (is_signed) ? SHRT_MAX : USHRT_MAX;
       break;
    case NC_BYTE:
       default_range[0] = (is_signed) ? SCHAR_MIN : 0;
-      default_range[1] = (is_signed) ? SCHAR_MAX : UCHAR_MAX; 
+      default_range[1] = (is_signed) ? SCHAR_MAX : UCHAR_MAX;
       break;
    case NC_FLOAT:
       default_range[0] = -FLT_MAX;
@@ -277,7 +277,7 @@ MNCAPI int miget_default_range(nc_type datatype, int is_signed,
       default_range[0] = -DBL_MAX;
       default_range[1] = DBL_MAX;
       break;
-   default: 
+   default:
       default_range[0]= MI_DEFAULT_MIN;
       default_range[1]= MI_DEFAULT_MAX;
       break;
@@ -297,11 +297,11 @@ MNCAPI int miget_default_range(nc_type datatype, int is_signed,
               that they are correctly truncated. This is particularly
               important for float images. If the range cannot be found,
               then use the default values.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines.
 @CREATED    : August 15, 2001
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miget_valid_range(int cdfid, int imgid, double valid_range[])
 {
@@ -330,8 +330,8 @@ MNCAPI int miget_valid_range(int cdfid, int imgid, double valid_range[])
       att_sign = MI_UNSIGNED;
 
    /* Get valid range */
-   status=miattget_with_sign(cdfid, imgid, MIvalid_range, 
-                             att_sign, NC_DOUBLE, NULL, 
+   status=miattget_with_sign(cdfid, imgid, MIvalid_range,
+                             att_sign, NC_DOUBLE, NULL,
                              2, valid_range, &length);
 
    /* If not there, look for the max and min */
@@ -341,12 +341,12 @@ MNCAPI int miget_valid_range(int cdfid, int imgid, double valid_range[])
       (void) miget_default_range(datatype, is_signed, valid_range);
 
       /* Try to read the valid max */
-      (void) miattget_with_sign(cdfid, imgid, MIvalid_max, 
-                                att_sign, NC_DOUBLE, NULL, 
+      (void) miattget_with_sign(cdfid, imgid, MIvalid_max,
+                                att_sign, NC_DOUBLE, NULL,
                                 1, &valid_range[1], NULL);
 
       /* Try to read the valid min */
-      (void) miattget_with_sign(cdfid, imgid, MIvalid_min, 
+      (void) miattget_with_sign(cdfid, imgid, MIvalid_min,
                                 att_sign, NC_DOUBLE, NULL,
                                 1, &valid_range[0], NULL);
 
@@ -395,13 +395,13 @@ MNCAPI int miget_valid_range(int cdfid, int imgid, double valid_range[])
 @RETURNS    : MI_ERROR when an error occurs.
 @DESCRIPTION: Sets the valid range for an image variable. Ensures that
               the attribute types match the image variable type.
-              This is particularly important for float images because of 
+              This is particularly important for float images because of
               potential rounding when going from double to float.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines.
 @CREATED    : August 15, 2001
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miset_valid_range(int cdfid, int imgid, const double valid_range[])
 {
@@ -418,9 +418,9 @@ MNCAPI int miset_valid_range(int cdfid, int imgid, const double valid_range[])
       MI_RETURN(MI_ERROR);
 
    /* Cast to the appropriate type and save. Originally, it was thought
-      that casting to the type of the image variable would be a good idea 
-      because NetCDF says that it should. Unfortunately, this breaks 
-      compatibility in some cases with programs linked with old minc 
+      that casting to the type of the image variable would be a good idea
+      because NetCDF says that it should. Unfortunately, this breaks
+      compatibility in some cases with programs linked with old minc
       libraries, so we only cast for floats to avoid rounding problems
       (cast from double to float can put values out of range) - for
       everything else double is used. */
@@ -446,17 +446,17 @@ MNCAPI int miset_valid_range(int cdfid, int imgid, const double valid_range[])
 @OUTPUT     : image_range - array containing min and max of image-min/max
                  for the entire file
 @RETURNS    : MI_ERROR when an error occurs.
-@DESCRIPTION: Gets the image range for a file - that is, the maximum 
+@DESCRIPTION: Gets the image range for a file - that is, the maximum
               image-max value and the minimum image-min value.
-              For float images, ensures that values are cast to float to 
-              ensure that they are correctly truncated. If the range cannot 
-              be found, then use the default values for int images and 
+              For float images, ensures that values are cast to float to
+              ensure that they are correctly truncated. If the range cannot
+              be found, then use the default values for int images and
               valid_range for floating-point images.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines.
 @CREATED    : October 19, 2001
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miget_image_range(int cdfid, double image_range[])
 {
@@ -493,7 +493,7 @@ MNCAPI int miget_image_range(int cdfid, double image_range[])
         (miget_datatype(cdfid, imgid, &datatype, &is_signed) == MI_ERROR) )
       MI_RETURN(MI_ERROR);
 
-   /* No max/min variables, so use valid_range values for floats 
+   /* No max/min variables, so use valid_range values for floats
       if it is set and defaults otherwise */
    if ((vid[0] == MI_ERROR) || (vid[1] == MI_ERROR)) {
 
@@ -506,13 +506,13 @@ MNCAPI int miget_image_range(int cdfid, double image_range[])
       if (is_float) {
          if (miget_valid_range(cdfid, imgid, image_range) == MI_ERROR)
             MI_RETURN(MI_ERROR);
-         no_range_found = 
+         no_range_found =
             (datatype == NC_FLOAT  && image_range[1] == FLT_MAX) ||
             (datatype == NC_DOUBLE && image_range[1] == DBL_MAX);
       }
 
-      /* If it is not a float, or if the valid range was not set, then use 
-         the default. */ 
+      /* If it is not a float, or if the valid range was not set, then use
+         the default. */
       if (!is_float || no_range_found) {
          image_range[0] = MI_DEFAULT_MIN;
          image_range[1] = MI_DEFAULT_MAX;
@@ -520,7 +520,7 @@ MNCAPI int miget_image_range(int cdfid, double image_range[])
 
    }
 
-   /* If the variables are there then get the max and min and fastest 
+   /* If the variables are there then get the max and min and fastest
       varying dimension */
    else {
 
@@ -532,10 +532,10 @@ MNCAPI int miget_image_range(int cdfid, double image_range[])
       for (imm=0; imm<2; imm++) {
 
          /* Get dimension list */
-         MI_CHK_ERR(ncvarinq(cdfid, vid[imm], NULL, NULL, 
+         MI_CHK_ERR(ncvarinq(cdfid, vid[imm], NULL, NULL,
                              &ndims, dim, NULL))
 
-         /* Loop through dimensions, getting dimension sizes and 
+         /* Loop through dimensions, getting dimension sizes and
             total min/max variable size */
          size=1;     /* Size of MIimagemin/max variable */
          for (idim=0; idim<ndims; idim++) {
@@ -550,7 +550,7 @@ MNCAPI int miget_image_range(int cdfid, double image_range[])
          }
 
          /* Get values */
-         if (mivarget(cdfid, vid[imm], 
+         if (mivarget(cdfid, vid[imm],
                       miset_coords(ndims, 0L, start),
                       count, NC_DOUBLE, NULL, buffer)==MI_ERROR) {
             FREE(buffer);
@@ -586,11 +586,11 @@ MNCAPI int miget_image_range(int cdfid, double image_range[])
 @OUTPUT     : (none)
 @RETURNS    : TRUE if variable exists, false otherwise
 @DESCRIPTION: Checks for the existence of a variable.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines.
 @CREATED    : October 22, 2001
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int mivar_exists(int cdfid, const char *varname)
 {
@@ -612,7 +612,7 @@ MNCAPI int mivar_exists(int cdfid, const char *varname)
 @INPUT      : cdfid    - cdf file id
               varid    - variable id
               name     - name of attribute to point to variable
-              ptrvarid - variable id of existing variable to which name 
+              ptrvarid - variable id of existing variable to which name
                  should point
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR when an error occurs
@@ -620,11 +620,11 @@ MNCAPI int mivar_exists(int cdfid, const char *varname)
               (generally a multi-dimensional attribute that must be stored
               as a variable). The variable to which the attribute points must
               already exist in the file.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines.
 @CREATED    : August 5, 1992
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miattput_pointer(int cdfid, int varid, const char *name, int ptrvarid)
 {
@@ -666,12 +666,12 @@ MNCAPI int miattput_pointer(int cdfid, int varid, const char *name, int ptrvarid
                  a variable
 @OUTPUT     : (none)
 @RETURNS    : variable id pointed to by name, MI_ERROR if an error occurs.
-@DESCRIPTION: 
-@METHOD     : 
-@GLOBALS    : 
+@DESCRIPTION:
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : August 5, 1992
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miattget_pointer(int cdfid, int varid, const char *name)
 {
@@ -684,7 +684,7 @@ MNCAPI int miattget_pointer(int cdfid, int varid, const char *name)
    MI_SAVE_ROUTINE_NAME("miattget_pointer");
 
    /* Get the attribute */
-   if (miattgetstr(cdfid, varid, name, sizeof(pointer_string), 
+   if (miattgetstr(cdfid, varid, name, sizeof(pointer_string),
                    pointer_string) == NULL)
       MI_RETURN_ERROR(MI_ERROR);
 
@@ -713,11 +713,11 @@ MNCAPI int miattget_pointer(int cdfid, int varid, const char *name)
 @DESCRIPTION: Adds the name of child_varid to the children attribute of
               parent_varid and sets the parent attribute of child_varid
               to the name of parent_varid.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : August 5, 1992
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miadd_child(int cdfid, int parent_varid, int child_varid)
 {
@@ -733,22 +733,22 @@ MNCAPI int miadd_child(int cdfid, int parent_varid, int child_varid)
    /* Get the size of the child list in the parent. Handle the case where the
       child list does not exist. */
    oldncopts=get_ncopts(); set_ncopts(0);
-   status=ncattinq(cdfid, parent_varid, MIchildren, &datatype, 
+   status=ncattinq(cdfid, parent_varid, MIchildren, &datatype,
                    &child_list_size);
    set_ncopts(oldncopts);
-   if ((status == MI_ERROR) || (datatype != NC_CHAR)) 
+   if ((status == MI_ERROR) || (datatype != NC_CHAR))
       child_list_size=0;
 
    /* Allocate space for new child list */
    if ((child_list = MALLOC(child_list_size+MAX_NC_NAME+
                             strlen(MI_CHILD_SEPARATOR), char)) == NULL) {
-       MI_LOG_ERROR(MI_MSG_OUTOFMEM, 
+       MI_LOG_ERROR(MI_MSG_OUTOFMEM,
                      child_list_size+MAX_NC_NAME+strlen(MI_CHILD_SEPARATOR));
        MI_RETURN(MI_ERROR);
    }
 
-   /* Get the old list if needed and check for terminating null character 
-      (child_list_size should point to the next spot in child_list, 
+   /* Get the old list if needed and check for terminating null character
+      (child_list_size should point to the next spot in child_list,
       overwriting any null character) */
    if (child_list_size>0) {
       if (ncattget(cdfid, parent_varid, MIchildren, child_list) == MI_ERROR) {
@@ -816,15 +816,15 @@ MNCAPI int miadd_child(int cdfid, int parent_varid, int child_varid)
 @OUTPUT     : (none)
 @RETURNS    : id of created variable, or MI_ERROR if an error occurs
 @DESCRIPTION: Creates a standard MINC variable by calling ncvardef
-              and then sets default attributes. The standard variables are 
+              and then sets default attributes. The standard variables are
               identified by name, so an unrecognised name produces an error.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : August 5, 1992
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
-MNCAPI int micreate_std_variable(int cdfid, const char *name, nc_type datatype, 
+MNCAPI int micreate_std_variable(int cdfid, const char *name, nc_type datatype,
                                  int ndims, int dim[])
 {
    int varid;                /* Created variable id */
@@ -838,7 +838,7 @@ MNCAPI int micreate_std_variable(int cdfid, const char *name, nc_type datatype,
 
    /* Check for a dimension width */
    else if (MI_is_in_list(name, dimwidthlist)) {
-      MI_CHK_ERR(varid=MI_create_dimwidth_variable(cdfid, name, 
+      MI_CHK_ERR(varid=MI_create_dimwidth_variable(cdfid, name,
                                                    datatype, ndims))
    }
 
@@ -884,15 +884,15 @@ MNCAPI int micreate_std_variable(int cdfid, const char *name, nc_type datatype,
 @OUTPUT     : (none)
 @RETURNS    : id of created variable, or MI_ERROR if an error occurs
 @DESCRIPTION: Creates a standard MINC dimension variable by calling ncvardef
-              and then sets default attributes. The standard variables are 
+              and then sets default attributes. The standard variables are
               identified by name, so an unrecognised name produces an error.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : August 5, 1992
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
-PRIVATE int MI_create_dim_variable(int cdfid, const char *name, 
+PRIVATE int MI_create_dim_variable(int cdfid, const char *name,
                                    nc_type datatype, int ndims)
 {
    int dimid;                /* Dimension id (for dimensions variables) */
@@ -921,7 +921,7 @@ PRIVATE int MI_create_dim_variable(int cdfid, const char *name,
    MI_CHK_ERR(miattputstr(cdfid, varid, MIvartype, MI_DIMENSION))
    MI_CHK_ERR(miattputstr(cdfid, varid, MIversion, MI_CURRENT_VERSION))
 
-   /* Add comments for spatial dimensions */ 
+   /* Add comments for spatial dimensions */
    if (STRINGS_EQUAL(name, MIxspace))
       {MI_CHK_ERR(miattputstr(cdfid, varid, MIcomments,
                               _("X increases from patient left to right")))}
@@ -956,17 +956,17 @@ PRIVATE int MI_create_dim_variable(int cdfid, const char *name,
               ndims    - number of dimensions - must be 0 or 1
 @OUTPUT     : (none)
 @RETURNS    : id of created variable, or MI_ERROR if an error occurs
-@DESCRIPTION: Creates a standard MINC dimension width variable by calling 
-              ncvardef and then sets default attributes. The standard 
-              variables are identified by name, so an unrecognised name 
+@DESCRIPTION: Creates a standard MINC dimension width variable by calling
+              ncvardef and then sets default attributes. The standard
+              variables are identified by name, so an unrecognised name
               produces an error.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : August 5, 1992
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
-PRIVATE int MI_create_dimwidth_variable(int cdfid, const char *name, 
+PRIVATE int MI_create_dimwidth_variable(int cdfid, const char *name,
                                         nc_type datatype, int ndims)
 {
    int dimid;                /* Dimension id (for dimensions variables) */
@@ -1019,11 +1019,11 @@ PRIVATE int MI_create_dimwidth_variable(int cdfid, const char *name,
 @RETURNS    : id of created variable, or MI_ERROR if an error occurs
 @DESCRIPTION: Creates a standard MINC image variable by calling ncvardef
               and then sets default attributes.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : August 6, 1992
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_create_image_variable(int cdfid, const char *name, nc_type datatype,
                                      int ndims, const int dim[])
@@ -1037,7 +1037,7 @@ PRIVATE int MI_create_image_variable(int cdfid, const char *name, nc_type dataty
 
    MI_SAVE_ROUTINE_NAME("MI_create_image_variable");
 
-   /* Look to see if MIimagemax or MIimagemin exist for dimension checking 
+   /* Look to see if MIimagemax or MIimagemin exist for dimension checking
       and pointers */
    oldncopts=get_ncopts(); set_ncopts(0);
    max_varid=ncvarid(cdfid, MIimagemax);
@@ -1047,14 +1047,14 @@ PRIVATE int MI_create_image_variable(int cdfid, const char *name, nc_type dataty
       /* Get MIimagemax dimensions */
       MI_CHK_ERR(ncvarinq(cdfid, max_varid, NULL, NULL, &maxmin_ndims,
                           maxmin_dim, NULL))
-      MI_CHK_ERR(MI_verify_maxmin_dims(cdfid, ndims, dim, 
+      MI_CHK_ERR(MI_verify_maxmin_dims(cdfid, ndims, dim,
                                        maxmin_ndims, maxmin_dim))
    }
    if (min_varid != MI_ERROR) {
       /* Get MIimagemin dimensions */
       MI_CHK_ERR(ncvarinq(cdfid, min_varid, NULL, NULL, &maxmin_ndims,
                           maxmin_dim, NULL))
-      MI_CHK_ERR(MI_verify_maxmin_dims(cdfid, ndims, dim, 
+      MI_CHK_ERR(MI_verify_maxmin_dims(cdfid, ndims, dim,
                                        maxmin_ndims, maxmin_dim))
    }
 
@@ -1065,9 +1065,9 @@ PRIVATE int MI_create_image_variable(int cdfid, const char *name, nc_type dataty
    MI_CHK_ERR(MI_add_stdgroup(cdfid, varid))
 
    /* Create pointers to MIimagemax and MIimagemin if they exist */
-   if (max_varid!=MI_ERROR) 
+   if (max_varid!=MI_ERROR)
       MI_CHK_ERR(miattput_pointer(cdfid, varid, MIimagemax, max_varid))
-   if (min_varid!=MI_ERROR) 
+   if (min_varid!=MI_ERROR)
       MI_CHK_ERR(miattput_pointer(cdfid, varid, MIimagemin, min_varid))
 
    MI_RETURN(varid);
@@ -1084,17 +1084,17 @@ PRIVATE int MI_create_image_variable(int cdfid, const char *name, nc_type dataty
 @OUTPUT     : (none)
 @RETURNS    : id of created variable, or MI_ERROR if an error occurs
 @DESCRIPTION: Creates a standard MINC image maximum or minimum dimensional
-              attribute variable by calling ncvardef and then sets default 
+              attribute variable by calling ncvardef and then sets default
               attributes. If MIimage exists, then dimensions are checked
               (MIimagemax and MIimagemin cannot vary over the first two
               dimensions of MIimage (or first three if the first is
               MIvector_dimension)), and a pointer attribute is added to
               MIimage.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : August 6, 1992
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_create_imaxmin_variable(int cdfid, const char *name, nc_type datatype,
                                        int ndims, const int dim[])
@@ -1122,7 +1122,7 @@ PRIVATE int MI_create_imaxmin_variable(int cdfid, const char *name, nc_type data
       /* Get image dimensions */
       MI_CHK_ERR(ncvarinq(cdfid, image_varid, NULL, NULL, &image_ndims,
                           image_dim, NULL))
-      MI_CHK_ERR(MI_verify_maxmin_dims(cdfid, image_ndims, image_dim, 
+      MI_CHK_ERR(MI_verify_maxmin_dims(cdfid, image_ndims, image_dim,
                                        ndims, dim))
    }
 
@@ -1147,7 +1147,7 @@ PRIVATE int MI_create_imaxmin_variable(int cdfid, const char *name, nc_type data
    }
 
    /* Create pointer from MIimage to max or min if MIimage exists */
-   if (image_varid != MI_ERROR) 
+   if (image_varid != MI_ERROR)
       MI_CHK_ERR(miattput_pointer(cdfid, image_varid, name, varid))
 
    MI_RETURN(varid);
@@ -1169,11 +1169,11 @@ PRIVATE int MI_create_imaxmin_variable(int cdfid, const char *name, nc_type data
               fastest dimensions if MIvector_dimension is the fastest varying
               dimension of MIimage (this maintains the image nature of MIimage
               and its dimensional attributes MIimagemax and MIimagemin).
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : August 7, 1992
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_verify_maxmin_dims(int cdfid,
                                   int image_ndims,  const int image_dim[],
@@ -1191,7 +1191,7 @@ PRIVATE int MI_verify_maxmin_dims(int cdfid,
    if (STRINGS_EQUAL(dimname, MIvector_dimension))
       nbaddims++;
 
-   /* Loop through illegal image dimensions (last nbaddims) checking 
+   /* Loop through illegal image dimensions (last nbaddims) checking
       dimensions against maxmin_dim */
    for (i=MAX(0,image_ndims-nbaddims); i<image_ndims; i++)
       for (j=0; j<maxmin_ndims; j++)
@@ -1212,11 +1212,11 @@ PRIVATE int MI_verify_maxmin_dims(int cdfid,
 @RETURNS    : id of created variable, or MI_ERROR if an error occurs
 @DESCRIPTION: Creates a standard MINC root variable by calling ncvardef
               and then sets default attributes.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : August 6, 1992
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_create_root_variable(int cdfid, const char *name)
 {
@@ -1247,11 +1247,11 @@ PRIVATE int MI_create_root_variable(int cdfid, const char *name)
 @RETURNS    : id of created variable, or MI_ERROR if an error occurs
 @DESCRIPTION: Creates a standard MINC variable by calling ncvardef
               and then sets default attributes (only standard ones)
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : August 6, 1992
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_create_simple_variable(int cdfid, const char *name)
 {
@@ -1275,14 +1275,14 @@ PRIVATE int MI_create_simple_variable(int cdfid, const char *name)
               varid    - id of variable
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR if an error occurs
-@DESCRIPTION: Adds an MI standard variable to the MIchildren list of 
-              MIrootvariable and sets some standard attributes. If 
+@DESCRIPTION: Adds an MI standard variable to the MIchildren list of
+              MIrootvariable and sets some standard attributes. If
               MIrootvariable does not exist, it is created.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : August 6, 1992
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_add_stdgroup(int cdfid, int varid)
 {
@@ -1317,14 +1317,14 @@ PRIVATE int MI_add_stdgroup(int cdfid, int varid)
 @OUTPUT     : (none)
 @RETURNS    : id of created variable or MI_ERROR if an error occurs
 @DESCRIPTION: Creates a standard MINC variable whose values and dimensions
-              are unimportant by calling ncvardef and then sets default 
+              are unimportant by calling ncvardef and then sets default
               attributes. The standard variables are identified by name, so
               an unrecognised name produces an error.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : August 6, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int micreate_group_variable(int cdfid, const char *name)
 {
@@ -1344,13 +1344,13 @@ MNCAPI int micreate_group_variable(int cdfid, const char *name)
 @OUTPUT     : (none)
 @RETURNS    : MI_NOERROR if successful
 @DESCRIPTION: Appends the string (which should be in the format returned
-              by the time_stamp() function) to the global "history" 
+              by the time_stamp() function) to the global "history"
               attribute.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : January 1, 2004 (Bert Vincent)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int
 miappend_history(int fd, const char *tm_stamp)
@@ -1371,7 +1371,7 @@ miappend_history(int fd, const char *tm_stamp)
 
     set_ncopts(old_ncopts);
 
-    /* Allocate enough bytes for the existing attribute, the string which 
+    /* Allocate enough bytes for the existing attribute, the string which
      * will be appended, a terminating null character, and a possible
      * additional newline.
      */
@@ -1422,11 +1422,11 @@ miappend_history(int fd, const char *tm_stamp)
 @RETURNS    : TRUE if found, FALSE if not
 @DESCRIPTION: Searches a list of character strings for string and returns
               TRUE if the string is in the list.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : August 5, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_is_in_list(const char *string, const char *list[])
 {
@@ -1447,12 +1447,12 @@ PRIVATE int MI_is_in_list(const char *string, const char *list[])
 @OUTPUT     : const char *
 @RETURNS    : A string describing the MINC library version.
 @DESCRIPTION: Just returns a fixed string.
-              
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : December 8 2003
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI const char * miget_version(void)
 {
@@ -1467,12 +1467,12 @@ MNCAPI const char * miget_version(void)
 @DESCRIPTION: Creates a (hopefully) unique identifier to associate with a
               MINC file, by concatenating various information about the
               system, process, etc.
-              
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 2004-May-11
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 #define MI_IDENT_SEP ':'
 
@@ -1508,14 +1508,14 @@ MNCAPI int micreate_ident( char * id_str, size_t length )
 #endif
     strftime(time_str, sizeof(time_str), "%Y.%m.%d.%H.%M.%S", &tm_buf);
 
-    result = snprintf(id_str, length, "%s%c%s%c%s%c%u%c%u", 
-                      user_str, 
+    result = snprintf(id_str, length, "%s%c%s%c%s%c%u%c%u",
+                      user_str,
                       MI_IDENT_SEP,
-                      host_str, 
+                      host_str,
                       MI_IDENT_SEP,
-                      time_str, 
+                      time_str,
                       MI_IDENT_SEP,
-                      getpid(), 
+                      getpid(),
                       MI_IDENT_SEP,
                       identx++);
     return (result);

@@ -42,15 +42,15 @@ static VIO_Real   cubic_coefs[4][4] = {
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_linear_spline_coefs
-@INPUT      : 
+@INPUT      :
 @OUTPUT     : coefs     2 by 2 array of coefficients
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the basis matrix of the linear spline.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jan 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_linear_spline_coefs(
@@ -65,15 +65,15 @@ VIOAPI  void  get_linear_spline_coefs(
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_quadratic_spline_coefs
-@INPUT      : 
+@INPUT      :
 @OUTPUT     : coefs     3 by 3 array of coefficients
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the basis matrix of the quadratic spline.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jan 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_quadratic_spline_coefs(
@@ -88,16 +88,16 @@ VIOAPI  void  get_quadratic_spline_coefs(
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_cubic_spline_coefs
-@INPUT      : 
+@INPUT      :
 @OUTPUT     : coefs     4 by 4 array of coefficients
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the basis matrix of the cubic interpolating
               (Catmull-Romm) spline.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jan 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_cubic_spline_coefs(
@@ -117,16 +117,16 @@ VIOAPI  void  get_cubic_spline_coefs(
               v1
               v2
               v3
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : interpolated value
 @DESCRIPTION: Performs cubic interpolation, where a value of u = 0 returns
               v1, a value of u = 1 returns v2, and intermediate values
               smoothly interpolate.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jan 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Real  cubic_interpolate(
@@ -155,14 +155,14 @@ VIOAPI  VIO_Real  cubic_interpolate(
               coefs[degree] - control vertices
               n_derivs      - number of derivatives to compute
 @OUTPUT     : derivs        - 1 + n_derivs values and derivatives
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the interpolated value and n_derivs derivatives
               in the derivs array.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jan 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  evaluate_univariate_interpolating_spline(
@@ -184,18 +184,18 @@ VIOAPI  void  evaluate_univariate_interpolating_spline(
               n_derivs      - number of derivatives to compute
 @OUTPUT     : derivs        - (1 + n_derivs) * (1 + n_derivs)
                               values and derivatives
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the interpolated value and derivatives
               in the derivs array.  derivs is a 1D array that is conceptually
               2 dimensional, indexed by dx and dy, where dx and dy range
               from 0 to n_derivs, indicating which value or derivative.
               For example 0,0 refers to the interpolated value
               whereas 1,0 refers to the derivative of the function wrt u.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jan 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  evaluate_bivariate_interpolating_spline(
@@ -225,7 +225,7 @@ VIOAPI  void  evaluate_bivariate_interpolating_spline(
               n_derivs      - number of derivatives to compute
 @OUTPUT     : derivs        - (1 + n_derivs) * (1 + n_derivs) * (1 + n_derivs)
                               values and derivatives
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the interpolated value and derivatives
               in the derivs array.  derivs is a 1D array that is conceptually
               3 dimensional, indexed by dx, dy, and dz, where dx, dy, and dz
@@ -233,11 +233,11 @@ VIOAPI  void  evaluate_bivariate_interpolating_spline(
               derivative.   For example 0,0,0 refers to the interpolated value
               whereas 1,0,1 refers to the derivative of the function wrt u and
               w.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jan 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  evaluate_trivariate_interpolating_spline(
@@ -272,7 +272,7 @@ VIOAPI  void  evaluate_trivariate_interpolating_spline(
 @OUTPUT     : derivs        - (n_values) *
                               (1 + n_derivs) * (1 + n_derivs) * ...
                               values and derivatives
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the interpolated value and derivatives
               in the derivs array.  derivs is a 1D array that is conceptually
               multi-dimensional, indexed by v, dx, dy, dz, etc., where
@@ -283,11 +283,11 @@ VIOAPI  void  evaluate_trivariate_interpolating_spline(
               of the 3rd component of the 4 valued function.  derivs[1,0,1,1]
               refers to the derivative of the 2nd component of the 4 valued
               function with respect to v and w.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jan 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  evaluate_interpolating_spline(

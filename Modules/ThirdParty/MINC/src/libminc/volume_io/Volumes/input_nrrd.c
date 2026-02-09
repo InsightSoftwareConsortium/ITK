@@ -811,7 +811,7 @@ nrrd_read_buffer(nrrd_header_t nrrd_ptr, unsigned char *data_ptr,
         break;
       case NRRD_TYPE_FLOAT32:
         /* According to the NRRD specification, the values NAN and INF
-         * are permitted for floating-point values. I've checked that 
+         * are permitted for floating-point values. I've checked that
          * at least the current version of fscanf() seems to handle
          * them correctly.
          */
@@ -914,7 +914,7 @@ nrrd_read_buffer(nrrd_header_t nrrd_ptr, unsigned char *data_ptr,
 
 /**
  * Scan through the NRRD data and determine the minimum and maximul voxel
- * values. 
+ * values.
  * \param nrrd_ptr The internal representation of the NRRD header.
  * \param fp A file pointer referencing the open data stream.
  * \param min_voxel A pointer to receive the minimum voxel value.
@@ -1031,7 +1031,7 @@ nrrd_read_header(FILE *fp, nrrd_header_t nrrd_ptr)
       continue;
     }
 
-    /* Now split the string at the colon, and advance str_ptr to 
+    /* Now split the string at the colon, and advance str_ptr to
      * the start of the arguments.
      */
     *str_ptr++ = '\0';
@@ -1405,12 +1405,12 @@ nrrd_read_header(FILE *fp, nrrd_header_t nrrd_ptr)
 
 /**
  * Converts the fields in a NRRD header to the appropriate MINC attributes.
- * The code is substantially complicated by some of the plumbing and 
+ * The code is substantially complicated by some of the plumbing and
  * differences between MINC and NRRD. NRRD files can have arbitrary mappings
  * between the voxel axes and the world coordinate frame, and can appear in
  * any order. The ordering of the spatial axes is determined by examining
  * their components with respect to the spatial frame of reference.
- * 
+ *
  * \param nrrd_ptr The internal representation of the NRRD header.
  * \param spatial_axes The array that will hold the correspondence between
  * the file axes an their spatial interpretation.

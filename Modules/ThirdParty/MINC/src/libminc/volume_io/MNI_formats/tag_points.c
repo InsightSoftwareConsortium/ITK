@@ -24,15 +24,15 @@ static   const char      * const TAG_POINTS_STRING = "Points";
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_default_tag_file_suffix
-@INPUT      : 
-@OUTPUT     : 
+@INPUT      :
+@OUTPUT     :
 @RETURNS    : "tag"
 @DESCRIPTION: Returns the default tag file suffix.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_STR  get_default_tag_file_suffix( void )
@@ -45,14 +45,14 @@ VIOAPI  VIO_STR  get_default_tag_file_suffix( void )
 @INPUT      : file
               comments
               n_volumes
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Writes the header and first part of a tag file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Oct. 19, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  initialize_tag_file_output(
@@ -105,14 +105,14 @@ VIOAPI  VIO_Status  initialize_tag_file_output(
               structure_id  - NULL if not desired to specify
               patient_id    - NULL if not desired to specify
               label         - NULL if not desired to specify
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Writes one tag to the output.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Oct. 19, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_one_tag(
@@ -178,14 +178,14 @@ VIOAPI  VIO_Status  output_one_tag(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : terminate_tag_file_output
 @INPUT      : file
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Finishes writing the tag file, by placing the closing semicolon.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Oct. 19, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  terminate_tag_file_output(
@@ -206,14 +206,14 @@ VIOAPI  void  terminate_tag_file_output(
               structure_ids
               patient_ids
               labels
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Outputs the tag points in MNI tag point format.  If weights,
               structure_ids, and patient_ids are all NULL, they are not
               written to the file.  If labels is NULL, it is not written.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Oct. 19, 1995   D. MacDonald, now calls the 1 at a time routine
 @MODIFIED   : Apr.  1, 1996   D. MacDonald, fixed bug of passing non-null
@@ -264,14 +264,14 @@ VIOAPI  VIO_Status  output_tag_points(
 @NAME       : free_tags
 @INPUT      : tags
               n_tag_points
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Frees the tag x,y,z positions.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static void free_tags(
@@ -297,14 +297,14 @@ static void free_tags(
               structure_ids
               patient_ids
               labels
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Frees the tag point data.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  free_tag_points(
@@ -350,14 +350,14 @@ VIOAPI  void  free_tag_points(
 @NAME       : extract_label
 @INPUT      : str
 @OUTPUT     : label
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Extracts the label from the string, by either taking the
               first space delimited word, or first quoted string.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static VIO_STR extract_label(
@@ -404,11 +404,11 @@ static VIO_STR extract_label(
 @OUTPUT     : n_volumes
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Reads the tag file header and first part of file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Oct. 19, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  initialize_tag_file_input(
@@ -485,11 +485,11 @@ VIOAPI  VIO_Status  initialize_tag_file_input(
 @DESCRIPTION: Inputs the file and passes back the data.  The last four arguments
               can each be set to NULL if the corresponding information is not
               desired.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static VIO_Status read_one_tag(
@@ -649,12 +649,12 @@ static VIO_Status read_one_tag(
               structure_ids
               patient_ids
               labels
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Opens the file, outputs the tag points, and closes the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Oct. 19, 1995   D. MacDonald    - now calls the 1 at a time funcs
 ---------------------------------------------------------------------------- */
@@ -702,11 +702,11 @@ VIOAPI  VIO_Status  output_tag_file(
               labels
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Opens the file, inputs the tag points, and closes the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_tag_file(
@@ -751,11 +751,11 @@ VIOAPI  VIO_Status  input_tag_file(
               status
 @RETURNS    : TRUE if successful.
 @DESCRIPTION: Reads one tag point line from the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Oct. 19, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  input_one_tag(
@@ -800,11 +800,11 @@ VIOAPI  VIO_BOOL  input_one_tag(
               labels
 @RETURNS    : OR or VIO_ERROR
 @DESCRIPTION: Inputs an entire tag point file into a set of arrays.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Oct. 19, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_tag_points(

@@ -22,7 +22,7 @@ int milist_start(mihandle_t vol, const char *path, int flags,
 /** Iterate through attributes
  * \ingroup mi2Group
  */
-int milist_attr_next(mihandle_t vol, milisthandle_t handle, 
+int milist_attr_next(mihandle_t vol, milisthandle_t handle,
                             char *path, int maxpath,
                             char *name, int maxname);
 
@@ -58,7 +58,7 @@ int midelete_group(mihandle_t vol, const char *path, const char *name);
  * terminating null character.
  * \ingroup mi2Group
  */
-int miget_attr_length(mihandle_t vol, const char *path, 
+int miget_attr_length(mihandle_t vol, const char *path,
                              const char *name, size_t *length);
 
 /** Get the type of an attribute.
@@ -78,7 +78,7 @@ int micopy_attr(mihandle_t vol, const char *path, mihandle_t new_vol);
  * \ingroup mi2Group
  */
 int miget_attr_values(mihandle_t vol, mitype_t data_type,
-                             const char *path, const char *name, 
+                             const char *path, const char *name,
                              size_t length, void *values);
 
 /** Set the values of an attribute.
@@ -191,7 +191,7 @@ int micopy_dimension(midimhandle_t dim_ptr, midimhandle_t *new_dim_ptr);
   * definition.
   * \ingroup mi2Dim
   */
-int micreate_dimension(const char *name, midimclass_t dimclass, midimattr_t attr, 
+int micreate_dimension(const char *name, midimclass_t dimclass, midimattr_t attr,
                               misize_t length, midimhandle_t *new_dim_ptr);
 
 /**
@@ -227,7 +227,7 @@ int mifree_dimension_handle(midimhandle_t dim_ptr);
  * \ingroup mi2Dim
  */
 int miget_volume_dimensions(mihandle_t volume, midimclass_t dimclass, midimattr_t attr,
-                                   miorder_t order, int array_length, 
+                                   miorder_t order, int array_length,
                                    midimhandle_t dimensions[]);
 
 
@@ -336,7 +336,7 @@ int miset_dimension_class(midimhandle_t dimension, midimclass_t dimclass);
   * x, y, or z coordinates.
   * \ingroup mi2Dim
   */
-int miget_dimension_cosines(midimhandle_t dimension, 
+int miget_dimension_cosines(midimhandle_t dimension,
                                    double direction_cosines[3]);
 
 /**
@@ -347,7 +347,7 @@ int miget_dimension_cosines(midimhandle_t dimension,
   * Refer to miget_dimension_cosines().
   * \ingroup mi2Dim
   */
-int miset_dimension_cosines(midimhandle_t dimension, 
+int miset_dimension_cosines(midimhandle_t dimension,
                                    const double direction_cosines[3]);
 
 /**
@@ -416,7 +416,7 @@ int miset_dimension_name(midimhandle_t dimension, const char *name);
   * Any extra positions in the offsets[] array will be ignored.
   * \ingroup mi2Dim
   */
-int miget_dimension_offsets(midimhandle_t dimension, misize_t array_length, 
+int miget_dimension_offsets(midimhandle_t dimension, misize_t array_length,
                                    misize_t start_position, double offsets[]);
 
 /**
@@ -429,7 +429,7 @@ int miget_dimension_offsets(midimhandle_t dimension, misize_t array_length,
   * Refer to miget_dimension_offsets().
   * \ingroup mi2Dim
   */
-int miset_dimension_offsets(midimhandle_t dimension, misize_t array_length, 
+int miset_dimension_offsets(midimhandle_t dimension, misize_t array_length,
                                    misize_t start_position, const double offsets[]);
 
 /**
@@ -473,8 +473,8 @@ int miset_dimension_sampling_flag(midimhandle_t dimension, miboolean_t sampling_
  * sampled dimension, the values will be ignored.
  * \ingroup mi2Dim
  */
-int miget_dimension_separation(midimhandle_t dimension, 
-                                      mivoxel_order_t voxel_order, 
+int miget_dimension_separation(midimhandle_t dimension,
+                                      mivoxel_order_t voxel_order,
                                       double *separation_ptr);
 
 
@@ -486,7 +486,7 @@ int miget_dimension_separation(midimhandle_t dimension,
   * Refer to miget_dimension_separation().
   * \ingroup mi2Dim
   */
-int miset_dimension_separation(midimhandle_t dimension, 
+int miset_dimension_separation(midimhandle_t dimension,
                                       double separation);
 
 /**
@@ -503,9 +503,9 @@ int miset_dimension_separation(midimhandle_t dimension,
   * an irregularly-sampled dimension, the values will be ignored.
   * \ingroup mi2Dim
   */
-int miget_dimension_separations(const midimhandle_t dimensions[], 
-                                       mivoxel_order_t voxel_order, 
-                                       misize_t array_length, 
+int miget_dimension_separations(const midimhandle_t dimensions[],
+                                       mivoxel_order_t voxel_order,
+                                       misize_t array_length,
                                        double separations[]);
 
 
@@ -570,11 +570,11 @@ int miget_dimension_sizes(const midimhandle_t dimensions[], misize_t array_lengt
   * irregularly sampled dimension.
   * \ingroup mi2Dim
   */
-int miget_dimension_start(midimhandle_t dimension, 
+int miget_dimension_start(midimhandle_t dimension,
                           mivoxel_order_t voxel_order,
                           double *start_ptr);
 
-/** 
+/**
   * Set the start of a MINC dimension.
   * \param dimension The dimension handle.
   * \param start_ptr The start of the dimension.
@@ -609,7 +609,7 @@ int miget_dimension_starts(const midimhandle_t dimensions[], mivoxel_order_t vox
   * Refer to miget_dimension_starts().
   * \ingroup mi2Dim
   */
-int miset_dimension_starts(const midimhandle_t dimensions[], misize_t array_length, 
+int miset_dimension_starts(const midimhandle_t dimensions[], misize_t array_length,
                                   const double starts[]);
 
 /**
@@ -707,7 +707,7 @@ int miset_dimension_widths(midimhandle_t dimension, misize_t array_length,
     type, class, volume properties and retrieve the volume handle.
     \ingroup mi2Vol
 */
-int micreate_volume(const char *filename, 
+int micreate_volume(const char *filename,
                            int number_of_dimensions,
                            midimhandle_t dimensions[],
                            mitype_t volume_type,
@@ -758,18 +758,18 @@ int miclose_volume(mihandle_t volume);
 
 /** Function to get the volume's slice-scaling flag.
  */
-int miget_slice_scaling_flag(mihandle_t volume, 
+int miget_slice_scaling_flag(mihandle_t volume,
                                     miboolean_t *slice_scaling_flag);
 
 /** Function to set the volume's slice-scaling flag.
  */
-int miset_slice_scaling_flag(mihandle_t volume, 
+int miset_slice_scaling_flag(mihandle_t volume,
                                     miboolean_t slice_scaling_flag);
 
 /** \defgroup mi2VPrp VOLUME PROPERTIES FUNCTIONS */
 
 /** Create a volume property list.  The new list will be returned in the
- * \a props parameter.    When the program is finished 
+ * \a props parameter.    When the program is finished
  * using the property list it should call  mifree_volume_props() to free the
  * memory associated with the list.
  * \param props A pointer to the returned volume properties handle.
@@ -783,7 +783,7 @@ int minew_volume_props(mivolumeprops_t *props);
  */
 int mifree_volume_props(mivolumeprops_t props);
 
-/** Get a copy of the volume property list.  When the program is finished 
+/** Get a copy of the volume property list.  When the program is finished
  * using the property list it should call  mifree_volume_props() to free the
  * memory associated with the list.
  * \param vol A volume handle
@@ -801,20 +801,20 @@ int miget_volume_props(mihandle_t vol, mivolumeprops_t *props);
  * is #2, etc. Therefore a \a depth value of 2 implies both the half
  * and quarter resolution thumbnails will be calculated and stored in
  * the file.
- * \param props A volume property list handle 
+ * \param props A volume property list handle
  * \param enable_flag TRUE if multiresolution support should be enabled in
- * this file.  
+ * this file.
  * \param depth The maximum depth of multiresolution data
  * to support.
  * \ingroup mi2VPrp
  */
-int miset_props_multi_resolution(mivolumeprops_t props, miboolean_t enable_flag, 
+int miset_props_multi_resolution(mivolumeprops_t props, miboolean_t enable_flag,
                                         int depth);
 
 /** Get multi-resolution properties.  Returns the value of the \a enable_flag
  * and \a depth parameters.
  * \param props A volume property list handle
- * \param enable_flag Pointer to a boolean which will be set to TRUE if 
+ * \param enable_flag Pointer to a boolean which will be set to TRUE if
  * multiresolution has been enabled.
  * \param depth Pointer to a integer which will contain the maximum resolution
  * depth enabled if multiresolution is enabled.
@@ -831,15 +831,15 @@ int miselect_resolution(mihandle_t volume, int depth);
 
 
 /** Compute or recompute all resolution groups.
- * 
+ *
  * \ingroup mi2VPrp
  */
 int miflush_from_resolution(mihandle_t volume, int depth);
 
 
 /** Set compression type for a volume property list
- * Note that enabling compression will automatically 
- * enable blocking with default parameters. 
+ * Note that enabling compression will automatically
+ * enable blocking with default parameters.
  * \param props A volume properties list
  * \param compression_type The type of compression to use (MI_COMPRESS_NONE
  * or MI_COMPRESS_ZLIB)
@@ -917,12 +917,12 @@ int miget_props_checksum(mivolumeprops_t props, int *on);
 /** Set properties for uniform/nonuniform record dimension
  * \ingroup mi2VPrp
  */
-int miset_props_record(mivolumeprops_t props, misize_t record_length, char *record_name); 
+int miset_props_record(mivolumeprops_t props, misize_t record_length, char *record_name);
 
 
 /** Set the template volume flag
  * \ingroup mi2VPrp
- */ 
+ */
 int miset_props_template(mivolumeprops_t props, int template_flag);
 
 /** \defgroup mi2Slice SLICE/VOLUME SCALE FUNCTIONS */
@@ -935,7 +935,7 @@ int miset_props_template(mivolumeprops_t props, int template_flag);
  * Coordinates must always be specified in raw file order.
  * \ingroup mi2Slice
  */
-int miget_slice_max(mihandle_t volume, 
+int miget_slice_max(mihandle_t volume,
                            const misize_t start_positions[],
                            size_t array_length, double *slice_max);
 
@@ -948,7 +948,7 @@ int miget_slice_max(mihandle_t volume,
  * Coordinates must always be specified in raw file order.
  * \ingroup mi2Slice
  */
-int miset_slice_max(mihandle_t volume, 
+int miset_slice_max(mihandle_t volume,
                            const misize_t start_positions[],
                            size_t array_length, double slice_max);
 
@@ -962,7 +962,7 @@ int miset_slice_max(mihandle_t volume,
  * Coordinates must always be specified in raw file order.
  * \ingroup mi2Slice
  */
-int miget_slice_min(mihandle_t volume, 
+int miget_slice_min(mihandle_t volume,
                            const misize_t start_positions[],
                            size_t array_length, double *slice_min);
 
@@ -976,7 +976,7 @@ int miget_slice_min(mihandle_t volume,
  * Coordinates must always be specified in raw file order.
  * \ingroup mi2Slice
  */
-int miset_slice_min(mihandle_t volume, 
+int miset_slice_min(mihandle_t volume,
                            const misize_t start_positions[],
                            size_t array_length, double slice_min);
 
@@ -1005,7 +1005,7 @@ int miget_slice_range(mihandle_t volume,
  * specified in raw file order.
  * \ingroup mi2Slice
  */
-int miset_slice_range(mihandle_t volume, 
+int miset_slice_range(mihandle_t volume,
                              const misize_t start_positions[],
                              size_t array_length, double slice_max,
                              double slice_min);
@@ -1052,7 +1052,7 @@ int miset_volume_min(mihandle_t volume, double slice_min);
  * function will return an error.
  * \ingroup mi2Slice
  */
-int miget_volume_range(mihandle_t volume, double *volume_max, 
+int miget_volume_range(mihandle_t volume, double *volume_max,
                               double *volume_min);
 
 /**
@@ -1061,7 +1061,7 @@ int miget_volume_range(mihandle_t volume, double *volume_max,
  * function will return an error.
  * \ingroup mi2Slice
  */
-int miset_volume_range(mihandle_t volume, double volume_max, 
+int miset_volume_range(mihandle_t volume, double volume_max,
                               double volume_min);
 
 
@@ -1072,8 +1072,8 @@ int miset_volume_range(mihandle_t volume, double volume_max,
  * \a count parameters.
  * \ingroup mi2Hyper
  */
-int miget_hyperslab_size(mitype_t volume_data_type, int n_dimensions, 
-                                const hsize_t count[], 
+int miget_hyperslab_size(mitype_t volume_data_type, int n_dimensions,
+                                const hsize_t count[],
                                 misize_t *size_ptr);
 
 
@@ -1082,8 +1082,8 @@ int miget_hyperslab_size(mitype_t volume_data_type, int n_dimensions,
  * \a count parameters, using hdf type id
  * \ingroup mi2Hyper
  */
-void miget_hyperslab_size_hdf(hid_t hdf_type_id, int n_dimensions, 
-                                const hsize_t count[], 
+void miget_hyperslab_size_hdf(hid_t hdf_type_id, int n_dimensions,
+                                const hsize_t count[],
                                 misize_t *size_ptr);
 
 
@@ -1092,12 +1092,12 @@ void miget_hyperslab_size_hdf(hid_t hdf_type_id, int n_dimensions,
  *  data type. Float types is mapped to 0.0 1.0
  * \ingroup mi2Hyper
  */
-int miget_hyperslab_normalized(mihandle_t volume, 
+int miget_hyperslab_normalized(mihandle_t volume,
                                       mitype_t buffer_data_type,
-                                      const misize_t start[], 
+                                      const misize_t start[],
                                       const misize_t count[],
-                                      double min, 
-                                      double max, 
+                                      double min,
+                                      double max,
                                       void *buffer);
 
 /** Writes the real values in the volume from the interval min through
@@ -1105,29 +1105,29 @@ int miget_hyperslab_normalized(mihandle_t volume,
  *  data type. Float types is mapped to 0.0 1.0
  * \ingroup mi2Hyper
  */
-int miset_hyperslab_normalized(mihandle_t volume, 
+int miset_hyperslab_normalized(mihandle_t volume,
                                       mitype_t buffer_data_type,
-                                      const misize_t start[], 
+                                      const misize_t start[],
                                       const misize_t count[],
-                                      double min, 
-                                      double max, 
+                                      double min,
+                                      double max,
                                       void *buffer);
 
-/** Get a hyperslab from the file, 
+/** Get a hyperslab from the file,
  * converting voxel values into real values
  * \ingroup mi2Hyper
  */
-int miget_hyperslab_with_icv(mihandle_t volume, 
-                                    mitype_t buffer_data_type, 
-                                    const misize_t start[], 
-                                    const misize_t count[], 
+int miget_hyperslab_with_icv(mihandle_t volume,
+                                    mitype_t buffer_data_type,
+                                    const misize_t start[],
+                                    const misize_t count[],
                                     void *buffer);
 
 /** Write a hyperslab to the file, converting real values into voxel values
  * \ingroup mi2Hyper
  */
 int miset_hyperslab_with_icv(mihandle_t volume,
-                                    mitype_t buffer_data_type, 
+                                    mitype_t buffer_data_type,
                                     const misize_t start[],
                                     const misize_t count[],
                                     void *buffer);
@@ -1183,7 +1183,7 @@ int miset_voxel_value_hyperslab(mihandle_t volume,
  * values.  The voxel value is the unscaled value, and corresponds to the
  * value actually stored in the file, whereas the "real" value is the
  * value at the given location after scaling has been applied.
- * 
+ *
  * The \a coords parameter specifies the location at which the
  * conversion is performed.  This is needed because MINC supports
  * per-slice scaling, therefore a conversion performed at one location
@@ -1210,7 +1210,7 @@ int miconvert_real_to_voxel(mihandle_t volume,
  * The \a coords parameter specifies the location at which the
  * conversion is performed.  This is needed because MINC supports
  * per-slice scaling, therefore a conversion performed at one location
- * may differ from that performed at another location. 
+ * may differ from that performed at another location.
  *
  * \param volume A volume handle
  * \param coords The position for which to perform the conversion.
@@ -1225,7 +1225,7 @@ int miconvert_voxel_to_real(mihandle_t volume,
                                    double voxel_value,
                                    double *real_value_ptr);
 
-/** Converts an N-dimensional spatial position in voxel coordinates into a 
+/** Converts an N-dimensional spatial position in voxel coordinates into a
  * 3-dimensional spatial position in world coordinates.
  *
  * The returned world coordinate vector is in a standardized order, with
@@ -1239,7 +1239,7 @@ int miconvert_voxel_to_world(mihandle_t volume,
                                     const double voxel[],
                                     double world[]);
 
-/** Converts a 3-dimensional spatial position in world coordinates into a 
+/** Converts a 3-dimensional spatial position in world coordinates into a
  * N-dimensional spatial position in voxel coordinates.
  *
  * The input world coordinate vector is in a standardized order, with
@@ -1289,7 +1289,7 @@ miset_spatial_frequency_origin(mihandle_t volume,
                                double world[]);
 
 /** This function retrieves the real values of a position in the
- *  MINC volume.  The "real" value is the value at the given location 
+ *  MINC volume.  The "real" value is the value at the given location
  *  after scaling has been applied.
  *
  * \param volume A volume handle
@@ -1305,7 +1305,7 @@ int miget_real_value(mihandle_t volume,
                             double *value_ptr);
 
 /** This function sets the  real value of a position in the MINC
- *  volume. The "real" value is the value at the given location 
+ *  volume. The "real" value is the value at the given location
  *  after scaling has been applied.
  *
  * \param volume A volume handle
@@ -1388,14 +1388,14 @@ int miget_volume_valid_min(mihandle_t volume, double *valid_min);
  */
 int miset_volume_valid_min(mihandle_t volume, double valid_min);
 
-/** This function gets the minimum and maximum valid value specific to the 
+/** This function gets the minimum and maximum valid value specific to the
  * data type of the \a volume parameter.
  * \retval MI_ERROR on failure
  * \retval MI_NOERROR on success
  */
 int miget_volume_valid_range(mihandle_t volume, double *valid_max, double *valid_min);
 
-/** This function sets the minimum and maximum valid value specific to the 
+/** This function sets the minimum and maximum valid value specific to the
  * data type of the \a volume parameter.
  * \retval MI_ERROR on failure
  * \retval MI_NOERROR on success
@@ -1428,15 +1428,15 @@ int miget_record_field_name(mihandle_t volume, int index, char **name);
  * type will be increased if necessary to accommodate the new field.
  * \ingroup mi2Rec
  */
-int miset_record_field_name(mihandle_t volume, int index, 
+int miset_record_field_name(mihandle_t volume, int index,
                                    const char *name);
 
 /** \ingroup mi2Label LABEL functions */
 
 /**
  * This function associates a label name with an integer value for the given
- * volume. Functions which read and write voxel values will read/write 
- * in integer values, and must call miget_label_name() to discover the 
+ * volume. Functions which read and write voxel values will read/write
+ * in integer values, and must call miget_label_name() to discover the
  * descriptive text string which corresponds to the integer value.
  * \ingroup mi2Label
  */
@@ -1445,7 +1445,7 @@ int midefine_label(mihandle_t volume, int value, const char *name);
 /**
  * For a labelled volume, this function retrieves the text name
  * associated with a given integer value.
- * 
+ *
  * The name pointer returned must be freed by calling mifree_name().
  * \ingroup mi2Label
 */
@@ -1477,4 +1477,4 @@ int miget_label_value_by_index(mihandle_t volume, int idx, int *value);
 
 
 #endif /*MINC2_API_H*/
-// kate: indent-mode cstyle; indent-width 2; replace-tabs on; 
+// kate: indent-mode cstyle; indent-width 2; replace-tabs on;

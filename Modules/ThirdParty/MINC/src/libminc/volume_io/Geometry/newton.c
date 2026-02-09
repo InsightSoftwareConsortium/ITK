@@ -33,7 +33,7 @@
               function_tolerance
               delta_tolerance
               max_iterations
-@OUTPUT     : 
+@OUTPUT     :
               solution[n_dimensions]
 @RETURNS    : TRUE if successful
 @DESCRIPTION: Performs a newton root find of a function by taking steps of
@@ -41,11 +41,11 @@
               where x starts at initial_guess and
               is updated until the f(x) is close to zero.  x is passed back
               in solution.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 10, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  newton_root_find(

@@ -18,15 +18,15 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : geom_structs.h
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Types and macros for accessing points, vectors, colours, etc.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 /* Define the structure of a point in world coordinates */
@@ -37,15 +37,15 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : Point   type
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: A 3D point type and macros for manipulation.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 typedef  float   VIO_Point_coord_type;
@@ -76,15 +76,15 @@ typedef  struct
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : Vector   type
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: A 3D vector type and macros for manipulation.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 typedef  struct
@@ -113,15 +113,15 @@ typedef  struct
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : Colour   type
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: A 4 by 8-bit component colour type and macros for manipulation.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 /* bert - redefined 'Colour' to be an 'int' instead of a 'long'. Jason
@@ -171,15 +171,15 @@ typedef  unsigned  int     VIO_Colour;
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : Surfprop   type
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: A Surface property type and macros for manipulation.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 typedef  float  VIO_Spr_type;
@@ -212,15 +212,15 @@ typedef  struct
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : Transform_2d   type
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: A 2D transform type and macros for element access.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 typedef  double  VIO_Transform_elem_type;
@@ -234,15 +234,15 @@ typedef  struct
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : Transform   type
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: A 3D transform type and macros for element access.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 typedef  struct

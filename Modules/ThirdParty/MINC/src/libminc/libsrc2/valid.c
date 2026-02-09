@@ -84,7 +84,7 @@ int miset_volume_valid_min(mihandle_t volume,  /**< MINC 2.0 volume handle */
     return (MI_NOERROR);
 }
 
-/** This function gets the minimum and maximum valid value specific to the 
+/** This function gets the minimum and maximum valid value specific to the
  * data type of the \a volume parameter.
  * \retval MI_ERROR on failure
  * \retval MI_NOERROR on success
@@ -101,7 +101,7 @@ int miget_volume_valid_range(mihandle_t volume,  /**< MINC 2.0 volume handle */
     return (MI_NOERROR);
 }
 
-/** This function sets the minimum and maximum valid value specific to the 
+/** This function sets the minimum and maximum valid value specific to the
  * data type of the \a volume parameter.
  * \retval MI_ERROR on failure
  * \retval MI_NOERROR on success

@@ -21,7 +21,7 @@
  * values.  The voxel value is the unscaled value, and corresponds to the
  * value actually stored in the file, whereas the "real" value is the
  * value at the given location after scaling has been applied.
- * 
+ *
  * The \a coords parameter specifies the location at which the
  * conversion is performed.  This is needed because MINC supports
  * per-slice scaling, therefore a conversion performed at one location
@@ -47,21 +47,21 @@ int miconvert_real_to_voxel(mihandle_t volume,
     double voxel_range, voxel_offset;
     double real_range, real_offset;
 
-    /* get valid min/max, image min/max 
+    /* get valid min/max, image min/max
      */
     miget_volume_valid_range(volume, &valid_max, &valid_min);
-    
-    /* get image min/max 
+
+    /* get image min/max
      */
     miget_slice_range(volume, coords, ncoords, &slice_max, &slice_min);
-    
+
     /* Calculate the actual conversion.
      */
     voxel_offset = valid_min;
     real_offset = slice_min;
     voxel_range = valid_max - valid_min;
     real_range = slice_max - slice_min;
-    
+
     real_value = (real_value - real_offset) / real_range;
     *voxel_value_ptr = (real_value * voxel_range) + voxel_offset;
 
@@ -77,7 +77,7 @@ int miconvert_real_to_voxel(mihandle_t volume,
  * The \a coords parameter specifies the location at which the
  * conversion is performed.  This is needed because MINC supports
  * per-slice scaling, therefore a conversion performed at one location
- * may differ from that performed at another location. 
+ * may differ from that performed at another location.
  *
  * \param volume A volume handle
  * \param coords The position for which to perform the conversion.
@@ -106,11 +106,11 @@ int miconvert_voxel_to_real(mihandle_t volume,
     }
 
 
-    /* get valid min/max, image min/max 
+    /* get valid min/max, image min/max
      */
     miget_volume_valid_range(volume, &valid_max, &valid_min);
-    
-    /* get image min/max 
+
+    /* get image min/max
      */
     miget_slice_range(volume, coords, ncoords, &slice_max, &slice_min);
 
@@ -120,7 +120,7 @@ int miconvert_voxel_to_real(mihandle_t volume,
     real_offset = slice_min;
     voxel_range = valid_max - valid_min;
     real_range = slice_max - slice_min;
-    
+
     voxel_value = (voxel_value - voxel_offset) / voxel_range;
     *real_value_ptr = (voxel_value * real_range) + real_offset;
     return (result);
@@ -129,9 +129,9 @@ int miconvert_voxel_to_real(mihandle_t volume,
 /** \internal
  */
 static void
-mireorder_voxel_to_xyz(mihandle_t volume, 
-                       const double voxel[], 
-                       double xyz[MI2_3D], 
+mireorder_voxel_to_xyz(mihandle_t volume,
+                       const double voxel[],
+                       double xyz[MI2_3D],
                        midimclass_t dimclass)
 {
     int i, axis;
@@ -148,8 +148,8 @@ mireorder_voxel_to_xyz(mihandle_t volume,
 /** \internal
  */
 static void
-mireorder_xyz_to_voxel(mihandle_t volume, 
-                       const double xyz[MI2_3D], 
+mireorder_xyz_to_voxel(mihandle_t volume,
+                       const double xyz[MI2_3D],
                        double voxel[],
                        midimclass_t dimclass)
 {
@@ -164,7 +164,7 @@ mireorder_xyz_to_voxel(mihandle_t volume,
     }
 }
 
-/** Converts an N-dimensional spatial position in voxel coordinates into a 
+/** Converts an N-dimensional spatial position in voxel coordinates into a
  * 3-dimensional spatial position in world coordinates.
  *
  * The returned world coordinate vector is in a standardized order, with
@@ -185,7 +185,7 @@ int miconvert_voxel_to_world(mihandle_t volume,
     return (MI_NOERROR);
 }
 
-/** Converts a 3-dimensional spatial position in world coordinates into a 
+/** Converts a 3-dimensional spatial position in world coordinates into a
  * N-dimensional spatial position in voxel coordinates.
  *
  * The input world coordinate vector is in a standardized order, with
@@ -212,7 +212,7 @@ int miconvert_world_to_voxel(mihandle_t volume,
 }
 
 /** This function retrieves the real values of a position in the
- *  MINC volume.  The "real" value is the value at the given location 
+ *  MINC volume.  The "real" value is the value at the given location
  *  after scaling has been applied.
  *
  * \param volume A volume handle
@@ -239,7 +239,7 @@ int miget_real_value(mihandle_t volume,
 }
 
 /** This function sets the  real value of a position in the MINC
- *  volume. The "real" value is the value at the given location 
+ *  volume. The "real" value is the value at the given location
  *  after scaling has been applied.
  *
  * \param volume A volume handle
@@ -298,7 +298,7 @@ miconvert_spatial_frequency_origin_to_start( mihandle_t volume,
     return (MI_NOERROR);
 }
 
-static double 
+static double
 dot_vectors(int n, double v1[], double v2[])
 {
     int i;
@@ -355,10 +355,10 @@ convert_transform_origin_to_starts(mihandle_t hvol,
 
     switch (n_axes) {
     case 1:
-        o_dot_c = dot_vectors(MI2_3D, 
-                              origin, 
+        o_dot_c = dot_vectors(MI2_3D,
+                              origin,
                               hvol->dim_handles[which[0]]->direction_cosines);
-        c_dot_c = dot_vectors(MI2_3D, 
+        c_dot_c = dot_vectors(MI2_3D,
                               hvol->dim_handles[which[0]]->direction_cosines,
                               hvol->dim_handles[which[0]]->direction_cosines);
         if ( c_dot_c != 0.0 ) {
@@ -367,20 +367,20 @@ convert_transform_origin_to_starts(mihandle_t hvol,
         break;
 
     case 2:
-        x_dot_x = dot_vectors(MI2_3D, 
+        x_dot_x = dot_vectors(MI2_3D,
                               hvol->dim_handles[which[0]]->direction_cosines,
                               hvol->dim_handles[which[0]]->direction_cosines );
-        x_dot_v = dot_vectors(MI2_3D, 
+        x_dot_v = dot_vectors(MI2_3D,
                               hvol->dim_handles[which[0]]->direction_cosines,
                               origin );
-        x_dot_y = dot_vectors(MI2_3D, 
+        x_dot_y = dot_vectors(MI2_3D,
                               hvol->dim_handles[which[0]]->direction_cosines,
                               hvol->dim_handles[which[1]]->direction_cosines );
-        y_dot_y = dot_vectors(MI2_3D, 
+        y_dot_y = dot_vectors(MI2_3D,
                               hvol->dim_handles[which[1]]->direction_cosines,
                               hvol->dim_handles[which[1]]->direction_cosines );
-        y_dot_v = dot_vectors(MI2_3D, 
-                              hvol->dim_handles[which[1]]->direction_cosines, 
+        y_dot_v = dot_vectors(MI2_3D,
+                              hvol->dim_handles[which[1]]->direction_cosines,
                               origin );
 
         bottom = x_dot_x * y_dot_y - x_dot_y * x_dot_y;
@@ -431,7 +431,7 @@ int miset_world_origin(mihandle_t volume, /**< A volume handle */
     convert_transform_origin_to_starts(volume, world, starts);
     for (i = 0; i < volume->number_of_dims; i++) {
         midimhandle_t hdim = volume->dim_handles[i];
-        if (hdim->dim_class == MI_DIMCLASS_SPATIAL || 
+        if (hdim->dim_class == MI_DIMCLASS_SPATIAL ||
             hdim->dim_class == MI_DIMCLASS_SFREQUENCY) {
             hdim->start = starts[hdim->world_index];
         }
@@ -484,7 +484,7 @@ int miget_voxel_value(mihandle_t volume,
     for (i = 0; i < volume->number_of_dims; i++) {
         count[i] = 1;
     }
-    result = miget_voxel_value_hyperslab(volume, MI_TYPE_DOUBLE, 
+    result = miget_voxel_value_hyperslab(volume, MI_TYPE_DOUBLE,
                                          coords, count, voxel_ptr);
     return (result);
 }
@@ -511,8 +511,8 @@ int miset_voxel_value(mihandle_t volume,
     for (i = 0; i < ndims; i++) {
         count[i] = 1;
     }
-    
-    result = miset_voxel_value_hyperslab(volume, MI_TYPE_DOUBLE, 
+
+    result = miset_voxel_value_hyperslab(volume, MI_TYPE_DOUBLE,
                                          coords, count, &voxel);
     return (result);
 }
@@ -548,7 +548,7 @@ int miget_volume_real_range(mihandle_t volume, double real_range[])
             real_range[0] = buffer[i];
         }
     }
-    
+
     free(buffer);
 
     /* Now find the maximum.
@@ -574,7 +574,7 @@ int miget_volume_real_range(mihandle_t volume, double real_range[])
             real_range[1] = buffer[i];
         }
     }
-    
+
     free(buffer);
 
     return (MI_NOERROR);

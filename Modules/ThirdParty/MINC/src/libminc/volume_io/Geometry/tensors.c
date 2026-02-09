@@ -24,16 +24,16 @@
               m1
               m2
 @OUTPUT     : prod
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Performs a matrix multiply of the basis matrix with the
               powers of the u's positions.  Steps through the
               matrices in the appropriate strides.  Could use the more
               general multiply_matrices below, but is done this way for speed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jan 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static void multiply_basis_matrices(
@@ -87,14 +87,14 @@ static void multiply_basis_matrices(
               sap          - x stride of product matrix
               sbp          - y stride of product matrix
 @OUTPUT     : prod         - product of m1 * m2
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Multiplies the two matrices m1 and m2, placing the results in
               prod.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jan. 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static void multiply_matrices(
@@ -157,18 +157,18 @@ static void multiply_matrices(
               coefs [n_values*degrees[0]*degrees[1]*...]
               n_derivs[n_dims]
 @OUTPUT     : results[n_values*n_derivs[0]*n_derivs[1]*...]
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Performs the spline tensor product necessary to evaluate.
               Takes as input the number of dimensions, the position to
               evaluate, the basis matrices defining the interpolation method,
               and the control vertices (coefs).  The resulting values and
               derivatives are placed in the 1D array results, conceptually as a
               (1+n_dims)-D array.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jan 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  spline_tensor_product(
@@ -288,7 +288,7 @@ VIOAPI  void  spline_tensor_product(
                 us[ind] = 0.0;
                 ++ind;
             }
-   
+
             prev_ind = VIO_IJ( deriv-1, deriv-1, deg );
             for_less( k, deriv, deg )
             {

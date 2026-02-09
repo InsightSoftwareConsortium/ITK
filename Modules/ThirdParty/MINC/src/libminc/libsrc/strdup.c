@@ -8,10 +8,10 @@
 @DESCRIPTION: Makes a duplicate of a string and returns a pointer to it.
 @METHOD     : VAX CC rtl does not have strdup, so we provide it here to
               be included in minc.olb.
-@GLOBALS    : 
-@CALLS      : 
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June 18, 1993 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: strdup.c,v $
  * Revision 6.1  1999-10-19 14:45:11  neelin
  * Fixed Log substitutions for CVS
@@ -33,10 +33,10 @@
  *
  * Revision 1.3  94/09/28  10:37:36  neelin
  * Pre-release
- * 
+ *
  * Revision 1.2  93/08/11  12:06:30  neelin
  * Added RCS logging in source.
- * 
+ *
 ---------------------------------------------------------------------------- */
 char *strdup(const char *string)
 {

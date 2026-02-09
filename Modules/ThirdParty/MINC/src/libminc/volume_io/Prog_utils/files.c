@@ -78,15 +78,15 @@ static char *strerror(int errnum)
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : print_system_error
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Prints the most recent system error.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      :  
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :        , 1996    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  print_system_error( void )
@@ -100,15 +100,15 @@ static  void  print_system_error( void )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : real_is_double
-@INPUT      : 
-@OUTPUT     : 
+@INPUT      :
+@OUTPUT     :
 @RETURNS    : TRUE if real is defined to be type double
-@DESCRIPTION: 
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@DESCRIPTION:
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  real_is_double( void )
@@ -120,14 +120,14 @@ VIOAPI  VIO_BOOL  real_is_double( void )
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : file_exists
 @INPUT      : filename
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE or FALSE if file exists
 @DESCRIPTION: Checks if the file of the given name exists
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  file_exists(
@@ -157,14 +157,14 @@ VIOAPI  VIO_BOOL  file_exists(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : file_directory_exists
 @INPUT      : filename
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if directory containing file exists.
 @DESCRIPTION: Checks if the directory contained in the path name exists.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Nov. 2, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  file_directory_exists(
@@ -188,15 +188,15 @@ VIOAPI  VIO_BOOL  file_directory_exists(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : check_clobber_file
 @INPUT      : filename
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if can write file
 @DESCRIPTION: Checks if the file exists.  If so, asks the user for permission
               to overwrite the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  check_clobber_file(
@@ -236,16 +236,16 @@ VIOAPI  VIO_BOOL  check_clobber_file(
 @NAME       : check_clobber_file_default_suffix
 @INPUT      : filename
               default_suffix
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if can write file
 @DESCRIPTION: Checks if the file exists (adding the default suffix if
               necessary).  If the file exists, asks the user for permission
               to overwrite the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  check_clobber_file_default_suffix(
@@ -273,16 +273,16 @@ VIOAPI  VIO_BOOL  check_clobber_file_default_suffix(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : create_backup_filename
 @INPUT      : filename
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_STR - a backup filename
 @DESCRIPTION: Creates a backup filename that is filename.{date}.bkp
               If this already exists (not very likely), then it tries
               appending _1, _2, ...
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      :  
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Feb.  3, 1997    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_STR  create_backup_filename(
@@ -314,7 +314,7 @@ static  VIO_STR  create_backup_filename(
         }
 
         len = string_length( backup_filename );
-        while( len > 0 && 
+        while( len > 0 &&
                (backup_filename[len-1] == ' ' ||
                 backup_filename[len-1] == '\t' ||
                 backup_filename[len-1] == '\n') )
@@ -333,7 +333,7 @@ static  VIO_STR  create_backup_filename(
             if( backup_filename[i] == ':'){
                backup_filename[i] = '-';
                }
-            
+
         }
 
         ++count;
@@ -354,11 +354,11 @@ static  VIO_STR  create_backup_filename(
 @DESCRIPTION: If the file exists, creates a backup of the file, and passes
               back the name of the backup file, which must be passed to
               cleanup_backup_file after the write of filename is performed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      :  
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Feb.  3, 1997    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  make_backup_file(
@@ -392,16 +392,16 @@ VIOAPI  VIO_Status  make_backup_file(
 @INPUT      : filename
               backup_filename
               status_of_write
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: This function is called after writing a file.  If a backup file
               was made before the write, then it is deleted, if the write was
               successful, or copied to the original file, otherwise.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      :  
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Feb.  3, 1997    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  cleanup_backup_file(
@@ -435,14 +435,14 @@ VIOAPI  void  cleanup_backup_file(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : remove_file
 @INPUT      : filename
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Deletes the given file.
 @METHOD     : Makes a system call to unlink().
-@GLOBALS    : 
-@CALLS      : 
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  remove_file(
@@ -465,14 +465,14 @@ VIOAPI  void  remove_file(
 @NAME       : copy_file
 @INPUT      : src
               dest
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Copies the src file to the dest file.
 @METHOD     : Makes a UNIX system call, using /bin/cp
-@GLOBALS    : 
-@CALLS      :  
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Feb.  3, 1997    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  copy_file(
@@ -510,14 +510,14 @@ VIOAPI  VIO_Status  copy_file(
 @NAME       : move_file
 @INPUT      : src
               dest
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Move the src file to the dest file.
 @METHOD     : Makes a UNIX system call, using /bin/mv
-@GLOBALS    : 
-@CALLS      :  
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Feb.  3, 1997    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  move_file(
@@ -554,20 +554,20 @@ VIOAPI  VIO_Status  move_file(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_user_home_directory
 @INPUT      : user_name
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : Pointer to home directory string.
 @DESCRIPTION: Returns the home directory of the specified user.
 @METHOD     : UNIX password file utilities
-@GLOBALS    : 
-@CALLS      : 
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_STR  get_user_home_directory(
     VIO_STR   user_name )
 {
-#if HAVE_GETPWNAM 
+#if HAVE_GETPWNAM
     struct passwd  *p;
 
     p = getpwnam( user_name );
@@ -585,7 +585,7 @@ static  VIO_STR  get_user_home_directory(
 @NAME       : expand_filename
 @INPUT      : filename
 @OUTPUT     : expanded_filename
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Expands certain strings in the filename, if present:
 
                   environment variables, e.g.   "$DATA_DIR/filename.txt"
@@ -593,11 +593,11 @@ static  VIO_STR  get_user_home_directory(
 
               If a dollar sign or backslash is desired, it must be preceded
               by a backslash.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_STR  expand_filename(
@@ -718,17 +718,17 @@ VIOAPI  VIO_STR  expand_filename(
 @NAME       : filename_extension_matches
 @INPUT      : filename
               extension
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if filename extension matches
 @DESCRIPTION: Checks if the filename ends in a period, then the given
               extension.  Note that the filename first undergoes expansion
               for home directories and environment variables, and any
               ending of ".z", ".Z", or ".gz" is first removed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  filename_extension_matches(
@@ -766,15 +766,15 @@ VIOAPI  VIO_BOOL  filename_extension_matches(
 @NAME       : remove_directories_from_filename
 @INPUT      : filename
 @OUTPUT     : filename_no_directories
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Creates a new filename with no directories in it.
               E.G.  if filename equals  "/usr/people/david/test.c"
               filename_no_directories will be set to "test.c"
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_STR  remove_directories_from_filename(
@@ -806,11 +806,11 @@ VIOAPI  VIO_STR  remove_directories_from_filename(
 @RETURNS    : TRUE if a compressed file exists
 @DESCRIPTION: Checks to see if a compressed version of the file exists.  If so,
               passes back the name of the compressed file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jun 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  file_exists_as_compressed(
@@ -861,7 +861,7 @@ VIOAPI  VIO_STR  get_temporary_filename( void )
    * conditions can lead to small security holes (and large, annoying
    * GNU linker messages).
    *
-   * The only catch is that mkstemp() does not automatically put the 
+   * The only catch is that mkstemp() does not automatically put the
    * file in the TMPDIR directory (or some other appropriate place).
    * So I more-or-less emulate that behavior here.
    */
@@ -896,7 +896,7 @@ VIOAPI  VIO_STR  get_temporary_filename( void )
   /* Worst case.  tmpnam() is apparently the worst of all possible worlds
    * here.  It doesn't allow any way to force a particular directory,
    * and it doesn't avoid the race condition.  But volume_io used it for
-   * years, so I see no reason to disallow this case for systems that 
+   * years, so I see no reason to disallow this case for systems that
    * might not define the above two functions (whether any such systems
    * exist is unclear to me).
    */
@@ -933,13 +933,13 @@ VIOAPI  VIO_STR  get_temporary_filename( void )
             : io_type        READ_FILE or WRITE_FILE
             : file_format    ASCII_FORMAT or BINARY_FORMAT
 @OUTPUT     : file
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Opens the given filename for ascii or binary input or output.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  open_file(
@@ -1066,16 +1066,16 @@ VIOAPI  VIO_Status  open_file(
             : io_type        READ_FILE or WRITE_FILE
             : file_format    ASCII_FORMAT or BINARY_FORMAT
 @OUTPUT     : file
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Opens the given filename for ascii or binary input or output.
             : On output, if the file has no suffix, it adds the default suffix.
             : On input, if the file does not exist as given, then it tries to
             : find the file with the default_suffix.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  open_file_with_default_suffix(
@@ -1129,14 +1129,14 @@ VIOAPI  VIO_Status  open_file_with_default_suffix(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : has_no_extension
 @INPUT      : filename
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if there is no . extension
 @DESCRIPTION: Checks if there is an extension on the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_BOOL  has_no_extension(
@@ -1158,14 +1158,14 @@ static  VIO_BOOL  has_no_extension(
 @NAME       : set_file_position
 @INPUT      : file
             : byte_position
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the file position to the given offset from the start.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  set_file_position(
@@ -1191,14 +1191,14 @@ VIOAPI  VIO_Status  set_file_position(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : close_file
 @INPUT      : file
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Closes the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  close_file(
@@ -1217,14 +1217,14 @@ VIOAPI  VIO_Status  close_file(
 @NAME       : extract_directory
 @INPUT      : filename
 @OUTPUT     : directory
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Extracts the directory from the filename by copying the string
             : from the beginning up to the last '/'.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_STR  extract_directory(
@@ -1263,16 +1263,16 @@ VIOAPI  VIO_STR  extract_directory(
 @NAME       : get_absolute_filename
 @INPUT      : filename
             : directory
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Given a filename and a default directory, determines the correct
             : filename by checking if the filename is a relative or absolute
             : pathname, and prepending the directory, if the former.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_STR  get_absolute_filename(
@@ -1308,14 +1308,14 @@ VIOAPI  VIO_STR  get_absolute_filename(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : flush_file
 @INPUT      : file
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Flushes the output buffer for the given file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  flush_file(
@@ -1343,11 +1343,11 @@ VIOAPI  VIO_Status  flush_file(
 @OUTPUT     : ch
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs one character from the file, returning VIO_ERROR if eof.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_character(
@@ -1379,11 +1379,11 @@ VIOAPI  VIO_Status  input_character(
 @OUTPUT     : ch
 @RETURNS    : VIO_Status
 @DESCRIPTION: Ungets one character back to the file, returning status.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  unget_character(
@@ -1409,11 +1409,11 @@ VIOAPI  VIO_Status  unget_character(
 @OUTPUT     : ch
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs the next nonwhite (tab, space, newline) character.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_nonwhite_character(
@@ -1435,14 +1435,14 @@ VIOAPI  VIO_Status  input_nonwhite_character(
 @NAME       : output_character
 @INPUT      : file
             : ch
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Outputs the character to the file, returning the status.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_character(
@@ -1467,15 +1467,15 @@ VIOAPI  VIO_Status  output_character(
 @NAME       : skip_input_until
 @INPUT      : file
             : search_char
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Skips characters in the file, up to and including the first match
             : of the search_char;
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status   skip_input_until(
@@ -1498,14 +1498,14 @@ VIOAPI  VIO_Status   skip_input_until(
 @NAME       : output_string
 @INPUT      : file
             : str
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Outputs the string to the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_string(
@@ -1530,15 +1530,15 @@ VIOAPI  VIO_Status  output_string(
 @NAME       : input_string
 @INPUT      : file
             : termination_char
-@OUTPUT     : str 
+@OUTPUT     : str
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs a string from the file.  First it skips white space, then
             : inputs all characters until the termination_char is found.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_string(
@@ -1580,11 +1580,11 @@ VIOAPI  VIO_Status  input_string(
 @DESCRIPTION: Skips to the next nonwhitespace character, checks if it is a
             : quotation mark ( ", ', or ` ), then reads characters into the
             : string until the : next quotation mark.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_quoted_string(
@@ -1625,17 +1625,17 @@ VIOAPI  VIO_Status  input_quoted_string(
 @INPUT      : file
             : str
             : str_length    - size of string storage
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Skips to the next nonwhitespace character, checks if it is a
             : quotation mark, then reads characters into the string until the
             : next quotation mark.  If it is not a quotation mark, reads to
             : the next white space.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_possibly_quoted_string(
@@ -1689,14 +1689,14 @@ VIOAPI  VIO_Status  input_possibly_quoted_string(
 @NAME       : output_quoted_string
 @INPUT      : file
             : str
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Outputs the given string, with quotation marks around it.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_quoted_string(
@@ -1721,11 +1721,11 @@ VIOAPI  VIO_Status  output_quoted_string(
 @OUTPUT     : data               array of elements to input
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs the data in binary format.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_binary_data(
@@ -1758,14 +1758,14 @@ VIOAPI  VIO_Status  input_binary_data(
             : data               array of elements to output
             : element_size       size of each element
             : n                  number of elements
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Outputs the data in binary format.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_binary_data(
@@ -1795,14 +1795,14 @@ VIOAPI  VIO_Status  output_binary_data(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : input_newline
 @INPUT      : file
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Skips to after the next newline in the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_newline(
@@ -1825,14 +1825,14 @@ VIOAPI  VIO_Status  input_newline(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : output_newline
 @INPUT      : file
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Outputs a newline to the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_newline(
@@ -1856,14 +1856,14 @@ VIOAPI  VIO_Status  output_newline(
 @NAME       : input_line
 @INPUT      : line         - string to input to
             : str_length   - storage allocated to the string
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs all characters upto the next newline.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_line(
@@ -1899,11 +1899,11 @@ VIOAPI  VIO_Status  input_line(
 @OUTPUT     : b
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs a VIO_BOOL value from a file, by looking for an 'f' or 't'.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_boolean(
@@ -1932,14 +1932,14 @@ VIOAPI  VIO_Status  input_boolean(
 @NAME       : output_boolean
 @INPUT      : file
             : b
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Outputs a T or F to the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_boolean(
@@ -1972,11 +1972,11 @@ VIOAPI  VIO_Status  output_boolean(
 @OUTPUT     : s
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs an ascii short.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_short(
@@ -2000,11 +2000,11 @@ VIOAPI  VIO_Status  input_short(
 @OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Outputs an ascii short.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_short(
@@ -2031,11 +2031,11 @@ VIOAPI  VIO_Status  output_short(
 @OUTPUT     : s
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs an ascii unsigned short.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_unsigned_short(
@@ -2063,11 +2063,11 @@ VIOAPI  VIO_Status  input_unsigned_short(
 @OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Outputs an ascii unsigned short.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_unsigned_short(
@@ -2094,11 +2094,11 @@ VIOAPI  VIO_Status  output_unsigned_short(
 @OUTPUT     : i
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs an ascii integer.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_int(
@@ -2122,11 +2122,11 @@ VIOAPI  VIO_Status  input_int(
 @OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Outputs an ascii integer.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_int(
@@ -2153,11 +2153,11 @@ VIOAPI  VIO_Status  output_int(
 @OUTPUT     : r
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs an ascii real value.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_real(
@@ -2185,11 +2185,11 @@ VIOAPI  VIO_Status  input_real(
 @OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Outputs an ascii real value.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_real(
@@ -2216,11 +2216,11 @@ VIOAPI  VIO_Status  output_real(
 @OUTPUT     : f
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs an ascii float.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_float(
@@ -2246,11 +2246,11 @@ VIOAPI  VIO_Status  input_float(
 @OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Outputs an ascii float value.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_float(
@@ -2277,11 +2277,11 @@ VIOAPI  VIO_Status  output_float(
 @OUTPUT     : d
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs an ascii double.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_double(
@@ -2307,11 +2307,11 @@ VIOAPI  VIO_Status  input_double(
 @OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Outputs an ascii double value.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_double(
@@ -2342,11 +2342,11 @@ VIOAPI  VIO_Status  output_double(
 @OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs or outputs binary data, depending on io_flag.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  io_binary_data(
@@ -2374,11 +2374,11 @@ VIOAPI  VIO_Status  io_binary_data(
 @OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs or outputs an ascii or binary newline char, as appropriate.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  io_newline(
@@ -2411,11 +2411,11 @@ VIOAPI  VIO_Status  io_newline(
 @OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs or outputs an ascii or binary quoted string.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  io_quoted_string(
@@ -2468,11 +2468,11 @@ VIOAPI  VIO_Status  io_quoted_string(
 @OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs or outputs an ascii or binary boolean value.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  io_boolean(
@@ -2505,11 +2505,11 @@ VIOAPI  VIO_Status  io_boolean(
 @OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs or outputs an ascii or binary short value.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  io_short(
@@ -2543,11 +2543,11 @@ VIOAPI  VIO_Status  io_short(
 @OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs or outputs an ascii or binary unsigned short value.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  io_unsigned_short(
@@ -2581,11 +2581,11 @@ VIOAPI  VIO_Status  io_unsigned_short(
 @OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs or outputs an ascii or binary unsigned char.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  io_unsigned_char(
@@ -2637,11 +2637,11 @@ VIOAPI  VIO_Status  io_unsigned_char(
 @OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs or outputs an ascii or binary integer value.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  io_int(
@@ -2674,11 +2674,11 @@ VIOAPI  VIO_Status  io_int(
 @OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs or outputs an ascii or binary real value.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  io_real(
@@ -2711,11 +2711,11 @@ VIOAPI  VIO_Status  io_real(
 @OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs or outputs an ascii or binary double value.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  io_float(
@@ -2748,11 +2748,11 @@ VIOAPI  VIO_Status  io_float(
 @OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs or outputs an ascii or binary double value.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  io_double(
@@ -2783,14 +2783,14 @@ VIOAPI  VIO_Status  io_double(
             : format
             : n               number of ints
             : ints            array of ints
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs or outputs a list of ascii or binary integers.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  io_ints(
@@ -2843,14 +2843,14 @@ VIOAPI  VIO_Status  io_ints(
             : format
             : n               number of unsigned chars
             : unsigned_chars  array of unsigned chars
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Status
 @DESCRIPTION: Inputs or outputs a list of ascii or binary unsigned chars.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  io_unsigned_chars(

@@ -31,7 +31,7 @@
  */
 #define MI_FULLIMAGE_PATH MI_IMAGE_PATH "/0"
 
-/** The fixed path to the dimension 
+/** The fixed path to the dimension
  */
 #define MI_FULLDIMENSIONS_PATH MI_ROOT_PATH "/dimensions"
 
@@ -49,18 +49,18 @@ typedef __int64 mi_i64_t;
 typedef long long mi_i64_t;
 #endif //_WIN32
 
-/** The fixed path to the dimension 
+/** The fixed path to the dimension
  */
 #define MI_FULLDIMENSIONS_PATH MI_ROOT_PATH "/dimensions"
 
 /** \internal
- * Volume properties  
+ * Volume properties
  */
 struct mivolprops {
     miboolean_t enable_flag;    /* enable multi-res */
     int depth;                  /* multi-res depth */
     micompression_t compression_type;
-    int zlib_level; 
+    int zlib_level;
     int edge_count;             /* how many chunks */
     int *edge_lengths;          /* size of each chunk */
     int max_lengths;
@@ -68,10 +68,10 @@ struct mivolprops {
     char *record_name;
     int  template_flag;
     int checksum;               /*FLETCHER32 checksum is enabled*/
-}; 
+};
 
 /** \internal
- * Dimension handle  
+ * Dimension handle
  */
 struct midimension {
   midimattr_t attr;             /* Dimension attributes */
@@ -93,7 +93,7 @@ struct midimension {
 };
 
 /** \internal
- * Volume handle  
+ * Volume handle
  */
 struct mivolume {
   hid_t hdf_id;
@@ -133,16 +133,16 @@ const char * mitype_sign ( mitype_t mitype );
 
 int mitype_to_nctype(mitype_t, int *is_signed);
 
-int miget_attribute(mihandle_t volume, const char *varpath, 
-                           const char *attname, mitype_t data_type, 
+int miget_attribute(mihandle_t volume, const char *varpath,
+                           const char *attname, mitype_t data_type,
                            size_t maxvals, void *values);
 
-int miset_attr_at_loc(hid_t hdf_loc, const char *attname, 
-                             mitype_t data_type, 
+int miset_attr_at_loc(hid_t hdf_loc, const char *attname,
+                             mitype_t data_type,
                              size_t maxvals, const void *values);
 
-int miset_attribute(mihandle_t volume, const char *varpath, 
-                           const char *attname, mitype_t data_type, 
+int miset_attribute(mihandle_t volume, const char *varpath,
+                           const char *attname, mitype_t data_type,
                            size_t maxvals, const void *values);
 
 /*void mifind_spatial_dims(int mincid, int space_to_dim[], int dim_to_space[]);*/
@@ -161,7 +161,7 @@ void miinit(void);
 
 void miinit_enum(hid_t);
 
-int miget_scalar(hid_t loc_id, hid_t type_id, const char *path, 
+int miget_scalar(hid_t loc_id, hid_t type_id, const char *path,
                         void *data);
 
 int minc_create_thumbnail(mihandle_t volume, int grp);
@@ -195,8 +195,8 @@ int add_standard_minc_attributes(hid_t hdf_file, hid_t dset_id);
 
 
 /* From hyper.c */
-int mitranslate_hyperslab_origin(mihandle_t volume, 
-                                const misize_t* start, 
+int mitranslate_hyperslab_origin(mihandle_t volume,
+                                const misize_t* start,
                                 const misize_t* count,
                                 hsize_t* hdf_start,
                                 hsize_t* hdf_count,
@@ -212,13 +212,13 @@ double rint(double v);
 #endif
 
 #if  defined(_MSC_VER) && _MSC_VER < 1900
-#define snprintf _snprintf 
-#define vsnprintf _vsnprintf 
+#define snprintf _snprintf
+#define vsnprintf _vsnprintf
 #endif
 
 #ifdef _MSC_VER
-#define strcasecmp _stricmp 
-#define strncasecmp _strnicmp 
+#define strcasecmp _stricmp
+#define strncasecmp _strnicmp
 #endif
 
 #endif /*MINC2_PRIVATE_H*/

@@ -2,10 +2,10 @@
 @NAME       : minc_error.c
 @DESCRIPTION: File containing routines to do error handling for MINC package.
               Should be called through macros in minc_private.h
-@GLOBALS    : 
-@CALLS      : 
+@GLOBALS    :
+@CALLS      :
 @CREATED    : August 7, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: minc_error.c,v $
  * Revision 6.8  2009-01-20 11:58:13  rotor
  *  * CMakeLists.txt: updated version
@@ -65,12 +65,12 @@
  *
  * Revision 1.7  94/09/28  10:37:16  neelin
  * Pre-release
- * 
+ *
  * Revision 1.6  93/08/11  12:06:24  neelin
  * Added RCS logging in source.
- * 
+ *
 @COPYRIGHT  :
-              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre, 
+              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -238,7 +238,7 @@ int MI_save_routine_name(char *name)
    /* minc_trash_var = (((minc_call_depth++)==0) ? MI_save_routine_name(name) : * MI_NOERROR)) */
 
    if( (minc_call_depth++)==0 ) {
-     minc_routine_name = name; 
+     minc_routine_name = name;
      minc_trash_var = TRUE;
    } else {
      minc_trash_var = MI_NOERROR;
@@ -247,7 +247,7 @@ int MI_save_routine_name(char *name)
 }
 
 int MI_return(void)
-{ 
+{
    /* no idea what peter was up to here */
    /* return( (((--minc_call_depth)!=0) || MI_return()) ? (value) : (value)) */
 
@@ -255,12 +255,12 @@ int MI_return(void)
 }
 
 int MI_return_error(void)
-{ 
+{
    /* no idea what peter was up to here */
    /* return( (((--minc_call_depth)!=0) || MI_return_error()) ? (error) : (error)) */
 
    if( (--minc_call_depth)==0 ) {
-     MI_LOG_PKG_ERROR2(0, "MINC package entry point"); 
+     MI_LOG_PKG_ERROR2(0, "MINC package entry point");
    }
    return( TRUE );
 }
@@ -272,7 +272,7 @@ void MI_log_pkg_error2(int p1, char *p2)
   (void) fflush(stderr);
 }
 void MI_log_pkg_error3(int p1, char *p2, char *p3)
-{ 
+{
   (void) fprintf(stderr, "%s: ", minc_routine_name);
   (void) fprintf(stderr, p2, p3);
   (void) fputc('\n', stderr);
@@ -446,7 +446,7 @@ static int mi2read_cfg(const char *name, char *buffer, int maxlen)
       path[0] = '\0';
     }
     strcat(path, "/.mincrc");
-    
+
     if ((fp = fopen(path, "r")) != NULL) {
         while (fgets(buffer, maxlen, fp)) {
             if (buffer[0] == '#') {
@@ -474,7 +474,7 @@ static int mi2get_cfg_int(const char *name)
 {
     char buffer[128];
     char *var_ptr;
-    
+
     if ((var_ptr = getenv(name)) != NULL) {
         strncpy(buffer, var_ptr, sizeof (buffer));
     }

@@ -3,15 +3,15 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : minc_routines.h
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Provides prototypes for private and semiprivate MINC routines.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : August 28, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: minc_routines.h,v $
  * Revision 6.4  2005-08-26 21:04:58  bert
  * Use #if rather than #ifdef with MINC2 symbol
@@ -45,15 +45,15 @@
  *
  * Revision 2.0  94/09/28  10:38:08  neelin
  * Release of minc version 0.2
- * 
+ *
  * Revision 1.9  94/09/28  10:37:29  neelin
  * Pre-release
- * 
+ *
  * Revision 1.8  93/08/11  12:06:41  neelin
  * Added RCS logging in source.
- * 
+ *
 @COPYRIGHT  :
-              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre, 
+              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -69,7 +69,7 @@
 
 
 /* From value_conversion.c */
-SEMIPRIVATE int MI_varaccess(int operation, int cdfid, int varid, 
+SEMIPRIVATE int MI_varaccess(int operation, int cdfid, int varid,
                              long start[], long count[],
                              nc_type datatype, int sign, void *values,
                              int *bufsize_step, mi_icv_type *icvp);
@@ -77,7 +77,7 @@ SEMIPRIVATE int MI_var_loop(int ndims, long start[], long count[],
                             int value_size, int *bufsize_step,
                             long max_buffer_size,
                             void *caller_data,
-                            int (*action_func) (int, long [], long [], 
+                            int (*action_func) (int, long [], long [],
                                                 long, void *, void *));
 SEMIPRIVATE int MI_get_sign_from_string(nc_type datatype, const char *sign);
 SEMIPRIVATE int MI_convert_type(long number_of_values,

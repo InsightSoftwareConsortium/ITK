@@ -1,10 +1,10 @@
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : minc_error.h
 @DESCRIPTION: File containing error codes for minc package.
-@GLOBALS    : 
-@CALLS      : 
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 17 February, 2004 (Robert Vincent)
-@MODIFIED   : 
+@MODIFIED   :
  *
  * $Log: minc_error.h,v $
  * Revision 6.4  2008-04-11 05:15:00  rotor
@@ -20,9 +20,9 @@
  * Revision 6.1  2004/04/27 15:42:47  bert
  * Define MINC logging codes
  *
- * 
+ *
 @COPYRIGHT  :
-              Copyright 2004 Robert Vincent, McConnell Brain Imaging Centre, 
+              Copyright 2004 Robert Vincent, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -183,14 +183,14 @@ void MI_log_pkg_error2(int p1, char *p2);
 void MI_log_pkg_error3(int p1, char *p2, char *p3);
 void MI_log_sys_error1(char *p1);
 
-  
+
 #define MI_LOG_ERROR(code,...) mi2log_message(__FILE__, __LINE__, code, ##__VA_ARGS__ )
 #define MI_CHECK_HDF_CALL(var,call) {if((var)<0) MI_LOG_ERROR(MI2_MSG_HDF5,call);}
 #define MI_CHECK_HDF_CALL_RET(var,call) {if((var)<0) return MI_LOG_ERROR(MI2_MSG_HDF5,call);}
 
 
 /* Macros for logging errors. All routines should start with MI_SAVE_ROUTINE
-   and exit with MI_RETURN (which includes MI_RETURN_ERROR and 
+   and exit with MI_RETURN (which includes MI_RETURN_ERROR and
    MI_CHK_ERROR). All the macros except MI_CHK_ERROR are single line
    commands. MI_CHK_ERROR is in a block and so should not be followed by
    a ';' */

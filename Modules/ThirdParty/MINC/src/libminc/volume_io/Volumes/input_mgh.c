@@ -52,10 +52,10 @@
 #define TAG_GCAMORPH_GEOM           10
 #define TAG_GCAMORPH_TYPE           11
 #define TAG_GCAMORPH_LABELS         12
- 
+
 #define TAG_OLD_SURF_GEOM           20
 #define TAG_SURF_GEOM               21
- 
+
 #define TAG_OLD_MGH_XFORM           30
 #define TAG_MGH_XFORM               31
 #define TAG_GROUP_AVG_SURFACE_AREA  32
@@ -138,7 +138,7 @@ input_next_slice(
 /**
  * Converts a MGH file header into a general linear transform for the
  * Volume IO library. There are two different ways of defining the
- " "centre" of the volume in the MGH world. One uses the values in 
+ " "centre" of the volume in the MGH world. One uses the values in
  * c_r, c_a, and c_s (the last row of the dircos field) to offset
  * the origin. The other, more common case ignores these fields and
  * just uses the voxel size and spacing to determine a value for
@@ -160,7 +160,7 @@ mgh_header_to_linear_transform(const struct mgh_header *hdr_ptr,
   int           i, j;
   VIO_Transform mnc_xform;
   VIO_Real      mgh_xform[MGH_N_SPATIAL][MGH_N_COMPONENTS];
-  
+
   make_identity_transform(&mnc_xform);
 
 #if DEBUG
@@ -262,7 +262,7 @@ mgh_header_from_file(znzFile fp, struct mgh_header *hdr_ptr)
   if (znzread(&hdr_ptr->version, sizeof(int), 1, fp) != 1 ||
       znzread(hdr_ptr->sizes, sizeof(int), MGH_MAX_DIMS, fp) != MGH_MAX_DIMS ||
       znzread(&hdr_ptr->type, sizeof(int), 1, fp) != 1 ||
-      znzread(&hdr_ptr->dof, sizeof(int), 1, fp) != 1 || 
+      znzread(&hdr_ptr->dof, sizeof(int), 1, fp) != 1 ||
       znzread(&hdr_ptr->goodRASflag, sizeof(short), 1, fp) != 1 ||
       /* The rest of the fields are optional, but we can safely read them
        * now and check goodRASflag later to see if we should really trust
@@ -330,7 +330,7 @@ mgh_header_from_file(znzFile fp, struct mgh_header *hdr_ptr)
 }
 
 static VIO_BOOL
-mgh_scan_for_voxel_range(volume_input_struct *in_ptr, 
+mgh_scan_for_voxel_range(volume_input_struct *in_ptr,
                          long n_voxels_in_slice,
                          float *min_value_ptr,
                          float *max_value_ptr)
@@ -355,7 +355,7 @@ mgh_scan_for_voxel_range(volume_input_struct *in_ptr,
 
   if (data_offset < 0)
     return FALSE;
-  
+
   for (slice = 0; slice < total_slices; slice++)
   {
     input_next_slice( in_ptr );
@@ -367,7 +367,7 @@ mgh_scan_for_voxel_range(volume_input_struct *in_ptr,
       case VIO_UNSIGNED_BYTE:
         value = ((unsigned char *)data_ptr)[i];
         break;
-  
+
       case VIO_SIGNED_SHORT:
         value = ntohs(((short *)data_ptr)[i]);
         break;
@@ -388,7 +388,7 @@ mgh_scan_for_voxel_range(volume_input_struct *in_ptr,
       case VIO_MAX_DATA_TYPE:
         break;
       }
-  
+
       if (value < min_value )
         min_value = value;
       if (value > max_value )
@@ -500,11 +500,11 @@ initialize_mgh_format_input(VIO_STR             filename,
     printf("Problem setting number of dimensions to %d\n", n_dimensions);
   }
 
-  /* Set up the correspondence between the file axes and the MINC 
+  /* Set up the correspondence between the file axes and the MINC
    * spatial axes. Each row contains the 'x', 'y', and 'z' components
    * along the right/left, anterior/posterior, or superior/inferior
    * axes (RAS). The "xspace" axis will be the one that has the largest
-   * component in the RL direction, "yspace" refers to AP, and "zspace" 
+   * component in the RL direction, "yspace" refers to AP, and "zspace"
    * to SI. This tells us both how to convert the transform and how the
    * file data is arranged.
    */
@@ -554,14 +554,14 @@ initialize_mgh_format_input(VIO_STR             filename,
   {
     int volume_axis = volume->spatial_axes[axis];
 
-    printf("%d %d size:%4d step:%6.3f start:%9.4f dc:[%7.4f %7.4f %7.4f]\n", 
+    printf("%d %d size:%4d step:%6.3f start:%9.4f dc:[%7.4f %7.4f %7.4f]\n",
            axis,
            in_ptr->axis_index_from_file[volume_axis],
            sizes[volume_axis],
            mnc_steps[volume_axis],
            mnc_starts[volume_axis],
-           mnc_dircos[volume_axis][0], 
-           mnc_dircos[volume_axis][1], 
+           mnc_dircos[volume_axis][0],
+           mnc_dircos[volume_axis][1],
            mnc_dircos[volume_axis][2]);
   }
 #endif // DEBUG

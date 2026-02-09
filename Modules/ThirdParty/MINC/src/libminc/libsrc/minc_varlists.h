@@ -4,7 +4,7 @@
               minc_convenience.c.
 @METHOD     : Note that lists should be NULL terminated.
 @CREATED    : Peter Neelin (August 7, 1992)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: minc_varlists.h,v $
  * Revision 6.1  1999-10-19 14:45:11  neelin
  * Fixed Log substitutions for CVS
@@ -26,12 +26,12 @@
  *
  * Revision 1.5  94/09/28  10:37:32  neelin
  * Pre-release
- * 
+ *
  * Revision 1.4  93/08/11  12:06:45  neelin
  * Added RCS logging in source.
- * 
+ *
 @COPYRIGHT  :
-              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre, 
+              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -52,11 +52,11 @@ static const char *dimvarlist[]={MIxspace, MIyspace, MIzspace, MItime, MItfreque
 
 /* List of dimension width variables */
 static const char *dimwidthlist[]={MIxspace_width, MIyspace_width, MIzspace_width,
-                             MItime_width, MItfrequency_width, 
+                             MItime_width, MItfrequency_width,
                              MIxfrequency_width, MIyfrequency_width,
                              MIzfrequency_width, NULL};
 
 /* List of variables */
-static const char *varlist[]={MIrootvariable, MIimage, MIimagemax, MIimagemin, 
+static const char *varlist[]={MIrootvariable, MIimage, MIimagemax, MIimagemin,
                         MIpatient, MIstudy, MIacquisition, NULL};
 

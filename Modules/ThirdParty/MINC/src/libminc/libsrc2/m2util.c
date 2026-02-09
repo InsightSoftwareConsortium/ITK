@@ -336,14 +336,14 @@ int miset_attr_at_loc ( hid_t hdf_loc, const char *name, mitype_t data_type,
 
   if((hdf_attr = H5Acreate2 ( hdf_loc, name, ftyp_id, spc_id, H5P_DEFAULT, H5P_DEFAULT  ))<0)
     goto cleanup;
-  
-  
-  if(H5Awrite ( hdf_attr, mtyp_id, values ) < 0) 
+
+
+  if(H5Awrite ( hdf_attr, mtyp_id, values ) < 0)
     goto cleanup;
-  
+
   status=MI_NOERROR;
 
-cleanup:  
+cleanup:
   if(hdf_attr >=0 )  H5Aclose ( hdf_attr );
   if(ftyp_id  >=0 )  H5Tclose ( ftyp_id );
   if(mtyp_id  >=0 )  H5Tclose ( mtyp_id );
@@ -554,7 +554,7 @@ void mifind_spatial_dims(int mincid, int space_to_dim[], int dim_to_space[])
     dim_to_space[idim] = world_index;
   }
 }
-#endif 
+#endif
 
 /** Get the voxel to world transform (for column vectors) */
 void miget_voxel_to_world ( mihandle_t volume, mi_lin_xfm_t voxel_to_world )
@@ -1440,7 +1440,7 @@ int minc_create_thumbnail ( mihandle_t volume, int grp )
 {
   char path[MI2_MAX_PATH];
   hid_t grp_id;
-  
+
   /* Don't handle negative or overly large numbers!
   */
   if ( grp <= 0 || grp > MI2_MAX_RESOLUTION_GROUP ) {
@@ -1817,14 +1817,14 @@ minc_update_thumbnail ( mihandle_t volume, hid_t loc_id, int igrp, int ogrp )
 
       midownsample_slice ( in_ptr, out_ptr, isize, osize, scale );
     }
-    
+
     start[0] = slice;
     start[1] = 0;
     start[2] = 0;
     count[0] = 1;
     count[1] = osize[1];
     count[2] = osize[2];
-    
+
     MI_CHECK_HDF_CALL(result=H5Sselect_hyperslab ( ofspc_id, H5S_SELECT_SET, start, NULL, count,
                                            NULL ),"H5Sselect_hyperslab");
     if(result>=0)
@@ -1835,7 +1835,7 @@ minc_update_thumbnail ( mihandle_t volume, hid_t loc_id, int igrp, int ogrp )
       MI_CHECK_HDF_CALL(H5Dwrite ( odst_id, H5T_NATIVE_DOUBLE, omspc_id, ofspc_id, H5P_DEFAULT,
                                   out_ptr ),"H5Dwrite");
     }
-    
+
     if ( volume->volume_class == MI_CLASS_REAL ) {
       /* Select the right point in tfspc_id */
       H5Sselect_elements ( tfspc_id, H5S_SELECT_SET, 1, &start[0] );
@@ -1952,8 +1952,8 @@ free2d ( int n, double **mat )
 
 /** Common code to create either standard or non-standard MINC datasets
  * as required. Used by create_dataset and create_standard_dataset.
- * Note that in the normal course of operations, it is possible for 
- * the dataset creation to fail (perhaps it already exists). As a 
+ * Note that in the normal course of operations, it is possible for
+ * the dataset creation to fail (perhaps it already exists). As a
  * result we can't take the return value too seriously.
  * \param hdf_file An open HDF5 file handle.
  * \param name The dataset (variable) name to create.
@@ -2003,7 +2003,7 @@ static int create_new_dataset(hid_t hdf_file, const char *name, int is_std)
   return ( result );
 }
 
-/** Function to create a NON-STANDARD dataset (e.g. other than 
+/** Function to create a NON-STANDARD dataset (e.g. other than
  * "acquisition", "patient", or "study"). For internal use only.
  */
 
@@ -2022,21 +2022,21 @@ create_standard_dataset ( hid_t hdf_file, const char *name )
   return create_new_dataset(hdf_file, name, TRUE);
 }
 
-int 
+int
 add_minimal_minc_attributes(hid_t hdf_file, hid_t dset_id)
 {
   int result;
-  
+
   result = miset_attr_at_loc ( dset_id, MIvartype, MI_TYPE_STRING, strlen ( MI_GROUP ), MI_GROUP );
 
   if ( result < 0 ) {
     return ( MI_ERROR );
   }
-  
+
   return result;
 }
 
-int 
+int
 add_standard_minc_attributes(hid_t hdf_file, hid_t dset_id)
 {
   int result;

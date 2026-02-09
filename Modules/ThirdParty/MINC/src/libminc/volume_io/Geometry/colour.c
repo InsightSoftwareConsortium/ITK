@@ -23,15 +23,15 @@
 @INPUT      : r
               g
               b
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Colour
 @DESCRIPTION: Packs the three components, which are in the range 0 to 255,
               into a VIO_Colour type, unsigned long.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 10, 1995        D. MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Colour  make_Colour(
@@ -45,14 +45,14 @@ VIOAPI  VIO_Colour  make_Colour(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_Colour_r_0_1
 @INPUT      : colour
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : red component
 @DESCRIPTION: Returns the red component of the colour in the range of 0.0 to 1.0
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 10, 1995        D. MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Real  get_Colour_r_0_1(
@@ -64,15 +64,15 @@ VIOAPI  VIO_Real  get_Colour_r_0_1(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_Colour_g_0_1
 @INPUT      : colour
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : green component
 @DESCRIPTION: Returns the green component of the colour in the range of
               0.0 to 1.0
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 10, 1995        D. MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Real  get_Colour_g_0_1(
@@ -84,15 +84,15 @@ VIOAPI  VIO_Real  get_Colour_g_0_1(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_Colour_b_0_1
 @INPUT      : colour
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : blue component
 @DESCRIPTION: Returns the blue component of the colour in the range of
               0.0 to 1.0
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 10, 1995        D. MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Real  get_Colour_b_0_1(
@@ -104,15 +104,15 @@ VIOAPI  VIO_Real  get_Colour_b_0_1(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_Colour_a_0_1
 @INPUT      : colour
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : alpha component
 @DESCRIPTION: Returns the alpha (opacity) component of the colour in the
               range of 0.0 to 1.0
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 10, 1995        D. MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Real  get_Colour_a_0_1(
@@ -126,15 +126,15 @@ VIOAPI  VIO_Real  get_Colour_a_0_1(
 @INPUT      : r
               g
               b
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Colour
 @DESCRIPTION: Takes the three components, each in the range of 0 to 1,
               and packs them into a colour.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 10, 1995        D. MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Colour  make_Colour_0_1(
@@ -153,15 +153,15 @@ VIOAPI  VIO_Colour  make_Colour_0_1(
               g
               b
               a       - alpha (opacity)
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Colour
 @DESCRIPTION: Takes the four components, each in the range of 0 to 1,
               and packs them into a colour.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 10, 1995        D. MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Colour  make_rgba_Colour_0_1(

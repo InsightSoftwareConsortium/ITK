@@ -23,18 +23,18 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : thin_plate_spline.c
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: library of routines for warping/mapping transformations.
 @METHOD     : The original source code for these routines are taken from
               program VOI, written by Weiqian Dai.
-@GLOBALS    : 
-@CALLS      : 
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Dec 2, 1991 LC
-@MODIFIED   : Mon Apr  5 09:00:54 EST 1993 louis 
+@MODIFIED   : Mon Apr  5 09:00:54 EST 1993 louis
                 - building new library routines, with prototypes
-@MODIFIED   : Wed Jul  14 1993  david 
+@MODIFIED   : Wed Jul  14 1993  david
                 - incorporated into libmni.c
               Feb. 28, 1995     D. MacDonald
                 - rewrote to get rid of mnewt and floats
@@ -75,18 +75,18 @@ static  VIO_Real  thin_plate_spline_U_deriv(
               pos[n_dims]      - position at which to evaluate
 @OUTPUT     : values[n_values] - function values at this position
               deriv[n_values][n_dims] - function derivatives at this point
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Evaluates the thin plate spline at the given point, and, if
               the argument is non-null, the derivatives also.  The thin-plate
               spline takes a point in n_dims dimensional space and returns
               a point in n_values dimensional space.  When used for transforms,
               as in this file, n_values == n_dims, but the code will work for
               the general case where n_values != n_dims.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :
-@MODIFIED   : Feb. 27, 1995    David MacDonald 
+@MODIFIED   : Feb. 27, 1995    David MacDonald
               modified from some code written by WeiQian Dai later modified by
               Louis Collins
 ---------------------------------------------------------------------------- */
@@ -105,7 +105,7 @@ VIOAPI  void  evaluate_thin_plate_spline(
     VIO_Real      dist, dist_deriv;
 
     /* f(x,y[,z]) =a_{n} + a_{n+1}x + a_{n+1}y + sum_{0}^{n-1}
-     *          w_{i}U(|P_{i} - (x,y)|) 
+     *          w_{i}U(|P_{i} - (x,y)|)
      */
 
     /* --- initialize derivatives, if desired */
@@ -172,7 +172,7 @@ VIOAPI  void  evaluate_thin_plate_spline(
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : thin_plate_spline_transform
-@INPUT      : 
+@INPUT      :
 	      n_dims    - number of dimensions (either 2 or 3).
               n_points  - number of points
               points - array with 'n_points' rows, and 'n_dims' cols,
@@ -189,9 +189,9 @@ VIOAPI  void  evaluate_thin_plate_spline(
 @RETURNS    : nothing
 @DESCRIPTION: Transforms the 1,2, or 3D point given the thin plate spline
               transform
-@METHOD     : 
+@METHOD     :
 @GLOBALS    : none
-@CALLS      : 
+@CALLS      :
 @CREATED    : Mon Apr  5 09:00:54 EST 1993
 @MODIFIED   : Feb. 27, 1995   D. MacDonald -
                     reorganized to call evaluate_thin_plane_spline()
@@ -226,13 +226,13 @@ VIOAPI  VIO_Status  thin_plate_spline_transform(
 
     if( n_dims >= 3 )
         *z_transformed = output_point[2];
-    
+
     return VIO_OK;
 }
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : thin_plate_spline_inverse_transform
-@INPUT      : 
+@INPUT      :
 	      n_dims    - number of dimensions (either 2 or 3).
               n_points  - number of points
               points - array with 'n_points' rows, and 'n_dims' cols,
@@ -249,9 +249,9 @@ VIOAPI  VIO_Status  thin_plate_spline_transform(
 @RETURNS    : nothing
 @DESCRIPTION: Inverse transforms the 1,2, or 3D point given the thin plate
               spline transform.
-@METHOD     : 
+@METHOD     :
 @GLOBALS    : none
-@CALLS      : 
+@CALLS      :
 @CREATED    : Mon Apr  5 09:00:54 EST 1993
 @MODIFIED   : Feb. 27, 1995   D. MacDonald -
                     reorganized to call evaluate_thin_plane_spline()
@@ -271,7 +271,7 @@ VIOAPI  VIO_Status  thin_plate_spline_inverse_transform(
 {
     VIO_Real                x_in[VIO_N_DIMENSIONS], solution[VIO_N_DIMENSIONS];
     spline_data_struct  data;
-  
+
     x_in[VIO_X] = x;
 
     if( n_dims >= 2 )
@@ -317,15 +317,15 @@ VIOAPI  VIO_Status  thin_plate_spline_inverse_transform(
               parameters
 @OUTPUT     : values
               first_derivs
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: This function is passed to the newton function root finding
               routine, and evaluates the values and derivatives of the
               thin plate spline.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Feb. 27, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void   newton_function(
@@ -350,16 +350,16 @@ static  void   newton_function(
 @INPUT      : pos       - position at which to evaluate
               landmark  - landmark
               n_dims      number of dimensions (1,2, or 3)
-@OUTPUT     : 
-@RETURNS    : U interpolation function of distance between the two args 
+@OUTPUT     :
+@RETURNS    : U interpolation function of distance between the two args
 @DESCRIPTION: Returns the U interpolation function of the distance between
               points.  In order to correspond to a thin-plate spline, this
               function has a different form in each of the 3 dimensions.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Feb.   , 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Real  thin_plate_spline_U(
@@ -411,16 +411,16 @@ VIOAPI  VIO_Real  thin_plate_spline_U(
               landmark  - landmark
               n_dims    - number of dimensions (1,2, or 3)
               deriv_dim - dimension to differentiate
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : derivative of U interpolation function
 @DESCRIPTION: Returns the derivative of the U interpolation function of the
               distance between points (as specified by thin_plate_spline_U()
               above).
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Feb.   , 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_Real  thin_plate_spline_U_deriv(

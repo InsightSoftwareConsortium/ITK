@@ -69,7 +69,7 @@ int micopy_dimension ( midimhandle_t dim_ptr, midimhandle_t *new_dim_ptr )
    */
   handle = ( midimhandle_t ) malloc ( sizeof ( struct midimension ) );
 
-  if ( handle == NULL ) { 
+  if ( handle == NULL ) {
     return ( MI_ERROR );
   }
 
@@ -364,7 +364,7 @@ int mifree_dimension_handle ( midimhandle_t dim_ptr )
   if ( dim_ptr->widths != NULL ) {
     free ( dim_ptr->widths );
   }
-  
+
   if( dim_ptr->comments != NULL ) {
     free( dim_ptr->comments );
   }
@@ -948,7 +948,7 @@ int miset_dimension_description ( midimhandle_t dimension, const char *comments 
   * Get the identifier (name) of a MINC dimension.
   * \param dimension The dimension handle.
   * \param name_ptr A string pointer for returning the dimension name, should be released with free
-  * 
+  *
   * Retrieves the name of the given dimension.
   * \ingroup mi2Dim
   */
@@ -1374,7 +1374,7 @@ int miget_dimension_start ( midimhandle_t dimension, mivoxel_order_t voxel_order
   return ( MI_NOERROR );
 }
 
-/** 
+/**
   * Set the start of a MINC dimension.
   * \param dimension The dimension handle.
   * \param start The start of the dimension.
@@ -1608,7 +1608,7 @@ int miget_dimension_widths ( midimhandle_t dimension,
     }
 
   }
-  
+
   return MI_NOERROR;
 }
 

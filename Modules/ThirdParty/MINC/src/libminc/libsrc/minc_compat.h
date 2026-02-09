@@ -3,7 +3,7 @@
  */
 
 #ifdef __cplusplus
-extern "C" {    
+extern "C" {
 #endif /* __cplusplus */
 
 MNCAPI int MI2typelen(int);
@@ -31,7 +31,7 @@ MNCAPI int MI2dimdef(int fd, const char *dimnm, long length);
 
 MNCAPI int MI2attget(int fd, int varid, const char *attnm, void *value);
 
-MNCAPI int MI2attput(int fd, int varid, const char *attnm, nc_type val_typ, 
+MNCAPI int MI2attput(int fd, int varid, const char *attnm, nc_type val_typ,
            int val_len, const void *val_ptr);
 
 MNCAPI int MI2endef(int fd);
@@ -39,7 +39,7 @@ MNCAPI int MI2endef(int fd);
 MNCAPI int MI2vardef(int fd, const char *varnm, nc_type vartype, int ndims,
            const int *dimids);
 
-MNCAPI int MI2varget(int fd, int varid, const long *start_ptr, 
+MNCAPI int MI2varget(int fd, int varid, const long *start_ptr,
            const long *count_ptr, void *val_ptr);
 
 MNCAPI int MI2varput(int fd, int varid, const long *start_ptr,
@@ -52,11 +52,11 @@ MNCAPI int MI2attdel(int fd, int varid, const char *attnm);
 
 MNCAPI int MI2dimrename(int fd, int dimid, const char *new_name);
 
-MNCAPI int MI2varputg(int fd, int varid, const long *startp, 
-            const long *countp, const long *stridep, 
+MNCAPI int MI2varputg(int fd, int varid, const long *startp,
+            const long *countp, const long *stridep,
             const long *imapp, const void *valp);
 
-MNCAPI int MI2attcopy(int infd, int invarid, const char *name, int outfd, 
+MNCAPI int MI2attcopy(int infd, int invarid, const char *name, int outfd,
             int outvarid);
 
 MNCAPI int MI2redef(int fd);

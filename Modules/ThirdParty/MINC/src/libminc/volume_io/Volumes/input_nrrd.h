@@ -29,7 +29,7 @@ VIOAPI void delete_nrrd_format_input( volume_input_struct *in_ptr );
 
 /**
  * Read the next slice of an NRRD format file.
- * \param volume The volume associated with this input operation. 
+ * \param volume The volume associated with this input operation.
  * \param in_ptr State information for the current input operation.
  * \param fraction_done A number from 0 to 1 indicating the fraction
  * of the operation that has completed after this call returns.

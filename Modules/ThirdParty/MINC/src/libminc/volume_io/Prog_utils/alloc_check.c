@@ -19,17 +19,17 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : alloc_check.c
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Maintains a skiplist structure to list all memory allocated,
             : and check for errors such as freeing a pointer twice or
             : overlapping allocations.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 
@@ -77,14 +77,14 @@ typedef  void      *alloc_ptr;
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : initialize_alloc_list
 @INPUT      : alloc_list
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Initializes the allocation list to empty.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static   void  initialize_alloc_list(
@@ -107,14 +107,14 @@ static   void  initialize_alloc_list(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : check_initialized_alloc_list
 @INPUT      : alloc_list
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Checks to make sure the allocation list is initialized.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  check_initialized_alloc_list(
@@ -137,11 +137,11 @@ static  void  check_initialized_alloc_list(
 @RETURNS    : TRUE if found
 @DESCRIPTION: Searches the alloc_list for the given ptr, and sets the update
             : struct so that it can provide an insert.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_BOOL  find_pointer_position(
@@ -158,7 +158,7 @@ static  VIO_BOOL  find_pointer_position(
 	i = alloc_list->level-1;
 	if( i < 0 )
 		return FALSE;
-	
+
     for( ;  i >= 0;  --i )
     {
         while( x->forward[i] != NULL && (void *) x->forward[i]->ptr < ptr )
@@ -184,14 +184,14 @@ static  VIO_BOOL  find_pointer_position(
             : source_file      }}} these are recorded in the list
             : line_number      }}
             : sequence_number    }
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Records the allocated pointer in the allocation list.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static   void  insert_ptr_in_alloc_list(
@@ -243,11 +243,11 @@ static   void  insert_ptr_in_alloc_list(
 @RETURNS    : TRUE if an overlap
 @DESCRIPTION: Checks the new ptr to see if it overlaps with the previous and
             : following memory allocations in the list, and returns the result.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_BOOL  check_overlap(
@@ -290,11 +290,11 @@ static  VIO_BOOL  check_overlap(
 @DESCRIPTION: Finds and deletes the entry in the skip list associated with
             : ptr, and returns the information associated with the entry
             : (source_file, line_number, sequence_number).
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static   VIO_BOOL  remove_ptr_from_alloc_list(
@@ -346,15 +346,15 @@ static   VIO_BOOL  remove_ptr_from_alloc_list(
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_random_0_to_1
-@INPUT      : 
-@OUTPUT     : 
+@INPUT      :
+@OUTPUT     :
 @RETURNS    : random number
 @DESCRIPTION: Returns a random number >= 0 and < 1.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_Real  get_random_0_to_1( void )
@@ -364,16 +364,16 @@ static  VIO_Real  get_random_0_to_1( void )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_random_level
-@INPUT      : 
-@OUTPUT     : 
+@INPUT      :
+@OUTPUT     :
 @RETURNS    : a random level between 1 and MAX_LEVELS
 @DESCRIPTION: Determines a random level with exponential probability of higher
             : levels.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  int  get_random_level( void )
@@ -391,15 +391,15 @@ static  int  get_random_level( void )
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : memory_still_alloced
 @INPUT      : alloc_list
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE or FALSE
-@DESCRIPTION: Decides if any memory is still alloced, thus checking for 
+@DESCRIPTION: Decides if any memory is still alloced, thus checking for
               memory leaks.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_BOOL  memory_still_alloced(
@@ -412,14 +412,14 @@ static  VIO_BOOL  memory_still_alloced(
 @NAME       : output_alloc_list
 @INPUT      : file
             : alloc_list
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Outputs the list of allocated memory to the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  output_alloc_list(
@@ -441,14 +441,14 @@ static  void  output_alloc_list(
 @NAME       : update_total_memory
 @INPUT      : alloc_list
             : n_bytes
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Adds n_bytes to the size of memory recorded.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  update_total_memory(
@@ -474,14 +474,14 @@ static  void  update_total_memory(
 @INPUT      : source_file
             : line_number
             : sequence_number
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Prints the information about a particular allocation.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  print_source_location(
@@ -497,14 +497,14 @@ static  void  print_source_location(
 @NAME       : output_entry
 @INPUT      : file
             : entry
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Outputs the information about an allocation entry to the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  output_entry(
@@ -517,7 +517,7 @@ static  void  output_entry(
                     entry->sequence_number );
 }
 
-/*  
+/*
 --------------------------------------------------------------------------
     Routines that are to be called from outside this file
 --------------------------------------------------------------------------
@@ -527,16 +527,16 @@ static   alloc_struct   alloc_list;
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_total_memory_alloced
-@INPUT      : 
-@OUTPUT     : 
+@INPUT      :
+@OUTPUT     :
 @RETURNS    : size_t  - the number of bytes allocated
 @DESCRIPTION: Returns the total amount of memory allocated by the program,
             : not counting that used by the skip list.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  size_t  get_total_memory_alloced( void )
@@ -549,16 +549,16 @@ static  VIO_BOOL  enabled_initialized = FALSE;
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : alloc_checking_enabled
-@INPUT      : 
-@OUTPUT     : 
+@INPUT      :
+@OUTPUT     :
 @RETURNS    : TRUE if alloc checking is turned on
 @DESCRIPTION: Checks an environment variable to see if alloc checking is
             : not disabled.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  alloc_checking_enabled( void )
@@ -583,16 +583,16 @@ VIOAPI  void  set_alloc_checking( VIO_BOOL state )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : size_display_enabled
-@INPUT      : 
-@OUTPUT     : 
+@INPUT      :
+@OUTPUT     :
 @RETURNS    : TRUE if size displaying is turned on
 @DESCRIPTION: Checks an environment variable to see if memory size display
             : is disabled.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_BOOL  size_display_enabled( void )
@@ -615,19 +615,19 @@ static  VIO_BOOL  size_display_enabled( void )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_stop_sequence_number
-@INPUT      : 
-@OUTPUT     : 
+@INPUT      :
+@OUTPUT     :
 @RETURNS    : which allocation number
 @DESCRIPTION: Returns the number at which allocation should stop.  This is
               used for debugging.  For instance, if an error message indicates
               a problem with the 100'th alloc of the program, then do a
               SETENV STOP_ALLOC_AT 100 and run the program from the debugger.
               It will stop at the requested allocation.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  int  get_stop_sequence_number( void )
@@ -650,17 +650,17 @@ static  int  get_stop_sequence_number( void )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_current_sequence_number
-@INPUT      : 
-@OUTPUT     : 
+@INPUT      :
+@OUTPUT     :
 @RETURNS    : the index of this alloc
 @DESCRIPTION: Returns the count of how many allocations have been done, so that
               each allocation can be assigned a value equal to its cardinality
               in the set of allocations over the life of the program.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  int  get_current_sequence_number( void )
@@ -681,14 +681,14 @@ static  int  get_current_sequence_number( void )
             : n_bytes
             : source_file
             : line_number
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Records the information about a single allocation in the list.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  record_ptr_alloc_check(
@@ -723,7 +723,7 @@ VIOAPI  void  record_ptr_alloc_check(
             if( check_overlap( &alloc_list, &update_ptrs, ptr, n_bytes, &entry))
             {
                 print_source_location( source_file, line_number, -1 );
-                print_error( 
+                print_error(
                  ": Alloc returned a pointer overlapping an existing block:\n"
                  );
                 print_source_location( entry->source_file, entry->line_number,
@@ -747,16 +747,16 @@ VIOAPI  void  record_ptr_alloc_check(
             : n_bytes
             : source_file
             : line_number
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Changes the information (mainly the n_bytes) associated with a
             : given pointer.  This function is called from the def_alloc
             : macros after a realloc().
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  change_ptr_alloc_check(
@@ -797,7 +797,7 @@ VIOAPI  void  change_ptr_alloc_check(
                                &entry ) )
             {
                 print_source_location( source_file, line_number, -1 );
-                print_error( 
+                print_error(
                ": VIO_Realloc returned a pointer overlapping an existing block:\n");
                 print_source_location( entry->source_file, entry->line_number,
                                        entry->sequence_number );
@@ -817,16 +817,16 @@ VIOAPI  void  change_ptr_alloc_check(
 @INPUT      : ptr
             : source_file
             : line_number
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if ptr was in list
 @DESCRIPTION: Removes the entry for the given ptr from the list.  Called by
             : the macros during a FREE.  Returns TRUE if the pointer was
             : in the list.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  unrecord_ptr_alloc_check(
@@ -868,16 +868,16 @@ VIOAPI  VIO_BOOL  unrecord_ptr_alloc_check(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : output_alloc_to_file
 @INPUT      : filename
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Outputs a list of all memory allocated to the given file.  Usually
             : done at the end of the program to see if there is any memory that
             : was orphaned.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  output_alloc_to_file(

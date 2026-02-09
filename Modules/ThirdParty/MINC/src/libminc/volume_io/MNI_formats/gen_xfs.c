@@ -20,14 +20,14 @@
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : alloc_linear_transform
 @INPUT      : transform
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Allocates memory for the linear transform and its inverse.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  alloc_linear_transform(
@@ -44,15 +44,15 @@ static  void  alloc_linear_transform(
 @NAME       : create_linear_transform
 @INPUT      : linear_transform
 @OUTPUT     : transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Creates a general transform of type linear, copying the
               linear_transform and computing its inverse.  If the linear
               transform is NULL, the identity transform is created.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  create_linear_transform(
@@ -79,15 +79,15 @@ VIOAPI  void  create_linear_transform(
 @INPUT      : transform
               n_dimensions
               n_points
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Initializes a VIO_General_transform structure for thin plate
               transforms.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Feb. 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  initialize_thin_plate_transform(
@@ -113,12 +113,12 @@ static  void  initialize_thin_plate_transform(
               points
               displacements
 @OUTPUT     : transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Creates a general transform of type thin plate spline, given
               VIO_Real-type points and displacements.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Feb. 21, 1995   David MacDonald - make a real and float version
 ---------------------------------------------------------------------------- */
@@ -154,11 +154,11 @@ VIOAPI  void  create_thin_plate_transform_real(
               points
               displacements
 @OUTPUT     : transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Creates a general transform of type thin plate spline.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Feb. 21, 1995   David MacDonald - make a real and float version
 ---------------------------------------------------------------------------- */
@@ -191,13 +191,13 @@ VIOAPI  void  create_thin_plate_transform(
 @NAME       : internal_create_grid_transform
 @INPUT      : displacement_volume
 @OUTPUT     : transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Creates a general transform of type grid.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Feb. 21, 1995            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 static  void  internal_create_grid_transform(
     VIO_General_transform    *transform,
@@ -213,7 +213,7 @@ static  void  internal_create_grid_transform(
 
     volume_ok = TRUE;
     /*TODO: initialize strings?*/
-    
+
     if( displacement_volume )
     {
       if( get_volume_n_dimensions(displacement_volume) != 4 )
@@ -268,7 +268,7 @@ static  void  internal_create_grid_transform(
           create_linear_transform( transform, NULL );  /*--- make identity */
           return;
       }
-      
+
       if( copy_flag )
           copy = copy_volume( displacement_volume );
       else
@@ -290,26 +290,26 @@ static  void  internal_create_grid_transform(
       transform->inverse_flag = FALSE;
       transform->displacement_volume = NULL;
     }
-    
+
     /*Will be initialized on save*/
     if(displacement_volume_file)
       transform->displacement_volume_file = create_string( displacement_volume_file );
     else
-      transform->displacement_volume_file = NULL; 
+      transform->displacement_volume_file = NULL;
 }
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : create_grid_transform
 @INPUT      : displacement_volume
 @OUTPUT     : transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Creates a grid transform VIO_General_transform.  Makes a copy of
               the displacement volume and puts it in the VIO_General_transform.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Feb. 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  create_grid_transform(
@@ -324,15 +324,15 @@ VIOAPI  void  create_grid_transform(
 @NAME       : create_grid_transform_no_copy
 @INPUT      : displacement_volume
 @OUTPUT     : transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Creates a grid transform VIO_General_transform.  Places the
               displacement volume into the VIO_General_transform; therefore the
               calling program should not delete the volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Feb. 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  create_grid_transform_no_copy(
@@ -350,13 +350,13 @@ VIOAPI  void  create_grid_transform_no_copy(
               transform_function
               inverse_transform_function
 @OUTPUT     : transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Creates a general transform of type user transform.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  create_user_transform(
@@ -382,14 +382,14 @@ VIOAPI  void  create_user_transform(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_transform_type
 @INPUT      : transform
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : type
 @DESCRIPTION: Returns the type of the general transform.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Transform_types  get_transform_type(
@@ -401,15 +401,15 @@ VIOAPI  VIO_Transform_types  get_transform_type(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_n_concated_transforms
 @INPUT      : transform
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : # transforms
 @DESCRIPTION: Returns the number of concatenated transforms if the transform
               type is concatenated, otherwise, 1.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  int  get_n_concated_transforms(
@@ -425,14 +425,14 @@ VIOAPI  int  get_n_concated_transforms(
 @NAME       : get_nth_general_transform
 @INPUT      : transform
               n
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : pointer to nth transform
 @DESCRIPTION: Returns a pointer to the nth transform of the general transform.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_General_transform  *get_nth_general_transform(
@@ -453,15 +453,15 @@ VIOAPI  VIO_General_transform  *get_nth_general_transform(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_linear_transform_ptr
 @INPUT      : transform
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : pointer to linear transform
 @DESCRIPTION: Returns a pointer to the linear transform of the general
               transform.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Transform  *get_linear_transform_ptr(
@@ -484,15 +484,15 @@ VIOAPI  VIO_Transform  *get_linear_transform_ptr(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_inverse_linear_transform_ptr
 @INPUT      : transform
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : pointer to inverse linear transform
 @DESCRIPTION: Returns a pointer to the inverse linear transform of the general
               transform.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Transform  *get_inverse_linear_transform_ptr(
@@ -523,18 +523,18 @@ VIOAPI  VIO_Transform  *get_inverse_linear_transform_ptr(
 @OUTPUT     : x_transformed
               y_transformed
               z_transformed
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Transforms a point by the general transform or its inverse,
               depending on inverse_flag.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Feb. 27, 1995   D. MacDonald  - added grid transforms
 @MODIFIED   : 2013, June 10,  Matthijs van Eede, added the possibility to pass
-                              along the step sizes of the input file which is 
+                              along the step sizes of the input file which is
                               being resampled to determine the appropriate error
-                              margin (ftol) in 
+                              margin (ftol) in
                               grid_inverse_transform_point_with_input_steps
 ---------------------------------------------------------------------------- */
 
@@ -674,15 +674,15 @@ static  VIO_Status  transform_or_invert_point_with_input_steps(
 @OUTPUT     : x_transformed
               y_transformed
               z_transformed
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Transforms a point by the general transform.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 @MODIFIED   : 2013, June 10,  Matthijs van Eede, added the possibility to pass
-                              along the step sizes of the input file which is 
+                              along the step sizes of the input file which is
                               being resampled to determine the appropriate error
                               margin (ftol) in grid_inverse_transform_point_with_input_steps
 ---------------------------------------------------------------------------- */
@@ -713,13 +713,13 @@ VIOAPI  VIO_Status  general_transform_point_with_input_steps(
 @OUTPUT     : x_transformed
               y_transformed
               z_transformed
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Transforms a point by the inverse of the general transform.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  general_inverse_transform_point_with_input_steps(
@@ -747,13 +747,13 @@ VIOAPI  VIO_Status  general_inverse_transform_point_with_input_steps(
 @OUTPUT     : x_transformed
               y_transformed
               z_transformed
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Transforms a point by the general transform.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  general_transform_point(
@@ -780,13 +780,13 @@ VIOAPI  VIO_Status  general_transform_point(
 @OUTPUT     : x_transformed
               y_transformed
               z_transformed
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Transforms a point by the inverse of the general transform.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  general_inverse_transform_point(
@@ -809,13 +809,13 @@ VIOAPI  VIO_Status  general_inverse_transform_point(
 @INPUT      : transform
               invert_it
 @OUTPUT     : copy
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Copies the transform or its inverse to copy.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 @MODIFIED   : Feb. 27, 1995   D. MacDonald  - added grid transforms
 ---------------------------------------------------------------------------- */
 
@@ -872,7 +872,7 @@ static  void  copy_and_invert_transform(
           copy->displacement_volume = (void *) copy_volume(
                                       (VIO_Volume) transform->displacement_volume );
         if( transform->displacement_volume_file )
-          copy->displacement_volume_file = 
+          copy->displacement_volume_file =
             create_string( transform->displacement_volume_file );
 
         if( invert_it )
@@ -910,13 +910,13 @@ static  void  copy_and_invert_transform(
 @NAME       : copy_general_transform
 @INPUT      : transform
 @OUTPUT     : copy
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Copies the general transform to copy.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  copy_general_transform(
@@ -930,13 +930,13 @@ VIOAPI  void  copy_general_transform(
 @NAME       : invert_general_transform
 @INPUT      : transform
 @OUTPUT     : transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Inverts a general transform in place.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Nov. 20, 1995   David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  invert_general_transform(
@@ -949,13 +949,13 @@ VIOAPI  void  invert_general_transform(
 @NAME       : create_inverse_general_transform
 @INPUT      : transform
 @OUTPUT     : inverse
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Creates a general transform that is the inverse of the given one.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  create_inverse_general_transform(
@@ -970,15 +970,15 @@ VIOAPI  void  create_inverse_general_transform(
 @INPUT      : first
               second
 @OUTPUT     : result
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Concatenates two general transforms into result.  Transforming
               a point by result is the same as transforming it by 'first',
               then transforming by 'second'.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  concat_general_transforms(
@@ -1000,7 +1000,7 @@ VIOAPI  void  concat_general_transforms(
         result_ptr = &result_tmp;
     else
         result_ptr = result;
-    
+
 
     first_inverted_concat = first->type == CONCATENATED_TRANSFORM &&
                             first->inverse_flag;
@@ -1124,14 +1124,14 @@ VIOAPI  void  concat_general_transforms(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : delete_general_transform
 @INPUT      : transform
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Deletes the transform, freeing up memory.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 @MODIFIED   : Feb. 27, 1995   D. MacDonald  - added grid transforms
 ---------------------------------------------------------------------------- */
 
@@ -1156,13 +1156,13 @@ VIOAPI  void  delete_general_transform(
         break;
 
     case GRID_TRANSFORM:
-        if( transform->displacement_volume ) 
+        if( transform->displacement_volume )
           delete_volume( (VIO_Volume) transform->displacement_volume );
         if( transform->displacement_volume_file )
           delete_string(transform->displacement_volume_file);
-        
+
         transform->displacement_volume_file=NULL;
-        
+
         break;
     case USER_TRANSFORM:
         if( transform->size_user_data )
