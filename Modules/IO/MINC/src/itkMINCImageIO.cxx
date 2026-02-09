@@ -31,31 +31,28 @@
 #include <memory> // For unique_ptr.
 
 
-extern "C"
+static void
+MINCIOFreeTmpDimHandle(unsigned int size, const midimhandle_t * const ptr)
 {
-  static void
-  MINCIOFreeTmpDimHandle(unsigned int size, const midimhandle_t * const ptr)
+  if (!ptr)
   {
-    if (!ptr)
-    {
-      /*
-       * Should never happen.
-       */
+    /*
+     * Should never happen.
+     */
 #ifndef NDEBUG
-      printf("MINCIOFreeTmpDimHandle: ptr is null pointer");
+    printf("MINCIOFreeTmpDimHandle: ptr is null pointer");
 #endif
-      return;
-    }
-    for (unsigned int x = 0; x < size; ++x)
-    {
-      [[maybe_unused]] const int error = mifree_dimension_handle(ptr[x]);
+    return;
+  }
+  for (unsigned int x = 0; x < size; ++x)
+  {
+    [[maybe_unused]] const int error = mifree_dimension_handle(ptr[x]);
 #ifndef NDEBUG
-      if (error != MI_NOERROR)
-      {
-        printf("MINCIOFreeTmpDimHandle: mifree_dimension_handle(ptr[%u]) returned %d", x, error);
-      }
-#endif
+    if (error != MI_NOERROR)
+    {
+      printf("MINCIOFreeTmpDimHandle: mifree_dimension_handle(ptr[%u]) returned %d", x, error);
     }
+#endif
   }
 }
 
