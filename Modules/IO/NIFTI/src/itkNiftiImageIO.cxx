@@ -28,260 +28,6 @@
 
 namespace itk
 {
-// #define ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING
-#if defined(ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING)
-namespace
-{
-static int
-print_hex_vals(const char * const data, const int nbytes, FILE * const fp)
-{
-  if (!data || nbytes < 1 || !fp)
-  {
-    return -1;
-  }
-  fputs("0x", fp);
-  for (int c = 0; c < nbytes; ++c)
-  {
-    fprintf(fp, " %x", data[c]);
-  }
-
-  return 0;
-}
-
-static const char *
-str_intent(const unsigned int intent)
-{
-  switch (intent)
-  {
-    case NIFTI_INTENT_NONE:
-      return "NIFTI_INTENT_NONE";
-    case NIFTI_INTENT_CORREL:
-      return "NIFTI_INTENT_CORREL";
-    case NIFTI_INTENT_TTEST:
-      return "NIFTI_INTENT_TTEST";
-    case NIFTI_INTENT_FTEST:
-      return "NIFTI_INTENT_FTEST";
-    case NIFTI_INTENT_ZSCORE:
-      return "NIFTI_INTENT_ZSCORE";
-    case NIFTI_INTENT_CHISQ:
-      return "NIFTI_INTENT_CHISQ";
-    case NIFTI_INTENT_BETA:
-      return "NIFTI_INTENT_BETA";
-    case NIFTI_INTENT_BINOM:
-      return "NIFTI_INTENT_BINOM";
-    case NIFTI_INTENT_GAMMA:
-      return "NIFTI_INTENT_GAMMA";
-    case NIFTI_INTENT_POISSON:
-      return "NIFTI_INTENT_POISSON";
-    case NIFTI_INTENT_NORMAL:
-      return "NIFTI_INTENT_NORMAL";
-    case NIFTI_INTENT_FTEST_NONC:
-      return "NIFTI_INTENT_FTEST_NONC";
-    case NIFTI_INTENT_CHISQ_NONC:
-      return "NIFTI_INTENT_CHISQ_NONC";
-    case NIFTI_INTENT_LOGISTIC:
-      return "NIFTI_INTENT_LOGISTIC";
-    case NIFTI_INTENT_LAPLACE:
-      return "NIFTI_INTENT_LAPLACE";
-    case NIFTI_INTENT_UNIFORM:
-      return "NIFTI_INTENT_UNIFORM";
-    case NIFTI_INTENT_TTEST_NONC:
-      return "NIFTI_INTENT_TTEST_NONC";
-    case NIFTI_INTENT_WEIBULL:
-      return "NIFTI_INTENT_WEIBULL";
-    case NIFTI_INTENT_CHI:
-      return "NIFTI_INTENT_CHI";
-    case NIFTI_INTENT_INVGAUSS:
-      return "NIFTI_INTENT_INVGAUSS";
-    case NIFTI_INTENT_EXTVAL:
-      return "NIFTI_INTENT_EXTVAL";
-    case NIFTI_INTENT_PVAL:
-      return "NIFTI_INTENT_PVAL";
-    case NIFTI_INTENT_LOGPVAL:
-      return "NIFTI_INTENT_LOGPVAL";
-    case NIFTI_INTENT_LOG10PVAL:
-      return "NIFTI_INTENT_LOG10PVAL";
-    case NIFTI_INTENT_ESTIMATE:
-      return "NIFTI_INTENT_ESTIMATE";
-    case NIFTI_INTENT_LABEL:
-      return "NIFTI_INTENT_LABEL";
-    case NIFTI_INTENT_NEURONAME:
-      return "NIFTI_INTENT_NEURONAME";
-    case NIFTI_INTENT_GENMATRIX:
-      return "NIFTI_INTENT_GENMATRIX";
-    case NIFTI_INTENT_SYMMATRIX:
-      return "NIFTI_INTENT_SYMMATRIX";
-    case NIFTI_INTENT_DISPVECT:
-      return "NIFTI_INTENT_DISPVECT";
-    case NIFTI_INTENT_VECTOR:
-      return "NIFTI_INTENT_VECTOR";
-    case NIFTI_INTENT_POINTSET:
-      return "NIFTI_INTENT_POINTSET";
-    case NIFTI_INTENT_TRIANGLE:
-      return "NIFTI_INTENT_TRIANGLE";
-    case NIFTI_INTENT_QUATERNION:
-      return "NIFTI_INTENT_QUATERNION";
-    case NIFTI_INTENT_DIMLESS:
-      return "NIFTI_INTENT_DIMLESS";
-    default:
-      return "UNKNOWN_INTENT";
-  }
-}
-
-//--------------------------------------------------------------------
-// display the contents of the nifti_1_header (send to stdout)
-//--------------------------------------------------------------------
-static int
-DumpNiftiHeader(const std::string & fname)
-{
-  int              swap;
-  nifti_1_header * hp = nifti_read_header(fname.c_str(), &swap, true);
-  fputs("-------------------------------------------------------\n", stderr);
-  if (!hp)
-  {
-    fputs(" ** no nifti_1_header to display!\n", stderr);
-    return 1;
-  }
-
-  fprintf(stderr,
-          " nifti_1_header :\n"
-          "    sizeof_hdr     = %d\n"
-          "    data_type[10]  = ",
-          hp->sizeof_hdr);
-  print_hex_vals(hp->data_type, 10, stderr);
-  fprintf(stderr,
-          "\n"
-          "    db_name[18]    = ");
-  print_hex_vals(hp->db_name, 18, stderr);
-  fprintf(stderr,
-          "\n"
-          "    extents        = %d\n"
-          "    session_error  = %d\n"
-          "    regular        = 0x%x\n"
-          "    dim_info       = 0x%x\n",
-          hp->extents,
-          hp->session_error,
-          hp->regular,
-          hp->dim_info);
-  fprintf(stderr, "    dim[8]         =");
-  for (int c = 0; c < 8; ++c)
-  {
-    fprintf(stderr, " %d", hp->dim[c]);
-  }
-  fprintf(stderr,
-          "\n"
-          "    intent_p1      = %f\n"
-          "    intent_p2      = %f\n"
-          "    intent_p3      = %f\n"
-          "    intent_code    = %s\n"
-          "    datatype       = %d\n"
-          "    bitpix         = %d\n"
-          "    slice_start    = %d\n"
-          "    pixdim[8]      =",
-          hp->intent_p1,
-          hp->intent_p2,
-          hp->intent_p3,
-          str_intent(hp->intent_code),
-          hp->datatype,
-          hp->bitpix,
-          hp->slice_start);
-  // break pixdim over 2 lines
-  for (int c = 0; c < 4; ++c)
-  {
-    fprintf(stderr, " %f", hp->pixdim[c]);
-  }
-  fprintf(stderr, "\n                    ");
-  for (int c = 4; c < 8; ++c)
-  {
-    fprintf(stderr, " %f", hp->pixdim[c]);
-  }
-  fprintf(stderr,
-          "\n"
-          "    vox_offset     = %f\n"
-          "    scl_slope      = %f\n"
-          "    scl_inter      = %f\n"
-          "    slice_end      = %d\n"
-          "    slice_code     = %d\n"
-          "    xyzt_units     = 0x%x\n"
-          "    cal_max        = %f\n"
-          "    cal_min        = %f\n"
-          "    slice_duration = %f\n"
-          "    toffset        = %f\n"
-          "    glmax          = %d\n"
-          "    glmin          = %d\n",
-          hp->vox_offset,
-          hp->scl_slope,
-          hp->scl_inter,
-          hp->slice_end,
-          hp->slice_code,
-          hp->xyzt_units,
-          hp->cal_max,
-          hp->cal_min,
-          hp->slice_duration,
-          hp->toffset,
-          hp->glmax,
-          hp->glmin);
-  fprintf(stderr,
-          "    descrip        = '%.80s'\n"
-          "    aux_file       = '%.24s'\n"
-          "    qform_code     = %d\n"
-          "    sform_code     = %d\n"
-          "    quatern_b      = %f\n"
-          "    quatern_c      = %f\n"
-          "    quatern_d      = %f\n"
-          "    qoffset_x      = %f\n"
-          "    qoffset_y      = %f\n"
-          "    qoffset_z      = %f\n"
-          "    srow_x[4]      = %f, %f, %f, %f\n"
-          "    srow_y[4]      = %f, %f, %f, %f\n"
-          "    srow_z[4]      = %f, %f, %f, %f\n"
-          "    intent_name    = '%-.16s'\n"
-          "    magic          = '%-.4s'\n",
-          hp->descrip,
-          hp->aux_file,
-          hp->qform_code,
-          hp->sform_code,
-          hp->quatern_b,
-          hp->quatern_c,
-          hp->quatern_d,
-          hp->qoffset_x,
-          hp->qoffset_y,
-          hp->qoffset_z,
-          hp->srow_x[0],
-          hp->srow_x[1],
-          hp->srow_x[2],
-          hp->srow_x[3],
-          hp->srow_y[0],
-          hp->srow_y[1],
-          hp->srow_y[2],
-          hp->srow_y[3],
-          hp->srow_z[0],
-          hp->srow_z[1],
-          hp->srow_z[2],
-          hp->srow_z[3],
-          hp->intent_name,
-          hp->magic);
-  fputs("-------------------------------------------------------\n", stderr);
-  fflush(stderr);
-  free(hp);
-
-  return 0;
-}
-
-static void
-dumpdata(const void * x)
-{
-  std::cerr << "----------------------" << std::endl;
-  const float * a = (const float *)x;
-  for (unsigned int i = 0; i < 24; ++i) // t
-  {
-    std::cerr << a[i] << std::endl;
-  }
-}
-} // namespace
-#else
-#  define dumpdata(x) ITK_NOOP_STATEMENT
-#endif // #if defined(ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING)
 
 namespace
 {
@@ -751,8 +497,6 @@ NiftiImageIO::Read(void * buffer)
       }
     }
     delete[] vecOrder;
-    dumpdata(data);
-    dumpdata(buffer);
     // if read_subregion was called it allocates a buffer that needs to be
     // freed.
     if (data != m_Holder->ptr->data)
@@ -1051,7 +795,6 @@ NiftiImageIO::SetImageIOMetadataFromNIfTI()
 void
 NiftiImageIO::ReadImageInformation()
 {
-
   const int image_FTYPE = is_nifti_file(this->GetFileName());
   if (image_FTYPE == 0)
   {
@@ -1072,14 +815,6 @@ NiftiImageIO::ReadImageInformation()
   }
 
   m_Holder->ptr.reset(nifti_image_read(this->GetFileName(), false));
-  static std::string prev;
-  if (prev != this->GetFileName())
-  {
-#if defined(ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING)
-    DumpNiftiHeader(this->GetFileName());
-#endif
-    prev = this->GetFileName();
-  }
   if (m_Holder->ptr == nullptr)
   {
     itkExceptionMacro(<< this->GetFileName() << " is not recognized as a NIFTI file");
@@ -2500,7 +2235,6 @@ NiftiImageIO::Write(const void * buffer)
     }
 
     delete[] vecOrder;
-    dumpdata(buffer);
     // Need a const cast here so that we don't have to copy the memory for
     // writing.
     m_Holder->ptr->data = static_cast<void *>(nifti_buf.get());
