@@ -31,12 +31,12 @@ namespace itk
  *
  * \brief Streamable process that will generate image regions from the write requests
  *
- * We do not allocate directly the Image, because as an Image is a data and is not streamable,
+ * We do not directly allocate the Image, because, as an Image is a data and is not streamable,
  * the writer would write the image in one pass, without streaming.
  *
  * Instead, we need to set a streamable source process as the writer input.
  * This source process, 'DemoImageSource', will allocate a region of the image
- * (and set pixels values) on the fly, based on the informations
+ * (and set pixels values) on the fly, based on the information
  * received from the writer requests.
  */
 template <class TOutputImage>
@@ -171,7 +171,7 @@ HDF5ReadWriteTest2(const char * fileName)
   }
   image = streamer->GetOutput();
 
-  // Check largest possible and buffered regions.
+  // Check the largest possible and buffered regions.
   expectedRegion.SetIndex(0, 0);
   expectedRegion.SetIndex(1, 0);
   expectedRegion.SetIndex(2, 0);
@@ -181,12 +181,12 @@ HDF5ReadWriteTest2(const char * fileName)
   if (image->GetLargestPossibleRegion() != expectedRegion)
   {
     std::cout << "Read image largest possible region: " << image->GetLargestPossibleRegion()
-              << "n doesn't match expectedo one: " << expectedRegion << std::endl;
+              << " doesn't match expected one: " << expectedRegion << std::endl;
   }
   if (image->GetBufferedRegion() != expectedRegion)
   {
     std::cout << "Read image buffered region: " << image->GetBufferedRegion()
-              << "n doesn't match expectedo one: " << expectedRegion << std::endl;
+              << " doesn't match expected one: " << expectedRegion << std::endl;
   }
 
   // Check image pixel values.

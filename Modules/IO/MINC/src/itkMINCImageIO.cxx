@@ -33,8 +33,8 @@
 
 extern "C"
 {
-  void
-  MINCIOFreeTmpDimHandle(unsigned int size, midimhandle_t * ptr)
+  static void
+  MINCIOFreeTmpDimHandle(unsigned int size, const midimhandle_t * const ptr)
   {
     if (!ptr)
     {
@@ -123,7 +123,7 @@ MINCImageIO::Read(void * buffer)
     start[nDims] = 0;
     count[nDims] = nComp;
   }
-  mitype_t volume_data_type = MI_TYPE_UBYTE;
+  mitype_t volume_data_type;
 
   switch (this->GetComponentType())
   {
@@ -1387,7 +1387,7 @@ MINCImageIO::Write(const void * buffer)
 
   double   buffer_min = NAN;
   double   buffer_max = NAN;
-  mitype_t volume_data_type = MI_TYPE_UBYTE;
+  mitype_t volume_data_type;
 
   switch (this->GetComponentType())
   {

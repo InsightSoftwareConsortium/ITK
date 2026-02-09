@@ -41,7 +41,7 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME itkMINCImageIOTest3
+  NAME itkMINCImageIOTest4_byte
   COMMAND
     ITKIOMINCTestDriver
     --compare
@@ -54,7 +54,7 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME itkMINCImageIOTest4
+  NAME itkMINCImageIOTest4_head
   COMMAND
     ITKIOMINCTestDriver
     --compare

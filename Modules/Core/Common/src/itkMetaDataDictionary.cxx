@@ -48,6 +48,7 @@ MetaDataDictionary::Print(std::ostream & os) const
   {
     os << it.first << "  ";
     it.second->Print(os);
+    os << std::endl;
   }
 }
 
