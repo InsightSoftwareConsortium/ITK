@@ -723,7 +723,7 @@ macro(itk_module_target_name _name)
   )
 endmacro()
 
-# itk_module_target_export(_name)
+# itk_module_target_export(_name [NAMESPACE <namespace>])
 #
 # Macro for exporting a target from an ITK module to the build tree. This macro
 # handles the export of targets to make them available to other ITK modules and
@@ -739,24 +739,40 @@ endmacro()
 #
 # Arguments:
 #   _name - The name of the target to export (typically ${itk-module} or ${itk-module}Module)
+#   NAMESPACE - Optional namespace prefix. If not provided, uses ITK_MODULE_${itk-module}_TARGETS_NAMESPACE
 macro(itk_module_target_export _name)
+  cmake_parse_arguments(_export "" "NAMESPACE" "" ${ARGN})
+  if(_export_UNPARSED_ARGUMENTS)
+    message(FATAL_ERROR "Unknown arguments: ${_export_UNPARSED_ARGUMENTS}")
+  endif()
+
+  if(_export_NAMESPACE)
+    set(_export_namespace "${_export_NAMESPACE}")
+  else()
+    set(_export_namespace "${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}")
+  endif()
+
   get_property(_ttype TARGET ${_name} PROPERTY TYPE)
   if(
     _ttype
       MATCHES
       ".*_LIBRARY$"
     AND
-      ITK_MODULE_${itk-module}_TARGETS_NAMESPACE
+      _export_namespace
+    AND
+      NOT
+        ${_name}
+          MATCHES
+          "^(.*)::(.*)$"
   )
-    add_library(
-      ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${_name}
-      ALIAS ${_name}
-    )
+    if(NOT TARGET ${_export_namespace}${_name})
+      add_library(${_export_namespace}${_name} ALIAS ${_name})
+    endif()
     set_target_properties(
       ${_name}
       PROPERTIES
         EXPORT_NAME
-          ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${_name}
+          ${_export_namespace}${_name}
     )
   endif()
   export(TARGETS ${_name} APPEND FILE ${${itk-module}-targets-build})
@@ -787,22 +803,44 @@ macro(itk_module_target_install _name)
   )
 endmacro()
 
-macro(itk_module_target _name)
-  set(_install 1)
-  foreach(arg ${ARGN})
-    if("${arg}" MATCHES "^(NO_INSTALL)$")
-      set(_install 0)
-    else()
-      message(FATAL_ERROR "Unknown argument [${arg}]")
-    endif()
-  endforeach()
+# itk_module_target(_name [NO_INSTALL] [NAMESPACE <namespace>])
+#
+# Function for configuring, labeling, exporting, and installing a target from an ITK module.
+# This is a convenience function that calls itk_module_target_name, itk_module_target_label,
+# itk_module_target_export, and optionally itk_module_target_install for a given target.
+#
+# This function should be called for each library or executable target created in an ITK module
+# to ensure proper naming conventions, labeling, export configuration, and installation.
+#
+# Arguments:
+#   _name - The name of the target to configure (e.g., ${itk-module} for the main library)
+#
+# Options:
+#   NO_INSTALL - If specified, the target will not be installed (useful for test executables)
+#   NAMESPACE <namespace> - Optional namespace prefix for export. If not provided, uses
+#                          ITK_MODULE_${itk-module}_TARGETS_NAMESPACE
+#
+# Example usage:
+#   itk_module_target(${itk-module})                   # Standard library with installation
+#   itk_module_target(MyTestExe NO_INSTALL)            # Test executable without installation
+#   itk_module_target(MyLib NAMESPACE "Custom::")      # Library with custom namespace
+function(itk_module_target _name)
+  cmake_parse_arguments(_target "NO_INSTALL" "NAMESPACE" "" ${ARGN})
+  if(_target_UNPARSED_ARGUMENTS)
+    message(FATAL_ERROR "Unknown arguments: ${_target_UNPARSED_ARGUMENTS}")
+  endif()
+
   itk_module_target_name(${_name})
   itk_module_target_label(${_name})
-  itk_module_target_export(${_name})
-  if(_install)
+  if(_target_NAMESPACE)
+    itk_module_target_export(${_name} NAMESPACE ${_target_NAMESPACE})
+  else()
+    itk_module_target_export(${_name})
+  endif()
+  if(NOT _target_NO_INSTALL)
     itk_module_target_install(${_name})
   endif()
-endmacro()
+endfunction()
 
 # itk_module_add_library(_name LibrarySource1 LibrarySource2 ... LibrarySourceN)
 #
