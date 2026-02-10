@@ -45,6 +45,29 @@ set_property(
       GTest::gtest_main
 )
 
+if(NOT ITK_LEGACY_REMOVE)
+  # Note: CMake depricated these alias in 3.20, and are removed in 4.1.0
+  # Please use GTest::gtest and GTest::gtest_main for compatibilty
+  add_library(GTest::GTest INTERFACE IMPORTED)
+  add_library(GTest::Main INTERFACE IMPORTED)
+  set_target_properties(
+    GTest::GTest
+    PROPERTIES
+      INTERFACE_LINK_LIBRARIES
+        GTest::gtest
+      DEPRECATION
+        "Use GTest::GTest is deprecated, use GTest::gtest instead."
+  )
+  set_target_properties(
+    GTest::Main
+    PROPERTIES
+      INTERFACE_LINK_LIBRARIES
+        GTest::gtest_main
+      DEPRECATION
+        "Use GTest::Main is deprecated, use GTest::gtest_main instead."
+  )
+endif()
+
 itk_module_target(gtest NO_INSTALL)
 itk_module_target(gtest_main NO_INSTALL)
 
