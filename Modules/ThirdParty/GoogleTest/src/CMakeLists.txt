@@ -68,12 +68,14 @@ if(NOT ITK_LEGACY_REMOVE)
   )
 endif()
 
-itk_module_target(gtest NO_INSTALL)
-itk_module_target(gtest_main NO_INSTALL)
+itk_module_target(gtest NO_INSTALL NAMESPACE GTest::)
+itk_module_target(gtest_main NO_INSTALL NAMESPACE GTest::)
 
-mark_as_advanced(gtest_build_samples)
-mark_as_advanced(gtest_build_tests)
-mark_as_advanced(gtest_disable_pthreads)
-mark_as_advanced(gtest_hide_internal_symbols)
-mark_as_advanced(INSTALL_GTEST)
-mark_as_advanced(GTEST_HAS_ABSL)
+mark_as_advanced(
+  gtest_build_samples
+  gtest_build_tests
+  gtest_disable_pthreads
+  gtest_hide_internal_symbols
+  INSTALL_GTEST
+  GTEST_HAS_ABSL
+)
