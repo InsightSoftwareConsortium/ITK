@@ -1,7 +1,11 @@
 project(ITKEigen3)
 set(ITKEigen3_THIRD_PARTY 1)
 
-option(ITK_USE_SYSTEM_EIGEN "Use an outside build of Eigen3." ${ITK_USE_SYSTEM_LIBRARIES})
+option(
+  ITK_USE_SYSTEM_EIGEN
+  "Use an outside build of Eigen3."
+  ${ITK_USE_SYSTEM_LIBRARIES}
+)
 mark_as_advanced(ITK_USE_SYSTEM_EIGEN)
 
 if(ITK_USE_SYSTEM_EIGEN)
@@ -63,42 +67,58 @@ else()
   set(Eigen3_DIR_BUILD "${_eigen3_build_dir}")
 endif()
 if(${_Eigen3_SYSTEM_OR_INTERNAL}_VERSION VERSION_LESS ${_Eigen3_min_version})
-  message(FATAL_ERROR "Eigen3 version ${_Eigen3_min_version} or later is required.")
+  message(
+    FATAL_ERROR
+    "Eigen3 version ${_Eigen3_min_version} or later is required."
+  )
 endif()
 
 # Eigen3 is header only, but there are compile definitions that we want to provide
 # to enforce use of MPL only code, and to disable warnings.
 # We only need to add the location of the header itk_eigen.h used internally.
-get_target_property(Eigen_INCLUDE_DIRS ${_eigen_itk_target} INTERFACE_INCLUDE_DIRECTORIES)
-set(ITKEigen3_INCLUDE_DIRS
+get_target_property(
+  Eigen_INCLUDE_DIRS
+  ${_eigen_itk_target}
+  INTERFACE_INCLUDE_DIRECTORIES
+)
+set(
+  ITKEigen3_INCLUDE_DIRS
   ${Eigen_INCLUDE_DIRS}
   ${ITKEigen3_BINARY_DIR}/src # For the generated itk_eigen.h
-  )
+)
 
 # When this module is loaded by an app, load Eigen too.
 # Load ITKInternalEigen3 or Eigen3 depending on ITK_USE_SYSTEM_EIGEN
-set(ITKEigen3_EXPORT_CODE_INSTALL "
+set(
+  ITKEigen3_EXPORT_CODE_INSTALL
+  "
 set(ITK_USE_SYSTEM_EIGEN \"${ITK_USE_SYSTEM_EIGEN}\")
 set(${_Eigen3_SYSTEM_OR_INTERNAL}_DIR \"${Eigen3_DIR_INSTALL}\")
 find_package(${_Eigen3_SYSTEM_OR_INTERNAL} REQUIRED CONFIG)
 if(${_Eigen3_SYSTEM_OR_INTERNAL}_VERSION VERSION_LESS ${_Eigen3_min_version})
   message(FATAL_ERROR \"Eigen3 version ${_Eigen3_min_version} or later is required.\")
 endif()
-")
-set(ITKEigen3_EXPORT_CODE_BUILD "
+"
+)
+set(
+  ITKEigen3_EXPORT_CODE_BUILD
+  "
 set(ITK_USE_SYSTEM_EIGEN \"${ITK_USE_SYSTEM_EIGEN}\")
 set(${_Eigen3_SYSTEM_OR_INTERNAL}_DIR \"${Eigen3_DIR_BUILD}\")
 find_package(${_Eigen3_SYSTEM_OR_INTERNAL} REQUIRED CONFIG)
 if(${_Eigen3_SYSTEM_OR_INTERNAL}_VERSION VERSION_LESS ${_Eigen3_min_version})
   message(FATAL_ERROR \"Eigen3 version ${_Eigen3_min_version} or later is required.\")
 endif()
-")
+"
+)
 
 # Eigen3 targets are not installed if ITK_USE_SYSTEM_EIGEN==True
 itk_module_impl()
 
 configure_file(src/itk_eigen.h.in src/itk_eigen.h)
-install(FILES ${ITKEigen3_BINARY_DIR}/src/itk_eigen.h
+install(
+  FILES
+    ${ITKEigen3_BINARY_DIR}/src/itk_eigen.h
   DESTINATION ${ITKEigen3_INSTALL_INCLUDE_DIR}
   COMPONENT Development
-  )
+)
