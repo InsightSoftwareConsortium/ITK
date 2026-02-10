@@ -50,13 +50,13 @@ static void   evaluate_grid_volume(
 @OUTPUT     : x_transformed
               y_transformed
               z_transformed
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Applies a grid transform to the point
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Feb. 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  grid_transform_point(
@@ -75,9 +75,9 @@ VIOAPI  VIO_Status  grid_transform_point(
            so evaluate the volume at the given position and add the
            resulting offset to the given position */
 
-    if(!transform->displacement_volume) 
+    if(!transform->displacement_volume)
       return VIO_ERROR;
-    
+
     volume = (VIO_Volume) transform->displacement_volume;
 
     evaluate_grid_volume( volume, x, y, z, DEGREES_CONTINUITY, displacements,
@@ -86,7 +86,7 @@ VIOAPI  VIO_Status  grid_transform_point(
     *x_transformed = x + displacements[VIO_X];
     *y_transformed = y + displacements[VIO_Y];
     *z_transformed = z + displacements[VIO_Z];
-    
+
     return VIO_OK;
 }
 
@@ -97,16 +97,16 @@ VIOAPI  VIO_Status  grid_transform_point(
               parameters     - x,y,z position
 @OUTPUT     : values         - where x,y,z, maps to
               derivatives    - the 3 by 3 derivatives of the mapping
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: This function does the same thing as grid_transform_point(),
               but also gets derivatives.  This function is passed to the
               newton function solution routine to perform the inverse mapping
               of the grid transformation.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Feb.   , 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  forward_function(
@@ -159,11 +159,11 @@ static  void  forward_function(
 @DESCRIPTION: Applies the inverse grid transform to the point.  This is done
               by using newton-rhapson steps to find the point which maps to
               the parameters (x,y,z).
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Feb. 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 /* ---------------------------------------------------------------------------
@@ -207,7 +207,7 @@ VIOAPI  VIO_Status  grid_inverse_transform_point(
     if( newton_root_find( VIO_N_DIMENSIONS, forward_function,
                           (void *) transform,
                           initial_guess, desired_values,
-                          solution, INVERSE_FUNCTION_TOLERANCE, 
+                          solution, INVERSE_FUNCTION_TOLERANCE,
                           INVERSE_DELTA_TOLERANCE, MAX_INVERSE_ITERATIONS ))
     {
         *x_transformed = solution[X];
@@ -236,17 +236,17 @@ VIOAPI  VIO_Status  grid_inverse_transform_point(
 @OUTPUT     : x_transformed
               y_transformed
               z_transformed
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Transforms the point by the inverse of the grid transform.
               Approximates the solution using a simple iterative step
               method.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993?   Louis Collins
 @MODIFIED   : 1994    David MacDonald
 @MODIFIED   : 2013 June 10, Matthijs van Eede, added the possibility to pass
-                            along the step sizes of the input file which is 
+                            along the step sizes of the input file which is
                             being resampled to determine the appropriate error
                             margin (ftol)
 ---------------------------------------------------------------------------- */
@@ -297,7 +297,7 @@ VIOAPI  VIO_Status  grid_inverse_transform_point_with_input_steps(
 
     // Adapt ftol to grid step sizes. For 1mm stx volume with grid 4mm, we
     // are using ftol=0.05 (=4mm/80). For histology data at grid 0.125mm,
-    // then use ftol=0.125/80=0.0015625, which is fine on 0.01mm volume. 
+    // then use ftol=0.125/80=0.0015625, which is fine on 0.01mm volume.
     // ftol = 0.05;   // good for MNI space at 1mm (grid 2mm or 4mm)
     // ftol = 0.001;  // acceptable for big brain slice (grid at 0.125, voxel at 0.01mm)
 
@@ -311,7 +311,7 @@ VIOAPI  VIO_Status  grid_inverse_transform_point_with_input_steps(
     get_volume_separations( volume, steps );
 
     /*--- find which of 4 dimensions is the vector dimension */
-    
+
     for_less( vector_dim, 0, FOUR_DIMS ) {
       for_less( d, 0, VIO_N_DIMENSIONS ) {
         if( volume->spatial_axes[d] == vector_dim ) break;
@@ -319,10 +319,10 @@ VIOAPI  VIO_Status  grid_inverse_transform_point_with_input_steps(
       if( d == VIO_N_DIMENSIONS ) break;
     }
 
-    // If we have information about the step sizes of the input volume that is 
+    // If we have information about the step sizes of the input volume that is
     // being resampled, base the tolerance on those instead of the step sizes
     // of the deformation grid; there can be a significant difference.
-    
+
     ftol = -1.0;
     if( input_volume_steps != NULL){
       for_less( i, 0, 3 ) {
@@ -338,7 +338,7 @@ VIOAPI  VIO_Status  grid_inverse_transform_point_with_input_steps(
         if( steps[d] < ftol ) ftol = steps[d];
       }
     }
-    
+
     ftol = ftol / 80.0;
     if( ftol > 0.05 ) ftol = 0.05;   // just to be sure for large grids
 
@@ -353,7 +353,7 @@ VIOAPI  VIO_Status  grid_inverse_transform_point_with_input_steps(
         error_x = x - gx;
         error_y = y - gy;
         error_z = z - gz;
-    
+
         error = VIO_FABS(error_x) + VIO_FABS(error_y) + VIO_FABS(error_z);
 
         if( error < smallest_e ) {
@@ -379,16 +379,16 @@ VIOAPI  VIO_Status  grid_inverse_transform_point_with_input_steps(
 @OUTPUT     : x_transformed
               y_transformed
               z_transformed
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Transforms the point by the inverse of the grid transform.
               Approximates the solution using a simple iterative step
               method.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993?   Louis Collins
 @MODIFIED   : 1994    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  grid_inverse_transform_point(
@@ -400,7 +400,7 @@ VIOAPI  VIO_Status  grid_inverse_transform_point(
     VIO_Real                *y_transformed,
     VIO_Real                *z_transformed )
 {
-    return grid_inverse_transform_point_with_input_steps(transform, x, y, z, 
+    return grid_inverse_transform_point_with_input_steps(transform, x, y, z,
                                            NULL,
                                            x_transformed, y_transformed, z_transformed );
 }
@@ -412,13 +412,13 @@ VIOAPI  VIO_Status  grid_inverse_transform_point(
               degrees_continuity
 @OUTPUT     : values
               derivs  (if non-NULL)
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Takes a voxel space position and evaluates the value within
               the volume by nearest_neighbour, linear, quadratic, or
               cubic interpolation.  Rather than use the generic evaluate_volume
               function, this special purpose function is a bit faster.
 @CREATED    : Mar. 16, 1995           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void   evaluate_grid_volume(
@@ -600,11 +600,11 @@ static  void   evaluate_grid_volume(
     } else {
         if( is_2dslice == -1 ) {
           evaluate_interpolating_spline( VIO_N_DIMENSIONS, fraction,
-                                         degrees_continuity + 2, 
+                                         degrees_continuity + 2,
                                          N_COMPONENTS, coefs, 0, values_derivs );
         } else {
           evaluate_interpolating_spline( VIO_N_DIMENSIONS-1, fraction,
-                                         degrees_continuity + 2, 
+                                         degrees_continuity + 2,
                                          N_COMPONENTS, coefs, 0, values_derivs );
         }
 
@@ -634,7 +634,7 @@ static  void   evaluate_grid_volume(
                     else
                         voxel_vector[d] = 0.0;
                 }
-             
+
                 convert_voxel_normal_vector_to_world( volume, voxel_vector,
                                     &deriv_x[v], &deriv_y[v], &deriv_z[v] );
             }

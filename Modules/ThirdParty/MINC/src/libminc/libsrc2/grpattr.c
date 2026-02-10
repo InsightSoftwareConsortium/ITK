@@ -1,4 +1,4 @@
-/** 
+/**
  * \file grpattr.c
  * \brief MINC 2.0 group/attribute functions
  * \author Bert Vincent and Leila Baghdadi
@@ -129,7 +129,7 @@ milist_recursion ( milisthandle_t handle, char *path )
 
       /* End of this group, need to pop the frame. */
       frame = data->frame_ptr->next;
-      
+
       if ( H5Iget_type ( data->frame_ptr->grp_id ) == H5I_GROUP ) {
         H5Gclose ( data->frame_ptr->grp_id );
       } else {
@@ -223,7 +223,7 @@ int milist_attr_next ( mihandle_t vol, milisthandle_t handle,
       strncpy ( path, data->frame_ptr->relpath, maxpath );
       return ( MI_NOERROR );
     } else {
-      
+
       if ( data->flags & MILIST_RECURSE ) {
 
         return milist_recursion ( handle, path );
@@ -272,7 +272,7 @@ static herr_t milist_grp_op ( hid_t loc_id, const char *name, void *op_data )
 {
   struct milistdata *data = ( struct milistdata * ) op_data;
   H5G_stat_t statbuf;
-  
+
   H5Gget_objinfo ( loc_id, name, FALSE, &statbuf );
 
   if ( statbuf.type == H5G_GROUP ) {
@@ -285,7 +285,7 @@ static herr_t milist_grp_op ( hid_t loc_id, const char *name, void *op_data )
 
   }
   strcat ( data->frame_ptr->relpath, name );
-  
+
   return ( 1 );
 }
 
@@ -523,14 +523,14 @@ int miget_attr_length ( mihandle_t vol, const char *path, const char *name,
   H5E_BEGIN_TRY {
     hdf_attr = H5Aopen_name ( hdf_grp, name );
   } H5E_END_TRY;
-  
+
   if( hdf_attr<0 )
     goto cleanup;
 
   if((hdf_space = H5Aget_space ( hdf_attr ))<0)
     goto cleanup;
 
-  if((hdf_type = H5Aget_type ( hdf_attr ))<0) 
+  if((hdf_type = H5Aget_type ( hdf_attr ))<0)
     goto cleanup;
 
   switch ( H5Sget_simple_extent_ndims ( hdf_space ) ) {
@@ -558,14 +558,14 @@ int miget_attr_length ( mihandle_t vol, const char *path, const char *name,
     MI_LOG_ERROR(MI2_MSG_GENERIC,"Only scalars and vectors are supported");
     goto cleanup;
   }
-  
+
   status=MI_NOERROR;
-  
+
 cleanup:
   if(hdf_type >= 0 ) H5Tclose ( hdf_type );
   if(hdf_space >= 0) H5Sclose ( hdf_space );
   if(hdf_attr >= 0 ) H5Aclose ( hdf_attr );
-  
+
   if ( hdf_grp >= 0 ) {
     /* The hdf_loc identifier could be a group or a dataset.
     */
@@ -575,7 +575,7 @@ cleanup:
       H5Dclose ( hdf_grp );
     }
   }
-  
+
   return status;
 }
 
@@ -611,12 +611,12 @@ int miget_attr_type ( mihandle_t vol, const char *path, const char *name,
 
   H5E_BEGIN_TRY {
     hdf_attr = H5Aopen_name ( hdf_grp, name );
-  } H5E_END_TRY;  
-  
-  if( hdf_attr<0 ) 
+  } H5E_END_TRY;
+
+  if( hdf_attr<0 )
     goto cleanup;
-  
-  if( (hdf_type = H5Aget_type ( hdf_attr ))<0 ) 
+
+  if( (hdf_type = H5Aget_type ( hdf_attr ))<0 )
     goto cleanup;
 
   switch ( H5Tget_class ( hdf_type ) ) {
@@ -639,12 +639,12 @@ int miget_attr_type ( mihandle_t vol, const char *path, const char *name,
     goto cleanup;
   }
   status = MI_NOERROR;
-  
+
 cleanup:
 
   if( hdf_type >= 0 ) H5Tclose ( hdf_type );
   if( hdf_attr >= 0 ) H5Aclose ( hdf_attr );
-  
+
   if ( hdf_grp >= 0 ) {
     /* The hdf_loc identifier could be a group or a dataset.
     */
@@ -678,7 +678,7 @@ int micopy_attr ( mihandle_t vol, const char *path, mihandle_t new_vol )
       /*TODO: Add error checking here*/
       miget_attr_type ( vol, pathbuf, namebuf, &data_type );
       miget_attr_length ( vol, pathbuf, namebuf, &length );
-    
+
       switch ( data_type ) {
 
       case MI_TYPE_STRING:
@@ -707,7 +707,7 @@ int micopy_attr ( mihandle_t vol, const char *path, mihandle_t new_vol )
           free(tmp);
         }
         break;
-        
+
       case MI_TYPE_DOUBLE:
         if(length==1)
         {
@@ -761,7 +761,7 @@ int miget_attr_values ( mihandle_t vol, mitype_t data_type, const char *path,
   hid_t hdf_type  = -1;
   char fullpath[256];
   int status = MI_ERROR;      /* Guilty until proven innocent */
-  
+
   hsize_t hdf_attr_size = 0;
 
   /* Get a handle to the actual HDF file
@@ -786,7 +786,7 @@ int miget_attr_values ( mihandle_t vol, mitype_t data_type, const char *path,
     hdf_attr = H5Aopen_name ( hdf_grp, name );
   } H5E_END_TRY;
 
-  if( hdf_attr<0 ) 
+  if( hdf_attr<0 )
     goto cleanup;
 
   switch ( data_type ) {
@@ -812,10 +812,10 @@ int miget_attr_values ( mihandle_t vol, mitype_t data_type, const char *path,
   /* If we're retrieving a vector, make certain the length passed into this
    * function is sufficient.
    */
-  switch ( H5Sget_simple_extent_ndims ( hdf_space ) ) 
+  switch ( H5Sget_simple_extent_ndims ( hdf_space ) )
   {
     case 0:     /* Scalar */
-   
+
     /* String types need to return the length of the string.
           */
        if ( H5Tget_class ( hdf_type ) == H5T_STRING ) {
@@ -823,13 +823,13 @@ int miget_attr_values ( mihandle_t vol, mitype_t data_type, const char *path,
        } else {
          hdf_attr_size = 1;
        }
-                                     
+
        break;
-                                        
+
      case 1:
        H5Sget_simple_extent_dims ( hdf_space, &hdf_attr_size, NULL );
        break;
-                                         
+
      default:
        /* For now, we allow only scalars and vectors.  No multidimensional
         * arrays for MINC 2.0 attributes.
@@ -837,15 +837,15 @@ int miget_attr_values ( mihandle_t vol, mitype_t data_type, const char *path,
        MI_LOG_ERROR(MI2_MSG_GENERIC,"Only scalars and vectors are supported");
        goto cleanup;
   }
- 
+
   if ( length < hdf_attr_size ) {
     /* Not enough space in the output vector */
     fprintf(stderr,"Requested size:%d needed size:%d\n",(int)length,(int)hdf_attr_size);
     goto cleanup;
   }
-  
 
-  if ( H5Aread ( hdf_attr, mtyp_id, values ) <0 ) 
+
+  if ( H5Aread ( hdf_attr, mtyp_id, values ) <0 )
     goto cleanup;
 
   /* make sure string is zero terminated if there is enough space in the input buffer */
@@ -959,11 +959,11 @@ int miset_attr_values ( mihandle_t vol, mitype_t data_type, const char *path,
   if ( result < 0 ) {
     goto cleanup;
   }
-  
+
   status=MI_NOERROR;
 
 cleanup:
-  
+
   /* added the following instead H5Gclose(hdf_grp) */
   if ( hdf_grp >= 0 ) {
     /* The hdf_loc identifier could be a group or a dataset.

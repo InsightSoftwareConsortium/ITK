@@ -3,15 +3,15 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : minc_structures.h
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Defines structures for use by MINC routines
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : August 28, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: minc_structures.h,v $
  * Revision 6.1  1999-10-19 14:45:10  neelin
  * Fixed Log substitutions for CVS
@@ -36,12 +36,12 @@
  *
  * Revision 1.10  94/09/28  10:37:30  neelin
  * Pre-release
- * 
+ *
  * Revision 1.9  93/08/11  12:06:42  neelin
  * Added RCS logging in source.
- * 
+ *
 @COPYRIGHT  :
-              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre, 
+              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -67,7 +67,7 @@ struct mi_icv_struct {
    double  offset;
    int     do_dimconvert;  /* Indicates that dimensional conversion function
                               should be given */
-   int   (*dimconvert_func) (int operation, mi_icv_type *icvp, 
+   int   (*dimconvert_func) (int operation, mi_icv_type *icvp,
                              long start[], long count[], void *values,
                              long bufstart[], long bufcount[], void *buffer);
    int     do_fillvalue;   /* Indicates to MI_convert_type that fillvalue
@@ -91,14 +91,14 @@ struct mi_icv_struct {
    char    *user_minvar;   /* Name of MIimagemin variable */
    double  user_imgmax;    /* Range for normalization */
    double  user_imgmin;
-   int     user_do_dimconv; /* Indicates that user wants to do dimension 
+   int     user_do_dimconv; /* Indicates that user wants to do dimension
                                conversion stuff */
    int     user_do_scalar; /* Indicates that user wants scalar fields */
    int     user_xdim_dir;  /* Direction for x, y and z dimensions */
    int     user_ydim_dir;
    int     user_zdim_dir;
    int     user_num_imgdims; /* Number of image (fastest varying) dimensions */
-   long    user_dim_size[MI_MAX_IMGDIMS]; /* Size of fastest varying 
+   long    user_dim_size[MI_MAX_IMGDIMS]; /* Size of fastest varying
                                               dimensions for user */
    int     user_keep_aspect; /* Indicates that user wants to preserve the
                                 aspect ratio when resizing images */
@@ -120,7 +120,7 @@ struct mi_icv_struct {
    double  var_vmin;
    int     var_is_vector;  /* Is this variable a vector field */
    long    var_vector_size; /* Size of vector dimension */
-   long    var_dim_size[MI_MAX_IMGDIMS]; /* Size of image dimensions in 
+   long    var_dim_size[MI_MAX_IMGDIMS]; /* Size of image dimensions in
                                              variable */
 
    /* Fields derived from user values and variable values */
@@ -129,11 +129,11 @@ struct mi_icv_struct {
    double  derv_imgmax;    /* Range for normalization */
    double  derv_imgmin;
    int     derv_firstdim;  /* First dimension (counting from fastest, ie.
-                                 backwards) over which MIimagemax or 
+                                 backwards) over which MIimagemax or
                                  MIimagemin vary */
    int     derv_do_zero;   /* Indicates if we should zero user's buffer
                               on GETs */
-   int     derv_do_bufsize_step; /* Indicates if we need to worry about 
+   int     derv_do_bufsize_step; /* Indicates if we need to worry about
                                     bufsize_step */
    int     derv_bufsize_step[MAX_VAR_DIMS];  /* Array of convenient multiples
                                                 for buffer allocation */
@@ -152,14 +152,14 @@ struct mi_icv_struct {
                               (excluding any vector dimension) as image
                               dimensions */
    int     derv_dim_flip[MI_MAX_IMGDIMS];   /* Flip dimension? */
-   int     derv_dim_grow[MI_MAX_IMGDIMS];   /* Expand variable to fit user's 
+   int     derv_dim_grow[MI_MAX_IMGDIMS];   /* Expand variable to fit user's
                                                 array? */
    int     derv_dim_scale[MI_MAX_IMGDIMS];  /* Grow/shrink scale factor */
-   int     derv_dim_off[MI_MAX_IMGDIMS];    /* Pixels to skip in user's 
+   int     derv_dim_off[MI_MAX_IMGDIMS];    /* Pixels to skip in user's
                                                 image */
-   double  derv_dim_step[MI_MAX_IMGDIMS];   /* Step, start for user's image 
-                                                (analogous to MIstep, 
-                                                MIstart) for first 
+   double  derv_dim_step[MI_MAX_IMGDIMS];   /* Step, start for user's image
+                                                (analogous to MIstep,
+                                                MIstart) for first
                                                 user_num_imgdims dims */
    double  derv_dim_start[MI_MAX_IMGDIMS];
 };

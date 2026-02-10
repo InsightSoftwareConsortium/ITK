@@ -15,9 +15,9 @@
       nd_increment_loop(current, start, increment, end, ndims);
    }
 
-@GLOBALS    : 
+@GLOBALS    :
 @CREATED    : December 2, 1994 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: nd_loop.h,v $
  * Revision 6.2  2004-10-15 13:47:13  bert
  * Minor changes for Windows compatibility
@@ -46,12 +46,12 @@
  *
  * Revision 1.2  94/12/02  09:20:17  neelin
  * Added comments to clarify use of routines.
- * 
+ *
  * Revision 1.1  94/12/02  08:40:31  neelin
  * Initial revision
- * 
+ *
 @COPYRIGHT  :
-              Copyright 1994 Peter Neelin, McConnell Brain Imaging Centre, 
+              Copyright 1994 Peter Neelin, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -70,11 +70,11 @@ extern "C" {
 
 MNCAPI void nd_begin_looping(long start[], long current[], int ndims);
 MNCAPI int nd_end_of_loop(long current[], long end[], int ndims);
-MNCAPI void nd_update_current_count(long current[], 
+MNCAPI void nd_update_current_count(long current[],
                                     long increment[], long end[],
                                     long current_count[],
                                     int ndims);
-MNCAPI void nd_increment_loop(long current[], 
+MNCAPI void nd_increment_loop(long current[],
                               long start[], long increment[], long end[],
                               int ndims);
 

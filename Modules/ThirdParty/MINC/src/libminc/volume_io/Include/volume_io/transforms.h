@@ -18,24 +18,24 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : transforms.h
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Types for defining general transforms.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 /* --- the list of supported transform types */
 
-typedef enum { LINEAR, 
-               THIN_PLATE_SPLINE, 
+typedef enum { LINEAR,
+               THIN_PLATE_SPLINE,
                USER_TRANSFORM,
-               CONCATENATED_TRANSFORM, 
-               GRID_TRANSFORM 
+               CONCATENATED_TRANSFORM,
+               GRID_TRANSFORM
              } VIO_Transform_types;
 
 /* --- the user transformation function */

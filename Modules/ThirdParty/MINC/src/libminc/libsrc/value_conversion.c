@@ -12,7 +12,7 @@
                  MI_get_sign
                  MI_var_action
 @CREATED    : July 27, 1992. (Peter Neelin, Montreal Neurological Institute)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: value_conversion.c,v $
  * Revision 6.8  2008-01-17 02:33:02  rotor
  *  * removed all rcsids
@@ -69,22 +69,22 @@
  *
  * Revision 1.9  94/09/28  10:37:22  neelin
  * Pre-release
- * 
+ *
  * Revision 1.8  93/11/05  09:18:08  neelin
  * Improved epsilon calculation for valid range checking.
- * 
+ *
  * Revision 1.7  93/10/28  15:12:06  neelin
  * Fixed fillvalue checking stuff in MI_convert_type.
- * 
+ *
  * Revision 1.6  93/10/28  10:19:16  neelin
  * Added an epsilon for fillvalue checking in routine MI_convert_type (for
  * reading through an icv).
- * 
+ *
  * Revision 1.5  93/08/11  12:06:32  neelin
  * Added RCS logging in source.
- * 
+ *
 @COPYRIGHT  :
-              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre, 
+              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -100,7 +100,7 @@
 #include "type_limits.h"
 
 /* Private functions */
-PRIVATE int MI_var_action(int ndims, long var_start[], long var_count[], 
+PRIVATE int MI_var_action(int ndims, long var_start[], long var_count[],
                           long nvalues, void *var_buffer, void *caller_data);
 PRIVATE int MI_get_sign(nc_type datatype, int sign);
 
@@ -120,17 +120,17 @@ PRIVATE int MI_get_sign(nc_type datatype, int sign);
                  netcdf data types, excluding NC_CHAR)
               sign      - sign that the calling routine wants (one of
                  MI_PRIV_SIGNED, MI_PRIV_UNSIGNED, MI_PRIV_DEFAULT).
-              bufsize_step - vector of buffer size steps wanted by 
+              bufsize_step - vector of buffer size steps wanted by
                  caller (MI_var_loop will try, but no guarantees); if
-                 NULL, then 1 is assumed. For the first index that cannot be 
-                 read in one piece, the allocated buffer will tend to have 
-                 the count of as a multiple of the corresponding value in 
+                 NULL, then 1 is assumed. For the first index that cannot be
+                 read in one piece, the allocated buffer will tend to have
+                 the count of as a multiple of the corresponding value in
                  this vector.
               icvp      - pointer to icv structure (image conversion variable)
                  If NULL, then icvp->do_scale and icvp->do_dimconvert are
                  assumed to be FALSE.
                  icvp->do_scale        - boolean indicating whether scaling
-                    should be done. If so, then 
+                    should be done. If so, then
                        outvalue = icvp->scale * (double) invalue + icvp->offset
                  icvp->scale           - (see do_scale)
                  icvp->offset          - (see do_scale)
@@ -140,24 +140,24 @@ PRIVATE int MI_get_sign(nc_type datatype, int sign);
               values    - values to store in variable (for put)
 @OUTPUT     : values    - values to get from variable (for get)
 @RETURNS    : MI_ERROR (=-1) when an error occurs
-@DESCRIPTION: Routine to do work for getting/putting and converting 
+@DESCRIPTION: Routine to do work for getting/putting and converting
               the type of variable values. Similar to routine ncvarget/
-              ncvarput but the calling routine specifies the form in 
-              which data should be returned/passed (datatype), as well as 
-              the sign. The datatype can only be a numeric type. If the 
-              variable in the file is of type NC_CHAR, then an error is 
+              ncvarput but the calling routine specifies the form in
+              which data should be returned/passed (datatype), as well as
+              the sign. The datatype can only be a numeric type. If the
+              variable in the file is of type NC_CHAR, then an error is
               returned. Values can optionally be scaled (for image
-              conversion routines) by setting icvp->do_scale to TRUE and 
+              conversion routines) by setting icvp->do_scale to TRUE and
               using icvp->scale and icvp->offset. Dimensional conversion
               can be done be setting icvp->do_dimconvert to TRUE and
               passing a function to be called (icvp->dimconvert_func).
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : July 29, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
-SEMIPRIVATE int MI_varaccess(int operation, int cdfid, int varid, 
+SEMIPRIVATE int MI_varaccess(int operation, int cdfid, int varid,
                              long start[], long count[],
                              nc_type datatype, int sign, void *values,
                              int *bufsize_step, mi_icv_type *icvp)
@@ -184,7 +184,7 @@ SEMIPRIVATE int MI_varaccess(int operation, int cdfid, int varid,
    }
 
    /* Inquire about the variable */
-   MI_CHK_ERR(ncvarinq(cdfid, varid, NULL, &(strc.var_type), 
+   MI_CHK_ERR(ncvarinq(cdfid, varid, NULL, &(strc.var_type),
                        &ndims, NULL, NULL))
 
    /* Check that the variable type is numeric */
@@ -206,9 +206,9 @@ SEMIPRIVATE int MI_varaccess(int operation, int cdfid, int varid,
    strc.call_sign = MI_get_sign(datatype, sign);
 
    /* Check to see if the type requested is the same as the variable type,
-      the signs are the same and no dimension conversion is needed. If so, 
+      the signs are the same and no dimension conversion is needed. If so,
       just get/put the values */
-   if ((datatype == strc.var_type) && (strc.call_sign == strc.var_sign) && 
+   if ((datatype == strc.var_type) && (strc.call_sign == strc.var_sign) &&
                 !strc.do_scale && !strc.do_dimconvert && !strc.do_fillvalue) {
       switch (operation) {
       case MI_PRIV_GET:
@@ -236,12 +236,12 @@ SEMIPRIVATE int MI_varaccess(int operation, int cdfid, int varid,
    strc.start=start;
    strc.count=count;
    strc.values=values;
-   MI_CHK_ERR( MI_var_loop(ndims, start, count, 
+   MI_CHK_ERR( MI_var_loop(ndims, start, count,
                            strc.var_value_size, bufsize_step,
-                           MI_MAX_VAR_BUFFER_SIZE, 
+                           MI_MAX_VAR_BUFFER_SIZE,
                            (void *) &strc, MI_var_action) )
    MI_RETURN(MI_NOERROR);
-   
+
 }
 
 
@@ -258,13 +258,13 @@ SEMIPRIVATE int MI_varaccess(int operation, int cdfid, int varid,
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Buffer action routine to be called by MI_var_loop, for
               use by MI_varaccess.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : July 30, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
-PRIVATE int MI_var_action(int ndims, long var_start[], long var_count[], 
+PRIVATE int MI_var_action(int ndims, long var_start[], long var_count[],
                           long nvalues, void *var_buffer, void *caller_data)
      /* ARGSUSED */
 {
@@ -278,10 +278,10 @@ PRIVATE int MI_var_action(int ndims, long var_start[], long var_count[],
    /* Get/put values and do conversions, etc. */
    switch (ptr->operation) {
    case MI_PRIV_GET:
-      status=ncvarget(ptr->cdfid, ptr->varid, var_start, var_count, 
+      status=ncvarget(ptr->cdfid, ptr->varid, var_start, var_count,
                       var_buffer);
       if (status != MI_ERROR) {
-         /* If doing dimension conversion, let dimconvert function do all the 
+         /* If doing dimension conversion, let dimconvert function do all the
             work, including type conversion */
          if (!ptr->do_dimconvert) {
             status=MI_convert_type(nvalues,
@@ -290,14 +290,14 @@ PRIVATE int MI_var_action(int ndims, long var_start[], long var_count[],
                       ptr->icvp);
          }
          else {
-            status=(*(ptr->icvp->dimconvert_func))(ptr->operation, ptr->icvp, 
+            status=(*(ptr->icvp->dimconvert_func))(ptr->operation, ptr->icvp,
                          ptr->start, ptr->count, ptr->values,
                          var_start, var_count, var_buffer);
          }
       }
       break;
    case MI_PRIV_PUT:
-      /* If doing dimension conversion, let dimconvert function do all the 
+      /* If doing dimension conversion, let dimconvert function do all the
          work, including type conversion */
       if (!ptr->do_dimconvert) {
          status=MI_convert_type(nvalues,
@@ -306,12 +306,12 @@ PRIVATE int MI_var_action(int ndims, long var_start[], long var_count[],
                    ptr->icvp);
       }
       else {
-         status=(*(ptr->icvp->dimconvert_func))(ptr->operation, ptr->icvp, 
+         status=(*(ptr->icvp->dimconvert_func))(ptr->operation, ptr->icvp,
                       ptr->start, ptr->count, ptr->values,
                       var_start, var_count, var_buffer);
       }
       if (status != MI_ERROR) {
-         status=ncvarput(ptr->cdfid, ptr->varid, var_start, var_count, 
+         status=ncvarput(ptr->cdfid, ptr->varid, var_start, var_count,
                          var_buffer);
       }
       break;
@@ -325,7 +325,7 @@ PRIVATE int MI_var_action(int ndims, long var_start[], long var_count[],
 
    /* Increment the values pointer */
    if (!ptr->do_dimconvert) {
-      ptr->values = (void *) ((char *) ptr->values + 
+      ptr->values = (void *) ((char *) ptr->values +
                                    nvalues*ptr->call_value_size);
    }
 
@@ -341,11 +341,11 @@ PRIVATE int MI_var_action(int ndims, long var_start[], long var_count[],
               start       - vector of coordinates of corner of hyperslab
               count       - vector of edge lengths of hyperslab
               value_size  - size (in bytes) of each value to be buffered
-              bufsize_step - vector of buffer size steps wanted by 
+              bufsize_step - vector of buffer size steps wanted by
                  caller (MI_var_loop will try, but no guarantees); if
-                 NULL, then 1 is assumed. For the first index that cannot be 
-                 read in one piece, the allocated buffer will tend to have 
-                 the count of as a multiple of the corresponding value in 
+                 NULL, then 1 is assumed. For the first index that cannot be
+                 read in one piece, the allocated buffer will tend to have
+                 the count of as a multiple of the corresponding value in
                  this vector.
               max_buffer_size - maximum size (in bytes) of buffer
               caller_data - pointer to a structure of data to pass to
@@ -356,17 +356,17 @@ PRIVATE int MI_var_action(int ndims, long var_start[], long var_count[],
 @DESCRIPTION: Routine to loop through a variable's indices, getting data
               into a buffer and doing something to it. A function pointer
               is passed that will perform these functions on each buffer.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : July 29, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 SEMIPRIVATE int MI_var_loop(int ndims, long start[], long count[],
                             int value_size, int *bufsize_step,
                             long max_buffer_size,
                             void *caller_data,
-                            int (*action_func) (int, long [], long [], 
+                            int (*action_func) (int, long [], long [],
                                                 long, void *, void *))
 {
    long nvalues, newnvalues;  /* Number of values in fastest varying dims.
@@ -410,7 +410,7 @@ SEMIPRIVATE int MI_var_loop(int ndims, long start[], long count[],
    }
 
    /* Allocate space for variable values */
-   if ((var_buffer = MALLOC(ntimes*nvalues*value_size, char)) 
+   if ((var_buffer = MALLOC(ntimes*nvalues*value_size, char))
                                      == NULL) {
       MI_LOG_ERROR(MI_MSG_OUTOFMEM);
       MI_RETURN(MI_ERROR);
@@ -424,21 +424,21 @@ SEMIPRIVATE int MI_var_loop(int ndims, long start[], long count[],
       var_start[0]=0; var_end[0]=1; var_count[0]=1;
    }
    for (i=0; i<ndims; i++) {
-      var_count[i] = (i>firstdim)  ? count[i] : 
+      var_count[i] = (i>firstdim)  ? count[i] :
                      (i==firstdim) ? ntimes : 1;
       var_start[i] = start[i];
       var_end[i] = start[i] + count[i];
    }
-      
-   /* Loop through the dimensions, copying buffers, etc. 
+
+   /* Loop through the dimensions, copying buffers, etc.
       Exit when the slowest varying dimension reaches its limit. */
 
    while (var_start[0] < var_end[0]) {
-      var_count[firstdim] = 
+      var_count[firstdim] =
          MIN(ntimes, var_end[firstdim] - var_start[firstdim]);
-      
+
       /* Do the stuff on the buffer */
-      if ((*action_func)(ndims, var_start, var_count, 
+      if ((*action_func)(ndims, var_start, var_count,
                          var_count[firstdim]*nvalues, var_buffer,
                          caller_data) == MI_ERROR) {
          FREE(var_buffer);
@@ -453,13 +453,13 @@ SEMIPRIVATE int MI_var_loop(int ndims, long start[], long count[],
          i--;
          var_start[i]++;
       }
-      
+
    }
 
    /* Free the buffer and return */
    FREE(var_buffer);
    MI_RETURN(MI_NOERROR);
-   
+
 }
 
 
@@ -471,13 +471,13 @@ SEMIPRIVATE int MI_var_loop(int ndims, long start[], long count[],
                  MI_EMPTY_STRING, MI_SIGNED or MI_UNSIGNED)
 @OUTPUT     : (none)
 @RETURNS    : either MI_PRIV_SIGNED or MI_PRIV_UNSIGNED
-@DESCRIPTION: Converts sign string to either MI_PRIV_SIGNED or 
+@DESCRIPTION: Converts sign string to either MI_PRIV_SIGNED or
               MI_PRIV_UNSIGNED, as appropriate, by calling MI_get_sign.
-@METHOD     : 
+@METHOD     :
 @GLOBALS    : (none)
 @CALLS      : MI_get_sign
 @CREATED    : July 30, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 SEMIPRIVATE int MI_get_sign_from_string(nc_type datatype, const char *sign)
 {
@@ -497,7 +497,7 @@ SEMIPRIVATE int MI_get_sign_from_string(nc_type datatype, const char *sign)
                  MI_PRIV_DEFSIGN, MI_PRIV_SIGNED or MI_PRIV_UNSIGNED)
 @OUTPUT     : (none)
 @RETURNS    : either MI_PRIV_SIGNED or MI_PRIV_UNSIGNED
-@DESCRIPTION: Converts sign variable to either MI_PRIV_SIGNED or 
+@DESCRIPTION: Converts sign variable to either MI_PRIV_SIGNED or
               MI_PRIV_UNSIGNED, as appropriate, if its value is
               MI_PRIV_DEFSIGN, otherwise the value of sign is returned
               as is. The default signs are
@@ -506,23 +506,23 @@ SEMIPRIVATE int MI_get_sign_from_string(nc_type datatype, const char *sign)
                  int    : signed
                  float  : signed
                  double : signed
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : July 27, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_get_sign(nc_type datatype, int sign)
 {
    MI_SAVE_ROUTINE_NAME("MI_get_sign");
 
-   MI_RETURN(  ((datatype==NC_FLOAT) || 
+   MI_RETURN(  ((datatype==NC_FLOAT) ||
                   (datatype==NC_DOUBLE))        ? MI_PRIV_SIGNED :
                ((sign==MI_PRIV_SIGNED) ||
                   (sign==MI_PRIV_UNSIGNED))     ? sign :
                (datatype==NC_BYTE)              ? MI_PRIV_UNSIGNED :
                (datatype==NC_SHORT)             ? MI_PRIV_SIGNED :
-               (datatype==NC_INT)               ? MI_PRIV_SIGNED : 
+               (datatype==NC_INT)               ? MI_PRIV_SIGNED :
                                                   MI_PRIV_SIGNED );
 }
 
@@ -538,7 +538,7 @@ PRIVATE int MI_get_sign(nc_type datatype, int sign)
               icvp              - pointer to icv structure (if NULL,
                  then icvp->do_scale is assumed to be FALSE)
                  icvp->do_scale - boolean indicating whether scaling
-                    should be done. If so, then 
+                    should be done. If so, then
                        outvalue = icvp->scale * (double) invalue + icvp->offset
                  icvp->scale    - (see do_scale)
                  icvp->offset   - (see do_scale)
@@ -548,18 +548,18 @@ PRIVATE int MI_get_sign(nc_type datatype, int sign)
               Types must be numeric. Values out of range are truncated
               to the nearest value in range. The sign of integer values
               is given by insign and outsign, which must have values
-              MI_PRIV_DEFSIGN, MI_PRIV_SIGNED or MI_PRIV_UNSIGNED. 
+              MI_PRIV_DEFSIGN, MI_PRIV_SIGNED or MI_PRIV_UNSIGNED.
               If it is MI_PRIV_DEFSIGN then the default signs are
               used (from MI_get_sign) :
                  byte  : unsigned
                  short : signed
                  int   : signed
-              Note that if a conversion must take place, then all input 
+              Note that if a conversion must take place, then all input
               values are converted to double. Values can be scaled through
               icvp->scale and icvp->offset by setting icvp->do_scale to TRUE.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : July 27, 1992 (Peter Neelin)
 @MODIFIED   : August 28, 1992 (P.N.)
                  - replaced type conversions with macros
@@ -618,17 +618,17 @@ SEMIPRIVATE int MI_convert_type(long number_of_values,
    /* Check to see if a conversion needs to be made.
       If not, just copy the memory */
    if ((intype==outtype) && (insgn==outsgn) && !do_scale && !do_fillvalue) {
-         (void) memcpy(outvalues, invalues, 
+         (void) memcpy(outvalues, invalues,
                        (size_t) number_of_values*inincr);
    }
-   
+
    /* Otherwise, loop through */
    else {
 
       /* Step through values  */
-      inptr=invalues; 
+      inptr=invalues;
       outptr=outvalues;
-      for (i=0 ; i<number_of_values; i++) { 
+      for (i=0 ; i<number_of_values; i++) {
 
          /* Convert the input value */
          {MI_TO_DOUBLE(dvalue, intype, insgn, inptr)}
@@ -652,5 +652,5 @@ SEMIPRIVATE int MI_convert_type(long number_of_values,
    }              /* End of else */
 
    MI_RETURN(MI_NOERROR);
-   
+
 }

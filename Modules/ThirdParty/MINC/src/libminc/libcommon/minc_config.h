@@ -1,7 +1,7 @@
 #ifndef __MINC_CONFIG_H__
 #define __MINC_CONFIG_H__
 
-enum MINC_CONFIG { 
+enum MINC_CONFIG {
   MICFG_FORCE_V2=0,
   MICFG_COMPRESS,
   MICFG_CHUNKING,

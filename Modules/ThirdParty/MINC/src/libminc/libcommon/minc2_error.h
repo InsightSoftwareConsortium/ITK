@@ -1,10 +1,10 @@
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : minc2_error.h
 @DESCRIPTION: File containing error codes for libminc package.
-@GLOBALS    : 
-@CALLS      : 
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 17 February, 2004 (Robert Vincent)
-@MODIFIED   : 
+@MODIFIED   :
  *
  * $Log: minc_error.h,v $
  * Revision 6.4  2008-04-11 05:15:00  rotor
@@ -20,9 +20,9 @@
  * Revision 6.1  2004/04/27 15:42:47  bert
  * Define MINC logging codes
  *
- * 
+ *
 @COPYRIGHT  :
-              Copyright 2004 Robert Vincent, McConnell Brain Imaging Centre, 
+              Copyright 2004 Robert Vincent, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without

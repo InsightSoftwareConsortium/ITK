@@ -23,11 +23,11 @@
 @OUTPUT     : inverse
 @RETURNS    : TRUE if successful
 @DESCRIPTION: Computes the inverse of the given transformation matrix.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL   compute_transform_inverse(

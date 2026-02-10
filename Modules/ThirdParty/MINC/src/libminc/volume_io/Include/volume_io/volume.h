@@ -19,15 +19,15 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : volume.h
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Types for use in dealing with volumes.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 #ifdef HAVE_MINC1
@@ -445,7 +445,7 @@ typedef  struct
     int                image_dims[MAX_VAR_DIMS];
     int                src_cdfid;
     int                src_img_var;
-    
+
 #ifdef HAVE_MINC2
     mihandle_t         minc2id;
 #else
@@ -485,7 +485,7 @@ typedef struct
     VIO_Real             min_value, max_value;
     void                 *header_info;
     /*Mostly for debugging right now*/
-    VIO_BOOL             prefer_minc2_api; 
+    VIO_BOOL             prefer_minc2_api;
 } volume_input_struct;
 
 /* --------------------- filter types -------------------------------- */

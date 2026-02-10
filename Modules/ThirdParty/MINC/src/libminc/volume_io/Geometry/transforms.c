@@ -19,15 +19,15 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : make_identity_transform
-@INPUT      : 
+@INPUT      :
 @OUTPUT     : transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Fills in the transform with the identity matrix.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  make_identity_transform( VIO_Transform   *transform )
@@ -53,14 +53,14 @@ VIOAPI  void  make_identity_transform( VIO_Transform   *transform )
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : close_to_identity
 @INPUT      : transform
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if transform is close to identity
-@DESCRIPTION: 
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@DESCRIPTION:
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  close_to_identity(
@@ -97,14 +97,14 @@ VIOAPI  VIO_BOOL  close_to_identity(
 @NAME       : get_transform_origin
 @INPUT      : transform
 @OUTPUT     : origin
-@RETURNS    : 
-@DESCRIPTION: Passes back the origin of the transform, i.e., where the 
+@RETURNS    :
+@DESCRIPTION: Passes back the origin of the transform, i.e., where the
               point (0,0,0) would be transformed to.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_transform_origin(
@@ -121,14 +121,14 @@ VIOAPI  void  get_transform_origin(
 @NAME       : set_transform_origin
 @INPUT      : origin
 @OUTPUT     : transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the origin of the transform, i.e., where the
               point (0,0,0) would be transformed to.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_transform_origin(
@@ -144,14 +144,14 @@ VIOAPI  void  set_transform_origin(
 @NAME       : get_transform_origin_real
 @INPUT      : transform
 @OUTPUT     : origin
-@RETURNS    : 
-@DESCRIPTION: Passes back the origin of the transform, i.e., where the 
+@RETURNS    :
+@DESCRIPTION: Passes back the origin of the transform, i.e., where the
               point (0,0,0) would be transformed to.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 20, 1997            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_transform_origin_real(
@@ -167,14 +167,14 @@ VIOAPI  void  get_transform_origin_real(
 @NAME       : get_transform_x_axis
 @INPUT      : transform
 @OUTPUT     : x_axis
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the x axis of the transform, i.e., the vector
               to which the vector (1,0,0) would be transformed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_transform_x_axis(
@@ -191,14 +191,14 @@ VIOAPI  void  get_transform_x_axis(
 @NAME       : get_transform_x_axis_real
 @INPUT      : transform
 @OUTPUT     : x_axis
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the x axis of the transform, i.e., the vector
               to which the vector (1,0,0) would be transformed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 20, 1997            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_transform_x_axis_real(
@@ -214,14 +214,14 @@ VIOAPI  void  get_transform_x_axis_real(
 @NAME       : set_transform_x_axis
 @INPUT      : x_axis
 @OUTPUT     : transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the x axis of the transform, i.e., the vector
               to which the vector (1,0,0) would be transformed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_transform_x_axis(
@@ -237,14 +237,14 @@ VIOAPI  void  set_transform_x_axis(
 @NAME       : set_transform_x_axis_real
 @INPUT      : x_axis
 @OUTPUT     : transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the x axis of the transform, i.e., the vector
               to which the vector (1,0,0) would be transformed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 20, 1997            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_transform_x_axis_real(
@@ -260,14 +260,14 @@ VIOAPI  void  set_transform_x_axis_real(
 @NAME       : get_transform_y_axis
 @INPUT      : transform
 @OUTPUT     : y_axis
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the y axis of the transform, i.e., the vector
               to which the vector (0,1,0) would be transformed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_transform_y_axis(
@@ -284,14 +284,14 @@ VIOAPI  void  get_transform_y_axis(
 @NAME       : get_transform_y_axis_real
 @INPUT      : transform
 @OUTPUT     : y_axis
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the y axis of the transform, i.e., the vector
               to which the vector (0,1,0) would be transformed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 20, 1997            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_transform_y_axis_real(
@@ -307,14 +307,14 @@ VIOAPI  void  get_transform_y_axis_real(
 @NAME       : set_transform_y_axis
 @INPUT      : y_axis
 @OUTPUT     : transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the y axis of the transform, i.e., the vector
               to which the vector (0,1,0) would be transformed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_transform_y_axis(
@@ -330,14 +330,14 @@ VIOAPI  void  set_transform_y_axis(
 @NAME       : set_transform_y_axis_real
 @INPUT      : y_axis
 @OUTPUT     : transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the y axis of the transform, i.e., the vector
               to which the vector (0,1,0) would be transformed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 20, 1997            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_transform_y_axis_real(
@@ -353,14 +353,14 @@ VIOAPI  void  set_transform_y_axis_real(
 @NAME       : get_transform_z_axis
 @INPUT      : transform
 @OUTPUT     : z_axis
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the z axis of the transform, i.e., the vector
               to which the vector (0,0,1) would be transformed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_transform_z_axis(
@@ -377,14 +377,14 @@ VIOAPI  void  get_transform_z_axis(
 @NAME       : get_transform_z_axis_real
 @INPUT      : transform
 @OUTPUT     : z_axis
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the z axis of the transform, i.e., the vector
               to which the vector (0,0,1) would be transformed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 20, 1997            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_transform_z_axis_real(
@@ -400,14 +400,14 @@ VIOAPI  void  get_transform_z_axis_real(
 @NAME       : set_transform_z_axis
 @INPUT      : z_axis
 @OUTPUT     : transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the z axis of the transform, i.e., the vector
               to which the vector (0,0,1) would be transformed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_transform_z_axis(
@@ -423,14 +423,14 @@ VIOAPI  void  set_transform_z_axis(
 @NAME       : set_transform_z_axis_real
 @INPUT      : z_axis
 @OUTPUT     : transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the z axis of the transform, i.e., the vector
               to which the vector (0,0,1) would be transformed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 20, 1997            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_transform_z_axis_real(
@@ -449,15 +449,15 @@ VIOAPI  void  set_transform_z_axis_real(
               y_axis
               z_axis
 @OUTPUT     : transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Creates a transform that translates the point (0,0,0) to the
               specified origin.  The point (1,0,0) is transformed to the
               specified origin plus the specified x_axis.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void   make_change_to_bases_transform(
@@ -491,16 +491,16 @@ VIOAPI  void   make_change_to_bases_transform(
               x_axis
               y_axis
               z_axis
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Makes a change of bases transform, so that points are transformed
               to be relative to the given axes.  For instance the origin is
               transformed by the change of bases transform to be point (0,0,0).
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void   make_change_from_bases_transform(
@@ -536,17 +536,17 @@ VIOAPI  void   make_change_from_bases_transform(
 @INPUT      : t1
               t2
 @OUTPUT     : result
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Concatenates the two transforms returning the result in the
               argument, 'result'.  Correctly handles the case where the
               result transform is also one of the operands.  Transforming
               a point by the 'result' transform will give the same point
               as first transforming the point by 't1', then by 't2'.
 @METHOD     : Multiplies result = t2 * t1
-@GLOBALS    : 
-@CALLS      : 
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void   concat_transforms(
@@ -605,11 +605,11 @@ VIOAPI  void   concat_transforms(
 @RETURNS    : VIO_Status
 @DESCRIPTION: Transforms the point (x,y,z,w) by the homogeneous transform
               matrix, resulting in (x_trans,y_trans,z_trans).
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_Status  homogenous_transform_point(
@@ -665,11 +665,11 @@ static  VIO_Status  homogenous_transform_point(
 @RETURNS    : VIO_Status
 @DESCRIPTION: Transforms the point (x,y,z) by the transform matrix, resulting
               in (x_trans,y_trans,z_trans).
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  transform_point(
@@ -694,13 +694,13 @@ VIOAPI  VIO_Status  transform_point(
 @OUTPUT     : x_trans
               y_trans
               z_trans
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Transforms the vector by the specified transform.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  transform_vector(

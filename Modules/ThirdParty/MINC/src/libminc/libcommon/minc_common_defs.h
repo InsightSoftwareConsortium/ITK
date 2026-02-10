@@ -325,7 +325,7 @@ image dimensions */
 
 /**
  * MINC2 ICV
- * 
+ *
  * */
 #define MI2_PRIV_DEFSIGN   0
 #define MI2_PRIV_SIGNED    1
@@ -388,7 +388,7 @@ image dimensions */
 /* For setting input values to a specified fillvalue */
 #define MI2_ICV_DO_FILLVALUE    30
 #define MI2_ICV_FILLVALUE       31
-/* Image dimension properties. For each dimension, add the dimension 
+/* Image dimension properties. For each dimension, add the dimension
    number (counting from fastest to slowest). */
 #define MI2_ICV_DIM_SIZE        1000
 #define MI2_ICV_DIM_STEP        1100
@@ -434,7 +434,7 @@ image dimensions */
 /* stupid macro which was never put to use*/
 #ifndef _
 #define _(x) x      /* For future gettext */
-#endif 
+#endif
 
 /* Force P_tmpdir to be something reasonable. */
 #if !defined(P_tmpdir)

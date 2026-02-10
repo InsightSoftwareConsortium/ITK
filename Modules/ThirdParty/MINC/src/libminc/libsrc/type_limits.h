@@ -2,9 +2,9 @@
 @NAME       : type_limits.h
 @DESCRIPTION: Includes limits.h and float.h, undefining things that are
               defined in both to avoid errors from lint (on SGI).
-@METHOD     : 
+@METHOD     :
 @CREATED    : August 7, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: type_limits.h,v $
  * Revision 6.1  1999-10-19 14:45:12  neelin
  * Fixed Log substitutions for CVS
@@ -26,12 +26,12 @@
  *
  * Revision 1.5  94/09/28  10:37:33  neelin
  * Pre-release
- * 
+ *
  * Revision 1.4  93/08/11  12:06:47  neelin
  * Added RCS logging in source.
- * 
+ *
 @COPYRIGHT  :
-              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre, 
+              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without

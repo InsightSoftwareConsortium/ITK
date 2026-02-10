@@ -77,7 +77,7 @@ typedef struct {
 #if defined(__cplusplus)
 extern "C" {
 #endif
-  
+
 int MNCAPI ParseArgv(int *argcPtr, char **argv,
                      ArgvInfo *argTable, int flags);
 

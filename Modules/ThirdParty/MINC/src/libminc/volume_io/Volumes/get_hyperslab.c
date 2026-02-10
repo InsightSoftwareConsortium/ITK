@@ -222,7 +222,7 @@ static  void  check_real_conversion_lookup( void )
                                      __FILE__, __LINE__ );
 #endif
 #endif
-    
+
     int_to_real_conversion -= long_min;
 
     for_inclusive( i, long_min, long_max )
@@ -452,7 +452,7 @@ VIOAPI  void  get_voxel_values_5d(
             float_ptr += step0;
         }
         break;
-        
+
     default:
     case VIO_DOUBLE:
         ASSIGN_PTR(double_ptr) = void_ptr;
@@ -1032,7 +1032,7 @@ VIOAPI  void  get_voxel_values_2d(
             float_ptr += step0;
         }
         break;
-        
+
     default:
     case VIO_DOUBLE:
         ASSIGN_PTR(double_ptr) = void_ptr;
@@ -1140,7 +1140,7 @@ VIOAPI  void  get_voxel_values_1d(
             float_ptr += step0;
         }
         break;
-    
+
     default:
     case VIO_DOUBLE:
         ASSIGN_PTR(double_ptr) = void_ptr;

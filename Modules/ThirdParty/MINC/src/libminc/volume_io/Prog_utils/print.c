@@ -33,18 +33,18 @@ static  int                  top_of_error_stack = 0;
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : set_print_function
 @INPUT      : function
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the output function.  If you use the function print()
               everywhere, in place of printf, then by default it uses
               printf to send output to stdout.  However, you can call
               the set_print_function() to tell it to use a different output
               function, e.g. output to a GL or X window.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_print_function( void  (*function) ( VIO_STR ) )
@@ -54,16 +54,16 @@ VIOAPI  void  set_print_function( void  (*function) ( VIO_STR ) )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : push_print_function
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Save the current print function, so, for instance, you can
               print to stdout temporarily.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  push_print_function( void )
@@ -79,15 +79,15 @@ VIOAPI  void  push_print_function( void )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : pop_print_function
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Restore the print function.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  pop_print_function( void )
@@ -101,16 +101,16 @@ VIOAPI  void  pop_print_function( void )
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : print
 @INPUT      : exactly same arguments as printf
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: prints the arguments to a temporary string buffer, then either
               printf's the or calls the user installed function to output
               the string.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 /* VARARGS */
@@ -132,18 +132,18 @@ VIOAPI  void  print( VIO_STR format, ... )
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : set_print_error_function
 @INPUT      : function
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the output function.  If you use the function print_error()
               everywhere, in place of printf, then by default it uses
               printf to send output to stderr.  However, you can call
               the set_print_error_function() to tell it to use a different
               output function, e.g. output to a GL or X window.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_print_error_function( void  (*function) ( char [] ) )
@@ -153,16 +153,16 @@ VIOAPI  void  set_print_error_function( void  (*function) ( char [] ) )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : push_print_error_function
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Save the current print error function, so, for instance, you can
               print to stdout temporarily.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  push_print_error_function( void )
@@ -178,15 +178,15 @@ VIOAPI  void  push_print_error_function( void )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : pop_print_error_function
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Restore the print_error function.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  pop_print_error_function( void )
@@ -200,16 +200,16 @@ VIOAPI  void  pop_print_error_function( void )
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : print_error
 @INPUT      : exactly same arguments as printf
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: prints the arguments to a temporary string buffer, then either
               fprintf's to stderr or calls the user installed function to
               output the string.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 /* VARARGS */
@@ -231,15 +231,15 @@ VIOAPI  void  print_error( char format[], ... )
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : handle_internal_error
 @INPUT      : str
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Prints the error string and tries to get users permission to
               abort.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void   handle_internal_error( char  str[] )
@@ -251,15 +251,15 @@ VIOAPI  void   handle_internal_error( char  str[] )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : abort_if_allowed
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Checks if the user wants to abort.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  abort_if_allowed( void )

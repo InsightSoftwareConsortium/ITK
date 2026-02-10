@@ -37,7 +37,7 @@
                  execute_decompress_command
                  MI_vcopy_action
 @CREATED    : July 27, 1992. (Peter Neelin, Montreal Neurological Institute)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: netcdf_convenience.c,v $
  * Revision 6.21  2008-01-17 02:33:02  rotor
  *  * removed all rcsids
@@ -150,25 +150,25 @@
  *
  * Revision 2.2  95/01/23  08:28:19  neelin
  * Changed name of midecompress_file to miexpand_file.
- * 
+ *
  * Revision 2.1  95/01/20  15:20:33  neelin
  * Added midecompress_file with ability to decompress only the header of a file.
- * 
+ *
  * Revision 2.0  94/09/28  10:38:13  neelin
  * Release of minc version 0.2
- * 
+ *
  * Revision 1.11  94/09/28  10:37:19  neelin
  * Pre-release
- * 
+ *
  * Revision 1.10  93/11/03  12:28:04  neelin
  * Added miopen, micreate, miclose routines.
  * miopen will uncompress files before opening them, if needed.
- * 
+ *
  * Revision 1.9  93/08/11  12:06:28  neelin
  * Added RCS logging in source.
- * 
+ *
 @COPYRIGHT  :
-              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre, 
+              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -208,7 +208,7 @@
 #endif
 
 /* Private functions */
-PRIVATE int MI_vcopy_action(int ndims, long start[], long count[], 
+PRIVATE int MI_vcopy_action(int ndims, long start[], long count[],
                             long nvalues, void *var_buffer, void *caller_data);
 
 
@@ -232,13 +232,13 @@ static int mi_h5_files = 0;
 @OUTPUT     : (none)
 @RETURNS    : status of decompress command (zero = success)
 @DESCRIPTION: Routine to execute a decompression command on a minc file.
-              The command must take a file name argument and must send 
+              The command must take a file name argument and must send
               to standard output.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines, external decompression programs
 @CREATED    : January 20, 1995 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int execute_decompress_command(char *command, const char *infile,
                                        char *outfile, int header_only)
@@ -249,7 +249,7 @@ PRIVATE int execute_decompress_command(char *command, const char *infile,
 
 #if !(HAVE_WORKING_FORK && HAVE_SYSTEM && HAVE_POPEN)
    fprintf(stderr,"Can't decompress %s because system is not available!\n",infile);
-   
+
    return 1;
 
 #else      /* Unix */
@@ -257,7 +257,7 @@ PRIVATE int execute_decompress_command(char *command, const char *infile,
    /* we now ignore header_only and always uncompress the whole
     * file as the previous "header only" hack that used to work
     * on MINC1 files doesn't work reliably with MINC2 */
-   (void) snprintf(whole_command, sizeof(whole_command), "exec %s %s > %s 2> /dev/null", 
+   (void) snprintf(whole_command, sizeof(whole_command), "exec %s %s > %s 2> /dev/null",
                   command, infile, outfile);
    status = system(whole_command);
 
@@ -270,32 +270,32 @@ PRIVATE int execute_decompress_command(char *command, const char *infile,
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : miexpand_file
 @INPUT      : path  - name of file to open.
-              tempfile - user supplied name for temporary file. If 
+              tempfile - user supplied name for temporary file. If
                  NULL, then the routine generates its own name.
               header_only - TRUE if only the header needs to be expanded.
 @OUTPUT     : created_tempfile - TRUE if a temporary file was created, FALSE
                  if no file was created (either because the original file
                  was not compressed or because of an error).
 @RETURNS    : name of uncompressed file (either original or a temporary file)
-              or NULL if an error occurred during decompression. The caller 
-              must free the string. If a system error occurs on file open or 
+              or NULL if an error occurred during decompression. The caller
+              must free the string. If a system error occurs on file open or
               the decompression type is unknown, then the original file name
               is returned.
-@DESCRIPTION: Routine to expand a compressed minc file. If the original file 
-              is not compressed then its name is returned. If the name of a 
+@DESCRIPTION: Routine to expand a compressed minc file. If the original file
+              is not compressed then its name is returned. If the name of a
               temporary file is returned, then *created_tempfile is set to
-              TRUE. If header_only is TRUE, then only the header part of the 
+              TRUE. If header_only is TRUE, then only the header part of the
               file will be expanded - the data part may or may not be present.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines, external decompression programs
 @CREATED    : January 20, 1995 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI char *miexpand_file(const char *path, char *tempfile, int header_only,
                            int *created_tempfile)
 {
-   typedef enum 
+   typedef enum
       {BZIPPED, GZIPPED, COMPRESSED, PACKED, ZIPPED, UNKNOWN} Compress_type;
    int status, oldncopts, first_ncerr, iext;
    char *newfile, *compfile;
@@ -313,7 +313,7 @@ MNCAPI char *miexpand_file(const char *path, char *tempfile, int header_only,
       {".z", PACKED},
       {".zip", ZIPPED}
    };
-   static int complist_length = 
+   static int complist_length =
       sizeof(compression_code_list) / sizeof(compression_code_list[0]);
    static int max_compression_code_length = 5;
 
@@ -372,14 +372,14 @@ MNCAPI char *miexpand_file(const char *path, char *tempfile, int header_only,
       }
    }
 
-   /* If there was a system error and it's not already a compressed file, 
-      then maybe there exists a compressed version (with appropriate 
+   /* If there was a system error and it's not already a compressed file,
+      then maybe there exists a compressed version (with appropriate
       extension). Loop through the list of extensions. */
    compfile = NULL;
    if ((first_ncerr == NC_SYSERR) && (compress_type == UNKNOWN)) {
       compfile = MALLOC(strlen(path) + max_compression_code_length + 2, char);
       for (iext=0; iext < complist_length; iext++) {
-         (void) strcat(strcpy(compfile, path), 
+         (void) strcat(strcpy(compfile, path),
                        compression_code_list[iext].extension);
          fp = fopen(compfile, "r");
          if (fp != NULL) {
@@ -396,7 +396,7 @@ MNCAPI char *miexpand_file(const char *path, char *tempfile, int header_only,
       path = compfile;
    }
 
-   /* If there was a system error or we don't know what to do 
+   /* If there was a system error or we don't know what to do
       with the file, then return the original file name */
    else if ((first_ncerr == NC_SYSERR) || (compress_type == UNKNOWN)) {
       newfile = strdup(path);
@@ -413,26 +413,26 @@ MNCAPI char *miexpand_file(const char *path, char *tempfile, int header_only,
    *created_tempfile = TRUE;
 
    /* Try to use gunzip */
-   if ((compress_type == GZIPPED) || 
+   if ((compress_type == GZIPPED) ||
        (compress_type == COMPRESSED) ||
        (compress_type == PACKED) ||
        (compress_type == ZIPPED)) {
-      status = execute_decompress_command("gunzip -c", path, newfile, 
+      status = execute_decompress_command("gunzip -c", path, newfile,
                                           header_only);
    }
    else if (compress_type == BZIPPED) {
-      status = execute_decompress_command("bunzip2 -c", path, newfile, 
+      status = execute_decompress_command("bunzip2 -c", path, newfile,
                                           header_only);
    }
 
    /* If that doesn't work, try something else */
    if (status != 0) {
       if (compress_type == COMPRESSED) {
-         status = execute_decompress_command("zcat", path, newfile, 
+         status = execute_decompress_command("zcat", path, newfile,
                                              header_only);
       }
       else if (compress_type == PACKED) {
-         status = execute_decompress_command("pcat", path, newfile, 
+         status = execute_decompress_command("pcat", path, newfile,
                                              header_only);
       }
    }
@@ -484,11 +484,11 @@ is_netcdf_file(const char *filename)
 @RETURNS    : file id or MI_ERROR (=-1) when an error occurs
 @DESCRIPTION: Similar to routine ncopen, but will de-compress (temporarily)
               read-only files as needed.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : November 2, 1993 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miopen(const char *path, int mode)
 {
@@ -515,7 +515,7 @@ MNCAPI int miopen(const char *path, int mode)
 #if MINC2
    if (mode & NC_WRITE) {
      hmode = H5F_ACC_RDWR;
-   } 
+   }
    else {
      hmode = H5F_ACC_RDONLY;
    }
@@ -568,13 +568,13 @@ MNCAPI int miopen(const char *path, int mode)
    if (created_tempfile) {
       remove(tempfile);
    }
-   
+
    if (status < 0) {
       MI_LOG_ERROR(MI_MSG_OPENFILE, tempfile);
    }
-   
+
    free(tempfile);/*free memory allocated in miexpand_file*/
-   
+
    MI_RETURN(status);
 
 }
@@ -586,11 +586,11 @@ MNCAPI int miopen(const char *path, int mode)
 @OUTPUT     : (nothing)
 @RETURNS    : file id or MI_ERROR (=-1) when an error occurs
 @DESCRIPTION: A wrapper for routine nccreate, allowing future enhancements.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : November 2, 1993 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 #if MINC2
 MNCAPI int micreatex(const char *path, int cmode, struct mi2opts *opts_ptr)
@@ -659,11 +659,11 @@ MNCAPI int micreate(char *path, int cmode)
 @RETURNS    : MI_ERROR (=-1) when an error occurs
 @DESCRIPTION: A wrapper for routine ncclose, allowing future enhancements.
               read-only files as needed.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : November 2, 1993 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miclose(int cdfid)
 {
@@ -703,11 +703,11 @@ MNCAPI int miclose(int cdfid)
 @DESCRIPTION: Similar to routine ncattget, but the calling routine specifies
               the form in which data should be returned (datatype), as well
               as the maximum number of elements to get. The datatype can
-              only be a numeric type. If the attribute in the file is of type 
+              only be a numeric type. If the attribute in the file is of type
               NC_CHAR, then an error is returned. The actual length of the
               vector is returned in att_length.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : miattget_with_sign
 @CREATED    : July 27, 1992 (Peter Neelin)
 @MODIFIED   : August 20, 2001 (P.N.)
@@ -720,8 +720,8 @@ MNCAPI int miattget(int cdfid, int varid, const char *name, nc_type datatype,
 
     MI_SAVE_ROUTINE_NAME("miattget");
 
-    status = miattget_with_sign(cdfid, varid, name, 
-				NULL, datatype, NULL, 
+    status = miattget_with_sign(cdfid, varid, name,
+				NULL, datatype, NULL,
 				max_length, value, att_length);
 
     MI_RETURN(status);
@@ -747,14 +747,14 @@ MNCAPI int miattget(int cdfid, int varid, const char *name, nc_type datatype,
               as well as the sign of the return type. Sign strings can be
               MI_SIGNED, MI_UNSIGNED, an empty string or NULL - the latter
               two mean use the default for the type.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines and MI_convert_type
 @CREATED    : August 20, 2001 (Peter Neelin)
                  - slightly modified version of old miattget
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
-MNCAPI int miattget_with_sign(int cdfid, int varid, const char *name, 
+MNCAPI int miattget_with_sign(int cdfid, int varid, const char *name,
                               char *insign, nc_type datatype, char *outsign,
                               int max_length, void *value, int *att_length)
 {
@@ -784,7 +784,7 @@ MNCAPI int miattget_with_sign(int cdfid, int varid, const char *name,
    }
 
    /* Check to see if the type requested is the same as the attribute type
-      and that the length is less than or equal to max_length. If it is, just 
+      and that the length is less than or equal to max_length. If it is, just
       get the value. */
    if ((datatype == att_type) && (actual_length <= max_length)) {
        status = ncattget(cdfid, varid, name, value);
@@ -818,7 +818,7 @@ MNCAPI int miattget_with_sign(int cdfid, int varid, const char *name,
                          intype,  insign,  invalues,
                          outtype, outsign, outvalues,
                          icvp) */
-   status=MI_convert_type(MIN(max_length, actual_length), 
+   status=MI_convert_type(MIN(max_length, actual_length),
                           att_type, att_sign, att_value,
                           datatype, data_sign, value,
                           NULL);
@@ -841,11 +841,11 @@ MNCAPI int miattget_with_sign(int cdfid, int varid, const char *name,
 @DESCRIPTION: Similar to routine miattget, but the its gets only one value
               of an attribute. If the attribute is longer, then an error
               occurs.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines and miattget
 @CREATED    : July 27, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miattget1(int cdfid, int varid, const char *name, nc_type datatype,
                     void *value)
@@ -884,11 +884,11 @@ MNCAPI int miattget1(int cdfid, int varid, const char *name, nc_type datatype,
               into value and adding a terminating '\0' if necessary. A
               pointer to the string is returned to facilitate use.
               If the attribute is non-character, a NULL pointer is returned.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines.
 @CREATED    : July 28, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI char *miattgetstr(int cdfid, int varid, const char *name,
                          int maxlen, char *value)
@@ -911,7 +911,7 @@ MNCAPI char *miattgetstr(int cdfid, int varid, const char *name,
        MI_RETURN((char *)NULL); /* Explicit cast for MIPSpro cc */
    }
 
-   /* Check to see if the attribute length is less than maxlen. 
+   /* Check to see if the attribute length is less than maxlen.
       If it is, just get the value. */
    if (att_length <= maxlen) {
       if (ncattget(cdfid, varid, name, value) == MI_ERROR) {
@@ -962,11 +962,11 @@ MNCAPI char *miattgetstr(int cdfid, int varid, const char *name,
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR (=-1) if an error occurs
 @DESCRIPTION: Convenience routine for calling ncattput with integers.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines.
 @CREATED    : November 25, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miattputint(int cdfid, int varid, const char *name, int value)
 {
@@ -992,11 +992,11 @@ MNCAPI int miattputint(int cdfid, int varid, const char *name, int value)
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR (=-1) if an error occurs
 @DESCRIPTION: Convenience routine for calling ncattput with doubles.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines.
 @CREATED    : August 5, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miattputdbl(int cdfid, int varid, const char *name, double value)
 {
@@ -1018,18 +1018,18 @@ MNCAPI int miattputdbl(int cdfid, int varid, const char *name, double value)
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR (=-1) if an error occurs
 @DESCRIPTION: Convenience routine for calling ncattput with character strings.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines.
 @CREATED    : July 28, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miattputstr(int cdfid, int varid, const char *name, const char *value)
 {
     int status;
     MI_SAVE_ROUTINE_NAME("miattputstr");
 
-    status = ncattput(cdfid, varid, name, NC_CHAR, 
+    status = ncattput(cdfid, varid, name, NC_CHAR,
                        strlen(value) + 1, value);
     if (status < 0) {
 	MI_LOG_ERROR(MI_MSG_WRITEATTR, name);
@@ -1053,14 +1053,14 @@ MNCAPI int miattputstr(int cdfid, int varid, const char *name, const char *value
 @RETURNS    : MI_ERROR (=-1) when an error occurs
 @DESCRIPTION: Similar to routine ncvarget, but the calling routine specifies
               the form in which data should be returned (datatype), as well
-              as the sign. The datatype can only be a numeric type. If the 
-              variable in the file is of type NC_CHAR, then an error is 
+              as the sign. The datatype can only be a numeric type. If the
+              variable in the file is of type NC_CHAR, then an error is
               returned.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : July 29, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int mivarget(int cdfid, int varid, long start[], long count[],
                     nc_type datatype, const char *sign, void *values)
@@ -1092,14 +1092,14 @@ MNCAPI int mivarget(int cdfid, int varid, long start[], long count[],
 @RETURNS    : MI_ERROR (=-1) when an error occurs
 @DESCRIPTION: Similar to routine ncvarget1, but the calling routine specifies
               the form in which data should be returned (datatype), as well
-              as the sign. The datatype can only be a numeric type. If the 
-              variable in the file is of type NC_CHAR, then an error is 
+              as the sign. The datatype can only be a numeric type. If the
+              variable in the file is of type NC_CHAR, then an error is
               returned.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : July 29, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int mivarget1(int cdfid, int varid, long mindex[],
                      nc_type datatype, const char *sign, void *value)
@@ -1108,8 +1108,8 @@ MNCAPI int mivarget1(int cdfid, int varid, long mindex[],
     long count[MAX_VAR_DIMS];
 
     MI_SAVE_ROUTINE_NAME("mivarget1");
-    
-    status = MI_varaccess(MI_PRIV_GET, cdfid, varid, mindex, 
+
+    status = MI_varaccess(MI_PRIV_GET, cdfid, varid, mindex,
 			  miset_coords(MAX_VAR_DIMS, 1L, count),
 			  datatype, MI_get_sign_from_string(datatype, sign),
 			  value, NULL, NULL);
@@ -1136,14 +1136,14 @@ MNCAPI int mivarget1(int cdfid, int varid, long mindex[],
 @RETURNS    : MI_ERROR (=-1) when an error occurs
 @DESCRIPTION: Similar to routine ncvarput, but the calling routine specifies
               the form in which data is passes (datatype), as well
-              as the sign. The datatype can only be a numeric type. If the 
-              variable in the file is of type NC_CHAR, then an error is 
+              as the sign. The datatype can only be a numeric type. If the
+              variable in the file is of type NC_CHAR, then an error is
               returned.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : July 29, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int mivarput(int cdfid, int varid, long start[], long count[],
                     nc_type datatype, const char *sign, void *values)
@@ -1175,14 +1175,14 @@ MNCAPI int mivarput(int cdfid, int varid, long start[], long count[],
 @RETURNS    : MI_ERROR (=-1) when an error occurs
 @DESCRIPTION: Similar to routine ncvarput1, but the calling routine specifies
               the form in which data is passed (datatype), as well
-              as the sign. The datatype can only be a numeric type. If the 
-              variable in the file is of type NC_CHAR, then an error is 
+              as the sign. The datatype can only be a numeric type. If the
+              variable in the file is of type NC_CHAR, then an error is
               returned.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : July 29, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int mivarput1(int cdfid, int varid, long mindex[],
                      nc_type datatype, const char *sign, void *value)
@@ -1192,7 +1192,7 @@ MNCAPI int mivarput1(int cdfid, int varid, long mindex[],
 
     MI_SAVE_ROUTINE_NAME("mivarput1");
 
-    status = MI_varaccess(MI_PRIV_PUT, cdfid, varid, mindex, 
+    status = MI_varaccess(MI_PRIV_PUT, cdfid, varid, mindex,
 			  miset_coords(MAX_VAR_DIMS, 1L, count),
 			  datatype, MI_get_sign_from_string(datatype, sign),
 			  value, NULL, NULL);
@@ -1209,11 +1209,11 @@ MNCAPI int mivarput1(int cdfid, int varid, long mindex[],
 @OUTPUT     : coords - coordinate vector
 @RETURNS    : pointer to coords.
 @DESCRIPTION: Sets nvals entries of the vector coords to value.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : July 29, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI long *miset_coords(int nvals, long value, long coords[])
 {
@@ -1243,13 +1243,13 @@ MNCAPI long *miset_coords(int nvals, long value, long coords[])
               the corresponding coordinate is ignored. If outvar has a
               dimension that is not in invar, then the corresponding coordinate
               is not modified.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines.
 @CREATED    : July 29, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
-MNCAPI long *mitranslate_coords(int cdfid, 
+MNCAPI long *mitranslate_coords(int cdfid,
                                 int invar,  long incoords[],
                                 int outvar, long outcoords[])
 {
@@ -1300,14 +1300,14 @@ MNCAPI long *mitranslate_coords(int cdfid,
               MI_ERROR == NC_GLOBAL). No error is flagged if the a bad
               combination is given.
 
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
-@CREATED    : 
-@MODIFIED   : 
+@CREATED    :
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
-MNCAPI int micopy_all_atts(int incdfid, int invarid, 
+MNCAPI int micopy_all_atts(int incdfid, int invarid,
                            int outcdfid, int outvarid)
 {
    int num_atts;             /* Number of attributes */
@@ -1330,7 +1330,7 @@ MNCAPI int micopy_all_atts(int incdfid, int invarid,
 
    /* Inquire about the number of input variable attributes */
    if (invarid != NC_GLOBAL) {
-       status = ncvarinq(incdfid, invarid, 
+       status = ncvarinq(incdfid, invarid,
 			 NULL, NULL, NULL, NULL, &num_atts);
    }
    else {
@@ -1343,7 +1343,7 @@ MNCAPI int micopy_all_atts(int incdfid, int invarid,
 
    /* Loop through input attributes */
    for (i=0; i<num_atts; i++){
-      
+
       /* Get the attribute name */
        status = ncattname(incdfid, invarid, i, name);
        if (status < 0) {
@@ -1381,13 +1381,13 @@ MNCAPI int micopy_all_atts(int incdfid, int invarid,
 @OUTPUT     : (none)
 @RETURNS    : Variable id of variable created in outcdfid or MI_ERROR (=-1)
               if an error occurs.
-@DESCRIPTION: Copies a variable definition (including attributes) from one 
+@DESCRIPTION: Copies a variable definition (including attributes) from one
               cdf file to another. outcdfid must be in define mode.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines.
-@CREATED    : 
-@MODIFIED   : 
+@CREATED    :
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int micopy_var_def(int incdfid, int invarid, int outcdfid)
 {
@@ -1407,7 +1407,7 @@ MNCAPI int micopy_var_def(int incdfid, int invarid, int outcdfid)
    MI_SAVE_ROUTINE_NAME("micopy_var_def");
 
    /* Get name and dimensions of variable */
-   status = ncvarinq(incdfid, invarid, varname, &datatype, &ndims, 
+   status = ncvarinq(incdfid, invarid, varname, &datatype, &ndims,
                      indim, NULL);
    if (status < 0) {
        MI_LOG_ERROR(MI_MSG_VARINQ);
@@ -1491,11 +1491,11 @@ MNCAPI int micopy_var_def(int incdfid, int invarid, int outcdfid)
 @DESCRIPTION: Copies the lengths of the variable's dimensions to the
               size_ptr array.  size_ptr must point to a buffer large
               enough to hold the data.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines.
-@CREATED    : 
-@MODIFIED   : 
+@CREATED    :
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int
 mivarsize(int fd, int varid, long *size_ptr)
@@ -1522,20 +1522,20 @@ mivarsize(int fd, int varid, long *size_ptr)
 @INPUT      : incdfid  - input cdf file id
               invarid  - input variable id
               outcdfid - output cdf file id
-              outvarid - output variable id (usually returned by 
+              outvarid - output variable id (usually returned by
                  micopy_var_def)
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR (=-1) if an error occurs.
 @DESCRIPTION: Copies the values of a variable from one cdf file to another.
               outcdfid must be in data mode. The two variables must have
               the same shape.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines.
-@CREATED    : 
-@MODIFIED   : 
+@CREATED    :
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
-MNCAPI int micopy_var_values(int incdfid, int invarid, 
+MNCAPI int micopy_var_values(int incdfid, int invarid,
                              int outcdfid, int outvarid)
 {
    nc_type intype, outtype;   /* Data types */
@@ -1579,7 +1579,7 @@ MNCAPI int micopy_var_values(int incdfid, int invarid,
    stc.outvarid=outvarid;
    stc.value_size=nctypelen(intype);
    status = MI_var_loop(inndims, miset_coords(MAX_VAR_DIMS, 0L, start),
-			insize, stc.value_size, NULL, 
+			insize, stc.value_size, NULL,
 			MI_MAX_VAR_BUFFER_SIZE, &stc,
 			MI_vcopy_action);
    if (status < 0) {
@@ -1601,13 +1601,13 @@ MNCAPI int micopy_var_values(int incdfid, int invarid,
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Buffer action routine to be called by MI_var_loop, for
               use by micopy_var_values.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF and MINC routines
 @CREATED    : August 3, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
-PRIVATE int MI_vcopy_action(int ndims, long start[], long count[], 
+PRIVATE int MI_vcopy_action(int ndims, long start[], long count[],
                             long nvalues, void *var_buffer, void *caller_data)
      /* ARGSUSED */
 {
@@ -1645,11 +1645,11 @@ PRIVATE int MI_vcopy_action(int ndims, long start[], long count[],
 @DESCRIPTION: Copies all variable definitions in file incdfid to file outcdfid
               (including attributes), excluding the variable id's listed in
               array excluded_vars. File outcdfid must be in define mode.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines.
 @CREATED    : August 3, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int micopy_all_var_defs(int incdfid, int outcdfid, int nexclude,
                                int excluded_vars[])
@@ -1673,7 +1673,7 @@ MNCAPI int micopy_all_var_defs(int incdfid, int outcdfid, int nexclude,
 
       /* Check list of excluded variables */
       for (i=0; i<nexclude; i++) {
-         if (varid==excluded_vars[i]) 
+         if (varid==excluded_vars[i])
 	     break;
       }
 
@@ -1695,7 +1695,7 @@ MNCAPI int micopy_all_var_defs(int incdfid, int outcdfid, int nexclude,
    }
 
    MI_RETURN(status);
-       
+
 }
 
 /* ----------------------------- MNI Header -----------------------------------
@@ -1708,16 +1708,16 @@ MNCAPI int micopy_all_var_defs(int incdfid, int outcdfid, int nexclude,
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR (=-1) if an error occurs.
 @DESCRIPTION: Copies all variable values in file incdfid to file outcdfid,
-              excluding the variable id's listed in array excluded_vars. 
+              excluding the variable id's listed in array excluded_vars.
               File outcdfid must be in data mode. Usually called after
               micopy_all_var_defs with the same arguments. If a variable
               to be copied is not defined properly in outcdfid, then an
               error occurs.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines.
-@CREATED    : 
-@MODIFIED   : 
+@CREATED    :
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int micopy_all_var_values(int incdfid, int outcdfid, int nexclude,
                                  int excluded_vars[])
@@ -1770,7 +1770,7 @@ MNCAPI int micopy_all_var_values(int incdfid, int outcdfid, int nexclude,
    }
 
    MI_RETURN(MI_NOERROR);
-       
+
 }
 
 /* ----------------------------- MNI Header -----------------------------------
@@ -1781,10 +1781,10 @@ MNCAPI int micopy_all_var_values(int incdfid, int outcdfid, int nexclude,
               occurs.
 @DESCRIPTION: Creates a temporary file (which is initially CLOSED).
 @METHOD     : Unnecessarily convoluted, I suppose... See comments.
-@GLOBALS    : 
+@GLOBALS    :
 @CALLS      : Standard POSIX/UNIX routines
 @CREATED    : 07-March-2003 by bert@bic.mni.mcgill.ca
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 
@@ -1802,7 +1802,7 @@ micreate_tempfile(void)
    * conditions can lead to small security holes (and large, annoying
    * GNU linker messages).
    *
-   * The only catch is that mkstemp() does not automatically put the 
+   * The only catch is that mkstemp() does not automatically put the
    * file in the TMPDIR directory (or some other appropriate place).
    * So I more-or-less emulate that behavior here.
    */
@@ -1837,7 +1837,7 @@ micreate_tempfile(void)
   /* Worst case.  tmpnam() is apparently the worst of all possible worlds
    * here.  It doesn't allow any way to force a particular directory,
    * and it doesn't avoid the race condition.  But volume_io used it for
-   * years, so I see no reason to disallow this case for systems that 
+   * years, so I see no reason to disallow this case for systems that
    * might not define the above two functions (whether any such systems
    * exist is unclear to me).
    */
@@ -1869,7 +1869,7 @@ micreate_tempfile(void)
 }
 
 
-#ifndef NCOPTS_STACK_LIMIT 
+#ifndef NCOPTS_STACK_LIMIT
  #define NCOPTS_STACK_LIMIT 10
 #endif
 
@@ -1877,12 +1877,12 @@ static int _ncopts_stack[NCOPTS_STACK_LIMIT];
 static int _ncopts_stack_pointer=0;
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : set_ncopts
-@INPUT      : int 
+@INPUT      : int
 @OUTPUT     : int
 @RETURNS    : Old value of ncopts.
 @DESCRIPTION: Sets new value of ncopts
 @CREATED    : 30-Nov-2016 Vladimir S. FONOV
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int set_ncopts(int new_ncopts)
 {
@@ -1898,7 +1898,7 @@ MNCAPI int set_ncopts(int new_ncopts)
 @RETURNS    : Current value of ncopts
 @DESCRIPTION: Current value of ncopts
 @CREATED    : 30-Nov-2016 Vladimir S. FONOV
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int get_ncopts(void)
 {
@@ -1906,19 +1906,19 @@ MNCAPI int get_ncopts(void)
 }
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : push_ncopts
-@INPUT      : int 
+@INPUT      : int
 @OUTPUT     : int
 @RETURNS    : Old value of ncopts.
 @DESCRIPTION: Sets new value of ncopts, pushes old value into stack
 @CREATED    : 30-Nov-2016 Vladimir S. FONOV
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int push_ncopts(int new_ncopts)
 {
   int old_ncopts=ncopts;
   if(_ncopts_stack_pointer>=NCOPTS_STACK_LIMIT)
   {
-    MI_LOG_ERROR(MI_MSG_NCOPTS_STACK_OVER);  
+    MI_LOG_ERROR(MI_MSG_NCOPTS_STACK_OVER);
   } else {
     _ncopts_stack[_ncopts_stack_pointer]=old_ncopts;
     _ncopts_stack_pointer++;
@@ -1933,7 +1933,7 @@ MNCAPI int push_ncopts(int new_ncopts)
 @RETURNS    : New value of ncopts.
 @DESCRIPTION: Sets new value of ncopts, from stack
 @CREATED    : 30-Nov-2016 Vladimir S. FONOV
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int pop_ncopts(void)
 {
@@ -1942,7 +1942,7 @@ MNCAPI int pop_ncopts(void)
     _ncopts_stack_pointer--;
     ncopts=_ncopts_stack[_ncopts_stack_pointer];
   } else {
-    MI_LOG_ERROR(MI_MSG_NCOPTS_STACK_UNDER);  
+    MI_LOG_ERROR(MI_MSG_NCOPTS_STACK_UNDER);
   }
   return ncopts;
 }

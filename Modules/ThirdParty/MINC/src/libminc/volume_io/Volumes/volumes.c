@@ -36,15 +36,15 @@ static  VIO_STR  default_dimension_names[VIO_MAX_DIMENSIONS][VIO_MAX_DIMENSIONS]
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_default_dim_names
 @INPUT      : n_dimensions
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : list of dimension names
 @DESCRIPTION: Returns the list of default dimension names for the given
               number of dimensions.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_STR  *get_default_dim_names(
@@ -56,14 +56,14 @@ VIOAPI  VIO_STR  *get_default_dim_names(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : convert_spatial_axis_to_dim_name
 @INPUT      : axis
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : dimension name
 @DESCRIPTION: Returns the name of the dimension.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_STR  convert_spatial_axis_to_dim_name(
@@ -119,9 +119,9 @@ VIOAPI  VIO_BOOL  convert_dim_name_to_spatial_axis(
               signed_flag       - type is signed?
               min_value         - min and max value to be stored
               max_value
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Volume
-@DESCRIPTION: Creates a VIO_Volume structure, and initializes it.  In order to 
+@DESCRIPTION: Creates a VIO_Volume structure, and initializes it.  In order to
               later use the volume, you must call either set_volume_size()
               and alloc_volume_data(), or one of the input volume routines,
               which in turn calls these two.
@@ -132,9 +132,9 @@ VIOAPI  VIO_BOOL  convert_dim_name_to_spatial_axis(
               file in the order it is stored, or
               { MIxspace, MIyspace, MIzspace } to read it so you can subcript
               the volume in x, y, z order.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993       David MacDonald
 @MODIFIED   : Nov. 15, 1996    D. MacDonald    - handles space type
 @MODIFIED   : May  22, 1996    D. MacDonald    - now stores starts/steps
@@ -229,14 +229,14 @@ VIOAPI   VIO_Volume   create_volume(
               signed_flag
               voxel_min
               voxel_max
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the data type and valid range of the volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_volume_type(
@@ -276,7 +276,7 @@ VIOAPI  void  set_volume_type(
         case  NC_FLOAT:
             data_type = VIO_FLOAT;
             break;
-            
+
         default:
         case  NC_DOUBLE:
             data_type = VIO_DOUBLE;
@@ -285,7 +285,7 @@ VIOAPI  void  set_volume_type(
 
         set_multidim_data_type( &volume->array, data_type );
         volume->signed_flag = signed_flag;
-        
+
         set_volume_voxel_range( volume, voxel_min, voxel_max );
     }
 
@@ -299,14 +299,14 @@ VIOAPI  void  set_volume_type(
               minc2_data_type
               voxel_min
               voxel_max
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the data type and valid range of the volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 2013            Vladimir FONOV
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_volume_type2(
@@ -372,14 +372,14 @@ VIOAPI  void  set_volume_type2(
 @NAME       : set_volume_labels
 @INPUT      : volume
               is_labels
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the data type flag to specify that volume contains discrete labels
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 2013            Vladimir FONOV
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 VIOAPI  void  set_volume_labels(
     VIO_Volume   volume,
@@ -393,13 +393,13 @@ VIOAPI  void  set_volume_labels(
 @NAME       : set_volume_labels
 @INPUT      : volume
 @OUTPUT     : is_labels
-@RETURNS    : 
-@DESCRIPTION: Gets the data type flag specifying that volume contains discrete labels 
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@RETURNS    :
+@DESCRIPTION: Gets the data type flag specifying that volume contains discrete labels
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 2013            Vladimir FONOV
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 VIOAPI  VIO_BOOL  get_volume_labels(
     VIO_Volume   volume )
@@ -508,11 +508,11 @@ VIOAPI VIO_Data_types  minc2_type_to_vio_type(
 @RETURNS    : data type
 @DESCRIPTION: Returns the NETCDF data type of the volume and passes back
               the signed flag.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  nc_type  get_volume_nc_data_type(
@@ -533,14 +533,14 @@ VIOAPI  mitype_t  get_volume_minc2_data_type(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_volume_data_type
 @INPUT      : volume
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : data type
 @DESCRIPTION: Returns the data type of the volume (not the NETCDF type).
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Data_types  get_volume_data_type(
@@ -553,16 +553,16 @@ VIOAPI  VIO_Data_types  get_volume_data_type(
 @NAME       : set_rgb_volume_flag
 @INPUT      : volume
               flag
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the flag indicating that the volume is an RGB volume.
               Can only set the flag to TRUE if the volume is an unsigned
               long volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Nov 13, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_rgb_volume_flag(
@@ -576,14 +576,14 @@ VIOAPI  void  set_rgb_volume_flag(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : is_an_rgb_volume
 @INPUT      : volume
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if it is an RGB volume
 @DESCRIPTION: Tests if the volume is an RGB volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jun 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  is_an_rgb_volume(
@@ -595,15 +595,15 @@ VIOAPI  VIO_BOOL  is_an_rgb_volume(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : alloc_volume_data
 @INPUT      : volume
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Allocates the memory for the volume.  Assumes that the
               volume type and sizes have been set.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  alloc_volume_data(
@@ -634,14 +634,14 @@ VIOAPI  void  alloc_volume_data(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : volume_is_alloced
 @INPUT      : volume
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if the volume is allocated
 @DESCRIPTION: Checks if the volume data has been allocated.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  volume_is_alloced(
@@ -652,20 +652,20 @@ VIOAPI  VIO_BOOL  volume_is_alloced(
             (!volume->is_cached_volume && multidim_array_is_alloced( &volume->array )) ;
 #else
     return  multidim_array_is_alloced( &volume->array ) ;
-#endif    
+#endif
 }
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : free_volume_data
 @INPUT      : volume
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Frees the memory associated with the volume multidimensional data.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  free_volume_data(
@@ -674,8 +674,8 @@ VIOAPI  void  free_volume_data(
 #ifdef HAVE_MINC1
     if( volume->is_cached_volume )
         delete_volume_cache( &volume->cache, volume );
-    else 
-#endif    
+    else
+#endif
       if( volume_is_alloced( volume ) )
         delete_multidim_array( &volume->array );
 }
@@ -683,12 +683,12 @@ VIOAPI  void  free_volume_data(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : delete_volume
 @INPUT      : volume
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Frees all memory from the volume and the volume struct itself.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
 @MODIFIED   : Nov. 15, 1996    D. MacDonald    - handles space type
 ---------------------------------------------------------------------------- */
@@ -722,14 +722,14 @@ VIOAPI  void  delete_volume(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : set_volume_n_dimensions
 @INPUT      : volume
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if successful
 @DESCRIPTION: Returns the number of dimensions of the volume
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  set_volume_n_dimensions(
@@ -752,14 +752,14 @@ VIOAPI  VIO_BOOL  set_volume_n_dimensions(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_volume_n_dimensions
 @INPUT      : volume
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : number of dimensions
 @DESCRIPTION: Returns the number of dimensions of the volume
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  int  get_volume_n_dimensions(
@@ -775,14 +775,14 @@ VIOAPI  int  get_volume_n_dimensions(
 @NAME       : get_volume_sizes
 @INPUT      : volume
 @OUTPUT     : sizes
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the sizes of each of the dimensions.  Assumes sizes
               has enough room for n_dimensions integers.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_volume_sizes(
@@ -796,14 +796,14 @@ VIOAPI  void  get_volume_sizes(
 @NAME       : set_volume_sizes
 @INPUT      : volume
               sizes
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the sizes (number of voxels in each dimension) of the volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_volume_sizes(
@@ -816,14 +816,14 @@ VIOAPI  void  set_volume_sizes(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_volume_total_n_voxels
 @INPUT      : volume
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : n voxels
 @DESCRIPTION: Returns the total number of voxels in the volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  size_t  get_volume_total_n_voxels(
@@ -846,15 +846,15 @@ VIOAPI  size_t  get_volume_total_n_voxels(
 @NAME       : assign_voxel_to_world_transform
 @INPUT      : volume
               transform
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Updates the volume's transformation from voxel to world coords.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May  20, 1997    D. MacDonald - created from
                                           set_voxel_to_world_transform
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  assign_voxel_to_world_transform(
@@ -902,7 +902,7 @@ static  VIO_Real   dot_vectors(
 @INPUT      : v1
               v2
 @OUTPUT     : cross
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Computes the cross product of 2 n-dimensional vectors.
               This function should be moved to some vector routines.
 @METHOD     :
@@ -927,7 +927,7 @@ static  void   cross_3D_vector(
 @INPUT      : n
               v1
 @OUTPUT     : v1_normalized
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Normalizes the length of v1 to 1, placing result in
               v1_normalized
 @METHOD     :
@@ -962,14 +962,14 @@ static  void   normalize_vector(
               world_space_for_translation_voxel
               direction_cosines
 @OUTPUT     : world_transform
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Computes the linear transform from the indices of the spatial
               dimensions (spatial_axes), the separations, the translation
               (translation_voxel,world_space_for_translation_voxel) and
               the direction cosines.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : May  22, 1997   D. MacDonald - now uses starts/steps
 ---------------------------------------------------------------------------- */
@@ -1096,13 +1096,13 @@ VIOAPI  void  compute_world_transform(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : check_recompute_world_transform
 @INPUT      : volume
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Recompute the voxel to world transform.  Called when one of
               the attributes affecting this is changed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : May  20, 1997   D. MacDonald - now checks update flag
 ---------------------------------------------------------------------------- */
@@ -1133,14 +1133,14 @@ static  void  check_recompute_world_transform(
               spatial_axes
               dir_cosines
 @OUTPUT     : starts
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Converts a transform origin into starts (multiples of the
               dir_cosines).  dir_cosines need not be mutually orthogonal
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      :  
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May. 22, 1997    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  convert_transform_origin_to_starts(
@@ -1238,15 +1238,15 @@ static  void  convert_transform_origin_to_starts(
               steps
               dir_cosines
               spatial_axes
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Converts a linear transform to a set of 3 starts, 3 steps,
               and 3 direction cosines.  The separation signs determine
               the desired signs of each of the separations.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      :  
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May. 20, 1997    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  convert_transform_to_starts_and_steps(
@@ -1327,12 +1327,12 @@ VIOAPI  void  convert_transform_to_starts_and_steps(
 @NAME       : set_voxel_to_world_transform
 @INPUT      : volume
               transform
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the volume's transformation from voxel to world coords.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : May  22, 1997   D. MacDonald - recomputes the starts/steps
 ---------------------------------------------------------------------------- */
@@ -1358,13 +1358,13 @@ VIOAPI  void  set_voxel_to_world_transform(
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_voxel_to_world_transform
-@INPUT      : 
-@OUTPUT     : 
+@INPUT      :
+@OUTPUT     :
 @RETURNS    : transform
 @DESCRIPTION: Returns a pointer to the voxel to world transform of the volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : May  22, 1997   D. MacDonald - now delays recomputing transform
 ---------------------------------------------------------------------------- */
@@ -1380,16 +1380,16 @@ VIOAPI  VIO_General_transform  *get_voxel_to_world_transform(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_volume_dimension_names
 @INPUT      : volume
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : list of dimension names
 @DESCRIPTION: Creates a copy of the dimension names of the volume.  Therefore,
               after use, the calling function must free the list, by calling
               delete_dimension_names().
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_STR  *get_volume_dimension_names(
@@ -1420,15 +1420,15 @@ VIOAPI  VIO_STR  *get_volume_dimension_names(
 @NAME       : delete_dimension_names
 @INPUT      : volume,
               dimension_names
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Frees the memory allocated to the dimension names, which came
               from the above function, get_volume_dimension_names().
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  delete_dimension_names(
@@ -1446,16 +1446,16 @@ VIOAPI  void  delete_dimension_names(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_volume_space_type
 @INPUT      : volume
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Returns a copy of the string representing the volume coordinate
               system name.  The calling function must delete_string() the
               value when done.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      :  
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Nov. 15, 1996    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_STR  get_volume_space_type(
@@ -1468,15 +1468,15 @@ VIOAPI  VIO_STR  get_volume_space_type(
 @NAME       : set_volume_space_type
 @INPUT      : volume
               name
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Copies the name into the volume's coordinate system name.
               Copies the string, rather than just the pointer.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      :  
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Nov. 15, 1996    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_volume_space_type(
@@ -1491,14 +1491,14 @@ VIOAPI  void  set_volume_space_type(
 @NAME       : get_volume_separations
 @INPUT      : volume
 @OUTPUT     : separations
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the slice separations for each dimensions.  Assumes
               separations contains enough room for n_dimensions VIO_Reals.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_volume_separations(
@@ -1515,12 +1515,12 @@ VIOAPI  void  get_volume_separations(
 @NAME       : set_volume_separations
 @INPUT      : volume
               separations
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the separations between slices for the given volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : May  22, 1997   D. MacDonald - now delays recomputing transform
 ---------------------------------------------------------------------------- */
@@ -1541,13 +1541,13 @@ VIOAPI  void  set_volume_separations(
 @NAME       : set_volume_starts
 @INPUT      : volume
               starts[]
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the translation portion of the voxel to world transform,
               by specifying the start vector, as specified by the MINC format.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May  20, 1997   David MacDonald
 @MODIFIED   : May  22, 1997   D. MacDonald - now delays recomputing transform
 ---------------------------------------------------------------------------- */
@@ -1568,13 +1568,13 @@ VIOAPI  void  set_volume_starts(
 @NAME       : get_volume_starts
 @INPUT      : volume
 @OUTPUT     : starts
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the start vector of the volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May  20, 1997   David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_volume_starts(
@@ -1592,13 +1592,13 @@ VIOAPI  void  get_volume_starts(
 @INPUT      : volume
               axis
               dir
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the direction cosine for one axis, assumed to be unit
               length.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May  20, 1997     David MacDonald
 ---------------------------------------------------------------------------- */
 
@@ -1640,12 +1640,12 @@ VIOAPI  void  set_volume_direction_unit_cosine(
 @INPUT      : volume
               axis
               dir
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the direction cosine for one axis.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : May  20, 1997   D. MacDonald    - split into
                                             set_volume_direction_unit_cosine
@@ -1683,14 +1683,14 @@ VIOAPI  void  set_volume_direction_cosine(
 @INPUT      : volume
               axis
 @OUTPUT     : dir
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the direction cosine corresponding to the given
               voxel axis, which must be a spatial dimension.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      :  
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Nov. 15, 1996    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_volume_direction_cosine(
@@ -1733,16 +1733,16 @@ VIOAPI  void  get_volume_direction_cosine(
 @INPUT      : volume
               voxel
               world_space_voxel_maps_to
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the translation portion of the volume so that the given
               voxel maps to the given world space position.  Rewrote this
               to provide backwards compatibility.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      :  
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug. 31, 1997    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_volume_translation(
@@ -1835,7 +1835,7 @@ VIOAPI  void  set_volume_translation(
     if( n_axes == 1 || n_axes == 2 )
     {
         /*--- set dim to the one axis that does not have a vector associated
-              with it yet, and make one that is the unit cross product of 
+              with it yet, and make one that is the unit cross product of
               the other two */
 
         if( volume->spatial_axes[2] < 0 )
@@ -1909,16 +1909,16 @@ VIOAPI  void  set_volume_translation(
 @INPUT      : volume
 @OUTPUT     : voxel                     - returns 0, 0, 0 ...
               world_space_voxel_maps_to - returns centre of voxel [0][0][0]...
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Reinstated this old function for backward compatibility.
               Simply returns the voxel 0, 0, 0, and the world
               coordinate of its centre, to indicate the translational
               component of the transformation.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      :  
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May. 23, 1998    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_volume_translation(
@@ -1941,14 +1941,14 @@ VIOAPI  void  get_volume_translation(
 @INPUT      : volume
               voxel
 @OUTPUT     : xyz
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the voxel coordinates corresponding to the x, y,
               and z axes, if any.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  reorder_voxel_to_xyz(
@@ -1973,14 +1973,14 @@ VIOAPI  void  reorder_voxel_to_xyz(
 @INPUT      : volume
               xyz
 @OUTPUT     : voxel
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the voxel coordinates converted from those
               corresponding to the x, y, and z axis.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jun 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  reorder_xyz_to_voxel(
@@ -2011,7 +2011,7 @@ VIOAPI  void  reorder_xyz_to_voxel(
 @OUTPUT     : x_world
               y_world
               z_world
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Converts the given voxel position to a world coordinate.
               Note that centre of first voxel corresponds to (0.0,0.0,0.0) in
               voxel coordinates.
@@ -2048,14 +2048,14 @@ VIOAPI  void  convert_voxel_to_world(
 @OUTPUT     : x_world
               y_world
               z_world
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Convenience function which performs same task as
               convert_voxel_to_world(), but for 3D volumes only.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  convert_3D_voxel_to_world(
@@ -2138,10 +2138,10 @@ VIOAPI  void  convert_voxel_normal_vector_to_world(
 @OUTPUT     : x_world
               y_world
               z_world
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Converts a voxel vector to world coordinates.
 @CREATED    : Mar   1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  convert_voxel_vector_to_world(
@@ -2173,10 +2173,10 @@ VIOAPI  void  convert_voxel_vector_to_world(
               y_world
               z_world
 @OUTPUT     : voxel_vector
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Converts a world vector to voxel coordinates.
 @CREATED    : Mar   1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  convert_world_vector_to_voxel(
@@ -2205,7 +2205,7 @@ VIOAPI  void  convert_world_vector_to_voxel(
 @OUTPUT     : x_voxel
               y_voxel
               z_voxel
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Converts from world coordinates to voxel coordinates.
 @CREATED    : Mar   1993           David MacDonald
 @MODIFIED   : May  22, 1997   D. MacDonald - checks to recompute transform
@@ -2238,14 +2238,14 @@ VIOAPI  void  convert_world_to_voxel(
 @OUTPUT     : voxel1
               voxel2
               voxel3
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Convenience function that does same task as
               convert_world_to_voxel(), but only for 3D volumes.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  convert_3D_world_to_voxel(
@@ -2275,14 +2275,14 @@ VIOAPI  void  convert_3D_world_to_voxel(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_volume_voxel_min
 @INPUT      : volume
-@OUTPUT     : 
-@RETURNS    : min valid voxel 
+@OUTPUT     :
+@RETURNS    : min valid voxel
 @DESCRIPTION: Returns the minimum valid voxel value.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Real  get_volume_voxel_min(
@@ -2294,14 +2294,14 @@ VIOAPI  VIO_Real  get_volume_voxel_min(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_volume_voxel_max
 @INPUT      : volume
-@OUTPUT     : 
-@RETURNS    : max valid voxel 
+@OUTPUT     :
+@RETURNS    : max valid voxel
 @DESCRIPTION: Returns the maximum valid voxel value.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Real  get_volume_voxel_max(
@@ -2315,13 +2315,13 @@ VIOAPI  VIO_Real  get_volume_voxel_max(
 @INPUT      : volume
 @OUTPUT     : voxel_min
               voxel_max
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the min and max voxel values stored in the volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_volume_voxel_range(
@@ -2338,16 +2338,16 @@ VIOAPI  void  get_volume_voxel_range(
 @INPUT      : volume
               voxel_min
               voxel_max
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the valid range of voxels.  If an invalid range is
               specified (voxel_min >= voxel_max), the full range of the
               volume's type is used.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_volume_voxel_range(
@@ -2360,7 +2360,7 @@ VIOAPI  void  set_volume_voxel_range(
 
     if( volume->real_range_set )
         get_volume_real_range( volume, &real_min, &real_max );
-    
+
     if( voxel_min >= voxel_max ) /*VF: trying to fix the situation when whole volume have the same value all around*/
     {
         switch( get_volume_data_type( volume ) )
@@ -2401,7 +2401,7 @@ VIOAPI  void  set_volume_voxel_range(
 #ifdef HAVE_MINC1
     else
         cache_volume_range_has_changed( volume );
-#endif    
+#endif
 }
 
 /* ----------------------------- MNI Header -----------------------------------
@@ -2409,15 +2409,15 @@ VIOAPI  void  set_volume_voxel_range(
 @INPUT      : volume
 @OUTPUT     : min_value
               max_value
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the minimum and maximum scaled values.  These are
               the minimum and maximum stored voxel values scaled to the
               real value domain.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_volume_real_range(
@@ -2432,14 +2432,14 @@ VIOAPI  void  get_volume_real_range(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_volume_real_min
 @INPUT      : volume
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : real range minimum
 @DESCRIPTION: Returns the minimum of the real range of the volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Real  get_volume_real_min(
@@ -2458,14 +2458,14 @@ VIOAPI  VIO_Real  get_volume_real_min(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_volume_real_max
 @INPUT      : volume
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : real range max
 @DESCRIPTION: Returns the maximum of the real range of the volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Real  get_volume_real_max(
@@ -2486,15 +2486,15 @@ VIOAPI  VIO_Real  get_volume_real_max(
 @INPUT      : volume
               real_min
               real_max
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the range of real values to which the valid voxel
               range maps
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_volume_real_range(
@@ -2512,14 +2512,14 @@ VIOAPI  void  set_volume_real_range(
         volume->real_range_set = FALSE;
 
         set_volume_voxel_range( volume, real_min, real_max );
-        
+
         /*VF: fix stupid logic, which fails when volume has the same value*/
         if(real_min==real_max)
         {
           volume->voxel_min = real_min;
           volume->voxel_max = real_max;
         }
-        
+
         /* these really shouldn't be needed but let's be "safe" */
         volume->real_value_scale = 1.0;
         volume->real_value_translation = 0.0;
@@ -2563,15 +2563,15 @@ VIOAPI  void  set_volume_real_range(
               signed_flag
               voxel_min
               voxel_max
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Copies the volume to a new volume, optionally changing type
               (if nc_data_type is not MI_ORIGINAL_TYPE), but not allocating
               the volume voxel data (alloc_volume_data() must subsequently
               be called).
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Nov. 15, 1996    D. MacDonald    - handles space type
 ---------------------------------------------------------------------------- */
@@ -2623,7 +2623,7 @@ VIOAPI  VIO_Volume   copy_volume_definition_no_alloc(
     }
 
     set_volume_space_type( copy, volume->coordinate_system_name );
-    
+
     for_less( c, 0, get_volume_n_dimensions(volume) )
     {
         if (is_volume_dimension_irregular(volume, c)) {
@@ -2649,16 +2649,16 @@ VIOAPI  VIO_Volume   copy_volume_definition_no_alloc(
               signed_flag
               voxel_min
               voxel_max
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Copies the volume to a new volume, optionally changing type
               (if nc_data_type is not MI_ORIGINAL_TYPE), allocating
               the volume voxel data, but not initializing the data.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Volume   copy_volume_definition(
@@ -2686,14 +2686,14 @@ VIOAPI  VIO_Volume   copy_volume_definition(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : copy_volume
 @INPUT      : volume
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : copy of volume
 @DESCRIPTION: Creates an exact copy of a volume, including voxel values.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Jun 21, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Volume  copy_volume(
@@ -2703,7 +2703,7 @@ VIOAPI  VIO_Volume  copy_volume(
 }
 
 VIOAPI  VIO_Volume  copy_volume_new_type(
-    VIO_Volume volume,  
+    VIO_Volume volume,
     nc_type    new_data_type,
     VIO_BOOL   new_signed_flag)
 {
@@ -2861,7 +2861,7 @@ VIOAPI  VIO_Volume  copy_volume_new_type(
 }
 
 /* These are not public functions, so they are not VIOAPI yet */
-VIO_BOOL 
+VIO_BOOL
 is_volume_dimension_irregular(VIO_Volume volume, int idim)
 {
     if (idim > volume->array.n_dimensions) {
@@ -3003,7 +3003,7 @@ nonspatial_voxel_to_world(VIO_Volume volume, int idim, int voxel)
              */
             voxel = volume->array.sizes[idim] - 1;
 
-            world = (volume->irregular_starts[idim][voxel] + 
+            world = (volume->irregular_starts[idim][voxel] +
                      volume->irregular_widths[idim][voxel]);
         }
         else {
@@ -3025,7 +3025,7 @@ nonspatial_world_to_voxel(VIO_Volume volume, int idim, VIO_Real world)
     if (is_volume_dimension_irregular(volume, idim)) {
         voxel = volume->array.sizes[idim];
         for (i = 0; i < volume->array.sizes[idim]; i++) {
-            if (world < (volume->irregular_starts[idim][i] + 
+            if (world < (volume->irregular_starts[idim][i] +
                          volume->irregular_widths[idim][i])) {
                 voxel = i;
                 break;

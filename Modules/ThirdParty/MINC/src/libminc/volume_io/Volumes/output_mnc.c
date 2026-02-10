@@ -40,15 +40,15 @@ static VIO_Status get_dimension_ordering(
 @NAME       : is_default_direction_cosine
 @INPUT      : axis
               dir_cosines
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if is default
 @DESCRIPTION: Checks to see if the cosine is the default for the axis,
               i.e., for x axis, is it ( 1, 0, 0 ).
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_BOOL  is_default_direction_cosine(
@@ -77,13 +77,13 @@ static  VIO_BOOL  is_default_direction_cosine(
 @INPUT      : file
               space_type
               voxel_to_world_transform
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Outputs the voxel to world transformation, in terms of MINC
               starts, steps, and direction cosines.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Oct. 24, 1995    David MacDonald
 @MODIFIED   : Nov. 15, 1996    D. MacDonald  - added handling of space type
 @MODIFIED   : May. 20, 1997    D. MacDonald  - removed float arithmetic
@@ -212,16 +212,16 @@ static  VIO_Status  output_world_transform(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : create_image_variable
 @INPUT      : file
-@OUTPUT     : 
-@RETURNS    : 
-@DESCRIPTION: Defines the image variable in the output minc file. This 
-              should be done as the last thing before ending the header 
+@OUTPUT     :
+@RETURNS    :
+@DESCRIPTION: Defines the image variable in the output minc file. This
+              should be done as the last thing before ending the header
               definition.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : September 13, 2001    Peter Neelin
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static void create_image_variable(Minc_file file)
@@ -233,7 +233,7 @@ static void create_image_variable(Minc_file file)
     /* Create the variable */
     file->img_var_id = micreate_std_variable( file->cdfid, MIimage,
                                               file->nc_data_type,
-                                              file->n_file_dimensions, 
+                                              file->n_file_dimensions,
                                               file->image_dims );
 
     /* Copy all attributes if required */
@@ -263,7 +263,7 @@ static void create_image_variable(Minc_file file)
     if( file->valid_range[0] < file->valid_range[1] )
     {
 
-        (void) miset_valid_range( file->cdfid, file->img_var_id, 
+        (void) miset_valid_range( file->cdfid, file->img_var_id,
                                   file->valid_range);
 
     }
@@ -273,18 +273,18 @@ static void create_image_variable(Minc_file file)
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : end_file_def
 @INPUT      : file
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Ends the definition of the file, calling ncendef, but
-              first creating the image variable as the last variable in 
-              the file. This is done to allow images > 2 GB (on 64-bit 
-              machines) and to ensure that data is written right to the 
+              first creating the image variable as the last variable in
+              the file. This is done to allow images > 2 GB (on 64-bit
+              machines) and to ensure that data is written right to the
               end of the file for backwards compatibility.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : September 13, 2001    Peter Neelin
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static VIO_Status end_file_def(Minc_file file)
@@ -312,17 +312,17 @@ static VIO_Status end_file_def(Minc_file file)
               voxel_to_world_transform
               volume_to_attach
               options
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : minc file
 @DESCRIPTION: Creates a minc file for outputting volumes.  The n_dimensions,
               dim_names, sizes, file_nc_data_type, file_signed_flag,
               file_voxel_min, file_voxel_max, and voxel_to_world_transform
               define the type and shape of the file.  The volume_to_attach
-              is the volume that will be output once or many times to 
+              is the volume that will be output once or many times to
               fill up the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Nov. 15, 1996   D. MacDonald  - added handling of space type
 @MODIFIED   : Nov.  2, 1998   D. MacDonald  - fixed the bug with non-global
@@ -384,15 +384,15 @@ VIOAPI  Minc_file  initialize_minc_output(
     {
         get_volume_real_range( volume_to_attach,
                                &file_voxel_min, &file_voxel_max );
-    } 
-    else if( options->is_labels ) 
+    }
+    else if( options->is_labels )
     {
         get_volume_real_range( volume_to_attach,
                                &file_voxel_min, &file_voxel_max );
-        
+
         options->global_image_range[0]=file_voxel_min;
         options->global_image_range[1]=file_voxel_max;
-        
+
     }
 
     /* --- check if dimension name correspondence between volume and file */
@@ -496,7 +496,7 @@ VIOAPI  Minc_file  initialize_minc_output(
     }
 
     /* Create the root variable */
-    (void) micreate_std_variable(file->cdfid, MIrootvariable, 
+    (void) micreate_std_variable(file->cdfid, MIrootvariable,
                                  NC_INT, 0, NULL);
 
     for_less( d, 0, n_dimensions )
@@ -524,7 +524,7 @@ VIOAPI  Minc_file  initialize_minc_output(
     file->signed_flag = file_signed_flag;
     file->valid_range[0] = file_voxel_min;
     file->valid_range[1] = file_voxel_max;
-            
+
     file->image_range[0] = options->global_image_range[0];
     file->image_range[1] = options->global_image_range[1];
 
@@ -542,10 +542,10 @@ VIOAPI  Minc_file  initialize_minc_output(
             --n_range_dims;
 
         file->min_id = micreate_std_variable( file->cdfid, MIimagemin,
-                                              NC_DOUBLE, n_range_dims, 
+                                              NC_DOUBLE, n_range_dims,
                                               file->image_dims);
         file->max_id = micreate_std_variable( file->cdfid, MIimagemax,
-                                              NC_DOUBLE, n_range_dims, 
+                                              NC_DOUBLE, n_range_dims,
                                               file->image_dims );
     }
 
@@ -562,15 +562,15 @@ VIOAPI  Minc_file  initialize_minc_output(
 @INPUT      : file
               filename
               history_string
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Copies the auxiliary data from the filename to the opened
               Minc file, 'file'.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  copy_auxiliary_data_from_minc_file(
@@ -614,15 +614,15 @@ VIOAPI  VIO_Status  copy_auxiliary_data_from_minc_file(
 @INPUT      : file
               src_cdfid
               history_string
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Copies the auxiliary data from the opened minc file specified
               by src_cdfid to the opened minc file specified by 'file'.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  copy_auxiliary_data_from_open_minc_file(
@@ -737,12 +737,12 @@ VIOAPI  VIO_Status  copy_auxiliary_data_from_open_minc_file(
 @NAME       : add_minc_history
 @INPUT      : file
               history_string
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Adds the history_string to the history in the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Nov. 2, 1998  D. MacDonald - fixed error P. Neelin found with
                                            concatenating to non-existent history
@@ -815,11 +815,11 @@ VIOAPI  VIO_Status  add_minc_history(
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Matches dimension names between the volume and file, setting
               the axis conversion from file to_volume and from volume to_file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_Status  get_dimension_ordering(
@@ -869,16 +869,16 @@ static  VIO_Status  get_dimension_ordering(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : check_minc_output_variables
 @INPUT      : file
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Checks if the file variables has been put into data mode,
               and does so if necessary.  Then it checks if the variables have
               been written, and does so if necessary.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_Status  check_minc_output_variables(
@@ -941,7 +941,7 @@ static  VIO_Status  check_minc_output_variables(
           (void) miicv_setint( file->minc_icv, MI_ICV_DO_NORM, TRUE );
           (void) miicv_setint( file->minc_icv, MI_ICV_USER_NORM, TRUE );
         }
-        
+
         if( file->image_range[0] < file->image_range[1] || volume->is_labels)
         {
             (void) miicv_setdbl( file->minc_icv, MI_ICV_IMAGE_MIN,
@@ -985,15 +985,15 @@ static  VIO_Status  check_minc_output_variables(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : set_minc_output_random_order
 @INPUT      : file
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the file into random order access, used by volume
               caching.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Oct. 26, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  set_minc_output_random_order(
@@ -1018,14 +1018,14 @@ VIOAPI  VIO_Status  set_minc_output_random_order(
               to_array
               file_start
               file_count
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Outputs a hyperslab from an array to the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_minc_hyperslab(
@@ -1153,14 +1153,14 @@ VIOAPI  VIO_Status  output_minc_hyperslab(
               to_volume
               file_start
               file_count
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Outputs the slab specified by the file start and count arrays,
               from the volume.  The to_volume array translates axes in the file
               to axes in the volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Sep  1, 1995    D. MacDonald - added cached volumes.
 ---------------------------------------------------------------------------- */
@@ -1198,7 +1198,7 @@ static  void  output_slab(
             volume_start[ind] = 0;
     }
 
-#ifdef HAVE_MINC1    
+#ifdef HAVE_MINC1
     if( volume->is_cached_volume )
     {
         /*--- must make a temporary hyperslab array to contain the volume */
@@ -1280,19 +1280,19 @@ static  void  output_slab(
                           volume_start[3], volume_start[4] );
         get_volume_sizes( volume, volume_sizes );
 
-#ifdef HAVE_MINC1        
+#ifdef HAVE_MINC1
         (void) output_minc_hyperslab( file, get_volume_data_type(volume),
                                       get_volume_n_dimensions(volume),
                                       volume_sizes, array_data_ptr,
                                       to_volume,
                                       int_file_start, int_file_count );
-#else /*HAVE_MINC1*/        
+#else /*HAVE_MINC1*/
         /*TODO: implement MINC2 api based reader*/
-#endif /*HAVE_MINC1*/        
-#ifdef HAVE_MINC1    
+#endif /*HAVE_MINC1*/
+#ifdef HAVE_MINC1
     }
 #endif /*HAVE_MINC1*/
-  
+
 }
 
 /* ----------------------------- MNI Header -----------------------------------
@@ -1301,14 +1301,14 @@ static  void  output_slab(
               volume
               volume_count
               file_start
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Outputs the volume to the file in the given position.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_Status  output_the_volume(
@@ -1461,12 +1461,12 @@ static  VIO_Status  output_the_volume(
       count[d] = 1;
       file_indices[d] = file_start[d];
       if( to_volume_index[d] != INVALID_AXIS ) {
-        if( MI_MAX_VAR_BUFFER_SIZE > volume_count[to_volume_index[d]] * slab_size * unit_size 
+        if( MI_MAX_VAR_BUFFER_SIZE > volume_count[to_volume_index[d]] * slab_size * unit_size
             && n_steps == 1 ) {
           count[d] = volume_count[to_volume_index[d]];
           file->n_slab_dims++;  /* integral number of complete dimensions */
         } else {
-          count[d] = MIN( volume_count[to_volume_index[d]], 
+          count[d] = MIN( volume_count[to_volume_index[d]],
                           (long)( MI_MAX_VAR_BUFFER_SIZE / ( slab_size * unit_size ) ) );
           n_steps *= (int)( ( volume_count[to_volume_index[d]] + count[d] - 1 ) / count[d] );
         }
@@ -1548,13 +1548,13 @@ static  VIO_Status  output_the_volume(
               volume_count
               file_start
 @OUTPUT     : Outputs the volume to the specified file position.
-@RETURNS    : 
-@DESCRIPTION: 
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@RETURNS    :
+@DESCRIPTION:
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_volume_to_minc_file_position(
@@ -1574,14 +1574,14 @@ VIOAPI  VIO_Status  output_volume_to_minc_file_position(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : output_minc_volume
 @INPUT      : file
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Outputs the attached volume to the MINC file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_minc_volume(
@@ -1644,14 +1644,14 @@ VIOAPI  VIO_Status  output_minc_volume(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : close_minc_output
 @INPUT      : file
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Closes the MINC file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  close_minc_output(
@@ -1694,13 +1694,13 @@ VIOAPI  VIO_Status  close_minc_output(
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : set_default_minc_output_options
-@INPUT      : 
+@INPUT      :
 @OUTPUT     : options
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the minc output options to the default.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : May  22, 1997   D. MacDonald - added use_volume_starts_and_steps
 ---------------------------------------------------------------------------- */
@@ -1718,9 +1718,9 @@ VIOAPI  void  set_default_minc_output_options(
 
     options->use_volume_starts_and_steps = FALSE;
     options->use_starts_set = FALSE;
-    
+
     options->is_labels  = FALSE;
-    
+
     /*mostly for debugging*/
     options->prefer_minc2_api=miget_cfg_bool(MICFG_MINC_PREFER_V2_API);
 }
@@ -1729,13 +1729,13 @@ VIOAPI  void  set_default_minc_output_options(
 @NAME       : copy_minc_output_options
 @INPUT      : src
 @OUTPUT     : dest
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Copies the minc output options to a new structure.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Nov. 12, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  copy_minc_output_options(
@@ -1764,14 +1764,14 @@ VIOAPI  void  copy_minc_output_options(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : delete_minc_output_options
 @INPUT      : options
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Deletes the minc output options.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  delete_minc_output_options(
@@ -1788,15 +1788,15 @@ VIOAPI  void  delete_minc_output_options(
 @INPUT      : n_dimensions
               dimension_names
 @OUTPUT     : options
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the dimension ordering of the minc output options.
               This option is used by output_volume, but not by
               initialize_minc_output.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_minc_output_dimensions_order(
@@ -1818,14 +1818,14 @@ VIOAPI  void  set_minc_output_dimensions_order(
 @INPUT      : real_min
               real_max
 @OUTPUT     : options
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Sets the global real range of the entire file, unless real_min
               >= real_max.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_minc_output_real_range(
@@ -1841,17 +1841,17 @@ VIOAPI  void  set_minc_output_real_range(
 @NAME       : set_minc_output_use_volume_starts_and_steps_flag
 @INPUT      : options
               flag
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Tells MINC output to use the exact starts and steps stored in
               the volume, not the voxel-to-world-transform.  This avoids
               round-off errors in converting to transform on input, then
               from transform on output.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      :  
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May. 22, 1997    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_minc_output_use_volume_starts_and_steps_flag(

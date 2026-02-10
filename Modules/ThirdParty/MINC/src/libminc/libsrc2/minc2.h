@@ -1,4 +1,4 @@
-/** \file minc2.h 
+/** \file minc2.h
  * \brief MINC 2.0 public constants, types, and definitions.
  */
 

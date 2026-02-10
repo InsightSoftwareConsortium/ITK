@@ -159,15 +159,15 @@ VIOAPI  char  get_upper_case(
 @NAME       : string_ends_in
 @INPUT      : string
             : ending
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if string ends in "ending"
-@DESCRIPTION: Checks if the string ends in ending, e.g., 
+@DESCRIPTION: Checks if the string ends in ending, e.g.,
             : string_ends_in( "main.c", ".c" ) returns true.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  string_ends_in(
@@ -192,15 +192,15 @@ VIOAPI  VIO_BOOL  string_ends_in(
 @NAME       : strip_outer_blanks
 @INPUT      : str
 @OUTPUT     : stripped
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Creates a new string which is the original str without any
             : leading or trailing blanks.  Output argument may be the same
               pointer as input.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI    VIO_STR   strip_outer_blanks(
@@ -246,14 +246,14 @@ VIOAPI    VIO_STR   strip_outer_blanks(
 @NAME       : find_character
 @INPUT      : string
             : ch
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : index of ch within string or -1
 @DESCRIPTION: Finds the index of the given character within the string.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  int  find_character(
@@ -280,13 +280,13 @@ VIOAPI  int  find_character(
 @NAME       : make_string_upper_case
 @INPUT      : string
 @OUTPUT     : string
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Converts every lower case character in string to upper case.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  make_string_upper_case(
@@ -305,15 +305,15 @@ VIOAPI  void  make_string_upper_case(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : blank_string
 @INPUT      : string
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if string is blank
 @DESCRIPTION: Checks to see if the string is blank; only contains space,
               tabs, and newlines.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  blank_string(

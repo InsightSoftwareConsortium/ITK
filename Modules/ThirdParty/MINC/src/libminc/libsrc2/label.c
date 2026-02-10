@@ -6,7 +6,7 @@
  *
  * This small set of three functions are intended to allow for the
  * definition of labeled, or enumerated, volumes.
- * 
+ *
  * Labeled volumes must have been created with the class MI_CLASS_LABEL,
  * and with any integer subtype.
  *
@@ -42,8 +42,8 @@ static int miswap4(unsigned int tmp)
 
 /**
  * This function associates a label name with an integer value for the given
- * volume. Functions which read and write voxel values will read/write 
- * in integer values, and must call miget_label_name() to discover the 
+ * volume. Functions which read and write voxel values will read/write
+ * in integer values, and must call miget_label_name() to discover the
  * descriptive text string which corresponds to the integer value.
 */
 int  midefine_label(mihandle_t volume, int value, const char *name)
@@ -70,7 +70,7 @@ int  midefine_label(mihandle_t volume, int value, const char *name)
 
     /* We might have to swap these values before adding them to
      * the file type.
-     * 
+     *
      * COOL! the whole purpose of HDF5 being machine independent is defeated here!
      */
     if (H5Tget_order(volume->ftype_id) != H5Tget_order(volume->mtype_id)) {
@@ -91,7 +91,7 @@ int  midefine_label(mihandle_t volume, int value, const char *name)
 /**
  * For a labelled volume, this function retrieves the text name
  * associated with a given integer value.
- * 
+ *
  * The name pointer returned must be freed by calling mifree_name().
 */
 int miget_label_name(mihandle_t volume, int value, char **name)
@@ -155,7 +155,7 @@ int miget_label_value(mihandle_t volume, const char *name, int *value_ptr)
 int miget_number_of_defined_labels(mihandle_t volume, int *number_of_labels)
 {
   int result;
- 
+
   if (volume == NULL) {
     return MI_LOG_ERROR(MI2_MSG_GENERIC,"Trying to use null volume");
   }
@@ -172,9 +172,9 @@ int miget_number_of_defined_labels(mihandle_t volume, int *number_of_labels)
   } H5E_END_TRY;
 
   MI_CHECK_HDF_CALL_RET(result,"H5Tget_nmembers");
-  
+
   *number_of_labels = result;
-    
+
   return (MI_NOERROR);
 }
 
@@ -190,7 +190,7 @@ int miget_label_value_by_index(mihandle_t volume, int idx, int *value)
   if (volume->volume_class != MI_CLASS_LABEL) {
     return MI_LOG_ERROR(MI2_MSG_GENERIC,"Volume class is not label");
   }
-  
+
   if (volume->mtype_id <= 0) {
     return MI_LOG_ERROR(MI2_MSG_GENERIC,"Volume is not initialized");
   }

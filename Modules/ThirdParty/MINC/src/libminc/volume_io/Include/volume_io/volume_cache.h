@@ -20,16 +20,16 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : volume_cache.h
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Volume block caching mechanism for treating large volumes
               as if they are in memory.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug. 14, 1995   David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 #include  <volume_io/multidim.h>
