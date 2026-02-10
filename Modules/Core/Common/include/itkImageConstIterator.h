@@ -302,7 +302,7 @@ public:
   [[nodiscard]] const IndexType
   GetIndex() const
   {
-    return m_Image->ComputeIndex(static_cast<OffsetValueType>(m_Offset));
+    return m_Image->ComputeIndex(m_Offset);
   }
 
   /** Set the index. No bounds checking is performed.
