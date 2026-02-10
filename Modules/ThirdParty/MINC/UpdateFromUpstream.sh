@@ -93,6 +93,9 @@ extract_source () {
     git_archive
     pushd "${extractdir}/${name}-reduced"
     git update-index --chmod=+x 'src/libminc/libsrc/Make.com'
+    # ignore whitespace chagnes and missing LF at EOF to avoid ghost-flow warnings in the subtree
+    echo "* -whitespace" >> .gitattributes
+    echo "* -no-lf-at-eof" >> .gitattributes
     popd
 }
 

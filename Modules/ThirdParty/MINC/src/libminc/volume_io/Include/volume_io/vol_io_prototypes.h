@@ -2049,7 +2049,7 @@ VIOAPI  void  get_volume_direction_cosine(
     int      axis,
     VIO_Real     dir[] );
 
-/* These next 5 functions may be called by other modules in the library, 
+/* These next 5 functions may be called by other modules in the library,
  * but they are not truly public. That is why they are not declared VIOAPI.
  */
 VIO_BOOL is_volume_dimension_irregular(VIO_Volume, int);
@@ -2204,7 +2204,7 @@ VIOAPI  VIO_Status  grid_inverse_transform_point_with_input_steps(
     VIO_Real                *x_transformed,
     VIO_Real                *y_transformed,
     VIO_Real                *z_transformed );
-    
+
 VIOAPI  VIO_Status  grid_inverse_transform_point(
     VIO_General_transform   *transform,
     VIO_Real                x,

@@ -1,5 +1,5 @@
 #ifndef VOL_IO_BASIC_H
-#define VOL_IO_BASIC_H 
+#define VOL_IO_BASIC_H
 
 /* ----------------------------------------------------------------------------
 @COPYRIGHT  :
@@ -18,13 +18,13 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : basic.h
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: A set of macros and definitions useful for all MNI programs.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : July 15, 1991       David MacDonald
 @MODIFIED   :
 ---------------------------------------------------------------------------- */
@@ -70,7 +70,7 @@ typedef enum { VIO_OK=0,
              } VIO_Status;
 
 
-             
+
 /* --------- gets the address of a 2-d array element in a 1-d array ----- */
 
 #define  VIO_IJ( i, j, nj )          ( (i) * (nj) + (j) )

@@ -32,7 +32,7 @@
                  MI_icv_coords_tovar
                  MI_icv_calc_scale
 @CREATED    : July 27, 1992. (Peter Neelin, Montreal Neurological Institute)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: image_conversion.c,v $
  * Revision 6.17  2010-03-02 12:23:14  rotor
  *  * ported HDF calls to 1.8.x
@@ -136,15 +136,15 @@
  *
  * Revision 2.0  94/09/28  10:37:55  neelin
  * Release of minc version 0.2
- * 
+ *
  * Revision 1.18  94/09/28  10:37:06  neelin
  * Pre-release
- * 
+ *
  * Revision 1.17  93/08/11  12:59:31  neelin
  * We need only increment the chunk pointer (see previous fix) if we are
- * not doing dimension conversion (dimension conversion handles the 
+ * not doing dimension conversion (dimension conversion handles the
  * offsets itself).
- * 
+ *
  * Revision 1.16  93/08/11  11:49:36  neelin
  * Added RCS logging in source.
  * Fixed bug in MI_icv_access so that pointer to values buffer is incremented
@@ -152,14 +152,14 @@
  * had MIimagemax/min varying over the values read in one call (ie. reading
  * or writing a volume with MIimagemax/min varying over slices will give
  * incorrect results if the volume is read with one call).
- * 
+ *
               January 22, 1993 (P.N.)
                  - Modified handling of icv properties with miicv_set<type>.
                    Removed routine miicv_set. Use routines miicv_setdbl,
                    miicv_setint, miicv_setlong, miicv_setstr instead (this
                    gives type checking at compile time).
 @COPYRIGHT  :
-              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre, 
+              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -178,10 +178,10 @@ PRIVATE int MI_icv_get_type(mi_icv_type *icvp, int cdfid, int varid);
 PRIVATE int MI_icv_get_vrange(mi_icv_type *icvp, int cdfid, int varid);
 PRIVATE double MI_get_default_range(char *what, nc_type datatype, int sign);
 PRIVATE int MI_icv_get_norm(mi_icv_type *icvp, int cdfid, int varid);
-PRIVATE int MI_icv_access(int operation, mi_icv_type *icvp, long start[], 
+PRIVATE int MI_icv_access(int operation, mi_icv_type *icvp, long start[],
                           long count[], void *values);
 PRIVATE int MI_icv_zero_buffer(mi_icv_type *icvp, long count[], void *values);
-PRIVATE int MI_icv_coords_tovar(mi_icv_type *icvp, 
+PRIVATE int MI_icv_coords_tovar(mi_icv_type *icvp,
                                 long icv_start[], long icv_count[],
                                 long var_start[], long var_count[]);
 PRIVATE int MI_icv_calc_scale(int operation, mi_icv_type *icvp, long coords[]);
@@ -197,13 +197,13 @@ static mi_icv_type **minc_icv_list = NULL;
 @RETURNS    : icv id or MI_ERROR when an error occurs
 @DESCRIPTION: Creates an image conversion variable (icv) and returns
               a handle to it.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : August 7, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
-MNCAPI int miicv_create()
+MNCAPI int miicv_create(void)
 {
    int new_icv;       /* Id of newly created icv */
    mi_icv_type *icvp;  /* Pointer to new icv structure */
@@ -310,11 +310,11 @@ MNCAPI int miicv_create()
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Frees the image conversion variable (icv)
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : August 7, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miicv_free(int icvid)
 {
@@ -361,13 +361,13 @@ MNCAPI int miicv_free(int icvid)
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Sets a property of an icv to a given double value
-              Properties cannot be modified while the icv is attached to a 
+              Properties cannot be modified while the icv is attached to a
               cdf file and variable (see miicv_attach and miicv_detach).
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : August 7, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miicv_setdbl(int icvid, int icv_property, double value)
 {
@@ -428,19 +428,19 @@ MNCAPI int miicv_setdbl(int icvid, int icv_property, double value)
    case MI_ICV_DO_SCALAR:
       icvp->user_do_scalar = value;
       break;
-   case MI_ICV_XDIM_DIR: 
+   case MI_ICV_XDIM_DIR:
       ival = value;
-      icvp->user_xdim_dir = ((ival==MI_ICV_POSITIVE) || 
+      icvp->user_xdim_dir = ((ival==MI_ICV_POSITIVE) ||
                              (ival==MI_ICV_NEGATIVE)) ? ival : MI_ICV_ANYDIR;
       break;
    case MI_ICV_YDIM_DIR:
       ival = value;
-      icvp->user_ydim_dir = ((ival==MI_ICV_POSITIVE) || 
+      icvp->user_ydim_dir = ((ival==MI_ICV_POSITIVE) ||
                              (ival==MI_ICV_NEGATIVE)) ? ival : MI_ICV_ANYDIR;
       break;
    case MI_ICV_ZDIM_DIR:
       ival = value;
-      icvp->user_zdim_dir = ((ival==MI_ICV_POSITIVE) || 
+      icvp->user_zdim_dir = ((ival==MI_ICV_POSITIVE) ||
                              (ival==MI_ICV_NEGATIVE)) ? ival : MI_ICV_ANYDIR;
       break;
    case MI_ICV_NUM_IMGDIMS:
@@ -469,7 +469,7 @@ MNCAPI int miicv_setdbl(int icvid, int icv_property, double value)
       break;
    default:
       /* Check for image dimension properties */
-      if ((icv_property>=MI_ICV_DIM_SIZE) && 
+      if ((icv_property>=MI_ICV_DIM_SIZE) &&
           (icv_property<MI_ICV_DIM_SIZE+MI_MAX_IMGDIMS)) {
          idim = icv_property - MI_ICV_DIM_SIZE;
          icvp->user_dim_size[idim] = value;
@@ -492,11 +492,11 @@ MNCAPI int miicv_setdbl(int icvid, int icv_property, double value)
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Sets a property of an icv to a given integer value.
-              Properties cannot be modified while the icv is attached to a 
+              Properties cannot be modified while the icv is attached to a
               cdf file and variable (see miicv_attach and miicv_detach).
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : August 7, 1992 (Peter Neelin)
 @MODIFIED   : January 22, 1993 (P.N.)
                  - modified handling of icv properties
@@ -521,13 +521,13 @@ MNCAPI int miicv_setint(int icvid, int icv_property, int value)
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Sets a property of an icv to a given long integer value.
-              Properties cannot be modified while the icv is attached to a 
+              Properties cannot be modified while the icv is attached to a
               cdf file and variable (see miicv_attach and miicv_detach).
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : January 22, 1993 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miicv_setlong(int icvid, int icv_property, long value)
 {
@@ -548,14 +548,14 @@ MNCAPI int miicv_setlong(int icvid, int icv_property, long value)
               value        - value to set it to
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR if an error occurs
-@DESCRIPTION: Sets a property of an icv to a given string value. 
-              Properties cannot be modified while the icv is attached to a 
+@DESCRIPTION: Sets a property of an icv to a given string value.
+              Properties cannot be modified while the icv is attached to a
               cdf file and variable (see miicv_attach and miicv_detach).
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : January 22, 1993 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miicv_setstr(int icvid, int icv_property, const char *value)
 {
@@ -603,7 +603,7 @@ MNCAPI int miicv_setstr(int icvid, int icv_property, const char *value)
    case MI_ICV_IMAGE_MIN:
    case MI_ICV_DO_DIM_CONV:
    case MI_ICV_DO_SCALAR:
-   case MI_ICV_XDIM_DIR: 
+   case MI_ICV_XDIM_DIR:
    case MI_ICV_YDIM_DIR:
    case MI_ICV_ZDIM_DIR:
    case MI_ICV_NUM_IMGDIMS:
@@ -615,7 +615,7 @@ MNCAPI int miicv_setstr(int icvid, int icv_property, const char *value)
       break;
    default:
       /* Check for image dimension properties */
-      if ((icv_property>=MI_ICV_DIM_SIZE) && 
+      if ((icv_property>=MI_ICV_DIM_SIZE) &&
           (icv_property<MI_ICV_DIM_SIZE+MI_MAX_IMGDIMS)) {
           MI_LOG_ERROR(MI_MSG_BADPROP, "Can't store a string in a numeric property");
           MI_RETURN(MI_ERROR);
@@ -637,11 +637,11 @@ MNCAPI int miicv_setstr(int icvid, int icv_property, const char *value)
 @OUTPUT     : value        - value returned
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Gets the value of an icv property
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : January 22, 1993 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miicv_inqdbl(int icvid, int icv_property, double *value)
 {
@@ -683,7 +683,7 @@ MNCAPI int miicv_inqdbl(int icvid, int icv_property, double *value)
       *value = icvp->user_do_dimconv; break;
    case MI_ICV_DO_SCALAR:
       *value = icvp->user_do_scalar; break;
-   case MI_ICV_XDIM_DIR: 
+   case MI_ICV_XDIM_DIR:
       *value = icvp->user_xdim_dir; break;
    case MI_ICV_YDIM_DIR:
       *value = icvp->user_ydim_dir; break;
@@ -722,17 +722,17 @@ MNCAPI int miicv_inqdbl(int icvid, int icv_property, double *value)
       break;
    default:
       /* Check for image dimension properties */
-      if ((icv_property>=MI_ICV_DIM_SIZE) && 
+      if ((icv_property>=MI_ICV_DIM_SIZE) &&
           (icv_property<MI_ICV_DIM_SIZE+MI_MAX_IMGDIMS)) {
          idim = icv_property - MI_ICV_DIM_SIZE;
          *value = icvp->user_dim_size[idim];
       }
-      else if ((icv_property>=MI_ICV_DIM_STEP) && 
+      else if ((icv_property>=MI_ICV_DIM_STEP) &&
                (icv_property<MI_ICV_DIM_STEP+MI_MAX_IMGDIMS)) {
          idim = icv_property - MI_ICV_DIM_STEP;
          *value = icvp->derv_dim_step[idim];
       }
-      else if ((icv_property>=MI_ICV_DIM_START) && 
+      else if ((icv_property>=MI_ICV_DIM_START) &&
                (icv_property<MI_ICV_DIM_START+MI_MAX_IMGDIMS)) {
          idim = icv_property - MI_ICV_DIM_START;
          *value = icvp->derv_dim_start[idim];
@@ -755,11 +755,11 @@ MNCAPI int miicv_inqdbl(int icvid, int icv_property, double *value)
 @OUTPUT     : value        - value returned
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Gets the value of an icv property
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : January 22, 1993 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miicv_inqint(int icvid, int icv_property, int *value)
 {
@@ -784,11 +784,11 @@ MNCAPI int miicv_inqint(int icvid, int icv_property, int *value)
 @OUTPUT     : value        - value returned
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Gets the value of an icv property
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : January 22, 1993 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miicv_inqlong(int icvid, int icv_property, long *value)
 {
@@ -810,15 +810,15 @@ MNCAPI int miicv_inqlong(int icvid, int icv_property, long *value)
 @NAME       : miicv_inqstr
 @INPUT      : icvid        - icv id
               icv_property - icv property to get
-@OUTPUT     : value        - value returned. Caller must allocate enough 
+@OUTPUT     : value        - value returned. Caller must allocate enough
                  space for return string.
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Gets the value of an icv property
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
-@CREATED    : 
-@MODIFIED   : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
+@CREATED    :
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miicv_inqstr(int icvid, int icv_property, char *value)
 {
@@ -857,7 +857,7 @@ MNCAPI int miicv_inqstr(int icvid, int icv_property, char *value)
    case MI_ICV_NORM_MIN:
    case MI_ICV_DO_DIM_CONV:
    case MI_ICV_DO_SCALAR:
-   case MI_ICV_XDIM_DIR: 
+   case MI_ICV_XDIM_DIR:
    case MI_ICV_YDIM_DIR:
    case MI_ICV_ZDIM_DIR:
    case MI_ICV_NUM_IMGDIMS:
@@ -877,11 +877,11 @@ MNCAPI int miicv_inqstr(int icvid, int icv_property, char *value)
       break;
    default:
       /* Check for image dimension properties */
-      if (((icv_property>=MI_ICV_DIM_SIZE) && 
+      if (((icv_property>=MI_ICV_DIM_SIZE) &&
            (icv_property<MI_ICV_DIM_SIZE+MI_MAX_IMGDIMS)) ||
-          ((icv_property>=MI_ICV_DIM_STEP) && 
+          ((icv_property>=MI_ICV_DIM_STEP) &&
            (icv_property<MI_ICV_DIM_STEP+MI_MAX_IMGDIMS)) ||
-          ((icv_property>=MI_ICV_DIM_START) && 
+          ((icv_property>=MI_ICV_DIM_START) &&
            (icv_property<MI_ICV_DIM_START+MI_MAX_IMGDIMS))) {
          MI_LOG_ERROR(MI_MSG_BADPROP,
                        _("Tried to get icv numeric property as a string"));
@@ -908,15 +908,15 @@ MNCAPI int miicv_inqstr(int icvid, int icv_property, char *value)
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Attaches an open cdf file and variable to an image conversion
               variable for subsequent access through miicvget and miicvput.
-              File must be in data mode. This routine differs from 
+              File must be in data mode. This routine differs from
               miicv_attach in that no dimension conversions will be made
               on the variable (avoids linking in a significant amount
               of code).
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : September 9, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miicv_ndattach(int icvid, int cdfid, int varid)
 {
@@ -941,7 +941,7 @@ MNCAPI int miicv_ndattach(int icvid, int cdfid, int varid)
    }
 
    /* If not doing range calculations, just set derv_firstdim for
-      MI_icv_access, otherwise, call routines to calculate range and 
+      MI_icv_access, otherwise, call routines to calculate range and
       normalization */
    if (!icvp->user_do_range) {
       icvp->derv_firstdim = -1;
@@ -951,7 +951,7 @@ MNCAPI int miicv_ndattach(int icvid, int cdfid, int varid)
        if (MI_icv_get_vrange(icvp, cdfid, varid) < 0) {
            MI_RETURN(MI_ERROR);
        }
-          
+
       /* Get normalization info */
        if (MI_icv_get_norm(icvp, cdfid, varid) < 0) {
            MI_RETURN(MI_ERROR);
@@ -980,8 +980,8 @@ MNCAPI int miicv_ndattach(int icvid, int cdfid, int varid)
       and MIimagemax or MIimagemin vary over the variable. We don't have
       to scale if input and output are both floating point. */
 
-   icvp->do_scale = 
-      (icvp->user_do_range && 
+   icvp->do_scale =
+      (icvp->user_do_range &&
        ((icvp->user_vmax!=icvp->var_vmax) ||
         (icvp->user_vmin!=icvp->var_vmin) ||
         (icvp->user_do_norm && icvp->user_user_norm) ||
@@ -1008,11 +1008,11 @@ MNCAPI int miicv_ndattach(int icvid, int cdfid, int varid)
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Gets the type and sign of a variable for miicv_attach.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : August 10, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_icv_get_type(mi_icv_type *icvp, int cdfid, int varid)
 {
@@ -1023,7 +1023,7 @@ PRIVATE int MI_icv_get_type(mi_icv_type *icvp, int cdfid, int varid)
    MI_SAVE_ROUTINE_NAME("MI_icv_get_type");
 
    /* Inquire about the variable */
-   if (ncvarinq(cdfid, varid, NULL, &(icvp->var_type), 
+   if (ncvarinq(cdfid, varid, NULL, &(icvp->var_type),
                 &(icvp->var_ndims), icvp->var_dim, NULL) < 0) {
        MI_RETURN(MI_ERROR);
    }
@@ -1056,11 +1056,11 @@ PRIVATE int MI_icv_get_type(mi_icv_type *icvp, int cdfid, int varid)
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Gets the valid range of a variable
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : August 10, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_icv_get_vrange(mi_icv_type *icvp, int cdfid, int varid)
 {
@@ -1080,7 +1080,7 @@ PRIVATE int MI_icv_get_vrange(mi_icv_type *icvp, int cdfid, int varid)
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : MI_get_default_range
-@INPUT      : what     - MIvalid_min means get default min, MIvalid_min means 
+@INPUT      : what     - MIvalid_min means get default min, MIvalid_min means
                  get default min
               datatype - type of variable
               sign     - sign of variable
@@ -1088,11 +1088,11 @@ PRIVATE int MI_icv_get_vrange(mi_icv_type *icvp, int cdfid, int varid)
 @RETURNS    : default maximum or minimum for the datatype
 @DESCRIPTION: Return the defaults maximum or minimum for a given datatype
               and sign.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : August 10, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE double MI_get_default_range(char *what, nc_type datatype, int sign)
 {
@@ -1125,11 +1125,11 @@ PRIVATE double MI_get_default_range(char *what, nc_type datatype, int sign)
 @OUTPUT     : (none)
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Gets the normalization info for a variable
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : August 10, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_icv_get_norm(mi_icv_type *icvp, int cdfid, int varid)
      /* ARGSUSED */
@@ -1168,7 +1168,7 @@ PRIVATE int MI_icv_get_norm(mi_icv_type *icvp, int cdfid, int varid)
    }
    else {
 
-      /* Get the image min and max, either from the user definition or 
+      /* Get the image min and max, either from the user definition or
          from the file. */
       if (icvp->user_user_norm) {
          icvp->derv_imgmax = icvp->user_imgmax;
@@ -1213,11 +1213,11 @@ PRIVATE int MI_icv_get_norm(mi_icv_type *icvp, int cdfid, int varid)
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Detaches the cdf file and variable from the image conversion
               variable, allowing modifications to the icv.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : August 10, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miicv_detach(int icvid)
 {
@@ -1261,12 +1261,12 @@ MNCAPI int miicv_detach(int icvid)
 @OUTPUT     : values - array of values returned
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Gets a hyperslab of values from a netcdf variable through
-              the image conversion variable (icvid) 
-@METHOD     : 
-@GLOBALS    : 
+              the image conversion variable (icvid)
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : August 10, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miicv_get(int icvid, long start[], long count[], void *values)
 {
@@ -1296,11 +1296,11 @@ MNCAPI int miicv_get(int icvid, long start[], long count[], void *values)
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Stores a hyperslab of values in a netcdf variable through
               the image conversion variable (icvid)
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
-@CREATED    : 
-@MODIFIED   : 
+@CREATED    :
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int miicv_put(int icvid, long start[], long count[], void *values)
 {
@@ -1330,13 +1330,13 @@ MNCAPI int miicv_put(int icvid, long start[], long count[], void *values)
 @OUTPUT     : values    - array of values to get
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Does the work of getting or putting values from an icv.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : August 11, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
-PRIVATE int MI_icv_access(int operation, mi_icv_type *icvp, long start[], 
+PRIVATE int MI_icv_access(int operation, mi_icv_type *icvp, long start[],
                           long count[], void *values)
 {
    int *bufsize_step;                /* Pointer to array giving increments
@@ -1382,7 +1382,7 @@ PRIVATE int MI_icv_access(int operation, mi_icv_type *icvp, long start[],
       icvp->derv_icv_count[idim] = count[idim];
    }
 
-   /* Do we care about getting variable in convenient increments ? 
+   /* Do we care about getting variable in convenient increments ?
       Only if we are getting data and the icv structure wants it */
    if ((operation==MI_PRIV_GET) && (icvp->derv_do_bufsize_step))
       bufsize_step = icvp->derv_bufsize_step;
@@ -1415,10 +1415,10 @@ PRIVATE int MI_icv_access(int operation, mi_icv_type *icvp, long start[],
    while (chunk_start[0] < var_end[0]) {
 
       /* Set the do_fillvalue flag if the user wants it and we are doing
-         a get. We must do it inside the loop since the scale factor 
+         a get. We must do it inside the loop since the scale factor
          calculation can change it if the scale is zero. (Fillvalue checking
          is always done if the the scale is zero.) */
-      icvp->do_fillvalue = 
+      icvp->do_fillvalue =
          icvp->user_do_fillvalue && (operation == MI_PRIV_GET);
       icvp->fill_valid_min = icvp->var_vmin;
       icvp->fill_valid_max = icvp->var_vmax;
@@ -1442,7 +1442,7 @@ PRIVATE int MI_icv_access(int operation, mi_icv_type *icvp, long start[],
 
       /* Increment the start counter */
       chunk_start[firstdim] += chunk_count[firstdim];
-      for (idim=firstdim; 
+      for (idim=firstdim;
            (idim>0) && (chunk_start[idim]>=var_end[idim]); idim--) {
          chunk_start[idim]=var_start[idim];
          chunk_start[idim-1]++;
@@ -1462,14 +1462,14 @@ PRIVATE int MI_icv_access(int operation, mi_icv_type *icvp, long start[],
 @INPUT      : icvp      - icv structure pointer
               count     - count vector
               values    - pointer to user's buffer
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Zeros the user's buffer, with a size given by the vector count.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : September 9, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_icv_zero_buffer(mi_icv_type *icvp, long count[], void *values)
 {
@@ -1489,7 +1489,7 @@ PRIVATE int MI_icv_zero_buffer(mi_icv_type *icvp, long count[], void *values)
       zeroval = 0.0;
    {MI_FROM_DOUBLE(zeroval, icvp->user_type, icvp->user_sign, zerostart)}
    zerolen = icvp->user_typelen;
-   
+
    /* Get the buffer size */
    ndims = icvp->var_ndims;
    if (icvp->var_is_vector && icvp->user_do_scalar)
@@ -1522,13 +1522,13 @@ PRIVATE int MI_icv_zero_buffer(mi_icv_type *icvp, long count[], void *values)
 @RETURNS    : MI_ERROR if an error occurs
 @DESCRIPTION: Converts a start and count vector for referencing an icv
               to the corresponding vectors for referencing a NetCDF variable.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : September 1, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
-PRIVATE int MI_icv_coords_tovar(mi_icv_type *icvp, 
+PRIVATE int MI_icv_coords_tovar(mi_icv_type *icvp,
                                 long icv_start[], long icv_count[],
                                 long var_start[], long var_count[])
 {
@@ -1560,7 +1560,7 @@ PRIVATE int MI_icv_coords_tovar(mi_icv_type *icvp,
    }
 
    /* Go through image dimensions */
-   for (i=num_non_img_dims, j=icvp->user_num_imgdims-1; 
+   for (i=num_non_img_dims, j=icvp->user_num_imgdims-1;
         i < num_non_img_dims+icvp->user_num_imgdims; i++, j--) {
       /* Check coordinates. */
       icv_dim_size = (icvp->user_dim_size[j] > 0) ?
@@ -1593,7 +1593,7 @@ PRIVATE int MI_icv_coords_tovar(mi_icv_type *icvp,
       last_coord = var_start[i] + var_count[i];
       if ((var_start[i]<0) || (last_coord>=icvp->var_dim_size[j])) {
          if (var_start[i]<0) var_start[i] = 0;
-         if (last_coord>=icvp->var_dim_size[j]) 
+         if (last_coord>=icvp->var_dim_size[j])
             last_coord = icvp->var_dim_size[j] - 1;
          /* Enforce similar bounds on var_start (bert) */
          if (var_start[i] >= icvp->var_dim_size[j])
@@ -1628,11 +1628,11 @@ PRIVATE int MI_icv_coords_tovar(mi_icv_type *icvp,
 @DESCRIPTION: Calculates the scale and offset needed for getting or putting
               values, starting at index coords (assumes that scale is constant
               over that range).
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : August 10, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 PRIVATE int MI_icv_calc_scale(int operation, mi_icv_type *icvp, long coords[])
 {
@@ -1669,14 +1669,14 @@ PRIVATE int MI_icv_calc_scale(int operation, mi_icv_type *icvp, long coords[])
       slice_imgmin = MI_DEFAULT_MIN;
       if ((!icvp->derv_var_float || !icvp->user_do_norm) &&
           (icvp->imgmaxid!=MI_ERROR) && (icvp->imgminid!=MI_ERROR)) {
-         if (mitranslate_coords(icvp->cdfid, icvp->varid, coords, 
+         if (mitranslate_coords(icvp->cdfid, icvp->varid, coords,
                                 icvp->imgmaxid, mmcoords) == NULL)
             MI_RETURN(MI_ERROR);
          if (mivarget1(icvp->cdfid, icvp->imgmaxid, mmcoords,
                        NC_DOUBLE, NULL, &slice_imgmax) < 0) {
              MI_RETURN(MI_ERROR);
          }
-         if (mitranslate_coords(icvp->cdfid, icvp->varid, coords, 
+         if (mitranslate_coords(icvp->cdfid, icvp->varid, coords,
                                 icvp->imgminid, mmcoords) == NULL) {
             MI_RETURN(MI_ERROR);
          }
@@ -1729,9 +1729,9 @@ PRIVATE int MI_icv_calc_scale(int operation, mi_icv_type *icvp, long coords[])
 
    /* Even though we have already carefully set the vmax/min and imgmax/min
       values to handle the floating point case, we can still have problems
-      with the scale calculations (rounding errors) if full range max/min 
+      with the scale calculations (rounding errors) if full range max/min
       are used (-FLT_MAX to FLT_MAX). To avoid this, we just force the
-      values to 0 and 1 which will give the correct scale. That is why 
+      values to 0 and 1 which will give the correct scale. That is why
       we save the true values above. */
 
    if (icvp->derv_usr_float) {
@@ -1795,9 +1795,9 @@ PRIVATE int MI_icv_calc_scale(int operation, mi_icv_type *icvp, long coords[])
                icvp->fill_valid_max = var_imgmax_true;
             }
             else if (usr_scale != 0.0) {
-               icvp->fill_valid_min = 
+               icvp->fill_valid_min =
                   usr_vmin + (var_imgmin_true - usr_imgmin) / usr_scale;
-               icvp->fill_valid_max = 
+               icvp->fill_valid_max =
                   usr_vmin + (var_imgmax_true - usr_imgmin) / usr_scale;
             }
             else {
@@ -1821,18 +1821,18 @@ PRIVATE int MI_icv_calc_scale(int operation, mi_icv_type *icvp, long coords[])
 @RETURNS    : Pointer to icv structure if it exists, otherwise NULL.
 @DESCRIPTION: Checks that an icv id is valid and returns a pointer to the
               structure.
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CALLS      : NetCDF routines
 @CREATED    : August 7, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 SEMIPRIVATE mi_icv_type *MI_icv_chkid(int icvid)
 {
    MI_SAVE_ROUTINE_NAME("MI_icv_chkid");
 
    /* Check icv id */
-   if ((icvid<0) || (icvid>=minc_icv_list_nalloc) || 
+   if ((icvid<0) || (icvid>=minc_icv_list_nalloc) ||
        (minc_icv_list[icvid]==NULL)) {
        MI_LOG_ERROR(MI_MSG_BADICV);
        MI_RETURN((void *) NULL);

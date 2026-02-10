@@ -37,12 +37,12 @@ static  VIO_BOOL  match_dimension_names(
 @INPUT      : minc_id
               volume
               options
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : Minc_file
 @DESCRIPTION: Initializes input of volumes from an already opened MINC2 file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 ---------------------------------------------------------------------------- */
 
 static  Minc_file  initialize_minc_input_from_minc2_id(
@@ -70,12 +70,12 @@ static  Minc_file  initialize_minc_input_from_minc2_id(
     double              dir_cosines[MAX_VAR_DIMS][MI_NUM_SPACE_DIMS];
     double              tmp_cosines[MI_NUM_SPACE_DIMS];
     VIO_BOOL            spatial_dim_flags[MAX_VAR_DIMS];
-    
+
     midimhandle_t       file_dims[MAX_VAR_DIMS];
     misize_t            dimension_size[MAX_VAR_DIMS];
     double              file_step[MAX_VAR_DIMS];
     double              file_start[MAX_VAR_DIMS];
-    
+
     int                 d, which_valid_axis, axis;
     int                 spatial_axis_indices[MAX_VAR_DIMS];
     minc_input_options  default_options;
@@ -85,7 +85,7 @@ static  Minc_file  initialize_minc_input_from_minc2_id(
 
     double              volume_min=0.0,volume_max=0.0;
     double              valid_min=0.0,valid_max=0.0;
-    
+
     miboolean_t         slice_scaling_flag=0;
     miboolean_t         global_scaling_flag=0;
 
@@ -119,15 +119,15 @@ static  Minc_file  initialize_minc_input_from_minc2_id(
     }
 
     /*Some logic to determine what we are dealing with*/
-    if(slice_scaling_flag || 
+    if(slice_scaling_flag ||
        global_scaling_flag )
     {
       /*force reading in float*/
       if(file_datatype!=MI_TYPE_FLOAT && file_datatype!=MI_TYPE_DOUBLE)
         file_datatype=MI_TYPE_FLOAT;
     }
-    
-    miget_volume_dimension_count(file->minc2id, MI_DIMCLASS_ANY, MI_DIMATTR_ALL, 
+
+    miget_volume_dimension_count(file->minc2id, MI_DIMCLASS_ANY, MI_DIMATTR_ALL,
                                  &file->n_file_dimensions);
     /* Set the number of dimensions iff the file has fewer dimensions
      * than the initially created volume.
@@ -137,7 +137,7 @@ static  Minc_file  initialize_minc_input_from_minc2_id(
         set_volume_n_dimensions( volume, file->n_file_dimensions );
     }
 
-    miget_volume_dimensions(file->minc2id, MI_DIMCLASS_ANY, MI_DIMATTR_ALL, 
+    miget_volume_dimensions(file->minc2id, MI_DIMCLASS_ANY, MI_DIMATTR_ALL,
                             MI_DIMORDER_FILE, file->n_file_dimensions,
                             file_dims);
 
@@ -152,27 +152,27 @@ static  Minc_file  initialize_minc_input_from_minc2_id(
       free(dim_name);
       file->sizes_in_file[d] = dimension_size[d];
     }
-    
+
     /*calculate global volume range, to satisfy volume_io*/
-    if(slice_scaling_flag) 
+    if(slice_scaling_flag)
     {
       int n_slice_dimensions=file->n_file_dimensions;
       int slices_count=1;
-      misize_t *slice_start; 
+      misize_t *slice_start;
 
-      if(miget_slice_dimension_count(file->minc2id, 
-                                 MI_DIMCLASS_ANY, MI_DIMATTR_ALL, 
+      if(miget_slice_dimension_count(file->minc2id,
+                                 MI_DIMCLASS_ANY, MI_DIMATTR_ALL,
                                  &n_slice_dimensions)<0)
         print_error("Can't get slice dimensions!\n");
-      
+
       if(n_slice_dimensions==file->n_file_dimensions)
       {
         slice_scaling_flag=0;
         /*figure out what to do?*/
       }
       n_slice_dimensions=file->n_file_dimensions-n_slice_dimensions;
-      
-     
+
+
       /*now iterate through all slices to find out global image intensity range*/
       for_less(d,0,n_slice_dimensions)
       {
@@ -180,7 +180,7 @@ static  Minc_file  initialize_minc_input_from_minc2_id(
       }
       slice_start=(misize_t *)calloc(n_slice_dimensions,sizeof(misize_t));
       miget_slice_range(file->minc2id,slice_start,n_slice_dimensions,&volume_max,&volume_min);
-      
+
       do
       {
           double slice_min,slice_max;
@@ -194,12 +194,12 @@ static  Minc_file  initialize_minc_input_from_minc2_id(
             {
               slice_start[d]=0;
               d++;
-            } else 
+            } else
               break;
           }
-          
+
           if(d==n_slice_dimensions) break;/*all dimensions are finished*/
-          
+
           miget_slice_range(file->minc2id,slice_start,n_slice_dimensions,&slice_max,&slice_min);
           if(volume_max<slice_max) volume_max=slice_max;
           if(volume_min>slice_min) volume_min=slice_min;
@@ -266,7 +266,7 @@ static  Minc_file  initialize_minc_input_from_minc2_id(
                                 file->to_volume_index ) )
     {
         print_error( "Error:  dimension names did not match: \n" );
-        
+
         print_error( "\n" );
         print_error( "Requested:\n" );
         for_less( d, 0, n_vol_dims )
@@ -365,7 +365,7 @@ static  Minc_file  initialize_minc_input_from_minc2_id(
           * only.
           */
         miget_dimension_sampling_flag(file_dims[d],&sampling_flag);
-        if (!sampling_flag) 
+        if (!sampling_flag)
         {
           int j;
 
@@ -373,10 +373,10 @@ static  Minc_file  initialize_minc_input_from_minc2_id(
           irr_widths[d] = malloc(sizeof(VIO_Real) * file->sizes_in_file[d]);
 
           miget_dimension_widths(file_dims[d],MI_ORDER_FILE,(misize_t)file->sizes_in_file[d],0,irr_widths[d]);
-          
+
           /*TODO: figure out how to do it in MINC2 API, right now it is not obvious*/
           irr_starts[d][0] = file_start[d];
-          for (j = 1; j < file->sizes_in_file[d]; j++) 
+          for (j = 1; j < file->sizes_in_file[d]; j++)
           {
               irr_starts[d][j] = irr_starts[d][j-1]+irr_widths[d][j-1];
           }
@@ -436,7 +436,7 @@ static  Minc_file  initialize_minc_input_from_minc2_id(
 
     set_volume_sizes( volume, sizes );
 
-    for_less( d, 0, file->n_file_dimensions ) 
+    for_less( d, 0, file->n_file_dimensions )
     {
         if (file->to_volume_index[d] == INVALID_AXIS) {
             continue;
@@ -487,8 +487,8 @@ static  Minc_file  initialize_minc_input_from_minc2_id(
 
     file->end_volume_flag = FALSE;
 
-    /* --- decide how many full dimensions to read in at a time 
-       to max out the read/write buffer and make it like the 
+    /* --- decide how many full dimensions to read in at a time
+       to max out the read/write buffer and make it like the
        chunking dimensions for compression */
 
     file->n_slab_dims = 0;
@@ -523,17 +523,17 @@ static  Minc_file  initialize_minc_input_from_minc2_id(
 @NAME       : initialize_minc2_input
 @INPUT      : filename
               volume
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : Minc_file
 @DESCRIPTION: Initializes the input of a MINC file, passing back a MINC
               file pointer.  It assumes that the volume has been created,
               with the desired type, or MI_ORIGINAL_TYPE type if it is desired
               to use whatever type is in the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  Minc_file  initialize_minc2_input(
@@ -544,7 +544,7 @@ VIOAPI  Minc_file  initialize_minc2_input(
     Minc_file     file;
     VIO_STR       expanded;
     mihandle_t    minc_id;
-    
+
     expanded = expand_filename( filename );
 
     if ( miopen_volume(expanded, MI2_OPEN_READ, &minc_id) < 0 )
@@ -569,14 +569,14 @@ VIOAPI  Minc_file  initialize_minc2_input(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : close_minc_input
 @INPUT      : file
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Closes the minc input file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  close_minc2_input(
@@ -612,14 +612,14 @@ VIOAPI  VIO_Status  close_minc2_input(
               to_array
               start
               count
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Inputs a hyperslab from the file into the array pointer.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_Status   input_minc2_hyperslab(
@@ -721,7 +721,7 @@ static  VIO_Status   input_minc2_hyperslab(
         void_ptr = array_data_ptr;
     }
 
-    
+
     if( miget_hyperslab_with_icv(file->minc2id,
          get_volume_minc2_data_type(file->volume),
          used_start,used_count,void_ptr) < 0 )
@@ -801,15 +801,15 @@ static  VIO_Status   input_minc2_hyperslab(
               volume
               start
               count
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Inputs a multidimensional slab from the file and copies it
               into the appropriate part of the volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static int input_slab(
@@ -856,11 +856,11 @@ static int input_slab(
 @DESCRIPTION: Reads another chunk from the input file, passes back the
               total fraction read so far, and returns FALSE when the whole
               volume has been read.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  input_more_minc2_file(
@@ -905,7 +905,7 @@ VIOAPI  VIO_BOOL  input_more_minc2_file(
           }
       }
 
-      if (input_slab( file, volume, file->to_volume_index, file->indices, 
+      if (input_slab( file, volume, file->to_volume_index, file->indices,
                       count ) != VIO_OK)
       {
           return FALSE;
@@ -956,15 +956,15 @@ VIOAPI  VIO_BOOL  input_more_minc2_file(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : advance_input_volume2
 @INPUT      : file
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if more volumes to read
 @DESCRIPTION: Advances the file indices to prepare for reading the next
               volume from the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  advance_input_volume2(
@@ -1017,7 +1017,7 @@ VIOAPI  VIO_BOOL  advance_input_volume2(
 
         for_less( c, 0, get_volume_n_dimensions(file->volume) )
             voxel[c] = 0.0;
-        
+
         convert_voxel_to_world( file->volume, voxel,
                                 &vol_world_space[VIO_X], &vol_world_space[VIO_Y],
                                 &vol_world_space[VIO_Z]);
@@ -1040,15 +1040,15 @@ VIOAPI  VIO_BOOL  advance_input_volume2(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : reset_input_volume2
 @INPUT      : file
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Rewinds the file indices to start inputting volumes from the
               file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  reset_input_volume2(
@@ -1079,9 +1079,9 @@ VIOAPI  void  reset_input_volume2(
               to any remaining file dimensions.  If a dimension matches
               on "any_spatial_dimension" or empty string, then the name from
               the file is copied to the volume.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Oct. 22, 1995   D. MacDonald    - copies the name from the file
                                                 to the volume
@@ -1185,12 +1185,12 @@ VIOAPI  int   get_minc2_file_n_dimensions(
         return -1 ;
     }
 
-    
-    miget_volume_dimension_count(minc_id, MI_DIMCLASS_ANY, MI_DIMATTR_ALL, 
+
+    miget_volume_dimension_count(minc_id, MI_DIMCLASS_ANY, MI_DIMATTR_ALL,
                                  &n_dims);
 
-    
-    
+
+
     delete_string( expanded );
 
 

@@ -32,7 +32,7 @@ static  VIO_Status  input_slice(
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : initialize_free_format_input
-@INPUT      : 
+@INPUT      :
 @OUTPUT     : volume
               volume_input
 @RETURNS    : VIO_OK if successful
@@ -119,7 +119,7 @@ VIOAPI  VIO_Status  initialize_free_format_input(
 
        where the x, y, or z is used to indicate the ordering of the axes
              within the file, with the 3rd one being the fastest varying index.
-             negative voxel separation means flip on display 
+             negative voxel separation means flip on display
     */
 
     if( volume->spatial_axes[VIO_X] < 0 ||
@@ -354,11 +354,11 @@ VIOAPI  VIO_Status  initialize_free_format_input(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : delete_free_format_input
 @INPUT      : volume_input
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Frees the slice buffer and closes the image file.
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  delete_free_format_input(
@@ -395,11 +395,11 @@ VIOAPI  void  delete_free_format_input(
 @NAME       : input_slice
 @INPUT      : volume
               volume_input
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK if success
 @DESCRIPTION: Reads the next slice from the volume.
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_Status  input_slice(
@@ -476,7 +476,7 @@ static  VIO_Status  input_slice(
 @RETURNS    : TRUE if more to input after this call
 @DESCRIPTION: Reads in one more slice from the image file.
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  input_more_free_format_file(
@@ -561,7 +561,7 @@ VIOAPI  VIO_BOOL  input_more_free_format_file(
                 {
                     if( scaling_flag )
                     {
-                        value = 
+                        value =
                          ((VIO_Real) (*short_buffer_ptr) - value_translation) /
                                                value_scale;
                     }

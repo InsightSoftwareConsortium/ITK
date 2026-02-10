@@ -5,29 +5,24 @@
 #include <stdio.h>
 #include <ctype.h>
 
-#ifdef HAVE_STRING_H
 #include <string.h>
-#endif
 
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
 #endif
 
-
-#ifdef HAVE_STDLIB_H
 #include <stdlib.h>
-#endif
 
 #include "minc_config.h"
 
 #if defined(_MSC_VER) && _MSC_VER < 1900
-#define snprintf _snprintf 
-#define vsnprintf _vsnprintf 
+#define snprintf _snprintf
+#define vsnprintf _vsnprintf
 #endif
 
 #ifdef _MSC_VER
-#define strcasecmp _stricmp 
-#define strncasecmp _strnicmp 
+#define strcasecmp _stricmp
+#define strncasecmp _strnicmp
 #endif
 
 
@@ -48,7 +43,7 @@ static const char *_CONFIG_VAR[]=
 enum {
  _MICFG_MAX_STRING_LENGTH=256
 };
-  
+
 /*settings cache*/
 static char        _CONFIG_VAL[MICFG_COUNT][_MICFG_MAX_STRING_LENGTH];
 static int         _CONFIG_PRESENT[MICFG_COUNT]={0};
@@ -71,7 +66,7 @@ miread_cfg(const char *name, char *buffer, int maxlen)
       path[0] = '\0';
     }
     strcat(path, "/.mincrc");
-    
+
     if ((fp = fopen(path, "r")) != NULL) {
         while (fgets(buffer, maxlen, fp)) {
             if (buffer[0] == '#') {
@@ -98,8 +93,8 @@ miread_cfg(const char *name, char *buffer, int maxlen)
 const char * miget_cfg_str(int id)
 {
   if(id<0 || id>=MICFG_COUNT) return "";
-  
-  if(!_CONFIG_INIT[id]) 
+
+  if(!_CONFIG_INIT[id])
   {
     const char *name=_CONFIG_VAR[id];
     char buffer[_MICFG_MAX_STRING_LENGTH];
@@ -126,7 +121,7 @@ const char * miget_cfg_str(int id)
 int miget_cfg_present(int id)
 {
   if(id <0 || id>=MICFG_COUNT) return 0;
-  
+
   miget_cfg_str(id);
   return _CONFIG_PRESENT[id];
 }

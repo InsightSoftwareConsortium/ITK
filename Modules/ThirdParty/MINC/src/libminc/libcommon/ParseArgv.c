@@ -15,7 +15,7 @@
  *
  *
  * This file has been modified to not rely on tcl, tk or X11.
- * Based on tkArgv.c from tk2.3 : 
+ * Based on tkArgv.c from tk2.3 :
  *
  * Modifications by Peter Neelin (November 27, 1992)
  */
@@ -25,13 +25,9 @@
 
 #include <stdio.h>
 
-#ifdef HAVE_STDLIB_H
 #include <stdlib.h>
-#endif
 
-#ifdef HAVE_STRING_H
 #include <string.h>
-#endif
 
 #ifdef HAVE_INTTYPES_H
 #include <inttypes.h>
@@ -43,7 +39,7 @@
 
 #ifdef HAVE_MINC2
 #include <hdf5.h>
-#endif 
+#endif
 
 #include <math.h>
 #include <ParseArgv.h>
@@ -122,8 +118,8 @@ ParseLong(const char *argPtr, char **endPtr)
  * flags: Or'ed combination of various flag bits, such as ARGV_NO_DEFAULTS.
  *
  * Results:
- *	The return value is a Boolean value with non-zero indicating an 
- *      error.  
+ *	The return value is a Boolean value with non-zero indicating an
+ *      error.
  *	If an error occurs then an error message is printed on stderr.
  *	Under normal conditions, both *argcPtr and *argv are modified
  *	to return the arguments that couldn't be processed here (they
@@ -135,6 +131,12 @@ ParseLong(const char *argPtr, char **endPtr)
  *----------------------------------------------------------------------
  */
 
+/* argcPtr: Number of arguments in argv.  Modified to hold # args left
+            in argv at end. */
+/* argv: Array of arguments.  Modified to hold those that couldn't
+         be processed here. */
+/* argTable: Array of option descriptions */
+/* flags: Or'ed combination of various flag bits, such as ARGV_NO_DEFAULTS. */
 int
 ParseArgv(int *argcPtr, char **argv, ArgvInfo *argTable, int flags)
 {
@@ -174,7 +176,7 @@ ParseArgv(int *argcPtr, char **argv, ArgvInfo *argTable, int flags)
       argc--;
       c = curArg[1];
       length = strlen(curArg);
-      
+
       /*
        * Loop through the argument descriptors searching for one with
        * the matching key string.  If found, leave a pointer to it in
@@ -246,7 +248,7 @@ ParseArgv(int *argcPtr, char **argv, ArgvInfo *argTable, int flags)
                *(((int *) infoPtr->dst)+i) =
                   ParseLong(argv[srcIndex], &endPtr);
                if ((endPtr == argv[srcIndex]) || (*endPtr != 0)) {
-                  FPRINTF(stderr, 
+                  FPRINTF(stderr,
                   "expected integer argument for \"%s\" but got \"%s\"",
                           infoPtr->key, argv[srcIndex]);
                   return TRUE;
@@ -268,7 +270,7 @@ ParseArgv(int *argcPtr, char **argv, ArgvInfo *argTable, int flags)
                *(((long *) infoPtr->dst)+i) =
                   ParseLong(argv[srcIndex], &endPtr);
                if ((endPtr == argv[srcIndex]) || (*endPtr != 0)) {
-                  FPRINTF(stderr, 
+                  FPRINTF(stderr,
                   "expected integer argument for \"%s\" but got \"%s\"",
                           infoPtr->key, argv[srcIndex]);
                   return TRUE;
@@ -307,7 +309,7 @@ ParseArgv(int *argcPtr, char **argv, ArgvInfo *argTable, int flags)
                *(((double *) infoPtr->dst)+i) =
                   strtod(argv[srcIndex], &endPtr);
                if ((endPtr == argv[srcIndex]) || (*endPtr != 0)) {
-                  FPRINTF(stderr, 
+                  FPRINTF(stderr,
        "expected floating-point argument for \"%s\" but got\"%s\"\n",
                           infoPtr->key, argv[srcIndex]);
                   return TRUE;
@@ -320,7 +322,7 @@ ParseArgv(int *argcPtr, char **argv, ArgvInfo *argTable, int flags)
       case ARGV_FUNC: {
          typedef int (*handlerProcType)(void*, const char*, char*);
          handlerProcType handlerProc = (handlerProcType)(uintptr_t)infoPtr->src;
-		
+
          if ((*handlerProc)(infoPtr->dst, infoPtr->key,
                             argv[srcIndex])) {
             srcIndex += 1;
@@ -344,6 +346,7 @@ ParseArgv(int *argcPtr, char **argv, ArgvInfo *argTable, int flags)
          return TRUE;
       case ARGV_VERSION:
          PrintVersion(argTable);
+         exit(0);
          return FALSE;
       default:
          FPRINTF(stderr, "bad argument type %d in ArgvInfo",
@@ -351,7 +354,7 @@ ParseArgv(int *argcPtr, char **argv, ArgvInfo *argTable, int flags)
          return TRUE;
       }
    }
-   
+
    /*
     * If we broke out of the loop because of an OPT_REST argument,
     * copy the remaining arguments down.
@@ -386,7 +389,7 @@ ParseArgv(int *argcPtr, char **argv, ArgvInfo *argTable, int flags)
  *        generate information for default options.
  *
  * Results:
- *	Prints on stderr (unless ARGV_NO_PRINT is specified in flags) 
+ *	Prints on stderr (unless ARGV_NO_PRINT is specified in flags)
  *	a help string describing all the options in argTable, plus all those
  *	in the default table unless ARGV_NO_DEFAULTS is
  *	specified in flags.
@@ -439,7 +442,7 @@ PrintUsage(ArgvInfo *argTable, int flags)
             continue;
          }
          FPRINTF(stderr, "\n %s:", infoPtr->key);
-         /* Write out padding after the key, followed by the help text. 
+         /* Write out padding after the key, followed by the help text.
           */
          numSpaces = width + 1 - strlen(infoPtr->key);
          FPRINTF(stderr, "%*s %s", numSpaces, "", infoPtr->help);
@@ -516,13 +519,12 @@ static void PrintVersion(ArgvInfo *argTable)
       printf("netcdf : %s\n", nc_inq_libvers());
     }
 #endif
-    
+
 #ifdef HAVE_MINC2
     {
         unsigned int major, minor, release;
         H5get_libversion(&major, &minor, &release);
-        printf("HDF5   : %d.%d.%d\n", major, minor, release);
+        printf("HDF5   : %u.%u.%u\n", major, minor, release);
     }
 #endif
-    exit(0);
 }

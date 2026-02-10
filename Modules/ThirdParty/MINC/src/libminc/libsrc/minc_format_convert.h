@@ -5,7 +5,7 @@
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : minc_format_convert.h
 @COPYRIGHT  : Copyright 2013 Vladimir S. FONOV , McConnell Brain Imaging Centre,
-              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre, 
+              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without

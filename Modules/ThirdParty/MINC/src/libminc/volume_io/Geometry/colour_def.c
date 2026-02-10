@@ -23,7 +23,7 @@
               g
               b
               a
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_Colour
 @DESCRIPTION: Packs the four components into a colour.  Each component must
               be in the range 0 to 255.  Depending on what graphics library
@@ -32,11 +32,11 @@
               the correct method of packing bytes into a colour.  If no
               graphics are involved, then the byte order does not matter
               and the code here can be used.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 10, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Colour  make_rgba_Colour(
@@ -62,14 +62,14 @@ VIOAPI  VIO_Colour  make_rgba_Colour(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_Colour_r
 @INPUT      : colour
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : red component
 @DESCRIPTION: Returns the red component of the colour in the range 0 to 255.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 10, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  int  get_Colour_r(
@@ -85,14 +85,14 @@ VIOAPI  int  get_Colour_r(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_Colour_g
 @INPUT      : colour
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : green component
 @DESCRIPTION: Returns the green component of the colour in the range 0 to 255.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 10, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  int  get_Colour_g(
@@ -108,14 +108,14 @@ VIOAPI  int  get_Colour_g(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_Colour_b
 @INPUT      : colour
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : blue component
 @DESCRIPTION: Returns the blue component of the colour in the range 0 to 255.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 10, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  int  get_Colour_b(
@@ -131,15 +131,15 @@ VIOAPI  int  get_Colour_b(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_Colour_a
 @INPUT      : colour
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : alpha component
 @DESCRIPTION: Returns the alpha (opacity) component of the colour in the
               range 0 to 255.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 10, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  int  get_Colour_a(

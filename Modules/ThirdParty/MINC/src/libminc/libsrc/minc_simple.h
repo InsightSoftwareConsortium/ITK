@@ -1,4 +1,4 @@
-/* minc_simple.h 
+/* minc_simple.h
  *
  * Simplified interface for MINC files.
  */
@@ -19,7 +19,7 @@
 
 /* Get information about a MINC file.
  */
-MNCAPI int 
+MNCAPI int
 minc_file_size(char *path,      /* Path to the file */
                long *ct,        /* Total length of time axis, in voxels */
                long *cz,        /* Total length of Z axis, in voxels */
@@ -30,7 +30,7 @@ minc_file_size(char *path,      /* Path to the file */
 
 /* Load data from a MINC file.
  */
-MNCAPI int 
+MNCAPI int
 minc_load_data(char *path,      /* Path to the file */
                void *dataptr,   /* Buffer to store data */
                int datatype,    /* Type of data as read into memory */
@@ -38,7 +38,7 @@ minc_load_data(char *path,      /* Path to the file */
                double *dt, double *dz, double *dy, double *dx,
                void **infoptr);
 
-/* Define an output file.  Return value is a file handle, or 
+/* Define an output file.  Return value is a file handle, or
  * MINC_STATUS_ERROR if a problem is detected.
  */
 MNCAPI int
@@ -57,30 +57,30 @@ minc_save_start(char *path,     /* Path to the file */
 
 /* Write data to file.  Return value is MINC_STATUS_OK or MINC_STATUS_ERROR.
  */
-MNCAPI int 
+MNCAPI int
 minc_save_data(int handle,    /* Handle returned by minc_save_start */
                void *dataptr,   /* Data to write */
                int datatype,    /* Type of data in memory */
                long st,         /* Start position of 4D hyperslab */
-               long sz, 
-               long sy, 
+               long sz,
+               long sy,
                long sx,
                long ct,         /* Size of 4D hyperslab */
-               long cz, 
-               long cy, 
+               long cz,
+               long cy,
                long cx);
 
 /* Called when a particular file is complete.
  */
-MNCAPI int 
+MNCAPI int
 minc_save_done(int handle);
 
 /* Called to free memory associated with the infoptr.
- */                          
-MNCAPI void 
+ */
+MNCAPI void
 minc_free_info(void *infoptr);
 
-MNCAPI int 
+MNCAPI int
 minc_get_world_transform(int handle, double transform[4][4], int spatial_axes[3]);
 
 MNCAPI void

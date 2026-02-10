@@ -18,16 +18,16 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : geometry.h
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Macros for performing geometric operations on points and vectors.
               For most macros, the return value is the first argument.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 #include  <volume_io/basic.h>

@@ -28,11 +28,11 @@
 @RETURNS    : TRUE if successful
 @DESCRIPTION: Performs scaled maximal pivoting gaussian elimination as a
               numerically robust method to solve systems of linear equations.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 10, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_BOOL  scaled_maximal_pivoting_gaussian_elimination(
@@ -153,11 +153,11 @@ static  VIO_BOOL  scaled_maximal_pivoting_gaussian_elimination(
 @DESCRIPTION: Performs gaussian elimination on a type-VIO_Real matrix, first
               copying it into temporary storage, which is modified as
               the gaussian elimination is performed.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 10, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static VIO_BOOL scaled_maximal_pivoting_gaussian_elimination_real(
@@ -211,11 +211,11 @@ static VIO_BOOL scaled_maximal_pivoting_gaussian_elimination_real(
 @DESCRIPTION: Solves a linear system of equations, finding the solution
                                                          t          t
               vector that satisfies  [coefs] * [solution] = [values]
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 10, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  solve_linear_system(
@@ -240,11 +240,11 @@ VIOAPI  VIO_BOOL  solve_linear_system(
 @OUTPUT     : inverse
 @RETURNS    : TRUE if successful
 @DESCRIPTION: Computes the inverse of a square matrix.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : May 10, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  invert_square_matrix(

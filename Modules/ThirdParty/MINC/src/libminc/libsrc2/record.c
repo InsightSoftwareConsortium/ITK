@@ -51,7 +51,7 @@ int miget_record_field_name(mihandle_t volume,
         return (MI_ERROR);
     }
     /* Get the field name.  The H5Tget_member_name() function allocates
-     * the memory for the string using malloc(), so we can return the 
+     * the memory for the string using malloc(), so we can return the
      * pointer directly without any further manipulations.
      */
     *name = H5Tget_member_name(volume->ftype_id, index);

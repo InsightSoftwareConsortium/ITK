@@ -31,11 +31,11 @@ static void calculate_volume_real_range(VIO_Volume volume,double *real_min,doubl
 @DESCRIPTION: Gets the names of the dimensions from the specified file.
               dim_names is an array of VIO_STRS, where the array has been
               allocated, but not each string.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status   get_file_dimension_names(
@@ -87,11 +87,11 @@ VIOAPI  VIO_Status   get_file_dimension_names(
               volume are used.  The file_sizes[] array is set to match
               the sizes in the volume cross-referenced with the dimension
               names.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Nov. 4, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_STR  *create_output_dim_names(
@@ -219,16 +219,16 @@ VIOAPI  VIO_STR  *create_output_dim_names(
               filename
               original_filename
               history
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: If the original_filename is specified, Copies the auxiliary
               data from it.  If the history is specified, adds the history
               line.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Oct. 24, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status   copy_volume_auxiliary_and_history(
@@ -267,7 +267,7 @@ VIOAPI  VIO_Status   copy_volume_auxiliary_and_history(
                                                   original_filename,
                                                   history );
 #endif
-                                                  
+
 #ifdef HAVE_MINC2
       if(minc_file->using_minc2_api) status = copy_auxiliary_data_from_minc2_file( minc_file,
                                                   original_filename,
@@ -278,15 +278,15 @@ VIOAPI  VIO_Status   copy_volume_auxiliary_and_history(
     {
 
 #ifdef HAVE_MINC1
-      if(!minc_file->using_minc2_api) 
+      if(!minc_file->using_minc2_api)
               status = add_minc_history( minc_file, history );
-#endif      
+#endif
 #ifdef HAVE_MINC2
-      if(minc_file->using_minc2_api) 
+      if(minc_file->using_minc2_api)
               status = add_minc2_history( minc_file, history );
-#endif       
+#endif
     }
-    
+
     return( status );
 }
 
@@ -301,7 +301,7 @@ VIOAPI  VIO_Status   copy_volume_auxiliary_and_history(
               original_filename
               history
               options
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Creates a Minc file and outputs the volume to it.  The data
               type of the file is either specified by the second through fifth
@@ -310,9 +310,9 @@ VIOAPI  VIO_Status   copy_volume_auxiliary_and_history(
               fashion, from an existing MINC file, and the auxiliary data
               from the existing MINC file, 'original_filename', is
               copied to the output file, along with the 'history' string.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : May  22, 1997   D. MacDonald - now sets
                                             use_volume_starts_and_steps flag
@@ -346,21 +346,21 @@ VIOAPI  VIO_Status  output_modified_volume(
 
     if( options == NULL )
         set_default_minc_output_options( &used_options );
-    else 
+    else
         used_options = *options;
 
     if( used_options.global_image_range[0] >=
         used_options.global_image_range[1] || volume->is_labels )
     {
         get_volume_real_range( volume, &real_min, &real_max );
-        
+
         /*HACK: fixing condition when outputting floating-point volume with default range*/
         if(real_min==-DBL_MAX || real_max==DBL_MAX)
         {
             calculate_volume_real_range(volume, &real_min, &real_max );
             set_volume_real_range(volume,real_min,real_max);
         }
-        
+
         set_minc_output_real_range( &used_options, real_min, real_max );
     }
 
@@ -378,7 +378,7 @@ VIOAPI  VIO_Status  output_modified_volume(
 #if defined(HAVE_MINC1) && defined(HAVE_MINC2)
     if(used_options.prefer_minc2_api) {
 #endif
-            
+
 #if defined(HAVE_MINC2)
             minc_file = initialize_minc2_output( filename,
                                         n_dims, dim_names, sizes,
@@ -387,11 +387,11 @@ VIOAPI  VIO_Status  output_modified_volume(
                                         get_voxel_to_world_transform(volume),
                                         volume, &used_options );
 #endif
-                                        
+
 #if defined(HAVE_MINC1) && defined(HAVE_MINC2)
     } else {
 #endif
-    
+
 #ifdef HAVE_MINC1
     minc_file = initialize_minc_output( filename,
                                         n_dims, dim_names, sizes,
@@ -404,7 +404,7 @@ VIOAPI  VIO_Status  output_modified_volume(
 #if defined(HAVE_MINC1) && defined(HAVE_MINC2)
     }
 #endif
-    
+
     if( minc_file == NULL )
         return( VIO_ERROR );
 
@@ -413,28 +413,28 @@ VIOAPI  VIO_Status  output_modified_volume(
 
     if( status == VIO_OK )
     {
-            
+
 #if defined(HAVE_MINC2)
           if(minc_file->using_minc2_api) status = output_minc2_volume( minc_file );
 #endif
-           
+
 #if defined(HAVE_MINC1)
           if(!minc_file->using_minc2_api) status = output_minc_volume( minc_file );
 #endif
-        
+
     }
-    
+
     if( status == VIO_OK )
     {
 #if defined(HAVE_MINC1)
             if(minc_file->using_minc2_api) status = close_minc2_output( minc_file );
 #endif
-            
+
 #if defined(HAVE_MINC1)
             if(!minc_file->using_minc2_api)  status = close_minc_output( minc_file );
 #endif
     }
-    
+
     delete_dimension_names( volume, dim_names );
     return( status );
 }
@@ -449,15 +449,15 @@ VIOAPI  VIO_Status  output_modified_volume(
               volume
               history
               options
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sames as output_modified_volume, above, but the volume is not
               a modification of an existing MINC file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_volume(
@@ -486,13 +486,13 @@ static void calculate_volume_real_range(VIO_Volume volume,double *real_min,doubl
     int               v[VIO_MAX_DIMENSIONS];
     int               ndim=get_volume_n_dimensions(volume);
     int done=0;
-    
+
     *real_min=DBL_MAX;
     *real_max=-DBL_MAX;
-    
+
     get_volume_sizes( volume, volume_sizes );
     v[0]=v[1]=v[2]=v[3]=v[4]=0;
-    
+
     do
     {
         int i;
@@ -504,19 +504,19 @@ static void calculate_volume_real_range(VIO_Volume volume,double *real_min,doubl
                                         v[4] );
         if(value>*real_max) *real_max=value;
         if(value<*real_min) *real_min=value;
-        
+
         /*another hack*/
         for(i=0;i<ndim;i++)
         {
             int j;
             if(volume_sizes[i]==0) continue;
-            
+
             v[i]++;
-            if(v[i]<volume_sizes[i]) 
+            if(v[i]<volume_sizes[i])
                 break;
-            
+
             if(i==(ndim-1)) {done=1;break;}
-            
+
             for(j=0;j<=i;j++)
                 v[j]=0;
         }

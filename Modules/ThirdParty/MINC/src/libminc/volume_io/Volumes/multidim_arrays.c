@@ -26,13 +26,13 @@
 @INPUT      : n_dimensions
               data_type
 @OUTPUT     : array
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Creates a multidimensional array, without allocating its data.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI   void   create_empty_multidim_array(
@@ -55,14 +55,14 @@ VIOAPI   void   create_empty_multidim_array(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_multidim_data_type
 @INPUT      : array
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : data type
 @DESCRIPTION: Returns the data type of the multidimensional array.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Data_types  get_multidim_data_type(
@@ -75,14 +75,14 @@ VIOAPI  VIO_Data_types  get_multidim_data_type(
 @NAME       : set_multidim_data_type
 @INPUT      : array
               data_type
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the data type of the array.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_multidim_data_type(
@@ -95,14 +95,14 @@ VIOAPI  void  set_multidim_data_type(
 /* ----------------------------------------------------------------------------
 @NAME       : get_type_size
 @INPUT      : type
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : size of the type
 @DESCRIPTION: Returns the size of the given type.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  int  get_type_size(
@@ -133,7 +133,7 @@ VIOAPI  void  get_type_range(
 {
     *min_value = (VIO_Real) -DBL_MAX;
     *max_value = (VIO_Real) DBL_MAX;
-  
+
     switch( type )
     {
     case VIO_UNSIGNED_BYTE:
@@ -168,15 +168,15 @@ VIOAPI  void  get_type_range(
 @NAME       : set_multidim_n_dimensions
 @INPUT      : array
               n_dimensions
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if successful.
 @DESCRIPTION: Sets the number of dimensions in the array. The array should
               not already be allocated.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 VIOAPI VIO_BOOL set_multidim_n_dimensions(
     VIO_multidim_array *array,
@@ -201,14 +201,14 @@ VIOAPI VIO_BOOL set_multidim_n_dimensions(
 @NAME       : set_multidim_sizes
 @INPUT      : array
               sizes
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Sets the sizes of the array.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  set_multidim_sizes(
@@ -230,13 +230,13 @@ VIOAPI  void  set_multidim_sizes(
 @NAME       : get_multidim_sizes
 @INPUT      : array
 @OUTPUT     : sizes
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Passes back the sizes of the multidimensional array.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  get_multidim_sizes(
@@ -252,14 +252,14 @@ VIOAPI  void  get_multidim_sizes(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : multidim_array_is_alloced
 @INPUT      : array
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : TRUE if array is allocated
-@DESCRIPTION: 
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@DESCRIPTION:
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_BOOL  multidim_array_is_alloced(
@@ -308,14 +308,14 @@ VIOAPI  VIO_BOOL  multidim_array_is_alloced(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : alloc_multidim_array
 @INPUT      : array
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Allocates the data for the multidimensional array.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  alloc_multidim_array(
@@ -377,14 +377,14 @@ VIOAPI  void  alloc_multidim_array(
               n_dimensions
               sizes
               data_type
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Creates a multidimensional array.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI   void   create_multidim_array(
@@ -401,14 +401,14 @@ VIOAPI   void   create_multidim_array(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : delete_multidim_array
 @INPUT      : array
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Deletes the multidimensional array.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  delete_multidim_array(
@@ -440,14 +440,14 @@ VIOAPI  void  delete_multidim_array(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_multidim_n_dimensions
 @INPUT      : array
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : number of dimensions
 @DESCRIPTION: Returns the number of dimensions of the array
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : June, 1993           David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  int  get_multidim_n_dimensions(
@@ -469,15 +469,15 @@ VIOAPI  int  get_multidim_n_dimensions(
               to_dest_index
               use_src_order   - whether to step through arrays in the
                                 reverse order of src or dest
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Copies any type of multidimensional data from the src array
               to the destination array.  to_dest_index is a lookup that
               converts src indices to destination indices, to allow arbitrary
               reordering of array data.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
 @MODIFIED   : Feb. 27, 1996   D. MacDonald  - made more efficient
 ---------------------------------------------------------------------------- */
@@ -663,15 +663,15 @@ VIOAPI  void  copy_multidim_data_reordered(
               src_ind
               counts
               to_dest_index
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Copies data from src array to dest array, with dimension
               translation given by to_dest_index[].
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Sep. 1, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  copy_multidim_reordered(

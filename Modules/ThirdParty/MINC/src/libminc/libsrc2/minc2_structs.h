@@ -1,6 +1,6 @@
 /** internal minc2 data structures*/
 #ifndef MINC2_STRUCTS_H
-#define MINC2_STRUCTS_H 
+#define MINC2_STRUCTS_H
 
 #include "H5public.h"
 
@@ -15,7 +15,7 @@ struct mivolprops;
 struct midimension;
 struct mivolume;
 
-/** \typedef mivolumeprops_t 
+/** \typedef mivolumeprops_t
  * Opaque pointer to volume properties.
  */
 typedef struct mivolprops *mivolumeprops_t;
@@ -27,21 +27,21 @@ typedef struct mivolprops *mivolumeprops_t;
 typedef struct midimension *midimhandle_t;
 
 
-/** \typedef mihandle_t 
+/** \typedef mihandle_t
  * The mihandle_t is an opaque type that represents a MINC file object.
  */
 typedef struct mivolume *mihandle_t;
 
 
-/** \typedef milisthandle_t 
- * The milisthandle_t is an opaque type that represents a handle 
+/** \typedef milisthandle_t
+ * The milisthandle_t is an opaque type that represents a handle
  * to iterate through various properties of MINC file object.
  */
 typedef void *milisthandle_t;
 
 /**
  * This typedef used to represent the type of an individual voxel <b>as
- * stored</b> by MINC 2.0. 
+ * stored</b> by MINC 2.0.
  */
 typedef enum {
   MI_TYPE_ORIGINAL = 0,     /**< MI_ORIGINAL_TYPE */
@@ -62,14 +62,14 @@ typedef enum {
 } mitype_t;
 
 /** \typedef miclass_t
- * This typedef is used to represent the class of the MINC file.  
+ * This typedef is used to represent the class of the MINC file.
  *
- * The class specifies the data's interpretation rather than its 
+ * The class specifies the data's interpretation rather than its
  * storage format. For example, a floating point class implies
- * that the data may be stored as integers but must nonetheless be 
+ * that the data may be stored as integers but must nonetheless be
  * scaled into a "real" range before any mathematical operations
  * are performed.  A label class implies that the values of a voxel
- * should be considered to represent a symbol, and therefore many 
+ * should be considered to represent a symbol, and therefore many
  * operations on the voxels would be considered meaningless.
  */
 typedef enum {
@@ -83,7 +83,7 @@ typedef enum {
 
 /** \typedef midimclass_t
  * Dimensions be members of one of several classes.  The "MI_DIMCLASS_ANY"
- * value is never actually assigned to a dimension.  It is used in the 
+ * value is never actually assigned to a dimension.  It is used in the
  * programming interface to specify that an operation should apply to
  * all dimensions regardless of class.
  */
@@ -98,11 +98,11 @@ typedef enum {
 } midimclass_t;
 
 /** \typedef miorder_t
- * Dimension order refers to the idea that data can be structured in 
+ * Dimension order refers to the idea that data can be structured in
  * a variety of ways with respect to the dimensions.  For example, a typical
  * 3D scan could be structured as a transverse (ZYX) or sagittal (XZY) image.
- * Since it may be convenient to write code which expects a particular 
- * dimension order, a user can specify an alternative ordering by using 
+ * Since it may be convenient to write code which expects a particular
+ * dimension order, a user can specify an alternative ordering by using
  * miset_apparent_dimension_order().  This will cause most functions
  * to return data as if the file was in the apparent, rather than the
  * file (native) order.

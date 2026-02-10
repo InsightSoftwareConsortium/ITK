@@ -24,15 +24,15 @@
               n1
               n2
               type_size
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Given a pointer allocated for 2D, creates the 1st level
               pointers.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug. 2, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  set_up_array_pointers_2D(
@@ -51,13 +51,13 @@ static  void  set_up_array_pointers_2D(
 @NAME       : private_alloc_memory
 @INPUT      : n_bytes
 @OUTPUT     : ptr
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Allocates the specified number of bytes.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug.  2, 1995        David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_Status  private_alloc_memory(
@@ -83,13 +83,13 @@ static  VIO_Status  private_alloc_memory(
               n2
               type_size
 @OUTPUT     : ptr
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Allocates the specified number of 2d elements.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug.  2, 1995        David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  VIO_Status  private_alloc_memory_2d(
@@ -116,13 +116,13 @@ static  VIO_Status  private_alloc_memory_2d(
               n3
               type_size
 @OUTPUT     : ptr
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Allocates the specified number of 3d elements.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug.  2, 1995        David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static VIO_Status private_alloc_memory_3d(
@@ -151,13 +151,13 @@ static VIO_Status private_alloc_memory_3d(
               n4
               type_size
 @OUTPUT     : ptr
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Allocates the specified number of 4d elements.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug.  2, 1995        David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static VIO_Status private_alloc_memory_4d(
@@ -189,13 +189,13 @@ static VIO_Status private_alloc_memory_4d(
               n5
               type_size
 @OUTPUT     : ptr
-@RETURNS    : 
+@RETURNS    :
 @DESCRIPTION: Allocates the specified number of 5d elements.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug.  2, 1995        David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static VIO_Status private_alloc_memory_5d(
@@ -224,16 +224,16 @@ static VIO_Status private_alloc_memory_5d(
 @INPUT      : n_bytes
               filename
               line_number
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : void *
 @DESCRIPTION: Allocates the specified amount of memory, and if successful,
               calls the routine to record the memory allocated, and returns
               the pointer.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug. 2, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  *alloc_memory_in_bytes(
@@ -248,12 +248,12 @@ VIOAPI  void  *alloc_memory_in_bytes(
         PRINT_ALLOC_SOURCE_LINE
         abort_if_allowed();
     }
-#if 0    
+#if 0
 #ifndef  NO_DEBUG_ALLOC
     else
         record_ptr_alloc_check( ptr, n_bytes, filename, line_number );
 #endif
-#endif    
+#endif
 
     return( ptr );
 }
@@ -264,12 +264,12 @@ VIOAPI  void  *alloc_memory_in_bytes(
               type_size
               filename
               line_number
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : void *
 @DESCRIPTION: Allocates a 1D array and returns it.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug. 2, 1995    David MacDonald
 @MODIFIED   : Apr. 16, 1996   D. MacDonald    : returns the pointer
 ---------------------------------------------------------------------------- */
@@ -288,7 +288,7 @@ VIOAPI  void  *alloc_memory_1d(
         PRINT_ALLOC_SOURCE_LINE
         abort_if_allowed();
     }
-#if 0    
+#if 0
 #ifndef  NO_DEBUG_ALLOC
     else
         record_ptr_alloc_check( ptr, n_elements * type_size,
@@ -306,14 +306,14 @@ VIOAPI  void  *alloc_memory_1d(
               type_size
               filename
               line_number
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : void *
 @DESCRIPTION: Allocates a 2D array and returns a pointer to it.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug. 2, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  *alloc_memory_2d(
@@ -331,7 +331,7 @@ VIOAPI  void  *alloc_memory_2d(
         PRINT_ALLOC_SOURCE_LINE
         abort_if_allowed();
     }
-#if 0    
+#if 0
 #ifndef  NO_DEBUG_ALLOC
     else
     {
@@ -341,7 +341,7 @@ VIOAPI  void  *alloc_memory_2d(
                                 filename, line_number );
     }
 #endif
-#endif 
+#endif
     return( (void *) ptr );
 }
 
@@ -353,14 +353,14 @@ VIOAPI  void  *alloc_memory_2d(
               type_size
               filename
               line_number
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : void *
 @DESCRIPTION: Allocates a 3D array.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug. 2, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  *alloc_memory_3d(
@@ -379,7 +379,7 @@ VIOAPI  void  *alloc_memory_3d(
         PRINT_ALLOC_SOURCE_LINE
         abort_if_allowed();
     }
-#if 0    
+#if 0
 #ifndef  NO_DEBUG_ALLOC
     else
     {
@@ -405,14 +405,14 @@ VIOAPI  void  *alloc_memory_3d(
               type_size
               filename
               line_number
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : void *
 @DESCRIPTION: Allocates a 4D array.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug. 2, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  *alloc_memory_4d(
@@ -432,7 +432,7 @@ VIOAPI  void  *alloc_memory_4d(
         PRINT_ALLOC_SOURCE_LINE
         abort_if_allowed();
     }
-#if 0    
+#if 0
 #ifndef  NO_DEBUG_ALLOC
     else
     {
@@ -460,14 +460,14 @@ VIOAPI  void  *alloc_memory_4d(
               type_size
               filename
               line_number
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : void *
 @DESCRIPTION: Allocates a 5D array.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug. 2, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  *alloc_memory_5d(
@@ -488,7 +488,7 @@ VIOAPI  void  *alloc_memory_5d(
         PRINT_ALLOC_SOURCE_LINE
         abort_if_allowed();
     }
-#if 0    
+#if 0
 #ifndef  NO_DEBUG_ALLOC
     else
     {
@@ -504,7 +504,7 @@ VIOAPI  void  *alloc_memory_5d(
                                 filename, line_number );
     }
 #endif
-#endif 
+#endif
     return( (void *) ptr );
 }
 
@@ -515,14 +515,14 @@ VIOAPI  void  *alloc_memory_5d(
               type_size
               filename
               line_number
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Reallocates the ptr.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  realloc_memory(
@@ -531,8 +531,10 @@ VIOAPI  void  realloc_memory(
     size_t    type_size
     ALLOC_SOURCE_LINE_ARG_DEF )
 {
+#if 0
 #ifndef  NO_DEBUG_ALLOC
     void   *old_ptr = *ptr;
+#endif
 #endif
 
     if( n_elements != 0 )
@@ -564,14 +566,14 @@ VIOAPI  void  realloc_memory(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : private_free_memory_1d
 @INPUT      : ptr
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Frees the array and assigns the pointer to NULL.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug.  2, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  private_free_memory_1d(
@@ -588,14 +590,14 @@ static  void  private_free_memory_1d(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : private_free_memory_2d
 @INPUT      : ptr
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Frees the array and assigns the pointer to NULL.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug.  2, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  private_free_memory_2d(
@@ -608,14 +610,14 @@ static  void  private_free_memory_2d(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : private_free_memory_3d
 @INPUT      : ptr
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Frees the array and assigns the pointer to NULL.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug.  2, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  private_free_memory_3d(
@@ -628,14 +630,14 @@ static  void  private_free_memory_3d(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : private_free_memory_4d
 @INPUT      : ptr
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Frees the array and assigns the pointer to NULL.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug.  2, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  private_free_memory_4d(
@@ -648,14 +650,14 @@ static  void  private_free_memory_4d(
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : private_free_memory_5d
 @INPUT      : ptr
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Frees the array and assigns the pointer to NULL.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : Aug.  2, 1995    David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 static  void  private_free_memory_5d(
@@ -670,14 +672,14 @@ static  void  private_free_memory_5d(
 @INPUT      : ptr
               filename
               line_number
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Frees the pointer, and sets it to NIL.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  free_memory_1d(
@@ -697,14 +699,14 @@ VIOAPI  void  free_memory_1d(
 @INPUT      : ptr
               filename
               line_number
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Frees the pointer, and sets it to NIL.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  free_memory_2d(
@@ -716,7 +718,7 @@ VIOAPI  void  free_memory_2d(
     if( unrecord_ptr_alloc_check( **ptr, filename, line_number ) &&
         unrecord_ptr_alloc_check( (void *) *ptr, filename, line_number ) )
 #endif
-#endif  
+#endif
         private_free_memory_2d( ptr );
 }
 
@@ -725,27 +727,27 @@ VIOAPI  void  free_memory_2d(
 @INPUT      : ptr
               filename
               line_number
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Frees the pointer, and sets it to NIL.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  free_memory_3d(
     void   ****ptr
     ALLOC_SOURCE_LINE_ARG_DEF )
 {
-#if 0  
+#if 0
 #ifndef  NO_DEBUG_ALLOC
     if( unrecord_ptr_alloc_check( ***ptr, filename, line_number ) &&
         unrecord_ptr_alloc_check( (void *) **ptr, filename, line_number ) &&
         unrecord_ptr_alloc_check( (void *) *ptr, filename, line_number ) )
 #endif
-#endif  
+#endif
         private_free_memory_3d( ptr );
 }
 
@@ -754,28 +756,28 @@ VIOAPI  void  free_memory_3d(
 @INPUT      : ptr
               filename
               line_number
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Frees the pointer, and sets it to NIL.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  free_memory_4d(
     void   *****ptr
     ALLOC_SOURCE_LINE_ARG_DEF )
 {
-#if 0  
+#if 0
 #ifndef  NO_DEBUG_ALLOC
     if( unrecord_ptr_alloc_check( ****ptr, filename, line_number ) &&
         unrecord_ptr_alloc_check( (void *) ***ptr, filename, line_number ) &&
         unrecord_ptr_alloc_check( (void *) **ptr, filename, line_number ) &&
         unrecord_ptr_alloc_check( (void *) *ptr, filename, line_number ) )
 #endif
-#endif   
+#endif
         private_free_memory_4d( ptr );
 }
 
@@ -784,21 +786,21 @@ VIOAPI  void  free_memory_4d(
 @INPUT      : ptr
               filename
               line_number
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Frees the pointer, and sets it to NIL.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    :                      David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  void  free_memory_5d(
     void   ******ptr
     ALLOC_SOURCE_LINE_ARG_DEF )
 {
-#if 0  
+#if 0
 #ifndef  NO_DEBUG_ALLOC
     if( unrecord_ptr_alloc_check( *****ptr, filename, line_number ) &&
         unrecord_ptr_alloc_check( (void *) ****ptr, filename, line_number ) &&
@@ -806,6 +808,6 @@ VIOAPI  void  free_memory_5d(
         unrecord_ptr_alloc_check( (void *) **ptr, filename, line_number ) &&
         unrecord_ptr_alloc_check( (void *) *ptr, filename, line_number ) )
 #endif
-#endif   
+#endif
         private_free_memory_5d( ptr );
 }

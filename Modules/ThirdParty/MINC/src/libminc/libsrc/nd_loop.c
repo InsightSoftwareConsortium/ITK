@@ -1,10 +1,10 @@
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : nd_loop.c
 @DESCRIPTION: File containing routines for doing n-dimensional looping
-@METHOD     : 
-@GLOBALS    : 
+@METHOD     :
+@GLOBALS    :
 @CREATED    : March 10, 1994 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: nd_loop.c,v $
  * Revision 6.4  2008-01-17 02:33:02  rotor
  *  * removed all rcsids
@@ -44,9 +44,9 @@
  *
  * Revision 1.1  94/12/02  08:40:12  neelin
  * Initial revision
- * 
+ *
 @COPYRIGHT  :
-              Copyright 1994 Peter Neelin, McConnell Brain Imaging Centre, 
+              Copyright 1994 Peter Neelin, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -68,11 +68,11 @@
 @OUTPUT     : current - vector of indices giving current subscript
 @RETURNS    : (none)
 @DESCRIPTION: Sets up current variable for looping
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : October 28, 1994 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI void nd_begin_looping(long start[], long current[], int ndims)
 {
@@ -91,11 +91,11 @@ MNCAPI void nd_begin_looping(long start[], long current[], int ndims)
 @OUTPUT     : (none)
 @RETURNS    : TRUE if end of loop.
 @DESCRIPTION: Tests for end of a multi-dimensional loop.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : March 10, 1994 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 MNCAPI int nd_end_of_loop(long current[], long end[], int ndims)
      /* ARGSUSED */
@@ -110,17 +110,17 @@ MNCAPI int nd_end_of_loop(long current[], long end[], int ndims)
                  for each dimension
               end - vector of indices specifying last subscripts plus one
               ndims - number of dimensions in vector
-@OUTPUT     : current_count - vector of indices giving count for current 
+@OUTPUT     : current_count - vector of indices giving count for current
                  position
 @RETURNS    : (none)
 @DESCRIPTION: Sets the count so that we don't go past end
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : October 28, 1994 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
-MNCAPI void nd_update_current_count(long current[], 
+MNCAPI void nd_update_current_count(long current[],
                                     long increment[], long end[],
                                     long current_count[],
                                     int ndims)
@@ -148,13 +148,13 @@ MNCAPI void nd_update_current_count(long current[],
 @OUTPUT     : current - vector of indices giving new subscript
 @RETURNS    : (none)
 @DESCRIPTION: Does incrementing for multi-dimensional loop
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : March 10, 1994 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
-MNCAPI void nd_increment_loop(long current[], 
+MNCAPI void nd_increment_loop(long current[],
                               long start[], long increment[], long end[],
                               int ndims)
 {

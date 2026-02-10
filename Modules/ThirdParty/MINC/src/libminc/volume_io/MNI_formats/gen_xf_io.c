@@ -36,15 +36,15 @@ static const VIO_STR      DISPLACEMENT_VOLUME = "Displacement_Volume";
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : get_default_transform_file_suffix
-@INPUT      : 
-@OUTPUT     : 
+@INPUT      :
+@OUTPUT     :
 @RETURNS    : "xfm"
 @DESCRIPTION: Returns the default transform file suffix.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_STR  get_default_transform_file_suffix( void )
@@ -59,15 +59,15 @@ VIOAPI  VIO_STR  get_default_transform_file_suffix( void )
               volume_count    / for grid transform volume files.
               invert  - whether to invert the transform
               transform
-@OUTPUT     : 
-@RETURNS    : 
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: Outputs a transform to the MNI transform file.
             : Increment *volume_count.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : Feb 21, 1995    David MacDonald : added grid transforms 
+@MODIFIED   : Feb 21, 1995    David MacDonald : added grid transforms
 ---------------------------------------------------------------------------- */
 
 static  void  output_one_transform(
@@ -146,7 +146,7 @@ static  void  output_one_transform(
             (void) fprintf( file, "\n" );
         }
         break;
-        
+
     case GRID_TRANSFORM:
         (void) fprintf( file, "%s = %s;\n", TYPE_STRING,
                         GRID_TRANSFORM_STRING );
@@ -172,13 +172,13 @@ static  void  output_one_transform(
             if( i >= 0 && prefix_filename[i] == '.' )
                 prefix_filename[i] = VIO_END_OF_STRING;
         }
-        
+
         if( transform->displacement_volume_file )
         {
           delete_string( transform->displacement_volume_file );
           transform->displacement_volume_file = NULL;
         }
-        
+
         /*--- write out the volume filename to the transform file */
 /*        if( ! transform->displacement_volume_file )
         {*/
@@ -186,7 +186,7 @@ static  void  output_one_transform(
           volume_filename = alloc_string( volume_filename_length );
           snprintf( volume_filename, volume_filename_length, "%s_grid_%d.mnc", prefix_filename,
                         *volume_count );
-          
+
           transform->displacement_volume_file = volume_filename;
 
 /*        }*/
@@ -204,7 +204,7 @@ static  void  output_one_transform(
         /*--- write the volume file */
 
         if( transform->displacement_volume )
-          output_volume( transform->displacement_volume_file, 
+          output_volume( transform->displacement_volume_file,
                               MI_ORIGINAL_TYPE, FALSE, 0.0, 0.0,
                               (VIO_Volume) transform->displacement_volume,
                               NULL, NULL );
@@ -221,7 +221,7 @@ static  void  output_one_transform(
         break;
 
     case CONCATENATED_TRANSFORM:
-        
+
         if( transform->inverse_flag )
             invert = !invert;
 
@@ -253,17 +253,17 @@ static  void  output_one_transform(
               volume_count_ptr  /  filenames for grid transform volumes
               comments   - can be null
               transform
-@INPUT      : 
-@OUTPUT     : 
+@INPUT      :
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Outputs the transform to the file in MNI transform format.
               The filename is used to define the prefix for writing out
               volumes that are part of grid transforms.  The volume_count_ptr
               is used to give each volume written in a given file a unique
               index, and therefore a unique filename.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Feb. 21, 1995   D. MacDonald
 ---------------------------------------------------------------------------- */
@@ -312,9 +312,9 @@ VIOAPI  VIO_Status  output_transform(
 @OUTPUT     : transform
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Inputs a transform from the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Feb. 21, 1995   David MacDonald - added grid transforms
 ---------------------------------------------------------------------------- */
@@ -411,7 +411,7 @@ static VIO_Status input_one_transform(
         print_error( "Unsupported transform type %d \n", transform_type );
         delete_string( str );
         return( VIO_ERROR );
-        
+
     case LINEAR:
         if( !equal_strings( str, LINEAR_TRANSFORM_STRING ) )
         {
@@ -532,7 +532,7 @@ static VIO_Status input_one_transform(
         VIO_FREE2D( displacements );
 
         break;
-        
+
     case GRID_TRANSFORM:
 
         /*--- read the displacement volume filename */
@@ -581,8 +581,8 @@ static VIO_Status input_one_transform(
         set_default_minc_input_options( &options );
         set_minc_input_vector_to_scalar_flag( &options, FALSE );
 
-        if( input_volume( volume_filename, 4, NULL, 
-                          MI_ORIGINAL_TYPE, FALSE, 0.0, 0.0, 
+        if( input_volume( volume_filename, 4, NULL,
+                          MI_ORIGINAL_TYPE, FALSE, 0.0, 0.0,
                           TRUE, &volume, &options ) != VIO_OK )
         {
             delete_string( volume_filename );
@@ -614,9 +614,9 @@ static VIO_Status input_one_transform(
 @OUTPUT     : transform
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Inputs the transform from the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
 @MODIFIED   : Feb. 21, 1995   D. MacDonald
 ---------------------------------------------------------------------------- */
@@ -691,14 +691,14 @@ VIOAPI  VIO_Status  input_transform(
 @INPUT      : filename
               comments
               transform
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Opens the file, outputs the transform, and closes the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  output_transform_file(
@@ -732,11 +732,11 @@ VIOAPI  VIO_Status  output_transform_file(
 @OUTPUT     : transform
 @RETURNS    : VIO_OK or VIO_ERROR
 @DESCRIPTION: Opens the file, inputs the transform, and closes the file.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : 1993            David MacDonald
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 
 VIOAPI  VIO_Status  input_transform_file(

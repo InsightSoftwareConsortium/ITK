@@ -3,15 +3,15 @@
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : minc_private.h
-@INPUT      : 
-@OUTPUT     : 
-@RETURNS    : 
+@INPUT      :
+@OUTPUT     :
+@RETURNS    :
 @DESCRIPTION: The general include file for MINC routines.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : July 29, 1992 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: minc_private.h,v $
  * Revision 6.4  2004-12-14 23:53:46  bert
  * Get rid of compilation warnings
@@ -45,15 +45,15 @@
  *
  * Revision 1.7  94/09/28  10:37:27  neelin
  * Pre-release
- * 
+ *
  * Revision 1.6  93/10/06  10:00:30  neelin
  * Added include of memory.h for memcpy on SUNs.
- * 
+ *
  * Revision 1.5  93/08/11  12:06:39  neelin
  * Added RCS logging in source.
- * 
+ *
 @COPYRIGHT  :
-              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre, 
+              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without

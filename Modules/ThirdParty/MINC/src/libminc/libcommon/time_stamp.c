@@ -1,9 +1,9 @@
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : time_stamp.c
 @DESCRIPTION: File containing routine to create a time stamp string.
-@METHOD     : 
+@METHOD     :
 @CREATED    : February 1, 1993 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: time_stamp.c,v $
  * Revision 6.4  2008-01-17 02:33:02  rotor
  *  * removed all rcsids
@@ -43,12 +43,12 @@
  *
  * Revision 1.4  94/09/28  10:34:20  neelin
  * Pre-release
- * 
+ *
  * Revision 1.3  93/08/04  13:03:56  neelin
  * Added RCS Log to keep track of modifications in source
  *
 @COPYRIGHT  :
-              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre, 
+              Copyright 1993 Peter Neelin, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -62,9 +62,7 @@
 #include "config.h"
 #endif /*HAVE_CONFIG_H*/
 
-#ifdef HAVE_STRING_H
 #include <string.h>
-#endif
 #include <stdio.h>
 
 /* MS Visual Studio 12 and below.
@@ -83,16 +81,16 @@
 @NAME       : time_stamp
 @INPUT      : argc - number of arguments
               argv - list of arguments
-@OUTPUT     : 
+@OUTPUT     :
 @RETURNS    : pointer to string containing time stamp.
 @DESCRIPTION: Function to produce a time stamp string for a program.
               Returns a string of the form "date > command". The command
               is simply the concatenation of argv elements.
-@METHOD     : 
-@GLOBALS    : 
-@CALLS      : 
+@METHOD     :
+@GLOBALS    :
+@CALLS      :
 @CREATED    : February 1, 1993 (Peter Neelin)
-@MODIFIED   : 
+@MODIFIED   :
 ---------------------------------------------------------------------------- */
 #include <stdlib.h>
 
