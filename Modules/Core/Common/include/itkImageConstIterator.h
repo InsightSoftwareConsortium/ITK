@@ -299,7 +299,7 @@ public:
    * This causes the index to be calculated from pointer arithmetic and is
    * therefore an expensive operation.
    * \sa SetIndex */
-  [[nodiscard]] const IndexType
+  [[nodiscard]] IndexType
   GetIndex() const
   {
     return m_Image->ComputeIndex(m_Offset);
