@@ -7,12 +7,7 @@ if(ITK_USE_GPU)
     itkGPUDemonsRegistrationFilterTest2.cxx
   )
 
-  set(
-    ITKGPUPDEDeformableRegistrationTest_LIBRARIES
-    ITKCommon;ITKGPUCommon;ITKGPUFiniteDifference;ITKGPUPDEDeformableRegistration;ITKStatistics;ITKSpatialObjects;ITKPath;ITKOptimizers;ITKIOBMP;ITKIOBioRad;ITKIOGDCM;ITKIOGIPL;ITKIOJPEG;ITKIOLSM;ITKIOMeta;ITKIONIFTI;ITKIONRRD;ITKIOPNG;ITKIOStimulate;ITKIOTIFF;ITKIOVTK;itksys
-  )
-
-  createtestdriver(ITKGPUPDEDeformableRegistration "${ITKGPUPDEDeformableRegistrationTest_LIBRARIES}"
+  createtestdriver(ITKGPUPDEDeformableRegistration "${ITKGPUPDEDeformableRegistration-Test_LIBRARIES}"
                      "${ITKGPUPDEDeformableRegistration-tests}"
   )
 
