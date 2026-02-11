@@ -192,6 +192,34 @@ The handful of manually wrapped long double functions were
 removed from python wrapping.
 
 
+Legacy GoogleTest Target Names Removed
+--------------------------------------
+
+ITK 6 now uses the standard CMake `FindGTest` target names for GoogleTest libraries, aligning with upstream project and CMake.
+
+### Target Name Changes
+
+**Before (ITK 5):**
+```cmake
+target_link_libraries(MyTest
+  GTest::GTest      # legacy target
+  GTest::Main       # legacy target
+)
+```
+
+**After (ITK 6):**
+```cmake
+target_link_libraries(MyTest
+  GTest::gtest      # compatible target
+  GTest::gtest_main # compatible target
+)
+```
+
+### Rationale
+
+These names were deprecated in CMake 3.20 and removed in CMake 4.1.0. Additionally, the GoogleTest project itself uses the lowercase target names (`GTest::gtest` and `GTest::gtest_main`), meaning the old ITK-specific aliases were not compatible when using GoogleTest directly from its upstream repository. ITK 6 adopts the standard lowercase target names to ensure compatibility with modern CMake versions, the GoogleTest project, and consistency with other projects.
+
+
 Modern CMake Interface Libraries
 ---------------------------------
 
