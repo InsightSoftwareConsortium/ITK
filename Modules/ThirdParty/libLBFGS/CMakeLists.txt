@@ -1,7 +1,6 @@
 project(ITKLIBLBFGS)
 set(ITKLIBLBFGS_THIRD_PARTY 1)
 
-
 #option(ITK_USE_SYSTEM_LIBLBFGS "Use an outside build of LIBLBFGS." OFF)
 #mark_as_advanced(ITK_USE_SYSTEM_LIBLBFGS)
 
@@ -20,7 +19,9 @@ set(ITKLIBLBFGS_LIBRARIES itklbfgs)
 
 itk_module_impl()
 
-install(FILES ${ITKLIBLBFGS_SOURCE_DIR}/src/itk_lbfgs.h
+install(
+  FILES
+    ${ITKLIBLBFGS_SOURCE_DIR}/src/itk_lbfgs.h
   DESTINATION ${ITKLIBLBFGS_INSTALL_INCLUDE_DIR}
   COMPONENT Development
-  )
+)
