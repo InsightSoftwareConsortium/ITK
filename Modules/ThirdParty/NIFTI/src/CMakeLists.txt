@@ -24,7 +24,7 @@ set(NIFTI_INSTALL_ARCHIVE_DIR "${ITKNIFTI_INSTALL_ARCHIVE_DIR}") # "Set nifti in
 
 set(NIFTI_INSTALL_INCLUDE_DIR "${ITK_INSTALL_INCLUDE_DIR}")
 
-set(NIFTI_ZLIB_LIBRARIES ${ITKZLIB_LIBRARIES}) # "Set the zlib library associated with ITK"
+set(NIFTI_ZLIB_LIBRARIES ITK::ITKZLIBModule) # "Set the zlib library associated with ITK"
 # Modern CMake install COMPONENTS is being considered in upstream GIFTI
 # Setting METAIO_INSTALL_NO_DEVELOPMENT & METAIO_INSTALL_NO_LIBRARIES to
 # FALSE to make explicit that the development and libraries

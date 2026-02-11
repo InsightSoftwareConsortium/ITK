@@ -36,7 +36,7 @@ configure_file(${ITK3P_PNG_SOURCE_DIR}/itk_png_mangle.h.in
                @ONLY)
 
 add_library(itkpng ${PNG_SRCS})
-target_link_libraries(itkpng ${ITKZLIB_LIBRARIES})
+target_link_libraries(itkpng ITK::ITKZLIBModule)
 
 target_include_directories(itkpng
   INTERFACE "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${ITK3P_INSTALL_INCLUDE_DIR}/itkpng>;$<BUILD_INTERFACE:${ITK3P_PNG_BINARY_DIR}>"

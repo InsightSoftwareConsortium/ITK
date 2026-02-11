@@ -8,12 +8,32 @@ option(
 )
 mark_as_advanced(ITK_USE_SYSTEM_ZLIB)
 
+# needed for the generated itk_zlib.h file
+set(ITKZLIB_INCLUDE_DIRS ${ITKZLIB_BINARY_DIR}/src)
+
 if(ITK_USE_SYSTEM_ZLIB)
   find_package(ZLIB REQUIRED)
   set(ITKZLIB_INCLUDE_DIRS ${ITKZLIB_BINARY_DIR}/src)
   set(ITKZLIB_SYSTEM_INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS})
   set(ITKZLIB_LIBRARIES "${ZLIB_LIBRARIES}")
   set(ITKZLIB_NO_SRC 1)
+
+  set(
+    ITKZLIB_EXPORT_CODE_INSTALL
+    "
+  set(ZLIB_ROOT \"${ZLIB_ROOT}\")
+  find_package(ZLIB REQUIRED)
+  "
+  )
+  set(
+    ITKZLIB_EXPORT_CODE_BUILD
+    "
+  if(NOT ITK_BINARY_DIR)
+    set(ZLIB_ROOT \"${ZLIB_ROOT}\")
+    find_package(ZLIB REQUIRED)
+  endif()
+  "
+  )
 else()
   set(
     ITKZLIB_INCLUDE_DIRS
