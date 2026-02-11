@@ -317,10 +317,29 @@ target_link_libraries(
 
 if(ITK_USE_FFTWD AND NOT ITK_USE_CUFFTW)
   add_executable(DeformableRegistration9 DeformableRegistration9.cxx)
-  target_link_libraries(DeformableRegistration9 ${ITK_LIBRARIES})
+  target_link_libraries(
+    DeformableRegistration9
+    PRIVATE
+      ITK::ITKImageIO
+      ITK::ITKDisplacementFieldModule
+      ITK::ITKImageFilterBaseModule
+      ITK::ITKImageFunctionModule
+      ITK::ITKImageGridModule
+      ITK::ITKImageIntensityModule
+      ITK::ITKPDEDeformableRegistrationModule
+  )
 
   add_executable(DeformableRegistration10 DeformableRegistration10.cxx)
-  target_link_libraries(DeformableRegistration10 ${ITK_LIBRARIES})
+  target_link_libraries(
+    DeformableRegistration10
+    PRIVATE
+      ITK::ITKImageIO
+      ITK::ITKDisplacementFieldModule
+      ITK::ITKImageFilterBaseModule
+      ITK::ITKImageFunctionModule
+      ITK::ITKImageIntensityModule
+      ITK::ITKPDEDeformableRegistrationModule
+  )
 endif()
 
 add_executable(MultiResImageRegistration1 MultiResImageRegistration1.cxx)
@@ -399,10 +418,22 @@ target_link_libraries(
 
 if(ITKFEMRegistration_ENABLED)
   add_executable(DeformableRegistration1 DeformableRegistration1.cxx)
-  target_link_libraries(DeformableRegistration1 ${ITK_LIBRARIES})
+  target_link_libraries(
+    DeformableRegistration1
+    PRIVATE
+      ITK::ITKImageIO
+      ITK::ITKFEMRegistrationModule
+      ITK::ITKImageIntensityModule
+  )
 
   add_executable(DeformableRegistration11 DeformableRegistration11.cxx)
-  target_link_libraries(DeformableRegistration11 ${ITK_LIBRARIES})
+  target_link_libraries(
+    DeformableRegistration11
+    PRIVATE
+      ITK::ITKImageIO
+      ITK::ITKFEMRegistrationModule
+      ITK::ITKImageIntensityModule
+  )
 endif()
 
 add_executable(DeformableRegistration2 DeformableRegistration2.cxx)
