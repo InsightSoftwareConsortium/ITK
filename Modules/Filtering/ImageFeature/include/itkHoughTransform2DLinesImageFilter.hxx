@@ -282,8 +282,8 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::GetLines() 
           // Create the line.
           LineType::LinePointListType list; // Insert two points per line.
 
-          const double radius = it_input.GetIndex()[0];
-          const double teta = ((it_input.GetIndex()[1]) * 2 * Math::pi / this->GetAngleResolution()) - Math::pi;
+          const double radius = it_input.ComputeIndex()[0];
+          const double teta = ((it_input.ComputeIndex()[1]) * 2 * Math::pi / this->GetAngleResolution()) - Math::pi;
           const double Vx = radius * std::cos(teta);
           const double Vy = radius * std::sin(teta);
           const double norm = std::sqrt(Vx * Vx + Vy * Vy);
@@ -326,8 +326,8 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::GetLines() 
           {
             for (double length = 0; length < m_DiscRadius; length += 1)
             {
-              index[0] = static_cast<IndexValueType>(it_input.GetIndex()[0] + length * std::cos(angle));
-              index[1] = static_cast<IndexValueType>(it_input.GetIndex()[1] + length * std::sin(angle));
+              index[0] = static_cast<IndexValueType>(it_input.ComputeIndex()[0] + length * std::cos(angle));
+              index[1] = static_cast<IndexValueType>(it_input.ComputeIndex()[1] + length * std::sin(angle));
               if (postProcessImage->GetBufferedRegion().IsInside(index))
               {
                 postProcessImage->SetPixel(index, 0);

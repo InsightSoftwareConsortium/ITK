@@ -85,7 +85,7 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
       OutputImagePixelType LabelForRegion = CurrentLabel;
       bool                 FoundMinimum = false;
 
-      auto      CurrentPositionIndex = outIt.GetIndex();
+      auto      CurrentPositionIndex = outIt.ComputeIndex();
       IndexType MinimumNeighborIndex = CurrentPositionIndex;
 
       // This is the first pixel we've visited

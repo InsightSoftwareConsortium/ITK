@@ -168,7 +168,7 @@ AccumulateImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
   while (!outputIter.IsAtEnd())
   {
-    typename TOutputImage::IndexType OutputIndex = outputIter.GetIndex();
+    typename TOutputImage::IndexType OutputIndex = outputIter.ComputeIndex();
     for (unsigned int i = 0; i < InputImageDimension; ++i)
     {
       if (i != m_AccumulateDimension)

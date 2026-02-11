@@ -155,7 +155,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   for (ImageScanlineIterator outputIterator(outputPtr, outputRegionForThread); !outputIterator.IsAtEnd();
        outputIterator.NextLine())
   {
-    const OutputIndexType outputIndex = outputIterator.GetIndex();
+    const OutputIndexType outputIndex = outputIterator.ComputeIndex();
 
     auto                 offset = offsets.begin();
     const InputIndexType startInputIndex = outputIndex * factorSize;

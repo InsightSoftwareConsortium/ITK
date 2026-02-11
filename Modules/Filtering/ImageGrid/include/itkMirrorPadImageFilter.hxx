@@ -756,7 +756,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
         InputIterator       inIt(inputPtr, inputRegion);
         for (OutputIterator outIt(outputPtr, outputRegion); !outIt.IsAtEnd(); ++outIt, i++, ++inIt)
         {
-          OutputImageIndexType currentOutputIndex = outIt.GetIndex();
+          OutputImageIndexType currentOutputIndex = outIt.ComputeIndex();
 
           this->ConvertOutputIndexToInputIndex(
             currentOutputIndex, currentInputIndex, outputRegion, inputRegion, oddRegionArray, decayFactor);

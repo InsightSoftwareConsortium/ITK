@@ -98,7 +98,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
     while (!OutputIt.IsAtEnd())
     {
       // get the output image index
-      const OutputImageIndexType index = OutputIt.GetIndex();
+      const OutputImageIndexType index = OutputIt.ComputeIndex();
       OutputImagePointType       originalPoint;
       outputPtr->TransformIndexToPhysicalPoint(index, originalPoint);
 

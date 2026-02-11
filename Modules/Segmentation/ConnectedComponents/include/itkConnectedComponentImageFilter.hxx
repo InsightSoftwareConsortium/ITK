@@ -180,7 +180,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::DynamicThr
       if (PVal != NumericTraits<InputPixelType>::ZeroValue(PVal))
       {
         // We've hit the start of a run
-        const IndexType thisIndex = inLineIt.GetIndex();
+        const IndexType thisIndex = inLineIt.ComputeIndex();
         // std::cout << thisIndex << std::endl;
         SizeValueType length = 1;
         ++inLineIt;

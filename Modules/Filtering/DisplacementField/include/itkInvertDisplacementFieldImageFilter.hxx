@@ -194,7 +194,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
       }
       update = ItI.Get() + update * this->m_Epsilon;
       ItI.Set(update);
-      typename DisplacementFieldType::IndexType index = ItI.GetIndex();
+      typename DisplacementFieldType::IndexType index = ItI.ComputeIndex();
       if (this->m_EnforceBoundaryCondition)
       {
         for (unsigned int d = 0; d < ImageDimension; ++d)

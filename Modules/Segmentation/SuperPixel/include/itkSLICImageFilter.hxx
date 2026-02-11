@@ -146,7 +146,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::BeforeThreadedGenera
 
       NumericTraits<InputPixelType>::AssignToArray(it.Get(), cluster);
 
-      const IndexType &                  idx = it.GetIndex();
+      const IndexType &                  idx = it.ComputeIndex();
       typename InputImageType::PointType pt;
       shrunkImage->TransformIndexToPhysicalPoint(idx, pt);
       const ContinuousIndexType cidx =
@@ -228,7 +228,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedUpdateDistan
     {
       for (size_t x = 0; x < ln; ++x)
       {
-        const IndexType & currentIdx = inputIter.GetIndex();
+        const IndexType & currentIdx = inputIter.ComputeIndex();
 
         pt = ContinuousIndexType(currentIdx);
         const double distance = this->Distance(cluster, inputIter.Get(), pt);
@@ -272,7 +272,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedUpdateCluste
     const size_t ln = updateRegionForThread.GetSize(0);
     for (unsigned int x = 0; x < ln; ++x)
     {
-      const IndexType &                         idx = itOut.GetIndex();
+      const IndexType &                         idx = itOut.ComputeIndex();
       const InputPixelType &                    v = itIn.Get();
       const typename OutputImageType::PixelType l = itOut.Get();
 
@@ -534,7 +534,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::SingleThreadedConnec
       if (markerIter.Get() == 0)
       {
         // try relabeling the connected component to the next label id
-        this->RelabelConnectedRegion(markerIter.GetIndex(), outputIter.Get(), nextLabel, indexStack);
+        this->RelabelConnectedRegion(markerIter.ComputeIndex(), outputIter.Get(), nextLabel, indexStack);
 
         if (indexStack.size() >= minSuperSize)
         {

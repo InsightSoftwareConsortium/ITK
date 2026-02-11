@@ -192,7 +192,7 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::Nonlinea
     while (!outIt.IsAtEndOfLine())
     {
       // Determine the index of the current output pixel
-      output->TransformIndexToPhysicalPoint(outIt.GetIndex(), outputPoint);
+      output->TransformIndexToPhysicalPoint(outIt.ComputeIndex(), outputPoint);
 
       // Compute corresponding input pixel position
       transformedPoint = transform->TransformPoint(outputPoint);
@@ -235,7 +235,7 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::LinearTh
     // The region may be split along the fast scan-line direction, so
     // the computation is done for the beginning and end of the largest
     // possible region to improve consistent numerics.
-    IndexType index = outIt.GetIndex();
+    IndexType index = outIt.ComputeIndex();
     index[0] = largestPossibleRegion.GetIndex(0);
 
     outputPtr->TransformIndexToPhysicalPoint(index, outputPoint);
@@ -247,7 +247,7 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::LinearTh
     inputPoint = transformPtr->TransformPoint(outputPoint);
     const typename PointType::VectorType endDisplacement = inputPoint - outputPoint;
 
-    IndexValueType scanlineIndex = outIt.GetIndex()[0];
+    IndexValueType scanlineIndex = outIt.ComputeIndex()[0];
 
     while (!outIt.IsAtEndOfLine())
     {

@@ -131,7 +131,7 @@ ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunctio
       if (compareOut(V, m_MarkerValue))
       {
         // reposition the input iterator
-        inNIt += outIt.GetIndex() - inNIt.GetIndex();
+        inNIt += outIt.ComputeIndex() - inNIt.GetIndex();
 
         auto Cent = static_cast<InputImagePixelType>(V);
 
@@ -156,7 +156,7 @@ ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunctio
             // indexes of all neighbors with value V on the stack. The
             // process terminates when the stack is empty.
 
-            outNIt += outIt.GetIndex() - outNIt.GetIndex();
+            outNIt += outIt.ComputeIndex() - outNIt.GetIndex();
 
             OutputImagePixelType NVal;
             OutIndexType         idx;

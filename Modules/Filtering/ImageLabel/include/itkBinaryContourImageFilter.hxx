@@ -130,7 +130,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData
 
   for (inLineIt.GoToBegin(); !inLineIt.IsAtEnd(); inLineIt.NextLine(), outLineIt.NextLine())
   {
-    SizeValueType    lineId = this->IndexToLinearIndex(inLineIt.GetIndex());
+    SizeValueType    lineId = this->IndexToLinearIndex(inLineIt.ComputeIndex());
     LineEncodingType fgLine;
     LineEncodingType bgLine;
 
@@ -142,7 +142,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData
       {
         // We've hit the start of a run
         SizeValueType   length = 0;
-        const IndexType thisIndex = inLineIt.GetIndex();
+        const IndexType thisIndex = inLineIt.ComputeIndex();
 
         outLineIt.Set(m_BackgroundValue);
 
@@ -164,7 +164,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData
       {
         // We've hit the start of a run
         SizeValueType   length = 0;
-        const IndexType thisIndex = inLineIt.GetIndex();
+        const IndexType thisIndex = inLineIt.ComputeIndex();
 
         outLineIt.Set(PVal);
         ++length;
@@ -198,7 +198,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::ThreadedIntegrateData(const
 
   for (ImageScanlineIterator outLineIt(output, outputRegionForThread); !outLineIt.IsAtEnd(); outLineIt.NextLine())
   {
-    const SizeValueType thisIdx = this->IndexToLinearIndex(outLineIt.GetIndex());
+    const SizeValueType thisIdx = this->IndexToLinearIndex(outLineIt.ComputeIndex());
     if (!m_ForegroundLineMap[thisIdx].empty())
     {
       for (auto I = this->m_LineOffsets.begin(); I != this->m_LineOffsets.end(); ++I)
