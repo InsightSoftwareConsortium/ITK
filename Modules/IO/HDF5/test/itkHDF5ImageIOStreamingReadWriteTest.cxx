@@ -91,145 +91,149 @@ template <typename TPixel>
 int
 HDF5ReadWriteTest2(const char * fileName)
 {
-  // Define image type.
-  using ImageType = typename itk::Image<TPixel, 3>;
+  { // START an isolation block for the streaming readers and writers.
+    // For streaming to work, the itk::ImageFileReader / itk::ImageFileWriter
+    // pipeline and the itk::StreamingImageFilter will maintain handles to open HDF5 files
+    // until their destructors run.
 
-  // Create a source object (in this case a constant image).
-  typename ImageType::SizeType size;
-  size[2] = 5;
-  size[1] = 5;
-  size[0] = 5;
-  const typename itk::DemoImageSource<ImageType>::Pointer imageSource = itk::DemoImageSource<ImageType>::New();
-  imageSource->SetValue(static_cast<TPixel>(23)); // Not used.
-  imageSource->SetSize(size);
+    using ImageType = typename itk::Image<TPixel, 3>;
 
-  // Write image with streaming.
-  using WriterType = typename itk::ImageFileWriter<ImageType>;
-  auto writer = WriterType::New();
-  using MonitorFilterType = typename itk::PipelineMonitorImageFilter<ImageType>;
-  auto writerMonitor = MonitorFilterType::New();
-  writerMonitor->SetInput(imageSource->GetOutput());
-  writer->SetFileName(fileName);
-  writer->SetInput(writerMonitor->GetOutput());
-  writer->SetNumberOfStreamDivisions(5);
-  try
-  {
-    writer->Write();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "itkHDF5ImageIOTest" << std::endl << "Exception Object caught: " << std::endl << err << std::endl;
-    return EXIT_FAILURE;
-  }
+    // Create a source object (in this case a constant image).
+    typename ImageType::SizeType size;
+    size[2] = 5;
+    size[1] = 5;
+    size[0] = 5;
+    const typename itk::DemoImageSource<ImageType>::Pointer imageSource = itk::DemoImageSource<ImageType>::New();
+    imageSource->SetValue(static_cast<TPixel>(23)); // Not used.
+    imageSource->SetSize(size);
 
-  // Check streaming regions.
-  if (!writerMonitor->VerifyInputFilterExecutedStreaming(5))
-  {
-    return EXIT_FAILURE;
-  }
-  typename ImageType::RegionType expectedRegion;
-  expectedRegion.SetIndex(0, 0);
-  expectedRegion.SetIndex(1, 0);
-  expectedRegion.SetSize(0, 5);
-  expectedRegion.SetSize(1, 5);
-  expectedRegion.SetSize(2, 1);
-  typename MonitorFilterType::RegionVectorType writerRegionVector = writerMonitor->GetUpdatedBufferedRegions();
-  for (typename ImageType::RegionType::IndexValueType iRegion = 0; iRegion < 5; ++iRegion)
-  {
-    expectedRegion.SetIndex(2, iRegion);
-    if (writerRegionVector[iRegion] != expectedRegion)
+    // Write image with streaming.
+    using WriterType = typename itk::ImageFileWriter<ImageType>;
+    auto writer = WriterType::New();
+    using MonitorFilterType = typename itk::PipelineMonitorImageFilter<ImageType>;
+    auto writerMonitor = MonitorFilterType::New();
+    writerMonitor->SetInput(imageSource->GetOutput());
+    writer->SetFileName(fileName);
+    writer->SetInput(writerMonitor->GetOutput());
+    writer->SetNumberOfStreamDivisions(5);
+    try
     {
-      std::cout << "Written image region number " << iRegion << " :" << writerRegionVector[iRegion]
+      writer->Write();
+    }
+    catch (const itk::ExceptionObject & err)
+    {
+      std::cout << "itkHDF5ImageIOTest" << std::endl << "Exception Object caught: " << std::endl << err << std::endl;
+      return EXIT_FAILURE;
+    }
+
+    // Check streaming regions.
+    if (!writerMonitor->VerifyInputFilterExecutedStreaming(5))
+    {
+      return EXIT_FAILURE;
+    }
+    typename ImageType::RegionType expectedRegion;
+    expectedRegion.SetIndex(0, 0);
+    expectedRegion.SetIndex(1, 0);
+    expectedRegion.SetSize(0, 5);
+    expectedRegion.SetSize(1, 5);
+    expectedRegion.SetSize(2, 1);
+    typename MonitorFilterType::RegionVectorType writerRegionVector = writerMonitor->GetUpdatedBufferedRegions();
+    for (typename ImageType::RegionType::IndexValueType iRegion = 0; iRegion < 5; ++iRegion)
+    {
+      expectedRegion.SetIndex(2, iRegion);
+      if (writerRegionVector[iRegion] != expectedRegion)
+      {
+        std::cout << "Written image region number " << iRegion << " :" << writerRegionVector[iRegion]
+                  << " doesn't match expected one: " << expectedRegion << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+
+    // Force writer close.
+    writer = typename WriterType::Pointer();
+
+    // Read image with streaming.
+    using ReaderType = typename itk::ImageFileReader<ImageType>;
+    auto reader = ReaderType::New();
+    reader->SetFileName(fileName);
+    reader->SetUseStreaming(true);
+    auto readerMonitor = MonitorFilterType::New();
+    readerMonitor->SetInput(reader->GetOutput());
+    using StreamingFilter = typename itk::StreamingImageFilter<ImageType, ImageType>;
+    auto streamer = StreamingFilter::New();
+    streamer->SetInput(readerMonitor->GetOutput());
+    streamer->SetNumberOfStreamDivisions(5);
+    typename ImageType::Pointer image;
+    try
+    {
+      streamer->Update();
+    }
+    catch (const itk::ExceptionObject & err)
+    {
+      std::cout << "itkHDF5ImageIOTest" << std::endl << "Exception Object caught: " << std::endl << err << std::endl;
+      return EXIT_FAILURE;
+    }
+    image = streamer->GetOutput();
+
+    // Check the largest possible and buffered regions.
+    expectedRegion.SetIndex(0, 0);
+    expectedRegion.SetIndex(1, 0);
+    expectedRegion.SetIndex(2, 0);
+    expectedRegion.SetSize(0, 5);
+    expectedRegion.SetSize(1, 5);
+    expectedRegion.SetSize(2, 5);
+    if (image->GetLargestPossibleRegion() != expectedRegion)
+    {
+      std::cout << "Read image largest possible region: " << image->GetLargestPossibleRegion()
                 << " doesn't match expected one: " << expectedRegion << std::endl;
-      return EXIT_FAILURE;
     }
-  }
-
-  // Force writer close.
-  writer = typename WriterType::Pointer();
-
-  // Read image with streaming.
-  using ReaderType = typename itk::ImageFileReader<ImageType>;
-  auto reader = ReaderType::New();
-  reader->SetFileName(fileName);
-  reader->SetUseStreaming(true);
-  auto readerMonitor = MonitorFilterType::New();
-  readerMonitor->SetInput(reader->GetOutput());
-  using StreamingFilter = typename itk::StreamingImageFilter<ImageType, ImageType>;
-  auto streamer = StreamingFilter::New();
-  streamer->SetInput(readerMonitor->GetOutput());
-  streamer->SetNumberOfStreamDivisions(5);
-  typename ImageType::Pointer image;
-  try
-  {
-    streamer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "itkHDF5ImageIOTest" << std::endl << "Exception Object caught: " << std::endl << err << std::endl;
-    return EXIT_FAILURE;
-  }
-  image = streamer->GetOutput();
-
-  // Check the largest possible and buffered regions.
-  expectedRegion.SetIndex(0, 0);
-  expectedRegion.SetIndex(1, 0);
-  expectedRegion.SetIndex(2, 0);
-  expectedRegion.SetSize(0, 5);
-  expectedRegion.SetSize(1, 5);
-  expectedRegion.SetSize(2, 5);
-  if (image->GetLargestPossibleRegion() != expectedRegion)
-  {
-    std::cout << "Read image largest possible region: " << image->GetLargestPossibleRegion()
-              << " doesn't match expected one: " << expectedRegion << std::endl;
-  }
-  if (image->GetBufferedRegion() != expectedRegion)
-  {
-    std::cout << "Read image buffered region: " << image->GetBufferedRegion()
-              << " doesn't match expected one: " << expectedRegion << std::endl;
-  }
-
-  // Check image pixel values.
-  itk::ImageRegionIterator<ImageType> it(image, image->GetLargestPossibleRegion());
-  typename ImageType::IndexType       idx;
-  for (it.GoToBegin(); !it.IsAtEnd(); ++it)
-  {
-    idx = it.GetIndex();
-    const TPixel origValue(idx[2] * 100 + idx[1] * 10 + idx[0]);
-    if (itk::Math::NotAlmostEquals(it.Get(), origValue))
+    if (image->GetBufferedRegion() != expectedRegion)
     {
-      std::cout << "Original Pixel (" << origValue << ") doesn't match read-in Pixel (" << it.Get() << ')' << std::endl;
-      return EXIT_FAILURE;
-    }
-  }
-
-  // Check number of streaming regions.
-  if (!readerMonitor->VerifyInputFilterExecutedStreaming(5))
-  {
-    return EXIT_FAILURE;
-  }
-
-  // Check streaming regions.
-  typename MonitorFilterType::RegionVectorType readerRegionVector = readerMonitor->GetUpdatedBufferedRegions();
-  expectedRegion.SetIndex(0, 0);
-  expectedRegion.SetIndex(1, 0);
-  expectedRegion.SetSize(0, 5);
-  expectedRegion.SetSize(1, 5);
-  expectedRegion.SetSize(2, 1);
-  for (typename ImageType::RegionType::IndexValueType iRegion = 0; iRegion < 5; ++iRegion)
-  {
-    expectedRegion.SetIndex(2, iRegion);
-    if (readerRegionVector[iRegion] != expectedRegion)
-    {
-      std::cout << "Read image region number " << iRegion << " :" << readerRegionVector[iRegion]
+      std::cout << "Read image buffered region: " << image->GetBufferedRegion()
                 << " doesn't match expected one: " << expectedRegion << std::endl;
+    }
+
+    // Check image pixel values.
+    itk::ImageRegionIterator<ImageType> it(image, image->GetLargestPossibleRegion());
+    typename ImageType::IndexType       idx;
+    for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+    {
+      idx = it.GetIndex();
+      const TPixel origValue(idx[2] * 100 + idx[1] * 10 + idx[0]);
+      if (itk::Math::NotAlmostEquals(it.Get(), origValue))
+      {
+        std::cout << "Original Pixel (" << origValue << ") doesn't match read-in Pixel (" << it.Get() << ')'
+                  << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+
+    // Check number of streaming regions.
+    if (!readerMonitor->VerifyInputFilterExecutedStreaming(5))
+    {
       return EXIT_FAILURE;
     }
-  }
 
+    // Check streaming regions.
+    typename MonitorFilterType::RegionVectorType readerRegionVector = readerMonitor->GetUpdatedBufferedRegions();
+    expectedRegion.SetIndex(0, 0);
+    expectedRegion.SetIndex(1, 0);
+    expectedRegion.SetSize(0, 5);
+    expectedRegion.SetSize(1, 5);
+    expectedRegion.SetSize(2, 1);
+    for (typename ImageType::RegionType::IndexValueType iRegion = 0; iRegion < 5; ++iRegion)
+    {
+      expectedRegion.SetIndex(2, iRegion);
+      if (readerRegionVector[iRegion] != expectedRegion)
+      {
+        std::cout << "Read image region number " << iRegion << " :" << readerRegionVector[iRegion]
+                  << " doesn't match expected one: " << expectedRegion << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+  } // END the streaming isolation block to force destructors and close files
   // Clean working directory.
-  itk::IOTestHelper::Remove(fileName);
-
+  itk::IOTestHelper::Remove(fileName); // Must ensure that the file is closed before removing the file.
   return EXIT_SUCCESS;
 }
 
