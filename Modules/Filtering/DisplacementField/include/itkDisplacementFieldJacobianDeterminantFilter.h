@@ -21,7 +21,8 @@
 #include "itkNeighborhoodIterator.h"
 #include "itkImageToImageFilter.h"
 #include "itkVector.h"
-#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_matrix_fixed.h"
+#include "vnl/vnl_vector_fixed.h"
 #include "vnl/vnl_det.h"
 
 namespace itk
@@ -264,6 +265,10 @@ protected:
   WeightsType m_HalfDerivativeWeights{};
 
 private:
+  /** Matrix type used to store the input direction matrix and the gradient matrix from
+      which the Jacobian determinant is computed. */
+  using InternalMatrixType = vnl_matrix_fixed<TRealType, ImageDimension, ImageDimension>;
+
   bool m_UseImageSpacing{ true };
 
   ThreadIdType m_RequestedNumberOfWorkUnits{};
@@ -271,6 +276,8 @@ private:
   typename ImageBaseType::ConstPointer m_RealValuedInputImage{};
 
   RadiusType m_NeighborhoodRadius{};
+
+  InternalMatrixType m_InputDirection{};
 };
 } // end namespace itk
 

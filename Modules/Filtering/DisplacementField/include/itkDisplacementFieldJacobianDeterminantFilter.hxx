@@ -138,6 +138,16 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
 {
   Superclass::BeforeThreadedGenerateData();
 
+  // Cache the direction matrix from the input
+  const auto & dir_d = this->GetInput()->GetDirection().GetVnlMatrix();
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+  {
+    for (unsigned int j = 0; j < ImageDimension; ++j)
+    {
+      m_InputDirection(i, j) = static_cast<TRealType>(dir_d(i, j));
+    }
+  }
+
   // Set the weights on the derivatives.
   // Are we using image spacing in the calculations?  If so we must update now
   // in case our input image has changed.
@@ -208,18 +218,40 @@ TRealType
 DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>::EvaluateAtNeighborhood(
   const ConstNeighborhoodIteratorType & it) const
 {
-  vnl_matrix_fixed<TRealType, ImageDimension, VectorDimension> J;
-  for (unsigned int i = 0; i < ImageDimension; ++i)
+  InternalMatrixType localGrad;
+  InternalMatrixType physicalGrad;
+
+  for (unsigned int col = 0; col < ImageDimension; ++col)
   {
-    for (unsigned int j = 0; j < VectorDimension; ++j)
+    // Take finite difference along index axis col
+    for (unsigned int row = 0; row < ImageDimension; ++row)
     {
-      J[i][j] = m_HalfDerivativeWeights[i] * (it.GetNext(i)[j] - it.GetPrevious(i)[j]);
+      TRealType localComponentGrad = m_HalfDerivativeWeights[col] * (it.GetNext(col)[row] - it.GetPrevious(col)[row]);
+
+      localGrad[row][col] = localComponentGrad;
     }
-    // add one on the diagonal to consider the warping and not only the
-    // deformation field
-    J[i][i] += 1.0;
   }
-  return vnl_det(J);
+
+  for (unsigned int row = 0; row < ImageDimension; ++row)
+  {
+    vnl_vector_fixed<TRealType, ImageDimension> localComponentGrad_d;
+    for (unsigned int col = 0; col < ImageDimension; ++col)
+    {
+      localComponentGrad_d[col] = localGrad[row][col];
+    }
+
+    vnl_vector_fixed<TRealType, ImageDimension> physicalComponentGrad = m_InputDirection * localComponentGrad_d;
+
+    for (unsigned int col = 0; col < ImageDimension; ++col)
+    {
+      physicalGrad[row][col] = physicalComponentGrad[col];
+    }
+
+    physicalGrad[row][row] += itk::NumericTraits<TRealType>::OneValue();
+  }
+
+  // Return determinant of physical Jacobian:
+  return vnl_determinant(physicalGrad);
 }
 
 template <typename TInputImage, typename TRealType, typename TOutputImage>
