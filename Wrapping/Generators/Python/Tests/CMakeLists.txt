@@ -261,3 +261,10 @@ itk_python_add_test(
     58
     5
 )
+
+# Test GIL release during ITK operations
+itk_python_add_test(
+  NAME PythonGILReleaseTest
+  COMMAND
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_gil_release.py
+)

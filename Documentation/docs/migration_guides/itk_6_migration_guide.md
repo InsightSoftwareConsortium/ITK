@@ -219,6 +219,53 @@ target_link_libraries(MyTest
 
 These names were deprecated in CMake 3.20 and removed in CMake 4.1.0. Additionally, the GoogleTest project itself uses the lowercase target names (`GTest::gtest` and `GTest::gtest_main`), meaning the old ITK-specific aliases were not compatible when using GoogleTest directly from its upstream repository. ITK 6 adopts the standard lowercase target names to ensure compatibility with modern CMake versions, the GoogleTest project, and consistency with other projects.
 
+Python Global Interpreter Lock (GIL) Release
+---------------------------------------------
+
+ITK now releases the Python Global Interpreter Lock (GIL) during C++ operations by default,
+allowing for true multi-threaded execution of ITK operations from Python. This enables
+parallel filter invocation when using ITK in parallel computing frameworks like Dask, Ray, or
+Python's standard `threading` module.
+
+### Key Changes
+
+**New CMake Option:**
+- `ITK_PYTHON_RELEASE_GIL` (default: `ON`) - Controls whether the GIL is released during ITK operations
+- When enabled, the `-threads` flag is passed to SWIG to generate thread-safe wrappers
+
+**Benefits:**
+- Multiple Python threads can execute ITK operations concurrently
+- Improves performance in parallel computing scenarios
+- Prevents thread blocking when using frameworks like Dask
+
+**Example:**
+
+```python
+import itk
+import threading
+
+image_paths = ["image1.mha", "image2.mha"]
+
+def process_image(image_path):
+    # GIL is released during ITK operations
+    image = itk.imread(image_path)
+    smoothed = itk.median_image_filter(image, radius=5)
+    return smoothed
+
+# Multiple threads can now execute ITK operations concurrently
+threads = [
+    threading.Thread(target=process_image, args=(path,))
+    for path in image_paths
+]
+for thread in threads:
+    thread.start()
+for thread in threads:
+    thread.join()
+```
+
+**Note:** ITK callbacks and event monitoring may be affected by GIL release. If you encounter
+issues with callbacks, you can disable GIL release by setting `-DITK_PYTHON_RELEASE_GIL=OFF`
+when building ITK.
 
 Modern CMake Interface Libraries
 ---------------------------------
