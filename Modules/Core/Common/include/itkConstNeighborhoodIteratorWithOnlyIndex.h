@@ -57,7 +57,7 @@ namespace itk
  *
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ConstNeighborhoodIteratorWithOnlyIndex : public Neighborhood<char, TImage::ImageDimension>
+class ITK_TEMPLATE_EXPORT ConstNeighborhoodIteratorWithOnlyIndex : public Neighborhood<int8_t, TImage::ImageDimension>
 {
 public:
   ITK_DEFAULT_COPY_AND_MOVE(ConstNeighborhoodIteratorWithOnlyIndex);
@@ -68,7 +68,7 @@ public:
   /** Save the image dimension. */
   static constexpr DimensionValueType Dimension = TImage::ImageDimension;
 
-  using DummyNeighborhoodPixelType = char;
+  using DummyNeighborhoodPixelType = int8_t;
 
   /** Standard class type aliases. */
   using Self = ConstNeighborhoodIteratorWithOnlyIndex;

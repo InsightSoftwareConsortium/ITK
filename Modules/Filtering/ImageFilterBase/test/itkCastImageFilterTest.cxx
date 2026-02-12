@@ -253,7 +253,7 @@ bool
 TestCastFrom()
 {
   bool success = true;
-  success &= TestCastFromTo<TInputPixelType, char>();
+  success &= TestCastFromTo<TInputPixelType, int8_t>();
   success &= TestCastFromTo<TInputPixelType, signed char>();
   success &= TestCastFromTo<TInputPixelType, unsigned char>();
   success &= TestCastFromTo<TInputPixelType, short>();
@@ -460,7 +460,7 @@ itkCastImageFilterTest(int, char *[])
   }
 
   bool success = true;
-  success &= TestCastFrom<char>();
+  success &= TestCastFrom<int8_t>();
   success &= TestCastFrom<signed char>();
   success &= TestCastFrom<unsigned char>();
   success &= TestCastFrom<short>();

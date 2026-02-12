@@ -120,7 +120,7 @@ itkFastMarchingImageFilterRealWithNumberOfElementsTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(marcher->Update());
 
 
-  using OutputPixelType = char;
+  using OutputPixelType = int8_t;
 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
