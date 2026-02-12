@@ -174,7 +174,7 @@ int
 itkImageRegistrationMethodTest_16(int itkNotUsed(argc), char *[] itkNotUsed(argv))
 {
   const bool result_uc = DoRegistration<unsigned char>();
-  const bool result_c = DoRegistration<char>();
+  const bool result_c = DoRegistration<int8_t>();
   const bool result_us = DoRegistration<unsigned short>();
   const bool result_s = DoRegistration<short>();
   const bool result_ui = DoRegistration<unsigned int>();

@@ -789,7 +789,7 @@ itkMINCImageIOTest(int argc, char * argv[])
   int result(0);
   // straightforward test
   result += MINCReadWriteTest<unsigned char, 3>("3DUCharImage.mnc", typeid(unsigned char).name());
-  result += MINCReadWriteTest<char, 3>("3DCharImage.mnc", typeid(unsigned char).name());
+  result += MINCReadWriteTest<int8_t, 3>("3DCharImage.mnc", typeid(unsigned char).name());
   result += MINCReadWriteTest<unsigned short, 3>("3DUShortImage.mnc", typeid(short).name());
   result += MINCReadWriteTest<short, 3>("3DShortImage.mnc", typeid(unsigned short).name());
   result += MINCReadWriteTest<unsigned int, 3>("3DUIntImage.mnc", typeid(int).name());

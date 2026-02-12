@@ -130,7 +130,7 @@ public:
 
       writer->SetInput(image);
 
-      const std::string outputFileName = VTKImageIOTester<char, 3>::SetupFileName(filePrefix, "vtk", outputPath);
+      const std::string outputFileName = VTKImageIOTester<int8_t, 3>::SetupFileName(filePrefix, "vtk", outputPath);
 
       writer->SetFileName(outputFileName);
       writer->Update();
@@ -371,7 +371,7 @@ itkVTKImageIO2Test(int argc, char * argv[])
   int status = 0;
 
   status += Test1Type<unsigned char>(filePrefix, outputPath, "unsigned char");
-  status += Test1Type<char>(filePrefix, outputPath, "char");
+  status += Test1Type<int8_t>(filePrefix, outputPath, "char");
   status += Test1Type<unsigned short>(filePrefix, outputPath, "unsigned short");
   status += Test1Type<short>(filePrefix, outputPath, "short");
   status += Test1Type<unsigned int>(filePrefix, outputPath, "unsigned int");
@@ -399,7 +399,7 @@ itkVTKImageIO2Test(int argc, char * argv[])
   //
 
   // read bad file extension
-  if (VTKImageIOTester<char, 3>::CanReadFileTest(filePrefix, "bad", outputPath))
+  if (VTKImageIOTester<int8_t, 3>::CanReadFileTest(filePrefix, "bad", outputPath))
   {
     std::cout << "[FAILED] didn't properly reject bad file extension for reading" << std::endl;
     status++;
@@ -407,7 +407,7 @@ itkVTKImageIO2Test(int argc, char * argv[])
   std::cout << "[PASSED] rejected bad file extension for reading" << std::endl;
 
   // read bad file name
-  if (VTKImageIOTester<char, 3>::CanReadFileTest("BadFile", "vtk", outputPath))
+  if (VTKImageIOTester<int8_t, 3>::CanReadFileTest("BadFile", "vtk", outputPath))
   {
     std::cout << "[FAILED] didn't properly reject bad file name for reading" << std::endl;
     status++;
@@ -415,7 +415,7 @@ itkVTKImageIO2Test(int argc, char * argv[])
   std::cout << "[PASSED] rejected bad file name for reading" << std::endl;
 
   // write bad file extension
-  if (VTKImageIOTester<char, 3>::CanWriteFileTest(filePrefix, "bad", outputPath))
+  if (VTKImageIOTester<int8_t, 3>::CanWriteFileTest(filePrefix, "bad", outputPath))
   {
     std::cout << "[FAILED] didn't properly reject bad file extension for writing" << std::endl;
     status++;
@@ -423,7 +423,7 @@ itkVTKImageIO2Test(int argc, char * argv[])
   std::cout << "[PASSED] rejected bad file extension for writing" << std::endl;
 
   // write bad file extension when the string ".vtk" is part of the prefix
-  if (VTKImageIOTester<char, 3>::CanWriteFileTest(filePrefix + ".vtk", "bad", outputPath))
+  if (VTKImageIOTester<int8_t, 3>::CanWriteFileTest(filePrefix + ".vtk", "bad", outputPath))
   {
     std::cout << "[FAILED] didn't properly reject bad file extension for writing" << std::endl;
     status++;

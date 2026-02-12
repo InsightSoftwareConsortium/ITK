@@ -47,7 +47,7 @@ using UnsignedCharRGBImageType = itk::Image<itk::RGBPixel<unsigned char>, 2>;
 using FloatRGBImageType = itk::Image<itk::RGBPixel<float>, 2>;
 
 using UnsignedCharImageType = itk::Image<unsigned char, 2>;
-using CharImageType = itk::Image<char, 2>;
+using CharImageType = itk::Image<int8_t, 2>;
 using UnsignedShortImageType = itk::Image<unsigned short, 2>;
 using ShortImageType = itk::Image<short, 2>;
 using UnsignedIntImageType = itk::Image<unsigned int, 2>;

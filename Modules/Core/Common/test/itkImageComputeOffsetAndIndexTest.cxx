@@ -112,7 +112,7 @@ itkImageComputeOffsetAndIndexTest(int, char *[])
 
 #define TRY_FAST_INDEX(dim)                                             \
   {                                                                     \
-    using PixelType = char;                                             \
+    using PixelType = int8_t;                                           \
     using ImageType = itk::Image<PixelType, dim>;                       \
     auto                        myImage = ImageType::New();             \
     const auto                  size = ImageType::SizeType::Filled(50); \
@@ -137,7 +137,7 @@ itkImageComputeOffsetAndIndexTest(int, char *[])
 
 #define TRY_INDEX(dim)                                                  \
   {                                                                     \
-    using PixelType = char;                                             \
+    using PixelType = int8_t;                                           \
     using ImageType = itk::Image<PixelType, dim>;                       \
     auto                        myImage = ImageType::New();             \
     const auto                  size = ImageType::SizeType::Filled(50); \
@@ -162,7 +162,7 @@ itkImageComputeOffsetAndIndexTest(int, char *[])
 
 #define TRY_FAST_OFFSET(dim)                                            \
   {                                                                     \
-    using PixelType = char;                                             \
+    using PixelType = int8_t;                                           \
     using ImageType = itk::Image<PixelType, dim>;                       \
     auto                        myImage = ImageType::New();             \
     const auto                  size = ImageType::SizeType::Filled(50); \
@@ -182,7 +182,7 @@ itkImageComputeOffsetAndIndexTest(int, char *[])
   ITK_MACROEND_NOOP_STATEMENT
 #define TRY_OFFSET(dim)                                                 \
   {                                                                     \
-    using PixelType = char;                                             \
+    using PixelType = int8_t;                                           \
     using ImageType = itk::Image<PixelType, dim>;                       \
     auto                        myImage = ImageType::New();             \
     const auto                  size = ImageType::SizeType::Filled(50); \

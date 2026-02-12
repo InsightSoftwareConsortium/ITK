@@ -434,7 +434,7 @@ itkHistogramMatchingImageFilterTest(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  if (itkHistogramMatchingImageFilterTest<char>() != EXIT_SUCCESS)
+  if (itkHistogramMatchingImageFilterTest<int8_t>() != EXIT_SUCCESS)
   {
     return EXIT_FAILURE;
   }

@@ -150,7 +150,7 @@ bool
 TestClampFrom()
 {
   const bool success =
-    TestClampFromTo<TInputPixelType, char>() && TestClampFromTo<TInputPixelType, unsigned char>() &&
+    TestClampFromTo<TInputPixelType, int8_t>() && TestClampFromTo<TInputPixelType, unsigned char>() &&
     TestClampFromTo<TInputPixelType, short>() && TestClampFromTo<TInputPixelType, unsigned short>() &&
     TestClampFromTo<TInputPixelType, int>() && TestClampFromTo<TInputPixelType, unsigned int>() &&
     TestClampFromTo<TInputPixelType, long>() && TestClampFromTo<TInputPixelType, unsigned long>() &&
@@ -263,7 +263,7 @@ template <typename TInputPixelType>
 bool
 TestClampFromWithCustomBounds()
 {
-  const bool success = TestClampFromToWithCustomBounds<TInputPixelType, char>() &&
+  const bool success = TestClampFromToWithCustomBounds<TInputPixelType, int8_t>() &&
                        TestClampFromToWithCustomBounds<TInputPixelType, unsigned char>() &&
                        TestClampFromToWithCustomBounds<TInputPixelType, short>() &&
                        TestClampFromToWithCustomBounds<TInputPixelType, unsigned short>() &&
@@ -290,12 +290,12 @@ itkClampImageFilterTest(int, char *[])
   auto filter = FilterType::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ClampImageFilter, UnaryFunctorImageFilter);
 
-  const bool success = TestClampFrom<char>() && TestClampFrom<unsigned char>() && TestClampFrom<short>() &&
+  const bool success = TestClampFrom<int8_t>() && TestClampFrom<unsigned char>() && TestClampFrom<short>() &&
                        TestClampFrom<unsigned short>() && TestClampFrom<int>() && TestClampFrom<unsigned int>() &&
                        TestClampFrom<long>() && TestClampFrom<unsigned long>() && TestClampFrom<long long>() &&
                        TestClampFrom<unsigned long long>() && TestClampFrom<float>() && TestClampFrom<double>() &&
 
-                       TestClampFromWithCustomBounds<char>() && TestClampFromWithCustomBounds<unsigned char>() &&
+                       TestClampFromWithCustomBounds<int8_t>() && TestClampFromWithCustomBounds<unsigned char>() &&
                        TestClampFromWithCustomBounds<short>() && TestClampFromWithCustomBounds<unsigned short>() &&
                        TestClampFromWithCustomBounds<int>() && TestClampFromWithCustomBounds<unsigned int>() &&
                        TestClampFromWithCustomBounds<long>() && TestClampFromWithCustomBounds<unsigned long>() &&

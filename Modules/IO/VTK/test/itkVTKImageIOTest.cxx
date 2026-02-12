@@ -141,7 +141,7 @@ itkVTKImageIOTest(int argc, char * argv[])
   status += Test1Type<float>(file1, file2);
   status += Test1Type<double>(file1, file2);
   status += Test1Type<unsigned char>(file1, file2);
-  status += Test1Type<char>(file1, file2);
+  status += Test1Type<int8_t>(file1, file2);
   status += Test1Type<unsigned short>(file1, file2);
   status += Test1Type<short>(file1, file2);
   status += Test1Type<unsigned int>(file1, file2);
