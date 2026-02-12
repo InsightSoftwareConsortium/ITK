@@ -5,7 +5,8 @@ set(ITK3P_INSTALL_LIBRARY_DIR "${ITKExpat_INSTALL_LIBRARY_DIR}")
 set(ITK3P_INSTALL_ARCHIVE_DIR "${ITKExpat_INSTALL_ARCHIVE_DIR}")
 add_subdirectory(itkexpat)
 itk_module_target(ITKEXPAT NO_INSTALL)
-mark_as_advanced(FORCE
+mark_as_advanced(
+  FORCE
   EXPAT_BUILD_DOCS
   EXPAT_BUILD_EXAMPLES
   EXPAT_BUILD_FUZZERS
@@ -22,4 +23,4 @@ mark_as_advanced(FORCE
   EXPAT_WITH_SYS_GETRANDOM
   EXPAT_GE
   XML_GE
-  )
+)

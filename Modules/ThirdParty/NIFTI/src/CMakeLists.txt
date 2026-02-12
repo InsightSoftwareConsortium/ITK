@@ -4,12 +4,36 @@ set(ITK3P_INSTALL_RUNTIME_DIR "${ITKNIFTI_INSTALL_RUNTIME_DIR}")
 set(ITK3P_INSTALL_LIBRARY_DIR "${ITKNIFTI_INSTALL_LIBRARY_DIR}")
 set(ITK3P_INSTALL_ARCHIVE_DIR "${ITKNIFTI_INSTALL_ARCHIVE_DIR}")
 
-set(USE_NIFTI2_CODE OFF CACHE BOOL "Do not build NIFTI2 provided by NIFTI" FORCE)
+set(
+  USE_NIFTI2_CODE
+  OFF
+  CACHE BOOL
+  "Do not build NIFTI2 provided by NIFTI"
+  FORCE
+)
 set(USE_FSL_CODE OFF CACHE BOOL "Do not build FSL provided by NIFTI" FORCE)
-set(USE_CIFTI_CODE OFF  CACHE BOOL "Do not build CIFTI provided by NIFTI" FORCE)
-set(USE_NIFTICDF_CODE OFF CACHE BOOL "Do not build NIFTICDF provided by NIFTI" FORCE)
-set(NIFTI_USE_PACKAGING OFF CACHE BOOL "Do not use packaging from nifti when included as part of another package" FORCE)
-set(NIFTI_BUILD_APPLICATIONS OFF CACHE BOOL "Do not build applications provided by NIFTI" FORCE)
+set(USE_CIFTI_CODE OFF CACHE BOOL "Do not build CIFTI provided by NIFTI" FORCE)
+set(
+  USE_NIFTICDF_CODE
+  OFF
+  CACHE BOOL
+  "Do not build NIFTICDF provided by NIFTI"
+  FORCE
+)
+set(
+  NIFTI_USE_PACKAGING
+  OFF
+  CACHE BOOL
+  "Do not use packaging from nifti when included as part of another package"
+  FORCE
+)
+set(
+  NIFTI_BUILD_APPLICATIONS
+  OFF
+  CACHE BOOL
+  "Do not build applications provided by NIFTI"
+  FORCE
+)
 # Testing is not compatible with ITK at the moment
 set(NIFTI_BUILD_TESTING OFF) # "Do not build nifit testing applications"
 set(DOWNLOAD_TEST_DATA OFF) # Don't download testing data
@@ -31,7 +55,7 @@ set(NIFTI_ZLIB_LIBRARIES ${ITKZLIB_LIBRARIES}) # "Set the zlib library associate
 # can not be skipped for installation.  Use the install COMPONENTS
 # features instead.
 set(NIFTI_INSTALL_NO_DEVELOPMENT FALSE)
-set(NIFTI_INSTALL_NO_LIBRARIES   FALSE)
+set(NIFTI_INSTALL_NO_LIBRARIES FALSE)
 
 add_subdirectory(nifti)
 itk_module_target(ITKznz NO_INSTALL)

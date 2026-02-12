@@ -3,23 +3,40 @@ set(dcmtk3rdParty ${dcmtkSource}/CMake/3rdparty.cmake)
 #
 # Newer versions of TIFF depend on JPEG
 file(READ ${dcmtk3rdParty} code)
-string(REPLACE "set(LIBTIFF_LIBS \${TIFF_LIBRARY})
+string(
+  REPLACE
+  "set(LIBTIFF_LIBS \${TIFF_LIBRARY})
 "
-"set(LIBTIFF_LIBS \${TIFF_LIBRARY})
+  "set(LIBTIFF_LIBS \${TIFF_LIBRARY})
     list(APPEND LIBTIFF_LIBS \${JPEG_LIBRARY})
-" code "${code}")
+"
+  code
+  "${code}"
+)
 #
 # we pass in the TIFF and ZLIB library stuff,
 # running find_package for those libraries
 # screws up using the ITK versions
 if(NOT ITK_USE_SYSTEM_TIFF)
-  string(REPLACE "find_package(TIFF QUIET)
-" "" code "${code}")
+  string(
+    REPLACE
+    "find_package(TIFF QUIET)
+"
+    ""
+    code
+    "${code}"
+  )
 endif()
 
 if(NOT ITK_USE_SYSTEM_ZLIB)
-string(REPLACE "find_package(ZLIB QUIET)
-" "" code "${code}")
+  string(
+    REPLACE
+    "find_package(ZLIB QUIET)
+"
+    ""
+    code
+    "${code}"
+  )
 endif()
 
 file(WRITE ${dcmtk3rdParty} "${code}")
@@ -27,19 +44,22 @@ file(WRITE ${dcmtk3rdParty} "${code}")
 #
 # in order to use the ITK versions of ZLIB and TIFF
 # it is necessary to use the ITK symbol-mangled versions
-file(GLOB_RECURSE dcmtk_src RELATIVE ${dcmtkSource} "*.cc" "*.h")
+file(
+  GLOB_RECURSE dcmtk_src
+  RELATIVE ${dcmtkSource}
+  "*.cc"
+  "*.h"
+)
 
-foreach (filename ${dcmtk_src})
+foreach(filename ${dcmtk_src})
   set(_filename ${dcmtkSource}/${filename})
   #  message("patching ${_filename}")
   file(READ ${_filename} sourcecode)
   if(NOT ITK_USE_SYSTEM_ZLIB)
-    string(REPLACE "<zlib.h>"
-      "\"itk_zlib.h\"" sourcecode "${sourcecode}")
+    string(REPLACE "<zlib.h>" "\"itk_zlib.h\"" sourcecode "${sourcecode}")
   endif()
   if(NOT ITK_USE_SYSTEM_TIFF)
-    string(REPLACE "<tiffio.h>"
-      "\"itk_tiff.h\"" sourcecode "${sourcecode}")
+    string(REPLACE "<tiffio.h>" "\"itk_tiff.h\"" sourcecode "${sourcecode}")
   endif()
   file(WRITE ${_filename} "${sourcecode}")
 endforeach(filename)
@@ -52,11 +72,14 @@ foreach(cmakelists ${dcmtk_cmakelists})
   set(_cmakelists ${dcmtkSource}/${cmakelists})
   message("CMakeLists ${_cmakelists}")
   file(READ ${_cmakelists} source)
-  string(REGEX REPLACE
+  string(
+    REGEX
+    REPLACE
     "add_subdirectory\\((.*) apps "
     "add_subdirectory(\\1 "
     source
-    "${source}")
+    "${source}"
+  )
   file(WRITE ${_cmakelists} "${source}")
 endforeach(cmakelists)
 
@@ -68,10 +91,15 @@ set(dcmtkCmakeLists_txt ${dcmtkSource}/CMakeLists.txt)
 
 file(READ ${dcmtkCmakeLists_txt} cmakelists)
 
-string(REPLACE "# build output files in these directories
+string(
+  REPLACE
+  "# build output files in these directories
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY \"\${CMAKE_BINARY_DIR}/lib\")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY \"\${CMAKE_BINARY_DIR}/lib\")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY \"\${CMAKE_BINARY_DIR}/bin\")
 "
-"" cmakelists "${cmakelists}")
+  ""
+  cmakelists
+  "${cmakelists}"
+)
 file(WRITE ${dcmtkCmakeLists_txt} "${cmakelists}")
