@@ -23,6 +23,8 @@
 #include "gtest/gtest.h"
 
 #include "itkNumericTraits.h"
+#include "itkMetaDataDictionary.h"
+#include "itkMetaDataObject.h"
 #include <cmath>
 
 
@@ -33,6 +35,11 @@
 #define ITK_EXPECT_VECTOR_NEAR(val1, val2, rmsError) \
   EXPECT_PRED_FORMAT3(itk::GTest::Predicate::VectorDoubleRMSPredFormat, val1, val2, rmsError)
 
+/** A custom GTest macro for verifying a value in a MetaDataDictionary.
+ */
+#define ITK_EXPECT_METADATA_VALUE(metaDict, key, knownValue) \
+  EXPECT_PRED_FORMAT3(itk::GTest::Predicate::CheckMetaDataPredFormat, metaDict, key, knownValue)
+
 
 /** \namespace itk::GTest::Predicate
  *  \brief The Predicate namespace contains functions used to
@@ -40,6 +47,120 @@
  */
 namespace itk::GTest::Predicate
 {
+
+/** Implements GTest Predicate Formatter for ITK_EXPECT_METADATA_VALUE
+ * macro.
+ */
+template <typename T>
+inline ::testing::AssertionResult
+CheckMetaDataPredFormat(const char *              metaDictExpr,
+                        const char *              keyExpr,
+                        const char *              knownValueExpr,
+                        itk::MetaDataDictionary & metaDict,
+                        const std::string &       key,
+                        const T &                 knownValue)
+{
+  T exposedValue{};
+
+#if defined ITK_FUTURE_LEGACY_REMOVE
+  static_assert(
+    !std::is_same_v<itk::Array<char>, T>,
+    "Should not use the ambiguous 'char' stored in meta data, because it is not-cross platform consistent.");
+  static_assert(
+    !std::is_same_v<char, T>,
+    "Should not use the ambiguous 'char' stored in meta data, because it is not-cross platform consistent.");
+  if (!itk::ExposeMetaData<T>(metaDict, key, exposedValue))
+  {
+    return ::testing::AssertionFailure() << "Failure ExposeMetaData for key '" << key << "' (" << keyExpr << ") in "
+                                         << metaDictExpr;
+  }
+#else
+  if constexpr (std::is_same_v<itk::Array<char>, T>)
+  {
+    if (!itk::ExposeMetaData<itk::Array<char>>(metaDict, key, exposedValue))
+    {
+      if constexpr (std::is_signed_v<char>)
+      {
+        itk::Array<signed char> temp_value{};
+        if (!itk::ExposeMetaData<itk::Array<signed char>>(metaDict, key, temp_value))
+        {
+          return ::testing::AssertionFailure()
+                 << "Failure ExposeMetaData '" << key << "' (" << keyExpr << ") in " << metaDictExpr;
+        }
+        exposedValue = temp_value;
+      }
+      else
+      {
+        itk::Array<unsigned char> temp_value{};
+        if (!itk::ExposeMetaData<itk::Array<unsigned char>>(metaDict, key, temp_value))
+        {
+          return ::testing::AssertionFailure()
+                 << "Failure ExposeMetaData '" << key << "' (" << keyExpr << ") in " << metaDictExpr;
+        }
+        exposedValue = temp_value;
+      }
+    }
+  }
+  else if constexpr (std::is_same_v<char, T>)
+  {
+    if (!itk::ExposeMetaData<char>(metaDict, key, exposedValue))
+    {
+      if constexpr (std::is_signed_v<char>)
+      {
+        signed char temp_value{};
+        if (!itk::ExposeMetaData<signed char>(metaDict, key, temp_value))
+        {
+          return ::testing::AssertionFailure()
+                 << "Failure ExposeMetaData '" << key << "' (" << keyExpr << ") in " << metaDictExpr;
+        }
+        exposedValue = static_cast<T>(temp_value);
+      }
+      else
+      {
+        unsigned char temp_value{};
+        if (!itk::ExposeMetaData<unsigned char>(metaDict, key, temp_value))
+        {
+          return ::testing::AssertionFailure()
+                 << "Failure ExposeMetaData '" << key << "' (" << keyExpr << ") in " << metaDictExpr;
+        }
+        exposedValue = static_cast<T>(temp_value);
+      }
+    }
+  }
+  else if (!itk::ExposeMetaData<T>(metaDict, key, exposedValue))
+  {
+    return ::testing::AssertionFailure() << "Failure ExposeMetaData for key '" << key << "' (" << keyExpr << ") in "
+                                         << metaDictExpr;
+  }
+#endif
+
+  bool match = false;
+  if constexpr (std::is_floating_point_v<T>)
+  {
+    match = itk::Math::AlmostEquals(exposedValue, knownValue);
+  }
+  else
+  {
+    match = (exposedValue == knownValue);
+  }
+
+  if (match)
+  {
+    return ::testing::AssertionSuccess();
+  }
+
+  ::testing::AssertionResult failure = ::testing::AssertionFailure();
+  failure << "Incorrect meta value read in for " << keyExpr << " ('" << key << "') in " << metaDictExpr << "\n"
+          << "  Actual: " << exposedValue << "\n"
+          << "  Expected: " << knownValue << " (" << knownValueExpr << ")\n";
+  failure << "========================================\n";
+  std::stringstream ss;
+  metaDict.Print(ss);
+  failure << ss.str();
+  failure << "========================================";
+  return failure;
+}
+
 
 /** Implements GTest Predicate Formatter for ITK_EXPECT_VECTOR_NEAR
  * macro. This macro and formatter work with any combination of ITK

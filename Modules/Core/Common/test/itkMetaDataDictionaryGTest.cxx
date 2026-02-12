@@ -17,9 +17,11 @@
  *=========================================================================*/
 
 #include "itkGTest.h"
+#include "itkGTestPredicate.h"
 
 #include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
+#include "itkTestVerifyMetaData.h"
 
 #include <iterator>
 #include <numeric>     // For iota.
@@ -44,6 +46,62 @@ createMetaDataDictionary()
   return metaDataDictionary;
 }
 
+
+template <typename T>
+static void
+CheckMetaData(itk::MetaDataDictionary & metaDict, const std::string & key, const T & knownValue)
+{
+  itk::EncapsulateMetaData<T>(metaDict, key, knownValue);
+  ITK_EXPECT_METADATA_VALUE(metaDict, key, knownValue);
+}
+
+
+static void
+doExposeMetaDatas()
+{
+  // Simplified version of tests found in HDF5 reading/writing
+  // that are broken out here to improve localization of bugs
+  // found during linux-arm building
+  itk::MetaDataDictionary metaDict;
+
+  CheckMetaData<bool>(metaDict, "TestBool", false);
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+  CheckMetaData<char>(metaDict, "TestChar", 'c');
+#endif
+  CheckMetaData<unsigned char>(metaDict, "TestUChar", 'u');
+  CheckMetaData<short>(metaDict, "TestShort", 1);
+  CheckMetaData<unsigned short>(metaDict, "TestUShort", 3);
+  CheckMetaData<int>(metaDict, "TestInt", 5);
+  CheckMetaData<unsigned int>(metaDict, "TestUInt", 7);
+  CheckMetaData<long>(metaDict, "TestLong", 5);
+  CheckMetaData<unsigned long>(metaDict, "TestULong", 7);
+  CheckMetaData<long long>(metaDict, "TestLLong", -5);
+  CheckMetaData<unsigned long long>(metaDict, "TestULLong", 7ull);
+  CheckMetaData<float>(metaDict, "TestFloat", 1.23456f);
+  CheckMetaData<double>(metaDict, "TestDouble", 1.23456);
+
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+  itk::Array<char> metaDataCharArray(5);
+  metaDataCharArray[0] = 'h';
+  metaDataCharArray[1] = 'e';
+  metaDataCharArray[2] = 'l';
+  metaDataCharArray[3] = 'l';
+  metaDataCharArray[4] = 'o';
+  CheckMetaData<itk::Array<char>>(metaDict, "TestCharArray", metaDataCharArray);
+#endif
+
+  itk::Array<double> metaDataDoubleArray(5);
+  metaDataDoubleArray[0] = 3.0;
+  metaDataDoubleArray[1] = 1.0;
+  metaDataDoubleArray[2] = 4.0;
+  metaDataDoubleArray[3] = 5.0;
+  metaDataDoubleArray[4] = 2.0;
+  CheckMetaData<itk::Array<double>>(metaDict, "TestDoubleArray", metaDataDoubleArray);
+
+  CheckMetaData<std::string>(metaDict, "StdString", "Test std::string");
+}
+
+
 template <typename T>
 itk::MetaDataObjectBase::Pointer
 createMetaDataObject(const T & invalue)
@@ -56,6 +114,9 @@ createMetaDataObject(const T & invalue)
 
 TEST(MetaDataDictionary, Basic)
 {
+  // Isolate
+  doExposeMetaDatas();
+
   // This test exercises and checks the non-constant interface
   itk::MetaDataDictionary dic = createMetaDataDictionary();
 
