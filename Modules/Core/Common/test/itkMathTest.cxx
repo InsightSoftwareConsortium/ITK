@@ -853,6 +853,65 @@ main(int, char *[])
     std::cout << "Test passed" << std::endl;
   }
 
+  // Test the itk::Math::abs methods
+  std::cout << "Testing itk::Math::abs integral overloads" << std::endl;
+  // Specify template arguments to avoid choosing non-constexpr std::abs overloads
+  static_assert(itk::Math::safe_abs(false) == false);
+  static_assert(itk::Math::safe_abs(true) == true);
+  static_assert(itk::Math::safe_abs((unsigned char)5) == 5);
+  static_assert(itk::Math::safe_abs((unsigned short)5) == 5);
+  static_assert(itk::Math::safe_abs((unsigned int)5) == 5);
+  static_assert(itk::Math::safe_abs((unsigned long)5) == 5);
+  static_assert(itk::Math::safe_abs((unsigned long long)5) == 5);
+
+  static_assert(itk::Math::safe_abs((signed char)-5) == 5);
+  static_assert(itk::Math::safe_abs((signed char)-128) == 128);
+
+  static_assert(itk::Math::safe_abs((short)-5) == 5);
+
+  static_assert(itk::Math::safe_abs<int>(-5) == 5u);
+  static_assert(itk::Math::safe_abs<long>(-5L) == 5ul);
+  static_assert(itk::Math::safe_abs<long long>(-5LL) == 5ull);
+
+  static_assert(itk::Math::safe_abs<double>(-5.0) == 5.0);
+  static_assert(itk::Math::safe_abs<float>(-5.0f) == 5.0f);
+
+  // complex types are never constexpr for abs or safe_abs
+  const auto cf = std::complex<float>(-3, -4);
+  ITK_TEST_EXPECT_EQUAL(itk::Math::safe_abs(cf), 5);
+  const auto cd = std::complex<double>(-3, -4);
+  ITK_TEST_EXPECT_EQUAL(itk::Math::safe_abs(cd), 5);
+  const auto cld = std::complex<long double>(-3, -4);
+  ITK_TEST_EXPECT_EQUAL(itk::Math::safe_abs(cld), 5);
+
+  // test backward compatible non-constexpr abs function
+  ITK_TEST_EXPECT_EQUAL(itk::Math::abs(false), false);
+  ITK_TEST_EXPECT_EQUAL(itk::Math::abs(true), true);
+  ITK_TEST_EXPECT_EQUAL(itk::Math::abs((unsigned char)5), 5);
+  ITK_TEST_EXPECT_EQUAL(itk::Math::abs((signed char)-5), 5);
+  ITK_TEST_EXPECT_EQUAL(itk::Math::abs((signed char)-128), 128);
+  ITK_TEST_EXPECT_EQUAL(itk::Math::abs((short)-5), 5);
+  // Specify template arguments to avoid choosing non-constexpr std::abs overloads
+  ITK_TEST_EXPECT_EQUAL(itk::Math::abs<int>(-5), 5u);
+  ITK_TEST_EXPECT_EQUAL(itk::Math::abs<long>(-5L), 5ul);
+  ITK_TEST_EXPECT_EQUAL(itk::Math::abs<long long>(-5LL), 5ull);
+
+  ITK_TEST_EXPECT_EQUAL(itk::Math::abs<double>(-5.0), 5.0);
+  ITK_TEST_EXPECT_EQUAL(itk::Math::abs<float>(-5.0f), 5.0f);
+
+
+  if (itk::Math::abs((signed char)-128) != 128)
+  {
+    std::cout << "itk::Math::abs((signed char)-128) FAILED!" << std::endl;
+    testPassStatus = EXIT_FAILURE;
+  }
+
+  if (itk::Math::abs(-5) != 5)
+  {
+    std::cout << "itk::Math::abs(-5) FAILED!" << std::endl;
+    testPassStatus = EXIT_FAILURE;
+  }
+
 
   return testPassStatus;
 }

@@ -29,7 +29,9 @@
 #define itkMath_h
 
 #include <cassert>
+#include <complex>
 #include <cmath>
+#include <type_traits>
 #include "itkMathDetail.h"
 #include "itkConceptChecking.h"
 #include <vnl/vnl_math.h>
@@ -823,60 +825,104 @@ using vnl_math::cube;
 using vnl_math::squared_magnitude;
 
 
-/*============================================
-Decouple dependence and exposure of vnl_math::abs operations
-in ITK.  Placing this small amount of duplicate vnl_math
-code directly in ITK removes backward compatibility
-issues with system installed VXL versions.
-*/
-inline bool
-abs(bool x)
+/**
+ * @brief Returns the absolute value of a number.
+ *
+ * This function provides a c++17 implementation of the vnl_math::abs absolute value functionality.
+ * safe_abs preserves backward compatibility with vnl_math::abs that was originally used in ITK.
+ *
+ * Where std::abs returns the absolute value in the same type as the input, itk::safe_abs
+ * returns the absolute value in the unsigned equivalent of the input type.
+ *
+ * @tparam T The type of the input number.
+ * @param x The input number.
+ * @return The absolute value of the input number as an unsigned type for integer types.
+ */
+template <typename T>
+constexpr auto
+safe_abs(T x) noexcept
 {
-  return x;
+  if constexpr (std::is_same_v<T, bool>)
+  {
+    // std::abs does not provide abs for bool, but ITK depends on bool support for abs.
+    return x;
+  }
+  else if constexpr (std::is_integral_v<T>)
+  {
+    if constexpr (std::is_signed_v<T>)
+    {
+      // Using promotion to std::int32_t instead of std::make_unsigned_t<T>
+      // to avoid potential overflow when T is a signed 8bit minimum (value -128)
+      // or signed 15 bit minimum (value -32768).
+      // Note that -(-128) is still -128 for an 8-bit signed char.
+      if constexpr (sizeof(T) <= sizeof(int))
+      {
+#if __cplusplus >= 202302L
+        return static_cast<std::make_unsigned_t<T>>(std::abs(static_cast<int>(x)));
+#else
+        return static_cast<std::make_unsigned_t<T>>((x < T(0)) ? -x : x);
+#endif
+      }
+      else if constexpr (sizeof(T) <= sizeof(long int))
+      {
+#if __cplusplus >= 202302L
+        return static_cast<std::make_unsigned_t<T>>(std::abs(static_cast<long int>(x)));
+#else
+        return static_cast<std::make_unsigned_t<T>>((x < T(0)) ? -x : x);
+#endif
+      }
+      else if constexpr (sizeof(T) == sizeof(long long int))
+      {
+        // NOTE: overflow is not resolved if LONG_LONG_INT_MIN value is converted
+#if __cplusplus >= 202302L
+        return static_cast<std::make_unsigned_t<T>>(std::abs(static_cast<long long int>(x)));
+#else
+        return static_cast<std::make_unsigned_t<T>>((x < T(0)) ? -x : x);
+#endif
+      }
+    }
+    else
+    { // In C++17, the std::abs() integer overloads are only for : int, long, and long long.
+      // unsigned type values std::abs() are supported through implicit type conversions to
+      // the next larger sized integer type.  The 'unsigned long long' failed due to an
+      // lack of larger sized signed integer type to be promoted to.
+      // type of x  | default std::abs() called
+      // uint8_t    | std::abs( (int32_t) x)
+      // uint16_t   | std::abs( (int32_t) x)
+      // uint32_t   | std::abs( (int64_t) x)
+      // uint64_t   | // compiler error
+      // This explicit override provides direct support for all unsigned integer types with type promotion.
+      return x;
+    }
+  }
+  else if constexpr (std::is_floating_point_v<T>) // floating point or complex<> types
+  {                                               // floating point std::abs is constexpr in c++23 and later
+#if __cplusplus >= 202302L
+    return std::abs(x);
+#else
+    return (x < 0) ? -x : x;
+#endif
+  }
 }
-inline unsigned char
-abs(unsigned char x)
+template <typename T>
+auto
+safe_abs(const std::complex<T> & x) noexcept
 {
-  return x;
-}
-inline unsigned char
-abs(signed char x)
-{
-  return x < 0 ? static_cast<unsigned char>(-x) : x;
-}
-inline unsigned char
-abs(char x)
-{
-  return static_cast<unsigned char>(x);
-}
-inline unsigned short
-abs(short x)
-{
-  return x < 0 ? static_cast<unsigned short>(-x) : x;
-}
-inline unsigned short
-abs(unsigned short x)
-{
-  return x;
-}
-inline unsigned int
-abs(unsigned int x)
-{
-  return x;
-}
-inline unsigned long
-abs(unsigned long x)
-{
-  return x;
-}
-// long long - target type will have width of at least 64 bits. (since C++11)
-inline unsigned long long
-abs(unsigned long long x)
-{
-  return x;
+  // std::abs<T>(std::complex<T>) is not constexpr in in any proposed c++ standard
+  return std::abs<T>(x);
 }
 
-using std::abs;
+
+// itk::Math::abs has different behavior than std::abs.  The use of
+// abs() in the ITK context without namespace resolution can be confusing
+// The abs() version is provided for backwards compatibility.
+template <typename T>
+auto
+abs(T x) noexcept
+{
+  return safe_abs(x);
+}
+
 
 } // namespace itk::Math
 
