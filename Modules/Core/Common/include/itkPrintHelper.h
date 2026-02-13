@@ -22,19 +22,10 @@
 #include <array>
 #include <iostream>
 #include <iterator>
+#include <vector>
 #include <list>
 #include <type_traits>
 
-// Workaround for https://gcc.gnu.org/bugzilla/show_bug.cgi?id=112467
-#if defined(ITK_WRAPPING_PARSER) && defined(__GNUC__) && !defined(__clang__)
-#  define __clang__
-#  define ITK_CASTXML_GCC_VECTOR_WORKAROUND
-#endif
-#include <vector>
-#if defined(ITK_CASTXML_GCC_VECTOR_WORKAROUND)
-#  undef __clang__
-#  undef ITK_CASTXML_GCC_VECTOR_WORKAROUND
-#endif
 
 namespace itk::print_helper
 {
