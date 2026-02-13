@@ -784,6 +784,10 @@ macro(itk_module_target_install _name)
     ARCHIVE
       DESTINATION ${${itk-module}_INSTALL_ARCHIVE_DIR}
       COMPONENT Development
+    FILE_SET
+    HEADERS
+      DESTINATION ${${itk-module}_INSTALL_INCLUDE_DIR}
+      COMPONENT Development
   )
 endmacro()
 
