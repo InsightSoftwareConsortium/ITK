@@ -120,18 +120,18 @@ itkStreamingImageFilterTest2(int, char *[])
   for (; !iterator2.IsAtEnd(); ++iterator2)
   {
     auto col = itk::Math::RoundHalfIntegerUp<short>(static_cast<float>(
-      shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] + (shrink->GetShrinkFactors()[0]) / 2.0));
+      shrink->GetShrinkFactors()[0] * iterator2.ComputeIndex()[0] + (shrink->GetShrinkFactors()[0]) / 2.0));
     col += colOffset;
 
     auto row = itk::Math::RoundHalfIntegerUp<short>(static_cast<float>(
-      shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] + (shrink->GetShrinkFactors()[1]) / 2.0));
+      shrink->GetShrinkFactors()[1] * iterator2.ComputeIndex()[1] + (shrink->GetShrinkFactors()[1]) / 2.0));
     row += rowOffset;
     const short trueValue = col + region.GetSize()[0] * row;
 
     if (iterator2.Get() != trueValue)
     {
       passed = false;
-      std::cout << "Pixel " << iterator2.GetIndex() << " expected " << trueValue << " but got " << iterator2.Get()
+      std::cout << "Pixel " << iterator2.ComputeIndex() << " expected " << trueValue << " but got " << iterator2.Get()
                 << std::endl;
     }
   }

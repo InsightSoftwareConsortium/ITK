@@ -110,8 +110,8 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
     ri.GoToBegin();
     while (!ri.IsAtEnd())
     {
-      p[0] = ri.GetIndex()[0];
-      p[1] = ri.GetIndex()[1];
+      p[0] = ri.ComputeIndex()[0];
+      p[1] = ri.ComputeIndex()[1];
       itk::Vector<double, 2> d = p - center;
       d += displacement;
       const double x = d[0];
@@ -125,8 +125,8 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
     ti.GoToBegin();
     while (!ti.IsAtEnd())
     {
-      p[0] = ti.GetIndex()[0];
-      p[1] = ti.GetIndex()[1];
+      p[0] = ti.ComputeIndex()[0];
+      p[1] = ti.ComputeIndex()[1];
       itk::Vector<double, 2> d = p - center;
       const double           x = d[0];
       const double           y = d[1];

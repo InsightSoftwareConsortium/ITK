@@ -35,7 +35,7 @@ struct helper<itk::Index<VDimension>>
   static PositionType
   GetPosition(const TImage *, const TIterator & it)
   {
-    return it.GetIndex();
+    return it.ComputeIndex();
   }
 };
 
@@ -49,7 +49,7 @@ struct helper<itk::Point<TCoord, VDimension>>
   GetPosition(const TImage * image, const TIterator & it)
   {
     typename TImage::PointType p;
-    image->TransformIndexToPhysicalPoint(it.GetIndex(), p);
+    image->TransformIndexToPhysicalPoint(it.ComputeIndex(), p);
 
     PositionType point;
     point.CastFrom(p);

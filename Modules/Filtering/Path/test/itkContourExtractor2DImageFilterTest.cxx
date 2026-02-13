@@ -499,12 +499,12 @@ showRegion(const itkContourExtractor2DImageFilterTestNamespace::ImageType::Const
   std::cout << "    --> ";
   for (SizeValueType col = 0; col < toshowSize[0]; ++col)
   {
-    std::cout << std::setw(4) << static_cast<int>(it.GetIndex()[0] + col);
+    std::cout << std::setw(4) << static_cast<int>(it.ComputeIndex()[0] + col);
   }
   std::cout << std::endl;
   for (SizeValueType row = 0; row < toshowSize[1]; ++row)
   {
-    std::cout << std::setw(6) << static_cast<int>(it.GetIndex()[1]) << ": ";
+    std::cout << std::setw(6) << static_cast<int>(it.ComputeIndex()[1]) << ": ";
     for (SizeValueType col = 0; col < toshowSize[0]; ++col)
     {
       std::cout << std::setw(4) << static_cast<int>(it.Get());

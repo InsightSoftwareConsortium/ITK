@@ -102,7 +102,7 @@ CompareImages(itk::ImageRegionIterator<ImageType> & refIter, itk::ImageRegionIte
     if (itk::Math::abs(diff) > 1)
     {
       passed = false;
-      std::cout << "Test failed at: " << outIter.GetIndex() << ' ';
+      std::cout << "Test failed at: " << outIter.ComputeIndex() << ' ';
       std::cout << "Output value: " << outIter.Get() << ' ';
       std::cout << "Ref value: " << refIter.Get() << std::endl;
     }

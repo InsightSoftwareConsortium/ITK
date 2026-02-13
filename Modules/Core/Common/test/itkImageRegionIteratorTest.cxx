@@ -97,7 +97,7 @@ itkImageRegionIteratorTest(int, char *[])
   std::cout << "Simple iterator loop: ";
   for (; !it.IsAtEnd(); ++it)
   {
-    const itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = it.GetIndex();
+    const itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = it.ComputeIndex();
     std::cout << index << std::endl;
   }
 
@@ -109,7 +109,7 @@ itkImageRegionIteratorTest(int, char *[])
   std::cout << "Simple const iterator loop: ";
   for (; !cit.IsAtEnd(); ++cit)
   {
-    const itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = cit.GetIndex();
+    const itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = cit.ComputeIndex();
     std::cout << index << std::endl;
   }
 
@@ -122,7 +122,7 @@ itkImageRegionIteratorTest(int, char *[])
   {
     --backIt;
 
-    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = backIt.GetIndex();
+    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = backIt.ComputeIndex();
     std::cout << "Simple iterator backwards loop: ";
     for (unsigned int i = 0; i < index.GetIndexDimension(); ++i)
     {
@@ -147,7 +147,7 @@ itkImageRegionIteratorTest(int, char *[])
     // Set all pixels with first index == 0 to 0, and set the rest of the image to 255
     while (!createImageIterator.IsAtEnd())
     {
-      if (createImageIterator.GetIndex()[0] == 0)
+      if (createImageIterator.ComputeIndex()[0] == 0)
       {
         createImageIterator.Set(0);
       }

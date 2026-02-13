@@ -166,7 +166,7 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
 
   for (; !circleIter.IsAtEnd(); ++circleIter)
   {
-    typename ImageType::IndexType index = circleIter.GetIndex();
+    typename ImageType::IndexType index = circleIter.ComputeIndex();
 
     double lhs = 0.0;
     for (j = 0; j < ImageDimension; ++j)
@@ -243,7 +243,7 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
 
   for (; !outIter.IsAtEnd(); ++outIter)
   {
-    typename ImageType::IndexType index = outIter.GetIndex();
+    typename ImageType::IndexType index = outIter.ComputeIndex();
     const PixelType               value = outIter.Get();
 
     double lhs = 0.0;

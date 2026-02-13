@@ -154,7 +154,7 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   itFixed.GoToBegin();
   while (!itFixed.IsAtEnd())
   {
-    const IndexType ind = itFixed.GetIndex();
+    const IndexType ind = itFixed.ComputeIndex();
     const double    v = itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(ind, p0, imageDimensionality, 0);
     itFixed.Set(v);
     ++itFixed;

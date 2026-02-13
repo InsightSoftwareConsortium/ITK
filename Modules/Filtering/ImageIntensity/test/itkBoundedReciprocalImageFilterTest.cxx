@@ -71,7 +71,7 @@ itkBoundedReciprocalImageFilterTest(int argc, char * argv[])
     auto expectedValue = static_cast<PixelType>(1.0 / (1.0 + static_cast<double>(inIter.Get())));
     if (!itk::Math::FloatAlmostEqual(expectedValue, obtainedValue, 10, tolerance))
     {
-      std::cerr << "Error at index " << inIter.GetIndex() << std::endl;
+      std::cerr << "Error at index " << inIter.ComputeIndex() << std::endl;
       std::cerr << " output " << obtainedValue << std::endl;
       std::cerr << " differs from " << expectedValue;
       std::cerr << " by more than " << tolerance << std::endl;
