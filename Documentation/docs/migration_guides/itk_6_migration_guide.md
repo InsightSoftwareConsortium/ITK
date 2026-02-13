@@ -172,6 +172,15 @@ reoriented_image = itk.orient_image_filter(
 )
 ```
 
+`GetIndex()` replaced with `ComputeIndex()`, for iterators without index
+------------------------------------------------------------------------
+`ImageConstIterator::GetIndex()` is marked to be removed in the future. This iterator does not have an index,
+internally, so its `GetIndex()` member function does a potentially expensive computation. For an iterator that is
+derived from `ImageConstIterator`, please use its newly introduced `ComputeIndex()` member function instead. Or use an
+iterator _with_ index (like `ImageIteratorWithIndex`).
+
+
+
 Remove support for Python wrapped `long double` types
 -----------------------------------------------------
 
