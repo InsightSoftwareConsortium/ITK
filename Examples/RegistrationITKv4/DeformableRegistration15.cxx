@@ -836,7 +836,7 @@ main(int argc, char * argv[])
 
     while (!fi.IsAtEnd())
     {
-      index = fi.GetIndex();
+      index = fi.ComputeIndex();
       field->TransformIndexToPhysicalPoint(index, fixedPoint);
       movingPoint = bsplineTransformFine->TransformPoint(fixedPoint);
       displacement = movingPoint - fixedPoint;
