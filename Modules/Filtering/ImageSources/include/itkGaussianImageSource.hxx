@@ -102,7 +102,7 @@ GaussianImageSource<TOutputImage>::GenerateData()
   // Walk the output image, evaluating the spatial function at each pixel
   for (OutputIterator outIt(outputPtr, outputPtr->GetRequestedRegion()); !outIt.IsAtEnd(); ++outIt)
   {
-    const typename TOutputImage::IndexType index = outIt.GetIndex();
+    const typename TOutputImage::IndexType index = outIt.ComputeIndex();
     // The position at which the function is evaluated
     typename FunctionType::InputType evalPoint;
     outputPtr->TransformIndexToPhysicalPoint(index, evalPoint);

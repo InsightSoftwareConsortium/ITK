@@ -190,7 +190,7 @@ FlipImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegionType
   for (ImageScanlineIterator outputIt(outputPtr, outputRegionForThread); !outputIt.IsAtEnd(); outputIt.NextLine())
   {
     // Determine the index of the output line
-    const typename TImage::IndexType outputIndex = outputIt.GetIndex();
+    const typename TImage::IndexType outputIndex = outputIt.ComputeIndex();
 
     // Determine the input pixel location associated with the start of
     // the line

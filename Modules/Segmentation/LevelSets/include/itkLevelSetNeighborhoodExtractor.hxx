@@ -139,7 +139,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::GenerateDataFull()
       this->UpdateProgress(static_cast<float>(i) / static_cast<float>(totalPixels));
     }
 
-    inputIndex = inIt.GetIndex();
+    inputIndex = inIt.ComputeIndex();
     this->CalculateDistance(inputIndex);
   }
 }

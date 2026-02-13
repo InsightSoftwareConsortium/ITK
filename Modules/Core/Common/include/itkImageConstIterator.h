@@ -295,14 +295,22 @@ public:
     return (m_Buffer + m_Offset) > (it.m_Buffer + it.m_Offset);
   }
 
-  /** Get the index. This provides a read only reference to the index.
-   * This causes the index to be calculated from pointer arithmetic and is
-   * therefore an expensive operation.
+  /** Computes the index. Internally calls ImageBase::ComputeIndex, which may be a relatively expensive operation.
    * \sa SetIndex */
+  [[nodiscard]] IndexType
+  ComputeIndex() const
+  {
+    return m_Image->ComputeIndex(m_Offset);
+  }
+
+  /** Computes and returns the index. This may be a relatively expensive operation.
+   * \note It is often preferable for users to call ComputeIndex() directly, to make it more clear that this function
+   * may be expensive.
+   * \sa ComputeIndex */
   [[nodiscard]] IndexType
   GetIndex() const
   {
-    return m_Image->ComputeIndex(m_Offset);
+    return this->ComputeIndex();
   }
 
   /** Set the index. No bounds checking is performed.

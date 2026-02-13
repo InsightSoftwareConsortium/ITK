@@ -69,7 +69,7 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
     {
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
-        IndexType currentIndex = ot.GetIndex();
+        IndexType currentIndex = ot.ComputeIndex();
         currentIndex[i] = currentIndex[i] - 1;
         LabelType label = 0;
         if (currentIndex[i] >= 0)

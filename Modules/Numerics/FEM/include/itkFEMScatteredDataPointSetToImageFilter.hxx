@@ -711,7 +711,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
   // step over all points within the region
   for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
   {
-    output->TransformIndexToPhysicalPoint(iter.GetIndex(), point);
+    output->TransformIndexToPhysicalPoint(iter.ComputeIndex(), point);
     for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       globalPoint[d] = point[d];

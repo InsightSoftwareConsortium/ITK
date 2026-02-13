@@ -120,14 +120,14 @@ LabelContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   for (inLineIt.GoToBegin(); !inLineIt.IsAtEnd(); inLineIt.NextLine(), outLineIt.NextLine())
   {
-    const SizeValueType lineId = this->IndexToLinearIndex(inLineIt.GetIndex());
+    const SizeValueType lineId = this->IndexToLinearIndex(inLineIt.ComputeIndex());
     LineEncodingType    thisLine;
     while (!inLineIt.IsAtEndOfLine())
     {
       const InputPixelType PVal = inLineIt.Get();
 
       SizeValueType        length = 0;
-      const InputIndexType thisIndex = inLineIt.GetIndex();
+      const InputIndexType thisIndex = inLineIt.ComputeIndex();
       outLineIt.Set(m_BackgroundValue);
       ++length;
       ++inLineIt;
@@ -162,7 +162,7 @@ LabelContourImageFilter<TInputImage, TOutputImage>::ThreadedIntegrateData(
 
   for (ImageScanlineIterator outLineIt(output, outputRegionForThread); !outLineIt.IsAtEnd(); outLineIt.NextLine())
   {
-    const SizeValueType thisIdx = this->IndexToLinearIndex(outLineIt.GetIndex());
+    const SizeValueType thisIdx = this->IndexToLinearIndex(outLineIt.ComputeIndex());
     if (!m_LineMap[thisIdx].empty())
     {
       for (auto I = this->m_LineOffsets.begin(); I != this->m_LineOffsets.end(); ++I)

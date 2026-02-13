@@ -358,13 +358,13 @@ Segmenter<TInputImage>::CollectBoundaryInformation(flat_region_table_t & flatReg
             flr.bounds_min = flrt_it->second.bounds_min;
             flr.min_label = *(flrt_it->second.min_label_ptr);
             flr.value = flrt_it->second.value;
-            flr.offset_list.push_back(face->ComputeOffset(faceIt.GetIndex()));
+            flr.offset_list.push_back(face->ComputeOffset(faceIt.ComputeIndex()));
             flats->insert(BoundaryFlatHashValueType(labelIt.Get(), flr));
             flr.offset_list.clear();
           }
           else // YES
           {
-            flats_it->second.offset_list.push_back(face->ComputeOffset(faceIt.GetIndex()));
+            flats_it->second.offset_list.push_back(face->ComputeOffset(faceIt.ComputeIndex()));
           }
         }
 
@@ -820,8 +820,8 @@ Segmenter<TInputImage>::GradientDescent(InputImageTypePointer img, ImageRegionTy
   {
     if (it.Get() == NULL_LABEL)
     {
-      valueIt.SetLocation(it.GetIndex());
-      labelIt.SetLocation(it.GetIndex());
+      valueIt.SetLocation(it.ComputeIndex());
+      labelIt.SetLocation(it.ComputeIndex());
       IdentifierType newLabel = NULL_LABEL; // Follow the path of steep-
       while (newLabel == NULL_LABEL)        // est descent until a label
       {

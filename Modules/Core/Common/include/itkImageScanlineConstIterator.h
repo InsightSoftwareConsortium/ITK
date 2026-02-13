@@ -117,7 +117,7 @@ public:
   {
     this->ImageConstIterator<TImage>::operator=(it);
 
-    IndexType ind = this->GetIndex();
+    IndexType ind = this->ComputeIndex();
     m_SpanEndOffset = this->m_Offset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]) -
                       (ind[0] - this->m_Region.GetIndex()[0]);
     m_SpanBeginOffset = m_SpanEndOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]);

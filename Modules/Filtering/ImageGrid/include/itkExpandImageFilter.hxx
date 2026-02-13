@@ -113,7 +113,7 @@ ExpandImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   // Walk the output region, and interpolate the input image
   for (ImageScanlineIterator outIt(outputPtr, outputRegionForThread); !outIt.IsAtEnd(); outIt.NextLine())
   {
-    const typename OutputImageType::IndexType outputIndex = outIt.GetIndex();
+    const typename OutputImageType::IndexType outputIndex = outIt.ComputeIndex();
 
 
     // Determine the input pixel location associated with this output

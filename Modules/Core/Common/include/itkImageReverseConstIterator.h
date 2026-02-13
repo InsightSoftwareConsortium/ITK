@@ -207,7 +207,7 @@ public:
   {
 
 
-    const IndexType ind = it.GetIndex();
+    const IndexType ind = it.ComputeIndex();
 
     m_Offset = m_Image->ComputeOffset(ind);
 

@@ -76,7 +76,7 @@ DifferenceOfGaussiansGradientImageFilter<TInputImage, TDataType>::GenerateData()
   for (; !outIt.IsAtEnd(); ++outIt)
   {
     // determine the index of the output pixel
-    outputIndex = outIt.GetIndex();
+    outputIndex = outIt.ComputeIndex();
 
     // is the current index an acceptable distance from the edges
     // of the image?

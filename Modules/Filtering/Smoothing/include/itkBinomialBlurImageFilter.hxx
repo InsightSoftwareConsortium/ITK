@@ -150,7 +150,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
       while (!tempItDir.IsAtEnd())
       {
         // determine the index of the output pixel
-        index = tempItDir.GetIndex();
+        index = tempItDir.ComputeIndex();
 
         if (index[dim] < (startIndex[dim] + static_cast<typename TTempImage::OffsetValueType>(size[dim]) - 1))
         {
