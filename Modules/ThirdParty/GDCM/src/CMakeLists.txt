@@ -1,11 +1,17 @@
 if(CMAKE_COMPILER_IS_GNUCC)
-  check_c_compiler_flag("-fno-ipa-cp-clone" _HAS_fno-ipa-cp-clone)
+  check_c_compiler_flag(
+    "-fno-ipa-cp-clone"
+    _HAS_fno-ipa-cp-clone
+  )
   if(_HAS_fno-ipa-cp-clone)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-ipa-cp-clone")
   endif()
 endif()
 if(CMAKE_COMPILER_IS_GNUCXX)
-  check_cxx_compiler_flag("-fno-ipa-cp-clone" _HAS_fno-ipa-cp-clone)
+  check_cxx_compiler_flag(
+    "-fno-ipa-cp-clone"
+    _HAS_fno-ipa-cp-clone
+  )
   if(_HAS_fno-ipa-cp-clone)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-ipa-cp-clone")
   endif()
@@ -14,7 +20,6 @@ if(CMAKE_LINKER MATCHES "link.exe$")
   # Suppress undefined public symbols warning
   set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /IGNORE:4221")
 endif()
-
 
 set(GDCM_TARGETS_NAME ${ITKGDCM-targets})
 set(GDCM_INSTALL_BIN_DIR ${ITKGDCM_INSTALL_RUNTIME_DIR})
@@ -43,9 +48,24 @@ set(ZLIB_LIBRARY ${ITKZLIB_LIBRARIES})
 set(GDCM_LEGACY_REMOVE OFF CACHE INTERNAL "Remove all legacy code completely.")
 set(GDCM_LEGACY_SILENT OFF CACHE INTERNAL "Silence all legacy code messages.")
 set(GDCM_SUPPORT_BROKEN_IMPLEMENTATION ON CACHE INTERNAL "Handle broken DICOM")
-set(GDCM_TEMP_DIRECTORY "${ITK_TEST_OUTPUT_DIR}" CACHE INTERNAL "Path to a valid temp directory")
-set(GDCM_USE_KAKADU OFF CACHE INTERNAL "Use kakadu lib, only turn it on if you know what you are doing.")
-set(GDCM_USE_PVRG OFF CACHE INTERNAL "Use pvrg lib, only turn it on if you know what you are doing.")
+set(
+  GDCM_TEMP_DIRECTORY
+  "${ITK_TEST_OUTPUT_DIR}"
+  CACHE INTERNAL
+  "Path to a valid temp directory"
+)
+set(
+  GDCM_USE_KAKADU
+  OFF
+  CACHE INTERNAL
+  "Use kakadu lib, only turn it on if you know what you are doing."
+)
+set(
+  GDCM_USE_PVRG
+  OFF
+  CACHE INTERNAL
+  "Use pvrg lib, only turn it on if you know what you are doing."
+)
 set(GDCM_USE_SYSTEM_LJPEG OFF CACHE INTERNAL "Use system ljpeg (ijg lib)")
 set(GDCM_USE_SYSTEM_OPENSSL OFF CACHE INTERNAL "Use system OpenSSL")
 set(GDCM_USE_SYSTEM_PODOFO OFF CACHE INTERNAL "Use system podofo (pdf)")
@@ -69,21 +89,22 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 add_subdirectory(gdcm)
 
-foreach(lib
-    gdcmCommon
-    gdcmDICT
-    gdcmDSED
-    gdcmIOD
-    gdcmMEXD
-    gdcmMSFF
-    gdcmcharls
-    gdcmjpeg12
-    gdcmjpeg16
-    gdcmjpeg8
-    gdcmopenjp2
-    gdcmsocketxx
-    gdcmuuid
-    )
+foreach(
+  lib
+  gdcmCommon
+  gdcmDICT
+  gdcmDSED
+  gdcmIOD
+  gdcmMEXD
+  gdcmMSFF
+  gdcmcharls
+  gdcmjpeg12
+  gdcmjpeg16
+  gdcmjpeg8
+  gdcmopenjp2
+  gdcmsocketxx
+  gdcmuuid
+)
   if(TARGET ${lib}) # some gdcm targets are conditional
     itk_module_target(${lib} NO_INSTALL)
   endif()

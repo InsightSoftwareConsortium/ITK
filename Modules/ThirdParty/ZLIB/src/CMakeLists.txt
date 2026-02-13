@@ -2,12 +2,18 @@ set(INC_INSTALL_DIR "${ITKZLIB_INSTALL_INCLUDE_DIR}/itkzlib-ng")
 set(BIN_INSTALL_DIR "${ITKZLIB_INSTALL_RUNTIME_DIR}")
 set(LIB_INSTALL_DIR "${ITKZLIB_INSTALL_LIBRARY_DIR}")
 set(PKGCONFIG_INSTALL_DIR "${ITKZLIB_INSTALL_ARCHIVE_DIR}")
-set(ZLIB_SYMBOL_PREFIX "itkzlib_" CACHE INTERNAL "Hardcoded prefix for symbols in zlib")
+set(
+  ZLIB_SYMBOL_PREFIX
+  "itkzlib_"
+  CACHE INTERNAL
+  "Hardcoded prefix for symbols in zlib"
+)
 set(ZLIB_COMPAT ON)
 set(ZLIB_DUAL_LINK OFF)
 set(ZLIB_ENABLE_TESTS OFF)
 add_subdirectory(itkzlib-ng)
-mark_as_advanced(FORCE
+mark_as_advanced(
+  FORCE
   BIN_INSTALL_DIR
   FORCE_TZCNT
   INC_INSTALL_DIR
@@ -29,4 +35,4 @@ mark_as_advanced(FORCE
   WITH_SANITIZER
   WITH_VPCLMULQDQ
   ZLIBNG_ENABLE_TESTS
-  )
+)
