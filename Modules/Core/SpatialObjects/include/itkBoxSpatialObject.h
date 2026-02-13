@@ -91,7 +91,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  [[nodiscard]] typename LightObject::Pointer
+  [[nodiscard]] LightObject::Pointer
   InternalClone() const override;
 
 private:

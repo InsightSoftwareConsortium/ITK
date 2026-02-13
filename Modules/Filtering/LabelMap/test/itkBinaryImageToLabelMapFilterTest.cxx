@@ -65,11 +65,11 @@ itkBinaryImageToLabelMapFilterTest(int argc, char * argv[])
   auto fullyConnected = static_cast<bool>(std::stoi(argv[3]));
   ITK_TEST_SET_GET_BOOLEAN(imageToLabel, FullyConnected, fullyConnected);
 
-  const typename ImageToLabelType::InputPixelType inputForegroundValue = std::stoi(argv[4]);
+  const ImageToLabelType::InputPixelType inputForegroundValue = std::stoi(argv[4]);
   imageToLabel->SetInputForegroundValue(inputForegroundValue);
   ITK_TEST_SET_GET_VALUE(inputForegroundValue, imageToLabel->GetInputForegroundValue());
 
-  const typename ImageToLabelType::OutputPixelType outputBackgroundValue = std::stoi(argv[5]);
+  const ImageToLabelType::OutputPixelType outputBackgroundValue = std::stoi(argv[5]);
   imageToLabel->SetOutputBackgroundValue(outputBackgroundValue);
   ITK_TEST_SET_GET_VALUE(outputBackgroundValue, imageToLabel->GetOutputBackgroundValue());
 

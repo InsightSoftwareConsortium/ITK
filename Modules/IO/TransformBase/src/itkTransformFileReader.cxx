@@ -44,7 +44,7 @@ struct KernelTransformHelper
   {
     if (transform->GetInputSpaceDimension() == Dimension)
     {
-      using KernelTransformType = typename itk::KernelTransform<TParameterType, Dimension>;
+      using KernelTransformType = itk::KernelTransform<TParameterType, Dimension>;
       auto * kernelTransform = static_cast<KernelTransformType *>(transform.GetPointer());
       kernelTransform->ComputeWMatrix();
       return 0;

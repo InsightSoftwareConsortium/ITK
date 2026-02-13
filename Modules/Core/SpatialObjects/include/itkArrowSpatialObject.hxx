@@ -134,12 +134,12 @@ ArrowSpatialObject<TDimension>::GetLengthInWorldSpace() const
 }
 
 template <unsigned int TDimension>
-typename LightObject::Pointer
+LightObject::Pointer
 ArrowSpatialObject<TDimension>::InternalClone() const
 {
   // Default implementation just copies the parameters from
   // this to new transform.
-  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+  LightObject::Pointer loPtr = Superclass::InternalClone();
 
   const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
@@ -159,8 +159,6 @@ ArrowSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) cons
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "DirectionInObjectSpace: "
-     << static_cast<typename NumericTraits<VectorType>::PrintType>(m_DirectionInObjectSpace) << std::endl;
   os << indent
      << "PositionInObjectSpace: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_PositionInObjectSpace)
      << std::endl;

@@ -65,7 +65,7 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 std::vector<SmartPointer<DataObject>>::size_type
 PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::GetNumberOfValidRequiredInputs() const
 {
-  typename std::vector<SmartPointer<DataObject>>::size_type num = 0;
+  std::vector<SmartPointer<DataObject>>::size_type num = 0;
 
   if (this->GetFixedImage())
   {

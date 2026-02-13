@@ -49,8 +49,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::PrintSelf(std::os
   os << indent << "TargetOffset: " << m_TargetOffset << std::endl;
   os << indent << "TargetReachedMode: " << m_TargetReachedMode << std::endl;
   os << indent << "TargetValue: " << m_TargetValue << std::endl;
-  os << indent
-     << "NumberOfTargets: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfTargets)
+  os << indent << "NumberOfTargets: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfTargets)
      << std::endl;
 }
 

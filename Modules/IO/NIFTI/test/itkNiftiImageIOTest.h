@@ -252,10 +252,10 @@ TestImageOfSymMats(const std::string & fname)
 
   constexpr int dimsize{ 2 };
   /** Deformation field pixel type. */
-  //  using PixelType = typename itk::DiffusionTenor3D<ScalarType>;
+  //  using PixelType =  itk::DiffusionTenor3D<ScalarType>;
 
   /** Deformation field type. */
-  using DtiImageType = typename itk::Image<PixelType, VDimension>;
+  using DtiImageType = itk::Image<PixelType, VDimension>;
 
   // original test case was destined for failure.  NIfTI always writes out 3D
   // orientation.  The only sensible matrices you could pass in would be of the form
@@ -467,7 +467,7 @@ RGBTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  using RGBImageType = typename itk::Image<RGBPixelType, 3>;
+  using RGBImageType = itk::Image<RGBPixelType, 3>;
   constexpr typename RGBImageType::SizeType  size{ 5, 5, 5 };
   constexpr typename RGBImageType::IndexType index{};
   typename RGBImageType::RegionType          imageRegion{ index, size };

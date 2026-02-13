@@ -48,9 +48,9 @@ public:
   using Pointer = SmartPointer<Self>;
 
   using IOBaseType = VideoIOBase;
-  using IOBasePointer = typename VideoIOBase::Pointer;
-  using SizeValueType = typename IOBaseType::SizeValueType;
-  using TemporalRatioType = typename IOBaseType::TemporalRatioType;
+  using IOBasePointer = VideoIOBase::Pointer;
+  using SizeValueType = IOBaseType::SizeValueType;
+  using TemporalRatioType = IOBaseType::TemporalRatioType;
 
   using VideoStreamType = TInputVideoStream;
   using VideoStreamPointer = typename VideoStreamType::Pointer;

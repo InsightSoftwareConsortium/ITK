@@ -60,9 +60,9 @@ public:
   using SpacingType = typename FrameType::SpacingType;
   using DirectionType = typename FrameType::DirectionType;
 
-  using TemporalOffsetType = typename VideoIOBase::TemporalOffsetType;
-  using FrameOffsetType = typename VideoIOBase::FrameOffsetType;
-  using TemporalRatioType = typename VideoIOBase::TemporalRatioType;
+  using TemporalOffsetType = VideoIOBase::TemporalOffsetType;
+  using FrameOffsetType = VideoIOBase::FrameOffsetType;
+  using TemporalRatioType = VideoIOBase::TemporalRatioType;
 
   static constexpr unsigned int FrameDimension = FrameType::ImageDimension;
 

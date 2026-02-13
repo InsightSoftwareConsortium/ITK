@@ -36,14 +36,14 @@ BlobSpatialObject<TDimension>::BlobSpatialObject()
 }
 
 template <unsigned int TDimension>
-typename LightObject::Pointer
+LightObject::Pointer
 BlobSpatialObject<TDimension>::InternalClone() const
 {
   // Default implementation just copies the parameters from
   // this to new transform.
-  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+  LightObject::Pointer loPtr = Superclass::InternalClone();
 
-  const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
+  const Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
     itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");

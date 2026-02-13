@@ -50,7 +50,7 @@ AttributeKeepNObjectsLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
   ProgressReporter progress(this, 0, 2 * output->GetNumberOfLabelObjects());
 
   // get the label objects in a vector, so they can be sorted
-  using VectorType = typename std::vector<typename LabelObjectType::Pointer>;
+  using VectorType = std::vector<typename LabelObjectType::Pointer>;
   VectorType labelObjects;
   labelObjects.reserve(output->GetNumberOfLabelObjects());
   for (typename ImageType::Iterator it(output); !it.IsAtEnd(); ++it)

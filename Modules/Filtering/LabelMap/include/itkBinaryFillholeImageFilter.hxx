@@ -88,7 +88,7 @@ BinaryFillholeImageFilter<TInputImage>::GenerateData()
   notInput->SetReleaseDataFlag(true);
   progress->RegisterInternalFilter(notInput, .2f);
 
-  using LabelizerType = typename itk::BinaryImageToShapeLabelMapFilter<InputImageType>;
+  using LabelizerType = itk::BinaryImageToShapeLabelMapFilter<InputImageType>;
   auto labelizer = LabelizerType::New();
   labelizer->SetInput(notInput->GetOutput());
   labelizer->SetInputForegroundValue(m_ForegroundValue);
@@ -98,7 +98,7 @@ BinaryFillholeImageFilter<TInputImage>::GenerateData()
   progress->RegisterInternalFilter(labelizer, .5f);
 
   using LabelMapType = typename LabelizerType::OutputImageType;
-  using OpeningType = typename itk::ShapeOpeningLabelMapFilter<LabelMapType>;
+  using OpeningType = itk::ShapeOpeningLabelMapFilter<LabelMapType>;
   auto opening = OpeningType::New();
   opening->SetInput(labelizer->GetOutput());
   opening->SetAttribute(LabelMapType::LabelObjectType::NUMBER_OF_PIXELS_ON_BORDER);
@@ -107,7 +107,7 @@ BinaryFillholeImageFilter<TInputImage>::GenerateData()
   progress->RegisterInternalFilter(opening, .1f);
 
   // invert the image during the binarization
-  using BinarizerType = typename itk::LabelMapMaskImageFilter<LabelMapType, OutputImageType>;
+  using BinarizerType = itk::LabelMapMaskImageFilter<LabelMapType, OutputImageType>;
   auto binarizer = BinarizerType::New();
   binarizer->SetInput(opening->GetOutput());
   binarizer->SetLabel(backgroundValue);

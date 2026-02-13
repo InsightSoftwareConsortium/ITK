@@ -90,7 +90,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   {
     return;
   }
-  const typename ImageMaskSpatialObject<3>::Pointer maskSpatialObject =
+  const ImageMaskSpatialObject<3>::Pointer maskSpatialObject =
     dynamic_cast<ImageMaskSpatialObject<3> *>(this->ProcessObject::GetInput(1));
   if (maskSpatialObject.IsNull())
   {

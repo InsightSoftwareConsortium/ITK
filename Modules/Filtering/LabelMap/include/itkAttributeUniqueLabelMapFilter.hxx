@@ -34,7 +34,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
 
   // the priority queue to store all the lines of all the objects sorted
   using PriorityQueueType =
-    typename std::priority_queue<LineOfLabelObject, std::vector<LineOfLabelObject>, LineOfLabelObjectComparator>;
+    std::priority_queue<LineOfLabelObject, std::vector<LineOfLabelObject>, LineOfLabelObjectComparator>;
   PriorityQueueType pq;
 
   auto           labelMap = this->GetLabelMap();
@@ -72,7 +72,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
 
   ProgressReporter progress2(this, 0, numberOfLines, 100, 0.3f, 0.60f);
 
-  using LinesType = typename std::deque<LineOfLabelObject>;
+  using LinesType = std::deque<LineOfLabelObject>;
   LinesType lines;
 
   lines.push_back(pq.top());

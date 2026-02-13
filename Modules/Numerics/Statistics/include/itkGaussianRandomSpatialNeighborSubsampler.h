@@ -100,7 +100,7 @@ protected:
    * This does a complete copy of the subsampler state
    * to the new subsampler
    */
-  [[nodiscard]] typename LightObject::Pointer
+  [[nodiscard]] LightObject::Pointer
   InternalClone() const override;
 
   GaussianRandomSpatialNeighborSubsampler() = default;
