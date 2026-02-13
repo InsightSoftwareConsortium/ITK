@@ -419,7 +419,7 @@ main(int argc, char * argv[])
 
     while (!fi.IsAtEnd())
     {
-      index = fi.GetIndex();
+      index = fi.ComputeIndex();
       field->TransformIndexToPhysicalPoint(index, fixedPoint);
       movingPoint = transform->TransformPoint(fixedPoint);
       displacement = movingPoint - fixedPoint;
