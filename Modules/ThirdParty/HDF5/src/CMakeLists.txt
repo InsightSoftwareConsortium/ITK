@@ -192,12 +192,6 @@ set(
   "Enable support for non-standard programming language features"
 )
 set(
-  HDF5_ENABLE_NONSTANDARD_FEATURE_FLOAT16
-  ON
-  CACHE INTERNAL
-  "Enable support for _Float16 C datatype"
-)
-set(
   HDF5_ENABLE_SUBFILING_VFD
   OFF
   CACHE INTERNAL
