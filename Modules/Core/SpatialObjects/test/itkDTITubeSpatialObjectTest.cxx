@@ -419,22 +419,22 @@ itkDTITubeSpatialObjectTest(int, char *[])
   const Point      n2_known(itk::MakePoint(0.408248, 0.408248, 0.816497));
   constexpr double tol{ 0.0001 };
 
-  if ((itk::Math::abs(t[0] - t_known[0]) > tol) || (itk::Math::abs(t[1] - t_known[1]) > tol) ||
-      (itk::Math::abs(t[2] - t_known[2]) > tol))
+  if ((itk::Math::Absolute(t[0] - t_known[0]) > tol) || (itk::Math::Absolute(t[1] - t_known[1]) > tol) ||
+      (itk::Math::Absolute(t[2] - t_known[2]) > tol))
   {
     std::cout << "[FAILED]" << std::endl;
     std::cout << " t = " << t << " != " << t_known << " within " << tol << std::endl;
     return EXIT_FAILURE;
   }
-  if ((itk::Math::abs(n1[0] - n1_known[0]) > tol) || (itk::Math::abs(n1[1] + n1_known[1]) > tol) ||
-      (itk::Math::abs(n1[2] - n1_known[2]) > tol))
+  if ((itk::Math::Absolute(n1[0] - n1_known[0]) > tol) || (itk::Math::Absolute(n1[1] + n1_known[1]) > tol) ||
+      (itk::Math::Absolute(n1[2] - n1_known[2]) > tol))
   {
     std::cout << "[FAILED]" << std::endl;
     std::cout << " n1 = " << n1 << " != " << n1_known << " within " << tol << std::endl;
     return EXIT_FAILURE;
   }
-  if ((itk::Math::abs(n2[0] - n2_known[0]) > tol) || (itk::Math::abs(n2[1] - n2_known[1]) > tol) ||
-      (itk::Math::abs(n2[2] + n2_known[2]) > tol))
+  if ((itk::Math::Absolute(n2[0] - n2_known[0]) > tol) || (itk::Math::Absolute(n2[1] - n2_known[1]) > tol) ||
+      (itk::Math::Absolute(n2[2] + n2_known[2]) > tol))
   {
     std::cout << "[FAILED]" << std::endl;
     std::cout << " n2 = " << n2 << " != " << n2_known << " within " << tol << std::endl;

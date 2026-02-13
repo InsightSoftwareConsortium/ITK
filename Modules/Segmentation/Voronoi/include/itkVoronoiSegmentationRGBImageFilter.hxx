@@ -53,7 +53,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetMeanPercentErro
   for (unsigned int i = 0; i < 6; ++i)
   {
     m_MeanPercentError[i] = x[i];
-    m_MeanTolerance[i] = itk::Math::abs(x[i] * m_Mean[i]);
+    m_MeanTolerance[i] = itk::Math::Absolute(x[i] * m_Mean[i]);
   }
 }
 
@@ -341,7 +341,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
     }
     else
     {
-      m_MeanTolerance[i] = itk::Math::abs(m_Mean[i] * m_MeanPercentError[i]);
+      m_MeanTolerance[i] = itk::Math::Absolute(m_Mean[i] * m_MeanPercentError[i]);
     }
   }
 

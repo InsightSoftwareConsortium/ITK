@@ -117,7 +117,7 @@ itkSigmoidImageFilterTest(int, char *[])
     const auto                       sigmoid = static_cast<OutputImageType::PixelType>(x2);
     if (!itk::Math::FloatAlmostEqual(sigmoid, output, 10, epsilon))
     {
-      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
       std::cerr << "Error " << std::endl;
       std::cerr << " simoid( " << input << ") = " << sigmoid << std::endl;
       std::cerr << " differs from " << output;

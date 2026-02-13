@@ -28,7 +28,7 @@ CheckEqual(const itk::Point<double, 2> & p1, const itk::Point<double, 2> & p2)
   constexpr double epsilon{ 1e-10 };
   for (unsigned int i = 0; i < 2; ++i)
   {
-    if (itk::Math::abs(p1[i] - p2[i]) > epsilon)
+    if (itk::Math::Absolute(p1[i] - p2[i]) > epsilon)
     {
       std::cout << p1 << " != " << p2 << ": FAILED" << std::endl;
       return false;
@@ -65,7 +65,7 @@ itkRigid2DTransformTest(int, char *[])
 
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (itk::Math::abs(offset[i] - 0.0) > epsilon)
+      if (itk::Math::Absolute(offset[i] - 0.0) > epsilon)
       {
         Ok = false;
         break;
@@ -110,7 +110,7 @@ itkRigid2DTransformTest(int, char *[])
 
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (itk::Math::abs(offset[i] - ioffset[i]) > epsilon)
+      if (itk::Math::Absolute(offset[i] - ioffset[i]) > epsilon)
       {
         Ok = false;
         break;
@@ -130,7 +130,7 @@ itkRigid2DTransformTest(int, char *[])
       TransformType::OutputPointType                     r = translation->TransformPoint(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -154,7 +154,7 @@ itkRigid2DTransformTest(int, char *[])
       TransformType::OutputVectorType           q = translation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - p[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - p[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -177,7 +177,7 @@ itkRigid2DTransformTest(int, char *[])
       TransformType::OutputCovariantVectorType           q = translation->TransformCovariantVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - p[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - p[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -202,7 +202,7 @@ itkRigid2DTransformTest(int, char *[])
       TransformType::OutputVnlVectorType q = translation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - p[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - p[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -244,10 +244,10 @@ itkRigid2DTransformTest(int, char *[])
     ITK_TRY_EXPECT_EXCEPTION(rotation->SetMatrix(mrotation, 1e-8));
     mrotation[0][0] -= 1e-7;
 
-    std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cout.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
     if (!itk::Math::FloatAlmostEqual(-angle, rotation->GetRotation(), 10, epsilon))
     {
-      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
       std::cerr << "Test failed!" << std::endl;
       std::cerr << "Error in GetRotation" << std::endl;
       std::cerr << "Expected value " << -angle << std::endl;
@@ -286,7 +286,7 @@ itkRigid2DTransformTest(int, char *[])
 
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (itk::Math::abs(offset[i] - ioffset[i]) > epsilon)
+      if (itk::Math::Absolute(offset[i] - ioffset[i]) > epsilon)
       {
         Ok = false;
         break;
@@ -307,7 +307,7 @@ itkRigid2DTransformTest(int, char *[])
     {
       for (unsigned int j = 0; j < N; ++j)
       {
-        if (itk::Math::abs(matrix[i][j] - mrotation[i][j]) > epsilon)
+        if (itk::Math::Absolute(matrix[i][j] - mrotation[i][j]) > epsilon)
         {
           Ok = false;
           break;
@@ -333,7 +333,7 @@ itkRigid2DTransformTest(int, char *[])
       TransformType::OutputPointType r = rotation->TransformPoint(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -362,7 +362,7 @@ itkRigid2DTransformTest(int, char *[])
       TransformType::OutputVectorType r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -392,7 +392,7 @@ itkRigid2DTransformTest(int, char *[])
 
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -425,7 +425,7 @@ itkRigid2DTransformTest(int, char *[])
       TransformType::OutputVnlVectorType r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;

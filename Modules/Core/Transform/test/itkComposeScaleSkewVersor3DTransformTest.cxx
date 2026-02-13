@@ -115,7 +115,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     std::cout << offset << std::endl;
     for (unsigned int i = 0; i < 3; ++i)
     {
-      if (itk::Math::abs(offset[i] - 0.0) > epsilon)
+      if (itk::Math::Absolute(offset[i] - 0.0) > epsilon)
       {
         Ok = false;
         break;
@@ -142,7 +142,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
       r = rotation->TransformPoint(p);
       for (unsigned int i = 0; i < 3; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -170,7 +170,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
       r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < 3; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -198,7 +198,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
       r = rotation->TransformCovariantVector(p);
       for (unsigned int i = 0; i < 3; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -229,7 +229,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
       r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < 3; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -270,7 +270,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     transformedPoint = transform->TransformPoint(center);
     for (unsigned int i = 0; i < 3; ++i)
     {
-      if (itk::Math::abs(center[i] - transformedPoint[i]) > epsilon)
+      if (itk::Math::Absolute(center[i] - transformedPoint[i]) > epsilon)
       {
         Ok = false;
         break;
@@ -315,7 +315,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     constexpr double tolerance{ 1e-8 };
     for (unsigned int p = 0; p < np; ++p)
     {
-      if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
+      if (itk::Math::Absolute(parameters[p] - parameters2[p]) > tolerance)
       {
         std::cerr << "Get/Set parameters: parameters do not match " << std::endl;
         return EXIT_FAILURE;
@@ -368,7 +368,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     for (unsigned int p = 0; p < np; ++p)
     {
       std::cout << parameters[p] << " = " << parameters2[p] << std::endl;
-      if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
+      if (itk::Math::Absolute(parameters[p] - parameters2[p]) > tolerance)
       {
         std::cerr << "Identity parameters do not match" << std::endl;
         return EXIT_FAILURE;
@@ -410,7 +410,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     constexpr double tolerance{ 1e-8 };
     for (unsigned int j = 0; j < 3; ++j)
     {
-      if (itk::Math::abs(rscale[j] - scale[j]) > tolerance)
+      if (itk::Math::Absolute(rscale[j] - scale[j]) > tolerance)
       {
         std::cerr << "Error in Set/Get Scale() " << std::endl;
         std::cerr << "Input scale: " << scale << std::endl;
@@ -444,7 +444,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     for (unsigned int p = 0; p < np; ++p)
     {
       std::cout << parameters[p] << " = " << parameters2[p] << std::endl;
-      if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
+      if (itk::Math::Absolute(parameters[p] - parameters2[p]) > tolerance)
       {
         std::cerr << "Scale parameters do not match input " << std::endl;
         return EXIT_FAILURE;
@@ -466,7 +466,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     for (unsigned int p = 0; p < np; ++p)
     {
       std::cout << parameters[p] << " = " << parameters3[p] << std::endl;
-      if (itk::Math::abs(parameters[p] - parameters3[p]) > tolerance)
+      if (itk::Math::Absolute(parameters[p] - parameters3[p]) > tolerance)
       {
         std::cerr << "SetMatrix parameters do not match input " << std::endl;
         return EXIT_FAILURE;
@@ -496,11 +496,11 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
 
       for (unsigned int i = 0; i < 3; ++i)
       {
-        if (itk::Math::abs(tPnt[i] - tPnt2[i]) > 1e-7)
+        if (itk::Math::Absolute(tPnt[i] - tPnt2[i]) > 1e-7)
         {
           ++diff;
         }
-        if (itk::Math::abs(tPnt[i] - tPnt3[i]) > 1e-7)
+        if (itk::Math::Absolute(tPnt[i] - tPnt3[i]) > 1e-7)
         {
           ++diff;
         }
@@ -559,7 +559,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
         for (unsigned int d = 0; d < 3; ++d)
         {
           const double pntDiff = (pnt1[d] - pnt2[d]) / (2 * epsilon);
-          if (itk::Math::abs(pntDiff - jacob[d][i]) > itk::Math::abs(0.1 * pntDiff))
+          if (itk::Math::Absolute(pntDiff - jacob[d][i]) > itk::Math::Absolute(0.1 * pntDiff))
           {
             std::cout << "Ideal = " << pntDiff << "  Jacob = " << jacob[d][i] << std::endl;
             std::cout << "Jacobian not matching finite difference." << std::endl;

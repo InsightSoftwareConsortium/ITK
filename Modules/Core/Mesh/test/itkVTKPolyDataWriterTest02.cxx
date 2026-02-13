@@ -75,7 +75,7 @@ itkVTKPolyDataWriterTest02(int argc, char * argv[])
 
     const double distanceToCenter = pt.EuclideanDistanceTo(center);
 
-    if (itk::Math::abs(distanceToCenter - radius) > tolerance)
+    if (itk::Math::Absolute(distanceToCenter - radius) > tolerance)
     {
       std::cerr << "Distance to center " << distanceToCenter;
       std::cerr << " is too different from radius " << radius << std::endl;

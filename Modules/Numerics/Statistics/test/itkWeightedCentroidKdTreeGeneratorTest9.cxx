@@ -177,7 +177,7 @@ itkWeightedCentroidKdTreeGeneratorTest9(int argc, char * argv[])
       }
     }
 
-    if (itk::Math::abs(min_dist - result_dist) > 10.0 * itk::NumericTraits<double>::epsilon() * min_dist)
+    if (itk::Math::Absolute(min_dist - result_dist) > 10.0 * itk::NumericTraits<double>::epsilon() * min_dist)
     {
       std::cerr << "Problem found " << std::endl;
       std::cerr << "Query point " << queryPoint << std::endl;

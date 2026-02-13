@@ -362,7 +362,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
 
       TInternalComputationValueType pxy = m_JointPDF->GetPixel(index);
       TInternalComputationValueType local_mi = 0;
-      if (itk::Math::abs(denom) > eps)
+      if (itk::Math::Absolute(denom) > eps)
       {
         if (pxy / denom > eps)
         {

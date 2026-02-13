@@ -70,10 +70,10 @@ itkNrrdCovariantVectorImageReadTest(int argc, char * argv[])
       {
         coord[0] = xi;
         PixelType sample = image->GetPixel(coord);
-        err += itk::Math::abs(sample[0] - coord[0]);
-        err += itk::Math::abs(sample[1] - coord[1]);
-        err += itk::Math::abs(sample[2] - coord[2]);
-        err += itk::Math::abs(sample[3] - idx);
+        err += itk::Math::Absolute(sample[0] - coord[0]);
+        err += itk::Math::Absolute(sample[1] - coord[1]);
+        err += itk::Math::Absolute(sample[2] - coord[2]);
+        err += itk::Math::Absolute(sample[3] - idx);
         idx++;
       }
     }

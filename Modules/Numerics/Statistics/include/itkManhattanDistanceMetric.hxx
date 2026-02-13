@@ -37,7 +37,7 @@ ManhattanDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x) cons
   double distance = 0.0;
   for (unsigned int i = 0; i < measurementVectorSize; ++i)
   {
-    const double temp = itk::Math::abs(this->GetOrigin()[i] - x[i]);
+    const double temp = itk::Math::Absolute(this->GetOrigin()[i] - x[i]);
     distance += temp;
   }
   return distance;
@@ -57,7 +57,7 @@ ManhattanDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x1, con
   double distance = 0.0;
   for (unsigned int i = 0; i < measurementVectorSize; ++i)
   {
-    const double temp = itk::Math::abs(x1[i] - x2[i]);
+    const double temp = itk::Math::Absolute(x1[i] - x2[i]);
     distance += temp;
   }
   return distance;

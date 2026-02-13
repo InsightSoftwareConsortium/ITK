@@ -271,7 +271,7 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
   {
     const ImageType::IndexType nodeIndex = nodeIter.Value().GetIndex();
     const double               absDiff =
-      itk::Math::abs(aux2->GetPixel(nodeIndex) - reinitializer->GetOutputVelocityImage(1)->GetPixel(nodeIndex));
+      itk::Math::Absolute(aux2->GetPixel(nodeIndex) - reinitializer->GetOutputVelocityImage(1)->GetPixel(nodeIndex));
     if (absDiff > 0.6)
     {
       std::cout << "Abs diff: " << absDiff;

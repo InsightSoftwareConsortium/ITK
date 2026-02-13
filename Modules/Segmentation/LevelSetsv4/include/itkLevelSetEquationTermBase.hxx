@@ -64,7 +64,7 @@ auto
 LevelSetEquationTermBase<TInputImage, TLevelSetContainer>::Evaluate(const LevelSetInputIndexType & iP)
   -> LevelSetOutputRealType
 {
-  if (itk::Math::abs(this->m_Coefficient) > NumericTraits<LevelSetOutputRealType>::epsilon())
+  if (itk::Math::Absolute(this->m_Coefficient) > NumericTraits<LevelSetOutputRealType>::epsilon())
   {
     return this->m_Coefficient * this->Value(iP);
   }
@@ -80,7 +80,7 @@ LevelSetEquationTermBase<TInputImage, TLevelSetContainer>::Evaluate(const LevelS
                                                                     const LevelSetDataType &       iData)
   -> LevelSetOutputRealType
 {
-  if (itk::Math::abs(this->m_Coefficient) > NumericTraits<LevelSetOutputRealType>::epsilon())
+  if (itk::Math::Absolute(this->m_Coefficient) > NumericTraits<LevelSetOutputRealType>::epsilon())
   {
     return this->m_Coefficient * this->Value(iP, iData);
   }

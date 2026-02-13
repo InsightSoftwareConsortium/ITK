@@ -341,18 +341,18 @@ TEST(itkMath, Abs)
   constexpr auto cld = std::complex<long double>(-3, -4);
   EXPECT_EQ(itk::Math::Absolute(cld), 5);
 
-  EXPECT_EQ(itk::Math::abs(false), false);
-  EXPECT_EQ(itk::Math::abs(true), true);
-  EXPECT_EQ(itk::Math::abs(static_cast<unsigned char>(5)), 5);
-  EXPECT_EQ(itk::Math::abs(static_cast<signed char>(-5)), 5);
-  EXPECT_EQ(itk::Math::abs(static_cast<signed char>(-128)), 128);
-  EXPECT_EQ(itk::Math::abs(static_cast<short>(-5)), 5);
-  EXPECT_EQ(itk::Math::abs<int>(-5), 5u);
-  EXPECT_EQ(itk::Math::abs<long>(-5L), 5ul);
-  EXPECT_EQ(itk::Math::abs<long long>(-5LL), 5ull);
-  EXPECT_EQ(itk::Math::abs<double>(-5.0), 5.0);
-  EXPECT_EQ(itk::Math::abs<float>(-5.0f), 5.0f);
-  EXPECT_EQ(itk::Math::abs(-5), 5);
+  EXPECT_EQ(itk::Math::Absolute(false), false);
+  EXPECT_EQ(itk::Math::Absolute(true), true);
+  EXPECT_EQ(itk::Math::Absolute(static_cast<unsigned char>(5)), 5);
+  EXPECT_EQ(itk::Math::Absolute(static_cast<signed char>(-5)), 5);
+  EXPECT_EQ(itk::Math::Absolute(static_cast<signed char>(-128)), 128);
+  EXPECT_EQ(itk::Math::Absolute(static_cast<short>(-5)), 5);
+  EXPECT_EQ(itk::Math::Absolute<int>(-5), 5u);
+  EXPECT_EQ(itk::Math::Absolute<long>(-5L), 5ul);
+  EXPECT_EQ(itk::Math::Absolute<long long>(-5LL), 5ull);
+  EXPECT_EQ(itk::Math::Absolute<double>(-5.0), 5.0);
+  EXPECT_EQ(itk::Math::Absolute<float>(-5.0f), 5.0f);
+  EXPECT_EQ(itk::Math::Absolute(-5), 5);
 }
 
 TEST(itkMath, ConstexprTests)

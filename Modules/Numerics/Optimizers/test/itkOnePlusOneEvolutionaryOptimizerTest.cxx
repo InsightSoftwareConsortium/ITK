@@ -126,7 +126,7 @@ public:
     }
     const double currentValue = optimizer->GetValue();
     // Only print out when the Metric value changes
-    if (itk::Math::abs(m_LastMetricValue - currentValue) > 1e-7)
+    if (itk::Math::Absolute(m_LastMetricValue - currentValue) > 1e-7)
     {
       std::cout << optimizer->GetCurrentIteration() << "   ";
       std::cout << currentValue << "   ";
@@ -237,7 +237,7 @@ itkOnePlusOneEvolutionaryOptimizerTest(int, char *[])
   constexpr double trueParameters[2]{ 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
-    if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
+    if (itk::Math::Absolute(finalPosition[j] - trueParameters[j]) > 0.01)
     {
       pass = false;
     }

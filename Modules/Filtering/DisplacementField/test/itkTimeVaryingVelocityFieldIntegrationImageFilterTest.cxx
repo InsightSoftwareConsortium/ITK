@@ -130,7 +130,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   VectorType                    displacement = inverseField->GetPixel(index);
 
   std::cout << "Estimated inverse displacement vector: " << displacement << std::endl;
-  if (itk::Math::abs(displacement[0] + 0.101852) > 0.01)
+  if (itk::Math::Absolute(displacement[0] + 0.101852) > 0.01)
   {
     std::cerr << "Failed to produce the correct inverse integration." << std::endl;
     return EXIT_FAILURE;
@@ -144,7 +144,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   displacement = displacementField->GetPixel(index);
 
   std::cout << "Estimated forward displacement vector: " << displacement << std::endl;
-  if (itk::Math::abs(displacement[0] - 0.045) > 0.0001)
+  if (itk::Math::Absolute(displacement[0] - 0.045) > 0.0001)
   {
     std::cerr << "Failed to produce the correct forward integration." << std::endl;
     return EXIT_FAILURE;
@@ -239,8 +239,8 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   displacement = displacementField->GetPixel(index);
   // The analytic result is displacement = ( cos(3) - cos(2), sin(3) - sin(2), 3 - 2 )
   std::cout << "Estimated forward displacement vector: " << displacement << std::endl;
-  if (itk::Math::abs(displacement[0] + 0.5738) > 0.0002 || itk::Math::abs(displacement[1] + 0.7682) > 0.0001 ||
-      itk::Math::abs(displacement[2] - 1.0000) > 0.0001)
+  if (itk::Math::Absolute(displacement[0] + 0.5738) > 0.0002 ||
+      itk::Math::Absolute(displacement[1] + 0.7682) > 0.0001 || itk::Math::Absolute(displacement[2] - 1.0000) > 0.0001)
   {
     std::cerr << "Failed to produce the correct forward integration." << std::endl;
     return EXIT_FAILURE;
@@ -255,8 +255,8 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   displacement = inverseField->GetPixel(index);
   // The analytic result is displacement = ( cos(1) - cos(2), sin(1) - sin(2), 1 - 2 )
   std::cout << "Estimated inverse displacement vector: " << displacement << std::endl;
-  if (itk::Math::abs(displacement[0] - 0.9564) > 0.0001 || itk::Math::abs(displacement[1] + 0.0678) > 0.0003 ||
-      itk::Math::abs(displacement[2] + 1.0000) > 0.0001)
+  if (itk::Math::Absolute(displacement[0] - 0.9564) > 0.0001 ||
+      itk::Math::Absolute(displacement[1] + 0.0678) > 0.0003 || itk::Math::Absolute(displacement[2] + 1.0000) > 0.0001)
   {
     std::cerr << "Failed to produce the correct inverse integration." << std::endl;
     return EXIT_FAILURE;

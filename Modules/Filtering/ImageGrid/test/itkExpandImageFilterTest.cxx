@@ -161,9 +161,9 @@ itkExpandImageFilterTest(int, char *[])
       const double               trueValue = pattern.Evaluate(inputIndex);
 
       constexpr double epsilon{ 1e-4 };
-      if (itk::Math::abs(trueValue - value) > epsilon)
+      if (itk::Math::Absolute(trueValue - value) > epsilon)
       {
-        std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+        std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
         std::cerr << "Test failed!" << std::endl;
         std::cerr << "Error in Evaluate at index [" << index << "]" << std::endl;
         std::cerr << "Expected value " << trueValue << std::endl;

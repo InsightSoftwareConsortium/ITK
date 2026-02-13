@@ -127,7 +127,7 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
       static_cast<OutputImageType::PixelType>(it1.Get() * it1.Get() + it2.Get() * it2.Get() + it3.Get() * it3.Get());
     if (!itk::Math::FloatAlmostEqual(oIt.Get(), outputValue, 10, epsilon))
     {
-      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
       std::cerr << "Error " << std::endl;
       std::cerr << "Value should be  " << outputValue << std::endl;
       std::cerr << "but is           " << oIt.Get() << std::endl;

@@ -28,8 +28,8 @@ constexpr unsigned int WIDTH = (128);
 float
 square(unsigned int x, unsigned int y)
 {
-  const float X = itk::Math::abs(x - float{ WIDTH } / 2.0);
-  const float Y = itk::Math::abs(y - float{ HEIGHT } / 2.0);
+  const float X = itk::Math::Absolute(x - float{ WIDTH } / 2.0);
+  const float Y = itk::Math::Absolute(y - float{ HEIGHT } / 2.0);
   float       dis = -std::sqrt((X - RADIUS) * (X - RADIUS) + (Y - RADIUS) * (Y - RADIUS));
   if (!((X > RADIUS) && (Y > RADIUS)))
   {

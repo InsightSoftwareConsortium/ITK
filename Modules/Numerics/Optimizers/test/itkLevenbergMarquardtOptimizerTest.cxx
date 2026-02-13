@@ -374,7 +374,7 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   constexpr double trueParameters[3]{ ra, rb, rc };
   for (unsigned int j = 0; j < LMCostFunction::SpaceDimension; ++j)
   {
-    if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
+    if (itk::Math::Absolute(finalPosition[j] - trueParameters[j]) > 0.01)
     {
       pass = false;
     }
@@ -391,7 +391,7 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   OptimizerType::MeasureType finalValue = optimizer->GetValue();
 
   // We compare only the first value for this test
-  if (itk::Math::abs(finalValue[0] - 0.0) > 0.01)
+  if (itk::Math::Absolute(finalValue[0] - 0.0) > 0.01)
   {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;

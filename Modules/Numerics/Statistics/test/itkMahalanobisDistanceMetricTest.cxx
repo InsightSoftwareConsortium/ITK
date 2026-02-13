@@ -51,9 +51,9 @@ itkMahalanobisDistanceMetricTest(int, char *[])
 
   // double value comparison tolerance
   constexpr double tolerance{ 0.001 };
-  if (itk::Math::abs(distance->GetMean()[0] - origin[0]) > tolerance ||
-      itk::Math::abs(distance->GetMean()[1] - origin[1]) > tolerance ||
-      itk::Math::abs(distance->GetMean()[2] - origin[2]) > tolerance)
+  if (itk::Math::Absolute(distance->GetMean()[0] - origin[0]) > tolerance ||
+      itk::Math::Absolute(distance->GetMean()[1] - origin[1]) > tolerance ||
+      itk::Math::Absolute(distance->GetMean()[2] - origin[2]) > tolerance)
   {
     std::cerr << " Set/Get Origin error " << std::endl;
     return EXIT_FAILURE;
@@ -68,7 +68,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   double trueValue = 3.31662;
   double distanceComputed = distance->Evaluate(measurement);
 
-  if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
+  if (itk::Math::Absolute(distanceComputed - trueValue) > tolerance)
   {
     std::cerr << "Distance computed not correct: "
               << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << std::endl;
@@ -94,20 +94,20 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   distance->SetDoubleMax(doubleMax);
 
   // Test Set/Get Epsilon method
-  if (itk::Math::abs(distance->GetEpsilon() - epsilon) > tolerance)
+  if (itk::Math::Absolute(distance->GetEpsilon() - epsilon) > tolerance)
   {
     std::cerr << "Get/SetEpsilon method error" << std::endl;
     return EXIT_FAILURE;
   }
 
   // Test Set/Get DoubleMax method
-  if (itk::Math::abs(distance->GetDoubleMax() - doubleMax) > tolerance)
+  if (itk::Math::Absolute(distance->GetDoubleMax() - doubleMax) > tolerance)
   {
     std::cerr << "Get/SetDoubleMax method error" << std::endl;
     return EXIT_FAILURE;
   }
 
-  if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
+  if (itk::Math::Absolute(distanceComputed - trueValue) > tolerance)
   {
     std::cerr << "Distance computed not correct: "
               << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << std::endl;
@@ -170,15 +170,15 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   // Get the computed inverse covariance matrix
   DistanceMetricType::CovarianceMatrixType computedInverseCovarianceMatrix = distance->GetInverseCovariance();
 
-  if (itk::Math::abs(trueInverseCovarianceMatrix[0][0] - computedInverseCovarianceMatrix[0][0]) > tolerance ||
-      itk::Math::abs(trueInverseCovarianceMatrix[0][1] - computedInverseCovarianceMatrix[0][1]) > tolerance ||
-      itk::Math::abs(trueInverseCovarianceMatrix[0][2] - computedInverseCovarianceMatrix[0][2]) > tolerance ||
-      itk::Math::abs(trueInverseCovarianceMatrix[1][0] - computedInverseCovarianceMatrix[1][0]) > tolerance ||
-      itk::Math::abs(trueInverseCovarianceMatrix[1][1] - computedInverseCovarianceMatrix[1][1]) > tolerance ||
-      itk::Math::abs(trueInverseCovarianceMatrix[1][2] - computedInverseCovarianceMatrix[1][2]) > tolerance ||
-      itk::Math::abs(trueInverseCovarianceMatrix[2][0] - computedInverseCovarianceMatrix[2][0]) > tolerance ||
-      itk::Math::abs(trueInverseCovarianceMatrix[2][1] - computedInverseCovarianceMatrix[2][1]) > tolerance ||
-      itk::Math::abs(trueInverseCovarianceMatrix[2][2] - computedInverseCovarianceMatrix[2][2]) > tolerance)
+  if (itk::Math::Absolute(trueInverseCovarianceMatrix[0][0] - computedInverseCovarianceMatrix[0][0]) > tolerance ||
+      itk::Math::Absolute(trueInverseCovarianceMatrix[0][1] - computedInverseCovarianceMatrix[0][1]) > tolerance ||
+      itk::Math::Absolute(trueInverseCovarianceMatrix[0][2] - computedInverseCovarianceMatrix[0][2]) > tolerance ||
+      itk::Math::Absolute(trueInverseCovarianceMatrix[1][0] - computedInverseCovarianceMatrix[1][0]) > tolerance ||
+      itk::Math::Absolute(trueInverseCovarianceMatrix[1][1] - computedInverseCovarianceMatrix[1][1]) > tolerance ||
+      itk::Math::Absolute(trueInverseCovarianceMatrix[1][2] - computedInverseCovarianceMatrix[1][2]) > tolerance ||
+      itk::Math::Absolute(trueInverseCovarianceMatrix[2][0] - computedInverseCovarianceMatrix[2][0]) > tolerance ||
+      itk::Math::Absolute(trueInverseCovarianceMatrix[2][1] - computedInverseCovarianceMatrix[2][1]) > tolerance ||
+      itk::Math::Absolute(trueInverseCovarianceMatrix[2][2] - computedInverseCovarianceMatrix[2][2]) > tolerance)
   {
     std::cerr << "Inverse computation error" << std::endl;
     return EXIT_FAILURE;
@@ -193,7 +193,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   origin[0] = 1.5;
   distance->SetMean(origin);
 
-  if (itk::Math::abs(distance->GetMean()[0] - origin[0]) > tolerance)
+  if (itk::Math::Absolute(distance->GetMean()[0] - origin[0]) > tolerance)
   {
     std::cerr << " Set/Get Origin error " << std::endl;
     return EXIT_FAILURE;
@@ -209,7 +209,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   trueValue = 1.0;
   distanceComputed = distance->Evaluate(measurementSingleComponent);
 
-  if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
+  if (itk::Math::Absolute(distanceComputed - trueValue) > tolerance)
   {
     std::cerr << "Distance computed not correct: "
               << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << std::endl;
@@ -224,7 +224,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   trueValue = 1.0;
   distanceComputed = distance->Evaluate(measurementSingleComponent, measurementSingleComponent2);
 
-  if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
+  if (itk::Math::Absolute(distanceComputed - trueValue) > tolerance)
   {
     std::cerr << "Distance computed not correct: "
               << "truevalue= " << trueValue << "ComputedValue=" << distanceComputed << std::endl;

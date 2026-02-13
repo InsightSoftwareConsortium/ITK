@@ -752,9 +752,9 @@ void
 RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcDirnVector()
 {
   // Calculate the number of voxels in each direction
-  const double xNum = itk::Math::abs(m_RayVoxelStartPosition[0] - m_RayVoxelEndPosition[0]);
-  const double yNum = itk::Math::abs(m_RayVoxelStartPosition[1] - m_RayVoxelEndPosition[1]);
-  const double zNum = itk::Math::abs(m_RayVoxelStartPosition[2] - m_RayVoxelEndPosition[2]);
+  const double xNum = itk::Math::Absolute(m_RayVoxelStartPosition[0] - m_RayVoxelEndPosition[0]);
+  const double yNum = itk::Math::Absolute(m_RayVoxelStartPosition[1] - m_RayVoxelEndPosition[1]);
+  const double zNum = itk::Math::Absolute(m_RayVoxelStartPosition[2] - m_RayVoxelEndPosition[2]);
 
   // The direction iterated in is that with the greatest number of voxels
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

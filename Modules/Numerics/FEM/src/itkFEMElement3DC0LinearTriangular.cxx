@@ -162,7 +162,7 @@ Element3DC0LinearTriangular::GetLocalFromGlobalCoordinates(const VectorType & gl
 
   for (int i = 0; i < 3; ++i)
   {
-    // trying to avoid an expensive call to itk::Math::abs()
+    // trying to avoid an expensive call to itk::Math::Absolute()
     Float fabsn;
     if (n[i] < 0)
     {

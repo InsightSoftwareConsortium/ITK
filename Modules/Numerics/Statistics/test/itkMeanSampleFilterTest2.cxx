@@ -82,8 +82,8 @@ itkMeanSampleFilterTest2(int, char *[])
   // FilterType::MeasurementVectorType::ValueType is an int in this case
   constexpr FilterType::MeasurementVectorType::ValueType epsilon{ 0 };
 
-  if ((itk::Math::abs(meanOutput[0] - expectedMean[0]) > epsilon) ||
-      (itk::Math::abs(meanOutput[1] - expectedMean[1]) > epsilon))
+  if ((itk::Math::Absolute(meanOutput[0] - expectedMean[0]) > epsilon) ||
+      (itk::Math::Absolute(meanOutput[1] - expectedMean[1]) > epsilon))
   {
     pass = false;
     failureMeassage = "The result is not what is expected";

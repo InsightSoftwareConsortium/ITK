@@ -119,7 +119,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     std::cout << offset << std::endl;
     for (unsigned int i = 0; i < 3; ++i)
     {
-      if (itk::Math::abs(offset[i] - 0.0) > epsilon)
+      if (itk::Math::Absolute(offset[i] - 0.0) > epsilon)
       {
         Ok = false;
         break;
@@ -146,7 +146,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
       r = rotation->TransformPoint(p);
       for (unsigned int i = 0; i < 3; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -174,7 +174,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
       r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < 3; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -202,7 +202,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
       r = rotation->TransformCovariantVector(p);
       for (unsigned int i = 0; i < 3; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -233,7 +233,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
       r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < 3; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -274,7 +274,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     transformedPoint = transform->TransformPoint(center);
     for (unsigned int i = 0; i < 3; ++i)
     {
-      if (itk::Math::abs(center[i] - transformedPoint[i]) > epsilon)
+      if (itk::Math::Absolute(center[i] - transformedPoint[i]) > epsilon)
       {
         Ok = false;
         break;
@@ -316,7 +316,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     constexpr double tolerance{ 1e-8 };
     for (unsigned int p = 0; p < np; ++p)
     {
-      if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
+      if (itk::Math::Absolute(parameters[p] - parameters2[p]) > tolerance)
       {
         std::cerr << "Output parameter does not match input " << std::endl;
         return EXIT_FAILURE;
@@ -376,7 +376,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     {
       for (unsigned int jj = 0; jj < 15; ++jj)
       {
-        if (itk::Math::abs(TheoreticalJacobian[ii][jj] - jacobian[ii][jj]) > 1e-5)
+        if (itk::Math::Absolute(TheoreticalJacobian[ii][jj] - jacobian[ii][jj]) > 1e-5)
         {
           std::cerr << "Jacobian components differ from expected values ";
           std::cerr << std::endl << std::endl;
@@ -437,7 +437,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     constexpr double tolerance{ 1e-8 };
     for (unsigned int p = 0; p < np; ++p)
     {
-      if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
+      if (itk::Math::Absolute(parameters[p] - parameters2[p]) > tolerance)
       {
         std::cerr << "Output parameter does not match input " << std::endl;
         return EXIT_FAILURE;
@@ -479,7 +479,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     constexpr double tolerance{ 1e-8 };
     for (unsigned int j = 0; j < 3; ++j)
     {
-      if (itk::Math::abs(rscale[j] - scale[j]) > tolerance)
+      if (itk::Math::Absolute(rscale[j] - scale[j]) > tolerance)
       {
         std::cerr << "Error in Set/Get Scale() " << std::endl;
         std::cerr << "Input scale: " << scale << std::endl;
@@ -509,7 +509,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     ParametersType parameters2 = transform->GetParameters();
     for (unsigned int p = 0; p < np; ++p)
     {
-      if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
+      if (itk::Math::Absolute(parameters[p] - parameters2[p]) > tolerance)
       {
         std::cerr << "Output parameter does not match input " << std::endl;
         return EXIT_FAILURE;

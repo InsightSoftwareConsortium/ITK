@@ -204,7 +204,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
    * pixels is less than the original noise fraction.
    */
   std::cout << "Checking the output..." << std::endl;
-  const PixelType tolerance = itk::Math::abs(foreground - background) * 0.1;
+  const PixelType tolerance = itk::Math::Absolute(foreground - background) * 0.1;
 
   unsigned long numPixelsWrong = 0;
   for (IteratorType outIter(swapPointer, swapPointer->GetBufferedRegion()); !outIter.IsAtEnd(); ++outIter)
@@ -219,12 +219,12 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
     }
     if (lhs < sqrRadius)
     {
-      if (itk::Math::abs(foreground - value) > tolerance)
+      if (itk::Math::Absolute(foreground - value) > tolerance)
       {
         numPixelsWrong++;
       }
     }
-    else if (itk::Math::abs(background - value) > tolerance)
+    else if (itk::Math::Absolute(background - value) > tolerance)
     {
       numPixelsWrong++;
     }

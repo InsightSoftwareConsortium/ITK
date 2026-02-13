@@ -199,7 +199,7 @@ itkBoundingBoxTest(int, char *[])
     const CC::BoundsArrayType & clonedbounds = clone->GetBounds();
     for (unsigned int i = 0; i < originalBounds.Size(); ++i)
     {
-      if (itk::Math::abs(originalBounds[i] - clonedbounds[i]) > tolerance)
+      if (itk::Math::Absolute(originalBounds[i] - clonedbounds[i]) > tolerance)
       {
         std::cerr << "Cloning test failed" << std::endl;
         std::cerr << originalBounds << std::endl;

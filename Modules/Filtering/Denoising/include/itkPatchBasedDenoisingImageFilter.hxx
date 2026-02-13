@@ -878,11 +878,11 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Compute3x3EigenAnalys
 
   const double acos_arg = (s / n) * 1 / sqrtn;
   // When floating point exceptions are enabled, std::acos generates
-  // NaNs (domain errors) if itk::Math::abs(acos_arg) > 1.0
+  // NaNs (domain errors) if itk::Math::Absolute(acos_arg) > 1.0
   // We treat those out of domain arguments as 1.0 (the max allowed value
   // of the std::acos domain), in such case phi = acos(1.0) = acos(-1.0) = 0.0
   // Compute phi = (acos((s/n) * sqrt(1/n)) / 3)
-  const RealTensorValueT phi = (itk::Math::abs(acos_arg) <= 1.0) ? std::acos(acos_arg) / 3 : 0.0;
+  const RealTensorValueT phi = (itk::Math::Absolute(acos_arg) <= 1.0) ? std::acos(acos_arg) / 3 : 0.0;
 
   // Now compute the eigenvalues
   // lambda1 = I1/3 + 2*sqrt(n)*cos(phi)
@@ -1425,7 +1425,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeKernelBandwidt
     {
       if (!m_SigmaConverged[ic])
       {
-        if (itk::Math::abs(sigmaUpdate[ic]) < m_KernelBandwidthSigma[ic] * m_SigmaUpdateConvergenceTolerance)
+        if (itk::Math::Absolute(sigmaUpdate[ic]) < m_KernelBandwidthSigma[ic] * m_SigmaUpdateConvergenceTolerance)
         {
           m_SigmaConverged[ic] = 1;
         }
@@ -1826,7 +1826,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ResolveSigmaUpdate() 
 
     // If second derivative is zero or negative, compute update using gradient
     // descent
-    if ((Math::ExactlyEquals(itk::Math::abs(secondDerivative), RealValueType{})) || (secondDerivative < 0))
+    if ((Math::ExactlyEquals(itk::Math::Absolute(secondDerivative), RealValueType{})) || (secondDerivative < 0))
     {
       itkDebugMacro("** Second derivative NOT POSITIVE");
       sigmaUpdate[ic] = -itk::Math::sgn(firstDerivative) * kernelSigma * 0.3;
@@ -1840,7 +1840,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ResolveSigmaUpdate() 
     itkDebugMacro("update: " << sigmaUpdate[ic]);
 
     // Avoid very large updates to prevent instabilities in Newton-Raphson
-    if (itk::Math::abs(sigmaUpdate[ic]) > kernelSigma * 0.3)
+    if (itk::Math::Absolute(sigmaUpdate[ic]) > kernelSigma * 0.3)
     {
       itkDebugMacro("** Restricting large updates \n");
       sigmaUpdate[ic] = itk::Math::sgn(sigmaUpdate[ic]) * kernelSigma * 0.3;

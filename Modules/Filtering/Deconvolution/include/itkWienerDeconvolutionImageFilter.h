@@ -172,7 +172,7 @@ public:
 
     TPixel denominator = std::norm(H) + (Pn / (Pf - Pn));
     TPixel value{};
-    if (itk::Math::abs(denominator) >= m_KernelZeroMagnitudeThreshold)
+    if (itk::Math::Absolute(denominator) >= m_KernelZeroMagnitudeThreshold)
     {
       value = I * (std::conj(H) / denominator);
     }

@@ -220,7 +220,7 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
   {
     for (unsigned int c = 0; c < TDimension; ++c)
     {
-      if (itk::Math::abs(readback->GetDirection()[r][c] - vi->GetDirection()[r][c]) > 1e-7)
+      if (itk::Math::Absolute(readback->GetDirection()[r][c] - vi->GetDirection()[r][c]) > 1e-7)
       {
         std::cout << "Direction is different:\n " << readback->GetDirection() << "\n != \n"
                   << vi->GetDirection() << std::endl;

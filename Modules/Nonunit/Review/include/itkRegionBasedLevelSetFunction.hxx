@@ -131,7 +131,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeGlobalTimeSte
 
   auto * d = (GlobalDataStruct *)GlobalData;
 
-  if (itk::Math::abs(d->m_MaxCurvatureChange) > itk::Math::eps)
+  if (itk::Math::Absolute(d->m_MaxCurvatureChange) > itk::Math::eps)
   {
     if (d->m_MaxAdvectionChange > itk::Math::eps)
     {
@@ -261,7 +261,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeUpdate(const 
     curvature = this->ComputeCurvature(it, offset, gd);
     curvature_term = this->m_CurvatureWeight * curvature * this->CurvatureSpeed(it, offset, gd) * dh;
 
-    gd->m_MaxCurvatureChange = std::max(gd->m_MaxCurvatureChange, itk::Math::abs(curvature_term));
+    gd->m_MaxCurvatureChange = std::max(gd->m_MaxCurvatureChange, itk::Math::Absolute(curvature_term));
   }
 
   // Computing the laplacian term
@@ -291,7 +291,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeUpdate(const 
         advection_term += advection_field[i] * gd->m_dx_forward[i];
       }
 
-      gd->m_MaxAdvectionChange = std::max(gd->m_MaxAdvectionChange, itk::Math::abs(x_energy));
+      gd->m_MaxAdvectionChange = std::max(gd->m_MaxAdvectionChange, itk::Math::Absolute(x_energy));
     }
     advection_term *= m_AdvectionWeight * dh;
   }
@@ -308,7 +308,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeUpdate(const 
   auto updateVal = static_cast<PixelType>(curvature_term + laplacian_term + globalTerm + advection_term);
 
   /* If MaxGlobalChange recorded is lower than the current globalTerm */
-  if (itk::Math::abs(gd->m_MaxGlobalChange) < itk::Math::abs(globalTerm))
+  if (itk::Math::Absolute(gd->m_MaxGlobalChange) < itk::Math::Absolute(globalTerm))
   {
     gd->m_MaxGlobalChange = globalTerm;
   }

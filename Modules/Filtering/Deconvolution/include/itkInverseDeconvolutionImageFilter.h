@@ -142,7 +142,7 @@ public:
   inline TOutput
   operator()(const TInput1 & I, const TInput2 & H) const
   {
-    const double absH = itk::Math::abs(H);
+    const double absH = itk::Math::Absolute(H);
     TOutput      value{};
     if (absH >= m_KernelZeroMagnitudeThreshold)
     {

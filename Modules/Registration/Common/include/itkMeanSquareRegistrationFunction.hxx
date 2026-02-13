@@ -139,7 +139,7 @@ MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::C
     denominator = 1.0;
   }
   PixelType update;
-  if (itk::Math::abs(speedValue) < m_IntensityDifferenceThreshold || denominator < m_DenominatorThreshold)
+  if (itk::Math::Absolute(speedValue) < m_IntensityDifferenceThreshold || denominator < m_DenominatorThreshold)
   {
     update.Fill(0.0);
     return update;

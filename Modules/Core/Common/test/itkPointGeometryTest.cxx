@@ -136,7 +136,7 @@ itkPointGeometryTest(int, char *[])
     for (unsigned int i = 0; i < N; ++i)
     {
       auto val = static_cast<FloatPointType::ValueType>(dp[i]);
-      if (itk::Math::abs(val - fp[i]) > tolerance)
+      if (itk::Math::Absolute(val - fp[i]) > tolerance)
       {
         std::cout << "Failed at component " << i << std::endl;
         return EXIT_FAILURE;
@@ -189,7 +189,7 @@ itkPointGeometryTest(int, char *[])
     for (unsigned int i = 0; i < N; ++i)
     {
       const double value = (alpha * A[i] + (1.0 - alpha) * B[i]);
-      if (itk::Math::abs(combination[i] - value) > tolerance)
+      if (itk::Math::Absolute(combination[i] - value) > tolerance)
       {
         std::cerr << "Failure to compute Barycentric combination" << std::endl;
         return EXIT_FAILURE;
@@ -221,7 +221,7 @@ itkPointGeometryTest(int, char *[])
     for (unsigned int i = 0; i < N; ++i)
     {
       const double value = alpha * A[i] + beta * B[i] + (1.0 - alpha - beta) * C[i];
-      if (itk::Math::abs(combination[i] - value) > tolerance)
+      if (itk::Math::Absolute(combination[i] - value) > tolerance)
       {
         std::cerr << "Failure to compute Barycentric combination" << std::endl;
         return EXIT_FAILURE;
@@ -250,7 +250,7 @@ itkPointGeometryTest(int, char *[])
     std::cout << "Test for Barycentric combination of an array of Points" << std::endl;
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (itk::Math::abs(combination[i] - (K / 3.0)) > tolerance)
+      if (itk::Math::Absolute(combination[i] - (K / 3.0)) > tolerance)
       {
         std::cerr << "Failure to compute Barycentric combination" << std::endl;
         return EXIT_FAILURE;
@@ -288,7 +288,7 @@ itkPointGeometryTest(int, char *[])
     std::cout << "Test for Barycentric combination of a VectorContainer of Points" << std::endl;
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (itk::Math::abs(combination[i] - (K / 3.0)) > tolerance)
+      if (itk::Math::Absolute(combination[i] - (K / 3.0)) > tolerance)
       {
         std::cerr << "Failure to compute Barycentric combination" << std::endl;
         return EXIT_FAILURE;

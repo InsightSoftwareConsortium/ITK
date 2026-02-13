@@ -245,7 +245,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       for (SizeValueType i = 0; i < this->m_OptimizerWeights.Size(); ++i)
       {
         const OptimizerWeightsValueType difference =
-          itk::Math::abs(NumericTraits<OptimizerWeightsValueType>::OneValue() - this->m_OptimizerWeights[i]);
+          itk::Math::Absolute(NumericTraits<OptimizerWeightsValueType>::OneValue() - this->m_OptimizerWeights[i]);
         if (difference > tolerance)
         {
           this->m_OptimizerWeightsAreIdentity = false;

@@ -222,9 +222,9 @@ NiftiImageIO::CanWriteFile(const char * FileNameToWrite)
 bool
 NiftiImageIO::MustRescale() const
 {
-  return itk::Math::abs(this->m_RescaleSlope) > std::numeric_limits<double>::epsilon() &&
-         (itk::Math::abs(this->m_RescaleSlope - 1.0) > std::numeric_limits<double>::epsilon() ||
-          itk::Math::abs(this->m_RescaleIntercept) > std::numeric_limits<double>::epsilon());
+  return itk::Math::Absolute(this->m_RescaleSlope) > std::numeric_limits<double>::epsilon() &&
+         (itk::Math::Absolute(this->m_RescaleSlope - 1.0) > std::numeric_limits<double>::epsilon() ||
+          itk::Math::Absolute(this->m_RescaleIntercept) > std::numeric_limits<double>::epsilon());
 }
 
 namespace
@@ -1032,7 +1032,7 @@ NiftiImageIO::ReadImageInformation()
   else
   {
     this->m_RescaleSlope = m_Holder->ptr->scl_slope;
-    if (itk::Math::abs(this->m_RescaleSlope) < NumericTraits<double>::epsilon())
+    if (itk::Math::Absolute(this->m_RescaleSlope) < NumericTraits<double>::epsilon())
     {
       this->m_RescaleSlope = 1;
     }
@@ -1092,39 +1092,40 @@ NiftiImageIO::ReadImageInformation()
     case 7:
       this->SetDimensions(6, m_Holder->ptr->nw);
       // NOTE: Scaling is not defined in this dimension
-      this->SetSpacing(6, ignore_negative_pixdim ? itk::Math::abs(m_Holder->ptr->dw) : m_Holder->ptr->dw);
+      this->SetSpacing(6, ignore_negative_pixdim ? itk::Math::Absolute(m_Holder->ptr->dw) : m_Holder->ptr->dw);
       [[fallthrough]];
     case 6:
       this->SetDimensions(5, m_Holder->ptr->nv);
       // NOTE: Scaling is not defined in this dimension
-      this->SetSpacing(5, ignore_negative_pixdim ? itk::Math::abs(m_Holder->ptr->dv) : m_Holder->ptr->dv);
+      this->SetSpacing(5, ignore_negative_pixdim ? itk::Math::Absolute(m_Holder->ptr->dv) : m_Holder->ptr->dv);
       [[fallthrough]];
     case 5:
       this->SetDimensions(4, m_Holder->ptr->nu);
       // NOTE: Scaling is not defined in this dimension
-      this->SetSpacing(4, ignore_negative_pixdim ? itk::Math::abs(m_Holder->ptr->du) : m_Holder->ptr->du);
+      this->SetSpacing(4, ignore_negative_pixdim ? itk::Math::Absolute(m_Holder->ptr->du) : m_Holder->ptr->du);
       [[fallthrough]];
     case 4:
       this->SetDimensions(3, m_Holder->ptr->nt);
-      this->SetSpacing(
-        3, ignore_negative_pixdim ? itk::Math::abs(m_Holder->ptr->dt * timingscale) : m_Holder->ptr->dt * timingscale);
+      this->SetSpacing(3,
+                       ignore_negative_pixdim ? itk::Math::Absolute(m_Holder->ptr->dt * timingscale)
+                                              : m_Holder->ptr->dt * timingscale);
       [[fallthrough]];
     case 3:
       this->SetDimensions(2, m_Holder->ptr->nz);
       this->SetSpacing(2,
-                       ignore_negative_pixdim ? itk::Math::abs(m_Holder->ptr->dz * spacingscale)
+                       ignore_negative_pixdim ? itk::Math::Absolute(m_Holder->ptr->dz * spacingscale)
                                               : m_Holder->ptr->dz * spacingscale);
       [[fallthrough]];
     case 2:
       this->SetDimensions(1, m_Holder->ptr->ny);
       this->SetSpacing(1,
-                       ignore_negative_pixdim ? itk::Math::abs(m_Holder->ptr->dy * spacingscale)
+                       ignore_negative_pixdim ? itk::Math::Absolute(m_Holder->ptr->dy * spacingscale)
                                               : m_Holder->ptr->dy * spacingscale);
       [[fallthrough]];
     case 1:
       this->SetDimensions(0, m_Holder->ptr->nx);
       this->SetSpacing(0,
-                       ignore_negative_pixdim ? itk::Math::abs(m_Holder->ptr->dx * spacingscale)
+                       ignore_negative_pixdim ? itk::Math::Absolute(m_Holder->ptr->dx * spacingscale)
                                               : m_Holder->ptr->dx * spacingscale);
       break;
     default:
@@ -1582,10 +1583,10 @@ IsAffine(const mat44 & nifti_mat)
 
   // First make sure the bottom row meets the condition that it is (0, 0, 0, 1)
   {
-    double bottom_row_error = itk::Math::abs(mat[3][3] - 1.0);
+    double bottom_row_error = itk::Math::Absolute(mat[3][3] - 1.0);
     for (int i = 0; i < 3; ++i)
     {
-      bottom_row_error += itk::Math::abs(mat[3][i]);
+      bottom_row_error += itk::Math::Absolute(mat[3][i]);
     }
     if (bottom_row_error > std::numeric_limits<float>::epsilon())
     {
@@ -1747,15 +1748,15 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
           // Ensure that the scales are approximately the same for spacing directions
           bool            sform_scales_ok{ true };
           constexpr float large_value_tolerance{ 1e-3 }; // Numerical precision of sform is not very good
-          if (itk::Math::abs(m_Holder->ptr->dx - rotation.get_column(0).magnitude()) > large_value_tolerance)
+          if (itk::Math::Absolute(m_Holder->ptr->dx - rotation.get_column(0).magnitude()) > large_value_tolerance)
           {
             sform_scales_ok = false;
           }
-          else if (itk::Math::abs(m_Holder->ptr->dy - rotation.get_column(1).magnitude()) > large_value_tolerance)
+          else if (itk::Math::Absolute(m_Holder->ptr->dy - rotation.get_column(1).magnitude()) > large_value_tolerance)
           {
             sform_scales_ok = false;
           }
-          else if (itk::Math::abs(m_Holder->ptr->dz - rotation.get_column(2).magnitude()) > large_value_tolerance)
+          else if (itk::Math::Absolute(m_Holder->ptr->dz - rotation.get_column(2).magnitude()) > large_value_tolerance)
           {
             sform_scales_ok = false;
           }

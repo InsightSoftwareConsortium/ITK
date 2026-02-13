@@ -211,7 +211,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
                        text_angle_len.end()); // Remove all whitespace
   if (strcmp(tmpStr, "Cor") == 0)
   {
-    if (text_angle_len.empty() || itk::Math::abs(std::stod(text_angle_len)) <= 45.0)
+    if (text_angle_len.empty() || itk::Math::Absolute(std::stod(text_angle_len)) <= 45.0)
     {
       // hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
       hdr->coordinateOrientation = AnatomicalOrientation(itk::AnatomicalOrientation::NegativeEnum::RSP);
@@ -234,7 +234,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   }
   else if (strcmp(tmpStr, "Sag") == 0)
   {
-    if (text_angle_len.empty() || itk::Math::abs(std::stod(text_angle_len)) <= 45.0)
+    if (text_angle_len.empty() || itk::Math::Absolute(std::stod(text_angle_len)) <= 45.0)
     {
       // hdr->imagePlane =
       // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
@@ -258,7 +258,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   }
   else
   {
-    if (text_angle_len.empty() || itk::Math::abs(std::stod(text_angle_len)) <= 45.0)
+    if (text_angle_len.empty() || itk::Math::Absolute(std::stod(text_angle_len)) <= 45.0)
     {
       // hdr->imagePlane =
       // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;

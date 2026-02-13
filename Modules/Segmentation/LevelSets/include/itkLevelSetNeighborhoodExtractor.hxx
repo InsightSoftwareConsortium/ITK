@@ -177,7 +177,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::GenerateDataNarrowBand()
     }
 
     node = pointsIter.Value();
-    if (itk::Math::abs(node.GetValue()) <= maxValue)
+    if (itk::Math::Absolute(node.GetValue()) <= maxValue)
     {
       this->CalculateDistance(node.GetIndex());
     }

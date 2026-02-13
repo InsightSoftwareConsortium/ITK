@@ -75,7 +75,7 @@ itkCleanQuadEdgeMeshFilterTest(int argc, char * argv[])
   const Coord     obtainedValue = filter->GetRelativeTolerance();
   if (!itk::Math::FloatAlmostEqual(tol, obtainedValue, 10, epsilon))
   {
-    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in pixel GetRelativeTolerance" << std::endl;
     std::cerr << "Expected value " << tol << std::endl;

@@ -125,7 +125,7 @@ itkAbsoluteValueDifferenceImageFilterTest(int, char *[])
   while (!it4.IsAtEnd())
   {
     std::cout << it4.Get() << std::endl;
-    if (itk::Math::abs(it4.Get() - outputValue) > epsilon)
+    if (itk::Math::Absolute(it4.Get() - outputValue) > epsilon)
     {
       std::cerr << "Error in the output" << std::endl;
       std::cerr << "Value should be  " << outputValue << std::endl;

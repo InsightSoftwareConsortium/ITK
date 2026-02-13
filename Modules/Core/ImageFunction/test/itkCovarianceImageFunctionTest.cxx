@@ -75,7 +75,7 @@ itkCovarianceImageFunctionTest(int, char *[])
     for (unsigned int iy = 0; iy < VectorDimension; ++iy)
     {
       // Covariance must be zero in this image with constant values
-      if (!itk::Math::FloatAlmostEqual(itk::Math::abs(covariance[ix][iy]),
+      if (!itk::Math::FloatAlmostEqual(itk::Math::Absolute(covariance[ix][iy]),
                                        static_cast<FunctionType::OutputType::element_type>(imageValue),
                                        10,
                                        10e-7))

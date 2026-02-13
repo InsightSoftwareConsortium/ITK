@@ -207,7 +207,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
     if (m_NarrowBand.IsNotNull())
     {
       BandNodeType node;
-      if (itk::Math::abs(static_cast<float>(center_value)) <= m_NarrowBand->GetTotalRadius())
+      if (itk::Math::Absolute(static_cast<float>(center_value)) <= m_NarrowBand->GetTotalRadius())
       {
         node.m_Index = it.GetIndex();
         // Check node state.
@@ -216,7 +216,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
         {
           node.m_NodeState += SIGN_MASK;
         }
-        if (itk::Math::abs(static_cast<float>(center_value)) < m_NarrowBand->GetInnerRadius())
+        if (itk::Math::Absolute(static_cast<float>(center_value)) < m_NarrowBand->GetInnerRadius())
         {
           node.m_NodeState += INNER_MASK;
         }

@@ -98,7 +98,7 @@ private:
   static inline TRealValueType
   Evaluate(const Dispatch<0> &, const TRealValueType & u)
   {
-    const TRealValueType absValue = itk::Math::abs(u);
+    const TRealValueType absValue = itk::Math::Absolute(u);
     if (absValue < TRealValueType{ 0.5 })
     {
       return TRealValueType{ 1.0 };
@@ -117,7 +117,7 @@ private:
   static inline TRealValueType
   Evaluate(const Dispatch<1> &, const TRealValueType & u)
   {
-    const TRealValueType absValue = itk::Math::abs(u);
+    const TRealValueType absValue = itk::Math::Absolute(u);
     if (absValue < TRealValueType{ 1.0 })
     {
       return TRealValueType{ 1.0 } - absValue;
@@ -130,7 +130,7 @@ private:
   static inline TRealValueType
   Evaluate(const Dispatch<2> &, const TRealValueType & u)
   {
-    const TRealValueType absValue = itk::Math::abs(u);
+    const TRealValueType absValue = itk::Math::Absolute(u);
     if (absValue < TRealValueType{ 0.5 })
     {
       const TRealValueType sqrValue = itk::Math::sqr(absValue);
@@ -153,7 +153,7 @@ private:
   static inline TRealValueType
   Evaluate(const Dispatch<3> &, const TRealValueType & u)
   {
-    const TRealValueType absValue = itk::Math::abs(u);
+    const TRealValueType absValue = itk::Math::Absolute(u);
     if (absValue < TRealValueType{ 1.0 })
     {
       const TRealValueType sqrValue = itk::Math::sqr(absValue);

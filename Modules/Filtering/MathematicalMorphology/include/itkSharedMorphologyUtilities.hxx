@@ -99,7 +99,7 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
   unsigned int perpdir = 0;
   for (unsigned int i = 0; i < TImage::RegionType::ImageDimension; ++i)
   {
-    const auto abs_line_elmt_tmp = itk::Math::abs(line[i]);
+    const auto abs_line_elmt_tmp = itk::Math::Absolute(line[i]);
     if (abs_line_elmt_tmp > domdir)
     {
       domdir = abs_line_elmt_tmp;
@@ -138,8 +138,8 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
       }
     }
   }
-  int sPos = static_cast<int>(Tnear * itk::Math::abs(line[perpdir]) + 0.5);
-  int ePos = static_cast<int>(Tfar * itk::Math::abs(line[perpdir]) + 0.5);
+  int sPos = static_cast<int>(Tnear * itk::Math::Absolute(line[perpdir]) + 0.5);
+  int ePos = static_cast<int>(Tfar * itk::Math::Absolute(line[perpdir]) + 0.5);
 
   // std::cout << Tnear << ' ' << Tfar << std::endl;
   if (Tfar < Tnear) // seems to need some margin
@@ -327,7 +327,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
   // figure out the dominant direction of the line
   for (unsigned int i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
   {
-    const auto abs_line_elmt_tmp = itk::Math::abs(line[i]);
+    const auto abs_line_elmt_tmp = itk::Math::Absolute(line[i]);
     if (abs_line_elmt_tmp > MaxComp)
     {
       MaxComp = abs_line_elmt_tmp;
@@ -386,11 +386,11 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     {
       if (i != NonFaceDim)
       {
-        auto Pad = Math::Ceil<int>(static_cast<float>(NonFaceLen) * line[i] / itk::Math::abs(line[NonFaceDim]));
+        auto Pad = Math::Ceil<int>(static_cast<float>(NonFaceLen) * line[i] / itk::Math::Absolute(line[NonFaceDim]));
         if (Pad < 0)
         {
           // just increase the size - no need to change the start
-          NewSize[i] += itk::Math::abs(Pad) + 1;
+          NewSize[i] += itk::Math::Absolute(Pad) + 1;
         }
         else
         {
@@ -446,7 +446,7 @@ GetLinePixels(const TLine line)
 
   for (unsigned int i = 0; i < TLine::Dimension; ++i)
   {
-    const float tt = itk::Math::abs(line[i] / N);
+    const float tt = itk::Math::Absolute(line[i] / N);
     if (tt > correction)
     {
       correction = tt;

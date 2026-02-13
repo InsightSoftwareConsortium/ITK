@@ -182,7 +182,7 @@ ImageToImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
       // tolerance for origin and spacing depends on the size of pixel
       // tolerance for directions a fraction of the unit cube.
       const SpacePrecisionType coordinateTol =
-        itk::Math::abs(this->m_CoordinateTolerance * inputPtr1->GetSpacing()[0]); // use first dimension spacing
+        itk::Math::Absolute(this->m_CoordinateTolerance * inputPtr1->GetSpacing()[0]); // use first dimension spacing
 
       if (!inputPtr1->IsCongruentImageGeometry(inputPtrN, m_CoordinateTolerance, m_DirectionTolerance))
       {

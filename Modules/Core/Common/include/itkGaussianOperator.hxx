@@ -75,7 +75,7 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 double
 GaussianOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI0(double y)
 {
-  const double d = itk::Math::abs(y);
+  const double d = itk::Math::Absolute(y);
   double       accumulator = NAN;
 
   if (d < 3.75)
@@ -104,7 +104,7 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 double
 GaussianOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI1(double y)
 {
-  const double d = itk::Math::abs(y);
+  const double d = itk::Math::Absolute(y);
   double       accumulator = NAN;
 
   if (d < 3.75)
@@ -151,7 +151,7 @@ GaussianOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int n, double 
     return 0.0;
   }
 
-  const double toy = 2.0 / itk::Math::abs(y);
+  const double toy = 2.0 / itk::Math::Absolute(y);
   double       qip = 0.0;
   double       accumulator = 0.0;
   double       qi = 1.0;
@@ -161,7 +161,7 @@ GaussianOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int n, double 
     const double qim = qip + j * toy * qi;
     qip = qi;
     qi = qim;
-    if (itk::Math::abs(qi) > 1.0e10)
+    if (itk::Math::Absolute(qi) > 1.0e10)
     {
       accumulator *= 1.0e-10;
       qi *= 1.0e-10;

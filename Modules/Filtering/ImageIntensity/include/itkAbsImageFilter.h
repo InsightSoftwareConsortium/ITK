@@ -44,7 +44,7 @@ public:
   inline TOutput
   operator()(const TInput & A) const
   {
-    return static_cast<TOutput>(itk::Math::abs(A));
+    return static_cast<TOutput>(itk::Math::Absolute(A));
   }
 };
 } // namespace Functor
@@ -52,7 +52,7 @@ public:
 /** \class AbsImageFilter
  * \brief Computes the absolute value of each pixel.
  *
- * itk::Math::abs() is used to perform the computation.
+ * itk::Math::Absolute() is used to perform the computation.
  *
  * \ingroup IntensityImageFilters
  * \ingroup MultiThreaded

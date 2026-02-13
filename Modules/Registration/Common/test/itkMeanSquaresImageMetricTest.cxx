@@ -243,14 +243,14 @@ itkMeanSquaresImageMetricTest(int, char *[])
     bool sameDerivative = true;
     for (unsigned int d = 0; d < parameters.Size(); ++d)
     {
-      if (itk::Math::abs(derivative[d] - referenceDerivative[d]) > 1e-5)
+      if (itk::Math::Absolute(derivative[d] - referenceDerivative[d]) > 1e-5)
       {
         sameDerivative = false;
         break;
       }
     }
 
-    if (itk::Math::abs(measure - referenceMeasure) > 1e-5 || !sameDerivative)
+    if (itk::Math::Absolute(measure - referenceMeasure) > 1e-5 || !sameDerivative)
     {
       std::cout << "Testing different number of threads... FAILED" << std::endl;
       std::cout << "Metric value computed with " << currNumThreadsToTest << " threads is incorrect. Computed value is "
@@ -284,7 +284,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
   std::cout.precision(5);
   std::cout << derivative[1];
   std::cout << std::endl;
-  if (itk::Math::abs(measure - referenceMeasure) > 1e-5)
+  if (itk::Math::Absolute(measure - referenceMeasure) > 1e-5)
   {
     std::cout << "Test reducing global max number of threads... FAILED." << std::endl;
     std::cout << "Metric value computed with " << numThreads << " threads is incorrect. Computed value is " << measure
@@ -350,7 +350,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
   bool sameDerivative = true;
   for (unsigned int d = 0; d < bSplineParameters.Size(); ++d)
   {
-    if (itk::Math::abs(derivativeWithCaching[d] - derivativeNoCaching[d]) > 1e-5)
+    if (itk::Math::Absolute(derivativeWithCaching[d] - derivativeNoCaching[d]) > 1e-5)
     {
       sameDerivative = false;
       break;

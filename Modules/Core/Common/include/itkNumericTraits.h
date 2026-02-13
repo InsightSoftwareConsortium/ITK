@@ -69,7 +69,7 @@ public:
   /** Return the type that can be printed. */
   using PrintType = T;
 
-  /** Return value of itk::Math::abs(). */
+  /** Return value of itk::Math::Absolute(). */
   using AbsType = T;
 
   /** Accumulation of addition and multiplication. */

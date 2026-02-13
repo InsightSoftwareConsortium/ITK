@@ -165,7 +165,7 @@ AmoebaOptimizerv4::StartOptimization(bool /* doOnlyInitialization */)
     InternalParametersType automaticDelta(n);
     for (unsigned int i = 0; i < n; ++i)
     {
-      if (itk::Math::abs(parameters[i]) > zeroTermDelta)
+      if (itk::Math::Absolute(parameters[i]) > zeroTermDelta)
       {
         automaticDelta[i] = relativeDiameter * parameters[i];
       }
@@ -196,12 +196,12 @@ AmoebaOptimizerv4::StartOptimization(bool /* doOnlyInitialization */)
       double maxAbs = 0.0;
       for (unsigned int j = 0; j < n; ++j)
       {
-        if (maxAbs < itk::Math::abs(bestPosition[j] - parameters[j]))
+        if (maxAbs < itk::Math::Absolute(bestPosition[j] - parameters[j]))
         {
-          maxAbs = itk::Math::abs(bestPosition[j] - parameters[j]);
+          maxAbs = itk::Math::Absolute(bestPosition[j] - parameters[j]);
         }
       }
-      converged = itk::Math::abs(bestValue - currentValue) < this->m_FunctionConvergenceTolerance &&
+      converged = itk::Math::Absolute(bestValue - currentValue) < this->m_FunctionConvergenceTolerance &&
                   maxAbs < this->m_ParametersConvergenceTolerance;
       // this comparison is valid because the
       // adaptor is set to always return the function value

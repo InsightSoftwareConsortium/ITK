@@ -72,7 +72,7 @@ TestGeometricPoint(const InterpolatorType * interp, const PointType & point, boo
       int k = 0;
       for (; k < VectorDimension; ++k)
       {
-        if (itk::Math::abs(value[k] - trueValue[k]) > 1e-9)
+        if (itk::Math::Absolute(value[k] - trueValue[k]) > 1e-9)
         {
           break;
         }
@@ -135,7 +135,7 @@ TestContinuousIndex(const InterpolatorType *    interp,
       unsigned int k = 0;
       for (; k < VectorDimension; ++k)
       {
-        if (itk::Math::abs(value[k] - trueValue[k]) > 1e-9)
+        if (itk::Math::Absolute(value[k] - trueValue[k]) > 1e-9)
         {
           break;
         }
