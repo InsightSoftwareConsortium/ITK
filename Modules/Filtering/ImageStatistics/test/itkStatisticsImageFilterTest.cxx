@@ -129,7 +129,7 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   const double     expectedSigma = std::sqrt((maxValue - minValue) * (maxValue - minValue) / 12.0);
   constexpr double epsilon{ (maxValue - minValue) * .001 };
 
-  if (itk::Math::abs(filter->GetSigma() - expectedSigma) > epsilon)
+  if (itk::Math::Absolute(filter->GetSigma() - expectedSigma) > epsilon)
   {
     std::cerr << "GetSigma failed! Got " << filter->GetSigma() << " but expected " << expectedSigma << std::endl;
   }
@@ -160,15 +160,15 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(dfilter->UpdateLargestPossibleRegion());
   const double testMean = dfilter->GetMean();
   const double testVariance = dfilter->GetVariance();
-  double       diff = itk::Math::abs(testMean - knownMean);
-  if ((diff != 0.0 && knownMean != 0.0) && diff / itk::Math::abs(knownMean) > .01)
+  double       diff = itk::Math::Absolute(testMean - knownMean);
+  if ((diff != 0.0 && knownMean != 0.0) && diff / itk::Math::Absolute(knownMean) > .01)
   {
     std::cout << "Expected mean is " << knownMean << ", computed mean is " << testMean << std::endl;
     return EXIT_FAILURE;
   }
   std::cout << "Expected mean is " << knownMean << ", computed mean is " << testMean << std::endl;
-  diff = itk::Math::abs(testVariance - knownVariance);
-  if ((diff != 0.0 && knownVariance != 0.0) && diff / itk::Math::abs(knownVariance) > .1)
+  diff = itk::Math::Absolute(testVariance - knownVariance);
+  if ((diff != 0.0 && knownVariance != 0.0) && diff / itk::Math::Absolute(knownVariance) > .1)
   {
     std::cout << "Expected variance is " << knownVariance << ", computed variance is " << testVariance << std::endl;
     return EXIT_FAILURE;

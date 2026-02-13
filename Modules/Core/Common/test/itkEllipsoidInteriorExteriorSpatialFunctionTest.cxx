@@ -101,7 +101,7 @@ itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   const double volume = 4.18879013333 * (axes[0] / 2) * (axes[1] / 2) * (axes[2] / 2);
 
   // Percent difference in volume measurement and calculation
-  const double volumeError = (itk::Math::abs(volume - interiorPixelCounter) / volume) * 100;
+  const double volumeError = (itk::Math::Absolute(volume - interiorPixelCounter) / volume) * 100;
 
   std::cout << spatialFunc;
 

@@ -63,7 +63,7 @@ itkBoundedReciprocalImageFilterTest(int argc, char * argv[])
   ImageIterator outIter(outputImage, outputImage->GetBufferedRegion());
 
   constexpr double tolerance{ 10e-6 };
-  std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
+  std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(tolerance))));
 
   for (; !inIter.IsAtEnd() || !outIter.IsAtEnd(); ++inIter, ++outIter)
   {

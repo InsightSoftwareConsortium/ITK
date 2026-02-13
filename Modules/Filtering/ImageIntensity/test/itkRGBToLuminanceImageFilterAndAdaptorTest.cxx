@@ -105,7 +105,7 @@ itkRGBToLuminanceImageFilterAndAdaptorTest(int, char *[])
     const auto            value = static_cast<OutputPixelType>(input.GetLuminance());
     if (!itk::Math::FloatAlmostEqual(value, output, 10, epsilon))
     {
-      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
       std::cerr << "Error " << std::endl;
       std::cerr << " Luminance( " << input << ") = " << value << std::endl;
       std::cerr << " differs from " << output;
@@ -151,9 +151,9 @@ itkRGBToLuminanceImageFilterAndAdaptorTest(int, char *[])
   while (!dt.IsAtEnd())
   {
     const OutputPixelType diff = dt.Get();
-    if (itk::Math::abs(diff) > epsilon)
+    if (itk::Math::Absolute(diff) > epsilon)
     {
-      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
       std::cerr << "Error comparing results with Adaptors" << std::endl;
       std::cerr << " difference = " << diff << std::endl;
       std::cerr << " differs from 0 ";

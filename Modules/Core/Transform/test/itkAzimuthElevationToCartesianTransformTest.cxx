@@ -165,9 +165,9 @@ itkAzimuthElevationToCartesianTransformTest(int argc, char * argv[])
     bool same = true;
     for (unsigned int i = 0; i < PointType::PointDimension && same; ++i)
     {
-      same = ((itk::Math::abs(j[i] - answerBackwards[i]) < ACCEPTABLE_ERROR) &&
-              (itk::Math::abs(j[i] - reverseDirectionAnswerBackwards[i]) < ACCEPTABLE_ERROR) &&
-              (itk::Math::abs(answer[i] - reverseDirectionAnswer[i]) < ACCEPTABLE_ERROR));
+      same = ((itk::Math::Absolute(j[i] - answerBackwards[i]) < ACCEPTABLE_ERROR) &&
+              (itk::Math::Absolute(j[i] - reverseDirectionAnswerBackwards[i]) < ACCEPTABLE_ERROR) &&
+              (itk::Math::Absolute(answer[i] - reverseDirectionAnswer[i]) < ACCEPTABLE_ERROR));
     }
     if (!same)
     {

@@ -29,13 +29,13 @@ HSVColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const -> 
 
   // Apply the color mapping.
   // Apply the color mapping.
-  RealType red = itk::Math::abs(5.0 * (value - 0.5)) - 5.0 / 6.0;
+  RealType red = itk::Math::Absolute(5.0 * (value - 0.5)) - 5.0 / 6.0;
   red = std::clamp(red, 0.0, 1.0);
 
-  RealType green = -itk::Math::abs(5.0 * (value - 11.0 / 30.0)) + 11.0 / 6.0;
+  RealType green = -itk::Math::Absolute(5.0 * (value - 11.0 / 30.0)) + 11.0 / 6.0;
   green = std::clamp(green, 0.0, 1.0);
 
-  RealType blue = -itk::Math::abs(5.0 * (value - 19.0 / 30.0)) + 11.0 / 6.0;
+  RealType blue = -itk::Math::Absolute(5.0 * (value - 19.0 / 30.0)) + 11.0 / 6.0;
   blue = std::clamp(blue, 0.0, 1.0);
 
   // Set the rgb components after rescaling the values.

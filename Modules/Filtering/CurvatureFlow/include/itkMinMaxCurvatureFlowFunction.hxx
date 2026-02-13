@@ -180,7 +180,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, cons
       dotProduct /= gradMagnitude * vectorMagnitude;
     }
 
-    if (vectorMagnitude >= m_StencilRadius && itk::Math::abs(dotProduct) < 0.262)
+    if (vectorMagnitude >= m_StencilRadius && itk::Math::Absolute(dotProduct) < 0.262)
     {
       threshold += it.GetPixel(i);
       ++numPixels;

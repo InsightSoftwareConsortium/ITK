@@ -168,11 +168,11 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::Evaluate(const Point
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     p[i] = params[i];
-    if (itk::Math::abs(p[i] - NumericTraits<CoordinateType>::OneValue()) <= this->m_BSplineEpsilon)
+    if (itk::Math::Absolute(p[i] - NumericTraits<CoordinateType>::OneValue()) <= this->m_BSplineEpsilon)
     {
       p[i] = NumericTraits<CoordinateType>::OneValue() - this->m_BSplineEpsilon;
     }
-    if (p[i] < RealType{} && itk::Math::abs(p[i]) <= this->m_BSplineEpsilon)
+    if (p[i] < RealType{} && itk::Math::Absolute(p[i]) <= this->m_BSplineEpsilon)
     {
       p[i] = RealType{};
     }
@@ -317,11 +317,11 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateGradient(con
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     p[i] = params[i];
-    if (itk::Math::abs(p[i] - NumericTraits<CoordinateType>::OneValue()) <= this->m_BSplineEpsilon)
+    if (itk::Math::Absolute(p[i] - NumericTraits<CoordinateType>::OneValue()) <= this->m_BSplineEpsilon)
     {
       p[i] = NumericTraits<CoordinateType>::OneValue() - this->m_BSplineEpsilon;
     }
-    if (p[i] < RealType{} && itk::Math::abs(p[i]) <= this->m_BSplineEpsilon)
+    if (p[i] < RealType{} && itk::Math::Absolute(p[i]) <= this->m_BSplineEpsilon)
     {
       p[i] = RealType{};
     }
@@ -486,11 +486,11 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessian(cons
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     p[i] = params[i];
-    if (itk::Math::abs(p[i] - NumericTraits<CoordinateType>::OneValue()) <= this->m_BSplineEpsilon)
+    if (itk::Math::Absolute(p[i] - NumericTraits<CoordinateType>::OneValue()) <= this->m_BSplineEpsilon)
     {
       p[i] = NumericTraits<CoordinateType>::OneValue() - this->m_BSplineEpsilon;
     }
-    if (p[i] < RealType{} && itk::Math::abs(p[i]) <= this->m_BSplineEpsilon)
+    if (p[i] < RealType{} && itk::Math::Absolute(p[i]) <= this->m_BSplineEpsilon)
     {
       p[i] = RealType{};
     }

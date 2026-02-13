@@ -358,16 +358,18 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ComputeValue(const Inp
 
       if (norm > NumericTraits<PixelRealType>::min())
       {
-        const PixelRealType val = itk::Math::abs(grad[n]) * m_Spacing[n] / norm / diff;
+        const PixelRealType val = itk::Math::Absolute(grad[n]) * m_Spacing[n] / norm / diff;
 
         const PixelRealType               valNew0 = val0 * val;
         const PixelRealType               valNew1 = val1 * val;
         const std::lock_guard<std::mutex> lockGuard(m_Mutex);
-        if (itk::Math::abs(static_cast<double>(valNew0)) < itk::Math::abs(static_cast<double>(outNeigIt.GetNext(n, 0))))
+        if (itk::Math::Absolute(static_cast<double>(valNew0)) <
+            itk::Math::Absolute(static_cast<double>(outNeigIt.GetNext(n, 0))))
         {
           outNeigIt.SetNext(n, 0, static_cast<PixelType>(valNew0));
         }
-        if (itk::Math::abs(static_cast<double>(valNew1)) < itk::Math::abs(static_cast<double>(outNeigIt.GetNext(n, 1))))
+        if (itk::Math::Absolute(static_cast<double>(valNew1)) <
+            itk::Math::Absolute(static_cast<double>(outNeigIt.GetNext(n, 1))))
         {
           outNeigIt.SetNext(n, 1, static_cast<PixelType>(valNew1));
         }

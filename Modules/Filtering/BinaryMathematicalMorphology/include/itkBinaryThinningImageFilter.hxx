@@ -175,10 +175,10 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::ComputeThinImage()
           // First find the total number of transitions, and then
           // divide by 2.
           const PixelType transitions =
-            (itk::Math::abs(static_cast<int>(p3 - p2)) + itk::Math::abs(static_cast<int>(p4 - p3)) +
-             itk::Math::abs(static_cast<int>(p5 - p4)) + itk::Math::abs(static_cast<int>(p6 - p5)) +
-             itk::Math::abs(static_cast<int>(p7 - p6)) + itk::Math::abs(static_cast<int>(p8 - p7)) +
-             itk::Math::abs(static_cast<int>(p9 - p8)) + itk::Math::abs(static_cast<int>(p2 - p9))) /
+            (itk::Math::Absolute(static_cast<int>(p3 - p2)) + itk::Math::Absolute(static_cast<int>(p4 - p3)) +
+             itk::Math::Absolute(static_cast<int>(p5 - p4)) + itk::Math::Absolute(static_cast<int>(p6 - p5)) +
+             itk::Math::Absolute(static_cast<int>(p7 - p6)) + itk::Math::Absolute(static_cast<int>(p8 - p7)) +
+             itk::Math::Absolute(static_cast<int>(p9 - p8)) + itk::Math::Absolute(static_cast<int>(p2 - p9))) /
             2;
 
           if (transitions == 1)

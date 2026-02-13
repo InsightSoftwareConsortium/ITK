@@ -354,7 +354,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::UpdateActiveLayerValu
           // Keep the smallest possible value for the new active node.  This
           // places the new active layer node closest to the zero level-set.
           if (outputIt.GetPixel(idx) < LOWER_ACTIVE_THRESHOLD ||
-              itk::Math::abs(temp_value) < itk::Math::abs(outputIt.GetPixel(idx)))
+              itk::Math::Absolute(temp_value) < itk::Math::Absolute(outputIt.GetPixel(idx)))
           {
             outputIt.SetPixel(idx, temp_value);
           }
@@ -405,7 +405,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::UpdateActiveLayerValu
           // Keep the smallest magnitude value for this active set node.  This
           // places the node closest to the active layer.
           if (outputIt.GetPixel(idx) >= UPPER_ACTIVE_THRESHOLD ||
-              itk::Math::abs(temp_value) < itk::Math::abs(outputIt.GetPixel(idx)))
+              itk::Math::Absolute(temp_value) < itk::Math::Absolute(outputIt.GetPixel(idx)))
           {
             outputIt.SetPixel(idx, temp_value);
           }
@@ -775,7 +775,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeActiveLayer
       const auto dx_backward =
         (shiftedIt.GetCenterPixel() - shiftedIt.GetPixel(center - m_NeighborList.GetStride(i))) * neighborhoodScales[i];
 
-      if (itk::Math::abs(dx_forward) > itk::Math::abs(dx_backward))
+      if (itk::Math::Absolute(dx_forward) > itk::Math::Absolute(dx_backward))
       {
         length += dx_forward * dx_forward;
       }
@@ -868,7 +868,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CalculateChange() -> 
           const auto dx_backward = centerValue - backwardValue;
 
           // Pick the larger magnitude derivative.
-          if (itk::Math::abs(dx_forward) > itk::Math::abs(dx_backward))
+          if (itk::Math::Absolute(dx_forward) > itk::Math::Absolute(dx_backward))
           {
             offset[i] = dx_forward;
           }

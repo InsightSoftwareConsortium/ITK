@@ -66,7 +66,7 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
   VectorType displacementPixel = displacementField->GetPixel(index);
 
   std::cout << "Estimated forward displacement vector: " << displacementPixel << std::endl;
-  if (itk::Math::abs(displacementPixel[0] - 0.045) > 0.01)
+  if (itk::Math::Absolute(displacementPixel[0] - 0.045) > 0.01)
   {
     std::cerr << "Failed to produce the correct forward integration." << std::endl;
     return EXIT_FAILURE;
@@ -83,7 +83,7 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
   // due to numerical computations
   const DisplacementFieldType * inverseField = inverseIntegrator->GetOutput();
   displacementPixel = inverseField->GetPixel(index);
-  if (itk::Math::abs(displacementPixel[0] + 0.1) > 0.01)
+  if (itk::Math::Absolute(displacementPixel[0] + 0.1) > 0.01)
   {
     std::cerr << "Failed to produce the correct inverse integration." << std::endl;
     return EXIT_FAILURE;

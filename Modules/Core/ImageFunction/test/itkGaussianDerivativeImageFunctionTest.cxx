@@ -110,7 +110,7 @@ TestGaussianDerivativeImageFunction()
 
   std::cout << "Testing Evaluate() : ";
 
-  if ((gradientPoint[0] > 0.1) || (itk::Math::abs(gradientPoint[1] + 1.0) > 10e-4))
+  if ((gradientPoint[0] > 0.1) || (itk::Math::Absolute(gradientPoint[1] + 1.0) > 10e-4))
   {
     std::cerr << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -126,7 +126,7 @@ TestGaussianDerivativeImageFunction()
 
   std::cout << "Testing Evaluate() : ";
 
-  if ((gradientPoint[0] > 0.1) || (itk::Math::abs(gradientPoint[1] - 1.0) > 10e-4))
+  if ((gradientPoint[0] > 0.1) || (itk::Math::Absolute(gradientPoint[1] - 1.0) > 10e-4))
   {
     std::cerr << "[FAILED]" << std::endl;
     return EXIT_FAILURE;

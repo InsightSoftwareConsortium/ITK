@@ -36,7 +36,7 @@ SimpleSignedDistance(const TPoint & p)
     accum += static_cast<double>(itk::Math::sqr(p[j] - center[j]));
   }
   accum = std::sqrt(accum);
-  if (itk::Math::abs(accum - radius) > 1)
+  if (itk::Math::Absolute(accum - radius) > 1)
   {
     if ((accum - radius) > 0)
     {

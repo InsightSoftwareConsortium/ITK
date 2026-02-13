@@ -113,7 +113,7 @@ itkAtan2ImageFilterTest(int, char *[])
     const OutputImageType::PixelType atan2 = std::atan2(input1, input2);
     if (!itk::Math::FloatAlmostEqual(atan2, output, 10, epsilon))
     {
-      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
       std::cerr << "Error " << std::endl;
       std::cerr << " std::atan2( " << input1 << ", " << input2 << ") = " << atan2 << std::endl;
       std::cerr << " differs from " << output;

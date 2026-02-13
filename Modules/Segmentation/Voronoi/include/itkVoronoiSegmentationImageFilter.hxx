@@ -66,7 +66,7 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Te
   }
 
   //   // jvm - Mahalanobis distance
-  //   if (savevar > 0 && itk::Math::abs(savemean - m_Mean) / m_Var < 2.5)
+  //   if (savevar > 0 && itk::Math::Absolute(savemean - m_Mean) / m_Var < 2.5)
   //     return true;
   //   else
   //     return false;
@@ -182,7 +182,7 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Ta
 
   if (this->GetUseBackgroundInAPrior())
   {
-    m_MeanTolerance = itk::Math::abs(m_Mean - b_Mean) * this->GetMeanDeviation();
+    m_MeanTolerance = itk::Math::Absolute(m_Mean - b_Mean) * this->GetMeanDeviation();
   }
   else
   {

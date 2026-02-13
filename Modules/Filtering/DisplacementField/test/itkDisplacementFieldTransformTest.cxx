@@ -37,7 +37,7 @@ samePoint(const TPoint & p1, const TPoint & p2, double epsilon = 1e-8)
   {
     if (!itk::Math::FloatAlmostEqual(p1[i], p2[i], 10, epsilon))
     {
-      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
       std::cerr << "Test failed!" << std::endl;
       std::cerr << "Error in point at index [" << i << "]" << std::endl;
       std::cerr << "Expected value "
@@ -61,7 +61,7 @@ sameVector(const TVector & v1, const TVector & v2, double epsilon = 1e-8)
   {
     if (!itk::Math::FloatAlmostEqual(v1[i], v2[i], 10, epsilon))
     {
-      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
       std::cerr << "Test failed!" << std::endl;
       std::cerr << "Error in vector at index [" << i << "]" << std::endl;
       std::cerr << "Expected value "
@@ -92,7 +92,7 @@ sameVariableVector(const TVector & v1, const TVector & v2, double epsilon = 1e-8
   {
     if (!itk::Math::FloatAlmostEqual(v1[i], v2[i], 10, epsilon))
     {
-      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
       std::cerr << "Test failed!" << std::endl;
       std::cerr << "Error in variable vector at index [" << i << "]" << std::endl;
       std::cerr << "Expected value "
@@ -116,7 +116,7 @@ sameTensor(const TTensor & t1, const TTensor & t2, double epsilon = 1e-8)
   {
     if (!itk::Math::FloatAlmostEqual(t1[i], t2[i], 10, epsilon))
     {
-      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
       std::cerr << "Test failed!" << std::endl;
       std::cerr << "Error in tensor at index [" << i << "]" << std::endl;
       std::cerr << "Expected value "
@@ -146,7 +146,7 @@ sameArray2D(const TArray2D & a1, const TArray2D_ARG1 & a2, double epsilon = 1e-8
     {
       if (!itk::Math::FloatAlmostEqual(a1(j, i), a2(j, i), 10, epsilon))
       {
-        std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+        std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
         std::cerr << "Test failed!" << std::endl;
         std::cerr << "Error in array at index [" << j << ", " << i << "]" << std::endl;
         std::cerr << "Expected value "

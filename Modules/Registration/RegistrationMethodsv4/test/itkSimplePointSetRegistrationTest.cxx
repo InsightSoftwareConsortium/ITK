@@ -247,7 +247,7 @@ itkSimplePointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
     difference[1] = transformedMovingPoint[1] - fixedPoint[1];
     std::cout << fixedPoints->GetPoint(n) << '\t' << movingPoints->GetPoint(n) << '\t' << transformedMovingPoint << '\t'
               << transformedFixedPoint << '\t' << difference << std::endl;
-    if (itk::Math::abs(difference[0]) > tolerance || itk::Math::abs(difference[1]) > tolerance)
+    if (itk::Math::Absolute(difference[0]) > tolerance || itk::Math::Absolute(difference[1]) > tolerance)
     {
       passed = false;
     }

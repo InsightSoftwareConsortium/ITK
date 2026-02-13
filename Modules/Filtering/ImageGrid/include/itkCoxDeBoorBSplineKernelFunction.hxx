@@ -150,7 +150,7 @@ template <unsigned int VSplineOrder, typename TRealValueType>
 TRealValueType
 CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::Evaluate(const TRealValueType & u) const
 {
-  const TRealValueType absValue = itk::Math::abs(u);
+  const TRealValueType absValue = itk::Math::Absolute(u);
 
   auto which = static_cast<unsigned int>(absValue);
   if (this->m_SplineOrder % 2 == 0)
@@ -178,7 +178,7 @@ TRealValueType
 CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::EvaluateNthDerivative(const TRealValueType & u,
                                                                                     const unsigned int     n) const
 {
-  const TRealValueType absValue = itk::Math::abs(u);
+  const TRealValueType absValue = itk::Math::Absolute(u);
 
   auto which = static_cast<unsigned int>(absValue);
   if (this->m_SplineOrder % 2 == 0)

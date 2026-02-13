@@ -248,10 +248,10 @@ test_fft(unsigned int * SizeOfDimensions)
   {
     TPixel val = originalImageIterator.Value();
     TPixel val2 = inverseFFTImageIterator.Value();
-    TPixel diff = itk::Math::abs(val - val2);
+    TPixel diff = itk::Math::Absolute(val - val2);
     if (itk::Math::NotAlmostEquals(val, 0.0))
     {
-      diff /= itk::Math::abs(val);
+      diff /= itk::Math::Absolute(val);
     }
     if (diff > 0.01)
     {
@@ -412,11 +412,11 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
       const unsigned int yStrideB = j * sizesB[0];
       for (unsigned int k = 0; k < std::min(sizesA[0], sizesB[0]); ++k)
       {
-        const double val = itk::Math::abs(fftbufA[zStrideA + yStrideA + k]);
-        double       diff = itk::Math::abs(fftbufA[zStrideA + yStrideA + k] - fftbufB[zStrideB + yStrideB + k]);
+        const double val = itk::Math::Absolute(fftbufA[zStrideA + yStrideA + k]);
+        double       diff = itk::Math::Absolute(fftbufA[zStrideA + yStrideA + k] - fftbufB[zStrideB + yStrideB + k]);
         if (itk::Math::NotAlmostEquals(val, 0.0))
         {
-          diff /= itk::Math::abs(val);
+          diff /= itk::Math::Absolute(val);
         }
         if (diff > 0.01)
         {

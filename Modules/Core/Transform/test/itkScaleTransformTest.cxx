@@ -49,7 +49,7 @@ itkScaleTransformTest(int, char *[])
     std::cout << std::endl;
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (itk::Math::abs(scale[i] - 1.0) > epsilon)
+      if (itk::Math::Absolute(scale[i] - 1.0) > epsilon)
       {
         Ok = false;
         break;
@@ -97,7 +97,7 @@ itkScaleTransformTest(int, char *[])
 
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (itk::Math::abs(scale[i] - iscale[i]) > epsilon)
+      if (itk::Math::Absolute(scale[i] - iscale[i]) > epsilon)
       {
         Ok = false;
         break;
@@ -121,7 +121,7 @@ itkScaleTransformTest(int, char *[])
       TransformType::OutputPointType r = scaleTransform->TransformPoint(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -150,7 +150,7 @@ itkScaleTransformTest(int, char *[])
       TransformType::OutputVectorType r = scaleTransform->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -178,7 +178,7 @@ itkScaleTransformTest(int, char *[])
       TransformType::OutputCovariantVectorType r = scaleTransform->TransformCovariantVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -208,7 +208,7 @@ itkScaleTransformTest(int, char *[])
       TransformType::OutputVnlVectorType r = scaleTransform->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;

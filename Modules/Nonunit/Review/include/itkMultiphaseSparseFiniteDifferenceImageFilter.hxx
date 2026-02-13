@@ -244,7 +244,7 @@ typename MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage,
           {
             //  Neighbors are same sign OR at least one neighbor is zero.
             // Pick the larger magnitude derivative.
-            if (itk::Math::abs(forward - current) > itk::Math::abs(current - backward))
+            if (itk::Math::Absolute(forward - current) > itk::Math::Absolute(current - backward))
             {
               offset[j] = (forward - current) / spacing[j];
             }
@@ -571,7 +571,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
           // Keep the smallest possible value for the new active node.  This
           // places the new active layer node closest to the zero level-set.
           if (outputIt.GetPixel(idx) < LOWER_ACTIVE_THRESHOLD ||
-              itk::Math::abs(temp_value) < itk::Math::abs(outputIt.GetPixel(idx)))
+              itk::Math::Absolute(temp_value) < itk::Math::Absolute(outputIt.GetPixel(idx)))
           {
             bool bounds_status = false;
             UpdatePixel(this->m_CurrentFunctionIndex, idx, outputIt, temp_value, bounds_status);
@@ -625,7 +625,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
           // Keep the smallest magnitude value for this active set node.  This
           // places the node closest to the active layer.
           if (outputIt.GetPixel(idx) >= UPPER_ACTIVE_THRESHOLD ||
-              itk::Math::abs(temp_value) < itk::Math::abs(outputIt.GetPixel(idx)))
+              itk::Math::Absolute(temp_value) < itk::Math::Absolute(outputIt.GetPixel(idx)))
           {
             bool bounds_status = false;
             UpdatePixel(this->m_CurrentFunctionIndex, idx, outputIt, temp_value, bounds_status);
@@ -704,7 +704,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
         {
           //  Neighbors are same sign OR at least one neighbor is zero.
           // Pick the larger magnitude derivative.
-          if (itk::Math::abs(forward - center) > itk::Math::abs(center - backward))
+          if (itk::Math::Absolute(forward - center) > itk::Math::Absolute(center - backward))
           {
             dx = (forward - current) / spacing[j];
           }
@@ -872,8 +872,8 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
         {
           // Irrespective of negative/positive region, select the lowest
           // absolute minimum
-          // value = delta * std::min( itk::Math::abs( value_temp ),
-          // itk::Math::abs( value ) );
+          // value = delta * std::min( itk::Math::Absolute( value_temp ),
+          // itk::Math::Absolute( value ) );
           if (InOrOut == 1) // inward
           {
             // Find the largest (least negative) neighbor

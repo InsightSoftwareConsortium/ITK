@@ -72,7 +72,7 @@ itkChiSquareDistributionTest(int, char *[])
 
     const double value = distributionFunction->EvaluateCDF(x);
 
-    const double diff = itk::Math::abs(value - expected1[i]);
+    const double diff = itk::Math::Absolute(value - expected1[i]);
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(2);
@@ -108,7 +108,7 @@ itkChiSquareDistributionTest(int, char *[])
 
     const double value = distributionFunction->EvaluateInverseCDF(expected1[i]);
 
-    const double diff = itk::Math::abs(value - static_cast<double>(i));
+    const double diff = itk::Math::Absolute(value - static_cast<double>(i));
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(20);
@@ -164,7 +164,7 @@ itkChiSquareDistributionTest(int, char *[])
 
     const double value = distributionFunction->EvaluateCDF(x);
 
-    const double diff = itk::Math::abs(value - expected11[i]);
+    const double diff = itk::Math::Absolute(value - expected11[i]);
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(2);
@@ -200,7 +200,7 @@ itkChiSquareDistributionTest(int, char *[])
 
     const double value = distributionFunction->EvaluateInverseCDF(expected11[i]);
 
-    const double diff = itk::Math::abs(value - static_cast<double>(2 * i));
+    const double diff = itk::Math::Absolute(value - static_cast<double>(2 * i));
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(20);
@@ -246,7 +246,7 @@ itkChiSquareDistributionTest(int, char *[])
 
     const double value = distributionFunction->EvaluateCDF(x);
 
-    const double diff = itk::Math::abs(value - expected100[i]);
+    const double diff = itk::Math::Absolute(value - expected100[i]);
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(2);
@@ -282,7 +282,7 @@ itkChiSquareDistributionTest(int, char *[])
 
     const double value = distributionFunction->EvaluateInverseCDF(expected100[i]);
 
-    const double diff = itk::Math::abs(value - static_cast<double>(50 + 20 * i));
+    const double diff = itk::Math::Absolute(value - static_cast<double>(50 + 20 * i));
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(20);
@@ -327,7 +327,7 @@ itkChiSquareDistributionTest(int, char *[])
 
     const double value = distributionFunction->EvaluateCDF(x, params);
 
-    const double diff = itk::Math::abs(value - expected100[i]);
+    const double diff = itk::Math::Absolute(value - expected100[i]);
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(2);
@@ -364,7 +364,7 @@ itkChiSquareDistributionTest(int, char *[])
 
     const double value = distributionFunction->EvaluateInverseCDF(expected100[i], params);
 
-    const double diff = itk::Math::abs(value - static_cast<double>(50 + 20 * i));
+    const double diff = itk::Math::Absolute(value - static_cast<double>(50 + 20 * i));
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(20);
@@ -409,7 +409,7 @@ itkChiSquareDistributionTest(int, char *[])
     last_x = x;
     const double value = distributionFunction->EvaluateCDF(x, static_cast<long>(params[0]));
 
-    const double diff = itk::Math::abs(value - expected100[i]);
+    const double diff = itk::Math::Absolute(value - expected100[i]);
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(2);
@@ -446,7 +446,7 @@ itkChiSquareDistributionTest(int, char *[])
 
     const double value = distributionFunction->EvaluateInverseCDF(expected100[i], static_cast<long>(params[0]));
 
-    const double diff = itk::Math::abs(value - static_cast<double>(50 + 20 * i));
+    const double diff = itk::Math::Absolute(value - static_cast<double>(50 + 20 * i));
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(20);

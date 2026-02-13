@@ -215,26 +215,26 @@ itkImageMomentsTest(int argc, char * argv[])
 
 
   /* Compute and report max abs error in computed */
-  const double tmerr = itk::Math::abs(ttm - ctm); // Error in total mass
-  double       cgerr = 0.0;                       // Error in center of gravity
-  double       pmerr = 0.0;                       // Error in moments
-  double       paerr = 0.0;                       // Error in axes
+  const double tmerr = itk::Math::Absolute(ttm - ctm); // Error in total mass
+  double       cgerr = 0.0;                            // Error in center of gravity
+  double       pmerr = 0.0;                            // Error in moments
+  double       paerr = 0.0;                            // Error in axes
 
   for (int i = 0; i < 3; ++i)
   {
-    if (itk::Math::abs(ccg[i] - tcg[i]) > cgerr)
+    if (itk::Math::Absolute(ccg[i] - tcg[i]) > cgerr)
     {
-      cgerr = itk::Math::abs(ccg[i] - tcg[i]);
+      cgerr = itk::Math::Absolute(ccg[i] - tcg[i]);
     }
-    if (itk::Math::abs(cpm[i] - tpm[i]) > pmerr)
+    if (itk::Math::Absolute(cpm[i] - tpm[i]) > pmerr)
     {
-      pmerr = itk::Math::abs(cpm[i] - tpm[i]);
+      pmerr = itk::Math::Absolute(cpm[i] - tpm[i]);
     }
     for (int j = 0; j < 3; ++j)
     {
-      if (itk::Math::abs(cpa[i][j] - tpa[i][j]) > paerr)
+      if (itk::Math::Absolute(cpa[i][j] - tpa[i][j]) > paerr)
       {
-        paerr = itk::Math::abs(cpa[i][j] - tpa[i][j]);
+        paerr = itk::Math::Absolute(cpa[i][j] - tpa[i][j]);
       }
     }
   }

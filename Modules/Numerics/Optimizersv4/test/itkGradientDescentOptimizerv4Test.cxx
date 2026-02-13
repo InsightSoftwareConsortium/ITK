@@ -183,7 +183,7 @@ GradientDescentOptimizerv4RunTest(itk::GradientDescentOptimizerv4::Pointer &    
   constexpr ParametersType::ValueType eps{ 0.03 };
   for (unsigned int j = 0; j < 2; ++j)
   {
-    if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > eps)
+    if (itk::Math::Absolute(finalPosition[j] - trueParameters[j]) > eps)
     {
       std::cerr << "Results do not match: " << std::endl
                 << "expected: " << trueParameters << std::endl

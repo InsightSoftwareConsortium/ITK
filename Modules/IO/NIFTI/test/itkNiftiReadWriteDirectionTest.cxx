@@ -198,7 +198,7 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   {
     for (int c = 0; c < 3; ++c)
     {
-      const double diff = itk::Math::abs(inputImageNoSformDirection[r][c] - reReadImageDirection[r][c]);
+      const double diff = itk::Math::Absolute(inputImageNoSformDirection[r][c] - reReadImageDirection[r][c]);
       if (diff > 1e-8)
       {
         isCloseQformConverted = false;

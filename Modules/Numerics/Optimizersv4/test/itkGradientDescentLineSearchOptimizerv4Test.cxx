@@ -189,7 +189,7 @@ GradientDescentLineSearchOptimizerv4RunTest(itk::GradientDescentLineSearchOptimi
   double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
-    if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
+    if (itk::Math::Absolute(finalPosition[j] - trueParameters[j]) > 0.01)
     {
       std::cerr << "Results do not match: " << std::endl
                 << "expected: " << trueParameters << std::endl

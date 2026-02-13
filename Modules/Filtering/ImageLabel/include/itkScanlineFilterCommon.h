@@ -232,7 +232,7 @@ protected:
     SizeValueType diffSum = 0;
     for (unsigned int i = 1; i < OutputImageDimension; ++i)
     {
-      const SizeValueType diff = itk::Math::abs(A[i] - B[i]);
+      const SizeValueType diff = itk::Math::Absolute(A[i] - B[i]);
       if (diff > 1)
       {
         return false;

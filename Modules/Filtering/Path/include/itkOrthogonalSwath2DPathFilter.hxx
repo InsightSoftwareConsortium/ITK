@@ -77,7 +77,7 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
     for (unsigned int L = 0; L < m_SwathSize[1]; ++L)
     {
       // find merit for x=1
-      if (itk::Math::abs(F - L) <= 1)
+      if (itk::Math::Absolute(F - L) <= 1)
       {
         IndexType index2; // we need a second index here
         index[0] = 0;
@@ -122,7 +122,7 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
   {
     for (unsigned int L = 0; L < m_SwathSize[1]; ++L)
     {
-      if (itk::Math::abs(F - L) <= 1) // only accept closed paths
+      if (itk::Math::Absolute(F - L) <= 1) // only accept closed paths
       {
         const double meritTemp = MeritValue(F, L, m_SwathSize[0] - 1);
         if (meritTemp > meritMax)

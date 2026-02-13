@@ -197,7 +197,7 @@ RunLinearInterpolateTest()
                     const AccumulatorType computedValue = interpolator->Evaluate(point);
                     const AccumulatorType difference = expectedValue - computedValue;
 
-                    if (itk::Math::abs(difference) > tolerance)
+                    if (itk::Math::Absolute(difference) > tolerance)
                     {
                       std::cerr << "Error found while computing interpolation " << std::endl;
                       std::cerr << "Point = " << point << std::endl;

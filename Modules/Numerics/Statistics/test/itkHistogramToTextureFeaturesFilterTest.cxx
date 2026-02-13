@@ -151,28 +151,28 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
   const double haralickCorrelation = filter->GetHaralickCorrelation();
 
 
-  if (itk::Math::abs(energy - trueEnergy) > 0.001)
+  if (itk::Math::Absolute(energy - trueEnergy) > 0.001)
   {
     std::cerr << "Error:" << std::endl;
     std::cerr << "Energy calculated wrong. Expected: " << trueEnergy << ", got: " << energy << std::endl;
     passed = false;
   }
 
-  if (itk::Math::abs(entropy - trueEntropy) > 0.001)
+  if (itk::Math::Absolute(entropy - trueEntropy) > 0.001)
   {
     std::cerr << "Error:" << std::endl;
     std::cerr << "Entropy calculated wrong. Expected: " << trueEntropy << ", got: " << entropy << std::endl;
     passed = false;
   }
 
-  if (itk::Math::abs(correlation - trueCorrelation) > 0.001)
+  if (itk::Math::Absolute(correlation - trueCorrelation) > 0.001)
   {
     std::cerr << "Error:" << std::endl;
     std::cerr << "Correlation calculated wrong. Expected: " << trueCorrelation << ", got: " << correlation << std::endl;
     passed = false;
   }
 
-  if (itk::Math::abs(inverseDifferenceMoment - trueInverseDifferenceMoment) > 0.001)
+  if (itk::Math::Absolute(inverseDifferenceMoment - trueInverseDifferenceMoment) > 0.001)
   {
     std::cerr << "Error:" << std::endl;
     std::cerr << "InverseDifferenceMoment calculated wrong. Expected: " << trueInverseDifferenceMoment
@@ -180,14 +180,14 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
     passed = false;
   }
 
-  if (itk::Math::abs(inertia - trueInertia) > 0.001)
+  if (itk::Math::Absolute(inertia - trueInertia) > 0.001)
   {
     std::cerr << "Error:" << std::endl;
     std::cerr << "Inertia calculated wrong. Expected: " << trueInertia << ", got: " << inertia << std::endl;
     passed = false;
   }
 
-  if (itk::Math::abs(clusterShade - trueClusterShade) > 0.001)
+  if (itk::Math::Absolute(clusterShade - trueClusterShade) > 0.001)
   {
     std::cerr << "Error:" << std::endl;
     std::cerr << "ClusterShade calculated wrong. Expected: " << trueClusterShade << ", got: " << clusterShade
@@ -195,7 +195,7 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
     passed = false;
   }
 
-  if (itk::Math::abs(clusterProminence - trueClusterProminence) > 0.001)
+  if (itk::Math::Absolute(clusterProminence - trueClusterProminence) > 0.001)
   {
     std::cerr << "Error:" << std::endl;
     std::cerr << "ClusterProminence calculated wrong. Expected: " << trueClusterProminence
@@ -203,7 +203,7 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
     passed = false;
   }
 
-  if (itk::Math::abs(haralickCorrelation - trueHaralickCorrelation) > 0.001)
+  if (itk::Math::Absolute(haralickCorrelation - trueHaralickCorrelation) > 0.001)
   {
     std::cerr << "Error:" << std::endl;
     std::cerr << "Haralick's Correlation calculated wrong. Expected: " << trueHaralickCorrelation
@@ -236,21 +236,21 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
   const double haralickCorrelation2 =
     filter->GetFeature(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::HaralickCorrelation);
 
-  if (itk::Math::abs(energy2 - trueEnergy) > 0.001)
+  if (itk::Math::Absolute(energy2 - trueEnergy) > 0.001)
   {
     std::cerr << "Error:" << std::endl;
     std::cerr << "Energy calculated wrong. Expected: " << trueEnergy << ", got: " << energy2 << std::endl;
     passed = false;
   }
 
-  if (itk::Math::abs(entropy2 - trueEntropy) > 0.001)
+  if (itk::Math::Absolute(entropy2 - trueEntropy) > 0.001)
   {
     std::cerr << "Error:" << std::endl;
     std::cerr << "Entropy calculated wrong. Expected: " << trueEntropy << ", got: " << entropy2 << std::endl;
     passed = false;
   }
 
-  if (itk::Math::abs(correlation2 - trueCorrelation) > 0.001)
+  if (itk::Math::Absolute(correlation2 - trueCorrelation) > 0.001)
   {
     std::cerr << "Error:" << std::endl;
     std::cerr << "Correlation calculated wrong. Expected: " << trueCorrelation << ", got: " << correlation2
@@ -258,7 +258,7 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
     passed = false;
   }
 
-  if (itk::Math::abs(inverseDifferenceMoment2 - trueInverseDifferenceMoment) > 0.001)
+  if (itk::Math::Absolute(inverseDifferenceMoment2 - trueInverseDifferenceMoment) > 0.001)
   {
     std::cerr << "Error:" << std::endl;
     std::cerr << "InverseDifferenceMoment calculated wrong. Expected: " << trueInverseDifferenceMoment
@@ -266,14 +266,14 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
     passed = false;
   }
 
-  if (itk::Math::abs(inertia2 - trueInertia) > 0.001)
+  if (itk::Math::Absolute(inertia2 - trueInertia) > 0.001)
   {
     std::cerr << "Error:" << std::endl;
     std::cerr << "Inertia calculated wrong. Expected: " << trueInertia << ", got: " << inertia2 << std::endl;
     passed = false;
   }
 
-  if (itk::Math::abs(clusterShade2 - trueClusterShade) > 0.001)
+  if (itk::Math::Absolute(clusterShade2 - trueClusterShade) > 0.001)
   {
     std::cerr << "Error:" << std::endl;
     std::cerr << "ClusterShade calculated wrong. Expected: " << trueClusterShade << ", got: " << clusterShade2
@@ -281,7 +281,7 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
     passed = false;
   }
 
-  if (itk::Math::abs(clusterProminence2 - trueClusterProminence) > 0.001)
+  if (itk::Math::Absolute(clusterProminence2 - trueClusterProminence) > 0.001)
   {
     std::cerr << "Error:" << std::endl;
     std::cerr << "ClusterProminence calculated wrong. Expected: " << trueClusterProminence
@@ -289,7 +289,7 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
     passed = false;
   }
 
-  if (itk::Math::abs(haralickCorrelation2 - trueHaralickCorrelation) > 0.001)
+  if (itk::Math::Absolute(haralickCorrelation2 - trueHaralickCorrelation) > 0.001)
   {
     std::cerr << "Error:" << std::endl;
     std::cerr << "Haralick's Correlation calculated wrong. Expected: " << trueHaralickCorrelation

@@ -392,7 +392,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
     for (size_t v = 0; v < 4; ++v)
     {
       constexpr double max_percent_diff_in_metric{ 0.05 };
-      if (itk::Math::abs(itk::Math::abs(new_values[v] / known_values[v]) - 1.0) > max_percent_diff_in_metric)
+      if (itk::Math::Absolute(itk::Math::Absolute(new_values[v] / known_values[v]) - 1.0) > max_percent_diff_in_metric)
       {
         std::cout << "\t[FAILED] known values for metric values not computed correctly." << std::setprecision(16)
                   << new_values[v] << " != " << known_values[v] << std::endl;
@@ -413,7 +413,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
               << secondOrderApproxDerivative << "]\tfirstOrderApproxDerivative[" << firstOrderApproxDerivative
               << "]\tratio: " << ratio;
 
-    const double evalDiff = itk::Math::abs(ratio - 1.0);
+    const double evalDiff = itk::Math::Absolute(ratio - 1.0);
     if (evalDiff > tolerance)
     {
       std::cout << "\t[FAILED] computed derivative differ from central difference by (" << evalDiff << " > "

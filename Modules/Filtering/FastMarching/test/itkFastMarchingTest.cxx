@@ -215,11 +215,11 @@ itkFastMarchingTest(int argc, char * argv[])
     {
       continue;
     }
-    if (itk::Math::abs(outputValue) / distance > 1.42)
+    if (itk::Math::Absolute(outputValue) / distance > 1.42)
     {
       std::cout << iterator.ComputeIndex() << ' ';
-      std::cout << itk::Math::abs(outputValue) / distance << ' ';
-      std::cout << itk::Math::abs(outputValue) << ' ' << distance << std::endl;
+      std::cout << itk::Math::Absolute(outputValue) / distance << ' ';
+      std::cout << itk::Math::Absolute(outputValue) << ' ' << distance << std::endl;
       passed = false;
     }
   }

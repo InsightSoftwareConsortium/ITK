@@ -558,7 +558,7 @@ CheckDisplacements(itk::fem::Solver & S, int s, char comment, double * expectedR
          d++)
     {
       double result = S.GetSolution(dof);
-      if (itk::Math::abs(result - expectedResults[index]) > tolerance)
+      if (itk::Math::Absolute(result - expectedResults[index]) > tolerance)
       {
         std::cout << "Error: Result (" << result << ") expected (" << expectedResults[index] << ") with tolerance ("
                   << tolerance << ')' << std::endl;

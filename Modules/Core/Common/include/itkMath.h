@@ -949,8 +949,8 @@ Absolute(const std::complex<T> & x) noexcept
   return std::abs<T>(x);
 }
 
-
-// itk::Math::abs has different behavior than std::abs.  The use of
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+// itk::Math::Absolute has different behavior than std::abs.  The use of
 // abs() in the ITK context without namespace resolution can be confusing
 // The abs() version is provided for backwards compatibility.
 template <typename T>
@@ -959,7 +959,7 @@ abs(T x) noexcept
 {
   return Absolute(x);
 }
-
+#endif
 
 } // namespace itk::Math
 

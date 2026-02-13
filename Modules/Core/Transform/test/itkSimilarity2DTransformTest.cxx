@@ -30,7 +30,7 @@ CheckEqual(const itk::Point<double, 2> & p1, const itk::Point<double, 2> & p2)
 
   for (unsigned int i = 0; i < 2; ++i)
   {
-    if (itk::Math::abs(p1[i] - p2[i]) > epsilon)
+    if (itk::Math::Absolute(p1[i] - p2[i]) > epsilon)
     {
       std::cout << p1 << " != " << p2 << ":[ FAILED ]" << std::endl;
       return false;
@@ -67,7 +67,7 @@ itkSimilarity2DTransformTest(int, char *[])
   r = transform->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (itk::Math::abs(p[i] - r[i]) > epsilon)
+    if (itk::Math::Absolute(p[i] - r[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -91,7 +91,7 @@ itkSimilarity2DTransformTest(int, char *[])
   transform2->SetMatrix(transform1->GetMatrix());
   std::cout << "Testing SetAngle(" << angle1 << ")/GetAngle():";
   constexpr double epsilon2{ 1e-5 };
-  if (itk::Math::abs(transform2->GetAngle() - angle1) > epsilon2)
+  if (itk::Math::Absolute(transform2->GetAngle() - angle1) > epsilon2)
   {
     std::cerr << "Error with SetAngle/GetAngle:" << std::endl;
     std::cerr << "transform1->SetAngle: " << angle1 << std::endl;
@@ -106,7 +106,7 @@ itkSimilarity2DTransformTest(int, char *[])
   transform1->SetAngle(-angle1);
   transform2->SetMatrix(transform1->GetMatrix());
   std::cout << "Testing SetAngle(" << -angle1 << ")/GetAngle():";
-  if (itk::Math::abs(transform2->GetAngle() - (-angle1)) > epsilon2)
+  if (itk::Math::Absolute(transform2->GetAngle() - (-angle1)) > epsilon2)
   {
     std::cerr << "Error with SetAngle/GetAngle:" << std::endl;
     std::cerr << "transform1->SetAngle: " << -angle1 << std::endl;
@@ -134,7 +134,7 @@ itkSimilarity2DTransformTest(int, char *[])
   std::cout << "Output Parameters = " << outputParams << std::endl;
   for (unsigned int i = 0; i < 4; ++i) // do not test for the offset
   {
-    if (itk::Math::abs(outputParams[i] - params[i]) > epsilon)
+    if (itk::Math::Absolute(outputParams[i] - params[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -169,7 +169,7 @@ itkSimilarity2DTransformTest(int, char *[])
   r = transform->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (itk::Math::abs(q[i] - r[i]) > epsilon)
+    if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -200,7 +200,7 @@ itkSimilarity2DTransformTest(int, char *[])
   r = transform->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (itk::Math::abs(q[i] - r[i]) > epsilon)
+    if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -399,7 +399,7 @@ itkSimilarity2DTransformTest(int, char *[])
         const double approxDerivative = (plusPoint[j] - minusPoint[j]) / (2.0 * delta);
         const double computedDerivative = jacobian[j][k];
         approxJacobian[j][k] = approxDerivative;
-        if (itk::Math::abs(approxDerivative - computedDerivative) > 1e-4)
+        if (itk::Math::Absolute(approxDerivative - computedDerivative) > 1e-4)
         {
           std::cerr << "Error computing Jacobian [" << j << "][" << k << ']' << std::endl;
           std::cerr << "Result should be: " << approxDerivative << std::endl;
@@ -557,7 +557,7 @@ itkSimilarity2DTransformTest(int, char *[])
         const double approxDerivative = (plusPoint[j] - minusPoint[j]) / (2.0 * delta);
         const double computedDerivative = jacobian[j][k];
         approxJacobian[j][k] = approxDerivative;
-        if (itk::Math::abs(approxDerivative - computedDerivative) > 1e-4)
+        if (itk::Math::Absolute(approxDerivative - computedDerivative) > 1e-4)
         {
           std::cerr << "Error computing Jacobian [" << j << "][" << k << ']' << std::endl;
           std::cerr << "Result should be: " << approxDerivative << std::endl;
@@ -617,9 +617,9 @@ itkSimilarity2DTransformTest(int, char *[])
     std::cout << "Test Set/GetMatrix() and Set/GetOffset(): ";
     for (unsigned int j = 0; j < t1->GetNumberOfParameters(); ++j)
     {
-      if (itk::Math::abs(parameters[j] - pdash[j]) > epsilon)
+      if (itk::Math::Absolute(parameters[j] - pdash[j]) > epsilon)
       {
-        std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+        std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
         std::cerr << "Test failed!" << std::endl;
         std::cerr << "Error in parameters at index [" << j << "]" << std::endl;
         std::cerr << "Expected value " << parameters << std::endl;

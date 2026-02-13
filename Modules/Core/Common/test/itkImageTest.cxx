@@ -83,8 +83,8 @@ itkImageTest(int, char *[])
   std::cout << "Test inverse direction." << std::endl;
   Image::DirectionType product = direction * image->GetInverseDirection();
   constexpr double     eps{ 1e-06 };
-  if (itk::Math::abs(product[0][0] - 1.0) > eps || itk::Math::abs(product[1][1] - 1.0) > eps ||
-      itk::Math::abs(product[0][1]) > eps || itk::Math::abs(product[1][0]) > eps)
+  if (itk::Math::Absolute(product[0][0] - 1.0) > eps || itk::Math::Absolute(product[1][1] - 1.0) > eps ||
+      itk::Math::Absolute(product[0][1]) > eps || itk::Math::Absolute(product[1][0]) > eps)
   {
     std::cerr << "Inverse direction test failed: "
               << "direction * inverse: " << product << std::endl;
@@ -100,8 +100,8 @@ itkImageTest(int, char *[])
   image->TransformLocalVectorToPhysicalVector(truthGradient, outputGradient);
   GradientType testGradient;
   image->TransformPhysicalVectorToLocalVector(outputGradient, testGradient);
-  if (itk::Math::abs(truthGradient[0] - testGradient[0]) > eps ||
-      itk::Math::abs(truthGradient[1] - testGradient[1]) > eps)
+  if (itk::Math::Absolute(truthGradient[0] - testGradient[0]) > eps ||
+      itk::Math::Absolute(truthGradient[1] - testGradient[1]) > eps)
   {
     std::cerr << "Transform to/from PhysicalVector test failed: "
               << "truthGradient: " << truthGradient << std::endl

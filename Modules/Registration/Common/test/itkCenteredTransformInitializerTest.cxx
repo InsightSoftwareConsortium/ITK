@@ -98,7 +98,7 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   // Verifications for the Geometry Mode
   for (unsigned int k = 0; k < Dimension; ++k)
   {
-    if (itk::Math::abs(center1[k] - fixedCenter[k]) > tolerance)
+    if (itk::Math::Absolute(center1[k] - fixedCenter[k]) > tolerance)
     {
       std::cerr << "Center differs from expected value" << std::endl;
       std::cerr << "It should be " << fixedCenter << std::endl;
@@ -106,7 +106,7 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
       pass = false;
       break;
     }
-    if (itk::Math::abs(translation1[k] - relativeCenter[k]) > tolerance)
+    if (itk::Math::Absolute(translation1[k] - relativeCenter[k]) > tolerance)
     {
       std::cerr << "Translation differs from expected value" << std::endl;
       std::cerr << "It should be " << relativeCenter << std::endl;
@@ -114,7 +114,7 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
       pass = false;
       break;
     }
-    if (itk::Math::abs(offset1[k] - relativeCenter[k]) > tolerance)
+    if (itk::Math::Absolute(offset1[k] - relativeCenter[k]) > tolerance)
     {
       std::cerr << "Offset differs from expected value" << std::endl;
       std::cerr << "It should be " << relativeCenter << std::endl;
@@ -139,7 +139,7 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   // Verifications for the Moments Mode
   for (unsigned int k = 0; k < Dimension; ++k)
   {
-    if (itk::Math::abs(center2[k] - fixedCenter[k]) > tolerance)
+    if (itk::Math::Absolute(center2[k] - fixedCenter[k]) > tolerance)
     {
       std::cerr << "Center differs from expected value" << std::endl;
       std::cerr << "It should be " << fixedCenter << std::endl;
@@ -147,7 +147,7 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
       pass = false;
       break;
     }
-    if (itk::Math::abs(translation2[k] - relativeCenter[k]) > tolerance)
+    if (itk::Math::Absolute(translation2[k] - relativeCenter[k]) > tolerance)
     {
       std::cerr << "Translation differs from expected value" << std::endl;
       std::cerr << "It should be " << relativeCenter << std::endl;
@@ -155,7 +155,7 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
       pass = false;
       break;
     }
-    if (itk::Math::abs(offset2[k] - relativeCenter[k]) > tolerance)
+    if (itk::Math::Absolute(offset2[k] - relativeCenter[k]) > tolerance)
     {
       std::cerr << "Offset differs from expected value" << std::endl;
       std::cerr << "It should be " << relativeCenter << std::endl;

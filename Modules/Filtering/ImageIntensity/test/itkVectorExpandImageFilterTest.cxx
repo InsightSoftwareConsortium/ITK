@@ -189,7 +189,7 @@ itkVectorExpandImageFilterTest(int, char *[])
       unsigned int k = 0;
       for (; k < VectorDimension; ++k)
       {
-        if (itk::Math::abs(baseValue * vectorCoeff[k] - value[k]) > 1e-4)
+        if (itk::Math::Absolute(baseValue * vectorCoeff[k] - value[k]) > 1e-4)
         {
           break;
         }

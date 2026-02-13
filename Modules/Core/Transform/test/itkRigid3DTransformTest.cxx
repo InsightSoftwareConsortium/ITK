@@ -140,7 +140,7 @@ itkRigid3DTransformTest(int, char *[])
 
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (itk::Math::abs(offset[i] - 0.0) > epsilon)
+      if (itk::Math::Absolute(offset[i] - 0.0) > epsilon)
       {
         Ok = false;
         break;
@@ -167,7 +167,7 @@ itkRigid3DTransformTest(int, char *[])
 
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (itk::Math::abs(offset[i] - ioffset[i]) > epsilon)
+      if (itk::Math::Absolute(offset[i] - ioffset[i]) > epsilon)
       {
         Ok = false;
         break;
@@ -189,7 +189,7 @@ itkRigid3DTransformTest(int, char *[])
       r = translation->TransformPoint(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -214,7 +214,7 @@ itkRigid3DTransformTest(int, char *[])
       q = translation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - p[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - p[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -238,7 +238,7 @@ itkRigid3DTransformTest(int, char *[])
       q = translation->TransformCovariantVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - p[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - p[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -264,7 +264,7 @@ itkRigid3DTransformTest(int, char *[])
       q = translation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - p[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - p[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -312,7 +312,7 @@ itkRigid3DTransformTest(int, char *[])
 
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (itk::Math::abs(offset[i] - ioffset[i]) > epsilon)
+      if (itk::Math::Absolute(offset[i] - ioffset[i]) > epsilon)
       {
         Ok = false;
         break;
@@ -333,7 +333,7 @@ itkRigid3DTransformTest(int, char *[])
     {
       for (unsigned int j = 0; j < N; ++j)
       {
-        if (itk::Math::abs(matrix0[i][j] - mrotation[i][j]) > epsilon)
+        if (itk::Math::Absolute(matrix0[i][j] - mrotation[i][j]) > epsilon)
         {
           Ok = false;
           break;
@@ -361,7 +361,7 @@ itkRigid3DTransformTest(int, char *[])
       r = rotation->TransformPoint(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -392,7 +392,7 @@ itkRigid3DTransformTest(int, char *[])
       r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -424,7 +424,7 @@ itkRigid3DTransformTest(int, char *[])
 
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -458,7 +458,7 @@ itkRigid3DTransformTest(int, char *[])
       r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -576,7 +576,7 @@ itkRigid3DTransformTest(int, char *[])
       Ok = true;
       for (unsigned int par = 0; par < t->GetNumberOfParameters(); ++par)
       {
-        if (itk::Math::abs(p[par] - pIdeal[par]) > epsilon)
+        if (itk::Math::Absolute(p[par] - pIdeal[par]) > epsilon)
         {
           std::cerr << "Expected parameters: " << pIdeal << std::endl;
           std::cerr << "Actual parameters: " << p << std::endl;

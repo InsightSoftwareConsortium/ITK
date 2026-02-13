@@ -341,7 +341,7 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
     displacementFieldRegistration->GetLearningRate();
   if (!itk::Math::FloatAlmostEqual(obtainedLearningRate, learningRate, 10, epsilon))
   {
-    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in GetLearningRate" << std::endl;
     std::cerr << "Expected value " << learningRate << std::endl;
@@ -360,7 +360,7 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
     displacementFieldRegistration->GetGaussianSmoothingVarianceForTheUpdateField();
   if (!itk::Math::FloatAlmostEqual(obtainedVarianceForUpdateField, varianceForUpdateField, 10, epsilon))
   {
-    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in GetGaussianSmoothingVarianceForTheUpdateField" << std::endl;
     std::cerr << "Expected value " << obtainedVarianceForUpdateField << std::endl;
@@ -374,7 +374,7 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
     displacementFieldRegistration->GetGaussianSmoothingVarianceForTheTotalField();
   if (!itk::Math::FloatAlmostEqual(obtainedVarianceForTotalField, varianceForTotalField, 10, epsilon))
   {
-    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in GetGaussianSmoothingVarianceForTheTotalField" << std::endl;
     std::cerr << "Expected value " << obtainedVarianceForTotalField << std::endl;
@@ -389,7 +389,7 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
     displacementFieldRegistration->GetConvergenceThreshold();
   if (!itk::Math::FloatAlmostEqual(obtainedConvergenceThreshold, convergenceThreshold, 10, epsilon))
   {
-    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in GetConvergenceThreshold" << std::endl;
     std::cerr << "Expected value " << obtainedConvergenceThreshold << std::endl;

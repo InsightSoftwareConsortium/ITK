@@ -67,44 +67,44 @@ itkNrrdComplexImageReadTest(int argc, char * argv[])
   coord[0] = 0;
   coord[1] = 0;
   PixelType sample = image->GetPixel(coord);
-  err += itk::Math::abs(sample.real() - 27.985973);
-  err += itk::Math::abs(sample.imag() - 0.0);
+  err += itk::Math::Absolute(sample.real() - 27.985973);
+  err += itk::Math::Absolute(sample.imag() - 0.0);
 
   coord[0] = 53;
   coord[1] = 43;
   sample = image->GetPixel(coord);
-  err += itk::Math::abs(sample.real() - -0.94961888);
-  err += itk::Math::abs(sample.imag() - 0.409872);
+  err += itk::Math::Absolute(sample.real() - -0.94961888);
+  err += itk::Math::Absolute(sample.imag() - 0.409872);
 
   coord[0] = 10;
   coord[1] = 43;
   sample = image->GetPixel(coord);
-  err += itk::Math::abs(sample.real() - -0.096564025);
-  err += itk::Math::abs(sample.imag() - 0.0094992276);
+  err += itk::Math::Absolute(sample.real() - -0.096564025);
+  err += itk::Math::Absolute(sample.imag() - 0.0094992276);
 
   coord[0] = 10;
   coord[1] = 0;
   sample = image->GetPixel(coord);
-  err += itk::Math::abs(sample.real() - 0.036231704);
-  err += itk::Math::abs(sample.imag() - -0.016659589);
+  err += itk::Math::Absolute(sample.real() - 0.036231704);
+  err += itk::Math::Absolute(sample.imag() - -0.016659589);
 
   coord[0] = 42;
   coord[1] = 42;
   sample = image->GetPixel(coord);
-  err += itk::Math::abs(sample.real() - -0.027012844);
-  err += itk::Math::abs(sample.imag() - -0.012217643);
+  err += itk::Math::Absolute(sample.real() - -0.027012844);
+  err += itk::Math::Absolute(sample.imag() - -0.012217643);
 
   coord[0] = 50;
   coord[1] = 40;
   sample = image->GetPixel(coord);
-  err += itk::Math::abs(sample.real() - 0.44949868);
-  err += itk::Math::abs(sample.imag() - -0.033380687);
+  err += itk::Math::Absolute(sample.real() - 0.44949868);
+  err += itk::Math::Absolute(sample.imag() - -0.033380687);
 
   coord[0] = 8;
   coord[1] = 9;
   sample = image->GetPixel(coord);
-  err += itk::Math::abs(sample.real() - -0.036674671);
-  err += itk::Math::abs(sample.imag() - -0.0061681992);
+  err += itk::Math::Absolute(sample.real() - -0.036674671);
+  err += itk::Math::Absolute(sample.imag() - -0.0061681992);
 
   constexpr double thresh{ 0.00000038 };
   if (err > thresh)

@@ -148,7 +148,7 @@ WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBou
       {
         // Increment the offset, taking it through the range
         // (dist + rad - 1, ..., dist - rad), i.e. all x
-        // such that itk::Math::abs(x) <= rad
+        // such that itk::Math::Absolute(x) <= rad
         x -= 1.0;
 
         // Compute the weight for this m

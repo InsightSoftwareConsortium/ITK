@@ -1069,9 +1069,9 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintVectorField(u
     }
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      if (itk::Math::abs(disp[i]) > max)
+      if (itk::Math::Absolute(disp[i]) > max)
       {
-        max = itk::Math::abs(disp[i]);
+        max = itk::Math::Absolute(disp[i]);
       }
     }
     ++fieldIter;
@@ -1169,7 +1169,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EvaluateResidual(S
   {
     SimE = maxsim - SimE;
   }
-  return itk::Math::abs(static_cast<double>(SimE)); // +defe;
+  return itk::Math::Absolute(static_cast<double>(SimE)); // +defe;
 }
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
@@ -1186,8 +1186,8 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FindBracketingTrip
   const Float     Tiny = 1.e-20;
   Float           ax = 0.0;
   Float           bx = 1.0;
-  Float           fa = itk::Math::abs(this->EvaluateResidual(solver, ax));
-  Float           fb = itk::Math::abs(this->EvaluateResidual(solver, bx));
+  Float           fa = itk::Math::Absolute(this->EvaluateResidual(solver, ax));
+  Float           fb = itk::Math::Absolute(this->EvaluateResidual(solver, bx));
 
   Float dum;
 
@@ -1202,20 +1202,20 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FindBracketingTrip
   }
 
   Float cx = bx + Gold * (bx - ax); // first guess for c - the 3rd pt needed to bracket the min
-  Float fc = itk::Math::abs(this->EvaluateResidual(solver, cx));
+  Float fc = itk::Math::Absolute(this->EvaluateResidual(solver, cx));
 
   Float ulim, u, r, q, fu;
   while (fb > fc)
-  // && itk::Math::abs(ax) < 3. && itk::Math::abs(bx) < 3. && itk::Math::abs(cx) < 3.)
+  // && itk::Math::Absolute(ax) < 3. && itk::Math::Absolute(bx) < 3. && itk::Math::Absolute(cx) < 3.)
   {
     r = (bx - ax) * (fb - fc);
     q = (bx - cx) * (fb - fa);
-    Float denom = (2.0 * solver->GSSign(solver->GSMax(itk::Math::abs(q - r), Tiny), q - r));
+    Float denom = (2.0 * solver->GSSign(solver->GSMax(itk::Math::Absolute(q - r), Tiny), q - r));
     u = (bx) - ((bx - cx) * q - (bx - ax) * r) / denom;
     ulim = bx + Glimit * (cx - bx);
     if ((bx - u) * (u - cx) > 0.0)
     {
-      fu = itk::Math::abs(this->EvaluateResidual(solver, u));
+      fu = itk::Math::Absolute(this->EvaluateResidual(solver, u));
       if (fu < fc)
       {
         ax = bx;
@@ -1235,11 +1235,11 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FindBracketingTrip
       }
 
       u = cx + Gold * (cx - bx);
-      fu = itk::Math::abs(this->EvaluateResidual(solver, u));
+      fu = itk::Math::Absolute(this->EvaluateResidual(solver, u));
     }
     else if ((cx - u) * (u - ulim) > 0.0)
     {
-      fu = itk::Math::abs(this->EvaluateResidual(solver, u));
+      fu = itk::Math::Absolute(this->EvaluateResidual(solver, u));
       if (fu < fc)
       {
         bx = cx;
@@ -1247,18 +1247,18 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FindBracketingTrip
         u = cx + Gold * (cx - bx);
         fb = fc;
         fc = fu;
-        fu = itk::Math::abs(this->EvaluateResidual(solver, u));
+        fu = itk::Math::Absolute(this->EvaluateResidual(solver, u));
       }
     }
     else if ((u - ulim) * (ulim - cx) >= 0.0)
     {
       u = ulim;
-      fu = itk::Math::abs(this->EvaluateResidual(solver, u));
+      fu = itk::Math::Absolute(this->EvaluateResidual(solver, u));
     }
     else
     {
       u = cx + Gold * (cx - bx);
-      fu = itk::Math::abs(this->EvaluateResidual(solver, u));
+      fu = itk::Math::Absolute(this->EvaluateResidual(solver, u));
     }
 
     ax = bx;
@@ -1269,7 +1269,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FindBracketingTrip
     fc = fu;
   }
 
-  if (itk::Math::abs(ax) > 1.e3 || itk::Math::abs(bx) > 1.e3 || itk::Math::abs(cx) > 1.e3)
+  if (itk::Math::Absolute(ax) > 1.e3 || itk::Math::Absolute(bx) > 1.e3 || itk::Math::Absolute(cx) > 1.e3)
   {
     ax = -2.0;
     bx = 1.0;
@@ -1300,7 +1300,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::GoldenSection(Solv
   Float x1;
   Float x2;
   Float x3 = cx;
-  if (itk::Math::abs(cx - bx) > itk::Math::abs(bx - ax))
+  if (itk::Math::Absolute(cx - bx) > itk::Math::Absolute(bx - ax))
   {
     x1 = bx;
     x2 = bx + C * (cx - bx);
@@ -1311,10 +1311,10 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::GoldenSection(Solv
     x1 = bx - C * (bx - ax);
   }
 
-  Float        f1 = itk::Math::abs(this->EvaluateResidual(solver, x1));
-  Float        f2 = itk::Math::abs(this->EvaluateResidual(solver, x2));
+  Float        f1 = itk::Math::Absolute(this->EvaluateResidual(solver, x1));
+  Float        f2 = itk::Math::Absolute(this->EvaluateResidual(solver, x2));
   unsigned int iters = 0;
-  while (itk::Math::abs(x3 - x0) > tol * (itk::Math::abs(x1) + itk::Math::abs(x2)) && iters < MaxIters)
+  while (itk::Math::Absolute(x3 - x0) > tol * (itk::Math::Absolute(x1) + itk::Math::Absolute(x2)) && iters < MaxIters)
   {
     ++iters;
     if (f2 < f1)
@@ -1323,7 +1323,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::GoldenSection(Solv
       x1 = x2;
       x2 = R * x1 + C * x3;
       f1 = f2;
-      f2 = itk::Math::abs(this->EvaluateResidual(solver, x2));
+      f2 = itk::Math::Absolute(this->EvaluateResidual(solver, x2));
     }
     else
     {
@@ -1331,7 +1331,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::GoldenSection(Solv
       x2 = x1;
       x1 = R * x2 + C * x0;
       f2 = f1;
-      f1 = itk::Math::abs(this->EvaluateResidual(solver, x1));
+      f1 = itk::Math::Absolute(this->EvaluateResidual(solver, x1));
     }
   }
 
@@ -1348,7 +1348,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::GoldenSection(Solv
   }
 
   solver->SetEnergyToMin(xmin);
-  return itk::Math::abs(static_cast<double>(fmin));
+  return itk::Math::Absolute(static_cast<double>(fmin));
 }
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>

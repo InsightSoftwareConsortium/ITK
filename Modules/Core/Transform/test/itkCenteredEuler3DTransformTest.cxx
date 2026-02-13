@@ -109,7 +109,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
   r = eulerTransform->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (itk::Math::abs(q[i] - r[i]) > epsilon)
+    if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -141,7 +141,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
   r = eulerTransform->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (itk::Math::abs(q[i] - r[i]) > epsilon)
+    if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -271,7 +271,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
           const double approxDerivative = (plusPoint[j] - minusPoint[j]) / (2.0 * delta);
           const double computedDerivative = jacobian[j][k];
           approxJacobian[j][k] = approxDerivative;
-          if (itk::Math::abs(approxDerivative - computedDerivative) > 1e-5)
+          if (itk::Math::Absolute(approxDerivative - computedDerivative) > 1e-5)
           {
             std::cerr << "Error computing Jacobian [" << j << "][" << k << ']' << std::endl;
             std::cerr << "Result should be: " << approxDerivative << std::endl;
@@ -295,9 +295,9 @@ itkCenteredEuler3DTransformTest(int, char *[])
   auto t2 = EulerTransformType::New();
   t2->SetIdentity();
   t2->Compose(eulerTransform);
-  if ((itk::Math::abs(t2->GetParameters()[0] - 0.2) > 0.0001) ||
-      (itk::Math::abs(t2->GetParameters()[1] - 0.1) > 0.0001) ||
-      (itk::Math::abs(t2->GetParameters()[2] - 0.3) > 0.0001))
+  if ((itk::Math::Absolute(t2->GetParameters()[0] - 0.2) > 0.0001) ||
+      (itk::Math::Absolute(t2->GetParameters()[1] - 0.1) > 0.0001) ||
+      (itk::Math::Absolute(t2->GetParameters()[2] - 0.3) > 0.0001))
   {
     std::cout << " [ FAILED ] " << std::endl;
     return EXIT_FAILURE;
@@ -313,9 +313,9 @@ itkCenteredEuler3DTransformTest(int, char *[])
   t2->SetComputeZYX(true);
   t2->Compose(eulerTransform);
 
-  if ((itk::Math::abs(t2->GetParameters()[0] - 0.2) > 0.0001) ||
-      (itk::Math::abs(t2->GetParameters()[1] - 0.1) > 0.0001) ||
-      (itk::Math::abs(t2->GetParameters()[2] - 0.3) > 0.0001))
+  if ((itk::Math::Absolute(t2->GetParameters()[0] - 0.2) > 0.0001) ||
+      (itk::Math::Absolute(t2->GetParameters()[1] - 0.1) > 0.0001) ||
+      (itk::Math::Absolute(t2->GetParameters()[2] - 0.3) > 0.0001))
   {
     std::cout << " [ FAILED ] " << std::endl;
     return EXIT_FAILURE;

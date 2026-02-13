@@ -113,7 +113,7 @@ itkAddImageAdaptorTest(int, char *[])
     auto v1 = static_cast<RealPixelType>(dt.Get());
     auto v2 = static_cast<RealPixelType>(additiveConstant);
 
-    const RealPixelType diff = itk::Math::abs(v1 - v2);
+    const RealPixelType diff = itk::Math::Absolute(v1 - v2);
 
     if (diff > itk::Math::eps)
     {

@@ -44,7 +44,7 @@ SpatialOrientationAdapter::FromDirectionCosines(const DirectionType & Dir)
   {
     for (unsigned int r = 0; r < 3; ++r)
     {
-      value_to_idx.emplace(itk::Math::abs(Dir[c][r]), std::make_pair(c, r));
+      value_to_idx.emplace(itk::Math::Absolute(Dir[c][r]), std::make_pair(c, r));
     }
   }
 

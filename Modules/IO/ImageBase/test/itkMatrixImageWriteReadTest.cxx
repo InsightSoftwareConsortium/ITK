@@ -128,7 +128,7 @@ itkMatrixImageWriteReadTest(int argc, char * argv[])
     {
       for (unsigned int j = 0; j < 3; ++j)
       {
-        if (itk::Math::abs(matrixPixel1[i][j] - matrixPixel2[i][j]) > tolerance)
+        if (itk::Math::Absolute(matrixPixel1[i][j] - matrixPixel2[i][j]) > tolerance)
         {
           std::cerr << "Matrix read does not match expected values " << std::endl;
           std::cerr << "Index " << tItr.ComputeIndex() << std::endl;

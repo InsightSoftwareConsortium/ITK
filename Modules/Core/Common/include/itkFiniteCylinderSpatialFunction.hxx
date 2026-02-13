@@ -102,7 +102,7 @@ FiniteCylinderSpatialFunction<VDimension, TInput>::Evaluate(const InputType & po
     FloatingPointExceptions::SetEnabled(saveFPEState);
   }
 
-  if (itk::Math::abs(distanceFromCenter) <= (halfAxisLength) &&
+  if (itk::Math::Absolute(distanceFromCenter) <= (halfAxisLength) &&
       m_Radius >= std::sqrt(Math::sqr(pointVector.GetNorm()) - Math::sqr(distanceFromCenter)))
   {
     return 1;

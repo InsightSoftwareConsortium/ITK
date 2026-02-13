@@ -119,7 +119,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
     const FilterType::SplinePolesVectorType::value_type resultSplinePole = resultSplinePoles[i];
     if (!itk::Math::FloatAlmostEqual(expectedSplinePole, resultSplinePole, 10, tolerance1))
     {
-      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance1))));
+      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(tolerance1))));
       std::cerr << "Test failed!" << std::endl;
       std::cerr << "Error in GetSplinePoles() at index [" << i << ']' << std::endl;
       std::cerr << "Expected value " << expectedSplinePole << std::endl;
@@ -167,7 +167,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
 
     if (!itk::Math::FloatAlmostEqual(f, g, 10, tolerance2))
     {
-      std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance2))));
+      std::cout.precision(static_cast<int>(itk::Math::Absolute(std::log10(tolerance2))));
       std::cout << " Test failed! " << std::endl;
       std::cout << "Resample and Interpolated points are different." << std::endl;
       std::cout << " Point: " << point << std::endl;

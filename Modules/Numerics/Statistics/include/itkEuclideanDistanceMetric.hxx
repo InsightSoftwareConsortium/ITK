@@ -79,7 +79,7 @@ EuclideanDistanceMetric<TVector>::Evaluate(const ValueType & a, const ValueType 
 {
   const double temp = a - b;
 
-  return itk::Math::abs(temp);
+  return itk::Math::Absolute(temp);
 }
 } // namespace itk::Statistics
 

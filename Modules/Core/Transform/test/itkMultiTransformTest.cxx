@@ -39,7 +39,7 @@ testMatrix(const TMatrix & m1, const TMatrix & m2)
   {
     for (unsigned int j = 0; j < TMatrix::ColumnDimensions; ++j)
     {
-      if (itk::Math::abs(m1[i][j] - m2[i][j]) > epsilon)
+      if (itk::Math::Absolute(m1[i][j] - m2[i][j]) > epsilon)
       {
         pass = false;
       }
@@ -56,7 +56,7 @@ testVectorArray(const TVector & v1, const TVector & v2)
 
   for (unsigned int i = 0; i < v1.Size(); ++i)
   {
-    if (itk::Math::abs(v1[i] - v2[i]) > epsilon)
+    if (itk::Math::Absolute(v1[i] - v2[i]) > epsilon)
     {
       pass = false;
     }

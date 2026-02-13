@@ -25,7 +25,7 @@ using Real = double;
 bool
 different(Real a, Real b)
 {
-  return itk::Math::abs(a - b) > 1e-6;
+  return itk::Math::Absolute(a - b) > 1e-6;
 }
 
 int

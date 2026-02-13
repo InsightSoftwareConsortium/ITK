@@ -108,10 +108,10 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
   auto meanDifference = static_cast<typename FilterType::RealType>(std::stod(argv[10]));
 
   constexpr double epsilon{ 1e-4 };
-  std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+  std::cout.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
   if (!itk::Math::FloatAlmostEqual(meanDifference, filter->GetMeanDifference(), 10, epsilon))
   {
-    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in GetMeanDifference" << std::endl;
     std::cerr << "Expected value " << meanDifference << std::endl;

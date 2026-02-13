@@ -41,8 +41,8 @@ namespace
 bool
 CloseEnough(double a, double b)
 {
-  double diff = itk::Math::abs(a - b);
-  double avg = (itk::Math::abs(a) + itk::Math::abs(b)) / 2.0;
+  double diff = itk::Math::Absolute(a - b);
+  double avg = (itk::Math::Absolute(a) + itk::Math::Absolute(b)) / 2.0;
   if (diff == 0.0 || diff < avg / 10000.00)
   {
     return true;

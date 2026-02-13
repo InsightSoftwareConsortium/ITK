@@ -192,7 +192,7 @@ GaussianMixtureModelComponent<TSample>::GenerateData()
   typename MeanEstimatorType::MeasurementVectorType meanEstimate = m_MeanEstimator->GetMean();
   for (MeasurementVectorSizeType i = 0; i < measurementVectorSize; ++i)
   {
-    const double changes = itk::Math::abs(m_Mean[i] - meanEstimate[i]);
+    const double changes = itk::Math::Absolute(m_Mean[i] - meanEstimate[i]);
 
     if (changes > this->GetMinimalParametersChange())
     {
@@ -227,7 +227,7 @@ GaussianMixtureModelComponent<TSample>::GenerateData()
       for (MeasurementVectorSizeType j = 0; j < measurementVectorSize; ++j)
       {
         const double temp = m_Covariance.GetVnlMatrix().get(i, j) - covEstimate.GetVnlMatrix().get(i, j);
-        const double changes = itk::Math::abs(temp);
+        const double changes = itk::Math::Absolute(temp);
         if (changes > this->GetMinimalParametersChange())
         {
           changed = true;

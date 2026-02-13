@@ -233,7 +233,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
     {
       if (it.GetIndex()[j] < static_cast<typename ImageType::IndexValueType>(imageBorder) ||
           static_cast<unsigned int>(
-            itk::Math::abs(static_cast<float>(it.GetIndex()[j]) - static_cast<float>(size[j]))) < imageBorder)
+            itk::Math::Absolute(static_cast<float>(it.GetIndex()[j]) - static_cast<float>(size[j]))) < imageBorder)
       {
         awayfromborder = false;
       }

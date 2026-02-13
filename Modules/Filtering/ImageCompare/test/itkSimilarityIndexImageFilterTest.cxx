@@ -105,7 +105,7 @@ itkSimilarityIndexImageFilterTest(int, char *[])
   std::cout << " True index: " << trueOverlap << std::endl;
   std::cout << " Computed index: " << overlap << std::endl;
 
-  if (itk::Math::abs(trueOverlap - overlap) > 0.1)
+  if (itk::Math::Absolute(trueOverlap - overlap) > 0.1)
   {
     std::cout << "Test failed. " << std::endl;
     return EXIT_FAILURE;

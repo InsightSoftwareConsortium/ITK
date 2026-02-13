@@ -49,7 +49,7 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
   IndexType overflowIncrement;
   for (unsigned int i = 0; i < VDimension; ++i)
   {
-    auto distance = static_cast<long>(itk::Math::abs(LastIndex[i]));
+    auto distance = static_cast<long>(itk::Math::Absolute(LastIndex[i]));
     if (distance > maxDistance)
     {
       maxDistance = distance;
@@ -113,7 +113,7 @@ BresenhamLine<VDimension>::BuildLine(IndexType p0, IndexType p1) -> IndexArray
   {
     point0[i] = p0[i];
     point1[i] = p1[i];
-    const IdentifierType distance = itk::Math::abs(p0[i] - p1[i]) + 1;
+    const IdentifierType distance = itk::Math::Absolute(p0[i] - p1[i]) + 1;
     if (distance > maxDistance)
     {
       maxDistance = distance;

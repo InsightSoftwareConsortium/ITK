@@ -215,12 +215,13 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
 
       if (distance > itk::NumericTraits<double>::epsilon())
       {
-        if (itk::Math::abs(outputValue) / distance > threshold)
+        if (itk::Math::Absolute(outputValue) / distance > threshold)
         {
           std::cout << "Error at index [" << iterator.ComputeIndex() << ']' << std::endl;
           std::cout << "Expected scaled output value be less than: " << threshold
-                    << ", but got: " << itk::Math::abs(outputValue) / distance
-                    << ", where output: " << itk::Math::abs(outputValue) << "; scale factor: " << distance << std::endl;
+                    << ", but got: " << itk::Math::Absolute(outputValue) / distance
+                    << ", where output: " << itk::Math::Absolute(outputValue) << "; scale factor: " << distance
+                    << std::endl;
           passed = false;
         }
       }

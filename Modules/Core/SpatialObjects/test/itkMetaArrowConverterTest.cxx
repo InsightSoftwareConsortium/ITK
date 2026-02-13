@@ -144,7 +144,7 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   const double metaLength = newMetaArrow->Length();
 
   // if (metaLength != static_cast<float>(length))
-  if (itk::Math::abs(metaLength - length) > precisionLimit)
+  if (itk::Math::Absolute(metaLength - length) > precisionLimit)
   {
     std::cout << "Conversion to MetaArrow failed to convert length [FAILED]" << std::endl;
     std::cout << "  Meta Length = " << metaLength << std::endl;
@@ -174,9 +174,9 @@ itkMetaArrowConverterTest(int argc, char * argv[])
 
   // check position
   const double * metaPosition = newMetaArrow->Position();
-  if (itk::Math::abs(metaPosition[0] - position[0]) > precisionLimit ||
-      itk::Math::abs(metaPosition[1] - position[1]) > precisionLimit ||
-      itk::Math::abs(metaPosition[2] - position[2]) > precisionLimit)
+  if (itk::Math::Absolute(metaPosition[0] - position[0]) > precisionLimit ||
+      itk::Math::Absolute(metaPosition[1] - position[1]) > precisionLimit ||
+      itk::Math::Absolute(metaPosition[2] - position[2]) > precisionLimit)
   {
     std::cout << "Conversion to MetaArrow failed to convert position [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -198,9 +198,9 @@ itkMetaArrowConverterTest(int argc, char * argv[])
     newMetaDirectionNorm.Normalize();
   }
 
-  if (itk::Math::abs(newMetaDirectionNorm[0] - directionNorm[0]) > precisionLimit ||
-      itk::Math::abs(newMetaDirectionNorm[1] - directionNorm[1]) > precisionLimit ||
-      itk::Math::abs(newMetaDirectionNorm[2] - directionNorm[2]) > precisionLimit)
+  if (itk::Math::Absolute(newMetaDirectionNorm[0] - directionNorm[0]) > precisionLimit ||
+      itk::Math::Absolute(newMetaDirectionNorm[1] - directionNorm[1]) > precisionLimit ||
+      itk::Math::Absolute(newMetaDirectionNorm[2] - directionNorm[2]) > precisionLimit)
   {
     std::cout << "Conversion to SpatialObject failed to convert direction [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -220,7 +220,7 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   newItkArrow->Update();
 
   // check length
-  if (itk::Math::abs(newItkArrow->GetLengthInWorldSpace() - metaArrow->Length()) > precisionLimit)
+  if (itk::Math::Absolute(newItkArrow->GetLengthInWorldSpace() - metaArrow->Length()) > precisionLimit)
   {
     std::cout << "Conversion to SpatialObject failed to convert length [FAILED]" << std::endl;
     std::cout << "  Meta Length = " << metaArrow->Length() << std::endl;
@@ -255,9 +255,9 @@ itkMetaArrowConverterTest(int argc, char * argv[])
 
   // check position
   SpatialObjectType::PointType itkPosition = newItkArrow->GetPositionInWorldSpace();
-  if (itk::Math::abs(itkPosition[0] - mPosition[0]) > precisionLimit ||
-      itk::Math::abs(itkPosition[1] - mPosition[1]) > precisionLimit ||
-      itk::Math::abs(itkPosition[2] - mPosition[2]) > precisionLimit)
+  if (itk::Math::Absolute(itkPosition[0] - mPosition[0]) > precisionLimit ||
+      itk::Math::Absolute(itkPosition[1] - mPosition[1]) > precisionLimit ||
+      itk::Math::Absolute(itkPosition[2] - mPosition[2]) > precisionLimit)
   {
     std::cout << "Conversion to SpatialObject failed to convert position [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -278,9 +278,9 @@ itkMetaArrowConverterTest(int argc, char * argv[])
     mDirectionNorm.Normalize();
   }
 
-  if (itk::Math::abs(itkDirectionNorm[0] - mDirectionNorm[0]) > precisionLimit ||
-      itk::Math::abs(itkDirectionNorm[1] - mDirectionNorm[1]) > precisionLimit ||
-      itk::Math::abs(itkDirectionNorm[2] - mDirectionNorm[2]) > precisionLimit)
+  if (itk::Math::Absolute(itkDirectionNorm[0] - mDirectionNorm[0]) > precisionLimit ||
+      itk::Math::Absolute(itkDirectionNorm[1] - mDirectionNorm[1]) > precisionLimit ||
+      itk::Math::Absolute(itkDirectionNorm[2] - mDirectionNorm[2]) > precisionLimit)
   {
     std::cout << "Conversion to SpatialObject failed to convert direction [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -305,7 +305,7 @@ itkMetaArrowConverterTest(int argc, char * argv[])
     dynamic_cast<SpatialObjectType *>(converter->ReadMeta(argv[1]).GetPointer());
 
   // check length
-  if (itk::Math::abs(reLoad->GetLengthInWorldSpace() - length) > precisionLimit)
+  if (itk::Math::Absolute(reLoad->GetLengthInWorldSpace() - length) > precisionLimit)
   {
     std::cout << "Didn't read length properly [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -333,9 +333,9 @@ itkMetaArrowConverterTest(int argc, char * argv[])
 
   // check position
   itkPosition = reLoad->GetPositionInWorldSpace();
-  if (itk::Math::abs(itkPosition[0] - mPosition[0]) > precisionLimit ||
-      itk::Math::abs(itkPosition[1] - mPosition[1]) > precisionLimit ||
-      itk::Math::abs(itkPosition[2] - mPosition[2]) > precisionLimit)
+  if (itk::Math::Absolute(itkPosition[0] - mPosition[0]) > precisionLimit ||
+      itk::Math::Absolute(itkPosition[1] - mPosition[1]) > precisionLimit ||
+      itk::Math::Absolute(itkPosition[2] - mPosition[2]) > precisionLimit)
   {
     std::cout << "Didn't read position properly [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -351,9 +351,9 @@ itkMetaArrowConverterTest(int argc, char * argv[])
     reLoadDirectionNorm.Normalize();
   }
 
-  if (itk::Math::abs(reLoadDirectionNorm[0] - directionNorm[0]) > precisionLimit ||
-      itk::Math::abs(reLoadDirectionNorm[1] - directionNorm[1]) > precisionLimit ||
-      itk::Math::abs(reLoadDirectionNorm[2] - directionNorm[2]) > precisionLimit)
+  if (itk::Math::Absolute(reLoadDirectionNorm[0] - directionNorm[0]) > precisionLimit ||
+      itk::Math::Absolute(reLoadDirectionNorm[1] - directionNorm[1]) > precisionLimit ||
+      itk::Math::Absolute(reLoadDirectionNorm[2] - directionNorm[2]) > precisionLimit)
   {
     std::cout << "Didn't read direction properly [FAILED]" << std::endl;
     std::cout << "  Direction: " << reLoadDirectionNorm << std::endl;

@@ -69,7 +69,7 @@ itkImageIODirection3DTest(int argc, char * argv[])
       const double expectedValue = std::stod(argv[element++]);
       const double currentValue = directionCosines[row][col];
       const double difference = currentValue - expectedValue;
-      if (itk::Math::abs(difference) > tolerance)
+      if (itk::Math::Absolute(difference) > tolerance)
       {
         std::cerr << "Error: " << std::endl;
         std::cerr << "Expected " << expectedValue << std::endl;

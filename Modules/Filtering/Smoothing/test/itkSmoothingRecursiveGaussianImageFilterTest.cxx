@@ -78,7 +78,7 @@ InPlaceTest(char * inputFilename, bool normalizeAcrossScale, typename TFilter::S
   {
     if (!itk::Math::FloatAlmostEqual(static_cast<double>(it1.Get()), static_cast<double>(it2.Get()), 10, epsilon))
     {
-      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
       std::cerr << "Test failed!" << std::endl;
       std::cerr << "Error in pixel value at index [" << std::endl;
       std::cerr << "Error in pixel value at index [" << it1.ComputeIndex() << ']' << std::endl;

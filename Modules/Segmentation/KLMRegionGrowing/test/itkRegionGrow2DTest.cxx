@@ -1226,7 +1226,7 @@ test_regiongrowKLM2D()
   std::cout << "Label entropy = " << labelEntropy << " bits " << std::endl;
   std::cout << "Ideal entropy = " << idealEntropy << " bits " << std::endl;
 
-  if (itk::Math::abs(idealEntropy - labelEntropy) > 0.2)
+  if (itk::Math::Absolute(idealEntropy - labelEntropy) > 0.2)
   {
     std::cout << "Test FAILED" << std::endl;
     return EXIT_FAILURE;
@@ -1723,7 +1723,7 @@ test_regiongrowKLM3D()
   std::cout << "Label entropy = " << labelEntropy << " bits " << std::endl;
   std::cout << "Ideal entropy = " << idealEntropy << " bits " << std::endl;
 
-  if (itk::Math::abs(idealEntropy - labelEntropy) > 0.2)
+  if (itk::Math::Absolute(idealEntropy - labelEntropy) > 0.2)
   {
     std::cout << "Test FAILED" << std::endl;
     return EXIT_FAILURE;
@@ -2107,7 +2107,7 @@ test_regiongrowKLM4D()
   std::cout << "Label entropy = " << labelEntropy << " bits " << std::endl;
   std::cout << "Ideal entropy = " << idealEntropy << " bits " << std::endl;
 
-  if (itk::Math::abs(idealEntropy - labelEntropy) > 0.15)
+  if (itk::Math::Absolute(idealEntropy - labelEntropy) > 0.15)
   {
     std::cout << "Test FAILED" << std::endl;
     return EXIT_FAILURE;

@@ -292,8 +292,8 @@ LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField
   {
     if (forwardDifferences[j] * backwardDifferences[j] > 0.0)
     {
-      const double bvalue = itk::Math::abs(backwardDifferences[j]);
-      double       gvalue = itk::Math::abs(forwardDifferences[j]);
+      const double bvalue = itk::Math::Absolute(backwardDifferences[j]);
+      double       gvalue = itk::Math::Absolute(forwardDifferences[j]);
       if (gvalue > bvalue)
       {
         gvalue = bvalue;
@@ -320,7 +320,8 @@ LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField
     globalData->m_NumberOfPixelsProcessed += 1;
   }
 
-  if (itk::Math::abs(speedValue) < m_IntensityDifferenceThreshold || gradientMagnitude < m_GradientMagnitudeThreshold)
+  if (itk::Math::Absolute(speedValue) < m_IntensityDifferenceThreshold ||
+      gradientMagnitude < m_GradientMagnitudeThreshold)
   {
     update.Fill(0.0);
     return update;
@@ -338,7 +339,7 @@ LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField
       // spacing. we will use this to calculate a timestep which
       // converts the update (measured in intensity) to a vector
       // measured in physical units (mm).
-      L1norm += (itk::Math::abs(update[j]) / mSpacing[j]);
+      L1norm += (itk::Math::Absolute(update[j]) / mSpacing[j]);
     }
   }
 

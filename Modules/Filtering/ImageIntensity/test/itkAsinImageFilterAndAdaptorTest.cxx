@@ -98,7 +98,7 @@ itkAsinImageFilterAndAdaptorTest(int, char *[])
     const OutputImageType::PixelType arcsinus = std::asin(input);
     if (!itk::Math::FloatAlmostEqual(arcsinus, output, 10, epsilon))
     {
-      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
       std::cerr << "Error " << std::endl;
       std::cerr << " std::asin( " << input << ") = " << arcsinus << std::endl;
       std::cerr << " differs from " << output;
@@ -144,9 +144,9 @@ itkAsinImageFilterAndAdaptorTest(int, char *[])
   while (!dt.IsAtEnd())
   {
     const OutputImageType::PixelType diff = dt.Get();
-    if (itk::Math::abs(diff) > epsilon)
+    if (itk::Math::Absolute(diff) > epsilon)
     {
-      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
       std::cerr << "Error comparing results with Adaptors" << std::endl;
       std::cerr << " difference = " << diff << std::endl;
       std::cerr << " differs from 0 ";
