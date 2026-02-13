@@ -120,7 +120,7 @@ itkRawImageIOTest(int argc, char * argv[])
     const PixelType ov = ot.Get();
     if (iv != ov)
     {
-      std::cerr << "Error in read/write of pixel " << it.GetIndex() << std::endl;
+      std::cerr << "Error in read/write of pixel " << it.ComputeIndex() << std::endl;
       std::cerr << "Read value  is : " << iv << std::endl;
       std::cerr << "it should be   : " << ov << std::endl;
       std::cerr << "Test FAILED ! " << std::endl;

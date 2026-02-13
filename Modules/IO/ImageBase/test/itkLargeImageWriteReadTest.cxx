@@ -129,7 +129,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
     // if( ( oitr.Get() != ritr.Get() ) || ( oitr.Get() != pixelValue ) )
     if (ritr.Get() != pixelValue)
     {
-      std::cerr << "Pixel comparison failed at index = " << ritr.GetIndex() << std::endl;
+      std::cerr << "Pixel comparison failed at index = " << ritr.ComputeIndex() << std::endl;
       std::cerr << "Expected pixel value " << pixelValue << std::endl;
       // std::cerr << "Original Image pixel value " << oitr.Get() << std::endl;
       std::cerr << "Read Image pixel value " << ritr.Get() << std::endl;

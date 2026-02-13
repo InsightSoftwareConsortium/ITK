@@ -162,7 +162,7 @@ itkImageScanlineIteratorTest1(int, char *[])
     {
       while (!createImageIterator.IsAtEndOfLine())
       {
-        if (createImageIterator.GetIndex()[0] == 0)
+        if (createImageIterator.ComputeIndex()[0] == 0)
         {
           createImageIterator.Set(0);
         }

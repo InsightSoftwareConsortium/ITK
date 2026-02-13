@@ -283,9 +283,9 @@ itkHoughTransform2DLinesImageTest(int, char *[])
       if (itk::Math::ExactlyEquals(it_input.Get(), max))
       {
         HoughPoint houghPoint;
-        houghPoint.radius = it_input.GetIndex()[0];
+        houghPoint.radius = it_input.ComputeIndex()[0];
         houghPoint.angle =
-          ((it_input.GetIndex()[1]) * 2 * itk::Math::pi / houghFilter->GetAngleResolution()) - itk::Math::pi;
+          ((it_input.ComputeIndex()[1]) * 2 * itk::Math::pi / houghFilter->GetAngleResolution()) - itk::Math::pi;
 
         linesList.push_back(houghPoint);
 
@@ -294,8 +294,8 @@ itkHoughTransform2DLinesImageTest(int, char *[])
         {
           for (double length = 0; length < discRadius; length += 1)
           {
-            index[0] = static_cast<long>(it_input.GetIndex()[0] + length * std::cos(angle));
-            index[1] = static_cast<long>(it_input.GetIndex()[1] + length * std::sin(angle));
+            index[0] = static_cast<long>(it_input.ComputeIndex()[0] + length * std::cos(angle));
+            index[1] = static_cast<long>(it_input.ComputeIndex()[1] + length * std::sin(angle));
             if (index[0] <= std::sqrt(400.0 * 400 + 400 * 400) && index[0] >= 0 && index[1] <= angleResolution &&
                 index[1] >= 0)
             {

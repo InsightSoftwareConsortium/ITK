@@ -253,7 +253,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
 
   while (!iterator.IsAtEnd())
   {
-    FloatImageType::IndexType tempIndex = iterator.GetIndex();
+    FloatImageType::IndexType tempIndex = iterator.ComputeIndex();
     tempIndex -= offset0;
     double distance = 0.0;
     for (int j = 0; j < 2; ++j)
@@ -268,7 +268,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
     {
       if (itk::Math::abs(outputValue) / distance > 1.42)
       {
-        std::cout << iterator.GetIndex() << ' ';
+        std::cout << iterator.ComputeIndex() << ' ';
         std::cout << itk::Math::abs(outputValue) / distance << ' ';
         std::cout << itk::Math::abs(outputValue) << ' ' << distance << std::endl;
         passed = false;
@@ -277,7 +277,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
 
       if (auxIterator.Get() != vector[0])
       {
-        std::cout << auxIterator.GetIndex() << " got aux value of " << static_cast<double>(auxIterator.Get())
+        std::cout << auxIterator.ComputeIndex() << " got aux value of " << static_cast<double>(auxIterator.Get())
                   << " but it should be  " << static_cast<double>(vector[0]) << std::endl;
         passed = false;
         break;

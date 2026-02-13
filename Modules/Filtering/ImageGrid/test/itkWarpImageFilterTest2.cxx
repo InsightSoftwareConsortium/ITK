@@ -53,7 +53,7 @@ MakeCheckerboard()
   image->FillBuffer(0.0);
   for (IteratorType it(image, image->GetLargestPossibleRegion()); !it.IsAtEnd(); ++it)
   {
-    ImageType::IndexType ind(it.GetIndex());
+    ImageType::IndexType ind(it.ComputeIndex());
     // initially checkboard 4 pixels wide
     const int x = ind[0] / 4;
     const int y = ind[1] / 4;
@@ -130,7 +130,7 @@ itkWarpImageFilterTest2(int, char *[])
     if (itk::Math::NotAlmostEquals(it1.Value(), it2.Value()))
     {
       std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in pixel value at index [" << it1.GetIndex() << "]" << std::endl;
+      std::cerr << "Error in pixel value at index [" << it1.ComputeIndex() << "]" << std::endl;
       std::cerr << "Expected value " << it1.Value() << std::endl;
       std::cerr << " differs from " << it2.Value();
       return EXIT_FAILURE;
@@ -163,7 +163,7 @@ itkWarpImageFilterTest2(int, char *[])
     if (itk::Math::NotAlmostEquals(streamIt.Value(), it2.Value()))
     {
       std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in pixel value at index [" << streamIt.GetIndex() << "]" << std::endl;
+      std::cerr << "Error in pixel value at index [" << streamIt.ComputeIndex() << "]" << std::endl;
       std::cerr << "Expected value " << it2.Value() << std::endl;
       std::cerr << " differs from " << streamIt.Value();
       return EXIT_FAILURE;

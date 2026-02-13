@@ -116,9 +116,9 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   while (!ti.IsAtEnd())
   {
     itk::Point<double, 3> p;
-    p[0] = ti.GetIndex()[0];
-    p[1] = ti.GetIndex()[1];
-    p[2] = ti.GetIndex()[2];
+    p[0] = ti.ComputeIndex()[0];
+    p[1] = ti.ComputeIndex()[1];
+    p[2] = ti.ComputeIndex()[2];
     itk::Vector<double, 3> d = p - center;
     const double           x = d[0];
     const double           y = d[1];
@@ -310,7 +310,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
     if (!itk::Math::FloatAlmostEqual(iter1.Get(), iter2.Get(), 2))
     {
       std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in streamed output at index [" << iter1.GetIndex() << "]" << std::endl;
+      std::cerr << "Error in streamed output at index [" << iter1.ComputeIndex() << "]" << std::endl;
       std::cerr << "Expected value " << iter1.Get() << std::endl;
       std::cerr << " differs from " << iter2.Get() << std::endl;
       pass = false;

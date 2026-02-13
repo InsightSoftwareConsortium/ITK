@@ -149,7 +149,7 @@ TEST(PCAShapeSignedDistanceFunction, Test)
   for (meanImageIt.GoToBegin(); !meanImageIt.IsAtEnd(); ++meanImageIt)
   {
     // from index to physical point
-    ImageType::IndexType index = meanImageIt.GetIndex();
+    ImageType::IndexType index = meanImageIt.ComputeIndex();
     meanImage->TransformIndexToPhysicalPoint(index, point);
 
     // inverse Euler2DTransform: first translation then rotation

@@ -106,11 +106,11 @@ itkShrinkImageTest(int, char *[])
   bool passed = true;
   for (; !iterator2.IsAtEnd(); ++iterator2)
   {
-    auto col = itk::Math::RoundHalfIntegerUp<short>(shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
+    auto col = itk::Math::RoundHalfIntegerUp<short>(shrink->GetShrinkFactors()[0] * iterator2.ComputeIndex()[0] +
                                                     (shrink->GetShrinkFactors()[0] - 1.0) / 2.0);
     col += colOffset;
 
-    auto row = itk::Math::RoundHalfIntegerUp<short>(shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] +
+    auto row = itk::Math::RoundHalfIntegerUp<short>(shrink->GetShrinkFactors()[1] * iterator2.ComputeIndex()[1] +
                                                     (shrink->GetShrinkFactors()[1] - 1.0) / 2.0);
     row += rowOffset;
     const short trueValue = col + region.GetSize()[0] * row;
@@ -118,7 +118,7 @@ itkShrinkImageTest(int, char *[])
     if (iterator2.Get() != trueValue)
     {
       passed = false;
-      std::cout << "Pixel " << iterator2.GetIndex() << " expected " << trueValue << " but got " << iterator2.Get()
+      std::cout << "Pixel " << iterator2.ComputeIndex() << " expected " << trueValue << " but got " << iterator2.Get()
                 << std::endl;
     }
   }
@@ -188,19 +188,19 @@ itkShrinkImageTest(int, char *[])
   std::cout << std::flush;
   for (; !iterator2.IsAtEnd(); ++iterator2)
   {
-    std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get() << std::endl;
+    std::cout << "Pixel " << iterator2.ComputeIndex() << " = " << iterator2.Get() << std::endl;
     std::cout << std::flush;
 
     const short trueValue =
       itk::Math::RoundHalfIntegerUp<int>(
-        (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] + (shrink->GetShrinkFactors()[0] - 1.0) / 2.0)) +
+        (shrink->GetShrinkFactors()[0] * iterator2.ComputeIndex()[0] + (shrink->GetShrinkFactors()[0] - 1.0) / 2.0)) +
       (region.GetSize()[0] *
        itk::Math::RoundHalfIntegerUp<int>(
-         (shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] + (shrink->GetShrinkFactors()[1] - 1.0) / 2.0)));
+         (shrink->GetShrinkFactors()[1] * iterator2.ComputeIndex()[1] + (shrink->GetShrinkFactors()[1] - 1.0) / 2.0)));
     if (iterator2.Get() != trueValue)
     {
-      std::cout << "B) Pixel " << iterator2.GetIndex() << " expected " << trueValue << " but got " << iterator2.Get()
-                << std::endl;
+      std::cout << "B) Pixel " << iterator2.ComputeIndex() << " expected " << trueValue << " but got "
+                << iterator2.Get() << std::endl;
       passed = false;
     }
   }

@@ -77,7 +77,7 @@ bspline_eq(const itk::BSplineTransform<TParametersValueType, VDimension, VSpline
     while (!iter1.IsAtEnd())
     {
       ASSERT_FALSE(iter2.IsAtEnd());
-      EXPECT_EQ(iter1.Get(), iter2.Get()) << description << " Expected value at: " << iter1.GetIndex();
+      EXPECT_EQ(iter1.Get(), iter2.Get()) << description << " Expected value at: " << iter1.ComputeIndex();
       ++iter1;
       ++iter2;
     }

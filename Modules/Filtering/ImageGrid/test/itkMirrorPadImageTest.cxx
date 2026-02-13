@@ -156,8 +156,8 @@ itkMirrorPadImageTest(int, char *[])
          !iteratorIn1.IsAtEnd();
          ++iteratorIn1)
     {
-      const int row = iteratorIn1.GetIndex()[0];
-      const int column = iteratorIn1.GetIndex()[1];
+      const int row = iteratorIn1.ComputeIndex()[0];
+      const int column = iteratorIn1.ComputeIndex()[1];
       if (!VerifyPixel(row, column, iteratorIn1.Get()))
       {
         std::cout << "Error: (" << row << ", " << column << "), got " << iteratorIn1.Get() << std::endl;
@@ -209,8 +209,8 @@ itkMirrorPadImageTest(int, char *[])
            !iteratorIn2.IsAtEnd();
            ++iteratorIn2)
       {
-        const int row = iteratorIn2.GetIndex()[0];
-        const int column = iteratorIn2.GetIndex()[1];
+        const int row = iteratorIn2.ComputeIndex()[0];
+        const int column = iteratorIn2.ComputeIndex()[1];
         if (!VerifyPixel(row, column, iteratorIn2.Get()))
         {
           std::cout << "Error: (" << row << ", " << column << "), got " << iteratorIn2.Get() << std::endl;
@@ -269,8 +269,8 @@ itkMirrorPadImageTest(int, char *[])
            !iteratorIn3.IsAtEnd();
            ++iteratorIn3)
       {
-        const int row = iteratorIn3.GetIndex()[0];
-        const int column = iteratorIn3.GetIndex()[1];
+        const int row = iteratorIn3.ComputeIndex()[0];
+        const int column = iteratorIn3.ComputeIndex()[1];
         if (!VerifyPixel(row, column, iteratorIn3.Get()))
         {
           std::cout << "Error: (" << row << ", " << column << "), got " << iteratorIn3.Get() << std::endl;

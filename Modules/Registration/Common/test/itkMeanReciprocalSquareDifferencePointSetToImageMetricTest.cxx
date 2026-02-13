@@ -120,7 +120,7 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
   {
     if (counter == 0)
     {
-      fixedImage->TransformIndexToPhysicalPoint(it.GetIndex(), point);
+      fixedImage->TransformIndexToPhysicalPoint(it.ComputeIndex(), point);
       std::cout << "******************* " << pointId << ':' << point << std::endl;
       fixedPointSet->SetPoint(pointId, point);
       fixedPointSet->SetPointData(pointId, it.Get());

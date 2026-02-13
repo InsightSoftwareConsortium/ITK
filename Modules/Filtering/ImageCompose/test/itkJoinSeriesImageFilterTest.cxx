@@ -184,7 +184,7 @@ itkJoinSeriesImageFilterTest(int, char *[])
     if (outputIter.Get() != counter2)
     {
       passed = false;
-      std::cout << "Mismatch at index: " << outputIter.GetIndex() << std::endl;
+      std::cout << "Mismatch at index: " << outputIter.ComputeIndex() << std::endl;
     }
     ++counter2;
     ++outputIter;

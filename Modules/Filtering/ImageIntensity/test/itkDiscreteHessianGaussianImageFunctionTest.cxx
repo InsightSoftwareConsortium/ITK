@@ -136,18 +136,18 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   {
     if (pixelNumber < nop / 3)
     {
-      hessian = function->EvaluateAtIndex(it.GetIndex());
+      hessian = function->EvaluateAtIndex(it.ComputeIndex());
     }
     else if (pixelNumber < nop * 2 / 3)
     {
-      reader->GetOutput()->TransformIndexToPhysicalPoint(it.GetIndex(), point);
+      reader->GetOutput()->TransformIndexToPhysicalPoint(it.ComputeIndex(), point);
       hessian = function->Evaluate(point);
     }
     else
     {
       using ContinuousIndexValueType = typename ContinuousIndexType::ValueType;
 
-      reader->GetOutput()->TransformIndexToPhysicalPoint(it.GetIndex(), point);
+      reader->GetOutput()->TransformIndexToPhysicalPoint(it.ComputeIndex(), point);
       const ContinuousIndexType cindex =
         reader->GetOutput()->template TransformPhysicalPointToContinuousIndex<ContinuousIndexValueType>(point);
       hessian = function->EvaluateAtContinuousIndex(cindex);

@@ -45,14 +45,14 @@ CheckValueIsPhysicalPoint(const TImageType * img)
   bool match = true;
 
   typename TImageType::PointType pt;
-  img->TransformIndexToPhysicalPoint(it.GetIndex(), pt);
+  img->TransformIndexToPhysicalPoint(it.ComputeIndex(), pt);
   while (!it.IsAtEnd())
   {
-    img->TransformIndexToPhysicalPoint(it.GetIndex(), pt);
+    img->TransformIndexToPhysicalPoint(it.ComputeIndex(), pt);
     for (unsigned int i = 0; i < TImageType::ImageDimension; ++i)
     {
       EXPECT_DOUBLE_EQ(pt[i], it.Get()[i])
-        << "Index: " << it.GetIndex() << " Point: " << pt << " Value: " << it.Get() << std::endl,
+        << "Index: " << it.ComputeIndex() << " Point: " << pt << " Value: " << it.Get() << std::endl,
         match = false;
     }
 

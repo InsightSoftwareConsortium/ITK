@@ -74,7 +74,7 @@ itkImageMaskSpatialObjectTest5(int, char *[])
   itr.GoToBegin();
   while (!itr.IsAtEnd())
   {
-    const ImageType::IndexType constIndex = itr.GetIndex();
+    const ImageType::IndexType constIndex = itr.ComputeIndex();
     const bool                 reference = insideRegion.IsInside(constIndex);
     ImageType::PointType       point;
     image->TransformIndexToPhysicalPoint(constIndex, point);
@@ -95,7 +95,7 @@ itkImageMaskSpatialObjectTest5(int, char *[])
   itr.GoToBegin();
   while (!itr.IsAtEnd())
   {
-    const ImageType::IndexType constIndex = itr.GetIndex();
+    const ImageType::IndexType constIndex = itr.ComputeIndex();
     const bool                 reference = insideRegion.IsInside(constIndex);
     ImageType::PointType       point;
     image->TransformIndexToPhysicalPoint(constIndex, point);
@@ -117,7 +117,7 @@ itkImageMaskSpatialObjectTest5(int, char *[])
   itr.GoToBegin();
   while (!itr.IsAtEnd())
   {
-    const ImageType::IndexType constIndex = itr.GetIndex();
+    const ImageType::IndexType constIndex = itr.ComputeIndex();
     const bool                 reference = insideRegion.IsInside(constIndex);
     ImageType::PointType       point;
     image->TransformIndexToPhysicalPoint(constIndex, point);

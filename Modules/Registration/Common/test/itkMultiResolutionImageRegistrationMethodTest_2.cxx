@@ -144,7 +144,7 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
     itk::Point<double, dimension> p;
     for (unsigned int j = 0; j < dimension; ++j)
     {
-      p[j] = mIter.GetIndex()[j];
+      p[j] = mIter.ComputeIndex()[j];
     }
 
     itk::Vector<double, dimension> d = p - center;

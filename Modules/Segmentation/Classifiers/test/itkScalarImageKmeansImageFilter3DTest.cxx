@@ -283,7 +283,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
         if (it.Get() == static_cast<unsigned char>(i))
         {
           // Set Output Image
-          kmeansLabelImage->SetPixel(it.GetIndex(), currentLabel);
+          kmeansLabelImage->SetPixel(it.ComputeIndex(), currentLabel);
         }
         ++it;
       }
@@ -311,7 +311,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
         if (it.Get() == static_cast<unsigned char>(i))
         {
           // Set Output Image
-          kmeansLabelImage->SetPixel(it.GetIndex(), currentLabel);
+          kmeansLabelImage->SetPixel(it.ComputeIndex(), currentLabel);
         }
         ++it;
       }
