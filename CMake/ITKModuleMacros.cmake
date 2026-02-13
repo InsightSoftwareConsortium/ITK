@@ -787,6 +787,28 @@ macro(itk_module_target_install _name)
   else()
     set(runtime_component RuntimeLibraries)
   endif()
+
+  # Add support to allow remote modules to use FILE_SET for headers, but only if CMake version is 3.23 or higher.
+  if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.23")
+    set(
+      _FILE_SET_INSTALL_ARGS
+      FILE_SET
+      HEADERS
+      DESTINATION
+      ${${itk-module}_INSTALL_INCLUDE_DIR}
+      COMPONENT
+      Development
+    )
+  else()
+    get_target_property(_has_fileset ${_name} FILE_SET)
+    # Issue error that this target does not support FILE_SET if _has_fileset is not defined
+    if(_has_fileset)
+      message(
+        FATAL_ERROR
+        "Target ${_name} has FILE_SET and requires CMake version is 3.23 or higher."
+      )
+    endif()
+  endif()
   install(
     TARGETS
       ${_name}
@@ -800,6 +822,7 @@ macro(itk_module_target_install _name)
     ARCHIVE
       DESTINATION ${${itk-module}_INSTALL_ARCHIVE_DIR}
       COMPONENT Development
+    ${_FILE_SET_INSTALL_ARGS}
   )
 endmacro()
 
