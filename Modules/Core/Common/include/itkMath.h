@@ -860,10 +860,16 @@ using vnl_math::squared_magnitude;
  * @brief Returns the absolute value of a number.
  *
  * This function provides a c++17 implementation of the vnl_math::abs absolute value functionality.
- * safe_abs preserves backward compatibility with vnl_math::abs that was originally used in ITK.
+ * itk::Absolute() preserves backward compatibility with vnl_math::abs that was originally used in ITK.
  *
- * Where std::abs returns the absolute value in the same type as the input, itk::safe_abs
- * returns the absolute value in the unsigned equivalent of the input type.
+ * Key differences between itk::Absolute() and std::abs()
+ *     - Where std::abs() returns the absolute value in the same type as the
+ *       input, itk::Absolute() returns the absolute value in the unsigned
+ *       equivalent of the input type.
+ *     - std::abs() is undefined when converting the minimum storage value of unsigned
+ *       integers to positive values.  itk::Absolute() typecasts to a larger storage type
+ *       before taking the absolute value to prevent overflow failures.  This is used in
+ *       all cases except 'signed long long' where there is no larger storage type.
  *
  * @tparam T The type of the input number.
  * @param x The input number.
@@ -871,7 +877,7 @@ using vnl_math::squared_magnitude;
  */
 template <typename T>
 constexpr auto
-safe_abs(T x) noexcept
+Absolute(T x) noexcept
 {
   if constexpr (std::is_same_v<T, bool>)
   {
@@ -937,7 +943,7 @@ safe_abs(T x) noexcept
 }
 template <typename T>
 auto
-safe_abs(const std::complex<T> & x) noexcept
+Absolute(const std::complex<T> & x) noexcept
 {
   // std::abs<T>(std::complex<T>) is not constexpr in in any proposed c++ standard
   return std::abs<T>(x);
@@ -951,7 +957,7 @@ template <typename T>
 auto
 abs(T x) noexcept
 {
-  return safe_abs(x);
+  return Absolute(x);
 }
 
 
