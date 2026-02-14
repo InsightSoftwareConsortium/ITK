@@ -10,9 +10,8 @@ set(NRRDIO_USE_ZLIB OFF)
 set(TEEM_ITK_MANGLE 1) # Needed to generate public facing ITKNrrdIO.h from ITKNrrdIO.h.in with TEEM_ITK_MANGLE=1 always
 add_definitions(-DTEEM_ITK_MANGLE=${TEEM_ITK_MANGLE}) # Needed for privateNrrd.h (only used when building library, no public api).
 add_definitions(-DTEEM_ZLIB=1) # Force setting zlib support here
-set(ZLIB_INCLUDE_DIR ${ITKZLIB_INCLUDE_DIRS})
-set(ZLIB_LIBRARY ${ITKZLIB_LIBRARIES})
-list(APPEND NRRDIO_COMPRESSION_LIBRARIES ${ITKZLIB_LIBRARIES})
+set(ZLIB_LIBRARY ITK::ITKZLIBModule)
+list(APPEND NRRDIO_COMPRESSION_LIBRARIES ITK::ITKZLIBModule)
 if(UNIX)
   list(APPEND NRRDIO_COMPRESSION_LIBRARIES m)
   list(REMOVE_DUPLICATES NRRDIO_COMPRESSION_LIBRARIES)

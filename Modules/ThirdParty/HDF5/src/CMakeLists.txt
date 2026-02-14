@@ -239,9 +239,8 @@ endif()
 if(HDF5_ENABLE_Z_LIB_SUPPORT)
   # We must tell the main HDF5 library that it depends on our zlib
   # see src/itkhdf5/CMakeLists.txt for detauls
-  set(H5_ZLIB_INCLUDE_DIRS "${ITKZLIB_INCLUDE_DIRS}")
-  set(H5_ZLIB_LIBRARIES "${ITKZLIB_LIBRARIES}")
-  set(HDF5_LIB_DEPENDENCIES ${ITKZLIB_LIBRARIES})
+  set(H5_ZLIB_LIBRARIES "ITK::ITKZLIBModule")
+  set(HDF5_LIB_DEPENDENCIES ITK::ITKZLIBModule)
   set(H5_ZLIB_HEADER "itk_zlib.h")
 
   set(
