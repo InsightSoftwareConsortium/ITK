@@ -171,7 +171,7 @@ private:
   unsigned int m_NumberOfClasses{};
 
   /** Pointer to the decision rule to be used for classification. */
-  typename DecisionRuleType::Pointer m_DecisionRule{ nullptr };
+  DecisionRuleType::Pointer m_DecisionRule{ nullptr };
 
   /** Container to hold the membership functions */
   MembershipFunctionPointerVector m_MembershipFunctions{};

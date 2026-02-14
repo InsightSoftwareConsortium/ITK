@@ -144,7 +144,7 @@ itkFastMarchingBaseTest(int argc, char * argv[])
     double normalizationFactor = 1.0;
     ITK_TEST_SET_GET_VALUE(normalizationFactor, fmm->GetNormalizationFactor());
 
-    constexpr typename ImageFastMarching::OutputPixelType targetReachedValue{};
+    constexpr ImageFastMarching::OutputPixelType targetReachedValue{};
     ITK_TEST_EXPECT_EQUAL(targetReachedValue, fmm->GetTargetReachedValue());
 
     bool collectPoints = false;
@@ -155,9 +155,9 @@ itkFastMarchingBaseTest(int argc, char * argv[])
     fmm->SetTopologyCheck(topologyCheck);
     ITK_TEST_SET_GET_VALUE(topologyCheck, fmm->GetTopologyCheck());
 
-    auto                                     processedPoints = ImageFastMarching::NodePairContainerType::New();
-    typename ImageFastMarching::NodePairType node_pair;
-    constexpr ImageType::OffsetType          offset{ 28, 35 };
+    auto                            processedPoints = ImageFastMarching::NodePairContainerType::New();
+    ImageFastMarching::NodePairType node_pair;
+    constexpr ImageType::OffsetType offset{ 28, 35 };
 
     constexpr itk::Index<Dimension> index{};
 

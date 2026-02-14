@@ -88,7 +88,7 @@ public:
   using InputImageRegionType = typename InputImageType::RegionType;
   using InputImagePixelType = typename InputImageType::PixelType;
   using IndexType = typename InputImageType::IndexType;
-  using SeedContainerType = typename std::vector<IndexType>;
+  using SeedContainerType = std::vector<IndexType>;
   using SizeType = typename InputImageType::SizeType;
 
   using OutputImageType = TOutputImage;

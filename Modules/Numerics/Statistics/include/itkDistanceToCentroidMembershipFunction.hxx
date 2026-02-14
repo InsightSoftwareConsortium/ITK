@@ -64,7 +64,7 @@ DistanceToCentroidMembershipFunction<TVector>::Evaluate(const MeasurementVectorT
 }
 
 template <typename TVector>
-typename LightObject::Pointer
+LightObject::Pointer
 DistanceToCentroidMembershipFunction<TVector>::InternalClone() const
 {
   LightObject::Pointer         loPtr = Superclass::InternalClone();

@@ -962,21 +962,20 @@ CompositeTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & o
   }
 
   os << indent << "PreviousTransformsToOptimizeUpdateTime: "
-     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_PreviousTransformsToOptimizeUpdateTime)
-     << std::endl;
+     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_PreviousTransformsToOptimizeUpdateTime) << std::endl;
 }
 
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename LightObject::Pointer
+LightObject::Pointer
 CompositeTransform<TParametersValueType, VDimension>::InternalClone() const
 {
   // This class doesn't use its superclass implementation
   // TODO: is it really the right behavior?
   // LightObject::Pointer loPtr = Superclass::InternalClone();
 
-  LightObject::Pointer         loPtr = CreateAnother();
-  const typename Self::Pointer clone = dynamic_cast<Self *>(loPtr.GetPointer());
+  LightObject::Pointer loPtr = CreateAnother();
+  const Self::Pointer  clone = dynamic_cast<Self *>(loPtr.GetPointer());
   if (clone.IsNull())
   {
     itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");

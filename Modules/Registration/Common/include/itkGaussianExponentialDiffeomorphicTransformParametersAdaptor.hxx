@@ -91,12 +91,11 @@ GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>::PrintSel
      << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_GaussianSmoothingVarianceForTheUpdateField)
      << std::endl;
   os << indent << "GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime: "
-     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(
+     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(
           m_GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime)
      << std::endl;
   os << indent << "GaussianSmoothingVarianceForTheUpdateFieldSetTime: "
-     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(
-          m_GaussianSmoothingVarianceForTheUpdateFieldSetTime)
+     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_GaussianSmoothingVarianceForTheUpdateFieldSetTime)
      << std::endl;
 }
 

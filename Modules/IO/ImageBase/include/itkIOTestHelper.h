@@ -31,9 +31,7 @@ class IOTestHelper
 public:
   template <typename TImage>
   static typename TImage::Pointer
-  ReadImage(const std::string &           fileName,
-            const bool                    zeroOrigin = false,
-            typename ImageIOBase::Pointer imageio = nullptr)
+  ReadImage(const std::string & fileName, const bool zeroOrigin = false, ImageIOBase::Pointer imageio = nullptr)
   {
     using ReaderType = itk::ImageFileReader<TImage>;
 

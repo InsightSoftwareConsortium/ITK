@@ -88,10 +88,10 @@ public:
   static constexpr unsigned int MaxDimensions = 3;
 
   /** Smart Pointer type to a DataObject. */
-  using FEMObjectType = typename itk::fem::FEMObject<VDimension>;
+  using FEMObjectType = itk::fem::FEMObject<VDimension>;
   using FEMObjectPointer = typename FEMObjectType::Pointer;
   using FEMObjectConstPointer = typename FEMObjectType::ConstPointer;
-  using DataObjectPointer = typename DataObject::Pointer;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** Some convenient type alias. */
   using Float = Element::Float;
@@ -104,7 +104,7 @@ public:
   /**
    * Type used to store interpolation grid
    */
-  using InterpolationGridType = typename itk::Image<Element::ConstPointer, VDimension>;
+  using InterpolationGridType = itk::Image<Element::ConstPointer, VDimension>;
   using InterpolationGridPointerType = typename InterpolationGridType::Pointer;
   using InterpolationGridSizeType = typename InterpolationGridType::SizeType;
   using InterpolationGridRegionType = typename InterpolationGridType::RegionType;

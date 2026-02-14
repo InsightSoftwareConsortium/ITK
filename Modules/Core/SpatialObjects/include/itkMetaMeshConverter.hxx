@@ -60,7 +60,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::MetaObjectToSpatialObject
   auto mesh = MeshType::New();
 
   // Add Points
-  using PointListType = typename MeshMetaObjectType::PointListType;
+  using PointListType = MeshMetaObjectType::PointListType;
   const PointListType points = _mesh->GetPoints();
   auto                it_points = points.begin();
 
@@ -82,7 +82,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::MetaObjectToSpatialObject
 
   for (unsigned int celltype = 0; celltype < MET_NUM_CELL_TYPES; ++celltype)
   {
-    using CellListType = typename MetaMesh::CellListType;
+    using CellListType = MetaMesh::CellListType;
     const CellListType cells = _mesh->GetCells(static_cast<MET_CellGeometry>(celltype));
     auto               it_cells = cells.begin();
 
@@ -145,7 +145,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::MetaObjectToSpatialObject
   }
 
   // Add cell links
-  using CellLinkListType = typename MetaMesh::CellLinkListType;
+  using CellLinkListType = MetaMesh::CellLinkListType;
   const CellLinkListType links = _mesh->GetCellLinks();
   auto                   it_links = links.begin();
 

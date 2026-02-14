@@ -116,8 +116,8 @@ TEST(VTKPolyDataMeshIO, LosslessWriteAndReadOfPoints)
 
   // Generate various input points that have finite coordinate values.
   const auto inputPoints = [] {
-    using PointType = typename MeshType::PointType;
-    using CoordinateType = typename MeshType::CoordinateType;
+    using PointType = MeshType::PointType;
+    using CoordinateType = MeshType::CoordinateType;
     using NumericLimits = std::numeric_limits<MeshType::CoordinateType>;
 
     std::vector<PointType> points;
@@ -160,8 +160,8 @@ TEST(VTKPolyDataMeshIO, SupportWriteAndReadOfNaNCoordValues)
   for (const bool writeAsBinary : { false, true })
   {
     using MeshType = itk::Mesh<int>;
-    using PointType = typename MeshType::PointType;
-    using CoordinateType = typename MeshType::CoordinateType;
+    using PointType = MeshType::PointType;
+    using CoordinateType = MeshType::CoordinateType;
 
     Expect_lossless_writing_and_reading_of_points<MeshType>(
       "VTKPolyDataMeshIOGTest_SupportWriteAndReadOfNaNCoordValues.vtk",

@@ -148,7 +148,7 @@ private:
   }
 
 private:
-  using MapType = typename std::unordered_map<TInputPixel, size_t, StructHashFunction<TInputPixel>>;
+  using MapType = std::unordered_map<TInputPixel, size_t, StructHashFunction<TInputPixel>>;
 
 
   MapType m_Map;

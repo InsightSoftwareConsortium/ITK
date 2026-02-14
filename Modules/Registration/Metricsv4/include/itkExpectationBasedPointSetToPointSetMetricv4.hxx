@@ -123,7 +123,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
 }
 
 template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
-typename LightObject::Pointer
+LightObject::Pointer
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
   InternalClone() const
 {

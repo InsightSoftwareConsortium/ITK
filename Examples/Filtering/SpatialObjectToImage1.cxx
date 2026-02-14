@@ -186,9 +186,9 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   ellipse->SetRadiusInObjectSpace(size[0] * 0.2 * spacing[0]);
 
-  typename TubeType::PointType         point;
-  typename TubeType::TubePointType     tubePoint;
-  typename TubeType::TubePointListType tubePointList;
+  TubeType::PointType         point;
+  TubeType::TubePointType     tubePoint;
+  TubeType::TubePointListType tubePointList;
   point[0] = size[0] * 0.2 * spacing[0];
   point[1] = size[1] * 0.2 * spacing[1];
   point[2] = size[2] * 0.2 * spacing[2];

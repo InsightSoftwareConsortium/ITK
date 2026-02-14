@@ -200,7 +200,7 @@ public:
   template <typename TDE,typename TSwap>
   std::ostream const &Write(std::ostream &os) const
     {
-    typename ItemVector::const_iterator it = Items.begin();
+    ItemVector::const_iterator it = Items.begin();
     for(;it != Items.end(); ++it)
       {
       it->Write<TDE,TSwap>(os);

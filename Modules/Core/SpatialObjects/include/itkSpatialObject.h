@@ -733,7 +733,7 @@ protected:
     return m_MyBoundingBoxInObjectSpace.GetPointer();
   }
 
-  typename LightObject::Pointer
+  LightObject::Pointer
   InternalClone() const override;
 
 private:

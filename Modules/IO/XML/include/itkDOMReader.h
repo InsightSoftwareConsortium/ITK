@@ -75,10 +75,10 @@ public:
   using OutputType = TOutput;
 
   using DOMNodeType = DOMNode;
-  using DOMNodePointer = typename DOMNodeType::Pointer;
+  using DOMNodePointer = DOMNodeType::Pointer;
 
   using LoggerType = Logger;
-  using LoggerPointer = typename LoggerType::Pointer;
+  using LoggerPointer = LoggerType::Pointer;
 
   /** Set the input XML filename. */
   itkSetStringMacro(FileName);
@@ -147,7 +147,7 @@ private:
   OutputType * m_Output{};
 
   /** Variable to hold the output object if it is a smart object. */
-  typename LightObject::Pointer m_OutputHolder{};
+  LightObject::Pointer m_OutputHolder{};
 
   /** Variable to hold the intermediate DOM object. */
   DOMNodePointer m_IntermediateDOM{};

@@ -1320,7 +1320,7 @@ NrrdImageIO::Write(const void * buffer)
   }
   else
   {
-    const typename Superclass::IOFileEnum fileType = this->GetFileType();
+    const Superclass::IOFileEnum fileType = this->GetFileType();
     switch (fileType)
     {
       default:
@@ -1335,7 +1335,7 @@ NrrdImageIO::Write(const void * buffer)
   }
 
   // set desired endianness of output
-  const typename Superclass::IOByteOrderEnum byteOrder = this->GetByteOrder();
+  const Superclass::IOByteOrderEnum byteOrder = this->GetByteOrder();
   switch (byteOrder)
   {
     default:

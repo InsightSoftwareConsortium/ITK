@@ -94,7 +94,7 @@ public:
   itkOverrideGetNameOfClassMacro(CSVArray2DFileReader);
 
   /** DataFrame Object types */
-  using Array2DDataObjectType = typename itk::CSVArray2DDataObject<TData>;
+  using Array2DDataObjectType = itk::CSVArray2DDataObject<TData>;
   using Array2DDataObjectPointer = typename Array2DDataObjectType::Pointer;
 
   /** The value type of the dataset. */

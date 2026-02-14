@@ -28,7 +28,7 @@ EquivalenceRelabeler<TScalar, TImageDimension>::GenerateData()
   const typename ImageType::ConstPointer input = this->GetInputImage();
   const typename ImageType::Pointer      output = this->GetOutputImage();
 
-  const typename EquivalencyTableType::Pointer eqT = this->GetEquivalencyTable();
+  const EquivalencyTableType::Pointer eqT = this->GetEquivalencyTable();
 
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();

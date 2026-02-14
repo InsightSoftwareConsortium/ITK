@@ -79,8 +79,8 @@ AnatomicalOrientation::CreateFromPositiveStringEncoding(std::string str)
 {
   std::transform(str.begin(), str.end(), str.begin(), ::toupper);
 
-  const std::map<std::string, typename AnatomicalOrientation::PositiveEnum> & stringToCode = GetStringToCode();
-  auto                                                                        iter = stringToCode.find(str);
+  const std::map<std::string, AnatomicalOrientation::PositiveEnum> & stringToCode = GetStringToCode();
+  auto                                                               iter = stringToCode.find(str);
   if (iter == stringToCode.end())
   {
     return { PositiveEnum::INVALID };
@@ -136,7 +136,7 @@ AnatomicalOrientation::GetCoordinateTerm(CoordinateMajornessTermsEnum cmt) const
 }
 
 
-const std::map<typename AnatomicalOrientation::PositiveEnum, std::string> &
+const std::map<AnatomicalOrientation::PositiveEnum, std::string> &
 AnatomicalOrientation::GetCodeToString()
 {
   auto createCodeToString = []() -> std::map<PositiveEnum, std::string> {
@@ -247,7 +247,7 @@ AnatomicalOrientation::ConvertDirectionToPositiveEnum(const DirectionType & dir)
 }
 
 
-typename AnatomicalOrientation::DirectionType
+AnatomicalOrientation::DirectionType
 AnatomicalOrientation::ConvertPositiveEnumToDirection(PositiveEnum orientationEnum)
 {
   const AnatomicalOrientation o(orientationEnum);
@@ -281,7 +281,7 @@ AnatomicalOrientation::ConvertPositiveEnumToDirection(PositiveEnum orientationEn
 }
 
 std::ostream &
-operator<<(std::ostream & out, typename AnatomicalOrientation::CoordinateEnum value)
+operator<<(std::ostream & out, AnatomicalOrientation::CoordinateEnum value)
 {
   switch (value)
   {
@@ -305,13 +305,13 @@ operator<<(std::ostream & out, typename AnatomicalOrientation::CoordinateEnum va
 }
 
 std::ostream &
-operator<<(std::ostream & out, typename AnatomicalOrientation::PositiveEnum value)
+operator<<(std::ostream & out, AnatomicalOrientation::PositiveEnum value)
 {
   return out << AnatomicalOrientation(value).GetAsPositiveStringEncoding();
 }
 
 std::ostream &
-operator<<(std::ostream & out, typename AnatomicalOrientation::NegativeEnum value)
+operator<<(std::ostream & out, AnatomicalOrientation::NegativeEnum value)
 {
   return out << AnatomicalOrientation(value).GetAsNegativeStringEncoding();
 }

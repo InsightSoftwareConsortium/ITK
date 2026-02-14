@@ -40,8 +40,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template <typename TImage,
-          typename TAttributeAccessor =
-            typename Functor::AttributeLabelObjectAccessor<typename TImage::LabelObjectType>>
+          typename TAttributeAccessor = Functor::AttributeLabelObjectAccessor<typename TImage::LabelObjectType>>
 class ITK_TEMPLATE_EXPORT AttributeKeepNObjectsLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:

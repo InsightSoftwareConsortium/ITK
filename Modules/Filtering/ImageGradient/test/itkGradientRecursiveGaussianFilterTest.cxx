@@ -105,7 +105,7 @@ itkGradientRecursiveGaussianFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_BOOLEAN(filter, UseImageDirection, useImageDirection);
 
   // Select the value of Sigma
-  constexpr typename myFilterType::ScalarRealType sigma = 2.5;
+  constexpr myFilterType::ScalarRealType sigma = 2.5;
   filter->SetSigma(sigma);
   ITK_TEST_SET_GET_VALUE(sigma, filter->GetSigma());
 

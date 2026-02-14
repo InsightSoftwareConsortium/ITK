@@ -48,8 +48,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template <typename TImage,
-          typename TAttributeAccessor =
-            typename Functor::AttributeLabelObjectAccessor<typename TImage::LabelObjectType>>
+          typename TAttributeAccessor = Functor::AttributeLabelObjectAccessor<typename TImage::LabelObjectType>>
 class ITK_TEMPLATE_EXPORT AttributeSelectionLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
@@ -72,7 +71,7 @@ public:
   using AttributeAccessorType = TAttributeAccessor;
   using AttributeValueType = typename AttributeAccessorType::AttributeValueType;
 
-  using AttributeSetType = typename std::set<AttributeValueType>;
+  using AttributeSetType = std::set<AttributeValueType>;
 
   /** ImageDimension constants */
   static constexpr unsigned int ImageDimension = TImage::ImageDimension;

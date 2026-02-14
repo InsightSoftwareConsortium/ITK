@@ -112,7 +112,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Clone the current transform */
-  [[nodiscard]] typename LightObject::Pointer
+  [[nodiscard]] LightObject::Pointer
   InternalClone() const override;
 
   /** Used in GaussianSmoothDisplacementField as variance for the

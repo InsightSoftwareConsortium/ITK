@@ -74,7 +74,7 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ChangeLabelLabelMapFilter);
 
-  using ChangeMapType = typename std::map<PixelType, PixelType>;
+  using ChangeMapType = std::map<PixelType, PixelType>;
   using ChangeMapIterator = typename ChangeMapType::const_iterator;
 
   /*itkConceptMacro(InputEqualityComparableCheck,

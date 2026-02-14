@@ -109,7 +109,7 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
 
   const itk::SimpleFilterWatcher watcher(filter);
 
-  auto sigma = static_cast<typename myFilterType::RealType>(std::stod(argv[1]));
+  auto sigma = static_cast<myFilterType::RealType>(std::stod(argv[1]));
   filter->SetSigma(sigma);
   ITK_TEST_SET_GET_VALUE(sigma, filter->GetSigma());
 

@@ -33,9 +33,9 @@ template <unsigned int VDimension>
 typename itk::Image<unsigned char, VDimension>::Pointer
 GetImage(const itk::FlatStructuringElement<VDimension> & flatElement)
 {
-  using ImageType = typename itk::Image<unsigned char, VDimension>;
-  using RadiusType = typename FlatStructuringElement<2U>::RadiusType;
-  using ConstIterator = typename FlatStructuringElement<2U>::ConstIterator;
+  using ImageType = itk::Image<unsigned char, VDimension>;
+  using RadiusType = FlatStructuringElement<2U>::RadiusType;
+  using ConstIterator = FlatStructuringElement<2U>::ConstIterator;
   using PixelType = unsigned char;
 
   auto                           image = ImageType::New();

@@ -41,16 +41,15 @@ RunLinearInterpolateTest()
   using IndexType = typename ImageType::IndexType;
 
   using CoordinateType = float;
-  using ContinuousIndexType = typename itk::ContinuousIndex<CoordinateType, Dimensions>;
+  using ContinuousIndexType = itk::ContinuousIndex<CoordinateType, Dimensions>;
 
   using AccumulatorType = typename ContinuousIndexType::ValueType;
 
-  using PointType = typename itk::Point<CoordinateType, Dimensions>;
+  using PointType = itk::Point<CoordinateType, Dimensions>;
 
-  using InterpolatorType = typename itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
-  using VectorInterpolatorType = typename itk::LinearInterpolateImageFunction<VectorImageType, CoordinateType>;
-  using VariableVectorInterpolatorType =
-    typename itk::LinearInterpolateImageFunction<VariableVectorImageType, CoordinateType>;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
+  using VectorInterpolatorType = itk::LinearInterpolateImageFunction<VectorImageType, CoordinateType>;
+  using VariableVectorInterpolatorType = itk::LinearInterpolateImageFunction<VariableVectorImageType, CoordinateType>;
 
   using InterpolatedVectorType = typename VectorInterpolatorType::OutputType;
   using InterpolatedVariableVectorType = typename VariableVectorInterpolatorType::OutputType;

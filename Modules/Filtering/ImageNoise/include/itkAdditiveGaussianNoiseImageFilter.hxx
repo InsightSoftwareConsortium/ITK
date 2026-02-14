@@ -87,8 +87,8 @@ AdditiveGaussianNoiseImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Mean: " << static_cast<typename NumericTraits<double>::PrintType>(m_Mean) << std::endl;
-  os << indent << "StandardDeviation: " << static_cast<typename NumericTraits<double>::PrintType>(m_StandardDeviation)
+  os << indent << "Mean: " << static_cast<NumericTraits<double>::PrintType>(m_Mean) << std::endl;
+  os << indent << "StandardDeviation: " << static_cast<NumericTraits<double>::PrintType>(m_StandardDeviation)
      << std::endl;
 }
 } // end namespace itk

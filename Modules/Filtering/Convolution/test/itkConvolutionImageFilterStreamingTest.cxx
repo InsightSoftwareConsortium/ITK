@@ -28,11 +28,11 @@
 
 using KernelImageType = itk::Image<float, 2>;
 
-typename KernelImageType::Pointer
+KernelImageType::Pointer
 GenerateKernelForStreamingTest()
 {
   using SourceType = itk::GaussianImageSource<KernelImageType>;
-  using KernelSizeType = typename SourceType::SizeType;
+  using KernelSizeType = SourceType::SizeType;
   auto                     source = SourceType::New();
   constexpr KernelSizeType kernelSize{ 3, 5 };
   source->SetSize(kernelSize);
@@ -52,9 +52,9 @@ doConvolutionImageFilterStreamingTest(int argc, char * argv[])
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
-  using RegionType = typename ImageType::RegionType;
-  using SizeType = typename RegionType::SizeType;
-  using IndexType = typename RegionType::IndexType;
+  using RegionType = ImageType::RegionType;
+  using SizeType = RegionType::SizeType;
+  using IndexType = RegionType::IndexType;
 
   // Request a subregion of the largest possible output
   IndexType requestedIndex;

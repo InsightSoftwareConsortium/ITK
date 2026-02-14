@@ -31,7 +31,7 @@ itkFFTDiscreteGaussianImageFilterFactoryTest(int, char *[])
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using BaseFilterType = itk::DiscreteGaussianImageFilter<ImageType>;
-  using OverrideFilterType = typename itk::FFTDiscreteGaussianImageFilter<ImageType>;
+  using OverrideFilterType = itk::FFTDiscreteGaussianImageFilter<ImageType>;
 
   BaseFilterType::Pointer baseFilter;
 

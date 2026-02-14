@@ -49,12 +49,12 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::Clear()
 }
 
 template <unsigned int TDimension, typename TSurfacePointType>
-typename LightObject::Pointer
+LightObject::Pointer
 SurfaceSpatialObject<TDimension, TSurfacePointType>::InternalClone() const
 {
   // Default implementation just copies the parameters from
   // this to new transform.
-  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+  LightObject::Pointer loPtr = Superclass::InternalClone();
 
   const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())

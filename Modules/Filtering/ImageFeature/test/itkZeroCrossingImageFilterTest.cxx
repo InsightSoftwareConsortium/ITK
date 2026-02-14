@@ -44,12 +44,12 @@ itkZeroCrossingImageFilterTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ZeroCrossingImageFilter, ImageToImageFilter);
 
 
-  constexpr typename FilterType::OutputImagePixelType foregroundValue =
-    itk::NumericTraits<typename FilterType::OutputImagePixelType>::OneValue();
+  constexpr FilterType::OutputImagePixelType foregroundValue =
+    itk::NumericTraits<FilterType::OutputImagePixelType>::OneValue();
   filter->SetForegroundValue(foregroundValue);
   ITK_TEST_SET_GET_VALUE(foregroundValue, filter->GetForegroundValue());
 
-  constexpr typename FilterType::OutputImagePixelType backgroundValue{};
+  constexpr FilterType::OutputImagePixelType backgroundValue{};
   filter->SetBackgroundValue(backgroundValue);
   ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
 

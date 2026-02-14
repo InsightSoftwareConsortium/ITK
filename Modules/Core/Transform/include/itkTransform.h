@@ -564,7 +564,7 @@ protected:
    * This does a complete copy of the transform
    * state to the new transform
    */
-  typename LightObject::Pointer
+  LightObject::Pointer
   InternalClone() const override;
 
   /** Default-constructor. Creates a transform, having empty `Parameters` and `FixedParameters`. */

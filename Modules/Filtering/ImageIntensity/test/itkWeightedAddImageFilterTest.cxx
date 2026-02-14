@@ -114,7 +114,7 @@ itkWeightedAddImageFilterTest(int argc, char * argv[])
   filter->SetInput1(inputImageA);
   filter->SetInput2(inputImageB);
 
-  auto alpha = static_cast<typename myFilterType::RealType>(std::stod(argv[1]));
+  auto alpha = static_cast<myFilterType::RealType>(std::stod(argv[1]));
   filter->SetAlpha(alpha);
   ITK_TEST_SET_GET_VALUE(alpha, filter->GetAlpha());
 

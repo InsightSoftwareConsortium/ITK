@@ -568,16 +568,14 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
     {
       std::cerr << "Test failed!" << std::endl;
       std::cerr << "Error in UpdateTransformParameters at index [" << i << "]" << std::endl;
-      std::cerr
-        << "Expected value "
-        << static_cast<typename itk::NumericTraits<DisplacementTransformType::DerivativeType::ValueType>::PrintType>(
-             updateTruth[i])
-        << std::endl;
-      std::cerr
-        << " differs from "
-        << static_cast<typename itk::NumericTraits<DisplacementTransformType::DerivativeType::ValueType>::PrintType>(
-             params[i])
-        << std::endl;
+      std::cerr << "Expected value "
+                << static_cast<itk::NumericTraits<DisplacementTransformType::DerivativeType::ValueType>::PrintType>(
+                     updateTruth[i])
+                << std::endl;
+      std::cerr << " differs from "
+                << static_cast<itk::NumericTraits<DisplacementTransformType::DerivativeType::ValueType>::PrintType>(
+                     params[i])
+                << std::endl;
       return EXIT_FAILURE;
     }
   }

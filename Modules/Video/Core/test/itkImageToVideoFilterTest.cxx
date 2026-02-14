@@ -47,8 +47,8 @@ itkImageToVideoFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // Get 3D image to represent a temporal dataset of 2D frames
-  const auto                        inputImage = itk::ReadImage<ImageType>(argv[1]);
-  typename ImageType::DirectionType inputDirection;
+  const auto               inputImage = itk::ReadImage<ImageType>(argv[1]);
+  ImageType::DirectionType inputDirection;
   /* Set input image direction matrix to
    * 1  0 0
    * 0  0 1
@@ -99,7 +99,7 @@ itkImageToVideoFilterTest(int argc, char * argv[])
   }
 
   // Verify spatial direction in output frames match input direction
-  typename VideoFilterType::OutputFrameType::DirectionType outputDirection;
+  VideoFilterType::OutputFrameType::DirectionType outputDirection;
   outputDirection(0, 1) = 1;
   outputDirection(1, 0) = -1;
   for (auto frameIdx = videoOutput->GetLargestPossibleTemporalRegion().GetFrameStart();
@@ -110,7 +110,7 @@ itkImageToVideoFilterTest(int argc, char * argv[])
   }
 
   // Iterate over 3D input + video output to verify pixel data matches across each slice/frame
-  using ImageIteratorType = typename itk::ImageSliceConstIteratorWithIndex<ImageType>;
+  using ImageIteratorType = itk::ImageSliceConstIteratorWithIndex<ImageType>;
   ImageIteratorType it(inputImage, inputImage->GetLargestPossibleRegion());
   it.SetFirstDirection(1);  // fastest moving remaining spatial axis
   it.SetSecondDirection(2); // second-fastest moving remaining spatial axis

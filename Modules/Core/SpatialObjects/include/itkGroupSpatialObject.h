@@ -57,7 +57,7 @@ protected:
   GroupSpatialObject();
   ~GroupSpatialObject() override = default;
 
-  [[nodiscard]] typename LightObject::Pointer
+  [[nodiscard]] LightObject::Pointer
   InternalClone() const override;
 };
 } // end namespace itk

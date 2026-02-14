@@ -54,7 +54,7 @@ public:
   using FrameType = TFrameType;
   using FramePointer = typename FrameType::Pointer;
   using FrameConstPointer = typename FrameType::ConstPointer;
-  using typename Superclass::BufferType;
+  using Superclass::BufferType;
 
   using SpatialRegionType = typename FrameType::RegionType;
   using IndexType = typename FrameType::IndexType;
@@ -66,11 +66,11 @@ public:
   using NumberOfComponentsPerPixelType = unsigned int;
 
   /** Types used to store map between frame numbers and frame meta data */
-  using SpatialRegionMapType = typename std::map<SizeValueType, SpatialRegionType>;
-  using PointMapType = typename std::map<SizeValueType, PointType>;
-  using DirectionMapType = typename std::map<SizeValueType, DirectionType>;
-  using SpacingMapType = typename std::map<SizeValueType, SpacingType>;
-  using NumberOfComponentsPerPixelMapType = typename std::map<SizeValueType, NumberOfComponentsPerPixelType>;
+  using SpatialRegionMapType = std::map<SizeValueType, SpatialRegionType>;
+  using PointMapType = std::map<SizeValueType, PointType>;
+  using DirectionMapType = std::map<SizeValueType, DirectionType>;
+  using SpacingMapType = std::map<SizeValueType, SpacingType>;
+  using NumberOfComponentsPerPixelMapType = std::map<SizeValueType, NumberOfComponentsPerPixelType>;
 
   /** Access the spatial dimensionality of the frames */
   static constexpr unsigned int FrameDimension = FrameType::ImageDimension;

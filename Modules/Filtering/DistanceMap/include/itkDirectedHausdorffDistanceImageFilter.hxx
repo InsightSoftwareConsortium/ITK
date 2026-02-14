@@ -201,8 +201,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::PrintSelf(std:
 
   os << indent << "MaxDistance: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_MaxDistance)
      << std::endl;
-  os << indent << "PixelCount: " << static_cast<typename NumericTraits<IdentifierType>::PrintType>(m_PixelCount)
-     << std::endl;
+  os << indent << "PixelCount: " << static_cast<NumericTraits<IdentifierType>::PrintType>(m_PixelCount) << std::endl;
   os << indent << "Sum: " << m_Sum.GetSum();
 
   os << std::endl;

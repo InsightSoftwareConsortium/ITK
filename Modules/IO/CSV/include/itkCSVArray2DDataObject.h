@@ -62,11 +62,11 @@ public:
   itkOverrideGetNameOfClassMacro(CSVArray2DDataObject);
 
   /* Vector type alias. */
-  using NumericVectorType = typename std::vector<TData>;
-  using StringVectorType = typename std::vector<std::string>;
+  using NumericVectorType = std::vector<TData>;
+  using StringVectorType = std::vector<std::string>;
 
   /** Typedef for the Array2D object. */
-  using MatrixType = typename itk::Array2D<TData>;
+  using MatrixType = itk::Array2D<TData>;
 
   /** Set macros */
   /** @ITKStartGrouping */

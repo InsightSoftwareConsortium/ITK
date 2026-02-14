@@ -118,7 +118,7 @@ public:
   using DecompType = std::vector<LType>;
 
   /** ImageType used in constructors */
-  using ImageType = typename itk::Image<PixelType, VDimension>;
+  using ImageType = itk::Image<PixelType, VDimension>;
 
   /** Default destructor. */
   ~FlatStructuringElement() override = default;
