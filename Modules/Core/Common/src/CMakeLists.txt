@@ -147,7 +147,6 @@ set(
   itkArrayOutputSpecialization.cxx
   itkNumberToString.cxx
   itkRandomVariateGeneratorBase.cxx
-  itkMath.cxx
   itkProgressTransformer.cxx
   itkSymmetricEigenAnalysis.cxx
   itkExtractImageFilter.cxx

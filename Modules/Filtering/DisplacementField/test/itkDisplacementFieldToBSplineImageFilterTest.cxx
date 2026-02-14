@@ -162,7 +162,7 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
 
   VectorType v = bspliner->GetOutput()->GetPixel(index);
 
-  if (itk::Math::abs(v.GetNorm() - 1.414214) >= 0.01)
+  if (itk::Math::Absolute(v.GetNorm() - 1.414214) >= 0.01)
   {
     std::cerr << "Failed to find the correct forward displacement vector." << std::endl;
     return EXIT_FAILURE;
@@ -176,7 +176,7 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
 
   v = bspliner->GetOutput()->GetPixel(index);
 
-  if (itk::Math::abs(v.GetNorm() - 1.414214) >= 0.01)
+  if (itk::Math::Absolute(v.GetNorm() - 1.414214) >= 0.01)
   {
     std::cerr << "Failed to find the correct inverse displacement vector." << std::endl;
     return EXIT_FAILURE;

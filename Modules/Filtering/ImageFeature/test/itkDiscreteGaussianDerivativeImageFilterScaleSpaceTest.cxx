@@ -102,7 +102,7 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
   {
     if (maxLx < oiter.Get() && !itk::Math::FloatAlmostEqual(maxLx, oiter.Get(), 10, tolerance1))
     {
-      std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance1))));
+      std::cout.precision(static_cast<int>(itk::Math::Absolute(std::log10(tolerance1))));
       std::cout << "Error at period: " << 1.0 / frequency << std::endl;
       std::cout << "Expected maximal value: " << maxLx << ", differs from: " << oiter.Get() << " by more than "
                 << tolerance1 << std::endl;
@@ -120,7 +120,7 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
   {
     if (maxLx < oiter.Get() && !itk::Math::FloatAlmostEqual(maxLx, oiter.Get(), 10, tolerance1))
     {
-      std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance1))));
+      std::cout.precision(static_cast<int>(itk::Math::Absolute(std::log10(tolerance1))));
       std::cout << "Error at period: " << 1.0 / frequency << std::endl;
       std::cout << "Expected maximal value: " << maxLx << ", differs from: " << oiter.Get() << " by more than "
                 << tolerance1 << std::endl;

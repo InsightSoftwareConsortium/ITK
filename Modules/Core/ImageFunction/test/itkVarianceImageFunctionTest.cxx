@@ -80,7 +80,7 @@ itkVarianceImageFunctionTest(int, char *[])
 
   // since the input image is constant
   // the variance should be zero
-  if (itk::Math::abs(variance) > 10e-7)
+  if (itk::Math::Absolute(variance) > 10e-7)
   {
     std::cerr << "Error in variance computation" << std::endl;
     return EXIT_FAILURE;

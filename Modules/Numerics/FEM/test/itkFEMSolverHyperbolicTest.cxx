@@ -264,7 +264,7 @@ itkFEMSolverHyperbolicTest(int argc, char * argv[])
       for (unsigned int d = 0, dof; (dof = SH->GetInput()->GetNode(i)->GetDegreeOfFreedom(d)) != invalidID; ++d)
       {
         double result = SH->GetSolution(dof);
-        if (itk::Math::abs(result - solution[dof]) > 1.0e-5)
+        if (itk::Math::Absolute(result - solution[dof]) > 1.0e-5)
         {
           std::cerr << "Error: Solution outside the expected range: " << result << ", " << dof << std::endl;
           return EXIT_FAILURE;

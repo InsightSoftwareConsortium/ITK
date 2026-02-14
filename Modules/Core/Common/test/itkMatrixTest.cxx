@@ -236,14 +236,14 @@ itkMatrixTest(int, char *[])
       {
         for (unsigned int c = 0; c < nc; ++c)
         {
-          if (itk::Math::abs(m3[r][c] - 2 * r) > tolerance)
+          if (itk::Math::Absolute(m3[r][c] - 2 * r) > tolerance)
           {
             std::cerr << "Addition failed !" << std::endl;
             std::cerr << "M[" << r << "][" << c << "] = ";
             std::cerr << m3[r][c] << std::endl;
             return EXIT_FAILURE;
           }
-          if (itk::Math::abs(m4[r][c] - 2 * c) > tolerance)
+          if (itk::Math::Absolute(m4[r][c] - 2 * c) > tolerance)
           {
             std::cerr << "Subtraction failed !" << std::endl;
             return EXIT_FAILURE;
@@ -262,13 +262,13 @@ itkMatrixTest(int, char *[])
       {
         for (unsigned int c = 0; c < nc; ++c)
         {
-          if (itk::Math::abs(m3[r][c] - m1[r][c]) > tolerance)
+          if (itk::Math::Absolute(m3[r][c] - m1[r][c]) > tolerance)
           {
             std::cerr << "In-place addition failed !" << std::endl;
             std::cerr << m3 << std::endl;
             return EXIT_FAILURE;
           }
-          if (itk::Math::abs(m4[r][c] - m1[r][c]) > tolerance)
+          if (itk::Math::Absolute(m4[r][c] - m1[r][c]) > tolerance)
           {
             std::cerr << "In-place subtraction failed !" << std::endl;
             std::cerr << m4 << std::endl;
@@ -302,7 +302,7 @@ itkMatrixTest(int, char *[])
       {
         for (unsigned int col = 0; col < 3; ++col)
         {
-          if (itk::Math::abs(matrixB[row][col] - matrixA[row][col]) > tolerance)
+          if (itk::Math::Absolute(matrixB[row][col] - matrixA[row][col]) > tolerance)
           {
             std::cerr << "constructor from vnl_matrix failed ! " << std::endl;
             return EXIT_FAILURE;
@@ -320,7 +320,7 @@ itkMatrixTest(int, char *[])
       {
         for (unsigned int col = 0; col < 3; ++col)
         {
-          if (itk::Math::abs(matrixC[row][col] - matrixA[row][col]) > tolerance)
+          if (itk::Math::Absolute(matrixC[row][col] - matrixA[row][col]) > tolerance)
           {
             std::cerr << "assignment from vnl_matrix failed ! " << std::endl;
             return EXIT_FAILURE;

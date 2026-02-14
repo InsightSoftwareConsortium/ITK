@@ -282,7 +282,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
         std::cout << "Index = " << (*it_pd)->Index() << " v.s " << j << std::endl;
         return EXIT_FAILURE;
       }
-      if (itk::Math::abs((*it_pd)->Value() - data) > 0.001)
+      if (itk::Math::Absolute((*it_pd)->Value() - data) > 0.001)
       {
         std::cout << " [FAILED]" << std::endl;
         std::cout << "value = " << (*it_pd)->Value() << " v.s " << data << std::endl;
@@ -320,7 +320,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
         std::cout << "Index = " << (*it_pc)->Index() << " v.s " << j << std::endl;
         return EXIT_FAILURE;
       }
-      if (itk::Math::abs((*it_pc)->Value() - data) > 0.001)
+      if (itk::Math::Absolute((*it_pc)->Value() - data) > 0.001)
       {
         std::cout << " [FAILED]" << std::endl;
         std::cout << "value = " << (*it_pc)->Value() << " v.s " << data << std::endl;

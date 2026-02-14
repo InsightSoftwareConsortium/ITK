@@ -83,7 +83,7 @@ public:
     {
       dotProduct += a[i] * b[i];
     }
-    return (static_cast<typename TInput::ValueType>(1.0 - itk::Math::abs(dotProduct)) <= m_Threshold);
+    return (static_cast<typename TInput::ValueType>(1.0 - itk::Math::Absolute(dotProduct)) <= m_Threshold);
   }
 
 protected:

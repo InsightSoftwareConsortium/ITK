@@ -48,7 +48,7 @@ template <typename TInput, typename TOutput>
 auto
 SinRegularizedHeavisideStepFunction<TInput, TOutput>::EvaluateDerivative(const InputType & input) const -> OutputType
 {
-  if (itk::Math::abs(static_cast<RealType>(input)) >= this->GetEpsilon())
+  if (itk::Math::Absolute(static_cast<RealType>(input)) >= this->GetEpsilon())
   {
     return OutputType{};
   }

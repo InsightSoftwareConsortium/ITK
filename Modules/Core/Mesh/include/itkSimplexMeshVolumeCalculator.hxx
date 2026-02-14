@@ -56,7 +56,7 @@ SimplexMeshVolumeCalculator<TInputMesh>::Finalize()
   m_Kz = (m_Muncz + (m_Wxyz / 3.0) + ((m_Wxz + m_Wyz) / 2.0)) / m_NumberOfTriangles;
 
   m_Volume = (m_Kx * m_VolumeX + m_Ky * m_VolumeY + m_Kz * m_VolumeZ);
-  m_Volume = itk::Math::abs(m_Volume);
+  m_Volume = itk::Math::Absolute(m_Volume);
 }
 
 template <typename TInputMesh>
@@ -137,9 +137,9 @@ SimplexMeshVolumeCalculator<TInputMesh>::CalculateTriangleVolume(InputPointType 
   //
 
   double absu[3];
-  absu[0] = itk::Math::abs(u[0]);
-  absu[1] = itk::Math::abs(u[1]);
-  absu[2] = itk::Math::abs(u[2]);
+  absu[0] = itk::Math::Absolute(u[0]);
+  absu[1] = itk::Math::Absolute(u[1]);
+  absu[2] = itk::Math::Absolute(u[2]);
   if ((absu[0] > absu[1]) && (absu[0] > absu[2]))
   {
     ++m_Muncx;
@@ -196,7 +196,7 @@ SimplexMeshVolumeCalculator<TInputMesh>::CalculateTriangleVolume(InputPointType 
   const double b = std::sqrt(ii[0] + jj[0] + kk[0]);
   const double c = std::sqrt(ii[2] + jj[2] + kk[2]);
   const double s = 0.5 * (a + b + c);
-  const double area = std::sqrt(itk::Math::abs(s * (s - a) * (s - b) * (s - c)));
+  const double area = std::sqrt(itk::Math::Absolute(s * (s - a) * (s - b) * (s - c)));
 
   // Volume elements ...
   //

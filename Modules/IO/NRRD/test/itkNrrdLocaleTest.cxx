@@ -105,7 +105,7 @@ itkNrrdLocaleTest(int argc, char * argv[])
     // Verify spacing
     for (unsigned int i = 0; i < Dimension; ++i)
     {
-      if (itk::Math::abs(readSpacing[i] - spacing[i]) > 1e-6)
+      if (itk::Math::Absolute(readSpacing[i] - spacing[i]) > 1e-6)
       {
         std::cerr << "Spacing mismatch in C locale at index " << i << std::endl;
         std::cerr << "Expected: " << spacing[i] << ", Got: " << readSpacing[i] << std::endl;
@@ -116,7 +116,7 @@ itkNrrdLocaleTest(int argc, char * argv[])
     // Verify origin
     for (unsigned int i = 0; i < Dimension; ++i)
     {
-      if (itk::Math::abs(readOrigin[i] - origin[i]) > 1e-6)
+      if (itk::Math::Absolute(readOrigin[i] - origin[i]) > 1e-6)
       {
         std::cerr << "Origin mismatch in C locale at index " << i << std::endl;
         std::cerr << "Expected: " << origin[i] << ", Got: " << readOrigin[i] << std::endl;
@@ -148,7 +148,7 @@ itkNrrdLocaleTest(int argc, char * argv[])
     // Verify spacing - this is the critical test
     for (unsigned int i = 0; i < Dimension; ++i)
     {
-      if (itk::Math::abs(readSpacing[i] - spacing[i]) > 1e-6)
+      if (itk::Math::Absolute(readSpacing[i] - spacing[i]) > 1e-6)
       {
         std::cerr << "Spacing mismatch in de_DE locale at index " << i << std::endl;
         std::cerr << "Expected: " << spacing[i] << ", Got: " << readSpacing[i] << std::endl;
@@ -160,7 +160,7 @@ itkNrrdLocaleTest(int argc, char * argv[])
     // Verify origin
     for (unsigned int i = 0; i < Dimension; ++i)
     {
-      if (itk::Math::abs(readOrigin[i] - origin[i]) > 1e-6)
+      if (itk::Math::Absolute(readOrigin[i] - origin[i]) > 1e-6)
       {
         std::cerr << "Origin mismatch in de_DE locale at index " << i << std::endl;
         std::cerr << "Expected: " << origin[i] << ", Got: " << readOrigin[i] << std::endl;

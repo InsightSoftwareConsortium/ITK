@@ -344,7 +344,7 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
         for (OutputPixelType ci = 0; ci < this->m_TotalLabelCount; ++ci)
         {
           const WeightsType thisParameterUpdate =
-            itk::Math::abs(this->m_UpdatedConfusionMatrixArray[k][j][ci] - this->m_ConfusionMatrixArray[k][j][ci]);
+            itk::Math::Absolute(this->m_UpdatedConfusionMatrixArray[k][j][ci] - this->m_ConfusionMatrixArray[k][j][ci]);
 
           maximumUpdate = std::max(maximumUpdate, thisParameterUpdate);
 

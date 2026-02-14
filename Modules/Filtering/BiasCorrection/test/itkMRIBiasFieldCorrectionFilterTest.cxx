@@ -166,7 +166,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   ib_iter.GoToBegin();
   while (!i_iter.IsAtEnd())
   {
-    sumOfError += itk::Math::abs(ib_iter.Get() - i_iter.Get());
+    sumOfError += itk::Math::Absolute(ib_iter.Get() - i_iter.Get());
     ++i_iter;
     ++ib_iter;
   }
@@ -240,7 +240,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   i_iter.GoToBegin();
   while (!i_iter.IsAtEnd())
   {
-    sumOfError += itk::Math::abs(o_iter.Get() - i_iter.Get());
+    sumOfError += itk::Math::Absolute(o_iter.Get() - i_iter.Get());
     ++i_iter;
     ++o_iter;
   }
@@ -307,7 +307,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   i_iter.GoToBegin();
   while (!i_iter.IsAtEnd())
   {
-    sumOfError += itk::Math::abs(o2_iter.Get() - i_iter.Get());
+    sumOfError += itk::Math::Absolute(o2_iter.Get() - i_iter.Get());
     ++i_iter;
     ++o2_iter;
   }
@@ -369,7 +369,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   i_iter.GoToBegin();
   while (!i_iter.IsAtEnd())
   {
-    sumOfError += itk::Math::abs(o3_iter.Get() - i_iter.Get());
+    sumOfError += itk::Math::Absolute(o3_iter.Get() - i_iter.Get());
     ++i_iter;
     ++o3_iter;
   }
@@ -423,7 +423,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   i_iter.GoToBegin();
   while (!i_iter.IsAtEnd())
   {
-    sumOfError += itk::Math::abs(o4_iter.Get() - i_iter.Get());
+    sumOfError += itk::Math::Absolute(o4_iter.Get() - i_iter.Get());
     ++i_iter;
     ++o4_iter;
   }
@@ -463,7 +463,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   i_iter.GoToBegin();
   while (!i_iter.IsAtEnd())
   {
-    sumOfErrorFinal += itk::Math::abs(o5_iter.Get() - i_iter.Get());
+    sumOfErrorFinal += itk::Math::Absolute(o5_iter.Get() - i_iter.Get());
     ++i_iter;
     ++o5_iter;
   }

@@ -151,7 +151,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ReduceToTridiagonalMatri
     // Scale row (algol tol then not needed)
     for (int k = 0; k <= l; ++k)
     {
-      scale += itk::Math::abs(d[k]);
+      scale += itk::Math::Absolute(d[k]);
     }
 
     if (scale == 0.)
@@ -175,7 +175,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ReduceToTridiagonalMatri
     e2[i] = scale * scale * h;
     double       f = d[l];
     const double d__1 = std::sqrt(h);
-    double       g = (-1.0) * itk::Math::sgn0(f) * itk::Math::abs(d__1);
+    double       g = (-1.0) * itk::Math::sgn0(f) * itk::Math::Absolute(d__1);
     e[i] = scale * g;
     h -= f * g;
     d[l] = f - g;
@@ -265,7 +265,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ReduceToTridiagonalMatri
     // Scale row (algol tol then not needed)
     for (unsigned int k = 0; k <= l; ++k)
     {
-      scale += itk::Math::abs(d[k]);
+      scale += itk::Math::Absolute(d[k]);
     }
 
     if (scale == 0.0)
@@ -289,7 +289,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ReduceToTridiagonalMatri
 
       double       f = d[l];
       const double d__1 = std::sqrt(h);
-      double       g = (-1.0) * itk::Math::sgn0(f) * itk::Math::abs(d__1);
+      double       g = (-1.0) * itk::Math::sgn0(f) * itk::Math::Absolute(d__1);
       e[i] = scale * g;
       h -= f * g;
       d[l] = f - g;
@@ -422,7 +422,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesUsingQ
   for (unsigned int l = 0; l < m_Order; ++l)
   {
     unsigned int j = 0;
-    double       h = itk::Math::abs(d[l]) + itk::Math::abs(e[l]);
+    double       h = itk::Math::Absolute(d[l]) + itk::Math::Absolute(e[l]);
     if (tst1 < h)
     {
       tst1 = h;
@@ -431,7 +431,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesUsingQ
     unsigned int m = l;
     for (; m < m_Order - 1; ++m)
     {
-      const double tst2 = tst1 + itk::Math::abs(e[m]);
+      const double tst2 = tst1 + itk::Math::Absolute(e[m]);
       if (tst2 == tst1)
       {
         break;
@@ -455,8 +455,8 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesUsingQ
         double g = d[l];
         double p = (d[l + 1] - g) / (e[l] * 2.);
         double r = itk::Math::hypot(p, c_b10);
-        d[l] = e[l] / (p + itk::Math::sgn0(p) * itk::Math::abs(r));
-        d[l + 1] = e[l] * (p + itk::Math::sgn0(p) * itk::Math::abs(r));
+        d[l] = e[l] / (p + itk::Math::sgn0(p) * itk::Math::Absolute(r));
+        d[l + 1] = e[l] * (p + itk::Math::sgn0(p) * itk::Math::Absolute(r));
         const double dl1 = d[l + 1];
         h = g - d[l];
 
@@ -496,7 +496,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesUsingQ
         p = -s * s2 * c3 * el1 * e[l] / dl1;
         e[l] = s * p;
         d[l] = c * p;
-        tst2 = tst1 + itk::Math::abs(e[l]);
+        tst2 = tst1 + itk::Math::Absolute(e[l]);
       } while (tst2 > tst1);
     }
 
@@ -522,7 +522,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesUsingQ
       unsigned int i = l;
       for (; i > 0; --i)
       {
-        if (itk::Math::abs(p) >= itk::Math::abs(d[i - 1]))
+        if (itk::Math::Absolute(p) >= itk::Math::Absolute(d[i - 1]))
         {
           break;
         }
@@ -567,7 +567,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesAndVec
   for (unsigned int l = 0; l < m_Order; ++l)
   {
     unsigned int j = 0;
-    double       h = itk::Math::abs(d[l]) + itk::Math::abs(e[l]);
+    double       h = itk::Math::Absolute(d[l]) + itk::Math::Absolute(e[l]);
     if (tst1 < h)
     {
       tst1 = h;
@@ -579,7 +579,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesAndVec
     unsigned int m = l;
     for (; m < m_Order - 1; ++m)
     {
-      tst2 = tst1 + itk::Math::abs(e[m]);
+      tst2 = tst1 + itk::Math::Absolute(e[m]);
       if (tst2 == tst1)
       {
         break;
@@ -603,8 +603,8 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesAndVec
         double g = d[l];
         double p = (d[l + 1] - g) / (e[l] * 2.);
         double r = itk::Math::hypot(p, c_b10);
-        d[l] = e[l] / (p + itk::Math::sgn0(p) * itk::Math::abs(r));
-        d[l + 1] = e[l] * (p + itk::Math::sgn0(p) * itk::Math::abs(r));
+        d[l] = e[l] / (p + itk::Math::sgn0(p) * itk::Math::Absolute(r));
+        d[l + 1] = e[l] * (p + itk::Math::sgn0(p) * itk::Math::Absolute(r));
         const double dl1 = d[l + 1];
         h = g - d[l];
 
@@ -651,7 +651,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesAndVec
         p = -s * s2 * c3 * el1 * e[l] / dl1;
         e[l] = s * p;
         d[l] = c * p;
-        tst2 = tst1 + itk::Math::abs(e[l]);
+        tst2 = tst1 + itk::Math::Absolute(e[l]);
       } while (tst2 > tst1);
     }
 
@@ -702,7 +702,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesAndVec
 
       for (unsigned int j = i + 1; j < m_Order; ++j)
       {
-        if (itk::Math::abs(d[j]) >= itk::Math::abs(p))
+        if (itk::Math::Absolute(d[j]) >= itk::Math::Absolute(p))
         {
           continue;
         }

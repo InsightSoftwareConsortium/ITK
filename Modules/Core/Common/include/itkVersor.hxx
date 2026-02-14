@@ -114,7 +114,7 @@ Versor<T>::operator==(const Self & v) const
 
   constexpr double epsilon{ 1e-300 };
 
-  if (itk::Math::abs(1.0f - square) < epsilon)
+  if (itk::Math::Absolute(1.0f - square) < epsilon)
   {
     return true;
   }
@@ -165,7 +165,7 @@ Versor<T>::Normalize()
 {
   const ValueType tensor = this->GetTensor();
 
-  if (itk::Math::abs(tensor) < 1e-20)
+  if (itk::Math::Absolute(tensor) < 1e-20)
   {
     ExceptionObject except;
     except.SetDescription("Attempt to normalize a itk::Versor with zero tensor");
@@ -322,11 +322,12 @@ Versor<T>::Set(const MatrixType & mat)
 
   // check for orthonormality and that it isn't a reflection
   const vnl_matrix_fixed<T, 3, 3> & I = m * m.transpose();
-  if (itk::Math::abs(I[0][1]) > epsilon || itk::Math::abs(I[0][2]) > epsilon || itk::Math::abs(I[1][0]) > epsilon ||
-      itk::Math::abs(I[1][2]) > epsilon || itk::Math::abs(I[2][0]) > epsilon || itk::Math::abs(I[2][1]) > epsilon ||
-      itk::Math::abs(I[0][0] - itk::NumericTraits<T>::OneValue()) > epsilonDiff ||
-      itk::Math::abs(I[1][1] - itk::NumericTraits<T>::OneValue()) > epsilonDiff ||
-      itk::Math::abs(I[2][2] - itk::NumericTraits<T>::OneValue()) > epsilonDiff || vnl_det(I) < 0)
+  if (itk::Math::Absolute(I[0][1]) > epsilon || itk::Math::Absolute(I[0][2]) > epsilon ||
+      itk::Math::Absolute(I[1][0]) > epsilon || itk::Math::Absolute(I[1][2]) > epsilon ||
+      itk::Math::Absolute(I[2][0]) > epsilon || itk::Math::Absolute(I[2][1]) > epsilon ||
+      itk::Math::Absolute(I[0][0] - itk::NumericTraits<T>::OneValue()) > epsilonDiff ||
+      itk::Math::Absolute(I[1][1] - itk::NumericTraits<T>::OneValue()) > epsilonDiff ||
+      itk::Math::Absolute(I[2][2] - itk::NumericTraits<T>::OneValue()) > epsilonDiff || vnl_det(I) < 0)
   {
     itkGenericExceptionMacro("The following matrix does not represent rotation to within an epsion of "
                              << epsilon << '.' << std::endl

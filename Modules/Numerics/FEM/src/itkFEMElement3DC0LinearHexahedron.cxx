@@ -216,7 +216,7 @@ Element3DC0LinearHexahedron::GetLocalFromGlobalCoordinates(const VectorType & gl
 
     //  compute determinants and generate improvements
     Float d = this->Determinant3x3(rcol, scol, tcol);
-    if (itk::Math::abs(d) < 1.e-20)
+    if (itk::Math::Absolute(d) < 1.e-20)
     {
       return false;
     }
@@ -226,16 +226,16 @@ Element3DC0LinearHexahedron::GetLocalFromGlobalCoordinates(const VectorType & gl
     localPt[2] = params[2] - this->Determinant3x3(rcol, scol, fcol) / d;
 
     //  check for convergence
-    if (((itk::Math::abs(localPt[0] - params[0])) < CONVERGED) &&
-        ((itk::Math::abs(localPt[1] - params[1])) < CONVERGED) &&
-        ((itk::Math::abs(localPt[2] - params[2])) < CONVERGED))
+    if (((itk::Math::Absolute(localPt[0] - params[0])) < CONVERGED) &&
+        ((itk::Math::Absolute(localPt[1] - params[1])) < CONVERGED) &&
+        ((itk::Math::Absolute(localPt[2] - params[2])) < CONVERGED))
     {
       converged = 1;
     }
 
     // Test for bad divergence (S.Hirschberg 11.12.2001)
-    else if ((itk::Math::abs(localPt[0]) > DIVERGED) || (itk::Math::abs(localPt[1]) > DIVERGED) ||
-             (itk::Math::abs(localPt[2]) > DIVERGED))
+    else if ((itk::Math::Absolute(localPt[0]) > DIVERGED) || (itk::Math::Absolute(localPt[1]) > DIVERGED) ||
+             (itk::Math::Absolute(localPt[2]) > DIVERGED))
     {
       return false;
     }

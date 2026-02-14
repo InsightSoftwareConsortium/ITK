@@ -120,14 +120,14 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
     point[0] = 0.0;
 
     data = bspliner->EvaluateAtParametricPoint(point);
-    if (itk::Math::abs(data[0] - 0.166666666667) > 1e-5)
+    if (itk::Math::Absolute(data[0] - 0.166666666667) > 1e-5)
     {
       std::cerr << "Evaluate1: data is further away from the expected value." << std::endl;
       return EXIT_FAILURE;
     }
 
     gradient = bspliner->EvaluateGradientAtParametricPoint(point);
-    if (itk::Math::abs(gradient(0, 0) + 0.5) > 1e-5)
+    if (itk::Math::Absolute(gradient(0, 0) + 0.5) > 1e-5)
     {
       std::cerr << "Evaluate1: gradient is further away from the expected value." << std::endl;
       return EXIT_FAILURE;
@@ -135,7 +135,7 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
 
     hessianComponent = bspliner->EvaluateHessianAtParametricPoint(point, 0);
 
-    if (itk::Math::abs(hessianComponent(0, 0) - 1.0) > 1e-5)
+    if (itk::Math::Absolute(hessianComponent(0, 0) - 1.0) > 1e-5)
     {
       std::cerr << "Evaluate1: hessian is further away from the expected value." << std::endl;
       return EXIT_FAILURE;
@@ -154,21 +154,21 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
     point[0] = 0.351;
 
     data = bspliner->EvaluateAtParametricPoint(point);
-    if (itk::Math::abs(data[0] - 0.05276717) > 1e-5)
+    if (itk::Math::Absolute(data[0] - 0.05276717) > 1e-5)
     {
       std::cerr << "Evaluate2: data is further away from the expected value." << std::endl;
       return EXIT_FAILURE;
     }
 
     gradient = bspliner->EvaluateGradientAtParametricPoint(point);
-    if (itk::Math::abs(gradient(0, 0) + 0.149) > 1e-5)
+    if (itk::Math::Absolute(gradient(0, 0) + 0.149) > 1e-5)
     {
       std::cerr << "Evaluate2: gradient is further away from the expected value." << std::endl;
       return EXIT_FAILURE;
     }
 
     hessianComponent = bspliner->EvaluateHessianAtParametricPoint(point, 0);
-    if (itk::Math::abs(hessianComponent(0, 0) - 1.0) > 1e-5)
+    if (itk::Math::Absolute(hessianComponent(0, 0) - 1.0) > 1e-5)
     {
       std::cerr << "Evaluate2: hessian is further away from the expected value." << std::endl;
       return EXIT_FAILURE;

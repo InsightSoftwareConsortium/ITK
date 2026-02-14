@@ -108,7 +108,7 @@ itkUnsharpMaskImageFilterTestSimple(int, char *[])
     const UnsharpMaskImageFilterFilterType::SigmaArrayType::ValueType sigma2 = sigmas[i];
     if (!itk::Math::FloatAlmostEqual(sigma, sigma2, 10, tolerance))
     {
-      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
+      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(tolerance))));
       std::cerr << "Test FAILED! ";
       std::cerr << "Error in the Sigma values" << std::endl;
       std::cerr << "Expected " << sigma << " but got " << sigma2;

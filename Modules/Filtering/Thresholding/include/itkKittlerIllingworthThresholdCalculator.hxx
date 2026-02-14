@@ -119,7 +119,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::GenerateData()
   const double Bs1 = B(size - 1);
   const double Cs1 = C(size - 1);
 
-  if (itk::Math::abs(As1) < itk::Math::eps)
+  if (itk::Math::Absolute(As1) < itk::Math::eps)
   {
     itkGenericExceptionMacro("As1 = 0.");
   }
@@ -131,13 +131,13 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::GenerateData()
     const double Bt = B(threshold);
     const double Ct = C(threshold);
 
-    if (itk::Math::abs(At) < itk::Math::eps)
+    if (itk::Math::Absolute(At) < itk::Math::eps)
     {
       itkGenericExceptionMacro("At = 0.");
     }
     const double mu = Bt / At;
 
-    if (itk::Math::abs(As1 - At) < itk::Math::eps)
+    if (itk::Math::Absolute(As1 - At) < itk::Math::eps)
     {
       itkWarningMacro("KittlerIllingworthThresholdCalculator: not converging: As1 = At = " << At);
       break;
@@ -155,12 +155,12 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::GenerateData()
       itkGenericExceptionMacro("sigma2 <= 0");
     }
 
-    if (itk::Math::abs(tau2) < itk::Math::eps)
+    if (itk::Math::Absolute(tau2) < itk::Math::eps)
     {
       itkGenericExceptionMacro("tau2 = 0");
     }
 
-    if (itk::Math::abs(p) < itk::Math::eps)
+    if (itk::Math::Absolute(p) < itk::Math::eps)
     {
       itkGenericExceptionMacro("p = 0");
     }
@@ -178,7 +178,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::GenerateData()
       break;
     }
 
-    if (itk::Math::abs(w0) < itk::Math::eps)
+    if (itk::Math::Absolute(w0) < itk::Math::eps)
     {
       const double temp = -w2 / w1;
 

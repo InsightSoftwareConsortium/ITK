@@ -555,7 +555,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
       no[0] = 0;
       for (unsigned int i = 0; i < ImageDimension - 1; ++i)
       {
-        no[i + 1] = itk::Math::abs(lno[i]);
+        no[i + 1] = itk::Math::Absolute(lno[i]);
       }
       OffsetType dno = no; // offset for the diagonal
       dno[0] = 1;
@@ -863,7 +863,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputeOrientedBoundingBox(LabelObject
   Vector<double, ImageDimension> rsize;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    rsize[i] = itk::Math::abs(maximumPrincipalAxis[i] - minimumPrincipalAxis[i]);
+    rsize[i] = itk::Math::Absolute(maximumPrincipalAxis[i] - minimumPrincipalAxis[i]);
   }
 
 

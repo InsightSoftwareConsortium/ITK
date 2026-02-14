@@ -127,7 +127,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GreyScalarBoundary(LabelledI
       {
         if (signs[i] == 0)
         {
-          const auto difference = static_cast<LabelType>(itk::Math::abs(m_LowPoint[rgb] - neighbors[i]));
+          const auto difference = static_cast<LabelType>(itk::Math::Absolute(m_LowPoint[rgb] - neighbors[i]));
           if (difference < m_BoundaryGradient)
           {
             ++numx;
@@ -144,7 +144,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GreyScalarBoundary(LabelledI
       {
         if (signs[i] == 1)
         {
-          const auto difference = static_cast<LabelType>(itk::Math::abs(m_LowPoint[rgb] - neighbors[i]));
+          const auto difference = static_cast<LabelType>(itk::Math::Absolute(m_LowPoint[rgb] - neighbors[i]));
           if (difference > m_BoundaryGradient)
           {
             --numx;

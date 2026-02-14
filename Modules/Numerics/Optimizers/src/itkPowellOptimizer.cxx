@@ -250,10 +250,10 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
     const double middle_range = (a + b) / 2;
 
     /* Step at this iteration       */
-    const double tolerance1 = m_StepTolerance * itk::Math::abs(x) + POWELL_TINY;
+    const double tolerance1 = m_StepTolerance * itk::Math::Absolute(x) + POWELL_TINY;
     const double tolerance2 = 2.0 * tolerance1;
 
-    if (itk::Math::abs(x - middle_range) <= (tolerance2 - 0.5 * (b - a)) || 0.5 * (b - a) < m_StepTolerance)
+    if (itk::Math::Absolute(x - middle_range) <= (tolerance2 - 0.5 * (b - a)) || 0.5 * (b - a) < m_StepTolerance)
     {
       *extX = x;
       *extVal = functionValueOfX;
@@ -268,7 +268,7 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
     double new_step = goldenSectionRatio * (x < middle_range ? b - x : a - x);
 
     /* Decide if the interpolation can be tried  */
-    if (itk::Math::abs(x - w) >= tolerance1) /* If x and w are distinct      */
+    if (itk::Math::Absolute(x - w) >= tolerance1) /* If x and w are distinct      */
     {
       const double t = (x - w) * (functionValueOfX - functionValueOfV);
 
@@ -291,7 +291,7 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
 
       /* Check if x+p/q falls in [a,b] and  not too close to a and b
            and isn't too large */
-      if (itk::Math::abs(p) < itk::Math::abs(new_step * q) && p > q * (a - x + 2 * tolerance1) &&
+      if (itk::Math::Absolute(p) < itk::Math::Absolute(new_step * q) && p > q * (a - x + 2 * tolerance1) &&
           p < q * (b - x - 2 * tolerance1))
       {
         new_step = p / q; /* it is accepted         */
@@ -302,7 +302,7 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
     }
 
     /* Adjust the step to be not less than tolerance*/
-    if (itk::Math::abs(new_step) < tolerance1)
+    if (itk::Math::Absolute(new_step) < tolerance1)
     {
       if (new_step > 0.0)
       {
@@ -438,14 +438,14 @@ PowellOptimizer::StartOptimization()
       this->SetCurrentLinePoint(xx, fx);
       p = this->GetCurrentPosition();
 
-      if (itk::Math::abs(fptt - fx) > del)
+      if (itk::Math::Absolute(fptt - fx) > del)
       {
-        del = itk::Math::abs(fptt - fx);
+        del = itk::Math::Absolute(fptt - fx);
         ibig = i;
       }
     }
 
-    if (2.0 * itk::Math::abs(fp - fx) <= m_ValueTolerance * (itk::Math::abs(fp) + itk::Math::abs(fx)))
+    if (2.0 * itk::Math::Absolute(fp - fx) <= m_ValueTolerance * (itk::Math::Absolute(fp) + itk::Math::Absolute(fx)))
     {
       m_StopConditionDescription << "Cost function values at the current parameter (" << fx
                                  << ") and at the local extrema (" << fp << ") are within Value Tolerance ("

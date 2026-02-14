@@ -545,9 +545,9 @@ itkHistogramTest(int, char *[])
       {
         const HistogramType::MeasurementType minA = binMinimums[dim][k];
         const HistogramType::MeasurementType minB = binDimensionMinimums[k];
-        if (itk::Math::abs(minA - minB) > epsilon)
+        if (itk::Math::Absolute(minA - minB) > epsilon)
         {
-          std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+          std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
           std::cerr << "Test failed!" << std::endl;
           std::cerr << "Error in itk:Statistics::Histogram::GetMins/GetDimensionMins at index [" << k << "]"
                     << std::endl;
@@ -558,9 +558,9 @@ itkHistogramTest(int, char *[])
         }
 
         const HistogramType::MeasurementType minC = histogram->GetBinMin(dim, k);
-        if (itk::Math::abs(minA - minC) > epsilon)
+        if (itk::Math::Absolute(minA - minC) > epsilon)
         {
-          std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+          std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
           std::cerr << "Test failed!" << std::endl;
           std::cerr << "Error in itk:Statistics::Histogram::GetMins/GetBinMin at index [" << k << "]" << std::endl;
           std::cerr << "Expected value " << minA << std::endl;
@@ -580,9 +580,9 @@ itkHistogramTest(int, char *[])
       {
         const HistogramType::MeasurementType maxA = binMaximums[dim][k];
         const HistogramType::MeasurementType maxB = binDimensionMaximums[k];
-        if (itk::Math::abs(maxA - maxB) > epsilon)
+        if (itk::Math::Absolute(maxA - maxB) > epsilon)
         {
-          std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+          std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
           std::cerr << "Test failed!" << std::endl;
           std::cerr << "Error in itk:Statistics::Histogram::GetMaxs/GetDimensionMaxs at index [" << k << "]"
                     << std::endl;
@@ -593,9 +593,9 @@ itkHistogramTest(int, char *[])
         }
 
         const HistogramType::MeasurementType maxC = histogram->GetBinMax(dim, k);
-        if (itk::Math::abs(maxA - maxC) > epsilon)
+        if (itk::Math::Absolute(maxA - maxC) > epsilon)
         {
-          std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+          std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
           std::cerr << "Test failed!" << std::endl;
           std::cerr << "Error in itk:Statistics::Histogram::GetMaxs/GetBinMax at index [" << k << "]" << std::endl;
           std::cerr << "Expected value " << maxA << std::endl;

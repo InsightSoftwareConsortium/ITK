@@ -97,12 +97,12 @@ itkMersenneTwisterRandomVariateGeneratorTest(int, char *[])
   }
   const double mean = sum / static_cast<double>(count);
   const double variance = sum2 / static_cast<double>(count) - mean * mean;
-  if (itk::Math::abs(mean) > 0.01)
+  if (itk::Math::Absolute(mean) > 0.01)
   {
     std::cerr << "Mean was " << mean << " expected 0.0 " << std::endl;
     return EXIT_FAILURE;
   }
-  if (itk::Math::abs(variance - 1.0) > 0.01)
+  if (itk::Math::Absolute(variance - 1.0) > 0.01)
   {
     std::cerr << "Variance was " << variance << " expected 1.0 " << std::endl;
     return EXIT_FAILURE;

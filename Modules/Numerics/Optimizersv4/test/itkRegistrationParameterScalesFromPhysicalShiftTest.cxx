@@ -193,7 +193,7 @@ itkRegistrationParameterScalesFromPhysicalShiftTest(int, char *[])
   bool affinePass = true;
   for (itk::SizeValueType p = 0; p < theoreticalMovingScales.GetSize(); ++p)
   {
-    if (itk::Math::abs((movingScales[p] - theoreticalMovingScales[p]) / theoreticalMovingScales[p]) > 0.01)
+    if (itk::Math::Absolute((movingScales[p] - theoreticalMovingScales[p]) / theoreticalMovingScales[p]) > 0.01)
     {
       affinePass = false;
       break;
@@ -242,7 +242,7 @@ itkRegistrationParameterScalesFromPhysicalShiftTest(int, char *[])
 
   // compare truth and test
   bool stepScalePass = false;
-  if (itk::Math::abs((stepScale - theoreticalStepScale) / theoreticalStepScale) < 0.01)
+  if (itk::Math::Absolute((stepScale - theoreticalStepScale) / theoreticalStepScale) < 0.01)
   {
     stepScalePass = true;
   }
@@ -271,7 +271,7 @@ itkRegistrationParameterScalesFromPhysicalShiftTest(int, char *[])
   bool translationPass = true;
   for (itk::SizeValueType p = 0; p < theoreticalFixedScales.GetSize(); ++p)
   {
-    if (itk::Math::abs((fixedScales[p] - theoreticalFixedScales[p]) / theoreticalFixedScales[p]) > 0.01)
+    if (itk::Math::Absolute((fixedScales[p] - theoreticalFixedScales[p]) / theoreticalFixedScales[p]) > 0.01)
     {
       translationPass = false;
       break;
@@ -334,7 +334,7 @@ itkRegistrationParameterScalesFromPhysicalShiftTest(int, char *[])
   bool displacementPass = true;
   for (itk::SizeValueType p = 0; p < theoreticalLocalScales.GetSize(); ++p)
   {
-    if (itk::Math::abs((localScales[p] - theoreticalLocalScales[p]) / theoreticalLocalScales[p]) > 0.01)
+    if (itk::Math::Absolute((localScales[p] - theoreticalLocalScales[p]) / theoreticalLocalScales[p]) > 0.01)
     {
       displacementPass = false;
       break;
@@ -360,7 +360,7 @@ itkRegistrationParameterScalesFromPhysicalShiftTest(int, char *[])
 
   bool            localStepScalePass = false;
   const FloatType theoreticalLocalStepScale = std::sqrt(2.0);
-  if (itk::Math::abs((localStepScale - theoreticalLocalStepScale) / theoreticalLocalStepScale) < 0.01)
+  if (itk::Math::Absolute((localStepScale - theoreticalLocalStepScale) / theoreticalLocalStepScale) < 0.01)
   {
     localStepScalePass = true;
   }

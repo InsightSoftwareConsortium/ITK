@@ -132,7 +132,7 @@ TEST(IsoContourDistanceImageFilter, Test)
   iter.GoToBegin();
   while (!iter.IsAtEnd())
   {
-    if (itk::Math::abs(iter.Get()) < 5)
+    if (itk::Math::Absolute(iter.Get()) < 5)
     {
       node.m_Index = iter.GetIndex();
       band->PushBack(node);

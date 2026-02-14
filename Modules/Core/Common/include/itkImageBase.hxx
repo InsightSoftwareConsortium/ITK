@@ -398,7 +398,7 @@ ImageBase<VImageDimension>::IsCongruentImageGeometry(const ImageBase * otherImag
   // tolerance for origin and spacing depends on the size of pixel
   // tolerance for directions a fraction of the unit cube.
   const SpacePrecisionType coordinateTol =
-    itk::Math::abs(coordinateTolerance * this->GetSpacing()[0]); // use first dimension spacing
+    itk::Math::Absolute(coordinateTolerance * this->GetSpacing()[0]); // use first dimension spacing
 
   return this->GetOrigin().GetVnlVector().is_equal(otherImage->GetOrigin().GetVnlVector(), coordinateTol) &&
          this->GetSpacing().GetVnlVector().is_equal(otherImage->GetSpacing().GetVnlVector(), coordinateTol) &&

@@ -66,7 +66,7 @@ public:
 
 /**
  * \class ComplexToModulusImageAdaptor
- * \brief Presents a complex image as being composed of itk::Math::abs() part
+ * \brief Presents a complex image as being composed of itk::Math::Absolute() part
  * of its pixels.
  *
  * Additional casting is performed according to the input and output image

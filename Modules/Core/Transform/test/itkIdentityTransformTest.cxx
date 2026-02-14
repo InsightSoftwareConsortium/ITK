@@ -43,7 +43,7 @@ itkIdentityTransformTest(int, char *[])
   IdentityTransformType::OutputPointType r = transform->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (itk::Math::abs(p[i] - r[i]) > epsilon)
+    if (itk::Math::Absolute(p[i] - r[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -67,7 +67,7 @@ itkIdentityTransformTest(int, char *[])
   IdentityTransformType::OutputVectorType vout = transform->TransformVector(vin);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (itk::Math::abs(vout[i] - vin[i]) > epsilon)
+    if (itk::Math::Absolute(vout[i] - vin[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -91,7 +91,7 @@ itkIdentityTransformTest(int, char *[])
   IdentityTransformType::OutputVnlVectorType vnlout = transform->TransformVector(vnlin);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (itk::Math::abs(vnlout[i] - vnlin[i]) > epsilon)
+    if (itk::Math::Absolute(vnlout[i] - vnlin[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -115,7 +115,7 @@ itkIdentityTransformTest(int, char *[])
   IdentityTransformType::OutputCovariantVectorType vcout = transform->TransformCovariantVector(vcin);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (itk::Math::abs(vcout[i] - vcin[i]) > epsilon)
+    if (itk::Math::Absolute(vcout[i] - vcin[i]) > epsilon)
     {
       Ok = false;
       break;

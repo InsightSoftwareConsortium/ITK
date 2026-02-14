@@ -188,7 +188,7 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
   constexpr double tolerance{ 0.11 };
   for (itk::SizeValueType n = 0; n < Dimension; ++n)
   {
-    if (itk::Math::abs(1.0 - (static_cast<double>(imageShift[n]) / translationTransform->GetParameters()[n])) >
+    if (itk::Math::Absolute(1.0 - (static_cast<double>(imageShift[n]) / translationTransform->GetParameters()[n])) >
         tolerance)
     {
       std::cerr << "XXX Failed. Final transform parameters are not within tolerance of image shift. XXX" << std::endl;

@@ -246,7 +246,7 @@ float cottheta1=cemag/aemag;
 float cottheta2=cemag/bemag;
 float cottheta3=1.0/tan(theta3);
 
-//  if (itk::Math::abs(cottheta1-1) < 1.e-6 && itk::Math::abs(cottheta2-1) < 1.e-6) cottheta3=1.0;
+//  if (itk::Math::Absolute(cottheta1-1) < 1.e-6 && itk::Math::Absolute(cottheta2-1) < 1.e-6) cottheta3=1.0;
 //  std::cout <<" ct0 " << cottheta1 <<" ct1 " << cottheta2 <<" ct2 " << cottheta3  << std::endl;
 
 cot[na][na]=(cottheta3+cottheta2)*D[0][0];

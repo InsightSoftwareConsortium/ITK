@@ -69,7 +69,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
   m_FirstBin = 0;
   for (ih = 0; ih < m_Size; ++ih)
   {
-    if (!(itk::Math::abs(P1[ih]) < tolerance))
+    if (!(itk::Math::Absolute(P1[ih]) < tolerance))
     {
       m_FirstBin = ih;
       break;
@@ -80,7 +80,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
   m_LastBin = static_cast<InstanceIdentifier>(m_Size - 1);
   for (ih = m_Size - 1; ih >= m_FirstBin; ih--)
   {
-    if (!(itk::Math::abs(P2[ih]) < tolerance))
+    if (!(itk::Math::Absolute(P2[ih]) < tolerance))
     {
       m_LastBin = ih;
       break;
@@ -119,9 +119,9 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   // Adjust beta values.
   // Note that t_star1, t_star2, t_star3 are unsigned int.
-  if (itk::Math::abs(static_cast<double>(t_star1) - static_cast<double>(t_star2)) <= 5.)
+  if (itk::Math::Absolute(static_cast<double>(t_star1) - static_cast<double>(t_star2)) <= 5.)
   {
-    if (itk::Math::abs(static_cast<double>(t_star2) - static_cast<double>(t_star3)) <= 5.)
+    if (itk::Math::Absolute(static_cast<double>(t_star2) - static_cast<double>(t_star3)) <= 5.)
     {
       beta1 = 1.;
       beta2 = 2.;
@@ -136,7 +136,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
   }
   else
   {
-    if (itk::Math::abs(static_cast<double>(t_star2) - static_cast<double>(t_star3)) <= 5.)
+    if (itk::Math::Absolute(static_cast<double>(t_star2) - static_cast<double>(t_star3)) <= 5.)
     {
       beta1 = 3.;
       beta2 = 1.;

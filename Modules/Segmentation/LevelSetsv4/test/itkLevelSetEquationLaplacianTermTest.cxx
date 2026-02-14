@@ -170,7 +170,7 @@ itkLevelSetEquationLaplacianTermTest(int argc, char * argv[])
 
   index[0] = 10;
   index[1] = 20;
-  if (itk::Math::abs(term->Evaluate(index)) > 5e-2)
+  if (itk::Math::Absolute(term->Evaluate(index)) > 5e-2)
   {
     return EXIT_FAILURE;
   }

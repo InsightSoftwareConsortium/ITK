@@ -134,9 +134,9 @@ itkImageSpatialObjectTest(int, char *[])
 
   std::cout << "ValueAt() with interpolator...";
   double epsilon = 0.001;
-  if (itk::Math::abs(returnedValue - expectedValue) > epsilon)
+  if (itk::Math::Absolute(returnedValue - expectedValue) > epsilon)
   {
-    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in ValueAt at point " << q << std::endl;
     std::cerr << "Expected value " << expectedValue << std::endl;
@@ -154,11 +154,11 @@ itkImageSpatialObjectTest(int, char *[])
   expectedDerivative[2] = 100;
   std::cout << "DerivativeAt() with interpolator ...";
   epsilon = 0.00001;
-  if (itk::Math::abs(derivative[0] - expectedDerivative[0]) > epsilon ||
-      itk::Math::abs(derivative[1] - expectedDerivative[1]) > epsilon ||
-      itk::Math::abs(derivative[2] - expectedDerivative[2]) > epsilon)
+  if (itk::Math::Absolute(derivative[0] - expectedDerivative[0]) > epsilon ||
+      itk::Math::Absolute(derivative[1] - expectedDerivative[1]) > epsilon ||
+      itk::Math::Absolute(derivative[2] - expectedDerivative[2]) > epsilon)
   {
-    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in ValueAt at point " << q << std::endl;
     std::cerr << "Expected value " << expectedDerivative << std::endl;

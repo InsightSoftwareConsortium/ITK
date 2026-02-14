@@ -203,22 +203,22 @@ itkVersorTest(int, char *[])
   {
     std::cout << "Test default constructor... ";
     constexpr VersorType qa;
-    if (itk::Math::abs(qa.GetX()) > epsilon)
+    if (itk::Math::Absolute(qa.GetX()) > epsilon)
     {
       std::cout << "Error ! " << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(qa.GetY()) > epsilon)
+    if (itk::Math::Absolute(qa.GetY()) > epsilon)
     {
       std::cout << "Error ! " << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(qa.GetZ()) > epsilon)
+    if (itk::Math::Absolute(qa.GetZ()) > epsilon)
     {
       std::cout << "Error ! " << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(qa.GetW() - 1.0) > epsilon)
+    if (itk::Math::Absolute(qa.GetW() - 1.0) > epsilon)
     {
       std::cout << "Error ! " << std::endl;
       return EXIT_FAILURE;
@@ -275,27 +275,27 @@ itkVersorTest(int, char *[])
 
     xb = xa * sinangle;
 
-    if (itk::Math::abs(qa.GetX() - xb[0]) > epsilon)
+    if (itk::Math::Absolute(qa.GetX() - xb[0]) > epsilon)
     {
       std::cout << "Error in X ! " << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(qa.GetY() - xb[1]) > epsilon)
+    if (itk::Math::Absolute(qa.GetY() - xb[1]) > epsilon)
     {
       std::cout << "Error in Y ! " << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(qa.GetZ() - xb[2]) > epsilon)
+    if (itk::Math::Absolute(qa.GetZ() - xb[2]) > epsilon)
     {
       std::cout << "Error in Z ! " << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(qa.GetW() - cosangle) > epsilon)
+    if (itk::Math::Absolute(qa.GetW() - cosangle) > epsilon)
     {
       std::cout << "Error in W ! " << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(qa.GetAngle() - angle) > epsilon)
+    if (itk::Math::Absolute(qa.GetAngle() - angle) > epsilon)
     {
       std::cout << "Error in Angle ! " << std::endl;
       return EXIT_FAILURE;
@@ -321,14 +321,14 @@ itkVersorTest(int, char *[])
     qa.Set(xa, angle);
     const ValueType cos2a = std::cos(angle / 2.0);
 
-    if (itk::Math::abs(qa.GetW() - cos2a) > epsilon)
+    if (itk::Math::Absolute(qa.GetW() - cos2a) > epsilon)
     {
       std::cout << "Error in W ! " << std::endl;
       std::cout << "W= " << qa.GetW();
       std::cout << " it should be " << cos2a << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(qa.GetAngle() - angle) > epsilon)
+    if (itk::Math::Absolute(qa.GetAngle() - angle) > epsilon)
     {
       std::cout << "Error in Angle ! " << std::endl;
       return EXIT_FAILURE;
@@ -356,7 +356,7 @@ itkVersorTest(int, char *[])
     VersorType qb;
     qb = qa.SquareRoot();
 
-    if (itk::Math::abs(qa.GetAngle() - 2.0 * qb.GetAngle()) > epsilon)
+    if (itk::Math::Absolute(qa.GetAngle() - 2.0 * qb.GetAngle()) > epsilon)
     {
       std::cout << "Error in Square Root ! " << std::endl;
       std::cout << "Angle = " << qb.GetAngle();
@@ -383,17 +383,17 @@ itkVersorTest(int, char *[])
     VectorType xc = qa.Transform(xb);
 
     // This rotation will just permute the axis
-    if (itk::Math::abs(xc[1] - xb[0]) > epsilon)
+    if (itk::Math::Absolute(xc[1] - xb[0]) > epsilon)
     {
       std::cout << "Error in X ! " << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(xc[2] - xb[1]) > epsilon)
+    if (itk::Math::Absolute(xc[2] - xb[1]) > epsilon)
     {
       std::cout << "Error in Y ! " << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(xc[0] - xb[2]) > epsilon)
+    if (itk::Math::Absolute(xc[0] - xb[2]) > epsilon)
     {
       std::cout << "Error in Z ! " << std::endl;
       return EXIT_FAILURE;
@@ -418,17 +418,17 @@ itkVersorTest(int, char *[])
     PointType xc = qa.Transform(xb);
 
     // This rotation will just permute the axis
-    if (itk::Math::abs(xc[1] - xb[0]) > epsilon)
+    if (itk::Math::Absolute(xc[1] - xb[0]) > epsilon)
     {
       std::cout << "Error in X ! " << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(xc[2] - xb[1]) > epsilon)
+    if (itk::Math::Absolute(xc[2] - xb[1]) > epsilon)
     {
       std::cout << "Error in Y ! " << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(xc[0] - xb[2]) > epsilon)
+    if (itk::Math::Absolute(xc[0] - xb[2]) > epsilon)
     {
       std::cout << "Error in Z ! " << std::endl;
       return EXIT_FAILURE;
@@ -454,17 +454,17 @@ itkVersorTest(int, char *[])
     CovariantVectorType xc = qa.Transform(xb);
 
     // This rotation will just permute the axis
-    if (itk::Math::abs(xc[1] - xb[0]) > epsilon)
+    if (itk::Math::Absolute(xc[1] - xb[0]) > epsilon)
     {
       std::cout << "Error in X ! " << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(xc[2] - xb[1]) > epsilon)
+    if (itk::Math::Absolute(xc[2] - xb[1]) > epsilon)
     {
       std::cout << "Error in Y ! " << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(xc[0] - xb[2]) > epsilon)
+    if (itk::Math::Absolute(xc[0] - xb[2]) > epsilon)
     {
       std::cout << "Error in Z ! " << std::endl;
       return EXIT_FAILURE;
@@ -491,17 +491,17 @@ itkVersorTest(int, char *[])
     VnlVectorType xc = qa.Transform(xb);
 
     // This rotation will just permute the axis
-    if (itk::Math::abs(xc[1] - xb[0]) > epsilon)
+    if (itk::Math::Absolute(xc[1] - xb[0]) > epsilon)
     {
       std::cout << "Error in X ! " << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(xc[2] - xb[1]) > epsilon)
+    if (itk::Math::Absolute(xc[2] - xb[1]) > epsilon)
     {
       std::cout << "Error in Y ! " << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(xc[0] - xb[2]) > epsilon)
+    if (itk::Math::Absolute(xc[0] - xb[2]) > epsilon)
     {
       std::cout << "Error in Z ! " << std::endl;
       return EXIT_FAILURE;
@@ -532,8 +532,8 @@ itkVersorTest(int, char *[])
     v2.Set(x, y, z, w);
 
     // Compare both versors
-    if (itk::Math::abs(v1.GetX() - v2.GetX()) > epsilon || itk::Math::abs(v1.GetY() - v2.GetY()) > epsilon ||
-        itk::Math::abs(v1.GetZ() - v2.GetZ()) > epsilon || itk::Math::abs(v1.GetW() - v2.GetW()) > epsilon)
+    if (itk::Math::Absolute(v1.GetX() - v2.GetX()) > epsilon || itk::Math::Absolute(v1.GetY() - v2.GetY()) > epsilon ||
+        itk::Math::Absolute(v1.GetZ() - v2.GetZ()) > epsilon || itk::Math::Absolute(v1.GetW() - v2.GetW()) > epsilon)
     {
       std::cout << "Error in Versor Set(x,y,z,w) ! " << std::endl;
       std::cout << "v1  = " << v1 << std::endl;
@@ -550,8 +550,8 @@ itkVersorTest(int, char *[])
     v2.Set(vnlq);
 
     // Compare both versors
-    if (itk::Math::abs(v1.GetX() - v2.GetX()) > epsilon || itk::Math::abs(v1.GetY() - v2.GetY()) > epsilon ||
-        itk::Math::abs(v1.GetZ() - v2.GetZ()) > epsilon || itk::Math::abs(v1.GetW() - v2.GetW()) > epsilon)
+    if (itk::Math::Absolute(v1.GetX() - v2.GetX()) > epsilon || itk::Math::Absolute(v1.GetY() - v2.GetY()) > epsilon ||
+        itk::Math::Absolute(v1.GetZ() - v2.GetZ()) > epsilon || itk::Math::Absolute(v1.GetW() - v2.GetW()) > epsilon)
     {
       std::cout << "Error in Versor Set( vnl_quaternion ) ! " << std::endl;
       std::cout << "v1  = " << v1 << std::endl;
@@ -572,8 +572,8 @@ itkVersorTest(int, char *[])
     v3.Set(x, y, z, w);
 
     // Compare both versors
-    if (itk::Math::abs(v1.GetX() - v3.GetX()) > epsilon || itk::Math::abs(v1.GetY() - v3.GetY()) > epsilon ||
-        itk::Math::abs(v1.GetZ() - v3.GetZ()) > epsilon || itk::Math::abs(v1.GetW() - v3.GetW()) > epsilon)
+    if (itk::Math::Absolute(v1.GetX() - v3.GetX()) > epsilon || itk::Math::Absolute(v1.GetY() - v3.GetY()) > epsilon ||
+        itk::Math::Absolute(v1.GetZ() - v3.GetZ()) > epsilon || itk::Math::Absolute(v1.GetW() - v3.GetW()) > epsilon)
     {
       std::cout << "Error in Versor Set() with negative W ! " << std::endl;
       std::cout << "v1  = " << v1 << std::endl;
@@ -604,8 +604,8 @@ itkVersorTest(int, char *[])
     const VersorType v2r = v2.GetReciprocal();
     VersorType       unit = v2 * v2r;
 
-    if (itk::Math::abs(unit.GetX()) > epsilon || itk::Math::abs(unit.GetY()) > epsilon ||
-        itk::Math::abs(unit.GetZ()) > epsilon || itk::Math::abs(unit.GetW() - 1.0) > epsilon)
+    if (itk::Math::Absolute(unit.GetX()) > epsilon || itk::Math::Absolute(unit.GetY()) > epsilon ||
+        itk::Math::Absolute(unit.GetZ()) > epsilon || itk::Math::Absolute(unit.GetW() - 1.0) > epsilon)
     {
       std::cout << "Error in Reciprocal ! " << std::endl;
       std::cout << "Versor     = " << v2 << std::endl;
@@ -617,8 +617,8 @@ itkVersorTest(int, char *[])
 
     unit = v2 / v2;
 
-    if (itk::Math::abs(unit.GetX()) > epsilon || itk::Math::abs(unit.GetY()) > epsilon ||
-        itk::Math::abs(unit.GetZ()) > epsilon || itk::Math::abs(unit.GetW() - 1.0) > epsilon)
+    if (itk::Math::Absolute(unit.GetX()) > epsilon || itk::Math::Absolute(unit.GetY()) > epsilon ||
+        itk::Math::Absolute(unit.GetZ()) > epsilon || itk::Math::Absolute(unit.GetW() - 1.0) > epsilon)
     {
       std::cout << "Error in Division ! " << std::endl;
       std::cout << "Versor          = " << v2 << std::endl;
@@ -629,8 +629,8 @@ itkVersorTest(int, char *[])
 
     unit = v2;
     unit /= v2;
-    if (itk::Math::abs(unit.GetX()) > epsilon || itk::Math::abs(unit.GetY()) > epsilon ||
-        itk::Math::abs(unit.GetZ()) > epsilon || itk::Math::abs(unit.GetW() - 1.0) > epsilon)
+    if (itk::Math::Absolute(unit.GetX()) > epsilon || itk::Math::Absolute(unit.GetY()) > epsilon ||
+        itk::Math::Absolute(unit.GetZ()) > epsilon || itk::Math::Absolute(unit.GetW() - 1.0) > epsilon)
     {
       std::cout << "Error in Division operator/= ! " << std::endl;
       std::cout << "Versor          = " << v2 << std::endl;
@@ -646,8 +646,8 @@ itkVersorTest(int, char *[])
     const VersorType v3 = v1 * v2;
     const VersorType v4 = v3 * v2r;
 
-    if (itk::Math::abs(v1.GetX() - v4.GetX()) > epsilon || itk::Math::abs(v1.GetY() - v4.GetY()) > epsilon ||
-        itk::Math::abs(v1.GetZ() - v4.GetZ()) > epsilon || itk::Math::abs(v1.GetW() - v4.GetW()) > epsilon)
+    if (itk::Math::Absolute(v1.GetX() - v4.GetX()) > epsilon || itk::Math::Absolute(v1.GetY() - v4.GetY()) > epsilon ||
+        itk::Math::Absolute(v1.GetZ() - v4.GetZ()) > epsilon || itk::Math::Absolute(v1.GetW() - v4.GetW()) > epsilon)
     {
       std::cout << "Error in Versor division ! " << std::endl;
       std::cout << "v1  = " << v1 << std::endl;
@@ -679,8 +679,9 @@ itkVersorTest(int, char *[])
 
     const double halfSqrtOfTwo = std::sqrt(2.0) / 2.0;
 
-    if (itk::Math::abs(vv.GetX() - 0.0) > epsilon || itk::Math::abs(vv.GetY() - 0.0) > epsilon ||
-        itk::Math::abs(vv.GetZ() - (-halfSqrtOfTwo)) > epsilon || itk::Math::abs(vv.GetW() - halfSqrtOfTwo) > epsilon)
+    if (itk::Math::Absolute(vv.GetX() - 0.0) > epsilon || itk::Math::Absolute(vv.GetY() - 0.0) > epsilon ||
+        itk::Math::Absolute(vv.GetZ() - (-halfSqrtOfTwo)) > epsilon ||
+        itk::Math::Absolute(vv.GetW() - halfSqrtOfTwo) > epsilon)
     {
       std::cout << "Error in Versor Set(Matrix) method ! " << std::endl;
       std::cout << "vv  = " << vv << std::endl;

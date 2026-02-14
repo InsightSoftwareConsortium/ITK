@@ -336,7 +336,7 @@ CheckDisplacements1(SolverType * S, int s, double * expectedResults, double tole
   {
     double result = S->GetSolution(i);
     // std::cout  << result << ' ' << expectedResults[i] << ' ' << tolerance << std::endl;
-    if (itk::Math::abs(expectedResults[i] - result) > tolerance)
+    if (itk::Math::Absolute(expectedResults[i] - result) > tolerance)
     {
       std::cout << "ERROR: Solver " << s << " Index " << i << ". Expected " << expectedResults[i] << " Solution "
                 << result << std::endl;

@@ -124,7 +124,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
         const TensorReconstructionImageFilterType::GradientDirectionType::element_type outputComponent = output[j];
         if (!itk::Math::FloatAlmostEqual(gradientDirectionComponent, outputComponent, 10, epsilon))
         {
-          std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+          std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
           std::cerr << "Test failed!" << std::endl;
           std::cerr << "Error in gradientDirection [" << i << ']' << '[' << j << ']' << std::endl;
           std::cerr << "Expected value " << gradientDirectionComponent << std::endl;
@@ -204,7 +204,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
       for (unsigned int j = 0; j < 3; ++j)
       {
         std::cout << tensorImage->GetPixel(tensorImageIndex)(i, j) << ' ';
-        if ((itk::Math::abs(tensorImage->GetPixel(tensorImageIndex)(i, j) - expectedResult[i][j])) > precision)
+        if ((itk::Math::Absolute(tensorImage->GetPixel(tensorImageIndex)(i, j) - expectedResult[i][j])) > precision)
         {
           passed = false;
         }

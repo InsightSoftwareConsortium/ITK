@@ -149,7 +149,7 @@ TestGeometricPoint(const TInterpolator * interp, const PointType & point, bool i
     const double value = interp->Evaluate(point);
     std::cout << " Value: " << value;
 
-    if (itk::Math::abs(value - trueValue) > 1e-9)
+    if (itk::Math::Absolute(value - trueValue) > 1e-9)
     {
       std::cout << "*** Error: value should be " << trueValue << std::endl;
       return false;
@@ -185,7 +185,7 @@ TestContinuousIndex(const TInterpolator * interp, const ContinuousIndexType & in
     const double value = interp->EvaluateAtContinuousIndex(index);
     std::cout << " Value: " << value;
 
-    if (itk::Math::abs(value - trueValue) > 1e-4)
+    if (itk::Math::Absolute(value - trueValue) > 1e-4)
     {
       std::cout << "*** Error: value should be " << trueValue << std::endl;
       return false;
@@ -232,7 +232,7 @@ TestContinuousIndexDerivative(const TInterpolator *       interp,
         std::cout << ", ";
       }
       std::cout << value[i];
-      if (itk::Math::abs(value[i] - trueValue[i]) > 1e-4)
+      if (itk::Math::Absolute(value[i] - trueValue[i]) > 1e-4)
       {
         std::cout << "*** Error: value should be " << trueValue[i] << std::endl;
         return false;
@@ -642,7 +642,7 @@ testEvaluateValueAndDerivative()
     std::cout << std::scientific << value << std::endl;
     std::cout << std::scientific << "EvaluateDerivative:         " << dx_1 << std::endl;
     std::cout << std::scientific << "EvaluateValueAndDerivative: " << dx_2 << std::endl;
-    if (itk::Math::abs(dx_1[i] - dx_2[i]) > 1e-5)
+    if (itk::Math::Absolute(dx_1[i] - dx_2[i]) > 1e-5)
     {
       std::cout << "[ERROR]" << dx_1[i] << " != " << dx_2[i] << std::endl;
       return EXIT_FAILURE;

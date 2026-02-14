@@ -49,7 +49,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
     std::cout << std::endl;
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (itk::Math::abs(scale[i] - 1.0) > epsilon)
+      if (itk::Math::Absolute(scale[i] - 1.0) > epsilon)
       {
         testStatus = false;
         break;
@@ -81,7 +81,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
 
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (itk::Math::abs(scale[i] - iscale[i]) > epsilon)
+      if (itk::Math::Absolute(scale[i] - iscale[i]) > epsilon)
       {
         testStatus = false;
         break;
@@ -105,7 +105,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
       TransformType::OutputPointType r = scaleTransform->TransformPoint(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           testStatus = false;
           break;
@@ -134,7 +134,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
       TransformType::OutputVectorType r = scaleTransform->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           testStatus = false;
           break;
@@ -162,7 +162,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
       TransformType::OutputCovariantVectorType r = scaleTransform->TransformCovariantVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           testStatus = false;
           break;
@@ -192,7 +192,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
       TransformType::OutputVnlVectorType r = scaleTransform->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(q[i] - r[i]) > epsilon)
+        if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
         {
           testStatus = false;
           break;
@@ -247,7 +247,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
       testStatus = true;
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (itk::Math::abs(p2[i] - parameters[i]) > 1e-5)
+        if (itk::Math::Absolute(p2[i] - parameters[i]) > 1e-5)
         {
           testStatus = false;
           break;

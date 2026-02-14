@@ -90,7 +90,7 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TIma
   const InternalComputationValueType denominator =
     sqr_speedValue / this->m_DemonsAssociate->m_Normalizer + gradientSquaredMagnitude;
 
-  if (itk::Math::abs(speedValue) < this->m_DemonsAssociate->GetIntensityDifferenceThreshold() ||
+  if (itk::Math::Absolute(speedValue) < this->m_DemonsAssociate->GetIntensityDifferenceThreshold() ||
       denominator < this->m_DemonsAssociate->GetDenominatorThreshold())
   {
     localDerivativeReturn.Fill(DerivativeValueType{});

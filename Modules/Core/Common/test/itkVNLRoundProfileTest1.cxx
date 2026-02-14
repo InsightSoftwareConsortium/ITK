@@ -214,7 +214,7 @@ itkVNLRoundProfileTest1(int, char *[])
 
   while (inpItr != inputEnd)
   {
-    if (itk::Math::abs(*outItr1 - *outItr2) > tolerance)
+    if (itk::Math::Absolute(*outItr1 - *outItr2) > tolerance)
     {
       std::cout << "Warning*** For input: " << *inpItr << " if-round: " << *outItr1
                 << " differs from itk::Math::rnd: " << *outItr2 << std::endl;

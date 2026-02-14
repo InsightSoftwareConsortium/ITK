@@ -1163,7 +1163,7 @@ FlatStructuringElement<VDimension>::CheckParallel(LType NewVec) const
     LType LL = m_Lines[i];
     LL.Normalize();
     const float L = NN * LL;
-    if ((1.0 - itk::Math::abs(L)) < 0.000001)
+    if ((1.0 - itk::Math::Absolute(L)) < 0.000001)
     {
       return true;
     }

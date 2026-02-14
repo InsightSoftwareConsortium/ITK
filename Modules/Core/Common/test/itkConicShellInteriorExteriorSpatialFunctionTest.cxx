@@ -60,7 +60,7 @@ itkConicShellInteriorExteriorSpatialFunctionTest(int, char *[])
   conicShellInteriorExteriorSpatialFunction->SetOriginGradient(originGradient);
 
   constexpr double tolerance{ 10e-6 };
-  std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
+  std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(tolerance))));
   for (unsigned int i = 0; i < originGradient.Size(); ++i)
   {
     if (!itk::Math::FloatAlmostEqual(

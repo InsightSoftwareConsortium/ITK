@@ -178,7 +178,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType
       float tempe = 0.0;
       try
       {
-        tempe = itk::Math::abs(GetMetric(InVec));
+        tempe = itk::Math::Absolute(GetMetric(InVec));
       }
       catch (const itk::ExceptionObject &)
       {
@@ -196,7 +196,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType
   }
 
   // std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
-  return itk::Math::abs(static_cast<double>(energy) * static_cast<double>(m_Gamma) - static_cast<double>(defe));
+  return itk::Math::Absolute(static_cast<double>(energy) * static_cast<double>(m_Gamma) - static_cast<double>(defe));
 }
 
 template <typename TMoving, typename TFixed>
@@ -245,7 +245,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(Element::ArrayTyp
       float tempe = 0.0;
       try
       {
-        tempe = itk::Math::abs(GetMetric(InVec));
+        tempe = itk::Math::Absolute(GetMetric(InVec));
       }
       catch (const itk::ExceptionObject &)
       {
@@ -263,7 +263,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(Element::ArrayTyp
   }
 
   // std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
-  return itk::Math::abs(static_cast<double>(energy) * static_cast<double>(m_Gamma) - static_cast<double>(defe));
+  return itk::Math::Absolute(static_cast<double>(energy) * static_cast<double>(m_Gamma) - static_cast<double>(defe));
 }
 
 template <typename TMoving, typename TFixed>
@@ -286,7 +286,7 @@ ImageMetricLoad<TMoving, TFixed>::Fe(VectorType Gpos, VectorType Gsol) -> Vector
   for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     if (itk::Math::isnan(Gpos[k]) || itk::Math::isinf(Gpos[k]) || itk::Math::isnan(Gsol[k]) ||
-        itk::Math::isinf(Gsol[k]) || itk::Math::abs(Gpos[k]) > 1.e33 || itk::Math::abs(Gsol[k]) > 1.e33)
+        itk::Math::isinf(Gsol[k]) || itk::Math::Absolute(Gpos[k]) > 1.e33 || itk::Math::Absolute(Gsol[k]) > 1.e33)
     {
       OutVec.set_size(ImageDimension);
       OutVec.fill(0.0);

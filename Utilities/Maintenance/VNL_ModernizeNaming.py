@@ -31,7 +31,7 @@ XXXX,vnl_math_rnd_halfintup,itk::Math::rnd_halfintup
 XXXX,vnl_math_rnd,itk::Math::rnd
 XXXX,vnl_math_floor,itk::Math::floor
 XXXX,vnl_math_ceil,itk::Math::ceil
-XXXX,vnl_math_abs,itk::Math::abs
+XXXX,vnl_math_abs,itk::Math::Absolute
 XXXX,vnl_math_sqr,itk::Math::sqr
 XXXX,vnl_math_cube,itk::Math::cube
 XXXX,vnl_math_sgn,itk::Math::sgn

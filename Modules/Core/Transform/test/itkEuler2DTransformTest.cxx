@@ -32,7 +32,7 @@ CheckEqual(const itk::Point<double, 2> & p1, const itk::Point<double, 2> & p2)
 
   for (unsigned int i = 0; i < 2; ++i)
   {
-    if (itk::Math::abs(p1[i] - p2[i]) > epsilon)
+    if (itk::Math::Absolute(p1[i] - p2[i]) > epsilon)
     {
       std::cout << p1 << " != " << p2 << ":[ FAILED ]" << std::endl;
       return false;
@@ -90,7 +90,7 @@ itkEuler2DTransformTest(int, char *[])
   r = eulerTransform->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (itk::Math::abs(q[i] - r[i]) > epsilon)
+    if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -121,7 +121,7 @@ itkEuler2DTransformTest(int, char *[])
   r = eulerTransform->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (itk::Math::abs(q[i] - r[i]) > epsilon)
+    if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -169,7 +169,7 @@ itkEuler2DTransformTest(int, char *[])
   auto t2 = EulerTransformType::New();
   t2->SetIdentity();
   t2->Compose(eulerTransform);
-  if (itk::Math::abs(t2->GetParameters()[0] - 0.2) > 0.0001)
+  if (itk::Math::Absolute(t2->GetParameters()[0] - 0.2) > 0.0001)
   {
     std::cout << " [ FAILED ] " << std::endl;
     return EXIT_FAILURE;
@@ -321,7 +321,7 @@ itkEuler2DTransformTest(int, char *[])
         const double approxDerivative = (plusPoint[j] - minusPoint[j]) / (2.0 * delta);
         const double computedDerivative = jacobian2[j][k];
         approxJacobian[j][k] = approxDerivative;
-        if (itk::Math::abs(approxDerivative - computedDerivative) > 1e-4)
+        if (itk::Math::Absolute(approxDerivative - computedDerivative) > 1e-4)
         {
           std::cerr << "Error computing Jacobian [" << j << "][" << k << ']' << std::endl;
           std::cerr << "Result should be: " << approxDerivative << std::endl;
@@ -380,9 +380,9 @@ itkEuler2DTransformTest(int, char *[])
     std::cout << "Test Set/GetMatrix() and Set/GetOffset(): ";
     for (unsigned int j = 0; j < t1->GetNumberOfParameters(); ++j)
     {
-      if (itk::Math::abs(parameters3[j] - pdash[j]) > epsilon)
+      if (itk::Math::Absolute(parameters3[j] - pdash[j]) > epsilon)
       {
-        std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+        std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
         std::cerr << "Test failed!" << std::endl;
         std::cerr << "Error in parameters at index [" << j << "]" << std::endl;
         std::cerr << "Expected value " << parameters3 << std::endl;

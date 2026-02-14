@@ -62,7 +62,7 @@ MaximumRatioDecisionRule::SetPriorProbabilities(const PriorProbabilityVectorType
     auto pit = p.begin();
     for (auto it = m_PriorProbabilities.begin(); pit != p.end(); ++pit, ++it)
     {
-      if (itk::Math::abs(*pit - *it) > itk::Math::eps)
+      if (itk::Math::Absolute(*pit - *it) > itk::Math::eps)
       {
         break;
       }

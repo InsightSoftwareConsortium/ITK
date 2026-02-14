@@ -98,7 +98,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
   }
 
   measure = measureSum.GetSum();
-  if (itk::Math::abs(measure) <= NumericTraits<MeasureType>::epsilon())
+  if (itk::Math::Absolute(measure) <= NumericTraits<MeasureType>::epsilon())
   {
     return;
   }

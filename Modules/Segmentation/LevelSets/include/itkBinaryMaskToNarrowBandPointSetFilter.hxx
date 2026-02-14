@@ -105,7 +105,7 @@ BinaryMaskToNarrowBandPointSetFilter<TInputImage, TOutputMesh>::GenerateData()
   {
     const NodeType & node = nodeItr.Value();
     const float      distance = node.GetValue();
-    if (itk::Math::abs(distance) < m_BandWidth)
+    if (itk::Math::Absolute(distance) < m_BandWidth)
     {
       image->TransformIndexToPhysicalPoint(node.GetIndex(), point);
       points->push_back(point);

@@ -325,7 +325,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   unsigned int numPixelsDifferent = 0;
   while (!fixedIter.IsAtEnd())
   {
-    if (itk::Math::abs(fixedIter.Get() - warpedIter.Get()) > 0.1 * itk::Math::abs(fgnd - bgnd))
+    if (itk::Math::Absolute(fixedIter.Get() - warpedIter.Get()) > 0.1 * itk::Math::Absolute(fgnd - bgnd))
     {
       numPixelsDifferent++;
     }

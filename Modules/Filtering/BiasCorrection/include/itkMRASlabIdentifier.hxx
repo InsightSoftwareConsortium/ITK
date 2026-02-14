@@ -138,7 +138,7 @@ MRASlabIdentifier<TInputImage>::GenerateSlabRegions()
   {
     double       avgMinValue = *am_iter;
     const double sign = avgMinValue - average;
-    if ((sign * prevSign < 0) && (itk::Math::abs(sign) > m_Tolerance))
+    if ((sign * prevSign < 0) && (itk::Math::Absolute(sign) > m_Tolerance))
     {
       slabIndex[m_SlicingDirection] = slabBegin;
       slabSize[m_SlicingDirection] = slabLength;

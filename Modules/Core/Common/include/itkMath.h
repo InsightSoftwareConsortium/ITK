@@ -104,7 +104,7 @@ static constexpr float float_sqrteps = vnl_math::float_sqrteps;
  *  bit, the 64 bit or the vanilla version */
 #define itkTemplateFloatingToIntegerMacro(name)                             \
   template <typename TReturn, typename TInput>                              \
-  inline TReturn name(TInput x)                                             \
+  inline constexpr auto name(TInput x)                                      \
   {                                                                         \
     if constexpr (sizeof(TReturn) <= 4)                                     \
     {                                                                       \
@@ -173,7 +173,7 @@ itkTemplateFloatingToIntegerMacro(RoundHalfIntegerUp)
  *  \sa RoundHalfIntegerUp<TReturn, TInput>()
  */
 template <typename TReturn, typename TInput>
-inline TReturn
+inline constexpr auto
 Round(TInput x)
 {
   return RoundHalfIntegerUp<TReturn, TInput>(x);
@@ -208,7 +208,7 @@ itkTemplateFloatingToIntegerMacro(Ceil)
 #undef itkTemplateFloatingToIntegerMacro
 
 template <typename TReturn, typename TInput>
-inline TReturn
+inline auto
 CastWithRangeCheck(TInput x)
 {
   itkConceptMacro(OnlyDefinedForIntegerTypes1, (itk::Concept::IsInteger<TReturn>));
@@ -247,7 +247,7 @@ CastWithRangeCheck(TInput x)
  * \sa FloatAddULP
  */
 template <typename T>
-inline typename Detail::FloatIEEE<T>::IntType
+inline constexpr typename Detail::FloatIEEE<T>::IntType
 FloatDifferenceULP(T x1, T x2)
 {
   const Detail::FloatIEEE<T> x1f(x1);
@@ -263,7 +263,7 @@ FloatDifferenceULP(T x1, T x2)
  * \sa FloatDifferenceULP
  */
 template <typename T>
-inline T
+inline constexpr T
 FloatAddULP(T x, typename Detail::FloatIEEE<T>::IntType ulps)
 {
   const Detail::FloatIEEE<T> representInput(x);
@@ -714,7 +714,7 @@ NotAlmostEquals(T1 x1, T2 x2)
 
 // The ExactlyEquals function
 template <typename TInput1, typename TInput2>
-inline bool
+inline constexpr bool
 ExactlyEquals(const TInput1 & x1, const TInput2 & x2)
 {
   ITK_GCC_PRAGMA_PUSH
@@ -725,7 +725,7 @@ ExactlyEquals(const TInput1 & x1, const TInput2 & x2)
 
 // The NotExactlyEquals function
 template <typename TInput1, typename TInput2>
-inline bool
+inline constexpr bool
 NotExactlyEquals(const TInput1 & x1, const TInput2 & x2)
 {
   return !ExactlyEquals(x1, x2);
@@ -737,33 +737,64 @@ NotExactlyEquals(const TInput1 & x1, const TInput2 & x2)
  * \note Negative numbers cannot be prime.
  */
 /** @ITKStartGrouping */
-ITKCommon_EXPORT bool
-IsPrime(unsigned short n);
-ITKCommon_EXPORT bool
-IsPrime(unsigned int n);
-ITKCommon_EXPORT bool
-IsPrime(unsigned long n);
-ITKCommon_EXPORT bool
-IsPrime(unsigned long long n);
+template <typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
+constexpr bool
+IsPrime(T n)
+{
+  //   An Introduction to the Theory of Numbers — G.H. Hardy & E.M. Wright, 6th ed., Oxford University Press.
+  //  See Chapter 1 (Elementary Results on Primes). The observation that primes > 3 lie in residue classes
+  //  +/1 mod 6 follows directly from eliminating multiples of 2 and 3.
+  if (n <= 1)
+  {
+    return false;
+  }
+  if (n == 2 || n == 3)
+  {
+    return true;
+  }
+  if (n % 2 == 0 || n % 3 == 0)
+  {
+    return false;
+  }
+  // 6k +/- 1, and avoid overflow via i <= n / i
+  for (T x = 5; x <= n / x; x += 6)
+  {
+    if (n % x == 0 || n % (x + 2) == 0)
+    {
+      return false;
+    }
+  }
+  return true;
+}
 /** @ITKEndGrouping */
 
 /** Return the greatest factor of the decomposition in prime numbers. */
 /** @ITKStartGrouping */
-ITKCommon_EXPORT unsigned short
-GreatestPrimeFactor(unsigned short n);
-ITKCommon_EXPORT unsigned int
-GreatestPrimeFactor(unsigned int n);
-ITKCommon_EXPORT unsigned long
-GreatestPrimeFactor(unsigned long n);
-ITKCommon_EXPORT unsigned long long
-GreatestPrimeFactor(unsigned long long n);
+template <typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
+constexpr T
+GreatestPrimeFactor(T n)
+{
+  T v = 2;
+  while (v <= n)
+  {
+    if (n % v == 0 && IsPrime(v))
+    {
+      n /= v;
+    }
+    else
+    {
+      v += 1;
+    }
+  }
+  return v;
+}
 /** @ITKEndGrouping */
 
 /**  Returns `a * b`. Numeric overflow triggers a compilation error in
  * "constexpr context" and a debug assert failure at run-time.
  */
 template <typename TReturnType = uintmax_t>
-constexpr TReturnType
+constexpr auto
 UnsignedProduct(const uintmax_t a, const uintmax_t b) noexcept
 {
   static_assert(std::is_unsigned_v<TReturnType>, "UnsignedProduct only supports unsigned return types");
@@ -785,8 +816,8 @@ UnsignedProduct(const uintmax_t a, const uintmax_t b) noexcept
  * no agreed-upon value: https://en.wikipedia.org/wiki/Zero_to_the_power_of_zero
  */
 template <typename TReturnType = uintmax_t>
-constexpr TReturnType
-UnsignedPower(const uintmax_t base, const uintmax_t exponent) noexcept
+constexpr auto
+UnsignedPower(const uintmax_t base, const uintmax_t exponent) noexcept -> TReturnType
 {
   static_assert(std::is_unsigned_v<TReturnType>, "UnsignedPower only supports unsigned return types");
 
@@ -829,10 +860,16 @@ using vnl_math::squared_magnitude;
  * @brief Returns the absolute value of a number.
  *
  * This function provides a c++17 implementation of the vnl_math::abs absolute value functionality.
- * safe_abs preserves backward compatibility with vnl_math::abs that was originally used in ITK.
+ * itk::Absolute() preserves backward compatibility with vnl_math::abs that was originally used in ITK.
  *
- * Where std::abs returns the absolute value in the same type as the input, itk::safe_abs
- * returns the absolute value in the unsigned equivalent of the input type.
+ * Key differences between itk::Absolute() and std::abs()
+ *     - Where std::abs() returns the absolute value in the same type as the
+ *       input, itk::Absolute() returns the absolute value in the unsigned
+ *       equivalent of the input type.
+ *     - std::abs() is undefined when converting the minimum storage value of unsigned
+ *       integers to positive values.  itk::Absolute() typecasts to a larger storage type
+ *       before taking the absolute value to prevent overflow failures.  This is used in
+ *       all cases except 'signed long long' where there is no larger storage type.
  *
  * @tparam T The type of the input number.
  * @param x The input number.
@@ -840,7 +877,7 @@ using vnl_math::squared_magnitude;
  */
 template <typename T>
 constexpr auto
-safe_abs(T x) noexcept
+Absolute(T x) noexcept
 {
   if constexpr (std::is_same_v<T, bool>)
   {
@@ -906,23 +943,23 @@ safe_abs(T x) noexcept
 }
 template <typename T>
 auto
-safe_abs(const std::complex<T> & x) noexcept
+Absolute(const std::complex<T> & x) noexcept
 {
   // std::abs<T>(std::complex<T>) is not constexpr in in any proposed c++ standard
   return std::abs<T>(x);
 }
 
-
-// itk::Math::abs has different behavior than std::abs.  The use of
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+// itk::Math::Absolute has different behavior than std::abs.  The use of
 // abs() in the ITK context without namespace resolution can be confusing
 // The abs() version is provided for backwards compatibility.
 template <typename T>
 auto
 abs(T x) noexcept
 {
-  return safe_abs(x);
+  return Absolute(x);
 }
-
+#endif
 
 } // namespace itk::Math
 

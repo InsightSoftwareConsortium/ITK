@@ -163,9 +163,9 @@ itkCovariantVectorGeometryTest(int, char *[])
       //   std::cout << val   << std::endl;
       //   std::cout << fp[i] << std::endl;
 
-      const float diff = itk::Math::abs(val - fp[i]);
+      const float diff = itk::Math::Absolute(val - fp[i]);
       std::cout << "difference = " << diff << std::endl;
-      if (itk::Math::abs(val - fp[i]) > tolerance)
+      if (itk::Math::Absolute(val - fp[i]) > tolerance)
       {
         std::cout << "Test failed at component " << i << std::endl;
         return EXIT_FAILURE;

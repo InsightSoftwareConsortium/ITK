@@ -103,7 +103,7 @@ itkIntensityWindowingImageFilterTest(int, char *[])
 
   if (!itk::Math::FloatAlmostEqual(obtainedMinimum, desiredMinimum, 10, tolerance))
   {
-    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
+    std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(tolerance))));
     std::cerr << "Error in minimum" << std::endl;
     std::cerr << "Expected minimum = " << desiredMinimum << std::endl;
     std::cerr << "Obtained minimum = " << obtainedMinimum << std::endl;
@@ -112,7 +112,7 @@ itkIntensityWindowingImageFilterTest(int, char *[])
 
   if (!itk::Math::FloatAlmostEqual(obtainedMaximum, desiredMaximum, 10, tolerance))
   {
-    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
+    std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(tolerance))));
     std::cerr << "Error in maximum" << std::endl;
     std::cerr << "Expected maximum = " << desiredMaximum << std::endl;
     std::cerr << "Obtained maximum = " << obtainedMaximum << std::endl;
@@ -141,7 +141,7 @@ itkIntensityWindowingImageFilterTest(int, char *[])
 
   if (!itk::Math::FloatAlmostEqual(obtainedMinimum2, desiredMinimum, 10, tolerance))
   {
-    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
+    std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(tolerance))));
     std::cerr << "Error in minimum" << std::endl;
     std::cerr << "Expected minimum = " << desiredMinimum << std::endl;
     std::cerr << "Obtained minimum = " << obtainedMinimum2 << std::endl;
@@ -150,7 +150,7 @@ itkIntensityWindowingImageFilterTest(int, char *[])
 
   if (!itk::Math::FloatAlmostEqual(obtainedMaximum2, desiredMaximum, 10, tolerance))
   {
-    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));
+    std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(tolerance))));
     std::cerr << "Error in maximum" << std::endl;
     std::cerr << "Expected maximum = " << desiredMaximum << std::endl;
     std::cerr << "Obtained maximum = " << obtainedMaximum2 << std::endl;

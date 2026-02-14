@@ -187,7 +187,7 @@ ConjugateGradientLineSearchOptimizerv4RunTest(itk::ConjugateGradientLineSearchOp
   constexpr double trueParameters[2]{ 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
-    if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
+    if (itk::Math::Absolute(finalPosition[j] - trueParameters[j]) > 0.01)
     {
       std::cerr << "Results do not match: " << std::endl
                 << "expected: " << trueParameters[0] << ", " << trueParameters[1] << std::endl
@@ -314,7 +314,7 @@ itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
   bool identical = true;
   for (unsigned int j = 0; j < spaceDimension; ++j)
   {
-    if (itk::Math::abs(firstFinalPosition[j] - secondFinalPosition[j]) > itk::NumericTraits<double>::epsilon())
+    if (itk::Math::Absolute(firstFinalPosition[j] - secondFinalPosition[j]) > itk::NumericTraits<double>::epsilon())
     {
       identical = false;
     }

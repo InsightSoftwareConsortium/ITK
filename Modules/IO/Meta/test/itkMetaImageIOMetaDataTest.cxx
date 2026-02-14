@@ -100,14 +100,14 @@ template <>
 bool
 Equal<double>(double & a, double & b)
 {
-  double diff(itk::Math::abs(a - b));
+  double diff(itk::Math::Absolute(a - b));
   if (diff == 0.0)
   {
     return true;
   }
   // base test roughly on magnitude of
   // arguments.
-  diff /= itk::Math::abs(a) + itk::Math::abs(b);
+  diff /= itk::Math::Absolute(a) + itk::Math::Absolute(b);
   if (diff > 0.000001)
   {
     return false;

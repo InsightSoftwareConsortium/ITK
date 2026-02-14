@@ -78,7 +78,7 @@ sortEigenValuesByMagnitude(TArray & eigenValues, const unsigned int numberOfElem
   std::sort(std::begin(indicesSortPermutations),
             std::end(indicesSortPermutations),
             [&eigenValues](unsigned int a, unsigned int b) {
-              return itk::Math::abs(eigenValues[a]) < itk::Math::abs(eigenValues[b]);
+              return itk::Math::Absolute(eigenValues[a]) < itk::Math::Absolute(eigenValues[b]);
             });
   auto tmpCopy = eigenValues;
   for (unsigned int i = 0; i < numberOfElements; ++i)
