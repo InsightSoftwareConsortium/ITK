@@ -96,18 +96,19 @@ itkImportImageTest(int, char *[])
   bool passed = true;
   for (; !iterator2.IsAtEnd(); ++iterator2)
   {
-    std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get() << std::endl;
+    std::cout << "Pixel " << iterator2.ComputeIndex() << " = " << iterator2.Get() << std::endl;
     if (iterator2.Get() !=
         itk::Math::RoundHalfIntegerUp<short>(static_cast<float>(
-          (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] + shrink->GetShrinkFactors()[0] / 2) +
+          (shrink->GetShrinkFactors()[0] * iterator2.ComputeIndex()[0] + shrink->GetShrinkFactors()[0] / 2) +
           (region.GetSize()[0] *
-           ((shrink->GetShrinkFactors()[1] / 2) + (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[1]))))))
+           ((shrink->GetShrinkFactors()[1] / 2) + (shrink->GetShrinkFactors()[0] * iterator2.ComputeIndex()[1]))))))
     {
-      std::cout << " iterator2.GetIndex() Get() " << iterator2.GetIndex() << ' ' << iterator2.Get() << " compare value "
+      std::cout << " iterator2.GetIndex() Get() " << iterator2.ComputeIndex() << ' ' << iterator2.Get()
+                << " compare value "
                 << itk::Math::RoundHalfIntegerUp<short>(static_cast<float>(
-                     (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] + shrink->GetShrinkFactors()[0] / 2) +
+                     (shrink->GetShrinkFactors()[0] * iterator2.ComputeIndex()[0] + shrink->GetShrinkFactors()[0] / 2) +
                      (region.GetSize()[0] * ((shrink->GetShrinkFactors()[1] / 2) +
-                                             (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[1])))))
+                                             (shrink->GetShrinkFactors()[0] * iterator2.ComputeIndex()[1])))))
                 << '\n';
       passed = false;
     }

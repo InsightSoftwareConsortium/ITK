@@ -198,7 +198,7 @@ HDF5ReadWriteTest2(const char * fileName)
     typename ImageType::IndexType       idx;
     for (it.GoToBegin(); !it.IsAtEnd(); ++it)
     {
-      idx = it.GetIndex();
+      idx = it.ComputeIndex();
       const TPixel origValue(idx[2] * 100 + idx[1] * 10 + idx[0]);
       if (itk::Math::NotAlmostEquals(it.Get(), origValue))
       {

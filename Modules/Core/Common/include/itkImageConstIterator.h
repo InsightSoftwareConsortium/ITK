@@ -303,15 +303,17 @@ public:
     return m_Image->ComputeIndex(m_Offset);
   }
 
+#ifndef ITK_FUTURE_LEGACY_REMOVE
   /** Computes and returns the index. This may be a relatively expensive operation.
-   * \note It is often preferable for users to call ComputeIndex() directly, to make it more clear that this function
-   * may be expensive.
-   * \sa ComputeIndex */
+   * \deprecated Please use `ComputeIndex()` instead, or use an iterator with index, like `ImageIteratorWithIndex`! */
+  ITK_FUTURE_DEPRECATED(
+    "Please use `ComputeIndex()` instead, or use an iterator with index, like `ImageIteratorWithIndex`!")
   [[nodiscard]] IndexType
   GetIndex() const
   {
     return this->ComputeIndex();
   }
+#endif
 
   /** Set the index. No bounds checking is performed.
    * \sa GetIndex */

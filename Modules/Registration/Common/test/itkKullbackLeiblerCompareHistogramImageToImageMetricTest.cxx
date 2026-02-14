@@ -99,8 +99,8 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   ri.GoToBegin();
   while (!ri.IsAtEnd())
   {
-    p[0] = ri.GetIndex()[0];
-    p[1] = ri.GetIndex()[1];
+    p[0] = ri.ComputeIndex()[0];
+    p[1] = ri.ComputeIndex()[1];
     d = p - center;
     d += displacement;
     const double x = d[0];
@@ -112,8 +112,8 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   ti.GoToBegin();
   while (!ti.IsAtEnd())
   {
-    p[0] = ti.GetIndex()[0];
-    p[1] = ti.GetIndex()[1];
+    p[0] = ti.ComputeIndex()[0];
+    p[1] = ti.ComputeIndex()[1];
     d = p - center;
     const double x = d[0];
     const double y = d[1];
@@ -124,8 +124,8 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   gri.GoToBegin();
   while (!gri.IsAtEnd())
   {
-    p[0] = gri.GetIndex()[0];
-    p[1] = gri.GetIndex()[1];
+    p[0] = gri.ComputeIndex()[0];
+    p[1] = gri.ComputeIndex()[1];
     d = p - center;
     //    d += displacement;
     const double x = d[0];
@@ -137,8 +137,8 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   gti.GoToBegin();
   while (!gti.IsAtEnd())
   {
-    p[0] = gti.GetIndex()[0];
-    p[1] = gti.GetIndex()[1];
+    p[0] = gti.ComputeIndex()[0];
+    p[1] = gti.ComputeIndex()[1];
     d = p - center;
     const double x = d[0];
     const double y = d[1];

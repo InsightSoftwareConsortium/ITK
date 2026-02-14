@@ -67,7 +67,7 @@ itkRegionOfInterestImageFilterTest(int, char *[])
   intr.GoToBegin();
   while (!intr.IsAtEnd())
   {
-    intr.Set(intr.GetIndex());
+    intr.Set(intr.ComputeIndex());
     ++intr;
   }
 

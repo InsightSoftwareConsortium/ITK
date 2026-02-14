@@ -120,7 +120,7 @@ itkNormalizedCorrelationPointSetToImageMetricTest(int, char *[])
   {
     if (counter == 0)
     {
-      fixedImage->TransformIndexToPhysicalPoint(it.GetIndex(), point);
+      fixedImage->TransformIndexToPhysicalPoint(it.ComputeIndex(), point);
       fixedPointSet->SetPoint(pointId, point);
       fixedPointSet->SetPointData(pointId, it.Get());
       ++pointId;

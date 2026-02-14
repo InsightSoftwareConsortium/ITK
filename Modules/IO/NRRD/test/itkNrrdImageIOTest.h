@@ -167,7 +167,7 @@ itkNrrdImageIOTestReadWriteTest(const std::string & fn,
   {
     if (itk::Math::NotExactlyEquals(b.Get(), a.Get()))
     {
-      std::cerr << "At index " << b.GetIndex() << " value " << b.Get() << " should be " << a.Get() << std::endl;
+      std::cerr << "At index " << b.ComputeIndex() << " value " << b.Get() << " should be " << a.Get() << std::endl;
       return EXIT_FAILURE;
     }
   }

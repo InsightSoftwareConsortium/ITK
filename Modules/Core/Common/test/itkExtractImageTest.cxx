@@ -176,8 +176,8 @@ itkExtractImageTest(int, char *[])
 
     for (; !iteratorIn1.IsAtEnd(); ++iteratorIn1)
     {
-      const ShortImage::IndexType::IndexValueType row = iteratorIn1.GetIndex()[0];
-      const ShortImage::IndexType::IndexValueType column = iteratorIn1.GetIndex()[1];
+      const ShortImage::IndexType::IndexValueType row = iteratorIn1.ComputeIndex()[0];
+      const ShortImage::IndexType::IndexValueType column = iteratorIn1.ComputeIndex()[1];
       if ((row < 0) || (row > 7) || (column < 0) || (column > 11))
       {
         if (iteratorIn1.Get() != 13)
@@ -251,8 +251,8 @@ itkExtractImageTest(int, char *[])
     {
       for (; !iteratorIn2.IsAtEnd(); ++iteratorIn2)
       {
-        const ShortImage::IndexType::IndexValueType row = iteratorIn2.GetIndex()[0];
-        const ShortImage::IndexType::IndexValueType column = iteratorIn2.GetIndex()[1];
+        const ShortImage::IndexType::IndexValueType row = iteratorIn2.ComputeIndex()[0];
+        const ShortImage::IndexType::IndexValueType column = iteratorIn2.ComputeIndex()[1];
         if ((row < 0) || (row > 7) || (column < 0) || (column > 11))
         {
           if (iteratorIn2.Get() != 13)
@@ -318,7 +318,7 @@ itkExtractImageTest(int, char *[])
   {
     const LineImage::PixelType linePixelValue = iteratorLineIn.Get();
     testIndex[0] = extractIndex[0];
-    testIndex[1] = iteratorLineIn.GetIndex()[0];
+    testIndex[1] = iteratorLineIn.ComputeIndex()[0];
     if (linePixelValue != if2->GetPixel(testIndex))
     {
       passed = false;

@@ -124,7 +124,7 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
     if (ritr.Get() != pixelValue)
     {
       std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error while comparing pixel value at index: " << ritr.GetIndex() << std::endl;
+      std::cerr << "Error while comparing pixel value at index: " << ritr.ComputeIndex() << std::endl;
       std::cerr << "Expected: " << pixelValue << ", but got: " << ritr.Get() << std::endl;
       return EXIT_FAILURE;
     }

@@ -123,7 +123,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
   {
     if (ritr.Get() != pixelValue)
     {
-      std::cerr << "Pixel comparison failed at index = " << ritr.GetIndex() << std::endl;
+      std::cerr << "Pixel comparison failed at index = " << ritr.ComputeIndex() << std::endl;
       std::cerr << "Expected pixel value " << pixelValue << std::endl;
       std::cerr << "Read Image pixel value " << ritr.Get() << std::endl;
       return EXIT_FAILURE;

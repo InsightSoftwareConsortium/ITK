@@ -75,8 +75,8 @@ itkNiftiImageIOTest6(int argc, char * argv[])
     readbackP = readbackIt.Get();
     if (p != readbackP)
     {
-      std::cout << "Pixel mismatch at index " << it.GetIndex() << " original = " << p << " read value = " << readbackP
-                << std::endl;
+      std::cout << "Pixel mismatch at index " << it.ComputeIndex() << " original = " << p
+                << " read value = " << readbackP << std::endl;
       success = EXIT_FAILURE;
       break;
     }

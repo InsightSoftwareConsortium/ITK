@@ -72,7 +72,7 @@ main(int argc, char * argv[])
 
   while (!it.IsAtEnd())
   {
-    out.Set(gaussianFunction->EvaluateAtIndex(it.GetIndex()));
+    out.Set(gaussianFunction->EvaluateAtIndex(it.ComputeIndex()));
     ++it;
     ++out;
   }

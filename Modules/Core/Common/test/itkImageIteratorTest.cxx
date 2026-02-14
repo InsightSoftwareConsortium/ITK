@@ -150,7 +150,7 @@ itkImageIteratorTest(int, char *[])
   }
 
   // Exercise GetIndex()
-  const VectorImageType::IndexType index1 = itr1.GetIndex();
+  const VectorImageType::IndexType index1 = itr1.ComputeIndex();
   if (index1 != startIndex3D)
   {
     std::cerr << "Error in GetIndex()" << std::endl;
@@ -162,13 +162,13 @@ itkImageIteratorTest(int, char *[])
   index2[0]++;
   VectorImageIterator itr5 = itr1;
   itr5.SetIndex(index2);
-  if (itr5.GetIndex() != index2)
+  if (itr5.ComputeIndex() != index2)
   {
     std::cerr << "Error in GetIndex() and/or SetIndex()" << std::endl;
     return EXIT_FAILURE;
   }
 
-  if (itr5.GetIndex() == itr1.GetIndex())
+  if (itr5.ComputeIndex() == itr1.ComputeIndex())
   {
     std::cerr << "Error in GetIndex() and/or SetIndex()" << std::endl;
     return EXIT_FAILURE;

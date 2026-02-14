@@ -104,7 +104,7 @@ itkFullToHalfHermitianImageFilterTest(int argc, char * argv[])
   {
     if (fftIt.Get() != f2hIt.Get())
     {
-      std::cerr << "Pixel at index " << fftIt.GetIndex() << " does not match!" << std::endl;
+      std::cerr << "Pixel at index " << fftIt.ComputeIndex() << " does not match!" << std::endl;
       std::cerr << "FFT output: " << fftIt.Get() << ", full-to-half output: " << f2hIt.Get() << std::endl;
       return EXIT_FAILURE;
     }

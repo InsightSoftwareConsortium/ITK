@@ -421,7 +421,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     // Set all pixels with first index == 0 to 0, and set the rest of the image to 255
     while (!createImageIterator.IsAtEnd())
     {
-      if (createImageIterator.GetIndex()[0] == 0)
+      if (createImageIterator.ComputeIndex()[0] == 0)
       {
         createImageIterator.Set(0);
       }

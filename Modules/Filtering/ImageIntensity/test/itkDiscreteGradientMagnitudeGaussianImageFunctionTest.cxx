@@ -144,11 +144,11 @@ itkDiscreteGradientMagnitudeGaussianImageFunctionTestND(int argc, char * argv[])
     // To test all available Evaluate functions, we split it in three parts.
     if (pixelNumber < nop / 3)
     {
-      out.Set(function->EvaluateAtIndex(it.GetIndex()));
+      out.Set(function->EvaluateAtIndex(it.ComputeIndex()));
     }
     else if (pixelNumber < nop * 2 / 3)
     {
-      inputImage->TransformIndexToPhysicalPoint(it.GetIndex(), point);
+      inputImage->TransformIndexToPhysicalPoint(it.ComputeIndex(), point);
       out.Set(function->Evaluate(point));
     }
     else
@@ -156,7 +156,7 @@ itkDiscreteGradientMagnitudeGaussianImageFunctionTestND(int argc, char * argv[])
       using ContinuousIndexType = typename DiscreteGradientMagnitudeGaussianFunctionType::ContinuousIndexType;
       using ContinuousValueIndexType = typename ContinuousIndexType::ValueType;
 
-      inputImage->TransformIndexToPhysicalPoint(it.GetIndex(), point);
+      inputImage->TransformIndexToPhysicalPoint(it.ComputeIndex(), point);
       const ContinuousIndexType cindex =
         inputImage->template TransformPhysicalPointToContinuousIndex<ContinuousValueIndexType>(point);
       out.Set(function->EvaluateAtContinuousIndex(cindex));

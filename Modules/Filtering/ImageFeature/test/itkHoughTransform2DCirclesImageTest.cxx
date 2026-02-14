@@ -492,23 +492,23 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
       if (itk::Math::ExactlyEquals(it_input.Get(), max))
       {
         it_output.Set(255);
-        const double radius2 = radiusImage->GetPixel(it_output.GetIndex());
-        centerResult[foundCircles][0] = it_output.GetIndex()[0];
-        centerResult[foundCircles][1] = it_output.GetIndex()[1];
+        const double radius2 = radiusImage->GetPixel(it_output.ComputeIndex());
+        centerResult[foundCircles][0] = it_output.ComputeIndex()[0];
+        centerResult[foundCircles][1] = it_output.ComputeIndex()[1];
         radiusResult[foundCircles] = radius2;
 
         // Draw the circle
         for (double angle = 0; angle <= 2 * itk::Math::pi; angle += itk::Math::pi / 1000)
         {
-          index[0] = itk::Math::Round<long>(it_output.GetIndex()[0] + radius2 * std::cos(angle));
-          index[1] = itk::Math::Round<long>(it_output.GetIndex()[1] + radius2 * std::sin(angle));
+          index[0] = itk::Math::Round<long>(it_output.ComputeIndex()[0] + radius2 * std::cos(angle));
+          index[1] = itk::Math::Round<long>(it_output.ComputeIndex()[1] + radius2 * std::sin(angle));
           m_HoughSpaceImage->SetPixel(index, 255);
 
           // Remove the maximum from the accumulator
           for (double length = 0; length < discRadiusRatio * radius2; length += 1)
           {
-            index[0] = itk::Math::Round<long>(it_output.GetIndex()[0] + length * std::cos(angle));
-            index[1] = itk::Math::Round<long>(it_output.GetIndex()[1] + length * std::sin(angle));
+            index[0] = itk::Math::Round<long>(it_output.ComputeIndex()[0] + length * std::cos(angle));
+            index[1] = itk::Math::Round<long>(it_output.ComputeIndex()[1] + length * std::sin(angle));
             postProcessImage->SetPixel(index, 0);
           }
         }

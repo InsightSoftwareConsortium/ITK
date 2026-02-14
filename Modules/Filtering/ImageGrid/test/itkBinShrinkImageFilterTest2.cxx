@@ -36,12 +36,12 @@ CheckValueIsPhysicalPoint(const TImageType * img)
   bool match = true;
 
   typename TImageType::PointType pt;
-  img->TransformIndexToPhysicalPoint(it.GetIndex(), pt);
+  img->TransformIndexToPhysicalPoint(it.ComputeIndex(), pt);
   while (!it.IsAtEnd())
   {
     for (unsigned int i = 0; i < TImageType::ImageDimension; ++i)
     {
-      img->TransformIndexToPhysicalPoint(it.GetIndex(), pt);
+      img->TransformIndexToPhysicalPoint(it.ComputeIndex(), pt);
       if (!itk::Math::FloatAlmostEqual<itk::SpacePrecisionType>(pt[i], it.Get()[i]))
       {
         typename TImageType::PointType::VectorType diff;
@@ -50,8 +50,8 @@ CheckValueIsPhysicalPoint(const TImageType * img)
           diff[j] = pt[j] - it.Get()[j];
         }
 
-        std::cout << "Index: " << it.GetIndex() << " Point: " << pt << " Value: " << it.Get() << " Difference:" << diff
-                  << std::endl;
+        std::cout << "Index: " << it.ComputeIndex() << " Point: " << pt << " Value: " << it.Get()
+                  << " Difference:" << diff << std::endl;
         match = false;
       }
     }

@@ -179,7 +179,7 @@ ExampleMain(int argc, const char * const argv[])
   FieldVectorType displacement;
   while (!fi.IsAtEnd())
   {
-    index = fi.GetIndex();
+    index = fi.ComputeIndex();
     field->TransformIndexToPhysicalPoint(index, point1);
     point2 = tps->TransformPoint(point1);
     for (unsigned int i = 0; i < ImageDimension; ++i)

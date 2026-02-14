@@ -169,9 +169,9 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   while (!ti.IsAtEnd())
   {
-    p[0] = ti.GetIndex()[0];
-    p[1] = ti.GetIndex()[1];
-    p[2] = ti.GetIndex()[2];
+    p[0] = ti.ComputeIndex()[0];
+    p[1] = ti.ComputeIndex()[1];
+    p[2] = ti.ComputeIndex()[2];
     d = p - center;
     const double x = d[0];
     const double y = d[1];
