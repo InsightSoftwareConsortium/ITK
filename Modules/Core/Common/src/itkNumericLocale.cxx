@@ -18,6 +18,7 @@
 
 #include "itkNumericLocale.h"
 #include "itkConfigurePrivate.h"
+#include "itkObject.h"
 
 #include <locale.h>
 #include <cstring>
@@ -132,10 +133,15 @@ NumericLocale::NumericLocale()
   if (currentLocale && std::strcmp(currentLocale, "C") != 0)
   {
     // Issue warning only once per instance
-    itkWarningMacro("LC_NUMERIC locale is '" << currentLocale << "' (not 'C'). "
-                                             << "Thread-safe locale functions not available. "
-                                             << "Locale-dependent number parsing may cause issues. "
-                                             << "Please manage locale at application level.");
+    if (::itk::Object::GetGlobalWarningDisplay())
+    {
+      std::ostringstream itkmsg;
+      itkmsg << "LC_NUMERIC locale is '" << currentLocale << "' (not 'C'). "
+             << "Thread-safe locale functions not available. "
+             << "Locale-dependent number parsing may cause issues. "
+             << "Please manage locale at application level.";
+      ::itk::OutputWindowDisplayWarningText(__FILE__, __LINE__, "NumericLocale", nullptr, itkmsg.str().c_str());
+    }
     m_Impl->m_WarningIssued = true;
   }
 }
