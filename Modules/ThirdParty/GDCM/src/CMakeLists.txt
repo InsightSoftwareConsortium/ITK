@@ -83,10 +83,6 @@ set(GDCMV2_0_COMPATIBILITY ON CACHE INTERNAL "")
 set(GDCM_WRITE_ODD_LENGTH OFF CACHE INTERNAL "Do not change")
 set(GDCM_DEBUG_POSTFIX "" CACHE INTERNAL "")
 
-# GDCM uses these to refer to executable and library locations
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-set(LIBRARY_OUTPUT_PATH ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-
 add_subdirectory(gdcm)
 
 foreach(
