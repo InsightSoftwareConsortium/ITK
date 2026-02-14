@@ -192,12 +192,6 @@ set(
   "Enable support for non-standard programming language features"
 )
 set(
-  HDF5_ENABLE_NONSTANDARD_FEATURE_FLOAT16
-  ON
-  CACHE INTERNAL
-  "Enable support for _Float16 C datatype"
-)
-set(
   HDF5_ENABLE_SUBFILING_VFD
   OFF
   CACHE INTERNAL
@@ -225,6 +219,11 @@ set(
   CACHE INTERNAL
   "Enable v1.14 API (v16, v18, v110, v112, v114)"
 )
+if(MINGW)
+  # vasprintf detection is unreliable on Windows/MinGW - hard-coded to 0
+  # See: https://github.com/HDFGroup/hdf5/issues/5885
+  set(H5_HAVE_VASPRINTF 0)
+endif()
 
 if(NOT BUILD_SHARED_LIBS)
   set(BUILD_STATIC_LIBS ON CACHE INTERNAL "Build Static Libraries")

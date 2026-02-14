@@ -20,6 +20,11 @@
 #ifndef H5private_H
 #define H5private_H
 
+/* Define __STDC_WANT_IEC_60559_TYPES_EXT__ for _FloatN support, if available.
+ * Do that before including any other headers in case they include <float.h>
+ * implicitly. */
+#define __STDC_WANT_IEC_60559_TYPES_EXT__
+
 #include "H5public.h" /* Include Public Definitions    */
 
 #include <assert.h>
@@ -33,9 +38,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
-/* Define __STDC_WANT_IEC_60559_TYPES_EXT__ for _FloatN support, if available */
-#define __STDC_WANT_IEC_60559_TYPES_EXT__
 #include <float.h>
 #include <math.h>
 
