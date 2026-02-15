@@ -353,11 +353,12 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
     ImageRegionConstIteratorWithIndex<TInputImage> inputIt{ input, inputRegion };
     for (inputIt.GoToBegin(); !inputIt.IsAtEnd(); ++inputIt)
     {
+      const auto &      index = inputIt.GetIndex();
       BoundingBoxType & bbox = labelBoundingBoxes[inputIt.Get()];
-      bbox.min[0] = std::min(bbox.min[0], inputIt.GetIndex()[0]);
-      bbox.min[1] = std::min(bbox.min[1], inputIt.GetIndex()[1]);
-      bbox.max[0] = std::max(bbox.max[0], inputIt.GetIndex()[0]);
-      bbox.max[1] = std::max(bbox.max[1], inputIt.GetIndex()[1]);
+      bbox.min[0] = std::min(bbox.min[0], index[0]);
+      bbox.min[1] = std::min(bbox.min[1], index[1]);
+      bbox.max[0] = std::max(bbox.max[0], index[0]);
+      bbox.max[1] = std::max(bbox.max[1], index[1]);
     }
     // Build the extended regions from the bounding boxes
     for (const InputPixelType label : allLabels)
