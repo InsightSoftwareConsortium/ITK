@@ -172,7 +172,7 @@ itkFastMarchingTest2(int, char *[])
   bool passed = true;
   for (; !iterator.IsAtEnd(); ++iterator)
   {
-    FloatImage::IndexType tempIndex = iterator.GetIndex();
+    FloatImage::IndexType tempIndex = iterator.ComputeIndex();
     auto                  outputValue = static_cast<float>(iterator.Get());
 
     if (((tempIndex[0] > 22) && (tempIndex[0] < 42) && (tempIndex[1] > 27) && (tempIndex[1] < 37)) ||
@@ -193,7 +193,7 @@ itkFastMarchingTest2(int, char *[])
 
       if (itk::Math::abs(outputValue) / distance > 1.42)
       {
-        std::cout << iterator.GetIndex() << ' ';
+        std::cout << iterator.ComputeIndex() << ' ';
         std::cout << itk::Math::abs(outputValue) / distance << ' ';
         std::cout << itk::Math::abs(outputValue) << ' ' << distance << std::endl;
         passed = false;
@@ -203,7 +203,7 @@ itkFastMarchingTest2(int, char *[])
     {
       if (outputValue != 0.)
       {
-        std::cout << iterator.GetIndex() << ' ';
+        std::cout << iterator.ComputeIndex() << ' ';
         std::cout << outputValue << ' ' << 0.;
         std::cout << std::endl;
         passed = false;

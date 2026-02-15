@@ -121,17 +121,17 @@ itkStreamingImageFilterTest(int, char *[])
   bool passed = true;
   for (; !iterator2.IsAtEnd(); ++iterator2)
   {
-    short col = (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] + (shrink->GetShrinkFactors()[0] - 1) / 2);
+    short col = (shrink->GetShrinkFactors()[0] * iterator2.ComputeIndex()[0] + (shrink->GetShrinkFactors()[0] - 1) / 2);
     col += colOffset;
 
-    short row = (shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] + (shrink->GetShrinkFactors()[1] - 1) / 2);
+    short row = (shrink->GetShrinkFactors()[1] * iterator2.ComputeIndex()[1] + (shrink->GetShrinkFactors()[1] - 1) / 2);
     row += rowOffset;
     const short trueValue = col + region.GetSize()[0] * row;
 
     if (iterator2.Get() != trueValue)
     {
       passed = false;
-      std::cout << "Pixel " << iterator2.GetIndex() << " expected " << trueValue << " but got " << iterator2.Get()
+      std::cout << "Pixel " << iterator2.ComputeIndex() << " expected " << trueValue << " but got " << iterator2.Get()
                 << std::endl;
     }
   }

@@ -66,7 +66,7 @@ itkNiftiImageIOTest12(int argc, char * argv[])
     itk::ImageRegionIterator<ImageType> ri(image, region);
     while (!ri.IsAtEnd())
     {
-      ImageType::IndexType idx = ri.GetIndex();
+      ImageType::IndexType idx = ri.ComputeIndex();
 
       value[0] = idx[0] % 256;
       value[1] = idx[1] % 256;

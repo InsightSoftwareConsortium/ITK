@@ -150,7 +150,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2(int, char *[])
 
   while (!it.IsAtEnd())
   {
-    const ImageType::IndexType    index = it.GetIndex();
+    const ImageType::IndexType    index = it.ComputeIndex();
     SphereFunctionType::PointType point;
     inputImage->TransformIndexToPhysicalPoint(index, point);
     if (sphere->Evaluate(point) <= 0.0)
@@ -241,7 +241,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2(int, char *[])
 
   while (!citer.IsAtEnd())
   {
-    const ComponentImageType::IndexType index = citer.GetIndex();
+    const ComponentImageType::IndexType index = citer.ComputeIndex();
     SphereFunctionType::PointType       point;
     meanImage->TransformIndexToPhysicalPoint(index, point);
 

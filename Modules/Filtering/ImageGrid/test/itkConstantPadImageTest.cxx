@@ -98,8 +98,8 @@ itkConstantPadImageTest(int, char *[])
          !iteratorIn1.IsAtEnd();
          ++iteratorIn1)
     {
-      const int row = iteratorIn1.GetIndex()[0];
-      const int column = iteratorIn1.GetIndex()[1];
+      const int row = iteratorIn1.ComputeIndex()[0];
+      const int column = iteratorIn1.ComputeIndex()[1];
       if ((row < 0) || (row > 7) || (column < 0) || (column > 11))
       {
         if (itk::Math::NotExactlyEquals(iteratorIn1.Get(), constant))
@@ -171,8 +171,8 @@ itkConstantPadImageTest(int, char *[])
            !iteratorIn2.IsAtEnd();
            ++iteratorIn2)
       {
-        const int row = iteratorIn2.GetIndex()[0];
-        const int column = iteratorIn2.GetIndex()[1];
+        const int row = iteratorIn2.ComputeIndex()[0];
+        const int column = iteratorIn2.ComputeIndex()[1];
         if ((row < 0) || (row > 7) || (column < 0) || (column > 11))
         {
           if (itk::Math::NotExactlyEquals(iteratorIn2.Get(), constant))

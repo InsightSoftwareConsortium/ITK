@@ -171,7 +171,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
   constexpr double outputValueThreshold{ 1.42 };
   while (!iterator.IsAtEnd())
   {
-    FloatImageType::IndexType tempIndex = iterator.GetIndex();
+    FloatImageType::IndexType tempIndex = iterator.ComputeIndex();
     tempIndex -= offset0;
 
     double distance = 0.0;
@@ -187,7 +187,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
     {
       if (itk::Math::abs(outputValue) / distance > outputValueThreshold)
       {
-        std::cout << "Error at index [" << iterator.GetIndex() << ']' << std::endl;
+        std::cout << "Error at index [" << iterator.ComputeIndex() << ']' << std::endl;
         std::cout << "Expected scaled output value be less than: " << outputValueThreshold
                   << ", but got: " << itk::Math::abs(outputValue) / distance
                   << ", where output: " << itk::Math::abs(outputValue) << "; scale factor: " << distance << std::endl;

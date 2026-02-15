@@ -150,7 +150,7 @@ itkMultiResolutionImageRegistrationMethodTest_1(int, char *[])
   {
     for (unsigned int j = 0; j < dimension; ++j)
     {
-      p[j] = mIter.GetIndex()[j];
+      p[j] = mIter.ComputeIndex()[j];
     }
 
     d = p - center;

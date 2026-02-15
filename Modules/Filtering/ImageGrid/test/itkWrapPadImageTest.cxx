@@ -160,8 +160,8 @@ itkWrapPadImageTest(int, char *[])
   {
     for (; !itIn1.IsAtEnd(); ++itIn1, ++vitIn1)
     {
-      const int             row = itIn1.GetIndex()[0];
-      const int             column = itIn1.GetIndex()[1];
+      const int             row = itIn1.ComputeIndex()[0];
+      const int             column = itIn1.ComputeIndex()[1];
       FloatImage::PixelType expected = 0.0f;
 
       if (!VerifyPixel(row, column, static_cast<short>(itIn1.Get()), expected))
@@ -225,8 +225,8 @@ itkWrapPadImageTest(int, char *[])
     {
       for (; !itIn2.IsAtEnd(); ++itIn2, ++vitIn2)
       {
-        const int             row = itIn2.GetIndex()[0];
-        const int             column = itIn2.GetIndex()[1];
+        const int             row = itIn2.ComputeIndex()[0];
+        const int             column = itIn2.ComputeIndex()[1];
         FloatImage::PixelType expected = 0.0f;
 
         if (!VerifyPixel(row, column, static_cast<short>(itIn2.Get()), expected))
@@ -302,8 +302,8 @@ itkWrapPadImageTest(int, char *[])
     {
       for (; !itIn3.IsAtEnd(); ++itIn3, ++vitIn3)
       {
-        const int             row = itIn3.GetIndex()[0];
-        const int             column = itIn3.GetIndex()[1];
+        const int             row = itIn3.ComputeIndex()[0];
+        const int             column = itIn3.ComputeIndex()[1];
         FloatImage::PixelType expected = 0.0f;
 
         if (!VerifyPixel(row, column, static_cast<short>(itIn3.Get()), expected))

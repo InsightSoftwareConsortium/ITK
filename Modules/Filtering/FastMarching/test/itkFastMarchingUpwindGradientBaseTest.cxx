@@ -140,7 +140,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
 
   while (!iterator.IsAtEnd())
   {
-    FloatGradientImage::IndexType tempIndex = iterator.GetIndex();
+    FloatGradientImage::IndexType tempIndex = iterator.ComputeIndex();
     tempIndex -= offset0;
     double distance = 0.0;
     for (int j = 0; j < 2; ++j)
@@ -170,7 +170,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
 
     if ((outputPixelNorm < 0.9999) || (outputPixelNorm > 1.0001) || (dot < 0.99) || (dot > 1.01))
     {
-      std::cout << iterator.GetIndex() << ' ';
+      std::cout << iterator.ComputeIndex() << ' ';
       std::cout << outputPixelNorm << ' ';
       std::cout << dot << std::endl;
       passed = false;

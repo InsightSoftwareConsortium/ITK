@@ -99,7 +99,7 @@ itkImageReverseIteratorTest(int, char *[])
 
   for (; !it.IsAtEnd(); ++it)
   {
-    ImageType::IndexType index = it.GetIndex();
+    ImageType::IndexType index = it.ComputeIndex();
     std::cout << "Simple iterator loop: ";
     for (unsigned int i = 0; i < index.GetIndexDimension(); ++i)
     {
@@ -115,7 +115,7 @@ itkImageReverseIteratorTest(int, char *[])
   {
     --backIt;
 
-    ImageType::IndexType index = backIt.GetIndex();
+    ImageType::IndexType index = backIt.ComputeIndex();
     std::cout << "Simple iterator backwards loop: ";
     for (unsigned int i = 0; i < index.GetIndexDimension(); ++i)
     {
@@ -183,7 +183,7 @@ itkImageReverseIteratorTest(int, char *[])
   for (; !it.IsAtEnd(); ++it)
   {
     --castBackReverseIt;
-    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = it.GetIndex();
+    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = it.ComputeIndex();
     itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType rindex = castBackReverseIt.GetIndex();
     for (unsigned int i = 0; i < index.GetIndexDimension(); ++i)
     {

@@ -117,7 +117,7 @@ itkOrthogonalSwath2DPathFilterTest(int, char *[])
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
-    IndexType pixelIndex = it.GetIndex();
+    IndexType pixelIndex = it.ComputeIndex();
     if (pixelIndex[0] >= static_cast<int>(size[0] / 4) && pixelIndex[0] < static_cast<int>(size[0] * 3 / 4) &&
         pixelIndex[1] >= static_cast<int>(size[1] / 4) && pixelIndex[1] < static_cast<int>(size[1] * 3 / 4))
     {

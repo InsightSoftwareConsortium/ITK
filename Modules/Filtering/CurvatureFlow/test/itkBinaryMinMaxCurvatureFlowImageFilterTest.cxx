@@ -131,7 +131,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
 
   for (IteratorType circleIter(circleImage, circleImage->GetBufferedRegion()); !circleIter.IsAtEnd(); ++circleIter)
   {
-    typename ImageType::IndexType index = circleIter.GetIndex();
+    typename ImageType::IndexType index = circleIter.ComputeIndex();
 
     double lhs = 0.0;
     for (int j = 0; j < ImageDimension; ++j)
@@ -209,7 +209,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
   unsigned long numPixelsWrong = 0;
   for (IteratorType outIter(swapPointer, swapPointer->GetBufferedRegion()); !outIter.IsAtEnd(); ++outIter)
   {
-    typename ImageType::IndexType index = outIter.GetIndex();
+    typename ImageType::IndexType index = outIter.ComputeIndex();
     const PixelType               value = outIter.Get();
 
     double lhs = 0.0;
