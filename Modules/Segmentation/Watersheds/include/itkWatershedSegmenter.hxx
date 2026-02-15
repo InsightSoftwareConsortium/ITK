@@ -820,8 +820,9 @@ Segmenter<TInputImage>::GradientDescent(InputImageTypePointer img, ImageRegionTy
   {
     if (it.Get() == NULL_LABEL)
     {
-      valueIt.SetLocation(it.ComputeIndex());
-      labelIt.SetLocation(it.ComputeIndex());
+      const auto computeIndex = it.ComputeIndex();
+      valueIt.SetLocation(computeIndex);
+      labelIt.SetLocation(computeIndex);
       IdentifierType newLabel = NULL_LABEL; // Follow the path of steep-
       while (newLabel == NULL_LABEL)        // est descent until a label
       {
