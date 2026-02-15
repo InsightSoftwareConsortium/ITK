@@ -24,6 +24,7 @@
 #include "itkMultiThreaderBase.h"
 #include "itkShapedImageNeighborhoodRange.h"
 #include "itkTotalProgressReporter.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk
 {
@@ -347,15 +348,16 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
     {
       labelBoundingBoxes[label] = BoundingBoxType{ right_bot, left_top };
     }
-    // We use RegionConstIterator here instead of RegionRange because we want access to the GetIndex() method.
-    RegionConstIterator inputIt{ input, inputRegion };
+    // We use ImageRegionConstIteratorWithIndex here instead of RegionRange because we want access to the GetIndex()
+    // method.
+    ImageRegionConstIteratorWithIndex<TInputImage> inputIt{ input, inputRegion };
     for (inputIt.GoToBegin(); !inputIt.IsAtEnd(); ++inputIt)
     {
       BoundingBoxType & bbox = labelBoundingBoxes[inputIt.Get()];
-      bbox.min[0] = std::min(bbox.min[0], inputIt.ComputeIndex()[0]);
-      bbox.min[1] = std::min(bbox.min[1], inputIt.ComputeIndex()[1]);
-      bbox.max[0] = std::max(bbox.max[0], inputIt.ComputeIndex()[0]);
-      bbox.max[1] = std::max(bbox.max[1], inputIt.ComputeIndex()[1]);
+      bbox.min[0] = std::min(bbox.min[0], inputIt.GetIndex()[0]);
+      bbox.min[1] = std::min(bbox.min[1], inputIt.GetIndex()[1]);
+      bbox.max[0] = std::max(bbox.max[0], inputIt.GetIndex()[0]);
+      bbox.max[1] = std::max(bbox.max[1], inputIt.GetIndex()[1]);
     }
     // Build the extended regions from the bounding boxes
     for (const InputPixelType label : allLabels)
