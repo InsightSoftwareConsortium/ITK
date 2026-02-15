@@ -138,12 +138,12 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData
     {
       const InputImagePixelType PVal = inLineIt.Get();
 
+      // We've hit the start of a run
+      SizeValueType   length = 0;
+      const IndexType thisIndex = inLineIt.ComputeIndex();
+
       if (Math::AlmostEquals(PVal, m_ForegroundValue))
       {
-        // We've hit the start of a run
-        SizeValueType   length = 0;
-        const IndexType thisIndex = inLineIt.ComputeIndex();
-
         outLineIt.Set(m_BackgroundValue);
 
         ++length;
@@ -162,10 +162,6 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData
       }
       else
       {
-        // We've hit the start of a run
-        SizeValueType   length = 0;
-        const IndexType thisIndex = inLineIt.ComputeIndex();
-
         outLineIt.Set(PVal);
         ++length;
         ++inLineIt;
