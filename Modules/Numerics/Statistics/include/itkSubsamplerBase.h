@@ -123,7 +123,7 @@ protected:
    * This does a complete copy of the subsampler state
    * to the new subsampler
    */
-  typename LightObject::Pointer
+  LightObject::Pointer
   InternalClone() const override;
 
   SubsamplerBase();

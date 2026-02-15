@@ -86,10 +86,10 @@ TubeSpatialObject<TDimension, TTubePointType>::CopyInformation(const DataObject 
 }
 
 template <unsigned int TDimension, typename TTubePointType>
-typename LightObject::Pointer
+LightObject::Pointer
 TubeSpatialObject<TDimension, TTubePointType>::InternalClone() const
 {
-  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+  LightObject::Pointer loPtr = Superclass::InternalClone();
 
   const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())

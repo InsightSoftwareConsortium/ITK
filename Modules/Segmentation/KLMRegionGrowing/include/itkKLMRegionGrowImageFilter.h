@@ -230,7 +230,7 @@ public:
   using OutputImageIterator = ImageRegionIterator<TOutputImage>;
 
   /** type definition for the region label type. */
-  using RegionLabelType = typename KLMSegmentationRegion::RegionLabelType;
+  using RegionLabelType = KLMSegmentationRegion::RegionLabelType;
 
   /** The dimension of the labelled image. */
   static constexpr RegionLabelType LabelImageDimension = InputImageDimension;
@@ -359,8 +359,8 @@ protected:
 
 private:
   using InputImageSizeType = typename TInputImage::SizeType;
-  using KLMSegmentationRegionPtr = typename KLMSegmentationRegion::Pointer;
-  using KLMSegmentationBorderPtr = typename KLMSegmentationBorder::Pointer;
+  using KLMSegmentationRegionPtr = KLMSegmentationRegion::Pointer;
+  using KLMSegmentationBorderPtr = KLMSegmentationBorder::Pointer;
 
   double       m_MaximumLambda{ 1000 };
   unsigned int m_NumberOfRegions{ 0 };

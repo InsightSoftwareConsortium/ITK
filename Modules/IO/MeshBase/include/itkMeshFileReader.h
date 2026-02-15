@@ -109,7 +109,7 @@ public:
   using OutputCellIdentifier = typename OutputMeshType::CellIdentifier;
   using OutputCellAutoPointer = typename OutputMeshType::CellAutoPointer;
   using OutputCellType = typename OutputMeshType::CellType;
-  using SizeValueType = typename MeshIOBase::SizeValueType;
+  using SizeValueType = MeshIOBase::SizeValueType;
 
   using OutputVertexCellType = VertexCell<OutputCellType>;
   using OutputLineCellType = LineCell<OutputCellType>;

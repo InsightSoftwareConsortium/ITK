@@ -84,7 +84,7 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase<TDomainPartitioner, T
         if (this->m_JointHistogramMIPerThreadVariables[threadId].JointHistogram->GetBufferedRegion().IsInside(
               jointPDFIndex))
         {
-          typename JointHistogramType::PixelType jointHistogramPixel =
+          JointHistogramType::PixelType jointHistogramPixel =
             this->m_JointHistogramMIPerThreadVariables[threadId].JointHistogram->GetPixel(jointPDFIndex);
           ++jointHistogramPixel;
           this->m_JointHistogramMIPerThreadVariables[threadId].JointHistogram->SetPixel(jointPDFIndex,
@@ -111,7 +111,7 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase<TDomainPartitioner,
 {
   const ThreadIdType numberOfWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
 
-  using JointHistogramPixelType = typename JointHistogramType::PixelType;
+  using JointHistogramPixelType = JointHistogramType::PixelType;
   this->m_Associate->m_JointHistogramTotalCount = SizeValueType{};
   for (ThreadIdType i = 0; i < numberOfWorkUnitsUsed; ++i)
   {

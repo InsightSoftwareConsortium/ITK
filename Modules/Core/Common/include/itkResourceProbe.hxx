@@ -72,12 +72,9 @@ ResourceProbe<ValueType, MeanType>::Print(std::ostream & os, Indent indent) cons
   os << indent << "StandardError: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_StandardError)
      << std::endl;
 
-  os << indent << "NumberOfStarts: " << static_cast<typename NumericTraits<CountType>::PrintType>(m_NumberOfStarts)
-     << std::endl;
-  os << indent << "NumberOfStops: " << static_cast<typename NumericTraits<CountType>::PrintType>(m_NumberOfStops)
-     << std::endl;
-  os << indent
-     << "NumberOfIteration: " << static_cast<typename NumericTraits<CountType>::PrintType>(m_NumberOfIteration)
+  os << indent << "NumberOfStarts: " << static_cast<NumericTraits<CountType>::PrintType>(m_NumberOfStarts) << std::endl;
+  os << indent << "NumberOfStops: " << static_cast<NumericTraits<CountType>::PrintType>(m_NumberOfStops) << std::endl;
+  os << indent << "NumberOfIteration: " << static_cast<NumericTraits<CountType>::PrintType>(m_NumberOfIteration)
      << std::endl;
 
   os << indent << "ProbeValueList: " << m_ProbeValueList << std::endl;

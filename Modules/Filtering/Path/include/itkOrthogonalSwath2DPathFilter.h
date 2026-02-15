@@ -79,10 +79,10 @@ public:
   using ImageConstPointer = typename ImageType::ConstPointer;
 
   using OutputPathType = OrthogonallyCorrected2DParametricPath;
-  using OutputPathPointer = typename OutputPathType::Pointer;
-  using OutputPathInputType = typename OutputPathType::InputType;
-  using OrthogonalCorrectionTableType = typename OutputPathType::OrthogonalCorrectionTableType;
-  using OrthogonalCorrectionTablePointer = typename OutputPathType::OrthogonalCorrectionTablePointer;
+  using OutputPathPointer = OutputPathType::Pointer;
+  using OutputPathInputType = OutputPathType::InputType;
+  using OrthogonalCorrectionTableType = OutputPathType::OrthogonalCorrectionTableType;
+  using OrthogonalCorrectionTablePointer = OutputPathType::OrthogonalCorrectionTablePointer;
 
   using IndexType = typename InputPathType::IndexType;
   using OffsetType = typename InputPathType::OffsetType;

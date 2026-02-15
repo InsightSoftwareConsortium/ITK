@@ -659,7 +659,7 @@ Histogram<TMeasurement, TFrequencyContainer>::PrintSelf(std::ostream & os, Inden
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Size: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Size) << std::endl;
+  os << indent << "Size: " << static_cast<NumericTraits<SizeType>::PrintType>(m_Size) << std::endl;
   os << indent << "OffsetTable: " << std::endl;
   for (const auto & elem : m_OffsetTable)
   {
@@ -691,7 +691,7 @@ Histogram<TMeasurement, TFrequencyContainer>::PrintSelf(std::ostream & os, Inden
   }
 
   os << indent << "TempMeasurementVector: " << m_TempMeasurementVector << std::endl;
-  os << indent << "TempIndex: " << static_cast<typename NumericTraits<IndexType>::PrintType>(m_TempIndex) << std::endl;
+  os << indent << "TempIndex: " << static_cast<NumericTraits<IndexType>::PrintType>(m_TempIndex) << std::endl;
   itkPrintSelfBooleanMacro(ClipBinsAtEnds);
 }
 

@@ -68,7 +68,7 @@ public:
   using PixelType = typename TInputImage::PixelType;
 
   /** Smart Pointer type to a DataObject. */
-  using DataObjectPointer = typename DataObject::Pointer;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

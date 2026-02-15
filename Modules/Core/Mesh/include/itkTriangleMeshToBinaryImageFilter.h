@@ -108,7 +108,7 @@ public:
   using InputPointsContainerIterator = typename InputPointsContainer::Iterator;
 
   using PointSetType = itk::PointSet<double, 3>;
-  using PointsContainer = typename PointSetType::PointsContainer;
+  using PointsContainer = PointSetType::PointsContainer;
 
   using PointType = itk::Point<double, 3>;
   using Point2DType = itk::Point<double, 2>;

@@ -34,7 +34,7 @@ AttributeRelabelLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
 
   ImageType * output = this->GetOutput();
 
-  using VectorType = typename std::vector<typename LabelObjectType::Pointer>;
+  using VectorType = std::vector<typename LabelObjectType::Pointer>;
 
   ProgressReporter progress(this, 0, 2 * output->GetNumberOfLabelObjects());
 

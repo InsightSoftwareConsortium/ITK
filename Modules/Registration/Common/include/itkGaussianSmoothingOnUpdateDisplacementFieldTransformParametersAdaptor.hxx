@@ -89,12 +89,10 @@ GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
      << std::endl;
 
   os << indent << "GaussianSmoothingVarianceForTheUpdateFieldSetTime: "
-     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(
-          m_GaussianSmoothingVarianceForTheUpdateFieldSetTime)
+     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_GaussianSmoothingVarianceForTheUpdateFieldSetTime)
      << std::endl;
   os << indent << "GaussianSmoothingVarianceForTheTotalFieldSetTime: "
-     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(
-          m_GaussianSmoothingVarianceForTheTotalFieldSetTime)
+     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_GaussianSmoothingVarianceForTheTotalFieldSetTime)
      << std::endl;
 }
 

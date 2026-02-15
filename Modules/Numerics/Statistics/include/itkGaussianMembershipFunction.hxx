@@ -166,7 +166,7 @@ GaussianMembershipFunction<TMeasurementVector>::Evaluate(const MeasurementVector
 }
 
 template <typename TVector>
-typename LightObject::Pointer
+LightObject::Pointer
 GaussianMembershipFunction<TVector>::InternalClone() const
 {
   LightObject::Pointer         loPtr = Superclass::InternalClone();

@@ -195,7 +195,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   }
   criterion->SetTargetNodes(TargetNodes);
 
-  constexpr typename CriterionType::OutputPixelType targetOffset{};
+  constexpr CriterionType::OutputPixelType targetOffset{};
   criterion->SetTargetOffset(targetOffset);
   ITK_TEST_SET_GET_VALUE(targetOffset, criterion->GetTargetOffset());
 

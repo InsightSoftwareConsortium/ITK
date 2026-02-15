@@ -541,8 +541,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   itkPrintSelfObjectMacro(VirtualImage);
 
   itkPrintSelfBooleanMacro(UserHasSetVirtualDomain);
-  os << indent
-     << "NumberOfValidPoints: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfValidPoints)
+  os << indent << "NumberOfValidPoints: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfValidPoints)
      << std::endl;
 }
 

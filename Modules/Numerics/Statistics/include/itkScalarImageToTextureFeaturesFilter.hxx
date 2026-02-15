@@ -128,8 +128,7 @@ ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMa
 
 
     size_t featureNum = 0;
-    for (typename FeatureNameVector::ConstIterator fnameIt = m_RequestedFeatures->Begin();
-         fnameIt != m_RequestedFeatures->End();
+    for (FeatureNameVector::ConstIterator fnameIt = m_RequestedFeatures->Begin(); fnameIt != m_RequestedFeatures->End();
          ++fnameIt, featureNum++)
     {
       features[offsetNum][featureNum] =
@@ -213,7 +212,7 @@ ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMa
   using InternalTextureFeatureName = itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature;
   m_FeatureMeans->clear();
   m_FeatureStandardDeviations->clear();
-  typename FeatureNameVector::ConstIterator fnameIt;
+  FeatureNameVector::ConstIterator fnameIt;
   for (fnameIt = m_RequestedFeatures->Begin(); fnameIt != m_RequestedFeatures->End(); ++fnameIt)
   {
     m_FeatureMeans->push_back(

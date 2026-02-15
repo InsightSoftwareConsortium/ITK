@@ -50,8 +50,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::PrintSelf(std::ostrea
 
   os << indent << "NonConnectivity: " << m_NonConnectivity << std::endl;
   os << indent << "NonConnectivityOffsets: " << m_NonConnectivityOffsets << std::endl;
-  os << indent << "BlockRadius: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_BlockRadius)
-     << std::endl;
+  os << indent << "BlockRadius: " << static_cast<NumericTraits<SizeType>::PrintType>(m_BlockRadius) << std::endl;
   os << indent << "SelectFraction: " << m_SelectFraction << std::endl;
   itkPrintSelfBooleanMacro(ComputeStructureTensors);
 }
@@ -196,7 +195,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
       const double meanOfSquares = sumOfSquares.GetSum() / numPixelsInNeighborhood;
 
       const double variance = meanOfSquares - squaredMean;
-      using PairType = typename MultiMapType::value_type;
+      using PairType = MultiMapType::value_type;
 
       // we only insert blocks with variance > 0
       if (itk::NumericTraits<double>::IsPositive(variance))

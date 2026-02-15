@@ -733,14 +733,14 @@ protected:
     Superclass::PrintSelf(os, indent);
 
     os << indent << "BoundingBox: " << m_BoundingBox << std::endl;
-    os << indent
-       << "NumberOfPixels: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixels)
+    os << indent << "NumberOfPixels: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixels)
        << std::endl;
     os << indent << "PhysicalSize: " << m_PhysicalSize << std::endl;
     os << indent << "Centroid: " << static_cast<typename NumericTraits<CentroidType>::PrintType>(m_Centroid)
        << std::endl;
-    os << indent << "NumberOfPixelsOnBorder: "
-       << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsOnBorder) << std::endl;
+    os << indent
+       << "NumberOfPixelsOnBorder: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsOnBorder)
+       << std::endl;
     os << indent << "PerimeterOnBorder: " << m_PerimeterOnBorder << std::endl;
     os << indent << "FeretDiameter: " << m_FeretDiameter << std::endl;
     os << indent << "PrincipalMoments: " << m_PrincipalMoments << std::endl;

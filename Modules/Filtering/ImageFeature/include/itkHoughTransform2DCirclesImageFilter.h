@@ -94,10 +94,10 @@ public:
 
   /** Circle type alias. */
   using CircleType = EllipseSpatialObject<2>;
-  using CirclePointer = typename CircleType::Pointer;
+  using CirclePointer = CircleType::Pointer;
   using CirclesListType = std::list<CirclePointer>;
 
-  using CirclesListSizeType = typename CirclesListType::size_type;
+  using CirclesListSizeType = CirclesListType::size_type;
 
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(HoughTransform2DCirclesImageFilter);

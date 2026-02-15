@@ -42,14 +42,12 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
     displacementTransform, BSplineSmoothingOnUpdateDisplacementFieldTransform, DisplacementFieldTransform);
 
 
-  constexpr typename DisplacementTransformType::ArrayType::ValueType controlPointsUpdateFieldVal = 4;
-  auto                                                               controlPointsUpdateField =
-    itk::MakeFilled<typename DisplacementTransformType::ArrayType>(controlPointsUpdateFieldVal);
+  constexpr DisplacementTransformType::ArrayType::ValueType controlPointsUpdateFieldVal = 4;
+  auto controlPointsUpdateField = itk::MakeFilled<DisplacementTransformType::ArrayType>(controlPointsUpdateFieldVal);
   ITK_TEST_SET_GET_VALUE(controlPointsUpdateField, displacementTransform->GetNumberOfControlPointsForTheUpdateField());
 
-  constexpr typename DisplacementTransformType::ArrayType::ValueType controlPointsTotalFieldVal = 0;
-  auto                                                               controlPointsTotalField =
-    itk::MakeFilled<typename DisplacementTransformType::ArrayType>(controlPointsTotalFieldVal);
+  constexpr DisplacementTransformType::ArrayType::ValueType controlPointsTotalFieldVal = 0;
+  auto controlPointsTotalField = itk::MakeFilled<DisplacementTransformType::ArrayType>(controlPointsTotalFieldVal);
   ITK_TEST_SET_GET_VALUE(controlPointsTotalField, displacementTransform->GetNumberOfControlPointsForTheTotalField());
 
   using FieldType = DisplacementTransformType::DisplacementFieldType;
@@ -83,7 +81,7 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   auto meshSizeForTotalField = itk::MakeFilled<DisplacementTransformType::ArrayType>(30);
   displacementTransform->SetMeshSizeForTheTotalField(meshSizeForTotalField);
 
-  constexpr typename DisplacementTransformType::SplineOrderType splineOrder = 3;
+  constexpr DisplacementTransformType::SplineOrderType splineOrder = 3;
   displacementTransform->SetSplineOrder(splineOrder);
   ITK_TEST_SET_GET_VALUE(splineOrder, displacementTransform->GetSplineOrder());
 

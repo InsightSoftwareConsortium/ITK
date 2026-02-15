@@ -99,7 +99,7 @@ public:
   using RealType = typename NumericTraits<PixelType>::RealType;
 
   /** Smart Pointer type to a DataObject. */
-  using DataObjectPointer = typename DataObject::Pointer;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** Type of DataObjects used for scalar outputs */
   using RealObjectType = SimpleDataObjectDecorator<RealType>;
@@ -218,8 +218,7 @@ public:
     {
       using namespace print_helper;
 
-      os << "Count: " << static_cast<typename NumericTraits<IdentifierType>::PrintType>(labelStatistics.m_Count)
-         << std::endl;
+      os << "Count: " << static_cast<NumericTraits<IdentifierType>::PrintType>(labelStatistics.m_Count) << std::endl;
       os << "Minimum: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Minimum)
          << std::endl;
       os << "Maximum: " << static_cast<typename NumericTraits<RealType>::PrintType>(labelStatistics.m_Maximum)

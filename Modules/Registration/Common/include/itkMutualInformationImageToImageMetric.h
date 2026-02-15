@@ -224,7 +224,7 @@ private:
   double       m_FixedImageStandardDeviation{};
   double       m_MinProbability{};
 
-  typename KernelFunctionType::Pointer m_KernelFunction{};
+  KernelFunctionType::Pointer m_KernelFunction{};
 
   /** Uniformly select samples from the fixed image buffer.
    *

@@ -27,7 +27,7 @@ template <typename ImageType>
 class MyDerivedCSNI : public itk::ConstShapedNeighborhoodIterator<ImageType>
 {
 public:
-  using Superclass = typename itk::ConstShapedNeighborhoodIterator<ImageType>;
+  using Superclass = itk::ConstShapedNeighborhoodIterator<ImageType>;
   using typename Superclass::SizeType;
   using typename Superclass::IndexType;
   using typename Superclass::RadiusType;

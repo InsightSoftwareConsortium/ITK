@@ -131,7 +131,7 @@ SpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent)
   os << indent
      << "PositionInObjectSpace: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_PositionInObjectSpace)
      << std::endl;
-  os << indent << "Color: " << static_cast<typename NumericTraits<ColorType>::PrintType>(m_Color) << std::endl;
+  os << indent << "Color: " << static_cast<NumericTraits<ColorType>::PrintType>(m_Color) << std::endl;
 
   os << indent << "ScalarDictionary: " << std::endl;
   for (const auto & keyval : m_ScalarDictionary)

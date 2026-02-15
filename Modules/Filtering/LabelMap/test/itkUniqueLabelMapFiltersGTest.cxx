@@ -203,11 +203,11 @@ TEST_F(UniqueLabelMapFixture, EmptyImage)
 
 TEST_F(UniqueLabelMapFixture, OneLabel)
 {
-  const std::vector<typename FixtureUtilities<2>::IndexType> indices = { { 10, 10 } };
-  auto                                                       image = FixtureUtilities<2>::CreateLabelImage(indices);
+  const std::vector<FixtureUtilities<2>::IndexType> indices = { { 10, 10 } };
+  auto                                              image = FixtureUtilities<2>::CreateLabelImage(indices);
   auto labelMap = FixtureUtilities<2>::LabelMapFromLabelImage(image.GetPointer(), 0);
 
-  auto filter = itk::LabelUniqueLabelMapFilter<typename decltype(labelMap)::ObjectType>::New();
+  auto filter = itk::LabelUniqueLabelMapFilter<decltype(labelMap)::ObjectType>::New();
   filter->SetInput(labelMap);
   filter->Update();
 
@@ -222,12 +222,12 @@ TEST_F(UniqueLabelMapFixture, OneLabel)
 
 TEST_F(UniqueLabelMapFixture, OnesLabel)
 {
-  const std::vector<typename FixtureUtilities<2>::IndexType> indices = { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 },
-                                                                         { 0, 4 }, { 2, 4 }, { 0, 5 } };
-  auto                                                       image = FixtureUtilities<2>::CreateLabelImage(indices);
+  const std::vector<FixtureUtilities<2>::IndexType> indices = { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 },
+                                                                { 0, 4 }, { 2, 4 }, { 0, 5 } };
+  auto                                              image = FixtureUtilities<2>::CreateLabelImage(indices);
   auto labelMap = FixtureUtilities<2>::LabelMapFromLabelImage(image.GetPointer(), 0);
 
-  auto filter = itk::LabelUniqueLabelMapFilter<typename decltype(labelMap)::ObjectType>::New();
+  auto filter = itk::LabelUniqueLabelMapFilter<decltype(labelMap)::ObjectType>::New();
   filter->SetInput(labelMap);
   filter->Update();
 
@@ -242,12 +242,12 @@ TEST_F(UniqueLabelMapFixture, OnesLabel)
 
 TEST_F(UniqueLabelMapFixture, Dilate1)
 {
-  const std::vector<typename FixtureUtilities<2>::IndexType> indices = { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 },
-                                                                         { 0, 4 }, { 2, 4 }, { 0, 10 } };
-  auto                                                       image = FixtureUtilities<2>::CreateLabelImage(indices);
+  const std::vector<FixtureUtilities<2>::IndexType> indices = { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 },
+                                                                { 0, 4 }, { 2, 4 }, { 0, 10 } };
+  auto                                              image = FixtureUtilities<2>::CreateLabelImage(indices);
   auto labelMap = FixtureUtilities<2>::LabelMapFromLabelImage(image.GetPointer(), 1);
 
-  auto filter = itk::LabelUniqueLabelMapFilter<typename decltype(labelMap)::ObjectType>::New();
+  auto filter = itk::LabelUniqueLabelMapFilter<decltype(labelMap)::ObjectType>::New();
   filter->SetInput(labelMap);
   filter->InPlaceOff();
   filter->ReverseOrderingOff();
@@ -274,12 +274,12 @@ TEST_F(UniqueLabelMapFixture, Dilate1)
 
 TEST_F(UniqueLabelMapFixture, Dilate2)
 {
-  const std::vector<typename FixtureUtilities<2>::IndexType> indices = { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 },
-                                                                         { 0, 4 }, { 2, 4 }, { 0, 5 } };
-  auto                                                       image = FixtureUtilities<2>::CreateLabelImage(indices);
+  const std::vector<FixtureUtilities<2>::IndexType> indices = { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 },
+                                                                { 0, 4 }, { 2, 4 }, { 0, 5 } };
+  auto                                              image = FixtureUtilities<2>::CreateLabelImage(indices);
   auto labelMap = FixtureUtilities<2>::LabelMapFromLabelImage(image.GetPointer(), 2);
 
-  auto filter = itk::LabelUniqueLabelMapFilter<typename decltype(labelMap)::ObjectType>::New();
+  auto filter = itk::LabelUniqueLabelMapFilter<decltype(labelMap)::ObjectType>::New();
   filter->SetInput(labelMap);
   filter->InPlaceOff();
   filter->ReverseOrderingOff();

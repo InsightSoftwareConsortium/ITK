@@ -195,8 +195,7 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Prin
      << "NumberOfControlPointsForTheConstantVelocityField: " << m_NumberOfControlPointsForTheConstantVelocityField
      << std::endl;
   os << indent << "NumberOfControlPointsForTheUpdateField: " << m_NumberOfControlPointsForTheUpdateField << std::endl;
-  os << indent << "SplineOrder: " << static_cast<typename NumericTraits<SplineOrderType>::PrintType>(m_SplineOrder)
-     << std::endl;
+  os << indent << "SplineOrder: " << static_cast<NumericTraits<SplineOrderType>::PrintType>(m_SplineOrder) << std::endl;
 }
 
 } // namespace itk

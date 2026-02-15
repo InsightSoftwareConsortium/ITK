@@ -100,8 +100,8 @@ typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Valu
 
 template <typename TInputImage, typename TOutputImage>
 typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
-  ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::m_StatusNull = NumericTraits<
-    typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType>::NonpositiveMin();
+  ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::m_StatusNull =
+    NumericTraits<ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType>::NonpositiveMin();
 
 template <typename TInputImage, typename TOutputImage>
 typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
@@ -2426,7 +2426,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PrintSelf(std
 
   os << indent << "Layers: " << m_Layers << std::endl;
 
-  os << indent << "NumberOfLayers: " << static_cast<typename NumericTraits<StatusType>::PrintType>(m_NumberOfLayers)
+  os << indent << "NumberOfLayers: " << static_cast<NumericTraits<StatusType>::PrintType>(m_NumberOfLayers)
      << std::endl;
 
   itkPrintSelfObjectMacro(StatusImage);
@@ -2445,7 +2445,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PrintSelf(std
 
   os << indent << "TimeStep: " << static_cast<typename NumericTraits<TimeStepType>::PrintType>(m_TimeStep) << std::endl;
 
-  os << indent << "NumOfWorkUnits: " << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_NumOfWorkUnits)
+  os << indent << "NumOfWorkUnits: " << static_cast<NumericTraits<ThreadIdType>::PrintType>(m_NumOfWorkUnits)
      << std::endl;
 
   os << indent << "SplitAxis: " << m_SplitAxis << std::endl;

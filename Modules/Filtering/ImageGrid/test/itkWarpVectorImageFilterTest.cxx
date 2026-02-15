@@ -197,7 +197,7 @@ itkWarpVectorImageFilterTest(int, char *[])
   warper->SetOutputOrigin(ptarray.GetDataPointer());
   ITK_TEST_SET_GET_VALUE(ptarray, warper->GetOutputOrigin());
 
-  typename WarperType::DirectionType outputDirection;
+  WarperType::DirectionType outputDirection;
   outputDirection.SetIdentity();
   warper->SetOutputDirection(outputDirection);
   ITK_TEST_SET_GET_VALUE(outputDirection, warper->GetOutputDirection());

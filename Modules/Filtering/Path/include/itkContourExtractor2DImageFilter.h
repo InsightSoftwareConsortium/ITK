@@ -135,11 +135,11 @@ public:
   using InputOffsetType = typename InputImageType::OffsetType;
   using InputPixelType = typename InputImageType::PixelType;
   using InputRegionType = typename InputImageType::RegionType;
-  using OutputPathPointer = typename OutputPathType::Pointer;
-  using VertexListType = typename OutputPathType::VertexListType;
-  using VertexListConstPointer = typename VertexListType::ConstPointer;
-  using VertexType = typename OutputPathType::VertexType;
-  using VertexValueType = typename VertexType::ValueType;
+  using OutputPathPointer = OutputPathType::Pointer;
+  using VertexListType = OutputPathType::VertexListType;
+  using VertexListConstPointer = VertexListType::ConstPointer;
+  using VertexType = OutputPathType::VertexType;
+  using VertexValueType = VertexType::ValueType;
 
   /** Real type associated to the input pixel type. */
   using InputRealType = typename NumericTraits<InputPixelType>::RealType;
@@ -262,7 +262,7 @@ private:
 
   struct VertexHash
   {
-    using CoordinateType = typename VertexType::CoordinateType;
+    using CoordinateType = VertexType::CoordinateType;
     inline size_t
     operator()(const VertexType & v) const noexcept
     {

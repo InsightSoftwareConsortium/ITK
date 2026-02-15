@@ -97,8 +97,8 @@ public:
   using ConstFeatureIteratorType = ImageRegionConstIterator<FeatureImageType>;
 
   using ListPixelType = std::list<unsigned int>;
-  using ListPixelConstIterator = typename ListPixelType::const_iterator;
-  using ListPixelIterator = typename ListPixelType::iterator;
+  using ListPixelConstIterator = ListPixelType::const_iterator;
+  using ListPixelIterator = ListPixelType::iterator;
   using ListImageType = Image<ListPixelType, Self::ImageDimension>;
 
   /** Performs the narrow-band update of the Heaviside function for each

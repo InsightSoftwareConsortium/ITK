@@ -274,7 +274,7 @@ AmoebaTest1()
   ITK_TEST_EXPECT_TRUE(itkOptimizer->CanUseScales());
 
   // set optimizer parameters
-  constexpr typename OptimizerType::NumberOfIterationsType numberOfIterations = 10;
+  constexpr OptimizerType::NumberOfIterationsType numberOfIterations = 10;
   itkOptimizer->SetMaximumNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, itkOptimizer->GetMaximumNumberOfIterations());
 

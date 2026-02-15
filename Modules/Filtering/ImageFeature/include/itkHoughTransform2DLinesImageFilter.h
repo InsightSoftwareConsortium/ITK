@@ -83,11 +83,11 @@ public:
 
   /** Line type alias */
   using LineType = LineSpatialObject<2>;
-  using LinePointer = typename LineType::Pointer;
+  using LinePointer = LineType::Pointer;
   using LinesListType = std::list<LinePointer>;
   using LinePointType = LineType::LinePointType;
 
-  using LinesListSizeType = typename LinesListType::size_type;
+  using LinesListSizeType = LinesListType::size_type;
 
   /** Standard "Superclass" type alias. */
   using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;

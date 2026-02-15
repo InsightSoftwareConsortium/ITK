@@ -88,7 +88,7 @@ public:
   using ImageType = ImageBase<3>;
 
   /** Direction Cosines type alias. */
-  using DirectionType = typename ImageType::DirectionType;
+  using DirectionType = ImageType::DirectionType;
 
   /** Constructor */
   SpatialOrientationAdapter() = default;

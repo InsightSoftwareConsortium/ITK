@@ -216,7 +216,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimen
 }
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename LightObject::Pointer
+LightObject::Pointer
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::InternalClone() const
 {
   LightObject::Pointer loPtr = Superclass::InternalClone();

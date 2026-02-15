@@ -45,12 +45,12 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::GetTransform
 
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-typename LightObject::Pointer
+LightObject::Pointer
 Transform<TParametersValueType, VInputDimension, VOutputDimension>::InternalClone() const
 {
   // Default implementation just copies the parameters from
   // this to new transform.
-  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+  LightObject::Pointer loPtr = Superclass::InternalClone();
 
   const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())

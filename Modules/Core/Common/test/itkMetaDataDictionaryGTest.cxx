@@ -39,7 +39,7 @@ createMetaDataDictionary()
   itk::EncapsulateMetaData<float>(metaDataDictionary, "two", static_cast<float>(2));
 
   using ObjectType = itk::LightObject;
-  using PointerType = typename ObjectType::Pointer;
+  using PointerType = ObjectType::Pointer;
   const PointerType obj = ObjectType::New();
   itk::EncapsulateMetaData<PointerType>(metaDataDictionary, "object", obj);
 

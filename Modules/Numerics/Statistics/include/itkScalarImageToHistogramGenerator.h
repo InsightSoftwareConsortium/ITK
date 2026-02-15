@@ -60,8 +60,8 @@ public:
 
   using GeneratorPointer = typename GeneratorType::Pointer;
 
-  using HistogramPointer = typename HistogramType::Pointer;
-  using HistogramConstPointer = typename HistogramType::ConstPointer;
+  using HistogramPointer = HistogramType::Pointer;
+  using HistogramConstPointer = HistogramType::ConstPointer;
 
 public:
   /** Triggers the Computation of the histogram */

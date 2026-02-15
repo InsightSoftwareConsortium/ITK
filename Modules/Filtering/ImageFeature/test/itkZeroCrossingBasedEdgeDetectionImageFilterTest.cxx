@@ -79,11 +79,11 @@ itkZeroCrossingBasedEdgeDetectionImageFilterTest(int argc, char * argv[])
   filter->SetMaximumError(maximumError);
   ITK_TEST_SET_GET_VALUE(maximumError, filter->GetMaximumError());
 
-  auto backgroundValue = static_cast<typename FilterType::OutputImagePixelType>(std::stod(argv[3]));
+  auto backgroundValue = static_cast<FilterType::OutputImagePixelType>(std::stod(argv[3]));
   filter->SetBackgroundValue(backgroundValue);
   ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
 
-  auto foregroundValue = static_cast<typename FilterType::OutputImagePixelType>(std::stod(argv[4]));
+  auto foregroundValue = static_cast<FilterType::OutputImagePixelType>(std::stod(argv[4]));
   filter->SetForegroundValue(foregroundValue);
   ITK_TEST_SET_GET_VALUE(foregroundValue, filter->GetForegroundValue());
 

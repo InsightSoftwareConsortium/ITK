@@ -22,10 +22,10 @@ namespace itk::Statistics
 {
 
 template <typename TSample, typename TRegion>
-typename LightObject::Pointer
+LightObject::Pointer
 GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>::InternalClone() const
 {
-  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+  LightObject::Pointer loPtr = Superclass::InternalClone();
 
   const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())

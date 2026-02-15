@@ -47,8 +47,8 @@ BoxSigmaImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 {
   // Accumulate type is too small
   using AccValueType = typename itk::NumericTraits<PixelType>::RealType;
-  using AccPixType = typename itk::Vector<AccValueType, 2>;
-  using AccumImageType = typename itk::Image<AccPixType, TInputImage::ImageDimension>;
+  using AccPixType = itk::Vector<AccValueType, 2>;
+  using AccumImageType = itk::Image<AccPixType, TInputImage::ImageDimension>;
 
   typename TInputImage::SizeType internalRadius;
   for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)

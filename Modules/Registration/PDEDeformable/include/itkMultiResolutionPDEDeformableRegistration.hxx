@@ -170,7 +170,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TRegistrationType,
                                          TDefaultRegistrationType>::GetNumberOfValidRequiredInputs() const
 {
-  typename std::vector<SmartPointer<DataObject>>::size_type num = 0;
+  std::vector<SmartPointer<DataObject>>::size_type num = 0;
 
   if (this->GetFixedImage())
   {
@@ -576,7 +576,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TRegistrationType,
                                          TDefaultRegistrationType>::GenerateOutputInformation()
 {
-  typename DataObject::Pointer output;
+  DataObject::Pointer output;
 
   if (this->GetInput(0))
   {

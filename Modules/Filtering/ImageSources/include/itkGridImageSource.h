@@ -139,9 +139,9 @@ protected:
 
 private:
   /** Internal variable to speed up the calculation of pixel values. */
-  typename PixelArrayContainerType::Pointer m_PixelArrays{};
+  PixelArrayContainerType::Pointer m_PixelArrays{};
 
-  typename KernelFunctionType::Pointer m_KernelFunction{};
+  KernelFunctionType::Pointer m_KernelFunction{};
 
   ArrayType m_Sigma{};
 

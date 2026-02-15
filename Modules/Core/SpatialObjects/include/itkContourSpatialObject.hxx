@@ -125,14 +125,14 @@ ContourSpatialObject<TDimension>::AddControlPoint(const ContourPointType & point
 }
 
 template <unsigned int TDimension>
-typename LightObject::Pointer
+LightObject::Pointer
 ContourSpatialObject<TDimension>::InternalClone() const
 {
   // Default implementation just copies the parameters from
   // this to new transform.
-  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+  LightObject::Pointer loPtr = Superclass::InternalClone();
 
-  const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
+  const Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
     itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
@@ -160,7 +160,7 @@ ContourSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) co
   itkPrintSelfBooleanMacro(IsClosed);
   os << indent << "OrientationInObjectSpace: " << m_OrientationInObjectSpace << std::endl;
   os << indent << "OrientationInObjectSpaceMTime: "
-     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_OrientationInObjectSpaceMTime) << std::endl;
+     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_OrientationInObjectSpaceMTime) << std::endl;
   os << indent << "AttachedToSlice: " << m_AttachedToSlice << std::endl;
 }
 

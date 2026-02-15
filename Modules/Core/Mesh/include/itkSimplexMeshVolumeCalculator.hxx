@@ -273,11 +273,10 @@ SimplexMeshVolumeCalculator<TInputMesh>::PrintSelf(std::ostream & os, Indent ind
   os << indent << "Wxy: " << m_Wxy << std::endl;
   os << indent << "Wxz: " << m_Wxz << std::endl;
   os << indent << "Wyz: " << m_Wyz << std::endl;
-  os << indent << "Muncx: " << static_cast<typename NumericTraits<IndexValueType>::PrintType>(m_Muncx) << std::endl;
-  os << indent << "Muncy: " << static_cast<typename NumericTraits<IndexValueType>::PrintType>(m_Muncy) << std::endl;
-  os << indent << "Muncz: " << static_cast<typename NumericTraits<IndexValueType>::PrintType>(m_Muncz) << std::endl;
-  os << indent
-     << "NumberOfTriangles: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfTriangles)
+  os << indent << "Muncx: " << static_cast<NumericTraits<IndexValueType>::PrintType>(m_Muncx) << std::endl;
+  os << indent << "Muncy: " << static_cast<NumericTraits<IndexValueType>::PrintType>(m_Muncy) << std::endl;
+  os << indent << "Muncz: " << static_cast<NumericTraits<IndexValueType>::PrintType>(m_Muncz) << std::endl;
+  os << indent << "NumberOfTriangles: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfTriangles)
      << std::endl;
 }
 } // namespace itk

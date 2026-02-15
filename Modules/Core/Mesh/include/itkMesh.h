@@ -188,8 +188,8 @@ public:
   using CellDataContainer = typename MeshTraits::CellDataContainer;
 
   /** For improving Python support for Triangle Meshes **/
-  using CellsVectorContainer = typename itk::VectorContainer<IdentifierType>;
-  using CellsVectorContainerPointer = typename CellsVectorContainer::Pointer;
+  using CellsVectorContainer = itk::VectorContainer<IdentifierType>;
+  using CellsVectorContainerPointer = CellsVectorContainer::Pointer;
 
   /** Used to support geometric operations on the toolkit. */
   using BoundingBoxType = BoundingBox<PointIdentifier, Self::PointDimension, CoordinateType, PointsContainer>;

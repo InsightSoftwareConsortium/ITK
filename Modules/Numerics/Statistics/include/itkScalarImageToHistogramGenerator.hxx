@@ -53,7 +53,7 @@ template <typename TImage>
 void
 ScalarImageToHistogramGenerator<TImage>::SetNumberOfBins(unsigned int numberOfBins)
 {
-  typename HistogramType::SizeType size;
+  HistogramType::SizeType size;
   size.SetSize(1);
   size.Fill(numberOfBins);
   m_HistogramGenerator->SetHistogramSize(size);

@@ -96,7 +96,7 @@ typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 template <typename TInputImage, typename TOutputImage>
 typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
   SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::m_StatusNull =
-    NumericTraits<typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType>::NonpositiveMin();
+    NumericTraits<SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType>::NonpositiveMin();
 
 template <typename TInputImage, typename TOutputImage>
 typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType

@@ -75,8 +75,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::Prin
 
   itkPrintSelfBooleanMacro(UseImageDirection);
 
-  os << indent
-     << "NumberOfWorkUnits: " << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_NumberOfWorkUnits)
+  os << indent << "NumberOfWorkUnits: " << static_cast<NumericTraits<ThreadIdType>::PrintType>(m_NumberOfWorkUnits)
      << std::endl;
 
   os << indent << "ThreadedEvaluateIndex: ";

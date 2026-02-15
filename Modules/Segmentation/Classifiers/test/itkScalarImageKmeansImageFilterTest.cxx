@@ -62,7 +62,7 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
 
   constexpr typename KMeansFilterType::ImageRegionType::IndexType index = { { 50, 50 } };
   constexpr typename KMeansFilterType::ImageRegionType::SizeType  size = { { 80, 100 } };
-  typename KMeansFilterType::ImageRegionType                      region = { index, size };
+  KMeansFilterType::ImageRegionType                               region = { index, size };
   kmeansFilter->SetImageRegion(region);
   ITK_TEST_SET_GET_VALUE(region, kmeansFilter->GetImageRegion());
 

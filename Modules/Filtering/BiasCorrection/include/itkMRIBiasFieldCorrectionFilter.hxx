@@ -942,7 +942,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::PrintSelf(s
 
   os << indent << "BiasFieldDegree: " << m_BiasFieldDegree << std::endl;
   os << indent << "NumberOfLevels: " << m_NumberOfLevels << std::endl;
-  os << indent << "Schedule: " << static_cast<typename NumericTraits<ScheduleType>::PrintType>(m_Schedule) << std::endl;
+  os << indent << "Schedule: " << static_cast<NumericTraits<ScheduleType>::PrintType>(m_Schedule) << std::endl;
 
   os << indent << "VolumeCorrectionMaximumIteration: " << m_VolumeCorrectionMaximumIteration << std::endl;
   os << indent << "InterSliceCorrectionMaximumIteration: " << m_InterSliceCorrectionMaximumIteration << std::endl;

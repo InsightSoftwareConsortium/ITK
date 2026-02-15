@@ -250,7 +250,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::ComputeHistogram(const T
 
   typename FixedImageType::IndexType  index;
   typename FixedImageType::RegionType fixedRegion;
-  typename HistogramType::IndexType   hIndex;
+  HistogramType::IndexType            hIndex;
 
   fixedRegion = this->GetFixedImageRegion();
   FixedIteratorType ti(fixedImage, fixedRegion);
@@ -290,7 +290,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::ComputeHistogram(const T
         const RealType fixedValue = ti.Get();
         this->m_NumberOfPixelsCounted++;
 
-        typename HistogramType::MeasurementVectorType sample;
+        HistogramType::MeasurementVectorType sample;
         sample.SetSize(2);
         sample[0] = fixedValue;
         sample[1] = movingValue;
@@ -316,13 +316,13 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::CopyHistogram(HistogramT
                                                                       HistogramType & source) const
 {
   // Initialize the target.
-  typename HistogramType::MeasurementVectorType min;
-  typename HistogramType::MeasurementVectorType max;
+  HistogramType::MeasurementVectorType min;
+  HistogramType::MeasurementVectorType max;
 
   min.SetSize(2);
   max.SetSize(2);
 
-  typename HistogramType::SizeType size = source.GetSize();
+  HistogramType::SizeType size = source.GetSize();
 
   for (unsigned int i = 0; i < min.Size(); ++i)
   {
@@ -337,9 +337,9 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::CopyHistogram(HistogramT
   target.Initialize(size, min, max);
 
   // Copy the values.
-  typename HistogramType::Iterator       sourceIt = source.Begin();
+  HistogramType::Iterator                sourceIt = source.Begin();
   const typename HistogramType::Iterator sourceEnd = source.End();
-  typename HistogramType::Iterator       targetIt = target.Begin();
+  HistogramType::Iterator                targetIt = target.Begin();
   const typename HistogramType::Iterator targetEnd = target.End();
 
   while (sourceIt != sourceEnd && targetIt != targetEnd)

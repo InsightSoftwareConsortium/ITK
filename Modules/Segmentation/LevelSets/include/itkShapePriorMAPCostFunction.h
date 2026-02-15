@@ -157,7 +157,7 @@ private:
   ArrayType   m_ShapeParameterStandardDeviations{};
   WeightsType m_Weights{};
 
-  typename GaussianKernelFunction<double>::Pointer m_GaussianFunction{};
+  GaussianKernelFunction<double>::Pointer m_GaussianFunction{};
 };
 } // end namespace itk
 

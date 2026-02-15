@@ -71,7 +71,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
     sizePerPixel *= output->GetSpacing()[i];
   }
 
-  typename std::vector<double> sizePerPixelPerDimension;
+  std::vector<double> sizePerPixelPerDimension;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     sizePerPixelPerDimension.push_back(sizePerPixel / output->GetSpacing()[i]);

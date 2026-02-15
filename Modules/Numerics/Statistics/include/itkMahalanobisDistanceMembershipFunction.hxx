@@ -169,7 +169,7 @@ MahalanobisDistanceMembershipFunction<TVector>::PrintSelf(std::ostream & os, Ind
 }
 
 template <typename TVector>
-typename LightObject::Pointer
+LightObject::Pointer
 MahalanobisDistanceMembershipFunction<TVector>::InternalClone() const
 {
   LightObject::Pointer         loPtr = Superclass::InternalClone();

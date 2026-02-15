@@ -52,7 +52,7 @@ public:
   using IndexType = typename TImage::IndexType;
 
   /** Index ContainerType */
-  using SeedsContainerType = typename std::vector<IndexType>;
+  using SeedsContainerType = std::vector<IndexType>;
 
   /** Size type alias support. */
   using SizeType = typename TImage::SizeType;

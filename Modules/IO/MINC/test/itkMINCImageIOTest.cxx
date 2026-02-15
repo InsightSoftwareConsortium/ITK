@@ -305,7 +305,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
 {
   int success(EXIT_SUCCESS);
 
-  using ImageType = typename itk::Image<TPixel, VDimension>;
+  using ImageType = itk::Image<TPixel, VDimension>;
 
   typename ImageType::SizeType    size;
   typename ImageType::IndexType   index;
@@ -567,7 +567,7 @@ MINCReadWriteTestVector(const char * fileName,
 {
   int success(EXIT_SUCCESS);
 
-  using ImageType = typename itk::VectorImage<TPixel, VDimension>;
+  using ImageType = itk::VectorImage<TPixel, VDimension>;
   using InternalPixelType = typename itk::VectorImage<TPixel, VDimension>::PixelType;
 
   typename ImageType::SizeType    size;

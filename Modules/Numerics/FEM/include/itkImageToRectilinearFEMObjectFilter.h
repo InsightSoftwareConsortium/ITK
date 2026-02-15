@@ -67,10 +67,10 @@ public:
   using ImageIndexType = typename InputImageType::IndexType;
 
   /** Typedefs for Output FEMObject */
-  using FEMObjectType = typename itk::fem::FEMObject<NDimensions>;
+  using FEMObjectType = itk::fem::FEMObject<NDimensions>;
   using FEMObjectPointer = typename FEMObjectType::Pointer;
   using FEMObjectConstPointer = typename FEMObjectType::ConstPointer;
-  using DataObjectPointer = typename DataObject::Pointer;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** Some convenient type alias. */
   using MaterialType = itk::fem::MaterialLinearElasticity;

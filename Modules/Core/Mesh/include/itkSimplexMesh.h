@@ -62,13 +62,13 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** definition for array of indices. */
-  using IndexArray = typename SimplexMeshGeometry::IndexArray;
+  using IndexArray = SimplexMeshGeometry::IndexArray;
 
   /** definition for a set of neighbor indices */
   using NeighborSetType = std::set<SizeValueType>;
 
   /** */
-  using NeighborSetIterator = typename NeighborSetType::iterator;
+  using NeighborSetIterator = NeighborSetType::iterator;
 
   /** */
   using NeighborListType = std::vector<SizeValueType>;
@@ -99,11 +99,11 @@ public:
   using GeometryMapType = itk::MapContainer<SizeValueType, SimplexMeshGeometry *>;
 
   /** smartpointer def for the geometry map */
-  using GeometryMapPointer = typename GeometryMapType::Pointer;
+  using GeometryMapPointer = GeometryMapType::Pointer;
 
   /** iterator definition for iterating over a geometry map */
-  using GeometryMapIterator = typename GeometryMapType::Iterator;
-  using GeometryMapConstIterator = typename GeometryMapType::ConstIterator;
+  using GeometryMapIterator = GeometryMapType::Iterator;
+  using GeometryMapConstIterator = GeometryMapType::ConstIterator;
 
   // Backward compatibility to expose enum from class.
   using MeshClassCellsAllocationMethodEnum = itk::MeshEnums::MeshClassCellsAllocationMethod;

@@ -59,11 +59,11 @@ itkDirectedHausdorffDistanceImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DirectedHausdorffDistanceImageFilter, ImageToImageFilter);
 
 
-  const typename ImageType::Pointer image1 = reader1->GetOutput();
+  const ImageType::Pointer image1 = reader1->GetOutput();
   filter->SetInput1(image1);
   ITK_TEST_SET_GET_VALUE(image1, filter->GetInput1());
 
-  const typename ImageType::Pointer image2 = reader2->GetOutput();
+  const ImageType::Pointer image2 = reader2->GetOutput();
   filter->SetInput2(image2);
   ITK_TEST_SET_GET_VALUE(image2, filter->GetInput2());
 

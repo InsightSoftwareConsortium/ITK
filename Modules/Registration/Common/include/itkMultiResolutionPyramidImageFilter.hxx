@@ -293,7 +293,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ost
 
   os << indent << "MaximumError: " << m_MaximumError << std::endl;
   os << indent << "NumberOfLevels: " << m_NumberOfLevels << std::endl;
-  os << indent << "Schedule: " << static_cast<typename NumericTraits<ScheduleType>::PrintType>(m_Schedule) << std::endl;
+  os << indent << "Schedule: " << static_cast<NumericTraits<ScheduleType>::PrintType>(m_Schedule) << std::endl;
   itkPrintSelfBooleanMacro(UseShrinkImageFilter);
 }
 

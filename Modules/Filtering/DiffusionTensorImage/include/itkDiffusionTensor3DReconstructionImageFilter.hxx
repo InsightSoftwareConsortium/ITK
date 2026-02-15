@@ -90,7 +90,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   {
     return;
   }
-  const typename ImageMaskSpatialObject<3>::Pointer maskSpatialObject =
+  const ImageMaskSpatialObject<3>::Pointer maskSpatialObject =
     dynamic_cast<ImageMaskSpatialObject<3> *>(this->ProcessObject::GetInput(1));
   if (maskSpatialObject.IsNull())
   {
@@ -176,7 +176,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   vnl_vector<double> D(6);
 
   // if a mask is present, iterate through mask image and skip zero voxels
-  typename MaskSpatialObjectType::Pointer maskSpatialObject;
+  MaskSpatialObjectType::Pointer maskSpatialObject;
   if (this->m_MaskImagePresent)
   {
     maskSpatialObject = static_cast<MaskSpatialObjectType *>(this->ProcessObject::GetInput(1));

@@ -84,11 +84,11 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   integrator->SetInitialDiffeomorphism(initialDiffeomorphism);
   ITK_TEST_SET_GET_VALUE(initialDiffeomorphism, integrator->GetInitialDiffeomorphism());
 
-  auto lowerTimeBound = static_cast<typename IntegratorType::RealType>(std::stod(argv[1]));
+  auto lowerTimeBound = static_cast<IntegratorType::RealType>(std::stod(argv[1]));
   integrator->SetLowerTimeBound(lowerTimeBound);
   ITK_TEST_SET_GET_VALUE(lowerTimeBound, integrator->GetLowerTimeBound());
 
-  auto upperTimeBound = static_cast<typename IntegratorType::RealType>(std::stod(argv[2]));
+  auto upperTimeBound = static_cast<IntegratorType::RealType>(std::stod(argv[2]));
   integrator->SetUpperTimeBound(upperTimeBound);
   ITK_TEST_SET_GET_VALUE(upperTimeBound, integrator->GetUpperTimeBound());
 
@@ -107,11 +107,11 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
 
   auto inverseIntegrator = IntegratorType::New();
 
-  auto invLowerTimeBound = static_cast<typename IntegratorType::RealType>(std::stod(argv[7]));
+  auto invLowerTimeBound = static_cast<IntegratorType::RealType>(std::stod(argv[7]));
   inverseIntegrator->SetLowerTimeBound(invLowerTimeBound);
   ITK_TEST_SET_GET_VALUE(invLowerTimeBound, inverseIntegrator->GetLowerTimeBound());
 
-  auto invUpperTimeBound = static_cast<typename IntegratorType::RealType>(std::stod(argv[8]));
+  auto invUpperTimeBound = static_cast<IntegratorType::RealType>(std::stod(argv[8]));
   inverseIntegrator->SetUpperTimeBound(invUpperTimeBound);
   ITK_TEST_SET_GET_VALUE(invUpperTimeBound, inverseIntegrator->GetUpperTimeBound());
 
@@ -213,10 +213,10 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
 
   const TimeVaryingVelocityFieldType::Pointer timeVaryingVelocityField = importFilter->GetOutput();
 
-  lowerTimeBound = static_cast<typename IntegratorType::RealType>(std::stod(argv[4]));
+  lowerTimeBound = static_cast<IntegratorType::RealType>(std::stod(argv[4]));
   integrator->SetLowerTimeBound(lowerTimeBound);
 
-  upperTimeBound = static_cast<typename IntegratorType::RealType>(std::stod(argv[5]));
+  upperTimeBound = static_cast<IntegratorType::RealType>(std::stod(argv[5]));
   integrator->SetUpperTimeBound(upperTimeBound);
 
   integrator->SetInput(timeVaryingVelocityField);

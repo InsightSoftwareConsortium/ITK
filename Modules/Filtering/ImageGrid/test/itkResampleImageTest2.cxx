@@ -153,13 +153,13 @@ itkResampleImageTest2(int argc, char * argv[])
   else
   {
     // Set a fixed, isotropic output spacing
-    typename ImageType::SpacingType::ValueType outputSpacingValue = 1.5;
+    ImageType::SpacingType::ValueType outputSpacingValue = 1.5;
     if (argc > 7)
     {
       outputSpacingValue = std::stod(argv[8]);
     }
 
-    typename ImageType::SpacingType outputSpacing;
+    ImageType::SpacingType outputSpacing;
     for (unsigned int i = 0; i < VDimension; ++i)
     {
       outputSpacing[i] = outputSpacingValue;
@@ -168,9 +168,9 @@ itkResampleImageTest2(int argc, char * argv[])
     const typename ImageType::SizeType &    inputSize = resample->GetInput()->GetLargestPossibleRegion().GetSize();
     const typename ImageType::SpacingType & inputSpacing = resample->GetInput()->GetSpacing();
 
-    typename ImageType::SizeType outputSize;
+    ImageType::SizeType outputSize;
 
-    using SizeValueType = typename ImageType::SizeType::SizeValueType;
+    using SizeValueType = ImageType::SizeType::SizeValueType;
     for (unsigned int i = 0; i < VDimension; ++i)
     {
       outputSize[i] =

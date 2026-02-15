@@ -281,10 +281,9 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PrintSelf(std
   os << indent << "FixedImageRegion: " << m_FixedImageRegion << std::endl;
   os << indent << "FixedImageRegionPyramid: " << m_FixedImageRegionPyramid << std::endl;
 
-  os << indent << "NumberOfLevels: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfLevels)
+  os << indent << "NumberOfLevels: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfLevels)
      << std::endl;
-  os << indent << "CurrentLevel: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentLevel)
-     << std::endl;
+  os << indent << "CurrentLevel: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_CurrentLevel) << std::endl;
 
   itkPrintSelfBooleanMacro(Stop);
 

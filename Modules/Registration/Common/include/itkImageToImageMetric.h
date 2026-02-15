@@ -63,7 +63,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Type used for representing point components  */
-  using CoordinateRepresentationType = typename Superclass::ParametersValueType;
+  using CoordinateRepresentationType = Superclass::ParametersValueType;
 
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageToImageMetric);

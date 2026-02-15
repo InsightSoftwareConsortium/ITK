@@ -100,9 +100,8 @@ RawImageIO<TPixel, VImageDimension>::GetHeaderSize()
     // Get the size of the header from the size of the image
     file.seekg(0, std::ios::end);
 
-    m_HeaderSize =
-      static_cast<SizeValueType>(static_cast<typename itk::intmax_t>(file.tellg()) -
-                                 static_cast<typename itk::intmax_t>(this->m_Strides[m_FileDimensionality + 1]));
+    m_HeaderSize = static_cast<SizeValueType>(static_cast<itk::intmax_t>(file.tellg()) -
+                                              static_cast<itk::intmax_t>(this->m_Strides[m_FileDimensionality + 1]));
   }
 
   return m_HeaderSize;

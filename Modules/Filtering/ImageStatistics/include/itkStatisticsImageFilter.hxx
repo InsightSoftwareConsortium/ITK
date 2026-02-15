@@ -139,8 +139,7 @@ StatisticsImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Count: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(this->m_Count)
-     << std::endl;
+  os << indent << "Count: " << static_cast<NumericTraits<SizeValueType>::PrintType>(this->m_Count) << std::endl;
   os << indent << "Minimum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(this->GetMinimum())
      << std::endl;
   os << indent << "Maximum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(this->GetMaximum())

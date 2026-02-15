@@ -77,7 +77,7 @@ public:
 
   /** SmartPointer to a region splitting object */
   using SplitterType = ImageRegionSplitterBase;
-  using RegionSplitterPointer = typename SplitterType::Pointer;
+  using RegionSplitterPointer = SplitterType::Pointer;
 
   using typename Superclass::DataObjectIdentifierType;
 

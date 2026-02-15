@@ -101,11 +101,11 @@ itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
   inverter->SetMaximumNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, inverter->GetMaximumNumberOfIterations());
 
-  auto meanTolerance = static_cast<typename InverterType::RealType>(std::stod(argv[2]));
+  auto meanTolerance = static_cast<InverterType::RealType>(std::stod(argv[2]));
   inverter->SetMeanErrorToleranceThreshold(meanTolerance);
   ITK_TEST_SET_GET_VALUE(meanTolerance, inverter->GetMeanErrorToleranceThreshold());
 
-  auto maxTolerance = static_cast<typename InverterType::RealType>(std::stod(argv[3]));
+  auto maxTolerance = static_cast<InverterType::RealType>(std::stod(argv[3]));
   inverter->SetMaxErrorToleranceThreshold(maxTolerance);
   ITK_TEST_SET_GET_VALUE(maxTolerance, inverter->GetMaxErrorToleranceThreshold());
 

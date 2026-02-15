@@ -1117,12 +1117,10 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "CurrentLevel: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentLevel)
+  os << indent << "CurrentLevel: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_CurrentLevel) << std::endl;
+  os << indent << "NumberOfLevels: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfLevels)
      << std::endl;
-  os << indent << "NumberOfLevels: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfLevels)
-     << std::endl;
-  os << indent
-     << "CurrentIteration: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentIteration)
+  os << indent << "CurrentIteration: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_CurrentIteration)
      << std::endl;
   os << indent
      << "CurrentMetricValue: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_CurrentMetricValue)
@@ -1141,10 +1139,12 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   os << indent << "FixedPointSets: " << m_FixedPointSets << std::endl;
   os << indent << "MovingPointSets: " << m_MovingPointSets << std::endl;
 
-  os << indent << "NumberOfFixedObjects: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfFixedObjects) << std::endl;
-  os << indent << "NumberOfMovingObjects: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfMovingObjects) << std::endl;
+  os << indent
+     << "NumberOfFixedObjects: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfFixedObjects)
+     << std::endl;
+  os << indent
+     << "NumberOfMovingObjects: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfMovingObjects)
+     << std::endl;
 
   itkPrintSelfObjectMacro(Optimizer);
 
@@ -1157,8 +1157,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
   os << indent << "MetricSamplingStrategy: " << m_MetricSamplingStrategy << std::endl;
   os << indent << "MetricSamplingPercentagePerLevel: " << m_MetricSamplingPercentagePerLevel << std::endl;
-  os << indent
-     << "NumberOfMetrics: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfMetrics)
+  os << indent << "NumberOfMetrics: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfMetrics)
      << std::endl;
   os << indent << "FirstImageMetricIndex: " << m_FirstImageMetricIndex << std::endl;
   os << indent << "ShrinkFactorsPerLevel: " << m_ShrinkFactorsPerLevel << std::endl;

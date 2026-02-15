@@ -118,15 +118,15 @@ itkAnnulusOperatorTest(int, char *[])
   annulus.SetThickness(thickness);
   ITK_TEST_SET_GET_VALUE(thickness, annulus.GetThickness());
 
-  constexpr typename OperatorType::PixelType exteriorValue{ 1 };
+  constexpr OperatorType::PixelType exteriorValue{ 1 };
   annulus.SetExteriorValue(exteriorValue);
   ITK_TEST_SET_GET_VALUE(exteriorValue, annulus.GetExteriorValue());
 
-  constexpr typename OperatorType::PixelType annulusValue{ 8 };
+  constexpr OperatorType::PixelType annulusValue{ 8 };
   annulus.SetAnnulusValue(annulusValue);
   ITK_TEST_SET_GET_VALUE(annulusValue, annulus.GetAnnulusValue());
 
-  constexpr typename OperatorType::PixelType interiorValue{ 4 };
+  constexpr OperatorType::PixelType interiorValue{ 4 };
   annulus.SetInteriorValue(interiorValue);
   ITK_TEST_SET_GET_VALUE(interiorValue, annulus.GetInteriorValue());
 

@@ -59,8 +59,9 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::PrintSelf
      << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(m_MaximumStepSizeInPhysicalUnits)
      << std::endl;
   itkPrintSelfBooleanMacro(UseConvergenceMonitoring);
-  os << indent << "ConvergenceWindowSize: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_ConvergenceWindowSize) << std::endl;
+  os << indent
+     << "ConvergenceWindowSize: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_ConvergenceWindowSize)
+     << std::endl;
 
   itkPrintSelfObjectMacro(ConvergenceMonitoring);
   itkPrintSelfObjectMacro(ModifyGradientByScalesThreader);

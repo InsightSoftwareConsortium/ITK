@@ -86,7 +86,7 @@ public:
 
   /** InstanceIdentifier type alias. This identifier is a unique
    * sequential id for each measurement vector in a Sample subclass. */
-  using InstanceIdentifier = typename MeasurementVectorTraits::InstanceIdentifier;
+  using InstanceIdentifier = MeasurementVectorTraits::InstanceIdentifier;
 
   /** Type of the length of each measurement vector */
   using MeasurementVectorSizeType = unsigned int;

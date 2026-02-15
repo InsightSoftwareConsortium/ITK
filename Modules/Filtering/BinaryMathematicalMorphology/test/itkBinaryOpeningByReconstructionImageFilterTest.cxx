@@ -64,11 +64,11 @@ itkBinaryOpeningByReconstructionImageFilterTest(int argc, char * argv[])
   auto fullyConnected = static_cast<bool>(std::stoi(argv[4]));
   ITK_TEST_SET_GET_BOOLEAN(reconstruction, FullyConnected, fullyConnected);
 
-  auto foregroundValue = static_cast<typename I2LType::PixelType>(std::stoi(argv[5]));
+  auto foregroundValue = static_cast<I2LType::PixelType>(std::stoi(argv[5]));
   reconstruction->SetForegroundValue(foregroundValue);
   ITK_TEST_SET_GET_VALUE(foregroundValue, reconstruction->GetForegroundValue());
 
-  auto backgroundValue = static_cast<typename I2LType::PixelType>(std::stoi(argv[6]));
+  auto backgroundValue = static_cast<I2LType::PixelType>(std::stoi(argv[6]));
   reconstruction->SetBackgroundValue(backgroundValue);
   ITK_TEST_SET_GET_VALUE(backgroundValue, reconstruction->GetBackgroundValue());
 

@@ -96,7 +96,7 @@ HDF5ReadWriteTest2(const char * fileName)
     // pipeline and the itk::StreamingImageFilter will maintain handles to open HDF5 files
     // until their destructors run.
 
-    using ImageType = typename itk::Image<TPixel, 3>;
+    using ImageType = itk::Image<TPixel, 3>;
 
     // Create a source object (in this case a constant image).
     typename ImageType::SizeType size;
@@ -108,9 +108,9 @@ HDF5ReadWriteTest2(const char * fileName)
     imageSource->SetSize(size);
 
     // Write image with streaming.
-    using WriterType = typename itk::ImageFileWriter<ImageType>;
+    using WriterType = itk::ImageFileWriter<ImageType>;
     auto writer = WriterType::New();
-    using MonitorFilterType = typename itk::PipelineMonitorImageFilter<ImageType>;
+    using MonitorFilterType = itk::PipelineMonitorImageFilter<ImageType>;
     auto writerMonitor = MonitorFilterType::New();
     writerMonitor->SetInput(imageSource->GetOutput());
     writer->SetFileName(fileName);
@@ -153,13 +153,13 @@ HDF5ReadWriteTest2(const char * fileName)
     writer = typename WriterType::Pointer();
 
     // Read image with streaming.
-    using ReaderType = typename itk::ImageFileReader<ImageType>;
+    using ReaderType = itk::ImageFileReader<ImageType>;
     auto reader = ReaderType::New();
     reader->SetFileName(fileName);
     reader->SetUseStreaming(true);
     auto readerMonitor = MonitorFilterType::New();
     readerMonitor->SetInput(reader->GetOutput());
-    using StreamingFilter = typename itk::StreamingImageFilter<ImageType, ImageType>;
+    using StreamingFilter = itk::StreamingImageFilter<ImageType, ImageType>;
     auto streamer = StreamingFilter::New();
     streamer->SetInput(readerMonitor->GetOutput());
     streamer->SetNumberOfStreamDivisions(5);

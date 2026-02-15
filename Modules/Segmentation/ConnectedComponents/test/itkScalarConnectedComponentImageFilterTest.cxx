@@ -108,7 +108,7 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
   filter->SetInput(reader->GetOutput());
   filter->SetMaskImage(mask);
 
-  auto distanceThreshold = static_cast<typename FilterType::InputImageType::ValueType>(std::stod(argv[3]));
+  auto distanceThreshold = static_cast<FilterType::InputImageType::ValueType>(std::stod(argv[3]));
   filter->SetDistanceThreshold(distanceThreshold);
   ITK_TEST_SET_GET_VALUE(distanceThreshold, filter->GetDistanceThreshold());
 

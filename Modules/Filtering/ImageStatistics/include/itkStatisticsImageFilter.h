@@ -84,7 +84,7 @@ public:
   using RealType = typename NumericTraits<PixelType>::RealType;
 
   /** Smart Pointer type to a DataObject. */
-  using DataObjectPointer = typename DataObject::Pointer;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** Type of DataObjects used for scalar outputs */
   using RealObjectType = SimpleDataObjectDecorator<RealType>;

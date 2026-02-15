@@ -105,7 +105,7 @@ void
 FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FindSeedPixel()
 {
   // Create an iterator that will walk the input image
-  using IRIType = typename itk::ImageRegionConstIterator<TImage>;
+  using IRIType = itk::ImageRegionConstIterator<TImage>;
 
   // Now we search the input image for the first pixel which is inside
   // the function of interest

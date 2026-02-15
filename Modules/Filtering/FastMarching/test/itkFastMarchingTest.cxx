@@ -145,29 +145,29 @@ itkFastMarchingTest(int argc, char * argv[])
   auto collectPoints = static_cast<bool>(std::stoi(argv[4]));
   ITK_TEST_SET_GET_BOOLEAN(marcher, CollectPoints, collectPoints);
 
-  constexpr typename FloatImage::SizeType size = { { 64, 64 } };
+  constexpr FloatImage::SizeType size = { { 64, 64 } };
   marcher->SetOutputSize(size);
   ITK_TEST_SET_GET_VALUE(size, marcher->GetOutputSize());
 
   auto outputRegionIndexValue =
-    static_cast<typename FloatFMType::LevelSetImageType::IndexType::IndexValueType>(std::stoi(argv[5]));
+    static_cast<FloatFMType::LevelSetImageType::IndexType::IndexValueType>(std::stoi(argv[5]));
   auto outputRegionIndex = FloatFMType::LevelSetImageType::IndexType::Filled(outputRegionIndexValue);
-  const typename FloatFMType::OutputRegionType outputRegion{ outputRegionIndex, size };
+  const FloatFMType::OutputRegionType outputRegion{ outputRegionIndex, size };
   marcher->SetOutputRegion(outputRegion);
   ITK_TEST_SET_GET_VALUE(outputRegion, marcher->GetOutputRegion());
 
-  auto outputSpacingValue = static_cast<typename FloatFMType::OutputSpacingType::ValueType>(std::stod(argv[6]));
-  auto outputSpacing = itk::MakeFilled<typename FloatFMType::OutputSpacingType>(outputSpacingValue);
+  auto outputSpacingValue = static_cast<FloatFMType::OutputSpacingType::ValueType>(std::stod(argv[6]));
+  auto outputSpacing = itk::MakeFilled<FloatFMType::OutputSpacingType>(outputSpacingValue);
   marcher->SetOutputSpacing(outputSpacing);
   ITK_TEST_SET_GET_VALUE(outputSpacing, marcher->GetOutputSpacing());
 
-  typename FloatFMType::OutputDirectionType outputDirection;
+  FloatFMType::OutputDirectionType outputDirection;
   outputDirection.SetIdentity();
   marcher->SetOutputDirection(outputDirection);
   ITK_TEST_SET_GET_VALUE(outputDirection, marcher->GetOutputDirection());
 
-  auto outputOriginValue = static_cast<typename FloatFMType::OutputPointType::ValueType>(std::stod(argv[7]));
-  auto outputOrigin = itk::MakeFilled<typename FloatFMType::OutputPointType>(outputOriginValue);
+  auto outputOriginValue = static_cast<FloatFMType::OutputPointType::ValueType>(std::stod(argv[7]));
+  auto outputOrigin = itk::MakeFilled<FloatFMType::OutputPointType>(outputOriginValue);
   marcher->SetOutputOrigin(outputOrigin);
   ITK_TEST_SET_GET_VALUE(outputOrigin, marcher->GetOutputOrigin());
 

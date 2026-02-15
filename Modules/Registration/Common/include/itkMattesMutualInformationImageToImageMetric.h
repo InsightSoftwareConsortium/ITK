@@ -340,8 +340,8 @@ private:
     DerivativeType MetricDerivative;
 
     /** The joint PDF and PDF derivatives. */
-    typename JointPDFType::Pointer            JointPDF;
-    typename JointPDFDerivativesType::Pointer JointPDFDerivatives;
+    JointPDFType::Pointer            JointPDF;
+    JointPDFDerivativesType::Pointer JointPDFDerivatives;
 
     typename TransformType::JacobianType Jacobian;
 

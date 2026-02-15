@@ -106,8 +106,8 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   bspliner->SetSplineOrder(splineOrder);
   ITK_TEST_SET_GET_VALUE(splineOrder, bspliner->GetSplineOrder());
 
-  typename BSplineFilterType::ArrayType::ValueType numberOfFittingLevelsVal = 8;
-  auto numberOfFittingLevels = itk::MakeFilled<typename BSplineFilterType::ArrayType>(numberOfFittingLevelsVal);
+  BSplineFilterType::ArrayType::ValueType numberOfFittingLevelsVal = 8;
+  auto numberOfFittingLevels = itk::MakeFilled<BSplineFilterType::ArrayType>(numberOfFittingLevelsVal);
   bspliner->SetNumberOfFittingLevels(numberOfFittingLevelsVal);
   ITK_TEST_SET_GET_VALUE(numberOfFittingLevels, bspliner->GetNumberOfFittingLevels());
 
@@ -118,19 +118,19 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
 
   ITK_TEST_SET_GET_BOOLEAN(bspliner, EstimateInverse, false);
 
-  constexpr typename BSplineFilterType::OriginType::ValueType bSplineDomainOriginVal = 0.0;
-  auto bSplineDomainOrigin = itk::MakeFilled<typename BSplineFilterType::OriginType>(bSplineDomainOriginVal);
+  constexpr BSplineFilterType::OriginType::ValueType bSplineDomainOriginVal = 0.0;
+  auto bSplineDomainOrigin = itk::MakeFilled<BSplineFilterType::OriginType>(bSplineDomainOriginVal);
   ITK_TEST_EXPECT_EQUAL(bSplineDomainOrigin, bspliner->GetBSplineDomainOrigin());
 
-  constexpr typename BSplineFilterType::SpacingType::ValueType bSplineDomainSpacingVal = 1.0;
-  auto bSplineDomainSpacing = itk::MakeFilled<typename BSplineFilterType::SpacingType>(bSplineDomainSpacingVal);
+  constexpr BSplineFilterType::SpacingType::ValueType bSplineDomainSpacingVal = 1.0;
+  auto bSplineDomainSpacing = itk::MakeFilled<BSplineFilterType::SpacingType>(bSplineDomainSpacingVal);
   ITK_TEST_EXPECT_EQUAL(bSplineDomainSpacing, bspliner->GetBSplineDomainSpacing());
 
-  constexpr typename BSplineFilterType::SizeType::value_type bSplineDomainSizeVal = 0;
+  constexpr BSplineFilterType::SizeType::value_type bSplineDomainSizeVal = 0;
   auto bSplineDomainSize = BSplineFilterType::SizeType::Filled(bSplineDomainSizeVal);
   ITK_TEST_EXPECT_EQUAL(bSplineDomainSize, bspliner->GetBSplineDomainSize());
 
-  typename BSplineFilterType::DirectionType bSplineDomainDirection;
+  BSplineFilterType::DirectionType bSplineDomainDirection;
   bSplineDomainDirection.SetIdentity();
   ITK_TEST_EXPECT_EQUAL(bSplineDomainDirection, bspliner->GetBSplineDomainDirection());
 

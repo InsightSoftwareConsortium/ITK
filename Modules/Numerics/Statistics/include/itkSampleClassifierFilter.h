@@ -78,7 +78,7 @@ public:
   using MembershipFunctionsWeightsArrayType = Array<double>;
 
   using MembershipFunctionsWeightsArrayObjectType = SimpleDataObjectDecorator<MembershipFunctionsWeightsArrayType>;
-  using MembershipFunctionsWeightsArrayPointer = typename MembershipFunctionsWeightsArrayObjectType::Pointer;
+  using MembershipFunctionsWeightsArrayPointer = MembershipFunctionsWeightsArrayObjectType::Pointer;
 
   using ClassLabelType = IdentifierType;
   using ClassLabelVectorType = std::vector<ClassLabelType>;

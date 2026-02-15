@@ -76,14 +76,13 @@ itkPointSetToImageFilterTest1(int argc, char * argv[])
   filter->SetOrigin(origin);
   ITK_TEST_SET_GET_VALUE(origin, filter->GetOrigin());
 
-  typename BinaryImageType::DirectionType direction;
+  BinaryImageType::DirectionType direction;
   direction.SetIdentity();
   filter->SetDirection(direction);
   ITK_TEST_SET_GET_VALUE(direction, filter->GetDirection());
 
-  constexpr typename BinaryImageType::ValueType insideValue{
-    itk::NumericTraits<typename BinaryImageType::ValueType>::OneValue()
-  };
+  constexpr
+    typename BinaryImageType::ValueType insideValue{ itk::NumericTraits<BinaryImageType::ValueType>::OneValue() };
   filter->SetInsideValue(insideValue);
   ITK_TEST_SET_GET_VALUE(insideValue, filter->GetInsideValue());
 

@@ -73,9 +73,9 @@ public:
       error with such declaration. */
   using HistogramType = Statistics::Histogram<double>;
 
-  using MeasurementVectorType = typename HistogramType::MeasurementVectorType;
-  using HistogramSizeType = typename HistogramType::SizeType;
-  using HistogramPointer = typename HistogramType::Pointer;
+  using MeasurementVectorType = HistogramType::MeasurementVectorType;
+  using HistogramSizeType = HistogramType::SizeType;
+  using HistogramPointer = HistogramType::Pointer;
 
   /** Initializes the metric. */
   void

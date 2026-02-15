@@ -54,7 +54,7 @@ class ITKCommon_EXPORT AnatomicalOrientation
 {
 public:
   static constexpr unsigned int Dimension = 3;
-  using DirectionType = typename ImageBase<Dimension>::DirectionType;
+  using DirectionType = ImageBase<Dimension>::DirectionType;
   static constexpr unsigned int ImageDimension = Dimension;
 
 #ifndef ITK_FUTURE_LEGACY_REMOVE
@@ -563,16 +563,16 @@ protected:
 
 /** Outputs unambiguous anatomical orientation names such as "right-to-left". */
 ITKCommon_EXPORT std::ostream &
-                 operator<<(std::ostream & out, typename AnatomicalOrientation::CoordinateEnum value);
+                 operator<<(std::ostream & out, AnatomicalOrientation::CoordinateEnum value);
 
 /** Outputs the PositiveEnum encoding as a string such as "LPS". */
 ITKCommon_EXPORT std::ostream &
-                 operator<<(std::ostream & out, typename AnatomicalOrientation::PositiveEnum value);
+                 operator<<(std::ostream & out, AnatomicalOrientation::PositiveEnum value);
 
 
 /** Outputs the NegativeEnum encoding as a string such as "RAI" */
 ITKCommon_EXPORT std::ostream &
-                 operator<<(std::ostream & out, typename AnatomicalOrientation::NegativeEnum value);
+                 operator<<(std::ostream & out, AnatomicalOrientation::NegativeEnum value);
 
 ITKCommon_EXPORT std::ostream &
                  operator<<(std::ostream & out, const AnatomicalOrientation & orientation);

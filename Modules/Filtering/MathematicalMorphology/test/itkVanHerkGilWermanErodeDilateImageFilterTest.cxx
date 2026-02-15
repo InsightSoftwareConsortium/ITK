@@ -29,7 +29,7 @@ itkVanHerkGilWermanErodeDilateImageFilterTest(int, char ** const)
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
   using KernelType = itk::FlatStructuringElement<Dimension>;
-  using FunctionType = std::less<typename ImageType::PixelType>;
+  using FunctionType = std::less<ImageType::PixelType>;
 
   using FilterType = itk::VanHerkGilWermanErodeDilateImageFilter<ImageType, KernelType, FunctionType>;
   auto filter = FilterType::New();

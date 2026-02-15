@@ -118,7 +118,7 @@ public:
 
   /**  Type of object. */
   using ObjectType = Object;
-  using ObjectConstPointer = typename ObjectType::ConstPointer;
+  using ObjectConstPointer = ObjectType::ConstPointer;
 
   /** Get/Set the Fixed Object.  */
   /** @ITKStartGrouping */

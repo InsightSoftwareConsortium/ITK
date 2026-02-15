@@ -142,7 +142,7 @@ CompensatedSummation<TFloat>::GetSum() const -> const AccumulateType &
 
 
 template <typename TFloat>
-CompensatedSummation<TFloat>::operator typename CompensatedSummation<TFloat>::FloatType() const
+CompensatedSummation<TFloat>::operator FloatType() const
 {
   return this->m_Sum;
 }

@@ -77,7 +77,7 @@ protected:
   BlobSpatialObject();
   ~BlobSpatialObject() override = default;
 
-  [[nodiscard]] typename LightObject::Pointer
+  [[nodiscard]] LightObject::Pointer
   InternalClone() const override;
 };
 } // end namespace itk

@@ -191,8 +191,7 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage, TOutputImage>::Print
      << std::endl;
   os << indent << "Threshold Value: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ThresholdValue)
      << std::endl;
-  os << indent
-     << "NumberOfObjects: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfObjects)
+  os << indent << "NumberOfObjects: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfObjects)
      << std::endl;
 }
 } // end namespace itk

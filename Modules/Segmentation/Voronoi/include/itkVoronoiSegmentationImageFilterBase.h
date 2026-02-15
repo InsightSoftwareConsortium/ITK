@@ -87,16 +87,16 @@ public:
 
   using VoronoiDiagram = VoronoiDiagram2D<double>;
   using VoronoiDiagramGenerator = VoronoiDiagram2DGenerator<double>;
-  using PointType = typename VoronoiDiagram::PointType;
-  using CellType = typename VoronoiDiagram::CellType;
-  using CellAutoPointer = typename VoronoiDiagram::CellAutoPointer;
-  using VoronoiPointer = typename VoronoiDiagram::Pointer;
-  using PointIdIterator = typename CellType::PointIdIterator;
-  using SeedsType = typename VoronoiDiagram::SeedsType;
-  using SeedsIterator = typename VoronoiDiagram::SeedsIterator;
-  using NeighborIdIterator = typename VoronoiDiagram::NeighborIdIterator;
-  using EdgeIterator = typename VoronoiDiagram::VoronoiEdgeIterator;
-  using EdgeInfo = typename VoronoiDiagram::VoronoiEdge;
+  using PointType = VoronoiDiagram::PointType;
+  using CellType = VoronoiDiagram::CellType;
+  using CellAutoPointer = VoronoiDiagram::CellAutoPointer;
+  using VoronoiPointer = VoronoiDiagram::Pointer;
+  using PointIdIterator = CellType::PointIdIterator;
+  using SeedsType = VoronoiDiagram::SeedsType;
+  using SeedsIterator = VoronoiDiagram::SeedsIterator;
+  using NeighborIdIterator = VoronoiDiagram::NeighborIdIterator;
+  using EdgeIterator = VoronoiDiagram::VoronoiEdgeIterator;
+  using EdgeInfo = VoronoiDiagram::VoronoiEdge;
   using PointTypeVector = std::vector<PointType>;
   using PointTypeDeque = std::deque<PointType>;
   using BinaryObjectImage = TBinaryPriorImage;
@@ -105,7 +105,7 @@ public:
 
   /** To output the drawing of Voronoi Diagram (VD) . */
   using VDImage = Image<unsigned char, 2>;
-  using VDImagePointer = typename VDImage::Pointer;
+  using VDImagePointer = VDImage::Pointer;
 
   /** Set/Get the initial number of seeds for VD. */
   /** @ITKStartGrouping */
@@ -266,9 +266,9 @@ protected:
                                     // output the object.
   bool m_InteractiveSegmentation{ false };
 
-  typename VoronoiDiagram::Pointer m_WorkingVD{};
+  VoronoiDiagram::Pointer m_WorkingVD{};
 
-  typename VoronoiDiagramGenerator::Pointer m_VDGenerator{};
+  VoronoiDiagramGenerator::Pointer m_VDGenerator{};
 
   std::vector<PointType> m_SeedsToAdded{};
 

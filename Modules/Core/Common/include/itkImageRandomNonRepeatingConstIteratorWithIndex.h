@@ -65,7 +65,7 @@ public:
 class RandomPermutation
 {
 public:
-  using GeneratorPointer = typename Statistics::MersenneTwisterRandomVariateGenerator::Pointer;
+  using GeneratorPointer = Statistics::MersenneTwisterRandomVariateGenerator::Pointer;
   NodeOfPermutation * m_Permutation;
   GeneratorPointer    m_Generator;
   SizeValueType       m_Size;
