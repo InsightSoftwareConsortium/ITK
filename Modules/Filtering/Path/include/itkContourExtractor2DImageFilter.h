@@ -148,8 +148,13 @@ public:
   using RegionIndexRange = ImageRegionIndexRange<InputImageType::ImageDimension>;
   using RegionRange = ImageRegionRange<InputImageType>;
   using RegionConstRange = ImageRegionRange<const InputImageType>;
-  using RegionIterator = ImageRegionIterator<InputImageType>;
-  using RegionConstIterator = ImageRegionConstIterator<InputImageType>;
+
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using RegionIterator ITK_FUTURE_DEPRECATED("Please use `itk::ImageRegionIterator<TImage>` directly!") =
+    ImageRegionIterator<InputImageType>;
+  using RegionConstIterator ITK_FUTURE_DEPRECATED("Please use `itk::ImageRegionConstIterator<TImage>` directly!") =
+    ImageRegionConstIterator<InputImageType>;
+#endif
 
   /** Control the orientation of the contours with reference to the image
    * gradient. (See class documentation.) */
