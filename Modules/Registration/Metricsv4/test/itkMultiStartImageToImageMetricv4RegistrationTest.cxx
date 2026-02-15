@@ -206,7 +206,7 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   {
     auto aff = AffineTransformType::New();
     aff->SetIdentity();
-    const float rad = static_cast<float>(i) * itk::Math::pi / 180.0;
+    const float rad = i * static_cast<float>(itk::Math::pi) / 180.0F;
     aff->Translate(moffset);
     aff->Rotate2D(rad);
     aff->Translate(foffset);

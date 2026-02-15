@@ -270,31 +270,31 @@ testMetaImage(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  if (ReadWriteCompare<int, 3>(static_cast<int>(-3141592), "int"))
+  if (ReadWriteCompare<int, 3>(-3141592, "int"))
   {
     return EXIT_FAILURE;
   }
-  if (ReadWriteCompare<unsigned long, 3>(static_cast<unsigned long>(27182818), "unsigned long"))
+  if (ReadWriteCompare<unsigned long, 3>(27182818ul, "unsigned long"))
   {
     return EXIT_FAILURE;
   }
-  if (ReadWriteCompare<long, 3>(static_cast<long>(-31415926), "long"))
+  if (ReadWriteCompare<long, 3>(-31415926l, "long"))
   {
     return EXIT_FAILURE;
   }
-  if (ReadWriteCompare<unsigned long long, 3>(static_cast<unsigned long long>(8589934592ull), "unsigned long long"))
+  if (ReadWriteCompare<unsigned long long, 3>(8589934592ull, "unsigned long long"))
   {
     return EXIT_FAILURE;
   }
-  if (ReadWriteCompare<long long, 3>(static_cast<long long>(-8589934592ll), "long long"))
+  if (ReadWriteCompare<long long, 3>(-8589934592ll, "long long"))
   {
     return EXIT_FAILURE;
   }
-  if (ReadWriteCompare<float, 3>(static_cast<float>(1.23456), "float"))
+  if (ReadWriteCompare<float, 3>(1.23456F, "float"))
   {
     return EXIT_FAILURE;
   }
-  if (ReadWriteCompare<double, 3>(static_cast<double>(7.891011121314), "double"))
+  if (ReadWriteCompare<double, 3>(7.891011121314, "double"))
   {
     return EXIT_FAILURE;
   }

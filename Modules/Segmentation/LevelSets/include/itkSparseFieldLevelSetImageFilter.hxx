@@ -440,8 +440,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::UpdateActiveLayerValu
   }
   else
   {
-    this->SetRMSChange(
-      static_cast<double>(std::sqrt(static_cast<double>(rms_change_accumulator / static_cast<ValueType>(counter)))));
+    this->SetRMSChange(std::sqrt(static_cast<double>(rms_change_accumulator / static_cast<ValueType>(counter))));
   }
 }
 

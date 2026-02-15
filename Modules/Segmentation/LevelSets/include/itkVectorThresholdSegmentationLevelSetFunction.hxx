@@ -36,7 +36,7 @@ VectorThresholdSegmentationLevelSetFunction<TImageType, TFeatureImageType>::Calc
   for (fit.GoToBegin(), sit.GoToBegin(); !fit.IsAtEnd(); ++sit, ++fit)
   {
     threshold = m_Threshold - std::sqrt(m_Mahalanobis->Evaluate(fit.Get()));
-    sit.Set(static_cast<ScalarValueType>(threshold));
+    sit.Set(threshold);
   }
 }
 } // end namespace itk

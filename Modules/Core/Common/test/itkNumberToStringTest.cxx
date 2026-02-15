@@ -47,7 +47,7 @@ itkNumberToStringTest(int, char *[])
   PrintValue("unsigned short", static_cast<unsigned short>(0));
   PrintValue("short", static_cast<short>(0));
   PrintValue("unsigned int", static_cast<unsigned int>(0));
-  PrintValue("int", static_cast<int>(0));
+  PrintValue("int", 0);
   PrintValue("unsigned long", static_cast<unsigned long>(0));
   PrintValue("long", static_cast<long>(0));
   PrintValue("float", static_cast<float>(0));

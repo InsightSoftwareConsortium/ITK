@@ -263,7 +263,7 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
   stapler->SetMaximumIterations(maximumIterations);
   ITK_TEST_SET_GET_VALUE(maximumIterations, stapler->GetMaximumIterations());
 
-  auto confidenceWeight = static_cast<double>(std::stod(argv[5]));
+  auto confidenceWeight = std::stod(argv[5]);
   stapler->SetConfidenceWeight(confidenceWeight);
   ITK_TEST_SET_GET_VALUE(confidenceWeight, stapler->GetConfidenceWeight());
 

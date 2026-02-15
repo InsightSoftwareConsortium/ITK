@@ -395,7 +395,7 @@ itkNumericTraitsTest(int, char *[])
 {
   bool testPassedStatus = true;
 
-  CheckTraits("char", static_cast<char>('a'));
+  CheckTraits("char", 'a');
   CheckTraits("signed char", static_cast<signed char>('a'));
   CheckTraits("unsigned char", static_cast<unsigned char>('a'));
 
@@ -403,8 +403,8 @@ itkNumericTraitsTest(int, char *[])
   CheckTraits("signed short", static_cast<short>(-1));
   CheckTraits("unsigned short", static_cast<unsigned short>(1));
 
-  CheckTraits("int", static_cast<int>(0));
-  CheckTraits("signed int", static_cast<int>(0));
+  CheckTraits("int", 0);
+  CheckTraits("signed int", 0);
   CheckTraits("unsigned int", static_cast<unsigned int>(0));
 
   CheckTraits("long", static_cast<long>(0));

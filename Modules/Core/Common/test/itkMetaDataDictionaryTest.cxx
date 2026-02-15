@@ -27,7 +27,7 @@ itkMetaDataDictionaryTest(int, char *[])
 
   //------------------------Testing of native types
   //-------Floats
-  itk::EncapsulateMetaData<float>(MyDictionary, "ASimpleFloatInitalized", static_cast<float>(1.234560F));
+  itk::EncapsulateMetaData<float>(MyDictionary, "ASimpleFloatInitalized", 1.234560F);
   {
     float      tempfloat = 0.0;
     const bool IsValidReturn = itk::ExposeMetaData<float>(MyDictionary, "ASimpleFloatInitalized", tempfloat);
@@ -41,8 +41,8 @@ itkMetaDataDictionaryTest(int, char *[])
     }
   }
 
-  itk::EncapsulateMetaData<float>(MyDictionary, "ASimpleFloatChanged", static_cast<float>(-1000.234560F));
-  itk::EncapsulateMetaData<double>(MyDictionary, "ASimpleFloatChanged", static_cast<float>(-0.000000001F));
+  itk::EncapsulateMetaData<float>(MyDictionary, "ASimpleFloatChanged", -1000.234560);
+  itk::EncapsulateMetaData<double>(MyDictionary, "ASimpleFloatChanged", -0.000000001);
 
   //-------Char pointers --  These can be tricky, so be careful!
   itk::EncapsulateMetaData<const char *>(MyDictionary, "charconst*", "Value String");

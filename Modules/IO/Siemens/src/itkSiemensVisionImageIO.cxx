@@ -158,9 +158,9 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   DB(hdr->sliceThickness);
   int tmpInt = 0;
   this->GetIntAt(f, HDR_DISPLAY_SIZE, &tmpInt, sizeof(int));
-  hdr->imageXsize = static_cast<int>(tmpInt);
+  hdr->imageXsize = tmpInt;
   DB(hdr->imageXsize);
-  hdr->imageYsize = static_cast<int>(tmpInt);
+  hdr->imageYsize = tmpInt;
   DB(hdr->imageYsize);
 
   this->GetStringAt(f, TEXT_ACQ_MTRX_FREQ, tmpStr, TEXT_ACQ_MTRX_FREQ_LEN);
@@ -302,7 +302,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
 
   this->GetStringAt(f, TEXT_ECHO_NUM, tmpStr, TEXT_ECHO_NUM_LEN);
   tmpStr[TEXT_ECHO_NUM_LEN] = '\0';
-  hdr->echoNumber = static_cast<int>(std::stoi(tmpStr));
+  hdr->echoNumber = std::stoi(tmpStr);
   DB(hdr->echoNumber);
 
   this->GetDoubleAt(f, HDR_FLIP_ANGLE, &tmpDble, sizeof(double));

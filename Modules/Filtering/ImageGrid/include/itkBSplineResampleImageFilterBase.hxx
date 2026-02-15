@@ -286,7 +286,7 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage(const s
     for (int outK = 0; outK < static_cast<int>(outTraverseSize); ++outK)
     {
       double outVal = 0.0;
-      for (int k = (outK % 2); k < static_cast<int>(m_HSize); k += 2)
+      for (int k = (outK % 2); k < m_HSize; k += 2)
       {
         int i1 = (outK - k) / 2;
         if (i1 < 0)
@@ -298,7 +298,7 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage(const s
         }
         outVal = outVal + m_H[k] * in[i1];
       }
-      for (int k = 2 - (outK % 2); k < static_cast<int>(m_HSize); k += 2)
+      for (int k = 2 - (outK % 2); k < m_HSize; k += 2)
       {
         int i2 = (outK + k) / 2;
         if (i2 > inModK)

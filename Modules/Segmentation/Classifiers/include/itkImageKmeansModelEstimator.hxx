@@ -148,7 +148,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Allocate()
     // Initialize m_Codebook to 0 (it now has only one row)
     m_Codebook.fill(0);
   }
-  const auto finalCodebookSize = (SizeValueType)m_NumberOfCodewords;
+  const auto finalCodebookSize = m_NumberOfCodewords;
 
   // Allocate scratch memory for the centroid, codebook histogram
   // and the codebook distortion

@@ -698,7 +698,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ComputeInitia
           }
         }
         //
-        m_Boundary[i] = static_cast<unsigned int>((j + k / 2));
+        m_Boundary[i] = j + k / 2;
       }
       break;
     }

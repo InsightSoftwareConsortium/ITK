@@ -108,7 +108,7 @@ SmoothingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
           qe_it = qe_it->GetOnext();
         } while (qe_it != qe);
 
-        OutputCoordType den = 1.0 / static_cast<OutputCoordType>(sum_coeff);
+        OutputCoordType den = 1.0 / sum_coeff;
         v *= den;
 
         r += m_RelaxationFactor * v;

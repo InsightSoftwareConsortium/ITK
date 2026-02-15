@@ -205,7 +205,7 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
   int finalResult = EXIT_SUCCESS;
 
   unsigned int numberOfIterations = 100;
-  auto         maximumPhysicalStepSize = static_cast<double>(2.0);
+  auto         maximumPhysicalStepSize = 2.0;
   if (argc > 1)
   {
     numberOfIterations = std::stoi(argv[1]);
@@ -215,7 +215,7 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
     maximumPhysicalStepSize = std::stod(argv[2]);
   }
 
-  auto pointMax = static_cast<double>(100.0);
+  auto pointMax = 100.0;
 
   //
   // Test with affine transform

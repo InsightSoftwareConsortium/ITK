@@ -59,7 +59,7 @@ itkKappaSigmaThresholdImageCalculatorTest(int argc, char * argv[])
   calculator->SetMaskValue(maskValue);
   ITK_TEST_SET_GET_VALUE(maskValue, calculator->GetMaskValue());
 
-  auto sigmaFactor = static_cast<double>(std::stod(argv[4]));
+  auto sigmaFactor = std::stod(argv[4]);
   calculator->SetSigmaFactor(sigmaFactor);
   ITK_TEST_SET_GET_VALUE(sigmaFactor, calculator->GetSigmaFactor());
 

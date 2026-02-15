@@ -70,7 +70,7 @@ VectorRescaleIntensityImageFilter<TInputImage, TOutputImage>::BeforeThreadedGene
 
   m_InputMaximumMagnitude = std::sqrt(maximumSquaredMagnitude);
 
-  m_Scale = static_cast<InputRealType>(m_OutputMaximumMagnitude) / static_cast<InputRealType>(m_InputMaximumMagnitude);
+  m_Scale = static_cast<InputRealType>(m_OutputMaximumMagnitude) / m_InputMaximumMagnitude;
 
   // Set up the functor values
   this->GetFunctor().SetFactor(m_Scale);

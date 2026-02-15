@@ -794,11 +794,11 @@ GiplImageIO::Write(const void * buffer)
       auto value = static_cast<float>(m_Spacing[i]);
       if (m_ByteOrder == IOByteOrderEnum::BigEndian)
       {
-        ByteSwapper<float>::SwapFromSystemToBigEndian(static_cast<float *>(&value));
+        ByteSwapper<float>::SwapFromSystemToBigEndian(&value);
       }
       if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
       {
-        ByteSwapper<float>::SwapFromSystemToLittleEndian(static_cast<float *>(&value));
+        ByteSwapper<float>::SwapFromSystemToLittleEndian(&value);
       }
       if (m_IsCompressed)
       {

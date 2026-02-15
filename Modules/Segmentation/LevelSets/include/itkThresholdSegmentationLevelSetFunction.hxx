@@ -76,7 +76,7 @@ ThresholdSegmentationLevelSetFunction<TImageType, TFeatureImageType>::CalculateS
     }
     else
     {
-      sit.Set(static_cast<ScalarValueType>(threshold));
+      sit.Set(threshold);
     }
   }
 }

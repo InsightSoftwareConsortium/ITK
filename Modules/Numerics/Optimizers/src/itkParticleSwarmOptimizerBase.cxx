@@ -219,7 +219,7 @@ ParticleSwarmOptimizerBase::StartOptimization()
   InvokeEvent(StartEvent());
 
   // run the simulation
-  const auto n = static_cast<unsigned int>((GetCostFunction())->GetNumberOfParameters());
+  const auto n = GetCostFunction()->GetNumberOfParameters();
   for (this->m_IterationIndex = 1; m_IterationIndex < m_MaximalNumberOfIterations && !converged; ++m_IterationIndex)
   {
 
@@ -295,7 +295,7 @@ ParticleSwarmOptimizerBase::ValidateSettings()
   }
   // if we got here it is safe to get the number of parameters the cost
   // function expects
-  const auto n = static_cast<unsigned int>((GetCostFunction())->GetNumberOfParameters());
+  const auto n = GetCostFunction()->GetNumberOfParameters();
 
   // check that the number of parameters match
   ParametersType initialPosition = GetInitialPosition();

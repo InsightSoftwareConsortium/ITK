@@ -55,7 +55,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
   // Pre-calculate some values for efficiency
   this->m_TotalNumberOfPoints = static_cast<RealType>(
     this->m_NumberOfValidPoints + this->m_MovingDensityFunction->GetInputPointSet()->GetNumberOfPoints());
-  this->m_Prefactor0 = -1.0 / static_cast<RealType>(this->m_TotalNumberOfPoints);
+  this->m_Prefactor0 = -1.0 / this->m_TotalNumberOfPoints;
   if (this->m_Alpha != 1.0)
   {
     this->m_Prefactor0 /= (this->m_Alpha - 1.0);
