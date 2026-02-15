@@ -466,14 +466,16 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
     // Determine the continuous index of the first and end pixel of output
     // scan line when mapped to the input coordinate frame.
 
-    IndexType index = outIt.ComputeIndex();
+    const auto computedIndex = outIt.ComputeIndex();
+
+    IndexType index = computedIndex;
     index[0] = firstIndexValueOfLargestPossibleRegion;
 
     const ContinuousInputIndexType startIndex = transformIndex(index);
     index[0] += firstSizeValueOfLargestPossibleRegion;
     const auto vectorFromStartIndex = transformIndex(index) - startIndex;
 
-    IndexValueType scanlineIndex = outIt.ComputeIndex()[0];
+    IndexValueType scanlineIndex = computedIndex[0];
 
 
     while (!outIt.IsAtEndOfLine())

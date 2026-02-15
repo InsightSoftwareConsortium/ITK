@@ -293,10 +293,11 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::HysteresisThresholding
 
     if (value > m_UpperThreshold)
     {
+      const auto computedIndex = oit.ComputeIndex();
       node = m_NodeStore->Borrow();
-      node->m_Value = oit.ComputeIndex();
+      node->m_Value = computedIndex;
       m_NodeList->PushFront(node);
-      FollowEdge(oit.ComputeIndex(), multiplyImageFilterOutput);
+      FollowEdge(computedIndex, multiplyImageFilterOutput);
     }
 
     ++oit;

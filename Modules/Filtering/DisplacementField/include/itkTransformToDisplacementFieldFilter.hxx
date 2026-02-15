@@ -230,12 +230,13 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::LinearTh
   // Loop over the vector image, walk the output region for this thread.
   for (ImageScanlineIterator outIt(outputPtr, outputRegionForThread); !outIt.IsAtEnd(); outIt.NextLine())
   {
+    const auto computedIndex = outIt.ComputeIndex();
 
     // Compare with the ResampleImageFilter
     // The region may be split along the fast scan-line direction, so
     // the computation is done for the beginning and end of the largest
     // possible region to improve consistent numerics.
-    IndexType index = outIt.ComputeIndex();
+    IndexType index = computedIndex;
     index[0] = largestPossibleRegion.GetIndex(0);
 
     outputPtr->TransformIndexToPhysicalPoint(index, outputPoint);
@@ -247,7 +248,7 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::LinearTh
     inputPoint = transformPtr->TransformPoint(outputPoint);
     const typename PointType::VectorType endDisplacement = inputPoint - outputPoint;
 
-    IndexValueType scanlineIndex = outIt.ComputeIndex()[0];
+    IndexValueType scanlineIndex = computedIndex[0];
 
     while (!outIt.IsAtEndOfLine())
     {
