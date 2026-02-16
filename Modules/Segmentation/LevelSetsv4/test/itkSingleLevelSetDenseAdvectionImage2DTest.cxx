@@ -153,7 +153,7 @@ itkSingleLevelSetDenseAdvectionImage2DTest(int argc, char * argv[])
   advectionTerm->SetInput(input);
   advectionTerm->SetCoefficient(1.0);
 
-  auto derivativeSigma = static_cast<typename AdvectionTermType::LevelSetOutputRealType>(std::stod(argv[6]));
+  auto derivativeSigma = static_cast<AdvectionTermType::LevelSetOutputRealType>(std::stod(argv[6]));
   advectionTerm->SetDerivativeSigma(derivativeSigma);
   ITK_TEST_SET_GET_VALUE(derivativeSigma, advectionTerm->GetDerivativeSigma());
 

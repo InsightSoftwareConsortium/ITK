@@ -133,10 +133,10 @@ public:
   using TextureFeatureName = uint8_t;
   using FeatureNameVector = VectorContainer<unsigned char, TextureFeatureName>;
 
-  using FeatureNameVectorPointer = typename FeatureNameVector::Pointer;
-  using FeatureNameVectorConstPointer = typename FeatureNameVector::ConstPointer;
+  using FeatureNameVectorPointer = FeatureNameVector::Pointer;
+  using FeatureNameVectorConstPointer = FeatureNameVector::ConstPointer;
   using FeatureValueVector = VectorContainer<unsigned char, double>;
-  using FeatureValueVectorPointer = typename FeatureValueVector::Pointer;
+  using FeatureValueVectorPointer = FeatureValueVector::Pointer;
 
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = DataObject::Pointer;

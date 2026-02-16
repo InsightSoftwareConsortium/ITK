@@ -161,7 +161,7 @@ TEST_F(PasteFixture, ConstantPaste)
 TEST_F(PasteFixture, ConstantPaste3_2)
 {
   using Utils = FixtureUtilities<itk::Image<int, 3>, itk::Image<int, 2>>;
-  using SkipType = typename Utils::FilterType::InputSkipAxesArrayType;
+  using SkipType = Utils::FilterType::InputSkipAxesArrayType;
   auto filter = Utils::FilterType::New();
 
 
@@ -297,7 +297,7 @@ TEST_F(PasteFixture, Paste3_2)
 {
   using Utils = FixtureUtilities<itk::Image<int, 3>, itk::Image<int, 2>>;
 
-  using SkipType = typename Utils::FilterType::InputSkipAxesArrayType;
+  using SkipType = Utils::FilterType::InputSkipAxesArrayType;
   constexpr int constantValue{ -53 };
 
   auto filter = Utils::FilterType::New();

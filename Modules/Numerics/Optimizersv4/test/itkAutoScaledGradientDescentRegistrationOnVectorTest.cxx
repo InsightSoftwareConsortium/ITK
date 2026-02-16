@@ -114,7 +114,7 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int               
   iterationCommand->SetOptimizer(optimizer);
 
   // Optimizer parameter scales estimator
-  typename itk::OptimizerParameterScalesEstimator::Pointer scalesEstimator;
+  itk::OptimizerParameterScalesEstimator::Pointer scalesEstimator;
 
   using ShiftScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<MetricType>;
   using JacobianScalesEstimatorType = itk::RegistrationParameterScalesFromJacobian<MetricType>;

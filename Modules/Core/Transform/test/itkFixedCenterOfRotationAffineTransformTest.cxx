@@ -108,7 +108,7 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
     ITK_TEST_EXPECT_EQUAL(scale1[i], scale3[i]);
   }
 
-  const typename FCoRAffine2DType::InputVectorType vScale = itk::MakeVector(2.0, 4.0);
+  const FCoRAffine2DType::InputVectorType vScale = itk::MakeVector(2.0, 4.0);
   aff2->SetScaleComponent(vScale);
   ITK_TEST_SET_GET_VALUE(vScale, aff2->GetScaleComponent());
 

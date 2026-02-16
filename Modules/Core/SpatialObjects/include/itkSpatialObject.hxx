@@ -322,10 +322,10 @@ SpatialObject<TDimension>::ValueAtChildrenInObjectSpace(const PointType &   poin
 }
 
 template <unsigned int TDimension>
-typename LightObject::Pointer
+LightObject::Pointer
 SpatialObject<TDimension>::InternalClone() const
 {
-  typename LightObject::Pointer loPtr = CreateAnother();
+  LightObject::Pointer loPtr = CreateAnother();
 
   const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())

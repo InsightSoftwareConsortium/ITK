@@ -114,11 +114,11 @@ public:
 
   /** Index type alias support An index is used to access pixel values. */
   using IndexType = Array<itk::IndexValueType>;
-  using IndexValueType = typename IndexType::ValueType;
+  using IndexValueType = IndexType::ValueType;
 
   /** size array type */
   using SizeType = Array<itk::SizeValueType>;
-  using SizeValueType = typename SizeType::ValueType;
+  using SizeValueType = SizeType::ValueType;
 
   /** bin min max value storage types */
   using BinMinVectorType = std::vector<MeasurementType>;

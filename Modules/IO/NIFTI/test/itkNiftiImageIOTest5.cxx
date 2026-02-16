@@ -97,8 +97,8 @@ SlopeInterceptTest()
 
   //
   // read the image back in
-  using ImageType = typename itk::Image<float, 3>;
-  typename ImageType::Pointer image;
+  using ImageType = itk::Image<float, 3>;
+  ImageType::Pointer image;
   try
   {
     image = itk::IOTestHelper::ReadImage<ImageType>(std::string(filename));
@@ -108,7 +108,7 @@ SlopeInterceptTest()
     itk::IOTestHelper::Remove(filename);
     return EXIT_FAILURE;
   }
-  using IteratorType = typename itk::ImageRegionIterator<ImageType>;
+  using IteratorType = itk::ImageRegionIterator<ImageType>;
   IteratorType it(image, image->GetLargestPossibleRegion());
   it.GoToBegin();
   double maxerror = 0.0;
@@ -178,7 +178,7 @@ SlopeInterceptWriteTest()
   //
   // read the image back in
   using ImageType = itk::Image<float, 3>;
-  typename ImageType::Pointer image;
+  ImageType::Pointer image;
   try
   {
     image = itk::IOTestHelper::ReadImage<ImageType>(std::string(filename));

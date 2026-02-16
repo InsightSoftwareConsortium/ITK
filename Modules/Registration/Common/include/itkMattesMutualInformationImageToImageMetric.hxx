@@ -235,10 +235,10 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::Initialize
 
     // By setting these values, the joint histogram physical locations will
     // correspond to intensity values.
-    typename JointPDFType::PointType origin;
+    JointPDFType::PointType origin;
     origin[0] = this->m_FixedImageTrueMin;
     origin[1] = this->m_MovingImageTrueMin;
-    typename JointPDFType::SpacingType spacing;
+    JointPDFType::SpacingType spacing;
     spacing[0] = this->m_FixedImageBinSize;
     spacing[1] = this->m_MovingImageBinSize;
     /**

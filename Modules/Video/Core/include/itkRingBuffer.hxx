@@ -106,7 +106,7 @@ template <typename TElement>
 auto
 RingBuffer<TElement>::GetNumberOfBuffers() -> SizeValueType
 {
-  return static_cast<typename RingBuffer<TElement>::SizeValueType>(this->m_PointerVector.size());
+  return static_cast<RingBuffer<TElement>::SizeValueType>(this->m_PointerVector.size());
 }
 
 template <typename TElement>

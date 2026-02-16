@@ -46,8 +46,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 
   os << indent << "Size: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Size) << std::endl;
   os << indent << "NumberOfSeeds: " << m_NumberOfSeeds << std::endl;
-  os << indent << "MinRegion: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_MinRegion)
-     << std::endl;
+  os << indent << "MinRegion: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_MinRegion) << std::endl;
   os << indent << "Steps: " << m_Steps << std::endl;
   os << indent << "LastStepSeeds: " << m_LastStepSeeds << std::endl;
   os << indent << "NumberOfSeedsToAdded: " << m_NumberOfSeedsToAdded << std::endl;

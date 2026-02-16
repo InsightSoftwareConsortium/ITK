@@ -592,7 +592,7 @@ private:
   double     m_Kurtosis{};
   double     m_WeightedElongation{};
 
-  typename HistogramType::ConstPointer m_Histogram{};
+  HistogramType::ConstPointer m_Histogram{};
 
   double m_WeightedFlatness{};
 };

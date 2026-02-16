@@ -54,7 +54,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::PrintS
   itkPrintSelfBooleanMacro(UseImageSpacing);
   os << indent << "UsePrincipleComponents: " << m_UsePrincipleComponents << std::endl;
   os << indent << "RequestedNumberOfThreads: "
-     << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_RequestedNumberOfWorkUnits) << std::endl;
+     << static_cast<NumericTraits<ThreadIdType>::PrintType>(m_RequestedNumberOfWorkUnits) << std::endl;
 
   itkPrintSelfObjectMacro(RealValuedInputImage);
 }

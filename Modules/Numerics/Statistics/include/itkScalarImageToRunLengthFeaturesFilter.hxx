@@ -131,7 +131,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Full
       runLengthMatrixCalculator->SetInput(this->m_RunLengthMatrixGenerator->GetOutput());
       runLengthMatrixCalculator->Update();
 
-      typename FeatureNameVector::ConstIterator fnameIt;
+      FeatureNameVector::ConstIterator fnameIt;
       {
         size_t featureNum = 0;
         for (fnameIt = this->m_RequestedFeatures->Begin(); fnameIt != this->m_RequestedFeatures->End();
@@ -221,7 +221,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Fast
   using InternalRunLengthFeatureName = itk::Statistics::RunLengthFeatureEnum;
   this->m_FeatureMeans->clear();
   this->m_FeatureStandardDeviations->clear();
-  for (typename FeatureNameVector::ConstIterator fnameIt = this->m_RequestedFeatures->Begin();
+  for (FeatureNameVector::ConstIterator fnameIt = this->m_RequestedFeatures->Begin();
        fnameIt != this->m_RequestedFeatures->End();
        ++fnameIt)
   {

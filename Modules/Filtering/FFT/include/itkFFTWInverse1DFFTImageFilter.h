@@ -61,8 +61,8 @@ public:
    * configured in, or float if only double is configured.
    */
   using FFTW1DProxyType = typename fftw::ComplexToComplexProxy<typename TOutputImage::PixelType>;
-  using PlanArrayType = typename std::vector<typename FFTW1DProxyType::PlanType>;
-  using PlanBufferPointerType = typename std::vector<typename FFTW1DProxyType::ComplexType *>;
+  using PlanArrayType = std::vector<typename FFTW1DProxyType::PlanType>;
+  using PlanBufferPointerType = std::vector<typename FFTW1DProxyType::ComplexType *>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

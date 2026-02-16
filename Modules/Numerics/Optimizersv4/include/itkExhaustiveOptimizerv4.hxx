@@ -226,8 +226,7 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>::PrintSelf(std::ostream & o
   os << indent << "InitialPosition: " << m_InitialPosition << std::endl;
   os << indent << "CurrentValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_CurrentValue)
      << std::endl;
-  os << indent << "NumberOfSteps: " << static_cast<typename NumericTraits<StepsType>::PrintType>(m_NumberOfSteps)
-     << std::endl;
+  os << indent << "NumberOfSteps: " << static_cast<NumericTraits<StepsType>::PrintType>(m_NumberOfSteps) << std::endl;
   itkPrintSelfBooleanMacro(Stop);
   os << indent << "StepLength: " << m_StepLength << std::endl;
   os << indent << "CurrentIndex: " << m_CurrentIndex << std::endl;

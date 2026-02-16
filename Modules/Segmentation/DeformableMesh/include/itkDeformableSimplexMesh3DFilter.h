@@ -104,9 +104,9 @@ public:
   using InputPointsContainerConstIterator = typename InputMeshType::PointsContainer::ConstIterator;
 
   /** Other definitions. */
-  using PointType = typename SimplexMeshGeometry::PointType;
-  using VectorType = typename PointType::VectorType;
-  using CovariantVectorType = CovariantVector<typename VectorType::ValueType, 3>;
+  using PointType = SimplexMeshGeometry::PointType;
+  using VectorType = PointType::VectorType;
+  using CovariantVectorType = CovariantVector<VectorType::ValueType, 3>;
   using PixelType = typename InputMeshType::PixelType;
 
   /** Image and Image iterator definition. */
@@ -134,8 +134,8 @@ public:
   using NeighborSetType = std::set<IdentifierType>;
   using IndexSetType = std::set<IdentifierType>;
   using VertexNeighborListType = itk::MapContainer<IdentifierType, NeighborSetType>;
-  using NeighborSetIterator = typename NeighborSetType::iterator;
-  using IndexSetIterator = typename IndexSetType::iterator;
+  using NeighborSetIterator = NeighborSetType::iterator;
+  using IndexSetIterator = IndexSetType::iterator;
 
   using GeometryMapType = typename InputMeshType::GeometryMapType;
   using GeometryMapPointer = typename GeometryMapType::Pointer;

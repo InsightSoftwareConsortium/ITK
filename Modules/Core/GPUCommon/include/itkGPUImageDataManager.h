@@ -88,10 +88,10 @@ protected:
 private:
   WeakPointer<ImageType> m_Image{}; // WeakPointer has to be used here
                                     // to avoid SmartPointer loop
-  int                              m_BufferedRegionIndex[ImageType::ImageDimension]{};
-  int                              m_BufferedRegionSize[ImageType::ImageDimension]{};
-  typename GPUDataManager::Pointer m_GPUBufferedRegionIndex{};
-  typename GPUDataManager::Pointer m_GPUBufferedRegionSize{};
+  int                     m_BufferedRegionIndex[ImageType::ImageDimension]{};
+  int                     m_BufferedRegionSize[ImageType::ImageDimension]{};
+  GPUDataManager::Pointer m_GPUBufferedRegionIndex{};
+  GPUDataManager::Pointer m_GPUBufferedRegionSize{};
 };
 
 } // namespace itk

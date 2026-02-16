@@ -113,7 +113,7 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, In
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Scale: " << static_cast<typename NumericTraits<double>::PrintType>(m_Scale) << std::endl;
+  os << indent << "Scale: " << static_cast<NumericTraits<double>::PrintType>(m_Scale) << std::endl;
 }
 } // end namespace itk
 

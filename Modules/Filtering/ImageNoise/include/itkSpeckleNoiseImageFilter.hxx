@@ -122,7 +122,7 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "StandardDeviation: " << static_cast<typename NumericTraits<double>::PrintType>(m_StandardDeviation)
+  os << indent << "StandardDeviation: " << static_cast<NumericTraits<double>::PrintType>(m_StandardDeviation)
      << std::endl;
 }
 } // end namespace itk

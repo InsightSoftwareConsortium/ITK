@@ -168,12 +168,12 @@ ImageSpatialObject<TDimension, PixelType>::GetImage() const -> const ImageType *
 }
 
 template <unsigned int TDimension, typename PixelType>
-typename LightObject::Pointer
+LightObject::Pointer
 ImageSpatialObject<TDimension, PixelType>::InternalClone() const
 {
   // Default implementation just copies the parameters from
   // this to new transform.
-  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+  LightObject::Pointer loPtr = Superclass::InternalClone();
 
   const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())

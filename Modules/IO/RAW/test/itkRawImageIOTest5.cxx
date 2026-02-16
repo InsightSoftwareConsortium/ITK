@@ -40,8 +40,8 @@ public:
   {
     m_Image = ImageType::New();
 
-    constexpr typename ImageType::SizeType size{ 16, 16 };
-    typename ImageType::RegionType         region = { size };
+    constexpr ImageType::SizeType size{ 16, 16 };
+    ImageType::RegionType         region = { size };
 
     m_Image->SetRegions(region);
     m_Image->Allocate();
@@ -149,7 +149,7 @@ public:
 private:
   std::string m_FileName;
 
-  typename ImageType::Pointer m_Image;
+  ImageType::Pointer m_Image;
 
   bool m_Error;
 };

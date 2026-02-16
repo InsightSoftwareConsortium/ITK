@@ -29,10 +29,10 @@ SubsamplerBase<TSample>::SubsamplerBase()
 {}
 
 template <typename TSample>
-typename LightObject::Pointer
+LightObject::Pointer
 SubsamplerBase<TSample>::InternalClone() const
 {
-  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+  LightObject::Pointer loPtr = Superclass::InternalClone();
 
   const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())

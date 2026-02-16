@@ -200,18 +200,18 @@ itkWarpImageFilterTest(int, char *[])
   warper->SetOutputOrigin(ptarray.GetDataPointer());
   ITK_TEST_SET_GET_VALUE(ptarray, warper->GetOutputOrigin());
 
-  typename WarperType::DirectionType outputDirection;
+  WarperType::DirectionType outputDirection;
   outputDirection.SetIdentity();
   warper->SetOutputDirection(outputDirection);
   ITK_TEST_SET_GET_VALUE(outputDirection, warper->GetOutputDirection());
 
-  constexpr typename WarperType::IndexType::value_type outputStartIndexVal = 0;
-  auto outputStartIndex = WarperType::IndexType::Filled(outputStartIndexVal);
+  constexpr WarperType::IndexType::value_type outputStartIndexVal = 0;
+  auto                                        outputStartIndex = WarperType::IndexType::Filled(outputStartIndexVal);
   warper->SetOutputStartIndex(outputStartIndex);
   ITK_TEST_SET_GET_VALUE(outputStartIndex, warper->GetOutputStartIndex());
 
-  constexpr typename WarperType::SizeType::value_type outputSizeVal = 0;
-  auto                                                outputSize = WarperType::SizeType::Filled(outputSizeVal);
+  constexpr WarperType::SizeType::value_type outputSizeVal = 0;
+  auto                                       outputSize = WarperType::SizeType::Filled(outputSizeVal);
   warper->SetOutputSize(outputSize);
   ITK_TEST_SET_GET_VALUE(outputSize, warper->GetOutputSize());
 

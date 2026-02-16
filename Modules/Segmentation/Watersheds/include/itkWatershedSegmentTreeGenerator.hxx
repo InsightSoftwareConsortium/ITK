@@ -115,8 +115,8 @@ void
 SegmentTreeGenerator<TScalar>::MergeEquivalencies()
 {
   const typename SegmentTableType::Pointer segTable = this->GetInputSegmentTable();
-  auto threshold = static_cast<ScalarType>(m_FloodLevel * segTable->GetMaximumDepth());
-  const typename EquivalencyTableType::Pointer eqTable = this->GetInputEquivalencyTable();
+  auto                                threshold = static_cast<ScalarType>(m_FloodLevel * segTable->GetMaximumDepth());
+  const EquivalencyTableType::Pointer eqTable = this->GetInputEquivalencyTable();
   eqTable->Flatten();
   IdentifierType counter = 0;
 

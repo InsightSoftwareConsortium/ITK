@@ -30,7 +30,7 @@ HDF5ReadWriteTest(const char * fileName)
 {
   std::cout << fileName << std::endl;
   int success(EXIT_SUCCESS);
-  using ImageType = typename itk::Image<TPixel, 3>;
+  using ImageType = itk::Image<TPixel, 3>;
   typename ImageType::SpacingType spacing;
   typename ImageType::PointType   origin;
   for (unsigned int i = 0; i < 3; ++i)

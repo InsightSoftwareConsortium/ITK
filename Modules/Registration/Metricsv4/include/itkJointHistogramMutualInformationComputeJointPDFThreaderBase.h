@@ -87,8 +87,8 @@ protected:
   // TODO: This needs updating
   struct JointHistogramMIPerThreadStruct
   {
-    typename JointHistogramType::Pointer JointHistogram;
-    SizeValueType                        JointHistogramCount;
+    JointHistogramType::Pointer JointHistogram;
+    SizeValueType               JointHistogramCount;
   };
   itkPadStruct(ITK_CACHE_LINE_ALIGNMENT, JointHistogramMIPerThreadStruct, PaddedJointHistogramMIPerThreadStruct);
   itkAlignedTypedef(ITK_CACHE_LINE_ALIGNMENT,

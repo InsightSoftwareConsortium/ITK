@@ -305,13 +305,11 @@ VideoFileWriter<TInputVideoStream>::PrintSelf(std::ostream & os, Indent indent) 
 
   os << indent << "OutputTemporalRegion: " << m_OutputTemporalRegion << std::endl;
 
-  os << indent
-     << "FramesPerSecond: " << static_cast<typename NumericTraits<TemporalRatioType>::PrintType>(m_FramesPerSecond)
+  os << indent << "FramesPerSecond: " << static_cast<NumericTraits<TemporalRatioType>::PrintType>(m_FramesPerSecond)
      << std::endl;
   os << indent << "FourCC: " << m_FourCC << std::endl;
   os << indent << "Dimensions: " << m_Dimensions << std::endl;
-  os << indent
-     << "NumberOfComponents: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfComponents)
+  os << indent << "NumberOfComponents: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfComponents)
      << std::endl;
   os << indent << "ComponentType: " << m_ComponentType << std::endl;
 }

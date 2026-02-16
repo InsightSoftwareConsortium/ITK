@@ -108,8 +108,9 @@ PointSetToImageMetric<TFixedPointSet, TMovingImage>::PrintSelf(std::ostream & os
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfPixelsCounted: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsCounted) << std::endl;
+  os << indent
+     << "NumberOfPixelsCounted: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsCounted)
+     << std::endl;
 
   itkPrintSelfObjectMacro(FixedPointSet);
   itkPrintSelfObjectMacro(MovingImage);

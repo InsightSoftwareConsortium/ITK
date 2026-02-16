@@ -99,7 +99,7 @@ public:
 
   /** Typedefs to avoid internal compiler error bug on Microsoft VC++ */
   using SegmentTableTypePointer = typename SegmentTableType::Pointer;
-  using OneWayEquivalencyTableTypePointer = typename OneWayEquivalencyTableType::Pointer;
+  using OneWayEquivalencyTableTypePointer = OneWayEquivalencyTableType::Pointer;
   using SegmentTreeTypePointer = typename SegmentTreeType::Pointer;
 
   /** Get/Set the input table of segments to process */

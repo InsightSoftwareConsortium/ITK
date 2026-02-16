@@ -159,14 +159,14 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   adaptor->SetAliveImage(aliveImage.GetPointer());
   ITK_TEST_SET_GET_VALUE(aliveImage.GetPointer(), adaptor->GetAliveImage());
 
-  constexpr typename AdaptorType::OutputPixelType aliveValue = 0.0;
+  constexpr AdaptorType::OutputPixelType aliveValue = 0.0;
   adaptor->SetAliveValue(aliveValue);
   ITK_TEST_SET_GET_VALUE(aliveValue, adaptor->GetAliveValue());
 
   adaptor->SetTrialImage(trialImage.GetPointer());
   ITK_TEST_SET_GET_VALUE(trialImage.GetPointer(), adaptor->GetTrialImage());
 
-  constexpr typename AdaptorType::OutputPixelType trialValue = 1.0;
+  constexpr AdaptorType::OutputPixelType trialValue = 1.0;
   adaptor->SetTrialValue(trialValue);
   ITK_TEST_SET_GET_VALUE(trialValue, adaptor->GetTrialValue());
 

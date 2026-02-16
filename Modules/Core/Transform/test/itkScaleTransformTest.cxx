@@ -63,7 +63,7 @@ itkScaleTransformTest(int, char *[])
 
     identityTransform->SetIdentity();
 
-    typename TransformType::ScaleType identityScale{ 1.0 };
+    TransformType::ScaleType identityScale{ 1.0 };
     ITK_TEST_SET_GET_VALUE(identityScale, identityTransform->GetScale());
 
     if (!Ok)

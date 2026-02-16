@@ -175,7 +175,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 }
 
 template <typename TPointSet, class TInternalComputationValueType>
-typename LightObject::Pointer
+LightObject::Pointer
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>::InternalClone() const
 {
   auto rval = Self::New();

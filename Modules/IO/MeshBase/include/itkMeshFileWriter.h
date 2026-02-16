@@ -72,7 +72,7 @@ public:
   using InputMeshRegionType = typename InputMeshType::RegionType;
   using InputMeshPixelType = typename InputMeshType::PixelType;
   using InputMeshCellType = typename InputMeshType::CellType;
-  using SizeValueType = typename MeshIOBase::SizeValueType;
+  using SizeValueType = MeshIOBase::SizeValueType;
 
   /** Set/Get the mesh input of this writer.  */
   using Superclass::SetInput;

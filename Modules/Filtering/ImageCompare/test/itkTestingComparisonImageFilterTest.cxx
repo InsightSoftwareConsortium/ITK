@@ -69,7 +69,7 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
   auto ignoreBoundaryPixels = static_cast<bool>(std::stoi(argv[4]));
   ITK_TEST_SET_GET_BOOLEAN(filter, IgnoreBoundaryPixels, ignoreBoundaryPixels);
 
-  auto differenceThreshold = static_cast<typename FilterType::OutputPixelType>(std::stoi(argv[5]));
+  auto differenceThreshold = static_cast<FilterType::OutputPixelType>(std::stoi(argv[5]));
   filter->SetDifferenceThreshold(differenceThreshold);
   ITK_TEST_SET_GET_VALUE(differenceThreshold, filter->GetDifferenceThreshold());
 
@@ -99,13 +99,13 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
   char * end = nullptr;
   ITK_TEST_EXPECT_EQUAL(numberOfPixelsWithDifferences, std::strtoul(argv[7], &end, 10));
 
-  auto minimumDifference = static_cast<typename FilterType::OutputPixelType>(std::stod(argv[8]));
+  auto minimumDifference = static_cast<FilterType::OutputPixelType>(std::stod(argv[8]));
   ITK_TEST_EXPECT_EQUAL(minimumDifference, filter->GetMinimumDifference());
 
-  auto maximumDifference = static_cast<typename FilterType::OutputPixelType>(std::stod(argv[9]));
+  auto maximumDifference = static_cast<FilterType::OutputPixelType>(std::stod(argv[9]));
   ITK_TEST_EXPECT_EQUAL(maximumDifference, filter->GetMaximumDifference());
 
-  auto meanDifference = static_cast<typename FilterType::RealType>(std::stod(argv[10]));
+  auto meanDifference = static_cast<FilterType::RealType>(std::stod(argv[10]));
 
   constexpr double epsilon{ 1e-4 };
   std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
@@ -120,7 +120,7 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  auto totalDifference = static_cast<typename FilterType::AccumulateType>(std::stod(argv[11]));
+  auto totalDifference = static_cast<FilterType::AccumulateType>(std::stod(argv[11]));
   ITK_TEST_EXPECT_EQUAL(totalDifference, filter->GetTotalDifference());
 
   // Change test input spacing to test that comparison filter fails if spacings are different

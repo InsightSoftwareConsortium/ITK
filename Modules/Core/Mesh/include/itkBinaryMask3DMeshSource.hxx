@@ -2650,9 +2650,8 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::PrintSelf(std::ostream & os, I
 
   os << indent << "LUT: " << m_LUT << std::endl;
 
-  os << indent << "LastVoxel: " << static_cast<typename NumericTraits<IdentifierType>::PrintType>(*m_LastVoxel)
-     << std::endl;
-  os << indent << "CurrentVoxel: " << static_cast<typename NumericTraits<IdentifierType>::PrintType>(*m_CurrentVoxel)
+  os << indent << "LastVoxel: " << static_cast<NumericTraits<IdentifierType>::PrintType>(*m_LastVoxel) << std::endl;
+  os << indent << "CurrentVoxel: " << static_cast<NumericTraits<IdentifierType>::PrintType>(*m_CurrentVoxel)
      << std::endl;
 
   os << indent << "LastRow: ";
@@ -2660,7 +2659,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::PrintSelf(std::ostream & os, I
   {
     if (*m_LastRow != nullptr)
     {
-      os << static_cast<typename NumericTraits<IdentifierType>::PrintType>(**m_LastRow) << std::endl;
+      os << static_cast<NumericTraits<IdentifierType>::PrintType>(**m_LastRow) << std::endl;
     }
   }
   else
@@ -2673,7 +2672,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::PrintSelf(std::ostream & os, I
   {
     if (*m_LastFrame != nullptr)
     {
-      os << static_cast<typename NumericTraits<IdentifierType>::PrintType>(**m_LastFrame) << std::endl;
+      os << static_cast<NumericTraits<IdentifierType>::PrintType>(**m_LastFrame) << std::endl;
     }
   }
   else
@@ -2686,7 +2685,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::PrintSelf(std::ostream & os, I
   {
     if (*m_CurrentRow != nullptr)
     {
-      os << static_cast<typename NumericTraits<IdentifierType>::PrintType>(**m_CurrentRow) << std::endl;
+      os << static_cast<NumericTraits<IdentifierType>::PrintType>(**m_CurrentRow) << std::endl;
     }
   }
   else
@@ -2699,7 +2698,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::PrintSelf(std::ostream & os, I
   {
     if (*m_CurrentFrame != nullptr)
     {
-      os << static_cast<typename NumericTraits<IdentifierType>::PrintType>(**m_CurrentFrame) << std::endl;
+      os << static_cast<NumericTraits<IdentifierType>::PrintType>(**m_CurrentFrame) << std::endl;
     }
   }
   else
@@ -2717,9 +2716,9 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::PrintSelf(std::ostream & os, I
 
   os << indent << "LocationOffset: " << m_LocationOffset << std::endl;
 
-  os << indent << "NumberOfNodes: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfNodes)
+  os << indent << "NumberOfNodes: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfNodes)
      << std::endl;
-  os << indent << "NumberOfCells: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfCells)
+  os << indent << "NumberOfCells: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfCells)
      << std::endl;
 
   os << indent << "NodeLimit: " << m_NodeLimit << std::endl;

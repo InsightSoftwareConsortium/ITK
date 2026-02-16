@@ -192,7 +192,7 @@ template <typename TLabel, unsigned int VImageDimension>
 auto
 LabelObject<TLabel, VImageDimension>::GetNumberOfLines() const -> SizeValueType
 {
-  return static_cast<typename LabelObject<TLabel, VImageDimension>::SizeValueType>(m_LineContainer.size());
+  return static_cast<LabelObject<TLabel, VImageDimension>::SizeValueType>(m_LineContainer.size());
 }
 
 template <typename TLabel, unsigned int VImageDimension>

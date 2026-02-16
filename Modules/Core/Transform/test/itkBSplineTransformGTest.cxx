@@ -109,9 +109,9 @@ TEST(ITKBSplineTransform, CopyingClone)
   using namespace itk::GTest::TypedefsAndConstructors::Dimension2;
 
   using BSplineType = itk::BSplineTransform<double, 2, 3>;
-  using ImageType = typename BSplineType::ImageType;
+  using ImageType = BSplineType::ImageType;
 
-  typename BSplineType::CoefficientImageArray coeffImageArray;
+  BSplineType::CoefficientImageArray coeffImageArray;
 
   ASSERT_EQ(coeffImageArray.Size(), 2);
 

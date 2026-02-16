@@ -324,7 +324,7 @@ private:
   typename TKdTree::Pointer m_KdTree{};
 
   /** pointer to the euclidean distance function */
-  typename EuclideanDistanceMetric<ParameterType>::Pointer m_DistanceMetric{};
+  EuclideanDistanceMetric<ParameterType>::Pointer m_DistanceMetric{};
 
   /** k-means */
   ParametersType m_Parameters{};

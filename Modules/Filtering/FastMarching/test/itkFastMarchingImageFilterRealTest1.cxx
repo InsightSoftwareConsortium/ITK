@@ -59,7 +59,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
 
   auto criterion = CriterionType::New();
 
-  constexpr typename FloatImageType::PixelType threshold = 100.0;
+  constexpr FloatImageType::PixelType threshold = 100.0;
   criterion->SetThreshold(threshold);
   ITK_TEST_SET_GET_VALUE(threshold, criterion->GetThreshold());
 

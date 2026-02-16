@@ -148,7 +148,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>::PrintSelf(std::ostream & os,
   Superclass::PrintSelf(os, indent);
 
   os << indent << "MaximumSmoothingIterations: "
-     << static_cast<typename itk::NumericTraits<SizeValueType>::PrintType>(m_MaximumSmoothingIterations) << std::endl;
+     << static_cast<itk::NumericTraits<SizeValueType>::PrintType>(m_MaximumSmoothingIterations) << std::endl;
   os << indent << "UseInterMode: " << m_UseInterMode << std::endl;
 }
 

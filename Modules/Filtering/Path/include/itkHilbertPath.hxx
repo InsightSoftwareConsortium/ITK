@@ -238,8 +238,7 @@ HilbertPath<TIndexValue, VDimension>::PrintSelf(std::ostream & os, Indent indent
 
   Superclass::PrintSelf(os, indent);
 
-  os << "HilbertOrder: " << static_cast<typename NumericTraits<HilbertOrderType>::PrintType>(m_HilbertOrder)
-     << std::endl;
+  os << "HilbertOrder: " << static_cast<NumericTraits<HilbertOrderType>::PrintType>(m_HilbertOrder) << std::endl;
   os << "HilbertPath: " << m_HilbertPath << std::endl;
 }
 } // end namespace itk

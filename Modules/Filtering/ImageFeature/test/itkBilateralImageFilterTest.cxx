@@ -37,8 +37,8 @@ itkBilateralImageFilterTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BilateralImageFilter, ImageToImageFilter);
 
 
-  double                         domainSigmaVal = 2.0;
-  typename FilterType::ArrayType domainSigma = FilterType::ArrayType::Filled(domainSigmaVal);
+  double                domainSigmaVal = 2.0;
+  FilterType::ArrayType domainSigma = FilterType::ArrayType::Filled(domainSigmaVal);
   filter->SetDomainSigma(domainSigmaVal);
   ITK_TEST_SET_GET_VALUE(domainSigma, filter->GetDomainSigma());
 
@@ -61,8 +61,8 @@ itkBilateralImageFilterTest(int, char *[])
   constexpr bool automaticKernelSize{ true };
   ITK_TEST_SET_GET_BOOLEAN(filter, AutomaticKernelSize, automaticKernelSize);
 
-  constexpr typename FilterType::SizeType::SizeValueType radiusVal = 2;
-  constexpr typename FilterType::SizeType                radius = FilterType::SizeType::Filled(radiusVal);
+  constexpr FilterType::SizeType::SizeValueType radiusVal = 2;
+  constexpr FilterType::SizeType                radius = FilterType::SizeType::Filled(radiusVal);
   filter->SetRadius(radius);
   ITK_TEST_SET_GET_VALUE(radius, filter->GetRadius());
 

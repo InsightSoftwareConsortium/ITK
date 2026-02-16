@@ -82,8 +82,7 @@ ImageToSpatialObjectMetric<TFixedImage, TMovingSpatialObject>::PrintSelf(std::os
   Superclass::PrintSelf(os, indent);
 
 
-  os << indent << "MatchMeasure: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_MatchMeasure)
-     << std::endl;
+  os << indent << "MatchMeasure: " << static_cast<NumericTraits<MeasureType>::PrintType>(m_MatchMeasure) << std::endl;
   os << indent << "MatchMeasureDerivatives: " << m_MatchMeasureDerivatives << std::endl;
 
   itkPrintSelfObjectMacro(Transform);

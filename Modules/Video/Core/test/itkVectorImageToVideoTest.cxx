@@ -87,7 +87,7 @@ itkVectorImageToVideoTest(int argc, char * argv[])
   }
 
   // Verify spatial direction in output frames match input direction
-  typename VideoFilterType::OutputFrameType::DirectionType outputDirection;
+  VideoFilterType::OutputFrameType::DirectionType outputDirection;
   outputDirection.SetIdentity();
   for (auto frameIdx = videoOutput->GetLargestPossibleTemporalRegion().GetFrameStart();
        frameIdx < videoOutput->GetLargestPossibleTemporalRegion().GetFrameDuration();
@@ -101,7 +101,7 @@ itkVectorImageToVideoTest(int argc, char * argv[])
                         inputImage->GetNumberOfComponentsPerPixel());
 
   // Iterate over 3D input + video output to verify pixel data matches across each slice/frame
-  using ImageIteratorType = typename itk::ImageLinearConstIteratorWithIndex<ImageType>;
+  using ImageIteratorType = itk::ImageLinearConstIteratorWithIndex<ImageType>;
   ImageIteratorType it(inputImage, inputImage->GetLargestPossibleRegion());
   it.SetDirection(1); // Slice direction
   it.GoToBegin();

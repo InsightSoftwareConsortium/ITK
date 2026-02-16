@@ -240,7 +240,7 @@ VelocityFieldTransform<TParametersValueType, VDimension>::CopyDisplacementField(
 }
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename LightObject::Pointer
+LightObject::Pointer
 VelocityFieldTransform<TParametersValueType, VDimension>::InternalClone() const
 {
   // create a new instance

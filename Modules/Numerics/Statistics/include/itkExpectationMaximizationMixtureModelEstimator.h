@@ -144,7 +144,7 @@ public:
 
   /** type alias for decorated array of proportion */
   using MembershipFunctionsWeightsArrayObjectType = SimpleDataObjectDecorator<ProportionVectorType>;
-  using MembershipFunctionsWeightsArrayPointer = typename MembershipFunctionsWeightsArrayObjectType::Pointer;
+  using MembershipFunctionsWeightsArrayPointer = MembershipFunctionsWeightsArrayObjectType::Pointer;
 
   /** Get method for data decorated Membership functions weights array */
   const MembershipFunctionsWeightsArrayObjectType *

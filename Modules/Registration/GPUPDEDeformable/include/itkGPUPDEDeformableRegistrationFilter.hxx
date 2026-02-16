@@ -311,9 +311,9 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TParentImageFilter>
 void
 GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>::
-  GPUSmoothVectorField(DisplacementFieldPointer         field,
-                       typename GPUDataManager::Pointer GPUSmoothingKernels[],
-                       int                              GPUSmoothingKernelSizes[])
+  GPUSmoothVectorField(DisplacementFieldPointer field,
+                       GPUDataManager::Pointer  GPUSmoothingKernels[],
+                       int                      GPUSmoothingKernelSizes[])
 {
   using GPUBufferImage = typename itk::GPUTraits<TDisplacementField>::Type;
   using GPUOutputImage = typename itk::GPUTraits<TDisplacementField>::Type;

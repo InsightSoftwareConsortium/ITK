@@ -112,7 +112,7 @@ public:
   /** The type of optimizer used to compute the MAP estimate of the shape and
     pose parameters. */
   using OptimizerType = SingleValuedNonLinearOptimizer;
-  using OptimizerPointer = typename OptimizerType::Pointer;
+  using OptimizerPointer = OptimizerType::Pointer;
 
   /** Set/Get the shape signed distance function. */
   /** @ITKStartGrouping */

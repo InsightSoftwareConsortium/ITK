@@ -98,8 +98,7 @@ public:
   OutputPointType
   TransformPoint(const InputPointType & inputPoint) const override
   {
-    auto outputPoint =
-      itk::MakeFilled<OutputPointType>(std::numeric_limits<typename OutputPointType::ValueType>::max());
+    auto outputPoint = itk::MakeFilled<OutputPointType>(std::numeric_limits<OutputPointType::ValueType>::max());
     for (unsigned int d = 0; d < 2; ++d)
     {
       outputPoint[d] = inputPoint[d] * 0.5;

@@ -31,7 +31,7 @@
 using PointSet = itk::PointSet<int>;
 using PointType = PointSet::PointType;
 using PointsVectorContainer = PointSet::PointsVectorContainer;
-using PointsVectorContainerPointer = typename PointsVectorContainer::Pointer;
+using PointsVectorContainerPointer = PointsVectorContainer::Pointer;
 
 /**
  * The point set that is created consists of a 100 random points.

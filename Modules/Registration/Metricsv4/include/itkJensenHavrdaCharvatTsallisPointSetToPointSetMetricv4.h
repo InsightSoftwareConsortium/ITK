@@ -210,7 +210,7 @@ public:
 
   /** Clone method will clone the existing instance of this type,
    *  including its internal member variables. */
-  typename LightObject::Pointer
+  LightObject::Pointer
   InternalClone() const override;
 
 protected:

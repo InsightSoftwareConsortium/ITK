@@ -588,7 +588,7 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::PrintSelf(std::ost
   itkPrintSelfObjectMacro(InverseInterpolator);
 
   os << indent << "DisplacementFieldSetTime: "
-     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_DisplacementFieldSetTime) << std::endl;
+     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_DisplacementFieldSetTime) << std::endl;
 
   os << indent
      << "IdentityJacobian: " << static_cast<typename NumericTraits<JacobianType>::PrintType>(m_IdentityJacobian)

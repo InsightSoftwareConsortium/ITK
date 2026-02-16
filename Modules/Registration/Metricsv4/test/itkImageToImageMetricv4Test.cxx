@@ -669,7 +669,7 @@ itkImageToImageMetricv4Test(int, char ** const)
             << std::endl;
   std::cout << "MetricCategory: " << metric->GetMetricCategory() << std::endl;
 
-  typename ImageToImageMetricv4TestMetricType::DerivativeType derivative{};
+  ImageToImageMetricv4TestMetricType::DerivativeType derivative{};
   metric->GetDerivative(derivative);
   std::cout << "Derivative: " << derivative << std::endl;
 

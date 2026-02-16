@@ -122,7 +122,7 @@ public:
   using EdgeAutoPointer = typename Edge::SelfAutoPointer;
   using PointList = std::list<PointType>;
   using INTvector = std::vector<int>;
-  using NeighborIdIterator = typename INTvector::iterator;
+  using NeighborIdIterator = INTvector::iterator;
   using VertexIterator = PointsContainerIterator;
   /** Get the number of Voronoi seeds. */
   itkGetConstMacro(NumberOfSeeds, unsigned int);

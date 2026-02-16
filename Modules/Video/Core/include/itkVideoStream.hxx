@@ -227,7 +227,7 @@ VideoStream<TFrameType>::GetFrameNumberOfComponentsPerPixel(SizeValueType frameN
 
 template <typename TFrameType>
 void
-VideoStream<TFrameType>::SetFrameBuffer(typename VideoStream<TFrameType>::BufferType * buffer)
+VideoStream<TFrameType>::SetFrameBuffer(VideoStream<TFrameType>::BufferType * buffer)
 {
   // We reinterpret the buffer to match TemporalDataObject's buffer type. We
   // assume that any tampering with the internal buffer will use our BufferType
@@ -299,10 +299,9 @@ VideoStream<TFrameType>::InitializeEmptyFrames()
   {
     if (!m_DataObjectBuffer->BufferIsFull(i))
     {
-      const FramePointer                        newFrame = FrameType::New();
-      FrameType *                               newFrameRawPointer = newFrame.GetPointer();
-      const typename BufferType::ElementPointer element =
-        dynamic_cast<typename BufferType::ElementType *>(newFrameRawPointer);
+      const FramePointer               newFrame = FrameType::New();
+      FrameType *                      newFrameRawPointer = newFrame.GetPointer();
+      const BufferType::ElementPointer element = dynamic_cast<BufferType::ElementType *>(newFrameRawPointer);
       m_DataObjectBuffer->SetBufferContents(i, element);
     }
 
@@ -343,8 +342,8 @@ template <typename TFrameType>
 void
 VideoStream<TFrameType>::SetFrame(SizeValueType frameNumber, FramePointer frame)
 {
-  auto * dataObjectRawPointer = dynamic_cast<typename BufferType::ElementType *>(frame.GetPointer());
-  const typename BufferType::ElementPointer dataObject = dataObjectRawPointer;
+  auto *                           dataObjectRawPointer = dynamic_cast<BufferType::ElementType *>(frame.GetPointer());
+  const BufferType::ElementPointer dataObject = dataObjectRawPointer;
   m_DataObjectBuffer->SetBufferContents(frameNumber, dataObject);
 
   // Cache the meta data
@@ -363,8 +362,8 @@ VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber) -> FrameType *
 {
 
   // Fetch the frame
-  const typename BufferType::ElementPointer element = m_DataObjectBuffer->GetBufferContents(frameNumber);
-  const FramePointer                        frame = dynamic_cast<FrameType *>(element.GetPointer());
+  const BufferType::ElementPointer element = m_DataObjectBuffer->GetBufferContents(frameNumber);
+  const FramePointer               frame = dynamic_cast<FrameType *>(element.GetPointer());
   return frame;
 }
 
@@ -373,8 +372,8 @@ template <typename TFrameType>
 auto
 VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber) const -> const FrameType *
 {
-  const typename BufferType::ElementPointer element = m_DataObjectBuffer->GetBufferContents(frameNumber);
-  const FrameConstPointer                   frame = dynamic_cast<FrameType *>(element.GetPointer());
+  const BufferType::ElementPointer element = m_DataObjectBuffer->GetBufferContents(frameNumber);
+  const FrameConstPointer          frame = dynamic_cast<FrameType *>(element.GetPointer());
   return frame;
 }
 

@@ -99,7 +99,7 @@ public:
   using MembershipFunctionsWeightsArrayType = Array<double>;
 
   using MembershipFunctionsWeightsArrayObjectType = SimpleDataObjectDecorator<MembershipFunctionsWeightsArrayType>;
-  using MembershipFunctionsWeightsArrayPointer = typename MembershipFunctionsWeightsArrayObjectType::Pointer;
+  using MembershipFunctionsWeightsArrayPointer = MembershipFunctionsWeightsArrayObjectType::Pointer;
 
   /** type alias for class label type */
   using ClassLabelType = IdentifierType;

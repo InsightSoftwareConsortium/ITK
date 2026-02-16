@@ -115,7 +115,7 @@ public:
   /** Method to clone a membership function, i.e. create a new instance of
    * the same type of membership function and configure its ivars to
    * match. */
-  [[nodiscard]] typename LightObject::Pointer
+  [[nodiscard]] LightObject::Pointer
   InternalClone() const override;
 
 protected:

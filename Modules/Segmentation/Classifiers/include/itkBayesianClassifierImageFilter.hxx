@@ -342,8 +342,8 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
   itrLabelsImage.GoToBegin();
   itrPosteriorsImage.GoToBegin();
 
-  typename PosteriorsImageType::PixelType         posteriorsPixel;
-  typename DecisionRuleType::MembershipVectorType posteriorsVector;
+  typename PosteriorsImageType::PixelType posteriorsPixel;
+  DecisionRuleType::MembershipVectorType  posteriorsVector;
   posteriorsPixel = itrPosteriorsImage.Get();
   posteriorsVector.reserve(posteriorsPixel.Size());
   posteriorsVector.insert(posteriorsVector.begin(), posteriorsPixel.Size(), 0.0);

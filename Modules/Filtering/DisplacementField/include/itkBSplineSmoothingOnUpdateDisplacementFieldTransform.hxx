@@ -182,12 +182,12 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimens
 }
 
 template <typename TParametersValueType, unsigned int VDimension>
-typename LightObject::Pointer
+LightObject::Pointer
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::InternalClone() const
 {
   LightObject::Pointer loPtr = Superclass::InternalClone();
 
-  const typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
+  const Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
   if (rval.IsNull())
   {
     itkExceptionMacro("downcast to type " << this->GetNameOfClass() << " failed.");
@@ -214,8 +214,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimens
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "SplineOrder: " << static_cast<typename NumericTraits<SplineOrderType>::PrintType>(m_SplineOrder)
-     << std::endl;
+  os << indent << "SplineOrder: " << static_cast<NumericTraits<SplineOrderType>::PrintType>(m_SplineOrder) << std::endl;
   itkPrintSelfBooleanMacro(EnforceStationaryBoundary);
   os << indent << "NumberOfControlPointsForTheUpdateField: " << m_NumberOfControlPointsForTheUpdateField << std::endl;
   os << indent << "NumberOfControlPointsForTheTotalField: " << m_NumberOfControlPointsForTheTotalField << std::endl;

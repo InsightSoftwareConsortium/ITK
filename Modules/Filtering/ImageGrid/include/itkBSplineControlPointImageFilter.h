@@ -252,11 +252,11 @@ private:
 
   vnl_matrix<RealType> m_RefinedLatticeCoefficients[ImageDimension]{};
 
-  typename KernelType::Pointer       m_Kernel[ImageDimension]{};
-  typename KernelOrder0Type::Pointer m_KernelOrder0{};
-  typename KernelOrder1Type::Pointer m_KernelOrder1{};
-  typename KernelOrder2Type::Pointer m_KernelOrder2{};
-  typename KernelOrder3Type::Pointer m_KernelOrder3{};
+  KernelType::Pointer       m_Kernel[ImageDimension]{};
+  KernelOrder0Type::Pointer m_KernelOrder0{};
+  KernelOrder1Type::Pointer m_KernelOrder1{};
+  KernelOrder2Type::Pointer m_KernelOrder2{};
+  KernelOrder3Type::Pointer m_KernelOrder3{};
 
   RealType m_BSplineEpsilon{ static_cast<RealType>(1e-3) };
 

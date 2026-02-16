@@ -403,7 +403,7 @@ itkIOTransformHDF5Test(int argc, char * argv[])
     else if (itksys::SystemTools::FileExists(testType)) // Assume the final parameter is a filename to be read
     {
       // This test only verifies that the test can read the transform.
-      using TFM_READER_TYPE = typename itk::TransformFileReaderTemplate<double>;
+      using TFM_READER_TYPE = itk::TransformFileReaderTemplate<double>;
       auto reader = TFM_READER_TYPE::New();
       reader->SetFileName(testType);
       reader->Update();

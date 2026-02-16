@@ -124,7 +124,7 @@ itkImageMomentsTest(int argc, char * argv[])
     maskimg->FillBuffer(itk::NumericTraits<PixelType>::OneValue());
 
     // convert mask image to mask
-    using LFFImageMaskSpatialObjectType = typename itk::ImageMaskSpatialObject<MaskImageType::ImageDimension>;
+    using LFFImageMaskSpatialObjectType = itk::ImageMaskSpatialObject<MaskImageType::ImageDimension>;
     auto mask = LFFImageMaskSpatialObjectType::New();
     mask->SetImage(maskimg.GetPointer());
     mask->Update();

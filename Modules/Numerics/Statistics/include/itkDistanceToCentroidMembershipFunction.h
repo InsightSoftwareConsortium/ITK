@@ -104,7 +104,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Return a copy of the current membership function */
-  [[nodiscard]] typename LightObject::Pointer
+  [[nodiscard]] LightObject::Pointer
   InternalClone() const override;
 
 private:

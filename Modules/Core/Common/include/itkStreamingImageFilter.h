@@ -76,7 +76,7 @@ public:
 
   /** SmartPointer to a region splitting object */
   using SplitterType = ImageRegionSplitterBase;
-  using RegionSplitterPointer = typename SplitterType::Pointer;
+  using RegionSplitterPointer = SplitterType::Pointer;
 
   /** Set the number of pieces to divide the input.  The upstream pipeline
    * will be executed this many times. */

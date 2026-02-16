@@ -56,7 +56,7 @@ itkLabelToRGBImageFilterTest(int argc, char * argv[])
 
 
   // Exercising Background Value methods
-  typename FilterType::LabelPixelType backgroundValue = 10;
+  FilterType::LabelPixelType backgroundValue = 10;
   filter->SetBackgroundValue(backgroundValue);
   ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
 

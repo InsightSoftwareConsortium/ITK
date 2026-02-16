@@ -106,7 +106,7 @@ itkHessian3DToVesselnessMeasureImageFilterTest(int argc, char * argv[])
   filterVesselness->SetInput(filterHessian->GetOutput());
 
   // Select the value of Sigma
-  auto sigma = static_cast<typename myHessianFilterType::RealType>(std::stod(argv[1]));
+  auto sigma = static_cast<myHessianFilterType::RealType>(std::stod(argv[1]));
   filterHessian->SetSigma(sigma);
 
   auto alpha1 = std::stod(argv[2]);

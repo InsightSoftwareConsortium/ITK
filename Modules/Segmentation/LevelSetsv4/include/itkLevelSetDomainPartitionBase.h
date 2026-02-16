@@ -63,8 +63,8 @@ protected:
   AllocateListDomain() = 0;
 
   using IdentifierListType = std::list<IdentifierType>;
-  using IdentifierListIterator = typename IdentifierListType::iterator;
-  using IdentifierListConstIterator = typename IdentifierListType::const_iterator;
+  using IdentifierListIterator = IdentifierListType::iterator;
+  using IdentifierListConstIterator = IdentifierListType::const_iterator;
 
   IdentifierType m_NumberOfLevelSetFunctions{};
 };

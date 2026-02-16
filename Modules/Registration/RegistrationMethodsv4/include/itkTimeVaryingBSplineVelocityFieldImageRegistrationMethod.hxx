@@ -871,8 +871,9 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
      << std::endl;
   os << indent << "ConvergenceWindowSize: " << m_ConvergenceWindowSize << std::endl;
   os << indent << "NumberOfIterationsPerLevel: " << m_NumberOfIterationsPerLevel << std::endl;
-  os << indent << "NumberOfTimePointSamples: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfTimePointSamples) << std::endl;
+  os << indent
+     << "NumberOfTimePointSamples: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfTimePointSamples)
+     << std::endl;
   os << indent << "BoundaryWeight: " << m_BoundaryWeight << std::endl;
 }
 

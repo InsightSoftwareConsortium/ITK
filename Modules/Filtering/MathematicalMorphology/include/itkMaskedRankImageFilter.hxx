@@ -59,7 +59,7 @@ MaskedRankImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel>::PrintSelf
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Rank: " << static_cast<typename NumericTraits<float>::PrintType>(m_Rank) << std::endl;
+  os << indent << "Rank: " << static_cast<NumericTraits<float>::PrintType>(m_Rank) << std::endl;
 }
 } // end namespace itk
 #endif

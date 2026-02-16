@@ -42,15 +42,15 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     const typename TransformType::InputVectorType vector = itk::MakeVector(1.0, 4.0, 9.0);
     ITK_TRY_EXPECT_EXCEPTION(transform->TransformVector(vector));
 
-    typename TransformType::InputVnlVectorType vnlVector;
+    TransformType::InputVnlVectorType vnlVector;
     vnlVector.fill(1.0);
     ITK_TRY_EXPECT_EXCEPTION(transform->TransformVector(vnlVector));
 
-    auto covVector = itk::MakeFilled<typename TransformType::InputCovariantVectorType>(1.0);
+    auto covVector = itk::MakeFilled<TransformType::InputCovariantVectorType>(1.0);
     ITK_TRY_EXPECT_EXCEPTION(transform->TransformCovariantVector(covVector));
 
-    auto                                         point = itk::MakeFilled<typename TransformType::InputPointType>(1.0);
-    typename TransformType::JacobianPositionType jacobianPosition;
+    auto                                point = itk::MakeFilled<TransformType::InputPointType>(1.0);
+    TransformType::JacobianPositionType jacobianPosition;
     ITK_TRY_EXPECT_EXCEPTION(transform->ComputeJacobianWithRespectToPosition(point, jacobianPosition));
   }
 

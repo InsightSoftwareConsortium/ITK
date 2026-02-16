@@ -83,7 +83,7 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
   query = std::pow(regionSizeVal, Dimension);
   samplerOrig->Search(query, subsample);
 
-  typename SamplerType::SubsampleType::TotalAbsoluteFrequencyType expectedTotalFrequency = 0;
+  SamplerType::SubsampleType::TotalAbsoluteFrequencyType expectedTotalFrequency = 0;
   ITK_TEST_EXPECT_EQUAL(expectedTotalFrequency, subsample->GetTotalFrequency());
   size_t expectedIdHolderSize = 0;
   ITK_TEST_EXPECT_EQUAL(expectedIdHolderSize, subsample->GetIdHolder().size());

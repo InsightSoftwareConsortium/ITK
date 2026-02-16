@@ -100,7 +100,7 @@ public:
   using typename Superclass::FEMObjectType;
 
   /** Some convenient types */
-  using MatrixType = typename Element::MatrixType;
+  using MatrixType = Element::MatrixType;
   using LoadContainerType = typename FEMObjectType::LoadContainerType;
   using NodeContainerType = typename FEMObjectType::NodeContainerType;
   using LoadContainerIterator = typename FEMObjectType::LoadContainerIterator;

@@ -104,9 +104,9 @@ TEST_F(ITKIOTIFF, ReverseOrder_with_ImageIO)
   }
   {
     // Create an ImageSeriesWriter to write the series of images
-    auto writer = itk::ImageSeriesWriter<
-      ImageType,
-      typename ImageType::RebindImageType<ImageType::PixelType, ImageType::ImageDimension - 1>>::New();
+    auto writer =
+      itk::ImageSeriesWriter<ImageType,
+                             ImageType::RebindImageType<ImageType::PixelType, ImageType::ImageDimension - 1>>::New();
     writer->SetFileNames(filePaths);
     writer->SetInput(img);
     writer->Update();

@@ -31,29 +31,29 @@ static OptimizerType::RandomVariateGeneratorType::IntegerType seedOffset = 0;
  * domain of either parabolas (runs the optimizer once with initial guess in
  * each of the domains).
  */
-int IBPSOTest1(typename OptimizerType::CoefficientType,
-               typename OptimizerType::CoefficientType,
-               typename OptimizerType::CoefficientType,
-               typename OptimizerType::CoefficientType);
+int IBPSOTest1(OptimizerType::CoefficientType,
+               OptimizerType::CoefficientType,
+               OptimizerType::CoefficientType,
+               OptimizerType::CoefficientType);
 
 
 /**
  * Test using a 2D quadratic function (single minimum), check that converges
  * correctly.
  */
-int IBPSOTest2(typename OptimizerType::CoefficientType,
-               typename OptimizerType::CoefficientType,
-               typename OptimizerType::CoefficientType,
-               typename OptimizerType::CoefficientType);
+int IBPSOTest2(OptimizerType::CoefficientType,
+               OptimizerType::CoefficientType,
+               OptimizerType::CoefficientType,
+               OptimizerType::CoefficientType);
 
 
 /**
  * Test using the 2D Rosenbrock function.
  */
-int IBPSOTest3(typename OptimizerType::CoefficientType,
-               typename OptimizerType::CoefficientType,
-               typename OptimizerType::CoefficientType,
-               typename OptimizerType::CoefficientType);
+int IBPSOTest3(OptimizerType::CoefficientType,
+               OptimizerType::CoefficientType,
+               OptimizerType::CoefficientType,
+               OptimizerType::CoefficientType);
 
 bool initalizationBasedTestVerboseFlag = false;
 
@@ -84,10 +84,10 @@ itkInitializationBiasedParticleSwarmOptimizerTest(int argc, char * argv[])
 
   std::cout << "Initialization Biased Particle Swarm Optimizer Test \n \n";
 
-  auto inertiaCoefficient = static_cast<typename OptimizerType::CoefficientType>(std::stod(argv[1]));
-  auto personalCoefficient = static_cast<typename OptimizerType::CoefficientType>(std::stod(argv[2]));
-  auto globalCoefficient = static_cast<typename OptimizerType::CoefficientType>(std::stod(argv[3]));
-  auto initializationCoefficient = static_cast<typename OptimizerType::CoefficientType>(std::stod(argv[4]));
+  auto inertiaCoefficient = static_cast<OptimizerType::CoefficientType>(std::stod(argv[1]));
+  auto personalCoefficient = static_cast<OptimizerType::CoefficientType>(std::stod(argv[2]));
+  auto globalCoefficient = static_cast<OptimizerType::CoefficientType>(std::stod(argv[3]));
+  auto initializationCoefficient = static_cast<OptimizerType::CoefficientType>(std::stod(argv[4]));
 
   unsigned int           success1{ 0 };
   unsigned int           success2{ 0 };
@@ -127,10 +127,10 @@ itkInitializationBiasedParticleSwarmOptimizerTest(int argc, char * argv[])
 
 
 int
-IBPSOTest1(typename OptimizerType::CoefficientType inertiaCoefficient,
-           typename OptimizerType::CoefficientType personalCoefficient,
-           typename OptimizerType::CoefficientType globalCoefficient,
-           typename OptimizerType::CoefficientType initializationCoefficient)
+IBPSOTest1(OptimizerType::CoefficientType inertiaCoefficient,
+           OptimizerType::CoefficientType personalCoefficient,
+           OptimizerType::CoefficientType globalCoefficient,
+           OptimizerType::CoefficientType initializationCoefficient)
 {
   std::cout << "Particle Swarm Optimizer Test 1 [f(x) = if(x<0) x^2+4x; else 2x^2-8x]\n";
   std::cout << "-------------------------------\n";
@@ -251,10 +251,10 @@ IBPSOTest1(typename OptimizerType::CoefficientType inertiaCoefficient,
 
 
 int
-IBPSOTest2(typename OptimizerType::CoefficientType inertiaCoefficient,
-           typename OptimizerType::CoefficientType personalCoefficient,
-           typename OptimizerType::CoefficientType globalCoefficient,
-           typename OptimizerType::CoefficientType initializationCoefficient)
+IBPSOTest2(OptimizerType::CoefficientType inertiaCoefficient,
+           OptimizerType::CoefficientType personalCoefficient,
+           OptimizerType::CoefficientType globalCoefficient,
+           OptimizerType::CoefficientType initializationCoefficient)
 {
   std::cout << "Particle Swarm Optimizer Test 2 [f(x) = 1/2 x^T A x - b^T x]\n";
   std::cout << "----------------------------------\n";
@@ -350,10 +350,10 @@ IBPSOTest2(typename OptimizerType::CoefficientType inertiaCoefficient,
 }
 
 int
-IBPSOTest3(typename OptimizerType::CoefficientType inertiaCoefficient,
-           typename OptimizerType::CoefficientType personalCoefficient,
-           typename OptimizerType::CoefficientType globalCoefficient,
-           typename OptimizerType::CoefficientType initializationCoefficient)
+IBPSOTest3(OptimizerType::CoefficientType inertiaCoefficient,
+           OptimizerType::CoefficientType personalCoefficient,
+           OptimizerType::CoefficientType globalCoefficient,
+           OptimizerType::CoefficientType initializationCoefficient)
 {
   std::cout << "Particle Swarm Optimizer Test 3 [f(x,y) = (1-x)^2 + 100(y-x^2)^2]\n";
   std::cout << "----------------------------------\n";

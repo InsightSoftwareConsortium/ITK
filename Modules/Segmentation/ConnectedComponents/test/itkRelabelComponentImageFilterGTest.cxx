@@ -31,7 +31,7 @@ namespace
 {
 
 
-typename itk::Image<unsigned int, 2>::Pointer
+itk::Image<unsigned int, 2>::Pointer
 CreateTestImageA()
 {
 
@@ -136,8 +136,8 @@ TEST(RelabelComponentImageFilter, BigZero)
   using PixelType = unsigned short;
   using ImageType = itk::Image<PixelType, Dimension>;
 
-  auto                           image = ImageType::New();
-  typename ImageType::RegionType region;
+  auto                  image = ImageType::New();
+  ImageType::RegionType region;
   region.SetSize({ { 512, 512, 512 } });
   image->SetRegions(region);
   image->AllocateInitialized();

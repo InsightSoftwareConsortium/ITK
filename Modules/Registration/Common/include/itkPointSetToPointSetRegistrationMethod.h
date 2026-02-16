@@ -110,7 +110,7 @@ public:
   using ParametersType = typename MetricType::TransformParametersType;
 
   /** Smart Pointer type to a DataObject. */
-  using DataObjectPointer = typename DataObject::Pointer;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** Set/Get the Fixed PointSet. */
   /** @ITKStartGrouping */

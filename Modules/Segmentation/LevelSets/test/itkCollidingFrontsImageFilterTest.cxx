@@ -67,7 +67,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(collidingFronts, CollidingFrontsImageFilter, ImageToImageFilter);
 
   using NodeContainer = CollidingFrontsFilterType::NodeContainer;
-  using NodeType = typename CollidingFrontsFilterType::NodeType;
+  using NodeType = CollidingFrontsFilterType::NodeType;
 
   // select seeds 20 pixels apart
 

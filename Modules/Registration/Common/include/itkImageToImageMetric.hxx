@@ -1219,13 +1219,13 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Inde
      << static_cast<typename NumericTraits<FixedImagePixelType>::PrintType>(m_FixedImageSamplesIntensityThreshold)
      << std::endl;
   os << indent << "FixedImageSamples: " << m_FixedImageSamples << std::endl;
-  os << indent
-     << "NumberOfParameters: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfParameters)
+  os << indent << "NumberOfParameters: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfParameters)
      << std::endl;
   os << indent << "NumberOfFixedImageSamples: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfFixedImageSamples) << std::endl;
-  os << indent << "NumberOfPixelsCounted: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsCounted) << std::endl;
+     << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfFixedImageSamples) << std::endl;
+  os << indent
+     << "NumberOfPixelsCounted: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsCounted)
+     << std::endl;
 
   itkPrintSelfObjectMacro(MovingImage);
   itkPrintSelfObjectMacro(FixedImage);
@@ -1249,8 +1249,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Inde
   itkPrintSelfObjectMacro(MovingImageMask);
   itkPrintSelfObjectMacro(FixedImageMask);
 
-  os << indent
-     << "NumberOfWorkUnits: " << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_NumberOfWorkUnits)
+  os << indent << "NumberOfWorkUnits: " << static_cast<NumericTraits<ThreadIdType>::PrintType>(m_NumberOfWorkUnits)
      << std::endl;
   itkPrintSelfBooleanMacro(UseAllPixels);
   itkPrintSelfBooleanMacro(UseSequentialSampling);
@@ -1261,8 +1260,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Inde
   itkPrintSelfBooleanMacro(TransformIsBSpline);
 #endif
 
-  os << indent
-     << "NumBSplineWeights: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumBSplineWeights)
+  os << indent << "NumBSplineWeights: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumBSplineWeights)
      << std::endl;
 
   itkPrintSelfObjectMacro(BSplineTransform);

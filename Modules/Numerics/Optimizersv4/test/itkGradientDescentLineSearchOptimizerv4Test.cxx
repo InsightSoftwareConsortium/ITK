@@ -252,15 +252,15 @@ itkGradientDescentLineSearchOptimizerv4Test(int, char *[])
   ScalesType scales(metric->GetNumberOfLocalParameters(), 0.5);
   itkOptimizer->SetScales(scales);
 
-  constexpr typename OptimizerType::InternalComputationValueType epsilon = 1.e-4;
+  constexpr OptimizerType::InternalComputationValueType epsilon = 1.e-4;
   itkOptimizer->SetEpsilon(epsilon);
   ITK_TEST_SET_GET_VALUE(epsilon, itkOptimizer->GetEpsilon());
 
-  constexpr typename OptimizerType::InternalComputationValueType lowerLimit = -10;
+  constexpr OptimizerType::InternalComputationValueType lowerLimit = -10;
   itkOptimizer->SetLowerLimit(lowerLimit);
   ITK_TEST_SET_GET_VALUE(lowerLimit, itkOptimizer->GetLowerLimit());
 
-  constexpr typename OptimizerType::InternalComputationValueType upperLimit = 10;
+  constexpr OptimizerType::InternalComputationValueType upperLimit = 10;
   itkOptimizer->SetUpperLimit(upperLimit);
   ITK_TEST_SET_GET_VALUE(upperLimit, itkOptimizer->GetUpperLimit());
 

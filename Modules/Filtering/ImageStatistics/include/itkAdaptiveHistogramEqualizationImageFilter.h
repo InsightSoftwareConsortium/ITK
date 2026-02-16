@@ -72,7 +72,7 @@ class ITK_TEMPLATE_EXPORT AdaptiveHistogramEqualizationImageFilter
       TImageType,
       TImageType,
       TKernel,
-      typename Function::AdaptiveEqualizationHistogram<typename TImageType::PixelType, typename TImageType::PixelType>>
+      Function::AdaptiveEqualizationHistogram<typename TImageType::PixelType, typename TImageType::PixelType>>
 
 {
 public:
@@ -86,7 +86,7 @@ public:
     TImageType,
     TImageType,
     TKernel,
-    typename Function::AdaptiveEqualizationHistogram<typename TImageType::PixelType, typename TImageType::PixelType>>;
+    Function::AdaptiveEqualizationHistogram<typename TImageType::PixelType, typename TImageType::PixelType>>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 

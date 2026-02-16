@@ -69,7 +69,7 @@ MakeCheckerboard()
 }
 
 template <long unsigned int TImageIndexSpaceSize>
-typename DisplacementFieldType::Pointer
+DisplacementFieldType::Pointer
 MakeDisplacementField()
 {
   using IteratorType = itk::ImageRegionIterator<DisplacementFieldType>;

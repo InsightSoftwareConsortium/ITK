@@ -64,8 +64,7 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
      << std::endl;
   os << indent << "SearchRadius: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_SearchRadius)
      << std::endl;
-  os << indent << "PointsCount: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_PointsCount)
-     << std::endl;
+  os << indent << "PointsCount: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_PointsCount) << std::endl;
 
   os << indent << "DisplacementsVectorsArray: ";
   if (m_DisplacementsVectorsArray != nullptr)

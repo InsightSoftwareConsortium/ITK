@@ -66,13 +66,13 @@ public:
   using ImageIndexType = typename ImageType::IndexType;
   using ImagePixelType = typename ImageType::PixelType;
   using PathType = ParametricPath<2>;
-  using PathConstPointer = typename PathType::ConstPointer;
-  using PathInputType = typename PathType::InputType;
-  using PathOutputType = typename PathType::OutputType;
-  using PathIndexType = typename PathType::IndexType;
-  using PathContinuousIndexType = typename PathType::ContinuousIndexType;
-  using PathOffsetType = typename PathType::OffsetType;
-  using PathVectorType = typename PathType::VectorType;
+  using PathConstPointer = PathType::ConstPointer;
+  using PathInputType = PathType::InputType;
+  using PathOutputType = PathType::OutputType;
+  using PathIndexType = PathType::IndexType;
+  using PathContinuousIndexType = PathType::ContinuousIndexType;
+  using PathOffsetType = PathType::OffsetType;
+  using PathVectorType = PathType::VectorType;
   using SizeType = typename ImageType::SizeType;
 
   /** ImageDimension constants */

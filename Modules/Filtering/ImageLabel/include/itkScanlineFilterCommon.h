@@ -126,7 +126,7 @@ protected:
   using LineEncodingConstIterator = typename LineEncodingType::const_iterator;
 
   using OffsetVectorType = std::vector<OffsetValueType>;
-  using OffsetVectorConstIterator = typename OffsetVectorType::const_iterator;
+  using OffsetVectorConstIterator = OffsetVectorType::const_iterator;
 
   using LineMapType = std::vector<LineEncodingType>;
 

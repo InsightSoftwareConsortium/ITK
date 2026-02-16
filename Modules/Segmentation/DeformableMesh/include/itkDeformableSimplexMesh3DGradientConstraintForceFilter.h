@@ -186,9 +186,9 @@ public:
   using GradientIntensityImagePointer = typename GradientIntensityImageType::Pointer;
 
   using OriginalImageType = Image<float, 3>;
-  using OriginalImageIndexType = typename OriginalImageType::IndexType;
-  using ImageIndexValueType = typename OriginalImageIndexType::IndexValueType;
-  using OriginalImagePointer = typename OriginalImageType::ConstPointer;
+  using OriginalImageIndexType = OriginalImageType::IndexType;
+  using ImageIndexValueType = OriginalImageIndexType::IndexValueType;
+  using OriginalImagePointer = OriginalImageType::ConstPointer;
 
   /** control the range of search for Bresenham at normal line */
   /** @ITKStartGrouping */

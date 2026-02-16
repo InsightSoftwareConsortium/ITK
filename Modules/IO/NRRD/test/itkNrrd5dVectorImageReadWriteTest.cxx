@@ -381,7 +381,7 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
     WriteImageSequenceFile<PixelType, SpaceDimension>(filename, imageListToWrite);
     CheckImageSequenceFileHeader(
       filename, SpaceDimension, SpaceDimension + 1, expectedPixelType, 1, useNonListExtensionAsPixel);
-    std::vector<typename itk::Image<PixelType, SpaceDimension>::Pointer> imageListRead;
+    std::vector<itk::Image<PixelType, SpaceDimension>::Pointer> imageListRead;
     ReadImageSequenceFile<PixelType, SpaceDimension>(filename, imageListRead);
   }
 
@@ -398,7 +398,7 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
     WriteImageSequenceFile<PixelType, SpaceDimension>(filename, imageListToWrite);
     CheckImageSequenceFileHeader(
       filename, SpaceDimension, SpaceDimension + 1, expectedPixelType, 1, useNonListExtensionAsPixel);
-    std::vector<typename itk::Image<PixelType, SpaceDimension>::Pointer> imageListRead;
+    std::vector<itk::Image<PixelType, SpaceDimension>::Pointer> imageListRead;
     ReadImageSequenceFile<PixelType, SpaceDimension>(filename, imageListRead);
   }
 
@@ -526,7 +526,7 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
     WriteImageSequenceFile<PixelType, SpaceDimension>(filename, imageListToWrite);
     CheckImageSequenceFileHeader(
       filename, SpaceDimension, SpaceDimension + 1, expectedPixelType, SpaceDimension, useNonListExtensionAsPixel);
-    std::vector<typename itk::Image<PixelType, SpaceDimension>::Pointer> imageListRead;
+    std::vector<itk::Image<PixelType, SpaceDimension>::Pointer> imageListRead;
     ReadImageSequenceFile<PixelType, SpaceDimension>(filename, imageListRead);
   }
 
@@ -543,7 +543,7 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
     WriteImageSequenceFile<PixelType, SpaceDimension>(filename, imageListToWrite);
     CheckImageSequenceFileHeader(
       filename, SpaceDimension, SpaceDimension + 1, expectedPixelType, SpaceDimension, useNonListExtensionAsPixel);
-    std::vector<typename itk::Image<PixelType, SpaceDimension>::Pointer> imageListRead;
+    std::vector<itk::Image<PixelType, SpaceDimension>::Pointer> imageListRead;
     ReadImageSequenceFile<PixelType, SpaceDimension>(filename, imageListRead);
   }
 
@@ -561,7 +561,7 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
     WriteImageSequenceFile<PixelType, SpaceDimension>(filename, imageListToWrite);
     CheckImageSequenceFileHeader(
       filename, SpaceDimension, SpaceDimension + 1, expectedPixelType, expectedComponents, useNonListExtensionAsPixel);
-    std::vector<typename itk::Image<PixelType, SpaceDimension>::Pointer> imageListRead;
+    std::vector<itk::Image<PixelType, SpaceDimension>::Pointer> imageListRead;
     ReadImageSequenceFile<PixelType, SpaceDimension>(filename, imageListRead);
   }
 
@@ -579,7 +579,7 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
     WriteImageSequenceFile<PixelType, SpaceDimension>(filename, imageListToWrite);
     CheckImageSequenceFileHeader(
       filename, SpaceDimension, SpaceDimension + 1, expectedPixelType, expectedComponents, useNonListExtensionAsPixel);
-    std::vector<typename itk::Image<PixelType, SpaceDimension>::Pointer> imageListRead;
+    std::vector<itk::Image<PixelType, SpaceDimension>::Pointer> imageListRead;
     ReadImageSequenceFile<PixelType, SpaceDimension>(filename, imageListRead);
   }
 

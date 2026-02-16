@@ -24,7 +24,7 @@
 TEST(SpatialOrientationAdaptor, test1)
 {
   using ImageType = itk::Image<float, 3>;
-  using DirectionType = typename ImageType::DirectionType;
+  using DirectionType = ImageType::DirectionType;
 
   itk::SpatialOrientationAdapter adapter;
 

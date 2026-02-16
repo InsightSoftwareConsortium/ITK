@@ -222,17 +222,15 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
 
   os << indent << "Mean: " << m_Mean << std::endl;
   os << indent << "Sum: " << static_cast<typename NumericTraits<AccumulateType>::PrintType>(m_Sum) << std::endl;
-  os << indent << "NumberOfPixels: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixels)
+  os << indent << "NumberOfPixels: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixels)
      << std::endl;
   os << indent << "CovarianceMatrix: " << m_CovarianceMatrix << std::endl;
   os << indent << "SampleDirection: " << m_SampleDirection << std::endl;
-  os << indent
-     << "InternalImageTime: " << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_InternalImageTime)
+  os << indent << "InternalImageTime: " << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_InternalImageTime)
      << std::endl;
   os << indent << "InternalSpatialObjectTime: "
-     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_InternalSpatialObjectTime) << std::endl;
-  os << indent << "ModifiedTime: " << static_cast<typename NumericTraits<TimeStamp>::PrintType>(m_ModifiedTime)
-     << std::endl;
+     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_InternalSpatialObjectTime) << std::endl;
+  os << indent << "ModifiedTime: " << static_cast<NumericTraits<TimeStamp>::PrintType>(m_ModifiedTime) << std::endl;
 
   itkPrintSelfObjectMacro(Sample);
 }

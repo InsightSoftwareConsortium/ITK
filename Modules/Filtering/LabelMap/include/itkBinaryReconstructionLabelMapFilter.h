@@ -43,8 +43,7 @@ namespace itk
  */
 template <typename TImage,
           typename TMarkerImage,
-          typename TAttributeAccessor =
-            typename Functor::AttributeLabelObjectAccessor<typename TImage::LabelObjectType>>
+          typename TAttributeAccessor = Functor::AttributeLabelObjectAccessor<typename TImage::LabelObjectType>>
 class ITK_TEMPLATE_EXPORT BinaryReconstructionLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:

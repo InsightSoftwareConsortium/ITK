@@ -142,21 +142,21 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  constexpr unsigned int                      numberOfPoints = 6;
-  typename PolygonType::PointType             point;
-  typename PolygonType::PointType::VectorType radial;
+  constexpr unsigned int             numberOfPoints = 6;
+  PolygonType::PointType             point;
+  PolygonType::PointType::VectorType radial;
   radial[0] = 0.0;
   radial[1] = 0.0;
   radial[2] = 0.0;
 
-  typename PolygonType::PointType center;
+  PolygonType::PointType center;
   center[0] = 50.0;
   center[1] = 50.0;
   center[2] = 0.0;
 
   constexpr double radius = 40.0;
 
-  typename PolygonType::PolygonPointType polygonPoint;
+  PolygonType::PolygonPointType polygonPoint;
 
   for (unsigned int i = 0; i < numberOfPoints; ++i)
   {

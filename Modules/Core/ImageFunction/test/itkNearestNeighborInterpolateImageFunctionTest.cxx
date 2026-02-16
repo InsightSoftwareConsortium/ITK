@@ -126,7 +126,7 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
 
   interpolator->SetInputImage(image);
 
-  typename ImageType::SizeType radius{};
+  ImageType::SizeType radius{};
   for (unsigned int d = 0; d < Dimension; ++d)
   {
     ITK_TEST_SET_GET_VALUE(radius[d], interpolator->GetRadius()[d]);

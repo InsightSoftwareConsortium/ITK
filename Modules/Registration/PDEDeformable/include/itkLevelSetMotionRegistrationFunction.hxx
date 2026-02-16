@@ -84,8 +84,9 @@ LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField
 
   os << indent << "Metric: " << m_Metric << std::endl;
   os << indent << "SumOfSquaredDifference: " << m_SumOfSquaredDifference << std::endl;
-  os << indent << "NumberOfPixelsProcessed: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsProcessed) << std::endl;
+  os << indent
+     << "NumberOfPixelsProcessed: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsProcessed)
+     << std::endl;
   os << indent << "RMSChange: " << m_RMSChange << std::endl;
   os << indent << "SumOfSquaredChange: " << m_SumOfSquaredChange << std::endl;
 
