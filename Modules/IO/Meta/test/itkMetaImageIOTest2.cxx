@@ -49,7 +49,7 @@ TestUnknowMetaDataBug(const std::string & fname)
 
     itk::MetaDataDictionary & dict = image->GetMetaDataDictionary();
 
-    itk::EncapsulateMetaData<float>(dict, "ASimpleFloatInitalized", static_cast<float>(1.234560F));
+    itk::EncapsulateMetaData<float>(dict, "ASimpleFloatInitalized", 1.234560F);
     itk::EncapsulateMetaData<std::complex<float>>(
       dict, "AnUnsuportedComplexInitalized", std::complex<float>(1.234560F));
 

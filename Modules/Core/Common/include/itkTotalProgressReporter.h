@@ -102,7 +102,7 @@ public:
 
     if (count >= m_PixelsBeforeUpdate)
     {
-      const SizeValueType total = static_cast<SizeValueType>(m_PixelsPerUpdate - m_PixelsBeforeUpdate) + count;
+      const SizeValueType total = m_PixelsPerUpdate - m_PixelsBeforeUpdate + count;
       const SizeValueType numberOfUpdates = total / m_PixelsPerUpdate;
 
       m_PixelsBeforeUpdate = m_PixelsPerUpdate - total % m_PixelsPerUpdate;

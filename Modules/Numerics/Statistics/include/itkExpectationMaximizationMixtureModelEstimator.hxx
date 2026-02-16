@@ -179,14 +179,14 @@ ExpectationMaximizationMixtureModelEstimator<TSample>::CalculateDensities()
 
       for (unsigned int componentIndex = 0; componentIndex < numberOfComponents; ++componentIndex)
       {
-        double temp = tempWeights[static_cast<unsigned int>(componentIndex)];
+        double temp = tempWeights[componentIndex];
 
         // just to make sure temp does not blow up!
         if (densitySum > NumericTraits<double>::epsilon())
         {
           temp /= densitySum;
         }
-        m_ComponentVector[static_cast<unsigned int>(componentIndex)]->SetWeight(measurementVectorIndex, temp);
+        m_ComponentVector[componentIndex]->SetWeight(measurementVectorIndex, temp);
       }
     }
     else

@@ -541,7 +541,7 @@ VoronoiDiagram2DGenerator<TCoordinate>::PQbucket(FortuneHalfEdge * task)
   {
     bucket = m_PQhashsize - 1;
   }
-  if (bucket < static_cast<int>(m_PQmin))
+  if (bucket < m_PQmin)
   {
     m_PQmin = bucket;
   }

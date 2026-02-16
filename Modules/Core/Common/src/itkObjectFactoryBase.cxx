@@ -667,7 +667,7 @@ ObjectFactoryBase::UnRegisterAllFactories()
   std::list<void *> libs;
   for (auto & registeredFactory : m_PimplGlobals->m_RegisteredFactories)
   {
-    libs.push_back(static_cast<void *>(registeredFactory->m_LibraryHandle));
+    libs.push_back(registeredFactory->m_LibraryHandle);
   }
   // Unregister each factory
   for (auto & registeredFactory : m_PimplGlobals->m_RegisteredFactories)

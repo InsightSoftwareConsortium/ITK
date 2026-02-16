@@ -237,7 +237,7 @@ RealTimeStamp::operator+=(const RealTimeInterval & difference)
   CARRY_UNITS_OVER_UNSIGNED(seconds, micro_seconds);
 
   this->m_Seconds = static_cast<SecondsCounterType>(seconds);
-  this->m_MicroSeconds = static_cast<MicroSecondsCounterType>(micro_seconds);
+  this->m_MicroSeconds = micro_seconds;
 
   return *this;
 }

@@ -252,7 +252,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   m_MaximumNumberOfOverlappingPixels = static_cast<SizeValueType>(calculator->GetMaximum());
   if (m_RequiredNumberOfOverlappingPixels > m_MaximumNumberOfOverlappingPixels)
   {
-    m_RequiredNumberOfOverlappingPixels = (SizeValueType)m_MaximumNumberOfOverlappingPixels;
+    m_RequiredNumberOfOverlappingPixels = m_MaximumNumberOfOverlappingPixels;
   }
 
   // The user can either specify the required number of overlapping pixels or the required fraction of overlapping
