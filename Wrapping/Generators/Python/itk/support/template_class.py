@@ -158,6 +158,15 @@ class itkTemplate(Mapping):
             msg = ""
             if not os.path.isfile(inputFileName):
                 msg += "\nThe file doesn't exist. \n" + f"Filename = {inputFileName}"
+            # Check if image path contains not supported special characters.
+            else:
+                try:
+                    inputFileName.encode("ascii")
+                except UnicodeEncodeError:
+                    msg += (
+                        "\nThe image path contains not supported special characters. \n"
+                        + f"Filename = {inputFileName}"
+                    )
             raise RuntimeError(
                 f"Could not create IO object for reading file {inputFileName}" + msg
             )
