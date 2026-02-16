@@ -228,7 +228,7 @@ itkDiffusionTensor3DTest(int, char *[])
 
       for (unsigned int i = 0; i < 3; ++i)
       {
-        if (itk::Math::abs(expectedValues[i] - eigenValues[i]) > tolerance)
+        if (itk::Math::Absolute(expectedValues[i] - eigenValues[i]) > tolerance)
         {
           std::cerr << "Eigenvalue computation failed" << std::endl;
           std::cerr << "expectedValues = " << expectedValues << std::endl;
@@ -268,7 +268,7 @@ itkDiffusionTensor3DTest(int, char *[])
 
       for (unsigned int i = 0; i < 3; ++i)
       {
-        if (itk::Math::abs(expectedValues[i] - eigenValues[i]) > tolerance)
+        if (itk::Math::Absolute(expectedValues[i] - eigenValues[i]) > tolerance)
         {
           std::cerr << "Eigenvalue computation failed" << std::endl;
           std::cerr << "expectedValues = " << expectedValues << std::endl;
@@ -308,7 +308,7 @@ itkDiffusionTensor3DTest(int, char *[])
 
       for (unsigned int i = 0; i < 3; ++i)
       {
-        if (itk::Math::abs(expectedValues[i] - eigenValues[i]) > tolerance)
+        if (itk::Math::Absolute(expectedValues[i] - eigenValues[i]) > tolerance)
         {
           std::cerr << "Eigenvalue computation failed" << std::endl;
           std::cerr << "expectedValues = " << expectedValues << std::endl;
@@ -347,7 +347,7 @@ itkDiffusionTensor3DTest(int, char *[])
     constexpr double tolerance{ 1e-4 };
 
     const AccumulateValueType computedTrace = tensor3.GetTrace();
-    if (itk::Math::abs(computedTrace - expectedTrace) > tolerance)
+    if (itk::Math::Absolute(computedTrace - expectedTrace) > tolerance)
     {
       std::cerr << "Error computing the Trace" << std::endl;
       std::cerr << "Expected trace = " << expectedTrace << std::endl;
@@ -359,7 +359,7 @@ itkDiffusionTensor3DTest(int, char *[])
     constexpr RealValueType expectedInternalScalarProduct{ 1829 };
 
     const RealValueType computedInternalScalarProduct = tensor3.GetInnerScalarProduct();
-    if (itk::Math::abs(computedInternalScalarProduct - expectedInternalScalarProduct) > tolerance)
+    if (itk::Math::Absolute(computedInternalScalarProduct - expectedInternalScalarProduct) > tolerance)
     {
       std::cerr << "Error computing Internal Scalar Product" << std::endl;
       std::cerr << "Expected = " << expectedInternalScalarProduct << std::endl;
@@ -372,7 +372,7 @@ itkDiffusionTensor3DTest(int, char *[])
     constexpr RealValueType expectedFractionalAnisotropy{ 0.349177 };
 
     const RealValueType computedFractionalAnisotropy = tensor3.GetFractionalAnisotropy();
-    if (itk::Math::abs(computedFractionalAnisotropy - expectedFractionalAnisotropy) > tolerance)
+    if (itk::Math::Absolute(computedFractionalAnisotropy - expectedFractionalAnisotropy) > tolerance)
     {
       std::cerr << "Error computing Fractional Anisotropy" << std::endl;
       std::cerr << "Expected = " << expectedFractionalAnisotropy << std::endl;
@@ -384,7 +384,7 @@ itkDiffusionTensor3DTest(int, char *[])
     constexpr RealValueType expectedRelativeAnisotropy{ 1.9044 };
 
     const RealValueType computedRelativeAnisotropy = tensor3.GetRelativeAnisotropy();
-    if (itk::Math::abs(computedRelativeAnisotropy - expectedRelativeAnisotropy) > tolerance)
+    if (itk::Math::Absolute(computedRelativeAnisotropy - expectedRelativeAnisotropy) > tolerance)
     {
       std::cerr << "Error computing Relative Anisotropy" << std::endl;
       std::cerr << "Expected = " << expectedRelativeAnisotropy << std::endl;

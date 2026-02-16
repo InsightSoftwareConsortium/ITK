@@ -98,12 +98,12 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
   const vnl_symmetric_eigensystem<ScalarValueType> eig{ Curve.as_matrix() };
 
   constexpr ScalarValueType MIN_EIG{ NumericTraits<ScalarValueType>::min() };
-  ScalarValueType           mincurve = itk::Math::abs(eig.get_eigenvalue(ImageDimension - 1));
+  ScalarValueType           mincurve = itk::Math::Absolute(eig.get_eigenvalue(ImageDimension - 1));
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    if (itk::Math::abs(eig.get_eigenvalue(i)) < mincurve && itk::Math::abs(eig.get_eigenvalue(i)) > MIN_EIG)
+    if (itk::Math::Absolute(eig.get_eigenvalue(i)) < mincurve && itk::Math::Absolute(eig.get_eigenvalue(i)) > MIN_EIG)
     {
-      mincurve = itk::Math::abs(eig.get_eigenvalue(i));
+      mincurve = itk::Math::Absolute(eig.get_eigenvalue(i));
     }
   }
 
@@ -212,7 +212,7 @@ LevelSetFunction<TImageType>::ComputeGlobalTimeStep(void * GlobalData) const -> 
   d->m_MaxAdvectionChange += d->m_MaxPropagationChange;
 
   TimeStepType dt = NAN;
-  if (itk::Math::abs(d->m_MaxCurvatureChange) > 0.0)
+  if (itk::Math::Absolute(d->m_MaxCurvatureChange) > 0.0)
   {
     if (d->m_MaxAdvectionChange > 0.0)
     {
@@ -316,7 +316,7 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
   {
     curvature_term = this->ComputeCurvatureTerm(it, offset, gd) * m_CurvatureWeight * this->CurvatureSpeed(it, offset);
 
-    gd->m_MaxCurvatureChange = std::max(gd->m_MaxCurvatureChange, itk::Math::abs(curvature_term));
+    gd->m_MaxCurvatureChange = std::max(gd->m_MaxCurvatureChange, itk::Math::Absolute(curvature_term));
   }
   else
   {
@@ -347,7 +347,7 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
         advection_term += advection_field[i] * gd->m_dx_forward[i];
       }
 
-      gd->m_MaxAdvectionChange = std::max(gd->m_MaxAdvectionChange, itk::Math::abs(x_energy));
+      gd->m_MaxAdvectionChange = std::max(gd->m_MaxAdvectionChange, itk::Math::Absolute(x_energy));
     }
     advection_term *= m_AdvectionWeight;
   }
@@ -385,7 +385,7 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
 
     // Collect energy change from propagation term.  This will be used in
     // calculating the maximum time step that can be taken for this iteration.
-    gd->m_MaxPropagationChange = std::max(gd->m_MaxPropagationChange, itk::Math::abs(propagation_term));
+    gd->m_MaxPropagationChange = std::max(gd->m_MaxPropagationChange, itk::Math::Absolute(propagation_term));
 
     propagation_term *= std::sqrt(propagation_gradient);
   }

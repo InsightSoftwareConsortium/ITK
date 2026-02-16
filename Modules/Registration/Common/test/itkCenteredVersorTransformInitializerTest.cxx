@@ -143,7 +143,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
 
     for (unsigned int k = 0; k < Dimension; ++k)
     {
-      if (itk::Math::abs(translation2[k] - relativeCenter[k]) > tolerance)
+      if (itk::Math::Absolute(translation2[k] - relativeCenter[k]) > tolerance)
       {
         std::cerr << "Translation differs from expected value" << std::endl;
         std::cerr << "It should be " << relativeCenter << std::endl;
@@ -151,7 +151,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
         pass = false;
         break;
       }
-      if (itk::Math::abs(offset2[k] - relativeCenter[k]) > tolerance)
+      if (itk::Math::Absolute(offset2[k] - relativeCenter[k]) > tolerance)
       {
         std::cerr << "Offset differs from expected value" << std::endl;
         std::cerr << "It should be " << relativeCenter << std::endl;
@@ -178,7 +178,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
 
     for (unsigned int j = 0; j < Dimension; ++j)
     {
-      if (itk::Math::abs(expectedPoint[j] - mappedOrigin[j]) > tolerance)
+      if (itk::Math::Absolute(expectedPoint[j] - mappedOrigin[j]) > tolerance)
       {
         std::cerr << "Mapped point differs from expected point" << std::endl;
         std::cerr << "It should be " << expectedPoint << std::endl;

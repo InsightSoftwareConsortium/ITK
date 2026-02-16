@@ -246,8 +246,8 @@ ComputeAreaError(const SEType & k, unsigned int thickness)
   std::cout << "Expected foreground area: " << expectedForegroundArea << std::endl;
   std::cout << "Computed foreground area: " << computedForegroundArea << std::endl;
   std::cout << "Foreground area error: "
-            << 100 * itk::Math::abs(expectedForegroundArea - computedForegroundArea) / expectedForegroundArea << '%'
-            << "\n\n";
+            << 100 * itk::Math::Absolute(expectedForegroundArea - computedForegroundArea) / expectedForegroundArea
+            << '%' << "\n\n";
 
   return EXIT_FAILURE;
 }

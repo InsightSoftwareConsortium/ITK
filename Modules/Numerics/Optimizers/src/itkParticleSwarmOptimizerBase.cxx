@@ -262,7 +262,7 @@ ParticleSwarmOptimizerBase::StartOptimization()
           for (unsigned int j = 0; j < this->m_NumberOfParticles; ++j)
           {
             parameterDiffs[j] =
-              itk::Math::abs(this->m_Particles[j].m_BestParameters[k] - this->m_ParametersBestValue[k]);
+              itk::Math::Absolute(this->m_Particles[j].m_BestParameters[k] - this->m_ParametersBestValue[k]);
           }
           std::nth_element(parameterDiffs.begin(), parameterDiffs.begin() + percentileIndex, parameterDiffs.end());
           converged = converged && parameterDiffs[percentileIndex] < this->m_ParametersConvergenceTolerance[k];

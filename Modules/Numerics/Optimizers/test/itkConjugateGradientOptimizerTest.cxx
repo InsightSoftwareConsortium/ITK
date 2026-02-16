@@ -244,7 +244,7 @@ itkConjugateGradientOptimizerTest(int, char *[])
   constexpr double trueParameters[2]{ 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
-    if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
+    if (itk::Math::Absolute(finalPosition[j] - trueParameters[j]) > 0.01)
     {
       pass = false;
     }
@@ -259,7 +259,7 @@ itkConjugateGradientOptimizerTest(int, char *[])
   // Get the final value of the optimizer
   std::cout << "Testing GetValue() : ";
   const OptimizerType::MeasureType finalValue = itkOptimizer->GetValue();
-  if (itk::Math::abs(finalValue + 10.0) > 0.01)
+  if (itk::Math::Absolute(finalValue + 10.0) > 0.01)
   {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;

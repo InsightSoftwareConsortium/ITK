@@ -51,10 +51,10 @@ itkCompensatedSummationTest(int, char *[])
     floatAccumulator.AddElement(randomNumber);
   }
   const FloatType vanillaMean = vanillaSum / static_cast<FloatType>(accumSize);
-  const FloatType vanillaError = itk::Math::abs(vanillaMean - expectedMean);
+  const FloatType vanillaError = itk::Math::Absolute(vanillaMean - expectedMean);
   const FloatType accumulatorSum = floatAccumulator.GetSum();
   const FloatType accumulatorMean = accumulatorSum / static_cast<FloatType>(accumSize);
-  const FloatType accumulatorError = itk::Math::abs(accumulatorMean - expectedMean);
+  const FloatType accumulatorError = itk::Math::Absolute(accumulatorMean - expectedMean);
 
   std::cout << "The expected mean is:     " << expectedMean << std::endl;
 

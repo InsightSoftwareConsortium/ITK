@@ -90,7 +90,7 @@ itkFEMLoadBCMFCTest(int argc, char * argv[])
   {
     soln[i] = solver->GetSolution(i);
     // std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
-    if (itk::Math::abs(expectedResult[i] - soln[i]) > 0.0001)
+    if (itk::Math::Absolute(expectedResult[i] - soln[i]) > 0.0001)
     {
       std::cout << "ERROR: Index " << i << ". Expected " << expectedResult[i] << " Solution " << soln[i] << std::endl;
       foundError = true;

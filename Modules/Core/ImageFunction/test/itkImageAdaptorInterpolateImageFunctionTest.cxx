@@ -81,7 +81,7 @@ TestGeometricPoint(const InterpolatorType * interp, const PointType & point, boo
     const OutputType value = interp->Evaluate(point);
     std::cout << " Value: " << value << std::endl;
 
-    if (itk::Math::abs(value - trueValue) > 1e-9)
+    if (itk::Math::Absolute(value - trueValue) > 1e-9)
     {
       std::cout << " *** Error: Value should be: ";
       std::cout << trueValue << std::endl;
@@ -120,7 +120,7 @@ TestContinuousIndex(const InterpolatorType *    interp,
     const OutputType value = interp->EvaluateAtContinuousIndex(index);
     std::cout << " Value: " << value << std::endl;
 
-    if (itk::Math::abs(value - trueValue) > 1e-9)
+    if (itk::Math::Absolute(value - trueValue) > 1e-9)
     {
       std::cout << " *** Error: Value should be: ";
       std::cout << trueValue << std::endl;

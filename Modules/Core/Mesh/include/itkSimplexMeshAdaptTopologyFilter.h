@@ -128,11 +128,11 @@ public:
       double                meanCurvature = 0;
       const PointIdentifier refPoint = *it;
       double                val = mesh->GetMeanCurvature(*it++);
-      meanCurvature += itk::Math::abs(val);
+      meanCurvature += itk::Math::Absolute(val);
 
       PointIdentifier id1 = *it;
       val = mesh->GetMeanCurvature(*it++);
-      meanCurvature += itk::Math::abs(val);
+      meanCurvature += itk::Math::Absolute(val);
 
       double area = 0;
 
@@ -144,7 +144,7 @@ public:
         area += ComputeArea(refPoint, id1, id2);
         id1 = id2;
         val = mesh->GetMeanCurvature(*it);
-        meanCurvature += itk::Math::abs(val);
+        meanCurvature += itk::Math::Absolute(val);
         ++cnt;
         ++it;
       }
@@ -184,7 +184,7 @@ public:
       mesh->GetPoint(p1, &v1);
       mesh->GetPoint(p2, &v2);
       mesh->GetPoint(p3, &v3);
-      return itk::Math::abs(vnl_cross_3d((v2 - v1).GetVnlVector(), (v3 - v1).GetVnlVector()).two_norm() / 2.0);
+      return itk::Math::Absolute(vnl_cross_3d((v2 - v1).GetVnlVector(), (v3 - v1).GetVnlVector()).two_norm() / 2.0);
     }
 
     typename DoubleValueMapType::Pointer

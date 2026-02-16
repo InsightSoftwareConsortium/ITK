@@ -333,7 +333,7 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::ComputeUpdate(const OutputV
 
   if (delta >= 0.)
   {
-    if (itk::Math::abs(f2) > epsilon)
+    if (itk::Math::Absolute(f2) > epsilon)
     {
       t = (-f1 - std::sqrt(delta)) / f2;
 
@@ -345,7 +345,7 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::ComputeUpdate(const OutputV
     }
     else
     {
-      if (itk::Math::abs(f1) > epsilon)
+      if (itk::Math::Absolute(f1) > epsilon)
       {
         t = -f0 / f1;
       }

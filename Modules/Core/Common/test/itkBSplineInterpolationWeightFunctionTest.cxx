@@ -94,7 +94,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
 
       constexpr unsigned int numberOfWeigts{ weights1.size() };
 
-      const int indexDifference = itk::Math::abs(startIndex2[0] + startIndex1[0]) & 1;
+      const int indexDifference = itk::Math::Absolute(startIndex2[0] + startIndex1[0]) & 1;
 
 
       constexpr double tolerance{ 1e-6 };
@@ -102,7 +102,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
 
       for (unsigned int nw = 0; nw < numberOfWeigts - indexDifference; ++nw)
       {
-        if (itk::Math::abs(weights1[nw] - weights2[numberOfWeigts - nw - 1 - indexDifference]) > tolerance)
+        if (itk::Math::Absolute(weights1[nw] - weights2[numberOfWeigts - nw - 1 - indexDifference]) > tolerance)
         {
           symmetryForXBroken = true;
         }
@@ -182,7 +182,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
 
       constexpr unsigned int numberOfWeigts{ weights1.size() };
 
-      const int indexDifference = itk::Math::abs(startIndex2[0] + startIndex1[0] + 1) & 1;
+      const int indexDifference = itk::Math::Absolute(startIndex2[0] + startIndex1[0] + 1) & 1;
 
 
       constexpr double tolerance{ 1e-6 };
@@ -190,7 +190,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
 
       for (unsigned int nw = 0; nw < numberOfWeigts - indexDifference; ++nw)
       {
-        if (itk::Math::abs(weights1[nw] - weights2[numberOfWeigts - nw - 1 - indexDifference]) > tolerance)
+        if (itk::Math::Absolute(weights1[nw] - weights2[numberOfWeigts - nw - 1 - indexDifference]) > tolerance)
         {
           symmetryForXBroken = true;
         }
@@ -293,7 +293,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
       {
         value *= kernel->Evaluate(static_cast<double>(iter.GetIndex()[j]) - position[j]);
       }
-      if (itk::Math::abs(weights[counter] - value) > 1e-7)
+      if (itk::Math::Absolute(weights[counter] - value) > 1e-7)
       {
         std::cout << "Error at weights[" << counter << ']' << std::endl;
         std::cout << "Computed value: " << weights[counter] << std::endl;

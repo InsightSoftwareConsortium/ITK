@@ -267,12 +267,12 @@ itkExhaustiveOptimizerv4Test(int, char *[])
   }
 
 
-  const bool minimumValuePass = itk::Math::abs(itkOptimizer->GetMinimumMetricValue() - -10) < 1E-3;
+  const bool minimumValuePass = itk::Math::Absolute(itkOptimizer->GetMinimumMetricValue() - -10) < 1E-3;
 
   std::cout << "MinimumMetricValue = " << itkOptimizer->GetMinimumMetricValue() << std::endl;
   std::cout << "Minimum Position = " << itkOptimizer->GetMinimumMetricValuePosition() << std::endl;
 
-  const bool maximumValuePass = itk::Math::abs(itkOptimizer->GetMaximumMetricValue() - 926) < 1E-3;
+  const bool maximumValuePass = itk::Math::Absolute(itkOptimizer->GetMaximumMetricValue() - 926) < 1E-3;
   std::cout << "MaximumMetricValue = " << itkOptimizer->GetMaximumMetricValue() << std::endl;
   std::cout << "Maximum Position = " << itkOptimizer->GetMaximumMetricValuePosition() << std::endl;
 
@@ -311,7 +311,7 @@ itkExhaustiveOptimizerv4Test(int, char *[])
   constexpr double trueParameters[2]{ 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
-    if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
+    if (itk::Math::Absolute(finalPosition[j] - trueParameters[j]) > 0.01)
     {
       trueParamsPass = false;
     }

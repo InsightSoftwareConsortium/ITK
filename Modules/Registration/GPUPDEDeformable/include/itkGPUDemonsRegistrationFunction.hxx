@@ -353,7 +353,7 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
 
   const double denominator = sqr_speedValue / m_Normalizer + gradientSquaredMagnitude;
 
-  if (itk::Math::abs(speedValue) < m_IntensityDifferenceThreshold || denominator < m_DenominatorThreshold)
+  if (itk::Math::Absolute(speedValue) < m_IntensityDifferenceThreshold || denominator < m_DenominatorThreshold)
   {
     return m_ZeroUpdateReturn;
   }

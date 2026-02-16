@@ -65,7 +65,7 @@ itkGaussianDistributionTest(int, char *[])
 
     double value = distributionFunction->EvaluateCDF(x);
 
-    double diff = itk::Math::abs(value - expected1[i + 5]);
+    double diff = itk::Math::Absolute(value - expected1[i + 5]);
 
     std::cout << "Gaussian cdf at ";
     std::cout.width(2);
@@ -94,7 +94,7 @@ itkGaussianDistributionTest(int, char *[])
   {
     double value = distributionFunction->EvaluateInverseCDF(expected1[i + 5]);
 
-    double diff = itk::Math::abs(value - static_cast<double>(i));
+    double diff = itk::Math::Absolute(value - static_cast<double>(i));
 
     std::cout << "Inverse Gaussian cdf at ";
     std::cout.width(22);
@@ -136,7 +136,7 @@ itkGaussianDistributionTest(int, char *[])
 
     double value = distributionFunction->EvaluateCDF(x);
 
-    double diff = itk::Math::abs(value - expected2[i + 5]);
+    double diff = itk::Math::Absolute(value - expected2[i + 5]);
 
     std::cout << "Gaussian cdf at ";
     std::cout.width(2);
@@ -181,7 +181,7 @@ itkGaussianDistributionTest(int, char *[])
 
     double value = distributionFunction->EvaluateCDF(x, params);
 
-    double diff = itk::Math::abs(value - expected3[i + 5]);
+    double diff = itk::Math::Absolute(value - expected3[i + 5]);
 
     std::cout << "Gaussian cdf at ";
     std::cout.width(2);
@@ -219,7 +219,7 @@ itkGaussianDistributionTest(int, char *[])
 
     double value = distributionFunction->EvaluateCDF(x, params[0], params[1]);
 
-    double diff = itk::Math::abs(value - expected4[i + 5]);
+    double diff = itk::Math::Absolute(value - expected4[i + 5]);
 
     std::cout << "Gaussian cdf at ";
     std::cout.width(2);
@@ -249,7 +249,7 @@ itkGaussianDistributionTest(int, char *[])
   {
     double value = distributionFunction->EvaluateInverseCDF(expected2[i + 5]);
 
-    double diff = itk::Math::abs(value - static_cast<double>(i));
+    double diff = itk::Math::Absolute(value - static_cast<double>(i));
 
     std::cout << "Inverse Gaussian cdf at ";
     std::cout.width(22);

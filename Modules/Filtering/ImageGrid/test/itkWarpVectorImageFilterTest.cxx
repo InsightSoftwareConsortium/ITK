@@ -265,7 +265,7 @@ itkWarpVectorImageFilterTest(int, char *[])
       PixelType trueValue(pattern.Evaluate(outIter.GetIndex(), validSize, clampSize, padValue));
       for (unsigned int k = 0; k < ImageDimension; ++k)
       {
-        if (itk::Math::abs(trueValue[k] - value[k]) > 1e-4)
+        if (itk::Math::Absolute(trueValue[k] - value[k]) > 1e-4)
         {
           std::cerr << "Test failed!" << std::endl;
           std::cerr << "Error in Evaluate at index [" << index << "]" << std::endl;

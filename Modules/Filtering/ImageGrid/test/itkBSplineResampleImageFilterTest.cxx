@@ -161,7 +161,7 @@ VerifyResultsHigherOrderSpline(ImageTypePtr2D ActualResults, double * ExpectedRe
   {
     const double val1 = ActualResultsIter.Get();
 
-    percentErr += itk::Math::abs((val1 - *ERptr) / val1);
+    percentErr += itk::Math::Absolute((val1 - *ERptr) / val1);
 
     ++ActualResultsIter;
     ++ERptr;
@@ -186,7 +186,7 @@ VerifyResults3rdOrderSpline(ImageTypePtr2D ActualResults, double * ExpectedResul
   while (!ActualResultsIter.IsAtEnd())
   {
     const double val1 = ActualResultsIter.Get();
-    if (itk::Math::abs(val1 - *ERptr) > 1e-6)
+    if (itk::Math::Absolute(val1 - *ERptr) > 1e-6)
     {
       // std::cout << "*** Error: value should be " << trueValue << std::endl;
       return false;
@@ -209,7 +209,7 @@ VerifyResults2ndOrderSpline(ImageTypePtr2D ActualResults, double * ExpectedResul
   {
     const double val1 = ActualResultsIter.Get();
 
-    percentErr += itk::Math::abs((val1 - *ERptr) / val1);
+    percentErr += itk::Math::Absolute((val1 - *ERptr) / val1);
 
     ++ActualResultsIter;
     ++ERptr;
@@ -237,7 +237,7 @@ VerifyResultsLowerOrderSpline(ImageTypePtr2D ActualResults, double * ExpectedRes
   {
     const double val1 = ActualResultsIter.Get();
 
-    percentErr += itk::Math::abs((val1 - *ERptr) / val1);
+    percentErr += itk::Math::Absolute((val1 - *ERptr) / val1);
 
     ++ActualResultsIter;
     ++ERptr;

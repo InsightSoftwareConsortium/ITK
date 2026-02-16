@@ -85,7 +85,7 @@ public:
   {
     using InputRealType = typename NumericTraits<TInput>::RealType;
     auto absDifference =
-      static_cast<TInput>(itk::Math::abs(static_cast<InputRealType>(a) - static_cast<InputRealType>(b)));
+      static_cast<TInput>(itk::Math::Absolute(static_cast<InputRealType>(a) - static_cast<InputRealType>(b)));
     if (absDifference <= m_Threshold)
     {
       return true;

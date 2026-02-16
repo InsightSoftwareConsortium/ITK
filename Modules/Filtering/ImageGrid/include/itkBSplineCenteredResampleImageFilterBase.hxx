@@ -336,7 +336,7 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage
     double outVal2 = 0;
     for (IndexValueType k = -k0; k < this->m_HSize; k += 2L)
     {
-      const IndexValueType kk = itk::Math::abs(static_cast<int>(k));
+      const IndexValueType kk = itk::Math::Absolute(static_cast<int>(k));
       i1 = inK + (k + 1L) / 2L;
       if (i1 < 0L)
       {

@@ -318,41 +318,41 @@ TEST(itkMath, GreatestPrimeFactor)
 TEST(itkMath, Abs)
 {
   // static_assert tests from an original file
-  static_assert(itk::Math::safe_abs(false) == false);
-  static_assert(itk::Math::safe_abs(true) == true);
-  static_assert(itk::Math::safe_abs(static_cast<unsigned char>(5)) == 5);
-  static_assert(itk::Math::safe_abs(static_cast<unsigned short>(5)) == 5);
-  static_assert(itk::Math::safe_abs(static_cast<unsigned int>(5)) == 5);
-  static_assert(itk::Math::safe_abs(static_cast<unsigned long>(5)) == 5);
-  static_assert(itk::Math::safe_abs(static_cast<unsigned long long>(5)) == 5);
-  static_assert(itk::Math::safe_abs(static_cast<signed char>(-5)) == 5);
-  static_assert(itk::Math::safe_abs(static_cast<signed char>(-128)) == 128);
-  static_assert(itk::Math::safe_abs(static_cast<short>(-5)) == 5);
-  static_assert(itk::Math::safe_abs<int>(-5) == 5u);
-  static_assert(itk::Math::safe_abs<long>(-5L) == 5ul);
-  static_assert(itk::Math::safe_abs<long long>(-5LL) == 5ull);
-  static_assert(itk::Math::safe_abs<double>(-5.0) == 5.0);
-  static_assert(itk::Math::safe_abs<float>(-5.0f) == 5.0f);
+  static_assert(itk::Math::Absolute(false) == false);
+  static_assert(itk::Math::Absolute(true) == true);
+  static_assert(itk::Math::Absolute(static_cast<unsigned char>(5)) == 5);
+  static_assert(itk::Math::Absolute(static_cast<unsigned short>(5)) == 5);
+  static_assert(itk::Math::Absolute(static_cast<unsigned int>(5)) == 5);
+  static_assert(itk::Math::Absolute(static_cast<unsigned long>(5)) == 5);
+  static_assert(itk::Math::Absolute(static_cast<unsigned long long>(5)) == 5);
+  static_assert(itk::Math::Absolute(static_cast<signed char>(-5)) == 5);
+  static_assert(itk::Math::Absolute(static_cast<signed char>(-128)) == 128);
+  static_assert(itk::Math::Absolute(static_cast<short>(-5)) == 5);
+  static_assert(itk::Math::Absolute<int>(-5) == 5u);
+  static_assert(itk::Math::Absolute<long>(-5L) == 5ul);
+  static_assert(itk::Math::Absolute<long long>(-5LL) == 5ull);
+  static_assert(itk::Math::Absolute<double>(-5.0) == 5.0);
+  static_assert(itk::Math::Absolute<float>(-5.0f) == 5.0f);
 
   constexpr auto cf = std::complex<float>(-3, -4);
-  EXPECT_EQ(itk::Math::safe_abs(cf), 5);
+  EXPECT_EQ(itk::Math::Absolute(cf), 5);
   constexpr auto cd = std::complex<double>(-3, -4);
-  EXPECT_EQ(itk::Math::safe_abs(cd), 5);
+  EXPECT_EQ(itk::Math::Absolute(cd), 5);
   constexpr auto cld = std::complex<long double>(-3, -4);
-  EXPECT_EQ(itk::Math::safe_abs(cld), 5);
+  EXPECT_EQ(itk::Math::Absolute(cld), 5);
 
-  EXPECT_EQ(itk::Math::abs(false), false);
-  EXPECT_EQ(itk::Math::abs(true), true);
-  EXPECT_EQ(itk::Math::abs(static_cast<unsigned char>(5)), 5);
-  EXPECT_EQ(itk::Math::abs(static_cast<signed char>(-5)), 5);
-  EXPECT_EQ(itk::Math::abs(static_cast<signed char>(-128)), 128);
-  EXPECT_EQ(itk::Math::abs(static_cast<short>(-5)), 5);
-  EXPECT_EQ(itk::Math::abs<int>(-5), 5u);
-  EXPECT_EQ(itk::Math::abs<long>(-5L), 5ul);
-  EXPECT_EQ(itk::Math::abs<long long>(-5LL), 5ull);
-  EXPECT_EQ(itk::Math::abs<double>(-5.0), 5.0);
-  EXPECT_EQ(itk::Math::abs<float>(-5.0f), 5.0f);
-  EXPECT_EQ(itk::Math::abs(-5), 5);
+  EXPECT_EQ(itk::Math::Absolute(false), false);
+  EXPECT_EQ(itk::Math::Absolute(true), true);
+  EXPECT_EQ(itk::Math::Absolute(static_cast<unsigned char>(5)), 5);
+  EXPECT_EQ(itk::Math::Absolute(static_cast<signed char>(-5)), 5);
+  EXPECT_EQ(itk::Math::Absolute(static_cast<signed char>(-128)), 128);
+  EXPECT_EQ(itk::Math::Absolute(static_cast<short>(-5)), 5);
+  EXPECT_EQ(itk::Math::Absolute<int>(-5), 5u);
+  EXPECT_EQ(itk::Math::Absolute<long>(-5L), 5ul);
+  EXPECT_EQ(itk::Math::Absolute<long long>(-5LL), 5ull);
+  EXPECT_EQ(itk::Math::Absolute<double>(-5.0), 5.0);
+  EXPECT_EQ(itk::Math::Absolute<float>(-5.0f), 5.0f);
+  EXPECT_EQ(itk::Math::Absolute(-5), 5);
 }
 
 TEST(itkMath, ConstexprTests)

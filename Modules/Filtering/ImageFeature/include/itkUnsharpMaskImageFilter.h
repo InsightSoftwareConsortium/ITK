@@ -34,7 +34,7 @@ namespace itk
  * It has configurable amount, radius (sigma) and threshold,
  * and whether to clamp the resulting values to the range of output type.
  *
- * Formula: sharpened=original+[itk::Math::abs(original-blurred)-threshold]*amount
+ * Formula: sharpened=original+[itk::Math::Absolute(original-blurred)-threshold]*amount
  *
  * If clamping is turned off (it is on by default),
  * casting to output pixel format is done using C++ defaults,

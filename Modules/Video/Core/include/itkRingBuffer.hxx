@@ -154,7 +154,7 @@ template <typename TElement>
 auto
 RingBuffer<TElement>::GetOffsetBufferIndex(OffsetValueType offset) -> OffsetValueType
 {
-  const OffsetValueType moddedOffset = itk::Math::abs(offset) % this->GetNumberOfBuffers();
+  const OffsetValueType moddedOffset = itk::Math::Absolute(offset) % this->GetNumberOfBuffers();
   auto                  signedHeadIndex = static_cast<OffsetValueType>(m_HeadIndex);
   if (offset >= 0)
   {

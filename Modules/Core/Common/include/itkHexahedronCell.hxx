@@ -402,7 +402,7 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
     // spell-check-disable
     // d=vtkMath::Determinant3x3(rcol,scol,tcol);
     // spell-check-enable
-    if (itk::Math::abs(d) < 1.e-20)
+    if (itk::Math::Absolute(d) < 1.e-20)
     {
       return false;
     }
@@ -443,16 +443,16 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
     }
 
     //  check for convergence
-    if (((itk::Math::abs(pcoords[0] - params[0])) < ITK_HEX_CONVERGED) &&
-        ((itk::Math::abs(pcoords[1] - params[1])) < ITK_HEX_CONVERGED) &&
-        ((itk::Math::abs(pcoords[2] - params[2])) < ITK_HEX_CONVERGED))
+    if (((itk::Math::Absolute(pcoords[0] - params[0])) < ITK_HEX_CONVERGED) &&
+        ((itk::Math::Absolute(pcoords[1] - params[1])) < ITK_HEX_CONVERGED) &&
+        ((itk::Math::Absolute(pcoords[2] - params[2])) < ITK_HEX_CONVERGED))
     {
       converged = 1;
     }
 
     // Test for bad divergence (S.Hirschberg 11.12.2001)
-    else if ((itk::Math::abs(pcoords[0]) > ITK_DIVERGED) || (itk::Math::abs(pcoords[1]) > ITK_DIVERGED) ||
-             (itk::Math::abs(pcoords[2]) > ITK_DIVERGED))
+    else if ((itk::Math::Absolute(pcoords[0]) > ITK_DIVERGED) || (itk::Math::Absolute(pcoords[1]) > ITK_DIVERGED) ||
+             (itk::Math::Absolute(pcoords[2]) > ITK_DIVERGED))
     {
       return false;
     }

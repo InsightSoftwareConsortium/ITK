@@ -121,7 +121,7 @@ SlopeInterceptTest()
     if (!Equal(it.Value(), static_cast<float>(i) / 256.0))
     {
       //      return EXIT_FAILURE;
-      const double error = itk::Math::abs(it.Value() - (static_cast<double>(i) / 256.0));
+      const double error = itk::Math::Absolute(it.Value() - (static_cast<double>(i) / 256.0));
       if (error > maxerror)
       {
         maxerror = error;
@@ -201,7 +201,7 @@ SlopeInterceptWriteTest()
     if (!Equal(it.Value(), static_cast<float>(i) / 256.0 - 10.0))
     {
       //      return EXIT_FAILURE;
-      const double error = itk::Math::abs(it.Value() - (static_cast<double>(i) / 256.0 - 10.0));
+      const double error = itk::Math::Absolute(it.Value() - (static_cast<double>(i) / 256.0 - 10.0));
       if (error > maxerror)
       {
         maxerror = error;

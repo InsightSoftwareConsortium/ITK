@@ -484,7 +484,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeAct
       const ValueType dx_backward =
         (shiftedIt.GetCenterPixel() - shiftedIt.GetPixel(center - stride)) * neighborhoodScales[i];
 
-      if (itk::Math::abs(dx_forward) > itk::Math::abs(dx_backward))
+      if (itk::Math::Absolute(dx_forward) > itk::Math::Absolute(dx_backward))
       {
         length += dx_forward * dx_forward;
       }
@@ -570,7 +570,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PropagateLaye
         }
         else
         {
-          if (itk::Math::abs(value_temp + delta) < itk::Math::abs(value + delta))
+          if (itk::Math::Absolute(value_temp + delta) < itk::Math::Absolute(value + delta))
           {
             // take the value closest to zero
             value = value_temp;
@@ -1272,7 +1272,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedCalcu
           const auto dx_backward = centerValue - backwardValue;
 
           // take the one-sided derivative with the larger magnitude
-          if (itk::Math::abs(dx_forward) > itk::Math::abs(dx_backward))
+          if (itk::Math::Absolute(dx_forward) > itk::Math::Absolute(dx_backward))
           {
             offset[i] = dx_forward;
           }
@@ -1726,7 +1726,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedProce
         }
         else
         {
-          if (itk::Math::abs(value_temp + delta) < itk::Math::abs(value + delta))
+          if (itk::Math::Absolute(value_temp + delta) < itk::Math::Absolute(value + delta))
           {
             // take the value closest to zero
             value = value_temp;
@@ -1991,7 +1991,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedPropa
         }
         else
         {
-          if (itk::Math::abs(value_temp + delta) < itk::Math::abs(value + delta))
+          if (itk::Math::Absolute(value_temp + delta) < itk::Math::Absolute(value + delta))
           {
             // take the value closest to zero
             value = value_temp;

@@ -174,7 +174,7 @@ ImageToImageMetricv4TestTestArray(const TVector & v1, const TVector & v2)
   for (unsigned int i = 0; i < v1.Size(); ++i)
   {
     constexpr double epsilon{ 1e-10 };
-    if (itk::Math::abs(v1[i] - v2[i]) > epsilon)
+    if (itk::Math::Absolute(v1[i] - v2[i]) > epsilon)
     {
       pass = false;
     }
@@ -357,7 +357,7 @@ ImageToImageMetricv4TestRunSingleTest(const ImageToImageMetricv4TestMetricPointe
   {
     // Verify results
     constexpr double epsilon{ 1e-10 };
-    if (itk::Math::abs(truthValue - valueReturn2) > epsilon)
+    if (itk::Math::Absolute(truthValue - valueReturn2) > epsilon)
     {
       std::cerr << "-FAILED- truthValue does not equal value: " << std::endl
                 << "truthValue: " << truthValue << std::endl

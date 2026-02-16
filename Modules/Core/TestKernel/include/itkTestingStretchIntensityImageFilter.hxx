@@ -75,7 +75,8 @@ StretchIntensityImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDa
     }
   }
 
-  if (itk::Math::abs(m_InputMaximum - m_InputMinimum) > itk::Math::abs(NumericTraits<InputPixelType>::epsilon()))
+  if (itk::Math::Absolute(m_InputMaximum - m_InputMinimum) >
+      itk::Math::Absolute(NumericTraits<InputPixelType>::epsilon()))
   {
     m_Scale = (static_cast<RealType>(m_OutputMaximum) - static_cast<RealType>(m_OutputMinimum)) /
               (static_cast<RealType>(m_InputMaximum) - static_cast<RealType>(m_InputMinimum));

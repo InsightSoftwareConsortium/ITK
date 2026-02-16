@@ -56,7 +56,7 @@ itkCompositeValleyFunctionTest(int, char *[])
 
   const double interval1 = function.GetInterval();
   const double interval2 = (function.GetUpperBound() - function.GetLowerBound()) / (1000000.0 - 1.0);
-  if (itk::Math::abs(interval1 - interval2) > itk::NumericTraits<double>::epsilon())
+  if (itk::Math::Absolute(interval1 - interval2) > itk::NumericTraits<double>::epsilon())
   {
     std::cout << "Test fails: GetInterval()" << std::endl;
     std::cout << "Interval from the GetInterval() = " << interval1 << std::endl;
@@ -69,9 +69,9 @@ itkCompositeValleyFunctionTest(int, char *[])
   const double value1 = function(measure);
   const double value2 = function.Evaluate(measure);
 
-  if (itk::Math::abs(value1 - value2) > itk::NumericTraits<double>::epsilon())
+  if (itk::Math::Absolute(value1 - value2) > itk::NumericTraits<double>::epsilon())
   {
-    std::cout << "diff = " << itk::Math::abs(value1 - value2) << std::endl;
+    std::cout << "diff = " << itk::Math::Absolute(value1 - value2) << std::endl;
     std::cout << "Test fails: operator()" << std::endl;
 
     return EXIT_FAILURE;

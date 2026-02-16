@@ -351,7 +351,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
   const double usedGradientTimes2SquaredMagnitude = usedGradientTimes2.GetSquaredNorm();
 
   const double speedValue = fixedValue - movingValue;
-  if (itk::Math::abs(speedValue) >= m_IntensityDifferenceThreshold)
+  if (itk::Math::Absolute(speedValue) >= m_IntensityDifferenceThreshold)
   {
     // least square solution of the system
     double denom = usedGradientTimes2SquaredMagnitude;

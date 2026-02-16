@@ -142,7 +142,7 @@ private:
   {
     // Calculate cumulative function
     const RealType s = itk::Math::sgn(u - v);
-    const RealType ad = itk::Math::abs(2.0 * (u - v));
+    const RealType ad = itk::Math::Absolute(2.0 * (u - v));
 
     return 0.5 * s * std::pow(ad, m_Alpha) - m_Beta * 0.5 * s * ad + m_Beta * u;
   }

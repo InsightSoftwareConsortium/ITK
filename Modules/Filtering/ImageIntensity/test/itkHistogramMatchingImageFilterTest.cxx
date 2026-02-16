@@ -99,7 +99,7 @@ CompareImages(itk::ImageRegionIterator<ImageType> & refIter, itk::ImageRegionIte
   while (!outIter.IsAtEnd())
   {
     const typename ImageType::PixelType diff = refIter.Get() - outIter.Get();
-    if (itk::Math::abs(diff) > 1)
+    if (itk::Math::Absolute(diff) > 1)
     {
       passed = false;
       std::cout << "Test failed at: " << outIter.ComputeIndex() << ' ';

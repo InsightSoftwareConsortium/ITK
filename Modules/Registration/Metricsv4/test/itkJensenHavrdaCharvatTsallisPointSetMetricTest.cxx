@@ -143,7 +143,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
 
     for (unsigned int d = 0; d < metric->GetNumberOfParameters(); ++d)
     {
-      if (itk::Math::abs(derivative[d] - normalizedOffset[d]) / normalizedOffset[d] > 0.01)
+      if (itk::Math::Absolute(derivative[d] - normalizedOffset[d]) / normalizedOffset[d] > 0.01)
       {
         std::cerr << "derivative does not match expected normalized offset of " << offset << std::endl;
         return EXIT_FAILURE;
@@ -155,7 +155,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
       static constexpr float metricValues2D[] = { 0.143842f,     -0.0129571f,   -0.00105768f,
                                                   -0.000115118f, -1.40956e-05f, -1.84099e-06f };
 
-      if (itk::Math::abs(value - metricValues2D[i]) > 0.01)
+      if (itk::Math::Absolute(value - metricValues2D[i]) > 0.01)
       {
         std::cerr << "calculated value is different than expected." << std::endl;
       }
@@ -165,14 +165,14 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
       static constexpr float metricValues3D[] = { 0.175588f,     -0.0086854f,   -0.000475248f,
                                                   -3.46729e-05f, -2.84585e-06f, -2.49151e-07f };
 
-      if (itk::Math::abs(value - metricValues3D[i]) > 0.01)
+      if (itk::Math::Absolute(value - metricValues3D[i]) > 0.01)
       {
         std::cerr << "calculated value is different than expected." << std::endl;
       }
     }
 
     // Check for the same results from different methods
-    if (itk::Math::abs(value - value2) > 0.01)
+    if (itk::Math::Absolute(value - value2) > 0.01)
     {
       std::cerr << "value does not match between calls to different methods: "
                 << "value: " << value << " value2: " << value2 << std::endl;

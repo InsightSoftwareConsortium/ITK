@@ -105,7 +105,7 @@ itkFiniteCylinderSpatialFunctionTest(int, char *[])
   const double volume = 3.14159 * pow(radius, 2) * axis;
 
   // Percent difference in volume measurement and calculation
-  const double volumeError = (itk::Math::abs(volume - interiorPixelCounter) / volume) * 100;
+  const double volumeError = (itk::Math::Absolute(volume - interiorPixelCounter) / volume) * 100;
 
   std::cout << spatialFunc;
 

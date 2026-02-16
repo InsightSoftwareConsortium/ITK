@@ -81,7 +81,7 @@ itkSimplexMeshVolumeCalculatorTest(int, char *[])
 
   std::cout << "knownVolume: " << knownVolume << " versus computedVolume: " << volume << std::endl;
 
-  if (itk::Math::abs(volume - knownVolume) > (1e-2 * knownVolume))
+  if (itk::Math::Absolute(volume - knownVolume) > (1e-2 * knownVolume))
   {
     std::cerr << "Error in the Volume computation " << std::endl;
     std::cerr << "We expected " << knownVolume << std::endl;

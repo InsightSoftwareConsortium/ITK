@@ -70,7 +70,7 @@ RGBImageTotalAbsDifference(const itk::Image<itk::RGBPixel<TPixelValue>, VDimensi
 
     for (unsigned int i = 0; i < 3; ++i)
     {
-      localDiff += itk::Math::abs(validPx[i] - testPx[i]);
+      localDiff += itk::Math::Absolute(validPx[i] - testPx[i]);
     }
 
     if (localDiff != TPixelValue{})

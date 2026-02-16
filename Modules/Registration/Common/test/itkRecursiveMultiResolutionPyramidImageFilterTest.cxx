@@ -40,7 +40,7 @@ F(double x, double y, double z)
   const double r = std::sqrt(x * x + y * y + z * z);
   if (r > 35)
   {
-    value = 2 * (itk::Math::abs(x) + 0.8 * itk::Math::abs(y) + 0.5 * itk::Math::abs(z));
+    value = 2 * (itk::Math::Absolute(x) + 0.8 * itk::Math::Absolute(y) + 0.5 * itk::Math::Absolute(z));
   }
   if (r < 4)
   {

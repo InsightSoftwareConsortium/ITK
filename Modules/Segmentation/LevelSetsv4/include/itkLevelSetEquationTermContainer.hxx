@@ -270,7 +270,7 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Evaluate(const L
   {
     const LevelSetOutputRealType temp_val = (term_it->second)->Evaluate(iP);
 
-    const LevelSetOutputRealType abs_temp_value = itk::Math::abs(temp_val);
+    const LevelSetOutputRealType abs_temp_value = itk::Math::Absolute(temp_val);
 
     // This is a thread-safe equivalent of:
     // cfl_it->second = std::max(abs_temp_value, cfl_it->second);
@@ -305,7 +305,7 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Evaluate(const L
   {
     const LevelSetOutputRealType temp_val = (term_it->second)->Evaluate(iP, iData);
 
-    const LevelSetOutputRealType abs_temp_value = itk::Math::abs(temp_val);
+    const LevelSetOutputRealType abs_temp_value = itk::Math::Absolute(temp_val);
 
     // This is a thread-safe equivalent of:
     // cfl_it->second = std::max(abs_temp_value, cfl_it->second);

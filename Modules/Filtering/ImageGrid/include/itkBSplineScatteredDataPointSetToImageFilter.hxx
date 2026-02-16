@@ -459,11 +459,11 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
       const unsigned int totalNumberOfSpans = this->m_CurrentNumberOfControlPoints[i] - this->m_SplineOrder[i];
 
       p[i] = (point[i] - this->m_Origin[i]) * r[i];
-      if (itk::Math::abs(p[i] - static_cast<RealType>(totalNumberOfSpans)) <= epsilon[i])
+      if (itk::Math::Absolute(p[i] - static_cast<RealType>(totalNumberOfSpans)) <= epsilon[i])
       {
         p[i] = static_cast<RealType>(totalNumberOfSpans) - epsilon[i];
       }
-      if (p[i] < RealType{} && itk::Math::abs(p[i]) <= epsilon[i])
+      if (p[i] < RealType{} && itk::Math::Absolute(p[i]) <= epsilon[i])
       {
         p[i] = RealType{};
       }
@@ -611,11 +611,11 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
       U[i] = static_cast<RealType>(totalNumberOfSpans[i]) * static_cast<RealType>(idx[i] - startIndex[i]) /
              static_cast<RealType>(this->m_Size[i] - 1);
 
-      if (itk::Math::abs(U[i] - static_cast<RealType>(totalNumberOfSpans[i])) <= epsilon[i])
+      if (itk::Math::Absolute(U[i] - static_cast<RealType>(totalNumberOfSpans[i])) <= epsilon[i])
       {
         U[i] = static_cast<RealType>(totalNumberOfSpans[i]) - epsilon[i];
       }
-      if (U[i] < RealType{} && itk::Math::abs(U[i]) <= epsilon[i])
+      if (U[i] < RealType{} && itk::Math::Absolute(U[i]) <= epsilon[i])
       {
         U[i] = RealType{};
       }
@@ -946,11 +946,11 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
       U[i] = static_cast<RealType>(totalNumberOfSpans[i]) * static_cast<RealType>(point[i] - this->m_Origin[i]) /
              (static_cast<RealType>(this->m_Size[i] - 1) * this->m_Spacing[i]);
 
-      if (itk::Math::abs(U[i] - static_cast<RealType>(totalNumberOfSpans[i])) <= epsilon[i])
+      if (itk::Math::Absolute(U[i] - static_cast<RealType>(totalNumberOfSpans[i])) <= epsilon[i])
       {
         U[i] = static_cast<RealType>(totalNumberOfSpans[i]) - epsilon[i];
       }
-      if (U[i] < RealType{} && itk::Math::abs(U[i]) <= epsilon[i])
+      if (U[i] < RealType{} && itk::Math::Absolute(U[i]) <= epsilon[i])
       {
         U[i] = RealType{};
       }

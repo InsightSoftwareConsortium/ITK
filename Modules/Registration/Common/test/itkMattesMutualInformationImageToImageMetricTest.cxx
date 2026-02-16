@@ -384,7 +384,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
     std::cout << ratio << '\t';
     std::cout << std::endl;
 
-    if (itk::Math::abs(ratio - 1.0) > 0.012)
+    if (itk::Math::Absolute(ratio - 1.0) > 0.012)
     {
       std::cout << "computed derivative differ from central difference." << std::endl;
       testFailed = true;
@@ -665,7 +665,7 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
     std::cout << ratio << '\t';
     std::cout << std::endl;
 
-    if (itk::Math::abs(ratio - 1.0) > 0.05 && itk::Math::abs(derivative[i]) > 1e-4)
+    if (itk::Math::Absolute(ratio - 1.0) > 0.05 && itk::Math::Absolute(derivative[i]) > 1e-4)
     {
       std::cout << "computed derivative differ from central difference." << std::endl;
       testFailed = true;

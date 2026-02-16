@@ -252,8 +252,8 @@ itkImageToRectilinearFEMObjectFilter2DTest(int argc, char * argv[])
     loc[0] = std::stod(argv[9 + i * 3 + 1]);
     loc[1] = std::stod(argv[9 + i * 3 + 2]);
     std::cout << "Node (" << nodeNumber << ") Test " << i << ": ";
-    if ((itk::Math::abs(femObject->GetNode(nodeNumber)->GetCoordinates()[0] - loc[0]) > tolerance) ||
-        (itk::Math::abs(femObject->GetNode(nodeNumber)->GetCoordinates()[1] - loc[1]) > tolerance))
+    if ((itk::Math::Absolute(femObject->GetNode(nodeNumber)->GetCoordinates()[0] - loc[0]) > tolerance) ||
+        (itk::Math::Absolute(femObject->GetNode(nodeNumber)->GetCoordinates()[1] - loc[1]) > tolerance))
     {
       std::cout << "[FAILED]" << std::endl;
       std::cout << "\tExpected (" << loc[0] << ',' << loc[1] << "), Got (";

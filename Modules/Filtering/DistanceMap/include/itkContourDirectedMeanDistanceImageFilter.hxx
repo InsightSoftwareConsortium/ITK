@@ -220,7 +220,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::ThreadedGene
         if (bIsOnContour)
         {
           const RealType value = it2.Get();
-          m_MeanDistance[threadId] += itk::Math::abs(value);
+          m_MeanDistance[threadId] += itk::Math::Absolute(value);
           m_Count[threadId]++;
         }
       }

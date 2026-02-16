@@ -101,7 +101,7 @@ HessianToObjectnessMeasureImageFilter<TInputImage, TOutputImage>::DynamicThreade
     EigenValueArrayType sortedAbsEigenValues;
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      sortedAbsEigenValues[i] = itk::Math::abs(sortedEigenValues[i]);
+      sortedAbsEigenValues[i] = itk::Math::Absolute(sortedEigenValues[i]);
     }
 
     // Initialize the objectness measure
@@ -116,9 +116,9 @@ HessianToObjectnessMeasureImageFilter<TInputImage, TOutputImage>::DynamicThreade
       {
         rADenominatorBase *= sortedAbsEigenValues[j];
       }
-      if (itk::Math::abs(rADenominatorBase) > 0.0)
+      if (itk::Math::Absolute(rADenominatorBase) > 0.0)
       {
-        if (itk::Math::abs(m_Alpha) > 0.0)
+        if (itk::Math::Absolute(m_Alpha) > 0.0)
         {
           rA /= std::pow(rADenominatorBase, 1.0 / (ImageDimension - m_ObjectDimension - 1));
           objectnessMeasure *= 1.0 - std::exp(-0.5 * itk::Math::sqr(rA) / itk::Math::sqr(m_Alpha));
@@ -138,7 +138,7 @@ HessianToObjectnessMeasureImageFilter<TInputImage, TOutputImage>::DynamicThreade
       {
         rBDenominatorBase *= sortedAbsEigenValues[j];
       }
-      if (itk::Math::abs(rBDenominatorBase) > 0.0 && itk::Math::abs(m_Beta) > 0.0)
+      if (itk::Math::Absolute(rBDenominatorBase) > 0.0 && itk::Math::Absolute(m_Beta) > 0.0)
       {
         rB /= std::pow(rBDenominatorBase, 1.0 / (ImageDimension - m_ObjectDimension));
 
@@ -150,7 +150,7 @@ HessianToObjectnessMeasureImageFilter<TInputImage, TOutputImage>::DynamicThreade
       }
     }
 
-    if (itk::Math::abs(m_Gamma) > 0.0)
+    if (itk::Math::Absolute(m_Gamma) > 0.0)
     {
       double frobeniusNormSquared = 0.0;
       for (unsigned int i = 0; i < ImageDimension; ++i)

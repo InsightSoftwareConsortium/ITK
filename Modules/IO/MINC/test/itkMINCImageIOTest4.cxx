@@ -67,23 +67,23 @@ test_image_moments(const char * input_image,
   if (total > 0.0) // assume that if no total was provided this test should not be performed
   {
     constexpr double epsilon{ 1e-3 };
-    if (itk::Math::abs(calculator->GetTotalMass() - total) > epsilon)
+    if (itk::Math::Absolute(calculator->GetTotalMass() - total) > epsilon)
     {
       std::cerr << "Total sum mismatch:" << calculator->GetTotalMass()
                 << " difference=" << (calculator->GetTotalMass() - total) << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(calculator->GetCenterOfGravity()[0] - mx) > epsilon)
+    if (itk::Math::Absolute(calculator->GetCenterOfGravity()[0] - mx) > epsilon)
     {
       std::cerr << "Total mx mismatch:" << calculator->GetCenterOfGravity()[0] << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(calculator->GetCenterOfGravity()[1] - my) > epsilon)
+    if (itk::Math::Absolute(calculator->GetCenterOfGravity()[1] - my) > epsilon)
     {
       std::cerr << "Total my mismatch:" << calculator->GetCenterOfGravity()[1] << std::endl;
       return EXIT_FAILURE;
     }
-    if (itk::Math::abs(calculator->GetCenterOfGravity()[2] - mz) > epsilon)
+    if (itk::Math::Absolute(calculator->GetCenterOfGravity()[2] - mz) > epsilon)
     {
       std::cerr << "Total mz mismatch:" << calculator->GetCenterOfGravity()[2] << std::endl;
       return EXIT_FAILURE;

@@ -203,7 +203,7 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDispla
   const double denominator = itk::Math::sqr(speedValue) / m_Normalizer + fixedPlusMovingGradientSquaredMagnitude;
 
   PixelType update;
-  if (itk::Math::abs(speedValue) < m_IntensityDifferenceThreshold || denominator < m_DenominatorThreshold)
+  if (itk::Math::Absolute(speedValue) < m_IntensityDifferenceThreshold || denominator < m_DenominatorThreshold)
   {
     update.Fill(0.0);
   }

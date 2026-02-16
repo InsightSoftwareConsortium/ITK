@@ -150,10 +150,10 @@ StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::Ge
               bool distanceFound = false;
               for (unsigned int k = 0; k < distances.size(); ++k)
               {
-                if (itk::Math::abs(distances[k] - distance) < 0.5 * minSpacing)
+                if (itk::Math::Absolute(distances[k] - distance) < 0.5 * minSpacing)
                 {
                   distancesFrequency[k]++;
-                  averageAbsoluteIntensityDifference[k] += itk::Math::abs(pixel1 - pixel2);
+                  averageAbsoluteIntensityDifference[k] += itk::Math::Absolute(pixel1 - pixel2);
                   distanceFound = true;
                   break;
                 }
@@ -163,7 +163,7 @@ StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::Ge
               {
                 distances.push_back(distance);
                 distancesFrequency.push_back(1);
-                averageAbsoluteIntensityDifference.push_back(itk::Math::abs(pixel1 - pixel2));
+                averageAbsoluteIntensityDifference.push_back(itk::Math::Absolute(pixel1 - pixel2));
               }
             }
           }

@@ -137,8 +137,8 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
             ((Math::ExactlyEquals(this_one, zero)) && (Math::NotExactlyEquals(that, zero))) ||
             ((Math::NotExactlyEquals(this_one, zero)) && (Math::ExactlyEquals(that, zero))))
         {
-          const InputImagePixelType abs_this_one = itk::Math::abs(this_one);
-          const InputImagePixelType abs_that = itk::Math::abs(that);
+          const InputImagePixelType abs_this_one = itk::Math::Absolute(this_one);
+          const InputImagePixelType abs_that = itk::Math::Absolute(that);
           if (abs_this_one < abs_that)
           {
             it.Set(m_ForegroundValue);

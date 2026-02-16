@@ -149,7 +149,7 @@ itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
   {
     PointType point;
     image->TransformIndexToPhysicalPoint(oIt.GetIndex(), point);
-    const OutputPixelType distance = itk::Math::abs(oIt.Get() - SimpleSignedDistance(point));
+    const OutputPixelType distance = itk::Math::Absolute(oIt.Get() - SimpleSignedDistance(point));
     if (distance > maxDistance)
     {
       maxDistance = distance;

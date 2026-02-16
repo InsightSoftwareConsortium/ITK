@@ -99,10 +99,10 @@ itkCumulativeGaussianOptimizerTest(int, char *[])
 
   // The test passes if the difference between the given parameters and estimated parameters
   // is less than or equal to 0.1.
-  if (itk::Math::abs(optimizer->GetComputedMean() - mean) <= 0.1 &&
-      itk::Math::abs(optimizer->GetComputedStandardDeviation() - standardDeviation) <= 0.1 &&
-      itk::Math::abs(optimizer->GetUpperAsymptote() - upperAsymptote) <= 0.1 &&
-      itk::Math::abs(optimizer->GetLowerAsymptote() - lowerAsymptote) <= 0.1)
+  if (itk::Math::Absolute(optimizer->GetComputedMean() - mean) <= 0.1 &&
+      itk::Math::Absolute(optimizer->GetComputedStandardDeviation() - standardDeviation) <= 0.1 &&
+      itk::Math::Absolute(optimizer->GetUpperAsymptote() - upperAsymptote) <= 0.1 &&
+      itk::Math::Absolute(optimizer->GetLowerAsymptote() - lowerAsymptote) <= 0.1)
   {
     std::cerr << std::endl << "Test Passed with a Fit Error of " << optimizer->GetFitError() << std::endl << std::endl;
 

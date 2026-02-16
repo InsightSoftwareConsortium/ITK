@@ -140,7 +140,7 @@ RegistrationParameterScalesFromShiftBase<TMetric>::EstimateStepScale(const Param
   FloatType maxStep{};
   for (typename ParametersType::SizeValueType p = 0; p < step.GetSize(); ++p)
   {
-    maxStep = std::max(maxStep, itk::Math::abs(step[p]));
+    maxStep = std::max(maxStep, itk::Math::Absolute(step[p]));
   }
   if (maxStep <= NumericTraits<FloatType>::epsilon())
   {

@@ -272,7 +272,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
     {
       // cast to a real type is required on some platforms
       const auto outputValue =
-        static_cast<OutputPixelType>(std::sqrt(static_cast<OutputRealType>(itk::Math::abs(Ot.Get()))));
+        static_cast<OutputPixelType>(std::sqrt(static_cast<OutputRealType>(itk::Math::Absolute(Ot.Get()))));
 
       if (Math::NotExactlyEquals(It.Get(), this->m_BackgroundValue))
       {
@@ -384,12 +384,12 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::Voronoi(unsigned 
       iw = static_cast<OutputPixelType>(i);
     }
 
-    OutputPixelType d1 = itk::Math::abs(g(l)) + (h(l) - iw) * (h(l) - iw);
+    OutputPixelType d1 = itk::Math::Absolute(g(l)) + (h(l) - iw) * (h(l) - iw);
 
     while (l < ns)
     {
       // be sure to compute d2 *only* if l < ns
-      const OutputPixelType d2 = itk::Math::abs(g(l + 1)) + (h(l + 1) - iw) * (h(l + 1) - iw);
+      const OutputPixelType d2 = itk::Math::Absolute(g(l + 1)) + (h(l + 1) - iw) * (h(l + 1) - iw);
       // then compare d1 and d2
       if (d1 <= d2)
       {
@@ -438,7 +438,8 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::Remove(OutputPixe
   const OutputPixelType b = xf - x2;
   const OutputPixelType c = xf - x1;
 
-  const OutputPixelType value = (c * itk::Math::abs(d2) - b * itk::Math::abs(d1) - a * itk::Math::abs(df) - a * b * c);
+  const OutputPixelType value =
+    (c * itk::Math::Absolute(d2) - b * itk::Math::Absolute(d1) - a * itk::Math::Absolute(df) - a * b * c);
 
   return value > 0;
 }

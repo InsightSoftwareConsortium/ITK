@@ -130,7 +130,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::StartOptimiz
       /* Check if the scales are identity. Consider to be identity if
        * within a tolerance, to allow for automatically estimated scales
        * that may not be exactly 1.0 when in principle they should be. */
-      const SValueType difference = itk::Math::abs(NumericTraits<SValueType>::OneValue() - this->m_Scales[i]);
+      const SValueType difference = itk::Math::Absolute(NumericTraits<SValueType>::OneValue() - this->m_Scales[i]);
       auto             tolerance = static_cast<SValueType>(0.01);
       if (difference > tolerance)
       {
@@ -161,7 +161,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::StartOptimiz
     this->m_WeightsAreIdentity = true;
     for (SizeType i = 0; i < this->m_Weights.Size(); ++i)
     {
-      const SValueType difference = itk::Math::abs(NumericTraits<SValueType>::OneValue() - this->m_Weights[i]);
+      const SValueType difference = itk::Math::Absolute(NumericTraits<SValueType>::OneValue() - this->m_Weights[i]);
       auto             tolerance = static_cast<SValueType>(1e-4);
       if (difference > tolerance)
       {

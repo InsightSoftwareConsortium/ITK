@@ -200,7 +200,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       TextureFilterType::FeatureValueVector::ConstIterator mIt = means->Begin();
       for (int counter = 0; mIt != means->End(); ++mIt, counter++)
       {
-        if (itk::Math::abs(expectedMeans[counter] - mIt.Value()) > 0.0001)
+        if (itk::Math::Absolute(expectedMeans[counter] - mIt.Value()) > 0.0001)
         {
           std::cerr << "Error. Mean for feature " << counter << " is " << mIt.Value() << ", expected "
                     << expectedMeans[counter] << '.' << std::endl;
@@ -213,7 +213,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       TextureFilterType::FeatureValueVector::ConstIterator sIt = stds->Begin();
       for (int counter = 0; sIt != stds->End(); ++sIt, counter++)
       {
-        if (itk::Math::abs(expectedDeviations[counter] - sIt.Value()) > 0.0001)
+        if (itk::Math::Absolute(expectedDeviations[counter] - sIt.Value()) > 0.0001)
         {
           std::cerr << "Error. Deviation for feature " << counter << " is " << sIt.Value() << ", expected "
                     << expectedDeviations[counter] << '.' << std::endl;
@@ -235,7 +235,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       TextureFilterType::FeatureValueVector::ConstIterator mIt = means->Begin();
       for (int counter = 0; mIt != means->End(); ++mIt, counter++)
       {
-        if (itk::Math::abs(expectedMeans2[counter] - mIt.Value()) > 0.0001)
+        if (itk::Math::Absolute(expectedMeans2[counter] - mIt.Value()) > 0.0001)
         {
           std::cerr << "Error. Mean for feature " << counter << " is " << mIt.Value() << ", expected "
                     << expectedMeans2[counter] << '.' << std::endl;
@@ -248,7 +248,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       TextureFilterType::FeatureValueVector::ConstIterator sIt = stds->Begin();
       for (int counter = 0; sIt != stds->End(); ++sIt, counter++)
       {
-        if (itk::Math::abs(expectedDeviations2[counter] - sIt.Value()) > 0.0001)
+        if (itk::Math::Absolute(expectedDeviations2[counter] - sIt.Value()) > 0.0001)
         {
           std::cerr << "Error. Deviation for feature " << counter << " is " << sIt.Value() << ", expected "
                     << expectedDeviations2[counter] << '.' << std::endl;
@@ -294,7 +294,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       TextureFilterType::FeatureValueVector::ConstIterator mIt = means->Begin();
       for (int counter = 0; mIt != means->End(); ++mIt, counter++)
       {
-        if (itk::Math::abs(expectedMeans3[counter] - mIt.Value()) > 0.0001)
+        if (itk::Math::Absolute(expectedMeans3[counter] - mIt.Value()) > 0.0001)
         {
           std::cerr << "Error. Mean for feature " << counter << " is " << mIt.Value() << ", expected "
                     << expectedMeans3[counter] << '.' << std::endl;
@@ -307,7 +307,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       TextureFilterType::FeatureValueVector::ConstIterator sIt = stds->Begin();
       for (int counter = 0; sIt != stds->End(); ++sIt, counter++)
       {
-        if (itk::Math::abs(expectedDeviations3[counter] - sIt.Value()) > 0.0001)
+        if (itk::Math::Absolute(expectedDeviations3[counter] - sIt.Value()) > 0.0001)
         {
           std::cerr << "Error. Deviation for feature " << counter << " is " << sIt.Value() << ", expected "
                     << expectedDeviations3[counter] << '.' << std::endl;

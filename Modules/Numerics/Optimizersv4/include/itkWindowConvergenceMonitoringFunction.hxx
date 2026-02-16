@@ -45,7 +45,7 @@ WindowConvergenceMonitoringFunction<TScalar>::AddEnergyValue(const EnergyValueTy
   {
     this->m_EnergyValues.pop_front();
   }
-  this->m_TotalEnergy += itk::Math::abs(value);
+  this->m_TotalEnergy += itk::Math::Absolute(value);
 
   this->Modified();
 }

@@ -98,17 +98,17 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
   it.GoToBegin();
   while (!ot.IsAtEnd())
   {
-    std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cout.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
     std::cout << ot.Get() << " = ";
-    std::cout << itk::Math::abs(it.Get()) << std::endl;
+    std::cout << itk::Math::Absolute(it.Get()) << std::endl;
     const InputImageType::PixelType  input = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType absolute = itk::Math::abs(input);
+    const OutputImageType::PixelType absolute = itk::Math::Absolute(input);
     if (!itk::Math::FloatAlmostEqual(absolute, output, 10, epsilon))
     {
-      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
       std::cerr << "Error in itkAbsImageFilterTest " << std::endl;
-      std::cerr << " itk::Math::abs(" << input << ") = " << absolute << std::endl;
+      std::cerr << " itk::Math::Absolute(" << input << ") = " << absolute << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       testStatus = EXIT_FAILURE;
@@ -151,12 +151,12 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
   dt.GoToBegin();
   while (!dt.IsAtEnd())
   {
-    std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cout.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
     std::cout << dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
     if (!itk::Math::FloatAlmostEqual(diff, OutputImageType::PixelType{ 0 }, 10, epsilon))
     {
-      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
       std::cerr << "Error in itkAbsImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;
       std::cerr << " difference = " << diff << std::endl;

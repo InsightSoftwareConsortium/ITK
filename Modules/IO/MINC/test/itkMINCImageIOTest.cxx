@@ -112,7 +112,7 @@ abs_diff(const itk::RGBPixel<unsigned char> & pix1, const itk::RGBPixel<unsigned
 
   for (int i = 0; i < 3; ++i)
   {
-    diff += itk::Math::abs(static_cast<double>(pix1[i] - pix2[i]));
+    diff += itk::Math::Absolute(static_cast<double>(pix1[i] - pix2[i]));
   }
   return diff;
 }
@@ -124,7 +124,7 @@ abs_diff(const itk::RGBPixel<char> & pix1, const itk::RGBPixel<char> & pix2)
 
   for (int i = 0; i < 3; ++i)
   {
-    diff += itk::Math::abs(static_cast<double>(pix1[i] - pix2[i]));
+    diff += itk::Math::Absolute(static_cast<double>(pix1[i] - pix2[i]));
   }
   return diff;
 }
@@ -137,7 +137,7 @@ abs_diff(const itk::Vector<float> & pix1, const itk::Vector<float> & pix2)
 
   for (int i = 0; i < 3; ++i)
   {
-    diff += itk::Math::abs(pix1[i] - pix2[i]);
+    diff += itk::Math::Absolute(pix1[i] - pix2[i]);
   }
   return diff;
 }
@@ -149,7 +149,7 @@ abs_diff(const itk::Vector<double> & pix1, const itk::Vector<double> & pix2)
 
   for (int i = 0; i < 3; ++i)
   {
-    diff += itk::Math::abs(pix1[i] - pix2[i]);
+    diff += itk::Math::Absolute(pix1[i] - pix2[i]);
   }
   return diff;
 }
@@ -162,7 +162,7 @@ abs_diff(const itk::Vector<int> & pix1, const itk::Vector<int> & pix2)
 
   for (int i = 0; i < 3; ++i)
   {
-    diff += itk::Math::abs(static_cast<double>(pix1[i] - pix2[i]));
+    diff += itk::Math::Absolute(static_cast<double>(pix1[i] - pix2[i]));
   }
   return diff;
 }
@@ -174,7 +174,7 @@ abs_diff(const itk::Vector<unsigned int> & pix1, const itk::Vector<unsigned int>
 
   for (int i = 0; i < 3; ++i)
   {
-    diff += itk::Math::abs(static_cast<double>(pix1[i] - pix2[i]));
+    diff += itk::Math::Absolute(static_cast<double>(pix1[i] - pix2[i]));
   }
   return diff;
 }
@@ -186,7 +186,7 @@ abs_diff(const itk::Vector<short> & pix1, const itk::Vector<short> & pix2)
 
   for (short i = 0; i < 3; ++i)
   {
-    diff += itk::Math::abs(static_cast<double>(pix1[i] - pix2[i]));
+    diff += itk::Math::Absolute(static_cast<double>(pix1[i] - pix2[i]));
   }
   return diff;
 }
@@ -198,7 +198,7 @@ abs_diff(const itk::Vector<unsigned short> & pix1, const itk::Vector<unsigned sh
 
   for (short i = 0; i < 3; ++i)
   {
-    diff += itk::Math::abs(static_cast<double>(pix1[i] - pix2[i]));
+    diff += itk::Math::Absolute(static_cast<double>(pix1[i] - pix2[i]));
   }
   return diff;
 }
@@ -232,7 +232,7 @@ template <typename TPixel>
 static double
 abs_diff(const TPixel & pix1, const TPixel & pix2)
 {
-  return itk::Math::abs(static_cast<double>(pix1 - pix2));
+  return itk::Math::Absolute(static_cast<double>(pix1 - pix2));
 }
 
 template <typename TPixel>
@@ -276,7 +276,7 @@ abs_vector_diff(const itk::VariableLengthVector<TPixel> & pix1, const itk::Varia
 
   for (size_t i = 0; i < pix1.GetSize(); ++i)
   {
-    const double d = itk::Math::abs(static_cast<double>(pix1[i] - pix2[i]));
+    const double d = itk::Math::Absolute(static_cast<double>(pix1[i] - pix2[i]));
     if (d > diff)
     {
       diff = d;

@@ -108,7 +108,7 @@ itkDivideImageFilterTest2(int, char *[])
     {
       if (!itk::Math::FloatAlmostEqual(oIt.Get()[i], expectedValue, 2, epsilon))
       {
-        std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+        std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
         std::cerr << "Test failed!" << std::endl;
         std::cerr << "Error in pixel value at index [" << oIt.GetIndex() << ':' << i << ']' << std::endl;
         std::cerr << "Expected value " << expectedValue << std::endl;

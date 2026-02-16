@@ -435,7 +435,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
         const int     sign = p1D.m_Sign;
 
         // check absolute distance from lastx to x
-        if (itk::Math::abs(x - lastx) > m_Tolerance)
+        if (itk::Math::Absolute(x - lastx) > m_Tolerance)
         {
           signproduct = sign * lastSign;
           if (signproduct < 0)

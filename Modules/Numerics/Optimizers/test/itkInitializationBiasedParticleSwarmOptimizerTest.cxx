@@ -202,7 +202,7 @@ IBPSOTest1(OptimizerType::CoefficientType inertiaCoefficient,
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
 
-    if (itk::Math::abs(finalParameters[0] - knownParameters) > xTolerance)
+    if (itk::Math::Absolute(finalParameters[0] - knownParameters) > xTolerance)
     {
       std::cout << "[Test 1 FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -230,7 +230,7 @@ IBPSOTest1(OptimizerType::CoefficientType inertiaCoefficient,
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
 
-    if (itk::Math::abs(finalParameters[0] - knownParameters) > xTolerance)
+    if (itk::Math::Absolute(finalParameters[0] - knownParameters) > xTolerance)
     {
       std::cout << "[Test 1 FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -329,8 +329,8 @@ IBPSOTest2(OptimizerType::CoefficientType inertiaCoefficient,
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
 
-    if (itk::Math::abs(finalParameters[0] - knownParameters[0]) > xTolerance ||
-        itk::Math::abs(finalParameters[1] - knownParameters[1]) > xTolerance)
+    if (itk::Math::Absolute(finalParameters[0] - knownParameters[0]) > xTolerance ||
+        itk::Math::Absolute(finalParameters[1] - knownParameters[1]) > xTolerance)
     {
       std::cout << "[Test 2 FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -428,8 +428,8 @@ IBPSOTest3(OptimizerType::CoefficientType inertiaCoefficient,
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
 
-    if (itk::Math::abs(finalParameters[0] - knownParameters[0]) > xTolerance ||
-        itk::Math::abs(finalParameters[1] - knownParameters[1]) > xTolerance)
+    if (itk::Math::Absolute(finalParameters[0] - knownParameters[0]) > xTolerance ||
+        itk::Math::Absolute(finalParameters[1] - knownParameters[1]) > xTolerance)
     {
       std::cout << "[Test 3 FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -461,8 +461,8 @@ IBPSOTest3(OptimizerType::CoefficientType inertiaCoefficient,
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
 
-    if (itk::Math::abs(finalParameters[0] - knownParameters[0]) > xTolerance ||
-        itk::Math::abs(finalParameters[1] - knownParameters[1]) > xTolerance)
+    if (itk::Math::Absolute(finalParameters[0] - knownParameters[0]) > xTolerance ||
+        itk::Math::Absolute(finalParameters[1] - knownParameters[1]) > xTolerance)
     {
       std::cout << "[Test 3 FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -495,8 +495,8 @@ IBPSOTest3(OptimizerType::CoefficientType inertiaCoefficient,
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
 
-    if (itk::Math::abs(finalParameters[0] - knownParameters[0]) > xTolerance ||
-        itk::Math::abs(finalParameters[1] - knownParameters[1]) > xTolerance)
+    if (itk::Math::Absolute(finalParameters[0] - knownParameters[0]) > xTolerance ||
+        itk::Math::Absolute(finalParameters[1] - knownParameters[1]) > xTolerance)
     {
       std::cout << "[Test 3 FAILURE]" << std::endl;
       return EXIT_FAILURE;

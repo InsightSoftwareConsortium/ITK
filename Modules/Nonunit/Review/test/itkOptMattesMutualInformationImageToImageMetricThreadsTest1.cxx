@@ -159,7 +159,7 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
     {
       const double difference = values[i] - values[j];
 
-      if (itk::Math::abs(difference) > tolerance)
+      if (itk::Math::Absolute(difference) > tolerance)
       {
         if (verbose)
         {

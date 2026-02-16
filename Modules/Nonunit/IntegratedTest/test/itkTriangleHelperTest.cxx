@@ -80,7 +80,7 @@ itkTriangleHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
     return EXIT_FAILURE;
   }
 
-  if (itk::Math::abs(TriangleHelperType::Cotangent(a, Org, b) - 1.) > 1e-6)
+  if (itk::Math::Absolute(TriangleHelperType::Cotangent(a, Org, b) - 1.) > 1e-6)
   {
     return EXIT_FAILURE;
   }
@@ -96,7 +96,7 @@ itkTriangleHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
     return EXIT_FAILURE;
   }
 
-  if (itk::Math::abs(TriangleHelperType::ComputeAngle(a, Org, b) - 0.25 * itk::Math::pi) > 1e-6)
+  if (itk::Math::Absolute(TriangleHelperType::ComputeAngle(a, Org, b) - 0.25 * itk::Math::pi) > 1e-6)
   {
     std::cout << "TriangleHelperType::ComputeAngle( a, Org, b ) FAILED" << std::endl;
     return EXIT_FAILURE;
@@ -127,7 +127,7 @@ itkTriangleHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
   }
 
   CoordinateType area = TriangleHelperType::ComputeArea(a, Org, b);
-  if (itk::Math::abs(area - 0.25) > 1e-6)
+  if (itk::Math::Absolute(area - 0.25) > 1e-6)
   {
     std::cout << "TriangleHelperType::ComputeArea( a, Org, b ) FAILED" << std::endl;
     return EXIT_FAILURE;

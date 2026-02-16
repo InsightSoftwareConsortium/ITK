@@ -39,7 +39,7 @@ public:
   IsOutsideTolerance(const RealType & value, const RealType & theoreticalValue) const
   {
     // ignore if they are both effectively zero
-    if (std::max(itk::Math::abs(value), itk::Math::abs(theoreticalValue)) < 50 * itk::Math::eps)
+    if (std::max(itk::Math::Absolute(value), itk::Math::Absolute(theoreticalValue)) < 50 * itk::Math::eps)
     {
       return false;
     }
@@ -54,7 +54,7 @@ public:
   GetFractionalError(const RealType & value, const RealType & theoreticalValue) const
   {
     RealType fractionalError =
-      itk::Math::abs(theoreticalValue - value) / (itk::Math::abs(theoreticalValue) + 20 * itk::Math::eps);
+      itk::Math::Absolute(theoreticalValue - value) / (itk::Math::Absolute(theoreticalValue) + 20 * itk::Math::eps);
     return fractionalError;
   }
 
@@ -198,10 +198,10 @@ itkLevelSetDenseImageTest(int, char *[])
   LevelSetType::HessianType hessian = levelSet->EvaluateHessian(idx);
   std::cout << "hessian = " << std::endl << hessian << std::endl;
 
-  if (itk::Math::abs(itk::Math::abs(hessian[0][0]) - 499.998) / 499.998 > 5e-2)
+  if (itk::Math::Absolute(itk::Math::Absolute(hessian[0][0]) - 499.998) / 499.998 > 5e-2)
   {
-    std::cout << idx << " *HessianTestFail* " << itk::Math::abs(hessian[0][0])
-              << " != " << itk::Math::abs(hessian[1][1]) << std::endl;
+    std::cout << idx << " *HessianTestFail* " << itk::Math::Absolute(hessian[0][0])
+              << " != " << itk::Math::Absolute(hessian[1][1]) << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -211,7 +211,7 @@ itkLevelSetDenseImageTest(int, char *[])
   const LevelSetType::OutputRealType gradientnorm = levelSet->EvaluateGradientNorm(idx);
   std::cout << "gradient norm = " << gradientnorm << std::endl;
 
-  if (itk::Math::abs(1 - gradientnorm) > 5e-2)
+  if (itk::Math::Absolute(1 - gradientnorm) > 5e-2)
   {
     std::cout << idx << " *GradientNormFail* " << gradientnorm << " != " << 1 << std::endl;
     return EXIT_FAILURE;

@@ -255,7 +255,7 @@ itkKmeansModelEstimatorTest(int, char *[])
 
     for (int i = 0; i < NUMBANDS; ++i)
     {
-      error += itk::Math::abs(errorForClass[i] / referenceCodebookForClass[i]);
+      error += itk::Math::Absolute(errorForClass[i] / referenceCodebookForClass[i]);
       meanCDBKvalue += referenceCodebookForClass[i];
     }
   }
@@ -319,7 +319,7 @@ itkKmeansModelEstimatorTest(int, char *[])
 
     for (int i = 0; i < NUMBANDS; ++i)
     {
-      error += itk::Math::abs(errorForClass[i] / referenceCodebookForClass[i]);
+      error += itk::Math::Absolute(errorForClass[i] / referenceCodebookForClass[i]);
       meanCDBKvalue += referenceCodebookForClass[i];
     }
   }
