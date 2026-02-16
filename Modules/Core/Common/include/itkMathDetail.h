@@ -89,7 +89,7 @@ ITK_GCC_PRAGMA_PUSH
 ITK_GCC_SUPPRESS_Wfloat_equal
 
 template <typename TReturn, typename TInput>
-inline TReturn
+constexpr TReturn
 RoundHalfIntegerToEven_base(TInput x)
 {
   if (NumericTraits<TInput>::IsNonnegative(x))
@@ -106,7 +106,7 @@ RoundHalfIntegerToEven_base(TInput x)
 }
 
 template <typename TReturn, typename TInput>
-inline TReturn
+constexpr TReturn
 RoundHalfIntegerUp_base(TInput x)
 {
   x += static_cast<TInput>(0.5);
@@ -116,7 +116,7 @@ RoundHalfIntegerUp_base(TInput x)
 }
 
 template <typename TReturn, typename TInput>
-inline TReturn
+constexpr TReturn
 Floor_base(TInput x)
 {
   const auto r = static_cast<TReturn>(x);
@@ -126,7 +126,7 @@ Floor_base(TInput x)
 }
 
 template <typename TReturn, typename TInput>
-inline TReturn
+constexpr TReturn
 Ceil_base(TInput x)
 {
   const auto r = static_cast<TReturn>(x);
@@ -217,15 +217,11 @@ RoundHalfIntegerToEven_32(float x)
 
 #else // Base implementation
 
-inline int32_t
-RoundHalfIntegerToEven_32(double x)
+template <typename TInput>
+constexpr int32_t
+RoundHalfIntegerToEven_32(TInput x)
 {
-  return RoundHalfIntegerToEven_base<int32_t, double>(x);
-}
-inline int32_t
-RoundHalfIntegerToEven_32(float x)
-{
-  return RoundHalfIntegerToEven_base<int32_t, float>(x);
+  return RoundHalfIntegerToEven_base<int32_t, TInput>(x);
 }
 
 #endif
@@ -267,37 +263,25 @@ Ceil_32(float x)
 
 #else // Base implementation
 
-inline int32_t
-RoundHalfIntegerUp_32(double x)
+template <typename TInput>
+constexpr int32_t
+RoundHalfIntegerUp_32(TInput x)
 {
-  return RoundHalfIntegerUp_base<int32_t, double>(x);
-}
-inline int32_t
-RoundHalfIntegerUp_32(float x)
-{
-  return RoundHalfIntegerUp_base<int32_t, float>(x);
+  return RoundHalfIntegerUp_base<int32_t, TInput>(x);
 }
 
-inline int32_t
-Floor_32(double x)
+template <typename TInput>
+constexpr int32_t
+Floor_32(TInput x)
 {
-  return Floor_base<int32_t, double>(x);
-}
-inline int32_t
-Floor_32(float x)
-{
-  return Floor_base<int32_t, float>(x);
+  return Floor_base<int32_t, TInput>(x);
 }
 
-inline int32_t
-Ceil_32(double x)
+template <typename TInput>
+constexpr int32_t
+Ceil_32(TInput x)
 {
-  return Ceil_base<int32_t, double>(x);
-}
-inline int32_t
-Ceil_32(float x)
-{
-  return Ceil_base<int32_t, float>(x);
+  return Ceil_base<int32_t, TInput>(x);
 }
 
 #endif // USE_SSE2_32IMPL || GCC_USE_ASM_32IMPL || VC_USE_ASM_32IMPL
@@ -383,15 +367,11 @@ RoundHalfIntegerToEven_64(float x)
 
 #else // Base implementation
 
-inline int64_t
-RoundHalfIntegerToEven_64(double x)
+template <typename TInput>
+constexpr int64_t
+RoundHalfIntegerToEven_64(TInput x)
 {
-  return RoundHalfIntegerToEven_base<int64_t, double>(x);
-}
-inline int64_t
-RoundHalfIntegerToEven_64(float x)
-{
-  return RoundHalfIntegerToEven_base<int64_t, float>(x);
+  return RoundHalfIntegerToEven_base<int64_t, TInput>(x);
 }
 
 #endif
@@ -433,37 +413,25 @@ Ceil_64(float x)
 
 #else // Base implementation
 
-inline int64_t
-RoundHalfIntegerUp_64(double x)
+template <typename TInput>
+constexpr int64_t
+RoundHalfIntegerUp_64(TInput x)
 {
-  return RoundHalfIntegerUp_base<int64_t, double>(x);
-}
-inline int64_t
-RoundHalfIntegerUp_64(float x)
-{
-  return RoundHalfIntegerUp_base<int64_t, float>(x);
+  return RoundHalfIntegerUp_base<int64_t, TInput>(x);
 }
 
-inline int64_t
-Floor_64(double x)
+template <typename TInput>
+constexpr int64_t
+Floor_64(TInput x)
 {
-  return Floor_base<int64_t, double>(x);
-}
-inline int64_t
-Floor_64(float x)
-{
-  return Floor_base<int64_t, float>(x);
+  return Floor_base<int64_t, TInput>(x);
 }
 
-inline int64_t
-Ceil_64(double x)
+template <typename TInput>
+constexpr int64_t
+Ceil_64(TInput x)
 {
-  return Ceil_base<int64_t, double>(x);
-}
-inline int64_t
-Ceil_64(float x)
-{
-  return Ceil_base<int64_t, float>(x);
+  return Ceil_base<int64_t, TInput>(x);
 }
 
 #endif // USE_SSE2_64IMPL || GCC_USE_ASM_64IMPL || VC_USE_ASM_64IMPL
@@ -496,18 +464,21 @@ union FloatIEEE
   IntType   asInt;
   UIntType  asUInt;
 
-  FloatIEEE(FloatType f)
+  constexpr FloatIEEE(FloatType f)
     : asFloat(f)
   {}
-  FloatIEEE(IntType i)
+  constexpr FloatIEEE(IntType i)
     : asInt(i)
   {}
-  [[nodiscard]] bool
+  constexpr FloatIEEE(UIntType ui)
+    : asUInt(ui)
+  {}
+  [[nodiscard]] constexpr bool
   Sign() const
   {
     return (asUInt >> (sizeof(asUInt) * 8 - 1)) != 0;
   }
-  [[nodiscard]] IntType
+  [[nodiscard]] constexpr IntType
   AsULP() const
   {
     return this->Sign() ? IntType(~(~UIntType(0) >> 1) - asUInt) : asInt;

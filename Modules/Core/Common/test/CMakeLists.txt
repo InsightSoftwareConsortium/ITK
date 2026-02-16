@@ -213,16 +213,6 @@ createtestdriver(
 set(BASELINE "${ITK_DATA_ROOT}/Baseline/Common")
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
-add_executable(itkMathTest itkMathTest.cxx)
-target_link_options(
-  itkMathTest
-  PRIVATE
-    "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>"
-)
-itk_module_target_label(itkMathTest)
-target_link_libraries(itkMathTest PUBLIC ${ITKCommon-Test_LIBRARIES})
-itk_add_test(NAME itkMathTest COMMAND itkMathTest)
-
 add_executable(itkSystemInformation itkSystemInformation.cxx)
 target_link_options(
   itkSystemInformation
@@ -1906,6 +1896,7 @@ set(
   itkVectorGTest.cxx
   itkWeakPointerGTest.cxx
   itkCommonTypeTraitsGTest.cxx
+  itkMathGTest.cxx
   itkMetaDataDictionaryGTest.cxx
   itkSpatialOrientationAdaptorGTest.cxx
   itkAnatomicalOrientationGTest.cxx
