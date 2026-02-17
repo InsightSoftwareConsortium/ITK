@@ -103,6 +103,7 @@ function(generate_castxml_commandline_flags)
 
   # create the files used to pass the file to include to castxml
   get_directory_property(include_dir_list INCLUDE_DIRECTORIES)
+  list(APPEND include_dir_list ${ITK_INCLUDE_DIRS})
   list(REMOVE_DUPLICATES include_dir_list)
 
   # CONFIG_CASTXML_INC_CONTENTS - variable used for building contents to write with configure_file()
