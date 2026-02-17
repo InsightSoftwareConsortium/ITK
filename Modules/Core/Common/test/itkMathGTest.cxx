@@ -355,6 +355,25 @@ TEST(itkMath, Abs)
   EXPECT_EQ(itk::Math::Absolute(-5), 5);
 }
 
+
+// Checks that `Math::Absolute(-0.0)` returns `+0.0`.
+TEST(itkMath, AbsoluteMinusZeroReturnsPlusZero)
+{
+  constexpr auto expectAbsoluteReturnsPlusZero = [](const auto minusZero) {
+    // Sanity check beforehand: assert that `minusZero` has indeed a minus sign.
+    ASSERT_TRUE(std::signbit(minusZero));
+
+    const auto absoluteValue = itk::Math::Absolute(minusZero);
+    EXPECT_FALSE(std::signbit(absoluteValue));
+    EXPECT_EQ(absoluteValue, 0);
+  };
+
+  // Check both float and double:
+  expectAbsoluteReturnsPlusZero(-0.0F);
+  expectAbsoluteReturnsPlusZero(-0.0);
+}
+
+
 TEST(itkMath, ConstexprTests)
 {
   static_assert(itk::Math::ExactlyEquals(5, 5));
