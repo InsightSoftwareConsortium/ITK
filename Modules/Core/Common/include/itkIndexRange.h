@@ -120,6 +120,8 @@ public:
     constexpr const_iterator &
     operator++() noexcept
     {
+      ++m_Position;
+
       for (unsigned int i = 0; i < (VDimension - 1); ++i)
       {
         auto & indexValue = m_Index[i];
@@ -153,6 +155,8 @@ public:
     constexpr const_iterator &
     operator--() noexcept
     {
+      --m_Position;
+
       for (unsigned int i = 0; i < (VDimension - 1); ++i)
       {
         auto & indexValue = m_Index[i];
@@ -189,7 +193,9 @@ public:
     {
       assert(lhs.m_MaxIndex == rhs.m_MaxIndex);
 
-      return lhs.m_Index == rhs.m_Index;
+      // Note that comparing m_Position is typically much faster than comparing m_Index, because m_Position is just an
+      // integer, whereas m_Index is of a user-defined type, which usually has more bytes than m_Position.
+      return lhs.m_Position == rhs.m_Position;
     }
 
 
@@ -206,20 +212,7 @@ public:
     friend constexpr bool
     operator<(const const_iterator & lhs, const const_iterator & rhs) noexcept
     {
-      for (unsigned int i = VDimension; i > 0; --i)
-      {
-        const auto difference = lhs.m_Index[i - 1] - rhs.m_Index[i - 1];
-
-        if (difference < 0)
-        {
-          return true;
-        }
-        if (difference > 0)
-        {
-          break;
-        }
-      }
-      return false;
+      return lhs.m_Position < rhs.m_Position;
     }
 
 
@@ -279,12 +272,14 @@ public:
     // Private constructor, only used by friend class IndexRange.
     constexpr const_iterator(const IndexType &    index,
                              const MinIndexType & minIndex,
-                             const IndexType &    maxIndex) noexcept
+                             const IndexType &    maxIndex,
+                             const size_t         position) noexcept
       : // Note: Use parentheses instead of curly braces to initialize data members,
         // to avoid AppleClang 6.0.0.6000056 compilation error, "no viable conversion..."
       m_Index(index)
       , m_MinIndex(minIndex)
       , m_MaxIndex(maxIndex)
+      , m_Position(position)
     {}
 
 
@@ -298,6 +293,10 @@ public:
 
     // Maximum (N-dimensional) index.
     IndexType m_MaxIndex;
+
+    // The position within the range, relative to the begin. So it is zero at the begin, and it is equal to
+    // `range.size()` at the end of the range.
+    size_t m_Position{};
   };
 
   using iterator = const_iterator;
@@ -347,7 +346,7 @@ public:
   [[nodiscard]] constexpr iterator
   begin() const noexcept
   {
-    return iterator(m_MinIndex, m_MinIndex, m_MaxIndex);
+    return iterator(m_MinIndex, m_MinIndex, m_MaxIndex, 0);
   }
 
   /** Returns an 'end iterator' for this range. */
@@ -356,7 +355,7 @@ public:
   {
     IndexType index = m_MinIndex;
     index.back() = m_MaxIndex.back() + 1;
-    return iterator(index, m_MinIndex, m_MaxIndex);
+    return iterator(index, m_MinIndex, m_MaxIndex, size());
   }
 
   /** Returns a const iterator to the first index.
