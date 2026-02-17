@@ -35,12 +35,25 @@ template class itk::IndexRange<2, false>;
 
 using itk::IndexRange;
 using itk::ImageRegionIndexRange;
+using itk::MakeIndexRange;
 using itk::ZeroBasedIndexRange;
 using itk::RangeGTestUtilities;
 
 
 static_assert(sizeof(ZeroBasedIndexRange<3>) < sizeof(ImageRegionIndexRange<3>),
               "ZeroBasedIndexRange does not need to store the index of a region, so it should take less memory.");
+
+static_assert(std::is_same_v<decltype(MakeIndexRange(itk::Size<2>{})), ZeroBasedIndexRange<2>> &&
+                std::is_same_v<decltype(MakeIndexRange(itk::Size<3>{})), ZeroBasedIndexRange<3>>,
+              "MakeIndexRange(size) should return a ZeroBasedIndexRange.");
+
+static_assert(std::is_same_v<decltype(MakeIndexRange(itk::ImageRegion<2>{})), ImageRegionIndexRange<2>> &&
+                std::is_same_v<decltype(MakeIndexRange(itk::ImageRegion<3>{})), ImageRegionIndexRange<3>>,
+              "MakeIndexRange(imageRegion) should return an ImageRegionIndexRange.");
+
+static_assert(std::is_same_v<decltype(MakeIndexRange(itk::Index<2>{}, itk::Size<2>{})), ImageRegionIndexRange<2>> &&
+                std::is_same_v<decltype(MakeIndexRange(itk::Index<3>{}, itk::Size<3>{})), ImageRegionIndexRange<3>>,
+              "MakeIndexRange(index, size) should return an ImageRegionIndexRange.");
 
 namespace
 {
@@ -107,7 +120,9 @@ ExpectRangeIsEmptyWhenRegionSizeIsZero(std::mt19937 & randomNumberEngine)
   const itk::Index<VDimension>       randomRegionIndex = GenerateRandomIndex<VDimension>(randomNumberEngine);
   const itk::ImageRegion<VDimension> zeroSizedImageRegion{ randomRegionIndex, zeroSize };
 
-  EXPECT_TRUE(ImageRegionIndexRange<VDimension>{ zeroSizedImageRegion }.empty());
+  EXPECT_TRUE(MakeIndexRange(zeroSize).empty());
+  EXPECT_TRUE(MakeIndexRange(zeroSizedImageRegion).empty());
+  EXPECT_TRUE(MakeIndexRange(randomRegionIndex, zeroSize).empty());
 }
 
 
