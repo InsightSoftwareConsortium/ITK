@@ -18,6 +18,7 @@
 #ifndef itkIterativeInverseDisplacementFieldImageFilter_hxx
 #define itkIterativeInverseDisplacementFieldImageFilter_hxx
 
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"
 
@@ -87,9 +88,9 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
     // calculate the inverted field
     const double spacing = inputPtr->GetSpacing()[0];
 
-    ProgressReporter               progress(this, 0, inputPtr->GetLargestPossibleRegion().GetNumberOfPixels());
-    OutputIterator                 OutputIt(outputPtr, outputPtr->GetRequestedRegion());
-    const FieldInterpolatorPointer inputFieldInterpolator = FieldInterpolatorType::New();
+    ProgressReporter progress(this, 0, inputPtr->GetLargestPossibleRegion().GetNumberOfPixels());
+    ImageRegionIteratorWithIndex<OutputImageType> OutputIt(outputPtr, outputPtr->GetRequestedRegion());
+    const FieldInterpolatorPointer                inputFieldInterpolator = FieldInterpolatorType::New();
     inputFieldInterpolator->SetInputImage(inputPtr);
 
     double smallestError = 0;
@@ -98,7 +99,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
     while (!OutputIt.IsAtEnd())
     {
       // get the output image index
-      const OutputImageIndexType index = OutputIt.ComputeIndex();
+      const OutputImageIndexType index = OutputIt.GetIndex();
       OutputImagePointType       originalPoint;
       outputPtr->TransformIndexToPhysicalPoint(index, originalPoint);
 

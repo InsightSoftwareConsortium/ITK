@@ -19,7 +19,7 @@
 #define itkGaussianImageSource_hxx
 
 #include "itkGaussianSpatialFunction.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressReporter.h"
 #include "itkObjectFactory.h"
 
@@ -96,13 +96,13 @@ GaussianImageSource<TOutputImage>::GenerateData()
   gaussian->SetNormalized(m_Normalized);
 
   // Create an iterator that will walk the output region
-  using OutputIterator = ImageRegionIterator<TOutputImage>;
+  using OutputIterator = ImageRegionIteratorWithIndex<TOutputImage>;
 
   ProgressReporter progress(this, 0, outputPtr->GetRequestedRegion().GetNumberOfPixels());
   // Walk the output image, evaluating the spatial function at each pixel
   for (OutputIterator outIt(outputPtr, outputPtr->GetRequestedRegion()); !outIt.IsAtEnd(); ++outIt)
   {
-    const typename TOutputImage::IndexType index = outIt.ComputeIndex();
+    const typename TOutputImage::IndexType index = outIt.GetIndex();
     // The position at which the function is evaluated
     typename FunctionType::InputType evalPoint;
     outputPtr->TransformIndexToPhysicalPoint(index, evalPoint);

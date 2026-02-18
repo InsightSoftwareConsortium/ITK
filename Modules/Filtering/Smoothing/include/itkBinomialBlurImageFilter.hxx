@@ -22,6 +22,7 @@
 #include "itkProgressReporter.h"
 #include "itkImageRegion.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionReverseIterator.h"
 #include <algorithm> // For min and max.
 
@@ -114,7 +115,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   typename TInputImage::IndexType startIndex = inputPtr->GetRequestedRegion().GetIndex();
 
   // Iterator Typedefs for this routine
-  using TempIterator = ImageRegionIterator<TTempImage>;
+  using TempIterator = ImageRegionIteratorWithIndex<TTempImage>;
   using TempReverseIterator = ImageRegionReverseIterator<TTempImage>;
   using InputIterator = ImageRegionConstIterator<TInputImage>;
   using OutputIterator = ImageRegionIterator<TOutputImage>;
@@ -150,7 +151,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
       while (!tempItDir.IsAtEnd())
       {
         // determine the index of the output pixel
-        index = tempItDir.ComputeIndex();
+        index = tempItDir.GetIndex();
 
         if (index[dim] < (startIndex[dim] + static_cast<typename TTempImage::OffsetValueType>(size[dim]) - 1))
         {

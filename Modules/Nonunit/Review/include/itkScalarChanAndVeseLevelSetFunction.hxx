@@ -100,7 +100,8 @@ ScalarChanAndVeseLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::Comp
   this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedSumOfPixelValuesOutsideLevelSet = 0;
   this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_BackgroundConstantValues = 0;
 
-  ConstFeatureIteratorType fIt(this->m_FeatureImage, this->m_FeatureImage->GetLargestPossibleRegion());
+  ImageRegionConstIteratorWithIndex<FeatureImageType> fIt(this->m_FeatureImage,
+                                                          this->m_FeatureImage->GetLargestPossibleRegion());
 
   FeaturePixelType featureVal;
   FeatureIndexType globalIndex;
@@ -113,7 +114,7 @@ ScalarChanAndVeseLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::Comp
   while (!fIt.IsAtEnd())
   {
     featureVal = fIt.Get();
-    inputIndex = fIt.ComputeIndex();
+    inputIndex = fIt.GetIndex();
     InputPixelType prod = 1.;
 
     globalIndex = this->m_SharedData->m_LevelSetDataPointerVector[fId]->GetFeatureIndex(inputIndex);
