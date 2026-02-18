@@ -113,7 +113,7 @@ ScalarChanAndVeseLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::Comp
   while (!fIt.IsAtEnd())
   {
     featureVal = fIt.Get();
-    inputIndex = fIt.GetIndex();
+    inputIndex = fIt.ComputeIndex();
     InputPixelType prod = 1.;
 
     globalIndex = this->m_SharedData->m_LevelSetDataPointerVector[fId]->GetFeatureIndex(inputIndex);

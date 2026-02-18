@@ -212,7 +212,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
     // BOUNDING BOX
     // The bounding box is defined in (min, max) pairs, such as
     // (xmin,xmax,ymin,ymax,zmin,zmax).
-    typename ImageIteratorWithIndexType::IndexType index = labelIt.GetIndex();
+    typename ImageIteratorWithIndexType::IndexType index = labelIt.ComputeIndex();
     for (unsigned int i = 0; i < (2 * ImageDimension); i += 2)
     {
       // Update min
