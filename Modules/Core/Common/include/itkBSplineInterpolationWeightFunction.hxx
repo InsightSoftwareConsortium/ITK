@@ -49,7 +49,7 @@ BSplineInterpolationWeightFunction<TCoordinate, VSpaceDimension, VSplineOrder>::
 {
   static constexpr auto offsetToIndexTable = [] {
     FixedArray<IndexType, NumberOfWeights> table{};
-    auto                                   indexIterator = ZeroBasedIndexRange<SpaceDimension>(SupportSize).cbegin();
+    auto                                   indexIterator = MakeIndexRange(SupportSize).cbegin();
 
     for (size_t i{}; i < NumberOfWeights; ++i)
     {
