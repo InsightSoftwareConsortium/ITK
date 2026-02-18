@@ -91,15 +91,13 @@ Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the
   image->SetRegions(imageRegion);
   image->AllocateInitialized();
 
-  const itk::ImageRegionIndexRange<VImageDimension> indexRange{ imageRegion };
-
   // Expected size: the "region size" of a single pixel (1x1, in 2D, 1x1x1 in 3D).
   const itk::Size<VImageDimension> expectedSize = [] {
     auto size = itk::Size<VImageDimension>::Filled(1);
     return size;
   }();
 
-  for (const auto & index : indexRange)
+  for (const auto & index : MakeIndexRange(imageRegion))
   {
     // Set only one pixel value non-zero.
     image->SetPixel(index, 1);
