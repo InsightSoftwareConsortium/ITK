@@ -74,7 +74,7 @@ MedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
         *input, Index<InputImageDimension>(), neighborhoodOffsets);
     auto outputIterator = ImageRegionRange<OutputImageType>(*output, nonBoundaryRegion).begin();
 
-    for (const auto & index : ImageRegionIndexRange<InputImageDimension>(nonBoundaryRegion))
+    for (const auto & index : MakeIndexRange(nonBoundaryRegion))
     {
       neighborhoodRange.SetLocation(index);
       std::copy_n(neighborhoodRange.cbegin(), neighborhoodSize, pixels.begin());
@@ -93,7 +93,7 @@ MedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
       ShapedImageNeighborhoodRange<const InputImageType>(*input, Index<InputImageDimension>(), neighborhoodOffsets);
     auto outputIterator = ImageRegionRange<OutputImageType>(*output, boundaryFace).begin();
 
-    for (const auto & index : ImageRegionIndexRange<InputImageDimension>(boundaryFace))
+    for (const auto & index : MakeIndexRange(boundaryFace))
     {
       neighborhoodRange.SetLocation(index);
       std::copy_n(neighborhoodRange.cbegin(), neighborhoodSize, pixels.begin());

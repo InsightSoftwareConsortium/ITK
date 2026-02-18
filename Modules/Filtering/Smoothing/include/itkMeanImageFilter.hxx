@@ -85,7 +85,7 @@ MeanImageFilter<TInputImage, TOutputImage>::GenerateDataInSubregion(
     inputImage, Index<InputImageDimension>(), neighborhoodOffsets);
   auto outputIterator = ImageRegionRange<OutputImageType>(outputImage, imageRegion).begin();
 
-  for (const auto & index : ImageRegionIndexRange<InputImageDimension>(imageRegion))
+  for (const auto & index : MakeIndexRange(imageRegion))
   {
     neighborhoodRange.SetLocation(index);
 
@@ -124,7 +124,7 @@ MeanImageFilter<TInputImage, TOutputImage>::GenerateDataInSubregion(
   InputRealType   sum(inputImage.GetNumberOfComponentsPerPixel());
   OutputPixelType out(inputImage.GetNumberOfComponentsPerPixel());
 
-  for (const auto & index : ImageRegionIndexRange<InputImageDimension>(imageRegion))
+  for (const auto & index : MakeIndexRange(imageRegion))
   {
     neighborhoodRange.SetLocation(index);
 
