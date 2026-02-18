@@ -111,7 +111,7 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(InputPixelType  
   using NeighborhoodRange = itk::ShapedImageNeighborhoodRange<const InputImageType, Policy>;
   NeighborhoodRange neighborhoodRange{ *input, InputIndexType(), offsets, m_UnusedLabel };
 
-  for (const InputIndexType index : RegionIndexRange{ usableRegion })
+  for (const InputIndexType index : MakeIndexRange(usableRegion))
   {
     neighborhoodRange.SetLocation(index);
     // There are sixteen different possible square types, diagrammed below.
