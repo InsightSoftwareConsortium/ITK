@@ -85,8 +85,10 @@ public:
 
   using InputConstIterator = ImageRegionConstIterator<InputImageType>;
   using InputIterator = ImageRegionIterator<InputImageType>;
-  using OutputIterator = ImageRegionIterator<OutputImageType>;
-
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using OutputIterator ITK_FUTURE_DEPRECATED("Please use `itk::ImageRegionIterator<TImage>` directly!") =
+    ImageRegionIterator<OutputImageType>;
+#endif
   using VectorWarperType = WarpVectorImageFilter<TOutputImage, TInputImage, TOutputImage>;
 
   using FieldInterpolatorType = VectorLinearInterpolateImageFunction<TInputImage, double>;
