@@ -5,11 +5,6 @@ if(ITK_USE_SYSTEM_GOOGLETEST)
   if(NOT DEFINED GTEST_ROOT OR NOT EXISTS "${GTEST_ROOT}/CMakeLists.txt")
     set(ITKGoogleTest_NO_SRC 1)
     set(
-      ITKGoogleTest_LIBRARIES
-      GTest::gtest
-      GTest::gtest_main
-    )
-    set(
       ITKGoogleTest_EXPORT_CODE_BUILD
       "
 if(NOT ITK_BINARY_DIR)
