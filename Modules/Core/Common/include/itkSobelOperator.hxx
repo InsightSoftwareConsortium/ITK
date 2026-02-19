@@ -39,8 +39,7 @@ SobelOperator<TPixel, VDimension, TAllocator>::Fill(const CoefficientVector & co
   using IndexType = Index<VDimension>;
 
   unsigned int coeff_index = 0;
-  for (const IndexType & index :
-       ImageRegionIndexRange<VDimension>(ImageRegion{ IndexType::Filled(-1), SizeType::Filled(3) }))
+  for (const IndexType & index : MakeIndexRange(IndexType::Filled(-1), SizeType::Filled(3)))
   {
     auto pos = static_cast<int>(center);
 

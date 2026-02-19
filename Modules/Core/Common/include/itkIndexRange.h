@@ -41,9 +41,8 @@ namespace itk
     \code
     constexpr unsigned int Dimension{ 2 };
     const Size<Dimension> size = { {2, 3} };
-    const ZeroBasedIndexRange<Dimension> indexRange{ size };
 
-    for (const Index<Dimension> index : indexRange)
+    for (const Index<Dimension> index : MakeIndexRange(size))
     {
       std::cout << index;
     }
@@ -473,6 +472,30 @@ using ImageRegionIndexRange = IndexRange<VDimension, false>;
 
 template <unsigned int VDimension>
 using ZeroBasedIndexRange = IndexRange<VDimension, true>;
+
+/* Creates a range of indices for the specified grid size. */
+template <unsigned int VDimension>
+[[nodiscard]] constexpr auto
+MakeIndexRange(const Size<VDimension> & gridSize)
+{
+  return ZeroBasedIndexRange<VDimension>(gridSize);
+}
+
+/* Creates a range of indices for the specified image region. */
+template <unsigned int VDimension>
+[[nodiscard]] auto
+MakeIndexRange(const ImageRegion<VDimension> & imageRegion)
+{
+  return ImageRegionIndexRange<VDimension>(imageRegion);
+}
+
+/* Creates a range of indices for the image region specified by its index and size. */
+template <unsigned int VDimension>
+[[nodiscard]] auto
+MakeIndexRange(const Index<VDimension> & imageRegionIndex, const Size<VDimension> & imageRegionSize)
+{
+  return ImageRegionIndexRange<VDimension>(ImageRegion<VDimension>{ imageRegionIndex, imageRegionSize });
+}
 
 } // namespace itk
 

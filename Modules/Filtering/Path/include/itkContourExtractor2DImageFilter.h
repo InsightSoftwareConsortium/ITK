@@ -145,7 +145,11 @@ public:
   using InputRealType = typename NumericTraits<InputPixelType>::RealType;
 
   /** Ranges and iterators for regions */
-  using RegionIndexRange = ImageRegionIndexRange<InputImageType::ImageDimension>;
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  using RegionIndexRange ITK_FUTURE_DEPRECATED(
+    "Please use `itk::ImageRegionIndexRange` or `itk::MakeIndexRange` directly!") =
+    ImageRegionIndexRange<InputImageType::ImageDimension>;
+#endif
   using RegionRange = ImageRegionRange<InputImageType>;
   using RegionConstRange = ImageRegionRange<const InputImageType>;
 

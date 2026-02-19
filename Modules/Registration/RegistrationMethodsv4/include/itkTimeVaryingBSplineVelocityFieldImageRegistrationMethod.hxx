@@ -23,7 +23,7 @@
 #include "itkContinuousIndex.h"
 #include "itkDisplacementFieldTransform.h"
 #include "itkImageDuplicator.h"
-#include "itkImageRegionConstIteratorWithOnlyIndex.h"
+#include "itkIndexRange.h"
 #include "itkImportImageFilter.h"
 #include "itkPointSet.h"
 #include "itkResampleImageFilter.h"
@@ -508,12 +508,8 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
         fixedDisplacementField->GetRequestedRegion().GetIndex();
       typename DisplacementFieldType::SizeType fixedDomainSize = fixedDisplacementField->GetRequestedRegion().GetSize();
 
-      ImageRegionConstIteratorWithOnlyIndex<DisplacementFieldType> ItF(fixedDisplacementField,
-                                                                       fixedDisplacementField->GetRequestedRegion());
-      for (ItF.GoToBegin(); !ItF.IsAtEnd(); ++ItF)
+      for (const auto & index : MakeIndexRange(fixedDisplacementField->GetRequestedRegion()))
       {
-        typename DisplacementFieldType::IndexType index = ItF.GetIndex();
-
         bool isOnBoundary = false;
         for (unsigned int d = 0; d < ImageDimension; ++d)
         {
@@ -770,13 +766,8 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
   typename DisplacementFieldType::SizeType  gradientFieldSize = gradientField->GetRequestedRegion().GetSize();
 
   SizeValueType localCount = 0;
-  for (ImageRegionConstIteratorWithOnlyIndex<DisplacementFieldType> ItG(gradientField,
-                                                                        gradientField->GetRequestedRegion());
-       !ItG.IsAtEnd();
-       ++ItG)
+  for (const auto & index : MakeIndexRange(gradientField->GetRequestedRegion()))
   {
-    typename DisplacementFieldType::IndexType index = ItG.GetIndex();
-
     bool isOnBoundary = false;
     for (SizeValueType d = 0; d < ImageDimension; ++d)
     {

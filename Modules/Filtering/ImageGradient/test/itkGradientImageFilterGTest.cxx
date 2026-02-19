@@ -87,7 +87,7 @@ TEST(GradientImageFilter, ConstantGradientInputImage)
     inputImage->SetRegions(imageSize);
     inputImage->Allocate(false);
 
-    for (const auto & index : itk::ZeroBasedIndexRange<Dimension>(imageSize))
+    for (const auto & index : itk::MakeIndexRange(imageSize))
     {
       // A constant gradient along the first dimension of the image.
       inputImage->SetPixel(index, static_cast<PixelType>(inputGradientValue * index[0]));
@@ -102,7 +102,7 @@ TEST(GradientImageFilter, ConstantGradientInputImage)
     // Only look at the inner region, to avoid boundary effects (which are beyond the scope of this unit test).
     const itk::ImageRegion innerRegion{ IndexType::Filled(1), imageSize - SizeType::Filled(2) };
 
-    for (const auto & index : itk::ImageRegionIndexRange<Dimension>(innerRegion))
+    for (const auto & index : itk::MakeIndexRange(innerRegion))
     {
       const auto outputPixelValue = output.GetPixel(index);
 

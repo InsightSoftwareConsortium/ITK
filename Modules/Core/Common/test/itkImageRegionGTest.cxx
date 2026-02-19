@@ -104,7 +104,7 @@ TEST(ImageRegion, OneSizedRegionIsInsideIffItsIndexIsInside)
     auto paddedRegion = region;
     paddedRegion.PadByRadius(1);
 
-    for (const auto & index : itk::ImageRegionIndexRange<RegionType::ImageDimension>(paddedRegion))
+    for (const auto & index : itk::MakeIndexRange(paddedRegion))
     {
       const RegionType oneSizedRegion{ index, SizeType::Filled(1) };
 
