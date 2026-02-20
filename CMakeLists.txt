@@ -248,6 +248,10 @@ If this is not set during the initial configuration, it will have no effect."
 mark_as_advanced(ITK_USE_SYSTEM_LIBRARIES)
 
 #-----------------------------------------------------------------------------
+# Generate a Software Bill of Materials (SBOM) in SPDX 2.3 JSON format.
+option(ITK_GENERATE_SBOM "Generate SPDX Software Bill of Materials (SBOM) at configure time" ON)
+
+#-----------------------------------------------------------------------------
 # Enable the download and use of BrainWeb datasets.
 # When this data is available, additional 3D tests are enabled.
 option(
@@ -749,6 +753,12 @@ add_subdirectory(Modules/Remote)
 # Enable modules according to user inputs and the module dependency DAG.
 include(ITKModuleEnablement)
 
+# Generate SPDX Software Bill of Materials (SBOM) if enabled.
+include(ITKSBOMGeneration)
+if(ITK_GENERATE_SBOM)
+  itk_generate_sbom()
+endif()
+
 # Setup clang-tidy for code best-practices enforcement for C++11
 include(ITKClangTidySetup)
 #----------------------------------------------------------------------
@@ -859,6 +869,15 @@ install(
   DESTINATION ${ITK_INSTALL_DOC_DIR}
   COMPONENT Runtime
 )
+
+if(ITK_GENERATE_SBOM)
+  install(
+    FILES
+      "${CMAKE_BINARY_DIR}/sbom.spdx.json"
+    DESTINATION ${ITK_INSTALL_DOC_DIR}
+    COMPONENT Runtime
+  )
+endif()
 
 if(BUILD_TESTING)
   # If building the testing, write the test costs (i.e. time to run)
