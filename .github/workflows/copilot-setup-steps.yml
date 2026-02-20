@@ -1,5 +1,72 @@
 name: Setup ITK Development Environment
-timeout-minutes: 0
-steps:
-  - name: Set up Pixi
-    uses: prefix-dev/setup-pixi@v0.8.1
+
+# Automatically run the setup steps when they are changed to allow for easy validation, and
+# allow manual testing through the repository's "Actions" tab
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+env:
+    ExternalDataVersion: 5.4.5
+
+jobs:
+  # The job MUST be called `copilot-setup-steps` or it will not be picked up by Copilot.
+  copilot-setup-steps:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+    timeout-minutes: 0
+
+    # Steps are the similar to pixi.yml
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 5
+          clean: true
+
+      - name: Free Disk Space (Ubuntu)
+        uses: BRAINSia/free-disk-space@v2
+        with:
+          removalmode: "rmz"
+
+          swap-storage:   "true"
+          haskell:        "true"
+          dotnet:         "true"
+          docker-images:  "false" # Takes too long
+          tool-cache:     "true"
+          android:        "false" # Takes too long
+          large-packages: "true"  # Takes too long to remove apt-get packages
+          mandb:          "true"  # Speeds up future apt-get installs (disables man page generation), this CI does not use apt-get
+
+      - name: Download testing data
+        run: |
+          curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v${{ env.ExternalDataVersion }}/InsightData-${{ env.ExternalDataVersion }}.tar.gz -O
+          cmake -E tar xfz InsightData-${{ env.ExternalDataVersion }}.tar.gz
+          cmake -E rename InsightToolkit-${{ env.ExternalDataVersion }}/.ExternalData/CID ${{ github.workspace }}/.ExternalData/CID
+
+      - name: Set up Pixi
+        uses: prefix-dev/setup-pixi@v0.8.1
+
+      - name: Configure
+        run: pixi run configure
+
+      - name: Build
+        run: |
+          echo "****** df -h /  -- pre build"
+          df -h /
+          pixi run --skip-deps build
+          echo "****** df -h /  -- post build"
+          df -h /
+          find build -type f -name "*.o" -delete
+          find build -type f -name "*.a" -delete
+          echo "****** df -h /  -- post .o .a cleanup"
+          df -h /
+
+      - name: Test
+        run: pixi run --skip-deps test
