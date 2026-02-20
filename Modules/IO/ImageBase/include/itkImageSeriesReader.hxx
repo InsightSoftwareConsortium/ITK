@@ -172,8 +172,8 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
     // Override the position if there is an ITK_ImageOrigin
     ExposeMetaData<Array<SpacingScalarType>>(lastReader->GetImageIO()->GetMetaDataDictionary(), key, positionN);
 
-    // Compute and set the inter slice spacing
-    // and last (usually third) axis of direction
+    // Compute and set the inter-slice spacing
+    // and last (usually third) axis of a direction
     Vector<SpacingScalarType, TOutputImage::ImageDimension> dirN;
     for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
     {
@@ -187,9 +187,33 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
     }
     else
     {
+      // always positive spacing, corrected in the direction
       spacing[this->m_NumberOfDimensionsInImage] = dirNnorm / (numberOfFiles - 1);
       this->m_SpacingDefined = true;
-      if (!m_ForceOrthogonalDirection)
+      if (m_ForceOrthogonalDirection)
+      {
+        // DICOM files only specify two direction vectors, and the third is derived as orthogonal to those. Hence only
+        // when loading DICOM files, the third direction is forced to be orthogonal from the DICOM ImageIO. However,
+        // with the forced positive spacing the sign of the direction must be checked.
+
+
+        // Compute dot product between dirN and the current direction column vector
+        SpacingScalarType dotProduct = 0.0;
+        for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
+        {
+          dotProduct += dirN[j] * direction[j][this->m_NumberOfDimensionsInImage];
+        }
+
+        // If dot product is negative, flip the sign of the entire direction column vector
+        if (dotProduct < 0.0)
+        {
+          for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
+          {
+            direction[j][this->m_NumberOfDimensionsInImage] *= -1.0;
+          }
+        }
+      }
+      else
       {
         for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
         {
