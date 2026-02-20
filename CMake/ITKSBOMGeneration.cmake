@@ -6,7 +6,7 @@
   includes component names, versions, licenses, and dependency relationships.
 
   Usage:
-    option(ITK_GENERATE_SBOM "Generate SPDX SBOM at build time" ON)
+    option(ITK_GENERATE_SBOM "Generate SPDX SBOM at configure time" ON)
     include(ITKSBOMGeneration)
 
   The generated file is written to:
@@ -233,7 +233,7 @@ function(_itk_sbom_get_thirdparty_metadata module_name
 
   elseif("${module_name}" STREQUAL "ITKPNG")
     set(_license "Libpng-2.0")
-    set(_download "http://www.libpng.org/pub/png/libpng.html")
+    set(_download "https://www.libpng.org/pub/png/libpng.html")
     set(_supplier "Organization: libpng contributors")
     set(_copyright "Copyright libpng contributors")
     # Try to detect PNG version from CMake variable
@@ -253,7 +253,7 @@ function(_itk_sbom_get_thirdparty_metadata module_name
 
   elseif("${module_name}" STREQUAL "ITKTIFF")
     set(_license "libtiff")
-    set(_download "http://www.libtiff.org")
+    set(_download "https://libtiff.maptools.org")
     set(_supplier "Organization: libtiff contributors")
     set(_copyright "Copyright libtiff contributors")
     # Try to detect TIFF version from CMake variable
@@ -449,7 +449,26 @@ function(itk_generate_sbom)
     string(APPEND _json "    }")
   endforeach()
 
-  string(APPEND _json "\n  ]\n")
+  string(APPEND _json "\n  ],\n")
+
+  # --- hasExtractedLicensingInfo for custom LicenseRef identifiers ---
+  string(APPEND _json "  \"hasExtractedLicensingInfo\": [\n")
+  string(APPEND _json "    {\n")
+  string(APPEND _json "      \"licenseId\": \"LicenseRef-NIFTI-Public-Domain\",\n")
+  string(APPEND _json "      \"name\": \"NIFTI Public Domain License\",\n")
+  string(APPEND _json "      \"extractedText\": \"This software is in the public domain. The NIFTI header and library are released into the public domain.\"\n")
+  string(APPEND _json "    },\n")
+  string(APPEND _json "    {\n")
+  string(APPEND _json "      \"licenseId\": \"LicenseRef-NITRC-Public-Domain\",\n")
+  string(APPEND _json "      \"name\": \"NITRC GIFTI Public Domain License\",\n")
+  string(APPEND _json "      \"extractedText\": \"The GIFTI library is released into the public domain under the NITRC project.\"\n")
+  string(APPEND _json "    },\n")
+  string(APPEND _json "    {\n")
+  string(APPEND _json "      \"licenseId\": \"LicenseRef-Netlib-SLATEC\",\n")
+  string(APPEND _json "      \"name\": \"Netlib SLATEC Public Domain License\",\n")
+  string(APPEND _json "      \"extractedText\": \"The SLATEC Common Mathematical Library is issued by the U.S. Government and is in the public domain.\"\n")
+  string(APPEND _json "    }\n")
+  string(APPEND _json "  ]\n")
 
   # --- Close JSON document ---
   string(APPEND _json "}\n")
