@@ -22,6 +22,7 @@
 #include "itkComposeDisplacementFieldsImageFilter.h"
 #include "itkImageDuplicator.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include <mutex>
 #include "itkProgressTransformer.h"
 
@@ -181,7 +182,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
 
   if (this->m_DoThreadedEstimateInverse)
   {
-    ImageRegionIterator<DisplacementFieldType> ItI(this->GetOutput(), region);
+    ImageRegionIteratorWithIndex<DisplacementFieldType> ItI(this->GetOutput(), region);
 
     for (ItI.GoToBegin(), ItE.GoToBegin(), ItS.GoToBegin(); !ItI.IsAtEnd(); ++ItI, ++ItE, ++ItS)
     {
@@ -194,7 +195,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
       }
       update = ItI.Get() + update * this->m_Epsilon;
       ItI.Set(update);
-      typename DisplacementFieldType::IndexType index = ItI.ComputeIndex();
+      typename DisplacementFieldType::IndexType index = ItI.GetIndex();
       if (this->m_EnforceBoundaryCondition)
       {
         for (unsigned int d = 0; d < ImageDimension; ++d)

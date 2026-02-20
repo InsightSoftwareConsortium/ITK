@@ -18,7 +18,8 @@
 #ifndef itkAccumulateImageFilter_hxx
 #define itkAccumulateImageFilter_hxx
 
-#include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {
@@ -149,7 +150,7 @@ AccumulateImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Accumulate over the Nth dimension ( = m_AccumulateDimension)
   // and divide by the size of the accumulated dimension.
-  using outputIterType = ImageRegionIterator<TOutputImage>;
+  using outputIterType = ImageRegionIteratorWithIndex<TOutputImage>;
   outputIterType outputIter(outputImage, outputImage->GetBufferedRegion());
   using inputIterType = ImageRegionConstIterator<TInputImage>;
 
@@ -168,7 +169,7 @@ AccumulateImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
   while (!outputIter.IsAtEnd())
   {
-    typename TOutputImage::IndexType OutputIndex = outputIter.ComputeIndex();
+    typename TOutputImage::IndexType OutputIndex = outputIter.GetIndex();
     for (unsigned int i = 0; i < InputImageDimension; ++i)
     {
       if (i != m_AccumulateDimension)

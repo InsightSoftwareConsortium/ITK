@@ -19,6 +19,7 @@
 #define itkSpatialFunctionImageEvaluatorFilter_hxx
 
 #include "itkImageRegion.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {
@@ -41,7 +42,7 @@ SpatialFunctionImageEvaluatorFilter<TSpatialFunction, TInputImage, TOutputImage>
   outputPtr->Allocate();
 
   // Create an iterator that will walk the output region
-  using OutputIterator = ImageRegionIterator<TOutputImage>;
+  using OutputIterator = ImageRegionIteratorWithIndex<TOutputImage>;
 
   OutputIterator outIt(outputPtr, outputPtr->GetRequestedRegion());
 
@@ -56,7 +57,7 @@ SpatialFunctionImageEvaluatorFilter<TSpatialFunction, TInputImage, TOutputImage>
   // Walk the output image, evaluating the spatial function at each pixel
   for (; !outIt.IsAtEnd(); ++outIt)
   {
-    const typename TOutputImage::IndexType index = outIt.ComputeIndex();
+    const typename TOutputImage::IndexType index = outIt.GetIndex();
     outputPtr->TransformIndexToPhysicalPoint(index, evalPoint);
     value = m_PixelFunction->Evaluate(evalPoint);
 

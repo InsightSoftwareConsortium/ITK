@@ -20,7 +20,7 @@
 
 #include <cmath>
 #include "itkProgressReporter.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {
@@ -62,7 +62,7 @@ DifferenceOfGaussiansGradientImageFilter<TInputImage, TDataType>::GenerateData()
   ProgressReporter progress(this, 0, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   // Create an iterator that will walk the output region
-  using OutputIterator = ImageRegionIterator<TOutputImage>;
+  using OutputIterator = ImageRegionIteratorWithIndex<TOutputImage>;
 
   OutputIterator outIt(outputPtr, outputPtr->GetRequestedRegion());
 
@@ -76,7 +76,7 @@ DifferenceOfGaussiansGradientImageFilter<TInputImage, TDataType>::GenerateData()
   for (; !outIt.IsAtEnd(); ++outIt)
   {
     // determine the index of the output pixel
-    outputIndex = outIt.ComputeIndex();
+    outputIndex = outIt.GetIndex();
 
     // is the current index an acceptable distance from the edges
     // of the image?

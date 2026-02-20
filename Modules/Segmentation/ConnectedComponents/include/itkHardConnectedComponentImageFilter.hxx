@@ -17,7 +17,8 @@
  *=========================================================================*/
 #ifndef itkHardConnectedComponentImageFilter_hxx
 #define itkHardConnectedComponentImageFilter_hxx
-#include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"
@@ -44,8 +45,8 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
   output->SetRegions(region);
   output->Allocate();
 
-  ImageRegionConstIterator<TInputImage> it(input, input->GetRequestedRegion());
-  ImageRegionIterator<TOutputImage>     ot(output, output->GetRequestedRegion());
+  ImageRegionConstIterator<TInputImage>      it(input, input->GetRequestedRegion());
+  ImageRegionIteratorWithIndex<TOutputImage> ot(output, output->GetRequestedRegion());
 
   ProgressReporter progress(this, 0, output->GetRequestedRegion().GetNumberOfPixels());
   it.GoToBegin();
@@ -69,7 +70,7 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
     {
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
-        IndexType currentIndex = ot.ComputeIndex();
+        IndexType currentIndex = ot.GetIndex();
         currentIndex[i] = currentIndex[i] - 1;
         LabelType label = 0;
         if (currentIndex[i] >= 0)
