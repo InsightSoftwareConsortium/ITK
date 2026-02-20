@@ -116,36 +116,35 @@ bool RAWCodec::DecodeBytes(const char* inBytes, size_t inBufferLength,
   if( this->GetPixelFormat() == PixelFormat::UINT12 ||
       this->GetPixelFormat() == PixelFormat::INT12 )
     {
-    size_t len = str.size() * 16 / 12;
-    char * copy = new char[len];
-    bool b = Unpacker12Bits::Unpack(copy, str.data(), str.size() );
-    if (!b)
-      {
-      delete[] copy;
-      return false;
-      }
-    assert (len == inOutBufferLength);
-    gdcm_assert(inOutBufferLength == len);
-    memcpy(outBytes, copy, len);
-
-    delete[] copy;
-
     this->GetPixelFormat().SetBitsAllocated( 16 );
+    const size_t len = str.size() * 16 / 12;
+    if(len == inOutBufferLength) {
+      char * copy = new char[len];
+      bool b = Unpacker12Bits::Unpack(copy, str.data(), str.size() );
+      if (!b)
+        {
+        delete[] copy;
+        return false;
+        }
+      gdcm_assert(inOutBufferLength == len);
+      memcpy(outBytes, copy, len);
+
+      delete[] copy;
+      return r;
     }
+  }
+
+  // DermaColorLossLess.dcm
+  //assert (check == inOutBufferLength || check == inOutBufferLength + 1);
+  // problem with: SIEMENS_GBS_III-16-ACR_NEMA_1.acr
+  size_t len = str.size();
+  if( inOutBufferLength <= len )
+    memcpy(outBytes, str.c_str(), inOutBufferLength);
   else
-    {
-    // DermaColorLossLess.dcm
-    //assert (check == inOutBufferLength || check == inOutBufferLength + 1);
-    // problem with: SIEMENS_GBS_III-16-ACR_NEMA_1.acr
-    size_t len = str.size();
-    if( inOutBufferLength <= len )
-      memcpy(outBytes, str.c_str(), inOutBufferLength);
-    else
-    {
-      gdcmWarningMacro( "Requesting too much data. Truncating result" );
-      memcpy(outBytes, str.c_str(), len);
-    }
-    }
+  {
+    gdcmWarningMacro( "Requesting too much data. Truncating result" );
+    memcpy(outBytes, str.c_str(), len);
+  }
 
   return r;
 }
