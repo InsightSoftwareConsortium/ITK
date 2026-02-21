@@ -2148,14 +2148,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeGradientJointE
     currentPatchVec[jj] = currentPatch.GetPixel(jj, isInBounds);
     patchWeightVec[jj].SetSize(m_NumIndependentComponents);
     patchWeightVec[jj].Fill(patchWeights[jj]);
-    if (isInBounds)
-    {
-      isInBoundsVec[jj] = true;
-    }
-    else
-    {
-      isInBoundsVec[jj] = false;
-    }
+    isInBoundsVec[jj] = isInBounds;
   }
 
   IndexType               lastSelectedIdx;

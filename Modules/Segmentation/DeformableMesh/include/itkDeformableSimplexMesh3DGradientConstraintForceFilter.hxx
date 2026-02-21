@@ -301,14 +301,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
 
           current = new ImageVoxel(vpos, pos, static_cast<double>(m_Image->GetPixel(index)), dist, ++i);
           m_Positive.push_back(current);
-          if (current->GetDistance() > m_Range)
-          {
-            stop = true;
-          }
-          else
-          {
-            stop = false;
-          }
+          stop = current->GetDistance() > m_Range;
         }
       }
     }
@@ -358,14 +351,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
 
           current = new ImageVoxel(vpos, pos, static_cast<double>(m_Image->GetPixel(index)), dist, --ii);
           m_Negative.push_back(current);
-          if (current->GetDistance() > m_Range)
-          {
-            stop = true;
-          }
-          else
-          {
-            stop = false;
-          }
+          stop = current->GetDistance() > m_Range;
         }
       }
     }

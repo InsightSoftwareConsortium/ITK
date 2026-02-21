@@ -219,14 +219,7 @@ GiplImageIO::Read(void * buffer)
   bool success = false;
   if (m_IsCompressed)
   {
-    if (p != nullptr)
-    {
-      success = true;
-    }
-    else
-    {
-      success = false;
-    }
+    success = p != nullptr;
   }
   else
   {

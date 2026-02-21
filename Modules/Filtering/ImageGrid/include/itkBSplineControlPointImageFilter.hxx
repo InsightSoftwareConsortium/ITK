@@ -75,14 +75,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::SetNumberOfLevels(Arr
   itkDebugMacro("Setting m_NumberOfLevels to " << this->m_NumberOfLevels);
   itkDebugMacro("Setting m_MaximumNumberOfLevels to " << this->m_MaximumNumberOfLevels);
 
-  if (this->m_MaximumNumberOfLevels > 1)
-  {
-    this->m_DoMultilevel = true;
-  }
-  else
-  {
-    this->m_DoMultilevel = false;
-  }
+  this->m_DoMultilevel = this->m_MaximumNumberOfLevels > 1;
   this->SetSplineOrder(this->m_SplineOrder);
   this->Modified();
 }

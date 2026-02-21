@@ -262,18 +262,12 @@ TIFFReaderInternal::Initialize()
     TIFFGetFieldDefaulted(this->m_Image, TIFFTAG_PLANARCONFIG, &this->m_PlanarConfig);
     TIFFGetFieldDefaulted(this->m_Image, TIFFTAG_SAMPLEFORMAT, &this->m_SampleFormat);
 
-    // If TIFFGetField returns false, there's no Photometric Interpretation
+    // If TIFFGetField returns zero, there's no Photometric Interpretation
     // set for this image, but that's a required field so we set a warning flag.
     // (Because the "Photometrics" field is an enum, we can't rely on setting
     // this->m_Photometrics to some signal value.)
-    if (TIFFGetField(this->m_Image, TIFFTAG_PHOTOMETRIC, &this->m_Photometrics))
-    {
-      this->m_HasValidPhotometricInterpretation = true;
-    }
-    else
-    {
-      this->m_HasValidPhotometricInterpretation = false;
-    }
+    this->m_HasValidPhotometricInterpretation =
+      TIFFGetField(this->m_Image, TIFFTAG_PHOTOMETRIC, &this->m_Photometrics) != 0;
   }
 
   return 1;
