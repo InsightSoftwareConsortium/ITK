@@ -58,14 +58,7 @@ ImageConstIteratorWithOnlyIndex<TImage>::GoToBegin()
 
   m_PositionIndex = m_BeginIndex;
 
-  if (m_Region.GetNumberOfPixels() > 0)
-  {
-    m_Remaining = true;
-  }
-  else
-  {
-    m_Remaining = false;
-  }
+  m_Remaining = m_Region.GetNumberOfPixels() > 0;
 }
 
 //----------------------------------------------------------------------------
@@ -80,14 +73,7 @@ ImageConstIteratorWithOnlyIndex<TImage>::GoToReverseBegin()
     m_PositionIndex[i] = m_EndIndex[i] - 1;
   }
 
-  if (m_Region.GetNumberOfPixels() > 0)
-  {
-    m_Remaining = true;
-  }
-  else
-  {
-    m_Remaining = false;
-  }
+  m_Remaining = m_Region.GetNumberOfPixels() > 0;
 }
 
 } // end namespace itk

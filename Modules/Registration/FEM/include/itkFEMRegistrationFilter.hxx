@@ -446,14 +446,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(ImageSi
               ++CornerCounter;
             }
           }
-          if (CornerCounter == ImageDimension - 1)
-          {
-            EdgeFound = true;
-          }
-          else
-          {
-            EdgeFound = false;
-          }
+          EdgeFound = CornerCounter == ImageDimension - 1;
           if (EdgeFound)
           {
             for (unsigned int jj = 0; jj < ndofpernode; ++jj)

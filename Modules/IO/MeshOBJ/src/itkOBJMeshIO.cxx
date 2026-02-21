@@ -167,25 +167,11 @@ OBJMeshIO::ReadMeshInformation()
 
   this->m_PointDimension = 3;
 
-  // If number of points is not equal zero, update points
-  if (this->m_NumberOfPoints)
-  {
-    this->m_UpdatePoints = true;
-  }
-  else
-  {
-    this->m_UpdatePoints = false;
-  }
+  // If number of points is greater than zero, update points
+  this->m_UpdatePoints = this->m_NumberOfPoints > 0;
 
   // If number of cells is not equal zero, update points
-  if (this->m_NumberOfCells)
-  {
-    this->m_UpdateCells = true;
-  }
-  else
-  {
-    this->m_UpdateCells = false;
-  }
+  this->m_UpdateCells = this->m_NumberOfCells;
 
   // Set default point component type
   this->m_PointComponentType = IOComponentEnum::FLOAT;

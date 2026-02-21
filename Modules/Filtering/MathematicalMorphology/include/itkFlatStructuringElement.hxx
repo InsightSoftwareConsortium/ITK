@@ -1296,14 +1296,7 @@ FlatStructuringElement<VDimension>::FromImage(const ImageType * image)
   {
     const PixelType & val = image->GetPixel(centerIdx + res.GetOffset(j));
     // Neighborhood (therefore PixelType) in FlatStructuringElement is bool
-    if (val)
-    {
-      res[j] = true;
-    }
-    else
-    {
-      res[j] = false;
-    }
+    res[j] = val;
   }
 
   return res;

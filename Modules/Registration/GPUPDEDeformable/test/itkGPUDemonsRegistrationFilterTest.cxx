@@ -201,14 +201,7 @@ GPUDemonsRegistrationFilterTestTemplate(int argc, char * argv[])
   // std::endl;
   // std::cout << "Total CPU time in seconds = " << m_CPUTime.GetMean() <<
   // std::endl;
-  if (avgDiff < 2)
-  {
-    passed = true;
-  }
-  else
-  {
-    passed = false;
-  }
+  passed = avgDiff < 2;
 
   if (!passed)
   {

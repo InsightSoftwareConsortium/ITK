@@ -132,14 +132,7 @@ ImageConstIteratorWithIndex<TImage>::GoToBegin()
   m_Position = m_Begin;
   m_PositionIndex = m_BeginIndex;
 
-  if (m_Region.GetNumberOfPixels() > 0)
-  {
-    m_Remaining = true;
-  }
-  else
-  {
-    m_Remaining = false;
-  }
+  m_Remaining = m_Region.GetNumberOfPixels() > 0;
 }
 
 //----------------------------------------------------------------------------
@@ -154,14 +147,7 @@ ImageConstIteratorWithIndex<TImage>::GoToReverseBegin()
     m_PositionIndex[i] = m_EndIndex[i] - 1;
   }
 
-  if (m_Region.GetNumberOfPixels() > 0)
-  {
-    m_Remaining = true;
-  }
-  else
-  {
-    m_Remaining = false;
-  }
+  m_Remaining = m_Region.GetNumberOfPixels() > 0;
 
   // Set the position at the end
   const InternalPixelType * buffer = m_Image->GetBufferPointer();
