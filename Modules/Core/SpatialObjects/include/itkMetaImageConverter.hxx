@@ -105,7 +105,7 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::MetaObjectToSpati
 
   this->MetaObjectToSpatialObjectBase(imageMO, imageSO);
 
-  itk::ImageRegionIteratorWithIndex<ImageType> it(myImage, myImage->GetLargestPossibleRegion());
+  ImageRegionIteratorWithIndex<ImageType> it(myImage, myImage->GetLargestPossibleRegion());
   for (unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
   {
     it.Set(static_cast<typename ImageType::PixelType>(imageMO->ElementData(i)));
@@ -158,7 +158,7 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::SpatialObjectToMe
   imageMO->ElementOrigin(origin);
   imageMO->ElementDirection(direction);
 
-  itk::ImageRegionConstIterator<ImageType> it(SOImage, SOImage->GetLargestPossibleRegion());
+  ImageRegionConstIterator<ImageType> it(SOImage, SOImage->GetLargestPossibleRegion());
   for (unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
   {
     imageMO->ElementData(i, it.Get());

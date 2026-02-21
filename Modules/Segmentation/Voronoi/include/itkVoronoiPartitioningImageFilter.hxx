@@ -92,7 +92,7 @@ VoronoiPartitioningImageFilter<TInputImage, TOutputImage>::MakeSegmentBoundary()
 {
   const RegionType region = this->GetInput()->GetRequestedRegion();
 
-  itk::ImageRegionIteratorWithIndex<OutputImageType> oit(this->GetOutput(), region);
+  ImageRegionIteratorWithIndex<OutputImageType> oit(this->GetOutput(), region);
   while (!oit.IsAtEnd())
   {
     oit.Set(0);
@@ -120,7 +120,7 @@ VoronoiPartitioningImageFilter<TInputImage, TOutputImage>::MakeSegmentObject()
 {
   const RegionType region = this->GetInput()->GetRequestedRegion();
 
-  itk::ImageRegionIteratorWithIndex<OutputImageType> oit(this->GetOutput(), region);
+  ImageRegionIteratorWithIndex<OutputImageType> oit(this->GetOutput(), region);
   while (!oit.IsAtEnd())
   {
     oit.Set(0);

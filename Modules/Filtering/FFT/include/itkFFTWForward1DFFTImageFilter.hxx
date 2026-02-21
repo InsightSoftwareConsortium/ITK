@@ -130,8 +130,8 @@ FFTWForward1DFFTImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(con
   const InputImageType * inputPtr = this->GetInput();
   OutputImageType *      outputPtr = this->GetOutput();
 
-  using InputIteratorType = itk::ImageLinearConstIteratorWithIndex<InputImageType>;
-  using OutputIteratorType = itk::ImageLinearIteratorWithIndex<OutputImageType>;
+  using InputIteratorType = ImageLinearConstIteratorWithIndex<InputImageType>;
+  using OutputIteratorType = ImageLinearIteratorWithIndex<OutputImageType>;
   InputIteratorType  inputIt(inputPtr, outputRegion);
   OutputIteratorType outputIt(outputPtr, outputRegion);
 

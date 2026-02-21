@@ -88,8 +88,8 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Ta
 {
   const RegionType region = this->GetInput()->GetRequestedRegion();
 
-  itk::ImageRegionConstIteratorWithIndex<BinaryObjectImage> ait(aprior, region);
-  itk::ImageRegionConstIteratorWithIndex<InputImageType>    iit(this->GetInput(), region);
+  ImageRegionConstIteratorWithIndex<BinaryObjectImage> ait(aprior, region);
+  ImageRegionConstIteratorWithIndex<InputImageType>    iit(this->GetInput(), region);
 
   this->m_Size = this->GetInput()->GetRequestedRegion().GetSize();
 

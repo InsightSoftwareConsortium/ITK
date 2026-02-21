@@ -103,8 +103,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::Initialize
     this->m_MovingImageTrueMax = NumericTraits<typename TMovingImage::PixelType>::NonpositiveMin();
 
     // We need to make robust measures only over the requested mask region
-    itk::ImageRegionConstIteratorWithIndex<TFixedImage> fi(this->m_FixedImage, this->m_FixedImage->GetBufferedRegion());
-    const bool                                          fixedMaskIsPresent = !(this->m_FixedImageMask.IsNull());
+    ImageRegionConstIteratorWithIndex<TFixedImage> fi(this->m_FixedImage, this->m_FixedImage->GetBufferedRegion());
+    const bool                                     fixedMaskIsPresent = !(this->m_FixedImageMask.IsNull());
     if (fixedMaskIsPresent)
     {
       typename TFixedImage::PointType fixedSpacePhysicalPoint;
@@ -133,9 +133,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::Initialize
     }
 
     {
-      itk::ImageRegionConstIteratorWithIndex<TMovingImage> mi(this->m_MovingImage,
-                                                              this->m_MovingImage->GetBufferedRegion());
-      const bool                                           movingMaskIsPresent = !(this->m_MovingImageMask.IsNull());
+      ImageRegionConstIteratorWithIndex<TMovingImage> mi(this->m_MovingImage, this->m_MovingImage->GetBufferedRegion());
+      const bool                                      movingMaskIsPresent = !(this->m_MovingImageMask.IsNull());
       if (movingMaskIsPresent)
       {
         typename TMovingImage::PointType movingSpacePhysicalPoint;

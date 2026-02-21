@@ -202,7 +202,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeMovedGra
 
   for (iDimension = 0; iDimension < FixedImageDimension; ++iDimension)
   {
-    using IteratorType = itk::ImageRegionConstIteratorWithIndex<MovedGradientImageType>;
+    using IteratorType = ImageRegionConstIteratorWithIndex<MovedGradientImageType>;
 
     IteratorType iterate(m_MovedSobelFilters[iDimension]->GetOutput(), this->GetFixedImageRegion());
 
@@ -241,7 +241,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeVariance
 
   for (iDimension = 0; iDimension < FixedImageDimension; ++iDimension)
   {
-    using IteratorType = itk::ImageRegionConstIteratorWithIndex<FixedGradientImageType>;
+    using IteratorType = ImageRegionConstIteratorWithIndex<FixedGradientImageType>;
 
     IteratorType iterate(m_FixedSobelFilters[iDimension]->GetOutput(), this->GetFixedImageRegion());
 
@@ -329,11 +329,11 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeMeasure(
 
     MovedGradientPixelType diff;
 
-    using FixedIteratorType = itk::ImageRegionConstIteratorWithIndex<FixedGradientImageType>;
+    using FixedIteratorType = ImageRegionConstIteratorWithIndex<FixedGradientImageType>;
 
     FixedIteratorType fixedIterator(m_FixedSobelFilters[iDimension]->GetOutput(), this->GetFixedImageRegion());
 
-    using MovedIteratorType = itk::ImageRegionConstIteratorWithIndex<MovedGradientImageType>;
+    using MovedIteratorType = ImageRegionConstIteratorWithIndex<MovedGradientImageType>;
 
     MovedIteratorType movedIterator(m_MovedSobelFilters[iDimension]->GetOutput(), this->GetFixedImageRegion());
 

@@ -164,7 +164,7 @@ OpenCVVideoCapture<TVideoStream>::retrieve(cv::Mat & image, int itkNotUsed(chann
   int                          matrixType = CV_MAKETYPE(depth, channels);
 
   // Copy the pixels -- There is probably a faster way to do this
-  using ITKIterType = itk::ImageRegionConstIteratorWithIndex<FrameType>;
+  using ITKIterType = ImageRegionConstIteratorWithIndex<FrameType>;
   ITKIterType itkIter(frame, frame->GetLargestPossibleRegion());
 
   // Currently only support mono and RGB (unsigned) char pixels
