@@ -17,6 +17,7 @@
 # ==========================================================================
 import itk
 import numpy as np
+import sys
 
 Dimension = 2
 PixelType = itk.UC
@@ -30,12 +31,19 @@ image.SetRegions(image_size)
 image.Allocate()
 image.FillBuffer(4)
 
-array = image.__array__()
+if sys.version_info >= (3, 12):
+    array = np.array(image)
+else:
+    array = np.array(image.__buffer__())
+
 assert array[0, 0] == 4
 assert array[0, 1] == 4
 assert isinstance(array, np.ndarray)
 
-array = np.asarray(image)
+if sys.version_info >= (3, 12):
+    array = np.asarray(image)
+else:
+    array = np.asarray(image.__buffer__())
 assert array[0, 0] == 4
 assert array[0, 1] == 4
 assert isinstance(array, np.ndarray)

@@ -29,6 +29,53 @@ else:
         loads = dask_deserialize.dispatch(np.ndarray)
         return NDArrayITKBase(loads(header, frames))
 
+def _get_formatstring(itk_Image_type) -> str:
+    """Returns the struct format string for a given ITK image type.
+
+    Format characters from Python's struct module:
+    - 'b': signed char (int8)
+    - 'B': unsigned char (uint8)
+    - 'h': short (int16)
+    - 'H': unsigned short (uint16)
+    - 'i': int (int32)
+    - 'I': unsigned int (uint32)
+    - 'l': long (platform dependent)
+    - 'L': unsigned long (platform dependent)
+    - 'q': long long (int64)
+    - 'Q': unsigned long long (uint64)
+    - 'f': float (float32)
+    - 'd': double (float64)
+    """
+
+    # Mapping from ITK pixel type codes to struct format strings
+    _format_map = {
+        "UC": "B",   # unsigned char
+        "US": "H",   # unsigned short
+        "UI": "I",   # unsigned int
+        "UL": "L",   # unsigned long
+        "ULL": "Q",  # unsigned long long
+        "SC": "b",   # signed char
+        "SS": "h",   # signed short
+        "SI": "i",   # signed int
+        "SL": "l",   # signed long
+        "SLL": "q",  # signed long long
+        "F": "f",    # float
+        "D": "d",    # double
+        "PF2": "f",  # Point<float, 2> - use float for components
+        "PF3": "f",  # Point<float, 3> - use float for components
+    }
+
+    import os
+    # Platform-specific adjustments for Windows
+    if os.name == 'nt':
+        _format_map['UL'] = 'I'  # unsigned int on Windows
+        _format_map['SL'] = 'i'  # signed int on Windows
+
+    try:
+        return _format_map[itk_Image_type]
+    except KeyError as e:
+        raise ValueError(f"Unknown ITK image type: {itk_Image_type}") from e
+
 def _get_numpy_pixelid(itk_Image_type) -> np.dtype:
     """Returns a ITK PixelID given a numpy array."""
 
