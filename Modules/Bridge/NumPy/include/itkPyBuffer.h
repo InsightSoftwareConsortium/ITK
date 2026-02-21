@@ -73,6 +73,12 @@ public:
   _GetArrayViewFromImage(ImageType * image);
 
   /**
+   * Get an 1-D byte MemoryView of the container's buffer
+   */
+  static PyObject *
+  _GetMemoryViewFromImportImageContainer(typename ImageType::PixelContainer * container);
+
+  /**
    * Get an ITK image from a contiguous Python array. Internal helper function for the implementation of
    * `itkPyBuffer.GetImageViewFromArray`.
    */

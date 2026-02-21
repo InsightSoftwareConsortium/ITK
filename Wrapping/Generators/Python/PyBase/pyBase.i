@@ -679,13 +679,126 @@ str = str
 
 %define DECL_PYTHON_IMAGE_CLASS(swig_name)
   %extend swig_name {
-      %pythoncode {
-          def __array__(self, dtype=None):
+      %pythoncode %{
+          def __buffer__(self, flags = 0, / ) -> memoryview:
               import itk
+              
+              # Import _get_formatstring from the PyBuffer module
+              # This is defined in Modules/Bridge/NumPy/wrapping/PyBuffer.i.init
+              try:
+                  from itk import itkPyBufferPython
+                  _get_formatstring = itkPyBufferPython._get_formatstring
+              except (ImportError, AttributeError):
+                  # Fallback: define it inline if import fails
+                  def _get_formatstring(itk_Image_type):
+                      _format_map = {
+                          "UC": "B", "US": "H", "UI": "I", "UL": "L", "ULL": "Q",
+                          "SC": "b", "SS": "h", "SI": "i", "SL": "l", "SLL": "q",
+                          "F": "f", "D": "d",
+                      }
+                      import os
+                      if os.name == 'nt':
+                          _format_map['UL'] = 'I'
+                          _format_map['SL'] = 'i'
+                      if itk_Image_type not in _format_map:
+                          raise ValueError(f"Unknown ITK image type: {itk_Image_type}")
+                      return _format_map[itk_Image_type]
+
+              # Get the PyBuffer class for this image type
+              ImageType = type(self)
+              try:
+                  PyBufferType = itk.PyBuffer[ImageType]
+              except (AttributeError, KeyError) as e:
+                  raise BufferError(f"PyBuffer not available for this image type: {e}")
+
+              # Get the memoryview from PyBuffer using the existing C++ method
+              # This returns a 1-D memoryview of the raw buffer
+              raw_memview = PyBufferType._GetArrayViewFromImage(self)
+
+              # Get shape information - matches the logic in PyBuffer.i.in
+              itksize = self.GetBufferedRegion().GetSize()
+              dim = len(itksize)
+              shape = [int(itksize[idx]) for idx in range(dim)]
+              
+              n_components = self.GetNumberOfComponentsPerPixel()
+              if n_components > 1 or isinstance(self, itk.VectorImage):
+                  # Prepend components dimension to shape list
+                  # After reversing, this becomes the last dimension (channels-last convention)
+                  shape = [n_components] + shape
+              
+              # Reverse to get C-order indexing (NumPy convention)
+              # This makes spatial dimensions come first, components last
+              shape.reverse()
+
+              # Get the pixel type for format string
+              # We need to extract the component type, not the pixel type
+              container_template = itk.template(self)
+              if container_template is None:
+                  raise BufferError("Cannot determine template parameters for Image")
+
+              # Extract pixel type (first template parameter of Image)
+              pixel_type = container_template[1][0]
+              
+              # For composite types (RGB, RGBA, Vector, etc.), get the component type
+              # by checking if the pixel type itself has template parameters
+              pixel_type_template = itk.template(pixel_type)
+              if pixel_type_template and len(pixel_type_template[1]) > 0:
+                  # Composite type - extract component type (first template parameter)
+                  component_type = pixel_type_template[1][0]
+                  pixel_code = component_type.short_name
+              else:
+                  # Scalar type - use directly
+                  pixel_code = pixel_type.short_name
+              
+              format = _get_formatstring(pixel_code)
+
+              # Cast the 1-D byte memoryview to the proper shape and format
+              return raw_memview.cast(format, shape=shape)
+
+          def __array__(self, dtype=None):
               import numpy as np
-              array = itk.array_from_image(self)
+              import sys
+              if sys.version_info >= (3, 12):
+                  array = np.asarray(self)
+              else:
+                  import itk
+                  array = itk.array_from_image(self)
               return np.asarray(array, dtype=dtype)
-      }
+      %}
+  }
+%enddef
+
+%define DECL_PYTHON_IMPORTIMAGECONTAINER_CLASS(swig_name)
+  %extend swig_name {
+      %pythoncode %{
+          def __buffer__(self, flags = 0, / ) -> memoryview:
+              """Return a buffer interface for the container.
+
+              This allows ImportImageContainer to be used with Python's buffer protocol,
+              enabling direct memory access from NumPy and other buffer-aware libraries.
+              """
+              import itk
+              # Get the pixel type from the container template parameters
+              # The container is templated as ImportImageContainer<IdentifierType, PixelType>
+              container_template = itk.template(self)
+              if container_template is None:
+                  raise BufferError("Cannot determine template parameters for ImportImageContainer")
+
+              # Extract pixel type (second template parameter)
+              pixel_type = container_template[1][1]
+
+              # Call the PyBuffer method to get the memory view
+              # We need to determine the appropriate PyBuffer type
+              try:
+                  # Try to get the PyBuffer class for this pixel type
+                  # PyBuffer is templated over Image types, use a 2D image as representative
+                  ImageType = itk.Image[pixel_type, 2]
+                  PyBufferType = itk.PyBuffer[ImageType]
+
+                  return PyBufferType._GetMemoryViewFromImportImageContainer(self)
+              except (AttributeError, KeyError) as e:
+                  raise BufferError(f"PyBuffer not available for this pixel type: {e}")
+      %}
   }
 %enddef
 
