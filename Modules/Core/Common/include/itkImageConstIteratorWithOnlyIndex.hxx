@@ -25,13 +25,11 @@ namespace itk
 //  Constructor
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageConstIteratorWithOnlyIndex<TImage>::ImageConstIteratorWithOnlyIndex(const TImage * ptr, const RegionType & region)
-  : m_Image(ptr)
-  , m_BeginIndex(region.GetIndex())
+ImageConstIteratorWithOnlyIndex<TImage>::ImageConstIteratorWithOnlyIndex(const TImage *, const RegionType & region)
+  : m_BeginIndex(region.GetIndex())
   , m_Region(region)
 {
   m_PositionIndex = m_BeginIndex;
-  std::copy_n(m_Image->GetOffsetTable(), ImageDimension + 1, m_OffsetTable);
 
   // Compute the end offset
   for (unsigned int i = 0; i < ImageDimension; ++i)

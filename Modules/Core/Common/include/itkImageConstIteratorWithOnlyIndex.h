@@ -246,9 +246,7 @@ public:
     return m_Remaining;
   }
 
-protected: // made protected so other iterators can access
-  typename TImage::ConstPointer m_Image{};
-
+protected:                            // made protected so other iterators can access
   IndexType m_PositionIndex{ { 0 } }; // Index where we currently are
   IndexType m_BeginIndex{ { 0 } };    // Index to start iterating over
   IndexType m_EndIndex{ { 0 } };      // Index to finish iterating:
@@ -256,8 +254,6 @@ protected: // made protected so other iterators can access
                                       // row, col, slice, etc....
 
   RegionType m_Region{}; // region to iterate over
-
-  OffsetValueType m_OffsetTable[ImageDimension + 1]{};
 
   bool m_Remaining{ false };
 };
