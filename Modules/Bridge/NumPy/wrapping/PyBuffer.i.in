@@ -103,7 +103,10 @@
             else:
                 imgview = itkPyBuffer@PyBufferTypes@._get_image_view_from_contiguous_array(ndarr, ndarr.shape[-1:0:-1], ndarr.shape[0])
         else:
-            imgview = itkPyBuffer@PyBufferTypes@._get_image_view_from_contiguous_array(ndarr, ndarr.shape[::-1], 1)
+            if ndarr.flags['C_CONTIGUOUS']:
+                imgview = itkPyBuffer@PyBufferTypes@._get_image_view_from_contiguous_array(ndarr, ndarr.shape[::-1], 1)
+            else:
+                imgview = itkPyBuffer@PyBufferTypes@._get_image_view_from_contiguous_array(ndarr, ndarr.shape, 1)
 
         # Keep a reference
         imgview._SetBase(ndarr)

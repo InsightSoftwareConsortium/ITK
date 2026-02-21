@@ -418,6 +418,29 @@ assert np.all(arr == itk.array_from_image(image))
 arr_fortran = arr.copy(order="F")
 image = itk.GetImageViewFromArray(arr_fortran)
 assert np.array_equal(arr_fortran.shape, image.shape)
+# Test that image_from_array handles array.T correctly (F-contiguous arrays)
+test_arr = np.empty((1, 2, 3))
+image_from_arr = itk.image_from_array(test_arr)
+image_from_transpose = itk.image_from_array(test_arr.T)
+image_from_transpose_copy = itk.image_from_array(test_arr.T.copy())
+assert np.array_equal(
+    image_from_arr.shape, test_arr.shape
+), f"Expected shape {test_arr.shape}, got {image_from_arr.shape}"
+assert np.array_equal(
+    image_from_transpose.shape, test_arr.T.shape
+), f"Expected shape {test_arr.T.shape}, got {image_from_transpose.shape}"
+assert np.array_equal(
+    image_from_transpose_copy.shape, test_arr.T.shape
+), f"Expected shape {test_arr.T.shape}, got {image_from_transpose_copy.shape}"
+# Also verify with image_view_from_array for consistency
+image_view_from_arr = itk.image_view_from_array(test_arr)
+image_view_from_transpose = itk.image_view_from_array(test_arr.T)
+assert np.array_equal(
+    image_view_from_arr.shape, test_arr.shape
+), f"Expected shape {test_arr.shape}, got {image_view_from_arr.shape}"
+assert np.array_equal(
+    image_view_from_transpose.shape, test_arr.T.shape
+), f"Expected shape {test_arr.T.shape}, got {image_view_from_transpose.shape}"
 image = itk.image_from_array(arr, is_vector=True)
 assert image.GetImageDimension() == 2
 image = itk.GetImageViewFromArray(arr, is_vector=True)
