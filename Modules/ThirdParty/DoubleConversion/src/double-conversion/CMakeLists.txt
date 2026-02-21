@@ -19,7 +19,6 @@ if("${DOUBLE_CONVERSION_CORRECT_DOUBLE_OPERATIONS}" MATCHES "^${DOUBLE_CONVERSIO
   message(STATUS "Double correction test returned: ${_double_correction_out}")
 endif()
 configure_file(double-conversion-configure.h.in double-conversion-configure.h)
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(headers
   bignum-dtoa.h
@@ -49,6 +48,12 @@ add_library(itkdouble-conversion
   strtod.cc
   ${headers}
 )
+target_link_directories(itkdouble-conversion 
+  PUBLIC
+   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+   $<INSTALL_INTERFACE:${ITKDoubleConversion_INSTALL_INCLUDE_DIR}>
+)
 
 if(ITK_LIBRARY_PROPERTIES)
   set_target_properties(itkdouble-conversion PROPERTIES ${ITK_LIBRARY_PROPERTIES})
@@ -58,8 +63,6 @@ itk_module_target(itkdouble-conversion NO_INSTALL)
 
 #
 # install command to set up library install
-# given the above PUBLIC_HEADER property set, this
-# pulls along all the header files with the library.
 install(TARGETS itkdouble-conversion
   EXPORT ${ITKDoubleConversion-targets}
   RUNTIME DESTINATION "${ITKDoubleConversion_INSTALL_RUNTIME_DIR}" COMPONENT Applications
