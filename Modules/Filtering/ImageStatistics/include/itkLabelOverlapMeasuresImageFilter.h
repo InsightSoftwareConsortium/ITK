@@ -20,12 +20,12 @@
 
 #include "itkImageSink.h"
 #include "itkNumericTraits.h"
+#include "itkLabelOverlapLabelSetMeasures.h"
 #include <mutex>
 #include <unordered_map>
 
 namespace itk
 {
-
 /** \class LabelOverlapMeasuresImageFilter
  * \brief Computes overlap measures between the same set of labels of
  * pixels of two images. Background is assumed to be 0.
@@ -71,25 +71,14 @@ public:
   /** Type to use for computations. */
   using RealType = typename NumericTraits<LabelType>::RealType;
 
-  /** \class LabelSetMeasures
-   * \brief Metrics stored per label
-   * \ingroup ITKImageStatistics
-   */
-  class LabelSetMeasures
-  {
-  public:
-    // default constructor/copy/move etc...
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  /** Type to use for computations. */
+  using LabelSetMeasures = LabelOverlapLabelSetMeasures;
+#endif // !ITK_FUTURE_LEGACY_REMOVE
 
-    SizeValueType m_Source{ 0 };
-    SizeValueType m_Target{ 0 };
-    SizeValueType m_Union{ 0 };
-    SizeValueType m_Intersection{ 0 };
-    SizeValueType m_SourceComplement{ 0 };
-    SizeValueType m_TargetComplement{ 0 };
-  };
 
   /** Type of the map used to store data per label */
-  using MapType = std::unordered_map<LabelType, LabelSetMeasures>;
+  using MapType = std::unordered_map<LabelType, LabelOverlapLabelSetMeasures>;
   using MapIterator = typename MapType::iterator;
   using MapConstIterator = typename MapType::const_iterator;
 
