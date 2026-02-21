@@ -18,7 +18,9 @@
 
 #include <iostream>
 #include "itkDisplacementFieldJacobianDeterminantFilter.h"
+#include "itkFlipImageFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
+#include "itkPermuteAxesImageFilter.h"
 #include "itkStdStreamStateSave.h"
 #include "itkTestingMacros.h"
 
@@ -36,23 +38,23 @@ TestDisplacementJacobianDeterminantValue()
   using VectorImageType = FieldType;
 
 
-  std::cout << "Create the dispacementfield image pattern." << std::endl;
+  std::cout << "Create the displacementField image pattern." << std::endl;
   VectorImageType::RegionType region;
   // NOTE:  Making the image size much larger than necessary in order to get
   //       some meaningful time measurements.  Simulate a 256x256x256 image.
   constexpr VectorImageType::SizeType size{ 4096, 4096 };
   region.SetSize(size);
 
-  auto dispacementfield = VectorImageType::New();
-  dispacementfield->SetLargestPossibleRegion(region);
-  dispacementfield->SetBufferedRegion(region);
-  dispacementfield->Allocate();
+  auto displacementField = VectorImageType::New();
+  displacementField->SetLargestPossibleRegion(region);
+  displacementField->SetBufferedRegion(region);
+  displacementField->Allocate();
 
   VectorType values;
   values[0] = 0;
   values[1] = 0;
   using Iterator = itk::ImageRegionIteratorWithIndex<VectorImageType>;
-  for (Iterator inIter(dispacementfield, region); !inIter.IsAtEnd(); ++inIter)
+  for (Iterator inIter(displacementField, region); !inIter.IsAtEnd(); ++inIter)
   {
     const unsigned int i = inIter.GetIndex()[0];
     const unsigned int j = inIter.GetIndex()[1];
@@ -94,7 +96,7 @@ TestDisplacementJacobianDeterminantValue()
 #endif
   ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
 
-  filter->SetInput(dispacementfield);
+  filter->SetInput(displacementField);
   filter->Update();
 
 
@@ -118,7 +120,113 @@ TestDisplacementJacobianDeterminantValue()
   }
   else
   {
-    std::cout << "Test passed." << std::endl;
+    std::cout << "Determinant value test passed" << std::endl;
+  }
+
+  // Now test that the determinant is consistent if the voxel space is different, but the physical space is the same.
+
+  // Define physical point to test
+  itk::Point<double, 2> physPt;
+  displacementField->TransformIndexToPhysicalPoint(index, physPt);
+
+  // Use this function to get the determinant at a specified physical point (it will be a different index between tests)
+  auto GetDeterminantAtPoint = [](FieldType::Pointer image, const itk::Point<double, 2> & pt) -> float {
+    auto filter = FilterType::New();
+    filter->SetInput(image);
+    filter->SetUseImageSpacing(true);
+    filter->Update();
+
+    itk::Index<2> mappedIdx = image->TransformPhysicalPointToIndex(pt);
+
+    return filter->GetOutput()->GetPixel(mappedIdx);
+  };
+
+  const float detOriginal = GetDeterminantAtPoint(displacementField, physPt);
+
+  // Check that this is the same as above, just to be sure the function above works
+  if (itk::Math::abs(detOriginal - expectedJacobianDeterminant) > epsilon)
+  {
+    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr << "Test failed " << std::endl;
+    std::cerr << "Error in pixel value at physical point " << physPt << std::endl;
+    std::cerr << "Expected value " << detOriginal << std::endl;
+    std::cerr << " differs from " << expectedJacobianDeterminant;
+    std::cerr << " by more than " << epsilon << std::endl;
+    testPassed = false;
+  }
+
+  using PermuteFilterType = itk::PermuteAxesImageFilter<FieldType>;
+  auto permute = PermuteFilterType::New();
+
+  PermuteFilterType::PermuteOrderArrayType order;
+  order[0] = 1;
+  order[1] = 0; // swap X <-> Y
+  permute->SetOrder(order);
+  permute->SetInput(displacementField);
+  permute->Update();
+
+  auto displacementFieldPermuted = permute->GetOutput();
+
+  // Adjust direction to match permutation
+  itk::Matrix<double, 2, 2> origDir = displacementField->GetDirection();
+  itk::Matrix<double, 2, 2> newDirPermute;
+  newDirPermute[0][0] = origDir[1][0];
+  newDirPermute[0][1] = origDir[1][1];
+  newDirPermute[1][0] = origDir[0][0];
+  newDirPermute[1][1] = origDir[0][1];
+
+  displacementFieldPermuted->SetDirection(newDirPermute);
+  displacementFieldPermuted->SetOrigin(displacementField->GetOrigin());
+  displacementFieldPermuted->SetSpacing(displacementField->GetSpacing());
+
+  const float detPermuted = GetDeterminantAtPoint(displacementFieldPermuted, physPt);
+
+  using FlipFilterType = itk::FlipImageFilter<FieldType>;
+  auto flip = FlipFilterType::New();
+
+  FlipFilterType::FlipAxesArrayType flipAxes;
+  flipAxes[0] = true;  // Flip X
+  flipAxes[1] = false; // Keep Y
+  flip->SetFlipAxes(flipAxes);
+  flip->SetInput(displacementField);
+  flip->FlipAboutOriginOff();
+  flip->Update();
+
+  auto displacementFieldFlip = flip->GetOutput();
+
+  // Adjust direction to compensate flip
+  itk::Matrix<double, 2, 2> flipMat;
+  flipMat.SetIdentity();
+  flipMat[0][0] = -1.0;
+
+  itk::Matrix<double, 2, 2> newDirFlip = flipMat * displacementField->GetDirection();
+
+  displacementFieldFlip->SetDirection(newDirFlip);
+
+  const float detFlipped = GetDeterminantAtPoint(displacementFieldFlip, physPt);
+
+  std::cout << "Determinant at point " << physPt << ":" << std::endl;
+  std::cout << "  Original: " << detOriginal << std::endl;
+  std::cout << "  Permuted: " << detPermuted << std::endl;
+  std::cout << "  Flipped:  " << detFlipped << std::endl;
+
+  constexpr double delta = 1e-13;
+
+  if (itk::Math::abs(detPermuted - detOriginal) > delta)
+  {
+    std::cerr << "Test failed: determinant differs after Permute." << std::endl;
+    testPassed = false;
+  }
+
+  if (itk::Math::abs(detFlipped - detOriginal) > delta)
+  {
+    std::cerr << "Test failed: determinant differs after Flip." << std::endl;
+    testPassed = false;
+  }
+
+  if (testPassed)
+  {
+    std::cout << "Test passed: determinant consistent after Permute and Flip." << std::endl;
   }
 
   return testPassed;
