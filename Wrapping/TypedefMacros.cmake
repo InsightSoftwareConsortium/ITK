@@ -149,7 +149,7 @@ macro(itk_wrap_module library_name)
   set(
     WRAPPER_LIBRARY_LINK_LIBRARIES
     ${ITK_LIBRARIES}
-    ${${itk-module}_LIBRARIES}
+    ${ITK_LIBRARY_NAMESPACE}::${library_name}Module
   )
 
   # WRAPPER_SUBMODULE_ORDER. List of *.wrap submodules in the source dir
