@@ -35,7 +35,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
     itkExceptionStringMacro("Fixed image has not been assigned");
   }
 
-  using FixedIteratorType = itk::ImageRegionConstIteratorWithIndex<FixedImageType>;
+  using FixedIteratorType = ImageRegionConstIteratorWithIndex<FixedImageType>;
 
   FixedIteratorType ti(fixedImage, this->GetFixedImageRegion());
 
@@ -135,7 +135,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivativ
 
   const unsigned int dimension = FixedImageType::ImageDimension;
 
-  using FixedIteratorType = itk::ImageRegionConstIteratorWithIndex<FixedImageType>;
+  using FixedIteratorType = ImageRegionConstIteratorWithIndex<FixedImageType>;
 
   FixedIteratorType ti(fixedImage, this->GetFixedImageRegion());
 
@@ -318,7 +318,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
 
   const unsigned int dimension = FixedImageType::ImageDimension;
 
-  using FixedIteratorType = itk::ImageRegionConstIteratorWithIndex<FixedImageType>;
+  using FixedIteratorType = ImageRegionConstIteratorWithIndex<FixedImageType>;
 
   FixedIteratorType ti(fixedImage, this->GetFixedImageRegion());
 

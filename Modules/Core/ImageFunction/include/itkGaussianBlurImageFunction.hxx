@@ -231,8 +231,8 @@ GaussianBlurImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType
   typename InternalImageType::RegionType regionS = region;
   regionS.Crop(inputImage->GetBufferedRegion());
 
-  itk::ImageLinearConstIteratorWithIndex<InputImageType> it(inputImage, regionS);
-  itk::ImageLinearIteratorWithIndex<InternalImageType>   itN(m_InternalImage, regionN);
+  ImageLinearConstIteratorWithIndex<InputImageType> it(inputImage, regionS);
+  ImageLinearIteratorWithIndex<InternalImageType>   itN(m_InternalImage, regionN);
   it.SetDirection(1);
   itN.SetDirection(1);
   it.GoToBeginOfLine();
@@ -266,7 +266,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType
     m_OperatorInternalImageFunction->SetInputImage(m_InternalImage);
     m_OperatorInternalImageFunction->SetOperator(operatorArray[direction]);
 
-    itk::ImageLinearIteratorWithIndex<InternalImageType> itr(m_InternalImage, region);
+    ImageLinearIteratorWithIndex<InternalImageType> itr(m_InternalImage, region);
 
     unsigned int dir = direction + 1;
     if (dir == Self::ImageDimension)

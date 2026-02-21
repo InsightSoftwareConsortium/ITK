@@ -36,8 +36,8 @@ ImageAlgorithm::ReferenceCopy(const InputImageType *                       inIma
 {
   if (inRegion.GetSize()[0] == outRegion.GetSize()[0])
   {
-    itk::ImageScanlineConstIterator<InputImageType> it(inImage, inRegion);
-    itk::ImageScanlineIterator                      ot(outImage, outRegion);
+    ImageScanlineConstIterator<InputImageType> it(inImage, inRegion);
+    ImageScanlineIterator                      ot(outImage, outRegion);
 
     while (!it.IsAtEnd())
     {
@@ -53,8 +53,8 @@ ImageAlgorithm::ReferenceCopy(const InputImageType *                       inIma
     return;
   }
 
-  itk::ImageRegionConstIterator<InputImageType> it(inImage, inRegion);
-  itk::ImageRegionIterator<OutputImageType>     ot(outImage, outRegion);
+  ImageRegionConstIterator<InputImageType> it(inImage, inRegion);
+  ImageRegionIterator<OutputImageType>     ot(outImage, outRegion);
 
   while (!it.IsAtEnd())
   {

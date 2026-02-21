@@ -142,8 +142,8 @@ FFTWComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::ThreadedGenerat
   const typename OutputImageType::SizeType & outputSize = outputPtr->GetRequestedRegion().GetSize();
   const unsigned int                         lineSize = outputSize[this->m_Direction];
 
-  using InputIteratorType = itk::ImageLinearConstIteratorWithIndex<InputImageType>;
-  using OutputIteratorType = itk::ImageLinearIteratorWithIndex<OutputImageType>;
+  using InputIteratorType = ImageLinearConstIteratorWithIndex<InputImageType>;
+  using OutputIteratorType = ImageLinearIteratorWithIndex<OutputImageType>;
   InputIteratorType inputIt(inputPtr, outputRegion);
   // the output region should be the same as the input region in the non-fft directions
   OutputIteratorType outputIt(outputPtr, outputRegion);

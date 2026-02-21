@@ -85,7 +85,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
 
   /** Iterate through the fixed image and set the true
    *  max and min for the fixed image. */
-  itk::ImageRegionConstIteratorWithIndex<TFixedImage> fi(this->m_FixedImage, this->m_FixedImage->GetRequestedRegion());
+  ImageRegionConstIteratorWithIndex<TFixedImage> fi(this->m_FixedImage, this->m_FixedImage->GetRequestedRegion());
 
   /** \todo multi-thread me */
   while (!fi.IsAtEnd())
@@ -111,8 +111,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
   }
   /** Iterate through the moving image and set the true
    * max and min for the moving image. */
-  itk::ImageRegionConstIteratorWithIndex<TMovingImage> mi(this->m_MovingImage,
-                                                          this->m_MovingImage->GetBufferedRegion());
+  ImageRegionConstIteratorWithIndex<TMovingImage> mi(this->m_MovingImage, this->m_MovingImage->GetBufferedRegion());
 
   while (!mi.IsAtEnd())
   {

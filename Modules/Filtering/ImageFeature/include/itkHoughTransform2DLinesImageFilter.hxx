@@ -250,9 +250,8 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::GetLines() 
     const InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
     using MinMaxCalculatorType = MinimumMaximumImageCalculator<InternalImageType>;
-    auto                                        minMaxCalculator = MinMaxCalculatorType::New();
-    itk::ImageRegionIterator<InternalImageType> it_input(postProcessImage,
-                                                         postProcessImage->GetLargestPossibleRegion());
+    auto                                   minMaxCalculator = MinMaxCalculatorType::New();
+    ImageRegionIterator<InternalImageType> it_input(postProcessImage, postProcessImage->GetLargestPossibleRegion());
 
 
     itk::Index<2> index;
