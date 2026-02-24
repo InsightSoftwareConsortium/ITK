@@ -98,19 +98,6 @@ endif()
 # Load factory registration manager functions
 include( "${ITK_CMAKE_DIR}/ITKFactoryRegistration.cmake" )
 
-# Add configuration with FFTW
-set(ITK_USE_FFTWD "@ITK_USE_FFTWD@")
-set(ITK_USE_FFTWF "@ITK_USE_FFTWF@")
-set(ITK_USE_SYSTEM_FFTW "@ITK_USE_SYSTEM_FFTW@")
-set(ITK_FFTW_INCLUDE_PATH "@FFTW_INCLUDE_PATH@")
-set(ITK_FFTW_LIBDIR "@FFTW_LIBDIR@")
-
-# Add FFTW include and library directories
-if (ITK_USE_FFTWF OR ITK_USE_FFTWD)
-  set(ITK_INCLUDE_DIRS ${ITK_INCLUDE_DIRS} "${ITK_FFTW_INCLUDE_PATH}")
-  set(ITK_LIBRARY_DIRS ${ITK_LIBRARY_DIRS} "${ITK_FFTW_LIBDIR}")
-endif()
-
 # Add configuration with GPU
 set(ITK_USE_GPU "@ITK_USE_GPU@")
 

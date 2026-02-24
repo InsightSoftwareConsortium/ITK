@@ -12,6 +12,7 @@ set(_fft_backends "FFTImageFilterInit::Vnl")
 if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
   # Prepend so that FFTW constructor is preferred
   list(PREPEND _fft_backends "FFTImageFilterInit::FFTW")
+  set(ITK_USE_FFTW_MODULE ITKFFTW)
 endif()
 
 itk_module(
@@ -19,6 +20,7 @@ itk_module(
   ENABLE_SHARED
   DEPENDS
     ITKCommon
+    ${ITK_USE_FFTW_MODULE}
   COMPILE_DEPENDS
     ITKImageGrid
   TEST_DEPENDS
