@@ -882,7 +882,7 @@ install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/Eigen3Config.cmake
 # Install files (used for both eigen_external and eigen_internal)
 install(
   DIRECTORY   "${CMAKE_CURRENT_SOURCE_DIR}/Eigen/"
-  DESTINATION "${INCLUDE_INSTALL_DIR}/itkeigen/Eigen"
+  DESTINATION "${ITK3P_INSTALL_INCLUDE_DIR}/itkeigen/Eigen"
   PATTERN "*.txt" EXCLUDE)
 
 ######################### eigen_internal #####################################
@@ -896,8 +896,6 @@ add_library (ITKInternalEigen3::Eigen ALIAS eigen_internal)
 # This would wrongly enforce EIGEN_MPL2_ONLY to other libraries using Eigen.
 # We wrap this definition in ITK_USE_EIGEN_MPL2_ONLY, and only enabling it internally in the dashboards and CI,
 # to avoid introducing GPL code from Eigen3 internally in ITK.
-option(ITK_USE_EIGEN_MPL2_ONLY "Set compile definition EIGEN_MPL2_ONLY for ITKInternalEigen3." OFF)
-mark_as_advanced(ITK_USE_EIGEN_MPL2_ONLY)
 
 if(ITK_USE_EIGEN_MPL2_ONLY)
   target_compile_definitions (eigen_internal INTERFACE "EIGEN_MPL2_ONLY")
@@ -907,41 +905,10 @@ endif()
 #   #include <itkeigen/Eigen/x>
 # INSTALL: headers require pre-prend itkeigen/Eigen/X.
 target_include_directories (eigen_internal SYSTEM INTERFACE
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
-  # $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/..>
-  $<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${ITK3P_INSTALL_INCLUDE_DIR}/itkeigen>;"
   )
 
 # Export as title case Eigen
-set_target_properties (eigen_internal PROPERTIES EXPORT_NAME Eigen)
-install (TARGETS eigen_internal EXPORT ITKInternalEigen3Targets)
+install (TARGETS eigen_internal EXPORT ${ITK3P_INSTALL_EXPORT_NAME})
 
-set(EIGEN3_TARGETS_FILE ITKInternalEigen3Targets.cmake)
-configure_package_config_file (
-  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Eigen3Config.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/ITKInternalEigen3Config.cmake
-  INSTALL_DESTINATION ${CMAKEPACKAGE_INSTALL_DIR}
-  NO_CHECK_REQUIRED_COMPONENTS_MACRO # Eigen does not provide components
-  )
-# Remove CMAKE_SIZEOF_VOID_P from Eigen3ConfigVersion.cmake since Eigen does
-# not depend on architecture specific settings or libraries. More
-# specifically, an Eigen3Config.cmake generated from a 64 bit target can be
-# used for 32 bit targets as well (and vice versa).
-set (_Eigen3_CMAKE_SIZEOF_VOID_P ${CMAKE_SIZEOF_VOID_P})
-unset (CMAKE_SIZEOF_VOID_P)
-write_basic_package_version_file (ITKInternalEigen3ConfigVersion.cmake
-  VERSION ${EIGEN_VERSION_NUMBER}
-  COMPATIBILITY SameMajorVersion)
-set (CMAKE_SIZEOF_VOID_P ${_Eigen3_CMAKE_SIZEOF_VOID_P})
-# The Eigen target will be located in the Eigen3 namespace. Other CMake
-# targets can refer to it using Eigen3::Eigen.
-export (TARGETS eigen_internal NAMESPACE ITKInternalEigen3:: FILE ITKInternalEigen3Targets.cmake)
-install (EXPORT ITKInternalEigen3Targets NAMESPACE ITKInternalEigen3:: DESTINATION ${CMAKEPACKAGE_INSTALL_DIR})
-# Files already installed in eigen_external
-# install(
-#   DIRECTORY   "${CMAKE_CURRENT_SOURCE_DIR}/Eigen/"
-#   DESTINATION "${INCLUDE_INSTALL_DIR}/itkeigen/Eigen"
-#   PATTERN "*.txt" EXCLUDE)
-install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/ITKInternalEigen3Config.cmake
-  ${CMAKE_CURRENT_BINARY_DIR}/ITKInternalEigen3ConfigVersion.cmake
-  DESTINATION ${CMAKEPACKAGE_INSTALL_DIR} )
