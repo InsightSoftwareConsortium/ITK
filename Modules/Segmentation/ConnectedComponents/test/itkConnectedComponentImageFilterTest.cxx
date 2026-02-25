@@ -24,6 +24,7 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 #include <algorithm> // For generate.
+#include <cstdint>   // For uint32_t.
 #include <random>    // For mt19937.
 
 int
@@ -125,18 +126,20 @@ itkConnectedComponentImageFilterTest(int argc, char * argv[])
   std::vector<RGBPixelType> colormap;
   colormap.resize(numObjects + 1);
 
-  using RGBComponentType = RGBPixelType::ComponentType;
-  constexpr auto maxRGBComponentValue = std::numeric_limits<RGBComponentType>::max();
-
   constexpr std::mt19937::result_type randomSeed{ 1031571 };
   std::mt19937                        randomNumberEngine(randomSeed);
-  std::uniform_int_distribution<>     randomNumberDistribution(maxRGBComponentValue / 3, maxRGBComponentValue);
 
   for (auto & i : colormap)
   {
     RGBPixelType px;
-    std::generate(px.begin(), px.end(), [&randomNumberEngine, &randomNumberDistribution] {
-      return static_cast<RGBComponentType>(randomNumberDistribution(randomNumberEngine));
+    std::generate(px.begin(), px.end(), [&randomNumberEngine] {
+      using RGBComponentType = RGBPixelType::ComponentType;
+      constexpr uint32_t maxValue{ std::numeric_limits<RGBComponentType>::max() };
+      constexpr uint32_t minValue{ maxValue / 3 };
+      // Modulo reduction is intentional: it accepts a negligible bias
+      // (~1 in 2^32 for an 8-bit range) in exchange for cross-stdlib
+      // determinism, which std::uniform_int_distribution does not provide.
+      return static_cast<RGBComponentType>(randomNumberEngine() % (maxValue - minValue + 1) + minValue);
     });
 
     i = px;
