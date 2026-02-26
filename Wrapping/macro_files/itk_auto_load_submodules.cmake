@@ -106,7 +106,7 @@ function(generate_castxml_commandline_flags)
   list(APPEND include_dir_list ${ITK_INCLUDE_DIRS})
   list(REMOVE_DUPLICATES include_dir_list)
 
-  # CONFIG_CASTXML_INC_CONTENTS - variable used for building contents to write with configure_file()
+  # CONFIG_CASTXML_INC_CONTENTS - variable used for building contents to write with file(GENERATE)
   unset(CONFIG_CASTXML_INC_CONTENTS)
   foreach(dir ${include_dir_list})
     set(
@@ -116,6 +116,23 @@ function(generate_castxml_commandline_flags)
   endforeach()
   unset(include_dir_list)
 
+  foreach(_depend IN LISTS WRAPPER_LIBRARY_LINK_LIBRARIES)
+    if(TARGET ${_depend})
+      set(
+        CONFIG_CASTXML_INC_CONTENTS
+        "${CONFIG_CASTXML_INC_CONTENTS}$<LIST:JOIN,$<LIST:TRANSFORM,$<TARGET_PROPERTY:${_depend},INTERFACE_INCLUDE_DIRECTORIES>,REPLACE,^(.+)$,\"-I\\1\">,\n>\n"
+      )
+      set(
+        CONFIG_CASTXML_INC_CONTENTS
+        "${CONFIG_CASTXML_INC_CONTENTS}$<LIST:JOIN,$<LIST:TRANSFORM,$<TARGET_PROPERTY:${_depend},INTERFACE_SYSTEM_INCLUDE_DIRECTORIES>,REPLACE,^(.+)$,\"-isystem\" \"\\1\">,\n>\n"
+      )
+      set(
+        CONFIG_CASTXML_INC_CONTENTS
+        "${CONFIG_CASTXML_INC_CONTENTS}$<LIST:JOIN,$<LIST:TRANSFORM,$<TARGET_PROPERTY:${_depend},INTERFACE_COMPILE_DEFINITIONS>,REPLACE,^(.+)$,\"-D\\1\">,\n>\n"
+      )
+    endif()
+  endforeach()
+  unset(_module_depends)
   set(
     CONFIG_CASTXML_INC_CONTENTS
     "${CONFIG_CASTXML_INC_CONTENTS}-Qunused-arguments\n"
@@ -160,15 +177,16 @@ function(generate_castxml_commandline_flags)
     endif()
   endforeach()
 
-  #Write compile definitions and include paths to file.  @CONFIG_CASTXML_INC_CONTENTS@ expanded in configure_file
+  #Write compile definitions and include paths to file. Generator expressions evaluated at generation time.
   set(
     castxml_inc_file
-    "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml_inputs/${WRAPPER_LIBRARY_NAME}.castxml.inc"
+    "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml_inputs/${_each_submodule_this_module}.castxml.inc"
   )
-  configure_file(
-    "${ITK_WRAP_CASTXML_SOURCE_DIR}/cast_xml.inc.in"
+  file(
+    GENERATE
+    OUTPUT
     "${castxml_inc_file}"
-    @ONLY
+    CONTENT "${CONFIG_CASTXML_INC_CONTENTS}"
   )
   unset(CONFIG_CASTXML_INC_CONTENTS)
 
