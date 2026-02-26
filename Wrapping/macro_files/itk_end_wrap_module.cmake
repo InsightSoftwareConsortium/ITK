@@ -392,19 +392,7 @@ PyModule_AddObject(m, \"_C_API\", cAPIObject);
 ${DO_NOT_WAIT_FOR_THREADS_CALLS}
 "
       )
-    elseif(
-      "ITKCommon"
-        IN_LIST
-        WRAPPER_LIBRARY_LINK_LIBRARIES
-      OR
-        "${ITK_LIBRARY_NAMESPACE}::ITKCommon"
-          IN_LIST
-          WRAPPER_LIBRARY_LINK_LIBRARIES
-      OR
-        "${ITK_LIBRARY_NAMESPACE}::ITKCommonModule"
-          IN_LIST
-          WRAPPER_LIBRARY_LINK_LIBRARIES
-    )
+    elseif(NOT WRAPPER_LIBRARY_NAME STREQUAL "ITKPyBase")
       set(
         ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS
         "
