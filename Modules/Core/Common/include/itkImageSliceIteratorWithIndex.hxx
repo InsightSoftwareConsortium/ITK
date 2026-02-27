@@ -22,7 +22,7 @@
 namespace itk
 {
 template <typename TImage>
-ImageSliceIteratorWithIndex<TImage>::ImageSliceIteratorWithIndex(ImageType * ptr, const RegionType & region)
+ImageSliceIteratorWithIndex<TImage>::ImageSliceIteratorWithIndex(TImage * ptr, const RegionType & region)
   : ImageSliceConstIteratorWithIndex<TImage>(ptr, region)
 {}
 

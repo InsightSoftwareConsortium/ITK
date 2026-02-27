@@ -162,7 +162,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageConstIterator(const ImageType * ptr, const RegionType & region)
+  ImageConstIterator(const TImage * ptr, const RegionType & region)
     : m_Image(ptr)
     , m_Buffer(m_Image->GetBufferPointer())
     , m_PixelAccessor(ptr->GetPixelAccessor())

@@ -22,7 +22,7 @@
 namespace itk
 {
 template <typename TImage>
-ImageRandomIteratorWithIndex<TImage>::ImageRandomIteratorWithIndex(ImageType * ptr, const RegionType & region)
+ImageRandomIteratorWithIndex<TImage>::ImageRandomIteratorWithIndex(TImage * ptr, const RegionType & region)
   : ImageRandomConstIteratorWithIndex<TImage>(ptr, region)
 {}
 

@@ -235,7 +235,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageRandomNonRepeatingConstIteratorWithIndex(const ImageType * ptr, const RegionType & region);
+  ImageRandomNonRepeatingConstIteratorWithIndex(const TImage * ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRandomNonRepeatingConstIteratorWithIndex. Many routines return an ImageIterator but for a

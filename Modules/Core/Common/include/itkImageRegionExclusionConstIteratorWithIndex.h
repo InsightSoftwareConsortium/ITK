@@ -152,7 +152,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageRegionExclusionConstIteratorWithIndex(const ImageType * ptr, const RegionType & region);
+  ImageRegionExclusionConstIteratorWithIndex(const TImage * ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageRegionConstIteratorWithIndex
    * to an ImageRegionExclusionConstIteratorWithIndex. Many routines return an

@@ -90,7 +90,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageRegionReverseIterator(ImageType * ptr, const RegionType & region);
+  ImageRegionReverseIterator(TImage * ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageConstIterator to an
    * ImageRegionReverseIterator. Many routines return an ImageConstIterator but for a

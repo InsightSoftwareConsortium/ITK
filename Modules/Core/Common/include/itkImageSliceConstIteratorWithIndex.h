@@ -136,7 +136,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageSliceConstIteratorWithIndex(const ImageType * ptr, const RegionType & region)
+  ImageSliceConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
     : ImageConstIteratorWithIndex<TImage>(ptr, region)
     , m_PixelJump(0)
     , m_LineJump(0)

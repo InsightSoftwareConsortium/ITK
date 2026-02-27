@@ -166,7 +166,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageReverseConstIterator(const ImageType * ptr, const RegionType & region)
+  ImageReverseConstIterator(const TImage * ptr, const RegionType & region)
     : m_Image(ptr)
     , m_Region(region)
     , m_Buffer(m_Image->GetBufferPointer())

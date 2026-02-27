@@ -146,7 +146,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageRegionConstIterator(const ImageType * ptr, const RegionType & region)
+  ImageRegionConstIterator(const TImage * ptr, const RegionType & region)
     : ImageConstIterator<TImage>(ptr, region)
     , m_SpanBeginOffset(this->m_BeginOffset)
     , m_SpanEndOffset(this->m_BeginOffset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))

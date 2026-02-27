@@ -22,7 +22,7 @@
 namespace itk
 {
 template <typename TImage>
-ImageLinearIteratorWithIndex<TImage>::ImageLinearIteratorWithIndex(ImageType * ptr, const RegionType & region)
+ImageLinearIteratorWithIndex<TImage>::ImageLinearIteratorWithIndex(TImage * ptr, const RegionType & region)
   : ImageLinearConstIteratorWithIndex<TImage>(ptr, region)
 {}
 
