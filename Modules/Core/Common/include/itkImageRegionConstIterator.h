@@ -19,6 +19,7 @@
 #define itkImageRegionConstIterator_h
 
 #include "itkImageIterator.h"
+#include <type_traits> // For remove_const_t.
 
 namespace itk
 {
@@ -266,6 +267,12 @@ private:
   void
   Decrement(); // go back in a direction other than the fastest moving
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ImageRegionConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRegionConstIterator<std::remove_const_t<TImage>>;
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

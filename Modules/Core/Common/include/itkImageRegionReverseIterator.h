@@ -125,6 +125,12 @@ protected:
   operator=(const ImageRegionReverseConstIterator<TImage> & it);
   /** @ITKEndGrouping */
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ImageRegionReverseIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRegionReverseIterator<TImage>;
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -20,6 +20,7 @@
 
 #include "itkImageReverseConstIterator.h"
 #include "itkImageRegionIterator.h"
+#include <type_traits> // For remove_const_t.
 
 namespace itk
 {
@@ -347,6 +348,12 @@ protected:
   SizeValueType m_SpanBeginOffset{}; // offset to last pixel in the row
   SizeValueType m_SpanEndOffset{};   // offset to one pixel before the row
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ImageRegionReverseConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRegionReverseConstIterator<std::remove_const_t<TImage>>;
+
 } // end namespace itk
 
 #endif

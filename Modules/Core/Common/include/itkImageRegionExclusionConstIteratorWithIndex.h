@@ -19,6 +19,7 @@
 #define itkImageRegionExclusionConstIteratorWithIndex_h
 
 #include "itkImageRegionConstIteratorWithIndex.h"
+#include <type_traits> // For remove_const_t.
 
 namespace itk
 {
@@ -213,6 +214,12 @@ private:
   IndexType m_ExclusionBegin;
   IndexType m_ExclusionEnd;
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ImageRegionExclusionConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRegionExclusionConstIteratorWithIndex<std::remove_const_t<TImage>>;
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -19,6 +19,7 @@
 #define itkImageLinearConstIteratorWithIndex_h
 
 #include "itkImageConstIteratorWithIndex.h"
+#include <type_traits> // For remove_const_t.
 
 namespace itk
 {
@@ -233,6 +234,12 @@ private:
   OffsetValueType m_Jump{ 0 };
   unsigned int    m_Direction{ 0 };
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ImageLinearConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageLinearConstIteratorWithIndex<std::remove_const_t<TImage>>;
+
 
 //----------------------------------------------------------------------
 //  Go to next line

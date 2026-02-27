@@ -21,6 +21,7 @@
 #include "itkImage.h"
 #include "itkIndex.h"
 #include "itkNumericTraits.h"
+#include <type_traits> // For remove_const_t.
 
 namespace itk
 {
@@ -399,6 +400,12 @@ protected: // made protected so other iterators can access
   AccessorType        m_PixelAccessor{};
   AccessorFunctorType m_PixelAccessorFunctor{};
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ImageConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageConstIterator<std::remove_const_t<TImage>>;
+
 } // end namespace itk
 
 #endif
