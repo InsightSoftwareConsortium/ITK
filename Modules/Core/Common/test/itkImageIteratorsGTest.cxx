@@ -24,6 +24,11 @@
 #include "itkImageIteratorWithIndex.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkImageLinearIteratorWithIndex.h"
+#include "itkImageRandomConstIteratorWithIndex.h"
+#include "itkImageRandomConstIteratorWithOnlyIndex.h"
+#include "itkImageRandomIteratorWithIndex.h"
+#include "itkImageRandomNonRepeatingConstIteratorWithIndex.h"
+#include "itkImageRandomNonRepeatingIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionConstIteratorWithOnlyIndex.h"
@@ -105,6 +110,45 @@ CheckIteratorsConstructedAtBegin()
   (CheckConstructedAtBegin<TIteratorTemplate<itk::Image<int>>>(), ...);
   (CheckConstructedAtBegin<TIteratorTemplate<itk::Image<double, 3>>>(), ...);
 }
+
+
+template <template <typename> typename TIteratorTemplate, typename TImage>
+void
+CheckIteratorSupportsClassTemplateArgumentDeduction()
+{
+  using RegionType = typename TImage::RegionType;
+  using PointerType = typename TImage::Pointer;
+  static_assert(std::is_same_v<decltype(TIteratorTemplate(PointerType{}, RegionType{})),
+                               decltype(TIteratorTemplate<TImage>(PointerType{}, RegionType{}))>);
+}
+
+
+template <template <typename> typename TIteratorTemplate, typename TImage>
+void
+CheckConstIteratorSupportsClassTemplateArgumentDeduction()
+{
+  using RegionType = typename TImage::RegionType;
+  using ConstPointerType = typename TImage::ConstPointer;
+  static_assert(std::is_same_v<decltype(TIteratorTemplate(ConstPointerType{}, RegionType{})),
+                               decltype(TIteratorTemplate<TImage>(ConstPointerType{}, RegionType{}))>);
+}
+
+
+template <template <typename> typename... TIteratorTemplate>
+void
+CheckIteratorsSupportClassTemplateArgumentDeduction()
+{
+  (CheckIteratorSupportsClassTemplateArgumentDeduction<TIteratorTemplate, itk::Image<int>>(), ...);
+  (CheckIteratorSupportsClassTemplateArgumentDeduction<TIteratorTemplate, itk::Image<double, 3>>(), ...);
+}
+
+
+template <template <typename> typename... TIteratorTemplate>
+void
+CheckConstIteratorsSupportClassTemplateArgumentDeduction()
+{
+  (CheckConstIteratorSupportsClassTemplateArgumentDeduction<TIteratorTemplate, itk::Image<int>>(), ...);
+}
 } // namespace
 
 
@@ -133,4 +177,54 @@ TEST(ImageIterators, ConstructedAtBegin)
                                    itk::ImageScanlineIterator,
                                    itk::ImageSliceConstIteratorWithIndex,
                                    itk::ImageSliceIteratorWithIndex>();
+}
+
+
+// Checks that the iterator class templates support class template argument deduction (CTAD), when constructed by
+// `IteratorTemplate(ptr, region)`, with `ptr` being a `SmartPointer` to an image.
+TEST(ImageIterators, SupportClassTemplateArgumentDeduction)
+{
+  CheckIteratorsSupportClassTemplateArgumentDeduction<itk::ImageConstIterator,
+                                                      itk::ImageConstIteratorWithIndex,
+                                                      itk::ImageConstIteratorWithOnlyIndex,
+                                                      itk::ImageIterator,
+                                                      itk::ImageIteratorWithIndex,
+                                                      itk::ImageLinearConstIteratorWithIndex,
+                                                      itk::ImageLinearIteratorWithIndex,
+                                                      itk::ImageRandomConstIteratorWithIndex,
+                                                      itk::ImageRandomConstIteratorWithOnlyIndex,
+                                                      itk::ImageRandomIteratorWithIndex,
+                                                      itk::ImageRandomNonRepeatingConstIteratorWithIndex,
+                                                      itk::ImageRandomNonRepeatingIteratorWithIndex,
+                                                      itk::ImageRegionConstIterator,
+                                                      itk::ImageRegionConstIteratorWithIndex,
+                                                      itk::ImageRegionConstIteratorWithOnlyIndex,
+                                                      itk::ImageRegionExclusionConstIteratorWithIndex,
+                                                      itk::ImageRegionExclusionIteratorWithIndex,
+                                                      itk::ImageRegionIterator,
+                                                      itk::ImageRegionIteratorWithIndex,
+                                                      itk::ImageRegionReverseConstIterator,
+                                                      itk::ImageRegionReverseIterator,
+                                                      itk::ImageReverseConstIterator,
+                                                      itk::ImageReverseIterator,
+                                                      itk::ImageScanlineConstIterator,
+                                                      itk::ImageScanlineIterator,
+                                                      itk::ImageSliceConstIteratorWithIndex,
+                                                      itk::ImageSliceIteratorWithIndex>();
+
+  CheckConstIteratorsSupportClassTemplateArgumentDeduction<itk::ImageConstIterator,
+                                                           itk::ImageConstIteratorWithIndex,
+                                                           itk::ImageConstIteratorWithOnlyIndex,
+                                                           itk::ImageLinearConstIteratorWithIndex,
+                                                           itk::ImageRandomConstIteratorWithIndex,
+                                                           itk::ImageRandomConstIteratorWithOnlyIndex,
+                                                           itk::ImageRandomNonRepeatingConstIteratorWithIndex,
+                                                           itk::ImageRegionConstIterator,
+                                                           itk::ImageRegionConstIteratorWithIndex,
+                                                           itk::ImageRegionConstIteratorWithOnlyIndex,
+                                                           itk::ImageRegionExclusionConstIteratorWithIndex,
+                                                           itk::ImageRegionReverseConstIterator,
+                                                           itk::ImageReverseConstIterator,
+                                                           itk::ImageScanlineConstIterator,
+                                                           itk::ImageSliceConstIteratorWithIndex>();
 }
