@@ -102,8 +102,7 @@ function(generate_castxml_commandline_flags)
   ## ============================
 
   # create the files used to pass the file to include to castxml
-  get_directory_property(include_dir_list INCLUDE_DIRECTORIES)
-  list(APPEND include_dir_list ${ITK_INCLUDE_DIRS})
+  set(include_dir_list ${WRAPPER_LIBRARY_INCLUDE_DIRECTORIES})
   list(REMOVE_DUPLICATES include_dir_list)
 
   # CONFIG_CASTXML_INC_CONTENTS - variable used for building contents to write with file(GENERATE)
@@ -132,7 +131,6 @@ function(generate_castxml_commandline_flags)
       )
     endif()
   endforeach()
-  unset(_module_depends)
   set(
     CONFIG_CASTXML_INC_CONTENTS
     "${CONFIG_CASTXML_INC_CONTENTS}-Qunused-arguments\n"
@@ -146,29 +144,6 @@ function(generate_castxml_commandline_flags)
     "${CONFIG_CASTXML_INC_CONTENTS}-DITK_MANUAL_INSTANTIATION\n"
   )
 
-  # Get the compile_definitions of the module added with add_compile_definitions
-  # From the wrapping folder (current)
-  get_directory_property(compile_definition_list COMPILE_DEFINITIONS)
-  # And from the top module folder
-  set(module_folder "${WRAPPER_LIBRARY_SOURCE_DIR}/..")
-  get_directory_property(
-    compile_definition_list_at_module
-    DIRECTORY "${module_folder}"
-    COMPILE_DEFINITIONS
-  )
-  unset(module_folder)
-  # Merge and remove duplicates
-  list(APPEND compile_definition_list ${compile_definition_list_at_module})
-  unset(compile_definition_list_at_module)
-  list(REMOVE_DUPLICATES compile_definition_list)
-
-  foreach(def ${compile_definition_list})
-    set(
-      CONFIG_CASTXML_INC_CONTENTS
-      "${CONFIG_CASTXML_INC_CONTENTS}\"-D${def}\"\n"
-    )
-  endforeach()
-  unset(compile_definition_list)
   foreach(include_file ${WRAPPER_INCLUDE_FILES})
     if("${include_file}" MATCHES "<.*>")
       string(APPEND CASTXML_INCLUDES "#include ${include_file}\n")
