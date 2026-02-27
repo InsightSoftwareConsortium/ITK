@@ -109,7 +109,7 @@ CheckIteratorsConstructedAtBegin()
 
 
 // Checks that an iterator that is just constructed by `IteratorType(image, region)` is at the begin.
-TEST(ImageRegionIterator, IsConstructedAtBegin)
+TEST(ImageIterators, ConstructedAtBegin)
 {
   CheckIteratorsConstructedAtBegin<itk::ImageConstIterator,
                                    itk::ImageConstIteratorWithIndex,
