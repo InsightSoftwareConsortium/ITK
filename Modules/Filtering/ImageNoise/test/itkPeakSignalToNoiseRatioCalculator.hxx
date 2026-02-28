@@ -19,7 +19,6 @@
 #define itkPeakSignalToNoiseRatioCalculator_hxx
 
 
-#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
 
 namespace itk
@@ -53,8 +52,8 @@ PeakSignalToNoiseRatioCalculator<TInputImage>::Compute()
     return;
   }
 
-  ImageRegionConstIteratorWithIndex<InputImageType> iIt(m_Image, m_Image->GetRequestedRegion());
-  ImageRegionConstIteratorWithIndex<InputImageType> nIt(m_NoisyImage, m_NoisyImage->GetRequestedRegion());
+  ImageRegionConstIterator<InputImageType> iIt(m_Image, m_Image->GetRequestedRegion());
+  ImageRegionConstIterator<InputImageType> nIt(m_NoisyImage, m_NoisyImage->GetRequestedRegion());
 
   // init the values
   double         mse = 0;

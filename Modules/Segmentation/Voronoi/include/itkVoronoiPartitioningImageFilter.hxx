@@ -18,7 +18,7 @@
 #ifndef itkVoronoiPartitioningImageFilter_hxx
 #define itkVoronoiPartitioningImageFilter_hxx
 
-#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionIterator.h"
 
 namespace itk
 {
@@ -92,7 +92,7 @@ VoronoiPartitioningImageFilter<TInputImage, TOutputImage>::MakeSegmentBoundary()
 {
   const RegionType region = this->GetInput()->GetRequestedRegion();
 
-  ImageRegionIteratorWithIndex<OutputImageType> oit(this->GetOutput(), region);
+  ImageRegionIterator<OutputImageType> oit(this->GetOutput(), region);
   while (!oit.IsAtEnd())
   {
     oit.Set(0);
@@ -120,7 +120,7 @@ VoronoiPartitioningImageFilter<TInputImage, TOutputImage>::MakeSegmentObject()
 {
   const RegionType region = this->GetInput()->GetRequestedRegion();
 
-  ImageRegionIteratorWithIndex<OutputImageType> oit(this->GetOutput(), region);
+  ImageRegionIterator<OutputImageType> oit(this->GetOutput(), region);
   while (!oit.IsAtEnd())
   {
     oit.Set(0);

@@ -239,7 +239,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
       // on the output image of vectors
       m_ImageAdaptor->SelectNthElement(nc * ImageDimension + dim);
 
-      ImageRegionIteratorWithIndex<RealImageType> it(derivativeImage, derivativeImage->GetRequestedRegion());
+      ImageRegionIterator<RealImageType> it(derivativeImage, derivativeImage->GetRequestedRegion());
 
       ImageRegionIteratorWithIndex<OutputImageAdaptorType> ot(m_ImageAdaptor, m_ImageAdaptor->GetRequestedRegion());
 
