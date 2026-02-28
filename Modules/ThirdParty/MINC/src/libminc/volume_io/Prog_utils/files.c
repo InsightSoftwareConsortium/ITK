@@ -175,6 +175,7 @@ VIOAPI  VIO_BOOL  file_directory_exists(
 
     dir = extract_directory( filename );
 
+        av_freep(filename);
     if( string_length( dir ) != 0 )
         exists = file_exists( dir );
     else
