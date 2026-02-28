@@ -18,6 +18,7 @@
 
 #include "itkHessianRecursiveGaussianImageFilter.h"
 #include "itkHessian3DToVesselnessMeasureImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkTestingMacros.h"
 
 

@@ -19,6 +19,7 @@
 #include "itkHessianRecursiveGaussianImageFilter.h"
 #include "itkTensorFractionalAnisotropyImageFilter.h"
 #include "itkDiffusionTensor3D.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkTestingMacros.h"
 
 
