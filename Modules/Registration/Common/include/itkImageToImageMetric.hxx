@@ -19,6 +19,7 @@
 #define itkImageToImageMetric_hxx
 
 #include "itkImageRandomConstIteratorWithIndex.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkMath.h"
 #include "itkMakeUniqueForOverwrite.h"
 #include "itkPrintHelper.h"
