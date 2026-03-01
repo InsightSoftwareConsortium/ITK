@@ -42,6 +42,9 @@ namespace itk
  * For performance, no bound checking is performed during
  * access to the n-th element.
  *
+ * \note NthElementPixelAccessor does not have any user-declared "special member function",
+ * following the C++ Rule of Zero: the compiler will generate them if necessary.
+ *
  * \sa ImageAdaptor
  * \sa PixelAccessor
  *
@@ -100,13 +103,6 @@ public:
   }
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
-
-  /** Assignment operator */
-  NthElementPixelAccessor &
-  operator=(const NthElementPixelAccessor & accessor) = default;
-
-  /** Constructor */
-  NthElementPixelAccessor() = default;
 
 private:
   // Identifier of the N-th element to be accessed
