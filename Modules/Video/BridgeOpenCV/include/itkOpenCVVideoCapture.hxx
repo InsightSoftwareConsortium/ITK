@@ -19,7 +19,6 @@
 #define itkOpenCVVideoCapture_hxx
 
 #include "itkNumericTraits.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
 
 #include "opencv2/core/version.hpp"
 #if !defined(CV_VERSION_EPOCH) // OpenCV >= 3.0
@@ -164,7 +163,6 @@ OpenCVVideoCapture<TVideoStream>::retrieve(cv::Mat & image, int itkNotUsed(chann
   int                          matrixType = CV_MAKETYPE(depth, channels);
 
   // Copy the pixels -- There is probably a faster way to do this
-  ImageRegionConstIteratorWithIndex<FrameType> itkIter(frame, frame->GetLargestPossibleRegion());
 
   // Currently only support mono and RGB (unsigned) char pixels
   IplImage * iplImg = cvCreateImage(cvSize(size[0], size[1]), IPL_DEPTH_8U, channels);
