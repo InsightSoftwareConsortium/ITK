@@ -15,8 +15,4 @@ if(ITK_TRANSFORM_FACTORY_MAX_DIM LESS "3")
   )
 endif()
 
-add_definitions(
-  "-DITK_TRANSFORM_FACTORY_MAX_DIM=${ITK_TRANSFORM_FACTORY_MAX_DIM}"
-)
-
 itk_module_impl()
