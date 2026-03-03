@@ -8,3 +8,8 @@ set(
 )
 
 itk_module_add_library(ITKIOTransformBase ${ITKIOTransformBase_SRCS})
+target_compile_definitions(
+  ITKIOTransformBase
+  PRIVATE
+    "ITK_TRANSFORM_FACTORY_MAX_DIM=${ITK_TRANSFORM_FACTORY_MAX_DIM}"
+)
