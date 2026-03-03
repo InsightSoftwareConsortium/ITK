@@ -18,7 +18,7 @@
 #ifndef itkVoronoiSegmentationRGBImageFilter_hxx
 #define itkVoronoiSegmentationRGBImageFilter_hxx
 
-#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionIterator.h"
 #include <cmath>
 
 namespace itk
@@ -89,10 +89,10 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetInput(const Inp
   m_WorkingImage->SetRegions(region);
   m_WorkingImage->Allocate();
 
-  ImageRegionIteratorWithIndex<RGBHCVImage>         wit(m_WorkingImage, region);
-  ImageRegionConstIteratorWithIndex<InputImageType> iit(this->GetInput(), region);
-  PixelType                                         ipixel;
-  RGBHCVPixel                                       wpixel;
+  ImageRegionIterator<RGBHCVImage>         wit(m_WorkingImage, region);
+  ImageRegionConstIterator<InputImageType> iit(this->GetInput(), region);
+  PixelType                                ipixel;
+  RGBHCVPixel                              wpixel;
 
 
   const double X0 = m_MaxValueOfRGB * 0.982;
@@ -192,8 +192,8 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
 {
   const RegionType region = this->GetInput()->GetRequestedRegion();
 
-  ImageRegionConstIteratorWithIndex<BinaryObjectImage> ait(aprior, region);
-  ImageRegionIteratorWithIndex<RGBHCVImage>            iit(m_WorkingImage, region);
+  ImageRegionConstIterator<BinaryObjectImage> ait(aprior, region);
+  ImageRegionIterator<RGBHCVImage>            iit(m_WorkingImage, region);
 
   unsigned int minx = 0;
   unsigned int miny = 0;

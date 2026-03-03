@@ -18,7 +18,7 @@
 #ifndef itkEigenAnalysis2DImageFilter_hxx
 #define itkEigenAnalysis2DImageFilter_hxx
 
-#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"
 
 namespace itk
@@ -136,13 +136,13 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ge
 
   const EigenValueImageRegionType region = outputPtr1->GetRequestedRegion();
 
-  ImageRegionConstIteratorWithIndex<TInputImage> inputIt1(inputPtr1, region);
-  ImageRegionConstIteratorWithIndex<TInputImage> inputIt2(inputPtr2, region);
-  ImageRegionConstIteratorWithIndex<TInputImage> inputIt3(inputPtr3, region);
+  ImageRegionConstIterator<TInputImage> inputIt1(inputPtr1, region);
+  ImageRegionConstIterator<TInputImage> inputIt2(inputPtr2, region);
+  ImageRegionConstIterator<TInputImage> inputIt3(inputPtr3, region);
 
-  ImageRegionIteratorWithIndex<EigenValueImageType>  outputIt1(outputPtr1, region);
-  ImageRegionIteratorWithIndex<EigenValueImageType>  outputIt2(outputPtr2, region);
-  ImageRegionIteratorWithIndex<EigenVectorImageType> outputIt3(outputPtr3, region);
+  ImageRegionIterator<EigenValueImageType>  outputIt1(outputPtr1, region);
+  ImageRegionIterator<EigenValueImageType>  outputIt2(outputPtr2, region);
+  ImageRegionIterator<EigenVectorImageType> outputIt3(outputPtr3, region);
 
   constexpr EigenVectorType nullVector{};
 

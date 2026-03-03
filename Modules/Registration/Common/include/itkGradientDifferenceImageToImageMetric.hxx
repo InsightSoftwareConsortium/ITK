@@ -18,7 +18,7 @@
 #ifndef itkGradientDifferenceImageToImageMetric_hxx
 #define itkGradientDifferenceImageToImageMetric_hxx
 
-#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 
@@ -203,8 +203,8 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeMovedGra
   for (iDimension = 0; iDimension < FixedImageDimension; ++iDimension)
   {
 
-    ImageRegionConstIteratorWithIndex<MovedGradientImageType> iterate(m_MovedSobelFilters[iDimension]->GetOutput(),
-                                                                      this->GetFixedImageRegion());
+    ImageRegionConstIterator<MovedGradientImageType> iterate(m_MovedSobelFilters[iDimension]->GetOutput(),
+                                                             this->GetFixedImageRegion());
 
     gradient = iterate.Get();
 
@@ -242,8 +242,8 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeVariance
   for (iDimension = 0; iDimension < FixedImageDimension; ++iDimension)
   {
 
-    ImageRegionConstIteratorWithIndex<FixedGradientImageType> iterate(m_FixedSobelFilters[iDimension]->GetOutput(),
-                                                                      this->GetFixedImageRegion());
+    ImageRegionConstIterator<FixedGradientImageType> iterate(m_FixedSobelFilters[iDimension]->GetOutput(),
+                                                             this->GetFixedImageRegion());
 
     // Calculate the mean gradients
 
@@ -330,12 +330,12 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeMeasure(
     MovedGradientPixelType diff;
 
 
-    ImageRegionConstIteratorWithIndex<FixedGradientImageType> fixedIterator(
-      m_FixedSobelFilters[iDimension]->GetOutput(), this->GetFixedImageRegion());
+    ImageRegionConstIterator<FixedGradientImageType> fixedIterator(m_FixedSobelFilters[iDimension]->GetOutput(),
+                                                                   this->GetFixedImageRegion());
 
 
-    ImageRegionConstIteratorWithIndex<MovedGradientImageType> movedIterator(
-      m_MovedSobelFilters[iDimension]->GetOutput(), this->GetFixedImageRegion());
+    ImageRegionConstIterator<MovedGradientImageType> movedIterator(m_MovedSobelFilters[iDimension]->GetOutput(),
+                                                                   this->GetFixedImageRegion());
 
     m_FixedSobelFilters[iDimension]->UpdateLargestPossibleRegion();
     m_MovedSobelFilters[iDimension]->UpdateLargestPossibleRegion();

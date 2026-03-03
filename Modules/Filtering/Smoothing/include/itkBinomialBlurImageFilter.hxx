@@ -22,6 +22,7 @@
 #include "itkProgressReporter.h"
 #include "itkImageRegion.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionReverseIterator.h"
 #include <algorithm> // For min and max.
@@ -228,8 +229,8 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   // buffer iterator walks a region defined by the output
   using OutputIterator = ImageRegionIterator<TOutputImage>;
 
-  OutputIterator                           outIt(outputPtr, outputPtr->GetRequestedRegion());
-  ImageRegionIteratorWithIndex<TTempImage> tempIt2(tempPtr, outputPtr->GetRequestedRegion());
+  OutputIterator                  outIt(outputPtr, outputPtr->GetRequestedRegion());
+  ImageRegionIterator<TTempImage> tempIt2(tempPtr, outputPtr->GetRequestedRegion());
 
   for (outIt.GoToBegin(), tempIt2.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++tempIt2)
   {

@@ -18,7 +18,6 @@
 #ifndef itkRobustAutomaticThresholdCalculator_hxx
 #define itkRobustAutomaticThresholdCalculator_hxx
 
-#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
 
 
@@ -38,8 +37,8 @@ RobustAutomaticThresholdCalculator<TInputImage, TGradientImage>::Compute()
     itkExceptionStringMacro("Input or gradient image(s) not set.");
   }
 
-  ImageRegionConstIteratorWithIndex<InputImageType>    iIt(m_Input, m_Input->GetRequestedRegion());
-  ImageRegionConstIteratorWithIndex<GradientImageType> gIt(m_Gradient, m_Gradient->GetRequestedRegion());
+  ImageRegionConstIterator<InputImageType>    iIt(m_Input, m_Input->GetRequestedRegion());
+  ImageRegionConstIterator<GradientImageType> gIt(m_Gradient, m_Gradient->GetRequestedRegion());
 
   // Init the values
   double n = 0;

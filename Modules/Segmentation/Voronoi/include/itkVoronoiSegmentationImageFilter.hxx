@@ -18,7 +18,7 @@
 #ifndef itkVoronoiSegmentationImageFilter_hxx
 #define itkVoronoiSegmentationImageFilter_hxx
 
-#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionIterator.h"
 
 namespace itk
 {
@@ -88,8 +88,8 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Ta
 {
   const RegionType region = this->GetInput()->GetRequestedRegion();
 
-  ImageRegionConstIteratorWithIndex<BinaryObjectImage> ait(aprior, region);
-  ImageRegionConstIteratorWithIndex<InputImageType>    iit(this->GetInput(), region);
+  ImageRegionConstIterator<BinaryObjectImage> ait(aprior, region);
+  ImageRegionConstIterator<InputImageType>    iit(this->GetInput(), region);
 
   this->m_Size = this->GetInput()->GetRequestedRegion().GetSize();
 

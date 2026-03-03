@@ -19,7 +19,7 @@
 #define itkVoronoiSegmentationImageFilterBase_hxx
 
 
-#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionIterator.h"
 #include "itkVoronoiDiagram2DGenerator.h"
 #include "itkPrintHelper.h"
 #include <cmath>
@@ -519,7 +519,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 {
   const RegionType region = this->GetInput()->GetRequestedRegion();
 
-  ImageRegionIteratorWithIndex<OutputImageType> oit(this->GetOutput(), region);
+  ImageRegionIterator<OutputImageType> oit(this->GetOutput(), region);
   while (!oit.IsAtEnd())
   {
     oit.Set(0);
@@ -548,7 +548,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 {
   const RegionType region = this->GetInput()->GetRequestedRegion();
 
-  ImageRegionIteratorWithIndex<OutputImageType> oit(this->GetOutput(), region);
+  ImageRegionIterator<OutputImageType> oit(this->GetOutput(), region);
   while (!oit.IsAtEnd())
   {
     oit.Set(0);
@@ -923,7 +923,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 {
   const RegionType region = this->GetInput()->GetRequestedRegion();
 
-  ImageRegionIteratorWithIndex<VDImage> vdit(result, region);
+  ImageRegionIterator<VDImage> vdit(result, region);
   while (!vdit.IsAtEnd())
   {
     vdit.Set(0);

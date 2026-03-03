@@ -19,6 +19,7 @@
 #include "itkSpatialObjectWriter.h"
 #include "itkSpatialObjectReader.h"
 
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkMath.h"
 #include "itkTestingMacros.h"
 

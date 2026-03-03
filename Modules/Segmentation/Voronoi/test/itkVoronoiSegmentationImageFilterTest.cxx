@@ -18,6 +18,7 @@
 
 #include "itkVoronoiSegmentationImageFilter.h"
 #include "itkVoronoiSegmentationImageFilterBase.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkTestingMacros.h"
 #include <random> // For mt19937.
 

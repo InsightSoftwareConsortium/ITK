@@ -18,6 +18,7 @@
 
 #include "itkEigenAnalysis2DImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 template <unsigned int myDimension = 2,
           typename TComputeType = double,

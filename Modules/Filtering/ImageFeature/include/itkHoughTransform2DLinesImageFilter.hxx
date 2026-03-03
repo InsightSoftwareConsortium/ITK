@@ -18,7 +18,7 @@
 #ifndef itkHoughTransform2DLinesImageFilter_hxx
 #define itkHoughTransform2DLinesImageFilter_hxx
 
-#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageRegionIterator.h"
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkCastImageFilter.h"
@@ -196,9 +196,9 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::Simplify()
     ++image_it;
   }
 
-  ImageRegionConstIteratorWithIndex<OutputImageType> accusimple_it(m_SimplifyAccumulator,
-                                                                   m_SimplifyAccumulator->GetRequestedRegion());
-  ImageRegionIteratorWithIndex<OutputImageType>      accu_it(outputImage, outputImage->GetRequestedRegion());
+  ImageRegionConstIterator<OutputImageType> accusimple_it(m_SimplifyAccumulator,
+                                                          m_SimplifyAccumulator->GetRequestedRegion());
+  ImageRegionIterator<OutputImageType>      accu_it(outputImage, outputImage->GetRequestedRegion());
 
   while (!accusimple_it.IsAtEnd())
   {

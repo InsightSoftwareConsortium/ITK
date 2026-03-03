@@ -20,6 +20,7 @@
 #include "itkGradientImageFilter.h"
 #include "itkVectorMagnitudeImageFilter.h"
 #include "itkGradientVectorFlowImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkTestingMacros.h"
 
 int
