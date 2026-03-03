@@ -18,8 +18,8 @@
 #ifndef itkVanHerkGilWermanUtilities_hxx
 #define itkVanHerkGilWermanUtilities_hxx
 
-#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkIndexRange.h"
 #include "itkNeighborhoodAlgorithm.h"
 
 namespace itk
@@ -128,31 +128,16 @@ DoFace(typename TImage::ConstPointer             input,
 {
   // iterate over the face
 
-  // we can't use an iterator with a region outside the image. All we need here
-  // is to
-  // iterate over all the indexes of the face, without accessing the content of
-  // the image.
-  // I can't find any cleaner way, so we use a dumb image, not even allocated,
-  // to iterate
-  // over all the indexes inside the region.
-  //
-  // using ItType = ImageRegionConstIteratorWithIndex<TImage>;
-  // ItType it(input, face);
-
-  auto dumbImg = TImage::New();
-  dumbImg->SetRegions(face);
-
   TLine NormLine = line;
   NormLine.Normalize();
   // set a generous tolerance
   const float tol = 1.0 / LineOffsets.size();
   TFunction   m_TF;
-  for (unsigned int it = 0; it < face.GetNumberOfPixels(); ++it)
+  for (const auto & index : MakeIndexRange(face))
   {
-    const typename TImage::IndexType Ind = dumbImg->ComputeIndex(it);
-    unsigned int                     start = 0;
-    unsigned int                     end = 0;
-    if (FillLineBuffer<TImage, TBres, TLine>(input, Ind, NormLine, tol, LineOffsets, AllImage, pixbuffer, start, end))
+    unsigned int start = 0;
+    unsigned int end = 0;
+    if (FillLineBuffer<TImage, TBres, TLine>(input, index, NormLine, tol, LineOffsets, AllImage, pixbuffer, start, end))
     {
       const unsigned int len = end - start + 1;
       // compat
@@ -211,7 +196,7 @@ DoFace(typename TImage::ConstPointer             input,
           pixbuffer[j] = rExtBuffer[j - KernLen / 2];
         }
       }
-      CopyLineToImage<TImage, TBres>(output, Ind, LineOffsets, pixbuffer, start, end);
+      CopyLineToImage<TImage, TBres>(output, index, LineOffsets, pixbuffer, start, end);
     }
   }
 }
