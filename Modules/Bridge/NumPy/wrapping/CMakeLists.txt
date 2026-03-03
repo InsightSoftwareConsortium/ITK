@@ -1,5 +1,6 @@
 if(ITK_WRAP_PYTHON)
   itk_wrap_module(ITKBridgeNumPy)
+  list(APPEND WRAPPER_LIBRARY_INCLUDE_DIRECTORIES ${Python3_INCLUDE_DIRS})
   set(
     WRAPPER_SUBMODULE_ORDER
     itkPyBuffer
