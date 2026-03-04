@@ -503,11 +503,23 @@ install(TARGETS ITKEXPAT
   )
 
 install(FILES
+  ${ITKExpat_BINARY_DIR}/itk_expat.h
+  DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR}
+  COMPONENT Development)
+
+if(NOT ITK_USE_SYSTEM_EXPAT AND NOT ITK_FUTURE_LEGACY_REMOVE)
+  install(FILES
+    ${ITKExpat_BINARY_DIR}/expat.h # <- The ITKv5 backward compatibile work-around-file to route to itk_expat.h
+    DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR}
+    COMPONENT Development)
+endif()
+
+install(FILES
   ${ITK3P_EXPAT_BINARY_DIR}/itk_expat_mangle.h
   ${ITK3P_EXPAT_BINARY_DIR}/expat_config.h
   ${ITK3P_EXPAT_SOURCE_DIR}/lib/expat.h
   ${ITK3P_EXPAT_SOURCE_DIR}/lib/expat_external.h
-  DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR} # TODO: itk_expat.h #include "itkexpat/expat.h"
+  DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR}/itkexpat/lib
   COMPONENT Development)
 # ITK --stop
 
