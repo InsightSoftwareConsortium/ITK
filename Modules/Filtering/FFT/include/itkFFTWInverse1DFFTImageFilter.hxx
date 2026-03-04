@@ -145,8 +145,7 @@ FFTWInverse1DFFTImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(con
   {
     // copy the input line into our buffer
     inputIt.GoToBeginOfLine();
-    typename InputIteratorType::PixelType * inputBufferIt =
-      reinterpret_cast<typename InputIteratorType::PixelType *>(m_InputBufferArray[threadID]);
+    auto * inputBufferIt = reinterpret_cast<typename InputImageType::PixelType *>(m_InputBufferArray[threadID]);
     while (!inputIt.IsAtEndOfLine())
     {
       *inputBufferIt = inputIt.Get();
