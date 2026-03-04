@@ -7,4 +7,11 @@ TBB is Intel TBB threading library."
 
 # ITKTBB module needs to be defined even if ITK_USE_TBB
 # is OFF, otherwise ITK cannot compile.
-itk_module(ITKTBB DESCRIPTION "${DOCUMENTATION}" EXCLUDE_FROM_DEFAULT)
+itk_module(
+  ITKTBB
+  DESCRIPTION "${DOCUMENTATION}"
+  EXCLUDE_FROM_DEFAULT
+  SPDX_LICENSE "Apache-2.0"
+  SPDX_DOWNLOAD_LOCATION "https://github.com/oneapi-src/oneTBB"
+  SPDX_COPYRIGHT "Copyright Intel Corporation"
+)
