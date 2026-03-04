@@ -117,6 +117,14 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
     // std::cout << index0 << std::endl;
     ++ot;
   }
+  // Now we have walked through all the pixels of low priority,
+  // the next one should be outside the region.
+  if (subregion.IsInside(index0))
+  {
+    std::cerr << "Iterator in priority region test failed" << std::endl;
+    std::cerr << index0 << " is outside the region (should be in)" << region0 << std::endl;
+    return EXIT_FAILURE;
+  }
   std::cout << std::endl << "   Done ! " << std::endl;
 
   // Verification
@@ -138,6 +146,14 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
     }
     std::cout << index0 << std::endl;
     ++cot;
+  }
+  // Now we have walked through all the pixels of low priority,
+  // the next one should be outside the region.
+  if (subregion.IsInside(index0))
+  {
+    std::cerr << "Iterator in priority region test failed" << std::endl;
+    std::cerr << index0 << " is outside the region (should be in)" << region0 << std::endl;
+    return EXIT_FAILURE;
   }
   std::cout << "   Done ! " << std::endl;
 
@@ -307,14 +323,6 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
       ++cbot;
       ++count;
     }
-    // Now we have walked through all the pixels of low priority, next
-    // one should be outside the region.
-    if (subregion.IsInside(index0))
-    {
-      std::cerr << "Iterator in priority region test failed" << std::endl;
-      std::cerr << index0 << " is outside the region (should be in)" << region0 << std::endl;
-      return EXIT_FAILURE;
-    }
     std::cout << "   Done ! " << std::endl;
   }
   {
@@ -337,14 +345,6 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
       std::cout << index << std::endl;
       ++cbot;
       ++count;
-    }
-    // Now we have walked through all the pixels of low priority, next
-    // one should be outside the region.
-    if (subregion.IsInside(index0))
-    {
-      std::cerr << "Iterator in priority region test failed" << std::endl;
-      std::cerr << index0 << " is outside the region (should be in)" << region0 << std::endl;
-      return EXIT_FAILURE;
     }
     std::cout << "   Done ! " << std::endl;
   }
