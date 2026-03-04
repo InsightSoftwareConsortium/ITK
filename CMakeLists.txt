@@ -736,11 +736,6 @@ if(BUILD_TESTING OR ITK_BUILD_DOCUMENTATION OR ITK_WRAP_PYTHON)
   endif()
 endif()
 
-#-----------------------------------------------------------------------------
-# Configure Eigen3 before ITKModuleEnablement
-# No download or build is performed. Generates Targets and Config.cmake files for Eigen
-include(itkExternal_Eigen3)
-
 #----------------------------------------------------------------------
 # Make sure remote modules are downloaded before sorting out the module
 # dependencies.
