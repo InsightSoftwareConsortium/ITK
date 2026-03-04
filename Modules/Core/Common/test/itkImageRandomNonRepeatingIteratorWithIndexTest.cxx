@@ -42,37 +42,30 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
 
   auto                          myImage = ImageType::New();
   const ImageType::ConstPointer myConstImage = myImage;
-  ImageType::SizeType           size0;
-  size0[0] = 50;
-  size0[1] = 50;
-  size0[2] = 50;
-  constexpr unsigned long     numberOfSamples{ 10 };
-  const ImageType::RegionType region0{ size0 };
+  constexpr ImageType::SizeType size0{ 50, 50, 50 };
+  constexpr auto                numberOfPixelsSize0 = size0.CalculateProductOfElements();
+  constexpr unsigned long       numberOfSamples{ 10 };
+  const ImageType::RegionType   region0{ size0 };
   myImage->SetRegions(region0);
   myImage->Allocate();
   // Make the priority image
-  auto                        priorityImage = PriorityImageType::New();
-  PriorityImageType::SizeType prioritySize;
-  prioritySize[0] = 50;
-  prioritySize[1] = 50;
-  prioritySize[2] = 50;
+  constexpr PriorityImageType::SizeType  prioritySize{ 50, 50, 50 };
+  constexpr ImageType::IndexType         start{ 10, 12, 14 };
+  constexpr ImageType::SizeType          size{ 11, 12, 13 };
+  constexpr PriorityImageType::IndexType substart{ 15, 16, 17 };
+  constexpr PriorityImageType::SizeType  subsize{ 3, 4, 5 };
+  constexpr auto                         numberOfPixelsSub = subsize.CalculateProductOfElements();
+
+  auto                                priorityImage = PriorityImageType::New();
   const PriorityImageType::RegionType priorityRegion{ prioritySize };
   priorityImage->SetRegions(priorityRegion);
   priorityImage->Allocate();
-  // we will make most of this image ones, with a small region of
+  // we will make most of this image of ones, with a small region of
   // zeros.  Then pixels from the zero region should be selected
   // preferentially.
   std::cout << "Building Priority image" << std::endl;
   priorityImage->FillBuffer(1);
 
-  PriorityImageType::IndexType substart;
-  substart[0] = 15;
-  substart[1] = 16;
-  substart[2] = 17;
-  PriorityImageType::SizeType subsize;
-  subsize[0] = 3;
-  subsize[1] = 4;
-  subsize[2] = 5;
   const PriorityImageType::RegionType subregion{ substart, subsize };
   PriorityIteratorType                subit(priorityImage, subregion);
   subit.GoToBegin();
@@ -86,7 +79,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   std::cout << "Filling image with indices" << std::endl;
 
   RandomIteratorType it(myImage, region0);
-  it.SetNumberOfSamples(size0[0] * size0[1] * size0[2]);
+  it.SetNumberOfSamples(numberOfPixelsSize0);
   it.GoToBegin();
   ImageType::IndexType index0;
   // Because the random iterator does not repeat, this should
@@ -101,7 +94,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   // Sample the image
   IteratorType ot(myImage, region0);
   ot.GoToBegin();
-  // if it repeated its going to have missed a few.
+  // if it repeated it is going to have missed a few.
   std::cout << "Verifying iterators... ";
   while (!ot.IsAtEnd())
   {
@@ -234,11 +227,6 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   // Verification of the Iterator in a subregion of the image
   {
     std::cout << "Verifying Iterator in a Region smaller than the whole image... " << std::endl;
-    ImageType::IndexType start;
-    start[0] = 10;
-    start[1] = 12;
-    start[2] = 14;
-    ImageType::SizeType         size{ 11, 12, 13 };
     const ImageType::RegionType region{ start, size };
     RandomIteratorType          cbot(myImage, region);
     cbot.SetNumberOfSamples(numberOfSamples); // 0=x, 1=y, 2=z
@@ -268,11 +256,6 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   // Verification of the Const Iterator in a subregion of the image
   {
     std::cout << "Verifying Const Iterator in a Region smaller than the whole image... " << std::endl;
-    ImageType::IndexType start;
-    start[0] = 10;
-    start[1] = 12;
-    start[2] = 14;
-    ImageType::SizeType         size{ 11, 12, 13 };
     const ImageType::RegionType region{ start, size };
     RandomConstIteratorType     cbot(myImage, region);
     cbot.SetNumberOfSamples(numberOfSamples);
@@ -300,7 +283,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   }
 
 
-  // Verifying iterator works with  the priority image
+  // Verifying iterator works with the priority image
 
   {
     std::cout << "Verifying Iterator with respect to priority image... " << std::endl;
@@ -310,7 +293,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
     cbot.SetNumberOfSamples(numberOfSamples); // 0=x, 1=y, 2=z
     cbot.GoToBegin();
     unsigned int count = 0;
-    while (!cbot.IsAtEnd() && count < (subsize[0] * subsize[1] * subsize[2]))
+    while (!cbot.IsAtEnd() && count < numberOfPixelsSub)
     {
       const ImageType::IndexType index = cbot.GetIndex();
       if (!subregion.IsInside(index))
@@ -333,7 +316,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
     cbot.SetNumberOfSamples(numberOfSamples); // 0=x, 1=y, 2=z
     cbot.GoToBegin();
     unsigned int count = 0;
-    while (!cbot.IsAtEnd() && count < (subsize[0] * subsize[1] * subsize[2]))
+    while (!cbot.IsAtEnd() && count < numberOfPixelsSub)
     {
       const ImageType::IndexType index = cbot.GetIndex();
       if (!subregion.IsInside(index))
