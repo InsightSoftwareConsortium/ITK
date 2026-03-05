@@ -19,9 +19,10 @@
 #define itkAnchorOpenCloseImageFilter_hxx
 
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkAnchorUtilities.h"
 #include "itkImageRegionIterator.h"
+#include "itkIndexRange.h"
+
 namespace itk
 {
 template <typename TImage, typename TKernel, typename TCompare1, typename TCompare2>
@@ -175,38 +176,23 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DoFaceOpen(
 {
   // iterate over the face
 
-  // we can't use an iterator with a region outside the image. All we need here
-  // is to
-  // iterate over all the indexes of the face, without accessing the content of
-  // the image.
-  // I can't find any cleaner way, so we use a dumb image, not even allocated,
-  // to iterate
-  // over all the indexes inside the region.
-  //
-  // using ItType = ImageRegionConstIteratorWithIndex<TImage>;
-  // ItType it(input, face);
-
-  auto dumbImg = TImage::New();
-  dumbImg->SetRegions(face);
-
   KernelLType NormLine = line;
   NormLine.Normalize();
   // set a generous tolerance
   const float tol = 1.0 / LineOffsets.size();
-  for (unsigned int it = 0; it < face.GetNumberOfPixels(); ++it)
+  for (const auto & index : MakeIndexRange(face))
   {
-    const typename TImage::IndexType Ind = dumbImg->ComputeIndex(it);
-    unsigned int                     start = 0;
-    unsigned int                     end = 0;
+    unsigned int start = 0;
+    unsigned int end = 0;
     if (FillLineBuffer<TImage, BresType, KernelLType>(
-          input, Ind, NormLine, tol, LineOffsets, AllImage, outbuffer, start, end))
+          input, index, NormLine, tol, LineOffsets, AllImage, outbuffer, start, end))
     {
       const unsigned int len = end - start + 1;
       // compat
       outbuffer[0] = border;
       outbuffer[len + 1] = border;
       AnchorLineOpen.DoLine(outbuffer, len + 2); // compat
-      CopyLineToImage<TImage, BresType>(output, Ind, LineOffsets, outbuffer, start, end);
+      CopyLineToImage<TImage, BresType>(output, index, LineOffsets, outbuffer, start, end);
     }
   }
 }
