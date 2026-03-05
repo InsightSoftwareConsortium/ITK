@@ -45,6 +45,43 @@ git checkout -b update_doubleconversion
 
 Now you can review the change and make a merge request from the branch as normal.
 
+Using the Automated Skill (VS Code with GitHub Copilot)
+--------------------------------------------------------
+
+For VS Code users with GitHub Copilot, an automated [update-third-party skill]
+streamlines the update process. The skill automates the workflow described above:
+creating a branch, updating the tag, running the extraction script, resolving
+conflicts, and creating a pull request. To create a pull request, the GitHub MCP is recommended.
+
+To use the skill, invoke it via Copilot by providing the library name and
+version tag:
+
+```
+@workspace /update-third-party <library-name> <version-tag>
+```
+
+For example:
+
+```
+@workspace /update-third-party PNG v1.6.54
+```
+
+See the skill for details of the steps.
+
+The steps may involve resolving conflicts and updating name mangling. These steps should be carefully reviewed and verified.
+
+This is particularly useful for routine updates where the upstream changes are
+straightforward. The skill follows ITK's conventions for commit messages,
+branch naming, and PR descriptions.
+
+**When to use the skill:**
+- Updating to a new tagged release of an existing third-party library
+- The library already has a working `UpdateFromUpstream.sh` script
+- You want to automate the mechanical aspects of the update process
+
+
+See the [update-third-party skill] documentation for complete details.
+
 Porting a Project
 -----------------
 
@@ -117,3 +154,4 @@ if necessary.
 
 
 [update-third-party.bash]: https://github.com/InsightSoftwareConsortium/ITK/blob/main/Utilities/Maintenance/update-third-party.bash
+[update-third-party skill]: https://github.com/InsightSoftwareConsortium/ITK/blob/main/.github/skills/update-third-party/SKILL.md
