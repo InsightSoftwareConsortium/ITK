@@ -102,11 +102,10 @@ function(generate_castxml_commandline_flags)
   ## ============================
 
   # create the files used to pass the file to include to castxml
-  get_directory_property(include_dir_list INCLUDE_DIRECTORIES)
-  list(APPEND include_dir_list ${ITK_INCLUDE_DIRS})
+  set(include_dir_list ${WRAPPER_LIBRARY_INCLUDE_DIRECTORIES})
   list(REMOVE_DUPLICATES include_dir_list)
 
-  # CONFIG_CASTXML_INC_CONTENTS - variable used for building contents to write with configure_file()
+  # CONFIG_CASTXML_INC_CONTENTS - variable used for building contents to write with file(GENERATE)
   unset(CONFIG_CASTXML_INC_CONTENTS)
   foreach(dir ${include_dir_list})
     set(
@@ -116,6 +115,22 @@ function(generate_castxml_commandline_flags)
   endforeach()
   unset(include_dir_list)
 
+  foreach(_depend IN LISTS WRAPPER_LIBRARY_LINK_LIBRARIES)
+    if(TARGET ${_depend})
+      set(
+        CONFIG_CASTXML_INC_CONTENTS
+        "${CONFIG_CASTXML_INC_CONTENTS}$<LIST:JOIN,$<LIST:TRANSFORM,$<TARGET_PROPERTY:${_depend},INTERFACE_INCLUDE_DIRECTORIES>,REPLACE,^(.+)$,\"-I\\1\">,\n>\n"
+      )
+      set(
+        CONFIG_CASTXML_INC_CONTENTS
+        "${CONFIG_CASTXML_INC_CONTENTS}$<LIST:JOIN,$<LIST:TRANSFORM,$<TARGET_PROPERTY:${_depend},INTERFACE_SYSTEM_INCLUDE_DIRECTORIES>,REPLACE,^(.+)$,\"-isystem\" \"\\1\">,\n>\n"
+      )
+      set(
+        CONFIG_CASTXML_INC_CONTENTS
+        "${CONFIG_CASTXML_INC_CONTENTS}$<LIST:JOIN,$<LIST:TRANSFORM,$<TARGET_PROPERTY:${_depend},INTERFACE_COMPILE_DEFINITIONS>,REPLACE,^(.+)$,\"-D\\1\">,\n>\n"
+      )
+    endif()
+  endforeach()
   set(
     CONFIG_CASTXML_INC_CONTENTS
     "${CONFIG_CASTXML_INC_CONTENTS}-Qunused-arguments\n"
@@ -129,29 +144,6 @@ function(generate_castxml_commandline_flags)
     "${CONFIG_CASTXML_INC_CONTENTS}-DITK_MANUAL_INSTANTIATION\n"
   )
 
-  # Get the compile_definitions of the module added with add_compile_definitions
-  # From the wrapping folder (current)
-  get_directory_property(compile_definition_list COMPILE_DEFINITIONS)
-  # And from the top module folder
-  set(module_folder "${WRAPPER_LIBRARY_SOURCE_DIR}/..")
-  get_directory_property(
-    compile_definition_list_at_module
-    DIRECTORY "${module_folder}"
-    COMPILE_DEFINITIONS
-  )
-  unset(module_folder)
-  # Merge and remove duplicates
-  list(APPEND compile_definition_list ${compile_definition_list_at_module})
-  unset(compile_definition_list_at_module)
-  list(REMOVE_DUPLICATES compile_definition_list)
-
-  foreach(def ${compile_definition_list})
-    set(
-      CONFIG_CASTXML_INC_CONTENTS
-      "${CONFIG_CASTXML_INC_CONTENTS}\"-D${def}\"\n"
-    )
-  endforeach()
-  unset(compile_definition_list)
   foreach(include_file ${WRAPPER_INCLUDE_FILES})
     if("${include_file}" MATCHES "<.*>")
       string(APPEND CASTXML_INCLUDES "#include ${include_file}\n")
@@ -160,15 +152,16 @@ function(generate_castxml_commandline_flags)
     endif()
   endforeach()
 
-  #Write compile definitions and include paths to file.  @CONFIG_CASTXML_INC_CONTENTS@ expanded in configure_file
+  #Write compile definitions and include paths to file. Generator expressions evaluated at generation time.
   set(
     castxml_inc_file
-    "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml_inputs/${WRAPPER_LIBRARY_NAME}.castxml.inc"
+    "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml_inputs/${_each_submodule_this_module}.castxml.inc"
   )
-  configure_file(
-    "${ITK_WRAP_CASTXML_SOURCE_DIR}/cast_xml.inc.in"
+  file(
+    GENERATE
+    OUTPUT
     "${castxml_inc_file}"
-    @ONLY
+    CONTENT "${CONFIG_CASTXML_INC_CONTENTS}"
   )
   unset(CONFIG_CASTXML_INC_CONTENTS)
 

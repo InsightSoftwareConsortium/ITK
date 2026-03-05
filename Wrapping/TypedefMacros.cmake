@@ -148,7 +148,6 @@ macro(itk_wrap_module library_name)
   # be linked to the wrapper library.
   set(
     WRAPPER_LIBRARY_LINK_LIBRARIES
-    ${ITK_LIBRARIES}
     ${ITK_LIBRARY_NAMESPACE}::${library_name}Module
   )
 

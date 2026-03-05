@@ -1,5 +1,5 @@
 itk_wrap_module(ITKCommon)
-
+list(APPEND WRAPPER_LIBRARY_INCLUDE_DIRECTORIES ${Python3_INCLUDE_DIRS})
 set(
   WRAPPER_SUBMODULE_ORDER
   itkFixedArray
