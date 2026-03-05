@@ -28,8 +28,6 @@ set(
   itkImportImageTest.cxx
   itkImageRandomIteratorTest.cxx
   itkImageRandomIteratorTest2.cxx
-  itkImageRandomNonRepeatingIteratorWithIndexTest.cxx
-  itkImageRandomNonRepeatingIteratorWithIndexTest2.cxx
   itkImageSliceIteratorTest.cxx
   itkRGBPixelTest.cxx
   itkLightObjectTest.cxx
@@ -790,18 +788,6 @@ itk_add_test(
     ITKCommon1TestDriver
     itkImageRandomIteratorTest2
     ${ITK_TEST_OUTPUT_DIR}/itkImageRandomIteratorTest2Output.mha
-)
-itk_add_test(
-  NAME itkImageRandomNonRepeatingIteratorWithIndexTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkImageRandomNonRepeatingIteratorWithIndexTest
-)
-itk_add_test(
-  NAME itkImageRandomNonRepeatingIteratorWithIndexTest2
-  COMMAND
-    ITKCommon1TestDriver
-    itkImageRandomNonRepeatingIteratorWithIndexTest2
 )
 itk_add_test(
   NAME itkImageSliceIteratorTest
@@ -1868,6 +1854,7 @@ set(
   itkImageRegionRangeGTest.cxx
   itkImageIORegionGTest.cxx
   itkImageRandomConstIteratorWithIndexGTest.cxx
+  itkImageRandomNonRepeatingIteratorWithIndexGTest.cxx
   itkImageRegionGTest.cxx
   itkIndexGTest.cxx
   itkIndexRangeGTest.cxx
