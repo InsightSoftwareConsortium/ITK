@@ -21,6 +21,7 @@
 #include "itkImageConstIteratorWithIndex.h"
 #include <algorithm>
 #include <iostream>
+#include <type_traits> // For remove_const_t.
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 
 namespace itk
@@ -235,7 +236,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageRandomNonRepeatingConstIteratorWithIndex(const ImageType * ptr, const RegionType & region);
+  ImageRandomNonRepeatingConstIteratorWithIndex(const TImage * ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRandomNonRepeatingConstIteratorWithIndex. Many routines return an ImageIterator but for a
@@ -354,6 +355,12 @@ private:
   SizeValueType       m_NumberOfPixelsInRegion{};
   RandomPermutation * m_Permutation{};
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ImageRandomNonRepeatingConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRandomNonRepeatingConstIteratorWithIndex<std::remove_const_t<TImage>>;
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

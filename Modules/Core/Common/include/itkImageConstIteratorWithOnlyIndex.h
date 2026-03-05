@@ -21,6 +21,7 @@
 #include "itkIndex.h"
 #include "itkImage.h"
 #include <memory>
+#include <type_traits> // For remove_const_t.
 
 namespace itk
 {
@@ -257,6 +258,12 @@ protected:                            // made protected so other iterators can a
 
   bool m_Remaining{ false };
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ImageConstIteratorWithOnlyIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageConstIteratorWithOnlyIndex<std::remove_const_t<TImage>>;
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

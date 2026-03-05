@@ -1864,11 +1864,11 @@ set(
   itkImageGTest.cxx
   itkImageBaseGTest.cxx
   itkImageBufferRangeGTest.cxx
+  itkImageIteratorsGTest.cxx
   itkImageRegionRangeGTest.cxx
   itkImageIORegionGTest.cxx
   itkImageRandomConstIteratorWithIndexGTest.cxx
   itkImageRegionGTest.cxx
-  itkImageRegionIteratorGTest.cxx
   itkIndexGTest.cxx
   itkIndexRangeGTest.cxx
   itkLightObjectGTest.cxx

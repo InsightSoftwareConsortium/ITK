@@ -19,6 +19,7 @@
 #define itkImageRegionConstIteratorWithIndex_h
 
 #include "itkImageConstIteratorWithIndex.h"
+#include <type_traits> // For remove_const_t.
 
 namespace itk
 {
@@ -193,6 +194,12 @@ public:
   Self &
   operator--();
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ImageRegionConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRegionConstIteratorWithIndex<std::remove_const_t<TImage>>;
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

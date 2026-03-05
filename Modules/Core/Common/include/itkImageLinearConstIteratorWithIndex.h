@@ -19,6 +19,7 @@
 #define itkImageLinearConstIteratorWithIndex_h
 
 #include "itkImageConstIteratorWithIndex.h"
+#include <type_traits> // For remove_const_t.
 
 namespace itk
 {
@@ -137,7 +138,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageLinearConstIteratorWithIndex(const ImageType * ptr, const RegionType & region);
+  ImageLinearConstIteratorWithIndex(const TImage * ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageLinearConstIteratorWithIndex. Many routines return an ImageIterator but for a
@@ -233,6 +234,12 @@ private:
   OffsetValueType m_Jump{ 0 };
   unsigned int    m_Direction{ 0 };
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ImageLinearConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageLinearConstIteratorWithIndex<std::remove_const_t<TImage>>;
+
 
 //----------------------------------------------------------------------
 //  Go to next line

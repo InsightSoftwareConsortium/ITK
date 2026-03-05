@@ -100,7 +100,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageRandomNonRepeatingIteratorWithIndex(ImageType * ptr, const RegionType & region);
+  ImageRandomNonRepeatingIteratorWithIndex(TImage * ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRandomNonRepeatingIteratorWithIndex. Many routines return an ImageIterator, but for a
@@ -135,6 +135,12 @@ protected:
   operator=(const ImageRandomNonRepeatingConstIteratorWithIndex<TImage> & it);
   /** @ITKEndGrouping */
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ImageRandomNonRepeatingIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRandomNonRepeatingIteratorWithIndex<TImage>;
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

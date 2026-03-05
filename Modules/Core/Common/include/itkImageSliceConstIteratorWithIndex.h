@@ -19,6 +19,7 @@
 #define itkImageSliceConstIteratorWithIndex_h
 
 #include "itkImageConstIteratorWithIndex.h"
+#include <type_traits> // For remove_const_t.
 
 namespace itk
 {
@@ -136,7 +137,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageSliceConstIteratorWithIndex(const ImageType * ptr, const RegionType & region)
+  ImageSliceConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
     : ImageConstIteratorWithIndex<TImage>(ptr, region)
     , m_PixelJump(0)
     , m_LineJump(0)
@@ -221,6 +222,12 @@ private:
   unsigned int  m_Direction_A;
   unsigned int  m_Direction_B;
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ImageSliceConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageSliceConstIteratorWithIndex<std::remove_const_t<TImage>>;
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

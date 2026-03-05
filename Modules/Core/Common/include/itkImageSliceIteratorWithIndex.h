@@ -90,7 +90,7 @@ public:
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageSliceIteratorWithIndex(ImageType * ptr, const RegionType & region);
+  ImageSliceIteratorWithIndex(TImage * ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageSliceIteratorWithIndex. Many routines return an ImageIterator, but for a
@@ -125,6 +125,12 @@ protected:
   operator=(const ImageSliceConstIteratorWithIndex<TImage> & it);
   /** @ITKEndGrouping */
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ImageSliceIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageSliceIteratorWithIndex<TImage>;
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

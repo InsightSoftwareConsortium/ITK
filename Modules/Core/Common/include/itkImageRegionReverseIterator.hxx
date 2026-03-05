@@ -22,7 +22,7 @@
 namespace itk
 {
 template <typename TImage>
-ImageRegionReverseIterator<TImage>::ImageRegionReverseIterator(ImageType * ptr, const RegionType & region)
+ImageRegionReverseIterator<TImage>::ImageRegionReverseIterator(TImage * ptr, const RegionType & region)
   : ImageRegionReverseConstIterator<TImage>(ptr, region)
 {}
 
