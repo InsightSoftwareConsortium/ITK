@@ -154,8 +154,7 @@ FFTWComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::ThreadedGenerat
   {
     // copy the input line into our buffer
     inputIt.GoToBeginOfLine();
-    typename InputIteratorType::PixelType * inputBufferIt =
-      reinterpret_cast<typename InputIteratorType::PixelType *>(m_InputBufferArray[threadID]);
+    auto * inputBufferIt = reinterpret_cast<typename InputImageType::PixelType *>(m_InputBufferArray[threadID]);
     while (!inputIt.IsAtEndOfLine())
     {
       *inputBufferIt = inputIt.Get();
@@ -169,8 +168,7 @@ FFTWComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::ThreadedGenerat
     if (this->m_TransformDirection == Superclass::DIRECT)
     {
       // copy the output from the buffer into our line
-      typename OutputIteratorType::PixelType * outputBufferIt =
-        reinterpret_cast<typename OutputIteratorType::PixelType *>(m_OutputBufferArray[threadID]);
+      auto * outputBufferIt = reinterpret_cast<typename OutputImageType::PixelType *>(m_OutputBufferArray[threadID]);
       outputIt.GoToBeginOfLine();
       while (!outputIt.IsAtEndOfLine())
       {
@@ -182,11 +180,11 @@ FFTWComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::ThreadedGenerat
     else // m_TransformDirection == INVERSE
     {
       // copy the output from the buffer into our line
-      inputBufferIt = reinterpret_cast<typename OutputIteratorType::PixelType *>(m_OutputBufferArray[threadID]);
+      inputBufferIt = reinterpret_cast<typename OutputImageType::PixelType *>(m_OutputBufferArray[threadID]);
       outputIt.GoToBeginOfLine();
       while (!outputIt.IsAtEndOfLine())
       {
-        outputIt.Set(*inputBufferIt / static_cast<typename OutputIteratorType::PixelType>(lineSize));
+        outputIt.Set(*inputBufferIt / static_cast<typename OutputImageType::PixelType>(lineSize));
         ++outputIt;
         ++inputBufferIt;
       }
