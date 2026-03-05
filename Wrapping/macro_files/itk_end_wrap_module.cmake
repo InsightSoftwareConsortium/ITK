@@ -546,12 +546,13 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
       )
 
       if(MSVC)
-        # Disables 'conversion from 'type1' to 'type2', possible loss of data warnings
+        # /wd4244: Disables 'conversion from 'type1' to 'type2', possible loss of data warnings
+        # /wd4996: Disables deprecated declaration warnings in generated wrapper code
         set_target_properties(
           ${lib}
           PROPERTIES
             COMPILE_FLAGS
-              "/wd4244"
+              "/wd4244 /wd4996"
         )
       endif()
     else()
