@@ -234,6 +234,13 @@ public:
   IndexType
   ComputeIndex(OffsetValueType offset) const;
 
+  /** Computes the offset from the beginning of the buffer. */
+  OffsetValueType
+  ComputeOffset(const IndexType & index) const
+  {
+    return m_Image->ComputeOffset(index);
+  }
+
   /** PixelContainer type alias support Used to construct a container for
    * the pixel data. */
   using PixelContainer = typename TImage::PixelContainer;
