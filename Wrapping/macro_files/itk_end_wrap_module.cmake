@@ -535,6 +535,7 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
               "/wd4244"
         )
       endif()
+      target_link_directories(${lib} PUBLIC ${Python3_LIBRARY_DIRS})
     endif()
 
     # Link the modules together
