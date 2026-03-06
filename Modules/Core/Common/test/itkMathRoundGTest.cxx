@@ -17,7 +17,25 @@
  *=========================================================================*/
 
 #include "itkMath.h"
+#include "itkIndex.h"
+#include "itkGTest.h"
+
 #include <iostream>
+#include <string_view>
+
+// Helper from original itkMathRoundTest
+namespace
+{
+bool
+math_test_helper(const std::string_view str, bool test)
+{
+  if (!test)
+  {
+    std::cout << "test (" << str << ") failed" << std::endl;
+  }
+  return test;
+}
+} // namespace
 
 #define RoundTestHelperMacro(rndname, input, output)                                                         \
   if (rndname((input)) != (output))                                                                          \
@@ -44,12 +62,9 @@ TemplatedRoundTest()
 
   T roundOutput[] = { -8, -8, -9, 8, 9, 9, -9, -9, -10, 9, 10, 10, 0, 0, -1 };
 
-
   constexpr T halftoevenOutput[]{ -8, -8, -9, 8, 8, 9, -9, -10, -10, 9, 10, 10, 0, 0, -1 };
 
-
   T * halfupOutput = roundOutput;
-
 
   ////////
   // input data for floor and ceil methods
@@ -58,82 +73,117 @@ TemplatedRoundTest()
 
   constexpr T floorOutput[]{ 8, 8, 8, -8, -9, -9, 9, 9, 9, -9, -10, -10, -1, -1, -2 };
 
-
   constexpr T ceilOutput[]{ 8, 9, 9, -8, -8, -8, 9, 10, 10, -9, -9, -9, -1, 0, -1 };
-
 
   // Round
   for (unsigned int i = 0; i < numberOfElements; ++i)
   {
-
     RoundTestHelperMacro(itk::Math::Round<T>, static_cast<float>(input[i]), roundOutput[i]);
-
     RoundTestHelperMacro(itk::Math::Round<T>, static_cast<double>(input[i]), roundOutput[i]);
   }
 
   // RoundHalfIntegerToEven
   for (unsigned int i = 0; i < numberOfElements; ++i)
   {
-
-
     RoundTestHelperMacro(itk::Math::RoundHalfIntegerToEven<T>, static_cast<float>(input[i]), halftoevenOutput[i]);
-
     RoundTestHelperMacro(itk::Math::RoundHalfIntegerToEven<T>, static_cast<double>(input[i]), halftoevenOutput[i]);
   }
 
   // RoundHalfIntegerUp
   for (unsigned int i = 0; i < numberOfElements; ++i)
   {
-
     RoundTestHelperMacro(itk::Math::RoundHalfIntegerUp<T>, static_cast<float>(input[i]), halfupOutput[i]);
-
     RoundTestHelperMacro(itk::Math::RoundHalfIntegerUp<T>, static_cast<double>(input[i]), halfupOutput[i]);
   }
 
   // Floor
   for (unsigned int i = 0; i < numberOfElements; ++i)
   {
-
     RoundTestHelperMacro(itk::Math::Floor<T>, static_cast<float>(fcinput[i]), floorOutput[i]);
-
     RoundTestHelperMacro(itk::Math::Floor<T>, static_cast<double>(fcinput[i]), floorOutput[i]);
   }
 
   // Ceil
   for (unsigned int i = 0; i < numberOfElements; ++i)
   {
-
     RoundTestHelperMacro(itk::Math::Ceil<T>, static_cast<float>(fcinput[i]), ceilOutput[i]);
-
     RoundTestHelperMacro(itk::Math::Ceil<T>, static_cast<double>(fcinput[i]), ceilOutput[i]);
   }
-
 
   return ok;
 }
 
 } // namespace
-int
-itkMathRoundTest2(int, char *[])
+
+TEST(MathRound, IndexValueType)
 {
   bool ok = true;
 
+  using IndexValueType = itk::Index<3>::IndexValueType;
+
+  ok &= math_test_helper("rnd(-8.4999) == -8", itk::Math::Round<IndexValueType>(-8.4999) == -8);
+  ok &= math_test_helper("rnd(-8.4999f) == -8", itk::Math::Round<IndexValueType>(-8.4999f) == -8);
+  ok &= math_test_helper("rnd(-8.50 == -8", itk::Math::Round<IndexValueType>(-8.50) == -8);
+  ok &= math_test_helper("rnd(-8.50f) == -8", itk::Math::Round<IndexValueType>(-8.50f) == -8);
+  ok &= math_test_helper("rnd(-8.5001) == -9", itk::Math::Round<IndexValueType>(-8.5001) == -9);
+  ok &= math_test_helper("rnd(-8.5001f) == -9", itk::Math::Round<IndexValueType>(-8.5001f) == -9);
+  ok &= math_test_helper("rnd(8.4999) == 8", itk::Math::Round<IndexValueType>(8.4999) == 8);
+  ok &= math_test_helper("rnd(8.4999f) == 8", itk::Math::Round<IndexValueType>(8.4999f) == 8);
+  ok &= math_test_helper("rnd(8.50) == 9", itk::Math::Round<IndexValueType>(8.50) == 9);
+  ok &= math_test_helper("rnd(8.50f) == 9", itk::Math::Round<IndexValueType>(8.50f) == 9);
+  ok &= math_test_helper("rnd(8.5001) == 9", itk::Math::Round<IndexValueType>(8.5001) == 9);
+  ok &= math_test_helper("rnd(8.5001f) == 9", itk::Math::Round<IndexValueType>(8.5001f) == 9);
+
+  ok &=
+    math_test_helper("rnd_halfinttoeven(-8.50) == -8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.50) == -8);
+  ok &= math_test_helper("rnd_halfinttoeven(8.50) == 8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.50) == 8);
+  ok &= math_test_helper("rnd_halfinttoeven(-9.50) == -10",
+                         itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.50) == -10);
+  ok &=
+    math_test_helper("rnd_halfinttoeven(9.50) == 10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.50) == 10);
+
+  ok &= math_test_helper("rnd_halfintup(-8.50) == -8", itk::Math::RoundHalfIntegerUp<IndexValueType>(-8.50) == -8);
+  ok &= math_test_helper("rnd_halfintup(8.50) == 9", itk::Math::RoundHalfIntegerUp<IndexValueType>(8.50) == 9);
+  ok &= math_test_helper("rnd_halfintup(-9.50) == -9 ", itk::Math::RoundHalfIntegerUp<IndexValueType>(-9.50) == -9);
+  ok &= math_test_helper("rnd_halfintup(9.50) == 10", itk::Math::RoundHalfIntegerUp<IndexValueType>(9.50) == 10);
+
+  ok &= math_test_helper("floor(8.0) == 8", itk::Math::Floor<IndexValueType>(8.0) == 8);
+  ok &= math_test_helper("floor(-8.9999) == -9", itk::Math::Floor<IndexValueType>(-8.9999) == -9);
+  ok &= math_test_helper("floor(-9.9999) == -10", itk::Math::Floor<IndexValueType>(-9.9999) == -10);
+
+  ok &= math_test_helper("ceil(8.9999) == 9", itk::Math::Ceil<IndexValueType>(8.9999) == 9);
+  ok &= math_test_helper("ceil(-8.0001) == -8", itk::Math::Ceil<IndexValueType>(-8.0001) == -8);
+  ok &= math_test_helper("ceil(9.9999) == 10", itk::Math::Ceil<IndexValueType>(9.9999) == 10);
+
+  EXPECT_TRUE(ok);
+}
+
+TEST(MathRound, CharType)
+{
   std::cout << "Testing char type" << std::endl;
-  ok &= TemplatedRoundTest<signed char>();
+  EXPECT_TRUE(TemplatedRoundTest<signed char>());
+}
+
+TEST(MathRound, ShortType)
+{
   std::cout << "Testing short type" << std::endl;
-  ok &= TemplatedRoundTest<short>();
+  EXPECT_TRUE(TemplatedRoundTest<short>());
+}
+
+TEST(MathRound, IntType)
+{
   std::cout << "Testing int type" << std::endl;
-  ok &= TemplatedRoundTest<int>();
+  EXPECT_TRUE(TemplatedRoundTest<int>());
+}
+
+TEST(MathRound, LongType)
+{
   std::cout << "Testing long type" << std::endl;
-  ok &= TemplatedRoundTest<long>();
+  EXPECT_TRUE(TemplatedRoundTest<long>());
+}
+
+TEST(MathRound, VxlInt64Type)
+{
   std::cout << "Testing vxl_int_64 type" << std::endl;
-  ok &= TemplatedRoundTest<vxl_int_64>();
-
-  if (!ok)
-  {
-    return EXIT_FAILURE;
-  }
-
-  std::cout << "Test passed" << std::endl;
-  return EXIT_SUCCESS;
+  EXPECT_TRUE(TemplatedRoundTest<vxl_int_64>());
 }
