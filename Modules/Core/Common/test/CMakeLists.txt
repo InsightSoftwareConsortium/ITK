@@ -73,7 +73,6 @@ set(
   itkDirectoryTest.cxx
   itkObjectStoreTest.cxx
   itkObjectFactoryTest.cxx
-  itkMathCastWithRangeCheckTest.cxx
   itkMultipleLogOutputTest.cxx
   itkVectorTest.cxx
   itkImageTest.cxx
@@ -600,12 +599,6 @@ itk_add_test(
   COMMAND
     ITKCommon2TestDriver
     itkConstShapedNeighborhoodIteratorTest2
-)
-itk_add_test(
-  NAME itkMathCastWithRangeCheckTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkMathCastWithRangeCheckTest
 )
 itk_add_test(
   NAME itkExceptionObjectTest
@@ -1824,6 +1817,7 @@ set(
   itkEventObjectGTest.cxx
   itkByteSwapGTest.cxx
   itkIntTypesGTest.cxx
+  itkMathCastWithRangeCheckGTest.cxx
   itkMathRoundGTest.cxx
   itkModifiedTimeGTest.cxx
   itkVersionGTest.cxx
