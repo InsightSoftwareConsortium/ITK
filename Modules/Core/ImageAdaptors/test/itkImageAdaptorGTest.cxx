@@ -22,6 +22,8 @@
 #include "itkCovariantVector.h"
 #include "itkImage.h"
 #include "itkImageAdaptor.h"
+#include "itkImageRegionIterator.h"
+#include "itkIndexRange.h"
 #include "itkVector.h"
 
 #include <gtest/gtest.h>
@@ -184,4 +186,69 @@ TEST(ImageAdapter, TransformMemberFunctionsReturnSameAsForImage)
 
   const auto image3D = itk::Image<unsigned char, 3>::New();
   Expect_Transform_member_functions_return_the_same_for_an_ImageAdapter_as_for_its_image(*image3D);
+}
+
+
+// Tests that ComputeOffset(index) returns the same value for an adaptor as for its internal image.
+TEST(ImageAdaptor, ComputeOffset)
+{
+  constexpr unsigned int dimension{ 2 };
+  using PixelType = int;
+  using ImageType = itk::Image<PixelType, dimension>;
+
+  const auto image = ImageType::New();
+  const auto adaptor = itk::ImageAdaptor<ImageType, DummyPixelAccessor<PixelType>>::New();
+
+  // Use a very small image region, to speed up the unit test.
+  const itk::ImageRegion imageRegion{ itk::Index<dimension>::Filled(1), itk::Size<dimension>::Filled(2) };
+
+  adaptor->SetImage(image);
+  adaptor->SetRegions(imageRegion);
+  adaptor->AllocateInitialized();
+
+  for (const auto & index : itk::MakeIndexRange(imageRegion))
+  {
+    EXPECT_EQ(adaptor->ComputeOffset(index), image->ComputeOffset(index));
+  }
+}
+
+
+// Tests that ImageAdaptor supports iteration by means of ImageRegionIterator.
+TEST(ImageAdaptor, SupportsRegionIterator)
+{
+  constexpr unsigned int dimension{ 2 };
+  using PixelType = int;
+  using ImageType = itk::Image<PixelType, dimension>;
+
+  const auto image = ImageType::New();
+  const auto adaptor = itk::ImageAdaptor<ImageType, DummyPixelAccessor<PixelType>>::New();
+
+  adaptor->SetImage(image);
+  adaptor->SetRegions(itk::Size<dimension>::Filled(4));
+  adaptor->AllocateInitialized();
+
+  constexpr auto         regionIndex = itk::Index<dimension>::Filled(1);
+  constexpr auto         regionSize = itk::Size<dimension>::Filled(2);
+  const itk::ImageRegion region{ regionIndex, regionSize };
+
+  // Set the pixel values by means of the adaptor, for the specified region.
+  PixelType           pixelValue{};
+  constexpr PixelType maxPixelValue{ regionSize.CalculateProductOfElements() };
+
+  for (itk::ImageRegionIterator iterator(adaptor, region); !iterator.IsAtEnd(); ++iterator)
+  {
+    ++pixelValue;
+    ASSERT_LE(pixelValue, maxPixelValue);
+    iterator.Set(pixelValue);
+    EXPECT_EQ(iterator.Get(), pixelValue);
+  }
+
+  // Now check if the intenal image has got the expected pixel values, in the specified region.
+  PixelType expectedPixelValue{};
+
+  for (itk::ImageRegionConstIterator iterator(image, region); !iterator.IsAtEnd(); ++iterator)
+  {
+    ++expectedPixelValue;
+    EXPECT_EQ(iterator.Get(), expectedPixelValue);
+  }
 }
