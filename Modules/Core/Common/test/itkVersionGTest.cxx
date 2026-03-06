@@ -17,34 +17,38 @@
  *=========================================================================*/
 
 #include "itkVersion.h"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
 
 #include <iostream>
+#include <string_view>
 
-
-int
-itkVersionTest(int, char *[])
+TEST(Version, BasicObjectMethods)
 {
-  constexpr int testPassStatus{ EXIT_SUCCESS };
-
   const itk::Version::Pointer version = itk::Version::New();
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(version, Version, Object);
+}
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(version, Version, Object);
-
+TEST(Version, VersionStrings)
+{
   const char * itkVersion = itk::Version::GetITKVersion();
   std::cout << "itk version: " << itkVersion << std::endl;
+  EXPECT_NE(itkVersion, nullptr);
+  EXPECT_FALSE(std::string_view(itkVersion).empty());
 
   const int itkMajorVersion = itk::Version::GetITKMajorVersion();
   std::cout << "itk Major version: " << itkMajorVersion << std::endl;
+  EXPECT_EQ(itkMajorVersion, ITK_VERSION_MAJOR);
 
   const int itkMinorVersion = itk::Version::GetITKMinorVersion();
   std::cout << "itk Minor version: " << itkMinorVersion << std::endl;
+  EXPECT_EQ(itkMinorVersion, ITK_VERSION_MINOR);
 
   const int itkBuildVersion = itk::Version::GetITKBuildVersion();
   std::cout << "itk Build version: " << itkBuildVersion << std::endl;
+  EXPECT_EQ(itkBuildVersion, ITK_VERSION_PATCH);
 
   const char * itkSourceVersion = itk::Version::GetITKSourceVersion();
   std::cout << "itk Source version: " << itkSourceVersion << std::endl;
-
-  return testPassStatus;
+  EXPECT_NE(itkSourceVersion, nullptr);
+  EXPECT_FALSE(std::string_view(itkSourceVersion).empty());
 }

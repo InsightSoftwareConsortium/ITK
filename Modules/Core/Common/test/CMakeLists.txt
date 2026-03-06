@@ -103,7 +103,6 @@ set(
   itkTimeProbeTest2.cxx
   itkSpatialOrientationTest.cxx
   itkStdStreamStateSaveTest.cxx
-  itkVersionTest.cxx
   VNLSparseLUSolverTraitsTest.cxx
   itkSobelOperatorImageConvolutionTest.cxx
   itkSobelOperatorImageFilterTest.cxx
@@ -224,13 +223,6 @@ target_link_libraries(
     ${ITKCommon-Test_LIBRARIES}
 )
 itk_add_test(NAME SystemInformation COMMAND itkSystemInformation)
-
-itk_add_test(
-  NAME itkVersionTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkVersionTest
-)
 
 if(ITK_BUILD_SHARED_LIBS)
   ## Create a library to test ITK loadable factories
@@ -1884,6 +1876,7 @@ set(
   itkWeakPointerGTest.cxx
   itkCommonTypeTraitsGTest.cxx
   itkMathGTest.cxx
+  itkVersionGTest.cxx
   itkMetaDataDictionaryGTest.cxx
   itkSpatialOrientationAdaptorGTest.cxx
   itkAnatomicalOrientationGTest.cxx
