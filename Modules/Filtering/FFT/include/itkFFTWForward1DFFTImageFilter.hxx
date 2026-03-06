@@ -158,7 +158,7 @@ FFTWForward1DFFTImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(con
     outputIt.GoToBeginOfLine();
     while (!outputIt.IsAtEndOfLine())
     {
-      outputIt.Set(*(reinterpret_cast<typename OutputIteratorType::PixelType *>(outputBufferIt)));
+      outputIt.Set(*(reinterpret_cast<typename OutputImageType::PixelType *>(outputBufferIt)));
       ++outputIt;
       ++outputBufferIt;
     }
