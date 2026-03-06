@@ -63,7 +63,6 @@ set(
   itkRealTimeIntervalTest.cxx
   itkRealTimeStampTest.cxx
   itkTimeStampTest.cxx
-  itkIntTypesTest.cxx
   itkBSplineKernelFunctionTest.cxx
   itkArrayTest.cxx
   itkImageIteratorTest.cxx
@@ -1210,12 +1209,6 @@ itk_add_test(
     itkNumericTraitsTest
 )
 itk_add_test(
-  NAME itkIntTypesTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkIntTypesTest
-)
-itk_add_test(
   NAME itkOctreeTest
   COMMAND
     ITKCommon2TestDriver
@@ -1851,6 +1844,7 @@ set(
   itkDataTypeGTest.cxx
   itkEventObjectGTest.cxx
   itkByteSwapGTest.cxx
+  itkIntTypesGTest.cxx
   itkModifiedTimeGTest.cxx
   itkVersionGTest.cxx
   itkMetaDataDictionaryGTest.cxx
