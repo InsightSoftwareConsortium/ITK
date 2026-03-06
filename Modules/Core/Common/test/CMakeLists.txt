@@ -62,7 +62,6 @@ set(
   itkRealTimeClockTest.cxx
   itkRealTimeIntervalTest.cxx
   itkRealTimeStampTest.cxx
-  itkTimeStampTest.cxx
   itkBSplineKernelFunctionTest.cxx
   itkArrayTest.cxx
   itkImageIteratorTest.cxx
@@ -445,12 +444,6 @@ itk_add_test(
   COMMAND
     ITKCommon2TestDriver
     itkAutoPointerTest
-)
-itk_add_test(
-  NAME itkTimeStampTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkTimeStampTest
 )
 itk_add_test(
   NAME itkBoundingBoxTest
@@ -1814,6 +1807,7 @@ set(
   itkCommonTypeTraitsGTest.cxx
   itkMathGTest.cxx
   itkDataTypeGTest.cxx
+  itkTimeStampGTest.cxx
   itkEventObjectGTest.cxx
   itkByteSwapGTest.cxx
   itkIntTypesGTest.cxx
