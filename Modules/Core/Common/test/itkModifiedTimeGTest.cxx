@@ -18,9 +18,11 @@
 
 #include "itkBoundingBox.h"
 #include "itkIntTypes.h"
+#include "itkGTest.h"
 
-int
-itkModifiedTimeTest(int, char *[])
+#include <iostream>
+
+TEST(ModifiedTime, ModifiedTimeUpdatesOnChange)
 {
   using Point = itk::Point<double, 3>;
   using PointsContainer = itk::VectorContainer<Point>;
@@ -52,28 +54,14 @@ itkModifiedTimeTest(int, char *[])
   std::cout << "BB time after modification: " << bbAfterTime << std::endl;
   std::cout << "PC time after modification: " << pcAfterTime << std::endl;
 
-  if (pcAfterTime == pcBeforeTime)
-  {
-    std::cout << "Points Container Modified Time is not being " << std::endl;
-    std::cout << "updated by call to Modified()" << std::endl;
-    return EXIT_FAILURE;
-  }
+  // Points container modified time must increase after Modified() call
+  EXPECT_NE(pcAfterTime, pcBeforeTime);
+  EXPECT_GT(pcAfterTime, pcBeforeTime);
 
-  if (bbAfterTime == bbBeforeTime)
-  {
-    std::cout << "Bounding Box Modified Time is not being " << std::endl;
-    std::cout << "updated by changes in the points" << std::endl;
-    return EXIT_FAILURE;
-  }
+  // Bounding box modified time must reflect the change in points
+  EXPECT_NE(bbAfterTime, bbBeforeTime);
+  EXPECT_GT(bbAfterTime, bbBeforeTime);
 
-  if (bbAfterTime < pcAfterTime)
-  {
-    std::cout << "Bounding Box Modified Time is not as recent " << std::endl;
-    std::cout << "as the modifiction in the points" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  std::cout << "Test PASSED !" << std::endl;
-
-  return EXIT_SUCCESS;
+  // Bounding box modified time should be at least as recent as the points container
+  EXPECT_GE(bbAfterTime, pcAfterTime);
 }

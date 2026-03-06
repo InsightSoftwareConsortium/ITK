@@ -79,7 +79,6 @@ set(
   itkMathRoundProfileTest1.cxx
   itkMathRoundTest.cxx
   itkMathRoundTest2.cxx
-  itkModifiedTimeTest.cxx
   itkMultipleLogOutputTest.cxx
   itkVectorTest.cxx
   itkImageTest.cxx
@@ -636,12 +635,6 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     itkMathRoundTest2
-)
-itk_add_test(
-  NAME itkModifiedTimeTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkModifiedTimeTest
 )
 itk_add_test(
   NAME itkExceptionObjectTest
@@ -1864,6 +1857,7 @@ set(
   itkMathGTest.cxx
   itkDataTypeGTest.cxx
   itkEventObjectGTest.cxx
+  itkModifiedTimeGTest.cxx
   itkVersionGTest.cxx
   itkMetaDataDictionaryGTest.cxx
   itkSpatialOrientationAdaptorGTest.cxx
