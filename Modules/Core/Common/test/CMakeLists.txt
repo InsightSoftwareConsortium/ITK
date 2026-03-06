@@ -32,7 +32,6 @@ set(
   itkLightObjectTest.cxx
   itkBoundingBoxTest.cxx
   itkBoundaryConditionTest.cxx
-  itkByteSwapTest.cxx
   itkSparseImageTest.cxx
   itkSimpleFilterWatcherTest.cxx
   itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest.cxx
@@ -469,12 +468,6 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     itkBoundaryConditionTest
-)
-itk_add_test(
-  NAME itkByteSwapTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkByteSwapTest
 )
 itk_add_test(
   NAME itkBSplineInterpolationWeightFunctionTest
@@ -1857,6 +1850,7 @@ set(
   itkMathGTest.cxx
   itkDataTypeGTest.cxx
   itkEventObjectGTest.cxx
+  itkByteSwapGTest.cxx
   itkModifiedTimeGTest.cxx
   itkVersionGTest.cxx
   itkMetaDataDictionaryGTest.cxx
