@@ -30,7 +30,6 @@ set(
   itkImageSliceIteratorTest.cxx
   itkRGBPixelTest.cxx
   itkLightObjectTest.cxx
-  itkBoundaryConditionTest.cxx
   itkSparseImageTest.cxx
   itkSimpleFilterWatcherTest.cxx
   itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest.cxx
@@ -443,12 +442,6 @@ itk_add_test(
   COMMAND
     ITKCommon2TestDriver
     itkAutoPointerTest
-)
-itk_add_test(
-  NAME itkBoundaryConditionTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkBoundaryConditionTest
 )
 itk_add_test(
   NAME itkBSplineInterpolationWeightFunctionTest
@@ -1800,6 +1793,7 @@ set(
   itkCommonTypeTraitsGTest.cxx
   itkMathGTest.cxx
   itkDataTypeGTest.cxx
+  itkBoundaryConditionGTest.cxx
   itkBoundingBoxGTest.cxx
   itkTimeStampGTest.cxx
   itkEventObjectGTest.cxx

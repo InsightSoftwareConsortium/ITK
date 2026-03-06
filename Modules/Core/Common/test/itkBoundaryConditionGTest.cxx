@@ -19,6 +19,8 @@
 #include "itkImageRegionIterator.h"
 #include "itkConstantBoundaryCondition.h"
 #include "itkNeighborhoodIterator.h"
+#include "itkGTest.h"
+
 namespace
 {
 void
@@ -26,7 +28,6 @@ println(const char * c)
 {
   std::cout << std::endl << c << std::endl;
 }
-} // namespace
 
 template <typename TPixel>
 void
@@ -63,93 +64,35 @@ filln(itk::Image<float, 2> * img)
     }
   }
 }
+} // namespace
 
-int
-itkBoundaryConditionTest(int, char *[])
+TEST(BoundaryCondition, ConstantBoundaryAtImageEdge)
 {
-
   using ImageType2D = itk::Image<float, 2>;
-  using ImageType3D = itk::Image<float, 3>;
-  using ImageTypeND = itk::Image<float, 4>;
 
   println("Creating some images");
 
-  // Create some images
   itk::ImageRegion<2> Region2D;
-  itk::ImageRegion<3> Region3D;
-  itk::ImageRegion<4> RegionND;
-
-  itk::Size<2> size2D;
+  itk::Size<2>        size2D;
   size2D[0] = 30;
   size2D[1] = 15;
-
-  itk::Size<3> size3D;
-  size3D[0] = 100;
-  size3D[1] = 100;
-  size3D[2] = 10;
-
-  itk::Size<4> sizeND;
-  sizeND[0] = 10;
-  sizeND[1] = 10;
-  sizeND[2] = 4;
-  sizeND[3] = 2;
-
   itk::Index<2> orig2D;
   orig2D[0] = 0;
   orig2D[1] = 0;
-
-  itk::Index<3> orig3D;
-  orig3D[0] = 0;
-  orig3D[1] = 0;
-  orig3D[2] = 0;
-
-  itk::Index<4> origND;
-  origND[0] = 0;
-  origND[1] = 0;
-  origND[2] = 0;
-  origND[3] = 0;
-
   Region2D.SetSize(size2D);
-  Region3D.SetSize(size3D);
-  RegionND.SetSize(sizeND);
-
   Region2D.SetIndex(orig2D);
-  Region3D.SetIndex(orig3D);
-  RegionND.SetIndex(origND);
 
   auto image2D = ImageType2D::New();
-  auto image3D = ImageType3D::New();
-  auto imageND = ImageTypeND::New();
-
   image2D->SetRegions(Region2D);
-  image3D->SetRegions(Region3D);
-  imageND->SetRegions(RegionND);
-
   image2D->Allocate();
-  image3D->Allocate();
-  imageND->Allocate();
 
   println("Initializing some images");
-
   filln(image2D);
-  image3D->FillBuffer(1.0f);
-  imageND->FillBuffer(1.0f);
 
   println("Initializing smart neighborhood iterators");
   itk::Size<2> sz2;
   sz2[0] = 2;
   sz2[1] = 1;
-
-  itk::Size<3> sz3;
-  sz3[0] = 2;
-  sz3[1] = 3;
-  sz3[2] = 1;
-
-  itk::Size<4> szN;
-  szN[0] = 1;
-  szN[1] = 3;
-  szN[2] = 1;
-  szN[3] = 1;
 
   using SmartIteratorType = itk::NeighborhoodIterator<ImageType2D, itk::ConstantBoundaryCondition<ImageType2D>>;
 
@@ -167,11 +110,67 @@ itkBoundaryConditionTest(int, char *[])
   --it2d;
   tempN = it2d.GetNeighborhood();
 
-
   printn(tempN.GetBufferReference(), tempN.GetSize());
 
+  // The 2D image is 30x15, filled with 100*j + i.
+  // The last pixel is at (29, 14): value = 100*14 + 29 = 1429.
+  // With radius {2,1} and ConstantBoundaryCondition(0):
+  // Row 0 (j=13): pixels at x=27,28,29,30(OOB),31(OOB) -> 1327, 1328, 1329, 0, 0
+  // Row 1 (j=14): pixels at x=27,28,29,30(OOB),31(OOB) -> 1427, 1428, 1429, 0, 0
+  // Row 2 (j=15, OOB): all 0 -> 0, 0, 0, 0, 0
+  const auto & buf = tempN.GetBufferReference();
+  EXPECT_EQ(buf[0], 1327.0f);
+  EXPECT_EQ(buf[1], 1328.0f);
+  EXPECT_EQ(buf[2], 1329.0f);
+  EXPECT_EQ(buf[3], 0.0f);
+  EXPECT_EQ(buf[4], 0.0f);
+  EXPECT_EQ(buf[5], 1427.0f);
+  EXPECT_EQ(buf[6], 1428.0f);
+  EXPECT_EQ(buf[7], 1429.0f);
+  EXPECT_EQ(buf[8], 0.0f);
+  EXPECT_EQ(buf[9], 0.0f);
+  EXPECT_EQ(buf[10], 0.0f);
+  EXPECT_EQ(buf[11], 0.0f);
+  EXPECT_EQ(buf[12], 0.0f);
+  EXPECT_EQ(buf[13], 0.0f);
+  EXPECT_EQ(buf[14], 0.0f);
 
   std::cout << " ________________________________________ " << std::endl;
+}
+
+TEST(BoundaryCondition, ZeroFluxNeumannBoundaryTraversal)
+{
+  using ImageType2D = itk::Image<float, 2>;
+
+  itk::ImageRegion<2> Region2D;
+  itk::Size<2>        size2D;
+  size2D[0] = 30;
+  size2D[1] = 15;
+  itk::Index<2> orig2D;
+  orig2D[0] = 0;
+  orig2D[1] = 0;
+  Region2D.SetSize(size2D);
+  Region2D.SetIndex(orig2D);
+
+  auto image2D = ImageType2D::New();
+  image2D->SetRegions(Region2D);
+  image2D->Allocate();
+  filln(image2D);
+
+  itk::Size<2> sz2;
+  sz2[0] = 2;
+  sz2[1] = 1;
+
+  using SmartIteratorType = itk::NeighborhoodIterator<ImageType2D, itk::ConstantBoundaryCondition<ImageType2D>>;
+
+  SmartIteratorType it2d(sz2, image2D, image2D->GetRequestedRegion());
+
+  itk::ConstantBoundaryCondition<ImageType2D> cbc;
+  cbc.SetConstant(0.0f);
+  it2d.OverrideBoundaryCondition(&cbc);
+
+  SmartIteratorType::NeighborhoodType temp2N;
+  temp2N = it2d.GetNeighborhood(); // initialize
 
   itk::ZeroFluxNeumannBoundaryCondition<ImageType2D> neumann;
   for (int yak = 0; yak < 2; ++yak)
@@ -186,6 +185,6 @@ itkBoundaryConditionTest(int, char *[])
 
     it2d.OverrideBoundaryCondition(&neumann);
   }
-
-  return EXIT_SUCCESS;
+  // If we reach here without crashing, the test passes
+  EXPECT_TRUE(it2d.IsAtEnd());
 }
