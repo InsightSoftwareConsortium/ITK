@@ -2,7 +2,6 @@ itk_module_test()
 set(
   ITKCommon1Tests
   itkImageRegionExplicitTest.cxx
-  itkAbortProcessObjectTest.cxx
   itkCommandObserverObjectTest.cxx
   itkAdaptorComparisonTest.cxx
   itkCovariantVectorGeometryTest.cxx
@@ -76,13 +75,9 @@ set(
   itkPointSetTest.cxx
   itkPointSetToImageFilterTest1.cxx
   itkPointSetToImageFilterTest2.cxx
-  itkBresenhamLineTest.cxx
   itkSparseFieldLayerTest.cxx
   itkDataObjectTest.cxx
-  itkAtanRegularizedHeavisideStepFunctionTest1.cxx
   itkHashTableTest.cxx
-  itkHeavisideStepFunctionTest1.cxx
-  itkSinRegularizedHeavisideStepFunctionTest1.cxx
   itkPixelAccessTest.cxx
   itkPointGeometryTest.cxx
   itkMersenneTwisterRandomVariateGeneratorTest.cxx
@@ -130,7 +125,6 @@ set(
   itkConstNeighborhoodIteratorTest.cxx
   itkShapedNeighborhoodIteratorTest.cxx
   itkMatrixTest.cxx
-  itkAutoPointerTest.cxx
   itkNeighborhoodIteratorTest.cxx
   itkLoggerManagerTest.cxx
   itkBSplineInterpolationWeightFunctionTest.cxx
@@ -228,12 +222,6 @@ if(ITK_BUILD_SHARED_LIBS)
   add_dependencies(ITKCommon2TestDriver FactoryTestLib)
 endif()
 
-itk_add_test(
-  NAME itkAbortProcessObjectTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkAbortProcessObjectTest
-)
 itk_add_test(
   NAME itkCommandObserverObjectTest
   COMMAND
@@ -436,12 +424,6 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     itkArray2DTest
-)
-itk_add_test(
-  NAME itkAutoPointerTest
-  COMMAND
-    ITKCommon2TestDriver
-    itkAutoPointerTest
 )
 itk_add_test(
   NAME itkBSplineInterpolationWeightFunctionTest
@@ -820,12 +802,6 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkPointSetToImageFilterTest2.mha
 )
 itk_add_test(
-  NAME itkBresenhamLineTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkBresenhamLineTest
-)
-itk_add_test(
   NAME itkSparseFieldLayerTest
   COMMAND
     ITKCommon1TestDriver
@@ -838,28 +814,10 @@ itk_add_test(
     itkDataObjectTest
 )
 itk_add_test(
-  NAME itkAtanRegularizedHeavisideStepFunctionTest1
-  COMMAND
-    ITKCommon1TestDriver
-    itkAtanRegularizedHeavisideStepFunctionTest1
-)
-itk_add_test(
   NAME itkHashTableTest
   COMMAND
     ITKCommon1TestDriver
     itkHashTableTest
-)
-itk_add_test(
-  NAME itkHeavisideStepFunctionTest1
-  COMMAND
-    ITKCommon1TestDriver
-    itkHeavisideStepFunctionTest1
-)
-itk_add_test(
-  NAME itkSinRegularizedHeavisideStepFunctionTest1
-  COMMAND
-    ITKCommon1TestDriver
-    itkSinRegularizedHeavisideStepFunctionTest1
 )
 itk_add_test(
   NAME itkPixelAccessTest
@@ -1803,6 +1761,10 @@ set(
   itkMathRoundGTest.cxx
   itkModifiedTimeGTest.cxx
   itkVersionGTest.cxx
+  itkAbortProcessObjectGTest.cxx
+  itkAutoPointerGTest.cxx
+  itkBresenhamLineGTest.cxx
+  itkHeavisideStepFunctionGTest.cxx
   itkMetaDataDictionaryGTest.cxx
   itkSpatialOrientationAdaptorGTest.cxx
   itkAnatomicalOrientationGTest.cxx
