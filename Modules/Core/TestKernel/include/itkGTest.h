@@ -42,7 +42,6 @@
     EXPECT_STREQ(object->Superclass::GetNameOfClass(), #SuperclassName);           \
   }()
 
-
 /** A lightweight alternative for `ITK_TEST_SET_GET_BOOLEAN`, using GoogleTest macro's. */
 #define ITK_GTEST_SET_GET_BOOLEAN(object, variable, value) \
   object->Set##variable(false);                            \
