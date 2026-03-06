@@ -16,28 +16,23 @@
  *
  *=========================================================================*/
 
-#include <iostream>
 #include "itkByteSwapper.h"
 #include "itkMath.h"
+#include "itkGTest.h"
 
-int
-itkByteSwapTest(int, char *[])
+#include <iostream>
+
+TEST(ByteSwap, EndianConsistency)
 {
-  // Test out the Byte Swap code
+  // SystemIsBigEndian and SystemIsLE must be opposites
+  EXPECT_NE(itk::ByteSwapper<int>::SystemIsBigEndian(), itk::ByteSwapper<int>::SystemIsLE());
+  // SystemIsBE and SystemIsLittleEndian must be opposites
+  EXPECT_NE(itk::ByteSwapper<int>::SystemIsBE(), itk::ByteSwapper<int>::SystemIsLittleEndian());
+}
 
+TEST(ByteSwap, DoubleSwapRestoresUnsignedChar)
+{
   std::cout << "Starting test" << std::endl;
-
-  // Try to swap a char
-
-  if constexpr (itk::ByteSwapper<int>::SystemIsBigEndian() == itk::ByteSwapper<int>::SystemIsLE())
-  {
-    return EXIT_FAILURE;
-  }
-  if constexpr (itk::ByteSwapper<int>::SystemIsBE() == itk::ByteSwapper<int>::SystemIsLittleEndian())
-  {
-    return EXIT_FAILURE;
-  }
-
   unsigned char           uc = 'a';
   constexpr unsigned char uc1 = 'a';
   if constexpr (itk::ByteSwapper<int>::SystemIsBigEndian())
@@ -50,12 +45,12 @@ itkByteSwapTest(int, char *[])
     itk::ByteSwapper<unsigned char>::SwapFromSystemToBigEndian(&uc);
     itk::ByteSwapper<unsigned char>::SwapFromSystemToBigEndian(&uc);
   }
-  if (uc != uc1)
-  {
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(uc, uc1);
   std::cout << "Passed unsigned char: " << uc << std::endl;
+}
 
+TEST(ByteSwap, DoubleSwapRestoresUnsignedShort)
+{
   unsigned short           us = 1;
   constexpr unsigned short us1{ 1 };
   if constexpr (itk::ByteSwapper<int>::SystemIsBE())
@@ -68,11 +63,12 @@ itkByteSwapTest(int, char *[])
     itk::ByteSwapper<unsigned short>::SwapFromSystemToBigEndian(&us);
     itk::ByteSwapper<unsigned short>::SwapFromSystemToBigEndian(&us);
   }
-  if (us != us1)
-  {
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(us, us1);
   std::cout << "Passed unsigned short: " << us << std::endl;
+}
+
+TEST(ByteSwap, DoubleSwapRestoresUnsignedInt)
+{
   unsigned int           ui = 1;
   constexpr unsigned int ui1{ 1 };
   if constexpr (itk::ByteSwapper<int>::SystemIsBigEndian())
@@ -85,12 +81,12 @@ itkByteSwapTest(int, char *[])
     itk::ByteSwapper<unsigned int>::SwapFromSystemToBigEndian(&ui);
     itk::ByteSwapper<unsigned int>::SwapFromSystemToBigEndian(&ui);
   }
-  if (ui != ui1)
-  {
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(ui, ui1);
   std::cout << "Passed unsigned int: " << ui << std::endl;
+}
 
+TEST(ByteSwap, DoubleSwapRestoresUnsignedLong)
+{
   unsigned long           ul = 1;
   constexpr unsigned long ul1{ 1 };
   try
@@ -105,10 +101,7 @@ itkByteSwapTest(int, char *[])
       itk::ByteSwapper<unsigned long>::SwapFromSystemToBigEndian(&ul);
       itk::ByteSwapper<unsigned long>::SwapFromSystemToBigEndian(&ul);
     }
-    if (ul != ul1)
-    {
-      return EXIT_FAILURE;
-    }
+    EXPECT_EQ(ul, ul1);
     std::cout << "Passed unsigned long: " << ul << std::endl;
   }
   catch (const itk::ExceptionObject & err)
@@ -116,7 +109,10 @@ itkByteSwapTest(int, char *[])
     std::cout << "Caught unsigned long exception size is: " << sizeof(unsigned long) << std::endl;
     err.Print(std::cerr);
   }
+}
 
+TEST(ByteSwap, DoubleSwapRestoresUnsignedLongLong)
+{
   unsigned long long           ull = 1;
   constexpr unsigned long long ull1 = 1;
   try
@@ -131,10 +127,7 @@ itkByteSwapTest(int, char *[])
       itk::ByteSwapper<unsigned long long>::SwapFromSystemToBigEndian(&ull);
       itk::ByteSwapper<unsigned long long>::SwapFromSystemToBigEndian(&ull);
     }
-    if (ull != ull1)
-    {
-      return EXIT_FAILURE;
-    }
+    EXPECT_EQ(ull, ull1);
     std::cout << "Passed unsigned long long: " << ull << std::endl;
   }
   catch (const itk::ExceptionObject & err)
@@ -142,7 +135,10 @@ itkByteSwapTest(int, char *[])
     std::cout << "Caught unsigned long long exception size is: " << sizeof(unsigned long long) << std::endl;
     err.Print(std::cerr);
   }
+}
 
+TEST(ByteSwap, DoubleSwapRestoresFloat)
+{
   float           f = 1.0;
   constexpr float f1{ 1.0 };
   try
@@ -157,19 +153,19 @@ itkByteSwapTest(int, char *[])
       itk::ByteSwapper<float>::SwapFromSystemToBigEndian(&f);
       itk::ByteSwapper<float>::SwapFromSystemToBigEndian(&f);
     }
-    if (itk::Math::NotExactlyEquals(f, f1))
-    {
-      return EXIT_FAILURE;
-    }
+    EXPECT_TRUE(itk::Math::ExactlyEquals(f, f1));
     std::cout << "Passed float: " << f << std::endl;
   }
   catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught float exception size is: " << sizeof(float) << std::endl;
     err.Print(std::cerr);
-    return EXIT_FAILURE;
+    FAIL() << "Unexpected exception for float swap";
   }
+}
 
+TEST(ByteSwap, DoubleSwapRestoresDouble)
+{
   double           d = 1.0;
   constexpr double d1{ 1.0 };
   try
@@ -184,18 +180,13 @@ itkByteSwapTest(int, char *[])
       itk::ByteSwapper<double>::SwapFromSystemToBigEndian(&d);
       itk::ByteSwapper<double>::SwapFromSystemToBigEndian(&d);
     }
-    if (itk::Math::NotExactlyEquals(d, d1))
-    {
-      return EXIT_FAILURE;
-    }
+    EXPECT_TRUE(itk::Math::ExactlyEquals(d, d1));
     std::cout << "Passed unsigned int d: " << d << std::endl;
   }
   catch (const itk::ExceptionObject & err)
   {
     std::cout << "Good catch! Caught double exception size is: " << sizeof(double) << std::endl;
     err.Print(std::cerr);
-    return EXIT_FAILURE;
+    FAIL() << "Unexpected exception for double swap";
   }
-  // we failed to throw an exception for the double swap (once it's implemented, this should return 0
-  return EXIT_SUCCESS;
 }
