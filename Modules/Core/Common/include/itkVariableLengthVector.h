@@ -770,7 +770,8 @@ public:
    * parameter).
    * \deprecated Please consider calling `std::make_unique<TValue[]>(size)` instead.
    */
-  [[deprecated("Please consider calling `std::make_unique<TValue[]>(size)` instead.")]] [[nodiscard]] TValue *
+  ITK_FUTURE_DEPRECATED("Please consider calling `std::make_unique<TValue[]>(size)` instead.")
+  [[nodiscard]] TValue *
   AllocateElements(ElementIdentifier size) const;
 #endif
 
