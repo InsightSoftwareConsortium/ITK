@@ -17,6 +17,8 @@
  *=========================================================================*/
 
 #include "itkEventObject.h"
+#include "itkGTest.h"
+
 #include <iostream>
 
 namespace itk
@@ -29,50 +31,36 @@ itkEventMacroDeclaration(TestOtherEvent, AnyEvent);
 itkEventMacroDefinition(TestOtherEvent, AnyEvent);
 } // namespace itk
 
-
-int
-itkEventObjectTest(int, char *[])
+TEST(EventObject, EventDerivationCheck)
 {
-
   // test constructor
-  const itk::TestEvent event;
-
+  const itk::TestEvent  event;
   itk::TestDerivedEvent derivedEvent;
 
+  // A base event should match a derived event
+  EXPECT_TRUE(event.CheckEvent(&derivedEvent));
 
-  // test if the event derives
-  if (!event.CheckEvent(&derivedEvent))
-  {
-    std::cerr << "Derivation test failed " << std::endl;
-    return EXIT_FAILURE;
-  }
-
+  // An event should match itself
   itk::TestEvent event2;
-  // test if the event matches itself
-  if (!event.CheckEvent(&event2))
-  {
-    std::cerr << "Same class test failed " << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_TRUE(event.CheckEvent(&event2));
 
-
+  // An event should not match an unrelated event
   itk::TestOtherEvent otherEvent;
-  // test that it doesn't match and unrelated event
-  if (event.CheckEvent(&otherEvent))
-  {
-    std::cerr << "Error: matched unrelated event" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_FALSE(event.CheckEvent(&otherEvent));
+}
 
+TEST(EventObject, PrintAndName)
+{
+  const itk::TestEvent event;
 
   // exercise the PrintSelf() method by calling Print()
   event.Print(std::cout);
 
   // exercise the GetEventName() method
-  std::cout << event.GetEventName() << std::endl;
+  const char * name = event.GetEventName();
+  std::cout << name << std::endl;
+  EXPECT_STREQ(name, "TestEvent");
 
   // exercise the shift operator
   std::cout << event << std::endl;
-
-  return EXIT_SUCCESS;
 }

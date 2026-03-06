@@ -75,7 +75,6 @@ set(
   itkDirectoryTest.cxx
   itkObjectStoreTest.cxx
   itkObjectFactoryTest.cxx
-  itkEventObjectTest.cxx
   itkMathCastWithRangeCheckTest.cxx
   itkMathRoundProfileTest1.cxx
   itkMathRoundTest.cxx
@@ -613,12 +612,6 @@ itk_add_test(
   COMMAND
     ITKCommon2TestDriver
     itkConstShapedNeighborhoodIteratorTest2
-)
-itk_add_test(
-  NAME itkEventObjectTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkEventObjectTest
 )
 itk_add_test(
   NAME itkMathCastWithRangeCheckTest
@@ -1870,6 +1863,7 @@ set(
   itkCommonTypeTraitsGTest.cxx
   itkMathGTest.cxx
   itkDataTypeGTest.cxx
+  itkEventObjectGTest.cxx
   itkVersionGTest.cxx
   itkMetaDataDictionaryGTest.cxx
   itkSpatialOrientationAdaptorGTest.cxx
