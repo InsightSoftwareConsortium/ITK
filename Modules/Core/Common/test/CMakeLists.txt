@@ -30,7 +30,6 @@ set(
   itkImageSliceIteratorTest.cxx
   itkRGBPixelTest.cxx
   itkLightObjectTest.cxx
-  itkBoundingBoxTest.cxx
   itkBoundaryConditionTest.cxx
   itkSparseImageTest.cxx
   itkSimpleFilterWatcherTest.cxx
@@ -444,12 +443,6 @@ itk_add_test(
   COMMAND
     ITKCommon2TestDriver
     itkAutoPointerTest
-)
-itk_add_test(
-  NAME itkBoundingBoxTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkBoundingBoxTest
 )
 itk_add_test(
   NAME itkBoundaryConditionTest
@@ -1807,6 +1800,7 @@ set(
   itkCommonTypeTraitsGTest.cxx
   itkMathGTest.cxx
   itkDataTypeGTest.cxx
+  itkBoundingBoxGTest.cxx
   itkTimeStampGTest.cxx
   itkEventObjectGTest.cxx
   itkByteSwapGTest.cxx
