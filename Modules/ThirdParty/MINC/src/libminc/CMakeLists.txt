@@ -3,7 +3,7 @@
 # Andrew Janke - a.janke@gmail.com
 # Vladimir S. FONOV - vladimir.fonov@gmail.com
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.10...4.2)
 
 project(LIBMINC)
 
@@ -24,9 +24,7 @@ include(CTest)
 
 enable_testing()
 
-if( POLICY CMP0063 )
-  cmake_policy(SET CMP0063 NEW)
-endif()
+include(GNUInstallDirs)
 
 if(MINC_TOOLKIT_BUILD)
   set(LIBMINC_EXTERNALLY_CONFIGURED ON)
@@ -58,11 +56,15 @@ if(NOT LIBMINC_EXTERNALLY_CONFIGURED)
 
   option(LIBMINC_USE_ASAN                "Build with Address Sanitizer" OFF)
 
+  if(DEFINED LIB_SUFFIX)
+    message(WARNING "LIB_SUFFIX is deprecated, use the standard CMAKE_INSTALL_LIBDIR instead")
+  endif()
+
   set (LIBMINC_EXPORTED_TARGETS "LIBMINC-targets")
-  set (LIBMINC_INSTALL_BIN_DIR bin)
-  set (LIBMINC_INSTALL_LIB_DIR lib${LIB_SUFFIX})
-  set (LIBMINC_INSTALL_INCLUDE_DIR include)
-  set (LIBMINC_INSTALL_DATA_DIR share)
+  set (LIBMINC_INSTALL_BIN_DIR ${CMAKE_INSTALL_BINDIR})
+  set (LIBMINC_INSTALL_LIB_DIR ${CMAKE_INSTALL_LIBDIR})
+  set (LIBMINC_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_INCLUDEDIR})
+  set (LIBMINC_INSTALL_DATA_DIR ${CMAKE_INSTALL_DATADIR})
 
   if(LIBMINC_MINC1_SUPPORT)
     find_package(NETCDF REQUIRED)
@@ -460,7 +462,7 @@ endif()
 #START - ITK
 set(VOLUME_IO_LIBRARY  ${LIBMINC_EXTERNAL_LIB_PREFIX}minc2)
 #STOP - ITK
-set(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX})
+set(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
 
 add_library(${LIBMINC_LIBRARY} ${LIBRARY_TYPE} ${minc_LIB_SRCS} ${minc_HEADERS} ${volume_io_LIB_SRCS} ${volume_io_HEADERS} )
 
