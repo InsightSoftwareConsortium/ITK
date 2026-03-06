@@ -8,7 +8,7 @@ readonly name="expat"
 readonly ownership="Expat Upstream <kwrobot@kitware.com>"
 readonly subtree="Modules/ThirdParty/Expat/src/itk$name"
 readonly repo="https://github.com/libexpat/libexpat.git"
-readonly tag="R_2_7_2"
+readonly tag="R_2_7_4"
 readonly exact_tree_match=false
 readonly paths="
 expat/CMakeLists.txt
