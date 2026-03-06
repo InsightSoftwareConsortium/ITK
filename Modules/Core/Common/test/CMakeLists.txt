@@ -6,7 +6,6 @@ set(
   itkCommandObserverObjectTest.cxx
   itkAdaptorComparisonTest.cxx
   itkCovariantVectorGeometryTest.cxx
-  itkDataTypeTest.cxx
   itkDecoratorTest.cxx
   itkExtractImage3Dto2DTest.cxx
   itkExtractImageTest.cxx
@@ -312,12 +311,6 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     itkCovariantVectorGeometryTest
-)
-itk_add_test(
-  NAME itkDataTypeTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkDataTypeTest
 )
 itk_add_test(
   NAME itkDecoratorTest
@@ -1876,6 +1869,7 @@ set(
   itkWeakPointerGTest.cxx
   itkCommonTypeTraitsGTest.cxx
   itkMathGTest.cxx
+  itkDataTypeGTest.cxx
   itkVersionGTest.cxx
   itkMetaDataDictionaryGTest.cxx
   itkSpatialOrientationAdaptorGTest.cxx
