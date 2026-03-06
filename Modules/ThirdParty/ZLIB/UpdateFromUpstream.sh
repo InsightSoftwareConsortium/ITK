@@ -8,7 +8,7 @@ readonly name="zlib-ng"
 readonly ownership="Zlib-ng Upstream <kwrobot@kitware.com>"
 readonly subtree="Modules/ThirdParty/ZLIB/src/itk$name"
 readonly repo="https://github.com/zlib-ng/zlib-ng.git"
-readonly tag="2.2.5"
+readonly tag="2.3.3"
 readonly exact_tree_match=false
 readonly paths="
 CMakeLists.txt
@@ -17,14 +17,12 @@ arch/*
 *.c
 *.h
 
-gzread.c.in
 zconf.h.in
 zlib.h.in
 zlib_name_mangling.h.in
 zlib_name_mangling.h.empty
 zlib.pc.cmakein
 
-zlib.map
 win32/zlibcompat.def.in
 win32/zlib1.rc
 win32/zlib.def.in
