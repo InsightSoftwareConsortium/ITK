@@ -5,7 +5,7 @@
 #include "zmemory.h"
 
 #ifdef X86_AVX2
-#include "avx2_tables.h"
+#include "arch/generic/chunk_256bit_perm_idx_lut.h"
 #include <immintrin.h>
 #include "x86_intrins.h"
 

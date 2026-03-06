@@ -38,23 +38,65 @@
 #  define FUNCTABLE_BARRIER() do { /* Empty */ } while (0)
 #endif
 
-static void force_init_empty(void) {
-    // empty
+/* Verify all pointers are valid before assigning, return 1 on failure
+ * This allows inflateinit/deflateinit functions to gracefully return Z_VERSION_ERROR
+ * if functable initialization fails.
+ */
+#define FUNCTABLE_VERIFY_ASSIGN(VAR, FUNC_NAME) \
+    if (!VAR.FUNC_NAME) { \
+        fprintf(stderr, "Zlib-ng functable failed initialization!\n"); \
+        return 1; \
+    } \
+    FUNCTABLE_ASSIGN(VAR, FUNC_NAME);
+
+/* Functable init & abort on failure.
+ * Abort is needed because some stub functions are reachable without first
+ * calling any inflateinit/deflateinit functions, and have no error propagation.
+ */
+#define FUNCTABLE_INIT_ABORT \
+    if (init_functable()) { \
+        fprintf(stderr, "Zlib-ng functable failed initialization!\n"); \
+        abort(); \
+    };
+
+// Empty stub, used when functable has already been initialized
+static int force_init_empty(void) {
+    return 0;
 }
 
-static void init_functable(void) {
+/* Functable initialization.
+ * Selects the best available optimized functions appropriate for the runtime cpu.
+ */
+static int init_functable(void) {
     struct functable_s ft;
     struct cpu_features cf;
 
+    memset(&ft, 0, sizeof(struct functable_s));
     cpu_check_features(&cf);
-
-    // Generic code
     ft.force_init = &force_init_empty;
+
+    // Set up generic C code fallbacks
+#ifndef WITH_ALL_FALLBACKS
+#  if (defined(__x86_64__) || defined(_M_X64)) && defined(X86_SSE2)
+    // x86_64 always has SSE2, so we can use SSE2 functions as fallbacks where available.
+    ft.adler32 = &adler32_c;
+    ft.adler32_fold_copy = &adler32_fold_copy_c;
+    ft.crc32 = &crc32_braid;
+    ft.crc32_fold = &crc32_fold_c;
+    ft.crc32_fold_copy = &crc32_fold_copy_c;
+    ft.crc32_fold_final = &crc32_fold_final_c;
+    ft.crc32_fold_reset = &crc32_fold_reset_c;
+#    ifndef HAVE_BUILTIN_CTZ
+    ft.longest_match = &longest_match_c;
+    ft.longest_match_slow = &longest_match_slow_c;
+    ft.compare256 = &compare256_c;
+#    endif
+#  endif
+#else // WITH_ALL_FALLBACKS
     ft.adler32 = &adler32_c;
     ft.adler32_fold_copy = &adler32_fold_copy_c;
     ft.chunkmemset_safe = &chunkmemset_safe_c;
-    ft.chunksize = &chunksize_c;
-    ft.crc32 = &PREFIX(crc32_braid);
+    ft.crc32 = &crc32_braid;
     ft.crc32_fold = &crc32_fold_c;
     ft.crc32_fold_copy = &crc32_fold_copy_c;
     ft.crc32_fold_final = &crc32_fold_final_c;
@@ -64,17 +106,26 @@ static void init_functable(void) {
     ft.longest_match = &longest_match_c;
     ft.longest_match_slow = &longest_match_slow_c;
     ft.compare256 = &compare256_c;
+#endif
 
     // Select arch-optimized functions
+#ifdef WITH_OPTIM
+
+    // Chorba generic C fallback
+#ifndef WITHOUT_CHORBA
+    ft.crc32 = &crc32_chorba;
+#endif
 
     // X86 - SSE2
 #ifdef X86_SSE2
-#  if !defined(__x86_64__) && !defined(_M_X64) && !defined(X86_NOCHECK_SSE2)
+#  if !defined(__x86_64__) && !defined(_M_X64)
     if (cf.x86.has_sse2)
 #  endif
     {
         ft.chunkmemset_safe = &chunkmemset_safe_sse2;
-        ft.chunksize = &chunksize_sse2;
+#  if !defined(WITHOUT_CHORBA_SSE)
+        ft.crc32 = &crc32_chorba_sse2;
+#  endif
         ft.inflate_fast = &inflate_fast_sse2;
         ft.slide_hash = &slide_hash_sse2;
 #  ifdef HAVE_BUILTIN_CTZ
@@ -92,6 +143,14 @@ static void init_functable(void) {
         ft.inflate_fast = &inflate_fast_ssse3;
     }
 #endif
+
+    // X86 - SSE4.1
+#if defined(X86_SSE41) && !defined(WITHOUT_CHORBA_SSE)
+    if (cf.x86.has_sse41) {
+        ft.crc32 = &crc32_chorba_sse41;
+    }
+#endif
+
     // X86 - SSE4.2
 #ifdef X86_SSE42
     if (cf.x86.has_sse42) {
@@ -118,7 +177,6 @@ static void init_functable(void) {
         ft.adler32 = &adler32_avx2;
         ft.adler32_fold_copy = &adler32_fold_copy_avx2;
         ft.chunkmemset_safe = &chunkmemset_safe_avx2;
-        ft.chunksize = &chunksize_avx2;
         ft.inflate_fast = &inflate_fast_avx2;
         ft.slide_hash = &slide_hash_avx2;
 #  ifdef HAVE_BUILTIN_CTZ
@@ -134,8 +192,12 @@ static void init_functable(void) {
         ft.adler32 = &adler32_avx512;
         ft.adler32_fold_copy = &adler32_fold_copy_avx512;
         ft.chunkmemset_safe = &chunkmemset_safe_avx512;
-        ft.chunksize = &chunksize_avx512;
         ft.inflate_fast = &inflate_fast_avx512;
+#  ifdef HAVE_BUILTIN_CTZLL
+        ft.compare256 = &compare256_avx512;
+        ft.longest_match = &longest_match_avx512;
+        ft.longest_match_slow = &longest_match_slow_avx512;
+#  endif
     }
 #endif
 #ifdef X86_AVX512VNNI
@@ -172,8 +234,8 @@ static void init_functable(void) {
 #  endif
     {
         ft.adler32 = &adler32_neon;
+        ft.adler32_fold_copy = &adler32_fold_copy_neon;
         ft.chunkmemset_safe = &chunkmemset_safe_neon;
-        ft.chunksize = &chunksize_neon;
         ft.inflate_fast = &inflate_fast_neon;
         ft.slide_hash = &slide_hash_neon;
 #  ifdef HAVE_BUILTIN_CTZLL
@@ -183,10 +245,12 @@ static void init_functable(void) {
 #  endif
     }
 #endif
-    // ARM - ACLE
-#ifdef ARM_ACLE
+    // ARM - CRC32
+#ifdef ARM_CRC32
     if (cf.arm.has_crc32) {
-        ft.crc32 = &crc32_acle;
+        ft.crc32 = &crc32_armv8;
+        ft.crc32_fold = &crc32_fold_armv8;
+        ft.crc32_fold_copy = &crc32_fold_copy_armv8;
     }
 #endif
 
@@ -203,7 +267,6 @@ static void init_functable(void) {
     if (cf.power.has_arch_2_07) {
         ft.adler32 = &adler32_power8;
         ft.chunkmemset_safe = &chunkmemset_safe_power8;
-        ft.chunksize = &chunksize_power8;
         ft.inflate_fast = &inflate_fast_power8;
         ft.slide_hash = &slide_hash_power8;
     }
@@ -228,7 +291,6 @@ static void init_functable(void) {
         ft.adler32 = &adler32_rvv;
         ft.adler32_fold_copy = &adler32_fold_copy_rvv;
         ft.chunkmemset_safe = &chunkmemset_safe_rvv;
-        ft.chunksize = &chunksize_rvv;
         ft.compare256 = &compare256_rvv;
         ft.inflate_fast = &inflate_fast_rvv;
         ft.longest_match = &longest_match_rvv;
@@ -237,6 +299,12 @@ static void init_functable(void) {
     }
 #endif
 
+    // RISCV - ZBC
+#ifdef RISCV_CRC32_ZBC
+    if (cf.riscv.has_zbc) {
+        ft.crc32 = &crc32_riscv64_zbc;
+    }
+#endif
 
     // S390
 #ifdef S390_CRC32_VX
@@ -244,99 +312,134 @@ static void init_functable(void) {
         ft.crc32 = crc32_s390_vx;
 #endif
 
+    // LOONGARCH
+#ifdef LOONGARCH_CRC
+    if (cf.loongarch.has_crc) {
+        ft.crc32 = crc32_loongarch64;
+        ft.crc32_fold = &crc32_fold_loongarch64;
+        ft.crc32_fold_copy = &crc32_fold_copy_loongarch64;
+    }
+#endif
+#ifdef LOONGARCH_LSX
+    if (cf.loongarch.has_lsx) {
+        ft.adler32 = &adler32_lsx;
+        ft.adler32_fold_copy = &adler32_fold_copy_lsx;
+        ft.slide_hash = slide_hash_lsx;
+#  ifdef HAVE_BUILTIN_CTZ
+        ft.compare256 = &compare256_lsx;
+        ft.longest_match = &longest_match_lsx;
+        ft.longest_match_slow = &longest_match_slow_lsx;
+#  endif
+        ft.chunkmemset_safe = &chunkmemset_safe_lsx;
+        ft.inflate_fast = &inflate_fast_lsx;
+    }
+#endif
+#ifdef LOONGARCH_LASX
+    if (cf.loongarch.has_lasx) {
+        ft.adler32 = &adler32_lasx;
+        ft.adler32_fold_copy = &adler32_fold_copy_lasx;
+        ft.slide_hash = slide_hash_lasx;
+#  ifdef HAVE_BUILTIN_CTZ
+        ft.compare256 = &compare256_lasx;
+        ft.longest_match = &longest_match_lasx;
+        ft.longest_match_slow = &longest_match_slow_lasx;
+#  endif
+        ft.chunkmemset_safe = &chunkmemset_safe_lasx;
+        ft.inflate_fast = &inflate_fast_lasx;
+    }
+#endif
+
+#endif // WITH_OPTIM
+
     // Assign function pointers individually for atomic operation
     FUNCTABLE_ASSIGN(ft, force_init);
-    FUNCTABLE_ASSIGN(ft, adler32);
-    FUNCTABLE_ASSIGN(ft, adler32_fold_copy);
-    FUNCTABLE_ASSIGN(ft, chunkmemset_safe);
-    FUNCTABLE_ASSIGN(ft, chunksize);
-    FUNCTABLE_ASSIGN(ft, compare256);
-    FUNCTABLE_ASSIGN(ft, crc32);
-    FUNCTABLE_ASSIGN(ft, crc32_fold);
-    FUNCTABLE_ASSIGN(ft, crc32_fold_copy);
-    FUNCTABLE_ASSIGN(ft, crc32_fold_final);
-    FUNCTABLE_ASSIGN(ft, crc32_fold_reset);
-    FUNCTABLE_ASSIGN(ft, inflate_fast);
-    FUNCTABLE_ASSIGN(ft, longest_match);
-    FUNCTABLE_ASSIGN(ft, longest_match_slow);
-    FUNCTABLE_ASSIGN(ft, slide_hash);
+    FUNCTABLE_VERIFY_ASSIGN(ft, adler32);
+    FUNCTABLE_VERIFY_ASSIGN(ft, adler32_fold_copy);
+    FUNCTABLE_VERIFY_ASSIGN(ft, chunkmemset_safe);
+    FUNCTABLE_VERIFY_ASSIGN(ft, compare256);
+    FUNCTABLE_VERIFY_ASSIGN(ft, crc32);
+    FUNCTABLE_VERIFY_ASSIGN(ft, crc32_fold);
+    FUNCTABLE_VERIFY_ASSIGN(ft, crc32_fold_copy);
+    FUNCTABLE_VERIFY_ASSIGN(ft, crc32_fold_final);
+    FUNCTABLE_VERIFY_ASSIGN(ft, crc32_fold_reset);
+    FUNCTABLE_VERIFY_ASSIGN(ft, inflate_fast);
+    FUNCTABLE_VERIFY_ASSIGN(ft, longest_match);
+    FUNCTABLE_VERIFY_ASSIGN(ft, longest_match_slow);
+    FUNCTABLE_VERIFY_ASSIGN(ft, slide_hash);
 
     // Memory barrier for weak memory order CPUs
     FUNCTABLE_BARRIER();
+
+    return Z_OK;
 }
 
 /* stub functions */
-static void force_init_stub(void) {
-    init_functable();
+static int force_init_stub(void) {
+    return init_functable();
 }
 
 static uint32_t adler32_stub(uint32_t adler, const uint8_t* buf, size_t len) {
-    init_functable();
+    FUNCTABLE_INIT_ABORT;
     return functable.adler32(adler, buf, len);
 }
 
 static uint32_t adler32_fold_copy_stub(uint32_t adler, uint8_t* dst, const uint8_t* src, size_t len) {
-    init_functable();
+    FUNCTABLE_INIT_ABORT;
     return functable.adler32_fold_copy(adler, dst, src, len);
 }
 
 static uint8_t* chunkmemset_safe_stub(uint8_t* out, uint8_t *from, unsigned len, unsigned left) {
-    init_functable();
+    FUNCTABLE_INIT_ABORT;
     return functable.chunkmemset_safe(out, from, len, left);
 }
 
-static uint32_t chunksize_stub(void) {
-    init_functable();
-    return functable.chunksize();
-}
-
 static uint32_t compare256_stub(const uint8_t* src0, const uint8_t* src1) {
-    init_functable();
+    FUNCTABLE_INIT_ABORT;
     return functable.compare256(src0, src1);
 }
 
 static uint32_t crc32_stub(uint32_t crc, const uint8_t* buf, size_t len) {
-    init_functable();
+    FUNCTABLE_INIT_ABORT;
     return functable.crc32(crc, buf, len);
 }
 
 static void crc32_fold_stub(crc32_fold* crc, const uint8_t* src, size_t len, uint32_t init_crc) {
-    init_functable();
+    FUNCTABLE_INIT_ABORT;
     functable.crc32_fold(crc, src, len, init_crc);
 }
 
 static void crc32_fold_copy_stub(crc32_fold* crc, uint8_t* dst, const uint8_t* src, size_t len) {
-    init_functable();
+    FUNCTABLE_INIT_ABORT;
     functable.crc32_fold_copy(crc, dst, src, len);
 }
 
 static uint32_t crc32_fold_final_stub(crc32_fold* crc) {
-    init_functable();
+    FUNCTABLE_INIT_ABORT;
     return functable.crc32_fold_final(crc);
 }
 
 static uint32_t crc32_fold_reset_stub(crc32_fold* crc) {
-    init_functable();
+    FUNCTABLE_INIT_ABORT;
     return functable.crc32_fold_reset(crc);
 }
 
 static void inflate_fast_stub(PREFIX3(stream) *strm, uint32_t start) {
-    init_functable();
+    FUNCTABLE_INIT_ABORT;
     functable.inflate_fast(strm, start);
 }
 
 static uint32_t longest_match_stub(deflate_state* const s, Pos cur_match) {
-    init_functable();
+    FUNCTABLE_INIT_ABORT;
     return functable.longest_match(s, cur_match);
 }
 
 static uint32_t longest_match_slow_stub(deflate_state* const s, Pos cur_match) {
-    init_functable();
+    FUNCTABLE_INIT_ABORT;
     return functable.longest_match_slow(s, cur_match);
 }
 
 static void slide_hash_stub(deflate_state* s) {
-    init_functable();
+    FUNCTABLE_INIT_ABORT;
     functable.slide_hash(s);
 }
 
@@ -346,7 +449,6 @@ Z_INTERNAL struct functable_s functable = {
     adler32_stub,
     adler32_fold_copy_stub,
     chunkmemset_safe_stub,
-    chunksize_stub,
     compare256_stub,
     crc32_stub,
     crc32_fold_stub,

@@ -21,7 +21,7 @@ z_const char * const PREFIX(z_errmsg)[10] = {
 };
 
 const char PREFIX3(vstring)[] =
-    " zlib-ng 2.2.5";
+    " zlib-ng 2.3.3";
 
 #ifdef ZLIB_COMPAT
 const char * Z_EXPORT zlibVersion(void) {
@@ -96,10 +96,12 @@ void Z_INTERNAL z_error(const char *m) {
 /* exported to allow conversion of error code to string for compress() and
  * uncompress()
  */
-const char * Z_EXPORT PREFIX(zError)(int err) {
+const char * Z_EXPORT PREFIX(zError)(z_int32_t err) {
     return ERR_MSG(err);
 }
 
+// Zlib-ng's default alloc/free implementation, used unless
+// application supplies its own alloc/free functions.
 void Z_INTERNAL *PREFIX(zcalloc)(void *opaque, unsigned items, unsigned size) {
     Z_UNUSED(opaque);
     return zng_alloc((size_t)items * (size_t)size);
@@ -108,4 +110,42 @@ void Z_INTERNAL *PREFIX(zcalloc)(void *opaque, unsigned items, unsigned size) {
 void Z_INTERNAL PREFIX(zcfree)(void *opaque, void *ptr) {
     Z_UNUSED(opaque);
     zng_free(ptr);
+}
+
+/* Provide aligned allocations, only used by gz* code */
+void Z_INTERNAL *zng_alloc_aligned(unsigned size, unsigned align) {
+    uintptr_t return_ptr, original_ptr;
+    uint32_t alloc_size, align_diff;
+    void *ptr;
+
+    /* Allocate enough memory for proper alignment and to store the original memory pointer */
+    alloc_size = sizeof(void *) + size + align;
+    ptr = zng_alloc(alloc_size);
+    if (!ptr)
+        return NULL;
+
+    /* Calculate return pointer address with space enough to store original pointer */
+    align_diff = align - ((uintptr_t)ptr % align);
+    return_ptr = (uintptr_t)ptr + align_diff;
+    if (align_diff < sizeof(void *))
+        return_ptr += align;
+
+    /* Store the original pointer for free() */
+    original_ptr = return_ptr - sizeof(void *);
+    memcpy((void *)original_ptr, &ptr, sizeof(void *));
+
+    /* Return properly aligned pointer in allocation */
+    return (void *)return_ptr;
+}
+
+void Z_INTERNAL zng_free_aligned(void *ptr) {
+    if (!ptr)
+        return;
+
+    /* Calculate offset to original memory allocation pointer */
+    void *original_ptr = (void *)((uintptr_t)ptr - sizeof(void *));
+    void *free_ptr = *(void **)original_ptr;
+
+    /* Free original memory allocation */
+    zng_free(free_ptr);
 }

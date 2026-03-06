@@ -32,6 +32,7 @@
 
 #include "zbuild.h"
 #include "deflate.h"
+#include "deflate_p.h"
 #include "trees.h"
 #include "trees_emit.h"
 #include "trees_tbl.h"
@@ -66,9 +67,9 @@ static const static_tree_desc  static_bl_desc =
  */
 
 static void init_block       (deflate_state *s);
-static void pqdownheap       (deflate_state *s, ct_data *tree, int k);
-static void gen_bitlen       (deflate_state *s, tree_desc *desc);
+static inline void pqdownheap       (unsigned char *depth, int *heap, const int heap_len, ct_data *tree, int k);
 static void build_tree       (deflate_state *s, tree_desc *desc);
+static void gen_bitlen       (deflate_state *s, tree_desc *desc);
 static void scan_tree        (deflate_state *s, ct_data *tree, int max_code);
 static void send_tree        (deflate_state *s, ct_data *tree, int max_code);
 static int  build_bl_tree    (deflate_state *s);
@@ -124,17 +125,6 @@ static void init_block(deflate_state *s) {
 
 
 /* ===========================================================================
- * Remove the smallest element from the heap and recreate the heap with
- * one less element. Updates heap and heap_len.
- */
-#define pqremove(s, tree, top) \
-{\
-    top = s->heap[SMALLEST]; \
-    s->heap[SMALLEST] = s->heap[s->heap_len--]; \
-    pqdownheap(s, tree, SMALLEST); \
-}
-
-/* ===========================================================================
  * Compares to subtrees, using the tree depth as tie breaker when
  * the subtrees have equal frequency. This minimizes the worst case length.
  */
@@ -143,33 +133,139 @@ static void init_block(deflate_state *s) {
     (tree[n].Freq == tree[m].Freq && depth[n] <= depth[m]))
 
 /* ===========================================================================
+ * Remove the smallest element from the heap and recreate the heap with
+ * one less element. Updates heap and heap_len. Used by build_tree().
+ */
+#define pqremove(s, depth, heap, tree, top) { \
+    top = heap[SMALLEST]; \
+    heap[SMALLEST] = heap[s->heap_len--]; \
+    pqdownheap(depth, heap, s->heap_len, tree, SMALLEST); \
+}
+
+/* ===========================================================================
  * Restore the heap property by moving down the tree starting at node k,
  * exchanging a node with the smallest of its two sons if necessary, stopping
  * when the heap property is re-established (each father smaller than its
- * two sons).
+ * two sons). Used by build_tree().
  */
-static void pqdownheap(deflate_state *s, ct_data *tree, int k) {
+static inline void pqdownheap(unsigned char *depth, int *heap, const int heap_len, ct_data *tree, int k) {
     /* tree: the tree to restore */
     /* k: node to move down */
-    int v = s->heap[k];
     int j = k << 1;  /* left son of k */
-    while (j <= s->heap_len) {
+    const int v = heap[k];
+
+    while (j <= heap_len) {
         /* Set j to the smallest of the two sons: */
-        if (j < s->heap_len && smaller(tree, s->heap[j+1], s->heap[j], s->depth)) {
+        if (j < heap_len && smaller(tree, heap[j+1], heap[j], depth)) {
             j++;
         }
         /* Exit if v is smaller than both sons */
-        if (smaller(tree, v, s->heap[j], s->depth))
+        if (smaller(tree, v, heap[j], depth))
             break;
 
         /* Exchange v with the smallest son */
-        s->heap[k] = s->heap[j];
+        heap[k] = heap[j];
         k = j;
 
         /* And continue down the tree, setting j to the left son of k */
         j <<= 1;
     }
-    s->heap[k] = v;
+    heap[k] = v;
+}
+
+/* ===========================================================================
+ * Construct one Huffman tree and assigns the code bit strings and lengths.
+ * Update the total bit length for the current block.
+ * IN assertion: the field freq is set for all tree elements.
+ * OUT assertions: the fields len and code are set to the optimal bit length
+ *     and corresponding code. The length opt_len is updated; static_len is
+ *     also updated if stree is not null. The field max_code is set.
+ */
+static void build_tree(deflate_state *s, tree_desc *desc) {
+    /* desc: the tree descriptor */
+    unsigned char *depth  = s->depth;
+    int *heap             = s->heap;
+    ct_data *tree         = desc->dyn_tree;
+    const ct_data *stree  = desc->stat_desc->static_tree;
+    int elems             = desc->stat_desc->elems;
+    int n, m;          /* iterate over heap elements */
+    int max_code = -1; /* largest code with non zero frequency */
+    int node;          /* new node being created */
+
+    /* Construct the initial heap, with least frequent element in
+     * heap[SMALLEST]. The sons of heap[n] are heap[2*n] and heap[2*n+1].
+     * heap[0] is not used.
+     */
+    s->heap_len = 0;
+    s->heap_max = HEAP_SIZE;
+
+    for (n = 0; n < elems; n++) {
+        if (tree[n].Freq != 0) {
+            heap[++(s->heap_len)] = max_code = n;
+            depth[n] = 0;
+        } else {
+            tree[n].Len = 0;
+        }
+    }
+
+    /* The pkzip format requires that at least one distance code exists,
+     * and that at least one bit should be sent even if there is only one
+     * possible code. So to avoid special checks later on we force at least
+     * two codes of non zero frequency.
+     */
+    while (s->heap_len < 2) {
+        node = heap[++(s->heap_len)] = (max_code < 2 ? ++max_code : 0);
+        tree[node].Freq = 1;
+        depth[node] = 0;
+        s->opt_len--;
+        if (stree)
+            s->static_len -= stree[node].Len;
+        /* node is 0 or 1 so it does not have extra bits */
+    }
+    desc->max_code = max_code;
+
+    /* The elements heap[heap_len/2+1 .. heap_len] are leaves of the tree,
+     * establish sub-heaps of increasing lengths:
+     */
+    for (n = s->heap_len/2; n >= 1; n--)
+        pqdownheap(depth, heap, s->heap_len, tree, n);
+
+    /* Construct the Huffman tree by repeatedly combining the least two
+     * frequent nodes.
+     */
+    node = elems;              /* next internal node of the tree */
+    do {
+        pqremove(s, depth, heap, tree, n);  /* n = node of least frequency */
+        m = heap[SMALLEST]; /* m = node of next least frequency */
+
+        heap[--(s->heap_max)] = n; /* keep the nodes sorted by frequency */
+        heap[--(s->heap_max)] = m;
+
+        /* Create a new node father of n and m */
+        tree[node].Freq = tree[n].Freq + tree[m].Freq;
+        depth[node] = (unsigned char)((depth[n] >= depth[m] ?
+                                          depth[n] : depth[m]) + 1);
+        tree[n].Dad = tree[m].Dad = (uint16_t)node;
+#ifdef DUMP_BL_TREE
+        if (tree == s->bl_tree) {
+            fprintf(stderr, "\nnode %d(%d), sons %d(%d) %d(%d)",
+                    node, tree[node].Freq, n, tree[n].Freq, m, tree[m].Freq);
+        }
+#endif
+        /* and insert the new node in the heap */
+        heap[SMALLEST] = node++;
+        pqdownheap(depth, heap, s->heap_len, tree, SMALLEST);
+    } while (s->heap_len >= 2);
+
+    heap[--(s->heap_max)] = heap[SMALLEST];
+
+    /* At this point, the fields freq and dad are set. We can now
+     * generate the bit lengths.
+     */
+    gen_bitlen(s, (tree_desc *)desc);
+
+    /* The field len is now set, we can generate the bit codes */
+    gen_codes((ct_data *)tree, max_code, s->bl_count);
 }
 
 /* ===========================================================================
@@ -180,7 +276,7 @@ static void pqdownheap(deflate_state *s, ct_data *tree, int k) {
  * OUT assertions: the field len is set to the optimal bit length, the
  *     array bl_count contains the frequencies for each bit length.
  *     The length opt_len is updated; static_len is also updated if stree is
- *     not null.
+ *     not null. Used by build_tree().
  */
 static void gen_bitlen(deflate_state *s, tree_desc *desc) {
     /* desc: the tree descriptor */
@@ -275,7 +371,7 @@ static void gen_bitlen(deflate_state *s, tree_desc *desc) {
  * IN assertion: the array bl_count contains the bit length statistics for
  * the given tree and the field len is set for all tree elements.
  * OUT assertion: the field code is set for all tree elements of non
- *     zero code length.
+ *     zero code length. Used by build_tree().
  */
 Z_INTERNAL void gen_codes(ct_data *tree, int max_code, uint16_t *bl_count) {
     /* tree: the tree to decorate */
@@ -304,104 +400,11 @@ Z_INTERNAL void gen_codes(ct_data *tree, int max_code, uint16_t *bl_count) {
         if (len == 0)
             continue;
         /* Now reverse the bits */
-        tree[n].Code = PREFIX(bi_reverse)(next_code[len]++, len);
+        tree[n].Code = bi_reverse(next_code[len]++, len);
 
         Tracecv(tree != static_ltree, (stderr, "\nn %3d %c l %2d c %4x (%x) ",
              n, (isgraph(n & 0xff) ? n : ' '), len, tree[n].Code, next_code[len]-1));
     }
-}
-
-/* ===========================================================================
- * Construct one Huffman tree and assigns the code bit strings and lengths.
- * Update the total bit length for the current block.
- * IN assertion: the field freq is set for all tree elements.
- * OUT assertions: the fields len and code are set to the optimal bit length
- *     and corresponding code. The length opt_len is updated; static_len is
- *     also updated if stree is not null. The field max_code is set.
- */
-static void build_tree(deflate_state *s, tree_desc *desc) {
-    /* desc: the tree descriptor */
-    ct_data *tree         = desc->dyn_tree;
-    const ct_data *stree  = desc->stat_desc->static_tree;
-    int elems             = desc->stat_desc->elems;
-    int n, m;          /* iterate over heap elements */
-    int max_code = -1; /* largest code with non zero frequency */
-    int node;          /* new node being created */
-
-    /* Construct the initial heap, with least frequent element in
-     * heap[SMALLEST]. The sons of heap[n] are heap[2*n] and heap[2*n+1].
-     * heap[0] is not used.
-     */
-    s->heap_len = 0;
-    s->heap_max = HEAP_SIZE;
-
-    for (n = 0; n < elems; n++) {
-        if (tree[n].Freq != 0) {
-            s->heap[++(s->heap_len)] = max_code = n;
-            s->depth[n] = 0;
-        } else {
-            tree[n].Len = 0;
-        }
-    }
-
-    /* The pkzip format requires that at least one distance code exists,
-     * and that at least one bit should be sent even if there is only one
-     * possible code. So to avoid special checks later on we force at least
-     * two codes of non zero frequency.
-     */
-    while (s->heap_len < 2) {
-        node = s->heap[++(s->heap_len)] = (max_code < 2 ? ++max_code : 0);
-        tree[node].Freq = 1;
-        s->depth[node] = 0;
-        s->opt_len--;
-        if (stree)
-            s->static_len -= stree[node].Len;
-        /* node is 0 or 1 so it does not have extra bits */
-    }
-    desc->max_code = max_code;
-
-    /* The elements heap[heap_len/2+1 .. heap_len] are leaves of the tree,
-     * establish sub-heaps of increasing lengths:
-     */
-    for (n = s->heap_len/2; n >= 1; n--)
-        pqdownheap(s, tree, n);
-
-    /* Construct the Huffman tree by repeatedly combining the least two
-     * frequent nodes.
-     */
-    node = elems;              /* next internal node of the tree */
-    do {
-        pqremove(s, tree, n);  /* n = node of least frequency */
-        m = s->heap[SMALLEST]; /* m = node of next least frequency */
-
-        s->heap[--(s->heap_max)] = n; /* keep the nodes sorted by frequency */
-        s->heap[--(s->heap_max)] = m;
-
-        /* Create a new node father of n and m */
-        tree[node].Freq = tree[n].Freq + tree[m].Freq;
-        s->depth[node] = (unsigned char)((s->depth[n] >= s->depth[m] ?
-                                          s->depth[n] : s->depth[m]) + 1);
-        tree[n].Dad = tree[m].Dad = (uint16_t)node;
-#ifdef DUMP_BL_TREE
-        if (tree == s->bl_tree) {
-            fprintf(stderr, "\nnode %d(%d), sons %d(%d) %d(%d)",
-                    node, tree[node].Freq, n, tree[n].Freq, m, tree[m].Freq);
-        }
-#endif
-        /* and insert the new node in the heap */
-        s->heap[SMALLEST] = node++;
-        pqdownheap(s, tree, SMALLEST);
-    } while (s->heap_len >= 2);
-
-    s->heap[--(s->heap_max)] = s->heap[SMALLEST];
-
-    /* At this point, the fields freq and dad are set. We can now
-     * generate the bit lengths.
-     */
-    gen_bitlen(s, (tree_desc *)desc);
-
-    /* The field len is now set, we can generate the bit codes */
-    gen_codes((ct_data *)tree, max_code, s->bl_count);
 }
 
 /* ===========================================================================
@@ -712,15 +715,24 @@ static void compress_block(deflate_state *s, const ct_data *ltree, const ct_data
     int lc;             /* match length or unmatched char (if dist == 0) */
     unsigned sx = 0;    /* running index in symbol buffers */
 
-    if (s->sym_next != 0) {
+    /* Local pointers to avoid indirection */
+    const unsigned int sym_next = s->sym_next;
+#ifdef LIT_MEM
+    uint16_t *d_buf = s->d_buf;
+    unsigned char *l_buf = s->l_buf;
+#else
+    unsigned char *sym_buf = s->sym_buf;
+#endif
+
+    if (sym_next != 0) {
         do {
 #ifdef LIT_MEM
-            dist = s->d_buf[sx];
-            lc = s->l_buf[sx++];
+            dist = d_buf[sx];
+            lc = l_buf[sx++];
 #else
-            dist = s->sym_buf[sx++] & 0xff;
-            dist += (unsigned)(s->sym_buf[sx++] & 0xff) << 8;
-            lc = s->sym_buf[sx++];
+            dist = sym_buf[sx++] & 0xff;
+            dist += (unsigned)(sym_buf[sx++] & 0xff) << 8;
+            lc = sym_buf[sx++];
 #endif
             if (dist == 0) {
                 zng_emit_lit(s, ltree, lc);
@@ -734,7 +746,7 @@ static void compress_block(deflate_state *s, const ct_data *ltree, const ct_data
 #else
             Assert(s->pending < s->lit_bufsize + sx, "pending_buf overflow");
 #endif
-        } while (sx < s->sym_next);
+        } while (sx < sym_next);
     }
 
     zng_emit_end_block(s, ltree, 0);
@@ -744,9 +756,9 @@ static void compress_block(deflate_state *s, const ct_data *ltree, const ct_data
  * Check if the data type is TEXT or BINARY, using the following algorithm:
  * - TEXT if the two conditions below are satisfied:
  *    a) There are no non-portable control characters belonging to the
- *       "black list" (0..6, 14..25, 28..31).
+ *       "block list" (0..6, 14..25, 28..31).
  *    b) There is at least one printable character belonging to the
- *       "white list" (9 {TAB}, 10 {LF}, 13 {CR}, 32..255).
+ *       "allow list" (9 {TAB}, 10 {LF}, 13 {CR}, 32..255).
  * - BINARY otherwise.
  * - The following partially-portable control characters form a
  *   "gray list" that is ignored in this detection algorithm:
@@ -754,26 +766,26 @@ static void compress_block(deflate_state *s, const ct_data *ltree, const ct_data
  * IN assertion: the fields Freq of dyn_ltree are set.
  */
 static int detect_data_type(deflate_state *s) {
-    /* black_mask is the bit mask of black-listed bytes
+    /* block_mask is the bit mask of block-listed bytes
      * set bits 0..6, 14..25, and 28..31
      * 0xf3ffc07f = binary 11110011111111111100000001111111
      */
-    unsigned long black_mask = 0xf3ffc07fUL;
+    unsigned long block_mask = 0xf3ffc07fUL;
     int n;
 
-    /* Check for non-textual ("black-listed") bytes. */
-    for (n = 0; n <= 31; n++, black_mask >>= 1)
-        if ((black_mask & 1) && (s->dyn_ltree[n].Freq != 0))
+    /* Check for non-textual ("block-listed") bytes. */
+    for (n = 0; n <= 31; n++, block_mask >>= 1)
+        if ((block_mask & 1) && (s->dyn_ltree[n].Freq != 0))
             return Z_BINARY;
 
-    /* Check for textual ("white-listed") bytes. */
+    /* Check for textual ("allow-listed") bytes. */
     if (s->dyn_ltree[9].Freq != 0 || s->dyn_ltree[10].Freq != 0 || s->dyn_ltree[13].Freq != 0)
         return Z_TEXT;
     for (n = 32; n < LITERALS; n++)
         if (s->dyn_ltree[n].Freq != 0)
             return Z_TEXT;
 
-    /* There are no "black-listed" or "white-listed" bytes:
+    /* There are no "block-listed" or "allow-listed" bytes:
      * this stream either is empty or has tolerated ("gray-listed") bytes only.
      */
     return Z_BINARY;
@@ -803,16 +815,4 @@ void Z_INTERNAL zng_tr_flush_bits(deflate_state *s) {
         s->bi_buf >>= 8;
         s->bi_valid -= 8;
     }
-}
-
-/* ===========================================================================
- * Reverse the first len bits of a code using bit manipulation
- */
-Z_INTERNAL uint16_t PREFIX(bi_reverse)(unsigned code, int len) {
-    /* code: the value to invert */
-    /* len: its bit length */
-    Assert(len >= 1 && len <= 15, "code length must be 1-15");
-#define bitrev8(b) \
-    (uint8_t)((((uint8_t)(b) * 0x80200802ULL) & 0x0884422110ULL) * 0x0101010101ULL >> 32)
-    return (bitrev8(code >> 8) | (uint16_t)bitrev8(code) << 8) >> (16 - len);
 }

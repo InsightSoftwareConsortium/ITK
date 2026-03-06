@@ -38,10 +38,10 @@ Z_INTERNAL uint32_t adler32_c(uint32_t adler, const uint8_t *buf, size_t len) {
 #endif
         do {
 #ifdef UNROLL_MORE
-            DO16(adler, sum2, buf);          /* 16 sums unrolled */
+            ADLER_DO16(adler, sum2, buf);          /* 16 sums unrolled */
             buf += 16;
 #else
-            DO8(adler, sum2, buf, 0);         /* 8 sums unrolled */
+            ADLER_DO8(adler, sum2, buf, 0);         /* 8 sums unrolled */
             buf += 8;
 #endif
         } while (--n);
