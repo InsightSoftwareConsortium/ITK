@@ -39,7 +39,11 @@
  */
 
 #include "itkImageToImageFilter.h"
+#include "itkGTest.h"
 #include <sstream>
+
+namespace
+{
 
 /**
  * \class An example filter.
@@ -199,16 +203,15 @@ ExampleImageFilter<TInputImage, TOutputImage>::Execute(Dispatch<0>)
   throw std::string("The 0-Dispatch method should not have been called.");
 }
 
+} // namespace
+
 
 /**
  * Filter dispatch test creates several ExampleImageFilter instantiations
  * and calls them to check if the dispatch rules are working correctly.
  */
-int
-itkFilterDispatchTest(int, char *[])
+TEST(FilterDispatch, ConvertedLegacyTest)
 {
-  bool passed = true;
-
   // Define an image of each dimension.
   using Image2d = itk::Image<float, 2>;
   using Image3d = itk::Image<float, 3>;
@@ -230,32 +233,15 @@ itkFilterDispatchTest(int, char *[])
   // Try running each of the filters.  If the wrong Execute() method is
   // invoked by one of these calls, a std::string() exception will be
   // thrown with the error description.
-  try
-  {
-    std::cout << "Executing 2-d filter: ";
-    filter2d->Update();
+  std::cout << "Executing 2-d filter: ";
+  EXPECT_NO_THROW(filter2d->Update());
 
-    std::cout << "Executing 3-d filter: ";
-    filter3d->Update();
+  std::cout << "Executing 3-d filter: ";
+  EXPECT_NO_THROW(filter3d->Update());
 
-    std::cout << "Executing 4-d filter: ";
-    filter4d->Update();
+  std::cout << "Executing 4-d filter: ";
+  EXPECT_NO_THROW(filter4d->Update());
 
-    std::cout << "Executing 5-d filter: ";
-    filter5d->Update();
-  }
-  catch (const std::string & err)
-  {
-    std::cout << err;
-    passed = false;
-  }
-
-  if (passed)
-  {
-    std::cout << "The test has passed." << std::endl;
-    return EXIT_SUCCESS;
-  }
-
-  std::cout << "The test has failed." << std::endl;
-  return EXIT_FAILURE;
+  std::cout << "Executing 5-d filter: ";
+  EXPECT_NO_THROW(filter5d->Update());
 }

@@ -7,7 +7,6 @@ set(
   itkCovariantVectorGeometryTest.cxx
   itkExtractImage3Dto2DTest.cxx
   itkExtractImageTest.cxx
-  itkFilterDispatchTest.cxx
   itkFloodFilledSpatialFunctionTest.cxx
   itkFloodFillIteratorTest.cxx
   itkGaussianDerivativeOperatorTest.cxx
@@ -297,12 +296,6 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     itkExtractImageTest
-)
-itk_add_test(
-  NAME itkFilterDispatchTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkFilterDispatchTest
 )
 itk_add_test(
   NAME itkFloodFilledSpatialFunctionTest
@@ -1748,6 +1741,7 @@ set(
   itkDecoratorGTest.cxx
   itkAbortProcessObjectGTest.cxx
   itkBresenhamLineGTest.cxx
+  itkFilterDispatchGTest.cxx
 )
 creategoogletestdriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
 # If `-static` was passed to CMAKE_EXE_LINKER_FLAGS, compilation fails. No need to
