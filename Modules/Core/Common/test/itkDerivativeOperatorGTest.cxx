@@ -19,7 +19,7 @@
 
 #include "itkMath.h"
 #include "itkDerivativeOperator.h"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
 
 namespace itk
 {
@@ -58,8 +58,7 @@ public:
 };
 } // namespace itk
 
-int
-itkDerivativeOperatorTest(int, char *[])
+TEST(DerivativeOperator, BasicMethodsAndCoefficients)
 {
   constexpr unsigned int Dimension{ 1 };
   using PixelType = float;
@@ -67,9 +66,10 @@ itkDerivativeOperatorTest(int, char *[])
   // Exercise object basic methods
   using DerivativeOperatorType = itk::DerivativeOperator<PixelType, Dimension>;
 
-  DerivativeOperatorType derivativeOperator;
+  DerivativeOperatorType   derivativeOperator;
+  DerivativeOperatorType * derivativeOperatorPtr = &derivativeOperator;
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS((&derivativeOperator), DerivativeOperator, NeighborhoodOperator);
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(derivativeOperatorPtr, DerivativeOperator, NeighborhoodOperator);
 
 
   // Test other methods using the helper
@@ -79,48 +79,33 @@ itkDerivativeOperatorTest(int, char *[])
 
   unsigned int order = 1;
   op1.SetOrder(order);
-  ITK_TEST_SET_GET_VALUE(order, op1.GetOrder());
+  EXPECT_EQ(op1.GetOrder(), order);
 
   order = 2;
   op1.SetOrder(order);
-  ITK_TEST_SET_GET_VALUE(order, op1.GetOrder());
+  EXPECT_EQ(op1.GetOrder(), order);
 
   order = 1;
   op1.SetOrder(order);
-  ITK_TEST_SET_GET_VALUE(order, op1.GetOrder());
+  EXPECT_EQ(op1.GetOrder(), order);
 
 
   OperatorType::CoefficientVector expected1{ 0.5, 0.0, -0.5 };
 
   // Check actual coefficient values
-  if (!op1.CheckCoefficients(expected1))
-  {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in coefficients" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_TRUE(op1.CheckCoefficients(expected1));
 
   // Test copy constructor
   OperatorType op1b(op1);
 
   // Check actual coefficient values
-  if (!op1b.CheckCoefficients(expected1))
-  {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Copy constructor failed" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_TRUE(op1b.CheckCoefficients(expected1));
 
   // Test operator assignment
   OperatorType op1c(op1);
 
   // Check actual coefficient values
-  if (!op1c.CheckCoefficients(expected1))
-  {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Operator assignment failed" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_TRUE(op1c.CheckCoefficients(expected1));
 
   // Test second order
   OperatorType::CoefficientVector expected2{ 1, -2, 1 };
@@ -130,14 +115,8 @@ itkDerivativeOperatorTest(int, char *[])
   op2.SetOrder(2);
 
   // Check actual coefficient values
-  if (!op2.CheckCoefficients(expected2))
-  {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in coefficients" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_TRUE(op2.CheckCoefficients(expected2));
 
 
   std::cout << "Test finished." << std::endl;
-  return EXIT_SUCCESS;
 }
