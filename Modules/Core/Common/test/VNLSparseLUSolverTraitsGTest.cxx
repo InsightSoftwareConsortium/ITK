@@ -18,9 +18,9 @@
 
 #include "VNLSparseLUSolverTraits.h"
 #include "itkMath.h" // itk::Math::Absolute
+#include "itkGTest.h"
 
 #include <iostream>
-#include <cstdlib>
 
 template <class TVector>
 bool
@@ -44,8 +44,7 @@ VectorsEquals(const TVector & v1, const TVector & v2, const typename TVector::el
   return true;
 }
 
-int
-VNLSparseLUSolverTraitsTest(int, char *[])
+TEST(VNLSparseLUSolverTraits, SolveLinearSystem)
 {
   /**
    * Define an sparse LU solver traits type that operates over sparse matrices and
@@ -109,10 +108,7 @@ VNLSparseLUSolverTraitsTest(int, char *[])
   {
     VectorType X = SolverTraits::InitializeVector(N);
     SolverTraits::Solve(A, Bx, X);
-    if (!VectorsEquals(X, Xexpected, tolerance))
-    {
-      return EXIT_FAILURE;
-    }
+    EXPECT_TRUE(VectorsEquals(X, Xexpected, tolerance));
   }
 
   /**
@@ -123,10 +119,8 @@ VNLSparseLUSolverTraitsTest(int, char *[])
     VectorType Y = SolverTraits::InitializeVector(N);
     SolverTraits::Solve(A, Bx, X);
     SolverTraits::Solve(A, By, Y);
-    if (!VectorsEquals(X, Xexpected, tolerance) || !VectorsEquals(Y, Yexpected, tolerance))
-    {
-      return EXIT_FAILURE;
-    }
+    EXPECT_TRUE(VectorsEquals(X, Xexpected, tolerance));
+    EXPECT_TRUE(VectorsEquals(Y, Yexpected, tolerance));
   }
 
   /**
@@ -139,11 +133,9 @@ VNLSparseLUSolverTraitsTest(int, char *[])
     SolverTraits::Solve(A, Bx, X);
     SolverTraits::Solve(A, By, Y);
     SolverTraits::Solve(A, Bz, Z);
-    if (!VectorsEquals(X, Xexpected, tolerance) || !VectorsEquals(Y, Yexpected, tolerance) ||
-        !VectorsEquals(Z, Zexpected, tolerance))
-    {
-      return EXIT_FAILURE;
-    }
+    EXPECT_TRUE(VectorsEquals(X, Xexpected, tolerance));
+    EXPECT_TRUE(VectorsEquals(Y, Yexpected, tolerance));
+    EXPECT_TRUE(VectorsEquals(Z, Zexpected, tolerance));
   }
 
   /**
@@ -155,17 +147,11 @@ VNLSparseLUSolverTraitsTest(int, char *[])
 
     // First back-substitution
     SolverTraits::Solve(solver, Bx, X);
-    if (!VectorsEquals(X, Xexpected, tolerance))
-    {
-      return EXIT_FAILURE;
-    }
+    EXPECT_TRUE(VectorsEquals(X, Xexpected, tolerance));
 
     // Second back-substitution (reusing the already factored matrix)
     SolverTraits::Solve(solver, Bx, X);
-    if (!VectorsEquals(X, Xexpected, tolerance))
-    {
-      return EXIT_FAILURE;
-    }
+    EXPECT_TRUE(VectorsEquals(X, Xexpected, tolerance));
   }
 
   /**
@@ -179,18 +165,14 @@ VNLSparseLUSolverTraitsTest(int, char *[])
     // First back-substitution
     SolverTraits::Solve(solver, Bx, X);
     SolverTraits::Solve(solver, By, Y);
-    if (!VectorsEquals(X, Xexpected, tolerance) || !VectorsEquals(Y, Yexpected, tolerance))
-    {
-      return EXIT_FAILURE;
-    }
+    EXPECT_TRUE(VectorsEquals(X, Xexpected, tolerance));
+    EXPECT_TRUE(VectorsEquals(Y, Yexpected, tolerance));
 
     // Second back-substitution (reusing the already factored matrix)
     SolverTraits::Solve(solver, Bx, X);
     SolverTraits::Solve(solver, By, Y);
-    if (!VectorsEquals(X, Xexpected, tolerance) || !VectorsEquals(Y, Yexpected, tolerance))
-    {
-      return EXIT_FAILURE;
-    }
+    EXPECT_TRUE(VectorsEquals(X, Xexpected, tolerance));
+    EXPECT_TRUE(VectorsEquals(Y, Yexpected, tolerance));
   }
 
   /**
@@ -207,22 +189,16 @@ VNLSparseLUSolverTraitsTest(int, char *[])
     SolverTraits::Solve(solver, Bx, X);
     SolverTraits::Solve(solver, By, Y);
     SolverTraits::Solve(solver, Bz, Z);
-    if (!VectorsEquals(X, Xexpected, tolerance) || !VectorsEquals(Y, Yexpected, tolerance) ||
-        !VectorsEquals(Z, Zexpected, tolerance))
-    {
-      return EXIT_FAILURE;
-    }
+    EXPECT_TRUE(VectorsEquals(X, Xexpected, tolerance));
+    EXPECT_TRUE(VectorsEquals(Y, Yexpected, tolerance));
+    EXPECT_TRUE(VectorsEquals(Z, Zexpected, tolerance));
 
     // Second back-substitution (reusing the already factored matrix)
     SolverTraits::Solve(solver, Bx, X);
     SolverTraits::Solve(solver, By, Y);
     SolverTraits::Solve(solver, Bz, Z);
-    if (!VectorsEquals(X, Xexpected, tolerance) || !VectorsEquals(Y, Yexpected, tolerance) ||
-        !VectorsEquals(Z, Zexpected, tolerance))
-    {
-      return EXIT_FAILURE;
-    }
+    EXPECT_TRUE(VectorsEquals(X, Xexpected, tolerance));
+    EXPECT_TRUE(VectorsEquals(Y, Yexpected, tolerance));
+    EXPECT_TRUE(VectorsEquals(Z, Zexpected, tolerance));
   }
-
-  return EXIT_SUCCESS;
 }
