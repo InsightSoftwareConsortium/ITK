@@ -16,10 +16,10 @@
  *
  *=========================================================================*/
 
-#include <iostream>
-
 #include "itkImage.h"
+#include "itkGTest.h"
 
+#include <iostream>
 
 // This routine is used to make sure that we call the "const" version
 // of GetPixel() (via the operator[])
@@ -42,8 +42,7 @@ TestConstPixelAccess(const itk::Image<T, VImageDimension> & in, itk::Image<T, VI
 }
 
 
-int
-itkPixelAccessTest(int, char *[])
+TEST(PixelAccess, VectorPixelSetAndGet)
 {
   std::cout << "Creating an image" << std::endl;
   const itk::Image<itk::Vector<unsigned short, 5>, 3>::Pointer o3 =
@@ -78,10 +77,15 @@ itkPixelAccessTest(int, char *[])
   vec[3] = 2;
   vec[4] = 1;
 
-
   (*o3)[regionStartIndex3D] = vec;
   (*o3)[regionEndIndex3D] = (*o3)[regionStartIndex3D];
   TestConstPixelAccess(*o3, *o3);
 
-  return EXIT_SUCCESS;
+  // Verify the pixel values were set correctly
+  const itk::Vector<unsigned short, 5> readVec = (*o3)[regionStartIndex3D];
+  EXPECT_EQ(readVec[0], 5u);
+  EXPECT_EQ(readVec[1], 4u);
+  EXPECT_EQ(readVec[2], 3u);
+  EXPECT_EQ(readVec[3], 2u);
+  EXPECT_EQ(readVec[4], 1u);
 }
