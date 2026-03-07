@@ -16,16 +16,19 @@
  *
  *=========================================================================*/
 
-#include <iostream>
-#include <ctime>
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
+#include "itkGTest.h"
+
+#include <iostream>
+
+namespace
+{
 
 void
 AdaptorSupportedIteratorSpeed(itk::Image<float, 3> * img)
 {
   itk::ImageRegionIteratorWithIndex<itk::Image<float, 3>> it(img, img->GetRequestedRegion());
-
   while (!it.IsAtEnd())
   {
     ++it;
@@ -36,7 +39,6 @@ void
 NoAdaptorSupportIteratorSpeed(itk::Image<float, 3> * img)
 {
   itk::ImageRegionIterator<itk::Image<float, 3>> it(img, img->GetRequestedRegion());
-
   while (!it.IsAtEnd())
   {
     ++it;
@@ -47,10 +49,8 @@ void
 AdaptorSupportedModifyScalars(itk::Image<float, 3> * img)
 {
   itk::ImageRegionIteratorWithIndex<itk::Image<float, 3>> it(img, img->GetRequestedRegion());
-
   while (!it.IsAtEnd())
   {
-    // *it += 3.435f;
     it.Set(it.Get() + 3.435f);
     ++it;
   }
@@ -60,10 +60,8 @@ void
 NoAdaptorSupportModifyScalars(itk::Image<float, 3> * img)
 {
   itk::ImageRegionIterator<itk::Image<float, 3>> it(img, img->GetRequestedRegion());
-
   while (!it.IsAtEnd())
   {
-    // *it += 3.435f;
     it.Set(it.Get() + 3.435f);
     ++it;
   }
@@ -73,7 +71,6 @@ void
 BypassAdaptorSupportModifyScalars(itk::Image<float, 3> * img)
 {
   itk::ImageRegionIteratorWithIndex<itk::Image<float, 3>> it(img, img->GetRequestedRegion());
-
   while (!it.IsAtEnd())
   {
     it.Value() += 3.435f;
@@ -88,7 +85,6 @@ AdaptorSupportedModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
   using VectorType = itk::Vector<float, N>;
 
   itk::ImageRegionIteratorWithIndex<itk::Image<VectorType, 3>> it(img, img->GetRequestedRegion());
-
   while (!it.IsAtEnd())
   {
     VectorType temp_vector = it.Get();
@@ -96,7 +92,6 @@ AdaptorSupportedModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
     {
       temp_vector[i] += 3.435f;
     }
-
     it.Set(temp_vector);
     ++it;
   }
@@ -109,16 +104,13 @@ NoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
   using VectorType = itk::Vector<float, N>;
 
   itk::ImageRegionIterator<itk::Image<VectorType, 3>> it(img, img->GetRequestedRegion());
-
   while (!it.IsAtEnd())
   {
     VectorType temp_vector = it.Get();
-
     for (unsigned int i = 0; i < N; ++i)
     {
       temp_vector[i] += 3.435f;
     }
-
     it.Set(temp_vector);
     ++it;
   }
@@ -131,18 +123,15 @@ BypassAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
   using VectorType = itk::Vector<float, N>;
 
   itk::ImageRegionIteratorWithIndex<itk::Image<VectorType, 3>> it(img, img->GetRequestedRegion());
-
   while (!it.IsAtEnd())
   {
     for (unsigned int i = 0; i < N; ++i)
     {
       (it.Value())[i] += 3.435f;
     }
-
     ++it;
   }
 }
-
 
 void
 BypassNoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
@@ -151,7 +140,6 @@ BypassNoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
   using VectorType = itk::Vector<float, N>;
 
   itk::ImageRegionIterator<itk::Image<VectorType, 3>> it(img, img->GetRequestedRegion());
-
   while (!it.IsAtEnd())
   {
     for (unsigned int i = 0; i < N; ++i)
@@ -162,15 +150,15 @@ BypassNoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
   }
 }
 
+} // namespace
 
-int
-itkAdaptorComparisonTest(int, char *[])
+
+TEST(AdaptorComparison, IteratorOperationsComplete)
 {
   using ScalarImageType = itk::Image<float, 3>;
   using VectorImageType = itk::Image<itk::Vector<float, 3>, 3>;
 
-  // Set up some images
-  constexpr itk::Size<3> size{ 100, 100, 100 };
+  constexpr itk::Size<3> size{ { 100, 100, 100 } };
   itk::ImageRegion<3>    region{ size };
 
   auto scalar_image = ScalarImageType::New();
@@ -182,80 +170,33 @@ itkAdaptorComparisonTest(int, char *[])
   vector_image->SetRegions(region);
   vector_image->Allocate();
 
-  auto initialVectorValue = itk::MakeFilled<VectorImageType::PixelType>(1.2345); // arbitrary value;
+  auto initialVectorValue = itk::MakeFilled<VectorImageType::PixelType>(1.2345f);
   vector_image->FillBuffer(initialVectorValue);
 
-  // Time trials
+  std::cout << "Speed of adaptor supporting iterator: ";
+  EXPECT_NO_THROW(AdaptorSupportedIteratorSpeed(scalar_image));
 
-  std::cout << "Speed of adaptor supporting iterator (for reference) \t";
+  std::cout << "Speed of non-adaptor iterator: ";
+  EXPECT_NO_THROW(NoAdaptorSupportIteratorSpeed(scalar_image));
 
-  const clock_t adaptor_comp = [&]() -> auto {
-    const auto start = clock();
-    AdaptorSupportedIteratorSpeed(scalar_image);
-    const auto stop = clock();
-    return stop - start;
-  }();
+  std::cout << "Modifying scalar image using adaptor iterator: ";
+  EXPECT_NO_THROW(AdaptorSupportedModifyScalars(scalar_image));
 
-  std::cout << adaptor_comp << std::endl;
-  const clock_t no_adaptor_comp = [=](auto scalarImage) {
-    std::cout << "Speed of iterator that does not support adaptors (for reference) \t";
-    const auto start = clock();
-    NoAdaptorSupportIteratorSpeed(scalarImage);
-    const auto stop = clock();
-    return stop - start;
-  }(scalar_image);
-  std::cout << no_adaptor_comp << std::endl;
-  {
-    std::cout << "Modifying scalar image using adaptor iterator...\t";
-    const auto start = clock();
-    AdaptorSupportedModifyScalars(scalar_image);
-    const auto stop = clock();
-    std::cout << (stop - start) << "\t compensated = " << (stop - start) - adaptor_comp << std::endl;
-  }
-  {
-    std::cout << "Modifying scalar image using non-adaptor iterator...\t";
-    const auto start = clock();
-    NoAdaptorSupportModifyScalars(scalar_image);
-    const auto stop = clock();
-    std::cout << (stop - start) << "\t compensated = " << (stop - start) - no_adaptor_comp << std::endl;
-  }
-  {
-    std::cout << "Modifying vector image using adaptor iterator...\t";
-    const auto start = clock();
-    AdaptorSupportedModifyVectors(vector_image);
-    const auto stop = clock();
-    std::cout << (stop - start) << "\t compensated = " << (stop - start) - adaptor_comp << std::endl;
-  }
-  {
-    std::cout << "Modifying vector image using non-adaptor iterator...\t";
-    const auto start = clock();
-    NoAdaptorSupportModifyVectors(vector_image);
-    const auto stop = clock();
-    std::cout << (stop - start) << "\t compensated = " << (stop - start) - no_adaptor_comp << std::endl;
-  }
-  {
-    std::cout << "Modifying scalar image bypassing adaptor api using"
-              << " adaptor iterator...\t";
-    const auto start = clock();
-    BypassAdaptorSupportModifyScalars(scalar_image);
-    const auto stop = clock();
-    std::cout << (stop - start) << "\t compensated = " << (stop - start) - adaptor_comp << std::endl;
-  }
-  {
-    std::cout << "Modifying vector image bypassing adaptor api using"
-              << " non-adaptor iterator...\t";
-    const auto start = clock();
-    BypassNoAdaptorSupportModifyVectors(vector_image);
-    const auto stop = clock();
-    std::cout << (stop - start) << "\t compensated = " << (stop - start) - adaptor_comp << std::endl;
-  }
-  {
-    std::cout << "Modifying vector image bypassing adaptor api using"
-              << " adaptor iterator...\t";
-    const auto start = clock();
-    BypassAdaptorSupportModifyVectors(vector_image);
-    const auto stop = clock();
-    std::cout << (stop - start) << "\t compensated = " << (stop - start) - adaptor_comp << std::endl;
-  }
-  return EXIT_SUCCESS;
+  std::cout << "Modifying scalar image using non-adaptor iterator: ";
+  EXPECT_NO_THROW(NoAdaptorSupportModifyScalars(scalar_image));
+
+  std::cout << "Modifying vector image using adaptor iterator: ";
+  EXPECT_NO_THROW(AdaptorSupportedModifyVectors(vector_image));
+
+  std::cout << "Modifying vector image using non-adaptor iterator: ";
+  EXPECT_NO_THROW(NoAdaptorSupportModifyVectors(vector_image));
+
+  std::cout << "Modifying scalar image bypassing adaptor via adaptor iterator: ";
+  EXPECT_NO_THROW(BypassAdaptorSupportModifyScalars(scalar_image));
+
+  std::cout << "Modifying vector image bypassing adaptor via non-adaptor iterator: ";
+  EXPECT_NO_THROW(BypassNoAdaptorSupportModifyVectors(vector_image));
+
+  std::cout << "Modifying vector image bypassing adaptor via adaptor iterator: ";
+  EXPECT_NO_THROW(BypassAdaptorSupportModifyVectors(vector_image));
 }

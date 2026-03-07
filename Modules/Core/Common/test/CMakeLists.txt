@@ -2,7 +2,6 @@ itk_module_test()
 set(
   ITKCommon1Tests
   itkImageRegionExplicitTest.cxx
-  itkAdaptorComparisonTest.cxx
   itkExtractImage3Dto2DTest.cxx
   itkExtractImageTest.cxx
   itkFilterDispatchTest.cxx
@@ -205,12 +204,6 @@ if(ITK_BUILD_SHARED_LIBS)
   add_dependencies(ITKCommon2TestDriver FactoryTestLib)
 endif()
 
-itk_add_test(
-  NAME itkAdaptorComparisonTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkAdaptorComparisonTest
-)
 itk_add_test(
   NAME itkThreadedIndexedContainerPartitionerTest
   COMMAND
@@ -1661,6 +1654,7 @@ set(
   itkAnatomicalOrientationGTest.cxx
   itkBSplineKernelFunctionGTest.cxx
   VNLSparseLUSolverTraitsGTest.cxx
+  itkAdaptorComparisonGTest.cxx
 )
 creategoogletestdriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
 # If `-static` was passed to CMAKE_EXE_LINKER_FLAGS, compilation fails. No need to
