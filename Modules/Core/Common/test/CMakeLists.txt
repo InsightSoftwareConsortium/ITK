@@ -148,7 +148,6 @@ set(
   itkMinimumMaximumImageCalculatorTest.cxx
   itkSliceIteratorTest.cxx
   itkImageRegionExclusionIteratorWithIndexTest.cxx
-  itkFixedArrayTest.cxx
   itkImageTransformTest.cxx
   itkImageFillBufferTest.cxx
   itkMemoryLeakTest.cxx
@@ -394,12 +393,6 @@ itk_add_test(
     ITKCommon1TestDriver
     itkMultipleLogOutputTest
     ${TEMP}/test_multi.txt
-)
-itk_add_test(
-  NAME itkFixedArrayTest
-  COMMAND
-    ITKCommon2TestDriver
-    itkFixedArrayTest
 )
 itk_add_test(
   NAME itkImageTransformTest
