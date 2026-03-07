@@ -20,9 +20,9 @@
 #include "itkImportImageContainer.h"
 #include "itkNumericTraits.h"
 #include "itkTextOutput.h"
+#include "itkGTest.h"
 
-int
-itkImportContainerTest(int, char *[])
+TEST(ImportContainer, ConvertedLegacyTest)
 {
   using PixelType = float;
   using ContainerType = itk::ImportImageContainer<unsigned long, PixelType>;
@@ -38,7 +38,6 @@ itkImportContainerTest(int, char *[])
     std::cout << "After New(), size is " << container1->Size() << ", capacity is " << container1->Capacity()
               << " and import pointer is " << container1->GetImportPointer() << std::endl;
 
-
     // Test 2: Reserve memory
     container1->Reserve(1000);
     std::cout << "After container1->Reserve(1000), size is " << container1->Size() << ", capacity is "
@@ -53,7 +52,6 @@ itkImportContainerTest(int, char *[])
     std::cout << "After container1->Reserve(100), size is " << container1->Size() << ", capacity is "
               << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << std::endl;
 
-
     // Test 4: Squeeze the container
     container1->Squeeze();
     std::cout << "After container1->Squeeze() size is " << container1->Size() << ", capacity is "
@@ -65,7 +63,7 @@ itkImportContainerTest(int, char *[])
               << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << std::endl;
   }
 
-  // now repeat the tests with a user provided pointer
+  // now repeat the tests with a user-provided pointer
   auto * myPtr = new float[2000];
   {
     // Test 1: Create an empty container and print it
@@ -85,33 +83,24 @@ itkImportContainerTest(int, char *[])
     std::cout << "After container1->Reserve(1000), size is " << container1->Size() << ", capacity is "
               << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << std::endl;
 
-    if (*(myPtr + 500) != 500.0)
-    {
-      std::cout << "Test failed: After container1->Reserve(1000), container1[500] does != 500." << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_EQ(*(myPtr + 500), 500.0f) << "Test failed: After container1->Reserve(1000), container1[500] does != 500."
+                                      << std::endl;
 
     // Test 3: Reserve more memory than capacity
     container1->Reserve(10000);
     std::cout << "After container1->Reserve(100), size is " << container1->Size() << ", capacity is "
               << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << std::endl;
-    if (*(myPtr + 500) != 500.0)
-    {
-      std::cout << "Test failed: After container1->Reserve(10000), container1[500] does != 500." << std::endl;
-      return EXIT_FAILURE;
-    }
 
+    EXPECT_EQ(*(myPtr + 500), 500.0f) << "Test failed: After container1->Reserve(10000), container1[500] does != 500."
+                                      << std::endl;
 
     // Test 4: Squeeze the container
     container1->Squeeze();
     std::cout << "After container1->Squeeze() size is " << container1->Size() << ", capacity is "
               << container1->Capacity() << " and import pointer is " << container1->GetImportPointer() << std::endl;
 
-    if (*(myPtr + 500) != 500.0)
-    {
-      std::cout << "Test failed: After container1->Squeeze(), container1[500] does != 500." << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_EQ(*(myPtr + 500), 500.0f) << "Test failed: After container1->Squeeze(), container1[500] does != 500."
+                                      << std::endl;
 
     // Test 5: Initialize the container
     container1->Initialize();
@@ -126,7 +115,6 @@ itkImportContainerTest(int, char *[])
     container1->Print(std::cout);
     std::cout << "After New(), size is " << container1->Size() << ", capacity is " << container1->Capacity()
               << " and import pointer is " << container1->GetImportPointer() << std::endl;
-
 
     // Test 2: Reserve memory
     container1->Reserve(1000);
@@ -177,8 +165,7 @@ itkImportContainerTest(int, char *[])
   if (!caughtException && (sizeof(void *) != 8))
   {
     std::cout << "Failed to catch expected exception" << std::endl;
-    return EXIT_FAILURE;
+    EXPECT_TRUE(caughtException);
   }
 #endif
-  return EXIT_SUCCESS;
 }
