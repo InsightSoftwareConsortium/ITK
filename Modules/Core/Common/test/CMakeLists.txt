@@ -74,7 +74,6 @@ set(
   itkAtanRegularizedHeavisideStepFunctionTest1.cxx
   itkHeavisideStepFunctionTest1.cxx
   itkSinRegularizedHeavisideStepFunctionTest1.cxx
-  itkPixelAccessTest.cxx
   itkPointGeometryTest.cxx
   itkNumberToStringTest.cxx
   itkTimeProbeTest.cxx
@@ -768,12 +767,6 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     itkSinRegularizedHeavisideStepFunctionTest1
-)
-itk_add_test(
-  NAME itkPixelAccessTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkPixelAccessTest
 )
 itk_add_test(
   NAME itkPointGeometryTest
@@ -1718,6 +1711,7 @@ set(
   itkHashTableGTest.cxx
   itkImportImageGTest.cxx
   itkImportContainerGTest.cxx
+  itkPixelAccessGTest.cxx
 )
 creategoogletestdriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
 # If `-static` was passed to CMAKE_EXE_LINKER_FLAGS, compilation fails. No need to
