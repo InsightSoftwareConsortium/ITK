@@ -77,15 +77,12 @@ set(
   itkPointSetToImageFilterTest2.cxx
   itkSparseFieldLayerTest.cxx
   itkDataObjectTest.cxx
-  itkHashTableTest.cxx
-  itkPixelAccessTest.cxx
   itkPointGeometryTest.cxx
   itkMersenneTwisterRandomVariateGeneratorTest.cxx
   itkNumberToStringTest.cxx
   itkTimeProbeTest.cxx
   itkTimeProbeTest2.cxx
   itkSpatialOrientationTest.cxx
-  itkStdStreamStateSaveTest.cxx
   VNLSparseLUSolverTraitsTest.cxx
   itkSobelOperatorImageConvolutionTest.cxx
   itkSobelOperatorImageFilterTest.cxx
@@ -814,28 +811,10 @@ itk_add_test(
     itkDataObjectTest
 )
 itk_add_test(
-  NAME itkHashTableTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkHashTableTest
-)
-itk_add_test(
-  NAME itkPixelAccessTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkPixelAccessTest
-)
-itk_add_test(
   NAME itkPointGeometryTest
   COMMAND
     ITKCommon1TestDriver
     itkPointGeometryTest
-)
-itk_add_test(
-  NAME itkStdStreamStateSaveTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkStdStreamStateSaveTest
 )
 
 #
@@ -1765,6 +1744,9 @@ set(
   itkAutoPointerGTest.cxx
   itkBresenhamLineGTest.cxx
   itkHeavisideStepFunctionGTest.cxx
+  itkHashTableGTest.cxx
+  itkPixelAccessGTest.cxx
+  itkStdStreamStateSaveGTest.cxx
   itkMetaDataDictionaryGTest.cxx
   itkSpatialOrientationAdaptorGTest.cxx
   itkAnatomicalOrientationGTest.cxx

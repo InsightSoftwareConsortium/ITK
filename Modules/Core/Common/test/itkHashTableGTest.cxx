@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include "itkGTest.h"
+
 #include <unordered_set>
 #include <unordered_map>
 #include <iostream>
@@ -51,20 +53,33 @@ println(const char * s)
   std::cout << std::endl << s << std::endl;
 }
 
-int
-itkHashTableTest(int, char *[])
+TEST(HashTable, StdHash)
 {
   println("Testing std::hash");
   constexpr std::hash<const char *> H;
+  // Note: std::hash<const char*> is pointer-based; values are platform-dependent
   std::cout << "foo -> " << H("foo") << std::endl;
   std::cout << "bar -> " << H("bar") << std::endl;
+
   constexpr std::hash<int> H1;
   std::cout << "1 -> " << H1(1) << std::endl;
   std::cout << "234 -> " << H1(234) << std::endl;
+  // std::hash must return the same value for equal keys (standard guarantee)
+  EXPECT_EQ(H1(1), H1(1));
+  EXPECT_EQ(H1(234), H1(234));
+  EXPECT_NE(H1(1), H1(234));
+
   constexpr std::hash<char> H2;
   std::cout << "a -> " << H2('a') << std::endl;
   std::cout << "Z -> " << H2('Z') << std::endl;
+  // std::hash must return the same value for equal keys (standard guarantee)
+  EXPECT_EQ(H2('a'), H2('a'));
+  EXPECT_EQ(H2('Z'), H2('Z'));
+  EXPECT_NE(H2('a'), H2('Z'));
+}
 
+TEST(HashTable, UnorderedSet)
+{
   println("Testing std::unordered_set");
   using HashSetType = std::unordered_set<const char *, std::hash<const char *>, eqstr>;
   HashSetType Set;
@@ -76,8 +91,11 @@ itkHashTableTest(int, char *[])
   Set.insert("banana");
 
   lookup(Set, "mango");
+  EXPECT_TRUE(Set.count("mango") > 0);
   lookup(Set, "apple");
+  EXPECT_TRUE(Set.count("apple") > 0);
   lookup(Set, "durian");
+  EXPECT_FALSE(Set.count("durian") > 0);
 
   // CppCheck gives us a warning if the return value isn't used.
   // This is to prevent the user from calling empty() when they mean clear().
@@ -89,7 +107,11 @@ itkHashTableTest(int, char *[])
   Set.insert("the horror");
   auto              hsh_it = Set.begin();
   const HashSetType SetCopy = Set;
+  IgnoreUnusedVariable(hsh_it);
+}
 
+TEST(HashTable, UnorderedMap)
+{
   println("Testing std::unordered_map");
   using HashMapType = std::unordered_map<const char *, int, std::hash<const char *>, eqstr>;
 
@@ -112,6 +134,11 @@ itkHashTableTest(int, char *[])
   std::cout << "june      -> " << months["june"] << std::endl;
   std::cout << "november  -> " << months["november"] << std::endl;
 
+  EXPECT_EQ(months["september"], 30);
+  EXPECT_EQ(months["april"], 30);
+  EXPECT_EQ(months["june"], 30);
+  EXPECT_EQ(months["november"], 30);
+
   // CppCheck gives us a warning if the return value isn't used.
   // This is to prevent the user from calling empty() when they mean clear().
   if (months.empty())
@@ -123,9 +150,5 @@ itkHashTableTest(int, char *[])
   months.insert(p);
   auto              map_it = months.begin();
   const HashMapType MapCopy = months;
-
-  IgnoreUnusedVariable(hsh_it);
   IgnoreUnusedVariable(map_it);
-
-  return EXIT_SUCCESS;
 }
