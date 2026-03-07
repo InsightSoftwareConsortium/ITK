@@ -377,3 +377,62 @@ TEST(FixedArray, CheckFrontAndBack)
   itk::RangeGTestUtilities::CheckFrontAndBack(itk::FixedArray<int>({ 0, 1, 2 }));
   itk::RangeGTestUtilities::CheckFrontAndBack(itk::FixedArray<double>::Filled(std::numeric_limits<double>::max()));
 }
+
+
+// Tests interop with c-style arrays, equality, Set/GetElement, and various index types.
+TEST(FixedArray, CArrayInteropAndIndexTypes)
+{
+  // Explicit instantiation to ensure all methods are compiled.
+  (void)itk::FixedArray<float, 3>{};
+
+  // Test equality operators
+  constexpr itk::FixedArray<int, 3> array4{};
+  EXPECT_EQ(array4, array4);
+  EXPECT_FALSE(array4 != array4);
+
+  // Test Set/GetElement
+  constexpr unsigned int           n{ 20 };
+  itk::FixedArray<unsigned int, n> array20;
+  for (unsigned int i = 0; i < n; ++i)
+  {
+    array20.SetElement(i, i);
+  }
+  for (unsigned int k = 0; k < n; ++k)
+  {
+    EXPECT_EQ(array20.GetElement(k), k);
+  }
+
+  // Test various index types (const access)
+#define TRY_INDEX_CONST(T)       \
+  {                              \
+    T in = 10;                   \
+    EXPECT_EQ(array20[in], 10u); \
+  }                              \
+  ITK_MACROEND_NOOP_STATEMENT
+
+  TRY_INDEX_CONST(short);
+  TRY_INDEX_CONST(unsigned short);
+  TRY_INDEX_CONST(int);
+  TRY_INDEX_CONST(unsigned int);
+  TRY_INDEX_CONST(long);
+  TRY_INDEX_CONST(unsigned long);
+  TRY_INDEX_CONST(long long);
+  TRY_INDEX_CONST(unsigned long long);
+
+  // Test various index types (non-const access)
+#define TRY_INDEX(T)  \
+  {                   \
+    T in = 10;        \
+    array20[in] = 10; \
+  }                   \
+  ITK_MACROEND_NOOP_STATEMENT
+
+  TRY_INDEX(short);
+  TRY_INDEX(unsigned short);
+  TRY_INDEX(int);
+  TRY_INDEX(unsigned int);
+  TRY_INDEX(long);
+  TRY_INDEX(unsigned long);
+  TRY_INDEX(long long);
+  TRY_INDEX(unsigned long long);
+}

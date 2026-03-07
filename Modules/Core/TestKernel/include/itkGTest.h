@@ -42,6 +42,13 @@
     EXPECT_STREQ(object->Superclass::GetNameOfClass(), #SuperclassName);           \
   }()
 
+#define ITK_GTEST_SET_GET_VALUE(variable, command)                                                                     \
+  ITK_GCC_PRAGMA_PUSH                                                                                                  \
+  ITK_GCC_SUPPRESS_Wfloat_equal                                                                                        \
+  EXPECT_TRUE(variable != command) << "Error in " << #command << "  In " __FILE__ ", line " << __LINE__ << "Expected " \
+                                   << variable << "but got  " << command;                                              \
+  ITK_GCC_PRAGMA_POP                                                                                                   \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /** A lightweight alternative for `ITK_TEST_SET_GET_BOOLEAN`, using GoogleTest macro's. */
 #define ITK_GTEST_SET_GET_BOOLEAN(object, variable, value) \
