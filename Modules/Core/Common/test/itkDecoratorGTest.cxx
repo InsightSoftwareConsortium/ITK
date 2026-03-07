@@ -21,7 +21,7 @@
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkDataObjectDecorator.h"
 #include "itkAutoPointerDataObjectDecorator.h"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
 
 namespace
 {
@@ -34,10 +34,8 @@ operator<<(std::basic_ostream<CharType, TraitsType> & os, const std::vector<Memb
 }
 } // namespace
 
-int
-itkDecoratorTest(int, char *[])
+TEST(Decorator, DataObjectDecorator)
 {
-
   using FloatObjectType = itk::SimpleDataObjectDecorator<float>;
 
   auto f = FloatObjectType::New();
@@ -59,16 +57,16 @@ itkDecoratorTest(int, char *[])
 
   const itk::ModifiedTimeType t1 = decoratedTransform->GetMTime();
   transformObject->Modified();
-  ITK_TEST_EXPECT_TRUE(t1 < decoratedTransform->GetMTime());
+  EXPECT_TRUE(t1 < decoratedTransform->GetMTime());
 
   auto decoratedTransform2 = TransformObjectType::New();
   decoratedTransform2->Graft(decoratedTransform);
 
-  ITK_TEST_EXPECT_EQUAL(decoratedTransform2->Get(), decoratedTransform->Get());
+  EXPECT_EQ(decoratedTransform2->Get(), decoratedTransform->Get());
 
   const itk::ModifiedTimeType t2 = decoratedTransform->GetMTime();
   decoratedTransform2->GetModifiable()->Modified();
-  ITK_TEST_EXPECT_TRUE(t2 < decoratedTransform->GetMTime());
+  EXPECT_TRUE(t2 < decoratedTransform->GetMTime());
 
 
   std::cout << "Value of decoratedTransform: ";
@@ -81,25 +79,25 @@ itkDecoratorTest(int, char *[])
   auto decoratedBaseTransform = TransformBaseObjectType::New();
   // NOTE: GetPointer is needed to force selection of the correct overloaded function signature.
   decoratedBaseTransform->Graft(decoratedTransform.GetPointer());
-  ITK_TEST_EXPECT_TRUE(decoratedBaseTransform->Get() != nullptr);
+  EXPECT_TRUE(decoratedBaseTransform->Get() != nullptr);
 
   decoratedBaseTransform->ReleaseData();
-  ITK_TEST_EXPECT_TRUE(decoratedBaseTransform->Get() == nullptr);
+  EXPECT_TRUE(decoratedBaseTransform->Get() == nullptr);
   // NOTE: GetPointer is needed to force selection of the correct overloaded function signature.
   decoratedBaseTransform->Graft(f.GetPointer());
-  ITK_TEST_EXPECT_TRUE(decoratedBaseTransform->Get() == nullptr);
+  EXPECT_TRUE(decoratedBaseTransform->Get() == nullptr);
 
   decoratedBaseTransform->Graft(static_cast<itk::DataObject *>(nullptr));
   // NOTE: GetPointer is needed to force selection of the correct overloaded function signature.
   decoratedBaseTransform->Graft(decoratedTransform.GetPointer());
-  ITK_TEST_EXPECT_TRUE(decoratedBaseTransform->Get() != nullptr);
+  EXPECT_TRUE(decoratedBaseTransform->Get() != nullptr);
 
   decoratedBaseTransform->Graft(static_cast<itk::DataObject *>(nullptr));
-  ITK_TEST_EXPECT_TRUE(decoratedBaseTransform->Get() != nullptr);
+  EXPECT_TRUE(decoratedBaseTransform->Get() != nullptr);
 
   decoratedTransform->ReleaseData();
   decoratedTransform->Graft(decoratedBaseTransform);
-  ITK_TEST_EXPECT_TRUE(decoratedTransform->Get() == nullptr);
+  EXPECT_TRUE(decoratedTransform->Get() == nullptr);
 
   using VectorType = std::vector<float>;
   using VectorObjectType = itk::SimpleDataObjectDecorator<VectorType>;
@@ -149,5 +147,4 @@ itkDecoratorTest(int, char *[])
 
 
   std::cout << "Test finished." << std::endl;
-  return EXIT_SUCCESS;
 }
