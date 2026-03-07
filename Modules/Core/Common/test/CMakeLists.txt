@@ -29,7 +29,6 @@ set(
   itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest.cxx
   itkSymmetricSecondRankTensorImageReadTest.cxx
   itkSymmetricSecondRankTensorImageWriteReadTest.cxx
-  itkArray2DTest.cxx
   itkFloatingPointExceptionsTest.cxx
   itkFixedArrayTest2.cxx
   itkNeighborhoodAlgorithmTest.cxx
@@ -361,12 +360,6 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     itkMersenneTwisterRandomVariateGeneratorTest
-)
-itk_add_test(
-  NAME itkArray2DTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkArray2DTest
 )
 itk_add_test(
   NAME itkBSplineInterpolationWeightFunctionTest
