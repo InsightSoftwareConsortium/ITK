@@ -77,7 +77,6 @@ set(
   itkThreadedIteratorRangePartitionerTest.cxx
   itkThreadedIteratorRangePartitionerTest2.cxx
   itkThreadedIteratorRangePartitionerTest3.cxx
-  itkThreadedImageRegionPartitionerTest.cxx
   itkThreadLoggerTest.cxx
   itkLoggerThreadWrapperTest.cxx
   itkThreadDefsTest.cxx
@@ -231,12 +230,6 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     itkImageAdaptorPipeLineTest
-)
-itk_add_test(
-  NAME itkThreadedImageRegionPartitionerTest
-  COMMAND
-    ITKCommon2TestDriver
-    itkThreadedImageRegionPartitionerTest
 )
 itk_add_test(
   NAME itkImportImageTest
@@ -1637,6 +1630,7 @@ set(
   itkFilterDispatchGTest.cxx
   itkFloodFillIteratorGTest.cxx
   itkFloodFilledSpatialFunctionGTest.cxx
+  itkThreadedImageRegionPartitionerGTest.cxx
 )
 creategoogletestdriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
 # If `-static` was passed to CMAKE_EXE_LINKER_FLAGS, compilation fails. No need to
