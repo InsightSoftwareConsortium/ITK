@@ -17,9 +17,12 @@
  *=========================================================================*/
 
 #include "itkImage.h"
+#include "itkGTest.h"
 
 #include <iostream>
-#include <fstream>
+
+namespace
+{
 
 template <unsigned int TDimension>
 void
@@ -31,7 +34,6 @@ TestTransform()
   auto orientedImage = ImageType::New();
 
   typename ImageType::PointType origin;
-
   for (unsigned int i = 0; i < TDimension; ++i)
   {
     origin[i] = static_cast<double>(i * 100);
@@ -41,40 +43,35 @@ TestTransform()
 
   using RegionType = itk::ImageRegion<TDimension>;
   using IndexType = typename RegionType::IndexType;
-  using SizeType = typename RegionType::SizeType;
 
   typename ImageType::PointType point;
-  RegionType                    region;
-
-  auto size = SizeType::Filled(10);
-  region.SetSize(size);
 
   auto index = IndexType::Filled(5);
 
-  std::cout << "TransformIndexToPhysicalPoint..." << std::endl;
+  std::cout << "TransformIndexToPhysicalPoint (dim=" << TDimension << ")..." << std::endl;
   orientedImage->TransformIndexToPhysicalPoint(index, point);
-  std::cout << "    Image: " << index << " -> " << point << std::endl;
+  std::cout << "    OrientedImage: " << index << " -> " << point << std::endl;
 
   image->TransformIndexToPhysicalPoint(index, point);
   std::cout << "    Image:         " << index << " -> " << point << std::endl;
 
-  std::cout << "TransformPhysicalPointToIndex..." << std::endl;
+  std::cout << "TransformPhysicalPointToIndex (dim=" << TDimension << ")..." << std::endl;
   const bool isInsideOrientedImage = orientedImage->TransformPhysicalPointToIndex(point, index);
-  std::cout << "    Image: " << point << " -> " << index << (isInsideOrientedImage ? " inside" : " outside")
+  std::cout << "    OrientedImage: " << point << " -> " << index << (isInsideOrientedImage ? " inside" : " outside")
             << std::endl;
 
-  const bool isInsideImage = image->TransformPhysicalPointToIndex(point, index);
+  [[maybe_unused]] const bool isInsideImage = image->TransformPhysicalPointToIndex(point, index);
   std::cout << "    Image:         " << point << " -> " << index << (isInsideImage ? " inside" : " outside")
             << std::endl;
 }
 
-int
-itkImageTransformTest(int, char *[])
+} // namespace
+
+
+TEST(ImageTransform, TransformIndexAndPoint)
 {
   TestTransform<8>();
   TestTransform<3>();
   TestTransform<2>();
   TestTransform<1>();
-
-  return EXIT_SUCCESS;
 }
