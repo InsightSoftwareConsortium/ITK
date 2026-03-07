@@ -16,60 +16,39 @@
  *
  *=========================================================================*/
 
-#include <iostream>
-
-// Native ITK stuff
 #include "itkImageRegionIterator.h"
-
-// Spatial function stuff
 #include "itkSphereSpatialFunction.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
+#include "itkGTest.h"
 
-int
-itkFloodFillIteratorTest(int, char *[])
+#include <iostream>
+
+
+TEST(FloodFillIterator, SphereFloodFill)
 {
   constexpr unsigned int dim{ 3 };
 
-  // Image type alias
   using TImageType = itk::Image<int, dim>;
 
-  //-----------------Create a new input image--------------------
-  // Image size and spacing parameters
   TImageType::SizeValueType    sourceImageSize[] = { 20, 20, 20 };
   TImageType::SpacingValueType sourceImageSpacing[] = { 1.0, 1.0, 1.0 };
   TImageType::PointValueType   sourceImageOrigin[] = { 0, 0, 0 };
 
-  // Creates the sourceImage (but doesn't set the size or allocate memory)
   auto sourceImage = TImageType::New();
   sourceImage->SetOrigin(sourceImageOrigin);
   sourceImage->SetSpacing(sourceImageSpacing);
 
-  std::cout << "New sourceImage created" << std::endl;
-
-  //-----The following block allocates the sourceImage-----
-
-  // Create a size object native to the sourceImage type
   TImageType::SizeType sourceImageSizeObject;
-  // Set the size object to the array defined earlier
   sourceImageSizeObject.SetSize(sourceImageSize);
-  // Create a region object native to the sourceImage type
   TImageType::RegionType largestPossibleRegion;
-  // Resize the region
   largestPossibleRegion.SetSize(sourceImageSizeObject);
-  // Set the largest legal region size (i.e. the size of the whole sourceImage), the buffered, and
-  // the requested region to what we just defined.
   sourceImage->SetRegions(largestPossibleRegion);
-  // Now allocate memory for the sourceImage
   sourceImage->AllocateInitialized();
 
-  std::cout << "New sourceImage allocated" << std::endl;
-
-  //---------Create and initialize a spatial function-----------
+  std::cout << "New sourceImage created and allocated" << std::endl;
 
   using TFunctionType = itk::SphereSpatialFunction<dim>;
   using TFunctionPositionType = TFunctionType::InputType;
-
-  // Create and initialize a new sphere function
 
   auto spatialFunc = TFunctionType::New();
   spatialFunc->SetRadius(5);
@@ -80,9 +59,6 @@ itkFloodFillIteratorTest(int, char *[])
   center[2] = 10;
   spatialFunc->SetCenter(center);
 
-  std::cout << "Sphere spatial function created" << std::endl;
-
-  //---------Create and initialize a spatial function iterator-----------
   TImageType::IndexType                seedPos;
   constexpr TImageType::IndexValueType pos[]{ 10, 10, 10 };
   seedPos.SetIndex(pos);
@@ -90,15 +66,14 @@ itkFloodFillIteratorTest(int, char *[])
   using TItType = itk::FloodFilledSpatialFunctionConditionalIterator<TImageType, TFunctionType>;
   TItType sfi(sourceImage, spatialFunc, seedPos);
 
-  // Iterate through the entire image and set interior pixels to 255
+  unsigned int pixelCount{ 0 };
   for (; !(sfi.IsAtEnd()); ++sfi)
   {
-
     std::cout << sfi.GetIndex() << ": " << sfi.Get() << std::endl;
     sfi.Set(255);
+    ++pixelCount;
   }
 
-  std::cout << "Spatial function iterator created, sphere drawn" << std::endl;
-
-  return EXIT_SUCCESS;
+  std::cout << "Sphere drawn with " << pixelCount << " pixels" << std::endl;
+  EXPECT_GT(pixelCount, 0u);
 }
