@@ -104,6 +104,9 @@ nm lib/libitkpng-5.4.a 2> /dev/null | grep " T \| D \| R " |
 #define png_get_cHRM_XYZ @MANGLE_PREFIX@_get_cHRM_XYZ
 #define png_get_cHRM_XYZ_fixed @MANGLE_PREFIX@_get_cHRM_XYZ_fixed
 #define png_get_cHRM_fixed @MANGLE_PREFIX@_get_cHRM_fixed
+#define png_get_cICP @MANGLE_PREFIX@_get_cICP
+#define png_get_cLLI @MANGLE_PREFIX@_get_cLLI
+#define png_get_cLLI_fixed @MANGLE_PREFIX@_get_cLLI_fixed
 #define png_get_channels @MANGLE_PREFIX@_get_channels
 #define png_get_chunk_cache_max @MANGLE_PREFIX@_get_chunk_cache_max
 #define png_get_chunk_malloc_max @MANGLE_PREFIX@_get_chunk_malloc_max
@@ -130,6 +133,8 @@ nm lib/libitkpng-5.4.a 2> /dev/null | grep " T \| D \| R " |
 #define png_get_io_ptr @MANGLE_PREFIX@_get_io_ptr
 #define png_get_io_state @MANGLE_PREFIX@_get_io_state
 #define png_get_libpng_ver @MANGLE_PREFIX@_get_libpng_ver
+#define png_get_mDCV @MANGLE_PREFIX@_get_mDCV
+#define png_get_mDCV_fixed @MANGLE_PREFIX@_get_mDCV_fixed
 #define png_get_mem_ptr @MANGLE_PREFIX@_get_mem_ptr
 #define png_get_oFFs @MANGLE_PREFIX@_get_oFFs
 #define png_get_pCAL @MANGLE_PREFIX@_get_pCAL
@@ -285,6 +290,9 @@ nm lib/libitkpng-5.4.a 2> /dev/null | grep " T \| D \| R " |
 #define png_set_cHRM_XYZ @MANGLE_PREFIX@_set_cHRM_XYZ
 #define png_set_cHRM_XYZ_fixed @MANGLE_PREFIX@_set_cHRM_XYZ_fixed
 #define png_set_cHRM_fixed @MANGLE_PREFIX@_set_cHRM_fixed
+#define png_set_cICP @MANGLE_PREFIX@_set_cICP
+#define png_set_cLLI @MANGLE_PREFIX@_set_cLLI
+#define png_set_cLLI_fixed @MANGLE_PREFIX@_set_cLLI_fixed
 #define png_set_check_for_invalid_index @MANGLE_PREFIX@_set_check_for_invalid_index
 #define png_set_chunk_cache_max @MANGLE_PREFIX@_set_chunk_cache_max
 #define png_set_chunk_malloc_max @MANGLE_PREFIX@_set_chunk_malloc_max
@@ -319,6 +327,8 @@ nm lib/libitkpng-5.4.a 2> /dev/null | grep " T \| D \| R " |
 #define png_set_invert_mono @MANGLE_PREFIX@_set_invert_mono
 #define png_set_keep_unknown_chunks @MANGLE_PREFIX@_set_keep_unknown_chunks
 #define png_set_longjmp_fn @MANGLE_PREFIX@_set_longjmp_fn
+#define png_set_mDCV @MANGLE_PREFIX@_set_mDCV
+#define png_set_mDCV_fixed @MANGLE_PREFIX@_set_mDCV_fixed
 #define png_set_mem_fn @MANGLE_PREFIX@_set_mem_fn
 #define png_set_oFFs @MANGLE_PREFIX@_set_oFFs
 #define png_set_option @MANGLE_PREFIX@_set_option
