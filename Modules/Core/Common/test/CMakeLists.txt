@@ -21,7 +21,6 @@ set(
   itkImageIteratorsForwardBackwardTest.cxx
   itkImageLinearIteratorTest.cxx
   itkImageAdaptorPipeLineTest.cxx
-  itkImportContainerTest.cxx
   itkImportImageTest.cxx
   itkImageRandomIteratorTest.cxx
   itkImageRandomIteratorTest2.cxx
@@ -266,12 +265,6 @@ itk_add_test(
   COMMAND
     ITKCommon2TestDriver
     itkThreadedImageRegionPartitionerTest
-)
-itk_add_test(
-  NAME itkImportContainerTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkImportContainerTest
 )
 itk_add_test(
   NAME itkImportImageTest
@@ -1684,6 +1677,7 @@ set(
   itkDiffusionTensor3DGTest.cxx
   itkDecoratorGTest.cxx
   itkExceptionObjectGTest.cxx
+  itkImportContainerGTest.cxx
   itkFixedArrayGTest.cxx
   itkImageNeighborhoodOffsetsGTest.cxx
   itkImageGTest.cxx
