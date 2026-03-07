@@ -17,12 +17,12 @@
  *=========================================================================*/
 #include "itkVector.h"
 #include "itkCrossHelper.h"
+#include "itkGTest.h"
 
 #include <iostream>
 
 
-int
-itkCrossHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
+TEST(CrossHelper, CrossProductInMultipleDimensions)
 {
   constexpr unsigned int Dimension2D{ 2 };
   constexpr unsigned int Dimension3D{ 3 };
@@ -51,11 +51,8 @@ itkCrossHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
   v2d[0] = 0.;
   v2d[1] = 1.;
 
-  if (cross2d(u2d, v2d).GetNorm() > 1e-6)
-  {
-    std::cout << "cross product must return null vector is dimension is below 3" << std::endl;
-    return EXIT_FAILURE;
-  }
+  // cross product must return null vector when dimension is below 3
+  EXPECT_LT(cross2d(u2d, v2d).GetNorm(), 1e-6);
 
   Vector3DType u3d;
   u3d[0] = 1.;
@@ -72,23 +69,9 @@ itkCrossHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
   w3d[1] = 0.;
   w3d[2] = 1.;
 
-  if ((cross3d(u3d, v3d) - w3d).GetNorm() > 1e-6)
-  {
-    std::cout << "cross3d( u3d, v3d ) != w3d" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  if ((cross3d(v3d, w3d) - u3d).GetNorm() > 1e-6)
-  {
-    std::cout << "cross3d( v3d, w3d ) != u3d" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  if ((cross3d(w3d, u3d) - v3d).GetNorm() > 1e-6)
-  {
-    std::cout << "cross3d( w3d, u3d ) != v3d" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_LT((cross3d(u3d, v3d) - w3d).GetNorm(), 1e-6);
+  EXPECT_LT((cross3d(v3d, w3d) - u3d).GetNorm(), 1e-6);
+  EXPECT_LT((cross3d(w3d, u3d) - v3d).GetNorm(), 1e-6);
 
   Vector4DType u4d;
   u4d[0] = 1.;
@@ -108,11 +91,5 @@ itkCrossHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
   w4d[2] = 1.;
   w4d[3] = 0.;
 
-  if ((cross4d(u4d, v4d) - w4d).GetNorm() > 1e-6)
-  {
-    std::cout << "cross4d( u4d, v4d ) != w4d" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  return EXIT_SUCCESS;
+  EXPECT_LT((cross4d(u4d, v4d) - w4d).GetNorm(), 1e-6);
 }
