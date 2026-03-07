@@ -16,43 +16,41 @@
  *
  *=========================================================================*/
 
-#include <iostream>
 #include "itkImageRegionIterator.h"
 #include "itkShrinkImageFilter.h"
 #include "itkImportImageFilter.h"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
+#include "itkMath.h"
 
-int
-itkImportImageTest(int, char *[])
+#include <iostream>
+
+
+TEST(ImportImageFilter, ImportAndShrink)
 {
   // Create a C-array to hold an image
   auto * rawImage = new short[8 * 12];
   for (unsigned int i = 0; i < 8 * 12; ++i)
   {
-    rawImage[i] = i;
+    rawImage[i] = static_cast<short>(i);
   }
-  // typedefs to simplify the syntax
+
   constexpr unsigned int Dimension{ 2 };
   using PixelType = short;
 
   using ImportImageFilter = itk::ImportImageFilter<PixelType, Dimension>;
   using ShortImage = itk::Image<PixelType, Dimension>;
 
-  // Create an ImportImageFilter filter
+  // Test basic object methods
   auto basicImport = ImportImageFilter::New();
-
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(basicImport, ImportImageFilter, ImageSource);
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(basicImport, ImportImageFilter, ImageSource);
 
   ShortImage::Pointer                             image;
   constexpr itk::ImageRegion<Dimension>::SizeType size = { { 8, 12 } };
   itk::ImageRegion<Dimension>                     region = { size };
-  // local scope to make sure that imported data is not deleted with ImportImageFilter
-  // but with the ImportImageContainer is creates.
+
   {
-    // Create an ImportImageFilter filter
     const ImportImageFilter::Pointer import = ImportImageFilter::New();
 
-    // Test the SetVectorMacros and GetVectorMacros
     constexpr itk::SpacePrecisionType data[2]{ 1.0, 1.0 };
     import->SetSpacing(data);
 
@@ -76,50 +74,24 @@ itkImportImageTest(int, char *[])
     import->Update();
     image = import->GetOutput();
   }
-  // Create another filter
+
   const itk::ShrinkImageFilter<ImportImageFilter::OutputImageType, ShortImage>::Pointer shrink =
     itk::ShrinkImageFilter<ImportImageFilter::OutputImageType, ShortImage>::New();
 
   shrink->SetInput(image);
-  shrink->SetShrinkFactors(2); // Also tested with factors 3 and 4, with 12x12 image
+  shrink->SetShrinkFactors(2);
+  EXPECT_NO_THROW(shrink->Update());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(shrink->Update());
-
-  //
-  // The rest of this code determines whether the shrink code produced
-  // the image we expected.
-  //
-  const ShortImage::RegionType requestedRegion = shrink->GetOutput()->GetRequestedRegion();
-
+  const ShortImage::RegionType         requestedRegion = shrink->GetOutput()->GetRequestedRegion();
   itk::ImageRegionIterator<ShortImage> iterator2(shrink->GetOutput(), requestedRegion);
 
-  bool passed = true;
   for (; !iterator2.IsAtEnd(); ++iterator2)
   {
     std::cout << "Pixel " << iterator2.ComputeIndex() << " = " << iterator2.Get() << std::endl;
-    if (iterator2.Get() !=
-        itk::Math::RoundHalfIntegerUp<short>(static_cast<float>(
-          (shrink->GetShrinkFactors()[0] * iterator2.ComputeIndex()[0] + shrink->GetShrinkFactors()[0] / 2) +
-          (region.GetSize()[0] *
-           ((shrink->GetShrinkFactors()[1] / 2) + (shrink->GetShrinkFactors()[0] * iterator2.ComputeIndex()[1]))))))
-    {
-      std::cout << " iterator2.GetIndex() Get() " << iterator2.ComputeIndex() << ' ' << iterator2.Get()
-                << " compare value "
-                << itk::Math::RoundHalfIntegerUp<short>(static_cast<float>(
-                     (shrink->GetShrinkFactors()[0] * iterator2.ComputeIndex()[0] + shrink->GetShrinkFactors()[0] / 2) +
-                     (region.GetSize()[0] * ((shrink->GetShrinkFactors()[1] / 2) +
-                                             (shrink->GetShrinkFactors()[0] * iterator2.ComputeIndex()[1])))))
-                << '\n';
-      passed = false;
-    }
+    const short expectedValue = itk::Math::RoundHalfIntegerUp<short>(static_cast<float>(
+      (shrink->GetShrinkFactors()[0] * iterator2.ComputeIndex()[0] + shrink->GetShrinkFactors()[0] / 2) +
+      (region.GetSize()[0] *
+       ((shrink->GetShrinkFactors()[1] / 2) + (shrink->GetShrinkFactors()[0] * iterator2.ComputeIndex()[1])))));
+    EXPECT_EQ(iterator2.Get(), expectedValue) << "Pixel mismatch at " << iterator2.ComputeIndex();
   }
-
-  if (passed)
-  {
-    std::cout << "ImportImageFilter test passed." << std::endl;
-    return EXIT_SUCCESS;
-  }
-
-  std::cout << "ImportImageFilter test failed." << std::endl;
-  return EXIT_FAILURE;
 }
