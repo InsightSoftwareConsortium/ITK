@@ -4,7 +4,6 @@ set(
   itkImageRegionExplicitTest.cxx
   itkCommandObserverObjectTest.cxx
   itkAdaptorComparisonTest.cxx
-  itkCovariantVectorGeometryTest.cxx
   itkExtractImage3Dto2DTest.cxx
   itkExtractImageTest.cxx
   itkFilterDispatchTest.cxx
@@ -269,12 +268,6 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     itkImportImageTest
-)
-itk_add_test(
-  NAME itkCovariantVectorGeometryTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkCovariantVectorGeometryTest
 )
 itk_add_test(
   NAME itkExtractImage3Dto2DTest
@@ -1661,6 +1654,7 @@ set(
   itkDerefGTest.cxx
   itkDiffusionTensor3DGTest.cxx
   itkAnnulusOperatorGTest.cxx
+  itkCovariantVectorGeometryGTest.cxx
   itkDecoratorGTest.cxx
   itkDerivativeOperatorGTest.cxx
   itkExceptionObjectGTest.cxx

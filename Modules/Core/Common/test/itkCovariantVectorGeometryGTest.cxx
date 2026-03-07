@@ -23,10 +23,10 @@
 
 #include "itkMath.h"
 #include "itkCovariantVector.h"
+#include "itkGTest.h"
 #include <iostream>
 
-int
-itkCovariantVectorGeometryTest(int, char *[])
+TEST(CovariantVectorGeometry, ArithmeticAndNorms)
 {
   // Dimension & Type
   constexpr unsigned int N{ 3 };
@@ -84,18 +84,16 @@ itkCovariantVectorGeometryTest(int, char *[])
   const ValueType norm2 = vg.GetSquaredNorm();
   std::cout << "vg squared norm = ";
   std::cout << norm2 << std::endl;
+  EXPECT_DOUBLE_EQ(norm2, 54.0);
 
   const ValueType norm = vg.GetNorm();
   std::cout << "vg norm = ";
   std::cout << norm << std::endl;
+  EXPECT_NEAR(norm, std::sqrt(54.0), 1e-10);
 
   const ValueType normX = vg.Normalize();
   std::cout << "vg after normalizing: " << vg << std::endl;
-  if (norm != normX)
-  {
-    std::cout << "Norms from GetNorm() and from Normalize() are different" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(norm, normX);
 
 
   // Test for vnl interface
@@ -160,16 +158,9 @@ itkCovariantVectorGeometryTest(int, char *[])
     {
       auto val = static_cast<FloatCovariantVectorType::ValueType>(dp[i]);
 
-      //   std::cout << val   << std::endl;
-      //   std::cout << fp[i] << std::endl;
-
       const float diff = itk::Math::Absolute(val - fp[i]);
       std::cout << "difference = " << diff << std::endl;
-      if (itk::Math::Absolute(val - fp[i]) > tolerance)
-      {
-        std::cout << "Test failed at component " << i << std::endl;
-        return EXIT_FAILURE;
-      }
+      EXPECT_NEAR(val, fp[i], tolerance);
     }
 
     std::cout << " PASSED ! " << std::endl;
@@ -192,12 +183,8 @@ itkCovariantVectorGeometryTest(int, char *[])
 
     constexpr double expectedValue{ -28.0 };
 
-    if (!itk::Math::FloatAlmostEqual(expectedValue, covariant * contravariant) ||
-        !itk::Math::FloatAlmostEqual(expectedValue, contravariant * covariant))
-    {
-      std::cerr << "Error in inner product computation." << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_TRUE(itk::Math::FloatAlmostEqual(expectedValue, covariant * contravariant));
+    EXPECT_TRUE(itk::Math::FloatAlmostEqual(expectedValue, contravariant * covariant));
   }
 
   // Test the Cross products
@@ -226,13 +213,9 @@ itkCovariantVectorGeometryTest(int, char *[])
     expectedNormal[1] = 0.0;
     expectedNormal[2] = 1.0;
 
-    if (!itk::Math::FloatAlmostEqual(normal[0], expectedNormal[0]) ||
-        !itk::Math::FloatAlmostEqual(normal[1], expectedNormal[1]) ||
-        !itk::Math::FloatAlmostEqual(normal[2], expectedNormal[2]))
-    {
-      std::cerr << "Error in CrossProduct computation." << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_TRUE(itk::Math::FloatAlmostEqual(normal[0], expectedNormal[0]));
+    EXPECT_TRUE(itk::Math::FloatAlmostEqual(normal[1], expectedNormal[1]));
+    EXPECT_TRUE(itk::Math::FloatAlmostEqual(normal[2], expectedNormal[2]));
   }
   //
   // test that the ComponentType is present
@@ -240,21 +223,12 @@ itkCovariantVectorGeometryTest(int, char *[])
     using CovariantVectorType = itk::CovariantVector<double, 3>;
     CovariantVectorType::ComponentType comp(1.0);
     double                             x(1.0);
-    if constexpr (sizeof(comp) != sizeof(double))
-    {
-      std::cerr << "error -- CovariantVectorType::ComponentType size != sizeof(double)" << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_EQ(sizeof(comp), sizeof(double));
     auto * compp = reinterpret_cast<char *>(&comp);
     auto * xp = reinterpret_cast<char *>(&x);
     for (unsigned int i = 0; i < sizeof(CovariantVectorType::ComponentType); ++i)
     {
-      if (compp[i] != xp[i])
-      {
-        std::cerr << "error -- bit pattern for CovariantVectorType::ComponentType doesn't match "
-                  << " double with same value" << std::endl;
-      }
+      EXPECT_EQ(compp[i], xp[i]);
     }
   }
-  return EXIT_SUCCESS;
 }
