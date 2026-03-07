@@ -44,14 +44,12 @@ set(
   itkStreamingImageFilterTest2.cxx
   itkStreamingImageFilterTest3.cxx
   itkLoggerTest.cxx
-  itkDerivativeOperatorTest.cxx
   itkColorTableTest.cxx
   itkNumericTraitsTest.cxx
   itkImageRegionTest.cxx
   itkExceptionObjectTest.cxx
   itkNeighborhoodOperatorTest.cxx
   itkNumericsTest.cxx
-  itkAnnulusOperatorTest.cxx
   itkLineIteratorTest.cxx
   itkGaussianSpatialFunctionTest.cxx
   itkRealTimeClockTest.cxx
@@ -309,13 +307,6 @@ itk_add_test(
     itkFloodFillIteratorTest
 )
 itk_add_test(
-  NAME itkAnnulusOperatorTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkAnnulusOperatorTest
-)
-
-itk_add_test(
   NAME itkColorTableTest1
   COMMAND
     ITKCommon1TestDriver
@@ -352,12 +343,6 @@ itk_add_test(
     ITKCommon1TestDriver
     itkDirectoryTest
     ${TEMP}
-)
-itk_add_test(
-  NAME itkDerivativeOperatorTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkDerivativeOperatorTest
 )
 itk_add_test(
   NAME itkMultipleLogOutputTest
@@ -1675,7 +1660,9 @@ set(
   itkCovariantVectorGTest.cxx
   itkDerefGTest.cxx
   itkDiffusionTensor3DGTest.cxx
+  itkAnnulusOperatorGTest.cxx
   itkDecoratorGTest.cxx
+  itkDerivativeOperatorGTest.cxx
   itkExceptionObjectGTest.cxx
   itkImportContainerGTest.cxx
   itkFixedArrayGTest.cxx
