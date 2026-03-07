@@ -16,14 +16,12 @@
  *
  *=========================================================================*/
 
-#include "itkTestingMacros.h"
 #include "itkStdStreamStateSave.h"
+#include "itkGTest.h"
 
 #include <sstream>
-#include <cstdlib>
 
-int
-itkStdStreamStateSaveTest(int, char *[])
+TEST(StdStreamStateSave, RestoresCoutState)
 {
   // Set the fillch of std::cout with an explicit default fill character
   std::cout.fill(' ');
@@ -55,9 +53,23 @@ itkStdStreamStateSaveTest(int, char *[])
 
   } // coutState goes out of scope and will restore original format state
 
+  // Verify that the default is reset for std::cout
+  EXPECT_EQ(std::cout.precision(), defaultPrecision);
+  EXPECT_EQ(std::cout.width(), defaultWidth);
+  EXPECT_EQ(std::cout.fill(), defaultFill);
+  EXPECT_EQ(std::cout.flags(), defaultFlags);
+}
+
+TEST(StdStreamStateSave, RestoresStringStreamState)
+{
   std::stringstream stream;
   // Set the fillch of std::stringstream with an explicit default fill character
   stream.fill(' ');
+
+  const std::streamsize         defaultPrecision = stream.precision();
+  const std::streamsize         defaultWidth = stream.width();
+  const char                    defaultFill = stream.fill();
+  const std::ios_base::fmtflags defaultFlags = stream.flags();
 
   constexpr int originalInt{ 10 };
   {
@@ -86,18 +98,10 @@ itkStdStreamStateSaveTest(int, char *[])
   // is still in effect.
   int inputInt = 0;
   stream >> inputInt;
-  ITK_TEST_EXPECT_EQUAL(originalInt, inputInt);
+  EXPECT_EQ(originalInt, inputInt);
 
-  // Verify that the default is reset for std::cout
-  ITK_TEST_EXPECT_EQUAL(std::cout.precision(), defaultPrecision);
-  ITK_TEST_EXPECT_EQUAL(std::cout.width(), defaultWidth);
-  ITK_TEST_EXPECT_EQUAL(std::cout.fill(), defaultFill);
-  ITK_TEST_EXPECT_EQUAL(std::cout.flags(), defaultFlags);
-
-  ITK_TEST_EXPECT_EQUAL(stream.precision(), defaultPrecision);
-  ITK_TEST_EXPECT_EQUAL(stream.width(), defaultWidth);
-  ITK_TEST_EXPECT_EQUAL(stream.fill(), defaultFill);
-  ITK_TEST_EXPECT_EQUAL(stream.flags(), defaultFlags);
-
-  return EXIT_SUCCESS;
+  EXPECT_EQ(stream.precision(), defaultPrecision);
+  EXPECT_EQ(stream.width(), defaultWidth);
+  EXPECT_EQ(stream.fill(), defaultFill);
+  EXPECT_EQ(stream.flags(), defaultFlags);
 }
