@@ -64,23 +64,23 @@ public:
   itkGetModifiableObjectMacro(Mesh, MeshType);
 
   /** Returns the value of the level set function at a given location iP */
-  virtual OutputType
+  OutputType
   Evaluate(const InputType & iP) const override;
 
   /** Returns the image gradient of the level set function at a given location iP
    * \todo to be implemented */
-  virtual GradientType
+  GradientType
   EvaluateGradient(const InputType & iP) const override;
 
   /** Returns the image hessian of the level set function at a given location iP
    * \todo to be implemented */
-  virtual HessianType
+  HessianType
   EvaluateHessian(const InputType & iP) const override;
 
 
   /** Returns the value of the level set function at a given location iP
    * as part of the LevelSetDataType*/
-  virtual void
+  void
   Evaluate(const InputType & iP, LevelSetDataType & ioData) const override;
 
   /** Returns the gradient of the level set function at a given location iP
@@ -92,7 +92,7 @@ public:
   /** Returns the Hessian of the level set function at a given location iP
    * as part of the LevelSetDataType
    * \todo to be implemented */
-  virtual void
+  void
   EvaluateHessian(const InputType & iP, LevelSetDataType & ioData) const override;
 
   /** Initial the level set pointer */
@@ -100,7 +100,7 @@ public:
   Initialize();
 
   /** Copy level set information from data object */
-  virtual void
+  void
   CopyInformation(const DataObject * data) override;
 
   /** Graft data object as level set object */
@@ -109,7 +109,7 @@ public:
 
 protected:
   LevelSetQuadEdgeMesh() = default;
-  virtual ~LevelSetQuadEdgeMesh() override = default;
+  ~LevelSetQuadEdgeMesh() override = default;
 
 private:
   MeshPointer m_Mesh{};
