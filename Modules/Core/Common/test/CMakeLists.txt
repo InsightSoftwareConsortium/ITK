@@ -2,7 +2,6 @@ itk_module_test()
 set(
   ITKCommon1Tests
   itkImageRegionExplicitTest.cxx
-  itkAbortProcessObjectTest.cxx
   itkCommandObserverObjectTest.cxx
   itkAdaptorComparisonTest.cxx
   itkCovariantVectorGeometryTest.cxx
@@ -224,12 +223,6 @@ if(ITK_BUILD_SHARED_LIBS)
   add_dependencies(ITKCommon2TestDriver FactoryTestLib)
 endif()
 
-itk_add_test(
-  NAME itkAbortProcessObjectTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkAbortProcessObjectTest
-)
 itk_add_test(
   NAME itkCommandObserverObjectTest
   COMMAND
@@ -1781,6 +1774,7 @@ set(
   itkAutoPointerGTest.cxx
   itkStdStreamStateSaveGTest.cxx
   itkDecoratorGTest.cxx
+  itkAbortProcessObjectGTest.cxx
 )
 creategoogletestdriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
 # If `-static` was passed to CMAKE_EXE_LINKER_FLAGS, compilation fails. No need to
