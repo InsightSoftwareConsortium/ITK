@@ -6,7 +6,6 @@ set(
   itkCommandObserverObjectTest.cxx
   itkAdaptorComparisonTest.cxx
   itkCovariantVectorGeometryTest.cxx
-  itkDataTypeTest.cxx
   itkDecoratorTest.cxx
   itkExtractImage3Dto2DTest.cxx
   itkExtractImageTest.cxx
@@ -31,9 +30,6 @@ set(
   itkImageSliceIteratorTest.cxx
   itkRGBPixelTest.cxx
   itkLightObjectTest.cxx
-  itkBoundingBoxTest.cxx
-  itkBoundaryConditionTest.cxx
-  itkByteSwapTest.cxx
   itkSparseImageTest.cxx
   itkSimpleFilterWatcherTest.cxx
   itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest.cxx
@@ -64,8 +60,6 @@ set(
   itkRealTimeClockTest.cxx
   itkRealTimeIntervalTest.cxx
   itkRealTimeStampTest.cxx
-  itkTimeStampTest.cxx
-  itkIntTypesTest.cxx
   itkBSplineKernelFunctionTest.cxx
   itkArrayTest.cxx
   itkImageIteratorTest.cxx
@@ -76,12 +70,6 @@ set(
   itkDirectoryTest.cxx
   itkObjectStoreTest.cxx
   itkObjectFactoryTest.cxx
-  itkEventObjectTest.cxx
-  itkMathCastWithRangeCheckTest.cxx
-  itkMathRoundProfileTest1.cxx
-  itkMathRoundTest.cxx
-  itkMathRoundTest2.cxx
-  itkModifiedTimeTest.cxx
   itkMultipleLogOutputTest.cxx
   itkVectorTest.cxx
   itkImageTest.cxx
@@ -103,7 +91,6 @@ set(
   itkTimeProbeTest2.cxx
   itkSpatialOrientationTest.cxx
   itkStdStreamStateSaveTest.cxx
-  itkVersionTest.cxx
   VNLSparseLUSolverTraitsTest.cxx
   itkSobelOperatorImageConvolutionTest.cxx
   itkSobelOperatorImageFilterTest.cxx
@@ -225,13 +212,6 @@ target_link_libraries(
 )
 itk_add_test(NAME SystemInformation COMMAND itkSystemInformation)
 
-itk_add_test(
-  NAME itkVersionTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkVersionTest
-)
-
 if(ITK_BUILD_SHARED_LIBS)
   ## Create a library to test ITK loadable factories
   set(FactoryTest_Source itkFactoryTestLib.cxx)
@@ -320,12 +300,6 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     itkCovariantVectorGeometryTest
-)
-itk_add_test(
-  NAME itkDataTypeTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkDataTypeTest
 )
 itk_add_test(
   NAME itkDecoratorTest
@@ -470,30 +444,6 @@ itk_add_test(
     itkAutoPointerTest
 )
 itk_add_test(
-  NAME itkTimeStampTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkTimeStampTest
-)
-itk_add_test(
-  NAME itkBoundingBoxTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkBoundingBoxTest
-)
-itk_add_test(
-  NAME itkBoundaryConditionTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkBoundaryConditionTest
-)
-itk_add_test(
-  NAME itkByteSwapTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkByteSwapTest
-)
-itk_add_test(
   NAME itkBSplineInterpolationWeightFunctionTest
   COMMAND
     ITKCommon2TestDriver
@@ -628,42 +578,6 @@ itk_add_test(
   COMMAND
     ITKCommon2TestDriver
     itkConstShapedNeighborhoodIteratorTest2
-)
-itk_add_test(
-  NAME itkEventObjectTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkEventObjectTest
-)
-itk_add_test(
-  NAME itkMathCastWithRangeCheckTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkMathCastWithRangeCheckTest
-)
-itk_add_test(
-  NAME itkMathRoundProfileTest1
-  COMMAND
-    ITKCommon1TestDriver
-    itkMathRoundProfileTest1
-)
-itk_add_test(
-  NAME itkMathRoundTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkMathRoundTest
-)
-itk_add_test(
-  NAME itkMathRoundTest2
-  COMMAND
-    ITKCommon1TestDriver
-    itkMathRoundTest2
-)
-itk_add_test(
-  NAME itkModifiedTimeTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkModifiedTimeTest
 )
 itk_add_test(
   NAME itkExceptionObjectTest
@@ -1244,12 +1158,6 @@ itk_add_test(
     ITKCommon1TestDriver
     --full-output
     itkNumericTraitsTest
-)
-itk_add_test(
-  NAME itkIntTypesTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkIntTypesTest
 )
 itk_add_test(
   NAME itkOctreeTest
@@ -1884,6 +1792,17 @@ set(
   itkWeakPointerGTest.cxx
   itkCommonTypeTraitsGTest.cxx
   itkMathGTest.cxx
+  itkDataTypeGTest.cxx
+  itkBoundaryConditionGTest.cxx
+  itkBoundingBoxGTest.cxx
+  itkTimeStampGTest.cxx
+  itkEventObjectGTest.cxx
+  itkByteSwapGTest.cxx
+  itkIntTypesGTest.cxx
+  itkMathCastWithRangeCheckGTest.cxx
+  itkMathRoundGTest.cxx
+  itkModifiedTimeGTest.cxx
+  itkVersionGTest.cxx
   itkMetaDataDictionaryGTest.cxx
   itkSpatialOrientationAdaptorGTest.cxx
   itkAnatomicalOrientationGTest.cxx

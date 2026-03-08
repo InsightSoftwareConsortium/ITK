@@ -17,6 +17,8 @@
  *=========================================================================*/
 
 #include "itkMath.h"
+#include "itkGTest.h"
+
 #include <iostream>
 
 
@@ -115,49 +117,53 @@ DoCastWithRangeCheckTestForTypes(const T1 * = nullptr)
 
 } // end namespace
 
-int
-itkMathCastWithRangeCheckTest(int, char *[])
+TEST(MathCastWithRangeCheck, OverflowThrowsException)
+{
+  // Wrap in lambda to avoid comma in template args confusing the macro parser
+  EXPECT_THROW(
+    ([&]() { itk::Math::CastWithRangeCheck<short, int>(static_cast<int>(itk::NumericTraits<short>::max()) + 10); }()),
+    itk::RangeError);
+  std::cout << "caught exception as expected" << std::endl;
+}
+
+TEST(MathCastWithRangeCheck, ExhaustiveSmallTypes)
 {
   bool pass = true;
+  pass &= DoCastWithRangeCheckTestExulstive<signed char, unsigned char>();
+  pass &= DoCastWithRangeCheckTestExulstive<unsigned char, signed char>();
+  pass &= DoCastWithRangeCheckTestExulstive<unsigned char, short>();
+  pass &= DoCastWithRangeCheckTestExulstive<signed char, short>();
+  pass &= DoCastWithRangeCheckTestExulstive<unsigned int, signed char>();
+  EXPECT_TRUE(pass);
+}
 
-  try
-  {
-    itk::Math::CastWithRangeCheck<short, int>(static_cast<int>(itk::NumericTraits<short>::max()) + 10);
-    pass = false;
-    std::cout << "failed to through exception with " << static_cast<int>(itk::NumericTraits<short>::max()) + 10
-              << " to int ";
-  }
-  catch (...)
-  {
-    std::cout << "caught exception as expected" << std::endl;
-  }
+TEST(MathCastWithRangeCheck, AllTypesToUnsignedChar) { EXPECT_TRUE(DoCastWithRangeCheckTestForTypes<unsigned char>()); }
 
+TEST(MathCastWithRangeCheck, AllTypesToSignedChar) { EXPECT_TRUE(DoCastWithRangeCheckTestForTypes<signed char>()); }
 
-  DoCastWithRangeCheckTestExulstive<signed char, unsigned char>();
-  DoCastWithRangeCheckTestExulstive<unsigned char, signed char>();
-  DoCastWithRangeCheckTestExulstive<unsigned char, short>();
-  DoCastWithRangeCheckTestExulstive<signed char, short>();
+TEST(MathCastWithRangeCheck, AllTypesToUnsignedShort)
+{
+  EXPECT_TRUE(DoCastWithRangeCheckTestForTypes<unsigned short>());
+}
 
-  DoCastWithRangeCheckTestExulstive<unsigned int, signed char>();
+TEST(MathCastWithRangeCheck, AllTypesToShort)
+{
+  const bool pass = DoCastWithRangeCheckTestForTypes<short>();
+  EXPECT_TRUE(pass);
+}
 
+TEST(MathCastWithRangeCheck, AllTypesToUnsignedInt) { EXPECT_TRUE(DoCastWithRangeCheckTestForTypes<unsigned int>()); }
 
-  pass &= DoCastWithRangeCheckTestForTypes<unsigned char>();
-  pass &= DoCastWithRangeCheckTestForTypes<signed char>();
-  pass &= DoCastWithRangeCheckTestForTypes<unsigned short>();
-  pass &= DoCastWithRangeCheckTestForTypes<short>();
-  pass &= DoCastWithRangeCheckTestForTypes<unsigned int>();
-  pass &= DoCastWithRangeCheckTestForTypes<int>();
-  pass &= DoCastWithRangeCheckTestForTypes<unsigned long>();
-  pass &= DoCastWithRangeCheckTestForTypes<long>();
-#ifdef ITK_USE_LONG_LONG
-  pass &= DoCastWithRangeCheckTestForTypes<unsigned long long>();
-  pass &= DoCastWithRangeCheckTestForTypes<long long>();
-#endif
+TEST(MathCastWithRangeCheck, AllTypesToInt)
+{
+  const bool pass = DoCastWithRangeCheckTestForTypes<int>();
+  EXPECT_TRUE(pass);
+}
 
-  if (pass)
-  {
-    return EXIT_SUCCESS;
-  }
+TEST(MathCastWithRangeCheck, AllTypesToUnsignedLong) { EXPECT_TRUE(DoCastWithRangeCheckTestForTypes<unsigned long>()); }
 
-  return EXIT_FAILURE;
+TEST(MathCastWithRangeCheck, AllTypesToLong)
+{
+  const bool pass = DoCastWithRangeCheckTestForTypes<long>();
+  EXPECT_TRUE(pass);
 }
