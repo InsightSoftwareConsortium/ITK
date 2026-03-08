@@ -18,7 +18,6 @@
 #ifndef itkGradientRecursiveGaussianImageFilter_hxx
 #define itkGradientRecursiveGaussianImageFilter_hxx
 
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkPrintHelper.h"
@@ -241,7 +240,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
 
       ImageRegionIterator<RealImageType> it(derivativeImage, derivativeImage->GetRequestedRegion());
 
-      ImageRegionIteratorWithIndex<OutputImageAdaptorType> ot(m_ImageAdaptor, m_ImageAdaptor->GetRequestedRegion());
+      ImageRegionIterator<OutputImageAdaptorType> ot(m_ImageAdaptor, m_ImageAdaptor->GetRequestedRegion());
 
       const ScalarRealType spacing = inputImage->GetSpacing()[dim];
 
