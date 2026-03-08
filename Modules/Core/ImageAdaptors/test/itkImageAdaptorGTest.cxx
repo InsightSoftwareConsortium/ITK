@@ -17,11 +17,11 @@
  *=========================================================================*/
 
 // First include the header file to be tested:
-#include "itkImageBase.h"
+#include "itkImageAdaptor.h"
 
 #include "itkCovariantVector.h"
 #include "itkImage.h"
-#include "itkImageAdaptor.h"
+#include "itkImageBase.h"
 #include "itkImageRegionIterator.h"
 #include "itkIndexRange.h"
 #include "itkVector.h"
@@ -64,7 +64,7 @@ Expect_same_type_and_equal_value(T1 && value1, T2 && value2)
 
 template <typename TImage, typename TAccessor, typename TCoordinate>
 void
-Expect_TransformPhysicalPoint_member_functions_return_the_same_for_ImageAdapter_as_for_image(
+Expect_TransformPhysicalPoint_member_functions_return_the_same_for_ImageAdaptor_as_for_image(
   const itk::ImageAdaptor<TImage, TAccessor> &            imageAdaptor,
   const TImage &                                          image,
   const itk::Point<TCoordinate, TImage::ImageDimension> & point)
@@ -80,7 +80,7 @@ Expect_TransformPhysicalPoint_member_functions_return_the_same_for_ImageAdapter_
 
 template <typename TImage, typename TAccessor, typename TIndexRep>
 void
-Expect_TransformContinuousIndexToPhysicalPoint_returns_the_same_for_ImageAdapter_as_for_image(
+Expect_TransformContinuousIndexToPhysicalPoint_returns_the_same_for_ImageAdaptor_as_for_image(
   const itk::ImageAdaptor<TImage, TAccessor> &                    imageAdaptor,
   const TImage &                                                  image,
   const itk::ContinuousIndex<TIndexRep, TImage::ImageDimension> & continuousIndex)
@@ -96,7 +96,7 @@ Expect_TransformContinuousIndexToPhysicalPoint_returns_the_same_for_ImageAdapter
 
 template <typename TImage, typename TAccessor>
 void
-Expect_TransformIndexToPhysicalPoint_returns_the_same_for_ImageAdapter_as_for_image(
+Expect_TransformIndexToPhysicalPoint_returns_the_same_for_ImageAdaptor_as_for_image(
   const itk::ImageAdaptor<TImage, TAccessor> & imageAdaptor,
   const TImage &                               image,
   const itk::Index<TImage::ImageDimension> &   index)
@@ -110,7 +110,7 @@ Expect_TransformIndexToPhysicalPoint_returns_the_same_for_ImageAdapter_as_for_im
 
 template <typename TImage, typename TAccessor, typename TVector>
 void
-Expect_TransformLocalVectorToPhysicalVector_returns_the_same_for_ImageAdapter_as_for_image(
+Expect_TransformLocalVectorToPhysicalVector_returns_the_same_for_ImageAdaptor_as_for_image(
   const itk::ImageAdaptor<TImage, TAccessor> & imageAdaptor,
   const TImage &                               image,
   const TVector &                              localVector)
@@ -122,7 +122,7 @@ Expect_TransformLocalVectorToPhysicalVector_returns_the_same_for_ImageAdapter_as
 
 template <typename TImage>
 void
-Expect_Transform_member_functions_return_the_same_for_an_ImageAdapter_as_for_its_image(TImage & image)
+Expect_Transform_member_functions_return_the_same_for_an_ImageAdaptor_as_for_its_image(TImage & image)
 {
   const auto ImageDimension = TImage::ImageDimension;
   using IndexType = itk::Index<ImageDimension>;
@@ -133,48 +133,48 @@ Expect_Transform_member_functions_return_the_same_for_an_ImageAdapter_as_for_its
   for (const auto & point :
        { itk::Point<double, ImageDimension>(), itk::MakeFilled<itk::Point<double, ImageDimension>>(1.0) })
   {
-    Expect_TransformPhysicalPoint_member_functions_return_the_same_for_ImageAdapter_as_for_image(
+    Expect_TransformPhysicalPoint_member_functions_return_the_same_for_ImageAdaptor_as_for_image(
       *imageAdaptor, image, point);
   }
 
   for (const auto & continuousIndex : { itk::ContinuousIndex<double, ImageDimension>(),
                                         itk::ContinuousIndex<double, ImageDimension>(IndexType::Filled(1)) })
   {
-    Expect_TransformContinuousIndexToPhysicalPoint_returns_the_same_for_ImageAdapter_as_for_image(
+    Expect_TransformContinuousIndexToPhysicalPoint_returns_the_same_for_ImageAdaptor_as_for_image(
       *imageAdaptor, image, continuousIndex);
   }
 
   for (const auto & index : { IndexType(), IndexType::Filled(1) })
   {
-    Expect_TransformIndexToPhysicalPoint_returns_the_same_for_ImageAdapter_as_for_image(*imageAdaptor, image, index);
+    Expect_TransformIndexToPhysicalPoint_returns_the_same_for_ImageAdaptor_as_for_image(*imageAdaptor, image, index);
   }
 
   for (const auto & fixedArray :
        { itk::FixedArray<float, ImageDimension>(), itk::FixedArray<float, ImageDimension>::Filled(1.0f) })
   {
-    Expect_TransformLocalVectorToPhysicalVector_returns_the_same_for_ImageAdapter_as_for_image(
+    Expect_TransformLocalVectorToPhysicalVector_returns_the_same_for_ImageAdaptor_as_for_image(
       *imageAdaptor, image, fixedArray);
   }
 
   for (const auto & fixedArray :
        { itk::FixedArray<double, ImageDimension>(), itk::FixedArray<double, ImageDimension>::Filled(1.0) })
   {
-    Expect_TransformLocalVectorToPhysicalVector_returns_the_same_for_ImageAdapter_as_for_image(
+    Expect_TransformLocalVectorToPhysicalVector_returns_the_same_for_ImageAdaptor_as_for_image(
       *imageAdaptor, image, fixedArray);
   }
 
-  Expect_TransformLocalVectorToPhysicalVector_returns_the_same_for_ImageAdapter_as_for_image(
+  Expect_TransformLocalVectorToPhysicalVector_returns_the_same_for_ImageAdaptor_as_for_image(
     *imageAdaptor, image, itk::Vector<double, ImageDimension>());
-  Expect_TransformLocalVectorToPhysicalVector_returns_the_same_for_ImageAdapter_as_for_image(
+  Expect_TransformLocalVectorToPhysicalVector_returns_the_same_for_ImageAdaptor_as_for_image(
     *imageAdaptor, image, itk::CovariantVector<double, ImageDimension>());
 }
 
 } // end namespace
 
 
-// Tests that any single parameter Transform member function of ImageAdapter return the same as the corresponding
+// Tests that any single parameter Transform member function of ImageAdaptor return the same as the corresponding
 // function call on its image.
-TEST(ImageAdapter, TransformMemberFunctionsReturnSameAsForImage)
+TEST(ImageAdaptor, TransformMemberFunctionsReturnSameAsForImage)
 {
   // Test both 2D and 3D, for different pixel types, origins and spacings:
   const auto image2D = itk::Image<double>::New();
@@ -182,10 +182,10 @@ TEST(ImageAdapter, TransformMemberFunctionsReturnSameAsForImage)
   image2D->SetSpacing(itk::MakeVector(2.0, 3.0));
   image2D->SetOrigin(itk::MakePoint(-1.0, 1.0));
 
-  Expect_Transform_member_functions_return_the_same_for_an_ImageAdapter_as_for_its_image(*image2D);
+  Expect_Transform_member_functions_return_the_same_for_an_ImageAdaptor_as_for_its_image(*image2D);
 
   const auto image3D = itk::Image<unsigned char, 3>::New();
-  Expect_Transform_member_functions_return_the_same_for_an_ImageAdapter_as_for_its_image(*image3D);
+  Expect_Transform_member_functions_return_the_same_for_an_ImageAdaptor_as_for_its_image(*image3D);
 }
 
 
@@ -243,7 +243,7 @@ TEST(ImageAdaptor, SupportsRegionIterator)
     EXPECT_EQ(iterator.Get(), pixelValue);
   }
 
-  // Now check if the intenal image has got the expected pixel values, in the specified region.
+  // Now check if the internal image has got the expected pixel values, in the specified region.
   PixelType expectedPixelValue{};
 
   for (itk::ImageRegionConstIterator iterator(image, region); !iterator.IsAtEnd(); ++iterator)
