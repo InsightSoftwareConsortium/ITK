@@ -114,8 +114,6 @@ protected:
 
   /** Direction to apply the transform (forward/inverse). */
   TransformDirectionType m_TransformDirection{ DIRECT };
-
-private:
 };
 
 } // namespace itk

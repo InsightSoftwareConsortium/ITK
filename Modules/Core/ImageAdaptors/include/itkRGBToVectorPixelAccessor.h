@@ -68,8 +68,6 @@ public:
     ExternalType v(input.GetDataPointer());
     return v;
   }
-
-private:
 };
 } // namespace itk::Accessor
 

@@ -146,8 +146,6 @@ protected:
             std::enable_if_t<!mpl::is_static_castable<TInputPixelType, TOutputPixelType>::value, int> = 0>
   void
   DynamicThreadedGenerateDataDispatched(const OutputImageRegionType & outputRegionForThread);
-
-private:
 };
 } // end namespace itk
 

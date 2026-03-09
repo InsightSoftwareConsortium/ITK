@@ -90,8 +90,6 @@ protected:
   /** Direction in which the filter is to be applied
    * this should be in the range [0,ImageDimension-1]. */
   unsigned int m_Direction{ 0 };
-
-private:
 };
 } // namespace itk
 

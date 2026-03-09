@@ -188,8 +188,6 @@ protected:
   ~VideoSource() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
 }; // end class VideoSource
 
 } // end namespace itk

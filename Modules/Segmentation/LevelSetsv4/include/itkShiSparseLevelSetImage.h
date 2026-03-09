@@ -133,8 +133,6 @@ protected:
 
   void
   InitializeInternalLabelList() override;
-
-private:
 };
 } // namespace itk
 

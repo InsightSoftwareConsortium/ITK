@@ -242,8 +242,6 @@ public:
   /** Post-Multiply by a Matrix as ResultingMatrix = ThisTensor * Matrix. */
   [[nodiscard]] MatrixType
   PostMultiply(const MatrixType & m) const;
-
-private:
 };
 
 /** This extra type alias is necessary for preventing an Internal Compiler Error in

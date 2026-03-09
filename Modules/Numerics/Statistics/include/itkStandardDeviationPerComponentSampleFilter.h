@@ -116,8 +116,6 @@ protected:
 
   MeasurementVectorSizeType
   GetMeasurementVectorSize() const;
-
-private:
 }; // end of class
 } // namespace itk::Statistics
 

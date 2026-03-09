@@ -346,8 +346,6 @@ protected:
   /** Find the active layer separating the foreground and background regions */
   void
   FindActiveLayer();
-
-private:
 };
 
 

@@ -135,8 +135,6 @@ protected:
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
 }; // end class VideoToVideoFilter
 
 } // end namespace itk

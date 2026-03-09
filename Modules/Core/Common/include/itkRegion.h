@@ -105,8 +105,6 @@ protected:
 
   virtual void
   PrintTrailer(std::ostream & os, Indent indent) const;
-
-private:
 };
 } // end namespace itk
 

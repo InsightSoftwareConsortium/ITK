@@ -115,7 +115,6 @@ public:
   CreateStructuringElement();
 
 protected:
-private:
 };
 } // namespace itk
 

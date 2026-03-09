@@ -378,8 +378,6 @@ protected:
 
   /** The list of target landmarks, denoted 'q'. */
   PointSetPointer m_TargetLandmarks{};
-
-private:
 };
 } // end namespace itk
 

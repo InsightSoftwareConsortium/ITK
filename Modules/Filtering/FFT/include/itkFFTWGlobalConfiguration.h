@@ -83,8 +83,6 @@ public:
   GenerateWisdomFilename(const std::string & baseCacheDirectory) const = 0;
   WisdomFilenameGeneratorBase();
   virtual ~WisdomFilenameGeneratorBase();
-
-private:
 };
 
 class ITKFFT_EXPORT ManualWisdomFilenameGenerator : public WisdomFilenameGeneratorBase

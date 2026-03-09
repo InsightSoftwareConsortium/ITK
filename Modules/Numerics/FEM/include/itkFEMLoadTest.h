@@ -75,8 +75,6 @@ public:
    * Some data that this load defines.
    */
   TClass data;
-
-private:
 };
 } // namespace itk::fem
 

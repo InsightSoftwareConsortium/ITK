@@ -77,8 +77,6 @@ protected:
 
   virtual bool
   IsInsideDomain(const InputType & iP) const = 0;
-
-private:
 };
 
 } // end namespace itk

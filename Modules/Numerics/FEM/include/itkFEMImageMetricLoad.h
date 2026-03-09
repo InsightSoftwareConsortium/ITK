@@ -373,8 +373,6 @@ private:
   typename InterpolatorType::Pointer  m_Interpolator{};
 
   mutable double m_Energy{};
-
-private:
 };
 } // namespace itk::fem
 

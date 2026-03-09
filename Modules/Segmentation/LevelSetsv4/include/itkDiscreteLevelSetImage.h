@@ -133,8 +133,6 @@ protected:
   /** Graft data object as level set object */
   void
   Graft(const DataObject * data) override;
-
-private:
 };
 } // namespace itk
 

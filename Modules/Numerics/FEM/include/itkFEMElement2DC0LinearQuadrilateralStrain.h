@@ -89,8 +89,6 @@ public:
 protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
 }; // class Element2DC0LinearQuadrilateralStrain
 } // namespace itk::fem
 

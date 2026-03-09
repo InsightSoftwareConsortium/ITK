@@ -118,8 +118,6 @@ protected:
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
 };
 } // namespace itk::fem
 

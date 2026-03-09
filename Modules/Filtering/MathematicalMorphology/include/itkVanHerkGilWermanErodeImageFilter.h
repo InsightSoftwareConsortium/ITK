@@ -59,8 +59,6 @@ public:
 protected:
   VanHerkGilWermanErodeImageFilter() { this->m_Boundary = NumericTraits<PixelType>::max(); }
   ~VanHerkGilWermanErodeImageFilter() override = default;
-
-private:
 };
 } // namespace itk
 

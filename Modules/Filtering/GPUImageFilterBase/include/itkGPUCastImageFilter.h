@@ -111,8 +111,6 @@ protected:
   multi-threaded */
   void
   GPUGenerateData() override;
-
-private:
 };
 
 } // end of namespace itk

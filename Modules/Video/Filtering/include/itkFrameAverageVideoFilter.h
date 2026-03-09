@@ -79,8 +79,6 @@ protected:
    * spatially multithreaded filter, so we override ThreadedGenerateData */
   void
   ThreadedGenerateData(const OutputFrameSpatialRegionType & outputRegionForThread, int threadId) override;
-
-private:
 }; // end class FrameAverageVideoFilter
 
 } // end namespace itk

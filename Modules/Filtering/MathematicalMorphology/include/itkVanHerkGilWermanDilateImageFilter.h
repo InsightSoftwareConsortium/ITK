@@ -58,8 +58,6 @@ public:
 protected:
   VanHerkGilWermanDilateImageFilter() { this->m_Boundary = NumericTraits<PixelType>::NonpositiveMin(); }
   ~VanHerkGilWermanDilateImageFilter() override = default;
-
-private:
 };
 } // namespace itk
 
