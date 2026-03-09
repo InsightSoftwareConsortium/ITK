@@ -97,8 +97,6 @@ public:
   {
     return SpaceDimension;
   }
-
-private:
 };
 
 int

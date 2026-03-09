@@ -91,8 +91,6 @@ public:
   {
     return SpaceDimension;
   }
-
-private:
 };
 
 class OnePlusOneCommandIterationUpdate : public itk::Command
