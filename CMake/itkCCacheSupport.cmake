@@ -54,8 +54,10 @@ if(ITK_USE_CCACHE)
     message(FATAL_ERROR "ccache not found, turn off ITK_USE_CCACHE")
   endif()
   if(CCACHE_VERSION VERSION_LESS 4.0)
+    # CI actions may use sccache for increased performance, which does not return
+    # a valid CCACHE_VERSION. Provide a STATUS warning instead of outright failure
     message(
-      FATAL_ERROR
+      STATUS
       "Only ccache greater than 4.0 is supported, ${CCACHE_VERSION} found."
     )
   endif()
