@@ -43,7 +43,7 @@ CumulativeGaussianCostFunction::CalculateFitError(MeasureType * setTestArray)
   // Use root mean square error as a measure of fit quality.
   const unsigned int numberOfElements = m_OriginalDataArray.GetNumberOfElements();
 
-  if (numberOfElements != setTestArray->GetNumberOfElements())
+  if (numberOfElements != setTestArray->GetNumberOfElements() || numberOfElements == 0)
   {
     return 1;
   }
@@ -52,7 +52,7 @@ CumulativeGaussianCostFunction::CalculateFitError(MeasureType * setTestArray)
   {
     fitError += Math::sqr(setTestArray->get(i) - m_OriginalDataArray.get(i));
   }
-  return (std::sqrt((1 / numberOfElements) * fitError));
+  return std::sqrt(fitError / static_cast<double>(numberOfElements));
 }
 
 double
