@@ -28,6 +28,10 @@ pr:
     - Modules/Remote/*.remote.cmake
 variables:
   ExternalDataVersion: 5.4.5
+  CCACHE_DIR: $(Pipeline.Workspace)/.ccache
+  CCACHE_BASEDIR: $(Build.SourcesDirectory)
+  CCACHE_COMPILERCHECK: content
+  CCACHE_NOHASHDIR: 'true'
 jobs:
 - job: Linux
   timeoutInMinutes: 0
@@ -54,7 +58,7 @@ jobs:
         set -x
         sudo pip3 install ninja
         sudo apt-get update
-        sudo apt-get install -y python3-venv
+        sudo apt-get install -y python3-venv ccache
         sudo python3 -m pip install lxml scikit-ci-addons
       displayName: 'Install dependencies'
 
@@ -68,6 +72,17 @@ jobs:
       workingDirectory: $(Agent.BuildDirectory)
       displayName: 'Download dashboard script and testing data'
 
+    - task: Cache@2
+      inputs:
+        key: '"ccache" | "$(Agent.OS)" | "$(Build.SourceVersion)"'
+        restoreKeys: |
+          "ccache" | "$(Agent.OS)"
+        path: $(CCACHE_DIR)
+      displayName: 'Restore ccache'
+
+    - bash: ccache --evict-older-than 7d
+      displayName: 'Evict old ccache entries'
+
     - bash: |
         cat > dashboard.cmake << EOF
         set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
@@ -76,6 +91,9 @@ jobs:
           BUILD_SHARED_LIBS:BOOL=OFF
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=OFF
+          ITK_USE_CCACHE:BOOL=ON
+          CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
+          CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
         ")
         set(CTEST_TEST_ARGS EXCLUDE_LABEL BigIO) # Disabled to conserve disk space
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
@@ -94,6 +112,7 @@ jobs:
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
+        CCACHE_MAXSIZE: 11G
 
     - script: |
         ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml
@@ -127,7 +146,7 @@ jobs:
         set -x
         sudo pip3 install ninja
         sudo apt-get update
-        sudo apt-get install -y python3-venv
+        sudo apt-get install -y python3-venv ccache
         sudo python3 -m pip install lxml scikit-ci-addons
       displayName: 'Install dependencies'
 
@@ -141,6 +160,17 @@ jobs:
       workingDirectory: $(Agent.BuildDirectory)
       displayName: 'Download dashboard script and testing data'
 
+    - task: Cache@2
+      inputs:
+        key: '"ccache" | "$(Agent.OS)" | "$(Build.SourceVersion)"'
+        restoreKeys: |
+          "ccache" | "$(Agent.OS)"
+        path: $(CCACHE_DIR)
+      displayName: 'Restore ccache'
+
+    - bash: ccache --evict-older-than 7d
+      displayName: 'Evict old ccache entries'
+
     - bash: |
         cat > dashboard.cmake << EOF
         set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
@@ -151,6 +181,8 @@ jobs:
           BUILD_SHARED_LIBS:BOOL=OFF
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=OFF
+          CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
+          CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
         ")
         set(CTEST_TEST_ARGS EXCLUDE_LABEL BigIO) # Disabled to conserve disk space
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
@@ -169,6 +201,7 @@ jobs:
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
+        CCACHE_MAXSIZE: 11G
 
     - script: |
         ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml
@@ -205,7 +238,7 @@ jobs:
         set -x
         sudo pip3 install ninja
         sudo apt-get update
-        sudo apt-get install -y python3-venv
+        sudo apt-get install -y python3-venv ccache
         sudo python3 -m pip install lxml scikit-ci-addons
       displayName: "Install dependencies"
     - bash: |
@@ -216,6 +249,17 @@ jobs:
         cmake -E rename InsightToolkit-$(ExternalDataVersion)/.ExternalData/CID $(Build.SourcesDirectory)/.ExternalData/CID
       workingDirectory: $(Agent.BuildDirectory)
       displayName: "Download dashboard script and testing data"
+    - task: Cache@2
+      inputs:
+        key: '"ccache" | "$(Agent.OS)" | "$(Build.SourceVersion)"'
+        restoreKeys: |
+          "ccache" | "$(Agent.OS)"
+        path: $(CCACHE_DIR)
+      displayName: 'Restore ccache'
+
+    - bash: ccache --evict-older-than 7d
+      displayName: 'Evict old ccache entries'
+
     - bash: |
         cat > dashboard.cmake << EOF
         set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
@@ -227,6 +271,8 @@ jobs:
           BUILD_SHARED_LIBS:BOOL=OFF
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=OFF
+          CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
+          CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
         ")
         set(CTEST_TEST_ARGS EXCLUDE_LABEL BigIO) # Disabled to conserve disk space
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
@@ -242,6 +288,7 @@ jobs:
       displayName: "Build and test"
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
+        CCACHE_MAXSIZE: 11G
     - script: |
         ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml
       condition: succeededOrFailed()

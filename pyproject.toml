@@ -49,6 +49,7 @@ cmd = '''cmake
   -GNinja
   -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
   -DBUILD_TESTING:BOOL=ON
+  -DITK_USE_CCACHE:BOOL=ON
   -DCMAKE_C_COMPILER_LAUNCHER:STRING=ccache
   -DCMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache'''
 description = "Configure ITK for CI (with ccache compiler launcher)"
