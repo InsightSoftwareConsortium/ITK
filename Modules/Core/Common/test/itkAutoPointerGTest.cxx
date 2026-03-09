@@ -16,9 +16,10 @@
  *
  *=========================================================================*/
 
-#include <iostream>
-
 #include "itkAutoPointer.h"
+#include "itkGTest.h"
+
+#include <iostream>
 
 class TestObject
 {
@@ -36,32 +37,36 @@ public:
 };
 
 
-int
-itkAutoPointerTest(int, char *[])
+TEST(AutoPointer, OwnershipTransfer)
 {
-
   auto * obj = new TestObject;
 
   TestObject::AutoPointer ptr1;
   ptr1.TakeOwnership(obj);
 
   std::cout << "after assignment from raw pointer" << std::endl;
+  EXPECT_TRUE(ptr1.IsOwner());
   std::cout << "ptr1 IsOwner = " << ptr1.IsOwner() << std::endl;
 
+  EXPECT_STREQ(ptr1->GetClassName(), "my Class name is TestObject");
   std::cout << ptr1->GetClassName() << std::endl;
 
   TestObject::AutoPointer ptr2(ptr1);
 
   std::cout << "after copy constructor " << std::endl;
+  EXPECT_FALSE(ptr1.IsOwner());
   std::cout << "ptr1 IsOwner = " << ptr1.IsOwner() << std::endl;
+  EXPECT_TRUE(ptr2.IsOwner());
   std::cout << "ptr2 IsOwner = " << ptr2.IsOwner() << std::endl;
 
   ptr2.Reset();
   std::cout << "after Reset " << std::endl;
+  EXPECT_FALSE(ptr2.IsOwner());
   std::cout << "ptr2 IsOwner = " << ptr2.IsOwner() << std::endl;
 
   ptr1.TakeOwnership(new TestObject);
   std::cout << "after assignment from raw pointer" << std::endl;
+  EXPECT_TRUE(ptr1.IsOwner());
   std::cout << "ptr1 IsOwner = " << ptr1.IsOwner() << std::endl;
 
   // The following test exercise the methods but don't validate the results
@@ -84,7 +89,4 @@ itkAutoPointerTest(int, char *[])
 
 
   const TestObject::ConstAutoPointer cptr2(cptr1);
-
-
-  return EXIT_SUCCESS;
 }
