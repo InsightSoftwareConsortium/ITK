@@ -109,6 +109,7 @@ else()
     set(
       _python_find_components
       Interpreter
+      Development.Module
       Development.SABIModule
     )
   else()
@@ -195,26 +196,11 @@ else()
   endif()
 
   # If a specific Python3_EXECUTABLE is provided by the user, try to infer
-  # the corresponding Python3_ROOT_DIR for Unix/macOS/Linux so CMake's
-  # FindPython3 locates the matching installation or virtual environment.
-  # This is especially important for virtualenv/venv/conda environments.
-  if(
-    DEFINED
-      Python3_EXECUTABLE
-    AND
-      NOT
-        DEFINED
-          Python3_ROOT_DIR
-    AND
-      (
-        UNIX
-        OR
-          APPLE
-      )
-    AND
-      NOT
-        WIN32
-  )
+  # the corresponding Python3_ROOT_DIR so CMake's FindPython3 locates the
+  # matching installation or virtual environment.
+  # This is especially important for virtualenv/venv/conda environments
+  # and on Windows where FindPython3 may otherwise pick the wrong installation.
+  if(DEFINED Python3_EXECUTABLE AND NOT DEFINED Python3_ROOT_DIR)
     # First, try sys.prefix from the provided interpreter (works for venv/conda)
     execute_process(
       COMMAND

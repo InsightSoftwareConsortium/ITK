@@ -159,12 +159,17 @@ set(
 )
 
 if(ITK_WRAP_PYTHON)
+  if(ITK_USE_PYTHON_LIMITED_API AND TARGET Python3::SABIModule)
+    set(_itk_python_target Python3::SABIModule)
+  else()
+    set(_itk_python_target Python3::Module)
+  endif()
   list(APPEND ITKCommon_SRCS itkPyCommand.cxx)
   set_source_files_properties(
     itkPyCommand.cxx
     PROPERTIES
       INCLUDE_DIRECTORIES
-        "$<TARGET_PROPERTY:Python3::Module,INTERFACE_INCLUDE_DIRECTORIES>"
+        "$<TARGET_PROPERTY:${_itk_python_target},INTERFACE_INCLUDE_DIRECTORIES>"
   )
 endif()
 
@@ -255,7 +260,10 @@ if(UNIX)
   endif()
 endif()
 if(ITK_WRAP_PYTHON)
-  target_link_libraries(ITKCommon PRIVATE Python3::Module)
+  target_link_libraries(ITKCommon PRIVATE ${_itk_python_target})
+  if(MSVC)
+    target_link_directories(ITKCommon PRIVATE ${Python3_LIBRARY_DIRS})
+  endif()
 endif()
 
 if(ITK_USE_TBB)
