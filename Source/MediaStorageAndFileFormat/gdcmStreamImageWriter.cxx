@@ -155,10 +155,10 @@ int StreamImageWriter::WriteRawHeader(RAWCodec* inCodec, std::ostream* inStream)
     memcpy(&(tmpBuffer1[5*sizeof(uint16_t)+sizeof(uint32_t)]), &seventhTag, sizeof(uint16_t));//e000
     memcpy(&(tmpBuffer1[6*sizeof(uint16_t)+sizeof(uint32_t)]), &eightthTag, sizeof(uint32_t));//00000000H
 
-    assert( inStream && *inStream && !inStream->eof() && inStream->good() );
+    gdcm_assert( inStream && *inStream && !inStream->eof() && inStream->good() );
     inStream->write(tmpBuffer1, theBufferSize);
     inStream->flush();
-    assert( inStream && *inStream );
+    gdcm_assert( inStream && *inStream );
     }
 
   uint16_t NinthTag = 0xfffe;
@@ -197,10 +197,10 @@ int StreamImageWriter::WriteRawHeader(RAWCodec* inCodec, std::ostream* inStream)
     //    inStream->seekp(std::ios::beg);
     //    theOffset = mFileOffset;
     //    inStream->seekp(theOffset);
-    assert( inStream && *inStream && !inStream->eof() && inStream->good() );
+    gdcm_assert( inStream && *inStream && !inStream->eof() && inStream->good() );
     inStream->write(tmpBuffer4, theBufferSize1);
     inStream->flush();
-    assert( inStream && *inStream );
+    gdcm_assert( inStream && *inStream );
 
   } catch(...){
     delete [] tmpBuffer3;
@@ -220,7 +220,7 @@ bool StreamImageWriter::WriteImageSubregionRAW(char* inWriteBuffer, const std::s
 {
   (void)inBufferLength;
   //assumes that the file is organized in row-major format, with each row rastering across
-//  assert( mFileOffset != -1 );
+//  gdcm_assert( mFileOffset != -1 );
   int y, z;
 //  std::streamoff theOffset;
 
@@ -264,7 +264,7 @@ bool StreamImageWriter::WriteImageSubregionRAW(char* inWriteBuffer, const std::s
   //to ensure thread safety; if the stream ptr handler gets used simultaneously by different threads,
   //that would be BAD
   //tmpBuffer is for a single raster
-  assert( theStream && *theStream );
+  gdcm_assert( theStream && *theStream );
   char* tmpBuffer = new char[SubRowSize*bytesPerPixel];
   char* tmpBuffer2 = new char[SubRowSize*bytesPerPixel];
   try {
@@ -301,10 +301,10 @@ bool StreamImageWriter::WriteImageSubregionRAW(char* inWriteBuffer, const std::s
           return false;
         }
         //should be appending
-           //assert( theStream && *theStream && !theStream->eof() && theStream->good() );
+           //gdcm_assert( theStream && *theStream && !theStream->eof() && theStream->good() );
           theStream->write(tmpBuffer2, SubRowSize*bytesPerPixel);
           theStream->flush();
-          //assert( theStream && *theStream );
+          //gdcm_assert( theStream && *theStream );
       }
     }
   }
@@ -341,10 +341,10 @@ bool StreamImageWriter::WriteImageInformation(){
   {
     //question! is this file a copy of the file that was given in, or a reference?
      mFile.GetDataSet().Remove( Tag(0x7fe0,0x0010) ); // FIXME
-     assert( !mFile.GetDataSet().FindDataElement( Tag(0x7fe0,0x0010) ) );
+     gdcm_assert( !mFile.GetDataSet().FindDataElement( Tag(0x7fe0,0x0010) ) );
     if( !mWriter.Write() )//should write everything BUT the image tag.  right?
       {
-      //assert( 0 );//this assert fires when the image is not writeable, ie, doesn't have
+      //gdcm_assert( 0 );//this assert fires when the image is not writeable, ie, doesn't have
         //tags 2,3 and 8,18
         //if the writer can't write, then this should return false.
         return false;
@@ -381,7 +381,7 @@ bool StreamImageWriter::WriteImageInformation(){
 //  if( mFileOffset == -1 ) return false;
 
   // postcondition
-//  assert( mFileOffset != -1 );
+//  gdcm_assert( mFileOffset != -1 );
   return true;
 }
 

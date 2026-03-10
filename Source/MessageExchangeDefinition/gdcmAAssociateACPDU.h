@@ -45,7 +45,7 @@ public:
 
   typedef std::vector<PresentationContextAC>::size_type SizeType;
   const PresentationContextAC &GetPresentationContextAC( SizeType i ) {
-    assert( !PresContextAC.empty() && i < PresContextAC.size() );
+    gdcm_assert( !PresContextAC.empty() && i < PresContextAC.size() );
     return PresContextAC[i];
   }
   SizeType GetNumberOfPresentationContextAC() const {

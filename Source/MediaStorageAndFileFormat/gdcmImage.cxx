@@ -27,37 +27,37 @@ namespace gdcm
 
 const double *Image::GetSpacing() const
 {
-  assert( NumberOfDimensions );
+  gdcm_assert( NumberOfDimensions );
   return Spacing.data();
 }
 
 double Image::GetSpacing(unsigned int idx) const
 {
-  assert( NumberOfDimensions );
+  gdcm_assert( NumberOfDimensions );
   //if( idx < Spacing.size() )
     {
     return Spacing[idx];
     }
-  //assert( 0 && "Should not happen" );
+  //gdcm_assert( 0 && "Should not happen" );
   //return 1; // FIXME ???
 }
 
 void Image::SetSpacing(const double *spacing)
 {
-  assert( NumberOfDimensions );
+  gdcm_assert( NumberOfDimensions );
   Spacing.assign(spacing, spacing+NumberOfDimensions);
 }
 
 void Image::SetSpacing(unsigned int idx, double spacing)
 {
-  //assert( spacing > 1.e3 );
+  //gdcm_assert( spacing > 1.e3 );
   Spacing.resize( 3 /*idx + 1*/ );
   Spacing[idx] = spacing;
 }
 
 const double *Image::GetOrigin() const
 {
-  assert( NumberOfDimensions );
+  gdcm_assert( NumberOfDimensions );
   if( !Origin.empty() )
     return Origin.data();
   return nullptr;
@@ -65,7 +65,7 @@ const double *Image::GetOrigin() const
 
 double Image::GetOrigin(unsigned int idx) const
 {
-  assert( NumberOfDimensions );
+  gdcm_assert( NumberOfDimensions );
   if( idx < Origin.size() )
     {
     return Origin[idx];
@@ -75,7 +75,7 @@ double Image::GetOrigin(unsigned int idx) const
 
 void Image::SetOrigin(const float *ori)
 {
-  assert( NumberOfDimensions );
+  gdcm_assert( NumberOfDimensions );
   Origin.resize( NumberOfDimensions );
   for(unsigned int i = 0; i < NumberOfDimensions; ++i)
     {
@@ -85,7 +85,7 @@ void Image::SetOrigin(const float *ori)
 
 void Image::SetOrigin(const double *ori)
 {
-  assert( NumberOfDimensions );
+  gdcm_assert( NumberOfDimensions );
   Origin.assign(ori, ori+NumberOfDimensions);
 }
 
@@ -97,14 +97,14 @@ void Image::SetOrigin(unsigned int idx, double ori)
 
 const double *Image::GetDirectionCosines() const
 {
-  assert( NumberOfDimensions );
+  gdcm_assert( NumberOfDimensions );
   if( !DirectionCosines.empty() )
     return DirectionCosines.data();
   return nullptr;
 }
 double Image::GetDirectionCosines(unsigned int idx) const
 {
-  assert( NumberOfDimensions );
+  gdcm_assert( NumberOfDimensions );
   if( idx < DirectionCosines.size() )
     {
     return DirectionCosines[idx];
@@ -114,7 +114,7 @@ double Image::GetDirectionCosines(unsigned int idx) const
 
 void Image::SetDirectionCosines(const float *dircos)
 {
-  assert( NumberOfDimensions );
+  gdcm_assert( NumberOfDimensions );
   DirectionCosines.resize( 6 );
   for(int i = 0; i < 6; ++i)
     {
@@ -124,7 +124,7 @@ void Image::SetDirectionCosines(const float *dircos)
 
 void Image::SetDirectionCosines(const double *dircos)
 {
-  assert( NumberOfDimensions );
+  gdcm_assert( NumberOfDimensions );
   DirectionCosines.assign(dircos, dircos+6);
 }
 

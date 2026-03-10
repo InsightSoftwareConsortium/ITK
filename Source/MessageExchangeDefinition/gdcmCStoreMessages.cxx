@@ -53,7 +53,7 @@ const DataSet* inDataSet = &file.GetDataSet();
   PresentationContextRQ pc( UIDs::VerificationSOPClass );
   uint8_t prescontid;
 {
-  assert( inDataSet );
+  gdcm_assert( inDataSet );
   PresentationDataValue thePDV;
 #if 0
   std::string UIDString;
@@ -91,12 +91,12 @@ const DataSet* inDataSet = &file.GetDataSet();
     }
   const DataElement& msclass = inDataSet->GetDataElement( Tag(0x0008, 0x0016) );
   const char *uid = msclass.GetByteValue()->GetPointer();
-  assert( uid );
+  gdcm_assert( uid );
   std::string suid = std::string(uid, msclass.GetByteValue()->GetLength());
 
   // self check
 //  const PresentationContextAC * pc = inConnection.GetPresentationContextACByID(prescontid);
-//  assert( pc );
+//  gdcm_assert( pc );
 //  TransferSyntaxSub const &tssub = pc->GetTransferSyntax();
   const TransferSyntax & fmits = file.GetHeader().GetDataSetTransferSyntax();
   const char *tsuidvalue = fmits.GetString();
@@ -109,9 +109,9 @@ const DataSet* inDataSet = &file.GetDataSet();
   prescontid = inConnection.GetPresentationContextIDFromPresentationContext(pc);
   // prescontid cannot possibly be unknown since we are only looking in our own
   // AAssociateRQPDU
-  assert( prescontid != 0 );
+  gdcm_assert( prescontid != 0 );
   const PresentationContextRQ * rqpc = inConnection.GetPresentationContextRQByID(prescontid);
-  assert( rqpc );
+  gdcm_assert( rqpc );
 
   // Now let's see if this best matching PresentationContextRQ can be found in the AC
   // section of the AAssociateACPDU
@@ -130,7 +130,7 @@ const DataSet* inDataSet = &file.GetDataSet();
     }
 
   TransferSyntaxSub const & actssub = acpc->GetTransferSyntax();
-  assert( rqpc->GetNumberOfTransferSyntaxes() == 1 ); // TODO FIXME
+  gdcm_assert( rqpc->GetNumberOfTransferSyntaxes() == 1 ); // TODO FIXME
   TransferSyntaxSub const & rqtssub = rqpc->GetTransferSyntax(0);
   if( !(actssub == rqtssub) )
     {
@@ -154,13 +154,13 @@ const DataSet* inDataSet = &file.GetDataSet();
 
   thePDV.SetPresentationContextID( prescontid );
 
-  assert(suid.size() < std::numeric_limits<uint32_t>::max());
+  gdcm_assert(suid.size() < std::numeric_limits<uint32_t>::max());
   de.SetByteValue( suid.c_str(), (uint32_t)suid.size()  );
   ds.Insert( de );
   }
 
   {
-  assert( inDataSet->FindDataElement( Tag(0x0008, 0x0018) ) );
+  gdcm_assert( inDataSet->FindDataElement( Tag(0x0008, 0x0018) ) );
   const DataElement& msinst = inDataSet->GetDataElement( Tag(0x0008, 0x0018) );
   std::string suid;
   DataElement de( Tag(0x0,0x1000) );
@@ -171,9 +171,9 @@ const DataSet* inDataSet = &file.GetDataSet();
     if( bv )
       {
       const char *uid = bv->GetPointer();
-      assert( uid );
+      gdcm_assert( uid );
       suid = std::string(uid, bv->GetLength() );
-      assert(suid.size() < std::numeric_limits<uint32_t>::max());
+      gdcm_assert(suid.size() < std::numeric_limits<uint32_t>::max());
       }
     }
   de.SetByteValue( suid.c_str(), (uint32_t)suid.size()  );
@@ -188,7 +188,7 @@ static uint32_t messageid = 1;
   {
   Attribute<0x0,0x110> at = { 0 };
   at.SetValue( (unsigned short)messageid++ );
-  assert( messageid < std::numeric_limits<uint32_t>::max());
+  gdcm_assert( messageid < std::numeric_limits<uint32_t>::max());
   ds.Insert( at.GetAsDataElement() );
   }
   {
@@ -202,7 +202,7 @@ static uint32_t messageid = 1;
   {
   Attribute<0x0,0x0> at = { 0 };
   unsigned int glen = ds.GetLength<ImplicitDataElement>();
-  assert( (glen % 2) == 0 );
+  gdcm_assert( (glen % 2) == 0 );
   at.SetValue( glen );
   ds.Insert( at.GetAsDataElement() );
   }
@@ -252,7 +252,7 @@ if( !writeDataSet )
       thePDV.SetMessageHeader( 0 );
     else
       {
-      assert( cur == end );
+      gdcm_assert( cur == end );
       thePDV.SetMessageHeader( 2 );
       }
     thePDVs.push_back(thePDV);
@@ -270,7 +270,7 @@ const ULConnection &inConnection, const BaseRootQuery* inRootQuery)
   std::vector<PresentationDataValue> thePDVs;
   (void)inRootQuery;
   (void)inConnection;
-  assert( 0 && "TODO" );
+  gdcm_assert( 0 && "TODO" );
   return thePDVs;
 }
 
@@ -279,7 +279,7 @@ std::vector<PresentationDataValue>  CStoreRSP::ConstructPDV(const ULConnection &
 {
   std::vector<PresentationDataValue> thePDVs;
   (void)inRootQuery;
-  assert( 0 && "TODO" );
+  gdcm_assert( 0 && "TODO" );
   return thePDVs;
 }
 
@@ -324,7 +324,7 @@ std::vector<PresentationDataValue> CStoreRSP::ConstructPDV(const DataSet* inData
     {
     Attribute<0x0,0x0> at = { 0 };
     unsigned int glen = ds.GetLength<ImplicitDataElement>();
-    assert( (glen % 2) == 0 );
+    gdcm_assert( (glen % 2) == 0 );
     at.SetValue( glen );
     ds.Insert( at.GetAsDataElement() );
     }

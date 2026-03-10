@@ -56,7 +56,7 @@ public :
 
   /// Set/Get the file names within the directory
   FilenamesType const &GetFilenames() const {
-    assert( !(Toplevel.empty()) && "Need to call Explore first" );
+    gdcm_assert( !(Toplevel.empty()) && "Need to call Explore first" );
     return Filenames; }
 
   /// Return the Directories traversed

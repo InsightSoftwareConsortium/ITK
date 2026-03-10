@@ -47,9 +47,9 @@ int SwapCode::GetIndex(SwapCode const & sc)
     idx = 4;
     break;
   default:
-    assert(0 && "Should not happen" );
+    gdcm_assert(0 && "Should not happen" );
     }
-  assert( idx < 5 );
+  gdcm_assert( idx < 5 );
   return idx;
 }
 

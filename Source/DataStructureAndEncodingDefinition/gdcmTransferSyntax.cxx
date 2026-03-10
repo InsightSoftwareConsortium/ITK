@@ -81,9 +81,17 @@ static const char *TSStrings[] = {
   "1.2.840.10008.1.2.4.102",
   // MPEG-4 AVC/H.264 BD-compatible High Profile / Level 4.1
   "1.2.840.10008.1.2.4.103",
+  // High-Throughput JPEG 2000 Image Compression (Lossless Only)
+  "1.2.840.10008.1.2.4.201",
+  // High-Throughput JPEG 2000 with RPCL Options Image Compression (Lossless Only)
+  "1.2.840.10008.1.2.4.202",
+  // High-Throughput JPEG 2000 Image Compression
+  "1.2.840.10008.1.2.4.203",
+  // Deflated Image Frame Compression
+  "1.2.840.10008.1.2.8.1",
   // Unknown
-  "Unknown Transfer Syntax", // Pretty sure we never use this case...
-  nullptr // Compilers have no obligation to finish by NULL, do it ourself
+  "Unknown Transfer Syntax", // Pretty sure we never use this case... until a new transfer syntax is added
+  nullptr // Compilers have no obligation to finish by NULL, do it ourselves
 };
 
 TransferSyntax::TSType TransferSyntax::GetTSType(const char *cstr)
@@ -112,14 +120,14 @@ TransferSyntax::TSType TransferSyntax::GetTSType(const char *cstr)
 
 const char* TransferSyntax::GetTSString(TSType ts)
 {
-  assert( ts <= TS_END );
+  gdcm_assert( ts <= TS_END );
   return TSStrings[(int)ts];
   //return TransferSyntaxStrings[(int)ts];
 }
 
 bool TransferSyntax::IsImplicit(TSType ts) const
 {
-  assert( ts != TS_END );
+  gdcm_assert( ts != TS_END );
   return ts == ImplicitVRLittleEndian
     || ts == ImplicitVRBigEndianACRNEMA
     || ts == ImplicitVRBigEndianPrivateGE
@@ -162,7 +170,8 @@ bool TransferSyntax::IsLossy() const
     TSField == MPEG2MainProfile ||
     TSField == MPEG2MainProfileHighLevel ||
     TSField == MPEG4AVCH264HighProfileLevel4_1 ||
-    TSField == MPEG4AVCH264BDcompatibleHighProfileLevel4_1
+    TSField == MPEG4AVCH264BDcompatibleHighProfileLevel4_1 ||
+    TSField == HTJ2K
   )
     {
     return true;
@@ -188,6 +197,7 @@ bool TransferSyntax::CanStoreLossy() const
     TSField == JPEGLSLossless ||
     TSField == JPEG2000Lossless ||
     TSField == JPEG2000Part2Lossless ||
+    TSField == DeflatedImageFrameCompression ||
     TSField == RLELossless
   )
     {
@@ -211,7 +221,8 @@ bool TransferSyntax::IsLossless() const
     TSField == MPEG2MainProfile ||
     TSField == MPEG2MainProfileHighLevel ||
     TSField == MPEG4AVCH264HighProfileLevel4_1 ||
-    TSField == MPEG4AVCH264BDcompatibleHighProfileLevel4_1
+    TSField == MPEG4AVCH264BDcompatibleHighProfileLevel4_1 ||
+    TSField == HTJ2K
   )
     {
     return false;
@@ -222,7 +233,7 @@ bool TransferSyntax::IsLossless() const
 // By implementation those two functions form a partition
 bool TransferSyntax::IsExplicit(TSType ts) const
 {
-  assert( ts != TS_END );
+  gdcm_assert( ts != TS_END );
   return !IsImplicit(ts);
 }
 
@@ -241,13 +252,13 @@ TransferSyntax::NegociatedType TransferSyntax::GetNegociatedType() const
 
 bool TransferSyntax::IsLittleEndian(TSType ts) const
 {
-  assert( ts != TS_END );
+  gdcm_assert( ts != TS_END );
   return !IsBigEndian(ts);
 }
 
 bool TransferSyntax::IsBigEndian(TSType ts) const
 {
-  assert( ts != TS_END );
+  gdcm_assert( ts != TS_END );
   return ts == ExplicitVRBigEndian
 //    || ts == ImplicitVRBigEndianPrivateGE // Indeed this is LittleEndian
     || ts == ImplicitVRBigEndianACRNEMA;
@@ -255,12 +266,12 @@ bool TransferSyntax::IsBigEndian(TSType ts) const
 
 SwapCode TransferSyntax::GetSwapCode() const
 {
-  assert( TSField != TS_END );
+  gdcm_assert( TSField != TS_END );
   if( IsBigEndian( TSField ) )
     {
     return SwapCode::BigEndian;
     }
-  assert( IsLittleEndian( TSField ) );
+  gdcm_assert( IsLittleEndian( TSField ) );
   return SwapCode::LittleEndian;
 }
 
@@ -300,6 +311,11 @@ bool TransferSyntax::IsEncapsulated() const
   case MPEG4AVCH264BDcompatibleHighProfileLevel4_1:
   //case ImplicitVRBigEndianACRNEMA:
   //case WeirdPapryus:
+  case HTJ2KLossless:
+  case HTJ2KRPCLLossless:
+  case HTJ2K:
+  case DeflatedImageFrameCompression:
+
     ret = true;
     break;
   default:

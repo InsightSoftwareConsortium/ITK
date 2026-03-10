@@ -53,7 +53,7 @@ IconImage::~IconImage() {}
 
 void IconImage::SetDimension(unsigned int idx, unsigned int dim)
 {
-  assert( idx < NumberOfDimensions );
+  gdcm_assert( idx < NumberOfDimensions );
   Dimensions.resize( NumberOfDimensions );
   // Can dim be 0 ??
   Dimensions[idx] = dim;
@@ -97,9 +97,9 @@ bool IconImage::GetBuffer(char *buffer) const
     buffer = 0;
     return false;
     }
-  assert( bv );
+  gdcm_assert( bv );
   RAWCodec codec;
-  //assert( GetPhotometricInterpretation() == PhotometricInterpretation::MONOCHROME2 );
+  //gdcm_assert( GetPhotometricInterpretation() == PhotometricInterpretation::MONOCHROME2 );
   //codec.SetPhotometricInterpretation( GetPhotometricInterpretation() );
   if( GetPhotometricInterpretation() != PhotometricInterpretation::MONOCHROME2 )
     {
@@ -110,9 +110,9 @@ bool IconImage::GetBuffer(char *buffer) const
   codec.SetPlanarConfiguration( 0 );
   DataElement out;
   bool r = codec.Decode(PixelData, out);
-  assert( r );
+  gdcm_assert( r );
   const ByteValue *outbv = out.GetByteValue();
-  assert( outbv );
+  gdcm_assert( outbv );
   //unsigned long check = outbv->GetLength();  // FIXME
   memcpy(buffer, outbv->GetPointer(), outbv->GetLength() );  // FIXME
   return r;

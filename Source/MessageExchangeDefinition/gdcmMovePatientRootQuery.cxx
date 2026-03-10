@@ -84,7 +84,7 @@ std::vector<Tag> MovePatientRootQuery::GetTagListByLevel(const EQueryLevel& inQu
   case eImage:
     return mImage.GetUniqueTags(ePatientRootType);
   default: //have to return _something_ if a query level isn't given
-    assert(0);
+    gdcm_assert(0);
       {
       std::vector<Tag> empty;
       return empty;
@@ -225,7 +225,7 @@ bool MovePatientRootQuery::ValidateQuery(bool inStrict) const
       const Tag &t = itor->GetTag();
       if (t == level.GetTag()) continue;
       if (t == language.GetTag()) continue;
-      assert( !tags.empty() );
+      gdcm_assert( !tags.empty() );
       if (std::find(tags.begin(), tags.end(), t) == tags.end())
         {
         //check to see if it's a language tag, 8,5, and if it is, ignore if it's one

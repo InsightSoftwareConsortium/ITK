@@ -67,7 +67,7 @@ bool StrictScanner2::AddPrivateTag( PrivateTag const & t )
     }
   else
     {
-    assert( entry.GetVR() & VR::VRBINARY );
+    gdcm_assert( entry.GetVR() & VR::VRBINARY );
     //gdcmWarningMacro( "Only ASCII VR are supported for now. Tag " << t << " will be discarded" );
     PrivateTags.insert( t );
     }
@@ -92,7 +92,7 @@ bool StrictScanner2::AddPublicTag( Tag const & t )
     }
   else
     {
-    assert( entry.GetVR() & VR::VRBINARY );
+    gdcm_assert( entry.GetVR() & VR::VRBINARY );
     //gdcmWarningMacro( "Only ASCII VR are supported for now. Tag " << t << " will be discarded" );
     PublicTags.insert( t );
     }
@@ -145,7 +145,7 @@ bool StrictScanner2::Scan( Directory::FilenamesType const & filenames )
       {
       Reader reader;
       const char *filename = it->c_str();
-      assert( filename );
+      gdcm_assert( filename );
       reader.SetFileName( filename );
       // Pass #1, just check if the file is valid (up to the tag)
       const bool strict = StrictReadUpToTag( filename, last, SkipTags );
@@ -203,7 +203,7 @@ void StrictScanner2::Print( std::ostream & os ) const
   for(; file != Filenames.end(); ++file)
     {
     const char *filename = file->c_str();
-    assert( filename && *filename );
+    gdcm_assert( filename && *filename );
     bool b = IsKey(filename);
     const char *comment = !b ? "could not be read" : "could be read";
     os << "Filename: " << filename << " (" << comment << ")\n";
@@ -279,7 +279,7 @@ void StrictScanner2::PrintTable( std::ostream & os, bool header ) const
   for(; file != Filenames.end(); ++file)
     {
     const char *filename = file->c_str();
-    assert( filename && *filename );
+    gdcm_assert( filename && *filename );
     os << '"' << filename << '"' << "\t";
     {
     PublicTagsType::const_iterator tag = PublicTags.begin();
@@ -319,7 +319,7 @@ void StrictScanner2::PrintTable( std::ostream & os, bool header ) const
 
 StrictScanner2::PublicTagToValue const & StrictScanner2::GetPublicMapping(const char *filename) const
 {
-  assert( filename && *filename );
+  gdcm_assert( filename && *filename );
   if( PublicMappings.find(filename) != PublicMappings.end() )
     return PublicMappings.find(filename)->second;
   return PublicMappings.find("")->second; // dummy file could not be found
@@ -327,7 +327,7 @@ StrictScanner2::PublicTagToValue const & StrictScanner2::GetPublicMapping(const 
 
 StrictScanner2::PrivateTagToValue const & StrictScanner2::GetPrivateMapping(const char *filename) const
 {
-  assert( filename && *filename );
+  gdcm_assert( filename && *filename );
   if( PrivateMappings.find(filename) != PrivateMappings.end() )
     return PrivateMappings.find(filename)->second;
   return PrivateMappings.find("")->second; // dummy file could not be found
@@ -336,7 +336,7 @@ StrictScanner2::PrivateTagToValue const & StrictScanner2::GetPrivateMapping(cons
 bool StrictScanner2::IsKey( const char * filename ) const
 {
   // Look for the file in Mappings tables:
-  assert( filename && *filename );
+  gdcm_assert( filename && *filename );
   PublicMappingType::const_iterator it2 = PublicMappings.find(filename);
   PrivateMappingType::const_iterator it3 = PrivateMappings.find(filename);
   return it2 != PublicMappings.end() || it3 != PrivateMappings.end();
@@ -355,14 +355,14 @@ Directory::FilenamesType StrictScanner2::GetKeys() const
       keys.push_back( filename );
       }
     }
-  assert( keys.size() <= Filenames.size() );
+  gdcm_assert( keys.size() <= Filenames.size() );
   return keys;
 }
 
 const char* StrictScanner2::GetPublicValue(const char *filename, Tag const &t) const
 {
   // \precondition
-  assert( PublicTags.find( t ) != PublicTags.end() );
+  gdcm_assert( PublicTags.find( t ) != PublicTags.end() );
   PublicTagToValue const &ftv = GetPublicMapping(filename);
   if( ftv.find(t) != ftv.end() )
     {
@@ -374,7 +374,7 @@ const char* StrictScanner2::GetPublicValue(const char *filename, Tag const &t) c
 const char* StrictScanner2::GetPrivateValue(const char *filename, PrivateTag const &t) const
 {
   // \precondition
-  assert( PrivateTags.find( t ) != PrivateTags.end() );
+  gdcm_assert( PrivateTags.find( t ) != PrivateTags.end() );
   PrivateTagToValue const &ftv = GetPrivateMapping(filename);
   if( ftv.find(t) != ftv.end() )
     {
@@ -549,7 +549,7 @@ Directory::FilenamesType StrictScanner2::GetPrivateOrderedValues(PrivateTag cons
 
 void StrictScanner2::ProcessPublicTag(StringFilter &sf, const char *filename)
 {
-  assert( filename );
+  gdcm_assert( filename );
   PublicTagToValue &mapping = PublicMappings[filename];
   const File& file = sf.GetFile();
 
@@ -567,9 +567,9 @@ void StrictScanner2::ProcessPublicTag(StringFilter &sf, const char *filename)
 
         // Store the potentially new value:
         Values.insert( s );
-        assert( Values.find( s ) != Values.end() );
+        gdcm_assert( Values.find( s ) != Values.end() );
         const char *value = Values.find( s )->c_str();
-        assert( value );
+        gdcm_assert( value );
         mapping.insert(
           PublicTagToValue::value_type(*tag, value));
         }
@@ -583,9 +583,9 @@ void StrictScanner2::ProcessPublicTag(StringFilter &sf, const char *filename)
 
         // Store the potentially new value:
         Values.insert( s );
-        assert( Values.find( s ) != Values.end() );
+        gdcm_assert( Values.find( s ) != Values.end() );
         const char *value = Values.find( s )->c_str();
-        assert( value );
+        gdcm_assert( value );
         mapping.insert(
           PublicTagToValue::value_type(*tag, value));
         }
@@ -595,7 +595,7 @@ void StrictScanner2::ProcessPublicTag(StringFilter &sf, const char *filename)
 
 void StrictScanner2::ProcessPrivateTag(StringFilter &sf, const char *filename)
 {
-  assert( filename );
+  gdcm_assert( filename );
   PrivateTagToValue &mapping = PrivateMappings[filename];
   const File& file = sf.GetFile();
   const DataSet & ds = file.GetDataSet();
@@ -609,9 +609,9 @@ void StrictScanner2::ProcessPrivateTag(StringFilter &sf, const char *filename)
 
       // Store the potentially new value:
       Values.insert( s );
-      assert( Values.find( s ) != Values.end() );
+      gdcm_assert( Values.find( s ) != Values.end() );
       const char *value = Values.find( s )->c_str();
-      assert( value );
+      gdcm_assert( value );
       mapping.insert(
         PrivateTagToValue::value_type(*ptag, value));
       }

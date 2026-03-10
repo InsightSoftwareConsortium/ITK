@@ -53,8 +53,8 @@ public:
 
   bool operator==(const PresentationContext & pc) const
     {
-    assert( TransferSyntaxes.size() == 1 ); // TODO
-    assert( pc.TransferSyntaxes.size() == 1 );
+    gdcm_assert( TransferSyntaxes.size() == 1 ); // TODO
+    gdcm_assert( pc.TransferSyntaxes.size() == 1 );
     return AbstractSyntax == pc.AbstractSyntax && TransferSyntaxes == pc.TransferSyntaxes;
     }
 

@@ -84,13 +84,13 @@ public:
   /// Returns the Group or Element of the given Tag, depending on id (0/1)
   const uint16_t &operator[](const unsigned int &_id) const
     {
-    assert(_id<2);
+    gdcm_assert(_id<2);
     return ElementTag.tags[_id];
     }
   /// Returns the Group or Element of the given Tag, depending on id (0/1)
   uint16_t &operator[](const unsigned int &_id)
     {
-    assert(_id<2);
+    gdcm_assert(_id<2);
     return ElementTag.tags[_id];
     }
 
@@ -194,7 +194,7 @@ public:
     {
     // See PS 3.5 - 7.8.1 PRIVATE DATA ELEMENT TAGS
     // eg: 0x0123,0x0045 -> 0x0123,0x4567
-    assert( t.IsPrivate() /*&& t.IsPrivateCreator()*/ );
+    gdcm_assert( t.IsPrivate() /*&& t.IsPrivateCreator()*/ );
     const uint16_t element = (uint16_t)(t.GetElement() << 8);
     const uint16_t base = (uint16_t)(GetElement() << 8);
     SetElement( (uint16_t)((base >> 8) + element) );

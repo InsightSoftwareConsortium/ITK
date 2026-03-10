@@ -110,7 +110,7 @@ Attribute<0x0028,0x0004> piat;
     if ( pi == PhotometricInterpretation::PALETTE_COLOR )
       {
       const LookupTable &lut = icon.GetLUT();
-      assert( (pf.GetBitsAllocated() == 8  && pf.GetPixelRepresentation() == 0)
+      gdcm_assert( (pf.GetBitsAllocated() == 8  && pf.GetPixelRepresentation() == 0)
            || (pf.GetBitsAllocated() == 16 && pf.GetPixelRepresentation() == 0) );
       // lut descriptor:
       // (0028,1101) US 256\0\16                                 #   6, 3 RedPaletteColorLookupTableDescriptor
@@ -182,7 +182,7 @@ Attribute<0x0028,0x0004> piat;
   de.SetValue( v );
   const ByteValue *bv = de.GetByteValue();
   const TransferSyntax &ts = icon.GetTransferSyntax();
-  assert( ts.IsExplicit() || ts.IsImplicit() );
+  gdcm_assert( ts.IsExplicit() || ts.IsImplicit() );
   VL vl;
   if( bv )
     {
@@ -207,7 +207,7 @@ Attribute<0x0028,0x0004> piat;
         de.SetVR( VR::OW );
         break;
       default:
-        assert( 0 && "should not happen" );
+        gdcm_assert( 0 && "should not happen" );
         break;
       }
     }
@@ -253,14 +253,14 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
   if( PixelData->GetNumberOfDimensions() == 3  )
     {
     Attribute<0x0028, 0x0008> numberofframes;
-    assert( PixelData->GetDimension(2) >= 1 );
+    gdcm_assert( PixelData->GetDimension(2) >= 1 );
     numberofframes.SetValue( PixelData->GetDimension(2) );
     ds.Replace( numberofframes.GetAsDataElement() );
     }
   else if( ds.FindDataElement(tnumberofframes) ) // Remove Number Of Frames
     {
-    assert( PixelData->GetNumberOfDimensions() == 2 );
-    assert( PixelData->GetDimension(2) == 1 );
+    gdcm_assert( PixelData->GetNumberOfDimensions() == 2 );
+    gdcm_assert( PixelData->GetDimension(2) == 1 );
     ds.Remove( tnumberofframes );
     }
 #endif
@@ -280,7 +280,7 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
     }
 
     {
-    assert( pi != PhotometricInterpretation::UNKNOWN );
+    gdcm_assert( pi != PhotometricInterpretation::UNKNOWN );
     const char *pistr = PhotometricInterpretation::GetPIString(pi);
     DataElement de( Tag(0x0028, 0x0004 ) );
     VL::Type strlenPistr = (VL::Type)strlen(pistr);
@@ -335,8 +335,8 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
     if ( pi == PhotometricInterpretation::PALETTE_COLOR )
       {
       const LookupTable &lut = PixelData->GetLUT();
-      assert( lut.Initialized() );
-//      assert( (pf.GetBitsAllocated() == 8  && pf.GetPixelRepresentation() == 0)
+      gdcm_assert( lut.Initialized() );
+//      gdcm_assert( (pf.GetBitsAllocated() == 8  && pf.GetPixelRepresentation() == 0)
 //           || (pf.GetBitsAllocated() == 16 && pf.GetPixelRepresentation() == 0) );
       // lut descriptor:
       // (0028,1101) US 256\0\16                                 #   6, 3 RedPaletteColorLookupTableDescriptor
@@ -503,7 +503,7 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
     bvpixdata = depixdata.GetByteValue();
     }
   const TransferSyntax &ts = PixelData->GetTransferSyntax();
-  assert( ts.IsExplicit() || ts.IsImplicit() );
+  gdcm_assert( ts.IsExplicit() || ts.IsImplicit() );
 
   // It is perfectly ok to store a lossy image using a J2K (this is odd, but valid).
   // as long as your mark LossyImageCompression with value 1
@@ -576,6 +576,12 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
       }
     else
       {
+      if( ts_orig == TransferSyntax::JPEG2000Lossless )
+        {
+        static const CSComp newvalues2[] = {"ISO_15444_1"};
+        at3.SetValues(  newvalues2, 1 );
+        ds.Replace( at3.GetAsDataElement() );
+        } 
       if( ds.FindDataElement( at1.GetTag() ) ) {
         at1.Set( ds );
         if( atoi(at1.GetValue().c_str()) != 1 ) {
@@ -584,16 +590,13 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
           ds.Replace( at1.GetAsDataElement() );
         }
       } else {
+        at1.SetValue( "01" );
+        ds.Replace( at1.GetAsDataElement() );
+        // Assume originally JPEGLossy and override previous value ISO_15444_1
         if( pi_orig == PhotometricInterpretation::YBR_FULL_422 ) {
-          at1.SetValue( "01" );
-          ds.Replace( at1.GetAsDataElement() );
-
           static const CSComp newvalues2[] = {"ISO_10918_1"};
           at3.SetValues(  newvalues2, 1 );
           ds.Replace( at3.GetAsDataElement() );
-        } else {
-          gdcmErrorMacro( "Unhandled Lossy flag for Pixel Data" );
-          return false;
         }
       }
       }
@@ -627,7 +630,7 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
           depixdata.SetVR( VR::OW );
         break;
       default:
-        assert( 0 && "should not happen" );
+        gdcm_assert( 0 && "should not happen" );
         break;
       }
     }
@@ -695,7 +698,7 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
       }
     else
       {
-      assert( bv->GetLength() == strlen( msstr ) || bv->GetLength() == strlen(msstr) + 1 );
+      gdcm_assert( bv->GetLength() == strlen( msstr ) || bv->GetLength() == strlen(msstr) + 1 );
       }
     }
   ImageHelper::SetDimensionsValue(file, *PixelData);
@@ -786,7 +789,7 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
   if( GetCheckFileMetaInformation() )
   {
     fmi.Clear();
-    //assert( ts == TransferSyntax::ImplicitVRLittleEndian );
+    //gdcm_assert( ts == TransferSyntax::ImplicitVRLittleEndian );
       {
       const char *tsuid = TransferSyntax::GetTSString( ts );
       DataElement de( Tag(0x0002,0x0010) );
@@ -829,7 +832,7 @@ bool PixmapWriter::Write()
   }
   if( !PrepareWrite( ms ) ) return false;
 
-  assert( Stream );
+  gdcm_assert( Stream );
   if( !Writer::Write() )
     {
     return false;

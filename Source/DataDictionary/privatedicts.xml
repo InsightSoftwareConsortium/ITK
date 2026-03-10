@@ -5140,25 +5140,25 @@
   <entry owner="MITRA OBJECT ATTRIBUTES 1.0" group="0033" element="xx08" vr="LO" vm="1" name="?"/>
   <entry owner="MITRA OBJECT ATTRIBUTES 1.0" group="0033" element="xx0a" vr="LO" vm="1" name="?"/>
   <entry owner="MITRA OBJECT DOCUMENT 1.0" group="0029" element="xx00" vr="OB" vm="1" name="?"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx02" vr="PN" vm="1" name="Patient's Name"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx04" vr="CS" vm="1" name="Study Description"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx06" vr="PN" vm="1" name="Referring Physician's Name"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx08" vr="PN" vm="1" name="Requesting Physician's Name"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx0a" vr="PN" vm="1" name="Performing Physician's Name"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx0c" vr="LO" vm="1" name="Reason for Study"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx0e" vr="LT" vm="1" name="Study Comments"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx13" vr="PN" vm="1" name="Patient's Name Single Byte"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx14" vr="PN" vm="1" name="Patient's Name Ideographic"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx15" vr="PN" vm="1" name="Patient's Name Phonetic"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx16" vr="PN" vm="1" name="Referring Physician's Name Single Byte"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx17" vr="PN" vm="1" name="Referring Physician's Name Ideographic"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx18" vr="PN" vm="1" name="Referring Physician's Name Phonetic"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx19" vr="PN" vm="1" name="Requesting Physician's Name Single Byte"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx1a" vr="PN" vm="1" name="Requesting Physician's Name Ideographic"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx1b" vr="PN" vm="1" name="Requesting Physician's Name Phonetic"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx1c" vr="PN" vm="1" name="Performing Physician's Name Single Byte"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx1d" vr="PN" vm="1" name="Performing Physician's Name Ideographic"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx1e" vr="PN" vm="1" name="Performing Physician's Name Phonetic"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx02" vr="UN" vm="1" name="Patient's Name"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx04" vr="UN" vm="1" name="Study Description"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx06" vr="UN" vm="1" name="Referring Physician's Name"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx08" vr="UN" vm="1" name="Requesting Physician's Name"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx0a" vr="UN" vm="1" name="Performing Physician's Name"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx0c" vr="UN" vm="1" name="Reason for Study"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx0e" vr="UN" vm="1" name="Study Comments"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx13" vr="UN" vm="1" name="Patient's Name Single Byte"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx14" vr="UN" vm="1" name="Patient's Name Ideographic"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx15" vr="UN" vm="1" name="Patient's Name Phonetic"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx16" vr="UN" vm="1" name="Referring Physician's Name Single Byte"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx17" vr="UN" vm="1" name="Referring Physician's Name Ideographic"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx18" vr="UN" vm="1" name="Referring Physician's Name Phonetic"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx19" vr="UN" vm="1" name="Requesting Physician's Name Single Byte"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx1a" vr="UN" vm="1" name="Requesting Physician's Name Ideographic"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx1b" vr="UN" vm="1" name="Requesting Physician's Name Phonetic"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx1c" vr="UN" vm="1" name="Performing Physician's Name Single Byte"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx1d" vr="UN" vm="1" name="Performing Physician's Name Ideographic"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx1e" vr="UN" vm="1" name="Performing Physician's Name Phonetic"/>
   <entry owner="MITRA PRESENTATION 1.0" group="0029" element="xx00" vr="CS" vm="1" name="Mitra Rotation"/>
   <entry owner="MITRA PRESENTATION 1.0" group="0029" element="xx01" vr="LO" vm="1" name="Mitra Window Width"/>
   <entry owner="MITRA PRESENTATION 1.0" group="0029" element="xx02" vr="LO" vm="1" name="Mitra Window Centre"/>

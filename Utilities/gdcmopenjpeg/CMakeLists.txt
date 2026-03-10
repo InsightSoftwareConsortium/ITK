@@ -8,23 +8,7 @@
 # e.g.:
 # set(OPENJPEG_NAMESPACE "GDCMOPENJPEG")
 if(NOT DEFINED CMAKE_MINIMUM_REQUIRED_VERSION)
-  cmake_minimum_required(VERSION 2.8.2)
-endif()
-
-if(COMMAND CMAKE_POLICY)
-  cmake_policy(SET CMP0003 NEW)
-  if (NOT (${CMAKE_VERSION} VERSION_LESS 3.0))
-    cmake_policy(SET CMP0042 NEW)
-  endif()
-
-  foreach(p
-      CMP0042
-      CMP0063
-      )
-    if(POLICY ${p})
-      cmake_policy(SET ${p} NEW)
-    endif()
-  endforeach()
+  cmake_minimum_required(VERSION 2.8.2...${GDCM_MAX_VALIDATED_CMAKE_VERSION})
 endif()
 
 if(NOT OPENJPEG_NAMESPACE)
@@ -166,8 +150,15 @@ if(NOT OPENJPEG_INSTALL_PACKAGE_DIR)
 endif()
 
 if (APPLE)
-	list(APPEND OPENJPEG_LIBRARY_PROPERTIES INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/${OPENJPEG_INSTALL_LIB_DIR}")
-	option(OPJ_USE_DSYMUTIL "Call dsymutil on binaries after build." OFF)
+  if (${CMAKE_VERSION} VERSION_LESS 3.0)
+    # For cmake >= 3.0, we turn on CMP0042 and
+    # https://cmake.org/cmake/help/v3.0/policy/CMP0042.html mentions
+    # "Projects wanting @rpath in a target’s install name may remove any
+    # setting of the INSTALL_NAME_DIR and CMAKE_INSTALL_NAME_DIR variables"
+    list(APPEND OPENJPEG_LIBRARY_PROPERTIES INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/${OPENJPEG_INSTALL_LIB_DIR}")
+  endif()
+  option(OPJ_USE_DSYMUTIL "Call dsymutil on binaries after build." OFF)
+  mark_as_advanced(OPJ_USE_DSYMUTIL)
 endif()
 
 #-----------------------------------------------------------------------------

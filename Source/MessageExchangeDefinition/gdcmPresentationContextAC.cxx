@@ -30,14 +30,14 @@ PresentationContextAC::PresentationContextAC()
   ID = 1; // odd [1-255]
   Result = 0;
   ItemLength = 8;
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 }
 
 std::istream &PresentationContextAC::Read(std::istream &is)
 {
   //uint8_t itemtype = 0x0;
   //is.read( (char*)&itemtype, sizeof(ItemType) );
-  //assert( itemtype == ItemType );
+  //gdcm_assert( itemtype == ItemType );
   uint8_t reserved2;
   is.read( (char*)&reserved2, sizeof(Reserved2) );
   uint16_t itemlength;
@@ -56,7 +56,7 @@ std::istream &PresentationContextAC::Read(std::istream &is)
   is.read( (char*)&reserved8, sizeof(Reserved6) );
   SubItems.Read( is );
 
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
   return is;
 }
 
@@ -74,7 +74,7 @@ const std::ostream &PresentationContextAC::Write(std::ostream &os) const
   os.write( (const char*)&Reserved8, sizeof(Reserved8) );
   SubItems.Write(os);
 
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
   return os;
 }
 
@@ -90,8 +90,8 @@ size_t PresentationContextAC::Size() const
   ret += sizeof(Reserved8);
   ret += SubItems.Size();
 
-  assert(ret <= (size_t)std::numeric_limits<uint16_t>::max);
-  assert(ret >= 4);
+  gdcm_assert(ret <= (size_t)std::numeric_limits<uint16_t>::max);
+  gdcm_assert(ret >= 4);
   return ret;
 }
 
@@ -99,7 +99,7 @@ void PresentationContextAC::SetTransferSyntax( TransferSyntaxSub const &ts )
 {
   SubItems = ts;
   ItemLength = (uint16_t)(Size() - 4);
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 }
 
 void PresentationContextAC::Print(std::ostream &os) const

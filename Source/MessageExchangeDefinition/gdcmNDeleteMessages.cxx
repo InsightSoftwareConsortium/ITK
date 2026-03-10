@@ -28,7 +28,7 @@ namespace gdcm{
     {
       std::vector<PresentationDataValue> thePDV;
       (void)inConnection; (void)inQuery;
-      assert( 0 && "TODO" );
+      gdcm_assert( 0 && "TODO" );
       return thePDV;
     }
 
@@ -36,7 +36,7 @@ namespace gdcm{
       NDeleteRSP::ConstructPDVByDataSet(const DataSet* inDataSet){
         std::vector<PresentationDataValue> thePDV;
         (void)inDataSet;
-        assert( 0 && "TODO" );
+        gdcm_assert( 0 && "TODO" );
         return thePDV;
     }
 

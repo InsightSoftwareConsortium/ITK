@@ -29,7 +29,7 @@ static const char * ALGOTypeStrings[] = {
 
 const char * Segment::GetALGOTypeString(ALGOType type)
 {
-  assert( type <= ALGOType_END );
+  gdcm_assert( type <= ALGOType_END );
   return ALGOTypeStrings[(int)type];
 }
 
@@ -201,7 +201,7 @@ Segment::ALGOType Segment::GetSegmentAlgorithmType() const
 
 void Segment::SetSegmentAlgorithmType(Segment::ALGOType type)
 {
-  assert(type <= ALGOType_END);
+  gdcm_assert(type <= ALGOType_END);
   SegmentAlgorithmType = type;
 }
 
@@ -252,7 +252,7 @@ Segment::SurfaceVector & Segment::GetSurfaces()
 
 SmartPointer< Surface > Segment::GetSurface(const unsigned int idx /*= 0*/) const
 {
-  assert( idx < SurfaceCount );
+  gdcm_assert( idx < SurfaceCount );
   return Surfaces[idx];
 }
 

@@ -93,7 +93,12 @@ public:
 
   /// set overlay from byte array + length
   void SetOverlay(const char *array, size_t length);
-  ///
+
+  /// \warning Before calling this method, you must verify the consistency
+  /// between the image metadata (Image PixelFormat, Rows, Columns) and the
+  /// overlay parameters. This pre-verification is required to ensure that the
+  /// bit-depth is compatible and that the overlay data fits within the
+  /// allocated pixel storage.
   bool GrabOverlayFromPixelData(DataSet const &ds);
 
   /// Return the Overlay Data as ByteValue:

@@ -43,7 +43,7 @@ bool ImageFragmentSplitter::Split()
     return false;
     }
 
-  //assert( sqf->GetNumberOfFragments() == 1 );
+  //gdcm_assert( sqf->GetNumberOfFragments() == 1 );
 
   // WARNING do not keep the same Basic Offset Table...
   const Fragment& frag = sqf->GetFragment(0);
@@ -77,7 +77,7 @@ bool ImageFragmentSplitter::Split()
     {
     Fragment splitfrag;
     splitfrag.SetByteValue( p + nfrags * FragmentSizeMax, (uint32_t)lastfrag );
-    assert( nfrags * FragmentSizeMax + lastfrag == len );
+    gdcm_assert( nfrags * FragmentSizeMax + lastfrag == len );
     sq->AddFragment( splitfrag );
     }
   Output->GetDataElement().SetValue( *sq );
@@ -107,7 +107,7 @@ void ImageFragmentSplitter::SetFragmentSizeMax(unsigned int fragsize)
     FragmentSizeMax = 2;
     }
   // \postcondition:
-  assert( FragmentSizeMax >= 2 && (FragmentSizeMax % 2) == 0 );
+  gdcm_assert( FragmentSizeMax >= 2 && (FragmentSizeMax % 2) == 0 );
 }
 
 } // end namespace gdcm

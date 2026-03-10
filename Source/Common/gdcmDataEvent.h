@@ -29,7 +29,7 @@ public:
   typedef AnyEvent Superclass;
   DataEvent(const char *bytes = nullptr, size_t len = 0):Bytes(bytes),Length(len) {}
   ~DataEvent() override = default;
-  DataEvent(const Self&s) : AnyEvent(s){};
+  DataEvent(const Self&s) : AnyEvent(s), Bytes(nullptr), Length(0) {}
   void operator=(const Self&) = delete;
 
   const char * GetEventName() const override { return "DataEvent"; }

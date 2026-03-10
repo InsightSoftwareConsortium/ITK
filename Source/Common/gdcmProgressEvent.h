@@ -34,7 +34,7 @@ public:
   ProgressEvent(double p = 0):m_Progress(p) {}
   ~ProgressEvent() override = default;
 
-  ProgressEvent(const Self&s) : AnyEvent(s){};
+  ProgressEvent(const Self&s) : AnyEvent(s), m_Progress(0.0) {}
   void operator=(const Self&) = delete;
 
   const char * GetEventName() const override { return "ProgressEvent"; }

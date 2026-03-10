@@ -34,7 +34,7 @@ unique_ptr<JpegMarkerSegment> JpegMarkerSegment::CreateStartOfFrameSegment(int w
         content.push_back(0);                                   // Tqi = Quantization table destination selector (reserved for JPEG-LS, should be set to 0)
     }
 
-    return make_unique<JpegMarkerSegment>(JpegMarkerCode::StartOfFrameJpegLS, move(content));
+    return make_unique<JpegMarkerSegment>(JpegMarkerCode::StartOfFrameJpegLS, std::move(content));
 }
 
 
@@ -58,14 +58,14 @@ unique_ptr<JpegMarkerSegment> JpegMarkerSegment::CreateJpegFileInterchangeFormat
     content.push_back(static_cast<uint8_t>(params.Ythumbnail));
     if (params.Xthumbnail > 0)
     {
-        if (params.thumbnail)
+        if (!params.thumbnail)
             throw CreateSystemError(ApiResult::InvalidJlsParameters, "params.Xthumbnail is > 0 but params.thumbnail == null_ptr");
 
         content.insert(content.end(), static_cast<uint8_t*>(params.thumbnail),
             static_cast<uint8_t*>(params.thumbnail) + 3 * params.Xthumbnail * params.Ythumbnail);
     }
 
-    return make_unique<JpegMarkerSegment>(JpegMarkerCode::ApplicationData0, move(content));
+    return make_unique<JpegMarkerSegment>(JpegMarkerCode::ApplicationData0, std::move(content));
 }
 
 
@@ -82,7 +82,7 @@ unique_ptr<JpegMarkerSegment> JpegMarkerSegment::CreateJpegLSExtendedParametersS
     push_back(content, static_cast<uint16_t>(params.T3));
     push_back(content, static_cast<uint16_t>(params.RESET));
 
-    return make_unique<JpegMarkerSegment>(JpegMarkerCode::JpegLSExtendedParameters, move(content));
+    return make_unique<JpegMarkerSegment>(JpegMarkerCode::JpegLSExtendedParameters, std::move(content));
 }
 
 
@@ -113,5 +113,5 @@ unique_ptr<JpegMarkerSegment> JpegMarkerSegment::CreateStartOfScanSegment(int co
     content.push_back(static_cast<uint8_t>(interleaveMode)); // ILV parameter
     content.push_back(0); // transformation
 
-    return make_unique<JpegMarkerSegment>(JpegMarkerCode::StartOfScan, move(content));
+    return make_unique<JpegMarkerSegment>(JpegMarkerCode::StartOfScan, std::move(content));
 }

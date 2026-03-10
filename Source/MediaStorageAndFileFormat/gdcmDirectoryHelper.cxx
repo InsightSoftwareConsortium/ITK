@@ -171,19 +171,87 @@ std::vector<DataSet> DirectoryHelper::LoadImageFromFiles(const std::string& inDi
 std::string DirectoryHelper::RetrieveSOPInstanceUIDFromZPosition(double inZPos,
                                                 const std::vector<DataSet>& inDS)
 {
-  std::vector<DataSet>::const_iterator itor;
+  std::string blank;//return only if there's a problem
+
+  //Find z spacing
+  const Tag tipp(0x0020,0x0032); // Image Position (Patient)
+  const Tag tiop(0x0020,0x0037); // Image Orientation (Patient)
+  double normal[3];
+
+  //Compute the normal
+  if (inDS.begin() != inDS.end() && inDS.begin()->FindDataElement(tiop))
+    {
+    DataElement tmpDe = inDS.begin()->GetDataElement(tiop);
+    Attribute<0x0020,0x0037> tmpAt;
+    tmpAt.SetFromDataElement(tmpDe);
+    if (tmpAt.GetNumberOfValues() == 6)
+      {
+      normal[0] = tmpAt.GetValue(1)*tmpAt.GetValue(5) - tmpAt.GetValue(2)*tmpAt.GetValue(4);
+      normal[1] = tmpAt.GetValue(2)*tmpAt.GetValue(3) - tmpAt.GetValue(0)*tmpAt.GetValue(5);
+      normal[2] = tmpAt.GetValue(0)*tmpAt.GetValue(4) - tmpAt.GetValue(1)*tmpAt.GetValue(3);
+      }
+    else
+      {
+      gdcmDebugMacro( "No 6 values in tiop: " << tmpAt.GetNumberOfValues() );
+      return blank;
+      }
+    }
+  else
+    {
+    gdcmDebugMacro( "No tiop available in the first slice" );
+    return blank;
+    }
+
+  //Compute dist for the first 2 slices
+  double dist1 = 0;
+  std::vector<DataSet>::const_iterator itor = inDS.begin();
+  if (itor != inDS.end() && itor->FindDataElement(tipp))
+    {
+    DataElement tmpDe = itor->GetDataElement(tipp);
+    Attribute<0x0020,0x0032> tmpAt;
+    tmpAt.SetFromDataElement(tmpDe);
+    if (tmpAt.GetNumberOfValues() == 3)
+      {
+      for (int i = 0; i < 3; ++i) dist1 += normal[i]*tmpAt.GetValue(i);
+      }
+    else
+      {
+      gdcmDebugMacro( "No 3 values in tipp for the first slice: " << tmpAt.GetNumberOfValues() );
+      return blank;
+      }
+    }
+  else
+    {
+    gdcmDebugMacro( "No tipp available in the first slice" );
+    return blank;
+    }
+  double dist2 = 0;
+  itor++;
+  if (itor != inDS.end() && itor->FindDataElement(tipp))
+    {
+    DataElement tmpDe = itor->GetDataElement(tipp);
+    Attribute<0x0020,0x0032> tmpAt;
+    tmpAt.SetFromDataElement(tmpDe);
+    if (tmpAt.GetNumberOfValues() == 3)
+      {
+      for (int i = 0; i < 3; ++i) dist2 += normal[i]*tmpAt.GetValue(i);
+      }
+    else
+      {
+      gdcmDebugMacro( "No 3 values in tipp for the first slice: " << tmpAt.GetNumberOfValues() );
+      return blank;
+      }
+    }
+  else
+    {
+    gdcmDebugMacro( "No tipp available in the first slice" );
+    return blank;
+    }
+  double  interSlice = fabs(dist2 - dist1)/2.0;
+
+  //Find the SOPInstanceUID
   Tag thePosition(0x0020, 0x0032);
   Tag theSOPInstanceUID(0x0008, 0x0018);
-  Tag theSpacingBetweenSlice(0x0018, 0x0088);
-  double interSlice = 0.01;
-  if (inDS.begin() != inDS.end() && inDS.begin()->FindDataElement(theSpacingBetweenSlice))
-    {
-    DataElement tmpDe = inDS.begin()->GetDataElement(theSpacingBetweenSlice);
-    Attribute<0x0018,0x0088> tmpAt;
-    tmpAt.SetFromDataElement(tmpDe);
-    interSlice = fabs(tmpAt.GetValue())/2.0;
-    }
-  std::string blank;//return only if there's a problem
   for (itor = inDS.begin(); itor != inDS.end(); itor++)
     {
     if (itor->FindDataElement(thePosition))

@@ -143,7 +143,7 @@ VR DataSetHelper::ComputeVR(File const &file, DataSet const &ds, const Tag& tag)
       // In case of SAX parser, we would have had to process Pixel Representation already:
       Attribute<0x0028,0x0103> at;
       const Tag &pixelrep = at.GetTag();
-      assert( pixelrep < t );
+      gdcm_assert( pixelrep < t );
       const DataSet &rootds = file.GetDataSet();
       // FIXME
       // PhilipsWith15Overlays.dcm has a Private SQ with public elements such as
@@ -153,7 +153,7 @@ VR DataSetHelper::ComputeVR(File const &file, DataSet const &ds, const Tag& tag)
       // FIXME:
       // gdcmDataExtra/gdcmSampleData/ImagesPapyrus/TestImages/wristb.pap
       // It's the contrary: root dataset does not have a Pixel Representation, but each SQ do...
-      //assert( rootds.FindDataElement( pixelrep ) || ds.FindDataElement( pixelrep ) );
+      //gdcm_assert( rootds.FindDataElement( pixelrep ) || ds.FindDataElement( pixelrep ) );
       if( ds.FindDataElement( pixelrep ) )
         {
         at.SetFromDataElement( ds.GetDataElement( pixelrep ) );
@@ -168,7 +168,7 @@ VR DataSetHelper::ComputeVR(File const &file, DataSet const &ds, const Tag& tag)
         gdcmWarningMacro( "Unhandled" ); // Typical to PDF encapsulated with some illegal attribute
         vr = VR::INVALID;
         }
-      //assert( at.GetValue() == 0 || at.GetValue() == 1 );
+      //gdcm_assert( at.GetValue() == 0 || at.GetValue() == 1 );
       if( at.GetValue() == 1 )
         {
         vr = VR::SS;
@@ -197,14 +197,14 @@ VR DataSetHelper::ComputeVR(File const &file, DataSet const &ds, const Tag& tag)
     Tag bitsallocated(0x0028,0x0100);
     Tag channelminval(0x5400,0x0110);
     Tag channelmaxval(0x5400,0x0112);
-    //assert( ds.FindDataElement( pixeldata ) );
+    //gdcm_assert( ds.FindDataElement( pixeldata ) );
     int v = -1;
     if( waveformdata == t || waveformpaddingvalue == t )
       {
       Tag waveformbitsallocated(0x5400,0x1004);
       // For Waveform Data:
       // (5400,1004) US 16                                             # 2,1 Waveform Bits Allocated
-      assert( ds.FindDataElement( waveformbitsallocated ) );
+      gdcm_assert( ds.FindDataElement( waveformbitsallocated ) );
       Attribute<0x5400,0x1004> at;
       at.SetFromDataElement( ds.GetDataElement( waveformbitsallocated ) );
       v = at.GetValue();
@@ -213,7 +213,7 @@ VR DataSetHelper::ComputeVR(File const &file, DataSet const &ds, const Tag& tag)
       {
       // For Pixel Data:
       // if( !ds.FindDataElement( bitsallocated ) ) return VR::UN;
-      Attribute<0x0028,0x0100> at;
+      // Attribute<0x0028,0x0100> at;
       // at.SetFromDataElement( ds.GetDataElement( bitsallocated ) );
       }
     (void)v;
@@ -230,7 +230,7 @@ VR DataSetHelper::ComputeVR(File const &file, DataSet const &ds, const Tag& tag)
       }
     else if( waveformdata == t || waveformpaddingvalue == t )
       {
-      //assert( v == 8 || v == 16 );
+      //gdcm_assert( v == 8 || v == 16 );
       vr = VR::OW;
       }
     else if ( t.IsGroupXX(audiodata) )
@@ -282,16 +282,16 @@ VR DataSetHelper::ComputeVR(File const &file, DataSet const &ds, const Tag& tag)
   // TODO need to treat US_SS_OW too
 
   // \postcondition:
-  assert( vr.IsVRFile() );
-  assert( vr != VR::INVALID );
+  gdcm_assert( vr.IsVRFile() );
+  gdcm_assert( vr != VR::INVALID );
 
   if( tag.IsGroupLength() )
     {
-    assert( vr == VR::UL );
+    gdcm_assert( vr == VR::UL );
     }
   if( tag.IsPrivateCreator() )
     {
-    assert( vr == VR::LO );
+    gdcm_assert( vr == VR::LO );
     }
   return vr;
 }
@@ -301,7 +301,7 @@ VR DataSetHelper::ComputeVR(File const &file, DataSet const &ds, const Tag& tag)
 SequenceOfItems* DataSetHelper::ComputeSQFromByteValue(File const & file, DataSet const &ds, const Tag &tag)
 {
   const TransferSyntax &ts = file.GetHeader().GetDataSetTransferSyntax();
-  assert( ts != TransferSyntax::DeflatedExplicitVRLittleEndian );
+  gdcm_assert( ts != TransferSyntax::DeflatedExplicitVRLittleEndian );
   const DataElement &de = ds.GetDataElement( tag );
   if( de.IsEmpty() )
     {
@@ -319,15 +319,15 @@ SequenceOfItems* DataSetHelper::ComputeSQFromByteValue(File const & file, DataSe
     {
     if( ts.GetSwapCode() == SwapCode::BigEndian )
       {
-      assert(0);
+      gdcm_assert(0);
       }
     else
       {
       if( ts.GetNegociatedType() == TransferSyntax::Implicit )
         {
-        assert( de.GetVR() == VR::INVALID );
+        gdcm_assert( de.GetVR() == VR::INVALID );
         const ByteValue *bv = de.GetByteValue();
-        assert( bv );
+        gdcm_assert( bv );
         SequenceOfItems *sqi = new SequenceOfItems;
         sqi->SetLength( bv->GetLength() );
         std::stringstream ss;
@@ -337,9 +337,9 @@ SequenceOfItems* DataSetHelper::ComputeSQFromByteValue(File const & file, DataSe
         }
       else
         {
-        assert( de.GetVR() == VR::UN ); // cp 246, IVRLE SQ
+        gdcm_assert( de.GetVR() == VR::UN ); // cp 246, IVRLE SQ
         const ByteValue *bv = de.GetByteValue();
-        assert( bv );
+        gdcm_assert( bv );
         SequenceOfItems *sqi = new SequenceOfItems;
         sqi->SetLength( bv->GetLength() );
         std::stringstream ss;

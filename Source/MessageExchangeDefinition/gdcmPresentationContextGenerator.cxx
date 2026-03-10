@@ -128,14 +128,14 @@ bool PresentationContextGenerator::GenerateFromFilenames(const Directory::Filena
 bool PresentationContextGenerator::AddPresentationContext( const char *as, const char * ts )
 {
   // \precondition
-  assert( as );
-  assert( ts );
+  gdcm_assert( as );
+  gdcm_assert( ts );
 
   SizeType n = PresContext.size();
   PresentationContext pc;
   pc.SetAbstractSyntax( as );
   SizeType idn = 2*n + 1;
-  assert( idn <= std::numeric_limits<uint8_t>::max() );
+  gdcm_assert( idn <= std::numeric_limits<uint8_t>::max() );
   pc.SetPresentationContextID( (uint8_t)idn );
   pc.AddTransferSyntax( ts );
 
@@ -159,7 +159,7 @@ void PresentationContextGenerator::SetMergeModeToAbstractSyntax()
 
 void PresentationContextGenerator::SetMergeModeToTransferSyntax()
 {
-  assert( 0 && "TODO" );
+  gdcm_assert( 0 && "TODO" );
 }
 
 } // end namespace gdcm

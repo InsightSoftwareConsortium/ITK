@@ -108,7 +108,7 @@ bool PNMCodec::Write(const char *filename, const DataElement &out) const
     gdcmErrorMacro( "PNM Codec does not handle compress syntax. You need to decompress first." );
     return false;
     }
-  assert(bv);
+  gdcm_assert(bv);
 
   if( pi == PhotometricInterpretation::PALETTE_COLOR )
     {
@@ -179,7 +179,7 @@ bool PNMCodec::Read(const char *filename, DataElement &out) const
     is.get();
     }
   std::streampos pos = is.tellg();
-  //assert(pos < INT_MAX);
+  //gdcm_assert(pos < INT_MAX);
   size_t m = (len - (size_t)pos ) / ( dims[0]*dims[1] );
   if( m * dims[0] * dims[1] != len - pos )
     {
@@ -218,7 +218,7 @@ bool PNMCodec::Read(const char *filename, DataElement &out) const
   //if ( maxval * 8 != bpp ) return 1;
 
   size_t pdlen = GetBufferLength();
-  assert( pdlen );
+  gdcm_assert( pdlen );
   char * buf = new char[pdlen];
   // is should be at right offset, just read!
   is.read(buf, len);
@@ -253,7 +253,7 @@ bool PNMCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
 {
   is.seekg( 0, std::ios::end );
   std::streampos len = is.tellg();
-  //assert(len < INT_MAX);
+  //gdcm_assert(len < INT_MAX);
   is.seekg( 0, std::ios::beg );
 
   std::string type, str;
@@ -291,8 +291,8 @@ bool PNMCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
     is.get();
     }
   std::streamoff pos = is.tellg();
-  //assert(len < INT_MAX);
-  //assert(pos < INT_MAX);
+  //gdcm_assert(len < INT_MAX);
+  //gdcm_assert(pos < INT_MAX);
   size_t m = ((size_t)len - (size_t)pos ) / ( dims[0]*dims[1] );
   bool cond;
   if( type == "P4" ) {

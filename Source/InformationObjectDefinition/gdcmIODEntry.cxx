@@ -20,7 +20,7 @@ namespace gdcm
 
 Usage::UsageType IODEntry::GetUsageType() const
 {
-  assert( !usage.empty() );
+  gdcm_assert( !usage.empty() );
   if( usage == "M" )
     {
     return Usage::Mandatory;
@@ -42,7 +42,7 @@ Usage::UsageType IODEntry::GetUsageType() const
     return Usage::Conditional;
     }
   //else
-  assert(0); // Keep me so that I can debug Part3.xml
+  gdcm_assert(0); // Keep me so that I can debug Part3.xml
   return Usage::Invalid;
 }
 
