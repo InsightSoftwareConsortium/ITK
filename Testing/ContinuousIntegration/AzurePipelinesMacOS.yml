@@ -32,6 +32,7 @@ variables:
   CCACHE_BASEDIR: $(Build.SourcesDirectory)
   CCACHE_COMPILERCHECK: content
   CCACHE_NOHASHDIR: 'true'
+  CCACHE_NODIRECT: '1'
 jobs:
 - job: macOS
   timeoutInMinutes: 0
