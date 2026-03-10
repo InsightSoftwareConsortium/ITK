@@ -48,8 +48,6 @@ public:
 protected:
   AnchorDilateImageFilter() { this->m_Boundary = NumericTraits<PixelType>::NonpositiveMin(); }
   ~AnchorDilateImageFilter() override = default;
-
-private:
 };
 } // namespace itk
 

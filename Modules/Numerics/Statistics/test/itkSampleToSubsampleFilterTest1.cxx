@@ -52,8 +52,6 @@ protected:
   void
   GenerateData() override
   {}
-
-private:
 };
 
 } // namespace itk::Statistics::itkSampleToSubsampleFilter1Namespace

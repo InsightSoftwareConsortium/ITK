@@ -62,8 +62,6 @@ protected:
 
   VnlForward1DFFTImageFilter() = default;
   ~VnlForward1DFFTImageFilter() override = default;
-
-private:
 };
 
 // Describe whether input/output are real- or complex-valued

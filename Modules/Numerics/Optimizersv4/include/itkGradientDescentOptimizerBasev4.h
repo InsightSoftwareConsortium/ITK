@@ -211,8 +211,6 @@ protected:
   DerivativeType m_Gradient{};
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
 };
 
 /** This helps to meet backward compatibility */

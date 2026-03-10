@@ -53,8 +53,6 @@ protected:
     this->m_Boundary2 = NumericTraits<typename TImage::PixelType>::max();
   }
   ~AnchorCloseImageFilter() override = default;
-
-private:
 };
 } // namespace itk
 

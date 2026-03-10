@@ -46,8 +46,6 @@ public:
 protected:
   RandomVariateGeneratorBase();
   ~RandomVariateGeneratorBase() override;
-
-private:
 }; // end of class
 } // namespace itk::Statistics
 

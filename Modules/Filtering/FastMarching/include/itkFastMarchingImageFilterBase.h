@@ -267,8 +267,6 @@ protected:
   DoesVoxelChangeViolateStrictTopology(const NodeType &) const;
 
   const InputImageType * m_InputCache{};
-
-private:
 };
 } // end namespace itk
 

@@ -47,8 +47,6 @@ public:
 protected:
   AnchorErodeImageFilter() { this->m_Boundary = NumericTraits<PixelType>::max(); }
   ~AnchorErodeImageFilter() override = default;
-
-private:
 };
 } // namespace itk
 

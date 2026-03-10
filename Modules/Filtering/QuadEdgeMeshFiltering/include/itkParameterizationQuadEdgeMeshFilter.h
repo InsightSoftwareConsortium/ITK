@@ -203,8 +203,6 @@ protected:
 
   void
   GenerateData() override;
-
-private:
 };
 } // end namespace itk
 

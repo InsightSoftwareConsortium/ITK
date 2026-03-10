@@ -113,9 +113,6 @@ public:
   /** Build the structuring element */
   void
   CreateStructuringElement();
-
-protected:
-private:
 };
 } // namespace itk
 

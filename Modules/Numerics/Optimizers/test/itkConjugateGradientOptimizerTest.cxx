@@ -106,8 +106,6 @@ public:
   {
     return SpaceDimension;
   }
-
-private:
 };
 
 class CommandIterationUpdateConjugateGradient : public itk::Command

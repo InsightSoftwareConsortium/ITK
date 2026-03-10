@@ -246,8 +246,6 @@ protected:
    * Quasi Newton optimizers.
    */
   DerivativeType m_PreviousGradient{};
-
-private:
 };
 
 /** This helps to meet backward compatibility */

@@ -69,8 +69,6 @@ public:
 
     return rgb;
   }
-
-private:
 };
 } // namespace itk::Accessor
 

@@ -52,8 +52,6 @@ protected:
     this->m_Boundary2 = NumericTraits<typename TImage::PixelType>::NonpositiveMin();
   }
   ~AnchorOpenImageFilter() override = default;
-
-private:
 };
 } // namespace itk
 
