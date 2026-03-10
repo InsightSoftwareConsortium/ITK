@@ -19,6 +19,7 @@
 // First include the header file to be tested:
 #include "itkArray2D.h"
 #include <gtest/gtest.h>
+#include <iostream>
 #include <limits>
 #include <type_traits> // For is_nothrow_move_constructible_v and is_nothrow_move_assignable_v.
 
@@ -109,4 +110,78 @@ TEST(Array2D, MoveAssign)
   checkMoveAssign(itk::Array2D<int>());
   checkMoveAssign(itk::Array2D<int>(1U, 1U));
   checkMoveAssign(itk::Array2D<double>(1U, 2U));
+}
+
+
+TEST(Array2D, ConvertedLegacyTest)
+{
+  using ArrayType = itk::Array2D<double>;
+
+  using VnlMatrixType = vnl_matrix<double>;
+
+  constexpr unsigned int rows{ 3 };
+  constexpr unsigned int cols{ 4 };
+
+  ArrayType     a(rows, cols);
+  VnlMatrixType vm(rows, cols);
+
+  for (unsigned int r = 0; r < rows; ++r)
+  {
+    for (unsigned int c = 0; c < cols; ++c)
+    {
+      const auto value = static_cast<double>(r + c);
+      a.SetElement(r, c, value);
+      vm(r, c) = value;
+    }
+  }
+
+  constexpr double tolerance{ 1e-6 };
+
+  // test copy constructor
+  ArrayType b(a);
+
+  for (unsigned int r = 0; r < rows; ++r)
+  {
+    for (unsigned int c = 0; c < cols; ++c)
+    {
+      EXPECT_NEAR(b(r, c), a.GetElement(r, c), tolerance);
+    }
+  }
+
+  // test construction from vnl_matrix
+  ArrayType d(vm);
+
+  for (unsigned int r = 0; r < rows; ++r)
+  {
+    for (unsigned int c = 0; c < cols; ++c)
+    {
+      EXPECT_NEAR(d(r, c), vm(r, c), tolerance);
+    }
+  }
+
+  // test for assignment from Array2D
+
+  ArrayType e = a;
+
+  for (unsigned int r = 0; r < rows; ++r)
+  {
+    for (unsigned int c = 0; c < cols; ++c)
+    {
+      EXPECT_NEAR(e(r, c), a(r, c), tolerance);
+    }
+  }
+
+  // test for assignment from vnl_matrix
+
+  ArrayType f = vm;
+
+  for (unsigned int r = 0; r < rows; ++r)
+  {
+    for (unsigned int c = 0; c < cols; ++c)
+    {
+      EXPECT_NEAR(f(r, c), vm(r, c), tolerance);
+    }
+  }
+
+  std::cout << "Test Passed ! " << std::endl;
 }
