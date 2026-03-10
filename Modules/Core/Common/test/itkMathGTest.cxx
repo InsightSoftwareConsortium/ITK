@@ -334,6 +334,9 @@ TEST(itkMath, Abs)
   static_assert(itk::Math::Absolute<double>(-5.0) == 5.0);
   static_assert(itk::Math::Absolute<float>(-5.0f) == 5.0f);
 
+  // Note that `std::abs(int)` does not support `std::numeric_limits<int>::min()` as argument.
+  static_assert(itk::Math::Absolute(std::numeric_limits<int>::min()) == std::numeric_limits<int>::max() + 1U);
+
   constexpr auto cf = std::complex<float>(-3, -4);
   EXPECT_EQ(itk::Math::Absolute(cf), 5);
   constexpr auto cd = std::complex<double>(-3, -4);
