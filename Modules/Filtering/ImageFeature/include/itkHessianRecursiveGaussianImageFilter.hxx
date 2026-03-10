@@ -19,7 +19,6 @@
 #define itkHessianRecursiveGaussianImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressAccumulator.h"
 #include <algorithm> // For generate.
 
@@ -288,7 +287,7 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
 
       ImageRegionIterator<RealImageType> it(derivativeImage, derivativeImage->GetRequestedRegion());
 
-      ImageRegionIteratorWithIndex<OutputImageAdaptorType> ot(m_ImageAdaptor, m_ImageAdaptor->GetRequestedRegion());
+      ImageRegionIterator<OutputImageAdaptorType> ot(m_ImageAdaptor, m_ImageAdaptor->GetRequestedRegion());
 
       const RealType spacingA = inputImage->GetSpacing()[dima];
       const RealType spacingB = inputImage->GetSpacing()[dimb];
