@@ -39,12 +39,12 @@ FiniteCylinderSpatialFunction<VDimension, TInput>::FiniteCylinderSpatialFunction
 
 template <unsigned int VDimension, typename TInput>
 void
-FiniteCylinderSpatialFunction<VDimension, TInput>::SetOrientation(const InputType _Orientation)
+FiniteCylinderSpatialFunction<VDimension, TInput>::SetOrientation(const InputType orientation)
 {
-  itkDebugMacro("setting Orientation to " << _Orientation);
-  if (this->m_Orientation != _Orientation)
+  itkDebugMacro("setting Orientation to " << orientation);
+  if (this->m_Orientation != orientation)
   {
-    this->m_Orientation = _Orientation;
+    this->m_Orientation = orientation;
     //
     // save normalizedOrientation, so it doesn't need to be recomputed
     // in every call of Evaluate.

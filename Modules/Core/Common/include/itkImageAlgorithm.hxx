@@ -94,8 +94,8 @@ ImageAlgorithm::DispatchedCopy(const InputImageType *                       inIm
                                const typename OutputImageType::RegionType & outRegion,
                                TrueType)
 {
-  using _RegionType = typename InputImageType::RegionType;
-  using _IndexType = typename InputImageType::IndexType;
+  using RegionType = typename InputImageType::RegionType;
+  using IndexType = typename InputImageType::IndexType;
 
   // Get the number of bytes of each pixel in the buffer.
   const size_t NumberOfInternalComponents = ImageAlgorithm::PixelSize<InputImageType>::Get(inImage);
@@ -112,8 +112,8 @@ ImageAlgorithm::DispatchedCopy(const InputImageType *                       inIm
   const typename InputImageType::InternalPixelType * in = inImage->GetBufferPointer();
   typename OutputImageType::InternalPixelType *      out = outImage->GetBufferPointer();
 
-  const _RegionType & inBufferedRegion = inImage->GetBufferedRegion();
-  const _RegionType & outBufferedRegion = outImage->GetBufferedRegion();
+  const RegionType & inBufferedRegion = inImage->GetBufferedRegion();
+  const RegionType & outBufferedRegion = outImage->GetBufferedRegion();
 
   // Compute the number of continuous pixel which can be copied.
   size_t       numberOfPixel = 1;
@@ -125,15 +125,15 @@ ImageAlgorithm::DispatchedCopy(const InputImageType *                       inIm
   }
   // The copy regions must extend to the full buffered region, to
   // ensure continuity of pixels between dimensions.
-  while (movingDirection < _RegionType::ImageDimension &&
+  while (movingDirection < RegionType::ImageDimension &&
          inRegion.GetSize(movingDirection - 1) == inBufferedRegion.GetSize(movingDirection - 1) &&
          outRegion.GetSize(movingDirection - 1) == outBufferedRegion.GetSize(movingDirection - 1) &&
          inBufferedRegion.GetSize(movingDirection - 1) == outBufferedRegion.GetSize(movingDirection - 1));
 
   const size_t sizeOfChunkInInternalComponents = numberOfPixel * NumberOfInternalComponents;
 
-  _IndexType inCurrentIndex = inRegion.GetIndex();
-  _IndexType outCurrentIndex = outRegion.GetIndex();
+  IndexType inCurrentIndex = inRegion.GetIndex();
+  IndexType outCurrentIndex = outRegion.GetIndex();
 
   while (inRegion.IsInside(inCurrentIndex))
   {
@@ -143,7 +143,7 @@ ImageAlgorithm::DispatchedCopy(const InputImageType *                       inIm
     size_t inSubDimensionQuantity = 1; // in pixels
     size_t outSubDimensionQuantity = 1;
 
-    for (unsigned int i = 0; i < _RegionType::ImageDimension; ++i)
+    for (unsigned int i = 0; i < RegionType::ImageDimension; ++i)
     {
       inOffset += inSubDimensionQuantity * static_cast<size_t>(inCurrentIndex[i] - inBufferedRegion.GetIndex(i));
       inSubDimensionQuantity *= inBufferedRegion.GetSize(i);
@@ -157,14 +157,14 @@ ImageAlgorithm::DispatchedCopy(const InputImageType *                       inIm
 
     CopyHelper(inBuffer, inBuffer + sizeOfChunkInInternalComponents, outBuffer);
 
-    if (movingDirection == _RegionType::ImageDimension)
+    if (movingDirection == RegionType::ImageDimension)
     {
       break;
     }
 
     // increment index to next chunk
     ++inCurrentIndex[movingDirection];
-    for (unsigned int i = movingDirection; i + 1 < _RegionType::ImageDimension; ++i)
+    for (unsigned int i = movingDirection; i + 1 < RegionType::ImageDimension; ++i)
     {
       // When reaching the end of the moving index in the copy region
       // dimension, carry to higher dimensions.
@@ -177,7 +177,7 @@ ImageAlgorithm::DispatchedCopy(const InputImageType *                       inIm
 
     // increment index to next chunk
     ++outCurrentIndex[movingDirection];
-    for (unsigned int i = movingDirection; i + 1 < _RegionType::ImageDimension; ++i)
+    for (unsigned int i = movingDirection; i + 1 < RegionType::ImageDimension; ++i)
     {
       if (static_cast<SizeValueType>(outCurrentIndex[i] - outRegion.GetIndex(i)) >= outRegion.GetSize(i))
       {

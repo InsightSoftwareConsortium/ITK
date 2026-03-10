@@ -86,14 +86,14 @@ struct ImageAlgorithm
        const typename Image<TPixel1, VImageDimension>::RegionType & inRegion,
        const typename Image<TPixel2, VImageDimension>::RegionType & outRegion)
   {
-    using _ImageType1 = Image<TPixel1, VImageDimension>;
-    using _ImageType2 = Image<TPixel2, VImageDimension>;
+    using ImageType1 = Image<TPixel1, VImageDimension>;
+    using ImageType2 = Image<TPixel2, VImageDimension>;
     ImageAlgorithm::DispatchedCopy(
       inImage,
       outImage,
       inRegion,
       outRegion,
-      std::is_convertible<typename _ImageType1::PixelType, typename _ImageType2::PixelType>());
+      std::is_convertible<typename ImageType1::PixelType, typename ImageType2::PixelType>());
   }
 
   template <typename TPixel1, typename TPixel2, unsigned int VImageDimension>
@@ -103,14 +103,14 @@ struct ImageAlgorithm
        const typename VectorImage<TPixel1, VImageDimension>::RegionType & inRegion,
        const typename VectorImage<TPixel2, VImageDimension>::RegionType & outRegion)
   {
-    using _ImageType1 = VectorImage<TPixel1, VImageDimension>;
-    using _ImageType2 = VectorImage<TPixel2, VImageDimension>;
+    using ImageType1 = VectorImage<TPixel1, VImageDimension>;
+    using ImageType2 = VectorImage<TPixel2, VImageDimension>;
     ImageAlgorithm::DispatchedCopy(
       inImage,
       outImage,
       inRegion,
       outRegion,
-      std::is_convertible<typename _ImageType1::PixelType, typename _ImageType2::PixelType>());
+      std::is_convertible<typename ImageType1::PixelType, typename ImageType2::PixelType>());
   }
 
   /// \endcond

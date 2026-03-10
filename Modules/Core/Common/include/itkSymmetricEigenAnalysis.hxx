@@ -174,8 +174,8 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ReduceToTridiagonalMatri
 
     e2[i] = scale * scale * h;
     double       f = d[l];
-    const double d__1 = std::sqrt(h);
-    double       g = (-1.0) * itk::Math::sgn0(f) * itk::Math::Absolute(d__1);
+    const double d1 = std::sqrt(h);
+    double       g = (-1.0) * itk::Math::sgn0(f) * itk::Math::Absolute(d1);
     e[i] = scale * g;
     h -= f * g;
     d[l] = f - g;
@@ -288,8 +288,8 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ReduceToTridiagonalMatri
       }
 
       double       f = d[l];
-      const double d__1 = std::sqrt(h);
-      double       g = (-1.0) * itk::Math::sgn0(f) * itk::Math::Absolute(d__1);
+      const double d1 = std::sqrt(h);
+      double       g = (-1.0) * itk::Math::sgn0(f) * itk::Math::Absolute(d1);
       e[i] = scale * g;
       h -= f * g;
       d[l] = f - g;
