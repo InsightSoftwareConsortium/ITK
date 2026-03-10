@@ -199,15 +199,6 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
-  /** Assignment operator */
-  NthElementPixelAccessor &
-  operator=(const NthElementPixelAccessor & accessor)
-  {
-    m_ElementNumber = accessor.m_ElementNumber;
-    this->SetVectorLength(accessor.GetVectorLength());
-    return *this;
-  }
-
 protected:
   using Superclass = DefaultVectorPixelAccessor<TPixelType>;
 
