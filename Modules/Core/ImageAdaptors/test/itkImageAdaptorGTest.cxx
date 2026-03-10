@@ -20,6 +20,7 @@
 #include "itkImageAdaptor.h"
 
 #include "itkCovariantVector.h"
+#include "itkDefaultPixelAccessor.h"
 #include "itkImage.h"
 #include "itkImageBase.h"
 #include "itkImageRegionIterator.h"
@@ -32,27 +33,6 @@
 
 namespace
 {
-template <typename TPixelType>
-class DummyPixelAccessor
-{
-public:
-  using ExternalType = TPixelType;
-  using InternalType = TPixelType;
-
-  static void
-  Set(TPixelType & output, const TPixelType & input)
-  {
-    output = input;
-  }
-
-  static TPixelType
-  Get(const TPixelType & input)
-  {
-    return input;
-  }
-};
-
-
 template <typename T1, typename T2>
 void
 Expect_same_type_and_equal_value(T1 && value1, T2 && value2)
@@ -127,7 +107,7 @@ Expect_Transform_member_functions_return_the_same_for_an_ImageAdaptor_as_for_its
   const auto ImageDimension = TImage::ImageDimension;
   using IndexType = itk::Index<ImageDimension>;
 
-  const auto imageAdaptor = itk::ImageAdaptor<TImage, DummyPixelAccessor<typename TImage::PixelType>>::New();
+  const auto imageAdaptor = itk::ImageAdaptor<TImage, itk::DefaultPixelAccessor<typename TImage::PixelType>>::New();
   imageAdaptor->SetImage(&image);
 
   for (const auto & point :
@@ -197,7 +177,7 @@ TEST(ImageAdaptor, ComputeOffset)
   using ImageType = itk::Image<PixelType, dimension>;
 
   const auto image = ImageType::New();
-  const auto adaptor = itk::ImageAdaptor<ImageType, DummyPixelAccessor<PixelType>>::New();
+  const auto adaptor = itk::ImageAdaptor<ImageType, itk::DefaultPixelAccessor<PixelType>>::New();
 
   // Use a very small image region, to speed up the unit test.
   const itk::ImageRegion imageRegion{ itk::Index<dimension>::Filled(1), itk::Size<dimension>::Filled(2) };
@@ -221,7 +201,7 @@ TEST(ImageAdaptor, SupportsRegionIterator)
   using ImageType = itk::Image<PixelType, dimension>;
 
   const auto image = ImageType::New();
-  const auto adaptor = itk::ImageAdaptor<ImageType, DummyPixelAccessor<PixelType>>::New();
+  const auto adaptor = itk::ImageAdaptor<ImageType, itk::DefaultPixelAccessor<PixelType>>::New();
 
   adaptor->SetImage(image);
   adaptor->SetRegions(itk::Size<dimension>::Filled(4));
