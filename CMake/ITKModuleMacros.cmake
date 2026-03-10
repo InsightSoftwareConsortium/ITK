@@ -267,8 +267,8 @@ endif()
       include_directories(${${itk-module}_INCLUDE_DIRS})
     endif()
     if(${itk-module}_SYSTEM_INCLUDE_DIRS)
-      # _SYSTEM_INCLUDE_DIRS should searched after internal _INCLUDE_DIRS
-      include_directories(AFTER ${${itk-module}_SYSTEM_INCLUDE_DIRS})
+      # The SYSTEM specified includes are searched after regular include directories
+      include_directories(SYSTEM ${${itk-module}_SYSTEM_INCLUDE_DIRS})
     endif()
   else()
     if(ITK_USE_KWSTYLE)
