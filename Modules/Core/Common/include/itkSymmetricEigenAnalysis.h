@@ -19,8 +19,7 @@
 #define itkSymmetricEigenAnalysis_h
 
 #include "itkMacro.h"
-#include "itk_eigen.h"
-#include ITK_EIGEN(Eigenvalues)
+#include "itk_Eigenvalues"
 #include <numeric>
 #include <vector>
 // For GetPointerToMatrixData
