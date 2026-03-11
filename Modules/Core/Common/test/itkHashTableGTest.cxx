@@ -80,8 +80,11 @@ TEST(HashTable, UnorderedSet)
   Set.insert("banana");
 
   lookup(Set, "mango");
+  EXPECT_GT(Set.count("mango"), 0u);
   lookup(Set, "apple");
+  EXPECT_GT(Set.count("apple"), 0u);
   lookup(Set, "durian");
+  EXPECT_EQ(Set.count("durian"), 0u);
 
   // CppCheck gives us a warning if the return value isn't used.
   // This is to prevent the user from calling empty() when they mean clear().
