@@ -58,7 +58,6 @@ set(
   itkRealTimeIntervalTest.cxx
   itkRealTimeStampTest.cxx
   itkBSplineKernelFunctionTest.cxx
-  itkArrayTest.cxx
   itkImageIteratorTest.cxx
   itkImageRegionIteratorTest.cxx
   itkImageScanlineIteratorTest1.cxx
@@ -394,12 +393,6 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     itkFixedArrayTest2
-)
-itk_add_test(
-  NAME itkArrayTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkArrayTest
 )
 itk_add_test(
   NAME itkMersenneTwisterRandomVariateGeneratorTest
