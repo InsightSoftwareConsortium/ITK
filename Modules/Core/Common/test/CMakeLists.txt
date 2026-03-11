@@ -74,7 +74,6 @@ set(
   itkSparseFieldLayerTest.cxx
   itkDataObjectTest.cxx
   itkAtanRegularizedHeavisideStepFunctionTest1.cxx
-  itkHashTableTest.cxx
   itkHeavisideStepFunctionTest1.cxx
   itkSinRegularizedHeavisideStepFunctionTest1.cxx
   itkPixelAccessTest.cxx
@@ -771,12 +770,6 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     itkAtanRegularizedHeavisideStepFunctionTest1
-)
-itk_add_test(
-  NAME itkHashTableTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkHashTableTest
 )
 itk_add_test(
   NAME itkHeavisideStepFunctionTest1
@@ -1736,6 +1729,7 @@ set(
   itkBresenhamLineGTest.cxx
   itkFilterDispatchGTest.cxx
   itkThreadedIndexedContainerPartitionerGTest.cxx
+  itkHashTableGTest.cxx
 )
 creategoogletestdriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
 # If `-static` was passed to CMAKE_EXE_LINKER_FLAGS, compilation fails. No need to

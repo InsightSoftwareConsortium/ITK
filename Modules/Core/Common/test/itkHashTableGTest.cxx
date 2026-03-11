@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include "itkGTest.h"
+
 #include <unordered_set>
 #include <unordered_map>
 #include <iostream>
@@ -51,8 +53,7 @@ println(const char * s)
   std::cout << std::endl << s << std::endl;
 }
 
-int
-itkHashTableTest(int, char *[])
+TEST(HashTable, StdHash)
 {
   println("Testing std::hash");
   constexpr std::hash<const char *> H;
@@ -64,7 +65,10 @@ itkHashTableTest(int, char *[])
   constexpr std::hash<char> H2;
   std::cout << "a -> " << H2('a') << std::endl;
   std::cout << "Z -> " << H2('Z') << std::endl;
+}
 
+TEST(HashTable, UnorderedSet)
+{
   println("Testing std::unordered_set");
   using HashSetType = std::unordered_set<const char *, std::hash<const char *>, eqstr>;
   HashSetType Set;
@@ -76,8 +80,11 @@ itkHashTableTest(int, char *[])
   Set.insert("banana");
 
   lookup(Set, "mango");
+  EXPECT_GT(Set.count("mango"), 0u);
   lookup(Set, "apple");
+  EXPECT_GT(Set.count("apple"), 0u);
   lookup(Set, "durian");
+  EXPECT_EQ(Set.count("durian"), 0u);
 
   // CppCheck gives us a warning if the return value isn't used.
   // This is to prevent the user from calling empty() when they mean clear().
@@ -89,7 +96,11 @@ itkHashTableTest(int, char *[])
   Set.insert("the horror");
   auto              hsh_it = Set.begin();
   const HashSetType SetCopy = Set;
+  IgnoreUnusedVariable(hsh_it);
+}
 
+TEST(HashTable, UnorderedMap)
+{
   println("Testing std::unordered_map");
   using HashMapType = std::unordered_map<const char *, int, std::hash<const char *>, eqstr>;
 
@@ -123,9 +134,5 @@ itkHashTableTest(int, char *[])
   months.insert(p);
   auto              map_it = months.begin();
   const HashMapType MapCopy = months;
-
-  IgnoreUnusedVariable(hsh_it);
   IgnoreUnusedVariable(map_it);
-
-  return EXIT_SUCCESS;
 }
