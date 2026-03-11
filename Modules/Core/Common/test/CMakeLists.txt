@@ -81,7 +81,6 @@ set(
   itkSinRegularizedHeavisideStepFunctionTest1.cxx
   itkPixelAccessTest.cxx
   itkPointGeometryTest.cxx
-  itkMersenneTwisterRandomVariateGeneratorTest.cxx
   itkNumberToStringTest.cxx
   itkTimeProbeTest.cxx
   itkTimeProbeTest2.cxx
@@ -393,12 +392,6 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     itkFixedArrayTest2
-)
-itk_add_test(
-  NAME itkMersenneTwisterRandomVariateGeneratorTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkMersenneTwisterRandomVariateGeneratorTest
 )
 itk_add_test(
   NAME itkBSplineInterpolationWeightFunctionTest

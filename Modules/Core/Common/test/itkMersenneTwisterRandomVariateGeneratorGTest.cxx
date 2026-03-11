@@ -16,9 +16,14 @@
  *
  *=========================================================================*/
 
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+#  define ITK_LEGACY_SILENT
+#endif
+
 // First include the header file to be tested:
 #include "itkMersenneTwisterRandomVariateGenerator.h"
-#include <gtest/gtest.h>
+#include "itkGTest.h"
+#include "itkMath.h"
 #include <random> // For mt19937.
 
 // The class to be tested.
@@ -100,3 +105,78 @@ TEST(MersenneTwisterRandomVariateGenerator, ResetNextSeed)
   MersenneTwisterRandomVariateGenerator::ResetNextSeed();
   EXPECT_EQ(MersenneTwisterRandomVariateGenerator::GetNextSeed(), seed);
 }
+
+
+TEST(MersenneTwisterRandomVariateGenerator, BasicObjectMethods)
+{
+  auto twister = MersenneTwisterRandomVariateGenerator::New();
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(twister, MersenneTwisterRandomVariateGenerator, RandomVariateGeneratorBase);
+}
+
+
+TEST(MersenneTwisterRandomVariateGenerator, SingletonSeedAndKnownSequence)
+{
+  using Twister = MersenneTwisterRandomVariateGenerator;
+  constexpr Twister::IntegerType seed{ 1234 };
+
+  Twister::GetInstance()->SetSeed(seed);
+  EXPECT_EQ(Twister::GetInstance()->GetSeed(), seed);
+
+  auto twister = Twister::New();
+
+  // New instance gets seed = singleton's seed + 1
+  EXPECT_EQ(Twister::GetInstance()->GetSeed() + 1, twister->GetSeed());
+
+  // Sync seeds and verify same sequence
+  twister->SetSeed(Twister::GetInstance()->GetSeed());
+  for (int i = 0; i < 200; ++i)
+  {
+    EXPECT_EQ(Twister::GetInstance()->GetIntegerVariate(), twister->GetIntegerVariate());
+  }
+
+  // Check known sequence of values
+  constexpr Twister::IntegerType expected[5]{ static_cast<Twister::IntegerType>(3294740812u),
+                                              static_cast<Twister::IntegerType>(4175194053u),
+                                              static_cast<Twister::IntegerType>(3041332341u),
+                                              static_cast<Twister::IntegerType>(199851601u),
+                                              static_cast<Twister::IntegerType>(3422518480u) };
+  for (const auto i : expected)
+  {
+    EXPECT_EQ(twister->GetIntegerVariate(), i);
+  }
+}
+
+
+TEST(MersenneTwisterRandomVariateGenerator, NormalVariateStatistics)
+{
+  auto twister = MersenneTwisterRandomVariateGenerator::New();
+
+  double        sum = 0.0;
+  double        sum2 = 0.0;
+  constexpr int count{ 500000 };
+  for (int i = 0; i < count; ++i)
+  {
+    const double v = twister->GetNormalVariate();
+    sum += v;
+    sum2 += v * v;
+  }
+  const double mean = sum / static_cast<double>(count);
+  const double variance = sum2 / static_cast<double>(count) - mean * mean;
+  EXPECT_NEAR(mean, 0.0, 0.01);
+  EXPECT_NEAR(variance, 1.0, 0.01);
+}
+
+
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+TEST(MersenneTwisterRandomVariateGenerator, LegacyInitializeEqualSetSeed)
+{
+  auto twister = MersenneTwisterRandomVariateGenerator::New();
+
+  twister->Initialize();
+  twister->SetSeed(1234);
+  const MersenneTwisterRandomVariateGenerator::IntegerType withSetSeed = twister->GetIntegerVariate();
+  twister->Initialize(1234);
+  const MersenneTwisterRandomVariateGenerator::IntegerType withInitialize = twister->GetIntegerVariate();
+  EXPECT_EQ(withSetSeed, withInitialize);
+}
+#endif
