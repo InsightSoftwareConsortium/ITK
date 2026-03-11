@@ -16,10 +16,10 @@
  *
  *=========================================================================*/
 
-#include <iostream>
-
 #include "itkImage.h"
+#include "itkGTest.h"
 
+#include <iostream>
 
 // This routine is used to make sure that we call the "const" version
 // of GetPixel() (via the operator[])
@@ -42,8 +42,7 @@ TestConstPixelAccess(const itk::Image<T, VImageDimension> & in, itk::Image<T, VI
 }
 
 
-int
-itkPixelAccessTest(int, char *[])
+TEST(PixelAccess, ConvertedLegacyTest)
 {
   std::cout << "Creating an image" << std::endl;
   const itk::Image<itk::Vector<unsigned short, 5>, 3>::Pointer o3 =
@@ -78,10 +77,16 @@ itkPixelAccessTest(int, char *[])
   vec[3] = 2;
   vec[4] = 1;
 
-
   (*o3)[regionStartIndex3D] = vec;
+  EXPECT_EQ((*o3)[regionStartIndex3D], vec);
+
   (*o3)[regionEndIndex3D] = (*o3)[regionStartIndex3D];
+  EXPECT_EQ((*o3)[regionEndIndex3D], vec);
+
   TestConstPixelAccess(*o3, *o3);
 
-  return EXIT_SUCCESS;
+  // TestConstPixelAccess writes vec to {5,10,15} and copies it to {8,15,17}
+  constexpr itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType constAccessStartIndex3D = { { 5, 10, 15 } };
+  EXPECT_EQ((*o3)[constAccessStartIndex3D], vec);
+  EXPECT_EQ((*o3)[regionEndIndex3D], vec);
 }
