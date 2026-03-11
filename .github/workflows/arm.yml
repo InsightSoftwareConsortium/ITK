@@ -112,9 +112,12 @@ jobs:
             ccache-v1-${{ matrix.os }}-
             ccache-v1-
 
-      - name: Evict old ccache entries
+      - name: Show ccache configuration, stats and maintenance
         shell: bash
-        run: ccache --evict-older-than 7d
+        run: |
+          ccache --zero-stats
+          ccache --evict-older-than 7d
+          ccache --show-config
 
       - name: Set up Python
         if: matrix.python-version != ''
@@ -167,3 +170,6 @@ jobs:
           ctest -S ${{ github.workspace }}/ITK-dashboard/dashboard.cmake -VV -j 4 ${{ matrix.ctest-options }}
         env:
           CTEST_OUTPUT_ON_FAILURE: 1
+      - name: ccache stats
+        if: always()
+        run: ccache --show-stats

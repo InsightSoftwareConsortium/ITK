@@ -72,9 +72,12 @@ jobs:
             restore-keys: |
               ccache-v1-${{ matrix.os }}-pixi-cxx-
 
-        - name: Evict old ccache entries
+        - name: Show ccache configuration, stats and maintenance
           shell: bash
-          run: ccache --evict-older-than 7d
+          run: |
+            ccache --zero-stats
+            ccache --evict-older-than 7d
+            ccache --show-config
 
         - name: Disk space reporting BEFORE (optimize free-disk-space)
           run: |
@@ -146,3 +149,6 @@ jobs:
             df -h
             echo "****** df -h /"
             df -h /
+        - name: ccache stats
+          if: always()
+          run: ccache --show-stats
