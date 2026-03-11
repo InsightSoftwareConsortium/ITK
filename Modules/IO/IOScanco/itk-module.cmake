@@ -8,7 +8,7 @@
 # define the dependencies of the include module and the tests
 itk_module(
   IOScanco
-  PRIVATE_DEPENDS
+  DEPENDS
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
