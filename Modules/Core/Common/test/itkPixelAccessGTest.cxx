@@ -78,6 +78,15 @@ TEST(PixelAccess, ConvertedLegacyTest)
   vec[4] = 1;
 
   (*o3)[regionStartIndex3D] = vec;
+  EXPECT_EQ((*o3)[regionStartIndex3D], vec);
+
   (*o3)[regionEndIndex3D] = (*o3)[regionStartIndex3D];
+  EXPECT_EQ((*o3)[regionEndIndex3D], vec);
+
   TestConstPixelAccess(*o3, *o3);
+
+  // TestConstPixelAccess writes vec to {5,10,15} and copies it to {8,15,17}
+  constexpr itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType constAccessStartIndex3D = { { 5, 10, 15 } };
+  EXPECT_EQ((*o3)[constAccessStartIndex3D], vec);
+  EXPECT_EQ((*o3)[regionEndIndex3D], vec);
 }
