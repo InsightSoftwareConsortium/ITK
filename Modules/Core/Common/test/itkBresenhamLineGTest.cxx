@@ -35,8 +35,8 @@ TEST(BresenhamLine, BuildLineFromVector)
 
   for (int i = 0; i < 4; ++i)
   {
-    EXPECT_EQ(offsets[i][0], i) << "offsets[" << i << "][0] mismatch";
-    EXPECT_EQ(offsets[i][1], i) << "offsets[" << i << "][1] mismatch";
+    const itk::Offset<2> expectedOffset{ { i, i } };
+    ITK_EXPECT_VECTOR_NEAR(offsets[i], expectedOffset, 0);
   }
 }
 
@@ -58,8 +58,8 @@ TEST(BresenhamLine, BuildLineFromIndices)
 
   for (int i = 0; i < 40; ++i)
   {
-    EXPECT_EQ(indices[i][0], i) << "indices[" << i << "][0] mismatch";
-    EXPECT_EQ(indices[i][1], i) << "indices[" << i << "][1] mismatch";
+    const itk::Index<2> expectedIndex{ { i, i } };
+    ITK_EXPECT_VECTOR_NEAR(indices[i], expectedIndex, 0);
   }
 
   std::cout << "Test Passed !" << std::endl;
