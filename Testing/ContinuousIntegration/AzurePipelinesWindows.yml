@@ -28,6 +28,11 @@ pr:
     - Modules/Remote/*.remote.cmake
 variables:
   ExternalDataVersion: 5.4.5
+  CCACHE_DIR: $(Pipeline.Workspace)/.ccache
+  CCACHE_BASEDIR: $(Build.SourcesDirectory)
+  CCACHE_COMPILERCHECK: content
+  CCACHE_NOHASHDIR: 'true'
+  CCACHE_NODIRECT: '1'
 jobs:
 - job: Windows
   timeoutInMinutes: 0
@@ -52,6 +57,7 @@ jobs:
         pip3 install ninja
         pip3 install --upgrade setuptools
         pip3 install scikit-ci-addons lxml
+        choco install ccache -y
       displayName: 'Install dependencies'
 
     - script: |
@@ -63,6 +69,17 @@ jobs:
       workingDirectory: $(Agent.BuildDirectory)
       displayName: 'Download dashboard script and testing data'
 
+    - task: Cache@2
+      inputs:
+        key: '"ccache" | "$(Agent.OS)" | "$(Build.SourceVersion)"'
+        restoreKeys: |
+          "ccache" | "$(Agent.OS)"
+        path: $(CCACHE_DIR)
+      displayName: 'Restore ccache'
+
+    - bash: ccache --evict-older-than 7d
+      displayName: 'Evict old ccache entries'
+
     - bash: |
         cat > dashboard.cmake << EOF
         set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
@@ -73,6 +90,9 @@ jobs:
           BUILD_SHARED_LIBS:BOOL=ON
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=OFF
+          ITK_USE_CCACHE:BOOL=ON
+          CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
+          CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
         ")
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
         EOF
@@ -87,6 +107,7 @@ jobs:
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
+        CCACHE_MAXSIZE: 11G
 
     - script: |
         ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml

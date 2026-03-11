@@ -42,10 +42,39 @@ jobs:
           os: [ubuntu-22.04, windows-2022, macos-15]
       steps:
         - name: Checkout
-          uses: actions/checkout@v4
+          uses: actions/checkout@v5
           with:
             fetch-depth: 5
             clean: true
+
+        - name: Install ccache
+          shell: bash
+          run: |
+            echo "CCACHE_BASEDIR=${GITHUB_WORKSPACE}" >> "$GITHUB_ENV"
+            echo "CCACHE_COMPILERCHECK=content" >> "$GITHUB_ENV"
+            echo "CCACHE_NOHASHDIR=true" >> "$GITHUB_ENV"
+            echo "CCACHE_NODIRECT=1" >> "$GITHUB_ENV"
+            echo "CCACHE_DIR=${{ runner.temp }}/ccache" >> "$GITHUB_ENV"
+            echo "CCACHE_MAXSIZE=11G" >> "$GITHUB_ENV"
+            if [ "$RUNNER_OS" == "Linux" ]; then
+              sudo apt-get update -qq && sudo apt-get install -y ccache
+            elif [ "$RUNNER_OS" == "macOS" ]; then
+              brew install ccache
+            elif [ "$RUNNER_OS" == "Windows" ]; then
+              choco install ccache --yes
+            fi
+
+        - name: Set up compiler cache
+          uses: actions/cache@v4
+          with:
+            path: ${{ runner.temp }}/ccache
+            key: ccache-v1-${{ matrix.os }}-pixi-cxx-${{ hashFiles('pixi.lock') }}
+            restore-keys: |
+              ccache-v1-${{ matrix.os }}-pixi-cxx-
+
+        - name: Evict old ccache entries
+          shell: bash
+          run: ccache --evict-older-than 7d
 
         - name: Disk space reporting BEFORE (optimize free-disk-space)
           run: |
@@ -92,7 +121,7 @@ jobs:
           uses: prefix-dev/setup-pixi@v0.8.1
 
         - name: Configure
-          run: pixi run configure
+          run: pixi run configure-ci
 
         - name: Build
           run: |

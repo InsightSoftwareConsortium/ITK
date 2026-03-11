@@ -42,6 +42,19 @@ cmd = '''cmake
 description = "Configure ITK"
 outputs = ["build/CMakeFiles/"]
 
+[tool.pixi.feature.cxx.tasks.configure-ci]
+cmd = '''cmake
+  -Bbuild
+  -S.
+  -GNinja
+  -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
+  -DBUILD_TESTING:BOOL=ON
+  -DITK_USE_CCACHE:BOOL=ON
+  -DCMAKE_C_COMPILER_LAUNCHER:STRING=ccache
+  -DCMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache'''
+description = "Configure ITK for CI (with ccache compiler launcher)"
+outputs = ["build/CMakeFiles/"]
+
 [tool.pixi.feature.cxx.tasks.build]
 cmd = "cmake --build build"
 description = "Build ITK"
