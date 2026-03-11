@@ -72,7 +72,6 @@ set(
   itkPointSetTest.cxx
   itkPointSetToImageFilterTest1.cxx
   itkPointSetToImageFilterTest2.cxx
-  itkBresenhamLineTest.cxx
   itkSparseFieldLayerTest.cxx
   itkDataObjectTest.cxx
   itkAtanRegularizedHeavisideStepFunctionTest1.cxx
@@ -768,12 +767,6 @@ itk_add_test(
     itkPointSetToImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/VascularTreePointSet.txt}
     ${ITK_TEST_OUTPUT_DIR}/itkPointSetToImageFilterTest2.mha
-)
-itk_add_test(
-  NAME itkBresenhamLineTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkBresenhamLineTest
 )
 itk_add_test(
   NAME itkSparseFieldLayerTest
@@ -1754,6 +1747,7 @@ set(
   itkStdStreamStateSaveGTest.cxx
   itkDecoratorGTest.cxx
   itkAbortProcessObjectGTest.cxx
+  itkBresenhamLineGTest.cxx
 )
 creategoogletestdriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
 # If `-static` was passed to CMAKE_EXE_LINKER_FLAGS, compilation fails. No need to
