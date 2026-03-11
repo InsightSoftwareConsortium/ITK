@@ -25,6 +25,7 @@
 #include "itkTransformFactory.h"
 #include "itksys/SystemTools.hxx"
 #include "itkDisplacementFieldTransform.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkIOTestHelper.h"
 #include "itkMINCTransformAdapter.h"
 #include "itkMINCTransformIO.h"
