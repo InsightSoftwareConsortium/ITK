@@ -58,7 +58,6 @@ set(
   itkImageIteratorTest.cxx
   itkImageRegionIteratorTest.cxx
   itkImageScanlineIteratorTest1.cxx
-  itkCrossHelperTest.cxx
   itkImageIteratorWithIndexTest.cxx
   itkDirectoryTest.cxx
   itkObjectStoreTest.cxx
@@ -524,12 +523,6 @@ itk_add_test(
     itkGaussianSpatialFunctionTest
     19.0
     1
-)
-itk_add_test(
-  NAME itkCrossHelperTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkCrossHelperTest
 )
 itk_add_test(
   NAME itkImageIteratorTest
@@ -1706,6 +1699,7 @@ set(
   itkImportContainerGTest.cxx
   itkPixelAccessGTest.cxx
   itkImageTransformGTest.cxx
+  itkCrossHelperGTest.cxx
 )
 creategoogletestdriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
 # If `-static` was passed to CMAKE_EXE_LINKER_FLAGS, compilation fails. No need to
