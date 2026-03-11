@@ -31,6 +31,7 @@
 #include <cassert>
 #include <complex>
 #include <cmath>
+#include <limits>
 #include <type_traits>
 #include "itkMathDetail.h"
 #include "itkConceptChecking.h"
@@ -888,35 +889,13 @@ Absolute(T x) noexcept
   {
     if constexpr (std::is_signed_v<T>)
     {
-      // Using promotion to std::int32_t instead of std::make_unsigned_t<T>
-      // to avoid potential overflow when T is a signed 8bit minimum (value -128)
-      // or signed 15 bit minimum (value -32768).
-      // Note that -(-128) is still -128 for an 8-bit signed char.
-      if constexpr (sizeof(T) <= sizeof(int))
-      {
-#if __cplusplus >= 202302L
-        return static_cast<std::make_unsigned_t<T>>(std::abs(static_cast<int>(x)));
-#else
-        return static_cast<std::make_unsigned_t<T>>((x < T(0)) ? -x : x);
-#endif
-      }
-      else if constexpr (sizeof(T) <= sizeof(long int))
-      {
-#if __cplusplus >= 202302L
-        return static_cast<std::make_unsigned_t<T>>(std::abs(static_cast<long int>(x)));
-#else
-        return static_cast<std::make_unsigned_t<T>>((x < T(0)) ? -x : x);
-#endif
-      }
-      else if constexpr (sizeof(T) == sizeof(long long int))
-      {
-        // NOTE: overflow is not resolved if LONG_LONG_INT_MIN value is converted
-#if __cplusplus >= 202302L
-        return static_cast<std::make_unsigned_t<T>>(std::abs(static_cast<long long int>(x)));
-#else
-        return static_cast<std::make_unsigned_t<T>>((x < T(0)) ? -x : x);
-#endif
-      }
+      using UnsignedType = std::make_unsigned_t<T>;
+      using Limits = std::numeric_limits<T>;
+
+      // The absolute value of the minimum integer value, having a two's complement signed integer representation.
+      constexpr UnsignedType absoluteValueOfMin{ UnsignedType{ Limits::max() } + UnsignedType{ 1 } };
+
+      return static_cast<UnsignedType>((x < 0) ? (x == Limits::min()) ? absoluteValueOfMin : -x : x);
     }
     else
     { // In C++17, the std::abs() integer overloads are only for : int, long, and long long.

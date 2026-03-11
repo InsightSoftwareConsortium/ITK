@@ -353,6 +353,25 @@ TEST(itkMath, Abs)
   EXPECT_EQ(itk::Math::Absolute<double>(-5.0), 5.0);
   EXPECT_EQ(itk::Math::Absolute<float>(-5.0f), 5.0f);
   EXPECT_EQ(itk::Math::Absolute(-5), 5);
+
+  // Check using the minimum possible value of signed integer types as argument:
+  {
+    constexpr auto minValue = std::numeric_limits<std::int8_t>::min();
+    static_assert(itk::Math::Absolute(minValue) == std::uint8_t{ -std::int16_t{ minValue } });
+  }
+  {
+    constexpr auto minValue = std::numeric_limits<std::int16_t>::min();
+    static_assert(itk::Math::Absolute(minValue) == std::uint16_t{ -std::int32_t{ minValue } });
+  }
+  {
+    constexpr auto minValue = std::numeric_limits<std::int32_t>::min();
+    static_assert(itk::Math::Absolute(minValue) == std::uint32_t{ -std::int64_t{ minValue } });
+  }
+  {
+    using Limits = std::numeric_limits<std::int64_t>;
+    static_assert(itk::Math::Absolute(Limits::min()) ==
+                  std::uint64_t{ std::uint64_t{ Limits::max() } + std::uint64_t{ 1 } });
+  }
 }
 
 
