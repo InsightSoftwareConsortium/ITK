@@ -99,15 +99,6 @@ TEST(AbortProcessObject, ConvertedLegacyTest)
 
   std::cout << extract << std::endl;
 
-  bool exceptionCaught = false;
-  try
-  {
-    extract->UpdateLargestPossibleRegion();
-  }
-  catch (const itk::ProcessAborted &)
-  {
-    exceptionCaught = true;
-  }
-  EXPECT_TRUE(exceptionCaught) << "Expected ProcessAborted exception to be thrown.";
+  EXPECT_THROW(extract->UpdateLargestPossibleRegion(), itk::ProcessAborted);
   EXPECT_TRUE(onAbortCalled) << "Expected Abort Event callback to be called.";
 }
