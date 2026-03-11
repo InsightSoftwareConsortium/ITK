@@ -25,7 +25,7 @@
 #include <iostream>
 
 
-TEST(ImportImageFilter, ImportAndShrink)
+TEST(ImportImageFilter, ConvertedLegacyTest)
 {
   // Create a C-array to hold an image
   auto * rawImage = new short[8 * 12];
@@ -83,6 +83,10 @@ TEST(ImportImageFilter, ImportAndShrink)
   shrink->SetShrinkFactors(2);
   EXPECT_NO_THROW(shrink->Update());
 
+  //
+  // The rest of this code determines whether the shrink code produced
+  // the image we expected.
+  //
   const ShortImage::RegionType         requestedRegion = shrink->GetOutput()->GetRequestedRegion();
   itk::ImageRegionIterator<ShortImage> iterator2(shrink->GetOutput(), requestedRegion);
 
