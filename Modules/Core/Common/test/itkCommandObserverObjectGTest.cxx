@@ -16,17 +16,16 @@
  *
  *=========================================================================*/
 
-#include <iostream>
-#include "itkObject.h"
-
-#include "itkCommand.h"
-#include "itkTestingMacros.h"
-
-
 //
 // This test is for testing the Command Observer functionality of the
 // itk::Object class.
 //
+
+// First include the header file to be tested:
+#include "itkCommand.h"
+#include "itkObject.h"
+#include "itkGTest.h"
+#include <iostream>
 
 
 namespace
@@ -71,8 +70,10 @@ onUserRemove(itk::Object * o, const itk::EventObject &, void * data)
   o->RemoveObserver(idToRemove);
 }
 
-int
-testDeleteObserverDuringEvent()
+} // namespace
+
+
+TEST(CommandObserverObject, DeleteObserverDuringEvent)
 {
   const itk::Object::Pointer o = itk::Object::New();
 
@@ -92,16 +93,16 @@ testDeleteObserverDuringEvent()
 
   onAnyCount = 0;
   o->InvokeEvent(itk::AnyEvent());
-  ITK_TEST_EXPECT_TRUE(onAnyCount == 2);
+  EXPECT_EQ(onAnyCount, 2u);
 
   onAnyCount = 0;
   o->InvokeEvent(itk::UserEvent());
-  ITK_TEST_EXPECT_TRUE(onAnyCount == 1);
+  EXPECT_EQ(onAnyCount, 1u);
 
 
   onAnyCount = 0;
   o->InvokeEvent(itk::AnyEvent());
-  ITK_TEST_EXPECT_TRUE(onAnyCount == 1);
+  EXPECT_EQ(onAnyCount, 1u);
 
   o->RemoveAllObservers();
 
@@ -113,16 +114,16 @@ testDeleteObserverDuringEvent()
 
   onAnyCount = 0;
   o->InvokeEvent(itk::AnyEvent());
-  ITK_TEST_EXPECT_TRUE(onAnyCount == 2);
+  EXPECT_EQ(onAnyCount, 2u);
 
   onAnyCount = 0;
   o->InvokeEvent(itk::UserEvent());
-  ITK_TEST_EXPECT_TRUE(onAnyCount == 2);
+  EXPECT_EQ(onAnyCount, 2u);
 
 
   onAnyCount = 0;
   o->InvokeEvent(itk::AnyEvent());
-  ITK_TEST_EXPECT_TRUE(onAnyCount == 1);
+  EXPECT_EQ(onAnyCount, 1u);
 
   o->RemoveAllObservers();
 
@@ -134,16 +135,16 @@ testDeleteObserverDuringEvent()
 
   onAnyCount = 0;
   o->InvokeEvent(itk::AnyEvent());
-  ITK_TEST_EXPECT_TRUE(onAnyCount == 2);
+  EXPECT_EQ(onAnyCount, 2u);
 
   onAnyCount = 0;
   o->InvokeEvent(itk::UserEvent());
-  ITK_TEST_EXPECT_TRUE(onAnyCount == 2);
+  EXPECT_EQ(onAnyCount, 2u);
 
 
   onAnyCount = 0;
   o->InvokeEvent(itk::AnyEvent());
-  ITK_TEST_EXPECT_TRUE(onAnyCount == 1);
+  EXPECT_EQ(onAnyCount, 1u);
 
   o->RemoveAllObservers();
 
@@ -155,26 +156,22 @@ testDeleteObserverDuringEvent()
 
   onAnyCount = 0;
   o->InvokeEvent(itk::AnyEvent());
-  ITK_TEST_EXPECT_TRUE(onAnyCount == 2);
+  EXPECT_EQ(onAnyCount, 2u);
 
   onAnyCount = 0;
   o->InvokeEvent(itk::UserEvent());
-  ITK_TEST_EXPECT_TRUE(onAnyCount == 1);
+  EXPECT_EQ(onAnyCount, 1u);
 
 
   onAnyCount = 0;
   o->InvokeEvent(itk::AnyEvent());
-  ITK_TEST_EXPECT_TRUE(onAnyCount == 1);
+  EXPECT_EQ(onAnyCount, 1u);
 
   o->RemoveAllObservers();
-
-
-  return EXIT_SUCCESS;
 }
 
 
-int
-testCommandConstObject()
+TEST(CommandObserverObject, CommandConstObject)
 {
 
   const itk::Object::Pointer      o = itk::Object::New();
@@ -189,24 +186,21 @@ testCommandConstObject()
   removeCmd->SetObjectName("Remove Command");
 
   co->AddObserver(itk::AnyEvent(), cmd);
-  ITK_TEST_EXPECT_TRUE(co->HasObserver(itk::AnyEvent()));
+  EXPECT_TRUE(co->HasObserver(itk::AnyEvent()));
 
   // the constant command doesn't get executed from the non-const
   // invocation
   onAnyCount = 0;
   o->InvokeEvent(itk::AnyEvent());
-  ITK_TEST_EXPECT_TRUE(onAnyCount == 0);
+  EXPECT_EQ(onAnyCount, 0u);
 
   onAnyCount = 0;
   co->InvokeEvent(itk::AnyEvent());
-  ITK_TEST_EXPECT_TRUE(onAnyCount == 1);
-
-  return EXIT_SUCCESS;
+  EXPECT_EQ(onAnyCount, 1u);
 }
 
 
-int
-testCommandRecursiveObject()
+TEST(CommandObserverObject, CommandRecursiveObject)
 {
   // this test has an command invoking another event, while removing a
   // a Command.
@@ -235,7 +229,7 @@ testCommandRecursiveObject()
 
   onAnyCount = 0;
   o->InvokeEvent(itk::AnyEvent());
-  ITK_TEST_EXPECT_TRUE(onAnyCount == 2);
+  EXPECT_EQ(onAnyCount, 2u);
 
   o->RemoveAllObservers();
 
@@ -247,7 +241,7 @@ testCommandRecursiveObject()
 
   onAnyCount = 0;
   o->InvokeEvent(itk::AnyEvent());
-  ITK_TEST_EXPECT_TRUE(onAnyCount == 2);
+  EXPECT_EQ(onAnyCount, 2u);
 
   o->RemoveAllObservers();
 
@@ -259,14 +253,11 @@ testCommandRecursiveObject()
 
   onAnyCount = 0;
   o->InvokeEvent(itk::AnyEvent());
-  ITK_TEST_EXPECT_TRUE(onAnyCount == 0);
-
-  return EXIT_SUCCESS;
+  EXPECT_EQ(onAnyCount, 0u);
 }
 
 
-bool
-testDeleteEventThrow()
+TEST(CommandObserverObject, DeleteEventThrow)
 {
   // check the case where an exception in thrown in the DeleteEvent
   const itk::Object::Pointer o = itk::Object::New();
@@ -275,11 +266,10 @@ testDeleteEventThrow()
   cmd->SetCallback(onAnyThrow);
 
   o->AddObserver(itk::DeleteEvent(), cmd);
-  return EXIT_SUCCESS;
 }
 
-int
-testLambdaCommand()
+
+TEST(CommandObserverObject, LambdaCommand)
 {
   // spell-check-disable
   // NOTE: cnt needs to be defined BEFORE "o" because it MUST exist when the "DeleteEvent()" is causes the
@@ -305,29 +295,10 @@ testLambdaCommand()
     });
 
     o->InvokeEvent(itk::AnyEvent());
-    ITK_TEST_EXPECT_EQUAL(1, cnt);
-    ITK_TEST_EXPECT_EQUAL(1, name_of_class_cnt);
+    EXPECT_EQ(1, cnt);
+    EXPECT_EQ(1, name_of_class_cnt);
 
   } // A DeleteEvent is called here! as object "o" is deleted
-  ITK_TEST_EXPECT_EQUAL(2, cnt); // Verify that cnt really was incremented during DeleteEvent!
-  ITK_TEST_EXPECT_EQUAL(2, name_of_class_cnt);
-  return EXIT_SUCCESS;
-}
-
-
-} // end namespace
-
-
-int
-itkCommandObserverObjectTest(int, char *[])
-{
-  bool ret = true;
-
-  ret &= (testDeleteObserverDuringEvent() == EXIT_SUCCESS);
-  ret &= (testCommandConstObject() == EXIT_SUCCESS);
-  ret &= (testCommandRecursiveObject() == EXIT_SUCCESS);
-  ret &= (testDeleteEventThrow() == EXIT_SUCCESS);
-  ret &= (testLambdaCommand() == EXIT_SUCCESS);
-
-  return ret ? EXIT_SUCCESS : EXIT_FAILURE;
+  EXPECT_EQ(2, cnt); // Verify that cnt really was incremented during DeleteEvent!
+  EXPECT_EQ(2, name_of_class_cnt);
 }
