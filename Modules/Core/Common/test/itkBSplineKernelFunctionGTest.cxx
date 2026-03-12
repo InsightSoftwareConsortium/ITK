@@ -16,12 +16,12 @@
  *
  *=========================================================================*/
 
+// First include the header file to be tested:
 #include "itkBSplineDerivativeKernelFunction.h"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
 
 
-int
-itkBSplineKernelFunctionTest(int, char *[])
+TEST(BSplineKernelFunction, ConvertedLegacyTest)
 {
 
   // Externally generated results
@@ -58,32 +58,22 @@ itkBSplineKernelFunctionTest(int, char *[])
                                 0,         0,         0,           0,          0,           0,         0 };
 
 
-  // Testing the output of BSplineKernelFunction
-#define TEST_BSPLINE_KERNEL(ORDERNUM)                                                    \
-  {                                                                                      \
-    using FunctionType = itk::BSplineKernelFunction<ORDERNUM>;                           \
-    auto function = FunctionType::New();                                                 \
-                                                                                         \
-    function->Print(std::cout);                                                          \
-    constexpr double epsilon{ 1e-6 };                                                    \
-    for (unsigned int j = 0; j < npoints; ++j)                                           \
-    {                                                                                    \
-      double results = function->Evaluate(x[j]);                                         \
-      /* compare with external results */                                                \
-      if (itk::Math::Absolute(results - b##ORDERNUM[j]) > epsilon)                       \
-      {                                                                                  \
-        std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon)))); \
-        std::cerr << "Test failed!" << std::endl;                                        \
-        std::cerr << "Error with " << ORDERNUM << " order BSplineKernelFunction ";       \
-        std::cerr << "at index [" << j << "] " << std::endl;                             \
-        std::cerr << "Expected value " << b##ORDERNUM[j] << std::endl;                   \
-        std::cerr << " differs from " << results;                                        \
-        std::cerr << " by more than " << epsilon << std::endl;                           \
-        return EXIT_FAILURE;                                                             \
-      }                                                                                  \
-    }                                                                                    \
-  }                                                                                      \
-  ITK_MACROEND_NOOP_STATEMENT
+// Testing the output of BSplineKernelFunction
+#define TEST_BSPLINE_KERNEL(ORDERNUM)                                    \
+  {                                                                      \
+    using FunctionType = itk::BSplineKernelFunction<ORDERNUM>;           \
+    auto function = FunctionType::New();                                 \
+                                                                         \
+    function->Print(std::cout);                                          \
+    constexpr double epsilon{ 1e-6 };                                    \
+    for (unsigned int j = 0; j < npoints; ++j)                           \
+    {                                                                    \
+      double results = function->Evaluate(x[j]);                         \
+      /* compare with external results */                                \
+      EXPECT_LE(itk::Math::Absolute(results - b##ORDERNUM[j]), epsilon); \
+    }                                                                    \
+  }                                                                      \
+  static_assert(true, "")
 
   TEST_BSPLINE_KERNEL(0);
   TEST_BSPLINE_KERNEL(1);
@@ -102,16 +92,7 @@ itkBSplineKernelFunctionTest(int, char *[])
     const double     results = derivFunction->Evaluate(xx);
 
     constexpr double epsilon{ 1e-6 };
-    if (itk::Math::Absolute(results - expectedValue) > epsilon)
-    {
-      std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction at " << xx << std::endl;
-      std::cerr << "Expected value " << expectedValue << std::endl;
-      std::cerr << " differs from " << results;
-      std::cerr << " by more than " << epsilon << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_LE(itk::Math::Absolute(results - expectedValue), epsilon);
   }
 
   // Testing derivative spline order = 1
@@ -129,16 +110,7 @@ itkBSplineKernelFunctionTest(int, char *[])
       const double results = derivFunction->Evaluate(xx);
 
       constexpr double epsilon{ 1e-6 };
-      if (itk::Math::Absolute(results - expectedValue) > epsilon)
-      {
-        std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
-        std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction at " << xx << std::endl;
-        std::cerr << "Expected value " << expectedValue << std::endl;
-        std::cerr << " differs from " << results;
-        std::cerr << " by more than " << epsilon << std::endl;
-        return EXIT_FAILURE;
-      }
+      EXPECT_LE(itk::Math::Absolute(results - expectedValue), epsilon);
     }
   }
 
@@ -158,16 +130,7 @@ itkBSplineKernelFunctionTest(int, char *[])
       const double results = derivFunction->Evaluate(xx);
 
       constexpr double epsilon{ 1e-6 };
-      if (itk::Math::Absolute(results - expectedValue) > epsilon)
-      {
-        std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
-        std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction at " << xx << std::endl;
-        std::cerr << "Expected value " << expectedValue << std::endl;
-        std::cerr << " differs from " << results;
-        std::cerr << " by more than " << epsilon << std::endl;
-        return EXIT_FAILURE;
-      }
+      EXPECT_LE(itk::Math::Absolute(results - expectedValue), epsilon);
     }
   }
 
@@ -187,16 +150,7 @@ itkBSplineKernelFunctionTest(int, char *[])
       const double results = derivFunction->Evaluate(xx);
 
       constexpr double epsilon{ 1e-6 };
-      if (itk::Math::Absolute(results - expectedValue) > epsilon)
-      {
-        std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
-        std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction at " << xx << std::endl;
-        std::cerr << "Expected value " << expectedValue << std::endl;
-        std::cerr << " differs from " << results;
-        std::cerr << " by more than " << epsilon << std::endl;
-        return EXIT_FAILURE;
-      }
+      EXPECT_LE(itk::Math::Absolute(results - expectedValue), epsilon);
     }
   }
 
@@ -205,7 +159,7 @@ itkBSplineKernelFunctionTest(int, char *[])
     using FunctionType = itk::BSplineKernelFunction<7>;
     auto function = FunctionType::New();
 
-    ITK_TRY_EXPECT_EXCEPTION(function->Evaluate(0.0));
+    EXPECT_THROW(function->Evaluate(0.0), itk::ExceptionObject);
   }
 
   // Testing case of unimplemented spline order
@@ -213,10 +167,6 @@ itkBSplineKernelFunctionTest(int, char *[])
     using FunctionType = itk::BSplineDerivativeKernelFunction<5>;
     auto function = FunctionType::New();
 
-    ITK_TRY_EXPECT_EXCEPTION(function->Evaluate(0.0));
+    EXPECT_THROW(function->Evaluate(0.0), itk::ExceptionObject);
   }
-
-
-  std::cout << "Test finished. " << std::endl;
-  return EXIT_SUCCESS;
 }

@@ -49,7 +49,6 @@ set(
   itkRealTimeClockTest.cxx
   itkRealTimeIntervalTest.cxx
   itkRealTimeStampTest.cxx
-  itkBSplineKernelFunctionTest.cxx
   itkImageIteratorTest.cxx
   itkImageRegionIteratorTest.cxx
   itkImageScanlineIteratorTest1.cxx
@@ -316,12 +315,6 @@ itk_add_test(
   COMMAND
     ITKCommon2TestDriver
     itkBSplineInterpolationWeightFunctionTest
-)
-itk_add_test(
-  NAME itkBSplineKernelFunctionTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkBSplineKernelFunctionTest
 )
 itk_add_test(
   NAME itkSpatialOrientationTest
@@ -1583,6 +1576,7 @@ set(
   itkAggregateTypesGTest.cxx
   itkBitCastGTest.cxx
   itkBooleanStdVectorGTest.cxx
+  itkBSplineKernelFunctionGTest.cxx
   itkBuildInformationGTest.cxx
   itkConnectedImageNeighborhoodShapeGTest.cxx
   itkConstantBoundaryImageNeighborhoodPixelAccessPolicyGTest.cxx
