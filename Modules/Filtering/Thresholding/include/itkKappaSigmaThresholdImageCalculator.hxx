@@ -46,7 +46,7 @@ KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>::Compute()
 
   for (unsigned int iteration = 0; iteration < this->m_NumberOfIterations; ++iteration)
   {
-    ImageRegionConstIteratorWithIndex<InputImageType> iIt(this->m_Image, this->m_Image->GetRequestedRegion());
+    ImageRegionConstIteratorWithIndex iIt(this->m_Image, this->m_Image->GetRequestedRegion());
 
     // Compute the mean
     iIt.GoToBegin();

@@ -105,7 +105,7 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
   m_RadiusImage->SetDirection(inputImage->GetDirection());
   m_RadiusImage->AllocateInitialized();
 
-  ImageRegionConstIteratorWithIndex<InputImageType> image_it(inputImage, inputImage->GetRequestedRegion());
+  ImageRegionConstIteratorWithIndex image_it(inputImage, inputImage->GetRequestedRegion());
 
   const ImageRegion<2> & region = outputImage->GetRequestedRegion();
 

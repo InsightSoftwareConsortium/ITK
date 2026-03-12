@@ -153,7 +153,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrepareKernelBas
 
   unsigned int landmarkId = 0;
 
-  ImageRegionConstIteratorWithIndex<InputImageType> ot(sampledInput, subsampledRegion);
+  ImageRegionConstIteratorWithIndex ot(sampledInput, subsampledRegion);
 
   OutputPixelType               value;
   Point<double, ImageDimension> sourcePoint;
@@ -228,7 +228,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
   ProgressReporter progress(this, 0, region.GetNumberOfPixels(), 10);
 
   // Walk the output region
-  for (ImageRegionIteratorWithIndex<TOutputImage> outIt(outputPtr, region); !outIt.IsAtEnd(); ++outIt)
+  for (ImageRegionIteratorWithIndex outIt(outputPtr, region); !outIt.IsAtEnd(); ++outIt)
   {
     // Determine the index of the current output pixel
     outputIndex = outIt.GetIndex();

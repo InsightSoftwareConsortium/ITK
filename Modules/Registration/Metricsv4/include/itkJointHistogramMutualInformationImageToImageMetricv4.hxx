@@ -85,7 +85,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
 
   /** Iterate through the fixed image and set the true
    *  max and min for the fixed image. */
-  ImageRegionConstIteratorWithIndex<TFixedImage> fi(this->m_FixedImage, this->m_FixedImage->GetRequestedRegion());
+  ImageRegionConstIteratorWithIndex fi(this->m_FixedImage, this->m_FixedImage->GetRequestedRegion());
 
   /** \todo multi-thread me */
   while (!fi.IsAtEnd())
@@ -111,7 +111,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
   }
   /** Iterate through the moving image and set the true
    * max and min for the moving image. */
-  ImageRegionConstIteratorWithIndex<TMovingImage> mi(this->m_MovingImage, this->m_MovingImage->GetBufferedRegion());
+  ImageRegionConstIteratorWithIndex mi(this->m_MovingImage, this->m_MovingImage->GetBufferedRegion());
 
   while (!mi.IsAtEnd())
   {
@@ -252,7 +252,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
   }
 
   // Compute moving image marginal PDF by summing over fixed image bins.
-  ImageLinearIteratorWithIndex<JointPDFType> linearIter(m_JointPDF, m_JointPDF->GetBufferedRegion());
+  ImageLinearIteratorWithIndex linearIter(m_JointPDF, m_JointPDF->GetBufferedRegion());
   linearIter.SetDirection(0);
   linearIter.GoToBegin();
   unsigned int                                        fixedIndex = 0;

@@ -271,7 +271,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::DynamicThreadedG
   const SizeValueType projectionSize = inputSize[m_ProjectionDimension];
 
   // create the iterators for input and output image
-  ImageLinearConstIteratorWithIndex<TInputImage> iIt(inputImage, inputRegionForThread);
+  ImageLinearConstIteratorWithIndex iIt(inputImage, inputRegionForThread);
   iIt.SetDirection(m_ProjectionDimension);
   iIt.GoToBegin();
 

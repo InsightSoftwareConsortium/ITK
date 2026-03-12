@@ -278,7 +278,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GenerateData()
   OutputImage->Allocate(); // allocate the image
 
 
-  ImageRegionIteratorWithIndex<OutputImageType> it(OutputImage, region);
+  ImageRegionIteratorWithIndex it(OutputImage, region);
 
   itk::Point<double, ObjectDimension>      objectPoint;
   itk::Point<double, OutputImageDimension> imagePoint;

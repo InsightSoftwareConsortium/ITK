@@ -242,8 +242,8 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
   {
     typename FixedImageType::RegionType region = img->GetLargestPossibleRegion();
 
-    ImageRandomIteratorWithIndex<FixedImageType> randasamit(img, region);
-    unsigned int                                 numberOfSamples = 20;
+    ImageRandomIteratorWithIndex randasamit(img, region);
+    unsigned int                 numberOfSamples = 20;
     randasamit.SetNumberOfSamples(numberOfSamples);
 
     indct = 0;

@@ -130,8 +130,8 @@ FFTWForward1DFFTImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(con
   const InputImageType * inputPtr = this->GetInput();
   OutputImageType *      outputPtr = this->GetOutput();
 
-  ImageLinearConstIteratorWithIndex<InputImageType> inputIt(inputPtr, outputRegion);
-  ImageLinearIteratorWithIndex<OutputImageType>     outputIt(outputPtr, outputRegion);
+  ImageLinearConstIteratorWithIndex inputIt(inputPtr, outputRegion);
+  ImageLinearIteratorWithIndex      outputIt(outputPtr, outputRegion);
 
   inputIt.SetDirection(this->GetDirection());
   outputIt.SetDirection(this->GetDirection());

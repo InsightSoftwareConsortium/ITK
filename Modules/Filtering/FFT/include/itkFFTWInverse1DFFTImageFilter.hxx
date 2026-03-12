@@ -134,8 +134,8 @@ FFTWInverse1DFFTImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(con
   const typename OutputImageType::SizeType & outputSize = outputPtr->GetRequestedRegion().GetSize();
   const unsigned int                         lineSize = outputSize[this->m_Direction];
 
-  ImageLinearConstIteratorWithIndex<InputImageType> inputIt(inputPtr, outputRegion);
-  ImageLinearIteratorWithIndex<OutputImageType>     outputIt(outputPtr, outputRegion);
+  ImageLinearConstIteratorWithIndex inputIt(inputPtr, outputRegion);
+  ImageLinearIteratorWithIndex      outputIt(outputPtr, outputRegion);
 
   inputIt.SetDirection(this->m_Direction);
   outputIt.SetDirection(this->m_Direction);

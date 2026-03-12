@@ -158,7 +158,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
       // A null mask implies entire space is to be used.
       if (!this->m_FixedImageMask.IsNull()) // use only masked samples.
       {
-        ImageRegionConstIteratorWithIndex<TFixedImage> fi(this->m_FixedImage, this->m_FixedImage->GetBufferedRegion());
+        ImageRegionConstIteratorWithIndex fi(this->m_FixedImage, this->m_FixedImage->GetBufferedRegion());
         while (!fi.IsAtEnd())
         {
           typename TFixedImage::PointType fixedSpacePhysicalPoint;
@@ -175,7 +175,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
       }
       else // use entire image for fixed image intensity range of joint histogram
       {
-        ImageRegionConstIteratorWithIndex<TFixedImage> fi(this->m_FixedImage, this->m_FixedImage->GetBufferedRegion());
+        ImageRegionConstIteratorWithIndex fi(this->m_FixedImage, this->m_FixedImage->GetBufferedRegion());
         while (!fi.IsAtEnd())
         {
           const typename TFixedImage::PixelType & currValue = fi.Value();
@@ -194,7 +194,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
     this->m_MovingImageTrueMin = NumericTraits<typename TMovingImage::PixelType>::max();
     this->m_MovingImageTrueMax = NumericTraits<typename TMovingImage::PixelType>::NonpositiveMin();
     {
-      ImageRegionConstIteratorWithIndex<TMovingImage> mi(this->m_MovingImage, this->m_MovingImage->GetBufferedRegion());
+      ImageRegionConstIteratorWithIndex mi(this->m_MovingImage, this->m_MovingImage->GetBufferedRegion());
 
       if (!this->m_MovingImageMask.IsNull())
       { // A null mask implies entire space is to be used.

@@ -355,8 +355,7 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
 
   using LineIteratorType = LineIterator<ProjectionImageType>;
 
-  ImageLinearIteratorWithIndex<ProjectionImageType> imit(projectionImagePtr,
-                                                         projectionImagePtr->GetLargestPossibleRegion());
+  ImageLinearIteratorWithIndex imit(projectionImagePtr, projectionImagePtr->GetLargestPossibleRegion());
   imit.SetDirection(0);
 
   while (piter != container->End())

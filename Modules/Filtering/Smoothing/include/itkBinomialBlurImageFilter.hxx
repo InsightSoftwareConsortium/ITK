@@ -125,8 +125,8 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
     this, 0, (outputPtr->GetRequestedRegion().GetNumberOfPixels()) * m_Repetitions * 2 * NDimensions);
 
   // Copy the input image to the temporary image
-  ImageRegionIteratorWithIndex<TTempImage> tempIt(tempPtr, tempPtr->GetRequestedRegion());
-  InputIterator                            inputIt(inputPtr, inputPtr->GetRequestedRegion());
+  ImageRegionIteratorWithIndex tempIt(tempPtr, tempPtr->GetRequestedRegion());
+  InputIterator                inputIt(inputPtr, inputPtr->GetRequestedRegion());
 
   for (inputIt.GoToBegin(), tempIt.GoToBegin(); !tempIt.IsAtEnd(); ++tempIt, ++inputIt)
   {
@@ -146,7 +146,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
     // blur each dimension
     for (unsigned int dim = 0; dim < NDimensions; ++dim)
     {
-      ImageRegionIteratorWithIndex<TTempImage> tempItDir(tempPtr, tempPtr->GetRequestedRegion());
+      ImageRegionIteratorWithIndex tempItDir(tempPtr, tempPtr->GetRequestedRegion());
       tempItDir.GoToBegin();
       while (!tempItDir.IsAtEnd())
       {

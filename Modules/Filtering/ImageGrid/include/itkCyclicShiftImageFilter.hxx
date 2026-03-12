@@ -63,8 +63,7 @@ CyclicShiftImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
 
   // Now iterate over the pixels of the output region for this thread.
-  for (ImageRegionIteratorWithIndex<OutputImageType> outIt(this->GetOutput(), outputRegionForThread); !outIt.IsAtEnd();
-       ++outIt)
+  for (ImageRegionIteratorWithIndex outIt(this->GetOutput(), outputRegionForThread); !outIt.IsAtEnd(); ++outIt)
   {
     IndexType index = outIt.GetIndex();
 

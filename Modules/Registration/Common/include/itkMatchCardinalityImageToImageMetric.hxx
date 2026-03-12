@@ -119,7 +119,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreadedGetValue(
     itkExceptionStringMacro("Fixed image has not been assigned");
   }
 
-  ImageRegionConstIteratorWithIndex<FixedImageType> ti(fixedImage, regionForThread);
+  ImageRegionConstIteratorWithIndex ti(fixedImage, regionForThread);
 
   MeasureType   threadMeasure{};
   SizeValueType threadNumberOfPixelsCounted = 0;

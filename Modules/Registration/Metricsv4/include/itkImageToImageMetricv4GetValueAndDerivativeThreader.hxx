@@ -31,7 +31,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreader<
 {
   const typename VirtualImageType::ConstPointer virtualImage = this->m_Associate->GetVirtualImage();
   VirtualPointType                              virtualPoint;
-  for (ImageRegionConstIteratorWithIndex<VirtualImageType> it(virtualImage, imageSubRegion); !it.IsAtEnd(); ++it)
+  for (ImageRegionConstIteratorWithIndex it(virtualImage, imageSubRegion); !it.IsAtEnd(); ++it)
   {
     const VirtualIndexType & virtualIndex = it.GetIndex();
     virtualImage->TransformIndexToPhysicalPoint(virtualIndex, virtualPoint);

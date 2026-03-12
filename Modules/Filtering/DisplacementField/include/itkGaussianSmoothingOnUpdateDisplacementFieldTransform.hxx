@@ -186,9 +186,8 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimen
   const typename DisplacementFieldType::SizeType   size = region.GetSize();
   const typename DisplacementFieldType::IndexType  startIndex = region.GetIndex();
 
-  ImageRegionIteratorWithIndex<DisplacementFieldType>      fieldIt(field, field->GetLargestPossibleRegion());
-  ImageRegionConstIteratorWithIndex<DisplacementFieldType> smoothedFieldIt(smoothField,
-                                                                           smoothField->GetLargestPossibleRegion());
+  ImageRegionIteratorWithIndex      fieldIt(field, field->GetLargestPossibleRegion());
+  ImageRegionConstIteratorWithIndex smoothedFieldIt(smoothField, smoothField->GetLargestPossibleRegion());
   for (fieldIt.GoToBegin(), smoothedFieldIt.GoToBegin(); !fieldIt.IsAtEnd(); ++fieldIt, ++smoothedFieldIt)
   {
     typename DisplacementFieldType::IndexType index = fieldIt.GetIndex();

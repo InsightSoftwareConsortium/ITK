@@ -113,8 +113,8 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Prep
     maxLength = std::max(maxLength, size[dim]);
   }
 
-  ImageRegionConstIteratorWithIndex<InputImageType> it(inputImage, region);
-  ImageRegionIteratorWithIndex<VoronoiImageType>    ot(voronoiMap, region);
+  ImageRegionConstIteratorWithIndex it(inputImage, region);
+  ImageRegionIteratorWithIndex      ot(voronoiMap, region);
 
   itkDebugMacro("PrepareData: Copy input to output");
   if (m_InputIsBinary)
@@ -154,7 +154,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Prep
 
   distanceComponents->Allocate();
 
-  ImageRegionIteratorWithIndex<VectorImageType> ct(distanceComponents, region);
+  ImageRegionIteratorWithIndex ct(distanceComponents, region);
 
   OffsetType maxValue;
   OffsetType minValue;
@@ -198,9 +198,9 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Comp
 
   const typename OutputImageType::RegionType region = voronoiMap->GetRequestedRegion();
 
-  ImageRegionIteratorWithIndex<VoronoiImageType> ot(voronoiMap, region);
-  ImageRegionIteratorWithIndex<VectorImageType>  ct(distanceComponents, region);
-  ImageRegionIteratorWithIndex<OutputImageType>  dt(distanceMap, region);
+  ImageRegionIteratorWithIndex ot(voronoiMap, region);
+  ImageRegionIteratorWithIndex ct(distanceComponents, region);
+  ImageRegionIteratorWithIndex dt(distanceMap, region);
 
   itkDebugMacro("ComputeVoronoiMap Region: " << region);
   while (!ot.IsAtEnd())

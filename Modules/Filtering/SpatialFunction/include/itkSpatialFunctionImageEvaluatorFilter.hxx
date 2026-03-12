@@ -43,7 +43,7 @@ SpatialFunctionImageEvaluatorFilter<TSpatialFunction, TInputImage, TOutputImage>
 
   // Create an iterator that will walk the output region
 
-  ImageRegionIteratorWithIndex<TOutputImage> outIt(outputPtr, outputPtr->GetRequestedRegion());
+  ImageRegionIteratorWithIndex outIt(outputPtr, outputPtr->GetRequestedRegion());
 
   // The value produced by the spatial function
   // The type is the range of the spatial function
