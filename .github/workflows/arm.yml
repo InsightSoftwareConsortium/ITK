@@ -169,7 +169,7 @@ jobs:
         env:
           CTEST_OUTPUT_ON_FAILURE: 1
       - name: Save compiler cache
-        if: steps.restore-ccache.outputs.cache-hit != 'true' || github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         uses: actions/cache/save@v5
         with:
           path: ${{ runner.temp }}/ccache
