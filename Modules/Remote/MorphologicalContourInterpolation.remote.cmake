@@ -58,5 +58,5 @@ This work is supported by NIH grant R01 EB014346
 'Continued development and maintenance of the ITK-SNAP 3D image segmentation software'."
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY https://github.com/KitwareMedical/ITKMorphologicalContourInterpolation.git
-  GIT_TAG afecbfd8cdf27db58643938483f58abce02057ad
+  GIT_TAG 75c256e066e92aad42f02792218eacebf2ae13f5
   )
