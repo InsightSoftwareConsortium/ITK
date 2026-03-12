@@ -16,13 +16,12 @@
  *
  *=========================================================================*/
 #include "itkThreadedImageRegionPartitioner.h"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
 
-/*
- * Main test entry function
- */
-int
-itkThreadedImageRegionPartitionerTest(int, char *[])
+#include <vector>
+
+
+TEST(ThreadedImageRegionPartitioner, PartitionDomain)
 {
   constexpr unsigned int Dimension{ 2 };
 
@@ -30,7 +29,7 @@ itkThreadedImageRegionPartitionerTest(int, char *[])
   const ThreadedImageRegionPartitionerType::Pointer threadedImageRegionPartitioner =
     ThreadedImageRegionPartitionerType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(
     threadedImageRegionPartitioner, ThreadedImageRegionPartitioner, ThreadedDomainPartitioner);
 
 
@@ -71,14 +70,6 @@ itkThreadedImageRegionPartitionerTest(int, char *[])
   {
     threadedImageRegionPartitioner->PartitionDomain(i, totalThreads, completeRegion, subRegion);
     std::cout << "The resulting subregion for thread: " << i << " is : " << subRegion << std::endl;
-
-    if (expectedSubRegions[i] != subRegion)
-    {
-      std::cerr << "The calculated sub-region, " << subRegion
-                << " did not match the expected region: " << expectedSubRegions[i] << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_EQ(subRegion, expectedSubRegions[i]) << "Mismatch at thread " << i;
   }
-
-  return EXIT_SUCCESS;
 }
