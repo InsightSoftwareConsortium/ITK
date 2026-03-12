@@ -79,7 +79,7 @@ public:
   /** @ITKStartGrouping */
   itkGetConstMacro(Orientation, InputType);
   virtual void
-  SetOrientation(const InputType _Orientation);
+  SetOrientation(const InputType orientation);
   /** @ITKEndGrouping */
   /** Evaluates the function at a given position. */
   OutputType

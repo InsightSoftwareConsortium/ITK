@@ -152,12 +152,12 @@ public:
   }
 
   IPLFileSortInfo *
-  operator[](unsigned int __n)
+  operator[](unsigned int n)
   {
     auto it = begin();
     auto itend = end();
 
-    for (unsigned int i = 0; it != itend && i != __n; it++, i++)
+    for (unsigned int i = 0; it != itend && i != n; it++, i++)
     {
     }
     if (it == itend)

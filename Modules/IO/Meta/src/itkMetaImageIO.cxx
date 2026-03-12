@@ -30,7 +30,7 @@
 // Function to join strings with a delimiter similar to python's ' '.join([1, 2, 3 ])
 template <typename ContainerType, typename DelimiterType, typename StreamType>
 static auto
-_join(const ContainerType & elements, const DelimiterType & delimiter, StreamType & strs) -> void
+joinElements(const ContainerType & elements, const DelimiterType & delimiter, StreamType & strs) -> void
 {
   for (size_t i = 0; i < elements.size(); ++i)
   {
@@ -510,7 +510,7 @@ MetaImageIO::WriteImageInformation()
     }
     else if (ExposeMetaData<std::vector<double>>(metaDict, key, vval))
     {
-      _join(vval, ' ', strs);
+      joinElements(vval, ' ', strs);
     }
     else if (WriteMatrixInMetaData<1>(strs, metaDict, key) || WriteMatrixInMetaData<2>(strs, metaDict, key) ||
              WriteMatrixInMetaData<3>(strs, metaDict, key) || WriteMatrixInMetaData<4>(strs, metaDict, key) ||

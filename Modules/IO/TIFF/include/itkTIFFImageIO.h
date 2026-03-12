@@ -169,9 +169,9 @@ public:
    * 100 is the highest quality. Default is 75 */
   /** @ITKStartGrouping */
   virtual void
-  SetJPEGQuality(int _JPEGQuality)
+  SetJPEGQuality(int jpegQuality)
   {
-    this->SetCompressionLevel(_JPEGQuality);
+    this->SetCompressionLevel(jpegQuality);
   }
   virtual int
   GetJPEGQuality() const
