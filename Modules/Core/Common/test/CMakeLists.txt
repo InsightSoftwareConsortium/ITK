@@ -1686,6 +1686,7 @@ set(
   itkPixelAccessGTest.cxx
   itkImageTransformGTest.cxx
   itkAnnulusOperatorGTest.cxx
+  itkCrossHelperGTest.cxx
   itkAdaptorComparisonGTest.cxx
 )
 creategoogletestdriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
