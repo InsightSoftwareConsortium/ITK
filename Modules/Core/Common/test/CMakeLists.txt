@@ -6,7 +6,6 @@ set(
   itkCovariantVectorGeometryTest.cxx
   itkExtractImage3Dto2DTest.cxx
   itkExtractImageTest.cxx
-  itkGaussianDerivativeOperatorTest.cxx
   itkMapContainerTest.cxx
   itkVectorContainerTest.cxx
   itkIteratorTests.cxx
@@ -334,12 +333,6 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     VNLSparseLUSolverTraitsTest
-)
-itk_add_test(
-  NAME itkGaussianDerivativeOperatorTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkGaussianDerivativeOperatorTest
 )
 itk_add_test(
   NAME itkSobelOperatorImageConvolutionHorizTest
@@ -1592,6 +1585,7 @@ set(
   itkDiffusionTensor3DGTest.cxx
   itkExceptionObjectGTest.cxx
   itkFixedArrayGTest.cxx
+  itkGaussianDerivativeOperatorGTest.cxx
   itkImageNeighborhoodOffsetsGTest.cxx
   itkImageGTest.cxx
   itkImageBaseGTest.cxx
