@@ -64,13 +64,12 @@ jobs:
               choco install ccache --yes
             fi
 
-        - name: Set up compiler cache
-          uses: actions/cache@v4
+        - name: Restore compiler cache
+          id: restore-ccache
+          uses: actions/cache/restore@v5
           with:
             path: ${{ runner.temp }}/ccache
-            key: ccache-v1-${{ matrix.os }}-pixi-cxx-${{ hashFiles('pixi.lock') }}
-            restore-keys: |
-              ccache-v1-${{ matrix.os }}-pixi-cxx-
+            key: ccache-v1-${{ matrix.os }}-pixi-cxx
 
         - name: Show ccache configuration, stats and maintenance
           shell: bash
@@ -149,6 +148,13 @@ jobs:
             df -h
             echo "****** df -h /"
             df -h /
+        - name: Save compiler cache
+          if: steps.restore-ccache.outputs.cache-hit != 'true' || github.ref == 'refs/heads/main'
+          uses: actions/cache/save@v5
+          with:
+            path: ${{ runner.temp }}/ccache
+            key: ccache-v1-${{ matrix.os }}-pixi-cxx
+
         - name: ccache stats
           if: always()
           run: ccache --show-stats

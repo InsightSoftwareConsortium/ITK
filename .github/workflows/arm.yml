@@ -103,14 +103,12 @@ jobs:
             brew install ccache
           fi
 
-      - name: Set up compiler cache
-        uses: actions/cache@v4
+      - name: Restore compiler cache
+        id: restore-ccache
+        uses: actions/cache/restore@v5
         with:
           path: ${{ runner.temp }}/ccache
           key: ccache-v1-${{ matrix.os }}-${{ matrix.name }}
-          restore-keys: |
-            ccache-v1-${{ matrix.os }}-
-            ccache-v1-
 
       - name: Show ccache configuration, stats and maintenance
         shell: bash
@@ -170,6 +168,13 @@ jobs:
           ctest -S ${{ github.workspace }}/ITK-dashboard/dashboard.cmake -VV -j 4 ${{ matrix.ctest-options }}
         env:
           CTEST_OUTPUT_ON_FAILURE: 1
+      - name: Save compiler cache
+        if: steps.restore-ccache.outputs.cache-hit != 'true' || github.ref == 'refs/heads/main'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ runner.temp }}/ccache
+          key: ccache-v1-${{ matrix.os }}-${{ matrix.name }}
+
       - name: ccache stats
         if: always()
         run: ccache --show-stats
