@@ -861,16 +861,17 @@ using vnl_math::squared_magnitude;
  * @brief Returns the absolute value of a number.
  *
  * This function provides a c++17 implementation of the vnl_math::abs absolute value functionality.
- * itk::Absolute() preserves backward compatibility with vnl_math::abs that was originally used in ITK.
+ * Math::Absolute() preserves backward compatibility with vnl_math::abs that was originally used in ITK.
  *
- * Key differences between itk::Absolute() and std::abs()
- *     - Where std::abs() returns the absolute value in the same type as the
- *       input, itk::Absolute() returns the absolute value in the unsigned
- *       equivalent of the input type.
- *     - std::abs() is undefined when converting the minimum storage value of unsigned
- *       integers to positive values.  itk::Absolute() typecasts to a larger storage type
- *       before taking the absolute value to prevent overflow failures.  This is used in
- *       all cases except 'signed long long' where there is no larger storage type.
+ * Key differences between Math::Absolute() and std::abs():
+ * - Where `std::abs(x)` returns the absolute value in the same type as the input, `Math::Absolute(x)` returns the
+ * absolute value in the unsigned equivalent of the input type, when the input is an integer.
+ * - `std::abs(x)` has undefined or compiler specific behavior when its argument is the minimum value of `int`, `long`,
+ * or `long long`. On the other hand, Math::Absolute _does_ support the entire range of possible integer values. So for
+ * example `Math::Absolute(INT_MIN)` properly returns 2147483648 as unsigned integer (assuming that `INT_MIN` has the
+ * value -2147483648).
+ * - Unlike std::abs, Math::Absolute _does_ support `bool`. For a `bool` argument, `Math::Absolute(x)` simply returns
+ * the value of the argument.
  *
  * @tparam T The type of the input number.
  * @param x The input number.
