@@ -18,10 +18,9 @@
 
 #include "itkAnnulusOperator.h"
 #include "itkStdStreamStateSave.h"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
 
-int
-itkAnnulusOperatorTest(int, char *[])
+TEST(AnnulusOperator, CreateAndInspect)
 {
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
@@ -32,9 +31,10 @@ itkAnnulusOperatorTest(int, char *[])
   using PixelType = float;
   using OperatorType = itk::AnnulusOperator<PixelType, Dimension>;
 
-  OperatorType normalizedAnnulus;
+  OperatorType   normalizedAnnulus;
+  OperatorType * normalizedAnnulusPtr = &normalizedAnnulus;
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS((&normalizedAnnulus), AnnulusOperator, NeighborhoodOperator);
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(normalizedAnnulusPtr, AnnulusOperator, NeighborhoodOperator);
 
 
   normalizedAnnulus.NormalizeOn();
@@ -42,27 +42,10 @@ itkAnnulusOperatorTest(int, char *[])
   normalizedAnnulus.SetThickness(2);
 
   constexpr bool brightCenter{ false };
-  ITK_TEST_SET_GET_BOOLEAN((&normalizedAnnulus), BrightCenter, brightCenter);
+  normalizedAnnulus.SetBrightCenter(brightCenter);
+  EXPECT_EQ(normalizedAnnulus.GetBrightCenter(), brightCenter);
 
-  try
-  {
-    normalizedAnnulus.CreateOperator();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cout << e;
-    return EXIT_FAILURE;
-  }
-  catch (const std::exception & e)
-  {
-    std::cout << "Std exception" << e.what();
-    return EXIT_FAILURE;
-  }
-  catch (...)
-  {
-    std::cout << "Unknown exception" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_NO_THROW(normalizedAnnulus.CreateOperator());
 
   OperatorType::SizeType normalizedAnnulusSize;
   normalizedAnnulusSize = normalizedAnnulus.GetSize();
@@ -108,27 +91,28 @@ itkAnnulusOperatorTest(int, char *[])
   OperatorType annulus;
 
   constexpr bool normalize{ false };
-  ITK_TEST_SET_GET_BOOLEAN((&annulus), Normalize, normalize);
+  annulus.SetNormalize(normalize);
+  EXPECT_EQ(annulus.GetNormalize(), normalize);
 
   constexpr double innerRadius{ 2 };
   annulus.SetInnerRadius(innerRadius);
-  ITK_TEST_SET_GET_VALUE(innerRadius, annulus.GetInnerRadius());
+  EXPECT_EQ(annulus.GetInnerRadius(), innerRadius);
 
   constexpr double thickness{ 1 };
   annulus.SetThickness(thickness);
-  ITK_TEST_SET_GET_VALUE(thickness, annulus.GetThickness());
+  EXPECT_EQ(annulus.GetThickness(), thickness);
 
   constexpr OperatorType::PixelType exteriorValue{ 1 };
   annulus.SetExteriorValue(exteriorValue);
-  ITK_TEST_SET_GET_VALUE(exteriorValue, annulus.GetExteriorValue());
+  EXPECT_EQ(annulus.GetExteriorValue(), exteriorValue);
 
   constexpr OperatorType::PixelType annulusValue{ 8 };
   annulus.SetAnnulusValue(annulusValue);
-  ITK_TEST_SET_GET_VALUE(annulusValue, annulus.GetAnnulusValue());
+  EXPECT_EQ(annulus.GetAnnulusValue(), annulusValue);
 
   constexpr OperatorType::PixelType interiorValue{ 4 };
   annulus.SetInteriorValue(interiorValue);
-  ITK_TEST_SET_GET_VALUE(interiorValue, annulus.GetInteriorValue());
+  EXPECT_EQ(annulus.GetInteriorValue(), interiorValue);
 
   annulus.CreateOperator();
 
@@ -204,7 +188,7 @@ itkAnnulusOperatorTest(int, char *[])
   spacing[1] = 0.25;
 
   annulus.SetSpacing(spacing);
-  ITK_TEST_SET_GET_VALUE(spacing, annulus.GetSpacing());
+  EXPECT_EQ(annulus.GetSpacing(), spacing);
 
   annulus.SetInnerRadius(2);
   annulus.SetThickness(1);
@@ -229,5 +213,4 @@ itkAnnulusOperatorTest(int, char *[])
 
 
   std::cout << "Test finished." << std::endl;
-  return EXIT_SUCCESS;
 }
