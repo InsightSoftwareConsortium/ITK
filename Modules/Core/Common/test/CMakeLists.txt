@@ -39,7 +39,6 @@ set(
   itkStreamingImageFilterTest2.cxx
   itkStreamingImageFilterTest3.cxx
   itkLoggerTest.cxx
-  itkDerivativeOperatorTest.cxx
   itkColorTableTest.cxx
   itkNumericTraitsTest.cxx
   itkImageRegionTest.cxx
@@ -307,12 +306,6 @@ itk_add_test(
     ITKCommon1TestDriver
     itkDirectoryTest
     ${TEMP}
-)
-itk_add_test(
-  NAME itkDerivativeOperatorTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkDerivativeOperatorTest
 )
 itk_add_test(
   NAME itkMultipleLogOutputTest
@@ -1682,6 +1675,7 @@ set(
   itkCrossHelperGTest.cxx
   itkAdaptorComparisonGTest.cxx
   itkFloodFillIteratorGTest.cxx
+  itkDerivativeOperatorGTest.cxx
 )
 creategoogletestdriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
 # If `-static` was passed to CMAKE_EXE_LINKER_FLAGS, compilation fails. No need to
