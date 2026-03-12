@@ -25,9 +25,10 @@ to itkFloodFilledSpatialFunctionConditionalIterator.
 #include "itkImageRegionIterator.h"
 #include "itkSphereSpatialFunction.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
+#include "itkGTest.h"
 
-int
-itkFloodFilledSpatialFunctionTest(int, char *[])
+
+TEST(FloodFilledSpatialFunction, InclusionStrategies)
 {
   constexpr unsigned int dim{ 2 };
 
@@ -129,6 +130,4 @@ itkFloodFilledSpatialFunctionTest(int, char *[])
     }
 
   } // end loop over iterator strategies
-
-  return EXIT_SUCCESS;
 }
