@@ -68,9 +68,11 @@ jobs:
           uses: actions/cache@v4
           with:
             path: ${{ runner.temp }}/ccache
-            key: ccache-v1-${{ matrix.os }}-pixi-cxx-${{ hashFiles('pixi.lock') }}
+            key: ccache-v2-${{ github.job }}-${{ matrix.os }}-${{ github.base_ref || github.ref_name }}-${{ github.sha }}
             restore-keys: |
-              ccache-v1-${{ matrix.os }}-pixi-cxx-
+              ccache-v2-${{ github.job }}-${{ matrix.os }}-${{ github.base_ref || github.ref_name }}-
+              ccache-v2-${{ github.job }}-${{ matrix.os }}-main-
+              ccache-v2-${{ github.job }}-${{ matrix.os }}-
 
         - name: Show ccache configuration, stats and maintenance
           shell: bash

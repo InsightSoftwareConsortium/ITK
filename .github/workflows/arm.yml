@@ -107,11 +107,11 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ runner.temp }}/ccache
-          key: ccache-v1-${{ matrix.os }}-${{ matrix.name }}
+          key: ccache-v2-${{ matrix.name }}-${{ github.base_ref || github.ref_name }}-${{ github.sha }}
           restore-keys: |
-            ccache-v1-${{ matrix.os }}-
-            ccache-v1-
-
+            ccache-v2-${{ matrix.name }}-${{ github.base_ref || github.ref_name }}-
+            ccache-v2-${{ matrix.name }}-main-
+            ccache-v2-${{ matrix.name }}-
       - name: Show ccache configuration, stats and maintenance
         shell: bash
         run: |
