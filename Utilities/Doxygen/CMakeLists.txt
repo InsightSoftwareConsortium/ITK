@@ -139,14 +139,10 @@ if(ITK_BUILD_DOCUMENTATION)
     DESTINATION ${ITK_BINARY_DIR}/Utilities/Doxygen/
   )
 
-  execute_process(
-    COMMAND
-      ${Python3_EXECUTABLE} "${CMAKE_CURRENT_LIST_DIR}/datetime.py"
-    RESULT_VARIABLE CMD_RESULT
-    OUTPUT_VARIABLE _DATETIME
-  )
+  # Write the date and time in RFC 2822 format to the output variable, `_DATETIME`.
+  string(TIMESTAMP _DATETIME "%a, %d %b %Y %H:%M:%S +0000" UTC)
 
-  if(CMD_RESULT)
+  if(_DATETIME STREQUAL "")
     message(FATAL_ERROR "Datetime failed!")
   endif()
 
