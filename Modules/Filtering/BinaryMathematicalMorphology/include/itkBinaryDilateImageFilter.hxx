@@ -169,7 +169,7 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   // because in that way we will take care carefully at boundary
   // pixels of output requested region.  Take care means that we will
   // check if a boundary pixel is or not a border pixel.
-  ImageRegionIteratorWithIndex<TempImageType> tmpRegIndexIt(tmpImage, tmpRequestedRegion);
+  ImageRegionIteratorWithIndex tmpRegIndexIt(tmpImage, tmpRequestedRegion);
 
   ConstNeighborhoodIterator<TempImageType> oNeighbIt(radius, tmpImage, tmpRequestedRegion);
 
@@ -383,7 +383,7 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   auto                                              vecEndIt = this->KernelCCVectorEnd();
 
   // iterator on output image
-  ImageRegionIteratorWithIndex<OutputImageType> ouRegIndexIt(output, outputRegion);
+  ImageRegionIteratorWithIndex ouRegIndexIt(output, outputRegion);
 
   // InputRegionForThread is the output region for thread padded by
   // kernel radius We must traverse this padded region because some

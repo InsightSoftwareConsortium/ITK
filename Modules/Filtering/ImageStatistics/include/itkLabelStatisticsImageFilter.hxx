@@ -169,7 +169,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::ThreadedStreamedGenerateDa
     return;
   }
 
-  ImageLinearConstIteratorWithIndex<TInputImage> it(this->GetInput(), outputRegionForThread);
+  ImageLinearConstIteratorWithIndex it(this->GetInput(), outputRegionForThread);
 
   ImageScanlineConstIterator labelIt(this->GetLabelInput(), outputRegionForThread);
 

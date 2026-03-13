@@ -194,9 +194,8 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Gau
   const typename ConstantVelocityFieldType::SizeType   size = region.GetSize();
   const typename ConstantVelocityFieldType::IndexType  startIndex = region.GetIndex();
 
-  ImageRegionIteratorWithIndex<ConstantVelocityFieldType>      fieldIt(field, field->GetLargestPossibleRegion());
-  ImageRegionConstIteratorWithIndex<ConstantVelocityFieldType> smoothedFieldIt(smoothField,
-                                                                               smoothField->GetLargestPossibleRegion());
+  ImageRegionIteratorWithIndex      fieldIt(field, field->GetLargestPossibleRegion());
+  ImageRegionConstIteratorWithIndex smoothedFieldIt(smoothField, smoothField->GetLargestPossibleRegion());
   for (fieldIt.GoToBegin(), smoothedFieldIt.GoToBegin(); !fieldIt.IsAtEnd(); ++fieldIt, ++smoothedFieldIt)
   {
     typename ConstantVelocityFieldType::IndexType index = fieldIt.GetIndex();

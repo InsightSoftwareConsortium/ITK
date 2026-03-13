@@ -95,7 +95,7 @@ FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateKernelImage()
     m_KernelImage->CopyInformation(this->GetInput());
 
     // Compute kernel image as product of vectors
-    ImageRegionIteratorWithIndex<RealImageType> kernelIt(m_KernelImage, region);
+    ImageRegionIteratorWithIndex kernelIt(m_KernelImage, region);
     while (!kernelIt.IsAtEnd())
     {
       auto   imageIndex = kernelIt.GetIndex();

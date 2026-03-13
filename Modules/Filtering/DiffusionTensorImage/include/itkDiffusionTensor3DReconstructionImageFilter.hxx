@@ -197,7 +197,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   {
     const typename ReferenceImageType::Pointer refImage =
       static_cast<ReferenceImageType *>(this->ProcessObject::GetInput(0));
-    ImageRegionConstIteratorWithIndex<ReferenceImageType> it(refImage, outputRegionForThread);
+    ImageRegionConstIteratorWithIndex it(refImage, outputRegionForThread);
 
     using GradientIteratorType = ImageRegionConstIterator<GradientImageType>;
     std::vector<GradientIteratorType *> gradientItContainer;
@@ -308,7 +308,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
     // The enum will ensure that an inappropriate cast is not done
     gradientImagePointer = itkDynamicCastInDebugMode<GradientImagesType *>(this->ProcessObject::GetInput(0));
 
-    ImageRegionConstIteratorWithIndex<GradientImagesType> git(gradientImagePointer, outputRegionForThread);
+    ImageRegionConstIteratorWithIndex git(gradientImagePointer, outputRegionForThread);
     git.GoToBegin();
 
     // Compute the indices of the baseline images and gradient images

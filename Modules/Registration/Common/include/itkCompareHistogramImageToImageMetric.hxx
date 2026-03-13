@@ -97,7 +97,7 @@ CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::FormTrainingHisto
   typename FixedImageType::IndexType index;
   typename HistogramType::IndexType  hIndex;
 
-  ImageRegionConstIteratorWithIndex<FixedImageType> ti(this->m_TrainingFixedImage, this->m_TrainingFixedImageRegion);
+  ImageRegionConstIteratorWithIndex ti(this->m_TrainingFixedImage, this->m_TrainingFixedImageRegion);
 
   int NumberOfPixelsCounted = 0;
 

@@ -90,12 +90,10 @@ GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // copy the borders of the input image to the marker image
   //
-  ImageRegionExclusionConstIteratorWithIndex<TInputImage> inputBoundaryIt(this->GetInput(),
-                                                                          this->GetInput()->GetRequestedRegion());
+  ImageRegionExclusionConstIteratorWithIndex inputBoundaryIt(this->GetInput(), this->GetInput()->GetRequestedRegion());
   inputBoundaryIt.SetExclusionRegionToInsetRegion();
 
-  ImageRegionExclusionIteratorWithIndex<TInputImage> markerBoundaryIt(markerPtr,
-                                                                      this->GetInput()->GetRequestedRegion());
+  ImageRegionExclusionIteratorWithIndex markerBoundaryIt(markerPtr, this->GetInput()->GetRequestedRegion());
   markerBoundaryIt.SetExclusionRegionToInsetRegion();
 
   // copy the boundary pixels

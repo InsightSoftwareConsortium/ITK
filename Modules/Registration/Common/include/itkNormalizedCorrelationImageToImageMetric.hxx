@@ -36,7 +36,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
   }
 
 
-  ImageRegionConstIteratorWithIndex<FixedImageType> ti(fixedImage, this->GetFixedImageRegion());
+  ImageRegionConstIteratorWithIndex ti(fixedImage, this->GetFixedImageRegion());
 
   typename FixedImageType::IndexType index;
 
@@ -135,7 +135,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivativ
   const unsigned int dimension = FixedImageType::ImageDimension;
 
 
-  ImageRegionConstIteratorWithIndex<FixedImageType> ti(fixedImage, this->GetFixedImageRegion());
+  ImageRegionConstIteratorWithIndex ti(fixedImage, this->GetFixedImageRegion());
 
   typename FixedImageType::IndexType index;
 
@@ -317,7 +317,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
   const unsigned int dimension = FixedImageType::ImageDimension;
 
 
-  ImageRegionConstIteratorWithIndex<FixedImageType> ti(fixedImage, this->GetFixedImageRegion());
+  ImageRegionConstIteratorWithIndex ti(fixedImage, this->GetFixedImageRegion());
 
   typename FixedImageType::IndexType index;
 

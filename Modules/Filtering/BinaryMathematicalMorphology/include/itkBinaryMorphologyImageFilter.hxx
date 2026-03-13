@@ -133,7 +133,7 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
 
   // Now look for connected component and record one SE element
   // position for each CC.
-  ImageRegionIteratorWithIndex<BoolImageType> kernelImageItIndex(tmpSEImage, tmpSEImage->GetRequestedRegion());
+  ImageRegionIteratorWithIndex kernelImageItIndex(tmpSEImage, tmpSEImage->GetRequestedRegion());
 
   // Neighborhood iterator on SE element temp image
   auto                                padBy = InputSizeType::Filled(1);

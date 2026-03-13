@@ -99,8 +99,7 @@ GaussianImageSource<TOutputImage>::GenerateData()
 
   ProgressReporter progress(this, 0, outputPtr->GetRequestedRegion().GetNumberOfPixels());
   // Walk the output image, evaluating the spatial function at each pixel
-  for (ImageRegionIteratorWithIndex<TOutputImage> outIt(outputPtr, outputPtr->GetRequestedRegion()); !outIt.IsAtEnd();
-       ++outIt)
+  for (ImageRegionIteratorWithIndex outIt(outputPtr, outputPtr->GetRequestedRegion()); !outIt.IsAtEnd(); ++outIt)
   {
     const typename TOutputImage::IndexType index = outIt.GetIndex();
     // The position at which the function is evaluated

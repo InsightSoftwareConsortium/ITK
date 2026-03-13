@@ -350,7 +350,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
     }
     // We use ImageRegionConstIteratorWithIndex here instead of RegionRange because we want access to the GetIndex()
     // method.
-    for (ImageRegionConstIteratorWithIndex<TInputImage> inputIt{ input, inputRegion }; !inputIt.IsAtEnd(); ++inputIt)
+    for (ImageRegionConstIteratorWithIndex inputIt{ input, inputRegion }; !inputIt.IsAtEnd(); ++inputIt)
     {
       const auto &      index = inputIt.GetIndex();
       BoundingBoxType & bbox = labelBoundingBoxes[inputIt.Get()];

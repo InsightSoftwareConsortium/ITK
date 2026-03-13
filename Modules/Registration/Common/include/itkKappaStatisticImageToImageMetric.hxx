@@ -51,8 +51,8 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const Tran
 
   // Get an iterator over the fixed image
   //
-  typename FixedImageType::IndexType                fixedIndex;
-  ImageRegionConstIteratorWithIndex<FixedImageType> fi(fixedImage, fixedImage->GetBufferedRegion());
+  typename FixedImageType::IndexType fixedIndex;
+  ImageRegionConstIteratorWithIndex  fi(fixedImage, fixedImage->GetBufferedRegion());
 
   // Get the moving image
   //
@@ -168,7 +168,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const
   const unsigned int ImageDimension = FixedImageType::ImageDimension;
 
 
-  ImageRegionConstIteratorWithIndex<FixedImageType> ti(fixedImage, this->GetFixedImageRegion());
+  ImageRegionConstIteratorWithIndex ti(fixedImage, this->GetFixedImageRegion());
 
   typename FixedImageType::IndexType index;
 
@@ -294,8 +294,8 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::ComputeGradient()
   tempGradientImage->Update();
 
 
-  ImageRegionIteratorWithIndex<GradientImageType>    git(tempGradientImage, tempGradientImage->GetBufferedRegion());
-  ImageRegionConstIteratorWithIndex<MovingImageType> mit(this->m_MovingImage, this->m_MovingImage->GetBufferedRegion());
+  ImageRegionIteratorWithIndex      git(tempGradientImage, tempGradientImage->GetBufferedRegion());
+  ImageRegionConstIteratorWithIndex mit(this->m_MovingImage, this->m_MovingImage->GetBufferedRegion());
 
   git.GoToBegin();
   mit.GoToBegin();

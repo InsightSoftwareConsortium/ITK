@@ -753,8 +753,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
         // Do the actual copy of the input pixels to the output pixels here.
         InputImageIndexType currentInputIndex;
         InputIterator       inIt(inputPtr, inputRegion);
-        for (ImageRegionIteratorWithIndex<TOutputImage> outIt(outputPtr, outputRegion); !outIt.IsAtEnd();
-             ++outIt, i++, ++inIt)
+        for (ImageRegionIteratorWithIndex outIt(outputPtr, outputRegion); !outIt.IsAtEnd(); ++outIt, i++, ++inIt)
         {
           OutputImageIndexType currentOutputIndex = outIt.GetIndex();
 

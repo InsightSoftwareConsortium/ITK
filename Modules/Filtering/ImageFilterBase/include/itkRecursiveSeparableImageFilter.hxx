@@ -245,8 +245,8 @@ RecursiveSeparableImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerat
 
   const RegionType region = outputRegionForThread;
 
-  ImageLinearConstIteratorWithIndex<TInputImage> inputIterator(inputImage, region);
-  ImageLinearIteratorWithIndex<TOutputImage>     outputIterator(outputImage, region);
+  ImageLinearConstIteratorWithIndex inputIterator(inputImage, region);
+  ImageLinearIteratorWithIndex      outputIterator(outputImage, region);
 
   inputIterator.SetDirection(this->m_Direction);
   outputIterator.SetDirection(this->m_Direction);

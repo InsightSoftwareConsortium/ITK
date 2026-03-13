@@ -69,9 +69,7 @@ VnlHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::Generate
 
   const OutputIndexValueType maxXIndex = inputIndex[0] + static_cast<OutputIndexValueType>(inputSize[0]);
   unsigned int               si = 0;
-  for (ImageRegionIteratorWithIndex<OutputImageType> oIt(outputPtr, outputPtr->GetLargestPossibleRegion());
-       !oIt.IsAtEnd();
-       ++oIt)
+  for (ImageRegionIteratorWithIndex oIt(outputPtr, outputPtr->GetLargestPossibleRegion()); !oIt.IsAtEnd(); ++oIt)
   {
     typename OutputImageType::IndexType index = oIt.GetIndex();
     if (index[0] >= maxXIndex)

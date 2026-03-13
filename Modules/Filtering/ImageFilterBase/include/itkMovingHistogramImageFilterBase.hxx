@@ -51,10 +51,10 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>::SetKernel(co
   auto tmpSEImage = BoolImageType::New();
   tmpSEImage->SetRegions(kernel.GetSize());
   tmpSEImage->Allocate();
-  const RegionType                            tmpSEImageRegion = tmpSEImage->GetRequestedRegion();
-  ImageRegionIteratorWithIndex<BoolImageType> kernelImageIt(tmpSEImage, tmpSEImageRegion);
-  KernelIteratorType                          kernel_it = kernel.Begin();
-  OffsetListType                              kernelOffsets;
+  const RegionType             tmpSEImageRegion = tmpSEImage->GetRequestedRegion();
+  ImageRegionIteratorWithIndex kernelImageIt(tmpSEImage, tmpSEImageRegion);
+  KernelIteratorType           kernel_it = kernel.Begin();
+  OffsetListType               kernelOffsets;
 
   // create a center index to compute the offset
   IndexType centerIndex;

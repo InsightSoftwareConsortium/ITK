@@ -143,7 +143,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   // Define/declare an iterator that will walk the output region for this
   // thread.
 
-  for (ImageRegionIteratorWithIndex<TOutputImage> outIt(outputPtr, outputRegionForThread); !outIt.IsAtEnd(); ++outIt)
+  for (ImageRegionIteratorWithIndex outIt(outputPtr, outputRegionForThread); !outIt.IsAtEnd(); ++outIt)
   {
     // Determine the index and physical location of the output pixel
     outputIndex = outIt.GetIndex();

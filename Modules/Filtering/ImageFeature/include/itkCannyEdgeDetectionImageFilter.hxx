@@ -319,7 +319,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::FollowEdge(IndexType  
 
   ConstNeighborhoodIterator<TOutputImage> oit(
     radius, multiplyImageFilterOutput, multiplyImageFilterOutput->GetRequestedRegion());
-  ImageRegionIteratorWithIndex<TOutputImage> uit(this->m_OutputImage, this->m_OutputImage->GetRequestedRegion());
+  ImageRegionIteratorWithIndex uit(this->m_OutputImage, this->m_OutputImage->GetRequestedRegion());
 
   uit.SetIndex(index);
   if (Math::ExactlyEquals(uit.Get(), NumericTraits<OutputImagePixelType>::OneValue()))

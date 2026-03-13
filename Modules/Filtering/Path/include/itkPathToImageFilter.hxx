@@ -215,7 +215,7 @@ PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
   OutputImage->SetOrigin(origin); //   and origin
   OutputImage->Allocate();        // allocate the image
 
-  for (ImageRegionIteratorWithIndex<OutputImageType> imageIt(OutputImage, region); !imageIt.IsAtEnd(); ++imageIt)
+  for (ImageRegionIteratorWithIndex imageIt(OutputImage, region); !imageIt.IsAtEnd(); ++imageIt)
   {
     imageIt.Set(m_BackgroundValue);
   }

@@ -176,7 +176,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
   LabelPixelType label;
 
   // Iterator over the label image.
-  ImageRegionConstIteratorWithIndex<TLabelImage> labelIt(this->GetInput(), this->GetInput()->GetBufferedRegion());
+  ImageRegionConstIteratorWithIndex labelIt(this->GetInput(), this->GetInput()->GetBufferedRegion());
 
 
   // begin with empty m_LabelGeometryMapper and m_AllLabels
@@ -261,7 +261,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
 
     // Iterator over the intensity image.
 
-    ImageRegionConstIteratorWithIndex<TIntensityImage> it(intensityImage, intensityImage->GetBufferedRegion());
+    ImageRegionConstIteratorWithIndex it(intensityImage, intensityImage->GetBufferedRegion());
 
     labelIt.GoToBegin();
 

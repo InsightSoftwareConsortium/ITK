@@ -477,8 +477,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::InitializePatchWeight
   auto centerIndex = WeightsImageType::IndexType::Filled(patchRadius);
 
   unsigned int pos = 0;
-  for (ImageRegionIteratorWithIndex<WeightsImageType> pwIt(physicalWeightsImage, physicalRegion); !pwIt.IsAtEnd();
-       ++pwIt)
+  for (ImageRegionIteratorWithIndex pwIt(physicalWeightsImage, physicalRegion); !pwIt.IsAtEnd(); ++pwIt)
   {
     typename WeightsImageType::IndexType curIndex = pwIt.GetIndex();
     // Compute distances of each pixel from center pixel

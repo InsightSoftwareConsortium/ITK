@@ -77,7 +77,7 @@ ImageMomentsCalculator<TImage>::Compute()
     return;
   }
 
-  ImageRegionConstIteratorWithIndex<ImageType> it(m_Image, m_Image->GetRequestedRegion());
+  ImageRegionConstIteratorWithIndex it(m_Image, m_Image->GetRequestedRegion());
 
   while (!it.IsAtEnd())
   {

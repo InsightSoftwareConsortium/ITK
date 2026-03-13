@@ -135,7 +135,7 @@ SliceImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   OutputIndexType destIndex;
   InputIndexType  srcIndex;
 
-  for (ImageRegionIteratorWithIndex<TOutputImage> outIt(outputPtr, outputRegionForThread); !outIt.IsAtEnd(); ++outIt)
+  for (ImageRegionIteratorWithIndex outIt(outputPtr, outputRegionForThread); !outIt.IsAtEnd(); ++outIt)
   {
     // Determine the index and physical location of the output pixel
     destIndex = outIt.GetIndex();

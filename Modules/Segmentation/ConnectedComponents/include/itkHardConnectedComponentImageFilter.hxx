@@ -45,8 +45,8 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
   output->SetRegions(region);
   output->Allocate();
 
-  ImageRegionConstIterator<TInputImage>      it(input, input->GetRequestedRegion());
-  ImageRegionIteratorWithIndex<TOutputImage> ot(output, output->GetRequestedRegion());
+  ImageRegionConstIterator<TInputImage> it(input, input->GetRequestedRegion());
+  ImageRegionIteratorWithIndex          ot(output, output->GetRequestedRegion());
 
   ProgressReporter progress(this, 0, output->GetRequestedRegion().GetNumberOfPixels());
   it.GoToBegin();

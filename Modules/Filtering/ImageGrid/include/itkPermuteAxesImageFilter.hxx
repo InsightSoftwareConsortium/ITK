@@ -199,7 +199,7 @@ PermuteAxesImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageReg
   typename TImage::IndexType outputIndex;
 
   // walk the output region, and sample the input image
-  for (ImageRegionIteratorWithIndex<TImage> outIt(outputPtr, outputRegionForThread); !outIt.IsAtEnd(); ++outIt)
+  for (ImageRegionIteratorWithIndex outIt(outputPtr, outputRegionForThread); !outIt.IsAtEnd(); ++outIt)
   {
     // determine the index of the output pixel
     outputIndex = outIt.GetIndex();

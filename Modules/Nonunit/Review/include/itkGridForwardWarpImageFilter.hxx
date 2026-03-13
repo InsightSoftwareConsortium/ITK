@@ -52,7 +52,7 @@ GridForwardWarpImageFilter<TDisplacementField, TOutputImage>::GenerateData()
   IndexType LastIndex = fieldPtr->GetRequestedRegion().GetIndex() + fieldPtr->GetRequestedRegion().GetSize();
 
   // Iterator for the output image
-  ImageRegionIteratorWithIndex<OutputImageType> iter(outputPtr, outputPtr->GetRequestedRegion());
+  ImageRegionIteratorWithIndex iter(outputPtr, outputPtr->GetRequestedRegion());
 
   // Iterator for the deformation field
   using DisplacementFieldIterator = ImageRegionConstIterator<DisplacementFieldType>;

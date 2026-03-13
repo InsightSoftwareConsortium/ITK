@@ -252,7 +252,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::ComputeHistogram(const T
   HistogramType::IndexType            hIndex;
 
   fixedRegion = this->GetFixedImageRegion();
-  ImageRegionConstIteratorWithIndex<FixedImageType> ti(fixedImage, fixedRegion);
+  ImageRegionConstIteratorWithIndex ti(fixedImage, fixedRegion);
 
   this->m_NumberOfPixelsCounted = 0;
   this->SetTransformParameters(parameters);

@@ -99,7 +99,7 @@ PadImageFilterBase<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     progress.Completed(copyRegion.GetNumberOfPixels());
 
     // Use the boundary condition for pixels outside the input image region.
-    ImageRegionExclusionIteratorWithIndex<TOutputImage> outIter(outputPtr, outputRegionForThread);
+    ImageRegionExclusionIteratorWithIndex outIter(outputPtr, outputRegionForThread);
     outIter.SetExclusionRegion(copyRegion);
     outIter.GoToBegin();
     while (!outIter.IsAtEnd())
@@ -113,7 +113,7 @@ PadImageFilterBase<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   else
   {
     // There is no overlap. Apply to the boundary condition for every pixel.
-    ImageRegionIteratorWithIndex<TOutputImage> outIter(outputPtr, outputRegionForThread);
+    ImageRegionIteratorWithIndex outIter(outputPtr, outputRegionForThread);
     while (!outIter.IsAtEnd())
     {
       auto value = static_cast<OutputImagePixelType>(m_BoundaryCondition->GetPixel(outIter.GetIndex(), inputPtr));

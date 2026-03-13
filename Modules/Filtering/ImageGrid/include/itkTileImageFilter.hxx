@@ -231,7 +231,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // Initialize the tile image with an image number for each tile. If
   // there is no corresponding input image for a tile, then set the
   // image number to -1.
-  ImageRegionIteratorWithIndex<TileImageType> it(m_TileImage, m_TileImage->GetBufferedRegion());
+  ImageRegionIteratorWithIndex it(m_TileImage, m_TileImage->GetBufferedRegion());
 
   unsigned int input = 0;
   TileInfo     info;
@@ -268,7 +268,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     }
   }
 
-  ImageLinearConstIteratorWithIndex<TileImageType> tit(m_TileImage, m_TileImage->GetRequestedRegion());
+  ImageLinearConstIteratorWithIndex tit(m_TileImage, m_TileImage->GetRequestedRegion());
   for (unsigned int i = 0; i < OutputImageDimension; ++i)
   {
     tit.SetDirection(i);
