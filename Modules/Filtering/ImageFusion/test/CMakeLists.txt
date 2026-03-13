@@ -1,7 +1,6 @@
 itk_module_test()
 set(
   ITKImageFusionTests
-  itkScalarToRGBPixelFunctorTest.cxx
   itkLabelOverlayImageFilterTest.cxx
   itkLabelToRGBImageFilterTest.cxx
   itkLabelMapToRGBImageFilterTest1.cxx
@@ -16,12 +15,6 @@ set(
 
 createtestdriver(ITKImageFusion "${ITKImageFusion-Test_LIBRARIES}" "${ITKImageFusionTests}")
 
-itk_add_test(
-  NAME itkScalarToRGBPixelFunctorTest
-  COMMAND
-    ITKImageFusionTestDriver
-    itkScalarToRGBPixelFunctorTest
-)
 itk_add_test(
   NAME itkLabelOverlayImageFilterTest-Opacity-0_0
   COMMAND
@@ -326,3 +319,6 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkLabelMapOverlayImageFilterTest3.png
     0.3
 )
+
+set(ITKImageFusionGTests itkScalarToRGBPixelFunctorGTest.cxx)
+creategoogletestdriver(ITKImageFusion "${ITKImageFusion-Test_LIBRARIES}" "${ITKImageFusionGTests}")
