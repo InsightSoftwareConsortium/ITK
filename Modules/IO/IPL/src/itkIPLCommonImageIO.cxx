@@ -133,9 +133,10 @@ IPLCommonImageIO::ReadImageInformation()
   FileNameToRead = _imagePath;
 
   this->m_ImageHeader = this->ReadHeader(FileNameToRead.c_str());
-  //
-  // if anything fails in the header read, just let
-  // exceptions propagate up.
+  if (m_ImageHeader == nullptr)
+  {
+    itkExceptionMacro("ReadHeader failed for " << FileNameToRead);
+  }
 
   bool        isCT = false;
   std::string modality = m_ImageHeader->modality;
@@ -223,6 +224,10 @@ IPLCommonImageIO::ReadImageInformation()
       // So if, for example we run into a subdirectory, it would
       // throw an exception, and we'd just want to skip it.
       continue;
+    }
+    if (curImageHeader == nullptr)
+    {
+      itkExceptionMacro("ReadHeader failed for " << fullPath);
     }
     if ((((isCT) ? curImageHeader->examNumber : curImageHeader->echoNumber) == m_FilenameList->GetKey2()) &&
         (curImageHeader->seriesNumber == m_FilenameList->GetKey1()))
