@@ -122,7 +122,7 @@ jobs:
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
-        CCACHE_MAXSIZE: 11G
+        CCACHE_MAXSIZE: 2.4G
 
     - script: |
         ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml
