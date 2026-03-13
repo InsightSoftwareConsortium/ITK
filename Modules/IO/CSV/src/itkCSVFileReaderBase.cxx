@@ -263,7 +263,6 @@ CSVFileReaderBase::GetNextField(std::string & str)
 
         // erase this entry from this->m_Line
         this->m_Line.erase(0, str.size() + 3);
-        OnANewLine = false;
       }
 
       // for any other entry, just get the next entry using the field delimiter

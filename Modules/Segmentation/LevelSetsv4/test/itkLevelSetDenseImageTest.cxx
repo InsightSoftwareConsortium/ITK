@@ -134,12 +134,6 @@ itkLevelSetDenseImageTest(int, char *[])
   levelSet->SetImage(input);
   ITK_TEST_SET_GET_VALUE(input, levelSet->GetImage());
 
-  idx[0] = 9;
-  idx[1] = 18;
-  input->TransformIndexToPhysicalPoint(idx, pt);
-  LevelSetType::OutputType theoreticalValue = testFunction->Evaluate(pt);
-  LevelSetType::OutputType value = levelSet->Evaluate(idx);
-
   ToleranceChecker<double> toleranceChecker;
 
   toleranceChecker.SetTolerance(1e-8);
@@ -149,8 +143,8 @@ itkLevelSetDenseImageTest(int, char *[])
     idx = it.GetIndex();
     input->TransformIndexToPhysicalPoint(idx, pt);
 
-    theoreticalValue = testFunction->Evaluate(pt);
-    value = levelSet->Evaluate(idx);
+    const LevelSetType::OutputType theoreticalValue = testFunction->Evaluate(pt);
+    const LevelSetType::OutputType value = levelSet->Evaluate(idx);
     if (toleranceChecker.IsOutsideTolerance(value, theoreticalValue))
     {
       std::cout << "Index:" << idx << " *EvaluateTestFail* " << value << " != " << theoreticalValue << std::endl;

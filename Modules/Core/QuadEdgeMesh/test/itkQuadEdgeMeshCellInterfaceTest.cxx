@@ -17,7 +17,9 @@
  *=========================================================================*/
 
 #include <iostream>
+#include <numeric>
 #include <string_view>
+#include <vector>
 
 #include "itkQuadEdgeMesh.h"
 
@@ -114,20 +116,18 @@ TestCellInterface(const std::string_view name, TCell * aCell)
 
   using PointIdentifier = MeshType::PointIdentifier;
 
-  auto * pointIds = new PointIdentifier[cell->GetNumberOfPoints() * 2];
-  for (unsigned int i = 0; i < cell->GetNumberOfPoints() * 2; ++i)
-  {
-    pointIds[i] = i;
-  }
+  const unsigned int           numberOfPoints = cell->GetNumberOfPoints();
+  std::vector<PointIdentifier> pointIds(numberOfPoints * 2);
+  std::iota(pointIds.begin(), pointIds.end(), PointIdentifier{});
 
-  cell->SetPointIds(pointIds);
+  cell->SetPointIds(pointIds.data());
   // exercising the const GetPointIds() method
   // null for QE Cells
   if (cell2->GetPointIds())
   {
     cell->SetPointIds(cell2->GetPointIds());
   }
-  if (cell->GetNumberOfPoints() > 0)
+  if (numberOfPoints > 0)
   {
     cell->SetPointId(0, 100);
   }
@@ -142,7 +142,7 @@ TestCellInterface(const std::string_view name, TCell * aCell)
   }
   std::cout << std::endl;
 
-  cell->SetPointIds(&pointIds[cell->GetNumberOfPoints()], &pointIds[cell->GetNumberOfPoints() * 2]);
+  cell->SetPointIds(&pointIds[numberOfPoints], &pointIds[numberOfPoints * 2]);
   std::cout << "    Iterator test: PointIds for populated cell: ";
   typename TCell::PointIdIterator pxpointId = cell->PointIdsBegin();
   typename TCell::PointIdIterator pxendId = cell->PointIdsEnd();
@@ -165,9 +165,6 @@ TestCellInterface(const std::string_view name, TCell * aCell)
     xpointId++;
   }
   std::cout << std::endl;
-
-
-  delete[] pointIds;
   return EXIT_SUCCESS;
 }
 
@@ -208,42 +205,40 @@ TestQECellInterface(const std::string_view name, TCell * aCell)
 
   using PointIdentifier = typename TCell::PointIdentifier;
 
-  auto * pointIds = new PointIdentifier[cell->GetNumberOfPoints() * 2];
-  for (unsigned int i = 0; i < cell->GetNumberOfPoints() * 2; ++i)
+  const unsigned int numberOfPoints = cell->GetNumberOfPoints();
+  if (numberOfPoints > 0)
   {
-    pointIds[i] = i;
+    std::vector<PointIdentifier> pointIds(numberOfPoints * 2);
+    std::iota(pointIds.begin(), pointIds.end(), PointIdentifier{});
+
+    // actually populate
+    cell->SetPointIds(pointIds.data());
+    // exercising the non const internal equivalent.
+    cell->InternalSetPointIds(cell->InternalGetPointIds());
+    // exercising the const internal equivalent
+    cell->InternalSetPointIds(cell2->InternalGetPointIds());
+
+    std::cout << "    ConstIterator test: PointIds for populated cell: ";
+    typename TCell::PointIdInternalConstIterator       ppointId = cell2->InternalPointIdsBegin();
+    const typename TCell::PointIdInternalConstIterator pendId = cell2->InternalPointIdsEnd();
+    while (ppointId != pendId)
+    {
+      std::cout << *ppointId << ", ";
+      ppointId++;
+    }
+    std::cout << std::endl;
+
+    cell->InternalSetPointIds(cell2->InternalPointIdsBegin(), cell2->InternalPointIdsEnd());
+    std::cout << "    Iterator test: PointIds for populated cell: ";
+    typename TCell::PointIdInternalIterator       pxpointId = cell->InternalPointIdsBegin();
+    const typename TCell::PointIdInternalIterator pxendId = cell->InternalPointIdsEnd();
+    while (pxpointId != pxendId)
+    {
+      std::cout << *pxpointId << ", ";
+      pxpointId++;
+    }
+    std::cout << std::endl;
   }
-
-  // actually populate
-  cell->SetPointIds(pointIds);
-  // exercising the non const internal equivalent.
-  cell->InternalSetPointIds(cell->InternalGetPointIds());
-  // exercising the const internal equivalent
-  cell->InternalSetPointIds(cell2->InternalGetPointIds());
-
-
-  std::cout << "    ConstIterator test: PointIds for populated cell: ";
-  typename TCell::PointIdInternalConstIterator       ppointId = cell2->InternalPointIdsBegin();
-  const typename TCell::PointIdInternalConstIterator pendId = cell2->InternalPointIdsEnd();
-  while (ppointId != pendId)
-  {
-    std::cout << *ppointId << ", ";
-    ppointId++;
-  }
-  std::cout << std::endl;
-
-  cell->InternalSetPointIds(cell2->InternalPointIdsBegin(), cell2->InternalPointIdsEnd());
-  std::cout << "    Iterator test: PointIds for populated cell: ";
-  typename TCell::PointIdInternalIterator       pxpointId = cell->InternalPointIdsBegin();
-  const typename TCell::PointIdInternalIterator pxendId = cell->InternalPointIdsEnd();
-  while (pxpointId != pxendId)
-  {
-    std::cout << *pxpointId << ", ";
-    pxpointId++;
-  }
-  std::cout << std::endl;
-
-  delete[] pointIds;
   return EXIT_SUCCESS;
 }
 

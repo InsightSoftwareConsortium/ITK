@@ -140,7 +140,7 @@ Singleton(const char * globalName, std::function<void()> deleteFunc)
   T *                                      instance = SingletonIndex::GetInstance()->GetGlobalInstance<T>(globalName);
   if (instance == nullptr)
   {
-    instance = new T;
+    instance = new T{};
     SingletonIndex::GetInstance()->SetGlobalInstance<T>(globalName, instance, std::move(deleteFunc));
   }
   return instance;
