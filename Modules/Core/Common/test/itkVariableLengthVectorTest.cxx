@@ -186,7 +186,6 @@ itkVariableLengthVectorTest(int, char *[])
       ASSERT(&x[0] != start, "DontShrintToFit(bigger) => reallocate");
       // ASSERT(x[0] is uninitialized);
       x[0] = ref[0];
-      start = &x[0];
     }
 
     // Test on assignments
