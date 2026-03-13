@@ -9,7 +9,5 @@ if(ITK_USE_CUFFTW)
 else()
   set(ITKFFT_LIBRARIES ITKFFT)
 endif()
-set(ITKFFT_SYSTEM_LIBRARY_DIRS ${FFTW_LIBDIR})
-set(ITKFFT_INCLUDE_DIRS "${FFTW_INCLUDE}")
 
 itk_module_impl()

@@ -1,0 +1,44 @@
+/*=========================================================================
+ *
+ *  Copyright NumFOCUS
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+
+#ifndef itk_fftw_h
+#define itk_fftw_h
+
+/* This header provides access to FFTW headers for both system and internal builds.
+ *
+ * IMPORTANT: FFTW is licensed under the GPL license.
+ * By using FFTW, your code will be covered by the GPL license.
+ *
+ * Usage:
+ *   #include "itk_fftw.h"
+ *   Then use standard FFTW headers via <fftw3.h>
+ */
+
+#cmakedefine01 ITK_USE_SYSTEM_FFTW
+#cmakedefine01 ITK_USE_FFTWD
+#cmakedefine01 ITK_USE_FFTWF
+
+#if ITK_USE_SYSTEM_FFTW
+  // Using system-installed FFTW
+  #include <fftw3.h>
+#else
+  // Using ITK's internally built FFTW
+  #include <fftw3.h>
+#endif
+
+#endif // itk_fftw_h
