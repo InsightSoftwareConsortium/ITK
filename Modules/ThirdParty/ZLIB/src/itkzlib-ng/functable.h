@@ -24,11 +24,10 @@
 #else
 
 struct functable_s {
-    void     (* force_init)         (void);
+    int      (* force_init)         (void);
     uint32_t (* adler32)            (uint32_t adler, const uint8_t *buf, size_t len);
     uint32_t (* adler32_fold_copy)  (uint32_t adler, uint8_t *dst, const uint8_t *src, size_t len);
     uint8_t* (* chunkmemset_safe)   (uint8_t *out, uint8_t *from, unsigned len, unsigned left);
-    uint32_t (* chunksize)          (void);
     uint32_t (* compare256)         (const uint8_t *src0, const uint8_t *src1);
     uint32_t (* crc32)              (uint32_t crc, const uint8_t *buf, size_t len);
     void     (* crc32_fold)         (struct crc32_fold_s *crc, const uint8_t *src, size_t len, uint32_t init_crc);
@@ -46,7 +45,7 @@ Z_INTERNAL extern struct functable_s functable;
 
 /* Explicitly indicate functions are conditionally dispatched.
  */
-#  define FUNCTABLE_INIT functable.force_init()
+#  define FUNCTABLE_INIT if (functable.force_init()) {return Z_VERSION_ERROR;}
 #  define FUNCTABLE_CALL(name) functable.name
 #  define FUNCTABLE_FPTR(name) functable.name
 

@@ -15,10 +15,6 @@ else
     wget https://raw.githubusercontent.com/zlib-ng/zlib-ng/refs/heads/develop/arch/s390/self-hosted-builder/entrypoint
 fi
 
-# Copy rpms needed to workaround VX compiler bug, ref #1852
-mkdir clang
-cp /clang-19/*.rpm clang/
-
 # Stop service
 systemctl stop actions-runner || true
 
@@ -33,7 +29,7 @@ podman build --squash -f actions-runner.Dockerfile --tag zlib-ng/actions-runner 
 
 # Create new container
 podman create --replace --name=gaplib-actions-runner --env-file=/etc/actions-runner --init \
-       --volume=actions-runner-temp:/home/actions-runner zlib-ng/actions-runner 2>&1 | tee -a /var/log/actions-runner-build.log
+       zlib-ng/actions-runner 2>&1 | tee -a /var/log/actions-runner-build.log
 
 # Start service
 systemctl start actions-runner || true
@@ -47,7 +43,6 @@ if [ "$MODE" == "2" ] ; then
     rm actions-runner.Dockerfile
     rm actions-runner
     rm entrypoint
-    rm -rf clang
     cd ..
     rmdir $TMPDIR
     echo "Deleted tempfiles."
