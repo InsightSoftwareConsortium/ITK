@@ -10,6 +10,7 @@ itk_module(
     ITKBinaryMathematicalMorphology
     ITKImageLabel
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
   DESCRIPTION "${DOCUMENTATION}"
 )
