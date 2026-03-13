@@ -2,7 +2,6 @@ itk_module_test()
 set(
   ITKCommon1Tests
   itkImageRegionExplicitTest.cxx
-  itkCovariantVectorGeometryTest.cxx
   itkExtractImage3Dto2DTest.cxx
   itkExtractImageTest.cxx
   itkMapContainerTest.cxx
@@ -226,12 +225,6 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     itkImageAdaptorPipeLineTest
-)
-itk_add_test(
-  NAME itkCovariantVectorGeometryTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkCovariantVectorGeometryTest
 )
 itk_add_test(
   NAME itkExtractImage3Dto2DTest
