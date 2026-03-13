@@ -114,8 +114,9 @@ TestCellInterface(const std::string_view name, TCell * aCell)
 
   using PointIdentifier = MeshType::PointIdentifier;
 
-  auto * pointIds = new PointIdentifier[cell->GetNumberOfPoints() * 2];
-  for (unsigned int i = 0; i < cell->GetNumberOfPoints() * 2; ++i)
+  const unsigned int numberOfPoints = cell->GetNumberOfPoints();
+  auto *             pointIds = new PointIdentifier[numberOfPoints * 2]{};
+  for (unsigned int i = 0; i < numberOfPoints * 2; ++i)
   {
     pointIds[i] = i;
   }
@@ -127,7 +128,7 @@ TestCellInterface(const std::string_view name, TCell * aCell)
   {
     cell->SetPointIds(cell2->GetPointIds());
   }
-  if (cell->GetNumberOfPoints() > 0)
+  if (numberOfPoints > 0)
   {
     cell->SetPointId(0, 100);
   }
@@ -142,7 +143,7 @@ TestCellInterface(const std::string_view name, TCell * aCell)
   }
   std::cout << std::endl;
 
-  cell->SetPointIds(&pointIds[cell->GetNumberOfPoints()], &pointIds[cell->GetNumberOfPoints() * 2]);
+  cell->SetPointIds(&pointIds[numberOfPoints], &pointIds[numberOfPoints * 2]);
   std::cout << "    Iterator test: PointIds for populated cell: ";
   typename TCell::PointIdIterator pxpointId = cell->PointIdsBegin();
   typename TCell::PointIdIterator pxendId = cell->PointIdsEnd();
@@ -211,7 +212,7 @@ TestQECellInterface(const std::string_view name, TCell * aCell)
   const unsigned int numberOfPoints = cell->GetNumberOfPoints();
   if (numberOfPoints > 0)
   {
-    auto * pointIds = new PointIdentifier[numberOfPoints * 2];
+    auto * pointIds = new PointIdentifier[numberOfPoints * 2]{};
     for (unsigned int i = 0; i < numberOfPoints * 2; ++i)
     {
       pointIds[i] = i;
