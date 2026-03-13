@@ -70,7 +70,7 @@ TEST(Array2D, MoveConstruct)
     const auto * const * const originalDataArray{ original.data_array() };
     const unsigned int         originalSize{ original.size() };
 
-    const auto moveConstructed = std::move(original);
+    const auto moveConstructed = std::forward<decltype(original)>(original);
 
     // After the "move", the move-constructed object has retrieved the original data.
     EXPECT_EQ(moveConstructed.data_array(), originalDataArray);
