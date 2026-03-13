@@ -17,7 +17,9 @@
  *=========================================================================*/
 
 #include <iostream>
+#include <numeric>
 #include <string_view>
+#include <vector>
 
 #include "itkQuadEdgeMesh.h"
 
@@ -114,14 +116,11 @@ TestCellInterface(const std::string_view name, TCell * aCell)
 
   using PointIdentifier = MeshType::PointIdentifier;
 
-  const unsigned int numberOfPoints = cell->GetNumberOfPoints();
-  auto *             pointIds = new PointIdentifier[numberOfPoints * 2]{};
-  for (unsigned int i = 0; i < numberOfPoints * 2; ++i)
-  {
-    pointIds[i] = i;
-  }
+  const unsigned int           numberOfPoints = cell->GetNumberOfPoints();
+  std::vector<PointIdentifier> pointIds(numberOfPoints * 2);
+  std::iota(pointIds.begin(), pointIds.end(), PointIdentifier{});
 
-  cell->SetPointIds(pointIds);
+  cell->SetPointIds(pointIds.data());
   // exercising the const GetPointIds() method
   // null for QE Cells
   if (cell2->GetPointIds())
@@ -166,9 +165,6 @@ TestCellInterface(const std::string_view name, TCell * aCell)
     xpointId++;
   }
   std::cout << std::endl;
-
-
-  delete[] pointIds;
   return EXIT_SUCCESS;
 }
 
@@ -212,14 +208,11 @@ TestQECellInterface(const std::string_view name, TCell * aCell)
   const unsigned int numberOfPoints = cell->GetNumberOfPoints();
   if (numberOfPoints > 0)
   {
-    auto * pointIds = new PointIdentifier[numberOfPoints * 2]{};
-    for (unsigned int i = 0; i < numberOfPoints * 2; ++i)
-    {
-      pointIds[i] = i;
-    }
+    std::vector<PointIdentifier> pointIds(numberOfPoints * 2);
+    std::iota(pointIds.begin(), pointIds.end(), PointIdentifier{});
 
     // actually populate
-    cell->SetPointIds(pointIds);
+    cell->SetPointIds(pointIds.data());
     // exercising the non const internal equivalent.
     cell->InternalSetPointIds(cell->InternalGetPointIds());
     // exercising the const internal equivalent
@@ -245,8 +238,6 @@ TestQECellInterface(const std::string_view name, TCell * aCell)
       pxpointId++;
     }
     std::cout << std::endl;
-
-    delete[] pointIds;
   }
   return EXIT_SUCCESS;
 }
