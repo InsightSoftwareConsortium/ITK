@@ -15,10 +15,12 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <set>
+
+// First include the header file to be tested:
 #include "itkGaussianDerivativeOperator.h"
 #include "itkStdStreamStateSave.h"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
+#include <set>
 
 namespace
 {
@@ -35,22 +37,22 @@ TestGaussianOperator(double variance, double error, unsigned int width, unsigned
   GaussianOp op;
 
   constexpr bool normalizeAcrossScale{ false };
-  ITK_TEST_SET_GET_BOOLEAN((&op), NormalizeAcrossScale, normalizeAcrossScale);
+  ITK_GTEST_SET_GET_BOOLEAN((&op), NormalizeAcrossScale, normalizeAcrossScale);
 
   op.SetVariance(variance);
-  ITK_TEST_SET_GET_VALUE(variance, op.GetVariance());
+  EXPECT_EQ(op.GetVariance(), variance);
 
   op.SetMaximumError(error);
-  ITK_TEST_SET_GET_VALUE(error, op.GetMaximumError());
+  EXPECT_EQ(op.GetMaximumError(), error);
 
   op.SetMaximumKernelWidth(width);
-  ITK_TEST_SET_GET_VALUE(width, op.GetMaximumKernelWidth());
+  EXPECT_EQ(op.GetMaximumKernelWidth(), width);
 
   op.SetOrder(order);
-  ITK_TEST_SET_GET_VALUE(order, op.GetOrder());
+  EXPECT_EQ(op.GetOrder(), order);
 
   op.SetSpacing(spacing);
-  ITK_TEST_SET_GET_VALUE(spacing, op.GetSpacing());
+  EXPECT_EQ(op.GetSpacing(), spacing);
 
   op.CreateDirectional();
 
@@ -97,70 +99,42 @@ TestGaussianOperator(double variance, double error, unsigned int width, unsigned
 
 } // namespace
 
-int
-itkGaussianDerivativeOperatorTest(int argc, char * argv[])
+
+TEST(GaussianDerivativeOperator, ConvertedLegacyTest)
 {
 
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope.
   const itk::StdStreamStateSave coutState(std::cout);
 
-  if (argc == 6)
-  {
-    const double       variance = std::stod(argv[1]);
-    const double       error = std::stod(argv[2]);
-    const unsigned int width = std::stoi(argv[3]);
-    const unsigned int order = std::stoi(argv[4]);
-    const double       spacing = std::stod(argv[5]);
-
-    TestGaussianOperator(variance, error, width, order, spacing);
-
-    std::cout << "Test finished." << std::endl;
-    return EXIT_SUCCESS;
-  }
-  if (argc > 1)
-  {
-    std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " [variance error width order spacing]"
-              << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  // At this point, obviously, argc <= 1. In some scenarios, argc == 0, typically when
-  // the test function is called from the interactive TestDriver commandline interface,
-  // by having the user entering its test number. On the other hand, argc == 1 when the
-  // the TestDriver has the name of the test function as its only commandline argument.
-  // In either way the tests below here should be performed.
-
   // Exercise code
 
   using GaussianOp = itk::GaussianDerivativeOperator<double, 3>;
 
-  GaussianOp op1;
+  GaussianOp   op1;
+  GaussianOp * op1Ptr = &op1;
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS((&op1), GaussianDerivativeOperator, NeighborhoodOperator);
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(op1Ptr, GaussianDerivativeOperator, NeighborhoodOperator);
 
   // Check assignment
-  bool testStatus = true;
+  EXPECT_TRUE(TestGaussianOperator(.2, .001, 30, 0, 1.0));
+  EXPECT_TRUE(TestGaussianOperator(.2, .001, 30, 1, 1.0));
+  EXPECT_TRUE(TestGaussianOperator(.2, .001, 30, 2, 1.0));
+  EXPECT_TRUE(TestGaussianOperator(.2, .001, 30, 3, 1.0));
+  EXPECT_TRUE(TestGaussianOperator(.2, .001, 30, 4, 1.0));
 
-  testStatus &= TestGaussianOperator(.2, .001, 30, 0, 1.0);
-  testStatus &= TestGaussianOperator(.2, .001, 30, 1, 1.0);
-  testStatus &= TestGaussianOperator(.2, .001, 30, 2, 1.0);
-  testStatus &= TestGaussianOperator(.2, .001, 30, 3, 1.0);
-  testStatus &= TestGaussianOperator(.2, .001, 30, 4, 1.0);
+  EXPECT_TRUE(TestGaussianOperator(1, .001, 30, 0, 1.0));
+  EXPECT_TRUE(TestGaussianOperator(1, .001, 30, 1, 1.0));
+  EXPECT_TRUE(TestGaussianOperator(1, .001, 30, 2, 1.0));
+  EXPECT_TRUE(TestGaussianOperator(1, .001, 30, 3, 1.0));
+  EXPECT_TRUE(TestGaussianOperator(1, .001, 30, 4, 1.0));
 
-  testStatus &= TestGaussianOperator(1, .001, 30, 0, 1.0);
-  testStatus &= TestGaussianOperator(1, .001, 30, 1, 1.0);
-  testStatus &= TestGaussianOperator(1, .001, 30, 2, 1.0);
-  testStatus &= TestGaussianOperator(1, .001, 30, 3, 1.0);
-  testStatus &= TestGaussianOperator(1, .001, 30, 4, 1.0);
+  EXPECT_TRUE(TestGaussianOperator(10, .001, 30, 0, 1.0));
+  EXPECT_TRUE(TestGaussianOperator(10, .001, 30, 1, 1.0));
 
-  testStatus &= TestGaussianOperator(10, .001, 30, 0, 1.0);
-  testStatus &= TestGaussianOperator(10, .001, 30, 1, 1.0);
+  EXPECT_TRUE(TestGaussianOperator(10, .0001, 100, 1, 1.0));
 
-  testStatus &= TestGaussianOperator(10, .0001, 100, 1, 1.0);
-
-  testStatus &= TestGaussianOperator(50, .001, 300, 0, 1.0);
+  EXPECT_TRUE(TestGaussianOperator(50, .001, 300, 0, 1.0));
 
   // Test streaming enumeration for GaussianDerivativeOperatorEnums::InterpolationMode elements
   const std::set<itk::GaussianDerivativeOperatorEnums::InterpolationMode> allInterpolationMode{
@@ -171,12 +145,4 @@ itkGaussianDerivativeOperatorTest(int argc, char * argv[])
   {
     std::cout << "STREAMED ENUM VALUE GaussianDerivativeOperatorEnums::InterpolationMode: " << ee << std::endl;
   }
-
-  std::cout << "Test finished." << std::endl;
-  if (testStatus)
-  {
-    return EXIT_SUCCESS;
-  }
-
-  return EXIT_FAILURE;
 }
