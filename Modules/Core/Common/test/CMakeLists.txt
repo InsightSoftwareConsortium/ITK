@@ -2,7 +2,6 @@ itk_module_test()
 set(
   ITKCommon1Tests
   itkImageRegionExplicitTest.cxx
-  itkCommandObserverObjectTest.cxx
   itkCovariantVectorGeometryTest.cxx
   itkExtractImage3Dto2DTest.cxx
   itkExtractImageTest.cxx
@@ -203,12 +202,6 @@ if(ITK_BUILD_SHARED_LIBS)
   add_dependencies(ITKCommon2TestDriver FactoryTestLib)
 endif()
 
-itk_add_test(
-  NAME itkCommandObserverObjectTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkCommandObserverObjectTest
-)
 itk_add_test(
   NAME itkThreadedIteratorRangePartitionerTest
   COMMAND
@@ -1571,6 +1564,7 @@ set(
   itkBooleanStdVectorGTest.cxx
   itkBSplineKernelFunctionGTest.cxx
   itkBuildInformationGTest.cxx
+  itkCommandObserverObjectGTest.cxx
   itkConnectedImageNeighborhoodShapeGTest.cxx
   itkConstantBoundaryImageNeighborhoodPixelAccessPolicyGTest.cxx
   itkCopyGTest.cxx
