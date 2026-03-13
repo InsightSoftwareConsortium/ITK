@@ -286,7 +286,7 @@ OFFMeshIO::ReadPoints(void * buffer)
 void
 OFFMeshIO::ReadCells(void * buffer)
 {
-  const auto data = make_unique_for_overwrite<itk::uint32_t[]>(this->m_CellBufferSize - this->m_NumberOfCells);
+  const auto data = std::make_unique<itk::uint32_t[]>(this->m_CellBufferSize - this->m_NumberOfCells);
 
   if (this->m_FileType == IOFileEnum::ASCII)
   {

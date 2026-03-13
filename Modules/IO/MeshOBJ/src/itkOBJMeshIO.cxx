@@ -19,7 +19,7 @@
 #include "itkOBJMeshIO.h"
 #include "itkNumericTraits.h"
 #include "itksys/SystemTools.hxx"
-#include "itkMakeUniqueForOverwrite.h"
+#include <memory>
 #include <locale>
 #include <vector>
 
@@ -235,7 +235,7 @@ OBJMeshIO::ReadCells(void * buffer)
   OpenFile();
 
   // Read and analyze the first line in the file
-  const auto    data = make_unique_for_overwrite<long[]>(this->m_CellBufferSize - this->m_NumberOfCells);
+  const auto    data = std::make_unique<long[]>(this->m_CellBufferSize - this->m_NumberOfCells);
   SizeValueType index = 0;
 
   std::string       line;
