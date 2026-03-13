@@ -60,7 +60,7 @@ HilbertPathTestHelper(unsigned int maxHilbertPathOder)
 
     // path->EvaluateToIndex( 6 )
 
-    for (unsigned int d = 0; d < 10; ++d)
+    for (unsigned int d = 0; d < path->NumberOfSteps(); ++d)
     {
       const IndexType index = path->TransformPathIndexToMultiDimensionalIndex(d);
 
