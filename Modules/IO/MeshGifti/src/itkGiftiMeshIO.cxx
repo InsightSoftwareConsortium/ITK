@@ -1741,7 +1741,6 @@ GiftiMeshIO::GetComponentTypeFromGifti(int datatype)
       compType = IOComponentEnum::UCHAR;
       break;
     default:
-      compType = IOComponentEnum::UNKNOWNCOMPONENTTYPE;
       itkExceptionStringMacro("Unknown component type");
   }
   return compType;
@@ -1777,7 +1776,6 @@ GiftiMeshIO::GetPixelTypeFromGifti(int datatype)
       pixelType = IOPixelEnum::RGBA;
       break;
     default:
-      pixelType = IOPixelEnum::UNKNOWNPIXELTYPE;
       itkExceptionStringMacro("Unknown pixel type");
   }
   return pixelType;
