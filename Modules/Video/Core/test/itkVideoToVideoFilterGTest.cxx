@@ -18,7 +18,10 @@
 
 #include "itkVideoToVideoFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
+
+namespace
+{
 
 // type alias for test
 constexpr unsigned int Dimension{ 2 };
@@ -29,9 +32,6 @@ using OutputPixelType = float;
 using OutputFrameType = itk::Image<OutputPixelType, Dimension>;
 using OutputVideoType = itk::VideoStream<OutputFrameType>;
 using SizeValueType = itk::SizeValueType;
-
-namespace itk::VideoToVideoFilterTest
-{
 
 /**
  * Create a new frame and fill it with the indicated value
@@ -63,17 +63,17 @@ CreateInputFrame(InputPixelType val)
  * \brief A simple implementation of VideoTOVideoFilter for the test
  */
 template <typename TInputVideoStream, typename TOutputVideoStream>
-class DummyVideoToVideoFilter : public VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>
+class DummyVideoToVideoFilter : public itk::VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>
 {
 public:
   /** Standard class type aliases */
   using InputVideoStreamType = TInputVideoStream;
   using OutputVideoStreamType = TOutputVideoStream;
   using Self = DummyVideoToVideoFilter<InputVideoStreamType, OutputVideoStreamType>;
-  using Superclass = VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>;
-  using Pointer = SmartPointer<Self>;
-  using ConstPointer = SmartPointer<const Self>;
-  using ConstWeakPointer = WeakPointer<const Self>;
+  using Superclass = itk::VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
+  using ConstWeakPointer = itk::WeakPointer<const Self>;
 
   using InputFrameType = typename TInputVideoStream::FrameType;
   using InputFrameSpatialRegionType = typename InputFrameType::RegionType;
@@ -148,13 +148,15 @@ protected:
   }
 };
 
-} // namespace itk::VideoToVideoFilterTest
+using VideoFilterType = DummyVideoToVideoFilter<InputVideoType, OutputVideoType>;
+
+} // namespace
+
 
 /**
  * Test the basic functionality of temporal data objects
  */
-int
-itkVideoToVideoFilterTest(int, char *[])
+TEST(VideoToVideoFilter, ConvertedLegacyTest)
 {
 
   //////
@@ -162,10 +164,9 @@ itkVideoToVideoFilterTest(int, char *[])
   //////
 
   // Instantiate a filter
-  using VideoFilterType = itk::VideoToVideoFilterTest::DummyVideoToVideoFilter<InputVideoType, OutputVideoType>;
   auto filter = VideoFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DummyVideoToVideoFilter, VideoToVideoFilter);
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(filter, DummyVideoToVideoFilter, VideoToVideoFilter);
 
   // Set up an input video stream
   auto                    inputVideo = InputVideoType::New();
@@ -180,7 +181,7 @@ itkVideoToVideoFilterTest(int, char *[])
   inputVideo->SetNumberOfBuffers(inputDuration);
   for (SizeValueType i = inputStart; i < inputStart + inputDuration; ++i)
   {
-    inputVideo->SetFrame(i, itk::VideoToVideoFilterTest::CreateInputFrame(i));
+    inputVideo->SetFrame(i, CreateInputFrame(i));
   }
   inputVideo->SetBufferedTemporalRegion(inputLargestTemporalRegion);
 
@@ -212,16 +213,11 @@ itkVideoToVideoFilterTest(int, char *[])
   filter->SetNumberOfWorkUnits(1);
   filter->Update();
 
-  // Report on output buffers
-  std::cout << "Number of output buffers: " << filter->GetOutput()->GetNumberOfBuffers() << std::endl;
-
   // Make sure results are correct in the requested spatial region
   const SizeValueType outputStart = filter->GetOutput()->GetRequestedTemporalRegion().GetFrameStart();
   const SizeValueType outputDuration = filter->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
   for (SizeValueType i = outputStart; i < outputStart + outputDuration; ++i)
   {
-    std::cout << "Checking frame: " << i << std::endl;
-
     const OutputFrameType *                        frame = filter->GetOutput()->GetFrame(i);
     itk::ImageRegionConstIterator<OutputFrameType> iter(frame, frame->GetRequestedRegion());
 
@@ -229,50 +225,54 @@ itkVideoToVideoFilterTest(int, char *[])
     constexpr OutputPixelType epsilon{ .00001 };
     while (!iter.IsAtEnd())
     {
-      if (iter.Get() < expectedVal - epsilon || iter.Get() > expectedVal + epsilon)
-      {
-        std::cerr << "Filter didn't set values correctly. Got: " << iter.Get() << " Expected: " << expectedVal
-                  << std::endl;
-        return EXIT_FAILURE;
-      }
+      EXPECT_GE(iter.Get(), expectedVal - epsilon);
+      EXPECT_LE(iter.Get(), expectedVal + epsilon);
       ++iter;
     }
 
     // Make sure nothing set outside of requested spatial region
     constexpr OutputFrameType::IndexType idx{};
-    if (frame->GetRequestedRegion().IsInside(idx))
-    {
-      std::cerr << "Filter set pixel outside of requested region" << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_FALSE(frame->GetRequestedRegion().IsInside(idx));
   }
+}
 
-  //////
-  // Test that the output's spatial region request gets properly set to the
-  // largest possible region if none set manually
-  //////
+//////
+// Test that the output's spatial region request gets properly set to the
+// largest possible region if none set manually
+//////
+TEST(VideoToVideoFilter, SpatialRegionPropagation)
+{
+  // Set up an input video stream
+  auto                    inputVideo = InputVideoType::New();
+  itk::TemporalRegion     inputLargestTemporalRegion;
+  constexpr SizeValueType inputStart{ 0 };
+  constexpr SizeValueType inputDuration{ 10 };
+  inputLargestTemporalRegion.SetFrameStart(inputStart);
+  inputLargestTemporalRegion.SetFrameDuration(inputDuration);
+  inputVideo->SetLargestPossibleTemporalRegion(inputLargestTemporalRegion);
+
+  // Fill the input with frames
+  inputVideo->SetNumberOfBuffers(inputDuration);
+  for (SizeValueType i = inputStart; i < inputStart + inputDuration; ++i)
+  {
+    inputVideo->SetFrame(i, CreateInputFrame(i));
+  }
+  inputVideo->SetBufferedTemporalRegion(inputLargestTemporalRegion);
 
   // Reset the filter
-  filter = VideoFilterType::New();
+  auto filter = VideoFilterType::New();
   filter->SetInput(inputVideo);
   filter->UpdateOutputInformation();
 
   // Make sure the requested spatial regions are empty
   const SizeValueType startFrame = filter->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameStart();
   const SizeValueType numFrames = filter->GetOutput()->GetLargestPossibleTemporalRegion().GetFrameDuration();
-  if (numFrames == 0)
-  {
-    std::cerr << "Output's largest possible temporal region not set correctly" << std::endl;
-  }
+  EXPECT_NE(numFrames, 0u);
   for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
   {
     for (unsigned int j = 0; j < Dimension; ++j)
     {
-      if (filter->GetOutput()->GetFrameRequestedSpatialRegion(i).GetSize()[j] != 0)
-      {
-        std::cerr << "Output's requested spatial region not empty for frame " << i << std::endl;
-        return EXIT_FAILURE;
-      }
+      EXPECT_EQ(filter->GetOutput()->GetFrameRequestedSpatialRegion(i).GetSize()[j], 0u);
     }
   }
 
@@ -281,18 +281,8 @@ itkVideoToVideoFilterTest(int, char *[])
   filter->PropagateRequestedRegion(filter->GetOutput());
   for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
   {
-    if (filter->GetOutput()->GetFrameRequestedSpatialRegion(i) !=
-          filter->GetOutput()->GetFrameLargestPossibleSpatialRegion(i) ||
-        filter->GetOutput()->GetFrameRequestedSpatialRegion(i).GetSize()[0] == 0)
-    {
-      std::cerr << "Output's requested spatial region not set correctly after propagation "
-                << "for frame " << i << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_EQ(filter->GetOutput()->GetFrameRequestedSpatialRegion(i),
+              filter->GetOutput()->GetFrameLargestPossibleSpatialRegion(i));
+    EXPECT_NE(filter->GetOutput()->GetFrameRequestedSpatialRegion(i).GetSize()[0], 0u);
   }
-
-  //////
-  // Return Successfully
-  //////
-  return EXIT_SUCCESS;
 }
