@@ -145,7 +145,7 @@ PoolMultiThreader::SingleMethodExecute()
   // so now it waits for each of the other work units to finish
   for (threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
   {
-    exceptionHandler.TryAndCatch([this, threadLoop] { m_ThreadInfoArray[threadLoop].Future.get(); });
+    exceptionHandler.TryAndCatch([this, threadLoop] { (void)m_ThreadInfoArray[threadLoop].Future.get(); });
   }
 
   exceptionHandler.RethrowFirstCaughtException();
@@ -300,7 +300,7 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
               filter->IncrementProgress(0);
             }
           } while (status != std::future_status::ready);
-          m_ThreadInfoArray[i].Future.get();
+          (void)m_ThreadInfoArray[i].Future.get();
           reporter.CompletedPixel();
         });
       }
