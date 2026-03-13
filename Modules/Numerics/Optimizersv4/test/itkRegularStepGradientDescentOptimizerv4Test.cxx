@@ -224,35 +224,37 @@ RegularStepGradientDescentOptimizerv4TestHelper(
   std::cout << "Stop Condition: " << optimizer->GetStopConditionDescription() << std::endl;
 
 
-  if (optimizer->GetCurrentIteration() > 0)
-  {
-    std::cerr << "The optimizer is running iterations despite of ";
-    std::cerr << "having a maximum number of iterations set to zero" << std::endl;
-    return EXIT_FAILURE;
-  }
-
   ParametersType finalPosition = optimizer->GetMetric()->GetParameters();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ',';
   std::cout << finalPosition[1] << ')' << std::endl;
 
-  //
-  // Check results to see if it is within range
-  //
-  bool             pass = true;
-  constexpr double trueParameters[2]{ 2, -2 };
-  for (unsigned int j = 0; j < 2; ++j)
+  if (numberOfIterations == 0)
   {
-    if (itk::Math::FloatAlmostEqual(finalPosition[j], trueParameters[j]))
+    if (optimizer->GetCurrentIteration() > 0)
     {
-      pass = false;
+      std::cerr << "The optimizer is running iterations despite of ";
+      std::cerr << "having a maximum number of iterations set to zero" << std::endl;
+      return EXIT_FAILURE;
     }
   }
-
-  if (!pass)
+  else
   {
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
+    //
+    // Check results to see if it is within range
+    //
+    constexpr double trueParameters[2]{ 2, -2 };
+    constexpr double tolerance{ 1e-2 };
+    for (unsigned int j = 0; j < 2; ++j)
+    {
+      if (std::abs(finalPosition[j] - trueParameters[j]) > tolerance)
+      {
+        std::cerr << "Test failed." << std::endl;
+        std::cerr << "Parameters are not within expected range." << std::endl;
+        std::cerr << "Expected " << trueParameters[j] << ", got " << finalPosition[j] << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
   }
 
   return EXIT_SUCCESS;
