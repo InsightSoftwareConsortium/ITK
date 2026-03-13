@@ -88,10 +88,10 @@ protected:
   /** Constructor */
   DummyVideoToVideoFilter()
   {
-    this->TemporalProcessObject::m_UnitInputNumberOfFrames = 2;
-    this->TemporalProcessObject::m_UnitOutputNumberOfFrames = 1;
-    this->TemporalProcessObject::m_FrameSkipPerOutput = 1;
-    this->TemporalProcessObject::m_InputStencilCurrentFrameIndex = 1;
+    this->SetUnitInputNumberOfFrames(2);
+    this->SetUnitOutputNumberOfFrames(1);
+    this->SetFrameSkipPerOutput(1);
+    this->SetInputStencilCurrentFrameIndex(1);
   }
 
   /** Override ThreadedGenerateData */
@@ -116,15 +116,15 @@ protected:
 
     // Just as a check, throw an exception if the durations aren't equal to the
     // unit output sizes
-    if (outputDuration != this->TemporalProcessObject::m_UnitOutputNumberOfFrames)
+    if (outputDuration != this->GetUnitOutputNumberOfFrames())
     {
-      itkExceptionMacro("Trying to generate output of non-unit size. Got: "
-                        << outputDuration << " Expected: " << this->TemporalProcessObject::m_UnitOutputNumberOfFrames);
+      itkExceptionMacro("Trying to generate output of non-unit size. Got: " << outputDuration << " Expected: "
+                                                                            << this->GetUnitOutputNumberOfFrames());
     }
-    if (inputDuration < this->TemporalProcessObject::m_UnitInputNumberOfFrames)
+    if (inputDuration < this->GetUnitInputNumberOfFrames())
     {
-      itkExceptionMacro("Input buffered region smaller than unit size. Got: "
-                        << inputDuration << " Expected: " << this->TemporalProcessObject::m_UnitInputNumberOfFrames);
+      itkExceptionMacro("Input buffered region smaller than unit size. Got: " << inputDuration << " Expected: "
+                                                                              << this->GetUnitInputNumberOfFrames());
     }
 
     // Get the two input frames and average them in the requested spatial region
