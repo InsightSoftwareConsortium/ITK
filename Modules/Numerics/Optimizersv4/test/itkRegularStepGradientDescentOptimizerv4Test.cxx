@@ -283,13 +283,13 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
   constexpr OptimizerType::InternalComputationValueType gradientMagnitudeTolerance{ 1e-6 };
   constexpr OptimizerType::MeasureType                  currentLearningRateRelaxation{ 0 };
 
-  testStatus = RegularStepGradientDescentOptimizerv4TestHelper<OptimizerType>(numberOfIterations,
-                                                                              doEstimateLearningRateAtEachIteration,
-                                                                              doEstimateLearningRateOnce,
-                                                                              relaxationFactor,
-                                                                              minimumStepLength,
-                                                                              gradientMagnitudeTolerance,
-                                                                              currentLearningRateRelaxation);
+  testStatus |= RegularStepGradientDescentOptimizerv4TestHelper<OptimizerType>(numberOfIterations,
+                                                                               doEstimateLearningRateAtEachIteration,
+                                                                               doEstimateLearningRateOnce,
+                                                                               relaxationFactor,
+                                                                               minimumStepLength,
+                                                                               gradientMagnitudeTolerance,
+                                                                               currentLearningRateRelaxation);
 
 
   // Run now with different learning rate estimation frequencies
@@ -299,13 +299,13 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
   {
     constexpr bool doEstimateLearningRateAtEachIteration2{ true };
     constexpr bool doEstimateLearningRateOnce2{ false };
-    testStatus = RegularStepGradientDescentOptimizerv4TestHelper<OptimizerType>(numberOfIterations,
-                                                                                doEstimateLearningRateAtEachIteration2,
-                                                                                doEstimateLearningRateOnce2,
-                                                                                relaxationFactor,
-                                                                                minimumStepLength,
-                                                                                gradientMagnitudeTolerance,
-                                                                                currentLearningRateRelaxation);
+    testStatus |= RegularStepGradientDescentOptimizerv4TestHelper<OptimizerType>(numberOfIterations,
+                                                                                 doEstimateLearningRateAtEachIteration2,
+                                                                                 doEstimateLearningRateOnce2,
+                                                                                 relaxationFactor,
+                                                                                 minimumStepLength,
+                                                                                 gradientMagnitudeTolerance,
+                                                                                 currentLearningRateRelaxation);
   }
 
   // Run now with different learning rate estimation frequencies
@@ -316,13 +316,13 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
     constexpr bool doEstimateLearningRateAtEachIteration3{ false };
     constexpr bool doEstimateLearningRateOnce3{ true };
 
-    testStatus = RegularStepGradientDescentOptimizerv4TestHelper<OptimizerType>(numberOfIterations,
-                                                                                doEstimateLearningRateAtEachIteration3,
-                                                                                doEstimateLearningRateOnce3,
-                                                                                relaxationFactor,
-                                                                                minimumStepLength,
-                                                                                gradientMagnitudeTolerance,
-                                                                                currentLearningRateRelaxation);
+    testStatus |= RegularStepGradientDescentOptimizerv4TestHelper<OptimizerType>(numberOfIterations,
+                                                                                 doEstimateLearningRateAtEachIteration3,
+                                                                                 doEstimateLearningRateOnce3,
+                                                                                 relaxationFactor,
+                                                                                 minimumStepLength,
+                                                                                 gradientMagnitudeTolerance,
+                                                                                 currentLearningRateRelaxation);
   }
 
   // Run now with different learning rate estimation frequencies
@@ -333,13 +333,13 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
     constexpr bool doEstimateLearningRateAtEachIteration4{ true };
     constexpr bool doEstimateLearningRateOnce4{ true };
 
-    testStatus = RegularStepGradientDescentOptimizerv4TestHelper<OptimizerType>(numberOfIterations,
-                                                                                doEstimateLearningRateAtEachIteration4,
-                                                                                doEstimateLearningRateOnce4,
-                                                                                relaxationFactor,
-                                                                                minimumStepLength,
-                                                                                gradientMagnitudeTolerance,
-                                                                                currentLearningRateRelaxation);
+    testStatus |= RegularStepGradientDescentOptimizerv4TestHelper<OptimizerType>(numberOfIterations,
+                                                                                 doEstimateLearningRateAtEachIteration4,
+                                                                                 doEstimateLearningRateOnce4,
+                                                                                 relaxationFactor,
+                                                                                 minimumStepLength,
+                                                                                 gradientMagnitudeTolerance,
+                                                                                 currentLearningRateRelaxation);
   }
 
   // Run now with a different relaxation factor
@@ -347,13 +347,13 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
   {
     constexpr OptimizerType::InternalComputationValueType relaxationFactor2{ 0.8 };
 
-    testStatus = RegularStepGradientDescentOptimizerv4TestHelper<OptimizerType>(numberOfIterations,
-                                                                                doEstimateLearningRateAtEachIteration,
-                                                                                doEstimateLearningRateOnce,
-                                                                                relaxationFactor2,
-                                                                                minimumStepLength,
-                                                                                gradientMagnitudeTolerance,
-                                                                                currentLearningRateRelaxation);
+    testStatus |= RegularStepGradientDescentOptimizerv4TestHelper<OptimizerType>(numberOfIterations,
+                                                                                 doEstimateLearningRateAtEachIteration,
+                                                                                 doEstimateLearningRateOnce,
+                                                                                 relaxationFactor2,
+                                                                                 minimumStepLength,
+                                                                                 gradientMagnitudeTolerance,
+                                                                                 currentLearningRateRelaxation);
   }
 
 
@@ -362,13 +362,13 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
   {
     constexpr itk::SizeValueType numberOfIterations2{ 0 };
 
-    testStatus = RegularStepGradientDescentOptimizerv4TestHelper<OptimizerType>(numberOfIterations2,
-                                                                                doEstimateLearningRateAtEachIteration,
-                                                                                doEstimateLearningRateOnce,
-                                                                                relaxationFactor,
-                                                                                minimumStepLength,
-                                                                                gradientMagnitudeTolerance,
-                                                                                currentLearningRateRelaxation);
+    testStatus |= RegularStepGradientDescentOptimizerv4TestHelper<OptimizerType>(numberOfIterations2,
+                                                                                 doEstimateLearningRateAtEachIteration,
+                                                                                 doEstimateLearningRateOnce,
+                                                                                 relaxationFactor,
+                                                                                 minimumStepLength,
+                                                                                 gradientMagnitudeTolerance,
+                                                                                 currentLearningRateRelaxation);
   }
 
   //

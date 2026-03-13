@@ -98,6 +98,10 @@ itkHilbertPathTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(path2D, HilbertPath, Path);
 
   testStatus = HilbertPathTestHelper<HilbertPathType2D>(maxHilbertPathOder);
+  if (testStatus != EXIT_SUCCESS)
+  {
+    return EXIT_FAILURE;
+  }
 
   // Test dimension = 3
   using HilbertPathType3D = itk::HilbertPath<IndexValueType, 3>;
@@ -109,6 +113,10 @@ itkHilbertPathTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(path3D, HilbertPath, Path);
 
   testStatus = HilbertPathTestHelper<HilbertPathType3D>(maxHilbertPathOder);
+  if (testStatus != EXIT_SUCCESS)
+  {
+    return EXIT_FAILURE;
+  }
 
   // Test dimension = 4
   using HilbertPathType4D = itk::HilbertPath<IndexValueType, 4>;

@@ -36,15 +36,13 @@ itkOBJMeshIOTest(int argc, char * argv[])
   }
 
 
-  int testStatus = EXIT_SUCCESS;
-
   auto objMeshIO = itk::OBJMeshIO::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(objMeshIO, OBJMeshIO, MeshIOBase);
 
   // Create a different instance to check the base class methods
-  auto objMeshIOBaseTest = itk::OBJMeshIO::New();
-  testStatus = TestBaseClassMethodsMeshIO<itk::OBJMeshIO>(objMeshIOBaseTest);
+  auto      objMeshIOBaseTest = itk::OBJMeshIO::New();
+  const int testStatus = TestBaseClassMethodsMeshIO<itk::OBJMeshIO>(objMeshIOBaseTest);
 
   // Test reading exceptions
   std::string inputFileName = "";

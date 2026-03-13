@@ -36,16 +36,14 @@ itkGiftiMeshIOTest(int argc, char * argv[])
   }
 
 
-  int testStatus = EXIT_SUCCESS;
-
   auto giftiMeshIO = itk::GiftiMeshIO::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(giftiMeshIO, GiftiMeshIO, MeshIOBase);
 
 
   // Create a different instance to check the base class methods
-  auto giftiMeshIOBaseTest = itk::GiftiMeshIO::New();
-  testStatus = TestBaseClassMethodsMeshIO<itk::GiftiMeshIO>(giftiMeshIOBaseTest);
+  auto      giftiMeshIOBaseTest = itk::GiftiMeshIO::New();
+  const int testStatus = TestBaseClassMethodsMeshIO<itk::GiftiMeshIO>(giftiMeshIOBaseTest);
 
   // Test reading exceptions
   std::string inputFileName = argv[3];

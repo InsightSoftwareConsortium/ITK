@@ -78,8 +78,6 @@ testMemoryAccess(OptimizerParametersType & params, ImageVectorPointer imageOfVec
 int
 itkImageVectorOptimizerParametersHelperTest(int, char *[])
 {
-  int result = EXIT_SUCCESS;
-
   SizeType      size;
   constexpr int dimLength{ 3 };
   size.Fill(dimLength);
@@ -128,7 +126,7 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
   // to the image data.
   params.SetParametersObject(imageOfVectors);
 
-  result = testMemoryAccess(params, imageOfVectors, dimLength);
+  const int result = testMemoryAccess(params, imageOfVectors, dimLength);
 
   // Test MoveDataPointer
   itk::Array<ValueType> array(imageOfVectors->GetPixelContainer()->Size(), 1.23);
