@@ -1,4 +1,4 @@
-# This file contains CMake functions and macros used when testing ITK modules.
+# This file contains CMake functions used when testing ITK modules.
 
 #-----------------------------------------------------------------------------
 # Create source code, compile and link a test driver
@@ -11,7 +11,7 @@
 #   KitTests - a list of tests to be included in the test driver
 #   ADDITIONAL_SRC (optional) - additional source files, which don't contain tests
 
-macro(CreateTestDriver KIT KIT_LIBS KitTests)
+function(CreateTestDriver KIT KIT_LIBS KitTests)
   set(ADDITIONAL_SRC ${ARGN})
   if(EMSCRIPTEN)
     set(
@@ -91,7 +91,7 @@ EM_ASM(
       "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>"
   )
   itk_module_target_label(${KIT}TestDriver)
-endmacro()
+endfunction()
 
 #-----------------------------------------------------------------------------
 # ITK wrapper for add_test that automatically sets the test's LABELS property
