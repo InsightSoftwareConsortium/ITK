@@ -59,7 +59,8 @@ jobs:
         set -x
         sudo pip3 install ninja
         sudo apt-get update
-        sudo apt-get install -y python3-venv ccache
+        sudo apt-get install -y python3-venv ccache locales
+        sudo locale-gen de_DE.UTF-8
         sudo python3 -m pip install lxml scikit-ci-addons
       displayName: 'Install dependencies'
 
@@ -147,7 +148,8 @@ jobs:
         set -x
         sudo pip3 install ninja
         sudo apt-get update
-        sudo apt-get install -y python3-venv ccache
+        sudo apt-get install -y python3-venv ccache locales
+        sudo locale-gen de_DE.UTF-8
         sudo python3 -m pip install lxml scikit-ci-addons
       displayName: 'Install dependencies'
 
@@ -239,7 +241,8 @@ jobs:
         set -x
         sudo pip3 install ninja
         sudo apt-get update
-        sudo apt-get install -y python3-venv ccache
+        sudo apt-get install -y python3-venv ccache locales
+        sudo locale-gen de_DE.UTF-8
         sudo python3 -m pip install lxml scikit-ci-addons
       displayName: "Install dependencies"
     - bash: |
