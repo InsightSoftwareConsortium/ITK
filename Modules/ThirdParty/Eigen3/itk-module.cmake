@@ -9,4 +9,7 @@ itk_module(
   DEPENDS
   DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
+  SPDX_LICENSE "MPL-2.0"
+  SPDX_DOWNLOAD_LOCATION "https://eigen.tuxfamily.org"
+  SPDX_COPYRIGHT "Copyright Eigen contributors"
 )

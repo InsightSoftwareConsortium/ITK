@@ -7,4 +7,10 @@ library is intended to be shared among many projects.  For more information, see
 Modules/ThirdParty/KWSys/src/README.kwsys."
 )
 
-itk_module(ITKKWSys DESCRIPTION "${DOCUMENTATION}")
+itk_module(
+  ITKKWSys
+  DESCRIPTION "${DOCUMENTATION}"
+  SPDX_LICENSE "BSD-3-Clause"
+  SPDX_DOWNLOAD_LOCATION "https://gitlab.kitware.com/utils/kwsys"
+  SPDX_COPYRIGHT "Copyright Kitware Inc."
+)
