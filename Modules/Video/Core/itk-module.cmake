@@ -14,6 +14,7 @@ itk_module(
   DEPENDS
     ITKCommon
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKVideoIO
   DESCRIPTION "${DOCUMENTATION}"

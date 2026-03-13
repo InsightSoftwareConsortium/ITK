@@ -9,18 +9,9 @@ set(
   itkVectorImageToVideoTest.cxx
   itkVideoStreamTest.cxx
   itkVideoSourceTest.cxx
-  itkVideoToVideoFilterTest.cxx
 )
 
 createtestdriver(ITKVideoCore "${ITKVideoCore-Test_LIBRARIES}" "${ITKVideoCoreTests}")
-
-# VideoToVideoFilterTest
-itk_add_test(
-  NAME VideoToVideoFilterTest
-  COMMAND
-    ITKVideoCoreTestDriver
-    itkVideoToVideoFilterTest
-)
 
 # VideoSourceTest
 itk_add_test(
@@ -97,3 +88,6 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
     ${ITK_TEST_OUTPUT_DIR}/RGBTestImage_Slice0.png
 )
+
+set(ITKVideoCoreGTests itkVideoToVideoFilterGTest.cxx)
+creategoogletestdriver(ITKVideoCore "${ITKVideoCore-Test_LIBRARIES}" "${ITKVideoCoreGTests}")
