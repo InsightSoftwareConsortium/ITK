@@ -15,17 +15,8 @@ trigger:
     - Utilities/ITKv5Preparation/*
     - Utilities/Maintenance/*
     - Modules/Remote/*.remote.cmake
-pr:
-  paths:
-    exclude:
-    - '*.md'
-    - LICENSE
-    - NOTICE
-    - Documentation/*
-    - Utilities/Debugger/*
-    - Utilities/ITKv5Preparation/*
-    - Utilities/Maintenance/*
-    - Modules/Remote/*.remote.cmake
+# WIP: PR trigger disabled to isolate ARMBUILD-Ubuntu-24.04-arm CI
+pr: none
 variables:
   ExternalDataVersion: 5.4.5
   CCACHE_DIR: $(Pipeline.Workspace)/.ccache
