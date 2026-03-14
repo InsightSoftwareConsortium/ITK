@@ -1,7 +1,6 @@
 itk_module_test()
 set(
   ITKImageSourcesTests
-  itkGaborKernelFunctionTest.cxx
   itkGaborImageSourceTest.cxx
   itkGaussianImageSourceTest.cxx
   itkGridImageSourceTest.cxx
@@ -11,12 +10,10 @@ set(
 
 createtestdriver(ITKImageSources "${ITKImageSources-Test_LIBRARIES}" "${ITKImageSourcesTests}")
 
-itk_add_test(
-  NAME itkGaborKernelFunctionTest
-  COMMAND
-    ITKImageSourcesTestDriver
-    itkGaborKernelFunctionTest
-)
+set(ITKImageSourcesGTests itkGaborKernelFunctionGTest.cxx)
+
+creategoogletestdriver(ITKImageSources "${ITKImageSources-Test_LIBRARIES}" "${ITKImageSourcesGTests}")
+
 itk_add_test(
   NAME itkGaborImageSourceTest0
   COMMAND
