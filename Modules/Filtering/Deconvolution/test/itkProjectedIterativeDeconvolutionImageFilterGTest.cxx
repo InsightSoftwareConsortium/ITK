@@ -19,25 +19,16 @@
 #include "itkImage.h"
 #include "itkLandweberDeconvolutionImageFilter.h"
 #include "itkProjectedIterativeDeconvolutionImageFilter.h"
-#include "itkSimpleFilterWatcher.h"
+#include "itkGTest.h"
 
-int
-itkProjectedIterativeDeconvolutionImageFilterTest(int, char *[])
+TEST(ProjectedIterativeDeconvolutionImageFilter, BasicObjectMethods)
 {
-  // Declare the image type
   using ImageType = itk::Image<float, 2>;
-
-  // Declare the base deconvolution filter choice
   using BaseDeconvolutionFilterType = itk::LandweberDeconvolutionImageFilter<ImageType>;
-
-  // Declare a projected version of the base deconvolution image filter
   using ProjectedDeconvolutionFilterType = itk::ProjectedIterativeDeconvolutionImageFilter<BaseDeconvolutionFilterType>;
 
-  // Just instantiate the filter and print it
   auto deconvolutionFilter = ProjectedDeconvolutionFilterType::New();
-  deconvolutionFilter->Print(std::cout);
 
-  const itk::SimpleFilterWatcher watcher(deconvolutionFilter);
-
-  return EXIT_SUCCESS;
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(
+    deconvolutionFilter, ProjectedIterativeDeconvolutionImageFilter, IterativeDeconvolutionImageFilter);
 }
