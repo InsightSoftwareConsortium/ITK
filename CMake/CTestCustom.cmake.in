@@ -129,6 +129,11 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   # ignore -Wunused-template warnings in third party DoubleConversion.
   ".*Modules/ThirdParty/DoubleConversion/.*warning:.*Wunused-template"
 
+  # ignore some third party warnings
+  ".*Modules/ThirdParty/.*warning:.*Wzero-as-null-pointer-constant"
+  ".*Modules/ThirdParty/Eigen3/.*warning:.*Wallocator-wrappers"
+  ".*Modules/ThirdParty/Eigen3/.*warning:.*Wmaybe-uninitialized"
+
   # CircleCI distcc warnings
   ".*WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED.*"
   "Warning: Permanently added.*to the list of known hosts"
