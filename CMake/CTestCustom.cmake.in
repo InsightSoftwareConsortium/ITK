@@ -78,6 +78,7 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   "attempted multiple inclusion of file"
   "warning LNK4221: This object file does not define any previously undefined public symbols"
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Dd][Ii][Cc][Oo][Mm][Pp]arser[/\\\\].*[Ww]arning.*"
+  ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Ee]igen3[/\\\\].*[Ww]arning.*"
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Ee]xpat[/\\\\].*[Ww]arning.*"
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Jj][Pp][Ee][Gg][/\\\\].*[Ww]arning.*"
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Kk][Ww][Ss]ys[/\\\\].*[Ww]arning.*"
