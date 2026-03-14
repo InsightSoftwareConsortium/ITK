@@ -10,6 +10,7 @@ itk_module(
     ITKConvolution
     ITKImageSources
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
   DESCRIPTION "${DOCUMENTATION}"
 )
