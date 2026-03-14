@@ -19,6 +19,7 @@ itk_module(
     ITKImageGrid
     ITKPolynomials
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKOptimizers
     ITKPolynomials
