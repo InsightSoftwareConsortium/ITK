@@ -1,19 +1,16 @@
 itk_module_test()
 set(
   ITKImageLabelTests
-  itkChangeLabelImageFilterTest.cxx
-  itkLabelContourImageFilterTest.cxx
   itkBinaryContourImageFilterTest.cxx
+  itkLabelContourImageFilterTest.cxx
 )
 
 createtestdriver(ITKImageLabel "${ITKImageLabel-Test_LIBRARIES}" "${ITKImageLabelTests}")
 
-itk_add_test(
-  NAME itkChangeLabelImageFilterTest
-  COMMAND
-    ITKImageLabelTestDriver
-    itkChangeLabelImageFilterTest
-)
+set(ITKImageLabelGTests itkChangeLabelImageFilterGTest.cxx)
+
+creategoogletestdriver(ITKImageLabel "${ITKImageLabel-Test_LIBRARIES}" "${ITKImageLabelGTests}")
+
 itk_add_test(
   NAME itkLabelContourImageFilterTest0
   COMMAND
