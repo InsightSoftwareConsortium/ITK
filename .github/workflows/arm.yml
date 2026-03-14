@@ -54,31 +54,6 @@ jobs:
               ITK_USE_CLANG_FORMAT:BOOL=OFF
             ctest-options: ""
 
-          - os: macos-15
-            name: "x86_64-rosetta"
-            cmake-build-type: "Release"
-            cmake-generator: "Ninja"
-            python-version: ""
-            ctest-cache: |
-              BUILD_SHARED_LIBS:BOOL=OFF
-              BUILD_EXAMPLES:BOOL=OFF
-              ITK_WRAP_PYTHON:BOOL=OFF
-              ITK_USE_CLANG_FORMAT:BOOL=OFF
-              CMAKE_OSX_ARCHITECTURES:STRING=x86_64
-            ctest-options: ""
-
-          - os: macos-15
-            name: "Python"
-            cmake-build-type: "Release"
-            cmake-generator: "Ninja"
-            python-version: "3.11"
-            ctest-cache: |
-              BUILD_SHARED_LIBS:BOOL=OFF
-              BUILD_EXAMPLES:BOOL=OFF
-              ITK_WRAP_PYTHON:BOOL=ON
-              ITK_USE_CLANG_FORMAT:BOOL=OFF
-            ctest-options: "-E itkPyBufferMemoryLeakTest"
-
     name: ARMBUILD-${{ matrix.name }}
 
     steps:

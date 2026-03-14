@@ -14,16 +14,17 @@ on:
             - 'Utilities/ITKv5Preparation/**'
             - 'Utilities/Maintenance/**'
             - 'Modules/Remote/*.remote.cmake'
-    pull_request:
-        paths-ignore:
-            - '*.md'
-            - LICENSE
-            - NOTICE
-            - 'Documentation/**'
-            - 'Utilities/Debugger/**'
-            - 'Utilities/ITKv5Preparation/**'
-            - 'Utilities/Maintenance/**'
-            - 'Modules/Remote/*.remote.cmake'
+    # WIP: PR trigger disabled to isolate ARMBUILD-Ubuntu-24.04-arm CI
+    # pull_request:
+    #     paths-ignore:
+    #         - '*.md'
+    #         - LICENSE
+    #         - NOTICE
+    #         - 'Documentation/**'
+    #         - 'Utilities/Debugger/**'
+    #         - 'Utilities/ITKv5Preparation/**'
+    #         - 'Utilities/Maintenance/**'
+    #         - 'Modules/Remote/*.remote.cmake'
 
 concurrency:
   group: '${{ github.workflow }}@${{ github.head_ref || github.ref }}'
