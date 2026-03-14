@@ -105,17 +105,16 @@ itkConnectedComponentImageFilterTestRGB(int argc, char * argv[])
   RGBPixelType              px;
   colormap.resize(numObjects + 1);
 
-  using RGBComponentType = RGBPixelType::ComponentType;
-  constexpr auto maxRGBComponentValue = std::numeric_limits<RGBComponentType>::max();
-
   constexpr std::mt19937::result_type randomSeed{ 1031571 };
   std::mt19937                        randomNumberEngine(randomSeed);
-  std::uniform_int_distribution<>     randomNumberDistribution(maxRGBComponentValue / 3, maxRGBComponentValue);
 
   for (auto & i : colormap)
   {
-    std::generate(px.begin(), px.end(), [&randomNumberEngine, &randomNumberDistribution] {
-      return static_cast<RGBComponentType>(randomNumberDistribution(randomNumberEngine));
+    std::generate(px.begin(), px.end(), [&randomNumberEngine] {
+      using RGBComponentType = RGBPixelType::ComponentType;
+      constexpr uint32_t maxValue{ std::numeric_limits<RGBComponentType>::max() };
+      constexpr uint32_t minValue{ maxValue / 3 };
+      return static_cast<RGBComponentType>(randomNumberEngine() % (maxValue - minValue + 1) + minValue);
     });
 
     i = px;
