@@ -157,4 +157,13 @@ endif()
 set(CTEST_CUSTOM_ERROR_EXCEPTION
   # Emscripten
   ".*WARNING  root: emcc: cannot find library.*"
+
+  # ITK tests: expected exceptions are printed with an "--- ERROR ---" banner
+  # (e.g. after "Caught expected exception" / "Expected exception").
+  ".*Caught expected exception\\.?$"
+  ".*Expected exception:.*"
+  "^--- ERROR ---$"
+  ".*itk::ExceptionObject.*"
+  ".*Description: Method not applicable for deformable transform\\..*"
+  ".*Description: Seed1 is not within the input image!.*"
   )
