@@ -53,9 +53,9 @@ jobs:
             echo "CCACHE_BASEDIR=${GITHUB_WORKSPACE}" >> "$GITHUB_ENV"
             echo "CCACHE_COMPILERCHECK=content" >> "$GITHUB_ENV"
             echo "CCACHE_NOHASHDIR=true" >> "$GITHUB_ENV"
-            echo "CCACHE_NODIRECT=1" >> "$GITHUB_ENV"
+            echo "CCACHE_SLOPPINESS=pch_defines,time_macros" >> "$GITHUB_ENV"
             echo "CCACHE_DIR=${{ runner.temp }}/ccache" >> "$GITHUB_ENV"
-            echo "CCACHE_MAXSIZE=2.4G" >> "$GITHUB_ENV"
+            echo "CCACHE_MAXSIZE=5G" >> "$GITHUB_ENV"
             if [ "$RUNNER_OS" == "Linux" ]; then
               sudo apt-get update -qq && sudo apt-get install -y ccache locales
               sudo locale-gen de_DE.UTF-8
@@ -70,7 +70,9 @@ jobs:
           uses: actions/cache/restore@v5
           with:
             path: ${{ runner.temp }}/ccache
-            key: ccache-v1-${{ matrix.os }}-pixi-cxx
+            key: ccache-v4-${{ runner.os }}-pixi-cxx-${{ github.sha }}
+            restore-keys: |
+              ccache-v4-${{ runner.os }}-pixi-cxx-
 
         - name: Show ccache configuration, stats and maintenance
           shell: bash
@@ -150,11 +152,11 @@ jobs:
             echo "****** df -h /"
             df -h /
         - name: Save compiler cache
-          if: github.ref == 'refs/heads/main'
+          if: ${{ !cancelled() }}
           uses: actions/cache/save@v5
           with:
             path: ${{ runner.temp }}/ccache
-            key: ccache-v1-${{ matrix.os }}-pixi-cxx
+            key: ccache-v4-${{ runner.os }}-pixi-cxx-${{ github.sha }}
 
         - name: ccache stats
           if: always()
