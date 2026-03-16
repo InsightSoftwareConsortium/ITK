@@ -36,15 +36,13 @@ itkBYUMeshIOTest(int argc, char * argv[])
   }
 
 
-  int testStatus = EXIT_SUCCESS;
-
   auto byuMeshIO = itk::BYUMeshIO::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(byuMeshIO, BYUMeshIO, MeshIOBase);
 
   // Create a different instance to check the base class methods
-  auto byuMeshIOBaseTest = itk::BYUMeshIO::New();
-  testStatus = TestBaseClassMethodsMeshIO<itk::BYUMeshIO>(byuMeshIOBaseTest);
+  auto      byuMeshIOBaseTest = itk::BYUMeshIO::New();
+  const int testStatus = TestBaseClassMethodsMeshIO<itk::BYUMeshIO>(byuMeshIOBaseTest);
 
   // Test reading exceptions
   ITK_TRY_EXPECT_EXCEPTION(byuMeshIO->ReadPoints(nullptr));

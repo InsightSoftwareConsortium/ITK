@@ -82,6 +82,10 @@ itkRandomImageSourceAttributesTest(int, char *[])
     constexpr ImageType2D::ValueType  max{ 1000.0 };
 
     testStatus = itkRandomImageSourceAttributesTestHelper<ImageType2D>(size, spacing, origin, direction, min, max);
+    if (testStatus != EXIT_SUCCESS)
+    {
+      return EXIT_FAILURE;
+    }
   }
 
   {

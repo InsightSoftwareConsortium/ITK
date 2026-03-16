@@ -278,7 +278,7 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
         }
       }
       iRegion = region;
-      total = splitter->GetSplit(0, splitCount, iRegion);
+      splitter->GetSplit(0, splitCount, iRegion);
 
       // execute this thread's share
       ExceptionHandler exceptionHandler;

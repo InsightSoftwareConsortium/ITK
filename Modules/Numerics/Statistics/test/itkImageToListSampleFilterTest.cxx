@@ -128,16 +128,14 @@ itkImageToListSampleFilterTest(int, char *[])
   using ImageToListSampleFilterType = itk::Statistics::ImageToListSampleFilter<ImageType, MaskImageType>;
   auto filter = ImageToListSampleFilterType::New();
 
-  bool        pass = true;
-  std::string failureMeassage = "";
-
   // Invoke update before adding an input. An exception should be
   // thrown.
   try
   {
     filter->Update();
-    failureMeassage = "Exception should have been thrown since Update() is invoked without setting an input ";
-    pass = false;
+    std::cerr << "[FAILED] Exception should have been thrown since Update() is invoked without setting an input"
+              << std::endl;
+    return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
   {
@@ -148,14 +146,14 @@ itkImageToListSampleFilterTest(int, char *[])
 
   if (filter->GetInput() != nullptr)
   {
-    pass = false;
-    failureMeassage = "GetInput() should return nullptr if the input has not been set";
+    std::cerr << "[FAILED] GetInput() should return nullptr if the input has not been set" << std::endl;
+    return EXIT_FAILURE;
   }
 
   if (filter->GetMaskImage() != nullptr)
   {
-    pass = false;
-    failureMeassage = "GetMaskImage() should return nullptr if mask image has not been set";
+    std::cerr << "[FAILED] GetMaskImage() should return nullptr if mask image has not been set" << std::endl;
+    return EXIT_FAILURE;
   }
 
 
@@ -196,9 +194,9 @@ itkImageToListSampleFilterTest(int, char *[])
 
   if (sum != 945)
   {
-    pass = false;
-    failureMeassage = "Wrong sum of pixels";
-    std::cerr << "Computed sum of pixels in the list sample (masked) is : " << sum << " but should be 945.";
+    std::cerr << "[FAILED] Computed sum of pixels in the list sample (masked) is : " << sum << " but should be 945."
+              << std::endl;
+    return EXIT_FAILURE;
   }
 
 
@@ -214,12 +212,6 @@ itkImageToListSampleFilterTest(int, char *[])
   catch (const itk::ExceptionObject & excp)
   {
     std::cerr << "Expected Exception caught: " << excp << std::endl;
-  }
-
-  if (!pass)
-  {
-    std::cerr << "[FAILED]" << failureMeassage << std::endl;
-    return EXIT_FAILURE;
   }
 
   std::cerr << "[PASSED]" << std::endl;

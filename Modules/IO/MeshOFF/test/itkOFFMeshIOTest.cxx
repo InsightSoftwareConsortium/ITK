@@ -36,15 +36,13 @@ itkOFFMeshIOTest(int argc, char * argv[])
   }
 
 
-  int testStatus = EXIT_SUCCESS;
-
   auto offMeshIO = itk::OFFMeshIO::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(offMeshIO, OFFMeshIO, MeshIOBase);
 
   // Create a different instance to check the base class methods
-  auto offMeshIOBaseTest = itk::OFFMeshIO::New();
-  testStatus = TestBaseClassMethodsMeshIO<itk::OFFMeshIO>(offMeshIOBaseTest);
+  auto      offMeshIOBaseTest = itk::OFFMeshIO::New();
+  const int testStatus = TestBaseClassMethodsMeshIO<itk::OFFMeshIO>(offMeshIOBaseTest);
 
   // Test reading exceptions
   std::string inputFileName = "";

@@ -43,7 +43,7 @@ CumulativeGaussianCostFunction::CalculateFitError(MeasureType * setTestArray)
   // Use root mean square error as a measure of fit quality.
   const unsigned int numberOfElements = m_OriginalDataArray.GetNumberOfElements();
 
-  if (numberOfElements != setTestArray->GetNumberOfElements() || numberOfElements == 0)
+  if (numberOfElements == 0 || numberOfElements != setTestArray->GetNumberOfElements())
   {
     return 1;
   }

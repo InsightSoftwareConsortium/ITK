@@ -1004,8 +1004,12 @@ TIFFImageIO::AllocateTiffPalette(uint16_t bps)
   m_ColorGreen = nullptr;
   m_ColorBlue = nullptr;
 
-  // bpp is 16 at maximum for palette image
-  const tmsize_t array_size = tmsize_t{ 1 } << bps * sizeof(uint16_t);
+  // TIFF palette images support at most 16 bits per sample per the TIFF spec.
+  if (bps > 16)
+  {
+    itkExceptionMacro("TIFF palette images require at most 16 bits per sample, but got " << bps);
+  }
+  const tmsize_t array_size = (tmsize_t{ 1 } << bps) * sizeof(uint16_t);
   m_ColorRed = static_cast<uint16_t *>(_TIFFmalloc(array_size));
   if (!m_ColorRed)
   {

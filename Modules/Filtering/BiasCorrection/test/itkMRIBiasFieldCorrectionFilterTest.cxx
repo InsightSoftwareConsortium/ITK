@@ -329,12 +329,10 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   optimizerInitialRadius = 0.02;
   volumeCorrectionMaximumIteration = 200;
   interSliceCorrectionMaximumIteration = 100;
-  optimizerInitialRadius = 0.02;
 
   filter->SetOptimizerInitialRadius(optimizerInitialRadius);
   filter->SetVolumeCorrectionMaximumIteration(volumeCorrectionMaximumIteration);
   filter->SetInterSliceCorrectionMaximumIteration(interSliceCorrectionMaximumIteration);
-  filter->SetOptimizerInitialRadius(optimizerInitialRadius);
 
   ITK_TEST_SET_GET_BOOLEAN(filter, UsingInterSliceIntensityCorrection, usingInterSliceIntensityCorrection);
   ITK_TEST_SET_GET_BOOLEAN(filter, UsingSlabIdentification, usingSlabIdentification);

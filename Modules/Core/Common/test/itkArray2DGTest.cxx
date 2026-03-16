@@ -70,13 +70,14 @@ TEST(Array2D, MoveConstruct)
     const auto * const * const originalDataArray{ original.data_array() };
     const unsigned int         originalSize{ original.size() };
 
-    const auto moveConstructed = std::move(original);
+    const auto moveConstructed = std::forward<decltype(original)>(original);
 
     // After the "move", the move-constructed object has retrieved the original data.
     EXPECT_EQ(moveConstructed.data_array(), originalDataArray);
     EXPECT_EQ(moveConstructed.size(), originalSize);
 
-    // After the "move", the original is left empty.
+    // Intentionally verify the moved-from object is in a valid empty state.
+    // NOLINTNEXTLINE(bugprone-use-after-move,clang-analyzer-cplusplus.Move)
     EXPECT_EQ(original.data_array(), nullptr);
     EXPECT_EQ(original.size(), 0U);
   };
@@ -102,7 +103,8 @@ TEST(Array2D, MoveAssign)
     EXPECT_EQ(moveAssigmentTarget.data_array(), originalDataArray);
     EXPECT_EQ(moveAssigmentTarget.size(), originalSize);
 
-    // After the "move", the original is left empty.
+    // Intentionally verify the moved-from object is in a valid empty state.
+    // NOLINTNEXTLINE(bugprone-use-after-move,clang-analyzer-cplusplus.Move)
     EXPECT_EQ(original.data_array(), nullptr);
     EXPECT_EQ(original.size(), 0U);
   };

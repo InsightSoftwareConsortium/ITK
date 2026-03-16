@@ -36,16 +36,14 @@ itkVTKPolyDataMeshIOTest(int argc, char * argv[])
   }
 
 
-  int testStatus = EXIT_SUCCESS;
-
   auto vtkPolyDataMeshIO = itk::VTKPolyDataMeshIO::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(vtkPolyDataMeshIO, VTKPolyDataMeshIO, MeshIOBase);
 
 
   // Create a different instance to check the base class methods
-  auto vtkMeshIOBaseTest = itk::VTKPolyDataMeshIO::New();
-  testStatus = TestBaseClassMethodsMeshIO<itk::VTKPolyDataMeshIO>(vtkMeshIOBaseTest);
+  auto      vtkMeshIOBaseTest = itk::VTKPolyDataMeshIO::New();
+  const int testStatus = TestBaseClassMethodsMeshIO<itk::VTKPolyDataMeshIO>(vtkMeshIOBaseTest);
 
   // Test reading exceptions
   std::string inputFileName = "";

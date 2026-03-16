@@ -20,6 +20,7 @@
 #include <fstream>
 
 #include "itkPointSetToListSampleAdaptor.h"
+#include "itkTestingMacros.h"
 
 int
 itkPointSetToListSampleAdaptorTest(int, char *[])
@@ -41,73 +42,12 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
 
   auto listSample = PointSetToListSampleAdaptorType::New();
 
-  bool exceptionsProperlyCaught = true;
   // Test if the methods throw exceptions if invoked before setting the pointset
-  try
-  {
-    // Purposely calling the Size() method in order to trigger an exception.
-    listSample->Size();
-    std::cerr << "Exception should have been thrown since the input point set  is not set yet" << std::endl;
-    exceptionsProperlyCaught = false;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
-  }
-  try
-  {
-    // Purposely calling the GetTotalFrequency() method in order to trigger an exception.
-    listSample->GetTotalFrequency();
-    std::cerr << "Exception should have been thrown since the input point set  is not set yet" << std::endl;
-    exceptionsProperlyCaught = false;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
-  }
-
-  try
-  {
-    const PointSetToListSampleAdaptorType::MeasurementVectorType m = listSample->GetMeasurementVector(0);
-    std::cerr << "Exception should have been thrown since the input point set  is not set yet" << std::endl;
-    std::cerr << "The invalid listSample->GetMeasurementVector is: " << m << std::endl;
-    exceptionsProperlyCaught = false;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
-  }
-
-  try
-  {
-    // Purposely calling the GetPointSet() method in order to trigger an exception.
-    listSample->GetPointSet();
-    std::cerr << "Exception should have been thrown since the input point set  is not set yet" << std::endl;
-    exceptionsProperlyCaught = false;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
-  }
-
-  try
-  {
-    // Purposely calling the GetFrequency() method in order to trigger an exception.
-    listSample->GetFrequency(0);
-    std::cerr << "Exception should have been thrown since the input point set  is not set yet" << std::endl;
-    exceptionsProperlyCaught = false;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Caught expected exception: " << excp << std::endl;
-  }
-
-  if (!exceptionsProperlyCaught)
-  {
-    std::cerr << "At least one exception that should have been caught was not." << std::endl;
-    return EXIT_FAILURE;
-  }
-
+  ITK_TRY_EXPECT_EXCEPTION(listSample->Size());
+  ITK_TRY_EXPECT_EXCEPTION(listSample->GetTotalFrequency());
+  ITK_TRY_EXPECT_EXCEPTION(listSample->GetMeasurementVector(0));
+  ITK_TRY_EXPECT_EXCEPTION(listSample->GetPointSet());
+  ITK_TRY_EXPECT_EXCEPTION(listSample->GetFrequency(0));
 
   listSample->SetPointSet(pointSet);
 
