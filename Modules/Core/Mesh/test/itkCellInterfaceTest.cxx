@@ -17,7 +17,9 @@
  *=========================================================================*/
 
 #include <iostream>
+#include <numeric>
 #include <string_view>
+#include <vector>
 
 #include "itkMesh.h"
 #include "itkPolyLineCell.h"
@@ -88,15 +90,12 @@ TestCellInterface(const std::string_view name, TCell * aCell)
   std::cout << "    SetPointIds" << std::endl;
 
   using PointIdentifier = typename TCell::PointIdentifier;
+  const unsigned int numberOfPointIds = cell->GetNumberOfPoints() * 2;
 
-  auto * pointIds = new PointIdentifier[cell->GetNumberOfPoints() * 2];
+  std::vector<PointIdentifier> pointIds(numberOfPointIds);
+  std::iota(pointIds.begin(), pointIds.end(), 0);
 
-  for (unsigned int i = 0; i < cell->GetNumberOfPoints() * 2; ++i)
-  {
-    pointIds[i] = i;
-  }
-
-  cell->SetPointIds(pointIds);
+  cell->SetPointIds(pointIds.data());
   if (cell->GetNumberOfPoints() > 0)
   {
     cell->SetPointId(0, 100);
@@ -112,7 +111,7 @@ TestCellInterface(const std::string_view name, TCell * aCell)
   }
   std::cout << std::endl;
 
-  cell->SetPointIds(&pointIds[cell->GetNumberOfPoints()], &pointIds[cell->GetNumberOfPoints() * 2]);
+  cell->SetPointIds(pointIds.data() + cell->GetNumberOfPoints(), pointIds.data() + numberOfPointIds);
   std::cout << "    Iterator test: PointIds for populated cell: ";
   typename TCell::PointIdIterator pxpointId = cell->PointIdsBegin();
   typename TCell::PointIdIterator pxendId = cell->PointIdsEnd();
@@ -136,8 +135,6 @@ TestCellInterface(const std::string_view name, TCell * aCell)
   }
   std::cout << std::endl;
 
-
-  delete[] pointIds;
   return EXIT_SUCCESS;
 }
 int
