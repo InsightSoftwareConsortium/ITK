@@ -95,10 +95,14 @@ public:
   void
   SetMaximumNumberOfThreads(ThreadIdType numberOfThreads) override;
 
-  struct ThreadPoolInfoStruct : WorkUnitInfo
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  struct ITK_FUTURE_DEPRECATED(
+    "PoolMultiThreader now uses a slightly different private `InternalWorkUnitInfo` struct instead!")
+    ThreadPoolInfoStruct : WorkUnitInfo
   {
     std::future<ITK_THREAD_RETURN_TYPE> Future;
   };
+#endif
 
 protected:
   PoolMultiThreader();
@@ -107,13 +111,18 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
+  struct InternalWorkUnitInfo : WorkUnitInfo
+  {
+    std::future<void> Future;
+  };
+
   // Thread pool instance and factory
   ThreadPool::Pointer m_ThreadPool{};
 
   /** An array of work unit information containing a work unit id
    *  (0, 1, 2, .. ITK_MAX_THREADS-1), work unit count, and a pointer
    *  to void so that user data can be passed to each thread. */
-  ThreadPoolInfoStruct m_ThreadInfoArray[ITK_MAX_THREADS]{};
+  InternalWorkUnitInfo m_ThreadInfoArray[ITK_MAX_THREADS]{};
 
   /** Friends of Multithreader.
    * ProcessObject is a friend so that it can call PrintSelf() on its

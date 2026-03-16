@@ -132,7 +132,8 @@ PoolMultiThreader::SingleMethodExecute()
   {
     m_ThreadInfoArray[threadLoop].UserData = m_SingleData;
     m_ThreadInfoArray[threadLoop].NumberOfWorkUnits = m_NumberOfWorkUnits;
-    m_ThreadInfoArray[threadLoop].Future = m_ThreadPool->AddWork(m_SingleMethod, &m_ThreadInfoArray[threadLoop]);
+    m_ThreadInfoArray[threadLoop].Future = m_ThreadPool->AddWork(
+      [method = m_SingleMethod, threadInfo = &m_ThreadInfoArray[threadLoop]] { method(threadInfo); });
   }
 
   // Now, the parent thread calls this->SingleMethod() itself
@@ -175,8 +176,6 @@ PoolMultiThreader::ParallelizeArray(SizeValueType             firstIndex,
       {
         aFunc(ii);
       }
-      // make this lambda have the same signature as m_SingleMethod
-      return ITK_THREAD_RETURN_DEFAULT_VALUE;
     };
 
     SizeValueType workUnit = 1;
@@ -265,11 +264,8 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
         total = splitter->GetSplit(i, splitCount, iRegion);
         if (i < total)
         {
-          m_ThreadInfoArray[i].Future = m_ThreadPool->AddWork([funcP, iRegion]() {
-            funcP(&iRegion.GetIndex()[0], &iRegion.GetSize()[0]);
-            // make this lambda have the same signature as m_SingleMethod
-            return ITK_THREAD_RETURN_DEFAULT_VALUE;
-          });
+          m_ThreadInfoArray[i].Future =
+            m_ThreadPool->AddWork([funcP, iRegion]() { funcP(&iRegion.GetIndex()[0], &iRegion.GetSize()[0]); });
         }
         else
         {
