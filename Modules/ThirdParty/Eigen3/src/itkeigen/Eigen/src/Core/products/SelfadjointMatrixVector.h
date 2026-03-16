@@ -13,6 +13,13 @@
 // IWYU pragma: private
 #include "../InternalHeaderCheck.h"
 
+// GCC on ARM (aarch64) emits false-positive -Wmaybe-uninitialized warnings
+// in the vectorized selfadjoint matrix-vector product kernel.
+#if defined(__GNUC__) && !defined(__clang__)
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#endif
+
 namespace Eigen {
 
 namespace internal {
@@ -249,5 +256,9 @@ struct selfadjoint_product_impl<Lhs, 0, true, Rhs, RhsMode, false> {
 }  // end namespace internal
 
 }  // end namespace Eigen
+
+#if defined(__GNUC__) && !defined(__clang__)
+#  pragma GCC diagnostic pop
+#endif
 
 #endif  // EIGEN_SELFADJOINT_MATRIX_VECTOR_H
