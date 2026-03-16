@@ -286,15 +286,25 @@ OFFMeshIO::ReadPoints(void * buffer)
 void
 OFFMeshIO::ReadCells(void * buffer)
 {
-  const auto data = make_unique_for_overwrite<itk::uint32_t[]>(this->m_CellBufferSize - this->m_NumberOfCells);
+  const SizeValueType bufferSize = this->m_CellBufferSize - this->m_NumberOfCells;
+  const auto          data = make_unique_for_overwrite<itk::uint32_t[]>(bufferSize);
 
   if (this->m_FileType == IOFileEnum::ASCII)
   {
     this->ReadCellsBufferAsAscii(data.get(), m_InputFile);
+    if (m_InputFile.bad())
+    {
+      itkExceptionMacro("OFF ASCII cell read failed: stream error after reading " << this->m_NumberOfCells << " cells");
+    }
   }
   else if (this->m_FileType == IOFileEnum::BINARY)
   {
-    this->ReadBufferAsBinary(data.get(), m_InputFile, this->m_CellBufferSize - this->m_NumberOfCells);
+    this->ReadBufferAsBinary(data.get(), m_InputFile, bufferSize);
+    if (m_InputFile.bad() || m_InputFile.gcount() != static_cast<std::streamsize>(bufferSize * sizeof(itk::uint32_t)))
+    {
+      itkExceptionMacro("OFF binary cell read failed: expected " << bufferSize * sizeof(itk::uint32_t)
+                                                                 << " bytes but read " << m_InputFile.gcount());
+    }
   }
   else
   {

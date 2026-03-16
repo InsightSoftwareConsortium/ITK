@@ -235,8 +235,9 @@ OBJMeshIO::ReadCells(void * buffer)
   OpenFile();
 
   // Read and analyze the first line in the file
-  const auto    data = make_unique_for_overwrite<long[]>(this->m_CellBufferSize - this->m_NumberOfCells);
-  SizeValueType index = 0;
+  const SizeValueType expectedSize = this->m_CellBufferSize - this->m_NumberOfCells;
+  const auto          data = make_unique_for_overwrite<long[]>(expectedSize);
+  SizeValueType       index = 0;
 
   std::string       line;
   std::string       inputLine;
@@ -267,6 +268,12 @@ OBJMeshIO::ReadCells(void * buffer)
           idList.push_back(id);
         }
 
+        if (index + 1 + idList.size() > expectedSize)
+        {
+          CloseFile();
+          itkExceptionMacro("OBJ cell buffer overflow: parsed face data exceeds expected " << expectedSize
+                                                                                           << " entries");
+        }
         data[index++] = static_cast<long>(idList.size());
         for (const long it : idList)
         {
@@ -278,10 +285,13 @@ OBJMeshIO::ReadCells(void * buffer)
 
   CloseFile();
 
+  if (index != expectedSize)
+  {
+    itkExceptionMacro("OBJ cell buffer underflow: expected " << expectedSize << " entries but parsed " << index);
+  }
+
   this->WriteCellsBuffer(
     data.get(), static_cast<long *>(buffer), CellGeometryEnum::POLYGON_CELL, this->m_NumberOfCells);
-  // this->WriteCellsBuffer(data, static_cast<unsigned int *>(buffer),
-  // CellGeometryEnum::TRIANGLE_CELL, 3, this->m_NumberOfCells);
 }
 
 void
