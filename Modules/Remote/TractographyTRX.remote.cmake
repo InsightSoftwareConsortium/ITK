@@ -47,5 +47,5 @@ itk_fetch_module(
   Relevant Documentation: https://itktractographytrx.readthedocs.io"
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY https://github.com/tee-ar-ex/ITKTractographyTRX.git
-  GIT_TAG abe279d867e023a56a111e262d606f5521783966
+  GIT_TAG 223b5b34cac3d7ea60918e50c9fc8d2ae04ed884
   )
