@@ -109,7 +109,7 @@ case2()
 
 
 int
-CuberilleTest_Issue66(int argc, char * argv[])
+CuberilleTest_Issue66(int, char *[])
 {
   int countFailed = 0;
   for (const auto image : { case1(), case2() })
