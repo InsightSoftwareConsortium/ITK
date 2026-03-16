@@ -117,7 +117,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordinate>::EvaluateAtContinuousI
   dsum_me.Fill(0.0);
   dw.Fill(0.0);
 
-  for (ImageRegionConstIteratorWithIndex<InputImageType> It(this->GetInputImage(), region); !It.IsAtEnd(); ++It)
+  for (ImageRegionConstIteratorWithIndex It(this->GetInputImage(), region); !It.IsAtEnd(); ++It)
   {
     unsigned int j = It.GetIndex()[0] - region.GetIndex()[0];
     RealType     w = erfArray[0][j];

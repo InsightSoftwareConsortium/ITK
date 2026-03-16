@@ -88,9 +88,9 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
     // calculate the inverted field
     const double spacing = inputPtr->GetSpacing()[0];
 
-    ProgressReporter progress(this, 0, inputPtr->GetLargestPossibleRegion().GetNumberOfPixels());
-    ImageRegionIteratorWithIndex<OutputImageType> OutputIt(outputPtr, outputPtr->GetRequestedRegion());
-    const FieldInterpolatorPointer                inputFieldInterpolator = FieldInterpolatorType::New();
+    ProgressReporter               progress(this, 0, inputPtr->GetLargestPossibleRegion().GetNumberOfPixels());
+    ImageRegionIteratorWithIndex   OutputIt(outputPtr, outputPtr->GetRequestedRegion());
+    const FieldInterpolatorPointer inputFieldInterpolator = FieldInterpolatorType::New();
     inputFieldInterpolator->SetInputImage(inputPtr);
 
     double smallestError = 0;

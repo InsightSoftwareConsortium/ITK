@@ -83,7 +83,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeHImage()
   // Iterator for the phi function
   ImageRegionConstIteratorWithIndex constIt(contourImage, contourImage->GetRequestedRegion());
 
-  ImageRegionIteratorWithIndex<InputImageType> It(hBuffer, hBuffer->GetRequestedRegion());
+  ImageRegionIteratorWithIndex It(hBuffer, hBuffer->GetRequestedRegion());
 
   It.GoToBegin(), constIt.GoToBegin();
 

@@ -512,8 +512,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::UpdateB
   const MaskPixelType maskLabel = this->GetMaskLabel();
   const bool          useMaskLabel = this->GetUseMaskLabel();
 
-  ImageRegionConstIteratorWithIndex<RealImageType> It(parametricFieldEstimate,
-                                                      parametricFieldEstimate->GetRequestedRegion());
+  ImageRegionConstIteratorWithIndex It(parametricFieldEstimate, parametricFieldEstimate->GetRequestedRegion());
 
   for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue, ++It)
   {

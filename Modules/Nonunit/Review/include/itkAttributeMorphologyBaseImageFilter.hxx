@@ -103,7 +103,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
   m_AuxData = make_unique_for_overwrite<AttributeType[]>(buffsize);
 
   // copy the pixels to the sort buffer
-  ImageRegionConstIteratorWithIndex<TInputImage> RegIt(input, output->GetRequestedRegion());
+  ImageRegionConstIteratorWithIndex RegIt(input, output->GetRequestedRegion());
   // IndexType Origin = RegIt.GetIndex();
   {
     OffsetValueType pos = 0;

@@ -944,9 +944,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
           static_cast<unsigned long>(std::ceil(1.0 / this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel]));
         unsigned long count =
           sampleCount; // Start at sampleCount to keep behavior backwards identical, using first element.
-        for (ImageRegionConstIteratorWithIndex<VirtualDomainImageType> It(virtualImage, virtualDomainRegion);
-             !It.IsAtEnd();
-             ++It)
+        for (ImageRegionConstIteratorWithIndex It(virtualImage, virtualDomainRegion); !It.IsAtEnd(); ++It)
         {
           if (count == sampleCount)
           {
@@ -975,7 +973,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
         const auto          sampleCount =
           static_cast<unsigned long>(static_cast<float>(totalVirtualDomainVoxels) *
                                      this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel]);
-        ImageRandomConstIteratorWithIndex<VirtualDomainImageType> ItR(virtualImage, virtualDomainRegion);
+        ImageRandomConstIteratorWithIndex ItR(virtualImage, virtualDomainRegion);
         if (m_ReseedIterator)
         {
           ItR.ReinitializeSeed();

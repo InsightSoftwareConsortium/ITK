@@ -193,8 +193,8 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
 
     if (this->m_AverageMidPointGradients)
     {
-      for (ImageRegionIteratorWithIndex<DisplacementFieldType> ItF(
-             fixedToMiddleSmoothUpdateField, fixedToMiddleSmoothUpdateField->GetLargestPossibleRegion());
+      for (ImageRegionIteratorWithIndex ItF(fixedToMiddleSmoothUpdateField,
+                                            fixedToMiddleSmoothUpdateField->GetLargestPossibleRegion());
            !ItF.IsAtEnd();
            ++ItF)
       {
@@ -784,10 +784,8 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   const typename DisplacementFieldType::SizeType   size = region.GetSize();
   const typename DisplacementFieldType::IndexType  startIndex = region.GetIndex();
 
-  ImageRegionIteratorWithIndex<DisplacementFieldType> ItS(smoothField, smoothField->GetLargestPossibleRegion());
-  for (ImageRegionConstIteratorWithIndex<DisplacementFieldType> ItF(field, field->GetLargestPossibleRegion());
-       !ItF.IsAtEnd();
-       ++ItF, ++ItS)
+  ImageRegionIteratorWithIndex ItS(smoothField, smoothField->GetLargestPossibleRegion());
+  for (ImageRegionConstIteratorWithIndex ItF(field, field->GetLargestPossibleRegion()); !ItF.IsAtEnd(); ++ItF, ++ItS)
   {
     typename DisplacementFieldType::IndexType index = ItF.GetIndex();
     bool                                      isOnBoundary = false;

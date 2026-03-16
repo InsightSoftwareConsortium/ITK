@@ -416,8 +416,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
   neighborhoodWeightImage->SetRegions(size);
   neighborhoodWeightImage->AllocateInitialized();
 
-  ImageRegionIteratorWithIndex<RealImageType> ItW(neighborhoodWeightImage,
-                                                  neighborhoodWeightImage->GetRequestedRegion());
+  ImageRegionIteratorWithIndex ItW(neighborhoodWeightImage, neighborhoodWeightImage->GetRequestedRegion());
 
   RealArrayType p;
   RealArrayType r;
@@ -596,7 +595,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
   const typename PointDataImageType::IndexType startPhiIndex =
     this->m_PhiLattice->GetLargestPossibleRegion().GetIndex();
 
-  for (ImageRegionIteratorWithIndex<ImageType> It(this->GetOutput(), region); !It.IsAtEnd(); ++It)
+  for (ImageRegionIteratorWithIndex It(this->GetOutput(), region); !It.IsAtEnd(); ++It)
   {
     typename ImageType::IndexType idx = It.GetIndex();
     for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -761,7 +760,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::RefineC
     sizePsi[i] = this->m_SplineOrder[i] + 1;
   }
 
-  ImageRegionIteratorWithIndex<PointDataImageType> It(refinedLattice, refinedLattice->GetLargestPossibleRegion());
+  ImageRegionIteratorWithIndex It(refinedLattice, refinedLattice->GetLargestPossibleRegion());
 
   while (!It.IsAtEnd())
   {
@@ -980,9 +979,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Collaps
   const RealType       u,
   const unsigned int   dimension)
 {
-  for (ImageRegionIteratorWithIndex<PointDataImageType> It(collapsedLattice,
-                                                           collapsedLattice->GetLargestPossibleRegion());
-       !It.IsAtEnd();
+  for (ImageRegionIteratorWithIndex It(collapsedLattice, collapsedLattice->GetLargestPossibleRegion()); !It.IsAtEnd();
        ++It)
   {
     PointDataType                          data{};
