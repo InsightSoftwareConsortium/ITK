@@ -93,6 +93,7 @@ jobs:
         cat > dashboard.cmake << EOF
         set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
         set(CTEST_CMAKE_GENERATOR "Ninja")
+        set(CTEST_BUILD_FLAGS "-j 2")
         set(BUILD_NAME_SUFFIX "-Python")
         set(dashboard_cache "
           Python3_ROOT_DIR:PATH=${python_root_dir}
@@ -118,7 +119,7 @@ jobs:
         c++ --version
         cmake --version
 
-        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4 -L Python -E "(PythonExtrasTest)|(PythonFastMarching)|(PythonLazyLoadingImage)|(PythonThresholdSegmentationLevelSetWhiteMatterTest)|(PythonVerifyTTypeAPIConsistency)|(PythonWatershedSegmentation1Test)"
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 2 -L Python -E "(PythonExtrasTest)|(PythonFastMarching)|(PythonLazyLoadingImage)|(PythonThresholdSegmentationLevelSetWhiteMatterTest)|(PythonVerifyTTypeAPIConsistency)|(PythonWatershedSegmentation1Test)"
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1

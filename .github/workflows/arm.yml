@@ -47,6 +47,7 @@ jobs:
             cmake-build-type: "Release"
             cmake-generator: "Ninja"
             python-version: ""
+            parallel-level: 4
             ctest-cache: |
               BUILD_SHARED_LIBS:BOOL=OFF
               BUILD_EXAMPLES:BOOL=OFF
@@ -60,6 +61,7 @@ jobs:
             cmake-build-type: "Release"
             cmake-generator: "Ninja"
             python-version: ""
+            parallel-level: 3
             ctest-cache: |
               BUILD_SHARED_LIBS:BOOL=OFF
               BUILD_EXAMPLES:BOOL=OFF
@@ -74,6 +76,7 @@ jobs:
             cmake-build-type: "Release"
             cmake-generator: "Ninja"
             python-version: "3.11"
+            parallel-level: 3
             ctest-cache: |
               BUILD_SHARED_LIBS:BOOL=OFF
               BUILD_EXAMPLES:BOOL=OFF
@@ -155,6 +158,7 @@ jobs:
           cat > ITK-dashboard/dashboard.cmake << EOF
           set(CTEST_BUILD_CONFIGURATION "${{ matrix.cmake-build-type }}")
           set(CTEST_CMAKE_GENERATOR "${{ matrix.cmake-generator }}")
+          set(CTEST_BUILD_FLAGS "-j ${{ matrix.parallel-level }}")
           set(dashboard_cache "
               ${{ matrix.ctest-cache }}
               CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
@@ -171,7 +175,7 @@ jobs:
           c++ --version
           cmake --version
 
-          ctest -S ${{ github.workspace }}/ITK-dashboard/dashboard.cmake -VV -j 4 ${{ matrix.ctest-options }}
+          ctest -S ${{ github.workspace }}/ITK-dashboard/dashboard.cmake -VV -j ${{ matrix.parallel-level }} ${{ matrix.ctest-options }}
         env:
           CTEST_OUTPUT_ON_FAILURE: 1
       - name: Save compiler cache

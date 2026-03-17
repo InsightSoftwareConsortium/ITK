@@ -89,6 +89,7 @@ jobs:
         cat > dashboard.cmake << EOF
         set(CTEST_BUILD_CONFIGURATION "Release")
         set(CTEST_CMAKE_GENERATOR "Ninja")
+        set(CTEST_BUILD_FLAGS "-j 3")
         set(dashboard_cache "
           BUILD_SHARED_LIBS:BOOL=ON
           BUILD_EXAMPLES:BOOL=ON
@@ -110,7 +111,7 @@ jobs:
         c++ --version
         cmake --version
 
-        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 3
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
