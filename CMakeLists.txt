@@ -67,7 +67,14 @@ project(
     C
 )
 
-set(ITK_CMAKE_DIR "${ITK_SOURCE_DIR}/CMake")
+# Made a cache variable to be used by project which use FetchContent to build ITK.
+set(
+  ITK_CMAKE_DIR
+  "${ITK_SOURCE_DIR}/CMake"
+  CACHE INTERNAL
+  "Directory containing CMake files for ITK configuration and module macros"
+  FORCE
+)
 
 if(APPLE)
   include(itkApple)
