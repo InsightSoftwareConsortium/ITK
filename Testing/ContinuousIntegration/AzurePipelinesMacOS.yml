@@ -89,7 +89,6 @@ jobs:
         cat > dashboard.cmake << EOF
         set(CTEST_BUILD_CONFIGURATION "Release")
         set(CTEST_CMAKE_GENERATOR "Ninja")
-        set(CTEST_BUILD_FLAGS "-j 3")
         set(dashboard_cache "
           BUILD_SHARED_LIBS:BOOL=ON
           BUILD_EXAMPLES:BOOL=ON

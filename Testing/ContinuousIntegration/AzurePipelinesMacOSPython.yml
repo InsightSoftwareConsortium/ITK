@@ -94,7 +94,6 @@ jobs:
         cat > dashboard.cmake << EOF
         set(CTEST_BUILD_CONFIGURATION "Release")
         set(CTEST_CMAKE_GENERATOR "Ninja")
-        set(CTEST_BUILD_FLAGS "-j 3")
         set(BUILD_NAME_SUFFIX "-Python")
         set(dashboard_cache "
           Python3_ROOT_DIR:PATH=${python_root_dir}

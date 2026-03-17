@@ -89,7 +89,6 @@ jobs:
         cat > dashboard.cmake << EOF
         set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
         set(CTEST_CMAKE_GENERATOR "Ninja")
-        set(CTEST_BUILD_FLAGS "-j 2")
         set(dashboard_cache "
           BUILD_SHARED_LIBS:BOOL=OFF
           BUILD_EXAMPLES:BOOL=OFF
@@ -180,7 +179,6 @@ jobs:
         cat > dashboard.cmake << EOF
         set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
         set(CTEST_CMAKE_GENERATOR "Ninja")
-        set(CTEST_BUILD_FLAGS "-j 2")
         set(BUILD_NAME_SUFFIX "LegacyRemoved")
         set(dashboard_cache "
           ITK_LEGACY_REMOVE:BOOL=ON
@@ -272,7 +270,6 @@ jobs:
         cat > dashboard.cmake << EOF
         set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
         set(CTEST_CMAKE_GENERATOR "Ninja")
-        set(CTEST_BUILD_FLAGS "-j 2")
         set(BUILD_NAME_SUFFIX "Cxx20")
         set(dashboard_cache "
           CMAKE_CXX_STANDARD:STRING=20

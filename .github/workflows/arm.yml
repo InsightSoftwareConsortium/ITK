@@ -158,7 +158,6 @@ jobs:
           cat > ITK-dashboard/dashboard.cmake << EOF
           set(CTEST_BUILD_CONFIGURATION "${{ matrix.cmake-build-type }}")
           set(CTEST_CMAKE_GENERATOR "${{ matrix.cmake-generator }}")
-          set(CTEST_BUILD_FLAGS "-j ${{ matrix.parallel-level }}")
           set(dashboard_cache "
               ${{ matrix.ctest-cache }}
               CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
