@@ -94,7 +94,7 @@ public:
   ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove(TRange && originalRange)
   {
     const TRange originalRangeBeforeMove = originalRange;
-    TRange       moveConstructedRange(std::forward<TRange>(originalRange));
+    TRange       moveConstructedRange(std::move(originalRange));
 
     ExpectRangesHaveEqualBeginAndEnd(moveConstructedRange, originalRangeBeforeMove);
   }
@@ -107,7 +107,7 @@ public:
     const TRange originalRangeBeforeMove = originalRange;
 
     TRange moveAssignedRange;
-    moveAssignedRange = std::forward<TRange>(originalRange);
+    moveAssignedRange = std::move(originalRange);
 
     ExpectRangesHaveEqualBeginAndEnd(moveAssignedRange, originalRangeBeforeMove);
   }
