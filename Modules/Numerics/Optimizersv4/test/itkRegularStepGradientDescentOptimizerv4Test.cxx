@@ -272,7 +272,7 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
     itkOptimizer, RegularStepGradientDescentOptimizerv4, GradientDescentOptimizerv4Template);
 
-  bool testStatus = EXIT_SUCCESS;
+  int testStatus = EXIT_SUCCESS;
 
 
   constexpr bool doEstimateLearningRateAtEachIteration{ false };
