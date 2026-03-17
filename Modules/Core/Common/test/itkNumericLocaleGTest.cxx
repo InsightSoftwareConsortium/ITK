@@ -91,42 +91,53 @@ TEST(NumericLocale, SupportsNesting)
 TEST(NumericLocale, WorksWithDifferentInitialLocale)
 {
   // Try to set a locale with comma as decimal separator
-  const char * germanLocale = setlocale(LC_NUMERIC, "de_DE.UTF-8");
+  const char * decimalCommaLocales[] = { "de_DE.UTF-8", "bs_BA.UTF-8", "bs-Latn-BA.UTF-8", "fr_FR.UTF-8" };
 
-  if (germanLocale != nullptr)
+  unsigned countAvailableLocales = 0;
+  for (const char * locale : decimalCommaLocales)
   {
-    // Verify we're in German locale (comma separator)
-    const char * currentLocale = setlocale(LC_NUMERIC, nullptr);
-    ASSERT_NE(currentLocale, nullptr);
-    std::string savedLocale(currentLocale);
-
-    // Without NumericLocale, parsing with dot would fail in German locale
-    // (This test verifies the problem we're fixing)
-    double valueWithoutFix = std::strtod("0.878906", nullptr);
-    // In de_DE locale, this would parse as 0.0 (stops at dot)
-    EXPECT_EQ(valueWithoutFix, 0.0);
-
+    const char * decimalCommaLocale = setlocale(LC_NUMERIC, locale);
+    if (decimalCommaLocale != nullptr)
     {
-      // With NumericLocale, parsing should work correctly
-      itk::NumericLocale numericLocale;
+      // Verify we're in German locale (comma separator)
+      const char * currentLocale = setlocale(LC_NUMERIC, nullptr);
+      ASSERT_NE(currentLocale, nullptr);
+      std::string savedLocale(currentLocale);
 
-      double valueWithFix = std::strtod("0.878906", nullptr);
-      EXPECT_DOUBLE_EQ(valueWithFix, 0.878906);
+      // Without NumericLocale, parsing with dot would fail in German locale
+      // (This test verifies the problem we're fixing)
+      double valueWithoutFix = std::strtod("0.878906", nullptr);
+      // In de_DE locale, this would parse as 0.0 (stops at dot)
+      EXPECT_EQ(valueWithoutFix, 0.0);
 
-      double value2 = std::strtod("3.5", nullptr);
-      EXPECT_DOUBLE_EQ(value2, 3.5);
+      {
+        // With NumericLocale, parsing should work correctly
+        itk::NumericLocale numericLocale;
+
+        double valueWithFix = std::strtod("0.878906", nullptr);
+        EXPECT_DOUBLE_EQ(valueWithFix, 0.878906);
+
+        double value2 = std::strtod("3.5", nullptr);
+        EXPECT_DOUBLE_EQ(value2, 3.5);
+      }
+
+      // After NumericLocale destroyed, we should be back in German locale
+      EXPECT_STREQ(setlocale(LC_NUMERIC, nullptr), savedLocale.c_str());
+
+      // Restore to C locale for other tests
+      setlocale(LC_NUMERIC, "C");
+      ++countAvailableLocales;
     }
-
-    // After NumericLocale destroyed, we should be back in German locale
-    EXPECT_STREQ(setlocale(LC_NUMERIC, nullptr), savedLocale.c_str());
-
-    // Restore to C locale for other tests
-    setlocale(LC_NUMERIC, "C");
+  }
+  if (countAvailableLocales == 0)
+  {
+    GTEST_SKIP() << "Decimal-comma locales not available on this system. Locales tried: "
+                 << sizeof(decimalCommaLocales) / sizeof(char *)
+                 << ". Consider installing locales by\nsudo locale-gen de_DE.UTF-8";
   }
   else
   {
-    // de_DE.UTF-8 locale not available, skip this test
-    GTEST_SKIP() << "de_DE.UTF-8 locale not available on this system";
+    std::cout << "Passed. Tested with " << countAvailableLocales << " decimal-comma locales." << std::endl;
   }
 }
 
