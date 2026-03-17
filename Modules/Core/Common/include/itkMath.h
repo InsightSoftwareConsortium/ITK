@@ -914,13 +914,9 @@ Absolute(T x) noexcept
   }
   else if constexpr (std::is_floating_point_v<T>) // floating point or complex<> types
   {                                               // floating point std::abs is constexpr in c++23 and later
-#if __cplusplus >= 202302L
-    return std::abs(x);
-#else
     // Note: +0.0 and -0.0 are considered equal, according to ExactlyEquals. They are both considered equal to T{}.
     // And they both have the same absolute value: +0.0.
     return ExactlyEquals(x, T{}) ? T{} : (x < 0) ? -x : x;
-#endif
   }
 }
 template <typename T>
