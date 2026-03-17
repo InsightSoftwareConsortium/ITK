@@ -61,9 +61,6 @@ set(
   itkPointSetToImageFilterTest2.cxx
   itkSparseFieldLayerTest.cxx
   itkDataObjectTest.cxx
-  itkAtanRegularizedHeavisideStepFunctionTest1.cxx
-  itkHeavisideStepFunctionTest1.cxx
-  itkSinRegularizedHeavisideStepFunctionTest1.cxx
   itkPointGeometryTest.cxx
   itkNumberToStringTest.cxx
   itkTimeProbeTest.cxx
@@ -664,24 +661,6 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     itkDataObjectTest
-)
-itk_add_test(
-  NAME itkAtanRegularizedHeavisideStepFunctionTest1
-  COMMAND
-    ITKCommon1TestDriver
-    itkAtanRegularizedHeavisideStepFunctionTest1
-)
-itk_add_test(
-  NAME itkHeavisideStepFunctionTest1
-  COMMAND
-    ITKCommon1TestDriver
-    itkHeavisideStepFunctionTest1
-)
-itk_add_test(
-  NAME itkSinRegularizedHeavisideStepFunctionTest1
-  COMMAND
-    ITKCommon1TestDriver
-    itkSinRegularizedHeavisideStepFunctionTest1
 )
 itk_add_test(
   NAME itkPointGeometryTest
@@ -1627,6 +1606,7 @@ set(
   itkFilterDispatchGTest.cxx
   itkThreadedIndexedContainerPartitionerGTest.cxx
   itkHashTableGTest.cxx
+  itkHeavisideStepFunctionGTest.cxx
   itkImportImageGTest.cxx
   itkImportContainerGTest.cxx
   itkPixelAccessGTest.cxx
