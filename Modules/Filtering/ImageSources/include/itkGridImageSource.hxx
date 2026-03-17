@@ -57,7 +57,7 @@ GridImageSource<TOutputImage>::BeforeThreadedGenerateData()
     pixels.fill(1);
     if (this->m_WhichDimensions[i])
     {
-      ImageLinearIteratorWithIndex<ImageType> It(output, output->GetRequestedRegion());
+      ImageLinearIteratorWithIndex It(output, output->GetRequestedRegion());
       It.SetDirection(i);
 
       // Add two extra functions in the front and one in the back to ensure
@@ -93,7 +93,7 @@ GridImageSource<TOutputImage>::DynamicThreadedGenerateData(const ImageRegionType
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 
-  for (ImageRegionIteratorWithIndex<ImageType> It(output, outputRegionForThread); !It.IsAtEnd(); ++It)
+  for (ImageRegionIteratorWithIndex It(output, outputRegionForThread); !It.IsAtEnd(); ++It)
   {
     RealType                      val = 1.0;
     typename ImageType::IndexType index = It.GetIndex();

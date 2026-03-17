@@ -181,7 +181,7 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
   const OffsetListType * addedList = &this->m_AddedOffsets[offset];
   const OffsetListType * removedList = &this->m_RemovedOffsets[offset];
 
-  ImageLinearConstIteratorWithIndex<InputImageType> InLineIt(inputImage, outputRegionForThread);
+  ImageLinearConstIteratorWithIndex InLineIt(inputImage, outputRegionForThread);
   InLineIt.SetDirection(BestDirection);
   InLineIt.GoToBegin();
   IndexType LineStart;

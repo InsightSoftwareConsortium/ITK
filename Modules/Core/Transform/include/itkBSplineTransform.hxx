@@ -636,8 +636,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::ComputeJacobia
   const SizeValueType numberOfParametersPerDimension = this->GetNumberOfParametersPerDimension();
 
   unsigned long counter = 0;
-  for (ImageRegionConstIteratorWithIndex<ImageType> It(this->m_CoefficientImages[0], supportRegion); !It.IsAtEnd();
-       ++It)
+  for (ImageRegionConstIteratorWithIndex It(this->m_CoefficientImages[0], supportRegion); !It.IsAtEnd(); ++It)
   {
     typename ImageType::OffsetType currentIndex = It.GetIndex() - startIndex;
 

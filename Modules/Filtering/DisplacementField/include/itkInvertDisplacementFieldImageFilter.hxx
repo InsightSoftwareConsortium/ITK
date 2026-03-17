@@ -182,7 +182,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
 
   if (this->m_DoThreadedEstimateInverse)
   {
-    ImageRegionIteratorWithIndex<DisplacementFieldType> ItI(this->GetOutput(), region);
+    ImageRegionIteratorWithIndex ItI(this->GetOutput(), region);
 
     for (ItI.GoToBegin(), ItE.GoToBegin(), ItS.GoToBegin(); !ItI.IsAtEnd(); ++ItI, ++ItE, ++ItS)
     {

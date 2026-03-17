@@ -183,8 +183,8 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
   if (this->m_EnforceStationaryBoundary && !this->m_UseInputFieldToDefineTheBSplineDomain)
   {
-    ImageRegionConstIteratorWithIndex<OutputFieldType> ItB(bsplineParametricDomainField,
-                                                           bsplineParametricDomainField->GetBufferedRegion());
+    ImageRegionConstIteratorWithIndex ItB(bsplineParametricDomainField,
+                                          bsplineParametricDomainField->GetBufferedRegion());
 
     for (ItB.GoToBegin(); !ItB.IsAtEnd(); ++ItB)
     {
@@ -218,7 +218,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
   {
     itkDebugMacro("Gathering information from the input displacement field. ");
 
-    ImageRegionConstIteratorWithIndex<InputFieldType> It(inputField, inputField->GetBufferedRegion());
+    ImageRegionConstIteratorWithIndex It(inputField, inputField->GetBufferedRegion());
 
     itkDebugMacro("Extracting points from input displacement field.");
 

@@ -238,8 +238,8 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::Evaluate(const Point
 
   OutputType data{};
 
-  for (ImageRegionIteratorWithIndex<RealImageType> ItW(this->m_NeighborhoodWeightImage,
-                                                       this->m_NeighborhoodWeightImage->GetLargestPossibleRegion());
+  for (ImageRegionIteratorWithIndex ItW(this->m_NeighborhoodWeightImage,
+                                        this->m_NeighborhoodWeightImage->GetLargestPossibleRegion());
        !ItW.IsAtEnd();
        ++ItW)
   {
@@ -342,8 +342,8 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateGradient(con
   gradient.SetSize(PixelType::GetNumberOfComponents(), ImageDimension);
   gradient.Fill(0.0);
 
-  ImageRegionIteratorWithIndex<RealImageType> ItW(this->m_NeighborhoodWeightImage,
-                                                  this->m_NeighborhoodWeightImage->GetLargestPossibleRegion());
+  ImageRegionIteratorWithIndex ItW(this->m_NeighborhoodWeightImage,
+                                   this->m_NeighborhoodWeightImage->GetLargestPossibleRegion());
 
   vnl_vector<CoordinateType> bsplineWeights[ImageDimension];
 
@@ -512,8 +512,8 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::EvaluateHessian(cons
   hessian.SetSize(ImageDimension, ImageDimension);
   hessian.Fill(0.0);
 
-  ImageRegionIteratorWithIndex<RealImageType> ItW(this->m_NeighborhoodWeightImage,
-                                                  this->m_NeighborhoodWeightImage->GetLargestPossibleRegion());
+  ImageRegionIteratorWithIndex ItW(this->m_NeighborhoodWeightImage,
+                                   this->m_NeighborhoodWeightImage->GetLargestPossibleRegion());
 
   vnl_vector<CoordinateType> bsplineWeights[ImageDimension];
 
