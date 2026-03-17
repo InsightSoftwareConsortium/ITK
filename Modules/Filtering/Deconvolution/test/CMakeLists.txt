@@ -3,15 +3,21 @@ set(
   ITKDeconvolutionTests
   itkInverseDeconvolutionImageFilterTest.cxx
   itkLandweberDeconvolutionImageFilterTest.cxx
-  itkProjectedIterativeDeconvolutionImageFilterTest.cxx
+  itkParametricBlindLeastSquaresDeconvolutionImageFilterTest.cxx
   itkProjectedLandweberDeconvolutionImageFilterTest.cxx
   itkRichardsonLucyDeconvolutionImageFilterTest.cxx
   itkTikhonovDeconvolutionImageFilterTest.cxx
   itkWienerDeconvolutionImageFilterTest.cxx
-  itkParametricBlindLeastSquaresDeconvolutionImageFilterTest.cxx
 )
 
 createtestdriver(ITKDeconvolution "${ITKDeconvolution-Test_LIBRARIES}" "${ITKDeconvolutionTests}")
+
+set(
+  ITKDeconvolutionGTests
+  itkProjectedIterativeDeconvolutionImageFilterGTest.cxx
+)
+
+creategoogletestdriver(ITKDeconvolution "${ITKDeconvolution-Test_LIBRARIES}" "${ITKDeconvolutionGTests}")
 
 itk_add_test(
   NAME itkRichardsonLucyDeconvolutionImageFilterGaussianKernelTest
@@ -80,12 +86,6 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkLandweberDeconvolutionImageFilterIrregularKernelTest.nrrd
     1
     2.0
-)
-itk_add_test(
-  NAME itkProjectedIterativeDeconvolutionimageFilterTest
-  COMMAND
-    ITKDeconvolutionTestDriver
-    itkProjectedIterativeDeconvolutionImageFilterTest
 )
 itk_add_test(
   NAME itkProjectedLandweberDeconvolutionImageFilterGaussianKernelTest
