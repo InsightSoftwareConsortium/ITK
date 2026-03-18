@@ -129,6 +129,9 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   # ignore -Wunused-template warnings in third party DoubleConversion.
   ".*Modules/ThirdParty/DoubleConversion/.*warning:.*Wunused-template"
 
+  # GCC false positive: template-parameterized loops over FixedArray-based types
+  "warning:.*iteration.*invokes undefined behavior.*-Waggressive-loop-optimizations"
+
   # ignore some third party warnings
   ".*Modules/ThirdParty/.*warning:.*Wzero-as-null-pointer-constant"
   ".*Modules/ThirdParty/Eigen3/.*warning:.*"
