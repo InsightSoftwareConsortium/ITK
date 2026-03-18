@@ -168,7 +168,7 @@ def main() -> None:
     )
 
     # Apply the display limit after sorting
-    displayed_nodes = nodes[: args.limit]
+    nodes = nodes[: args.limit]
 
     if args.json_output:
         output = [
