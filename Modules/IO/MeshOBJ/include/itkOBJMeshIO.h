@@ -177,10 +177,6 @@ protected:
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  [[nodiscard]] std::ifstream
-  OpenFile() const;
 };
 } // end namespace itk
 
