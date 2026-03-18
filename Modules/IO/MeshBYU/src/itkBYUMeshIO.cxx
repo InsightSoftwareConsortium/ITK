@@ -65,16 +65,7 @@ void
 BYUMeshIO::ReadMeshInformation()
 {
   // Define input file stream and attach it to input file
-  std::ifstream inputFile;
-
-  // Due to the windows couldn't work well for tellg() and seekg() for ASCII mode, hence we
-  // open the file with std::ios::binary
-  inputFile.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
-
-  if (!inputFile.is_open())
-  {
-    itkExceptionMacro("Unable to open input file " << this->m_FileName);
-  }
+  std::ifstream inputFile = MeshIOBase::OpenInputFile();
 
   // Read the ASCII file information
   unsigned int numberOfParts = 0;
@@ -183,16 +174,7 @@ void
 BYUMeshIO::ReadPoints(void * buffer)
 {
   // Define input file stream and attach it to input file
-  std::ifstream inputFile;
-
-  /** Due to the windows couldn't work well for tellg() and seekg() for ASCII mode, hence we
-  open the file with std::ios::binary */
-  inputFile.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
-
-  if (!inputFile.is_open())
-  {
-    itkExceptionMacro("Unable to open input file " << this->m_FileName);
-  }
+  std::ifstream inputFile = MeshIOBase::OpenInputFile();
 
   // Set the position to points start
   inputFile.seekg(m_FilePosition, std::ios::beg);
@@ -221,14 +203,7 @@ void
 BYUMeshIO::ReadCells(void * buffer)
 {
   // Define input file stream and attach it to input file
-  std::ifstream inputFile;
-
-  inputFile.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
-
-  if (!inputFile.is_open())
-  {
-    itkExceptionMacro("Unable to open input file " << this->m_FileName);
-  }
+  std::ifstream inputFile = MeshIOBase::OpenInputFile();
 
   // Set the position to current position
   inputFile.seekg(m_FilePosition, std::ios::beg);
