@@ -112,6 +112,14 @@ def main() -> None:
         help="Show all matching builds, not just those with warnings or errors",
     )
     parser.add_argument(
+        "--new-warnings-only",
+        action="store_true",
+        help=(
+            "Only show builds that have MORE warnings than the lowest warning "
+            "count among recent builds (i.e., regressions from a clean baseline)"
+        ),
+    )
+    parser.add_argument(
         "--json",
         action="store_true",
         dest="json_output",
@@ -166,6 +174,17 @@ def main() -> None:
         ),
         reverse=True,
     )
+
+    if args.new_warnings_only and nodes:
+        # Find the minimum warning count as the "clean baseline" and keep
+        # only builds that exceed it, indicating regressions.
+        min_warnings = min(n.get("buildWarningsCount") or 0 for n in nodes)
+        nodes = [
+            n
+            for n in nodes
+            if (n.get("buildWarningsCount") or 0) > min_warnings
+            or (n.get("buildErrorsCount") or 0) > 0
+        ]
 
     # Apply the display limit after sorting
     nodes = nodes[: args.limit]
