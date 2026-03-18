@@ -138,12 +138,22 @@ def main() -> None:
         metavar="N",
         help="Maximum number of entries to retrieve (default: 200)",
     )
+    parser.add_argument(
+        "--exclude-thirdparty",
+        action="store_true",
+        help="Exclude warnings from Modules/ThirdParty/ paths",
+    )
     args = parser.parse_args()
 
     error_type = "ERROR" if args.errors else "WARNING"
     label = "error" if args.errors else "warning"
 
     build_meta, entries = fetch_entries(args.build_id, error_type, args.limit)
+    if args.exclude_thirdparty:
+        entries = [
+            e for e in entries
+            if not (e.get("sourceFile") or "").find("ThirdParty") >= 0
+        ]
     total = build_meta["buildErrorsCount" if args.errors else "buildWarningsCount"] or 0
 
     if args.json_output:

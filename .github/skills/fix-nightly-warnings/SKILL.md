@@ -40,13 +40,13 @@ Note: `list_nightly_warnings.py` returns the builds with the most errors then wa
 **Step 1b — Inspect warnings for a specific build:**
 
 ```bash
-python3 scripts/get_build_warnings.py --limit 200 --json BUILD_ID | jq '.entries | group_by(.flag) | .[] | {flag: .[0].flag, count: length}'
+python3 scripts/get_build_warnings.py --limit 200 --json BUILD_ID | jq '.entries | map(select(.sourceFile | test("ThirdParty") | not)) | group_by(.flag) | .[] | {flag: .[0].flag, count: length}'
 ```
 
 ---
 
 For each build with errors and warnings, fetch the details and summarize the errors and warnings by type and source file.
-IGNORE ALL errors and warnings originating from `Modules/ThirdParty/` paths.
+IGNORE ALL errors and warnings originating from `Modules/ThirdParty/` paths — always filter these out in jq pipelines or with the `--exclude-thirdparty` flag.
 
 
 If there are build errors, only fix those. If there are warnings, prioritize fixing the most common warning flag that affects the most files.
