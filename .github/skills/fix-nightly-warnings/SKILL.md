@@ -6,7 +6,7 @@ argument-hint: What warnings should this skill fix?
 
 # Fix ITK Nightly Build Errors and Warnings
 
-Creates a focused branch containing fixes for errors or warnings reported on the ITK CDash nightly dashboard, then opens a PR upstream.
+Creates a focused branch containing fixes for errors or warnings reported on the ITK CDash nightly dashboard, then open a PR upstream.
 
 ## When to Use
 
@@ -14,6 +14,8 @@ Creates a focused branch containing fixes for errors or warnings reported on the
 - User says "fix nightly errors", "address CDash warnings", or "there are new Doxygen warnings"
 
 ## Available Scripts
+
+Scripts are located at `.github/skills/fix-nightly-warnings/scripts/` relative to the repository root. All `python3` commands below assume this directory as the working directory.
 
 - **`scripts/list_nightly_warnings.py`** — Lists CDash builds that have warnings or errors. Defaults to `Nightly` builds from the last 24 hours.
 - **`scripts/get_build_warnings.py`** — Fetches and summarizes warnings (or errors) for a specific CDash build ID, grouped by source file and warning flag.
@@ -29,7 +31,7 @@ Use the provided scripts to fetch the current nightly builds and their warnings 
 **Step 1a — List nightly builds with warnings:**
 
 ```bash
-python3 scripts/list_nightly_warnings.py --type Nightly -limit 25 --json | jq '.[] | select(.warnings > 0)'
+python3 scripts/list_nightly_warnings.py --type Nightly --limit 25 --json | jq '.[] | select(.warnings > 0)'
 ```
 
 Note: `list_nightly_warnings.py` returns the builds with the most errors then warnings.
@@ -38,7 +40,7 @@ Note: `list_nightly_warnings.py` returns the builds with the most errors then wa
 **Step 1b — Inspect warnings for a specific build:**
 
 ```bash
-python3 scripts/get_build_warnings.py --limit 200 --json BUILD_ID | jq 'group_by(.flag) | .[] | {flag: .[0].flag, count: length}'
+python3 scripts/get_build_warnings.py --limit 200 --json BUILD_ID | jq '.entries | group_by(.flag) | .[] | {flag: .[0].flag, count: length}'
 ```
 
 ---
