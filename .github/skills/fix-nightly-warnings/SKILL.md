@@ -62,6 +62,20 @@ For each warning or error type identified in step 1, determine the root cause be
 - Identify the minimal fix: a missing annotation, a suppression pragma, a corrected API usage, etc.
 - Confirm that warnings from `Modules/ThirdParty/` are skipped entirely.
 
+**Common warning fixes (quick reference):**
+
+| Flag | Typical Fix |
+|------|-------------|
+| `-Wshadow` | Rename local variable to avoid shadowing outer scope |
+| `-Wunused-parameter` | Add `(void)param;` or use `itkNotUsed()` macro |
+| `-Wunused-variable` | Remove the variable or add `[[maybe_unused]]` |
+| `-Wdeprecated-declarations` | Update to the replacement API |
+| `-Wsign-compare` | Use matching signed/unsigned types or cast explicitly |
+| `-Woverloaded-virtual` | Add `using Base::Method;` or `override` keyword |
+| `-Winconsistent-missing-override` | Add missing `override` keyword |
+| `C4805` (MSVC) | Avoid mixing `bool` and `int` in arithmetic |
+| `C4267` (MSVC) | Add explicit narrowing cast `static_cast<>()` |
+
 ### 3. Create a New Branch
 
 ```bash
