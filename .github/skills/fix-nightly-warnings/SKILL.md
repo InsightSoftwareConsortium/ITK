@@ -51,6 +51,8 @@ IGNORE ALL errors and warnings originating from `Modules/ThirdParty/` paths — 
 
 If there are build errors, only fix those. If there are warnings, prioritize fixing the most common warning flag that affects the most files.
 
+**Deduplication:** Multiple CDash builds (e.g., GCC and Clang on different sites) often report the same warning from the same source file. Deduplicate warnings by `(sourceFile, flag)` across all builds before analyzing, to avoid redundant work.
+
 
 ### 2. Analyze the Root Cause
 
@@ -91,8 +93,8 @@ Follow the ITK commit message standards. Include a clear description of the fix 
 
 Do the following:
 - Draft a pull request description that includes a summary of the changes, the warnings or errors fixed, and reference the CDash build if applicable.
-- Request the User to review and approve the description before submitting the PR.
-- Push the branch to the user's remote
+- If running interactively, request the user to review and approve the description before submitting the PR. If running as a scheduled/agentic workflow, proceed directly.
+- Push the branch to the user's remote.
 - Create a DRAFT pull request against the current `upstream/main` branch.
 
 ## Quality Checks
