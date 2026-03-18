@@ -17,6 +17,7 @@ Creates a focused branch containing fixes for errors or warnings reported on the
 
 Scripts are located at `.github/skills/fix-nightly-warnings/scripts/` relative to the repository root. All `python3` commands below assume this directory as the working directory.
 
+- **`scripts/triage_nightly.py`** — Single-command triage: lists builds, fetches warnings, deduplicates by `(sourceFile, flag)`, and outputs an actionable summary grouped by flag. Best for agentic automation.
 - **`scripts/list_nightly_warnings.py`** — Lists CDash builds that have warnings or errors. Defaults to `Nightly` builds from the last 24 hours.
 - **`scripts/get_build_warnings.py`** — Fetches and summarizes warnings (or errors) for a specific CDash build ID, grouped by source file and warning flag.
 
