@@ -147,7 +147,7 @@ TestCellInterface(const std::string_view name, TCell * aCell)
 
   if (numberOfPoints > 0)
   {
-    cell->SetPointIds(&pointIds[numberOfPoints], &pointIds[numberOfPoints * 2]);
+    cell->SetPointIds(pointIds.data() + numberOfPoints, pointIds.data() + numberOfPoints * 2);
   }
   std::cout << "    Iterator test: PointIds for populated cell: ";
   typename TCell::PointIdIterator pxpointId = cell->PointIdsBegin();
