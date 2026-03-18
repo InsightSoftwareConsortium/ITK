@@ -149,16 +149,26 @@ def main() -> None:
         action="store_true",
         help="Exclude warnings from Modules/ThirdParty/ paths",
     )
+    parser.add_argument(
+        "--exclude",
+        action="append",
+        default=[],
+        metavar="PATTERN",
+        help="Exclude entries whose sourceFile contains PATTERN (may be repeated)",
+    )
     args = parser.parse_args()
 
     error_type = "ERROR" if args.errors else "WARNING"
     label = "error" if args.errors else "warning"
 
     build_meta, entries = fetch_entries(args.build_id, error_type, args.limit)
+    exclude_patterns = list(args.exclude)
     if args.exclude_thirdparty:
+        exclude_patterns.append("ThirdParty")
+    if exclude_patterns:
         entries = [
             e for e in entries
-            if not (e.get("sourceFile") or "").find("ThirdParty") >= 0
+            if not any(p in (e.get("sourceFile") or "") for p in exclude_patterns)
         ]
     total = build_meta["buildErrorsCount" if args.errors else "buildWarningsCount"] or 0
 
