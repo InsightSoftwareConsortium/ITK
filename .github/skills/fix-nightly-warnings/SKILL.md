@@ -75,7 +75,13 @@ Determine the root cause of each error or warning. Apply the necessary fixes to 
 
 ### 5. Verify No New Warnings Introduced
 
-Build and test to confirm that the fixes removed the targeted errors and warnings and did not introduce new ones.
+Build the affected libraries locally to confirm that the fixes compile cleanly:
+
+```bash
+cmake --build build --target <affected-library-target> 2>&1 | grep -c "warning:"
+```
+
+If a local build is not feasible, rely on the draft PR's CI checks to verify. Note that some warnings are intentionally suppressed in `CMake/CTestCustom.cmake.in` — do not fix warnings that are already handled there.
 
 ### 6. Commit the Changes
 
@@ -102,3 +108,4 @@ Before declaring done:
 | File | Purpose |
 |------|---------|
 | `Documentation/docs/contributing/index.md` | Contributing guidelines |
+| `CMake/CTestCustom.cmake.in` | Already-suppressed warning/error patterns — do not fix these |
