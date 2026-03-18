@@ -57,8 +57,8 @@ OBJMeshIO::CanWriteFile(const char * fileName)
   return true;
 }
 
-void
-OBJMeshIO::OpenFile()
+std::ifstream
+OBJMeshIO::OpenFile() const
 {
   if (this->m_FileName.empty())
   {
@@ -74,26 +74,17 @@ OBJMeshIO::OpenFile()
   // Due to the windows couldn't work well for tellg() and seekg() for ASCII
   // mode, hence we
   // open the file with std::ios::binary
-  m_InputFile.open(this->m_FileName.c_str(), std::ios_base::in | std::ios::binary);
+  std::ifstream inputFile(m_FileName, std::ios::binary);
 
   // Test whether the file was opened
-  if (!m_InputFile.is_open())
+  if (!inputFile.is_open())
   {
     itkExceptionMacro("Unable to open file " << this->m_FileName);
   }
 
-  // If not set to start of file stream, windows won't work properly
-  m_InputFile.seekg(0, std::ios::beg);
+  return inputFile;
 }
 
-void
-OBJMeshIO::CloseFile()
-{
-  if (m_InputFile.is_open())
-  {
-    m_InputFile.close();
-  }
-}
 
 bool
 OBJMeshIO::SplitLine(const std::string & line, std::string & type, std::string & content)
@@ -127,7 +118,7 @@ void
 OBJMeshIO::ReadMeshInformation()
 {
   // Define input file stream and attach it to input file
-  OpenFile();
+  std::ifstream inputFile = OpenFile();
 
   // Read and analyze the first line in the file
   SizeValueType numberOfCellPoints = 0;
@@ -138,7 +129,7 @@ OBJMeshIO::ReadMeshInformation()
   std::string       inputLine;
   std::string       type;
   const std::locale loc;
-  while (std::getline(m_InputFile, line, '\n'))
+  while (std::getline(inputFile, line, '\n'))
   {
     if (SplitLine(line, type, inputLine) && !inputLine.empty())
     {
@@ -191,15 +182,13 @@ OBJMeshIO::ReadMeshInformation()
   this->m_CellPixelType = IOPixelEnum::VECTOR;
   this->m_NumberOfCellPixelComponents = 3;
   this->m_UpdateCellData = false;
-
-  CloseFile();
 }
 
 void
 OBJMeshIO::ReadPoints(void * buffer)
 {
   // Define input file stream and attach it to input file
-  OpenFile();
+  std::ifstream inputFile = OpenFile();
 
   // Number of data array
   auto *        data = static_cast<float *>(buffer);
@@ -210,7 +199,7 @@ OBJMeshIO::ReadPoints(void * buffer)
   std::string       inputLine;
   std::string       type;
   const std::locale loc;
-  while (std::getline(m_InputFile, line, '\n'))
+  while (std::getline(inputFile, line, '\n'))
   {
     if (SplitLine(line, type, inputLine) && !inputLine.empty())
     {
@@ -224,15 +213,13 @@ OBJMeshIO::ReadPoints(void * buffer)
       }
     }
   }
-
-  CloseFile();
 }
 
 void
 OBJMeshIO::ReadCells(void * buffer)
 {
   // Define input file stream and attach it to input file
-  OpenFile();
+  std::ifstream inputFile = OpenFile();
 
   // Read and analyze the first line in the file
   const auto    data = make_unique_for_overwrite<long[]>(this->m_CellBufferSize - this->m_NumberOfCells);
@@ -242,7 +229,7 @@ OBJMeshIO::ReadCells(void * buffer)
   std::string       inputLine;
   std::string       type;
   const std::locale loc;
-  while (std::getline(m_InputFile, line, '\n'))
+  while (std::getline(inputFile, line, '\n'))
   {
     if (SplitLine(line, type, inputLine) && !inputLine.empty())
     {
@@ -276,8 +263,6 @@ OBJMeshIO::ReadCells(void * buffer)
     }
   }
 
-  CloseFile();
-
   this->WriteCellsBuffer(
     data.get(), static_cast<long *>(buffer), CellGeometryEnum::POLYGON_CELL, this->m_NumberOfCells);
   // this->WriteCellsBuffer(data, static_cast<unsigned int *>(buffer),
@@ -288,7 +273,7 @@ void
 OBJMeshIO::ReadPointData(void * buffer)
 {
   // Define input file stream and attach it to input file
-  OpenFile();
+  std::ifstream inputFile = OpenFile();
 
   // Number of data array
   auto *        data = static_cast<float *>(buffer);
@@ -299,7 +284,7 @@ OBJMeshIO::ReadPointData(void * buffer)
   std::string       inputLine;
   std::string       type;
   const std::locale loc;
-  while (std::getline(m_InputFile, line, '\n'))
+  while (std::getline(inputFile, line, '\n'))
   {
     if (SplitLine(line, type, inputLine) && !inputLine.empty())
     {
@@ -313,8 +298,6 @@ OBJMeshIO::ReadPointData(void * buffer)
       }
     }
   }
-
-  CloseFile();
 }
 
 void

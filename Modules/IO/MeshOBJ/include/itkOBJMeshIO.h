@@ -178,14 +178,10 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void
-  OpenFile();
-
-  void
-  CloseFile();
-
 private:
-  std::ifstream  m_InputFile{};
+  [[nodiscard]] std::ifstream
+  OpenFile() const;
+
   std::streampos m_PointsStartPosition{}; // file position for points relative to
                                           // std::ios::beg
 };
