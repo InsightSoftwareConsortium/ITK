@@ -39,6 +39,7 @@ QUERY_TEMPLATE = """
 """
 
 WARNING_FLAG_RE = re.compile(r'\[(-W[^\]]+)\]')
+MSVC_FLAG_RE = re.compile(r'\b(C\d{4,5})\b')
 
 
 def graphql(query: str) -> dict:
@@ -58,7 +59,12 @@ def graphql(query: str) -> dict:
 
 def extract_flag(text: str) -> str:
     m = WARNING_FLAG_RE.search(text)
-    return m.group(1) if m else "?"
+    if m:
+        return m.group(1)
+    m = MSVC_FLAG_RE.search(text)
+    if m:
+        return m.group(1)
+    return "?"
 
 
 def fetch_entries(build_id: str, error_type: str, limit: int) -> tuple[dict, list]:
