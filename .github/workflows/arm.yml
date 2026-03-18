@@ -47,11 +47,13 @@ jobs:
             cmake-build-type: "Release"
             cmake-generator: "Ninja"
             python-version: ""
+            parallel-level: 4
             ctest-cache: |
               BUILD_SHARED_LIBS:BOOL=OFF
               BUILD_EXAMPLES:BOOL=OFF
               ITK_WRAP_PYTHON:BOOL=OFF
               ITK_USE_CLANG_FORMAT:BOOL=OFF
+              ITK_COMPUTER_MEMORY_SIZE:STRING=11
             ctest-options: ""
 
           - os: macos-15
@@ -59,12 +61,14 @@ jobs:
             cmake-build-type: "Release"
             cmake-generator: "Ninja"
             python-version: ""
+            parallel-level: 3
             ctest-cache: |
               BUILD_SHARED_LIBS:BOOL=OFF
               BUILD_EXAMPLES:BOOL=OFF
               ITK_WRAP_PYTHON:BOOL=OFF
               ITK_USE_CLANG_FORMAT:BOOL=OFF
               CMAKE_OSX_ARCHITECTURES:STRING=x86_64
+              ITK_COMPUTER_MEMORY_SIZE:STRING=11
             ctest-options: ""
 
           - os: macos-15
@@ -72,11 +76,13 @@ jobs:
             cmake-build-type: "Release"
             cmake-generator: "Ninja"
             python-version: "3.11"
+            parallel-level: 3
             ctest-cache: |
               BUILD_SHARED_LIBS:BOOL=OFF
               BUILD_EXAMPLES:BOOL=OFF
               ITK_WRAP_PYTHON:BOOL=ON
               ITK_USE_CLANG_FORMAT:BOOL=OFF
+              ITK_COMPUTER_MEMORY_SIZE:STRING=11
             ctest-options: "-E itkPyBufferMemoryLeakTest"
 
     name: ARMBUILD-${{ matrix.name }}
@@ -168,7 +174,7 @@ jobs:
           c++ --version
           cmake --version
 
-          ctest -S ${{ github.workspace }}/ITK-dashboard/dashboard.cmake -VV -j 4 ${{ matrix.ctest-options }}
+          ctest -S ${{ github.workspace }}/ITK-dashboard/dashboard.cmake -VV -j ${{ matrix.parallel-level }} ${{ matrix.ctest-options }}
         env:
           CTEST_OUTPUT_ON_FAILURE: 1
       - name: Save compiler cache

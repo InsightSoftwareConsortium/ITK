@@ -104,6 +104,7 @@ jobs:
           ITK_USE_CCACHE:BOOL=ON
           CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
           CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
+          ITK_COMPUTER_MEMORY_SIZE:STRING=4.5
         ")
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
         EOF
@@ -117,7 +118,7 @@ jobs:
         c++ --version
         cmake --version
 
-        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4 -L Python -E "(PythonExtrasTest)|(PythonFastMarching)|(PythonLazyLoadingImage)|(PythonThresholdSegmentationLevelSetWhiteMatterTest)|(PythonVerifyTTypeAPIConsistency)|(PythonWatershedSegmentation1Test)"
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 2 -L Python -E "(PythonExtrasTest)|(PythonFastMarching)|(PythonLazyLoadingImage)|(PythonThresholdSegmentationLevelSetWhiteMatterTest)|(PythonVerifyTTypeAPIConsistency)|(PythonWatershedSegmentation1Test)"
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1

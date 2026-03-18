@@ -96,6 +96,7 @@ jobs:
           ITK_USE_CCACHE:BOOL=ON
           CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
           CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
+          ITK_COMPUTER_MEMORY_SIZE:STRING=11
         ")
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
         EOF
@@ -109,7 +110,7 @@ jobs:
         c++ --version
         cmake --version
 
-        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 3
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1

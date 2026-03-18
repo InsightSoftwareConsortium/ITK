@@ -103,6 +103,7 @@ jobs:
           ITK_USE_CCACHE:BOOL=ON
           CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
           CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
+          ITK_COMPUTER_MEMORY_SIZE:STRING=4.5
         ")
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
         EOF
@@ -113,7 +114,7 @@ jobs:
     - script: |
         cmake --version
         call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4 -L Python
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 2 -L Python
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
