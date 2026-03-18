@@ -181,9 +181,6 @@ protected:
 private:
   [[nodiscard]] std::ifstream
   OpenFile() const;
-
-  std::streampos m_PointsStartPosition{}; // file position for points relative to
-                                          // std::ios::beg
 };
 } // end namespace itk
 
