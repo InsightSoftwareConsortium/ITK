@@ -18,7 +18,6 @@
 #ifndef itkFastMarchingUpwindGradientImageFilter_hxx
 #define itkFastMarchingUpwindGradientImageFilter_hxx
 
-#include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 #include <algorithm>
@@ -89,22 +88,9 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelS
     m_GradientImage->CopyInformation(this->GetInput());
     m_GradientImage->SetBufferedRegion(output->GetBufferedRegion());
     m_GradientImage->Allocate();
-  }
 
-  // set all gradient vectors to zero
-  if (m_GenerateGradientImage)
-  {
-    using GradientIterator = ImageRegionIterator<GradientImageType>;
-
-    GradientIterator gradientIt(m_GradientImage, m_GradientImage->GetBufferedRegion());
-
-    GradientPixelType zeroGradient;
-    using GradientPixelValueType = typename GradientPixelType::ValueType;
-    zeroGradient.Fill(GradientPixelValueType{});
-    for (gradientIt.GoToBegin(); !gradientIt.IsAtEnd(); ++gradientIt)
-    {
-      gradientIt.Set(zeroGradient);
-    }
+    // set all gradient vectors to zero
+    m_GradientImage->FillBuffer(GradientPixelType{});
   }
 
   // Need to reset the target value.
