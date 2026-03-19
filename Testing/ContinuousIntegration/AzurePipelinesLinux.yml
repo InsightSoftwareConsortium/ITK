@@ -111,7 +111,7 @@ jobs:
         c++ --version
         cmake --version
 
-        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 2
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -V -j 2
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
@@ -202,7 +202,7 @@ jobs:
         c++ --version
         cmake --version
 
-        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 2
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -V -j 2
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
@@ -291,7 +291,7 @@ jobs:
         set -x
         c++ --version
         cmake --version
-        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 2
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -V -j 2
       displayName: "Build and test"
       env:
         CTEST_OUTPUT_ON_FAILURE: 1

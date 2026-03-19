@@ -174,7 +174,7 @@ jobs:
           c++ --version
           cmake --version
 
-          ctest -S ${{ github.workspace }}/ITK-dashboard/dashboard.cmake -VV -j ${{ matrix.parallel-level }} ${{ matrix.ctest-options }}
+          ctest -S ${{ github.workspace }}/ITK-dashboard/dashboard.cmake -V -j ${{ matrix.parallel-level }} ${{ matrix.ctest-options }}
         env:
           CTEST_OUTPUT_ON_FAILURE: 1
       - name: Save compiler cache

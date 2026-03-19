@@ -118,7 +118,7 @@ jobs:
         c++ --version
         cmake --version
 
-        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 2 -L Python -E "(PythonExtrasTest)|(PythonFastMarching)|(PythonLazyLoadingImage)|(PythonThresholdSegmentationLevelSetWhiteMatterTest)|(PythonVerifyTTypeAPIConsistency)|(PythonWatershedSegmentation1Test)"
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -V -j 2 -L Python -E "(PythonExtrasTest)|(PythonFastMarching)|(PythonLazyLoadingImage)|(PythonThresholdSegmentationLevelSetWhiteMatterTest)|(PythonVerifyTTypeAPIConsistency)|(PythonWatershedSegmentation1Test)"
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
