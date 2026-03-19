@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFastMarchingImageFilter.h"
+#include "itkImageRegionIterator.h"
 #include "itkTextOutput.h"
 #include "itkCommand.h"
 #include "itkTestingMacros.h"

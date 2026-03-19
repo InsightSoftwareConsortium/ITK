@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFastMarchingUpwindGradientImageFilter.h"
+#include "itkImageRegionIterator.h"
 #include "itkTextOutput.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkMath.h"
