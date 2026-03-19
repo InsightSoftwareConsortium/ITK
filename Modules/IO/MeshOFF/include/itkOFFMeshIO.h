@@ -196,15 +196,9 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void
-  OpenFile();
-
-  void
-  CloseFile();
-
 private:
-  std::ifstream    m_InputFile{};
   StreamOffsetType m_PointsStartPosition{}; // file position for points relative to std::ios::beg
+  StreamOffsetType m_CellsStartPosition{};  // file position for cells relative to std::ios::beg
   bool             m_TriangleCellType{};    // if all cells are triangle it is true. otherwise, it is false.
 };
 } // end namespace itk
