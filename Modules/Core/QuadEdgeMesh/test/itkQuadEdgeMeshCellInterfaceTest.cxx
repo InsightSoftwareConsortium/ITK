@@ -120,14 +120,17 @@ TestCellInterface(const std::string_view name, TCell * aCell)
   std::vector<PointIdentifier> pointIds(numberOfPoints * 2);
   std::iota(pointIds.begin(), pointIds.end(), PointIdentifier{});
 
-  cell->SetPointIds(pointIds.data());
+  if (!pointIds.empty())
+  {
+    cell->SetPointIds(pointIds.data());
+  }
   // exercising the const GetPointIds() method
   // null for QE Cells
   if (cell2->GetPointIds())
   {
     cell->SetPointIds(cell2->GetPointIds());
   }
-  if (numberOfPoints > 0)
+  if (!pointIds.empty())
   {
     cell->SetPointId(0, 100);
   }
@@ -142,7 +145,10 @@ TestCellInterface(const std::string_view name, TCell * aCell)
   }
   std::cout << std::endl;
 
-  cell->SetPointIds(&pointIds[numberOfPoints], &pointIds[numberOfPoints * 2]);
+  if (!pointIds.empty())
+  {
+    cell->SetPointIds(pointIds.data() + numberOfPoints, pointIds.data() + numberOfPoints * 2);
+  }
   std::cout << "    Iterator test: PointIds for populated cell: ";
   typename TCell::PointIdIterator pxpointId = cell->PointIdsBegin();
   typename TCell::PointIdIterator pxendId = cell->PointIdsEnd();
