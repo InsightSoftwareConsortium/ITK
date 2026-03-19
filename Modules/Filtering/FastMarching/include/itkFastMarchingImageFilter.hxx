@@ -18,7 +18,6 @@
 #ifndef itkFastMarchingImageFilter_hxx
 #define itkFastMarchingImageFilter_hxx
 
-#include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include <algorithm>
 
@@ -127,25 +126,10 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
   m_LabelImage->Allocate();
 
   // set all output value to infinity
-  using OutputIterator = ImageRegionIterator<LevelSetImageType>;
-
-  PixelType outputPixel = m_LargeValue;
-
-  for (OutputIterator outIt(output, output->GetBufferedRegion()); !outIt.IsAtEnd(); ++outIt)
-  {
-    outIt.Set(outputPixel);
-  }
+  output->FillBuffer(m_LargeValue);
 
   // set all points type to FarPoint
-  using LabelIterator = ImageRegionIterator<LabelImageType>;
-
-  LabelIterator typeIt(m_LabelImage, m_LabelImage->GetBufferedRegion());
-
-  while (!typeIt.IsAtEnd())
-  {
-    typeIt.Set(LabelEnum::FarPoint);
-    ++typeIt;
-  }
+  m_LabelImage->FillBuffer(LabelEnum::FarPoint);
 
   // process input alive points
   AxisNodeType  node;
@@ -168,8 +152,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
         // make this an alive point
         m_LabelImage->SetPixel(idx, LabelEnum::AlivePoint);
 
-        outputPixel = node.GetValue();
-        output->SetPixel(idx, outputPixel);
+        output->SetPixel(idx, node.GetValue());
       }
 
       ++pointsIter;
@@ -193,8 +176,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
         // make this an alive point
         m_LabelImage->SetPixel(idx, LabelEnum::OutsidePoint);
 
-        outputPixel = node.GetValue();
-        output->SetPixel(idx, outputPixel);
+        output->SetPixel(idx, node.GetValue());
       }
 
       ++pointsIter;
@@ -225,8 +207,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * 
         // make this an initial trial point
         m_LabelImage->SetPixel(idx, LabelEnum::InitialTrialPoint);
 
-        outputPixel = node.GetValue();
-        output->SetPixel(idx, outputPixel);
+        output->SetPixel(idx, node.GetValue());
 
         m_TrialHeap.push(node);
       }
