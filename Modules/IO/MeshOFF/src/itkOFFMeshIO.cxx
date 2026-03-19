@@ -61,50 +61,16 @@ OFFMeshIO::CanWriteFile(const char * fileName)
 }
 
 void
-OFFMeshIO::OpenFile()
-{
-  if (this->m_FileName.empty())
-  {
-    itkExceptionStringMacro("No input FileName");
-  }
-
-  if (!itksys::SystemTools::FileExists(m_FileName.c_str()))
-  {
-    itkExceptionMacro("File " << this->m_FileName << " does not exist");
-  }
-
-  // Read file as ascii
-  // Due to the windows doesn't work well for tellg() and seekg() for ASCII mode, hence we
-  // open the file with std::ios::binary
-  m_InputFile.open(this->m_FileName.c_str(), std::ios_base::in | std::ios::binary);
-
-  // Test whether the file was opened
-  if (!m_InputFile.is_open())
-  {
-    itkExceptionMacro("Unable to open file " << this->m_FileName);
-  }
-}
-
-void
-OFFMeshIO::CloseFile()
-{
-  if (m_InputFile.is_open())
-  {
-    m_InputFile.close();
-  }
-}
-
-void
 OFFMeshIO::ReadMeshInformation()
 {
   // Define input file stream and attach it to input file
-  OpenFile();
+  std::ifstream inputFile = MeshIOBase::OpenInputFile();
 
   // Read and analyze the first line in the file
   std::string line;
 
   // The OFF file must contain "OFF"
-  std::getline(m_InputFile, line, '\n'); // delimiter is '\n'
+  std::getline(inputFile, line, '\n'); // delimiter is '\n'
   if (line.find("OFF") == std::string::npos)
   {
     itkExceptionStringMacro("Error, the file doesn't begin with keyword \"OFF\" ");
@@ -123,7 +89,7 @@ OFFMeshIO::ReadMeshInformation()
   // Read and Set point dimension
   if (line.find("nOFF") != std::string::npos)
   {
-    m_InputFile >> this->m_PointDimension;
+    inputFile >> this->m_PointDimension;
     ++m_PointDimension;
   }
   else if (line.find("4OFF") != std::string::npos)
@@ -136,10 +102,10 @@ OFFMeshIO::ReadMeshInformation()
   }
 
   // Ignore comment lines
-  std::getline(m_InputFile, line, '\n');
+  std::getline(inputFile, line, '\n');
   while (line.find('#') != std::string::npos)
   {
-    std::getline(m_InputFile, line, '\n');
+    std::getline(inputFile, line, '\n');
   }
 
   // Read points and cells information
@@ -160,12 +126,15 @@ OFFMeshIO::ReadMeshInformation()
     ss >> numberOfEdges;
 
     // Read points start position in the file
-    m_PointsStartPosition = m_InputFile.tellg();
+    m_PointsStartPosition = inputFile.tellg();
 
     for (SizeValueType id = 0; id < this->m_NumberOfPoints; ++id)
     {
-      std::getline(m_InputFile, line, '\n');
+      std::getline(inputFile, line, '\n');
     }
+
+    // Read cells start position in the file
+    m_CellsStartPosition = inputFile.tellg();
 
     // Set default cell component type
     this->m_CellBufferSize = this->m_NumberOfCells * 2;
@@ -176,9 +145,9 @@ OFFMeshIO::ReadMeshInformation()
     unsigned int numberOfCellPoints = 0;
     for (SizeValueType id = 0; id < this->m_NumberOfCells; ++id)
     {
-      m_InputFile >> numberOfCellPoints;
+      inputFile >> numberOfCellPoints;
       this->m_CellBufferSize += numberOfCellPoints;
-      std::getline(m_InputFile, line, '\n');
+      std::getline(inputFile, line, '\n');
 
       if (numberOfCellPoints != 3)
       {
@@ -191,26 +160,29 @@ OFFMeshIO::ReadMeshInformation()
   {
     // Read the number of points
     itk::uint32_t numberOfPoints = 0;
-    this->ReadBufferAsBinary(&numberOfPoints, m_InputFile, 1);
+    this->ReadBufferAsBinary(&numberOfPoints, inputFile, 1);
     this->m_NumberOfPoints = numberOfPoints;
 
     // Read the number of cells
     itk::uint32_t numberOfCells = 0;
-    this->ReadBufferAsBinary(&numberOfCells, m_InputFile, 1);
+    this->ReadBufferAsBinary(&numberOfCells, inputFile, 1);
     this->m_NumberOfCells = numberOfCells;
 
     // Read number of edges
     itk::uint32_t numberOfEdges = 0;
-    this->ReadBufferAsBinary(&numberOfEdges, m_InputFile, 1);
+    this->ReadBufferAsBinary(&numberOfEdges, inputFile, 1);
 
     // Get points start position
-    m_PointsStartPosition = m_InputFile.tellg();
+    m_PointsStartPosition = inputFile.tellg();
 
     // Read points
     const auto numberOfCoordinates = this->m_NumberOfPoints * this->m_PointDimension;
     this->ReadBufferAsBinary(make_unique_for_overwrite<float[]>(numberOfCoordinates).get(),
-                             m_InputFile,
+                             inputFile,
                              this->m_NumberOfPoints * this->m_PointDimension);
+
+    // Read cells start position in the file
+    m_CellsStartPosition = inputFile.tellg();
 
     // Set default cell component type
     this->m_CellBufferSize = this->m_NumberOfCells * 2;
@@ -220,9 +192,9 @@ OFFMeshIO::ReadMeshInformation()
     const auto    cellsBuffer = make_unique_for_overwrite<itk::uint32_t[]>(this->m_NumberOfCells);
     for (unsigned long id = 0; id < this->m_NumberOfCells; ++id)
     {
-      this->ReadBufferAsBinary(&numberOfCellPoints, m_InputFile, 1);
+      this->ReadBufferAsBinary(&numberOfCellPoints, inputFile, 1);
       this->m_CellBufferSize += numberOfCellPoints;
-      this->ReadBufferAsBinary(cellsBuffer.get(), m_InputFile, numberOfCellPoints);
+      this->ReadBufferAsBinary(cellsBuffer.get(), inputFile, numberOfCellPoints);
       if (numberOfCellPoints != 3)
       {
         m_TriangleCellType = false;
@@ -264,18 +236,20 @@ OFFMeshIO::ReadMeshInformation()
 void
 OFFMeshIO::ReadPoints(void * buffer)
 {
+  // Define input file stream and attach it to input file
+  std::ifstream inputFile = MeshIOBase::OpenInputFile();
+
   // Set file position to points start position
-  m_InputFile.seekg(m_PointsStartPosition, std::ios::beg);
+  inputFile.seekg(m_PointsStartPosition, std::ios::beg);
 
   // Read file according to ASCII or BINARY
   if (this->m_FileType == IOFileEnum::ASCII)
   {
-    this->ReadBufferAsAscii(static_cast<float *>(buffer), m_InputFile, this->m_NumberOfPoints * this->m_PointDimension);
+    this->ReadBufferAsAscii(static_cast<float *>(buffer), inputFile, this->m_NumberOfPoints * this->m_PointDimension);
   }
   else if (this->m_FileType == IOFileEnum::BINARY)
   {
-    this->ReadBufferAsBinary(
-      static_cast<float *>(buffer), m_InputFile, this->m_NumberOfPoints * this->m_PointDimension);
+    this->ReadBufferAsBinary(static_cast<float *>(buffer), inputFile, this->m_NumberOfPoints * this->m_PointDimension);
   }
   else
   {
@@ -286,22 +260,26 @@ OFFMeshIO::ReadPoints(void * buffer)
 void
 OFFMeshIO::ReadCells(void * buffer)
 {
+  // Define input file stream and attach it to input file
+  std::ifstream inputFile = MeshIOBase::OpenInputFile();
+
+  // Set file position to cells start position
+  inputFile.seekg(m_CellsStartPosition, std::ios::beg);
+
   const auto data = make_unique_for_overwrite<itk::uint32_t[]>(this->m_CellBufferSize - this->m_NumberOfCells);
 
   if (this->m_FileType == IOFileEnum::ASCII)
   {
-    this->ReadCellsBufferAsAscii(data.get(), m_InputFile);
+    this->ReadCellsBufferAsAscii(data.get(), inputFile);
   }
   else if (this->m_FileType == IOFileEnum::BINARY)
   {
-    this->ReadBufferAsBinary(data.get(), m_InputFile, this->m_CellBufferSize - this->m_NumberOfCells);
+    this->ReadBufferAsBinary(data.get(), inputFile, this->m_CellBufferSize - this->m_NumberOfCells);
   }
   else
   {
     itkExceptionStringMacro("Invalid file type (not ASCII or BINARY)");
   }
-
-  CloseFile();
 
   if (m_TriangleCellType)
   {

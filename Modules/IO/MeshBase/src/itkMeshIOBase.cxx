@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkMeshIOBase.h"
+#include "itksys/SystemTools.hxx"
 
 namespace itk
 {
@@ -226,5 +227,31 @@ MeshIOBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Cell  pixel type: " << GetPixelTypeAsString(m_CellPixelType) << std::endl;
   os << indent << "Point pixel component type: " << GetComponentTypeAsString(m_PointPixelComponentType) << std::endl;
   os << indent << "Cell  pixel component type: " << GetComponentTypeAsString(m_CellPixelComponentType) << std::endl;
+}
+
+
+std::ifstream
+MeshIOBase::OpenInputFile() const
+{
+  if (m_FileName.empty())
+  {
+    itkExceptionStringMacro("No input FileName");
+  }
+
+  if (!itksys::SystemTools::FileExists(m_FileName.c_str()))
+  {
+    itkExceptionMacro("File " << m_FileName << " does not exist");
+  }
+
+  // Open the input file in binary mode. (Text mode does not work well on Windows, when using tellg() and seekg().)
+  std::ifstream inputFile(m_FileName, std::ios::binary);
+
+  // Test whether the file was opened
+  if (!inputFile.is_open())
+  {
+    itkExceptionMacro("Unable to open file " << m_FileName);
+  }
+
+  return inputFile;
 }
 } // namespace itk

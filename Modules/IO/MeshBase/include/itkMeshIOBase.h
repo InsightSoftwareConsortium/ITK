@@ -640,6 +640,10 @@ protected:
   void
   AddSupportedWriteExtension(const char * extension);
 
+  /** Opens the input file specified by the current FileName */
+  [[nodiscard]] std::ifstream
+  OpenInputFile() const;
+
   /** Read data from input file stream to buffer with ascii style */
   template <typename T>
   void

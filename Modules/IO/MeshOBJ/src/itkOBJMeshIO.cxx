@@ -57,34 +57,6 @@ OBJMeshIO::CanWriteFile(const char * fileName)
   return true;
 }
 
-std::ifstream
-OBJMeshIO::OpenFile() const
-{
-  if (this->m_FileName.empty())
-  {
-    itkExceptionStringMacro("No input FileName");
-  }
-
-  if (!itksys::SystemTools::FileExists(m_FileName.c_str()))
-  {
-    itkExceptionMacro("File " << this->m_FileName << " does not exist");
-  }
-
-  // Read file as ascii
-  // Due to the windows couldn't work well for tellg() and seekg() for ASCII
-  // mode, hence we
-  // open the file with std::ios::binary
-  std::ifstream inputFile(m_FileName, std::ios::binary);
-
-  // Test whether the file was opened
-  if (!inputFile.is_open())
-  {
-    itkExceptionMacro("Unable to open file " << this->m_FileName);
-  }
-
-  return inputFile;
-}
-
 
 bool
 OBJMeshIO::SplitLine(const std::string & line, std::string & type, std::string & content)
@@ -118,7 +90,7 @@ void
 OBJMeshIO::ReadMeshInformation()
 {
   // Define input file stream and attach it to input file
-  std::ifstream inputFile = OpenFile();
+  std::ifstream inputFile = MeshIOBase::OpenInputFile();
 
   // Read and analyze the first line in the file
   SizeValueType numberOfCellPoints = 0;
@@ -188,7 +160,7 @@ void
 OBJMeshIO::ReadPoints(void * buffer)
 {
   // Define input file stream and attach it to input file
-  std::ifstream inputFile = OpenFile();
+  std::ifstream inputFile = MeshIOBase::OpenInputFile();
 
   // Number of data array
   auto *        data = static_cast<float *>(buffer);
@@ -219,7 +191,7 @@ void
 OBJMeshIO::ReadCells(void * buffer)
 {
   // Define input file stream and attach it to input file
-  std::ifstream inputFile = OpenFile();
+  std::ifstream inputFile = MeshIOBase::OpenInputFile();
 
   // Read and analyze the first line in the file
   const auto    data = make_unique_for_overwrite<long[]>(this->m_CellBufferSize - this->m_NumberOfCells);
@@ -273,7 +245,7 @@ void
 OBJMeshIO::ReadPointData(void * buffer)
 {
   // Define input file stream and attach it to input file
-  std::ifstream inputFile = OpenFile();
+  std::ifstream inputFile = MeshIOBase::OpenInputFile();
 
   // Number of data array
   auto *        data = static_cast<float *>(buffer);
