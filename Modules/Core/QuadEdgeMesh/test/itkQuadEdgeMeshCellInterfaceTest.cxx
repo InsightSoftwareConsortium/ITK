@@ -120,7 +120,7 @@ TestCellInterface(const std::string_view name, TCell * aCell)
   std::vector<PointIdentifier> pointIds(numberOfPoints * 2);
   std::iota(pointIds.begin(), pointIds.end(), PointIdentifier{});
 
-  if (numberOfPoints > 0)
+  if (!pointIds.empty())
   {
     cell->SetPointIds(pointIds.data());
   }
@@ -130,7 +130,7 @@ TestCellInterface(const std::string_view name, TCell * aCell)
   {
     cell->SetPointIds(cell2->GetPointIds());
   }
-  if (numberOfPoints > 0)
+  if (!pointIds.empty())
   {
     cell->SetPointId(0, 100);
   }
@@ -145,7 +145,7 @@ TestCellInterface(const std::string_view name, TCell * aCell)
   }
   std::cout << std::endl;
 
-  if (numberOfPoints > 0)
+  if (!pointIds.empty())
   {
     cell->SetPointIds(pointIds.data() + numberOfPoints, pointIds.data() + numberOfPoints * 2);
   }
