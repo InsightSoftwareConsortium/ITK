@@ -120,6 +120,10 @@ jobs:
         CTEST_OUTPUT_ON_FAILURE: 1
         CCACHE_MAXSIZE: 2.4G
 
+    - script: python $(Build.SourcesDirectory)/Testing/ContinuousIntegration/report_build_diagnostics.py $(Build.SourcesDirectory)-build
+      condition: succeededOrFailed()
+      displayName: 'Report build warnings and errors'
+
     - script: |
         ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml
       condition: succeededOrFailed()

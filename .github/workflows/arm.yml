@@ -177,6 +177,11 @@ jobs:
           ctest -S ${{ github.workspace }}/ITK-dashboard/dashboard.cmake -V -j ${{ matrix.parallel-level }} ${{ matrix.ctest-options }}
         env:
           CTEST_OUTPUT_ON_FAILURE: 1
+
+      - name: Report build warnings and errors
+        if: always()
+        run: python3 ${{ github.workspace }}/Testing/ContinuousIntegration/report_build_diagnostics.py ${{ github.workspace }}/build
+
       - name: Save compiler cache
         if: ${{ !cancelled() }}
         uses: actions/cache/save@v5
