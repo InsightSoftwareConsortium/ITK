@@ -147,7 +147,7 @@ jobs:
       - name: Download dashboard script and testing data
         run: |
           set -x
-          git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
+          git clone -b dash-board-github-ci-instrument-groupings --single-branch https://github.com/hjmjohnson/ITK.git ITK-dashboard
 
           curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v${{ env.ExternalDataVersion }}/InsightData-${{ env.ExternalDataVersion }}.tar.gz -O
           cmake -E tar xfz InsightData-${{ env.ExternalDataVersion }}.tar.gz

@@ -68,7 +68,7 @@ jobs:
     - bash: |
         set -x
 
-        git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
+        git clone -b dash-board-github-ci-instrument-groupings --single-branch https://github.com/hjmjohnson/ITK.git ITK-dashboard
 
         curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v$(ExternalDataVersion)/InsightData-$(ExternalDataVersion).tar.gz -O
         cmake -E tar xfz InsightData-$(ExternalDataVersion).tar.gz
