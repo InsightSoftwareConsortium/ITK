@@ -297,5 +297,12 @@ itkPointGeometryTest(int, char *[])
     std::cout << "Test for Barycentric combination of a VectorContainer of Points PASSED" << std::endl;
   }
 
-  return EXIT_SUCCESS;
+  // WIP: Deliberate test failure to verify CTEST_OUTPUT_ON_FAILURE
+  // works with -V instead of -VV. This is a test artifact for PR #5971
+  // and must NOT be merged.
+  std::cerr << "DELIBERATE FAILURE: This output should appear in CI logs" << std::endl;
+  std::cerr << "because CTEST_OUTPUT_ON_FAILURE=1 is set and -V (not -VV)" << std::endl;
+  std::cerr << "is used. If you can read this in the CI log, the new" << std::endl;
+  std::cerr << "verbosity scheme is working correctly." << std::endl;
+  return EXIT_FAILURE;
 }

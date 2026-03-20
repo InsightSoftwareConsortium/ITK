@@ -33,6 +33,10 @@
 
 namespace itk
 {
+// WIP: Deliberate unused variable to generate a compiler warning.
+// This is a test artifact for PR #5971 and must NOT be merged.
+static int deliberately_unused_variable_for_ci_test = 42;
+
 /**
  * Initialize static member that controls warning display.
  */
