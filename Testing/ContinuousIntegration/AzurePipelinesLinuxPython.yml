@@ -118,11 +118,15 @@ jobs:
         c++ --version
         cmake --version
 
-        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 2 -L Python -E "(PythonExtrasTest)|(PythonFastMarching)|(PythonLazyLoadingImage)|(PythonThresholdSegmentationLevelSetWhiteMatterTest)|(PythonVerifyTTypeAPIConsistency)|(PythonWatershedSegmentation1Test)"
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -V -j 2 -L Python -E "(PythonExtrasTest)|(PythonFastMarching)|(PythonLazyLoadingImage)|(PythonThresholdSegmentationLevelSetWhiteMatterTest)|(PythonVerifyTTypeAPIConsistency)|(PythonWatershedSegmentation1Test)"
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
         CCACHE_MAXSIZE: 2.4G
+
+    - bash: python3 $(Build.SourcesDirectory)/Testing/ContinuousIntegration/report_build_diagnostics.py $(Build.SourcesDirectory)-build
+      condition: succeededOrFailed()
+      displayName: 'Report build warnings and errors'
 
     - script: |
         ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml
