@@ -414,6 +414,74 @@ function(ci_section_end section_id)
   endif()
 endfunction()
 
+# Extract and print build warnings/errors from Build.xml so they
+# appear directly in the CI log.  ctest_build() only exposes counts
+# (NUMBER_WARNINGS / NUMBER_ERRORS) — the actual compiler messages
+# live inside the XML that CTest writes for CDash submission.
+function(ci_report_build_diagnostics binary_dir num_warnings num_errors)
+  if(num_warnings EQUAL 0 AND num_errors EQUAL 0)
+    return()
+  endif()
+
+  # Locate the Build.xml via the TAG file that CTest maintains.
+  set(_tag_file "${binary_dir}/Testing/TAG")
+  if(NOT EXISTS "${_tag_file}")
+    return()
+  endif()
+  file(STRINGS "${_tag_file}" _tag_lines)
+  list(GET _tag_lines 0 _tag_dir)
+  set(_build_xml "${binary_dir}/Testing/${_tag_dir}/Build.xml")
+  if(NOT EXISTS "${_build_xml}")
+    return()
+  endif()
+
+  # Read Build.xml — escape semicolons so CMake list operations
+  # don't mangle lines that happen to contain them.
+  file(READ "${_build_xml}" _xml)
+  string(REPLACE ";" "\\;" _xml "${_xml}")
+  string(REPLACE "\n" ";" _xml_lines "${_xml}")
+
+  # Walk the XML line-by-line, tracking whether we are inside a
+  # <Warning> or <Error> block, and collect the <Text> content.
+  set(_in_warning FALSE)
+  set(_in_error FALSE)
+  set(_warning_texts "")
+  set(_error_texts "")
+  foreach(_line IN LISTS _xml_lines)
+    if("${_line}" MATCHES "<Warning>")
+      set(_in_warning TRUE)
+    elseif("${_line}" MATCHES "</Warning>")
+      set(_in_warning FALSE)
+    elseif("${_line}" MATCHES "<Error>")
+      set(_in_error TRUE)
+    elseif("${_line}" MATCHES "</Error>")
+      set(_in_error FALSE)
+    endif()
+    if("${_line}" MATCHES "<Text>(.*)</Text>")
+      if(_in_warning)
+        list(APPEND _warning_texts "${CMAKE_MATCH_1}")
+      elseif(_in_error)
+        list(APPEND _error_texts "${CMAKE_MATCH_1}")
+      endif()
+    endif()
+  endforeach()
+
+  # Print collected diagnostics so they are visible in CI output.
+  if(num_errors GREATER 0)
+    message("========== BUILD ERRORS (${num_errors}) ==========")
+    foreach(_t IN LISTS _error_texts)
+      message("  ${_t}")
+    endforeach()
+  endif()
+  if(num_warnings GREATER 0)
+    message("========== BUILD WARNINGS (${num_warnings}) ==========")
+    foreach(_t IN LISTS _warning_texts)
+      message("  ${_t}")
+    endforeach()
+  endif()
+  message("====================================================")
+endfunction()
+
 if(COMMAND dashboard_hook_init)
   dashboard_hook_init()
 endif()
@@ -470,6 +538,12 @@ while(NOT dashboard_done)
                 NUMBER_ERRORS build_errors
                 NUMBER_WARNINGS build_warnings)
     ci_section_end("build_${_dashboard_iteration}")
+
+    # Intentionally placed OUTSIDE the collapsible build section so
+    # that warnings and errors are always visible in the CI log
+    # without having to expand the build section.
+    ci_report_build_diagnostics(
+      "${CTEST_BINARY_DIRECTORY}" "${build_warnings}" "${build_errors}")
 
     ci_section_start("test_${_dashboard_iteration}" "Test")
     if(COMMAND dashboard_hook_test)
