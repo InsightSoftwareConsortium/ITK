@@ -18,7 +18,6 @@
 #ifndef itkFastMarchingUpwindGradientImageFilterBase_hxx
 #define itkFastMarchingUpwindGradientImageFilterBase_hxx
 
-#include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 #include <algorithm>
@@ -67,20 +66,7 @@ FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::InitializeOutput(Out
   GradientImage->CopyInformation(this->GetInput());
   GradientImage->SetBufferedRegion(output->GetBufferedRegion());
   GradientImage->Allocate();
-
-  using GradientIterator = ImageRegionIterator<GradientImageType>;
-
-  GradientIterator gradientIt(GradientImage, GradientImage->GetBufferedRegion());
-
-  GradientPixelType zeroGradient;
-  using GradientPixelValueType = typename GradientPixelType::ValueType;
-  zeroGradient.Fill(GradientPixelValueType{});
-
-  while (!gradientIt.IsAtEnd())
-  {
-    gradientIt.Set(zeroGradient);
-    ++gradientIt;
-  }
+  GradientImage->FillBuffer(GradientPixelType{});
 }
 
 
