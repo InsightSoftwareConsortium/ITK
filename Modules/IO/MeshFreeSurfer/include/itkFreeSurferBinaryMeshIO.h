@@ -189,12 +189,6 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void
-  OpenFile();
-
-  void
-  CloseFile();
-
 private:
   StreamOffsetType m_FilePosition{ 0 };
   itk::uint32_t    m_FileTypeIdentifier{ 0 };

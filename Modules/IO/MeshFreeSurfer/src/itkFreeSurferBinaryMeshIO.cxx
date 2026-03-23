@@ -62,40 +62,10 @@ FreeSurferBinaryMeshIO::CanWriteFile(const char * fileName)
 }
 
 void
-FreeSurferBinaryMeshIO::OpenFile()
-{
-  if (this->m_FileName.empty())
-  {
-    itkExceptionStringMacro("No input FileName");
-  }
-
-  if (!itksys::SystemTools::FileExists(m_FileName.c_str()))
-  {
-    itkExceptionMacro("File " << this->m_FileName << " does not exist");
-  }
-
-  m_InputFile.open(this->m_FileName.c_str(), std::ios::binary);
-
-  if (!this->m_InputFile.is_open())
-  {
-    itkExceptionMacro("Unable to open file inputFile " << this->m_FileName);
-  }
-}
-
-void
-FreeSurferBinaryMeshIO::CloseFile()
-{
-  if (m_InputFile.is_open())
-  {
-    m_InputFile.close();
-  }
-}
-
-void
 FreeSurferBinaryMeshIO::ReadMeshInformation()
 {
   // Define input file stream and attach it to input file
-  OpenFile();
+  std::ifstream inputFile = MeshIOBase::OpenInputFile();
 
   // Define required variables
   constexpr unsigned int fileTypeIdLength{ 3 };
@@ -103,7 +73,7 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
   this->m_FileType = IOFileEnum::BINARY;
 
   // Read file type
-  m_InputFile.read(reinterpret_cast<char *>(fileTypeId), fileTypeIdLength);
+  inputFile.read(reinterpret_cast<char *>(fileTypeId), fileTypeIdLength);
   m_FileTypeIdentifier = 0;
   m_FileTypeIdentifier <<= 8;
 
@@ -121,14 +91,14 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
     constexpr unsigned int numberOfCellPoints{ 3 };
     // Read input comment
     //  Extract Comment, and ignore it.
-    int byte = m_InputFile.get();
+    int byte = inputFile.get();
 
     std::string comment = "";
 
     while (byte != '\n')
     {
       comment += byte;
-      byte = m_InputFile.get();
+      byte = inputFile.get();
       if (byte == EOF)
       {
         itkExceptionStringMacro("Unexpected EOF");
@@ -136,24 +106,24 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
     }
     // Try to get the second '\n', but if the '\n' is not there, we put the byte
     // back.
-    byte = m_InputFile.get();
+    byte = inputFile.get();
     if (byte != '\n')
     {
       if (byte == EOF)
       {
         itkExceptionStringMacro("Unexpected EOF");
       }
-      m_InputFile.unget();
+      inputFile.unget();
     }
 
     // Read the number of points and number of cells
     itk::uint32_t numberOfPoints = 0;
-    m_InputFile.read(reinterpret_cast<char *>(&numberOfPoints), sizeof(numberOfPoints));
+    inputFile.read(reinterpret_cast<char *>(&numberOfPoints), sizeof(numberOfPoints));
     itk::ByteSwapper<itk::uint32_t>::SwapFromSystemToBigEndian(&numberOfPoints);
     this->m_NumberOfPoints = static_cast<SizeValueType>(numberOfPoints);
 
     itk::uint32_t numberOfCells = 0;
-    m_InputFile.read(reinterpret_cast<char *>(&numberOfCells), sizeof(numberOfCells));
+    inputFile.read(reinterpret_cast<char *>(&numberOfCells), sizeof(numberOfCells));
     itk::ByteSwapper<itk::uint32_t>::SwapFromSystemToBigEndian(&numberOfCells);
     this->m_NumberOfCells = static_cast<SizeValueType>(numberOfCells);
 
@@ -178,7 +148,7 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
     this->m_CellComponentType = IOComponentEnum::UINT;
     this->m_CellBufferSize = this->m_NumberOfCells * (numberOfCellPoints + 2);
 
-    m_FilePosition = m_InputFile.tellg();
+    m_FilePosition = inputFile.tellg();
   }
   // If input file is curvature file
   else if (m_FileTypeIdentifier == (-1 & 0x00ffffff))
@@ -191,21 +161,21 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
 
     // Read numberOfValuesPerPoint and numberOfPoints and numberOfCells
     itk::uint32_t numberOfPoints = 0;
-    m_InputFile.read(reinterpret_cast<char *>(&numberOfPoints), sizeof(numberOfPoints));
+    inputFile.read(reinterpret_cast<char *>(&numberOfPoints), sizeof(numberOfPoints));
     itk::ByteSwapper<itk::uint32_t>::SwapFromSystemToBigEndian(&numberOfPoints);
     this->m_NumberOfPoints = static_cast<SizeValueType>(numberOfPoints);
     this->m_NumberOfPointPixels = this->m_NumberOfPoints;
 
     itk::uint32_t numberOfCells = 0;
-    m_InputFile.read(reinterpret_cast<char *>(&numberOfCells), sizeof(numberOfCells));
+    inputFile.read(reinterpret_cast<char *>(&numberOfCells), sizeof(numberOfCells));
     itk::ByteSwapper<itk::uint32_t>::SwapFromSystemToBigEndian(&numberOfCells);
     this->m_NumberOfCells = static_cast<SizeValueType>(numberOfCells);
 
     itk::uint32_t numberOfValuesPerPoint = 0;
-    m_InputFile.read(reinterpret_cast<char *>(&numberOfValuesPerPoint), sizeof(numberOfValuesPerPoint));
+    inputFile.read(reinterpret_cast<char *>(&numberOfValuesPerPoint), sizeof(numberOfValuesPerPoint));
     itk::ByteSwapper<itk::uint32_t>::SwapFromSystemToBigEndian(&numberOfValuesPerPoint);
 
-    m_FilePosition = m_InputFile.tellg();
+    m_FilePosition = inputFile.tellg();
   }
   else
   {
@@ -221,14 +191,12 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
   this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
   this->m_NumberOfCellPixelComponents = 1;
   this->m_CellPixelType = IOPixelEnum::SCALAR;
-
-  CloseFile();
 }
 
 void
 FreeSurferBinaryMeshIO::ReadPoints(void * buffer)
 {
-  OpenFile();
+  m_InputFile = MeshIOBase::OpenInputFile();
   m_InputFile.seekg(m_FilePosition, std::ios::beg);
 
   // Number of data array
@@ -252,21 +220,19 @@ FreeSurferBinaryMeshIO::ReadCells(void * buffer)
   this->WriteCellsBuffer(
     data.get(), static_cast<unsigned int *>(buffer), CellGeometryEnum::TRIANGLE_CELL, 3, this->m_NumberOfCells);
 
-  CloseFile();
+  m_InputFile.close();
 }
 
 void
 FreeSurferBinaryMeshIO::ReadPointData(void * buffer)
 {
-  OpenFile();
-  m_InputFile.seekg(m_FilePosition, std::ios::beg);
+  std::ifstream inputFile = MeshIOBase::OpenInputFile();
+  inputFile.seekg(m_FilePosition, std::ios::beg);
 
   auto * data = static_cast<float *>(buffer);
 
-  m_InputFile.read(reinterpret_cast<char *>(data), this->m_NumberOfPointPixels * sizeof(float));
+  inputFile.read(reinterpret_cast<char *>(data), this->m_NumberOfPointPixels * sizeof(float));
   itk::ByteSwapper<float>::SwapRangeFromSystemToBigEndian(data, this->m_NumberOfPointPixels);
-
-  CloseFile();
 }
 
 void
