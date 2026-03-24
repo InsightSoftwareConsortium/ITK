@@ -4,6 +4,7 @@
 :maxdepth: 1
 :caption: 📝 ITK Release Notes
 
+6.0b02.md
 6.0b01.md
 
 5.4.5.md
