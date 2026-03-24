@@ -14,7 +14,7 @@
 #endif /*HAVE_CONFIG_H*/
 
 #include <stdlib.h>
-#include <hdf5.h>
+#include <itk_hdf5.h>
 #include "minc2.h"
 #include "minc2_private.h"
 

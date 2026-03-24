@@ -38,7 +38,7 @@
 #endif
 
 #ifdef HAVE_MINC2
-#include <hdf5.h>
+#include <itk_hdf5.h>
 #endif
 
 #include <math.h>

@@ -6,7 +6,7 @@
  * Functions to manipulate attributes and groups.
  ************************************************************************/
 #include <stdlib.h>
-#include <hdf5.h>
+#include <itk_hdf5.h>
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"

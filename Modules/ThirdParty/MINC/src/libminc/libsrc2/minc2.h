@@ -5,7 +5,7 @@
 #ifndef MINC2_H
 #define MINC2_H
 
-#include <hdf5.h>
+#include <itk_hdf5.h>
 #include "minc2_defs.h"
 #include "minc2_structs.h"
 #include "minc2_error.h"

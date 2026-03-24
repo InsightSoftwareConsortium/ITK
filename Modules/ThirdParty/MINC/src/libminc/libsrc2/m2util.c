@@ -3,7 +3,7 @@
 * \author Leila Baghdadi, Bert Vincent
 *
 ************************************************************************/
-#include <hdf5.h>
+#include <itk_hdf5.h>
 
 #include <stdlib.h>
 #include <math.h>
