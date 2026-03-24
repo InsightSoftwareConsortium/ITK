@@ -322,10 +322,9 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
 
   // Transform the source image and write to output.
   using InputConstIterator = ImageRegionConstIterator<InputImageType>;
-  using OutputIterator = ImageRegionIterator<OutputImageType>;
 
-  InputConstIterator inIter(input, outputRegionForThread);
-  OutputIterator     outIter(output, outputRegionForThread);
+  InputConstIterator                   inIter(input, outputRegionForThread);
+  ImageRegionIterator<OutputImageType> outIter(output, outputRegionForThread);
 
   for (SizeValueType i = 0; !outIter.IsAtEnd(); ++inIter, ++outIter, i++)
   {

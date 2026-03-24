@@ -70,10 +70,9 @@ ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunctio
 
   // copy input to output - isn't there a better way?
   using InputIterator = ImageRegionConstIterator<TInputImage>;
-  using OutputIterator = ImageRegionIterator<TOutputImage>;
 
-  InputIterator  inIt(input, output->GetRequestedRegion());
-  OutputIterator outIt(output, output->GetRequestedRegion());
+  InputIterator                     inIt(input, output->GetRequestedRegion());
+  ImageRegionIterator<TOutputImage> outIt(output, output->GetRequestedRegion());
 
   const InputImagePixelType firstValue = inIt.Get();
   this->m_Flat = true;

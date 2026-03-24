@@ -88,7 +88,6 @@ LabelVotingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
   using IteratorType = ImageRegionConstIterator<TInputImage>;
-  using OutIteratorType = ImageRegionIterator<TOutputImage>;
 
   const typename TOutputImage::Pointer output = this->GetOutput();
 
@@ -106,7 +105,7 @@ LabelVotingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   std::vector<unsigned int> votesByLabel(this->m_TotalLabelCount);
 
-  for (OutIteratorType out(output, outputRegionForThread); !out.IsAtEnd(); ++out)
+  for (ImageRegionIterator<TOutputImage> out(output, outputRegionForThread); !out.IsAtEnd(); ++out)
   {
     // Reset number of votes per label for all labels
     std::fill_n(votesByLabel.begin(), this->m_TotalLabelCount, 0);

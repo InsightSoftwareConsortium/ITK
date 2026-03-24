@@ -118,7 +118,6 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Iterator Typedefs for this routine
   using TempReverseIterator = ImageRegionReverseIterator<TTempImage>;
   using InputIterator = ImageRegionConstIterator<TInputImage>;
-  using OutputIterator = ImageRegionIterator<TOutputImage>;
 
   // Create a progress reporter
   ProgressReporter progress(
@@ -227,10 +226,8 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Now, copy the temporary image to the output image. Note that the temp
   // buffer iterator walks a region defined by the output
-  using OutputIterator = ImageRegionIterator<TOutputImage>;
-
-  OutputIterator                  outIt(outputPtr, outputPtr->GetRequestedRegion());
-  ImageRegionIterator<TTempImage> tempIt2(tempPtr, outputPtr->GetRequestedRegion());
+  ImageRegionIterator<TOutputImage> outIt(outputPtr, outputPtr->GetRequestedRegion());
+  ImageRegionIterator<TTempImage>   tempIt2(tempPtr, outputPtr->GetRequestedRegion());
 
   for (outIt.GoToBegin(), tempIt2.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++tempIt2)
   {

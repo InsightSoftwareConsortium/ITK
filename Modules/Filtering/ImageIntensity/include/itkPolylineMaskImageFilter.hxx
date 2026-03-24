@@ -151,7 +151,6 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   using InputImageConstIteratorType = ImageRegionConstIterator<TInputImage>;
 
   using PixelType = typename TOutputImage::PixelType;
-  using OutputImageIteratorType = ImageRegionIterator<TOutputImage>;
 
   using VertexType = typename TPolyline::VertexType;
   using VertexListType = typename TPolyline::VertexListType;
@@ -174,8 +173,8 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   outputImagePtr->SetLargestPossibleRegion(inputImagePtr->GetLargestPossibleRegion());
   outputImagePtr->AllocateInitialized();
 
-  InputImageConstIteratorType inputIt(inputImagePtr, inputImagePtr->GetLargestPossibleRegion());
-  OutputImageIteratorType     outputIt(outputImagePtr, outputImagePtr->GetLargestPossibleRegion());
+  InputImageConstIteratorType       inputIt(inputImagePtr, inputImagePtr->GetLargestPossibleRegion());
+  ImageRegionIterator<TOutputImage> outputIt(outputImagePtr, outputImagePtr->GetLargestPossibleRegion());
 
   using InterpolatorType = NearestNeighborInterpolateImageFunction<TInputImage, double>;
   using InterpolatorPointType = typename InterpolatorType::PointType;
@@ -323,8 +322,8 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   projectionImagePtr->SetRegions(projectionRegion);
   projectionImagePtr->AllocateInitialized();
 
-  using ProjectionImageIteratorType = ImageRegionIterator<ProjectionImageType>;
-  const ProjectionImageIteratorType projectionIt(projectionImagePtr, projectionImagePtr->GetLargestPossibleRegion());
+  const ImageRegionIterator<ProjectionImageType> projectionIt(projectionImagePtr,
+                                                              projectionImagePtr->GetLargestPossibleRegion());
 
   itkDebugMacro("Rotation matrix" << m_RotationMatrix);
 

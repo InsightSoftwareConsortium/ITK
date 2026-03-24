@@ -251,10 +251,9 @@ BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::
   const RegionType supportRegion(supportIndex, supportSize);
   unsigned long    counter = 0;
 
-  using IteratorType = ImageRegionIterator<ImageType>;
 
-  IteratorType                coeffIterator(this->m_CoefficientImages[0], supportRegion);
-  const ParametersValueType * basePointer = this->m_CoefficientImages[0]->GetBufferPointer();
+  ImageRegionIterator<ImageType> coeffIterator(this->m_CoefficientImages[0], supportRegion);
+  const ParametersValueType *    basePointer = this->m_CoefficientImages[0]->GetBufferPointer();
   while (!coeffIterator.IsAtEnd())
   {
     indexes[counter] = &(coeffIterator.Value()) - basePointer;

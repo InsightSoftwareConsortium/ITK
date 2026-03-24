@@ -247,13 +247,12 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
 
   if (m_CurrentDimension == ImageDimension - 1 && !this->m_SquaredDistance)
   {
-    using OutputIterator = ImageRegionIterator<OutputImageType>;
     using InputIterator = ImageRegionConstIterator<InputImageType>;
 
     const typename OutputImageType::RegionType outputRegion = outputRegionForThread;
 
-    OutputIterator Ot(outputPtr, outputRegion);
-    InputIterator  It(m_InputCache, outputRegion);
+    ImageRegionIterator<OutputImageType> Ot(outputPtr, outputRegion);
+    InputIterator                        It(m_InputCache, outputRegion);
 
     Ot.GoToBegin();
     It.GoToBegin();
