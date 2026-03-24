@@ -288,8 +288,6 @@ template <typename TInputImage, typename TClassifiedImage>
 double
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsEnergy(unsigned int i, unsigned int k, unsigned int k1)
 {
-  LabelledImageRegionIterator labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
-
   LabelType    f[8];
   unsigned int neighborcount = 0;
   int          simnum = 0;

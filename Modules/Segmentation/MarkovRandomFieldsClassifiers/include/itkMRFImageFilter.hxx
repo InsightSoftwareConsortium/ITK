@@ -346,14 +346,8 @@ MRFImageFilter<TInputImage, TClassifiedImage>::Allocate()
   m_LabelStatusImage->SetBufferedRegion(region);
   m_LabelStatusImage->Allocate();
 
-  LabelStatusImageIterator rIter(m_LabelStatusImage, m_LabelStatusImage->GetBufferedRegion());
-
   // Initialize the label status image to 1
-  while (!rIter.IsAtEnd())
-  {
-    rIter.Set(1);
-    ++rIter;
-  }
+  m_LabelStatusImage->FillBuffer(1);
 }
 
 template <typename TInputImage, typename TClassifiedImage>
