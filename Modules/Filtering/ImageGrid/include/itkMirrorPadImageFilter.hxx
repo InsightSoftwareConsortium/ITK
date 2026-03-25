@@ -716,7 +716,6 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   // Define/declare iterators that will walk the input and output regions
   // for this thread.
-  using InputIterator = ImageRegionConstIterator<TInputImage>;
 
   TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
 
@@ -751,8 +750,8 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
         double decayFactor = 1.0;
 
         // Do the actual copy of the input pixels to the output pixels here.
-        InputImageIndexType currentInputIndex;
-        InputIterator       inIt(inputPtr, inputRegion);
+        InputImageIndexType                   currentInputIndex;
+        ImageRegionConstIterator<TInputImage> inIt(inputPtr, inputRegion);
         for (ImageRegionIteratorWithIndex outIt(outputPtr, outputRegion); !outIt.IsAtEnd(); ++outIt, i++, ++inIt)
         {
           OutputImageIndexType currentOutputIndex = outIt.GetIndex();

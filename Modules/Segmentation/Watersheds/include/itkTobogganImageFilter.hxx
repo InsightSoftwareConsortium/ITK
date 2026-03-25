@@ -66,11 +66,9 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
   outputImage->SetBufferedRegion(outputImage->GetRequestedRegion());
   outputImage->AllocateInitialized();
 
-  using InputIterator = ImageRegionConstIterator<InputImageType>;
-  using OutputIterator = ImageRegionConstIterator<OutputImageType>;
 
-  InputIterator  inIt(inputImage, inputImage->GetRequestedRegion());
-  OutputIterator outIt(outputImage, outputImage->GetRequestedRegion());
+  ImageRegionConstIterator<InputImageType>  inIt(inputImage, inputImage->GetRequestedRegion());
+  ImageRegionConstIterator<OutputImageType> outIt(outputImage, outputImage->GetRequestedRegion());
 
   // Walk through the image
   while (!inIt.IsAtEnd())

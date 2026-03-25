@@ -144,10 +144,9 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
 
   // define iterators
   using LocalLevelSetImageType = typename LevelSetType::LevelSetImageType;
-  using ConstIteratorType = ImageRegionConstIterator<LocalLevelSetImageType>;
 
-  ConstIteratorType                           inputIt(inputPtr, inputPtr->GetBufferedRegion());
-  ImageRegionIterator<LocalLevelSetImageType> outputIt(outputPtr, outputPtr->GetBufferedRegion());
+  ImageRegionConstIterator<LocalLevelSetImageType> inputIt(inputPtr, inputPtr->GetBufferedRegion());
+  ImageRegionIterator<LocalLevelSetImageType>      outputIt(outputPtr, outputPtr->GetBufferedRegion());
 
   ImageRegionIterator<LocalLevelSetImageType> tempIt;
 
@@ -277,9 +276,8 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
 
   // define iterators
   using LocalLevelSetImageType = typename LevelSetType::LevelSetImageType;
-  using ConstIteratorType = ImageRegionConstIterator<LocalLevelSetImageType>;
 
-  ConstIteratorType inputIt(inputPtr, inputPtr->GetBufferedRegion());
+  ImageRegionConstIterator<LocalLevelSetImageType> inputIt(inputPtr, inputPtr->GetBufferedRegion());
 
   ImageRegionIterator<LocalLevelSetImageType> outputIt(outputPtr, outputPtr->GetBufferedRegion());
 

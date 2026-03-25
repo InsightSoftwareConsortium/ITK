@@ -88,8 +88,7 @@ ExponentialDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData
       }
     }
 
-    using InputConstIterator = ImageRegionConstIterator<InputImageType>;
-    InputConstIterator InputIt(inputPtr, inputPtr->GetRequestedRegion());
+    ImageRegionConstIterator<InputImageType> InputIt(inputPtr, inputPtr->GetRequestedRegion());
 
     for (InputIt.GoToBegin(); !InputIt.IsAtEnd(); ++InputIt)
     {

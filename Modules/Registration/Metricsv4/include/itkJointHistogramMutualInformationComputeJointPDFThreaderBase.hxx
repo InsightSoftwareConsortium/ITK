@@ -127,13 +127,12 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase<TDomainPartitioner,
   ImageRegionIterator<JointPDFType> jointPDFIt(this->m_Associate->m_JointPDF,
                                                this->m_Associate->m_JointPDF->GetBufferedRegion());
   jointPDFIt.GoToBegin();
-  using JointHistogramIteratorType = ImageRegionConstIterator<JointHistogramType>;
-  std::vector<JointHistogramIteratorType> jointHistogramPerThreadIts;
+  std::vector<ImageRegionConstIterator<JointHistogramType>> jointHistogramPerThreadIts;
   for (ThreadIdType i = 0; i < numberOfWorkUnitsUsed; ++i)
   {
-    jointHistogramPerThreadIts.push_back(
-      JointHistogramIteratorType(this->m_JointHistogramMIPerThreadVariables[i].JointHistogram,
-                                 this->m_JointHistogramMIPerThreadVariables[i].JointHistogram->GetBufferedRegion()));
+    jointHistogramPerThreadIts.push_back(ImageRegionConstIterator<JointHistogramType>(
+      this->m_JointHistogramMIPerThreadVariables[i].JointHistogram,
+      this->m_JointHistogramMIPerThreadVariables[i].JointHistogram->GetBufferedRegion()));
     jointHistogramPerThreadIts[i].GoToBegin();
   }
 

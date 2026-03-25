@@ -118,9 +118,8 @@ template <typename TLevelSet>
 void
 LevelSetNeighborhoodExtractor<TLevelSet>::GenerateDataFull()
 {
-  using InputConstIterator = ImageRegionConstIterator<LevelSetImageType>;
 
-  InputConstIterator inIt(m_InputLevelSet, m_InputLevelSet->GetBufferedRegion());
+  ImageRegionConstIterator<LevelSetImageType> inIt(m_InputLevelSet, m_InputLevelSet->GetBufferedRegion());
 
   IndexType inputIndex;
 

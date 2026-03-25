@@ -133,10 +133,9 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataFull()
   const LevelSetPointer      tempLevelSet = m_Marcher->GetOutput();
 
   // define iterators
-  using ConstIteratorType = ImageRegionConstIterator<LevelSetImageType>;
 
-  ConstIteratorType                      inputIt(inputPtr, inputPtr->GetBufferedRegion());
-  ImageRegionIterator<LevelSetImageType> outputIt(outputPtr, outputPtr->GetBufferedRegion());
+  ImageRegionConstIterator<LevelSetImageType> inputIt(inputPtr, inputPtr->GetBufferedRegion());
+  ImageRegionIterator<LevelSetImageType>      outputIt(outputPtr, outputPtr->GetBufferedRegion());
 
   this->UpdateProgress(0.0);
 
@@ -199,9 +198,8 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataNarrowBand()
   const LevelSetPointer      tempLevelSet = m_Marcher->GetOutput();
 
   // define iterators
-  using ConstIteratorType = ImageRegionConstIterator<LevelSetImageType>;
 
-  ConstIteratorType inputIt(inputPtr, inputPtr->GetBufferedRegion());
+  ImageRegionConstIterator<LevelSetImageType> inputIt(inputPtr, inputPtr->GetBufferedRegion());
 
   ImageRegionIterator<LevelSetImageType> outputIt(outputPtr, outputPtr->GetBufferedRegion());
 
