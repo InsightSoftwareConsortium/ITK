@@ -167,7 +167,7 @@
 #endif /* MNCAPI not defined */
 
 #if MINC2
-#include <hdf5.h>
+#include <itk_hdf5.h>
 #include <netcdf.h>
 #include "minc_compat.h"
 #else

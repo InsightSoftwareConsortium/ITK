@@ -19,7 +19,7 @@
 
 #define _GNU_SOURCE 1
 #include <stdlib.h>
-#include <hdf5.h>
+#include <itk_hdf5.h>
 #include "minc2.h"
 #include "minc2_private.h"
 #include "minc_config.h"
