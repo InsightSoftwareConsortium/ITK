@@ -63,31 +63,31 @@ pip install --pre --upgrade itk
 
 **Guide and Textbook**
 
-- [InsightSoftwareGuide-Book1-6.0b01.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b01/InsightSoftwareGuide-Book1-6.0b01.pdf)
-- [InsightSoftwareGuide-Book2-6.0b01.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b01/InsightSoftwareGuide-Book2-6.0b01.pdf)
+- [InsightSoftwareGuide-Book1-6.0b02.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b02/InsightSoftwareGuide-Book1-6.0b02.pdf)
+- [InsightSoftwareGuide-Book2-6.0b02.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b02/InsightSoftwareGuide-Book2-6.0b02.pdf)
 
 **Library Sources**
 
-- [InsightToolkit-6.0b01.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b01/InsightToolkit-6.0b01.tar.gz)
-- [InsightToolkit-6.0b01.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b01/InsightToolkit-6.0b01.zip)
+- [InsightToolkit-6.0b02.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b02/InsightToolkit-6.0b02.tar.gz)
+- [InsightToolkit-6.0b02.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b02/InsightToolkit-6.0b02.zip)
 
 **Testing Data**
 
 Unpack optional testing data in the same directory where the Library Source is unpacked.
 
-- [InsightData-6.0b01.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b01/InsightData-6.0b01.tar.gz)
-- [InsightData-6.0b01.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b01/InsightData-6.0b01.zip)
+- [InsightData-6.0b02.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b02/InsightData-6.0b02.tar.gz)
+- [InsightData-6.0b02.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b02/InsightData-6.0b02.zip)
 
 **Checksums and Signatures**
 
-- [InsightToolkit-6.0b01.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b01/InsightToolkit-6.0b01.tar.gz.asc)
-- [InsightToolkit-6.0b01.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b01/InsightToolkit-6.0b01.zip.asc)
+- [InsightToolkit-6.0b02.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b02/InsightToolkit-6.0b02.tar.gz.asc)
+- [InsightToolkit-6.0b02.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b02/InsightToolkit-6.0b02.zip.asc)
 
-- [InsightData-6.0b01.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b01/InsightData-6.0b01.tar.gz.asc)
-- [InsightData-6.0b01.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b01/InsightData-6.0b01.zip.asc)
+- [InsightData-6.0b02.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b02/InsightData-6.0b02.tar.gz.asc)
+- [InsightData-6.0b02.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b02/InsightData-6.0b02.zip.asc)
 
-- [MD5SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b01/MD5SUMS)
-- [SHA512SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b01/SHA512SUMS)
+- [MD5SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b02/MD5SUMS)
+- [SHA512SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v6.0b02/SHA512SUMS)
 
 
 📦 Package managers
