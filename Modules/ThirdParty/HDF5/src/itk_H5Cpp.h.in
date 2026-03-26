@@ -21,10 +21,28 @@
 
 /* Use the hdf5 library configured for ITK.  */
 #cmakedefine ITK_USE_SYSTEM_HDF5
+
+/* Suppress -Wzero-as-null-pointer-constant warnings from HDF5 C++ headers
+ * that use NULL in default function arguments. This mirrors the pattern
+ * of ITK_CLANG_PRAGMA_PUSH / ITK_CLANG_SUPPRESS_Wzero_as_null_pointer_constant
+ * from itkMacro.h. */
+#if defined(__clang__) && defined(__has_warning)
+#  if __has_warning("-Wzero-as-null-pointer-constant")
+#    pragma clang diagnostic push
+#    pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
+#    define ITK_H5CPP_SUPPRESS_Wzero_as_null_pointer_constant
+#  endif
+#endif
+
 #ifdef ITK_USE_SYSTEM_HDF5
 # include <H5Cpp.h>
 #else
 # include "itkhdf5/H5Cpp.h"
+#endif
+
+#ifdef ITK_H5CPP_SUPPRESS_Wzero_as_null_pointer_constant
+#  pragma clang diagnostic pop
+#  undef ITK_H5CPP_SUPPRESS_Wzero_as_null_pointer_constant
 #endif
 
 #endif
