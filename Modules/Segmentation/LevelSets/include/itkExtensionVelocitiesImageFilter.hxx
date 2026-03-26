@@ -144,23 +144,20 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
 
   // define iterators
   using LocalLevelSetImageType = typename LevelSetType::LevelSetImageType;
-  using IteratorType = ImageRegionIterator<LocalLevelSetImageType>;
-  using ConstIteratorType = ImageRegionConstIterator<LocalLevelSetImageType>;
 
-  ConstIteratorType inputIt(inputPtr, inputPtr->GetBufferedRegion());
-  IteratorType      outputIt(outputPtr, outputPtr->GetBufferedRegion());
+  ImageRegionConstIterator<LocalLevelSetImageType> inputIt(inputPtr, inputPtr->GetBufferedRegion());
+  ImageRegionIterator<LocalLevelSetImageType>      outputIt(outputPtr, outputPtr->GetBufferedRegion());
 
-  IteratorType tempIt;
+  ImageRegionIterator<LocalLevelSetImageType> tempIt;
 
-  using AuxIteratorType = ImageRegionIterator<AuxImageType>;
 
-  AuxIteratorType auxTempIt[VAuxDimension];
-  AuxIteratorType auxOutputIt[VAuxDimension];
+  ImageRegionIterator<AuxImageType> auxTempIt[VAuxDimension];
+  ImageRegionIterator<AuxImageType> auxOutputIt[VAuxDimension];
 
   for (unsigned int k = 0; k < VAuxDimension; ++k)
   {
     const AuxImagePointer ptr = this->GetOutputVelocityImage(k);
-    auxOutputIt[k] = AuxIteratorType(ptr, ptr->GetBufferedRegion());
+    auxOutputIt[k] = ImageRegionIterator<AuxImageType>(ptr, ptr->GetBufferedRegion());
   }
 
   this->UpdateProgress(0.0);
@@ -181,12 +178,12 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
   m_Marcher->SetAuxiliaryTrialValues(m_Locator->GetModifiableAuxOutsideValues());
   m_Marcher->Update();
 
-  tempIt = IteratorType(tempLevelSet, tempLevelSet->GetBufferedRegion());
+  tempIt = ImageRegionIterator<LocalLevelSetImageType>(tempLevelSet, tempLevelSet->GetBufferedRegion());
 
   for (unsigned int k = 0; k < VAuxDimension; ++k)
   {
     const AuxImagePointer ptr = m_Marcher->GetAuxiliaryImage(k);
-    auxTempIt[k] = AuxIteratorType(ptr, ptr->GetBufferedRegion());
+    auxTempIt[k] = ImageRegionIterator<AuxImageType>(ptr, ptr->GetBufferedRegion());
   }
 
   inputIt.GoToBegin();
@@ -279,12 +276,10 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
 
   // define iterators
   using LocalLevelSetImageType = typename LevelSetType::LevelSetImageType;
-  using IteratorType = ImageRegionIterator<LocalLevelSetImageType>;
-  using ConstIteratorType = ImageRegionConstIterator<LocalLevelSetImageType>;
 
-  ConstIteratorType inputIt(inputPtr, inputPtr->GetBufferedRegion());
+  ImageRegionConstIterator<LocalLevelSetImageType> inputIt(inputPtr, inputPtr->GetBufferedRegion());
 
-  IteratorType outputIt(outputPtr, outputPtr->GetBufferedRegion());
+  ImageRegionIterator<LocalLevelSetImageType> outputIt(outputPtr, outputPtr->GetBufferedRegion());
 
   PixelType posInfinity;
   PixelType negInfinity;
@@ -316,14 +311,13 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
   // set all auxiliary images to zero
   TAuxValue zeroPixel = 0.0;
 
-  using AuxIteratorType = ImageRegionIterator<AuxImageType>;
 
-  AuxIteratorType auxOutputIt[VAuxDimension];
+  ImageRegionIterator<AuxImageType> auxOutputIt[VAuxDimension];
 
   for (unsigned int k = 0; k < VAuxDimension; ++k)
   {
     const AuxImagePointer ptr = this->GetOutputVelocityImage(k);
-    auxOutputIt[k] = AuxIteratorType(ptr, ptr->GetBufferedRegion());
+    auxOutputIt[k] = ImageRegionIterator<AuxImageType>(ptr, ptr->GetBufferedRegion());
     auxOutputIt[k].GoToBegin();
   }
   while (!auxOutputIt[0].IsAtEnd())

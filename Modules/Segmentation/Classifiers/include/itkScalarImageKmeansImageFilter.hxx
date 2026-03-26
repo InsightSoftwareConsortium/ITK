@@ -147,7 +147,6 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Now classify the pixels
   const typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
-  using ImageIterator = ImageRegionIterator<OutputImageType>;
 
   outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
   outputPtr->Allocate();
@@ -161,7 +160,7 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::GenerateData()
     region = m_ImageRegion;
   }
 
-  ImageIterator pixel(outputPtr, region);
+  ImageRegionIterator<OutputImageType> pixel(outputPtr, region);
   pixel.GoToBegin();
 
   using ClassifierOutputType = typename ClassifierType::MembershipSampleType;

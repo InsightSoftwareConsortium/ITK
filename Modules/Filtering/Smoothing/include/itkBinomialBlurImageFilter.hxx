@@ -117,16 +117,14 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Iterator Typedefs for this routine
   using TempReverseIterator = ImageRegionReverseIterator<TTempImage>;
-  using InputIterator = ImageRegionConstIterator<TInputImage>;
-  using OutputIterator = ImageRegionIterator<TOutputImage>;
 
   // Create a progress reporter
   ProgressReporter progress(
     this, 0, (outputPtr->GetRequestedRegion().GetNumberOfPixels()) * m_Repetitions * 2 * NDimensions);
 
   // Copy the input image to the temporary image
-  ImageRegionIteratorWithIndex tempIt(tempPtr, tempPtr->GetRequestedRegion());
-  InputIterator                inputIt(inputPtr, inputPtr->GetRequestedRegion());
+  ImageRegionIteratorWithIndex          tempIt(tempPtr, tempPtr->GetRequestedRegion());
+  ImageRegionConstIterator<TInputImage> inputIt(inputPtr, inputPtr->GetRequestedRegion());
 
   for (inputIt.GoToBegin(), tempIt.GoToBegin(); !tempIt.IsAtEnd(); ++tempIt, ++inputIt)
   {
@@ -227,10 +225,8 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Now, copy the temporary image to the output image. Note that the temp
   // buffer iterator walks a region defined by the output
-  using OutputIterator = ImageRegionIterator<TOutputImage>;
-
-  OutputIterator                  outIt(outputPtr, outputPtr->GetRequestedRegion());
-  ImageRegionIterator<TTempImage> tempIt2(tempPtr, outputPtr->GetRequestedRegion());
+  ImageRegionIterator<TOutputImage> outIt(outputPtr, outputPtr->GetRequestedRegion());
+  ImageRegionIterator<TTempImage>   tempIt2(tempPtr, outputPtr->GetRequestedRegion());
 
   for (outIt.GoToBegin(), tempIt2.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++tempIt2)
   {

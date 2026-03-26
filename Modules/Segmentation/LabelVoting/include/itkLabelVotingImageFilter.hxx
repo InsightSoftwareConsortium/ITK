@@ -40,15 +40,14 @@ LabelVotingImageFilter<TInputImage, TOutputImage>::ComputeMaximumInputValue() ->
 {
   InputPixelType maxLabel = 0;
 
-  using IteratorType = ImageRegionConstIterator<TInputImage>;
 
   // Record the number of indexed inputs
   const size_t numberOfInputIndexes = this->GetNumberOfIndexedInputs();
 
   for (size_t i = 0; i < numberOfInputIndexes; ++i)
   {
-    const InputImageType * inputImage = this->GetInput(i);
-    IteratorType           it(inputImage, inputImage->GetBufferedRegion());
+    const InputImageType *                inputImage = this->GetInput(i);
+    ImageRegionConstIterator<TInputImage> it(inputImage, inputImage->GetBufferedRegion());
     for (it.GoToBegin(); !it.IsAtEnd(); ++it)
     {
       maxLabel = std::max(maxLabel, it.Get());
@@ -87,8 +86,6 @@ void
 LabelVotingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  using IteratorType = ImageRegionConstIterator<TInputImage>;
-  using OutIteratorType = ImageRegionIterator<TOutputImage>;
 
   const typename TOutputImage::Pointer output = this->GetOutput();
 
@@ -98,15 +95,15 @@ LabelVotingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const size_t numberOfInputIndexes = this->GetNumberOfIndexedInputs();
 
   // Create and initialize all input image iterators
-  std::vector<IteratorType> it(numberOfInputIndexes);
+  std::vector<ImageRegionConstIterator<TInputImage>> it(numberOfInputIndexes);
   for (size_t i = 0; i < numberOfInputIndexes; ++i)
   {
-    it[i] = IteratorType(this->GetInput(i), outputRegionForThread);
+    it[i] = ImageRegionConstIterator<TInputImage>(this->GetInput(i), outputRegionForThread);
   }
 
   std::vector<unsigned int> votesByLabel(this->m_TotalLabelCount);
 
-  for (OutIteratorType out(output, outputRegionForThread); !out.IsAtEnd(); ++out)
+  for (ImageRegionIterator<TOutputImage> out(output, outputRegionForThread); !out.IsAtEnd(); ++out)
   {
     // Reset number of votes per label for all labels
     std::fill_n(votesByLabel.begin(), this->m_TotalLabelCount, 0);

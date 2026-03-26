@@ -124,14 +124,12 @@ ImageToListSampleFilter<TImage, TMaskImage>::GenerateData()
 
   output->Clear();
 
-  using IteratorType = ImageRegionConstIterator<ImageType>;
-  IteratorType it(input, input->GetBufferedRegion());
+  ImageRegionConstIterator<ImageType> it(input, input->GetBufferedRegion());
   it.GoToBegin();
 
   if (maskImage) // mask specified
   {
-    using MaskIteratorType = ImageRegionConstIterator<MaskImageType>;
-    MaskIteratorType mit(maskImage, maskImage->GetBufferedRegion());
+    ImageRegionConstIterator<MaskImageType> mit(maskImage, maskImage->GetBufferedRegion());
     mit.GoToBegin();
     while (!it.IsAtEnd())
     {

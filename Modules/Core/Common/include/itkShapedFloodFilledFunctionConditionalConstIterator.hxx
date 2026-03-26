@@ -112,12 +112,11 @@ void
 ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FindSeedPixel()
 {
   // Create an iterator that will walk the input image
-  using IRIType = ImageRegionConstIterator<TImage>;
 
   // Now we search the input image for the first pixel which is inside
   // the function of interest
   m_Seeds.clear();
-  for (IRIType it(this->m_Image, this->m_Image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
+  for (ImageRegionConstIterator<TImage> it(this->m_Image, this->m_Image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
   {
     if (this->IsPixelIncluded(it.GetIndex()))
     {
@@ -136,13 +135,12 @@ void
 ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FindSeedPixels()
 {
   // Create an iterator that will walk the input image
-  using IRIType = ImageRegionConstIterator<TImage>;
 
   // Now we search the input image for the first pixel which is inside
   // the function of interest
   m_Seeds.clear();
   bool found = false;
-  for (IRIType it(this->m_Image, this->m_Image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
+  for (ImageRegionConstIterator<TImage> it(this->m_Image, this->m_Image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
   {
     if (this->IsPixelIncluded(it.GetIndex()))
     {

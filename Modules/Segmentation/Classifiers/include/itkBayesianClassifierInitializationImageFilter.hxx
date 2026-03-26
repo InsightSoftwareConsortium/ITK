@@ -74,7 +74,6 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   // Typedefs for the KMeans filter, Covariance calculator...
   using KMeansFilterType = ScalarImageKmeansImageFilter<InputImageType>;
   using KMeansOutputImageType = typename KMeansFilterType::OutputImageType;
-  using ConstKMeansIteratorType = ImageRegionConstIterator<KMeansOutputImageType>;
 
   using CovarianceArrayType = Array<double>;
   using ClassCountArrayType = Array<double>;
@@ -112,23 +111,24 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
 
   // find class covariances from the kmeans output to initialize the gaussian
   // density functions.
-  ConstKMeansIteratorType itrKMeansImage(kmeansFilter->GetOutput(), kmeansFilter->GetOutput()->GetBufferedRegion());
-  CovarianceArrayType     sumsOfSquares(m_NumberOfClasses);    // sum of the
-                                                               // square
-                                                               // intensities
-                                                               // for each
-                                                               // class
-  CovarianceArrayType sums(m_NumberOfClasses);                 // sum of the
-                                                               // intensities
-                                                               // for each
-                                                               // class
-  ClassCountArrayType classCount(m_NumberOfClasses);           // m_Number of
-                                                               // pixels
-                                                               // belonging to
-                                                               // each class
-  CovarianceArrayType estimatedCovariances(m_NumberOfClasses); // covariance
-                                                               // of each
-                                                               // class
+  ImageRegionConstIterator<KMeansOutputImageType> itrKMeansImage(kmeansFilter->GetOutput(),
+                                                                 kmeansFilter->GetOutput()->GetBufferedRegion());
+  CovarianceArrayType                             sumsOfSquares(m_NumberOfClasses); // sum of the
+                                                                                    // square
+                                                                                    // intensities
+                                                                                    // for each
+                                                                                    // class
+  CovarianceArrayType sums(m_NumberOfClasses);                                      // sum of the
+                                                                                    // intensities
+                                                                                    // for each
+                                                                                    // class
+  ClassCountArrayType classCount(m_NumberOfClasses);                                // m_Number of
+                                                                                    // pixels
+                                                                                    // belonging to
+                                                                                    // each class
+  CovarianceArrayType estimatedCovariances(m_NumberOfClasses);                      // covariance
+                                                                                    // of each
+                                                                                    // class
 
   // initialize the arrays
   sumsOfSquares.Fill(0.0);

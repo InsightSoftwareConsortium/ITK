@@ -199,8 +199,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
       static_cast<ReferenceImageType *>(this->ProcessObject::GetInput(0));
     ImageRegionConstIteratorWithIndex it(refImage, outputRegionForThread);
 
-    using GradientIteratorType = ImageRegionConstIterator<GradientImageType>;
-    std::vector<GradientIteratorType *> gradientItContainer;
+    std::vector<ImageRegionConstIterator<GradientImageType> *> gradientItContainer;
 
     for (unsigned int i = 1; i <= m_NumberOfGradientDirections; ++i)
     {
@@ -212,7 +211,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
         itkExceptionStringMacro("Invalid dynamic_cast");
       }
 
-      auto * git = new GradientIteratorType(gradientImagePointer, outputRegionForThread);
+      auto * git = new ImageRegionConstIterator<GradientImageType>(gradientImagePointer, outputRegionForThread);
       git->GoToBegin();
       gradientItContainer.push_back(git);
     }

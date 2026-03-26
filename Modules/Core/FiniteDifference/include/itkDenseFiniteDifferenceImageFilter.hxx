@@ -209,7 +209,6 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::ThreadedCalculateCh
   using SizeType = typename OutputImageType::SizeType;
   using NeighborhoodIteratorType = typename FiniteDifferenceFunctionType::NeighborhoodType;
 
-  using UpdateIteratorType = ImageRegionIterator<UpdateBufferType>;
 
   const typename OutputImageType::Pointer output = this->GetOutput();
 
@@ -239,8 +238,8 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::ThreadedCalculateCh
   auto         fEnd = faceList.end();
 
   // Process the non-boundary region.
-  NeighborhoodIteratorType nD(radius, output, *fIt);
-  UpdateIteratorType       nU(m_UpdateBuffer, *fIt);
+  NeighborhoodIteratorType              nD(radius, output, *fIt);
+  ImageRegionIterator<UpdateBufferType> nU(m_UpdateBuffer, *fIt);
   nD.GoToBegin();
   while (!nD.IsAtEnd())
   {
@@ -252,8 +251,8 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::ThreadedCalculateCh
   // Process each of the boundary faces.
   for (++fIt; fIt != fEnd; ++fIt)
   {
-    NeighborhoodIteratorType bD(radius, output, *fIt);
-    UpdateIteratorType       bU(m_UpdateBuffer, *fIt);
+    NeighborhoodIteratorType              bD(radius, output, *fIt);
+    ImageRegionIterator<UpdateBufferType> bU(m_UpdateBuffer, *fIt);
 
     bD.GoToBegin();
     while (!bD.IsAtEnd())

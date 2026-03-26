@@ -81,9 +81,8 @@ VnlComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
   // Normalize the output if backward transform
   if (this->GetTransformDirection() == Superclass::TransformDirectionEnum::INVERSE)
   {
-    using IteratorType = ImageRegionIterator<OutputImageType>;
-    const SizeValueType totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
-    IteratorType        it(this->GetOutput(), outputRegionForThread);
+    const SizeValueType                  totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
+    ImageRegionIterator<OutputImageType> it(this->GetOutput(), outputRegionForThread);
     while (!it.IsAtEnd())
     {
       PixelType val = it.Value();

@@ -69,11 +69,9 @@ ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunctio
   ProgressReporter progress(this, 0, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels() * 2);
 
   // copy input to output - isn't there a better way?
-  using InputIterator = ImageRegionConstIterator<TInputImage>;
-  using OutputIterator = ImageRegionIterator<TOutputImage>;
 
-  InputIterator  inIt(input, output->GetRequestedRegion());
-  OutputIterator outIt(output, output->GetRequestedRegion());
+  ImageRegionConstIterator<TInputImage> inIt(input, output->GetRequestedRegion());
+  ImageRegionIterator<TOutputImage>     outIt(output, output->GetRequestedRegion());
 
   const InputImagePixelType firstValue = inIt.Get();
   this->m_Flat = true;

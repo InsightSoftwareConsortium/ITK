@@ -107,9 +107,8 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1>::DynamicThreadedGenera
   }
 
   // copy internal buffer to output
-  using IterType = ImageRegionIterator<InputImageType>;
-  IterType oit(this->GetOutput(), OReg);
-  IterType iit(internalbuffer, OReg);
+  ImageRegionIterator<InputImageType> oit(this->GetOutput(), OReg);
+  ImageRegionIterator<InputImageType> iit(internalbuffer, OReg);
   for (oit.GoToBegin(), iit.GoToBegin(); !oit.IsAtEnd(); ++oit, ++iit)
   {
     oit.Set(iit.Get());
