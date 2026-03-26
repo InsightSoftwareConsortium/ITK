@@ -4,7 +4,7 @@
  * This file was part of the Independent JPEG Group's software:
  * Copyright (C) 1994-1996, Thomas G. Lane.
  * libjpeg-turbo Modifications:
- * Copyright (C) 2010, 2016, 2022, D. R. Commander.
+ * Copyright (C) 2010, 2016, 2022, 2024, 2026, D. R. Commander.
  * For conditions of distribution and use, see the accompanying README.ijg
  * file.
  *
@@ -36,8 +36,8 @@
  * chosen such that these numbers are integers.  In practice DCT_scaled_size
  * values will likely be powers of two, so we actually have the stronger
  * condition that DCT_scaled_size / min_DCT_scaled_size is an integer.)
- * Upsampling will typically produce max_v_samp_factor pixel rows from each
- * row group (times any additional scale factor that the upsampler is
+ * Upsampling will typically produce max_v_samp_factor rows of each component
+ * from each row group (times any additional scale factor that the upsampler is
  * applying).
  *
  * The coefficient or difference controller will deliver data to us one iMCU
@@ -431,12 +431,26 @@ _jinit_d_main_controller(j_decompress_ptr cinfo, boolean need_full_buffer)
   int ci, rgroup, ngroups;
   jpeg_component_info *compptr;
 
-  if (cinfo->data_precision != BITS_IN_JSAMPLE)
-    ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
+#ifdef D_LOSSLESS_SUPPORTED
+  if (cinfo->master->lossless) {
+#if BITS_IN_JSAMPLE == 8
+    if (cinfo->data_precision > BITS_IN_JSAMPLE || cinfo->data_precision < 2)
+#else
+    if (cinfo->data_precision > BITS_IN_JSAMPLE ||
+        cinfo->data_precision < BITS_IN_JSAMPLE - 3)
+#endif
+      ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
+  } else
+#endif
+  {
+    if (cinfo->data_precision != BITS_IN_JSAMPLE)
+      ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
+  }
 
   main_ptr = (my_main_ptr)
     (*cinfo->mem->alloc_small) ((j_common_ptr)cinfo, JPOOL_IMAGE,
                                 sizeof(my_main_controller));
+  memset(main_ptr, 0, sizeof(my_main_controller));
   cinfo->main = (struct jpeg_d_main_controller *)main_ptr;
   main_ptr->pub.start_pass = start_pass_main;
 
