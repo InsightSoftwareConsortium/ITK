@@ -104,8 +104,8 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::GenerateAdvectionImag
   }
 
   /* copy negative gradient into the advection image. */
-  ImageRegionIterator<AdvectionImageType> dit(gradientImage, this->m_Input->GetRequestedRegion());
-  ImageRegionIterator<AdvectionImageType> ait(this->m_AdvectionImage, this->m_AdvectionImage->GetRequestedRegion());
+  ImageRegionIterator dit(gradientImage, this->m_Input->GetRequestedRegion());
+  ImageRegionIterator ait(this->m_AdvectionImage, this->m_AdvectionImage->GetRequestedRegion());
 
   for (dit.GoToBegin(), ait.GoToBegin(); !dit.IsAtEnd(); ++dit, ++ait)
   {

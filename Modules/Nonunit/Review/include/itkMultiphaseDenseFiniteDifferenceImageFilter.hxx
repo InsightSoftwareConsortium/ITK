@@ -59,7 +59,7 @@ MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputIm
     }
 
     ImageRegionConstIterator<InputImageType> in(input, input->GetBufferedRegion());
-    ImageRegionIterator<OutputImageType>     out(output, region);
+    ImageRegionIterator                      out(output, region);
 
     // Fill the output pointer
     auto p = static_cast<OutputPixelType>(this->m_Lookup[i]);
@@ -128,8 +128,8 @@ typename MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, 
     for (auto fIt = faceList.begin(); fIt != faceList.end(); ++fIt)
     {
       // Process the non-boundary region.
-      NeighborhoodIteratorType            nD(radius, levelset, *fIt);
-      ImageRegionIterator<InputImageType> nU(m_UpdateBuffers[i], *fIt);
+      NeighborhoodIteratorType nD(radius, levelset, *fIt);
+      ImageRegionIterator      nU(m_UpdateBuffers[i], *fIt);
 
       nD.GoToBegin();
       nU.GoToBegin();
@@ -203,8 +203,8 @@ MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputIm
     // it is this->m_LevelSet[i]->GetLargestPossibleRegion()
     InputRegionType region = this->m_LevelSet[i]->GetRequestedRegion();
 
-    ImageRegionIterator<InputImageType> u(m_UpdateBuffers[i], region);
-    ImageRegionIterator<InputImageType> o(this->m_LevelSet[i], region);
+    ImageRegionIterator u(m_UpdateBuffers[i], region);
+    ImageRegionIterator o(this->m_LevelSet[i], region);
 
     u.GoToBegin();
     o.GoToBegin();
@@ -235,7 +235,7 @@ MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputIm
       maurer->SetInsideIsPositive(false);
       maurer->Update();
 
-      ImageRegionIterator<InputImageType> it(maurer->GetOutput(), region);
+      ImageRegionIterator it(maurer->GetOutput(), region);
 
       rms_change_accumulator = 0;
 

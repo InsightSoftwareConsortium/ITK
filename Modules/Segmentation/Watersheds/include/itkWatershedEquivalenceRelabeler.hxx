@@ -37,7 +37,7 @@ EquivalenceRelabeler<TScalar, TImageDimension>::GenerateData()
   // Copy input to output
   //
   ImageRegionConstIterator<ImageType> it_a(input, output->GetRequestedRegion());
-  ImageRegionIterator<ImageType>      it_b(output, output->GetRequestedRegion());
+  ImageRegionIterator                 it_b(output, output->GetRequestedRegion());
 
   it_a.GoToBegin();
   it_b.GoToBegin();

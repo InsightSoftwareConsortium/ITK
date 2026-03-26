@@ -34,7 +34,7 @@ ThresholdSegmentationLevelSetFunction<TImageType, TFeatureImageType>::CalculateS
   ImageRegionIterator<FeatureImageType>      lit;
   ImageRegionConstIterator<FeatureImageType> fit(this->GetFeatureImage(),
                                                  this->GetFeatureImage()->GetRequestedRegion());
-  ImageRegionIterator<ImageType>             sit(this->GetSpeedImage(), this->GetFeatureImage()->GetRequestedRegion());
+  ImageRegionIterator                        sit(this->GetSpeedImage(), this->GetFeatureImage()->GetRequestedRegion());
 
   if (m_EdgeWeight != 0.0)
   {

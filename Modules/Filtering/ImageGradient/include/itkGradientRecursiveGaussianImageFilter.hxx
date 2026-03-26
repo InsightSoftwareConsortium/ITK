@@ -238,9 +238,9 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
       // on the output image of vectors
       m_ImageAdaptor->SelectNthElement(nc * ImageDimension + dim);
 
-      ImageRegionIterator<RealImageType> it(derivativeImage, derivativeImage->GetRequestedRegion());
+      ImageRegionIterator it(derivativeImage, derivativeImage->GetRequestedRegion());
 
-      ImageRegionIterator<OutputImageAdaptorType> ot(m_ImageAdaptor, m_ImageAdaptor->GetRequestedRegion());
+      ImageRegionIterator ot(m_ImageAdaptor, m_ImageAdaptor->GetRequestedRegion());
 
       const ScalarRealType spacing = inputImage->GetSpacing()[dim];
 
@@ -271,8 +271,8 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   if (this->m_UseImageDirection)
   {
 
-    OutputImageType *                    gradientImage = outputImage;
-    ImageRegionIterator<OutputImageType> itr(gradientImage, gradientImage->GetRequestedRegion());
+    OutputImageType *   gradientImage = outputImage;
+    ImageRegionIterator itr(gradientImage, gradientImage->GetRequestedRegion());
 
     while (!itr.IsAtEnd())
     {

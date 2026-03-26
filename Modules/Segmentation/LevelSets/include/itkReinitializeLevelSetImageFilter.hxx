@@ -135,7 +135,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataFull()
   // define iterators
 
   ImageRegionConstIterator<LevelSetImageType> inputIt(inputPtr, inputPtr->GetBufferedRegion());
-  ImageRegionIterator<LevelSetImageType>      outputIt(outputPtr, outputPtr->GetBufferedRegion());
+  ImageRegionIterator                         outputIt(outputPtr, outputPtr->GetBufferedRegion());
 
   this->UpdateProgress(0.0);
 
@@ -150,7 +150,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataFull()
   m_Marcher->SetTrialPoints(m_Locator->GetOutsidePoints());
   m_Marcher->Update();
 
-  ImageRegionIterator<LevelSetImageType> tempIt(tempLevelSet, tempLevelSet->GetBufferedRegion());
+  ImageRegionIterator tempIt(tempLevelSet, tempLevelSet->GetBufferedRegion());
   while (!inputIt.IsAtEnd())
   {
     auto value = static_cast<double>(inputIt.Get());
@@ -201,7 +201,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataNarrowBand()
 
   ImageRegionConstIterator<LevelSetImageType> inputIt(inputPtr, inputPtr->GetBufferedRegion());
 
-  ImageRegionIterator<LevelSetImageType> outputIt(outputPtr, outputPtr->GetBufferedRegion());
+  ImageRegionIterator outputIt(outputPtr, outputPtr->GetBufferedRegion());
 
   PixelType posInfinity = NumericTraits<PixelType>::max();
   PixelType negInfinity = NumericTraits<PixelType>::NonpositiveMin();

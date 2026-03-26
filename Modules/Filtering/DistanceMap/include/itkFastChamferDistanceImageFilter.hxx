@@ -277,7 +277,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   m_RegionToProcess = this->GetInput()->GetRequestedRegion();
 
-  ImageRegionIterator<TOutputImage> out(this->GetOutput(), m_RegionToProcess);
+  ImageRegionIterator out(this->GetOutput(), m_RegionToProcess);
 
   ImageRegionConstIterator<TOutputImage> in(this->GetInput(), m_RegionToProcess);
 

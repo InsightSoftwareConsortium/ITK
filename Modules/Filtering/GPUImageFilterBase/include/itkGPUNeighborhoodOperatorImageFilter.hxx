@@ -136,8 +136,7 @@ GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType
   m_NeighborhoodGPUBuffer->Allocate();
 
   /** Copy coefficients */
-  ImageRegionIterator<NeighborhoodGPUBufferType> iit(m_NeighborhoodGPUBuffer,
-                                                     m_NeighborhoodGPUBuffer->GetLargestPossibleRegion());
+  ImageRegionIterator iit(m_NeighborhoodGPUBuffer, m_NeighborhoodGPUBuffer->GetLargestPossibleRegion());
 
   typename OutputNeighborhoodType::ConstIterator nit = p.Begin();
 

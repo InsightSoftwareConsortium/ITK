@@ -61,7 +61,7 @@ SimpleContourExtractorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
   {
     ConstNeighborhoodIterator<InputImageType> bit(this->GetRadius(), input, face);
     const unsigned int                        neighborhoodSize = bit.Size();
-    ImageRegionIterator<OutputImageType>      it(output, face);
+    ImageRegionIterator                       it(output, face);
 
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();

@@ -92,7 +92,7 @@ ClosingByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>::Generate
     ImageRegionConstIterator<TInputImage> inputIt(this->GetInput(), dilate->GetOutput()->GetBufferedRegion());
     ImageRegionConstIterator<TInputImage> dilateIt(dilate->GetOutput(), erode->GetOutput()->GetBufferedRegion());
     ImageRegionConstIterator<TInputImage> erodeIt(erode->GetOutput(), erode->GetOutput()->GetBufferedRegion());
-    ImageRegionIterator<TInputImage>      tempIt(tempImage, dilate->GetOutput()->GetBufferedRegion());
+    ImageRegionIterator                   tempIt(tempImage, dilate->GetOutput()->GetBufferedRegion());
     while (!dilateIt.IsAtEnd())
     {
       if (dilateIt.Get() == erodeIt.Get())

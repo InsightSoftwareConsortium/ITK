@@ -230,7 +230,7 @@ VelocityFieldTransform<TParametersValueType, VDimension>::CopyDisplacementField(
   rval->Allocate();
 
   ImageRegionConstIterator<DisplacementFieldType> dispIt(toCopy, toCopy->GetLargestPossibleRegion());
-  ImageRegionIterator<DisplacementFieldType>      cloneDispIt(rval, rval->GetLargestPossibleRegion());
+  ImageRegionIterator                             cloneDispIt(rval, rval->GetLargestPossibleRegion());
   for (dispIt.GoToBegin(), cloneDispIt.GoToBegin(); !dispIt.IsAtEnd() && !cloneDispIt.IsAtEnd();
        ++dispIt, ++cloneDispIt)
   {
@@ -272,8 +272,7 @@ VelocityFieldTransform<TParametersValueType, VDimension>::InternalClone() const
   // SetFixedParameters allocates the VelocityField
   ImageRegionConstIterator<VelocityFieldType> thisIt(this->m_VelocityField,
                                                      this->m_VelocityField->GetLargestPossibleRegion());
-  ImageRegionIterator<VelocityFieldType>      cloneIt(rval->m_VelocityField,
-                                                 rval->m_VelocityField->GetLargestPossibleRegion());
+  ImageRegionIterator cloneIt(rval->m_VelocityField, rval->m_VelocityField->GetLargestPossibleRegion());
   for (thisIt.GoToBegin(), cloneIt.GoToBegin(); !thisIt.IsAtEnd() && !cloneIt.IsAtEnd(); ++thisIt, ++cloneIt)
   {
     cloneIt.Set(thisIt.Get());

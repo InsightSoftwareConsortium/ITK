@@ -162,7 +162,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
     bit.OverrideBoundaryCondition(this->GetBoundaryCondition());
     bit.GoToBegin();
 
-    ImageRegionIterator<OutputImageType> it(output, face);
+    ImageRegionIterator it(output, face);
 
     if (!mask)
     {

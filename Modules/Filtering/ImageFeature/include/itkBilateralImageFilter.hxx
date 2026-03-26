@@ -177,10 +177,9 @@ BilateralImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
   // copy this small Gaussian image into a neighborhood
   m_GaussianKernel.SetRadius(radius);
 
-  KernelIteratorType                     kernel_it;
-  ImageRegionIterator<GaussianImageType> git(gaussianImage->GetOutput(),
-                                             gaussianImage->GetOutput()->GetBufferedRegion());
-  double                                 norm = 0.0;
+  KernelIteratorType  kernel_it;
+  ImageRegionIterator git(gaussianImage->GetOutput(), gaussianImage->GetOutput()->GetBufferedRegion());
+  double              norm = 0.0;
   for (git.GoToBegin(); !git.IsAtEnd(); ++git)
   {
     norm += git.Get();
@@ -261,7 +260,7 @@ BilateralImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     // walk the boundary face and the corresponding section of the output
     NeighborhoodIteratorType b_iter(m_GaussianKernel.GetRadius(), this->GetInput(), face);
     b_iter.OverrideBoundaryCondition(&BC);
-    ImageRegionIterator<OutputImageType> o_iter(this->GetOutput(), face);
+    ImageRegionIterator o_iter(this->GetOutput(), face);
 
     while (!b_iter.IsAtEnd())
     {

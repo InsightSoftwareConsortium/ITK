@@ -269,8 +269,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Generat
       // this->AfterThreadedGenerateData();
       this->m_DoUpdateResidualValues = false;
 
-      ImageRegionIterator<PointDataImageType> ItPsi(this->m_PsiLattice, this->m_PsiLattice->GetLargestPossibleRegion());
-      ImageRegionIterator<PointDataImageType> ItPhi(this->m_PhiLattice, this->m_PhiLattice->GetLargestPossibleRegion());
+      ImageRegionIterator ItPsi(this->m_PsiLattice, this->m_PsiLattice->GetLargestPossibleRegion());
+      ImageRegionIterator ItPhi(this->m_PhiLattice, this->m_PhiLattice->GetLargestPossibleRegion());
       for (ItPsi.GoToBegin(), ItPhi.GoToBegin(); !ItPsi.IsAtEnd(); ++ItPsi, ++ItPhi)
       {
         ItPsi.Set(ItPhi.Get() + ItPsi.Get());
@@ -295,8 +295,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Generat
       this->AfterThreadedGenerateData();
     }
 
-    ImageRegionIterator<PointDataImageType> ItPsi(this->m_PsiLattice, this->m_PsiLattice->GetLargestPossibleRegion());
-    ImageRegionIterator<PointDataImageType> ItPhi(this->m_PhiLattice, this->m_PhiLattice->GetLargestPossibleRegion());
+    ImageRegionIterator ItPsi(this->m_PsiLattice, this->m_PsiLattice->GetLargestPossibleRegion());
+    ImageRegionIterator ItPhi(this->m_PhiLattice, this->m_PhiLattice->GetLargestPossibleRegion());
     for (ItPsi.GoToBegin(), ItPhi.GoToBegin(); !ItPsi.IsAtEnd(); ++ItPsi, ++ItPhi)
     {
       ItPsi.Set(ItPhi.Get() + ItPsi.Get());
@@ -644,17 +644,17 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::AfterTh
     // Accumulate all the delta lattice and omega lattice values to
     // calculate the final phi lattice.
 
-    ImageRegionIterator<PointDataImageType> ItD(this->m_DeltaLatticePerThread[0],
-                                                this->m_DeltaLatticePerThread[0]->GetLargestPossibleRegion());
-    ImageRegionIterator<RealImageType>      ItO(this->m_OmegaLatticePerThread[0],
-                                           this->m_OmegaLatticePerThread[0]->GetLargestPossibleRegion());
+    ImageRegionIterator ItD(this->m_DeltaLatticePerThread[0],
+                            this->m_DeltaLatticePerThread[0]->GetLargestPossibleRegion());
+    ImageRegionIterator ItO(this->m_OmegaLatticePerThread[0],
+                            this->m_OmegaLatticePerThread[0]->GetLargestPossibleRegion());
 
     for (ThreadIdType n = 1; n < this->GetNumberOfWorkUnits(); ++n)
     {
-      ImageRegionIterator<PointDataImageType> Itd(this->m_DeltaLatticePerThread[n],
-                                                  this->m_DeltaLatticePerThread[n]->GetLargestPossibleRegion());
-      ImageRegionIterator<RealImageType>      Ito(this->m_OmegaLatticePerThread[n],
-                                             this->m_OmegaLatticePerThread[n]->GetLargestPossibleRegion());
+      ImageRegionIterator Itd(this->m_DeltaLatticePerThread[n],
+                              this->m_DeltaLatticePerThread[n]->GetLargestPossibleRegion());
+      ImageRegionIterator Ito(this->m_OmegaLatticePerThread[n],
+                              this->m_OmegaLatticePerThread[n]->GetLargestPossibleRegion());
 
       ItD.GoToBegin();
       ItO.GoToBegin();
@@ -690,7 +690,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::AfterTh
     this->m_PhiLattice->SetRegions(size);
     this->m_PhiLattice->AllocateInitialized();
 
-    ImageRegionIterator<PointDataImageType> ItP(this->m_PhiLattice, this->m_PhiLattice->GetLargestPossibleRegion());
+    ImageRegionIterator ItP(this->m_PhiLattice, this->m_PhiLattice->GetLargestPossibleRegion());
 
     for (ItP.GoToBegin(), ItO.GoToBegin(), ItD.GoToBegin(); !ItP.IsAtEnd(); ++ItP, ++ItO, ++ItD)
     {

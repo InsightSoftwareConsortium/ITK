@@ -145,8 +145,8 @@ IsolatedWatershedImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   ProgressReporter progress(this, 0, region.GetNumberOfPixels(), 100, cumulatedProgress, progressWeight);
 
-  ImageRegionIterator<OutputImageType>                         ot(outputImage, region);
-  ImageRegionIterator<typename WatershedType::OutputImageType> it(m_Watershed->GetOutput(), region);
+  ImageRegionIterator ot(outputImage, region);
+  ImageRegionIterator it(m_Watershed->GetOutput(), region);
 
   const IdentifierType seed1Label = m_Watershed->GetOutput()->GetPixel(m_Seed1);
   const IdentifierType seed2Label = m_Watershed->GetOutput()->GetPixel(m_Seed2);

@@ -156,7 +156,7 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
   for (const auto & face : faceList)
   {
     nit = ConstNeighborhoodIterator<InputImageType>(radius, inputImage, face);
-    ImageRegionIterator<OutputImageType> it(outputImage, face);
+    ImageRegionIterator it(outputImage, face);
     nit.OverrideBoundaryCondition(m_BoundaryCondition.get());
     nit.GoToBegin();
 

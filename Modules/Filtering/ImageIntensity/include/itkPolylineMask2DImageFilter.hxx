@@ -212,7 +212,7 @@ PolylineMask2DImageFilter<TInputImage, TPolyline, TOutputImage>::GenerateData()
 
   /* Mask the input image with the mask generated */
   ImageRegionConstIterator<TInputImage> inputI(inputImagePtr, inputImagePtr->GetLargestPossibleRegion());
-  ImageRegionIterator<TOutputImage>     outputI(outputImagePtr, outputImagePtr->GetLargestPossibleRegion());
+  ImageRegionIterator                   outputI(outputImagePtr, outputImagePtr->GetLargestPossibleRegion());
   while (!outputI.IsAtEnd())
   {
     if (outputI.Get() == f_val)

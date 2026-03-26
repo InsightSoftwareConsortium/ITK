@@ -60,7 +60,7 @@ NoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     const unsigned int                        neighborhoodSize = bit.Size();
     auto                                      num = static_cast<InputRealType>(bit.Size());
 
-    ImageRegionIterator<OutputImageType> it(output, face);
+    ImageRegionIterator it(output, face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 

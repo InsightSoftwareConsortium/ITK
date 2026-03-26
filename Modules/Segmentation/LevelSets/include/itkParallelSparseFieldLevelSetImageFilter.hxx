@@ -211,7 +211,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Initialize()
   m_StatusImage->Allocate();
 
   // Initialize the status image to contain all m_StatusNull values.
-  ImageRegionIterator<StatusImageType> statusIt(m_StatusImage, m_StatusImage->GetRequestedRegion());
+  ImageRegionIterator statusIt(m_StatusImage, m_StatusImage->GetRequestedRegion());
   for (statusIt.GoToBegin(); !statusIt.IsAtEnd(); ++statusIt)
   {
     statusIt.Set(m_StatusNull);
@@ -624,7 +624,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeBac
 
   ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage, this->GetOutput()->GetRequestedRegion());
 
-  ImageRegionIterator<OutputImageType> outputIt(this->GetOutput(), this->GetOutput()->GetRequestedRegion());
+  ImageRegionIterator outputIt(this->GetOutput(), this->GetOutput()->GetRequestedRegion());
 
   ImageRegionConstIterator<OutputImageType> shiftedIt(m_ShiftedImage, this->GetOutput()->GetRequestedRegion());
 
@@ -860,9 +860,9 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedIniti
   // images and hence the memory will get allocated
   // in the corresponding thread's memory-node.
   ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage, ThreadRegion);
-  ImageRegionIterator<StatusImageType>      statusItNew(m_StatusImageTemp, ThreadRegion);
+  ImageRegionIterator                       statusItNew(m_StatusImageTemp, ThreadRegion);
   ImageRegionConstIterator<OutputImageType> outputIt(m_OutputImage, ThreadRegion);
-  ImageRegionIterator<OutputImageType>      outputItNew(m_OutputImageTemp, ThreadRegion);
+  ImageRegionIterator                       outputItNew(m_OutputImageTemp, ThreadRegion);
 
   for (outputIt.GoToBegin(), statusIt.GoToBegin(), outputItNew.GoToBegin(), statusItNew.GoToBegin();
        !outputIt.IsAtEnd();
@@ -2308,7 +2308,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedPostP
   const ValueType inside_value = -(max_layer + 1) * m_ConstantGradientValue;
 
   ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage, regionToProcess);
-  ImageRegionIterator<OutputImageType>      outputIt(m_OutputImage, regionToProcess);
+  ImageRegionIterator                       outputIt(m_OutputImage, regionToProcess);
 
   for (outputIt.GoToBegin(), statusIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt, ++statusIt)
   {

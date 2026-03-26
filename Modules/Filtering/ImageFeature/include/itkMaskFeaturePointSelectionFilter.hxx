@@ -137,8 +137,8 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
   else
   {
     // copy mask into selectionMap
-    ImageRegionConstIterator<MaskType>    maskItr(mask, region);
-    ImageRegionIterator<SelectionMapType> mapItr(selectionMap, region);
+    ImageRegionConstIterator<MaskType> maskItr(mask, region);
+    ImageRegionIterator                mapItr(selectionMap, region);
     for (maskItr.GoToBegin(), mapItr.GoToBegin(); !maskItr.IsAtEnd(); ++maskItr, ++mapItr)
     {
       mapItr.Set(static_cast<MapPixelType>(maskItr.Get()));
@@ -168,8 +168,8 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
   region = { safeIndex, safeSize };
 
   // iterators for variance computing loop
-  ImageRegionIterator<SelectionMapType> mapItr(selectionMap, region);
-  ConstNeighborhoodIterator<ImageType>  imageItr(m_BlockRadius, image, region);
+  ImageRegionIterator                  mapItr(selectionMap, region);
+  ConstNeighborhoodIterator<ImageType> imageItr(m_BlockRadius, image, region);
   using NeighborSizeType = typename ConstNeighborhoodIterator<ImageType>::NeighborIndexType;
   const NeighborSizeType numPixelsInNeighborhood = imageItr.Size();
 

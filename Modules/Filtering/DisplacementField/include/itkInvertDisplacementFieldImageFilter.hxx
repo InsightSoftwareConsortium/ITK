@@ -177,8 +177,8 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
   const typename DisplacementFieldType::IndexType  startIndex = fullRegion.GetIndex();
   const typename DisplacementFieldType::PixelType  zeroVector{};
 
-  ImageRegionIterator<DisplacementFieldType> ItE(this->m_ComposedField, region);
-  ImageRegionIterator<RealImageType>         ItS(this->m_ScaledNormImage, region);
+  ImageRegionIterator ItE(this->m_ComposedField, region);
+  ImageRegionIterator ItS(this->m_ScaledNormImage, region);
 
   if (this->m_DoThreadedEstimateInverse)
   {

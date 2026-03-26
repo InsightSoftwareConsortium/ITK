@@ -148,7 +148,7 @@ WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThr
   ImageRegionIteratorWithIndex outputIt(outputPtr, outputRegionForThread);
   TotalProgressReporter        progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
-  ImageRegionIterator<DisplacementFieldType> fieldIt(fieldPtr, outputRegionForThread);
+  ImageRegionIterator fieldIt(fieldPtr, outputRegionForThread);
 
   IndexType        index;
   PointType        point;

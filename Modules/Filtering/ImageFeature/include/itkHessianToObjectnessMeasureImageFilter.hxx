@@ -65,7 +65,7 @@ HessianToObjectnessMeasureImageFilter<TInputImage, TOutputImage>::DynamicThreade
 
   // Walk the region of eigen values and get the objectness measure
   ImageRegionConstIterator<InputImageType> it(input, outputRegionForThread);
-  ImageRegionIterator<OutputImageType>     oit(output, outputRegionForThread);
+  ImageRegionIterator                      oit(output, outputRegionForThread);
 
   while (!it.IsAtEnd())
   {

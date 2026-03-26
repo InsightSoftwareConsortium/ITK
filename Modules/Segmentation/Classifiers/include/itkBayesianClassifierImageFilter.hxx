@@ -284,8 +284,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
       extractedComponentImage->Allocate();
 
       itrPosteriorImage.GoToBegin();
-      ImageRegionIterator<ExtractedComponentImageType> it(extractedComponentImage,
-                                                          extractedComponentImage->GetBufferedRegion());
+      ImageRegionIterator it(extractedComponentImage, extractedComponentImage->GetBufferedRegion());
 
       it.GoToBegin();
       while (!itrPosteriorImage.IsAtEnd())
@@ -301,8 +300,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
 
       itrPosteriorImage.GoToBegin();
 
-      ImageRegionIterator<ExtractedComponentImageType> sit(m_SmoothingFilter->GetOutput(),
-                                                           m_SmoothingFilter->GetOutput()->GetBufferedRegion());
+      ImageRegionIterator sit(m_SmoothingFilter->GetOutput(), m_SmoothingFilter->GetOutput()->GetBufferedRegion());
       sit.GoToBegin();
       while (!itrPosteriorImage.IsAtEnd())
       {

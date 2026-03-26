@@ -201,8 +201,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GenerateData()
     // iteration of the algorithm with the current marker image.
     ImageRegionConstIterator<TInputImage> singleInIt(singleIteration->GetMarkerImage(),
                                                      singleIteration->GetOutput()->GetRequestedRegion());
-    ImageRegionIterator<TInputImage>      singleOutIt(singleIteration->GetOutput(),
-                                                 singleIteration->GetOutput()->GetRequestedRegion());
+    ImageRegionIterator singleOutIt(singleIteration->GetOutput(), singleIteration->GetOutput()->GetRequestedRegion());
 
     done = true;
     while (!singleOutIt.IsAtEnd())
@@ -243,9 +242,9 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GenerateData()
   outputPtr->Allocate();
 
   // walk the output of the singleIteration
-  ImageRegionIterator<TInputImage> singleIt(singleIteration->GetOutput(), outputPtr->GetRequestedRegion());
+  ImageRegionIterator singleIt(singleIteration->GetOutput(), outputPtr->GetRequestedRegion());
   // walk the real output of the filter
-  ImageRegionIterator<TOutputImage> outIt(outputPtr, outputPtr->GetRequestedRegion());
+  ImageRegionIterator outIt(outputPtr, outputPtr->GetRequestedRegion());
 
   // cast and copy
   while (!outIt.IsAtEnd())
@@ -289,7 +288,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
   {
     NeighborhoodIteratorType              markerIt(kernelRadius, this->GetMarkerImage(), face);
     ImageRegionConstIterator<TInputImage> maskIt(this->GetMaskImage(), face);
-    ImageRegionIterator<TOutputImage>     oIt(this->GetOutput(), face);
+    ImageRegionIterator                   oIt(this->GetOutput(), face);
 
     markerIt.OverrideBoundaryCondition(&BC);
     markerIt.GoToBegin();

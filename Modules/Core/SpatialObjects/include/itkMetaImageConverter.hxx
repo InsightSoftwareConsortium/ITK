@@ -104,7 +104,7 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::MetaObjectToSpati
 
   this->MetaObjectToSpatialObjectBase(imageMO, imageSO);
 
-  ImageRegionIterator<ImageType> it(myImage, myImage->GetLargestPossibleRegion());
+  ImageRegionIterator it(myImage, myImage->GetLargestPossibleRegion());
   for (unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
   {
     it.Set(static_cast<typename ImageType::PixelType>(imageMO->ElementData(i)));

@@ -697,9 +697,9 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 {
   // Produce deformation field based on the solution.
 
-  ImageType *                    output = this->GetOutput();
-  RegionType                     region = output->GetLargestPossibleRegion();
-  ImageRegionIterator<ImageType> iter(output, region);
+  ImageType *         output = this->GetOutput();
+  RegionType          region = output->GetLargestPossibleRegion();
+  ImageRegionIterator iter(output, region);
 
   PointType     point;
   unsigned int  solutionIndex = 0;

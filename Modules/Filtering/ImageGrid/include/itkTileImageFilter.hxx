@@ -65,7 +65,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateData()
   this->AllocateOutputs();
   output->FillBuffer(defaultPixelValue);
 
-  ImageRegionIterator<TileImageType> it(m_TileImage, m_TileImage->GetBufferedRegion());
+  ImageRegionIterator it(m_TileImage, m_TileImage->GetBufferedRegion());
 
   SizeValueType numPastes = 0;
   while (!it.IsAtEnd())

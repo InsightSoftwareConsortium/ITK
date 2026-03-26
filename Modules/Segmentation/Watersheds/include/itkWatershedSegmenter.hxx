@@ -338,7 +338,7 @@ Segmenter<TInputImage>::CollectBoundaryInformation(flat_region_table_t & flatReg
       // Grab all the labels of the boundary pixels.
       ImageRegionIterator<typename BoundaryType::face_t> faceIt =
         ImageRegionIterator<typename BoundaryType::face_t>(face, region);
-      ImageRegionIterator<OutputImageType> labelIt(output, region);
+      ImageRegionIterator labelIt(output, region);
       faceIt.GoToBegin();
       labelIt.GoToBegin();
       while (!faceIt.IsAtEnd())
@@ -815,7 +815,7 @@ Segmenter<TInputImage>::GradientDescent(InputImageTypePointer img, ImageRegionTy
   // pixels to a labeled region
   //
   std::stack<IdentifierType *> updateStack;
-  for (ImageRegionIterator<OutputImageType> it(output, region); !it.IsAtEnd(); ++it)
+  for (ImageRegionIterator it(output, region); !it.IsAtEnd(); ++it)
   {
     if (it.Get() == NULL_LABEL)
     {
@@ -1016,7 +1016,7 @@ template <typename TInputImage>
 void
 Segmenter<TInputImage>::SetInputImageValues(InputImageTypePointer img, ImageRegionType region, InputPixelType value)
 {
-  ImageRegionIterator<InputImageType> it(img, region);
+  ImageRegionIterator it(img, region);
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
@@ -1029,7 +1029,7 @@ template <typename TInputImage>
 void
 Segmenter<TInputImage>::SetOutputImageValues(OutputImageTypePointer img, ImageRegionType region, IdentifierType value)
 {
-  ImageRegionIterator<OutputImageType> it(img, region);
+  ImageRegionIterator it(img, region);
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
@@ -1045,7 +1045,7 @@ Segmenter<TInputImage>::MinMax(InputImageTypePointer img,
                                InputPixelType &      min,
                                InputPixelType &      max)
 {
-  ImageRegionIterator<InputImageType> it(img, region);
+  ImageRegionIterator it(img, region);
   it.GoToBegin();
   min = it.Value();
   max = it.Value();
@@ -1100,7 +1100,7 @@ Segmenter<TInputImage>::RelabelImage(OutputImageTypePointer    img,
                                      EquivalencyTable::Pointer eqTable)
 {
   eqTable->Flatten();
-  ImageRegionIterator<OutputImageType> it(img, region);
+  ImageRegionIterator it(img, region);
 
   it.GoToBegin();
   while (!it.IsAtEnd())
@@ -1122,8 +1122,8 @@ Segmenter<TInputImage>::Threshold(InputImageTypePointer destination,
                                   const ImageRegionType destination_region,
                                   InputPixelType        threshold)
 {
-  ImageRegionIterator<InputImageType> dIt(destination, destination_region);
-  ImageRegionIterator<InputImageType> sIt(source, source_region);
+  ImageRegionIterator dIt(destination, destination_region);
+  ImageRegionIterator sIt(source, source_region);
 
   dIt.GoToBegin();
   sIt.GoToBegin();

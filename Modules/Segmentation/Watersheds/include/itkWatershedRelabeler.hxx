@@ -54,8 +54,8 @@ Relabeler<TScalar, TImageDimension>::GenerateData()
   //
   // Copy input to output
   //
-  ImageRegionIterator<ImageType> it_a(input, output->GetRequestedRegion());
-  ImageRegionIterator<ImageType> it_b(output, output->GetRequestedRegion());
+  ImageRegionIterator it_a(input, output->GetRequestedRegion());
+  ImageRegionIterator it_b(output, output->GetRequestedRegion());
   it_a.GoToBegin();
   it_b.GoToBegin();
   while (!it_a.IsAtEnd())

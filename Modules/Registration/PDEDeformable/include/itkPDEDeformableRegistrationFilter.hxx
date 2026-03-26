@@ -169,7 +169,7 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
 
     const typename OutputImageType::Pointer output = this->GetOutput();
 
-    ImageRegionIterator<OutputImageType> out(output, output->GetRequestedRegion());
+    ImageRegionIterator out(output, output->GetRequestedRegion());
 
     while (!out.IsAtEnd())
     {
