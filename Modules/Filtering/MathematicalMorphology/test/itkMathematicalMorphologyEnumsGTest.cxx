@@ -16,14 +16,13 @@
  *
  *=========================================================================*/
 
-#include <set>
 #include "itkMathematicalMorphologyEnums.h"
+#include "itkGTest.h"
 
+#include <set>
 
-int
-itkMathematicalMorphologyEnumsTest(int, char *[])
+TEST(MathematicalMorphologyEnums, ConvertedLegacyTest)
 {
-
   // Test streaming enumeration for MathematicalMorphologyEnums::Algorithm elements
   const std::set<itk::MathematicalMorphologyEnums::Algorithm> allAlgorithm{
     itk::MathematicalMorphologyEnums::Algorithm::BASIC,
@@ -35,8 +34,4 @@ itkMathematicalMorphologyEnumsTest(int, char *[])
   {
     std::cout << "STREAMED ENUM VALUE MathematicalMorphologyEnums::Algorithm: " << ee << std::endl;
   }
-
-
-  std::cout << "Test finished" << std::endl;
-  return EXIT_SUCCESS;
 }

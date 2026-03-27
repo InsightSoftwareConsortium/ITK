@@ -35,7 +35,6 @@ set(
   itkMapGrayscaleErodeImageFilterTest.cxx
   itkMapGrayscaleMorphologicalClosingImageFilterTest.cxx
   itkMapGrayscaleMorphologicalOpeningImageFilterTest.cxx
-  itkMathematicalMorphologyEnumsTest.cxx
   itkGrayscaleDilateImageFilterTest.cxx
   itkGrayscaleErodeImageFilterTest.cxx
   itkGrayscaleMorphologicalClosingImageFilterTest2.cxx
@@ -54,6 +53,13 @@ set(
 
 createtestdriver(ITKMathematicalMorphology "${ITKMathematicalMorphology-Test_LIBRARIES}"
                  "${ITKMathematicalMorphologyTests}"
+)
+
+set(ITKMathematicalMorphologyGTests itkMathematicalMorphologyEnumsGTest.cxx)
+creategoogletestdriver(
+  ITKMathematicalMorphology
+  "${ITKMathematicalMorphology-Test_LIBRARIES}"
+  "${ITKMathematicalMorphologyGTests}"
 )
 
 itk_add_test(
@@ -870,13 +876,6 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalOpeningImageFilterTestVHGWSafeBorder.png
     ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalOpeningImageFilterTestAnchorSafeBorder.png
     1
-)
-
-itk_add_test(
-  NAME itkMathematicalMorphologyEnumsTest
-  COMMAND
-    ITKMathematicalMorphologyTestDriver
-    itkMathematicalMorphologyEnumsTest
 )
 
 itk_add_test(
