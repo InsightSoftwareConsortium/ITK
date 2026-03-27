@@ -17,9 +17,9 @@
  *=========================================================================*/
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkDeformableSimplexMesh3DFilter.h"
+#include "itkGTest.h"
 
-int
-itkSimplexMeshWithFloatCoordRepTest(int, char *[])
+TEST(SimplexMeshWithFloatCoordRep, ConvertedLegacyTest)
 {
   constexpr unsigned int Dimension{ 3 };
 
@@ -31,5 +31,4 @@ itkSimplexMeshWithFloatCoordRepTest(int, char *[])
 
   auto deform = DeformType::New();
   deform->Print(std::cout);
-  return EXIT_SUCCESS;
 }
