@@ -266,11 +266,7 @@ TEST(ThreadedIteratorRangePartitioner2, ConvertedLegacyTest)
     const itk::ThreadIdType maxNumberOfThreads = domainThreader->GetMultiThreader()->GetGlobalMaximumNumberOfThreads();
     setStartEnd(6, 6 + maxNumberOfThreads, container, fullDomain);
     ThreadedIteratorRangePartitionerRunTest(enclosingClass, maxNumberOfThreads, fullDomain);
-    if (domainThreader->GetNumberOfWorkUnitsUsed() != maxNumberOfThreads)
-    {
-      std::cerr << "Error: Expected to use only " << maxNumberOfThreads << "threads, but used "
-                << domainThreader->GetNumberOfWorkUnitsUsed() << '.' << std::endl;
-    }
+    EXPECT_EQ(domainThreader->GetNumberOfWorkUnitsUsed(), maxNumberOfThreads);
   }
   else
   {
