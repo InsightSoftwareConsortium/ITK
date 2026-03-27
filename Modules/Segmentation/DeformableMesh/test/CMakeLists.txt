@@ -4,10 +4,12 @@ set(
   itkDeformableSimplexMesh3DFilterTest.cxx
   itkDeformableSimplexMesh3DBalloonForceFilterTest.cxx
   itkDeformableSimplexMesh3DGradientConstraintForceFilterTest.cxx
-  itkSimplexMeshWithFloatCoordRepTest.cxx
 )
 
 createtestdriver(ITKDeformableMesh "${ITKDeformableMesh-Test_LIBRARIES}" "${ITKDeformableMeshTests}")
+
+set(ITKDeformableMeshGTests itkSimplexMeshWithFloatCoordRepGTest.cxx)
+creategoogletestdriver(ITKDeformableMesh "${ITKDeformableMesh-Test_LIBRARIES}" "${ITKDeformableMeshGTests}")
 
 itk_add_test(
   NAME itkDeformableSimplexMesh3DFilterTest
@@ -27,10 +29,4 @@ itk_add_test(
   COMMAND
     ITKDeformableMeshTestDriver
     itkDeformableSimplexMesh3DGradientConstraintForceFilterTest
-)
-itk_add_test(
-  NAME itkSimplexMeshWithFloatCoordRepTest
-  COMMAND
-    ITKDeformableMeshTestDriver
-    itkSimplexMeshWithFloatCoordRepTest
 )
