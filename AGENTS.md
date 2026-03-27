@@ -257,6 +257,30 @@ cmake -B build-external -S path/to/module \
   -DITK_DIR=/path/to/ITK-build
 ```
 
+## AI Generated Commits and Pull Requests
+
+### Draft Pull Requests
+
+Please open AI-agent-assisted pull requests in **Draft mode**. We prefer that
+an agent-created PR not be converted to *Ready for Review* until a checklist of
+human verified criteria are completed:
+
+- [ ] All automated CI tests pass.
+- [ ] The implementation is correct, complete, and fully understood.
+- [ ] The PR description accurately reflects the changes made.
+- [ ] Understand the code: Do not submit AI-generated code you cannot explain to a reviewer. You are accountable for everything in your PR.
+- [ ] Verify correctness: Run the relevant tests locally and confirm they pass.
+- [ ] Check for security issues: Review for common vulnerabilities (e.g., buffer overflows, use of deprecated APIs, injection risks).
+
+### Transparency and Disclosure
+
+- Clearly indicate in the PR description how AI tools generated or assisted
+  with the code (do not use a simple Co-Authored-By: AI-Tool tagline).
+- Explain which portions were AI-generated and what modifications were made to the AI output.
+- Include evidence of testing — do not rely on the AI's assertion that the code is correct (local builds, local test runs).
+- The message must accurately describe **what** was changed and **why** — not merely restate that an AI made the change.
+- AI-generated commits **must** follow ITK's standard commit message format described previously.
+
 ## Common Pitfalls
 
 1. **Template compilation errors**: ITK's heavy template use causes verbose errors. Focus on the **first error** in the output.
@@ -268,6 +292,8 @@ cmake -B build-external -S path/to/module \
 4. **Update() calls**: Filters don't execute until `Update()` is called. Changes to filter parameters after `Update()` require another `Update()`.
 
 5. **Module dependencies**: If code fails to link, check `itk-module.cmake` dependencies. Use `DEPENDS` for public deps, `PRIVATE_DEPENDS` for implementation deps.
+
+6. **Licensing**: Be mindful of how AI-generated code relates to open source licenses. Verify that AI output does not reproduce third-party code in ways that conflict with ITK's Apache-2 license.
 
 ## Resources
 
