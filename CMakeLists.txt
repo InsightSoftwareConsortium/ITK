@@ -535,99 +535,6 @@ if(ITK_USE_GPU)
   include(itkOpenCL)
 endif()
 
-#-----------------------------------------------------------------------------
-# Manage FFT v3 Options
-#
-option(
-  ITK_USE_MKL
-  "Use system Intel Math Kernel Library (MKL) for FFT computation."
-  OFF
-)
-mark_as_advanced(ITK_USE_MKL)
-if(ITK_USE_MKL)
-  # The following lines are only useful if one sets `ITK_USE_MKL` to ON in
-  # the command line. Otherwise, the first CMake run will always initialize
-  # these variables to false. The error message will help the user to set
-  # the appropriate values.
-  set(ITK_USE_FFTWD ON CACHE BOOL "Use double precision FFTW if found")
-  set(ITK_USE_FFTWF ON CACHE BOOL "Use single precision FFTW if found")
-  set(ITK_USE_SYSTEM_FFTW ON CACHE BOOL "Use an installed version of FFTW")
-  if(NOT ITK_USE_FFTWD OR NOT ITK_USE_FFTWF OR NOT ITK_USE_SYSTEM_FFTW)
-    message(
-      FATAL_ERROR
-      "ITK_USE_MKL is set to ON. ITK_USE_FFTWD, ITK_USE_FFTWF\
- and ITK_USE_SYSTEM_FFTW must be set to ON, too."
-    )
-  endif()
-endif()
-option(
-  ITK_USE_CUFFTW
-  "Use NVidia CUDA cuFFT with its FFTW interface for FFT computation."
-  OFF
-)
-mark_as_advanced(ITK_USE_CUFFTW)
-if(ITK_USE_CUFFTW)
-  # The following lines are only useful if one sets `ITK_USE_CUFFTW` to ON in
-  # the command line. Otherwise, the first CMake run will always initialize
-  # these variables to false. The error message will help the user to set
-  # the appropriate values.
-  set(ITK_USE_FFTWD ON CACHE BOOL "Use double precision FFTW if found")
-  set(ITK_USE_FFTWF ON CACHE BOOL "Use single precision FFTW if found")
-  set(ITK_USE_SYSTEM_FFTW ON CACHE BOOL "Use an installed version of FFTW")
-  if(NOT ITK_USE_FFTWD OR NOT ITK_USE_FFTWF OR NOT ITK_USE_SYSTEM_FFTW)
-    message(
-      FATAL_ERROR
-      "ITK_USE_CUFFTW is set to ON. ITK_USE_FFTWD, ITK_USE_FFTWF\
- and ITK_USE_SYSTEM_FFTW must be set to ON, too."
-    )
-  endif()
-endif()
-# ITK_USE_FFTWD -- use double precision FFTW
-if(DEFINED USE_FFTWD)
-  set(ITK_USE_FFTWD_DEFAULT ${USE_FFTWD})
-else()
-  set(ITK_USE_FFTWD_DEFAULT OFF)
-endif()
-option(
-  ITK_USE_FFTWD
-  "Use double precision FFTW if found"
-  ${ITK_USE_FFTWD_DEFAULT}
-)
-mark_as_advanced(ITK_USE_FFTWD)
-#
-# ITK_USE_FFTWF -- use single precision FFTW
-if(DEFINED USE_FFTWF)
-  set(ITK_USE_FFTWF_DEFAULT ${USE_FFTWF})
-else()
-  set(ITK_USE_FFTWF_DEFAULT OFF)
-endif()
-option(
-  ITK_USE_FFTWF
-  "Use single precision FFTW if found"
-  ${ITK_USE_FFTWF_DEFAULT}
-)
-mark_as_advanced(ITK_USE_FFTWF)
-
-# ITK_USE_SYSTEM_FFTW -- locate a readybuilt FFTW installation
-if(DEFINED USE_SYSTEM_FFTW)
-  set(ITK_USE_SYSTEM_FFTW_DEFAULT ${USE_SYSTEM_FFTW})
-else()
-  set(ITK_USE_SYSTEM_FFTW_DEFAULT ${ITK_USE_SYSTEM_LIBRARIES})
-endif()
-option(
-  ITK_USE_SYSTEM_FFTW
-  "Use an installed version of FFTW"
-  ${ITK_USE_SYSTEM_FFTW_DEFAULT}
-)
-mark_as_advanced(ITK_USE_SYSTEM_FFTW)
-
-if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
-  include(itkExternal_FFTW)
-  # This pollutes the global namespace, but is needed for backward compatibility
-  include_directories(${FFTW_INCLUDE})
-  link_directories(${FFTW_LIBDIR})
-endif()
-
 set(ITK_USE_64BITS_IDS_DEFAULT "OFF")
 # Note WIN32 is true when targeting any windows system
 if(CMAKE_SIZEOF_VOID_P EQUAL "8" AND WIN32)
@@ -795,17 +702,7 @@ set(
   ITK_CONFIG_MODULE_API_FILE
   "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/ITKModuleAPI.cmake"
 )
-if(NOT ITK_USE_SYSTEM_FFTW)
-  # Location installed with the FFTW ExternalProject.
-  set(
-    FFTW_LIBDIR
-    "\${ITK_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}"
-  )
-  set(
-    FFTW_INCLUDE_PATH
-    "\${ITK_INSTALL_PREFIX}/include/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Algorithms"
-  )
-endif()
+
 configure_file(CMake/ITKConfig.cmake.in CMakeFiles/ITKConfig.cmake @ONLY)
 
 #-----------------------------------------------------------------------------
