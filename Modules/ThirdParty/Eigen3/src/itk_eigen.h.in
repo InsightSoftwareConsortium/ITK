@@ -19,6 +19,8 @@
 #ifndef itk_eigen_h
 #define itk_eigen_h
 
+
+
 /* Usage:
  *  ITK_EIGEN(Eigenvalues)
  *  If using a Eigen3 header containing non MPL2 code
