@@ -199,8 +199,8 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::GenerateData()
 
     // Check for convergence.  Compare the output of the single
     // iteration of the algorithm with the current marker image.
-    ImageRegionConstIterator<TInputImage> singleInIt(singleIteration->GetMarkerImage(),
-                                                     singleIteration->GetOutput()->GetRequestedRegion());
+    ImageRegionConstIterator singleInIt(singleIteration->GetMarkerImage(),
+                                        singleIteration->GetOutput()->GetRequestedRegion());
     ImageRegionIterator singleOutIt(singleIteration->GetOutput(), singleIteration->GetOutput()->GetRequestedRegion());
 
     done = true;

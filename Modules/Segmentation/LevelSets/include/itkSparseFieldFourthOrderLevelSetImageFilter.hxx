@@ -140,7 +140,7 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ComputeCur
   SparseImageType *       sparseImage) const
 {
 
-  ImageRegionConstIterator<OutputImageType> distanceImageIterator(distanceImage, distanceImage->GetRequestedRegion());
+  ImageRegionConstIterator distanceImageIterator(distanceImage, distanceImage->GetRequestedRegion());
   typename SparseImageIteratorType::RadiusType radius;
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {

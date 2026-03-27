@@ -66,8 +66,8 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::PrepareData()
 
   const typename OutputImageType::RegionType region = thinImage->GetRequestedRegion();
 
-  ImageRegionConstIterator<TInputImage> it(inputImage, region);
-  ImageRegionIterator                   ot(thinImage, region);
+  ImageRegionConstIterator it(inputImage, region);
+  ImageRegionIterator      ot(thinImage, region);
 
   itkDebugMacro("PrepareData: Copy input to output");
 

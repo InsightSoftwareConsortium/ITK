@@ -157,7 +157,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::RecomputeG
     m_KernelArray[i].SetRadius(maxRadius);
 
     // Copy kernel image to neighborhood. Do not copy boundaries.
-    ImageRegionConstIterator<KernelImageType> it(kernelImage, kernelRegion);
+    ImageRegionConstIterator it(kernelImage, kernelRegion);
     it.GoToBegin();
     unsigned int idx = 0;
 

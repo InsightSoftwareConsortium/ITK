@@ -83,8 +83,8 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   // except for pixels with DilateValue.  These pixels are initially
   // replaced with BackgroundValue and potentially replaced later with
   // DilateValue as the Minkowski sums are performed.
-  ImageRegionIterator                      outIt(output, outputRegion);
-  ImageRegionConstIterator<InputImageType> inIt(input, outputRegion);
+  ImageRegionIterator      outIt(output, outputRegion);
+  ImageRegionConstIterator inIt(input, outputRegion);
 
   for (inIt.GoToBegin(), outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++inIt)
   {
@@ -140,7 +140,7 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 
   // Iterators on input and tmp image
   // iterator on input
-  ImageRegionConstIterator<TInputImage> iRegIt(input, requiredInputRegion);
+  ImageRegionConstIterator iRegIt(input, requiredInputRegion);
   // iterator on tmp image
   ImageRegionIterator tmpRegIt(tmpImage, requiredInputRegion);
 

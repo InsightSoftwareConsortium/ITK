@@ -87,8 +87,8 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
 
   // along with a neighborhood iterator on the output, use a standard
   // iterator on the input and output
-  ImageRegionConstIterator<InputImageType> it(input, output->GetRequestedRegion());
-  ImageRegionIterator                      oit(output, output->GetRequestedRegion());
+  ImageRegionConstIterator it(input, output->GetRequestedRegion());
+  ImageRegionIterator      oit(output, output->GetRequestedRegion());
 
   // Setup a progress reporter.  We have 2 stages to the algorithm so
   // pretend we have 2 times the number of pixels
@@ -97,7 +97,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   // if the mask is set mark pixels not under the mask as background
   if (const typename TMaskImage::ConstPointer mask = this->GetMaskImage())
   {
-    ImageRegionConstIterator<MaskImageType> mit(mask, output->GetRequestedRegion());
+    ImageRegionConstIterator mit(mask, output->GetRequestedRegion());
 
     mit.GoToBegin();
     oit.GoToBegin();

@@ -109,7 +109,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FindSeedPixel()
   // Now we search the input image for the first pixel which is inside
   // the function of interest
   m_Seeds.clear();
-  for (ImageRegionConstIterator<TImage> it(this->m_Image, this->m_Image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
+  for (ImageRegionConstIterator it(this->m_Image, this->m_Image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
   {
     if (this->IsPixelIncluded(it.GetIndex()))
     {
@@ -133,7 +133,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FindSeedPixels()
   // the function of interest
   m_Seeds.clear();
   bool found = false;
-  for (ImageRegionConstIterator<TImage> it(this->m_Image, this->m_Image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
+  for (ImageRegionConstIterator it(this->m_Image, this->m_Image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
   {
     if (this->IsPixelIncluded(it.GetIndex()))
     {

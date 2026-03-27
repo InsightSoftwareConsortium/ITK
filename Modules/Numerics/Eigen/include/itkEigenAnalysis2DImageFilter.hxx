@@ -136,9 +136,9 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ge
 
   const EigenValueImageRegionType region = outputPtr1->GetRequestedRegion();
 
-  ImageRegionConstIterator<TInputImage> inputIt1(inputPtr1, region);
-  ImageRegionConstIterator<TInputImage> inputIt2(inputPtr2, region);
-  ImageRegionConstIterator<TInputImage> inputIt3(inputPtr3, region);
+  ImageRegionConstIterator inputIt1(inputPtr1, region);
+  ImageRegionConstIterator inputIt2(inputPtr2, region);
+  ImageRegionConstIterator inputIt3(inputPtr3, region);
 
   ImageRegionIterator outputIt1(outputPtr1, region);
   ImageRegionIterator outputIt2(outputPtr2, region);

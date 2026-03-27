@@ -291,7 +291,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThreadedG
   if (this->m_DefFieldSameInformation)
   {
     // iterator for the deformation field
-    ImageRegionConstIterator<DisplacementFieldType> fieldIt(fieldPtr, outputRegionForThread);
+    ImageRegionConstIterator fieldIt(fieldPtr, outputRegionForThread);
 
     while (!outputIt.IsAtEnd())
     {

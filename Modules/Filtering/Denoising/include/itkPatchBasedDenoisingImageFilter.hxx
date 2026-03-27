@@ -537,8 +537,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::InitializePatchWeight
   resampler->Update();
 
   // Patch weights (mask) in voxel space
-  const typename WeightsImageType::Pointer   voxelWeightsImage = resampler->GetOutput();
-  ImageRegionConstIterator<WeightsImageType> vwIt(voxelWeightsImage, voxelWeightsImage->GetLargestPossibleRegion());
+  const typename WeightsImageType::Pointer voxelWeightsImage = resampler->GetOutput();
+  ImageRegionConstIterator                 vwIt(voxelWeightsImage, voxelWeightsImage->GetLargestPossibleRegion());
 
   // Disc-smooth patch weights in voxel space
   PatchWeightsType patchWeights;

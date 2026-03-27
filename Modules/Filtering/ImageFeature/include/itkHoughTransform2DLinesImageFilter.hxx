@@ -196,9 +196,8 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::Simplify()
     ++image_it;
   }
 
-  ImageRegionConstIterator<OutputImageType> accusimple_it(m_SimplifyAccumulator,
-                                                          m_SimplifyAccumulator->GetRequestedRegion());
-  ImageRegionIterator                       accu_it(outputImage, outputImage->GetRequestedRegion());
+  ImageRegionConstIterator accusimple_it(m_SimplifyAccumulator, m_SimplifyAccumulator->GetRequestedRegion());
+  ImageRegionIterator      accu_it(outputImage, outputImage->GetRequestedRegion());
 
   while (!accusimple_it.IsAtEnd())
   {

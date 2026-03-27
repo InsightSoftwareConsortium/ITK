@@ -161,8 +161,8 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
   }
 
   // Compute the average radius
-  ImageRegionConstIterator<OutputImageType> output_it(outputImage, outputImage->GetLargestPossibleRegion());
-  ImageRegionIterator                       radius_it(m_RadiusImage, m_RadiusImage->GetLargestPossibleRegion());
+  ImageRegionConstIterator output_it(outputImage, outputImage->GetLargestPossibleRegion());
+  ImageRegionIterator      radius_it(m_RadiusImage, m_RadiusImage->GetLargestPossibleRegion());
   while (!output_it.IsAtEnd())
   {
     if (output_it.Get() > 1)

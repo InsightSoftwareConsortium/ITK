@@ -172,8 +172,8 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   outputImagePtr->SetLargestPossibleRegion(inputImagePtr->GetLargestPossibleRegion());
   outputImagePtr->AllocateInitialized();
 
-  ImageRegionConstIterator<TInputImage> inputIt(inputImagePtr, inputImagePtr->GetLargestPossibleRegion());
-  ImageRegionIterator                   outputIt(outputImagePtr, outputImagePtr->GetLargestPossibleRegion());
+  ImageRegionConstIterator inputIt(inputImagePtr, inputImagePtr->GetLargestPossibleRegion());
+  ImageRegionIterator      outputIt(outputImagePtr, outputImagePtr->GetLargestPossibleRegion());
 
   using InterpolatorType = NearestNeighborInterpolateImageFunction<TInputImage, double>;
   using InterpolatorPointType = typename InterpolatorType::PointType;

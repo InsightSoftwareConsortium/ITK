@@ -176,8 +176,8 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   const ImageConstPointer inputPtr = this->GetInput();
   const OutputPointer     outputPtr = this->GetOutput();
 
-  ImageRegionConstIterator<InputImageType> inIt(inputPtr, outputRegionForThread);
-  ImageRegionIterator                      outIt(outputPtr, outputRegionForThread);
+  ImageRegionConstIterator inIt(inputPtr, outputRegionForThread);
+  ImageRegionIterator      outIt(outputPtr, outputRegionForThread);
 
   const PixelType negFarValue = -m_FarValue;
 

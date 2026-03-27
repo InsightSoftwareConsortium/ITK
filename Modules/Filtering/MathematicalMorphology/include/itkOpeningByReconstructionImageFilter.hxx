@@ -90,10 +90,10 @@ OpeningByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>::Generate
 
     tempImage->Allocate();
 
-    ImageRegionConstIterator<TInputImage> inputIt(this->GetInput(), erode->GetOutput()->GetBufferedRegion());
-    ImageRegionConstIterator<TInputImage> erodeIt(erode->GetOutput(), erode->GetOutput()->GetBufferedRegion());
-    ImageRegionConstIterator<TInputImage> dilateIt(dilate->GetOutput(), erode->GetOutput()->GetBufferedRegion());
-    ImageRegionIterator                   tempIt(tempImage, erode->GetOutput()->GetBufferedRegion());
+    ImageRegionConstIterator inputIt(this->GetInput(), erode->GetOutput()->GetBufferedRegion());
+    ImageRegionConstIterator erodeIt(erode->GetOutput(), erode->GetOutput()->GetBufferedRegion());
+    ImageRegionConstIterator dilateIt(dilate->GetOutput(), erode->GetOutput()->GetBufferedRegion());
+    ImageRegionIterator      tempIt(tempImage, erode->GetOutput()->GetBufferedRegion());
     while (!erodeIt.IsAtEnd())
     {
       if (erodeIt.Get() == dilateIt.Get())

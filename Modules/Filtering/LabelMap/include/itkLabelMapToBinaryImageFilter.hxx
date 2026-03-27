@@ -98,8 +98,8 @@ LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
   if (this->GetNumberOfIndexedInputs() == 2)
   {
     // fill the background with the background values from the background image
-    ImageRegionConstIterator<OutputImageType> bgIt(this->GetBackgroundImage(), outputRegionForThread);
-    ImageRegionIterator                       oIt(output, outputRegionForThread);
+    ImageRegionConstIterator bgIt(this->GetBackgroundImage(), outputRegionForThread);
+    ImageRegionIterator      oIt(output, outputRegionForThread);
 
     bgIt.GoToBegin();
     oIt.GoToBegin();

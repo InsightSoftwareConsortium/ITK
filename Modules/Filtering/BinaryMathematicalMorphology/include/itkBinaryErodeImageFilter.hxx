@@ -84,7 +84,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   // replaced with BackgroundValue and potentially replaced later with
   // DilateValue as the Minkowski sums are performed.
   ImageRegionIterator outIt(output, outputRegion);
-  // ImageRegionConstIterator<InputImageType> inIt( input, outputRegion );
+  // ImageRegionConstIterator inIt( input, outputRegion );
 
   for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
   {
@@ -130,7 +130,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 
   // Iterators on input and tmp image
   // iterator on input
-  ImageRegionConstIterator<TInputImage> iRegIt(input, requiredInputRegion);
+  ImageRegionConstIterator iRegIt(input, requiredInputRegion);
   // iterator on tmp image
   ImageRegionIterator tmpRegIt(tmpImage, requiredInputRegion);
 
@@ -446,7 +446,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   }
 
   // now, we must to restore the background values
-  ImageRegionConstIterator<InputImageType> inIt(input, outputRegion);
+  ImageRegionConstIterator inIt(input, outputRegion);
 
   for (inIt.GoToBegin(), outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++inIt)
   {

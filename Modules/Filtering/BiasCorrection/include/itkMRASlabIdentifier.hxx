@@ -77,7 +77,7 @@ MRASlabIdentifier<TInputImage>::GenerateSlabRegions()
     index[m_SlicingDirection] = currentSlice;
     region.SetIndex(index);
 
-    ImageRegionConstIterator<TInputImage> iter(m_Image, region);
+    ImageRegionConstIterator iter(m_Image, region);
     iter.GoToBegin();
 
     std::priority_queue<ImagePixelType> mins;

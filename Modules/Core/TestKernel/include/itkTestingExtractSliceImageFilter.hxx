@@ -251,8 +251,8 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
 
-  ImageRegionIterator                   outIt(outputPtr, outputRegionForThread);
-  ImageRegionConstIterator<TInputImage> inIt(inputPtr, inputRegionForThread);
+  ImageRegionIterator      outIt(outputPtr, outputRegionForThread);
+  ImageRegionConstIterator inIt(inputPtr, inputRegionForThread);
 
   // walk the output region, and sample the input image
   while (!outIt.IsAtEnd())

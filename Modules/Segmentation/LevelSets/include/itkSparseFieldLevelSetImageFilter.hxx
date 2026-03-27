@@ -592,11 +592,11 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeBackgroundP
   const ValueType outside_value = (max_layer + 1) * m_ConstantGradientValue;
   const ValueType inside_value = -(max_layer + 1) * m_ConstantGradientValue;
 
-  ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage, this->GetOutput()->GetRequestedRegion());
+  ImageRegionConstIterator statusIt(m_StatusImage, this->GetOutput()->GetRequestedRegion());
 
   ImageRegionIterator outputIt(this->GetOutput(), this->GetOutput()->GetRequestedRegion());
 
-  ImageRegionConstIterator<OutputImageType> shiftedIt(m_ShiftedImage, this->GetOutput()->GetRequestedRegion());
+  ImageRegionConstIterator shiftedIt(m_ShiftedImage, this->GetOutput()->GetRequestedRegion());
 
   for (outputIt.GoToBegin(), statusIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt, ++statusIt, ++shiftedIt)
   {
@@ -1055,7 +1055,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PostProcessOutput()
   const ValueType inside_value = (max_layer + 1) * m_ConstantGradientValue;
   const ValueType outside_value = -(max_layer + 1) * m_ConstantGradientValue;
 
-  ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage, this->m_OutputImage->GetRequestedRegion());
+  ImageRegionConstIterator statusIt(m_StatusImage, this->m_OutputImage->GetRequestedRegion());
 
   ImageRegionIterator outputIt(this->m_OutputImage, this->m_OutputImage->GetRequestedRegion());
 

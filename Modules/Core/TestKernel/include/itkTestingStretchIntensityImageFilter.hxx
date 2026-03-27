@@ -106,8 +106,8 @@ StretchIntensityImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
 
   const InputImageRegionType inputRegionForThread = outputRegionForThread;
 
-  ImageRegionConstIterator<TInputImage> inputIt(inputPtr, inputRegionForThread);
-  ImageRegionIterator                   outputIt(outputPtr, outputRegionForThread);
+  ImageRegionConstIterator inputIt(inputPtr, inputRegionForThread);
+  ImageRegionIterator      outputIt(outputPtr, outputRegionForThread);
 
   while (!inputIt.IsAtEnd())
   {

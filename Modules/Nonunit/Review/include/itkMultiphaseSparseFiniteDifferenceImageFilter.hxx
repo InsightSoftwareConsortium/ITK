@@ -1120,8 +1120,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   {
     SparseDataStruct * sparsePtr = this->m_SparseData[fId];
 
-    ImageRegionConstIterator<StatusImageType> statusIt(sparsePtr->m_StatusImage,
-                                                       this->m_LevelSet[fId]->GetRequestedRegion());
+    ImageRegionConstIterator statusIt(sparsePtr->m_StatusImage, this->m_LevelSet[fId]->GetRequestedRegion());
 
     ImageRegionIterator outputIt(this->m_LevelSet[fId], this->m_LevelSet[fId]->GetRequestedRegion());
 

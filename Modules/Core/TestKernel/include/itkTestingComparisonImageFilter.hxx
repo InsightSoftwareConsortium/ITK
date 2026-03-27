@@ -128,9 +128,9 @@ ComparisonImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   // Process the internal face and each of the boundary faces.
   for (auto face = faceList.begin(); face != faceList.end(); ++face)
   {
-    SmartIterator                            test(radius, testImage, *face); // Iterate over test image.
-    ImageRegionConstIterator<InputImageType> valid(validImage, *face);       // Iterate over valid image.
-    ImageRegionIterator                      out(outputPtr, *face);          // Iterate over output image.
+    SmartIterator            test(radius, testImage, *face); // Iterate over test image.
+    ImageRegionConstIterator valid(validImage, *face);       // Iterate over valid image.
+    ImageRegionIterator      out(outputPtr, *face);          // Iterate over output image.
     if (!test.GetNeedToUseBoundaryCondition() || !m_IgnoreBoundaryPixels)
     {
       test.OverrideBoundaryCondition(&nbc);

@@ -52,8 +52,8 @@ PeakSignalToNoiseRatioCalculator<TInputImage>::Compute()
     return;
   }
 
-  ImageRegionConstIterator<InputImageType> iIt(m_Image, m_Image->GetRequestedRegion());
-  ImageRegionConstIterator<InputImageType> nIt(m_NoisyImage, m_NoisyImage->GetRequestedRegion());
+  ImageRegionConstIterator iIt(m_Image, m_Image->GetRequestedRegion());
+  ImageRegionConstIterator nIt(m_NoisyImage, m_NoisyImage->GetRequestedRegion());
 
   // init the values
   double         mse = 0;

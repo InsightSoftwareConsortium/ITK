@@ -157,7 +157,7 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::SpatialObjectToMe
   imageMO->ElementOrigin(origin);
   imageMO->ElementDirection(direction);
 
-  ImageRegionConstIterator<ImageType> it(SOImage, SOImage->GetLargestPossibleRegion());
+  ImageRegionConstIterator it(SOImage, SOImage->GetLargestPossibleRegion());
   for (unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
   {
     imageMO->ElementData(i, it.Get());

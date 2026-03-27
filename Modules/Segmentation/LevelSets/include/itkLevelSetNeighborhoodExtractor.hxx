@@ -119,7 +119,7 @@ void
 LevelSetNeighborhoodExtractor<TLevelSet>::GenerateDataFull()
 {
 
-  ImageRegionConstIterator<LevelSetImageType> inIt(m_InputLevelSet, m_InputLevelSet->GetBufferedRegion());
+  ImageRegionConstIterator inIt(m_InputLevelSet, m_InputLevelSet->GetBufferedRegion());
 
   IndexType inputIndex;
 

@@ -123,8 +123,8 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
     this, 0, (outputPtr->GetRequestedRegion().GetNumberOfPixels()) * m_Repetitions * 2 * NDimensions);
 
   // Copy the input image to the temporary image
-  ImageRegionIteratorWithIndex          tempIt(tempPtr, tempPtr->GetRequestedRegion());
-  ImageRegionConstIterator<TInputImage> inputIt(inputPtr, inputPtr->GetRequestedRegion());
+  ImageRegionIteratorWithIndex tempIt(tempPtr, tempPtr->GetRequestedRegion());
+  ImageRegionConstIterator     inputIt(inputPtr, inputPtr->GetRequestedRegion());
 
   for (inputIt.GoToBegin(), tempIt.GoToBegin(); !tempIt.IsAtEnd(); ++tempIt, ++inputIt)
   {

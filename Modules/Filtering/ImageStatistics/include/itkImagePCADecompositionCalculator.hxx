@@ -75,8 +75,8 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>::CalculateBasisMatrix(
       itkExceptionStringMacro("All basis images must be the same size!");
     }
 
-    ImageRegionConstIterator<BasisImageType> image_it(*basis_it, (*basis_it)->GetRequestedRegion());
-    int                                      j = 0;
+    ImageRegionConstIterator image_it(*basis_it, (*basis_it)->GetRequestedRegion());
+    int                      j = 0;
     for (image_it.GoToBegin(); !image_it.IsAtEnd(); ++image_it)
     {
       m_BasisMatrix(i, j++) = image_it.Get();
@@ -96,8 +96,8 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>::CalculateRecenteredIm
     itkExceptionStringMacro("Input image must be the same size as the basis images!");
   }
 
-  ImageRegionConstIterator<InputImageType> image_it(m_Image, m_Image->GetRequestedRegion());
-  typename BasisVectorType::iterator       vector_it;
+  ImageRegionConstIterator           image_it(m_Image, m_Image->GetRequestedRegion());
+  typename BasisVectorType::iterator vector_it;
   for (image_it.GoToBegin(), vector_it = m_ImageAsVector.begin(); !image_it.IsAtEnd(); ++image_it, ++vector_it)
   {
     *vector_it = static_cast<BasisPixelType>(image_it.Get());
@@ -105,7 +105,7 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>::CalculateRecenteredIm
 
   if (m_MeanImage)
   {
-    ImageRegionConstIterator<BasisImageType> mimage_it(m_MeanImage, m_MeanImage->GetRequestedRegion());
+    ImageRegionConstIterator mimage_it(m_MeanImage, m_MeanImage->GetRequestedRegion());
     for (mimage_it.GoToBegin(), vector_it = m_ImageAsVector.begin(); !mimage_it.IsAtEnd(); ++mimage_it, ++vector_it)
     {
       *vector_it -= (mimage_it.Get());

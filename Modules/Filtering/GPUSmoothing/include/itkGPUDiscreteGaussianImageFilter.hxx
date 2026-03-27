@@ -103,7 +103,7 @@ GPUDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GPUGenerateData()
   if (filterDimensionality == 0)
   {
     // no smoothing, copy input to output
-    ImageRegionConstIterator<InputImageType> inIt(localInput, this->GetOutput()->GetRequestedRegion());
+    ImageRegionConstIterator inIt(localInput, this->GetOutput()->GetRequestedRegion());
 
     ImageRegionIterator outIt(output, this->GetOutput()->GetRequestedRegion());
 

@@ -200,7 +200,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
     {
       // Mask is defined, use the same calculation as above but only
       // perform it under the mask
-      ImageRegionConstIterator<MaskImageType> mit(mask, face);
+      ImageRegionConstIterator mit(mask, face);
       while (!bit.IsAtEnd())
       {
         if (mit.Get())
