@@ -243,16 +243,18 @@ code is ready for their attention and ensures their review time is spent
 effectively.
 
 ```{important}
-**AI-agent-assisted pull requests must be opened in Draft mode.** An
-agent-created PR must not be converted to *Ready for Review* until the human
+**Please open AI-agent-assisted pull requests in Draft mode.** We prefer that
+an AI-agent-assisted PR not be converted to *Ready for Review* until the human
 author has personally verified that:
 
 - all automated CI tests pass,
-- the implementation is correct and complete,
+- the implementation is correct, complete and fully understood,
 - the PR description accurately reflects the changes made.
 
-Reviewer time is a finite human resource. Do not request a review before these
-conditions are met.
+Reviewer time is a finite human resource. Please allow at least 1 working day
+for low-impact changes (e.g., single test changes, documentation updates) and
+longer for changes that impact core infrastructure or fundamental algorithmic
+behavior before merging.
 ```
 
 Optionally, discuss the change by opening a topic on [ITK's Discourse].
