@@ -13,30 +13,10 @@ Load only what your task requires:
 | Understanding the codebase layout | `Documentation/AI/architecture.md` |
 | Building or configuring ITK | `Documentation/AI/building.md` |
 | Writing or running tests | `Documentation/AI/testing.md` |
-| Code style, commits, PRs | `Documentation/AI/style.md` |
+| Code style, naming conventions | `Documentation/AI/style.md` |
 | Writing ITK C++ or Python | `Documentation/AI/conventions.md` |
-
-## AI-Generated Commits and Pull Requests
-
-### Draft Pull Requests
-
-Open AI-agent-assisted PRs in **Draft mode**. Do not convert to *Ready for Review* until:
-
-- [ ] All automated CI tests pass.
-- [ ] The implementation is correct, complete, and fully understood.
-- [ ] The PR description accurately reflects the changes made.
-- [ ] You can explain every line to a reviewer — you are accountable for all code in the PR.
-- [ ] You have run relevant tests locally and confirmed they pass.
-- [ ] You have reviewed for security issues (buffer overflows, deprecated APIs, etc.).
-
-### Transparency Requirements
-
-- State clearly in the PR description how AI tools generated or assisted with the code.
-- Identify which portions are AI-generated and what modifications were made.
-- Include evidence of local testing — do not rely on AI assertions of correctness.
-- Commit messages must describe **what** changed and **why**, not merely that AI made the change.
-- Follow ITK's commit format: `PREFIX: Description (≤78 chars)` — enforced by hook.
-- Do not use a simple `Co-Authored-By: AI-Tool` tagline as the only disclosure.
+| Creating a git commit | `Documentation/AI/git-commits.md` |
+| Opening or updating a pull request | `Documentation/AI/pull-requests.md` |
 
 ## Critical Pitfalls
 
