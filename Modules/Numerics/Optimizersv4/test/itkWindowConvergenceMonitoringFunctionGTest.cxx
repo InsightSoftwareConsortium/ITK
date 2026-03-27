@@ -31,7 +31,7 @@ TEST(WindowConvergenceMonitoringFunction, ConvertedLegacyTest)
   for (RealType x = 0.0; x < 20; x += 1.0)
   {
     convergenceMonitoring->AddEnergyValue(std::pow(static_cast<RealType>(2.0), -x));
-    RealType convergenceValue;
+    RealType convergenceValue{};
     EXPECT_NO_THROW(convergenceValue = convergenceMonitoring->GetConvergenceValue());
     std::cout << "convergence value: " << convergenceValue << std::endl;
   }
