@@ -49,3 +49,4 @@ CMakeUserPresets.json
 # pixi environments
 .pixi
 *.egg-info
+InsightData-*.tar.gz
