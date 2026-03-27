@@ -1022,7 +1022,7 @@ RobustSolver<VDimension>::InitializeInterpolationGrid()
 
     // Initialize the iterator that will step over all grid points within
     // element boundary box.
-    ImageRegionIterator<InterpolationGridType> iter(this->m_InterpolationGrid, interRegion);
+    ImageRegionIterator iter(this->m_InterpolationGrid, interRegion);
 
     // Update the element pointers in the points defined within the region.
     VectorType global_point(NumberOfDimensions);

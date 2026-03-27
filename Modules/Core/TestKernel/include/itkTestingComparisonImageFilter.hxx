@@ -130,7 +130,7 @@ ComparisonImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   {
     SmartIterator                            test(radius, testImage, *face); // Iterate over test image.
     ImageRegionConstIterator<InputImageType> valid(validImage, *face);       // Iterate over valid image.
-    ImageRegionIterator<OutputImageType>     out(outputPtr, *face);          // Iterate over output image.
+    ImageRegionIterator                      out(outputPtr, *face);          // Iterate over output image.
     if (!test.GetNeedToUseBoundaryCondition() || !m_IgnoreBoundaryPixels)
     {
       test.OverrideBoundaryCondition(&nbc);

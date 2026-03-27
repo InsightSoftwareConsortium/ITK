@@ -621,9 +621,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   gradientField->Allocate();
 
   SizeValueType count = 0;
-  for (ImageRegionIterator<DisplacementFieldType> ItG(gradientField, gradientField->GetRequestedRegion());
-       !ItG.IsAtEnd();
-       ++ItG)
+  for (ImageRegionIterator ItG(gradientField, gradientField->GetRequestedRegion()); !ItG.IsAtEnd(); ++ItG)
   {
     DisplacementVectorType displacement;
     for (SizeValueType d = 0; d < ImageDimension; ++d)

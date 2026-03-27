@@ -88,8 +88,8 @@ CurvesLevelSetFunction<TImageType, TFeatureImageType>::CalculateAdvectionImage()
   }
 
   /* copy negative gradient into the advection image. */
-  ImageRegionIterator<VectorImageType> dit(gradientImage, this->GetFeatureImage()->GetRequestedRegion());
-  ImageRegionIterator<VectorImageType> ait(this->GetAdvectionImage(), this->GetFeatureImage()->GetRequestedRegion());
+  ImageRegionIterator dit(gradientImage, this->GetFeatureImage()->GetRequestedRegion());
+  ImageRegionIterator ait(this->GetAdvectionImage(), this->GetFeatureImage()->GetRequestedRegion());
 
   for (dit.GoToBegin(), ait.GoToBegin(); !dit.IsAtEnd(); ++dit, ++ait)
   {

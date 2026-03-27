@@ -110,7 +110,7 @@ ScalarToRGBColormapImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenera
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
   ImageRegionConstIterator<TInputImage> inputIt(inputPtr, inputRegionForThread);
-  ImageRegionIterator<TOutputImage>     outputIt(outputPtr, outputRegionForThread);
+  ImageRegionIterator                   outputIt(outputPtr, outputRegionForThread);
 
   while (!inputIt.IsAtEnd())
   {

@@ -319,7 +319,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   }
   else
   {
-    ImageRegionIterator<OutputImageType> outputIt(output, outputRegionForThread);
+    ImageRegionIterator outputIt(output, outputRegionForThread);
 
     for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
     {

@@ -222,7 +222,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::ThreadedWr
   // Note - this is unnecessary if AllocateOutputs initializes to zero
 
   OutputImageType *                    output = this->GetOutput();
-  ImageRegionIterator<OutputImageType> oit(output, outputRegionForThread);
+  ImageRegionIterator                  oit(output, outputRegionForThread);
   ImageRegionIterator<OutputImageType> fstart = oit;
   ImageRegionIterator<OutputImageType> fend = oit;
   fend.GoToEnd();

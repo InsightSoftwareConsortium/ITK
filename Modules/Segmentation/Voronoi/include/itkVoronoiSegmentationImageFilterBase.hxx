@@ -519,7 +519,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 {
   const RegionType region = this->GetInput()->GetRequestedRegion();
 
-  ImageRegionIterator<OutputImageType> oit(this->GetOutput(), region);
+  ImageRegionIterator oit(this->GetOutput(), region);
   while (!oit.IsAtEnd())
   {
     oit.Set(0);
@@ -548,7 +548,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 {
   const RegionType region = this->GetInput()->GetRequestedRegion();
 
-  ImageRegionIterator<OutputImageType> oit(this->GetOutput(), region);
+  ImageRegionIterator oit(this->GetOutput(), region);
   while (!oit.IsAtEnd())
   {
     oit.Set(0);
@@ -923,7 +923,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 {
   const RegionType region = this->GetInput()->GetRequestedRegion();
 
-  ImageRegionIterator<VDImage> vdit(result, region);
+  ImageRegionIterator vdit(result, region);
   while (!vdit.IsAtEnd())
   {
     vdit.Set(0);

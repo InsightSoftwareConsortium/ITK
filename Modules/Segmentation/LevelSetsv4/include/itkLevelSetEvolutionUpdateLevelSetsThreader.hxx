@@ -58,7 +58,7 @@ LevelSetEvolutionUpdateLevelSetsThreader<LevelSetDenseImage<TImage>,
   const typename LevelSetImageType::Pointer      levelSetImage = levelSet->GetModifiableImage();
   const typename LevelSetImageType::ConstPointer levelSetUpdateImage = levelSetUpdate->GetImage();
 
-  ImageRegionIterator<LevelSetImageType>      levelSetImageIt(levelSetImage, imageSubRegion);
+  ImageRegionIterator                         levelSetImageIt(levelSetImage, imageSubRegion);
   ImageRegionConstIterator<LevelSetImageType> levelSetUpdateImageIt(levelSetUpdateImage, imageSubRegion);
   levelSetImageIt.GoToBegin();
   levelSetUpdateImageIt.GoToBegin();

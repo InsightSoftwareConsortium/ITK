@@ -190,7 +190,7 @@ RandomImageSource<TOutputImage>::DynamicThreadedGenerateData(const OutputImageRe
   const auto dMin = static_cast<double>(m_Min);
   const auto dMax = static_cast<double>(m_Max);
 
-  for (ImageRegionIterator<TOutputImage> it(image, outputRegionForThread); !it.IsAtEnd(); ++it)
+  for (ImageRegionIterator it(image, outputRegionForThread); !it.IsAtEnd(); ++it)
   {
     sample_seed = (sample_seed * 16807) % 2147483647L;
     const double u = static_cast<double>(sample_seed) / 2147483711UL;

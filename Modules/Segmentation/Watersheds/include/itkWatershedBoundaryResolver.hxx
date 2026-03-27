@@ -32,7 +32,6 @@ BoundaryResolver<TPixelType, TDimension>::GenerateData()
   //       See itkWatershedSegmenter for details. City-block style connectivity
   //       is assumed (ie 4-, 6- for 2d, 3d). jc 11/14/01
   //
-  using FaceType = typename BoundaryType::face_t;
   typename BoundaryType::IndexType idxA;
   typename BoundaryType::IndexType idxB;
 
@@ -65,9 +64,9 @@ BoundaryResolver<TPixelType, TDimension>::GenerateData()
   // This constructs equivalencies between both flat regions and
   // non-flat regions.
   //
-  ImageRegionIterator<FaceType> itA(boundaryA->GetFace(idxA), boundaryA->GetFace(idxA)->GetRequestedRegion());
+  ImageRegionIterator itA(boundaryA->GetFace(idxA), boundaryA->GetFace(idxA)->GetRequestedRegion());
 
-  ImageRegionIterator<FaceType> itB(boundaryB->GetFace(idxB), boundaryB->GetFace(idxB)->GetRequestedRegion());
+  ImageRegionIterator itB(boundaryB->GetFace(idxB), boundaryB->GetFace(idxB)->GetRequestedRegion());
 
   for (itA.GoToBegin(), itB.GoToBegin(); !itA.IsAtEnd(); ++itA, ++itB)
   {

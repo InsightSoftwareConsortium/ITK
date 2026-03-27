@@ -88,7 +88,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   // along with a neighborhood iterator on the output, use a standard
   // iterator on the input and output
   ImageRegionConstIterator<InputImageType> it(input, output->GetRequestedRegion());
-  ImageRegionIterator<OutputImageType>     oit(output, output->GetRequestedRegion());
+  ImageRegionIterator                      oit(output, output->GetRequestedRegion());
 
   // Setup a progress reporter.  We have 2 stages to the algorithm so
   // pretend we have 2 times the number of pixels

@@ -277,9 +277,9 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::HysteresisThresholding
   ListNodeType * node = nullptr;
 
   // fix me
-  ImageRegionIterator<TOutputImage> oit(input, input->GetRequestedRegion());
+  ImageRegionIterator oit(input, input->GetRequestedRegion());
 
-  ImageRegionIterator<TOutputImage> uit(this->m_OutputImage, this->m_OutputImage->GetRequestedRegion());
+  ImageRegionIterator uit(this->m_OutputImage, this->m_OutputImage->GetRequestedRegion());
   while (!uit.IsAtEnd())
   {
     uit.Value() = OutputImagePixelType{};

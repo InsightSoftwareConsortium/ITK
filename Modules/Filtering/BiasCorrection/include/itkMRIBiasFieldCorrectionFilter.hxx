@@ -81,7 +81,7 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::GetValue(const Parameters
 
   if (m_SamplingFactor[0] == 1 && m_SamplingFactor[1] == 1 && m_SamplingFactor[2] == 1)
   {
-    ImageRegionIterator<ImageType>             iIter(m_Image, m_Region);
+    ImageRegionIterator                        iIter(m_Image, m_Region);
     typename TBiasField::SimpleForwardIterator bIter(m_BiasField);
 
     bIter.Begin();
@@ -101,7 +101,7 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::GetValue(const Parameters
     }
     else
     {
-      ImageRegionIterator<MaskType> mIter(m_Mask, m_Region);
+      ImageRegionIterator mIter(m_Mask, m_Region);
       mIter.GoToBegin();
       while (!bIter.IsAtEnd())
       {
@@ -536,8 +536,8 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::CorrectImag
 {
   itkDebugMacro("Correcting the image ");
   using Pixel = InternalImagePixelType;
-  ImageRegionIterator<InternalImageType> iIter(m_InternalInput, region);
-  BiasFieldType::SimpleForwardIterator   bIter(&bias);
+  ImageRegionIterator                  iIter(m_InternalInput, region);
+  BiasFieldType::SimpleForwardIterator bIter(&bias);
 
   BiasFieldType::DomainSizeType biasSize;
   this->GetBiasFieldSize(region, biasSize);
@@ -546,7 +546,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::CorrectImag
   if (m_OutputMask.IsNotNull())
   {
     itkDebugMacro("Output mask is being used");
-    ImageRegionIterator<ImageMaskType> mIter(m_OutputMask, region);
+    ImageRegionIterator mIter(m_OutputMask, region);
     mIter.GoToBegin();
     while (!bIter.IsAtEnd())
     {
@@ -783,8 +783,8 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::Log1PImage(
 {
   const InternalImageRegionType region = source->GetRequestedRegion();
 
-  ImageRegionIterator<InternalImageType> s_iter(source, region);
-  ImageRegionIterator<InternalImageType> t_iter(target, region);
+  ImageRegionIterator s_iter(source, region);
+  ImageRegionIterator t_iter(target, region);
 
   InternalImagePixelType pixel;
   while (!s_iter.IsAtEnd())
@@ -812,8 +812,8 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::ExpImage(In
 {
   const InternalImageRegionType region = source->GetLargestPossibleRegion();
 
-  ImageRegionIterator<InternalImageType> s_iter(source, region);
-  ImageRegionIterator<InternalImageType> t_iter(target, region);
+  ImageRegionIterator s_iter(source, region);
+  ImageRegionIterator t_iter(target, region);
 
   while (!s_iter.IsAtEnd())
   {

@@ -88,7 +88,7 @@ RegionalMinimaImageFilter<TInputImage, TOutputImage>::GenerateData()
     ProgressReporter progress2(this, 0, output->GetRequestedRegion().GetNumberOfPixels(), 33, 0.67, 0.33);
 
 
-    ImageRegionIterator<TOutputImage> outIt(output, output->GetRequestedRegion());
+    ImageRegionIterator outIt(output, output->GetRequestedRegion());
 
     if (m_FlatIsMinima)
     {

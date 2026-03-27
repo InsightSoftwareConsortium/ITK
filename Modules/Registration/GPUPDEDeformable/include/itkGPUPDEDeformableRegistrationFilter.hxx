@@ -182,7 +182,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
     using GPUOutputImage = typename itk::GPUTraits<TDisplacementField>::Type;
     typename GPUOutputImage::Pointer output = dynamic_cast<GPUOutputImage *>(this->GetOutput());
 
-    ImageRegionIterator<OutputImageType> out(output, output->GetRequestedRegion());
+    ImageRegionIterator out(output, output->GetRequestedRegion());
 
     while (!out.IsAtEnd())
     {

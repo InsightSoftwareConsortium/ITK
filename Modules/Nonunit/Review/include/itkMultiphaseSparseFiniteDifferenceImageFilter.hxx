@@ -134,9 +134,9 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
 
     // Compute Heaviside of input image
     // Copy input to temp
-    InputRegionType                     region = input->GetRequestedRegion();
-    ImageRegionIterator<InputImageType> lIt(input, region);
-    ImageRegionIterator<InputImageType> tIt(tempImage, region);
+    InputRegionType     region = input->GetRequestedRegion();
+    ImageRegionIterator lIt(input, region);
+    ImageRegionIterator tIt(tempImage, region);
 
     lIt.GoToBegin();
     tIt.GoToBegin();
@@ -157,7 +157,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
 
     // The levelset image has a 0 where the zero contour exists and + outside
     // and - inside
-    ImageRegionIterator<InputImageType> zIt(zeroCrossingFilter->GetOutput(), region);
+    ImageRegionIterator zIt(zeroCrossingFilter->GetOutput(), region);
 
     lIt.GoToBegin();
     zIt.GoToBegin();
@@ -1014,7 +1014,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     {
       // For each region, set the pixel in m_StatusImage to
       // m_StatusBoundaryPixel
-      ImageRegionIterator<StatusImageType> statusIt(sparsePtr->m_StatusImage, *fit);
+      ImageRegionIterator statusIt(sparsePtr->m_StatusImage, *fit);
 
       statusIt.GoToBegin();
       while (!statusIt.IsAtEnd())
@@ -1123,7 +1123,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     ImageRegionConstIterator<StatusImageType> statusIt(sparsePtr->m_StatusImage,
                                                        this->m_LevelSet[fId]->GetRequestedRegion());
 
-    ImageRegionIterator<InputImageType> outputIt(this->m_LevelSet[fId], this->m_LevelSet[fId]->GetRequestedRegion());
+    ImageRegionIterator outputIt(this->m_LevelSet[fId], this->m_LevelSet[fId]->GetRequestedRegion());
 
     outputIt.GoToBegin();
     statusIt.GoToBegin();
@@ -1315,7 +1315,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     InputPointType    origin = input->GetOrigin();
 
     // Local iterator
-    ImageRegionIterator<InputImageType> inIt(this->m_LevelSet[fId], this->m_LevelSet[fId]->GetRequestedRegion());
+    ImageRegionIterator inIt(this->m_LevelSet[fId], this->m_LevelSet[fId]->GetRequestedRegion());
 
     // In the context of the global coordinates
     const OutputIndexType start = output->TransformPhysicalPointToIndex(origin);
@@ -1330,7 +1330,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
       itkExceptionStringMacro("Either input and/or output is nullptr.");
     }
 
-    ImageRegionIterator<OutputImageType> outIt(output, region);
+    ImageRegionIterator outIt(output, region);
 
     auto p = static_cast<OutputPixelType>(this->m_Lookup[fId]);
 

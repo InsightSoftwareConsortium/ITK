@@ -117,8 +117,8 @@ FrameDifferenceVideoFilter<TInputVideoStream, TOutputVideoStream>::ThreadedGener
   ImageRegionConstIterator<InputFrameType> I1Iter(input->GetFrame(inputStart + numFrames - 1), outputRegionForThread);
 
   // Get the output frame and its iterator
-  OutputFrameType *                    outFrame = output->GetFrame(outputFrameNumber);
-  ImageRegionIterator<OutputFrameType> outIter(outFrame, outputRegionForThread);
+  OutputFrameType *   outFrame = output->GetFrame(outputFrameNumber);
+  ImageRegionIterator outIter(outFrame, outputRegionForThread);
 
   // Average the input frames at each pixel of the output region
   using InputPixelRealType = typename NumericTraits<InputPixelType>::RealType;

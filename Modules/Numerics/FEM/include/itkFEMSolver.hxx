@@ -826,7 +826,7 @@ Solver<VDimension>::FillInterpolationGrid()
 
     // Initialize the iterator that will step over all grid points within
     // element boundary box.
-    ImageRegionIterator<InterpolationGridType> iter(m_InterpolationGrid, region);
+    ImageRegionIterator iter(m_InterpolationGrid, region);
 
     //
     // Update the element pointers in the points defined within the region.

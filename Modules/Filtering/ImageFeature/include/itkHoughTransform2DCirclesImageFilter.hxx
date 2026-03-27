@@ -162,7 +162,7 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
 
   // Compute the average radius
   ImageRegionConstIterator<OutputImageType> output_it(outputImage, outputImage->GetLargestPossibleRegion());
-  ImageRegionIterator<RadiusImageType>      radius_it(m_RadiusImage, m_RadiusImage->GetLargestPossibleRegion());
+  ImageRegionIterator                       radius_it(m_RadiusImage, m_RadiusImage->GetLargestPossibleRegion());
   while (!output_it.IsAtEnd())
   {
     if (output_it.Get() > 1)
@@ -214,9 +214,8 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
     gaussianFilter->Update();
     const InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
-    const auto minMaxCalculator = MinimumMaximumImageCalculator<InternalImageType>::New();
-    const ImageRegionIterator<InternalImageType> it_input(postProcessImage,
-                                                          postProcessImage->GetLargestPossibleRegion());
+    const auto                minMaxCalculator = MinimumMaximumImageCalculator<InternalImageType>::New();
+    const ImageRegionIterator it_input(postProcessImage, postProcessImage->GetLargestPossibleRegion());
 
     CirclesListSizeType circles = 0;
 

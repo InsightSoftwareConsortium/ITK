@@ -949,7 +949,7 @@ FlatStructuringElement<VDimension>::Ball(RadiusType radius, bool radiusIsParamet
 
   // Set the background to be zero
   //
-  ImageRegionIterator<ImageType> it(sourceImage, region);
+  ImageRegionIterator it(sourceImage, region);
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
@@ -1053,7 +1053,7 @@ FlatStructuringElement<VDimension>::Annulus(RadiusType   radius,
 
   // Set the background to be zero
   //
-  ImageRegionIterator<ImageType> it(kernelImage, region);
+  ImageRegionIterator it(kernelImage, region);
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
@@ -1218,7 +1218,7 @@ FlatStructuringElement<VDimension>::ComputeBufferFromLines()
 
   // Set the background to be zero
   //
-  ImageRegionIterator<ImageType> it(sourceImage, region);
+  ImageRegionIterator it(sourceImage, region);
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
@@ -1252,7 +1252,7 @@ FlatStructuringElement<VDimension>::ComputeBufferFromLines()
   dilate->Update();
 
   // copy back the image to the kernel
-  ImageRegionIterator<ImageType> oit(dilate->GetOutput(), region);
+  ImageRegionIterator oit(dilate->GetOutput(), region);
   for (oit.GoToBegin(), kernel_it = this->Begin(); !oit.IsAtEnd(); ++oit, ++kernel_it)
   {
     *kernel_it = oit.Get();

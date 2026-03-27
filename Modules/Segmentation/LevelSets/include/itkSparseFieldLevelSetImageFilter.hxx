@@ -503,7 +503,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Initialize()
   m_StatusImage->Allocate();
 
   // Initialize the status image to contain all m_StatusNull values.
-  ImageRegionIterator<StatusImageType> statusIt(m_StatusImage, m_StatusImage->GetRequestedRegion());
+  ImageRegionIterator statusIt(m_StatusImage, m_StatusImage->GetRequestedRegion());
   for (statusIt.GoToBegin(); !statusIt.IsAtEnd(); ++statusIt)
   {
     statusIt.Set(m_StatusNull);
@@ -594,7 +594,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeBackgroundP
 
   ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage, this->GetOutput()->GetRequestedRegion());
 
-  ImageRegionIterator<OutputImageType> outputIt(this->GetOutput(), this->GetOutput()->GetRequestedRegion());
+  ImageRegionIterator outputIt(this->GetOutput(), this->GetOutput()->GetRequestedRegion());
 
   ImageRegionConstIterator<OutputImageType> shiftedIt(m_ShiftedImage, this->GetOutput()->GetRequestedRegion());
 
@@ -1057,7 +1057,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PostProcessOutput()
 
   ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage, this->m_OutputImage->GetRequestedRegion());
 
-  ImageRegionIterator<OutputImageType> outputIt(this->m_OutputImage, this->m_OutputImage->GetRequestedRegion());
+  ImageRegionIterator outputIt(this->m_OutputImage, this->m_OutputImage->GetRequestedRegion());
 
   for (outputIt.GoToBegin(), statusIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt, ++statusIt)
   {

@@ -250,7 +250,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
 
     const typename OutputImageType::RegionType outputRegion = outputRegionForThread;
 
-    ImageRegionIterator<OutputImageType>     Ot(outputPtr, outputRegion);
+    ImageRegionIterator                      Ot(outputPtr, outputRegion);
     ImageRegionConstIterator<InputImageType> It(m_InputCache, outputRegion);
 
     Ot.GoToBegin();

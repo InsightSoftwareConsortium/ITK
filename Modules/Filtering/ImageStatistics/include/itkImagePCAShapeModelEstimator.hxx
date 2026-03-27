@@ -126,7 +126,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateData()
   // Fill the mean image first
 
   typename OutputImageType::RegionType region = this->GetOutput(0)->GetRequestedRegion();
-  ImageRegionIterator<OutputImageType> outIter(this->GetOutput(0), region);
+  ImageRegionIterator                  outIter(this->GetOutput(0), region);
 
   unsigned int i = 0;
   while (!outIter.IsAtEnd())
@@ -146,7 +146,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateData()
     m_OneEigenVector = m_EigenVectors.get_column(kthLargestPrincipalComp - 1);
 
     region = this->GetOutput(j)->GetRequestedRegion();
-    ImageRegionIterator<OutputImageType> outIterJ(this->GetOutput(j), region);
+    ImageRegionIterator outIterJ(this->GetOutput(j), region);
 
     unsigned int idx = 0;
     outIterJ.GoToBegin();
@@ -165,7 +165,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateData()
   for (; j < numberOfOutputs; ++j)
   {
     region = this->GetOutput(j)->GetRequestedRegion();
-    ImageRegionIterator<OutputImageType> outIterJ(this->GetOutput(j), region);
+    ImageRegionIterator outIterJ(this->GetOutput(j), region);
 
     outIterJ.GoToBegin();
     while (!outIterJ.IsAtEnd())

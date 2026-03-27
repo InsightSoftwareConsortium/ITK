@@ -172,7 +172,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
 
   // resolving phase
   // copy pixels back
-  ImageRegionIterator<TOutputImage> ORegIt(output, output->GetRequestedRegion());
+  ImageRegionIterator ORegIt(output, output->GetRequestedRegion());
   ORegIt.GoToBegin();
 
   // fill Raw - worry about iteration details later.
