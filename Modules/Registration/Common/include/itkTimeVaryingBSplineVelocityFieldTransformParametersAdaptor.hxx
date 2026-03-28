@@ -308,9 +308,9 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>::AdaptTran
     decompositionFilter->SetInput(upsampler->GetOutput());
     decompositionFilter->Update();
 
-    ImageRegionConstIterator<ComponentImageType> ItD(decompositionFilter->GetOutput(),
-                                                     decompositionFilter->GetOutput()->GetLargestPossibleRegion());
-    ImageRegionIterator                          ItL(requiredLattice, requiredLattice->GetLargestPossibleRegion());
+    ImageRegionConstIterator ItD(decompositionFilter->GetOutput(),
+                                 decompositionFilter->GetOutput()->GetLargestPossibleRegion());
+    ImageRegionIterator      ItL(requiredLattice, requiredLattice->GetLargestPossibleRegion());
 
     for (ItD.GoToBegin(), ItL.GoToBegin(); !ItD.IsAtEnd(); ++ItD, ++ItL)
     {

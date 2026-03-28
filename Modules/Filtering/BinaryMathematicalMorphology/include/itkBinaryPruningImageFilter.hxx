@@ -64,8 +64,8 @@ BinaryPruningImageFilter<TInputImage, TOutputImage>::PrepareData()
 
   const typename OutputImageType::RegionType region = pruneImage->GetRequestedRegion();
 
-  ImageRegionConstIterator<TInputImage> it(inputImage, region);
-  ImageRegionIterator                   ot(pruneImage, region);
+  ImageRegionConstIterator it(inputImage, region);
+  ImageRegionIterator      ot(pruneImage, region);
 
   itkDebugMacro("PrepareData: Copy input to output");
 

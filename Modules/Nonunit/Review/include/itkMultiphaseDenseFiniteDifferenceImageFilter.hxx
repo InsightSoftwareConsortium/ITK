@@ -58,8 +58,8 @@ MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputIm
       itkExceptionStringMacro("Either input and/or output is nullptr.");
     }
 
-    ImageRegionConstIterator<InputImageType> in(input, input->GetBufferedRegion());
-    ImageRegionIterator                      out(output, region);
+    ImageRegionConstIterator in(input, input->GetBufferedRegion());
+    ImageRegionIterator      out(output, region);
 
     // Fill the output pointer
     auto p = static_cast<OutputPixelType>(this->m_Lookup[i]);

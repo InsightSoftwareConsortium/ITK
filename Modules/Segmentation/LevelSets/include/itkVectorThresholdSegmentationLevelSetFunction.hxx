@@ -28,9 +28,8 @@ template <typename TImageType, typename TFeatureImageType>
 void
 VectorThresholdSegmentationLevelSetFunction<TImageType, TFeatureImageType>::CalculateSpeedImage()
 {
-  ImageRegionConstIterator<FeatureImageType> fit(this->GetFeatureImage(),
-                                                 this->GetFeatureImage()->GetRequestedRegion());
-  ImageRegionIterator                        sit(this->GetSpeedImage(), this->GetFeatureImage()->GetRequestedRegion());
+  ImageRegionConstIterator fit(this->GetFeatureImage(), this->GetFeatureImage()->GetRequestedRegion());
+  ImageRegionIterator      sit(this->GetSpeedImage(), this->GetFeatureImage()->GetRequestedRegion());
 
   ScalarValueType threshold;
   for (fit.GoToBegin(), sit.GoToBegin(); !fit.IsAtEnd(); ++sit, ++fit)

@@ -99,8 +99,8 @@ DecimateFramesVideoFilter<TVideoStream>::ThreadedGenerateData(const FrameSpatial
   // than just copying memory.
 
   // Get iterators for requested region of input and output frames
-  ImageRegionConstIterator<FrameType> inIter(input->GetFrame(inFrameNum), outputRegionForThread);
-  ImageRegionIterator                 outIter(output->GetFrame(outFrameNum), outputRegionForThread);
+  ImageRegionConstIterator inIter(input->GetFrame(inFrameNum), outputRegionForThread);
+  ImageRegionIterator      outIter(output->GetFrame(outFrameNum), outputRegionForThread);
 
   // Pass the values from input to output
   while (!outIter.IsAtEnd())

@@ -622,11 +622,11 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeBac
   const ValueType outside_value = (max_layer + 1) * m_ConstantGradientValue;
   const ValueType inside_value = -(max_layer + 1) * m_ConstantGradientValue;
 
-  ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage, this->GetOutput()->GetRequestedRegion());
+  ImageRegionConstIterator statusIt(m_StatusImage, this->GetOutput()->GetRequestedRegion());
 
   ImageRegionIterator outputIt(this->GetOutput(), this->GetOutput()->GetRequestedRegion());
 
-  ImageRegionConstIterator<OutputImageType> shiftedIt(m_ShiftedImage, this->GetOutput()->GetRequestedRegion());
+  ImageRegionConstIterator shiftedIt(m_ShiftedImage, this->GetOutput()->GetRequestedRegion());
 
   for (outputIt.GoToBegin(), statusIt.GoToBegin(), shiftedIt.GoToBegin(); !outputIt.IsAtEnd();
        ++outputIt, ++statusIt, ++shiftedIt)
@@ -859,10 +859,10 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedIniti
   // This will make each thread be the FIRST to write to "it's" data in the new
   // images and hence the memory will get allocated
   // in the corresponding thread's memory-node.
-  ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage, ThreadRegion);
-  ImageRegionIterator                       statusItNew(m_StatusImageTemp, ThreadRegion);
-  ImageRegionConstIterator<OutputImageType> outputIt(m_OutputImage, ThreadRegion);
-  ImageRegionIterator                       outputItNew(m_OutputImageTemp, ThreadRegion);
+  ImageRegionConstIterator statusIt(m_StatusImage, ThreadRegion);
+  ImageRegionIterator      statusItNew(m_StatusImageTemp, ThreadRegion);
+  ImageRegionConstIterator outputIt(m_OutputImage, ThreadRegion);
+  ImageRegionIterator      outputItNew(m_OutputImageTemp, ThreadRegion);
 
   for (outputIt.GoToBegin(), statusIt.GoToBegin(), outputItNew.GoToBegin(), statusItNew.GoToBegin();
        !outputIt.IsAtEnd();
@@ -2307,8 +2307,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedPostP
   const ValueType outside_value = (max_layer + 1) * m_ConstantGradientValue;
   const ValueType inside_value = -(max_layer + 1) * m_ConstantGradientValue;
 
-  ImageRegionConstIterator<StatusImageType> statusIt(m_StatusImage, regionToProcess);
-  ImageRegionIterator                       outputIt(m_OutputImage, regionToProcess);
+  ImageRegionConstIterator statusIt(m_StatusImage, regionToProcess);
+  ImageRegionIterator      outputIt(m_OutputImage, regionToProcess);
 
   for (outputIt.GoToBegin(), statusIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt, ++statusIt)
   {

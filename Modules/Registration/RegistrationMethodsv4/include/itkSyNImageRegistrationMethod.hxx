@@ -647,9 +647,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
   typename DisplacementFieldType::SpacingType spacing = updateField->GetSpacing();
 
   RealType maxNorm = NumericTraits<RealType>::NonpositiveMin();
-  for (ImageRegionConstIterator<DisplacementFieldType> ItF(updateField, updateField->GetLargestPossibleRegion());
-       !ItF.IsAtEnd();
-       ++ItF)
+  for (ImageRegionConstIterator ItF(updateField, updateField->GetLargestPossibleRegion()); !ItF.IsAtEnd(); ++ItF)
   {
     DisplacementVectorType vector = ItF.Get();
 

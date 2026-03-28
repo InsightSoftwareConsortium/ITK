@@ -53,7 +53,7 @@ VectorRescaleIntensityImageFilter<TInputImage, TOutputImage>::BeforeThreadedGene
   const InputImagePointer inputImage = this->GetInput();
 
 
-  ImageRegionConstIterator<InputImageType> it(inputImage, inputImage->GetBufferedRegion());
+  ImageRegionConstIterator it(inputImage, inputImage->GetBufferedRegion());
 
   InputRealType maximumSquaredMagnitude{};
 

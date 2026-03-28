@@ -47,8 +47,8 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::CopyInputToOutput()
     return;
   }
 
-  ImageRegionConstIterator<TInputImage> in(input, output->GetRequestedRegion());
-  ImageRegionIterator                   out(output, output->GetRequestedRegion());
+  ImageRegionConstIterator in(input, output->GetRequestedRegion());
+  ImageRegionIterator      out(output, output->GetRequestedRegion());
 
   while (!out.IsAtEnd())
   {

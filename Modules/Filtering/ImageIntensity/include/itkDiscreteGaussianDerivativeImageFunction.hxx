@@ -135,7 +135,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussian
   m_DerivativeKernel.SetRadius(m_OperatorArray[0].GetRadius()[0]);
 
   // Copy kernel image to neighborhood. Do not copy boundaries.
-  ImageRegionConstIterator<KernelImageType> it(kernelImage, kernelRegion);
+  ImageRegionConstIterator it(kernelImage, kernelRegion);
   it.GoToBegin();
   unsigned int idx = 0;
 

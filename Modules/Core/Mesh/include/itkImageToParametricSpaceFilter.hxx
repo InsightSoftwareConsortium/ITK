@@ -104,7 +104,7 @@ ImageToParametricSpaceFilter<TInputImage, TOutputMesh>::GenerateData()
   for (unsigned int component = 0; component < PointDimension; ++component)
   {
     image = this->GetInput(component);
-    ImageRegionConstIterator<InputImageType> itr(image, image->GetRequestedRegion());
+    ImageRegionConstIterator itr(image, image->GetRequestedRegion());
 
     PointsContainerIterator point = points->Begin();
 

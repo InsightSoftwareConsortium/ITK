@@ -89,10 +89,10 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetInput(const Inp
   m_WorkingImage->SetRegions(region);
   m_WorkingImage->Allocate();
 
-  ImageRegionIterator                      wit(m_WorkingImage, region);
-  ImageRegionConstIterator<InputImageType> iit(this->GetInput(), region);
-  PixelType                                ipixel;
-  RGBHCVPixel                              wpixel;
+  ImageRegionIterator      wit(m_WorkingImage, region);
+  ImageRegionConstIterator iit(this->GetInput(), region);
+  PixelType                ipixel;
+  RGBHCVPixel              wpixel;
 
 
   const double X0 = m_MaxValueOfRGB * 0.982;
@@ -192,8 +192,8 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
 {
   const RegionType region = this->GetInput()->GetRequestedRegion();
 
-  ImageRegionConstIterator<BinaryObjectImage> ait(aprior, region);
-  ImageRegionIterator                         iit(m_WorkingImage, region);
+  ImageRegionConstIterator ait(aprior, region);
+  ImageRegionIterator      iit(m_WorkingImage, region);
 
   unsigned int minx = 0;
   unsigned int miny = 0;

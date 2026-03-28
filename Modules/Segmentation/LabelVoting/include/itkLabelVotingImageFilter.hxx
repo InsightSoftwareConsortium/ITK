@@ -46,8 +46,8 @@ LabelVotingImageFilter<TInputImage, TOutputImage>::ComputeMaximumInputValue() ->
 
   for (size_t i = 0; i < numberOfInputIndexes; ++i)
   {
-    const InputImageType *                inputImage = this->GetInput(i);
-    ImageRegionConstIterator<TInputImage> it(inputImage, inputImage->GetBufferedRegion());
+    const InputImageType *   inputImage = this->GetInput(i);
+    ImageRegionConstIterator it(inputImage, inputImage->GetBufferedRegion());
     for (it.GoToBegin(); !it.IsAtEnd(); ++it)
     {
       maxLabel = std::max(maxLabel, it.Get());

@@ -141,8 +141,8 @@ void
 SimilarityIndexImageFilter<TInputImage1, TInputImage2>::ThreadedGenerateData(const RegionType & outputRegionForThread,
                                                                              ThreadIdType       threadId)
 {
-  ImageRegionConstIterator<TInputImage1> it1(this->GetInput1(), outputRegionForThread);
-  ImageRegionConstIterator<TInputImage2> it2(this->GetInput2(), outputRegionForThread);
+  ImageRegionConstIterator it1(this->GetInput1(), outputRegionForThread);
+  ImageRegionConstIterator it2(this->GetInput2(), outputRegionForThread);
 
   // support progress methods/callbacks
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());

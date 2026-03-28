@@ -69,7 +69,7 @@ ScalarToRGBColormapImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerat
 {
   if (this->m_UseInputImageExtremaForScaling)
   {
-    ImageRegionConstIterator<InputImageType> It(this->GetInput(), this->GetInput()->GetRequestedRegion());
+    ImageRegionConstIterator It(this->GetInput(), this->GetInput()->GetRequestedRegion());
 
     InputImagePixelType minimumValue = NumericTraits<InputImagePixelType>::max();
     InputImagePixelType maximumValue = NumericTraits<InputImagePixelType>::min();
@@ -109,8 +109,8 @@ ScalarToRGBColormapImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenera
 
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
-  ImageRegionConstIterator<TInputImage> inputIt(inputPtr, inputRegionForThread);
-  ImageRegionIterator                   outputIt(outputPtr, outputRegionForThread);
+  ImageRegionConstIterator inputIt(inputPtr, inputRegionForThread);
+  ImageRegionIterator      outputIt(outputPtr, outputRegionForThread);
 
   while (!inputIt.IsAtEnd())
   {

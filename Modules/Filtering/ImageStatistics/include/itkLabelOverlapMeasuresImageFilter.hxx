@@ -80,8 +80,8 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::ThreadedStreamedGenerateData(const
 
   MapType localStatistics;
 
-  ImageRegionConstIterator<LabelImageType> itS(this->GetSourceImage(), outputRegionForThread);
-  ImageRegionConstIterator<LabelImageType> itT(this->GetTargetImage(), outputRegionForThread);
+  ImageRegionConstIterator itS(this->GetSourceImage(), outputRegionForThread);
+  ImageRegionConstIterator itT(this->GetTargetImage(), outputRegionForThread);
 
   // Support progress methods/callbacks
   TotalProgressReporter progress(this, this->GetSourceImage()->GetLargestPossibleRegion().GetNumberOfPixels());

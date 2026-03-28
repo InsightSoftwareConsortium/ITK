@@ -31,10 +31,9 @@ ThresholdSegmentationLevelSetFunction<TImageType, TFeatureImageType>::CalculateS
   auto diffusion = GradientAnisotropicDiffusionImageFilter<TFeatureImageType, TFeatureImageType>::New();
   auto laplacian = LaplacianImageFilter<TFeatureImageType, TFeatureImageType>::New();
 
-  ImageRegionIterator<FeatureImageType>      lit;
-  ImageRegionConstIterator<FeatureImageType> fit(this->GetFeatureImage(),
-                                                 this->GetFeatureImage()->GetRequestedRegion());
-  ImageRegionIterator                        sit(this->GetSpeedImage(), this->GetFeatureImage()->GetRequestedRegion());
+  ImageRegionIterator<FeatureImageType> lit;
+  ImageRegionConstIterator              fit(this->GetFeatureImage(), this->GetFeatureImage()->GetRequestedRegion());
+  ImageRegionIterator                   sit(this->GetSpeedImage(), this->GetFeatureImage()->GetRequestedRegion());
 
   if (m_EdgeWeight != 0.0)
   {

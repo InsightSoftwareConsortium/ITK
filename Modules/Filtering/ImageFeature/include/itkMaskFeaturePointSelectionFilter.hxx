@@ -137,8 +137,8 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
   else
   {
     // copy mask into selectionMap
-    ImageRegionConstIterator<MaskType> maskItr(mask, region);
-    ImageRegionIterator                mapItr(selectionMap, region);
+    ImageRegionConstIterator maskItr(mask, region);
+    ImageRegionIterator      mapItr(selectionMap, region);
     for (maskItr.GoToBegin(), mapItr.GoToBegin(); !maskItr.IsAtEnd(); ++maskItr, ++mapItr)
     {
       mapItr.Set(static_cast<MapPixelType>(maskItr.Get()));

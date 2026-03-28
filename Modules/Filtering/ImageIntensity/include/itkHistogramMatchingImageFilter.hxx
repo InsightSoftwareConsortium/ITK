@@ -322,8 +322,8 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
 
   // Transform the source image and write to output.
 
-  ImageRegionConstIterator<InputImageType> inIter(input, outputRegionForThread);
-  ImageRegionIterator                      outIter(output, outputRegionForThread);
+  ImageRegionConstIterator inIter(input, outputRegionForThread);
+  ImageRegionIterator      outIter(output, outputRegionForThread);
 
   for (SizeValueType i = 0; !outIter.IsAtEnd(); ++inIter, ++outIter, i++)
   {
@@ -366,7 +366,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
   THistogramMeasurement & maxValue,
   THistogramMeasurement & meanValue)
 {
-  ImageRegionConstIterator<InputImageType> iter(image, image->GetBufferedRegion());
+  ImageRegionConstIterator iter(image, image->GetBufferedRegion());
 
   double        sum = 0.0;
   SizeValueType count = 0;
@@ -436,7 +436,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
 
   {
     // put each image pixel into the histogram
-    ImageRegionConstIterator<InputImageType> iter(image, image->GetBufferedRegion());
+    ImageRegionConstIterator iter(image, image->GetBufferedRegion());
 
     iter.GoToBegin();
     while (!iter.IsAtEnd())

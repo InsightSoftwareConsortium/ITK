@@ -218,9 +218,9 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter<TInputImage, TKernelImage, T
     // partial derivative image estimate, then multiply the result by
     // the Jacobian. We'll do this all in one loop to simplify things.
     const typename InternalKernelImageType::RegionType region(plusImage->GetLargestPossibleRegion());
-    ImageRegionConstIterator<InternalKernelImageType>  plusImageIter(plusImage, region);
-    ImageRegionConstIterator<InternalKernelImageType>  minusImageIter(minusImage, region);
-    ImageRegionConstIterator<InternalImageType>        jacobianImageIter(jacobianIFFT->GetOutput(), region);
+    ImageRegionConstIterator                           plusImageIter(plusImage, region);
+    ImageRegionConstIterator                           minusImageIter(minusImage, region);
+    ImageRegionConstIterator                           jacobianImageIter(jacobianIFFT->GetOutput(), region);
 
     double sum = 0.0;
     while (!plusImageIter.IsAtEnd())

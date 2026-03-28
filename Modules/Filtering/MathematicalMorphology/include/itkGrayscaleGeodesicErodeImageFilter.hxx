@@ -199,8 +199,8 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GenerateData()
 
     // Check for convergence.  Compare the output of the single
     // iteration of the algorithm with the current marker image.
-    ImageRegionConstIterator<TInputImage> singleInIt(singleIteration->GetMarkerImage(),
-                                                     singleIteration->GetOutput()->GetRequestedRegion());
+    ImageRegionConstIterator singleInIt(singleIteration->GetMarkerImage(),
+                                        singleIteration->GetOutput()->GetRequestedRegion());
     ImageRegionIterator singleOutIt(singleIteration->GetOutput(), singleIteration->GetOutput()->GetRequestedRegion());
 
     done = true;
@@ -286,9 +286,9 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
   //
   for (const auto & face : faceList)
   {
-    NeighborhoodIteratorType              markerIt(kernelRadius, this->GetMarkerImage(), face);
-    ImageRegionConstIterator<TInputImage> maskIt(this->GetMaskImage(), face);
-    ImageRegionIterator                   oIt(this->GetOutput(), face);
+    NeighborhoodIteratorType markerIt(kernelRadius, this->GetMarkerImage(), face);
+    ImageRegionConstIterator maskIt(this->GetMaskImage(), face);
+    ImageRegionIterator      oIt(this->GetOutput(), face);
 
     markerIt.OverrideBoundaryCondition(&BC);
     markerIt.GoToBegin();

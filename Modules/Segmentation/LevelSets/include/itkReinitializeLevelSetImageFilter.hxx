@@ -134,8 +134,8 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataFull()
 
   // define iterators
 
-  ImageRegionConstIterator<LevelSetImageType> inputIt(inputPtr, inputPtr->GetBufferedRegion());
-  ImageRegionIterator                         outputIt(outputPtr, outputPtr->GetBufferedRegion());
+  ImageRegionConstIterator inputIt(inputPtr, inputPtr->GetBufferedRegion());
+  ImageRegionIterator      outputIt(outputPtr, outputPtr->GetBufferedRegion());
 
   this->UpdateProgress(0.0);
 
@@ -199,7 +199,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataNarrowBand()
 
   // define iterators
 
-  ImageRegionConstIterator<LevelSetImageType> inputIt(inputPtr, inputPtr->GetBufferedRegion());
+  ImageRegionConstIterator inputIt(inputPtr, inputPtr->GetBufferedRegion());
 
   ImageRegionIterator outputIt(outputPtr, outputPtr->GetBufferedRegion());
 

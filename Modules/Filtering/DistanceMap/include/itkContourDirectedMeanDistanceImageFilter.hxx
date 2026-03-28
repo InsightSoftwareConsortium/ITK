@@ -190,7 +190,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::ThreadedGene
   // the edge of the buffer.
   for (const auto & face : faceList)
   {
-    ImageRegionConstIterator<DistanceMapType> it2(m_DistanceMap, face);
+    ImageRegionConstIterator it2(m_DistanceMap, face);
     bit = ConstNeighborhoodIterator<InputImage1Type>(radius, input, face);
     const unsigned int neighborhoodSize = bit.Size();
 
