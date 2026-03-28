@@ -17,9 +17,9 @@
  *=========================================================================*/
 
 #include "itkWindowConvergenceMonitoringFunction.h"
+#include "itkGTest.h"
 
-int
-itkWindowConvergenceMonitoringFunctionTest(int itkNotUsed(argc), char *[])
+TEST(WindowConvergenceMonitoringFunction, ConvertedLegacyTest)
 {
   using RealType = float;
 
@@ -31,19 +31,11 @@ itkWindowConvergenceMonitoringFunctionTest(int itkNotUsed(argc), char *[])
   for (RealType x = 0.0; x < 20; x += 1.0)
   {
     convergenceMonitoring->AddEnergyValue(std::pow(static_cast<RealType>(2.0), -x));
-    try
-    {
-      std::cout << "convergence value: " << convergenceMonitoring->GetConvergenceValue() << std::endl;
-    }
-    catch (...)
-    {
-      std::cout << "GetConvergenceValue() failed." << std::endl;
-      return EXIT_FAILURE;
-    }
+    RealType convergenceValue{};
+    EXPECT_NO_THROW(convergenceValue = convergenceMonitoring->GetConvergenceValue());
+    std::cout << "convergence value: " << convergenceValue << std::endl;
   }
 
   convergenceMonitoring->GetWindowSize();
   convergenceMonitoring->Print(std::cout, 3);
-
-  return EXIT_SUCCESS;
 }

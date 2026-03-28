@@ -17,7 +17,6 @@ set(
   itkRegistrationParameterScalesFromJacobianTest.cxx
   itkAutoScaledGradientDescentRegistrationTest.cxx
   itkAutoScaledGradientDescentRegistrationOnVectorTest.cxx
-  itkWindowConvergenceMonitoringFunctionTest.cxx
   itkQuasiNewtonOptimizerv4Test.cxx
   itkObjectToObjectMetricBaseTest.cxx
   itkLBFGSOptimizerv4Test.cxx
@@ -36,12 +35,8 @@ set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 createtestdriver(ITKOptimizersv4 "${ITKOptimizersv4-Test_LIBRARIES}" "${ITKOptimizersv4Tests}")
 
-itk_add_test(
-  NAME itkWindowConvergenceMonitoringFunctionTest
-  COMMAND
-    ITKOptimizersv4TestDriver
-    itkWindowConvergenceMonitoringFunctionTest
-)
+set(ITKOptimizersv4GTests itkWindowConvergenceMonitoringFunctionGTest.cxx)
+creategoogletestdriver(ITKOptimizersv4 "${ITKOptimizersv4-Test_LIBRARIES}" "${ITKOptimizersv4GTests}")
 
 itk_add_test(
   NAME itkObjectToObjectOptimizerBaseTest
