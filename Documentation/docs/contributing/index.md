@@ -226,8 +226,36 @@ Push commits in your topic branch for review by the community:
 git review-push --force
 ```
 
-A URL will be provided in the terminal -- visit this url to review the topic
-and open a pull request.
+A URL will be provided in the terminal.
+
+(create-a-pr)=
+Create a Pull Request
+---------------------
+
+Follow the URL provided in the terminal to open a pull request against the
+upstream repository. **Open the pull request as a Draft** until the automated
+tests pass. A draft PR signals that the work is still in progress and prevents
+reviewers from spending time on code that is not yet ready.
+
+Once the CI tests pass and you are satisfied with the change, convert the draft
+to *Ready for Review* and request reviewers. This notifies maintainers that the
+code is ready for their attention and ensures their review time is spent
+effectively.
+
+```{important}
+**Please open AI-agent-assisted pull requests in Draft mode.** We prefer that
+an AI-agent-assisted PR not be converted to *Ready for Review* until the human
+author has personally verified that:
+
+- all automated CI tests pass,
+- the implementation is correct, complete and fully understood,
+- the PR description accurately reflects the changes made.
+
+Reviewer time is a finite human resource. Please allow at least 1 working day
+for low-impact changes (e.g., single test changes, documentation updates) and
+longer for changes that impact core infrastructure or fundamental algorithmic
+behavior before merging.
+```
 
 Optionally, discuss the change by opening a topic on [ITK's Discourse].
 
