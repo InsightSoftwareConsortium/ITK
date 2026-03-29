@@ -86,8 +86,8 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
       itkExceptionStringMacro("One or more input images do not contain matching RequestedRegions");
     }
 
-    ImageScanlineConstIterator<TInputImage> in(this->GetInput(i), W->GetRequestedRegion());
-    ImageScanlineIterator<TOutputImage>     out(W, W->GetRequestedRegion());
+    ImageScanlineConstIterator in(this->GetInput(i), W->GetRequestedRegion());
+    ImageScanlineIterator      out(W, W->GetRequestedRegion());
 
     while (!in.IsAtEnd())
     {
@@ -110,7 +110,7 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
   double N = 0.0;
   double g_t = 0.0;
   {
-    ImageScanlineIterator<TOutputImage> out(W, W->GetRequestedRegion());
+    ImageScanlineIterator out(W, W->GetRequestedRegion());
     while (!out.IsAtEnd())
     {
       while (!out.IsAtEndOfLine())
@@ -130,8 +130,8 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
     // Now iterate on estimating specificity and sensitivity
     for (unsigned int i = 0; i < number_of_input_files; ++i)
     {
-      ImageScanlineConstIterator<TInputImage> in(this->GetInput(i), W->GetRequestedRegion());
-      ImageScanlineIterator<TOutputImage>     out(W, W->GetRequestedRegion());
+      ImageScanlineConstIterator in(this->GetInput(i), W->GetRequestedRegion());
+      ImageScanlineIterator      out(W, W->GetRequestedRegion());
 
       double p_num{};
       double p_denom{};
@@ -173,7 +173,7 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
       D_it[i] = ImageScanlineConstIterator<TInputImage>(this->GetInput(i), W->GetRequestedRegion());
     }
 
-    ImageScanlineIterator<TOutputImage> out(W, W->GetRequestedRegion());
+    ImageScanlineIterator out(W, W->GetRequestedRegion());
     while (!out.IsAtEnd())
     {
       while (!out.IsAtEndOfLine())

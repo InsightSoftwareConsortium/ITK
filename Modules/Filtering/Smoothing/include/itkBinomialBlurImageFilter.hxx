@@ -182,7 +182,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
       itkDebugMacro("End processing forward dimension " << dim);
 
       //----------------------Reverse pass----------------------
-      ImageRegionReverseIterator<TTempImage> tempReverseIt(tempPtr, tempPtr->GetRequestedRegion());
+      ImageRegionReverseIterator tempReverseIt(tempPtr, tempPtr->GetRequestedRegion());
 
       tempReverseIt.GoToBegin();
 
