@@ -49,8 +49,6 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   constexpr double epsilon{ 1.0e-10 };
 
-  using IteratorType = ImageScanlineConstIterator<TInputImage>;
-  using FuzzyIteratorType = ImageScanlineIterator<TOutputImage>;
 
   constexpr double min_rms_error{ 1.0e-14 }; // 7 digits of precision
 
@@ -65,7 +63,7 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Record the number of input files.
   const ProcessObject::DataObjectPointerArraySizeType number_of_input_files = this->GetNumberOfIndexedInputs();
 
-  const auto D_it = make_unique_for_overwrite<IteratorType[]>(number_of_input_files);
+  const auto D_it = make_unique_for_overwrite<ImageScanlineConstIterator<TInputImage>[]>(number_of_input_files);
 
   const auto p = make_unique_for_overwrite<double[]>(number_of_input_files); // sensitivity
   const auto q = make_unique_for_overwrite<double[]>(number_of_input_files); // specificity
@@ -88,8 +86,8 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
       itkExceptionStringMacro("One or more input images do not contain matching RequestedRegions");
     }
 
-    IteratorType      in(this->GetInput(i), W->GetRequestedRegion());
-    FuzzyIteratorType out(W, W->GetRequestedRegion());
+    ImageScanlineConstIterator<TInputImage> in(this->GetInput(i), W->GetRequestedRegion());
+    ImageScanlineIterator<TOutputImage>     out(W, W->GetRequestedRegion());
 
     while (!in.IsAtEnd())
     {
@@ -112,7 +110,7 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
   double N = 0.0;
   double g_t = 0.0;
   {
-    FuzzyIteratorType out(W, W->GetRequestedRegion());
+    ImageScanlineIterator<TOutputImage> out(W, W->GetRequestedRegion());
     while (!out.IsAtEnd())
     {
       while (!out.IsAtEndOfLine())
@@ -132,8 +130,8 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
     // Now iterate on estimating specificity and sensitivity
     for (unsigned int i = 0; i < number_of_input_files; ++i)
     {
-      IteratorType      in(this->GetInput(i), W->GetRequestedRegion());
-      FuzzyIteratorType out(W, W->GetRequestedRegion());
+      ImageScanlineConstIterator<TInputImage> in(this->GetInput(i), W->GetRequestedRegion());
+      ImageScanlineIterator<TOutputImage>     out(W, W->GetRequestedRegion());
 
       double p_num{};
       double p_denom{};
@@ -172,10 +170,10 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
     // segmentation
     for (unsigned int i = 0; i < number_of_input_files; ++i)
     {
-      D_it[i] = IteratorType(this->GetInput(i), W->GetRequestedRegion());
+      D_it[i] = ImageScanlineConstIterator<TInputImage>(this->GetInput(i), W->GetRequestedRegion());
     }
 
-    FuzzyIteratorType out(W, W->GetRequestedRegion());
+    ImageScanlineIterator<TOutputImage> out(W, W->GetRequestedRegion());
     while (!out.IsAtEnd())
     {
       while (!out.IsAtEndOfLine())

@@ -45,8 +45,7 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::DynamicThreadedGen
   }
   const auto numberOfInputImages = static_cast<unsigned int>(this->GetNumberOfIndexedInputs());
 
-  using ImageScanlineConstIteratorType = ImageScanlineConstIterator<TInputImage>;
-  std::vector<ImageScanlineConstIteratorType *> inputItrVector;
+  std::vector<ImageScanlineConstIterator<TInputImage> *> inputItrVector;
   inputItrVector.reserve(numberOfInputImages);
 
   // count the number of inputs that are non-null
@@ -56,7 +55,7 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::DynamicThreadedGen
 
     if (inputPtr)
     {
-      inputItrVector.push_back(new ImageScanlineConstIteratorType(inputPtr, outputRegionForThread));
+      inputItrVector.push_back(new ImageScanlineConstIterator<TInputImage>(inputPtr, outputRegionForThread));
     }
   }
 
@@ -73,8 +72,8 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::DynamicThreadedGen
 
   const OutputImagePointer outputPtr = this->GetOutput(0);
 
-  typename std::vector<ImageScanlineConstIteratorType *>::iterator regionIterators;
-  const auto                                                       regionItEnd = inputItrVector.end();
+  typename std::vector<ImageScanlineConstIterator<TInputImage> *>::iterator regionIterators;
+  const auto                                                                regionItEnd = inputItrVector.end();
 
   typename NaryArrayType::iterator arrayIt;
 

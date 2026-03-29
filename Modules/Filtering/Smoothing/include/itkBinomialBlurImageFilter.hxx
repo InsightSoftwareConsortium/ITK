@@ -116,7 +116,6 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   typename TInputImage::IndexType startIndex = inputPtr->GetRequestedRegion().GetIndex();
 
   // Iterator Typedefs for this routine
-  using TempReverseIterator = ImageRegionReverseIterator<TTempImage>;
 
   // Create a progress reporter
   ProgressReporter progress(
@@ -183,7 +182,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
       itkDebugMacro("End processing forward dimension " << dim);
 
       //----------------------Reverse pass----------------------
-      TempReverseIterator tempReverseIt(tempPtr, tempPtr->GetRequestedRegion());
+      ImageRegionReverseIterator<TTempImage> tempReverseIt(tempPtr, tempPtr->GetRequestedRegion());
 
       tempReverseIt.GoToBegin();
 
