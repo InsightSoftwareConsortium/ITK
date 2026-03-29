@@ -204,7 +204,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Dynami
   for (const auto & face : faceList)
   {
     bit = ConstNeighborhoodIteratorType(r1, m_RealValuedInputImage.GetPointer(), face);
-    it = ImageRegionIterator<TOutputImage>(this->GetOutput(), face);
+    it = ImageRegionIterator(this->GetOutput(), face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 

@@ -209,11 +209,11 @@ CurvatureRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TImag
   ImageRegionConstIterator<DisplacementFieldType>   itInUpdate;
   ImageRegionConstIteratorWithIndex<FixedImageType> fixedImageIteratorWithIndex;
 
-  itInDeformation = ImageRegionConstIterator<DisplacementFieldType>(
-    this->GetDisplacementField(), this->GetDisplacementField()->GetLargestPossibleRegion());
-  itOutDeformation = ImageRegionIterator<DisplacementFieldType>(
-    this->GetDisplacementField(), this->GetDisplacementField()->GetLargestPossibleRegion());
-  itInUpdate = ImageRegionConstIterator<DisplacementFieldType>(update, update->GetLargestPossibleRegion());
+  itInDeformation =
+    ImageRegionConstIterator(this->GetDisplacementField(), this->GetDisplacementField()->GetLargestPossibleRegion());
+  itOutDeformation =
+    ImageRegionIterator(this->GetDisplacementField(), this->GetDisplacementField()->GetLargestPossibleRegion());
+  itInUpdate = ImageRegionConstIterator(update, update->GetLargestPossibleRegion());
   fixedImageIteratorWithIndex = ImageRegionConstIteratorWithIndex<FixedImageType>(
     this->GetFixedImage(), this->GetFixedImage()->GetLargestPossibleRegion());
 

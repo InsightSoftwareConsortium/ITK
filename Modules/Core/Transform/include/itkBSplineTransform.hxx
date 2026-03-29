@@ -545,7 +545,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::TransformPoint
     const ParametersValueType *           basePointer = this->m_CoefficientImages[0]->GetBufferPointer();
     for (unsigned int j = 0; j < SpaceDimension; ++j)
     {
-      coeffIterator[j] = ImageScanlineConstIterator<ImageType>(this->m_CoefficientImages[j], supportRegion);
+      coeffIterator[j] = ImageScanlineConstIterator(this->m_CoefficientImages[j], supportRegion);
     }
 
     while (!coeffIterator[0].IsAtEnd())

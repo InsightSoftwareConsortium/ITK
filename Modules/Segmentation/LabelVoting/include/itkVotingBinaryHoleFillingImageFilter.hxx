@@ -103,7 +103,7 @@ VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
   for (const auto & face : faceList)
   {
     bit = ConstNeighborhoodIterator<InputImageType>(this->GetRadius(), input, face);
-    it = ImageRegionIterator<OutputImageType>(output, face);
+    it = ImageRegionIterator(output, face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 

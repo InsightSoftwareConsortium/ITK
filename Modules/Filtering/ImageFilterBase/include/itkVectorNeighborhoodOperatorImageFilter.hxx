@@ -102,7 +102,7 @@ VectorNeighborhoodOperatorImageFilter<TInputImage, TOutputImage>::DynamicThreade
   for (const auto & face : faceList)
   {
     bit = ConstNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(), input, face);
-    it = ImageRegionIterator<OutputImageType>(output, face);
+    it = ImageRegionIterator(output, face);
     bit.GoToBegin();
     while (!bit.IsAtEnd())
     {

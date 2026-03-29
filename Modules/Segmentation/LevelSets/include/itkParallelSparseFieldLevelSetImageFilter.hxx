@@ -230,7 +230,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Initialize()
   // skip the first (nonboundary) region
   for (auto fit = ++faceList.begin(); fit != faceList.end(); ++fit)
   {
-    statusIt = ImageRegionIterator<StatusImageType>(m_StatusImage, *fit);
+    statusIt = ImageRegionIterator(m_StatusImage, *fit);
     for (statusIt.GoToBegin(); !statusIt.IsAtEnd(); ++statusIt)
     {
       statusIt.Set(m_StatusBoundaryPixel);

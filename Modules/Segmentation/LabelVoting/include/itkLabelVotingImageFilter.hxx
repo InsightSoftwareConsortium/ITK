@@ -98,7 +98,7 @@ LabelVotingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   std::vector<ImageRegionConstIterator<TInputImage>> it(numberOfInputIndexes);
   for (size_t i = 0; i < numberOfInputIndexes; ++i)
   {
-    it[i] = ImageRegionConstIterator<TInputImage>(this->GetInput(i), outputRegionForThread);
+    it[i] = ImageRegionConstIterator(this->GetInput(i), outputRegionForThread);
   }
 
   std::vector<unsigned int> votesByLabel(this->m_TotalLabelCount);

@@ -170,7 +170,7 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
     // segmentation
     for (unsigned int i = 0; i < number_of_input_files; ++i)
     {
-      D_it[i] = ImageScanlineConstIterator<TInputImage>(this->GetInput(i), W->GetRequestedRegion());
+      D_it[i] = ImageScanlineConstIterator(this->GetInput(i), W->GetRequestedRegion());
     }
 
     ImageScanlineIterator out(W, W->GetRequestedRegion());

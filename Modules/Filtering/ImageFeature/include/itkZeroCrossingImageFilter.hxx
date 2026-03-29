@@ -125,7 +125,7 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
     static constexpr SizeValueType    neighborhoodSize = Math::UnsignedPower(3, ImageDimension);
     static constexpr SizeValueType    center = neighborhoodSize / 2;
-    ImageRegionIterator<TOutputImage> it = ImageRegionIterator<OutputImageType>(output, face);
+    ImageRegionIterator<TOutputImage> it = ImageRegionIterator(output, face);
     while (!bit.IsAtEnd())
     {
       const InputImagePixelType this_one = bit.GetPixel(center);

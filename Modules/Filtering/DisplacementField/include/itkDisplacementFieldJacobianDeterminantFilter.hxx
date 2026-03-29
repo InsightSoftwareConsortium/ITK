@@ -189,7 +189,7 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
   {
     bit = ConstNeighborhoodIteratorType(
       m_NeighborhoodRadius, dynamic_cast<const RealVectorImageType *>(m_RealValuedInputImage.GetPointer()), face);
-    it = ImageRegionIterator<TOutputImage>(this->GetOutput(), face);
+    it = ImageRegionIterator(this->GetOutput(), face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 

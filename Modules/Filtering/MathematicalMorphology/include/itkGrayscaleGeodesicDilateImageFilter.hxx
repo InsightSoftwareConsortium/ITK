@@ -290,8 +290,8 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
   for (const auto & face : faceList)
   {
     NeighborhoodIteratorType markerIt(kernelRadius, this->GetMarkerImage(), face);
-    maskIt = ImageRegionConstIterator<MaskImageType>(this->GetMaskImage(), face);
-    oIt = ImageRegionIterator<OutputImageType>(this->GetOutput(), face);
+    maskIt = ImageRegionConstIterator(this->GetMaskImage(), face);
+    oIt = ImageRegionIterator(this->GetOutput(), face);
 
     markerIt.OverrideBoundaryCondition(&BC);
     markerIt.GoToBegin();

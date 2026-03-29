@@ -224,12 +224,12 @@ MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImag
 
   if (m_GenerateScalesOutput)
   {
-    osit = ImageRegionIterator<ScalesImageType>(scalesImage, outputRegion);
+    osit = ImageRegionIterator(scalesImage, outputRegion);
     osit.GoToBegin();
   }
   if (m_GenerateHessianOutput)
   {
-    ohit = ImageRegionIterator<HessianImageType>(hessianImage, outputRegion);
+    ohit = ImageRegionIterator(hessianImage, outputRegion);
     ohit.GoToBegin();
   }
 
