@@ -4,7 +4,7 @@
 
 ITK and VTK are to be considered as off-the-shelf (OTS) products that
 are used for supporting a higher level medical application/product. Developers
-of such applications or products are be responsible for performing
+of such applications or products are responsible for performing
 the validation processes described in FDA published guidelines for the
 development of software-related medical devices.
 
