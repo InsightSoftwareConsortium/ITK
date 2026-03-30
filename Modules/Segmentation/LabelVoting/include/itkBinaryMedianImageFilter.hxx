@@ -110,7 +110,7 @@ BinaryMedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   for (const auto & face : faceList)
   {
     bit = ConstNeighborhoodIterator<InputImageType>(m_Radius, input, face);
-    it = ImageRegionIterator<OutputImageType>(output, face);
+    it = ImageRegionIterator(output, face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 

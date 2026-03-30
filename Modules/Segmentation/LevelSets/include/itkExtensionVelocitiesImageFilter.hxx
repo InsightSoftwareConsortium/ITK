@@ -157,7 +157,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
   for (unsigned int k = 0; k < VAuxDimension; ++k)
   {
     const AuxImagePointer ptr = this->GetOutputVelocityImage(k);
-    auxOutputIt[k] = ImageRegionIterator<AuxImageType>(ptr, ptr->GetBufferedRegion());
+    auxOutputIt[k] = ImageRegionIterator(ptr, ptr->GetBufferedRegion());
   }
 
   this->UpdateProgress(0.0);
@@ -178,12 +178,12 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
   m_Marcher->SetAuxiliaryTrialValues(m_Locator->GetModifiableAuxOutsideValues());
   m_Marcher->Update();
 
-  tempIt = ImageRegionIterator<LocalLevelSetImageType>(tempLevelSet, tempLevelSet->GetBufferedRegion());
+  tempIt = ImageRegionIterator(tempLevelSet, tempLevelSet->GetBufferedRegion());
 
   for (unsigned int k = 0; k < VAuxDimension; ++k)
   {
     const AuxImagePointer ptr = m_Marcher->GetAuxiliaryImage(k);
-    auxTempIt[k] = ImageRegionIterator<AuxImageType>(ptr, ptr->GetBufferedRegion());
+    auxTempIt[k] = ImageRegionIterator(ptr, ptr->GetBufferedRegion());
   }
 
   inputIt.GoToBegin();
@@ -315,7 +315,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
   for (unsigned int k = 0; k < VAuxDimension; ++k)
   {
     const AuxImagePointer ptr = this->GetOutputVelocityImage(k);
-    auxOutputIt[k] = ImageRegionIterator<AuxImageType>(ptr, ptr->GetBufferedRegion());
+    auxOutputIt[k] = ImageRegionIterator(ptr, ptr->GetBufferedRegion());
     auxOutputIt[k].GoToBegin();
   }
   while (!auxOutputIt[0].IsAtEnd())

@@ -132,8 +132,8 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
     bit.OverrideBoundaryCondition(this->GetBoundaryCondition());
     bit.GoToBegin();
 
-    it = ImageRegionIterator<OutputImageType>(output, face);
-    mit = ImageRegionConstIterator<MaskImageType>(mask, face);
+    it = ImageRegionIterator(output, face);
+    mit = ImageRegionConstIterator(mask, face);
     while (!bit.IsAtEnd())
     {
       if (mit.Get())

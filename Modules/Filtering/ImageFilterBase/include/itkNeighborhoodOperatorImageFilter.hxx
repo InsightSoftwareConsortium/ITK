@@ -103,7 +103,7 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>::
   {
     bit = ConstNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(), input, face);
     bit.OverrideBoundaryCondition(m_BoundsCondition);
-    it = ImageRegionIterator<OutputImageType>(output, face);
+    it = ImageRegionIterator(output, face);
     bit.GoToBegin();
     while (!bit.IsAtEnd())
     {

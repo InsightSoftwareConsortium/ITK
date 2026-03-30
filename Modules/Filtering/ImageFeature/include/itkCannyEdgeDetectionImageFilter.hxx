@@ -118,7 +118,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::ThreadedCompute2ndDeri
   {
     NeighborhoodType bit(radius, input, face);
 
-    it = ImageRegionIterator<OutputImageType>(this->m_OutputImage, face);
+    it = ImageRegionIterator(this->m_OutputImage, face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 
@@ -416,7 +416,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::ThreadedCompute2ndDeri
   {
     bit = ConstNeighborhoodIterator<InputImageType>(radius, input, face);
     bit1 = ConstNeighborhoodIterator<InputImageType>(radius, input1, face);
-    it = ImageRegionIterator<OutputImageType>(output, face);
+    it = ImageRegionIterator(output, face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
     bit1.GoToBegin();

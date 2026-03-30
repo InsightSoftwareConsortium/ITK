@@ -157,7 +157,7 @@ GradientMagnitudeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerate
   for (const auto & face : faceList)
   {
     bit = ConstNeighborhoodIterator<InputImageType>(radius, input, face);
-    it = ImageRegionIterator<OutputImageType>(output, face);
+    it = ImageRegionIterator(output, face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 

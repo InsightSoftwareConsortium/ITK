@@ -45,7 +45,7 @@ ThresholdSegmentationLevelSetFunction<TImageType, TFeatureImageType>::CalculateS
     laplacian->SetInput(diffusion->GetOutput());
     laplacian->Update();
 
-    lit = ImageRegionIterator<FeatureImageType>(laplacian->GetOutput(), this->GetFeatureImage()->GetRequestedRegion());
+    lit = ImageRegionIterator(laplacian->GetOutput(), this->GetFeatureImage()->GetRequestedRegion());
     lit.GoToBegin();
   }
 

@@ -62,7 +62,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreadedGenera
   {
     b_iter = NeighborhoodIteratorType(this->GetKernel().GetRadius(), this->GetInput(), face);
 
-    o_iter = ImageRegionIterator<OutputImageType>(this->GetOutput(), face);
+    o_iter = ImageRegionIterator(this->GetOutput(), face);
     b_iter.OverrideBoundaryCondition(m_BoundaryCondition);
     b_iter.GoToBegin();
 
