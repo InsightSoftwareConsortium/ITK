@@ -125,12 +125,10 @@ ImageToListSampleFilter<TImage, TMaskImage>::GenerateData()
   output->Clear();
 
   ImageRegionConstIterator it(input, input->GetBufferedRegion());
-  it.GoToBegin();
 
   if (maskImage) // mask specified
   {
     ImageRegionConstIterator mit(maskImage, maskImage->GetBufferedRegion());
-    mit.GoToBegin();
     while (!it.IsAtEnd())
     {
       if (mit.Get() == this->m_MaskValue)

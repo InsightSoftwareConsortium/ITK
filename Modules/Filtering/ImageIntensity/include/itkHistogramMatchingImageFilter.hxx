@@ -437,8 +437,6 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
   {
     // put each image pixel into the histogram
     ImageRegionConstIterator iter(image, image->GetBufferedRegion());
-
-    iter.GoToBegin();
     while (!iter.IsAtEnd())
     {
       const InputPixelType & value = iter.Value();

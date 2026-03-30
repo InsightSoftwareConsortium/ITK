@@ -78,7 +78,6 @@ MRASlabIdentifier<TInputImage>::GenerateSlabRegions()
     region.SetIndex(index);
 
     ImageRegionConstIterator iter(m_Image, region);
-    iter.GoToBegin();
 
     std::priority_queue<ImagePixelType> mins;
     for (unsigned int i = 0; i < m_NumberOfSamples; ++i)

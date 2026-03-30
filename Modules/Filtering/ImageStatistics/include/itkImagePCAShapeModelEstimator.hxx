@@ -166,8 +166,6 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateData()
   {
     region = this->GetOutput(j)->GetRequestedRegion();
     ImageRegionIterator outIterJ(this->GetOutput(j), region);
-
-    outIterJ.GoToBegin();
     while (!outIterJ.IsAtEnd())
     {
       outIterJ.Set(0);

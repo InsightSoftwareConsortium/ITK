@@ -1017,7 +1017,6 @@ void
 Segmenter<TInputImage>::SetInputImageValues(InputImageTypePointer img, ImageRegionType region, InputPixelType value)
 {
   ImageRegionIterator it(img, region);
-  it.GoToBegin();
   while (!it.IsAtEnd())
   {
     it.Set(value);
@@ -1030,7 +1029,6 @@ void
 Segmenter<TInputImage>::SetOutputImageValues(OutputImageTypePointer img, ImageRegionType region, IdentifierType value)
 {
   ImageRegionIterator it(img, region);
-  it.GoToBegin();
   while (!it.IsAtEnd())
   {
     it.Set(value);
@@ -1046,7 +1044,6 @@ Segmenter<TInputImage>::MinMax(InputImageTypePointer img,
                                InputPixelType &      max)
 {
   ImageRegionIterator it(img, region);
-  it.GoToBegin();
   min = it.Value();
   max = it.Value();
   while (!it.IsAtEnd())
@@ -1101,8 +1098,6 @@ Segmenter<TInputImage>::RelabelImage(OutputImageTypePointer    img,
 {
   eqTable->Flatten();
   ImageRegionIterator it(img, region);
-
-  it.GoToBegin();
   while (!it.IsAtEnd())
   {
     const IdentifierType temp = eqTable->Lookup(it.Get());

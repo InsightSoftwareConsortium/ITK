@@ -102,7 +102,6 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::GetValue(const Parameters
     else
     {
       ImageRegionIterator mIter(m_Mask, m_Region);
-      mIter.GoToBegin();
       while (!bIter.IsAtEnd())
       {
         if (mIter.Get() > 0.0)
@@ -547,7 +546,6 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::CorrectImag
   {
     itkDebugMacro("Output mask is being used");
     ImageRegionIterator mIter(m_OutputMask, region);
-    mIter.GoToBegin();
     while (!bIter.IsAtEnd())
     {
       const double inputPixel = iIter.Get();

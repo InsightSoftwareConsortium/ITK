@@ -181,8 +181,7 @@ AccumulateImageFilter<TInputImage, TOutputImage>::GenerateData()
     }
     const typename TInputImage::RegionType AccumulatedRegion(AccumulatedIndex, AccumulatedSize);
     ImageRegionConstIterator               inputIter(inputImage, AccumulatedRegion);
-    inputIter.GoToBegin();
-    AccumulateType Value{};
+    AccumulateType                         Value{};
     while (!inputIter.IsAtEnd())
     {
       Value += static_cast<AccumulateType>(inputIter.Get());

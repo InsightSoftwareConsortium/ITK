@@ -184,8 +184,6 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
       //----------------------Reverse pass----------------------
       ImageRegionReverseIterator tempReverseIt(tempPtr, tempPtr->GetRequestedRegion());
 
-      tempReverseIt.GoToBegin();
-
       while (!tempReverseIt.IsAtEnd())
       {
         // determine the index of the output pixel

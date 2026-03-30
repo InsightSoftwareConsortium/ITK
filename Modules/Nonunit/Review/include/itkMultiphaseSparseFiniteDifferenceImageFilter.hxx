@@ -1015,8 +1015,6 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
       // For each region, set the pixel in m_StatusImage to
       // m_StatusBoundaryPixel
       ImageRegionIterator statusIt(sparsePtr->m_StatusImage, *fit);
-
-      statusIt.GoToBegin();
       while (!statusIt.IsAtEnd())
       {
         statusIt.Set(m_StatusBoundaryPixel);
@@ -1123,8 +1121,6 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     ImageRegionConstIterator statusIt(sparsePtr->m_StatusImage, this->m_LevelSet[fId]->GetRequestedRegion());
 
     ImageRegionIterator outputIt(this->m_LevelSet[fId], this->m_LevelSet[fId]->GetRequestedRegion());
-
-    outputIt.GoToBegin();
     statusIt.GoToBegin();
 
     while (!outputIt.IsAtEnd())

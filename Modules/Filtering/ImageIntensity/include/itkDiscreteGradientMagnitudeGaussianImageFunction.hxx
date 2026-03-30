@@ -158,8 +158,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::RecomputeG
 
     // Copy kernel image to neighborhood. Do not copy boundaries.
     ImageRegionConstIterator it(kernelImage, kernelRegion);
-    it.GoToBegin();
-    unsigned int idx = 0;
+    unsigned int             idx = 0;
 
     while (!it.IsAtEnd())
     {
