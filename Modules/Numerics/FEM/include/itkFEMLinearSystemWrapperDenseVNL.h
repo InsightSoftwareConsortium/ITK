@@ -48,13 +48,13 @@ public:
   using MatrixRepresentation = vnl_matrix<Float>;
 
   /* matrix holder type alias */
-  using MatrixHolder = std::vector<MatrixRepresentation *>;
+  using MatrixHolder = std::vector<std::unique_ptr<MatrixRepresentation>>;
 
   /* constructor & destructor */
   LinearSystemWrapperDenseVNL()
     : LinearSystemWrapper()
   {}
-  ~LinearSystemWrapperDenseVNL() override;
+  ~LinearSystemWrapperDenseVNL() override = default;
 
   /* memory management routines */
   void
@@ -169,15 +169,11 @@ public:
   MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex) override;
 
 private:
-  /** vector of pointers to VNL sparse matrices */
-  // std::vector< vnl_sparse_matrix<Float>* > *m_Matrices;
-  MatrixHolder * m_Matrices{ nullptr };
+  std::unique_ptr<MatrixHolder> m_Matrices{};
 
-  /** vector of pointers to VNL vectors  */
-  std::vector<vnl_vector<Float> *> * m_Vectors{ nullptr };
+  std::unique_ptr<std::vector<std::unique_ptr<vnl_vector<Float>>>> m_Vectors{};
 
-  /** vector of pointers to VNL vectors */
-  std::vector<vnl_vector<Float> *> * m_Solutions{ nullptr };
+  std::unique_ptr<std::vector<std::unique_ptr<vnl_vector<Float>>>> m_Solutions{};
 };
 } // namespace itk::fem
 
