@@ -3,21 +3,21 @@
 ## FDA guidelines for off-the-shelf software
 
 ITK and VTK are to be considered as off-the-shelf (OTS) products that
-are used for supporting a higher level medical application/product. The
-developer of such application/product will be responsible for performing
+are used for supporting a higher level medical application/product. Developers
+of such applications or products are responsible for performing
 the validation processes described in FDA published guidelines for the
 development of software-related medical devices.
 
 ITK and VTK are intended to be used as elements in medical applications,
 those medical applications are the ones that can be subject of an FDA
-approval. Whoever develop such applications has the responsibility of
+approval. Developers of such applications have the responsibility of
 validating their application in order to demonstrate that it is
 appropriate for the advertised purpose.
 
 For example, if you develop an application for radiation treatment
 planning based on ITK, it is your responsibility to validate that
-application. In the process you will have to validate that the use you
-make of ITK satisfies the requirements of your application. You will
+application. In the process you will have to validate that your use
+of ITK satisfies the requirements of your application. You will
 probably be using a limited set of ITK functionalities in such
 application, therefore what you have to demonstrate is that those
 specific ITK functionalities are behaving as expected in the context of
@@ -25,7 +25,7 @@ your application.
 
 Note that not only you need to validate the use of ITK or VTK, but also
 the use of any other off-the-shelf (OTS) software product used in the
-development of your application. That will included things like:
+development of your application. This includes:
 
 - Your operating system
 - Your compiler
@@ -35,7 +35,7 @@ development of your application. That will included things like:
 
 ## Software development practices
 
-It is worth to point out that the software development process using in
+It is worth it to point out that the software development process using in
 ITK and VTK are already following many of the FDA Guidelines for
 software development. In particular
 
