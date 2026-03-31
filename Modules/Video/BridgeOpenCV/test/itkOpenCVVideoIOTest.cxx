@@ -24,6 +24,9 @@
 #include "itkImageFileWriter.h"
 #include "itkOpenCVVideoIOFactory.h"
 
+#include "opencv2/videoio.hpp"
+#include "opencv2/imgproc.hpp"
+
 // ITK type alias
 using PixelType = itk::RGBPixel<char>;
 using ImportFilterType = itk::ImportImageFilter<PixelType, 2>;
@@ -63,7 +66,7 @@ itkImageFromBuffer(itk::OpenCVVideoIO::Pointer opencvIO, void * buffer, size_t b
 // Note: opencvIO should already have called ReadImageInformation
 //
 bool
-readCorrectly(itk::OpenCVVideoIO::Pointer opencvIO, CvCapture * capture, FrameOffsetType frameNumber)
+readCorrectly(itk::OpenCVVideoIO::Pointer opencvIO, cv::VideoCapture & capture, FrameOffsetType frameNumber)
 {
   bool ret = true;
   // Check meta data
@@ -93,30 +96,29 @@ readCorrectly(itk::OpenCVVideoIO::Pointer opencvIO, CvCapture * capture, FrameOf
   // Read the frame data
   opencvIO->Read(static_cast<void *>(buffer));
 
-  // Open the frame directly with OpenCV
-  IplImage * cvFrameBGR = cvQueryFrame(capture);
-  IplImage * cvFrameRGB = cvCreateImage(
-    cvSize(opencvIO->GetDimensions(0), opencvIO->GetDimensions(1)), IPL_DEPTH_8U, opencvIO->GetNumberOfComponents());
-  cvCvtColor(cvFrameBGR, cvFrameRGB, CV_BGR2RGB);
+  // Read the corresponding frame directly with OpenCV and convert BGR -> RGB
+  cv::Mat cvFrameBGR;
+  capture >> cvFrameBGR;
+  cv::Mat cvFrameRGB;
+  cv::cvtColor(cvFrameBGR, cvFrameRGB, cv::COLOR_BGR2RGB);
 
   // Make sure buffers are same sized
-  if (cvFrameRGB->imageSize != static_cast<int>(bufferSize))
+  const size_t cvBufferSize = cvFrameRGB.total() * cvFrameRGB.elemSize();
+  if (cvBufferSize != bufferSize)
   {
-    std::cerr << "Frame buffer sizes don't match. Got: " << bufferSize << ", Expected: " << cvFrameRGB->imageSize
-              << std::endl;
+    std::cerr << "Frame buffer sizes don't match. Got: " << bufferSize << ", Expected: " << cvBufferSize << std::endl;
     ret = false;
   }
 
   // Compare buffer contents
-  if (memcmp(reinterpret_cast<void *>(buffer), reinterpret_cast<void *>(cvFrameRGB->imageData), bufferSize))
+  if (cvFrameRGB.isContinuous() &&
+      memcmp(reinterpret_cast<void *>(buffer), reinterpret_cast<const void *>(cvFrameRGB.data), bufferSize))
   {
     std::cerr << "Frame buffers don't match for frame " << frameNumber << std::endl;
     ret = false;
   }
 
   delete[] buffer;
-  // Return
-  cvReleaseImage(&cvFrameRGB);
   return ret;
 }
 
@@ -279,8 +281,8 @@ test_OpenCVVideoIO(char *          input,
   std::cout << "OpenCVVideoIO::Read..." << std::endl;
   std::cout << "Comparing all " << opencvIO->GetFrameTotal() << " frames" << std::endl;
 
-  // Set up OpenCV capture
-  CvCapture * capture = cvCaptureFromFile(opencvIO->GetFileName());
+  // Set up OpenCV capture for cross-validation
+  cv::VideoCapture capture(opencvIO->GetFileName());
   // Loop through all frames
   for (FrameOffsetType i = 0; i * opencvIO->GetIFrameInterval() < opencvIO->GetFrameTotal(); ++i)
   {
@@ -292,8 +294,7 @@ test_OpenCVVideoIO(char *          input,
     }
   }
 
-  // Release capture
-  cvReleaseCapture(&capture);
+  capture.release();
 
   //
   // SetNextFrameToRead

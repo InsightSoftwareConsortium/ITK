@@ -20,17 +20,7 @@
 
 #include "itkVideoIOBase.h"
 
-#include "opencv2/core/version.hpp"
-#if !defined(CV_VERSION_EPOCH)
-// OpenCV 3.x
-#  include "opencv2/videoio/videoio.hpp"
-#  include "opencv2/videoio/videoio_c.h"
-#  include "opencv2/imgproc/imgproc_c.h"
-#else
-// OpenCV 2.4.x
-#  include "cv.h"
-#  include "highgui.h"
-#endif
+#include "opencv2/videoio.hpp"
 
 #include "ITKVideoBridgeOpenCVExport.h"
 
@@ -194,12 +184,10 @@ protected:
   OpenWriter();
 
 private:
-private:
-  IplImage *      m_CVImage{};
-  IplImage *      m_TempImage{};
-  CvCapture *     m_Capture{};
-  CvVideoWriter * m_Writer{};
-  int             m_FourCC{};
+  cv::Mat          m_CVImage{};
+  cv::VideoCapture m_Capture{};
+  cv::VideoWriter  m_Writer{};
+  int              m_FourCC{};
 
   int m_CameraIndex{};
 };

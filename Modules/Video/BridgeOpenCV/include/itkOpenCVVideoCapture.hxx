@@ -20,18 +20,8 @@
 
 #include "itkNumericTraits.h"
 
-#include "opencv2/core/version.hpp"
-#if !defined(CV_VERSION_EPOCH) // OpenCV >= 3.0
-#  include "opencv2/videoio.hpp"
-#  include "opencv2/imgproc/types_c.h" // CV_RGB2BGR, CV_BGR2GRAY, ...
-#  include "opencv2/imgproc/imgproc_c.h"
-#  if CV_VERSION_MAJOR > 3 // OpenCV 4.x
-#    include "opencv2/videoio/legacy/constants_c.h"
-#  endif
-#else
-// OpenCV 2.4.x
-#  include "cv.h"
-#endif
+#include "opencv2/videoio.hpp"
+#include "opencv2/imgproc.hpp"
 
 namespace itk
 {
@@ -50,7 +40,7 @@ OpenCVVideoCapture<TVideoStream>::OpenCVVideoCapture()
   m_FpS = 24;
 
   // Default to mp4.2
-  m_FourCC = CV_FOURCC('M', 'P', '4', '2');
+  m_FourCC = cv::VideoWriter::fourcc('M', 'P', '4', '2');
 }
 
 //
@@ -65,7 +55,7 @@ OpenCVVideoCapture<TVideoStream>::OpenCVVideoCapture(TVideoStream * videoStream)
   m_FpS = 24;
 
   // Default to mp4.2
-  m_FourCC = CV_FOURCC('M', 'P', '4', '2');
+  m_FourCC = cv::VideoWriter::fourcc('M', 'P', '4', '2');
 }
 
 
@@ -121,7 +111,7 @@ OpenCVVideoCapture<TVideoStream>::grab()
 
   // Move the current frame forward by 1
   SizeValueType currentFrame = m_VideoStream->GetRequestedTemporalRegion().GetFrameStart();
-  return set(CV_CAP_PROP_POS_FRAMES, currentFrame + 1);
+  return set(cv::CAP_PROP_POS_FRAMES, currentFrame + 1);
 }
 
 //
@@ -162,34 +152,27 @@ OpenCVVideoCapture<TVideoStream>::retrieve(cv::Mat & image, int itkNotUsed(chann
   unsigned int                 channels = itk::NumericTraits<PixelType>::MeasurementVectorType::Dimension;
   int                          matrixType = CV_MAKETYPE(depth, channels);
 
-  // Copy the pixels -- There is probably a faster way to do this
+  // Copy the pixels using cv::Mat (no IplImage needed)
 
   // Currently only support mono and RGB (unsigned) char pixels
-  IplImage * iplImg = cvCreateImage(cvSize(size[0], size[1]), IPL_DEPTH_8U, channels);
+  // cv::Mat(rows, cols, type, data): rows=height=size[1], cols=width=size[0]
+  cv::Mat srcMat(static_cast<int>(size[1]),
+                 static_cast<int>(size[0]),
+                 matrixType,
+                 reinterpret_cast<char *>(frame->GetBufferPointer()));
   if (matrixType == CV_8UC1 || matrixType == CV_8SC1)
   {
-    // Insert the buffer into iplImg
-    cvSetData(iplImg, reinterpret_cast<char *>(frame->GetBufferPointer()), iplImg->widthStep);
+    srcMat.copyTo(image);
   }
   else if (matrixType == CV_8UC3 || matrixType == CV_8SC3)
   {
-    // Place the contents of the buffer into an OpenCV image
-    IplImage * tempImg = cvCreateImage(cvSize(size[0], size[1]), IPL_DEPTH_8U, channels);
-
-    // Insert the buffer into tempImg
-    cvSetData(tempImg, reinterpret_cast<char *>(frame->GetBufferPointer()), tempImg->widthStep);
-
-    // Convert to BGR
-    cvCvtColor(tempImg, iplImg, CV_RGB2BGR);
+    // Convert ITK RGB to OpenCV BGR
+    cv::cvtColor(srcMat, image, cv::COLOR_RGB2BGR);
   }
   else
   {
     itkExceptionStringMacro("itk::OpenCVVideoCaptures -> Pixel type not supported");
   }
-
-  // Pass off to the Mat
-  image.create(size[0], size[1], matrixType);
-  image = cv::cvarrToMat(iplImg, true);
 
   // Return success
   return true;
@@ -255,12 +238,12 @@ OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
   switch (propId)
   {
     // Figure out the frame numbers from the value -- This is not currently supported
-    case CV_CAP_PROP_POS_MSEC:
+    case cv::CAP_PROP_POS_MSEC:
       itkExceptionStringMacro("OpenCVVideoCapture: Video Pipeline does not currently support RealTime");
       break;
 
     // Set the frame start of the requested region and update the pipeline
-    case CV_CAP_PROP_POS_FRAMES:
+    case cv::CAP_PROP_POS_FRAMES:
 
       // Get the largest temporal region and make sure it has some duration
       m_VideoStream->UpdateOutputInformation();
@@ -293,7 +276,7 @@ OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
       break;
 
     // Figure out the frame number from the AVI ratio and set accordingly
-    case CV_CAP_PROP_POS_AVI_RATIO:
+    case cv::CAP_PROP_POS_AVI_RATIO:
 
       // Compute the new frame
       m_VideoStream->UpdateOutputInformation();
@@ -301,17 +284,17 @@ OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
       ratioFrameOffset = (SizeValueType)(static_cast<double>(largestPossible.GetFrameDuration()) * value);
       newFrame = largestPossible.GetFrameStart() + ratioFrameOffset;
 
-      // Use the CV_CAP_PROP_POS_FRAMES property to update
-      set(CV_CAP_PROP_POS_FRAMES, newFrame);
+      // Use the cv::CAP_PROP_POS_FRAMES property to update
+      set(cv::CAP_PROP_POS_FRAMES, newFrame);
       break;
 
     // Set FourCC
-    case CV_CAP_PROP_FOURCC:
+    case cv::CAP_PROP_FOURCC:
       m_FourCC = static_cast<int>(value);
       break;
 
     // Set FpS
-    case CV_CAP_PROP_FPS:
+    case cv::CAP_PROP_FPS:
       m_FpS = value;
       break;
 
@@ -347,16 +330,16 @@ OpenCVVideoCapture<TVideoStream>::get(int propId)
   switch (propId)
   {
     // Figure out the frame numbers from the value -- This is not currently supported
-    case CV_CAP_PROP_POS_MSEC:
+    case cv::CAP_PROP_POS_MSEC:
       itkExceptionStringMacro("OpenCVVideoCapture: Video Pipeline does not currently support RealTime");
       break;
 
     // Get the frame start of the requested region and update the pipeline
-    case CV_CAP_PROP_POS_FRAMES:
+    case cv::CAP_PROP_POS_FRAMES:
       return frameNum;
 
     // Figure out the frame number from the AVI ratio and set accordingly
-    case CV_CAP_PROP_POS_AVI_RATIO:
+    case cv::CAP_PROP_POS_AVI_RATIO:
 
       // Compute the frame number from the ratio
       m_VideoStream->UpdateOutputInformation();
@@ -366,20 +349,20 @@ OpenCVVideoCapture<TVideoStream>::get(int propId)
       return static_cast<double>(currentOffset) / static_cast<double>(largest.GetFrameDuration());
 
     // Get FourCC
-    case CV_CAP_PROP_FOURCC:
+    case cv::CAP_PROP_FOURCC:
       return m_FourCC;
 
     // Set FpS
-    case CV_CAP_PROP_FPS:
+    case cv::CAP_PROP_FPS:
       return m_FpS;
 
     // Get Frame Width
-    case CV_CAP_PROP_FRAME_WIDTH:
+    case cv::CAP_PROP_FRAME_WIDTH:
       m_VideoStream->UpdateOutputInformation();
       return m_VideoStream->GetFrameLargestPossibleSpatialRegion(frameNum).GetSize()[0];
 
     // Get Frame Height
-    case CV_CAP_PROP_FRAME_HEIGHT:
+    case cv::CAP_PROP_FRAME_HEIGHT:
       m_VideoStream->UpdateOutputInformation();
       return m_VideoStream->GetFrameLargestPossibleSpatialRegion(frameNum).GetSize()[1];
 
