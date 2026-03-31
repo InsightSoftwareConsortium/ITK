@@ -20,19 +20,23 @@
 
 namespace itk::fem
 {
+// Destructor is defined out-of-line so that the vtable and typeinfo are
+// emitted as exported symbols in shared library builds.  Moving it to
+// inline = default in the header would make them hidden under
+// -fvisibility-inlines-hidden, breaking dynamic_cast across DSO boundaries.
+// See: https://github.com/InsightSoftwareConsortium/ITK/issues/6000
+LinearSystemWrapperDenseVNL::~LinearSystemWrapperDenseVNL() = default;
+
 void
 LinearSystemWrapperDenseVNL::InitializeMatrix(unsigned int matrixIndex)
 {
   // allocate if necessary
   if (m_Matrices == nullptr)
   {
-    m_Matrices = new MatrixHolder(m_NumberOfMatrices);
+    m_Matrices = std::make_unique<MatrixHolder>(m_NumberOfMatrices);
   }
 
-  // out with old, in with new
-  delete (*m_Matrices)[matrixIndex];
-
-  (*m_Matrices)[matrixIndex] = new MatrixRepresentation(this->GetSystemOrder(), this->GetSystemOrder());
+  (*m_Matrices)[matrixIndex] = std::make_unique<MatrixRepresentation>(this->GetSystemOrder(), this->GetSystemOrder());
   (*m_Matrices)[matrixIndex]->fill(0.0);
 }
 
@@ -56,8 +60,7 @@ LinearSystemWrapperDenseVNL::DestroyMatrix(unsigned int matrixIndex)
 {
   if (m_Matrices)
   {
-    delete (*m_Matrices)[matrixIndex];
-    (*m_Matrices)[matrixIndex] = nullptr;
+    (*m_Matrices)[matrixIndex].reset();
   }
 }
 
@@ -67,13 +70,10 @@ LinearSystemWrapperDenseVNL::InitializeVector(unsigned int vectorIndex)
   // allocate if necessary
   if (m_Vectors == nullptr)
   {
-    m_Vectors = new std::vector<vnl_vector<Float> *>(m_NumberOfVectors);
+    m_Vectors = std::make_unique<std::vector<std::unique_ptr<vnl_vector<Float>>>>(m_NumberOfVectors);
   }
 
-  // out with old, in with new
-  delete (*m_Vectors)[vectorIndex];
-
-  (*m_Vectors)[vectorIndex] = new vnl_vector<Float>(this->GetSystemOrder());
+  (*m_Vectors)[vectorIndex] = std::make_unique<vnl_vector<Float>>(this->GetSystemOrder());
   (*m_Vectors)[vectorIndex]->fill(0.0);
 }
 
@@ -97,8 +97,7 @@ LinearSystemWrapperDenseVNL::DestroyVector(unsigned int vectorIndex)
 {
   if (m_Vectors)
   {
-    delete (*m_Vectors)[vectorIndex];
-    (*m_Vectors)[vectorIndex] = nullptr;
+    (*m_Vectors)[vectorIndex].reset();
   }
 }
 
@@ -108,13 +107,10 @@ LinearSystemWrapperDenseVNL::InitializeSolution(unsigned int solutionIndex)
   // allocate if necessary
   if (m_Solutions == nullptr)
   {
-    m_Solutions = new std::vector<vnl_vector<Float> *>(m_NumberOfSolutions);
+    m_Solutions = std::make_unique<std::vector<std::unique_ptr<vnl_vector<Float>>>>(m_NumberOfSolutions);
   }
 
-  // out with old, in with new
-  delete (*m_Solutions)[solutionIndex];
-
-  (*m_Solutions)[solutionIndex] = new vnl_vector<Float>(this->GetSystemOrder());
+  (*m_Solutions)[solutionIndex] = std::make_unique<vnl_vector<Float>>(this->GetSystemOrder());
   (*m_Solutions)[solutionIndex]->fill(0.0);
 }
 
@@ -138,8 +134,7 @@ LinearSystemWrapperDenseVNL::DestroySolution(unsigned int solutionIndex)
 {
   if (m_Solutions)
   {
-    delete (*m_Solutions)[solutionIndex];
-    (*m_Solutions)[solutionIndex] = nullptr;
+    (*m_Solutions)[solutionIndex].reset();
   }
 }
 
@@ -189,39 +184,31 @@ LinearSystemWrapperDenseVNL::Solve()
 void
 LinearSystemWrapperDenseVNL::SwapMatrices(unsigned int MatrixIndex1, unsigned int MatrixIndex2)
 {
-  vnl_matrix<Float> * tmp = (*m_Matrices)[MatrixIndex1];
-  (*m_Matrices)[MatrixIndex1] = (*m_Matrices)[MatrixIndex2];
-  (*m_Matrices)[MatrixIndex2] = tmp;
+  std::swap((*m_Matrices)[MatrixIndex1], (*m_Matrices)[MatrixIndex2]);
 }
 
 void
 LinearSystemWrapperDenseVNL::SwapVectors(unsigned int VectorIndex1, unsigned int VectorIndex2)
 {
-  vnl_vector<Float> tmp = *(*m_Vectors)[VectorIndex1];
-  *(*m_Vectors)[VectorIndex1] = *(*m_Vectors)[VectorIndex2];
-  *(*m_Vectors)[VectorIndex2] = tmp;
+  std::swap((*m_Vectors)[VectorIndex1], (*m_Vectors)[VectorIndex2]);
 }
 
 void
 LinearSystemWrapperDenseVNL::SwapSolutions(unsigned int SolutionIndex1, unsigned int SolutionIndex2)
 {
-  vnl_vector<Float> * tmp = (*m_Solutions)[SolutionIndex1];
-  (*m_Solutions)[SolutionIndex1] = (*m_Solutions)[SolutionIndex2];
-  (*m_Solutions)[SolutionIndex2] = tmp;
+  std::swap((*m_Solutions)[SolutionIndex1], (*m_Solutions)[SolutionIndex2]);
 }
 
 void
 LinearSystemWrapperDenseVNL::CopySolution2Vector(unsigned int SolutionIndex, unsigned int VectorIndex)
 {
-  delete (*m_Vectors)[VectorIndex];
-  (*m_Vectors)[VectorIndex] = new vnl_vector<Float>(*((*m_Solutions)[SolutionIndex]));
+  (*m_Vectors)[VectorIndex] = std::make_unique<vnl_vector<Float>>(*((*m_Solutions)[SolutionIndex]));
 }
 
 void
 LinearSystemWrapperDenseVNL::CopyVector2Solution(unsigned int VectorIndex, unsigned int SolutionIndex)
 {
-  delete (*m_Solutions)[SolutionIndex];
-  (*m_Solutions)[SolutionIndex] = new vnl_vector<Float>(*((*m_Vectors)[VectorIndex]));
+  (*m_Solutions)[SolutionIndex] = std::make_unique<vnl_vector<Float>>(*((*m_Vectors)[VectorIndex]));
 }
 
 void
@@ -264,26 +251,6 @@ void
 LinearSystemWrapperDenseVNL::ScaleSolution(Float scale, unsigned int solutionIndex)
 {
   (*(*m_Solutions)[solutionIndex]) = (*(*m_Solutions)[solutionIndex]) * scale;
-}
-
-LinearSystemWrapperDenseVNL::~LinearSystemWrapperDenseVNL()
-{
-  for (unsigned int i = 0; i < m_NumberOfMatrices; ++i)
-  {
-    this->DestroyMatrix(i);
-  }
-  for (unsigned int i = 0; i < m_NumberOfVectors; ++i)
-  {
-    this->DestroyVector(i);
-  }
-  for (unsigned int i = 0; i < m_NumberOfSolutions; ++i)
-  {
-    this->DestroySolution(i);
-  }
-
-  delete m_Matrices;
-  delete m_Vectors;
-  delete m_Solutions;
 }
 
 } // namespace itk::fem

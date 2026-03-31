@@ -24,6 +24,7 @@
 #include "vnl/vnl_vector.h"
 #include "vnl/algo/vnl_svd.h"
 #include "ITKFEMExport.h"
+#include <memory>
 #include <vector>
 
 namespace itk::fem
@@ -48,7 +49,10 @@ public:
   using MatrixRepresentation = vnl_matrix<Float>;
 
   /* matrix holder type alias */
-  using MatrixHolder = std::vector<MatrixRepresentation *>;
+  using MatrixHolder = std::vector<std::unique_ptr<MatrixRepresentation>>;
+
+  /* vector holder type alias */
+  using VectorHolder = std::vector<std::unique_ptr<vnl_vector<Float>>>;
 
   /* constructor & destructor */
   LinearSystemWrapperDenseVNL()
@@ -169,15 +173,11 @@ public:
   MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex) override;
 
 private:
-  /** vector of pointers to VNL sparse matrices */
-  // std::vector< vnl_sparse_matrix<Float>* > *m_Matrices;
-  MatrixHolder * m_Matrices{ nullptr };
+  std::unique_ptr<MatrixHolder> m_Matrices;
 
-  /** vector of pointers to VNL vectors  */
-  std::vector<vnl_vector<Float> *> * m_Vectors{ nullptr };
+  std::unique_ptr<VectorHolder> m_Vectors;
 
-  /** vector of pointers to VNL vectors */
-  std::vector<vnl_vector<Float> *> * m_Solutions{ nullptr };
+  std::unique_ptr<VectorHolder> m_Solutions;
 };
 } // namespace itk::fem
 
