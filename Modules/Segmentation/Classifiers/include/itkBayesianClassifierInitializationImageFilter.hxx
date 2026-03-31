@@ -137,9 +137,6 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   const typename InputImageType::RegionType imageRegion = inputImage->GetLargestPossibleRegion();
   InputImageIteratorType                    itrInputImage(inputImage, imageRegion);
 
-  itrInputImage.GoToBegin();
-  itrKMeansImage.GoToBegin();
-
   // find sumsOfSquares, sums, and classCount by indexing using the kmeans
   // output labelmap
   while (!itrInputImage.IsAtEnd())

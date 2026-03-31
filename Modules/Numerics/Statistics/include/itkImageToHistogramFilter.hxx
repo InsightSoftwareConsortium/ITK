@@ -199,8 +199,7 @@ ImageToHistogramFilter<TImage>::ThreadedComputeMinimumAndMaximum(const RegionTyp
   HistogramMeasurementVectorType min(nbOfComponents);
   HistogramMeasurementVectorType max(nbOfComponents);
 
-  ImageRegionConstIterator inputIt(this->GetInput(), inputRegionForThread);
-  inputIt.GoToBegin();
+  ImageRegionConstIterator       inputIt(this->GetInput(), inputRegionForThread);
   HistogramMeasurementVectorType m(nbOfComponents);
 
   min.Fill(NumericTraits<ValueType>::max());
@@ -238,8 +237,7 @@ ImageToHistogramFilter<TImage>::ThreadedStreamedGenerateData(const RegionType & 
   histogram->Initialize(outputHistogram->GetSize(), m_Minimum, m_Maximum);
 
 
-  ImageRegionConstIterator inputIt(this->GetInput(), inputRegionForThread);
-  inputIt.GoToBegin();
+  ImageRegionConstIterator       inputIt(this->GetInput(), inputRegionForThread);
   HistogramMeasurementVectorType m(nbOfComponents);
 
   typename HistogramType::IndexType index;

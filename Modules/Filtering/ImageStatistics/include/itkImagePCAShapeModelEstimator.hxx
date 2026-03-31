@@ -149,7 +149,6 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateData()
     ImageRegionIterator outIterJ(this->GetOutput(j), region);
 
     unsigned int idx = 0;
-    outIterJ.GoToBegin();
     while (!outIterJ.IsAtEnd())
     {
       outIterJ.Set(static_cast<typename OutputImageType::PixelType>(m_OneEigenVector[idx]));
@@ -166,8 +165,6 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateData()
   {
     region = this->GetOutput(j)->GetRequestedRegion();
     ImageRegionIterator outIterJ(this->GetOutput(j), region);
-
-    outIterJ.GoToBegin();
     while (!outIterJ.IsAtEnd())
     {
       outIterJ.Set(0);

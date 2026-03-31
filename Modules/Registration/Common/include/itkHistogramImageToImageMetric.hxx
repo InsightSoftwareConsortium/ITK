@@ -89,9 +89,8 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
     // Calculate min and max image values in fixed image.
     const FixedImageConstPointerType pFixedImage = this->m_FixedImage;
     ImageRegionConstIterator         fiIt(pFixedImage, pFixedImage->GetBufferedRegion());
-    fiIt.GoToBegin();
-    FixedImagePixelType minFixed = fiIt.Value();
-    FixedImagePixelType maxFixed = fiIt.Value();
+    FixedImagePixelType              minFixed = fiIt.Value();
+    FixedImagePixelType              maxFixed = fiIt.Value();
     ++fiIt;
     while (!fiIt.IsAtEnd())
     {
@@ -112,9 +111,8 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
     // Calculate min and max image values in moving image.
     const MovingImageConstPointerType pMovingImage = this->m_MovingImage;
     ImageRegionConstIterator          miIt(pMovingImage, pMovingImage->GetBufferedRegion());
-    miIt.GoToBegin();
-    MovingImagePixelType minMoving = miIt.Value();
-    MovingImagePixelType maxMoving = miIt.Value();
+    MovingImagePixelType              minMoving = miIt.Value();
+    MovingImagePixelType              maxMoving = miIt.Value();
     ++miIt;
     while (!miIt.IsAtEnd())
     {

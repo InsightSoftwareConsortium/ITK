@@ -101,9 +101,6 @@ LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
     ImageRegionConstIterator bgIt(this->GetBackgroundImage(), outputRegionForThread);
     ImageRegionIterator      oIt(output, outputRegionForThread);
 
-    bgIt.GoToBegin();
-    oIt.GoToBegin();
-
     while (!oIt.IsAtEnd())
     {
       const OutputImagePixelType & bg = bgIt.Get();
@@ -123,7 +120,6 @@ LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
   {
     // fill the background with the background value
     ImageRegionIterator oIt(output, outputRegionForThread);
-    oIt.GoToBegin();
 
     while (!oIt.IsAtEnd())
     {

@@ -149,9 +149,6 @@ ImageClassifierFilter<TSample, TInputImage, TOutputImage>::GenerateData()
   ImageRegionConstIterator inpItr(inputImage, inputImage->GetBufferedRegion());
   ImageRegionIterator      outItr(outputImage, outputImage->GetBufferedRegion());
 
-  inpItr.GoToBegin();
-  outItr.GoToBegin();
-
   while (!inpItr.IsAtEnd())
   {
     MeasurementVectorType measurements;

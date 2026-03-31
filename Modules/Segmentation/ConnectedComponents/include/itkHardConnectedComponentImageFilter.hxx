@@ -49,8 +49,6 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
   ImageRegionIteratorWithIndex ot(output, output->GetRequestedRegion());
 
   ProgressReporter progress(this, 0, output->GetRequestedRegion().GetNumberOfPixels());
-  it.GoToBegin();
-  ot.GoToBegin();
   for (; !it.IsAtEnd(); ++it, ++ot)
   {
     if (Math::NotExactlyEquals(it.Get(), typename ImageRegionConstIterator<TInputImage>::PixelType{}))
