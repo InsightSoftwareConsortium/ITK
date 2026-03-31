@@ -2,19 +2,15 @@
 
 ## Running Tests
 
+Via Pixi (recommended — works even without system-level cmake/ctest):
 ```bash
-cd build
-ctest -j8                    # All tests in parallel
-ctest -R ImageFilter         # Tests matching regex
-ctest -L REQUIRES_GPU        # Tests with label
-ctest --rerun-failed         # Only previously failed tests
-ctest -L ITKCommon           # Tests for a specific module
-```
-
-Via Pixi (recommended):
-```bash
-pixi run --as-is test           # C++ tests
-pixi run --as-is test-python    # Python tests
+pixi run --as-is test                        # All C++ tests
+pixi run --as-is test-python                 # Python tests
+pixi run --as-is ctest -j8                   # All tests in parallel
+pixi run --as-is ctest -R ImageFilter        # Tests matching regex
+pixi run --as-is ctest -L REQUIRES_GPU       # Tests with label
+pixi run --as-is ctest --rerun-failed        # Only previously failed tests
+pixi run --as-is ctest -L ITKCommon          # Tests for a specific module
 ```
 
 ## Test Organization

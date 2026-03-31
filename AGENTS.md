@@ -1,22 +1,22 @@
 # ITK AI Agent Guide
 
-ITK (Insight Toolkit) is a cross-platform, open-source C++ toolkit for
+The Insight Toolkit (ITK) is a cross-platform, open-source C++ toolkit for
 N-dimensional scientific image processing, segmentation, and registration.
 Apache 2.0 licensed. Build tool: **Pixi** (wraps CMake + Ninja).
 
-## Context on Demand
+## Context to Load on Demand
 
 Load only what your task requires:
 
 | Task | Read |
 |------|------|
-| Understanding the codebase layout | `Documentation/AI/architecture.md` |
-| Building or configuring ITK | `Documentation/AI/building.md` |
-| Writing or running tests | `Documentation/AI/testing.md` |
-| Code style, naming conventions | `Documentation/AI/style.md` |
-| Writing ITK C++ or Python | `Documentation/AI/conventions.md` |
-| Creating a git commit | `Documentation/AI/git-commits.md` |
-| Opening or updating a pull request | `Documentation/AI/pull-requests.md` |
+| Understanding the codebase layout | [./Documentation/AI/architecture.md](./Documentation/AI/architecture.md) |
+| Building or configuring ITK | [./Documentation/AI/building.md](./Documentation/AI/building.md) |
+| Writing or running tests | [./Documentation/AI/testing.md](./Documentation/AI/testing.md) |
+| Code style, naming conventions | [./Documentation/AI/style.md](./Documentation/AI/style.md) |
+| Writing ITK C++ classes, CMake build configuration, and Python wrapping configuration | [./Documentation/AI/conventions.md](./Documentation/AI/conventions.md) |
+| Creating a git commit | [./Documentation/AI/git-commits.md](./Documentation/AI/git-commits.md) |
+| Opening or updating a pull request | [./Documentation/AI/pull-requests.md](./Documentation/AI/pull-requests.md) |
 
 ## Critical Pitfalls
 
