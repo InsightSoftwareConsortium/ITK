@@ -161,10 +161,14 @@ struct OpenCVBasicTypeBridge<itk::Size<2>, cv::Size>
   }
 };
 
-template <typename T, unsigned int VRows, unsigned int VColumns>
-struct OpenCVBasicTypeBridge<itk::Matrix<T, VRows, VColumns>, cv::Matx<T, VRows, VColumns>>
+// cv::Matx uses int template params; itk::Matrix uses unsigned int.
+// Using int for VRows/VColumns (matching OpenCV) with a cast in the ITK
+// pattern allows the compiler to deduce both sides correctly.
+template <typename T, int VRows, int VColumns>
+struct OpenCVBasicTypeBridge<itk::Matrix<T, static_cast<unsigned int>(VRows), static_cast<unsigned int>(VColumns)>,
+                             cv::Matx<T, VRows, VColumns>>
 {
-  using ITKDataType = itk::Matrix<T, VRows, VColumns>;
+  using ITKDataType = itk::Matrix<T, static_cast<unsigned int>(VRows), static_cast<unsigned int>(VColumns)>;
   using OpenCVDataType = cv::Matx<T, VRows, VColumns>;
 
   static ITKDataType
