@@ -186,15 +186,6 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
     auxTempIt[k] = ImageRegionIterator(ptr, ptr->GetBufferedRegion());
   }
 
-  inputIt.GoToBegin();
-  outputIt.GoToBegin();
-  tempIt.GoToBegin();
-  for (unsigned int k = 0; k < VAuxDimension; ++k)
-  {
-    auxOutputIt[k].GoToBegin();
-    auxTempIt[k].GoToBegin();
-  }
-
   while (!inputIt.IsAtEnd())
   {
     const auto value = static_cast<double>(inputIt.Get());
@@ -287,8 +278,6 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
 
   // set all internal pixels to minus infinity and
   // all external pixels to positive infinity
-  inputIt.GoToBegin();
-  outputIt.GoToBegin();
 
   while (!inputIt.IsAtEnd())
   {
