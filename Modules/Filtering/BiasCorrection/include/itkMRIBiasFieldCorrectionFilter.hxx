@@ -85,7 +85,6 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::GetValue(const Parameters
     typename TBiasField::SimpleForwardIterator bIter(m_BiasField);
 
     bIter.Begin();
-    iIter.GoToBegin();
     total = 0.0;
 
     // Fastest for full sampling

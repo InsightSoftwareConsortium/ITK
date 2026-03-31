@@ -253,9 +253,6 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
     ImageRegionIterator      Ot(outputPtr, outputRegion);
     ImageRegionConstIterator It(m_InputCache, outputRegion);
 
-    Ot.GoToBegin();
-    It.GoToBegin();
-
     ProgressReporter progress2(this,
                                threadId,
                                outputRegionForThread.GetNumberOfPixels(),

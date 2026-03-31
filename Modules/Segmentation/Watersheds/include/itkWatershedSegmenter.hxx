@@ -1120,9 +1120,6 @@ Segmenter<TInputImage>::Threshold(InputImageTypePointer destination,
   ImageRegionIterator dIt(destination, destination_region);
   ImageRegionIterator sIt(source, source_region);
 
-  dIt.GoToBegin();
-  sIt.GoToBegin();
-
   // Assumes that source_region and destination region are the same size.  Does
   // no checking!!
   if (NumericTraits<InputPixelType>::is_integer)

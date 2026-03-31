@@ -64,9 +64,6 @@ MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputIm
     // Fill the output pointer
     auto p = static_cast<OutputPixelType>(this->m_Lookup[i]);
 
-    in.GoToBegin();
-    out.GoToBegin();
-
     while (!out.IsAtEnd())
     {
       if (in.Get() < 0)
@@ -132,7 +129,6 @@ typename MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, 
       ImageRegionIterator      nU(m_UpdateBuffers[i], *fIt);
 
       nD.GoToBegin();
-      nU.GoToBegin();
 
       while (!nD.IsAtEnd())
       {
@@ -206,9 +202,6 @@ MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputIm
     ImageRegionIterator u(m_UpdateBuffers[i], region);
     ImageRegionIterator o(this->m_LevelSet[i], region);
 
-    u.GoToBegin();
-    o.GoToBegin();
-
     while (!u.IsAtEnd())
     {
       InputPixelType val = static_cast<InputPixelType>(dt) * u.Get();
@@ -240,7 +233,6 @@ MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputIm
       rms_change_accumulator = 0;
 
       o.GoToBegin();
-      it.GoToBegin();
 
       while (!o.IsAtEnd())
       {

@@ -118,7 +118,6 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   // current pixel
   init.GoToBegin();
   onit.GoToBegin();
-  it.GoToBegin();
   oit.GoToBegin();
   OutputPixelType maxLabel{};
   // create an equivalency table

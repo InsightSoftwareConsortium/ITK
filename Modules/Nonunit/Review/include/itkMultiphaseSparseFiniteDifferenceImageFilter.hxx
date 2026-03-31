@@ -138,9 +138,6 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     ImageRegionIterator lIt(input, region);
     ImageRegionIterator tIt(tempImage, region);
 
-    lIt.GoToBegin();
-    tIt.GoToBegin();
-
     while (!lIt.IsAtEnd())
     {
       tIt.Set(lIt.Get());
@@ -160,7 +157,6 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     ImageRegionIterator zIt(zeroCrossingFilter->GetOutput(), region);
 
     lIt.GoToBegin();
-    zIt.GoToBegin();
 
     while (!lIt.IsAtEnd())
     {
@@ -1121,7 +1117,6 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     ImageRegionConstIterator statusIt(sparsePtr->m_StatusImage, this->m_LevelSet[fId]->GetRequestedRegion());
 
     ImageRegionIterator outputIt(this->m_LevelSet[fId], this->m_LevelSet[fId]->GetRequestedRegion());
-    statusIt.GoToBegin();
 
     while (!outputIt.IsAtEnd())
     {
@@ -1328,9 +1323,6 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     ImageRegionIterator outIt(output, region);
 
     auto p = static_cast<OutputPixelType>(this->m_Lookup[fId]);
-
-    inIt.GoToBegin();
-    outIt.GoToBegin();
 
     while (!outIt.IsAtEnd())
     {

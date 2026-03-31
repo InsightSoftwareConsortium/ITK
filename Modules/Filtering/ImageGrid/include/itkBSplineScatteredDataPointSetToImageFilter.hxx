@@ -658,8 +658,6 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::AfterTh
 
       ItD.GoToBegin();
       ItO.GoToBegin();
-      Itd.GoToBegin();
-      Ito.GoToBegin();
       while (!ItD.IsAtEnd())
       {
         ItD.Set(ItD.Get() + Itd.Get());
