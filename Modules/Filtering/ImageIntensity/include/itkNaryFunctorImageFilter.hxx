@@ -45,7 +45,7 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::DynamicThreadedGen
   }
   const auto numberOfInputImages = static_cast<unsigned int>(this->GetNumberOfIndexedInputs());
 
-  std::vector<ImageScanlineConstIterator<TInputImage> *> inputItrVector;
+  std::vector<ImageScanlineConstIterator<TInputImage>> inputItrVector;
   inputItrVector.reserve(numberOfInputImages);
 
   // count the number of inputs that are non-null
@@ -55,7 +55,7 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::DynamicThreadedGen
 
     if (inputPtr)
     {
-      inputItrVector.push_back(new ImageScanlineConstIterator<TInputImage>(inputPtr, outputRegionForThread));
+      inputItrVector.emplace_back(inputPtr, outputRegionForThread);
     }
   }
 
@@ -72,40 +72,24 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::DynamicThreadedGen
 
   const OutputImagePointer outputPtr = this->GetOutput(0);
 
-  typename std::vector<ImageScanlineConstIterator<TInputImage> *>::iterator regionIterators;
-  const auto                                                                regionItEnd = inputItrVector.end();
-
-  typename NaryArrayType::iterator arrayIt;
-
   for (ImageScanlineIterator outputIt(outputPtr, outputRegionForThread); !outputIt.IsAtEnd(); outputIt.NextLine())
   {
     while (!outputIt.IsAtEndOfLine())
     {
-      arrayIt = naryInputArray.begin();
-      regionIterators = inputItrVector.begin();
-      while (regionIterators != regionItEnd)
+      auto arrayIt = naryInputArray.begin();
+      for (auto & inputScanlineIterator : inputItrVector)
       {
-        *arrayIt++ = (*regionIterators)->Get();
-        ++(*(*regionIterators));
-        ++regionIterators;
+        *arrayIt++ = inputScanlineIterator.Get();
+        ++inputScanlineIterator;
       }
       outputIt.Set(m_Functor(naryInputArray));
       ++outputIt;
     }
 
-    regionIterators = inputItrVector.begin();
-    while (regionIterators != regionItEnd)
+    for (auto & inputScanlineIterator : inputItrVector)
     {
-      (*regionIterators)->NextLine();
-      ++regionIterators;
+      inputScanlineIterator.NextLine();
     }
-  }
-
-  // Free memory
-  regionIterators = inputItrVector.begin();
-  while (regionIterators != regionItEnd)
-  {
-    delete (*regionIterators++);
   }
 }
 } // end namespace itk

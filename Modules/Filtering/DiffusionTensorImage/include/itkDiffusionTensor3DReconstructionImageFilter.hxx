@@ -199,7 +199,8 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
       static_cast<ReferenceImageType *>(this->ProcessObject::GetInput(0));
     ImageRegionConstIteratorWithIndex it(refImage, outputRegionForThread);
 
-    std::vector<ImageRegionConstIterator<GradientImageType> *> gradientItContainer;
+    std::vector<ImageRegionConstIterator<GradientImageType>> gradientItContainer;
+    gradientItContainer.reserve(m_NumberOfGradientDirections);
 
     for (unsigned int i = 1; i <= m_NumberOfGradientDirections; ++i)
     {
@@ -211,9 +212,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
         itkExceptionStringMacro("Invalid dynamic_cast");
       }
 
-      auto * git = new ImageRegionConstIterator<GradientImageType>(gradientImagePointer, outputRegionForThread);
-      git->GoToBegin();
-      gradientItContainer.push_back(git);
+      gradientItContainer.emplace_back(gradientImagePointer, outputRegionForThread);
     }
 
     // Iterate over the reference and gradient images and solve the Stejskal
@@ -246,7 +245,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
       {
         for (unsigned int i = 0; i < m_NumberOfGradientDirections; ++i)
         {
-          const GradientPixelType b = gradientItContainer[i]->Get();
+          const GradientPixelType b = gradientItContainer[i].Get();
 
           if (Math::AlmostEquals(b, GradientPixelType{}))
           {
@@ -257,7 +256,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
             B[i] = -std::log(static_cast<double>(b) / static_cast<double>(b0)) / this->m_BValue;
           }
 
-          ++(*gradientItContainer[i]);
+          ++(gradientItContainer[i]);
         }
 
         const vnl_svd<double> pseudoInverseSolver{ m_TensorBasis.as_matrix() };
@@ -281,7 +280,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
       {
         for (unsigned int i = 0; i < m_NumberOfGradientDirections; ++i)
         {
-          ++(*gradientItContainer[i]);
+          ++(gradientItContainer[i]);
         }
       }
 
@@ -289,11 +288,6 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
       ++oit;
       ++it;
       progress.CompletedPixel();
-    }
-
-    for (unsigned int i = 0; i < gradientItContainer.size(); ++i)
-    {
-      delete gradientItContainer[i];
     }
   }
   // The gradients are specified in a single multi-component image
