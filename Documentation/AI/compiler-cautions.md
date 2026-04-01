@@ -479,26 +479,29 @@ np.dtype(np.bool_)
 // BAD — removed in Python 3.14:
 item = PySequence_Fast_GET_ITEM(seq, i);
 
-// GOOD — reference-counted correctly:
+// GOOD — reference-counted correctly, with mandatory null guard:
 item = PySequence_GetItem(seq, i);
-// ... use item ...
-Py_DECREF(item);
+if (item != nullptr)
+{
+  // ... use item ...
+  Py_DECREF(item);
+}
 ```
 
 **References:** Commit `1726d3e5`, PR #5504.
 
 ---
 
-## 13. clang-tidy Warnings During Refactoring
+## 12. clang-tidy Warnings During Refactoring
 
-### 13a. Do Not Introduce New clang-tidy Diagnostics
+### 12a. Do Not Introduce New clang-tidy Diagnostics
 
 Refactoring commits should leave the clang-tidy diagnostic count no worse than before.
 If a refactoring triggers warnings in code it did not touch, those are pre-existing
 issues and must **not** be fixed in the same commit. Mixing style fixes with
 behavioral changes obscures commit intent and complicates `git bisect`.
 
-### 13b. clang-tidy Check Families That Conflict with ITK Coding Standards
+### 12b. clang-tidy Check Families That Conflict with ITK Coding Standards
 
 Several clang-tidy check categories produce warnings that are **incorrect or
 inapplicable** in an ITK context. Do not "fix" these — doing so either breaks
@@ -513,7 +516,7 @@ ITK conventions or introduces irrelevant churn:
 | `google-*` | Enforces Google style, which differs from ITK naming and formatting rules |
 | `cppcoreguidelines-avoid-magic-numbers` | ITK uses literal dimension constants (e.g., `2`, `3`) as template arguments |
 
-### 13c. Suppressing False-Positive Checks
+### 12c. Suppressing False-Positive Checks
 
 For legitimate ITK code that a clang-tidy check incorrectly flags, prefer a
 `.clang-tidy` config exclusion (`Checks: '-llvmlibc-*'`) over inline
@@ -521,7 +524,7 @@ For legitimate ITK code that a clang-tidy check incorrectly flags, prefer a
 
 ---
 
-## 12. Quick-Reference Checklist for Refactoring
+## 13. Quick-Reference Checklist for Refactoring
 
 When refactoring existing code, verify each item:
 
