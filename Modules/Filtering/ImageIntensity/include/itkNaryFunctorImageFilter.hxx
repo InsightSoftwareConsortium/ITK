@@ -72,32 +72,23 @@ NaryFunctorImageFilter<TInputImage, TOutputImage, TFunction>::DynamicThreadedGen
 
   const OutputImagePointer outputPtr = this->GetOutput(0);
 
-  typename std::vector<ImageScanlineConstIterator<TInputImage>>::iterator regionIterators;
-  const auto                                                              regionItEnd = inputItrVector.end();
-
-  typename NaryArrayType::iterator arrayIt;
-
   for (ImageScanlineIterator outputIt(outputPtr, outputRegionForThread); !outputIt.IsAtEnd(); outputIt.NextLine())
   {
     while (!outputIt.IsAtEndOfLine())
     {
-      arrayIt = naryInputArray.begin();
-      regionIterators = inputItrVector.begin();
-      while (regionIterators != regionItEnd)
+      auto arrayIt = naryInputArray.begin();
+      for (auto & inputScanlineIterator : inputItrVector)
       {
-        *arrayIt++ = regionIterators->Get();
-        ++(*regionIterators);
-        ++regionIterators;
+        *arrayIt++ = inputScanlineIterator.Get();
+        ++inputScanlineIterator;
       }
       outputIt.Set(m_Functor(naryInputArray));
       ++outputIt;
     }
 
-    regionIterators = inputItrVector.begin();
-    while (regionIterators != regionItEnd)
+    for (auto & inputScanlineIterator : inputItrVector)
     {
-      regionIterators->NextLine();
-      ++regionIterators;
+      inputScanlineIterator.NextLine();
     }
   }
 }
