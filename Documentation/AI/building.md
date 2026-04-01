@@ -2,10 +2,17 @@
 
 ## Recommended: Pixi
 
-Pixi is the preferred build tool for development. It manages the toolchain and
-runs CMake + Ninja internally.
-
 ```bash
+# Pixi is the preferred build tool for development.
+# It manages the toolchain and runs CMake + Ninja internally.
+#
+# IMPORTANT:
+# Run each install command once after cloning the repository (or after lockfile changes).
+# Required one time before any `pixi run --as-is` commands.
+pixi install                    # Install the default locked toolchain environment
+pixi install -e cxx             # Install the cxx environment
+pixi install -e python          # Install the python environment
+
 pixi run --as-is build          # Build C++ tests
 pixi run --as-is build-python   # Build Python tests
 pixi run --as-is test           # Run C++ tests
@@ -15,7 +22,7 @@ pixi shell -e cxx               # Interactive C++ dev shell
 pixi shell -e python            # Interactive Python dev shell
 ```
 
-See `pixi.toml` for the full list of tasks and environment definitions.
+See `pyproject.toml` for the full list of tasks and environment definitions.
 
 ## Direct CMake
 

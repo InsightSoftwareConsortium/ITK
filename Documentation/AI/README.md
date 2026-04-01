@@ -25,8 +25,6 @@ Add file to table in AGENTS.md for routing:
 |------|-------------|
 | `building.md` | Configuring or building ITK with Pixi or CMake |
 | `testing.md` | Writing, running, or converting tests |
-| `new_task.md` | Conditions for including context from `new_task.md` |
-|   ...         | .... |
 
 ## Adding a New Context File
 
