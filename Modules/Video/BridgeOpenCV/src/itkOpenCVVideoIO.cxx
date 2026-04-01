@@ -566,7 +566,14 @@ OpenCVVideoIO::OpenWriter()
                 this->m_FourCC,
                 this->m_FramesPerSecond,
                 cv::Size(static_cast<int>(this->m_Dimensions[0]), static_cast<int>(this->m_Dimensions[1])));
-  this->m_WriterOpen = true;
+  if (m_Writer.isOpened())
+  {
+    this->m_WriterOpen = true;
+  }
+  else
+  {
+    itkExceptionStringMacro("Video failed to open for writing");
+  }
 }
 
 void
