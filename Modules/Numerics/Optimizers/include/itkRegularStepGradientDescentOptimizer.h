@@ -53,7 +53,7 @@ public:
 
 protected:
   RegularStepGradientDescentOptimizer() = default;
-  ~RegularStepGradientDescentOptimizer() override = default;
+  ~RegularStepGradientDescentOptimizer() override;
 
   /** Advance one step along the corrected gradient taking into
    * account the steplength represented by factor.

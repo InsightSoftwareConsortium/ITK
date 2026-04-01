@@ -106,7 +106,7 @@ public:
 
 protected:
   MaximumRatioDecisionRule();
-  ~MaximumRatioDecisionRule() override = default;
+  ~MaximumRatioDecisionRule() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

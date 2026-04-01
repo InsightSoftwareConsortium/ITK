@@ -23,6 +23,8 @@ namespace itk
 {
 namespace Statistics
 {
+GaussianDistribution::~GaussianDistribution() = default;
+
 GaussianDistribution::GaussianDistribution()
 {
   m_Parameters = ParametersType(2);

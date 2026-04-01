@@ -73,7 +73,7 @@ public:
 
 protected:
   WatershedMiniPipelineProgressCommand() = default;
-  ~WatershedMiniPipelineProgressCommand() override = default;
+  ~WatershedMiniPipelineProgressCommand() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

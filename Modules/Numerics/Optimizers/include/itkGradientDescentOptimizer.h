@@ -168,7 +168,7 @@ public:
 
 protected:
   GradientDescentOptimizer();
-  ~GradientDescentOptimizer() override = default;
+  ~GradientDescentOptimizer() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

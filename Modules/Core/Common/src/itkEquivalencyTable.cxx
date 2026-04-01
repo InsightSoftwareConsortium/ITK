@@ -19,6 +19,8 @@
 
 namespace itk
 {
+EquivalencyTable::~EquivalencyTable() = default;
+
 bool
 EquivalencyTable::Add(unsigned long a, unsigned long b)
 {

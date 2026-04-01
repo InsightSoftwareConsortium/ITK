@@ -22,6 +22,8 @@ namespace itk
 {
 namespace fem
 {
+FEMLightObject::~FEMLightObject() = default;
+
 /**
  * Here we just read the global number from the stream.
  * This should be the first function called when reading object data.

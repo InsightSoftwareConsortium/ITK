@@ -20,6 +20,8 @@
 
 namespace itk
 {
+GradientDescentOptimizer::~GradientDescentOptimizer() = default;
+
 /**
  * Constructor
  */

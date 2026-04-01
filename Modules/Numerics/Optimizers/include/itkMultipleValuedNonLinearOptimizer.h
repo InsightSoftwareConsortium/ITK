@@ -72,7 +72,7 @@ public:
 
 protected:
   MultipleValuedNonLinearOptimizer();
-  ~MultipleValuedNonLinearOptimizer() override = default;
+  ~MultipleValuedNonLinearOptimizer() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

@@ -29,6 +29,8 @@ namespace itk
 {
 namespace Statistics
 {
+ChiSquareDistribution::~ChiSquareDistribution() = default;
+
 ChiSquareDistribution::ChiSquareDistribution()
 {
   m_Parameters = ParametersType(1);

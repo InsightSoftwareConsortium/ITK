@@ -98,7 +98,7 @@ public:
 
 protected:
   NumericSeriesFileNames();
-  ~NumericSeriesFileNames() override = default;
+  ~NumericSeriesFileNames() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
