@@ -27,6 +27,8 @@ dgamma_(double * x);
 
 namespace itk::Statistics
 {
+ChiSquareDistribution::~ChiSquareDistribution() = default;
+
 ChiSquareDistribution::ChiSquareDistribution()
 {
   m_Parameters = ParametersType(1);

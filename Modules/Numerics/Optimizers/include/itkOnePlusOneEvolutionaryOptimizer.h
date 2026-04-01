@@ -193,7 +193,7 @@ public:
 protected:
   OnePlusOneEvolutionaryOptimizer();
   OnePlusOneEvolutionaryOptimizer(const OnePlusOneEvolutionaryOptimizer &);
-  ~OnePlusOneEvolutionaryOptimizer() override = default;
+  ~OnePlusOneEvolutionaryOptimizer() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

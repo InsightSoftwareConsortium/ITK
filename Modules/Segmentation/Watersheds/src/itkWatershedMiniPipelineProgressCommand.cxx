@@ -19,6 +19,8 @@
 
 namespace itk
 {
+WatershedMiniPipelineProgressCommand::~WatershedMiniPipelineProgressCommand() = default;
+
 void
 WatershedMiniPipelineProgressCommand::Execute(Object * caller, const EventObject & event)
 {

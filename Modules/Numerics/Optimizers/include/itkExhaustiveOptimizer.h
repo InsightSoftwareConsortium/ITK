@@ -136,7 +136,7 @@ public:
 
 protected:
   ExhaustiveOptimizer();
-  ~ExhaustiveOptimizer() override = default;
+  ~ExhaustiveOptimizer() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

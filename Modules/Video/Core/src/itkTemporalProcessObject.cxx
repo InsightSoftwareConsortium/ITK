@@ -22,6 +22,8 @@
 
 namespace itk
 {
+TemporalProcessObject::~TemporalProcessObject() = default;
+
 
 //-CONSTRUCTOR PRINT-----------------------------------------------------------
 

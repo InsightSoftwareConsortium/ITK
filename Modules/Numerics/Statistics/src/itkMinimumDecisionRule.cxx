@@ -19,6 +19,8 @@
 
 namespace itk::Statistics
 {
+MinimumDecisionRule::~MinimumDecisionRule() = default;
+
 MinimumDecisionRule::ClassIdentifierType
 MinimumDecisionRule::Evaluate(const MembershipVectorType & discriminantScores) const
 {

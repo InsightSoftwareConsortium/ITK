@@ -76,7 +76,7 @@ public:
 
 protected:
   VersorTransformOptimizer() = default;
-  ~VersorTransformOptimizer() override = default;
+  ~VersorTransformOptimizer() override;
 };
 } // end namespace itk
 

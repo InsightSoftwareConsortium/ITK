@@ -23,6 +23,8 @@
 
 namespace itk
 {
+ArchetypeSeriesFileNames::~ArchetypeSeriesFileNames() = default;
+
 ArchetypeSeriesFileNames::ArchetypeSeriesFileNames()
   : m_Archetype("")
 {}

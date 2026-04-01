@@ -78,7 +78,7 @@ public:
 
 protected:
   SingleValuedNonLinearOptimizer();
-  ~SingleValuedNonLinearOptimizer() override = default;
+  ~SingleValuedNonLinearOptimizer() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

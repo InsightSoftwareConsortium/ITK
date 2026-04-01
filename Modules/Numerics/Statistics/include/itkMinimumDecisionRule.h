@@ -64,7 +64,7 @@ public:
 
 protected:
   MinimumDecisionRule() = default;
-  ~MinimumDecisionRule() override = default;
+  ~MinimumDecisionRule() override;
 
 }; // end of class
 } // namespace itk::Statistics

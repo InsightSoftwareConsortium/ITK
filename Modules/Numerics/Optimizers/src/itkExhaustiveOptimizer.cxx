@@ -19,6 +19,7 @@
 
 namespace itk
 {
+ExhaustiveOptimizer::~ExhaustiveOptimizer() = default;
 
 ExhaustiveOptimizer::ExhaustiveOptimizer() = default;
 

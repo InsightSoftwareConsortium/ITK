@@ -159,7 +159,7 @@ public:
 
 protected:
   OneWayEquivalencyTable() = default;
-  ~OneWayEquivalencyTable() override = default;
+  ~OneWayEquivalencyTable() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

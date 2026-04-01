@@ -20,6 +20,8 @@
 
 namespace itk
 {
+SingleValuedNonLinearOptimizer::~SingleValuedNonLinearOptimizer() = default;
+
 SingleValuedNonLinearOptimizer::SingleValuedNonLinearOptimizer()
   : m_CostFunction(nullptr)
 {}

@@ -19,6 +19,8 @@
 
 namespace itk
 {
+OneWayEquivalencyTable::~OneWayEquivalencyTable() = default;
+
 bool
 OneWayEquivalencyTable::Add(unsigned long a, unsigned long b)
 {
