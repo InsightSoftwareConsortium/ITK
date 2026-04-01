@@ -23,8 +23,10 @@
 #include "itkIOCommon.h"
 #include "itkFloatingPointExceptions.h"
 #include "itkNumericLocale.h"
+#include "itkNumberToString.h"
 
 #include <sstream>
+#include <type_traits>
 
 namespace
 {
@@ -1053,7 +1055,14 @@ _dump_metadata_to_stream(MetaDataDictionary & thisDic, const std::string & key, 
   T value;
   if (ExposeMetaData<T>(thisDic, key, value))
   {
-    buffer << value;
+    if constexpr (std::is_same_v<T, float> || std::is_same_v<T, double>)
+    {
+      buffer << ConvertNumberToString(value);
+    }
+    else
+    {
+      buffer << value;
+    }
     return true;
   }
   return false;
