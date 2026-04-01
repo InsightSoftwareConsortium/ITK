@@ -22,6 +22,7 @@
 #include <fstream>
 #include <string>
 #include <map>
+#include <memory>
 #include "itkImageIOBase.h"
 #include "itkSpatialOrientation.h"
 #include <cstdio>
@@ -103,13 +104,14 @@ private:
   bool
   CheckExtension(const char *, bool & isCompressed);
 
-  GenericCUBFileAdaptor *
+  std::unique_ptr<GenericCUBFileAdaptor>
   CreateReader(const char * filename);
 
-  GenericCUBFileAdaptor *
+  std::unique_ptr<GenericCUBFileAdaptor>
   CreateWriter(const char * filename);
 
-  GenericCUBFileAdaptor *m_Reader{ nullptr }, *m_Writer{ nullptr };
+  std::unique_ptr<GenericCUBFileAdaptor> m_Reader;
+  std::unique_ptr<GenericCUBFileAdaptor> m_Writer;
 
   // Initialize the orientation map (from strings to ITK)
   void

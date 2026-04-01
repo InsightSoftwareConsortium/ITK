@@ -330,14 +330,14 @@ VoxBoCUBImageIO::VoxBoCUBImageIO()
   m_ByteOrder = IOByteOrderEnum::BigEndian;
 }
 
-/** Destructor */
-VoxBoCUBImageIO::~VoxBoCUBImageIO()
-{
-  delete m_Reader;
-  delete m_Writer;
-}
+// Destructor must be defined in the .cxx where GenericCUBFileAdaptor is a
+// complete type, so that std::unique_ptr<GenericCUBFileAdaptor> can be
+// correctly destroyed. Defining ~VoxBoCUBImageIO() = default in the header
+// would instantiate ~unique_ptr<GenericCUBFileAdaptor> with an incomplete
+// type, causing undefined behavior or a compile error.
+VoxBoCUBImageIO::~VoxBoCUBImageIO() = default;
 
-GenericCUBFileAdaptor *
+std::unique_ptr<GenericCUBFileAdaptor>
 VoxBoCUBImageIO::CreateReader(const char * filename)
 {
   try
@@ -347,11 +347,11 @@ VoxBoCUBImageIO::CreateReader(const char * filename)
     {
       if (compressed)
       {
-        return new CompressedCUBFileAdaptor(filename, "rb");
+        return std::make_unique<CompressedCUBFileAdaptor>(filename, "rb");
       }
       else
       {
-        return new DirectCUBFileAdaptor(filename, "rb");
+        return std::make_unique<DirectCUBFileAdaptor>(filename, "rb");
       }
     }
     else
@@ -365,7 +365,7 @@ VoxBoCUBImageIO::CreateReader(const char * filename)
   }
 }
 
-GenericCUBFileAdaptor *
+std::unique_ptr<GenericCUBFileAdaptor>
 VoxBoCUBImageIO::CreateWriter(const char * filename)
 {
   try
@@ -375,11 +375,11 @@ VoxBoCUBImageIO::CreateWriter(const char * filename)
     {
       if (compressed)
       {
-        return new CompressedCUBFileAdaptor(filename, "wb");
+        return std::make_unique<CompressedCUBFileAdaptor>(filename, "wb");
       }
       else
       {
-        return new DirectCUBFileAdaptor(filename, "wb");
+        return std::make_unique<DirectCUBFileAdaptor>(filename, "wb");
       }
     }
     else
@@ -397,7 +397,7 @@ bool
 VoxBoCUBImageIO::CanReadFile(const char * filename)
 {
   // First check if the file can be read
-  GenericCUBFileAdaptor * reader = CreateReader(filename);
+  auto reader = CreateReader(filename);
 
   if (reader == nullptr)
   {
@@ -434,7 +434,6 @@ VoxBoCUBImageIO::CanReadFile(const char * filename)
     iscub = false;
   }
 
-  delete reader;
   return iscub;
 }
 
@@ -468,10 +467,7 @@ VoxBoCUBImageIO::Read(void * buffer)
 void
 VoxBoCUBImageIO::ReadImageInformation()
 {
-  // Make sure there is no other reader
-  delete m_Reader;
-
-  // Create a reader
+  // Create a reader (assignment releases any previous reader)
   m_Reader = CreateReader(m_FileName.c_str());
   if (m_Reader == nullptr)
   {
@@ -741,8 +737,7 @@ VoxBoCUBImageIO::Write(const void * buffer)
   m_Writer = CreateWriter(m_FileName.c_str());
   WriteImageInformation();
   m_Writer->WriteData(buffer, this->GetImageSizeInBytes());
-  delete m_Writer;
-  m_Writer = nullptr;
+  m_Writer.reset();
 }
 
 /** Print Self Method */
