@@ -21,14 +21,7 @@
 #include "itkVideoIOFactory.h"
 #include "itkOpenCVVideoIOFactory.h"
 
-#include "opencv2/core/version.hpp"
-#if defined(CV_VERSION_EPOCH)
-// OpenCV 2.4.x
-#  include "highgui.h"
-#else
-// OpenCV 3.x
-#  include "opencv2/videoio/videoio_c.h"
-#endif
+#include "opencv2/videoio.hpp"
 
 using SizeValueType = itk::SizeValueType;
 
@@ -71,13 +64,13 @@ test_OpenCVVideoIOFactory(char * input, char * output, SizeValueType cameraNumbe
   //////
 
   // Use openCV to see if we can even try to open the camera
-  CvCapture * cameraCapture = cvCaptureFromCAM(cameraNumber);
-  if (cameraCapture != nullptr)
+  cv::VideoCapture cameraCapture(static_cast<int>(cameraNumber));
+  if (cameraCapture.isOpened())
   {
     std::cout << "Trying to create IO for reading from camera " << cameraNumber << "..." << std::endl;
 
     // Release the OpenCV capture
-    cvReleaseCapture(&cameraCapture);
+    cameraCapture.release();
 
     std::stringstream ss;
     ss << cameraNumber;

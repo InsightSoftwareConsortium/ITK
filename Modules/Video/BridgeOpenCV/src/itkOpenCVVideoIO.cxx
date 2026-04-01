@@ -17,6 +17,10 @@
  *=========================================================================*/
 #include "itkOpenCVVideoIO.h"
 
+#include <algorithm>
+
+#include "opencv2/imgproc.hpp"
+
 
 namespace itk
 {
@@ -28,19 +32,6 @@ OpenCVVideoIO::~OpenCVVideoIO() { this->FinishReadingOrWriting(); }
 void
 OpenCVVideoIO::FinishReadingOrWriting()
 {
-  if (this->m_Writer != nullptr)
-  {
-    cvReleaseVideoWriter(&(this->m_Writer));
-  }
-  if (this->m_Capture != nullptr)
-  {
-    cvReleaseCapture(&(this->m_Capture));
-  }
-  if (this->m_CVImage != nullptr)
-  {
-    cvReleaseImage(&(this->m_CVImage));
-  }
-
   this->ResetMembers();
 }
 
@@ -158,39 +149,24 @@ OpenCVVideoIO::CanReadFile(const char * filename)
   }
 
   // Try opening to read
-  CvCapture * localCapture = cvCaptureFromFile(filename);
-  if (!localCapture)
-  {
-    return false;
-  }
-
-  // Close the file and return true if successful
-  cvReleaseCapture(&localCapture);
-  return true;
+  cv::VideoCapture localCapture(filename);
+  return localCapture.isOpened();
 }
 
 bool
 OpenCVVideoIO::CanReadCamera(CameraIDType cameraID) const
 {
   // Try capture from current camera index
-  CvCapture * localCapture = cvCaptureFromCAM(cameraID);
-  if (!localCapture)
-  {
-    return false;
-  }
-
-  // Close the file and return true if successful
-  cvReleaseCapture(&localCapture);
-  return true;
+  cv::VideoCapture localCapture(static_cast<int>(cameraID));
+  return localCapture.isOpened();
 }
 
 void
 OpenCVVideoIO::ReadImageInformation()
 {
-
-  // Set up a local capture and image
-  CvCapture * localCapture;
-  IplImage *  tempImage;
+  // Set up a local capture and frame
+  cv::VideoCapture localCapture;
+  cv::Mat          tempFrame;
 
   // Open capture from a file
   if (this->m_ReadFrom == ReadFromEnum::ReadFromFile)
@@ -204,22 +180,21 @@ OpenCVVideoIO::ReadImageInformation()
     }
 
     // Open the video file
-    localCapture = cvCaptureFromFile(filename.c_str());
+    localCapture.open(filename.c_str());
 
     // Query the frame and get frame total (since this is only valid for reading from files)
-    tempImage = cvQueryFrame(localCapture);
-    this->m_FrameTotal =
-      static_cast<OpenCVVideoIO::FrameOffsetType>(cvGetCaptureProperty(localCapture, CV_CAP_PROP_FRAME_COUNT));
+    localCapture >> tempFrame;
+    this->m_FrameTotal = static_cast<OpenCVVideoIO::FrameOffsetType>(localCapture.get(cv::CAP_PROP_FRAME_COUNT));
 
     // Try to figure out if there are I-Frame issues we need to worry about
     // and compensate accordingly
     if (this->m_FrameTotal > 0)
     {
       // Try setting frame to 1 and see what actually gets set
-      cvSetCaptureProperty(localCapture, CV_CAP_PROP_POS_FRAMES, 1);
-      tempImage = cvQueryFrame(localCapture);
+      localCapture.set(cv::CAP_PROP_POS_FRAMES, 1);
+      localCapture >> tempFrame;
 
-      this->m_IFrameInterval = cvGetCaptureProperty(localCapture, CV_CAP_PROP_POS_FRAMES);
+      this->m_IFrameInterval = static_cast<OpenCVVideoIO::FrameOffsetType>(localCapture.get(cv::CAP_PROP_POS_FRAMES));
 
       if (this->m_IFrameInterval == 0)
       {
@@ -245,21 +220,20 @@ OpenCVVideoIO::ReadImageInformation()
   {
 
     // Open the camera capture
-    localCapture = cvCaptureFromCAM(this->m_CameraIndex);
+    localCapture.open(this->m_CameraIndex);
 
     // Make sure it opened right
-    if (!localCapture)
+    if (!localCapture.isOpened())
     {
       itkExceptionMacro("Cannot read from camera " << this->m_CameraIndex);
     }
 
     // Query the frame
-    tempImage = cvQueryFrame(localCapture);
+    localCapture >> tempFrame;
 
     // Make sure the image is not empty
-    if (!tempImage)
+    if (tempFrame.empty())
     {
-      cvReleaseCapture(&localCapture);
       itkExceptionMacro("Empty image got from camera " << this->m_CameraIndex);
     }
 
@@ -274,14 +248,14 @@ OpenCVVideoIO::ReadImageInformation()
   }
 
   // Populate member variables
-  this->m_FramesPerSecond = static_cast<double>(cvGetCaptureProperty(localCapture, CV_CAP_PROP_FPS));
+  this->m_FramesPerSecond = localCapture.get(cv::CAP_PROP_FPS);
 
   // Set width, height
   this->m_Dimensions.clear();
-  this->m_Dimensions.push_back(cvGetCaptureProperty(localCapture, CV_CAP_PROP_FRAME_WIDTH));
-  this->m_Dimensions.push_back(cvGetCaptureProperty(localCapture, CV_CAP_PROP_FRAME_HEIGHT));
+  this->m_Dimensions.push_back(static_cast<SizeValueType>(localCapture.get(cv::CAP_PROP_FRAME_WIDTH)));
+  this->m_Dimensions.push_back(static_cast<SizeValueType>(localCapture.get(cv::CAP_PROP_FRAME_HEIGHT)));
 
-  this->m_NumberOfComponents = tempImage->nChannels;
+  this->m_NumberOfComponents = tempFrame.channels();
 
   // Set the pixel type
   if (this->m_NumberOfComponents == 1)
@@ -300,9 +274,6 @@ OpenCVVideoIO::ReadImageInformation()
   {
     itkExceptionStringMacro("OpenCV IO only supports Mono, RGB, and RGBA input");
   }
-
-  // Release the local capture and image
-  cvReleaseCapture(&localCapture);
 }
 
 void
@@ -326,27 +297,34 @@ OpenCVVideoIO::Read(void * buffer)
   //       doesn't need to be called before Read is called again unless you want to
   //       skip to a different location. Be warned, though. SetNextFrameToRead can
   //       only skip to I-Frames, so there can be unexpected behavior
-  IplImage * tempIm = cvQueryFrame(this->m_Capture);
-  if (tempIm == nullptr)
+  cv::Mat tempIm;
+  m_Capture >> tempIm;
+  if (tempIm.empty())
   {
     itkExceptionMacro("Error reading frame " << this->m_CurrentFrame << ". May be out of bounds");
   }
 
-  // Convert to RGB rather than BGR
-  if (this->m_CVImage == nullptr)
+  // Convert color format from OpenCV's native BGR to ITK's expected channel order
+  if (this->m_NumberOfComponents == 1)
   {
-    this->m_CVImage =
-      cvCreateImage(cvSize(this->m_Dimensions[0], this->m_Dimensions[1]), IPL_DEPTH_8U, this->m_NumberOfComponents);
+    m_CVImage = tempIm;
   }
-  cvCvtColor(tempIm, this->m_CVImage, CV_BGR2RGB);
+  else if (this->m_NumberOfComponents == 3)
+  {
+    cv::cvtColor(tempIm, m_CVImage, cv::COLOR_BGR2RGB);
+  }
+  else
+  {
+    cv::cvtColor(tempIm, m_CVImage, cv::COLOR_BGRA2RGBA);
+  }
 
   // Update the frame-dependent properties
   this->UpdateReaderProperties();
 
   // Put the frame's buffer into the supplied output buffer
-  auto * tempBuffer = reinterpret_cast<void *>(this->m_CVImage->imageData);
-  size_t bufferSize = this->m_CVImage->imageSize;
-  memcpy(buffer, tempBuffer, bufferSize);
+  const auto * tempBuffer = m_CVImage.data;
+  const size_t bufferSize = m_CVImage.total() * m_CVImage.elemSize();
+  std::copy_n(tempBuffer, bufferSize, static_cast<unsigned char *>(buffer));
 }
 
 bool
@@ -365,9 +343,9 @@ OpenCVVideoIO::SetNextFrameToRead(OpenCVVideoIO::FrameOffsetType frameNumber)
     return false;
   }
 
-  if (this->m_Capture != nullptr)
+  if (m_Capture.isOpened())
   {
-    cvSetCaptureProperty(this->m_Capture, CV_CAP_PROP_POS_FRAMES, frameNumber);
+    m_Capture.set(cv::CAP_PROP_POS_FRAMES, frameNumber);
     this->UpdateReaderProperties();
     this->Modified();
 
@@ -453,7 +431,7 @@ OpenCVVideoIO::SetWriterParameters(TemporalRatioType                  fps,
   this->m_Dimensions.push_back(dim[1]);
 
   this->m_FramesPerSecond = fps;
-  this->m_FourCC = CV_FOURCC(fourCC[0], fourCC[1], fourCC[2], fourCC[3]);
+  this->m_FourCC = cv::VideoWriter::fourcc(fourCC[0], fourCC[1], fourCC[2], fourCC[3]);
   this->m_NumberOfComponents = nChannels;
   if (nChannels == 1)
   {
@@ -495,34 +473,25 @@ OpenCVVideoIO::Write(const void * buffer)
     this->OpenWriter();
   }
 
-  // Place the contents of the buffer into an OpenCV image
-  if (this->m_CVImage == nullptr)
-  {
-    // The output image always has to be 3 components for the OpenCV writer
-    this->m_CVImage = cvCreateImage(cvSize(this->m_Dimensions[0], this->m_Dimensions[1]), IPL_DEPTH_8U, 3);
-  }
-  if (this->m_TempImage == nullptr)
-  {
-    this->m_TempImage =
-      cvCreateImage(cvSize(this->m_Dimensions[0], this->m_Dimensions[1]), IPL_DEPTH_8U, this->m_NumberOfComponents);
-  }
+  // Wrap the input buffer in a cv::Mat without copying (external ownership)
+  const int inputType = CV_MAKETYPE(CV_8U, static_cast<int>(this->m_NumberOfComponents));
+  cv::Mat   tempMat(static_cast<int>(this->m_Dimensions[1]),
+                  static_cast<int>(this->m_Dimensions[0]),
+                  inputType,
+                  const_cast<void *>(buffer));
 
-  // Insert the buffer into TempImage
-  cvSetData(this->m_TempImage, reinterpret_cast<char *>(const_cast<void *>(buffer)), this->m_TempImage->widthStep);
-
-  // Handle grayscale
+  // The video writer always needs a 3-channel BGR image; convert accordingly
   if (this->m_NumberOfComponents == 1)
   {
-    cvCvtColor(this->m_TempImage, this->m_CVImage, CV_GRAY2BGR);
+    cv::cvtColor(tempMat, m_CVImage, cv::COLOR_GRAY2BGR);
   }
-  // Guaranteed to be 3 channels
   else
   {
-    cvCvtColor(this->m_TempImage, this->m_CVImage, CV_RGB2BGR);
+    cv::cvtColor(tempMat, m_CVImage, cv::COLOR_RGB2BGR);
   }
 
   // Write the frame
-  cvWriteFrame(this->m_Writer, this->m_CVImage);
+  m_Writer.write(m_CVImage);
 
   // Update the current frame
   this->m_CurrentFrame++;
@@ -532,11 +501,11 @@ void
 OpenCVVideoIO::UpdateReaderProperties()
 {
   // 0-based index of the frame to be decoded/captured next
-  this->m_CurrentFrame = cvGetCaptureProperty(this->m_Capture, CV_CAP_PROP_POS_FRAMES);
-  this->m_PositionInMSec = cvGetCaptureProperty(this->m_Capture, CV_CAP_PROP_POS_MSEC);
-  this->m_FramesPerSecond = static_cast<double>(cvGetCaptureProperty(this->m_Capture, CV_CAP_PROP_FPS));
-  this->m_Ratio = cvGetCaptureProperty(this->m_Capture, CV_CAP_PROP_POS_AVI_RATIO);
-  this->m_FourCC = cvGetCaptureProperty(this->m_Capture, CV_CAP_PROP_FOURCC);
+  this->m_CurrentFrame = static_cast<FrameOffsetType>(m_Capture.get(cv::CAP_PROP_POS_FRAMES));
+  this->m_PositionInMSec = m_Capture.get(cv::CAP_PROP_POS_MSEC);
+  this->m_FramesPerSecond = m_Capture.get(cv::CAP_PROP_FPS);
+  this->m_Ratio = m_Capture.get(cv::CAP_PROP_POS_AVI_RATIO);
+  this->m_FourCC = static_cast<int>(m_Capture.get(cv::CAP_PROP_FOURCC));
 }
 
 void
@@ -555,8 +524,8 @@ OpenCVVideoIO::OpenReader()
   // If neither reader nor writer is currently open, open the reader
   if (this->m_ReadFrom == ReadFromEnum::ReadFromFile)
   {
-    this->m_Capture = cvCaptureFromFile(this->GetFileName());
-    if (this->m_Capture != nullptr)
+    m_Capture.open(this->GetFileName());
+    if (m_Capture.isOpened())
     {
       this->m_ReaderOpen = true;
     }
@@ -567,8 +536,8 @@ OpenCVVideoIO::OpenReader()
   }
   else if (this->m_ReadFrom == ReadFromEnum::ReadFromCamera)
   {
-    this->m_Capture = cvCaptureFromCAM(this->m_CameraIndex);
-    if (this->m_Capture != nullptr)
+    m_Capture.open(this->m_CameraIndex);
+    if (m_Capture.isOpened())
     {
       this->m_ReaderOpen = true;
     }
@@ -593,18 +562,26 @@ OpenCVVideoIO::OpenWriter()
   }
 
   // If neither reader nor writer is currently open, open the writer
-  this->m_Writer = cvCreateVideoWriter(
-    this->GetFileName(), this->m_FourCC, this->m_FramesPerSecond, cvSize(this->m_Dimensions[0], this->m_Dimensions[1]));
-  this->m_WriterOpen = true;
+  m_Writer.open(this->GetFileName(),
+                this->m_FourCC,
+                this->m_FramesPerSecond,
+                cv::Size(static_cast<int>(this->m_Dimensions[0]), static_cast<int>(this->m_Dimensions[1])));
+  if (m_Writer.isOpened())
+  {
+    this->m_WriterOpen = true;
+  }
+  else
+  {
+    itkExceptionStringMacro("Video failed to open for writing");
+  }
 }
 
 void
 OpenCVVideoIO::ResetMembers()
 {
-  this->m_CVImage = 0;
-  this->m_TempImage = 0;
-  this->m_Capture = 0;
-  this->m_Writer = 0;
+  m_CVImage = cv::Mat{};
+  m_Capture.release();
+  m_Writer.release();
   this->m_WriterOpen = false;
   this->m_ReaderOpen = false;
   this->m_FramesPerSecond = 0;
@@ -635,15 +612,11 @@ OpenCVVideoIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  if (this->m_CVImage != nullptr)
+  if (!m_CVImage.empty())
   {
-    os << indent << "Image dimensions : [" << this->m_CVImage->width << ',' << this->m_CVImage->height << ']'
-       << std::endl;
-    os << indent << "Origin : " << this->m_CVImage->origin << std::endl;
-    os << indent << "Image spacing (in bits) : " << this->m_CVImage->depth << std::endl;
-    os << indent << "Image Size : " << this->m_CVImage->imageSize << std::endl;
-    os << indent << "Color model : " << this->m_CVImage->colorModel << " (" << this->m_NumberOfComponents
-       << " channels)" << std::endl;
+    os << indent << "Image dimensions : [" << m_CVImage.cols << ',' << m_CVImage.rows << ']' << std::endl;
+    os << indent << "Image Size : " << (m_CVImage.total() * m_CVImage.elemSize()) << std::endl;
+    os << indent << "Color channels : " << m_CVImage.channels() << std::endl;
   }
 }
 

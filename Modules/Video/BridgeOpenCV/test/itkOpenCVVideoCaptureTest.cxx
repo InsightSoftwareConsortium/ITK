@@ -23,12 +23,7 @@
 #include "itkOpenCVVideoIOFactory.h"
 #include "itkTestingMacros.h"
 
-#include "opencv2/core/version.hpp"
-#if !defined(CV_VERSION_EPOCH)
-// OpenCV 3.x
-#  include "opencv2/videoio/videoio_c.h"
-#  include "opencv2/imgproc/imgproc_c.h" // cvCvtColor, CV_RGB2BGR, ...
-#endif
+#include "opencv2/videoio.hpp"
 
 // ITK type alias
 using ScalarPixelType = unsigned char;
@@ -68,8 +63,8 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
   scalarCap->open(scalarReader->GetOutput());
 
   // Check FourCC
-  scalarCap->set(CV_CAP_PROP_FOURCC, CV_FOURCC('M', 'P', '4', '2'));
-  if (static_cast<int>(scalarCap->get(CV_CAP_PROP_FOURCC)) != CV_FOURCC('M', 'P', '4', '2'))
+  scalarCap->set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M', 'P', '4', '2'));
+  if (static_cast<int>(scalarCap->get(cv::CAP_PROP_FOURCC)) != cv::VideoWriter::fourcc('M', 'P', '4', '2'))
   {
     std::cerr << "FourCC not reporting correctly" << std::endl;
     return EXIT_FAILURE;
@@ -77,18 +72,18 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
 
   // Check FpS
   double eps = 0.0001;
-  if (scalarCap->get(CV_CAP_PROP_FPS) > 24 + eps || scalarCap->get(CV_CAP_PROP_FPS) < 24 - eps)
+  if (scalarCap->get(cv::CAP_PROP_FPS) > 24 + eps || scalarCap->get(cv::CAP_PROP_FPS) < 24 - eps)
   {
     std::cerr << "FpS not reporting correctly" << std::endl;
     return EXIT_FAILURE;
   }
 
   // Check width and height
-  if (static_cast<int>(scalarCap->get(CV_CAP_PROP_FRAME_WIDTH)) != std::stoi(argv[4]) ||
-      static_cast<int>(scalarCap->get(CV_CAP_PROP_FRAME_HEIGHT)) != std::stoi(argv[5]))
+  if (static_cast<int>(scalarCap->get(cv::CAP_PROP_FRAME_WIDTH)) != std::stoi(argv[4]) ||
+      static_cast<int>(scalarCap->get(cv::CAP_PROP_FRAME_HEIGHT)) != std::stoi(argv[5]))
   {
-    std::cerr << "Frame dimensions not reporting correctly. Got [" << scalarCap->get(CV_CAP_PROP_FRAME_WIDTH) << ','
-              << scalarCap->get(CV_CAP_PROP_FRAME_HEIGHT) << "] Expected: [" << std::stoi(argv[4]) << ','
+    std::cerr << "Frame dimensions not reporting correctly. Got [" << scalarCap->get(cv::CAP_PROP_FRAME_WIDTH) << ','
+              << scalarCap->get(cv::CAP_PROP_FRAME_HEIGHT) << "] Expected: [" << std::stoi(argv[4]) << ','
               << std::stoi(argv[5]) << ']' << std::endl;
     return EXIT_FAILURE;
   }
@@ -96,9 +91,9 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
   // Set up OpenCV VideoWriter
   cv::VideoWriter scalarWriter(
     argv[2],
-    static_cast<int>(scalarCap->get(CV_CAP_PROP_FOURCC)),
-    scalarCap->get(CV_CAP_PROP_FPS),
-    cv::Size(scalarCap->get(CV_CAP_PROP_FRAME_WIDTH), scalarCap->get(CV_CAP_PROP_FRAME_HEIGHT)),
+    static_cast<int>(scalarCap->get(cv::CAP_PROP_FOURCC)),
+    scalarCap->get(cv::CAP_PROP_FPS),
+    cv::Size(scalarCap->get(cv::CAP_PROP_FRAME_WIDTH), scalarCap->get(cv::CAP_PROP_FRAME_HEIGHT)),
     false);
 
   // Loop through the frames and write
@@ -124,14 +119,14 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
   rgbCap->open(rgbReader->GetOutput());
 
   // Check FourCC
-  if (static_cast<int>(rgbCap->get(CV_CAP_PROP_FOURCC)) != CV_FOURCC('M', 'P', '4', '2'))
+  if (static_cast<int>(rgbCap->get(cv::CAP_PROP_FOURCC)) != cv::VideoWriter::fourcc('M', 'P', '4', '2'))
   {
     std::cerr << "FourCC not reporting correctly" << std::endl;
     return EXIT_FAILURE;
   }
 
   // Check FpS
-  if (rgbCap->get(CV_CAP_PROP_FPS) > 24 + eps || rgbCap->get(CV_CAP_PROP_FPS) < 24 - eps)
+  if (rgbCap->get(cv::CAP_PROP_FPS) > 24 + eps || rgbCap->get(cv::CAP_PROP_FPS) < 24 - eps)
   {
     std::cerr << "FpS not reporting correctly" << std::endl;
     return EXIT_FAILURE;
@@ -139,9 +134,9 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
 
   // Set up OpenCV VideoWriter
   cv::VideoWriter rgbWriter(argv[3],
-                            static_cast<int>(rgbCap->get(CV_CAP_PROP_FOURCC)),
-                            rgbCap->get(CV_CAP_PROP_FPS),
-                            cv::Size(rgbCap->get(CV_CAP_PROP_FRAME_WIDTH), rgbCap->get(CV_CAP_PROP_FRAME_HEIGHT)),
+                            static_cast<int>(rgbCap->get(cv::CAP_PROP_FOURCC)),
+                            rgbCap->get(cv::CAP_PROP_FPS),
+                            cv::Size(rgbCap->get(cv::CAP_PROP_FRAME_WIDTH), rgbCap->get(cv::CAP_PROP_FRAME_HEIGHT)),
                             true);
 
   // Loop through the frames and write
