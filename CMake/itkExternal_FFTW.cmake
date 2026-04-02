@@ -6,7 +6,7 @@
 # FFTW SIMD codelets are hand-written assembly routines baked into the
 # library at compile time.  Passing -march=native to the ITK build does
 # NOT activate them; they must be requested explicitly via FFTW's own
-# CMake options (ENABLE_NEON, ENABLE_SSE2, ENABLE_AVX, ENABLE_AVX2).
+# CMake options (ENABLE_NEON, ENABLE_SSE, ENABLE_SSE2, ENABLE_AVX, ENABLE_AVX2).
 #
 # This file detects appropriate defaults at cmake configure time:
 #
@@ -76,26 +76,29 @@ if(NOT ITK_USE_SYSTEM_FFTW)
   set(_fftw_default_avx2 OFF)
 
   if(NOT CMAKE_CROSSCOMPILING)
-    if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64")
+    if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64|ARM64")
       # NEON is mandatory in ARMv8/AArch64 — every arm64 CPU has it.
       set(_fftw_default_neon ON)
     elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64|i686")
       # Probe each x86 SIMD level individually via CPUID so the defaults
       # are accurate for the actual build-host CPU (e.g. pre-AVX Sandy Bridge
       # or pre-AVX2 Ivy Bridge get only the levels their hardware supports).
-      foreach(_fftw_simd IN ITEMS sse sse2 avx avx2)
-        check_c_source_runs(
-          "int main(void){return __builtin_cpu_supports(\"${_fftw_simd}\")?0:1;}"
-          _fftw_cpu_has_${_fftw_simd}
-        )
-        if(_fftw_cpu_has_${_fftw_simd})
-          set(_fftw_default_${_fftw_simd} ON)
-        endif()
-      endforeach()
+      # __builtin_cpu_supports is a GCC/Clang intrinsic; skip on MSVC.
+      if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
+        foreach(_fftw_simd IN ITEMS sse sse2 avx avx2)
+          check_c_source_runs(
+            "int main(void){return __builtin_cpu_supports(\"${_fftw_simd}\")?0:1;}"
+            _fftw_cpu_has_${_fftw_simd}
+          )
+          if(_fftw_cpu_has_${_fftw_simd})
+            set(_fftw_default_${_fftw_simd} ON)
+          endif()
+        endforeach()
+      endif()
     endif()
   else()
     # Cross-compiling: conservative architecture-level fallback.
-    if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64")
+    if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64|ARM64")
       set(_fftw_default_neon ON)
     elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64")
       # SSE/SSE2 are baseline on all 64-bit x86 CPUs; AVX/AVX2 not assumed.
