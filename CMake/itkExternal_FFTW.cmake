@@ -1,19 +1,30 @@
 #
 # Encapsulates building FFTW as an External Project.
 #
-# NOTE: internal building of fftw is for convenience,
-#       and the version of fftw built here does not
-#       use modern hardware optimzations.
+# SIMD codelet selection
+# ----------------------
+# FFTW SIMD codelets are hand-written assembly routines baked into the
+# library at compile time.  Passing -march=native to the ITK build does
+# NOT activate them; they must be requested explicitly via FFTW's own
+# CMake options (ENABLE_NEON, ENABLE_SSE2, ENABLE_AVX, ENABLE_AVX2).
 #
-#       The build configuration chosen to be
-#       generalizable to as many hardware platforms.
-#       Being backward compatible for decades
-#       old hardware is the goal of this internal
-#       representation.
+# This file detects appropriate defaults at cmake configure time:
 #
-#       This is primarily used to support testing
-#       and should not be used for production
-#       builds where performance is a concern.
+#   Native builds (CMAKE_CROSSCOMPILING is false):
+#     - ARM64 (aarch64/arm64): NEON=ON (mandatory in ARMv8); x86 SIMD off.
+#     - x86/x86_64: each of SSE, SSE2, AVX, AVX2 is probed individually
+#       via __builtin_cpu_supports() / CheckCSourceRuns so that the
+#       detected flags match the actual build-host CPU.  A pre-AVX
+#       Sandy Bridge gets SSE+SSE2 only; a Haswell or later gets all four.
+#     - Other architectures: all SIMD off (conservative fallback).
+#
+#   Cross-compiled builds (CMAKE_CROSSCOMPILING is true):
+#     - ARM64: NEON=ON (mandatory); x86 SIMD off.
+#     - x86_64: SSE+SSE2 only (baseline; AVX/AVX2 not assumed for target).
+#     - Other: all SIMD off.
+#
+# Every flag is an individually overridable cache option, e.g.:
+#   cmake -DFFTW_ENABLE_AVX2=OFF ...
 #
 # These instructions follow the guidance provided for modern cmake usage as described:
 # https://github.com/dev-cafe/cmake-cookbook/blob/master/chapter-08/recipe-03/c-example/external/upstream/fftw3/CMakeLists.txt
@@ -53,6 +64,52 @@ if(NOT ITK_USE_SYSTEM_FFTW)
   set(_fftw_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_fftw_url_hash}/download")
 
   set(FFTW_STAGED_INSTALL_PREFIX "${ITK_BINARY_DIR}/fftw")
+
+  # Detect SIMD defaults (see file header for full policy description).
+  # CheckCSourceRuns results are cached after the first cmake configure run.
+  include(CheckCSourceRuns)
+
+  set(_fftw_default_neon OFF)
+  set(_fftw_default_sse  OFF)
+  set(_fftw_default_sse2 OFF)
+  set(_fftw_default_avx  OFF)
+  set(_fftw_default_avx2 OFF)
+
+  if(NOT CMAKE_CROSSCOMPILING)
+    if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64")
+      # NEON is mandatory in ARMv8/AArch64 — every arm64 CPU has it.
+      set(_fftw_default_neon ON)
+    elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64|i686")
+      # Probe each x86 SIMD level individually via CPUID so the defaults
+      # are accurate for the actual build-host CPU (e.g. pre-AVX Sandy Bridge
+      # or pre-AVX2 Ivy Bridge get only the levels their hardware supports).
+      foreach(_fftw_simd IN ITEMS sse sse2 avx avx2)
+        check_c_source_runs(
+          "int main(void){return __builtin_cpu_supports(\"${_fftw_simd}\")?0:1;}"
+          _fftw_cpu_has_${_fftw_simd}
+        )
+        if(_fftw_cpu_has_${_fftw_simd})
+          set(_fftw_default_${_fftw_simd} ON)
+        endif()
+      endforeach()
+    endif()
+  else()
+    # Cross-compiling: conservative architecture-level fallback.
+    if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64")
+      set(_fftw_default_neon ON)
+    elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64")
+      # SSE/SSE2 are baseline on all 64-bit x86 CPUs; AVX/AVX2 not assumed.
+      set(_fftw_default_sse  ON)
+      set(_fftw_default_sse2 ON)
+    endif()
+  endif()
+
+  option(FFTW_ENABLE_NEON "Enable FFTW NEON SIMD codelets (ARM64)" ${_fftw_default_neon})
+  option(FFTW_ENABLE_SSE  "Enable FFTW SSE SIMD codelets (x86)"    ${_fftw_default_sse})
+  option(FFTW_ENABLE_SSE2 "Enable FFTW SSE2 SIMD codelets (x86)"   ${_fftw_default_sse2})
+  option(FFTW_ENABLE_AVX  "Enable FFTW AVX SIMD codelets (x86)"    ${_fftw_default_avx})
+  option(FFTW_ENABLE_AVX2 "Enable FFTW AVX2 SIMD codelets (x86)"   ${_fftw_default_avx2})
+
   set(PROJ_FFTWD_DEPENDS "")
   if(ITK_USE_FFTWF)
     itk_download_attempt_check(FFTW)
@@ -76,14 +133,15 @@ if(NOT ITK_USE_SYSTEM_FFTW)
         -DCMAKE_INSTALL_LIBDIR:STRING=${CMAKE_INSTALL_LIBDIR}
         -DCMAKE_INSTALL_BINDIR:STRING=${CMAKE_INSTALL_BINDIR}
         -DDISABLE_FORTRAN:BOOL=ON
-        -DENABLE_AVX:BOOL=OFF
-        -DENABLE_AVX2:BOOL=OFF
+        -DENABLE_AVX:BOOL=${FFTW_ENABLE_AVX}
+        -DENABLE_AVX2:BOOL=${FFTW_ENABLE_AVX2}
         -DENABLE_FLOAT:BOOL=ON
         -DENABLE_LONG_DOUBLE:BOOL=OFF
+        -DENABLE_NEON:BOOL=${FFTW_ENABLE_NEON}
         -DENABLE_OPENMP:BOOL=OFF
         -DENABLE_QUAD_PRECISION:BOOL=OFF
-        -DENABLE_SSE:BOOL=OFF
-        -DENABLE_SSE2:BOOL=OFF
+        -DENABLE_SSE:BOOL=${FFTW_ENABLE_SSE}
+        -DENABLE_SSE2:BOOL=${FFTW_ENABLE_SSE2}
         -DENABLE_THREADS:BOOL=ON
         -DCMAKE_APPLE_SILICON_PROCESSOR:STRING=${CMAKE_APPLE_SILICON_PROCESSOR}
         -DCMAKE_C_COMPILER_LAUNCHER:PATH=${CMAKE_C_COMPILER_LAUNCHER}
@@ -132,14 +190,15 @@ if(NOT ITK_USE_SYSTEM_FFTW)
         -DCMAKE_INSTALL_LIBDIR:STRING=${CMAKE_INSTALL_LIBDIR}
         -DCMAKE_INSTALL_BINDIR:STRING=${CMAKE_INSTALL_BINDIR}
         -DDISABLE_FORTRAN:BOOL=ON
-        -DENABLE_AVX:BOOL=OFF
-        -DENABLE_AVX2:BOOL=OFF
+        -DENABLE_AVX:BOOL=${FFTW_ENABLE_AVX}
+        -DENABLE_AVX2:BOOL=${FFTW_ENABLE_AVX2}
         -DENABLE_FLOAT:BOOL=OFF
         -DENABLE_LONG_DOUBLE:BOOL=OFF
+        -DENABLE_NEON:BOOL=${FFTW_ENABLE_NEON}
         -DENABLE_OPENMP:BOOL=OFF
         -DENABLE_QUAD_PRECISION:BOOL=OFF
-        -DENABLE_SSE:BOOL=OFF
-        -DENABLE_SSE2:BOOL=OFF
+        -DENABLE_SSE:BOOL=${FFTW_ENABLE_SSE}
+        -DENABLE_SSE2:BOOL=${FFTW_ENABLE_SSE2}
         -DENABLE_THREADS:BOOL=ON
         -DCMAKE_APPLE_SILICON_PROCESSOR:STRING=${CMAKE_APPLE_SILICON_PROCESSOR}
         -DCMAKE_C_COMPILER_LAUNCHER:PATH=${CMAKE_C_COMPILER_LAUNCHER}
