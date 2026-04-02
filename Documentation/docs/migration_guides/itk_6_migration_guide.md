@@ -117,6 +117,18 @@ enabled. Similarly, `InputCoordinateType`, `OutputCoordinateType`, and
 and `ImagePointCoordRepType`, respectively.
 
 
+FEM LinearSystemWrapperDenseVNL public type aliases removed
+-------------------------------------------------------------
+
+These two nested type aliases are removed from the public interface of
+`fem::LinearSystemWrapperDenseVNL`:
+
+```cpp
+using MatrixRepresentation = vnl_matrix<Float>;
+using MatrixHolder = std::vector<MatrixRepresentation *>;
+```
+
+
 ITKVNLInstantiation library is removed
 --------------------------------------
 
