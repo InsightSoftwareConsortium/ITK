@@ -45,12 +45,6 @@ public:
   /* superclass */
   using Superclass = LinearSystemWrapper;
 
-  /* matrix type alias */
-  using MatrixRepresentation = vnl_matrix<Float>;
-
-  /* matrix holder type alias */
-  using MatrixHolder = std::vector<std::unique_ptr<MatrixRepresentation>>;
-
   /* constructor & destructor */
   LinearSystemWrapperDenseVNL()
     : LinearSystemWrapper()
@@ -170,7 +164,9 @@ public:
   MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex) override;
 
 private:
-  /* vector holder type alias — internal only */
+  /* internal type aliases — not part of the public API */
+  using MatrixRepresentation = vnl_matrix<Float>;
+  using MatrixHolder = std::vector<std::unique_ptr<MatrixRepresentation>>;
   using VectorHolder = std::vector<std::unique_ptr<vnl_vector<Float>>>;
 
   std::unique_ptr<MatrixHolder> m_Matrices;
