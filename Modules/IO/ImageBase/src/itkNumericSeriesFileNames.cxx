@@ -22,6 +22,8 @@
 
 namespace itk
 {
+NumericSeriesFileNames::~NumericSeriesFileNames() = default;
+
 NumericSeriesFileNames::NumericSeriesFileNames()
   : m_SeriesFormat("%d")
 {}

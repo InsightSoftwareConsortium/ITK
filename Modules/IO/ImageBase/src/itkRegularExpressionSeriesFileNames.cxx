@@ -43,6 +43,8 @@ struct lt_pair_alphabetic_string_string
 
 namespace itk
 {
+RegularExpressionSeriesFileNames::~RegularExpressionSeriesFileNames() = default;
+
 const std::vector<std::string> &
 RegularExpressionSeriesFileNames::GetFileNames()
 {

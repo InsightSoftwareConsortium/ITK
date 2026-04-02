@@ -147,7 +147,7 @@ public:
 
 protected:
   RegularStepGradientDescentBaseOptimizer();
-  ~RegularStepGradientDescentBaseOptimizer() override = default;
+  ~RegularStepGradientDescentBaseOptimizer() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

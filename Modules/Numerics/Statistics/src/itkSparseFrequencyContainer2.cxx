@@ -19,6 +19,8 @@
 
 namespace itk::Statistics
 {
+SparseFrequencyContainer2::~SparseFrequencyContainer2() = default;
+
 SparseFrequencyContainer2::SparseFrequencyContainer2()
   : m_TotalFrequency(TotalAbsoluteFrequencyType{})
 {}

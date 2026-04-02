@@ -110,7 +110,7 @@ public:
 
 protected:
   DenseFrequencyContainer2();
-  ~DenseFrequencyContainer2() override = default;
+  ~DenseFrequencyContainer2() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

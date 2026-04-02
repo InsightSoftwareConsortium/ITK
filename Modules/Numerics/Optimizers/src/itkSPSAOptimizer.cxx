@@ -21,6 +21,7 @@
 
 namespace itk
 {
+SPSAOptimizer::~SPSAOptimizer() = default;
 
 SPSAOptimizer::SPSAOptimizer()
   : m_StopCondition(StopConditionSPSAOptimizerEnum::Unknown)

@@ -108,7 +108,7 @@ public:
 
 protected:
   ArchetypeSeriesFileNames();
-  ~ArchetypeSeriesFileNames() override = default;
+  ~ArchetypeSeriesFileNames() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

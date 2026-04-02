@@ -19,6 +19,8 @@
 
 namespace itk
 {
+LoggerManager::~LoggerManager() = default;
+
 /** create a logger and add it into LoggerManager */
 LoggerManager::LoggerPointer
 LoggerManager::CreateLogger(const NameType & name, PriorityLevelEnum level, PriorityLevelEnum levelForFlushing)

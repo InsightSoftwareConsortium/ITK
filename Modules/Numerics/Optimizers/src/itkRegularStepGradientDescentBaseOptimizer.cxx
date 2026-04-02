@@ -20,6 +20,8 @@
 
 namespace itk
 {
+RegularStepGradientDescentBaseOptimizer::~RegularStepGradientDescentBaseOptimizer() = default;
+
 /**
  * Constructor
  */

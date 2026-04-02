@@ -19,6 +19,8 @@
 
 namespace itk::Statistics
 {
+DenseFrequencyContainer2::~DenseFrequencyContainer2() = default;
+
 DenseFrequencyContainer2::DenseFrequencyContainer2()
   : m_TotalFrequency(TotalAbsoluteFrequencyType{})
 {

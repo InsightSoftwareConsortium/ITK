@@ -28,6 +28,8 @@ dgamma_(double * x);
 
 namespace itk::Statistics
 {
+TDistribution::~TDistribution() = default;
+
 TDistribution::TDistribution()
 {
   m_Parameters = ParametersType(1);

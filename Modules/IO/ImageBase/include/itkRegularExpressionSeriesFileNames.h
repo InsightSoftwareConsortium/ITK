@@ -119,7 +119,7 @@ protected:
     : m_Directory(".")
     , m_RegularExpression(".*\\.([0-9]+)")
   {}
-  ~RegularExpressionSeriesFileNames() override = default;
+  ~RegularExpressionSeriesFileNames() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

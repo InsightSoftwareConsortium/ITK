@@ -104,7 +104,7 @@ public:
 
 protected:
   SparseFrequencyContainer2();
-  ~SparseFrequencyContainer2() override = default;
+  ~SparseFrequencyContainer2() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

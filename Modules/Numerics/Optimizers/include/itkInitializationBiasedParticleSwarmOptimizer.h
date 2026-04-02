@@ -113,7 +113,7 @@ public:
   /** @ITKEndGrouping */
 protected:
   InitializationBiasedParticleSwarmOptimizer();
-  ~InitializationBiasedParticleSwarmOptimizer() override = default;
+  ~InitializationBiasedParticleSwarmOptimizer() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
   void

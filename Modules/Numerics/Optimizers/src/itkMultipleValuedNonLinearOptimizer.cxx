@@ -20,6 +20,8 @@
 
 namespace itk
 {
+MultipleValuedNonLinearOptimizer::~MultipleValuedNonLinearOptimizer() = default;
+
 MultipleValuedNonLinearOptimizer::MultipleValuedNonLinearOptimizer()
   : m_CostFunction(nullptr)
 {}

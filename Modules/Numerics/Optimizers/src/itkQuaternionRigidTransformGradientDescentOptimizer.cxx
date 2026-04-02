@@ -21,6 +21,8 @@
 
 namespace itk
 {
+QuaternionRigidTransformGradientDescentOptimizer::~QuaternionRigidTransformGradientDescentOptimizer() = default;
+
 /**
  * Advance one Step following the gradient direction
  */
