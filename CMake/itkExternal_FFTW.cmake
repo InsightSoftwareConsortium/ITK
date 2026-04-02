@@ -27,6 +27,12 @@
 #
 # Every flag is an individually overridable cache option, e.g.:
 #   cmake -DFFTW_ENABLE_AVX2=OFF ...
+# Note: option() defaults are only applied on the first configure.
+# To re-detect after a toolchain change, delete the CMake cache or use
+# cmake --fresh, or pass explicit -DFFTW_ENABLE_*= overrides.
+#
+# ENABLE_SSE (SSE1) is float-only and is not forwarded to the
+# double-precision fftwd build.
 #
 # These instructions follow the guidance provided for modern cmake usage as described:
 # https://github.com/dev-cafe/cmake-cookbook/blob/master/chapter-08/recipe-03/c-example/external/upstream/fftw3/CMakeLists.txt
@@ -143,6 +149,11 @@ if(NOT ITK_USE_SYSTEM_FFTW)
     FFTW_ENABLE_AVX2
     "Enable FFTW AVX2 SIMD codelets (x86)"
     ${_fftw_default_avx2}
+  )
+
+  message(
+    STATUS
+    "FFTW SIMD: NEON=${FFTW_ENABLE_NEON} SSE=${FFTW_ENABLE_SSE} SSE2=${FFTW_ENABLE_SSE2} AVX=${FFTW_ENABLE_AVX} AVX2=${FFTW_ENABLE_AVX2}"
   )
 
   # Macro to generate library filename with appropriate prefix/suffix
@@ -262,7 +273,7 @@ if(NOT ITK_USE_SYSTEM_FFTW)
         -DENABLE_AVX2:BOOL=${FFTW_ENABLE_AVX2} -DENABLE_FLOAT:BOOL=OFF
         -DENABLE_LONG_DOUBLE:BOOL=OFF -DENABLE_NEON:BOOL=${FFTW_ENABLE_NEON}
         -DENABLE_OPENMP:BOOL=OFF -DENABLE_QUAD_PRECISION:BOOL=OFF
-        -DENABLE_SSE:BOOL=${FFTW_ENABLE_SSE}
+        -DENABLE_SSE:BOOL=OFF # SSE1 codelets are 32-bit float only; no effect on double-precision
         -DENABLE_SSE2:BOOL=${FFTW_ENABLE_SSE2} -DENABLE_THREADS:BOOL=ON
         -DCMAKE_APPLE_SILICON_PROCESSOR:STRING=${CMAKE_APPLE_SILICON_PROCESSOR}
         -DCMAKE_C_COMPILER_LAUNCHER:PATH=${CMAKE_C_COMPILER_LAUNCHER}
