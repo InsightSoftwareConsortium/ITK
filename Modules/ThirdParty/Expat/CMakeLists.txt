@@ -10,7 +10,10 @@ mark_as_advanced(ITK_USE_SYSTEM_EXPAT)
 
 if(ITK_USE_SYSTEM_EXPAT)
   find_package(EXPAT REQUIRED)
-  set(ITKExpat_INCLUDE_DIRS ${ITKExpat_BINARY_DIR}/src)
+  set(
+    ITKExpat_INCLUDE_DIRS
+    ${ITKExpat_BINARY_DIR} # <- for itk_expat.h
+  )
   set(ITKExpat_SYSTEM_INCLUDE_DIRS "${EXPAT_INCLUDE_DIR}")
   set(ITKExpat_LIBRARIES "${EXPAT_LIBRARY}")
   set(ITKExpat_NO_SRC 1)
@@ -44,6 +47,10 @@ else()
 endif()
 
 configure_file(itk_expat.h.in ${ITKExpat_BINARY_DIR}/itk_expat.h)
+# Remove stale itk_expat.h from pre-bfc8e07d build trees that generated it
+# into the src/ subdirectory.  A leftover copy can shadow the current file
+# and confuse incremental builds.
+file(REMOVE ${ITKExpat_BINARY_DIR}/src/itk_expat.h)
 if(NOT ITK_USE_SYSTEM_EXPAT AND NOT ITK_FUTURE_LEGACY_REMOVE)
   # Configure a file with the name <expat.h> as was the default in ITKv5 and earlier
   # so that "#include <expat.h>" finds the itk mangled symbols during linkage stage.
