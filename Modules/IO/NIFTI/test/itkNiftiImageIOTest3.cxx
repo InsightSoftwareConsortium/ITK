@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkNiftiImageIOTest.h"
+#include "itkNumberToString.h"
 #include <type_traits> // for enable_if
 #include <limits>
 
@@ -284,6 +285,94 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
   return same ? 0 : EXIT_FAILURE;
 }
 
+/** Verify that NIfTI pixdim[] float header fields round-trip without
+ *  precision loss through the string metadata dictionary.
+ *
+ *  NIfTI stores spatial information (pixdim[]) as binary float32.  When ITK
+ *  reads a NIfTI file it converts these values to strings in the
+ *  MetaDataDictionary.  With default stream precision (6 sig-digits) a value
+ *  like 0.12345679f would be serialised as "0.123457", which parses back to a
+ *  different float.  With itk::ConvertNumberToString() the round-trip is exact.
+ *
+ *  This test FAILS without the ConvertNumberToString fix in itkNiftiImageIO.cxx.
+ */
+int
+TestNiftiFloatMetadataPrecision(const std::string & fname)
+{
+  using ImageType = itk::Image<float, 3>;
+  auto                image = ImageType::New();
+  ImageType::SizeType size;
+  size.Fill(2);
+  image->SetRegions(size);
+  image->Allocate(true);
+
+  // Choose a spacing value that needs more than 6 significant decimal digits.
+  // NIfTI stores spacing as float32 in pixdim[].
+  // The write path casts GetSpacing(0) to float; the read path converts that
+  // float32 back to a string stored in MetaDataDictionary["pixdim[1]"].
+  // stof("0.123457") != 0.12345679f, so the default-precision string loses
+  // information.  ConvertNumberToString produces the shortest exact string.
+  constexpr double spacingValue = 0.123456789;
+  // The float32 that will actually be stored in the NIfTI binary header:
+  const float spacingAsFloat = static_cast<float>(spacingValue);
+
+  ImageType::SpacingType spacing;
+  spacing[0] = spacingValue;
+  spacing[1] = 1.0;
+  spacing[2] = 1.0;
+  image->SetSpacing(spacing);
+
+  try
+  {
+    itk::IOTestHelper::WriteImage<ImageType, itk::NiftiImageIO>(image, fname);
+  }
+  catch (const itk::ExceptionObject & ex)
+  {
+    std::cerr << "TestNiftiFloatMetadataPrecision: write failed: " << ex << '\n';
+    return EXIT_FAILURE;
+  }
+
+  ImageType::Pointer readback;
+  try
+  {
+    readback = itk::IOTestHelper::ReadImage<ImageType>(fname);
+  }
+  catch (const itk::ExceptionObject & ex)
+  {
+    std::cerr << "TestNiftiFloatMetadataPrecision: read failed: " << ex << '\n';
+    itk::IOTestHelper::Remove(fname.c_str());
+    return EXIT_FAILURE;
+  }
+
+  // The MetaDataDictionary key for pixdim[1] (spacing along dimension 0).
+  const itk::MetaDataDictionary & rdict = readback->GetMetaDataDictionary();
+  bool                            pass = true;
+
+  std::string pixdim1Str;
+  if (itk::ExposeMetaData<std::string>(rdict, "pixdim[1]", pixdim1Str))
+  {
+    const float parsedSpacing = std::stof(pixdim1Str);
+    if (parsedSpacing != spacingAsFloat)
+    {
+      std::cerr << "pixdim[1] precision loss: stored float32 " << itk::ConvertNumberToString(spacingAsFloat)
+                << " but MetaData string '" << pixdim1Str << "' parses to " << itk::ConvertNumberToString(parsedSpacing)
+                << '\n';
+      pass = false;
+    }
+  }
+  else
+  {
+    std::cerr << "pixdim[1] key not found after round-trip\n";
+    pass = false;
+  }
+
+  if (pass)
+  {
+    itk::IOTestHelper::Remove(fname.c_str());
+  }
+  return pass ? EXIT_SUCCESS : EXIT_FAILURE;
+}
+
 /** Test writing and reading a Vector Image
  */
 int
@@ -322,6 +411,8 @@ itkNiftiImageIOTest3(int argc, char * argv[])
   // Test reading/writing as displacement field (NIFTI intent code = 1006)
   success |= TestImageOfVectors<double, 3, 1>(std::string("testDispacementImage_double.nii.gz"), std::string("1006"));
   success |= TestImageOfVectors<float, 3, 1>(std::string("testDisplacementImage_float.nii.gz"), std::string("1006"));
+
+  success |= TestNiftiFloatMetadataPrecision(std::string("testFloatMetadataPrecision.nii.gz"));
 
   return success;
 }

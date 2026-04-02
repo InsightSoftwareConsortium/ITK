@@ -20,7 +20,10 @@
 #include "itkImageFileWriter.h"
 
 #include "itkVoxBoCUBImageIOFactory.h"
+#include "itkVoxBoCUBImageIO.h"
+#include "itkNumberToString.h"
 #include "itkTestingMacros.h"
+#include "itksys/SystemTools.hxx"
 
 int
 itkVoxBoCUBImageIOTest(int argc, char * argv[])
@@ -51,6 +54,53 @@ itkVoxBoCUBImageIOTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
+  // Precision test: verify that voxel spacing round-trips without the
+  // 6-digit truncation introduced by default stream precision.
+  //
+  // The VoxBoCUBImageIO write path serialises m_Spacing[] as text in the CUB
+  // header.  Without the ConvertNumberToString fix the string has only 6
+  // significant digits, so reading back produces a different double value.
+  //
+  // This sub-test FAILS against the unfixed VoxBoCUBImageIO.
+  {
+    // Choose a spacing value that needs more than 6 significant decimal digits.
+    constexpr double hpSpacing = 0.123456789012345;
+
+    auto                precImage = ImageType::New();
+    ImageType::SizeType precSize;
+    precSize.Fill(2);
+    precImage->SetRegions(precSize);
+    precImage->Allocate(true);
+
+    ImageType::SpacingType spacing;
+    spacing[0] = hpSpacing;
+    spacing[1] = hpSpacing;
+    spacing[2] = hpSpacing;
+    precImage->SetSpacing(spacing);
+
+    const std::string precFname = std::string(argv[2]) + "_precision.cub";
+
+    auto precWriter = WriterType::New();
+    precWriter->SetFileName(precFname.c_str());
+    precWriter->SetImageIO(itk::VoxBoCUBImageIO::New());
+    precWriter->SetInput(precImage);
+
+    auto precReader = ReaderType::New();
+    precReader->SetFileName(precFname.c_str());
+    precReader->SetImageIO(itk::VoxBoCUBImageIO::New());
+
+    ITK_TRY_EXPECT_NO_EXCEPTION(precWriter->Update());
+    ITK_TRY_EXPECT_NO_EXCEPTION(precReader->Update());
+
+    const double readSpacing = precReader->GetOutput()->GetSpacing()[0];
+    itksys::SystemTools::RemoveFile(precFname);
+    if (readSpacing != hpSpacing)
+    {
+      std::cerr << "VoxBoCUB spacing precision loss: wrote " << itk::ConvertNumberToString(hpSpacing)
+                << " but read back " << itk::ConvertNumberToString(readSpacing) << '\n';
+      return EXIT_FAILURE;
+    }
+  }
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
