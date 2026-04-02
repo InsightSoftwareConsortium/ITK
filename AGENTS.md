@@ -15,8 +15,9 @@ Load only what your task requires:
 | Writing or running tests | [./Documentation/AI/testing.md](./Documentation/AI/testing.md) |
 | Code style, naming conventions | [./Documentation/AI/style.md](./Documentation/AI/style.md) |
 | Writing ITK C++ classes, CMake build configuration, and Python wrapping configuration | [./Documentation/AI/conventions.md](./Documentation/AI/conventions.md) |
-| Creating a git commit | [./Documentation/AI/git-commits.md](./Documentation/AI/git-commits.md) |
+| Creating a git commit with C++ changes | [./Documentation/AI/git-commits.md](./Documentation/AI/git-commits.md), [./Documentation/AI/compiler-cautions.md](./Documentation/AI/compiler-cautions.md), [./Documentation/AI/building.md](./Documentation/AI/building.md), [./Documentation/AI/testing.md](./Documentation/AI/testing.md) |
 | Opening or updating a pull request | [./Documentation/AI/pull-requests.md](./Documentation/AI/pull-requests.md) |
+| Avoiding compiler-specific pitfalls and refactoring hazards | [./Documentation/AI/compiler-cautions.md](./Documentation/AI/compiler-cautions.md) |
 
 ## Critical Pitfalls
 

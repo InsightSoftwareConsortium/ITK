@@ -9,7 +9,7 @@
 # % clang-tidy --version                                                                                                (clang-tidy-new-cast↓1↑7|⚑5✔)
 #   Homebrew LLVM version 20.1.6                        # <- Version of clang-tidy used to create this file
 ---
-Checks:          'clang-diagnostic-*,clang-analyzer-*,*'
+Checks:          'clang-diagnostic-*,clang-analyzer-*,*,-llvmlibc-*,-modernize-use-trailing-return-type,-readability-redundant-member-init'
 WarningsAsErrors: ''
 HeaderFileExtensions:
   - ''
@@ -433,7 +433,7 @@ CheckOptions:
   readability-function-size.VariableThreshold: none
   readability-identifier-length.IgnoredExceptionVariableNames: '^[e]$'
   readability-identifier-length.IgnoredLoopCounterNames: '^[ijk_]$'
-  readability-identifier-length.IgnoredParameterNames: '^[n]$'
+  readability-identifier-length.IgnoredParameterNames: '^[ijknxyzrgbav]$'
   readability-identifier-length.IgnoredVariableNames: ''
   readability-identifier-length.MinimumExceptionNameLength: '2'
   readability-identifier-length.MinimumLoopCounterNameLength: '2'
