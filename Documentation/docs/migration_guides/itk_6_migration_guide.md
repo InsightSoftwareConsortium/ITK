@@ -213,6 +213,22 @@ The handful of manually wrapped long double functions were
 removed from python wrapping.
 
 
+IO modules write floating-point metadata with lossless precision
+-----------------------------------------------------------------
+
+`float` and `double` metadata values are now serialized using
+`itk::ConvertNumberToString()`, which produces the shortest decimal string
+that round-trips exactly — replacing the previous 6-significant-digit default.
+
+Affected modules: **NIfTI** (`scl_slope`, `scl_inter`, `pixdim`, spacing,
+and offset fields), **MetaImage**, **NRRD**, **VoxBoCUB**, **SpatialObject**,
+and **Mesh IO**.
+
+Tests that compare raw header text against golden baselines may fail because
+values previously written as e.g. `"1"` are now written as `"1.0000001"`.
+Replace exact string matches with numeric comparisons or regenerate baselines.
+Files not written by ITK are unaffected.
+
 Legacy GoogleTest Target Names Removed
 --------------------------------------
 
