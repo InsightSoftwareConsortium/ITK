@@ -1,32 +1,56 @@
 #
 # Encapsulates building FFTW as an External Project.
 #
-# SIMD codelet selection
+# SIMD codelet selection and binary redistribution policy
+# -------------------------------------------------------
+# FFTW SIMD codelets are hand-written assembly routines compiled INTO the
+# library at build time.  Unlike -march=native on the ITK side, FFTW codelets
+# must be requested explicitly via FFTW's own CMake options
+# (ENABLE_NEON, ENABLE_SSE, ENABLE_SSE2, ENABLE_AVX, ENABLE_AVX2).
+#
+# For redistributable binary packages (conda, pip/PyPI, manylinux Docker
+# images, etc.) SIMD codelets must only be enabled when the resulting binary
+# will run correctly on ALL machines in the target distribution.  The ISA
+# baseline mandated by each architecture ABI is universally safe:
+#
+#   x86_64 / AMD64  : SSE and SSE2 are required by the AMD64 ABI.  Every
+#                     64-bit x86 CPU (including all manylinux2014 /
+#                     manylinux_2_28 targets) supports them.  DEFAULT ON.
+#
+#   aarch64 / arm64 : NEON is required by the AArch64 ABI.  Every 64-bit ARM
+#                     CPU (Apple Silicon, all Linux aarch64 targets) supports
+#                     it.  DEFAULT ON.
+#
+#   AVX / AVX2      : Not part of the baseline ABI; present only on Sandy
+#                     Bridge (2011) and Haswell (2013) and newer CPUs
+#                     respectively.  Enabling them by default would produce
+#                     binaries that SIGILL on older (but spec-compliant)
+#                     x86_64 CPUs.  DEFAULT OFF unless the compiler is already
+#                     targeting a micro-architecture that includes them.
+#
+# Opt-in to AVX / AVX2
+# ---------------------
+# If the user's toolchain is already generating AVX/AVX2 instructions
+# (because they passed -march=native, -mavx2, -march=haswell, or an
+# equivalent MSVC /arch: flag) the compiler pre-defines __AVX__ / __AVX2__.
+# This file detects those macros at cmake configure time via
+# check_c_source_compiles (compile-time, NOT runtime — no build-host CPU
+# probe is performed) and auto-enables the matching FFTW codelets so that
+# FFTW's generated code aligns with the rest of the ITK build.
+# Users who want AVX2 in a redistributed package can set:
+#   cmake -DFFTW_ENABLE_AVX2=ON ...
+#
+# macOS universal binary
 # ----------------------
-# FFTW SIMD codelets are hand-written assembly routines baked into the
-# library at compile time.  Passing -march=native to the ITK build does
-# NOT activate them; they must be requested explicitly via FFTW's own
-# CMake options (ENABLE_NEON, ENABLE_SSE, ENABLE_SSE2, ENABLE_AVX, ENABLE_AVX2).
+# When CMAKE_OSX_ARCHITECTURES lists more than one value (e.g. "arm64;x86_64")
+# a single FFTW configure/build pass cannot correctly serve both slices.
+# SIMD defaults are set to OFF in this case; use ITK_USE_SYSTEM_FFTW with a
+# proper universal FFTW installation (e.g., built with lipo) if SIMD
+# performance is required in a macOS universal build.
 #
-# This file detects appropriate defaults at cmake configure time:
-#
-#   Native builds (CMAKE_CROSSCOMPILING is false):
-#     - ARM64 (aarch64/arm64/ARM64): NEON=ON (mandatory in ARMv8); x86 SIMD off.
-#     - x86/x86_64 with GCC/Clang: each of SSE, SSE2, AVX, AVX2 is probed
-#       individually via __builtin_cpu_supports() / CheckCSourceRuns so that
-#       the detected flags match the actual build-host CPU.  A pre-AVX
-#       Sandy Bridge gets SSE+SSE2 only; a Haswell or later gets all four.
-#       On MSVC the probes are skipped (intrinsic unavailable) and SIMD
-#       defaults to off; users can override via FFTW_ENABLE_* options.
-#     - Other architectures: all SIMD off (conservative fallback).
-#
-#   Cross-compiled builds (CMAKE_CROSSCOMPILING is true):
-#     - ARM64: NEON=ON (mandatory); x86 SIMD off.
-#     - x86_64: SSE+SSE2 only (baseline; AVX/AVX2 not assumed for target).
-#     - Other: all SIMD off.
-#
-# Every flag is an individually overridable cache option, e.g.:
-#   cmake -DFFTW_ENABLE_AVX2=OFF ...
+# Every flag remains individually overridable, e.g.:
+#   cmake -DFFTW_ENABLE_AVX2=ON   # opt in to AVX2 for a non-redistributed build
+#   cmake -DFFTW_ENABLE_SSE2=OFF  # opt out of SSE2 (unusual)
 # Note: option() defaults are only applied on the first configure.
 # To re-detect after a toolchain change, delete the CMake cache or use
 # cmake --fresh, or pass explicit -DFFTW_ENABLE_*= overrides.
@@ -84,8 +108,16 @@ if(NOT ITK_USE_SYSTEM_FFTW)
   set(FFTW_STAGED_INSTALL_PREFIX "${ITK_BINARY_DIR}/fftw")
 
   # Detect SIMD defaults (see file header for full policy description).
-  # CheckCSourceRuns results are cached after the first cmake configure run.
-  include(CheckCSourceRuns)
+  #
+  # Architecture-guaranteed ISA baselines (no runtime probe needed):
+  #   - x86_64 mandates SSE + SSE2 in the AMD64 ABI.
+  #   - arm64/aarch64 mandates NEON in the AArch64 ABI.
+  #
+  # AVX/AVX2 opt-in via compiler predefined macros:
+  #   check_c_source_compiles (not _runs) reflects what the compiler is
+  #   generating for the TARGET architecture, not what the BUILD HOST's CPU
+  #   can execute.  This is safe for cross-compilation and redistribution.
+  include(CheckCSourceCompiles)
 
   set(_fftw_default_neon OFF)
   set(_fftw_default_sse OFF)
@@ -93,61 +125,94 @@ if(NOT ITK_USE_SYSTEM_FFTW)
   set(_fftw_default_avx OFF)
   set(_fftw_default_avx2 OFF)
 
-  if(NOT CMAKE_CROSSCOMPILING)
-    if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64|ARM64")
-      # NEON is mandatory in ARMv8/AArch64 — every arm64 CPU has it.
-      set(_fftw_default_neon ON)
-    elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64|i686")
-      # Probe each x86 SIMD level individually via CPUID so the defaults
-      # are accurate for the actual build-host CPU (e.g. pre-AVX Sandy Bridge
-      # or pre-AVX2 Ivy Bridge get only the levels their hardware supports).
-      # __builtin_cpu_supports is a GCC/Clang intrinsic; skip on MSVC.
-      if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
-        foreach(_fftw_simd IN ITEMS sse sse2 avx avx2)
-          check_c_source_runs(
-            "int main(void){return __builtin_cpu_supports(\"${_fftw_simd}\")?0:1;}"
-            _fftw_cpu_has_${_fftw_simd}
-          )
-          if(_fftw_cpu_has_${_fftw_simd})
-            set(_fftw_default_${_fftw_simd} ON)
-          endif()
-        endforeach()
-      endif()
+  # Detect macOS universal binary build: a single configure+build pass cannot
+  # simultaneously produce correct SIMD for both arm64 and x86_64 slices.
+  set(_fftw_is_universal FALSE)
+  if(APPLE AND CMAKE_OSX_ARCHITECTURES)
+    list(LENGTH CMAKE_OSX_ARCHITECTURES _fftw_arch_count)
+    if(_fftw_arch_count GREATER 1)
+      set(_fftw_is_universal TRUE)
+      message(
+        STATUS
+        "FFTW: macOS universal binary (${CMAKE_OSX_ARCHITECTURES}): "
+        "per-architecture SIMD defaults disabled.  "
+        "Use ITK_USE_SYSTEM_FFTW with a universal FFTW to enable SIMD."
+      )
     endif()
-  else()
-    # Cross-compiling: conservative architecture-level fallback.
+  endif()
+
+  if(NOT _fftw_is_universal)
     if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64|ARM64")
+      # NEON is mandatory in the AArch64 ABI — every arm64 CPU has it.
+      # Safe for all conda/pip arm64 packages and manylinux aarch64.
       set(_fftw_default_neon ON)
     elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64")
-      # SSE/SSE2 are baseline on all 64-bit x86 CPUs; AVX/AVX2 not assumed.
+      # SSE and SSE2 are required by the AMD64 ABI — universally present on
+      # every 64-bit x86 CPU, including the oldest manylinux build targets.
+      # Safe for all conda/pip x86_64 packages.
       set(_fftw_default_sse ON)
       set(_fftw_default_sse2 ON)
+      # AVX and AVX2 are NOT part of the AMD64 baseline.  Auto-enable them
+      # only when the compiler is already producing those instructions — i.e.
+      # when the user explicitly asked for a specific micro-architecture via
+      # -march=native, -mavx2, /arch:AVX2, etc.  This compile-time check
+      # mirrors the approach recommended by seanm in ITK PR #6006:
+      # "the compiler knows what CPU it's compiling for."
+      #
+      # check_c_source_compiles caches its result by variable name.  Unset
+      # the cache entry first so the probe always re-runs against the current
+      # CMAKE_C_FLAGS; this ensures that adding -march=native on a subsequent
+      # configure is correctly reflected in the auto-detected default.
+      # Note: FFTW_ENABLE_AVX / FFTW_ENABLE_AVX2 follow standard option()
+      # caching — they are only auto-set from the detected default when not
+      # already present in the cache.  To force re-evaluation of the option
+      # after a FLAGS change, delete those entries from the CMake cache or
+      # pass -DFFTW_ENABLE_AVX2=ON explicitly.
+      unset(_fftw_compiler_targets_avx CACHE)
+      check_c_source_compiles(
+        "#if !defined(__AVX__) || !__AVX__\n#error AVX not enabled\n#endif\nint main(void){return 0;}"
+        _fftw_compiler_targets_avx
+      )
+      if(_fftw_compiler_targets_avx)
+        set(_fftw_default_avx ON)
+      endif()
+      unset(_fftw_compiler_targets_avx2 CACHE)
+      check_c_source_compiles(
+        "#if !defined(__AVX2__) || !__AVX2__\n#error AVX2 not enabled\n#endif\nint main(void){return 0;}"
+        _fftw_compiler_targets_avx2
+      )
+      if(_fftw_compiler_targets_avx2)
+        set(_fftw_default_avx2 ON)
+      endif()
+    elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "i686|i386")
+      # 32-bit x86 ABI does not mandate SSE/SSE2.  Leave defaults OFF;
+      # users may opt in explicitly if their minimum target CPU supports them.
     endif()
   endif()
 
   option(
     FFTW_ENABLE_NEON
-    "Enable FFTW NEON SIMD codelets (ARM64)"
+    "Enable FFTW NEON SIMD codelets (ARM64; ON by default on aarch64/arm64)"
     ${_fftw_default_neon}
   )
   option(
     FFTW_ENABLE_SSE
-    "Enable FFTW SSE SIMD codelets (x86)"
+    "Enable FFTW SSE SIMD codelets (x86; ON by default on x86_64 — required by AMD64 ABI)"
     ${_fftw_default_sse}
   )
   option(
     FFTW_ENABLE_SSE2
-    "Enable FFTW SSE2 SIMD codelets (x86)"
+    "Enable FFTW SSE2 SIMD codelets (x86; ON by default on x86_64 — required by AMD64 ABI)"
     ${_fftw_default_sse2}
   )
   option(
     FFTW_ENABLE_AVX
-    "Enable FFTW AVX SIMD codelets (x86)"
+    "Enable FFTW AVX SIMD codelets (Sandy Bridge+; OFF by default for redistribution safety)"
     ${_fftw_default_avx}
   )
   option(
     FFTW_ENABLE_AVX2
-    "Enable FFTW AVX2 SIMD codelets (x86)"
+    "Enable FFTW AVX2 SIMD codelets (Haswell+; OFF by default for redistribution safety)"
     ${_fftw_default_avx2}
   )
 
