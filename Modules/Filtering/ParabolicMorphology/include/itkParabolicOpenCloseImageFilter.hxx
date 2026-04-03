@@ -176,7 +176,7 @@ ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::GenerateData()
   typename ImageSource<OutputImageType>::ThreadStruct str;
   str.Filter = this;
 
-  ProcessObject::MultiThreaderType * multithreader = this->GetMultiThreader();
+  itk::MultiThreaderBase * multithreader = this->GetMultiThreader();
   multithreader->SetNumberOfWorkUnits(nbthreads);
   multithreader->SetSingleMethod(this->ThreaderCallback, &str);
 
