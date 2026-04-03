@@ -98,8 +98,8 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::BeforeThreadedG
 
   const RegionType requestedRegion = this->GetOutput()->GetRequestedRegion();
 
-  auto iRegIter = ImageRegionConstIterator(this->GetInput(), requestedRegion);
-  auto oRegIter = ImageRegionIterator(this->GetOutput(), requestedRegion);
+  ImageRegionConstIterator iRegIter(this->GetInput(), requestedRegion);
+  ImageRegionIterator      oRegIter(this->GetOutput(), requestedRegion);
   /* Copy the input image to the output image - then only boundary pixels
    * need to be changed in the output image */
   while (!oRegIter.IsAtEnd())

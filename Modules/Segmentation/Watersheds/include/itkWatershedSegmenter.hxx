@@ -336,8 +336,7 @@ Segmenter<TInputImage>::CollectBoundaryInformation(flat_region_table_t & flatReg
       const ImageRegionType                        region = face->GetRequestedRegion();
 
       // Grab all the labels of the boundary pixels.
-      ImageRegionIterator<typename BoundaryType::face_t> faceIt =
-        ImageRegionIterator<typename BoundaryType::face_t>(face, region);
+      ImageRegionIterator faceIt(face, region);
       ImageRegionIterator labelIt(output, region);
       faceIt.GoToBegin();
       labelIt.GoToBegin();
@@ -443,10 +442,9 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
       const typename BoundaryType::face_t::Pointer face = boundary->GetFace(idx);
       const ImageRegionType                        region = face->GetRequestedRegion();
 
-      ConstNeighborhoodIterator<InputImageType>          searchIt(rad, thresholdImage, region);
-      NeighborhoodIterator<OutputImageType>              labelIt(rad, output, region);
-      ImageRegionIterator<typename BoundaryType::face_t> faceIt =
-        ImageRegionIterator<typename BoundaryType::face_t>(face, region);
+      ConstNeighborhoodIterator<InputImageType> searchIt(rad, thresholdImage, region);
+      NeighborhoodIterator<OutputImageType>     labelIt(rad, output, region);
+      ImageRegionIterator                       faceIt(face, region);
 
       const unsigned int nCenter = searchIt.Size() / 2;
       searchIt.GoToBegin();
