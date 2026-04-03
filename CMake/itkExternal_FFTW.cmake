@@ -170,7 +170,7 @@ if(NOT ITK_USE_SYSTEM_FFTW)
       # pass -DFFTW_ENABLE_AVX2=ON explicitly.
       unset(_fftw_compiler_targets_avx CACHE)
       check_c_source_compiles(
-        "#if !defined(__AVX__) || !__AVX__\n#error AVX not enabled\n#endif\nint main(void){return 0;}"
+        "#ifndef __AVX__\n#error AVX not enabled\n#endif\nint main(void){return 0;}"
         _fftw_compiler_targets_avx
       )
       if(_fftw_compiler_targets_avx)
@@ -178,7 +178,7 @@ if(NOT ITK_USE_SYSTEM_FFTW)
       endif()
       unset(_fftw_compiler_targets_avx2 CACHE)
       check_c_source_compiles(
-        "#if !defined(__AVX2__) || !__AVX2__\n#error AVX2 not enabled\n#endif\nint main(void){return 0;}"
+        "#ifndef __AVX2__\n#error AVX2 not enabled\n#endif\nint main(void){return 0;}"
         _fftw_compiler_targets_avx2
       )
       if(_fftw_compiler_targets_avx2)
