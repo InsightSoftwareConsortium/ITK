@@ -180,7 +180,7 @@ MINCTransformIOTemplate<TParametersValueType>::ReadOneTransform(VIO_General_tran
         {
           LPSgrid->CopyInformation(grid);
           LPSgrid->SetRegions(grid->GetBufferedRegion());
-          LPSgrid->Allocate(true);
+          LPSgrid->AllocateInitialized();
 
           itk::MultiThreaderBase::Pointer mt = itk::MultiThreaderBase::New();
           mt->ParallelizeImageRegion<3>(
@@ -361,7 +361,7 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
         typename GridImageType::Pointer rasGrid = GridImageType::New(); // flipped grid for RAS->LPS conversion
         rasGrid->CopyInformation(grid);
         rasGrid->SetRegions(grid->GetBufferedRegion());
-        rasGrid->Allocate(true);
+        rasGrid->AllocateInitialized();
 
         itk::MultiThreaderBase::Pointer mt = itk::MultiThreaderBase::New();
         mt->ParallelizeImageRegion<3>(

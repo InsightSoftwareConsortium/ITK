@@ -381,7 +381,7 @@ main(int argc, char * argv[])
     region.SetIndex(start);
 
     image->SetRegions(region);
-    image->Allocate(true); // initialize to zero.
+    image->AllocateInitialized();
 
     image->Update();
 

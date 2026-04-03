@@ -93,7 +93,7 @@ main(int, char *[])
   region.SetIndex(start);
 
   image->SetRegions(region);
-  image->Allocate(true); // initialize buffer to zero
+  image->AllocateInitialized();
 
   // Software Guide : BeginLatex
   //
