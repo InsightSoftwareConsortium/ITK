@@ -8,5 +8,6 @@ jobs:
 
   python-build-workflow:
     uses: InsightSoftwareConsortium/ITKRemoteModuleBuildTestPackageAction/.github/workflows/build-test-package-python.yml@v5.4.6
+    with:
     secrets:
       pypi_password: ${{ secrets.pypi_password }}
