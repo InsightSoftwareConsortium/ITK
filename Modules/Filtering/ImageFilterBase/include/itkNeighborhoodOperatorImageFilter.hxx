@@ -92,8 +92,6 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>::
   // pixels that correspond to output pixels.
   const FaceListType faceList = faceCalculator(input, outputRegionForThread, m_Operator.GetRadius());
 
-  ImageRegionIterator<OutputImageType> it;
-
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 
   // Process non-boundary region and each of the boundary faces.
@@ -103,7 +101,7 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>::
   {
     bit = ConstNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(), input, face);
     bit.OverrideBoundaryCondition(m_BoundsCondition);
-    it = ImageRegionIterator(output, face);
+    ImageRegionIterator it(output, face);
     bit.GoToBegin();
     while (!bit.IsAtEnd())
     {

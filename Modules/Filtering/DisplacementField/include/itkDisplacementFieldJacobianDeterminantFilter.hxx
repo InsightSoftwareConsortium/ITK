@@ -171,7 +171,6 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
 {
   ZeroFluxNeumannBoundaryCondition<RealVectorImageType> nbc;
   ConstNeighborhoodIteratorType                         bit;
-  ImageRegionIterator<TOutputImage>                     it;
 
   // Find the data-set boundary "faces"
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<RealVectorImageType>                              bC;
@@ -189,7 +188,7 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
   {
     bit = ConstNeighborhoodIteratorType(
       m_NeighborhoodRadius, dynamic_cast<const RealVectorImageType *>(m_RealValuedInputImage.GetPointer()), face);
-    it = ImageRegionIterator(this->GetOutput(), face);
+    ImageRegionIterator it(this->GetOutput(), face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 

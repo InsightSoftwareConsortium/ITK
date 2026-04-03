@@ -92,7 +92,6 @@ VotingBinaryImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
   ConstNeighborhoodIterator<InputImageType> bit;
-  ImageRegionIterator<OutputImageType>      it;
 
   const typename OutputImageType::Pointer     output = this->GetOutput();
   const typename InputImageType::ConstPointer input = this->GetInput();
@@ -108,7 +107,7 @@ VotingBinaryImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   for (const auto & face : faceList)
   {
     bit = ConstNeighborhoodIterator<InputImageType>(m_Radius, input, face);
-    it = ImageRegionIterator(output, face);
+    ImageRegionIterator it(output, face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 
