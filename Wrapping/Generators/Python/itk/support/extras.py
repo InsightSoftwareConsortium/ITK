@@ -16,6 +16,8 @@
 #
 # ==========================================================================
 
+from __future__ import annotations
+
 import enum
 import re
 from typing import Any, TYPE_CHECKING
@@ -178,7 +180,7 @@ def echo(obj, f=system_error_stream) -> None:
     print(f, obj)
 
 
-def size(image_or_filter: "itkt.ImageOrImageSource") -> Sequence[int]:
+def size(image_or_filter: itkt.ImageOrImageSource) -> Sequence[int]:
     """Return the size of an image, or of the output image of a filter
 
     This method take care of updating the needed information
@@ -192,7 +194,7 @@ def size(image_or_filter: "itkt.ImageOrImageSource") -> Sequence[int]:
     return img.GetLargestPossibleRegion().GetSize()
 
 
-def physical_size(image_or_filter: "itkt.ImageOrImageSource") -> Sequence[float]:
+def physical_size(image_or_filter: itkt.ImageOrImageSource) -> Sequence[float]:
     """Return the physical size of an image, or of the output image of a filter
 
     This method take care of updating the needed information
@@ -208,7 +210,7 @@ def physical_size(image_or_filter: "itkt.ImageOrImageSource") -> Sequence[float]
     return result
 
 
-def spacing(image_or_filter: "itkt.ImageOrImageSource") -> Sequence[float]:
+def spacing(image_or_filter: itkt.ImageOrImageSource) -> Sequence[float]:
     """Return the spacing of an image, or of the output image of a filter
 
     This method take care of updating the needed information
@@ -221,7 +223,7 @@ def spacing(image_or_filter: "itkt.ImageOrImageSource") -> Sequence[float]:
     return img.GetSpacing()
 
 
-def origin(image_or_filter: "itkt.ImageOrImageSource") -> Sequence[float]:
+def origin(image_or_filter: itkt.ImageOrImageSource) -> Sequence[float]:
     """Return the origin of an image, or of the output image of a filter
 
     This method take care of updating the needed information
@@ -234,7 +236,7 @@ def origin(image_or_filter: "itkt.ImageOrImageSource") -> Sequence[float]:
     return img.GetOrigin()
 
 
-def index(image_or_filter: "itkt.ImageOrImageSource") -> Sequence[int]:
+def index(image_or_filter: itkt.ImageOrImageSource) -> Sequence[int]:
     """Return the index of an image, or of the output image of a filter
 
     This method take care of updating the needed information
@@ -247,7 +249,7 @@ def index(image_or_filter: "itkt.ImageOrImageSource") -> Sequence[int]:
     return img.GetLargestPossibleRegion().GetIndex()
 
 
-def region(image_or_filter: "itkt.ImageOrImageSource") -> "itkt.ImageRegion":
+def region(image_or_filter: itkt.ImageOrImageSource) -> itkt.ImageRegion:
     """Return the region of an image, or of the output image of a filter
 
     This method take care of updating the needed information
@@ -318,7 +320,7 @@ def _GetArrayFromImage(
 
 
 def GetArrayFromImage(
-    image_or_filter: "itkt.ImageOrImageSource",
+    image_or_filter: itkt.ImageOrImageSource,
     keep_axes: bool = False,
     update: bool = True,
     ttype=None,
@@ -341,7 +343,7 @@ array_from_image = GetArrayFromImage
 
 
 def GetArrayViewFromImage(
-    image_or_filter: "itkt.ImageOrImageSource",
+    image_or_filter: itkt.ImageOrImageSource,
     keep_axes: bool = False,
     update: bool = True,
     ttype=None,
@@ -426,7 +428,7 @@ Please specify an output type via the 'ttype' keyword parameter."""
 
 def GetImageFromArray(
     arr: ArrayLike, is_vector: bool = False, ttype=None
-) -> "itkt.ImageBase":
+) -> itkt.ImageBase:
     """Get an ITK image from a Python array.
 
     This is a deep copy of the NumPy array buffer and is completely safe without potential
@@ -455,7 +457,7 @@ image_from_array = GetImageFromArray
 
 def GetImageViewFromArray(
     arr: ArrayLike, is_vector: bool = False, ttype=None, need_contiguous=True
-) -> "itkt.ImageBase":
+) -> itkt.ImageBase:
     """Get an ITK image view (shared pixel buffer memory) from a Python array.
 
     If is_vector is True, then a 3D array will be treated as a 2D vector image,
@@ -484,7 +486,7 @@ image_view_from_array = GetImageViewFromArray
 
 
 def array_from_vector_container(
-    container: "itkt.VectorContainer", ttype=None
+    container: itkt.VectorContainer, ttype=None
 ) -> np.ndarray:
     """Get an Array with the content of the vector container"""
     import itk
@@ -510,7 +512,7 @@ def array_from_vector_container(
 
 
 def array_view_from_vector_container(
-    container: "itkt.VectorContainer", ttype=None
+    container: itkt.VectorContainer, ttype=None
 ) -> np.ndarray:
     """Get an Array view with the content of the vector container"""
     import itk
@@ -535,7 +537,7 @@ def array_view_from_vector_container(
     return itk.PyVectorContainer[keys[0]].array_view_from_vector_container(container)
 
 
-def vector_container_from_array(arr: ArrayLike, ttype=None) -> "itkt.VectorContainer":
+def vector_container_from_array(arr: ArrayLike, ttype=None) -> itkt.VectorContainer:
     """Get a vector container from a Python array"""
     import itk
 
@@ -667,7 +669,7 @@ def GetArrayFromMatrix(itk_matrix) -> np.ndarray:
 array_from_matrix = GetArrayFromMatrix
 
 
-def GetMatrixFromArray(arr: ArrayLike) -> "itkt.Matrix":
+def GetMatrixFromArray(arr: ArrayLike) -> itkt.Matrix:
     import itk
 
     # Verify inputs
@@ -685,7 +687,7 @@ def GetMatrixFromArray(arr: ArrayLike) -> "itkt.Matrix":
 matrix_from_array = GetMatrixFromArray
 
 
-def vtk_image_from_image(l_image: "itkt.ImageOrImageSource") -> "vtk.vtkImageData":
+def vtk_image_from_image(l_image: itkt.ImageOrImageSource) -> vtk.vtkImageData:
     """Convert an itk.Image to a vtk.vtkImageData."""
     import itk
     import vtk
@@ -742,7 +744,7 @@ def vtk_image_from_image(l_image: "itkt.ImageOrImageSource") -> "vtk.vtkImageDat
     return vtk_image
 
 
-def image_from_vtk_image(vtk_image: "vtk.vtkImageData") -> "itkt.ImageBase":
+def image_from_vtk_image(vtk_image: vtk.vtkImageData) -> itkt.ImageBase:
     """Convert a vtk.vtkImageData to an itk.Image."""
     import itk
     from vtk.util.numpy_support import vtk_to_numpy
@@ -788,7 +790,7 @@ def image_from_vtk_image(vtk_image: "vtk.vtkImageData") -> "itkt.ImageBase":
     return l_image
 
 
-def dict_from_image(image: "itkt.Image") -> dict:
+def dict_from_image(image: itkt.Image) -> dict:
     """Serialize a Python itk.Image object to a pickable Python dictionary."""
     import itk
 
@@ -811,7 +813,7 @@ def dict_from_image(image: "itkt.Image") -> dict:
     )
 
 
-def image_from_dict(image_dict: dict) -> "itkt.Image":
+def image_from_dict(image_dict: dict) -> itkt.Image:
     """Deserialize an dictionary representing an itk.Image object."""
     import itk
 
@@ -840,7 +842,7 @@ def image_from_dict(image_dict: dict) -> "itkt.Image":
     return image
 
 
-def mesh_from_dict(mesh_dict: dict) -> "itkt.Mesh":
+def mesh_from_dict(mesh_dict: dict) -> itkt.Mesh:
     """Deserialize an dictionary representing an itk.Mesh object."""
     import itk
 
@@ -868,7 +870,7 @@ def mesh_from_dict(mesh_dict: dict) -> "itkt.Mesh":
     return mesh
 
 
-def dict_from_mesh(mesh: "itkt.Mesh") -> dict:
+def dict_from_mesh(mesh: itkt.Mesh) -> dict:
     """Serialize a Python itk.Mesh object to a pickable Python dictionary."""
     import itk
 
@@ -936,7 +938,7 @@ def dict_from_mesh(mesh: "itkt.Mesh") -> dict:
     )
 
 
-def pointset_from_dict(pointset_dict: dict) -> "itkt.PointSet":
+def pointset_from_dict(pointset_dict: dict) -> itkt.PointSet:
     """Deserialize an dictionary representing an itk.PointSet object."""
     import itk
 
@@ -955,7 +957,7 @@ def pointset_from_dict(pointset_dict: dict) -> "itkt.PointSet":
     return mesh
 
 
-def dict_from_pointset(pointset: "itkt.PointSet") -> dict:
+def dict_from_pointset(pointset: itkt.PointSet) -> dict:
     """Serialize a Python itk.PointSet object to a pickable Python dictionary."""
     import itk
 
@@ -1000,7 +1002,7 @@ def dict_from_pointset(pointset: "itkt.PointSet") -> dict:
     )
 
 
-def polyline_from_dict(polyline_dict: dict) -> "itkt.PolylineParametricPath":
+def polyline_from_dict(polyline_dict: dict) -> itkt.PolylineParametricPath:
     """Deserialize an dictionary representing an itk.PolylineParametricPath object."""
     import itk
 
@@ -1014,7 +1016,7 @@ def polyline_from_dict(polyline_dict: dict) -> "itkt.PolylineParametricPath":
     return polyline
 
 
-def dict_from_polyline(polyline: "itkt.PolylineParametricPath") -> dict:
+def dict_from_polyline(polyline: itkt.PolylineParametricPath) -> dict:
     """Serialize a Python itk.PolylineParametricPath object to a pickable Python dictionary."""
     import itk
 
@@ -1027,7 +1029,7 @@ def dict_from_polyline(polyline: "itkt.PolylineParametricPath") -> dict:
 
 
 def dict_from_transform(
-    transform: "itkt.TransformBase" | list["itkt.TransformBase"],
+    transform: itkt.TransformBase | list[itkt.TransformBase],
 ) -> list[dict] | dict:
     """Serialize a Python itk.Transform object to a pickable Python dictionary.
 
@@ -1107,7 +1109,7 @@ def dict_from_transform(
 
 def transform_from_dict(
     transform_dict: dict | list[dict],
-) -> "itkt.TransformBase":
+) -> itkt.TransformBase:
     """Deserialize a dictionary representing an itk.Transform object.
 
     If the dictionary represents a list of transforms, then a Composite Transform is returned.
@@ -1208,7 +1210,7 @@ def transform_from_dict(
     return transform
 
 
-def image_intensity_min_max(image_or_filter: "itkt.ImageOrImageSource"):
+def image_intensity_min_max(image_or_filter: itkt.ImageOrImageSource):
     """Return the minimum and maximum of values in a image of in the output image of a filter
 
     The minimum and maximum values are returned in a tuple: (min, max)
@@ -1236,10 +1238,10 @@ def range(image_or_filter):
 
 
 def imwrite(
-    image_or_filter: "itkt.ImageOrImageSource",
+    image_or_filter: itkt.ImageOrImageSource,
     filename: fileiotype,
     compression: bool = False,
-    imageio: "itkt.ImageIOBase | None" = None,
+    imageio: itkt.ImageIOBase | None = None,
 ) -> None:
     """Write a image or the output image of a filter to a file.
 
@@ -1279,11 +1281,11 @@ def imwrite(
 
 def imread(
     filename: fileiotype | Sequence[str | os.PathLike],
-    pixel_type: "itkt.PixelTypes | None" = None,
+    pixel_type: itkt.PixelTypes | None = None,
     fallback_only: bool = False,
-    imageio: "itkt.ImageIOBase | None" = None,
+    imageio: itkt.ImageIOBase | None = None,
     series_uid: int | str | None = None,
-) -> "itkt.ImageBase":
+) -> itkt.ImageBase:
     """Read an image from a file or series of files and return an itk.Image.
 
     Parameters
@@ -1417,7 +1419,7 @@ def imread(
 
 
 def meshwrite(
-    mesh: "itkt.Mesh",
+    mesh: itkt.Mesh,
     filename: fileiotype,
     compression: bool = False,
     binary: bool = False,
@@ -1443,9 +1445,9 @@ def meshwrite(
 
 def meshread(
     filename: fileiotype,
-    pixel_type: "itkt.PixelTypes | None" = None,
+    pixel_type: itkt.PixelTypes | None = None,
     fallback_only: bool = False,
-) -> "itkt.Mesh":
+) -> itkt.Mesh:
     """Read a mesh from a file and return an itk.Mesh.
 
     The reader is instantiated with the mesh type of the mesh file if
@@ -1493,7 +1495,7 @@ def meshread(
     return reader.GetOutput()
 
 
-def transformread(filename: fileiotype) -> list["itkt.TransformBase"]:
+def transformread(filename: fileiotype) -> list[itkt.TransformBase]:
     """Read an itk Transform file.
 
     Parameters
@@ -1524,7 +1526,7 @@ def transformread(filename: fileiotype) -> list["itkt.TransformBase"]:
 
 
 def transformwrite(
-    transforms: "itkt.TransformBase" | list["itkt.TransformBase"],
+    transforms: itkt.TransformBase | list[itkt.TransformBase],
     filename: fileiotype,
     compression: bool = False,
 ) -> None:
@@ -2002,7 +2004,7 @@ class auto_pipeline(pipeline):
         auto_pipeline.current = None
 
 
-def down_cast(obj: "itkt.LightObject"):
+def down_cast(obj: itkt.LightObject):
     """Down cast an itk.LightObject (or a object of a subclass) to its most
     specialized type.
     """
@@ -2232,7 +2234,7 @@ def template(cl):
     return itkTemplateBase.__template_instantiations_object_to_name__[class_(cl)]
 
 
-def ctype(s: str) -> "itkt.itkCType":
+def ctype(s: str) -> itkt.itkCType:
     """Return the c type corresponding to the string passed in parameter
 
     The string can contain some extra spaces.
