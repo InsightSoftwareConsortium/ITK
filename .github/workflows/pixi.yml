@@ -135,9 +135,20 @@ jobs:
             pixi run --skip-deps build
             echo "****** df -h /  -- post build"
             df -h /
+
+        - name: Free disk space after build
+          shell: bash
+          run: |
+            # Remove object files and static libraries (not needed for testing)
             find build -type f -name "*.o" -delete
             find build -type f -name "*.a" -delete
-            echo "****** df -h /  -- post .o .a cleanup"
+            # Remove downloaded data tarballs (already extracted)
+            rm -f InsightData-*.tar.gz
+            # Remove extracted source tarball directory
+            rm -rf InsightToolkit-${{ env.ExternalDataVersion }}
+            # Trim ccache to stay within CCACHE_MAXSIZE and remove orphaned entries
+            ccache --cleanup 2>/dev/null || true
+            echo "****** df -h /  -- post cleanup"
             df -h /
 
         - name: Test
