@@ -50,6 +50,7 @@ def _get_environment_boolean(environment_var: str, default_string: str) -> bool:
     # False values are n, no, f, false, off and 0.
     # Raises ValueError if val is anything else.
     from os import environ as _environ
+
     def _strtobool(val: str) -> bool:
         val = val.lower()
         if val in ("y", "yes", "t", "true", "on", "1"):
@@ -58,7 +59,6 @@ def _get_environment_boolean(environment_var: str, default_string: str) -> bool:
             return 0
         else:
             raise ValueError(f"invalid truth value {val}")
-
 
     try:
         _StringDefault: str = _environ.get(environment_var, default_string)
@@ -76,7 +76,9 @@ def _get_environment_boolean(environment_var: str, default_string: str) -> bool:
     return bool(_strtobool(default_string))
 
 
-DefaultFactoryLoading: bool = _get_environment_boolean("ITK_PYTHON_DEFAULTFACTORYLOADING", "True")
+DefaultFactoryLoading: bool = _get_environment_boolean(
+    "ITK_PYTHON_DEFAULTFACTORYLOADING", "True"
+)
 LazyLoading: bool = _get_environment_boolean("ITK_PYTHON_LAZYLOADING", "True")
 NotInPlace: bool = _get_environment_boolean("ITK_PYTHON_NOTINPLACE", "False")
 del _get_environment_boolean
