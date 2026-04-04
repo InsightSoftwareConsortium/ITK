@@ -50,8 +50,6 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreadedGenera
 
   TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
 
-  ImageRegionIterator<TOutputImage> o_iter;
-
   // Process the boundary faces, these are N-d regions which border the
   // edge of the buffer
 
@@ -62,7 +60,7 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreadedGenera
   {
     b_iter = NeighborhoodIteratorType(this->GetKernel().GetRadius(), this->GetInput(), face);
 
-    o_iter = ImageRegionIterator(this->GetOutput(), face);
+    ImageRegionIterator o_iter(this->GetOutput(), face);
     b_iter.OverrideBoundaryCondition(m_BoundaryCondition);
     b_iter.GoToBegin();
 

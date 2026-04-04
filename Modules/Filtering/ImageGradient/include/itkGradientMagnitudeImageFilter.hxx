@@ -100,7 +100,6 @@ GradientMagnitudeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerate
 
   ConstNeighborhoodIterator<TInputImage> nit;
   ConstNeighborhoodIterator<TInputImage> bit;
-  ImageRegionIterator<TOutputImage>      it;
 
   const NeighborhoodInnerProduct<TInputImage, RealType> SIP;
 
@@ -157,7 +156,7 @@ GradientMagnitudeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerate
   for (const auto & face : faceList)
   {
     bit = ConstNeighborhoodIterator<InputImageType>(radius, input, face);
-    it = ImageRegionIterator(output, face);
+    ImageRegionIterator it(output, face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 

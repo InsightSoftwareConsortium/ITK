@@ -79,7 +79,6 @@ VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
   ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
   ConstNeighborhoodIterator<InputImageType> bit;
-  ImageRegionIterator<OutputImageType>      it;
 
   // Allocate output
   const typename OutputImageType::Pointer     output = this->GetOutput();
@@ -103,7 +102,7 @@ VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
   for (const auto & face : faceList)
   {
     bit = ConstNeighborhoodIterator<InputImageType>(this->GetRadius(), input, face);
-    it = ImageRegionIterator(output, face);
+    ImageRegionIterator it(output, face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 

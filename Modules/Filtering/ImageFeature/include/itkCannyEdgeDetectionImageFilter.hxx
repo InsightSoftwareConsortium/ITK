@@ -96,8 +96,6 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::ThreadedCompute2ndDeri
 {
   ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
-  ImageRegionIterator<TOutputImage> it;
-
   void * globalData = nullptr;
 
   // Here input is the result from the gaussian filter output is the update
@@ -118,7 +116,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::ThreadedCompute2ndDeri
   {
     NeighborhoodType bit(radius, input, face);
 
-    it = ImageRegionIterator(this->m_OutputImage, face);
+    ImageRegionIterator it(this->m_OutputImage, face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 
@@ -379,8 +377,6 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::ThreadedCompute2ndDeri
   ConstNeighborhoodIterator<TInputImage> bit;
   ConstNeighborhoodIterator<TInputImage> bit1;
 
-  ImageRegionIterator<TOutputImage> it;
-
   // Here input is the result from the gaussian filter
   //      input1 is the 2nd derivative result
   //      output is the gradient of 2nd derivative
@@ -416,7 +412,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::ThreadedCompute2ndDeri
   {
     bit = ConstNeighborhoodIterator<InputImageType>(radius, input, face);
     bit1 = ConstNeighborhoodIterator<InputImageType>(radius, input1, face);
-    it = ImageRegionIterator(output, face);
+    ImageRegionIterator it(output, face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
     bit1.GoToBegin();

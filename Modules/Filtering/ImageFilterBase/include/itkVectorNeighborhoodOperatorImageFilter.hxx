@@ -94,15 +94,13 @@ VectorNeighborhoodOperatorImageFilter<TInputImage, TOutputImage>::DynamicThreade
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 
-  ImageRegionIterator<OutputImageType> it;
-
   // Process non-boundary region and then each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.
   ConstNeighborhoodIterator<InputImageType> bit;
   for (const auto & face : faceList)
   {
     bit = ConstNeighborhoodIterator<InputImageType>(m_Operator.GetRadius(), input, face);
-    it = ImageRegionIterator(output, face);
+    ImageRegionIterator it(output, face);
     bit.GoToBegin();
     while (!bit.IsAtEnd())
     {

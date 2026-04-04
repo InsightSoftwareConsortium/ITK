@@ -272,12 +272,6 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
   // iterator for the marker image
   // NeighborhoodIteratorType markerIt;
 
-  // iterator for the mask image
-  ImageRegionConstIterator<TInputImage> maskIt;
-
-  // output iterator
-  ImageRegionIterator<TOutputImage> oIt;
-
   // Find the boundary "faces". Structuring element is elementary
   // (face connected neighbors within a radius of 1).
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType> fC;
@@ -290,8 +284,8 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
   for (const auto & face : faceList)
   {
     NeighborhoodIteratorType markerIt(kernelRadius, this->GetMarkerImage(), face);
-    maskIt = ImageRegionConstIterator(this->GetMaskImage(), face);
-    oIt = ImageRegionIterator(this->GetOutput(), face);
+    ImageRegionConstIterator maskIt(this->GetMaskImage(), face);
+    ImageRegionIterator      oIt(this->GetOutput(), face);
 
     markerIt.OverrideBoundaryCondition(&BC);
     markerIt.GoToBegin();
