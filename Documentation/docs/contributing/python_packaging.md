@@ -20,7 +20,7 @@ Building ITK Python wheels requires the following:
 - CMake >= 3.16
 - Git
 - C++ Compiler (see [scikit-build platform specific requirements](https://scikit-build.readthedocs.io/en/latest/generators.html))
-- Python >= 3.9
+- Python >= 3.10
 
 ## Automated Platform Scripts
 
@@ -40,11 +40,11 @@ git clone https://github.com/InsightSoftwareConsortium/ITKPythonPackage.git
 
 pushd ITKPythonPackage
 export MANYLINUX_VERSION=2014
-./scripts/dockcross-manylinux-build-wheels.sh cp38
+./scripts/dockcross-manylinux-build-wheels.sh cp310
 [...]
 
 ls -1 dist/
-itk-5.3.0.dev20231108-cp38-cp38m-manylinux2014_x86_64.whl
+itk-6.0.0.dev20260401-cp310-cp310-manylinux2014_x86_64.whl
 ```
 
 ### macOS
@@ -61,11 +61,11 @@ Then, run [macpython-build-wheels.sh](https://github.com/InsightSoftwareConsorti
 git clone https://github.com/InsightSoftwareConsortium/ITKPythonPackage.git
 [...]
 
-./scripts/macpython-build-wheels.sh cp38
+./scripts/macpython-build-wheels.sh cp310
 [...]
 
 ls -1 dist/
-itk-5.3.0.dev20231108-cp38-cp38m-macosx_10_9_x86_64.whl
+itk-6.0.0.dev20260401-cp310-cp310-macosx_11_0_arm64.whl
 ```
 
 ### Windows
