@@ -390,11 +390,9 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
     auto fixedItr = this->m_FixedLandmarks.begin();
     auto movingItr = this->m_MovingLandmarks.begin();
 
-    VectorType fixedCentered;
-    VectorType movingCentered;
+    VectorType fixedCentered{};
+    VectorType movingCentered{};
 
-    fixedCentered.Fill(0.0);
-    movingCentered.Fill(0.0);
 
     itkDebugStatement(int ii = 0);
 
@@ -525,11 +523,9 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
     auto fixedItr = this->m_FixedLandmarks.begin();
     auto movingItr = this->m_MovingLandmarks.begin();
 
-    VectorType fixedCentered;
-    VectorType movingCentered;
+    VectorType fixedCentered{};
+    VectorType movingCentered{};
 
-    fixedCentered.Fill(0.0);
-    movingCentered.Fill(0.0);
 
     itkDebugStatement(int ii = 0);
 
@@ -687,11 +683,9 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
     fixedItr = this->m_FixedLandmarks.begin();
     movingItr = this->m_MovingLandmarks.begin();
 
-    VectorType fixedCentered;
-    VectorType movingCentered;
+    VectorType fixedCentered{};
+    VectorType movingCentered{};
 
-    fixedCentered.Fill(0.0);
-    movingCentered.Fill(0.0);
 
     itkDebugStatement(int ii = 0);
     double s_dot = 0;

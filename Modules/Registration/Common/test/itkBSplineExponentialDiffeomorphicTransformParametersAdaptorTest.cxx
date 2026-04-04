@@ -98,9 +98,8 @@ itkBSplineExponentialDiffeomorphicTransformParametersAdaptorTest(int, char *[])
   adaptor->SetRequiredDirection(displacementField->GetDirection());
 
   auto                   updateMeshSize = itk::MakeFilled<AdaptorType::ArrayType>(10);
-  AdaptorType::ArrayType velocityMeshSize;
+  AdaptorType::ArrayType velocityMeshSize{};
 
-  velocityMeshSize.Fill(0);
 
   adaptor->SetMeshSizeForTheUpdateField(updateMeshSize);
   adaptor->SetMeshSizeForTheConstantVelocityField(velocityMeshSize);

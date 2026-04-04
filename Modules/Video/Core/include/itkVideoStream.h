@@ -319,10 +319,9 @@ public:
         // Set the buffered spatial region for each frame
         SpatialRegionType bufferedSpatialRegion;
         SpatialRegionType::SizeType size;
-        SpatialRegionType::IndexType start;
+        SpatialRegionType::IndexType start{};
         size[0] = 50;
         size[1] = 40;
-        start.Fill( 0 );
         bufferedSpatialRegion.SetSize( size );
         bufferedSpatialRegion.SetIndex( start );
         video->SetAllBufferedSpatialRegions( bufferedSpatialRegion );

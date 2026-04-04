@@ -64,10 +64,8 @@ ChainCodeToFourierSeriesPathFilter<TInputChainCodePath, TOutputFourierSeriesPath
   for (unsigned int n = 0; n < numHarmonics; ++n)
   {
     auto       index = inputPtr->GetStart();
-    VectorType cosCoefficient;
-    cosCoefficient.Fill(0.0);
-    VectorType sinCoefficient;
-    sinCoefficient.Fill(0.0);
+    VectorType cosCoefficient{};
+    VectorType sinCoefficient{};
 
     for (InputPathInputType step = 0; step < numSteps; ++step)
     {

@@ -29,13 +29,12 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   using PointSetType = itk::PointSet<VectorType, ImageDimension>;
 
   // Create a displacement field
-  DisplacementFieldType::PointType     origin;
+  DisplacementFieldType::PointType     origin{};
   auto                                 spacing = itk::MakeFilled<DisplacementFieldType::SpacingType>(0.5);
   auto                                 size = itk::MakeFilled<DisplacementFieldType::SizeType>(100);
   DisplacementFieldType::DirectionType direction;
 
   direction.SetIdentity();
-  origin.Fill(0.0);
 
   auto ones = itk::MakeFilled<VectorType>(1);
 

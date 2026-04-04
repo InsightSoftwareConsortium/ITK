@@ -35,10 +35,9 @@ CreateImage()
 {
   auto image = ImageType::New();
 
-  ImageType::IndexType start;
+  ImageType::IndexType start{};
   ImageType::SizeType  size;
 
-  start.Fill(0);
 
   size[0] = 10;
   size[1] = 10;
@@ -64,10 +63,9 @@ static MaskImageType::Pointer
 CreateMaskImage()
 {
   auto                     image = MaskImageType::New();
-  MaskImageType::IndexType start;
+  MaskImageType::IndexType start{};
   auto                     size = itk::MakeFilled<MaskImageType::SizeType>(10);
 
-  start.Fill(0);
 
   const MaskImageType::RegionType region(start, size);
   image->SetRegions(region);
