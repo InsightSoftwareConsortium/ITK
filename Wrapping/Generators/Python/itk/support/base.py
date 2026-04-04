@@ -21,7 +21,7 @@ import sys
 from sys import stderr as system_error_stream
 
 # Required to work around weird import error with xarray
-from typing import Any, Optional, Union
+from typing import Any
 from collections.abc import Sequence
 
 import itkConfig
@@ -305,7 +305,7 @@ class ITKTemplateFeatures:
     ('Image',       'itk::Image',   'itkImageSS2',   True,            'signed short,2'),
     """
 
-    def __init__(self, feature_tuple: Sequence[Union[str, bool]]) -> None:
+    def __init__(self, feature_tuple: Sequence[str | bool]) -> None:
         feature_length: int = len(feature_tuple)
         # ITK classes have exactly 5 elements in the tuple, otherwise they are swig classes
         self._is_itk_class: bool = feature_length == 5
@@ -317,7 +317,7 @@ class ITKTemplateFeatures:
         self._cpp_class_name: str = feature_tuple[1]
         self._swig_class_name: str = feature_tuple[2]
         self._class_in_module: bool = feature_tuple[3] if feature_length >= 4 else False
-        self._template_parameters: Optional[str] = (
+        self._template_parameters: str | None = (
             feature_tuple[4] if feature_length == 5 else None
         )
 

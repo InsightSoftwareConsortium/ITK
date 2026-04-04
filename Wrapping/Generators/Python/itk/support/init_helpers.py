@@ -1,6 +1,5 @@
 from sys import stderr as _system_error_stream
 from enum import IntEnum, unique
-from typing import Union
 
 __all__ = [
     "auto_not_in_place",
@@ -39,7 +38,7 @@ class AutoProgressTypes(IntEnum):
 
 
 def auto_progress(
-    progress_type: Union[bool, AutoProgressTypes] = AutoProgressTypes.TERMINAL,
+    progress_type: bool | AutoProgressTypes = AutoProgressTypes.TERMINAL,
 ) -> None:
     """Set up auto progress report
 

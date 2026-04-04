@@ -10,7 +10,6 @@ from argparse import ArgumentParser
 from io import StringIO
 from pathlib import Path, PurePath
 import pickle
-from typing import Union
 import glob
 import re
 from collections import defaultdict
@@ -380,7 +379,7 @@ def write_class_proxy_pyi(
         pyi_file.write(interfaces_code)
 
 
-def unpack(file_names: [str], save_dir: str) -> Union[str, None]:
+def unpack(file_names: [str], save_dir: str) -> str | None:
     class_definitions = []
 
     for file_name in file_names:
@@ -429,7 +428,7 @@ def unpack(file_names: [str], save_dir: str) -> Union[str, None]:
         return None
 
 
-def merge(class_definitions: []) -> Union[ITKClass, None]:
+def merge(class_definitions: []) -> ITKClass | None:
     # Merge all the class files together to return one complete class.
     if len(class_definitions) == 0:
         return None

@@ -23,7 +23,8 @@ import sys
 import types
 import collections
 import warnings
-from typing import Any, Callable, Union
+from typing import Any
+from collections.abc import Callable
 
 import itkConfig
 
@@ -299,7 +300,7 @@ class itkTemplate(Mapping):
         so that the singleton takes preference.
         Use this to define the class member elements
         """
-        self.__template__: dict[str, Union[str, Callable[..., Any]]] = (
+        self.__template__: dict[str, str | Callable[..., Any]] = (
             collections.OrderedDict()
         )
         self.__name__: str = new_object_name

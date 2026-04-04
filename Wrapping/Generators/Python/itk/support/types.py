@@ -46,7 +46,6 @@ except importlib.metadata.PackageNotFoundError:
 class itkCType:
     # import locally to facilitate dynamic loading in itk/__init__.py
     import numpy as np
-    from typing import Optional
 
     __c_types__: dict[str, "itkCType"] = {}
     __c_types_for_dtype__: dict[str, np.dtype] = {}
@@ -71,7 +70,7 @@ class itkCType:
         return f"<itkCType {self.name}>"
 
     @staticmethod
-    def GetCType(name: str) -> Optional["itkCType"]:
+    def GetCType(name: str) -> "itkCType | None":
         # import locally to facilitate dynamic loading in itk/__init__.py
 
         """Get the type corresponding to the provided C primitive type name."""
@@ -90,7 +89,7 @@ class itkCType:
             return None
 
     @staticmethod
-    def GetCTypeForDType(np_dtype: np.dtype) -> Optional["itkCType"]:
+    def GetCTypeForDType(np_dtype: np.dtype) -> "itkCType | None":
         """Get the type corresponding to the provided numpy.dtype."""
         try:
             return itkCType.__c_types_for_dtype__[np_dtype]

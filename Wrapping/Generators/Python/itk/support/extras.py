@@ -18,7 +18,7 @@
 
 import enum
 import re
-from typing import Optional, Union, Any, TYPE_CHECKING
+from typing import Any, TYPE_CHECKING
 from collections.abc import Sequence
 from sys import stderr as system_error_stream
 
@@ -33,7 +33,7 @@ from sys import stderr as system_error_stream
 import os
 import builtins
 
-fileiotype = Union[str, bytes, os.PathLike]
+fileiotype = str | bytes | os.PathLike
 
 import itk.support.types as itkt
 
@@ -1027,8 +1027,8 @@ def dict_from_polyline(polyline: "itkt.PolylineParametricPath") -> dict:
 
 
 def dict_from_transform(
-    transform: Union["itkt.TransformBase", list["itkt.TransformBase"]],
-) -> Union[list[dict], dict]:
+    transform: "itkt.TransformBase" | list["itkt.TransformBase"],
+) -> list[dict] | dict:
     """Serialize a Python itk.Transform object to a pickable Python dictionary.
 
     If the transform is a list of transforms, then a list of dictionaries is returned.
@@ -1106,7 +1106,7 @@ def dict_from_transform(
 
 
 def transform_from_dict(
-    transform_dict: Union[dict, list[dict]],
+    transform_dict: dict | list[dict],
 ) -> "itkt.TransformBase":
     """Deserialize a dictionary representing an itk.Transform object.
 
@@ -1239,7 +1239,7 @@ def imwrite(
     image_or_filter: "itkt.ImageOrImageSource",
     filename: fileiotype,
     compression: bool = False,
-    imageio: Optional["itkt.ImageIOBase"] = None,
+    imageio: "itkt.ImageIOBase | None" = None,
 ) -> None:
     """Write a image or the output image of a filter to a file.
 
@@ -1278,11 +1278,11 @@ def imwrite(
 
 
 def imread(
-    filename: Union[fileiotype, Sequence[Union[str, os.PathLike]]],
-    pixel_type: Optional["itkt.PixelTypes"] = None,
+    filename: fileiotype | Sequence[str | os.PathLike],
+    pixel_type: "itkt.PixelTypes | None" = None,
     fallback_only: bool = False,
-    imageio: Optional["itkt.ImageIOBase"] = None,
-    series_uid: Optional[Union[int, str]] = None,
+    imageio: "itkt.ImageIOBase | None" = None,
+    series_uid: int | str | None = None,
 ) -> "itkt.ImageBase":
     """Read an image from a file or series of files and return an itk.Image.
 
@@ -1443,7 +1443,7 @@ def meshwrite(
 
 def meshread(
     filename: fileiotype,
-    pixel_type: Optional["itkt.PixelTypes"] = None,
+    pixel_type: "itkt.PixelTypes | None" = None,
     fallback_only: bool = False,
 ) -> "itkt.Mesh":
     """Read a mesh from a file and return an itk.Mesh.
@@ -1524,7 +1524,7 @@ def transformread(filename: fileiotype) -> list["itkt.TransformBase"]:
 
 
 def transformwrite(
-    transforms: Union["itkt.TransformBase", list["itkt.TransformBase"]],
+    transforms: "itkt.TransformBase" | list["itkt.TransformBase"],
     filename: fileiotype,
     compression: bool = False,
 ) -> None:
@@ -1587,8 +1587,8 @@ def search(s: str, case_sensitive: bool = False) -> list[str]:  # , fuzzy=True):
 
 def set_inputs(
     new_itk_object,
-    inargs: Optional[Sequence[Any]] = None,
-    inkargs: Optional[dict[str, Any]] = None,
+    inargs: Sequence[Any] | None = None,
+    inkargs: dict[str, Any] | None = None,
 ):
     """Set the inputs of the given objects, according to the non named or the
     named parameters in args and kargs
@@ -1845,7 +1845,7 @@ class templated_class:
     def __contains__(self, key: str):
         return key in self
 
-    def get(self, key: str, default: Optional[str] = None) -> Optional[str]:
+    def get(self, key: str, default: str | None = None) -> str | None:
         return self.get(key, default)
 
     def __len__(self):
@@ -1954,7 +1954,7 @@ class pipeline:
         self.UpdateLargestPossibleRegion()
         return self
 
-    def expose(self, name: str, new_name: Optional[str] = None, position: int = -1):
+    def expose(self, name: str, new_name: str | None = None, position: int = -1):
         """Expose an attribute from a filter of the mini-pipeline.
 
         Once called, the pipeline instance has a new Set/Get set of methods to
