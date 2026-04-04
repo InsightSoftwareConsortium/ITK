@@ -36,11 +36,10 @@ itkOrthogonallyCorrected2DParametricPathTest(int, char *[])
 
   bool passed = true;
 
-  VertexType v;
+  auto v = itk::MakeFilled<VertexType>(2);
 
   // Original Path
   auto originalPath = OriginalPathType::New();
-  v.Fill(2);
   originalPath->AddVertex(v);
   v[0] = 4;
   v[1] = 13;

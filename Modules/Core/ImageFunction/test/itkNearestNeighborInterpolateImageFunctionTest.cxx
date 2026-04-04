@@ -71,11 +71,10 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
   variablevectorimage->SetRegions(region);
   variablevectorimage->Allocate();
 
-  ImageType::PointType   origin;
-  ImageType::SpacingType spacing;
+  ImageType::PointType origin;
+  auto                 spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
 
   origin.Fill(0.0);
-  spacing.Fill(1.0);
 
   image->SetOrigin(origin);
   image->SetSpacing(spacing);

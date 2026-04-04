@@ -183,10 +183,9 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
     ++itMoving;
   }
 
-  VectorType      zero;
   constexpr float def_value{ -0.5 };
+  auto            zero = itk::MakeFilled<VectorType>(def_value);
 
-  zero.Fill(def_value);
   auto field = FieldType::New();
   field->SetRegions(fixedImage->GetLargestPossibleRegion());
   field->SetSpacing(fixedImage->GetSpacing());

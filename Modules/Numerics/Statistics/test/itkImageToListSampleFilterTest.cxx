@@ -65,10 +65,9 @@ CreateMaskImage()
 {
   auto                     image = MaskImageType::New();
   MaskImageType::IndexType start;
-  MaskImageType::SizeType  size;
+  auto                     size = itk::MakeFilled<MaskImageType::SizeType>(10);
 
   start.Fill(0);
-  size.Fill(10);
 
   const MaskImageType::RegionType region(start, size);
   image->SetRegions(region);

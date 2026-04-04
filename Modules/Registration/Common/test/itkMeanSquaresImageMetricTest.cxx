@@ -311,10 +311,9 @@ itkMeanSquaresImageMetricTest(int, char *[])
   movingImage->SetOrigin(bSplineTestMovingImageOrigin);
 
   // Initialise BSplineTransform
-  auto                               bSplineTransform = BSplineTransformType::New();
-  auto                               initializer = InitializerType::New();
-  BSplineTransformType::MeshSizeType meshSize;
-  meshSize.Fill(nodesPerDimension - splineOrder);
+  auto bSplineTransform = BSplineTransformType::New();
+  auto initializer = InitializerType::New();
+  auto meshSize = itk::MakeFilled<BSplineTransformType::MeshSizeType>(nodesPerDimension - splineOrder);
   initializer->SetTransform(bSplineTransform);
   initializer->SetImage(movingImage);
   initializer->SetTransformDomainMeshSize(meshSize);

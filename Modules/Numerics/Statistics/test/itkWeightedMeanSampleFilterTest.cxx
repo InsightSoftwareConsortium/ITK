@@ -49,10 +49,9 @@ public:
   OutputType
   Evaluate(const InputType & input) const override
   {
-    MeasurementVectorType measurements;
+    auto measurements = itk::MakeFilled<MeasurementVectorType>(2.0f);
     // set the weight factor of the measurement
     // vector with valuev[2, 2] to 0.5.
-    measurements.Fill(2.0f);
     if (input != measurements)
     {
       return 0.5;

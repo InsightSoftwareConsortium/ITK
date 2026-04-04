@@ -73,10 +73,8 @@ ContourSpatialObject<TDimension>::GetOrientationInObjectSpace() const
   const ContourPointListType & points = this->GetPoints();
   auto                         it = points.begin();
   auto                         itend = points.end();
-  PointType                    minPnt;
-  PointType                    maxPnt;
-  minPnt.Fill(NumericTraits<double>::max());
-  maxPnt.Fill(NumericTraits<double>::NonpositiveMin());
+  auto                         minPnt = MakeFilled<PointType>(NumericTraits<double>::max());
+  auto                         maxPnt = MakeFilled<PointType>(NumericTraits<double>::NonpositiveMin());
   while (it != itend)
   {
     PointType curpoint = it->GetPositionInObjectSpace();

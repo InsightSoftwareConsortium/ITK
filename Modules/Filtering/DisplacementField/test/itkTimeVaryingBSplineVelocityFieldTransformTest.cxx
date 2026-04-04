@@ -91,13 +91,12 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
 
   // Now test the transform
 
-  TimeVaryingVelocityFieldType::PointType     timeVaryingVelocityFieldOrigin;
-  TimeVaryingVelocityFieldType::SpacingType   timeVaryingVelocityFieldSpacing;
+  TimeVaryingVelocityFieldType::PointType timeVaryingVelocityFieldOrigin;
+  auto timeVaryingVelocityFieldSpacing = itk::MakeFilled<TimeVaryingVelocityFieldType::SpacingType>(1.0);
   TimeVaryingVelocityFieldType::SizeType      timeVaryingVelocityFieldSize;
   TimeVaryingVelocityFieldType::DirectionType timeVaryingVelocityFieldDirection;
 
   timeVaryingVelocityFieldDirection.SetIdentity();
-  timeVaryingVelocityFieldSpacing.Fill(1.0);
   for (unsigned int d = 0; d < 4; ++d)
   {
     const float physicalDimensions = (size[d] - splineOrder) * spacing[d];

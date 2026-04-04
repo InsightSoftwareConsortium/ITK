@@ -332,17 +332,15 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   for (int i = 0; i < 10; ++i)
   {
-    ContourType::ContourPointType                      ctrlPt;
-    ContourType::ContourPointType::PointType           p;
-    ContourType::ContourPointType::CovariantVectorType n;
+    ContourType::ContourPointType ctrlPt;
+    auto                          p = itk::MakeFilled<ContourType::ContourPointType::PointType>(-i);
+    auto                          n = itk::MakeFilled<ContourType::ContourPointType::CovariantVectorType>(i);
     ctrlPt.SetId(i);
-    p.Fill(-i);
     p[2] = 0;
     ctrlPt.SetPickedPointInObjectSpace(p);
     p.Fill(i);
     p[2] = 0;
     ctrlPt.SetPositionInObjectSpace(p);
-    n.Fill(i);
     ctrlPt.SetNormalInObjectSpace(n);
     ctrlPt.SetRed(i);
     ctrlPt.SetGreen(i + 1);

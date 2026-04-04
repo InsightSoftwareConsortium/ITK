@@ -58,10 +58,9 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   auto image = InputImageType::New();
 
   InputImageType::IndexType start;
-  InputImageType::SizeType  size;
+  auto                      size = itk::MakeFilled<InputImageType::SizeType>(512);
 
   start.Fill(0);
-  size.Fill(512);
 
   const InputImageType::RegionType region(start, size);
   image->SetRegions(region);
