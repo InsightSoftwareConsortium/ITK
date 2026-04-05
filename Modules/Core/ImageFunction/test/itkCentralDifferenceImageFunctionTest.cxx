@@ -63,10 +63,9 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
 
   function->SetInputImage(image);
 
-  ImageType::IndexType index;
+  auto index = itk::MakeFilled<ImageType::IndexType>(8);
 
   // pick an index inside the image
-  index.Fill(8);
   OutputType indexOutput = function->EvaluateAtIndex(index);
   std::cout << "Index: " << index << " Derivative: ";
   std::cout << indexOutput << std::endl;

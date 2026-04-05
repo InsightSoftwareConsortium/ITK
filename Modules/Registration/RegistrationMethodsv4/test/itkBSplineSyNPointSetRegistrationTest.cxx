@@ -80,15 +80,12 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
 
   // virtual image domain is [-110,-110]  [110,110]
 
-  FixedImageType::SizeType      fixedImageSize;
-  FixedImageType::PointType     fixedImageOrigin;
+  auto                          fixedImageSize = itk::MakeFilled<FixedImageType::SizeType>(221);
+  auto                          fixedImageOrigin = itk::MakeFilled<FixedImageType::PointType>(-110);
   FixedImageType::DirectionType fixedImageDirection;
-  FixedImageType::SpacingType   fixedImageSpacing;
+  auto                          fixedImageSpacing = itk::MakeFilled<FixedImageType::SpacingType>(1);
 
-  fixedImageSize.Fill(221);
-  fixedImageOrigin.Fill(-110);
   fixedImageDirection.SetIdentity();
-  fixedImageSpacing.Fill(1);
 
   auto fixedImage = FixedImageType::New();
   fixedImage->SetRegions(fixedImageSize);

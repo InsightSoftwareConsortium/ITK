@@ -88,11 +88,10 @@ itkPathFunctionsTest(int, char *[])
 
   // Set up the path
   std::cout << "Making a square Path with v0 at (30,30) and v2 at (33,33)" << std::endl;
-  VertexType v;
-  auto       inPath = PolyLineParametricPathType::New();
-  auto       chainPath = ChainPathType::New();
-  auto       path = FourierSeriesPathType::New();
-  v.Fill(30);
+  auto v = itk::MakeFilled<VertexType>(30);
+  auto inPath = PolyLineParametricPathType::New();
+  auto chainPath = ChainPathType::New();
+  auto path = FourierSeriesPathType::New();
   inPath->AddVertex(v);
   v[0] = 33;
   v[1] = 30;

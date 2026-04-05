@@ -41,11 +41,9 @@ itkImageToListSampleFilterTest3(int, char *[])
 
   image->SetNumberOfComponentsPerPixel(MeasurementVectorSize);
 
-  ImageType::IndexType start;
-  ImageType::SizeType  size;
+  ImageType::IndexType start{};
+  auto                 size = itk::MakeFilled<ImageType::SizeType>(10);
 
-  start.Fill(0);
-  size.Fill(10);
 
   const ImageType::RegionType region(start, size);
   image->SetRegions(region);

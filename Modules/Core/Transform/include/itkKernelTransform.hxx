@@ -318,11 +318,10 @@ auto
 KernelTransform<TParametersValueType, VDimension>::TransformPoint(const InputPointType & thisPoint) const
   -> OutputPointType
 {
-  OutputPointType result;
-
   using ValueType = typename OutputPointType::ValueType;
 
-  result.Fill(ValueType{});
+  auto result = MakeFilled<OutputPointType>(ValueType{});
+
 
   // TODO:  It is unclear if the following line is needed.
   this->ComputeDeformationContribution(thisPoint, result);

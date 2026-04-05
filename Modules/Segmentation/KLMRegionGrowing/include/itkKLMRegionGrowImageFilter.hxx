@@ -407,10 +407,8 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
     }
 
     // index to atomic region1 and atomic region2
-    InputImageIndexType indexRegion1;
-    InputImageIndexType indexRegion2;
-    indexRegion1.Fill(0);
-    indexRegion2.Fill(0);
+    InputImageIndexType indexRegion1{};
+    InputImageIndexType indexRegion2{};
     indexRegion2[idim]++;
 
     for (unsigned int iborder = 0; iborder < numBorderThisDim; ++iborder)

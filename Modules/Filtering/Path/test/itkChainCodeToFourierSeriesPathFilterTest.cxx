@@ -42,13 +42,12 @@ itkChainCodeToFourierSeriesPathFilterTest(int, char *[])
 
   // Setup the path
   std::cout << "Making a triangle Path with v0 at (30,30) -> (30,33) -> (33,33)" << std::endl;
-  VertexType v;
+  auto v = itk::MakeFilled<VertexType>(30);
 
   auto inputPath = PolyLinePathType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(inputPath, PolyLineParametricPath, ParametricPath);
 
-  v.Fill(30);
   inputPath->AddVertex(v);
   v[0] = 30;
   v[1] = 33;

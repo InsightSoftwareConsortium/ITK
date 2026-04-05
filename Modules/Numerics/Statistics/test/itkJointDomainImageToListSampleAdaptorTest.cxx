@@ -34,11 +34,9 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
 
   auto image = ImageType::New();
 
-  ImageType::IndexType start;
-  ImageType::SizeType  size;
+  ImageType::IndexType start{};
+  auto                 size = itk::MakeFilled<ImageType::SizeType>(10);
 
-  start.Fill(0);
-  size.Fill(10);
 
   const unsigned long         totalSize = size[0] * size[1] * size[2];
   const ImageType::RegionType region(start, size);

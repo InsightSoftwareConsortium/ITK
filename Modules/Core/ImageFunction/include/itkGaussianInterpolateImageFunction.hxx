@@ -109,13 +109,10 @@ GaussianInterpolateImageFunction<TImageType, TCoordinate>::EvaluateAtContinuousI
 
   RealType  sum_me = 0.0;
   RealType  sum_m = 0.0;
-  ArrayType dsum_me;
-  ArrayType dsum_m;
-  ArrayType dw;
+  ArrayType dsum_me{};
+  ArrayType dsum_m{};
+  ArrayType dw{};
 
-  dsum_m.Fill(0.0);
-  dsum_me.Fill(0.0);
-  dw.Fill(0.0);
 
   for (ImageRegionConstIteratorWithIndex It(this->GetInputImage(), region); !It.IsAtEnd(); ++It)
   {

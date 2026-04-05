@@ -59,9 +59,8 @@ RunLinearInterpolateTest()
   auto variablevectorimage = VariableVectorImageType::New();
   variablevectorimage->SetVectorLength(VectorDimension);
 
-  SizeType      size;
   constexpr int dimMaxLength{ 3 };
-  size.Fill(dimMaxLength);
+  auto          size = itk::MakeFilled<SizeType>(dimMaxLength);
 
   const RegionType region{ size };
 

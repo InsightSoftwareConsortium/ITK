@@ -43,11 +43,9 @@ itkNrrdLocaleTest(int argc, char * argv[])
   // Create a test image with fractional spacing
   auto image = ImageType::New();
 
-  ImageType::SizeType size;
-  size.Fill(16);
+  auto size = itk::MakeFilled<ImageType::SizeType>(16);
 
-  ImageType::IndexType start;
-  start.Fill(0);
+  ImageType::IndexType start{};
 
   ImageType::RegionType region(start, size);
   image->SetRegions(region);

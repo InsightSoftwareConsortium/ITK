@@ -35,13 +35,10 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
 
   auto phiLattice = VectorImageType::New();
 
-  VectorImageType::SizeType    size;
-  VectorImageType::SpacingType spacing;
-  VectorImageType::PointType   origin;
+  auto                       size = itk::MakeFilled<VectorImageType::SizeType>(4);
+  auto                       spacing = itk::MakeFilled<VectorImageType::SpacingType>(1.0);
+  VectorImageType::PointType origin{};
 
-  size.Fill(4);
-  spacing.Fill(1.0);
-  origin.Fill(0.0);
   phiLattice->SetOrigin(origin);
   phiLattice->SetSpacing(spacing);
   phiLattice->SetRegions(size);
@@ -50,10 +47,8 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
   // To create the specified function, the first and last control points have
   // a value of 1.0;
 
-  VectorImageType::IndexType index;
-  VectorImageType::PixelType value;
-  index.Fill(0);
-  value.Fill(1.0);
+  VectorImageType::IndexType index{};
+  auto                       value = itk::MakeFilled<VectorImageType::PixelType>(1.0);
   phiLattice->SetPixel(index, value);
   index.Fill(3);
   value.Fill(1.0);

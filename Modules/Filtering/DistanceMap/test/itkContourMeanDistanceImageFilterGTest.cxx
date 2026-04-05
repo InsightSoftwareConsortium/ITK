@@ -50,10 +50,9 @@ TEST(ContourMeanDistanceImageFilter, Test)
   using RegionType = Image1Type::RegionType;
 
   using IndexType = Image1Type::IndexType;
-  IndexType index;
+  auto index = itk::MakeFilled<IndexType>(10);
 
   size.Fill(20);
-  index.Fill(10);
   RegionType region1 = { index, size };
 
   size.Fill(15);

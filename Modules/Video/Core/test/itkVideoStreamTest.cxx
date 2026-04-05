@@ -31,11 +31,10 @@ SetUpSpatialRegion(unsigned int x, unsigned int y)
 {
   FrameType::RegionType            out;
   FrameType::RegionType::SizeType  size;
-  FrameType::RegionType::IndexType start;
+  FrameType::RegionType::IndexType start{};
 
   size[0] = x;
   size[1] = y;
-  start.Fill(0);
   out = { start, size };
   return out;
 }

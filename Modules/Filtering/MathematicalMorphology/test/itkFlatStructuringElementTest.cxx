@@ -72,13 +72,12 @@ itkFlatStructuringElementTest(int, char *[])
   k2 = SE2Type::Polygon(r2, 5);
 
   using SE3Type = itk::FlatStructuringElement<3>;
-  SE3Type::RadiusType r3;
+  auto r3 = itk::MakeFilled<SE3Type::RadiusType>(scalarRadius);
 
   SE3Type::Self result3{};
   result3.RadiusIsParametricOff();
   ITK_TEST_SET_GET_VALUE(false, result3.GetRadiusIsParametric());
 
-  r3.Fill(scalarRadius);
   SE3Type k3;
 
   k3 = SE3Type::Box(r3);
@@ -130,13 +129,12 @@ itkFlatStructuringElementTest(int, char *[])
   }
 
   using SE4Type = itk::FlatStructuringElement<4>;
-  SE4Type::RadiusType r4;
+  auto r4 = itk::MakeFilled<SE4Type::RadiusType>(scalarRadius);
 
   SE4Type::Self result4{};
   result4.RadiusIsParametricOn();
   ITK_TEST_SET_GET_VALUE(true, result4.GetRadiusIsParametric());
 
-  r4.Fill(scalarRadius);
   SE4Type k4;
 
   k4 = SE4Type::Box(r4);

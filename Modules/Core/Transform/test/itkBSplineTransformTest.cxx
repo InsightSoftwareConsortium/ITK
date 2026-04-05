@@ -177,11 +177,10 @@ itkBSplineTransformTest1()
    */
   using PointType = TransformType::InputPointType;
 
-  PointType inputPoint;
+  auto      inputPoint = itk::MakeFilled<PointType>(9.0);
   PointType outputPoint;
 
   // point within the grid support region
-  inputPoint.Fill(9.0);
   outputPoint = transform->TransformPoint(inputPoint);
 
   std::cout << "Input Point: " << inputPoint << std::endl;

@@ -93,10 +93,9 @@ SmoothingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
       if (qe != nullptr)
       {
         OutputPointType  r = p;
-        OutputVectorType v;
-        v.Fill(0.0);
-        OutputQEType *  qe_it = qe;
-        OutputCoordType sum_coeff = 0.;
+        OutputVectorType v{};
+        OutputQEType *   qe_it = qe;
+        OutputCoordType  sum_coeff = 0.;
         do
         {
           OutputPointType q = mesh->GetPoint(qe_it->GetDestination());

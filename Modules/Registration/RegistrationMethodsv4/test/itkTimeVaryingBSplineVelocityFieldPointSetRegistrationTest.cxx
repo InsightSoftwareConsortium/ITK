@@ -76,16 +76,13 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
     count++;
   }
 
-  FixedImageType::SizeType      fixedImageSize;
-  FixedImageType::PointType     fixedImageOrigin;
+  auto                          fixedImageSize = itk::MakeFilled<FixedImageType::SizeType>(221);
+  auto                          fixedImageOrigin = itk::MakeFilled<FixedImageType::PointType>(-110);
   FixedImageType::DirectionType fixedImageDirection;
-  FixedImageType::SpacingType   fixedImageSpacing;
+  auto                          fixedImageSpacing = itk::MakeFilled<FixedImageType::SpacingType>(1);
 
   // virtual image domain is [-110,-110]  [110,110]
-  fixedImageSize.Fill(221);
-  fixedImageOrigin.Fill(-110);
   fixedImageDirection.SetIdentity();
-  fixedImageSpacing.Fill(1);
 
   auto fixedImage = FixedImageType::New();
   fixedImage->SetRegions(fixedImageSize);
@@ -150,17 +147,13 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
 
   // Determine the parameters (size, spacing, etc) for the time-varying velocity field
 
-  TimeVaryingVelocityFieldControlPointLatticeType::SizeType      transformDomainMeshSize;
-  TimeVaryingVelocityFieldControlPointLatticeType::PointType     transformDomainOrigin;
-  TimeVaryingVelocityFieldControlPointLatticeType::SpacingType   transformDomainSpacing;
-  TimeVaryingVelocityFieldControlPointLatticeType::SizeType      transformDomainSize;
+  auto transformDomainMeshSize = itk::MakeFilled<TimeVaryingVelocityFieldControlPointLatticeType::SizeType>(4);
+  TimeVaryingVelocityFieldControlPointLatticeType::PointType transformDomainOrigin{};
+  auto transformDomainSpacing = itk::MakeFilled<TimeVaryingVelocityFieldControlPointLatticeType::SpacingType>(1.0);
+  auto transformDomainSize = itk::MakeFilled<TimeVaryingVelocityFieldControlPointLatticeType::SizeType>(10);
   TimeVaryingVelocityFieldControlPointLatticeType::DirectionType transformDomainDirection;
 
   transformDomainDirection.SetIdentity();
-  transformDomainOrigin.Fill(0.0);
-  transformDomainMeshSize.Fill(4);
-  transformDomainSpacing.Fill(1.0);
-  transformDomainSize.Fill(10);
 
   for (unsigned int i = 0; i < Dimension; ++i)
   {
@@ -195,14 +188,12 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
   velocityFieldLattice->Allocate();
   velocityFieldLattice->FillBuffer(zeroVector);
 
-  TransformType::VelocityFieldPointType     velocityFieldOrigin;
-  TransformType::VelocityFieldSpacingType   velocityFieldSpacing;
-  TransformType::VelocityFieldSizeType      velocityFieldSize;
+  TransformType::VelocityFieldPointType velocityFieldOrigin{};
+  auto velocityFieldSpacing = itk::MakeFilled<TransformType::VelocityFieldSpacingType>(1.0);
+  auto velocityFieldSize =
+    itk::MakeFilled<TransformType::VelocityFieldSizeType>(velocityFieldRegistration->GetNumberOfTimePointSamples());
   TransformType::VelocityFieldDirectionType velocityFieldDirection;
 
-  velocityFieldOrigin.Fill(0.0);
-  velocityFieldSpacing.Fill(1.0);
-  velocityFieldSize.Fill(velocityFieldRegistration->GetNumberOfTimePointSamples());
   velocityFieldDirection.SetIdentity();
 
   for (unsigned int i = 0; i < Dimension; ++i)

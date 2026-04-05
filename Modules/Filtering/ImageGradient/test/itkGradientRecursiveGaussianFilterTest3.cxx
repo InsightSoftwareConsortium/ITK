@@ -200,10 +200,8 @@ itkGradientRecursiveGaussianFilterTest3(int argc, char * argv[])
   using myImageVector1DType = itk::Image<myVector1DType, myDimension>;
 
   myGradImage1DType::Pointer vector1DGradImage = nullptr;
-  myVector1DType             vector1Dborder;
-  myVector1DType             vector1Dfill;
-  vector1Dborder.Fill(0.0);
-  vector1Dfill.Fill(100.0);
+  myVector1DType             vector1Dborder{};
+  auto                       vector1Dfill = itk::MakeFilled<myVector1DType>(100.0);
   int runResult = itkGradientRecursiveGaussianFilterTest3Run<myImageVector1DType, myGradImage1DType, myComponents1D>(
     vector1Dborder, vector1Dfill, vector1DGradImage, argv[1]);
   if (runResult == EXIT_FAILURE)
@@ -237,9 +235,8 @@ itkGradientRecursiveGaussianFilterTest3(int argc, char * argv[])
   using myImageVar2DType = itk::Image<myVarVector2DType, myDimension>;
 
   myGradImage2DType::Pointer vector2DGradImage = nullptr;
-  myVector2DType             vector2Dborder;
+  auto                       vector2Dborder = itk::MakeFilled<myVector2DType>(pixelBorder);
   myVector2DType             vector2Dfill;
-  vector2Dborder.Fill(pixelBorder);
   vector2Dfill[0] = pixelFill;
   vector2Dfill[1] = pixelFill / 2.0;
   runResult = itkGradientRecursiveGaussianFilterTest3Run<myImage2DType, myGradImage2DType, myComponents2D>(
@@ -295,9 +292,8 @@ itkGradientRecursiveGaussianFilterTest3(int argc, char * argv[])
   using myImage3DType = itk::Image<myVector3DType, myDimension>;
 
   myGradImage3DType::Pointer vector3DGradImage = nullptr;
-  myVector3DType             vector3Dborder;
+  auto                       vector3Dborder = itk::MakeFilled<myVector3DType>(pixelBorder);
   myVector3DType             vector3Dfill;
-  vector3Dborder.Fill(pixelBorder);
   vector3Dfill[0] = pixelFill;
   vector3Dfill[1] = pixelFill / 2.0;
   vector3Dfill[2] = pixelFill / 3.0;

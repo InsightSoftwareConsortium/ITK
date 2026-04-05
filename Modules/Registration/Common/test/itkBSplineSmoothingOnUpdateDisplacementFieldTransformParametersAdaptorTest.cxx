@@ -103,11 +103,9 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest(int, 
   adaptor->SetRequiredOrigin(displacementField->GetOrigin());
   adaptor->SetRequiredDirection(displacementField->GetDirection());
 
-  AdaptorType::ArrayType updateMeshSize;
-  AdaptorType::ArrayType totalMeshSize;
+  auto                   updateMeshSize = itk::MakeFilled<AdaptorType::ArrayType>(10);
+  AdaptorType::ArrayType totalMeshSize{};
 
-  updateMeshSize.Fill(10);
-  totalMeshSize.Fill(0);
 
   adaptor->SetMeshSizeForTheUpdateField(updateMeshSize);
   adaptor->SetMeshSizeForTheTotalField(totalMeshSize);

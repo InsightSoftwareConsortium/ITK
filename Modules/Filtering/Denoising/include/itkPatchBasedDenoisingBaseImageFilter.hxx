@@ -181,11 +181,9 @@ template <typename TInputImage, typename TOutputImage>
 auto
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::GetPatchDiameterInVoxels() const -> PatchRadiusType
 {
-  PatchRadiusType one;
-  PatchRadiusType two;
+  auto one = MakeFilled<PatchRadiusType>(1);
+  auto two = MakeFilled<PatchRadiusType>(2);
 
-  one.Fill(1);
-  two.Fill(2);
   const PatchRadiusType radius = this->GetPatchRadiusInVoxels();
   const PatchRadiusType diameter = two * radius + one;
   return diameter;

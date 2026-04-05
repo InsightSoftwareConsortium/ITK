@@ -34,11 +34,9 @@ itkImageToListSampleAdaptorTest2(int, char *[])
 
   auto image = ImageType::New();
 
-  ImageType::IndexType start;
-  ImageType::SizeType  size;
+  ImageType::IndexType start{};
+  auto                 size = itk::MakeFilled<ImageType::SizeType>(10);
 
-  start.Fill(0);
-  size.Fill(10);
 
   const ImageType::RegionType region(start, size);
   image->SetRegions(region);
@@ -122,11 +120,9 @@ itkImageToListSampleAdaptorTest2(int, char *[])
 
   auto vImage = VariableLengthImageType::New();
 
-  VariableLengthImageType::IndexType vStart;
-  VariableLengthImageType::SizeType  vSize;
+  VariableLengthImageType::IndexType vStart{};
+  auto                               vSize = itk::MakeFilled<VariableLengthImageType::SizeType>(10);
 
-  vStart.Fill(0);
-  vSize.Fill(10);
 
   const VariableLengthImageType::RegionType vRegion(vStart, vSize);
   vImage->SetRegions(vRegion);
@@ -198,11 +194,9 @@ itkImageToListSampleAdaptorTest2(int, char *[])
 
   auto rgbImage = RGBImageType::New();
 
-  RGBImageType::IndexType rgbStart;
-  RGBImageType::SizeType  rgbSize;
+  RGBImageType::IndexType rgbStart{};
+  auto                    rgbSize = itk::MakeFilled<RGBImageType::SizeType>(10);
 
-  rgbStart.Fill(0);
-  rgbSize.Fill(10);
 
   const RGBImageType::RegionType rgbRegion(rgbStart, rgbSize);
   rgbImage->SetRegions(rgbRegion);

@@ -78,9 +78,8 @@ testMemoryAccess(OptimizerParametersType & params, ImageVectorPointer imageOfVec
 int
 itkImageVectorOptimizerParametersHelperTest(int, char *[])
 {
-  SizeType      size;
   constexpr int dimLength{ 3 };
-  size.Fill(dimLength);
+  auto          size = itk::MakeFilled<SizeType>(dimLength);
 
   const RegionType region{ size };
 
