@@ -56,7 +56,7 @@ main(int, char *[])
 
   // Pixel data is allocated
   image->SetRegions(region);
-  image->Allocate(true); // initialize buffer to zero
+  image->AllocateInitialized();
 
 
   // Software Guide : BeginLatex

@@ -219,7 +219,7 @@ main(int argc, char * argv[])
     localImage->GetLargestPossibleRegion());
   localOutputImage->SetRegions(region);
   localOutputImage->CopyInformation(localImage);
-  localOutputImage->Allocate(true); // initialize buffer to zero
+  localOutputImage->AllocateInitialized();
   // Software Guide : EndCodeSnippet
 
 

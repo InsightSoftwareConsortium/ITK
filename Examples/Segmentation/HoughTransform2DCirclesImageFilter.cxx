@@ -203,7 +203,7 @@ main(int argc, char * argv[])
   localOutputImage->SetRegions(region);
   localOutputImage->SetOrigin(localImage->GetOrigin());
   localOutputImage->SetSpacing(localImage->GetSpacing());
-  localOutputImage->Allocate(true); // initializes buffer to zero
+  localOutputImage->AllocateInitialized();
   // Software Guide : EndCodeSnippet
 
 
