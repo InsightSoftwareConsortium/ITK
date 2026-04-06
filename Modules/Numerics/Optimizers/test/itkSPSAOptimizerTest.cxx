@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include <set>
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkSPSAOptimizer.h"
 #include "itkTestingMacros.h"
 
@@ -104,6 +105,14 @@ itkSPSAOptimizerTest(int, char *[])
 {
   std::cout << "SPSAOptimizer Test ";
   std::cout << std::endl << std::endl;
+
+  // Use a fixed seed so the stochastic optimization is deterministic.
+  // Without this, the singleton MersenneTwister RNG is seeded from wall-clock
+  // time, causing rare (~1-in-625) false-convergence failures when an unlucky
+  // perturbation sequence makes the StateOfConvergence heuristic declare
+  // convergence before the solution is within the 0.01 tolerance.
+  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(
+    itk::Statistics::MersenneTwisterRandomVariateGenerator::DefaultSeed);
 
   using OptimizerType = itk::SPSAOptimizer;
   using ScalesType = OptimizerType::ScalesType;
