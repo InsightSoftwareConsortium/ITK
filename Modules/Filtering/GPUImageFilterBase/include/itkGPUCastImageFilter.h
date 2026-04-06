@@ -52,9 +52,9 @@ template <typename TInput, typename TOutput>
 class ITK_TEMPLATE_EXPORT GPUCast : public GPUFunctorBase
 {
 public:
-  GPUCast() {}
+  GPUCast() = default;
 
-  ~GPUCast() {}
+  ~GPUCast() = default;
 
   /** Setup GPU kernel arguments for this functor.
    * Returns current argument index to set additional arguments in the GPU kernel.
@@ -105,7 +105,7 @@ public:
 
 protected:
   GPUCastImageFilter();
-  ~GPUCastImageFilter() override {}
+  ~GPUCastImageFilter() override = default;
 
   /** Unlike CPU version, GPU version of binary threshold filter is not
   multi-threaded */
