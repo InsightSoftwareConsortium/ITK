@@ -65,7 +65,7 @@ GPUContextManager::GPUContextManager()
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
   // create command queues
-  m_CommandQueue = (cl_command_queue *)malloc(m_NumberOfDevices * sizeof(cl_command_queue));
+  m_CommandQueue = static_cast<cl_command_queue *>(malloc(m_NumberOfDevices * sizeof(cl_command_queue)));
   for (unsigned int i = 0; i < m_NumberOfDevices; ++i)
   {
     m_CommandQueue[i] = clCreateCommandQueue(m_Context, m_Devices[i], 0, &errid);

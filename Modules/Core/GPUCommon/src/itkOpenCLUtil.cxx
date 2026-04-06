@@ -57,7 +57,7 @@ OpenCLGetAvailableDevices(cl_platform_id platform, cl_device_type devType, cl_ui
   cl_int errid = clGetDeviceIDs(platform, devType, 0, nullptr, &totalNumDevices);
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
-  auto * totalDevices = (cl_device_id *)malloc(totalNumDevices * sizeof(cl_device_id));
+  auto * totalDevices = static_cast<cl_device_id *>(malloc(totalNumDevices * sizeof(cl_device_id)));
   errid = clGetDeviceIDs(platform, devType, totalNumDevices, totalDevices, nullptr);
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
@@ -75,7 +75,7 @@ OpenCLGetAvailableDevices(cl_platform_id platform, cl_device_type devType, cl_ui
     }
   }
 
-  availableDevices = (cl_device_id *)malloc(*numAvailableDevices * sizeof(cl_device_id));
+  availableDevices = static_cast<cl_device_id *>(malloc(*numAvailableDevices * sizeof(cl_device_id)));
 
   int idx = 0;
   for (cl_uint i = 0; i < totalNumDevices; ++i)
@@ -105,7 +105,7 @@ OpenCLGetMaxFlopsDev(cl_context cxGPUContext)
 
   // get the list of GPU devices associated with context
   clGetContextInfo(cxGPUContext, CL_CONTEXT_DEVICES, 0, nullptr, &szParmDataBytes);
-  cdDevices = (cl_device_id *)malloc(szParmDataBytes);
+  cdDevices = static_cast<cl_device_id *>(malloc(szParmDataBytes));
   size_t device_count = szParmDataBytes / sizeof(cl_device_id);
 
   clGetContextInfo(cxGPUContext, CL_CONTEXT_DEVICES, szParmDataBytes, cdDevices, nullptr);
@@ -216,7 +216,7 @@ OpenCLSelectPlatform(const char * name)
     else
     {
       // if there's a platform or more, make space for ID's
-      if ((clPlatformIDs = (cl_platform_id *)malloc(num_platforms * sizeof(cl_platform_id))) == nullptr)
+      if ((clPlatformIDs = static_cast<cl_platform_id *>(malloc(num_platforms * sizeof(cl_platform_id)))) == nullptr)
       {
         printf("Failed to allocate memory for cl_platform ID's!\n\n");
       }
