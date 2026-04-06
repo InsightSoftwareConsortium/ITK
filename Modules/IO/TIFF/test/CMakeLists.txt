@@ -486,7 +486,7 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
       50000L
   )
 
-  # Due to the large memory requirements this tests must be run one by one
+  # Due to the large memory requirements these tests must be run one by one
   set_tests_properties(
     itkLargeTIFFImageWriteReadTest1
     itkLargeTIFFImageWriteReadTest2
@@ -496,6 +496,8 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
         BigIO
       RESOURCE_LOCK
         MEMORY_SIZE
+      RUN_SERIAL
+        True
   )
   set_property(
     TEST
@@ -507,31 +509,7 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
   )
   set_property(
     TEST
-      itkLargeTIFFImageWriteReadTest1
-    APPEND
-    PROPERTY
-      RUN_SERIAL
-        True
-  )
-  set_property(
-    TEST
       itkLargeTIFFImageWriteReadTest2
-    APPEND
-    PROPERTY
-      LABELS
-        RUNS_LONG
-  )
-  set_property(
-    TEST
-      itkLargeTIFFImageWriteReadTest2
-    APPEND
-    PROPERTY
-      RUN_SERIAL
-        True
-  )
-  set_property(
-    TEST
-      itkLargeTIFFImageWriteReadTest3
     APPEND
     PROPERTY
       LABELS
@@ -542,9 +520,13 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
       itkLargeTIFFImageWriteReadTest3
     APPEND
     PROPERTY
-      RUN_SERIAL
-        True
+      LABELS
+        RUNS_LONG
   )
+  # Clean up BigIO output files after completion
+  itk_add_file_test_cleanup(itkLargeTIFFImageWriteReadTest1 ${ITK_TEST_OUTPUT_DIR}/LargeImage01.tif)
+  itk_add_file_test_cleanup(itkLargeTIFFImageWriteReadTest2 ${ITK_TEST_OUTPUT_DIR}/LargeImage02.tif)
+  itk_add_file_test_cleanup(itkLargeTIFFImageWriteReadTest3 ${ITK_TEST_OUTPUT_DIR}/LargeImage03.tif)
 endif()
 
 if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12)
@@ -558,7 +540,7 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12)
       70000L
   )
 
-  # Due to the large memory requirements this tests must lock the memory size resource
+  # Due to the large memory requirements this test must be run serially
   set_tests_properties(
     itkLargeTIFFImageWriteReadTest4
     PROPERTIES
@@ -568,6 +550,8 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12)
         MEMORY_SIZE
       COST
         30
+      RUN_SERIAL
+        True
   )
   set_property(
     TEST
@@ -577,14 +561,7 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12)
       LABELS
         RUNS_LONG
   )
-  set_property(
-    TEST
-      itkLargeTIFFImageWriteReadTest4
-    APPEND
-    PROPERTY
-      RUN_SERIAL
-        True
-  )
+  itk_add_file_test_cleanup(itkLargeTIFFImageWriteReadTest4 ${ITK_TEST_OUTPUT_DIR}/LargeImage04.tif)
 endif()
 
 # expand + RGB image

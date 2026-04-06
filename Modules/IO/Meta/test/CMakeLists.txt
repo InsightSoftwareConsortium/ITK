@@ -482,7 +482,7 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
       50000L
   )
 
-  # Due to the large memory requirements this tests must be run one by one
+  # Due to the large memory requirements these tests must be run one by one
   set_tests_properties(
     itkLargeMetaImageWriteReadTest1
     itkLargeMetaImageWriteReadTest2
@@ -519,6 +519,10 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
       LABELS
         RUNS_LONG
   )
+  # Clean up BigIO output files after completion
+  itk_add_file_test_cleanup(itkLargeMetaImageWriteReadTest1 ${ITK_TEST_OUTPUT_DIR}/LargeImage01.mhd)
+  itk_add_file_test_cleanup(itkLargeMetaImageWriteReadTest2 ${ITK_TEST_OUTPUT_DIR}/LargeImage02.mhd)
+  itk_add_file_test_cleanup(itkLargeMetaImageWriteReadTest3 ${ITK_TEST_OUTPUT_DIR}/LargeImage03.mhd)
 endif()
 
 if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12)
@@ -532,7 +536,7 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12)
       70000L
   )
 
-  # Due to the large memory requirements this tests must be run one by one
+  # Due to the large memory requirements this test must be run serially
   set_tests_properties(
     itkLargeMetaImageWriteReadTest4
     PROPERTIES
@@ -542,6 +546,8 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12)
         MEMORY_SIZE
       COST
         30
+      RUN_SERIAL
+        True
   )
   set_property(
     TEST
@@ -551,12 +557,5 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12)
       LABELS
         RUNS_LONG
   )
-  set_property(
-    TEST
-      itkLargeMetaImageWriteReadTest4
-    APPEND
-    PROPERTY
-      RUN_SERIAL
-        True
-  )
+  itk_add_file_test_cleanup(itkLargeMetaImageWriteReadTest4 ${ITK_TEST_OUTPUT_DIR}/LargeImage04.mhd)
 endif()

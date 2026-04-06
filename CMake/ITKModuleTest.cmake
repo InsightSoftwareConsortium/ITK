@@ -337,3 +337,79 @@ function(itk_memcheck_ignore)
         ${ARGN}
   )
 endfunction()
+
+#-----------------------------------------------------------------------------
+# Option to automatically remove large test output files after completion.
+# BigIO write-read tests can produce multi-gigabyte temporary files
+# that exhaust disk space on CI runners and local builds.
+option(
+  ITK_REMOVE_TEST_FILES_ON_SUCCESS
+  "Remove large test output files after test completion. Set OFF to retain files for debugging."
+  ON
+)
+mark_as_advanced(ITK_REMOVE_TEST_FILES_ON_SUCCESS)
+
+#-----------------------------------------------------------------------------
+# itk_add_file_test_cleanup(<test_name> <output_file> [<output_file2> ...])
+#
+# Adds a cleanup test that removes the given output files after <test_name>
+# completes.  Uses CTest fixtures: the main test is declared FIXTURES_SETUP
+# and the companion <test_name>_cleanup test is declared FIXTURES_CLEANUP.
+#
+# NOTE: Per CMake documentation, FIXTURES_CLEANUP tests execute
+# unconditionally after their fixture — they run regardless of whether the
+# SETUP test passed, failed, or was skipped.  To retain output files for
+# debugging after a failure, set ITK_REMOVE_TEST_FILES_ON_SUCCESS=OFF.
+#
+# NOTE: In a full unfiltered run all tests (including *_cleanup variants)
+# are in the active set and fixture ordering is respected.  When rerunning
+# a single test with a strict filter (e.g. ctest -R "^<test_name>$"),
+# the *_cleanup test does not match; omit the anchors (ctest -R <test_name>)
+# so both the main test and its cleanup are selected.
+#
+# When ITK_REMOVE_TEST_FILES_ON_SUCCESS is OFF, no cleanup test is added
+# and the output files are retained for manual inspection.
+#
+function(itk_add_file_test_cleanup TEST_NAME)
+  if(NOT ITK_REMOVE_TEST_FILES_ON_SUCCESS)
+    return()
+  endif()
+
+  set(FIXTURE_NAME "Cleanup_${TEST_NAME}")
+
+  # Make the main test the SETUP of this fixture
+  set_tests_properties(
+    ${TEST_NAME}
+    PROPERTIES
+      FIXTURES_SETUP
+        ${FIXTURE_NAME}
+  )
+
+  # Build the removal command for all output files
+  set(RM_ARGS "")
+  foreach(OUTPUT_FILE ${ARGN})
+    # For .mhd files, also remove the companion .raw/.zraw
+    get_filename_component(EXT "${OUTPUT_FILE}" LAST_EXT)
+    get_filename_component(BASE_NAME "${OUTPUT_FILE}" NAME_WLE)
+    get_filename_component(DIR "${OUTPUT_FILE}" DIRECTORY)
+    list(APPEND RM_ARGS "${OUTPUT_FILE}")
+    if("${EXT}" STREQUAL ".mhd")
+      list(APPEND RM_ARGS "${DIR}/${BASE_NAME}.raw")
+      list(APPEND RM_ARGS "${DIR}/${BASE_NAME}.zraw")
+    endif()
+  endforeach()
+
+  add_test(
+    NAME ${TEST_NAME}_cleanup
+    COMMAND
+      ${CMAKE_COMMAND} -E rm -f ${RM_ARGS}
+  )
+  set_tests_properties(
+    ${TEST_NAME}_cleanup
+    PROPERTIES
+      FIXTURES_CLEANUP
+        ${FIXTURE_NAME}
+      LABELS
+        "CLEANUP"
+  )
+endfunction()
