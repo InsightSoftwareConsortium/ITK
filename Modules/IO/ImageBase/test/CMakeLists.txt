@@ -83,6 +83,17 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 16)
       LABELS
         "BigIO;RUNS_LONG"
   )
+
+  # Clean up BigIO output files after completion
+  itk_add_file_test_cleanup(
+    itkLargeImageWriteConvertReadTest ${ITK_TEST_OUTPUT_DIR}/itkLargeImageWriteConvertReadTest.mha
+  )
+  itk_add_file_test_cleanup(
+    itkLargeImageWriteReadTest_2D ${ITK_TEST_OUTPUT_DIR}/itkLargeImageWriteReadTest_2D.mha
+  )
+  itk_add_file_test_cleanup(
+    itkLargeImageWriteReadTest_3D ${ITK_TEST_OUTPUT_DIR}/itkLargeImageWriteReadTest_3D.mha
+  )
 endif()
 
 itk_add_test(

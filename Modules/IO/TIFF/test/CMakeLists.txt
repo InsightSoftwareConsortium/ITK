@@ -523,6 +523,10 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
       LABELS
         RUNS_LONG
   )
+  # Clean up BigIO output files after completion
+  itk_add_file_test_cleanup(itkLargeTIFFImageWriteReadTest1 ${ITK_TEST_OUTPUT_DIR}/LargeImage01.tif)
+  itk_add_file_test_cleanup(itkLargeTIFFImageWriteReadTest2 ${ITK_TEST_OUTPUT_DIR}/LargeImage02.tif)
+  itk_add_file_test_cleanup(itkLargeTIFFImageWriteReadTest3 ${ITK_TEST_OUTPUT_DIR}/LargeImage03.tif)
 endif()
 
 if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12)
@@ -557,6 +561,7 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12)
       LABELS
         RUNS_LONG
   )
+  itk_add_file_test_cleanup(itkLargeTIFFImageWriteReadTest4 ${ITK_TEST_OUTPUT_DIR}/LargeImage04.tif)
 endif()
 
 # expand + RGB image
