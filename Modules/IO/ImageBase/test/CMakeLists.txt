@@ -52,12 +52,6 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 16)
       ${ITK_TEST_OUTPUT_DIR}/itkLargeImageWriteConvertReadTest.mha
       30000L
   )
-  set_tests_properties(
-    itkLargeImageWriteConvertReadTest
-    PROPERTIES
-      RESOURCE_LOCK
-        MEMORY_SIZE
-  )
 
   itk_add_test(
     NAME itkLargeImageWriteReadTest_2D
@@ -66,12 +60,6 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 16)
       itkLargeImageWriteReadTest
       ${ITK_TEST_OUTPUT_DIR}/itkLargeImageWriteReadTest_2D.mha
       30000L
-  )
-  set_tests_properties(
-    itkLargeImageWriteReadTest_2D
-    PROPERTIES
-      RESOURCE_LOCK
-        MEMORY_SIZE
   )
 
   itk_add_test(
@@ -83,11 +71,17 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 16)
       30000L
       4L
   )
+
+  # BigIO tests produce multi-gigabyte files; MEMORY_SIZE lock serializes them
   set_tests_properties(
+    itkLargeImageWriteConvertReadTest
+    itkLargeImageWriteReadTest_2D
     itkLargeImageWriteReadTest_3D
     PROPERTIES
       RESOURCE_LOCK
         MEMORY_SIZE
+      LABELS
+        "BigIO;RUNS_LONG"
   )
 endif()
 
