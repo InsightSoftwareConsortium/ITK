@@ -166,7 +166,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   )
 
   configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/itkConfig.py.in"
+    "${CMAKE_CURRENT_SOURCE_DIR}/itkConfig.template.in.py"
     "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itkConfig.py"
     @ONLY
   )

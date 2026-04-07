@@ -8,7 +8,6 @@ itk.force_load()
 from itk.support import types
 from itk.support.template_class import itkTemplate, itkTemplateBase
 
-from typing import Union
 from itkConfig import ITK_GLOBAL_WRAPPING_BUILD_OPTIONS as _itkwrapbo
 
 DIMS: list[int] = [int(s) for s in _itkwrapbo["ITK_WRAP_IMAGE_DIMS"] if s]
@@ -62,7 +61,7 @@ INTS: list[types.itkCType] = SIGN_INTS + USIGN_INTS
 SCALARS: list[types.itkCType] = INTS + REALS
 VECTORS: list[itkTemplate] = VECTOR_REALS + COV_VECTOR_REALS
 COLORS: list[itkTemplate] = RGBS + RGBAS
-ALL_TYPES: list[Union[types.itkCType, itkTemplate]] = (
+ALL_TYPES: list[types.itkCType | itkTemplate] = (
     COLORS + VECTORS + SCALARS + COMPLEX_REALS
 )
 

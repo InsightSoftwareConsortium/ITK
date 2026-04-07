@@ -34,7 +34,6 @@ Currently-supported options are:
   LazyLoading: Only load an itk library when needed. Before the library is
     loaded, the namespace will be inhabited with dummy objects."""
 
-from typing import Dict, List, Optional, Type, Union
 
 # User options
 SILENT: int = 0
@@ -51,6 +50,7 @@ def _get_environment_boolean(environment_var: str, default_string: str) -> bool:
     # False values are n, no, f, false, off and 0.
     # Raises ValueError if val is anything else.
     from os import environ as _environ
+
     def _strtobool(val: str) -> bool:
         val = val.lower()
         if val in ("y", "yes", "t", "true", "on", "1"):
@@ -59,7 +59,6 @@ def _get_environment_boolean(environment_var: str, default_string: str) -> bool:
             return 0
         else:
             raise ValueError(f"invalid truth value {val}")
-
 
     try:
         _StringDefault: str = _environ.get(environment_var, default_string)
@@ -77,7 +76,9 @@ def _get_environment_boolean(environment_var: str, default_string: str) -> bool:
     return bool(_strtobool(default_string))
 
 
-DefaultFactoryLoading: bool = _get_environment_boolean("ITK_PYTHON_DEFAULTFACTORYLOADING", "True")
+DefaultFactoryLoading: bool = _get_environment_boolean(
+    "ITK_PYTHON_DEFAULTFACTORYLOADING", "True"
+)
 LazyLoading: bool = _get_environment_boolean("ITK_PYTHON_LAZYLOADING", "True")
 NotInPlace: bool = _get_environment_boolean("ITK_PYTHON_NOTINPLACE", "False")
 del _get_environment_boolean
@@ -86,11 +87,11 @@ del _get_environment_boolean
 
 
 def _itk_format_warning(
-    message: Union[Warning, str],
-    category: Type[Warning],  # Ignore category
+    message: Warning | str,
+    category: type[Warning],  # Ignore category
     filename: str,  # Ignore filename
     lineno: int,  # Ignore lineno
-    line: Optional[str] = None,  # Ignore line
+    line: str | None = None,  # Ignore line
 ) -> str:
     """Format the warnings issued by itk to display only the message.
 
@@ -151,7 +152,7 @@ def _initialize():
 ITK_GLOBAL_VERSION_STRING: str = (
     "@ITK_VERSION_MAJOR@.@ITK_VERSION_MINOR@.@ITK_VERSION_PATCH@"
 )
-ITK_GLOBAL_WRAPPING_BUILD_OPTIONS: Dict[str, List[str]] = {
+ITK_GLOBAL_WRAPPING_BUILD_OPTIONS: dict[str, list[str]] = {
     "ITK_WRAP_IMAGE_DIMS": "@ITK_WRAP_IMAGE_DIMS@".split(";"),
     "WRAP_ITK_USIGN_INT": "@WRAP_ITK_USIGN_INT@".split(";"),
     "WRAP_ITK_SIGN_INT": "@WRAP_ITK_SIGN_INT@".split(";"),
