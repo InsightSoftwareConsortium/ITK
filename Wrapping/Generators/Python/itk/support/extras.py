@@ -93,6 +93,7 @@ __all__ = [
     "image_from_xarray",
     "vtk_image_from_image",
     "image_from_vtk_image",
+    "image_from_simpleitk",
     "dict_from_image",
     "image_from_dict",
     "image_intensity_min_max",
@@ -785,6 +786,88 @@ def image_from_vtk_image(vtk_image: "vtk.vtkImageData") -> "itkt.ImageBase":
                     direction_array[x, y] = direction.GetElement(x, y)
         l_direction = itk.matrix_from_array(direction_array)
         l_image.SetDirection(l_direction)
+    return l_image
+
+
+def image_from_simpleitk(sitk_image) -> "itkt.ImageBase":
+    """Convert a SimpleITK Image to an itk.Image.
+
+    The source image is accessed through generic interfaces: the NumPy
+    ``__array__`` protocol for pixel data, ``keys()`` for available
+    metadata keys, and dictionary-style ``[]`` access for metadata
+    values.  The recognised spatial keys are ``'spacing'``,
+    ``'origin'``, and ``'direction'``; all other keys returned by
+    ``keys()`` are copied into the ITK MetaDataDictionary.
+
+    This makes the function forward-compatible with other image
+    libraries that expose the same conventions (e.g. SimpleITK).
+
+    Pixel data is copied once (SimpleITK buffers are read-only).
+    Multi-component images are converted to itk.VectorImage.
+
+    Parameters
+    ----------
+    sitk_image :
+        A SimpleITK Image object (or any object that supports
+        ``__array__``, ``keys()``, and dictionary ``[]`` access).
+
+    Returns
+    -------
+    image :
+        The resulting itk.Image (or itk.VectorImage for multi-component pixels).
+    """
+    import itk
+
+    array = np.array(sitk_image)
+    dim = array.ndim
+
+    spatial_keys = {"spacing", "origin", "direction"}
+
+    if hasattr(sitk_image, "keys"):
+        keys = list(sitk_image.keys())
+    else:
+        # Probe spatial keys directly (e.g. SimpleITK 3.x supports [] but not keys())
+        keys = []
+        for k in spatial_keys:
+            try:
+                sitk_image[k]
+                keys.append(k)
+            except (KeyError, TypeError, AttributeError):
+                pass
+        # Collect MetaData keys via dedicated accessor if available
+        if hasattr(sitk_image, "GetMetaDataKeys"):
+            keys.extend(sitk_image.GetMetaDataKeys())
+
+    if "spacing" in keys:
+        spacing = sitk_image["spacing"]
+        dim = len(spacing)
+
+    is_vector = array.ndim > dim
+
+    if is_vector:
+        PixelType = _get_itk_pixelid(array)
+        ImageType = itk.VectorImage[PixelType, dim]
+        l_image = itk.image_view_from_array(array, ttype=ImageType)
+    else:
+        l_image = itk.image_view_from_array(array)
+
+    if "spacing" in keys:
+        l_image.SetSpacing(spacing)
+
+    if "origin" in keys:
+        l_image.SetOrigin(sitk_image["origin"])
+
+    if "direction" in keys:
+        direction = np.array(sitk_image["direction"]).reshape(dim, dim)
+        l_image.SetDirection(direction)
+
+    for key in keys:
+        if key not in spatial_keys:
+            l_image.GetMetaDataDictionary()[key] = sitk_image[key]
+
+    # Keep a reference to the numpy array to prevent garbage collection
+    l_image._SetBase(array)
+
     return l_image
 
 
