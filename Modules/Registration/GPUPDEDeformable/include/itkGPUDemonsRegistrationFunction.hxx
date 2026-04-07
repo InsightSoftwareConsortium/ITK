@@ -97,7 +97,7 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Pr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ZeroUpdateReturn: " << static_cast<NumericTraits<PixelType>::PrintType>(m_ZeroUpdateReturn)
+  os << indent << "ZeroUpdateReturn: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ZeroUpdateReturn)
      << std::endl;
   os << indent << "Normalizer: " << m_Normalizer << std::endl;
 
@@ -108,7 +108,7 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Pr
 
   itkPrintSelfObjectMacro(MovingImageInterpolator);
 
-  os << indent << "TimeStep: " << static_cast<NumericTraits<TimeStepType>::PrintType>(m_TimeStep) << std::endl;
+  os << indent << "TimeStep: " << static_cast<typename NumericTraits<TimeStepType>::PrintType>(m_TimeStep) << std::endl;
 
   os << indent << "DenominatorThreshold: " << m_DenominatorThreshold << std::endl;
   os << indent << "IntensityDifferenceThreshold: " << m_IntensityDifferenceThreshold << std::endl;

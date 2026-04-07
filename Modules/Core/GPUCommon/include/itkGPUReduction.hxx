@@ -188,12 +188,12 @@ GPUReduction<TElement>::RandomTest()
   this->InitializeKernel(size);
 
   unsigned int bytes = size * sizeof(TElement);
-  auto *       h_idata = (TElement *)malloc(bytes);
+  auto *       h_idata = static_cast<TElement *>(malloc(bytes));
 
   for (int i = 0; i < size; ++i)
   {
     // Keep the numbers small so we don't get truncation error in the sum
-    h_idata[i] = (TElement)(rand() & 0xFF);
+    h_idata[i] = static_cast<TElement>(rand() & 0xFF);
   }
 
   this->AllocateGPUInputBuffer(h_idata);
@@ -260,7 +260,7 @@ GPUReduction<TElement>::GPUGenerateData()
   }
 
   // allocate output data for the result
-  auto * h_odata = (TElement *)malloc(numBlocks * sizeof(TElement));
+  auto * h_odata = static_cast<TElement *>(malloc(numBlocks * sizeof(TElement)));
 
   GPUDataPointer odata = GPUDataManager::New();
   odata->SetBufferSize(numBlocks * sizeof(TElement));
@@ -331,13 +331,13 @@ GPUReduction<TElement>::GPUReduce(cl_int         n,
 
 #ifdef CPU_VERIFY
   idata->SetCPUDirtyFlag(true);
-  TElement * h_idata = (TElement *)idata->GetCPUBufferPointer(); // debug
+  TElement * h_idata = static_cast<TElement *>(idata->GetCPUBufferPointer()); // debug
   if (!h_idata)
   {
-    h_idata = (TElement *)malloc(sizeof(TElement) * n);
+    h_idata = static_cast<TElement *>(malloc(sizeof(TElement) * n));
     idata->SetCPUBufferPointer(h_idata);
     idata->SetCPUDirtyFlag(true);
-    h_idata = (TElement *)idata->GetCPUBufferPointer(); // debug
+    h_idata = static_cast<TElement *>(idata->GetCPUBufferPointer()); // debug
   }
 
   TElement CPUSum = this->CPUGenerateData(h_idata, n);
