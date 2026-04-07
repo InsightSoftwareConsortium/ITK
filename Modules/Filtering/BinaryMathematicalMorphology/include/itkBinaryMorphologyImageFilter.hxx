@@ -114,8 +114,7 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
   tmpSEImage->Allocate();
 
   // copy
-  ImageRegionIterator<BoolImageType> kernelImageIt; // iterator on image
-  kernelImageIt = ImageRegionIterator(tmpSEImage, tmpSEImage->GetRequestedRegion());
+  ImageRegionIterator kernelImageIt(tmpSEImage, tmpSEImage->GetRequestedRegion());
 
   kernel_it = KernelBegin;
 
