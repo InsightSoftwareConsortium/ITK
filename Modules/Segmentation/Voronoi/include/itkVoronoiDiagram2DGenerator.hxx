@@ -273,12 +273,56 @@ VoronoiDiagram2DGenerator<TCoordinate>::ConstructDiagram()
     buildEdges.push_back(curr);
     EdgeInfo front = curr;
     EdgeInfo back = curr;
-    while (!(rawEdges[i].empty()))
+    // Assemble raw edges into a connected chain for this Voronoi cell.
+    // Each iteration pops an edge from the deque and attempts to attach
+    // it to the front or back of the growing chain.  Edges that cannot
+    // attach are pushed back for retry, because later attachments change
+    // the chain endpoints and may make previously unattachable edges
+    // attachable.
+    //
+    // A stall counter tracks progress: it resets whenever an edge
+    // attaches, and terminates the loop when a full pass through the
+    // deque makes no progress.  Without this, certain degenerate seed
+    // configurations (near-collinear seeds, ITK issue #4386) cause an
+    // infinite loop because Fortune's algorithm produces near-zero-length
+    // edges whose endpoints differ by less than floating-point tolerance
+    // but have different vertex IDs.  These degenerate edges cannot
+    // attach because:
+    //   1. Their endpoints don't match any chain vertex by ID.
+    //   2. The chain may already be closed (front[0] == back[1]).
+    //   3. The boundary-bridging logic doesn't apply when the chain
+    //      endpoints are interior (not on the domain boundary).
+    // Such edges are safely dropped — they represent floating-point
+    // artifacts where two boundary intersection points should be
+    // identical in exact arithmetic.
+    auto remainingBeforeStall = rawEdges[i].size();
+    while (!(rawEdges[i].empty()) && (remainingBeforeStall != 0))
     {
+      --remainingBeforeStall;
       curr = rawEdges[i].front();
       rawEdges[i].pop_front();
+
+      // Check if this edge is a degenerate near-zero-length artifact.
+      // Fortune's algorithm can produce edges whose two endpoints map
+      // to the same geometric point (within DIFF_TOLERENCE) but have
+      // different vertex IDs.  These carry no geometric information
+      // and can be safely discarded.
+      const PointType & edgeStart = m_OutputVD->GetVertex(curr[0]);
+      const PointType & edgeEnd = m_OutputVD->GetVertex(curr[1]);
+      if (!differentPoint(edgeStart, edgeEnd))
+      {
+        itkDebugMacro("Dropping degenerate near-zero-length edge ["
+                      << curr[0] << " (" << edgeStart[0] << "," << edgeStart[1] << ") -> " << curr[1] << " ("
+                      << edgeEnd[0] << "," << edgeEnd[1] << ")]"
+                      << " for cell " << i << ": endpoints within DIFF_TOLERENCE=" << DIFF_TOLERENCE);
+        // Count as progress — this edge is resolved (discarded).
+        remainingBeforeStall = rawEdges[i].size();
+        continue;
+      }
+
       unsigned char frontbnd = Pointonbnd(front[0]);
       unsigned char backbnd = Pointonbnd(back[1]);
+      bool          edgeAttached = true;
       if (curr[0] == back[1])
       {
         buildEdges.push_back(curr);
@@ -353,12 +397,30 @@ VoronoiDiagram2DGenerator<TCoordinate>::ConstructDiagram()
         else
         {
           rawEdges[i].push_back(curr);
+          edgeAttached = false;
         }
       }
       else
       {
         rawEdges[i].push_back(curr);
+        edgeAttached = false;
       }
+      if (edgeAttached)
+      {
+        // Progress was made — chain endpoints changed, so previously
+        // unattachable edges may now be attachable.
+        remainingBeforeStall = rawEdges[i].size();
+      }
+    }
+    // After assembly, all edges for this cell should have been either
+    // attached to the chain or identified as degenerate artifacts.
+    // Any remaining edges indicate an unexpected algorithmic failure.
+    if (!rawEdges[i].empty())
+    {
+      itkExceptionMacro("VoronoiDiagram2DGenerator::ConstructDiagram: "
+                        << rawEdges[i].size() << " non-degenerate edge(s) could not be "
+                        << "assembled into cell " << i << " boundary chain. "
+                        << "This indicates an unexpected geometric configuration.");
     }
 
     curr = buildEdges.front();

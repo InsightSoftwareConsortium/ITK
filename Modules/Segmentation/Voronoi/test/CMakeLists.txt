@@ -4,10 +4,18 @@ set(
   itkVoronoiSegmentationImageFilterTest.cxx
   itkVoronoiSegmentationRGBImageFilterTest.cxx
   itkVoronoiDiagram2DTest.cxx
+  itkVoronoiDiagram2DInfiniteLoopTest.cxx
   itkVoronoiPartitioningImageFilterTest.cxx
 )
 
 createtestdriver(ITKVoronoi "${ITKVoronoi-Test_LIBRARIES}" "${ITKVoronoiTests}")
+
+itk_add_test(
+  NAME itkVoronoiDiagram2DInfiniteLoopTest
+  COMMAND
+    ITKVoronoiTestDriver
+    itkVoronoiDiagram2DInfiniteLoopTest
+)
 
 itk_add_test(
   NAME itkVoronoiSegmentationImageFilterTest
