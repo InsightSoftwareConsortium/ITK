@@ -38,6 +38,13 @@ try:
     _HAVE_TORCH = True
 except importlib.metadata.PackageNotFoundError:
     pass
+_HAVE_SIMPLEITK = False
+try:
+    metadata("SimpleITK")
+
+    _HAVE_SIMPLEITK = True
+except (ImportError, importlib.metadata.PackageNotFoundError):
+    pass
 
 
 def snake_to_camel_case(keyword: str):
@@ -92,11 +99,13 @@ def move_last_dimension_to_first(arr):
 
 def accept_array_like_xarray_torch(image_filter):
     """Decorator that allows itk.ProcessObject snake_case functions to accept
-    NumPy array-like, PyTorch Tensor's or xarray DataArray inputs for itk.Image inputs.
+    NumPy array-like, PyTorch Tensor's, xarray DataArray, or SimpleITK Image
+    inputs for itk.Image inputs.
 
     If a NumPy array-like is passed as an input, output itk.Image's are converted to numpy.ndarray's.
     If a torch.Tensor is passed as an input, output itk.Image's are converted to torch.Tensors.
     If a xarray DataArray is passed as an input, output itk.Image's are converted to xarray.DataArray's.
+    If a SimpleITK Image is passed as an input, output itk.Image's are returned as-is.
     """
     import numpy as np
     import itk
@@ -105,16 +114,23 @@ def accept_array_like_xarray_torch(image_filter):
         import xarray as xr
     if _HAVE_TORCH:
         import torch
+    if _HAVE_SIMPLEITK:
+        import SimpleITK as sitk
 
     @functools.wraps(image_filter)
     def image_filter_wrapper(*args, **kwargs):
         have_array_input = False
         have_xarray_input = False
         have_torch_input = False
+        have_simpleitk_input = False
 
         args_list = list(args)
         for index, arg in enumerate(args):
-            if _HAVE_XARRAY and isinstance(arg, xr.DataArray):
+            if _HAVE_SIMPLEITK and isinstance(arg, sitk.Image):
+                have_simpleitk_input = True
+                image = itk.image_from_simpleitk(arg)
+                args_list[index] = image
+            elif _HAVE_XARRAY and isinstance(arg, xr.DataArray):
                 have_xarray_input = True
                 image = itk.image_from_xarray(arg)
                 args_list[index] = image
@@ -135,7 +151,11 @@ def accept_array_like_xarray_torch(image_filter):
         potential_image_input_kwargs = ("input", "input1", "input2", "input3")
         for key, value in kwargs.items():
             if key.lower() in potential_image_input_kwargs or "image" in key.lower():
-                if _HAVE_XARRAY and isinstance(value, xr.DataArray):
+                if _HAVE_SIMPLEITK and isinstance(value, sitk.Image):
+                    have_simpleitk_input = True
+                    image = itk.image_from_simpleitk(value)
+                    kwargs[key] = image
+                elif _HAVE_XARRAY and isinstance(value, xr.DataArray):
                     have_xarray_input = True
                     image = itk.image_from_xarray(value)
                     kwargs[key] = image
@@ -155,9 +175,16 @@ def accept_array_like_xarray_torch(image_filter):
                     image = itk.image_view_from_array(array)
                     kwargs[key] = image
 
-        if have_xarray_input or have_torch_input or have_array_input:
-            # Convert output itk.Image's to numpy.ndarray's
+        if (
+            have_simpleitk_input
+            or have_xarray_input
+            or have_torch_input
+            or have_array_input
+        ):
+            # Convert output itk.Image's based on input type
             output = image_filter(*tuple(args_list), **kwargs)
+            if have_simpleitk_input:
+                return output
             if isinstance(output, tuple):
                 output_list = list(output)
                 for index, value in enumerate(output_list):
