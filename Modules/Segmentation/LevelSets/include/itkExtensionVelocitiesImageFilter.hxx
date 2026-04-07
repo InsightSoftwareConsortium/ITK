@@ -143,13 +143,8 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
   const double levelSetValue = this->GetLevelSetValue();
 
   // define iterators
-  using LocalLevelSetImageType = typename LevelSetType::LevelSetImageType;
-
   ImageRegionConstIterator inputIt(inputPtr, inputPtr->GetBufferedRegion());
   ImageRegionIterator      outputIt(outputPtr, outputPtr->GetBufferedRegion());
-
-  ImageRegionIterator<LocalLevelSetImageType> tempIt;
-
 
   ImageRegionIterator<AuxImageType> auxTempIt[VAuxDimension];
   ImageRegionIterator<AuxImageType> auxOutputIt[VAuxDimension];
@@ -178,7 +173,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
   m_Marcher->SetAuxiliaryTrialValues(m_Locator->GetModifiableAuxOutsideValues());
   m_Marcher->Update();
 
-  tempIt = ImageRegionIterator(tempLevelSet, tempLevelSet->GetBufferedRegion());
+  ImageRegionIterator tempIt(tempLevelSet, tempLevelSet->GetBufferedRegion());
 
   for (unsigned int k = 0; k < VAuxDimension; ++k)
   {
