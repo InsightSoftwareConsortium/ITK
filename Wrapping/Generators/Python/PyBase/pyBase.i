@@ -712,13 +712,14 @@ str = str
               # Determine the struct format character for the component type
               tpl = itk.template(self)
               pixel_type = tpl[1][0]
-              pixel_tpl = itk.template(pixel_type)
-              if pixel_tpl and len(pixel_tpl[1]) > 0:
-                  # Composite pixel (RGB, Vector, etc.) — use component type
-                  component_code = pixel_tpl[1][0].short_name
-              else:
-                  # Scalar pixel
+              from itk.support.types import itkCType
+              if isinstance(pixel_type, itkCType):
+                  # Scalar pixel (UC, F, SS, etc.)
                   component_code = pixel_type.short_name
+              else:
+                  # Composite pixel (RGB, Vector, etc.) — use component type
+                  pixel_tpl = itk.template(pixel_type)
+                  component_code = pixel_tpl[1][0].short_name
 
               fmt = _get_buffer_formatstring(component_code)
 
