@@ -29,6 +29,54 @@ else:
         loads = dask_deserialize.dispatch(np.ndarray)
         return NDArrayITKBase(loads(header, frames))
 
+def _get_buffer_formatstring(itk_pixel_code: str) -> str:
+    """Return the struct format character for an ITK pixel type code.
+
+    Used by the PEP 688 ``__buffer__`` protocol implementation on
+    ``itk.Image`` to describe the element type of the exported
+    memoryview.  Format characters follow Python's ``struct`` module
+    specification.
+
+    Parameters
+    ----------
+    itk_pixel_code : str
+        Short name of the ITK component type, e.g. ``"UC"``, ``"F"``.
+
+    Returns
+    -------
+    str
+        Single-character ``struct`` format string.
+    """
+
+    _format_map = {
+        "UC": "B",   # unsigned char  -> uint8
+        "US": "H",   # unsigned short -> uint16
+        "UI": "I",   # unsigned int   -> uint32
+        "UL": "L",   # unsigned long  -> platform
+        "ULL": "Q",  # unsigned long long -> uint64
+        "SC": "b",   # signed char    -> int8
+        "SS": "h",   # short          -> int16
+        "SI": "i",   # int            -> int32
+        "SL": "l",   # long           -> platform
+        "SLL": "q",  # long long      -> int64
+        "F": "f",    # float          -> float32
+        "D": "d",    # double         -> float64
+    }
+
+    import os
+    if os.name == 'nt':
+        # On Windows, C ``long`` is 32-bit
+        _format_map['UL'] = 'I'
+        _format_map['SL'] = 'i'
+
+    try:
+        return _format_map[itk_pixel_code]
+    except KeyError as e:
+        raise ValueError(
+            f"No struct format for ITK pixel code '{itk_pixel_code}'"
+        ) from e
+
+
 def _get_numpy_pixelid(itk_Image_type) -> np.dtype:
     """Returns a ITK PixelID given a numpy array."""
 

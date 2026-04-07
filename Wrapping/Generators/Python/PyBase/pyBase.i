@@ -679,13 +679,57 @@ str = str
 
 %define DECL_PYTHON_IMAGE_CLASS(swig_name)
   %extend swig_name {
-      %pythoncode {
+      %pythoncode %{
+          def __buffer__(self, flags=0, /):
+              """PEP 688 buffer protocol — export image data as a memoryview.
+
+              On Python 3.12+ this is called automatically by
+              ``memoryview(image)`` and ``numpy.asarray(image)``.
+              On Python 3.10–3.11 it can be called explicitly.
+
+              The returned memoryview shares memory with the image
+              (zero-copy).  The caller must keep the image alive for
+              as long as the memoryview is in use.
+              """
+              import itk
+              from itk.itkPyBufferPython import _get_buffer_formatstring
+
+              # Get 1-D raw memoryview from the C++ buffer
+              ImageType = type(self)
+              PyBufferType = itk.PyBuffer[ImageType]
+              raw_memview = PyBufferType._GetArrayViewFromImage(self)
+
+              # Build shape in C-order (NumPy convention: [z, y, x, ...])
+              itksize = self.GetBufferedRegion().GetSize()
+              shape = [int(itksize[d]) for d in range(len(itksize))]
+
+              n_components = self.GetNumberOfComponentsPerPixel()
+              if n_components > 1 or isinstance(self, itk.VectorImage):
+                  shape.insert(0, n_components)
+
+              shape.reverse()
+
+              # Determine the struct format character for the component type
+              tpl = itk.template(self)
+              pixel_type = tpl[1][0]
+              pixel_tpl = itk.template(pixel_type)
+              if pixel_tpl and len(pixel_tpl[1]) > 0:
+                  # Composite pixel (RGB, Vector, etc.) — use component type
+                  component_code = pixel_tpl[1][0].short_name
+              else:
+                  # Scalar pixel
+                  component_code = pixel_type.short_name
+
+              fmt = _get_buffer_formatstring(component_code)
+
+              return raw_memview.cast(fmt, shape=shape)
+
           def __array__(self, dtype=None):
               import itk
               import numpy as np
               array = itk.array_from_image(self)
               return np.asarray(array, dtype=dtype)
-      }
+      %}
   }
 %enddef
 
