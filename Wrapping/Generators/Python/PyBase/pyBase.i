@@ -679,13 +679,162 @@ str = str
 
 %define DECL_PYTHON_IMAGE_CLASS(swig_name)
   %extend swig_name {
-      %pythoncode {
-          def __array__(self, dtype=None):
+      %pythoncode %{
+          def __buffer__(self, flags=0, /):
+              """PEP 688 buffer protocol — export image data as a memoryview.
+
+              On Python 3.12+ this is called automatically by
+              ``memoryview(image)`` and ``numpy.asarray(image)``.
+              On Python 3.10–3.11 it can be called explicitly.
+
+              The returned memoryview shares memory with the image
+              (zero-copy).  The caller must keep the image alive for
+              as long as the memoryview is in use.
+              """
+              import itk
+              from itk.itkPyBufferPython import _get_buffer_formatstring
+
+              # Get 1-D raw memoryview from the C++ buffer
+              ImageType = type(self)
+              PyBufferType = itk.PyBuffer[ImageType]
+              raw_memview = PyBufferType._GetArrayViewFromImage(self)
+
+              # Build shape in C-order (NumPy convention: [z, y, x, ...])
+              itksize = self.GetBufferedRegion().GetSize()
+              shape = [int(itksize[d]) for d in range(len(itksize))]
+
+              n_components = self.GetNumberOfComponentsPerPixel()
+              if n_components > 1:
+                  shape.insert(0, n_components)
+
+              shape.reverse()
+
+              # Determine the struct format character for the component type
+              tpl = itk.template(self)
+              pixel_type = tpl[1][0]
+              from itk.support.types import itkCType
+              if isinstance(pixel_type, itkCType):
+                  # Scalar pixel (UC, F, SS, etc.)
+                  component_code = pixel_type.short_name
+              else:
+                  # Composite pixel (RGB, Vector, etc.) — use component type
+                  pixel_tpl = itk.template(pixel_type)
+                  component_code = pixel_tpl[1][0].short_name
+
+              fmt = _get_buffer_formatstring(component_code)
+
+              return raw_memview.cast(fmt, shape=shape)
+
+          def _get_array_interface(self):
+              """NumPy array interface (v3) — zero-copy on all Python versions.
+
+              Returns a dict that lets ``numpy.asarray(image)`` create a
+              zero-copy view of the pixel buffer.  This is the correct
+              behavior per NumPy semantics: ``np.asarray()`` should avoid
+              copies when possible.
+
+              Disabled when ``itk.SIMULATE_PEP688`` is explicitly set to
+              ``False``, reverting to the legacy deep-copy behavior for
+              code that depended on the previous (incorrect) semantics.
+
+              Set ``itk.SIMULATE_PEP688_DEBUG = True`` to print a
+              diagnostic each time this zero-copy path is taken, helping
+              identify code that assumed ``np.asarray()`` returned a copy.
+              """
+              import itk
+              if getattr(itk, 'SIMULATE_PEP688', True) is False:
+                  raise AttributeError('__array_interface__')
+
+              if getattr(itk, 'SIMULATE_PEP688_DEBUG', False):
+                  import traceback
+                  print(
+                      "[itk.SIMULATE_PEP688_DEBUG] __array_interface__ "
+                      "returning zero-copy view for "
+                      f"{type(self).__name__}. "
+                      "Code that mutates the result will modify the "
+                      "image. Use np.array(image, copy=True) or "
+                      "itk.array_from_image(image) if a copy is needed."
+                  )
+                  traceback.print_stack(limit=5)
+
+              import numpy as np
+              from itk.itkPyBufferPython import _get_numpy_pixelid
+
+              ImageType = type(self)
+              PyBufferType = itk.PyBuffer[ImageType]
+              raw_memview = PyBufferType._GetArrayViewFromImage(self)
+
+              # Shape in C-order (NumPy convention: [z, y, x])
+              itksize = self.GetBufferedRegion().GetSize()
+              shape = tuple(int(itksize[d]) for d in reversed(range(len(itksize))))
+
+              n_components = self.GetNumberOfComponentsPerPixel()
+              if n_components > 1 or isinstance(self, itk.VectorImage):
+                  shape = shape + (n_components,)
+
+              # Resolve component type code
+              tpl = itk.template(self)
+              pixel_type = tpl[1][0]
+              from itk.support.types import itkCType
+              if isinstance(pixel_type, itkCType):
+                  component_code = pixel_type.short_name
+              else:
+                  pixel_tpl = itk.template(pixel_type)
+                  component_code = pixel_tpl[1][0].short_name
+
+              dtype = _get_numpy_pixelid(component_code)
+              np_arr = np.asarray(raw_memview)
+              data_ptr = np_arr.__array_interface__['data'][0]
+
+              return {
+                  'version': 3,
+                  'shape': shape,
+                  'typestr': dtype.str,
+                  'data': (data_ptr, False),
+                  'strides': None,
+              }
+          __array_interface__ = property(_get_array_interface)
+
+          def __array__(self, dtype=None, copy=None):
               import itk
               import numpy as np
-              array = itk.array_from_image(self)
-              return np.asarray(array, dtype=dtype)
-      }
+
+              if getattr(itk, 'SIMULATE_PEP688', True) is False:
+                  # Legacy mode: return deep copy (pre-PEP688 behavior)
+                  if copy is False:
+                      raise ValueError(
+                          "Unable to avoid copy: itk.SIMULATE_PEP688 is "
+                          "False (legacy deep-copy mode). Set "
+                          "itk.SIMULATE_PEP688 = True or use "
+                          "itk.array_view_from_image() for zero-copy."
+                      )
+                  array = itk.array_from_image(self)
+              else:
+                  # Correct behavior: return zero-copy view
+                  if getattr(itk, 'SIMULATE_PEP688_DEBUG', False):
+                      import traceback
+                      print(
+                          "[itk.SIMULATE_PEP688_DEBUG] __array__ "
+                          "returning zero-copy view for "
+                          f"{type(self).__name__}. "
+                          "Set itk.SIMULATE_PEP688 = False to revert "
+                          "to deep-copy behavior."
+                      )
+                      traceback.print_stack(limit=5)
+                  array = itk.array_view_from_image(self)
+
+              if dtype is not None:
+                  if copy is False and np.dtype(dtype) != array.dtype:
+                      raise ValueError(
+                          "Unable to avoid copy: dtype conversion from "
+                          f"{array.dtype} to {np.dtype(dtype)} requires "
+                          "a copy."
+                      )
+                  array = np.asarray(array, dtype=dtype)
+              if copy:
+                  array = array.copy()
+              return array
+      %}
   }
 %enddef
 
