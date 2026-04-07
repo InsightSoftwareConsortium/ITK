@@ -176,6 +176,14 @@ itk_add_test(
   2
   1
   1)
+itk_add_test(
+  NAME
+  itkMeshFileReadWriteTestField
+  COMMAND
+  ITKIOMeshVTKTestDriver
+  itkMeshFileReadWriteTest
+  DATA{Input/gourd.vtk}
+  ${ITK_TEST_OUTPUT_DIR}/gourd.vtk)
 
 set(ITKIOMeshVTKGTests itkVTKPolyDataMeshIOGTest.cxx)
 
