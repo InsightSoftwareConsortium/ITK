@@ -20,6 +20,7 @@
 #include "itksys/SystemTools.hxx"
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
+#include "itkNumberToString.h"
 #define RAISE_EXCEPTION(s)                         \
   {                                                \
     ExceptionObject exception(__FILE__, __LINE__); \
@@ -253,7 +254,8 @@ PolygonGroupSpatialObjectXMLFileWriter::WriteFile()
     {
       PolygonSpatialObjectType::PointType curpoint = pointIt->GetPositionInObjectSpace();
       WriteStartElement("POINT", output);
-      output << curpoint[0] << ' ' << curpoint[1] << ' ' << curpoint[2];
+      output << ConvertNumberToString(curpoint[0]) << ' ' << ConvertNumberToString(curpoint[1]) << ' '
+             << ConvertNumberToString(curpoint[2]);
       WriteEndElement("POINT", output);
       output << std::endl;
       ++pointIt;

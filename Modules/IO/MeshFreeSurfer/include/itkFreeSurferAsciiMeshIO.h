@@ -24,6 +24,7 @@
 #include "itkMakeUniqueForOverwrite.h"
 
 #include <fstream>
+#include "itkNumberToString.h"
 
 namespace itk
 {
@@ -117,13 +118,12 @@ protected:
   void
   WritePoints(T * buffer, std::ofstream & outputFile, T label = T{})
   {
-    outputFile.precision(6);
     SizeValueType index = 0;
     for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
     {
       for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
       {
-        outputFile << std::fixed << buffer[index++] << "  ";
+        outputFile << ConvertNumberToString(buffer[index++]) << "  ";
       }
       outputFile << label << '\n';
     }
