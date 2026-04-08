@@ -40,7 +40,7 @@ namespace itk
  * \ingroup FourierTransform
  * \ingroup ITKFFT
  */
-class FFTDiscreteGaussianImageFilterFactory : public itk::ObjectFactoryBase
+class FFTDiscreteGaussianImageFilterFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(FFTDiscreteGaussianImageFilterFactory);

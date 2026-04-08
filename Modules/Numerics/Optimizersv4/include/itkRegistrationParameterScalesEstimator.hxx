@@ -97,7 +97,7 @@ RegistrationParameterScalesEstimator<TMetric>::GetTransform()
 }
 
 template <typename TMetric>
-itk::SizeValueType
+SizeValueType
 RegistrationParameterScalesEstimator<TMetric>::GetDimension()
 {
   if (m_TransformForward)

@@ -26,9 +26,7 @@ namespace itk
 /* Used only to avoid duplicate code in itkMetaDictionaryGTest.cxx and itkHDF5ImageIOTest.cxx */
 template <typename T>
 int
-VerifyMetaDataPrivateTestingUtility(const itk::MetaDataDictionary & metaDict,
-                                    const std::string &             key,
-                                    const T &                       knownValue)
+VerifyMetaDataPrivateTestingUtility(const MetaDataDictionary & metaDict, const std::string & key, const T & knownValue)
 {
   int status = EXIT_SUCCESS;
   T   exposedValue{};

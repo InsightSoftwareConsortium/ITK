@@ -750,7 +750,7 @@ DCMTKFileReader::GetElementPN(const unsigned short group,
 int
 DCMTKFileReader::GetElementIS(const unsigned short group,
                               const unsigned short element,
-                              itk::int32_t &       target,
+                              int32_t &            target,
                               const bool           throwException) const
 {
   DcmTagKey    tagkey(group, element);
@@ -779,7 +779,7 @@ DCMTKFileReader::GetElementIS(const unsigned short group,
 int
 DCMTKFileReader::GetElementSL(const unsigned short group,
                               const unsigned short element,
-                              itk::int32_t &       target,
+                              int32_t &            target,
                               const bool           throwException) const
 {
   DcmTagKey    tagkey(group, element);
@@ -808,7 +808,7 @@ DCMTKFileReader::GetElementSL(const unsigned short group,
 int
 DCMTKFileReader::GetElementISorOB(const unsigned short group,
                                   const unsigned short element,
-                                  itk::int32_t &       target,
+                                  int32_t &            target,
                                   const bool           throwException) const
 {
   if (this->GetElementIS(group, element, target, false) == EXIT_SUCCESS)

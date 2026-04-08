@@ -96,7 +96,7 @@ void
 GetTypenameInString(const std::type_info & intype, std::ostringstream & ret);
 
 /** Get pixel dimension (number of channels).
- * For high-dimensional pixel format, only itk::Vector< type, 2/3 > is acceptable. */
+ * For high-dimensional pixel format, only Vector< type, 2/3 > is acceptable. */
 int
 GetPixelDimension(const std::type_info & intype);
 

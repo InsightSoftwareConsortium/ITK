@@ -66,7 +66,7 @@ namespace itk
  */
 template <typename TInputImage,
           typename TCoordinate = double,
-          typename TPixelCompare = std::less<typename itk::NumericTraits<typename TInputImage::PixelType>::RealType>>
+          typename TPixelCompare = std::less<typename NumericTraits<typename TInputImage::PixelType>::RealType>>
 class ITK_TEMPLATE_EXPORT LabelImageGaussianInterpolateImageFunction
   : public GaussianInterpolateImageFunction<TInputImage, TCoordinate>
 {

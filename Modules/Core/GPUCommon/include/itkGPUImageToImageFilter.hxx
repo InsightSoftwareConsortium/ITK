@@ -59,7 +59,7 @@ GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GenerateDa
 template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
 void
 GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GraftOutput(
-  typename itk::GPUTraits<TOutputImage>::Type * output)
+  typename GPUTraits<TOutputImage>::Type * output)
 {
   using GPUOutputImage = typename itk::GPUTraits<TOutputImage>::Type;
   typename GPUOutputImage::Pointer gpuImage = dynamic_cast<GPUOutputImage *>(this->GetOutput());
@@ -87,8 +87,8 @@ GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GraftOutpu
 template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
 void
 GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GraftOutput(
-  const DataObjectIdentifierType &              key,
-  typename itk::GPUTraits<TOutputImage>::Type * output)
+  const DataObjectIdentifierType &         key,
+  typename GPUTraits<TOutputImage>::Type * output)
 {
   using GPUOutputImage = typename itk::GPUTraits<TOutputImage>::Type;
   typename GPUOutputImage::Pointer gpuImage = dynamic_cast<GPUOutputImage *>(this->ProcessObject::GetOutput(key));

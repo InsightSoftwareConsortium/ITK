@@ -92,7 +92,7 @@ struct OpenCVBasicTypeBridge<TPoint, cv::Point3_<typename TPoint::CoordinateType
 };
 
 template <>
-struct OpenCVBasicTypeBridge<itk::Index<2>, cv::Point>
+struct OpenCVBasicTypeBridge<Index<2>, cv::Point>
 {
   using ITKDataType = itk::Index<2>;
   using OpenCVDataType = cv::Point;
@@ -115,7 +115,7 @@ struct OpenCVBasicTypeBridge<itk::Index<2>, cv::Point>
 };
 
 template <>
-struct OpenCVBasicTypeBridge<itk::Index<3>, cv::Point3i>
+struct OpenCVBasicTypeBridge<Index<3>, cv::Point3i>
 {
   using ITKDataType = itk::Index<3>;
   using OpenCVDataType = cv::Point3i;
@@ -139,7 +139,7 @@ struct OpenCVBasicTypeBridge<itk::Index<3>, cv::Point3i>
 };
 
 template <>
-struct OpenCVBasicTypeBridge<itk::Size<2>, cv::Size>
+struct OpenCVBasicTypeBridge<Size<2>, cv::Size>
 {
   using ITKDataType = itk::Size<2>;
   using OpenCVDataType = cv::Size;
@@ -165,7 +165,7 @@ struct OpenCVBasicTypeBridge<itk::Size<2>, cv::Size>
 // Using int for VRows/VColumns (matching OpenCV) with a cast in the ITK
 // pattern allows the compiler to deduce both sides correctly.
 template <typename T, int VRows, int VColumns>
-struct OpenCVBasicTypeBridge<itk::Matrix<T, static_cast<unsigned int>(VRows), static_cast<unsigned int>(VColumns)>,
+struct OpenCVBasicTypeBridge<Matrix<T, static_cast<unsigned int>(VRows), static_cast<unsigned int>(VColumns)>,
                              cv::Matx<T, VRows, VColumns>>
 {
   using ITKDataType = itk::Matrix<T, static_cast<unsigned int>(VRows), static_cast<unsigned int>(VColumns)>;

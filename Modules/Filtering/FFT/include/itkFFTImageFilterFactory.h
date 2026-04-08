@@ -86,7 +86,7 @@ struct FFTImageFilterTraits
 template <template <typename, typename> class TFFTImageFilter,
           template <typename, unsigned int> class TInput = Image,
           template <typename, unsigned int> class TOutput = Image>
-class FFTImageFilterFactory : public itk::ObjectFactoryBase
+class FFTImageFilterFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(FFTImageFilterFactory);

@@ -60,7 +60,7 @@ template <unsigned int TFixedDimension,
           unsigned int TMovingDimension,
           typename TVirtualImage,
           typename TInternalComputationValueType>
-itk::SizeValueType
+SizeValueType
 ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>::
   GetNumberOfMetrics() const
 {

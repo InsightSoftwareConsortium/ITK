@@ -76,8 +76,7 @@ public:
 
 template <typename TInputImage1,
           typename TInputImage2 = TInputImage1,
-          typename TOutputImage =
-            itk::Image<std::complex<typename TInputImage1::PixelType>, TInputImage1::ImageDimension>>
+          typename TOutputImage = Image<std::complex<typename TInputImage1::PixelType>, TInputImage1::ImageDimension>>
 class MagnitudeAndPhaseToComplexImageFilter
   : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {

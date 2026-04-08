@@ -173,7 +173,7 @@ public:
 template <typename T>
 void
 WriteMetaDataAttribute(PolygonGroupSpatialObjectXMLFileWriter * This,
-                       itk::MetaDataDictionary &                thisDic,
+                       MetaDataDictionary &                     thisDic,
                        const char * const                       MetaName,
                        const char * const                       attName,
                        std::ofstream &                          output)

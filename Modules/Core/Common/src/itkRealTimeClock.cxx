@@ -126,7 +126,7 @@ RealTimeClock::GetRealTimeStamp() const
 }
 
 void
-RealTimeClock::PrintSelf(std::ostream & os, itk::Indent indent) const
+RealTimeClock::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
