@@ -56,7 +56,9 @@ FlatStructuringElement<VDimension>::GeneratePolygon(TStructuringElement &, TRadi
 
 template <unsigned int VDimension>
 void
-FlatStructuringElement<VDimension>::GeneratePolygon(FlatStructuringElement<2> & res, Size<2> radius, unsigned int lines)
+FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<2> & res,
+                                                    itk::Size<2>                     radius,
+                                                    unsigned int                     lines)
 {
   // radial decomposition method from "Radial Decomposition of Discs
   // and Spheres" - CVGIP: Graphical Models and Image Processing
@@ -126,7 +128,9 @@ FlatStructuringElement<VDimension>::GeneratePolygon(FlatStructuringElement<2> & 
 
 template <unsigned int VDimension>
 void
-FlatStructuringElement<VDimension>::GeneratePolygon(FlatStructuringElement<3> & res, Size<3> radius, unsigned int lines)
+FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<3> & res,
+                                                    itk::Size<3>                     radius,
+                                                    unsigned int                     lines)
 {
   res.SetRadius(radius);
   res.SetDecomposable(true);

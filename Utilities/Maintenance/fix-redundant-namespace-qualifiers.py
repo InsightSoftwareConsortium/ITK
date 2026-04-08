@@ -86,6 +86,10 @@ _USING_ALIAS_RE = re.compile(r"\busing\s+(\w+)\s*=\s*itk::(\w+)")
 # Class/struct opening (to track class scope depth)
 _CLASS_RE = re.compile(r"\b(class|struct)\s+(\w+)")
 
+# Out-of-line member function definition: ClassName<...>::Method(
+# Parameters in these are resolved in class scope, not namespace scope.
+_OUTOFLINE_MEMBER_RE = re.compile(r"\w+\s*(?:<[^>]*>)?\s*::\s*(?:~?\w+)\s*\(")
+
 
 def _strip_comments_and_strings(line: str) -> str:
     """Return *line* with string literals and line-comments blanked out."""
@@ -116,6 +120,11 @@ def process_file(path: Path, *, fix: bool = False) -> list[tuple[int, str, str]]
     new_lines: list[str] = lines.copy()
 
     in_block_comment = False
+    in_macro = False  # Inside a multi-line #define (continuation with \)
+    # Track parenthesis depth and whether we're inside an out-of-line
+    # member function parameter list (where types resolve in class scope).
+    paren_depth = 0
+    in_member_params = False
 
     for i, line in enumerate(lines):
         # Track block comments
@@ -123,10 +132,15 @@ def process_file(path: Path, *, fix: bool = False) -> list[tuple[int, str, str]]
             end_pos = line.find("*/")
             if end_pos == -1:
                 continue
+            # Block comment closes on this line — blank everything up to
+            # and including the "*/", then continue processing the rest.
             in_block_comment = False
+            line_after_comment = " " * (end_pos + 2) + line[end_pos + 2 :]
+        else:
+            line_after_comment = line
 
-        # Check for block comment start
-        temp_line = line
+        # Check for block comment start and blank out comment regions
+        temp_line = line_after_comment
         while True:
             start = temp_line.find("/*")
             if start == -1:
@@ -134,17 +148,26 @@ def process_file(path: Path, *, fix: bool = False) -> list[tuple[int, str, str]]
             end = temp_line.find("*/", start + 2)
             if end == -1:
                 in_block_comment = True
+                # Blank from comment start to end of line
+                temp_line = temp_line[:start]
                 break
             temp_line = (
                 temp_line[:start] + " " * (end + 2 - start) + temp_line[end + 2 :]
             )
 
-        stripped = _strip_comments_and_strings(line)
-        if in_block_comment and "*/" not in line:
-            stripped = ""
+        stripped = _strip_comments_and_strings(temp_line)
+        if in_block_comment:
+            # Already blanked comment portion above; stripped has only code part
+            pass
 
-        # Skip preprocessor directives
+        # Skip preprocessor directives and multi-line macro bodies.
+        # Macro bodies (like #define itkEventMacroDefinition) use itk::
+        # that must remain qualified since macros expand at call site.
         if _PREPROCESSOR_RE.match(stripped):
+            in_macro = stripped.rstrip().endswith("\\")
+            continue
+        if in_macro:
+            in_macro = stripped.rstrip().endswith("\\")
             continue
 
         # Handle pending namespace (saw "namespace X" but no { yet)
@@ -205,6 +228,25 @@ def process_file(path: Path, *, fix: bool = False) -> list[tuple[int, str, str]]
         delta = _compute_brace_delta(stripped)
         brace_depth += delta
 
+        # Track parenthesis depth for out-of-line member function params.
+        # When paren_depth transitions 0→1 on a line with Class::Method(,
+        # mark that we're inside member function parameters.
+        # Save state before updating — the closing ) line is still part
+        # of the parameter list and should be protected.
+        currently_in_member_params = in_member_params
+        old_paren = paren_depth
+        paren_depth += stripped.count("(") - stripped.count(")")
+        if paren_depth < 0:
+            paren_depth = 0
+        if old_paren == 0 and paren_depth > 0:
+            # Entering a parenthesized expression — check if it's a
+            # member function definition (has ClassName::MethodName pattern)
+            if _OUTOFLINE_MEMBER_RE.search(stripped):
+                in_member_params = True
+                currently_in_member_params = True
+        if paren_depth == 0 and old_paren > 0:
+            in_member_params = False
+
         # Check if we left any namespace blocks
         while ns_stack and brace_depth < ns_stack[-1][1]:
             was_plain, _ = ns_stack.pop()
@@ -227,6 +269,13 @@ def process_file(path: Path, *, fix: bool = False) -> list[tuple[int, str, str]]
             #   - dependent name lookup failures in templates
             # Only fix at namespace-level (brace depth == namespace depth).
             if brace_depth > itk_ns_brace_depth:
+                continue
+
+            # Skip out-of-line member function parameter lists.
+            # In "Type Class<T>::Method(itk::Foo x)", the parameter types
+            # are resolved in the class scope, not namespace scope.
+            # Removing itk:: can cause lookup failures (e.g., MSVC C2061).
+            if currently_in_member_params:
                 continue
 
             # Find replaceable itk::Symbol occurrences
