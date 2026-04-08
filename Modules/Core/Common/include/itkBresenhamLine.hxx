@@ -35,13 +35,14 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
   // The dimension with the largest absolute component
   const unsigned int maxDistanceDimension = std::distance(
     Direction.Begin(), std::max_element(Direction.Begin(), Direction.End(), [](const auto a, const auto b) {
-      return itk::Math::Absolute(a) < itk::Math::Absolute(b);
+      return itk::Math::abs(a) < itk::Math::abs(b);
     }));
 
   // compute actual line length because the shorter distance
   // the larger deviation due to rounding to integers
   const IdentifierType mainDirectionLen = length - 1;
-  const float          euclideanLineLen = mainDirectionLen / itk::Math::Absolute(Direction[maxDistanceDimension]);
+  const double         euclideanLineLen =
+    static_cast<double>(mainDirectionLen) / static_cast<double>(itk::Math::abs(Direction[maxDistanceDimension]));
 
   // we are going to start at 0
   constexpr IndexType StartIndex{ 0 };
@@ -81,7 +82,7 @@ BresenhamLine<VDimension>::BuildLine(IndexType p0, IndexType p1) -> IndexArray
   {
     const IndexValueType delta = p1[i] - p0[i];
     step[i] = (delta >= 0) ? 1 : -1;
-    absDeltas[i] = static_cast<IndexValueType>(itk::Math::Absolute(delta));
+    absDeltas[i] = static_cast<IndexValueType>(itk::Math::abs(delta));
 
     if (absDeltas[i] > maxAbsDelta)
     {
