@@ -19,6 +19,7 @@
 #include "itkIOCommon.h"
 #include "itkMetaDataObject.h"
 #include "itkByteSwapper.h"
+#include "itkNumberToString.h"
 #include "itksys/SystemTools.hxx"
 #include <iostream>
 #include <sstream>
@@ -668,7 +669,8 @@ VoxBoCUBImageIO::WriteImageInformation()
          << std::endl;
 
   // Write the spacing
-  header << m_VB_SPACING << ":\t" << m_Spacing[0] << '\t' << m_Spacing[1] << '\t' << m_Spacing[2] << std::endl;
+  header << m_VB_SPACING << ":\t" << ConvertNumberToString(m_Spacing[0]) << '\t' << ConvertNumberToString(m_Spacing[1])
+         << '\t' << ConvertNumberToString(m_Spacing[2]) << std::endl;
 
   // Write the origin (have to convert to bytes)
 
