@@ -41,7 +41,7 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
   // compute actual line length because the shorter distance
   // the larger deviation due to rounding to integers
   const IdentifierType mainDirectionLen = length - 1;
-  const float          euclideanLineLen = mainDirectionLen / itk::Math::Absolute(Direction[maxDistanceDimension]);
+  const double         euclideanLineLen = mainDirectionLen / itk::Math::Absolute(Direction[maxDistanceDimension]);
 
   // we are going to start at 0
   constexpr IndexType StartIndex{ 0 };
