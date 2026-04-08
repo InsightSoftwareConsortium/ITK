@@ -21,26 +21,13 @@
 #include "itkIOCommon.h"
 #include "itksys/SystemTools.hxx"
 #include "itkMath.h"
+#include "itkNumberToString.h"
 #include "itkSingleton.h"
 #include "itkMakeUniqueForOverwrite.h"
 #include "metaImageUtils.h"
 
 #include <set>
 
-// Function to join strings with a delimiter similar to python's ' '.join([1, 2, 3 ])
-template <typename ContainerType, typename DelimiterType, typename StreamType>
-static auto
-joinElements(const ContainerType & elements, const DelimiterType & delimiter, StreamType & strs) -> void
-{
-  for (size_t i = 0; i < elements.size(); ++i)
-  {
-    strs << elements[i];
-    if (i != elements.size() - 1)
-    {
-      strs << delimiter;
-    }
-  }
-}
 
 namespace itk
 {
@@ -458,11 +445,11 @@ MetaImageIO::WriteImageInformation()
     }
     else if (ExposeMetaData<double>(metaDict, key, dval))
     {
-      strs << dval;
+      strs << ConvertNumberToString(dval);
     }
     else if (ExposeMetaData<float>(metaDict, key, fval))
     {
-      strs << fval;
+      strs << ConvertNumberToString(fval);
     }
     else if (ExposeMetaData<long>(metaDict, key, lval))
     {
@@ -510,7 +497,14 @@ MetaImageIO::WriteImageInformation()
     }
     else if (ExposeMetaData<std::vector<double>>(metaDict, key, vval))
     {
-      joinElements(vval, ' ', strs);
+      for (size_t i = 0; i < vval.size(); ++i)
+      {
+        if (i > 0)
+        {
+          strs << ' ';
+        }
+        strs << ConvertNumberToString(vval[i]);
+      }
     }
     else if (WriteMatrixInMetaData<1>(strs, metaDict, key) || WriteMatrixInMetaData<2>(strs, metaDict, key) ||
              WriteMatrixInMetaData<3>(strs, metaDict, key) || WriteMatrixInMetaData<4>(strs, metaDict, key) ||

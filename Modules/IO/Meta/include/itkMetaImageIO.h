@@ -22,6 +22,7 @@
 
 #include <fstream>
 #include "itkImageIOBase.h"
+#include "itkNumberToString.h"
 #include "itkSingletonMacro.h"
 #include "itkMetaDataObject.h"
 #include "metaObject.h"
@@ -220,7 +221,7 @@ MetaImageIO::WriteMatrixInMetaData(std::ostringstream &       strs,
     {
       for (unsigned int j = 0; j < VNColumns; ++j)
       {
-        strs << mval[i][j];
+        strs << ConvertNumberToString(mval[i][j]);
         if (i != VNRows - 1 || j != VNColumns - 1)
         {
           strs << ' ';
