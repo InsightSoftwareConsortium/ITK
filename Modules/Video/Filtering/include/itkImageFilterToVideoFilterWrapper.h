@@ -38,8 +38,8 @@ namespace itk
  */
 template <typename TImageToImageFilter>
 class ITK_TEMPLATE_EXPORT ImageFilterToVideoFilterWrapper
-  : public VideoToVideoFilter<itk::VideoStream<typename TImageToImageFilter::InputImageType>,
-                              itk::VideoStream<typename TImageToImageFilter::OutputImageType>>
+  : public VideoToVideoFilter<VideoStream<typename TImageToImageFilter::InputImageType>,
+                              VideoStream<typename TImageToImageFilter::OutputImageType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ImageFilterToVideoFilterWrapper);

@@ -234,7 +234,7 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetTotalFrequency(
 
 template <typename TImage, typename TBoundaryCondition>
 std::ostream &
-operator<<(std::ostream & os, const std::vector<itk::ConstNeighborhoodIterator<TImage, TBoundaryCondition>> & mv)
+operator<<(std::ostream & os, const std::vector<ConstNeighborhoodIterator<TImage, TBoundaryCondition>> & mv)
 {
   const itk::ConstNeighborhoodIterator<TImage, TBoundaryCondition> nbhd = mv[0];
   os << "Neighborhood: " << std::endl;

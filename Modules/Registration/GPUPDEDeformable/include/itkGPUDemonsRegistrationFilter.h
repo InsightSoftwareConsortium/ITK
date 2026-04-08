@@ -67,7 +67,7 @@ namespace itk
 template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
-          typename TParentImageFilter = itk::DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>>
+          typename TParentImageFilter = DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>>
 class ITK_TEMPLATE_EXPORT GPUDemonsRegistrationFilter
   : public GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>
 {
@@ -152,7 +152,7 @@ private:
  * \brief Object Factory implementation for GPUDemonsRegistrationFilter
  * \ingroup ITKGPUPDEDeformableRegistration
  */
-class GPUDemonsRegistrationFilterFactory : public itk::ObjectFactoryBase
+class GPUDemonsRegistrationFilterFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(GPUDemonsRegistrationFilterFactory);

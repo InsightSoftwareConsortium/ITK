@@ -325,7 +325,7 @@ private:
 
 template <typename TImage, typename TBoundaryCondition>
 std::ostream &
-operator<<(std::ostream & os, const std::vector<itk::ConstNeighborhoodIterator<TImage, TBoundaryCondition>> & mv);
+operator<<(std::ostream & os, const std::vector<ConstNeighborhoodIterator<TImage, TBoundaryCondition>> & mv);
 
 } // end of namespace itk
 

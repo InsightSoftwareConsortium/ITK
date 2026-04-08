@@ -781,8 +781,8 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Comput
 template <typename TTransform, typename TFixedImage, typename TMovingImage>
 void
 LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::CreateMatrix(
-  itk::Matrix<ParametersValueType, 4, 4> &                               N,
-  const itk::Matrix<ParametersValueType, ImageDimension, ImageDimension> M)
+  Matrix<ParametersValueType, 4, 4> &                               N,
+  const Matrix<ParametersValueType, ImageDimension, ImageDimension> M)
 {
   // On-diagonal elements.
   N[0][0] = M[0][0] + M[1][1] + M[2][2];

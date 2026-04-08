@@ -112,7 +112,7 @@ protected:
 };
 
 /** This helps to meet backward compatibility */
-using TransformFileReader = itk::TransformFileReaderTemplate<double>;
+using TransformFileReader = TransformFileReaderTemplate<double>;
 
 } // namespace itk
 

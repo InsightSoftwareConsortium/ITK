@@ -81,8 +81,8 @@ namespace itk
  * \endsphinx
  */
 template <typename TTransform,
-          typename TFixedImage = itk::ImageBase<TTransform::InputSpaceDimension>,
-          typename TMovingImage = itk::ImageBase<TTransform::OutputSpaceDimension>>
+          typename TFixedImage = ImageBase<TTransform::InputSpaceDimension>,
+          typename TMovingImage = ImageBase<TTransform::OutputSpaceDimension>>
 class ITK_TEMPLATE_EXPORT LandmarkBasedTransformInitializer : public Object
 {
 public:

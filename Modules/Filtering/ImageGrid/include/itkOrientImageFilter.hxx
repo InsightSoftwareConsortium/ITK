@@ -238,7 +238,7 @@ OrientImageFilter<TInputImage, TOutputImage>::NeedToFlip()
 #if defined(DefinedDebugOrient)
 #  define DEBUG_EXECUTE(X) X
 
-using SO_OrientationType = itk::SpatialOrientationEnums::ValidCoordinateOrientations;
+using SO_OrientationType = SpatialOrientationEnums::ValidCoordinateOrientations;
 
 std::string
 SO_OrientationToString(SO_OrientationType in)

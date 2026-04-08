@@ -132,7 +132,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-using TransformFileWriter = itk::TransformFileWriterTemplate<double>;
+using TransformFileWriter = TransformFileWriterTemplate<double>;
 
 ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")

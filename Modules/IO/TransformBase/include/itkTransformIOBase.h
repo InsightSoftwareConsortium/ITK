@@ -221,7 +221,7 @@ TransformIOBaseTemplate<double>::GetTypeNameString()
 }
 
 /** This helps to meet backward compatibility */
-using TransformIOBase = itk::TransformIOBaseTemplate<double>;
+using TransformIOBase = TransformIOBaseTemplate<double>;
 
 } // end namespace itk
 

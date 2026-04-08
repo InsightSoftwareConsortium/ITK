@@ -111,7 +111,7 @@ private:
 
 
 template <typename TOutputPixelType, typename TPixelType>
-class NthElementPixelAccessor<TOutputPixelType, itk::VariableLengthVector<TPixelType>>
+class NthElementPixelAccessor<TOutputPixelType, VariableLengthVector<TPixelType>>
   : private DefaultVectorPixelAccessor<TPixelType>
 {
 public:

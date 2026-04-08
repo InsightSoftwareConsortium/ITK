@@ -80,7 +80,7 @@ ExceptionGlobals * FloatingPointExceptions::m_PimplGlobals;
 
 /** Print enum values */
 std::ostream &
-operator<<(std::ostream & out, const itk::FloatingPointExceptionsEnums::ExceptionAction value)
+operator<<(std::ostream & out, const FloatingPointExceptionsEnums::ExceptionAction value)
 {
   return out << [value] {
     switch (value)
