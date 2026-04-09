@@ -186,8 +186,10 @@ def main() -> None:
             or (n.get("buildErrorsCount") or 0) > 0
         ]
 
-    # Apply the display limit after sorting
-    nodes = nodes[: args.limit]
+    # Apply the display limit after sorting.
+    # Use displayed_nodes to distinguish the limited subset from the
+    # full filtered list, facilitating debugging.
+    displayed_nodes = nodes[: args.limit]
 
     if args.json_output:
         output = [
@@ -201,14 +203,14 @@ def main() -> None:
                 "startTime": n["startTime"],
                 "site": n["site"]["name"],
             }
-            for n in nodes
+            for n in displayed_nodes
         ]
         print(json.dumps(output, indent=2))
         return
 
     print(
         f"Project: {project_name}  |  type={args.type!r}  |  since={since_str}  |  "
-        f"Builds fetched: {len(edges)}  |  With warnings/errors: {len(nodes)}",
+        f"Builds fetched: {len(edges)}  |  With warnings/errors: {len(displayed_nodes)}",
         file=sys.stderr,
     )
     print(file=sys.stderr)
@@ -216,7 +218,7 @@ def main() -> None:
         f"{'BUILD_ID':>10}  {'W':>4}  {'E':>4}  {'STAMP':<25}  {'SITE':<25}  BUILD_NAME"
     )
     print("-" * 110)
-    for n in nodes:
+    for n in displayed_nodes:
         warn = n["buildWarningsCount"] or 0
         err = n["buildErrorsCount"] or 0
         print(

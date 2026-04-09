@@ -1,6 +1,6 @@
 ---
 name: fix-nightly-warnings
-description: 'Fix ITK nightly build errors or compilation warnings reported on CDash. Use when: addressing CDash nightly failures. Creates a branch, fixes warnings, and opens a PR upstream.'
+description: 'Fix ITK nightly build errors or compilation warnings reported on CDash. Use when: addressing CDash nightly failures. Creates a branch, fixes warnings, and open a PR upstream.'
 argument-hint: What warnings should this skill fix?
 ---
 
