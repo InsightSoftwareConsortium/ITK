@@ -220,10 +220,9 @@ TestContinuousIndexDerivative(const TInterpolator *       interp,
 
   if (isInside)
   {
-    typename TInterpolator::CovariantVectorType value;
-    const double                                value2 = interp->EvaluateAtContinuousIndex(index);
+    const double value2 = interp->EvaluateAtContinuousIndex(index);
     std::cout << "Interpolated Value: " << value2 << '\n';
-    value = interp->EvaluateDerivativeAtContinuousIndex(index);
+    const typename TInterpolator::CovariantVectorType value = interp->EvaluateDerivativeAtContinuousIndex(index);
     std::cout << " Value: ";
     for (int i = 0; i < ImageDimension3D; ++i)
     {

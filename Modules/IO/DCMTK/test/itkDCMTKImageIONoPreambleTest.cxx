@@ -56,8 +56,7 @@ itkDCMTKImageIONoPreambleTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
-  InputImageType::SizeType extentSize;
-  extentSize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
+  const InputImageType::SizeType extentSize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
   std::cout << "Read image dimensions: (" << extentSize[0] << ", " << extentSize[1] << ", " << extentSize[2] << ')'
             << std::endl;
   if (extentSize[0] == 0 || extentSize[1] == 0 || extentSize[2] == 0)

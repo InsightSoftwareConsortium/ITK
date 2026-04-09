@@ -237,11 +237,9 @@ itkTwoLevelSetWhitakerImage2DTest(int argc, char * argv[])
   OutputIteratorType oIt(outputImage, outputImage->GetLargestPossibleRegion());
   oIt.GoToBegin();
 
-  OutputImageType::IndexType idx;
-
   while (!oIt.IsAtEnd())
   {
-    idx = oIt.GetIndex();
+    const OutputImageType::IndexType idx = oIt.GetIndex();
     oIt.Set(level_set1->GetLabelMap()->GetPixel(idx));
     ++oIt;
   }

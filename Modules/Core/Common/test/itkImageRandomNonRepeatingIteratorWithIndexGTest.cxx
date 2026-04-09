@@ -82,12 +82,11 @@ TEST(ImageRandomNonRepeatingIteratorWithIndex, SupportsSubregions)
     it.SetNumberOfSamples(numberOfPixelsSize0);
     it.GoToBegin();
     {
-      ImageType::IndexType indexFill0;
       // Because the random iterator does not repeat, this should
       // fill the image with indices
       while (!it.IsAtEnd())
       {
-        indexFill0 = it.GetIndex();
+        const ImageType::IndexType indexFill0 = it.GetIndex();
         it.Set(indexFill0);
         ++it;
       }
@@ -117,10 +116,9 @@ TEST(ImageRandomNonRepeatingIteratorWithIndex, SupportsSubregions)
 
     std::cout << "Verifying const iterator... ";
     std::cout << "Random walk of the Iterator over the image " << std::endl;
-    ImageType::IndexType indexConstMatch;
     while (!cot.IsAtEnd())
     {
-      indexConstMatch = cot.GetIndex();
+      const ImageType::IndexType indexConstMatch = cot.GetIndex();
       EXPECT_EQ(cot.Get(), indexConstMatch)
         << "Values don't correspond to what was stored " << std::endl
         << "Test failed at index " << indexConstMatch << " value is " << cot.Get() << std::endl;

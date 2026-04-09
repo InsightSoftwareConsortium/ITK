@@ -109,8 +109,7 @@ itkGDCMImagePositionPatientTest(int argc, char * argv[])
   reader->SetFileName(filename.str().c_str());
   reader->Update();
 
-  Image3DType::PointType readerOrigin3D;
-  readerOrigin3D = reader->GetOutput()->GetOrigin();
+  const Image3DType::PointType readerOrigin3D = reader->GetOutput()->GetOrigin();
   if ((itk::Math::NotExactlyEquals(readerOrigin3D[0], origin3D[0])) ||
       (itk::Math::NotExactlyEquals(readerOrigin3D[1], origin3D[1])) ||
       (itk::Math::NotExactlyEquals(readerOrigin3D[2], origin3D[2])))

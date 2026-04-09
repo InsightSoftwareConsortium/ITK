@@ -118,12 +118,10 @@ itkLabelMapTest(int argc, char * argv[])
   loCheck = map->GetLabelObject(idx);
   itkAssertOrThrowMacro((loCheck == lo), "Add/GetLabelObject failed");
 
-  LabelObjectVectorType loVector;
-  loVector = map->GetLabelObjects();
+  const LabelObjectVectorType loVector = map->GetLabelObjects();
   itkAssertOrThrowMacro((loVector[0] == lo), "GetLabelObjects failed");
 
-  LabelVectorType loLabels;
-  loLabels = map->GetLabels();
+  const LabelVectorType loLabels = map->GetLabels();
   itkAssertOrThrowMacro((loLabels[0] == 1), "GetLabels failed");
 
   auto lo2 = LabelObjectType::New();

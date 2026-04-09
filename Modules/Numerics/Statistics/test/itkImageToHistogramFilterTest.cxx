@@ -48,12 +48,11 @@ itkImageToHistogramFilterTest(int, char *[])
   itk::ImageRegionIteratorWithIndex<RGBImageType> it(image, region);
   it.GoToBegin();
 
-  RGBPixelType            pixel;
-  RGBImageType::IndexType index;
+  RGBPixelType pixel;
 
   while (!it.IsAtEnd())
   {
-    index = it.GetIndex();
+    const RGBImageType::IndexType index = it.GetIndex();
     pixel.SetRed(index[0]);
     pixel.SetGreen(index[1]);
     pixel.SetBlue(index[2]);

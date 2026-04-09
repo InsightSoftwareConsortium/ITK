@@ -159,10 +159,9 @@ itkEuclideanDistancePointSetMetricTest2Run()
   bool passed = true;
   for (itk::SizeValueType n = 0; n < fixedPoints->GetNumberOfPoints(); ++n)
   {
-    PointType transformedPoint;
     fixedPoint = fixedPoints->GetPoint(n);
     movingPoint = movingPoints->GetPoint(n);
-    transformedPoint = displacementTransform->TransformPoint(fixedPoint);
+    const PointType transformedPoint = displacementTransform->TransformPoint(fixedPoint);
     for (unsigned int d = 0; d < Dimension; ++d)
     {
       if (itk::Math::NotExactlyEquals(transformedPoint[d], movingPoint[d]))

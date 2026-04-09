@@ -140,9 +140,8 @@ itkShapePriorSegmentationLevelSetFunctionTest(int, char *[])
 
   while (!iter.IsAtEnd())
   {
-    ImageType::IndexType         index;
+    const ImageType::IndexType   index = iter.GetIndex();
     ShapeFunctionType::PointType point;
-    index = iter.GetIndex();
     input->TransformIndexToPhysicalPoint(index, point);
     iter.Set(shape->Evaluate(point));
     ++iter;
@@ -199,9 +198,8 @@ itkShapePriorSegmentationLevelSetFunctionTest(int, char *[])
 
   while (!citer.IsAtEnd())
   {
-    CharImageType::IndexType     index;
+    const ImageType::IndexType   index = citer.GetIndex();
     ShapeFunctionType::PointType point;
-    index = citer.GetIndex();
     input->TransformIndexToPhysicalPoint(index, point);
     if (shape->Evaluate(point) < 0.0)
     {

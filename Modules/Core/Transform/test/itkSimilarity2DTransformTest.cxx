@@ -62,9 +62,8 @@ itkSimilarity2DTransformTest(int, char *[])
 
   SimilarityTransformType::InputPointType::ValueType pInit[2] = { 10, 10 };
   SimilarityTransformType::InputPointType            p = pInit;
-  SimilarityTransformType::OutputPointType           r;
 
-  r = transform->TransformPoint(p);
+  SimilarityTransformType::OutputPointType r = transform->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
     if (itk::Math::Absolute(p[i] - r[i]) > epsilon)
@@ -260,15 +259,13 @@ itkSimilarity2DTransformTest(int, char *[])
     p1[0] = 96.8;
     p1[1] = -3.2;
 
-    TransformType::InputPointType p2;
-    p2 = t1->TransformPoint(p1);
+    const TransformType::InputPointType p2 = t1->TransformPoint(p1);
 
     // Test inverse
     TransformType::Pointer t2;
     t1->CloneInverseTo(t2);
 
-    TransformType::InputPointType p3;
-    p3 = t2->TransformPoint(p2);
+    const TransformType::InputPointType p3 = t2->TransformPoint(p2);
 
     std::cout << "Test CloneInverseTo(): ";
     if (!CheckEqual(p1, p3))
@@ -305,8 +302,7 @@ itkSimilarity2DTransformTest(int, char *[])
     TransformType::Pointer t3;
     t1->CloneTo(t3);
 
-    TransformType::InputPointType p4;
-    p4 = t3->TransformPoint(p1);
+    const TransformType::InputPointType p4 = t3->TransformPoint(p1);
 
     std::cout << "Test Clone(): ";
     if (!CheckEqual(p2, p4))
@@ -435,15 +431,13 @@ itkSimilarity2DTransformTest(int, char *[])
     p1[0] = 96.8;
     p1[1] = -3.2;
 
-    TransformType::InputPointType p2;
-    p2 = t1->TransformPoint(p1);
+    const TransformType::InputPointType p2 = t1->TransformPoint(p1);
 
     // Test inverse
     TransformType::Pointer t2;
     t1->CloneInverseTo(t2);
 
-    TransformType::InputPointType p3;
-    p3 = t2->TransformPoint(p2);
+    const TransformType::InputPointType p3 = t2->TransformPoint(p2);
 
     std::cout << "Test CloneInverseTo(): ";
     if (!CheckEqual(p1, p3))
@@ -480,8 +474,7 @@ itkSimilarity2DTransformTest(int, char *[])
     TransformType::Pointer t3;
     t1->CloneTo(t3);
 
-    TransformType::InputPointType p4;
-    p4 = t3->TransformPoint(p1);
+    const TransformType::InputPointType p4 = t3->TransformPoint(p1);
 
     std::cout << "Test Clone(): ";
     if (!CheckEqual(p2, p4))

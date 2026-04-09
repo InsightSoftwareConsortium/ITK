@@ -130,11 +130,9 @@ itkVersorTransformTest(int, char *[])
       // Rotate an itk::Point
       constexpr TransformType::InputPointType::ValueType pInit[3]{ 1, 4, 9 };
       const TransformType::InputPointType                p = pInit;
-      TransformType::OutputPointType                     q;
-      q = versor.Transform(p);
+      const TransformType::OutputPointType               q = versor.Transform(p);
 
-      TransformType::OutputPointType r;
-      r = rotation->TransformPoint(p);
+      const TransformType::OutputPointType r = rotation->TransformPoint(p);
       for (unsigned int i = 0; i < 3; ++i)
       {
         if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
@@ -158,11 +156,9 @@ itkVersorTransformTest(int, char *[])
       // Translate an itk::Vector
       TransformType::InputVectorType::ValueType pInit[3] = { 1, 4, 9 };
       const TransformType::InputVectorType      p = pInit;
-      TransformType::OutputVectorType           q;
-      q = versor.Transform(p);
+      const TransformType::OutputVectorType     q = versor.Transform(p);
 
-      TransformType::OutputVectorType r;
-      r = rotation->TransformVector(p);
+      const TransformType::OutputVectorType r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < 3; ++i)
       {
         if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
@@ -186,11 +182,9 @@ itkVersorTransformTest(int, char *[])
       // Translate an itk::CovariantVector
       TransformType::InputCovariantVectorType::ValueType pInit[3] = { 1, 4, 9 };
       const TransformType::InputCovariantVectorType      p = pInit;
-      TransformType::OutputCovariantVectorType           q;
-      q = versor.Transform(p);
+      const TransformType::OutputCovariantVectorType     q = versor.Transform(p);
 
-      TransformType::OutputCovariantVectorType r;
-      r = rotation->TransformCovariantVector(p);
+      const TransformType::OutputCovariantVectorType r = rotation->TransformCovariantVector(p);
       for (unsigned int i = 0; i < 3; ++i)
       {
         if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
@@ -217,11 +211,9 @@ itkVersorTransformTest(int, char *[])
       p[1] = 4;
       p[2] = 9;
 
-      TransformType::OutputVnlVectorType q;
-      q = versor.Transform(p);
+      const TransformType::OutputVnlVectorType q = versor.Transform(p);
 
-      TransformType::OutputVnlVectorType r;
-      r = rotation->TransformVector(p);
+      const TransformType::OutputVnlVectorType r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < 3; ++i)
       {
         if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
@@ -261,8 +253,7 @@ itkVersorTransformTest(int, char *[])
 
     transform->SetCenter(center);
 
-    TransformType::OutputPointType transformedPoint;
-    transformedPoint = transform->TransformPoint(center);
+    const TransformType::OutputPointType transformedPoint = transform->TransformPoint(center);
     for (unsigned int i = 0; i < 3; ++i)
     {
       if (itk::Math::Absolute(center[i] - transformedPoint[i]) > epsilon)

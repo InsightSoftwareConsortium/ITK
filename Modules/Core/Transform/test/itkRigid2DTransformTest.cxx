@@ -463,8 +463,7 @@ itkRigid2DTransformTest(int, char *[])
       p1[0] = 96.8;
       p1[1] = -3.2;
 
-      TransformType::InputPointType p2;
-      p2 = t1->TransformPoint(p1);
+      const TransformType::InputPointType p2 = t1->TransformPoint(p1);
 
       // Test inverse
       TransformType::Pointer t2;

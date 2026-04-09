@@ -47,8 +47,7 @@ TEST(AnnulusOperator, CreateAndInspect)
 
   EXPECT_NO_THROW(normalizedAnnulus.CreateOperator());
 
-  OperatorType::SizeType normalizedAnnulusSize;
-  normalizedAnnulusSize = normalizedAnnulus.GetSize();
+  const OperatorType::SizeType normalizedAnnulusSize = normalizedAnnulus.GetSize();
 
   std::cout << std::endl;
   std::cout << "Annulus, N = " << normalizedAnnulusSize << ", r = " << normalizedAnnulus.GetInnerRadius()
