@@ -83,8 +83,7 @@ itkMultiLevelSetEvolutionTest(int, char *[])
   input2->Allocate();
   input2->FillBuffer(value);
 
-  ImageType::IndexType idx;
-  IdListType           list_ids;
+  IdListType list_ids;
 
   auto id_image = IdListImageType::New();
   id_image->SetRegions(region);
@@ -98,7 +97,7 @@ itkMultiLevelSetEvolutionTest(int, char *[])
 
   while (!it1.IsAtEnd())
   {
-    idx = it1.GetIndex();
+    const ImageType::IndexType idx = it1.GetIndex();
     list_ids.clear();
 
     if ((idx[0] < 5) && (idx[1] < 5))

@@ -180,17 +180,15 @@ public:
 
     fi.GoToBegin();
 
-    typename TransformType::InputPointType   fixedPoint;
-    typename TransformType::OutputPointType  movingPoint;
-    typename DeformationFieldType::IndexType index;
+    typename TransformType::InputPointType fixedPoint;
 
     VectorType displacement;
 
     while (!fi.IsAtEnd())
     {
-      index = fi.ComputeIndex();
+      const typename DeformationFieldType::IndexType index = fi.ComputeIndex();
       field->TransformIndexToPhysicalPoint(index, fixedPoint);
-      movingPoint = bsplineTransform->TransformPoint(fixedPoint);
+      const typename TransformType::OutputPointType movingPoint = bsplineTransform->TransformPoint(fixedPoint);
       displacement[0] = movingPoint[0] - fixedPoint[0];
       displacement[1] = movingPoint[1] - fixedPoint[1];
       fi.Set(displacement);
