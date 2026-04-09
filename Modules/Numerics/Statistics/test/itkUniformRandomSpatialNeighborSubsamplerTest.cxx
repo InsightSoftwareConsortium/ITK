@@ -42,7 +42,6 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
 
   using FloatImage = itk::Image<float, Dimension>;
   using RegionType = FloatImage::RegionType;
-  using IndexType = FloatImage::IndexType;
   using SizeType = FloatImage::SizeType;
   using BoundaryCondition = itk::ZeroFluxNeumannBoundaryCondition<FloatImage>;
   using AdaptorType = itk::Statistics::ImageToNeighborhoodSampleAdaptor<FloatImage, BoundaryCondition>;
@@ -119,8 +118,7 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
 
   for (SamplerType::SubsampleConstIterator sIt = subsample->Begin(); sIt != subsample->End(); ++sIt)
   {
-    IndexType index;
-    index = sIt.GetMeasurementVector()[0].GetIndex();
+    const FloatImage::IndexType index = sIt.GetMeasurementVector()[0].GetIndex();
     inImage->SetPixel(index, 255);
   }
 

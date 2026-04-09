@@ -122,8 +122,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
 
   for (; !iterator.IsAtEnd(); ++iterator)
   {
-    InternalImageType::IndexType tempIndex;
-    tempIndex = iterator.ComputeIndex();
+    InternalImageType::IndexType tempIndex = iterator.ComputeIndex();
     tempIndex -= offset;
     double distance = 0.0;
     for (int j = 0; j < 2; ++j)

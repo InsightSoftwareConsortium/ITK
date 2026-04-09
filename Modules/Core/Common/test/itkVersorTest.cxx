@@ -271,9 +271,7 @@ itkVersorTest(int, char *[])
     const ValueType cosangle = std::cos(angle / 2.0);
     const ValueType sinangle = std::sin(angle / 2.0);
 
-    VectorType xb;
-
-    xb = xa * sinangle;
+    const VectorType xb = xa * sinangle;
 
     if (itk::Math::Absolute(qa.GetX() - xb[0]) > epsilon)
     {

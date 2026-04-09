@@ -164,20 +164,16 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
 
   fi.GoToBegin();
 
-  TransformType::InputPointType   fixedPoint;
-  TransformType::OutputPointType  movingPoint;
-  TransformType::JacobianType     jacobian;
-  DeformationFieldType::IndexType index;
-
-  VectorType displacement;
+  TransformType::InputPointType fixedPoint;
+  TransformType::JacobianType   jacobian;
 
   while (!fi.IsAtEnd())
   {
-    index = fi.ComputeIndex();
+    const DeformationFieldType::IndexType index = fi.ComputeIndex();
     field->TransformIndexToPhysicalPoint(index, fixedPoint);
-    movingPoint = bsplineTransform->TransformPoint(fixedPoint);
+    const TransformType::OutputPointType movingPoint = bsplineTransform->TransformPoint(fixedPoint);
     bsplineTransform->ComputeJacobianWithRespectToParameters(fixedPoint, jacobian);
-    displacement = movingPoint - fixedPoint;
+    const VectorType displacement = movingPoint - fixedPoint;
     fi.Set(displacement);
     ++fi;
   }

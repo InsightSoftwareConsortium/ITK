@@ -60,13 +60,12 @@ FillWithCircle(TImage *                   image,
   Iterator it(image, image->GetBufferedRegion());
   it.GoToBegin();
 
-  typename TImage::IndexType index;
-  const double               r2 = itk::Math::sqr(radius);
+  const double r2 = itk::Math::sqr(radius);
 
   for (; !it.IsAtEnd(); ++it)
   {
-    index = it.GetIndex();
-    double distance = 0;
+    const typename TImage::IndexType index = it.GetIndex();
+    double                           distance = 0;
     for (unsigned int j = 0; j < TImage::ImageDimension; ++j)
     {
       distance += itk::Math::sqr(static_cast<double>(index[j]) - center[j]);

@@ -86,10 +86,8 @@ itkQuaternionRigidTransformTest(int, char *[])
       // Translate an itk::Point
       constexpr TransformType::InputPointType::ValueType pInit[3]{ 10, 10, 10 };
       const TransformType::InputPointType                p = pInit;
-      TransformType::InputPointType                      q;
-      q = p + itransVector;
-      TransformType::OutputPointType r;
-      r = translation->TransformPoint(p);
+      const TransformType::InputPointType                q = p + itransVector;
+      const TransformType::OutputPointType               r = translation->TransformPoint(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
@@ -113,8 +111,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       // Translate an itk::Vector
       TransformType::InputVectorType::ValueType pInit[3] = { 10, 10, 10 };
       TransformType::InputVectorType            p = pInit;
-      TransformType::OutputVectorType           q;
-      q = translation->TransformVector(p);
+      const TransformType::OutputVectorType     q = translation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::Absolute(q[i] - p[i]) > epsilon)
@@ -137,8 +134,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       // Translate an itk::CovariantVector
       TransformType::InputCovariantVectorType::ValueType pInit[3] = { 10, 10, 10 };
       TransformType::InputCovariantVectorType            p = pInit;
-      TransformType::OutputCovariantVectorType           q;
-      q = translation->TransformCovariantVector(p);
+      const TransformType::OutputCovariantVectorType     q = translation->TransformCovariantVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::Absolute(q[i] - p[i]) > epsilon)
@@ -163,8 +159,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       p[0] = 11;
       p[1] = 7;
       p[2] = 15;
-      TransformType::OutputVnlVectorType q;
-      q = translation->TransformVector(p);
+      const TransformType::OutputVnlVectorType q = translation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::Absolute(q[i] - p[i]) > epsilon)
@@ -265,8 +260,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       q[1] = p[0] * sinth + p[1] * costh;
       q[2] = p[2];
 
-      TransformType::OutputPointType r;
-      r = rotation->TransformPoint(p);
+      const TransformType::OutputPointType r = rotation->TransformPoint(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
@@ -296,8 +290,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       q[1] = p[0] * sinth + p[1] * costh;
       q[2] = p[2];
 
-      TransformType::OutputVectorType r;
-      r = rotation->TransformVector(p);
+      const TransformType::OutputVectorType r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
@@ -327,8 +320,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       q[1] = p[0] * sinth + p[1] * costh;
       q[2] = p[2];
 
-      TransformType::OutputCovariantVectorType r;
-      r = rotation->TransformCovariantVector(p);
+      const TransformType::OutputCovariantVectorType r = rotation->TransformCovariantVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
@@ -361,8 +353,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       q[1] = p[0] * sinth + p[1] * costh;
       q[2] = p[2];
 
-      TransformType::OutputVnlVectorType r;
-      r = rotation->TransformVector(p);
+      const TransformType::OutputVnlVectorType r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
@@ -593,8 +584,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       q[1] = x * sinth + y * costh + center[1] + itranslation[1];
       q[2] = z + center[2] + itranslation[2];
 
-      TransformType::OutputPointType r;
-      r = rotation->TransformPoint(p);
+      const TransformType::OutputPointType r = rotation->TransformPoint(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
@@ -624,8 +614,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       q[1] = p[0] * sinth + p[1] * costh;
       q[2] = p[2];
 
-      TransformType::OutputVectorType r;
-      r = rotation->TransformVector(p);
+      const TransformType::OutputVectorType r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
@@ -655,8 +644,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       q[1] = p[0] * sinth + p[1] * costh;
       q[2] = p[2];
 
-      TransformType::OutputCovariantVectorType r;
-      r = rotation->TransformCovariantVector(p);
+      const TransformType::OutputCovariantVectorType r = rotation->TransformCovariantVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::Absolute(q[i] - r[i]) > epsilon)
@@ -689,8 +677,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       q[1] = p[0] * sinth + p[1] * costh;
       q[2] = p[2];
 
-      TransformType::OutputVnlVectorType r;
-      r = rotation->TransformVector(p);
+      const TransformType::OutputVnlVectorType r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::Absolute(q[i] - r[i]) > epsilon)

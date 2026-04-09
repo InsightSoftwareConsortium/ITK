@@ -255,10 +255,8 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     std::cout << "Number Of Weights: " << numberOfWeights << std::endl;
 
     auto        position = itk::MakeFilled<ContinuousIndexType>(4.15);
-    WeightsType weights;
     IndexType   startIndex;
-
-    weights = function->Evaluate(position);
+    WeightsType weights = function->Evaluate(position);
 
     std::cout << "Position: " << position << std::endl;
     std::cout << "Weights: " << weights << std::endl;
