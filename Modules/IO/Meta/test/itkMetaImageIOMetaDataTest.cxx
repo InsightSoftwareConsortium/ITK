@@ -21,6 +21,7 @@
 #include "itkRandomImageSource.h"
 #include "itkMetaDataObject.h"
 #include "itkMetaImageIO.h"
+#include "itkNumberToString.h"
 #include "itkTestingMacros.h"
 
 
@@ -339,6 +340,61 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
   if (!TestMatch<bool>(dict, "bool", true))
   {
     return 1; // error
+  }
+
+  // Precision test: verify that double and float metadata round-trips without
+  // the 6-digit truncation introduced by default stream precision.
+  //
+  // With default stream precision the MetaImageIO write path serialised a
+  // double like 1.2345678901234568 as "1.23457", which on read-back parses
+  // to a different double bit-pattern.  itk::ConvertNumberToString() produces
+  // the shortest decimal string that round-trips exactly.
+  //
+  // These checks FAIL against the unfixed MetaImageIO and PASS with the fix.
+  {
+    // Values chosen to require more than 6 significant decimal digits.
+    constexpr double hpDouble = 1.2345678901234568;
+    constexpr float  hpFloat = 1.2345679f;
+
+    ImageType::Pointer        precImage(source->GetOutput());
+    itk::MetaDataDictionary & precDict = precImage->GetMetaDataDictionary();
+    itk::EncapsulateMetaData<double>(precDict, std::string("high_precision_double"), hpDouble);
+    itk::EncapsulateMetaData<float>(precDict, std::string("high_precision_float"), hpFloat);
+
+    WriteImage<ImageType>(precImage, argv[1]);
+
+    const ImageType::Pointer  precImage2 = ReadImage<ImageType>(argv[1]);
+    itk::MetaDataDictionary & precDict2 = precImage2->GetMetaDataDictionary();
+
+    // Extract raw string and parse back with exact equality to detect
+    // any bit-level precision loss from the string serialization.
+    std::string doubleStr;
+    if (!itk::ExposeMetaData<std::string>(precDict2, std::string("high_precision_double"), doubleStr))
+    {
+      std::cerr << "Key high_precision_double not found after round-trip\n";
+      return 1;
+    }
+    const double parsedDouble = std::stod(doubleStr);
+    if (parsedDouble != hpDouble)
+    {
+      std::cerr << "Double precision loss: stored " << itk::ConvertNumberToString(hpDouble) << " but string '"
+                << doubleStr << "' parses to " << itk::ConvertNumberToString(parsedDouble) << '\n';
+      return 1;
+    }
+
+    std::string floatStr;
+    if (!itk::ExposeMetaData<std::string>(precDict2, std::string("high_precision_float"), floatStr))
+    {
+      std::cerr << "Key high_precision_float not found after round-trip\n";
+      return 1;
+    }
+    const float parsedFloat = std::stof(floatStr);
+    if (parsedFloat != hpFloat)
+    {
+      std::cerr << "Float precision loss: stored " << itk::ConvertNumberToString(hpFloat) << " but string '" << floatStr
+                << "' parses to " << itk::ConvertNumberToString(parsedFloat) << '\n';
+      return 1;
+    }
   }
 
   return 0;

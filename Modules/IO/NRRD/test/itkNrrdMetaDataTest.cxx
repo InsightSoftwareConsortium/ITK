@@ -18,6 +18,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkMetaDataObject.h"
+#include "itkNumberToString.h"
 #include "itksys/SystemTools.hxx"
 #include "itkNrrdImageIO.h"
 
@@ -90,10 +91,86 @@ itkNrrdMetaDataTest(int argc, char * argv[])
   std::string NrrdTest;
   // if it exists and the string matches what we put in on the image
   // to write, AOK.
-  if (itk::ExposeMetaData<std::string>(dict, metaDataObjectName, NrrdTest) != false && NrrdTest == metaDataObjectValue)
+  if (itk::ExposeMetaData<std::string>(dict, metaDataObjectName, NrrdTest) == false || NrrdTest != metaDataObjectValue)
   {
-    return EXIT_SUCCESS;
+    return EXIT_FAILURE; // oops!
   }
-  // oops!
-  return EXIT_FAILURE;
+
+  // Precision test: verify that native double and float metadata round-trips
+  // without the 6-digit truncation from default stream precision.
+  //
+  // The NrrdImageIO write path serialises native double/float metadata via
+  // _dump_metadata_to_stream<T>.  Without the ConvertNumberToString fix the
+  // output is truncated to 6 significant digits.  The read-back string then
+  // parses to a different bit-pattern.
+  //
+  // These checks FAIL against the unfixed NrrdImageIO and PASS with the fix.
+  {
+    constexpr double   hpDouble = 1.2345678901234568;
+    constexpr float    hpFloat = 1.2345679f;
+    const char * const hpDoubleKey = "high_precision_double";
+    const char * const hpFloatKey = "high_precision_float";
+
+    // Write a fresh image with high-precision double and float metadata.
+    itk::MetaDataDictionary & dict2 = image1->GetMetaDataDictionary();
+    itk::EncapsulateMetaData<double>(dict2, hpDoubleKey, hpDouble);
+    itk::EncapsulateMetaData<float>(dict2, hpFloatKey, hpFloat);
+
+    std::string precFname = argv[1];
+    precFname += "/metadatatest_precision.nrrd";
+
+    auto precWriter = ImageWriterType::New();
+    precWriter->SetImageIO(itk::NrrdImageIO::New());
+    precWriter->SetFileName(precFname.c_str());
+    precWriter->SetInput(image1);
+
+    auto precReader = ImageReaderType::New();
+    precReader->SetFileName(precFname.c_str());
+    precReader->SetImageIO(itk::NrrdImageIO::New());
+
+    try
+    {
+      precWriter->Update();
+      precReader->Update();
+    }
+    catch (const itk::ExceptionObject & ex)
+    {
+      std::cerr << "Precision test write/read failed: " << ex << '\n';
+      return EXIT_FAILURE;
+    }
+
+    const itk::MetaDataDictionary & rdict = precReader->GetOutput()->GetMetaDataDictionary();
+
+    std::string doubleStr;
+    if (!itk::ExposeMetaData<std::string>(rdict, hpDoubleKey, doubleStr))
+    {
+      std::cerr << "Key " << hpDoubleKey << " not found after round-trip\n";
+      return EXIT_FAILURE;
+    }
+    const double parsedDouble = std::stod(doubleStr);
+    if (parsedDouble != hpDouble)
+    {
+      std::cerr << "Double precision loss: stored " << itk::ConvertNumberToString(hpDouble) << " but NRRD string '"
+                << doubleStr << "' parses to " << itk::ConvertNumberToString(parsedDouble) << '\n';
+      return EXIT_FAILURE;
+    }
+
+    std::string floatStr;
+    if (!itk::ExposeMetaData<std::string>(rdict, hpFloatKey, floatStr))
+    {
+      std::cerr << "Key " << hpFloatKey << " not found after round-trip\n";
+      return EXIT_FAILURE;
+    }
+    const float parsedFloat = std::stof(floatStr);
+    if (parsedFloat != hpFloat)
+    {
+      std::cerr << "Float precision loss: stored " << itk::ConvertNumberToString(hpFloat) << " but NRRD string '"
+                << floatStr << "' parses to " << itk::ConvertNumberToString(parsedFloat) << '\n';
+      return EXIT_FAILURE;
+    }
+
+    itksys::SystemTools::RemoveFile(precFname);
+  }
+
+  return EXIT_SUCCESS;
 }

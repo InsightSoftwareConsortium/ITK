@@ -19,6 +19,7 @@
 #include "itkNiftiImageIO.h"
 #include "itkIOCommon.h"
 #include "itkMetaDataObject.h"
+#include "itkNumberToString.h"
 #include "itkAnatomicalOrientation.h"
 #include <nifti1_io.h>
 #include "itkNiftiImageIOConfigurePrivate.h"
@@ -645,17 +646,9 @@ NiftiImageIO::SetImageIOMetadataFromNIfTI()
     EncapsulateMetaData<std::string>(thisDic, dimKey.str(), dim.str());
   }
 
-  std::ostringstream intent_p1;
-  intent_p1 << m_Holder->ptr->intent_p1;
-  EncapsulateMetaData<std::string>(thisDic, "intent_p1", intent_p1.str());
-
-  std::ostringstream intent_p2;
-  intent_p2 << m_Holder->ptr->intent_p2;
-  EncapsulateMetaData<std::string>(thisDic, "intent_p2", intent_p2.str());
-
-  std::ostringstream intent_p3;
-  intent_p3 << m_Holder->ptr->intent_p3;
-  EncapsulateMetaData<std::string>(thisDic, "intent_p3", intent_p3.str());
+  EncapsulateMetaData<std::string>(thisDic, "intent_p1", ConvertNumberToString(m_Holder->ptr->intent_p1));
+  EncapsulateMetaData<std::string>(thisDic, "intent_p2", ConvertNumberToString(m_Holder->ptr->intent_p2));
+  EncapsulateMetaData<std::string>(thisDic, "intent_p3", ConvertNumberToString(m_Holder->ptr->intent_p3));
 
   std::ostringstream intent_code;
   intent_code << m_Holder->ptr->intent_code;
@@ -675,24 +668,17 @@ NiftiImageIO::SetImageIOMetadataFromNIfTI()
 
   for (int idx = 0; idx < 8; ++idx)
   {
-    std::ostringstream pixdim;
-    pixdim << m_Holder->ptr->pixdim[idx];
     std::ostringstream pixdimKey;
     pixdimKey << "pixdim[" << idx << ']';
-    EncapsulateMetaData<std::string>(thisDic, pixdimKey.str(), pixdim.str());
+    EncapsulateMetaData<std::string>(thisDic, pixdimKey.str(), ConvertNumberToString(m_Holder->ptr->pixdim[idx]));
   }
 
   std::ostringstream vox_offset;
   vox_offset << m_Holder->ptr->iname_offset;
   EncapsulateMetaData<std::string>(thisDic, "vox_offset", vox_offset.str());
 
-  std::ostringstream scl_slope;
-  scl_slope << m_Holder->ptr->scl_slope;
-  EncapsulateMetaData<std::string>(thisDic, "scl_slope", scl_slope.str());
-
-  std::ostringstream scl_inter;
-  scl_inter << m_Holder->ptr->scl_inter;
-  EncapsulateMetaData<std::string>(thisDic, "scl_inter", scl_inter.str());
+  EncapsulateMetaData<std::string>(thisDic, "scl_slope", ConvertNumberToString(m_Holder->ptr->scl_slope));
+  EncapsulateMetaData<std::string>(thisDic, "scl_inter", ConvertNumberToString(m_Holder->ptr->scl_inter));
 
   std::ostringstream slice_end;
   slice_end << m_Holder->ptr->slice_end;
@@ -706,21 +692,10 @@ NiftiImageIO::SetImageIOMetadataFromNIfTI()
   xyzt_units << SPACE_TIME_TO_XYZT(m_Holder->ptr->xyz_units, m_Holder->ptr->time_units);
   EncapsulateMetaData<std::string>(thisDic, "xyzt_units", xyzt_units.str());
 
-  std::ostringstream cal_max;
-  cal_max << m_Holder->ptr->cal_max;
-  EncapsulateMetaData<std::string>(thisDic, "cal_max", cal_max.str());
-
-  std::ostringstream cal_min;
-  cal_min << m_Holder->ptr->cal_min;
-  EncapsulateMetaData<std::string>(thisDic, "cal_min", cal_min.str());
-
-  std::ostringstream slice_duration;
-  slice_duration << m_Holder->ptr->slice_duration;
-  EncapsulateMetaData<std::string>(thisDic, "slice_duration", slice_duration.str());
-
-  std::ostringstream toffset;
-  toffset << m_Holder->ptr->toffset;
-  EncapsulateMetaData<std::string>(thisDic, "toffset", toffset.str());
+  EncapsulateMetaData<std::string>(thisDic, "cal_max", ConvertNumberToString(m_Holder->ptr->cal_max));
+  EncapsulateMetaData<std::string>(thisDic, "cal_min", ConvertNumberToString(m_Holder->ptr->cal_min));
+  EncapsulateMetaData<std::string>(thisDic, "slice_duration", ConvertNumberToString(m_Holder->ptr->slice_duration));
+  EncapsulateMetaData<std::string>(thisDic, "toffset", ConvertNumberToString(m_Holder->ptr->toffset));
 
   std::ostringstream descrip;
   descrip << m_Holder->ptr->descrip;
@@ -740,44 +715,28 @@ NiftiImageIO::SetImageIOMetadataFromNIfTI()
   EncapsulateMetaData<std::string>(thisDic, "sform_code", sform_code.str());
   EncapsulateMetaData<std::string>(thisDic, "sform_code_name", std::string(str_xform(m_Holder->ptr->sform_code)));
 
-  std::ostringstream quatern_b;
-  quatern_b << m_Holder->ptr->quatern_b;
-  EncapsulateMetaData<std::string>(thisDic, "quatern_b", quatern_b.str());
+  EncapsulateMetaData<std::string>(thisDic, "quatern_b", ConvertNumberToString(m_Holder->ptr->quatern_b));
+  EncapsulateMetaData<std::string>(thisDic, "quatern_c", ConvertNumberToString(m_Holder->ptr->quatern_c));
+  EncapsulateMetaData<std::string>(thisDic, "quatern_d", ConvertNumberToString(m_Holder->ptr->quatern_d));
+  EncapsulateMetaData<std::string>(thisDic, "qoffset_x", ConvertNumberToString(m_Holder->ptr->qoffset_x));
+  EncapsulateMetaData<std::string>(thisDic, "qoffset_y", ConvertNumberToString(m_Holder->ptr->qoffset_y));
+  EncapsulateMetaData<std::string>(thisDic, "qoffset_z", ConvertNumberToString(m_Holder->ptr->qoffset_z));
 
-  std::ostringstream quatern_c;
-  quatern_c << m_Holder->ptr->quatern_c;
-  EncapsulateMetaData<std::string>(thisDic, "quatern_c", quatern_c.str());
-
-  std::ostringstream quatern_d;
-  quatern_d << m_Holder->ptr->quatern_d;
-  EncapsulateMetaData<std::string>(thisDic, "quatern_d", quatern_d.str());
-
-  std::ostringstream qoffset_x;
-  qoffset_x << m_Holder->ptr->qoffset_x;
-  EncapsulateMetaData<std::string>(thisDic, "qoffset_x", qoffset_x.str());
-
-  std::ostringstream qoffset_y;
-  qoffset_y << m_Holder->ptr->qoffset_y;
-  EncapsulateMetaData<std::string>(thisDic, "qoffset_y", qoffset_y.str());
-
-  std::ostringstream qoffset_z;
-  qoffset_z << m_Holder->ptr->qoffset_z;
-  EncapsulateMetaData<std::string>(thisDic, "qoffset_z", qoffset_z.str());
-
-  std::ostringstream srow_x;
-  srow_x << m_Holder->ptr->sto_xyz.m[0][0] << ' ' << m_Holder->ptr->sto_xyz.m[0][1] << ' '
-         << m_Holder->ptr->sto_xyz.m[0][2] << ' ' << m_Holder->ptr->sto_xyz.m[0][3];
-  EncapsulateMetaData<std::string>(thisDic, "srow_x", srow_x.str());
-
-  std::ostringstream srow_y;
-  srow_y << m_Holder->ptr->sto_xyz.m[1][0] << ' ' << m_Holder->ptr->sto_xyz.m[1][1] << ' '
-         << m_Holder->ptr->sto_xyz.m[1][2] << ' ' << m_Holder->ptr->sto_xyz.m[1][3];
-  EncapsulateMetaData<std::string>(thisDic, "srow_y", srow_y.str());
-
-  std::ostringstream srow_z;
-  srow_z << m_Holder->ptr->sto_xyz.m[2][0] << ' ' << m_Holder->ptr->sto_xyz.m[2][1] << ' '
-         << m_Holder->ptr->sto_xyz.m[2][2] << ' ' << m_Holder->ptr->sto_xyz.m[2][3];
-  EncapsulateMetaData<std::string>(thisDic, "srow_z", srow_z.str());
+  for (int row = 0; row < 3; ++row)
+  {
+    std::string srowStr;
+    for (int col = 0; col < 4; ++col)
+    {
+      if (col > 0)
+      {
+        srowStr += ' ';
+      }
+      srowStr += ConvertNumberToString(m_Holder->ptr->sto_xyz.m[row][col]);
+    }
+    std::ostringstream srowKey;
+    srowKey << "srow_" << "xyz"[row];
+    EncapsulateMetaData<std::string>(thisDic, srowKey.str(), srowStr);
+  }
 
   std::ostringstream intent_name;
   intent_name << m_Holder->ptr->intent_name;
