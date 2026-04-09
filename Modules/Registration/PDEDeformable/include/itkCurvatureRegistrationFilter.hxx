@@ -204,18 +204,13 @@ CurvatureRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TImag
   (void)dt;
   const DisplacementFieldPointer update = this->GetUpdateBuffer();
 
-  ImageRegionConstIterator<DisplacementFieldType>   itInDeformation;
-  ImageRegionIterator<DisplacementFieldType>        itOutDeformation;
-  ImageRegionConstIterator<DisplacementFieldType>   itInUpdate;
-  ImageRegionConstIteratorWithIndex<FixedImageType> fixedImageIteratorWithIndex;
-
-  itInDeformation =
-    ImageRegionConstIterator(this->GetDisplacementField(), this->GetDisplacementField()->GetLargestPossibleRegion());
-  itOutDeformation =
-    ImageRegionIterator(this->GetDisplacementField(), this->GetDisplacementField()->GetLargestPossibleRegion());
-  itInUpdate = ImageRegionConstIterator(update, update->GetLargestPossibleRegion());
-  fixedImageIteratorWithIndex = ImageRegionConstIteratorWithIndex<FixedImageType>(
-    this->GetFixedImage(), this->GetFixedImage()->GetLargestPossibleRegion());
+  ImageRegionConstIterator          itInDeformation(this->GetDisplacementField(),
+                                           this->GetDisplacementField()->GetLargestPossibleRegion());
+  ImageRegionIterator               itOutDeformation(this->GetDisplacementField(),
+                                       this->GetDisplacementField()->GetLargestPossibleRegion());
+  ImageRegionConstIterator          itInUpdate(update, update->GetLargestPossibleRegion());
+  ImageRegionConstIteratorWithIndex fixedImageIteratorWithIndex(this->GetFixedImage(),
+                                                                this->GetFixedImage()->GetLargestPossibleRegion());
 
   const SizeValueType numberOfPixels = this->GetFixedImage()->GetLargestPossibleRegion().GetNumberOfPixels();
 
