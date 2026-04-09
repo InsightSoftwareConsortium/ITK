@@ -1057,6 +1057,7 @@ str = str
     %typemap(in) type& (type itks) {
         if ((SWIG_ConvertPtr($input,(void **)(&$1),$1_descriptor, 0)) == -1) {
             PyErr_Clear();
+            if (PySequence_Check($input)) {
             itks = type( PyObject_Length($input) );
             for (unsigned int i =0; i < itks.Size(); i++) {
                 PyObject *o = PySequence_GetItem($input,i);
@@ -1072,6 +1073,11 @@ str = str
                 SWIG_Py_DECREF(o);
             }
             $1 = &itks;
+            }
+            else {
+                PyErr_SetString(PyExc_TypeError,"Expecting an type, or a sequence of values.");
+                return NULL;
+            }
         }
     }
 
@@ -1090,6 +1096,7 @@ str = str
         type * s;
         if ((SWIG_ConvertPtr($input,(void **)(&s),$descriptor(type *), 0)) == -1) {
             PyErr_Clear();
+            if (PySequence_Check($input)) {
             itks = type( PyObject_Length($input) );
             for (unsigned int i =0; i < itks.Size(); i++) {
                 PyObject *o = PySequence_GetItem($input,i);
@@ -1105,6 +1112,18 @@ str = str
                 SWIG_Py_DECREF(o);
             }
             $1 = itks;
+            }
+            else {
+                PyErr_SetString(PyExc_TypeError,"Expecting an type, or a sequence of values.");
+                return NULL;
+            }
+        }
+        else if( s != NULL ) {
+            $1 = *s;
+        }
+        else {
+            PyErr_SetString(PyExc_TypeError,"Expecting an type, or a sequence of values.");
+            SWIG_fail;
         }
     }
 
