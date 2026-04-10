@@ -8,4 +8,11 @@ vessels, needles, etc.), blobs (for arbitrary shaped objects), cubes, spheres,
 etc. The complete library is known as MetaIO."
 )
 
-itk_module(ITKMetaIO DEPENDS ITKZLIB DESCRIPTION "${DOCUMENTATION}")
+itk_module(
+  ITKMetaIO
+  DEPENDS ITKZLIB
+  DESCRIPTION "${DOCUMENTATION}"
+  SPDX_LICENSE "Apache-2.0"
+  SPDX_DOWNLOAD_LOCATION "https://github.com/Kitware/MetaIO"
+  SPDX_COPYRIGHT "Copyright Kitware Inc."
+)

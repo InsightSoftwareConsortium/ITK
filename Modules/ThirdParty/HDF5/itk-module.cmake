@@ -5,4 +5,11 @@ href=\"http://www.hdfgroup.org/HDF5/\">HDF5</a> library.
 HDF5 is a data model, library, and file format for storing and managing data."
 )
 
-itk_module(ITKHDF5 DEPENDS ITKZLIB DESCRIPTION "${DOCUMENTATION}")
+itk_module(
+  ITKHDF5
+  DEPENDS ITKZLIB
+  DESCRIPTION "${DOCUMENTATION}"
+  SPDX_LICENSE "BSD-3-Clause"
+  SPDX_DOWNLOAD_LOCATION "https://www.hdfgroup.org/solutions/hdf5"
+  SPDX_COPYRIGHT "Copyright The HDF Group"
+)

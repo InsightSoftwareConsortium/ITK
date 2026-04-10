@@ -7,4 +7,11 @@ has been developed in order to promote the use of JPEG 2000, the new still-image
 compression standard from the Joint Photographic Experts Group (JPEG)."
 )
 
-itk_module(ITKOpenJPEG EXCLUDE_FROM_DEFAULT DESCRIPTION "${DOCUMENTATION}")
+itk_module(
+  ITKOpenJPEG
+  EXCLUDE_FROM_DEFAULT
+  DESCRIPTION "${DOCUMENTATION}"
+  SPDX_LICENSE "BSD-2-Clause"
+  SPDX_DOWNLOAD_LOCATION "https://www.openjpeg.org"
+  SPDX_COPYRIGHT "Copyright OpenJPEG contributors"
+)
