@@ -302,7 +302,6 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
     gradientImagePointer = itkDynamicCastInDebugMode<GradientImagesType *>(this->ProcessObject::GetInput(0));
 
     ImageRegionConstIteratorWithIndex git(gradientImagePointer, outputRegionForThread);
-    git.GoToBegin();
 
     // Compute the indices of the baseline images and gradient images
     std::vector<unsigned int> baselineind; // contains the indices of

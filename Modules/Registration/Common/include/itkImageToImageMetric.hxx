@@ -578,8 +578,6 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFullFixedImageRegion(FixedI
   // Set up a region iterator within the user specified fixed image region.
   ImageRegionConstIteratorWithIndex regionIter(m_FixedImage, GetFixedImageRegion());
 
-  regionIter.GoToBegin();
-
   typename FixedImageSampleContainer::iterator iter;
   const auto                                   end = samples.end();
 

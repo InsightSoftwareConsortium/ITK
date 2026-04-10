@@ -144,7 +144,6 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
     for (unsigned int dim = 0; dim < NDimensions; ++dim)
     {
       ImageRegionIteratorWithIndex tempItDir(tempPtr, tempPtr->GetRequestedRegion());
-      tempItDir.GoToBegin();
       while (!tempItDir.IsAtEnd())
       {
         // determine the index of the output pixel
