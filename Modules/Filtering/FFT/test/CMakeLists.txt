@@ -11,9 +11,9 @@ set(
   itkFullToHalfHermitianImageFilterTest.cxx
   itkHalfToFullHermitianImageFilterTest.cxx
   itkInverse1DFFTImageFilterTest.cxx
+  itkVnlComplexToComplexFFTImageFilterTest.cxx
   itkVnlFFTTest.cxx
   itkVnlRealFFTTest.cxx
-  itkVnlComplexToComplexFFTImageFilterTest.cxx
 )
 
 if(ITK_USE_FFTWF)

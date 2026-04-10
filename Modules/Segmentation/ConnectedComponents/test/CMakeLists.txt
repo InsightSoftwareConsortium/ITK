@@ -1,16 +1,16 @@
 itk_module_test()
 set(
   ITKConnectedComponentsTests
-  itkRelabelComponentImageFilterTest.cxx
-  itkHardConnectedComponentImageFilterTest.cxx
-  itkConnectedComponentImageFilterTestRGB.cxx
-  itkConnectedComponentImageFilterTest.cxx
   itkConnectedComponentImageFilterBackgroundTest.cxx
-  itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
-  itkScalarConnectedComponentImageFilterTest.cxx
-  itkVectorConnectedComponentImageFilterTest.cxx
+  itkConnectedComponentImageFilterTest.cxx
+  itkConnectedComponentImageFilterTestRGB.cxx
   itkConnectedComponentImageFilterTooManyObjectsTest.cxx
+  itkHardConnectedComponentImageFilterTest.cxx
   itkMaskConnectedComponentImageFilterTest.cxx
+  itkRelabelComponentImageFilterTest.cxx
+  itkScalarConnectedComponentImageFilterTest.cxx
+  itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
+  itkVectorConnectedComponentImageFilterTest.cxx
 )
 
 createtestdriver(ITKConnectedComponents "${ITKConnectedComponents-Test_LIBRARIES}" "${ITKConnectedComponentsTests}")
@@ -178,8 +178,8 @@ itk_add_test(
 
 set(
   ITKConnectedComponentsGTests
-  itkRelabelComponentImageFilterGTest.cxx
   itkConnectedComponentImageFilterGTest.cxx
+  itkRelabelComponentImageFilterGTest.cxx
 )
 creategoogletestdriver(ITKConnectedComponents "${ITKConnectedComponents-Test_LIBRARIES}"
                        "${ITKConnectedComponentsGTests}"

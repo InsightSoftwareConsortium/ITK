@@ -1,13 +1,33 @@
 itk_module_test()
 set(
   ITKStatisticsTests
+  itkChiSquareDistributionTest.cxx
+  itkCovarianceSampleFilterTest.cxx
+  itkCovarianceSampleFilterTest2.cxx
+  itkCovarianceSampleFilterTest3.cxx
   itkDecisionRuleTest.cxx
   itkDenseFrequencyContainer2Test.cxx
+  itkDistanceMetricTest.cxx
+  itkDistanceMetricTest2.cxx
+  itkDistanceToCentroidMembershipFunctionTest.cxx
+  itkEuclideanDistanceMetricTest.cxx
+  itkEuclideanSquareDistanceMetricTest.cxx
   itkExpectationMaximizationMixtureModelEstimatorTest.cxx
   itkGaussianDistributionTest.cxx
   itkGaussianMembershipFunctionTest.cxx
   itkGaussianMixtureModelComponentTest.cxx
   itkGaussianRandomSpatialNeighborSubsamplerTest.cxx
+  itkHistogramTest.cxx
+  itkHistogramToTextureFeaturesFilterNaNTest.cxx
+  itkHistogramToTextureFeaturesFilterTest.cxx
+  itkImageToHistogramFilterTest.cxx
+  itkImageToHistogramFilterTest2.cxx
+  itkImageToListSampleAdaptorTest.cxx
+  itkImageToListSampleAdaptorTest2.cxx
+  itkImageToListSampleFilterTest.cxx
+  itkImageToListSampleFilterTest2.cxx
+  itkImageToListSampleFilterTest3.cxx
+  itkJointDomainImageToListSampleAdaptorTest.cxx
   itkKalmanLinearEstimatorTest.cxx
   itkKdTreeBasedKmeansEstimatorTest.cxx
   itkKdTreeGeneratorTest.cxx
@@ -15,50 +35,26 @@ set(
   itkKdTreeTest2.cxx
   itkKdTreeTest3.cxx
   itkKdTreeTestSamplePoints.cxx
+  itkListSampleTest.cxx
+  itkListSampleTest.cxx
+  itkMahalanobisDistanceMetricTest.cxx
+  itkManhattanDistanceMetricTest.cxx
   itkMaximumDecisionRuleTest.cxx
-  itkMinimumDecisionRuleTest.cxx
   itkMaximumRatioDecisionRuleTest.cxx
   itkMeanSampleFilterTest.cxx
   itkMeanSampleFilterTest2.cxx
   itkMeanSampleFilterTest3.cxx
-  itkHistogramTest.cxx
-  itkHistogramToTextureFeaturesFilterTest.cxx
-  itkHistogramToTextureFeaturesFilterNaNTest.cxx
-  itkChiSquareDistributionTest.cxx
-  itkCovarianceSampleFilterTest.cxx
-  itkCovarianceSampleFilterTest2.cxx
-  itkCovarianceSampleFilterTest3.cxx
-  itkWeightedCovarianceSampleFilterTest.cxx
-  itkWeightedCovarianceSampleFilterTest2.cxx
-  itkWeightedMeanSampleFilterTest.cxx
-  itkWeightedCentroidKdTreeGeneratorTest1.cxx
-  itkWeightedCentroidKdTreeGeneratorTest8.cxx
-  itkWeightedCentroidKdTreeGeneratorTest9.cxx
-  itkMahalanobisDistanceMetricTest.cxx
-  itkManhattanDistanceMetricTest.cxx
+  itkMeasurementVectorTraitsTest.cxx
   itkMembershipFunctionBaseTest.cxx
   itkMembershipFunctionBaseTest2.cxx
   itkMembershipSampleTest1.cxx
   itkMembershipSampleTest2.cxx
   itkMembershipSampleTest3.cxx
   itkMembershipSampleTest4.cxx
-  itkMeasurementVectorTraitsTest.cxx
-  itkNeighborhoodSamplerTest1.cxx
+  itkMinimumDecisionRuleTest.cxx
   itkMixtureModelComponentBaseTest.cxx
+  itkNeighborhoodSamplerTest1.cxx
   itkNormalVariateGeneratorTest1.cxx
-  itkDistanceMetricTest.cxx
-  itkDistanceMetricTest2.cxx
-  itkDistanceToCentroidMembershipFunctionTest.cxx
-  itkEuclideanDistanceMetricTest.cxx
-  itkEuclideanSquareDistanceMetricTest.cxx
-  itkListSampleTest.cxx
-  itkImageToListSampleAdaptorTest.cxx
-  itkImageToListSampleAdaptorTest2.cxx
-  itkImageToListSampleFilterTest.cxx
-  itkImageToListSampleFilterTest2.cxx
-  itkImageToListSampleFilterTest3.cxx
-  itkListSampleTest.cxx
-  itkJointDomainImageToListSampleAdaptorTest.cxx
   itkPointSetToListSampleAdaptorTest.cxx
   itkProbabilityDistributionTest.cxx
   itkRandomVariateGeneratorBaseTest.cxx
@@ -77,24 +73,28 @@ set(
   itkScalarImageToCooccurrenceListSampleFilterTest.cxx
   itkScalarImageToCooccurrenceMatrixFilterTest.cxx
   itkScalarImageToCooccurrenceMatrixFilterTest2.cxx
-  itkScalarImageToTextureFeaturesFilterTest.cxx
-  itkScalarImageToRunLengthMatrixFilterTest.cxx
+  itkScalarImageToHistogramGeneratorTest.cxx
   itkScalarImageToRunLengthFeaturesFilterTest.cxx
+  itkScalarImageToRunLengthMatrixFilterTest.cxx
+  itkScalarImageToTextureFeaturesFilterTest.cxx
   itkSparseFrequencyContainer2Test.cxx
   itkSpatialNeighborSubsamplerTest.cxx
   itkStandardDeviationPerComponentSampleFilterTest.cxx
+  itkStatisticsAlgorithmTest.cxx
+  itkStatisticsAlgorithmTest2.cxx
   itkStatisticsTypesTest.cxx
   itkSubsampleTest.cxx
   itkSubsampleTest2.cxx
   itkSubsampleTest3.cxx
   itkTDistributionTest.cxx
-  itkStatisticsAlgorithmTest.cxx
-  itkStatisticsAlgorithmTest2.cxx
   itkUniformRandomSpatialNeighborSubsamplerTest.cxx
   itkVectorContainerToListSampleAdaptorTest.cxx
-  itkImageToHistogramFilterTest.cxx
-  itkImageToHistogramFilterTest2.cxx
-  itkScalarImageToHistogramGeneratorTest.cxx
+  itkWeightedCentroidKdTreeGeneratorTest1.cxx
+  itkWeightedCentroidKdTreeGeneratorTest8.cxx
+  itkWeightedCentroidKdTreeGeneratorTest9.cxx
+  itkWeightedCovarianceSampleFilterTest.cxx
+  itkWeightedCovarianceSampleFilterTest2.cxx
+  itkWeightedMeanSampleFilterTest.cxx
 )
 
 createtestdriver(ITKStatistics "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisticsTests}")

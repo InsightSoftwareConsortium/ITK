@@ -4,50 +4,50 @@ set(
   itkAnchorErodeDilateImageFilterTest.cxx
   itkAnchorOpenCloseImageFilterTest.cxx
   itkClosingByReconstructionImageFilterTest.cxx
+  itkDoubleThresholdImageFilterTest.cxx
   itkFlatStructuringElementTest.cxx
   itkFlatStructuringElementTest2.cxx
   itkFlatStructuringElementTest3.cxx
   itkGrayscaleConnectedClosingImageFilterTest.cxx
   itkGrayscaleConnectedOpeningImageFilterTest.cxx
+  itkGrayscaleDilateImageFilterTest.cxx
+  itkGrayscaleErodeImageFilterTest.cxx
   itkGrayscaleFillholeImageFilterTest.cxx
   itkGrayscaleFunctionDilateImageFilterTest.cxx
   itkGrayscaleFunctionErodeImageFilterTest.cxx
-  itkGrayscaleMorphologicalClosingImageFilterTest.cxx
-  itkGrayscaleMorphologicalOpeningImageFilterTest.cxx
   itkGrayscaleGeodesicErodeDilateImageFilterTest.cxx
   itkGrayscaleGrindPeakImageFilterTest.cxx
+  itkGrayscaleMorphologicalClosingImageFilterTest.cxx
+  itkGrayscaleMorphologicalClosingImageFilterTest2.cxx
+  itkGrayscaleMorphologicalOpeningImageFilterTest.cxx
+  itkGrayscaleMorphologicalOpeningImageFilterTest2.cxx
   itkHConcaveImageFilterTest.cxx
-  itkHConvexImageFilterTest.cxx
   itkHConvexConcaveImageFilterTest.cxx
+  itkHConvexImageFilterTest.cxx
   itkHMaximaImageFilterTest.cxx
-  itkHMinimaImageFilterTest.cxx
   itkHMaximaMinimaImageFilterTest.cxx
-  itkMorphologicalGradientImageFilterTest.cxx
-  itkMovingHistogramMorphologyImageFilterTest.cxx
-  itkOpeningByReconstructionImageFilterTest.cxx
-  itkOpeningByReconstructionImageFilterTest2.cxx
-  itkDoubleThresholdImageFilterTest.cxx
-  itkRemoveBoundaryObjectsTest.cxx
-  itkRemoveBoundaryObjectsTest2.cxx
-  itkShapedIteratorFromStructuringElementTest.cxx
-  itkTopHatImageFilterTest.cxx
+  itkHMinimaImageFilterTest.cxx
   itkMapGrayscaleDilateImageFilterTest.cxx
   itkMapGrayscaleErodeImageFilterTest.cxx
   itkMapGrayscaleMorphologicalClosingImageFilterTest.cxx
   itkMapGrayscaleMorphologicalOpeningImageFilterTest.cxx
-  itkGrayscaleDilateImageFilterTest.cxx
-  itkGrayscaleErodeImageFilterTest.cxx
-  itkGrayscaleMorphologicalClosingImageFilterTest2.cxx
-  itkGrayscaleMorphologicalOpeningImageFilterTest2.cxx
-  itkMorphologicalGradientImageFilterTest2.cxx
-  itkRegionalMaximaImageFilterTest.cxx
-  itkRegionalMinimaImageFilterTest.cxx
-  itkValuedRegionalMaximaImageFilterTest.cxx
-  itkValuedRegionalMinimaImageFilterTest.cxx
-  itkMaskedRankImageFilterTest.cxx
-  itkRankImageFilterTest.cxx
   itkMapMaskedRankImageFilterTest.cxx
   itkMapRankImageFilterTest.cxx
+  itkMaskedRankImageFilterTest.cxx
+  itkMorphologicalGradientImageFilterTest.cxx
+  itkMorphologicalGradientImageFilterTest2.cxx
+  itkMovingHistogramMorphologyImageFilterTest.cxx
+  itkOpeningByReconstructionImageFilterTest.cxx
+  itkOpeningByReconstructionImageFilterTest2.cxx
+  itkRankImageFilterTest.cxx
+  itkRegionalMaximaImageFilterTest.cxx
+  itkRegionalMinimaImageFilterTest.cxx
+  itkRemoveBoundaryObjectsTest.cxx
+  itkRemoveBoundaryObjectsTest2.cxx
+  itkShapedIteratorFromStructuringElementTest.cxx
+  itkTopHatImageFilterTest.cxx
+  itkValuedRegionalMaximaImageFilterTest.cxx
+  itkValuedRegionalMinimaImageFilterTest.cxx
   itkVanHerkGilWermanErodeDilateImageFilterTest.cxx
 )
 

@@ -7,8 +7,8 @@ include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 
 set(
   ITKIONIFTI_SRCS
-  itkNiftiImageIOFactory.cxx
   itkNiftiImageIO.cxx
+  itkNiftiImageIOFactory.cxx
 )
 
 itk_module_add_library(ITKIONIFTI ${ITKIONIFTI_SRCS})

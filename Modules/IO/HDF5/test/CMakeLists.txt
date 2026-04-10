@@ -1,8 +1,8 @@
 itk_module_test()
 set(
   ITKIOHDF5Tests
-  itkHDF5ImageIOTest.cxx
   itkHDF5ImageIOStreamingReadWriteTest.cxx
+  itkHDF5ImageIOTest.cxx
 )
 
 createtestdriver(ITKIOHDF5 "${ITKIOHDF5-Test_LIBRARIES}" "${ITKIOHDF5Tests}")

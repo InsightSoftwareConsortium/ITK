@@ -1,17 +1,17 @@
 itk_module_test()
 set(
   ITKIODCMTKTests
+  itkDCMTKImageIOMultiFrameImageTest.cxx
+  itkDCMTKImageIONoPreambleTest.cxx
+  itkDCMTKImageIOOrthoDirTest.cxx
+  itkDCMTKImageIOSlopeInterceptTest.cxx
+  itkDCMTKImageIOSpacingTest.cxx
   itkDCMTKImageIOTest.cxx
+  itkDCMTKLoggerTest.cxx
+  itkDCMTKMultiFrame4DTest.cxx
   itkDCMTKRGBImageIOTest.cxx
   itkDCMTKSeriesReadImageWrite.cxx
   itkDCMTKSeriesStreamReadImageWrite.cxx
-  itkDCMTKImageIOOrthoDirTest.cxx
-  itkDCMTKMultiFrame4DTest.cxx
-  itkDCMTKLoggerTest.cxx
-  itkDCMTKImageIOSlopeInterceptTest.cxx
-  itkDCMTKImageIOMultiFrameImageTest.cxx
-  itkDCMTKImageIONoPreambleTest.cxx
-  itkDCMTKImageIOSpacingTest.cxx
 )
 
 createtestdriver(ITKIODCMTK "${ITKIODCMTK-Test_LIBRARIES}" "${ITKIODCMTKTests}")

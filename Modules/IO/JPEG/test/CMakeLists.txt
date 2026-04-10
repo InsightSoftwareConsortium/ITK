@@ -1,11 +1,11 @@
 itk_module_test()
 set(
   ITKIOJPEGTests
-  itkJPEGImageIOTest.cxx
-  itkJPEGImageIOTest2.cxx
-  itkJPEGImageIODegenerateCasesTest.cxx
   itkJPEGImageIOBrokenCasesTest.cxx
   itkJPEGImageIOCMYKTest.cxx
+  itkJPEGImageIODegenerateCasesTest.cxx
+  itkJPEGImageIOTest.cxx
+  itkJPEGImageIOTest2.cxx
 )
 
 createtestdriver(ITKIOJPEG "${ITKIOJPEG-Test_LIBRARIES}" "${ITKIOJPEGTests}")

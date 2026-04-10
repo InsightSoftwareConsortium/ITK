@@ -2,10 +2,10 @@ itk_module_test()
 set(
   ITKImageNoiseTests
   itkAdditiveGaussianNoiseImageFilterTest.cxx
+  itkPeakSignalToNoiseRatioCalculatorTest.cxx
+  itkSaltAndPepperNoiseImageFilterTest.cxx
   itkShotNoiseImageFilterTest.cxx
   itkSpeckleNoiseImageFilterTest.cxx
-  itkSaltAndPepperNoiseImageFilterTest.cxx
-  itkPeakSignalToNoiseRatioCalculatorTest.cxx
 )
 
 createtestdriver(ITKImageNoise "${ITKImageNoise-Test_LIBRARIES}" "${ITKImageNoiseTests}")

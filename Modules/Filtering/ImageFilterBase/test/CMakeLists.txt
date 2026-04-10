@@ -1,11 +1,11 @@
 itk_module_test()
 set(
   ITKImageFilterBaseTests
-  itkNeighborhoodOperatorImageFilterTest.cxx
-  itkImageToImageFilterTest.cxx
-  itkVectorNeighborhoodOperatorImageFilterTest.cxx
-  itkMaskNeighborhoodOperatorImageFilterTest.cxx
   itkCastImageFilterTest.cxx
+  itkImageToImageFilterTest.cxx
+  itkMaskNeighborhoodOperatorImageFilterTest.cxx
+  itkNeighborhoodOperatorImageFilterTest.cxx
+  itkVectorNeighborhoodOperatorImageFilterTest.cxx
 )
 
 # Disable optimization on the tests below to avoid possible

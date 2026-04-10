@@ -1,8 +1,8 @@
 itk_module_test()
 set(
   ITKDenoisingTests
-  itkPatchBasedDenoisingImageFilterTest.cxx
   itkPatchBasedDenoisingImageFilterDefaultTest.cxx
+  itkPatchBasedDenoisingImageFilterTest.cxx
 )
 
 createtestdriver(ITKDenoising "${ITKDenoising-Test_LIBRARIES}" "${ITKDenoisingTests}")

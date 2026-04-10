@@ -1,34 +1,34 @@
 itk_module_test()
 set(
   ITKLevelSetsTests
-  itkThresholdSegmentationLevelSetImageFilterTest.cxx
-  itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx
   itkAnisotropicFourthOrderLevelSetImageFilterTest.cxx
-  itkReinitializeLevelSetImageFilterTest.cxx
-  itkLevelSetVelocityNeighborhoodExtractorTest.cxx
-  itkIsotropicFourthOrderLevelSetImageFilterTest.cxx
-  itkGeodesicActiveContourLevelSetImageFilterTest.cxx
-  itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2.cxx
-  itkParallelSparseFieldLevelSetImageFilterTest.cxx
-  itkShapeDetectionLevelSetImageFilterTest.cxx
-  itkNarrowBandThresholdSegmentationLevelSetImageFilterTest.cxx
-  itkNarrowBandCurvesLevelSetImageFilterTest.cxx
-  itkCollidingFrontsImageFilterTest.cxx
-  itkGeodesicActiveContourShapePriorLevelSetImageFilterTest.cxx
-  itkLevelSetFunctionTest.cxx
-  itkExtensionVelocitiesImageFilterTest.cxx
+  itkBinaryMaskToNarrowBandPointSetFilterTest.cxx
   itkCannySegmentationLevelSetImageFilterTest.cxx
-  itkLevelSetNeighborhoodExtractorTest.cxx
-  itkShapePriorMAPCostFunctionTest.cxx
-  itkImplicitManifoldNormalVectorFilterTest.cxx
-  itkSparseFieldFourthOrderLevelSetImageFilterTest.cxx
-  itkLaplacianSegmentationLevelSetImageFilterTest.cxx
-  itkShapePriorSegmentationLevelSetFunctionTest.cxx
-  itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest.cxx
-  itkUnsharpMaskLevelSetImageFilterTest.cxx
+  itkCollidingFrontsImageFilterTest.cxx
   itkCurvesLevelSetImageFilterTest.cxx
   itkCurvesLevelSetImageFilterZeroSigmaTest.cxx
-  itkBinaryMaskToNarrowBandPointSetFilterTest.cxx
+  itkExtensionVelocitiesImageFilterTest.cxx
+  itkGeodesicActiveContourLevelSetImageFilterTest.cxx
+  itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest.cxx
+  itkGeodesicActiveContourShapePriorLevelSetImageFilterTest.cxx
+  itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2.cxx
+  itkImplicitManifoldNormalVectorFilterTest.cxx
+  itkIsotropicFourthOrderLevelSetImageFilterTest.cxx
+  itkLaplacianSegmentationLevelSetImageFilterTest.cxx
+  itkLevelSetFunctionTest.cxx
+  itkLevelSetNeighborhoodExtractorTest.cxx
+  itkLevelSetVelocityNeighborhoodExtractorTest.cxx
+  itkNarrowBandCurvesLevelSetImageFilterTest.cxx
+  itkNarrowBandThresholdSegmentationLevelSetImageFilterTest.cxx
+  itkParallelSparseFieldLevelSetImageFilterTest.cxx
+  itkReinitializeLevelSetImageFilterTest.cxx
+  itkShapeDetectionLevelSetImageFilterTest.cxx
+  itkShapePriorMAPCostFunctionTest.cxx
+  itkShapePriorSegmentationLevelSetFunctionTest.cxx
+  itkSparseFieldFourthOrderLevelSetImageFilterTest.cxx
+  itkThresholdSegmentationLevelSetImageFilterTest.cxx
+  itkUnsharpMaskLevelSetImageFilterTest.cxx
+  itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx
 )
 
 createtestdriver(ITKLevelSets "${ITKLevelSets-Test_LIBRARIES}" "${ITKLevelSetsTests}")

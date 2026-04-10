@@ -1,19 +1,19 @@
 itk_module_test()
 set(
   ITKIOMetaTests
-  itkMetaImageIOMetaDataTest.cxx
+  itkLargeMetaImageWriteReadTest.cxx
   itkMetaImageIOGzTest.cxx
+  itkMetaImageIOMetaDataTest.cxx
   itkMetaImageIOTest.cxx
   itkMetaImageIOTest2.cxx
-  itkLargeMetaImageWriteReadTest.cxx
+  itkMetaImageStreamingIOTest.cxx
+  itkMetaImageStreamingWriterIOTest.cxx
+  itkMetaTestLongFilename.cxx
   testMetaArray.cxx
   testMetaCommand.cxx
   testMetaGroup.cxx
   testMetaImage.cxx
   testMetaMesh.cxx
-  itkMetaImageStreamingIOTest.cxx
-  itkMetaImageStreamingWriterIOTest.cxx
-  itkMetaTestLongFilename.cxx
 )
 
 createtestdriver(ITKIOMeta "${ITKIOMeta-Test_LIBRARIES}" "${ITKIOMetaTests}")

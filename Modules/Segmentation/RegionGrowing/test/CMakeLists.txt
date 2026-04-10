@@ -1,11 +1,11 @@
 itk_module_test()
 set(
   ITKRegionGrowingTests
-  itkNeighborhoodConnectedImageFilterTest.cxx
-  itkIsolatedConnectedImageFilterTest.cxx
   itkConfidenceConnectedImageFilterTest.cxx
-  itkVectorConfidenceConnectedImageFilterTest.cxx
   itkConnectedThresholdImageFilterTest.cxx
+  itkIsolatedConnectedImageFilterTest.cxx
+  itkNeighborhoodConnectedImageFilterTest.cxx
+  itkVectorConfidenceConnectedImageFilterTest.cxx
 )
 
 createtestdriver(ITKRegionGrowing "${ITKRegionGrowing-Test_LIBRARIES}" "${ITKRegionGrowingTests}")

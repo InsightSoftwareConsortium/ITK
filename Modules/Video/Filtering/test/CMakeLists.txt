@@ -1,10 +1,10 @@
 itk_module_test()
 set(
   ITKVideoFilteringTests
-  itkFrameAverageVideoFilterTest.cxx
   itkDecimateFramesVideoFilterTest.cxx
-  itkImageFilterToVideoFilterWrapperTest.cxx
+  itkFrameAverageVideoFilterTest.cxx
   itkFrameDifferenceVideoFilterTest.cxx
+  itkImageFilterToVideoFilterWrapperTest.cxx
 )
 
 createtestdriver(ITKVideoFiltering "${ITKVideoFiltering-Test_LIBRARIES}" "${ITKVideoFilteringTests}")

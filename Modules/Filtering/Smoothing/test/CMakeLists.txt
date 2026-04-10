@@ -3,20 +3,20 @@ set(
   ITKSmoothingTests
   itkBoxMeanImageFilterTest.cxx
   itkBoxSigmaImageFilterTest.cxx
-  itkDiscreteGaussianImageFilterTest2.cxx
-  itkFFTDiscreteGaussianImageFilterTest.cxx
-  itkFFTDiscreteGaussianImageFilterFactoryTest.cxx
-  itkSmoothingRecursiveGaussianImageFilterTest.cxx
-  itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest.cxx
-  itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest.cxx
-  itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest.cxx
-  itkMeanImageFilterTest.cxx
   itkDiscreteGaussianImageFilterTest.cxx
+  itkDiscreteGaussianImageFilterTest2.cxx
+  itkFFTDiscreteGaussianImageFilterFactoryTest.cxx
+  itkFFTDiscreteGaussianImageFilterTest.cxx
+  itkMeanImageFilterTest.cxx
   itkMedianImageFilterTest.cxx
   itkRecursiveGaussianImageFilterOnTensorsTest.cxx
   itkRecursiveGaussianImageFilterOnVectorImageTest.cxx
   itkRecursiveGaussianImageFilterTest.cxx
   itkRecursiveGaussianScaleSpaceTest1.cxx
+  itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest.cxx
+  itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest.cxx
+  itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest.cxx
+  itkSmoothingRecursiveGaussianImageFilterTest.cxx
 )
 
 createtestdriver(ITKSmoothing "${ITKSmoothing-Test_LIBRARIES}" "${ITKSmoothingTests}")

@@ -60,102 +60,102 @@ configure_file(
 set(
   ITKCommon_SRCS
   ${ITKCommon_BINARY_DIR}/itkBuildInformation.cxx
-  itkCommonEnums.cxx
-  itkMemoryProbesCollectorBase.cxx
-  itkCreateObjectFunction.cxx
-  itkLogger.cxx
-  itkLogOutput.cxx
-  itkLoggerOutput.cxx
-  itkNumericLocale.cxx
-  itkProgressAccumulator.cxx
-  itkTotalProgressReporter.cxx
-  itkNumericTraits.cxx
-  itkHexahedronCellTopology.cxx
-  itkIndent.cxx
-  itkEventObject.cxx
-  itkFileOutputWindow.cxx
-  itkSimpleFilterWatcher.cxx
-  itkNumericTraitsVectorPixel.cxx
-  itkObject.cxx
-  itkQuadrilateralCellTopology.cxx
-  itkIterationReporter.cxx
-  itkMemoryProbe.cxx
-  itkTextOutput.cxx
-  itkNumericTraitsTensorPixel2.cxx
-  itkNumericTraitsFixedArrayPixel2.cxx
-  itkProcessObject.cxx
-  itkStreamingProcessObject.cxx
-  itkSpatialOrientationAdapter.cxx
-  itkRealTimeInterval.cxx
-  itkOctreeNode.cxx
-  itkNumericTraitsFixedArrayPixel.cxx
-  itkMultiThreaderBase.cxx
-  itkPlatformMultiThreader.cxx
-  itkMetaDataObject.cxx
-  itkMetaDataDictionary.cxx
-  itkDataObject.cxx
-  itkThreadLogger.cxx
-  itkNumericTraitsTensorPixel.cxx
+  itkAnatomicalOrientation.cxx
+  itkArrayOutputSpecialization.cxx
   itkCommand.cxx
-  itkNumericTraitsPointPixel.cxx
-  itkLightObject.cxx
-  itkStdStreamLogOutput.cxx
-  itkLightProcessObject.cxx
-  itkRegion.cxx
+  itkCommonEnums.cxx
+  itkCompensatedSummation.cxx
+  itkCovariantVector.cxx
+  itkCreateObjectFunction.cxx
+  itkDataObject.cxx
+  itkDirectory.cxx
+  itkEquivalencyTable.cxx
+  itkEventObject.cxx
+  itkExceptionObject.cxx
+  itkExtractImageFilter.cxx
+  itkFileOutputWindow.cxx
+  itkFloatingPointExceptions.cxx
+  itkFrustumSpatialFunction.cxx
+  itkGaussianDerivativeOperator.cxx
+  itkHexahedronCellTopology.cxx
   itkImageIORegion.cxx
-  itkImageSourceCommon.cxx
-  itkImageToImageFilterCommon.cxx
   itkImageRegionSplitterBase.cxx
-  itkImageRegionSplitterSlowDimension.cxx
   itkImageRegionSplitterDirection.cxx
   itkImageRegionSplitterMultidimensional.cxx
-  itkVersion.cxx
-  itkNumericTraitsRGBAPixel.cxx
-  itkRealTimeClock.cxx
-  itkMetaDataObjectBase.cxx
-  itkCovariantVector.cxx
+  itkImageRegionSplitterSlowDimension.cxx
+  itkImageSourceCommon.cxx
+  itkImageToImageFilterCommon.cxx
+  itkIndent.cxx
+  itkIterationReporter.cxx
+  itkLightObject.cxx
+  itkLightProcessObject.cxx
+  itkLogger.cxx
+  itkLoggerBase.cxx
+  itkLoggerManager.cxx
+  itkLoggerOutput.cxx
+  itkLoggerThreadWrapper.cxx
+  itkLogOutput.cxx
+  itkMemoryProbe.cxx
+  itkMemoryProbesCollectorBase.cxx
   itkMemoryUsageObserver.cxx
   itkMersenneTwisterRandomVariateGenerator.cxx
-  itkLoggerBase.cxx
-  itkNumericTraitsCovariantVectorPixel.cxx
-  itkProgressReporter.cxx
-  itkExceptionObject.cxx
+  itkMetaDataDictionary.cxx
+  itkMetaDataObject.cxx
+  itkMetaDataObjectBase.cxx
   itkMultipleLogOutput.cxx
+  itkMultiThreaderBase.cxx
+  itkNumberToString.cxx
+  itkNumericLocale.cxx
+  itkNumericTraits.cxx
+  itkNumericTraitsCovariantVectorPixel.cxx
+  itkNumericTraitsDiffusionTensor3DPixel.cxx
+  itkNumericTraitsFixedArrayPixel.cxx
+  itkNumericTraitsFixedArrayPixel2.cxx
+  itkNumericTraitsPointPixel.cxx
+  itkNumericTraitsRGBAPixel.cxx
+  itkNumericTraitsRGBPixel.cxx
+  itkNumericTraitsTensorPixel.cxx
+  itkNumericTraitsTensorPixel2.cxx
+  itkNumericTraitsVectorPixel.cxx
+  itkObject.cxx
+  itkObjectFactoryBase.cxx
+  itkObjectStore.cxx
+  itkOctreeNode.cxx
+  itkOutputWindow.cxx
+  itkPlatformMultiThreader.cxx
+  itkProcessObject.cxx
+  itkProgressAccumulator.cxx
+  itkProgressReporter.cxx
+  itkProgressTransformer.cxx
   itkQuadraticTriangleCellTopology.cxx
-  itkTimeProbesCollectorBase.cxx
+  itkQuadrilateralCellTopology.cxx
+  itkRandomVariateGeneratorBase.cxx
+  itkRealTimeClock.cxx
+  itkRealTimeInterval.cxx
+  itkRealTimeStamp.cxx
+  itkRegion.cxx
+  itkSimpleFilterWatcher.cxx
+  itkSingleton.cxx
   itkSmapsFileParser.cxx
+  itkSpatialOrientation.cxx
+  itkSpatialOrientationAdapter.cxx
+  itkStdStreamLogOutput.cxx
+  itkStoppingCriterionBase.cxx
+  itkStreamingProcessObject.cxx
+  itkSymmetricEigenAnalysis.cxx
+  itkTetrahedronCellTopology.cxx
+  itkTextOutput.cxx
+  itkThreadedIndexedContainerPartitioner.cxx
+  itkThreadLogger.cxx
+  itkTimeProbe.cxx
+  itkTimeProbesCollectorBase.cxx
+  itkTimeStamp.cxx
+  itkTotalProgressReporter.cxx
   itkTriangleCellTopology.cxx
   itkVector.cxx
-  itkRealTimeStamp.cxx
-  itkDirectory.cxx
-  itkLoggerManager.cxx
-  itkTimeProbe.cxx
-  itkNumericTraitsRGBPixel.cxx
-  itkTimeStamp.cxx
-  itkSingleton.cxx
-  itkTetrahedronCellTopology.cxx
-  itkThreadedIndexedContainerPartitioner.cxx
-  itkObjectFactoryBase.cxx
-  itkFloatingPointExceptions.cxx
-  itkOutputWindow.cxx
-  itkNumericTraitsDiffusionTensor3DPixel.cxx
-  itkEquivalencyTable.cxx
+  itkVersion.cxx
   itkXMLFileOutputWindow.cxx
   itkXMLFilterWatcher.cxx
-  itkStoppingCriterionBase.cxx
-  itkCompensatedSummation.cxx
-  itkArrayOutputSpecialization.cxx
-  itkNumberToString.cxx
-  itkRandomVariateGeneratorBase.cxx
-  itkProgressTransformer.cxx
-  itkSymmetricEigenAnalysis.cxx
-  itkExtractImageFilter.cxx
-  itkLoggerThreadWrapper.cxx
-  itkFrustumSpatialFunction.cxx
-  itkObjectStore.cxx
-  itkGaussianDerivativeOperator.cxx
-  itkSpatialOrientation.cxx
-  itkAnatomicalOrientation.cxx
 )
 
 if(ITK_WRAP_PYTHON)

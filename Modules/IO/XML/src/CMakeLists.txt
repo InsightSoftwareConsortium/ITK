@@ -1,11 +1,11 @@
 set(
   ITKIOXML_SRCS
-  itkXMLFile.cxx
   itkDOMNode.cxx
   itkDOMNodeXMLReader.cxx
   itkDOMNodeXMLWriter.cxx
-  itkStringTools.cxx
   itkFancyString.cxx
+  itkStringTools.cxx
+  itkXMLFile.cxx
 )
 
 itk_module_add_library(ITKIOXML ${ITKIOXML_SRCS})

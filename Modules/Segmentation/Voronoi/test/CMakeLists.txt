@@ -1,11 +1,11 @@
 itk_module_test()
 set(
   ITKVoronoiTests
+  itkVoronoiDiagram2DInfiniteLoopTest.cxx
+  itkVoronoiDiagram2DTest.cxx
+  itkVoronoiPartitioningImageFilterTest.cxx
   itkVoronoiSegmentationImageFilterTest.cxx
   itkVoronoiSegmentationRGBImageFilterTest.cxx
-  itkVoronoiDiagram2DTest.cxx
-  itkVoronoiDiagram2DInfiniteLoopTest.cxx
-  itkVoronoiPartitioningImageFilterTest.cxx
 )
 
 createtestdriver(ITKVoronoi "${ITKVoronoi-Test_LIBRARIES}" "${ITKVoronoiTests}")

@@ -1,8 +1,8 @@
 itk_module_test()
 set(
   ITKNarrowBandTests
-  itkNarrowBandTest.cxx
   itkNarrowBandImageFilterBaseTest.cxx
+  itkNarrowBandTest.cxx
 )
 
 createtestdriver(ITKNarrowBand "${ITKNarrowBand-Test_LIBRARIES}" "${ITKNarrowBandTests}")

@@ -1,7 +1,13 @@
 itk_module_test()
 set(
   ITKIONIFTITests
+  itkExtractSlice.cxx
   itkNiftiImageIOTest.cxx
+  itkNiftiImageIOTest10.cxx
+  itkNiftiImageIOTest11.cxx
+  itkNiftiImageIOTest12.cxx
+  itkNiftiImageIOTest13.cxx
+  itkNiftiImageIOTest14.cxx
   itkNiftiImageIOTest2.cxx
   itkNiftiImageIOTest3.cxx
   itkNiftiImageIOTest4.cxx
@@ -10,15 +16,9 @@ set(
   itkNiftiImageIOTest7.cxx
   itkNiftiImageIOTest8.cxx
   itkNiftiImageIOTest9.cxx
-  itkNiftiImageIOTest10.cxx
-  itkNiftiImageIOTest11.cxx
-  itkNiftiImageIOTest12.cxx
-  itkNiftiImageIOTest13.cxx
-  itkNiftiImageIOTest14.cxx
   itkNiftiLargeImageRegionReadTest.cxx
   itkNiftiReadAnalyzeTest.cxx
   itkNiftiReadWriteDirectionTest.cxx
-  itkExtractSlice.cxx
   itkNiftiWriteCoerceOrthogonalDirectionTest.cxx
 )
 

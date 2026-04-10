@@ -1,12 +1,12 @@
 itk_module_test()
 set(
   ITKWatershedsTests
-  itkTobogganImageFilterTest.cxx
   itkIsolatedWatershedImageFilterTest.cxx
-  itkWatershedImageFilterTest.cxx
   itkMorphologicalWatershedFromMarkersImageFilterTest.cxx
   itkMorphologicalWatershedImageFilterTest.cxx
+  itkTobogganImageFilterTest.cxx
   itkWatershedImageFilterBadValuesTest.cxx
+  itkWatershedImageFilterTest.cxx
 )
 
 createtestdriver(ITKWatersheds "${ITKWatersheds-Test_LIBRARIES}" "${ITKWatershedsTests}")

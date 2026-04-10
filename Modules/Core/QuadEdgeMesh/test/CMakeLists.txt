@@ -1,14 +1,7 @@
 itk_module_test()
 set(
   ITKQuadEdgeMeshTests
-  itkQuadEdgeMeshPointTest1.cxx
-  itkQuadEdgeMeshTest1.cxx
-  itkQuadEdgeMeshTest2.cxx
-  itkQuadEdgeMeshTest3.cxx
-  itkQuadEdgeMeshPolygonCellTest.cxx
-  itkQuadEdgeMeshFrontIteratorTest.cxx
-  itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1.cxx
-  itkQuadEdgeTest1.cxx
+  itkDynamicQuadEdgeMeshTest.cxx
   itkGeometricalQuadEdgeTest1.cxx
   itkQuadEdgeMeshAddFaceTest1.cxx
   itkQuadEdgeMeshAddFaceTest2.cxx
@@ -25,11 +18,18 @@ set(
   itkQuadEdgeMeshEulerOperatorSplitEdgeTest.cxx
   itkQuadEdgeMeshEulerOperatorSplitFaceTest.cxx
   itkQuadEdgeMeshEulerOperatorSplitVertexTest.cxx
+  itkQuadEdgeMeshFrontIteratorTest.cxx
   itkQuadEdgeMeshIteratorTest.cxx
   itkQuadEdgeMeshNoPointConstTest.cxx
+  itkQuadEdgeMeshPointTest1.cxx
+  itkQuadEdgeMeshPolygonCellTest.cxx
+  itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1.cxx
+  itkQuadEdgeMeshTest1.cxx
+  itkQuadEdgeMeshTest2.cxx
+  itkQuadEdgeMeshTest3.cxx
+  itkQuadEdgeTest1.cxx
   itkVTKPolyDataIOQuadEdgeMeshTest.cxx
   itkVTKPolyDataReaderQuadEdgeMeshTest.cxx
-  itkDynamicQuadEdgeMeshTest.cxx
 )
 
 createtestdriver(ITKQuadEdgeMesh "${ITKQuadEdgeMesh-Test_LIBRARIES}" "${ITKQuadEdgeMeshTests}")

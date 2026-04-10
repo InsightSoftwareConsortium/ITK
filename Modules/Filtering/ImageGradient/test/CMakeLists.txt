@@ -1,19 +1,19 @@
 itk_module_test()
 set(
   ITKImageGradientTests
+  itkDifferenceOfGaussiansGradientTest.cxx
   itkGradientImageFilterTest.cxx
   itkGradientImageFilterTest2.cxx
-  itkVectorGradientMagnitudeImageFilterTest1.cxx
-  itkVectorGradientMagnitudeImageFilterTest2.cxx
-  itkVectorGradientMagnitudeImageFilterTest3.cxx
   itkGradientMagnitudeImageFilterTest.cxx
   itkGradientMagnitudeRecursiveGaussianFilterTest.cxx
+  itkGradientRecursiveGaussianFilterSpeedTest.cxx
   itkGradientRecursiveGaussianFilterTest.cxx
   itkGradientRecursiveGaussianFilterTest2.cxx
   itkGradientRecursiveGaussianFilterTest3.cxx
   itkGradientRecursiveGaussianFilterTest4.cxx
-  itkDifferenceOfGaussiansGradientTest.cxx
-  itkGradientRecursiveGaussianFilterSpeedTest.cxx
+  itkVectorGradientMagnitudeImageFilterTest1.cxx
+  itkVectorGradientMagnitudeImageFilterTest2.cxx
+  itkVectorGradientMagnitudeImageFilterTest3.cxx
 )
 
 createtestdriver(ITKImageGradient "${ITKImageGradient-Test_LIBRARIES}" "${ITKImageGradientTests}")

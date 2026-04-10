@@ -1,15 +1,15 @@
 set(
   ITKOptimizersv4_SRCS
-  itkObjectToObjectOptimizerBase.cxx
-  itkSingleValuedNonLinearVnlOptimizerv4.cxx
-  itkSingleValuedVnlCostFunctionAdaptorv4.cxx
-  itkLBFGSOptimizerv4Base.cxx
-  itkLBFGSOptimizerv4.cxx
+  itkAmoebaOptimizerv4.cxx
   itkLBFGS2Optimizerv4.cxx
   itkLBFGSBOptimizerv4.cxx
-  itkAmoebaOptimizerv4.cxx
-  itkRegistrationParameterScalesEstimator.cxx
+  itkLBFGSOptimizerv4.cxx
+  itkLBFGSOptimizerv4Base.cxx
   itkObjectToObjectMetricBase.cxx
+  itkObjectToObjectOptimizerBase.cxx
+  itkRegistrationParameterScalesEstimator.cxx
+  itkSingleValuedNonLinearVnlOptimizerv4.cxx
+  itkSingleValuedVnlCostFunctionAdaptorv4.cxx
 )
 
 itk_module_add_library(ITKOptimizersv4 ${ITKOptimizersv4_SRCS})

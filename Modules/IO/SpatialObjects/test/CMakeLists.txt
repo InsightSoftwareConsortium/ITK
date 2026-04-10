@@ -3,8 +3,8 @@ itk_module_test()
 set(
   ITKIOSpatialObjectsTests
   itkPolygonGroupSpatialObjectXMLFileTest.cxx
-  itkReadWriteSpatialObjectTest.cxx
   itkReadVesselTubeSpatialObjectTest.cxx
+  itkReadWriteSpatialObjectTest.cxx
 )
 
 createtestdriver(ITKIOSpatialObjects "${ITKIOSpatialObjects-Test_LIBRARIES}" "${ITKIOSpatialObjectsTests}")

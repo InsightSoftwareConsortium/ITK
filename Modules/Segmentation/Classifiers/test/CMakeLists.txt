@@ -1,11 +1,9 @@
 itk_module_test()
 set(
   ITKClassifiersTests
-  itkScalarImageKmeansImageFilterTest.cxx
-  itkSupervisedImageClassifierTest.cxx
   itkBayesianClassifierImageFilterTest.cxx
-  itkKmeansModelEstimatorTest.cxx
   itkImageClassifierFilterTest.cxx
+  itkKmeansModelEstimatorTest.cxx
   itkSampleClassifierFilterTest1.cxx
   itkSampleClassifierFilterTest2.cxx
   itkSampleClassifierFilterTest3.cxx
@@ -13,8 +11,10 @@ set(
   itkSampleClassifierFilterTest5.cxx
   itkSampleClassifierFilterTest6.cxx
   itkSampleClassifierFilterTest7.cxx
-  itkScalarImageKmeansImageFilterTest.cxx
   itkScalarImageKmeansImageFilter3DTest.cxx
+  itkScalarImageKmeansImageFilterTest.cxx
+  itkScalarImageKmeansImageFilterTest.cxx
+  itkSupervisedImageClassifierTest.cxx
 )
 
 createtestdriver(ITKClassifiers "${ITKClassifiers-Test_LIBRARIES}" "${ITKClassifiersTests}")

@@ -1,8 +1,8 @@
 itk_module_test()
 set(
   ITKIOTransformInsightLegacyTests
-  itkIOTransformTxtTest.cxx
   itkIOEuler3DTransformTxtTest.cxx
+  itkIOTransformTxtTest.cxx
 )
 
 createtestdriver(ITKIOTransformInsightLegacy "${ITKIOTransformInsightLegacy-Test_LIBRARIES}"

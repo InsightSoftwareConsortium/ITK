@@ -1,19 +1,19 @@
 itk_module_test()
 set(
   ITKIOGDCMTests
+  itkGDCMImageIO32bitsStoredTest.cxx
+  itkGDCMImageIONoCrashTest.cxx
+  itkGDCMImageIONoPreambleTest.cxx
+  itkGDCMImageIOOrthoDirTest.cxx
   itkGDCMImageIOTest.cxx
   itkGDCMImageIOTest2.cxx
-  itkGDCMImageIONoCrashTest.cxx
+  itkGDCMImageOrientationPatientTest.cxx
+  itkGDCMImagePositionPatientTest.cxx
   itkGDCMImageReadSeriesWriteTest.cxx
   itkGDCMImageReadWriteTest.cxx
-  itkGDCMSeriesStreamReadImageWriteTest.cxx
-  itkGDCMImagePositionPatientTest.cxx
-  itkGDCMImageIOOrthoDirTest.cxx
-  itkGDCMImageOrientationPatientTest.cxx
-  itkGDCMLoadImageSpacingTest.cxx
   itkGDCMLegacyMultiFrameTest.cxx
-  itkGDCMImageIONoPreambleTest.cxx
-  itkGDCMImageIO32bitsStoredTest.cxx
+  itkGDCMLoadImageSpacingTest.cxx
+  itkGDCMSeriesStreamReadImageWriteTest.cxx
 )
 
 createtestdriver(ITKIOGDCM "${ITKIOGDCM-Test_LIBRARIES}" "${ITKIOGDCMTests}")

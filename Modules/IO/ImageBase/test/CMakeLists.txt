@@ -1,27 +1,23 @@
 itk_module_test()
 set(
   ITKIOImageBaseTests
+  itk64bitTest.cxx
+  itkArchetypeSeriesFileNamesTest.cxx
   itkConvertBufferTest.cxx
   itkConvertBufferTest2.cxx
-  itkImageFileReaderTest1.cxx
-  itkImageFileWriterTest.cxx
-  itkIOCommonTest.cxx
-  itkIOCommonTest2.cxx
-  itkNumericSeriesFileNamesTest.cxx
-  itkRegularExpressionSeriesFileNamesTest.cxx
-  itkArchetypeSeriesFileNamesTest.cxx
-  itkLargeImageWriteConvertReadTest.cxx
-  itkLargeImageWriteReadTest.cxx
   itkImageFileReaderDimensionsTest.cxx
+  itkImageFileReaderManyComponentVectorTest.cxx
   itkImageFileReaderPositiveSpacingTest.cxx
   itkImageFileReaderStreamingTest.cxx
   itkImageFileReaderStreamingTest2.cxx
+  itkImageFileReaderTest1.cxx
   itkImageFileWriterPastingTest1.cxx
   itkImageFileWriterPastingTest2.cxx
   itkImageFileWriterPastingTest3.cxx
   itkImageFileWriterStreamingPastingCompressingTest1.cxx
   itkImageFileWriterStreamingTest1.cxx
   itkImageFileWriterStreamingTest2.cxx
+  itkImageFileWriterTest.cxx
   itkImageFileWriterTest2.cxx
   itkImageFileWriterUpdateLargestPossibleRegionTest.cxx
   itkImageIOBaseTest.cxx
@@ -32,13 +28,17 @@ set(
   itkImageSeriesReaderSamplingTest.cxx
   itkImageSeriesReaderVectorTest.cxx
   itkImageSeriesWriterTest.cxx
+  itkIOCommonTest.cxx
+  itkIOCommonTest2.cxx
   itkIOPluginTest.cxx
-  itkNoiseImageFilterTest.cxx
+  itkLargeImageWriteConvertReadTest.cxx
+  itkLargeImageWriteReadTest.cxx
   itkMatrixImageWriteReadTest.cxx
+  itkNoiseImageFilterTest.cxx
+  itkNumericSeriesFileNamesTest.cxx
   itkReadWriteImageWithDictionaryTest.cxx
+  itkRegularExpressionSeriesFileNamesTest.cxx
   itkVectorImageReadWriteTest.cxx
-  itk64bitTest.cxx
-  itkImageFileReaderManyComponentVectorTest.cxx
 )
 
 createtestdriver(ITKIOImageBase "${ITKIOImageBase-Test_LIBRARIES}" "${ITKIOImageBaseTests}")

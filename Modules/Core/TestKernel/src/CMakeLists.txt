@@ -1,7 +1,7 @@
 set(
   ITKTestKernel_SRCS
-  itkTestDriverIncludeRequiredFactories.cxx
   itkTestDriverInclude.cxx
+  itkTestDriverIncludeRequiredFactories.cxx
   itkTestingExtractSliceImageFilter.cxx
   itkTestingHashImageFilter.cxx
 )

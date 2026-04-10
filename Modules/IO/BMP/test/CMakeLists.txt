@@ -1,8 +1,8 @@
 itk_module_test()
 set(
   ITKIOBMPTests
-  itkBMPImageIOTest2.cxx
   itkBMPImageIOTest.cxx
+  itkBMPImageIOTest2.cxx
   itkBMPImageIOTest3.cxx
   itkBMPImageIOTest4.cxx
   itkBMPImageIOTest5.cxx

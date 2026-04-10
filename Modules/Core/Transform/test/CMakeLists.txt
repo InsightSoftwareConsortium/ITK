@@ -1,45 +1,45 @@
 itk_module_test()
 set(
   ITKTransformTests
-  itkFixedCenterOfRotationAffineTransformTest.cxx
   itkAffineTransformTest.cxx
-  itkScaleSkewVersor3DTransformTest.cxx
-  itkComposeScaleSkewVersor3DTransformTest.cxx
-  itkEuler3DTransformTest.cxx
-  itkCenteredRigid2DTransformTest.cxx
-  itkEuler2DTransformTest.cxx
-  itkRigid3DTransformTest.cxx
-  itkScaleVersor3DTransformTest.cxx
-  itkTransformTest.cxx
-  itkRigid3DPerspectiveTransformTest.cxx
-  itkSimilarity2DTransformTest.cxx
-  itkTranslationTransformTest.cxx
-  itkIdentityTransformTest.cxx
-  itkCenteredAffineTransformTest.cxx
-  itkRigid2DTransformTest.cxx
-  itkScaleLogarithmicTransformTest.cxx
-  itkQuaternionRigidTransformTest.cxx
-  itkScaleTransformTest.cxx
-  itkSimilarity3DTransformTest.cxx
   itkAzimuthElevationToCartesianTransformTest.cxx
-  itkCenteredEuler3DTransformTest.cxx
-  itkTransformsSetParametersTest.cxx
   itkBSplineDeformableTransformTest.cxx
   itkBSplineDeformableTransformTest2.cxx
   itkBSplineDeformableTransformTest3.cxx
+  itkBSplineTransformInitializerTest1.cxx
+  itkBSplineTransformInitializerTest2.cxx
   itkBSplineTransformTest.cxx
   itkBSplineTransformTest2.cxx
   itkBSplineTransformTest3.cxx
-  itkBSplineTransformInitializerTest1.cxx
-  itkBSplineTransformInitializerTest2.cxx
+  itkCenteredAffineTransformTest.cxx
+  itkCenteredEuler3DTransformTest.cxx
+  itkCenteredRigid2DTransformTest.cxx
+  itkComposeScaleSkewVersor3DTransformTest.cxx
+  itkCompositeTransformTest.cxx
+  itkEuler2DTransformTest.cxx
+  itkEuler3DTransformTest.cxx
+  itkFixedCenterOfRotationAffineTransformTest.cxx
+  itkIdentityTransformTest.cxx
+  itkMultiTransformTest.cxx
+  itkQuaternionRigidTransformTest.cxx
+  itkRigid2DTransformTest.cxx
+  itkRigid3DPerspectiveTransformTest.cxx
+  itkRigid3DTransformTest.cxx
+  itkScaleLogarithmicTransformTest.cxx
+  itkScaleSkewVersor3DTransformTest.cxx
+  itkScaleTransformTest.cxx
+  itkScaleVersor3DTransformTest.cxx
+  itkSimilarity2DTransformTest.cxx
+  itkSimilarity3DTransformTest.cxx
+  itkSplineKernelTransformTest.cxx
+  itkTestTransformGetInverse.cxx
+  itkTransformCloneTest.cxx
+  itkTransformGeometryImageFilterTest.cxx
+  itkTransformsSetParametersTest.cxx
+  itkTransformTest.cxx
+  itkTranslationTransformTest.cxx
   itkVersorRigid3DTransformTest.cxx
   itkVersorTransformTest.cxx
-  itkSplineKernelTransformTest.cxx
-  itkCompositeTransformTest.cxx
-  itkTransformCloneTest.cxx
-  itkMultiTransformTest.cxx
-  itkTestTransformGetInverse.cxx
-  itkTransformGeometryImageFilterTest.cxx
 )
 
 createtestdriver(ITKTransform "${ITKTransform-Test_LIBRARIES}" "${ITKTransformTests}")
