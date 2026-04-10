@@ -8,9 +8,18 @@ set(
   itkVTKImageIOTest3.cxx
   itkVTKImageIOStreamTest.cxx
   itkVTKImageIOFileReadTest.cxx
+  itkVTIImageIOTest.cxx
 )
 
 createtestdriver(ITKIOVTK "${ITKIOVTK-Test_LIBRARIES}" "${ITKIOVTKTests}")
+
+itk_add_test(
+  NAME itkVTIImageIOTest
+  COMMAND
+    ITKIOVTKTestDriver
+    itkVTIImageIOTest
+    ${ITK_TEST_OUTPUT_DIR}
+)
 
 itk_add_test(
   NAME itkVTKImageIO2Test
