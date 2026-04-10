@@ -56,4 +56,14 @@ if(ITK_WRAP_PYTHON)
     COMMAND
       ${CMAKE_CURRENT_SOURCE_DIR}/itkSpatialOrientationAdapterTest.py
   )
+  itk_python_add_test(
+    NAME itkImageInteropPythonTest
+    COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/itkImageInteropTest.py
+  )
+  itk_python_add_test(
+    NAME itkImageLifetimePythonTest
+    COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/itkImageLifetimeTest.py
+  )
 endif()
