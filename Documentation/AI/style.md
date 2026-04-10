@@ -47,7 +47,9 @@ PREFIX: Brief description
 Longer explanation if needed.
 ```
 
-Prefixes: `ENH:` `BUG:` `COMP:` `DOC:` `STYLE:` `PERF:` `WIP:`
+Prefixes: `ENH:` `BUG:` `COMP:` `DOC:` `STYLE:` `PERF:` `BUILD:`
+(`WIP:` is **not** allowed by `ghostflow-check-main`; use `[WIP]` in the
+PR title instead — see [git-commits.md](./git-commits.md).)
 
 ## CI/CD
 
