@@ -18,6 +18,8 @@
 #include "itkMultiLabelSTAPLEImageFilter.h"
 #include "itkTestingMacros.h"
 
+#include <cassert>
+
 int
 itkMultiLabelSTAPLEImageFilterTest(int, char *[])
 {
@@ -205,10 +207,130 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   }
 
 
+  // -----------------------------------------------------------------
+  // Validate prior probabilities and per-rater confusion matrices.
+  //
+  // Expected values come from a deterministic baseline run on the
+  // synthetic input (images A, B, C combined as combinationABC above).
+  // Previously this test only printed these values to std::cout, so a
+  // regression in GetConfusionMatrix() / GetPriorProbabilities() would
+  // not have been caught by CI.  See issue #3657.
+  // -----------------------------------------------------------------
+  constexpr double tolerance{ 1e-7 };
+
+  // Helper lambdas to keep the assertions terse and to print the row/col
+  // and a meaningful diagnostic on the first mismatch.
   std::cout << "Prior probabilities: " << filter->GetPriorProbabilities() << std::endl;
-  std::cout << "Confusion matrix 0 " << std::endl << filter->GetConfusionMatrix(0) << std::endl;
-  std::cout << "Confusion matrix 1 " << std::endl << filter->GetConfusionMatrix(1) << std::endl;
-  std::cout << "Confusion matrix 2 " << std::endl << filter->GetConfusionMatrix(2) << std::endl;
+
+  const std::vector<double> expectedPriors = { 0.125, 0.16666667, 0.125,       0.125,       0.125,
+                                               0.125, 0.125,      0.041666668, 0.041666668, 0.0 };
+  const auto &              priors = filter->GetPriorProbabilities();
+  if (priors.GetSize() != expectedPriors.size())
+  {
+    std::cerr << "PriorProbabilities length mismatch: got " << priors.GetSize() << ", expected "
+              << expectedPriors.size() << std::endl;
+    return EXIT_FAILURE;
+  }
+  for (unsigned int i = 0; i < priors.GetSize(); ++i)
+  {
+    if (itk::Math::abs(priors[i] - expectedPriors[i]) > tolerance)
+    {
+      std::cerr << "PriorProbabilities[" << i << "] = " << priors[i] << ", expected " << expectedPriors[i] << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+
+  // Each confusion matrix is 10 (priors) x 9 (input labels).  All
+  // entries are integer 0 or 1 for this synthetic input.
+  using ConfusionMatrixType = FilterType::ConfusionMatrixType;
+
+  auto check_confusion_matrix = [&](unsigned int rater, const ConfusionMatrixType & expected) -> bool {
+    const auto & cm = filter->GetConfusionMatrix(rater);
+    std::cout << "Confusion matrix " << rater << '\n' << cm << std::endl;
+    if (cm.rows() != expected.rows() || cm.cols() != expected.cols())
+    {
+      std::cerr << "Confusion matrix " << rater << " shape mismatch: got " << cm.rows() << 'x' << cm.cols()
+                << ", expected " << expected.rows() << 'x' << expected.cols() << std::endl;
+      return false;
+    }
+    for (unsigned int r = 0; r < cm.rows(); ++r)
+    {
+      for (unsigned int c = 0; c < cm.cols(); ++c)
+      {
+        if (itk::Math::abs(cm(r, c) - expected(r, c)) > tolerance)
+        {
+          std::cerr << "Confusion matrix " << rater << " (" << r << ',' << c << ") = " << cm(r, c) << ", expected "
+                    << expected(r, c) << std::endl;
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+  // Helper to build a 10x9 confusion matrix from a flat row-major list.
+  auto make_cm = [](std::initializer_list<double> values) -> ConfusionMatrixType {
+    constexpr unsigned int rows = 10;
+    constexpr unsigned int cols = 9;
+    assert(values.size() == rows * cols && "make_cm: initializer list size must equal rows * cols");
+    ConfusionMatrixType m(rows, cols);
+    auto                it_v = values.begin();
+    for (unsigned int r = 0; r < rows; ++r)
+    {
+      for (unsigned int c = 0; c < cols; ++c, ++it_v)
+      {
+        m(r, c) = *it_v;
+      }
+    }
+    return m;
+  };
+
+  // Baseline confusion matrices captured from a clean run on the
+  // synthetic combinationABC fixture.
+  const ConfusionMatrixType expectedCM0 = make_cm({
+    1, 0, 0, 0, 0, 0, 0, 0, 0, //
+    0, 1, 0, 0, 0, 0, 0, 0, 0, //
+    0, 0, 0, 0, 0, 0, 0, 0, 0, //
+    0, 0, 1, 1, 0, 0, 0, 0, 0, //
+    0, 0, 0, 0, 1, 0, 0, 0, 0, //
+    0, 0, 0, 0, 0, 0, 0, 0, 0, //
+    0, 0, 0, 0, 0, 1, 1, 0, 0, //
+    0, 0, 0, 0, 0, 0, 0, 0, 0, //
+    0, 0, 0, 0, 0, 0, 0, 0, 0, //
+    0, 0, 0, 0, 0, 0, 0, 0, 0  //
+  });
+  const ConfusionMatrixType expectedCM1 = make_cm({
+    0, 0, 0, 0, 0, 0, 0, 0, 0, //
+    1, 1, 0, 0, 0, 0, 0, 0, 0, //
+    0, 0, 1, 0, 0, 0, 0, 0, 0, //
+    0, 0, 0, 0, 0, 0, 0, 0, 0, //
+    0, 0, 0, 1, 1, 0, 0, 0, 0, //
+    0, 0, 0, 0, 0, 1, 0, 0, 0, //
+    0, 0, 0, 0, 0, 0, 0, 0, 0, //
+    0, 0, 0, 0, 0, 0, 1, 0, 0, //
+    0, 0, 0, 0, 0, 0, 0, 0, 0, //
+    0, 0, 0, 0, 0, 0, 0, 0, 0  //
+  });
+  const ConfusionMatrixType expectedCM2 = make_cm({
+    1, 0, 0, 0, 0, 0, 0, 0, 0, //
+    0, 0, 0, 0, 0, 0, 0, 0, 0, //
+    0, 1, 1, 0, 0, 0, 0, 0, 0, //
+    0, 0, 0, 1, 0, 0, 0, 0, 0, //
+    0, 0, 0, 0, 0, 0, 0, 0, 0, //
+    0, 0, 0, 0, 1, 1, 0, 0, 0, //
+    0, 0, 0, 0, 0, 0, 1, 0, 0, //
+    0, 0, 0, 0, 0, 0, 0, 0, 0, //
+    0, 0, 0, 0, 0, 0, 0, 0, 0, //
+    0, 0, 0, 0, 0, 0, 0, 0, 0  //
+  });
+
+  bool allCMsOk = check_confusion_matrix(0, expectedCM0);
+  allCMsOk &= check_confusion_matrix(1, expectedCM1);
+  allCMsOk &= check_confusion_matrix(2, expectedCM2);
+  if (!allCMsOk)
+  {
+    return EXIT_FAILURE;
+  }
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
