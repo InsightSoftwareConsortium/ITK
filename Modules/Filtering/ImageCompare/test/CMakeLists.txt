@@ -13,6 +13,10 @@ set(
 
 createtestdriver(ITKImageCompare "${ITKImageCompare-Test_LIBRARIES}" "${ITKImageCompareTests}")
 
+set(ITKImageCompareGTests itkStructuralSimilarityImageFilterGTest.cxx)
+
+creategoogletestdriver(ITKImageCompare "${ITKImageCompare-Test_LIBRARIES}" "${ITKImageCompareGTests}")
+
 itk_add_test(
   NAME itkAbsoluteValueDifferenceImageFilterTest
   COMMAND

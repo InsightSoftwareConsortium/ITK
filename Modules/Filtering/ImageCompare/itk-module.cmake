@@ -13,7 +13,9 @@ itk_module(
     ITKImageIntensity
   COMPILE_DEPENDS
     ITKImageFilterBase
+    ITKSmoothing
   TEST_DEPENDS
     ITKTestKernel
+    ITKGoogleTest
   DESCRIPTION "${DOCUMENTATION}"
 )
