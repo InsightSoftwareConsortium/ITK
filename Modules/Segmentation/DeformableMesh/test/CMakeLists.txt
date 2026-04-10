@@ -1,8 +1,8 @@
 itk_module_test()
 set(
   ITKDeformableMeshTests
-  itkDeformableSimplexMesh3DFilterTest.cxx
   itkDeformableSimplexMesh3DBalloonForceFilterTest.cxx
+  itkDeformableSimplexMesh3DFilterTest.cxx
   itkDeformableSimplexMesh3DGradientConstraintForceFilterTest.cxx
 )
 

@@ -1,16 +1,21 @@
 itk_module_test()
 set(
   ITKRegistrationCommonTests
-  itkBSplineTransformParametersAdaptorTest.cxx
-  itkDisplacementFieldTransformParametersAdaptorTest.cxx
-  itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest.cxx
-  itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest.cxx
+  itkBlockMatchingImageFilterTest.cxx
   itkBSplineExponentialDiffeomorphicTransformParametersAdaptorTest.cxx
-  itkGaussianExponentialDiffeomorphicTransformParametersAdaptorTest.cxx
+  itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest.cxx
+  itkBSplineTransformParametersAdaptorTest.cxx
   itkCenteredTransformInitializerTest.cxx
   itkCenteredVersorTransformInitializerTest.cxx
-  itkMultiResolutionImageRegistrationMethodTest_1.cxx
-  itkMultiResolutionImageRegistrationMethodTest_2.cxx
+  itkCompareHistogramImageToImageMetricTest.cxx
+  itkCorrelationCoefficientHistogramImageToImageMetricTest.cxx
+  itkDisplacementFieldTransformParametersAdaptorTest.cxx
+  itkEuclideanDistancePointMetricTest.cxx
+  itkGaussianExponentialDiffeomorphicTransformParametersAdaptorTest.cxx
+  itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest.cxx
+  itkHistogramImageToImageMetricTest.cxx
+  itkImageRegistrationMethodTest.cxx
+  itkImageRegistrationMethodTest_1.cxx
   itkImageRegistrationMethodTest_10.cxx
   itkImageRegistrationMethodTest_11.cxx
   itkImageRegistrationMethodTest_12.cxx
@@ -18,26 +23,7 @@ set(
   itkImageRegistrationMethodTest_14.cxx
   itkImageRegistrationMethodTest_15.cxx
   itkImageRegistrationMethodTest_16.cxx
-  itkMeanSquaresPointSetToImageMetricTest.cxx
-  itkHistogramImageToImageMetricTest.cxx
-  itkMutualInformationHistogramImageToImageMetricTest.cxx
-  itkMeanReciprocalSquareDifferencePointSetToImageMetricTest.cxx
-  itkMultiResolutionImageRegistrationMethodTest.cxx
-  itkCompareHistogramImageToImageMetricTest.cxx
-  itkMeanSquaresHistogramImageToImageMetricTest.cxx
-  itkImageRegistrationMethodTest.cxx
-  itkCorrelationCoefficientHistogramImageToImageMetricTest.cxx
-  itkNormalizedCorrelationPointSetToImageMetricTest.cxx
-  itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
-  itkNormalizedMutualInformationHistogramImageToImageMetricTest.cxx
-  itkPointSetToSpatialObjectDemonsRegistrationTest.cxx
-  itkPointSetToImageRegistrationTest.cxx
-  itkPointsLocatorTest.cxx
-  itkKappaStatisticImageToImageMetricTest.cxx
-  itkMattesMutualInformationImageToImageMetricTest.cxx
-  itkMatchCardinalityImageToImageMetricTest.cxx
-  itkMultiResolutionPyramidImageFilterTest.cxx
-  itkImageRegistrationMethodTest_1.cxx
+  itkImageRegistrationMethodTest_17.cxx
   itkImageRegistrationMethodTest_2.cxx
   itkImageRegistrationMethodTest_3.cxx
   itkImageRegistrationMethodTest_4.cxx
@@ -46,17 +32,31 @@ set(
   itkImageRegistrationMethodTest_7.cxx
   itkImageRegistrationMethodTest_8.cxx
   itkImageRegistrationMethodTest_9.cxx
-  itkRecursiveMultiResolutionPyramidImageFilterTest.cxx
-  itkNormalizedCorrelationImageMetricTest.cxx
-  itkMeanReciprocalSquareDifferenceImageMetricTest.cxx
-  itkMeanSquaresImageMetricTest.cxx
-  itkMutualInformationMetricTest.cxx
-  itkPointSetToPointSetRegistrationTest.cxx
   itkImageToSpatialObjectRegistrationTest.cxx
-  itkBlockMatchingImageFilterTest.cxx
+  itkKappaStatisticImageToImageMetricTest.cxx
+  itkKullbackLeiblerCompareHistogramImageToImageMetricTest.cxx
   itkLandmarkBasedTransformInitializerTest.cxx
-  itkImageRegistrationMethodTest_17.cxx
-  itkEuclideanDistancePointMetricTest.cxx
+  itkMatchCardinalityImageToImageMetricTest.cxx
+  itkMattesMutualInformationImageToImageMetricTest.cxx
+  itkMeanReciprocalSquareDifferenceImageMetricTest.cxx
+  itkMeanReciprocalSquareDifferencePointSetToImageMetricTest.cxx
+  itkMeanSquaresHistogramImageToImageMetricTest.cxx
+  itkMeanSquaresImageMetricTest.cxx
+  itkMeanSquaresPointSetToImageMetricTest.cxx
+  itkMultiResolutionImageRegistrationMethodTest.cxx
+  itkMultiResolutionImageRegistrationMethodTest_1.cxx
+  itkMultiResolutionImageRegistrationMethodTest_2.cxx
+  itkMultiResolutionPyramidImageFilterTest.cxx
+  itkMutualInformationHistogramImageToImageMetricTest.cxx
+  itkMutualInformationMetricTest.cxx
+  itkNormalizedCorrelationImageMetricTest.cxx
+  itkNormalizedCorrelationPointSetToImageMetricTest.cxx
+  itkNormalizedMutualInformationHistogramImageToImageMetricTest.cxx
+  itkPointSetToImageRegistrationTest.cxx
+  itkPointSetToPointSetRegistrationTest.cxx
+  itkPointSetToSpatialObjectDemonsRegistrationTest.cxx
+  itkPointsLocatorTest.cxx
+  itkRecursiveMultiResolutionPyramidImageFilterTest.cxx
 )
 
 createtestdriver(ITKRegistrationCommon "${ITKRegistrationCommon-Test_LIBRARIES}" "${ITKRegistrationCommonTests}")

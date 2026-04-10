@@ -2,43 +2,43 @@ itk_module_test()
 set(
   ITKMeshTests
   itkAutomaticTopologyMeshSourceTest.cxx
+  itkBinaryMask3DMeshSourceTest.cxx
+  itkCellInterfaceTest.cxx
+  itkConnectedRegionsMeshFilterTest1.cxx
+  itkConnectedRegionsMeshFilterTest2.cxx
+  itkDynamicMeshTest.cxx
   itkImageToParametricSpaceFilterTest.cxx
   itkInteriorExteriorMeshFilterTest.cxx
+  itkMeshCellDataTest.cxx
+  itkMeshFstreamTest.cxx
   itkMeshRegionTest.cxx
+  itkMeshSourceGraftOutputTest.cxx
+  itkMeshSpatialObjectIOTest.cxx
+  itkMeshTest.cxx
+  itkNewTest.cxx
   itkParametricSpaceToImageSpaceMeshFilterTest.cxx
+  itkQuadrilateralCellTest.cxx
   itkRegularSphereMeshSourceTest.cxx
   itkRegularSphereMeshSourceTest2.cxx
-  itkSimplexMeshTest.cxx
   itkSimplexMeshAdaptTopologyFilterTest.cxx
+  itkSimplexMeshTest.cxx
   itkSimplexMeshToTriangleMeshFilterTest.cxx
   itkSimplexMeshVolumeCalculatorTest.cxx
   itkSphereMeshSourceTest.cxx
   itkTransformMeshFilterTest.cxx
+  itkTriangleCellTest.cxx
+  itkTriangleMeshCurvatureCalculatorTest.cxx
   itkTriangleMeshToBinaryImageFilterTest.cxx
   itkTriangleMeshToBinaryImageFilterTest1.cxx
   itkTriangleMeshToBinaryImageFilterTest2.cxx
   itkTriangleMeshToBinaryImageFilterTest3.cxx
   itkTriangleMeshToBinaryImageFilterTest4.cxx
+  itkTriangleMeshToSimplexMeshFilter2Test.cxx
   itkTriangleMeshToSimplexMeshFilterTest.cxx
   itkVTKPolyDataReaderTest.cxx
   itkVTKPolyDataWriterTest01.cxx
   itkVTKPolyDataWriterTest02.cxx
   itkWarpMeshFilterTest.cxx
-  itkMeshTest.cxx
-  itkBinaryMask3DMeshSourceTest.cxx
-  itkDynamicMeshTest.cxx
-  itkConnectedRegionsMeshFilterTest1.cxx
-  itkConnectedRegionsMeshFilterTest2.cxx
-  itkMeshFstreamTest.cxx
-  itkMeshSourceGraftOutputTest.cxx
-  itkMeshSpatialObjectIOTest.cxx
-  itkTriangleMeshToSimplexMeshFilter2Test.cxx
-  itkCellInterfaceTest.cxx
-  itkNewTest.cxx
-  itkQuadrilateralCellTest.cxx
-  itkTriangleCellTest.cxx
-  itkMeshCellDataTest.cxx
-  itkTriangleMeshCurvatureCalculatorTest.cxx
 )
 
 set(ITKMesh-Test_LIBRARIES ${ITKMesh-Test_LIBRARIES})

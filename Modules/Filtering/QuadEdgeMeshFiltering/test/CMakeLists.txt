@@ -2,23 +2,23 @@ itk_module_test()
 set(
   ITKQuadEdgeMeshFilteringTests
   itkAutomaticTopologyQuadEdgeMeshSourceTest.cxx
+  itkBinaryMask3DQuadEdgeMeshSourceTest.cxx
   itkBorderQuadEdgeMeshFilterTest.cxx
   itkBorderQuadEdgeMeshFilterTest2.cxx
-  itkBinaryMask3DQuadEdgeMeshSourceTest.cxx
   itkCleanQuadEdgeMeshFilterTest.cxx
   itkDelaunayConformingQuadEdgeMeshFilterTest.cxx
   itkDiscreteGaussianCurvatureQuadEdgeMeshFilterTest.cxx
   itkDiscreteMaximumCurvatureQuadEdgeMeshFilterTest.cxx
   itkDiscreteMeanCurvatureQuadEdgeMeshFilterTest.cxx
   itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest.cxx
+  itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest.cxx
+  itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest.cxx
   itkNormalQuadEdgeMeshFilterTest.cxx
   itkParameterizationQuadEdgeMeshFilterTest.cxx
   itkQuadricDecimationQuadEdgeMeshFilterTest.cxx
   itkRegularSphereQuadEdgeMeshSourceTest.cxx
   itkSmoothingQuadEdgeMeshFilterTest.cxx
   itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest.cxx
-  itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest.cxx
-  itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest.cxx
 )
 
 createtestdriver(ITKQuadEdgeMeshFiltering "${ITKQuadEdgeMeshFiltering-Test_LIBRARIES}"

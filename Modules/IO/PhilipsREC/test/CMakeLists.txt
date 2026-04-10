@@ -1,9 +1,9 @@
 itk_module_test()
 set(
   ITKIOPhilipsRECTests
-  itkPhilipsRECImageIOTest.cxx
   itkPhilipsRECImageIOOrientationTest.cxx
   itkPhilipsRECImageIOPrintTest.cxx
+  itkPhilipsRECImageIOTest.cxx
 )
 
 createtestdriver(ITKIOPhilipsREC "${ITKIOPhilipsREC-Test_LIBRARIES}" "${ITKIOPhilipsRECTests}")

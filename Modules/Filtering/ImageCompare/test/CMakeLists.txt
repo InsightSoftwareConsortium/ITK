@@ -2,13 +2,13 @@ itk_module_test()
 set(
   ITKImageCompareTests
   itkAbsoluteValueDifferenceImageFilterTest.cxx
-  itkSquaredDifferenceImageFilterTest.cxx
   itkCheckerBoardImageFilterTest.cxx
   itkConstrainedValueDifferenceImageFilterTest.cxx
+  itkImageFileReaderIOToRequestedRegionMismatchTest.cxx
   itkSimilarityIndexImageFilterTest.cxx
+  itkSquaredDifferenceImageFilterTest.cxx
   itkSTAPLEImageFilterTest.cxx
   itkTestingComparisonImageFilterTest.cxx
-  itkImageFileReaderIOToRequestedRegionMismatchTest.cxx
 )
 
 createtestdriver(ITKImageCompare "${ITKImageCompare-Test_LIBRARIES}" "${ITKImageCompareTests}")

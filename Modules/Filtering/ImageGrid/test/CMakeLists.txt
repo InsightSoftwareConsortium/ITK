@@ -4,40 +4,37 @@ set(
   itkBasicArchitectureTest.cxx
   itkBinShrinkImageFilterTest1.cxx
   itkBinShrinkImageFilterTest2.cxx
+  itkBSplineControlPointImageFilterTest.cxx
+  itkBSplineControlPointImageFunctionTest.cxx
+  itkBSplineDownsampleImageFilterTest.cxx
+  itkBSplineResampleImageFilterTest.cxx
   itkBSplineScatteredDataPointSetToImageFilterTest.cxx
   itkBSplineScatteredDataPointSetToImageFilterTest2.cxx
   itkBSplineScatteredDataPointSetToImageFilterTest3.cxx
   itkBSplineScatteredDataPointSetToImageFilterTest4.cxx
   itkBSplineScatteredDataPointSetToImageFilterTest5.cxx
-  itkBSplineControlPointImageFilterTest.cxx
-  itkBSplineControlPointImageFunctionTest.cxx
+  itkBSplineUpsampleImageFilterTest.cxx
   itkChangeInformationImageFilterTest.cxx
   itkConstantPadImageTest.cxx
   itkCoxDeBoorBSplineKernelFunctionTest.cxx
   itkCoxDeBoorBSplineKernelFunctionTest2.cxx
+  itkCropImageFilter3DTest.cxx
+  itkCropImageFilterTest.cxx
   itkCyclicReferences.cxx
   itkCyclicShiftImageFilterTest.cxx
-  itkInterpolateImagePointsFilterTest.cxx
-  itkCropImageFilterTest.cxx
-  itkCropImageFilter3DTest.cxx
-  itkFlipImageFilterTest.cxx
   itkExpandImageFilterTest.cxx
   itkExpandImageFilterTest2.cxx
-  itkRegionOfInterestImageFilterTest.cxx
-  itkBSplineUpsampleImageFilterTest.cxx
-  itkBSplineResampleImageFilterTest.cxx
-  itkBSplineDownsampleImageFilterTest.cxx
-  itkTileImageFilterTest.cxx
+  itkFlipImageFilterTest.cxx
   itkInterpolateImageFilterTest.cxx
+  itkInterpolateImagePointsFilterTest.cxx
+  itkMirrorPadImageFilterTest.cxx
+  itkMirrorPadImageTest.cxx
+  itkOrientImageFilterTest.cxx
+  itkPadImageFilterTest.cxx
   itkPasteImageFilterTest.cxx
   itkPermuteAxesImageFilterTest.cxx
-  itkOrientImageFilterTest.cxx
-  itkWarpImageFilterTest.cxx
-  itkWarpImageFilterTest2.cxx
-  itkWarpVectorImageFilterTest.cxx
-  itkWrapPadImageTest.cxx
-  itkMirrorPadImageTest.cxx
-  itkMirrorPadImageFilterTest.cxx
+  itkPushPopTileImageFilterTest.cxx
+  itkRegionOfInterestImageFilterTest.cxx
   itkResampleImageTest.cxx
   itkResampleImageTest2.cxx
   itkResampleImageTest2Streaming.cxx
@@ -48,12 +45,15 @@ set(
   itkResampleImageTest7.cxx
   itkResampleImageTest8.cxx
   itkResamplePhasedArray3DSpecialCoordinatesImageTest.cxx
-  itkPushPopTileImageFilterTest.cxx
   itkShrinkImageStreamingTest.cxx
   itkShrinkImageTest.cxx
-  itkZeroFluxNeumannPadImageFilterTest.cxx
   itkSliceBySliceImageFilterTest.cxx
-  itkPadImageFilterTest.cxx
+  itkTileImageFilterTest.cxx
+  itkWarpImageFilterTest.cxx
+  itkWarpImageFilterTest2.cxx
+  itkWarpVectorImageFilterTest.cxx
+  itkWrapPadImageTest.cxx
+  itkZeroFluxNeumannPadImageFilterTest.cxx
 )
 
 if(NOT ITK_FUTURE_LEGACY_REMOVE)
@@ -671,10 +671,10 @@ itk_add_test(
 set(
   ITKImageGridGTests
   itkChangeInformationImageFilterGTest.cxx
+  itkPasteImageFilterGTest.cxx
   itkResampleImageFilterGTest.cxx
   itkSliceImageFilterTest.cxx
   itkTileImageFilterGTest.cxx
-  itkPasteImageFilterGTest.cxx
 )
 
 creategoogletestdriver(ITKImageGrid "${ITKImageGrid-Test_LIBRARIES}" "${ITKImageGridGTests}")

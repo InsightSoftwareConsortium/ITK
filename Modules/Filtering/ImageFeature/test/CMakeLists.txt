@@ -1,32 +1,32 @@
 itk_module_test()
 set(
   ITKImageFeatureTests
-  itkZeroCrossingBasedEdgeDetectionImageFilterTest.cxx
-  itkLaplacianImageFilterTest.cxx
-  itkSobelEdgeDetectionImageFilterTest.cxx
-  itkHessian3DToVesselnessMeasureImageFilterTest.cxx
-  itkHessianToObjectnessMeasureImageFilterTest.cxx
-  itkHessianRecursiveGaussianFilterScaleSpaceTest.cxx
-  itkHessianRecursiveGaussianFilterTest.cxx
-  itkHoughTransform2DCirclesImageTest.cxx
-  itkHoughTransform2DLinesImageTest.cxx
-  itkCannyEdgeDetectionImageFilterTest.cxx
   itkBilateralImageFilterTest.cxx
   itkBilateralImageFilterTest2.cxx
   itkBilateralImageFilterTest3.cxx
-  itkGradientVectorFlowImageFilterTest.cxx
-  itkSimpleContourExtractorImageFilterTest.cxx
-  itkZeroCrossingImageFilterTest.cxx
+  itkCannyEdgeDetectionImageFilterTest.cxx
   itkCannyEdgeDetectionImageFilterTest2.cxx
   itkDerivativeImageFilterTest.cxx
+  itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest.cxx
+  itkDiscreteGaussianDerivativeImageFilterTest.cxx
+  itkGradientVectorFlowImageFilterTest.cxx
+  itkHessian3DToVesselnessMeasureImageFilterTest.cxx
+  itkHessianRecursiveGaussianFilterScaleSpaceTest.cxx
+  itkHessianRecursiveGaussianFilterTest.cxx
+  itkHessianToObjectnessMeasureImageFilterTest.cxx
+  itkHoughTransform2DCirclesImageTest.cxx
+  itkHoughTransform2DLinesImageTest.cxx
+  itkLaplacianImageFilterTest.cxx
   itkLaplacianRecursiveGaussianImageFilterTest.cxx
   itkLaplacianSharpeningImageFilterTest.cxx
   itkMaskFeaturePointSelectionFilterTest.cxx
-  itkUnsharpMaskImageFilterTestSimple.cxx
-  itkUnsharpMaskImageFilterTest.cxx
-  itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest.cxx
-  itkDiscreteGaussianDerivativeImageFilterTest.cxx
   itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
+  itkSimpleContourExtractorImageFilterTest.cxx
+  itkSobelEdgeDetectionImageFilterTest.cxx
+  itkUnsharpMaskImageFilterTest.cxx
+  itkUnsharpMaskImageFilterTestSimple.cxx
+  itkZeroCrossingBasedEdgeDetectionImageFilterTest.cxx
+  itkZeroCrossingImageFilterTest.cxx
 )
 
 createtestdriver(ITKImageFeature "${ITKImageFeature-Test_LIBRARIES}" "${ITKImageFeatureTests}")

@@ -3,7 +3,6 @@ set(
   ITKBinaryMathematicalMorphologyTests
   itkBinaryClosingByReconstructionImageFilterTest.cxx
   itkBinaryDilateImageFilterTest.cxx
-  itkFastIncrementalBinaryDilateImageFilterTest.cxx
   itkBinaryDilateImageFilterTest3.cxx
   itkBinaryErodeImageFilterTest.cxx
   itkBinaryErodeImageFilterTest3.cxx
@@ -12,6 +11,7 @@ set(
   itkBinaryOpeningByReconstructionImageFilterTest.cxx
   itkBinaryThinningImageFilterTest.cxx
   itkErodeObjectMorphologyImageFilterTest.cxx
+  itkFastIncrementalBinaryDilateImageFilterTest.cxx
 )
 
 createtestdriver(ITKBinaryMathematicalMorphology "${ITKBinaryMathematicalMorphology-Test_LIBRARIES}"

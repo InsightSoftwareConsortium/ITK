@@ -2,10 +2,10 @@ itk_module_test()
 set(
   ITKFEMRegistrationTests
   itkFEMFiniteDifferenceFunctionLoadTest.cxx
-  itkFEMRegistrationFilterTest.cxx
   itkFEMRegistrationFilter2DTest.cxx
-  itkMIRegistrationFunctionTest.cxx
+  itkFEMRegistrationFilterTest.cxx
   itkFEMRegistrationFilterTest2.cxx
+  itkMIRegistrationFunctionTest.cxx
   itkPhysicsBasedNonRigidRegistrationMethodTest.cxx
 )
 

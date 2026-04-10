@@ -1,20 +1,20 @@
 itk_module_test()
 set(
   ITKPathTests
-  itkPathIteratorTest.cxx
-  itkChainCodePathTest.cxx
   itkChainCodePath2DTest.cxx
+  itkChainCodePathTest.cxx
+  itkChainCodeToFourierSeriesPathFilterTest.cxx
+  itkContourExtractor2DImageFilterTest.cxx
+  itkExtractOrthogonalSwath2DImageFilterTest.cxx
+  itkFourierSeriesPathTest.cxx
   itkHilbertPathTest.cxx
   itkOrthogonallyCorrected2DParametricPathTest.cxx
-  itkPathToImageFilterTest.cxx
-  itkPathToChainCodePathFilterTest.cxx
-  itkFourierSeriesPathTest.cxx
-  itkPathFunctionsTest.cxx
-  itkPolyLineParametricPathTest.cxx
-  itkChainCodeToFourierSeriesPathFilterTest.cxx
-  itkExtractOrthogonalSwath2DImageFilterTest.cxx
   itkOrthogonalSwath2DPathFilterTest.cxx
-  itkContourExtractor2DImageFilterTest.cxx
+  itkPathFunctionsTest.cxx
+  itkPathIteratorTest.cxx
+  itkPathToChainCodePathFilterTest.cxx
+  itkPathToImageFilterTest.cxx
+  itkPolyLineParametricPathTest.cxx
 )
 
 createtestdriver(ITKPath "${ITKPath-Test_LIBRARIES}" "${ITKPathTests}")

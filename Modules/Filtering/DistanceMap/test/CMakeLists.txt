@@ -1,6 +1,7 @@
 itk_module_test()
 set(
   ITKDistanceMapTests
+  itkApproximateSignedDistanceMapImageFilterTest.cxx
   itkDanielssonDistanceMapImageFilterTest1.cxx
   itkDanielssonDistanceMapImageFilterTest2.cxx
   itkDirectedHausdorffDistanceImageFilterTest.cxx
@@ -8,7 +9,6 @@ set(
   itkSignedDanielssonDistanceMapImageFilterTest1.cxx
   itkSignedDanielssonDistanceMapImageFilterTest2.cxx
   itkSignedMaurerDistanceMapImageFilterTest.cxx
-  itkApproximateSignedDistanceMapImageFilterTest.cxx
 )
 
 createtestdriver(ITKDistanceMap "${ITKDistanceMap-Test_LIBRARIES}" "${ITKDistanceMapTests}")

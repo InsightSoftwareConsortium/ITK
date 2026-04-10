@@ -1,32 +1,32 @@
 itk_module_test()
 set(
   ITKOptimizersv4Tests
-  itkObjectToObjectOptimizerBaseTest.cxx
+  itkAmoebaOptimizerv4Test.cxx
+  itkAutoScaledGradientDescentRegistrationOnVectorTest.cxx
+  itkAutoScaledGradientDescentRegistrationTest.cxx
+  itkConjugateGradientLineSearchOptimizerv4Test.cxx
+  itkExhaustiveOptimizerv4Test.cxx
+  itkGradientDescentLineSearchOptimizerv4Test.cxx
   itkGradientDescentOptimizerBasev4Test.cxx
   itkGradientDescentOptimizerv4Test.cxx
   itkGradientDescentOptimizerv4Test2.cxx
-  itkGradientDescentLineSearchOptimizerv4Test.cxx
-  itkConjugateGradientLineSearchOptimizerv4Test.cxx
-  itkMultiStartOptimizerv4Test.cxx
-  itkMultiGradientOptimizerv4Test.cxx
-  itkOptimizerParameterScalesEstimatorTest.cxx
-  itkRegistrationParameterScalesEstimatorTest.cxx
-  itkRegistrationParameterScalesFromPhysicalShiftTest.cxx
-  itkRegistrationParameterScalesFromPhysicalShiftPointSetTest.cxx
-  itkRegistrationParameterScalesFromIndexShiftTest.cxx
-  itkRegistrationParameterScalesFromJacobianTest.cxx
-  itkAutoScaledGradientDescentRegistrationTest.cxx
-  itkAutoScaledGradientDescentRegistrationOnVectorTest.cxx
-  itkQuasiNewtonOptimizerv4Test.cxx
-  itkObjectToObjectMetricBaseTest.cxx
-  itkLBFGSOptimizerv4Test.cxx
   itkLBFGS2Optimizerv4Test.cxx
   itkLBFGSBOptimizerv4Test.cxx
-  itkRegularStepGradientDescentOptimizerv4Test.cxx
-  itkAmoebaOptimizerv4Test.cxx
-  itkExhaustiveOptimizerv4Test.cxx
-  itkPowellOptimizerv4Test.cxx
+  itkLBFGSOptimizerv4Test.cxx
+  itkMultiGradientOptimizerv4Test.cxx
+  itkMultiStartOptimizerv4Test.cxx
+  itkObjectToObjectMetricBaseTest.cxx
+  itkObjectToObjectOptimizerBaseTest.cxx
   itkOnePlusOneEvolutionaryOptimizerv4Test.cxx
+  itkOptimizerParameterScalesEstimatorTest.cxx
+  itkPowellOptimizerv4Test.cxx
+  itkQuasiNewtonOptimizerv4Test.cxx
+  itkRegistrationParameterScalesEstimatorTest.cxx
+  itkRegistrationParameterScalesFromIndexShiftTest.cxx
+  itkRegistrationParameterScalesFromJacobianTest.cxx
+  itkRegistrationParameterScalesFromPhysicalShiftPointSetTest.cxx
+  itkRegistrationParameterScalesFromPhysicalShiftTest.cxx
+  itkRegularStepGradientDescentOptimizerv4Test.cxx
 )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)

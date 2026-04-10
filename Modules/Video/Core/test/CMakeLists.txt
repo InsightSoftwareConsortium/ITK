@@ -3,12 +3,12 @@ set(
   ITKVideoCoreTests
   itkImageToVideoFilterTest.cxx
   itkRingBufferTest.cxx
-  itkTemporalRegionTest.cxx
   itkTemporalDataObjectTest.cxx
   itkTemporalProcessObjectTest.cxx
+  itkTemporalRegionTest.cxx
   itkVectorImageToVideoTest.cxx
-  itkVideoStreamTest.cxx
   itkVideoSourceTest.cxx
+  itkVideoStreamTest.cxx
 )
 
 createtestdriver(ITKVideoCore "${ITKVideoCore-Test_LIBRARIES}" "${ITKVideoCoreTests}")

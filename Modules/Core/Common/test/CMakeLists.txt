@@ -1,74 +1,74 @@
 itk_module_test()
 set(
   ITKCommon1Tests
-  itkImageRegionExplicitTest.cxx
+  itkColorTableTest.cxx
+  itkDataObjectTest.cxx
+  itkDirectoryTest.cxx
+  itkExceptionObjectTest.cxx
   itkExtractImage3Dto2DTest.cxx
   itkExtractImageTest.cxx
-  itkMapContainerTest.cxx
-  itkVectorContainerTest.cxx
-  itkIteratorTests.cxx
-  itkImageReverseIteratorTest.cxx
+  itkFileOutputWindowTest.cxx
+  itkFixedArrayTest2.cxx
+  itkFloatingPointExceptionsTest.cxx
+  itkGaussianSpatialFunctionTest.cxx
+  itkImageAdaptorPipeLineTest.cxx
   itkImageComputeOffsetAndIndexTest.cxx
   itkImageDuplicatorTest.cxx
   itkImageDuplicatorTest2.cxx
   itkImageIteratorsForwardBackwardTest.cxx
+  itkImageIteratorTest.cxx
+  itkImageIteratorWithIndexTest.cxx
   itkImageLinearIteratorTest.cxx
-  itkImageAdaptorPipeLineTest.cxx
   itkImageRandomIteratorTest.cxx
   itkImageRandomIteratorTest2.cxx
-  itkImageSliceIteratorTest.cxx
-  itkRGBPixelTest.cxx
-  itkLightObjectTest.cxx
-  itkSparseImageTest.cxx
-  itkSimpleFilterWatcherTest.cxx
-  itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest.cxx
-  itkSymmetricSecondRankTensorImageReadTest.cxx
-  itkSymmetricSecondRankTensorImageWriteReadTest.cxx
-  itkFloatingPointExceptionsTest.cxx
-  itkFixedArrayTest2.cxx
-  itkNeighborhoodAlgorithmTest.cxx
-  itkPhasedArray3DSpecialCoordinatesImageTest.cxx
-  itkPriorityQueueTest.cxx
-  itkFileOutputWindowTest.cxx
-  itkSymmetricEigenAnalysisTest.cxx
-  itkStreamingImageFilterTest.cxx
-  itkStreamingImageFilterTest2.cxx
-  itkStreamingImageFilterTest3.cxx
-  itkLoggerTest.cxx
-  itkColorTableTest.cxx
-  itkNumericTraitsTest.cxx
-  itkImageRegionTest.cxx
-  itkExceptionObjectTest.cxx
-  itkNeighborhoodOperatorTest.cxx
-  itkNumericsTest.cxx
-  itkLineIteratorTest.cxx
-  itkGaussianSpatialFunctionTest.cxx
-  itkRealTimeClockTest.cxx
-  itkRealTimeIntervalTest.cxx
-  itkRealTimeStampTest.cxx
-  itkImageIteratorTest.cxx
+  itkImageRegionExplicitTest.cxx
   itkImageRegionIteratorTest.cxx
+  itkImageRegionTest.cxx
+  itkImageReverseIteratorTest.cxx
   itkImageScanlineIteratorTest1.cxx
-  itkImageIteratorWithIndexTest.cxx
-  itkDirectoryTest.cxx
-  itkObjectStoreTest.cxx
-  itkObjectFactoryTest.cxx
-  itkMultipleLogOutputTest.cxx
-  itkVectorTest.cxx
+  itkImageSliceIteratorTest.cxx
   itkImageTest.cxx
+  itkIteratorTests.cxx
+  itkLightObjectTest.cxx
+  itkLineIteratorTest.cxx
+  itkLoggerTest.cxx
+  itkMapContainerTest.cxx
+  itkMultipleLogOutputTest.cxx
+  itkNeighborhoodAlgorithmTest.cxx
+  itkNeighborhoodOperatorTest.cxx
+  itkNumberToStringTest.cxx
+  itkNumericsTest.cxx
+  itkNumericTraitsTest.cxx
+  itkObjectFactoryTest.cxx
+  itkObjectStoreTest.cxx
+  itkPhasedArray3DSpecialCoordinatesImageTest.cxx
+  itkPointGeometryTest.cxx
   itkPointSetTest.cxx
   itkPointSetToImageFilterTest1.cxx
   itkPointSetToImageFilterTest2.cxx
-  itkSparseFieldLayerTest.cxx
-  itkDataObjectTest.cxx
-  itkPointGeometryTest.cxx
-  itkNumberToStringTest.cxx
-  itkTimeProbeTest.cxx
-  itkTimeProbeTest2.cxx
-  itkSpatialOrientationTest.cxx
-  VNLSparseLUSolverTraitsTest.cxx
+  itkPriorityQueueTest.cxx
+  itkRealTimeClockTest.cxx
+  itkRealTimeIntervalTest.cxx
+  itkRealTimeStampTest.cxx
+  itkRGBPixelTest.cxx
+  itkSimpleFilterWatcherTest.cxx
   itkSobelOperatorImageConvolutionTest.cxx
   itkSobelOperatorImageFilterTest.cxx
+  itkSparseFieldLayerTest.cxx
+  itkSparseImageTest.cxx
+  itkSpatialOrientationTest.cxx
+  itkStreamingImageFilterTest.cxx
+  itkStreamingImageFilterTest2.cxx
+  itkStreamingImageFilterTest3.cxx
+  itkSymmetricEigenAnalysisTest.cxx
+  itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest.cxx
+  itkSymmetricSecondRankTensorImageReadTest.cxx
+  itkSymmetricSecondRankTensorImageWriteReadTest.cxx
+  itkTimeProbeTest.cxx
+  itkTimeProbeTest2.cxx
+  itkVectorContainerTest.cxx
+  itkVectorTest.cxx
+  VNLSparseLUSolverTraitsTest.cxx
 )
 set(
   ITKCommon2Tests
@@ -1507,45 +1507,75 @@ endif()
 
 set(
   ITKCommonGTests
-  itkArrayGTest.cxx
-  itkArray2DGTest.cxx
+  itkAbortProcessObjectGTest.cxx
+  itkAdaptorComparisonGTest.cxx
   itkAggregateTypesGTest.cxx
+  itkAnatomicalOrientationGTest.cxx
+  itkAnnulusOperatorGTest.cxx
+  itkArray2DGTest.cxx
+  itkArrayGTest.cxx
+  itkAutoPointerGTest.cxx
   itkBitCastGTest.cxx
   itkBooleanStdVectorGTest.cxx
+  itkBoundaryConditionGTest.cxx
+  itkBoundingBoxGTest.cxx
+  itkBresenhamLineGTest.cxx
   itkBSplineKernelFunctionGTest.cxx
   itkBuildInformationGTest.cxx
+  itkByteSwapGTest.cxx
   itkCommandObserverObjectGTest.cxx
+  itkCommonTypeTraitsGTest.cxx
   itkConnectedImageNeighborhoodShapeGTest.cxx
   itkConstantBoundaryImageNeighborhoodPixelAccessPolicyGTest.cxx
   itkCopyGTest.cxx
   itkCovariantVectorGTest.cxx
+  itkCrossHelperGTest.cxx
+  itkDataTypeGTest.cxx
+  itkDecoratorGTest.cxx
   itkDerefGTest.cxx
+  itkDerivativeOperatorGTest.cxx
   itkDiffusionTensor3DGTest.cxx
+  itkEventObjectGTest.cxx
   itkExceptionObjectGTest.cxx
+  itkFilterDispatchGTest.cxx
   itkFixedArrayGTest.cxx
+  itkFloodFilledSpatialFunctionGTest.cxx
+  itkFloodFillIteratorGTest.cxx
   itkGaussianDerivativeOperatorGTest.cxx
-  itkImageNeighborhoodOffsetsGTest.cxx
-  itkImageGTest.cxx
+  itkHashTableGTest.cxx
+  itkHeavisideStepFunctionGTest.cxx
   itkImageBaseGTest.cxx
   itkImageBufferRangeGTest.cxx
-  itkImageIteratorsGTest.cxx
-  itkImageRegionRangeGTest.cxx
+  itkImageGTest.cxx
   itkImageIORegionGTest.cxx
+  itkImageIteratorsGTest.cxx
+  itkImageNeighborhoodOffsetsGTest.cxx
   itkImageRandomConstIteratorWithIndexGTest.cxx
   itkImageRandomNonRepeatingIteratorWithIndexGTest.cxx
   itkImageRegionGTest.cxx
+  itkImageRegionRangeGTest.cxx
+  itkImageTransformGTest.cxx
+  itkImportContainerGTest.cxx
+  itkImportImageGTest.cxx
   itkIndexGTest.cxx
   itkIndexRangeGTest.cxx
+  itkIntTypesGTest.cxx
   itkLightObjectGTest.cxx
   itkMakeUniqueForOverwriteGTest.cxx
+  itkMathCastWithRangeCheckGTest.cxx
+  itkMathGTest.cxx
+  itkMathRoundGTest.cxx
   itkMatrixGTest.cxx
   itkMersenneTwisterRandomVariateGeneratorGTest.cxx
+  itkMetaDataDictionaryGTest.cxx
+  itkModifiedTimeGTest.cxx
   itkNeighborhoodAllocatorGTest.cxx
   itkNumberToStringGTest.cxx
   itkNumericLocaleGTest.cxx
   itkObjectFactoryBaseGTest.cxx
   itkOffsetGTest.cxx
   itkOptimizerParametersGTest.cxx
+  itkPixelAccessGTest.cxx
   itkPointGTest.cxx
   itkPointSetGTest.cxx
   itkPrintHelperGTest.cxx
@@ -1555,50 +1585,20 @@ set(
   itkSizeGTest.cxx
   itkSmartPointerGTest.cxx
   itkSobelOperatorGTest.cxx
-  itkSymmetricSecondRankTensorGTest.cxx
-  itkVariableLengthVectorGTest.cxx
-  itkVectorContainerGTest.cxx
-  itkVectorGTest.cxx
-  itkWeakPointerGTest.cxx
-  itkCommonTypeTraitsGTest.cxx
-  itkMathGTest.cxx
-  itkDataTypeGTest.cxx
-  itkBoundaryConditionGTest.cxx
-  itkBoundingBoxGTest.cxx
-  itkTimeStampGTest.cxx
-  itkEventObjectGTest.cxx
-  itkByteSwapGTest.cxx
-  itkIntTypesGTest.cxx
-  itkMathCastWithRangeCheckGTest.cxx
-  itkMathRoundGTest.cxx
-  itkModifiedTimeGTest.cxx
-  itkVersionGTest.cxx
-  itkMetaDataDictionaryGTest.cxx
   itkSpatialOrientationAdaptorGTest.cxx
-  itkAnatomicalOrientationGTest.cxx
-  itkAutoPointerGTest.cxx
   itkStdStreamStateSaveGTest.cxx
-  itkDecoratorGTest.cxx
-  itkAbortProcessObjectGTest.cxx
-  itkBresenhamLineGTest.cxx
-  itkFilterDispatchGTest.cxx
-  itkThreadedIndexedContainerPartitionerGTest.cxx
-  itkHashTableGTest.cxx
-  itkHeavisideStepFunctionGTest.cxx
-  itkImportImageGTest.cxx
-  itkImportContainerGTest.cxx
-  itkPixelAccessGTest.cxx
-  itkImageTransformGTest.cxx
-  itkAnnulusOperatorGTest.cxx
-  itkCrossHelperGTest.cxx
-  itkAdaptorComparisonGTest.cxx
-  itkFloodFillIteratorGTest.cxx
-  itkDerivativeOperatorGTest.cxx
-  itkFloodFilledSpatialFunctionGTest.cxx
+  itkSymmetricSecondRankTensorGTest.cxx
   itkThreadedImageRegionPartitionerGTest.cxx
+  itkThreadedIndexedContainerPartitionerGTest.cxx
   itkThreadedIteratorRangePartitionerGTest.cxx
   itkThreadedIteratorRangePartitionerGTest2.cxx
   itkThreadedIteratorRangePartitionerGTest3.cxx
+  itkTimeStampGTest.cxx
+  itkVariableLengthVectorGTest.cxx
+  itkVectorContainerGTest.cxx
+  itkVectorGTest.cxx
+  itkVersionGTest.cxx
+  itkWeakPointerGTest.cxx
 )
 creategoogletestdriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
 # If `-static` was passed to CMAKE_EXE_LINKER_FLAGS, compilation fails. No need to

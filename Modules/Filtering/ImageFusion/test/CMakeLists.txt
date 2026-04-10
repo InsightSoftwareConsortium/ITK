@@ -1,16 +1,16 @@
 itk_module_test()
 set(
   ITKImageFusionTests
-  itkLabelOverlayImageFilterTest.cxx
-  itkLabelToRGBImageFilterTest.cxx
-  itkLabelMapToRGBImageFilterTest1.cxx
-  itkLabelMapToRGBImageFilterTest2.cxx
   itkLabelMapContourOverlayImageFilterTest1.cxx
   itkLabelMapContourOverlayImageFilterTest2.cxx
   itkLabelMapContourOverlayImageFilterTest3.cxx
   itkLabelMapOverlayImageFilterTest1.cxx
   itkLabelMapOverlayImageFilterTest2.cxx
   itkLabelMapOverlayImageFilterTest3.cxx
+  itkLabelMapToRGBImageFilterTest1.cxx
+  itkLabelMapToRGBImageFilterTest2.cxx
+  itkLabelOverlayImageFilterTest.cxx
+  itkLabelToRGBImageFilterTest.cxx
 )
 
 createtestdriver(ITKImageFusion "${ITKImageFusion-Test_LIBRARIES}" "${ITKImageFusionTests}")

@@ -1,7 +1,7 @@
 set(
   ITKIOLSM_SRCS
-  itkLSMImageIOFactory.cxx
   itkLSMImageIO.cxx
+  itkLSMImageIOFactory.cxx
 )
 
 itk_module_add_library(ITKIOLSM ${ITKIOLSM_SRCS})

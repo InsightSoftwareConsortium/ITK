@@ -1,14 +1,14 @@
 itk_module_test()
 set(
   ITKPDEDeformableRegistrationTests
-  itkMultiResolutionPDEDeformableRegistrationTest.cxx
   itkDemonsRegistrationFilterTest.cxx
   itkDiffeomorphicDemonsRegistrationFilterTest.cxx
   itkDiffeomorphicDemonsRegistrationFilterTest2.cxx
+  itkESMDemonsRegistrationFunctionTest.cxx
   itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
   itkLevelSetMotionRegistrationFilterTest.cxx
+  itkMultiResolutionPDEDeformableRegistrationTest.cxx
   itkSymmetricForcesDemonsRegistrationFilterTest.cxx
-  itkESMDemonsRegistrationFunctionTest.cxx
 )
 # Define some convenient locations
 set(BASELINE ${ITK_DATA_ROOT}/Baseline/Algorithms)

@@ -1,36 +1,36 @@
 itk_module_test()
 set(
   ITKImageFunctionTests
-  itkGaussianBlurImageFunctionTest.cxx
-  itkVectorInterpolateImageFunctionTest.cxx
-  itkVarianceImageFunctionTest.cxx
-  itkMedianImageFunctionTest.cxx
   itkBinaryThresholdImageFunctionTest.cxx
   itkBSplineDecompositionImageFilterTest.cxx
   itkBSplineInterpolateImageFunctionTest.cxx
   itkBSplineResampleImageFunctionTest.cxx
-  itkScatterMatrixImageFunctionTest.cxx
-  itkMeanImageFunctionTest.cxx
-  itkGaussianDerivativeImageFunctionTest.cxx
-  itkCentralDifferenceImageFunctionTest.cxx
-  itkCentralDifferenceImageFunctionOnVectorTest.cxx
-  itkImageAdaptorInterpolateImageFunctionTest.cxx
-  itkCovarianceImageFunctionTest.cxx
-  itkRayCastInterpolateImageFunctionTest.cxx
-  itkNearestNeighborExtrapolateImageFunctionTest.cxx
-  itkVectorMeanImageFunctionTest.cxx
-  itkMahalanobisDistanceThresholdImageFunctionTest.cxx
-  itkInterpolateTest.cxx
-  itkRGBInterpolateImageFunctionTest.cxx
-  itkWindowedSincInterpolateImageFunctionTest.cxx
-  itkLinearInterpolateImageFunctionTest.cxx
-  itkNeighborhoodOperatorImageFunctionTest.cxx
-  itkNearestNeighborInterpolateImageFunctionTest.cxx
-  itkGaussianInterpolateImageFunctionTest.cxx
-  itkLabelImageGaussianInterpolateImageFunctionTest.cxx
-  itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest.cxx
-  itkCentralDifferenceImageFunctionSpeedTest.cxx
   itkCentralDifferenceImageFunctionOnVectorSpeedTest.cxx
+  itkCentralDifferenceImageFunctionOnVectorTest.cxx
+  itkCentralDifferenceImageFunctionSpeedTest.cxx
+  itkCentralDifferenceImageFunctionTest.cxx
+  itkCovarianceImageFunctionTest.cxx
+  itkGaussianBlurImageFunctionTest.cxx
+  itkGaussianDerivativeImageFunctionTest.cxx
+  itkGaussianInterpolateImageFunctionTest.cxx
+  itkImageAdaptorInterpolateImageFunctionTest.cxx
+  itkInterpolateTest.cxx
+  itkLabelImageGaussianInterpolateImageFunctionTest.cxx
+  itkLinearInterpolateImageFunctionTest.cxx
+  itkMahalanobisDistanceThresholdImageFunctionTest.cxx
+  itkMeanImageFunctionTest.cxx
+  itkMedianImageFunctionTest.cxx
+  itkNearestNeighborExtrapolateImageFunctionTest.cxx
+  itkNearestNeighborInterpolateImageFunctionTest.cxx
+  itkNeighborhoodOperatorImageFunctionTest.cxx
+  itkRayCastInterpolateImageFunctionTest.cxx
+  itkRGBInterpolateImageFunctionTest.cxx
+  itkScatterMatrixImageFunctionTest.cxx
+  itkVarianceImageFunctionTest.cxx
+  itkVectorInterpolateImageFunctionTest.cxx
+  itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest.cxx
+  itkVectorMeanImageFunctionTest.cxx
+  itkWindowedSincInterpolateImageFunctionTest.cxx
 )
 
 createtestdriver(ITKImageFunction "${ITKImageFunction-Test_LIBRARIES}" "${ITKImageFunctionTests}")

@@ -1,8 +1,8 @@
 itk_module_test()
 set(
   ITKVtkGlueTests
-  itkImageToVTKImageFilterTest.cxx
   itkImageToVTKImageFilterRGBTest.cxx
+  itkImageToVTKImageFilterTest.cxx
   itkVTKImageToImageFilterTest.cxx
 )
 if(NOT VTK_RENDERING_BACKEND STREQUAL "None")

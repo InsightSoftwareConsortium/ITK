@@ -1,7 +1,7 @@
 set(
   ITKIODCMTK_SRC
-  itkDCMTKImageIO.cxx
   itkDCMTKFileReader.cxx
+  itkDCMTKImageIO.cxx
   itkDCMTKImageIOFactory.cxx
   itkDCMTKSeriesFileNames.cxx
 )

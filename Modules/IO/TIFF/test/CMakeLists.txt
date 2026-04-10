@@ -1,13 +1,13 @@
 itk_module_test()
 set(
   ITKIOTIFFTests
+  itkLargeTIFFImageWriteReadTest.cxx
+  itkTIFFImageIOCompressionTest.cxx
+  itkTIFFImageIOInfoTest.cxx
+  itkTIFFImageIOIntPixelTest.cxx
   itkTIFFImageIOTest.cxx
   itkTIFFImageIOTest2.cxx
-  itkTIFFImageIOCompressionTest.cxx
-  itkLargeTIFFImageWriteReadTest.cxx
-  itkTIFFImageIOInfoTest.cxx
   itkTIFFImageIOTestPalette.cxx
-  itkTIFFImageIOIntPixelTest.cxx
 )
 
 createtestdriver(ITKIOTIFF "${ITKIOTIFF-Test_LIBRARIES}" "${ITKIOTIFFTests}")

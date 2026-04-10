@@ -2,17 +2,17 @@ itk_module_test()
 set(
   ITKImageComposeTests
   itkCompose2DCovariantVectorImageFilterTest.cxx
-  itkCompose3DVectorImageFilterTest.cxx
-  itkCompose3DCovariantVectorImageFilterTest.cxx
   itkCompose2DVectorImageFilterTest.cxx
-  itkComposeRGBImageFilterTest.cxx
+  itkCompose3DCovariantVectorImageFilterTest.cxx
+  itkCompose3DVectorImageFilterTest.cxx
   itkComposeBigVectorImageFilterTest.cxx
-  itkImageToVectorImageFilterTest.cxx
-  itkImageReadRealAndImaginaryWriteComplexTest.cxx
   itkComposeRGBAImageFilterTest.cxx
-  itkJoinSeriesImageFilterTest.cxx
-  itkJoinSeriesImageFilterStreamingTest.cxx
+  itkComposeRGBImageFilterTest.cxx
+  itkImageReadRealAndImaginaryWriteComplexTest.cxx
+  itkImageToVectorImageFilterTest.cxx
   itkJoinImageFilterTest.cxx
+  itkJoinSeriesImageFilterStreamingTest.cxx
+  itkJoinSeriesImageFilterTest.cxx
 )
 
 createtestdriver(ITKImageCompose "${ITKImageCompose-Test_LIBRARIES}" "${ITKImageComposeTests}")

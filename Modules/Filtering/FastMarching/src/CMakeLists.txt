@@ -1,8 +1,8 @@
 set(
   ITKFastMarching_SRCS
   itkFastMarchingBase.cxx
-  itkFastMarchingReachedTargetNodesStoppingCriterion.cxx
   itkFastMarchingImageFilter.cxx
+  itkFastMarchingReachedTargetNodesStoppingCriterion.cxx
   itkFastMarchingUpwindGradientImageFilter.cxx
 )
 

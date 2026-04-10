@@ -1,24 +1,24 @@
 itk_module_test()
 set(
   ITKRegistrationMethodsv4Tests
+  itkBSplineExponentialImageRegistrationTest.cxx
+  itkBSplineImageRegistrationTest.cxx
+  itkBSplineSyNImageRegistrationTest.cxx
+  itkBSplineSyNPointSetRegistrationTest.cxx
+  itkExponentialImageRegistrationTest.cxx
   itkImageRegistrationSamplingTest.cxx
+  itkQuasiNewtonOptimizerv4RegistrationTest.cxx
   itkSimpleImageRegistrationTest.cxx
   itkSimpleImageRegistrationTest2.cxx
   itkSimpleImageRegistrationTest3.cxx
   itkSimpleImageRegistrationTest4.cxx
   itkSimpleImageRegistrationTestWithMaskAndSampling.cxx
   itkSimplePointSetRegistrationTest.cxx
-  itkExponentialImageRegistrationTest.cxx
-  itkBSplineExponentialImageRegistrationTest.cxx
-  itkTimeVaryingBSplineVelocityFieldImageRegistrationTest.cxx
-  itkTimeVaryingVelocityFieldImageRegistrationTest.cxx
   itkSyNImageRegistrationTest.cxx
   itkSyNPointSetRegistrationTest.cxx
-  itkBSplineSyNImageRegistrationTest.cxx
-  itkBSplineSyNPointSetRegistrationTest.cxx
+  itkTimeVaryingBSplineVelocityFieldImageRegistrationTest.cxx
   itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest.cxx
-  itkQuasiNewtonOptimizerv4RegistrationTest.cxx
-  itkBSplineImageRegistrationTest.cxx
+  itkTimeVaryingVelocityFieldImageRegistrationTest.cxx
 )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)

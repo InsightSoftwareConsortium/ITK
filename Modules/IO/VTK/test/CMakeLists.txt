@@ -2,12 +2,12 @@ itk_module_test()
 set(
   ITKIOVTKTests
   itkVTKImageIO2Test.cxx
-  itkVTKImageIOTest.cxx
   itkVTKImageIO2Test2.cxx
+  itkVTKImageIOFileReadTest.cxx
+  itkVTKImageIOStreamTest.cxx
+  itkVTKImageIOTest.cxx
   itkVTKImageIOTest2.cxx
   itkVTKImageIOTest3.cxx
-  itkVTKImageIOStreamTest.cxx
-  itkVTKImageIOFileReadTest.cxx
 )
 
 createtestdriver(ITKIOVTK "${ITKIOVTK-Test_LIBRARIES}" "${ITKIOVTKTests}")

@@ -1,7 +1,7 @@
 itk_module_test()
 set(
   ITKIONRRDTests
-  itkNrrdImageIOTest.cxx
+  itkNrrd5dVectorImageReadWriteTest.cxx
   itkNrrdComplexImageReadTest.cxx
   itkNrrdComplexImageReadWriteTest.cxx
   itkNrrdCovariantVectorImageReadTest.cxx
@@ -9,15 +9,15 @@ set(
   itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDoubleTest.cxx
   itkNrrdDiffusionTensor3DImageReadTest.cxx
   itkNrrdDiffusionTensor3DImageReadWriteTest.cxx
+  itkNrrdImageIOTest.cxx
   itkNrrdImageReadWriteTest.cxx
+  itkNrrdLocaleTest.cxx
+  itkNrrdMetaDataTest.cxx
   itkNrrdRGBAImageReadWriteTest.cxx
   itkNrrdRGBImageReadWriteTest.cxx
   itkNrrdVectorImageReadTest.cxx
   itkNrrdVectorImageReadWriteTest.cxx
   itkNrrdVectorImageUnitLabelReadTest.cxx
-  itkNrrd5dVectorImageReadWriteTest.cxx
-  itkNrrdMetaDataTest.cxx
-  itkNrrdLocaleTest.cxx
 )
 
 # For itkNrrdImageIOTest.h.

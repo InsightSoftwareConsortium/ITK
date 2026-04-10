@@ -1,12 +1,12 @@
 itk_module_test()
 set(
   ITKLabelVotingTests
-  itkVotingBinaryImageFilterTest.cxx
+  itkBinaryMedianImageFilterTest.cxx
   itkLabelVotingImageFilterTest.cxx
   itkMultiLabelSTAPLEImageFilterTest.cxx
-  itkVotingBinaryIterativeHoleFillingImageFilterTest.cxx
-  itkBinaryMedianImageFilterTest.cxx
   itkVotingBinaryHoleFillingImageFilterTest.cxx
+  itkVotingBinaryImageFilterTest.cxx
+  itkVotingBinaryIterativeHoleFillingImageFilterTest.cxx
 )
 
 createtestdriver(ITKLabelVoting "${ITKLabelVoting-Test_LIBRARIES}" "${ITKLabelVotingTests}")

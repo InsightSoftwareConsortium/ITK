@@ -1,88 +1,88 @@
 itk_module_test()
 set(
   ITKImageIntensityTests
-  itkBoundedReciprocalImageFilterTest.cxx
-  itkCosImageFilterAndAdaptorTest.cxx
-  itkDiscreteHessianGaussianImageFunctionTest.cxx
-  itkDiscreteGradientMagnitudeGaussianImageFunctionTest.cxx
-  itkDiscreteGaussianDerivativeImageFunctionTest.cxx
-  itkExpImageFilterAndAdaptorTest.cxx
-  itkVectorRescaleIntensityImageFilterTest.cxx
-  itkTernaryMagnitudeSquaredImageFilterTest.cxx
-  itkTernaryOperatorImageFilterTest.cxx
-  itkMinimumImageFilterTest.cxx
-  itkLog10ImageFilterAndAdaptorTest.cxx
-  itkVectorIndexSelectionCastImageFilterTest.cxx
-  itkInvertIntensityImageFilterTest.cxx
-  itkSymmetricEigenAnalysisImageFilterTest.cxx
-  itkEdgePotentialImageFilterTest.cxx
-  itkComplexToModulusFilterAndAdaptorTest.cxx
-  itkAddImageAdaptorTest.cxx
-  itkAndImageFilterTest.cxx
+  itkAbsImageFilterAndAdaptorTest.cxx
+  itkAcosImageFilterAndAdaptorTest.cxx
+  itkAdaptImageFilterTest.cxx
   itkAdaptImageFilterTest2.cxx
-  itkLogImageFilterAndAdaptorTest.cxx
-  itkNotImageFilterTest.cxx
-  itkImageAdaptorNthElementTest.cxx
-  itkConstrainedValueAdditionImageFilterTest.cxx
-  itkAtanImageFilterAndAdaptorTest.cxx
-  itkMaskNegatedImageFilterTest.cxx
+  itkAddImageAdaptorTest.cxx
+  itkAddImageFilterFrameTest.cxx
   itkAddImageFilterTest.cxx
   itkAddImageFilterTest2.cxx
-  itkAddImageFilterFrameTest.cxx
-  itkPowImageFilterTest.cxx
-  itkMultiplyImageFilterTest.cxx
-  itkWeightedAddImageFilterTest.cxx
-  itkRescaleIntensityImageFilterTest.cxx
-  itkNormalizeImageFilterTest.cxx
-  itkNaryAddImageFilterTest.cxx
-  itkShiftScaleImageFilterTest.cxx
-  itkComplexToPhaseFilterAndAdaptorTest.cxx
-  itkIntensityWindowingImageFilterTest.cxx
-  itkTernaryMagnitudeImageFilterTest.cxx
-  itkAbsImageFilterAndAdaptorTest.cxx
-  itkMaximumImageFilterTest.cxx
-  itkBinaryMagnitudeImageFilterTest.cxx
-  itkMatrixIndexSelectionImageFilterTest.cxx
-  itkSquareImageFilterTest.cxx
-  itkRGBToVectorAdaptImageFilterTest.cxx
-  itkComplexToRealFilterAndAdaptorTest.cxx
-  itkNaryMaximumImageFilterTest.cxx
-  itkAtan2ImageFilterTest.cxx
-  itkSqrtImageFilterAndAdaptorTest.cxx
+  itkAndImageFilterTest.cxx
   itkAsinImageFilterAndAdaptorTest.cxx
-  itkMaskImageFilterTest.cxx
-  itkHistogramMatchingImageFilterTest.cxx
-  itkAcosImageFilterAndAdaptorTest.cxx
-  itkExpNegativeImageFilterAndAdaptorTest.cxx
-  itkTanImageFilterAndAdaptorTest.cxx
-  itkSigmoidImageFilterTest.cxx
+  itkAtan2ImageFilterTest.cxx
+  itkAtanImageFilterAndAdaptorTest.cxx
+  itkBinaryMagnitudeImageFilterTest.cxx
+  itkBoundedReciprocalImageFilterTest.cxx
+  itkClampImageFilterTest.cxx
+  itkComplexToImaginaryFilterAndAdaptorTest.cxx
+  itkComplexToModulusFilterAndAdaptorTest.cxx
+  itkComplexToPhaseFilterAndAdaptorTest.cxx
+  itkComplexToRealFilterAndAdaptorTest.cxx
+  itkConstrainedValueAdditionImageFilterTest.cxx
+  itkCosImageFilterAndAdaptorTest.cxx
+  itkDiscreteGaussianDerivativeImageFunctionTest.cxx
+  itkDiscreteGradientMagnitudeGaussianImageFunctionTest.cxx
+  itkDiscreteHessianGaussianImageFunctionTest.cxx
   itkDivideImageFilterTest.cxx
   itkDivideImageFilterTest2.cxx
   itkDivideOrZeroOutImageFilterTest.cxx
-  itkAdaptImageFilterTest.cxx
-  itkOrImageFilterTest.cxx
-  itkRGBToLuminanceImageFilterAndAdaptorTest.cxx
-  itkXorImageFilterTest.cxx
-  itkSubtractImageFilterTest.cxx
-  itkComplexToImaginaryFilterAndAdaptorTest.cxx
-  itkVectorToRGBImageAdaptorTest.cxx
-  itkSinImageFilterAndAdaptorTest.cxx
-  itkPolylineMask2DImageFilterTest.cxx
-  itkPolylineMaskImageFilterTest.cxx
-  itkPromoteDimensionImageTest.cxx
-  itkModulusImageFilterTest.cxx
-  itkVectorMagnitudeImageFilterTest.cxx
-  itkNormalizeToConstantImageFilterTest.cxx
+  itkEdgePotentialImageFilterTest.cxx
   itkEqualTest.cxx
-  itkNotEqualTest.cxx
+  itkExpImageFilterAndAdaptorTest.cxx
+  itkExpNegativeImageFilterAndAdaptorTest.cxx
   itkGreaterEqualTest.cxx
   itkGreaterTest.cxx
+  itkHistogramMatchingImageFilterTest.cxx
+  itkImageAdaptorNthElementTest.cxx
+  itkIntensityWindowingImageFilterTest.cxx
+  itkInvertIntensityImageFilterTest.cxx
   itkLessEqualTest.cxx
   itkLessTest.cxx
-  itkClampImageFilterTest.cxx
-  itkNthElementPixelAccessorTest2.cxx
+  itkLog10ImageFilterAndAdaptorTest.cxx
+  itkLogImageFilterAndAdaptorTest.cxx
   itkMagnitudeAndPhaseToComplexImageFilterTest.cxx
+  itkMaskImageFilterTest.cxx
+  itkMaskNegatedImageFilterTest.cxx
+  itkMatrixIndexSelectionImageFilterTest.cxx
+  itkMaximumImageFilterTest.cxx
+  itkMinimumImageFilterTest.cxx
+  itkModulusImageFilterTest.cxx
+  itkMultiplyImageFilterTest.cxx
+  itkNaryAddImageFilterTest.cxx
+  itkNaryMaximumImageFilterTest.cxx
+  itkNormalizeImageFilterTest.cxx
+  itkNormalizeToConstantImageFilterTest.cxx
+  itkNotEqualTest.cxx
+  itkNotImageFilterTest.cxx
+  itkNthElementPixelAccessorTest2.cxx
+  itkOrImageFilterTest.cxx
+  itkPolylineMask2DImageFilterTest.cxx
+  itkPolylineMaskImageFilterTest.cxx
+  itkPowImageFilterTest.cxx
+  itkPromoteDimensionImageTest.cxx
+  itkRescaleIntensityImageFilterTest.cxx
+  itkRGBToLuminanceImageFilterAndAdaptorTest.cxx
+  itkRGBToVectorAdaptImageFilterTest.cxx
   itkRoundImageFilterTest.cxx
+  itkShiftScaleImageFilterTest.cxx
+  itkSigmoidImageFilterTest.cxx
+  itkSinImageFilterAndAdaptorTest.cxx
+  itkSqrtImageFilterAndAdaptorTest.cxx
+  itkSquareImageFilterTest.cxx
+  itkSubtractImageFilterTest.cxx
+  itkSymmetricEigenAnalysisImageFilterTest.cxx
+  itkTanImageFilterAndAdaptorTest.cxx
+  itkTernaryMagnitudeImageFilterTest.cxx
+  itkTernaryMagnitudeSquaredImageFilterTest.cxx
+  itkTernaryOperatorImageFilterTest.cxx
+  itkVectorIndexSelectionCastImageFilterTest.cxx
+  itkVectorMagnitudeImageFilterTest.cxx
+  itkVectorRescaleIntensityImageFilterTest.cxx
+  itkVectorToRGBImageAdaptorTest.cxx
+  itkWeightedAddImageFilterTest.cxx
+  itkXorImageFilterTest.cxx
 )
 
 if(NOT ITK_LEGACY_REMOVE)
@@ -821,8 +821,8 @@ itk_add_test(
 
 set(
   ITKImageIntensityGTests
-  itkBitwiseOpsFunctorsTest.cxx
   itkArithmeticOpsFunctorsTest.cxx
+  itkBitwiseOpsFunctorsTest.cxx
 )
 
 if(MSVC)

@@ -1,12 +1,12 @@
 itk_module_test()
 set(
   ITKVideoBridgeOpenCVTests
-  itkOpenCVVideoCaptureTest.cxx
+  itkOpenCVBasicTypeBridgeTest.cxx
   itkOpenCVImageBridgeGrayScaleTest.cxx
   itkOpenCVImageBridgeRGBTest.cxx
-  itkOpenCVVideoIOTest.cxx
+  itkOpenCVVideoCaptureTest.cxx
   itkOpenCVVideoIOFactoryTest.cxx
-  itkOpenCVBasicTypeBridgeTest.cxx
+  itkOpenCVVideoIOTest.cxx
 )
 
 include_directories(${ITKVideoBridgeOpenCV_INCLUDE_DIRS})

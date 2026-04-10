@@ -1,6 +1,6 @@
 set(
   ITKFEM_SRCS
-  itkFEMSolution.cxx
+  dsrc2c.c
   itkFEMElement2DC0LinearLine.cxx
   itkFEMElement2DC0LinearLineStress.cxx
   itkFEMElement2DC0LinearQuadrilateral.cxx
@@ -33,20 +33,20 @@ set(
   itkFEMLinearSystemWrapperDenseVNL.cxx
   itkFEMLinearSystemWrapperItpack.cxx
   itkFEMLinearSystemWrapperVNL.cxx
+  itkFEMLoadBase.cxx
   itkFEMLoadBC.cxx
   itkFEMLoadBCMFC.cxx
-  itkFEMLoadBase.cxx
   itkFEMLoadEdge.cxx
   itkFEMLoadElementBase.cxx
   itkFEMLoadGrav.cxx
   itkFEMLoadLandmark.cxx
-  itkFEMLoadNoisyLandmark.cxx
   itkFEMLoadNode.cxx
+  itkFEMLoadNoisyLandmark.cxx
   itkFEMLoadPoint.cxx
   itkFEMMaterialBase.cxx
   itkFEMMaterialLinearElasticity.cxx
+  itkFEMSolution.cxx
   itkFEMUtility.cxx
-  dsrc2c.c
 )
 
 itk_module_add_library(ITKFEM ${ITKFEM_SRCS})

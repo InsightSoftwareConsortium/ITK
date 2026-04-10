@@ -1,8 +1,8 @@
 set(
   ITKIOMeta_SRCS
+  itkMetaArrayReader.cxx
   itkMetaArrayWriter.cxx
   itkMetaImageIO.cxx
-  itkMetaArrayReader.cxx
   itkMetaImageIOFactory.cxx
 )
 

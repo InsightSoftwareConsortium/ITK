@@ -3,8 +3,8 @@ itk_module_test()
 set(
   ITKIOMeshVTKTests
   itkMeshFileReadWriteTest.cxx
-  itkMeshFileWriteReadTensorTest.cxx
   itkMeshFileReadWriteVectorAttributeTest.cxx
+  itkMeshFileWriteReadTensorTest.cxx
   itkPolylineReadWriteTest.cxx
   itkVTKPolyDataMeshCanReadImageTest.cxx
   itkVTKPolyDataMeshIOTest.cxx

@@ -1,21 +1,10 @@
 itk_module_test()
 set(
   ITKImageStatisticsTests
-  itkStatisticsImageFilterTest.cxx
-  itkLabelStatisticsImageFilterTest.cxx
-  itkSumProjectionImageFilterTest.cxx
-  itkStandardDeviationProjectionImageFilterTest.cxx
-  itkImageMomentsTest.cxx
-  itkMinimumMaximumImageFilterTest.cxx
-  itkImagePCAShapeModelEstimatorTest.cxx
-  itkMinimumProjectionImageFilterTest.cxx
-  itkMeanProjectionImageFilterTest.cxx
-  itkImagePCADecompositionCalculatorTest.cxx
-  itkMaximumProjectionImageFilterTest.cxx
-  itkMaximumProjectionImageFilterTest2.cxx
-  itkMaximumProjectionImageFilterTest3.cxx
-  itkMaximumProjectionImageFilterTest4.cxx
-  itkMedianProjectionImageFilterTest.cxx
+  itkAccumulateImageFilterTest.cxx
+  itkAdaptiveHistogramEqualizationImageFilterTest.cxx
+  itkBinaryProjectionImageFilterTest.cxx
+  itkGetAverageSliceImageFilterTest.cxx
   itkHistogramToEntropyImageFilterTest1.cxx
   itkHistogramToEntropyImageFilterTest2.cxx
   itkHistogramToIntensityImageFilterTest1.cxx
@@ -24,12 +13,23 @@ set(
   itkHistogramToLogProbabilityImageFilterTest2.cxx
   itkHistogramToProbabilityImageFilterTest1.cxx
   itkHistogramToProbabilityImageFilterTest2.cxx
-  itkAccumulateImageFilterTest.cxx
-  itkAdaptiveHistogramEqualizationImageFilterTest.cxx
-  itkGetAverageSliceImageFilterTest.cxx
-  itkBinaryProjectionImageFilterTest.cxx
-  itkProjectionImageFilterTest.cxx
+  itkImageMomentsTest.cxx
+  itkImagePCADecompositionCalculatorTest.cxx
+  itkImagePCAShapeModelEstimatorTest.cxx
   itkLabelOverlapMeasuresImageFilterTest.cxx
+  itkLabelStatisticsImageFilterTest.cxx
+  itkMaximumProjectionImageFilterTest.cxx
+  itkMaximumProjectionImageFilterTest2.cxx
+  itkMaximumProjectionImageFilterTest3.cxx
+  itkMaximumProjectionImageFilterTest4.cxx
+  itkMeanProjectionImageFilterTest.cxx
+  itkMedianProjectionImageFilterTest.cxx
+  itkMinimumMaximumImageFilterTest.cxx
+  itkMinimumProjectionImageFilterTest.cxx
+  itkProjectionImageFilterTest.cxx
+  itkStandardDeviationProjectionImageFilterTest.cxx
+  itkStatisticsImageFilterTest.cxx
+  itkSumProjectionImageFilterTest.cxx
 )
 
 createtestdriver(ITKImageStatistics "${ITKImageStatistics-Test_LIBRARIES}" "${ITKImageStatisticsTests}")

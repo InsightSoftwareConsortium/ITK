@@ -1,35 +1,35 @@
 set(
   ITKOptimizers_SRCS
-  itkNonLinearOptimizer.cxx
-  itkMultipleValuedCostFunction.cxx
-  itkSingleValuedCostFunction.cxx
-  itkConjugateGradientOptimizer.cxx
-  itkRegularStepGradientDescentOptimizer.cxx
-  itkLBFGSOptimizer.cxx
-  itkExhaustiveOptimizer.cxx
-  itkLevenbergMarquardtOptimizer.cxx
-  itkSingleValuedNonLinearVnlOptimizer.cxx
-  itkQuaternionRigidTransformGradientDescentOptimizer.cxx
-  itkSPSAOptimizer.cxx
-  itkSingleValuedVnlCostFunctionAdaptor.cxx
-  itkMultipleValuedNonLinearVnlOptimizer.cxx
-  itkPowellOptimizer.cxx
-  itkVersorTransformOptimizer.cxx
-  itkOnePlusOneEvolutionaryOptimizer.cxx
-  itkMultipleValuedNonLinearOptimizer.cxx
-  itkLBFGSBOptimizer.cxx
-  itkCumulativeGaussianOptimizer.cxx
   itkAmoebaOptimizer.cxx
+  itkConjugateGradientOptimizer.cxx
   itkCumulativeGaussianCostFunction.cxx
-  itkOptimizer.cxx
+  itkCumulativeGaussianOptimizer.cxx
+  itkExhaustiveOptimizer.cxx
   itkFRPROptimizer.cxx
   itkGradientDescentOptimizer.cxx
-  itkSingleValuedNonLinearOptimizer.cxx
-  itkRegularStepGradientDescentBaseOptimizer.cxx
-  itkMultipleValuedVnlCostFunctionAdaptor.cxx
-  itkParticleSwarmOptimizerBase.cxx
-  itkParticleSwarmOptimizer.cxx
   itkInitializationBiasedParticleSwarmOptimizer.cxx
+  itkLBFGSBOptimizer.cxx
+  itkLBFGSOptimizer.cxx
+  itkLevenbergMarquardtOptimizer.cxx
+  itkMultipleValuedCostFunction.cxx
+  itkMultipleValuedNonLinearOptimizer.cxx
+  itkMultipleValuedNonLinearVnlOptimizer.cxx
+  itkMultipleValuedVnlCostFunctionAdaptor.cxx
+  itkNonLinearOptimizer.cxx
+  itkOnePlusOneEvolutionaryOptimizer.cxx
+  itkOptimizer.cxx
+  itkParticleSwarmOptimizer.cxx
+  itkParticleSwarmOptimizerBase.cxx
+  itkPowellOptimizer.cxx
+  itkQuaternionRigidTransformGradientDescentOptimizer.cxx
+  itkRegularStepGradientDescentBaseOptimizer.cxx
+  itkRegularStepGradientDescentOptimizer.cxx
+  itkSingleValuedCostFunction.cxx
+  itkSingleValuedNonLinearOptimizer.cxx
+  itkSingleValuedNonLinearVnlOptimizer.cxx
+  itkSingleValuedVnlCostFunctionAdaptor.cxx
+  itkSPSAOptimizer.cxx
+  itkVersorTransformOptimizer.cxx
 )
 
 itk_module_add_library(ITKOptimizers ${ITKOptimizers_SRCS})

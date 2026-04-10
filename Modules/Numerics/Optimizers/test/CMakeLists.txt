@@ -1,24 +1,24 @@
 itk_module_test()
 set(
   ITKOptimizersTests
-  itkFRPROptimizerTest.cxx
-  itkPowellOptimizerTest.cxx
-  itkGradientDescentOptimizerTest.cxx
-  itkVersorTransformOptimizerTest.cxx
-  itkSPSAOptimizerTest.cxx
-  itkOptimizersHierarchyTest.cxx
-  itkExhaustiveOptimizerTest.cxx
-  itkLBFGSBOptimizerTest.cxx
-  itkConjugateGradientOptimizerTest.cxx
-  itkLBFGSOptimizerTest.cxx
-  itkCumulativeGaussianOptimizerTest.cxx
-  itkRegularStepGradientDescentOptimizerTest.cxx
-  itkLevenbergMarquardtOptimizerTest.cxx
-  itkVersorRigid3DTransformOptimizerTest.cxx
   itkAmoebaOptimizerTest.cxx
-  itkOnePlusOneEvolutionaryOptimizerTest.cxx
-  itkParticleSwarmOptimizerTest.cxx
+  itkConjugateGradientOptimizerTest.cxx
+  itkCumulativeGaussianOptimizerTest.cxx
+  itkExhaustiveOptimizerTest.cxx
+  itkFRPROptimizerTest.cxx
+  itkGradientDescentOptimizerTest.cxx
   itkInitializationBiasedParticleSwarmOptimizerTest.cxx
+  itkLBFGSBOptimizerTest.cxx
+  itkLBFGSOptimizerTest.cxx
+  itkLevenbergMarquardtOptimizerTest.cxx
+  itkOnePlusOneEvolutionaryOptimizerTest.cxx
+  itkOptimizersHierarchyTest.cxx
+  itkParticleSwarmOptimizerTest.cxx
+  itkPowellOptimizerTest.cxx
+  itkRegularStepGradientDescentOptimizerTest.cxx
+  itkSPSAOptimizerTest.cxx
+  itkVersorRigid3DTransformOptimizerTest.cxx
+  itkVersorTransformOptimizerTest.cxx
 )
 
 createtestdriver(ITKOptimizers "${ITKOptimizers-Test_LIBRARIES}" "${ITKOptimizersTests}")

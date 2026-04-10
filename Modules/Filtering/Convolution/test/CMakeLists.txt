@@ -1,17 +1,17 @@
 itk_module_test()
 set(
   ITKConvolutionTests
-  itkConvolutionImageFilterTest.cxx
-  itkConvolutionImageFilterTestInt.cxx
   itkConvolutionImageFilterDeltaFunctionTest.cxx
   itkConvolutionImageFilterStreamingTest.cxx
   itkConvolutionImageFilterSubregionTest.cxx
+  itkConvolutionImageFilterTest.cxx
+  itkConvolutionImageFilterTestInt.cxx
+  itkFFTConvolutionImageFilterDeltaFunctionTest.cxx
   itkFFTConvolutionImageFilterTest.cxx
   itkFFTConvolutionImageFilterTestInt.cxx
-  itkFFTConvolutionImageFilterDeltaFunctionTest.cxx
-  itkNormalizedCorrelationImageFilterTest.cxx
-  itkMaskedFFTNormalizedCorrelationImageFilterTest.cxx
   itkFFTNormalizedCorrelationImageFilterTest.cxx
+  itkMaskedFFTNormalizedCorrelationImageFilterTest.cxx
+  itkNormalizedCorrelationImageFilterTest.cxx
 )
 
 createtestdriver(ITKConvolution "${ITKConvolution-Test_LIBRARIES}" "${ITKConvolutionTests}")
