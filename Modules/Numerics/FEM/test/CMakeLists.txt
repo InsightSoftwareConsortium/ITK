@@ -17,6 +17,7 @@ set(
   itkFEMElement2DC0LinearTriangleStrainTest.cxx
   itkFEMElement2DC0LinearTriangleMembraneTest.cxx
   itkFEMElement2DC0LinearQuadrilateralStressTest.cxx
+  itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader.cxx
   itkFEMElement2DC0LinearQuadrilateralStrainTest.cxx
   itkFEMElement2DC0LinearQuadrilateralMembraneTest.cxx
   itkFEMElement2DC0QuadraticTriangleStrainTest.cxx
@@ -365,6 +366,24 @@ itk_add_test(
     ITKFEMTestDriver
     itkFEMElement2DC0LinearQuadrilateralStressTest
     ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStressTestWrite.meta
+)
+
+# Round-trip the meta file written by itkFEMElement2DC0LinearQuadrilateralStressTest:
+# read it back through FEMSpatialObjectReader, reconstruct the FEMObject, and
+# re-solve through itk::fem::Solver. The DEPENDS property forces the writer
+# test to run first so its output meta is available on disk.
+itk_add_test(
+  NAME itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader
+  COMMAND
+    ITKFEMTestDriver
+    itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader
+    ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStressTestWrite.meta
+)
+set_tests_properties(
+  itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader
+  PROPERTIES
+    DEPENDS
+      itkFEMElement2DC0LinearQuadrilateralStressTest
 )
 
 itk_add_test(
