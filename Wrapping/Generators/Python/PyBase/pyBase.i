@@ -679,13 +679,153 @@ str = str
 
 %define DECL_PYTHON_IMAGE_CLASS(swig_name)
   %extend swig_name {
-      %pythoncode {
-          def __array__(self, dtype=None):
+      %pythoncode %{
+          def __buffer__(self, flags=0, /):
+              """PEP 688 buffer protocol -- export image data as a memoryview.
+
+              On Python 3.12+ this is called automatically by
+              ``memoryview(image)`` and ``numpy.asarray(image)``.
+              On Python 3.10-3.11 it can be called explicitly.
+
+              The returned memoryview shares memory with the image
+              (zero-copy).  A reference to the image is stored on the
+              returned object to prevent garbage collection while the
+              buffer is in use.
+
+              ``flags`` is accepted for PEP 688 compliance but not
+              inspected: ITK image buffers are always writable, so all
+              flag combinations (including PyBUF_WRITABLE) are satisfied.
+              """
               import itk
               import numpy as np
-              array = itk.array_from_image(self)
-              return np.asarray(array, dtype=dtype)
-      }
+              from itk.itkPyBufferPython import _get_buffer_formatstring
+
+              # Get 1-D raw memoryview from the C++ buffer
+              ImageType = type(self)
+              PyBufferType = itk.PyBuffer[ImageType]
+              raw_memview = PyBufferType._GetArrayViewFromImage(self)
+
+              # Build shape in C-order (NumPy convention: [z, y, x, ...])
+              itksize = self.GetBufferedRegion().GetSize()
+              shape = [int(itksize[d]) for d in range(len(itksize))]
+
+              n_components = self.GetNumberOfComponentsPerPixel()
+              if n_components > 1:
+                  shape.insert(0, n_components)
+
+              shape.reverse()
+
+              # Determine the struct format character for the component type
+              tpl = itk.template(self)
+              pixel_type = tpl[1][0]
+              from itk.support.types import itkCType
+              if isinstance(pixel_type, itkCType):
+                  # Scalar pixel (UC, F, SS, etc.)
+                  component_code = pixel_type.short_name
+              else:
+                  # Composite pixel (RGB, Vector, etc.) -- use component type
+                  pixel_tpl = itk.template(pixel_type)
+                  component_code = pixel_tpl[1][0].short_name
+
+              fmt = _get_buffer_formatstring(component_code)
+
+              # Build a NumPy array view that holds a reference to self
+              # via NDArrayITKBase.itk_base, preventing the image from
+              # being garbage collected while any memoryview or array
+              # derived from this buffer exists.
+              from itk.itkPyBufferPython import NDArrayITKBase
+              flat = np.frombuffer(raw_memview, dtype=fmt)
+              shaped = NDArrayITKBase(flat.reshape(shape), self)
+              return memoryview(shaped)
+
+          def _get_array_interface(self):
+              """NumPy array interface (v3) -- zero-copy on all versions.
+
+              When NumPy creates an array from ``__array_interface__``,
+              it sets ``arr.base = self`` (the image), which prevents
+              the image from being garbage collected while the array
+              exists.  This is the correct lifetime behavior for
+              ``np.asarray(image)`` on all Python versions.
+
+              On Python 3.12+, NumPy prefers ``__buffer__`` (PEP 688)
+              over this interface, which also provides correct lifetime
+              via the NDArrayITKBase intermediary.
+              """
+              import itk
+              import numpy as np
+              from itk.itkPyBufferPython import _get_numpy_pixelid
+
+              ImageType = type(self)
+              PyBufferType = itk.PyBuffer[ImageType]
+              raw_memview = PyBufferType._GetArrayViewFromImage(self)
+
+              # Shape in C-order (NumPy convention: [z, y, x])
+              itksize = self.GetBufferedRegion().GetSize()
+              shape = tuple(int(itksize[d]) for d in reversed(range(len(itksize))))
+
+              n_components = self.GetNumberOfComponentsPerPixel()
+              if n_components > 1:
+                  shape = shape + (n_components,)
+
+              # Resolve component type code
+              tpl = itk.template(self)
+              pixel_type = tpl[1][0]
+              from itk.support.types import itkCType
+              if isinstance(pixel_type, itkCType):
+                  component_code = pixel_type.short_name
+              else:
+                  pixel_tpl = itk.template(pixel_type)
+                  component_code = pixel_tpl[1][0].short_name
+
+              dtype = _get_numpy_pixelid(component_code)
+              np_arr = np.asarray(raw_memview)
+              data_ptr = np_arr.__array_interface__['data'][0]
+
+              return {
+                  'version': 3,
+                  'shape': shape,
+                  'typestr': dtype.str,
+                  'data': (data_ptr, False),
+                  'strides': None,
+              }
+          __array_interface__ = property(_get_array_interface)
+
+          def __array__(self, dtype=None, copy=None):
+              """NumPy array protocol -- zero-copy view of image data.
+
+              On Python 3.12+, NumPy prefers ``__buffer__`` (PEP 688)
+              over this method.  On Python 3.10-3.11, NumPy uses
+              ``__array_interface__`` (which sets arr.base = self) for
+              ``np.asarray()``, so this method is only called for
+              explicit ``image.__array__()`` or ``np.array(image)``.
+
+              Parameters
+              ----------
+              dtype : numpy dtype, optional
+                  If specified and different from the image dtype,
+                  a copy is made with the requested dtype.
+              copy : bool or None, optional (NumPy 2.0+)
+                  ``None``/``False``: return zero-copy view.
+                  ``True``: return an independent copy.
+              """
+              import itk
+              import numpy as np
+
+              # Zero-copy view with reference to self via NDArrayITKBase
+              array = itk.array_view_from_image(self)
+
+              if dtype is not None:
+                  if copy is False and np.dtype(dtype) != array.dtype:
+                      raise ValueError(
+                          "Unable to avoid copy: dtype conversion from "
+                          f"{array.dtype} to {np.dtype(dtype)} requires "
+                          "a copy."
+                      )
+                  array = np.asarray(array, dtype=dtype)
+              if copy:
+                  array = np.array(array, copy=True)
+              return array
+      %}
   }
 %enddef
 
