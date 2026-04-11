@@ -76,7 +76,7 @@ public:
 
 protected:
   QuaternionRigidTransformGradientDescentOptimizer() = default;
-  ~QuaternionRigidTransformGradientDescentOptimizer() override = default;
+  ~QuaternionRigidTransformGradientDescentOptimizer() override;
 };
 } // end namespace itk
 

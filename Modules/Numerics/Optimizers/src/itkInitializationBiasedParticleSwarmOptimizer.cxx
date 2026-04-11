@@ -19,6 +19,7 @@
 
 namespace itk
 {
+InitializationBiasedParticleSwarmOptimizer::~InitializationBiasedParticleSwarmOptimizer() = default;
 
 InitializationBiasedParticleSwarmOptimizer::InitializationBiasedParticleSwarmOptimizer()
 {

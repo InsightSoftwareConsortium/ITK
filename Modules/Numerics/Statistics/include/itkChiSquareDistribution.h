@@ -228,7 +228,7 @@ public:
 
 protected:
   ChiSquareDistribution();
-  ~ChiSquareDistribution() override = default;
+  ~ChiSquareDistribution() override;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

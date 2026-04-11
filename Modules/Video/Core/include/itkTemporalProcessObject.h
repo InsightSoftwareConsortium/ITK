@@ -153,7 +153,7 @@ protected:
   TemporalProcessObject();
 
   /** Empty Destructor */
-  ~TemporalProcessObject() override = default;
+  ~TemporalProcessObject() override;
 
   /** ITK print mechanism */
   void

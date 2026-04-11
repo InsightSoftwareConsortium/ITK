@@ -30,6 +30,8 @@ namespace itk
 {
 namespace Statistics
 {
+TDistribution::~TDistribution() = default;
+
 TDistribution::TDistribution()
 {
   m_Parameters = ParametersType(1);

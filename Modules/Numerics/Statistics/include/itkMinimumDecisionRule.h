@@ -66,7 +66,7 @@ public:
 
 protected:
   MinimumDecisionRule() = default;
-  ~MinimumDecisionRule() override = default;
+  ~MinimumDecisionRule() override;
 
 }; // end of class
 } // end of namespace Statistics

@@ -256,7 +256,7 @@ public:
 
 protected:
   SPSAOptimizer();
-  ~SPSAOptimizer() override = default;
+  ~SPSAOptimizer() override;
 
   /** PrintSelf method. */
   void

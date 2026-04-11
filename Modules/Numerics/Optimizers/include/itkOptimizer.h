@@ -93,7 +93,7 @@ public:
 
 protected:
   Optimizer();
-  ~Optimizer() override = default;
+  ~Optimizer() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

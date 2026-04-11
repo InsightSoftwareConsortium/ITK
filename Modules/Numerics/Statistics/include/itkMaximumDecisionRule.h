@@ -69,7 +69,7 @@ public:
 
 protected:
   MaximumDecisionRule() = default;
-  ~MaximumDecisionRule() override = default;
+  ~MaximumDecisionRule() override;
 
 }; // end of class
 } // end of namespace Statistics

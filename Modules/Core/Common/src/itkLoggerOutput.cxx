@@ -29,6 +29,8 @@
 
 namespace itk
 {
+LoggerOutput::~LoggerOutput() = default;
+
 /** Send a string to display. */
 void
 LoggerOutput::DisplayText(const char * t)

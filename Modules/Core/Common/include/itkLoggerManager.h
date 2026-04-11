@@ -101,7 +101,7 @@ protected:
   LoggerManager() = default;
 
   /** Destructor */
-  ~LoggerManager() override = default;
+  ~LoggerManager() override;
 
   /** Print contents of a LoggerManager */
   void

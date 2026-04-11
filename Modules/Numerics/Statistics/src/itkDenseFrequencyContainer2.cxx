@@ -21,6 +21,8 @@ namespace itk
 {
 namespace Statistics
 {
+DenseFrequencyContainer2::~DenseFrequencyContainer2() = default;
+
 DenseFrequencyContainer2::DenseFrequencyContainer2()
 {
   m_FrequencyContainer = FrequencyContainerType::New();

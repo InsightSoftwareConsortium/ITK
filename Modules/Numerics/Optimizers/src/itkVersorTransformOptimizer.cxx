@@ -20,6 +20,8 @@
 
 namespace itk
 {
+VersorTransformOptimizer::~VersorTransformOptimizer() = default;
+
 /**
  * Advance one Step following the gradient direction
  * This method will be overridden in non-vector spaces

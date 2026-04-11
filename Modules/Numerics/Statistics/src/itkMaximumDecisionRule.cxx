@@ -21,6 +21,8 @@ namespace itk
 {
 namespace Statistics
 {
+MaximumDecisionRule::~MaximumDecisionRule() = default;
+
 MaximumDecisionRule::ClassIdentifierType
 MaximumDecisionRule::Evaluate(const MembershipVectorType & discriminantScores) const
 {

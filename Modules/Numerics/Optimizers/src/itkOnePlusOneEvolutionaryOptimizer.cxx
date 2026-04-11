@@ -21,6 +21,8 @@
 #include "itkMath.h"
 namespace itk
 {
+OnePlusOneEvolutionaryOptimizer::~OnePlusOneEvolutionaryOptimizer() = default;
+
 OnePlusOneEvolutionaryOptimizer::OnePlusOneEvolutionaryOptimizer()
 {
   m_CatchGetValueException = false;

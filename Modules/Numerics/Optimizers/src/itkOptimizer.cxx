@@ -20,6 +20,8 @@
 
 namespace itk
 {
+Optimizer::~Optimizer() = default;
+
 /**
  * Constructor
  */
