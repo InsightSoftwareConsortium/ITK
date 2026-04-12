@@ -45,7 +45,8 @@ check_pie_supported()
 # Performance note: x86-64-v4 (AVX-512) may trigger CPU frequency throttling
 # on Intel Sapphire Rapids and earlier, causing net regressions on
 # memory-latency-bound kernels such as BSpline transform evaluation.
-# Consider `-mprefer-vector-width=256` if using v4.
+# The x86-64-v4 level automatically includes `-mprefer-vector-width=256`
+# to avoid this; see the PERF commit in this series for benchmark data.
 #
 # On non-x86 platforms this variable is ignored; the toolchain default is
 # used unless ITK_C_OPTIMIZATION_FLAGS / ITK_CXX_OPTIMIZATION_FLAGS are
@@ -114,6 +115,17 @@ function(itk_isa_level_arch_flag _out_var)
     else()
       if(ITK_X86_64_ISA_LEVEL STREQUAL "native")
         set(_arch_flag "-march=native")
+      elseif(ITK_X86_64_ISA_LEVEL STREQUAL "x86-64-v4")
+        # Use AVX-512 instruction encoding (EVEX prefix, 32 registers, mask
+        # registers) but prefer 256-bit vector width.  Without this flag GCC
+        # auto-vectorises with 512-bit zmm registers, which triggers a CPU
+        # frequency downshift ("AVX-512 turbo penalty") on Intel Sapphire
+        # Rapids and earlier.  Benchmarks show 53 000 zmm instructions across
+        # 4 977 functions in a bare -march=x86-64-v4 build, causing 12–17 %
+        # regressions on BSpline-dominated Resample benchmarks.  With
+        # -mprefer-vector-width=256 the zmm count drops 92 % and the
+        # regressions are recovered.
+        set(_arch_flag "-march=x86-64-v4 -mprefer-vector-width=256")
       else()
         set(_arch_flag "-march=${ITK_X86_64_ISA_LEVEL}")
       endif()
