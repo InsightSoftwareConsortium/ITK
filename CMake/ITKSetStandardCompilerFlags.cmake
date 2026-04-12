@@ -380,6 +380,8 @@ function(
   set(${c_optimization_flags_var} "" PARENT_SCOPE)
   set(${cxx_optimization_flags_var} "" PARENT_SCOPE)
 
+  itk_isa_level_arch_flag(_itk_arch_flag)
+
   if("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "(x86_64|AMD64)")
     if(MSVC)
       check_avx_flags(InstructionSetOptimizationFlags)
@@ -390,6 +392,9 @@ function(
           /arch:SSE
           /arch:SSE2
         )
+      endif()
+      if(_itk_arch_flag)
+        list(APPEND InstructionSetOptimizationFlags ${_itk_arch_flag})
       endif()
     elseif(NOT EMSCRIPTEN OR WASI)
       if(${CMAKE_C_COMPILER} MATCHES "icc.*$")
@@ -410,15 +415,16 @@ function(
       # Check this list on C++ compiler only
       set(cxx_flags "")
 
-      # Check this list on both C and C++ compilers
-      set(
-        InstructionSetOptimizationFlags
-        # https://gcc.gnu.org/onlinedocs/gcc-4.8.0/gcc/i386-and-x86_002d64-Options.html
-        # NOTE the corei7 release date was 2008
-        #-mtune=native # Tune the code for the computer used compile ITK, but allow running on generic cpu archetectures
-        -mtune=generic # for reproducible results https://github.com/InsightSoftwareConsortium/ITK/issues/1939
-        -march=corei7 # Use ABI settings to support corei7 (circa 2008 ABI feature sets, core-avx circa 2013)
-      )
+      if(ITK_X86_64_ISA_LEVEL STREQUAL "default")
+        set(InstructionSetOptimizationFlags "")
+      elseif(ITK_X86_64_ISA_LEVEL STREQUAL "native")
+        set(InstructionSetOptimizationFlags -mtune=native)
+      else()
+        set(InstructionSetOptimizationFlags -mtune=generic)
+      endif()
+      if(_itk_arch_flag)
+        list(APPEND InstructionSetOptimizationFlags ${_itk_arch_flag})
+      endif()
     endif()
     set(c_and_cxx_flags ${InstructionSetOptimizationFlags})
   endif()
