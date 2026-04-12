@@ -22,6 +22,107 @@ include(CheckCCompilerFlag)
 include(CheckPIESupported)
 check_pie_supported()
 
+# ===========================================================================
+# ITK_X86_64_ISA_LEVEL
+# ---------------------------------------------------------------------------
+# Selects the x86-64 instruction set architecture level for ITK compiler
+# optimization flags.  This replaces the historical hard-coded
+# `-march=corei7` (Nehalem, 2008) instruction-set baseline.  See issue
+# https://github.com/InsightSoftwareConsortium/ITK/issues/2634 .
+#
+# The levels are the standard x86-64 micro-architecture levels published by
+# AMD/Intel/Red Hat/SUSE in 2020 and supported by GCC >= 11, Clang >= 12:
+#
+#   Level    | -march= flag | Key ISA additions                    | ~Year
+#   ---------|-------------|--------------------------------------|------
+#   default  | (none)      | Compiler toolchain default           | —
+#   x86-64   | x86-64      | SSE, SSE2 (AMD64 baseline)           | 2003
+#   x86-64-v2| x86-64-v2   | + SSE3, SSSE3, SSE4.1/4.2, POPCNT   | 2009
+#   x86-64-v3| x86-64-v3   | + AVX, AVX2, BMI1/2, FMA             | 2013
+#   x86-64-v4| x86-64-v4   | + AVX-512F/BW/CD/DQ/VL               | 2017
+#   native   | native      | Host CPU's full ISA (not redistributable) | —
+#
+# Performance note: x86-64-v4 (AVX-512) may trigger CPU frequency throttling
+# on Intel Sapphire Rapids and earlier, causing net regressions on
+# memory-latency-bound kernels such as BSpline transform evaluation.
+# Consider `-mprefer-vector-width=256` if using v4.
+#
+# On non-x86 platforms this variable is ignored; the toolchain default is
+# used unless ITK_C_OPTIMIZATION_FLAGS / ITK_CXX_OPTIMIZATION_FLAGS are
+# set explicitly.
+#
+# Cross-platform override: users can always set
+# -DITK_C_OPTIMIZATION_FLAGS="..." / -DITK_CXX_OPTIMIZATION_FLAGS="..." on
+# the cmake command line; that escape hatch bypasses this variable entirely.
+# ===========================================================================
+set(
+  ITK_X86_64_ISA_LEVEL
+  "x86-64-v2"
+  CACHE STRING
+  "x86-64 instruction set architecture level for compiler optimization.\
+ default = no flags (compiler toolchain default),\
+ x86-64 = SSE/SSE2 baseline (~2003),\
+ x86-64-v2 = + SSE4.2/POPCNT (~2009) [DEFAULT],\
+ x86-64-v3 = + AVX2/FMA (~2013),\
+ x86-64-v4 = + AVX-512 (~2017, may throttle),\
+ native = host CPU (not redistributable)"
+)
+set_property(
+  CACHE
+    ITK_X86_64_ISA_LEVEL
+  PROPERTY
+    STRINGS
+      "default"
+      "x86-64"
+      "x86-64-v2"
+      "x86-64-v3"
+      "x86-64-v4"
+      "native"
+)
+
+if(
+  NOT
+    ITK_X86_64_ISA_LEVEL
+      MATCHES
+      "^(default|x86-64|x86-64-v2|x86-64-v3|x86-64-v4|native)$"
+)
+  message(
+    FATAL_ERROR
+    "ITK_X86_64_ISA_LEVEL must be one of: default, x86-64, x86-64-v2, x86-64-v3, x86-64-v4, native "
+    "(got '${ITK_X86_64_ISA_LEVEL}')"
+  )
+endif()
+
+# Resolve ITK_X86_64_ISA_LEVEL to a concrete -march= / /arch: flag.
+# Returns empty string for "default" or when the toolchain default is appropriate.
+function(itk_isa_level_arch_flag _out_var)
+  set(_arch_flag "")
+  if("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "x86_64|AMD64")
+    if(ITK_X86_64_ISA_LEVEL STREQUAL "default")
+      # No flag — use compiler toolchain default
+    elseif(MSVC)
+      # MSVC x64 implies SSE2; /arch: is only meaningful at AVX or above.
+      if(ITK_X86_64_ISA_LEVEL STREQUAL "x86-64-v3")
+        set(_arch_flag "/arch:AVX2")
+      elseif(ITK_X86_64_ISA_LEVEL STREQUAL "x86-64-v4")
+        set(_arch_flag "/arch:AVX512")
+      elseif(ITK_X86_64_ISA_LEVEL STREQUAL "native")
+        # MSVC has no -march=native equivalent; AVX2 is a reasonable proxy
+        set(_arch_flag "/arch:AVX2")
+      endif()
+      # x86-64 and x86-64-v2: leave default (SSE2 baseline)
+    else()
+      if(ITK_X86_64_ISA_LEVEL STREQUAL "native")
+        set(_arch_flag "-march=native")
+      else()
+        set(_arch_flag "-march=${ITK_X86_64_ISA_LEVEL}")
+      endif()
+    endif()
+  endif()
+  # Non-x86 platforms: ITK_X86_64_ISA_LEVEL is ignored; leave empty.
+  set(${_out_var} "${_arch_flag}" PARENT_SCOPE)
+endfunction()
+
 function(check_c_compiler_flags c_flag_var)
   set(local_c_flags "")
   set(flag_list "${ARGN}")
