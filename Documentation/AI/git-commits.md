@@ -12,6 +12,13 @@ Longer explanation if needed. Describe *what* changed and *why*,
 not just that a tool made the change.
 ```
 
+**The 78-character subject-line limit is a hard constraint, not a guideline.**
+The `kw-commit-msg.py` hook rejects commits that exceed it, and CI will
+reject PRs containing such commits. Count characters before committing.
+The prefix (e.g., `DOC: `) counts toward the 78. When a descriptive
+subject would exceed the limit, move detail to the commit body — the
+subject should be scannable in `git log --oneline`.
+
 ## Prefixes
 
 | Prefix | Use for |
@@ -22,7 +29,22 @@ not just that a tool made the change.
 | `DOC:` | Documentation only |
 | `STYLE:` | Formatting, naming, no logic change |
 | `PERF:` | Performance improvement |
-| `WIP:` | Work in progress (do not merge) |
+| `BUILD:` | Build-system / CMake changes |
+
+> **Do not use `WIP:` as a commit-subject prefix.** It is not in the
+> `ghostflow-check-main` allowed list and will reject the PR. To mark a PR
+> as work-in-progress, use a `[WIP]` prefix in the **PR title** (the GitHub
+> "WIP" app gates merging on it) but keep individual commit subjects on a
+> standard prefix like `ENH:` or `BUG:`. When the PR is ready, remove
+> `[WIP]` from the title.
+
+## Commit Message Length
+
+Keep commit messages concise. A 1-line subject plus a short body
+(≤ ~10 lines) describing *what* and *why* is the norm. Long, essay-style
+commit messages have been explicitly objected to in code review — put
+expanded rationale in the PR description, not the commit body. The
+commit should be readable in `git log --oneline` + a quick `git show`.
 
 ## Hook Behavior
 
@@ -35,6 +57,14 @@ them in place if formatting changes are needed. When this happens:
 
 Do not use `--no-verify` to bypass hooks — the format check exists to keep
 CI green.
+
+**All pre-commit hooks must pass before submitting or updating a PR.**
+This is non-negotiable. If a hook fails, fix the underlying issue — do
+not disable, skip, or work around the hook. A PR with commits that were
+not validated by the local hooks will fail CI and waste reviewer time.
+If the hook environment is broken (e.g., a stale pixi environment),
+fix the environment first: `pixi install` or
+`./Utilities/SetupForDevelopment.sh`.
 
 ## First-Time Setup
 

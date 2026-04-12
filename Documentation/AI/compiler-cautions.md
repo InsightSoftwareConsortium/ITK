@@ -492,16 +492,89 @@ if (item != nullptr)
 
 ---
 
-## 12. clang-tidy Warnings During Refactoring
+## 12. KWStyle and Doxygen Pitfalls
 
-### 12a. Do Not Introduce New clang-tidy Diagnostics
+### 12a. `enum class` Inside a Class with a `/** */` Comment
+
+KWStyle's class-comment rule treats `enum class` declarations like a class:
+any `/** */` doxygen block immediately preceding an `enum class` must
+contain a `\class` tag, otherwise CI fails with:
+
+```
+error: comment doesn't have \class
+```
+
+Two acceptable fixes:
+
+```cpp
+// BAD — KWStyle error:
+class Foo {
+  /** Encoding format of the data array found in the file. */
+  enum class DataEncoding : std::uint8_t { ASCII, Base64 };
+};
+
+// GOOD — plain // comment, not doxygen:
+class Foo {
+  // Encoding format of the data array found in the file.
+  enum class DataEncoding : std::uint8_t { ASCII, Base64 };
+};
+
+// GOOD — doxygen with explicit \class tag:
+class Foo {
+  /** \class DataEncoding
+   *  Encoding format of the data array found in the file.
+   */
+  enum class DataEncoding : std::uint8_t { ASCII, Base64 };
+};
+```
+
+**References:** PR #6032 review.
+
+---
+
+## 13. NumericTraits Floating-Point Range
+
+`NumericTraits<float>::min()` (and `std::numeric_limits<float>::min()`)
+returns the smallest **positive** normal value, *not* the most negative
+representable value. Computing `max() - min()` for a floating-point pixel
+type therefore yields ~`FLT_MAX`, not the dynamic range. Special-case
+floating-point types when computing a default dynamic range:
+
+```cpp
+// BAD — yields ~FLT_MAX, not 1.0 or 2.0:
+double m_DynamicRange{ NumericTraits<PixelType>::max() -
+                       NumericTraits<PixelType>::min() };
+
+// GOOD:
+static constexpr double DefaultDynamicRange()
+{
+  if constexpr (std::is_floating_point_v<PixelType>)
+  {
+    return 1.0;  // assume normalized
+  }
+  return static_cast<double>(NumericTraits<PixelType>::max()) -
+         static_cast<double>(NumericTraits<PixelType>::min());
+}
+```
+
+For integer pixel types the formula is correct (`unsigned char` → 255,
+`unsigned short` → 65535, etc.); the special case is only needed for
+`float` and `double`.
+
+**References:** PR #6034 (StructuralSimilarityImageFilter).
+
+---
+
+## 14. clang-tidy Warnings During Refactoring
+
+### 14a. Do Not Introduce New clang-tidy Diagnostics
 
 Refactoring commits should leave the clang-tidy diagnostic count no worse than before.
 If a refactoring triggers warnings in code it did not touch, those are pre-existing
 issues and must **not** be fixed in the same commit. Mixing style fixes with
 behavioral changes obscures commit intent and complicates `git bisect`.
 
-### 12b. clang-tidy Check Families That Conflict with ITK Coding Standards
+### 14b. clang-tidy Check Families That Conflict with ITK Coding Standards
 
 Several clang-tidy check categories produce warnings that are **incorrect or
 inapplicable** in an ITK context. Do not "fix" these — doing so either breaks
@@ -516,7 +589,7 @@ ITK conventions or introduces irrelevant churn:
 | `google-*` | Enforces Google style, which differs from ITK naming and formatting rules |
 | `cppcoreguidelines-avoid-magic-numbers` | ITK uses literal dimension constants (e.g., `2`, `3`) as template arguments |
 
-### 12c. Suppressing False-Positive Checks
+### 14c. Suppressing False-Positive Checks
 
 For legitimate ITK code that a clang-tidy check incorrectly flags, prefer a
 `.clang-tidy` config exclusion (`Checks: '-llvmlibc-*'`) over inline
@@ -524,7 +597,7 @@ For legitimate ITK code that a clang-tidy check incorrectly flags, prefer a
 
 ---
 
-## 13. Quick-Reference Checklist for Refactoring
+## 15. Quick-Reference Checklist for Refactoring
 
 When refactoring existing code, verify each item:
 
@@ -542,3 +615,5 @@ When refactoring existing code, verify each item:
 - [ ] Explicit template instantiations in shared-build modules marked `ITK_TEMPLATE_EXPORT`
 - [ ] ITK deprecated macros replaced (`itkTypeMacro`, `ITK_DISALLOW_COPY_AND_ASSIGN`, `itkStaticConstMacro`)
 - [ ] No new clang-tidy diagnostics introduced; `llvmlibc-*`, `readability-identifier-length`, and `google-*` warnings ignored if pre-existing
+- [ ] `enum class` with `/** */` doxygen comment has a `\class` tag, or use plain `//` comment instead (KWStyle rule)
+- [ ] `NumericTraits<float>::min()` is the smallest *positive* value, not the most negative — special-case floating-point dynamic-range defaults
