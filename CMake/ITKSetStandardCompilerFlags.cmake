@@ -56,14 +56,20 @@ check_pie_supported()
 # -DITK_C_OPTIMIZATION_FLAGS="..." / -DITK_CXX_OPTIMIZATION_FLAGS="..." on
 # the cmake command line; that escape hatch bypasses this variable entirely.
 # ===========================================================================
+# Default to "default" (x86-64 baseline) — the safest redistributable
+# choice.  Pip wheels, Docker images, and hardware translation layers
+# (e.g., Rosetta) only guarantee the x86-64 baseline ISA.  Users
+# building for local use may want to consider x86-64-v2, which is the
+# minimum level targeted by current Linux distributions (Fedora, RHEL 9,
+# SUSE) and provides a consistent, well-tested ISA baseline.
 set(
   ITK_X86_64_ISA_LEVEL
-  "x86-64-v2"
+  "default"
   CACHE STRING
   "x86-64 instruction set architecture level for compiler optimization.\
- default = no flags (compiler toolchain default),\
+ default = no flags (compiler toolchain default, ~x86-64 baseline),\
  x86-64 = SSE/SSE2 baseline (~2003),\
- x86-64-v2 = + SSE4.2/POPCNT (~2009) [DEFAULT],\
+ x86-64-v2 = + SSE4.2/POPCNT (~2009),\
  x86-64-v3 = + AVX2/FMA (~2013),\
  x86-64-v4 = + AVX-512 (~2017, may throttle),\
  native = host CPU (not redistributable)"
