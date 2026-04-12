@@ -249,10 +249,20 @@ itk_python_add_test(
   ${ITK_TEST_OUTPUT_DIR}/TestVLV.seg.nrrd
   DATA{${WrapITK_SOURCE_DIR}/images/TestVLV.seg.nrrd}
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/readWriteVLV.py
-  DATA{${WrapITK_SOURCE_DIR}/images/TestVLV.seg.nrrd}
-  ${ITK_TEST_OUTPUT_DIR}/TestVLV.seg.nrrd
-  59
-  85
-  58
-  5)
+    ${CMAKE_CURRENT_SOURCE_DIR}/readWriteVLV.py
+    DATA{${WrapITK_SOURCE_DIR}/images/TestVLV.seg.nrrd}
+    ${ITK_TEST_OUTPUT_DIR}/TestVLV.seg.nrrd
+    59
+    85
+    58
+    5
+)
+
+if(ITK_PYTHON_RELEASE_GIL)
+  # Test GIL release during ITK operations
+  itk_python_add_test(
+    NAME PythonGILReleaseTest
+    COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/test_gil_release.py
+  )
+endif()
