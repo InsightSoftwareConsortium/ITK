@@ -3,6 +3,7 @@ set(
   ITKVoronoiTests
   itkVoronoiDiagram2DInfiniteLoopTest.cxx
   itkVoronoiDiagram2DTest.cxx
+  itkVoronoiDiagram2DInfiniteLoopTest.cxx
   itkVoronoiPartitioningImageFilterTest.cxx
   itkVoronoiSegmentationImageFilterTest.cxx
   itkVoronoiSegmentationRGBImageFilterTest.cxx
