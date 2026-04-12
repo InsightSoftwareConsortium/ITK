@@ -24,6 +24,7 @@ Add file to table in AGENTS.md for routing:
 | File | When to load |
 |------|-------------|
 | `building.md` | Configuring or building ITK with Pixi or CMake |
+| `code-review-lessons.md` | Writing or reviewing C++ code — recurring reviewer concerns |
 | `testing.md` | Writing, running, or converting tests |
 
 ## Adding a New Context File

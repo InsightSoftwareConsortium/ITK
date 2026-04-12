@@ -12,6 +12,13 @@ Longer explanation if needed. Describe *what* changed and *why*,
 not just that a tool made the change.
 ```
 
+**The 78-character subject-line limit is a hard constraint, not a guideline.**
+The `kw-commit-msg.py` hook rejects commits that exceed it, and CI will
+reject PRs containing such commits. Count characters before committing.
+The prefix (e.g., `DOC: `) counts toward the 78. When a descriptive
+subject would exceed the limit, move detail to the commit body — the
+subject should be scannable in `git log --oneline`.
+
 ## Prefixes
 
 | Prefix | Use for |
@@ -50,6 +57,14 @@ them in place if formatting changes are needed. When this happens:
 
 Do not use `--no-verify` to bypass hooks — the format check exists to keep
 CI green.
+
+**All pre-commit hooks must pass before submitting or updating a PR.**
+This is non-negotiable. If a hook fails, fix the underlying issue — do
+not disable, skip, or work around the hook. A PR with commits that were
+not validated by the local hooks will fail CI and waste reviewer time.
+If the hook environment is broken (e.g., a stale pixi environment),
+fix the environment first: `pixi install` or
+`./Utilities/SetupForDevelopment.sh`.
 
 ## First-Time Setup
 
