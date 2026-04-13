@@ -32,7 +32,7 @@ variables:
   CCACHE_BASEDIR: $(Build.SourcesDirectory)
   CCACHE_COMPILERCHECK: content
   CCACHE_NOHASHDIR: 'true'
-  CCACHE_NODIRECT: '1'
+  CCACHE_SLOPPINESS: pch_defines,time_macros
 jobs:
 - job: Windows
   timeoutInMinutes: 0
@@ -71,14 +71,18 @@ jobs:
 
     - task: Cache@2
       inputs:
-        key: '"ccache" | "$(Agent.OS)" | "$(Build.SourceVersion)"'
+        key: '"ccache-v4" | "$(Agent.OS)" | "WindowsPython" | "$(Build.SourceVersion)"'
         restoreKeys: |
-          "ccache" | "$(Agent.OS)"
+          "ccache-v4" | "$(Agent.OS)" | "WindowsPython"
         path: $(CCACHE_DIR)
       displayName: 'Restore ccache'
 
-    - bash: ccache --evict-older-than 7d
-      displayName: 'Evict old ccache entries'
+    - bash: |
+        set -x
+        ccache --zero-stats
+        ccache --evict-older-than 7d
+        ccache --show-config
+      displayName: 'ccache config and maintenance'
 
 # Note, UsePythonVersion sets PATH to the specified version, so we have to explicitly disable the Windows Registry search in FindPython3
     - bash: |
@@ -100,7 +104,6 @@ jobs:
           Module_ITKBridgeNumPy:BOOL=ON
           Module_ITKDisplacementField:BOOL=ON
           Python3_FIND_REGISTRY=LAST
-          ITK_USE_CCACHE:BOOL=ON
           CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
           CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
           ITK_COMPUTER_MEMORY_SIZE:STRING=4.5
@@ -119,6 +122,10 @@ jobs:
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
         CCACHE_MAXSIZE: 2.4G
+
+    - bash: ccache --show-stats
+      condition: always()
+      displayName: 'ccache stats'
 
     - script: python $(Build.SourcesDirectory)/Testing/ContinuousIntegration/report_build_diagnostics.py $(Build.SourcesDirectory)-build
       condition: succeededOrFailed()
