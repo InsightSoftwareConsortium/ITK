@@ -231,8 +231,7 @@ itkImageLinearIteratorTest(int, char *[])
     bot.SetDirection(0); // 0=x, 1=y, 2=z
     bot.GoToBegin();
 
-    ImageType::IndexType testIndex;
-    testIndex = start;
+    ImageType::IndexType testIndex = start;
     testIndex[1] += 2; // advance two lines in Y
 
     bot.NextLine(); // advance two lines in Y
@@ -274,8 +273,7 @@ itkImageLinearIteratorTest(int, char *[])
     cbot.SetDirection(0); // 0=x, 1=y, 2=z
     cbot.GoToBegin();
 
-    ImageType::IndexType testIndex;
-    testIndex = start;
+    ImageType::IndexType testIndex = start;
     testIndex[1] += 2; // advance two lines in Y
 
     cbot.NextLine(); // advance two lines in Y

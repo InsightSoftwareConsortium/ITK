@@ -38,10 +38,8 @@ template <typename TPixel, unsigned int VImageDimension>
 void
 Image<TPixel, VImageDimension>::Allocate(bool initializePixels)
 {
-  SizeValueType num;
-
   this->ComputeOffsetTable();
-  num = static_cast<SizeValueType>(this->GetOffsetTable()[VImageDimension]);
+  SizeValueType num = static_cast<SizeValueType>(this->GetOffsetTable()[VImageDimension]);
 
   m_Buffer->Reserve(num, initializePixels);
 }

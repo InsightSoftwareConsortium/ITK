@@ -351,8 +351,7 @@ itkVersorTest(int, char *[])
     VersorType qa;
     qa.Set(xa, angle);
 
-    VersorType qb;
-    qb = qa.SquareRoot();
+    const VersorType qb = qa.SquareRoot();
 
     if (itk::Math::Absolute(qa.GetAngle() - 2.0 * qb.GetAngle()) > epsilon)
     {

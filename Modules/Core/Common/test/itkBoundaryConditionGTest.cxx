@@ -102,14 +102,12 @@ TEST(BoundaryCondition, ConstantBoundaryAtImageEdge)
   cbc.SetConstant(0.0f);
   it2d.OverrideBoundaryCondition(&cbc);
 
-  SmartIteratorType::NeighborhoodType tempN;
-  SmartIteratorType::NeighborhoodType temp2N;
-  temp2N = it2d.GetNeighborhood(); // initialize
+  SmartIteratorType::NeighborhoodType temp2N = it2d.GetNeighborhood();
 
   it2d.GoToEnd();
   --it2d;
-  tempN = it2d.GetNeighborhood();
 
+  SmartIteratorType::NeighborhoodType tempN = it2d.GetNeighborhood();
   printn(tempN.GetBufferReference(), tempN.GetSize());
 
   // The 2D image is 30x15, filled with 100*j + i.
@@ -169,8 +167,7 @@ TEST(BoundaryCondition, ZeroFluxNeumannBoundaryTraversal)
   cbc.SetConstant(0.0f);
   it2d.OverrideBoundaryCondition(&cbc);
 
-  SmartIteratorType::NeighborhoodType temp2N;
-  temp2N = it2d.GetNeighborhood(); // initialize
+  SmartIteratorType::NeighborhoodType temp2N = it2d.GetNeighborhood();
 
   itk::ZeroFluxNeumannBoundaryCondition<ImageType2D> neumann;
   for (int yak = 0; yak < 2; ++yak)

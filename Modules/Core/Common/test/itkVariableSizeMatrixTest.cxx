@@ -41,8 +41,7 @@ itkVariableSizeMatrixTest(int, char *[])
   g(2, 0) = 1000.0;
   g(2, 1) = 1000.0;
 
-  FloatVariableSizeMatrixType h;
-  h = g + f;
+  FloatVariableSizeMatrixType h = g + f;
   h *= 2.0;
   h /= 2.0;
   h += g;

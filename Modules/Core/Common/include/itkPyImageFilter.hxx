@@ -151,10 +151,8 @@ PyImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // make sure that the CommandCallable is in fact callable
   if (PyCallable_Check(this->m_GenerateOutputInformationCallable))
   {
-    PyObject * result;
-
     PyObject * args = PyTuple_Pack(1, this->m_Self);
-    result = PyObject_Call(this->m_GenerateOutputInformationCallable, args, (PyObject *)NULL);
+    PyObject * result = PyObject_Call(this->m_GenerateOutputInformationCallable, args, (PyObject *)NULL);
     SWIG_Py_DECREF(args);
 
     if (result)
@@ -214,10 +212,8 @@ PyImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   // make sure that the CommandCallable is in fact callable
   if (PyCallable_Check(this->m_GenerateInputRequestedRegionCallable))
   {
-    PyObject * result;
-
     PyObject * args = PyTuple_Pack(1, this->m_Self);
-    result = PyObject_Call(this->m_GenerateInputRequestedRegionCallable, args, (PyObject *)NULL);
+    PyObject * result = PyObject_Call(this->m_GenerateInputRequestedRegionCallable, args, (PyObject *)NULL);
     SWIG_Py_DECREF(args);
 
     if (result)
@@ -249,10 +245,8 @@ PyImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
   else
   {
-    PyObject * result;
-
     PyObject * args = PyTuple_Pack(1, this->m_Self);
-    result = PyObject_Call(this->m_GenerateDataCallable, args, (PyObject *)NULL);
+    PyObject * result = PyObject_Call(this->m_GenerateDataCallable, args, (PyObject *)NULL);
     SWIG_Py_DECREF(args);
 
     if (result)

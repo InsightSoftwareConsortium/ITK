@@ -775,9 +775,8 @@ struct HasZero
     void
     constraints()
     {
-      T a;
+      T a = T{};
 
-      a = T{};
       Detail::IgnoreUnusedVariable(a);
     }
   };

@@ -208,10 +208,9 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
 
   std::cout << "Creating ConstNeighborhoodIterator" << std::endl;
   ConstNeighborhoodIteratorType ra_it(radius, ra_img, ra_img->GetRequestedRegion());
-  ConstNeighborhoodIteratorType copy_it;
+  ConstNeighborhoodIteratorType copy_it = ra_it;
 
   std::cout << "Test copying." << std::endl;
-  copy_it = ra_it;
   if (copy_it != ra_it || !(copy_it == ra_it))
   {
     std::cerr << "Failure with copying or equality comparison." << std::endl;

@@ -122,9 +122,8 @@ public:
     }
 
     // Test iterating fwd by line
-    IndexType index;
     it.GoToBegin();
-    index = it.GetIndex();
+    IndexType index = it.GetIndex();
     for (unsigned int i = 0; i < region.GetSize()[0]; ++i)
     {
       ++it;

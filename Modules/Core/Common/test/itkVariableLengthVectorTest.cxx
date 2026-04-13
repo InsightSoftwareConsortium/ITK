@@ -48,8 +48,7 @@ itkVariableLengthVectorTest(int, char *[])
   g[0] = 4.0;
   g[1] = 5.0;
   g[2] = 6.0;
-  FloatVariableLengthVectorType h;
-  h = g + f;
+  FloatVariableLengthVectorType h = g + f;
   g = h++;
   h -= 1.1;
   h *= 2.0;

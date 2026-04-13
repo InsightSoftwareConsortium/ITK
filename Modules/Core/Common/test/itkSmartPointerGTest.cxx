@@ -242,9 +242,8 @@ TEST(SmartPointer, ConvertingRegisterCount)
     const Derived1Pointer d1ptr = Derived1::New();
     EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-    Derived1Pointer d1ptr2;
+    const Derived1Pointer d1ptr2 = d1ptr;
 
-    d1ptr2 = d1ptr;
     EXPECT_EQ(2, d1ptr->GetRegisterCount());
     EXPECT_EQ(2, d1ptr2->GetRegisterCount());
   }
@@ -254,9 +253,8 @@ TEST(SmartPointer, ConvertingRegisterCount)
     const Derived1Pointer d1ptr = Derived1::New();
     EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-    ConstDerived1Pointer cd1ptr;
+    const ConstDerived1Pointer cd1ptr = d1ptr;
 
-    cd1ptr = d1ptr;
     EXPECT_EQ(2, d1ptr->GetRegisterCount());
     EXPECT_EQ(2, cd1ptr->GetRegisterCount());
   }
@@ -266,9 +264,8 @@ TEST(SmartPointer, ConvertingRegisterCount)
     const Derived1Pointer d1ptr = Derived1::New();
     EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-    BasePointer bptr;
+    const BasePointer bptr = d1ptr;
 
-    bptr = d1ptr;
     EXPECT_EQ(2, d1ptr->GetRegisterCount());
     EXPECT_EQ(2, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount());
   }
@@ -328,8 +325,7 @@ TEST(SmartPointer, ConvertingRegisterCount)
     Derived1Pointer d1ptr = Derived1::New();
     EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-    Derived1Pointer d1ptr2;
-    d1ptr2 = std::move(d1ptr);
+    const Derived1Pointer d1ptr2 = std::move(d1ptr);
     EXPECT_EQ(1, d1ptr2->GetRegisterCount());
     EXPECT_TRUE(d1ptr.IsNull());
   }
@@ -339,8 +335,7 @@ TEST(SmartPointer, ConvertingRegisterCount)
     Derived1Pointer d1ptr = Derived1::New();
     EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-    ConstDerived1Pointer cd1ptr;
-    cd1ptr = std::move(d1ptr);
+    const ConstDerived1Pointer cd1ptr = std::move(d1ptr);
 
     EXPECT_EQ(1, cd1ptr->GetRegisterCount());
     EXPECT_TRUE(d1ptr.IsNull());
@@ -351,9 +346,8 @@ TEST(SmartPointer, ConvertingRegisterCount)
     Derived1Pointer d1ptr = Derived1::New();
     EXPECT_EQ(1, d1ptr->GetRegisterCount());
 
-    BasePointer bptr;
+    const BasePointer bptr = std::move(d1ptr);
 
-    bptr = std::move(d1ptr);
     EXPECT_EQ(1, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount());
     EXPECT_TRUE(d1ptr.IsNull());
   }

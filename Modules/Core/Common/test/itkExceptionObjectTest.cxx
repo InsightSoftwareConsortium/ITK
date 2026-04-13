@@ -159,8 +159,7 @@ itkExceptionObjectTest(int, char *[])
   Se.SetLocation("SE LOCATION");
   Se.SetDescription("SE DESCRIPTION");
   itk::SampleError Sf(Se);
-  itk::SampleError Sg;
-  Sg = Sf;
+  itk::SampleError Sg = Sf;
   std::cout << Sg << std::endl;
 
 
