@@ -151,81 +151,6 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
   set(${cxx_warning_flags_var} "${CMAKE_CXX_WARNING_FLAGS}" PARENT_SCOPE)
 endfunction()
 
-# Check for the presence of AVX and figure out the flags to use for it.
-# Adapted from https://gist.github.com/UnaNancyOwen/263c243ae1e05a2f9d0e
-function(check_avx_flags avx_flags_var)
-  set(avx_flags_var)
-
-  include(CheckCXXSourceRuns)
-  set(_safe_cmake_required_flags "${CMAKE_REQUIRED_FLAGS}")
-  set(CMAKE_REQUIRED_FLAGS)
-
-  # Check AVX
-  if(MSVC)
-    set(CMAKE_REQUIRED_FLAGS "/arch:AVX") # set flags to be used in check_cxx_source_runs below
-  endif()
-  check_cxx_source_runs(
-    "
-    #include <immintrin.h>
-    int main()
-    {
-      __m256 a, b, c;
-      const float src[8] = { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f };
-      float dst[8];
-      a = _mm256_loadu_ps(src);
-      b = _mm256_loadu_ps(src);
-      c = _mm256_add_ps(a, b);
-      _mm256_storeu_ps(dst, c);
-
-      for(int i = 0; i < 8; i++){
-        if(( src[i] + src[i]) != dst[i]){
-          return -1;
-        }
-      }
-
-      return 0;
-    }"
-    have_avx_extensions_var
-  )
-
-  # Check AVX2
-  if(MSVC)
-    set(CMAKE_REQUIRED_FLAGS "/arch:AVX2") # set flags to be used in check_cxx_source_runs below
-  endif()
-  check_cxx_source_runs(
-    "
-    #include <immintrin.h>
-    int main()
-    {
-      __m256i a, b, c;
-      const int src[8] = { 1, 2, 3, 4, 5, 6, 7, 8 };
-      int dst[8];
-      a =  _mm256_loadu_si256( (__m256i*)src);
-      b =  _mm256_loadu_si256( (__m256i*)src);
-      c = _mm256_add_epi32( a, b);
-      _mm256_storeu_si256( (__m256i*)dst, c);
-
-      for(int i = 0; i < 8; i++){
-        if(( src[i] + src[i]) != dst[i]){
-          return -1;
-        }
-      }
-
-      return 0;
-    }"
-    have_avx2_extensions_var
-  )
-
-  set(CMAKE_REQUIRED_FLAGS "${_safe_cmake_required_flags}")
-
-  # Set Flags
-  if(have_avx2_extensions_var AND MSVC)
-    set(avx_flags_var "${avx_flags_var} /arch:AVX2")
-  elseif(have_avx_extensions_var AND MSVC)
-    set(avx_flags_var "${avx_flags_var} /arch:AVX")
-  endif()
-endfunction()
-
 # Check for the presence of SSE2.
 # Adapted from the AVX check and https://github.com/InsightSoftwareConsortium/ITK/blob/4cbe24cb4a45d689cadd56d554b8ccf3584a5ca6/Modules/ThirdParty/VNL/src/vxl/config/cmake/config/vxl_platform_tests.cxx#L164-L178
 function(check_sse2_flags sse2_flags_var)
@@ -279,51 +204,18 @@ function(
   set(${c_optimization_flags_var} "" PARENT_SCOPE)
   set(${cxx_optimization_flags_var} "" PARENT_SCOPE)
 
-  if("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "(x86_64|AMD64)")
-    if(MSVC)
-      check_avx_flags(InstructionSetOptimizationFlags)
-      if("${CMAKE_SIZEOF_VOID_P}" EQUAL "4")
-        list(
-          APPEND
-          InstructionSetOptimizationFlags
-          /arch:SSE
-          /arch:SSE2
-        )
-      endif()
-    elseif(NOT EMSCRIPTEN OR WASI)
-      if(${CMAKE_C_COMPILER} MATCHES "icc.*$")
-        set(USING_INTEL_ICC_COMPILER TRUE)
-      endif()
-      if(${CMAKE_CXX_COMPILER} MATCHES "icpc.*$")
-        set(USING_INTEL_ICC_COMPILER TRUE)
-      endif()
-      if(USING_INTEL_ICC_COMPILER)
-        set(InstructionSetOptimizationFlags "")
-      else()
-        set(InstructionSetOptimizationFlags "")
-      endif()
+  # No architecture-specific optimization flags are set by default,
+  # ensuring maximum redistributability for pip wheels, Docker images,
+  # and hardware translation layers (Rosetta, QEMU).
+  # Users building for local performance should add -march=native via
+  # CMAKE_C_FLAGS/CMAKE_CXX_FLAGS or CMakeUserPresets.json.
+  # NOTE: When using -march=native on CPUs with AVX-512, also add
+  # -mprefer-vector-width=256 to avoid Intel CPU frequency throttling.
+  # See: https://github.com/InsightSoftwareConsortium/ITK/issues/2634
+  #      https://github.com/InsightSoftwareConsortium/ITK/issues/1939
 
-      # Check this list on C compiler only
-      set(c_flags "")
-
-      # Check this list on C++ compiler only
-      set(cxx_flags "")
-
-      # Check this list on both C and C++ compilers
-      set(
-        InstructionSetOptimizationFlags
-        # https://gcc.gnu.org/onlinedocs/gcc-4.8.0/gcc/i386-and-x86_002d64-Options.html
-        # NOTE the corei7 release date was 2008
-        #-mtune=native # Tune the code for the computer used compile ITK, but allow running on generic cpu archetectures
-        -mtune=generic # for reproducible results https://github.com/InsightSoftwareConsortium/ITK/issues/1939
-        -march=corei7 # Use ABI settings to support corei7 (circa 2008 ABI feature sets, core-avx circa 2013)
-      )
-    endif()
-    set(c_and_cxx_flags ${InstructionSetOptimizationFlags})
-  endif()
-
-  check_c_compiler_flags(CMAKE_C_WARNING_FLAGS ${c_and_cxx_flags} ${c_flags})
-  check_cxx_compiler_flags(CMAKE_CXX_WARNING_FLAGS ${c_and_cxx_flags} ${cxx_flags})
+  check_c_compiler_flags(CMAKE_C_WARNING_FLAGS)
+  check_cxx_compiler_flags(CMAKE_CXX_WARNING_FLAGS)
 
   set(${c_optimization_flags_var} "${CMAKE_C_WARNING_FLAGS}" PARENT_SCOPE)
   set(${cxx_optimization_flags_var} "${CMAKE_CXX_WARNING_FLAGS}" PARENT_SCOPE)
