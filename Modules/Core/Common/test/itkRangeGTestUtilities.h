@@ -82,6 +82,8 @@ public:
   static void
   ExpectCopyAssignedRangeHasSameIteratorsAsOriginal(const TRange & originalRange)
   {
+    // Intentionally two-line; do NOT merge into `TRange copyAssignedRange = originalRange`
+    // which invokes copy constructor instead of operator=.
     TRange copyAssignedRange;
     copyAssignedRange = originalRange;
 
@@ -106,6 +108,8 @@ public:
   {
     const TRange originalRangeBeforeMove = originalRange;
 
+    // Intentionally two-line; do NOT merge into `TRange moveAssignedRange = std::move(...)`
+    // which invokes move constructor instead of operator=.
     TRange moveAssignedRange;
     moveAssignedRange = std::move(originalRange);
 

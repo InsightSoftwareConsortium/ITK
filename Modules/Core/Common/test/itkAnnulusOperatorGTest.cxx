@@ -115,8 +115,7 @@ TEST(AnnulusOperator, CreateAndInspect)
 
   annulus.CreateOperator();
 
-  OperatorType::SizeType annulusSize;
-  annulusSize = annulus.GetSize();
+  OperatorType::SizeType annulusSize = annulus.GetSize();
   std::cout << ", N = " << annulusSize << ", r = " << annulus.GetInnerRadius() << ", t = " << annulus.GetThickness()
             << ", i = " << annulus.GetInteriorValue() << ", a = " << annulus.GetAnnulusValue()
             << ", e = " << annulus.GetExteriorValue() << std::endl;

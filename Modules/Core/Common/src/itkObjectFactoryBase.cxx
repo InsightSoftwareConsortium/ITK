@@ -316,7 +316,7 @@ ObjectFactoryBase::LoadDynamicFactories()
 static std::string
 CreateFullPath(const char * path, const char * file)
 {
-  std::string ret;
+  std::string ret = path;
 
 #  ifdef _WIN32
   const char sep = '\\';
@@ -326,7 +326,6 @@ CreateFullPath(const char * path, const char * file)
   /**
    * make sure the end of path is a separator
    */
-  ret = path;
   if (!ret.empty() && ret.back() != sep)
   {
     ret += sep;

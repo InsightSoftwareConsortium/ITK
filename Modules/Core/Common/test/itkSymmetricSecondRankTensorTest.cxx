@@ -119,9 +119,8 @@ itkSymmetricSecondRankTensorTest(int, char *[])
   pb[4] = 3.55;
   pb[5] = 5.55;
 
-  Float3DTensorType pc;
+  Float3DTensorType pc = pa + pb;
 
-  pc = pa + pb;
   std::cout << "addition = " << pc << std::endl;
 
   pc = pa - pb;

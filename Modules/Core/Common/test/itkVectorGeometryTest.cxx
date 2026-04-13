@@ -42,30 +42,20 @@ itkVectorGeometryTest(int, char *[])
   //  Vector type
   using VectorType = itk::Vector<ValueType, N>;
 
-  /*
-    VectorType vv;
-    vv = 0, 2, 4;
+  const VectorType vv{ { 0, 2, 4 } };
 
-    if( vv[0] != 0 || vv[1] != 2 || vv[2] != 4 )
-      {
-      std::cerr << "Error initializing the Vector " << std::endl;
-      return EXIT_FAILURE;
-      }
-    */
+  if (vv[0] != 0 || vv[1] != 2 || vv[2] != 4)
+  {
+    std::cerr << "Error initializing the Vector " << std::endl;
+    return EXIT_FAILURE;
+  }
 
-  VectorType va;
-  va[0] = 1.0;
-  va[1] = 2.0;
-  va[2] = 7.0;
+  VectorType va{ { 1.0, 2.0, 7.0 } };
 
   std::cout << "va = { 1.0, 2.0, 7.0 } = ";
   std::cout << va << std::endl;
 
-  VectorType vb;
-
-  vb[0] = 1.0;
-  vb[1] = 3.0;
-  vb[2] = 5.0;
+  const VectorType vb{ { 1.0, 3.0, 5.0 } };
 
   std::cout << "vb = (1,3,5)   = ";
   std::cout << vb << std::endl;
@@ -147,40 +137,40 @@ itkVectorGeometryTest(int, char *[])
 
   // Test for operator== and operator!=
   {
-    VectorType vv;
-    vv[0] = 1;
-    vv[1] = 3;
-    vv[2] = 5;
+    VectorType vv2;
+    vv2[0] = 1;
+    vv2[1] = 3;
+    vv2[2] = 5;
 
     constexpr VectorType vw{};
 
-    if (vv == vw)
+    if (vv2 == vw)
     {
       std::cout << std::endl;
       std::cout << "Problem with operator==() " << std::endl;
-      std::cout << "Vector " << vv;
+      std::cout << "Vector " << vv2;
       std::cout << " is reported as being equal to " << std::endl;
       std::cout << "Vector " << vw << std::endl;
       return EXIT_FAILURE;
     }
 
-    const VectorType ww = vv;
+    const VectorType ww = vv2;
 
-    if (vv != ww)
+    if (vv2 != ww)
     {
       std::cout << std::endl;
       std::cout << "Problem with operator!=() " << std::endl;
-      std::cout << "Vector " << vv;
+      std::cout << "Vector " << vv2;
       std::cout << " is reported as being different from " << std::endl;
       std::cout << "Vector " << ww << std::endl;
       return EXIT_FAILURE;
     }
 
-    if (!(vv == ww))
+    if (!(vv2 == ww))
     {
       std::cout << std::endl;
       std::cout << "Problem with operator==() " << std::endl;
-      std::cout << "Vector " << vv;
+      std::cout << "Vector " << vv2;
       std::cout << " is reported as not being equal to " << std::endl;
       std::cout << "Vector " << ww << std::endl;
       return EXIT_FAILURE;

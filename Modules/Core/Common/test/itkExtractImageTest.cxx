@@ -133,8 +133,8 @@ itkExtractImageTest(int, char *[])
   std::cout << "Input Image: " << if2 << std::endl;
 
   // Create a filter
-  itk::ExtractImageFilter<ShortImage, ShortImage>::Pointer extract;
-  extract = itk::ExtractImageFilter<ShortImage, ShortImage>::New();
+  const itk::ExtractImageFilter<ShortImage, ShortImage>::Pointer extract =
+    itk::ExtractImageFilter<ShortImage, ShortImage>::New();
   extract->SetInput(if2);
 
   // fill in an image
@@ -218,8 +218,8 @@ itkExtractImageTest(int, char *[])
   extract->SetExtractionRegion(extractRegion);
 
   // Create a stream
-  itk::StreamingImageFilter<ShortImage, ShortImage>::Pointer stream;
-  stream = itk::StreamingImageFilter<ShortImage, ShortImage>::New();
+  const itk::StreamingImageFilter<ShortImage, ShortImage>::Pointer stream =
+    itk::StreamingImageFilter<ShortImage, ShortImage>::New();
   stream->SetInput(extract->GetOutput());
   stream->SetNumberOfStreamDivisions(2);
 
@@ -289,8 +289,8 @@ itkExtractImageTest(int, char *[])
   }
 
   // Case 3: Try extracting a single row
-  itk::ExtractImageFilter<ShortImage, LineImage>::Pointer lineExtract;
-  lineExtract = itk::ExtractImageFilter<ShortImage, LineImage>::New();
+  const itk::ExtractImageFilter<ShortImage, LineImage>::Pointer lineExtract =
+    itk::ExtractImageFilter<ShortImage, LineImage>::New();
   lineExtract->SetDirectionCollapseToGuess();
   lineExtract->SetInput(if2);
 
@@ -307,9 +307,8 @@ itkExtractImageTest(int, char *[])
   std::cout << "After 1D extraction. " << std::endl;
 
   // test the dimension collapse
-  LineImage::RegionType requestedLineRegion;
+  LineImage::RegionType requestedLineRegion = lineExtract->GetOutput()->GetRequestedRegion();
 
-  requestedLineRegion = lineExtract->GetOutput()->GetRequestedRegion();
 
   itk::ImageRegionIterator<LineImage> iteratorLineIn(lineExtract->GetOutput(), requestedLineRegion);
 

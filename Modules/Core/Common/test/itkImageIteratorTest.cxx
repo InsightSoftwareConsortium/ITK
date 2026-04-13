@@ -96,7 +96,8 @@ itkImageIteratorTest(int, char *[])
   // Exercise copy constructor
   const VectorImageIterator itr3(itr1);
 
-  // Exercise assignment operator
+  // Exercise assignment operator — intentionally two-line; do NOT merge
+  // into `VectorImageIterator itr4 = itr1` which invokes copy constructor.
   VectorImageIterator itr4;
   itr4 = itr1;
 

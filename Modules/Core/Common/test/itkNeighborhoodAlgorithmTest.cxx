@@ -29,9 +29,8 @@ ImageBoundaryFaceCalculatorTest(TImage *                          image,
   using FaceCalculatorType = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TImage>;
   using FaceListType = typename FaceCalculatorType::FaceListType;
   FaceCalculatorType faceCalculator;
-  FaceListType       faceList;
+  FaceListType       faceList = faceCalculator(image, region, radius);
 
-  faceList = faceCalculator(image, region, radius);
   for (auto fit = faceList.begin(); fit != faceList.end(); ++fit)
   {
     std::cout << "Number of pixels : " << fit->GetNumberOfPixels() << std::endl;

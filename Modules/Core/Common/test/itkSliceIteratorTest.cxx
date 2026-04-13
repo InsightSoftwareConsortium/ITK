@@ -25,13 +25,12 @@ template <typename TPixelType, unsigned int VDimension>
 void
 FillRegionSequential(itk::SmartPointer<itk::Image<TPixelType, VDimension>> I)
 {
-  itk::Size<VDimension> Index;
+  itk::Size<VDimension> Index = (I->GetRequestedRegion()).GetSize();
   unsigned long         Location[VDimension];
 
 
   itk::ImageRegionIterator<itk::Image<TPixelType, VDimension>> data(I, I->GetRequestedRegion());
 
-  Index = (I->GetRequestedRegion()).GetSize();
 
   unsigned int ArrayLength = 1;
   for (unsigned int iDim = 0; iDim < VDimension; ++iDim)
