@@ -16,17 +16,14 @@
  *
  *=========================================================================*/
 
-#include "itkHessianRecursiveGaussianImageFilter.h"
 #include "itkTensorRelativeAnisotropyImageFilter.h"
+#include "itkGTest.h"
 #include "itkDiffusionTensor3D.h"
+#include "itkHessianRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkTestingMacros.h"
 
-
-int
-itkTensorRelativeAnisotropyImageFilterTest(int, char *[])
+TEST(TensorRelativeAnisotropyImageFilter, ConvertedLegacyTest)
 {
-
   // Define the dimension of the images
   constexpr unsigned int myDimension{ 3 };
 
@@ -44,7 +41,6 @@ itkTensorRelativeAnisotropyImageFilterTest(int, char *[])
 
   // Create the image
   auto inputImage = myImageType::New();
-
 
   // Define their size, and start index
   mySizeType   size{ 8, 8, 8 };
@@ -87,10 +83,8 @@ itkTensorRelativeAnisotropyImageFilterTest(int, char *[])
 
   using myFaImageType = itk::Image<myRealValueType, myDimension>;
 
-
-  // Create a  Filter
+  // Create a Filter
   auto filter = myFilterType::New();
-
 
   // Connect the input images
   filter->SetInput(inputImage);
@@ -98,12 +92,11 @@ itkTensorRelativeAnisotropyImageFilterTest(int, char *[])
   // Select the value of Sigma
   filter->SetSigma(8.0);
 
-
   using FAFilterType = itk::TensorRelativeAnisotropyImageFilter<myDTIImageType, myFaImageType>;
 
   auto relativeAnisotropyFilter = FAFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(
     relativeAnisotropyFilter, TensorRelativeAnisotropyImageFilter, UnaryFunctorImageFilter);
 
   relativeAnisotropyFilter->SetInput(filter->GetOutput());
@@ -132,8 +125,4 @@ itkTensorRelativeAnisotropyImageFilterTest(int, char *[])
     std::cout << itg.GetIndex() << " = " << itg.Get() << std::endl;
     ++itg;
   }
-
-
-  std::cout << "Test finished" << std::endl;
-  return EXIT_SUCCESS;
 }
