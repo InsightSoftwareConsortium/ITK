@@ -1,7 +1,6 @@
 itk_module_test()
 set(
   ITKStatisticsTests
-  itkChiSquareDistributionTest.cxx
   itkCovarianceSampleFilterTest.cxx
   itkCovarianceSampleFilterTest2.cxx
   itkCovarianceSampleFilterTest3.cxx
@@ -489,12 +488,6 @@ itk_add_test(
   COMMAND
     ITKStatisticsTestDriver
     itkHistogramToTextureFeaturesFilterNaNTest
-)
-itk_add_test(
-  NAME itkChiSquareDistributionTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkChiSquareDistributionTest
 )
 itk_add_test(
   NAME itkCovarianceSampleFilterTest
@@ -1017,3 +1010,6 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkScalarImageToHistogramGeneratorTest.txt
 )
+
+set(ITKStatisticsGTests itkChiSquareDistributionGTest.cxx)
+creategoogletestdriver(ITKStatistics "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisticsGTests}")

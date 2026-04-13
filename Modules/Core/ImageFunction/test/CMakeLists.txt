@@ -26,7 +26,6 @@ set(
   itkRayCastInterpolateImageFunctionTest.cxx
   itkRGBInterpolateImageFunctionTest.cxx
   itkScatterMatrixImageFunctionTest.cxx
-  itkVarianceImageFunctionTest.cxx
   itkVectorInterpolateImageFunctionTest.cxx
   itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest.cxx
   itkVectorMeanImageFunctionTest.cxx
@@ -46,12 +45,6 @@ itk_add_test(
   COMMAND
     ITKImageFunctionTestDriver
     itkVectorInterpolateImageFunctionTest
-)
-itk_add_test(
-  NAME itkVarianceImageFunctionTest
-  COMMAND
-    ITKImageFunctionTestDriver
-    itkVarianceImageFunctionTest
 )
 itk_add_test(
   NAME itkMedianImageFunctionTest
@@ -208,5 +201,9 @@ itk_add_test(
     itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest
 )
 
-set(ITKImageFunctionGTests itkSumOfSquaresImageFunctionGTest.cxx)
+set(
+  ITKImageFunctionGTests
+  itkSumOfSquaresImageFunctionGTest.cxx
+  itkVarianceImageFunctionGTest.cxx
+)
 creategoogletestdriver(ITKImageFunction "${ITKImageFunction-Test_LIBRARIES}" "${ITKImageFunctionGTests}")
