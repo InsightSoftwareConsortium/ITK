@@ -1,29 +1,7 @@
 name: ITK.Pixi
 
 on:
-    push:
-        branches:
-            - main
-            - 'release*'
-        paths-ignore:
-            - '*.md'
-            - LICENSE
-            - NOTICE
-            - 'Documentation/**'
-            - 'Utilities/Debugger/**'
-            - 'Utilities/ITKv5Preparation/**'
-            - 'Utilities/Maintenance/**'
-            - 'Modules/Remote/*.remote.cmake'
-    pull_request:
-        paths-ignore:
-            - '*.md'
-            - LICENSE
-            - NOTICE
-            - 'Documentation/**'
-            - 'Utilities/Debugger/**'
-            - 'Utilities/ITKv5Preparation/**'
-            - 'Utilities/Maintenance/**'
-            - 'Modules/Remote/*.remote.cmake'
+    workflow_dispatch: {}  # WIP: disabled for ccache hypothesis testing
 
 concurrency:
   group: '${{ github.workflow }}@${{ github.head_ref || github.ref }}'
