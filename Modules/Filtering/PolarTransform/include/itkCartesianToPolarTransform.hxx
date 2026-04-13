@@ -50,7 +50,7 @@ CartesianToPolarTransform<TParametersValueType, NDimensions>::TransformPoint(con
 {
   OutputPointType outputPoint(inputPoint);
 
-  const InputPointType vector = inputPoint - this->m_Center;
+  const InputVectorType vector = inputPoint - this->m_Center;
 
   outputPoint[1] = std::sqrt(vector[0] * vector[0] + vector[1] * vector[1]); // r= sqrt(x^2 + y^2)
   outputPoint[0] = std::acos(vector[0] / outputPoint[1]);                    // alpha = acos(x/r)
