@@ -16,15 +16,12 @@
  *
  *=========================================================================*/
 
-#include <cstdio>
-
 #include "itkVarianceImageFunction.h"
+#include "itkGTest.h"
 #include "itkImage.h"
 
-int
-itkVarianceImageFunctionTest(int, char *[])
+TEST(VarianceImageFunction, ConvertedLegacyTest)
 {
-
   constexpr unsigned int Dimension{ 3 };
   using PixelType = unsigned char;
 
@@ -77,15 +74,7 @@ itkVarianceImageFunctionTest(int, char *[])
   const unsigned int & neighborhoodRadius = function->GetNeighborhoodRadius();
   std::cout << "function->GetNeighborhoodRadius(): " << neighborhoodRadius << std::endl;
 
-
   // since the input image is constant
   // the variance should be zero
-  if (itk::Math::Absolute(variance) > 10e-7)
-  {
-    std::cerr << "Error in variance computation" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  std::cout << "Test PASSED ! " << std::endl;
-  return EXIT_SUCCESS;
+  EXPECT_LT(itk::Math::Absolute(variance), 10e-7);
 }
