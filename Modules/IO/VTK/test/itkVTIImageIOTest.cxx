@@ -97,7 +97,7 @@ ImagesEqual(const TImage * a, const TImage * b)
   {
     if (ait.Get() != bit.Get())
     {
-      std::cerr << "Pixel mismatch at " << ait.GetIndex() << ": " << ait.Get() << " vs " << bit.Get() << std::endl;
+      std::cerr << "Pixel mismatch at " << ait.ComputeIndex() << ": " << ait.Get() << " vs " << bit.Get() << std::endl;
       return false;
     }
   }
