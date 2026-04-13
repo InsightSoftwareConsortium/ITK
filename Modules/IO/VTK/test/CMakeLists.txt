@@ -9,6 +9,7 @@ set(
   itkVTKImageIOTest2.cxx
   itkVTKImageIOTest3.cxx
   itkVTIImageIOTest.cxx
+  itkVTIImageIOReadWriteTest.cxx
 )
 
 createtestdriver(ITKIOVTK "${ITKIOVTK-Test_LIBRARIES}" "${ITKIOVTKTests}")
@@ -19,6 +20,54 @@ itk_add_test(
     ITKIOVTKTestDriver
     itkVTIImageIOTest
     ${ITK_TEST_OUTPUT_DIR}
+)
+
+itk_add_test(
+  NAME itkVTIImageIOReadWriteTestCTHead1
+  COMMAND
+    ITKIOVTKTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_CTHead1.vti
+    itkVTIImageIOReadWriteTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_CTHead1.vti
+)
+
+itk_add_test(
+  NAME itkVTIImageIOReadWriteTestVisibleWomanEyeSlice
+  COMMAND
+    ITKIOVTKTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_VisibleWomanEyeSlice.vti
+    itkVTIImageIOReadWriteTest
+    DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_VisibleWomanEyeSlice.vti
+)
+
+itk_add_test(
+  NAME itkVTIImageIOReadWriteTestHeadMRVolume
+  COMMAND
+    ITKIOVTKTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_HeadMRVolume.vti
+    itkVTIImageIOReadWriteTest
+    DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_HeadMRVolume.vti
+)
+
+itk_add_test(
+  NAME itkVTIImageIOReadWriteTestVHFColor
+  COMMAND
+    ITKIOVTKTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw}
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_VHFColor.vti
+    itkVTIImageIOReadWriteTest
+    DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw}
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_VHFColor.vti
 )
 
 itk_add_test(
