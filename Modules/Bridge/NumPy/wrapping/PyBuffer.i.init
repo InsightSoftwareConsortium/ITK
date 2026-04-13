@@ -29,31 +29,95 @@ else:
         loads = dask_deserialize.dispatch(np.ndarray)
         return NDArrayITKBase(loads(header, frames))
 
+# Module-level constant — built once at import time.
+# Composite pixel types (RGB, Vector, etc.) are decomposed to their
+# scalar component type before reaching _get_buffer_formatstring(),
+# so only scalar codes appear here.
+# Platform aliases (ST/IT/OT) resolve to UL/SL at the wrapping level.
+import os as _os
+_BUFFER_FORMAT_MAP = {
+    # --- integer types ---
+    "B":   "?",  # bool
+    "UC":  "B",  # unsigned char   -> uint8
+    "US":  "H",  # unsigned short  -> uint16
+    "UI":  "I",  # unsigned int    -> uint32
+    "UL":  "L",  # unsigned long   -> platform (8 bytes Linux/macOS, 4 bytes Windows)
+    "ULL": "Q",  # unsigned long long -> uint64
+    "SC":  "b",  # signed char     -> int8
+    "SS":  "h",  # signed short    -> int16
+    "SI":  "i",  # signed int      -> int32
+    "SL":  "l",  # signed long     -> platform
+    "SLL": "q",  # signed long long -> int64
+    # --- floating point types ---
+    "F":   "f",  # float           -> float32
+    "D":   "d",  # double          -> float64
+    # "LD" (long double) intentionally omitted: sizeof(long double)
+    # is 16 bytes on Linux/macOS x86-64 but struct "d" is 8 bytes.
+    # Casting would silently corrupt the buffer.
+}
+
+def _get_buffer_formatstring(itk_pixel_code: str) -> str:
+    """Return the struct format character for an ITK pixel type code.
+
+    Used by the PEP 688 ``__buffer__`` protocol implementation on
+    ``itk.Image`` to describe the element type of the exported
+    memoryview.  Format characters follow Python's ``struct`` module
+    specification.
+
+    Parameters
+    ----------
+    itk_pixel_code : str
+        Short name of the ITK component type, e.g. ``"UC"``, ``"F"``.
+
+    Returns
+    -------
+    str
+        Single-character ``struct`` format string.
+
+    Raises
+    ------
+    KeyError
+        If ``itk_pixel_code`` is not a supported scalar type.
+    """
+    try:
+        return _BUFFER_FORMAT_MAP[itk_pixel_code]
+    except KeyError:
+        raise KeyError(
+            f"Unsupported ITK pixel type code {itk_pixel_code!r} for "
+            f"buffer export. Supported codes: "
+            f"{sorted(_BUFFER_FORMAT_MAP)}"
+        ) from None
+if _os.name == 'nt':
+    # On Windows, C ``long`` is 32-bit
+    _BUFFER_FORMAT_MAP['UL'] = 'I'
+    _BUFFER_FORMAT_MAP['SL'] = 'i'
+
+
 def _get_numpy_pixelid(itk_Image_type) -> np.dtype:
     """Returns a ITK PixelID given a numpy array."""
 
-    # This is a Mapping from numpy array types to itk pixel types.
-    _np_itk = {"UC":np.dtype(np.uint8),
-               "US":np.dtype(np.uint16),
-               "UI":np.dtype(np.uint32),
-               "UL":np.dtype(np.uint64),
-               "ULL":np.dtype(np.uint64),
-               "SC":np.dtype(np.int8),
-               "SS":np.dtype(np.int16),
-               "SI":np.dtype(np.int32),
-               "SL":np.dtype(np.int64),
-               "SLL":np.dtype(np.int64),
-               "F":np.dtype(np.float32),
-               "D":np.dtype(np.float64),
-               "PF2":np.dtype(np.float32),
-               "PF3":np.dtype(np.float32),
-                }
-    import os
-    if os.name == 'nt':
-        _np_itk['UL'] = np.dtype(np.uint32)
-        _np_itk['SL'] = np.dtype(np.int32)
-    try:
-        return _np_itk[itk_Image_type]
-    except KeyError as e:
-        raise e
+    return _NUMPY_PIXELID_MAP[itk_Image_type]
+
+
+# Module-level constant — built once at import time.
+_NUMPY_PIXELID_MAP = {
+    "B":   np.dtype(np.bool_),
+    "UC":  np.dtype(np.uint8),
+    "US":  np.dtype(np.uint16),
+    "UI":  np.dtype(np.uint32),
+    "UL":  np.dtype(np.uint64),
+    "ULL": np.dtype(np.uint64),
+    "SC":  np.dtype(np.int8),
+    "SS":  np.dtype(np.int16),
+    "SI":  np.dtype(np.int32),
+    "SL":  np.dtype(np.int64),
+    "SLL": np.dtype(np.int64),
+    "F":   np.dtype(np.float32),
+    "D":   np.dtype(np.float64),
+    "PF2": np.dtype(np.float32),
+    "PF3": np.dtype(np.float32),
+}
+if _os.name == 'nt':
+    _NUMPY_PIXELID_MAP['UL'] = np.dtype(np.uint32)
+    _NUMPY_PIXELID_MAP['SL'] = np.dtype(np.int32)
 %}
