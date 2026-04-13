@@ -42,16 +42,13 @@ itkVectorGeometryTest(int, char *[])
   //  Vector type
   using VectorType = itk::Vector<ValueType, N>;
 
-  /*
-    VectorType vv;
-    vv = 0, 2, 4;
+  const VectorType vv{ { 0, 2, 4 } };
 
-    if( vv[0] != 0 || vv[1] != 2 || vv[2] != 4 )
-      {
-      std::cerr << "Error initializing the Vector " << std::endl;
-      return EXIT_FAILURE;
-      }
-    */
+  if (vv[0] != 0 || vv[1] != 2 || vv[2] != 4)
+  {
+    std::cerr << "Error initializing the Vector " << std::endl;
+    return EXIT_FAILURE;
+  }
 
   VectorType va{ { 1.0, 2.0, 7.0 } };
 

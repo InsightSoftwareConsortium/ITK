@@ -78,9 +78,32 @@ itkMatrixTest(int, char *[])
 
   MatrixType matrixProduct = matrix * matrix2;
 
+  // identity * matrix2 should equal matrix2
+  if (itk::Math::NotExactlyEquals(matrixProduct(0, 0), 10) || itk::Math::NotExactlyEquals(matrixProduct(1, 1), 1) ||
+      itk::Math::NotExactlyEquals(matrixProduct(2, 2), 1) || itk::Math::NotExactlyEquals(matrixProduct(0, 1), 0) ||
+      itk::Math::NotExactlyEquals(matrixProduct(1, 0), 0))
+  {
+    std::cerr << "Problem with matrix product" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   const MatrixType matrix3 = matrix.GetInverse();
+  // Inverse of identity should be identity
+  if (itk::Math::NotExactlyEquals(matrix3(0, 0), 1) || itk::Math::NotExactlyEquals(matrix3(1, 1), 1) ||
+      itk::Math::NotExactlyEquals(matrix3(2, 2), 1) || itk::Math::NotExactlyEquals(matrix3(0, 1), 0))
+  {
+    std::cerr << "Problem with GetInverse()" << std::endl;
+    return EXIT_FAILURE;
+  }
 
   const MatrixType matrix4 = matrix.GetTranspose();
+  // Transpose of identity should be identity
+  if (itk::Math::NotExactlyEquals(matrix4(0, 0), 1) || itk::Math::NotExactlyEquals(matrix4(1, 1), 1) ||
+      itk::Math::NotExactlyEquals(matrix4(2, 2), 1) || itk::Math::NotExactlyEquals(matrix4(0, 1), 0))
+  {
+    std::cerr << "Problem with GetTranspose()" << std::endl;
+    return EXIT_FAILURE;
+  }
 
   auto matrix5 = itk::MakeFilled<MatrixType>(1.7);
 
