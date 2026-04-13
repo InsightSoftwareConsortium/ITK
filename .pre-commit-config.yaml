@@ -78,7 +78,7 @@ repos:
      args: ['--target-version', 'py310' ] # Allow black to fail and provide auto-formatting to files that need it for compliance
      exclude: ".*build.*|\\/ThirdParty\\/|\\/Data\\/"
 -   repo: https://github.com/asottile/pyupgrade
-    rev: v3.19.0
+    rev: v3.21.2
     hooks:
     -   id: pyupgrade
         exclude: ".*build.*|\\/ThirdParty\\/|\\/Data\\/"
