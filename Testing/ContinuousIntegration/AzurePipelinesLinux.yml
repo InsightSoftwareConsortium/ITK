@@ -36,6 +36,7 @@ variables:
   # NOTE: CCACHE_NODIRECT intentionally removed — direct mode is the
   # fast path (97%+ hit rate on ARM CI). NODIRECT forced preprocessor
   # mode on every file, killing cache efficiency.
+  # Run 2: This comment triggers a rebuild to measure warm-cache hit rate.
 jobs:
 - job: Linux
   timeoutInMinutes: 0
