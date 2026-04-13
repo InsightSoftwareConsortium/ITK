@@ -3,7 +3,6 @@ set(
   ITKImageAdaptorsTests
   itkComplexConjugateImageAdaptorTest.cxx
   itkImageAdaptorTest.cxx
-  itkNthElementPixelAccessorTest.cxx
   itkRGBToVectorImageAdaptorTest.cxx
   itkVectorImageTest.cxx
   itkVectorImageToImageAdaptorTest.cxx
@@ -11,12 +10,6 @@ set(
 
 createtestdriver(ITKImageAdaptors "${ITKImageAdaptors-Test_LIBRARIES}" "${ITKImageAdaptorsTests}")
 
-itk_add_test(
-  NAME itkNthElementPixelAccessorTest
-  COMMAND
-    ITKImageAdaptorsTestDriver
-    itkNthElementPixelAccessorTest
-)
 itk_add_test(
   NAME itkImageAdaptorTest
   COMMAND
@@ -50,6 +43,10 @@ itk_add_test(
     itkVectorImageToImageAdaptorTest
 )
 
-set(ITKImageAdaptorsGTests itkImageAdaptorGTest.cxx)
+set(
+  ITKImageAdaptorsGTests
+  itkImageAdaptorGTest.cxx
+  itkNthElementPixelAccessorGTest.cxx
+)
 
 creategoogletestdriver(ITKImageAdaptors "${ITKImageAdaptors-Test_LIBRARIES}" "${ITKImageAdaptorsGTests}")
