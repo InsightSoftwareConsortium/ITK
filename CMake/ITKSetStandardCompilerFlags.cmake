@@ -291,33 +291,16 @@ function(
         )
       endif()
     elseif(NOT EMSCRIPTEN OR WASI)
-      if(${CMAKE_C_COMPILER} MATCHES "icc.*$")
-        set(USING_INTEL_ICC_COMPILER TRUE)
-      endif()
-      if(${CMAKE_CXX_COMPILER} MATCHES "icpc.*$")
-        set(USING_INTEL_ICC_COMPILER TRUE)
-      endif()
-      if(USING_INTEL_ICC_COMPILER)
-        set(InstructionSetOptimizationFlags "")
-      else()
-        set(InstructionSetOptimizationFlags "")
-      endif()
-
-      # Check this list on C compiler only
-      set(c_flags "")
-
-      # Check this list on C++ compiler only
-      set(cxx_flags "")
-
-      # Check this list on both C and C++ compilers
-      set(
-        InstructionSetOptimizationFlags
-        # https://gcc.gnu.org/onlinedocs/gcc-4.8.0/gcc/i386-and-x86_002d64-Options.html
-        # NOTE the corei7 release date was 2008
-        #-mtune=native # Tune the code for the computer used compile ITK, but allow running on generic cpu archetectures
-        -mtune=generic # for reproducible results https://github.com/InsightSoftwareConsortium/ITK/issues/1939
-        -march=corei7 # Use ABI settings to support corei7 (circa 2008 ABI feature sets, core-avx circa 2013)
-      )
+      # No architecture-specific flags: default to compiler baseline for
+      # maximum redistributability. pip wheels, Docker images, and hardware
+      # translation layers (Rosetta, QEMU) only guarantee x86-64 baseline.
+      # Users building for local performance should add -march=native via
+      # CMAKE_C_FLAGS/CMAKE_CXX_FLAGS or CMakeUserPresets.json.
+      # NOTE: When using -march=native on CPUs with AVX-512, also add
+      # -mprefer-vector-width=256 to avoid Intel CPU frequency throttling.
+      # See: https://github.com/InsightSoftwareConsortium/ITK/issues/2634
+      #      https://github.com/InsightSoftwareConsortium/ITK/issues/1939
+      set(InstructionSetOptimizationFlags "")
     endif()
     set(c_and_cxx_flags ${InstructionSetOptimizationFlags})
   endif()
