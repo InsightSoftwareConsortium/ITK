@@ -32,7 +32,7 @@ variables:
   CCACHE_BASEDIR: $(Build.SourcesDirectory)
   CCACHE_COMPILERCHECK: content
   CCACHE_NOHASHDIR: 'true'
-  CCACHE_NODIRECT: '1'
+  CCACHE_SLOPPINESS: pch_defines,time_macros
 jobs:
 - job: macOS
   timeoutInMinutes: 0
@@ -86,14 +86,18 @@ jobs:
 
     - task: Cache@2
       inputs:
-        key: '"ccache" | "$(Agent.OS)" | "$(Build.SourceVersion)"'
+        key: '"ccache-v4" | "$(Agent.OS)" | "macOSPython" | "$(Build.SourceVersion)"'
         restoreKeys: |
-          "ccache" | "$(Agent.OS)"
+          "ccache-v4" | "$(Agent.OS)" | "macOSPython"
         path: $(CCACHE_DIR)
       displayName: 'Restore ccache'
 
-    - bash: ccache --evict-older-than 7d
-      displayName: 'Evict old ccache entries'
+    - bash: |
+        set -x
+        ccache --zero-stats
+        ccache --evict-older-than 7d
+        ccache --show-config
+      displayName: 'ccache config and maintenance'
 
     - bash: |
         python_executable=`which python3`
@@ -109,7 +113,6 @@ jobs:
           BUILD_SHARED_LIBS:BOOL=OFF
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=ON
-          ITK_USE_CCACHE:BOOL=ON
           CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
           CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
           ITK_COMPUTER_MEMORY_SIZE:STRING=11
@@ -131,6 +134,10 @@ jobs:
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
         CCACHE_MAXSIZE: 2.4G
+
+    - bash: ccache --show-stats
+      condition: always()
+      displayName: 'ccache stats'
 
     - bash: python3 $(Build.SourcesDirectory)/Testing/ContinuousIntegration/report_build_diagnostics.py $(Build.SourcesDirectory)-build
       condition: succeededOrFailed()
