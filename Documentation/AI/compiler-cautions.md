@@ -357,6 +357,35 @@ class Foo {
 };
 ```
 
+### 6c. `-Wunused-but-set-variable` — GCC (declare-then-assign refactoring)
+
+After converting `T x; x = func();` to `const T x = func();`, GCC warns if
+`x` is never read downstream. Apple Clang and MSVC typically don't fire this.
+This is the most common warning introduced by STYLE: declare-then-assign
+refactoring commits.
+
+```cpp
+// Triggers warning — computed but never tested:
+const MatrixType inverse = matrix.GetInverse();
+
+// Fix for test code — add a meaningful assertion:
+const MatrixType inverse = matrix.GetInverse();
+if (itk::Math::NotExactlyEquals(inverse(0, 0), expected))
+{
+  std::cerr << "Problem with GetInverse()" << std::endl;
+  return EXIT_FAILURE;
+}
+
+// Fix for production code — don't capture if unneeded:
+matrix.GetInverse();  // called for side effect only
+```
+
+In test files, **always prefer adding a test assertion** over suppressing
+with `[[maybe_unused]]` or `static_cast<void>()`. Tests that compute values
+without checking them are a missed coverage opportunity.
+
+**References:** PR #6044, CDash build 11198750.
+
 ---
 
 ## 7. MSVC-Specific Warnings
@@ -537,6 +566,7 @@ When refactoring existing code, verify each item:
 - [ ] `std::vector` replacing `new[]` — guard `data()` / `operator[]` calls on potentially empty vectors
 - [ ] Lambda captures — no unused captures; `constexpr` variables don't need capture
 - [ ] Loop variables initialized at declaration
+- [ ] Declare-then-assign conversions: if `const T x = func()` is never read downstream, add a test assertion (in test code) or restructure (in production code) — GCC `-Wunused-but-set-variable` fires on captured-but-unread return values
 - [ ] `bool` not used with `|=` for exit-status accumulation — use `int`
 - [ ] Third-party header includes wrapped with appropriate `ITK_CLANG_SUPPRESS_*` macros
 - [ ] Explicit template instantiations in shared-build modules marked `ITK_TEMPLATE_EXPORT`
