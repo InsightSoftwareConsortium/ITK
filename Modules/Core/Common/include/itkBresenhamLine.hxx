@@ -21,125 +21,110 @@
 #include "itkPoint.h"
 #include "itkMath.h"
 
+#include <algorithm>
+#include <iterator>
+
 namespace itk
 {
 template <unsigned int VDimension>
 auto
 BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> OffsetArray
 {
-  // copied from the line iterator
-  /** Variables that drive the Bresenham-Algorithm */
-  // The dimension with the largest difference between start and end
-  unsigned int m_MainDirection;
-
-  // Accumulated error for the other dimensions
-  IndexType m_AccumulateError;
-
-  // Increment for the error for each step. Two times the difference between
-  // start and end
-  IndexType m_IncrementError;
-
-  // If enough is accumulated for a dimension, the index has to be
-  // incremented. Will be the number of pixels in the line
-  IndexType m_MaximalError;
-
-  // Direction of increment. -1 or 1
-  IndexType m_OverflowIncrement;
-
-  // After an overflow, the accumulated error is reduced again. Will be
-  // two times the number of pixels in the line
-  IndexType m_ReduceErrorAfterIncrement;
-
-  OffsetArray result(length);
-
-  IndexType m_CurrentImageIndex, LastIndex;
-
   Direction.Normalize();
+
+  // The dimension with the largest absolute component
+  const unsigned int maxDistanceDimension = std::distance(
+    Direction.Begin(), std::max_element(Direction.Begin(), Direction.End(), [](const auto a, const auto b) {
+      return itk::Math::abs(a) < itk::Math::abs(b);
+    }));
+
+  // compute actual line length because the shorter distance
+  // the larger deviation due to rounding to integers
+  const IdentifierType mainDirectionLen = length - 1;
+  const double         euclideanLineLen =
+    static_cast<double>(mainDirectionLen) / static_cast<double>(itk::Math::abs(Direction[maxDistanceDimension]));
+
   // we are going to start at 0
-  m_CurrentImageIndex.Fill(0);
-  constexpr IndexType StartIndex = { { 0 } };
+  constexpr IndexType StartIndex{ 0 };
+  IndexType           LastIndex;
   for (unsigned int i = 0; i < VDimension; ++i)
   {
-    LastIndex[i] = (IndexValueType)(length * Direction[i]);
+    // round to closest voxel center to minimize the deviation from Direction
+    LastIndex[i] = Math::RoundHalfIntegerUp<IndexValueType>(euclideanLineLen * Direction[i]);
   }
-  // Find the dominant direction
-  IndexValueType maxDistance = 0;
-  unsigned int   maxDistanceDimension = 0;
-  for (unsigned int i = 0; i < VDimension; ++i)
-  {
-    auto distance = static_cast<long>(itk::Math::abs(LastIndex[i]));
-    if (distance > maxDistance)
-    {
-      maxDistance = distance;
-      maxDistanceDimension = i;
-    }
-    m_IncrementError[i] = 2 * distance;
-    m_OverflowIncrement[i] = (LastIndex[i] < 0 ? -1 : 1);
-  }
-  m_MainDirection = maxDistanceDimension;
-  m_MaximalError.Fill(maxDistance);
-  m_ReduceErrorAfterIncrement.Fill(2 * maxDistance);
-  m_AccumulateError.Fill(0);
-  unsigned int steps = 1;
-  result[0] = m_CurrentImageIndex - StartIndex;
-  while (steps < length)
-  {
-    // This part is from ++ in LineConstIterator
-    // We need to modify m_AccumulateError, m_CurrentImageIndex, m_IsAtEnd
-    for (unsigned int i = 0; i < VDimension; ++i)
-    {
-      if (i == m_MainDirection)
-      {
-        m_CurrentImageIndex[i] += m_OverflowIncrement[i];
-      }
-      else
-      {
-        m_AccumulateError[i] += m_IncrementError[i];
-        if (m_AccumulateError[i] >= m_MaximalError[i])
-        {
-          m_CurrentImageIndex[i] += m_OverflowIncrement[i];
-          m_AccumulateError[i] -= m_ReduceErrorAfterIncrement[i];
-        }
-      }
-    }
 
-    result[steps] = m_CurrentImageIndex - StartIndex; // produce an offset
-
-    ++steps;
+  const IndexArray indices = this->BuildLine(StartIndex, LastIndex);
+  OffsetArray      offsets;
+  offsets.reserve(indices.size());
+  for (const IndexType & index : indices)
+  {
+    offsets.push_back(index - StartIndex);
   }
-  return (result);
+
+  return offsets;
 }
 
 template <unsigned int VDimension>
 auto
 BresenhamLine<VDimension>::BuildLine(IndexType p0, IndexType p1) -> IndexArray
 {
-  itk::Point<float, VDimension> point0;
-  itk::Point<float, VDimension> point1;
-  IdentifierType                maxDistance = 0;
+  // Integer-only N-dimensional Bresenham, guaranteeing exact start and end
+  // points. This avoids floating-point direction conversion entirely.
+  // Reference: classic Bresenham extended to N-D as used by scikit-image,
+  // OpenCV, and VTK.
+
+  // Compute displacements and find the dominant axis
+  IndexType      absDeltas;
+  IndexType      step; // +1 or -1 per dimension
+  IndexValueType maxAbsDelta = 0;
+  unsigned int   mainAxis = 0;
   for (unsigned int i = 0; i < VDimension; ++i)
   {
-    point0[i] = p0[i];
-    point1[i] = p1[i];
-    IdentifierType distance = itk::Math::abs(p0[i] - p1[i]) + 1;
-    if (distance > maxDistance)
+    const IndexValueType delta = p1[i] - p0[i];
+    step[i] = (delta >= 0) ? 1 : -1;
+    absDeltas[i] = static_cast<IndexValueType>(itk::Math::abs(delta));
+
+    if (absDeltas[i] > maxAbsDelta)
     {
-      maxDistance = distance;
+      maxAbsDelta = absDeltas[i];
+      mainAxis = i;
     }
   }
 
-  OffsetArray offsets = this->BuildLine(point1 - point0, maxDistance + 1);
+  // Number of pixels = steps along dominant axis + 1
+  const IdentifierType numPixels = static_cast<IdentifierType>(maxAbsDelta) + 1;
 
   IndexArray indices;
-  indices.reserve(offsets.size()); // we might not have to use the last one
-  for (unsigned int i = 0; i < offsets.size(); ++i)
+  indices.reserve(numPixels);
+
+  // Error accumulators for each secondary axis (2 * absDelta[i] per step,
+  // overflow when accumulated error >= maxAbsDelta)
+  auto accumulateError = MakeFilled<IndexType>(0);
+  auto currentIndex = p0;
+
+  for (IdentifierType s = 0; s < numPixels; ++s)
   {
-    indices.push_back(p0 + offsets[i]);
-    if (indices.back() == p1)
+    indices.push_back(currentIndex);
+
+    // Advance along each dimension
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
-      break;
+      if (i == mainAxis)
+      {
+        currentIndex[i] += step[i];
+      }
+      else
+      {
+        accumulateError[i] += 2 * absDeltas[i];
+        if (accumulateError[i] >= maxAbsDelta)
+        {
+          currentIndex[i] += step[i];
+          accumulateError[i] -= 2 * maxAbsDelta;
+        }
+      }
     }
   }
+
   return indices;
 }
 
