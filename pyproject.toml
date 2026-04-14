@@ -52,7 +52,12 @@ cmd = '''cmake
   -DITK_USE_CCACHE:BOOL=ON
   -DCMAKE_C_COMPILER_LAUNCHER:STRING=ccache
   -DCMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
-  -DITK_COMPUTER_MEMORY_SIZE:STRING=11'''
+  -DITK_COMPUTER_MEMORY_SIZE:STRING=11
+  -DITKGroup_Remote_Analysis:BOOL=ON
+  -DModule_BoneEnhancement:BOOL=ON
+  -DModule_BoneMorphometry:BOOL=ON
+  -DModule_TextureFeatures:BOOL=ON
+  -DModule_Thickness3D:BOOL=ON'''
 description = "Configure ITK for CI (with ccache compiler launcher)"
 outputs = ["build/CMakeFiles/"]
 
