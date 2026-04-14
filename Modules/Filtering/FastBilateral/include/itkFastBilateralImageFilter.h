@@ -75,7 +75,7 @@ class ITK_EXPORT FastBilateralImageFilter : public ImageToImageFilter<TInputImag
 public:
   ITK_DISALLOW_COPY_AND_MOVE(FastBilateralImageFilter);
 
-  /** Standard class typedefs. */
+  /** Standard class type aliases. */
   using Self = FastBilateralImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
@@ -91,7 +91,7 @@ public:
    *  is assumed to be the same. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  /** Input image typedefs. */
+  /** Input image type aliases. */
   using InputImageType = TInputImage;
   using InputImagePointer = typename TInputImage::Pointer;
   using InputImageConstPointer = typename TInputImage::ConstPointer;
@@ -102,7 +102,7 @@ public:
   /** Input image iterator type. */
   using InputImageConstIteratorType = ImageRegionConstIteratorWithIndex<TInputImage>;
 
-  /** Output image typedefs. */
+  /** Output image type aliases. */
   using OutputImageType = TOutputImage;
   using OutputImagePointer = typename TOutputImage::Pointer;
 
