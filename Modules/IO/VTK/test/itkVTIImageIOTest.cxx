@@ -27,6 +27,7 @@
 #include "itkVTIImageIO.h"
 #include "itkVTIImageIOFactory.h"
 #include "itkVector.h"
+#include "itk_zlib.h"
 
 #include <cmath>
 #include <cstdint>
@@ -600,6 +601,96 @@ itkVTIImageIOTest(int argc, char * argv[])
     ITK_TEST_EXPECT_TRUE(!io->CanReadFile("nonexistent.vti"));
     // A file that we just wrote should pass CanReadFile.
     ITK_TEST_EXPECT_TRUE(io->CanReadFile((outDir + sep + "vti_uchar2d_binary.vti").c_str()));
+  }
+
+  // ---- Read a zlib-compressed raw-appended VTI file ----------------------
+  // Build a hand-crafted VTI with compressor="vtkZLibDataCompressor",
+  // format="appended", header_type="UInt32".  Pixel data: 4 Float32 values.
+  {
+    const std::string fname = outDir + sep + "vti_zlib_appended.vti";
+
+    const float pixels[4] = { 5.0f, 10.0f, 15.0f, 20.0f };
+
+    // Compress the pixel data using zlib
+    const uLong                srcLen = static_cast<uLong>(sizeof(pixels));
+    uLong                      destLen = compressBound(srcLen);
+    std::vector<unsigned char> compBuf(static_cast<std::size_t>(destLen));
+    const int                  ret =
+      compress2(compBuf.data(), &destLen, reinterpret_cast<const Bytef *>(pixels), srcLen, Z_DEFAULT_COMPRESSION);
+    if (ret != Z_OK)
+    {
+      std::cerr << "  ERROR: zlib compress2 failed in test setup" << std::endl;
+      return EXIT_FAILURE;
+    }
+    compBuf.resize(static_cast<std::size_t>(destLen));
+
+    // Build VTK compression header (UInt32): nblocks=1, uncompBlockSize=srcLen,
+    // lastPartialSize=0 (last block is full), compSize0=destLen
+    const auto nblocks32 = static_cast<std::uint32_t>(1);
+    const auto uncompBlockSize32 = static_cast<std::uint32_t>(srcLen);
+    const auto lastPartialSize32 = static_cast<std::uint32_t>(0);
+    const auto compSize0_32 = static_cast<std::uint32_t>(destLen);
+
+    std::vector<unsigned char> appendedData;
+    appendedData.resize(4 * sizeof(std::uint32_t) + compBuf.size());
+    std::size_t pos = 0;
+    std::memcpy(appendedData.data() + pos, &nblocks32, sizeof(nblocks32));
+    pos += sizeof(nblocks32);
+    std::memcpy(appendedData.data() + pos, &uncompBlockSize32, sizeof(uncompBlockSize32));
+    pos += sizeof(uncompBlockSize32);
+    std::memcpy(appendedData.data() + pos, &lastPartialSize32, sizeof(lastPartialSize32));
+    pos += sizeof(lastPartialSize32);
+    std::memcpy(appendedData.data() + pos, &compSize0_32, sizeof(compSize0_32));
+    pos += sizeof(compSize0_32);
+    std::memcpy(appendedData.data() + pos, compBuf.data(), compBuf.size());
+
+    {
+      std::ofstream f(fname.c_str(), std::ios::out | std::ios::binary);
+      f << "<?xml version=\"1.0\"?>\n";
+      f << "<VTKFile type=\"ImageData\" version=\"0.1\" byte_order=\"LittleEndian\""
+        << " compressor=\"vtkZLibDataCompressor\">\n";
+      f << "  <ImageData WholeExtent=\"0 1 0 1 0 0\" Origin=\"0 0 0\" Spacing=\"1 1 1\">\n";
+      f << "    <Piece Extent=\"0 1 0 1 0 0\">\n";
+      f << "      <PointData Scalars=\"data\">\n";
+      f << "        <DataArray type=\"Float32\" Name=\"data\" format=\"appended\" offset=\"0\"/>\n";
+      f << "      </PointData>\n";
+      f << "    </Piece>\n";
+      f << "  </ImageData>\n";
+      f << "  <AppendedData encoding=\"raw\">\n";
+      f << "   _";
+      f.write(reinterpret_cast<const char *>(appendedData.data()), static_cast<std::streamsize>(appendedData.size()));
+      f << "\n  </AppendedData>\n";
+      f << "</VTKFile>\n";
+    }
+
+    using ImageType = itk::Image<float, 2>;
+    auto reader = itk::ImageFileReader<ImageType>::New();
+    reader->SetFileName(fname);
+    reader->SetImageIO(itk::VTIImageIO::New());
+    ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+    auto                 out = reader->GetOutput();
+    ImageType::IndexType idx;
+    bool                 ok = true;
+    for (int i = 0; i < 4; ++i)
+    {
+      idx[0] = i % 2;
+      idx[1] = i / 2;
+      if (std::abs(out->GetPixel(idx) - pixels[i]) > 1e-5f)
+      {
+        std::cerr << "  ERROR: zlib appended pixel " << idx << " = " << out->GetPixel(idx) << ", expected " << pixels[i]
+                  << std::endl;
+        ok = false;
+      }
+    }
+    if (ok)
+    {
+      std::cout << "  ZLib compressed appended-data read OK" << std::endl;
+    }
+    else
+    {
+      status = EXIT_FAILURE;
+    }
   }
 
   return status;

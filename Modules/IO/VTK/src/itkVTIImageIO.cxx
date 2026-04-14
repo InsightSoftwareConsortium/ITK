@@ -20,6 +20,7 @@
 #include "itkMakeUniqueForOverwrite.h"
 
 #include "itk_expat.h"
+#include "itk_zlib.h"
 #include "itksys/Base64.h"
 
 #include <algorithm>
@@ -93,6 +94,7 @@ struct VTIParseState
   std::string fileType;
   std::string byteOrder;
   std::string headerType;
+  std::string compressor;
 
   // <ImageData ...>
   bool        sawImageData{ false };
@@ -157,6 +159,7 @@ extern "C"
       st->fileType = FindAttribute(atts, "type");
       st->byteOrder = FindAttribute(atts, "byte_order");
       st->headerType = FindAttribute(atts, "header_type");
+      st->compressor = FindAttribute(atts, "compressor");
     }
     else if (std::strcmp(name, "ImageData") == 0)
     {
@@ -452,6 +455,7 @@ VTIImageIO::InternalReadImageInformation()
   m_AppendedDataOffset = 0;
   m_DataArrayOffset = 0;
   m_HeaderTypeUInt64 = false;
+  m_IsZLibCompressed = false;
 
   // Slurp the entire file.  We need both the XML metadata (parsed by expat)
   // and, for raw-appended files, the byte offset of the binary section.
@@ -660,6 +664,9 @@ VTIImageIO::InternalReadImageInformation()
     this->SetPixelType(IOPixelEnum::VECTOR);
   }
 
+  // Compression
+  m_IsZLibCompressed = IequalsStr(st.compressor, "vtkZLibDataCompressor");
+
   // Encoding
   if (st.daFormat == "ascii")
   {
@@ -674,7 +681,7 @@ VTIImageIO::InternalReadImageInformation()
       itkExceptionMacro(
         "DataArray uses format=\"appended\" but no <AppendedData> element was found in: " << m_FileName);
     }
-    m_DataEncoding = DataEncoding::RawAppended;
+    m_DataEncoding = m_IsZLibCompressed ? DataEncoding::ZLibAppended : DataEncoding::RawAppended;
     m_FileType = IOFileEnum::Binary;
     m_DataArrayOffset = 0u;
     if (!st.daOffset.empty())
@@ -692,7 +699,7 @@ VTIImageIO::InternalReadImageInformation()
   }
   else // "binary" (base64) or unspecified, defaulting to binary
   {
-    m_DataEncoding = DataEncoding::Base64;
+    m_DataEncoding = m_IsZLibCompressed ? DataEncoding::ZLibBase64 : DataEncoding::Base64;
     m_FileType = IOFileEnum::Binary;
     m_Base64DataContent = std::move(st.base64Content);
   }
@@ -743,6 +750,81 @@ SwapBufferIfNeeded(void * buffer, std::size_t componentSize, std::size_t numComp
 // Read
 // ---------------------------------------------------------------------------
 void
+VTIImageIO::DecompressZLib(const unsigned char *        compressedData,
+                           std::size_t                  compressedDataSize,
+                           bool                         headerUInt64,
+                           std::vector<unsigned char> & uncompressed)
+{
+  // VTK zlib compressed block layout:
+  //   [nblocks]               UInt32 or UInt64
+  //   [uncompressed_blocksize] UInt32 or UInt64  (size of each full block)
+  //   [last_partial_blocksize] UInt32 or UInt64  (0 means last block is full)
+  //   [compressed_size_0]     UInt32 or UInt64
+  //   [compressed_size_1]     UInt32 or UInt64
+  //   ...
+  //   [compressed_data_0][compressed_data_1]...
+  const std::size_t hdrItemSize = headerUInt64 ? sizeof(uint64_t) : sizeof(uint32_t);
+
+  auto readHeader = [&](std::size_t offset) -> uint64_t {
+    if (headerUInt64)
+    {
+      uint64_t v;
+      std::memcpy(&v, compressedData + offset, sizeof(v));
+      return v;
+    }
+    else
+    {
+      uint32_t v;
+      std::memcpy(&v, compressedData + offset, sizeof(v));
+      return static_cast<uint64_t>(v);
+    }
+  };
+
+  const uint64_t nblocks = readHeader(0);
+  const uint64_t uncompBlockSize = readHeader(hdrItemSize);
+  const uint64_t lastPartialSize = readHeader(2 * hdrItemSize);
+
+  // Compute total uncompressed size
+  const uint64_t lastBlockUncompSize = (lastPartialSize == 0) ? uncompBlockSize : lastPartialSize;
+  const uint64_t totalUncompSize = (nblocks > 1 ? (nblocks - 1) * uncompBlockSize : 0) + lastBlockUncompSize;
+
+  uncompressed.resize(static_cast<std::size_t>(totalUncompSize));
+
+  // Compressed block sizes start at offset 3*hdrItemSize
+  const std::size_t blockSizesOffset = 3 * hdrItemSize;
+
+  // Compressed data starts after the header (3 + nblocks) items
+  std::size_t dataOffset = static_cast<std::size_t>((3 + nblocks) * hdrItemSize);
+  std::size_t uncompOffset = 0;
+
+  for (uint64_t b = 0; b < nblocks; ++b)
+  {
+    const uint64_t compSize = readHeader(blockSizesOffset + b * hdrItemSize);
+    const uint64_t thisUncompSize = (b == nblocks - 1) ? lastBlockUncompSize : uncompBlockSize;
+
+    if (dataOffset + static_cast<std::size_t>(compSize) > compressedDataSize)
+    {
+      ExceptionObject e_(__FILE__, __LINE__, "ZLib compressed block extends beyond buffer.", ITK_LOCATION);
+      throw e_;
+    }
+
+    uLongf    destLen = static_cast<uLongf>(thisUncompSize);
+    const int ret = uncompress(reinterpret_cast<Bytef *>(uncompressed.data() + uncompOffset),
+                               &destLen,
+                               reinterpret_cast<const Bytef *>(compressedData + dataOffset),
+                               static_cast<uLong>(compSize));
+    if (ret != Z_OK)
+    {
+      ExceptionObject e_(__FILE__, __LINE__, "zlib uncompress failed for VTI block.", ITK_LOCATION);
+      throw e_;
+    }
+
+    dataOffset += static_cast<std::size_t>(compSize);
+    uncompOffset += static_cast<std::size_t>(destLen);
+  }
+}
+
+void
 VTIImageIO::Read(void * buffer)
 {
   const SizeType totalComponents = this->GetImageSizeInComponents();
@@ -760,7 +842,7 @@ VTIImageIO::Read(void * buffer)
     return;
   }
 
-  if (m_DataEncoding == DataEncoding::Base64)
+  if (m_DataEncoding == DataEncoding::Base64 || m_DataEncoding == DataEncoding::ZLibBase64)
   {
     if (m_Base64DataContent.empty())
     {
@@ -769,27 +851,41 @@ VTIImageIO::Read(void * buffer)
     std::vector<unsigned char> decoded;
     DecodeBase64(m_Base64DataContent, decoded);
 
-    // VTK binary DataArrays are prefixed with a block header containing
-    // the number of bytes of (uncompressed) data.  The header is either
-    // one UInt32 or one UInt64.
-    const std::size_t headerBytes = m_HeaderTypeUInt64 ? sizeof(uint64_t) : sizeof(uint32_t);
-    if (decoded.size() <= headerBytes)
+    if (m_DataEncoding == DataEncoding::ZLibBase64)
     {
-      itkExceptionMacro("Decoded base64 data is too short in file: " << m_FileName);
+      // Compressed: the decoded bytes ARE the compression header + compressed blocks.
+      std::vector<unsigned char> uncompressed;
+      DecompressZLib(decoded.data(), decoded.size(), m_HeaderTypeUInt64, uncompressed);
+      if (uncompressed.size() < static_cast<std::size_t>(totalBytes))
+      {
+        itkExceptionMacro("Decompressed data size (" << uncompressed.size() << ") is less than expected (" << totalBytes
+                                                     << ") in file: " << m_FileName);
+      }
+      std::memcpy(buffer, uncompressed.data(), static_cast<std::size_t>(totalBytes));
     }
-    const unsigned char * dataPtr = decoded.data() + headerBytes;
-    const std::size_t     dataSize = decoded.size() - headerBytes;
-    if (dataSize < static_cast<std::size_t>(totalBytes))
+    else
     {
-      itkExceptionMacro("Decoded data size (" << dataSize << ") is less than expected (" << totalBytes
-                                              << ") in file: " << m_FileName);
+      // Uncompressed base64: VTK binary DataArrays are prefixed with a block header
+      // containing the number of bytes of data.  Header is UInt32 or UInt64.
+      const std::size_t headerBytes = m_HeaderTypeUInt64 ? sizeof(uint64_t) : sizeof(uint32_t);
+      if (decoded.size() <= headerBytes)
+      {
+        itkExceptionMacro("Decoded base64 data is too short in file: " << m_FileName);
+      }
+      const unsigned char * dataPtr = decoded.data() + headerBytes;
+      const std::size_t     dataSize = decoded.size() - headerBytes;
+      if (dataSize < static_cast<std::size_t>(totalBytes))
+      {
+        itkExceptionMacro("Decoded data size (" << dataSize << ") is less than expected (" << totalBytes
+                                                << ") in file: " << m_FileName);
+      }
+      std::memcpy(buffer, dataPtr, static_cast<std::size_t>(totalBytes));
     }
-    std::memcpy(buffer, dataPtr, static_cast<std::size_t>(totalBytes));
     SwapBufferIfNeeded(buffer, componentSize, totalComponents, m_ByteOrder);
     return;
   }
 
-  // RawAppended path: seek into the file at the cached byte offset.
+  // RawAppended path (compressed or uncompressed): seek into the file.
   std::ifstream file(m_FileName.c_str(), std::ios::in | std::ios::binary);
   if (!file.is_open())
   {
@@ -797,13 +893,97 @@ VTIImageIO::Read(void * buffer)
   }
 
   const std::size_t    headerBytes = m_HeaderTypeUInt64 ? sizeof(uint64_t) : sizeof(uint32_t);
-  const std::streampos readPos =
-    m_AppendedDataOffset + static_cast<std::streamoff>(m_DataArrayOffset) + static_cast<std::streamoff>(headerBytes);
+  const std::streampos readPos = m_AppendedDataOffset + static_cast<std::streamoff>(m_DataArrayOffset);
 
   file.seekg(readPos, std::ios::beg);
   if (file.fail())
   {
     itkExceptionMacro("Failed to seek to data position in file: " << m_FileName);
+  }
+
+  if (m_DataEncoding == DataEncoding::ZLibAppended)
+  {
+    // Read the full compressed block sequence into memory.
+    // We need to read the nblocks field first to know how big the header is,
+    // then read all the compressed blocks.
+    std::vector<unsigned char> firstItem(headerBytes);
+    file.read(reinterpret_cast<char *>(firstItem.data()), static_cast<std::streamsize>(headerBytes));
+    if (file.fail())
+    {
+      itkExceptionMacro("Failed to read zlib compression header from file: " << m_FileName);
+    }
+    uint64_t nblocks;
+    if (m_HeaderTypeUInt64)
+    {
+      std::memcpy(&nblocks, firstItem.data(), sizeof(uint64_t));
+    }
+    else
+    {
+      uint32_t nb32;
+      std::memcpy(&nb32, firstItem.data(), sizeof(uint32_t));
+      nblocks = nb32;
+    }
+
+    // Read the rest of the header: uncompressed_blocksize, last_partial_blocksize,
+    // plus nblocks compressed sizes.
+    const std::size_t          remainingHeaderBytes = static_cast<std::size_t>((2 + nblocks) * headerBytes);
+    std::vector<unsigned char> headerBuf(headerBytes + remainingHeaderBytes);
+    std::memcpy(headerBuf.data(), firstItem.data(), headerBytes);
+    file.read(reinterpret_cast<char *>(headerBuf.data() + headerBytes),
+              static_cast<std::streamsize>(remainingHeaderBytes));
+    if (file.fail())
+    {
+      itkExceptionMacro("Failed to read zlib compression block sizes from file: " << m_FileName);
+    }
+
+    // Sum the compressed block sizes to know how many bytes of payload to read.
+    uint64_t totalCompressed = 0;
+    for (uint64_t b = 0; b < nblocks; ++b)
+    {
+      if (m_HeaderTypeUInt64)
+      {
+        uint64_t cs;
+        std::memcpy(&cs, headerBuf.data() + (3 + b) * sizeof(uint64_t), sizeof(uint64_t));
+        totalCompressed += cs;
+      }
+      else
+      {
+        uint32_t cs;
+        std::memcpy(&cs, headerBuf.data() + (3 + b) * sizeof(uint32_t), sizeof(uint32_t));
+        totalCompressed += cs;
+      }
+    }
+
+    // Read compressed payload.
+    std::vector<unsigned char> compressedPayload(static_cast<std::size_t>(totalCompressed));
+    file.read(reinterpret_cast<char *>(compressedPayload.data()), static_cast<std::streamsize>(totalCompressed));
+    if (file.fail())
+    {
+      itkExceptionMacro("Failed to read zlib compressed data from file: " << m_FileName);
+    }
+
+    // Build the full buffer that DecompressZLib expects: header + payload.
+    std::vector<unsigned char> fullBuf(headerBuf.size() + compressedPayload.size());
+    std::memcpy(fullBuf.data(), headerBuf.data(), headerBuf.size());
+    std::memcpy(fullBuf.data() + headerBuf.size(), compressedPayload.data(), compressedPayload.size());
+
+    std::vector<unsigned char> uncompressed;
+    DecompressZLib(fullBuf.data(), fullBuf.size(), m_HeaderTypeUInt64, uncompressed);
+    if (uncompressed.size() < static_cast<std::size_t>(totalBytes))
+    {
+      itkExceptionMacro("Decompressed data size (" << uncompressed.size() << ") is less than expected (" << totalBytes
+                                                   << ") in file: " << m_FileName);
+    }
+    std::memcpy(buffer, uncompressed.data(), static_cast<std::size_t>(totalBytes));
+    SwapBufferIfNeeded(buffer, componentSize, totalComponents, m_ByteOrder);
+    return;
+  }
+
+  // Plain RawAppended: skip the block-size header and read directly.
+  file.seekg(static_cast<std::streamoff>(headerBytes), std::ios::cur);
+  if (file.fail())
+  {
+    itkExceptionMacro("Failed to seek past block header in file: " << m_FileName);
   }
 
   file.read(static_cast<char *>(buffer), static_cast<std::streamsize>(totalBytes));

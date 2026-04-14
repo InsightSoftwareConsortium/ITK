@@ -133,8 +133,10 @@ private:
   enum class DataEncoding : std::uint8_t
   {
     ASCII,
-    Base64,     // binary data encoded in base64 (format="binary")
-    RawAppended // raw binary appended data (format="appended" with raw encoding)
+    Base64,      // binary data encoded in base64 (format="binary")
+    RawAppended, // raw binary appended data (format="appended" with raw encoding)
+    ZLibBase64,  // zlib-compressed data encoded in base64
+    ZLibAppended // zlib-compressed raw appended data
   };
 
   DataEncoding m_DataEncoding{ DataEncoding::Base64 };
@@ -157,6 +159,19 @@ private:
 
   /** Whether the header uses 64-bit block-size integers (header_type="UInt64"). */
   bool m_HeaderTypeUInt64{ false };
+
+  /** Whether the file uses zlib compression (compressor="vtkZLibDataCompressor"). */
+  bool m_IsZLibCompressed{ false };
+
+  /** Decompress a VTK zlib-compressed block sequence into raw bytes.
+   *  The input buffer begins with the VTK multi-block compression header
+   *  (nblocks / uncompressed_blocksize / last_partial_size / compressed_sizes[]).
+   *  Header integers are UInt32 or UInt64 per \a headerUInt64. */
+  static void
+  DecompressZLib(const unsigned char *        compressedData,
+                 std::size_t                  compressedDataSize,
+                 bool                         headerUInt64,
+                 std::vector<unsigned char> & uncompressed);
 };
 } // end namespace itk
 

@@ -71,6 +71,18 @@ itk_add_test(
 )
 
 itk_add_test(
+  NAME itkVTIImageIOReadWriteTestVHFColorZLib
+  COMMAND
+    ITKIOVTKTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw}
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_VHFColorZLib.vti
+    itkVTIImageIOReadWriteTest
+    DATA{Input/VHFColorZLib.vti}
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_VHFColorZLib.vti
+)
+
+itk_add_test(
   NAME itkVTKImageIO2Test
   COMMAND
     ITKIOVTKTestDriver

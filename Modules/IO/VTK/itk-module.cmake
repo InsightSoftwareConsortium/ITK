@@ -12,9 +12,11 @@ itk_module(
     ITKIOImageBase
   PRIVATE_DEPENDS
     ITKExpat
+    ITKZLIB
   TEST_DEPENDS
     ITKTestKernel
     ITKImageSources
+    ITKZLIB
   FACTORY_NAMES
     ImageIO::VTK
     ImageIO::VTI
