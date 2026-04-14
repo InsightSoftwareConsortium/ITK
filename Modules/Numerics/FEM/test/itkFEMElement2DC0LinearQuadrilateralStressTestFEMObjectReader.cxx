@@ -16,78 +16,122 @@
  *
  *=========================================================================*/
 
+// Round-trip test for the FEM SpatialObject reader path:
+//   1. Read a meta file containing an FEMObjectSpatialObject (produced by
+//      itkFEMElement2DC0LinearQuadrilateralStressTest, which writes the
+//      solved 2D C0 linear quadrilateral stress problem from Grandin's
+//      "Fundamentals of the Finite Element Method").
+//   2. Walk the SpatialObject hierarchy and verify the FEMObject is
+//      structurally well-formed.
+//   3. Re-solve the FEMObject through itk::fem::Solver and confirm the
+//      solver completes without throwing.
+//
+// The previous version of this test had hard-coded Windows paths and
+// called methods that do not exist on FEMObject (Solve(), GetSolution());
+// it never compiled and was never registered in CMakeLists.txt.  See
+// issue #4417.
 
-#include "itkFEMObject.h"
+#include "itkFEMSolver.h"
 #include "itkFEMObjectSpatialObject.h"
-#include "itkGroupSpatialObject.h"
-#include "itkSpatialObject.h"
 #include "itkFEMSpatialObjectReader.h"
-#include "itkFEMSpatialObjectWriter.h"
+#include "itkGroupSpatialObject.h"
+#include "itkMath.h"
+#include "itkTestingMacros.h"
 
 #include <iostream>
 
-//  Example taken from 'Fundamentals of the Finite ELement Method' - Grandin
+
 int
-itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int, char *[])
+itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int argc, char * argv[])
 {
-  // Need to register default FEM object types,
-  // and setup spatialReader to recognize FEM types
-  // which is all currently done as a HACK in
-  // the initialization of the itk::FEMFactoryBase::GetFactory()
+  if (argc != 2)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFEMObjectMetaFile" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Register default FEM object types so the SpatialObject reader can
+  // recognise them at parse time.
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
-  using SpatialObjectType = itk::SpatialObject<2>;
-  using SpatialObjectPointer = SpatialObjectType::Pointer;
-  SpatialObjectPointer Spatial = SpatialObjectType::New();
+  constexpr unsigned int Dimension{ 2 };
 
-  using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<2>;
-  using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
-  FEMSpatialObjectReaderPointer spatialReader = FEMSpatialObjectReaderType::New();
-  spatialReader->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/Trial.meta");
-  spatialReader->Update();
+  // ---- Read the FEMObjectSpatialObject from disk ----------------------
+  using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<Dimension>;
+  auto spatialReader = FEMSpatialObjectReaderType::New();
+  spatialReader->SetFileName(argv[1]);
+  ITK_TRY_EXPECT_NO_EXCEPTION(spatialReader->Update());
 
-  using FEMSpatialObjectWriterType = itk::FEMSpatialObjectWriter<2>;
-  using FEMSpatialObjectWriterPointer = FEMSpatialObjectWriterType::Pointer;
-  FEMSpatialObjectWriterPointer spatialWriter = FEMSpatialObjectWriterType::New();
-  spatialWriter->SetInput(spatialReader->GetScene());
-  spatialWriter->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/TrialWrite.meta");
-  spatialWriter->Update();
+  auto group = spatialReader->GetGroup();
+  ITK_TEST_EXPECT_TRUE(group.IsNotNull());
 
-  FEMSpatialObjectReaderType::ScenePointer myScene = spatialReader->GetScene();
-  if (!myScene)
+  using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<Dimension>;
+
+  // ---- Find the FEMObjectSpatialObject child --------------------------
+  auto * children = group->GetChildren();
+  ITK_TEST_EXPECT_TRUE(children != nullptr);
+  ITK_TEST_EXPECT_TRUE(!children->empty());
+
+  auto firstChild = *(children->begin());
+  if (std::strcmp(firstChild->GetTypeName().c_str(), "FEMObjectSpatialObject") != 0)
   {
-    std::cout << "No Scene : [FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
-  std::cout << " [PASSED]" << std::endl;
-
-  // Testing the fe mesh validity
-  using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
-  using FEMObjectSpatialObjectPointer = FEMObjectSpatialObjectType::Pointer;
-
-  FEMObjectSpatialObjectType::ChildrenListType * children = spatialReader->GetGroup()->GetChildren();
-  if (strcmp((*(children->begin()))->GetTypeName(), "FEMObjectSpatialObject"))
-  {
-    std::cout << " [FAILED]" << std::endl;
+    std::cerr << "Expected FEMObjectSpatialObject child, got " << firstChild->GetTypeName() << std::endl;
+    delete children;
     return EXIT_FAILURE;
   }
 
-  FEMObjectSpatialObjectType::Pointer femSO =
-    dynamic_cast<FEMObjectSpatialObjectType *>((*(children->begin())).GetPointer());
-  if (!femSO)
-  {
-    std::cout << " dynamic_cast [FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
+  auto * femSO = dynamic_cast<FEMObjectSpatialObjectType *>(firstChild.GetPointer());
   delete children;
-
-  femSO->GetFEMObject()->Solve();
-
-  float soln[8];
-  for (int i = 0; i < 8; ++i)
+  if (femSO == nullptr)
   {
-    soln[i] = femSO->GetFEMObject()->GetSolution(i);
-    std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
+    std::cerr << "dynamic_cast to FEMObjectSpatialObjectType failed" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  auto * femObject = femSO->GetFEMObject();
+  if (femObject == nullptr)
+  {
+    std::cerr << "GetFEMObject() returned nullptr" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // The serialized form does not preserve the post-FinalizeMesh internal
+  // state (DOF assignment, master-stiffness scaffolding); we have to
+  // re-finalize before handing it to the solver.
+  femObject->FinalizeMesh();
+
+  // ---- Re-solve the FEMObject ----------------------------------------
+  using SolverType = itk::fem::Solver<Dimension>;
+  auto solver = SolverType::New();
+  solver->SetInput(femObject);
+  ITK_TRY_EXPECT_NO_EXCEPTION(solver->Update());
+
+  // ---- Verify solution values -----------------------------------------
+  // The 2D C0 linear quadrilateral has 4 nodes x 2 DOF/node = 8 DOFs.
+  // Boundary conditions fix DOFs 0, 1 (node 0) and 6, 7 (node 3) to zero.
+  // Nodal forces are applied to nodes 1 and 2 in the x-direction, so the
+  // unconstrained DOFs (2..5) must have non-zero displacement.
+  constexpr unsigned int NumDof = 8;
+  for (unsigned int i = 0; i < NumDof; ++i)
+  {
+    const double soln = solver->GetSolution(i);
+    std::cout << "Solution[" << i << "] = " << soln << std::endl;
+  }
+
+  // Constrained DOFs must be exactly zero.
+  constexpr double   tolerance = 1e-7;
+  const unsigned int constrainedDofs[] = { 0, 1, 6, 7 };
+  for (const auto dof : constrainedDofs)
+  {
+    ITK_TEST_EXPECT_TRUE(itk::Math::abs(solver->GetSolution(dof)) < tolerance);
+  }
+
+  // Unconstrained DOFs must have non-zero displacement (forces applied).
+  const unsigned int unconstrainedDofs[] = { 2, 3, 4, 5 };
+  for (const auto dof : unconstrainedDofs)
+  {
+    ITK_TEST_EXPECT_TRUE(itk::Math::abs(solver->GetSolution(dof)) > tolerance);
   }
 
   std::cout << "Test PASSED!" << std::endl;
