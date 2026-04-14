@@ -89,6 +89,46 @@ itkGaussianMembershipFunctionTest(int, char *[])
     return EXIT_FAILURE;
   }
 
+  // -----------------------------------------------------------------
+  // Reject non-positive-definite covariance matrices.
+  //
+  // The previous implementation tested `inv_cov.determinant_magnitude()
+  // < 0` which can never trigger because determinant_magnitude() returns
+  // the product of singular values (always non-negative).  The fix uses
+  // vnl_determinant on the original covariance and rejects det <= 0,
+  // which catches both singular and non-positive-definite cases.
+  // -----------------------------------------------------------------
+  using NPDMVType = itk::FixedArray<float, 2>;
+  using NPDMembershipFunctionType = itk::Statistics::GaussianMembershipFunction<NPDMVType>;
+  auto npdFunction = NPDMembershipFunctionType::New();
+  npdFunction->SetMeasurementVectorSize(2);
+
+  // Singular: rank 1, det = 0
+  NPDMembershipFunctionType::CovarianceMatrixType singular;
+  singular.SetSize(2, 2);
+  singular(0, 0) = 1.0;
+  singular(0, 1) = 1.0;
+  singular(1, 0) = 1.0;
+  singular(1, 1) = 1.0;
+  ITK_TRY_EXPECT_EXCEPTION(npdFunction->SetCovariance(singular));
+
+  // Indefinite (not symmetric positive-definite): det = -3
+  NPDMembershipFunctionType::CovarianceMatrixType nonPosDef;
+  nonPosDef.SetSize(2, 2);
+  nonPosDef(0, 0) = 1.0;
+  nonPosDef(0, 1) = 2.0;
+  nonPosDef(1, 0) = 2.0;
+  nonPosDef(1, 1) = 1.0;
+  ITK_TRY_EXPECT_EXCEPTION(npdFunction->SetCovariance(nonPosDef));
+
+  // Well-formed: det = 3.75 (positive definite)
+  NPDMembershipFunctionType::CovarianceMatrixType posDef;
+  posDef.SetSize(2, 2);
+  posDef(0, 0) = 2.0;
+  posDef(0, 1) = 0.5;
+  posDef(1, 0) = 0.5;
+  posDef(1, 1) = 2.0;
+  ITK_TRY_EXPECT_NO_EXCEPTION(npdFunction->SetCovariance(posDef));
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;

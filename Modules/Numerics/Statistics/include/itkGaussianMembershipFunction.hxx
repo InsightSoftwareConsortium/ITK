@@ -18,6 +18,8 @@
 #ifndef itkGaussianMembershipFunction_hxx
 #define itkGaussianMembershipFunction_hxx
 
+#include "vnl/algo/vnl_determinant.h"
+
 namespace itk::Statistics
 {
 template <typename TMeasurementVector>
@@ -99,18 +101,28 @@ GaussianMembershipFunction<TMeasurementVector>::SetCovariance(const CovarianceMa
     return;
   }
 
-  m_Covariance = cov;
-
   // the inverse of the covariance matrix is first computed by SVD
-  const vnl_matrix_inverse<double> inv_cov(m_Covariance.GetVnlMatrix());
+  const vnl_matrix_inverse<double> inv_cov(cov.GetVnlMatrix());
 
-  // the determinant is then costless this way
-  const double det = inv_cov.determinant_magnitude();
+  // Compute the *signed* determinant of the covariance matrix.
+  // vnl_matrix_inverse::determinant_magnitude() (which used to be used
+  // here) returns the product of singular values and is always
+  // non-negative, so it cannot detect a non-positive-definite matrix.
+  // Use vnl_determinant on the original covariance instead; this is
+  // O(n^3) but n is the measurement-vector dimension (typically very
+  // small) so the cost is negligible compared to the SVD already
+  // computed for the inverse.
+  const double det = vnl_determinant(cov.GetVnlMatrix());
 
-  if (det < 0.)
+  if (det <= 0.0)
   {
-    itkExceptionStringMacro("det( m_Covariance ) < 0");
+    itkExceptionMacro("Covariance matrix must be positive definite (det = " << det << ").");
   }
+
+  // Assign only after validation passes so the object is never left in
+  // an inconsistent state (m_Covariance updated but m_InverseCovariance
+  // and m_PreFactor still reflecting the previous matrix).
+  m_Covariance = cov;
 
   // 1e-6 is an arbitrary value!!!
   constexpr double singularThreshold{ 1.0e-6 };
