@@ -148,7 +148,7 @@ bool ServiceClassUser::StartAssociation()
     for( std::vector<BasePDU*>::const_iterator itor
       = thePDUs.begin(); itor != thePDUs.end(); itor++)
       {
-      assert(*itor);
+      gdcm_assert(*itor);
       if (*itor == nullptr) continue; //can have a nulled pdu, apparently
       (*itor)->Print(Trace::GetErrorStream());
       }
@@ -272,11 +272,11 @@ bool ServiceClassUser::SendStore(File const &file)
 
   ULEvent theEvent(ePDATArequest, theDataPDU);
   EStateID stateid = RunEventLoop(theEvent, mConnection, inCallback, false);
-  assert( stateid == eSta6TransferReady ); (void)stateid;
+  gdcm_assert( stateid == eSta6TransferReady ); (void)stateid;
   std::vector<DataSet> const &theDataSets = theCallback.GetResponses();
 
   bool ret = true;
-  assert( theDataSets.size() == 1 );
+  gdcm_assert( theDataSets.size() == 1 );
   const DataSet &ds = theDataSets[0];
   assert ( ds.FindDataElement(Tag(0x0, 0x0900)) );
   DataElement const & de = ds.GetDataElement(Tag(0x0,0x0900));
@@ -299,7 +299,7 @@ bool ServiceClassUser::SendStore(File const &file)
       Attribute<0x0,0x0902> errormsg;
       errormsg.SetFromDataSet( ds );
       const char *themsg = errormsg.GetValue();
-      assert( themsg ); (void)themsg;
+      gdcm_assert( themsg ); (void)themsg;
       gdcmErrorMacro( "Response Status: " << themsg );
       ret = false; // at least one file was not sent correctly
       }
@@ -326,7 +326,7 @@ bool ServiceClassUser::SendFind(const BaseRootQuery* query, std::vector<DataSet>
   std::vector<DataSet> const & theResponses = theCallback.GetResponses();
 
   bool ret = false; // by default an error
-  assert( !theResponses.empty() );
+  gdcm_assert( !theResponses.empty() );
   // take the last one:
   const DataSet &ds = theResponses[ theResponses.size() - 1 ]; // FIXME
   assert ( ds.FindDataElement(Tag(0x0, 0x0900)) );
@@ -364,7 +364,7 @@ bool ServiceClassUser::SendFind(const BaseRootQuery* query, std::vector<DataSet>
       Attribute<0x0,0x0902> errormsg;
       errormsg.SetFromDataSet( ds );
       const char *themsg = errormsg.GetValue();
-      assert( themsg ); (void)themsg;
+      gdcm_assert( themsg ); (void)themsg;
       gdcmErrorMacro( "Response Status: [" << themsg << "]" );
       }
     break;
@@ -381,7 +381,7 @@ bool ServiceClassUser::SendFind(const BaseRootQuery* query, std::vector<DataSet>
         Attribute<0x0,0x0902> errormsg;
         errormsg.SetFromDataSet( ds );
         const char *themsg = errormsg.GetValue();
-        assert( themsg ); (void)themsg;
+        gdcm_assert( themsg ); (void)themsg;
         gdcmErrorMacro( "Response Status: " << themsg );
         }
       }
@@ -462,7 +462,7 @@ bool ServiceClassUser::SendMove(const BaseRootQuery* query, std::vector<File> &r
 {
   (void)query;
   (void)retFiles;
-  assert( 0 && "unimplemented do not use" );
+  gdcm_assert( 0 && "unimplemented do not use" );
   return false;
 }
 
@@ -535,7 +535,7 @@ EStateID ServiceClassUser::RunEventLoop(network::ULEvent& currentEvent,
         catch (...)
           {
           //handle the exception, which is basically that nothing came in over the pipe.
-          assert( 0 );
+          gdcm_assert( 0 );
           }
       }
       //now, we have to figure out the event that just happened based on the PDU that was received.
@@ -805,7 +805,7 @@ EStateID ServiceClassUser::RunMoveEventLoop(ULEvent& currentEvent, ULConnectionC
         }
       catch ( ... )
         {
-        assert( 0 );
+        gdcm_assert( 0 );
         }
     }
     if (secondConnectionEstablished &&

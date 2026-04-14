@@ -133,7 +133,7 @@ UserInformation::UserInformation()
   if( !RSSI->Empty() ) ItemLength += RSSI->Size();
   if( !SOPCENSI->Empty() ) ItemLength += SOPCENSI->Size();
 #endif
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 }
 
 UserInformation::~UserInformation()
@@ -147,7 +147,7 @@ std::istream &UserInformation::Read(std::istream &is)
 {
   //uint8_t itemtype = 0x0;
   //is.read( (char*)&itemtype, sizeof(ItemType) );
-  //assert( itemtype == ItemType );
+  //gdcm_assert( itemtype == ItemType );
   uint8_t reserved2;
   is.read( (char*)&reserved2, sizeof(Reserved2) );
   uint16_t itemlength;
@@ -175,13 +175,13 @@ std::istream &UserInformation::Read(std::istream &is)
       curlen += ICUID.Size();
       break;
     case 0x53: // AsynchronousOperationsWindowSub
-      assert( !AOWS );
+      gdcm_assert( !AOWS );
       AOWS = new AsynchronousOperationsWindowSub;
       AOWS->Read( is );
       curlen += AOWS->Size();
       break;
     case 0x54: // RoleSelectionSub
-      assert( RSSI );
+      gdcm_assert( RSSI );
         {
         RoleSelectionSub rss;
         rss.Read( is );
@@ -194,7 +194,7 @@ std::istream &UserInformation::Read(std::istream &is)
       curlen += IVNS.Size();
       break;
     case 0x56: // SOPClassExtendedNegociationSub
-      assert( SOPCENSI );
+      gdcm_assert( SOPCENSI );
         {
         SOPClassExtendedNegociationSub sopcens;
         sopcens.Read( is );
@@ -205,19 +205,19 @@ std::istream &UserInformation::Read(std::istream &is)
     default:
       gdcmErrorMacro( "Unknown ItemType: " << std::hex << (int) itemtype2 );
       curlen = ItemLength; // make sure to exit
-      assert(0);
+      gdcm_assert(0);
       break;
       }
     }
-  assert( curlen == ItemLength );
+  gdcm_assert( curlen == ItemLength );
 
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
   return is;
 }
 
 const std::ostream &UserInformation::Write(std::ostream &os) const
 {
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
   os.write( (const char*)&ItemType, sizeof(ItemType) );
   os.write( (const char*)&Reserved2, sizeof(Reserved2) );
   uint16_t copy = ItemLength;
@@ -240,7 +240,7 @@ const std::ostream &UserInformation::Write(std::ostream &os) const
     SOPCENSI->Write(os);
     }
 
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 
   return os;
 }
@@ -305,7 +305,7 @@ UserInformation &UserInformation::operator=(const UserInformation& ui)
   *SOPCENSI = *ui.SOPCENSI;
   IVNS = ui.IVNS;
 
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 
   return *this;
 }
@@ -314,14 +314,14 @@ void UserInformation::AddRoleSelectionSub( RoleSelectionSub const & rss )
 {
   RSSI->RSSArray.push_back( rss );
   ItemLength = (uint16_t)(Size() - 4);
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 }
 
 void UserInformation::AddSOPClassExtendedNegociationSub( SOPClassExtendedNegociationSub const & sopcens )
 {
   SOPCENSI->SOPCENSArray.push_back( sopcens );
   ItemLength = (uint16_t)(Size() - 4);
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 }
 
 } // end namespace network

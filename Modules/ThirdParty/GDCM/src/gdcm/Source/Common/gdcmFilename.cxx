@@ -17,6 +17,10 @@
 #include <cstdlib> // realpath
 #include <cstring>
 
+#if defined(_WIN32) && (defined(_MSC_VER) || defined(__WATCOMC__) || defined(__BORLANDC__) || defined(__MINGW32__))
+#include <windows.h>
+#endif
+
 namespace gdcm
 {
 
@@ -48,7 +52,7 @@ const char *Filename::GetPath()
 const char *Filename::GetName()
 {
   std::string filename = FileName;
-  assert( !filename.empty() );
+  gdcm_assert( !filename.empty() );
 #if defined(_WIN32)
   std::string::size_type slash_pos = filename.find_last_of("/\\");
 #else
@@ -65,7 +69,7 @@ const char *Filename::GetName()
 const char *Filename::ToWindowsSlashes()
 {
   Conversion = FileName;
-  //assert( !Conversion.empty() );
+  //gdcm_assert( !Conversion.empty() );
   for (std::string::iterator it = Conversion.begin(); it != Conversion.end(); ++it )
     {
     if( *it == '/' )
@@ -82,13 +86,13 @@ const char *Filename::ToUnixSlashes()
 {
   Conversion = FileName;
   //std::string::size_type s = Conversion.find("\\");
-  //assert( s == std::string::npos );
-  assert( !Conversion.empty() );
+  //gdcm_assert( s == std::string::npos );
+  gdcm_assert( !Conversion.empty() );
   for (std::string::iterator it = Conversion.begin(); it != Conversion.end(); ++it )
     {
     if( *it == '\\' )
       {
-      assert( it+1 == Conversion.end() || *(it+1) != ' ' ); // is it an escaped space ?
+      gdcm_assert( it+1 == Conversion.end() || *(it+1) != ' ' ); // is it an escaped space ?
       *it = '/';
       }
     }
@@ -97,7 +101,6 @@ const char *Filename::ToUnixSlashes()
 }
 
 #if defined(_WIN32) && (defined(_MSC_VER) || defined(__WATCOMC__) || defined(__BORLANDC__) || defined(__MINGW32__))
-#include <windows.h>
 
 inline void Realpath(const char *path, std::string & resolved_path)
 {

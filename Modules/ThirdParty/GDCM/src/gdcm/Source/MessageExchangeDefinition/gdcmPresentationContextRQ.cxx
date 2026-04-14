@@ -36,7 +36,7 @@ PresentationContextRQ::PresentationContextRQ()
 {
   ID = 0x01;
   ItemLength = 8;
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 }
 
 PresentationContextRQ::PresentationContextRQ( UIDs::TSName asname, UIDs::TSName tsname )
@@ -48,7 +48,7 @@ PresentationContextRQ::PresentationContextRQ( UIDs::TSName asname, UIDs::TSName 
 
   TransferSyntaxSub ts;
   ts.SetNameFromUID( tsname );
-  assert( TransferSyntaxes.empty() );
+  gdcm_assert( TransferSyntaxes.empty() );
   AddTransferSyntax( ts );
 }
 
@@ -56,7 +56,7 @@ std::istream &PresentationContextRQ::Read(std::istream &is)
 {
   //uint8_t itemtype = 0x0;
   //is.read( (char*)&itemtype, sizeof(ItemType) );
-  //assert( itemtype == ItemType );
+  //gdcm_assert( itemtype == ItemType );
   uint8_t reserved2;
   is.read( (char*)&reserved2, sizeof(Reserved2) );
   uint16_t itemlength;
@@ -70,7 +70,7 @@ std::istream &PresentationContextRQ::Read(std::istream &is)
   is.read( (char*)&reserved6, sizeof(Reserved6) );
   uint8_t reserved7;
   is.read( (char*)&reserved7, sizeof(Reserved7) );
-//  assert( reserved7 == 0 );
+//  gdcm_assert( reserved7 == 0 );
   //no need for this assert--'This reserved field shall be sent with a value 00H but not tested to this value when received.'
   uint8_t reserved8;
   is.read( (char*)&reserved8, sizeof(Reserved6) );
@@ -85,15 +85,15 @@ std::istream &PresentationContextRQ::Read(std::istream &is)
     TransferSyntaxes.push_back( ts );
     curlen += ts.Size();
     }
-  assert( curlen + offset == ItemLength );
+  gdcm_assert( curlen + offset == ItemLength );
 
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
   return is;
 }
 
 const std::ostream &PresentationContextRQ::Write(std::ostream &os) const
 {
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
   os.write( (const char*)&ItemType, sizeof(ItemType) );
   os.write( (const char*)&Reserved2, sizeof(Reserved2) );
   uint16_t copy = ItemLength;
@@ -131,8 +131,8 @@ size_t PresentationContextRQ::Size() const
     ret += it->Size();
     }
 
-  assert(ret <= (size_t)std::numeric_limits<uint16_t>::max);
-  assert(ret >= 4);
+  gdcm_assert(ret <= (size_t)std::numeric_limits<uint16_t>::max);
+  gdcm_assert(ret >= 4);
   return ret;
 }
 
@@ -140,19 +140,19 @@ void PresentationContextRQ::SetAbstractSyntax( AbstractSyntax const & as )
 {
   SubItems = as;
   ItemLength = (uint16_t)(Size() - 4);
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 }
 
 void PresentationContextRQ::AddTransferSyntax( TransferSyntaxSub const &ts )
 {
   TransferSyntaxes.push_back( ts );
   ItemLength = (uint16_t)(Size() - 4);
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 }
 
 void PresentationContextRQ::SetPresentationContextID( uint8_t id )
 {
-  assert( id );
+  gdcm_assert( id );
   ID = id;
 }
 
@@ -192,7 +192,7 @@ PresentationContextRQ::PresentationContextRQ(const PresentationContext & in)
     AddTransferSyntax( ts );
     }
   SetPresentationContextID( in.GetPresentationContextID() );
-  assert( GetNumberOfTransferSyntaxes() == in.GetNumberOfTransferSyntaxes() );
+  gdcm_assert( GetNumberOfTransferSyntaxes() == in.GetNumberOfTransferSyntaxes() );
 }
 
 } // end namespace network

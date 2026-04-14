@@ -76,9 +76,15 @@ Most compilers implement their own version of this keyword ...
 #define OPJ_DEPRECATED(func) func
 #endif
 
+#if defined(__GNUC__) && __GNUC__ >= 6
+#define OPJ_DEPRECATED_STRUCT_MEMBER(memb, msg) __attribute__ ((deprecated(msg))) memb
+#else
+#define OPJ_DEPRECATED_STRUCT_MEMBER(memb, msg) memb
+#endif
+
 #if defined(OPJ_STATIC) || !defined(_WIN32)
 /* http://gcc.gnu.org/wiki/Visibility */
-#   if __GNUC__ >= 4
+#   if !defined(_WIN32) && __GNUC__ >= 4
 #       if defined(OPJ_STATIC) /* static library uses "hidden" */
 #           define OPJ_API    __attribute__ ((visibility ("hidden")))
 #       else
@@ -117,7 +123,7 @@ typedef double        OPJ_FLOAT64;
 typedef unsigned char OPJ_BYTE;
 
 #include "openjpeg_mangle.h"
-#include "opj_stdint.h"
+#include <stdint.h>
 
 typedef int8_t   OPJ_INT8;
 typedef uint8_t  OPJ_UINT8;
@@ -132,6 +138,8 @@ typedef int64_t  OPJ_OFF_T; /* 64-bit file offset type */
 
 #include <stdio.h>
 typedef size_t   OPJ_SIZE_T;
+
+#include "opj_config.h"
 
 /* Avoid compile-time warning because parameter is not used */
 #define OPJ_ARG_NOT_USED(x) (void)(x)
@@ -205,11 +213,11 @@ typedef size_t   OPJ_SIZE_T;
 #define OPJ_PROFILE_BC_MULTI    0x0200 /** Multi Tile Broadcast profile defined in 15444-1 AMD3 */
 #define OPJ_PROFILE_BC_MULTI_R  0x0300 /** Multi Tile Reversible Broadcast profile defined in 15444-1 AMD3 */
 #define OPJ_PROFILE_IMF_2K      0x0400 /** 2K Single Tile Lossy IMF profile defined in 15444-1 AMD 8 */
-#define OPJ_PROFILE_IMF_4K      0x0401 /** 4K Single Tile Lossy IMF profile defined in 15444-1 AMD 8 */
-#define OPJ_PROFILE_IMF_8K      0x0402 /** 8K Single Tile Lossy IMF profile defined in 15444-1 AMD 8 */
-#define OPJ_PROFILE_IMF_2K_R    0x0403 /** 2K Single/Multi Tile Reversible IMF profile defined in 15444-1 AMD 8 */
+#define OPJ_PROFILE_IMF_4K      0x0500 /** 4K Single Tile Lossy IMF profile defined in 15444-1 AMD 8 */
+#define OPJ_PROFILE_IMF_8K      0x0600 /** 8K Single Tile Lossy IMF profile defined in 15444-1 AMD 8 */
+#define OPJ_PROFILE_IMF_2K_R    0x0700 /** 2K Single/Multi Tile Reversible IMF profile defined in 15444-1 AMD 8 */
 #define OPJ_PROFILE_IMF_4K_R    0x0800 /** 4K Single/Multi Tile Reversible IMF profile defined in 15444-1 AMD 8 */
-#define OPJ_PROFILE_IMF_8K_R    0x0801  /** 8K Single/Multi Tile Reversible IMF profile defined in 15444-1 AMD 8 */
+#define OPJ_PROFILE_IMF_8K_R    0x0900 /** 8K Single/Multi Tile Reversible IMF profile defined in 15444-1 AMD 8 */
 
 /**
  * JPEG 2000 Part-2 extensions
@@ -225,6 +233,36 @@ typedef size_t   OPJ_SIZE_T;
 #define OPJ_IS_BROADCAST(v)  (((v) >= OPJ_PROFILE_BC_SINGLE)&&((v) <= ((OPJ_PROFILE_BC_MULTI_R) | (0x000b))))
 #define OPJ_IS_IMF(v)        (((v) >= OPJ_PROFILE_IMF_2K)&&((v) <= ((OPJ_PROFILE_IMF_8K_R) | (0x009b))))
 #define OPJ_IS_PART2(v)      ((v) & OPJ_PROFILE_PART2)
+
+#define OPJ_GET_IMF_PROFILE(v)   ((v) & 0xff00)      /** Extract IMF profile without mainlevel/sublevel */
+#define OPJ_GET_IMF_MAINLEVEL(v) ((v) & 0xf)         /** Extract IMF main level */
+#define OPJ_GET_IMF_SUBLEVEL(v)  (((v) >> 4) & 0xf)  /** Extract IMF sub level */
+
+#define OPJ_IMF_MAINLEVEL_MAX    11   /** Maximum main level */
+
+/** Max. Components Sampling Rate (MSamples/sec) per IMF main level */
+#define OPJ_IMF_MAINLEVEL_1_MSAMPLESEC   65      /** MSamples/sec for IMF main level 1 */
+#define OPJ_IMF_MAINLEVEL_2_MSAMPLESEC   130     /** MSamples/sec for IMF main level 2 */
+#define OPJ_IMF_MAINLEVEL_3_MSAMPLESEC   195     /** MSamples/sec for IMF main level 3 */
+#define OPJ_IMF_MAINLEVEL_4_MSAMPLESEC   260     /** MSamples/sec for IMF main level 4 */
+#define OPJ_IMF_MAINLEVEL_5_MSAMPLESEC   520     /** MSamples/sec for IMF main level 5 */
+#define OPJ_IMF_MAINLEVEL_6_MSAMPLESEC   1200    /** MSamples/sec for IMF main level 6 */
+#define OPJ_IMF_MAINLEVEL_7_MSAMPLESEC   2400    /** MSamples/sec for IMF main level 7 */
+#define OPJ_IMF_MAINLEVEL_8_MSAMPLESEC   4800    /** MSamples/sec for IMF main level 8 */
+#define OPJ_IMF_MAINLEVEL_9_MSAMPLESEC   9600    /** MSamples/sec for IMF main level 9 */
+#define OPJ_IMF_MAINLEVEL_10_MSAMPLESEC  19200   /** MSamples/sec for IMF main level 10 */
+#define OPJ_IMF_MAINLEVEL_11_MSAMPLESEC  38400   /** MSamples/sec for IMF main level 11 */
+
+/** Max. compressed Bit Rate (Mbits/s) per IMF sub level */
+#define OPJ_IMF_SUBLEVEL_1_MBITSSEC      200     /** Mbits/s for IMF sub level 1 */
+#define OPJ_IMF_SUBLEVEL_2_MBITSSEC      400     /** Mbits/s for IMF sub level 2 */
+#define OPJ_IMF_SUBLEVEL_3_MBITSSEC      800     /** Mbits/s for IMF sub level 3 */
+#define OPJ_IMF_SUBLEVEL_4_MBITSSEC     1600     /** Mbits/s for IMF sub level 4 */
+#define OPJ_IMF_SUBLEVEL_5_MBITSSEC     3200     /** Mbits/s for IMF sub level 5 */
+#define OPJ_IMF_SUBLEVEL_6_MBITSSEC     6400     /** Mbits/s for IMF sub level 6 */
+#define OPJ_IMF_SUBLEVEL_7_MBITSSEC    12800     /** Mbits/s for IMF sub level 7 */
+#define OPJ_IMF_SUBLEVEL_8_MBITSSEC    25600     /** Mbits/s for IMF sub level 8 */
+#define OPJ_IMF_SUBLEVEL_9_MBITSSEC    51200     /** Mbits/s for IMF sub level 9 */
 
 /**
  * JPEG 2000 codestream and component size limits in cinema profiles
@@ -319,6 +357,10 @@ typedef void (*opj_msg_callback)(const char *msg, void *client_data);
 ==========================================================
 */
 
+#ifndef OPJ_UINT32_SEMANTICALLY_BUT_INT32
+#define OPJ_UINT32_SEMANTICALLY_BUT_INT32 OPJ_INT32
+#endif
+
 /**
  * Progression order changes
  *
@@ -334,10 +376,10 @@ typedef struct opj_poc {
     OPJ_PROG_ORDER prg1, prg;
     /** Progression order string*/
     OPJ_CHAR progorder[5];
-    /** Tile number */
+    /** Tile number (starting at 1) */
     OPJ_UINT32 tile;
     /** Start and end values for Tile width and height*/
-    OPJ_INT32 tx0, tx1, ty0, ty1;
+    OPJ_UINT32_SEMANTICALLY_BUT_INT32 tx0, tx1, ty0, ty1;
     /** Start value, initialised in pi_initialise_encode*/
     OPJ_UINT32 layS, resS, compS, prcS;
     /** End value, initialised in pi_initialise_encode */
@@ -366,7 +408,7 @@ typedef struct opj_cparameters {
     int cp_disto_alloc;
     /** allocation by fixed layer */
     int cp_fixed_alloc;
-    /** add fixed_quality */
+    /** allocation by fixed quality (PSNR) */
     int cp_fixed_quality;
     /** fixed layer */
     int *cp_matrice;
@@ -416,9 +458,9 @@ typedef struct opj_cparameters {
     char infile[OPJ_PATH_LEN];
     /** output file name */
     char outfile[OPJ_PATH_LEN];
-    /** DEPRECATED. Index generation is now handeld with the opj_encode_with_info() function. Set to NULL */
+    /** DEPRECATED. Index generation is now handled with the opj_encode_with_info() function. Set to NULL */
     int index_on;
-    /** DEPRECATED. Index generation is now handeld with the opj_encode_with_info() function. Set to NULL */
+    /** DEPRECATED. Index generation is now handled with the opj_encode_with_info() function. Set to NULL */
     char index[OPJ_PATH_LEN];
     /** subimage encoding: origin image offset in x direction */
     int image_offset_x0;
@@ -505,7 +547,7 @@ typedef struct opj_cparameters {
 } opj_cparameters_t;
 
 #define OPJ_DPARAMETERS_IGNORE_PCLR_CMAP_CDEF_FLAG  0x0001
-#define OPJ_DPARAMETERS_DUMP_FLAG 0x0002
+#define OPJ_DPARAMETERS_DUMP_FLAG                   0x0002
 
 /**
  * Decompression parameters
@@ -549,7 +591,7 @@ typedef struct opj_dparameters {
     /** Verbose mode */
     OPJ_BOOL m_verbose;
 
-    /** tile number ot the decoded tile*/
+    /** tile number of the decoded tile */
     OPJ_UINT32 tile_index;
     /** Nb of tile to decode */
     OPJ_UINT32 nb_tile_to_decode;
@@ -648,10 +690,10 @@ typedef struct opj_image_comp {
     OPJ_UINT32 x0;
     /** y component offset compared to the whole image */
     OPJ_UINT32 y0;
-    /** precision */
+    /** precision: number of bits per component per pixel */
     OPJ_UINT32 prec;
-    /** image depth in bits */
-    OPJ_UINT32 bpp;
+    /** obsolete: use prec instead */
+    OPJ_DEPRECATED_STRUCT_MEMBER(OPJ_UINT32 bpp, "Use prec instead");
     /** signed (1) / unsigned (0) */
     OPJ_UINT32 sgnd;
     /** number of decoded resolution */
@@ -705,10 +747,10 @@ typedef struct opj_image_comptparm {
     OPJ_UINT32 x0;
     /** y component offset compared to the whole image */
     OPJ_UINT32 y0;
-    /** precision */
+    /** precision: number of bits per component per pixel */
     OPJ_UINT32 prec;
-    /** image depth in bits */
-    OPJ_UINT32 bpp;
+    /** obsolete: use prec instead */
+    OPJ_DEPRECATED_STRUCT_MEMBER(OPJ_UINT32 bpp, "Use prec instead");
     /** signed (1) / unsigned (0) */
     OPJ_UINT32 sgnd;
 } opj_image_cmptparm_t;
@@ -731,7 +773,7 @@ typedef struct opj_packet_info {
     OPJ_OFF_T end_ph_pos;
     /** packet end position */
     OPJ_OFF_T end_pos;
-    /** packet distorsion */
+    /** packet distortion */
     double disto;
 } opj_packet_info_t;
 
@@ -790,9 +832,9 @@ typedef struct opj_tile_info {
     int pdy[33];
     /** information concerning packets inside tile */
     opj_packet_info_t *packet;
-    /** add fixed_quality */
+    /** number of pixels of the tile */
     int numpix;
-    /** add fixed_quality */
+    /** distortion of the tile */
     double distotile;
     /** number of markers */
     int marknum;
@@ -1179,7 +1221,8 @@ OPJ_API void OPJ_CALLCONV opj_stream_set_skip_function(opj_stream_t* p_stream,
         opj_stream_skip_fn p_function);
 
 /**
- * Sets the given function to be used as a seek function, the stream is then seekable.
+ * Sets the given function to be used as a seek function, the stream is then seekable,
+ * using SEEK_SET behavior.
  * @param       p_stream    the stream to modify
  * @param       p_function  the function to use a skip function.
 */
@@ -1306,6 +1349,24 @@ OPJ_API OPJ_BOOL OPJ_CALLCONV opj_setup_decoder(opj_codec_t *p_codec,
         opj_dparameters_t *parameters);
 
 /**
+ * Set strict decoding parameter for this decoder.
+ * If strict decoding is enabled, partial bit streams will fail to decode, and
+ * the check for invalid TPSOT values added in https://github.com/uclouvain/openjpeg/pull/514
+ * will be disabled.
+ * If strict decoding is disabled, the decoder will decode partial
+ * bitstreams as much as possible without erroring, and the TPSOT fixing logic
+ * will be enabled.
+ *
+ * @param p_codec       decompressor handler
+ * @param strict        OPJ_TRUE to enable strict decoding, OPJ_FALSE to disable
+ *
+ * @return true         if the decoder is correctly set
+ */
+
+OPJ_API OPJ_BOOL OPJ_CALLCONV opj_decoder_set_strict_mode(opj_codec_t *p_codec,
+        OPJ_BOOL strict);
+
+/**
  * Allocates worker threads for the compressor/decompressor.
  *
  * By default, only the main thread is used. If this function is not used,
@@ -1314,12 +1375,14 @@ OPJ_API OPJ_BOOL OPJ_CALLCONV opj_setup_decoder(opj_codec_t *p_codec,
  * number, or "ALL_CPUS". If OPJ_NUM_THREADS is set and this function is called,
  * this function will override the behaviour of the environment variable.
  *
- * Note: currently only has effect on the decompressor.
+ * This function must be called after opj_setup_decoder() and
+ * before opj_read_header() for the decoding side, or after opj_setup_encoder()
+ * and before opj_start_compress() for the encoding side.
  *
- * @param p_codec       decompressor handler
+ * @param p_codec       decompressor or compressor handler
  * @param num_threads   number of threads.
  *
- * @return OPJ_TRUE     if the decoder is correctly set
+ * @return OPJ_TRUE     if the function is successful.
  */
 OPJ_API OPJ_BOOL OPJ_CALLCONV opj_codec_set_threads(opj_codec_t *p_codec,
         int num_threads);
@@ -1382,7 +1445,7 @@ OPJ_API OPJ_BOOL OPJ_CALLCONV opj_set_decoded_components(opj_codec_t *p_codec,
  * performance improvements when reading an image by chunks.
  *
  * @param   p_codec         the jpeg2000 codec.
- * @param   p_image         the decoded image previously setted by opj_read_header
+ * @param   p_image         the decoded image previously set by opj_read_header
  * @param   p_start_x       the left position of the rectangle to decode (in image coordinates).
  * @param   p_end_x         the right position of the rectangle to decode (in image coordinates).
  * @param   p_start_y       the up position of the rectangle to decode (in image coordinates).
@@ -1411,7 +1474,7 @@ OPJ_API OPJ_BOOL OPJ_CALLCONV opj_decode(opj_codec_t *p_decompressor,
  * Get the decoded tile from the codec
  *
  * @param   p_codec         the jpeg2000 codec.
- * @param   p_stream        input streamm
+ * @param   p_stream        input stream
  * @param   p_image         output image
  * @param   tile_index      index of the tile which will be decode
  *
@@ -1542,6 +1605,39 @@ OPJ_API void OPJ_CALLCONV opj_set_default_encoder_parameters(
 OPJ_API OPJ_BOOL OPJ_CALLCONV opj_setup_encoder(opj_codec_t *p_codec,
         opj_cparameters_t *parameters,
         opj_image_t *image);
+
+
+/**
+ * Specify extra options for the encoder.
+ *
+ * This may be called after opj_setup_encoder() and before opj_start_compress()
+ *
+ * This is the way to add new options in a fully ABI compatible way, without
+ * extending the opj_cparameters_t structure.
+ *
+ * Currently supported options are:
+ * <ul>
+ * <li>PLT=YES/NO. Defaults to NO. If set to YES, PLT marker segments,
+ *     indicating the length of each packet in the tile-part header, will be
+ *     written. Since 2.4.0</li>
+ * <li>TLM=YES/NO. Defaults to NO (except for Cinema and IMF profiles).
+ *     If set to YES, TLM marker segments, indicating the length of each
+ *     tile-part part will be written. Since 2.4.0</li>
+ * <li>GUARD_BITS=value. Number of guard bits in [0,7] range. Default value is 2.
+ *     1 may be used sometimes (like in SMPTE DCP Bv2.1 Application Profile for 2K images).
+ *     Since 2.5.0</li>
+ * </ul>
+ *
+ * @param p_codec       Compressor handle
+ * @param p_options     Compression options. This should be a NULL terminated
+ *                      array of strings. Each string is of the form KEY=VALUE.
+ *
+ * @return OPJ_TRUE in case of success.
+ * @since 2.4.0
+ */
+OPJ_API OPJ_BOOL OPJ_CALLCONV opj_encoder_set_extra_options(
+    opj_codec_t *p_codec,
+    const char* const* p_options);
 
 /**
  * Start to compress the current image.

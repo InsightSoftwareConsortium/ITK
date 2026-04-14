@@ -26,7 +26,7 @@ XMLPrivateDictReader::XMLPrivateDictReader():ParsingDescription(false),Descripti
 
 void XMLPrivateDictReader::HandleEntry(const char **atts)
 {
-  assert( !ParsingDescription );
+  gdcm_assert( !ParsingDescription );
   std::string name;
   std::string owner;
   VR vr;
@@ -52,37 +52,37 @@ void XMLPrivateDictReader::HandleEntry(const char **atts)
 
   while(*current /*&& current+1*/)
     {
-    assert( *(current + 1) );
+    gdcm_assert( *(current + 1) );
     if( group == *current )
       {
       unsigned int v;
       const char *raw = *(current+1);
       int r = sscanf(raw, "%04x", &v);
-      assert( r == 1 );
-      assert( v <= 0xFFFF );
+      gdcm_assert( r == 1 );
+      gdcm_assert( v <= 0xFFFF );
 
       char sv[4+1];
       r = snprintf(sv, sizeof(sv), "%04x", v);
-      assert( r == 4 );
+      gdcm_assert( r == 4 );
       if( strncmp(raw, sv, 4) == 0 ) // GroupXX
         {
         tag.SetGroup( v );
         }
       else
         {
-        assert( (raw[0] == '5' && raw[1] == '0') || (raw[0] == '6' && raw[1] == '0') ||
+        gdcm_assert( (raw[0] == '5' && raw[1] == '0') || (raw[0] == '6' && raw[1] == '0') ||
           (raw[0] == '7' && raw[1] == '0') );
         if( raw[0] == '5' ) tag.SetGroup( 0x5000 );
         else if( raw[0] == '6' ) tag.SetGroup( 0x6000 );
         else if( raw[0] == '7' ) tag.SetGroup( 0x7000 );
-        else assert(0);
+        else gdcm_assert(0);
         CurrentDE.SetGroupXX( true );
         }
       }
     else if( element == *current )
       {
       const char *raw = *(current+1);
-      assert( (raw[0] == 'x' && raw[1] == 'x' )
+      gdcm_assert( (raw[0] == 'x' && raw[1] == 'x' )
            || (raw[2] == 'x' && raw[3] == 'x') );
       if (raw[2] == 'x' && raw[3] == 'x')
         {
@@ -98,40 +98,40 @@ void XMLPrivateDictReader::HandleEntry(const char **atts)
           }
         else
           {
-          assert(0); // FIXME
+          gdcm_assert(0); // FIXME
           }
         }
       else
         {
         unsigned int v;
         int r = sscanf(raw+2, "%02x", &v);
-        assert( r == 1 );
-        assert( v <= 0xFF );
+        gdcm_assert( r == 1 );
+        gdcm_assert( v <= 0xFF );
 
         char sv[4+1];
         r = snprintf(sv, sizeof(sv), "xx%02x", v);
-        assert( r == 4 );
+        gdcm_assert( r == 4 );
         if( strncmp(raw, sv, 4) == 0 )
           {
           tag.SetElement( v );
           }
         else
           {
-          assert(0);
+          gdcm_assert(0);
           }
         }
       }
     else if( strvr == *current )
       {
       vr = VR::GetVRTypeFromFile( *(current + 1) );
-      //assert( vr != VR::INVALID );
+      //gdcm_assert( vr != VR::INVALID );
       }
     else if( strvm == *current )
       {
       vm = VM::GetVMType( *(current + 1) );
-      //assert( *(current+1) != '\0' );
-      //assert( vm != VM::VM0 );
-      //assert( vm != VM::VM_END );
+      //gdcm_assert( *(current+1) != '\0' );
+      //gdcm_assert( vm != VM::VM0 );
+      //gdcm_assert( vm != VM::VM_END );
       }
     else if( retired == *current )
       {
@@ -145,7 +145,7 @@ void XMLPrivateDictReader::HandleEntry(const char **atts)
         }
       else
         {
-        assert(0);
+        gdcm_assert(0);
         }
       }
     else if( version == *current )
@@ -162,7 +162,7 @@ void XMLPrivateDictReader::HandleEntry(const char **atts)
       }
     else
       {
-      assert(0);
+      gdcm_assert(0);
       }
     // goes on to the next attribute (need to skip value)
     ++current;
@@ -175,9 +175,9 @@ void XMLPrivateDictReader::HandleEntry(const char **atts)
 
 void XMLPrivateDictReader::HandleDescription(const char **atts)
 {
-  assert( ParsingDescription );
-  assert( *atts == NULL );
-  assert( Description == "" );
+  gdcm_assert( ParsingDescription );
+  gdcm_assert( *atts == NULL );
+  gdcm_assert( Description == "" );
 #if 0
   DictEntry &de = CurrentDE;
 
@@ -185,7 +185,7 @@ void XMLPrivateDictReader::HandleDescription(const char **atts)
   std::string description;
   while(*current /*&& current+1*/)
     {
-    assert( *(current + 1) );
+    gdcm_assert( *(current + 1) );
     ++current;
     }
   // Done !
@@ -217,7 +217,7 @@ void XMLPrivateDictReader::StartElement(const char *name, const char **atts)
   else
     {
     std::cerr << name << std::endl;
-    assert(0);
+    gdcm_assert(0);
     }
 }
 
@@ -233,7 +233,7 @@ void XMLPrivateDictReader::EndElement(const char *name)
     }
   else if( description == name )
     {
-    assert( ParsingDescription );
+    gdcm_assert( ParsingDescription );
     ParsingDescription = false;
 
     // TODO: do something with description ??
@@ -246,7 +246,7 @@ void XMLPrivateDictReader::EndElement(const char *name)
     }
   else
     {
-    assert(0);
+    gdcm_assert(0);
     }
 }
 
@@ -255,7 +255,7 @@ void XMLPrivateDictReader::CharacterDataHandler(const char *data, int length)
   if( ParsingDescription )
     {
     std::string name( data, length);
-    assert( length == strlen( name.c_str() ) );
+    gdcm_assert( length == strlen( name.c_str() ) );
     Description.append( name );
     }
 }

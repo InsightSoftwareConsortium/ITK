@@ -77,7 +77,7 @@ bool ImageWriter::Write()
   const MediaStorage ms = ComputeTargetMediaStorage();
   if( !PrepareWrite( ms ) ) return false;
 
-  //assert( Stream.is_open() );
+  //gdcm_assert( Stream.is_open() );
   File& file = GetFile();
   DataSet& ds = file.GetDataSet();
 
@@ -121,7 +121,7 @@ bool ImageWriter::Write()
   char date[22];
   const size_t datelen = 8;
   int res = System::GetCurrentDateTime(date);
-  assert( res );
+  gdcm_assert( res );
   (void)res;//warning removal
   if( !ds.FindDataElement( Tag(0x0008,0x0020) ) )
     {
@@ -177,7 +177,7 @@ bool ImageWriter::Write()
     ds.Insert( de );
     }
 
-  assert( ms != MediaStorage::MS_END );
+  gdcm_assert( ms != MediaStorage::MS_END );
 
   // Patient Orientation
   if( ms == MediaStorage::SecondaryCaptureImageStorage && !ds.FindDataElement( Tag(0x0020,0x0020) ) )
@@ -204,18 +204,18 @@ bool ImageWriter::Write()
     if( bv )
       {
       modality2 = std::string( bv->GetPointer(), bv->GetLength() );
-      //assert( modality2.find( ' ' ) == std::string::npos ); // no space ...
+      //gdcm_assert( modality2.find( ' ' ) == std::string::npos ); // no space ...
       }
     else
       {
       // remove empty Modality, and set a new one...
       ds.Remove( Tag(0x0008, 0x0060 ) ); // Modality is Type 1 !
-      assert( ms != MediaStorage::MS_END );
+      gdcm_assert( ms != MediaStorage::MS_END );
       }
 /*
     if( modality2 != ms.GetModality() )
       {
-      assert( std::string(ms.GetModality()).find( ' ' ) == std::string::npos ); // no space ...
+      gdcm_assert( std::string(ms.GetModality()).find( ' ' ) == std::string::npos ); // no space ...
       DataElement de( Tag(0x0008, 0x0060 ) );
       de.SetByteValue( ms.GetModality(), strlen(ms.GetModality()) );
       de.SetVR( Attribute<0x0008, 0x0060>::GetVR() );
@@ -246,8 +246,12 @@ bool ImageWriter::Write()
   // Do the Rescale Intercept & Slope
   if( pi == PhotometricInterpretation::MONOCHROME1 || pi == PhotometricInterpretation::MONOCHROME2 )
   {
-    assert( pf.GetSamplesPerPixel() == 1 );
-    ImageHelper::SetRescaleInterceptSlopeValue(GetFile(), pixeldata);
+    gdcm_assert( pf.GetSamplesPerPixel() == 1 );
+    try {
+      ImageHelper::SetRescaleInterceptSlopeValue(GetFile(), pixeldata);
+    } catch( const char * ) {
+      return false;
+    }
     if( ms == MediaStorage::RTDoseStorage && pixeldata.GetIntercept() != 0 )
     {
       return false;
@@ -282,8 +286,8 @@ bool ImageWriter::Write()
     if ( pi == PhotometricInterpretation::PALETTE_COLOR )
       {
       const LookupTable &lut = PixelData->GetLUT();
-      assert( lut.Initialized() );
-//      assert( (pf.GetBitsAllocated() == 8  && pf.GetPixelRepresentation() == 0)
+      gdcm_assert( lut.Initialized() );
+//      gdcm_assert( (pf.GetBitsAllocated() == 8  && pf.GetPixelRepresentation() == 0)
 //           || (pf.GetBitsAllocated() == 16 && pf.GetPixelRepresentation() == 0) );
       // lut descriptor:
       // (0028,1101) US 256\0\16                                 #   6, 3 RedPaletteColorLookupTableDescriptor
@@ -415,7 +419,7 @@ Attribute<0x0028,0x0004> piat;
     ImageHelper::SetOriginValue(ds, pixeldata);
     }
 
-  assert( Stream );
+  gdcm_assert( Stream );
   if( !Writer::Write() )
     {
     return false;

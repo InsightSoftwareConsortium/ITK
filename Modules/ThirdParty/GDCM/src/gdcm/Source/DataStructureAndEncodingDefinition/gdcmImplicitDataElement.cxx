@@ -23,7 +23,7 @@ VL ImplicitDataElement::GetLength() const
 {
   if( ValueLengthField.IsUndefined() )
     {
-    assert( ValueField->GetLength().IsUndefined() );
+    gdcm_assert( ValueField->GetLength().IsUndefined() );
     Value *p = ValueField;
     SequenceOfItems *sq = dynamic_cast<SequenceOfItems*>(p);
     if( sq )
@@ -35,12 +35,12 @@ VL ImplicitDataElement::GetLength() const
     SequenceOfFragments *sf = dynamic_cast<SequenceOfFragments*>(p);
     if( sf )
       {
-      //assert( VRField & VR::OB_OW ); // VR::INVALID is not possible AFAIK...
+      //gdcm_assert( VRField & VR::OB_OW ); // VR::INVALID is not possible AFAIK...
       return TagField.GetLength() /*+ VRField.GetLength()*/
         + ValueLengthField.GetLength() + sf->ComputeLength();
       }
 #endif
-    assert( !ValueLengthField.IsUndefined() );
+    gdcm_assert( !ValueLengthField.IsUndefined() );
     return ValueLengthField;
     }
   //else if( const SequenceOfItems *sqi = GetSequenceOfItems() )
@@ -52,7 +52,7 @@ VL ImplicitDataElement::GetLength() const
     }
   else
     {
-    assert( !ValueField || ValueField->GetLength() == ValueLengthField );
+    gdcm_assert( !ValueField || ValueField->GetLength() == ValueLengthField );
     return TagField.GetLength() + ValueLengthField.GetLength()
       + ValueLengthField;
     }

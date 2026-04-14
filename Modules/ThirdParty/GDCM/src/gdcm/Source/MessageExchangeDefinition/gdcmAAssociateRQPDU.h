@@ -60,12 +60,12 @@ public:
 
   AAssociateRQPDU(const AAssociateRQPDU &pdu):BasePDU(pdu)
     {
-    assert( 0 );
+    gdcm_assert( 0 );
     }
   //this function fails to compile on windows.
 //  AAssociateRQPDU &operator=(const AAssociateRQPDU &_val)
 //    {
-//    assert( 0 );
+//    gdcm_assert( 0 );
 //    }
 
   typedef std::vector<PresentationContextRQ>::size_type SizeType;
@@ -73,7 +73,7 @@ public:
     return PresContext.size();
   }
   PresentationContextRQ const &GetPresentationContext(SizeType i) const {
-    assert( !PresContext.empty() && i < PresContext.size() );
+    gdcm_assert( !PresContext.empty() && i < PresContext.size() );
     return PresContext[i];
   }
   typedef std::vector<PresentationContextRQ> PresentationContextArrayType;

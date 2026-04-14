@@ -37,7 +37,7 @@ const MacroEntry& Macro::GetMacroEntry(const Tag &tag) const
   MapModuleEntry::const_iterator it = ModuleInternal.find(tag);
   if( it != ModuleInternal.end() )
     {
-    assert( it->first == tag );
+    gdcm_assert( it->first == tag );
     return it->second;
     }
   // Not found anywhere :(

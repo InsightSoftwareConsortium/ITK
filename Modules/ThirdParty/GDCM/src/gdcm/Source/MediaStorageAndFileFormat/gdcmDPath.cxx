@@ -48,7 +48,7 @@ static inline std::string tostring(uint16_t const val, int const width = 4) {
 
 static std::vector<std::string> tag2strings(gdcm::Tag const &tag) {
   std::vector<std::string> ret;
-  assert(tag.IsPublic() || tag.IsPrivateCreator() || tag.IsGroupLength());
+  gdcm_assert(tag.IsPublic() || tag.IsPrivateCreator() || tag.IsGroupLength());
   ret.push_back(tostring(tag.GetGroup()));
   ret.push_back(tostring(tag.GetElement()));
   return ret;
@@ -86,7 +86,7 @@ static std::vector<std::string> split_from_slash_separated(
       comps.push_back(sub);
     } else {
 #if 0
-      assert(!comps.empty());
+      gdcm_assert(!comps.empty());
       std::string &last = comps.back();
       last.push_back(separator);
       last.append(sub);
@@ -122,7 +122,7 @@ bool DPath::ConstructFromString(const char *spath) {
   std::ostringstream os;
   std::vector<std::string>::const_iterator it = comps.begin();
   unsigned int index = 0;
-  assert(comps.size() >= 2);
+  gdcm_assert(comps.size() >= 2);
   // check root
   if (!it->empty()) return false;
   ++it;

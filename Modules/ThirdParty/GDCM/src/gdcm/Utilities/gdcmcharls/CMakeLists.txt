@@ -1,5 +1,5 @@
 if(NOT DEFINED CMAKE_MINIMUM_REQUIRED_VERSION)
-  cmake_minimum_required(VERSION 2.8.7)
+  cmake_minimum_required(VERSION 2.8.7...${GDCM_MAX_VALIDATED_CMAKE_VERSION})
 endif()
 
 if(NOT CHARLS_NAMESPACE)
@@ -11,14 +11,6 @@ string(TOLOWER ${CHARLS_NAMESPACE} CHARLS_LIBRARY_NAME)
 
 project(${CHARLS_NAMESPACE} CXX)
 
-foreach(p
-    CMP0042
-    CMP0063
-    )
-  if(POLICY ${p})
-    cmake_policy(SET ${p} NEW)
-  endif()
-endforeach()
 
 #-----------------------------------------------------------------------------
 # CHARLS version number
@@ -73,7 +65,7 @@ add_library(${CHARLS_LIBRARY_NAME}
   interface.cpp  jpegls.cpp  jpegmarkersegment.cpp  jpegstreamreader.cpp  jpegstreamwriter.cpp
   )
 target_compile_features(${CHARLS_LIBRARY_NAME}
-# PUBLIC cxx_strong_enums
+ PUBLIC cxx_strong_enums
  PRIVATE cxx_nullptr)
 set_target_properties( ${CHARLS_LIBRARY_NAME} PROPERTIES
                               VERSION ${CHARLS_MAJOR_VERSION}.${CHARLS_MINOR_VERSION}

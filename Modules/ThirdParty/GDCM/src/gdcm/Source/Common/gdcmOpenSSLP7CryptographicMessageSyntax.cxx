@@ -446,7 +446,7 @@ bool OpenSSLP7CryptographicMessageSyntax::ParseCertificateFile( const char *keyf
 {
 #ifdef GDCM_USE_SYSTEM_OPENSSL
   STACK_OF(X509) *recips = Internals->GetRecipients();
-  assert( recips );
+  gdcm_assert( recips );
   ::X509 *x509 = NULL;
 
   ::BIO *in;

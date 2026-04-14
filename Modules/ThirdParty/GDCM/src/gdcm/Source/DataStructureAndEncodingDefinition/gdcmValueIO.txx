@@ -42,7 +42,7 @@ namespace gdcm_ns
       }
     else
       {
-      assert( 0 && "error" );
+      gdcm_assert( 0 && "error" );
       }
     return is;
   }
@@ -57,7 +57,7 @@ namespace gdcm_ns
     else if( const SequenceOfItems *si = dynamic_cast<const SequenceOfItems*>(v) )
       {
       //VL dummy = si->ComputeLength<DE>();
-      //assert( /*dummy.IsUndefined() ||*/ dummy == si->GetLength() );
+      //gdcm_assert( /*dummy.IsUndefined() ||*/ dummy == si->GetLength() );
       si->template Write<DE,TSwap>(os);
       }
     else if( const SequenceOfFragments *sf = dynamic_cast<const SequenceOfFragments*>(v) )
@@ -66,7 +66,7 @@ namespace gdcm_ns
       }
     else
       {
-      assert( 0 && "error" );
+      gdcm_assert( 0 && "error" );
       }
     return os;
   }

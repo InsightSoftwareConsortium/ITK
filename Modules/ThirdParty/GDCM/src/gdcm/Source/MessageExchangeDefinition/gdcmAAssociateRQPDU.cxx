@@ -49,14 +49,14 @@ AAssociateRQPDU::AAssociateRQPDU()
   //SetCallingAETitle( "MOVESCU" );
 
   ItemLength = (uint32_t)Size() - 6;
-  assert( (ItemLength + 4 + 1 + 1) == Size() );
+  gdcm_assert( (ItemLength + 4 + 1 + 1) == Size() );
 }
 
 std::istream &AAssociateRQPDU::Read(std::istream &is)
 {
   //uint8_t itemtype = 0;
   //is.read( (char*)&itemtype, sizeof(ItemType) );
-  //assert( itemtype == ItemType );
+  //gdcm_assert( itemtype == ItemType );
   uint8_t reserved2;
   is >> reserved2;
   uint32_t itemlength;
@@ -114,16 +114,16 @@ std::istream &AAssociateRQPDU::Read(std::istream &is)
     // length of remaining bytes to read.
     //curlen = Size();
     }
-  assert( curlen + 68 == ItemLength );
+  gdcm_assert( curlen + 68 == ItemLength );
 
-  assert( ItemLength + 4 + 1 + 1 == Size() );
+  gdcm_assert( ItemLength + 4 + 1 + 1 == Size() );
 
   return is;
 }
 
 const std::ostream &AAssociateRQPDU::Write(std::ostream &os) const
 {
-  assert( ItemLength + 4 + 1 + 1 == Size() );
+  gdcm_assert( ItemLength + 4 + 1 + 1 == Size() );
 #if 0
   // Need to check all context Id are ordered ? and odd number ?
   std::vector<PresentationContextRQ>::const_iterator it = PresContext.begin();
@@ -141,9 +141,9 @@ const std::ostream &AAssociateRQPDU::Write(std::ostream &os) const
   SwapperDoOp::SwapArray(&protocolversion,1);
   os.write( (const char*)&protocolversion, sizeof(ProtocolVersion) );
   os.write( (const char*)&Reserved9_10, sizeof(Reserved9_10) );
-  assert( AAssociateRQPDU::IsAETitleValid(CalledAETitle) );
+  gdcm_assert( AAssociateRQPDU::IsAETitleValid(CalledAETitle) );
   os.write( CalledAETitle, 16 );
-  assert( AAssociateRQPDU::IsAETitleValid(CallingAETitle) );
+  gdcm_assert( AAssociateRQPDU::IsAETitleValid(CallingAETitle) );
   os.write( CallingAETitle, 16 );
   os.write( (const char*)&Reserved43_74, sizeof(Reserved43_74) );
   AppContext.Write(os);
@@ -216,12 +216,12 @@ void AAssociateRQPDU::AddPresentationContext( PresentationContextRQ const &pc )
 {
   PresContext.push_back( pc );
   ItemLength = (uint32_t)Size() - 6;
-  assert( (ItemLength + 4 + 1 + 1) == Size() );
+  gdcm_assert( (ItemLength + 4 + 1 + 1) == Size() );
 }
 
 void AAssociateRQPDU::SetCalledAETitle(const char calledaetitle[16])
 {
-  assert( AAssociateRQPDU::IsAETitleValid(calledaetitle) );
+  gdcm_assert( AAssociateRQPDU::IsAETitleValid(calledaetitle) );
   size_t len = strlen( calledaetitle );
   if( len <= 16 )
     {
@@ -234,7 +234,7 @@ void AAssociateRQPDU::SetCalledAETitle(const char calledaetitle[16])
 
 void AAssociateRQPDU::SetCallingAETitle(const char callingaetitle[16])
 {
-  assert( AAssociateRQPDU::IsAETitleValid(callingaetitle) );
+  gdcm_assert( AAssociateRQPDU::IsAETitleValid(callingaetitle) );
   size_t len = strlen( callingaetitle );
   if( len <= 16 )
     {
@@ -307,7 +307,7 @@ void AAssociateRQPDU::SetUserInformation( UserInformation const & ui )
 {
   UserInfo = ui;
   ItemLength = (uint32_t)Size() - 6;
-  assert( (ItemLength + 4 + 1 + 1) == Size() );
+  gdcm_assert( (ItemLength + 4 + 1 + 1) == Size() );
 }
 
 } // end namespace network

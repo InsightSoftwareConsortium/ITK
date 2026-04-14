@@ -170,7 +170,7 @@ public:
   MeshPrimitive const & GetMeshPrimitive() const;
   MeshPrimitive & GetMeshPrimitive();
 
-  void SetMeshPrimitive(MeshPrimitive & mp);
+  void SetMeshPrimitive(MeshPrimitive const & mp);
 
 private:
 

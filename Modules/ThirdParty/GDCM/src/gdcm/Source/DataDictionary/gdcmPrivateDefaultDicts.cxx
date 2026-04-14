@@ -38,6 +38,17 @@ using DICT_ENTRY = struct
 };
 
 static const DICT_ENTRY DICOMV3DataDict [] = {
+  {0x0033,0x0001,"KONICA MINOLTA QA 1.4",VR::SQ,VM::VM1,"?Possibly PHI?",false },
+  {0x0033,0x0004,"KONICA MINOLTA QA 1.4",VR::SS,VM::VM1,"?",false },
+  {0x0033,0x0006,"KONICA MINOLTA QA 1.4",VR::SS,VM::VM1,"?",false },
+  {0x0033,0x0008,"KONICA MINOLTA QA 1.4",VR::SS,VM::VM1,"?",false },
+  {0x0033,0x0010,"KONICA MINOLTA QA 1.4",VR::SS,VM::VM1,"?",false },
+  {0x0033,0x0011,"KONICA MINOLTA QA 1.4",VR::SS,VM::VM1,"?",false },
+  {0x0033,0x0014,"KONICA MINOLTA QA 1.4",VR::SS,VM::VM1,"?",false },
+  {0x0033,0x0016,"KONICA MINOLTA QA 1.4",VR::SS,VM::VM1,"?",false },
+  {0x0049,0x0010,"AIR",VR::LO,VM::VM1,"?Possibly PHI?",false },
+  {0x0049,0x0011,"AIR",VR::LO,VM::VM1,"?number?",false },
+  {0x0049,0x0013,"AIR",VR::LT,VM::VM1,"?Long desc possibly PHI?",false },
   {0x0021,0x0010,"SIEMENS MR FMRI",VR::SQ,VM::VM1,"?",false },
   {0x0021,0x0011,"SIEMENS MR FMRI",VR::LO,VM::VM1,"?",false },
   {0x0021,0x0012,"SIEMENS MR FMRI",VR::SQ,VM::VM1,"?",false },
@@ -1156,9 +1167,12 @@ static const DICT_ENTRY DICOMV3DataDict [] = {
   {0x2013,0x0007,"BioClinicaImagingSegmentGroup",VR::OB,VM::VM1,"Custom Storage Segment Blob #7",false},
   {0x2013,0x0008,"BioClinicaImagingSegmentGroup",VR::OB,VM::VM1,"Custom Storage Segment Blob #8",false},
   {0x2013,0x0009,"BioClinicaImagingSegmentGroup",VR::OB,VM::VM1,"Custom Storage Segment Blob #9",false},
-  {0x7fe1,0x0001,"Bioclinica",VR::UT,VM::VM1,"??",false},
-  {0x7fe1,0x0002,"Bioclinica",VR::LO,VM::VM1,"??",false},
-  {0x7fe1,0x0003,"Bioclinica",VR::LO,VM::VM1,"??",false},
+  {0x2213,0x0001,"Clario",VR::UT,VM::VM1,"AES tag",false},
+  {0x2213,0x0002,"Clario",VR::LO,VM::VM1,"PX version",false},
+  {0x2213,0x0003,"Clario",VR::LO,VM::VM1,"Mask Name",false},
+  {0x7fe1,0x0001,"Bioclinica",VR::UT,VM::VM1,"AES tag",false},
+  {0x7fe1,0x0002,"Bioclinica",VR::LO,VM::VM1,"PX version",false},
+  {0x7fe1,0x0003,"Bioclinica",VR::LO,VM::VM1,"Mask Name",false},
   {0x5533,0x0033,"Visus Change",VR::SQ,VM::VM1,"Visus Data Save Sequence",false},
   {0x5533,0x0035,"Visus Change",VR::DA,VM::VM1,"Visus Data Save Date",false},
   {0x5533,0x0037,"Visus Change",VR::LO,VM::VM1,"Visus Data Save Originator",false},
@@ -5871,25 +5885,25 @@ static const DICT_ENTRY DICOMV3DataDict [] = {
   {0x0033,0x0008,"MITRA OBJECT ATTRIBUTES 1.0",VR::LO,VM::VM1,"?",false },
   {0x0033,0x000a,"MITRA OBJECT ATTRIBUTES 1.0",VR::LO,VM::VM1,"?",false },
 //  {0x0029,0x0000,"MITRA OBJECT DOCUMENT 1.0",VR::OB,VM::VM1,"?",false },
-  {0x0033,0x0002,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::PN,VM::VM1,"Patient's Name",false },
-  {0x0033,0x0004,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::CS,VM::VM1,"Study Description",false },
-  {0x0033,0x0006,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::PN,VM::VM1,"Referring Physician's Name",false },
-  {0x0033,0x0008,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::PN,VM::VM1,"Requesting Physician's Name",false },
-  {0x0033,0x000a,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::PN,VM::VM1,"Performing Physician's Name",false },
-  {0x0033,0x000c,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::LO,VM::VM1,"Reason for Study",false },
-  {0x0033,0x000e,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::LT,VM::VM1,"Study Comments",false },
-  {0x0033,0x0013,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::PN,VM::VM1,"Patient's Name Single Byte",false },
-  {0x0033,0x0014,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::PN,VM::VM1,"Patient's Name Ideographic",false },
-  {0x0033,0x0015,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::PN,VM::VM1,"Patient's Name Phonetic",false },
-  {0x0033,0x0016,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::PN,VM::VM1,"Referring Physician's Name Single Byte",false },
-  {0x0033,0x0017,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::PN,VM::VM1,"Referring Physician's Name Ideographic",false },
-  {0x0033,0x0018,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::PN,VM::VM1,"Referring Physician's Name Phonetic",false },
-  {0x0033,0x0019,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::PN,VM::VM1,"Requesting Physician's Name Single Byte",false },
-  {0x0033,0x001a,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::PN,VM::VM1,"Requesting Physician's Name Ideographic",false },
-  {0x0033,0x001b,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::PN,VM::VM1,"Requesting Physician's Name Phonetic",false },
-  {0x0033,0x001c,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::PN,VM::VM1,"Performing Physician's Name Single Byte",false },
-  {0x0033,0x001d,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::PN,VM::VM1,"Performing Physician's Name Ideographic",false },
-  {0x0033,0x001e,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::PN,VM::VM1,"Performing Physician's Name Phonetic",false },
+  {0x0033,0x0002,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Patient's Name",false },
+  {0x0033,0x0004,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Study Description",false },
+  {0x0033,0x0006,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Referring Physician's Name",false },
+  {0x0033,0x0008,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Requesting Physician's Name",false },
+  {0x0033,0x000a,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Performing Physician's Name",false },
+  {0x0033,0x000c,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Reason for Study",false },
+  {0x0033,0x000e,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Study Comments",false },
+  {0x0033,0x0013,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Patient's Name Single Byte",false },
+  {0x0033,0x0014,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Patient's Name Ideographic",false },
+  {0x0033,0x0015,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Patient's Name Phonetic",false },
+  {0x0033,0x0016,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Referring Physician's Name Single Byte",false },
+  {0x0033,0x0017,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Referring Physician's Name Ideographic",false },
+  {0x0033,0x0018,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Referring Physician's Name Phonetic",false },
+  {0x0033,0x0019,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Requesting Physician's Name Single Byte",false },
+  {0x0033,0x001a,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Requesting Physician's Name Ideographic",false },
+  {0x0033,0x001b,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Requesting Physician's Name Phonetic",false },
+  {0x0033,0x001c,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Performing Physician's Name Single Byte",false },
+  {0x0033,0x001d,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Performing Physician's Name Ideographic",false },
+  {0x0033,0x001e,"MITRA OBJECT UTF8 ATTRIBUTES 1.0",VR::UN,VM::VM1,"Performing Physician's Name Phonetic",false },
   {0x0029,0x0000,"MITRA PRESENTATION 1.0",VR::CS,VM::VM1,"Mitra Rotation",false },
   {0x0029,0x0001,"MITRA PRESENTATION 1.0",VR::LO,VM::VM1,"Mitra Window Width",false },
   {0x0029,0x0002,"MITRA PRESENTATION 1.0",VR::LO,VM::VM1,"Mitra Window Centre",false },
@@ -10999,7 +11013,7 @@ static const DICT_ENTRY DICOMV3DataDict [] = {
   {0x0019,0x0078,"SVISION",VR::DS,VM::VM1,"Filter Thickness 1",false },
   {0x0019,0x0079,"SVISION",VR::DS,VM::VM1,"Filter Thickness 2",false },
   {0x0019,0x0080,"SVISION",VR::IS,VM::VM1,"Bucky Format",false },
-  {0x0019,0x0081,"SVISION",VR::IS,VM::VM1,"Object Position",false },
+  {0x0019,0x0081,"SVISION",VR::LO,VM::VM1,"Object Position",false },
   {0x0019,0x0090,"SVISION",VR::LO,VM::VM1,"Desk Command",false },
   {0x0019,0x0091,"SVISION",VR::IS,VM::VM1,"Central Beam X",false },
   {0x0019,0x0092,"SVISION",VR::IS,VM::VM1,"Central Beam Y",false },
@@ -11994,7 +12008,7 @@ void Dict::LoadDefault()
    {
    if( n.group % 2 == 0 )
      {
-     assert( n.owner == 0 );
+     gdcm_assert( n.owner == 0 );
      Tag t(n.group, n.element);
      DictEntry e( n.name, n.vr, n.vm, n.ret );
      AddDictEntry( t, e );
@@ -12012,10 +12026,10 @@ void PrivateDict::LoadDefault()
    {
 //   if( n.group % 2 != 0 )
      {
-     assert( n.owner != nullptr );
-     assert( n.name );
-     assert( n.group % 2 != 0 || n.group == 0xffff );
-     assert( n.element <= 0xff || n.element == 0xffff );
+     gdcm_assert( n.owner != nullptr );
+     gdcm_assert( n.name );
+     gdcm_assert( n.group % 2 != 0 || n.group == 0xffff );
+     gdcm_assert( n.element <= 0xff || n.element == 0xffff );
      PrivateTag t(n.group, n.element,n.owner);
      DictEntry e( n.name, "", n.vr, n.vm, n.ret );
      AddDictEntry( t, e );

@@ -27,7 +27,7 @@ void SequenceOfFragments::Clear()
 SequenceOfFragments::SizeType SequenceOfFragments::GetNumberOfFragments() const
 {
   // Do not count the last fragment
-  //assert( SequenceLengthField.IsUndefined() );
+  //gdcm_assert( SequenceLengthField.IsUndefined() );
   return Fragments.size();
 }
 
@@ -46,10 +46,10 @@ VL SequenceOfFragments::ComputeLength() const
   for(;it != Fragments.end(); ++it)
     {
     const VL fraglen = it->ComputeLength();
-    assert( fraglen % 2 == 0 );
+    gdcm_assert( fraglen % 2 == 0 );
     length += fraglen;
     }
-  assert( SequenceLengthField.IsUndefined() );
+  gdcm_assert( SequenceLengthField.IsUndefined() );
   length += 8; // seq end delimiter (tag + vl)
   return length;
 }
@@ -60,7 +60,7 @@ unsigned long SequenceOfFragments::ComputeByteLength() const
   FragmentVector::const_iterator it = Fragments.begin();
   for(;it != Fragments.end(); ++it)
     {
-    assert( !it->GetVL().IsUndefined() );
+    gdcm_assert( !it->GetVL().IsUndefined() );
     r += it->GetVL();
     }
   return r;
@@ -81,7 +81,7 @@ bool SequenceOfFragments::GetFragBuffer(unsigned int fragNb, char *buffer, unsig
 
 const Fragment& SequenceOfFragments::GetFragment(SizeType num) const
 {
-  assert( num < Fragments.size() );
+  gdcm_assert( num < Fragments.size() );
   FragmentVector::const_iterator it = Fragments.begin();
   const Fragment &frag = *(it+num);
   return frag;
@@ -103,7 +103,7 @@ bool SequenceOfFragments::GetBuffer(char *buffer, unsigned long length) const
   if( total != length )
     {
     //std::cerr << " DEBUG: " << total << " " << length << std::endl;
-    assert(0);
+    gdcm_assert(0);
     return false;
     }
   return true;
@@ -117,7 +117,7 @@ bool SequenceOfFragments::WriteBuffer(std::ostream &os) const
     {
     const Fragment &frag = *it;
     const ByteValue *bv = frag.GetByteValue();
-    assert( bv );
+    gdcm_assert( bv );
     const VL len = frag.GetVL();
     bv->WriteBuffer(os);
     total += len;
@@ -125,7 +125,7 @@ bool SequenceOfFragments::WriteBuffer(std::ostream &os) const
   //if( total != length )
   //  {
   //  //std::cerr << " DEBUG: " << total << " " << length << std::endl;
-  //  assert(0);
+  //  gdcm_assert(0);
   //  return false;
   //  }
   (void)total;

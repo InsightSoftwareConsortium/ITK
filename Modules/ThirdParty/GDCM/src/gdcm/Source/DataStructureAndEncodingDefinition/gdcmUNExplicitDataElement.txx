@@ -44,7 +44,7 @@ std::istream &UNExplicitDataElement::ReadPreValue(std::istream &is)
     {
     if( !is.eof() ) // FIXME This should not be needed
       {
-      assert(0 && "Should not happen" );
+      gdcm_assert(0 && "Should not happen" );
       }
     return is;
     }
@@ -54,14 +54,14 @@ std::istream &UNExplicitDataElement::ReadPreValue(std::istream &is)
     pe.SetLastElement( *this );
     throw pe;
     }
-  assert( TagField != Tag(0xfffe,0xe0dd) );
+  gdcm_assert( TagField != Tag(0xfffe,0xe0dd) );
 
   const Tag itemDelItem(0xfffe,0xe00d);
   if( TagField == itemDelItem )
     {
     if( !ValueLengthField.Read<TSwap>(is) )
       {
-      assert(0 && "Should not happen");
+      gdcm_assert(0 && "Should not happen");
       return is;
       }
     if( ValueLengthField != 0 )
@@ -80,7 +80,7 @@ std::istream &UNExplicitDataElement::ReadPreValue(std::istream &is)
     {
     if( !VRField.Read(is) )
       {
-      assert(0 && "Should not happen" );
+      gdcm_assert(0 && "Should not happen" );
       return is;
       }
     }
@@ -88,13 +88,13 @@ std::istream &UNExplicitDataElement::ReadPreValue(std::istream &is)
     {
 #ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
     // gdcm-MR-PHILIPS-16-Multi-Seq.dcm
-    // assert( TagField == Tag(0xfffe, 0xe000) );
+    // gdcm_assert( TagField == Tag(0xfffe, 0xe000) );
     // -> For some reason VR is written as {44,0} well I guess this is a VR...
     // Technically there is a second bug, dcmtk assume other things when reading this tag,
     // so I need to change this tag too, if I ever want dcmtk to read this file. oh well
     // 0019004_Baseline_IMG1.dcm
     // -> VR is garbage also...
-    // assert( TagField == Tag(8348,0339) || TagField == Tag(b5e8,0338))
+    // gdcm_assert( TagField == Tag(8348,0339) || TagField == Tag(b5e8,0338))
     //gdcmWarningMacro( "Assuming 16 bits VR for Tag=" <<
     //  TagField << " in order to read a buggy DICOM file." );
     //VRField = VR::INVALID;
@@ -117,7 +117,7 @@ std::istream &UNExplicitDataElement::ReadPreValue(std::istream &is)
     {
     if( !ValueLengthField.Read<TSwap>(is) )
       {
-      assert(0 && "Should not happen");
+      gdcm_assert(0 && "Should not happen");
       return is;
       }
     }
@@ -126,7 +126,7 @@ std::istream &UNExplicitDataElement::ReadPreValue(std::istream &is)
     // 16bits only
     if( !ValueLengthField.template Read16<TSwap>(is) )
       {
-      assert(0 && "Should not happen");
+      gdcm_assert(0 && "Should not happen");
       return is;
       }
     }
@@ -146,11 +146,11 @@ std::istream &UNExplicitDataElement::ReadValue(std::istream &is, bool readvalues
 
   //std::cerr << "exp cur tag=" << TagField << " VR=" << VRField << " VL=" << ValueLengthField << std::endl;
   // Read the Value
-  //assert( ValueField == 0 );
+  //gdcm_assert( ValueField == 0 );
   if( VRField == VR::SQ )
     {
     // Check whether or not this is an undefined length sequence
-    assert( TagField != Tag(0x7fe0,0x0010) );
+    gdcm_assert( TagField != Tag(0x7fe0,0x0010) );
     ValueField = new SequenceOfItems;
     }
   else if( ValueLengthField.IsUndefined() )
@@ -161,7 +161,7 @@ std::istream &UNExplicitDataElement::ReadValue(std::istream &is, bool readvalues
       // Enhanced_MR_Image_Storage_PixelSpacingNotIn_0028_0030.dcm (illegal)
       // vs
       // undefined_length_un_vr.dcm
-      assert( TagField != Tag(0x7fe0,0x0010) );
+      gdcm_assert( TagField != Tag(0x7fe0,0x0010) );
       ValueField = new SequenceOfItems;
       ValueField->SetLength(ValueLengthField); // perform realloc
       try
@@ -169,7 +169,7 @@ std::istream &UNExplicitDataElement::ReadValue(std::istream &is, bool readvalues
         //if( !ValueIO<UNExplicitDataElement,TSwap>::Read(is,*ValueField) ) // non cp246
         if( !ValueIO<ImplicitDataElement,TSwap>::Read(is,*ValueField,readvalues) ) // cp246 compliant
           {
-          assert(0);
+          gdcm_assert(0);
           }
         }
       catch( std::exception &)
@@ -184,14 +184,14 @@ std::istream &UNExplicitDataElement::ReadValue(std::istream &is, bool readvalues
     else
       {
       // Ok this is Pixel Data fragmented...
-      assert( TagField == Tag(0x7fe0,0x0010) );
-      assert( VRField & VR::OB_OW );
+      gdcm_assert( TagField == Tag(0x7fe0,0x0010) );
+      gdcm_assert( VRField & VR::OB_OW );
       ValueField = new SequenceOfFragments;
       }
     }
   else
     {
-    //assert( TagField != Tag(0x7fe0,0x0010) );
+    //gdcm_assert( TagField != Tag(0x7fe0,0x0010) );
     ValueField = new ByteValue;
     }
   // We have the length we should be able to read the value
@@ -209,7 +209,7 @@ std::istream &UNExplicitDataElement::ReadValue(std::istream &is, bool readvalues
     //we really need to read item marker
   )
     {
-    assert(0); // Could we possibly be so unlucky to have this mixture of bugs...
+    gdcm_assert(0); // Could we possibly be so unlucky to have this mixture of bugs...
     }
 
   if( !ValueIO<UNExplicitDataElement,TSwap>::Read(is,*ValueField,readvalues) )

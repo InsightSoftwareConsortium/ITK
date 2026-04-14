@@ -18,13 +18,13 @@ namespace gdcm
 
 std::string const &GroupDict::GetAbbreviation(uint16_t num) const
 {
-  assert(num < Abbreviations.size());
+  gdcm_assert(num < Abbreviations.size());
   return Abbreviations[num];
 }
 
 std::string const &GroupDict::GetName(uint16_t num) const
 {
-  assert(num < Names.size());
+  gdcm_assert(num < Names.size());
   return Names[num];
 }
 

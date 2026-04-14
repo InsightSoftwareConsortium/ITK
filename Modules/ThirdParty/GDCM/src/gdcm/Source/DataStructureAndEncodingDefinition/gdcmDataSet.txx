@@ -26,7 +26,7 @@ namespace gdcm_ns
   std::istream &DataSet::ReadNested(std::istream &is) {
     DataElement de;
     const Tag itemDelItem(0xfffe,0xe00d);
-    assert( de.GetTag() != itemDelItem ); // precondition before while loop
+    gdcm_assert( de.GetTag() != itemDelItem ); // precondition before while loop
     try
       {
       while( de.Read<TDE,TSwap>(is) && de.GetTag() != itemDelItem  ) // Keep that order please !
@@ -51,7 +51,7 @@ namespace gdcm_ns
         throw pe;
         }
       }
-    assert( de.GetTag() == itemDelItem );
+    gdcm_assert( de.GetTag() == itemDelItem );
     return is;
   }
 
@@ -79,14 +79,14 @@ namespace gdcm_ns
         }
       else
         {
-        assert( is.good() );
+        gdcm_assert( is.good() );
         if( de.GetTag() != t )
           is.seekg( de.GetVL(), std::ios::cur );
         }
       // tag was found, we can exit the loop:
       if ( t <= de.GetTag() )
         {
-        assert( is.good() );
+        gdcm_assert( is.good() );
         break;
         }
       }
@@ -106,14 +106,14 @@ namespace gdcm_ns
         }
       else
         {
-        assert( is.good() );
+        gdcm_assert( is.good() );
         if( de.GetTag() != t )
           is.seekg( de.GetVL(), std::ios::cur );
         }
       // tag was found, we can exit the loop:
       if ( t <= de.GetTag() )
         {
-        assert( is.good() );
+        gdcm_assert( is.good() );
         break;
         }
       }
@@ -171,7 +171,7 @@ namespace gdcm_ns
           }
         }
       }
-    assert( inputStream.good() );
+    gdcm_assert( inputStream.good() );
     return inputStream;
     }
 
@@ -179,11 +179,11 @@ namespace gdcm_ns
   std::istream &DataSet::ReadSelectedPrivateTags(std::istream &inputStream, const std::set<PrivateTag> & selectedPTags, bool readvalues) {
     if ( ! (selectedPTags.empty() || inputStream.fail()) )
       {
-      assert( selectedPTags.size() == 1 );
+      gdcm_assert( selectedPTags.size() == 1 );
       const PrivateTag refPTag = *(selectedPTags.rbegin());
       PrivateTag nextPTag = refPTag;
       nextPTag.SetElement( (uint16_t)(nextPTag.GetElement() + 0x1) );
-      assert( nextPTag.GetElement() & 0x00ff ); // no wrap please
+      gdcm_assert( nextPTag.GetElement() & 0x00ff ); // no wrap please
       Tag maxTag;
       maxTag.SetPrivateCreator( nextPTag );
       DataElement dataElem;
@@ -299,11 +299,11 @@ namespace gdcm_ns
     (void)length;
     if ( ! (selectedPTags.empty() || inputStream.fail()) )
       {
-      assert( selectedPTags.size() == 1 );
+      gdcm_assert( selectedPTags.size() == 1 );
       const PrivateTag refPTag = *(selectedPTags.rbegin());
       PrivateTag nextPTag = refPTag;
       nextPTag.SetElement( (uint16_t)(nextPTag.GetElement() + 0x1) );
-      assert( nextPTag.GetElement() ); // no wrap please
+      gdcm_assert( nextPTag.GetElement() ); // no wrap please
       Tag maxTag;
       maxTag.SetPrivateCreator( nextPTag );
       DataElement dataElem;
@@ -367,16 +367,16 @@ namespace gdcm_ns
         {
         //std::cout << "Nested: " << de << std::endl;
 #ifndef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
-        assert( de.GetTag() != Tag(0xfffe,0xe000) ); // We should not be reading the next item...
+        gdcm_assert( de.GetTag() != Tag(0xfffe,0xe000) ); // We should not be reading the next item...
 #endif
         InsertDataElement( de );
         const VL oflen = de.GetLength<TDE>();
         l += oflen;
         const std::streampos curpos = is.tellg();
-        //assert( (curpos - startpos) == l || (curpos - startpos) + 1 == l );
+        //gdcm_assert( (curpos - startpos) == l || (curpos - startpos) + 1 == l );
 
         //std::cout << "l:" << l << std::endl;
-        //assert( !de.GetVL().IsUndefined() );
+        //gdcm_assert( !de.GetVL().IsUndefined() );
         //std::cerr << "DEBUG: " << de.GetTag() << " "<< de.GetLength() <<
         //  "," << de.GetVL() << "," << l << std::endl;
         // Bug_Philips_ItemTag_3F3F
@@ -415,7 +415,7 @@ namespace gdcm_ns
         {
         // gdcm-MR-PHILIPS-16-Multi-Seq.dcm
         // Long story short, I think Philips engineer inserted 0xfffe,0x0000 instead of an item start element
-        // assert( FindDataElement( Tag(0xfffe,0x0000) ) == false );
+        // gdcm_assert( FindDataElement( Tag(0xfffe,0x0000) ) == false );
         is.seekg(-6, std::ios::cur );
         length = locallength = l;
         }
@@ -465,15 +465,15 @@ namespace gdcm_ns
           }
         // seek back since we read the next item starter:
         int iteml = de.GetLength<TDE>();
-        //assert( de.GetTag().GetElement() );
+        //gdcm_assert( de.GetTag().GetElement() );
         if( !de.GetTag().GetElement() )
           {
-          assert( iteml == 12 ); (void)iteml;
+          gdcm_assert( iteml == 12 ); (void)iteml;
           is.seekg( -12, std::ios::cur );
           }
         else
           {
-          //assert( de.GetTag() == Tag(0xfffe,0xe000) );
+          //gdcm_assert( de.GetTag() == Tag(0xfffe,0xe000) );
           is.seekg( -4, std::ios::cur );
           }
         // let's fix the length now:
@@ -495,8 +495,8 @@ namespace gdcm_ns
 
     // technically we could only do this assert if the dataset did not contains
     // duplicate data elements so only do a <= instead:
-    //assert( l == locallength );
-    assert( l <= locallength );
+    //gdcm_assert( l == locallength );
+    gdcm_assert( l <= locallength );
     return is;
   }
 

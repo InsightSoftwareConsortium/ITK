@@ -125,7 +125,7 @@ public:
 
   // copy:
   //ArrayType GetValue(unsigned int idx = 0) {
-  //  assert( idx < GetNumberOfValues() );
+  //  gdcm_assert( idx < GetNumberOfValues() );
   //  return Internal[idx];
   //}
   //ArrayType operator[] (unsigned int idx) {
@@ -152,7 +152,7 @@ public:
     }
 
   ArrayType &GetValue(unsigned int idx = 0) {
-    assert( idx < GetNumberOfValues() );
+    gdcm_assert( idx < GetNumberOfValues() );
     return Internal[idx];
   }
   ArrayType & operator[] (unsigned int idx) {
@@ -160,18 +160,18 @@ public:
   }
   // const reference
   ArrayType const &GetValue(unsigned int idx = 0) const {
-    assert( idx < GetNumberOfValues() );
+    gdcm_assert( idx < GetNumberOfValues() );
     return Internal[idx];
   }
   ArrayType const & operator[] (unsigned int idx) const {
     return GetValue(idx);
   }
   void SetValue(ArrayType v, unsigned int idx = 0) {
-    assert( idx < GetNumberOfValues() );
+    gdcm_assert( idx < GetNumberOfValues() );
     Internal[idx] = v;
   }
   void SetValues(const ArrayType* array, unsigned int numel = VMType ) {
-    assert( array && numel && numel == GetNumberOfValues() );
+    gdcm_assert( array && numel && numel == GetNumberOfValues() );
     // std::copy is smarted than a memcpy, and will call memcpy when POD type
     std::copy(array, array+numel, Internal);
   }
@@ -187,7 +187,7 @@ public:
     EncodingImplementation<VRToEncoding<TVR>::Mode>::Write(Internal,
       GetNumberOfValues(),os);
     ret.SetVR( GetVR() );
-    assert( ret.GetVR() != VR::SQ );
+    gdcm_assert( ret.GetVR() != VR::SQ );
     if( (VR::VRType)VRToEncoding<TVR>::Mode == VR::VRASCII )
       {
       if( GetVR() != VR::UI )
@@ -205,9 +205,9 @@ public:
 
   void SetFromDataElement(DataElement const &de) {
     // This is kind of hackish but since I do not generate other element than the first one: 0x6000 I should be ok:
-    assert( Tag(Group,Element) == de.GetTag() || Group == 0x6000 || Group == 0x5000 );
-    assert( GetVR() != VR::INVALID );
-    assert( GetVR().Compatible( de.GetVR() ) || de.GetVR() == VR::INVALID ); // In case of VR::INVALID cannot use the & operator
+    gdcm_assert( Tag(Group,Element) == de.GetTag() || Group == 0x6000 || Group == 0x5000 );
+    gdcm_assert( GetVR() != VR::INVALID );
+    gdcm_assert( GetVR().Compatible( de.GetVR() ) || de.GetVR() == VR::INVALID ); // In case of VR::INVALID cannot use the & operator
     if( de.IsEmpty() ) return;
     const ByteValue *bv = de.GetByteValue();
 #ifdef GDCM_WORDS_BIGENDIAN
@@ -236,7 +236,7 @@ public:
 protected:
   void SetByteValueNoSwap(const ByteValue *bv) {
     if( !bv ) return; // That would be bad...
-    assert( bv->GetPointer() && bv->GetLength() ); // [123]C element can be empty
+    gdcm_assert( bv->GetPointer() && bv->GetLength() ); // [123]C element can be empty
     //if( VRToEncoding<TVR>::Mode == VR::VRBINARY )
     //  {
     //  // always do a copy !
@@ -253,7 +253,7 @@ protected:
   }
   void SetByteValue(const ByteValue *bv) {
     if( !bv ) return; // That would be bad...
-    assert( bv->GetPointer() && bv->GetLength() ); // [123]C element can be empty
+    gdcm_assert( bv->GetPointer() && bv->GetLength() ); // [123]C element can be empty
     //if( VRToEncoding<TVR>::Mode == VR::VRBINARY )
     //  {
     //  // always do a copy !
@@ -274,7 +274,7 @@ protected:
     const uint16_t cref[] = { Group, Element };
     uint16_t c[2];
     _is.read((char*)&c, sizeof(c));
-    assert( c[0] == cref[0] && c[1] == cref[1] );
+    gdcm_assert( c[0] == cref[0] && c[1] == cref[1] );
     char vr[2];
     _is.read(vr, 2); // Check consistency ?
     const uint32_t lref = GetLength() * sizeof( typename VRToType<TVR>::Type );
@@ -357,7 +357,7 @@ public:
   }
   // copy:
   //ArrayType GetValue(unsigned int idx = 0) {
-  //  assert( idx < GetNumberOfValues() );
+  //  gdcm_assert( idx < GetNumberOfValues() );
   //  return Internal[idx];
   //}
   //ArrayType operator[] (unsigned int idx) {
@@ -384,7 +384,7 @@ public:
     }
 
   ArrayType &GetValue() {
-//    assert( idx < GetNumberOfValues() );
+//    gdcm_assert( idx < GetNumberOfValues() );
     return Internal;
   }
 //  ArrayType & operator[] (unsigned int idx) {
@@ -392,18 +392,18 @@ public:
 //  }
   // const reference
   ArrayType const &GetValue() const {
-    //assert( idx < GetNumberOfValues() );
+    //gdcm_assert( idx < GetNumberOfValues() );
     return Internal;
   }
   //ArrayType const & operator[] () const {
   //  return GetValue();
   //}
   void SetValue(ArrayType v) {
-//    assert( idx < GetNumberOfValues() );
+//    gdcm_assert( idx < GetNumberOfValues() );
     Internal = v;
   }
 /*  void SetValues(const ArrayType* array, unsigned int numel = VMType ) {
-    assert( array && numel && numel == GetNumberOfValues() );
+    gdcm_assert( array && numel && numel == GetNumberOfValues() );
     // std::copy is smarted than a memcpy, and will call memcpy when POD type
     std::copy(array, array+numel, Internal);
   }
@@ -422,7 +422,7 @@ public:
     EncodingImplementation<VRToEncoding<TVR>::Mode>::Write(&Internal,
       GetNumberOfValues(),os);
     ret.SetVR( GetVR() );
-    assert( ret.GetVR() != VR::SQ );
+    gdcm_assert( ret.GetVR() != VR::SQ );
     if( (VR::VRType)VRToEncoding<TVR>::Mode == VR::VRASCII )
       {
       if( GetVR() != VR::UI )
@@ -440,9 +440,9 @@ public:
 
   void SetFromDataElement(DataElement const &de) {
     // This is kind of hackish but since I do not generate other element than the first one: 0x6000 I should be ok:
-    assert( Tag(Group,Element) == de.GetTag() || Group == 0x6000 || Group == 0x5000 );
-    assert( GetVR() != VR::INVALID );
-    assert( GetVR().Compatible( de.GetVR() ) || de.GetVR() == VR::INVALID ); // In case of VR::INVALID cannot use the & operator
+    gdcm_assert( Tag(Group,Element) == de.GetTag() || Group == 0x6000 || Group == 0x5000 );
+    gdcm_assert( GetVR() != VR::INVALID );
+    gdcm_assert( GetVR().Compatible( de.GetVR() ) || de.GetVR() == VR::INVALID ); // In case of VR::INVALID cannot use the & operator
     if( de.IsEmpty() ) return;
     const ByteValue *bv = de.GetByteValue();
 #ifdef GDCM_WORDS_BIGENDIAN
@@ -471,7 +471,7 @@ public:
 protected:
   void SetByteValueNoSwap(const ByteValue *bv) {
     if( !bv ) return; // That would be bad...
-    assert( bv->GetPointer() && bv->GetLength() ); // [123]C element can be empty
+    gdcm_assert( bv->GetPointer() && bv->GetLength() ); // [123]C element can be empty
     //if( VRToEncoding<TVR>::Mode == VR::VRBINARY )
     //  {
     //  // always do a copy !
@@ -488,7 +488,7 @@ protected:
   }
   void SetByteValue(const ByteValue *bv) {
     if( !bv ) return; // That would be bad...
-    assert( bv->GetPointer() && bv->GetLength() ); // [123]C element can be empty
+    gdcm_assert( bv->GetPointer() && bv->GetLength() ); // [123]C element can be empty
     //if( VRToEncoding<TVR>::Mode == VR::VRBINARY )
     //  {
     //  // always do a copy !
@@ -509,7 +509,7 @@ protected:
     const uint16_t cref[] = { Group, Element };
     uint16_t c[2];
     _is.read((char*)&c, sizeof(c));
-    assert( c[0] == cref[0] && c[1] == cref[1] );
+    gdcm_assert( c[0] == cref[0] && c[1] == cref[1] );
     char vr[2];
     _is.read(vr, 2); // Check consistency ?
     const uint32_t lref = GetLength() * sizeof( typename VRToType<TVR>::Type );
@@ -598,7 +598,7 @@ public:
       os << "," << Internal[i];
     }
   ArrayType &GetValue(unsigned int idx = 0) {
-    assert( idx < GetNumberOfValues() );
+    gdcm_assert( idx < GetNumberOfValues() );
     return Internal[idx];
   }
   ArrayType &operator[] (unsigned int idx) {
@@ -606,14 +606,14 @@ public:
   }
   // const reference
   ArrayType const &GetValue(unsigned int idx = 0) const {
-    assert( idx < GetNumberOfValues() );
+    gdcm_assert( idx < GetNumberOfValues() );
     return Internal[idx];
   }
   ArrayType const & operator[] (unsigned int idx) const {
     return GetValue(idx);
   }
   void SetValue(unsigned int idx, ArrayType v) {
-    assert( idx < GetNumberOfValues() );
+    gdcm_assert( idx < GetNumberOfValues() );
     Internal[idx] = v;
   }
   void SetValue(ArrayType v) { SetValue(0, v); }
@@ -628,7 +628,7 @@ public:
       }
     Own = own;
     Length = numel;
-    assert( Internal == nullptr );
+    gdcm_assert( Internal == nullptr );
     if( own ) // make a copy:
       {
       Internal = new ArrayType[numel];
@@ -640,7 +640,7 @@ public:
       Internal = const_cast<ArrayType*>(array);
       }
     // postcondition
-    assert( numel == GetNumberOfValues() );
+    gdcm_assert( numel == GetNumberOfValues() );
     }
 
   DataElement GetAsDataElement() const {
@@ -662,17 +662,17 @@ public:
         }
       }
     ret.SetVR( GetVR() );
-    assert( ret.GetVR() != VR::SQ );
+    gdcm_assert( ret.GetVR() != VR::SQ );
     VL::Type osStrSize = (VL::Type) os.str().size();
     ret.SetByteValue( os.str().c_str(), osStrSize);
     return ret;
   }
   void SetFromDataElement(DataElement const &de) {
     // This is kind of hackish but since I do not generate other element than the first one: 0x6000 I should be ok:
-    assert( GetTag() == de.GetTag() || GetTag().GetGroup() == 0x6000
+    gdcm_assert( GetTag() == de.GetTag() || GetTag().GetGroup() == 0x6000
       || GetTag().GetGroup() == 0x5000 );
-    assert( GetVR().Compatible( de.GetVR() ) ); // In case of VR::INVALID cannot use the & operator
-    assert( !de.IsEmpty() );
+    gdcm_assert( GetVR().Compatible( de.GetVR() ) ); // In case of VR::INVALID cannot use the & operator
+    gdcm_assert( !de.IsEmpty() );
     const ByteValue *bv = de.GetByteValue();
     SetByteValue(bv);
   }
@@ -688,7 +688,7 @@ public:
   }
 protected:
   void SetByteValue(const ByteValue *bv) {
-    assert( bv ); // FIXME
+    gdcm_assert( bv ); // FIXME
     std::stringstream ss;
     std::string s = std::string( bv->GetPointer(), bv->GetLength() );
     Length = bv->GetLength(); // HACK FIXME
@@ -787,7 +787,7 @@ public:
     Internal[i] = sarray.substr(pos1, pos2-pos1);
     // Shouldn't we do the contrary, since we know how many separators
     // (and default behavior is to discard anything after the VM declared
-    assert( GetLength()-1 == i );
+    gdcm_assert( GetLength()-1 == i );
     }
 
   unsigned long GetLength() const {
@@ -840,7 +840,7 @@ public:
     if( len ) {
       if( len > Length ) {
         // perform realloc
-        assert( (len / size) * size == len );
+        gdcm_assert( (len / size) * size == len );
         ArrayType *internal = new ArrayType[len / size];
         memcpy(internal, Internal, Length * size);
         delete[] Internal;
@@ -862,13 +862,13 @@ public:
       // TODO rewrite this stupid code:
       Length = len;
       //Internal = array;
-      assert(0);
+      gdcm_assert(0);
       }
   }
   // Implementation of Print is common to all Mode (ASCII/Binary)
   void Print(std::ostream &_os) const {
-    assert( Length );
-    assert( Internal );
+    gdcm_assert( Length );
+    gdcm_assert( Internal );
     _os << Internal[0]; // VM is at least guarantee to be one
     const unsigned long length = GetLength() < 25 ? GetLength() : 25;
     for(unsigned long i=1; i<length; ++i)

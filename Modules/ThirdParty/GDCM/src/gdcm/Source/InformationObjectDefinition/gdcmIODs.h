@@ -46,8 +46,8 @@ public:
     {
     //return IODsInternal[name];
     IODMapType::const_iterator it = IODsInternal.find( name );
-    assert( it != IODsInternal.end() );
-    assert( it->first == name );
+    gdcm_assert( it != IODsInternal.end() );
+    gdcm_assert( it->first == name );
     return it->second;
     }
 
