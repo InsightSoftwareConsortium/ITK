@@ -33,7 +33,6 @@ readonly paths="
   Utilities/gdcm_openjpeg.h
   Utilities/gdcmopenjpeg
   Utilities/gdcmrle
-  Utilities/gdcmutfcpp
   Utilities/gdcmuuid
   Utilities/gdcm_uuid.h
   Utilities/gdcm_zlib.h
