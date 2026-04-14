@@ -1,4 +1,8 @@
-# ITK Code Style and Workflow
+# ITK Enforced Code Style
+
+Style rules enforced by pre-commit hooks and CI. Violations block commits
+and PRs. See [compiler-cautions.md](./compiler-cautions.md) section 12 for
+KWStyle-specific pitfalls.
 
 ## First-Time Setup
 
@@ -9,7 +13,7 @@
 Configures git hooks (pre-commit clang-format, commit-msg KWStyle check) and
 remote setup. Required before your first commit.
 
-## C++ Formatting
+## C++ Formatting (clang-format)
 
 clang-format 19.1.7 is enforced automatically by the pre-commit hook.
 
@@ -18,6 +22,19 @@ Utilities/Maintenance/clang-format.bash --modified   # Format modified files onl
 ```
 
 The hook modifies files in place; re-stage and recommit if it changes anything.
+Do not use `--no-verify` to bypass — the format check exists to keep CI green.
+
+## KWStyle (commit messages and doxygen)
+
+The `kw-commit-msg.py` hook enforces:
+- Subject line ≤78 characters
+- Standard prefix required (`ENH:` `BUG:` `COMP:` `DOC:` `STYLE:` `PERF:` `BUILD:`)
+- `WIP:` is **not** allowed by `ghostflow-check-main` — use `[WIP]` in the
+  PR title instead (see [git-commits.md](./git-commits.md))
+
+KWStyle also checks that every header has the doxygen `\class` tag. See
+[compiler-cautions.md](./compiler-cautions.md) section 12a for the
+`enum class` pitfall where KWStyle requires `\class` on enum declarations.
 
 ## Naming Conventions
 
@@ -36,18 +53,6 @@ The hook modifies files in place; re-stage and recommit if it changes anything.
 - American English spelling throughout
 - Doxygen comments use backslash style: `\class`, `\brief`
 - No `using namespace` in headers
-
-## Commit Format
-
-Enforced by `kw-commit-msg.py` hook. Subject line ≤78 characters.
-
-```
-PREFIX: Brief description
-
-Longer explanation if needed.
-```
-
-Prefixes: `ENH:` `BUG:` `COMP:` `DOC:` `STYLE:` `PERF:` `WIP:`
 
 ## CI/CD
 

@@ -15,9 +15,12 @@ to *Ready for Review* until every item below is satisfied.
 - [ ] The diff has been reviewed for security issues: buffer overflows,
       deprecated APIs, injection vectors, license conflicts.
 
-## AI Disclosure Requirements
+## AI Disclosure and Attribution
 
-State clearly in the PR description how AI tools contributed. Specifically:
+See [attribution.md](./attribution.md) for the full policy on commit
+trailers (`Co-Authored-By:`, `Assisted-by:`, `Tool-Assisted:`).
+
+At the PR level, state clearly in the description how AI tools contributed:
 
 - Identify which portions are AI-generated and what modifications were made.
 - Include evidence of local testing — do not rely on AI assertions of correctness.
