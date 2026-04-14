@@ -389,3 +389,107 @@ function(itk_fetch_module _name _description)
     endif()
   endif()
 endfunction()
+
+# Download and enable a group of remote modules from a single repository.
+#
+# Unlike itk_fetch_module() which handles one module per repo, this function
+# clones a category repository that contains multiple itk-module.cmake files
+# in subdirectories. The module discovery glob in ITKModuleEnablement.cmake
+# finds and registers each sub-module automatically.
+#
+# Usage in a .remote.cmake file:
+#   itk_fetch_module_group(Analysis
+#     "Analysis domain modules: TextureFeatures, BoneMorphometry, ..."
+#     GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKRemoteAnalysis.git
+#     GIT_TAG <commit-hash>
+#   )
+#
+# The group is controlled by ITKGroup_Remote_<name>. When the group option
+# is ON, the repo is cloned into Modules/Remote/<name>/ and each sub-module
+# becomes individually toggleable via Module_<sub-module>=ON/OFF.
+#
+# See https://github.com/InsightSoftwareConsortium/ITK/issues/6060
+function(itk_fetch_module_group _group_name _description)
+  include(CMakeParseArguments)
+  cmake_parse_arguments(_fetch_options "" "GIT_REPOSITORY;GIT_TAG" "" ${ARGN})
+
+  # Create the group option if it doesn't exist yet.
+  if(NOT DEFINED ITKGroup_Remote_${_group_name})
+    option(
+      ITKGroup_Remote_${_group_name}
+      "Request building Remote/${_group_name} modules: ${_description}"
+      OFF
+    )
+  endif()
+
+  # Only fetch if the group is enabled (or the master Remote group is on)
+  if(NOT ITKGroup_Remote_${_group_name} AND NOT ITKGroup_Remote)
+    return()
+  endif()
+
+  if(ITK_FORBID_DOWNLOADS)
+    return()
+  endif()
+
+  itk_download_attempt_check(ITKGroup_Remote_${_group_name})
+  find_package(Git)
+  if(NOT GIT_EXECUTABLE)
+    message(FATAL_ERROR "error: could not find git for clone of ${_group_name}")
+  endif()
+
+  set(REMOTE_GIT_TAG "${_fetch_options_GIT_TAG}")
+
+  # Allow per-group tag override
+  if(
+    DEFINED
+      ITKGroup_Remote_${_group_name}_GIT_TAG
+    AND
+      NOT
+        "${ITKGroup_Remote_${_group_name}_GIT_TAG}"
+          STREQUAL
+          "${_fetch_options_GIT_TAG}"
+  )
+    set(REMOTE_GIT_TAG "${ITKGroup_Remote_${_group_name}_GIT_TAG}")
+    message(
+      STATUS
+      "NOTE: Using override 'ITKGroup_Remote_${_group_name}_GIT_TAG=${REMOTE_GIT_TAG}'"
+    )
+  endif()
+
+  # Freeze support
+  set(_group_dir "${ITK_SOURCE_DIR}/Modules/Remote/${_group_name}")
+  if(
+    ITK_FREEZE_REMOTE_MODULES
+    AND
+      EXISTS
+        "${_group_dir}"
+    AND
+      NOT
+        REMOTE_GIT_TAG
+          STREQUAL
+          ""
+  )
+    message(
+      STATUS
+      "ITK_FREEZE_REMOTE_MODULES is ON: Skipping update of remote module group ${_group_name}"
+    )
+    return()
+  endif()
+
+  set(
+    ITKGroup_Remote_${_group_name}_GIT_TAG
+    "${REMOTE_GIT_TAG}"
+    CACHE STRING
+    "Override default GIT_TAG for remote module group ${_group_name}"
+  )
+  mark_as_advanced(ITKGroup_Remote_${_group_name}_GIT_TAG)
+
+  if(NOT REMOTE_GIT_TAG STREQUAL "")
+    _fetch_with_git(
+      "${GIT_EXECUTABLE}"
+      "${_fetch_options_GIT_REPOSITORY}"
+      "${REMOTE_GIT_TAG}"
+      "${_group_dir}"
+    )
+  endif()
+endfunction()

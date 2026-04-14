@@ -7,6 +7,7 @@ macro(itk_module_load_dag)
     GLOB_RECURSE meta
     RELATIVE "${ITK_SOURCE_DIR}"
     "${ITK_SOURCE_DIR}/*/*/*/itk-module.cmake" # grouped modules
+    "${ITK_SOURCE_DIR}/*/*/*/*/itk-module.cmake" # sub-grouped modules (e.g., Remote/Analysis/TextureFeatures/)
   )
   foreach(f ${meta})
     include(${ITK_SOURCE_DIR}/${f})

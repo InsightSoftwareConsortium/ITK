@@ -186,6 +186,69 @@ foreach(group ${group_list})
       list(APPEND ITK_MODULE_${itk-module}_REQUEST_BY ITKGroup_${group})
     endforeach()
   endif()
+
+  # Sub-group support: ITKGroup_Remote_Analysis, ITKGroup_Remote_IO, etc.
+  # When a sub-group is ON, request building all modules discovered within
+  # that sub-group's directory (e.g., Modules/Remote/Analysis/*).
+  if("${group}" STREQUAL "Remote")
+    file(
+      GLOB _remote_subdirs
+      RELATIVE "${ITK_SOURCE_DIR}/Modules/Remote"
+      "${ITK_SOURCE_DIR}/Modules/Remote/*/itk-module.cmake"
+    )
+    # Collect sub-group names from directories that contain itk-module.cmake
+    # at depth 2 (e.g., Analysis/TextureFeatures/itk-module.cmake)
+    set(_remote_subgroups)
+    foreach(_rmod_file ${_remote_subdirs})
+      # These are flat: "ModuleName/itk-module.cmake" — skip
+    endforeach()
+    file(
+      GLOB _remote_subgroup_files
+      RELATIVE "${ITK_SOURCE_DIR}/Modules/Remote"
+      "${ITK_SOURCE_DIR}/Modules/Remote/*/*/itk-module.cmake"
+    )
+    foreach(_rmod_file ${_remote_subgroup_files})
+      # Extract sub-group name (first path component)
+      string(REGEX MATCH "^([^/]+)/" _match "${_rmod_file}")
+      set(_subgroup_name "${CMAKE_MATCH_1}")
+      if(_subgroup_name AND NOT "${_subgroup_name}" STREQUAL "Deprecated")
+        list(APPEND _remote_subgroups ${_subgroup_name})
+      endif()
+    endforeach()
+    if(_remote_subgroups)
+      list(REMOVE_DUPLICATES _remote_subgroups)
+    endif()
+
+    foreach(_subgroup ${_remote_subgroups})
+      if(ITKGroup_Remote_${_subgroup})
+        # Find all modules in this sub-group and request them.
+        # Unlike the default group mechanism, an explicitly enabled sub-group
+        # requests ALL its modules including those with EXCLUDE_FROM_DEFAULT.
+        file(
+          GLOB _subgroup_module_files
+          "${ITK_SOURCE_DIR}/Modules/Remote/${_subgroup}/*/itk-module.cmake"
+        )
+        foreach(_mod_file ${_subgroup_module_files})
+          file(READ ${_mod_file} _mod_content)
+          string(
+            REGEX
+            MATCH
+            "itk_module[ \n]*(\\([ \n]*)([A-Za-z0-9]*)"
+            _m
+            "${_mod_content}"
+          )
+          set(_mod_name "${CMAKE_MATCH_2}")
+          if(_mod_name)
+            list(
+              APPEND
+              ITK_MODULE_${_mod_name}_REQUEST_BY
+              ITKGroup_Remote_${_subgroup}
+            )
+          endif()
+        endforeach()
+      endif()
+    endforeach()
+  endif()
   # Hide group options if building all modules anyway.
   if(ITK_BUILD_DEFAULT_MODULES)
     set_property(
