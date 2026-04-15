@@ -79,12 +79,13 @@ not be validated locally.
 
 ## Commit Attribution
 
-Commit messages describe **what** changed and **why** — not **how** it was
-produced. AI tool details do not belong in commit messages; disclose
-substantive AI assistance in the **PR description** instead.
+Commit messages describe **what** changed and **why** — not **how** it
+was produced. AI tool names, model IDs, and tool-specific trailers do
+**not** belong in commit messages. Disclose substantive AI assistance
+in the **PR description** instead (inside a `<details>` block).
 
-Full attribution rules (Co-Authored-By, AI tool trailers, external
-context, transient links) are in
+Full attribution rules (Co-Authored-By, AI disclosure, external
+context, PR body format) are in
 [attribution.md](./attribution.md).
 
 ### Pre-Commit Checklist for C++ Changes

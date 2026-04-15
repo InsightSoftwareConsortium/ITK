@@ -17,30 +17,45 @@ to *Ready for Review* until every item below is satisfied.
 
 ## AI Disclosure and Attribution
 
-See [attribution.md](./attribution.md) for the full policy on commit
-trailers (`Co-Authored-By:`, `Assisted-by:`, `Tool-Assisted:`).
+See [attribution.md](./attribution.md) for the full policy. Key points:
 
-At the PR level, state clearly in the description how AI tools contributed:
+- **Commits are clean** — no AI tool names, model IDs, or tool-specific
+  trailers in commit messages.
+- **AI disclosure goes in the PR description** — inside a collapsed
+  `<details>` block so it doesn't clutter the reviewer's first read.
+- **No disclosure needed** for mechanical changes (reformat, rename,
+  boilerplate).
 
-- Identify which portions are AI-generated and what modifications were made.
-- Include evidence of local testing — do not rely on AI assertions of correctness.
-- A bare `Co-Authored-By: AI-Tool` trailer is **not** sufficient disclosure.
+## PR Description Format
 
-## PR Description Template
+Lead with a **1-3 line visible summary**. Sequester longer analysis,
+AI disclosure, test output, and background context inside `<details>`
+blocks. See [attribution.md](./attribution.md) for examples.
 
 ```markdown
-## Summary
+Short summary of what changed and why. Closes #NNNN.
 
-<What this PR does and why>
+<details>
+<summary>Root cause / design rationale</summary>
 
-## AI Assistance
+Longer explanation here, hidden by default.
 
-<Which tool(s) were used, what they generated, what was manually reviewed
-or modified>
+</details>
 
-## Testing
+<details>
+<summary>AI assistance</summary>
 
-<Commands run locally, test output, or baseline comparisons>
+- Tool, role, what it contributed
+- Evidence of local testing
+
+</details>
+
+<details>
+<summary>Test results</summary>
+
+Commands run, output, baseline comparisons.
+
+</details>
 ```
 
 ## Commit Format
