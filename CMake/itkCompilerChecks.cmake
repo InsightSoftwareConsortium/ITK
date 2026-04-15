@@ -38,3 +38,12 @@ if(NOT ITK_IGNORE_CMAKE_CXX17_CHECKS)
     set(CMAKE_CXX_EXTENSIONS OFF)
   endif()
 endif()
+
+# MSVC does not set __cplusplus correctly by default (returns 199711L
+# regardless of the actual standard). /Zc:__cplusplus makes it report
+# the true value. Required for third-party headers (e.g. DCMTK
+# osconfig.h) that check __cplusplus >= 201103L at compile time.
+# Available since VS2017 15.7 (MSVC 19.14); we require 19.20+.
+if(MSVC AND NOT CMAKE_CXX_FLAGS MATCHES "/Zc:__cplusplus")
+  string(APPEND CMAKE_CXX_FLAGS " /Zc:__cplusplus")
+endif()
