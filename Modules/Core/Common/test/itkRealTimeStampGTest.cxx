@@ -15,75 +15,58 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
-#include <iostream>
 #include "itkRealTimeStamp.h"
-#include "itkNumericTraits.h"
+#include "itkGTest.h"
+
 #include "itkMath.h"
-#include "itkTestingMacros.h"
+#include "itkNumericTraits.h"
 
-#define CHECK_FOR_VALUE(a, b)                                                            \
-  {                                                                                      \
-    double eps = 4.0 * itk::NumericTraits<double>::epsilon();                            \
-    ITK_GCC_PRAGMA_PUSH                                                                  \
-    ITK_GCC_SUPPRESS_Wfloat_equal                                                        \
-    eps = (b == 0.0) ? eps : itk::Math::Absolute(b * eps);                               \
-    ITK_GCC_PRAGMA_POP                                                                   \
-    if (itk::Math::Absolute(a - b) > eps)                                                \
-    {                                                                                    \
-      std::cerr << "Error in " #a << " expected " << b << " but got " << a << std::endl; \
-      return EXIT_FAILURE;                                                               \
-    }                                                                                    \
-  }                                                                                      \
-  ITK_MACROEND_NOOP_STATEMENT
+namespace
+{
+void
+CheckForValue(double a, double b)
+{
+  double eps = 4.0 * itk::NumericTraits<double>::epsilon();
+  ITK_GCC_PRAGMA_PUSH
+  ITK_GCC_SUPPRESS_Wfloat_equal
+  eps = (b == 0.0) ? eps : itk::Math::Absolute(b * eps);
+  ITK_GCC_PRAGMA_POP
+  EXPECT_LE(itk::Math::Absolute(a - b), eps);
+}
+} // namespace
 
-#define CHECK_FOR_BOOLEAN(x, expected)          \
-  {                                             \
-    if ((x) != expected)                        \
-    {                                           \
-      std::cerr << "Error in " #x << std::endl; \
-      return EXIT_FAILURE;                      \
-    }                                           \
-  }                                             \
-  ITK_MACROEND_NOOP_STATEMENT
-
-int
-itkRealTimeStampTest(int, char *[])
+TEST(RealTimeStamp, DefaultConstructor)
 {
   const itk::RealTimeStamp stamp0;
 
-  const double timeInMicroSeconds = stamp0.GetTimeInMicroSeconds();
-  const double timeInMilliSeconds = stamp0.GetTimeInMilliSeconds();
-  double       timeInSeconds = stamp0.GetTimeInSeconds();
-  const double timeInHours = stamp0.GetTimeInHours();
-  const double timeInDays = stamp0.GetTimeInDays();
+  CheckForValue(stamp0.GetTimeInMicroSeconds(), 0.0);
+  CheckForValue(stamp0.GetTimeInMilliSeconds(), 0.0);
+  CheckForValue(stamp0.GetTimeInSeconds(), 0.0);
+  CheckForValue(stamp0.GetTimeInHours(), 0.0);
+  CheckForValue(stamp0.GetTimeInDays(), 0.0);
+}
 
-  CHECK_FOR_VALUE(timeInMicroSeconds, 0.0);
-  CHECK_FOR_VALUE(timeInMilliSeconds, 0.0);
-  CHECK_FOR_VALUE(timeInSeconds, 0.0);
-  CHECK_FOR_VALUE(timeInHours, 0.0);
-  CHECK_FOR_VALUE(timeInDays, 0.0);
+TEST(RealTimeStamp, NegativeIntervalThrows)
+{
+  itk::RealTimeStamp          stamp;
+  const itk::RealTimeInterval minusOneSecond(-1, 0);
 
-  const itk::RealTimeStamp stamp1;
+  EXPECT_THROW(stamp += minusOneSecond, itk::ExceptionObject);
+}
+
+TEST(RealTimeStamp, AccumulationAndSubtraction)
+{
+  const itk::RealTimeStamp stamp0;
   itk::RealTimeStamp       stamp2 = stamp0;
 
-  const itk::RealTimeInterval minusOneSecond(-1, 0);
-  ITK_TRY_EXPECT_EXCEPTION(stamp2 += minusOneSecond);
-
   const itk::RealTimeInterval oneSecond(1, 0);
-
   for (unsigned int i = 0; i < 1000000L; ++i)
   {
     stamp2 += oneSecond;
   }
 
-  std::cout << "Stamp2 = " << stamp2 << std::endl;
-
   itk::RealTimeInterval manySeconds = stamp2 - stamp0;
-
-  timeInSeconds = manySeconds.GetTimeInSeconds();
-
-  CHECK_FOR_VALUE(timeInSeconds, 1000000.0);
+  CheckForValue(manySeconds.GetTimeInSeconds(), 1000000.0);
 
   itk::RealTimeInterval fiveMicroseconds;
   fiveMicroseconds.Set(0, 5);
@@ -96,10 +79,7 @@ itkRealTimeStampTest(int, char *[])
   }
 
   manySeconds = stamp3 - stamp0;
-
-  timeInSeconds = manySeconds.GetTimeInSeconds();
-
-  CHECK_FOR_VALUE(timeInSeconds, 5.0);
+  CheckForValue(manySeconds.GetTimeInSeconds(), 5.0);
 
   for (unsigned int i = 0; i < 1000000L; ++i)
   {
@@ -107,49 +87,40 @@ itkRealTimeStampTest(int, char *[])
   }
 
   manySeconds = stamp3 - stamp0;
+  CheckForValue(manySeconds.GetTimeInSeconds(), 0.0);
 
-  timeInSeconds = manySeconds.GetTimeInSeconds();
+  const itk::RealTimeInterval minusOneSecond(-1, 0);
+  EXPECT_THROW(stamp3 += minusOneSecond, itk::ExceptionObject);
+}
 
-  CHECK_FOR_VALUE(timeInSeconds, 0.0);
-
-  ITK_TRY_EXPECT_EXCEPTION(stamp3 += minusOneSecond);
-
+TEST(RealTimeStamp, IntervalSetWithNormalization)
+{
   itk::RealTimeInterval timeSpan;
 
   timeSpan.Set(19, -5000000L);
-
-  timeInSeconds = timeSpan.GetTimeInSeconds();
-
-  CHECK_FOR_VALUE(timeInSeconds, 14.0);
+  CheckForValue(timeSpan.GetTimeInSeconds(), 14.0);
 
   timeSpan.Set(-19, 5000000L);
-
-  timeInSeconds = timeSpan.GetTimeInSeconds();
-
-  CHECK_FOR_VALUE(timeInSeconds, -14.0);
+  CheckForValue(timeSpan.GetTimeInSeconds(), -14.0);
 
   timeSpan.Set(-19, -5000000L);
-
-  timeInSeconds = timeSpan.GetTimeInSeconds();
-
-  CHECK_FOR_VALUE(timeInSeconds, -24.0);
+  CheckForValue(timeSpan.GetTimeInSeconds(), -24.0);
 
   timeSpan.Set(19, 5000000L);
+  CheckForValue(timeSpan.GetTimeInSeconds(), 24.0);
+}
 
-  timeInSeconds = timeSpan.GetTimeInSeconds();
-
-  CHECK_FOR_VALUE(timeInSeconds, 24.0);
-
-
+TEST(RealTimeStamp, IntervalAddition)
+{
   const itk::RealTimeInterval timeSpan1(19, 300000L);
   const itk::RealTimeInterval timeSpan2(13, 500000L);
 
   const itk::RealTimeInterval timeSpan3 = timeSpan1 + timeSpan2;
+  CheckForValue(timeSpan3.GetTimeInSeconds(), 32.8);
+}
 
-  timeInSeconds = timeSpan3.GetTimeInSeconds();
-
-  CHECK_FOR_VALUE(timeInSeconds, 32.8);
-
+TEST(RealTimeStamp, ComparisonOperators)
+{
   // Test comparison operations
   const itk::RealTimeInterval dt1(15, 13);
   const itk::RealTimeInterval dt2(19, 11);
@@ -164,28 +135,24 @@ itkRealTimeStampTest(int, char *[])
   itk::RealTimeInterval t3;
   t3 += dt3;
 
-  CHECK_FOR_BOOLEAN(t1 == t1, true);
-  CHECK_FOR_BOOLEAN(t1 != t2, true);
-  CHECK_FOR_BOOLEAN(t1 != t1, false);
-  CHECK_FOR_BOOLEAN(t2 >= t1, true);
-  CHECK_FOR_BOOLEAN(t1 >= t1, true);
-  CHECK_FOR_BOOLEAN(t2 > t1, true);
-  CHECK_FOR_BOOLEAN(t1 <= t2, true);
-  CHECK_FOR_BOOLEAN(t1 <= t1, true);
-  CHECK_FOR_BOOLEAN(t1 < t2, true);
+  EXPECT_TRUE(t1 == t1);
+  EXPECT_TRUE(t1 != t2);
+  EXPECT_FALSE(t1 != t1);
+  EXPECT_TRUE(t2 >= t1);
+  EXPECT_TRUE(t1 >= t1);
+  EXPECT_TRUE(t2 > t1);
+  EXPECT_TRUE(t1 <= t2);
+  EXPECT_TRUE(t1 <= t1);
+  EXPECT_TRUE(t1 < t2);
 
-  CHECK_FOR_BOOLEAN(t3 == t3, true);
-  CHECK_FOR_BOOLEAN(t1 != t3, true);
-  CHECK_FOR_BOOLEAN(t3 >= t1, true);
-  CHECK_FOR_BOOLEAN(t3 > t1, true);
-  CHECK_FOR_BOOLEAN(t3 <= t1, false);
-  CHECK_FOR_BOOLEAN(t3 < t1, false);
-  CHECK_FOR_BOOLEAN(t1 <= t3, true);
-  CHECK_FOR_BOOLEAN(t1 < t3, true);
-  CHECK_FOR_BOOLEAN(t1 >= t3, false);
-  CHECK_FOR_BOOLEAN(t1 > t3, false);
-
-
-  std::cout << "[PASSED]" << std::endl;
-  return EXIT_SUCCESS;
+  EXPECT_TRUE(t3 == t3);
+  EXPECT_TRUE(t1 != t3);
+  EXPECT_TRUE(t3 >= t1);
+  EXPECT_TRUE(t3 > t1);
+  EXPECT_FALSE(t3 <= t1);
+  EXPECT_FALSE(t3 < t1);
+  EXPECT_TRUE(t1 <= t3);
+  EXPECT_TRUE(t1 < t3);
+  EXPECT_FALSE(t1 >= t3);
+  EXPECT_FALSE(t1 > t3);
 }
