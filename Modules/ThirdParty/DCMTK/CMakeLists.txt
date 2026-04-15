@@ -210,7 +210,13 @@ else(ITK_USE_SYSTEM_DCMTK)
   set(ITKDCMTK_LIBRARIES "${_ITKDCMTK_LIB_NAMES}")
   #
   # add all the embedded include directories to include dirs
+  # Skip internal JPEG codec libraries (ijg8, ijg12, ijg16) — they have
+  # no public headers and exporting non-existent paths in
+  # INTERFACE_INCLUDE_DIRECTORIES causes CMake errors in external modules.
   foreach(lib ${_ITKDCMTK_LIB_NAMES})
+    if(lib MATCHES "^ijg")
+      continue()
+    endif()
     # add to include list
     list(APPEND ITKDCMTK_INCLUDE_DIRS ${ITKDCMTK_INCLUDE}/${lib}/include)
   endforeach()
