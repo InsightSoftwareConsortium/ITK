@@ -46,7 +46,6 @@ set(
   itkPointSetTest.cxx
   itkPointSetToImageFilterTest1.cxx
   itkPointSetToImageFilterTest2.cxx
-  itkPriorityQueueTest.cxx
   itkRealTimeClockTest.cxx
   itkRealTimeIntervalTest.cxx
   itkRealTimeStampTest.cxx
@@ -981,12 +980,6 @@ itk_add_test(
     itkPhasedArray3DSpecialCoordinatesImageTest
 )
 itk_add_test(
-  NAME itkPriorityQueueTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkPriorityQueueTest
-)
-itk_add_test(
   NAME itkRealTimeClockTest
   COMMAND
     ITKCommon1TestDriver
@@ -1573,6 +1566,7 @@ set(
   itkPointGTest.cxx
   itkPointSetGTest.cxx
   itkPrintHelperGTest.cxx
+  itkPriorityQueueGTest.cxx
   itkRGBAPixelGTest.cxx
   itkRGBPixelGTest.cxx
   itkShapedImageNeighborhoodRangeGTest.cxx

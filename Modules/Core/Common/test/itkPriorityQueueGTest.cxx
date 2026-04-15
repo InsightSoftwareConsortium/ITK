@@ -15,12 +15,12 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "itkPriorityQueueContainer.h"
+#include "itkGTest.h"
 
 #include "itkMath.h"
-#include "itkPriorityQueueContainer.h"
 
-int
-itkPriorityQueueTest(int, char *[])
+TEST(PriorityQueue, ConvertedLegacyTest)
 {
   using ElementIdentifier = itk::IdentifierType;
 
@@ -29,8 +29,6 @@ itkPriorityQueueTest(int, char *[])
 
   using MinPQType = itk::PriorityQueueContainer<MinPQElementType, MinPQElementType, double, ElementIdentifier>;
   auto min_priority_queue = MinPQType::New();
-
-  std::cout << min_priority_queue->GetNameOfClass() << std::endl;
 
   using MaxPQType = itk::PriorityQueueContainer<MaxPQElementType, MaxPQElementType, double, ElementIdentifier>;
   auto max_priority_queue = MaxPQType::New();
@@ -49,38 +47,19 @@ itkPriorityQueueTest(int, char *[])
   it = sequence.begin();
   i = sequence.size();
 
-  std::cout << "Min Priority Queue   ";
   while (!min_priority_queue->Empty())
   {
-    if (itk::Math::NotAlmostEquals(min_priority_queue->Peek().m_Priority, *it))
-    {
-      std::cout << min_priority_queue->Peek().m_Priority << ' ' << *it << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (min_priority_queue->Size() != i)
-    {
-      std::cout << "Size " << min_priority_queue->Size() << ' ' << i << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_DOUBLE_EQ(min_priority_queue->Peek().m_Priority, *it);
+    EXPECT_EQ(min_priority_queue->Size(), i);
     min_priority_queue->Pop();
     ++it;
     --i;
   }
-  std::cout << "OK" << std::endl;
 
-  std::cout << "Max Priority Queue   ";
   while (!max_priority_queue->Empty())
   {
-    if (itk::Math::NotAlmostEquals(max_priority_queue->Peek().m_Priority, sequence.back()))
-    {
-      std::cout << max_priority_queue->Peek().m_Priority << ' ' << sequence.back() << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (max_priority_queue->Size() != sequence.size())
-    {
-      std::cout << "Size " << max_priority_queue->Size() << ' ' << sequence.size() << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_DOUBLE_EQ(max_priority_queue->Peek().m_Priority, sequence.back());
+    EXPECT_EQ(max_priority_queue->Size(), sequence.size());
     max_priority_queue->Pop();
     if (max_priority_queue->Empty())
     {
@@ -88,7 +67,4 @@ itkPriorityQueueTest(int, char *[])
     }
     sequence.pop_back();
   }
-  std::cout << "OK" << std::endl;
-
-  return EXIT_SUCCESS;
 }
