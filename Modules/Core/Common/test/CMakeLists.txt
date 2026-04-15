@@ -129,7 +129,6 @@ set(
   itkDataObjectAndProcessObjectTest.cxx
   itkOptimizerParametersTest.cxx
   itkImageVectorOptimizerParametersHelperTest.cxx
-  itkCompensatedSummationTest.cxx
   itkCompensatedSummationTest2.cxx
   itkImageRegionConstIteratorWithOnlyIndexTest.cxx
   itkImageRandomConstIteratorWithOnlyIndexTest.cxx
@@ -1289,12 +1288,6 @@ itk_add_test(
     itkImageVectorOptimizerParametersHelperTest
 )
 itk_add_test(
-  NAME itkCompensatedSummationTest
-  COMMAND
-    ITKCommon2TestDriver
-    itkCompensatedSummationTest
-)
-itk_add_test(
   NAME itkCompensatedSummationTest2
   COMMAND
     ITKCommon2TestDriver
@@ -1525,6 +1518,7 @@ set(
   itkByteSwapGTest.cxx
   itkCommandObserverObjectGTest.cxx
   itkCommonTypeTraitsGTest.cxx
+  itkCompensatedSummationGTest.cxx
   itkConnectedImageNeighborhoodShapeGTest.cxx
   itkConstantBoundaryImageNeighborhoodPixelAccessPolicyGTest.cxx
   itkCopyGTest.cxx
