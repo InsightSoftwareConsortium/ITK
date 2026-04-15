@@ -378,7 +378,7 @@ endforeach()
         string(TOUPPER "${c}" C)
         set_property(
           TARGET
-            ${lib}
+            ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${lib}
           PROPERTY
             IMPORTED_LOCATION_${C}
               ${lib_dir}/${c}/${lib_prefix}${lib}${lib_suffix}
