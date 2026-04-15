@@ -50,7 +50,7 @@ public:
   void InvokeEvent( const Event & event, const Subject* self);
   Command *GetCommand(unsigned long tag);
   bool HasObserver(const Event & event) const;
-  bool PrintObservers(std::ostream& os, std::string indent) const;
+  bool PrintObservers(std::ostream& os, const std::string & indent) const;
 private:
   std::list<Observer* > m_Observers;
   unsigned long m_Count;
@@ -188,7 +188,7 @@ HasObserver(const Event & event) const
 
 bool
 SubjectInternals::
-PrintObservers(std::ostream& os, std::string indent) const
+PrintObservers(std::ostream& os, const std::string & indent) const
 {
   if(m_Observers.empty())
     {

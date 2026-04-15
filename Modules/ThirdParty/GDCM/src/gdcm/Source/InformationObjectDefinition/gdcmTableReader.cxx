@@ -70,29 +70,29 @@ static void XMLCALL characterDataHandler(void* userData, const char* data,
 void TableReader::HandleMacroEntryDescription(const char **atts)
 {
   (void)atts;
-  assert( ParsingMacroEntryDescription == false );
+  gdcm_assert( ParsingMacroEntryDescription == false );
   ParsingMacroEntryDescription = true;
-  assert( *atts == nullptr );
-  assert( Description.empty() );
+  gdcm_assert( *atts == nullptr );
+  gdcm_assert( Description.empty() );
 }
 
 void TableReader::HandleModuleInclude(const char **atts)
 {
   const char *ref = *atts;
-  assert( strcmp(ref, "ref") == 0 );
+  gdcm_assert( strcmp(ref, "ref") == 0 );
   (void)ref; //removing warning
   const char *include = *(atts+1);
   CurrentModule.AddMacro( include );
-  //assert( *(atts+2) == 0 ); // description ?
+  //gdcm_assert( *(atts+2) == 0 ); // description ?
 }
 
 void TableReader::HandleModuleEntryDescription(const char **atts)
 {
   (void)atts;
-  assert( ParsingModuleEntryDescription == false );
+  gdcm_assert( ParsingModuleEntryDescription == false );
   ParsingModuleEntryDescription = true;
-  assert( *atts == nullptr );
-  assert( Description.empty() );
+  gdcm_assert( *atts == nullptr );
+  gdcm_assert( Description.empty() );
 }
 
 void TableReader::HandleMacroEntry(const char **atts)
@@ -111,8 +111,8 @@ void TableReader::HandleMacroEntry(const char **atts)
       unsigned int v;
       const char *raw = *(current+1);
       int r = sscanf(raw, "%04x", &v);
-      assert( r == 1 );
-      assert( v <= 0xFFFF );
+      gdcm_assert( r == 1 );
+      gdcm_assert( v <= 0xFFFF );
       (void)r; //removing warning
       tag.SetGroup( (uint16_t)v );
       }
@@ -121,8 +121,8 @@ void TableReader::HandleMacroEntry(const char **atts)
       unsigned int v;
       const char *raw = *(current+1);
       int r = sscanf(raw, "%04x", &v);
-      assert( r == 1 );
-      assert( v <= 0xFFFF );
+      gdcm_assert( r == 1 );
+      gdcm_assert( v <= 0xFFFF );
       (void)r; //removing warning
       tag.SetElement( (uint16_t)v );
       }
@@ -138,7 +138,7 @@ void TableReader::HandleMacroEntry(const char **atts)
       }
     else
       {
-      assert(0);
+      gdcm_assert(0);
       }
     ++current;
     ++current;
@@ -161,8 +161,8 @@ void TableReader::HandleModuleEntry(const char **atts)
       unsigned int v;
       const char *raw = *(current+1);
       int r = sscanf(raw, "%04x", &v);
-      assert( r == 1 );
-      assert( v <= 0xFFFF );
+      gdcm_assert( r == 1 );
+      gdcm_assert( v <= 0xFFFF );
       (void)r; //removing warning
       tag.SetGroup( (uint16_t)v );
       }
@@ -171,8 +171,8 @@ void TableReader::HandleModuleEntry(const char **atts)
       unsigned int v;
       const char *raw = *(current+1);
       int r = sscanf(raw, "%04x", &v);
-      assert( r == 1 );
-      assert( v <= 0xFFFF );
+      gdcm_assert( r == 1 );
+      gdcm_assert( v <= 0xFFFF );
       (void)r; //removing warning
       tag.SetElement( (uint16_t)v );
       }
@@ -188,7 +188,7 @@ void TableReader::HandleModuleEntry(const char **atts)
       }
     else
       {
-      assert(0);
+      gdcm_assert(0);
       }
     ++current;
     ++current;
@@ -230,7 +230,7 @@ void TableReader::HandleIODEntry(const char **atts)
       }
     else
       {
-      assert(0);
+      gdcm_assert(0);
       }
     ++current;
     ++current;
@@ -270,7 +270,7 @@ void TableReader::HandleModule(const char **atts)
       }
     else
       {
-      assert(0);
+      gdcm_assert(0);
       }
     ++current;
     ++current;
@@ -334,7 +334,7 @@ void TableReader::StartElement(const char *name, const char **atts)
       }
     else /*if( ParsingIODoEntry )*/
       {
-      assert(0);
+      gdcm_assert(0);
       }
     }
   else if( strcmp(name, "section" ) == 0 )
@@ -400,7 +400,7 @@ void TableReader::StartElement(const char *name, const char **atts)
     }
   else
     {
-    assert(0);
+    gdcm_assert(0);
     }
 }
 
@@ -467,13 +467,13 @@ void TableReader::EndElement(const char *name)
     else if( ParsingMacroEntry )
       {
       ParsingMacroEntryDescription = false;
-      //assert( !Description.empty() );
+      //gdcm_assert( !Description.empty() );
       CurrentMacroEntry.SetDescription( Description.c_str() );
       Description = "";
       }
     else
       {
-      assert(0);
+      gdcm_assert(0);
       }
     }
   else if( strcmp(name, "mapping" ) == 0 )
@@ -543,12 +543,12 @@ void TableReader::EndElement(const char *name)
       }
     else
       {
-      assert(0);
+      gdcm_assert(0);
       }
     }
   else
     {
-    assert(0);
+    gdcm_assert(0);
     }
 }
 
@@ -557,18 +557,18 @@ void TableReader::CharacterDataHandler(const char *data, int length)
   if( ParsingModuleEntryDescription )
     {
     std::string name( data, length);
-    assert( (unsigned int)length == strlen( name.c_str() ) );
+    gdcm_assert( (unsigned int)length == strlen( name.c_str() ) );
     Description.append( name );
     }
   else if( ParsingMacroEntryDescription )
     {
     std::string name( data, length);
-    assert( (unsigned int)length == strlen( name.c_str() ) );
+    gdcm_assert( (unsigned int)length == strlen( name.c_str() ) );
     Description.append( name );
     }
   else
     {
-    //assert(0);
+    //gdcm_assert(0);
     }
 }
 

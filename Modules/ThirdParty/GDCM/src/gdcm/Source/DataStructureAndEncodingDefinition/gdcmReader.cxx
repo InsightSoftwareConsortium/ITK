@@ -85,7 +85,7 @@ bool Reader::ReadDataSet()
 TransferSyntax Reader::GuessTransferSyntax()
 {
   // Don't call this function if you have a meta file info
-  //assert( Header->GetTransferSyntaxType() == TransferSyntax::TS_END );
+  //gdcm_assert( Header->GetTransferSyntaxType() == TransferSyntax::TS_END );
   std::streampos start = Stream->tellg();
   SwapCode sc = SwapCode::Unknown;
   TransferSyntax::NegociatedType nts = TransferSyntax::Unknown;
@@ -103,7 +103,7 @@ TransferSyntax Reader::GuessTransferSyntax()
       sc = SwapCode::BigEndian;
       break;
     default:
-      assert(0);
+      gdcm_assert(0);
       }
     // Purposely not Re-use ReadVR since we can read VR_END
     char vr_str[3];
@@ -117,7 +117,7 @@ TransferSyntax Reader::GuessTransferSyntax()
       }
     else
       {
-      assert( !(VR::IsSwap(vr_str)));
+      gdcm_assert( !(VR::IsSwap(vr_str)));
       Stream->seekg(-2, std::ios::cur); // Seek back
       if( t.GetElement() == 0x0000 )
         {
@@ -140,7 +140,7 @@ TransferSyntax Reader::GuessTransferSyntax()
           gdcmWarningMacro( "Bad Big Endian" );
           break;
         default:
-          assert(0);
+          gdcm_assert(0);
           }
         }
       nts = TransferSyntax::Implicit;
@@ -149,14 +149,14 @@ TransferSyntax Reader::GuessTransferSyntax()
   else
     {
     gdcmWarningMacro( "Start with a private tag creator" );
-    assert( t.GetGroup() > 0x0002 );
+    gdcm_assert( t.GetGroup() > 0x0002 );
     switch( t.GetElement() )
       {
     case 0x0010:
       sc = SwapCode::LittleEndian;
       break;
     default:
-      assert(0);
+      gdcm_assert(0);
       }
     // Purposely not Re-use ReadVR since we can read VR_END
     char vr_str[3];
@@ -177,8 +177,8 @@ TransferSyntax Reader::GuessTransferSyntax()
       gdcmWarningMacro( "Very dangerous assertion needs some work" );
       }
     }
-  assert( nts != TransferSyntax::Unknown );
-  assert( sc != SwapCode::Unknown );
+  gdcm_assert( nts != TransferSyntax::Unknown );
+  gdcm_assert( sc != SwapCode::Unknown );
   if( nts == TransferSyntax::Implicit )
     {
     if( sc == SwapCode::BigEndian )
@@ -191,15 +191,15 @@ TransferSyntax Reader::GuessTransferSyntax()
       }
     else
       {
-      assert(0);
+      gdcm_assert(0);
       }
     }
   else
     {
-    assert(0);
+    gdcm_assert(0);
     }
   Stream->seekg( start, std::ios::beg );
-  assert( ts != TransferSyntax::TS_END );
+  gdcm_assert( ts != TransferSyntax::TS_END );
   return ts;
 }
 
@@ -227,7 +227,7 @@ namespace details
     static void Check(bool b, std::istream &stream)
       {
       (void)stream;
-      if( b ) assert( stream.eof() );
+      if( b ) gdcm_assert( stream.eof() );
       }
   };
 
@@ -362,7 +362,7 @@ bool Reader::InternalReadCommon(const T_Caller &caller)
       }
     catch( ... )
       {
-      assert(0);
+      gdcm_assert(0);
       }
 
     bool hasmetaheader = false;
@@ -374,7 +374,7 @@ bool Reader::InternalReadCommon(const T_Caller &caller)
           {
           F->GetHeader().Read( is );
           hasmetaheader = true;
-          assert( !F->GetHeader().IsEmpty() );
+          gdcm_assert( !F->GetHeader().IsEmpty() );
           }
         catch( std::exception &ex )
           {
@@ -382,7 +382,7 @@ bool Reader::InternalReadCommon(const T_Caller &caller)
           gdcmWarningMacro(ex.what());
           // Weird implicit meta header:
           is.seekg(128+4, std::ios::beg );
-          assert( is.good() );
+          gdcm_assert( is.good() );
           try
             {
             F->GetHeader().ReadCompat(is);
@@ -410,7 +410,7 @@ bool Reader::InternalReadCommon(const T_Caller &caller)
     catch( ... )
       {
       // Ooops..
-      assert(0);
+      gdcm_assert(0);
       }
     if( F->GetHeader().IsEmpty() )
       {
@@ -431,7 +431,7 @@ bool Reader::InternalReadCommon(const T_Caller &caller)
 
     zlib_stream::zip_istream gzis( is );
     // FIXME: we also know in this case that we are dealing with Explicit:
-    assert( ts.GetNegociatedType() == TransferSyntax::Explicit );
+    gdcm_assert( ts.GetNegociatedType() == TransferSyntax::Explicit );
     //F->GetDataSet().ReadUpToTag<ExplicitDataElement,SwapperNoOp>(gzis,tag, skiptags);
     caller.template ReadCommon<ExplicitDataElement,SwapperNoOp>(gzis);
     // I need the following hack to read: srwithgraphdeflated.dcm
@@ -475,14 +475,14 @@ bool Reader::InternalReadCommon(const T_Caller &caller)
           std::streampos start = is.tellg();
           is.seekg( 0, std::ios::end);
           std::streampos end = is.tellg();
-          assert( !is.eof() );
-          assert( is.good() );
+          gdcm_assert( !is.eof() );
+          gdcm_assert( is.good() );
           std::streamoff theOffset = end-start;
           assert (theOffset > 0 || (uint32_t)theOffset < std::numeric_limits<uint32_t>::max());
           VL l = (uint32_t)(theOffset);
           is.seekg( start, std::ios::beg );
-          assert( is.good() );
-          assert( !is.eof() );
+          gdcm_assert( is.good() );
+          gdcm_assert( !is.eof() );
           caller.template ReadCommonWithLength<ImplicitDataElement,SwapperNoOp>(is,l);
           }
         }
@@ -575,7 +575,7 @@ bool Reader::InternalReadCommon(const T_Caller &caller)
       //
       gdcmWarningMacro( "Attempt to read Philips with ByteSwap private sequence wrongly encoded");
       F->GetDataSet().Clear(); // remove garbage from 1st attempt...
-      assert(0);  // TODO FIXME
+      gdcm_assert(0);  // TODO FIXME
       }
     else if( ex.GetLastElement().GetVR() == VR::INVALID )
       {
@@ -694,7 +694,7 @@ bool Reader::InternalReadCommon(const T_Caller &caller)
     success = false;
     }
 
-  //if( success ) assert( Stream->eof() );
+  //if( success ) gdcm_assert( Stream->eof() );
   caller.Check(success, *Stream );
     }
   catch( Exception &ex )
@@ -782,14 +782,14 @@ bool Reader::CanRead() const
   if (bigendian)
     {
     t.Read<SwapperDoOp>(ss);
-    //assert( t.GetGroup() != 0x2 );
+    //gdcm_assert( t.GetGroup() != 0x2 );
     if( t.GetGroup() <= 0xff )
       sc = SwapCode::BigEndian;
     }
   else
     {
     t.Read<SwapperNoOp>(ss);
-    //assert( t.GetGroup() != 0x2 );
+    //gdcm_assert( t.GetGroup() != 0x2 );
     if( t.GetGroup() <= 0xff )
       sc = SwapCode::LittleEndian;
     }
@@ -844,7 +844,7 @@ void Reader::SetFileName(const char *utf8path)
   if( Ifstream->is_open() )
     {
     Stream = Ifstream;
-    assert( Stream && *Stream );
+    gdcm_assert( Stream && *Stream );
     }
   else
     {

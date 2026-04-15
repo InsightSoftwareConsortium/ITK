@@ -260,7 +260,7 @@ unsigned int VR::GetSizeof() const
   default:
     size = 0;
     }
-  assert( size );
+  gdcm_assert( size );
   return size;
 }
 
@@ -268,7 +268,7 @@ unsigned int VR::GetIndex(VRType vr)
 {
   if( vr == VR::VL32 ) return 0;
   unsigned int l = 0;
-  assert( vr <= VR_END );
+  gdcm_assert( vr <= VR_END );
   switch(vr)
     {
   case INVALID:
@@ -310,13 +310,13 @@ const char *VR::GetVRStringFromFile(VRType vr)
 {
 #if 1
   static const int N = sizeof(VRValue) / sizeof(VRType);
-  assert( N == 35 );
+  gdcm_assert( N == 35 );
   static VRType *start = VRValue;
   static VRType *end   = VRValue+N;
   const VRType *p =
     std::lower_bound(start, end, vr);
-  assert( *p == vr );
-  assert( (p - start) == (long long)GetIndex(vr) );
+  gdcm_assert( *p == vr );
+  gdcm_assert( (p - start) == (long long)GetIndex(vr) );
   return VRStrings[p-start];
 #else
   const unsigned int idx = GetIndex(vr);
@@ -345,7 +345,7 @@ VR::VRType VR::GetVRTypeFromFile(const char *vr)
  */
 #if 0
   static const int N = sizeof(VRValue) / sizeof(VRType);
-  assert( N == 35 );
+  gdcm_assert( N == 35 );
   static const char **start = VRStrings+1;
   static const char **end   = VRStrings+N;
   //std::cerr << "VR=" << vr << std::endl;
@@ -364,9 +364,9 @@ VR::VRType VR::GetVRTypeFromFile(const char *vr)
       }
     return VR::INVALID;
     }
-  assert( (*p)[0] == vr[0] && (*p)[1] == vr[1] );
+  gdcm_assert( (*p)[0] == vr[0] && (*p)[1] == vr[1] );
   VRType r = VRValue[p-start+1];
-  assert( r == (VR::VRType)(1 << (p-start)) );
+  gdcm_assert( r == (VR::VRType)(1 << (p-start)) );
 #else // old version not optimized
   VRType r = VR::VR_END;
   for (int i = 1; VRStrings[i] != nullptr; i++)
@@ -394,7 +394,7 @@ VR::VRType VR::GetVRTypeFromFile(const char *vr)
     }
 #endif
   // postcondition
-  assert( r != VR::INVALID
+  gdcm_assert( r != VR::INVALID
        && r != VR::OB_OW
        && r != VR::US_SS
        && r != VR::US_SS_OW
@@ -429,10 +429,10 @@ VR::VRType VR::GetVRType(const char *vr)
         r = US_OW;
         break;
       case 39:
-        r = VR_END; assert(0);
+        r = VR_END; gdcm_assert(0);
         break;
       default:
-        assert( vr[2] == 0 );
+        gdcm_assert( vr[2] == 0 );
         r = (VR::VRType)(1LL << (i-1));
         }
       break; // found one value, we can exit the for loop
@@ -449,7 +449,7 @@ bool VR::IsValid(const char *vr)
     // Use lazy evaluation instead of strncmp
     if (ref[0] == vr[0] && ref[1] == vr[1] )
       {
-      assert( i < 35 ); // FIXME
+      gdcm_assert( i < 35 ); // FIXME
       return true;
       }
     }
@@ -458,19 +458,19 @@ bool VR::IsValid(const char *vr)
 
 bool VR::IsValid(const char *vr1, VRType vr2)
 {
-  assert( strlen(vr1) == 2 );
+  gdcm_assert( strlen(vr1) == 2 );
   VR::VRType vr = GetVRType(vr1);
   return ((vr & vr2) != 0 ? true : false);
 }
 
 bool VR::IsSwap(const char *vr)
 {
-  assert( vr[2] == '\0' );
+  gdcm_assert( vr[2] == '\0' );
   char vr_swap[3];
   vr_swap[0] = vr[1];
   vr_swap[1] = vr[0];
   vr_swap[2] = '\0';
-  assert( GetVRType(vr_swap) != SS );
+  gdcm_assert( GetVRType(vr_swap) != SS );
   return GetVRType(vr_swap) != VR_END;
 }
 
@@ -516,20 +516,20 @@ VRTemplateCase(UV,rep)
 
 bool VR::IsASCII(VRType vr)
 {
-  //assert( vr != VR::INVALID );
+  //gdcm_assert( vr != VR::INVALID );
   switch(vr)
     {
     VRTemplate(VRASCII)
   default:
       // 1.3.12.2.1107.5.1.4.54035.30000005100516290423400005768-no-phi.dcm has a VR=RT
-      //assert(0);
+      //gdcm_assert(0);
       return false;
     }
 }
 
 bool VR::IsASCII2(VRType vr)
 {
-  assert( vr != VR::INVALID );
+  gdcm_assert( vr != VR::INVALID );
   return
     vr == AE ||
     vr == AS ||
@@ -549,7 +549,7 @@ bool VR::IsASCII2(VRType vr)
 
 bool VR::IsBinary(VRType vr)
 {
-  //assert( vr != VR::INVALID );
+  //gdcm_assert( vr != VR::INVALID );
   switch(vr)
     {
     VRTemplate(VRBINARY)
@@ -562,14 +562,14 @@ bool VR::IsBinary(VRType vr)
     return true;
   default:
       // 1.3.12.2.1107.5.1.4.54035.30000005100516290423400005768-no-phi.dcm has a VR=RT
-      //assert(0);
+      //gdcm_assert(0);
       return false;
     }
 }
 
 bool VR::IsBinary2(VRType vr)
 {
-  //assert( vr != OF );
+  //gdcm_assert( vr != OF );
   return
     vr == OB ||
     vr == OW ||

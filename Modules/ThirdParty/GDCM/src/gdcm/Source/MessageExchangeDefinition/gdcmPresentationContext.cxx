@@ -45,7 +45,7 @@ void PresentationContext::AddTransferSyntax( const char *tsstr )
 
 void PresentationContext::SetPresentationContextID( uint8_t id )
 {
-  assert( id );
+  gdcm_assert( id );
   ID = id;
 }
 

@@ -36,19 +36,19 @@ std::istream &ServiceClassApplicationInformation::Read(std::istream &is)
 
 const std::ostream &ServiceClassApplicationInformation::Write(std::ostream &os) const
 {
-  assert( InternalArray[0] < 4 );
-  assert( InternalArray[1] == 0 );
-  assert( InternalArray[2] < 4 );
-  assert( InternalArray[3] == 0 );
-  assert( InternalArray[4] < 3 );
-  assert( InternalArray[5] == 0 );
+  gdcm_assert( InternalArray[0] < 4 );
+  gdcm_assert( InternalArray[1] == 0 );
+  gdcm_assert( InternalArray[2] < 4 );
+  gdcm_assert( InternalArray[3] == 0 );
+  gdcm_assert( InternalArray[4] < 3 );
+  gdcm_assert( InternalArray[5] == 0 );
   os.write( (const char*)InternalArray, sizeof(InternalArray) );
   return os;
 }
 
 size_t ServiceClassApplicationInformation::Size() const
 {
-  assert( sizeof(InternalArray) == 6 );
+  gdcm_assert( sizeof(InternalArray) == 6 );
   return 6;
 }
 

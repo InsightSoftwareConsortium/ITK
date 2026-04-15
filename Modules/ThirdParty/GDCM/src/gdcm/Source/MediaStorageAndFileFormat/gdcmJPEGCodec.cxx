@@ -146,7 +146,7 @@ Interchange Format shall be used (the table specification shall be included).
 */
 bool JPEGCodec::Decode(DataElement const &in, DataElement &out)
 {
-  assert( Internal );
+  gdcm_assert( Internal );
   out = in;
   // Fragments...
   const SequenceOfFragments *sf0 = in.GetSequenceOfFragments();
@@ -164,7 +164,7 @@ bool JPEGCodec::Decode(DataElement const &in, DataElement &out)
       size_t bv_len = bv.GetLength();
       char *mybuffer = new char[bv_len];
       bool b = bv.GetBuffer(mybuffer, bv.GetLength());
-      assert( b ); (void)b;
+      gdcm_assert(b); (void)b;
       is.write(mybuffer, bv.GetLength());
       delete[] mybuffer;
       bool r = DecodeByStreams(is, os);
@@ -180,10 +180,9 @@ bool JPEGCodec::Decode(DataElement const &in, DataElement &out)
         // Ok so we are decoding a multiple frame jpeg DICOM file:
         // if we are lucky, we might be trying to decode some sort of broken multi-frame
         // DICOM file. In this case check that we have read all Fragment properly:
-        if( i >= this->GetDimensions()[2] )
+        if( i >= this->GetDimensions()[2] && nfrags == this->GetNumberOfDimensions() )
           {
           // JPEGInvalidSecondFrag.dcm
-          assert( nfrags == this->GetNumberOfDimensions() ); (void)nfrags; // sentinel
           gdcmWarningMacro( "Invalid JPEG Fragment found at pos #" << i + 1 << ". Skipping it" );
           }
         else
@@ -198,7 +197,7 @@ bool JPEGCodec::Decode(DataElement const &in, DataElement &out)
     size_t jpegbv_len = jpegbv->GetLength();
     char *mybuffer0 = new char[jpegbv_len];
     bool b0 = jpegbv->GetBuffer(mybuffer0, jpegbv->GetLength());
-    assert( b0 ); (void)b0;
+    gdcm_assert( b0 ); (void)b0;
     is0.write(mybuffer0, jpegbv->GetLength());
     delete[] mybuffer0;
     bool r = DecodeByStreams(is0, os);
@@ -224,7 +223,7 @@ bool JPEGCodec::Decode(DataElement const &in, DataElement &out)
         size_t bv_len = bv.GetLength();
         char *mybuffer = new char[bv_len];
         bool b = bv.GetBuffer(mybuffer, bv.GetLength());
-        assert( b ); (void)b;
+        gdcm_assert(b); (void)b;
         is.write(mybuffer, bv.GetLength());
         delete[] mybuffer;
         bool r2 = DecodeByStreams(is, os);
@@ -236,7 +235,7 @@ bool JPEGCodec::Decode(DataElement const &in, DataElement &out)
 
       }
     }
-  //assert( pos == len );
+  //gdcm_assert( pos == len );
   const size_t sizeOfOs = (size_t)os.tellp();
   os.seekp( 0, std::ios::beg );
   ByteValue * bv = new ByteValue;
@@ -251,12 +250,12 @@ void JPEGCodec::ComputeOffsetTable(bool b)
 {
   (void)b;
   // Not implemented
-  assert(0);
+  gdcm_assert(0);
 }
 
 bool JPEGCodec::GetHeaderInfo( std::istream & is, TransferSyntax &ts )
 {
-  assert( Internal );
+  gdcm_assert( Internal );
   if ( !Internal->GetHeaderInfo(is, ts) )
     {
     // let's check if this is one of those buggy lossless JPEG
@@ -268,7 +267,7 @@ bool JPEGCodec::GetHeaderInfo( std::istream & is, TransferSyntax &ts )
         " but JPEG header says it's: " << Internal->BitSample );
       if( this->BitSample < Internal->BitSample )
         {
-        //assert(0); // Outside buffer will be too small
+        //gdcm_assert(0); // Outside buffer will be too small
         }
       is.seekg(0, std::ios::beg);
       SetupJPEGBitCodec( Internal->BitSample );
@@ -285,7 +284,7 @@ bool JPEGCodec::GetHeaderInfo( std::istream & is, TransferSyntax &ts )
         }
       else
         {
-        //assert(0); // FATAL ERROR
+        //gdcm_assert(0); // FATAL ERROR
         gdcmErrorMacro( "Do not support this JPEG Type" );
         return false;
         }
@@ -342,7 +341,7 @@ bool JPEGCodec::Code(DataElement const &in, DataElement &out)
       }
 
     std::string str = os.str();
-    assert( !str.empty() );
+    gdcm_assert( !str.empty() );
     Fragment frag;
     //frag.SetTag( itemStart );
     VL::Type strSize = (VL::Type)str.size();
@@ -351,7 +350,7 @@ bool JPEGCodec::Code(DataElement const &in, DataElement &out)
 
     }
   //unsigned int n = sq->GetNumberOfFragments();
-  assert( sq->GetNumberOfFragments() == dims[2] );
+  gdcm_assert( sq->GetNumberOfFragments() == dims[2] );
   out.SetValue( *sq );
 
   return true;
@@ -373,7 +372,7 @@ bool JPEGCodec::DecodeByStreams(std::istream &is, std::ostream &os)
         " but JPEG header says it's: " << Internal->BitSample );
       if( this->BitSample < Internal->BitSample )
         {
-        //assert(0); // Outside buffer will be too small
+        //gdcm_assert(0); // Outside buffer will be too small
         }
       is.seekg(0, std::ios::beg);
       SetupJPEGBitCodec( Internal->BitSample );
@@ -457,9 +456,9 @@ bool JPEGCodec::DecodeExtent(
 
   const unsigned int * dimensions = this->GetDimensions();
   const PixelFormat & pf = this->GetPixelFormat();
-  //assert( pf.GetBitsAllocated() % 8 == 0 );
-  assert( pf != PixelFormat::SINGLEBIT );
-  //assert( pf != PixelFormat::UINT12 && pf != PixelFormat::INT12 );
+  //gdcm_assert( pf.GetBitsAllocated() % 8 == 0 );
+  gdcm_assert( pf != PixelFormat::SINGLEBIT );
+  //gdcm_assert( pf != PixelFormat::UINT12 && pf != PixelFormat::INT12 );
 
   if( NumberOfDimensions == 2 )
     {
@@ -484,7 +483,7 @@ bool JPEGCodec::DecodeExtent(
         // read J2K
         is.read( &vdummybuffer[oldlen], fraglen );
         }
-    assert( frag.GetTag() == seqDelItem && frag.GetVL() == 0 );
+    gdcm_assert( frag.GetTag() == seqDelItem && frag.GetVL() == 0 );
       }
     catch(Exception &ex)
       {
@@ -504,12 +503,12 @@ bool JPEGCodec::DecodeExtent(
       // 2. GENESIS_SIGNA-JPEG-CorruptFrag.dcm
       else if ( frag.GetTag() == Tag(0xddff,0x00e0) )
         {
-        assert( nfrags == 1 );
+        gdcm_assert( nfrags == 1 );
         const ByteValue *bv = frag.GetByteValue();
-        assert( (unsigned char)bv->GetPointer()[ bv->GetLength() - 1 ] == 0xfe );
+        gdcm_assert( (unsigned char)bv->GetPointer()[ bv->GetLength() - 1 ] == 0xfe );
         // Yes this is an extra copy, this is a bug anyway, go fix YOUR code
         frag.SetByteValue( bv->GetPointer(), bv->GetLength() - 1 );
-        assert( 0 );
+        gdcm_assert( 0 );
         gdcmWarningMacro( "JPEG Fragment length was declared with an extra byte"
           " at the end: stripped !" );
         is.clear(); // clear the error bit
@@ -524,21 +523,21 @@ bool JPEGCodec::DecodeExtent(
 #endif /* GDCM_SUPPORT_BROKEN_IMPLEMENTATION */
       }
 
-    assert( zmin == zmax );
-    assert( zmin == 0 );
+    gdcm_assert( zmin == zmax );
+    gdcm_assert( zmin == 0 );
 
     std::stringstream iis;
     iis.write( vdummybuffer.data(), vdummybuffer.size() );
     std::stringstream os;
     bool b = DecodeByStreams(iis,os);
     if(!b) return false;
-    assert( b );
+    gdcm_assert(b);
 
     const unsigned int rowsize = xmax - xmin + 1;
     const unsigned int colsize = ymax - ymin + 1;
     const unsigned int bytesPerPixel = pf.GetPixelSize();
     os.seekg(0, std::ios::beg );
-    assert( os.good() );
+    gdcm_assert( os.good() );
     std::istream *theStream = &os;
     std::vector<char> buffer1;
     buffer1.resize( rowsize*bytesPerPixel );
@@ -569,14 +568,14 @@ bool JPEGCodec::DecodeExtent(
     while( frag.ReadPreValue<SwapperNoOp>(is) && frag.GetTag() != seqDelItem )
       {
       //std::streamoff relstart = is.tellg();
-      //assert( relstart - thestart == 8 );
+      //gdcm_assert( relstart - thestart == 8 );
       const std::streamoff off = frag.GetVL();
       offsets.push_back( (size_t)off );
       is.seekg( off, std::ios::cur );
       ++numfrags;
       }
-    assert( frag.GetTag() == seqDelItem && frag.GetVL() == 0 );
-    assert( numfrags == offsets.size() );
+    gdcm_assert( frag.GetTag() == seqDelItem && frag.GetVL() == 0 );
+    gdcm_assert( numfrags == offsets.size() );
     if( numfrags != Dimensions[2] )
       {
       gdcmErrorMacro( "Not handled" );
@@ -595,12 +594,12 @@ bool JPEGCodec::DecodeExtent(
 
       std::stringstream os;
       const bool b = DecodeByStreams(is, os); (void)b;
-      assert( b );
+      gdcm_assert(b);
       /* free the memory containing the code-stream */
       //delete[] dummy_buffer;
 
       os.seekg(0, std::ios::beg );
-      assert( os.good() );
+      gdcm_assert( os.good() );
       std::istream *theStream = &os;
 
       unsigned int rowsize = xmax - xmin + 1;
@@ -629,7 +628,7 @@ bool JPEGCodec::DecodeExtent(
 
 bool JPEGCodec::IsStateSuspension() const
 {
-  assert( 0 );
+  gdcm_assert( 0 );
   return false;
 }
 
@@ -638,10 +637,10 @@ ImageCodec * JPEGCodec::Clone() const
   JPEGCodec *copy = new JPEGCodec;
   ImageCodec &ic = *copy;
   ic = *this;
-  assert( copy->PF == PF );
+  gdcm_assert( copy->PF == PF );
   //copy->SetupJPEGBitCodec( BitSample );
   copy->SetPixelFormat( GetPixelFormat() );
-  assert( copy->BitSample == BitSample || BitSample == 0 );
+  gdcm_assert( copy->BitSample == BitSample || BitSample == 0 );
   //copy->Lossless = Lossless;
   copy->Quality = Quality;
 
@@ -651,7 +650,7 @@ ImageCodec * JPEGCodec::Clone() const
 bool JPEGCodec::EncodeBuffer( std::ostream & out,
     const char *inbuffer, size_t inlen)
 {
-  assert( Internal );
+  gdcm_assert( Internal );
   return Internal->EncodeBuffer(out, inbuffer, inlen);
 }
 
@@ -665,7 +664,7 @@ bool JPEGCodec::IsRowEncoder()
 }
 bool JPEGCodec::IsFrameEncoder()
 {
-  assert(0);
+  gdcm_assert(0);
   return false;
 }
 bool JPEGCodec::AppendRowEncode( std::ostream & os, const char * data, size_t datalen)
@@ -676,7 +675,7 @@ bool JPEGCodec::AppendRowEncode( std::ostream & os, const char * data, size_t da
 // this could reduce code duplication
 bool JPEGCodec::AppendFrameEncode( std::ostream & , const char * , size_t )
 {
-  assert(0);
+  gdcm_assert(0);
   return false;
 }
 bool JPEGCodec::StopEncode( std::ostream & )

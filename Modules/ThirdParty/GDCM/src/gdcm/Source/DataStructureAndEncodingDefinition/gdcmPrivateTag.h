@@ -90,7 +90,7 @@ private:
 
 inline std::ostream& operator<<(std::ostream &os, const PrivateTag &val)
 {
-  //assert( !val.Owner.empty() );
+  //gdcm_assert( !val.Owner.empty() );
   os.setf( std::ios::right );
   os << std::hex << '(' << std::setw( 4 ) << std::setfill( '0' )
     << val[0] << ',' << std::setw( 2 ) << std::setfill( '0' )

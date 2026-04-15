@@ -73,7 +73,7 @@ bool ASN1::ParseDump(const char *array, size_t length)
   BIO *out=NULL;
 
   out=BIO_new(BIO_s_file());
-  assert( out );
+  gdcm_assert( out );
   BIO_set_fp(out,stdout,BIO_NOCLOSE|BIO_FP_TEXT);
   if (!ASN1_parse_dump(out,(const unsigned char*)array,length,indent,dump) )
     {

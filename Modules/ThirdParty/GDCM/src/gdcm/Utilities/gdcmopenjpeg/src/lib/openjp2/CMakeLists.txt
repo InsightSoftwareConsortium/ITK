@@ -28,6 +28,7 @@ set(OPENJPEG_SRCS
   ${CMAKE_CURRENT_SOURCE_DIR}/dwt.h
   ${CMAKE_CURRENT_SOURCE_DIR}/event.c
   ${CMAKE_CURRENT_SOURCE_DIR}/event.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/ht_dec.c
   ${CMAKE_CURRENT_SOURCE_DIR}/image.c
   ${CMAKE_CURRENT_SOURCE_DIR}/image.h
   ${CMAKE_CURRENT_SOURCE_DIR}/invert.c
@@ -62,7 +63,6 @@ set(OPENJPEG_SRCS
   ${CMAKE_CURRENT_SOURCE_DIR}/opj_intmath.h
   ${CMAKE_CURRENT_SOURCE_DIR}/opj_malloc.c
   ${CMAKE_CURRENT_SOURCE_DIR}/opj_malloc.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/opj_stdint.h
   ${CMAKE_CURRENT_SOURCE_DIR}/sparse_array.c
   ${CMAKE_CURRENT_SOURCE_DIR}/sparse_array.h
 )
@@ -91,37 +91,28 @@ if(NOT WIN32 AND CMAKE_COMPILER_IS_GNUCC AND CMAKE_C_COMPILER MATCHES ".*mingw32
 endif()
 
 # Build the library
+add_library(${OPENJPEG_LIBRARY_NAME} ${OPENJPEG_SRCS})
+set(INSTALL_LIBS ${OPENJPEG_LIBRARY_NAME})
 if(WIN32)
   if(BUILD_SHARED_LIBS)
-    add_definitions(-DOPJ_EXPORTS)
+    target_compile_definitions(${OPENJPEG_LIBRARY_NAME} PRIVATE OPJ_EXPORTS)
   else()
-    add_definitions(-DOPJ_STATIC)
+    target_compile_definitions(${OPENJPEG_LIBRARY_NAME} PUBLIC OPJ_STATIC)
   endif()
-  add_library(${OPENJPEG_LIBRARY_NAME} ${OPENJPEG_SRCS})
-  set(INSTALL_LIBS ${OPENJPEG_LIBRARY_NAME})
-else()
-  if(BUILD_SHARED_LIBS AND BUILD_STATIC_LIBS)
-    # Builds both static and dynamic libs
-    add_library(${OPENJPEG_LIBRARY_NAME} SHARED ${OPENJPEG_SRCS})
-    add_library(openjp2_static STATIC ${OPENJPEG_SRCS})
-    set_target_properties(openjp2_static PROPERTIES OUTPUT_NAME ${OPENJPEG_LIBRARY_NAME})
-    target_compile_definitions(openjp2_static PRIVATE OPJ_STATIC )
-    set(INSTALL_LIBS ${OPENJPEG_LIBRARY_NAME} openjp2_static)
-  else()
-    add_library(${OPENJPEG_LIBRARY_NAME} ${OPENJPEG_SRCS})
-  endif()
-  if(NOT BUILD_SHARED_LIBS)
-      target_compile_definitions(${OPENJPEG_LIBRARY_NAME} PRIVATE OPJ_STATIC )
-  endif()
+elseif(BUILD_SHARED_LIBS AND BUILD_STATIC_LIBS)
+  # Builds both static and dynamic libs
+  add_library(openjp2_static STATIC ${OPENJPEG_SRCS})
+  set_target_properties(openjp2_static PROPERTIES OUTPUT_NAME ${OPENJPEG_LIBRARY_NAME})
+  list(APPEND INSTALL_LIBS openjp2_static)
+  target_include_directories(openjp2_static PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${OPENJPEG_INSTALL_SUBDIR}>)
 endif()
 
+#target_include_directories(${OPENJPEG_LIBRARY_NAME} PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${OPENJPEG_INSTALL_SUBDIR}>)
 if(UNIX)
   target_link_libraries(${OPENJPEG_LIBRARY_NAME} m)
 endif()
 set_target_properties(${OPENJPEG_LIBRARY_NAME} PROPERTIES ${OPENJPEG_LIBRARY_PROPERTIES})
-if(${CMAKE_VERSION} VERSION_GREATER "2.8.11")
-  target_compile_options(${OPENJPEG_LIBRARY_NAME} PRIVATE ${OPENJP2_COMPILE_OPTIONS})
-endif()
+target_compile_options(${OPENJPEG_LIBRARY_NAME} PRIVATE ${OPENJP2_COMPILE_OPTIONS})
 
 # Install library
 install(TARGETS ${OPENJPEG_LIBRARY_NAME}
@@ -132,7 +123,7 @@ install(TARGETS ${OPENJPEG_LIBRARY_NAME}
 )
 
 # Install includes files
-install(FILES openjpeg.h opj_stdint.h
+install(FILES openjpeg.h
   DESTINATION ${OPENJPEG_INSTALL_INCLUDE_DIR} COMPONENT Headers
 )
 
@@ -144,9 +135,9 @@ install(
 endif()
 
 if(BUILD_LUTS_GENERATOR)
-# internal utility to generate t1_luts.h (part of the jp2 lib)
+# internal utility to generate t1_luts.h and t1_ht_luts.h (part of the jp2 lib)
 # no need to install:
-  add_executable(t1_generate_luts t1_generate_luts.c)
+  add_executable(t1_generate_luts t1_generate_luts.c t1_ht_generate_luts.c)
   if(UNIX)
     target_link_libraries(t1_generate_luts m)
   endif()
@@ -211,7 +202,7 @@ if(OPJ_USE_THREAD AND Threads_FOUND AND CMAKE_USE_PTHREADS_INIT)
    TARGET_LINK_LIBRARIES(${OPENJPEG_LIBRARY_NAME} ${CMAKE_THREAD_LIBS_INIT})
 endif(OPJ_USE_THREAD AND Threads_FOUND AND CMAKE_USE_PTHREADS_INIT)
 
-if(BUILD_UNIT_TESTS)
+if(BUILD_UNIT_TESTS AND UNIX)
     add_executable(bench_dwt bench_dwt.c)
     if(UNIX)
         target_link_libraries(bench_dwt m ${OPENJPEG_LIBRARY_NAME})
@@ -227,4 +218,4 @@ if(BUILD_UNIT_TESTS)
     if(OPJ_USE_THREAD AND Threads_FOUND AND CMAKE_USE_PTHREADS_INIT)
         target_link_libraries(test_sparse_array ${CMAKE_THREAD_LIBS_INIT})
     endif(OPJ_USE_THREAD AND Threads_FOUND AND CMAKE_USE_PTHREADS_INIT)
-endif(BUILD_UNIT_TESTS)
+endif(BUILD_UNIT_TESTS AND UNIX)

@@ -105,7 +105,7 @@ static bool prepare_file( FILE * pFile, const off64_t offset, const off64_t insl
   char buffer[BUFFERSIZE];
   struct stat sb;
 
-  assert( pFile );
+  gdcm_assert( pFile );
   int fd = fileno( pFile );
   if (fstat(fd, &sb) == 0)
     {
@@ -126,7 +126,7 @@ static bool prepare_file( FILE * pFile, const off64_t offset, const off64_t insl
           {
           return false;
           }
-        assert( wr_off < rd_off );
+        gdcm_assert( wr_off < rd_off );
         if( FSeeko(pFile, wr_off, SEEK_SET) )
           {
           return false;
@@ -138,7 +138,7 @@ static bool prepare_file( FILE * pFile, const off64_t offset, const off64_t insl
         bytes_to_move -= bytes_this_time;
         read_start_offset += bytes_this_time;
         }
-      assert( read_start_offset == sb.st_size );
+      gdcm_assert( read_start_offset == sb.st_size );
       if( !FTruncate( fd, sb.st_size + inslen ) )
         {
         return false;
@@ -147,7 +147,7 @@ static bool prepare_file( FILE * pFile, const off64_t offset, const off64_t insl
     else
       {
 #if 0
-      assert(sb.st_size >= offset);
+      gdcm_assert(sb.st_size >= offset);
 #endif
       if (sb.st_size > offset)
         {
@@ -157,7 +157,7 @@ static bool prepare_file( FILE * pFile, const off64_t offset, const off64_t insl
           {
           const size_t bytes_this_time = static_cast<size_t>(std::min((off64_t)BUFFERSIZE, bytes_to_move));
           const off64_t rd_off = read_end_offset - bytes_this_time;
-          assert( (off64_t)rd_off >= offset );
+          gdcm_assert( (off64_t)rd_off >= offset );
           const off64_t wr_off = rd_off + inslen;
           if( FSeeko(pFile, rd_off, SEEK_SET) )
             {
@@ -178,7 +178,7 @@ static bool prepare_file( FILE * pFile, const off64_t offset, const off64_t insl
           bytes_to_move -= bytes_this_time;
           read_end_offset = rd_off;
           }
-        assert( read_end_offset == offset );
+        gdcm_assert( read_end_offset == offset );
         }
       }
     // easy case when sb.st_size == offset ...
@@ -269,7 +269,7 @@ public:
     {
     Self->InvokeEvent( StartEvent() );
     const char *outfilename = OutFilename.c_str();
-    assert( outfilename );
+    gdcm_assert( outfilename );
     actualde = 0;
       {
       std::ifstream is( outfilename, std::ios::binary );
@@ -305,7 +305,7 @@ public:
           {
           // if you trigger this assertion, this means we have been allocating
           // memory for an element when not needed.
-          assert( (de.GetByteValue() && de.GetByteValue()->GetPointer() == nullptr) || de.GetSequenceOfFragments() );
+          gdcm_assert( (de.GetByteValue() && de.GetByteValue()->GetPointer() == nullptr) || de.GetSequenceOfFragments() );
           }
         actualde = de.GetVL() + 2 * de.GetVR().GetLength() + 4;
         thepos -= actualde;
@@ -315,9 +315,9 @@ public:
         // no attribute found, easy case !
         }
       }
-    assert( pFile == nullptr );
+    gdcm_assert( pFile == nullptr );
     pFile = fopen(outfilename, "r+b");
-    assert( pFile );
+    gdcm_assert( pFile );
     CurrentDataLenth = 0;
     return true;
     }
@@ -330,11 +330,11 @@ public:
       if( TS.GetNegociatedType() == TransferSyntax::Explicit )
         dicomlen += 4;
       off64_t newlen = len;
-      assert( (size_t)newlen == len );
+      gdcm_assert( (size_t)newlen == len );
       newlen += dicomlen;
       newlen -= actualde;
       off64_t plength = newlen;
-      assert( ReservedDataLength >= 0 );
+      gdcm_assert( ReservedDataLength >= 0 );
       if( ReservedDataLength )
         {
         if( (newlen + ReservedDataLength) >= (off64_t)len )
@@ -346,7 +346,7 @@ public:
           plength = newlen + ReservedDataLength - len;
           }
         ReservedDataLength -= len;
-        assert( ReservedDataLength >= 0 );
+        gdcm_assert( ReservedDataLength >= 0 );
         }
       //if( !prepare_file( pFile, (off64_t)thepos + actualde, newlen ) )
       if( !prepare_file( pFile, (off64_t)thepos + actualde, plength ) )
@@ -357,14 +357,14 @@ public:
       const Tag tag = t;
       const VL vl = 0; // will be updated later (UpdateDataElement)
       const size_t ddsize = WriteHelper( thepos, tag, vl );
-      assert( ddsize == dicomlen ); (void)ddsize;
+      gdcm_assert( ddsize == dicomlen ); (void)ddsize;
       thepos += dicomlen;
       }
     else
       {
-      assert( pFile );
+      gdcm_assert( pFile );
       const off64_t curpos = FTello(pFile);
-      assert( curpos == thepos );
+      gdcm_assert( curpos == thepos );
       if( ReservedDataLength >= (off64_t)len )
         {
         // simply update remaining reserved buffer:
@@ -373,7 +373,7 @@ public:
       else
         {
         const off64_t plength = len - ReservedDataLength;
-        assert( plength >= 0 );
+        gdcm_assert( plength >= 0 );
         if( !prepare_file( pFile, (off64_t)curpos, plength) )
           {
           return false;
@@ -383,18 +383,18 @@ public:
       FSeeko(pFile, curpos, SEEK_SET);
       }
 
-    assert( ReservedDataLength >= 0 );
+    gdcm_assert( ReservedDataLength >= 0 );
     fwrite(data, 1, len, pFile);
     thepos += len;
     CurrentDataLenth += len;
-    assert( CurrentDataLenth < std::numeric_limits<uint32_t>::max() );
+    gdcm_assert( CurrentDataLenth < std::numeric_limits<uint32_t>::max() );
     return true;
     }
   bool StopDataElement( const Tag & t )
     {
     // Update DataElement:
     const size_t currentdatalenth = CurrentDataLenth;
-    assert( ReservedDataLength >= 0);
+    gdcm_assert( ReservedDataLength >= 0);
     //const off64_t refpos = FTello(pFile);
     if( !UpdateDataElement( t ) )
       {
@@ -409,7 +409,7 @@ public:
         }
       ReservedDataLength = 0;
       }
-    assert( ReservedDataLength == 0);
+    gdcm_assert( ReservedDataLength == 0);
     fclose(pFile);
     pFile = nullptr;
     // Do some extra work:
@@ -488,7 +488,7 @@ public:
     // mechanism we can simply append
     const char *outfilename = OutFilename.c_str();
     DataElement private_creator = ori_pt.GetAsDataElement();
-    assert( outfilename );
+    gdcm_assert( outfilename );
     Tag curtag = ori_pt;
       {
       bool cont = false;
@@ -534,7 +534,7 @@ public:
     std::string dicomdata;
       {
       std::stringstream ss;
-      assert( private_creator.GetTag().IsPrivateCreator() );
+      gdcm_assert( private_creator.GetTag().IsPrivateCreator() );
       if( TS.GetSwapCode() == SwapCode::BigEndian )
         {
         if( TS.GetNegociatedType() == TransferSyntax::Explicit )
@@ -565,7 +565,7 @@ public:
       {
       std::set<Tag> tagset;
       Tag prev = private_creator.GetTag();
-      //assert( prev.GetElement() );
+      //gdcm_assert( prev.GetElement() );
       prev.SetElement( (uint16_t)(prev.GetElement() - 0x1) );
       tagset.insert( prev );
 
@@ -583,9 +583,9 @@ public:
       }
 
     const size_t pclen = dicomdata.size();
-    assert( pFile == nullptr );
+    gdcm_assert( pFile == nullptr );
     pFile = fopen(outfilename, "r+b");
-    assert( pFile );
+    gdcm_assert( pFile );
 
     if( !prepare_file( pFile, (off64_t)thepcpos, pclen ) )
       {
@@ -621,22 +621,22 @@ public:
       {
       Self->InvokeEvent( IterationEvent() );
       const size_t len_this_time = std::min(MaxSizeDE - CurrentDataLenth, len_to_move);
-      assert( len_this_time % 2 == 0 );
+      gdcm_assert( len_this_time % 2 == 0 );
       if( !AppendToDataElement( CurrentGroupTag, data, len_this_time ) )
         {
         return false;
         }
-      assert( CurrentDataLenth <= MaxSizeDE );
+      gdcm_assert( CurrentDataLenth <= MaxSizeDE );
       len_to_move -= len_this_time;
       if( CurrentDataLenth == MaxSizeDE )
         {
         // flush
-        assert( CurrentDataLenth % 2 == 0 );
+        gdcm_assert( CurrentDataLenth % 2 == 0 );
         if( !UpdateDataElement( CurrentGroupTag ) )
           {
           return false;
           }
-        assert( CurrentDataLenth == 0 );
+        gdcm_assert( CurrentDataLenth == 0 );
         CurrentGroupTag.SetElement( (uint16_t)(CurrentGroupTag.GetElement() + 1) );
         const int lowbits = CurrentGroupTag.GetElement() & 0x00ff;
         if( lowbits == 0 )
@@ -701,10 +701,10 @@ private:
         FSeeko(pFile, curpos, SEEK_SET);
         int ret = fputc(0, pFile); // Set to NULL padding ?
         thepos += 1;
-        assert( ret != EOF ); (void)ret;
+        gdcm_assert( ret != EOF ); (void)ret;
         CurrentDataLenth += 1;
         }
-      assert( CurrentDataLenth % 2 == 0 );
+      gdcm_assert( CurrentDataLenth % 2 == 0 );
       off64_t vlpos = thepos;
       vlpos -= CurrentDataLenth;
       vlpos -= 4; // VL
@@ -801,8 +801,8 @@ bool FileStreamer::InitializeCopy()
       }
     else
       {
-      assert( filename );
-      assert( outfilename );
+      gdcm_assert( filename );
+      gdcm_assert( outfilename );
       std::ifstream is( filename, std::ios::binary );
       if( !is.good() ) return false;
       if( strcmp( filename, outfilename ) != 0 )

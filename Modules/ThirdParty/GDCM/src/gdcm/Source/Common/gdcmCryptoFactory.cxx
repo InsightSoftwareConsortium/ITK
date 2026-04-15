@@ -61,7 +61,7 @@ CryptoFactory* CryptoFactory::GetFactoryInstance(CryptoLib id)
     gdcmErrorMacro( "No crypto factory registered with id " << (int)id );
     return nullptr;
     }
-  assert(it->second);
+  gdcm_assert(it->second);
   return it->second;
 }
 

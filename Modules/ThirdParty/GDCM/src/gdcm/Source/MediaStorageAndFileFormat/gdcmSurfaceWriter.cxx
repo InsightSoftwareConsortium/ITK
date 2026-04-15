@@ -63,7 +63,7 @@ bool SurfaceWriter::PrepareWrite()
 
   FileMetaInformation &  fmi  = file.GetHeader();
   const TransferSyntax & ts   = fmi.GetDataSetTransferSyntax();
-  assert( ts.IsExplicit() || ts.IsImplicit() );
+  gdcm_assert( ts.IsExplicit() || ts.IsImplicit() );
 
   // Number Of Surface
   const unsigned long     nbSurfaces = this->GetNumberOfSurfaces();
@@ -115,7 +115,7 @@ bool SurfaceWriter::PrepareWrite()
   for (; it0 != it0End; it0++)
   {
     SmartPointer< Segment > segment = *it0;
-    assert( segment );
+    gdcm_assert( segment );
 
     std::vector< SmartPointer< Surface > >                  surfaces  = segment->GetSurfaces();
     std::vector< SmartPointer< Surface > >::const_iterator  it1        = surfaces.begin();
@@ -123,7 +123,7 @@ bool SurfaceWriter::PrepareWrite()
     for (; it1 != it1End; it1++)
     {
       SmartPointer< Surface > surface = *it1;
-      assert( surface );
+      gdcm_assert( surface );
 
       Item &    surfaceItem = surfacesSQ->GetItem( numSurface );
       DataSet & surfaceDS   = surfaceItem.GetNestedDataSet();
@@ -342,7 +342,7 @@ bool SurfaceWriter::PrepareWrite()
         // Vector Dimensionality
         Attribute<0x0066, 0x001F> vectorDimensionalityAt;
         unsigned short vectorDimensionality = surface->GetVectorDimensionality();
-        assert( vectorDimensionality );
+        gdcm_assert( vectorDimensionality );
         vectorDimensionalityAt.SetValue( vectorDimensionality );
         surfacePointsNormalsDS.Replace( vectorDimensionalityAt.GetAsDataElement() );
 
@@ -508,7 +508,7 @@ bool SurfaceWriter::PrepareWrite()
 
           // Fill the Segment Sequence
           const unsigned int              numberOfPrimitives  = meshPrimitive->GetNumberOfPrimitivesData();
-          assert( numberOfPrimitives );
+          gdcm_assert( numberOfPrimitives );
           const size_t nbItems             = typedSequenceSQ->GetNumberOfItems();
           if (nbItems < numberOfPrimitives)
           {
@@ -822,7 +822,7 @@ bool SurfaceWriter::Write()
     return false;
   }
 
-  assert( Stream );
+  gdcm_assert( Stream );
   if( !Writer::Write() )
   {
     return false;

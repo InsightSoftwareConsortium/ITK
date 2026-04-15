@@ -28,7 +28,7 @@ std::string DataSet::GetPrivateCreator(const Tag &t) const
   if( t.IsPrivate() && !t.IsGroupLength() && !t.IsPrivateCreator() && !t.IsIllegal() )
     {
     Tag pc = t.GetPrivateCreator();
-    assert( pc.GetElement() );
+    gdcm_assert( pc.GetElement() );
       {
       const DataElement r(pc);
       ConstIterator it = DES.find(r);
@@ -40,7 +40,7 @@ std::string DataSet::GetPrivateCreator(const Tag &t) const
       const DataElement &de = *it;
       if( de.IsEmpty() ) return "";
       const ByteValue *bv = de.GetByteValue();
-      assert( bv );
+      gdcm_assert( bv );
       std::string owner = std::string(bv->GetPointer(),bv->GetLength()).c_str();
       // There should not be any trailing space character...
       // TODO: tmp.erase(tmp.find_last_not_of(' ') + 1);
@@ -49,7 +49,7 @@ std::string DataSet::GetPrivateCreator(const Tag &t) const
         // osirix/AbdominalCT/36382443
         owner.erase(owner.size()-1,1);
         }
-      assert( owner.empty() || owner[owner.size()-1] != ' ' );
+      gdcm_assert( owner.empty() || owner[owner.size()-1] != ' ' );
       return owner;
       }
     }
@@ -67,17 +67,17 @@ PrivateTag DataSet::GetPrivateTag(const Tag &t) const
 Tag DataSet::ComputeDataElement(const PrivateTag & t) const
 {
   //gdcmDebugMacro( "Entering ComputeDataElement" );
-  //assert( t.IsPrivateCreator() ); // No this is wrong to do the assert: eg. (0x07a1,0x000a,"ELSCINT1")
+  //gdcm_assert( t.IsPrivateCreator() ); // No this is wrong to do the assert: eg. (0x07a1,0x000a,"ELSCINT1")
   // is valid because we have not yet done the mapping, so 0xa < 0x10 fails but might not later on
   const Tag start(t.GetGroup(), 0x0010 ); // First possible private creator (0x0 -> 0x9 are reserved...)
   const DataElement r(start);
   ConstIterator it = DES.lower_bound(r);
   const char *refowner = t.GetOwner();
-  assert( refowner );
+  gdcm_assert( refowner );
   bool found = false;
   while( it != DES.end() && it->GetTag().GetGroup() == t.GetGroup() && it->GetTag().GetElement() < 0x100 )
     {
-    //assert( it->GetTag().GetOwner() );
+    //gdcm_assert( it->GetTag().GetOwner() );
     const ByteValue * bv = it->GetByteValue();
     if( bv )
       {
@@ -85,7 +85,7 @@ Tag DataSet::ComputeDataElement(const PrivateTag & t) const
       std::string tmp(bv->GetPointer(),bv->GetLength());
       // trim trailing whitespaces:
       tmp.erase(tmp.find_last_not_of(' ') + 1);
-      assert( tmp.empty() || tmp[ tmp.size() - 1 ] != ' ' ); // FIXME
+      gdcm_assert( tmp.empty() || tmp[ tmp.size() - 1 ] != ' ' ); // FIXME
       if( System::StrCaseCmp( tmp.c_str(), refowner ) == 0 )
         {
         // found !
@@ -135,7 +135,7 @@ MediaStorage DataSet::GetMediaStorage() const
   std::string ts;
     {
     const ByteValue *bv = de.GetByteValue();
-    assert( bv );
+    gdcm_assert( bv );
     if( bv->GetPointer() && bv->GetLength() )
       {
       // Pad string with a \0

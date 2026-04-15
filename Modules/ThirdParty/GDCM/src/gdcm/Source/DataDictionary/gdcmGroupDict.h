@@ -41,7 +41,7 @@ public:
 
   size_t Size() const
     {
-    assert( Names.size() == Abbreviations.size() );
+    gdcm_assert( Names.size() == Abbreviations.size() );
     return Names.size(); }
 
   std::string const &GetAbbreviation(uint16_t num) const;

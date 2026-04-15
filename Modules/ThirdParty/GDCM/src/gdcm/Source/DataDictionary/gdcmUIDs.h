@@ -991,6 +991,7 @@ Private_1_3_46_670589_33_1_4_1
   const char *GetString() const;
 
   operator TSType () const { return TSField; }
+  UIDs() = default;
 
 private:
   TSType TSField;

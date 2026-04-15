@@ -47,7 +47,7 @@ PixelFormat::PixelFormat(ScalarType st)
 unsigned short PixelFormat::GetSamplesPerPixel() const
 {
   // \postcondition
-  assert( SamplesPerPixel == 1 || SamplesPerPixel == 3 || SamplesPerPixel == 4 );
+  gdcm_assert( SamplesPerPixel == 1 || SamplesPerPixel == 3 || SamplesPerPixel == 4 );
   return SamplesPerPixel;
 }
 
@@ -120,7 +120,7 @@ void PixelFormat::SetScalarType(ScalarType st)
     PixelRepresentation = 0;
     break;
   default:
-    assert(0);
+    gdcm_assert(0);
     break;
     }
   BitsStored = BitsAllocated;
@@ -171,23 +171,23 @@ PixelFormat::ScalarType PixelFormat::GetScalarType() const
       }
     else if( PixelRepresentation == 1 )
       {
-      assert( type <= INT64 );
+      gdcm_assert( type <= INT64 );
       // That's why you need to order properly type in ScalarType
       type = ScalarType(int(type)+1);
       }
     else if( PixelRepresentation == 2 )
       {
-      assert( BitsAllocated == 16 );
+      gdcm_assert( BitsAllocated == 16 );
       return FLOAT16;
       }
     else if( PixelRepresentation == 3 )
       {
-      assert( BitsAllocated == 32 );
+      gdcm_assert( BitsAllocated == 32 );
       return FLOAT32;
       }
     else if( PixelRepresentation == 4 )
       {
-      assert( BitsAllocated == 64 );
+      gdcm_assert( BitsAllocated == 64 );
       return FLOAT64;
       }
     else
@@ -212,7 +212,7 @@ uint8_t PixelFormat::GetPixelSize() const
     }
   else
     {
-    assert( !(BitsAllocated % 8) );
+    gdcm_assert( !(BitsAllocated % 8) );
     }
   pixelsize *= SamplesPerPixel;
 
@@ -221,7 +221,7 @@ uint8_t PixelFormat::GetPixelSize() const
 
 int64_t PixelFormat::GetMin() const
 {
-  assert( BitsAllocated ); // cannot be unknown
+  gdcm_assert( BitsAllocated ); // cannot be unknown
   if( BitsStored <= 32 )
     {
     if( PixelRepresentation == 1 )
@@ -239,7 +239,7 @@ int64_t PixelFormat::GetMin() const
 
 int64_t PixelFormat::GetMax() const
 {
-  assert( BitsAllocated ); // cannot be unknown
+  gdcm_assert( BitsAllocated ); // cannot be unknown
   if( BitsStored <= 32 )
     {
     if( PixelRepresentation == 1 )
@@ -270,13 +270,18 @@ bool PixelFormat::IsValid() const
 bool PixelFormat::Validate()
 {
   if( !IsValid() ) return false;
-  //assert( BitsStored    >= HighBit ); // DigitexAlpha_no_7FE0.dcm
-  assert( PixelRepresentation == 0 || PixelRepresentation == 1 );
-  assert( SamplesPerPixel == 1 || SamplesPerPixel == 3 || SamplesPerPixel == 4 );
+  //gdcm_assert( BitsStored    >= HighBit ); // DigitexAlpha_no_7FE0.dcm
+  gdcm_assert( PixelRepresentation == 0 || PixelRepresentation == 1 );
+  gdcm_assert( SamplesPerPixel == 1 || SamplesPerPixel == 3 || SamplesPerPixel == 4 );
   if ( BitsStored == 0 )
     {
     gdcmDebugMacro( "Bits Stored is 0. Setting is to max value" );
     BitsStored = BitsAllocated;
+    }
+  if ( HighBit == 0 && BitsStored > 1 )
+    {
+    gdcmDebugMacro( "High Bit is 0. Setting is to BitStored - 1" );
+    HighBit = BitsStored - 1;
     }
   if ( BitsAllocated == 24 )
     {

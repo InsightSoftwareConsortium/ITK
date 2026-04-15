@@ -92,18 +92,18 @@ public:
     return Internal;
   }
   const typename VRToType<TVR>::Type &GetValue(unsigned int idx = 0) const {
-    assert( idx < VMToLength<TVM>::Length );
+    gdcm_assert( idx < VMToLength<TVM>::Length );
     return Internal[idx];
   }
   typename VRToType<TVR>::Type &GetValue(unsigned int idx = 0) {
-    assert( idx < VMToLength<TVM>::Length );
+    gdcm_assert( idx < VMToLength<TVM>::Length );
     return Internal[idx];
   }
   typename VRToType<TVR>::Type operator[] (unsigned int idx) const {
     return GetValue(idx);
   }
   void SetValue(typename VRToType<TVR>::Type v, unsigned int idx = 0) {
-    assert( idx < VMToLength<TVM>::Length );
+    gdcm_assert( idx < VMToLength<TVM>::Length );
     Internal[idx] = v;
   }
 
@@ -130,7 +130,7 @@ public:
     EncodingImplementation<VRToEncoding<TVR>::Mode>::Write(Internal,
       GetLength(),os);
     ret.SetVR( (VR::VRType)TVR );
-    assert( ret.GetVR() != VR::SQ );
+    gdcm_assert( ret.GetVR() != VR::SQ );
     if( (VR::VRType)VRToEncoding<TVR>::Mode == VR::VRASCII )
       {
       if( GetVR() != VR::UI )
@@ -172,7 +172,7 @@ public:
 protected:
   void SetNoSwap(Value const &v) {
     const ByteValue *bv = dynamic_cast<const ByteValue*>(&v);
-    assert( bv ); // That would be bad...
+    gdcm_assert( bv ); // That would be bad...
     //memcpy(Internal, bv->GetPointer(), bv->GetLength());
     std::stringstream ss;
     std::string s = std::string( bv->GetPointer(), bv->GetLength() );
@@ -203,18 +203,18 @@ public:
   template<typename T> // FIXME this should be VRToType<TVR>::Type
   static inline void ReadComputeLength(T* data, unsigned int &length,
                           std::istream &_is) {
-    assert( data );
-    //assert( length ); // != 0
+    gdcm_assert( data );
+    //gdcm_assert( length ); // != 0
     length = 0;
-    assert( _is );
+    gdcm_assert( _is );
 #if 0
     char sep;
     while( _is >> data[length++] )
       {
       // Get the separator in between the values
-      assert( _is );
+      gdcm_assert( _is );
       _is.get(sep);
-      assert( sep == '\\' || sep == ' ' ); // FIXME: Bad use of assert
+      gdcm_assert( sep == '\\' || sep == ' ' ); // FIXME: Bad use of assert
       if( sep == ' ' ) length--; // FIXME
       }
 #else
@@ -227,19 +227,19 @@ public:
   template<typename T> // FIXME this should be VRToType<TVR>::Type
   static inline void Read(T* data, unsigned long length,
                           std::istream &_is) {
-    assert( data );
-    assert( length ); // != 0
-    assert( _is );
+    gdcm_assert( data );
+    gdcm_assert( length ); // != 0
+    gdcm_assert( _is );
     // FIXME BUG: what if >> operation fails ?
     // gdcmData/MR00010001.dcm / SpacingBetweenSlices
     _is >> std::ws >> data[0];
     char sep;
     //std::cout << "GetLength: " << af->GetLength() << std::endl;
     for(unsigned long i=1; i<length;++i) {
-      //assert( _is );
+      //gdcm_assert( _is );
       // Get the separator in between the values
       _is >> std::ws >> sep; //_is.get(sep);
-      //assert( sep == '\\' ); // FIXME: Bad use of assert
+      //gdcm_assert( sep == '\\' ); // FIXME: Bad use of assert
       _is >> std::ws >> data[i];
       }
     }
@@ -252,12 +252,12 @@ public:
   template<typename T>
   static inline void Write(const T* data, unsigned long length,
                            std::ostream &_os)  {
-    assert( data );
-    assert( length );
-    assert( _os );
+    gdcm_assert( data );
+    gdcm_assert( length );
+    gdcm_assert( _os );
     _os << data[0];
     for(unsigned long i=1; i<length; ++i) {
-      assert( _os );
+      gdcm_assert( _os );
       _os << "\\" << data[i];
       }
     }
@@ -392,7 +392,7 @@ static void x16printf(char *buf, int size, Float f) {
       strcpy(buf, mant);
       return;
     }
-    strncpy(buf, mant, iexp + 1);
+    memcpy(buf, mant, iexp + 1);
     buf[iexp + 1] = '.';
     strncpy(buf + iexp + 2, mant + iexp + 1, size - iexp - 1);
     buf[size] = 0;
@@ -409,7 +409,7 @@ static void x16printf(char *buf, int size, Float f) {
     for(j=0; j< -1 - iexp; j++) {
       buf[j+1] = '0';
     }
-    strncpy(buf - iexp, mant, size + 1 + iexp);
+    memcpy(buf - iexp, mant, size + 1 + iexp);
     buf[size] = 0;
     clean(buf);
   }
@@ -421,9 +421,9 @@ static void x16printf(char *buf, int size, Float f) {
 #endif
 
 template<> inline void EncodingImplementation<VR::VRASCII>::Write(const double* data, unsigned long length, std::ostream &_os)  {
-    assert( data );
-    assert( length );
-    assert( _os );
+    gdcm_assert( data );
+    gdcm_assert( length );
+    gdcm_assert( _os );
 #ifdef VRDS16ILLEGAL
     _os << to_string(data[0]);
 #else
@@ -432,7 +432,7 @@ template<> inline void EncodingImplementation<VR::VRASCII>::Write(const double* 
     _os << buf;
 #endif
     for(unsigned long i=1; i<length; ++i) {
-      assert( _os );
+      gdcm_assert( _os );
 #ifdef VRDS16ILLEGAL
       _os << "\\" << to_string(data[i]);
 #else
@@ -454,13 +454,13 @@ public:
     static inline void ReadComputeLength(T* data, unsigned int &length,
       std::istream &_is) {
     const unsigned int type_size = sizeof(T);
-    assert( data ); // Can we read from pointer ?
-    //assert( length );
+    gdcm_assert( data ); // Can we read from pointer ?
+    //gdcm_assert( length );
     length /= type_size;
-    assert( _is ); // Is stream valid ?
+    gdcm_assert( _is ); // Is stream valid ?
     _is.read( reinterpret_cast<char*>(data+0), type_size);
     for(unsigned long i=1; i<length; ++i) {
-      assert( _is );
+      gdcm_assert( _is );
       _is.read( reinterpret_cast<char*>(data+i), type_size );
     }
     }
@@ -468,9 +468,9 @@ public:
   static inline void ReadNoSwap(T* data, unsigned long length,
     std::istream &_is) {
     const unsigned int type_size = sizeof(T);
-    assert( data ); // Can we read from pointer ?
-    assert( length );
-    assert( _is ); // Is stream valid ?
+    gdcm_assert( data ); // Can we read from pointer ?
+    gdcm_assert( length );
+    gdcm_assert( _is ); // Is stream valid ?
     _is.read( reinterpret_cast<char*>(data+0), type_size);
     for(unsigned long i=1; i<length; ++i) {
       if( _is )
@@ -484,9 +484,9 @@ public:
   static inline void Read(T* data, unsigned long length,
     std::istream &_is) {
     const unsigned int type_size = sizeof(T);
-    assert( data ); // Can we read from pointer ?
-    assert( length );
-    assert( _is ); // Is stream valid ?
+    gdcm_assert( data ); // Can we read from pointer ?
+    gdcm_assert( length );
+    gdcm_assert( _is ); // Is stream valid ?
     _is.read( reinterpret_cast<char*>(data+0), type_size);
     for(unsigned long i=1; i<length; ++i) {
       if( _is )
@@ -500,15 +500,15 @@ public:
   static inline void Write(const T* data, unsigned long length,
     std::ostream &_os) {
     const unsigned int type_size = sizeof(T);
-    assert( data ); // Can we write into pointer ?
-    assert( length );
-    assert( _os ); // Is stream valid ?
+    gdcm_assert( data ); // Can we write into pointer ?
+    gdcm_assert( length );
+    gdcm_assert( _os ); // Is stream valid ?
     //ByteSwap<T>::SwapRangeFromSwapCodeIntoSystem((T*)data,
     //  _os.GetSwapCode(), length);
     T swappedData = SwapperNoOp::Swap(data[0]);
     _os.write( reinterpret_cast<const char*>(&swappedData), type_size);
     for(unsigned long i=1; i<length;++i) {
-      assert( _os );
+      gdcm_assert( _os );
       swappedData = SwapperNoOp::Swap(data[i]);
       _os.write( reinterpret_cast<const char*>(&swappedData), type_size );
     }
@@ -542,7 +542,7 @@ public:
     Internal[i] = sarray.substr(pos1, pos2-pos1);
     // Shouldn't we do the contrary, since we know how many separators
     // (and default behavior is to discard anything after the VM declared
-    assert( GetLength()-1 == i );
+    gdcm_assert( GetLength()-1 == i );
     }
 
   unsigned long GetLength() const {
@@ -601,9 +601,9 @@ public:
     if( len ) {
       if( len > Length ) {
         // perform realloc
-        assert( (len / size) * size == len );
+        gdcm_assert( (len / size) * size == len );
         Type *internal = new Type[len / size];
-        assert( Save == false );
+        gdcm_assert( Save == false );
         Save = true; // ????
         if( Internal )
           {
@@ -623,15 +623,15 @@ public:
     if( save ) {
       SetLength(len); // realloc
       memcpy(Internal, array, len/*/sizeof(Type)*/);
-      assert( Save == false );
+      gdcm_assert( Save == false );
       }
     else {
       // TODO rewrite this stupid code:
-      assert( Length == 0 );
-      assert( Internal == nullptr );
-      assert( Save == false );
+      gdcm_assert( Length == 0 );
+      gdcm_assert( Internal == nullptr );
+      gdcm_assert( Save == false );
       Length = len / sizeof(Type);
-      //assert( (len / sizeof(Type)) * sizeof(Type) == len );
+      //gdcm_assert( (len / sizeof(Type)) * sizeof(Type) == len );
       // MR00010001.dcm is a tough kid: 0019,105a is supposed to be VR::FL, VM::VM3 but
       // length is 14 bytes instead of 12 bytes. Simply consider value is total garbage.
       if( (len / sizeof(Type)) * sizeof(Type) != len ) { Internal = nullptr; Length = 0; }
@@ -640,15 +640,15 @@ public:
       Save = save;
   }
   void SetValue(typename VRToType<TVR>::Type v, unsigned int idx = 0) {
-    assert( idx < Length );
+    gdcm_assert( idx < Length );
     Internal[idx] = v;
   }
   const typename VRToType<TVR>::Type &GetValue(unsigned int idx = 0) const {
-    assert( idx < Length );
+    gdcm_assert( idx < Length );
     return Internal[idx];
   }
   typename VRToType<TVR>::Type &GetValue(unsigned int idx = 0) {
-    //assert( idx < Length );
+    //gdcm_assert( idx < Length );
     return Internal[idx];
   }
   typename VRToType<TVR>::Type operator[] (unsigned int idx) const {
@@ -656,13 +656,13 @@ public:
   }
   void Set(Value const &v) {
     const ByteValue *bv = dynamic_cast<const ByteValue*>(&v);
-    assert( bv ); // That would be bad...
+    gdcm_assert( bv ); // That would be bad...
     if( (VR::VRType)(VRToEncoding<TVR>::Mode) == VR::VRBINARY )
       {
       const Type* array = (const Type*)bv->GetVoidPointer();
       if( array ) {
-        assert( array ); // That would be bad...
-        assert( Internal == nullptr );
+        gdcm_assert( array ); // That would be bad...
+        gdcm_assert( Internal == nullptr );
         SetArray(array, bv->GetLength() ); }
       }
     else
@@ -699,8 +699,8 @@ public:
 
   // Implementation of Print is common to all Mode (ASCII/Binary)
   void Print(std::ostream &_os) const {
-    assert( Length );
-    assert( Internal );
+    gdcm_assert( Length );
+    gdcm_assert( Internal );
     _os << Internal[0]; // VM is at least guarantee to be one
     const unsigned long length = GetLength() < 25 ? GetLength() : 25;
     for(unsigned long i=1; i<length; ++i)
@@ -724,7 +724,7 @@ public:
   DataElement GetAsDataElement() const {
     DataElement ret;
     ret.SetVR( (VR::VRType)TVR );
-    assert( ret.GetVR() != VR::SQ );
+    gdcm_assert( ret.GetVR() != VR::SQ );
     if( Internal )
       {
       std::ostringstream os;
@@ -761,13 +761,13 @@ public:
 protected:
   void SetNoSwap(Value const &v) {
     const ByteValue *bv = dynamic_cast<const ByteValue*>(&v);
-    assert( bv ); // That would be bad...
+    gdcm_assert( bv ); // That would be bad...
     if( (VR::VRType)(VRToEncoding<TVR>::Mode) == VR::VRBINARY )
       {
       const Type* array = (const Type*)bv->GetPointer();
       if( array ) {
-        assert( array ); // That would be bad...
-        assert( Internal == nullptr );
+        gdcm_assert( array ); // That would be bad...
+        gdcm_assert( Internal == nullptr );
         SetArray(array, bv->GetLength() ); }
       }
     else

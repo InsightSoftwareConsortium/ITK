@@ -36,7 +36,7 @@ std::istream &ApplicationContext::Read(std::istream &is)
 {
   //uint8_t itemtype = 0x0;
   //is.read( (char*)&itemtype, sizeof(ItemType) );
-  //assert( itemtype == ItemType );
+  //gdcm_assert( itemtype == ItemType );
   uint8_t reserved2 = 0x0;
   is.read( (char*)&reserved2, sizeof(Reserved2) );
   uint16_t itemlength;
@@ -45,10 +45,10 @@ std::istream &ApplicationContext::Read(std::istream &is)
   ItemLength = itemlength;
 
   char name[256];
-  assert( itemlength < 256 );
+  gdcm_assert( itemlength < 256 );
   is.read( name, ItemLength );
   Name = std::string(name,itemlength);
-  assert( Name == DICOMApplicationContextName );
+  gdcm_assert( Name == DICOMApplicationContextName );
 
   return is;
 }
@@ -61,7 +61,7 @@ const std::ostream &ApplicationContext::Write(std::ostream &os) const
   SwapperDoOp::SwapArray(&copy,1);
   os.write( (const char*)&copy, sizeof(ItemLength) );
 
-  assert( Name == DICOMApplicationContextName );
+  gdcm_assert( Name == DICOMApplicationContextName );
   os.write( Name.c_str(), Name.size() );
   return os;
 }
@@ -69,7 +69,7 @@ const std::ostream &ApplicationContext::Write(std::ostream &os) const
 size_t ApplicationContext::Size() const
 {
   size_t ret = 0;
-  assert( Name.size() == ItemLength );
+  gdcm_assert( Name.size() == ItemLength );
   ret += sizeof(ItemType);
   ret += sizeof(Reserved2);
   ret += sizeof(ItemLength);
@@ -82,9 +82,9 @@ void ApplicationContext::UpdateName( const char *name )
   if( name )
     {
     Name = name;
-    assert( Name.size() < std::numeric_limits<uint16_t>::max() );
+    gdcm_assert( Name.size() < std::numeric_limits<uint16_t>::max() );
     ItemLength = (uint16_t)Name.size();
-    assert( (size_t)ItemLength + 4 == Size() );
+    gdcm_assert( (size_t)ItemLength + 4 == Size() );
     }
 }
 
