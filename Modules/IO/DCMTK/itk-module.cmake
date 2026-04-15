@@ -6,9 +6,10 @@ href=\"https://dicom.offis.de/dcmtk/\">DCMTK</a> DCMTK is a collection of librar
 itk_module(
   ITKIODCMTK
   ENABLE_SHARED
+  DEPENDS
+  ITKIOImageBase
   PRIVATE_DEPENDS
   ITKDCMTK
-  ITKIOImageBase
   TEST_DEPENDS
   ITKTestKernel
   ITKImageIntensity
