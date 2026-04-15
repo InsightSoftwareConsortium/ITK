@@ -47,7 +47,6 @@ set(
   itkPointSetToImageFilterTest1.cxx
   itkPointSetToImageFilterTest2.cxx
   itkRealTimeClockTest.cxx
-  itkRealTimeIntervalTest.cxx
   itkRealTimeStampTest.cxx
   itkRGBPixelTest.cxx
   itkSimpleFilterWatcherTest.cxx
@@ -992,12 +991,6 @@ itk_add_test(
     itkRealTimeStampTest
 )
 itk_add_test(
-  NAME itkRealTimeIntervalTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkRealTimeIntervalTest
-)
-itk_add_test(
   NAME itkTimeProbeTest
   COMMAND
     ITKCommon1TestDriver
@@ -1567,6 +1560,7 @@ set(
   itkPointSetGTest.cxx
   itkPrintHelperGTest.cxx
   itkPriorityQueueGTest.cxx
+  itkRealTimeIntervalGTest.cxx
   itkRGBAPixelGTest.cxx
   itkRGBPixelGTest.cxx
   itkShapedImageNeighborhoodRangeGTest.cxx

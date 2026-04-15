@@ -15,59 +15,41 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
-#include <iostream>
 #include "itkRealTimeInterval.h"
-#include "itkMacro.h"
-#include "itkNumericTraits.h"
+#include "itkGTest.h"
+
 #include "itkMath.h"
+#include "itkNumericTraits.h"
 
-#define CHECK_FOR_VALUE(a, b)                                                            \
-  {                                                                                      \
-    double eps = 4.0 * itk::NumericTraits<double>::epsilon();                            \
-    ITK_GCC_PRAGMA_PUSH                                                                  \
-    ITK_GCC_SUPPRESS_Wfloat_equal                                                        \
-    eps = (b == 0.0) ? eps : itk::Math::Absolute(b * eps);                               \
-    ITK_GCC_PRAGMA_POP                                                                   \
-    if (itk::Math::Absolute(a - b) > eps)                                                \
-    {                                                                                    \
-      std::cerr << "Error in " #a << " expected " << b << " but got " << a << std::endl; \
-      return EXIT_FAILURE;                                                               \
-    }                                                                                    \
-  }                                                                                      \
-  ITK_MACROEND_NOOP_STATEMENT
+namespace
+{
+void
+CheckForValue(double a, double b)
+{
+  double eps = 4.0 * itk::NumericTraits<double>::epsilon();
+  ITK_GCC_PRAGMA_PUSH
+  ITK_GCC_SUPPRESS_Wfloat_equal
+  eps = (b == 0.0) ? eps : itk::Math::Absolute(b * eps);
+  ITK_GCC_PRAGMA_POP
+  EXPECT_LE(itk::Math::Absolute(a - b), eps);
+}
+} // namespace
 
-#define CHECK_FOR_BOOLEAN(x, expected)          \
-  {                                             \
-    if ((x) != expected)                        \
-    {                                           \
-      std::cerr << "Error in " #x << std::endl; \
-      return EXIT_FAILURE;                      \
-    }                                           \
-  }                                             \
-  ITK_MACROEND_NOOP_STATEMENT
-
-
-int
-itkRealTimeIntervalTest(int, char *[])
+TEST(RealTimeInterval, DefaultConstructor)
 {
   const itk::RealTimeInterval interval0;
 
-  const double timeInMicroSeconds = interval0.GetTimeInMicroSeconds();
-  const double timeInMilliSeconds = interval0.GetTimeInMilliSeconds();
-  double       timeInSeconds = interval0.GetTimeInSeconds();
-  const double timeInMinutes = interval0.GetTimeInMinutes();
-  const double timeInHours = interval0.GetTimeInHours();
-  const double timeInDays = interval0.GetTimeInDays();
+  CheckForValue(interval0.GetTimeInMicroSeconds(), 0.0);
+  CheckForValue(interval0.GetTimeInMilliSeconds(), 0.0);
+  CheckForValue(interval0.GetTimeInSeconds(), 0.0);
+  CheckForValue(interval0.GetTimeInMinutes(), 0.0);
+  CheckForValue(interval0.GetTimeInHours(), 0.0);
+  CheckForValue(interval0.GetTimeInDays(), 0.0);
+}
 
-  CHECK_FOR_VALUE(timeInMicroSeconds, 0.0);
-  CHECK_FOR_VALUE(timeInMilliSeconds, 0.0);
-  CHECK_FOR_VALUE(timeInSeconds, 0.0);
-  CHECK_FOR_VALUE(timeInMinutes, 0.0);
-  CHECK_FOR_VALUE(timeInHours, 0.0);
-  CHECK_FOR_VALUE(timeInDays, 0.0);
-
-  const itk::RealTimeInterval interval1;
+TEST(RealTimeInterval, AccumulationAndSubtraction)
+{
+  const itk::RealTimeInterval interval0;
   itk::RealTimeInterval       intervalX = interval0;
 
   const itk::RealTimeInterval oneSecond(1, 0);
@@ -76,13 +58,8 @@ itkRealTimeIntervalTest(int, char *[])
     intervalX += oneSecond;
   }
 
-  std::cout << "intervalX = " << intervalX << std::endl;
-
   itk::RealTimeInterval manySeconds = intervalX - interval0;
-
-  timeInSeconds = manySeconds.GetTimeInSeconds();
-
-  CHECK_FOR_VALUE(timeInSeconds, 1000000.0);
+  CheckForValue(manySeconds.GetTimeInSeconds(), 1000000.0);
 
   itk::RealTimeInterval fiveMicroseconds;
   fiveMicroseconds.Set(0, 5);
@@ -95,10 +72,7 @@ itkRealTimeIntervalTest(int, char *[])
   }
 
   manySeconds = interval3 - interval0;
-
-  timeInSeconds = manySeconds.GetTimeInSeconds();
-
-  CHECK_FOR_VALUE(timeInSeconds, 5.0);
+  CheckForValue(manySeconds.GetTimeInSeconds(), 5.0);
 
   for (unsigned int i = 0; i < 1000000L; ++i)
   {
@@ -106,75 +80,60 @@ itkRealTimeIntervalTest(int, char *[])
   }
 
   manySeconds = interval3 - interval0;
+  CheckForValue(manySeconds.GetTimeInSeconds(), 0.0);
+}
 
-  timeInSeconds = manySeconds.GetTimeInSeconds();
-
-  CHECK_FOR_VALUE(timeInSeconds, 0.0);
-
-
+TEST(RealTimeInterval, SetWithNormalization)
+{
   itk::RealTimeInterval timeSpan;
 
   timeSpan.Set(19, -5000000L);
-
-  timeInSeconds = timeSpan.GetTimeInSeconds();
-
-  CHECK_FOR_VALUE(timeInSeconds, 14.0);
+  CheckForValue(timeSpan.GetTimeInSeconds(), 14.0);
 
   timeSpan.Set(-19, 5000000L);
-
-  timeInSeconds = timeSpan.GetTimeInSeconds();
-
-  CHECK_FOR_VALUE(timeInSeconds, -14.0);
+  CheckForValue(timeSpan.GetTimeInSeconds(), -14.0);
 
   timeSpan.Set(-19, -5000000L);
-
-  timeInSeconds = timeSpan.GetTimeInSeconds();
-
-  CHECK_FOR_VALUE(timeInSeconds, -24.0);
+  CheckForValue(timeSpan.GetTimeInSeconds(), -24.0);
 
   timeSpan.Set(19, 5000000L);
+  CheckForValue(timeSpan.GetTimeInSeconds(), 24.0);
+}
 
-  timeInSeconds = timeSpan.GetTimeInSeconds();
-
-  CHECK_FOR_VALUE(timeInSeconds, 24.0);
-
-
+TEST(RealTimeInterval, Addition)
+{
   const itk::RealTimeInterval timeSpan1(19, 300000L);
   const itk::RealTimeInterval timeSpan2(13, 500000L);
 
   const itk::RealTimeInterval timeSpan3 = timeSpan1 + timeSpan2;
+  CheckForValue(timeSpan3.GetTimeInSeconds(), 32.8);
+}
 
-  timeInSeconds = timeSpan3.GetTimeInSeconds();
-
-  CHECK_FOR_VALUE(timeInSeconds, 32.8);
-
+TEST(RealTimeInterval, ComparisonOperators)
+{
   // Test comparison operations
   const itk::RealTimeInterval dt1(15, 13);
   const itk::RealTimeInterval dt2(19, 11);
   const itk::RealTimeInterval dt3(15, 25);
 
-  CHECK_FOR_BOOLEAN(dt1 == dt1, true);
-  CHECK_FOR_BOOLEAN(dt1 != dt2, true);
-  CHECK_FOR_BOOLEAN(dt1 != dt1, false);
-  CHECK_FOR_BOOLEAN(dt2 >= dt1, true);
-  CHECK_FOR_BOOLEAN(dt1 >= dt1, true);
-  CHECK_FOR_BOOLEAN(dt2 > dt1, true);
-  CHECK_FOR_BOOLEAN(dt1 <= dt2, true);
-  CHECK_FOR_BOOLEAN(dt1 <= dt1, true);
-  CHECK_FOR_BOOLEAN(dt1 < dt2, true);
+  EXPECT_TRUE(dt1 == dt1);
+  EXPECT_TRUE(dt1 != dt2);
+  EXPECT_FALSE(dt1 != dt1);
+  EXPECT_TRUE(dt2 >= dt1);
+  EXPECT_TRUE(dt1 >= dt1);
+  EXPECT_TRUE(dt2 > dt1);
+  EXPECT_TRUE(dt1 <= dt2);
+  EXPECT_TRUE(dt1 <= dt1);
+  EXPECT_TRUE(dt1 < dt2);
 
-  CHECK_FOR_BOOLEAN(dt3 == dt3, true);
-  CHECK_FOR_BOOLEAN(dt1 != dt3, true);
-  CHECK_FOR_BOOLEAN(dt3 >= dt1, true);
-  CHECK_FOR_BOOLEAN(dt3 > dt1, true);
-  CHECK_FOR_BOOLEAN(dt3 <= dt1, false);
-  CHECK_FOR_BOOLEAN(dt3 < dt1, false);
-  CHECK_FOR_BOOLEAN(dt1 <= dt3, true);
-  CHECK_FOR_BOOLEAN(dt1 < dt3, true);
-  CHECK_FOR_BOOLEAN(dt1 >= dt3, false);
-  CHECK_FOR_BOOLEAN(dt1 > dt3, false);
-
-
-  std::cout << "[PASSED]" << std::endl;
-  return EXIT_SUCCESS;
+  EXPECT_TRUE(dt3 == dt3);
+  EXPECT_TRUE(dt1 != dt3);
+  EXPECT_TRUE(dt3 >= dt1);
+  EXPECT_TRUE(dt3 > dt1);
+  EXPECT_FALSE(dt3 <= dt1);
+  EXPECT_FALSE(dt3 < dt1);
+  EXPECT_TRUE(dt1 <= dt3);
+  EXPECT_TRUE(dt1 < dt3);
+  EXPECT_FALSE(dt1 >= dt3);
+  EXPECT_FALSE(dt1 > dt3);
 }
