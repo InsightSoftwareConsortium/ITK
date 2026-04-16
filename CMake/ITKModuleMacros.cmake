@@ -191,6 +191,35 @@ macro(itk_module_impl)
         message(DEBUG "Linking ${itk-module} to namespaced dependency: ${dep}")
         list(APPEND _libraries "${dep}")
       else()
+        # Decide whether to apply the ITK:: namespace.
+        # External IMPORTED targets (e.g. hdf5-shared from find_package(HDF5)
+        # in module-mode, bare GDCM targets, etc.) ship under the upstream
+        # package's own naming and MUST NOT be renamed into the ITK::
+        # namespace — doing so creates a non-existent target in the
+        # INTERFACE_LINK_LIBRARIES of ${itk-module}Module and fails CMake's
+        # generate step. ITK-owned targets (either already defined in this
+        # session as non-imported, or to be defined later via
+        # add_subdirectory into a bundled third-party) still receive the
+        # ITK:: namespace plus the backward-compat EXPORT_CODE shims below.
+        set(_itk_apply_namespace TRUE)
+        if(TARGET ${dep})
+          get_target_property(_itk_dep_imported ${dep} IMPORTED)
+          if(_itk_dep_imported)
+            set(_itk_apply_namespace FALSE)
+            message(
+              DEBUG
+              "Linking ${itk-module} to external imported target: ${dep}"
+            )
+          endif()
+          unset(_itk_dep_imported)
+        endif()
+        if(NOT _itk_apply_namespace)
+          list(APPEND _libraries "${dep}")
+          unset(_itk_apply_namespace)
+          continue()
+        endif()
+        unset(_itk_apply_namespace)
+
         list(
           APPEND
           _libraries
