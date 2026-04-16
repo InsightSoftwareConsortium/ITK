@@ -1,0 +1,165 @@
+context:
+  # Keep in sync with CMake/itkVersion.cmake — update both at release time
+  version: "6.0.0"
+
+outputs:
+  - staging:
+      name: build-cache
+    build:
+      script:
+        env:
+          # Opt-in ccache passthrough. Set ITK_CONDA_USE_CCACHE=1 in the
+          # host shell to enable compiler caching. CCACHE_DIR and
+          # CCACHE_MAXSIZE (if set on host) forward the cache location
+          # and size cap so hits persist across rattler-build invocations.
+          # Sandbox-specific ccache vars (BASEDIR, SLOPPINESS, etc.) are
+          # set inside build.sh since $SRC_DIR changes per invocation.
+          ITK_CONDA_USE_CCACHE: ${{ env.get("ITK_CONDA_USE_CCACHE", default="0") }}
+          CCACHE_DIR: ${{ env.get("CCACHE_DIR", default="") }}
+          CCACHE_MAXSIZE: ${{ env.get("CCACHE_MAXSIZE", default="") }}
+          # Host-shell flag passthrough. These APPEND to conda-forge's
+          # compiler activation flags — they do not replace them.
+          # Documented in README_Advanced.md.
+          ITK_CONDA_BUILD_TYPE: ${{ env.get("ITK_CONDA_BUILD_TYPE", default="Release") }}
+          ITK_CONDA_EXTRA_CFLAGS: ${{ env.get("ITK_CONDA_EXTRA_CFLAGS", default="") }}
+          ITK_CONDA_EXTRA_CXXFLAGS: ${{ env.get("ITK_CONDA_EXTRA_CXXFLAGS", default="") }}
+          ITK_CONDA_EXTRA_LDFLAGS: ${{ env.get("ITK_CONDA_EXTRA_LDFLAGS", default="") }}
+          ITK_CONDA_EXTRA_CMAKE_ARGS: ${{ env.get("ITK_CONDA_EXTRA_CMAKE_ARGS", default="") }}
+        content:
+        - if: unix
+          then: bash Utilities/conda-packages/build.sh
+          else: call Utilities\conda-packages\build.bat
+    requirements:
+      build:
+      - cmake >=3.16.3
+      - ninja
+      - ${{ compiler('c') }}
+      - ${{ compiler('cxx') }}
+      - castxml >=0.7.0
+      - if: env.get("ITK_CONDA_USE_CCACHE", default="0") == "1"
+        then: ccache
+      - if: build_platform != target_platform
+        then: python
+      host:
+      - if: unix
+        then:
+        - expat
+        - libpng
+        - zlib
+      - fftw
+      - hdf5
+      - libjpeg-turbo
+      - libtiff
+      - eigen
+      - double-conversion
+      - tbb-devel
+      - python
+    source:
+      path: ../..
+
+  - package:
+      name: libitk
+      version: ${{ version }}
+    inherit: build-cache
+    build:
+      number: 0
+      script:
+        - if: unix
+          then: bash Utilities/conda-packages/libitk_install.sh
+          else: call Utilities\conda-packages\libitk_install.bat
+    requirements:
+      run:
+        - if: unix
+          then:
+            - expat
+            - libpng
+            - zlib
+        - fftw
+        - hdf5
+        - libjpeg-turbo
+        - libtiff
+        - double-conversion
+        - tbb
+    tests:
+      - script:
+          - if: osx
+            then: test -f "$PREFIX/lib/libITKCommon-6.0.dylib"
+          - if: linux
+            then: test -f "$PREFIX/lib/libITKCommon-6.0.so"
+          - if: win
+            then: if not exist "%LIBRARY_BIN%\ITKCommon-6.0.dll" exit 1
+
+  - package:
+      name: libitk-devel
+      version: ${{ version }}
+    inherit: build-cache
+    build:
+      number: 0
+      script:
+        - if: unix
+          then: bash Utilities/conda-packages/libitk-devel_install.sh
+          else: call Utilities\conda-packages\libitk-devel_install.bat
+    requirements:
+      run_exports:
+        - libitk ==${{ version }}
+      host:
+        - ${{ pin_subpackage('libitk', exact=True) }}
+      run:
+        - ${{ pin_subpackage('libitk', exact=True) }}
+        - tbb-devel
+        - cmake
+        - eigen
+    tests:
+      - script:
+          - if: unix
+            then: test -d "$PREFIX/include/ITK-6.0"
+            else: if not exist "%LIBRARY_INC%\ITK-6.0" exit 1
+      - files:
+          source:
+            - Utilities/conda-packages/tests/example/
+        requirements:
+          build:
+            - cmake
+            - ninja
+            - ${{ compiler('cxx') }}
+        script:
+          - if: unix
+            then: |
+              mkdir build-test && cd build-test
+              cmake -GNinja -DCMAKE_PREFIX_PATH:PATH="$PREFIX" ../Utilities/conda-packages/tests/example
+              cmake --build .
+            else: |
+              mkdir build-test && cd build-test
+              cmake -GNinja -DCMAKE_PREFIX_PATH:PATH="%PREFIX%" ..\Utilities\conda-packages\tests\example
+              cmake --build . --config Release
+
+  - package:
+      name: libitk-wrapping
+      version: ${{ version }}
+    inherit: build-cache
+    build:
+      number: 0
+      script:
+        - if: unix
+          then: bash Utilities/conda-packages/libitk-wrapping_install.sh
+          else: call Utilities\conda-packages\libitk-wrapping_install.bat
+    requirements:
+      host:
+        - ${{ pin_subpackage('libitk', exact=True) }}
+        - python >=3.9
+      run:
+        - ${{ pin_subpackage('libitk', exact=True) }}
+        - python >=3.9
+        - numpy
+    tests:
+      - python:
+          imports:
+            - itk
+
+about:
+  homepage: https://itk.org
+  license: Apache-2.0
+  license_file:
+    - LICENSE
+    - NOTICE
+  summary: Runtime libraries, development headers, and Python wrapping for the Insight Toolkit.
