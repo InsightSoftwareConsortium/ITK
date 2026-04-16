@@ -693,5 +693,80 @@ itkVTIImageIOTest(int argc, char * argv[])
     }
   }
 
+  // ---- Read a base64-encoded appended VTI file ---------------------------
+  // Build a hand-crafted VTI with format="appended", encoding="base64".
+  // Pixel data: 4 Float32 values (25.0f, 30.0f, 35.0f, 40.0f).
+  {
+    const std::string fname = outDir + sep + "vti_base64_appended.vti";
+
+    const float pixels[4] = { 25.0f, 30.0f, 35.0f, 40.0f };
+
+    // Build the binary payload: UInt32 block size + pixel data
+    const auto                 blockSize = static_cast<std::uint32_t>(sizeof(pixels));
+    std::vector<unsigned char> binaryPayload(sizeof(blockSize) + sizeof(pixels));
+    std::memcpy(binaryPayload.data(), &blockSize, sizeof(blockSize));
+    std::memcpy(binaryPayload.data() + sizeof(blockSize), pixels, sizeof(pixels));
+
+    // Base64-encode the payload
+    static const char chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    std::string       base64;
+    for (std::size_t i = 0; i < binaryPayload.size(); i += 3)
+    {
+      const unsigned int b0 = binaryPayload[i];
+      const unsigned int b1 = (i + 1 < binaryPayload.size()) ? binaryPayload[i + 1] : 0u;
+      const unsigned int b2 = (i + 2 < binaryPayload.size()) ? binaryPayload[i + 2] : 0u;
+      base64 += chars[(b0 >> 2) & 0x3F];
+      base64 += chars[((b0 << 4) | (b1 >> 4)) & 0x3F];
+      base64 += (i + 1 < binaryPayload.size()) ? chars[((b1 << 2) | (b2 >> 6)) & 0x3F] : '=';
+      base64 += (i + 2 < binaryPayload.size()) ? chars[b2 & 0x3F] : '=';
+    }
+
+    {
+      std::ofstream f(fname.c_str());
+      f << "<?xml version=\"1.0\"?>\n";
+      f << "<VTKFile type=\"ImageData\" version=\"0.1\" byte_order=\"LittleEndian\">\n";
+      f << "  <ImageData WholeExtent=\"0 1 0 1 0 0\" Origin=\"0 0 0\" Spacing=\"1 1 1\">\n";
+      f << "    <Piece Extent=\"0 1 0 1 0 0\">\n";
+      f << "      <PointData Scalars=\"data\">\n";
+      f << "        <DataArray type=\"Float32\" Name=\"data\" format=\"appended\" offset=\"0\"/>\n";
+      f << "      </PointData>\n";
+      f << "    </Piece>\n";
+      f << "  </ImageData>\n";
+      f << "  <AppendedData encoding=\"base64\">\n";
+      f << "   _" << base64 << "\n";
+      f << "  </AppendedData>\n";
+      f << "</VTKFile>\n";
+    }
+
+    using ImageType = itk::Image<float, 2>;
+    auto reader = itk::ImageFileReader<ImageType>::New();
+    reader->SetFileName(fname);
+    reader->SetImageIO(itk::VTIImageIO::New());
+    ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+    auto                 out = reader->GetOutput();
+    ImageType::IndexType idx;
+    bool                 ok = true;
+    for (int i = 0; i < 4; ++i)
+    {
+      idx[0] = i % 2;
+      idx[1] = i / 2;
+      if (std::abs(out->GetPixel(idx) - pixels[i]) > 1e-5f)
+      {
+        std::cerr << "  ERROR: base64 appended pixel " << idx << " = " << out->GetPixel(idx) << ", expected "
+                  << pixels[i] << std::endl;
+        ok = false;
+      }
+    }
+    if (ok)
+    {
+      std::cout << "  Base64 appended-data read OK" << std::endl;
+    }
+    else
+    {
+      status = EXIT_FAILURE;
+    }
+  }
+
   return status;
 }

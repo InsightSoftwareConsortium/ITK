@@ -127,7 +127,8 @@ struct VTIParseState
   // Set when the <AppendedData> start tag is seen.  Used by the caller
   // to know that the file has an appended-data block (whose binary
   // contents are read directly, not via expat).
-  bool sawAppendedData{ false };
+  bool        sawAppendedData{ false };
+  std::string appendedDataEncoding; // "raw" or "base64"
 };
 
 // Determine whether a DataArray (identified by its Name attribute) is the
@@ -201,6 +202,7 @@ extern "C"
     else if (std::strcmp(name, "AppendedData") == 0)
     {
       st->sawAppendedData = true;
+      st->appendedDataEncoding = ToLower(FindAttribute(atts, "encoding"));
       // We do not consume any character data from inside AppendedData via
       // expat -- the binary content following the `_` marker is XML-illegal
       // and is read directly from the file by the caller.  We don't even
@@ -456,6 +458,8 @@ VTIImageIO::InternalReadImageInformation()
   m_DataArrayOffset = 0;
   m_HeaderTypeUInt64 = false;
   m_IsZLibCompressed = false;
+  m_AppendedDataIsBase64 = false;
+  m_AppendedBase64Content.clear();
 
   // Slurp the entire file.  We need both the XML metadata (parsed by expat)
   // and, for raw-appended files, the byte offset of the binary section.
@@ -472,6 +476,9 @@ VTIImageIO::InternalReadImageInformation()
   //
   // We also record the absolute byte offset (in the original file) of the
   // first byte after `_`, which is where the appended block begins.
+  //
+  // If encoding="base64", the appended data is base64-encoded text, so we
+  // read it as text instead of binary.
   std::string       xmlPortion;
   const std::size_t appPos = content.find("<AppendedData");
   if (appPos == std::string::npos)
@@ -487,11 +494,26 @@ VTIImageIO::InternalReadImageInformation()
       itkExceptionMacro("Malformed <AppendedData> tag in file: " << m_FileName);
     }
 
-    // Construct an XML view that ends with a self-closing <AppendedData/>
-    // and a closing </VTKFile>, so expat sees a well-formed document.
-    xmlPortion = content.substr(0, appPos) + "<AppendedData/></VTKFile>";
+    // Check if encoding="base64" - if so, we can parse the whole file
+    // because base64 is XML-safe. Otherwise, truncate before binary data.
+    const std::size_t encodingPos = content.find("encoding", appPos);
+    const bool        hasBase64Encoding =
+      (encodingPos != std::string::npos && encodingPos < startTagEnd &&
+       content.find("base64", encodingPos) != std::string::npos && content.find("base64", encodingPos) < startTagEnd);
 
-    // Locate the `_` marker that introduces the raw binary stream.
+    if (hasBase64Encoding)
+    {
+      // Base64 encoding: parse the whole file as XML
+      xmlPortion = content;
+    }
+    else
+    {
+      // Raw encoding: construct an XML view that ends with a self-closing <AppendedData/>
+      // and a closing </VTKFile>, so expat sees a well-formed document.
+      xmlPortion = content.substr(0, appPos) + "<AppendedData/></VTKFile>";
+    }
+
+    // Locate the `_` marker that introduces the appended data stream.
     const std::size_t underscorePos = content.find('_', startTagEnd);
     if (underscorePos == std::string::npos)
     {
@@ -667,6 +689,25 @@ VTIImageIO::InternalReadImageInformation()
   // Compression
   m_IsZLibCompressed = IequalsStr(st.compressor, "vtkZLibDataCompressor");
 
+  // Appended data encoding
+  m_AppendedDataIsBase64 = IequalsStr(st.appendedDataEncoding, "base64");
+
+  // If appended data is base64-encoded, extract and store the base64 content
+  if (st.sawAppendedData && m_AppendedDataIsBase64)
+  {
+    const std::size_t dataStart = static_cast<std::size_t>(m_AppendedDataOffset);
+    const std::size_t closePos = content.find("</AppendedData>", dataStart);
+    if (closePos != std::string::npos)
+    {
+      m_AppendedBase64Content = content.substr(dataStart, closePos - dataStart);
+    }
+    else
+    {
+      // Read to end of content if no closing tag found
+      m_AppendedBase64Content = content.substr(dataStart);
+    }
+  }
+
   // Encoding
   if (st.daFormat == "ascii")
   {
@@ -681,7 +722,15 @@ VTIImageIO::InternalReadImageInformation()
       itkExceptionMacro(
         "DataArray uses format=\"appended\" but no <AppendedData> element was found in: " << m_FileName);
     }
-    m_DataEncoding = m_IsZLibCompressed ? DataEncoding::ZLibAppended : DataEncoding::RawAppended;
+    // Select encoding based on compression and base64 encoding
+    if (m_IsZLibCompressed)
+    {
+      m_DataEncoding = m_AppendedDataIsBase64 ? DataEncoding::ZLibBase64Appended : DataEncoding::ZLibAppended;
+    }
+    else
+    {
+      m_DataEncoding = m_AppendedDataIsBase64 ? DataEncoding::Base64Appended : DataEncoding::RawAppended;
+    }
     m_FileType = IOFileEnum::Binary;
     m_DataArrayOffset = 0u;
     if (!st.daOffset.empty())
@@ -881,6 +930,99 @@ VTIImageIO::Read(void * buffer)
       }
       std::memcpy(buffer, dataPtr, static_cast<std::size_t>(totalBytes));
     }
+    SwapBufferIfNeeded(buffer, componentSize, totalComponents, m_ByteOrder);
+    return;
+  }
+
+  // Base64Appended or ZLibBase64Appended: appended data is base64-encoded
+  if (m_DataEncoding == DataEncoding::Base64Appended || m_DataEncoding == DataEncoding::ZLibBase64Appended)
+  {
+    if (m_AppendedBase64Content.empty())
+    {
+      itkExceptionMacro("Base64 appended content is empty in file: " << m_FileName);
+    }
+
+    // Decode the base64 content
+    std::vector<unsigned char> decoded;
+    DecodeBase64(m_AppendedBase64Content, decoded);
+
+    // The decoded buffer contains all appended data arrays; we need to extract
+    // the portion at offset m_DataArrayOffset
+    const std::size_t headerBytes = m_HeaderTypeUInt64 ? sizeof(uint64_t) : sizeof(uint32_t);
+    const std::size_t arrayStart = static_cast<std::size_t>(m_DataArrayOffset);
+
+    if (arrayStart + headerBytes > decoded.size())
+    {
+      itkExceptionMacro("Appended data offset extends beyond decoded buffer in file: " << m_FileName);
+    }
+
+    if (m_DataEncoding == DataEncoding::ZLibBase64Appended)
+    {
+      // Compressed: read nblocks to determine full header size
+      uint64_t nblocks;
+      if (m_HeaderTypeUInt64)
+      {
+        std::memcpy(&nblocks, decoded.data() + arrayStart, sizeof(uint64_t));
+      }
+      else
+      {
+        uint32_t nb32;
+        std::memcpy(&nb32, decoded.data() + arrayStart, sizeof(uint32_t));
+        nblocks = nb32;
+      }
+
+      // Calculate total header size and extract compressed block
+      const std::size_t compHeaderSize = static_cast<std::size_t>((3 + nblocks) * headerBytes);
+      if (arrayStart + compHeaderSize > decoded.size())
+      {
+        itkExceptionMacro("Compressed header extends beyond decoded buffer in file: " << m_FileName);
+      }
+
+      // Sum the compressed block sizes
+      uint64_t totalCompressed = 0;
+      for (uint64_t b = 0; b < nblocks; ++b)
+      {
+        if (m_HeaderTypeUInt64)
+        {
+          uint64_t cs;
+          std::memcpy(&cs, decoded.data() + arrayStart + (3 + b) * sizeof(uint64_t), sizeof(uint64_t));
+          totalCompressed += cs;
+        }
+        else
+        {
+          uint32_t cs;
+          std::memcpy(&cs, decoded.data() + arrayStart + (3 + b) * sizeof(uint32_t), sizeof(uint32_t));
+          totalCompressed += cs;
+        }
+      }
+
+      const std::size_t compDataSize = static_cast<std::size_t>(compHeaderSize + totalCompressed);
+      if (arrayStart + compDataSize > decoded.size())
+      {
+        itkExceptionMacro("Compressed data extends beyond decoded buffer in file: " << m_FileName);
+      }
+
+      // Decompress
+      std::vector<unsigned char> uncompressed;
+      DecompressZLib(decoded.data() + arrayStart, compDataSize, m_HeaderTypeUInt64, uncompressed);
+      if (uncompressed.size() < static_cast<std::size_t>(totalBytes))
+      {
+        itkExceptionMacro("Decompressed data size (" << uncompressed.size() << ") is less than expected (" << totalBytes
+                                                     << ") in file: " << m_FileName);
+      }
+      std::memcpy(buffer, uncompressed.data(), static_cast<std::size_t>(totalBytes));
+    }
+    else
+    {
+      // Uncompressed base64 appended: skip block-size header and read data
+      if (arrayStart + headerBytes + static_cast<std::size_t>(totalBytes) > decoded.size())
+      {
+        itkExceptionMacro("Appended data extends beyond decoded buffer in file: " << m_FileName);
+      }
+      const unsigned char * dataPtr = decoded.data() + arrayStart + headerBytes;
+      std::memcpy(buffer, dataPtr, static_cast<std::size_t>(totalBytes));
+    }
+
     SwapBufferIfNeeded(buffer, componentSize, totalComponents, m_ByteOrder);
     return;
   }

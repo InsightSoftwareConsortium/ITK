@@ -133,10 +133,12 @@ private:
   enum class DataEncoding : std::uint8_t
   {
     ASCII,
-    Base64,      // binary data encoded in base64 (format="binary")
-    RawAppended, // raw binary appended data (format="appended" with raw encoding)
-    ZLibBase64,  // zlib-compressed data encoded in base64
-    ZLibAppended // zlib-compressed raw appended data
+    Base64,            // binary data encoded in base64 (format="binary")
+    RawAppended,       // raw binary appended data (format="appended" with encoding="raw")
+    Base64Appended,    // base64-encoded appended data (format="appended" with encoding="base64")
+    ZLibBase64,        // zlib-compressed data encoded in base64 (inline)
+    ZLibAppended,      // zlib-compressed raw appended data
+    ZLibBase64Appended // zlib-compressed base64 appended data
   };
 
   DataEncoding m_DataEncoding{ DataEncoding::Base64 };
@@ -162,6 +164,12 @@ private:
 
   /** Whether the file uses zlib compression (compressor="vtkZLibDataCompressor"). */
   bool m_IsZLibCompressed{ false };
+
+  /** Whether appended data uses base64 encoding (encoding="base64") vs raw (encoding="raw"). */
+  bool m_AppendedDataIsBase64{ false };
+
+  /** Cached base64 content from appended data section when encoding="base64". */
+  std::string m_AppendedBase64Content{};
 
   /** Decompress a VTK zlib-compressed block sequence into raw bytes.
    *  The input buffer begins with the VTK multi-block compression header
