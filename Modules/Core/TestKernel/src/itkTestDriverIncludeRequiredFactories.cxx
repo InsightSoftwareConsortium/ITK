@@ -18,6 +18,20 @@
 
 #include "itkTestDriverIncludeRequiredFactories.h"
 
+// WARNING: The explicit factory registration pattern in this file is an
+// internal ITK test infrastructure mechanism. External projects should NOT
+// copy this pattern. Instead, link against the factory meta-module targets:
+//
+//   target_link_libraries(MyTestDriver PRIVATE
+//     ITK::ITKFFTImageFilterInit   # FFT backends
+//     ITK::ITKImageIO              # Image IO formats
+//     ITK::ITKMeshIO               # Mesh IO formats
+//     ITK::ITKTransformIO          # Transform IO formats
+//   )
+//
+// See the ITK 6 Migration Guide section "Factory Registration in External
+// Project Test Drivers" for details.
+
 // ImageIO
 #include "itkGDCMImageIOFactory.h"
 #include "itkMetaImageIOFactory.h"

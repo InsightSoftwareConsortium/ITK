@@ -18,6 +18,14 @@
 #ifndef itkTestDriverIncludeRequiredFactories_h
 #define itkTestDriverIncludeRequiredFactories_h
 
+// WARNING: This header is part of ITK's internal test infrastructure.
+// External projects should NOT include this header or copy its registration
+// pattern. Instead, link against the factory meta-module targets:
+//
+//   target_link_libraries(MyTestDriver PRIVATE ITK::ITKFFTImageFilterInit)
+//
+// See the ITK 6 Migration Guide section "Factory Registration in External
+// Project Test Drivers" for the recommended approach.
 
 #include "itkTestDriverInclude.h"
 
