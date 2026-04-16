@@ -215,6 +215,23 @@ std::istream &ImplicitDataElement::ReadValue(std::istream &is, bool readvalues)
     ValueLengthField = 202; // 0xca
     }
 #endif
+  if( !ValueLengthField.IsUndefined() && readvalues )
+    {
+    const std::streampos cur = is.tellg();
+    if( cur != std::streampos(-1) )
+      {
+      is.seekg(0, std::ios::end);
+      const std::streampos end = is.tellg();
+      is.seekg(cur);
+      if( end != std::streampos(-1) && is.good()
+        && static_cast<uint64_t>(end - cur) < static_cast<uint32_t>(ValueLengthField) )
+        {
+        gdcmWarningMacro( "Value Length " << ValueLengthField
+          << " exceeds remaining stream size for tag " << TagField );
+        throw Exception( "Value Length exceeds remaining stream size" );
+        }
+      }
+    }
   // We have the length we should be able to read the value
   this->SetValueFieldLength( ValueLengthField, readvalues );
   bool failed;

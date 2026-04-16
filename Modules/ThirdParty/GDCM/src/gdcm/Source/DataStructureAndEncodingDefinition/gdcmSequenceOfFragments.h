@@ -167,7 +167,7 @@ std::istream& ReadValue(std::istream &is, bool /*readvalues*/)
       {
       gdcm_assert( Fragments.size() == 1 );
       const ByteValue *bv = Fragments[0].GetByteValue();
-      gdcm_assert( (unsigned char)bv->GetPointer()[ bv->GetLength() - 1 ] == 0xfe );
+      gdcm_assert( bv->GetLength() >= 1 && (unsigned char)bv->GetPointer()[ bv->GetLength() - 1 ] == 0xfe );
       // Yes this is an extra copy, this is a bug anyway, go fix YOUR code
       Fragments[0].SetByteValue( bv->GetPointer(), bv->GetLength() - 1 );
       gdcmWarningMacro( "JPEG Fragment length was declared with an extra byte"
@@ -188,7 +188,7 @@ std::istream& ReadValue(std::istream &is, bool /*readvalues*/)
       const size_t lastf = Fragments.size() - 1;
       const ByteValue *bv = Fragments[ lastf ].GetByteValue();
       const char *a = bv->GetPointer();
-      gdcmAssertAlwaysMacro( (unsigned char)a[ bv->GetLength() - 1 ] == 0xfe );
+      gdcmAssertAlwaysMacro( bv->GetLength() >= 1 && (unsigned char)a[ bv->GetLength() - 1 ] == 0xfe );
       Fragments[ lastf ].SetByteValue( bv->GetPointer(), bv->GetLength() - 1 );
       is.seekg( -9, std::ios::cur );
       gdcm_assert( is.good() );
@@ -212,7 +212,7 @@ std::istream& ReadValue(std::istream &is, bool /*readvalues*/)
       const size_t lastf = Fragments.size() - 1;
       const ByteValue *bv = Fragments[ lastf ].GetByteValue();
       const char *a = bv->GetPointer();
-      gdcmAssertAlwaysMacro( (unsigned char)a[ bv->GetLength() - 2 ] == 0xfe );
+      gdcmAssertAlwaysMacro( bv->GetLength() >= 2 && (unsigned char)a[ bv->GetLength() - 2 ] == 0xfe );
       Fragments[ lastf ].SetByteValue( bv->GetPointer(), bv->GetLength() - 2 );
       is.seekg( -10, std::ios::cur );
       gdcm_assert( is.good() );
