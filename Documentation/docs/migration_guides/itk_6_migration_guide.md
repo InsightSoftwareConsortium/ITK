@@ -396,6 +396,36 @@ target_link_libraries(MyTarget ${ITK_INTERFACE_LIBRARIES} ITK::ITKImageIO)
 In this example, the GDCM and NRRD ImageIO modules are explicitly loaded. Only the ImageIO factory type is registered and generated.
 
 
+**Factory Registration in External Project Test Drivers:**
+
+External projects (like RTK, BRAINSTools, or ITK remote modules) that need FFT, IO, or other
+factory-registered backends in their test drivers should **link against the meta-module target**
+rather than manually calling `RegisterFactory()`. This ensures the correct backends are
+registered automatically and stays in sync with the ITK build configuration.
+
+```cmake
+# In your external project's test CMakeLists.txt:
+find_package(ITK REQUIRED COMPONENTS ITKFFT)
+itk_generate_factory_registration()
+
+add_executable(MyTestDriver myTestDriver.cxx)
+target_link_libraries(MyTestDriver
+  PRIVATE
+    ITK::ITKFFTImageFilterInit   # Registers FFTW (if available) + VNL FFT backends
+    ITK::ITKImageIO              # Registers all image IO formats
+    ITK::ITKMeshIO               # Registers all mesh IO formats
+    ITK::ITKTransformIO          # Registers all transform IO formats
+)
+```
+
+This replaces the legacy pattern of manually including factory headers and calling
+`itk::ObjectFactoryBase::RegisterFactory()` for each backend. The meta-module approach is
+preferred because:
+
+- New backends are picked up automatically when ITK is reconfigured
+- Factory priority ordering is handled by the module system
+- No `#if defined(ITK_USE_FFTWF)` guards needed in application code
+
 **Determining Required Modules:**
 
 To identify which ITK modules your code depends on, use the `WhatModulesITK.py` utility:
