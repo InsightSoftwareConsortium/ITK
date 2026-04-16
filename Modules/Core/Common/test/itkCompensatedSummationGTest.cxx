@@ -16,19 +16,13 @@
  *
  *=========================================================================*/
 #include "itkCompensatedSummation.h"
-#include "itkStdStreamStateSave.h"
+#include "itkGTest.h"
 
 #include "itkMath.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 
-int
-itkCompensatedSummationTest(int, char *[])
+TEST(CompensatedSummation, ConvertedLegacyTest)
 {
-  // Save the format stream variables for std::cout
-  // They will be restored when coutState goes out of scope
-  // scope.
-  const itk::StdStreamStateSave coutState(std::cout);
-
   using FloatType = float;
   constexpr long seedValue{ 17 };
 
@@ -56,66 +50,27 @@ itkCompensatedSummationTest(int, char *[])
   const FloatType accumulatorMean = accumulatorSum / static_cast<FloatType>(accumSize);
   const FloatType accumulatorError = itk::Math::Absolute(accumulatorMean - expectedMean);
 
-  std::cout << "The expected mean is:     " << expectedMean << std::endl;
-
-  std::cout << "The vanilla sum is:       " << vanillaSum << std::endl;
-  std::cout << "The vanilla mean is:      " << vanillaMean << std::endl;
-  std::cout << "The vanilla error is:     " << vanillaError << std::endl;
-
-  std::cout << "The accumulator sum is:   " << accumulatorSum << std::endl;
-  std::cout << "The accumulator mean is:  " << accumulatorMean << std::endl;
-  std::cout << "The accumulator error is: " << accumulatorError << std::endl;
-
-  if (vanillaError <= accumulatorError || accumulatorError > 1.0e-4)
-  {
-    std::cerr << "The compensated summation did not compensate well (crazy compiler flags?)." << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_LT(accumulatorError, vanillaError);
+  EXPECT_LE(accumulatorError, 1.0e-4);
 
   // exercise other methods
   const CompensatedSummationType floatAccumulatorCopy = floatAccumulator;
-  if (itk::Math::NotExactlyEquals(floatAccumulatorCopy.GetSum(), floatAccumulator.GetSum()))
-  {
-    std::cerr << "The copy constructor failed." << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(floatAccumulatorCopy.GetSum(), floatAccumulator.GetSum());
 
   const CompensatedSummationType floatAccumulatorCopy2 = floatAccumulator;
-  if (itk::Math::NotExactlyEquals(floatAccumulatorCopy2.GetSum(), floatAccumulator.GetSum()))
-  {
-    std::cerr << "The assignment operator failed." << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(floatAccumulatorCopy2.GetSum(), floatAccumulator.GetSum());
 
   floatAccumulator += randomNumber;
   floatAccumulator -= randomNumber;
-  if (itk::Math::NotAlmostEquals(floatAccumulatorCopy2.GetSum(), floatAccumulator.GetSum()))
-  {
-    std::cerr << "The operator+= and operator-= are not reversible." << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_FLOAT_EQ(floatAccumulatorCopy2.GetSum(), floatAccumulator.GetSum());
 
   floatAccumulator *= randomNumber;
   floatAccumulator /= randomNumber;
-  if (itk::Math::NotAlmostEquals(floatAccumulatorCopy2.GetSum(), floatAccumulator.GetSum()))
-  {
-    std::cerr << "The operator*= and operator/= are not reversible." << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_FLOAT_EQ(floatAccumulatorCopy2.GetSum(), floatAccumulator.GetSum());
 
   floatAccumulator.ResetToZero();
-  if (itk::Math::NotAlmostEquals(floatAccumulator.GetSum(), FloatType{}))
-  {
-    std::cerr << "GetSize() did return the correct value!" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_FLOAT_EQ(floatAccumulator.GetSum(), FloatType{});
 
   floatAccumulator = 2.0;
-  if (floatAccumulator.GetSum() != 2.0)
-  {
-    std::cerr << "operator= did not set the value." << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  return EXIT_SUCCESS;
+  EXPECT_EQ(floatAccumulator.GetSum(), 2.0);
 }

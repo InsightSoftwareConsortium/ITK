@@ -46,10 +46,7 @@ set(
   itkPointSetTest.cxx
   itkPointSetToImageFilterTest1.cxx
   itkPointSetToImageFilterTest2.cxx
-  itkPriorityQueueTest.cxx
   itkRealTimeClockTest.cxx
-  itkRealTimeIntervalTest.cxx
-  itkRealTimeStampTest.cxx
   itkRGBPixelTest.cxx
   itkSimpleFilterWatcherTest.cxx
   itkSobelOperatorImageConvolutionTest.cxx
@@ -129,7 +126,6 @@ set(
   itkDataObjectAndProcessObjectTest.cxx
   itkOptimizerParametersTest.cxx
   itkImageVectorOptimizerParametersHelperTest.cxx
-  itkCompensatedSummationTest.cxx
   itkCompensatedSummationTest2.cxx
   itkImageRegionConstIteratorWithOnlyIndexTest.cxx
   itkImageRandomConstIteratorWithOnlyIndexTest.cxx
@@ -982,28 +978,10 @@ itk_add_test(
     itkPhasedArray3DSpecialCoordinatesImageTest
 )
 itk_add_test(
-  NAME itkPriorityQueueTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkPriorityQueueTest
-)
-itk_add_test(
   NAME itkRealTimeClockTest
   COMMAND
     ITKCommon1TestDriver
     itkRealTimeClockTest
-)
-itk_add_test(
-  NAME itkRealTimeStampTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkRealTimeStampTest
-)
-itk_add_test(
-  NAME itkRealTimeIntervalTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkRealTimeIntervalTest
 )
 itk_add_test(
   NAME itkTimeProbeTest
@@ -1289,12 +1267,6 @@ itk_add_test(
     itkImageVectorOptimizerParametersHelperTest
 )
 itk_add_test(
-  NAME itkCompensatedSummationTest
-  COMMAND
-    ITKCommon2TestDriver
-    itkCompensatedSummationTest
-)
-itk_add_test(
   NAME itkCompensatedSummationTest2
   COMMAND
     ITKCommon2TestDriver
@@ -1525,6 +1497,7 @@ set(
   itkByteSwapGTest.cxx
   itkCommandObserverObjectGTest.cxx
   itkCommonTypeTraitsGTest.cxx
+  itkCompensatedSummationGTest.cxx
   itkConnectedImageNeighborhoodShapeGTest.cxx
   itkConstantBoundaryImageNeighborhoodPixelAccessPolicyGTest.cxx
   itkCopyGTest.cxx
@@ -1579,6 +1552,9 @@ set(
   itkPointGTest.cxx
   itkPointSetGTest.cxx
   itkPrintHelperGTest.cxx
+  itkPriorityQueueGTest.cxx
+  itkRealTimeIntervalGTest.cxx
+  itkRealTimeStampGTest.cxx
   itkRGBAPixelGTest.cxx
   itkRGBPixelGTest.cxx
   itkShapedImageNeighborhoodRangeGTest.cxx
