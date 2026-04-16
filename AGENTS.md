@@ -6,18 +6,24 @@ Apache 2.0 licensed. Build tool: **Pixi** (wraps CMake + Ninja).
 
 ## Context to Load on Demand
 
-Load only what your task requires:
+Load only what your task requires. Files are small and focused — load
+the minimum set for the task at hand.
 
 | Task | Read |
 |------|------|
-| Understanding the codebase layout | [./Documentation/AI/architecture.md](./Documentation/AI/architecture.md) |
-| Building or configuring ITK | [./Documentation/AI/building.md](./Documentation/AI/building.md) |
-| Writing or running tests | [./Documentation/AI/testing.md](./Documentation/AI/testing.md) |
-| Code style, naming conventions | [./Documentation/AI/style.md](./Documentation/AI/style.md) |
-| Writing ITK C++ classes, CMake build configuration, and Python wrapping configuration | [./Documentation/AI/conventions.md](./Documentation/AI/conventions.md) |
-| Creating a git commit with C++ changes | [./Documentation/AI/git-commits.md](./Documentation/AI/git-commits.md), [./Documentation/AI/compiler-cautions.md](./Documentation/AI/compiler-cautions.md), [./Documentation/AI/building.md](./Documentation/AI/building.md), [./Documentation/AI/testing.md](./Documentation/AI/testing.md) |
-| Opening or updating a pull request | [./Documentation/AI/pull-requests.md](./Documentation/AI/pull-requests.md) |
-| Avoiding compiler-specific pitfalls and refactoring hazards | [./Documentation/AI/compiler-cautions.md](./Documentation/AI/compiler-cautions.md) |
+| Understanding the codebase layout | [architecture.md](./Documentation/AI/architecture.md) |
+| Building or configuring ITK | [building.md](./Documentation/AI/building.md) |
+| Writing or running tests | [testing.md](./Documentation/AI/testing.md) |
+| Code style, formatting, naming | [enforced-code-style.md](./Documentation/AI/enforced-code-style.md) |
+| Writing or reviewing C++ code | [code-review-lessons.md](./Documentation/AI/code-review-lessons.md) |
+| Writing ITK C++ classes, CMake, Python wrapping | [conventions.md](./Documentation/AI/conventions.md) |
+| Avoiding compiler pitfalls and refactoring hazards | [compiler-cautions.md](./Documentation/AI/compiler-cautions.md) |
+| Creating a **DOC:** commit | [git-commits.md](./Documentation/AI/git-commits.md) |
+| Creating a **STYLE:** commit | [git-commits.md](./Documentation/AI/git-commits.md), [enforced-code-style.md](./Documentation/AI/enforced-code-style.md) |
+| Creating a **BUG:** or **ENH:** commit | [git-commits.md](./Documentation/AI/git-commits.md), [compiler-cautions.md](./Documentation/AI/compiler-cautions.md), [testing.md](./Documentation/AI/testing.md) |
+| Creating a **COMP:** commit | [git-commits.md](./Documentation/AI/git-commits.md), [compiler-cautions.md](./Documentation/AI/compiler-cautions.md) |
+| Commit or PR attribution | [attribution.md](./Documentation/AI/attribution.md) |
+| Opening or updating a pull request | [pull-requests.md](./Documentation/AI/pull-requests.md), [attribution.md](./Documentation/AI/attribution.md) |
 
 ## Critical Pitfalls
 

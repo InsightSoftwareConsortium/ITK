@@ -57,3 +57,30 @@ ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(ptr, ClassName, SuperclassName);
 // Set/Get boolean member variable
 ITK_GTEST_SET_GET_BOOLEAN((&obj), VariableName, value);
 ```
+
+## Exception Tests in GTest Files
+
+The legacy `ITK_TRY_EXPECT_EXCEPTION` macro from `itkTestingMacros.h` uses
+`return EXIT_FAILURE` internally and is **incompatible with GoogleTest**'s
+`void TestBody()` — using it produces:
+
+```
+error: return-statement with a value, in function returning ‘void’
+```
+
+In a `*GTest.cxx` file, use vanilla GoogleTest exception macros instead:
+
+```cpp
+// BAD — does not compile in a GTest TEST() body:
+ITK_TRY_EXPECT_EXCEPTION(filter->Update());
+
+// GOOD:
+EXPECT_THROW(filter->Update(), itk::ExceptionObject);
+ASSERT_THROW(filter->Update(), itk::ExceptionObject);
+```
+
+The `ITK_TRY_EXPECT_*` family is still appropriate in legacy
+`itkXxxTest.cxx` files that have an `int main()` returning `EXIT_FAILURE`
+on error, but never in a Google Test `TEST(...)` block.
+
+**References:** PR #6034 (StructuralSimilarityImageFilter GTest).
