@@ -626,6 +626,32 @@ macro(itk_module_link_dependencies)
       endif()
     endforeach()
   endforeach()
+
+  # Link COMPILE_DEPENDS as PRIVATE so this module's own compilation picks up
+  # transitive INTERFACE_INCLUDE_DIRECTORIES (e.g. Eigen3::Eigen via
+  # ITKEigen3Module) through modern CMake target properties. PRIVATE means
+  # the includes flow in but nothing leaks into this module's own
+  # INTERFACE_LINK_LIBRARIES; consumers already get these transitively via
+  # ${itk-module}Module's INTERFACE chain, which spans TRANSITIVE_DEPENDS
+  # (PUBLIC_DEPENDS + COMPILE_DEPENDS). Recover COMPILE_DEPENDS as
+  # TRANSITIVE_DEPENDS minus PUBLIC_DEPENDS because itk_module() unsets
+  # the original COMPILE_DEPENDS list.
+  foreach(dep IN LISTS ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS)
+    if(NOT dep IN_LIST ITK_MODULE_${itk-module}_PUBLIC_DEPENDS)
+      if(
+        ITK_MODULE_${dep}_LOADED
+        OR
+          TARGET
+            ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${dep}Module
+      )
+        target_link_libraries(
+          ${itk-module}
+          PRIVATE
+            ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${dep}Module
+        )
+      endif()
+    endif()
+  endforeach()
 endmacro()
 
 macro(itk_module_test)
