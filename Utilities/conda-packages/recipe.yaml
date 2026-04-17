@@ -36,6 +36,12 @@ outputs:
       - ${{ compiler('c') }}
       - ${{ compiler('cxx') }}
       - castxml >=0.7.0
+      # castxml 0.7.0 bundles Clang 20, which cannot parse the
+      # __acquire_capability__ pack-expansion syntax introduced in
+      # libc++ 22's <mutex>. Pin libc++ to <22 until a castxml release
+      # builds against Clang 22+. Without this, every wrapped header
+      # fails at mutex:422.
+      - libcxx <22
       - if: env.get("ITK_CONDA_USE_CCACHE", default="0") == "1"
         then: ccache
       - if: build_platform != target_platform
