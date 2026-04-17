@@ -28,9 +28,11 @@ Do not use `--no-verify` to bypass — the format check exists to keep CI green.
 
 The `kw-commit-msg.py` hook enforces:
 - Subject line ≤78 characters
-- Standard prefix required (`ENH:` `BUG:` `COMP:` `DOC:` `STYLE:` `PERF:`)
-- `WIP:` is **not** allowed by `ghostflow-check-main` — use `[WIP]` in the
-  PR title instead (see [git-commits.md](./git-commits.md))
+- Standard prefix required (`ENH:` `BUG:` `COMP:` `DOC:` `STYLE:` `PERF:` `WIP:`)
+- `WIP:` is accepted by the local hook for iterative commits, but
+  `ghostflow-check-main` rejects it at PR-merge time — rebase or rename
+  WIP commits before marking the PR ready (see
+  [git-commits.md](./git-commits.md))
 
 KWStyle also checks that every header has the doxygen `\class` tag. See
 [compiler-cautions.md](./compiler-cautions.md) section 12a for the
