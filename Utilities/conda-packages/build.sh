@@ -94,7 +94,6 @@ cmake ${CROSS_CMAKE_ARGS} ${CCACHE_CMAKE_ARGS} ${ITK_CONDA_EXTRA_CMAKE_ARGS:-} \
     -DModule_ITKTBB:BOOL=${use_tbb} \
     -DModule_MGHIO:BOOL=ON \
     -DModule_ITKIOTransformInsightLegacy:BOOL=ON \
-    -DModule_ITKDeprecated:BOOL=ON \
     -DITK_USE_SYSTEM_EXPAT:BOOL=ON \
     -DITK_USE_SYSTEM_FFTW:BOOL=ON \
     -DITK_USE_SYSTEM_HDF5:BOOL=ON \

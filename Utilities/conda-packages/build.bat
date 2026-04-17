@@ -37,7 +37,6 @@ cmake -GNinja %CCACHE_CMAKE_ARGS% ^
     -DModule_ITKTBB:BOOL=ON ^
     -DModule_MGHIO:BOOL=ON ^
     -DModule_ITKIOTransformInsightLegacy:BOOL=ON ^
-    -DModule_ITKDeprecated:BOOL=ON ^
     -DITK_USE_SYSTEM_FFTW:BOOL=ON ^
     -DITK_USE_SYSTEM_HDF5:BOOL=ON ^
     -DITK_USE_SYSTEM_JPEG:BOOL=ON ^
