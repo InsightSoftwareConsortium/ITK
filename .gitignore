@@ -1,6 +1,9 @@
 # Do not add ExternalData module staging files
 .ExternalData*
 
+# condapackage uses output as the standard output directory for rattler-builds
+output
+
 # back-up files
 *~
 *.bak
