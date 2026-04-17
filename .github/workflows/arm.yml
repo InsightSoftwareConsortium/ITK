@@ -1,29 +1,33 @@
 name: ITK.Arm64
 
+# TEMPORARILY DISABLED on the add-conda-recipe branch — only runnable
+# via manual dispatch while the conda-recipe-test workflow exercises
+# the feature. Revert the trigger block below before merging.
 on:
-    push:
-        branches:
-            - main
-            - 'release*'
-        paths-ignore:
-            - '*.md'
-            - LICENSE
-            - NOTICE
-            - 'Documentation/**'
-            - 'Utilities/Debugger/**'
-            - 'Utilities/ITKv5Preparation/**'
-            - 'Utilities/Maintenance/**'
-            - 'Modules/Remote/*.remote.cmake'
-    pull_request:
-        paths-ignore:
-            - '*.md'
-            - LICENSE
-            - NOTICE
-            - 'Documentation/**'
-            - 'Utilities/Debugger/**'
-            - 'Utilities/ITKv5Preparation/**'
-            - 'Utilities/Maintenance/**'
-            - 'Modules/Remote/*.remote.cmake'
+    workflow_dispatch:
+    # push:
+    #     branches:
+    #         - main
+    #         - 'release*'
+    #     paths-ignore:
+    #         - '*.md'
+    #         - LICENSE
+    #         - NOTICE
+    #         - 'Documentation/**'
+    #         - 'Utilities/Debugger/**'
+    #         - 'Utilities/ITKv5Preparation/**'
+    #         - 'Utilities/Maintenance/**'
+    #         - 'Modules/Remote/*.remote.cmake'
+    # pull_request:
+    #     paths-ignore:
+    #         - '*.md'
+    #         - LICENSE
+    #         - NOTICE
+    #         - 'Documentation/**'
+    #         - 'Utilities/Debugger/**'
+    #         - 'Utilities/ITKv5Preparation/**'
+    #         - 'Utilities/Maintenance/**'
+    #         - 'Modules/Remote/*.remote.cmake'
 
 concurrency:
   group: '${{ github.workflow }}@${{ github.head_ref || github.ref }}'
