@@ -29,14 +29,21 @@ subject should be scannable in `git log --oneline`.
 | `DOC:` | Documentation only |
 | `STYLE:` | Formatting, naming, no logic change |
 | `PERF:` | Performance improvement |
-| `BUILD:` | Build-system / CMake changes |
+| `WIP:` | Transient commits for development testing only |
 
-> **Do not use `WIP:` as a commit-subject prefix.** It is not in the
-> `ghostflow-check-main` allowed list and will reject the PR. To mark a PR
-> as work-in-progress, use a `[WIP]` prefix in the **PR title** (the GitHub
-> "WIP" app gates merging on it) but keep individual commit subjects on a
-> standard prefix like `ENH:` or `BUG:`. When the PR is ready, remove
-> `[WIP]` from the title.
+> **`WIP:` on commit subjects is a two-layer opt-in — use it deliberately.**
+> The local `kw-commit-msg.py` hook **intentionally** accepts `WIP:` so
+> developers can commit probe tests, A/B experiments, and other work they
+> know is not suitable for `main` — without renaming the prefix on every
+> iteration. `ghostflow-check-main` (the GitHub App gating PR merge) then
+> rejects any commit whose subject begins with `WIP:`, which is the
+> intended safety net: `WIP:` commits cannot accidentally land on `main`.
+> Before marking the PR ready for review, remove, reword, fixup, or squash
+> `WIP:` commits into standard-prefix commits.
+>
+> To mark an entire PR (rather than individual commits) as
+> work-in-progress, add `[WIP]` to the **PR title** — the GitHub "WIP" app
+> gates merging on that string; remove it when the PR is ready.
 
 ## Commit Message Length
 
