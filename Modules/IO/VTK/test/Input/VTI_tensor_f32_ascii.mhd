@@ -1,0 +1,13 @@
+ObjectType = Image
+NDims = 3
+BinaryData = True
+BinaryDataByteOrderMSB = False
+CompressedData = False
+TransformMatrix = 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0
+Offset = 0 0 0
+CenterOfRotation = 0 0 0
+ElementSpacing = 1.0 1.0 1.0
+DimSize = 2 2 1
+ElementNumberOfChannels = 6
+ElementType = MET_FLOAT
+ElementDataFile = VTI_tensor_f32_ascii.raw

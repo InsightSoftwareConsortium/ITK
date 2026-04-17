@@ -27,19 +27,50 @@ namespace itk
 /**
  * \class VTIImageIO
  *
- *  \brief ImageIO class for reading and writing VTK XML ImageData (.vti) files.
+ * \brief ImageIO class for reading and writing VTK XML ImageData (.vti)
+ *        files.
  *
- * Supports the VTK XML ImageData format (version 0.1 and 2.2), including
- * ASCII, binary (base64-encoded), and raw-appended data formats.
- * Scalar, vector (3-component), RGB, RGBA, and symmetric second rank tensor
- * pixel types are supported.
+ * Supported on read (every encoding ParaView 5.x emits by default):
+ *   * <VTKFile> attributes: type="ImageData", any version, any byte_order
+ *     (LittleEndian / BigEndian), header_type in {UInt32, UInt64}.
+ *   * <ImageData> attributes: WholeExtent, Origin, Spacing, and
+ *     Direction (VTK 9+; defaults to identity when absent).
+ *   * Single-<Piece> images.
+ *   * <DataArray> format = "ascii" | "binary" (inline base64) |
+ *     "appended" (raw or base64 AppendedData).
+ *   * compressor = vtkZLibDataCompressor, or absent (uncompressed).
+ *   * Pixel types: Scalar, Vector (3-component), RGB (3), RGBA (4), and
+ *     symmetric second-rank tensor (6 components, VTK canonical
+ *     [XX, YY, ZZ, XY, YZ, XZ] layout remapped to ITK's internal
+ *     [e00, e01, e02, e11, e12, e22] on read).
  *
- * The XML structure is parsed using the expat XML library (provided by
- * ITKExpat / ITKIOXML), so the parser is robust to attribute ordering,
- * whitespace, comments, and CDATA sections.  The raw appended data section
- * (which is XML-illegal binary content following an `_` marker) is read
- * directly from the file at the byte offset recorded by the parser when
- * it encountered the `<AppendedData>` element.
+ * Supported on write:
+ *   * <VTKFile version="1.0" header_type="UInt64"> matching ParaView 5.7+.
+ *   * format = "ascii" and "binary" (inline base64) for every supported
+ *     pixel type except binary symmetric tensor (see deferred list).
+ *   * format = "appended" encoding="raw" + vtkZLibDataCompressor: enabled
+ *     by calling SetUseCompression(true); produces the smallest files on
+ *     disk and matches what ParaView emits by default for large images.
+ *   * Direction is always emitted as a row-major 3x3 Direction attribute,
+ *     padded with identity for images of dimension < 3.
+ *
+ * Deferred to the follow-up PR (each has a tagged guard exception so
+ * `git grep F-NNN` locates the guard + test + commit):
+ *   * F-001 vtkLZ4DataCompressor read
+ *   * F-002 vtkLZMADataCompressor read
+ *   * F-005 multi-<Piece> images
+ *   * F-007 binary symmetric-tensor write
+ *   * F-009 MetaDataDictionary round-trip
+ *   * F-010 catch-all for unknown compressors
+ *
+ * Implementation notes:
+ *   * XML header parsing uses expat (ITKExpat); <!DOCTYPE>/<!ENTITY>
+ *     declarations are rejected up-front to mitigate billion-laughs
+ *     and XXE attacks.
+ *   * Expat is fed the file in chunks and suspended (XML_StopParser) at
+ *     the <AppendedData> start tag so binary bytes never enter the parser.
+ *     For large files this avoids a full in-memory copy of the binary
+ *     payload during ReadImageInformation().
  *
  * \ingroup IOFilters
  * \ingroup ITKIOVTK
@@ -93,6 +124,21 @@ public:
    * that the IORegion has been set properly. */
   void
   Write(const void * buffer) override;
+
+  /** Byte-swap \a numComponents values of \a componentSize bytes each in
+   *  place when \a fileByteOrder differs from \a targetByteOrder.  The
+   *  implementation reverses bytes within each component unconditionally
+   *  (via std::reverse) rather than going through ByteSwapper's
+   *  system-relative helpers, so it is deterministic on hosts of either
+   *  endianness and therefore unit-testable without a big-endian runner.
+   *  Public so that endianness behaviour can be exercised directly in
+   *  tests. */
+  static void
+  SwapBufferForByteOrder(void *          buffer,
+                         std::size_t     componentSize,
+                         std::size_t     numComponents,
+                         IOByteOrderEnum fileByteOrder,
+                         IOByteOrderEnum targetByteOrder);
 
 protected:
   VTIImageIO();

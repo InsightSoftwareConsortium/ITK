@@ -1,0 +1,12 @@
+ObjectType = Image
+NDims = 3
+BinaryData = True
+BinaryDataByteOrderMSB = False
+CompressedData = False
+TransformMatrix = 0.70710678 -0.70710678 0 0.70710678 0.70710678 0 0 0 1
+Offset = 0 0 0
+CenterOfRotation = 0 0 0
+ElementSpacing = 1 1 1
+DimSize = 4 4 2
+ElementType = MET_UCHAR
+ElementDataFile = VTI_oblique_direction.raw

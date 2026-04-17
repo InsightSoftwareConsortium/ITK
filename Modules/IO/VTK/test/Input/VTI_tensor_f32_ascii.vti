@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<VTKFile type="ImageData" version="1.0" byte_order="LittleEndian" header_type="UInt64">
+  <ImageData WholeExtent="0 1 0 1 0 0" Origin="0.0 0.0 0.0" Spacing="1.0 1.0 1.0" Direction="1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0">
+    <Piece Extent="0 1 0 1 0 0">
+      <PointData Tensors="tensors">
+        <DataArray type="Float32" Name="tensors" NumberOfComponents="6" format="ascii">
+          0.0 0.0 0.0 0.0 0.0 0.0
+          1.0 4.0 6.0 2.0 5.0 3.0
+          2.0 8.0 12.0 4.0 10.0 6.0
+          3.0 12.0 18.0 6.0 15.0 9.0
+        </DataArray>
+      </PointData>
+      <CellData>
+      </CellData>
+    </Piece>
+  </ImageData>
+</VTKFile>

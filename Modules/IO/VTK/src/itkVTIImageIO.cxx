@@ -101,6 +101,12 @@ struct VTIParseState
   std::string wholeExtent;
   std::string origin;
   std::string spacing;
+  std::string direction;
+
+  // Count of <Piece> elements encountered inside <ImageData>.  F-005
+  // (multi-Piece support) rejects files with pieceCount > 1 during
+  // ReadImageInformation rather than risking silent data misassembly.
+  int pieceCount{ 0 };
 
   // <PointData ...>
   std::string activeScalars;
@@ -129,6 +135,11 @@ struct VTIParseState
   // contents are read directly, not via expat).
   bool        sawAppendedData{ false };
   std::string appendedDataEncoding; // "raw" or "base64"
+
+  // Handle to the active expat parser, set before the first XML_Parse call.
+  // Used by VTIStartElement to call XML_StopParser when <AppendedData> is
+  // encountered so we avoid feeding binary bytes to expat.
+  XML_Parser parserHandle{ nullptr };
 };
 
 // Determine whether a DataArray (identified by its Name attribute) is the
@@ -168,6 +179,11 @@ extern "C"
       st->wholeExtent = FindAttribute(atts, "WholeExtent");
       st->origin = FindAttribute(atts, "Origin");
       st->spacing = FindAttribute(atts, "Spacing");
+      st->direction = FindAttribute(atts, "Direction");
+    }
+    else if (std::strcmp(name, "Piece") == 0)
+    {
+      ++st->pieceCount;
     }
     else if (std::strcmp(name, "PointData") == 0)
     {
@@ -203,12 +219,15 @@ extern "C"
     {
       st->sawAppendedData = true;
       st->appendedDataEncoding = ToLower(FindAttribute(atts, "encoding"));
-      // We do not consume any character data from inside AppendedData via
-      // expat -- the binary content following the `_` marker is XML-illegal
-      // and is read directly from the file by the caller.  We don't even
-      // get this far on a real raw-appended file because the binary bytes
-      // would have caused a parser error before reaching this start tag.
-      // The caller pre-truncates the XML at <AppendedData> to handle that.
+      // Suspend expat immediately after this start tag so the parser never
+      // sees the binary payload that follows the `_` marker.  Using
+      // XML_TRUE (resumable/suspended) rather than XML_FALSE (aborted)
+      // so that XML_Parse returns XML_STATUS_SUSPENDED, not an error code,
+      // and XML_GetCurrentByteIndex remains valid.
+      if (st->parserHandle != nullptr)
+      {
+        XML_StopParser(st->parserHandle, XML_TRUE);
+      }
     }
   }
 
@@ -242,20 +261,6 @@ extern "C"
     }
   }
 } // extern "C"
-
-// Read entire file into a string.
-std::string
-SlurpFile(const std::string & path)
-{
-  std::ifstream file(path.c_str(), std::ios::in | std::ios::binary);
-  if (!file.is_open())
-  {
-    return {};
-  }
-  std::ostringstream ss;
-  ss << file.rdbuf();
-  return ss.str();
-}
 
 } // end anonymous namespace
 
@@ -438,10 +443,7 @@ VTIImageIO::ITKComponentToVTKTypeString(IOComponentEnum t)
     case IOComponentEnum::DOUBLE:
       return "Float64";
     default:
-    {
-      ExceptionObject e_(__FILE__, __LINE__, "Unsupported component type for VTI writing.", ITK_LOCATION);
-      throw e_;
-    }
+      itkGenericExceptionMacro("Unsupported component type for VTI writing.");
   }
 }
 
@@ -461,68 +463,36 @@ VTIImageIO::InternalReadImageInformation()
   m_AppendedDataIsBase64 = false;
   m_AppendedBase64Content.clear();
 
-  // Slurp the entire file.  We need both the XML metadata (parsed by expat)
-  // and, for raw-appended files, the byte offset of the binary section.
-  const std::string content = SlurpFile(m_FileName);
-  if (content.empty())
+  // Open the file for streaming.  We feed content to expat in chunks rather
+  // than slurping the whole file.  When the <AppendedData> start element is
+  // seen, VTIStartElement calls XML_StopParser so expat halts before touching
+  // any binary payload.  XML_GetCurrentByteIndex then gives the file offset of
+  // the tag, and we scan forward from there for the `_` data marker.  For
+  // files without an <AppendedData> section (ASCII / inline base64) we parse
+  // to EOF normally.  The net effect: large VTI files are read once, not twice.
+  std::ifstream xmlFile(m_FileName.c_str(), std::ios::in | std::ios::binary);
+  if (!xmlFile.is_open())
   {
     itkExceptionMacro("Cannot open or read file: " << m_FileName);
   }
 
-  // The VTK XML appended-data section embeds raw binary AFTER an `_` marker
-  // inside an `<AppendedData>` element.  These bytes are XML-illegal, so we
-  // hand expat only the prefix of the file up to and including the
-  // `<AppendedData ...>` start tag, and read the binary block directly.
-  //
-  // We also record the absolute byte offset (in the original file) of the
-  // first byte after `_`, which is where the appended block begins.
-  //
-  // If encoding="base64", the appended data is base64-encoded text, so we
-  // read it as text instead of binary.
-  std::string       xmlPortion;
-  const std::size_t appPos = content.find("<AppendedData");
-  if (appPos == std::string::npos)
+  // Security pre-scan: DOCTYPE / ENTITY declarations must appear before any
+  // element content, so they will be in the first few hundred bytes.  Reading
+  // 512 bytes is sufficient and avoids loading the full file for this check.
   {
-    xmlPortion = content;
-  }
-  else
-  {
-    // Locate the end of the <AppendedData ...> start tag.
-    const std::size_t startTagEnd = content.find('>', appPos);
-    if (startTagEnd == std::string::npos)
+    char secBuf[512]{};
+    xmlFile.read(secBuf, sizeof(secBuf) - 1);
+    const std::string prefix(secBuf, static_cast<std::size_t>(xmlFile.gcount()));
+    if (prefix.find("<!DOCTYPE") != std::string::npos || prefix.find("<!ENTITY") != std::string::npos)
     {
-      itkExceptionMacro("Malformed <AppendedData> tag in file: " << m_FileName);
+      itkExceptionMacro("Rejecting VTI file with DOCTYPE or ENTITY declaration "
+                        "(billion-laughs / XXE mitigation): "
+                        << m_FileName);
     }
-
-    // Check if encoding="base64" - if so, we can parse the whole file
-    // because base64 is XML-safe. Otherwise, truncate before binary data.
-    const std::size_t encodingPos = content.find("encoding", appPos);
-    const bool        hasBase64Encoding =
-      (encodingPos != std::string::npos && encodingPos < startTagEnd &&
-       content.find("base64", encodingPos) != std::string::npos && content.find("base64", encodingPos) < startTagEnd);
-
-    if (hasBase64Encoding)
-    {
-      // Base64 encoding: parse the whole file as XML
-      xmlPortion = content;
-    }
-    else
-    {
-      // Raw encoding: construct an XML view that ends with a self-closing <AppendedData/>
-      // and a closing </VTKFile>, so expat sees a well-formed document.
-      xmlPortion = content.substr(0, appPos) + "<AppendedData/></VTKFile>";
-    }
-
-    // Locate the `_` marker that introduces the appended data stream.
-    const std::size_t underscorePos = content.find('_', startTagEnd);
-    if (underscorePos == std::string::npos)
-    {
-      itkExceptionMacro("Missing `_` marker in <AppendedData> section of: " << m_FileName);
-    }
-    m_AppendedDataOffset = static_cast<std::streampos>(underscorePos + 1);
+    xmlFile.clear();
+    xmlFile.seekg(0, std::ios::beg);
   }
 
-  // Run expat over the XML portion.
   VTIParseState st;
   XML_Parser    parser = XML_ParserCreate(nullptr);
   if (parser == nullptr)
@@ -530,17 +500,76 @@ VTIImageIO::InternalReadImageInformation()
     itkExceptionMacro("Failed to create expat XML parser.");
   }
 
+  // Harden: disable external parameter-entity parsing (defence 1 of 2).
+  // Defence 2 is the pre-scan above.
+  XML_SetParamEntityParsing(parser, XML_PARAM_ENTITY_PARSING_NEVER);
+  st.parserHandle = parser;
+
   XML_SetUserData(parser, &st);
   XML_SetElementHandler(parser, &VTIStartElement, &VTIEndElement);
   XML_SetCharacterDataHandler(parser, &VTICharData);
 
-  const auto parseResult = XML_Parse(parser, xmlPortion.c_str(), static_cast<int>(xmlPortion.size()), /*isFinal=*/1);
-  if (parseResult == 0)
+  // Feed the file in chunks.  Stop when expat is suspended (AppendedData
+  // encountered via XML_StopParser(XML_TRUE)) or when we reach EOF.
+  constexpr int     kChunkSize = 65536;
+  std::vector<char> chunk(kChunkSize);
+  XML_Status        parseStatus = XML_STATUS_OK;
+  bool              reachedEOF = false;
+
+  while (!reachedEOF && parseStatus == XML_STATUS_OK)
+  {
+    xmlFile.read(chunk.data(), kChunkSize);
+    const auto bytesRead = static_cast<int>(xmlFile.gcount());
+    reachedEOF = (bytesRead < kChunkSize);
+    parseStatus = XML_Parse(parser, chunk.data(), bytesRead, reachedEOF ? 1 : 0);
+  }
+
+  // XML_STATUS_SUSPENDED: VTIStartElement called XML_StopParser at <AppendedData>.
+  // XML_STATUS_OK after reachedEOF: normal end-of-file for ASCII/inline-base64 files.
+  // XML_STATUS_ERROR: genuine parse failure.
+  if (parseStatus == XML_STATUS_ERROR)
   {
     const std::string err = XML_ErrorString(XML_GetErrorCode(parser));
     XML_ParserFree(parser);
     itkExceptionMacro("XML parse error in " << m_FileName << ": " << err);
   }
+
+  // If we stopped at <AppendedData>, locate the `_` binary marker and record
+  // the file offset of the first byte of payload.
+  if (st.sawAppendedData)
+  {
+    // XML_GetCurrentByteIndex returns the cumulative byte offset into the
+    // input at the current event.  It may point at the opening `<` of the
+    // <AppendedData> start tag, or somewhere inside it (expat implementation
+    // detail).  We conservatively back up 256 bytes so we are certain to be
+    // before the `_` marker.  VTK AppendedData attributes never contain `_`,
+    // so the first `_` we find after that is definitively the data marker.
+    const long tagByteIndex = XML_GetCurrentByteIndex(parser);
+    const long scanFrom = (tagByteIndex > 256) ? (tagByteIndex - 256) : 0L;
+    xmlFile.clear();
+    xmlFile.seekg(scanFrom, std::ios::beg);
+
+    char c = '\0';
+    while (xmlFile.get(c) && c != '_')
+    {
+    }
+    if (c != '_')
+    {
+      XML_ParserFree(parser);
+      itkExceptionMacro("Missing `_` marker in <AppendedData> section of: " << m_FileName);
+    }
+    m_AppendedDataOffset = xmlFile.tellg();
+
+    // For base64-encoded appended data, read the text content now so
+    // Read() doesn't need to re-open the file.
+    if (IequalsStr(st.appendedDataEncoding, "base64"))
+    {
+      std::string b64content;
+      std::getline(xmlFile, b64content, '<'); // read until </AppendedData>
+      m_AppendedBase64Content = std::move(b64content);
+    }
+  }
+
   XML_ParserFree(parser);
 
   // ---- Validate captured XML ------------------------------------------
@@ -555,6 +584,15 @@ VTIImageIO::InternalReadImageInformation()
   if (!st.sawImageData)
   {
     itkExceptionMacro("Missing <ImageData> element in file: " << m_FileName);
+  }
+  // F-005 check runs before the "no DataArray" fallback so a multi-Piece
+  // file with zero DataArrays still yields the precise guard diagnostic.
+  if (st.pieceCount > 1)
+  {
+    itkExceptionMacro("F-005 Multi-Piece ImageData files not yet supported.  File '"
+                      << m_FileName << "' contains " << st.pieceCount
+                      << " <Piece> elements.  Deferred to the follow-up PR; see F-005 "
+                         "in commit history.");
   }
   if (!st.haveDataArray)
   {
@@ -600,6 +638,30 @@ VTIImageIO::InternalReadImageInformation()
     spStr >> spacing[0] >> spacing[1] >> spacing[2];
   }
 
+  // Direction cosines (VTK 9+ optional attribute; row-major 3x3 where
+  // column j is the direction vector of image axis j in world space).
+  // Absent => identity, which is ITK's default, so we simply skip the
+  // SetDirection calls below when the attribute is missing.
+  double directionMatrix[3][3] = { { 1.0, 0.0, 0.0 }, { 0.0, 1.0, 0.0 }, { 0.0, 0.0, 1.0 } };
+  bool   directionSpecified = false;
+  if (!st.direction.empty())
+  {
+    std::istringstream dirStream(st.direction);
+    for (int r = 0; r < 3; ++r)
+    {
+      for (int c = 0; c < 3; ++c)
+      {
+        dirStream >> directionMatrix[r][c];
+      }
+    }
+    if (dirStream.fail())
+    {
+      itkExceptionMacro("Malformed Direction attribute '"
+                        << st.direction << "' (expected 9 space-separated floats) in file: " << m_FileName);
+    }
+    directionSpecified = true;
+  }
+
   const int nx = extents[1] - extents[0] + 1;
   const int ny = extents[3] - extents[2] + 1;
   const int nz = extents[5] - extents[4] + 1;
@@ -631,6 +693,19 @@ VTIImageIO::InternalReadImageInformation()
     this->SetSpacing(i, spacing[i]);
     this->SetOrigin(i, origin[i]);
   }
+  if (directionSpecified)
+  {
+    const unsigned int nd = this->GetNumberOfDimensions();
+    for (unsigned int axis = 0; axis < nd; ++axis)
+    {
+      std::vector<double> axisVec(nd);
+      for (unsigned int r = 0; r < nd; ++r)
+      {
+        axisVec[r] = directionMatrix[r][axis];
+      }
+      this->SetDirection(axis, axisVec);
+    }
+  }
 
   // Component type
   const IOComponentEnum compType = VTKTypeStringToITKComponent(st.daType);
@@ -661,7 +736,19 @@ VTIImageIO::InternalReadImageInformation()
   const bool isVector = !st.activeVectors.empty() && st.daName == st.activeVectors;
   if (isTensor)
   {
-    // VTK tensors are 3x3 = 9 components on disk; ITK uses 6 (symmetric).
+    // VTK canonical symmetric-tensor layout is 6 components per pixel
+    // in [XX, YY, ZZ, XY, YZ, XZ] order.  ITK's in-memory
+    // SymmetricSecondRankTensor<T,3> uses [e00, e01, e02, e11, e12, e22]
+    // (upper-triangular row-major); the actual permutation is applied in
+    // Read() after the encoding path populates the buffer.
+    if (numComp != 6)
+    {
+      itkExceptionMacro("Active Tensors DataArray has NumberOfComponents=\""
+                        << numComp
+                        << "\"; expected 6 for VTK-canonical symmetric-tensor layout "
+                           "[XX, YY, ZZ, XY, YZ, XZ] in file: "
+                        << m_FileName);
+    }
     this->SetPixelType(IOPixelEnum::SYMMETRICSECONDRANKTENSOR);
     this->SetNumberOfComponents(6);
   }
@@ -686,27 +773,41 @@ VTIImageIO::InternalReadImageInformation()
     this->SetPixelType(IOPixelEnum::VECTOR);
   }
 
-  // Compression
+  // Compression.  Only vtkZLibDataCompressor is currently supported; LZ4 /
+  // LZMA / any future VTK compressor triggers a tagged exception so users
+  // get a clear error instead of silently falling through to the
+  // uncompressed read path.  Guard tags (F-NNN) correspond to follow-up
+  // work items; `git grep F-001` etc. locates the guard + guard test +
+  // code comment for each.
+  const std::string compressorLower = ToLower(st.compressor);
+  if (!compressorLower.empty() && compressorLower.find("zlib") == std::string::npos)
+  {
+    if (compressorLower.find("lz4") != std::string::npos)
+    {
+      itkExceptionMacro("F-001 LZ4 decompressor not yet implemented.  "
+                        "Compressor attribute: '"
+                        << st.compressor << "'.  File: " << m_FileName
+                        << ".  Deferred to the follow-up PR; see F-001 in commit history.");
+    }
+    if (compressorLower.find("lzma") != std::string::npos)
+    {
+      itkExceptionMacro("F-002 LZMA decompressor not yet implemented.  "
+                        "Compressor attribute: '"
+                        << st.compressor << "'.  File: " << m_FileName
+                        << ".  Deferred to the follow-up PR; see F-002 in commit history.");
+    }
+    itkExceptionMacro("F-010 Unknown VTK compressor '"
+                      << st.compressor
+                      << "'.  Only vtkZLibDataCompressor is supported today; LZ4 / LZMA "
+                         "(F-001 / F-002) and any new compressor require an explicit "
+                         "decoder path.  File: "
+                      << m_FileName);
+  }
   m_IsZLibCompressed = IequalsStr(st.compressor, "vtkZLibDataCompressor");
 
-  // Appended data encoding
+  // Appended data encoding (already read into m_AppendedBase64Content above
+  // for the base64 case; raw-appended offset is in m_AppendedDataOffset).
   m_AppendedDataIsBase64 = IequalsStr(st.appendedDataEncoding, "base64");
-
-  // If appended data is base64-encoded, extract and store the base64 content
-  if (st.sawAppendedData && m_AppendedDataIsBase64)
-  {
-    const std::size_t dataStart = static_cast<std::size_t>(m_AppendedDataOffset);
-    const std::size_t closePos = content.find("</AppendedData>", dataStart);
-    if (closePos != std::string::npos)
-    {
-      m_AppendedBase64Content = content.substr(dataStart, closePos - dataStart);
-    }
-    else
-    {
-      // Read to end of content if no closing tag found
-      m_AppendedBase64Content = content.substr(dataStart);
-    }
-  }
 
   // Encoding
   if (st.daFormat == "ascii")
@@ -760,38 +861,73 @@ VTIImageIO::ReadImageInformation()
   this->InternalReadImageInformation();
 }
 
-namespace
-{
-// Byte-swap a buffer in-place to/from little-endian based on the file's
-// byte order and the system byte order.
 void
-SwapBufferIfNeeded(void * buffer, std::size_t componentSize, std::size_t numComponents, IOByteOrderEnum fileOrder)
+VTIImageIO::SwapBufferForByteOrder(void *          buffer,
+                                   std::size_t     componentSize,
+                                   std::size_t     numComponents,
+                                   IOByteOrderEnum fileByteOrder,
+                                   IOByteOrderEnum targetByteOrder)
 {
-  const bool fileBigEndian = (fileOrder == IOByteOrderEnum::BigEndian);
-  const bool sysBigEndian = ByteSwapper<uint16_t>::SystemIsBigEndian();
-  if (fileBigEndian == sysBigEndian)
+  if (fileByteOrder == targetByteOrder || componentSize <= 1)
   {
     return;
   }
-  switch (componentSize)
+  const IOByteOrderEnum systemByteOrder =
+    ByteSwapper<uint16_t>::SystemIsBigEndian() ? IOByteOrderEnum::BigEndian : IOByteOrderEnum::LittleEndian;
+
+  // When either the source or the target is the host's native byte order --
+  // the only case that occurs in the Read/Write paths -- dispatch to
+  // itk::ByteSwapper for a correctly-sized, well-tested swap.  For the
+  // uncommon file-to-target swap that does not involve the host order,
+  // fall back to a direct per-component byte reverse.
+  if (fileByteOrder == systemByteOrder || targetByteOrder == systemByteOrder)
   {
-    case 1:
-      break;
-    case 2:
-      ByteSwapper<uint16_t>::SwapRangeFromSystemToBigEndian(static_cast<uint16_t *>(buffer), numComponents);
-      break;
-    case 4:
-      ByteSwapper<uint32_t>::SwapRangeFromSystemToBigEndian(static_cast<uint32_t *>(buffer), numComponents);
-      break;
-    case 8:
-      ByteSwapper<uint64_t>::SwapRangeFromSystemToBigEndian(static_cast<uint64_t *>(buffer), numComponents);
-      break;
-    default:
+    const IOByteOrderEnum nonSystem = (fileByteOrder == systemByteOrder) ? targetByteOrder : fileByteOrder;
+    const auto            swap = [&](auto * typed) {
+      using T = std::remove_pointer_t<decltype(typed)>;
+      if (nonSystem == IOByteOrderEnum::LittleEndian)
+      {
+        ByteSwapper<T>::SwapRangeFromSystemToLittleEndian(typed, numComponents);
+      }
+      else
+      {
+        ByteSwapper<T>::SwapRangeFromSystemToBigEndian(typed, numComponents);
+      }
+    };
+    switch (componentSize)
     {
-      ExceptionObject e_(__FILE__, __LINE__, "Unknown component size for byte swap.", ITK_LOCATION);
-      throw e_;
+      case 2:
+        swap(static_cast<uint16_t *>(buffer));
+        return;
+      case 4:
+        swap(static_cast<uint32_t *>(buffer));
+        return;
+      case 8:
+        swap(static_cast<uint64_t *>(buffer));
+        return;
+      default:
+        break; // fall through to std::reverse for unusual sizes
     }
   }
+
+  auto * bytes = static_cast<unsigned char *>(buffer);
+  for (std::size_t i = 0; i < numComponents; ++i)
+  {
+    unsigned char * c = bytes + i * componentSize;
+    std::reverse(c, c + componentSize);
+  }
+}
+
+namespace
+{
+// Thin wrapper that defaults targetByteOrder to the host's native order.
+// Kept so the existing encoding-path call sites remain untouched.
+void
+SwapBufferIfNeeded(void * buffer, std::size_t componentSize, std::size_t numComponents, IOByteOrderEnum fileByteOrder)
+{
+  const IOByteOrderEnum target =
+    ByteSwapper<uint16_t>::SystemIsBigEndian() ? IOByteOrderEnum::BigEndian : IOByteOrderEnum::LittleEndian;
+  VTIImageIO::SwapBufferForByteOrder(buffer, componentSize, numComponents, fileByteOrder, target);
 }
 } // anonymous namespace
 
@@ -853,8 +989,7 @@ VTIImageIO::DecompressZLib(const unsigned char *        compressedData,
 
     if (dataOffset + static_cast<std::size_t>(compSize) > compressedDataSize)
     {
-      ExceptionObject e_(__FILE__, __LINE__, "ZLib compressed block extends beyond buffer.", ITK_LOCATION);
-      throw e_;
+      itkGenericExceptionMacro("ZLib compressed block extends beyond buffer.");
     }
 
     uLongf    destLen = static_cast<uLongf>(thisUncompSize);
@@ -864,8 +999,7 @@ VTIImageIO::DecompressZLib(const unsigned char *        compressedData,
                                static_cast<uLong>(compSize));
     if (ret != Z_OK)
     {
-      ExceptionObject e_(__FILE__, __LINE__, "zlib uncompress failed for VTI block.", ITK_LOCATION);
-      throw e_;
+      itkGenericExceptionMacro("zlib uncompress failed for VTI block (code " << ret << ").");
     }
 
     dataOffset += static_cast<std::size_t>(compSize);
@@ -873,12 +1007,141 @@ VTIImageIO::DecompressZLib(const unsigned char *        compressedData,
   }
 }
 
+namespace
+{
+// Compress raw bytes into the VTK multi-block zlib appended format.
+//
+// Output layout (all integers are UInt64, matching header_type="UInt64"):
+//   [nblocks][uncompressed_blocksize][last_partial_blocksize]
+//   [compressed_size_0][compressed_size_1]...
+//   [compressed_data_0][compressed_data_1]...
+//
+// last_partial_blocksize is 0 when the last block is exactly blockSize bytes.
+std::vector<unsigned char>
+CompressZLibVTK(const unsigned char * data, std::size_t totalBytes, std::size_t blockSize = 65536)
+{
+  if (totalBytes == 0)
+  {
+    // Emit a valid single-block header with zero sizes.
+    std::vector<unsigned char> result(4 * sizeof(uint64_t), 0);
+    uint64_t                   one = 1;
+    std::memcpy(result.data(), &one, sizeof(uint64_t)); // nblocks = 1
+    return result;
+  }
+
+  const uint64_t nblocks = static_cast<uint64_t>((totalBytes + blockSize - 1) / blockSize);
+  const uint64_t lastBlockBytes =
+    (totalBytes % blockSize == 0) ? static_cast<uint64_t>(blockSize) : static_cast<uint64_t>(totalBytes % blockSize);
+  const uint64_t lastPartialSize = (lastBlockBytes == static_cast<uint64_t>(blockSize)) ? 0u : lastBlockBytes;
+
+  std::vector<std::vector<unsigned char>> compBlocks(static_cast<std::size_t>(nblocks));
+  for (uint64_t b = 0; b < nblocks; ++b)
+  {
+    const std::size_t offset = static_cast<std::size_t>(b) * blockSize;
+    const std::size_t thisBlockBytes = (b == nblocks - 1) ? static_cast<std::size_t>(lastBlockBytes) : blockSize;
+
+    uLongf destLen = compressBound(static_cast<uLong>(thisBlockBytes));
+    compBlocks[static_cast<std::size_t>(b)].resize(static_cast<std::size_t>(destLen));
+
+    const int ret = compress2(reinterpret_cast<Bytef *>(compBlocks[static_cast<std::size_t>(b)].data()),
+                              &destLen,
+                              reinterpret_cast<const Bytef *>(data + offset),
+                              static_cast<uLong>(thisBlockBytes),
+                              Z_DEFAULT_COMPRESSION);
+    if (ret != Z_OK)
+    {
+      itkGenericExceptionMacro("zlib compress failed for block " << b << " (code " << ret << ").");
+    }
+    compBlocks[static_cast<std::size_t>(b)].resize(static_cast<std::size_t>(destLen));
+  }
+
+  const std::size_t headerSize = static_cast<std::size_t>(3 + nblocks) * sizeof(uint64_t);
+  std::size_t       payloadSize = 0;
+  for (const auto & block : compBlocks)
+  {
+    payloadSize += block.size();
+  }
+
+  std::vector<unsigned char> result(headerSize + payloadSize);
+  unsigned char *            p = result.data();
+
+  auto writeU64 = [&](uint64_t v) {
+    std::memcpy(p, &v, sizeof(uint64_t));
+    p += sizeof(uint64_t);
+  };
+
+  writeU64(nblocks);
+  writeU64(static_cast<uint64_t>(blockSize));
+  writeU64(lastPartialSize);
+  for (uint64_t b = 0; b < nblocks; ++b)
+  {
+    writeU64(static_cast<uint64_t>(compBlocks[static_cast<std::size_t>(b)].size()));
+  }
+  for (uint64_t b = 0; b < nblocks; ++b)
+  {
+    const auto & block = compBlocks[static_cast<std::size_t>(b)];
+    std::memcpy(p, block.data(), block.size());
+    p += block.size();
+  }
+  return result;
+}
+
+// Remap a buffer of symmetric-tensor pixels from VTK canonical layout
+// [XX, YY, ZZ, XY, YZ, XZ] to ITK's in-memory
+// SymmetricSecondRankTensor<T,3> layout [e00, e01, e02, e11, e12, e22]
+// (upper-triangular row-major), in place.  Called after each encoding
+// path in Read() has populated `buffer`.
+void
+RemapTensorVTKToITK(void * buffer, std::size_t numPixels, std::size_t componentSize)
+{
+  std::vector<unsigned char> tmp(6 * componentSize);
+  auto *                     bufBytes = static_cast<unsigned char *>(buffer);
+  for (std::size_t p = 0; p < numPixels; ++p)
+  {
+    unsigned char * px = bufBytes + p * 6 * componentSize;
+    std::memcpy(tmp.data(), px, 6 * componentSize);
+    std::memcpy(px + 0 * componentSize, tmp.data() + 0 * componentSize, componentSize); // e00 = XX
+    std::memcpy(px + 1 * componentSize, tmp.data() + 3 * componentSize, componentSize); // e01 = XY
+    std::memcpy(px + 2 * componentSize, tmp.data() + 5 * componentSize, componentSize); // e02 = XZ
+    std::memcpy(px + 3 * componentSize, tmp.data() + 1 * componentSize, componentSize); // e11 = YY
+    std::memcpy(px + 4 * componentSize, tmp.data() + 4 * componentSize, componentSize); // e12 = YZ
+    std::memcpy(px + 5 * componentSize, tmp.data() + 2 * componentSize, componentSize); // e22 = ZZ
+  }
+}
+
+// Scope guard that applies RemapTensorVTKToITK when destroyed, so every
+// early `return` out of Read() gets the remap without having to edit each
+// exit point individually.  Does nothing if the image is not a symmetric
+// tensor.
+struct TensorRemapGuard
+{
+  void *      buffer;
+  std::size_t numPixels;
+  std::size_t componentSize;
+  bool        active;
+  ~TensorRemapGuard()
+  {
+    if (active)
+    {
+      RemapTensorVTKToITK(buffer, numPixels, componentSize);
+    }
+  }
+};
+} // namespace
+
 void
 VTIImageIO::Read(void * buffer)
 {
   const SizeType totalComponents = this->GetImageSizeInComponents();
   const SizeType totalBytes = this->GetImageSizeInBytes();
   const SizeType componentSize = this->GetComponentSize();
+
+  TensorRemapGuard tensorGuard{
+    buffer,
+    static_cast<std::size_t>(totalComponents / 6),
+    static_cast<std::size_t>(componentSize),
+    this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR,
+  };
 
   if (m_DataEncoding == DataEncoding::ASCII)
   {
@@ -1177,11 +1440,11 @@ VTIImageIO::Write(const void * buffer)
   {
     dataArrayName = "tensors";
     pointDataAttr = "Tensors=\"tensors\"";
-    // VTK tensors on disk are full 3x3 (9 components per pixel) but binary
-    // writing currently only supports the ASCII path which expands the
-    // symmetric (6-component) layout to 9.  Binary writing of tensors is
-    // disallowed below.
-    attributeElement = "NumberOfComponents=\"9\"";
+    // VTK canonical symmetric-tensor layout: 6 components per pixel in
+    // [XX, YY, ZZ, XY, YZ, XZ] order.  ASCII writer remaps from ITK's
+    // [e00, e01, e02, e11, e12, e22] layout below.  Binary writing is
+    // deferred to F-007 in the follow-up PR.
+    attributeElement = "NumberOfComponents=\"6\"";
   }
   else if (pixelType == IOPixelEnum::VECTOR && numComp == 3)
   {
@@ -1211,13 +1474,16 @@ VTIImageIO::Write(const void * buffer)
     }
   }
 
-  // Refuse to write tensors in binary form because the on-disk layout
-  // (NumberOfComponents="9") and the in-memory ITK layout (6) disagree;
-  // we'd silently produce a corrupt file.
+  // F-007: Binary symmetric-tensor writing is deferred to the follow-up
+  // PR.  The ASCII writer below already emits the VTK-canonical
+  // 6-component [XX, YY, ZZ, XY, YZ, XZ] layout, so when F-007 lands the
+  // binary path only needs to mirror that remap (no layout re-decision).
   if (pixelType == IOPixelEnum::SYMMETRICSECONDRANKTENSOR && m_FileType != IOFileEnum::ASCII)
   {
-    itkExceptionMacro("VTIImageIO does not yet support binary writing of "
-                      "SymmetricSecondRankTensor pixel types; set FileType to ASCII.");
+    itkExceptionMacro("F-007 Binary symmetric-tensor writer not yet implemented.  "
+                      "The ASCII path emits VTK-canonical 6-component layout "
+                      "[XX, YY, ZZ, XY, YZ, XZ]; call SetFileTypeToASCII() for "
+                      "tensor output until the follow-up PR adds binary support.");
   }
 
   // Prepare a byte-swapped copy if the system is big-endian (we always
@@ -1261,13 +1527,42 @@ VTIImageIO::Write(const void * buffer)
 
   const std::string byteOrderStr = ByteSwapper<uint16_t>::SystemIsBigEndian() ? "BigEndian" : "LittleEndian";
 
-  // XML header
+  // Compose a 3x3 row-major Direction matrix from ITK's per-axis direction
+  // vectors, padding with identity rows/columns when image dimensionality
+  // is less than 3 (VTK always expects a full 3x3 Direction).
+  const unsigned int nd = this->GetNumberOfDimensions();
+  double             dm[3][3] = { { 1.0, 0.0, 0.0 }, { 0.0, 1.0, 0.0 }, { 0.0, 0.0, 1.0 } };
+  for (unsigned int axis = 0; axis < nd && axis < 3; ++axis)
+  {
+    const std::vector<double> & v = this->GetDirection(axis);
+    for (unsigned int r = 0; r < nd && r < 3; ++r)
+    {
+      dm[r][axis] = v[r];
+    }
+  }
+
+  // Determine write mode.  When UseCompression is set and the output is not
+  // ASCII, write appended raw + vtkZLibDataCompressor (smallest on-disk size,
+  // Dženan's recommended next step in the follow-up discussion).
+  const bool useCompressedAppended = (m_UseCompression && m_FileType != IOFileEnum::ASCII);
+
+  // XML header -- emit the modern VTK 9 / ParaView 5.7+ attribute set so
+  // round-trip through ParaView does not silently demote the version or
+  // truncate block headers.  header_type="UInt64" is paired with the
+  // uint64_t block-size prefix used in the binary writer below.
   file << "<?xml version=\"1.0\"?>\n";
-  file << "<VTKFile type=\"ImageData\" version=\"0.1\" byte_order=\"" << byteOrderStr << "\">\n";
+  file << "<VTKFile type=\"ImageData\" version=\"1.0\" byte_order=\"" << byteOrderStr << "\" header_type=\"UInt64\"";
+  if (useCompressedAppended)
+  {
+    file << " compressor=\"vtkZLibDataCompressor\"";
+  }
+  file << ">\n";
   file << "  <ImageData WholeExtent=\""
        << "0 " << (nx - 1) << " 0 " << (ny - 1) << " 0 " << (nz - 1) << "\""
        << " Origin=\"" << ox << " " << oy << " " << oz << "\""
-       << " Spacing=\"" << sx << " " << sy << " " << sz << "\">\n";
+       << " Spacing=\"" << sx << " " << sy << " " << sz << "\""
+       << " Direction=\"" << dm[0][0] << " " << dm[0][1] << " " << dm[0][2] << " " << dm[1][0] << " " << dm[1][1] << " "
+       << dm[1][2] << " " << dm[2][0] << " " << dm[2][1] << " " << dm[2][2] << "\">\n";
   file << "    <Piece Extent=\""
        << "0 " << (nx - 1) << " 0 " << (ny - 1) << " 0 " << (nz - 1) << "\">\n";
   file << "      <PointData " << pointDataAttr << ">\n";
@@ -1283,24 +1578,26 @@ VTIImageIO::Write(const void * buffer)
 
     if (pixelType == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
     {
-      // Expand symmetric tensor (6 components) to full 3x3 = 9 for VTK.
-      // Layout convention: e11 e12 e13 e22 e23 e33.
+      // Emit VTK-canonical 6-component symmetric tensor: [XX, YY, ZZ, XY, YZ, XZ].
+      // ITK's SymmetricSecondRankTensor<T,3> is stored as
+      // [e00, e01, e02, e11, e12, e22] (upper-triangular row-major); remap:
+      //   VTK[0] XX = ITK[0] e00    VTK[3] XY = ITK[1] e01
+      //   VTK[1] YY = ITK[3] e11    VTK[4] YZ = ITK[4] e12
+      //   VTK[2] ZZ = ITK[5] e22    VTK[5] XZ = ITK[2] e02
       const SizeType numPixels = totalComponents / 6;
       for (SizeType p = 0; p < numPixels; ++p)
       {
         if (compType == IOComponentEnum::FLOAT)
         {
           const float * fPtr = static_cast<const float *>(buffer) + p * 6;
-          file << fPtr[0] << ' ' << fPtr[1] << ' ' << fPtr[2] << '\n';
-          file << fPtr[1] << ' ' << fPtr[3] << ' ' << fPtr[4] << '\n';
-          file << fPtr[2] << ' ' << fPtr[4] << ' ' << fPtr[5] << '\n';
+          file << fPtr[0] << ' ' << fPtr[3] << ' ' << fPtr[5] << ' ' << fPtr[1] << ' ' << fPtr[4] << ' ' << fPtr[2]
+               << '\n';
         }
         else
         {
           const double * dPtr = static_cast<const double *>(buffer) + p * 6;
-          file << dPtr[0] << ' ' << dPtr[1] << ' ' << dPtr[2] << '\n';
-          file << dPtr[1] << ' ' << dPtr[3] << ' ' << dPtr[4] << '\n';
-          file << dPtr[2] << ' ' << dPtr[4] << ' ' << dPtr[5] << '\n';
+          file << dPtr[0] << ' ' << dPtr[3] << ' ' << dPtr[5] << ' ' << dPtr[1] << ' ' << dPtr[4] << ' ' << dPtr[2]
+               << '\n';
         }
       }
     }
@@ -1310,8 +1607,35 @@ VTIImageIO::Write(const void * buffer)
     }
 
     file << "\n        </DataArray>\n";
+    file << "      </PointData>\n";
+    file << "    </Piece>\n";
+    file << "  </ImageData>\n";
+    file << "</VTKFile>\n";
   }
-  else // Binary (base64)
+  else if (useCompressedAppended)
+  {
+    // Appended raw + vtkZLibDataCompressor: single DataArray element
+    // referencing offset 0 in the <AppendedData> block.
+    file << "        <DataArray type=\"" << vtkType << "\" Name=\"" << dataArrayName
+         << "\" format=\"appended\" offset=\"0\"";
+    if (!attributeElement.empty())
+    {
+      file << " " << attributeElement;
+    }
+    file << "/>\n";
+    file << "      </PointData>\n";
+    file << "    </Piece>\n";
+    file << "  </ImageData>\n";
+    file << "  <AppendedData encoding=\"raw\">\n_";
+
+    const std::vector<unsigned char> compressed =
+      CompressZLibVTK(reinterpret_cast<const unsigned char *>(dataToWrite), static_cast<std::size_t>(totalBytes));
+    file.write(reinterpret_cast<const char *>(compressed.data()), static_cast<std::streamsize>(compressed.size()));
+
+    file << "\n  </AppendedData>\n";
+    file << "</VTKFile>\n";
+  }
+  else // Binary (inline base64)
   {
     file << "        <DataArray type=\"" << vtkType << "\" Name=\"" << dataArrayName << "\" format=\"binary\"";
     if (!attributeElement.empty())
@@ -1320,20 +1644,22 @@ VTIImageIO::Write(const void * buffer)
     }
     file << ">\n";
 
-    // Prepend a UInt32 block-size header (number of raw data bytes).
-    const auto                 blockSize = static_cast<uint32_t>(totalBytes);
+    // Prepend a UInt64 block-size header (number of raw data bytes).  The
+    // <VTKFile> attribute declares header_type="UInt64" above, matching
+    // ParaView 5.7+ defaults and allowing images > 4 GiB without silent
+    // truncation.
+    const auto                 blockSize = static_cast<uint64_t>(totalBytes);
     std::vector<unsigned char> toEncode(sizeof(blockSize) + static_cast<std::size_t>(totalBytes));
     std::memcpy(toEncode.data(), &blockSize, sizeof(blockSize));
     std::memcpy(toEncode.data() + sizeof(blockSize), dataToWrite, static_cast<std::size_t>(totalBytes));
 
     file << "        " << EncodeBase64(toEncode.data(), static_cast<SizeType>(toEncode.size())) << "\n";
     file << "        </DataArray>\n";
+    file << "      </PointData>\n";
+    file << "    </Piece>\n";
+    file << "  </ImageData>\n";
+    file << "</VTKFile>\n";
   }
-
-  file << "      </PointData>\n";
-  file << "    </Piece>\n";
-  file << "  </ImageData>\n";
-  file << "</VTKFile>\n";
 
   if (file.fail())
   {

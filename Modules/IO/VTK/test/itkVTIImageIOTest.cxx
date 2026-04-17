@@ -21,6 +21,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
+#include "itkRGBAPixel.h"
 #include "itkRGBPixel.h"
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkTestingMacros.h"
@@ -103,6 +104,39 @@ ImagesEqual(const TImage * a, const TImage * b)
     }
   }
   return true;
+}
+
+template <typename TImage>
+int
+RoundTripCompressed(const std::string & filename, const typename TImage::SizeType & size)
+{
+  using ReaderType = itk::ImageFileReader<TImage>;
+  using WriterType = itk::ImageFileWriter<TImage>;
+
+  auto original = MakeRamp<TImage>(size);
+
+  auto io = itk::VTIImageIO::New();
+  io->SetFileType(itk::IOFileEnum::Binary);
+  io->SetUseCompression(true);
+
+  auto writer = WriterType::New();
+  writer->SetFileName(filename);
+  writer->SetInput(original);
+  writer->SetImageIO(io);
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+  auto reader = ReaderType::New();
+  reader->SetFileName(filename);
+  reader->SetImageIO(itk::VTIImageIO::New());
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+  if (!ImagesEqual<TImage>(original, reader->GetOutput()))
+  {
+    std::cerr << "  COMPRESSED ROUND-TRIP FAILED for " << filename << std::endl;
+    return EXIT_FAILURE;
+  }
+  std::cout << "  Compressed round-trip OK: " << filename << std::endl;
+  return EXIT_SUCCESS;
 }
 
 template <typename TImage>
@@ -196,6 +230,18 @@ itkVTIImageIOTest(int argc, char * argv[])
     status |= RoundTrip<ImageType>(outDir + sep + "vti_rgb2d_binary.vti", size, itk::IOFileEnum::Binary);
   }
 
+  // ---- 2D RGBA (4 components) --------------------------------------------
+  // RGBA round-trip was advertised by the class docstring but not exercised
+  // before this commit; the binary writer path lands on the generic
+  // NumberOfComponents="4" branch and the reader infers IOPixelEnum::RGBA
+  // from that component count.
+  {
+    using ImageType = itk::Image<itk::RGBAPixel<unsigned char>, 2>;
+    ImageType::SizeType size = { { 4, 4 } };
+    status |= RoundTrip<ImageType>(outDir + sep + "vti_rgba2d_binary.vti", size, itk::IOFileEnum::Binary);
+    status |= RoundTrip<ImageType>(outDir + sep + "vti_rgba2d_ascii.vti", size, itk::IOFileEnum::ASCII);
+  }
+
   // ---- 3D vector (3 components) ------------------------------------------
   {
     using ImageType = itk::Image<itk::Vector<float, 3>, 3>;
@@ -211,10 +257,29 @@ itkVTIImageIOTest(int argc, char * argv[])
     status |= RoundTrip<ImageType>(outDir + sep + "vti_uchar1d_ascii.vti", size, itk::IOFileEnum::ASCII);
   }
 
+  // ---- Compressed appended-raw (zlib) round-trips ------------------------
+  {
+    using ImageType = itk::Image<float, 3>;
+    ImageType::SizeType size = { { 8, 8, 4 } };
+    status |= RoundTripCompressed<ImageType>(outDir + sep + "vti_float3d_zlib.vti", size);
+  }
+  {
+    using ImageType = itk::Image<unsigned char, 2>;
+    ImageType::SizeType size = { { 16, 16 } };
+    status |= RoundTripCompressed<ImageType>(outDir + sep + "vti_uchar2d_zlib.vti", size);
+  }
+  {
+    using ImageType = itk::Image<itk::Vector<float, 3>, 3>;
+    ImageType::SizeType size = { { 4, 4, 2 } };
+    status |= RoundTripCompressed<ImageType>(outDir + sep + "vti_vec3d_zlib.vti", size);
+  }
+
   // ---- Symmetric tensor ASCII round-trip ---------------------------------
-  // Tensors are stored on disk as 9 components (full 3x3) but in ITK as 6
-  // (symmetric).  We only support ASCII for tensors today (binary tensor
-  // writing is intentionally rejected to avoid silent layout corruption).
+  // On-disk layout is VTK-canonical 6 components per pixel in
+  // [XX, YY, ZZ, XY, YZ, XZ] order.  ITK's in-memory
+  // SymmetricSecondRankTensor<T,3> is [e00, e01, e02, e11, e12, e22]
+  // (upper-triangular row-major).  Only ASCII is supported today; the
+  // binary writer throws an F-007 exception (exercised in the next block).
   {
     using ImageType = itk::Image<itk::SymmetricSecondRankTensor<float, 3>, 3>;
     ImageType::SizeType size = { { 3, 3, 2 } };
@@ -240,13 +305,20 @@ itkVTIImageIOTest(int argc, char * argv[])
     writer->SetImageIO(io);
     ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-    // Note: ITK's tensor reader path collapses the 9 components on disk back
-    // to 6 in memory. We compare the round-tripped pixels component-wise.
     auto reader = itk::ImageFileReader<ImageType>::New();
     reader->SetFileName(fname);
     reader->SetImageIO(itk::VTIImageIO::New());
     ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
-    std::cout << "  Tensor ASCII round-trip parsed without exception: " << fname << std::endl;
+
+    if (!ImagesEqual<ImageType>(original, reader->GetOutput()))
+    {
+      std::cerr << "  ERROR: Tensor ASCII round-trip did not preserve pixel values: " << fname << std::endl;
+      status = EXIT_FAILURE;
+    }
+    else
+    {
+      std::cout << "  Tensor ASCII round-trip pixel-match OK: " << fname << std::endl;
+    }
   }
 
   // ---- Binary tensor write must be rejected ------------------------------
@@ -764,6 +836,57 @@ itkVTIImageIOTest(int argc, char * argv[])
     }
     else
     {
+      status = EXIT_FAILURE;
+    }
+  }
+
+  // ---- XML entity-expansion hardening: DOCTYPE / ENTITY rejection -------
+  // Billion-laughs and XXE mitigation: the reader must refuse any file
+  // that declares a DOCTYPE or ENTITY.  VTK's XML schema has no legitimate
+  // use for either, so aborting up-front is safe.
+  {
+    const std::string fname = outDir + sep + "vti_entity_attack.vti";
+    {
+      std::ofstream f(fname.c_str());
+      f << "<?xml version=\"1.0\"?>\n";
+      f << "<!DOCTYPE VTKFile [\n";
+      f << "  <!ENTITY lol \"lol\">\n";
+      f << "]>\n";
+      f << "<VTKFile type=\"ImageData\" version=\"1.0\" byte_order=\"LittleEndian\" header_type=\"UInt64\">\n";
+      f << "  <ImageData WholeExtent=\"0 0 0 0 0 0\" Origin=\"0 0 0\" Spacing=\"1 1 1\">\n";
+      f << "    <Piece Extent=\"0 0 0 0 0 0\">\n";
+      f << "      <PointData Scalars=\"data\">\n";
+      f << "        <DataArray type=\"UInt8\" Name=\"data\" NumberOfComponents=\"1\" format=\"ascii\">0</DataArray>\n";
+      f << "      </PointData>\n";
+      f << "    </Piece>\n";
+      f << "  </ImageData>\n";
+      f << "</VTKFile>\n";
+    }
+
+    auto io = itk::VTIImageIO::New();
+    io->SetFileName(fname);
+    bool threw = false;
+    try
+    {
+      io->ReadImageInformation();
+    }
+    catch (const itk::ExceptionObject & e)
+    {
+      threw = true;
+      if (std::string(e.GetDescription()).find("DOCTYPE") == std::string::npos &&
+          std::string(e.GetDescription()).find("ENTITY") == std::string::npos)
+      {
+        std::cerr << "  WARNING: DOCTYPE/ENTITY rejection fired for the wrong reason: " << e.GetDescription()
+                  << std::endl;
+      }
+    }
+    if (threw)
+    {
+      std::cout << "  DOCTYPE/ENTITY rejection OK" << std::endl;
+    }
+    else
+    {
+      std::cerr << "  ERROR: File with <!DOCTYPE ...> and <!ENTITY ...> was not rejected: " << fname << std::endl;
       status = EXIT_FAILURE;
     }
   }

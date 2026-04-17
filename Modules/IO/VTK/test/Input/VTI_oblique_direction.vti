@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<VTKFile type="ImageData" version="1.0" byte_order="LittleEndian" header_type="UInt64">
+  <ImageData WholeExtent="0 3 0 3 0 1" Origin="0 0 0" Spacing="1 1 1" Direction="0.70710678 -0.70710678 0 0.70710678 0.70710678 0 0 0 1">
+    <Piece Extent="0 3 0 3 0 1">
+      <PointData Scalars="scalars">
+        <DataArray type="UInt8" Name="scalars" NumberOfComponents="1" format="ascii">
+          0  1  2  3
+          4  5  6  7
+          8  9 10 11
+         12 13 14 15
+         16 17 18 19
+         20 21 22 23
+         24 25 26 27
+         28 29 30 31
+        </DataArray>
+      </PointData>
+      <CellData>
+      </CellData>
+    </Piece>
+  </ImageData>
+</VTKFile>

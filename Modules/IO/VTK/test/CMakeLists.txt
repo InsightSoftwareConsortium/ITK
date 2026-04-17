@@ -10,6 +10,10 @@ set(
   itkVTKImageIOTest3.cxx
   itkVTIImageIOTest.cxx
   itkVTIImageIOReadWriteTest.cxx
+  itkVTIImageIODirectionTest.cxx
+  itkVTIImageIOSwapBufferTest.cxx
+  itkVTIImageIOFutureFeaturesTest.cxx
+  itkVTIImageIOGeneratedFixturesTest.cxx
 )
 
 createtestdriver(ITKIOVTK "${ITKIOVTK-Test_LIBRARIES}" "${ITKIOVTKTests}")
@@ -20,6 +24,38 @@ itk_add_test(
     ITKIOVTKTestDriver
     itkVTIImageIOTest
     ${ITK_TEST_OUTPUT_DIR}
+)
+
+itk_add_test(
+  NAME itkVTIImageIODirectionTest
+  COMMAND
+    ITKIOVTKTestDriver
+    itkVTIImageIODirectionTest
+    ${CMAKE_CURRENT_SOURCE_DIR}/Input
+    ${ITK_TEST_OUTPUT_DIR}
+)
+
+itk_add_test(
+  NAME itkVTIImageIOSwapBufferTest
+  COMMAND
+    ITKIOVTKTestDriver
+    itkVTIImageIOSwapBufferTest
+)
+
+itk_add_test(
+  NAME itkVTIImageIOFutureFeaturesTest
+  COMMAND
+    ITKIOVTKTestDriver
+    itkVTIImageIOFutureFeaturesTest
+    ${CMAKE_CURRENT_SOURCE_DIR}/Input
+)
+
+itk_add_test(
+  NAME itkVTIImageIOGeneratedFixturesTest
+  COMMAND
+    ITKIOVTKTestDriver
+    itkVTIImageIOGeneratedFixturesTest
+    ${CMAKE_CURRENT_SOURCE_DIR}/Input
 )
 
 itk_add_test(
@@ -70,17 +106,35 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_VHFColor.vti
 )
 
-itk_add_test(
-  NAME itkVTIImageIOReadWriteTestVHFColorZLib
-  COMMAND
-    ITKIOVTKTestDriver
-    --compare
-    DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw}
-    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_VHFColorZLib.vti
-    itkVTIImageIOReadWriteTest
-    DATA{Input/VHFColorZLib.vti}
-    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_VHFColorZLib.vti
-)
+# itkVTIImageIOReadWriteTestVHFColorZLib is temporarily disabled until
+# Input/VHFColorZLib.vti can be published through ExternalData.  The
+# ParaView-produced fixture exceeds the 100 KB direct-commit cap and
+# content-link-upload.itk.org has been broken since the storacha->Pinata
+# migration began; tracked at
+# https://github.com/InsightSoftwareConsortium/ITK/issues/4340 and
+# https://github.com/InsightSoftwareConsortium/cmake-w3-externaldata-upload/issues/3 .
+#
+# Equivalent code-path coverage (multi-component Float32 ZLib-compressed
+# appended-raw with UInt64 header, via a non-ITK independent writer) is
+# provided by itkVTIImageIOGeneratedFixturesTest's
+# `vector3_f32_zlib_appended` case, which reads a Python-stdlib-generated
+# 4x4x2 Vector<float,3> fixture and pixel-compares to its MetaIO oracle.
+#
+# TODO: restore this test once the ExternalData upload tool is operational;
+# un-comment the block below and commit the .cid pointer to
+# Modules/IO/VTK/test/Input/VHFColorZLib.vti.cid .
+#
+# itk_add_test(
+#   NAME itkVTIImageIOReadWriteTestVHFColorZLib
+#   COMMAND
+#     ITKIOVTKTestDriver
+#     --compare
+#     DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw}
+#     ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_VHFColorZLib.vti
+#     itkVTIImageIOReadWriteTest
+#     DATA{Input/VHFColorZLib.vti}
+#     ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_VHFColorZLib.vti
+# )
 
 itk_add_test(
   NAME itkVTKImageIO2Test
