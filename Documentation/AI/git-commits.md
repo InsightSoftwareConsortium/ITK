@@ -29,7 +29,6 @@ subject should be scannable in `git log --oneline`.
 | `DOC:` | Documentation only |
 | `STYLE:` | Formatting, naming, no logic change |
 | `PERF:` | Performance improvement |
-| `BUILD:` | Build-system / CMake changes |
 
 > **Do not use `WIP:` as a commit-subject prefix.** It is not in the
 > `ghostflow-check-main` allowed list and will reject the PR. To mark a PR
