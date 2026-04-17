@@ -10,6 +10,8 @@ itk_module(
   ITKReview
   DEPENDS
     ITKIOImageBase
+  PRIVATE_DEPENDS
+    ITKZLIB
   COMPILE_DEPENDS
     ITKAnisotropicSmoothing
     ITKAntiAlias
