@@ -30,12 +30,18 @@ outputs:
           then: bash Utilities/conda-packages/build.sh
           else: call Utilities\conda-packages\build.bat
     requirements:
+      # Version pin policy: floors match ITK's vendored third-party
+      # versions (Modules/ThirdParty/*/src/); ceilings stop at the
+      # next expected ABI / API break (major version). conda-forge
+      # packages move faster than ITK's vendored copies, so explicit
+      # ranges are required to keep builds deterministic as upstream
+      # packages advance. Revisit at each ITK release.
       build:
-      - cmake >=3.16.3
+      - cmake >=3.22.1,<5
       - ninja
       - ${{ compiler('c') }}
       - ${{ compiler('cxx') }}
-      - castxml >=0.7.0
+      - castxml >=0.7.0,<0.8
       # castxml 0.7.0 bundles Clang 20, which cannot parse the
       # __acquire_capability__ pack-expansion syntax introduced in
       # libc++ 22's <mutex>. Pin libc++ to <22 until a castxml release
@@ -45,21 +51,32 @@ outputs:
       - if: env.get("ITK_CONDA_USE_CCACHE", default="0") == "1"
         then: ccache
       - if: build_platform != target_platform
-        then: python
+        then: python >=3.10,<3.15
       host:
+      # Use conda-forge's "compat" metapackages expat/zlib (not the
+      # concrete libexpat/libzlib). The metapackages pull in the
+      # lib* AND ship the CMake compat integration that find_package
+      # (ZLIB) and find_package(EXPAT) use; switching to the bare lib*
+      # was tried and caused CMake to fall back to the host system
+      # zlib (1.2.11) and break the configure.
       - if: unix
         then:
-        - expat
-        - libpng
-        - zlib
-      - fftw
-      - hdf5
-      - libjpeg-turbo
-      - libtiff
-      - eigen
-      - double-conversion
-      - tbb-devel
-      - python
+        - expat >=2.5,<3
+        - libpng >=1.6.43,<1.7
+        - zlib >=1.2.13,<2
+      - fftw >=3.3.10,<3.4
+      - hdf5 >=1.14.5,<2
+      - libjpeg-turbo >=3.0,<4
+      - libtiff >=4.6,<5
+      - eigen >=3.4,<3.5
+      - double-conversion >=3.3,<4
+      - tbb-devel >=2022.2.0,<2023
+      - python >=3.10,<3.15
+      # numpy headers are required by FindPython3 COMPONENTS NumPy
+      # during the Python-wrapping configure. Earlier builds picked it
+      # up transitively; make the dep explicit so a solver change
+      # cannot drop it.
+      - numpy
     source:
       path: ../..
 
@@ -75,17 +92,20 @@ outputs:
           else: call Utilities\conda-packages\libitk_install.bat
     requirements:
       run:
+        # Most of these are already carried by run_exports from the
+        # host pins above, but being explicit keeps the recipe
+        # self-documenting and independent of feedstock behavior.
         - if: unix
           then:
-            - expat
-            - libpng
-            - zlib
-        - fftw
-        - hdf5
-        - libjpeg-turbo
-        - libtiff
-        - double-conversion
-        - tbb
+            - expat >=2.5,<3
+            - libpng >=1.6.43,<1.7
+            - zlib >=1.2.13,<2
+        - fftw >=3.3.10,<3.4
+        - hdf5 >=1.14.5,<2
+        - libjpeg-turbo >=3.0,<4
+        - libtiff >=4.6,<5
+        - double-conversion >=3.3,<4
+        - tbb >=2022.2.0,<2023
     tests:
       - script:
           - if: osx
@@ -112,9 +132,9 @@ outputs:
         - ${{ pin_subpackage('libitk', exact=True) }}
       run:
         - ${{ pin_subpackage('libitk', exact=True) }}
-        - tbb-devel
-        - cmake
-        - eigen
+        - tbb-devel >=2022.2.0,<2023
+        - cmake >=3.22.1,<5
+        - eigen >=3.4,<3.5
     tests:
       - script:
           - if: unix
@@ -152,10 +172,10 @@ outputs:
     requirements:
       host:
         - ${{ pin_subpackage('libitk', exact=True) }}
-        - python >=3.9
+        - python >=3.10,<3.15
       run:
         - ${{ pin_subpackage('libitk', exact=True) }}
-        - python >=3.9
+        - python >=3.10,<3.15
         - numpy
     tests:
       - python:
