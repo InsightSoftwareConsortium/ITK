@@ -61,12 +61,23 @@ if(Python3_EXECUTABLE AND NOT PY_SITE_PACKAGES_PATH)
     ERROR_VARIABLE py_prefix
     OUTPUT_STRIP_TRAILING_WHITESPACE
   )
-  if(NOT "${CMAKE_INSTALL_PREFIX}" STREQUAL "${py_prefix}")
+  # Normalize both paths to forward slashes before embedding them into
+  # the generated install script. On Windows, CMAKE_INSTALL_PREFIX is a
+  # backslash path; the generated cmake_install.cmake re-parses the
+  # message() call with escape-sequence interpretation active and
+  # treats e.g. "\a" inside the path as an invalid C escape, failing
+  # install with "Invalid character escape '\\a'". file(TO_CMAKE_PATH)
+  # is a no-op on Unix where paths are already forward-slash.
+  file(TO_CMAKE_PATH "${CMAKE_INSTALL_PREFIX}" _cip_fwd)
+  file(TO_CMAKE_PATH "${py_prefix}" _pyp_fwd)
+  if(NOT "${_cip_fwd}" STREQUAL "${_pyp_fwd}")
     install(
       CODE
-        "message(WARNING \"CMAKE_INSTALL_PREFIX, ${CMAKE_INSTALL_PREFIX}, does not match Python's prefix, ${py_prefix}\")"
+        "message(WARNING \"CMAKE_INSTALL_PREFIX, ${_cip_fwd}, does not match Python's prefix, ${_pyp_fwd}\")"
     )
   endif()
+  unset(_cip_fwd)
+  unset(_pyp_fwd)
   string(REGEX REPLACE "\n" "" py_spp_no_newline "${py_spp}")
   file(TO_CMAKE_PATH "${py_spp_no_newline}" py_spp_nobackslashes)
 
