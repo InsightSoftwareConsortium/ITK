@@ -18,7 +18,12 @@ if "%ITK_CONDA_USE_CCACHE%"=="1" (
     )
 )
 
+REM conda-forge's Windows sandbox path (%SRC_DIR%) exceeds ITK's default
+REM 50-char source-path limit. Modern Windows (including the GitHub
+REM Actions and conda-forge runners) has LongPathsEnabled=1, so the
+REM check is safely skipped.
 cmake -GNinja %CCACHE_CMAKE_ARGS% ^
+    -DITK_SKIP_PATH_LENGTH_CHECKS:BOOL=ON ^
     -DCMAKE_BUILD_TYPE:STRING=Release ^
     -DCMAKE_INSTALL_PREFIX:PATH="%LIBRARY_PREFIX%" ^
     -DCMAKE_PREFIX_PATH:PATH="%LIBRARY_PREFIX%" ^
