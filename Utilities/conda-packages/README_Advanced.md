@@ -3,6 +3,57 @@
 Advanced / opt-in features of the `Utilities/conda-packages/` build. The baseline
 workflow is in [`README.md`](./README.md); read that first.
 
+## Local build invocation
+
+The `dev` pixi environment does not bundle `rattler-build`. Use the copy
+that rattler itself caches under `~/.cache/rattler/pkgs/`:
+
+```bash
+# Find the rattler-build binary (version may differ)
+RATTLER=$(ls ~/.cache/rattler/pkgs/rattler-build-*/bin/rattler-build | sort -V | tail -1)
+
+# Verify
+$RATTLER --version
+
+# Build (add ccache vars if desired — see below)
+ITK_CONDA_USE_CCACHE=1 CCACHE_DIR=$HOME/.ccache \
+$RATTLER build --experimental \
+    --recipe Utilities/conda-packages/recipe.yaml \
+    --output-dir ~/my-itk-channel/
+```
+
+Alternatively, install rattler-build as a pixi global tool:
+
+```bash
+pixi global install rattler-build
+rattler-build --version
+```
+
+## Stale rattler package cache — hash mismatch errors
+
+Each `rattler-build` run may produce a `libitk` package with a different
+build hash (timestamps, environment hash). If a previous `libitk` is
+cached in `~/.cache/rattler/cache/pkgs/`, subsequent builds fail with:
+
+```
+hash mismatch, wanted … hash A … but the cached package has hash B
+```
+
+**Workaround — clear the stale cache before re-running:**
+
+```bash
+rm -rf ~/.cache/rattler/cache/pkgs/libitk-*
+```
+
+This forces rattler to re-fetch `libitk` from the local channel on the
+next run. The compiler cache (ccache) is not affected.
+
+**Root cause:** rattler-build's staging cache key includes the resolved
+build-environment package hashes. When conda-forge updates a build
+dependency between runs, the staging cache misses and a new `libitk`
+is produced with a different hash. The rattler package cache then holds
+a stale copy that no longer matches the channel's repodata.json.
+
 ## ccache — compiler caching across rattler-build runs
 
 Rattler-build creates a fresh work directory (`rattler-build_libitk_<ts>/`)
