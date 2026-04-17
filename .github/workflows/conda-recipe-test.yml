@@ -11,14 +11,9 @@ on:
             - 'release*'
             - 'add-conda-recipe*'
     pull_request:
-        paths:
-            - 'Utilities/conda-packages/**'
-            - 'CMake/**'
-            - 'Modules/ThirdParty/HDF5/**'
-            - 'Modules/ThirdParty/Eigen3/**'
-            - 'Modules/Nonunit/Review/**'
-            - 'Wrapping/Generators/Python/**'
-            - '.github/workflows/conda-recipe-test.yml'
+        # Intentionally no paths filter — this is the temporary CI
+        # platform matrix; we want every push to rerun Linux/Windows/
+        # macOS so any core or Modules/ change is validated.
     workflow_dispatch:
 
 concurrency:
