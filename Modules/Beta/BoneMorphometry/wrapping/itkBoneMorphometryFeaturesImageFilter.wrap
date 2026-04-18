@@ -1,0 +1,17 @@
+set(OutputVectorDim 5)
+
+itk_wrap_class("itk::ImageToImageFilter" POINTER)
+  foreach(t ${WRAP_ITK_SCALAR})
+    itk_wrap_template("${ITKM_I${t}3}IV${ITKM_F}${OutputVectorDim}3"
+                      "${ITKT_I${t}3}, itk::Image<itk::Vector<${ITKT_F},${OutputVectorDim}>,3>")
+  endforeach()
+itk_end_wrap_class()
+
+itk_wrap_class("itk::BoneMorphometryFeaturesImageFilter" POINTER)
+  foreach(t ${WRAP_ITK_SCALAR})
+    itk_wrap_template("${ITKM_I${t}3}IV${ITKM_F}${OutputVectorDim}3"
+                      "${ITKT_I${t}3}, itk::Image<itk::Vector<${ITKT_F},${OutputVectorDim}>,3>")
+    itk_wrap_template("${ITKM_I${t}3}${ITKM_VI${ITKM_F}3}"
+                      "${ITKT_I${t}3}, ${ITKT_VI${ITKM_F}3}")
+  endforeach()
+itk_end_wrap_class()
