@@ -1,0 +1,5 @@
+itk>=v5.3.0
+itk-meshtopolydata>=0.10.0
+traitlets<5.7.0
+ipywidgets>=7.1.2
+itkwidgets

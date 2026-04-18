@@ -1,0 +1,4 @@
+dist
+emscripten-build
+node_modules
+typescript

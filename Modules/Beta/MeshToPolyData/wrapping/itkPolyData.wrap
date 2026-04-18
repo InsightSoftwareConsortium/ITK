@@ -1,0 +1,6 @@
+itk_wrap_class("itk::PolyData" POINTER)
+  UNIQUE(types "${WRAP_ITK_SCALAR};D")
+  foreach(t ${types})
+    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
+  endforeach()
+itk_end_wrap_class()
