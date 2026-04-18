@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-FileCopyrightText: Copyright NumFOCUS
+# SPDX-License-Identifier: Apache-2.0
 # ==========================================================================
 #
 #   Copyright NumFOCUS
