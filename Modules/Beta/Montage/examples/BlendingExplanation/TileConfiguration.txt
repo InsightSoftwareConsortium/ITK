@@ -1,0 +1,8 @@
+# Define the number of dimensions we are working on
+dim = 2
+
+# Define the image coordinates
+red.png; ; (0, 0)
+green.png; ; (100, 10)
+blue.png; ; (30, 80)
+white.png; ; (90, 70)
