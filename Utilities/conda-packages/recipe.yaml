@@ -156,8 +156,8 @@ outputs:
               cmake --build .
             else: |
               mkdir build-test && cd build-test
-              cmake -GNinja -DCMAKE_PREFIX_PATH:PATH="%PREFIX%" ..\Utilities\conda-packages\tests\example
-              cmake --build . --config Release
+              cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH:PATH="%PREFIX%" ..\Utilities\conda-packages\tests\example
+              cmake --build .
 
   - package:
       name: libitk-wrapping
