@@ -1,0 +1,2 @@
+FibHeap.cxx Header Disable
+test/.*\.cxx Namespace Disable
