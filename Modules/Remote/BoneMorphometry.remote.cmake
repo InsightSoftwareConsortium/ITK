@@ -52,5 +52,5 @@ itk_fetch_module(
   "
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry.git
-  GIT_TAG 4dc0acd7b87d39bbc84f4541f9dfd4443782efd3
+  GIT_TAG a81057b078cf4b1b7ee8dcbefe7130894b45c8a7
   )
