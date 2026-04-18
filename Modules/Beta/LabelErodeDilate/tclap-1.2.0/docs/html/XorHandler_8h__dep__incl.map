@@ -1,0 +1,5 @@
+base referer
+rect $CmdLine_8h.html 19,8 104,32
+rect $StdOutput_8h.html 57,83 151,107
+rect $DocBookOutput_8h.html 175,83 303,107
+rect $ZshCompletionOutput_8h.html 327,83 489,107

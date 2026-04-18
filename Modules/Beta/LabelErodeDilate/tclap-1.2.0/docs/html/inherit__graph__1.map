@@ -1,0 +1,5 @@
+base referer
+rect $classTCLAP_1_1ArgException.html 7,55 159,79
+rect $classTCLAP_1_1ArgParseException.html 223,7 409,31
+rect $classTCLAP_1_1CmdLineParseException.html 207,55 425,79
+rect $classTCLAP_1_1SpecificationException.html 213,103 419,127
