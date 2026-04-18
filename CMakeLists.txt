@@ -741,6 +741,12 @@ endif()
 # dependencies.
 add_subdirectory(Modules/Remote)
 
+# In-tree beta modules (formerly remote fetches, now grafted inline).
+# Loads provenance manifests (Modules/Beta/*.beta.cmake) and is a no-op
+# at build time; the actual modules under Modules/Beta/<Name>/ are
+# discovered via the normal itk-module.cmake DAG scan below.
+add_subdirectory(Modules/Beta)
+
 # Enable modules according to user inputs and the module dependency DAG.
 include(ITKModuleEnablement)
 

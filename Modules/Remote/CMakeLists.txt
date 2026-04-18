@@ -16,7 +16,7 @@ set_property(
            "0")
 mark_as_advanced(FORCE ITK_MINIMUM_COMPLIANCE_LEVEL)
 
-file(GLOB remotes "*.remote.cmake")
+file(GLOB remotes CONFIGURE_DEPENDS "*.remote.cmake")
 foreach(remote_module ${remotes})
   include(${remote_module})
 endforeach()
@@ -25,7 +25,7 @@ endforeach()
 # a separate subdirectory to assist with distinguishing
 # different remote module types.
 if(Module_ITKDeprecated)
-  file(GLOB remotes "Deprecated/*.remote.cmake")
+  file(GLOB remotes CONFIGURE_DEPENDS "Deprecated/*.remote.cmake")
   foreach(remote_module ${remotes})
     include(${remote_module})
   endforeach()
