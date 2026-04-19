@@ -11,7 +11,8 @@ file(READ "${MY_CURRENT_DIR}/README.rst" DOCUMENTATION)
 # ITK.
 
 # define the dependencies of the include module and the tests
-itk_module(BoneEnhancement
+itk_module(
+  BoneEnhancement
   DEPENDS
     ITKCommon
     ITKStatistics
@@ -24,8 +25,7 @@ itk_module(BoneEnhancement
     ITKTestKernel
     ITKGoogleTest
     ITKMetaIO
-  DESCRIPTION
-    "${DOCUMENTATION}"
+  DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
   ENABLE_SHARED
 )
