@@ -8,3 +8,4 @@ cmake -DCOMPONENT=Headers -P "${BUILD_DIR}/cmake_install.cmake"
 # these .lib files on Windows, so include DebugDevel for cross-platform
 # consistency (no-op on Linux/macOS where no static .a is installed here).
 cmake -DCOMPONENT=DebugDevel -P "${BUILD_DIR}/cmake_install.cmake"
+cmake -DCOMPONENT=ThirdParty -P "${BUILD_DIR}/cmake_install.cmake"

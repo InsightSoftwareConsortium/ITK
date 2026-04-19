@@ -10,3 +10,5 @@ REM these .lib files, so they must be present for downstream find_package
 REM to succeed on Windows.
 cmake -DCOMPONENT=DebugDevel -P "%BUILD_DIR%\cmake_install.cmake"
 if errorlevel 1 exit 1
+cmake -DCOMPONENT=ThirdParty -P "%BUILD_DIR%\cmake_install.cmake"
+if errorlevel 1 exit 1
