@@ -11,4 +11,14 @@ itk_module(
     ITKZLIB
     ITKJPEG
   DESCRIPTION "${DOCUMENTATION}"
+  SPDX_LICENSE
+  "libtiff"
+  SPDX_VERSION
+  "4.7.0"
+  SPDX_DOWNLOAD_LOCATION
+  "https://libtiff.maptools.org"
+  SPDX_COPYRIGHT
+  "Copyright libtiff contributors"
+  SPDX_PURL
+  "pkg:generic/libtiff@4.7.0"
 )
