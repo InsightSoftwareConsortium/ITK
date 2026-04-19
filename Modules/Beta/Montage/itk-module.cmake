@@ -11,7 +11,8 @@ file(READ "${MY_CURRENT_DIR}/README.md" DOCUMENTATION)
 # ITK.
 
 # define the dependencies of the include module and the tests
-itk_module(Montage
+itk_module(
+  Montage
   DEPENDS
     ITKCommon
     ITKFFT
@@ -23,8 +24,7 @@ itk_module(Montage
     ITKIOTransformInsightLegacy
     # ITKIOHDF5 # hdf5 is another format which supports streaming
     ITKTestKernel
-  DESCRIPTION
-    "${DOCUMENTATION}"
+  DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
   ENABLE_SHARED
 )
