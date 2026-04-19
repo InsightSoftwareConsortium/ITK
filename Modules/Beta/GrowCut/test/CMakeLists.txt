@@ -1,32 +1,34 @@
 itk_module_test()
 
-set(GrowCutTests
-  itkFastGrowCutTest.cxx
-  )
+set(GrowCutTests itkFastGrowCutTest.cxx)
 
-CreateTestDriver(GrowCut "${GrowCut-Test_LIBRARIES}" "${GrowCutTests}")
+createtestdriver(GrowCut "${GrowCut-Test_LIBRARIES}" "${GrowCutTests}")
 
-itk_add_test(NAME itkFastGrowCutTestDzZ_L1
-  COMMAND GrowCutTestDriver
+itk_add_test(
+  NAME itkFastGrowCutTestDzZ_L1
+  COMMAND
+    GrowCutTestDriver
     --compare
-      DATA{Baseline/itkFastGrowCutTestDzZ_L1-label.nrrd}
-      ${ITK_TEST_OUTPUT_DIR}/itkFastGrowCutTestDzZ_L1-label.nrrd
-  itkFastGrowCutTest
+    DATA{Baseline/itkFastGrowCutTestDzZ_L1-label.nrrd}
+    ${ITK_TEST_OUTPUT_DIR}/itkFastGrowCutTestDzZ_L1-label.nrrd
+    itkFastGrowCutTest
     DATA{Input/DzZ_L1.nrrd}
     DATA{Input/DzZ_L1_seeds-label.nrrd}
     ${ITK_TEST_OUTPUT_DIR}/itkFastGrowCutTestDzZ_L1-label.nrrd
-  )
+)
 
-itk_add_test(NAME itkFastGrowCutTestDzZ_T1
-  COMMAND GrowCutTestDriver
+itk_add_test(
+  NAME itkFastGrowCutTestDzZ_T1
+  COMMAND
+    GrowCutTestDriver
     --compare
-      DATA{Baseline/itkFastGrowCutTestDzZ_T1-label.nrrd}
-      ${ITK_TEST_OUTPUT_DIR}/itkFastGrowCutTestDzZ_T1-label.nrrd
-  itkFastGrowCutTest
+    DATA{Baseline/itkFastGrowCutTestDzZ_T1-label.nrrd}
+    ${ITK_TEST_OUTPUT_DIR}/itkFastGrowCutTestDzZ_T1-label.nrrd
+    itkFastGrowCutTest
     DATA{Input/DzZ_T1_orig.nhdr,DzZ_T1_orig.raw.gz}
     DATA{Input/DzZ_Seeds.seg.nrrd}
     ${ITK_TEST_OUTPUT_DIR}/itkFastGrowCutTestDzZ_T1-label.nrrd
-  )
+)
 
 # due to numerical instabilities, this test fails on CI
 # itk_add_test(NAME itkFastGrowCutTestLarge
