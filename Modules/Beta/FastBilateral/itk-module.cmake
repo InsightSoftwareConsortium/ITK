@@ -11,7 +11,8 @@ file(READ "${MY_CURRENT_DIR}/README.rst" DOCUMENTATION)
 # ITK.
 
 # define the dependencies of the include module and the tests
-itk_module(FastBilateral
+itk_module(
+  FastBilateral
   DEPENDS
     ITKCommon
     ITKSmoothing
@@ -20,8 +21,7 @@ itk_module(FastBilateral
   TEST_DEPENDS
     ITKTestKernel
     ITKMetaIO
-  DESCRIPTION
-    "${DOCUMENTATION}"
+  DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
   ENABLE_SHARED
 )
