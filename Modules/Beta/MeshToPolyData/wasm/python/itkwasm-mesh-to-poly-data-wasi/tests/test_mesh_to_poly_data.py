@@ -1,13 +1,16 @@
 from pathlib import Path
 
 test_input_path = Path(__file__).parent / ".." / ".." / ".." / "test" / "data" / "input"
-test_output_path = Path(__file__).parent / ".." / ".." / ".." / "test" / "data" / "python"
+test_output_path = (
+    Path(__file__).parent / ".." / ".." / ".." / "test" / "data" / "python"
+)
 test_output_path.mkdir(parents=True, exist_ok=True)
 
 from itkwasm import FloatTypes, IntTypes, PixelTypes
 from itkwasm_mesh_io import read_mesh
 
 from itkwasm_mesh_to_poly_data_wasi import mesh_to_poly_data, poly_data_to_mesh
+
 
 def test_cow_conversion():
     mesh = read_mesh(test_input_path / "cow.vtk")
@@ -22,6 +25,7 @@ def test_cow_conversion():
     assert mesh_round_trip.meshType.cellPixelType == PixelTypes.Scalar
     assert mesh_round_trip.numberOfPoints == 2903
     assert mesh_round_trip.numberOfCells == 3263
+
 
 def test_cube_conversion():
     mesh = read_mesh(test_input_path / "cube.byu")

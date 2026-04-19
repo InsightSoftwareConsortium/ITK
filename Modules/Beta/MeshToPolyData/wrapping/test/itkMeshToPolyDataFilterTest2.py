@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,12 +14,12 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import itk
 
 Dimension = 3
-PixelType = itk.ctype('double')
+PixelType = itk.ctype("double")
 MeshType = itk.Mesh[PixelType, Dimension]
 mesh = MeshType.New()
 PointType = itk.Point[itk.F, Dimension]
@@ -44,4 +44,4 @@ filt = itk.MeshToPolyDataFilter.New(mesh)
 filt.Update()
 polydata = filt.GetOutput()
 print(polydata)
-assert(polydata.GetNumberOfPoints() == 4)
+assert polydata.GetNumberOfPoints() == 4

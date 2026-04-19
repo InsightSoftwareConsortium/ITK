@@ -3,11 +3,13 @@ project(mesh-to-poly-data)
 
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(ITK REQUIRED
+find_package(
+  ITK
+  REQUIRED
   COMPONENTS
     WebAssemblyInterface
     MeshToPolyData
-    )
+)
 include(${ITK_USE_FILE})
 
 add_executable(mesh-to-poly-data mesh-to-poly-data.cxx)
