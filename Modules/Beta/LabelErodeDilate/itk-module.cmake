@@ -9,7 +9,8 @@ file(READ "${MY_CURENT_DIR}/README.rst" DOCUMENTATION)
 # ITK
 
 # define the dependencies of the include module and the tests
-itk_module(LabelErodeDilate
+itk_module(
+  LabelErodeDilate
   DEPENDS
     ITKIOImageBase
   TEST_DEPENDS
@@ -17,6 +18,5 @@ itk_module(LabelErodeDilate
     ITKTestKernel
     ITKSmoothing
   EXCLUDE_FROM_DEFAULT
-  DESCRIPTION
-  "${DOCUMENTATION}"
+  DESCRIPTION "${DOCUMENTATION}"
 )

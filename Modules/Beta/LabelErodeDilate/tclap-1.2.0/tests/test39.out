@@ -1,7 +1,7 @@
 PARSE ERROR: Argument: (--times)
              Value '6' does not meet constraint: 1|2|3
 
-Brief USAGE: 
+Brief USAGE:
    ThisIsAVeryLongProgramNameDesignedToTestSpacePrintWhichUsedToHaveProblem
                                         sWithLongProgramNamesIThinkItIsNowL
                                         ongEnough  [-l <int>] [-u <float
@@ -12,6 +12,5 @@ Brief USAGE:
                                         |marge|bart|lisa|maggie> ...  [--]
                                         [--version] [-h] <1|2|3> ...
 
-For complete USAGE and HELP type: 
+For complete USAGE and HELP type:
    ThisIsAVeryLongProgramNameDesignedToTestSpacePrintWhichUsedToHaveProblemsWithLongProgramNamesIThinkItIsNowLongEnough --help
-

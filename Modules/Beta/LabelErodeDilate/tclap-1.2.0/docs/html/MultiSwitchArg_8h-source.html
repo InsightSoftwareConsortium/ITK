@@ -7,7 +7,7 @@
 <div class="qindex"><a class="qindex" href="index.html">Main&nbsp;Page</a> | <a class="qindex" href="namespaces.html">Namespace List</a> | <a class="qindex" href="hierarchy.html">Class&nbsp;Hierarchy</a> | <a class="qindex" href="annotated.html">Class&nbsp;List</a> | <a class="qindex" href="dirs.html">Directories</a> | <a class="qindex" href="files.html">File&nbsp;List</a> | <a class="qindex" href="namespacemembers.html">Namespace&nbsp;Members</a> | <a class="qindex" href="functions.html">Class&nbsp;Members</a> | <a class="qindex" href="globals.html">File&nbsp;Members</a></div>
 <div class="nav">
 <a class="el" href="dir_000000.html">include</a>&nbsp;/&nbsp;<a class="el" href="dir_000001.html">tclap</a></div>
-<h1>MultiSwitchArg.h</h1><a href="MultiSwitchArg_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment">00001 
+<h1>MultiSwitchArg.h</h1><a href="MultiSwitchArg_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment">00001
 00002 <span class="comment">/****************************************************************************** </span>
 00003 <span class="comment">*</span>
 00004 <span class="comment">*  file:  MultiSwitchArg.h</span>
@@ -29,55 +29,55 @@
 00020 <span class="comment">*  DEALINGS IN THE SOFTWARE.</span>
 00021 <span class="comment">*</span>
 00022 <span class="comment">*****************************************************************************/</span>
-00023 
-00024 
+00023
+00024
 00025 <span class="preprocessor">#ifndef TCLAP_MULTI_SWITCH_ARG_H</span>
 00026 <span class="preprocessor"></span><span class="preprocessor">#define TCLAP_MULTI_SWITCH_ARG_H</span>
 00027 <span class="preprocessor"></span>
 00028 <span class="preprocessor">#include &lt;string&gt;</span>
 00029 <span class="preprocessor">#include &lt;vector&gt;</span>
-00030 
+00030
 00031 <span class="preprocessor">#include &lt;<a class="code" href="SwitchArg_8h.html">tclap/SwitchArg.h</a>&gt;</span>
-00032 
+00032
 00033 <span class="keyword">namespace </span>TCLAP {
-00034 
+00034
 <a name="l00039"></a><a class="code" href="classTCLAP_1_1MultiSwitchArg.html">00039</a> <span class="keyword">class </span><a class="code" href="classTCLAP_1_1MultiSwitchArg.html">MultiSwitchArg</a> : <span class="keyword">public</span> <a class="code" href="classTCLAP_1_1SwitchArg.html">SwitchArg</a>
 00040 {
 00041     <span class="keyword">protected</span>:
-00042 
+00042
 <a name="l00046"></a><a class="code" href="classTCLAP_1_1MultiSwitchArg.html#p0">00046</a>         <span class="keywordtype">int</span> _value;
-00047 
+00047
 <a name="l00052"></a><a class="code" href="classTCLAP_1_1MultiSwitchArg.html#p1">00052</a>         <span class="keywordtype">int</span> _default;
-00053 
+00053
 00054     <span class="keyword">public</span>:
-00055 
-00069         <a class="code" href="classTCLAP_1_1MultiSwitchArg.html">MultiSwitchArg</a>(<span class="keyword">const</span> std::string&amp; flag, 
+00055
+00069         <a class="code" href="classTCLAP_1_1MultiSwitchArg.html">MultiSwitchArg</a>(<span class="keyword">const</span> std::string&amp; flag,
 00070                 <span class="keyword">const</span> std::string&amp; name,
 00071                 <span class="keyword">const</span> std::string&amp; desc,
 00072                 <span class="keywordtype">int</span> init = 0,
 00073                 <a class="code" href="classTCLAP_1_1Visitor.html">Visitor</a>* v = NULL);
-00074 
-00075 
-00090         <a class="code" href="classTCLAP_1_1MultiSwitchArg.html">MultiSwitchArg</a>(<span class="keyword">const</span> std::string&amp; flag, 
+00074
+00075
+00090         <a class="code" href="classTCLAP_1_1MultiSwitchArg.html">MultiSwitchArg</a>(<span class="keyword">const</span> std::string&amp; flag,
 00091                 <span class="keyword">const</span> std::string&amp; name,
 00092                 <span class="keyword">const</span> std::string&amp; desc,
 00093                 <a class="code" href="classTCLAP_1_1CmdLineInterface.html">CmdLineInterface</a>&amp; parser,
 00094                 <span class="keywordtype">int</span> init = 0,
 00095                 <a class="code" href="classTCLAP_1_1Visitor.html">Visitor</a>* v = NULL);
-00096 
-00097 
-00106         <span class="keyword">virtual</span> <span class="keywordtype">bool</span> processArg(<span class="keywordtype">int</span>* i, std::vector&lt;std::string&gt;&amp; args); 
-00107 
+00096
+00097
+00106         <span class="keyword">virtual</span> <span class="keywordtype">bool</span> processArg(<span class="keywordtype">int</span>* i, std::vector&lt;std::string&gt;&amp; args);
+00107
 00111         <span class="keywordtype">int</span> getValue();
-00112 
+00112
 00116         std::string shortID(<span class="keyword">const</span> std::string&amp; val) <span class="keyword">const</span>;
-00117 
+00117
 00121         std::string longID(<span class="keyword">const</span> std::string&amp; val) <span class="keyword">const</span>;
-00122         
+00122
 00123         <span class="keywordtype">void</span> reset();
-00124 
+00124
 00125 };
-00126 
+00126
 00128 <span class="comment">//BEGIN MultiSwitchArg.cpp</span>
 <a name="l00130"></a><a class="code" href="classTCLAP_1_1MultiSwitchArg.html#a0">00130</a> <span class="comment"></span><span class="keyword">inline</span> MultiSwitchArg::MultiSwitchArg(<span class="keyword">const</span> std::string&amp; flag,
 00131                     <span class="keyword">const</span> std::string&amp; name,
@@ -88,81 +88,81 @@
 00136 _value( init ),
 00137 _default( init )
 00138 { }
-00139 
+00139
 <a name="l00140"></a><a class="code" href="classTCLAP_1_1MultiSwitchArg.html#a1">00140</a> <span class="keyword">inline</span> MultiSwitchArg::MultiSwitchArg(<span class="keyword">const</span> std::string&amp; flag,
-00141                     <span class="keyword">const</span> std::string&amp; name, 
-00142                     <span class="keyword">const</span> std::string&amp; desc, 
+00141                     <span class="keyword">const</span> std::string&amp; name,
+00142                     <span class="keyword">const</span> std::string&amp; desc,
 00143                     <a class="code" href="classTCLAP_1_1CmdLineInterface.html">CmdLineInterface</a>&amp; parser,
 00144                     <span class="keywordtype">int</span> init,
 00145                     <a class="code" href="classTCLAP_1_1Visitor.html">Visitor</a>* v )
 00146 : <a class="code" href="classTCLAP_1_1SwitchArg.html">SwitchArg</a>(flag, name, desc, false, v),
 00147 _value( init ),
 00148 _default( init )
-00149 { 
+00149 {
 00150     parser.<a class="code" href="classTCLAP_1_1CmdLineInterface.html#a1">add</a>( <span class="keyword">this</span> );
 00151 }
-00152 
+00152
 <a name="l00153"></a><a class="code" href="classTCLAP_1_1MultiSwitchArg.html#a3">00153</a> <span class="keyword">inline</span> <span class="keywordtype">int</span> MultiSwitchArg::getValue() { <span class="keywordflow">return</span> _value; }
-00154 
+00154
 <a name="l00155"></a><a class="code" href="classTCLAP_1_1MultiSwitchArg.html#a2">00155</a> <span class="keyword">inline</span> <span class="keywordtype">bool</span> MultiSwitchArg::processArg(<span class="keywordtype">int</span> *i, std::vector&lt;std::string&gt;&amp; args)
 00156 {
 00157     <span class="keywordflow">if</span> ( _ignoreable &amp;&amp; Arg::ignoreRest() )
 00158         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-00159 
+00159
 00160     <span class="keywordflow">if</span> ( <a class="code" href="classTCLAP_1_1Arg.html#a13">argMatches</a>( args[*i] ))
 00161     {
 00162         <span class="comment">// so the isSet() method will work</span>
 00163         _alreadySet = <span class="keyword">true</span>;
-00164 
+00164
 00165         <span class="comment">// Matched argument: increment value.</span>
 00166         ++_value;
-00167 
+00167
 00168         <a class="code" href="classTCLAP_1_1Arg.html#b0">_checkWithVisitor</a>();
-00169 
+00169
 00170         <span class="keywordflow">return</span> <span class="keyword">true</span>;
 00171     }
 00172     <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( <a class="code" href="classTCLAP_1_1SwitchArg.html#a3">combinedSwitchesMatch</a>( args[*i] ) )
 00173     {
 00174         <span class="comment">// so the isSet() method will work</span>
 00175         _alreadySet = <span class="keyword">true</span>;
-00176 
+00176
 00177         <span class="comment">// Matched argument: increment value.</span>
 00178         ++_value;
-00179 
+00179
 00180         <span class="comment">// Check for more in argument and increment value.</span>
-00181         <span class="keywordflow">while</span> ( <a class="code" href="classTCLAP_1_1SwitchArg.html#a3">combinedSwitchesMatch</a>( args[*i] ) ) 
+00181         <span class="keywordflow">while</span> ( <a class="code" href="classTCLAP_1_1SwitchArg.html#a3">combinedSwitchesMatch</a>( args[*i] ) )
 00182             ++_value;
-00183 
+00183
 00184         <a class="code" href="classTCLAP_1_1Arg.html#b0">_checkWithVisitor</a>();
-00185 
+00185
 00186         <span class="keywordflow">return</span> <span class="keyword">false</span>;
 00187     }
 00188     <span class="keywordflow">else</span>
 00189         <span class="keywordflow">return</span> <span class="keyword">false</span>;
 00190 }
-00191 
-00192 <span class="keyword">inline</span> std::string 
+00191
+00192 <span class="keyword">inline</span> std::string
 <a name="l00193"></a><a class="code" href="classTCLAP_1_1MultiSwitchArg.html#a4">00193</a> MultiSwitchArg::shortID(<span class="keyword">const</span> std::string&amp; val)<span class="keyword"> const</span>
 00194 <span class="keyword"></span>{
 00195     <span class="keywordflow">return</span> Arg::shortID(val) + <span class="stringliteral">" ... "</span>;
 00196 }
-00197 
-00198 <span class="keyword">inline</span> std::string 
+00197
+00198 <span class="keyword">inline</span> std::string
 <a name="l00199"></a><a class="code" href="classTCLAP_1_1MultiSwitchArg.html#a5">00199</a> MultiSwitchArg::longID(<span class="keyword">const</span> std::string&amp; val)<span class="keyword"> const</span>
 00200 <span class="keyword"></span>{
 00201     <span class="keywordflow">return</span> Arg::longID(val) + <span class="stringliteral">"  (accepted multiple times)"</span>;
 00202 }
-00203 
+00203
 00204 <span class="keyword">inline</span> <span class="keywordtype">void</span>
 <a name="l00205"></a><a class="code" href="classTCLAP_1_1MultiSwitchArg.html#a6">00205</a> MultiSwitchArg::reset()
 00206 {
 00207     MultiSwitchArg::_value = MultiSwitchArg::_default;
 00208 }
-00209 
+00209
 00211 <span class="comment">//END MultiSwitchArg.cpp</span>
 00213 <span class="comment"></span>
 00214 } <span class="comment">//namespace TCLAP</span>
-00215 
+00215
 00216 <span class="preprocessor">#endif</span>
 </pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Sep 28 11:31:42 2009 for tclap by&nbsp;
 <a href="https://www.doxygen.org/index.html">

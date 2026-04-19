@@ -1,5 +1,5 @@
 2006-02-21  <>
-	Generated with cvs2cl. 
+	Generated with cvs2cl.
 
 2005-09-10 19:25  mes5k
 
@@ -1196,4 +1196,3 @@
 	  include/tclap/SwitchArg.h, include/tclap/ValueArg.h,
 	  include/tclap/VersionVisitor.h, include/tclap/Visitor.h: initial
 	  release
-

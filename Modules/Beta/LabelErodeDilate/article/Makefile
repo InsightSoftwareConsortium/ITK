@@ -82,4 +82,3 @@ ${NAME}.aux: ${NAME}.tex  ${BIBS}
 
 clean:
 	rm -f ${NAME}.dvi ${NAME}.ps ${PDF_NAME}.pdf ${NAME}.aux ${NAME}.log ${NAME}.bbl ${NAME}.blg ${NAME}.toc ${NAME}.out  ${NAME}.brf $(DIAS:dia=eps) $(PNGS:png=eps) $(FIGS:fig=eps) $(PLOTS:gnuplot=eps)
-

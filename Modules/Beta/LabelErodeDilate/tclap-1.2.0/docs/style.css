@@ -1,4 +1,4 @@
-/* 
+/*
 color:#ffffff;   white
 color:#e0e0e0;   light gray
 color:#f8f8f8;   light gray
@@ -16,7 +16,7 @@ a {
 }
 
 a:hover {
-	text-decoration: blink; 
+	text-decoration: blink;
 	color:#ff9933;
 }
 
@@ -41,7 +41,7 @@ ul {
 }
 
 ul.menu { /* inherits from ul */
-	padding-left: 1em; 
+	padding-left: 1em;
 }
 
 
@@ -56,8 +56,8 @@ h1,h2,h3{
 
 h1 {
 	border-color:#d0d0d0;
-	border-style:solid; 
-	border-width:1px; 
+	border-style:solid;
+	border-width:1px;
 	font-weight:bold;
 	padding: 0.2em;
 	background-color:#f8f8f8
@@ -66,8 +66,8 @@ h1 {
 h2 {
 	font-size:120%;
 	font-weight:bold;
-	border-bottom-style:solid; 
-	border-bottom-width:1px; 
+	border-bottom-style:solid;
+	border-bottom-width:1px;
 	border-bottom-color:#d0d0d0;
 }
 
@@ -100,19 +100,18 @@ div.links{
 	clear: left;
 	width: 12em;
 	background-color:#f8f8f8;
-	border-style:solid; 
-	border-width:1px; 
+	border-style:solid;
+	border-width:1px;
 	border-color:#d0d0d0;
 	margin-bottom: 0.5em;
-	padding: 0.5em 0.5em 0.5em 0.5em;	
+	padding: 0.5em 0.5em 0.5em 0.5em;
 	margin: 0.5em 0.5em 0em 0em;
 }
 
 div.main{
-	border-style:solid; 
-	border-width:1px; 
+	border-style:solid;
+	border-width:1px;
 	border-color:#d0d0d0;
 	margin: 0.5em 0em 0.5em 14em;
 	padding: 0.5em 0.5em 0.5em 0.5em;
 }
-

@@ -156,7 +156,7 @@ MACRO(LOADPACKAGE Package)
       SET(PackageVar "VTK")
     ENDIF(${Package} MATCHES "^VTK[0-9]")
   ENDIF(EXISTS "/home/tester/XMLTestParser.py")
-  
+
   #no point in executing the code below if we already found the package we're
   #looking for.
   IF(NOT Included)

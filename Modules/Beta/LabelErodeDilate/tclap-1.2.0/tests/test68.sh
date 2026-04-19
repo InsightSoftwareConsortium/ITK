@@ -4,7 +4,7 @@
 # a vector of strings and that combined switch
 # handling doesn't get fooled if the delimiter
 # is in the string
-# success  
+# success
 ../examples/test13 > tmp.out 2>&1
 
 if cmp -s tmp.out $srcdir/test68.out; then
@@ -12,4 +12,3 @@ if cmp -s tmp.out $srcdir/test68.out; then
 else
 	exit 1
 fi
-

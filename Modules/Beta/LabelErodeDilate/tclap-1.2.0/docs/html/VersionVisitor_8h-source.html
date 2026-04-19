@@ -8,7 +8,7 @@
 <div class="nav">
 <a class="el" href="dir_000000.html">include</a>&nbsp;/&nbsp;<a class="el" href="dir_000001.html">tclap</a></div>
 <h1>VersionVisitor.h</h1><a href="VersionVisitor_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment">00001 <span class="comment">// -*- Mode: c++; c-basic-offset: 4; tab-width: 4; -*-</span>
-00002 
+00002
 00003 <span class="comment">/****************************************************************************** </span>
 00004 <span class="comment"> * </span>
 00005 <span class="comment"> *  file:  VersionVisitor.h</span>
@@ -27,40 +27,40 @@
 00018 <span class="comment"> *  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER </span>
 00019 <span class="comment"> *  DEALINGS IN THE SOFTWARE.  </span>
 00020 <span class="comment"> *  </span>
-00021 <span class="comment"> *****************************************************************************/</span> 
-00022 
-00023 
+00021 <span class="comment"> *****************************************************************************/</span>
+00022
+00023
 00024 <span class="preprocessor">#ifndef TCLAP_VERSION_VISITOR_H</span>
 00025 <span class="preprocessor"></span><span class="preprocessor">#define TCLAP_VERSION_VISITOR_H</span>
 00026 <span class="preprocessor"></span>
 00027 <span class="preprocessor">#include &lt;<a class="code" href="CmdLineInterface_8h.html">tclap/CmdLineInterface.h</a>&gt;</span>
 00028 <span class="preprocessor">#include &lt;<a class="code" href="CmdLineOutput_8h.html">tclap/CmdLineOutput.h</a>&gt;</span>
 00029 <span class="preprocessor">#include &lt;<a class="code" href="Visitor_8h.html">tclap/Visitor.h</a>&gt;</span>
-00030 
+00030
 00031 <span class="keyword">namespace </span>TCLAP {
-00032 
+00032
 <a name="l00037"></a><a class="code" href="classTCLAP_1_1VersionVisitor.html">00037</a> <span class="keyword">class </span><a class="code" href="classTCLAP_1_1VersionVisitor.html">VersionVisitor</a>: <span class="keyword">public</span> <a class="code" href="classTCLAP_1_1Visitor.html">Visitor</a>
 00038 {
 00039     <span class="keyword">protected</span>:
-00040 
+00040
 <a name="l00044"></a><a class="code" href="classTCLAP_1_1VersionVisitor.html#p0">00044</a>         <a class="code" href="classTCLAP_1_1CmdLineInterface.html">CmdLineInterface</a>* _cmd;
-00045 
+00045
 <a name="l00049"></a><a class="code" href="classTCLAP_1_1VersionVisitor.html#p1">00049</a>         <a class="code" href="classTCLAP_1_1CmdLineOutput.html">CmdLineOutput</a>** _out;
-00050 
+00050
 00051     <span class="keyword">public</span>:
-00052 
-<a name="l00058"></a><a class="code" href="classTCLAP_1_1VersionVisitor.html#a0">00058</a>         <a class="code" href="classTCLAP_1_1VersionVisitor.html">VersionVisitor</a>( <a class="code" href="classTCLAP_1_1CmdLineInterface.html">CmdLineInterface</a>* cmd, <a class="code" href="classTCLAP_1_1CmdLineOutput.html">CmdLineOutput</a>** out ) 
+00052
+<a name="l00058"></a><a class="code" href="classTCLAP_1_1VersionVisitor.html#a0">00058</a>         <a class="code" href="classTCLAP_1_1VersionVisitor.html">VersionVisitor</a>( <a class="code" href="classTCLAP_1_1CmdLineInterface.html">CmdLineInterface</a>* cmd, <a class="code" href="classTCLAP_1_1CmdLineOutput.html">CmdLineOutput</a>** out )
 00059                 : <a class="code" href="classTCLAP_1_1Visitor.html">Visitor</a>(), _cmd( cmd ), _out( out ) { }
-00060 
-<a name="l00065"></a><a class="code" href="classTCLAP_1_1VersionVisitor.html#a1">00065</a>         <span class="keywordtype">void</span> visit() { 
-00066             (*_out)-&gt;version(*_cmd); 
-00067             <span class="keywordflow">throw</span> <a class="code" href="classTCLAP_1_1ExitException.html">ExitException</a>(0); 
+00060
+<a name="l00065"></a><a class="code" href="classTCLAP_1_1VersionVisitor.html#a1">00065</a>         <span class="keywordtype">void</span> visit() {
+00066             (*_out)-&gt;version(*_cmd);
+00067             <span class="keywordflow">throw</span> <a class="code" href="classTCLAP_1_1ExitException.html">ExitException</a>(0);
 00068         }
-00069 
+00069
 00070 };
-00071 
+00071
 00072 }
-00073 
+00073
 00074 <span class="preprocessor">#endif</span>
 </pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Sep 28 11:31:43 2009 for tclap by&nbsp;
 <a href="https://www.doxygen.org/index.html">

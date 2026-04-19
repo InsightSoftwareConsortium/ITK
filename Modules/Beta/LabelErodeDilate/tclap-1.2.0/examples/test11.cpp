@@ -36,9 +36,9 @@ struct ArgTraits<Vect3D> {
 int main(int argc, char *argv[])
 {
     CmdLine cmd("Command description message", ' ', "0.9");
-    ValueArg<Vect3D> vec("v", "vect", "vector", 
+    ValueArg<Vect3D> vec("v", "vect", "vector",
 			 true, Vect3D(), "3D vector", cmd);
-    
+
     try {
 	cmd.parse(argc, argv);
     } catch(std::exception &e) {
@@ -49,4 +49,3 @@ int main(int argc, char *argv[])
     vec.getValue().print(std::cout);
     std::cout << std::endl;
 }
-

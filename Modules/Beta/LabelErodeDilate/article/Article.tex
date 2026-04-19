@@ -28,11 +28,11 @@ colorlinks,linkcolor={blue},citecolor={blue},urlcolor={blue},
 \usepackage{subfigure}
 
 
-%  This is a template for Papers to the Insight Journal. 
+%  This is a template for Papers to the Insight Journal.
 %  It is comparable to a technical report format.
 
 % The title should be descriptive enough for people to be able to find
-% the relevant document. 
+% the relevant document.
 \title{Parallel algorithms for erosion and dilation of label images.}
 
 \newcommand{\IJhandlerIDnumber}{3399}
@@ -115,8 +115,8 @@ Lowekamp):
 \begin{lstlisting}
 def MultilabelDilation(img, radius=1,kernel=sitk.BinaryDilateImageFilter.Ball):
     distImg = sitk.SignedMaurerDistanceMap(img != 0,
-                                           insideIsPositive=False, 
-                                           squaredDistance=False, 
+                                           insideIsPositive=False,
+                                           squaredDistance=False,
                                            useImageSpacing=False)
     dilatImg = sitk.BinaryDilate(img!=0, radius, kernel)
     wsImg = sitk.MorphologicalWatershedFromMarkers(distImg, img)
@@ -155,7 +155,7 @@ specified radius is included in the structuring elements. Distance
 maps, on the other hand, typically compute distances to voxel
 centres. Thus any voxel whos centre is closer than the specified
 radius is included, resulting in a slightly smaller structuring
-element. 
+element.
 
 In addition, the parabolic dilation used in the LabelDilate tool
 treats voxels with centres exactly the dilation radius from the seed
@@ -246,4 +246,3 @@ very fast operations.
 \nocite{ITKSoftwareGuide}
 
 \end{document}
-

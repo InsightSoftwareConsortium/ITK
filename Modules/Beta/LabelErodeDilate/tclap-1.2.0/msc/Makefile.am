@@ -5,5 +5,3 @@ EXTRA_DIST = README\
 			 tclap-beta.sln\
 			 tclap-beta.suo\
 			 tclap-beta.vcproj
-
-

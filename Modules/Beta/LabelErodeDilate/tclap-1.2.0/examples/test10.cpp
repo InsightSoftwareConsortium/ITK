@@ -23,4 +23,3 @@ int main()
 	cmd.parse(0, argv6);
 	cmd.parse(0, argv7);
 }
-

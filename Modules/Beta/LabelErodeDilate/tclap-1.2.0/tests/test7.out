@@ -1,11 +1,11 @@
 
-USAGE: 
+USAGE:
 
    ../examples/test2  [-f <float>] -i <int> -s <string> [-A] [-C] [-B] [--]
                       [--version] [-h] <string> <string> ...
 
 
-Where: 
+Where:
 
    -f <float>,  --floatTest <float>
      float test
@@ -42,4 +42,3 @@ Where:
 
 
    this is a message
-

@@ -72,7 +72,7 @@ TESTS = test1.sh \
 		test70.sh \
 		test71.sh \
 		test72.sh \
-		test73.sh 
+		test73.sh
 
 EXTRA_DIST = $(TESTS) \
 			 test1.out \

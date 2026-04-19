@@ -8,7 +8,7 @@
 <div class="nav">
 <a class="el" href="dir_000000.html">include</a>&nbsp;/&nbsp;<a class="el" href="dir_000001.html">tclap</a></div>
 <h1>StandardTraits.h</h1><a href="StandardTraits_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment">00001 <span class="comment">// -*- Mode: c++; c-basic-offset: 4; tab-width: 4; -*-</span>
-00002 
+00002
 00003 <span class="comment">/******************************************************************************</span>
 00004 <span class="comment"> *</span>
 00005 <span class="comment"> *  file:  StandardTraits.h</span>
@@ -28,10 +28,10 @@
 00019 <span class="comment"> *  DEALINGS IN THE SOFTWARE.</span>
 00020 <span class="comment"> *</span>
 00021 <span class="comment"> *****************************************************************************/</span>
-00022 
+00022
 00023 <span class="comment">// This is an internal tclap file, you should probably not have to</span>
 00024 <span class="comment">// include this directly</span>
-00025 
+00025
 00026 <span class="preprocessor">#ifndef TCLAP_STANDARD_TRAITS_H</span>
 00027 <span class="preprocessor"></span><span class="preprocessor">#define TCLAP_STANDARD_TRAITS_H</span>
 00028 <span class="preprocessor"></span>
@@ -40,31 +40,31 @@
 00031 <span class="preprocessor">#endif</span>
 00032 <span class="preprocessor"></span>
 00033 <span class="keyword">namespace </span>TCLAP {
-00034 
+00034
 00035 <span class="comment">// ======================================================================</span>
 00036 <span class="comment">// Integer types</span>
 00037 <span class="comment">// ======================================================================</span>
-00038 
+00038
 00042 <span class="keyword">template</span>&lt;&gt;
 <a name="l00043"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01long_01_4.html">00043</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1ArgTraits.html">ArgTraits</a>&lt;long&gt; {
 <a name="l00044"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01long_01_4.html#w0">00044</a>     <span class="keyword">typedef</span> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueLike</a> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueCategory</a>;
 00045 };
-00046 
+00046
 00050 <span class="keyword">template</span>&lt;&gt;
 <a name="l00051"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01int_01_4.html">00051</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1ArgTraits.html">ArgTraits</a>&lt;int&gt; {
 <a name="l00052"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01int_01_4.html#w0">00052</a>     <span class="keyword">typedef</span> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueLike</a> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueCategory</a>;
 00053 };
-00054 
+00054
 00058 <span class="keyword">template</span>&lt;&gt;
 <a name="l00059"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01short_01_4.html">00059</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1ArgTraits.html">ArgTraits</a>&lt;short&gt; {
 <a name="l00060"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01short_01_4.html#w0">00060</a>     <span class="keyword">typedef</span> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueLike</a> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueCategory</a>;
 00061 };
-00062 
+00062
 00066 <span class="keyword">template</span>&lt;&gt;
 <a name="l00067"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01char_01_4.html">00067</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1ArgTraits.html">ArgTraits</a>&lt;char&gt; {
 <a name="l00068"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01char_01_4.html#w0">00068</a>     <span class="keyword">typedef</span> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueLike</a> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueCategory</a>;
 00069 };
-00070 
+00070
 00071 <span class="preprocessor">#ifdef HAVE_LONG_LONG</span>
 00072 <span class="preprocessor"></span>
 00075 <span class="keyword">template</span>&lt;&gt;
@@ -76,27 +76,27 @@
 00081 <span class="comment">// ======================================================================</span>
 00082 <span class="comment">// Unsigned integer types</span>
 00083 <span class="comment">// ======================================================================</span>
-00084 
+00084
 00088 <span class="keyword">template</span>&lt;&gt;
 <a name="l00089"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01unsigned_01long_01_4.html">00089</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1ArgTraits.html">ArgTraits</a>&lt;unsigned long&gt; {
 <a name="l00090"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01unsigned_01long_01_4.html#w0">00090</a>     <span class="keyword">typedef</span> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueLike</a> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueCategory</a>;
 00091 };
-00092 
+00092
 00096 <span class="keyword">template</span>&lt;&gt;
 <a name="l00097"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01unsigned_01int_01_4.html">00097</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1ArgTraits.html">ArgTraits</a>&lt;unsigned int&gt; {
 <a name="l00098"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01unsigned_01int_01_4.html#w0">00098</a>     <span class="keyword">typedef</span> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueLike</a> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueCategory</a>;
 00099 };
-00100 
+00100
 00104 <span class="keyword">template</span>&lt;&gt;
 <a name="l00105"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01unsigned_01short_01_4.html">00105</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1ArgTraits.html">ArgTraits</a>&lt;unsigned short&gt; {
 <a name="l00106"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01unsigned_01short_01_4.html#w0">00106</a>     <span class="keyword">typedef</span> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueLike</a> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueCategory</a>;
 00107 };
-00108 
+00108
 00112 <span class="keyword">template</span>&lt;&gt;
 <a name="l00113"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01unsigned_01char_01_4.html">00113</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1ArgTraits.html">ArgTraits</a>&lt;unsigned char&gt; {
 <a name="l00114"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01unsigned_01char_01_4.html#w0">00114</a>     <span class="keyword">typedef</span> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueLike</a> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueCategory</a>;
 00115 };
-00116 
+00116
 00117 <span class="preprocessor">#ifdef HAVE_LONG_LONG</span>
 00118 <span class="preprocessor"></span>
 00121 <span class="keyword">template</span>&lt;&gt;
@@ -108,44 +108,44 @@
 00127 <span class="comment">// ======================================================================</span>
 00128 <span class="comment">// Float types</span>
 00129 <span class="comment">// ======================================================================</span>
-00130 
+00130
 00134 <span class="keyword">template</span>&lt;&gt;
 <a name="l00135"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01float_01_4.html">00135</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1ArgTraits.html">ArgTraits</a>&lt;float&gt; {
 <a name="l00136"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01float_01_4.html#w0">00136</a>     <span class="keyword">typedef</span> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueLike</a> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueCategory</a>;
 00137 };
-00138 
+00138
 00142 <span class="keyword">template</span>&lt;&gt;
 <a name="l00143"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01double_01_4.html">00143</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1ArgTraits.html">ArgTraits</a>&lt;double&gt; {
 <a name="l00144"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01double_01_4.html#w0">00144</a>     <span class="keyword">typedef</span> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueLike</a> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueCategory</a>;
 00145 };
-00146 
+00146
 00147 <span class="comment">// ======================================================================</span>
 00148 <span class="comment">// Other types</span>
 00149 <span class="comment">// ======================================================================</span>
-00150 
+00150
 00154 <span class="keyword">template</span>&lt;&gt;
 <a name="l00155"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01bool_01_4.html">00155</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1ArgTraits.html">ArgTraits</a>&lt;bool&gt; {
 <a name="l00156"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01bool_01_4.html#w0">00156</a>     <span class="keyword">typedef</span> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueLike</a> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueCategory</a>;
 00157 };
-00158 
+00158
 00162 <span class="keyword">template</span>&lt;&gt;
 <a name="l00163"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01wchar__t_01_4.html">00163</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1ArgTraits.html">ArgTraits</a>&lt;wchar_t&gt; {
 <a name="l00164"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01wchar__t_01_4.html#w0">00164</a>     <span class="keyword">typedef</span> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueLike</a> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueCategory</a>;
 00165 };
-00166 
+00166
 00170 <span class="keyword">template</span>&lt;&gt;
 <a name="l00171"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01std_1_1string_01_4.html">00171</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1ArgTraits.html">ArgTraits</a>&lt;std::string&gt; {
 <a name="l00172"></a><a class="code" href="structTCLAP_1_1ArgTraits_3_01std_1_1string_01_4.html#w0">00172</a>     <span class="keyword">typedef</span> <a class="code" href="structTCLAP_1_1StringLike.html">StringLike</a> <a class="code" href="structTCLAP_1_1StringLike.html">ValueCategory</a>;
 00173 };
-00174 
+00174
 00175 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
 <a name="l00176"></a><a class="code" href="namespaceTCLAP.html#a7">00176</a> <span class="keywordtype">void</span> <a class="code" href="namespaceTCLAP.html#a7">SetString</a>(T &amp;dst, <span class="keyword">const</span> std::string &amp;src)
 00177 {
 00178     dst = src;
 00179 }
-00180 
+00180
 00181 } <span class="comment">// namespace</span>
-00182 
+00182
 00183 <span class="preprocessor">#endif</span>
 00184 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Sep 28 11:31:42 2009 for tclap by&nbsp;

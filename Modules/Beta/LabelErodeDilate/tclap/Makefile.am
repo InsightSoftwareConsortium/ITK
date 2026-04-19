@@ -25,4 +25,3 @@ libtclapinclude_HEADERS = \
 			 ValuesConstraint.h \
 			 ArgTraits.h \
 			 StandardTraits.h
-

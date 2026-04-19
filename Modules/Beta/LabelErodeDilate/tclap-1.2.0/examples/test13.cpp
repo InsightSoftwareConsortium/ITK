@@ -9,7 +9,7 @@ using namespace TCLAP;
 // This file tests that we can parse args from a vector
 // of strings rather than argv.  This also tests a bug
 // where a single element in the vector contains both
-// the flag and value AND the value contains the flag 
+// the flag and value AND the value contains the flag
 // from another switch arg.  This would fool the parser
 // into thinking that the string was a combined switches
 // string rather than a flag value combo.
@@ -52,6 +52,3 @@ int main()
 
    return 0;
 }
-
-
-

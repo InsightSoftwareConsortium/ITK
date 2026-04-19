@@ -1,12 +1,12 @@
 
-USAGE: 
+USAGE:
 
-   ../examples/test3  [-f=<float>] ...  [-i=<int>] ... 
+   ../examples/test3  [-f=<float>] ...  [-i=<int>] ...
                       --stringTest=<string> [-B] [--] [--version] [-h]
                       <string> <string> <fileNameString> ...
 
 
-Where: 
+Where:
 
    -f=<float>,  --floatTest=<float>  (accepted multiple times)
      multi float test
@@ -40,4 +40,3 @@ Where:
 
 
    this is a message
-

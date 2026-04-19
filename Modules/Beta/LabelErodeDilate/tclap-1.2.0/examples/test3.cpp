@@ -90,6 +90,3 @@ void parseOptions(int argc, char** argv)
 	} catch ( ArgException& e )
 	{ cout << "ERROR: " << e.error() << " " << e.argId() << endl; }
 }
-
-
-

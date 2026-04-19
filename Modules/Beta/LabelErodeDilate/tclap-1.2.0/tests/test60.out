@@ -2,12 +2,12 @@ PARSE ERROR: Argument: -r (--reverse)
              Argument already set!
 
 
-USAGE: 
+USAGE:
 
    ../examples/test9  [-N] ...  [-V] ...  [-r] [--] <won't see this>
 
 
-Where: 
+Where:
 
    -N,  --noise  (accepted multiple times)
      Level of noise
@@ -26,4 +26,3 @@ Where:
 
 
    Command description message
-

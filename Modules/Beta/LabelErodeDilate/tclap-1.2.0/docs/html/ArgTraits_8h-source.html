@@ -8,7 +8,7 @@
 <div class="nav">
 <a class="el" href="dir_000000.html">include</a>&nbsp;/&nbsp;<a class="el" href="dir_000001.html">tclap</a></div>
 <h1>ArgTraits.h</h1><a href="ArgTraits_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment">00001 <span class="comment">// -*- Mode: c++; c-basic-offset: 4; tab-width: 4; -*-</span>
-00002 
+00002
 00003 <span class="comment">/******************************************************************************</span>
 00004 <span class="comment"> *</span>
 00005 <span class="comment"> *  file:  ArgTraits.h</span>
@@ -28,38 +28,38 @@
 00019 <span class="comment"> *  DEALINGS IN THE SOFTWARE.</span>
 00020 <span class="comment"> *</span>
 00021 <span class="comment"> *****************************************************************************/</span>
-00022 
+00022
 00023 <span class="comment">// This is an internal tclap file, you should probably not have to</span>
 00024 <span class="comment">// include this directly</span>
-00025 
+00025
 00026 <span class="preprocessor">#ifndef TCLAP_ARGTRAITS_H</span>
 00027 <span class="preprocessor"></span><span class="preprocessor">#define TCLAP_ARGTRAITS_H</span>
 00028 <span class="preprocessor"></span>
 00029 <span class="keyword">namespace </span>TCLAP {
-00030 
+00030
 00031 <span class="comment">// We use two empty structs to get compile type specialization</span>
 00032 <span class="comment">// function to work</span>
-00033 
+00033
 <a name="l00038"></a><a class="code" href="structTCLAP_1_1ValueLike.html">00038</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1ValueLike.html">ValueLike</a> {
 <a name="l00039"></a><a class="code" href="structTCLAP_1_1ValueLike.html#w0">00039</a>     <span class="keyword">typedef</span> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueLike</a> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueCategory</a>;
 00040 };
-00041 
+00041
 <a name="l00047"></a><a class="code" href="structTCLAP_1_1StringLike.html">00047</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1StringLike.html">StringLike</a> {};
-00048 
+00048
 <a name="l00054"></a><a class="code" href="structTCLAP_1_1StringLikeTrait.html">00054</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1StringLikeTrait.html">StringLikeTrait</a> {
 <a name="l00055"></a><a class="code" href="structTCLAP_1_1StringLikeTrait.html#w0">00055</a>     <span class="keyword">typedef</span> <a class="code" href="structTCLAP_1_1StringLike.html">StringLike</a> <a class="code" href="structTCLAP_1_1StringLike.html">ValueCategory</a>;
 00056 };
-00057 
+00057
 <a name="l00063"></a><a class="code" href="structTCLAP_1_1ValueLikeTrait.html">00063</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1ValueLikeTrait.html">ValueLikeTrait</a> {
 <a name="l00064"></a><a class="code" href="structTCLAP_1_1ValueLikeTrait.html#w0">00064</a>     <span class="keyword">typedef</span> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueLike</a> <a class="code" href="structTCLAP_1_1ValueLike.html">ValueCategory</a>;
 00065 };
-00066 
+00066
 00073 <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;
 <a name="l00074"></a><a class="code" href="structTCLAP_1_1ArgTraits.html">00074</a> <span class="keyword">struct </span><a class="code" href="structTCLAP_1_1ArgTraits.html">ArgTraits</a> {
 <a name="l00075"></a><a class="code" href="structTCLAP_1_1ArgTraits.html#w0">00075</a>     <span class="keyword">typedef</span> <span class="keyword">typename</span> T::ValueCategory ValueCategory;
 00076     <span class="comment">//using ValueCategory = ValueLike;</span>
 00077 };
-00078 
+00078
 00079 <span class="preprocessor">#endif</span>
 00080 <span class="preprocessor"></span>
 00081 } <span class="comment">// namespace</span>

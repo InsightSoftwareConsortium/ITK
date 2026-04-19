@@ -8,4 +8,3 @@ if cmp -s tmp.out $srcdir/test14.out; then
 else
 	exit 1
 fi
-

@@ -8,7 +8,7 @@
 <div class="nav">
 <a class="el" href="dir_000000.html">include</a>&nbsp;/&nbsp;<a class="el" href="dir_000001.html">tclap</a></div>
 <h1>ZshCompletionOutput.h</h1><a href="ZshCompletionOutput_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment">00001 <span class="comment">// -*- Mode: c++; c-basic-offset: 4; tab-width: 4; -*-</span>
-00002 
+00002
 00003 <span class="comment">/****************************************************************************** </span>
 00004 <span class="comment"> * </span>
 00005 <span class="comment"> *  file:  ZshCompletionOutput.h</span>
@@ -27,8 +27,8 @@
 00018 <span class="comment"> *  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER </span>
 00019 <span class="comment"> *  DEALINGS IN THE SOFTWARE.</span>
 00020 <span class="comment"> *  </span>
-00021 <span class="comment"> *****************************************************************************/</span> 
-00022 
+00021 <span class="comment"> *****************************************************************************/</span>
+00022
 00023 <span class="preprocessor">#ifndef TCLAP_ZSHCOMPLETIONOUTPUT_H</span>
 00024 <span class="preprocessor"></span><span class="preprocessor">#define TCLAP_ZSHCOMPLETIONOUTPUT_H</span>
 00025 <span class="preprocessor"></span>
@@ -37,41 +37,41 @@
 00028 <span class="preprocessor">#include &lt;list&gt;</span>
 00029 <span class="preprocessor">#include &lt;iostream&gt;</span>
 00030 <span class="preprocessor">#include &lt;map&gt;</span>
-00031 
+00031
 00032 <span class="preprocessor">#include &lt;<a class="code" href="CmdLineInterface_8h.html">tclap/CmdLineInterface.h</a>&gt;</span>
 00033 <span class="preprocessor">#include &lt;<a class="code" href="CmdLineOutput_8h.html">tclap/CmdLineOutput.h</a>&gt;</span>
 00034 <span class="preprocessor">#include &lt;<a class="code" href="XorHandler_8h.html">tclap/XorHandler.h</a>&gt;</span>
 00035 <span class="preprocessor">#include &lt;<a class="code" href="Arg_8h.html">tclap/Arg.h</a>&gt;</span>
-00036 
+00036
 00037 <span class="keyword">namespace </span>TCLAP {
-00038 
+00038
 <a name="l00043"></a><a class="code" href="classTCLAP_1_1ZshCompletionOutput.html">00043</a> <span class="keyword">class </span><a class="code" href="classTCLAP_1_1ZshCompletionOutput.html">ZshCompletionOutput</a> : <span class="keyword">public</span> <a class="code" href="classTCLAP_1_1CmdLineOutput.html">CmdLineOutput</a>
 00044 {
-00045 
+00045
 00046     <span class="keyword">public</span>:
-00047 
+00047
 00048         <a class="code" href="classTCLAP_1_1ZshCompletionOutput.html">ZshCompletionOutput</a>();
-00049 
+00049
 00055         <span class="keyword">virtual</span> <span class="keywordtype">void</span> usage(<a class="code" href="classTCLAP_1_1CmdLineInterface.html">CmdLineInterface</a>&amp; c);
-00056 
+00056
 00062         <span class="keyword">virtual</span> <span class="keywordtype">void</span> version(<a class="code" href="classTCLAP_1_1CmdLineInterface.html">CmdLineInterface</a>&amp; c);
-00063 
+00063
 00070         <span class="keyword">virtual</span> <span class="keywordtype">void</span> failure(<a class="code" href="classTCLAP_1_1CmdLineInterface.html">CmdLineInterface</a>&amp; c,
 00071                              <a class="code" href="classTCLAP_1_1ArgException.html">ArgException</a>&amp; e );
-00072 
+00072
 00073     <span class="keyword">protected</span>:
-00074 
+00074
 00075         <span class="keywordtype">void</span> basename( std::string&amp; s );
 00076         <span class="keywordtype">void</span> quoteSpecialChars( std::string&amp; s );
-00077 
+00077
 00078         std::string getMutexList( <a class="code" href="classTCLAP_1_1CmdLineInterface.html">CmdLineInterface</a>&amp; _cmd, <a class="code" href="classTCLAP_1_1Arg.html">Arg</a>* a );
 00079         <span class="keywordtype">void</span> printOption( <a class="code" href="classTCLAP_1_1Arg.html">Arg</a>* it, std::string mutex );
 00080         <span class="keywordtype">void</span> printArg( <a class="code" href="classTCLAP_1_1Arg.html">Arg</a>* it );
-00081 
+00081
 <a name="l00082"></a><a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#p0">00082</a>         std::map&lt;std::string, std::string&gt; common;
 <a name="l00083"></a><a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#p1">00083</a>         <span class="keywordtype">char</span> theDelimiter;
 00084 };
-00085 
+00085
 <a name="l00086"></a><a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#a0">00086</a> ZshCompletionOutput::ZshCompletionOutput()
 00087 {
 00088     <a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#p0">common</a>[<span class="stringliteral">"host"</span>] = <span class="stringliteral">"_hosts"</span>;
@@ -84,12 +84,12 @@
 00095     <a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#p0">common</a>[<span class="stringliteral">"path"</span>] = <span class="stringliteral">"_directories"</span>;
 00096     <a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#p0">common</a>[<span class="stringliteral">"url"</span>] = <span class="stringliteral">"_urls"</span>;
 00097 }
-00098 
+00098
 <a name="l00099"></a><a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#a2">00099</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> ZshCompletionOutput::version(<a class="code" href="classTCLAP_1_1CmdLineInterface.html">CmdLineInterface</a>&amp; _cmd)
 00100 {
 00101     std::cout &lt;&lt; _cmd.<a class="code" href="classTCLAP_1_1CmdLineInterface.html#a9">getVersion</a>() &lt;&lt; std::endl;
 00102 }
-00103 
+00103
 <a name="l00104"></a><a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#a1">00104</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> ZshCompletionOutput::usage(<a class="code" href="classTCLAP_1_1CmdLineInterface.html">CmdLineInterface</a>&amp; _cmd )
 00105 {
 00106     std::list&lt;Arg*&gt; argList = _cmd.<a class="code" href="classTCLAP_1_1CmdLineInterface.html#a11">getArgList</a>();
@@ -97,11 +97,11 @@
 00108     std::string <a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#a2">version</a> = _cmd.<a class="code" href="classTCLAP_1_1CmdLineInterface.html#a9">getVersion</a>();
 00109     <a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#p1">theDelimiter</a> = _cmd.<a class="code" href="classTCLAP_1_1CmdLineInterface.html#a13">getDelimiter</a>();
 00110     <a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#b0">basename</a>(progName);
-00111 
+00111
 00112     std::cout &lt;&lt; <span class="stringliteral">"#compdef "</span> &lt;&lt; progName &lt;&lt; std::endl &lt;&lt; std::endl &lt;&lt;
 00113         <span class="stringliteral">"# "</span> &lt;&lt; progName &lt;&lt; <span class="stringliteral">" version "</span> &lt;&lt; _cmd.<a class="code" href="classTCLAP_1_1CmdLineInterface.html#a9">getVersion</a>() &lt;&lt; std::endl &lt;&lt; std::endl &lt;&lt;
 00114         <span class="stringliteral">"_arguments -s -S"</span>;
-00115 
+00115
 00116     <span class="keywordflow">for</span> (<a class="code" href="namespaceTCLAP.html#a0">ArgListIterator</a> it = argList.begin(); it != argList.end(); it++)
 00117     {
 00118         <span class="keywordflow">if</span> ( (*it)-&gt;shortID().at(0) == <span class="charliteral">'&lt;'</span> )
@@ -109,17 +109,17 @@
 00120         <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( (*it)-&gt;getFlag() != <span class="stringliteral">"-"</span> )
 00121             <a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#b3">printOption</a>((*it), <a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#b2">getMutexList</a>(_cmd, *it));
 00122     }
-00123 
+00123
 00124     std::cout &lt;&lt; std::endl;
 00125 }
-00126 
+00126
 <a name="l00127"></a><a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#a3">00127</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> ZshCompletionOutput::failure( <a class="code" href="classTCLAP_1_1CmdLineInterface.html">CmdLineInterface</a>&amp; _cmd,
 00128                                 <a class="code" href="classTCLAP_1_1ArgException.html">ArgException</a>&amp; e )
 00129 {
 00130     static_cast&lt;void&gt;(_cmd); <span class="comment">// unused</span>
 00131     std::cout &lt;&lt; e.<a class="code" href="classTCLAP_1_1ArgException.html#a4">what</a>() &lt;&lt; std::endl;
 00132 }
-00133 
+00133
 <a name="l00134"></a><a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#b1">00134</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> ZshCompletionOutput::quoteSpecialChars( std::string&amp; s )
 00135 {
 00136     size_t idx = s.find_last_of(<span class="charliteral">':'</span>);
@@ -138,7 +138,7 @@
 00149             idx = s.find_last_of(<span class="charliteral">'\''</span>, --idx);
 00150     }
 00151 }
-00152 
+00152
 <a name="l00153"></a><a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#b0">00153</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> ZshCompletionOutput::basename( std::string&amp; s )
 00154 {
 00155     size_t p = s.find_last_of(<span class="charliteral">'/'</span>);
@@ -147,11 +147,11 @@
 00158         s.erase(0, p + 1);
 00159     }
 00160 }
-00161 
+00161
 <a name="l00162"></a><a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#b4">00162</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> ZshCompletionOutput::printArg(<a class="code" href="classTCLAP_1_1Arg.html">Arg</a>* a)
 00163 {
 00164     <span class="keyword">static</span> <span class="keywordtype">int</span> count = 1;
-00165 
+00165
 00166     std::cout &lt;&lt; <span class="stringliteral">" \\"</span> &lt;&lt; std::endl &lt;&lt; <span class="stringliteral">"  '"</span>;
 00167     <span class="keywordflow">if</span> ( a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#a21">acceptsMultipleValues</a>() )
 00168         std::cout &lt;&lt; <span class="charliteral">'*'</span>;
@@ -160,7 +160,7 @@
 00171     std::cout &lt;&lt; <span class="charliteral">':'</span>;
 00172     <span class="keywordflow">if</span> ( !a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#a7">isRequired</a>() )
 00173         std::cout &lt;&lt; <span class="charliteral">':'</span>;
-00174 
+00174
 00175     std::cout &lt;&lt; a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#a5">getName</a>() &lt;&lt; <span class="charliteral">':'</span>;
 00176     std::map&lt;std::string, std::string&gt;::iterator compArg = <a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#p0">common</a>.find(a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#a5">getName</a>());
 00177     <span class="keywordflow">if</span> ( compArg != <a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#p0">common</a>.end() )
@@ -173,13 +173,13 @@
 00184     }
 00185     std::cout &lt;&lt; <span class="charliteral">'\''</span>;
 00186 }
-00187 
+00187
 <a name="l00188"></a><a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#b3">00188</a> <span class="keyword">inline</span> <span class="keywordtype">void</span> ZshCompletionOutput::printOption(<a class="code" href="classTCLAP_1_1Arg.html">Arg</a>* a, std::string mutex)
 00189 {
 00190     std::string flag = a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#e4">flagStartChar</a>() + a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#a4">getFlag</a>();
 00191     std::string name = a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#e6">nameStartString</a>() + a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#a5">getName</a>();
 00192     std::string desc = a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#a6">getDescription</a>();
-00193 
+00193
 00194     <span class="comment">// remove full stop and capitalisation from description as</span>
 00195     <span class="comment">// this is the convention for zsh function</span>
 00196     <span class="keywordflow">if</span> (!desc.compare(0, 12, <span class="stringliteral">"(required)  "</span>))
@@ -199,9 +199,9 @@
 00210     {
 00211         desc.replace(0, 1, 1, tolower(desc.at(0)));
 00212     }
-00213 
+00213
 00214     std::cout &lt;&lt; <span class="stringliteral">" \\"</span> &lt;&lt; std::endl &lt;&lt; <span class="stringliteral">"  '"</span> &lt;&lt; mutex;
-00215 
+00215
 00216     <span class="keywordflow">if</span> ( a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#a4">getFlag</a>().empty() )
 00217     {
 00218         std::cout &lt;&lt; name;
@@ -214,7 +214,7 @@
 00225         std::cout &lt;&lt; <span class="stringliteral">"=-"</span>;
 00226     <a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#b1">quoteSpecialChars</a>(desc);
 00227     std::cout &lt;&lt; <span class="charliteral">'['</span> &lt;&lt; desc &lt;&lt; <span class="charliteral">']'</span>;
-00228 
+00228
 00229     <span class="keywordflow">if</span> ( a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#a10">isValueRequired</a>() )
 00230     {
 00231         std::string arg = a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#a15">shortID</a>();
@@ -251,26 +251,26 @@
 00262             }
 00263         }
 00264     }
-00265 
+00265
 00266     std::cout &lt;&lt; <span class="charliteral">'\''</span>;
 00267 }
-00268 
+00268
 <a name="l00269"></a><a class="code" href="classTCLAP_1_1ZshCompletionOutput.html#b2">00269</a> <span class="keyword">inline</span> std::string ZshCompletionOutput::getMutexList( <a class="code" href="classTCLAP_1_1CmdLineInterface.html">CmdLineInterface</a>&amp; _cmd, <a class="code" href="classTCLAP_1_1Arg.html">Arg</a>* a)
 00270 {
 00271     <a class="code" href="classTCLAP_1_1XorHandler.html">XorHandler</a> xorHandler = _cmd.<a class="code" href="classTCLAP_1_1CmdLineInterface.html#a12">getXorHandler</a>();
 00272     std::vector&lt; std::vector&lt;Arg*&gt; &gt; xorList = xorHandler.<a class="code" href="classTCLAP_1_1XorHandler.html#a6">getXorList</a>();
-00273     
+00273
 00274     <span class="keywordflow">if</span> (a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#a5">getName</a>() == <span class="stringliteral">"help"</span> || a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#a5">getName</a>() == <span class="stringliteral">"version"</span>)
 00275     {
 00276         <span class="keywordflow">return</span> <span class="stringliteral">"(-)"</span>;
 00277     }
-00278 
+00278
 00279     std::ostringstream list;
 00280     <span class="keywordflow">if</span> ( a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#a21">acceptsMultipleValues</a>() )
 00281     {
 00282         list &lt;&lt; <span class="charliteral">'*'</span>;
 00283     }
-00284 
+00284
 00285     <span class="keywordflow">for</span> ( <span class="keywordtype">int</span> i = 0; static_cast&lt;unsigned int&gt;(i) &lt; xorList.size(); i++ )
 00286     {
 00287         <span class="keywordflow">for</span> ( <a class="code" href="namespaceTCLAP.html#a1">ArgVectorIterator</a> it = xorList[i].begin();
@@ -296,16 +296,16 @@
 00307             <span class="keywordflow">return</span> list.str();
 00308         }
 00309     }
-00310     
+00310
 00311     <span class="comment">// wasn't found in xor list</span>
 00312     <span class="keywordflow">if</span> (!a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#a4">getFlag</a>().empty()) {
 00313         list &lt;&lt; <span class="stringliteral">"("</span> &lt;&lt; a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#e4">flagStartChar</a>() &lt;&lt; a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#a4">getFlag</a>() &lt;&lt; <span class="charliteral">' '</span> &lt;&lt;
 00314             a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#e6">nameStartString</a>() &lt;&lt; a-&gt;<a class="code" href="classTCLAP_1_1Arg.html#a5">getName</a>() &lt;&lt; <span class="charliteral">')'</span>;
 00315     }
-00316     
+00316
 00317     <span class="keywordflow">return</span> list.str();
 00318 }
-00319 
+00319
 00320 } <span class="comment">//namespace TCLAP</span>
 00321 <span class="preprocessor">#endif</span>
 </pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Sep 28 11:31:43 2009 for tclap by&nbsp;

@@ -20,7 +20,7 @@ For more information, see::
   Spatially-Variant and Label-Set Dilations and Erosions.
   2011 International Conference on Digital Image Computing Techniques and
   Applications (DICTA). 180--185. 2011. IEEE.
-  
+
 Installation
 ------------
 

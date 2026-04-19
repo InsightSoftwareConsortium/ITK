@@ -1,5 +1,5 @@
 
-USAGE: 
+USAGE:
 
    ThisIsAVeryLongProgramNameDesignedToTestSpacePrintWhichUsedToHaveProblem
                                         sWithLongProgramNamesIThinkItIsNowL
@@ -12,7 +12,7 @@ USAGE:
                                         [--version] [-h] <1|2|3> ...
 
 
-Where: 
+Where:
 
    -l <int>,  --limit <int>
      Max number of alignments allowed
@@ -63,4 +63,3 @@ Where:
    test line wrapping.  This is more text that doesn't really do anything
    besides take up lots of space that otherwise might be used for something
    real.  That should be enough, don't you think?
-

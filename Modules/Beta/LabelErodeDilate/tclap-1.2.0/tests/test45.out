@@ -1,11 +1,11 @@
 
-USAGE: 
+USAGE:
 
    ../examples/test6  -n <homer|marge|bart|lisa|maggie> [--] [--version]
                       [-h] <1|2|3>
 
 
-Where: 
+Where:
 
    -n <homer|marge|bart|lisa|maggie>,  --name <homer|marge|bart|lisa
       |maggie>
@@ -25,4 +25,3 @@ Where:
 
 
    Command description message
-

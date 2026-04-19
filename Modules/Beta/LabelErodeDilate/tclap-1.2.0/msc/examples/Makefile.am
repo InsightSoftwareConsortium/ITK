@@ -7,4 +7,3 @@ EXTRA_DIST = test1.vcproj\
              test6.vcproj\
              test7.vcproj\
              test8.vcproj
-

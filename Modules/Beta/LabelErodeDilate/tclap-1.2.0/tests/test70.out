@@ -1,10 +1,10 @@
 
-USAGE: 
+USAGE:
 
    ../examples/test18  [--] [--version] [-h]
 
 
-Where: 
+Where:
 
    --,  --ignore_rest
      Ignores the rest of the labeled arguments following this flag.

@@ -1,12 +1,12 @@
 
-USAGE: 
+USAGE:
 
    ../examples/test5  {-a <string>|-b <string>} {--eee <string>|--fff
                       <string>|-g <string>} {-i <string> ... |-j <string>
                       ... } [--ddd] -c <string> [--] [--version] [-h]
 
 
-Where: 
+Where:
 
    -a <string>,  --aaa <string>
      (OR required)  or test a
@@ -49,4 +49,3 @@ Where:
 
 
    this is a message
-

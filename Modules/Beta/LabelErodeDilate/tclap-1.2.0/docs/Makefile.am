@@ -28,4 +28,3 @@ dist-hook :
 
 clean-local:
 	$(RM) -rf html
-

@@ -3,23 +3,23 @@
                     "https://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
 
 <!--
-  - 
+  -
   -  file:  manual.xml
-  - 
+  -
   -  Copyright (c) 2003, 2004 Michael E. Smoot .
   -  All rights reserved.
-  - 
+  -
   -  See the file COPYING in the top directory of this distribution for
   -  more information.
-  -  
-  -  THE SOFTWARE IS PROVIDED _AS IS_, WITHOUT WARRANTY OF ANY KIND, EXPRESS 
-  -  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-  -  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL 
-  -  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-  -  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
-  -  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
-  -  DEALINGS IN THE SOFTWARE.  
-  -  
+  -
+  -  THE SOFTWARE IS PROVIDED _AS IS_, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+  -  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  -  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+  -  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  -  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  -  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+  -  DEALINGS IN THE SOFTWARE.
+  -
   -->
 <book>
 <bookinfo>
@@ -35,29 +35,29 @@
 	</copyright>
 </bookinfo>
 
-<chapter id="BASIC_USAGE"> 
+<chapter id="BASIC_USAGE">
 <title>Basic Usage</title>
 <sect1 id="OVERVIEW">
 <title>Overview</title>
 <para>
-<emphasis>TCLAP</emphasis> has a few key classes to be aware of. 
+<emphasis>TCLAP</emphasis> has a few key classes to be aware of.
 The first is the
 <classname>CmdLine</classname> (command line) class. This class parses
 the command line passed to it according to the arguments that it
 contains. Arguments are separate objects that are added to the
-<classname>CmdLine</classname> object one at a time. The six 
-argument classes are: <classname>ValueArg</classname>, 
+<classname>CmdLine</classname> object one at a time. The six
+argument classes are: <classname>ValueArg</classname>,
 <classname>UnlabeledValueArg</classname>,
-<classname>SwitchArg</classname>, <classname>MultiSwitchArg</classname>, 
-<classname>MultiArg</classname> and 
+<classname>SwitchArg</classname>, <classname>MultiSwitchArg</classname>,
+<classname>MultiArg</classname> and
 <classname>UnlabeledMultiArg</classname>.
 These classes are templatized, which means they can be defined to parse
-a value of any <link linkend="USING_ARGTRAITS"> type</link>. Once you add the 
-arguments to the <classname>CmdLine</classname> object, it parses the 
-command line 
+a value of any <link linkend="USING_ARGTRAITS"> type</link>. Once you add the
+arguments to the <classname>CmdLine</classname> object, it parses the
+command line
 and assigns the data it finds to the specific argument objects it
-contains. Your program accesses the values parsed by 
-calls to the <methodname>getValue()</methodname> methods of the 
+contains. Your program accesses the values parsed by
+calls to the <methodname>getValue()</methodname> methods of the
 argument objects.
 </para>
 </sect1>
@@ -76,16 +76,16 @@ Here is a simple <ulink url="test1.cpp"> example</ulink> ...
 int main(int argc, char** argv)
 {
 
-	// Wrap everything in a try block.  Do this every time, 
+	// Wrap everything in a try block.  Do this every time,
 	// because exceptions will be thrown for problems.
-	try {  
+	try {
 
 	// Define the command line object, and insert a message
-	// that describes the program. The "Command description message" 
-	// is printed last in the help text. The second argument is the 
-	// delimiter (usually space) and the last one is the version number. 
+	// that describes the program. The "Command description message"
+	// is printed last in the help text. The second argument is the
+	// delimiter (usually space) and the last one is the version number.
 	// The CmdLine object parses the argv array based on the Arg objects
-	// that it contains. 
+	// that it contains.
 	TCLAP::CmdLine cmd("Command description message", ' ', "0.9");
 
 	// Define a value argument and add it to the command line.
@@ -109,11 +109,11 @@ int main(int argc, char** argv)
 	// Parse the argv array.
 	cmd.parse( argc, argv );
 
-	// Get the value parsed by each arg. 
+	// Get the value parsed by each arg.
 	std::string name = nameArg.getValue();
 	bool reverseName = reverseSwitch.getValue();
 
-	// Do what you intend. 
+	// Do what you intend.
 	if ( reverseName )
 	{
 		std::reverse(name.begin(),name.end());
@@ -188,20 +188,20 @@ Where:
 This example shows a number of different properties of the
 library...
 <itemizedlist>
-<listitem>Arguments can appear in any order (...mostly, 
+<listitem>Arguments can appear in any order (...mostly,
 <link linkend="COMPLICATIONS"> more</link> on this later).</listitem>
 
-<listitem>The <parameter>help</parameter>, <parameter>version</parameter> 
+<listitem>The <parameter>help</parameter>, <parameter>version</parameter>
 and <parameter>--</parameter> <classname>SwitchArg</classname>s
 are specified automatically. Using either the <parameter>-h</parameter> or
 <parameter>--help</parameter> flag will cause the USAGE message to be displayed,
-<parameter>-v</parameter> or <parameter>--version</parameter> will cause 
+<parameter>-v</parameter> or <parameter>--version</parameter> will cause
 any version information to
-be displayed, and <parameter>--</parameter> or 
+be displayed, and <parameter>--</parameter> or
 <parameter>--ignore_rest</parameter> will cause the
 remaining labeled arguments to be ignored. These switches are
 included by default on every command line. You can <link linked="NO_HELP_VERSION">disable this functionality</link> if desired (although we don't recommend it).
-How we generate the behavior behind these flags is described 
+How we generate the behavior behind these flags is described
 <link linkend="VISITORS"> later</link>.
 </listitem>
 
@@ -213,13 +213,13 @@ USAGE and an error message.</listitem>
 specified directly.</listitem>
 
 <listitem>A value delimiter character can be specified. This means that if you
-prefer arguments of the style <parameter>-s=asdf</parameter> instead of 
+prefer arguments of the style <parameter>-s=asdf</parameter> instead of
 <parameter>-s asdf</parameter>, you can do so.</listitem>
 
 <listitem><emphasis>Always wrap everything in a try block that catches
 ArgExceptions!</emphasis> Any problems found in constructing the
-<classname>CmdLine</classname>, constructing the <classname>Arg</classname>s, 
-or parsing the command line will throw an 
+<classname>CmdLine</classname>, constructing the <classname>Arg</classname>s,
+or parsing the command line will throw an
 <classname>ArgException</classname>.</listitem>
 
 </itemizedlist>
@@ -263,7 +263,7 @@ the type of argument. Some possible values include:
 <sect1 id="COMPILING">
 <title>Compiling</title>
 <para>
-<emphasis>TCLAP</emphasis> is implemented entirely in header files 
+<emphasis>TCLAP</emphasis> is implemented entirely in header files
 which means you only need to include CmdLine.h to use the library.
 <programlisting>
         #include &lt;tclap/CmdLine.h&gt;
@@ -280,7 +280,7 @@ distribution.
 </para>
 
 <para>
-Finally, if you want to include <emphasis>TCLAP</emphasis> as part of 
+Finally, if you want to include <emphasis>TCLAP</emphasis> as part of
 your software
 (which is perfectly OK, even encouraged) then simply copy the
 contents of /some/place/tclap-1.X/include (the tclap directory and
@@ -290,24 +290,24 @@ in the config directory.
 </para>
 
 <para>
-<emphasis>TCLAP</emphasis> was developed on Linux and MacOSX systems. 
+<emphasis>TCLAP</emphasis> was developed on Linux and MacOSX systems.
 It is also known
 to work on Windows, Sun and Alpha platforms. We've made every
 effort to keep the library compliant with the ANSI C++ standard so
 if your compiler meets the standard, then this library should work
-for you. Please let us know if this is not the case! 
+for you. Please let us know if this is not the case!
 <sect2 id="WINDOWS_NOTE">
 <title>Windows Note</title>
 <para>
-As we understand things, Visual C++ does not have the file 
+As we understand things, Visual C++ does not have the file
 <filename>config.h</filename> which is used to make platform
 specific definitions.  In this situation, we assume that you
 have access to <classname>sstream</classname>.  Our understanding is that
 this should not be a problem for VC++ 7.x.  However, if this
 is not the case and you need to use <classname>strstream</classname>,
 then simply tell your compiler to define the variable
-<constant>HAVE_STRSTREAM</constant> and undefine 
-<constant>HAVE_SSTREAM</constant>  That 
+<constant>HAVE_STRSTREAM</constant> and undefine
+<constant>HAVE_SSTREAM</constant>  That
 <emphasis>should</emphasis> work.  We think.  Alternatively, just edit
 the files <filename>ValueArg.h</filename> and <filename>MultiArg.h</filename>.
 </para>
@@ -316,13 +316,13 @@ the files <filename>ValueArg.h</filename> and <filename>MultiArg.h</filename>.
 <title>Random Note</title>
 <para>
 If your compiler doesn't support the <methodname>using</methodname> syntax used
-in <classname>UnlabeledValueArg</classname> and 
-<classname>UnlabeledMultiArg</classname> to support two stage name lookup, 
+in <classname>UnlabeledValueArg</classname> and
+<classname>UnlabeledMultiArg</classname> to support two stage name lookup,
 then you have two options. Either comment out the statements if you don't
-need two stage name lookup, or do a bunch of search and replace and use 
-the <methodname>this</methodname> pointer syntax: e.g. 
+need two stage name lookup, or do a bunch of search and replace and use
+the <methodname>this</methodname> pointer syntax: e.g.
 <methodname>this-&gt;_ignoreable</methodname> instead
-of just <methodname>_ignorable</methodname> (do this for each variable 
+of just <methodname>_ignorable</methodname> (do this for each variable
 or method referenced by <methodname>using</methodname>).
 </para>
 </sect2>
@@ -335,38 +335,38 @@ or method referenced by <methodname>using</methodname>).
 <title><classname>CmdLine</classname></title>
 <para>
 The <classname>CmdLine</classname> class contains the arguments that define
-the command line and manages the parsing of the command line. The 
+the command line and manages the parsing of the command line. The
 <classname>CmdLine</classname> doesn't parse the command line itself it only
 manages the parsing. The actual parsing of individual arguments occurs within
 the arguments themselves. The <classname>CmdLine</classname> keeps track of
-of the required arguments, <link linkend="XOR">relationships</link> 
+of the required arguments, <link linkend="XOR">relationships</link>
 between arguments, and <link linkend="CHANGE_OUTPUT">output</link> generation.
 </para>
 </sect1>
 <sect1 id="SWITCH_ARG">
 <title><classname>SwitchArg</classname></title>
-<para><classname>SwitchArg</classname>s are what the name implies: 
-simple, on/off, boolean switches. Use <classname>SwitchArg</classname>s 
+<para><classname>SwitchArg</classname>s are what the name implies:
+simple, on/off, boolean switches. Use <classname>SwitchArg</classname>s
 anytime you want to turn
-some sort of system property on or off. <classname>SwitchArg</classname>s 
-don't parse a value. They return <constant>TRUE</constant> or 
-<constant>FALSE</constant>, depending on whether the switch has been found 
+some sort of system property on or off. <classname>SwitchArg</classname>s
+don't parse a value. They return <constant>TRUE</constant> or
+<constant>FALSE</constant>, depending on whether the switch has been found
 on the command line and what the default value was defined as.</para>
 </sect1>
 
 <sect1 id="VALUE_ARG">
 <title><classname>ValueArg</classname></title>
-<para><classname>ValueArg</classname>s are arguments that read a 
+<para><classname>ValueArg</classname>s are arguments that read a
 value of some type
 from the command line. Any time you need a file name, a number,
-etc. use a <classname>ValueArg</classname> or one of its variants. 
-All <classname>ValueArg</classname>s are 
+etc. use a <classname>ValueArg</classname> or one of its variants.
+All <classname>ValueArg</classname>s are
 <link linkend="USING_ARGTRAITS"> templatized</link> and will attempt to parse
 the string its flag matches on the command line as the type it is
-specified as. <classname>ValueArg&lt;int&gt;</classname> 
+specified as. <classname>ValueArg&lt;int&gt;</classname>
 will attempt to parse an
-int, <classname>ValueArg&lt;float&gt;</classname> will attempt to 
-parse a float, etc. If <methodname>operator&gt;&gt;</methodname> 
+int, <classname>ValueArg&lt;float&gt;</classname> will attempt to
+parse a float, etc. If <methodname>operator&gt;&gt;</methodname>
 for the specified type doesn't
 recognize the string on the command line as its defined type, then
 an exception will be thrown.
@@ -381,23 +381,23 @@ can be specified more than once on a command line and instead of returning
 a single value, returns a <classname>vector</classname> of values.
 </para>
 <para>
-Imagine a compiler that allows you to specify multiple directories 
+Imagine a compiler that allows you to specify multiple directories
 to search for libraries...
 </para>
 
 <programlisting>
-                % fooCompiler -L /dir/num1 -L /dir/num2 file.foo 
+                % fooCompiler -L /dir/num1 -L /dir/num2 file.foo
 </programlisting>
 <para>
-Exceptions will occur if you try to do this 
+Exceptions will occur if you try to do this
 with a <classname>ValueArg</classname> or a <classname>SwitchArg</classname>.
-In situations like this, you will want to use a 
+In situations like this, you will want to use a
 <classname>MultiArg</classname>. A
-<classname>MultiArg</classname> is essentially a 
+<classname>MultiArg</classname> is essentially a
 <classname>ValueArg</classname> that appends any
 value that it matches and parses onto a vector of values. When the
-<methodname>getValue()</methodname> method is called, a vector of 
-values, instead of a single value is returned. A 
+<methodname>getValue()</methodname> method is called, a vector of
+values, instead of a single value is returned. A
 <classname>MultiArg</classname> is declared much like
 a <classname>ValueArg</classname>:
 
@@ -406,25 +406,25 @@ a <classname>ValueArg</classname>:
                 MultiArg&lt;int&gt; itest("i", "intTest", "multi int test", false,"int" );
                 cmd.add( itest );
 </programlisting>
-Note that <classname>MultiArg</classname>s can be added to the 
-<classname>CmdLine</classname> in any order (unlike 
-<link linkend="UNLABELED_MULTI_ARG"> UnlabeledMultiArg</link>). 
+Note that <classname>MultiArg</classname>s can be added to the
+<classname>CmdLine</classname> in any order (unlike
+<link linkend="UNLABELED_MULTI_ARG"> UnlabeledMultiArg</link>).
 </para>
 </sect1>
 
 <sect1 id="MULTI_SWITCH_ARG">
 <title><classname>MultiSwitchArg</classname></title>
 <para>
-A <classname>MultiSwitchArg</classname> is a <classname>SwitchArg</classname> 
-that can be specified more than once on a command line.  
+A <classname>MultiSwitchArg</classname> is a <classname>SwitchArg</classname>
+that can be specified more than once on a command line.
 This can be useful
 when command lines are constructed automatically from within other applications
 or when a switch occurring
 more than once indicates a value (-V means a little verbose -V -V -V means a lot
 verbose), You can use a <classname>MultiSwitchArg</classname>.
 The call
-to <methodname>getValue()</methodname> for a <classname>MultiSwitchArg</classname> returns the number (int) of times 
-the switch has been found on the command line in addition to the default value. 
+to <methodname>getValue()</methodname> for a <classname>MultiSwitchArg</classname> returns the number (int) of times
+the switch has been found on the command line in addition to the default value.
 Here is an example using the default initial value of 0:
 <programlisting>
 	MultiSwitchArg quiet("q","quiet","Reduce the volume of output");
@@ -441,7 +441,7 @@ Alternatively, you can specify your own initial value:
 <sect1 id="UNLABELED_VALUE_ARG">
 <title><classname>UnlabeledValueArg</classname></title>
 <para>
-An <classname>UnlabeledValueArg</classname> is a <classname>ValueArg</classname> that is not identified by a flag on the command line.  Instead 
+An <classname>UnlabeledValueArg</classname> is a <classname>ValueArg</classname> that is not identified by a flag on the command line.  Instead
 <classname>UnlabeledValueArg</classname>s are identified by their position in
 the argv array.
 </para>
@@ -450,13 +450,13 @@ To this point all of our arguments have had labels (flags)
 identifying them on the command line, but there are some
 situations where flags are burdensome and not worth the effort. One
 example might be if you want to implement a magical command we'll
-call <command>copy</command>. All <command>copy</command> does is 
+call <command>copy</command>. All <command>copy</command> does is
 copy the file specified
 in the first argument to the file specified in the second argument.
 We can do this using <classname>UnlabeledValueArg</classname>s which are pretty
-much just <classname>ValueArg</classname>s without the flag specified, 
+much just <classname>ValueArg</classname>s without the flag specified,
 which tells
-the <classname>CmdLine</classname> object to treat them accordingly. 
+the <classname>CmdLine</classname> object to treat them accordingly.
 The code would look like this:
 
 <programlisting>
@@ -469,19 +469,19 @@ The code would look like this:
 
 Everything else is handled identically to what is seen above. The
 only difference to be aware of, and this is important: <emphasis>the order
-that UnlabeledValueArgs are added to the <classname>CmdLine</classname> 
-is the order that they will be parsed!!!!</emphasis> 
-This is <emphasis>not</emphasis> the case for normal 
-<classname>SwitchArg</classname>s and <classname>ValueArg</classname>s. 
-What happens internally is the first argument that the 
-<classname>CmdLine</classname> doesn't recognize is assumed to be 
+that UnlabeledValueArgs are added to the <classname>CmdLine</classname>
+is the order that they will be parsed!!!!</emphasis>
+This is <emphasis>not</emphasis> the case for normal
+<classname>SwitchArg</classname>s and <classname>ValueArg</classname>s.
+What happens internally is the first argument that the
+<classname>CmdLine</classname> doesn't recognize is assumed to be
 the first <classname>UnlabeledValueArg</classname> and
 parses it as such. Note that you are allowed to intersperse labeled
 args (SwitchArgs and ValueArgs) in between
-<classname>UnlabeledValueArgs</classname> (either on the command line 
-or in the declaration), but the <classname>UnlabeledValueArgs</classname> 
+<classname>UnlabeledValueArgs</classname> (either on the command line
+or in the declaration), but the <classname>UnlabeledValueArgs</classname>
 will still be parsed in the order they are added. Just remember that order is
-important for unlabeled arguments. 
+important for unlabeled arguments.
 </para>
 </sect1>
 
@@ -512,13 +512,13 @@ really something like:
 </programlisting>
 
 To handle situations where multiple, unlabeled arguments are needed,
-we provide the <classname>UnlabeledMultiArg</classname>. 
+we provide the <classname>UnlabeledMultiArg</classname>.
 <classname>UnlabeledMultiArg</classname>s
 are declared much like everything else, but with only a description
-of the arguments. By default, if an <classname>UnlabeledMultiArg</classname> 
+of the arguments. By default, if an <classname>UnlabeledMultiArg</classname>
 is specified, then at least one is required to be present or an
 exception will be thrown. The most important thing to remember is,
-that like <classname>UnlabeledValueArg</classname>s: order matters! 
+that like <classname>UnlabeledValueArg</classname>s: order matters!
 In fact, <emphasis>an UnlabeledMultiArg must be the last argument added to the
 CmdLine!</emphasis>. Here is what a declaration looks like:
 
@@ -535,24 +535,24 @@ CmdLine!</emphasis>. Here is what a declaration looks like:
 
 </programlisting>
 
-You must only ever specify one (1) <classname>UnlabeledMultiArg</classname>. 
-One <classname>UnlabeledMultiArg</classname> will read every unlabeled 
-Arg that wasn't already processed by a 
+You must only ever specify one (1) <classname>UnlabeledMultiArg</classname>.
+One <classname>UnlabeledMultiArg</classname> will read every unlabeled
+Arg that wasn't already processed by a
 <classname>UnlabeledValueArg</classname> into a
-<classname>vector</classname> of type T. Any 
+<classname>vector</classname> of type T. Any
 <classname>UnlabeledValueArg</classname> or other
 <classname>UnlabeledMultiArg</classname> specified after the first
-<classname>UnlabeledMultiArg</classname> will be ignored, and if 
+<classname>UnlabeledMultiArg</classname> will be ignored, and if
 they are required,
-exceptions will be thrown. When you call the 
+exceptions will be thrown. When you call the
 <methodname>getValue()</methodname>
-method of the <classname>UnlabeledValueArg</classname> argument, 
+method of the <classname>UnlabeledValueArg</classname> argument,
 a <classname>vector</classname>
 will be returned. If you can imagine a situation where there will
 be multiple args of multiple types (stings, ints, floats, etc.)
 then just declare the <classname>UnlabeledMultiArg</classname> as type
 <classname>string</classname> and parse the different values yourself or use
-several <classname>UnlabeledValueArg</classname>s. 
+several <classname>UnlabeledValueArg</classname>s.
 </para>
 </sect1>
 </chapter>
@@ -561,14 +561,14 @@ several <classname>UnlabeledValueArg</classname>s.
 <title>Complications</title>
 <para>
 Naturally, what we have seen to this point doesn't satisfy all of
-our needs. 
+our needs.
 </para>
 
 <sect1 id="COMBINE_SWITCHES">
 <title>I want to combine multiple switches into one argument...</title>
 <para>
-Multiple <classname>SwitchArg</classname>s can be combined into a 
-single argument on the command line. If you have switches -a, -b and -c 
+Multiple <classname>SwitchArg</classname>s can be combined into a
+single argument on the command line. If you have switches -a, -b and -c
 it is valid to do either:
 
 <programlisting>
@@ -588,7 +588,7 @@ it is valid to do either:
 </programlisting>
 
 This is to make this library more in line with the POSIX and GNU
-standards (as I understand them). 
+standards (as I understand them).
 </para>
 </sect1>
 
@@ -597,22 +597,22 @@ standards (as I understand them).
 <para>
 Suppose you have a command that must read input from one of two
 possible locations, either a local file or a URL. The command
-<emphasis>must</emphasis> read something, so <emphasis>one</emphasis> 
+<emphasis>must</emphasis> read something, so <emphasis>one</emphasis>
 argument is required, but
 not both, yet neither argument is strictly necessary by itself.
 This is called "exclusive or" or "XOR". To accommodate this
-situation, there is now an option to add two or more 
+situation, there is now an option to add two or more
 <classname>Arg</classname>s to
 a <classname>CmdLine</classname> that are exclusively or'd with one another:
-<methodname>xorAdd()</methodname>. This means that exactly one of the 
+<methodname>xorAdd()</methodname>. This means that exactly one of the
 <classname>Arg</classname>s must be set and no more.
 </para>
 
 <para>
-<methodname>xorAdd()</methodname> comes in two flavors, either 
+<methodname>xorAdd()</methodname> comes in two flavors, either
 <methodname>xorAdd(Arg&amp; a, Arg&amp; b)</methodname>
-to add just two <classname>Arg</classname>s to be xor'd and 
-<methodname>xorAdd( vector&lt;Arg*&gt; xorList )</methodname> 
+to add just two <classname>Arg</classname>s to be xor'd and
+<methodname>xorAdd( vector&lt;Arg*&gt; xorList )</methodname>
 to add more than two <classname>Arg</classname>s.
 
 <programlisting>
@@ -627,17 +627,17 @@ to add more than two <classname>Arg</classname>s.
 </programlisting>
 
 Once one <classname>Arg</classname> in the xor list is matched on the
-<classname>CmdLine</classname> then the others in the xor list will be 
+<classname>CmdLine</classname> then the others in the xor list will be
 marked as set. The question then, is how to determine which of the
 <classname>Arg</classname>s has been set? This is accomplished by calling the
-isSet() method for each <classname>Arg</classname>. If the 
+isSet() method for each <classname>Arg</classname>. If the
 <classname>Arg</classname> has been
-matched on the command line, the <methodname>isSet()</methodname> will return 
-<constant>TRUE</constant>, whereas if the <classname>Arg</classname> 
-has been set as a result of matching the other <classname>Arg</classname> 
-that was xor'd <methodname>isSet()</methodname> will 
+matched on the command line, the <methodname>isSet()</methodname> will return
+<constant>TRUE</constant>, whereas if the <classname>Arg</classname>
+has been set as a result of matching the other <classname>Arg</classname>
+that was xor'd <methodname>isSet()</methodname> will
 return <constant>FALSE</constant>.
-(Of course, if the <classname>Arg</classname> was not xor'd and 
+(Of course, if the <classname>Arg</classname> was not xor'd and
 wasn't matched, it will also return <constant>FALSE</constant>.)
 
 <programlisting>
@@ -701,12 +701,12 @@ option on the command line. The help output is updated accordingly.
 
 
 <sect1 id="CONSTRAINT">
-<title>I want to constrain the values allowed for a particular 
+<title>I want to constrain the values allowed for a particular
 argument...</title>
 <para>
 <emphasis>Interface Change!!!</emphasis> Sorry folks, but we've changed
 the interface since version 1.0.X for constraining <classname>Arg</classname>s.
-Constraints are now hidden behind the <classname>Constraint</classname> 
+Constraints are now hidden behind the <classname>Constraint</classname>
 interface.  To
 constrain an <classname>Arg</classname> simply implement the interface
 and specify the new class in the constructor as before.
@@ -715,18 +715,18 @@ and specify the new class in the constructor as before.
 <para>
 You can still constrain <classname>Arg</classname>s based on
 a list of values.  Instead of adding a <classname>vector</classname> of
-allowed values to the <classname>Arg</classname> directly, 
+allowed values to the <classname>Arg</classname> directly,
 create a <classname>ValuesConstraint</classname> object
-with a <classname>vector</classname> of values and add that to the 
+with a <classname>vector</classname> of values and add that to the
 <classname>Arg</classname>. The <classname>Arg</classname> constructors
 have been modified accordingly.
 </para>
 
 <para>
-When the value for the 
+When the value for the
 <classname>Arg</classname> is parsed,
 it is checked against the list of values specified in the
-<classname>ValuesConstraint</classname>. 
+<classname>ValuesConstraint</classname>.
 If the value is in the list then it is accepted. If
 not, then an exception is thrown. Here is a simple example:
 
@@ -738,18 +738,18 @@ not, then an exception is thrown. Here is a simple example:
 		allowed.push_back("lisa");
 		allowed.push_back("maggie");
 		ValuesConstraint&lt;string&gt; allowedVals( allowed );
-        
+
 		ValueArg&lt;string&gt; nameArg("n","name","Name to print",true,"homer",&amp;allowedVals);
 		cmd.add( nameArg );
 </programlisting>
 
 When a <classname>ValuesConstraint</classname> is specified,
-instead of a type description being specified in the 
+instead of a type description being specified in the
 <classname>Arg</classname>, a
 type description is created by concatenating the values in the
 allowed list using operator&lt;&lt; for the specified type. The
-help/usage for the <classname>Arg</classname> therefore lists the 
-allowable values.  Because of this, you might want to keep the list 
+help/usage for the <classname>Arg</classname> therefore lists the
+allowable values.  Because of this, you might want to keep the list
 relatively small, however there is no limit on this.
 </para>
 
@@ -759,8 +759,8 @@ constrain things. For instance, one might wish to allow only
 integers greater than 0. In this case, simply create a class that
 implements the <classname>Constraint&lt;int&gt;</classname> interface and
 checks whether the value parsed is greater than 0 (done in the
-<methodname>check()</methodname> method) and create your 
-<classname>Arg</classname> with your new <classname>Constraint</classname>. 
+<methodname>check()</methodname> method) and create your
+<classname>Arg</classname> with your new <classname>Constraint</classname>.
 </para>
 </sect1>
 
@@ -768,14 +768,14 @@ checks whether the value parsed is greater than 0 (done in the
 <sect1 id="ARG_ADD_CMDLINE">
 <title>I want the Args to add themselves to the CmdLine...</title>
 <para>
-New constructors have been added for each <classname>Arg</classname> 
-that take a <classname>CmdLine</classname> object as an argument. 
+New constructors have been added for each <classname>Arg</classname>
+that take a <classname>CmdLine</classname> object as an argument.
 Each <classname>Arg</classname> then
-<methodname>add</methodname>s itself to the <classname>CmdLine</classname> 
-object. There is no difference in how the <classname>Arg</classname> 
-is handled between this method and calling the 
+<methodname>add</methodname>s itself to the <classname>CmdLine</classname>
+object. There is no difference in how the <classname>Arg</classname>
+is handled between this method and calling the
 <methodname>add()</methodname> method directly. At the moment, there is
-no way to do an <methodname>xorAdd()</methodname> from the constructor. Here 
+no way to do an <methodname>xorAdd()</methodname> from the constructor. Here
 is an example:
 
 <programlisting>
@@ -786,12 +786,12 @@ is an example:
         // Note that the following args take the "cmd" object as arguments.
         SwitchArg btest("B","existTestB", "exist Test B", cmd, false );
 
-        ValueArg&lt;string&gt; stest("s", "stringTest", "string test", true, "homer", 
+        ValueArg&lt;string&gt; stest("s", "stringTest", "string test", true, "homer",
                                                "string", cmd );
 
-        UnlabeledValueArg&lt;string&gt; utest("unTest1","unlabeled test one", 
+        UnlabeledValueArg&lt;string&gt; utest("unTest1","unlabeled test one",
                                                         "default","string", cmd );
-        
+
         // NO add() calls!
 
         // Parse the command line.
@@ -804,11 +804,11 @@ is an example:
 <sect1 id="CHANGE_OUTPUT">
 <title>I want different output than what is provided...</title>
 <para>
-It is straightforward to change the output generated by 
-<emphasis>TCLAP</emphasis>.  Either subclass the 
+It is straightforward to change the output generated by
+<emphasis>TCLAP</emphasis>.  Either subclass the
 <classname>StdOutput</classname> class and re-implement the methods you choose,
-or write your own class that implements the 
-<classname>CmdLineOutput</classname> interface.  Once you have done this, 
+or write your own class that implements the
+<classname>CmdLineOutput</classname> interface.  Once you have done this,
 then use the <classname>CmdLine</classname> <methodname>setOutput</methodname>
 method to tell the <classname>CmdLine</classname> to use your new output
 class. Here is a simple example:
@@ -817,7 +817,7 @@ class MyOutput : public StdOutput
 {
 	public:
 		virtual void failure(CmdLineInterface&amp; c, ArgException&amp; e)
-		{ 
+		{
 			cerr &lt;&lt; "My special failure message for: " &lt;&lt; endl
 				 &lt;&lt; e.what() &lt;&lt; endl;
 			exit(1);
@@ -828,7 +828,7 @@ class MyOutput : public StdOutput
 			cout &lt;&lt; "my usage message:" &lt;&lt; endl;
 			list&lt;Arg*&gt; args = c.getArgList();
 			for (ArgListIterator it = args.begin(); it != args.end(); it++)
-				cout &lt;&lt; (*it)-&gt;longID() 
+				cout &lt;&lt; (*it)-&gt;longID()
 					 &lt;&lt; "  (" &lt;&lt; (*it)-&gt;getDescription() &lt;&lt; ")" &lt;&lt; endl;
 		}
 
@@ -850,10 +850,10 @@ int main(int argc, char** argv)
 </programlisting>
 
 See <filename>test4.cpp</filename> in the examples directory for the full
-example. <emphasis>NOTE</emphasis>: if you supply your own Output object, we 
-will not delete it in the <classname>CmdLine</classname> destructor.  This 
+example. <emphasis>NOTE</emphasis>: if you supply your own Output object, we
+will not delete it in the <classname>CmdLine</classname> destructor.  This
 could lead to a (very small) memory leak if you don't take care of the object
-yourself.  Also note that the <methodname>failure</methodname> method is 
+yourself.  Also note that the <methodname>failure</methodname> method is
 now responsible for exiting the application (assuming that is the desired
 behavior).
 </para>
@@ -863,9 +863,9 @@ behavior).
 <title>I don't want the --help and --version switches to be created automatically...</title>
 <para>
 Help and version information is useful for nearly all command line applications
-and as such we generate flags that provide those options automatically.  
+and as such we generate flags that provide those options automatically.
 However, there are situations when these flags are undesirable. For these
-cases we've added we've added a forth parameter to the 
+cases we've added we've added a forth parameter to the
 <classname>CmdLine</classname> constructor.  Making this boolean parameter
 false will disable automatic help and version generation.
 <programlisting>
@@ -877,39 +877,39 @@ false will disable automatic help and version generation.
 <sect1 id="IGNORE_ARGS">
 <title>I want to ignore certain arguments...</title>
 <para>
-The <parameter>--</parameter> flag is automatically included in the 
+The <parameter>--</parameter> flag is automatically included in the
 <classname>CmdLine</classname>.
 As (almost) per POSIX and GNU standards, any argument specified
-after the <parameter>--</parameter> flag is ignored. 
+after the <parameter>--</parameter> flag is ignored.
 <emphasis>Almost</emphasis> because if an
 <classname>UnlabeledValueArg</classname> that has not been set or an
-<classname>UnlabeledMultiArg</classname> has been specified, by default 
-we will assign any arguments beyond the <parameter>--</parameter> 
+<classname>UnlabeledMultiArg</classname> has been specified, by default
+we will assign any arguments beyond the <parameter>--</parameter>
 to the those arguments as
 per the rules above. This is primarily useful if you want to pass
 in arguments with a dash as the first character of the argument. It
-should be noted that even if the <parameter>--</parameter> flag is 
-passed on the command line, the <classname>CmdLine</classname> will 
-<emphasis>still</emphasis> test to make sure all of the required 
+should be noted that even if the <parameter>--</parameter> flag is
+passed on the command line, the <classname>CmdLine</classname> will
+<emphasis>still</emphasis> test to make sure all of the required
 arguments are present.
 </para>
 
 <para>
 Of course, this isn't how POSIX/GNU handle things, they explicitly
-ignore arguments after the <parameter>--</parameter>. To accommodate this, 
-we can make both <classname>UnlabeledValueArg</classname>s and 
-<classname>UnlabeledMultiArg</classname>s ignoreable in their constructors. 
-See the <ulink url="html/index.html"> API Documentation</ulink> for details. 
+ignore arguments after the <parameter>--</parameter>. To accommodate this,
+we can make both <classname>UnlabeledValueArg</classname>s and
+<classname>UnlabeledMultiArg</classname>s ignoreable in their constructors.
+See the <ulink url="html/index.html"> API Documentation</ulink> for details.
 </para>
 </sect1>
 
 <sect1 id="READING_HEX_INTEGERS">
 <title>I want to read hex integers as arguments...</title>
 <para>
-Sometimes it's desirable to read integers formatted in decimal, hexadecimal, 
+Sometimes it's desirable to read integers formatted in decimal, hexadecimal,
 and octal format. This is now possible by #defining the <parameter>TCLAP_SETBASE_ZERO</parameter>
 directive.  Simply define this directive in your code and integer arguments will be parsed
-in each base.  
+in each base.
 <programlisting>
 
 #define TCLAP_SETBASE_ZERO 1
@@ -947,10 +947,10 @@ int main(int argc, char** argv)
 </programlisting>
 </para>
 <para>
-The reason that this behavior is not the default behavior for <emphasis>TCLAP</emphasis> is that the use of 
+The reason that this behavior is not the default behavior for <emphasis>TCLAP</emphasis> is that the use of
 <methodname>setbase(0)</methodname> appears to be something of a side effect and is not necessarily how
 <methodname>setbase()</methodname> is meant to be used.  So while we're making this functionality
-available, we're not turning it on by default for fear of bad things happening in different compilers.  
+available, we're not turning it on by default for fear of bad things happening in different compilers.
 If you know otherwise, please let us know.
 </para>
 </sect1>
@@ -958,18 +958,18 @@ If you know otherwise, please let us know.
 <sect1 id="USING_ARGTRAITS">
 <title>I want to use different types...</title>
 <para>
-The usual C++ types (int, long, bool, etc.) are supported by <emphasis>TCLAP</emphasis> out 
+The usual C++ types (int, long, bool, etc.) are supported by <emphasis>TCLAP</emphasis> out
 of the box. As
 long as operator&gt;&gt; and operator&lt;&lt; are supported, other types should work fine
-too, you'll just need to specify the <classname>ArgTraits</classname> which 
-tells <emphasis>TCLAP</emphasis> how you expect the type to be handled.  
+too, you'll just need to specify the <classname>ArgTraits</classname> which
+tells <emphasis>TCLAP</emphasis> how you expect the type to be handled.
 </para>
 <para>
 For example, assume that you'd like to read one argument on the command line in as a
-<classname>std::pair</classname> object.  All you'll need to do is tell 
+<classname>std::pair</classname> object.  All you'll need to do is tell
 <emphasis>TCLAP</emphasis> whether to treat <classname>std::pair</classname> as a
 String or Value.  StringLike means to treat the string on the command line as a string
-and use it directly, whereas ValueLike means that a value object should be extracted from the 
+and use it directly, whereas ValueLike means that a value object should be extracted from the
 string using operator&gt;&gt;.  For <classname>std::pair</classname> we'll choose ValueLike.
 To accomplish this, add the following declaration to your file:
 
@@ -982,7 +982,7 @@ To accomplish this, add the following declaration to your file:
 
 </programlisting>
 
-For complete examples see the files <filename>test11.cpp</filename> 
+For complete examples see the files <filename>test11.cpp</filename>
 and <filename>test12.cpp</filename> in the examples directory.
 </para>
 </sect1>
@@ -993,7 +993,7 @@ and <filename>test12.cpp</filename> in the examples directory.
 <chapter id="NOTES">
 <title>Notes</title>
 <para>
-Like all good rules, there are many exceptions.... 
+Like all good rules, there are many exceptions....
 </para>
 
 <sect1 id="DESCRIPTION_EXCEPTIONS">
@@ -1001,7 +1001,7 @@ Like all good rules, there are many exceptions....
 <para>
 Ideally this library would use RTTI to return a human readable name
 of the type declared for a particular argument. Unfortunately, at
-least for <command>g++</command>, the names returned aren't 
+least for <command>g++</command>, the names returned aren't
 particularly useful.
 </para>
 </sect1>
@@ -1009,10 +1009,10 @@ particularly useful.
 <title>Visitors</title>
 
 <para>
-Disclaimer: Almost no one will have any use for 
+Disclaimer: Almost no one will have any use for
 <classname>Visitor</classname>s, they were
 added to provide special handling for default arguments. Nothing
-that <classname>Visitor</classname>s do couldn't be accomplished 
+that <classname>Visitor</classname>s do couldn't be accomplished
 by the user after the
 command line has been parsed. If you're still interested, keep
 reading...
@@ -1020,8 +1020,8 @@ reading...
 
 <para>
 Some of you may be wondering how we get the <parameter>--help</parameter>,
-<parameter>--version</parameter> and <parameter>--</parameter> 
-arguments to do their thing without mucking up the 
+<parameter>--version</parameter> and <parameter>--</parameter>
+arguments to do their thing without mucking up the
 <classname>CmdLine</classname> code with lots of <emphasis>if</emphasis>
 statements and type checking. This is accomplished by using a
 variation on the Visitor Pattern. Actually, it may not be a Visitor
@@ -1032,13 +1032,13 @@ Pattern at all, but that's what inspired me.
 If we want some argument to do some sort of special handling,
 besides simply parsing a value, then we add a <classname>Visitor</classname>
 pointer to the <classname>Arg</classname>. More specifically, we add a
-<emphasis>subclass</emphasis> of the <classname>Visitor</classname> 
-class. Once the argument has been successfully parsed, the 
+<emphasis>subclass</emphasis> of the <classname>Visitor</classname>
+class. Once the argument has been successfully parsed, the
 <classname>Visitor</classname> for that argument is
 called. Any data that needs to be operated on is declared in the
 <classname>Visitor</classname> constructor and then operated on in the
-<methodname>visit()</methodname> method. A <classname>Visitor</classname> 
-is added to an <classname>Arg</classname> as the last argument in its 
+<methodname>visit()</methodname> method. A <classname>Visitor</classname>
+is added to an <classname>Arg</classname> as the last argument in its
 declaration. This may sound
 complicated, but it is pretty straightforward. Let's see an
 example.
@@ -1072,24 +1072,24 @@ your command line. When you create the author switch, add the
 
 <programlisting>
 
-                SwitchArg author("a","author","Prints author name", false, 
+                SwitchArg author("a","author","Prints author name", false,
                                          new AuthorVisitor("Homer J. Simpson") );
                 cmd.add( author );
 
 </programlisting>
 
-Now, any time the <parameter>-a</parameter> or 
+Now, any time the <parameter>-a</parameter> or
 <parameter>--author</parameter> flag is specified,
 the program will print the author name, Homer J. Simpson and exit
-without processing any further (as specified in the 
-<methodname>visit()</methodname> method). 
+without processing any further (as specified in the
+<methodname>visit()</methodname> method).
 </para>
 </sect1>
 
 <sect1 id="MORE_INFO">
 <title>More Information</title>
 <para>
-For more information, look at the <ulink url="html/index.html"> 
+For more information, look at the <ulink url="html/index.html">
 API Documentation</ulink> and the examples included with the
 distribution.
 </para>
