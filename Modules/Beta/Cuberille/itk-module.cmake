@@ -1,4 +1,6 @@
-set(DOCUMENTATION "This module implements cuberille implicit surface
+set(
+  DOCUMENTATION
+  "This module implements cuberille implicit surface
 polygonization for ITK. This method operates by diving the surface into a
 number of small cubes called cuberilles. Each cuberille is centered at a
 pixel lying on the iso-surface and then quadrilaterals are generated for each
@@ -12,9 +14,11 @@ A more detailed description can be found in the Insight Journal article:
   https://hdl.handle.net/10380/3186
   https://www.insight-journal.org/browse/publication/740
   July 20, 2010.
-")
+"
+)
 
-itk_module(Cuberille
+itk_module(
+  Cuberille
   DEPENDS
     ITKCommon
     ITKImageFunction
@@ -31,8 +35,7 @@ itk_module(Cuberille
     ITKIONRRD
     ITKIOMeshBase
     ITKIOVTK
-  DESCRIPTION
-    "${DOCUMENTATION}"
+  DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
   ENABLE_SHARED
 )

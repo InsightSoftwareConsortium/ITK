@@ -1,10 +1,9 @@
 # The header files
-set(HEADERS
-  itkCuberilleImageToMeshFilter.h
-)
+set(HEADERS itkCuberilleImageToMeshFilter.h)
 
 # The implementation files
-set(SOURCES
+set(
+  SOURCES
   itkCuberilleImageToMeshFilter.txx
   examples.cxx
 )
@@ -16,5 +15,13 @@ include_directories(
 )
 
 # Main library
-add_executable(Examples ${HEADERS} ${SOURCES})
-target_link_libraries(Examples ${ITK_LIBRARIES} ITKQuadEdgeMesh)
+add_executable(
+  Examples
+  ${HEADERS}
+  ${SOURCES}
+)
+target_link_libraries(
+  Examples
+  ${ITK_LIBRARIES}
+  ITKQuadEdgeMesh
+)
