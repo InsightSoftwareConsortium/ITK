@@ -97,6 +97,13 @@ repos:
           | \.c$                # Exclude .c files
 - repo: local
   hooks:
+    - id: check-spdx-headers
+      name: 'check SPDX license headers'
+      entry: 'python3 Utilities/SPDX/add_headers.py --check --files'
+      language: system
+      files: '\.(h|hxx|cxx|txx|py|cmake)$|CMakeLists\.txt$'
+      exclude: "\\/ThirdParty\\/|\\/.pixi\\/|\\/Data\\/|\\/cmake-build.*\\/"
+      stages: [pre-commit]
     - id: local-prepare-commit-msg
       name: 'local prepare-commit-msg'
       entry: 'Utilities/Hooks/prepare-commit-msg'
