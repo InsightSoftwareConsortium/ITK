@@ -8,3 +8,10 @@ Note that the files in this directory are not tested automatically
 by the continuous integration (CI) of the ITK git repository. So a
 git commit that only modifies files in this directory should not
 trigger a run of the CI.
+
+## SBOM and SPDX Tooling
+
+SBOM generation, validation, drift detection, and SPDX header
+maintenance scripts have moved to `Utilities/SPDX/`. See
+[Utilities/SPDX/README.md](../SPDX/README.md) for the full list of
+scripts and typical workflows.
