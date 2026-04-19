@@ -1,0 +1,24 @@
+Netlib SLATEC Public-Domain Mathematical Library
+=================================================
+
+Routines derived from the SLATEC Common Mathematical Library, as
+distributed by Netlib (https://netlib.org/slatec/).
+
+Per the Netlib SLATEC policy:
+
+  The SLATEC Common Mathematical Library is issued by the following:
+    Air Force Weapons Laboratory, Albuquerque
+    Lawrence Livermore National Laboratory, Livermore
+    Los Alamos National Laboratory, Los Alamos
+    National Institute of Standards and Technology, Washington
+    National Energy Research Supercomputer Center, Livermore
+    Oak Ridge National Laboratory, Oak Ridge
+    Sandia National Laboratories, Albuquerque
+    Sandia National Laboratories, Livermore
+
+  All the author organizations have released their SLATEC contributions
+  into the public domain. The SLATEC library is in the public domain.
+
+ITK incorporates SLATEC-derived code in Modules/Numerics/FEM/src/dsrc2c.c.
+The code is in the public domain and may be used for any purpose without
+restriction.
