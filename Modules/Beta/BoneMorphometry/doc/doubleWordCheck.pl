@@ -13,5 +13,4 @@ while (<>) {
  s/^([^\e]*\n)+//mg;
  s/^/$ARGV: /mg;
  print;
-} 
-
+}

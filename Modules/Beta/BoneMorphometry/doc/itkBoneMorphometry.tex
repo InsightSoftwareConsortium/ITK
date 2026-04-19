@@ -70,7 +70,7 @@ colorlinks,linkcolor={blue},citecolor={blue},urlcolor={blue},
    %
    \DeclareGraphicsExtensions{.eps,.jpg,.gif,.tiff,.bmp,.png}
    \DeclareGraphicsRule{.jpg}{eps}{.jpg.bb}{`convert #1 eps:-}
-   \DeclareGraphicsRule{.gif}{eps}{.gif.bb}{`convert #1 eps:-} 
+   \DeclareGraphicsRule{.gif}{eps}{.gif.bb}{`convert #1 eps:-}
    \DeclareGraphicsRule{.tiff}{eps}{.tiff.bb}{`convert #1 eps:-}
    \DeclareGraphicsRule{.bmp}{eps}{.bmp.bb}{`convert #1 eps:-}
    \DeclareGraphicsRule{.png}{eps}{.png.bb}{`convert #1 eps:-}
@@ -137,7 +137,7 @@ The following features can be computed thanks to the itkBoneMorphometry filters:
 BvTv = \frac{N_{Bone}}{N_{Total}}
 \end{equation}
 
-\textbf{Trabecular number} (TbN) is taken as the inverse of the mean distance between the mid-axes of the structure to be examined. 
+\textbf{Trabecular number} (TbN) is taken as the inverse of the mean distance between the mid-axes of the structure to be examined.
 \begin{equation} \label{eqn:TbN}
 TbN = (TbN_x + TbN_y + TbN_z) / 3
 \end{equation}
@@ -153,11 +153,11 @@ BsBv = 2 \frac{TbN}{BvTv}
 
 \textbf{Trabecular thickness} (TbTh) is determined by filling maximal spheres into the structure using a distance transform. Then the average thickness of all maximal spheres is calculated to give an estimate of mean TbTh.
 
-\begin{equation} \label{eqn:TbTh} 
+\begin{equation} \label{eqn:TbTh}
 TbTh = \frac{BsBv}{TbN}
 \end{equation}
 
-\textbf{Trabecular separation} (TbSp) is calculated in the same way than TbTh, but this time the voxels representing non-bone parts are filled with maximal spheres. TbSp can thus be expressed as the average thickness of the marrow cavities. 
+\textbf{Trabecular separation} (TbSp) is calculated in the same way than TbTh, but this time the voxels representing non-bone parts are filled with maximal spheres. TbSp can thus be expressed as the average thickness of the marrow cavities.
 \begin{equation} \label{eqn:TbSp}
 TbSp = \frac{1 - BsBv}{TbN}
 \end{equation}
@@ -181,7 +181,7 @@ Inputs and parameters:
 \begin{itemize}
  \item An input image
  \item A mask defining the region over which features will be calculated. (Optional)
- \item A Threshold that will be used to determine if each voxel is part of the bone or not. Every voxel with an intensity higher than the threshold will be considered as part of the bone. 
+ \item A Threshold that will be used to determine if each voxel is part of the bone or not. Every voxel with an intensity higher than the threshold will be considered as part of the bone.
 \end{itemize}
 
 \subsection{itk::BoneMorphometryFeaturesImageFilter}
@@ -200,7 +200,7 @@ Inputs and parameters:
 \begin{itemize}
  \item An input image
  \item A mask defining the region over which features will be calculated. (Optional)
- \item A threshold that will be used to determine if each voxel is part of the bone or not. Every voxel with an intensity higher than the threshold will be considered as part of the bone. 
+ \item A threshold that will be used to determine if each voxel is part of the bone or not. Every voxel with an intensity higher than the threshold will be considered as part of the bone.
  \item The size of the neighborhood radius. (Optional, defaults to 2.)
 \end{itemize}
 
@@ -284,7 +284,7 @@ int BoneMorphometryFeaturesFilterInstantiationTest( int argc, char *argv[] )
   filter->GetTbTh();
   filter->GetTbSp();
   filter->GetBSBV();
-  
+
   return EXIT_SUCCESS;
 }
 
@@ -512,7 +512,7 @@ This document presented a new, fast, and efficient tool to compute bone morphome
 
 \section*{Acknowledgements}
 
-This work was supported by the National Institute of Health (NIH) National Institute for Dental and Craniofacial Research (NIDCR) grant R01EB021391 (Textural Biomarkers of Arthritis for the Subchondral Bone in the Temporomandibular Joint), NIDCR grant R01DE024450  (Quantification of 3D bony Changes in Temporomandibular Joint Osteoarthritis) and National Institute of Biomedical Imaging and Bioengineering (NIBIB) grant R01EB021391 (Shape Analysis Toolbox for Medical Image Computing Projects). 
+This work was supported by the National Institute of Health (NIH) National Institute for Dental and Craniofacial Research (NIDCR) grant R01EB021391 (Textural Biomarkers of Arthritis for the Subchondral Bone in the Temporomandibular Joint), NIDCR grant R01DE024450  (Quantification of 3D bony Changes in Temporomandibular Joint Osteoarthritis) and National Institute of Biomedical Imaging and Bioengineering (NIBIB) grant R01EB021391 (Shape Analysis Toolbox for Medical Image Computing Projects).
 
 We would like to thank Dr. Larry Wolford from the Baylor University Medical Center for kindly providing the bone specimens from which we obtained the scans used in the paper. We would like to thank Drs. Lucia Cevidanes, Erika Benavides and Antonio Ruellas at the University of Michigan School of Dentistry as well, for generating the CBCT scans that were processed with the filters presented in the paper.
 
@@ -528,4 +528,3 @@ We are also grateful for the support received from the ITK community.
 
 
 \end{document}
-
