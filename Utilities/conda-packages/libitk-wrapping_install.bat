@@ -15,11 +15,17 @@ rem those PythonWheel* names to files already installed under %PREFIX%.
 rem On Windows, conda Python packages live at %PREFIX%\Lib\site-packages (one
 rem level above %LIBRARY_PREFIX%) and extension modules use .pyd instead of .so.
 
-for /d %%i in ("%LIBRARY_PREFIX%\lib\cmake\ITK-*") do set ITK_CMAKE_DIR=%%i
-if "%ITK_CMAKE_DIR%"=="" (
-    echo ERROR: could not find ITK cmake config dir under %LIBRARY_PREFIX%\lib\cmake 1>&2
+rem Derive the ITK version from the build tree and create the installed cmake
+rem config dir if needed. libitk-devel populates the same directory; conda
+rem allows multiple packages to contribute files to a shared directory.
+set ITK_CMAKE_DIRNAME=
+for /f "delims=" %%d in ('powershell -NoProfile -Command "Get-ChildItem -Path '%BUILD_DIR%' -Recurse -Filter ITKConfig.cmake | Where-Object { $_.FullName -notmatch 'CMakeFiles' } | Select-Object -First 1 -ExpandProperty DirectoryName | Split-Path -Leaf"') do set ITK_CMAKE_DIRNAME=%%d
+if "%ITK_CMAKE_DIRNAME%"=="" (
+    echo ERROR: could not find ITKConfig.cmake in build tree %BUILD_DIR% 1>&2
     exit 1
 )
+set ITK_CMAKE_DIR=%LIBRARY_PREFIX%\lib\cmake\%ITK_CMAKE_DIRNAME%
+if not exist "%ITK_CMAKE_DIR%" mkdir "%ITK_CMAKE_DIR%"
 
 rem Write the cmake_install.cmake via a temporary PowerShell script.
 rem Using a PS1 temp file avoids cmd escaping issues with parentheses and

@@ -19,11 +19,18 @@ cmake -DCOMPONENT=PythonWrappingRuntimeLibraries -P "${BUILD_DIR}/cmake_install.
 # The file uses CMAKE_CURRENT_LIST_DIR to derive the prefix at cmake time,
 # making it fully relocatable across machines and prefix paths.
 
-ITK_CMAKE_DIR=$(find "${PREFIX}/lib/cmake" -maxdepth 1 -name "ITK-*" -type d | head -1)
-if [ -z "${ITK_CMAKE_DIR}" ]; then
-    echo "ERROR: could not find ITK cmake config dir under ${PREFIX}/lib/cmake" >&2
+# Derive the ITK version from the build tree (ITKConfig.cmake is always
+# generated there) and create the installed cmake config dir if needed.
+# libitk-devel populates the same directory; conda allows multiple packages
+# to contribute files to a shared directory.
+BUILD_ITK_CMAKE=$(find "${BUILD_DIR}" -maxdepth 5 -name "ITKConfig.cmake" -not -path "*/CMakeFiles/*" | head -1)
+if [ -z "${BUILD_ITK_CMAKE}" ]; then
+    echo "ERROR: could not find ITKConfig.cmake in build tree ${BUILD_DIR}" >&2
     exit 1
 fi
+ITK_CMAKE_DIRNAME=$(basename "$(dirname "${BUILD_ITK_CMAKE}")")
+ITK_CMAKE_DIR="${PREFIX}/lib/cmake/${ITK_CMAKE_DIRNAME}"
+mkdir -p "${ITK_CMAKE_DIR}"
 
 cat > "${ITK_CMAKE_DIR}/cmake_install.cmake" <<'CMAKE_EOF'
 # Relocatable cmake_install.cmake for conda-installed ITK.
