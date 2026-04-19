@@ -11,4 +11,3 @@ for ITK.
 
 Full description can be found in the article:
 https://doi.org/10.54294/w2jytv
-
