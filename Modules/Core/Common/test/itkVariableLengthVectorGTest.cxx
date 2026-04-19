@@ -19,6 +19,8 @@
 // First include the header file to be tested:
 #include "itkVariableLengthVector.h"
 #include "itkRangeGTestUtilities.h"
+#include "itkVectorImage.h"
+#include "itkImageRegionIterator.h"
 #include <gtest/gtest.h>
 #include <numeric> // For iota.
 #include <random>  // For mt19937.
@@ -161,4 +163,95 @@ TEST(VariableLengthVector, ConstructWithSpecifiedLengthAndValue)
       EXPECT_EQ(std::count(variableLengthVector.cbegin(), variableLengthVector.cend(), value), length);
     }
   }
+}
+
+
+// Regression test: ensure that setting a VectorImage pixel from a
+// VariableLengthVector that is shorter than the image's
+// NumberOfComponentsPerPixel does not crash. Before commit
+// 1d87efa529, `VariableLengthVector(length)` with length=0 allocated a
+// valid (zero-size) heap block whose address was non-null. That commit
+// changed the ctor to store `nullptr` for length=0 and caused
+// DefaultVectorPixelAccessor::Set — which copies m_VectorLength
+// elements from the source VLV regardless of the source's own size —
+// to dereference the source's null data pointer, producing SIGSEGV.
+// This test documents that a length-mismatched source VLV is safe to
+// pass; it is permitted for the target pixel to receive
+// implementation-defined values, but the call must not crash.
+TEST(VariableLengthVector, VectorImageSetPixelFromShorterSourceIsSafe)
+{
+  using ValueType = float;
+  using ImageType = itk::VectorImage<ValueType, 3>;
+  using PixelType = ImageType::PixelType;
+
+  constexpr unsigned int      componentsPerPixel = 3;
+  auto                        image = ImageType::New();
+  const ImageType::SizeType   size = { { 2, 2, 2 } };
+  const ImageType::RegionType region{ size };
+  image->SetRegions(region);
+  image->SetNumberOfComponentsPerPixel(componentsPerPixel);
+  image->Allocate();
+
+  // Seed every pixel with a known sentinel value so we can assert the
+  // fix's "trailing components left unchanged" guarantee.
+  constexpr ValueType sentinelValue = 42.0f;
+  PixelType           sentinel(componentsPerPixel);
+  sentinel.Fill(sentinelValue);
+  for (itk::ImageRegionIterator<ImageType> seedIt(image, region); !seedIt.IsAtEnd(); ++seedIt)
+  {
+    seedIt.Set(sentinel);
+  }
+
+  // Pre-regression, VLV(0) had m_Data = new ValueType[0] (non-null).
+  // Post-regression, m_Data is nullptr. The iterator-based Set()
+  // path must tolerate that without dereferencing the null buffer.
+  PixelType shorter(0);
+  EXPECT_EQ(shorter.GetSize(), 0u);
+
+  itk::ImageRegionIterator<ImageType> it(image, region);
+  it.GoToBegin();
+  ASSERT_FALSE(it.IsAtEnd());
+  // The regression manifests here: before the fix, this produces
+  // a SIGSEGV due to memcpy/load from a null source buffer.
+  ASSERT_NO_FATAL_FAILURE(it.Set(shorter));
+
+  // Verify the fix's guarantee: a length-0 source is a no-op; the
+  // destination pixel retains its prior (sentinel) value.
+  const auto unchanged = it.Get();
+  ASSERT_EQ(unchanged.GetSize(), componentsPerPixel);
+  EXPECT_FLOAT_EQ(unchanged[0], sentinelValue);
+  EXPECT_FLOAT_EQ(unchanged[1], sentinelValue);
+  EXPECT_FLOAT_EQ(unchanged[2], sentinelValue);
+}
+
+
+// Companion: verify the normal, length-matched path still works.
+TEST(VariableLengthVector, VectorImageSetPixelFromMatchedSourceWorks)
+{
+  using ValueType = float;
+  using ImageType = itk::VectorImage<ValueType, 3>;
+  using PixelType = ImageType::PixelType;
+
+  constexpr unsigned int      componentsPerPixel = 3;
+  auto                        image = ImageType::New();
+  const ImageType::SizeType   size = { { 2, 2, 2 } };
+  const ImageType::RegionType region{ size };
+  image->SetRegions(region);
+  image->SetNumberOfComponentsPerPixel(componentsPerPixel);
+  image->Allocate();
+
+  PixelType matched(componentsPerPixel);
+  matched[0] = 1.0f;
+  matched[1] = 2.0f;
+  matched[2] = 3.0f;
+
+  itk::ImageRegionIterator<ImageType> it(image, region);
+  it.GoToBegin();
+  it.Set(matched);
+
+  const auto roundTrip = it.Get();
+  ASSERT_EQ(roundTrip.GetSize(), componentsPerPixel);
+  EXPECT_FLOAT_EQ(roundTrip[0], 1.0f);
+  EXPECT_FLOAT_EQ(roundTrip[1], 2.0f);
+  EXPECT_FLOAT_EQ(roundTrip[2], 3.0f);
 }

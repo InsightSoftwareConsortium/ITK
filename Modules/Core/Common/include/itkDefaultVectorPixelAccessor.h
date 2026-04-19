@@ -21,6 +21,7 @@
 #include "itkMacro.h"
 #include "itkVariableLengthVector.h"
 #include "itkIntTypes.h"
+#include <algorithm> // for std::min
 
 namespace itk
 {
@@ -61,13 +62,30 @@ public:
   /** Internal type alias. It defines the internal real representation of data. */
   using InternalType = TType;
 
-  /** Set output using the value in input */
+  /** Set output using the value in input.
+   *
+   * Copies up to `m_VectorLength` components from `input` into the pixel
+   * slot at `output` + offset. When `input` is shorter than
+   * `m_VectorLength`, only the available components are copied; the
+   * remaining destination components are left unchanged. This guards
+   * against callers that construct an under-sized source vector — in
+   * particular, `VariableLengthVector<T>(0)` whose internal data
+   * pointer is null (see ITK commit 1d87efa5), which previously caused
+   * a SIGSEGV when the implicit copy dereferenced the null buffer. */
   inline void
   Set(InternalType & output, const ExternalType & input, const SizeValueType offset) const
   {
     InternalType * truePixel = (&output) + offset * m_OffsetMultiplier;
 
-    for (VectorLengthType i = 0; i < m_VectorLength; ++i)
+    // A well-formed caller passes a source of length 0 (sentinel / no-op)
+    // or exactly m_VectorLength. Anything else is a caller bug that was
+    // silently masked by the pre-1d87efa5 allocation behavior; catch it
+    // in debug builds.
+    itkAssertInDebugAndIgnoreInReleaseMacro(input.GetSize() == 0 || input.GetSize() == m_VectorLength);
+
+    const VectorLengthType copyLength = std::min<VectorLengthType>(m_VectorLength, input.GetSize());
+
+    for (VectorLengthType i = 0; i < copyLength; ++i)
     {
       truePixel[i] = input[i];
     }
