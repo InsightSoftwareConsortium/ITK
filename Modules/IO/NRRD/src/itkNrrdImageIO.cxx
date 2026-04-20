@@ -1180,14 +1180,14 @@ NrrdImageIO::Write(const void * buffer)
 
   // Go through MetaDataDictionary and set either specific nrrd field
   // or a key/value pair
-  std::vector<std::string>                 keys = thisDic.GetKeys();
-  std::vector<std::string>::const_iterator keyIt;
-  const char *                             keyField, *field;
-  for (keyIt = keys.begin(); keyIt != keys.end(); ++keyIt)
+  const std::vector<std::string> keys = thisDic.GetKeys();
+  const char *                   keyField;
+  const char *                   field;
+  for (const std::string & metaKey : keys)
   {
-    if (!strncmp(NRRD_KEY_PREFIX.c_str(), keyIt->c_str(), NRRD_KEY_PREFIX.size()))
+    if (!strncmp(NRRD_KEY_PREFIX.c_str(), metaKey.c_str(), NRRD_KEY_PREFIX.size()))
     {
-      keyField = keyIt->c_str() + NRRD_KEY_PREFIX.size();
+      keyField = metaKey.c_str() + NRRD_KEY_PREFIX.size();
       // only of one of these can succeed
       field = airEnumStr(nrrdField, nrrdField_thicknesses);
       unsigned int axi{ 0 };
@@ -1196,7 +1196,7 @@ NrrdImageIO::Write(const void * buffer)
         if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + numberOfPixelAxis_nrrd < nrrd->dim)
         {
           double thickness = 0.0;
-          ExposeMetaData<double>(thisDic, *keyIt, thickness);
+          ExposeMetaData<double>(thisDic, metaKey, thickness);
           nrrd->axis[axi + numberOfPixelAxis_nrrd].thickness = thickness;
         }
       }
@@ -1206,7 +1206,7 @@ NrrdImageIO::Write(const void * buffer)
         if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + numberOfPixelAxis_nrrd < nrrd->dim)
         {
           std::string value;
-          ExposeMetaData<std::string>(thisDic, *keyIt, value);
+          ExposeMetaData<std::string>(thisDic, metaKey, value);
           nrrd->axis[axi + numberOfPixelAxis_nrrd].center = airEnumVal(nrrdCenter, value.c_str());
         }
       }
@@ -1216,7 +1216,7 @@ NrrdImageIO::Write(const void * buffer)
         if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + numberOfPixelAxis_nrrd < nrrd->dim)
         {
           std::string value;
-          ExposeMetaData<std::string>(thisDic, *keyIt, value);
+          ExposeMetaData<std::string>(thisDic, metaKey, value);
           nrrd->axis[axi + numberOfPixelAxis_nrrd].kind = airEnumVal(nrrdKind, value.c_str());
         }
       }
@@ -1226,7 +1226,7 @@ NrrdImageIO::Write(const void * buffer)
         if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + numberOfPixelAxis_nrrd < nrrd->dim)
         {
           std::string value;
-          ExposeMetaData<std::string>(thisDic, *keyIt, value);
+          ExposeMetaData<std::string>(thisDic, metaKey, value);
           nrrd->axis[axi + numberOfPixelAxis_nrrd].label = airStrdup(value.c_str());
         }
       }
@@ -1236,19 +1236,19 @@ NrrdImageIO::Write(const void * buffer)
         if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + numberOfPixelAxis_nrrd < nrrd->dim)
         {
           std::string value;
-          ExposeMetaData<std::string>(thisDic, *keyIt, value);
+          ExposeMetaData<std::string>(thisDic, metaKey, value);
           nrrd->axis[axi + numberOfPixelAxis_nrrd].units = airStrdup(value.c_str());
         }
       }
       field = airEnumStr(nrrdField, nrrdField_old_min);
       if (!strncmp(keyField, field, strlen(field)))
       {
-        ExposeMetaData<double>(thisDic, *keyIt, nrrd->oldMin);
+        ExposeMetaData<double>(thisDic, metaKey, nrrd->oldMin);
       }
       field = airEnumStr(nrrdField, nrrdField_old_max);
       if (!strncmp(keyField, field, strlen(field)))
       {
-        ExposeMetaData<double>(thisDic, *keyIt, nrrd->oldMax);
+        ExposeMetaData<double>(thisDic, metaKey, nrrd->oldMax);
       }
 
       field = airEnumStr(nrrdField, nrrdField_space);
@@ -1256,7 +1256,7 @@ NrrdImageIO::Write(const void * buffer)
       {
         int         space;
         std::string value;
-        ExposeMetaData<std::string>(thisDic, *keyIt, value);
+        ExposeMetaData<std::string>(thisDic, metaKey, value);
         space = airEnumVal(nrrdSpace, value.c_str());
         if (nrrdSpaceDimension(space) == nrrd->spaceDim)
         {
@@ -1269,14 +1269,14 @@ NrrdImageIO::Write(const void * buffer)
       if (!strncmp(keyField, field, strlen(field)))
       {
         std::string value;
-        ExposeMetaData<std::string>(thisDic, *keyIt, value);
+        ExposeMetaData<std::string>(thisDic, metaKey, value);
         nrrd->content = airStrdup(value.c_str());
       }
       field = airEnumStr(nrrdField, nrrdField_measurement_frame);
       if (!strncmp(keyField, field, strlen(field)))
       {
         std::vector<std::vector<double>> msrFrame;
-        ExposeMetaData<std::vector<std::vector<double>>>(thisDic, *keyIt, msrFrame);
+        ExposeMetaData<std::vector<std::vector<double>>>(thisDic, metaKey, msrFrame);
         for (unsigned int saxi = 0; saxi < nrrd->spaceDim; ++saxi)
         {
           for (unsigned int saxj = 0; saxj < nrrd->spaceDim; ++saxj)
@@ -1304,18 +1304,18 @@ NrrdImageIO::Write(const void * buffer)
     {
       // not a NRRD field packed into meta data; just a regular key/value
       // convert to string and dump to the file
-      // const char *tname = thisDic.Get(*keyIt)->GetNameOfClass();
+      // const char *tname = thisDic.Get(metaKey)->GetNameOfClass();
       std::ostringstream dump;
-      if (_dump_metadata_to_stream<std::string>(thisDic, *keyIt, dump) ||
-          _dump_metadata_to_stream<double>(thisDic, *keyIt, dump) ||
-          _dump_metadata_to_stream<float>(thisDic, *keyIt, dump) ||
-          _dump_metadata_to_stream<int>(thisDic, *keyIt, dump) ||
-          _dump_metadata_to_stream<unsigned int>(thisDic, *keyIt, dump) ||
-          _dump_metadata_to_stream<Array<float>>(thisDic, *keyIt, dump) ||
-          _dump_metadata_to_stream<Array<double>>(thisDic, *keyIt, dump) ||
-          _dump_metadata_to_stream<Array<int>>(thisDic, *keyIt, dump) ||
-          _dump_metadata_to_stream<Array<unsigned int>>(thisDic, *keyIt, dump))
-        nrrdKeyValueAdd(nrrd, keyIt->c_str(), dump.str().c_str());
+      if (_dump_metadata_to_stream<std::string>(thisDic, metaKey, dump) ||
+          _dump_metadata_to_stream<double>(thisDic, metaKey, dump) ||
+          _dump_metadata_to_stream<float>(thisDic, metaKey, dump) ||
+          _dump_metadata_to_stream<int>(thisDic, metaKey, dump) ||
+          _dump_metadata_to_stream<unsigned int>(thisDic, metaKey, dump) ||
+          _dump_metadata_to_stream<Array<float>>(thisDic, metaKey, dump) ||
+          _dump_metadata_to_stream<Array<double>>(thisDic, metaKey, dump) ||
+          _dump_metadata_to_stream<Array<int>>(thisDic, metaKey, dump) ||
+          _dump_metadata_to_stream<Array<unsigned int>>(thisDic, metaKey, dump))
+        nrrdKeyValueAdd(nrrd, metaKey.c_str(), dump.str().c_str());
     }
   }
 
