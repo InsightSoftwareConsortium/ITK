@@ -256,5 +256,57 @@ itkNrrdMetaDataTest(int argc, char * argv[])
     itksys::SystemTools::RemoveFile(v5Fname);
   }
 
+  // Regression test for the pre-existing 666666 sentinel in
+  // WriteMeasurementFrame:
+  //   When the user supplies a measurement frame whose dimensions do not
+  //   match the image's space dimension, the writer must throw rather
+  //   than silently write a frame populated with the sentinel value
+  //   666666 (which teem faithfully emits to the on-disk header,
+  //   corrupting the orientation matrix).
+  {
+    auto badImage = ImageType::New(); // 3-D image, spaceDim = 3
+    badImage->SetRegions(size);
+    badImage->Allocate();
+    badImage->FillBuffer(0);
+    itk::MetaDataDictionary & badDict = badImage->GetMetaDataDictionary();
+    // 2x2 frame provided for a 3-D image -- malformed.
+    std::vector<std::vector<double>> badFrame = { { 1.0, 0.0 }, { 0.0, 1.0 } };
+    itk::EncapsulateMetaData<std::vector<std::vector<double>>>(badDict, "NRRD_measurement frame", badFrame);
+
+    std::string badFname = argv[1];
+    badFname += "/metadatatest_badframe.nrrd";
+
+    auto badWriter = ImageWriterType::New();
+    badWriter->SetImageIO(itk::NrrdImageIO::New());
+    badWriter->SetFileName(badFname.c_str());
+    badWriter->SetInput(badImage);
+    bool threw = false;
+    try
+    {
+      badWriter->Update();
+    }
+    catch (const itk::ExceptionObject &)
+    {
+      threw = true;
+    }
+    if (!threw)
+    {
+      std::cerr << "Writing a malformed measurement frame must throw; it did not.\n";
+      return EXIT_FAILURE;
+    }
+    // If a partial file was produced before the throw, verify the
+    // 666666 sentinel is not present.
+    if (itksys::SystemTools::FileExists(badFname.c_str()))
+    {
+      const std::string header = readNrrdHeader(badFname);
+      if (header.find("666666") != std::string::npos)
+      {
+        std::cerr << "666666 sentinel leaked into the header (regression). Header:\n" << header;
+        return EXIT_FAILURE;
+      }
+      itksys::SystemTools::RemoveFile(badFname);
+    }
+  }
+
   return EXIT_SUCCESS;
 }
