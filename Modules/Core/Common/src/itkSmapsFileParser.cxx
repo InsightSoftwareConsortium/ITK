@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include "itkSmapsFileParser.h"
+#include "itkStringConvert.h"
 
 namespace itk
 {
@@ -271,8 +272,8 @@ ITKCommon_EXPORT std::istream &
     }
     if (bracket.length() > 1)
     { // bracket contains the size, ie "[1024K]"
-      record.m_Tokens["Size"] =
-        static_cast<itk::SizeValueType>(std::stoi(bracket.substr(1, bracket.length() - 3).c_str()));
+      record.m_Tokens["Size"] = static_cast<itk::SizeValueType>(
+        itk::StringToInt32(bracket.substr(1, bracket.length() - 3), "VMMap record bracketed size"));
     }
     else
     {

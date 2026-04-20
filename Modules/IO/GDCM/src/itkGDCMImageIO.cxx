@@ -38,6 +38,7 @@
 #include "itksys/SystemTools.hxx"
 #include "itksys/Base64.h"
 #include "itkMakeUniqueForOverwrite.h"
+#include "itkStringConvert.h"
 
 #include "gdcmImageHelper.h"
 #include "gdcmFileExplicitFilter.h"
@@ -1211,10 +1212,13 @@ GDCMImageIO::Write(const void * buffer)
   {
     if (!bitsAllocated.empty() && !bitsStored.empty() && !highBit.empty() && !pixelRep.empty())
     {
-      outpixeltype.SetBitsAllocated(static_cast<unsigned short>(std::stoi(bitsAllocated.c_str())));
-      outpixeltype.SetBitsStored(static_cast<unsigned short>(std::stoi(bitsStored.c_str())));
-      outpixeltype.SetHighBit(static_cast<unsigned short>(std::stoi(highBit.c_str())));
-      outpixeltype.SetPixelRepresentation(static_cast<unsigned short>(std::stoi(pixelRep.c_str())));
+      outpixeltype.SetBitsAllocated(
+        static_cast<unsigned short>(itk::StringToInt32(bitsAllocated, "DICOM (0028,0100) Bits Allocated")));
+      outpixeltype.SetBitsStored(
+        static_cast<unsigned short>(itk::StringToInt32(bitsStored, "DICOM (0028,0101) Bits Stored")));
+      outpixeltype.SetHighBit(static_cast<unsigned short>(itk::StringToInt32(highBit, "DICOM (0028,0102) High Bit")));
+      outpixeltype.SetPixelRepresentation(
+        static_cast<unsigned short>(itk::StringToInt32(pixelRep, "DICOM (0028,0103) Pixel Representation")));
       if (this->GetNumberOfComponents() != 1)
       {
         itkExceptionStringMacro("Sorry Dave I can't do that");

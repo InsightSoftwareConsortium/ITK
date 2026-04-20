@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include "itkSiemensVisionImageIO.h"
+#include "itkStringConvert.h"
 #include "itksys/SystemTools.hxx"
 #include <iostream>
 #include <fstream>
@@ -142,17 +143,17 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   char tmpStr[TEMPLEN];
   this->GetStringAt(f, TEXT_STUDY_NUM2, tmpStr, TEXT_STUDY_NUM2_LEN);
   tmpStr[TEXT_STUDY_NUM2_LEN] = '\0';
-  hdr->seriesNumber = std::stoi(tmpStr);
+  hdr->seriesNumber = itk::StringToInt32(tmpStr, "Siemens Vision header TEXT_STUDY_NUM2 (series number)");
   DB(hdr->seriesNumber);
 
   this->GetStringAt(f, TEXT_IMG_NUMBER, tmpStr, TEXT_IMG_NUMBER_LEN);
   tmpStr[TEXT_IMG_NUMBER_LEN] = '\0';
-  hdr->imageNumber = std::stoi(tmpStr);
+  hdr->imageNumber = itk::StringToInt32(tmpStr, "Siemens Vision header TEXT_IMG_NUMBER");
   DB(hdr->imageNumber);
 
   this->GetStringAt(f, TEXT_SLICE_THCK, tmpStr, TEXT_SLICE_THCK_LEN);
   tmpStr[TEXT_SLICE_THCK_LEN] = '\0';
-  hdr->sliceThickness = std::stoi(tmpStr);
+  hdr->sliceThickness = itk::StringToInt32(tmpStr, "Siemens Vision header TEXT_SLICE_THCK");
   hdr->sliceGap = 0.0f;
 
   DB(hdr->sliceThickness);
@@ -165,22 +166,22 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
 
   this->GetStringAt(f, TEXT_ACQ_MTRX_FREQ, tmpStr, TEXT_ACQ_MTRX_FREQ_LEN);
   tmpStr[TEXT_ACQ_MTRX_FREQ_LEN] = '\0';
-  hdr->acqXsize = std::stoi(tmpStr);
+  hdr->acqXsize = itk::StringToInt32(tmpStr, "Siemens Vision header TEXT_ACQ_MTRX_FREQ");
   DB(hdr->acqXsize);
 
   this->GetStringAt(f, TEXT_ACQ_MTRX_PHASE, tmpStr, TEXT_ACQ_MTRX_PHASE_LEN);
   tmpStr[TEXT_ACQ_MTRX_PHASE_LEN] = '\0';
-  hdr->acqYsize = std::stoi(tmpStr);
+  hdr->acqYsize = itk::StringToInt32(tmpStr, "Siemens Vision header TEXT_ACQ_MTRX_PHASE");
   DB(hdr->acqYsize);
 
   this->GetStringAt(f, TEXT_FOVH, tmpStr, TEXT_FOVH_LEN);
   tmpStr[TEXT_FOVH_LEN] = '\0';
-  hdr->xFOV = static_cast<float>(std::stod(tmpStr));
+  hdr->xFOV = static_cast<float>(itk::StringToDouble(tmpStr, "Siemens Vision header TEXT_FOVH (xFOV)"));
   DB(hdr->xFOV);
 
   this->GetStringAt(f, TEXT_FOVV, tmpStr, TEXT_FOVV_LEN);
   tmpStr[TEXT_FOVV_LEN] = '\0';
-  hdr->yFOV = static_cast<float>(std::stod(tmpStr));
+  hdr->yFOV = static_cast<float>(itk::StringToDouble(tmpStr, "Siemens Vision header TEXT_FOVV (yFOV)"));
   DB(hdr->yFOV);
 
   double tmpDble = NAN;
@@ -211,7 +212,8 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
                        text_angle_len.end()); // Remove all whitespace
   if (strcmp(tmpStr, "Cor") == 0)
   {
-    if (text_angle_len.empty() || itk::Math::Absolute(std::stod(text_angle_len)) <= 45.0)
+    if (text_angle_len.empty() ||
+        itk::Math::Absolute(itk::StringToDouble(text_angle_len, "Siemens Vision header TEXT_ANGLE")) <= 45.0)
     {
       // hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
       hdr->coordinateOrientation = AnatomicalOrientation(itk::AnatomicalOrientation::NegativeEnum::RSP);
@@ -234,7 +236,8 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   }
   else if (strcmp(tmpStr, "Sag") == 0)
   {
-    if (text_angle_len.empty() || itk::Math::Absolute(std::stod(text_angle_len)) <= 45.0)
+    if (text_angle_len.empty() ||
+        itk::Math::Absolute(itk::StringToDouble(text_angle_len, "Siemens Vision header TEXT_ANGLE")) <= 45.0)
     {
       // hdr->imagePlane =
       // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
@@ -258,7 +261,8 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   }
   else
   {
-    if (text_angle_len.empty() || itk::Math::Absolute(std::stod(text_angle_len)) <= 45.0)
+    if (text_angle_len.empty() ||
+        itk::Math::Absolute(itk::StringToDouble(text_angle_len, "Siemens Vision header TEXT_ANGLE")) <= 45.0)
     {
       // hdr->imagePlane =
       // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
@@ -284,7 +288,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   /* fprintf(stderr, "Plane %d\n", hdr->imagePlane); */
   this->GetStringAt(f, TEXT_SLICE_POS, tmpStr, TEXT_SLICE_POS_LEN);
   tmpStr[TEXT_SLICE_POS_LEN] = '\0';
-  hdr->sliceLocation = static_cast<float>(std::stod(tmpStr));
+  hdr->sliceLocation = static_cast<float>(itk::StringToDouble(tmpStr, "Siemens Vision header TEXT_SLICE_POS"));
   DB(hdr->sliceLocation);
 
   /* fprintf(stderr, "Slice Location %f\n", hdr->sliceLocation); */
@@ -302,7 +306,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
 
   this->GetStringAt(f, TEXT_ECHO_NUM, tmpStr, TEXT_ECHO_NUM_LEN);
   tmpStr[TEXT_ECHO_NUM_LEN] = '\0';
-  hdr->echoNumber = std::stoi(tmpStr);
+  hdr->echoNumber = itk::StringToInt32(tmpStr, "Siemens Vision header TEXT_ECHO_NUM");
   DB(hdr->echoNumber);
 
   this->GetDoubleAt(f, HDR_FLIP_ANGLE, &tmpDble, sizeof(double));

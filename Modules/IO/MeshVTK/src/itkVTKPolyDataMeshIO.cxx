@@ -20,6 +20,7 @@
 
 #include "itksys/SystemTools.hxx"
 #include "itkMakeUniqueForOverwrite.h"
+#include "itkStringConvert.h"
 
 #include <double-conversion/string-to-double.h>
 
@@ -287,7 +288,7 @@ VTKPolyDataMeshIO::ReadMeshInformation()
     // Populate m_ReadMeshVersionMajor
     if (!versionTokens.empty())
     {
-      this->m_ReadMeshVersionMajor = std::stoi(versionTokens[0]);
+      this->m_ReadMeshVersionMajor = itk::StringToInt32(versionTokens[0], "VTK PolyData header version major");
     }
   }
   else

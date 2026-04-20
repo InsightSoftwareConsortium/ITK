@@ -21,6 +21,7 @@
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
 #include "itkNumberToString.h"
+#include "itkStringConvert.h"
 #define RAISE_EXCEPTION(s)                         \
   {                                                \
     ExceptionObject exception(__FILE__, __LINE__); \
@@ -79,37 +80,44 @@ PolygonGroupSpatialObjectXMLFileReader::EndElement(const char * name)
   }
   else if (itksys::SystemTools::Strucmp(name, "X-SIZE") == 0)
   {
-    const int size = std::stoi(m_CurCharacterData.c_str());
+    const int size = itk::StringToInt32(m_CurCharacterData, "PolygonGroup XML element X-SIZE");
     itk::EncapsulateMetaData<int>(thisDic, ROI_X_SIZE, size);
   }
   else if (itksys::SystemTools::Strucmp(name, "Y-SIZE") == 0)
   {
-    const int size = std::stoi(m_CurCharacterData.c_str());
+    const int size = itk::StringToInt32(m_CurCharacterData, "PolygonGroup XML element Y-SIZE");
     itk::EncapsulateMetaData<int>(thisDic, ROI_Y_SIZE, size);
   }
   else if (itksys::SystemTools::Strucmp(name, "Z-SIZE") == 0)
   {
-    const int size = std::stoi(m_CurCharacterData.c_str());
+    const int size = itk::StringToInt32(m_CurCharacterData, "PolygonGroup XML element Z-SIZE");
     itk::EncapsulateMetaData<int>(thisDic, ROI_Z_SIZE, size);
   }
+  // The *-RESOLUTION fields are stored as float in the dictionary. Pre-fix,
+  // the code parsed each value with std::stod and let the implicit narrowing
+  // to float silently produce INFINITY for any value in the
+  // (FLT_MAX, DBL_MAX] range. itk::StringToFloat instead throws an
+  // itk::ExceptionObject (out_of_range) for those inputs, which is the
+  // intended stricter behavior: a resolution that does not fit in a float
+  // is malformed input, not a value to be silently coerced to infinity.
   else if (itksys::SystemTools::Strucmp(name, "X-RESOLUTION") == 0)
   {
-    const float res = std::stod(m_CurCharacterData.c_str());
+    const float res = itk::StringToFloat(m_CurCharacterData, "PolygonGroup XML element X-RESOLUTION");
     itk::EncapsulateMetaData<float>(thisDic, ROI_X_RESOLUTION, res);
   }
   else if (itksys::SystemTools::Strucmp(name, "Y-RESOLUTION") == 0)
   {
-    const float res = std::stod(m_CurCharacterData.c_str());
+    const float res = itk::StringToFloat(m_CurCharacterData, "PolygonGroup XML element Y-RESOLUTION");
     itk::EncapsulateMetaData<float>(thisDic, ROI_Y_RESOLUTION, res);
   }
   else if (itksys::SystemTools::Strucmp(name, "Z-RESOLUTION") == 0)
   {
-    const float res = std::stod(m_CurCharacterData.c_str());
+    const float res = itk::StringToFloat(m_CurCharacterData, "PolygonGroup XML element Z-RESOLUTION");
     itk::EncapsulateMetaData<float>(thisDic, ROI_Z_RESOLUTION, res);
   }
   else if (itksys::SystemTools::Strucmp(name, "NUM-SEGMENTS") == 0)
   {
-    const int size = std::stoi(m_CurCharacterData.c_str());
+    const int size = itk::StringToInt32(m_CurCharacterData, "PolygonGroup XML element NUM-SEGMENTS");
     itk::EncapsulateMetaData<int>(thisDic, ROI_NUM_SEGMENTS, size);
   }
   else if (itksys::SystemTools::Strucmp(name, "POINT") == 0)

@@ -20,6 +20,7 @@
 #include "Ge4xHdr.h"
 #include "itksys/SystemTools.hxx"
 #include "itkBitCast.h"
+#include "itkStringConvert.h"
 #include <iostream>
 #include <fstream>
 // From uiig library "The University of Iowa Imaging Group-UIIG"
@@ -168,19 +169,19 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   /* Get Series-Number from SERIES Header */
   this->GetStringAt(f, SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_SERIES_NUM * 2, tmpStr, 3);
   tmpStr[3] = '\0';
-  hdr->seriesNumber = std::stoi(tmpStr);
+  hdr->seriesNumber = itk::StringToInt32(tmpStr, "GE4 SIGNA series number");
 
   /* Get Image-Number from IMAGE Header */
   this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_IMAGE_NUM * 2, tmpStr, 3);
   tmpStr[3] = '\0';
-  hdr->imageNumber = std::stoi(tmpStr);
+  hdr->imageNumber = itk::StringToInt32(tmpStr, "GE4 SIGNA image number");
 
   /* Get Images-Per-Slice from IMAGE Header */
   const int per_slice_status = this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_PHASENUM * 2, tmpStr, 3);
   tmpStr[3] = '\0';
   if (strlen(tmpStr) > 0 && per_slice_status >= 0)
   {
-    hdr->imagesPerSlice = static_cast<short>(std::stoi(tmpStr));
+    hdr->imagesPerSlice = static_cast<short>(itk::StringToInt32(tmpStr, "GE4 SIGNA images per slice"));
   }
   else
   {
