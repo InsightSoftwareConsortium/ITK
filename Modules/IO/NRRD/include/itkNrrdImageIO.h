@@ -78,6 +78,13 @@ using AxesReorderEnum = NrrdImageIOEnums::AxesReorder;
  * to the dictionary with keys: "NRRD_thicknesses[0]",
  * "NRRD_thicknesses[1]" and "NRRD_thicknesses[2]".
  *
+ * The NRRD file version (NRRD0001 through NRRD0006) is selected
+ * automatically by teem based on the fields present on the Nrrd
+ * struct: setting a measurement frame promotes the magic to NRRD0005;
+ * setting thicknesses / space / space dimension / sample units
+ * requires NRRD0004; and so on.  No explicit version switch is
+ * required on the ITK side.
+ *
  *  \ingroup IOFilters
  * \ingroup ITKIONRRD
  */
