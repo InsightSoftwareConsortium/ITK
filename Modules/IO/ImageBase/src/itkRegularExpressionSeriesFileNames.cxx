@@ -95,6 +95,14 @@ RegularExpressionSeriesFileNames::GetFileNames()
   // m_SubMatch. Sorting can be alphabetic or numeric.
   if (m_NumericSort)
   {
+    // Pre-validate every numeric sort key before std::sort. A comparator
+    // that throws while inside std::sort is undefined behavior; parsing
+    // the keys up front converts any malformed value into a clean
+    // itk::ExceptionObject before the sort begins.
+    for (const auto & p : sortedBySubMatch)
+    {
+      (void)itk::StringToDouble(p.second, "RegularExpressionSeriesFileNames numeric sort key");
+    }
     std::sort(sortedBySubMatch.begin(), sortedBySubMatch.end(), lt_pair_numeric_string_string());
   }
   else
