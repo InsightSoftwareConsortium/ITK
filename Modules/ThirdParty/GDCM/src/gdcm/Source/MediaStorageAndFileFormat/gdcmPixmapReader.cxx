@@ -715,7 +715,9 @@ bool PixmapReader::ReadImageInternal(MediaStorage const &ms, bool handlepixeldat
     }
   else
     {
-    gdcm_assert( MediaStorage::IsImage( ms ) );
+    if( !MediaStorage::IsImage( ms ) ) {
+      gdcmWarningMacro("Wrong SOP Class");
+    }
     // D 0028|0100 [US] [Bits Allocated] [16]
     //pf.SetBitsAllocated(
     //  ReadUSFromTag( Tag(0x0028, 0x0100), ss, conversion ) );

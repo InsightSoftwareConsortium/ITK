@@ -976,7 +976,9 @@ void ImageHelper::SetDimensionsValue(File& f, const Pixmap & img)
   MediaStorage ms;
   ms.SetFromFile(f);
   DataSet& ds = f.GetDataSet();
-  gdcm_assert( MediaStorage::IsImage( ms ) );
+  if (!MediaStorage::IsImage(ms)) {
+    gdcmWarningMacro("Wrong SOP Class");
+  }
   {
     Attribute<0x0028,0x0010> rows;
     rows.SetValue( (uint16_t)dims[1] );
@@ -1778,7 +1780,9 @@ void ImageHelper::SetSpacingValue(DataSet & ds, const std::vector<double> & spac
 {
   MediaStorage ms;
   ms.SetFromDataSet(ds);
-  gdcm_assert( MediaStorage::IsImage( ms ) );
+  if (!MediaStorage::IsImage(ms)) {
+    gdcmWarningMacro("Wrong SOP Class");
+  }
   if( ms == MediaStorage::SecondaryCaptureImageStorage )
     {
     Tag pixelspacing(0x0028,0x0030);
@@ -2059,7 +2063,10 @@ void ImageHelper::SetOriginValue(DataSet & ds, const Image & image)
   //gdcm_assert( origin.size() == 3 );
   MediaStorage ms;
   ms.SetFromDataSet(ds);
-  gdcm_assert( MediaStorage::IsImage( ms ) );
+  if (!MediaStorage::IsImage(ms)) {
+    gdcmWarningMacro("Wrong SOP Class");
+  }
+
 
   if( ms == MediaStorage::SecondaryCaptureImageStorage && !ImageHelper::SecondaryCaptureImagePlaneModule )
     {
@@ -2211,7 +2218,9 @@ void ImageHelper::SetDirectionCosinesValue(DataSet & ds, const std::vector<doubl
 {
   MediaStorage ms;
   ms.SetFromDataSet(ds);
-  gdcm_assert( MediaStorage::IsImage( ms ) );
+  if (!MediaStorage::IsImage(ms)) {
+    gdcmWarningMacro("Wrong SOP Class");
+  }
 
   if( ms == MediaStorage::SecondaryCaptureImageStorage && !ImageHelper::SecondaryCaptureImagePlaneModule )
     {
@@ -2357,7 +2366,9 @@ void ImageHelper::SetRescaleInterceptSlopeValue(File & f, const Image & img)
   MediaStorage ms;
   // SetFromFile is required here, SetFromDataSet is not enough for all cases
   ms.SetFromFile(f);
-  gdcm_assert( MediaStorage::IsImage( ms ) );
+  if (!MediaStorage::IsImage(ms)) {
+    gdcmWarningMacro("Wrong SOP Class");
+  }
   DataSet &ds = f.GetDataSet();
 
   // FIXME Hardcoded
