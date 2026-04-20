@@ -36,7 +36,7 @@ class RLEHeader
 {
 private:
   uint32_t NumSegments = 0;
-  uint32_t Offset[15] = {0};
+  uint32_t Offset[15]{};
 
 public:
   uint32_t GetNumSegments() const { return NumSegments; }
