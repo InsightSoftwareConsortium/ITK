@@ -3,6 +3,7 @@ itk_module_test()
 set(
   ITKIOSpatialObjectsTests
   itkPolygonGroupSpatialObjectXMLFileTest.cxx
+  itkPolygonGroupXMLMalformedTest.cxx
   itkReadVesselTubeSpatialObjectTest.cxx
   itkReadWriteSpatialObjectTest.cxx
 )
@@ -37,6 +38,13 @@ itk_add_test(
   COMMAND
     ITKIOSpatialObjectsTestDriver
     itkPolygonGroupSpatialObjectXMLFileTest
+    ${ITK_TEST_OUTPUT_DIR}
+)
+itk_add_test(
+  NAME itkPolygonGroupXMLMalformedTest
+  COMMAND
+    ITKIOSpatialObjectsTestDriver
+    itkPolygonGroupXMLMalformedTest
     ${ITK_TEST_OUTPUT_DIR}
 )
 itk_add_test(

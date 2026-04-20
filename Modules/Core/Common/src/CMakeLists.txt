@@ -142,6 +142,7 @@ set(
   itkStdStreamLogOutput.cxx
   itkStoppingCriterionBase.cxx
   itkStreamingProcessObject.cxx
+  itkStringConvert.cxx
   itkSymmetricEigenAnalysis.cxx
   itkTetrahedronCellTopology.cxx
   itkTextOutput.cxx

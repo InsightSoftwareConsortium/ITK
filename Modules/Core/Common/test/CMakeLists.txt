@@ -1563,6 +1563,7 @@ set(
   itkSobelOperatorGTest.cxx
   itkSpatialOrientationAdaptorGTest.cxx
   itkStdStreamStateSaveGTest.cxx
+  itkStringConvertGTest.cxx
   itkSymmetricSecondRankTensorGTest.cxx
   itkThreadedImageRegionPartitionerGTest.cxx
   itkThreadedIndexedContainerPartitionerGTest.cxx
