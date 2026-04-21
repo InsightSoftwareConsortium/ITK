@@ -120,7 +120,7 @@ set(MSFF_SRCS
 if(NOT BUILD_SHARED_LIBS)
   set_source_files_properties(gdcmJPEG2000Codec.cxx
                               PROPERTIES
-                              COMPILE_FLAGS -DOPJ_STATIC
+                              COMPILE_DEFINITIONS OPJ_STATIC
                               )
   set_source_files_properties(gdcmJPEGLSCodec.cxx
                               PROPERTIES
@@ -129,10 +129,17 @@ if(NOT BUILD_SHARED_LIBS)
 else()
   set_source_files_properties(gdcmJPEGLSCodec.cxx
                               PROPERTIES
-                              COMPILE_FLAGS -DCHARLS_DLL
+                              COMPILE_DEFINITIONS CHARLS_DLL
                               )
 endif()
 
+set_source_files_properties(  ${GDCM_SOURCE_DIR}/Utilities/gdcmext/csa.c
+                              ${GDCM_SOURCE_DIR}/Utilities/gdcmext/mec_mr3.c
+                              ${GDCM_SOURCE_DIR}/Utilities/gdcmext/mec_mr3_io.c
+                              ${GDCM_SOURCE_DIR}/Utilities/gdcmext/mec_mr3_dict.c
+                              PROPERTIES
+                              COMPILE_DEFINITIONS _POSIX_C_SOURCE=200809L # posix_memalign and strnlen
+)
 
 # Add the include paths
 include_directories(

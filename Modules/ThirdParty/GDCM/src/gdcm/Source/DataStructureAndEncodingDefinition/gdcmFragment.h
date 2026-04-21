@@ -91,6 +91,18 @@ public:
     {
     // Self
     SmartPointer<ByteValue> bv = new ByteValue;
+    const std::streampos cur = is.tellg();
+    if( cur != std::streampos(-1) )
+      {
+      is.seekg(0, std::ios::end);
+      const std::streampos end = is.tellg();
+      is.seekg(cur);
+      if( end != std::streampos(-1) && is.good()
+        && static_cast<uint64_t>(end - cur) < static_cast<uint32_t>(ValueLengthField) )
+        {
+        throw Exception( "Fragment Value Length exceeds remaining stream size" );
+        }
+      }
     bv->SetLength(ValueLengthField);
     if( !bv->Read<TSwap>(is) )
       {
@@ -144,6 +156,18 @@ public:
 
     // Self
     SmartPointer<ByteValue> bv = new ByteValue;
+    const std::streampos cur2 = is.tellg();
+    if( cur2 != std::streampos(-1) )
+      {
+      is.seekg(0, std::ios::end);
+      const std::streampos end2 = is.tellg();
+      is.seekg(cur2);
+      if( end2 != std::streampos(-1) && is.good()
+        && static_cast<uint64_t>(end2 - cur2) < static_cast<uint32_t>(ValueLengthField) )
+        {
+        throw Exception( "Fragment Value Length exceeds remaining stream size" );
+        }
+      }
     bv->SetLength(ValueLengthField);
     if( !bv->Read<TSwap>(is) )
       {
