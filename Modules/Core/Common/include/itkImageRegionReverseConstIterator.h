@@ -146,7 +146,7 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageRegionReverseConstIterator);
 
-  /** Default constructor. Needed since we provide a cast constructor. */
+  /** Default constructor. */
   ImageRegionReverseConstIterator()
     : Superclass()
   {}

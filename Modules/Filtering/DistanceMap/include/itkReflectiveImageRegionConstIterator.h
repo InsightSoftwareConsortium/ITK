@@ -91,7 +91,7 @@ public:
   using OffsetType = typename TImage::OffsetType;
   using OffsetValueType = typename OffsetType::OffsetValueType;
 
-  /** Default constructor. Needed since we provide a cast constructor. */
+  /** Default constructor. */
   ReflectiveImageRegionConstIterator();
 
   /** Default destructor.  */

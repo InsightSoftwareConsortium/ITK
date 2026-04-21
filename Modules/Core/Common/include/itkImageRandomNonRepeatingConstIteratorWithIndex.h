@@ -229,7 +229,7 @@ public:
   using typename Superclass::OffsetValueType;
   using typename Superclass::SizeValueType;
 
-  /** Default constructor. Needed since we provide a cast constructor. */
+  /** Default constructor. */
   ImageRandomNonRepeatingConstIteratorWithIndex() = default;
 
   ~ImageRandomNonRepeatingConstIteratorWithIndex() override { delete m_Permutation; }

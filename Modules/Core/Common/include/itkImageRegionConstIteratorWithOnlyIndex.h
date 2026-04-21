@@ -148,7 +148,7 @@ public:
   using typename Superclass::RegionType;
   using typename Superclass::ImageType;
 
-  /** Default constructor. Needed since we provide a cast constructor. */
+  /** Default constructor. */
   ImageRegionConstIteratorWithOnlyIndex()
     : ImageConstIteratorWithOnlyIndex<TImage>()
   {}

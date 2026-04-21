@@ -96,7 +96,7 @@ public:
 
   using FrequencyType = typename ImageType::SpacingType;
   using FrequencyValueType = typename ImageType::SpacingValueType;
-  /** Default constructor. Needed since we provide a cast constructor. */
+  /** Default constructor. */
   FrequencyImageRegionConstIteratorWithIndex()
     : ImageRegionConstIteratorWithIndex<TImage>()
   {

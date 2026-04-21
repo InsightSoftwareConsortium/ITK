@@ -148,7 +148,7 @@ public:
   using typename Superclass::PixelType;
   using typename Superclass::AccessorType;
 
-  /** Default constructor. Needed since we provide a cast constructor. */
+  /** Default constructor. */
   ImageRegionExclusionConstIteratorWithIndex() = default;
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
