@@ -152,7 +152,7 @@ public:
   using typename Superclass::PixelType;
   using typename Superclass::AccessorType;
 
-  /** Default constructor. Needed since we provide a cast constructor. */
+  /** Default constructor. */
   ImageRegionConstIteratorWithIndex()
     : ImageConstIteratorWithIndex<TImage>()
   {}

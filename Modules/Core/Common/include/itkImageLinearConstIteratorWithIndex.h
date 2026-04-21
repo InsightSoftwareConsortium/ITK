@@ -130,7 +130,7 @@ public:
   using PixelContainer = typename TImage::PixelContainer;
   using PixelContainerPointer = typename PixelContainer::Pointer;
 
-  /** Default constructor. Needed since we provide a cast constructor. */
+  /** Default constructor. */
   ImageLinearConstIteratorWithIndex()
     : ImageConstIteratorWithIndex<TImage>()
 

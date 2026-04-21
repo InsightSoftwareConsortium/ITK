@@ -140,7 +140,7 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageRegionConstIterator);
 
-  /** Default constructor. Needed since we provide a cast constructor. */
+  /** Default constructor. */
   ImageRegionConstIterator()
     : ImageConstIterator<TImage>()
   {}

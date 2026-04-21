@@ -94,7 +94,7 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ImageScanlineConstIterator);
 
-  /** Default constructor. Needed since we provide a cast constructor. */
+  /** Default constructor. */
   ImageScanlineConstIterator()
     : ImageConstIterator<TImage>()
   {}

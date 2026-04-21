@@ -136,7 +136,7 @@ public:
   using typename Superclass::OffsetValueType;
   using typename Superclass::SizeValueType;
 
-  /** Default constructor. Needed since we provide a cast constructor. */
+  /** Default constructor. */
   ImageRandomConstIteratorWithIndex() = default;
 
   ~ImageRandomConstIteratorWithIndex() override = default;
