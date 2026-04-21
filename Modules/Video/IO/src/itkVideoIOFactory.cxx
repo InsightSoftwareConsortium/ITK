@@ -20,6 +20,7 @@
 #endif
 
 #include "itkVideoIOFactory.h"
+#include "itkStringConvert.h"
 
 
 namespace itk
@@ -42,6 +43,12 @@ VideoIOFactory::CreateVideoIO(IOModeEnum mode, const char * arg)
     }
   }
 
+  // Parse the camera index once up front: the value is the same for every
+  // factory iteration, and parsing inside the loop would multiply the cost
+  // (and the failure point) by the number of registered VideoIO factories.
+  const int cameraIndex =
+    (mode == IOModeEnum::ReadCameraMode) ? itk::StringToInt32(arg, "VideoIOFactory camera index") : 0;
+
   for (auto & j : possibleVideoIO)
   {
 
@@ -57,7 +64,6 @@ VideoIOFactory::CreateVideoIO(IOModeEnum mode, const char * arg)
     // Check camera readability if reading from camera
     else if (mode == IOModeEnum::ReadCameraMode)
     {
-      const int cameraIndex = std::stoi(arg);
       if (j->CanReadCamera(cameraIndex))
       {
         return j;

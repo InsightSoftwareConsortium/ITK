@@ -24,6 +24,7 @@
 #include <nifti1_io.h>
 #include "itkNiftiImageIOConfigurePrivate.h"
 #include "itkMakeUniqueForOverwrite.h"
+#include "itkStringConvert.h"
 #include "itksys/SystemTools.hxx"
 #include "itksys/SystemInformation.hxx"
 
@@ -1921,7 +1922,7 @@ NiftiImageIO::getQFormCodeFromDictionary() const
   // Convert the numeric code from string to int
   if (itk::ExposeMetaData<std::string>(thisDic, "qform_code", temp))
   {
-    return std::stoi(temp.c_str());
+    return itk::StringToInt32(temp, "NIfTI metadata 'qform_code'");
   }
   return NIFTI_XFORM_SCANNER_ANAT; // Guess NIFTI_XFORM_SCANNER_ANAT if no other information provided.
 }
@@ -1940,7 +1941,7 @@ NiftiImageIO::getSFormCodeFromDictionary() const
   // Convert the numeric code from string to int
   if (itk::ExposeMetaData<std::string>(thisDic, "sform_code", temp))
   {
-    return std::stoi(temp.c_str());
+    return itk::StringToInt32(temp, "NIfTI metadata 'sform_code'");
   }
   return NIFTI_XFORM_SCANNER_ANAT; // Both qform and sform are the same when writing, so use the same code as qform.
 }

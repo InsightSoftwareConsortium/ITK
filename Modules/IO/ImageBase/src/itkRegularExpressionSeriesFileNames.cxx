@@ -22,13 +22,15 @@
 #include "itksys/Directory.hxx"
 #include "itksys/RegularExpression.hxx"
 #include "itkRegularExpressionSeriesFileNames.h"
+#include "itkStringConvert.h"
 
 struct lt_pair_numeric_string_string
 {
   bool
   operator()(const std::pair<std::string, std::string> & s1, const std::pair<std::string, std::string> & s2) const
   {
-    return std::stod(s1.second.c_str()) < std::stod(s2.second.c_str());
+    return itk::StringToDouble(s1.second, "RegularExpressionSeriesFileNames numeric sort key") <
+           itk::StringToDouble(s2.second, "RegularExpressionSeriesFileNames numeric sort key");
   }
 };
 
@@ -93,6 +95,14 @@ RegularExpressionSeriesFileNames::GetFileNames()
   // m_SubMatch. Sorting can be alphabetic or numeric.
   if (m_NumericSort)
   {
+    // Pre-validate every numeric sort key before std::sort. A comparator
+    // that throws while inside std::sort is undefined behavior; parsing
+    // the keys up front converts any malformed value into a clean
+    // itk::ExceptionObject before the sort begins.
+    for (const auto & p : sortedBySubMatch)
+    {
+      (void)itk::StringToDouble(p.second, "RegularExpressionSeriesFileNames numeric sort key");
+    }
     std::sort(sortedBySubMatch.begin(), sortedBySubMatch.end(), lt_pair_numeric_string_string());
   }
   else

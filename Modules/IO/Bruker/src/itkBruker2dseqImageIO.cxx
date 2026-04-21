@@ -21,6 +21,7 @@
 #include "itkByteSwapper.h"
 #include "itksys/SystemTools.hxx"
 #include "itkMetaDataObject.h"
+#include "itkStringConvert.h"
 
 namespace itk
 {
@@ -596,7 +597,7 @@ Bruker2dseqImageIO::Read(void * buffer)
         break;
       }
 
-      sizeToSwap *= std::stoi(i[0].c_str());
+      sizeToSwap *= itk::StringToInt32(i[0], "Bruker 2dseq VisuFGOrderDesc size");
     }
     if (sizeToSwap > 1)
     {
@@ -836,7 +837,7 @@ Bruker2dseqImageIO::ReadImageInformation()
           // Anything dimension that isn't a slice needs to be collapsed into the 4th dimension
           if (i[1] != "<FG_SLICE>")
           {
-            sizeT *= std::stoi(i[0].c_str());
+            sizeT *= itk::StringToInt32(i[0], "Bruker 2dseq VisuFGOrderDesc non-slice size");
           }
         }
       }
