@@ -11,7 +11,7 @@ filters that compute single scalar images from images of multiple components."
 itk_module(
   ITKImageIntensity
   ENABLE_SHARED
-  COMPILE_DEPENDS
+  DEPENDS
     ITKImageAdaptors
     ITKImageStatistics
     ITKImageGrid
