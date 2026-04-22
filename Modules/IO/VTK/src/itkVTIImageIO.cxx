@@ -431,9 +431,23 @@ VTIImageIO::ITKComponentToVTKTypeString(IOComponentEnum t)
     case IOComponentEnum::UINT:
       return "UInt32";
     case IOComponentEnum::LONG:
-      return "Int64";
+      if (sizeof(long) == 4)
+      {
+        return "Int32";
+      }
+      else
+      {
+        return "Int64";
+      }
     case IOComponentEnum::ULONG:
-      return "UInt64";
+      if (sizeof(unsigned long) == 4)
+      {
+        return "UInt32";
+      }
+      else
+      {
+        return "UInt64";
+      }
     case IOComponentEnum::LONGLONG:
       return "Int64";
     case IOComponentEnum::ULONGLONG:
