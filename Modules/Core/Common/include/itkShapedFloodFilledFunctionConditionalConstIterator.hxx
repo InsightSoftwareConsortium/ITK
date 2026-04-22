@@ -77,7 +77,7 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::Initialize
   m_ImageRegion = this->m_Image->GetBufferedRegion();
 
   // Build and setup the neighborhood iterator
-  constexpr auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
+  constexpr auto radius = MakeFilled<SizeType>(1);
 
   const ConstShapedNeighborhoodIterator<TImage> tmp_iter(radius, this->m_Image, m_ImageRegion);
   m_NeighborhoodIterator = tmp_iter;
@@ -169,8 +169,8 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::DoFloodSte
 
   // We are explicitly not calling set location since only offsets of
   // the neighborhood iterator are accessed.
-  typename NeighborhoodIteratorType::ConstIterator       neighborIt = m_NeighborhoodIterator.Begin();
-  const typename NeighborhoodIteratorType::ConstIterator neighborEnd = m_NeighborhoodIterator.End();
+  auto       neighborIt = m_NeighborhoodIterator.Begin();
+  const auto neighborEnd = m_NeighborhoodIterator.End();
 
   for (; neighborIt != neighborEnd; ++neighborIt)
   {
