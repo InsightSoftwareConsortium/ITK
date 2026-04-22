@@ -53,6 +53,7 @@ cmd = '''cmake
   -DCMAKE_C_COMPILER_LAUNCHER:STRING=ccache
   -DCMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
   -DModule_AnisotropicDiffusionLBR:BOOL=ON
+  -DModule_Montage:BOOL=ON
   -DITK_COMPUTER_MEMORY_SIZE:STRING=11
   -DModule_StructuralSimilarity:BOOL=ON'''
 description = "Configure ITK for CI (with ccache compiler launcher)"
