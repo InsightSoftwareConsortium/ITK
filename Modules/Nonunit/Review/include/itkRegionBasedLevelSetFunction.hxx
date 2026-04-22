@@ -84,8 +84,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeHImage()
   ImageRegionConstIteratorWithIndex constIt(contourImage, contourImage->GetRequestedRegion());
 
   ImageRegionIteratorWithIndex It(hBuffer, hBuffer->GetRequestedRegion());
-
-  It.GoToBegin(), constIt.GoToBegin();
+  constIt.GoToBegin();
 
   while (!constIt.IsAtEnd())
   {
