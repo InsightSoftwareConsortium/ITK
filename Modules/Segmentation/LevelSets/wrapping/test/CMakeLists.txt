@@ -91,4 +91,9 @@ if(ITK_WRAP_PYTHON)
     COMMAND
       ShapePriorMAPCostFunctionTest.py
   )
+  itk_python_add_test(
+    NAME PythonShapePriorMAPCostFunctionInitializeTest
+    COMMAND
+      ShapePriorMAPCostFunctionInitializeTest.py
+  )
 endif()
