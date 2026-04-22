@@ -552,16 +552,9 @@ VTIImageIO::InternalReadImageInformation()
   // the file offset of the first byte of payload.
   if (st.sawAppendedData)
   {
-    // XML_GetCurrentByteIndex returns the cumulative byte offset into the
-    // input at the current event.  It may point at the opening `<` of the
-    // <AppendedData> start tag, or somewhere inside it (expat implementation
-    // detail).  We conservatively back up 256 bytes so we are certain to be
-    // before the `_` marker.  VTK AppendedData attributes never contain `_`,
-    // so the first `_` we find after that is definitively the data marker.
     const long tagByteIndex = XML_GetCurrentByteIndex(parser);
-    const long scanFrom = (tagByteIndex > 256) ? (tagByteIndex - 256) : 0L;
     xmlFile.clear();
-    xmlFile.seekg(scanFrom, std::ios::beg);
+    xmlFile.seekg(tagByteIndex, std::ios::beg);
 
     char c = '\0';
     while (xmlFile.get(c) && c != '_')
