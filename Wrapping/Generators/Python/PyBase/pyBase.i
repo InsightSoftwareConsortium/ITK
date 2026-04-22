@@ -1192,7 +1192,7 @@ str = str
 %enddef
 
 
-%define DECL_PYTHON_VARLEN_SEQ_TYPEMAP(type, value_type)
+%define DECL_PYTHON_VARLEN_SEQ_TYPEMAP(swig_name, type, value_type)
 
     %typemap(in) type& (type itks) {
         if ((SWIG_ConvertPtr($input,(void **)(&$1),$1_descriptor, 0)) == -1) {
@@ -1215,7 +1215,7 @@ str = str
                 $1 = &itks;
             }
             else {
-                PyErr_SetString(PyExc_TypeError, "Expecting an type, or a sequence of values.");
+                PyErr_SetString(PyExc_TypeError, "Expecting an swig_name, or a sequence of values.");
                 SWIG_fail;
             }
         }
@@ -1254,7 +1254,7 @@ str = str
                 $1 = itks;
             }
             else {
-                PyErr_SetString(PyExc_TypeError, "Expecting an type, or a sequence of values.");
+                PyErr_SetString(PyExc_TypeError, "Expecting an swig_name, or a sequence of values.");
                 SWIG_fail;
             }
         }
@@ -1262,7 +1262,7 @@ str = str
             $1 = *s;
         }
         else {
-            PyErr_SetString(PyExc_TypeError, "Expecting an type, or a sequence of values.");
+            PyErr_SetString(PyExc_TypeError, "Expecting an swig_name, or a sequence of values.");
             SWIG_fail;
         }
     }
