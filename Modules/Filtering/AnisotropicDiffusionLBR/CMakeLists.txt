@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 3.16.3)
 
-project(AnisotropicDiffusionLBR
-  VERSION 5.1.0       #Version should track with ITK
-  LANGUAGES CXX)
+project(
+  AnisotropicDiffusionLBR
+  VERSION
+    5.1.0 #Version should track with ITK
+  LANGUAGES
+    CXX
+)
 
 # Header only module, no libraries set(AnisotropicDiffusionLBR_LIBRARIES AnisotropicDiffusionLBR)
 
