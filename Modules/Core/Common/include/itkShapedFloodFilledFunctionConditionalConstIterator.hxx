@@ -79,7 +79,7 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::Initialize
   // Build and setup the neighborhood iterator
   constexpr auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
 
-  const NeighborhoodIteratorType tmp_iter(radius, this->m_Image, m_ImageRegion);
+  const ConstShapedNeighborhoodIterator<TImage> tmp_iter(radius, this->m_Image, m_ImageRegion);
   m_NeighborhoodIterator = tmp_iter;
 
   setConnectivity(&m_NeighborhoodIterator, m_FullyConnected);

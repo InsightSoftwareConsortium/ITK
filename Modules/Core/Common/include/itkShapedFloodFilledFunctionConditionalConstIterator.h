@@ -270,7 +270,7 @@ protected: // made protected so other iterators can access
   typename ImageType::SpacingType m_ImageSpacing{};
 
   /** The neighborhood iterator */
-  NeighborhoodIteratorType m_NeighborhoodIterator{};
+  ConstShapedNeighborhoodIterator<TImage> m_NeighborhoodIterator{};
 
   /** Region of the source image */
   RegionType m_ImageRegion{};
