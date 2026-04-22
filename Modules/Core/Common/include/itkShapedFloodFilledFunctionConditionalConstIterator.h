@@ -76,8 +76,12 @@ public:
   /** External Pixel Type */
   using PixelType = typename TImage::PixelType;
 
-  /** Internal Neighborhood Iterator Type */
-  using NeighborhoodIteratorType = typename itk::ShapedNeighborhoodIterator<ImageType>;
+#ifndef ITK_LEGACY_REMOVE
+  /** \deprecated Internal type alias; use \c ShapedNeighborhoodIterator<TImage> directly. */
+  using NeighborhoodIteratorType
+    [[deprecated("This nested type alias was only for internal use, and is now obsolete!")]] =
+      ShapedNeighborhoodIterator<TImage>;
+#endif
 
   /** Dimension of the image the iterator walks.  This constant is needed so
    * that functions that are templated over image iterator type (as opposed to
