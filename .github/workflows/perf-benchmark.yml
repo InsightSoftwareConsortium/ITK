@@ -1,0 +1,177 @@
+name: ITK.Performance
+
+on:
+  pull_request:
+    paths-ignore:
+      - '*.md'
+      - LICENSE
+      - NOTICE
+      - 'Documentation/**'
+      - 'Utilities/Debugger/**'
+      - 'Utilities/ITKv5Preparation/**'
+      - 'Utilities/Maintenance/**'
+  workflow_dispatch:
+
+concurrency:
+  group: '${{ github.workflow }}@${{ github.head_ref || github.ref }}'
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  # ASV-wired targets — see Modules/Remote/PerformanceBenchmarking's python/itk_perf_shim/registry.py.
+  BenchmarkTargets: >-
+    MedianBenchmark
+    BinaryAddBenchmark
+    UnaryAddBenchmark
+    GradientMagnitudeBenchmark
+    MinMaxCurvatureFlowBenchmark
+    CopyIterationBenchmark
+    VectorIterationBenchmark
+    RegionGrowingBenchmark
+    WatershedBenchmark
+    MorphologicalWatershedBenchmark
+    LevelSetBenchmark
+    ITKBenchmarksData
+
+jobs:
+  asv-compare:
+    name: asv base vs head (Ubuntu 24.04)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+
+    steps:
+      - name: Checkout ITK PR HEAD (full history)
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          path: itk-head
+
+      - name: Resolve merge-base and HEAD SHAs
+        id: sha
+        working-directory: itk-head
+        env:
+          # github.base_ref is empty for workflow_dispatch; fall back to main
+          # so manual reruns still work. For pull_request events this is the
+          # target branch name (e.g. "main").
+          BASE_REF: ${{ github.base_ref || 'main' }}
+        run: |
+          git fetch origin "${BASE_REF}"
+          MERGE_BASE=$(git merge-base HEAD "origin/${BASE_REF}")
+          HEAD_SHA=$(git rev-parse HEAD)
+          echo "merge_base=${MERGE_BASE}" >> "$GITHUB_OUTPUT"
+          echo "head=${HEAD_SHA}" >> "$GITHUB_OUTPUT"
+          echo "merge_base=${MERGE_BASE} head=${HEAD_SHA}"
+
+      - name: Checkout ITK at merge-base (shallow)
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ steps.sha.outputs.merge_base }}
+          path: itk-base
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install Ninja + ASV
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ninja-build
+          python -m pip install "asv>=0.6,<0.7"
+
+      - name: Configure + build merge-base benchmark targets
+        env:
+          ITK_SRC: ${{ github.workspace }}/itk-base
+          ITK_BUILD: ${{ runner.temp }}/ITK-build-base
+        run: |
+          set -e
+          cmake -S "${ITK_SRC}" -B "${ITK_BUILD}" -GNinja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_SHARED_LIBS=OFF \
+            -DBUILD_TESTING=ON \
+            -DBUILD_EXAMPLES=ON \
+            -DITK_WRAP_PYTHON=OFF \
+            -DModule_PerformanceBenchmarking=ON
+          cmake --build "${ITK_BUILD}" --target ${BenchmarkTargets} || \
+            echo "NOTE: merge-base may lack some benchmark targets if the pin predates them; asv will surface per-benchmark failures as '--'."
+
+      - name: Configure + build PR HEAD benchmark targets
+        env:
+          ITK_SRC: ${{ github.workspace }}/itk-head
+          ITK_BUILD: ${{ runner.temp }}/ITK-build-head
+        run: |
+          set -e
+          cmake -S "${ITK_SRC}" -B "${ITK_BUILD}" -GNinja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_SHARED_LIBS=OFF \
+            -DBUILD_TESTING=ON \
+            -DBUILD_EXAMPLES=ON \
+            -DITK_WRAP_PYTHON=OFF \
+            -DModule_PerformanceBenchmarking=ON
+          cmake --build "${ITK_BUILD}" --target ${BenchmarkTargets}
+
+      - name: Stage ASV harness (PR HEAD pin) with itk-repo symlink
+        id: harness
+        run: |
+          set -e
+          HARNESS="${GITHUB_WORKSPACE}/itk-head/Modules/Remote/PerformanceBenchmarking"
+          if [ ! -f "${HARNESS}/asv.conf.json" ]; then
+            echo "ERROR: ASV harness not found at ${HARNESS}/asv.conf.json." >&2
+            echo "       Modules/Remote/PerformanceBenchmarking.remote.cmake must pin" >&2
+            echo "       a commit with the ASV harness (introduced by" >&2
+            echo "       InsightSoftwareConsortium/ITKPerformanceBenchmarking#111)." >&2
+            exit 1
+          fi
+          ln -sfn "${GITHUB_WORKSPACE}/itk-head" "${HARNESS}/itk-repo"
+          python -m pip install -e "${HARNESS}/python"
+          echo "harness=${HARNESS}" >> "$GITHUB_OUTPUT"
+
+      - name: Register ASV machine
+        working-directory: ${{ steps.harness.outputs.harness }}
+        run: asv machine --yes --machine gha-ubuntu-24.04
+
+      - name: Run ASV at merge-base
+        working-directory: ${{ steps.harness.outputs.harness }}
+        continue-on-error: true
+        env:
+          ITK_BENCHMARK_BIN: ${{ runner.temp }}/ITK-build-base/bin
+          ITK_BENCHMARK_DATA: ${{ runner.temp }}/ITK-build-base/ExternalData/Modules/Remote/PerformanceBenchmarking/examples/Data/Input
+          ITK_BENCHMARK_SCRATCH: ${{ runner.temp }}/asv-scratch-base
+        run: |
+          mkdir -p "${ITK_BENCHMARK_SCRATCH}"
+          # asv 0.6.x does not accept --min-runs on `asv run` (only on
+          # `asv continuous`); rely on per-benchmark repeat/number defaults
+          # to collect multiple samples.  See greptile review on PR #612.
+          asv run --machine gha-ubuntu-24.04 \
+            --set-commit-hash "${{ steps.sha.outputs.merge_base }}"
+
+      - name: Run ASV at PR HEAD
+        working-directory: ${{ steps.harness.outputs.harness }}
+        env:
+          ITK_BENCHMARK_BIN: ${{ runner.temp }}/ITK-build-head/bin
+          ITK_BENCHMARK_DATA: ${{ runner.temp }}/ITK-build-head/ExternalData/Modules/Remote/PerformanceBenchmarking/examples/Data/Input
+          ITK_BENCHMARK_SCRATCH: ${{ runner.temp }}/asv-scratch-head
+        run: |
+          mkdir -p "${ITK_BENCHMARK_SCRATCH}"
+          asv run --machine gha-ubuntu-24.04 \
+            --set-commit-hash "${{ steps.sha.outputs.head }}"
+
+      - name: Compare base vs HEAD
+        working-directory: ${{ steps.harness.outputs.harness }}
+        continue-on-error: true
+        run: |
+          asv compare \
+            "${{ steps.sha.outputs.merge_base }}" \
+            "${{ steps.sha.outputs.head }}" \
+            --machine gha-ubuntu-24.04 \
+            | tee asv-compare.txt
+
+      - name: Upload ASV results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: asv-ubuntu-24.04-${{ github.run_id }}
+          path: |
+            ${{ steps.harness.outputs.harness }}/.asv/results/
+            ${{ steps.harness.outputs.harness }}/asv-compare.txt
+          retention-days: 14
+          if-no-files-found: warn
