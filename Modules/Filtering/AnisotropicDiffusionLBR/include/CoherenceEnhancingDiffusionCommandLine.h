@@ -33,7 +33,7 @@
 namespace CoherenceEnhancingDiffusionCommandLine
 {
 
-void
+inline void
 Usage()
 {
   std::cerr << "Input image filename. 2D and 3D images supported. Required.\n"
@@ -66,7 +66,7 @@ Execute(int argc, char * argv[]);
 
 using ReportProgressToCOutType = LinearAnisotropicDiffusionCommandLine::ReportProgressToCOutType;
 
-int
+inline int
 Execute(int argc, char * argv[])
 {
   using std::cerr;

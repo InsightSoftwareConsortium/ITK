@@ -1,20 +1,23 @@
-# the top-level README is used for describing this module, just
-# re-used it for documentation here
-get_filename_component(MY_CURRENT_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
-file(READ "${MY_CURRENT_DIR}/README.rst" DOCUMENTATION)
+set(
+  DOCUMENTATION
+  "This module provides coherence-enhancing (CED) and edge-enhancing
+(EED) anisotropic diffusion filters built on the
+Lattice-Basis-Reduction (LBR) stencil scheme by Jean-Marie Mirebeau.
+See the Doxygen on \\\\ref AnisotropicDiffusionLBRImageFilter and
+\\\\ref CoherenceEnhancingDiffusionImageFilter for the algorithm and
+citations, and the module README for in-tree vs archived-upstream
+scope."
+)
 
-# define the dependencies of the include module and the tests
-itk_module(AnisotropicDiffusionLBR
+itk_module(
+  AnisotropicDiffusionLBR
   DEPENDS
     ITKCommon
     ITKIOImageBase
-    ITKIOSpatialObjects
-    ITKMetaIO
     ITKImageGradient
   TEST_DEPENDS
     ITKTestKernel
-  DESCRIPTION
-    "${DOCUMENTATION}"
+  DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
   # Header only library, no ENABLE_SHARED
 )

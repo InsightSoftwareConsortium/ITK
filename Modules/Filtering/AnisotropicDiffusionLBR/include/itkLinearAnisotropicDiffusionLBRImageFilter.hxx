@@ -158,7 +158,7 @@ public:
     return stencil;
   }
 
-protected:
+private:
   struct DispatchBase
   {};
   template <unsigned int>

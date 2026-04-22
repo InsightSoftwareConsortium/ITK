@@ -56,7 +56,7 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(StructureTensorImageFilter);
 
   using Self = StructureTensorImageFilter;
-  using Superclass = ImageToImageFilter<TImage, TImage>;
+  using Superclass = ImageToImageFilter<TImage, TTensorImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
