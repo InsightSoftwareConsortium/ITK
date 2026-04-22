@@ -2,7 +2,7 @@
 #	 rows : 13
 #	 cols : 13
 #	 overlap : 40
-#	 size : 320 320 150 
+#	 size : 320 320 150
 # Define the number of dimensions we are working on
 dim = 3
 
