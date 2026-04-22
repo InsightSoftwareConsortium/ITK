@@ -90,8 +90,8 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
   // create padded versions of the marker image and the mask image
   using PadType = typename itk::ConstantPadImageFilter<InputImageType, InputImageType>;
 
-  MarkerImageConstPointer markerImageP;
-  MaskImageConstPointer   maskImageP;
+  MarkerImagePointer    markerImageP;
+  MaskImageConstPointer maskImageP;
 
   ISizeType padSize;
 
