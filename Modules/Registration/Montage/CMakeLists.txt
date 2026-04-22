@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.16.3)
 
-if(CMAKE_CXX_STANDARD EQUAL "98" )
-   message(FATAL_ERROR "CMAKE_CXX_STANDARD:STRING=98 is not supported in ITK version 5 and greater.")
+if(CMAKE_CXX_STANDARD EQUAL "98")
+  message(
+    FATAL_ERROR
+    "CMAKE_CXX_STANDARD:STRING=98 is not supported in ITK version 5 and greater."
+  )
 endif()
 
 if(NOT CMAKE_CXX_STANDARD)
@@ -21,7 +24,10 @@ set(Montage_LIBRARIES Montage)
 # Suppress warnings about potentially uninstantiated static members
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   include(CheckCXXCompilerFlag)
-  CHECK_CXX_COMPILER_FLAG("-Wno-undefined-var-template" COMPILER_HAS_NO_UNDEFINED_VAR_TEMPLATE)
+  check_cxx_compiler_flag(
+    "-Wno-undefined-var-template"
+    COMPILER_HAS_NO_UNDEFINED_VAR_TEMPLATE
+  )
   if(COMPILER_HAS_NO_UNDEFINED_VAR_TEMPLATE)
     set(CMAKE_CXX_FLAGS "-Wno-undefined-var-template ${CMAKE_CXX_FLAGS}")
   endif()
