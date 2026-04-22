@@ -15,4 +15,5 @@ itk_module(
     ITKTestKernel
     ITKGPUSmoothing
   DESCRIPTION "${DOCUMENTATION}"
+  EXCLUDE_FROM_DEFAULT
 )
