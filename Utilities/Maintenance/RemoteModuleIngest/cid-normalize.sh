@@ -81,6 +81,56 @@ done
 [[ -d "$MODULE_PATH" ]] || die "Not a directory: $MODULE_PATH"
 
 # ---------------------------------------------------------------------
+# Preflight: require a CID backend before fetching anything.
+# ---------------------------------------------------------------------
+have_cid_backend() {
+  if command -v w3 >/dev/null 2>&1 && w3 cid --help >/dev/null 2>&1; then
+    return 0
+  fi
+  if command -v ipfs >/dev/null 2>&1; then
+    return 0
+  fi
+  if command -v python3 >/dev/null 2>&1 && python3 -c "import multiformats" 2>/dev/null; then
+    return 0
+  fi
+  return 1
+}
+
+if ! have_cid_backend; then
+  cat >&2 <<'EOF'
+ERROR: No CID backend found.  Install one of the following and re-run:
+
+  1. Python `multiformats` (lightweight; recommended for small blobs):
+
+       # with uv (fast, no venv pollution):
+       uv pip install --system multiformats
+       # or into a project venv:
+       uv venv && uv pip install multiformats && source .venv/bin/activate
+
+       # with pip (user site):
+       python3 -m pip install --user multiformats
+
+     Verify:  python3 -c "import multiformats; print(multiformats.__version__)"
+
+  2. go-ipfs CLI (best fidelity for multi-MiB blobs; chunks + DAG):
+
+       brew install ipfs           # macOS
+       # or see https://docs.ipfs.tech/install/command-line/
+
+  3. web3.storage CLI (matches pinning service exactly):
+
+       npm install -g @web3-storage/w3cli
+       w3 login <email>
+
+Note: for blobs > ~1 MiB the Python `multiformats` single-hash CID will
+NOT match what `ipfs` or `w3 cid` produces, and may not resolve through
+any public gateway.  Prefer `ipfs` or `w3` when CIDs must round-trip
+through web3.storage / dweb.link.
+EOF
+  exit 1
+fi
+
+# ---------------------------------------------------------------------
 # Enumerate non-.cid content-links.
 # ---------------------------------------------------------------------
 readarray -t TARGETS < <(
@@ -142,22 +192,29 @@ EOF
   fi
 }
 
-# ExternalData mirrors we try, in order.  Matches the list in
-# CMake/ExternalData.cmake's ITK configuration.
-MIRRORS=(
-  "https://data.kitware.com/api/v1/file/hashsum"
-  "https://itk.org/files/ExternalData"
+# ExternalData mirror URL templates.  Matches CMake/ITKExternalData.cmake.
+# %(algo) is the uppercase algorithm name (MD5, SHA1, SHA256, ...); %(hash)
+# is the lowercase hex digest.  Order is "most reliable first" so we stop
+# early on hits.
+MIRROR_TEMPLATES=(
+  "https://insightsoftwareconsortium.github.io/ITKTestingData/%(algo)/%(hash)"
+  "https://itk.org/files/ExternalData/%(algo)/%(hash)"
+  "https://data.kitware.com/api/v1/file/hashsum/%(algo)/%(hash)/download"
 )
 
 fetch_bytes() {
-  local algo="$1"    # md5 | sha1 | sha224 | sha256 | sha384 | sha512
+  local algo_lc="$1"    # md5 | sha1 | sha224 | sha256 | sha384 | sha512
   local hash="$2"
   local out="$3"
+  # ITK ExternalData URLs use uppercase algo (MD5, SHA512, ...).
+  local algo_uc
+  algo_uc=$(printf '%s' "$algo_lc" | tr '[:lower:]' '[:upper:]')
   local url
-  for prefix in "${MIRRORS[@]}"; do
-    url="${prefix}/${algo}/${hash}/download"
+  for tmpl in "${MIRROR_TEMPLATES[@]}"; do
+    url="${tmpl//%(algo)/$algo_uc}"
+    url="${url//%(hash)/$hash}"
     if curl -sfL --max-time 60 -o "$out" "$url"; then
-      info "  fetched from $prefix"
+      info "  fetched from $url"
       return 0
     fi
   done
