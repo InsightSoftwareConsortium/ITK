@@ -1,17 +1,15 @@
-# the top-level README is used for describing this module, just
-# re-used it for documentation here
-get_filename_component(MY_CURRENT_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
-file(READ "${MY_CURRENT_DIR}/README.md" DOCUMENTATION)
+set(
+  DOCUMENTATION
+  "This module provides Montage: mosaic-stitching and 3D
+reconstruction of large datasets from a collection of partially
+overlapping 2D slices via phase-correlation image registration.
+Core pieces are \\\\ref PhaseCorrelationImageRegistrationMethod,
+\\\\ref TileMontage, and \\\\ref TileMergeImageFilter.
+See the module README for in-tree vs archived-upstream scope."
+)
 
-# itk_module() defines the module dependencies in Montage
-# Montage depends on ITKCommon
-# The testing module in Montage depends on ITKTestKernel
-# and ITKMetaIO(besides Montage and ITKCore)
-# By convention those modules outside of ITK are not prefixed with
-# ITK.
-
-# define the dependencies of the include module and the tests
-itk_module(Montage
+itk_module(
+  Montage
   DEPENDS
     ITKCommon
     ITKFFT
@@ -21,10 +19,8 @@ itk_module(Montage
     ITKDoubleConversion
   TEST_DEPENDS
     ITKIOTransformInsightLegacy
-    # ITKIOHDF5 # hdf5 is another format which supports streaming
     ITKTestKernel
-  DESCRIPTION
-    "${DOCUMENTATION}"
+  DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
   ENABLE_SHARED
 )
