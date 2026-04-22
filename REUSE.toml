@@ -1,0 +1,275 @@
+version = 1
+SPDX-PackageName = "ITK"
+SPDX-PackageSupplier = "NumFOCUS"
+SPDX-PackageDownloadLocation = "https://github.com/InsightSoftwareConsortium/ITK"
+
+# REUSE 3.x blanket license annotations for ITK-owned files that do not
+# carry per-file SPDX headers. Files under Modules/ThirdParty/ are NOT
+# annotated here: each vendored third-party project retains its upstream
+# license notice (see the module's own LICENSE, README, or source headers)
+# and is tracked in the SBOM as a separate package with its declared
+# SPDX license (see CMake/ITKSBOMGeneration.cmake and each
+# Modules/ThirdParty/*/itk-module.cmake).
+#
+# The sections below use `precedence = "aggregate"`, meaning a per-file
+# SPDX header (if present) takes precedence over the blanket annotation.
+
+# -----------------------------------------------------------------------------
+# Build system and CMake infrastructure
+[[annotations]]
+path = [
+  "CMakeLists.txt",
+  "**/CMakeLists.txt",
+  "**/*.cmake",
+  "**/*.cmake.in",
+  "CMake/**",
+  "Wrapping/**/*.cmake",
+  "Wrapping/**/*.wrap",
+  "Wrapping/**/*.i",
+  "Wrapping/**/*.swg",
+  "Wrapping/**/*.in",
+  "Wrapping/**/*.notwrapped",
+  "Wrapping/**/*.py",
+  "Wrapping/**/*.md",
+  "Wrapping/**/*.txt",
+  "Wrapping/__init__.py",
+  "Modules/**/wrapping/**",
+  "Utilities/**/*.cmake",
+  "Utilities/**/*.in",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Copyright NumFOCUS"
+SPDX-License-Identifier = "Apache-2.0"
+
+# -----------------------------------------------------------------------------
+# Top-level configuration, CI, and metadata
+[[annotations]]
+path = [
+  ".github/**",
+  ".gitattributes",
+  ".gitignore",
+  ".mailmap",
+  ".pre-commit-config.yaml",
+  ".readthedocs.yml",
+  ".gersemi.config",
+  "CITATION.cff",
+  "CODE_OF_CONDUCT.md",
+  "CONTRIBUTING.md",
+  "GOVERNANCE.md",
+  "README.md",
+  "GettingStarted.md",
+  "NOTICE",
+  "AGENTS.md",
+  "CLAUDE.md",
+  "pyproject.toml",
+  "pixi.lock",
+  "greptile.json",
+  "Testing/**/*.yml",
+  "Testing/**/*.cmake",
+  "Testing/**/*.sh",
+  "Testing/**/*.py",
+  "Testing/**/*.xml",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Copyright NumFOCUS"
+SPDX-License-Identifier = "Apache-2.0"
+
+# -----------------------------------------------------------------------------
+# Documentation and doxygen inputs (CC-BY-4.0 per the ITK Software Guide
+# licensing for prose documentation)
+[[annotations]]
+path = [
+  "Documentation/**/*.md",
+  "Documentation/**/*.rst",
+  "Documentation/**/*.png",
+  "Documentation/**/*.jpg",
+  "Documentation/**/*.jpeg",
+  "Documentation/**/*.gif",
+  "Documentation/**/*.svg",
+  "Documentation/**/*.pdf",
+  "Documentation/**/*.html",
+  "Documentation/**/*.css",
+  "Documentation/**/*.dox",
+  "Documentation/**/conf.py",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Copyright NumFOCUS"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+# -----------------------------------------------------------------------------
+# Test data, baselines, and image data descriptors
+# These are data files used for regression testing; licensed CC-BY-4.0 as
+# non-code content.
+[[annotations]]
+path = [
+  "**.sha512",
+  "**.md5",
+  "**.cid",
+  "**/test/Baseline/**",
+  "**/test/Input/**",
+  "Testing/Data/**",
+  "Examples/Data/**",
+  "Wrapping/images/**",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Copyright NumFOCUS"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+# -----------------------------------------------------------------------------
+# Maintenance and utility scripts (Apache-2.0 ITK-owned)
+[[annotations]]
+path = [
+  "Utilities/Maintenance/**/*.py",
+  "Utilities/Maintenance/**/*.sh",
+  "Utilities/Maintenance/**/*.cxx",
+  "Utilities/Maintenance/**/*.xsl",
+  "Utilities/Maintenance/**/*.css",
+  "Utilities/Maintenance/**/*.json",
+  "Utilities/Maintenance/**/*.md",
+  "Utilities/Maintenance/**/*.txt",
+  "Utilities/Hooks/**",
+  "Utilities/Dart/**",
+  "Utilities/Doxygen/**",
+  "Utilities/GitSetup/**",
+  "Utilities/KWStyle/**",
+  "Utilities/SetupForDevelopment.sh",
+  "Utilities/ITKv5Preparation/**",
+  "Utilities/Debugger/**",
+  "Utilities/Doxygen/**/*.dox",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Copyright NumFOCUS"
+SPDX-License-Identifier = "Apache-2.0"
+
+# -----------------------------------------------------------------------------
+# Examples source tree (Apache-2.0 ITK-owned)
+[[annotations]]
+path = [
+  "Examples/**/*.cmake",
+  "Examples/**/*.txt",
+  "Examples/**/*.dox",
+  "Examples/**/*.md",
+  "Examples/**/*.py",
+  "Examples/**/*.in",
+  "Examples/README.md",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Copyright NumFOCUS"
+SPDX-License-Identifier = "Apache-2.0"
+
+# -----------------------------------------------------------------------------
+# Valgrind suppression files, icons, small binaries shipped with ITK
+[[annotations]]
+path = [
+  "**/*.supp",
+  "**/*.ico",
+  "**/*.icns",
+  "**/*.xpm",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Copyright NumFOCUS"
+SPDX-License-Identifier = "Apache-2.0"
+
+# -----------------------------------------------------------------------------
+# OpenCL kernels, Objective-C++, Tcl, .inc headers, bash scripts
+[[annotations]]
+path = [
+  "Modules/**/*.cl",
+  "Modules/**/*.mm",
+  "Modules/**/*.tcl",
+  "Modules/**/*.inc",
+  "**/*.bash",
+  "**/*.dic",
+  "Examples/**/*.sh",
+  "Utilities/Maintenance/strip-trailing-whitespace",
+  "Utilities/Maintenance/SourceTarball.bash",
+  "Utilities/Maintenance/update-third-party.bash",
+  "Utilities/Maintenance/clang-format.bash",
+  "Utilities/Maintenance/cmake-format.bash",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Copyright NumFOCUS"
+SPDX-License-Identifier = "Apache-2.0"
+
+# -----------------------------------------------------------------------------
+# A handful of ITK-owned files still carry the legacy Insight Software
+# Consortium header instead of the NumFOCUS copyright line. REUSE cannot
+# derive the license from the old-style header, so annotate them explicitly.
+[[annotations]]
+path = [
+  "Modules/Registration/FEM/test/itkVTKTetrahedralMeshReader.h",
+  "Modules/Registration/FEM/test/itkVTKTetrahedralMeshReader.hxx",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "Copyright 1999-2019 Insight Software Consortium"
+SPDX-License-Identifier = "Apache-2.0"
+
+# -----------------------------------------------------------------------------
+# Vendored-in-tree code under non-ThirdParty paths: fdstream.hxx is the
+# Josuttis fdstream header distributed with an ITK-local permissive notice;
+# dsrc2c.c is SLATEC-derived Netlib code.
+[[annotations]]
+path = "Modules/IO/ImageBase/include/itkfdstream/fdstream.hxx"
+precedence = "override"
+SPDX-FileCopyrightText = "Copyright 2001 Nicolai M. Josuttis"
+SPDX-License-Identifier = "LicenseRef-Josuttis-fdstream"
+SPDX-LicenseComments = "Permissive license granted in file; see source header for full text."
+
+[[annotations]]
+path = "Modules/Numerics/FEM/src/dsrc2c.c"
+precedence = "override"
+SPDX-FileCopyrightText = "NOASSERTION"
+SPDX-License-Identifier = "LicenseRef-Netlib-SLATEC"
+SPDX-LicenseComments = "Netlib SLATEC public-domain mathematical library."
+
+# -----------------------------------------------------------------------------
+# Repo-wide dotfiles, READMEs, and module-local KWStyle overrides
+[[annotations]]
+path = [
+  ".clang-format",
+  ".clang-tidy",
+  ".editorconfig",
+  ".git-blame-ignore-revs",
+  ".git-remote-files",
+  ".zenodo.json",
+  ".ExternalData/**",
+  "**/.clang-format",
+  "**/.clang-tidy",
+  "**/.gitignore",
+  "**/README",
+  "**/README.md",
+  "**/README.rst",
+  "**/ITKKWStyleOverwrite.txt",
+  "Utilities/CMakeFormat/**",
+  "Utilities/ITKMigrationPreparation/**",
+  "Documentation/docs/**",
+  "Documentation/Art/**",
+  "Documentation/Doxygen/**",
+  "Modules/**/README",
+  "Modules/**/README.md",
+  "Modules/**/README.rst",
+  "Modules/External/**",
+  "Modules/Remote/**",
+  "Modules/**/*.dic",
+  "Modules/**/*.in",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Copyright NumFOCUS"
+SPDX-License-Identifier = "Apache-2.0"
+
+
+# -----------------------------------------------------------------------------
+# The LICENSE file itself is the full Apache-2.0 text. Self-identifying.
+[[annotations]]
+path = "LICENSE"
+precedence = "override"
+SPDX-FileCopyrightText = "NOASSERTION"
+SPDX-License-Identifier = "Apache-2.0"
+
+# -----------------------------------------------------------------------------
+# The NOTICE file is an Apache-2.0 attribution document.
+[[annotations]]
+path = "NOTICE"
+precedence = "override"
+SPDX-FileCopyrightText = "Copyright 1999-2019 Insight Software Consortium, Copyright 2020-present NumFOCUS"
+SPDX-License-Identifier = "Apache-2.0"

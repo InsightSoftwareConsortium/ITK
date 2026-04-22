@@ -30,6 +30,10 @@ include(GenerateExportHeader)
 #  EXCLUDE_FROM_DEFAULT = Exclude this module from the build default modules flag
 #  EXCLUDE_FROM_ALL = (depreciated) Exclude this module from the build all modules flag
 #  ENABLE_SHARED = Build this module as a shared library if the build shared libraries flag is set
+#  SPDX_OPT_OUT = Exclude this module from the generated SBOM. Intended for
+#                 pure build-time helpers (e.g. pygccxml) that are not linked
+#                 into the runtime and therefore are not a redistribution or
+#                 supply-chain concern for downstream consumers.
 #
 # This macro will ensure the module name is compliant, and set the appropriate
 # module variables as declared in the itk-module.cmake file.
@@ -69,12 +73,29 @@ macro(itk_module _name)
   set(ITK_MODULE_${itk-module}_DESCRIPTION "description")
   set(ITK_MODULE_${itk-module}_EXCLUDE_FROM_DEFAULT 0)
   set(ITK_MODULE_${itk-module}_ENABLE_SHARED 0)
+  set(ITK_MODULE_${itk-module}_SPDX_LICENSE "")
+  set(ITK_MODULE_${itk-module}_SPDX_VERSION "")
+  set(ITK_MODULE_${itk-module}_SPDX_DOWNLOAD_LOCATION "")
+  set(ITK_MODULE_${itk-module}_SPDX_COPYRIGHT "")
+  set(ITK_MODULE_${itk-module}_SPDX_CUSTOM_LICENSE_TEXT "")
+  set(ITK_MODULE_${itk-module}_SPDX_CUSTOM_LICENSE_NAME "")
+  set(ITK_MODULE_${itk-module}_SPDX_PURL "")
+  set(ITK_MODULE_${itk-module}_SPDX_OPT_OUT 0)
+  # Detect third-party modules by source path. The child-scope
+  # set(${itk-module}_THIRD_PARTY 1) in Modules/ThirdParty/*/CMakeLists.txt
+  # does not propagate to where SBOM generation runs; use the source location
+  # as an authoritative, parent-scope-visible signal instead.
+  if("${CMAKE_CURRENT_SOURCE_DIR}" MATCHES "/Modules/ThirdParty/")
+    set(ITK_MODULE_${itk-module}_IS_THIRD_PARTY 1)
+  else()
+    set(ITK_MODULE_${itk-module}_IS_THIRD_PARTY 0)
+  endif()
   foreach(arg ${ARGN})
     ### Parse itk_module named options
     if(
       "${arg}"
         MATCHES
-        "^((|COMPILE_|PRIVATE_|TEST_|)DEPENDS|DESCRIPTION|DEFAULT|FACTORY_NAMES)$"
+        "^((|COMPILE_|PRIVATE_|TEST_|)DEPENDS|DESCRIPTION|DEFAULT|FACTORY_NAMES|SPDX_LICENSE|SPDX_VERSION|SPDX_DOWNLOAD_LOCATION|SPDX_COPYRIGHT|SPDX_CUSTOM_LICENSE_TEXT|SPDX_CUSTOM_LICENSE_NAME|SPDX_PURL)$"
     )
       set(_doing "${arg}")
     elseif("${arg}" MATCHES "^EXCLUDE_FROM_DEFAULT$")
@@ -90,6 +111,9 @@ macro(itk_module _name)
     elseif("${arg}" MATCHES "^ENABLE_SHARED$")
       set(_doing "")
       set(ITK_MODULE_${itk-module}_ENABLE_SHARED 1)
+    elseif("${arg}" MATCHES "^SPDX_OPT_OUT$")
+      set(_doing "")
+      set(ITK_MODULE_${itk-module}_SPDX_OPT_OUT 1)
       ### Parse named option parameters
     elseif("${_doing}" MATCHES "^DEPENDS$")
       list(APPEND ITK_MODULE_${itk-module}_DEPENDS "${arg}")
@@ -104,6 +128,27 @@ macro(itk_module _name)
     elseif("${_doing}" MATCHES "^DESCRIPTION$")
       set(_doing "")
       set(ITK_MODULE_${itk-module}_DESCRIPTION "${arg}")
+    elseif("${_doing}" MATCHES "^SPDX_LICENSE$")
+      set(_doing "")
+      set(ITK_MODULE_${itk-module}_SPDX_LICENSE "${arg}")
+    elseif("${_doing}" MATCHES "^SPDX_VERSION$")
+      set(_doing "")
+      set(ITK_MODULE_${itk-module}_SPDX_VERSION "${arg}")
+    elseif("${_doing}" MATCHES "^SPDX_DOWNLOAD_LOCATION$")
+      set(_doing "")
+      set(ITK_MODULE_${itk-module}_SPDX_DOWNLOAD_LOCATION "${arg}")
+    elseif("${_doing}" MATCHES "^SPDX_COPYRIGHT$")
+      set(_doing "")
+      set(ITK_MODULE_${itk-module}_SPDX_COPYRIGHT "${arg}")
+    elseif("${_doing}" MATCHES "^SPDX_CUSTOM_LICENSE_TEXT$")
+      set(_doing "")
+      set(ITK_MODULE_${itk-module}_SPDX_CUSTOM_LICENSE_TEXT "${arg}")
+    elseif("${_doing}" MATCHES "^SPDX_CUSTOM_LICENSE_NAME$")
+      set(_doing "")
+      set(ITK_MODULE_${itk-module}_SPDX_CUSTOM_LICENSE_NAME "${arg}")
+    elseif("${_doing}" MATCHES "^SPDX_PURL$")
+      set(_doing "")
+      set(ITK_MODULE_${itk-module}_SPDX_PURL "${arg}")
     elseif("${_doing}" MATCHES "^DEFAULT")
       message(FATAL_ERROR "Invalid argument [DEFAULT]")
     else()
