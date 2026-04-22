@@ -25,6 +25,8 @@
 #include "itkNumericLocale.h"
 #include "itkNumberToString.h"
 
+#include <cstdio>
+#include <cstring>
 #include <sstream>
 #include <type_traits>
 
@@ -125,6 +127,178 @@ GetAxisOrderForFileReading(Nrrd *                             nrrd,
 }
 
 const std::string NRRD_KEY_PREFIX{ "NRRD_" };
+
+// --- Dispatch table for NRRD reserved fields in NrrdImageIO::Write() -------
+//
+// The writer inspects every MetaDataDictionary key that begins with the
+// "NRRD_" prefix and routes it to a handler that stamps the corresponding
+// field on the teem Nrrd struct (axis.thickness, measurementFrame, oldMin,
+// ...).  Historically this was an open-coded if-ladder of strncmp+sscanf
+// checks.  The ladder was hard to extend and had no easy single place to
+// add behaviors such as bare-key promotion or type-coercion fallbacks.
+//
+// The table below replaces the ladder with a uniform dispatch keyed by the
+// teem nrrdField enum.  Handlers come in two flavors:
+//   * per-axis  -- key is "<field>[N]"; the handler receives axis index N.
+//   * scalar    -- key is just "<field>"; the handler receives only ctx.
+// Field names are disjoint in their leading characters, so the first
+// matching entry is always the right one.
+
+struct NrrdWriteReservedFieldCtx
+{
+  const itk::MetaDataDictionary & dict;
+  const std::string &             metaKey;
+  Nrrd *                          nrrd;
+  unsigned int                    numberOfPixelAxis_nrrd;
+};
+
+using NrrdReservedFieldPerAxisFn = void (*)(NrrdWriteReservedFieldCtx &, unsigned int axi);
+using NrrdReservedFieldScalarFn = void (*)(NrrdWriteReservedFieldCtx &);
+
+struct NrrdReservedField
+{
+  int                        fieldEnum;
+  NrrdReservedFieldPerAxisFn perAxis; // nullptr iff this is a scalar field
+  NrrdReservedFieldScalarFn  scalar;  // nullptr iff this is a per-axis field
+};
+
+// Per-axis handlers.
+void
+WriteThicknessPerAxis(NrrdWriteReservedFieldCtx & ctx, unsigned int axi)
+{
+  double thickness = 0.0;
+  itk::ExposeMetaData<double>(ctx.dict, ctx.metaKey, thickness);
+  ctx.nrrd->axis[axi + ctx.numberOfPixelAxis_nrrd].thickness = thickness;
+}
+void
+WriteCenterPerAxis(NrrdWriteReservedFieldCtx & ctx, unsigned int axi)
+{
+  std::string value;
+  itk::ExposeMetaData<std::string>(ctx.dict, ctx.metaKey, value);
+  ctx.nrrd->axis[axi + ctx.numberOfPixelAxis_nrrd].center = airEnumVal(nrrdCenter, value.c_str());
+}
+void
+WriteKindPerAxis(NrrdWriteReservedFieldCtx & ctx, unsigned int axi)
+{
+  std::string value;
+  itk::ExposeMetaData<std::string>(ctx.dict, ctx.metaKey, value);
+  ctx.nrrd->axis[axi + ctx.numberOfPixelAxis_nrrd].kind = airEnumVal(nrrdKind, value.c_str());
+}
+void
+WriteLabelPerAxis(NrrdWriteReservedFieldCtx & ctx, unsigned int axi)
+{
+  std::string value;
+  itk::ExposeMetaData<std::string>(ctx.dict, ctx.metaKey, value);
+  ctx.nrrd->axis[axi + ctx.numberOfPixelAxis_nrrd].label = airStrdup(value.c_str());
+}
+void
+WriteUnitPerAxis(NrrdWriteReservedFieldCtx & ctx, unsigned int axi)
+{
+  std::string value;
+  itk::ExposeMetaData<std::string>(ctx.dict, ctx.metaKey, value);
+  ctx.nrrd->axis[axi + ctx.numberOfPixelAxis_nrrd].units = airStrdup(value.c_str());
+}
+
+// Scalar handlers.
+void
+WriteOldMin(NrrdWriteReservedFieldCtx & ctx)
+{
+  itk::ExposeMetaData<double>(ctx.dict, ctx.metaKey, ctx.nrrd->oldMin);
+}
+void
+WriteOldMax(NrrdWriteReservedFieldCtx & ctx)
+{
+  itk::ExposeMetaData<double>(ctx.dict, ctx.metaKey, ctx.nrrd->oldMax);
+}
+void
+WriteSpace(NrrdWriteReservedFieldCtx & ctx)
+{
+  std::string value;
+  itk::ExposeMetaData<std::string>(ctx.dict, ctx.metaKey, value);
+  const int space = airEnumVal(nrrdSpace, value.c_str());
+  if (nrrdSpaceDimension(space) == ctx.nrrd->spaceDim)
+  {
+    // sanity check: only set if the declared space matches our dim
+    ctx.nrrd->space = space;
+  }
+}
+void
+WriteContent(NrrdWriteReservedFieldCtx & ctx)
+{
+  std::string value;
+  itk::ExposeMetaData<std::string>(ctx.dict, ctx.metaKey, value);
+  ctx.nrrd->content = airStrdup(value.c_str());
+}
+void
+WriteMeasurementFrame(NrrdWriteReservedFieldCtx & ctx)
+{
+  std::vector<std::vector<double>> msrFrame;
+  itk::ExposeMetaData<std::vector<std::vector<double>>>(ctx.dict, ctx.metaKey, msrFrame);
+  for (unsigned int saxi = 0; saxi < ctx.nrrd->spaceDim; ++saxi)
+  {
+    for (unsigned int saxj = 0; saxj < ctx.nrrd->spaceDim; ++saxj)
+    {
+      if (saxi < msrFrame.size() && saxj < msrFrame[saxi].size())
+      {
+        ctx.nrrd->measurementFrame[saxi][saxj] = msrFrame[saxi][saxj];
+      }
+      else
+      {
+        // The dimension of the recorded measurement frame differs from the
+        // actual dimension of the ITK image (which, for now, determines
+        // nrrd->spaceDim).  AIR_NAN is invalid because the coefficients must
+        // all be equally existent; 0 would be indistinguishable from valid
+        // data; use a large sentinel instead.
+        ctx.nrrd->measurementFrame[saxi][saxj] = 666666;
+      }
+    }
+  }
+}
+
+constexpr NrrdReservedField kNrrdReservedFields[] = {
+  { nrrdField_thicknesses, WriteThicknessPerAxis, nullptr },
+  { nrrdField_centers, WriteCenterPerAxis, nullptr },
+  { nrrdField_kinds, WriteKindPerAxis, nullptr },
+  { nrrdField_labels, WriteLabelPerAxis, nullptr },
+  { nrrdField_units, WriteUnitPerAxis, nullptr },
+  { nrrdField_old_min, nullptr, WriteOldMin },
+  { nrrdField_old_max, nullptr, WriteOldMax },
+  { nrrdField_space, nullptr, WriteSpace },
+  { nrrdField_content, nullptr, WriteContent },
+  { nrrdField_measurement_frame, nullptr, WriteMeasurementFrame },
+};
+
+// Look up `keyField` (the text after the "NRRD_" prefix) in the reserved
+// field table and invoke the matching handler.  Returns true if `keyField`
+// began with the name of any known reserved field (even if a per-axis index
+// was out of range -- that mirrors the original behavior: the key is
+// considered "consumed" as a reserved field and must not leak into the
+// custom key/value fallback).
+bool
+TryDispatchNrrdReservedField(NrrdWriteReservedFieldCtx & ctx, const char * keyField)
+{
+  for (const auto & rf : kNrrdReservedFields)
+  {
+    const char * const name = airEnumStr(nrrdField, rf.fieldEnum);
+    const std::size_t  nameLen = std::strlen(name);
+    if (std::strncmp(keyField, name, nameLen) != 0)
+    {
+      continue;
+    }
+    if (rf.perAxis != nullptr)
+    {
+      unsigned int axi{ 0 };
+      if (std::sscanf(keyField + nameLen, "[%u]", &axi) == 1 && axi + ctx.numberOfPixelAxis_nrrd < ctx.nrrd->dim)
+      {
+        rf.perAxis(ctx, axi);
+      }
+      return true;
+    }
+    rf.scalar(ctx);
+    return true;
+  }
+  return false;
+}
 
 } // namespace
 
@@ -1178,144 +1352,36 @@ NrrdImageIO::Write(const void * buffer)
   nrrdAxisInfoSet_nva(nrrd, nrrdAxisInfoKind, kind);
   nrrdAxisInfoSet_nva(nrrd, nrrdAxisInfoSpaceDirection, spaceDir);
 
-  // Go through MetaDataDictionary and set either specific nrrd field
-  // or a key/value pair
-  std::vector<std::string>                 keys = thisDic.GetKeys();
-  std::vector<std::string>::const_iterator keyIt;
-  const char *                             keyField, *field;
-  for (keyIt = keys.begin(); keyIt != keys.end(); ++keyIt)
+  // Walk the MetaDataDictionary.  Keys beginning with the "NRRD_" prefix are
+  // routed to reserved-field handlers via TryDispatchNrrdReservedField (see
+  // the dispatch table at the top of this file).  Everything else becomes a
+  // custom key/value pair in the NRRD header.
+  const std::vector<std::string> keys = thisDic.GetKeys();
+  for (const std::string & metaKey : keys)
   {
-    if (!strncmp(NRRD_KEY_PREFIX.c_str(), keyIt->c_str(), NRRD_KEY_PREFIX.size()))
+    if (!std::strncmp(NRRD_KEY_PREFIX.c_str(), metaKey.c_str(), NRRD_KEY_PREFIX.size()))
     {
-      keyField = keyIt->c_str() + NRRD_KEY_PREFIX.size();
-      // only of one of these can succeed
-      field = airEnumStr(nrrdField, nrrdField_thicknesses);
-      unsigned int axi{ 0 };
-      if (!strncmp(keyField, field, strlen(field)))
-      {
-        if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + numberOfPixelAxis_nrrd < nrrd->dim)
-        {
-          double thickness = 0.0;
-          ExposeMetaData<double>(thisDic, *keyIt, thickness);
-          nrrd->axis[axi + numberOfPixelAxis_nrrd].thickness = thickness;
-        }
-      }
-      field = airEnumStr(nrrdField, nrrdField_centers);
-      if (!strncmp(keyField, field, strlen(field)))
-      {
-        if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + numberOfPixelAxis_nrrd < nrrd->dim)
-        {
-          std::string value;
-          ExposeMetaData<std::string>(thisDic, *keyIt, value);
-          nrrd->axis[axi + numberOfPixelAxis_nrrd].center = airEnumVal(nrrdCenter, value.c_str());
-        }
-      }
-      field = airEnumStr(nrrdField, nrrdField_kinds);
-      if (!strncmp(keyField, field, strlen(field)))
-      {
-        if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + numberOfPixelAxis_nrrd < nrrd->dim)
-        {
-          std::string value;
-          ExposeMetaData<std::string>(thisDic, *keyIt, value);
-          nrrd->axis[axi + numberOfPixelAxis_nrrd].kind = airEnumVal(nrrdKind, value.c_str());
-        }
-      }
-      field = airEnumStr(nrrdField, nrrdField_labels);
-      if (!strncmp(keyField, field, strlen(field)))
-      {
-        if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + numberOfPixelAxis_nrrd < nrrd->dim)
-        {
-          std::string value;
-          ExposeMetaData<std::string>(thisDic, *keyIt, value);
-          nrrd->axis[axi + numberOfPixelAxis_nrrd].label = airStrdup(value.c_str());
-        }
-      }
-      field = airEnumStr(nrrdField, nrrdField_units);
-      if (!strncmp(keyField, field, strlen(field)))
-      {
-        if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + numberOfPixelAxis_nrrd < nrrd->dim)
-        {
-          std::string value;
-          ExposeMetaData<std::string>(thisDic, *keyIt, value);
-          nrrd->axis[axi + numberOfPixelAxis_nrrd].units = airStrdup(value.c_str());
-        }
-      }
-      field = airEnumStr(nrrdField, nrrdField_old_min);
-      if (!strncmp(keyField, field, strlen(field)))
-      {
-        ExposeMetaData<double>(thisDic, *keyIt, nrrd->oldMin);
-      }
-      field = airEnumStr(nrrdField, nrrdField_old_max);
-      if (!strncmp(keyField, field, strlen(field)))
-      {
-        ExposeMetaData<double>(thisDic, *keyIt, nrrd->oldMax);
-      }
-
-      field = airEnumStr(nrrdField, nrrdField_space);
-      if (!strncmp(keyField, field, strlen(field)))
-      {
-        int         space;
-        std::string value;
-        ExposeMetaData<std::string>(thisDic, *keyIt, value);
-        space = airEnumVal(nrrdSpace, value.c_str());
-        if (nrrdSpaceDimension(space) == nrrd->spaceDim)
-        {
-          // sanity check
-          nrrd->space = space;
-        }
-      }
-
-      field = airEnumStr(nrrdField, nrrdField_content);
-      if (!strncmp(keyField, field, strlen(field)))
-      {
-        std::string value;
-        ExposeMetaData<std::string>(thisDic, *keyIt, value);
-        nrrd->content = airStrdup(value.c_str());
-      }
-      field = airEnumStr(nrrdField, nrrdField_measurement_frame);
-      if (!strncmp(keyField, field, strlen(field)))
-      {
-        std::vector<std::vector<double>> msrFrame;
-        ExposeMetaData<std::vector<std::vector<double>>>(thisDic, *keyIt, msrFrame);
-        for (unsigned int saxi = 0; saxi < nrrd->spaceDim; ++saxi)
-        {
-          for (unsigned int saxj = 0; saxj < nrrd->spaceDim; ++saxj)
-          {
-            if (saxi < msrFrame.size() && saxj < msrFrame[saxi].size())
-            {
-              nrrd->measurementFrame[saxi][saxj] = msrFrame[saxi][saxj];
-            }
-            else
-            {
-              // there is a difference between the dimension of the
-              // recorded measurement frame, and the actual dimension of
-              // the ITK image, which (for now) determines nrrd->spaceDim.
-              // We can't set this to AIR_NAN, because the coefficients of
-              // the measurement frame have to all be equally existent.
-              // If we used 0, it might not a flag that something is wrong.
-              // So, we have to get creative.
-              nrrd->measurementFrame[saxi][saxj] = 666666;
-            }
-          }
-        }
-      }
+      const char *              keyField = metaKey.c_str() + NRRD_KEY_PREFIX.size();
+      NrrdWriteReservedFieldCtx ctx{ thisDic, metaKey, nrrd, numberOfPixelAxis_nrrd };
+      TryDispatchNrrdReservedField(ctx, keyField);
     }
     else
     {
       // not a NRRD field packed into meta data; just a regular key/value
       // convert to string and dump to the file
-      // const char *tname = thisDic.Get(*keyIt)->GetNameOfClass();
       std::ostringstream dump;
-      if (_dump_metadata_to_stream<std::string>(thisDic, *keyIt, dump) ||
-          _dump_metadata_to_stream<double>(thisDic, *keyIt, dump) ||
-          _dump_metadata_to_stream<float>(thisDic, *keyIt, dump) ||
-          _dump_metadata_to_stream<int>(thisDic, *keyIt, dump) ||
-          _dump_metadata_to_stream<unsigned int>(thisDic, *keyIt, dump) ||
-          _dump_metadata_to_stream<Array<float>>(thisDic, *keyIt, dump) ||
-          _dump_metadata_to_stream<Array<double>>(thisDic, *keyIt, dump) ||
-          _dump_metadata_to_stream<Array<int>>(thisDic, *keyIt, dump) ||
-          _dump_metadata_to_stream<Array<unsigned int>>(thisDic, *keyIt, dump))
-        nrrdKeyValueAdd(nrrd, keyIt->c_str(), dump.str().c_str());
+      if (_dump_metadata_to_stream<std::string>(thisDic, metaKey, dump) ||
+          _dump_metadata_to_stream<double>(thisDic, metaKey, dump) ||
+          _dump_metadata_to_stream<float>(thisDic, metaKey, dump) ||
+          _dump_metadata_to_stream<int>(thisDic, metaKey, dump) ||
+          _dump_metadata_to_stream<unsigned int>(thisDic, metaKey, dump) ||
+          _dump_metadata_to_stream<Array<float>>(thisDic, metaKey, dump) ||
+          _dump_metadata_to_stream<Array<double>>(thisDic, metaKey, dump) ||
+          _dump_metadata_to_stream<Array<int>>(thisDic, metaKey, dump) ||
+          _dump_metadata_to_stream<Array<unsigned int>>(thisDic, metaKey, dump))
+      {
+        nrrdKeyValueAdd(nrrd, metaKey.c_str(), dump.str().c_str());
+      }
     }
   }
 
