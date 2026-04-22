@@ -465,7 +465,7 @@ VTIImageIO::ITKComponentToVTKTypeString(IOComponentEnum t)
 // ReadImageInformation
 // ---------------------------------------------------------------------------
 void
-VTIImageIO::InternalReadImageInformation()
+VTIImageIO::ReadImageInformation()
 {
   // Reset cached parser results.
   m_AsciiDataContent.clear();
@@ -860,12 +860,6 @@ VTIImageIO::InternalReadImageInformation()
     m_FileType = IOFileEnum::Binary;
     m_Base64DataContent = std::move(st.base64Content);
   }
-}
-
-void
-VTIImageIO::ReadImageInformation()
-{
-  this->InternalReadImageInformation();
 }
 
 void

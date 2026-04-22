@@ -148,10 +148,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  /** Parse the XML header to fill image information. */
-  void
-  InternalReadImageInformation();
-
   /** Map VTK type string to ITK IOComponentEnum. */
   static IOComponentEnum
   VTKTypeStringToITKComponent(const std::string & vtkType);
