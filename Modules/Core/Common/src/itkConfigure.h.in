@@ -77,7 +77,6 @@
 #cmakedefine ITK_USE_FFTWD
 #cmakedefine ITK_USE_CUFFTW
 #cmakedefine ITK_USE_64BITS_IDS
-#cmakedefine ITK_USE_GPU
 #cmakedefine ITK_TEMPLATE_VISIBILITY_DEFAULT
 #cmakedefine USE_COMPILER_HIDDEN_VISIBILITY
 #cmakedefine ITK_USE_TBB

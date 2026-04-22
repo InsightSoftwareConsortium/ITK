@@ -34,7 +34,7 @@ endfunction()
 #
 # Examples:
 #   set_boolean_with_change_warning(BUILD_TESTING OFF)
-#   set_boolean_with_change_warning(ITK_USE_GPU YES)
+#   set_boolean_with_change_warning(ITK_WRAPPING ON)
 #
 # VALUE may be: ON/OFF, TRUE/FALSE, 1/0, YES/NO, Y/N (case-insensitive).
 function(set_boolean_with_change_warning VAR VALUE)

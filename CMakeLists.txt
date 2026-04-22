@@ -527,36 +527,6 @@ include(${ITK_SOURCE_DIR}/Utilities/KWStyle/KWStyle.cmake)
 option(BUILD_EXAMPLES "Build the examples from the ITK Software Guide." OFF)
 
 #-----------------------------------------------------------------------------
-# Enable GPU support. Requires OpenCL to be installed.
-#
-# DEPRECATED in ITK 6: The in-tree OpenCL-based GPU modules (GPUCommon,
-# GPUFiniteDifference, GPUImageFilterBase, GPUAnisotropicSmoothing,
-# GPUSmoothing, GPUThresholding, GPURegistrationCommon,
-# GPUPDEDeformableRegistration) are scheduled for removal.  OpenCL has
-# been deprecated by Apple since macOS 10.14 (2018) and these modules
-# are not covered by any CI pipeline.  See issue #6075 for the migration
-# path and the modern GPU alternatives (CUDA via RTK/CudaCommon,
-# VkFFTBackend, C++ `std::execution` per #4433).
-option(
-  ITK_USE_GPU
-  "GPU acceleration via OpenCL (DEPRECATED; see issue #6075)"
-  OFF
-)
-mark_as_advanced(ITK_USE_GPU)
-
-if(ITK_USE_GPU)
-  message(
-    DEPRECATION
-    "ITK_USE_GPU enables the OpenCL-based in-tree GPU modules, which are "
-    "scheduled for removal in ITK 6 (see issue #6075).  OpenCL is deprecated "
-    "on macOS and these modules have no CI coverage.  For modern GPU "
-    "acceleration use RTK/CudaCommon (CUDA), ITKVkFFTBackend (Vulkan), or "
-    "watch #4433 for the `std::execution` roadmap."
-  )
-  include(itkOpenCL)
-endif()
-
-#-----------------------------------------------------------------------------
 # Manage FFT v3 Options
 #
 option(
