@@ -30,7 +30,6 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
-    ExternalDataVersion: 5.4.5
     CMakeVersion: "4.0.1"
 
 jobs:
@@ -119,6 +118,19 @@ jobs:
           restore-keys: |
             ccache-v4-${{ runner.os }}-${{ matrix.name }}-
 
+      - name: Restore ExternalData object store
+        id: restore-externaldata
+        uses: actions/cache/restore@v5
+        with:
+          # ExternalData blobs are platform-agnostic; share a single cache
+          # entry across every workflow/job/OS in the repo.  The SHA suffix
+          # produces an immutable save key per run; restore-keys falls
+          # through to the most recent prior cache under the same version.
+          path: ${{ runner.temp }}/ExternalData
+          key: externaldata-v1-${{ hashFiles('**/*.cid') }}
+          restore-keys: |
+            externaldata-v1-
+
       - name: Show ccache configuration, stats and maintenance
         shell: bash
         run: |
@@ -144,14 +156,15 @@ jobs:
           cmakeVersion: ~${{ env.CMakeVersion }}
           ninjaVersion: latest
 
-      - name: Download dashboard script and testing data
+      - name: Download dashboard script
         run: |
           set -x
           git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
 
-          curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v${{ env.ExternalDataVersion }}/InsightData-${{ env.ExternalDataVersion }}.tar.gz -O
-          cmake -E tar xfz InsightData-${{ env.ExternalDataVersion }}.tar.gz
-          cmake -E rename InsightToolkit-${{ env.ExternalDataVersion }}/.ExternalData/CID ${{ github.workspace }}/.ExternalData/CID
+      - name: Export ExternalData_OBJECT_STORES
+        shell: bash
+        run: |
+          echo "ExternalData_OBJECT_STORES=${{ runner.temp }}/ExternalData" >> "$GITHUB_ENV"
 
       - name: Configure CTest script
         run: |
@@ -188,6 +201,15 @@ jobs:
         with:
           path: ${{ runner.temp }}/ccache
           key: ccache-v4-${{ runner.os }}-${{ matrix.name }}-${{ github.sha }}
+
+      # ExternalData object store is populated by
+      # .github/workflows/populate-externaldata-cache.yml — a dedicated
+      # workflow whose only job is to prefetch every CID and write the
+      # shared cache entry.  Consumer workflows (this one, pixi.yml, the
+      # Azure pipelines) restore-only.  Do not reintroduce a Save step
+      # here: races across platforms overwrite the single shared key with
+      # a fraction of the expected blobs and poison every subsequent
+      # restore.
 
       - name: ccache stats
         if: always()
