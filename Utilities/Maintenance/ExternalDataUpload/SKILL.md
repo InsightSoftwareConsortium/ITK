@@ -84,6 +84,10 @@ Useful options:
 - `--hash-only` — only touch `.md5` / `.shaNNN` links, leave `.cid` alone
 - `--cid-only` — only re-hash existing `.cid` links under the new profile
 - `--testing-data-repo <path>` — forwarded to `ipfs-upload.sh`
+- `--background` — forwarded to `ipfs-upload.sh`; submit remote pins
+  asynchronously instead of waiting for each to reach `pinned`. Use for
+  batch runs where synchronous pinning would take minutes per file.
+  Verify final state afterwards with `ipfs pin remote ls`.
 
 The normalize script fetches bytes through the gateway templates in
 `CMake/ITKExternalData.cmake` (same order as the build), verifies them

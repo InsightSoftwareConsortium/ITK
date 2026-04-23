@@ -228,7 +228,33 @@ content-link-normalize.sh Testing/Data/Input --testing-data-repo ~/src/ITKTestin
 
 # Only process files that are currently .md5 / .shaNNN (skip existing .cid).
 content-link-normalize.sh Modules --hash-only
+
+# Batch run with asynchronous remote pinning (returns without waiting for
+# each remote to reach 'pinned'). Verify afterwards with `ipfs pin remote ls`.
+content-link-normalize.sh Modules --hash-only --background
 ```
+
+### Synchronous vs. asynchronous remote pinning
+
+Both `ipfs-upload.sh` and `content-link-normalize.sh` default to
+**synchronous** remote pinning: `ipfs pin remote add` blocks until the
+remote reports `pinned`, which surfaces failures immediately and is
+safest for one-off uploads. Remote fetch can take minutes per file,
+however, which is impractical for batch runs.
+
+Pass `--background` to submit pin requests asynchronously — the remote
+queues the pin and fetches the content itself, and the script returns
+right away. Check final pin state with:
+
+```bash
+ipfs pin remote ls --service=itk-pinata   --status=queued,pinning,pinned
+ipfs pin remote ls --service=itk-filebase --status=queued,pinning,pinned
+```
+
+Both scripts also pre-check each remote for an existing pin on the same
+CID and skip the `pin remote add` call if one is already queued, pinning,
+or pinned — this prevents `DUPLICATE_OBJECT` (400) errors on Pinata when
+re-running on already-uploaded content.
 
 ## Content Link Manifest
 
