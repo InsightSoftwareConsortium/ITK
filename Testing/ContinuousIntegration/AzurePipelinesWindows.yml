@@ -27,7 +27,7 @@ pr:
     - Utilities/Maintenance/*
     - Modules/Remote/*.remote.cmake
 variables:
-  ExternalDataVersion: 5.4.5
+  ExternalData_OBJECT_STORES: $(Pipeline.Workspace)/ExternalData
   CCACHE_DIR: $(Pipeline.Workspace)/.ccache
   CCACHE_BASEDIR: $(Build.SourcesDirectory)
   CCACHE_COMPILERCHECK: content
@@ -62,12 +62,16 @@ jobs:
 
     - script: |
         git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
-
-        curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v$(ExternalDataVersion)/InsightData-$(ExternalDataVersion).tar.gz -O
-        cmake -E tar xfz InsightData-$(ExternalDataVersion).tar.gz
-        cmake -E rename InsightToolkit-$(ExternalDataVersion)/.ExternalData/CID $(Build.SourcesDirectory)/.ExternalData/CID
       workingDirectory: $(Agent.BuildDirectory)
-      displayName: 'Download dashboard script and testing data'
+      displayName: 'Download dashboard script'
+
+    - task: Cache@2
+      inputs:
+        key: '"externaldata" | "v1" | **/*.cid'
+        restoreKeys: |
+          "externaldata" | "v1"
+        path: $(ExternalData_OBJECT_STORES)
+      displayName: 'Restore ExternalData object store'
 
     - task: Cache@2
       inputs:
