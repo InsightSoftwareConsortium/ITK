@@ -1,0 +1,14 @@
+# ITK content-link manifest
+#
+# One entry per line, format: <cid> <repo-relative-path>
+#
+# Maintained automatically by
+#   Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh
+# and used by
+#   Utilities/Maintenance/ExternalDataUpload/ipfs-pin-all.sh
+# to batch-pin every CID on the local Kubo node and every configured
+# remote pinning service (itk-pinata, itk-filebase, ...).
+#
+# Paths must not contain whitespace (the manifest uses a single space as
+# the field delimiter). Data lines are kept sorted by path; comment lines
+# above the first data line are preserved on re-write.
