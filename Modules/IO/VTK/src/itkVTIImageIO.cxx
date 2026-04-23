@@ -339,16 +339,21 @@ VTIImageIO::DecodeBase64(const std::string & encoded, std::vector<unsigned char>
   decoded.assign((encoded.size() / 4) * 3 + 3, 0);
 
   const unsigned char * inputStart = reinterpret_cast<const unsigned char *>(encoded.data());
+  const unsigned char * inputEnd = inputStart + encoded.size();
   const unsigned char * inputPtr = inputStart;
   unsigned char *       outputPtr = decoded.data();
   bool                  workLeft = true;
   while (workLeft)
   {
-    size_t            processed = inputPtr - inputStart;
+    // eat whitespace and '=' padding before the next base64 chunk
+    while (inputPtr < inputEnd && (std::isspace(*inputPtr) || *inputPtr == '='))
+    {
+      ++inputPtr;
+    }
     const std::size_t produced = itksysBase64_Decode(inputPtr,
                                                      0, // max_output_length ignored when max_input_length is non-zero
                                                      outputPtr,
-                                                     encoded.size() - processed);
+                                                     inputEnd - inputPtr);
 
     // Advance input by the number of Base64 chars that produced the output
     inputPtr += produced / 3 * 4;
@@ -362,11 +367,8 @@ VTIImageIO::DecodeBase64(const std::string & encoded, std::vector<unsigned char>
         break;
     }
     outputPtr += produced;
-    while (inputPtr < inputStart + encoded.size() && (std::isspace(*inputPtr) || *inputPtr == '='))
-    {
-      ++inputPtr;
-    }
-    if (produced == 0 || inputPtr >= inputStart + encoded.size())
+
+    if (produced == 0 || inputPtr >= inputEnd)
     {
       workLeft = false;
     }
