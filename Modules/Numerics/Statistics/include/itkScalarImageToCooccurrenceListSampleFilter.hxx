@@ -98,7 +98,7 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
 
   for (const auto & face : faceList)
   {
-    ShapedNeighborhoodIteratorType it(radius, input, face);
+    ConstShapedNeighborhoodIterator<TImage, ConstantBoundaryCondition<TImage>> it(radius, input, face);
 
     auto iter = m_OffsetTable.begin();
     while (iter != m_OffsetTable.end())
