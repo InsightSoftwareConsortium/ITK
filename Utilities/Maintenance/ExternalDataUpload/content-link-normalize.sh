@@ -102,9 +102,46 @@ fi
 command -v curl >/dev/null 2>&1 || die "curl is required"
 command -v ipfs >/dev/null 2>&1 || die "ipfs is required (for CID recomputation)"
 
-# Hash tools are only needed for links we actually encounter, but fail fast.
-for tool in md5sum sha1sum sha224sum sha256sum sha384sum sha512sum; do
-    command -v "$tool" >/dev/null 2>&1 || warn "$tool not found; any matching content links will fail to verify"
+# Resolve the local command that computes a digest for an algorithm.
+# Returns a command line (possibly multi-word, e.g. "shasum -a 256") whose
+# first whitespace-delimited token on stdout is the hex digest.
+#
+# Prefers GNU coreutils (`md5sum`, `shaNNNsum`) when present; falls back to
+# the BSD/macOS tools that ship by default on macOS: `md5 -r` (output format
+# matches md5sum) and `shasum -a NNN`. On macOS you can install coreutils
+# via `brew install coreutils` to get the `*sum` variants as well.
+hash_cmd_for_ext() {
+    case "$1" in
+        md5)
+            if command -v md5sum >/dev/null 2>&1; then
+                echo "md5sum"
+            elif command -v md5 >/dev/null 2>&1; then
+                # BSD md5; -r prints `<hash> <file>` like md5sum.
+                echo "md5 -r"
+            else
+                return 1
+            fi
+            ;;
+        sha1|sha224|sha256|sha384|sha512)
+            if command -v "${1}sum" >/dev/null 2>&1; then
+                echo "${1}sum"
+            elif command -v shasum >/dev/null 2>&1; then
+                echo "shasum -a ${1#sha}"
+            else
+                return 1
+            fi
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+# ITK content links in practice use `.md5` (legacy) or `.sha512` (current);
+# other sha variants are supported for completeness but not pre-checked.
+for alg in md5 sha512; do
+    hash_cmd_for_ext "$alg" >/dev/null 2>&1 \
+        || warn "no tool available to compute ${alg}; any .${alg} content links will fail to verify"
 done
 
 # ---------------------------------------------------------------------------
@@ -191,18 +228,6 @@ algo_uc_for_ext() {
         # CID uses a lowercase override in ITKExternalData.cmake
         # (ExternalData_URL_ALGO_CID_lower = cid).
         cid)    echo "cid" ;;
-        *)      return 1 ;;
-    esac
-}
-
-hash_tool_for_ext() {
-    case "$1" in
-        md5)    echo "md5sum" ;;
-        sha1)   echo "sha1sum" ;;
-        sha224) echo "sha224sum" ;;
-        sha256) echo "sha256sum" ;;
-        sha384) echo "sha384sum" ;;
-        sha512) echo "sha512sum" ;;
         *)      return 1 ;;
     esac
 }
@@ -301,10 +326,13 @@ verify_bytes() {
         return 1
     fi
 
-    local tool actual
-    tool="$(hash_tool_for_ext "$ext")" || return 1
-    command -v "$tool" >/dev/null 2>&1 || return 1
-    actual="$("$tool" "$file" | awk '{print $1}')"
+    local cmd actual
+    cmd="$(hash_cmd_for_ext "$ext")" || return 1
+    # Word-splitting is intentional — a fallback command like "shasum -a 256"
+    # expands to multiple argv entries, while the coreutils "md5sum" stays
+    # as a single argv entry.
+    # shellcheck disable=SC2086
+    actual="$($cmd "$file" | awk '{print $1}')"
     [[ "${actual,,}" == "${expected,,}" ]]
 }
 
