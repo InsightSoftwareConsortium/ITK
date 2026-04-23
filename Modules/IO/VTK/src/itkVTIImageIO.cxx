@@ -333,24 +333,38 @@ VTIImageIO::SizeType
 VTIImageIO::DecodeBase64(const std::string & encoded, std::vector<unsigned char> & decoded)
 {
   // itksysBase64_Decode stops at any non-Base64 byte (including whitespace and '=' padding),
-  // so strip embedded whitespace first to tolerate pretty-printed VTK XML.
-  std::string compact;
-  compact.reserve(encoded.size());
-  for (const unsigned char c : encoded)
+  // so we need to handle that by invoking it multiple times.
+
+  // Allocate output buffer: worst case is (encoded.size() / 4) * 3 bytes
+  decoded.assign((encoded.size() / 4) * 3 + 3, 0);
+
+  const unsigned char * inputStart = reinterpret_cast<const unsigned char *>(encoded.data());
+  const unsigned char * inputPtr = inputStart;
+  unsigned char *       outputPtr = decoded.data();
+  bool                  workLeft = true;
+  while (workLeft)
   {
-    if (!std::isspace(c))
+    size_t            processed = inputPtr - inputStart;
+    const std::size_t produced = itksysBase64_Decode(inputPtr,
+                                                     0, // max_output_length ignored when max_input_length is non-zero
+                                                     outputPtr,
+                                                     encoded.size() - processed);
+
+    // Advance input by the number of Base64 chars that produced the output
+    inputPtr += (produced + produced % 3) / 3 * 4;
+    outputPtr += produced;
+    while (inputPtr < inputStart + encoded.size() && (std::isspace(*inputPtr) || *inputPtr == '='))
     {
-      compact.push_back(static_cast<char>(c));
+      ++inputPtr;
+    }
+    if (produced == 0 || inputPtr >= inputStart + encoded.size())
+    {
+      workLeft = false;
     }
   }
 
-  decoded.assign((compact.size() / 4) * 3 + 3, 0);
-  const std::size_t produced = itksysBase64_Decode(reinterpret_cast<const unsigned char *>(compact.data()),
-                                                   0, // max_output_length ignored when max_input_length is non-zero
-                                                   decoded.data(),
-                                                   compact.size());
-  decoded.resize(produced);
-  return static_cast<SizeType>(produced);
+  decoded.resize(outputPtr - decoded.data());
+  return static_cast<SizeType>(decoded.size());
 }
 
 std::string
