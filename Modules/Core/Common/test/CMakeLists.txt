@@ -103,6 +103,8 @@ set(
   itkSymmetricSecondRankTensorTest.cxx
   itkConstShapedNeighborhoodIteratorTest.cxx
   itkConstShapedNeighborhoodIteratorTest2.cxx
+  itkNeighborhoodIteratorBaseSpikeTest.cxx
+  itkNeighborhoodIteratorBaseRuntimeTest.cxx
   itkSTLContainerAdaptorTest.cxx
   itkFiniteCylinderSpatialFunctionTest.cxx
   itkLoggerOutputTest.cxx
@@ -389,6 +391,18 @@ itk_add_test(
   COMMAND
     ITKCommon2TestDriver
     itkConstShapedNeighborhoodIteratorTest2
+)
+itk_add_test(
+  NAME itkNeighborhoodIteratorBaseSpikeTest
+  COMMAND
+    ITKCommon2TestDriver
+    itkNeighborhoodIteratorBaseSpikeTest
+)
+itk_add_test(
+  NAME itkNeighborhoodIteratorBaseRuntimeTest
+  COMMAND
+    ITKCommon2TestDriver
+    itkNeighborhoodIteratorBaseRuntimeTest
 )
 itk_add_test(
   NAME itkExceptionObjectTest
