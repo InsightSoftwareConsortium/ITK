@@ -7,7 +7,7 @@ set -euo pipefail
 # local ITKTestingData checkout at CID/<cid-value>.
 #
 # Usage:
-#   ipfs-upload.sh [--testing-data-repo <path>] <filepath>
+#   ipfs-upload.sh [--testing-data-repo <path>] [--background] <filepath>
 #
 # Options:
 #   --testing-data-repo <path>  Path to a local clone of
@@ -16,6 +16,15 @@ set -euo pipefail
 #                               <path>/CID/<cid-value> and `git add`ed there.
 #                               Skipped with a warning for files > 50 MB,
 #                               which GitHub rejects.
+#   --background                Submit remote pin requests asynchronously
+#                               (pins queue at itk-pinata / itk-filebase and
+#                               the script returns without waiting). Useful
+#                               for batch workflows. Default is synchronous,
+#                               which blocks until each remote reports
+#                               'pinned' — safer for one-off uploads because
+#                               failures surface immediately, but can take
+#                               minutes per file as the remote fetches the
+#                               content.
 #
 # Prerequisites:
 #   - Kubo (go-ipfs) installed and `ipfs` on PATH
@@ -40,6 +49,7 @@ GITHUB_FILE_LIMIT_BYTES=$((50 * 1024 * 1024))
 # ---------------------------------------------------------------------------
 
 TESTING_DATA_REPO=""
+BACKGROUND=""
 FILE=""
 
 while [[ $# -gt 0 ]]; do
@@ -50,6 +60,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --testing-data-repo=*)
             TESTING_DATA_REPO="${1#--testing-data-repo=}"
+            shift
+            ;;
+        --background)
+            BACKGROUND="--background"
             shift
             ;;
         -h|--help)
@@ -188,8 +202,22 @@ ipfs pin add "$CID" >/dev/null
 FAILED_PINS=()
 
 for svc in "${REQUIRED_SERVICES[@]}"; do
-    echo "==> Pinning on ${svc}..."
-    if ipfs pin remote add --service="$svc" --name="$PIN_NAME" "$CID" 2>&1; then
+    # Skip services where this CID is already queued/pinning/pinned —
+    # Pinata rejects duplicate `pin remote add` calls with
+    # DUPLICATE_OBJECT (400), and resubmitting on Filebase just makes a
+    # second queue entry.
+    if ipfs pin remote ls --service="$svc" --cid="$CID" \
+           --status=queued,pinning,pinned 2>/dev/null | grep -q .; then
+        echo "==> Already pinned (or in flight) on ${svc}; skipping"
+        continue
+    fi
+
+    if [[ -n "$BACKGROUND" ]]; then
+        echo "==> Queueing pin on ${svc} (background)..."
+    else
+        echo "==> Pinning on ${svc}..."
+    fi
+    if ipfs pin remote add --service="$svc" --name="$PIN_NAME" $BACKGROUND "$CID" 2>&1; then
         echo "    OK: ${svc}"
     else
         echo "    FAILED: ${svc}" >&2
@@ -199,11 +227,11 @@ done
 
 if [[ ${#FAILED_PINS[@]} -gt 0 ]]; then
     echo "" >&2
-    echo "ERROR: Remote pin failed for: ${FAILED_PINS[*]}" >&2
+    echo "ERROR: Remote pin submission failed for: ${FAILED_PINS[*]}" >&2
     echo "       The original file has NOT been modified." >&2
     echo "       Fix the issue and retry, or pin manually:" >&2
     for failed_svc in "${FAILED_PINS[@]}"; do
-        echo "         ipfs pin remote add --service=${failed_svc} --name=\"${PIN_NAME}\" ${CID}" >&2
+        echo "         ipfs pin remote add --service=${failed_svc} --name=\"${PIN_NAME}\" ${BACKGROUND} ${CID}" >&2
     done
     exit 1
 fi

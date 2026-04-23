@@ -19,6 +19,12 @@ set -euo pipefail
 # Options:
 #   --testing-data-repo <path>   Forwarded to ipfs-upload.sh. Local
 #                                ITKTestingData clone to mirror bytes into.
+#   --background                 Forwarded to ipfs-upload.sh. Submit remote
+#                                pin requests asynchronously; useful for
+#                                batch runs where waiting for each pin to
+#                                reach 'pinned' status (minutes per file)
+#                                is impractical. Verify final pin state
+#                                afterwards with `ipfs pin remote ls`.
 #   --dry-run                    List what would change without modifying.
 #   --hash-only                  Process only .md5 / .shaNNN links
 #                                (leave existing .cid links alone).
@@ -50,6 +56,7 @@ show_help() {
 # ---------------------------------------------------------------------------
 
 TESTING_DATA_REPO=""
+BACKGROUND=false
 DRY_RUN=false
 HASH_ONLY=false
 CID_ONLY=false
@@ -61,6 +68,7 @@ while [[ $# -gt 0 ]]; do
         --dry-run)    DRY_RUN=true; shift ;;
         --hash-only)  HASH_ONLY=true; shift ;;
         --cid-only)   CID_ONLY=true; shift ;;
+        --background) BACKGROUND=true; shift ;;
         --testing-data-repo)
             TESTING_DATA_REPO="${2:?--testing-data-repo requires a path}"
             shift 2
@@ -351,6 +359,9 @@ $DRY_RUN && info "(--dry-run: no files will be modified)"
 UPLOAD_ARGS=()
 if [[ -n "$TESTING_DATA_REPO" ]]; then
     UPLOAD_ARGS+=(--testing-data-repo "$TESTING_DATA_REPO")
+fi
+if $BACKGROUND; then
+    UPLOAD_ARGS+=(--background)
 fi
 
 FAIL=0
