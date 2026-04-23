@@ -233,24 +233,38 @@ void
 WriteMeasurementFrame(NrrdWriteReservedFieldCtx & ctx)
 {
   std::vector<std::vector<double>> msrFrame;
-  itk::ExposeMetaData<std::vector<std::vector<double>>>(ctx.dict, ctx.metaKey, msrFrame);
+  if (!itk::ExposeMetaData<std::vector<std::vector<double>>>(ctx.dict, ctx.metaKey, msrFrame))
+  {
+    return;
+  }
+  // teem requires the measurement frame to be either fully specified or
+  // absent; any finite coefficient causes the frame to be written to the
+  // header.  A user-supplied frame whose dimensions do not match
+  // nrrd->spaceDim is therefore rejected with an exception rather than
+  // silently corrupted.  (The prior behavior padded missing entries with
+  // the sentinel value 666666, which teem faithfully wrote as real matrix
+  // coefficients -- an orientation data corruption bug.)
+  bool dimensionsOk = (msrFrame.size() >= ctx.nrrd->spaceDim);
+  for (unsigned int saxi = 0; dimensionsOk && saxi < ctx.nrrd->spaceDim; ++saxi)
+  {
+    if (msrFrame[saxi].size() < ctx.nrrd->spaceDim)
+    {
+      dimensionsOk = false;
+    }
+  }
+  if (!dimensionsOk)
+  {
+    itkGenericExceptionMacro(
+      "NRRD '" << ctx.metaKey << "': supplied measurement frame (" << msrFrame.size() << " rows"
+               << (msrFrame.empty() ? std::string{} : " x up to " + std::to_string(msrFrame.front().size()) + " cols")
+               << ") does not match image space dimension " << ctx.nrrd->spaceDim
+               << ".  The measurement frame must be fully specified for every space axis.");
+  }
   for (unsigned int saxi = 0; saxi < ctx.nrrd->spaceDim; ++saxi)
   {
     for (unsigned int saxj = 0; saxj < ctx.nrrd->spaceDim; ++saxj)
     {
-      if (saxi < msrFrame.size() && saxj < msrFrame[saxi].size())
-      {
-        ctx.nrrd->measurementFrame[saxi][saxj] = msrFrame[saxi][saxj];
-      }
-      else
-      {
-        // The dimension of the recorded measurement frame differs from the
-        // actual dimension of the ITK image (which, for now, determines
-        // nrrd->spaceDim).  AIR_NAN is invalid because the coefficients must
-        // all be equally existent; 0 would be indistinguishable from valid
-        // data; use a large sentinel instead.
-        ctx.nrrd->measurementFrame[saxi][saxj] = 666666;
-      }
+      ctx.nrrd->measurementFrame[saxi][saxj] = msrFrame[saxi][saxj];
     }
   }
 }

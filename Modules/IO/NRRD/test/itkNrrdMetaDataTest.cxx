@@ -22,6 +22,9 @@
 #include "itksys/SystemTools.hxx"
 #include "itkNrrdImageIO.h"
 
+#include <fstream>
+#include <sstream>
+
 /** This test was written in response to ITK task 2549
  * https://itk.icts.uiowa.edu/jira/browse/ITK-2549
  *
@@ -170,6 +173,139 @@ itkNrrdMetaDataTest(int argc, char * argv[])
     }
 
     itksys::SystemTools::RemoveFile(precFname);
+  }
+
+  // Helper: read the ASCII header of a NRRD file (lines up to but not
+  // including the first blank line, which separates header from data).
+  // Open in binary mode so that trailing CR characters on Windows-written
+  // files are visible to us (text mode would strip them) and always strip
+  // them explicitly, giving consistent cross-platform behavior.
+  const auto readNrrdHeader = [](const std::string & path) {
+    std::ifstream      in(path, std::ios::binary);
+    std::ostringstream out;
+    std::string        line;
+    while (std::getline(in, line))
+    {
+      if (!line.empty() && line.back() == '\r')
+      {
+        line.pop_back();
+      }
+      if (line.empty())
+      {
+        break;
+      }
+      out << line << '\n';
+    }
+    return out.str();
+  };
+
+  // Test for https://discourse.itk.org/t/6666 (NrrdImageIO and NRRD version 5):
+  //   When the user sets a v5-only field (measurement frame) via the
+  //   documented "NRRD_<field>" dictionary convention, the on-disk magic
+  //   must be bumped from NRRD0004 to NRRD0005.  teem's nrrdSave auto-
+  //   selects the minimum-version magic based on the interesting fields
+  //   set on the Nrrd struct (see nrrd__FormatNRRD_whichVersion in
+  //   NrrdIO's formatNRRD.c), so the correctness guarantee here is that
+  //   the writer actually transfers the measurement frame onto the Nrrd
+  //   struct when the metadata is supplied in the documented form.
+  {
+    auto v5Image = ImageType::New();
+    v5Image->SetRegions(size);
+    v5Image->Allocate();
+    v5Image->FillBuffer(0);
+    itk::MetaDataDictionary &        v5Dict = v5Image->GetMetaDataDictionary();
+    std::vector<std::vector<double>> mframe = { { 1.0, 0.0, 0.0 }, { 0.0, 1.0, 0.0 }, { 0.0, 0.0, 1.0 } };
+    itk::EncapsulateMetaData<std::vector<std::vector<double>>>(v5Dict, "NRRD_measurement frame", mframe);
+
+    std::string v5Fname = argv[1];
+    v5Fname += "/metadatatest_nrrd5.nrrd";
+
+    auto v5Writer = ImageWriterType::New();
+    v5Writer->SetImageIO(itk::NrrdImageIO::New());
+    v5Writer->SetFileName(v5Fname.c_str());
+    v5Writer->SetInput(v5Image);
+    try
+    {
+      v5Writer->Update();
+    }
+    catch (const itk::ExceptionObject & ex)
+    {
+      std::cerr << "V5 auto-bump write failed: " << ex << '\n';
+      return EXIT_FAILURE;
+    }
+
+    std::string magic;
+    {
+      std::ifstream in(v5Fname, std::ios::binary);
+      std::getline(in, magic);
+    } // close the handle before RemoveFile below (matters on Windows)
+    if (magic.rfind("NRRD0005", 0) != 0)
+    {
+      std::cerr << "Expected file to begin with NRRD0005 (measurement frame is a "
+                << "v5-only field); got '" << magic << "'\n";
+      return EXIT_FAILURE;
+    }
+    const std::string header = readNrrdHeader(v5Fname);
+    if (header.find("\nmeasurement frame:") == std::string::npos ||
+        header.find("measurement frame:=") != std::string::npos)
+    {
+      std::cerr << "Expected standard 'measurement frame:' field. Header:\n" << header;
+      return EXIT_FAILURE;
+    }
+
+    itksys::SystemTools::RemoveFile(v5Fname);
+  }
+
+  // Regression test for the pre-existing 666666 sentinel in
+  // WriteMeasurementFrame:
+  //   When the user supplies a measurement frame whose dimensions do not
+  //   match the image's space dimension, the writer must throw rather
+  //   than silently write a frame populated with the sentinel value
+  //   666666 (which teem faithfully emits to the on-disk header,
+  //   corrupting the orientation matrix).
+  {
+    auto badImage = ImageType::New(); // 3-D image, spaceDim = 3
+    badImage->SetRegions(size);
+    badImage->Allocate();
+    badImage->FillBuffer(0);
+    itk::MetaDataDictionary & badDict = badImage->GetMetaDataDictionary();
+    // 2x2 frame provided for a 3-D image -- malformed.
+    std::vector<std::vector<double>> badFrame = { { 1.0, 0.0 }, { 0.0, 1.0 } };
+    itk::EncapsulateMetaData<std::vector<std::vector<double>>>(badDict, "NRRD_measurement frame", badFrame);
+
+    std::string badFname = argv[1];
+    badFname += "/metadatatest_badframe.nrrd";
+
+    auto badWriter = ImageWriterType::New();
+    badWriter->SetImageIO(itk::NrrdImageIO::New());
+    badWriter->SetFileName(badFname.c_str());
+    badWriter->SetInput(badImage);
+    bool threw = false;
+    try
+    {
+      badWriter->Update();
+    }
+    catch (const itk::ExceptionObject &)
+    {
+      threw = true;
+    }
+    if (!threw)
+    {
+      std::cerr << "Writing a malformed measurement frame must throw; it did not.\n";
+      return EXIT_FAILURE;
+    }
+    // If a partial file was produced before the throw, verify the
+    // 666666 sentinel is not present.
+    if (itksys::SystemTools::FileExists(badFname.c_str()))
+    {
+      const std::string header = readNrrdHeader(badFname);
+      if (header.find("666666") != std::string::npos)
+      {
+        std::cerr << "666666 sentinel leaked into the header (regression). Header:\n" << header;
+        return EXIT_FAILURE;
+      }
+      itksys::SystemTools::RemoveFile(badFname);
+    }
   }
 
   return EXIT_SUCCESS;
