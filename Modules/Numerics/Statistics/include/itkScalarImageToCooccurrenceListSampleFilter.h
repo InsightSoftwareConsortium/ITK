@@ -68,7 +68,7 @@ public:
   using ShapedNeighborhoodIteratorType = itk::ShapedNeighborhoodIterator<TImage, ConstantBoundaryCondition<TImage>>;
 
   /** Offset type used for Neighborhoods */
-  using OffsetType = typename ShapedNeighborhoodIteratorType::OffsetType;
+  using OffsetType = typename TImage::OffsetType;
   using OffsetTable = std::vector<OffsetType>;
 
   void
