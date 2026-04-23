@@ -351,7 +351,16 @@ VTIImageIO::DecodeBase64(const std::string & encoded, std::vector<unsigned char>
                                                      encoded.size() - processed);
 
     // Advance input by the number of Base64 chars that produced the output
-    inputPtr += (produced + produced % 3) / 3 * 4;
+    inputPtr += produced / 3 * 4;
+    switch (produced % 3)
+    {
+      case 1:
+        inputPtr += 2; // 1 byte output means we consumed 2 base64 chars
+        break;
+      case 2:
+        inputPtr += 3; // 2 bytes output means we consumed 3 base64 chars
+        break;
+    }
     outputPtr += produced;
     while (inputPtr < inputStart + encoded.size() && (std::isspace(*inputPtr) || *inputPtr == '='))
     {
