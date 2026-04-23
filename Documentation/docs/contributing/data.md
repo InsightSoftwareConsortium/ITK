@@ -11,7 +11,8 @@ generation) also applies to any other data contained in a text file that a
 test may require, if any.
 
 If you just want to browse and download the ITK testing images, browse the
-[ITKData Datalad repository].
+[ITKTestingData repository]. Historical snapshots are also archived in
+the [ITKData DataLad repository].
 
 Setup
 -----
@@ -43,7 +44,29 @@ associated with these files.
 Generate the *.cid* content link from your test data file, *MyTest.png* in
 this example, with the [content-link-upload] web app. This app will
 upload the data to IPFS and provide a *.cid* CMake ExternalData content link file
-to download.
+to download. This is the easiest and recommended way to upload new test data.
+
+For advanced command line driven uploads, the upload script at
+`Utilities/Maintenance/ExternalDataUpload/` can be used:
+
+```bash
+Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh \
+    Modules/.../test/Baseline/MyTest.png
+```
+
+The script adds the file to your local IPFS node under the UnixFS v1 2025
+profile, pins it on the `itk-pinata` and `itk-filebase` remote pinning
+services, and replaces the original file with `MyTest.png.cid` containing the
+resulting CID. The CID and source-tree path are also recorded in
+`Testing/Data/content-links.manifest`.
+
+For advanced CLI usage, first-time users must complete the one-time Kubo + pinning-service setup
+documented in
+[`Utilities/Maintenance/ExternalDataUpload/README.md`] before the script will
+succeed. Contributors who cannot run a local Kubo daemon may instead use
+the [content-link-upload] web app, which pins to [Filebase] and [Pinata] and returns
+a `.cid` file directly — manifest and mirror updates must then be added by
+hand.
 
 For more details, see the description and procedures in [Upload Binary Data].
 
@@ -142,5 +165,9 @@ the [InterPlanetary File System (IPFS)].
 [CMake ExternalData: Using Large Files with Distributed Version Control]: https://blog.kitware.com/cmake-externaldata-using-large-files-with-distributed-version-control/
 [content-link-upload]: https://content-link-upload.itk.org
 [InterPlanetary File System (IPFS)]: https://ipfs.tech/
-[ITKData Datalad repository]: https://gin.g-node.org/InsightSoftwareConsortium/ITKData/src/main
+[ITKData DataLad repository]: https://gin.g-node.org/InsightSoftwareConsortium/ITKData/src/main
+[ITKTestingData repository]: https://github.com/InsightSoftwareConsortium/ITKTestingData
 [Upload Binary Data]: upload_binary_data.md
+[`Utilities/Maintenance/ExternalDataUpload/README.md`]: https://github.com/InsightSoftwareConsortium/ITK/blob/main/Utilities/Maintenance/ExternalDataUpload/README.md
+[Filebase]: https://filebase.com/
+[Pinata]: https://pinata.cloud/
