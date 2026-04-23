@@ -1472,18 +1472,10 @@ VTIImageIO::Write(const void * buffer)
     // deferred to F-007 in the follow-up PR.
     attributeElement = "NumberOfComponents=\"6\"";
   }
-  else if (pixelType == IOPixelEnum::VECTOR && numComp == 3)
+  else if (pixelType == IOPixelEnum::VECTOR)
   {
     dataArrayName = "vectors";
     pointDataAttr = "Vectors=\"vectors\"";
-    std::ostringstream tmp;
-    tmp << "NumberOfComponents=\"" << numComp << "\"";
-    attributeElement = tmp.str();
-  }
-  else if ((pixelType == IOPixelEnum::RGB && numComp == 3) || (pixelType == IOPixelEnum::RGBA && numComp == 4))
-  {
-    dataArrayName = "scalars";
-    pointDataAttr = "Scalars=\"scalars\"";
     std::ostringstream tmp;
     tmp << "NumberOfComponents=\"" << numComp << "\"";
     attributeElement = tmp.str();
@@ -1568,8 +1560,7 @@ VTIImageIO::Write(const void * buffer)
   }
 
   // Determine write mode.  When UseCompression is set and the output is not
-  // ASCII, write appended raw + vtkZLibDataCompressor (smallest on-disk size,
-  // Dženan's recommended next step in the follow-up discussion).
+  // ASCII, write appended raw + vtkZLibDataCompressor (smallest on-disk size)
   const bool useCompressedAppended = (m_UseCompression && m_FileType != IOFileEnum::ASCII);
 
   // XML header -- emit the modern VTK 9 / ParaView 5.7+ attribute set so
