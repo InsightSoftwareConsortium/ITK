@@ -124,14 +124,14 @@ itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int argc, char * a
   const unsigned int constrainedDofs[] = { 0, 1, 6, 7 };
   for (const auto dof : constrainedDofs)
   {
-    ITK_TEST_EXPECT_TRUE(itk::Math::abs(solver->GetSolution(dof)) < tolerance);
+    ITK_TEST_EXPECT_TRUE(itk::Math::Absolute(solver->GetSolution(dof)) < tolerance);
   }
 
   // Unconstrained DOFs must have non-zero displacement (forces applied).
   const unsigned int unconstrainedDofs[] = { 2, 3, 4, 5 };
   for (const auto dof : unconstrainedDofs)
   {
-    ITK_TEST_EXPECT_TRUE(itk::Math::abs(solver->GetSolution(dof)) > tolerance);
+    ITK_TEST_EXPECT_TRUE(itk::Math::Absolute(solver->GetSolution(dof)) > tolerance);
   }
 
   std::cout << "Test PASSED!" << std::endl;

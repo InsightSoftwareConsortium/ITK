@@ -233,7 +233,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   }
   for (unsigned int i = 0; i < priors.GetSize(); ++i)
   {
-    if (itk::Math::abs(priors[i] - expectedPriors[i]) > tolerance)
+    if (itk::Math::Absolute(priors[i] - expectedPriors[i]) > tolerance)
     {
       std::cerr << "PriorProbabilities[" << i << "] = " << priors[i] << ", expected " << expectedPriors[i] << std::endl;
       return EXIT_FAILURE;
@@ -257,7 +257,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
     {
       for (unsigned int c = 0; c < cm.cols(); ++c)
       {
-        if (itk::Math::abs(cm(r, c) - expected(r, c)) > tolerance)
+        if (itk::Math::Absolute(cm(r, c) - expected(r, c)) > tolerance)
         {
           std::cerr << "Confusion matrix " << rater << " (" << r << ',' << c << ") = " << cm(r, c) << ", expected "
                     << expected(r, c) << std::endl;
