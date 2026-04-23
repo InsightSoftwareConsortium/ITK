@@ -164,7 +164,7 @@ template <typename TImage>
 std::vector<typename TImage::OffsetType>
 CornerOffsets(const TImage * im)
 {
-  using NIterator = ShapedNeighborhoodIterator<TImage>;
+  using NIterator = ConstShapedNeighborhoodIterator<TImage>;
   auto                                     unitradius = TImage::SizeType::Filled(1);
   const NIterator                          n1(unitradius, im, im->GetRequestedRegion());
   const unsigned int                       centerIndex = n1.GetCenterNeighborhoodIndex();
