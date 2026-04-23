@@ -20,4 +20,5 @@ itk_module(
     ITKImageIntensity
     ITKImageFunction
   DESCRIPTION "${DOCUMENTATION}"
+  EXCLUDE_FROM_DEFAULT
 )
