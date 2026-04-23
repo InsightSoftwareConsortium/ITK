@@ -118,10 +118,13 @@ set(MSFF_SRCS
 # Do the proper thing when building static...if only there was configured
 # headers or def files instead
 if(NOT BUILD_SHARED_LIBS)
-  set_source_files_properties(gdcmJPEG2000Codec.cxx
-                              PROPERTIES
-                              COMPILE_DEFINITIONS OPJ_STATIC
-                              )
+
+  if(NOT GDCM_USE_SYSTEM_OPENJPEG)
+    set_source_files_properties(gdcmJPEG2000Codec.cxx
+                                PROPERTIES
+                                COMPILE_DEFINITIONS OPJ_STATIC
+                                )
+  endif()
   set_source_files_properties(gdcmJPEGLSCodec.cxx
                               PROPERTIES
                               COMPILE_DEFINITIONS CHARLS_STATIC
