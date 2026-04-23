@@ -34,34 +34,47 @@ adopting Web3, we gain:
 - **Sustainability**
 
 Contributors to the ITK upload their data through a simple web app
-that utilizes an easy-to-use, permissionless, free service, [web3.storage].
+that utilizes an easy-to-use, permissionless service, [Pinata].
 
 Data used in the ITK Git repository is periodically tracked in a
 dedicated DataLad repository, the [ITKData DataLad repository].
 and stored across redundant locations so it can be retrieved from any of
 the following:
 
-- Local [IPFS](https://ipfs.io/) nodes
-- Peer [IPFS](https://ipfs.io/) nodes
-- [web3.storage](https://web3.storage/)
-- [pinata.cloud](https://pinata.cloud)
-- Kitware's IPFS Server
-- [ITKTestingData](https://github.com/InsightSoftwareConsortium/ITKTestingData) GitHub Pages CDN
+Contributors upload their data by running a small shell script that pushes
+the file into [IPFS] via a local [Kubo] daemon, pins it on redundant
+community-run pinning services, records the resulting CID in a manifest, and
+(optionally) mirrors the bytes into the [ITKTestingData] GitHub Pages
+repository. See [`Utilities/Maintenance/ExternalDataUpload/README.md`] for
+the one-time developer setup and full workflow.
+
+Data referenced from the ITK Git repository is stored across redundant
+locations so it can be retrieved from any of the following at build time:
+
+- Local [Kubo] gateway (typically `127.0.0.1:8080`)
+- [ITKTestingData] GitHub Pages mirror
+- [Pinata] (community pinning service, remote name `itk-pinata`)
+- [Filebase] (community pinning service, remote name `itk-filebase`)
+- Public IPFS HTTP gateways (`ipfs.io`, `dweb.link`, `cloudflare-ipfs.com`)
 - Kitware's Apache HTTP Server
-- Local testing data cache
+- Local `ExternalData_OBJECT_STORES` cache
 - Archive tarballs from GitHub Releases
+- Historical [ITKData DataLad repository] snapshots (older content links)
 
 ![ITK testing data figure](./itk-testing-data.png)
 
-*Testing data workflow. Testing or example data is uploaded to IPFS via the content-link-upload.itk.org web app.
-This pins the data on multiple servers across the globe.
-At release time, the data is also pinned on multiple servers in the USA and France and community pinners.
-At release time, the data is also stored in the DataLad Git repository, served on an Apache HTTP server, and the GitHub Pages CDN.
-At test time an ITK build can pull the data from a local cache, archive tarball, the Apache HTTP server, GitHub Pages CDN, or multiple IPFS HTTP gateways.*
+*Testing data workflow. Testing or example data is uploaded to IPFS via the
+content-link-upload.itk.org web app. New content is added with the
+`Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh` script, which pushes
+the bytes to a local [Kubo] node and pins them on `itk-pinata` and
+`itk-filebase` for redundancy. The resulting CID is written as a `.cid`
+content link in the ITK source tree and recorded in
+`Testing/Data/content-links.manifest`. Files ≤ 50 MB can additionally be
+mirrored into [ITKTestingData] for GitHub Pages CDN delivery. At test time an
+ITK build can fetch the data from a local cache, archive tarball, the Apache
+HTTP server, the GitHub Pages mirror, or any of several IPFS HTTP gateways.*
 
-See also our [Data](data.md) guide for more information. If you just
-want to browse and download the ITK testing images, see the
-[ITKData DataLad repository].
+See also our [Data](data.md) guide for more information.
 
 Adding images as input to ITK sources
 -------------------------------------
@@ -89,88 +102,112 @@ need to be followed:
 Upload new testing data
 -----------------------
 
-### Prerequisites
+### Web app
 
-[web3.storage] is a decentralized IPFS storage
-provider where any ITK community member can upload binary data files.
-There are two primary methods available to upload data files:
+The easiest, recommended way to upload data is The [Content Link Upload] browser interface.
 
-A.  The CMake ExternalData Web3 upload browser interface.
-B.  The <span class="title-ref">w3</span> command line executable that
-    comes with the [@web3-storage/w3cli] Node.js NPM package.
+### CLI one-time setup
 
-Once files have been uploaded, they will be publicly
-available and accessible since data is content addressed on the IPFS
-peer-to-peer network.
+The upload workflow requires:
 
-In addition to these two methods, documented in detail below, another
-possibility includes pinning the data on IPFS with [other pinning services]
-and creating the content link file manually. The content link file is simply a
-plan text file with a `.cid` extension whose contents are the CID file.
-However, the documented two methods are recommended due to their simplicity
-and in order to keep CID values consistent.
+- A local [Kubo] daemon (CLI or IPFS Desktop) with the **UnixFS v1 2025**
+  profile applied, so CIDs are reproducible across implementations
+  (`ipfs config profile apply unixfs-v1-2025`, Kubo ≥ 0.40.0).
+- Two remote pinning services configured under the exact names
+  `itk-pinata` and `itk-filebase`. The upload script looks up these names
+  and fails if they are missing.
 
-At release time, the release manager uploads and archives repository data
-references in other storage locations for additional redundancy.
+The full step-by-step setup — installing Kubo, signing up with
+[Pinata] and [Filebase], and registering each service as a remote —
+is documented in
+[`Utilities/Maintenance/ExternalDataUpload/README.md`]. Complete that
+one-time setup before proceeding.
 
-### Option A) Upload Via the Web Interface
+### Upload a file
 
-Use the [Content Link Upload]
-tool ([Alt Link]) to
-upload your data to the [IPFS] and download the
-corresponding CMake content link file.
-
-![[CMake ExternalData Web3
-Content Link Upload](https://content-link-upload.itk.org/)](./content-link-upload.png)
-
-### Option B) Upload Via CMake and Node.js CLI
-
-Install the <span class="title-ref">w3</span> CLI with the
-[@web3-storage/w3cli] [Node.js] package:
+From the ITK source tree, run the upload script with the path to the file
+you want to upload:
 
 ```bash
-npm install -g @web3-storage/w3cli
+Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh \
+    Modules/.../test/Baseline/MyTest.png
 ```
 
-Login in with your credentials.
+The script will:
+
+1. Add the file to IPFS with `--cid-version=1` under the UnixFS v1 2025
+   profile, producing a deterministic CID.
+2. Pin locally, then on `itk-pinata` and `itk-filebase`. By default the
+   script waits until each remote reports `pinned`, which surfaces
+   failures immediately but can take minutes per file as the remote
+   fetches the content. For batch runs pass `--background` to submit
+   pins asynchronously and verify afterwards with
+   `ipfs pin remote ls --status=queued,pinning,pinned`.
+3. Replace `MyTest.png` in the source tree with `MyTest.png.cid` — a
+   one-line text file containing the CID.
+4. Append the CID and source-tree path to
+   `Testing/Data/content-links.manifest`.
+5. Print the `git rm` / `git add` commands needed to stage the change.
+
+### Mirror to ITKTestingData (optional but recommended)
+
+Pass `--testing-data-repo <path>` to additionally copy the file into a
+local clone of [ITKTestingData] at `CID/<cid>`:
 
 ```bash
-w3 login
+Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh \
+    --testing-data-repo ~/src/ITKTestingData \
+    Modules/.../test/Baseline/MyTest.png
 ```
 
-Create an <span class="title-ref">w3externaldata</span> bash/zsh
-function:
+This populates the GitHub Pages mirror gateway
+(`https://insightsoftwareconsortium.github.io/ITKTestingData/CID/<cid>`)
+already listed in [`CMake/ITKExternalData.cmake`]. Commit and push in
+the `ITKTestingData` repo to publish. Files larger than **50 MB** are
+skipped for the mirror step only (GitHub rejects pushes containing
+files over 50 MB per file) — IPFS pinning on `itk-pinata` and
+`itk-filebase` still proceeds for those files.
+
+### Alternative: upload via the web app
+
+Contributors who prefer not to run a local [Kubo] daemon can upload a file
+through the [Content Link Upload] web app ([Alt Link]). The app pins the
+file on [web3.storage] and returns the corresponding `.cid` content link
+to download. The resulting CID is usable anywhere the script-produced CID
+would be — but the manifest entry and the optional [ITKTestingData]
+mirror must then be added by hand. The script-based workflow above is
+preferred when available because it also updates
+`Testing/Data/content-links.manifest` and pins on the ITK community
+services in one step.
+
+### Normalize existing content links
+
+Older `.md5` / `.sha256` / `.sha512` content links can be converted to
+`.cid`, and existing `.cid` links can be regenerated under the UnixFS
+v1 2025 profile, with:
 
 ```bash
-function w3externaldata() { w3 put $1 --no-wrap | tail -n 1 | awk -F "/ipfs/" '{print $2}' | tee $1.cid }
+Utilities/Maintenance/ExternalDataUpload/content-link-normalize.sh <path-or-file>
 ```
 
-Call the function with the file to be uploaded. This command will
-generate the <span class="title-ref">\<filename\>.cid</span> content
-link:
-
-```bash
-w3externaldata <filename>
-  1 file (0.3MB)
-⁂ Stored 1 file
-bafkreifpfhcc3gc7zo2ds3ktyyl5qrycwisyaolegp47cl27i4swxpa2ey
-```
+See [`Utilities/Maintenance/ExternalDataUpload/README.md`] for the full
+set of options (`--dry-run`, `--hash-only`, `--cid-only`, `--background`,
+`--testing-data-repo`).
 
 ### Add the content link to the source tree
 
-Add the file to the repository in the directory referenced by the
-*CMakeLists.txt* script. Move the content link file to the **source tree** at
-the location where the actual file is desired in the build tree.
-
-Stage the new file to your commit:
+The upload script prints the exact commands to stage:
 
 ```bash
-git add -- path/to/file.cid
+git add path/to/MyTest.png.cid
+git add Testing/Data/content-links.manifest
+git commit
 ```
 
-Next time CMake configuration runs, it will find the new content link. During
-the next project build, the data file corresponding to the content link will
-be downloaded into the build tree.
+Next time CMake configuration runs, it will find the new content link.
+During the next project build, the data file corresponding to the
+content link will be downloaded into the build tree from the first
+reachable gateway in [`CMake/ITKExternalData.cmake`].
 
 [Alt Link]: https://content-link-upload.itk.eth.limo
 [Analyze format]: http://www.grahamwideman.com/gw/brain/analyze/formatdoc.htm
@@ -178,18 +215,17 @@ be downloaded into the build tree.
 [Content Link Upload]: https://content-link-upload.itk.org
 [CONTRIBUTING.md]: ../CONTRIBUTING.md
 [CMake]: https://cmake.org/
+[`CMake/ITKExternalData.cmake`]: https://github.com/InsightSoftwareConsortium/ITK/blob/main/CMake/ITKExternalData.cmake
+[Filebase]: https://filebase.com/
 [Git]: https://git-scm.com/
 [IPFS]: https://ipfs.io/
-[ITKData Datalad repository]: https://gin.g-node.org/InsightSoftwareConsortium/ITKData/src/main
 [ITK community]: https://discourse.itk.org/
 [ITK Sphinx Examples]: https://itk.org/ITKExamples/index.html
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
+[ITKData DataLad repository]: https://gin.g-node.org/InsightSoftwareConsortium/ITKData/src/main
 [ITKTestingData]: https://github.com/InsightSoftwareConsortium/ITKTestingData
-[MD5 hash]: https://en.wikipedia.org/wiki/MD5
+[Kubo]: https://github.com/ipfs/kubo
 [multiformats]: https://multiformats.io/
-[Node.js]: https://nodejs.org/
-[other pinning services]: https://docs.ipfs.tech/how-to/work-with-pinning-services/
-[SHA512 hash]: https://en.wikipedia.org/wiki/SHA-2
+[Pinata]: https://pinata.cloud/
 [solution to this problem]: https://blog.kitware.com/cmake-externaldata-using-large-files-with-distributed-version-control/
-[web3.storage]: https://web3.storage/
-[@web3-storage/w3cli]: https://www.npmjs.com/package/@web3-storage/w3cli
+[`Utilities/Maintenance/ExternalDataUpload/README.md`]: https://github.com/InsightSoftwareConsortium/ITK/blob/main/Utilities/Maintenance/ExternalDataUpload/README.md
