@@ -64,8 +64,12 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /** Neighborhood iterator type. */
-  using ShapedNeighborhoodIteratorType = itk::ShapedNeighborhoodIterator<TImage, ConstantBoundaryCondition<TImage>>;
+#ifndef ITK_LEGACY_REMOVE
+  /** \deprecated Neighborhood iterator type; please use \c ShapedNeighborhoodIterator directly. */
+  using ShapedNeighborhoodIteratorType
+    [[deprecated("This nested type alias is obsolete; please use ShapedNeighborhoodIterator directly!")]] =
+      ShapedNeighborhoodIterator<TImage, ConstantBoundaryCondition<TImage>>;
+#endif
 
   /** Offset type used for Neighborhoods */
   using OffsetType = typename TImage::OffsetType;
