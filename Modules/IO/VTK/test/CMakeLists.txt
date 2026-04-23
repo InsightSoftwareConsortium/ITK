@@ -106,6 +106,18 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_VHFColor.vti
 )
 
+itk_add_test(
+  NAME itkVTIImageIOReadWriteTest_reco2D_16line
+  COMMAND
+    ITKIOVTKTestDriver
+    --compare
+    DATA{Input/reco2D_16line.vti}
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_reco2D_16line.vti
+    itkVTIImageIOReadWriteTest
+    DATA{Input/reco2D_16line.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_reco2D_16line.vti
+)
+
 # itkVTIImageIOReadWriteTestVHFColorZLib is temporarily disabled until
 # Input/VHFColorZLib.vti can be published through ExternalData.  The
 # ParaView-produced fixture exceeds the 100 KB direct-commit cap and
