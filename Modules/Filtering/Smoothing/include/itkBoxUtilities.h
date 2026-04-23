@@ -97,7 +97,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 void
 BoxAccumulateFunction(const TInputImage *               inputImage,
-                      const TOutputImage *              outputImage,
+                      TOutputImage *                    outputImage,
                       typename TInputImage::RegionType  inputRegion,
                       typename TOutputImage::RegionType outputRegion)
 {
