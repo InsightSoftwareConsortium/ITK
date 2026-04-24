@@ -566,11 +566,16 @@ macro(ADD_PYTHON_VEC_TYPEMAP swig_name template_params)
   endif()
 endmacro()
 
-macro(ADD_PYTHON_VARIABLE_LENGTH_SEQ_TYPEMAP type value_type)
+macro(ADD_PYTHON_VARIABLE_LENGTH_SEQ_TYPEMAP swig_name value_type)
+  # The SWIG `type` and Python `swig_name` are identical for every
+  # call site that reaches this macro (itk::Array, itk::RGBPixel,
+  # itk::RGBAPixel), but we forward them separately to keep the SWIG
+  # macro's signature symmetric with DECL_PYTHON_VEC_TYPEMAP and to
+  # let the __repr__ display the Python-facing name verbatim.
   string(
     APPEND
     ITK_WRAP_PYTHON_SWIG_EXT
-    "DECL_PYTHON_VARLEN_SEQ_TYPEMAP(${type}, ${value_type})\n"
+    "DECL_PYTHON_VARLEN_SEQ_TYPEMAP(${swig_name}, ${swig_name}, ${value_type})\n"
   )
 endmacro()
 

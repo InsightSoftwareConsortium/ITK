@@ -153,6 +153,11 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
         ${CMAKE_CURRENT_SOURCE_DIR}/PythonTypemapsTest.py
     )
     itk_python_add_test(
+      NAME PythonVarLenSeqTypemapTest
+      COMMAND
+        ${CMAKE_CURRENT_SOURCE_DIR}/PythonVarLenSeqTypemapTest.py
+    )
+    itk_python_add_test(
       NAME PythonTemplateTest
       COMMAND
         ${CMAKE_CURRENT_SOURCE_DIR}/PythonTemplateTest.py
