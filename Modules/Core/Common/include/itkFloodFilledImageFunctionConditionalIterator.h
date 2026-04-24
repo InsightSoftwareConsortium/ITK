@@ -19,6 +19,7 @@
 #define itkFloodFilledImageFunctionConditionalIterator_h
 
 #include "itkFloodFilledImageFunctionConditionalConstIterator.h"
+#include "itkWeakPointer.h"
 
 namespace itk
 {
@@ -81,6 +82,7 @@ public:
    * an explicit seed pixel for the flood fill, the "startIndex" */
   FloodFilledImageFunctionConditionalIterator(ImageType * imagePtr, FunctionType * fnPtr, IndexType startIndex)
     : Superclass(imagePtr, fnPtr, startIndex)
+    , m_MutableImage(imagePtr)
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a
@@ -90,6 +92,7 @@ public:
                                               FunctionType *           fnPtr,
                                               std::vector<IndexType> & startIndex)
     : Superclass(imagePtr, fnPtr, startIndex)
+    , m_MutableImage(imagePtr)
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a
@@ -97,24 +100,35 @@ public:
    * should be used when the seed pixel is unknown. */
   FloodFilledImageFunctionConditionalIterator(ImageType * imagePtr, FunctionType * fnPtr)
     : Superclass(imagePtr, fnPtr)
+    , m_MutableImage(imagePtr)
   {}
 
-  /** Get the pixel value */
+  /** Get the pixel value. The const overload of GetPixel returns a
+   * `const PixelType &` that binds directly to the `const PixelType`
+   * return type, so no const_cast is required. */
   [[nodiscard]] const PixelType
   Get() const override
   {
-    return const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_IndexStack.front());
+    return this->m_Image->GetPixel(this->m_IndexStack.front());
   }
 
-  /** Set the pixel value */
+  /** Set the pixel value. Uses a stored non-const WeakPointer to the image
+   * (captured from the constructor's non-const `ImageType *` argument) so
+   * that write access does not require a const_cast. */
   void
   Set(const PixelType & value)
   {
-    const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_IndexStack.front()) = value;
+    m_MutableImage->GetPixel(this->m_IndexStack.front()) = value;
   }
 
   /** Default Destructor. */
   ~FloodFilledImageFunctionConditionalIterator() override = default;
+
+private:
+  /** Non-const weak pointer to the image, used for write access in Set().
+   * The base class stores a `ConstWeakPointer`; this parallel pointer
+   * preserves non-const access contracted by the non-const constructor. */
+  WeakPointer<ImageType> m_MutableImage{};
 };
 } // end namespace itk
 
