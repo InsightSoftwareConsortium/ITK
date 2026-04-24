@@ -105,6 +105,7 @@ set(
   itkConstShapedNeighborhoodIteratorTest2.cxx
   itkNeighborhoodIteratorBaseSpikeTest.cxx
   itkNeighborhoodIteratorBaseRuntimeTest.cxx
+  itkImageRandomNonRepeatingIteratorWithIndexBaseSpikeTest.cxx
   itkSTLContainerAdaptorTest.cxx
   itkFiniteCylinderSpatialFunctionTest.cxx
   itkLoggerOutputTest.cxx
@@ -397,6 +398,12 @@ itk_add_test(
   COMMAND
     ITKCommon2TestDriver
     itkNeighborhoodIteratorBaseSpikeTest
+)
+itk_add_test(
+  NAME itkImageRandomNonRepeatingIteratorWithIndexBaseSpikeTest
+  COMMAND
+    ITKCommon2TestDriver
+    itkImageRandomNonRepeatingIteratorWithIndexBaseSpikeTest
 )
 itk_add_test(
   NAME itkNeighborhoodIteratorBaseRuntimeTest
