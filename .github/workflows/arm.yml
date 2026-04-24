@@ -202,12 +202,14 @@ jobs:
           path: ${{ runner.temp }}/ccache
           key: ccache-v4-${{ runner.os }}-${{ matrix.name }}-${{ github.sha }}
 
-      - name: Save ExternalData object store
-        if: ${{ !cancelled() }}
-        uses: actions/cache/save@v5
-        with:
-          path: ${{ runner.temp }}/ExternalData
-          key: externaldata-v1-${{ hashFiles('**/*.cid') }}
+      # ExternalData object store is populated by
+      # .github/workflows/populate-externaldata-cache.yml — a dedicated
+      # workflow whose only job is to prefetch every CID and write the
+      # shared cache entry.  Consumer workflows (this one, pixi.yml, the
+      # Azure pipelines) restore-only.  Do not reintroduce a Save step
+      # here: races across platforms overwrite the single shared key with
+      # a fraction of the expected blobs and poison every subsequent
+      # restore.
 
       - name: ccache stats
         if: always()

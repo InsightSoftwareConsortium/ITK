@@ -1,0 +1,102 @@
+name: Populate ExternalData Cache
+
+# Single owner of the shared "externaldata-v1-<hashFiles>" GitHub Actions
+# cache entry. Every other workflow restores this entry but never saves
+# it — see the comments in arm.yml and pixi.yml for the race that a
+# multi-writer design caused.
+#
+# The job prefetches every .cid referenced in the source tree through
+# the same gateway list CMake/ITKExternalData.cmake uses, verifies that
+# all objects landed on disk, and only then saves the cache. If any
+# object is missing the save is skipped so a later run can try again
+# without poisoning the key.
+
+on:
+  # PRs that add or modify .cid references produce a new hashFiles
+  # digest, so the cache needs to be repopulated for that digest.
+  pull_request:
+    paths:
+      - '**/*.cid'
+  # Keep main and release branches' caches populated as new .cid files
+  # land.
+  push:
+    branches:
+      - main
+      - 'release*'
+    paths:
+      - '**/*.cid'
+  # Nightly safety net: if a populate run was skipped because some CIDs
+  # were unreachable on one day, the next night retries.
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+
+concurrency:
+  # Only one populate job per hashFiles digest makes sense, but we key
+  # the concurrency group on the branch ref since hashFiles requires a
+  # checkout. Mid-flight runs cancel; the final one wins.
+  group: 'externaldata-populate@${{ github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: write  # needed to manage cache entries
+
+jobs:
+  populate:
+    name: Populate shared ExternalData cache
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Restore ExternalData object store
+        id: restore-externaldata
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ runner.temp }}/ExternalData
+          key: externaldata-v1-${{ hashFiles('**/*.cid') }}
+
+      - name: Skip if cache already complete
+        if: steps.restore-externaldata.outputs.cache-hit == 'true'
+        run: echo "Cache already present for this hashFiles digest - nothing to do."
+
+      - name: Prefetch every CID
+        if: steps.restore-externaldata.outputs.cache-hit != 'true'
+        shell: bash
+        env:
+          EXTERNALDATA_STORE: ${{ runner.temp }}/ExternalData
+        run: |
+          python3 Utilities/Maintenance/PrefetchCIDContentLinks.py \
+            --repo-root . \
+            --store "$EXTERNALDATA_STORE"
+
+      # Integrity gate: refuse to save unless every unique CID in the
+      # source tree has an object on disk. A partial save under the
+      # shared key would propagate holes to every consumer workflow.
+      - name: Verify completeness
+        if: steps.restore-externaldata.outputs.cache-hit != 'true'
+        shell: bash
+        env:
+          EXTERNALDATA_STORE: ${{ runner.temp }}/ExternalData
+        run: |
+          expected=$(find . -name '*.cid' -not -path './.git/*' -print0 \
+                       | xargs -0 -I{} cat {} \
+                       | sort -u | wc -l | tr -d ' ')
+          present=$(find "$EXTERNALDATA_STORE/cid" -type f 2>/dev/null | wc -l | tr -d ' ')
+          echo "expected unique CIDs: $expected"
+          echo "present on disk     : $present"
+          if [ "$present" -lt "$expected" ]; then
+            echo "::error::ExternalData prefetch produced $present/$expected objects; refusing to save a partial cache."
+            exit 1
+          fi
+
+      - name: Save ExternalData object store
+        if: steps.restore-externaldata.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ runner.temp }}/ExternalData
+          key: externaldata-v1-${{ hashFiles('**/*.cid') }}
