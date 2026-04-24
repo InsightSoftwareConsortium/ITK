@@ -23,7 +23,7 @@
 #include "itkMath.h"
 
 int
-itkHessianGaussianImageFilterTest(int argc, char * argv[])
+itkHessianGaussianImageFilterTest(int, char *[])
 {
   const unsigned int Dimension = 2;
   using PixelType = int;
