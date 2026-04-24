@@ -19,56 +19,39 @@
 #define itkLineIterator_h
 
 #include "itkLineConstIterator.h"
+#include <type_traits>
 
 namespace itk
 {
 /**
- * \class LineIterator
- * \brief An iterator that walks a Bresenham line through an ND image
- *        with write access to pixels.
+ * \class LineIteratorBase
+ * \brief Templated base for LineIterator generalized over const-ness.
  *
- * LineIterator is an iterator that walks a Bresenham line
- * through an image.  The iterator is constructed similar to other
- * image iterators, except instead of specifying a region to
- * traverse, you specify two indices. The interval specified by
- * the two indices is closed.  So, a line iterator specified with
- * the same start and end index will visit exactly one pixel.
+ * SMOKE-TEST SPIKE: VIsConst template parameter gates write access via
+ * SFINAE on Set(), eliminating the const_cast used by the legacy
+ * LineIterator. The non-const variant (VIsConst == false) is the legacy
+ * LineIterator; a const alias is provided for symmetry with the
+ * ShapedNeighborhoodIterator / NeighborhoodIteratorBase pattern.
  *
-   \code
-   LineConstIterator<ImageType> it(image, I1, I2);
-   while (!it.IsAtEnd())
-   {
-      // visits at least 1 pixel
-   }
-   \endcode
+ * Note: the underlying m_Image is inherited from LineConstIterator and
+ * stored as ConstWeakPointer regardless of VIsConst. Writes go through
+ * an explicit const_cast localized to this base; the value of the
+ * VIsConst parameter is that client code cannot call Set() on a
+ * VIsConst=true instantiation, making the const-correctness visible at
+ * the type level instead of only at the call site.
  *
- * \author Benjamin King, Experimentelle Radiologie, Medizinische
- * Hochschule Hannover.
- *
- * \sa LineConstIterator
  * \ingroup ITKCommon
- *
- * \sphinx
- * \sphinxexample{Core/Common/IterateLineThroughImage,Iterate Line Through Image}
- * \endsphinx
  */
-template <typename TImage>
-class ITK_TEMPLATE_EXPORT LineIterator : public LineConstIterator<TImage>
+template <typename TImage, bool VIsConst>
+class ITK_TEMPLATE_EXPORT LineIteratorBase : public LineConstIterator<TImage>
 {
 public:
-  /** Standard class type aliases. */
-  using Self = LineIterator;
-
-  /** Dimension of the image that the iterator walks.  This constant is needed so
-   * that functions that are templated over image iterator type (as opposed to
-   * being templated over pixel type and dimension) can have compile time
-   * access to the dimension of the image that the iterator walks. */
-  static constexpr unsigned int ImageIteratorDimension = TImage::ImageDimension;
-
-  /** Define the superclass */
+  using Self = LineIteratorBase;
   using Superclass = LineConstIterator<TImage>;
 
-  /** Inherit types from the superclass */
+  static constexpr unsigned int ImageIteratorDimension = TImage::ImageDimension;
+  static constexpr bool         IsConst = VIsConst;
+
   using typename Superclass::IndexType;
   using typename Superclass::OffsetType;
   using typename Superclass::SizeType;
@@ -80,44 +63,51 @@ public:
   using typename Superclass::PixelType;
   using typename Superclass::AccessorType;
 
-  /** \see LightObject::GetNameOfClass() */
-  itkOverrideGetNameOfClassMacro(LineIterator);
+  itkOverrideGetNameOfClassMacro(LineIteratorBase);
 
-  /** Set the pixel value */
+  /** Set the pixel value. Only available for the non-const instantiation. */
+  template <bool VDep = VIsConst, typename = std::enable_if_t<!VDep>>
   void
   Set(const PixelType & value)
   {
-    // Normally, this would just be the following:
-    //   m_Image->SetPixel(m_CurrentImageIndex,value);
-    // However, we don't want a warning about m_Image being a ConstPointer
-    // in the Superclass.
     const_cast<ImageType *>(this->m_Image.GetPointer())->SetPixel(this->m_CurrentImageIndex, value);
   }
 
-  /** Return a reference to the pixel.
-   * This method will provide the fastest access to pixel
-   * data, but it will NOT support ImageAdaptors. */
+  /** Return a reference to the pixel. */
   const PixelType &
   Value()
   {
     return this->m_Image->GetPixel(this->m_CurrentImageIndex);
   }
 
-  /** operator= is provided to make sure the handle to the image is properly
-   * reference counted. */
   Self &
-  operator=(const Self & it);
+  operator=(const Self & it)
+  {
+    if (this != &it)
+    {
+      this->Superclass::operator=(it);
+    }
+    return *this;
+  }
 
-  /** Constructor establishes an iterator to walk along a path */
-  LineIterator(ImageType * imagePtr, const IndexType & firstIndex, const IndexType & lastIndex);
+  LineIteratorBase(ImageType * imagePtr, const IndexType & firstIndex, const IndexType & lastIndex)
+    : Superclass(imagePtr, firstIndex, lastIndex)
+  {}
 
-  /** Default Destructor. */
-  ~LineIterator() override = default;
+  ~LineIteratorBase() override = default;
 };
-} // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkLineIterator.hxx"
-#endif
+/** Legacy writable LineIterator — non-const instantiation. */
+template <typename TImage>
+using LineIterator = LineIteratorBase<TImage, false>;
+
+/** Optional const alias (symmetric with ShapedNeighborhoodIterator pattern).
+ *  Future work: unify with LineConstIterator. For now this is a distinct
+ *  type that also provides the LineConstIterator interface via inheritance
+ *  but with the VIsConst template tag visible in generic code. */
+template <typename TImage>
+using ConstLineIterator = LineIteratorBase<TImage, true>;
+
+} // end namespace itk
 
 #endif

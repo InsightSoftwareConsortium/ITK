@@ -18,21 +18,10 @@
 #ifndef itkLineIterator_hxx
 #define itkLineIterator_hxx
 
-
-namespace itk
-{
-template <typename TImage>
-LineIterator<TImage>::LineIterator(ImageType * imagePtr, const IndexType & firstIndex, const IndexType & lastIndex)
-  : LineConstIterator<TImage>(imagePtr, firstIndex, lastIndex)
-{}
-
-template <typename TImage>
-LineIterator<TImage> &
-LineIterator<TImage>::operator=(const Self & it)
-{
-  this->LineConstIterator<TImage>::operator=(it);
-  return *this;
-}
-} // end namespace itk
+// SMOKE-TEST SPIKE: LineIterator is now a template alias for
+// LineIteratorBase<TImage, false>, so its member definitions are
+// inline in itkLineIterator.h. This file is retained for backward
+// compatibility with any translation unit that may still include it
+// directly; no out-of-line definitions live here.
 
 #endif
