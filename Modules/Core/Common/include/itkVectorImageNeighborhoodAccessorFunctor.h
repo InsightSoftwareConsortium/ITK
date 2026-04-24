@@ -48,6 +48,7 @@ public:
   using OffsetType = typename ImageType::OffsetType;
 
   using NeighborhoodType = Neighborhood<InternalPixelType *, TImage::ImageDimension>;
+  using ConstNeighborhoodType = Neighborhood<const InternalPixelType *, TImage::ImageDimension>;
 
   template <typename TOutput = ImageType>
   using ImageBoundaryConditionType = ImageBoundaryCondition<ImageType, TOutput>;
@@ -108,6 +109,18 @@ public:
   BoundaryCondition(const OffsetType &                          point_index,
                     const OffsetType &                          boundary_offset,
                     const NeighborhoodType *                    data,
+                    const ImageBoundaryConditionType<TOutput> * boundaryCondition) const
+  {
+    return boundaryCondition->operator()(point_index, boundary_offset, data, *this);
+  }
+
+  /** Const-pointer-element overload used by NeighborhoodIteratorBase when
+   * VIsConst=true. */
+  template <typename TOutput>
+  inline typename ImageBoundaryConditionType<TOutput>::OutputPixelType
+  BoundaryCondition(const OffsetType &                          point_index,
+                    const OffsetType &                          boundary_offset,
+                    const ConstNeighborhoodType *               data,
                     const ImageBoundaryConditionType<TOutput> * boundaryCondition) const
   {
     return boundaryCondition->operator()(point_index, boundary_offset, data, *this);
