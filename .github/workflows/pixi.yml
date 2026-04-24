@@ -176,6 +176,19 @@ jobs:
             path: ${{ runner.temp }}/ccache
             key: ccache-v4-${{ runner.os }}-pixi-cxx-${{ github.sha }}
 
+        - name: Prefetch every CID into the ExternalData store
+          # The build only fetches blobs for the currently-enabled modules.
+          # Populate every .cid reference now so the cache entry saved below
+          # is the full content-addressed set, not a module-selection slice.
+          if: ${{ !cancelled() && steps.restore-externaldata.outputs.cache-hit != 'true' }}
+          shell: bash
+          env:
+            EXTERNALDATA_STORE: ${{ runner.temp }}/ExternalData
+          run: |
+            python3 Utilities/Maintenance/PrefetchCIDContentLinks.py \
+              --repo-root . \
+              --store "$EXTERNALDATA_STORE"
+
         - name: Save ExternalData object store
           if: ${{ !cancelled() }}
           uses: actions/cache/save@v5
