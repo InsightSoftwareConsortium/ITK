@@ -67,13 +67,10 @@ set(MSFF_SRCS
   gdcmImage.cxx
   gdcmImageConverter.cxx
   gdcmImageCodec.cxx
-  gdcmJPEG12Codec.cxx
   gdcmRLECodec.cxx
   gdcmPDFCodec.cxx
   gdcmAudioCodec.cxx
-  gdcmJPEG16Codec.cxx
   gdcmJPEGLSCodec.cxx
-  gdcmJPEG8Codec.cxx
   gdcmJPEGCodec.cxx
   gdcmPVRGCodec.cxx
   gdcmKAKADUCodec.cxx
@@ -101,6 +98,19 @@ set(MSFF_SRCS
   gdcmSegmentHelper.cxx
   gdcmJPEG2000Codec.cxx
   )
+
+# Old per-bitdepth IJG codecs needed when not using libjpeg-turbo
+if(GDCM_USE_JPEGTURBO)
+  list(APPEND MSFF_SRCS
+    gdcmJPEGTurboCodec.cxx
+  )
+else()
+  list(APPEND MSFF_SRCS
+    gdcmJPEG8Codec.cxx
+    gdcmJPEG12Codec.cxx
+    gdcmJPEG16Codec.cxx
+  )
+endif()
 
   list(APPEND MSFF_SRCS
     ${GDCM_SOURCE_DIR}/Utilities/gdcmrle/rle.cxx
@@ -178,6 +188,10 @@ endif()
 if(GDCM_USE_SYSTEM_LJPEG)
   include_directories(${LJPEG_INCLUDE_DIRS} )
 endif()
+if(GDCM_USE_JPEGTURBO)
+  include_directories(${GDCM_JPEGTURBO_INCLUDE_DIRS})
+  add_definitions(-DGDCM_USE_JPEGTURBO)
+endif()
 if(NOT GDCM_USE_SYSTEM_ZLIB)
   include_directories(
     "${GDCM_BINARY_DIR}/Utilities/gdcmzlib"
@@ -211,6 +225,9 @@ endif()
 # main libs:
 target_link_libraries(gdcmMSFF LINK_PUBLIC gdcmIOD gdcmDSED gdcmDICT)
 target_link_libraries(gdcmMSFF LINK_PRIVATE ${GDCM_LJPEG_LIBRARIES} ${GDCM_OPENJPEG_LIBRARIES})
+if(GDCM_USE_JPEGTURBO)
+  target_link_libraries(gdcmMSFF LINK_PRIVATE ${GDCM_JPEGTURBO_LIBRARIES})
+endif()
 if(GDCM_USE_JPEGLS)
   target_link_libraries(gdcmMSFF LINK_PRIVATE ${GDCM_CHARLS_LIBRARIES})
 endif()
