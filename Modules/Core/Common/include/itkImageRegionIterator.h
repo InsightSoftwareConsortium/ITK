@@ -23,128 +23,27 @@
 namespace itk
 {
 /** \class ImageRegionIterator
- * \brief A multi-dimensional iterator templated over image type that walks a
- * region of pixels.
+ * \brief Writable region iterator.
  *
- * The itk::ImageRegionIterator is optimized for iteration speed and is the
- * first choice for iterative, pixel-wise operations on an image.
- * ImageRegionIterator is the least specialized of the ITK image iterator
- * classes.  ImageRegionIterator is templated over the image type, and is
- * constrained to walk only within the specified region and along a line
- * parallel to one of the coordinate axes, "wrapping" to the next line as it
- * reaches the boundary of the image.  To walk the entire image, specify the
- * region to be \c image->GetRequestedRegion().
+ * SMOKE-TEST: this is now an alias template over ImageRegionIteratorBase<TImage,false>.
+ * Set() and non-const Value() are defined on the base, SFINAE-gated so that only
+ * the VIsConst==false specialization exposes them.
  *
- * Most of the functionality is inherited from the ImageRegionConstIterator.
- * The current class only adds write access to image pixels.
+ * NOTE (parent-class ripple): the Superclass ImageConstIterator<TImage> is NOT
+ * templated on const-ness in this worktree. The const_cast on m_Buffer therefore
+ * still appears inside Set()/Value(). Completing unit 1 (template ImageIterator
+ * on VIsConst) propagates the non-const pointer type into the base, at which
+ * point the cast can be fully removed.
  *
- * \par MORE INFORMATION
- * For a complete description of the ITK Image Iterators and their API, please
- * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
- * is available in print and as a free .pdf download from https://www.itk.org.
- *
- * example ImageRegionIterator.cxx
  * \ingroup ImageIterators
- *
- * \sa ImageConstIterator \sa ConditionalConstIterator
- * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
- * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator
- * \sa FloodFilledFunctionConditionalConstIterator
- * \sa FloodFilledImageFunctionConditionalConstIterator
- * \sa FloodFilledImageFunctionConditionalIterator
- * \sa FloodFilledSpatialFunctionConditionalConstIterator
- * \sa FloodFilledSpatialFunctionConditionalIterator
- * \sa ImageConstIterator \sa ImageConstIteratorWithIndex
- * \sa ImageIterator \sa ImageIteratorWithIndex
- * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex
- * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex
- * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex
- * \sa ImageRegionExclusionConstIteratorWithIndex
- * \sa ImageRegionExclusionIteratorWithIndex
- * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex
- * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator
- * \sa ImageReverseConstIterator  \sa ImageReverseIterator
- * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
- * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
- * \sa ShapedNeighborhoodIterator  \sa SliceIterator
- * \sa ImageConstIteratorWithIndex
- * \sa ImageRegionRange
- * \sa ImageRegionIndexRange
  * \ingroup ITKCommon
- *
- * \sphinx
- * \sphinxexample{Core/Common/IterateRegionWithWriteAccess,Iterate Region In Image With Write Access}
- * \endsphinx
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageRegionIterator : public ImageRegionConstIterator<TImage>
-{
-public:
-  /** Standard class type aliases. */
-  using Self = ImageRegionIterator;
-  using Superclass = ImageRegionConstIterator<TImage>;
-
-  /** Types inherited from the Superclass */
-  using typename Superclass::IndexType;
-  using typename Superclass::SizeType;
-  using typename Superclass::OffsetType;
-  using typename Superclass::RegionType;
-  using typename Superclass::ImageType;
-  using typename Superclass::PixelContainer;
-  using typename Superclass::PixelContainerPointer;
-  using typename Superclass::InternalPixelType;
-  using typename Superclass::PixelType;
-  using typename Superclass::AccessorType;
-
-  /** Default constructor. */
-  ImageRegionIterator() = default;
-
-  /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
-   * the iterator at the begin of the region. */
-  ImageRegionIterator(TImage * ptr, const RegionType & region);
-
-  /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageRegionIterator. Many routines return an ImageIterator but for a
-   * particular task, you may want an ImageRegionIterator.  Rather than
-   * provide overloaded APIs that return different types of Iterators, itk
-   * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageRegionIterator. */
-  ImageRegionIterator(const ImageIterator<TImage> & it);
-
-  /** Set the pixel value */
-  void
-  Set(const PixelType & value) const
-  {
-    this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Buffer + this->m_Offset)), value);
-  }
-
-  /** Return a reference to the pixel
-   * This method will provide the fastest access to pixel
-   * data, but it will NOT support ImageAdaptors. */
-  PixelType &
-  Value()
-  {
-    return *(const_cast<InternalPixelType *>(this->m_Buffer + this->m_Offset));
-  }
-
-protected:
-  /** the construction from a const iterator is declared protected
-      in order to enforce const correctness. */
-  /** @ITKStartGrouping */
-  ImageRegionIterator(const ImageRegionConstIterator<TImage> & it);
-  Self &
-  operator=(const ImageRegionConstIterator<TImage> & it);
-  /** @ITKEndGrouping */
-};
+using ImageRegionIterator = ImageRegionIteratorBase<TImage, /*VIsConst=*/false>;
 
 // Deduction guide for class template argument deduction (CTAD).
-template <typename TImage>
-ImageRegionIterator(SmartPointer<TImage>, const typename TImage::RegionType &) -> ImageRegionIterator<TImage>;
+// (Inherits the base template's guide; nothing extra needed here.)
 
 } // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkImageRegionIterator.hxx"
-#endif
 
 #endif
