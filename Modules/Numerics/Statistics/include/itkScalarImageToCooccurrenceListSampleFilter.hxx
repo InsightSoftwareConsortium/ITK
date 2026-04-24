@@ -71,13 +71,11 @@ template <typename TImage>
 void
 ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
 {
-  constexpr auto radius = MakeFilled<typename ShapedNeighborhoodIteratorType::RadiusType>(1);
+  constexpr auto radius = MakeFilled<typename TImage::SizeType>(1);
 
   using FaceCalculatorType = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>;
 
   FaceCalculatorType faceCalculator;
-
-  using ShapeNeighborhoodIterator = typename ShapedNeighborhoodIteratorType::ConstIterator;
 
   using PixelType = typename ImageType::PixelType;
 
@@ -98,7 +96,7 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
 
   for (const auto & face : faceList)
   {
-    ShapedNeighborhoodIteratorType it(radius, input, face);
+    ConstShapedNeighborhoodIterator<TImage, ConstantBoundaryCondition<TImage>> it(radius, input, face);
 
     auto iter = m_OffsetTable.begin();
     while (iter != m_OffsetTable.end())
@@ -111,7 +109,7 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
     {
       const PixelType center_pixel_intensity = it.GetPixel(center_offset);
 
-      ShapeNeighborhoodIterator ci = it.Begin();
+      auto ci = it.Begin();
       while (ci != it.End())
       {
 
