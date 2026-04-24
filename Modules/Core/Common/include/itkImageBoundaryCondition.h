@@ -72,6 +72,13 @@ public:
   /** Type of the data container passed to this function object. */
   using NeighborhoodType = Neighborhood<PixelPointerType, ImageDimension>;
 
+  /** Const-pointer-element variant of NeighborhoodType.
+   * The pointer-constness-polymorphic NeighborhoodIteratorBase (VIsConst=true)
+   * inherits from this neighborhood; boundary conditions called from that path
+   * dispatch through the ConstNeighborhoodType overloads below. */
+  using ConstPixelPointerType = const typename TInputImage::InternalPixelType *;
+  using ConstNeighborhoodType = Neighborhood<ConstPixelPointerType, ImageDimension>;
+
   /** Functor used to access pixels from a neighborhood of pixel pointers */
   using NeighborhoodAccessorFunctorType = typename TInputImage::NeighborhoodAccessorFunctorType;
 
@@ -104,6 +111,34 @@ public:
              const OffsetType &                      boundary_offset,
              const NeighborhoodType *                data,
              const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const = 0;
+
+  /** Const-pointer-element overloads used by the N+1 pointer-constness-
+   * polymorphic NeighborhoodIteratorBase (VIsConst=true). These are NOT pure:
+   * existing subclasses that only override the legacy (non-const pointer
+   * element) overloads keep working — the default body bridges via
+   * reinterpret_cast, which is safe because
+   *   Neighborhood<T*, Dim>   and
+   *   Neighborhood<const T*, Dim>
+   * have byte-identical layout (both store std::vector<pointer> of the same
+   * element size). Subclasses may override these for performance but are
+   * not required to. */
+  virtual OutputPixelType
+  operator()(const OffsetType &            point_index,
+             const OffsetType &            boundary_offset,
+             const ConstNeighborhoodType * data) const
+  {
+    return this->operator()(point_index, boundary_offset, reinterpret_cast<const NeighborhoodType *>(data));
+  }
+
+  virtual OutputPixelType
+  operator()(const OffsetType &                      point_index,
+             const OffsetType &                      boundary_offset,
+             const ConstNeighborhoodType *           data,
+             const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const
+  {
+    return this->operator()(
+      point_index, boundary_offset, reinterpret_cast<const NeighborhoodType *>(data), neighborhoodAccessorFunctor);
+  }
 
   virtual ~ImageBoundaryCondition() = default;
 

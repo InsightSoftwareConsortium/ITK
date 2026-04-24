@@ -83,6 +83,11 @@ public:
   /** Default constructor. */
   ZeroFluxNeumannBoundaryCondition() = default;
 
+  /** Bring the base-class const-pointer-element operator() overloads into
+   * scope so that name lookup does not hide them when this class overrides
+   * the legacy NeighborhoodType-pointer overloads. */
+  using Superclass::operator();
+
   /** Computes and returns a neighborhood of appropriate values from
    * neighborhood iterator data.. */
   OutputPixelType
