@@ -22,133 +22,40 @@
 
 namespace itk
 {
-/**
- * \class ImageIterator
+/** \class ImageIterator
  * \brief A multi-dimensional iterator templated over image type.
  *
- * This is a base class of ImageConstIterator that adds write-access
- * functionality.  Please see ImageConstIterator for more information.
+ * ImageIterator is the mutable flavor of the iterator pair. It is defined
+ * as an alias template over `ImageIteratorBase<TImage, /*VIsConst=*\/false>`,
+ * so it shares the same implementation as `ImageConstIterator` with pointer
+ * types that track the const-ness of the traversed image. This removes the
+ * `const_cast`s that previously appeared in `Set()`, `Value()`, and
+ * `GetImage()` on the non-const flavor.
  *
- * \par MORE INFORMATION
- * For a complete description of the ITK Image Iterators and their API, please
- * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
- * is available in print and as a free .pdf download from https://www.itk.org.
+ * Public API is preserved: default ctor, `(TImage*, RegionType)` ctor,
+ * copy ctor, assignment, `Set()`, `Value()`, `Get()`, `GetImage()`, and
+ * conversion from `ImageConstIterator<TImage>` (via the SFINAE-gated
+ * converting constructor in the base) are unchanged from a caller's view.
  *
+ * \sa ImageConstIterator \sa ImageIteratorBase
  * \ingroup ImageIterators
- *
- * \sa ImageConstIterator \sa ConditionalConstIterator
- * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
- * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator
- * \sa FloodFilledFunctionConditionalConstIterator
- * \sa FloodFilledImageFunctionConditionalConstIterator
- * \sa FloodFilledImageFunctionConditionalIterator
- * \sa FloodFilledSpatialFunctionConditionalConstIterator
- * \sa FloodFilledSpatialFunctionConditionalIterator
- * \sa ImageConstIterator \sa ImageConstIteratorWithIndex
- * \sa ImageIterator \sa ImageIteratorWithIndex
- * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex
- * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex
- * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex
- * \sa ImageRegionExclusionConstIteratorWithIndex
- * \sa ImageRegionExclusionIteratorWithIndex
- * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex
- * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator
- * \sa ImageReverseConstIterator  \sa ImageReverseIterator
- * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
- * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
- * \sa ShapedNeighborhoodIterator  \sa SliceIterator
- *
- *
  * \ingroup ITKCommon
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageIterator : public ImageConstIterator<TImage>
-{
-public:
-  ITK_DEFAULT_COPY_AND_MOVE(ImageIterator);
-
-  /** Standard class type aliases. */
-  using Self = ImageIterator;
-
-  /** Dimension of the image the iterator walks.  This constant is needed so
-   * functions that are templated over image iterator type (as opposed to
-   * being templated over pixel type and dimension) can have compile time
-   * access to the dimension of the image that the iterator walks. */
-  static constexpr unsigned int ImageIteratorDimension = TImage::ImageDimension;
-
-  /** Define the superclass */
-  using Superclass = ImageConstIterator<TImage>;
-
-  /** Inherit types from the superclass */
-  using typename Superclass::IndexType;
-  using typename Superclass::SizeType;
-  using typename Superclass::OffsetType;
-  using typename Superclass::RegionType;
-  using typename Superclass::ImageType;
-  using typename Superclass::PixelContainer;
-  using typename Superclass::PixelContainerPointer;
-  using typename Superclass::InternalPixelType;
-  using typename Superclass::PixelType;
-  using typename Superclass::AccessorType;
-
-  /** Default Constructor. Need to provide a default constructor since we
-   * provide a copy constructor. */
-  ImageIterator() = default;
-
-  /** Default Destructor */
-  ~ImageIterator() override = default;
-
-  /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
-   * the iterator at the begin of the region. */
-  ImageIterator(TImage * ptr, const RegionType & region);
-
-  /** Set the pixel value */
-  void
-  Set(const PixelType & value) const
-  {
-    // const_cast is needed here because m_Buffer is declared as a const
-    // pointer in the superclass which is the ConstIterator.
-    this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Buffer) + this->m_Offset), value);
-  }
-
-  /** Return a reference to the pixel
-   * This method will provide the fastest access to pixel
-   * data, but it will NOT support ImageAdaptors. */
-  PixelType &
-  Value()
-  {
-    // const_cast is needed here because m_Buffer is declared as a const
-    // pointer in the superclass which is the ConstIterator.
-    return *(const_cast<InternalPixelType *>(this->m_Buffer) + this->m_Offset);
-  }
-
-  /** Get the image that this iterator walks. */
-  [[nodiscard]] ImageType *
-  GetImage() const
-  {
-    // const_cast is needed here because m_Image is declared as a const pointer
-    // in the base class which is the ConstIterator.
-    return const_cast<ImageType *>(this->m_Image.GetPointer());
-  }
-
-protected:
-  /** This constructor is declared protected in order to enforce
-    const-correctness */
-  /** @ITKStartGrouping */
-  ImageIterator(const ImageConstIterator<TImage> & it);
-  Self &
-  operator=(const ImageConstIterator<TImage> & it);
-  /** @ITKEndGrouping */
-};
+using ImageIterator = ImageIteratorBase<TImage, /*VIsConst=*/false>;
 
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageIterator(SmartPointer<TImage>, const typename TImage::RegionType &) -> ImageIterator<TImage>;
+ImageIteratorBase(TImage *, const typename TImage::RegionType &) -> ImageIteratorBase<TImage, false>;
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkImageIterator.hxx"
-#endif
+// NOTE: the legacy itkImageIterator.hxx file is intentionally NOT included
+// here anymore. The alias-template form defines all member functions inline
+// in itkImageConstIterator.h; the out-of-class definitions in the .hxx no
+// longer apply to an alias-template and would fail to compile. The .hxx
+// file is retained on disk for now (unused) to keep this smoke-test diff
+// scoped to the two declared headers, but it would be deleted in a real
+// refactor.
 
 #endif
