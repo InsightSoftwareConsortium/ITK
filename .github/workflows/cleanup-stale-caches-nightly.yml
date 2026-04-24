@@ -1,0 +1,84 @@
+name: Cleanup stale caches (nightly sweep)
+
+# Safety net for the cleanup-on-close workflow: once per day, scan the
+# repository's GitHub Actions caches and purge any cache scoped to a
+# pull-request merge ref whose PR has been closed for more than a
+# 3-day grace period.  The grace period lets anyone spot-rerun a
+# just-merged PR before its caches vanish.
+#
+# This catches the edge cases the pull_request:closed trigger misses:
+#   - PRs closed during a cleanup-workflow outage
+#   - caches orphaned when a PR was closed before this workflow existed
+#   - caches stuck on refs/pull/N/merge after branch deletion
+#
+# Reference:
+# https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#force-deleting-cache-entries
+
+on:
+  schedule:
+    - cron: '0 6 * * *'        # 06:00 UTC daily
+  workflow_dispatch:
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write           # required to delete caches
+      pull-requests: read      # required to check PR state
+    steps:
+      - name: Purge caches for PRs closed more than 3 days ago
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          GRACE_DAYS: '3'
+        run: |
+          set -euo pipefail
+          CUTOFF=$(date -u -d "${GRACE_DAYS} days ago" +%s)
+          echo "Grace cutoff: PRs closed before $(date -u -d "@${CUTOFF}" --iso-8601=seconds)"
+
+          # Step 1: enumerate every PR-scoped cache (id + pr number).
+          tmpdir=$(mktemp -d)
+          trap 'rm -rf "$tmpdir"' EXIT
+          gh api --paginate \
+            "repos/${REPO}/actions/caches?per_page=100" \
+            --jq '.actions_caches[] |
+                  select(.ref | startswith("refs/pull/")) |
+                  [.id, (.ref | capture("refs/pull/(?<n>[0-9]+)/").n)] |
+                  @tsv' > "${tmpdir}/caches.tsv"
+          total_scanned=$(wc -l < "${tmpdir}/caches.tsv")
+
+          # Step 2: one API call per *distinct* PR (not per cache).
+          awk '{print $2}' "${tmpdir}/caches.tsv" | sort -u > "${tmpdir}/prs.txt"
+          : > "${tmpdir}/prstate.tsv"
+          while read -r pr; do
+            info=$(gh pr view "$pr" --repo "$REPO" \
+                     --json state,closedAt 2>/dev/null || echo '{}')
+            state=$(echo "$info" | jq -r '.state // "UNKNOWN"')
+            closed=$(echo "$info" | jq -r '.closedAt // "null"')
+            printf '%s\t%s\t%s\n' "$pr" "$state" "$closed" >> "${tmpdir}/prstate.tsv"
+          done < "${tmpdir}/prs.txt"
+
+          # Step 3: join caches with PR state and purge those past the grace cutoff.
+          total_purged=0
+          while read -r id pr; do
+            [ -z "$id" ] && continue
+            row=$(awk -v p="$pr" '$1 == p' "${tmpdir}/prstate.tsv")
+            state=$(echo "$row" | cut -f2)
+            closed=$(echo "$row" | cut -f3)
+            if [ "$state" = "OPEN" ] || [ "$closed" = "null" ]; then
+              continue
+            fi
+            closed_ts=$(date -u -d "$closed" +%s 2>/dev/null || echo 0)
+            [ "$closed_ts" -eq 0 ] && continue
+            if [ "$closed_ts" -lt "$CUTOFF" ]; then
+              if gh api -X DELETE "repos/${REPO}/actions/caches/${id}" >/dev/null 2>&1; then
+                total_purged=$((total_purged + 1))
+                echo "  purged cache id=${id} (PR #${pr} ${state} since ${closed})"
+              else
+                echo "  WARN: failed to delete cache id=${id} (PR #${pr})"
+              fi
+            fi
+          done < "${tmpdir}/caches.tsv"
+
+          distinct_prs=$(wc -l < "${tmpdir}/prs.txt")
+          echo "Scanned ${total_scanned} PR-scoped caches across ${distinct_prs} distinct PRs; purged ${total_purged}."
