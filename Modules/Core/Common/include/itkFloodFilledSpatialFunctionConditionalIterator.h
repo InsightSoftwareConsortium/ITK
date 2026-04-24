@@ -85,14 +85,14 @@ public:
   [[nodiscard]] const PixelType
   Get() const override
   {
-    return const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_IndexStack.front());
+    return this->m_Image->GetPixel(this->m_IndexStack.front());
   }
 
   /** Get the pixel value, non-const version is sometimes useful. */
   PixelType
   Get()
   {
-    return const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_IndexStack.front());
+    return this->m_Image->GetPixel(this->m_IndexStack.front());
   }
 
   /** Set the pixel value */
