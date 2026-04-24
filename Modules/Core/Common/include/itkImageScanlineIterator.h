@@ -77,6 +77,9 @@ public:
   void
   Set(const PixelType & value) const
   {
+    // SMOKE-UNIT-05: const_cast retained — blocked on smoke units 01-02
+    // (ImageConstIterator / ImageIterator retemplated on VIsConst so
+    //  m_Buffer is conditionally non-const).
     this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Buffer + this->m_Offset)), value);
   }
 
@@ -86,6 +89,7 @@ public:
   PixelType &
   Value()
   {
+    // SMOKE-UNIT-05: const_cast retained — see Set() note above.
     return *(const_cast<InternalPixelType *>(this->m_Buffer + this->m_Offset));
   }
 
@@ -102,6 +106,18 @@ protected:
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
 ImageScanlineIterator(SmartPointer<TImage>, const typename TImage::RegionType &) -> ImageScanlineIterator<TImage>;
+
+// SMOKE-UNIT-05: forward-compatible aliases. Once
+// ImageScanlineIteratorBase<TImage, VIsConst> is materialized (after
+// smoke units 01-02), these aliases become the primary spelling:
+//
+//   template <typename TImage>
+//   using ImageScanlineConstIterator = ImageScanlineIteratorBase<TImage, true>;
+//   template <typename TImage>
+//   using ImageScanlineIterator      = ImageScanlineIteratorBase<TImage, false>;
+//
+// For now the aliases are not introduced to avoid colliding with the
+// existing class templates; this comment records the target shape.
 
 } // end namespace itk
 

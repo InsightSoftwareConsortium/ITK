@@ -19,10 +19,29 @@
 #define itkImageScanlineConstIterator_h
 
 #include "itkImageIterator.h"
-#include <type_traits> // For remove_const_t.
+#include <type_traits> // For remove_const_t, conditional_t.
 
 namespace itk
 {
+// SMOKE-UNIT-05: structural spike for a future unified
+// ImageScanlineIteratorBase<TImage, VIsConst> that would replace the
+// ImageScanlineConstIterator / ImageScanlineIterator pair with a single
+// template conditionally const on its buffer pointer:
+//
+//   template <typename TImage, bool VIsConst>
+//   class ImageScanlineIteratorBase { ... using BufferPtrType =
+//     std::conditional_t<VIsConst, const InternalPixelType *,
+//                        InternalPixelType *>; ... };
+//
+// Full collapse is blocked on retemplating ImageConstIterator /
+// ImageIterator (smoke units 01-02): those classes own m_Buffer as
+// `const InternalPixelType *` unconditionally, which is why
+// ImageScanlineIterator::Set/Value still require const_cast below.
+// Aliases are provided so downstream code may already spell the
+// template-parameterized form.
+template <typename TImage, bool VIsConst>
+class ImageScanlineIteratorBase; // forward declaration (not yet defined).
+
 /** \class ImageScanlineConstIterator
  * \brief A multi-dimensional iterator templated over image type that walks a
  * region of pixels, scanline by scanline or in the direction of the
