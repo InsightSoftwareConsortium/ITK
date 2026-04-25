@@ -30,7 +30,6 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
-    ExternalDataVersion: 5.4.5
 
 
 jobs:
@@ -74,6 +73,19 @@ jobs:
             restore-keys: |
               ccache-v4-${{ runner.os }}-pixi-cxx-
 
+        - name: Restore ExternalData object store
+          id: restore-externaldata
+          uses: actions/cache/restore@v5
+          with:
+            # ExternalData blobs are platform-agnostic; share a single cache
+            # entry across every workflow/job/OS in the repo.  The SHA suffix
+            # produces an immutable save key per run; restore-keys falls
+            # through to the most recent prior cache under the same version.
+            path: ${{ runner.temp }}/ExternalData
+            key: externaldata-v1-${{ hashFiles('**/*.cid') }}
+            restore-keys: |
+              externaldata-v1-
+
         - name: Show ccache configuration, stats and maintenance
           shell: bash
           run: |
@@ -116,11 +128,10 @@ jobs:
             # TIME_REPORT:         overall | 526        seconds | 31GiB        |
             # TIME_REPORT: == find ====================================================
 
-        - name: Download testing data
+        - name: Export ExternalData_OBJECT_STORES
+          shell: bash
           run: |
-            curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v${{ env.ExternalDataVersion }}/InsightData-${{ env.ExternalDataVersion }}.tar.gz -O
-            cmake -E tar xfz InsightData-${{ env.ExternalDataVersion }}.tar.gz
-            cmake -E rename InsightToolkit-${{ env.ExternalDataVersion }}/.ExternalData/CID ${{ github.workspace }}/.ExternalData/CID
+            echo "ExternalData_OBJECT_STORES=${{ runner.temp }}/ExternalData" >> "$GITHUB_ENV"
 
         - name: Set up Pixi
           uses: prefix-dev/setup-pixi@v0.8.1
@@ -142,10 +153,6 @@ jobs:
             # Remove object files and static libraries (not needed for testing)
             find build -type f -name "*.o" -delete
             find build -type f -name "*.a" -delete
-            # Remove downloaded data tarballs (already extracted)
-            rm -f InsightData-*.tar.gz
-            # Remove extracted source tarball directory
-            rm -rf InsightToolkit-${{ env.ExternalDataVersion }}
             # Trim ccache to stay within CCACHE_MAXSIZE and remove orphaned entries
             ccache --cleanup 2>/dev/null || true
             echo "****** df -h /  -- post cleanup"
@@ -168,6 +175,14 @@ jobs:
           with:
             path: ${{ runner.temp }}/ccache
             key: ccache-v4-${{ runner.os }}-pixi-cxx-${{ github.sha }}
+
+        # ExternalData object store is populated by
+        # .github/workflows/populate-externaldata-cache.yml — a dedicated
+        # workflow whose only job is to prefetch every CID and write the
+        # shared cache entry. Consumer workflows restore-only. Do not
+        # reintroduce a prefetch-and-save pair here: races across
+        # platforms overwrite the single shared key with a fraction of
+        # the expected blobs and poison every subsequent restore.
 
         - name: ccache stats
           if: always()
