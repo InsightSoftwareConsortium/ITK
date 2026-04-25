@@ -21,10 +21,10 @@
 
 namespace itk
 {
-template <typename TImage>
-LineConstIterator<TImage>::LineConstIterator(const ImageType * imagePtr,
-                                             const IndexType & firstIndex,
-                                             const IndexType & lastIndex)
+template <typename TImage, bool VIsConst>
+LineIteratorBase<TImage, VIsConst>::LineIteratorBase(ImagePointer      imagePtr,
+                                                     const IndexType & firstIndex,
+                                                     const IndexType & lastIndex)
   : m_Image(imagePtr)
   , m_StartIndex(firstIndex)
   , m_LastIndex(lastIndex)
@@ -80,9 +80,9 @@ LineConstIterator<TImage>::LineConstIterator(const ImageType * imagePtr,
   this->GoToBegin();
 }
 
-template <typename TImage>
-LineConstIterator<TImage> &
-LineConstIterator<TImage>::operator=(const Self & it)
+template <typename TImage, bool VIsConst>
+LineIteratorBase<TImage, VIsConst> &
+LineIteratorBase<TImage, VIsConst>::operator=(const Self & it)
 {
   if (this != &it)
   {
@@ -103,18 +103,18 @@ LineConstIterator<TImage>::operator=(const Self & it)
   return *this;
 }
 
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-LineConstIterator<TImage>::GoToBegin()
+LineIteratorBase<TImage, VIsConst>::GoToBegin()
 {
   m_CurrentImageIndex = m_StartIndex;
   m_AccumulateError.Fill(0);
   m_IsAtEnd = (m_StartIndex[m_MainDirection] == m_EndIndex[m_MainDirection]);
 }
 
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-LineConstIterator<TImage>::operator++()
+LineIteratorBase<TImage, VIsConst>::operator++()
 {
   // We need to modify m_AccumulateError, m_CurrentImageIndex, m_IsAtEnd
   for (unsigned int i = 0; i < TImage::ImageDimension; ++i)

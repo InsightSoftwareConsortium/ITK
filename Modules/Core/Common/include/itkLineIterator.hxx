@@ -18,21 +18,11 @@
 #ifndef itkLineIterator_hxx
 #define itkLineIterator_hxx
 
+// All LineIterator functionality has been absorbed into
+// LineIteratorBase<TImage, VIsConst> (see itkLineConstIterator.h). This
+// header is retained only for backward compatibility with code that
+// #includes it directly.
 
-namespace itk
-{
-template <typename TImage>
-LineIterator<TImage>::LineIterator(ImageType * imagePtr, const IndexType & firstIndex, const IndexType & lastIndex)
-  : LineConstIterator<TImage>(imagePtr, firstIndex, lastIndex)
-{}
-
-template <typename TImage>
-LineIterator<TImage> &
-LineIterator<TImage>::operator=(const Self & it)
-{
-  this->LineConstIterator<TImage>::operator=(it);
-  return *this;
-}
-} // end namespace itk
+#include "itkLineIterator.h"
 
 #endif

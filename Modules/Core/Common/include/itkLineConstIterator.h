@@ -20,6 +20,8 @@
 
 #include "itkIndex.h"
 #include "itkImage.h"
+#include "itkWeakPointer.h"
+#include <type_traits>
 
 namespace itk
 {
@@ -52,12 +54,12 @@ namespace itk
  * \sphinxexample{Core/Common/IterateLineThroughImageWithoutWriteAccess,Iterate Line Through Image Without Write Access}
  * \endsphinx
  */
-template <typename TImage>
-class ITK_TEMPLATE_EXPORT LineConstIterator
+template <typename TImage, bool VIsConst>
+class ITK_TEMPLATE_EXPORT LineIteratorBase
 {
 public:
   /** Standard class type aliases. */
-  using Self = LineConstIterator;
+  using Self = LineIteratorBase;
 
   /** Dimension of the image that the iterator walks.  This constant is needed so
    * that functions that are templated over image iterator type (as opposed to
@@ -102,8 +104,11 @@ public:
    *  representations. */
   using AccessorType = typename TImage::AccessorType;
 
+  using ImageWeakPointer = std::conditional_t<VIsConst, typename TImage::ConstWeakPointer, WeakPointer<TImage>>;
+  using ImagePointer = std::conditional_t<VIsConst, const TImage *, TImage *>;
+
   /** \see LightObject::GetNameOfClass() */
-  itkVirtualGetNameOfClassMacro(LineConstIterator);
+  itkVirtualGetNameOfClassMacro(LineIteratorBase);
 
   /** Get the dimension (size) of the index. */
   static unsigned int
@@ -124,6 +129,14 @@ public:
   Get() const
   {
     return m_Image->GetPixel(m_CurrentImageIndex);
+  }
+
+  /** Set the pixel value. SFINAE-gated on !VIsConst. */
+  template <bool VCopy = VIsConst, std::enable_if_t<!VCopy, int> = 0>
+  void
+  Set(const PixelType & value)
+  {
+    m_Image->SetPixel(m_CurrentImageIndex, value);
   }
 
   /** Is the iterator at the end of the line? */
@@ -147,14 +160,37 @@ public:
   operator=(const Self & it);
 
   /** Constructor establishes an iterator to walk along a line */
-  LineConstIterator(const ImageType * imagePtr, const IndexType & firstIndex, const IndexType & lastIndex);
+  LineIteratorBase(ImagePointer imagePtr, const IndexType & firstIndex, const IndexType & lastIndex);
+
+  /** Converting constructor: non-const -> const. */
+  template <bool VOtherConst, typename = std::enable_if_t<VIsConst && !VOtherConst>>
+  LineIteratorBase(const LineIteratorBase<TImage, VOtherConst> & it)
+    : m_Image(it.m_Image)
+    , m_Region(it.m_Region)
+    , m_IsAtEnd(it.m_IsAtEnd)
+    , m_CurrentImageIndex(it.m_CurrentImageIndex)
+    , m_StartIndex(it.m_StartIndex)
+    , m_LastIndex(it.m_LastIndex)
+    , m_EndIndex(it.m_EndIndex)
+    , m_MainDirection(it.m_MainDirection)
+    , m_AccumulateError(it.m_AccumulateError)
+    , m_IncrementError(it.m_IncrementError)
+    , m_MaximalError(it.m_MaximalError)
+    , m_OverflowIncrement(it.m_OverflowIncrement)
+    , m_ReduceErrorAfterIncrement(it.m_ReduceErrorAfterIncrement)
+  {}
+
+  template <typename, bool>
+  friend class LineIteratorBase;
 
   /** Default Destructor. */
-  virtual ~LineConstIterator() = default;
+  virtual ~LineIteratorBase() = default;
 
 protected: // made protected so other iterators can access
+  LineIteratorBase() = default;
+
   /** Smart pointer to the source image. */
-  typename ImageType::ConstWeakPointer m_Image{};
+  ImageWeakPointer m_Image{};
 
   /** Region type to iterate over. */
   RegionType m_Region{};
@@ -190,6 +226,25 @@ protected: // made protected so other iterators can access
   // two times the number of pixels in the line
   IndexType m_ReduceErrorAfterIncrement{};
 };
+
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT LineConstIterator : public LineIteratorBase<TImage, /*VIsConst=*/true>
+{
+public:
+  using Superclass = LineIteratorBase<TImage, /*VIsConst=*/true>;
+  using Superclass::Superclass;
+};
+
+template <typename TImage>
+LineConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> LineConstIterator<std::remove_const_t<TImage>>;
+
+template <typename TImage>
+LineConstIterator(TImage *, const typename TImage::RegionType &) -> LineConstIterator<TImage>;
+
+template <typename TImage>
+LineConstIterator(const TImage *, const typename TImage::RegionType &) -> LineConstIterator<TImage>;
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
