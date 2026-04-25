@@ -30,9 +30,9 @@
 #include "itkRedPixelAccessor.h"
 #include "itkAddImageFilter.h"
 #include "itkStdStreamStateSave.h"
+#include "itkGTest.h"
 
-int
-itkImageAdaptorPipeLineTest(int, char *[])
+TEST(ImageAdaptorPipeLine, ConvertedLegacyTest)
 {
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
@@ -231,10 +231,5 @@ itkImageAdaptorPipeLineTest(int, char *[])
   //-------------------------------------------------------------
   auto myGraftedAdaptor = myAdaptorType::New();
   myGraftedAdaptor->Graft(myAdaptor);
-  if (myGraftedAdaptor->GetPixelContainer() != myAdaptor->GetPixelContainer())
-  {
-    std::cerr << "Graft test failed." << std::endl;
-    return EXIT_FAILURE;
-  }
-  return EXIT_SUCCESS;
+  EXPECT_EQ(myGraftedAdaptor->GetPixelContainer(), myAdaptor->GetPixelContainer()) << "Graft test failed.";
 }

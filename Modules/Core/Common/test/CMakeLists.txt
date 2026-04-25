@@ -11,7 +11,6 @@ set(
   itkFixedArrayTest2.cxx
   itkFloatingPointExceptionsTest.cxx
   itkGaussianSpatialFunctionTest.cxx
-  itkImageAdaptorPipeLineTest.cxx
   itkImageComputeOffsetAndIndexTest.cxx
   itkImageDuplicatorTest.cxx
   itkImageDuplicatorTest2.cxx
@@ -191,12 +190,6 @@ if(ITK_BUILD_SHARED_LIBS)
   add_dependencies(ITKCommon2TestDriver FactoryTestLib)
 endif()
 
-itk_add_test(
-  NAME itkImageAdaptorPipeLineTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkImageAdaptorPipeLineTest
-)
 itk_add_test(
   NAME itkExtractImage3Dto2DTest
   COMMAND
@@ -1517,6 +1510,7 @@ set(
   itkGaussianDerivativeOperatorGTest.cxx
   itkHashTableGTest.cxx
   itkHeavisideStepFunctionGTest.cxx
+  itkImageAdaptorPipeLineGTest.cxx
   itkImageBaseGTest.cxx
   itkImageBufferRangeGTest.cxx
   itkImageGTest.cxx
