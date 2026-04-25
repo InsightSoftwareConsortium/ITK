@@ -38,6 +38,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkMath.h"
+#include "itkGTest.h"
 
 #include <algorithm> // For generate.
 #include <random>    // For mt19937.
@@ -46,6 +47,8 @@
 //-------------------------------------
 //     Typedefs for convenience
 //-------------------------------------
+namespace
+{
 using myRGBImageType = itk::Image<itk::RGBPixel<float>, 2>;
 using myRGBIteratorType = itk::ImageRegionIteratorWithIndex<myRGBImageType>;
 
@@ -55,17 +58,10 @@ using myBlueAccessorType = itk::BluePixelAccessor<float>;
 
 using myImageType = itk::Image<float, 2>;
 using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
+} // namespace
 
-//-------------------------
-//
-//   Main code
-//
-//-------------------------
-int
-itkAdaptImageFilterTest(int, char *[])
+TEST(AdaptImageFilter, ConvertedLegacyTest)
 {
-
-
   auto size = myRGBImageType::SizeType::Filled(2);
 
   myRGBImageType::IndexType index;
@@ -99,21 +95,6 @@ itkAdaptImageFilterTest(int, char *[])
     ++it1;
   }
 
-  // Reading the values to verify the image content
-  std::cout << "--- Initial image --- " << std::endl;
-  it1.GoToBegin();
-  while (!it1.IsAtEnd())
-  {
-    const myRGBImageType::PixelType c(it1.Get());
-    std::cout << c.GetRed() << "  ";
-    std::cout << c.GetGreen() << "  ";
-    std::cout << c.GetBlue() << std::endl;
-    ++it1;
-  }
-
-
-  bool passed = true;
-
   // Convert to a red image
   const itk::AdaptImageFilter<myRGBImageType, myImageType, myRedAccessorType>::Pointer adaptImageToRed =
     itk::AdaptImageFilter<myRGBImageType, myImageType, myRedAccessorType>::New();
@@ -123,18 +104,11 @@ itkAdaptImageFilterTest(int, char *[])
 
   myIteratorType it(adaptImageToRed->GetOutput(), adaptImageToRed->GetOutput()->GetRequestedRegion());
 
-  std::cout << "--- Red values --- " << std::endl;
-
   it.GoToBegin();
   it1.GoToBegin();
   while (!it.IsAtEnd())
   {
-    std::cout << it.Get() << std::endl;
-    if (itk::Math::NotExactlyEquals(it.Get(), it1.Get().GetRed()))
-    {
-      passed = false;
-    }
-
+    EXPECT_EQ(it.Get(), it1.Get().GetRed());
     ++it;
     ++it1;
   }
@@ -149,18 +123,11 @@ itkAdaptImageFilterTest(int, char *[])
 
   it = myIteratorType(adaptImageToGreen->GetOutput(), adaptImageToGreen->GetOutput()->GetRequestedRegion());
 
-  std::cout << "--- Green values --- " << std::endl;
-
   it.GoToBegin();
   it1.GoToBegin();
   while (!it.IsAtEnd())
   {
-    std::cout << it.Get() << std::endl;
-    if (itk::Math::NotExactlyEquals(it.Get(), it1.Get().GetGreen()))
-    {
-      passed = false;
-    }
-
+    EXPECT_EQ(it.Get(), it1.Get().GetGreen());
     ++it;
     ++it1;
   }
@@ -175,28 +142,12 @@ itkAdaptImageFilterTest(int, char *[])
 
   it = myIteratorType(adaptImageToBlue->GetOutput(), adaptImageToBlue->GetOutput()->GetRequestedRegion());
 
-  std::cout << "--- Blue values --- " << std::endl;
-
   it.GoToBegin();
   it1.GoToBegin();
   while (!it.IsAtEnd())
   {
-    std::cout << it.Get() << std::endl;
-    if (itk::Math::NotExactlyEquals(it.Get(), it1.Get().GetBlue()))
-    {
-      passed = false;
-    }
-
+    EXPECT_EQ(it.Get(), it1.Get().GetBlue());
     ++it;
     ++it1;
   }
-
-  std::cout << std::endl;
-  if (passed)
-  {
-    std::cout << "AdaptImageFilterTest passed." << std::endl;
-    return EXIT_SUCCESS;
-  }
-  std::cerr << "AdaptImageFilterTest failed." << std::endl;
-  return EXIT_FAILURE;
 }
