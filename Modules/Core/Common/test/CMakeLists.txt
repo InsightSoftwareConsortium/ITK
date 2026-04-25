@@ -108,7 +108,6 @@ set(
   itkObjectFactoryTest2.cxx
   itkObjectFactoryTest3.cxx
   itkObjectFactoryOnlyNewTest.cxx
-  itkMinimumMaximumImageCalculatorTest.cxx
   itkSliceIteratorTest.cxx
   itkImageRegionExclusionIteratorWithIndexTest.cxx
   itkImageFillBufferTest.cxx
@@ -232,12 +231,6 @@ itk_add_test(
     ITKCommon1TestDriver
     itkMultipleLogOutputTest
     ${TEMP}/test_multi.txt
-)
-itk_add_test(
-  NAME itkMinimumMaximumImageCalculatorTest
-  COMMAND
-    ITKCommon2TestDriver
-    itkMinimumMaximumImageCalculatorTest
 )
 itk_add_test(
   NAME itkFixedArrayTest2
@@ -1523,6 +1516,7 @@ set(
   itkMatrixGTest.cxx
   itkMersenneTwisterRandomVariateGeneratorGTest.cxx
   itkMetaDataDictionaryGTest.cxx
+  itkMinimumMaximumImageCalculatorGTest.cxx
   itkModifiedTimeGTest.cxx
   itkNeighborhoodAllocatorGTest.cxx
   itkNumberToStringGTest.cxx
