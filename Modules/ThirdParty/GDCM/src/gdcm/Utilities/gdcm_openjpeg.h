@@ -17,7 +17,15 @@
 /* Use the openjpeg library configured for gdcm.  */
 #include "gdcmTypes.h"
 #ifdef GDCM_USE_SYSTEM_OPENJPEG
-#include <openjpeg.h>
+/* BEGIN ITK */
+/* Route through ITK's openjpeg wrapper. For the vendored build this
+   also applies the itkopenjpeg_* symbol mangle via openjpeg_mangle.h.
+   opj_includes.h is intentionally NOT included to avoid its
+   GCC poison pragmas on malloc/free.
+   The visibility push ensures openjpeg symbols keep default visibility
+   even when the enclosing ITK module is compiled with -fvisibility=hidden. */
+#include "itk_openjpeg.h"
+/* END ITK */
 #else
 #include "gdcmopenjpeg/src/lib/openjp2/openjpeg.h"
 #endif

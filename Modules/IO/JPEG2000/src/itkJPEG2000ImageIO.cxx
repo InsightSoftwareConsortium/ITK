@@ -19,17 +19,11 @@
 #include "itkJPEG2000ImageIO.h"
 #include "itksys/SystemTools.hxx"
 
-// for memset
-// for malloc
+#include <string>
+#include <vector>
 
-#define USE_OPJ_DEPRECATED
 
-extern "C"
-{
 #include "itk_openjpeg.h"
-#include "j2k.h"
-#include "jp2.h"
-}
 
 
 namespace itk
@@ -487,11 +481,9 @@ JPEG2000ImageIO::Read(void * buffer)
   }
 
 
-  OPJ_UINT32 l_max_data_size = 1000;
-
   OPJ_BOOL l_go_on = true;
 
-  auto * l_data = static_cast<OPJ_BYTE *>(opj_malloc(1000));
+  std::vector<OPJ_BYTE> l_data(1000);
 
   while (l_go_on)
   {
@@ -517,7 +509,6 @@ JPEG2000ImageIO::Read(void * buffer)
 
     if (!tileHeaderRead)
     {
-      opj_free(l_data);
       opj_stream_destroy(l_stream);
       opj_destroy_codec(this->m_Internal->m_Dinfo);
       opj_image_destroy(l_image);
@@ -536,30 +527,17 @@ JPEG2000ImageIO::Read(void * buffer)
 
     if (l_go_on)
     {
-      if (l_data_size > l_max_data_size)
+      if (l_data_size > l_data.size())
       {
-        l_data = static_cast<OPJ_BYTE *>(opj_realloc(l_data, l_data_size));
-
-        if (!l_data)
-        {
-          opj_stream_destroy(l_stream);
-          opj_destroy_codec(this->m_Internal->m_Dinfo);
-          opj_image_destroy(l_image);
-          itkExceptionMacro("JPEG2000ImageIO failed to read file: " << this->GetFileName() << std::endl
-                                                                    << "Reason: Error reallocating memory");
-        }
-
+        l_data.resize(l_data_size);
         itkDebugMacro("reallocated for " << l_data_size);
-
-        l_max_data_size = l_data_size;
       }
 
       const bool decodeTileData =
-        opj_decode_tile_data(this->m_Internal->m_Dinfo, l_tile_index, l_data, l_data_size, l_stream);
+        opj_decode_tile_data(this->m_Internal->m_Dinfo, l_tile_index, l_data.data(), l_data_size, l_stream);
 
       if (!decodeTileData)
       {
-        opj_free(l_data);
         opj_stream_destroy(l_stream);
         opj_destroy_codec(this->m_Internal->m_Dinfo);
         opj_image_destroy(l_image);
@@ -567,7 +545,7 @@ JPEG2000ImageIO::Read(void * buffer)
                                                                   << "Reason: opj_decode_tile_data returns false");
       }
 
-      OPJ_BYTE * l_data_ptr = l_data;
+      const OPJ_BYTE * l_data_ptr = l_data.data();
 
       const SizeValueType tsizex = l_current_tile_x1 - l_current_tile_x0;
       const SizeValueType tsizey = l_current_tile_y1 - l_current_tile_y0;
@@ -622,7 +600,6 @@ JPEG2000ImageIO::Read(void * buffer)
 
   if (!opj_end_decompress(this->m_Internal->m_Dinfo, l_stream))
   {
-    opj_free(l_data);
     opj_stream_destroy(l_stream);
     opj_destroy_codec(this->m_Internal->m_Dinfo);
     opj_image_destroy(l_image);
@@ -651,11 +628,6 @@ JPEG2000ImageIO::Read(void * buffer)
   if (l_image)
   {
     opj_image_destroy(l_image);
-  }
-
-  if (l_data)
-  {
-    opj_free(l_data);
   }
 
   itkDebugMacro("JPEG2000ImageIO::Read() End");
@@ -751,6 +723,8 @@ JPEG2000ImageIO::Write(const void * buffer)
   }
 
   /* Create comment for codestream */
+  // Holds the comment string for the lifetime of 'parameters'.
+  std::string cp_comment_str;
   if (parameters.cp_comment == nullptr)
   {
     constexpr char      comment[] = "Created by OpenJPEG version ";
@@ -759,13 +733,17 @@ JPEG2000ImageIO::Write(const void * buffer)
 
     /* UniPG>> */
 #ifdef USE_JPWL
-    size_t commentLength = clen + strlen(version) + 11;
-    parameters.cp_comment = (char *)malloc(commentLength);
-    snprintf(parameters.cp_comment, commentLength, "%s%s with JPWL", comment, version);
+    const size_t commentLength = clen + strlen(version) + 11;
+    cp_comment_str.resize(commentLength, '\0');
+    snprintf(cp_comment_str.data(), commentLength, "%s%s with JPWL", comment, version);
+    cp_comment_str.resize(strlen(cp_comment_str.c_str()));
+    parameters.cp_comment = cp_comment_str.data();
 #else
     const size_t commentLength = clen + strlen(version) + 11;
-    parameters.cp_comment = static_cast<char *>(opj_malloc(commentLength));
-    snprintf(parameters.cp_comment, commentLength, "%s%s", comment, version);
+    cp_comment_str.resize(commentLength, '\0');
+    snprintf(cp_comment_str.data(), commentLength, "%s%s", comment, version);
+    cp_comment_str.resize(strlen(cp_comment_str.c_str()));
+    parameters.cp_comment = cp_comment_str.data();
 #endif
     /* <<UniPG */
   }
@@ -970,11 +948,6 @@ JPEG2000ImageIO::Write(const void * buffer)
                       << this->GetFileName() << std::endl
                       << "Reason: "
                       << "opj_stream_create_default_file_stream returns false");
-  }
-
-  if (parameters.cp_comment)
-  {
-    opj_free(parameters.cp_comment);
   }
 
   bool bSuccess = opj_start_compress(cinfo, l_image, cio);

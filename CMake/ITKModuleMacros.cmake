@@ -190,6 +190,23 @@ macro(itk_module_impl)
         # If dep is already namespaced, use it directly
         message(DEBUG "Linking ${itk-module} to namespaced dependency: ${dep}")
         list(APPEND _libraries "${dep}")
+      elseif(TARGET "${dep}")
+        get_target_property(_dep_imported "${dep}" IMPORTED)
+        if(_dep_imported)
+          # If dep is an imported target (e.g. from find_package), use it directly
+          message(
+            DEBUG
+            "Linking ${itk-module} to imported target dependency: ${dep}"
+          )
+          list(APPEND _libraries "${dep}")
+        else()
+          list(
+            APPEND
+            _libraries
+            "${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${dep}"
+          )
+        endif()
+        unset(_dep_imported)
       else()
         list(
           APPEND
