@@ -1,14 +1,17 @@
-# the top-level README is used for describing this module, just
-# re-used it for documentation here
-get_filename_component(MY_CURENT_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
-file(READ "${MY_CURENT_DIR}/README.rst" DOCUMENTATION)
+set(
+  DOCUMENTATION
+  "This module provides a generic interpolator for multi-label images:
+itkLabelImageGenericInterpolateImageFunction interpolates each label
+independently with any underlying ordinary image interpolator and
+returns the label with the highest interpolated value at each
+point.  Generalizes the Gaussian-only behavior of
+itkLabelImageGaussianInterpolateImageFunction.  See the Doxygen on
+\\\\ref LabelImageGenericInterpolateImageFunction for the algorithm
+and the Insight Journal article (Schaerer, Roche, Belaroussi, 2014,
+https://hdl.handle.net/10380/3506) for derivation, and the module
+README for in-tree vs archived-upstream scope."
+)
 
-# itk_module() defines the module dependencies in GenericLabelInterpolator
-# The testing module in GenericLabelInterpolator depends on ITKTestKernel
-# By convention those modules outside of ITK are not prefixed with
-# ITK
-
-# define the dependencies of the include module and the tests
 itk_module(
   GenericLabelInterpolator
   DEPENDS
@@ -17,6 +20,10 @@ itk_module(
   TEST_DEPENDS
     ITKTestKernel
     ITKImageGrid
+    ITKImageFunction
+    ITKTransform
+    ITKIOImageBase
+    ITKIONIFTI
   DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
   ENABLE_SHARED
