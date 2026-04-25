@@ -1,7 +1,6 @@
 itk_module_test()
 set(
   ITKImageIntensityTests
-  itkAddImageFilterFrameTest.cxx
   itkAddImageFilterTest.cxx
   itkAddImageFilterTest2.cxx
   itkAndImageFilterTest.cxx
@@ -313,12 +312,6 @@ itk_add_test(
     itkAddImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
     ${TEMP}/itkAddImageFilterTest2.mha
-)
-itk_add_test(
-  NAME itkAddImageFilterFrameTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkAddImageFilterFrameTest
 )
 itk_add_test(
   NAME itkPowImageFilterTest
@@ -791,6 +784,7 @@ set(
   itkAdaptImageFilterGTest.cxx
   itkAdaptImageFilterGTest2.cxx
   itkAddImageAdaptorGTest.cxx
+  itkAddImageFilterFrameGTest.cxx
   itkArithmeticOpsFunctorsTest.cxx
   itkBitwiseOpsFunctorsTest.cxx
 )
