@@ -83,7 +83,24 @@ CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::MergePoints(const InputCoordin
     ++pointsIt;
   }
 
-  // Copy Edge Cells
+  // Copy point data (if any) from the decimated mesh. Output point IDs
+  // match the decimated mesh's IDs at this stage; SqueezePointsIds()
+  // (run later in CleanPoints) takes care of remapping the data along
+  // with the points.
+  const auto * inPointData = decimatedMesh->GetPointData();
+  if (inPointData != nullptr && inPointData->Size() != 0)
+  {
+    for (auto pdIt = inPointData->Begin(); pdIt != inPointData->End(); ++pdIt)
+    {
+      output->SetPointData(pdIt.Index(), pdIt.Value());
+    }
+  }
+
+  // Copy Edge Cells.  Per-edge-cell CellData is not propagated here:
+  // QuadEdgeMesh edge cells are usually generated automatically from
+  // face topology and rarely carry user-attached attributes.  If a
+  // future use case needs edge-cell data preservation, mirror the
+  // face-cell SetCellData() block below.
   InputCellsContainerIterator cellIt = decimatedMesh->GetEdgeCells()->Begin();
   InputCellsContainerIterator cellItEnd = decimatedMesh->GetEdgeCells()->End();
 
@@ -95,7 +112,12 @@ CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::MergePoints(const InputCoordin
     ++cellIt;
   }
 
-  // Copy cells
+  // Copy cells, propagating per-cell data from the decimated mesh.
+  // AddFaceWithSecurePointList returns the QE primal of the new face;
+  // its Left() reference is the new cell identifier.
+  const auto * inCellData = decimatedMesh->GetCellData();
+  const bool   hasCellData = (inCellData != nullptr && inCellData->Size() != 0);
+
   cellIt = decimatedMesh->GetCells()->Begin();
   cellItEnd = decimatedMesh->GetCells()->End();
 
@@ -112,7 +134,11 @@ CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::MergePoints(const InputCoordin
       {
         points.push_back(*pit);
       }
-      output->AddFaceWithSecurePointList(points);
+      auto * newFaceQE = output->AddFaceWithSecurePointList(points);
+      if (hasCellData && newFaceQE != nullptr && inCellData->IndexExists(cellIt.Index()))
+      {
+        output->SetCellData(newFaceQE->GetLeft(), inCellData->GetElement(cellIt.Index()));
+      }
     }
     ++cellIt;
   }

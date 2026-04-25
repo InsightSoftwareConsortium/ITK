@@ -6,6 +6,7 @@ set(
   itkBorderQuadEdgeMeshFilterTest.cxx
   itkBorderQuadEdgeMeshFilterTest2.cxx
   itkCleanQuadEdgeMeshFilterTest.cxx
+  itkCleanQuadEdgeMeshFilterDataPreservationTest.cxx
   itkDelaunayConformingQuadEdgeMeshFilterTest.cxx
   itkDiscreteGaussianCurvatureQuadEdgeMeshFilterTest.cxx
   itkDiscreteMaximumCurvatureQuadEdgeMeshFilterTest.cxx
@@ -154,6 +155,12 @@ itk_add_test(
     DATA{${INPUTDATA}/mushroom.vtk}
     0.1
     ${TEMP}/temp_CleanResult1.vtk
+)
+itk_add_test(
+  NAME itkCleanQuadEdgeMeshFilterDataPreservationTest
+  COMMAND
+    ITKQuadEdgeMeshFilteringTestDriver
+    itkCleanQuadEdgeMeshFilterDataPreservationTest
 )
 itk_add_test(
   NAME itkQuadricDecimationQuadEdgeMeshFilterTest
