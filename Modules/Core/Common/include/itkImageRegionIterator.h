@@ -77,69 +77,22 @@ namespace itk
  * \endsphinx
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageRegionIterator : public ImageRegionConstIterator<TImage>
+class ITK_TEMPLATE_EXPORT ImageRegionIterator : public ImageRegionIteratorBase<TImage, /*VIsConst=*/false>
 {
 public:
-  /** Standard class type aliases. */
-  using Self = ImageRegionIterator;
-  using Superclass = ImageRegionConstIterator<TImage>;
-
-  /** Types inherited from the Superclass */
-  using typename Superclass::IndexType;
-  using typename Superclass::SizeType;
-  using typename Superclass::OffsetType;
-  using typename Superclass::RegionType;
-  using typename Superclass::ImageType;
-  using typename Superclass::PixelContainer;
-  using typename Superclass::PixelContainerPointer;
-  using typename Superclass::InternalPixelType;
-  using typename Superclass::PixelType;
-  using typename Superclass::AccessorType;
-
-  /** Default constructor. */
-  ImageRegionIterator() = default;
-
-  /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
-   * the iterator at the begin of the region. */
-  ImageRegionIterator(TImage * ptr, const RegionType & region);
-
-  /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageRegionIterator. Many routines return an ImageIterator but for a
-   * particular task, you may want an ImageRegionIterator.  Rather than
-   * provide overloaded APIs that return different types of Iterators, itk
-   * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageRegionIterator. */
-  ImageRegionIterator(const ImageIterator<TImage> & it);
-
-  /** Set the pixel value */
-  void
-  Set(const PixelType & value) const
-  {
-    this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Buffer + this->m_Offset)), value);
-  }
-
-  /** Return a reference to the pixel
-   * This method will provide the fastest access to pixel
-   * data, but it will NOT support ImageAdaptors. */
-  PixelType &
-  Value()
-  {
-    return *(const_cast<InternalPixelType *>(this->m_Buffer + this->m_Offset));
-  }
-
-protected:
-  /** the construction from a const iterator is declared protected
-      in order to enforce const correctness. */
-  /** @ITKStartGrouping */
-  ImageRegionIterator(const ImageRegionConstIterator<TImage> & it);
-  Self &
-  operator=(const ImageRegionConstIterator<TImage> & it);
-  /** @ITKEndGrouping */
+  using Superclass = ImageRegionIteratorBase<TImage, /*VIsConst=*/false>;
+  using Superclass::Superclass;
 };
 
-// Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageRegionIterator(SmartPointer<TImage>, const typename TImage::RegionType &) -> ImageRegionIterator<TImage>;
+ImageRegionIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRegionIterator<std::remove_const_t<TImage>>;
+
+template <typename TImage>
+ImageRegionIterator(TImage *, const typename TImage::RegionType &) -> ImageRegionIterator<TImage>;
+
+template <typename TImage>
+ImageRegionIterator(const TImage *, const typename TImage::RegionType &) -> ImageRegionIterator<TImage>;
 
 } // end namespace itk
 

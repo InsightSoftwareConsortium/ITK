@@ -19,7 +19,7 @@
 #define itkImageRegionConstIterator_h
 
 #include "itkImageIterator.h"
-#include <type_traits> // For remove_const_t.
+#include <type_traits> // For enable_if_t, remove_const_t.
 
 namespace itk
 {
@@ -106,13 +106,13 @@ namespace itk
  * \sphinxexample{Core/Common/IterateRegionWithoutWriteAccess,Iterate Region In Image Without Write Access}
  * \endsphinx
  */
-template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageRegionConstIterator : public ImageConstIterator<TImage>
+template <typename TImage, bool VIsConst>
+class ITK_TEMPLATE_EXPORT ImageRegionIteratorBase : public ImageIteratorBase<TImage, VIsConst>
 {
 public:
   /** Standard class type alias. */
-  using Self = ImageRegionConstIterator;
-  using Superclass = ImageConstIterator<TImage>;
+  using Self = ImageRegionIteratorBase;
+  using Superclass = ImageIteratorBase<TImage, VIsConst>;
 
   /** Dimension of the image that the iterator walks.  This constant is needed so
    * functions that are templated over image iterator type (as opposed to
@@ -131,6 +131,7 @@ public:
   using typename Superclass::OffsetType;
   using typename Superclass::RegionType;
   using typename Superclass::ImageType;
+  using typename Superclass::ImagePointer;
   using typename Superclass::PixelContainer;
   using typename Superclass::PixelContainerPointer;
   using typename Superclass::InternalPixelType;
@@ -138,17 +139,17 @@ public:
   using typename Superclass::AccessorType;
 
   /** \see LightObject::GetNameOfClass() */
-  itkOverrideGetNameOfClassMacro(ImageRegionConstIterator);
+  itkOverrideGetNameOfClassMacro(ImageRegionIteratorBase);
 
   /** Default constructor. */
-  ImageRegionConstIterator()
-    : ImageConstIterator<TImage>()
+  ImageRegionIteratorBase()
+    : Superclass()
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageRegionConstIterator(const TImage * ptr, const RegionType & region)
-    : ImageConstIterator<TImage>(ptr, region)
+  ImageRegionIteratorBase(ImagePointer ptr, const RegionType & region)
+    : Superclass(ptr, region)
     , m_SpanBeginOffset(this->m_BeginOffset)
     , m_SpanEndOffset(this->m_BeginOffset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))
   {}
@@ -159,9 +160,9 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionConstIterator. */
-  ImageRegionConstIterator(const ImageIterator<TImage> & it)
+  ImageRegionIteratorBase(const Superclass & it)
   {
-    this->ImageConstIterator<TImage>::operator=(it);
+    this->Superclass::operator=(it);
 
     IndexType ind = this->GetIndex();
     m_SpanEndOffset = this->m_Offset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]) -
@@ -169,21 +170,13 @@ public:
     m_SpanBeginOffset = m_SpanEndOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]);
   }
 
-  /** Constructor that can be used to cast from an ImageConstIterator to an
-   * ImageRegionConstIterator. Many routines return an ImageIterator, but for a
-   * particular task, you may want an ImageRegionConstIterator.  Rather than
-   * provide overloaded APIs that return different types of Iterators, itk
-   * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageRegionConstIterator. */
-  ImageRegionConstIterator(const ImageConstIterator<TImage> & it)
-  {
-    this->ImageConstIterator<TImage>::operator=(it);
-
-    IndexType ind = this->GetIndex();
-    m_SpanEndOffset = this->m_Offset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]) -
-                      (ind[0] - this->m_Region.GetIndex()[0]);
-    m_SpanBeginOffset = m_SpanEndOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]);
-  }
+  /** Converting constructor: non-const -> const. */
+  template <bool VOtherConst, typename = std::enable_if_t<VIsConst && !VOtherConst>>
+  ImageRegionIteratorBase(const ImageRegionIteratorBase<TImage, VOtherConst> & it)
+    : Superclass(static_cast<const ImageIteratorBase<TImage, VOtherConst> &>(it))
+    , m_SpanBeginOffset(it.m_SpanBeginOffset)
+    , m_SpanEndOffset(it.m_SpanEndOffset)
+  {}
 
   /** Move an iterator to the beginning of the region. "Begin" is
    * defined as the first pixel in the region. */
@@ -255,6 +248,9 @@ public:
     return *this;
   }
 
+  template <typename, bool>
+  friend class ImageRegionIteratorBase;
+
 protected:
   OffsetValueType m_SpanBeginOffset{}; // one pixel before the beginning of the span
                                        // (row)
@@ -268,10 +264,42 @@ private:
   Decrement(); // go back in a direction other than the fastest moving
 };
 
-// Deduction guide for class template argument deduction (CTAD).
+/** \class ImageRegionConstIterator
+ *  \brief Legacy class-template wrapper preserved for source compatibility.
+ *
+ *  Inherits from ImageRegionIteratorBase<TImage, true>; declared as a real
+ *  class template (not an alias template) so class-template argument
+ *  deduction works under C++17 at consumer call sites.
+ *
+ *  \ingroup ImageIterators
+ *  \ingroup ITKCommon */
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ImageRegionConstIterator : public ImageRegionIteratorBase<TImage, /*VIsConst=*/true>
+{
+public:
+  using Superclass = ImageRegionIteratorBase<TImage, /*VIsConst=*/true>;
+  using Superclass::Superclass;
+};
+
 template <typename TImage>
 ImageRegionConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
   -> ImageRegionConstIterator<std::remove_const_t<TImage>>;
+
+template <typename TImage>
+ImageRegionConstIterator(const TImage *, const typename TImage::RegionType &) -> ImageRegionConstIterator<TImage>;
+
+// Deduction guides for class template argument deduction (CTAD).
+template <typename TImage, bool VIsConst = std::is_const_v<TImage>>
+ImageRegionIteratorBase(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRegionIteratorBase<std::remove_const_t<TImage>, VIsConst>;
+
+template <typename TImage>
+ImageRegionIteratorBase(TImage *, const typename TImage::RegionType &)
+  -> ImageRegionIteratorBase<TImage, /*VIsConst=*/false>;
+
+template <typename TImage>
+ImageRegionIteratorBase(const TImage *, const typename TImage::RegionType &)
+  -> ImageRegionIteratorBase<TImage, /*VIsConst=*/true>;
 
 } // end namespace itk
 

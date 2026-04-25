@@ -18,32 +18,11 @@
 #ifndef itkImageScanlineIterator_hxx
 #define itkImageScanlineIterator_hxx
 
+// All ImageScanlineIterator functionality has been absorbed into
+// ImageScanlineIteratorBase<TImage, VIsConst> (see
+// itkImageScanlineConstIterator.h). This header is retained only for
+// backward compatibility with code that #includes it directly.
 
-namespace itk
-{
-template <typename TImage>
-ImageScanlineIterator<TImage>::ImageScanlineIterator(TImage * ptr, const RegionType & region)
-  : ImageScanlineConstIterator<TImage>(ptr, region)
-{}
-
-template <typename TImage>
-ImageScanlineIterator<TImage>::ImageScanlineIterator(const ImageIterator<TImage> & it)
-  : ImageScanlineConstIterator<TImage>(it)
-{}
-
-template <typename TImage>
-ImageScanlineIterator<TImage>::ImageScanlineIterator(const ImageScanlineConstIterator<TImage> & it)
-  : ImageScanlineConstIterator<TImage>(it)
-{}
-
-template <typename TImage>
-ImageScanlineIterator<TImage> &
-ImageScanlineIterator<TImage>::operator=(const ImageScanlineConstIterator<TImage> & it)
-{
-  this->ImageScanlineConstIterator<TImage>::operator=(it);
-  return *this;
-}
-
-} // end namespace itk
+#include "itkImageScanlineIterator.h"
 
 #endif

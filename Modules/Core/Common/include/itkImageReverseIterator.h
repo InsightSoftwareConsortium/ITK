@@ -62,74 +62,23 @@ namespace itk
  * \ingroup ITKCommon
  */
 template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageReverseIterator : public ImageRegionReverseConstIterator<TImage>
+class ITK_TEMPLATE_EXPORT ImageReverseIterator : public ImageRegionReverseIteratorBase<TImage, /*VIsConst=*/false>
 {
 public:
-  /** Standard class type aliases. */
-  using Self = ImageReverseIterator;
-  using Superclass = ImageRegionReverseConstIterator<TImage>;
-
-  /** Types inherited from the Superclass */
-  using typename Superclass::IndexType;
-  using typename Superclass::SizeType;
-  using typename Superclass::OffsetType;
-  using typename Superclass::RegionType;
-  using typename Superclass::ImageType;
-  using typename Superclass::PixelContainer;
-  using typename Superclass::PixelContainerPointer;
-  using typename Superclass::InternalPixelType;
-  using typename Superclass::PixelType;
-  using typename Superclass::AccessorType;
-
-  /** Default constructor. */
-  ImageReverseIterator() = default;
-
-  /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
-   * the iterator at the begin of the region. */
-  ImageReverseIterator(TImage * ptr, const RegionType & region);
-
-  /** Constructor that can be used to cast from an ImageIterator to an
-   * ImageReverseIterator. Many routines return an ImageIterator but for a
-   * particular task, you may want an ImageReverseIterator.  Rather than
-   * provide overloaded APIs that return different types of Iterators, itk
-   * returns ImageIterators and uses constructors to cast from an
-   * ImageIterator to a ImageReverseIterator. */
-  ImageReverseIterator(const ImageIteratorWithIndex<TImage> & it);
-
-  /** Set the pixel value */
-  void
-  Set(const PixelType & value) const
-  {
-    this->m_PixelAccessorFunctor.Set(*const_cast<InternalPixelType *>((this->m_Buffer + this->m_Offset)), value);
-  }
-
-  /** Return a reference to the pixel
-   * This method will provide the fastest access to pixel
-   * data, but it will NOT support ImageAdaptors. */
-  PixelType &
-  Value()
-  {
-    return *(this->m_Buffer + this->m_Offset);
-  }
-
-protected:
-  /** the construction from a const iterator is declared protected
-      in order to enforce const correctness. */
-  /** @ITKStartGrouping */
-  ImageReverseIterator(const ImageRegionReverseConstIterator<TImage> & it);
-  Self &
-  operator=(const ImageRegionReverseConstIterator<TImage> & it);
-  /** @ITKEndGrouping */
+  using Superclass = ImageRegionReverseIteratorBase<TImage, /*VIsConst=*/false>;
+  using Superclass::Superclass;
 };
 
-// Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
-ImageReverseIterator(SmartPointer<TImage>, const typename TImage::RegionType &) -> ImageReverseIterator<TImage>;
+ImageReverseIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageReverseIterator<std::remove_const_t<TImage>>;
+
+template <typename TImage>
+ImageReverseIterator(TImage *, const typename TImage::RegionType &) -> ImageReverseIterator<TImage>;
+
+template <typename TImage>
+ImageReverseIterator(const TImage *, const typename TImage::RegionType &) -> ImageReverseIterator<TImage>;
 
 } // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkImageReverseIterator.hxx"
-#endif
 
 #endif

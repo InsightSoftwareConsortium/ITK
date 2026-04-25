@@ -21,34 +21,33 @@
 #include "itkImage.h"
 #include "itkIndex.h"
 #include "itkNumericTraits.h"
-#include <type_traits> // For remove_const_t.
+#include "itkWeakPointer.h"
+#include <type_traits> // For conditional_t, enable_if_t, remove_const_t.
 
 namespace itk
 {
-/** \class ImageConstIterator
- * \brief A multi-dimensional image iterator templated over image type.
+// Forward declaration so that the ImageIteratorBase converting
+// constructor can refer to the non-const specialization.
+template <typename TImage, bool VIsConst>
+class ImageIteratorBase;
+
+/** \class ImageIteratorBase
+ * \brief Unified templated base for ImageIterator and ImageConstIterator.
  *
- * ImageConstIterator is a templated class to represent a multi-dimensional
- * iterator. ImageConstIterator is templated over the type of
- * the image to be iterated over.
+ * ImageIteratorBase collapses the legacy pair of classes
+ * ImageConstIterator<TImage> and ImageIterator<TImage> into a single class
+ * template parameterized on a compile-time `bool VIsConst` flag. Pointer-like
+ * members (m_Image, m_Buffer) flip their element-const qualifier via
+ * std::conditional_t so that the non-const specialization (VIsConst=false)
+ * no longer needs const_cast to implement Set() / non-const Value().
  *
- * ImageConstIterator is a base class for all the image iterators. It provides
- * the basic construction and comparison operations.  However, it does not
- * provide mechanisms for moving the iterator.  A subclass of ImageConstIterator
- * must be used to move the iterator.
+ * The legacy names `ImageConstIterator` and `ImageIterator` are preserved as
+ * alias templates (see the bottom of this header and itkImageIterator.h),
+ * so existing consumers compile unchanged.
  *
- * ImageConstIterator is a multi-dimensional iterator, requiring more information
- * be specified before the iterator can be used than conventional iterators.
- * Whereas the std::vector::iterator from the STL only needs to be passed
- * a pointer to establish the iterator, the multi-dimensional image iterator
- * needs a pointer, the size of the buffer, the size of the region, the
- * start index of the buffer, and the start index of the region. To gain
- * access to this information, ImageConstIterator holds a reference to the image
- * over which it is traversing.
- *
- * ImageConstIterator assumes a particular layout of the image data. In particular,
- * the data is arranged in a 1D array as if it were [][][][slice][row][col]
- * with Index[0] = col, Index[1] = row, Index[2] = slice, etc.
+ * Non-const -> const implicit conversion is provided via a converting
+ * constructor; the reverse is disabled by construction (no const_cast
+ * escape hatch at this layer).
  *
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please
@@ -57,44 +56,24 @@ namespace itk
  *
  * \ingroup ImageIterators
  *
- * \sa ImageConstIterator \sa ConditionalConstIterator
- * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
- * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator
- * \sa FloodFilledFunctionConditionalConstIterator
- * \sa FloodFilledImageFunctionConditionalConstIterator
- * \sa FloodFilledImageFunctionConditionalIterator
- * \sa FloodFilledSpatialFunctionConditionalConstIterator
- * \sa FloodFilledSpatialFunctionConditionalIterator
- * \sa ImageConstIterator \sa ImageConstIteratorWithIndex
- * \sa ImageIterator \sa ImageIteratorWithIndex
- * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex
- * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex
- * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex
- * \sa ImageRegionExclusionConstIteratorWithIndex
- * \sa ImageRegionExclusionIteratorWithIndex
- * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex
- * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator
- * \sa ImageReverseConstIterator  \sa ImageReverseIterator
- * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
- * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
- * \sa ShapedNeighborhoodIterator  \sa SliceIterator
+ * \sa ImageConstIterator \sa ImageIterator
  * \ingroup ITKCommon
  */
-template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageConstIterator
+template <typename TImage, bool VIsConst>
+class ITK_TEMPLATE_EXPORT ImageIteratorBase
 {
 public:
-  /** Standard class type aliases. */
-  using Self = ImageConstIterator;
+  /** Compile-time constness flag. */
+  static constexpr bool IsConst = VIsConst;
 
-  /** Dimension of the image the iterator walks.  This constant is needed so
-   * functions that are templated over image iterator type (as opposed to
-   * being templated over pixel type and dimension) can have compile time
-   * access to the dimension of the image that the iterator walks. */
+  /** Standard class type aliases. */
+  using Self = ImageIteratorBase;
+
+  /** Dimension of the image the iterator walks. */
   static constexpr unsigned int ImageIteratorDimension = TImage::ImageDimension;
 
   /** \see LightObject::GetNameOfClass() */
-  itkVirtualGetNameOfClassMacro(ImageConstIterator);
+  itkVirtualGetNameOfClassMacro(ImageIteratorBase);
 
   /** Index type alias support */
   using IndexType = typename TImage::IndexType;
@@ -111,9 +90,7 @@ public:
   /** Image type alias support */
   using ImageType = TImage;
 
-  /** PixelContainer type alias support. Used to refer to the container for
-   * the pixel data. While this was already typedef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly with gcc. */
+  /** PixelContainer type alias support. */
   using PixelContainer = typename TImage::PixelContainer;
   using PixelContainerPointer = typename PixelContainer::Pointer;
 
@@ -128,9 +105,22 @@ public:
   using AccessorType = typename TImage::AccessorType;
   using AccessorFunctorType = typename TImage::AccessorFunctorType;
 
-  /** Default Constructor. Need to provide a default constructor since we
-   * provide a copy constructor. */
-  ImageConstIterator()
+  /** Pointer-to-internal-pixel type that flips const based on VIsConst.
+   * The non-const specialization carries a mutable pointer; no const_cast
+   * is required to implement Set() / non-const Value(). */
+  using InternalPixelPointer = std::conditional_t<VIsConst, const InternalPixelType *, InternalPixelType *>;
+
+  /** Weak pointer to the image. The const specialization uses
+   * ConstWeakPointer (WeakPointer<const TImage>) while the non-const
+   * specialization uses WeakPointer<TImage> so that GetImage() can
+   * return a non-const pointer without any const_cast. */
+  using ImageWeakPointer = std::conditional_t<VIsConst, typename TImage::ConstWeakPointer, WeakPointer<TImage>>;
+
+  /** Raw image pointer type returned by GetImage(). */
+  using ImagePointer = std::conditional_t<VIsConst, const TImage *, TImage *>;
+
+  /** Default Constructor. */
+  ImageIteratorBase()
     : m_Image(nullptr)
     , m_Region()
     , m_Buffer(nullptr)
@@ -141,11 +131,10 @@ public:
   }
 
   /** Default Destructor. */
-  virtual ~ImageConstIterator() = default;
+  virtual ~ImageIteratorBase() = default;
 
-  /** Copy Constructor. The copy constructor is provided to make sure the
-   * handle to the image is properly reference counted. */
-  ImageConstIterator(const Self & it)
+  /** Copy Constructor. */
+  ImageIteratorBase(const Self & it)
     : m_Image(it.m_Image)
     , m_Region(it.m_Region)
     , m_Offset(it.m_Offset)
@@ -155,23 +144,36 @@ public:
     , m_PixelAccessor(it.m_PixelAccessor)
     , m_PixelAccessorFunctor(it.m_PixelAccessorFunctor)
   {
-    // copy the smart pointer
+    m_PixelAccessorFunctor.SetBegin(m_Buffer);
+  }
 
-
+  /** Converting constructor: non-const -> const.
+   * Only enabled when VIsConst==true and the source is the non-const
+   * sibling specialization. The reverse (const -> non-const) is not
+   * provided, so it is a compile error by construction. */
+  template <bool VOtherConst, typename = std::enable_if_t<VIsConst && !VOtherConst>>
+  ImageIteratorBase(const ImageIteratorBase<TImage, VOtherConst> & it)
+    : m_Image(it.m_Image)
+    , m_Region(it.m_Region)
+    , m_Offset(it.m_Offset)
+    , m_BeginOffset(it.m_BeginOffset)
+    , m_EndOffset(it.m_EndOffset)
+    , m_Buffer(it.m_Buffer)
+    , m_PixelAccessor(it.m_PixelAccessor)
+    , m_PixelAccessorFunctor(it.m_PixelAccessorFunctor)
+  {
     m_PixelAccessorFunctor.SetBegin(m_Buffer);
   }
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
-   * the iterator at the begin of the region. */
-  ImageConstIterator(const TImage * ptr, const RegionType & region)
+   * the iterator at the begin of the region. The pointer parameter flips
+   * const based on VIsConst. */
+  ImageIteratorBase(ImagePointer ptr, const RegionType & region)
     : m_Image(ptr)
-    , m_Buffer(m_Image->GetBufferPointer())
+    , m_Buffer(ptr->GetBufferPointer())
     , m_PixelAccessor(ptr->GetPixelAccessor())
   {
-
-
     SetRegion(region);
-
 
     m_PixelAccessorFunctor.SetPixelAccessor(m_PixelAccessor);
     m_PixelAccessorFunctor.SetBegin(m_Buffer);
@@ -215,15 +217,11 @@ public:
     m_Offset = m_Image->ComputeOffset(m_Region.GetIndex());
     m_BeginOffset = m_Offset;
 
-    // Compute the end offset. If any component of m_Region.GetSize()
-    // is zero, the region is not valid and we set the EndOffset
-    // to be same as BeginOffset so that iterator end condition is met
-    // immediately.
+    // Compute the end offset.
     IndexType ind(m_Region.GetIndex());
     SizeType  size(m_Region.GetSize());
     if (m_Region.GetNumberOfPixels() == 0)
     {
-      // region is empty, probably has a size of 0 along one dimension
       m_EndOffset = m_BeginOffset;
     }
     else
@@ -244,59 +242,40 @@ public:
     return TImage::ImageDimension;
   }
 
-  /** Comparison operator. Two iterators are the same if they "point to" the
-   * same memory location */
+  /** Comparison operators. */
   bool
   operator==(const Self & it) const
   {
-    // two iterators are the same if they "point to" the same memory location
     return (m_Buffer + m_Offset) == (it.m_Buffer + it.m_Offset);
   }
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
-  /** Comparison operator. An iterator is "less than" another if it "points to"
-   * a lower memory location. */
   bool
   operator<=(const Self & it) const
   {
-    // an iterator is "less than" another if it "points to" a lower
-    // memory location
     return (m_Buffer + m_Offset) <= (it.m_Buffer + it.m_Offset);
   }
 
-  /** Comparison operator. An iterator is "less than" another if it "points to"
-   * a lower memory location. */
   bool
   operator<(const Self & it) const
   {
-    // an iterator is "less than" another if it "points to" a lower
-    // memory location
     return (m_Buffer + m_Offset) < (it.m_Buffer + it.m_Offset);
   }
 
-  /** Comparison operator. An iterator is "greater than" another if it
-   * "points to" a higher location. */
   bool
   operator>=(const Self & it) const
   {
-    // an iterator is "greater than" another if it "points to" a higher
-    // memory location
     return (m_Buffer + m_Offset) >= (it.m_Buffer + it.m_Offset);
   }
 
-  /** Comparison operator. An iterator is "greater than" another if it
-   * "points to" a higher location. */
   bool
   operator>(const Self & it) const
   {
-    // an iterator is "greater than" another if it "points to" a higher
-    // memory location
     return (m_Buffer + m_Offset) > (it.m_Buffer + it.m_Offset);
   }
 
-  /** Computes the index. Internally calls ImageBase::ComputeIndex, which may be a relatively expensive operation.
-   * \sa SetIndex */
+  /** Computes the index. Internally calls ImageBase::ComputeIndex. */
   [[nodiscard]] IndexType
   ComputeIndex() const
   {
@@ -304,8 +283,7 @@ public:
   }
 
 #ifndef ITK_FUTURE_LEGACY_REMOVE
-  /** Computes and returns the index. This may be a relatively expensive operation.
-   * \deprecated Please use `ComputeIndex()` instead, or use an iterator with index, like `ImageIteratorWithIndex`! */
+  /** Computes and returns the index. Deprecated. */
   ITK_FUTURE_DEPRECATED(
     "Please use `ComputeIndex()` instead, or use an iterator with index, like `ImageIteratorWithIndex`!")
   [[nodiscard]] IndexType
@@ -315,79 +293,99 @@ public:
   }
 #endif
 
-  /** Set the index. No bounds checking is performed.
-   * \sa GetIndex */
+  /** Set the index. No bounds checking is performed. */
   virtual void
   SetIndex(const IndexType & ind)
   {
     m_Offset = m_Image->ComputeOffset(ind);
   }
 
-  /** Get the region that this iterator walks. ImageConstIterators know the
-   * beginning and the end of the region of the image to iterate over. */
+  /** Get the region that this iterator walks. */
   [[nodiscard]] const RegionType &
   GetRegion() const
   {
     return m_Region;
   }
 
-  /** Get the image that this iterator walks. */
-  [[nodiscard]] const ImageType *
+  /** Get the image that this iterator walks.
+   * Always callable; returns a pointer-to-const for the const
+   * specialization and a non-const pointer for the mutating
+   * specialization. */
+  [[nodiscard]] ImagePointer
   GetImage() const
   {
     return m_Image.GetPointer();
   }
 
-  /** Get the pixel value */
+  /** Get the pixel value. */
   [[nodiscard]] PixelType
   Get() const
   {
     return m_PixelAccessorFunctor.Get(*(m_Buffer + m_Offset));
   }
 
-  /** Return a const reference to the pixel
-   * This method will provide the fastest access to pixel
-   * data, but it will NOT support ImageAdaptors. */
+  /** Return a const reference to the pixel. Available in both
+   * specializations. */
   [[nodiscard]] const PixelType &
   Value() const
   {
     return *(m_Buffer + m_Offset);
   }
 
-  /** Move an iterator to the beginning of the region. "Begin" is
-   * defined as the first pixel in the region. */
+  /** Return a mutable reference to the pixel. SFINAE-gated on
+   * !VIsConst. No const_cast is needed because m_Buffer itself
+   * is a non-const pointer in the non-const specialization. */
+  template <bool VCopy = VIsConst, std::enable_if_t<!VCopy, int> = 0>
+  PixelType &
+  Value()
+  {
+    return *(m_Buffer + m_Offset);
+  }
+
+  /** Set the pixel value. SFINAE-gated on !VIsConst. */
+  template <bool VCopy = VIsConst, std::enable_if_t<!VCopy, int> = 0>
+  void
+  Set(const PixelType & value) const
+  {
+    this->m_PixelAccessorFunctor.Set(*(m_Buffer + m_Offset), value);
+  }
+
+  /** Move an iterator to the beginning of the region. */
   void
   GoToBegin()
   {
     m_Offset = m_BeginOffset;
   }
 
-  /** Move an iterator to the end of the region. "End" is defined as
-   * one pixel past the last pixel of the region. */
+  /** Move an iterator to the end of the region. */
   void
   GoToEnd()
   {
     m_Offset = m_EndOffset;
   }
 
-  /** Is the iterator at the beginning of the region? "Begin" is defined
-   * as the first pixel in the region. */
+  /** Is the iterator at the beginning of the region? */
   [[nodiscard]] bool
   IsAtBegin() const
   {
     return m_Offset == m_BeginOffset;
   }
 
-  /** Is the iterator at the end of the region? "End" is defined as one
-   * pixel past the last pixel of the region. */
+  /** Is the iterator at the end of the region? */
   [[nodiscard]] bool
   IsAtEnd() const
   {
     return m_Offset == m_EndOffset;
   }
 
+  // Grant the sibling specialization access to private/protected members
+  // so the non-const -> const converting constructor can initialize from
+  // the non-const source.
+  template <typename, bool>
+  friend class ImageIteratorBase;
+
 protected: // made protected so other iterators can access
-  typename TImage::ConstWeakPointer m_Image{};
+  ImageWeakPointer m_Image{};
 
   RegionType m_Region{}; // region to iterate over
 
@@ -395,16 +393,54 @@ protected: // made protected so other iterators can access
   OffsetValueType m_BeginOffset{}; // offset to first pixel in region
   OffsetValueType m_EndOffset{};   // offset to one pixel past last pixel in region
 
-  const InternalPixelType * m_Buffer{};
+  InternalPixelPointer m_Buffer{};
 
   AccessorType        m_PixelAccessor{};
   AccessorFunctorType m_PixelAccessorFunctor{};
 };
 
-// Deduction guide for class template argument deduction (CTAD).
+/** \class ImageConstIterator
+ * \brief A multi-dimensional image iterator templated over image type.
+ *
+ * ImageConstIterator is preserved as an alias template over
+ * ImageIteratorBase<TImage, /\*VIsConst=*\/true> so existing consumers
+ * compile unchanged.
+ *
+ * \ingroup ImageIterators
+ * \ingroup ITKCommon
+ */
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ImageConstIterator : public ImageIteratorBase<TImage, /*VIsConst=*/true>
+{
+public:
+  using Superclass = ImageIteratorBase<TImage, /*VIsConst=*/true>;
+  using Superclass::Superclass;
+};
+
 template <typename TImage>
 ImageConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
   -> ImageConstIterator<std::remove_const_t<TImage>>;
+
+template <typename TImage>
+ImageConstIterator(TImage *, const typename TImage::RegionType &) -> ImageConstIterator<TImage>;
+
+template <typename TImage>
+ImageConstIterator(const TImage *, const typename TImage::RegionType &) -> ImageConstIterator<TImage>;
+
+// Deduction guide for class template argument deduction (CTAD).
+// When the user writes `ImageConstIterator(ptr, region)` or
+// `ImageIterator(ptr, region)`, alias-template CTAD (P1814,
+// supported by Clang as a C++17 extension) synthesizes a guide for
+// each alias by adapting this class-template guide; adaptations
+// whose returned target does not match the alias's VIsConst pin
+// are silently discarded. Because `std::is_const_v<TImage>` in the
+// returned type is a *dependent* expression (not a fixed bool), the
+// synthesis step leaves it as deducible and both alias specializations
+// can adapt it successfully (ImageConstIterator pins true,
+// ImageIterator pins false).
+template <typename TImage, bool VIsConst = std::is_const_v<TImage>>
+ImageIteratorBase(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageIteratorBase<std::remove_const_t<TImage>, VIsConst>;
 
 } // end namespace itk
 

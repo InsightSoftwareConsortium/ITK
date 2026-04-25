@@ -18,31 +18,11 @@
 #ifndef itkImageReverseIterator_hxx
 #define itkImageReverseIterator_hxx
 
+// All ImageReverseIterator functionality has been absorbed into
+// ImageRegionReverseIteratorBase<TImage, VIsConst> (see
+// itkImageRegionReverseConstIterator.h). This header is retained only
+// for backward compatibility with code that #includes it directly.
 
-namespace itk
-{
-template <typename TImage>
-ImageReverseIterator<TImage>::ImageReverseIterator(TImage * ptr, const RegionType & region)
-  : ImageRegionReverseConstIterator<TImage>(ptr, region)
-{}
-
-template <typename TImage>
-ImageReverseIterator<TImage>::ImageReverseIterator(const ImageIteratorWithIndex<TImage> & it)
-  : ImageRegionReverseConstIterator<TImage>(it)
-{}
-
-template <typename TImage>
-ImageReverseIterator<TImage>::ImageReverseIterator(const ImageRegionReverseConstIterator<TImage> & it)
-  : ImageRegionReverseConstIterator<TImage>(it)
-{}
-
-template <typename TImage>
-ImageReverseIterator<TImage> &
-ImageReverseIterator<TImage>::operator=(const ImageRegionReverseConstIterator<TImage> & it)
-{
-  this->ImageRegionReverseConstIterator<TImage>::operator=(it);
-  return *this;
-}
-} // end namespace itk
+#include "itkImageReverseIterator.h"
 
 #endif

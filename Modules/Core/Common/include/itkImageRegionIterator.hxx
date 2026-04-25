@@ -19,31 +19,10 @@
 #define itkImageRegionIterator_hxx
 
 
-namespace itk
-{
-template <typename TImage>
-ImageRegionIterator<TImage>::ImageRegionIterator(TImage * ptr, const RegionType & region)
-  : ImageRegionConstIterator<TImage>(ptr, region)
-{}
-
-template <typename TImage>
-ImageRegionIterator<TImage>::ImageRegionIterator(const ImageIterator<TImage> & it)
-  : ImageRegionConstIterator<TImage>(it)
-{}
-
-template <typename TImage>
-ImageRegionIterator<TImage>::ImageRegionIterator(const ImageRegionConstIterator<TImage> & it)
-  : ImageRegionConstIterator<TImage>(it)
-{}
-
-template <typename TImage>
-ImageRegionIterator<TImage> &
-ImageRegionIterator<TImage>::operator=(const ImageRegionConstIterator<TImage> & it)
-{
-  this->ImageRegionConstIterator<TImage>::operator=(it);
-  return *this;
-}
-
-} // end namespace itk
+// All ImageRegionIterator behavior is provided by the ImageRegionIteratorBase
+// class template instantiated through the ImageRegionIterator alias declared in
+// itkImageRegionIterator.h. This translation-unit-stub remains so that
+// downstream code that still includes "itkImageRegionIterator.hxx" directly
+// continues to compile.
 
 #endif

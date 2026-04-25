@@ -25,9 +25,9 @@ namespace itk
 //----------------------------------------------------------------------------
 // Increment when the fastest moving direction has reached its bound.
 // This method should *ONLY* be invoked from the operator++() method.
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageRegionConstIterator<TImage>::Increment()
+ImageRegionIteratorBase<TImage, VIsConst>::Increment()
 {
   // We have reached the end of the span (row), need to wrap around.
 
@@ -36,11 +36,10 @@ ImageRegionConstIterator<TImage>::Increment()
   --this->m_Offset;
 
   // Get the index of the last pixel on the span (row)
-  typename ImageIterator<TImage>::IndexType ind =
-    this->m_Image->ComputeIndex(static_cast<OffsetValueType>(this->m_Offset));
+  typename Superclass::IndexType ind = this->m_Image->ComputeIndex(static_cast<OffsetValueType>(this->m_Offset));
 
-  const typename ImageIterator<TImage>::IndexType & startIndex = this->m_Region.GetIndex();
-  const typename ImageIterator<TImage>::SizeType &  size = this->m_Region.GetSize();
+  const typename Superclass::IndexType & startIndex = this->m_Region.GetIndex();
+  const typename Superclass::SizeType &  size = this->m_Region.GetSize();
 
   // Increment along a row, then wrap at the end of the region row.
 
@@ -72,9 +71,9 @@ ImageRegionConstIterator<TImage>::Increment()
 //----------------------------------------------------------------------------
 // Decrement when the fastest moving direction has reached its bound.
 // This method should *ONLY* be invoked from the operator--() method.
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageRegionConstIterator<TImage>::Decrement()
+ImageRegionIteratorBase<TImage, VIsConst>::Decrement()
 {
   // We have pasted the beginning of the span (row), need to wrap around.
 
@@ -83,11 +82,10 @@ ImageRegionConstIterator<TImage>::Decrement()
   this->m_Offset++;
 
   // Get the index of the first pixel on the span (row)
-  typename ImageIterator<TImage>::IndexType ind =
-    this->m_Image->ComputeIndex(static_cast<IndexValueType>(this->m_Offset));
+  typename Superclass::IndexType ind = this->m_Image->ComputeIndex(static_cast<IndexValueType>(this->m_Offset));
 
-  const typename ImageIterator<TImage>::IndexType & startIndex = this->m_Region.GetIndex();
-  const typename ImageIterator<TImage>::SizeType &  size = this->m_Region.GetSize();
+  const typename Superclass::IndexType & startIndex = this->m_Region.GetIndex();
+  const typename Superclass::SizeType &  size = this->m_Region.GetSize();
 
   // Decrement along a row, then wrap at the beginning of the region row.
 

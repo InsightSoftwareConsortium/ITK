@@ -18,37 +18,11 @@
 #ifndef itkImageIterator_hxx
 #define itkImageIterator_hxx
 
-
-namespace itk
-{
-
-//----------------------------------------------------------------------
-//  Constructor
-//----------------------------------------------------------------------
-template <typename TImage>
-ImageIterator<TImage>::ImageIterator(TImage * ptr, const RegionType & region)
-  : ImageConstIterator<TImage>(ptr, region)
-{}
-
-//----------------------------------------------------------------------
-//  Constructor
-//----------------------------------------------------------------------
-template <typename TImage>
-ImageIterator<TImage>::ImageIterator(const ImageConstIterator<TImage> & it)
-  : ImageConstIterator<TImage>(it)
-{}
-
-//----------------------------------------------------------------------
-//    Assignment Operator
-//----------------------------------------------------------------------
-template <typename TImage>
-ImageIterator<TImage> &
-ImageIterator<TImage>::operator=(const ImageConstIterator<TImage> & it)
-{
-  this->ImageConstIterator<TImage>::operator=(it);
-  return *this;
-}
-
-} // end namespace itk
+// ImageIterator and ImageConstIterator are now alias templates over
+// itk::ImageIteratorBase<TImage, VIsConst> defined entirely in
+// itkImageConstIterator.h. No out-of-line definitions are required.
+// This header is retained as an empty stub so that any
+// ITK_MANUAL_INSTANTIATION configurations and downstream code
+// that #includes this .hxx continue to compile.
 
 #endif

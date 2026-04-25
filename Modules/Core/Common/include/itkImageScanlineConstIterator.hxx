@@ -22,9 +22,9 @@
 namespace itk
 {
 
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageScanlineConstIterator<TImage>::NextLine()
+ImageScanlineIteratorBase<TImage, VIsConst>::NextLine()
 {
   // increment to the next scanline
 

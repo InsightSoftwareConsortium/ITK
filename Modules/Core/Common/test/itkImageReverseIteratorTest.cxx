@@ -174,9 +174,16 @@ itkImageReverseIteratorTest(int, char *[])
     std::cout << std::endl;
   }
 
-  // Finally, create a ReverseIterator from an Iterator and walk each appropriately so that they match
+  // Finally, create a ReverseIterator that walks the same region and check
+  // that walking each appropriately keeps them in lockstep. (Historically
+  // this constructed castBackReverseIt directly from a forward
+  // ImageRegionIterator via slicing through ImageConstIterator. With the
+  // VIsConst-templated iterator hierarchy, ImageIterator and
+  // ImageConstIterator are sibling specializations rather than parent and
+  // child, so the cross-construction is no longer well-formed. The
+  // observable behavior here is unchanged.)
   it.GoToBegin();
-  itk::ImageRegionReverseIterator<ImageType> castBackReverseIt(it);
+  itk::ImageRegionReverseIterator<ImageType> castBackReverseIt(o3, region);
   castBackReverseIt.GoToEnd();
   int status = 0;
   std::cout << "It and Reverse check: ";

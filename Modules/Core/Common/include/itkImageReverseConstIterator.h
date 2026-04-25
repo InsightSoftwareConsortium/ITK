@@ -20,8 +20,9 @@
 
 #include "itkSize.h"
 #include "itkImageConstIterator.h"
+#include "itkWeakPointer.h"
 #include <memory>
-#include <type_traits> // For remove_const_t.
+#include <type_traits> // For conditional_t, enable_if_t, remove_const_t.
 
 namespace itk
 {
@@ -84,12 +85,12 @@ namespace itk
  * \sa ImageConstIteratorWithIndex
  * \ingroup ITKCommon
  */
-template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageReverseConstIterator
+template <typename TImage, bool VIsConst>
+class ITK_TEMPLATE_EXPORT ImageReverseIteratorBase
 {
 public:
   /** Standard class type aliases. */
-  using Self = ImageReverseConstIterator;
+  using Self = ImageReverseIteratorBase;
 
   /** Dimension of the image the iterator walks.  This constant is needed so
    * functions that are templated over image iterator type (as opposed to
@@ -98,7 +99,7 @@ public:
   static constexpr unsigned int ImageIteratorDimension = TImage::ImageDimension;
 
   /** \see LightObject::GetNameOfClass() */
-  itkVirtualGetNameOfClassMacro(ImageReverseConstIterator);
+  itkVirtualGetNameOfClassMacro(ImageReverseIteratorBase);
 
   /** Index type alias support */
   using IndexType = typename TImage::IndexType;
@@ -134,10 +135,14 @@ public:
   /** Functor to choose the appropriate accessor. (for Image vs VectorImage) */
   using AccessorFunctorType = typename TImage::AccessorFunctorType;
 
+  using InternalPixelPointer = std::conditional_t<VIsConst, const InternalPixelType *, InternalPixelType *>;
+  using ImageWeakPointer = std::conditional_t<VIsConst, typename TImage::ConstWeakPointer, WeakPointer<TImage>>;
+  using ImagePointer = std::conditional_t<VIsConst, const TImage *, TImage *>;
+
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */
-  ImageReverseConstIterator()
-    : m_Buffer(0)
+  ImageReverseIteratorBase()
+    : m_Buffer(nullptr)
     , m_PixelAccessor()
     , m_PixelAccessorFunctor()
   {
@@ -145,11 +150,11 @@ public:
   }
 
   /** Default Destructor. */
-  virtual ~ImageReverseConstIterator() = default;
+  virtual ~ImageReverseIteratorBase() = default;
 
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
-  ImageReverseConstIterator(const Self & it)
+  ImageReverseIteratorBase(const Self & it)
     : m_Image(it.m_Image)
     , m_Region(it.m_Region)
     , m_Offset(it.m_Offset)
@@ -165,9 +170,24 @@ public:
     m_PixelAccessorFunctor.SetBegin(m_Buffer);
   }
 
+  /** Converting constructor: non-const -> const, disabled the other way. */
+  template <bool VOtherConst, typename = std::enable_if_t<VIsConst && !VOtherConst>>
+  ImageReverseIteratorBase(const ImageReverseIteratorBase<TImage, VOtherConst> & it)
+    : m_Image(it.m_Image)
+    , m_Region(it.m_Region)
+    , m_Offset(it.m_Offset)
+    , m_BeginOffset(it.m_BeginOffset)
+    , m_EndOffset(it.m_EndOffset)
+    , m_Buffer(it.m_Buffer)
+    , m_PixelAccessor(it.m_PixelAccessor)
+    , m_PixelAccessorFunctor(it.m_PixelAccessorFunctor)
+  {
+    m_PixelAccessorFunctor.SetBegin(m_Buffer);
+  }
+
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageReverseConstIterator(const TImage * ptr, const RegionType & region)
+  ImageReverseIteratorBase(ImagePointer ptr, const RegionType & region)
     : m_Image(ptr)
     , m_Region(region)
     , m_Buffer(m_Image->GetBufferPointer())
@@ -200,7 +220,7 @@ public:
    * that return different types of Iterators, itk returns
    * ImageConstIterators and uses constructors to cast from an
    * ImageConstIterator to a ImageRegionReverseIterator. */
-  ImageReverseConstIterator(const ImageConstIterator<TImage> & it)
+  ImageReverseIteratorBase(const ImageIteratorBase<TImage, VIsConst> & it)
     : m_Image(it.GetImage())
     , m_Region(it.GetRegion())
     , m_EndOffset(m_Image->ComputeOffset(m_Region.GetIndex()) - 1)
@@ -253,7 +273,7 @@ public:
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
   Self &
-  operator=(const ImageConstIterator<TImage> & it)
+  operator=(const ImageIteratorBase<TImage, VIsConst> & it)
   {
     m_Image = it.GetImage();
     m_Region = it.GetRegion();
@@ -280,6 +300,9 @@ public:
     m_PixelAccessorFunctor.SetBegin(m_Buffer);
     return *this;
   }
+
+  template <typename, bool>
+  friend class ImageReverseIteratorBase;
 
   /** Get the dimension (size) of the index. */
   static unsigned int
@@ -333,13 +356,6 @@ public:
     return m_PixelAccessorFunctor.Get(*(m_Buffer + m_Offset));
   }
 
-  /** Set the pixel value */
-  void
-  Set(const PixelType & value) const
-  {
-    this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Buffer + this->m_Offset)), value);
-  }
-
   /** Return a const reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
@@ -349,13 +365,20 @@ public:
     return *(m_Buffer + m_Offset);
   }
 
-  /** Return a reference to the pixel
-   * This method will provide the fastest access to pixel
-   * data, but it will NOT support ImageAdaptors. */
-  const PixelType &
+  /** Return a mutable reference to the pixel. SFINAE-gated on !VIsConst. */
+  template <bool VCopy = VIsConst, std::enable_if_t<!VCopy, int> = 0>
+  PixelType &
   Value()
   {
     return *(m_Buffer + m_Offset);
+  }
+
+  /** Set the pixel value. SFINAE-gated on !VIsConst. */
+  template <bool VCopy = VIsConst, std::enable_if_t<!VCopy, int> = 0>
+  void
+  Set(const PixelType & value) const
+  {
+    this->m_PixelAccessorFunctor.Set(*(m_Buffer + m_Offset), value);
   }
 
   /** Move an iterator to the beginning of the region. "Begin" for a reverse
@@ -391,7 +414,7 @@ public:
   }
 
 protected: // made protected so other iterators can access
-  typename ImageType::ConstWeakPointer m_Image{};
+  ImageWeakPointer m_Image{};
 
   RegionType m_Region{}; // region to iterate over
 
@@ -399,16 +422,42 @@ protected: // made protected so other iterators can access
   SizeValueType m_BeginOffset{}; // offset to last pixel in region
   SizeValueType m_EndOffset{};   // offset to one pixel before first pixel
 
-  const InternalPixelType * m_Buffer{};
+  InternalPixelPointer m_Buffer{};
 
   AccessorType        m_PixelAccessor{};
   AccessorFunctorType m_PixelAccessorFunctor{};
 };
 
-// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ImageReverseConstIterator : public ImageReverseIteratorBase<TImage, /*VIsConst=*/true>
+{
+public:
+  using Superclass = ImageReverseIteratorBase<TImage, /*VIsConst=*/true>;
+  using Superclass::Superclass;
+};
+
 template <typename TImage>
 ImageReverseConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
   -> ImageReverseConstIterator<std::remove_const_t<TImage>>;
+
+template <typename TImage>
+ImageReverseConstIterator(TImage *, const typename TImage::RegionType &) -> ImageReverseConstIterator<TImage>;
+
+template <typename TImage>
+ImageReverseConstIterator(const TImage *, const typename TImage::RegionType &) -> ImageReverseConstIterator<TImage>;
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage, bool VIsConst = std::is_const_v<TImage>>
+ImageReverseIteratorBase(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageReverseIteratorBase<std::remove_const_t<TImage>, VIsConst>;
+
+template <typename TImage>
+ImageReverseIteratorBase(TImage *, const typename TImage::RegionType &)
+  -> ImageReverseIteratorBase<TImage, /*VIsConst=*/false>;
+
+template <typename TImage>
+ImageReverseIteratorBase(const TImage *, const typename TImage::RegionType &)
+  -> ImageReverseIteratorBase<TImage, /*VIsConst=*/true>;
 
 } // end namespace itk
 

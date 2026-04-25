@@ -20,7 +20,7 @@
 
 #include "itkImageReverseConstIterator.h"
 #include "itkImageRegionIterator.h"
-#include <type_traits> // For remove_const_t.
+#include <type_traits> // For enable_if_t, remove_const_t.
 
 namespace itk
 {
@@ -100,13 +100,13 @@ namespace itk
  * \sa ImageConstIteratorWithIndex
  * \ingroup ITKCommon
  */
-template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageRegionReverseConstIterator : public ImageReverseConstIterator<TImage>
+template <typename TImage, bool VIsConst>
+class ITK_TEMPLATE_EXPORT ImageRegionReverseIteratorBase : public ImageReverseIteratorBase<TImage, VIsConst>
 {
 public:
   /** Standard class type aliases. */
-  using Self = ImageRegionReverseConstIterator;
-  using Superclass = ImageReverseConstIterator<TImage>;
+  using Self = ImageRegionReverseIteratorBase;
+  using Superclass = ImageReverseIteratorBase<TImage, VIsConst>;
 
   /** Index type alias support While this was already typedef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
@@ -143,17 +143,19 @@ public:
    *  representations. */
   using typename Superclass::AccessorType;
 
+  using typename Superclass::ImagePointer;
+
   /** \see LightObject::GetNameOfClass() */
-  itkOverrideGetNameOfClassMacro(ImageRegionReverseConstIterator);
+  itkOverrideGetNameOfClassMacro(ImageRegionReverseIteratorBase);
 
   /** Default constructor. */
-  ImageRegionReverseConstIterator()
+  ImageRegionReverseIteratorBase()
     : Superclass()
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageRegionReverseConstIterator(const TImage * ptr, const RegionType & region)
+  ImageRegionReverseIteratorBase(ImagePointer ptr, const RegionType & region)
     : Superclass(ptr, region)
     , m_SpanBeginOffset(this->m_BeginOffset)
     , m_SpanEndOffset(this->m_BeginOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))
@@ -166,7 +168,7 @@ public:
    * that return different types of Iterators, itk returns
    * ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionReverseConstIterator. */
-  ImageRegionReverseConstIterator(const ImageConstIterator<TImage> & it)
+  ImageRegionReverseIteratorBase(const ImageIteratorBase<TImage, VIsConst> & it)
     : Superclass(it)
     , m_SpanEndOffset(m_SpanBeginOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))
   {
@@ -178,7 +180,7 @@ public:
 
   /** Constructor that takes in a reverse image iterator.  This can be used
    * to cast between the various types of reverse image iterators. */
-  ImageRegionReverseConstIterator(const ImageReverseConstIterator<TImage> & it)
+  ImageRegionReverseIteratorBase(const Superclass & it)
     : Superclass(it)
     , m_SpanEndOffset(m_SpanBeginOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))
   {
@@ -188,17 +190,16 @@ public:
                         (ind[0] - this->m_Region.GetIndex()[0]);
   }
 
-  /** Constructor that takes in an image region iterator.  This can be used
-   * to cast between the various types of reverse image iterators. */
-  ImageRegionReverseConstIterator(const ImageRegionIterator<TImage> & it)
-    : Superclass(it)
-    , m_SpanEndOffset(m_SpanBeginOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))
-  {
-    IndexType ind = this->GetIndex();
+  /** Converting constructor: non-const -> const. */
+  template <bool VOtherConst, typename = std::enable_if_t<VIsConst && !VOtherConst>>
+  ImageRegionReverseIteratorBase(const ImageRegionReverseIteratorBase<TImage, VOtherConst> & it)
+    : Superclass(static_cast<const ImageReverseIteratorBase<TImage, VOtherConst> &>(it))
+    , m_SpanBeginOffset(it.m_SpanBeginOffset)
+    , m_SpanEndOffset(it.m_SpanEndOffset)
+  {}
 
-    m_SpanBeginOffset = this->m_Offset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]) -
-                        (ind[0] - this->m_Region.GetIndex()[0]);
-  }
+  template <typename, bool>
+  friend class ImageRegionReverseIteratorBase;
 
   /** Move an iterator to the beginning of the region. "Begin" for a reverse
    * iterator is the last pixel in the region. */
@@ -256,11 +257,10 @@ public:
       this->m_Offset++;
 
       // Get the index of the first pixel on the span (row)
-      typename ImageConstIterator<TImage>::IndexType ind =
-        this->m_Image->ComputeIndex(static_cast<OffsetValueType>(this->m_Offset));
+      IndexType ind = this->m_Image->ComputeIndex(static_cast<OffsetValueType>(this->m_Offset));
 
-      const typename ImageConstIterator<TImage>::IndexType & startIndex = this->m_Region.GetIndex();
-      const typename ImageConstIterator<TImage>::SizeType &  size = this->m_Region.GetSize();
+      const IndexType & startIndex = this->m_Region.GetIndex();
+      const SizeType &  size = this->m_Region.GetSize();
 
       // Decrement along a row, then wrap at the beginning of the region row.
 
@@ -310,11 +310,10 @@ public:
       --this->m_Offset;
 
       // Get the index of the last pixel on the span (row)
-      typename ImageConstIterator<TImage>::IndexType ind =
-        this->m_Image->ComputeIndex(static_cast<OffsetValueType>(this->m_Offset));
+      IndexType ind = this->m_Image->ComputeIndex(static_cast<OffsetValueType>(this->m_Offset));
 
-      const typename ImageIterator<TImage>::IndexType & startIndex = this->m_Region.GetIndex();
-      const typename ImageIterator<TImage>::SizeType &  size = this->m_Region.GetSize();
+      const IndexType & startIndex = this->m_Region.GetIndex();
+      const SizeType &  size = this->m_Region.GetSize();
 
       // Increment along a row, then wrap at the end of the region row.
       // Check to see if we are past the last pixel in the region
@@ -349,10 +348,39 @@ protected:
   SizeValueType m_SpanEndOffset{};   // offset to one pixel before the row
 };
 
-// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ImageRegionReverseConstIterator
+  : public ImageRegionReverseIteratorBase<TImage, /*VIsConst=*/true>
+{
+public:
+  using Superclass = ImageRegionReverseIteratorBase<TImage, /*VIsConst=*/true>;
+  using Superclass::Superclass;
+};
+
 template <typename TImage>
 ImageRegionReverseConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
   -> ImageRegionReverseConstIterator<std::remove_const_t<TImage>>;
+
+template <typename TImage>
+ImageRegionReverseConstIterator(TImage *, const typename TImage::RegionType &)
+  -> ImageRegionReverseConstIterator<TImage>;
+
+template <typename TImage>
+ImageRegionReverseConstIterator(const TImage *, const typename TImage::RegionType &)
+  -> ImageRegionReverseConstIterator<TImage>;
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage, bool VIsConst = std::is_const_v<TImage>>
+ImageRegionReverseIteratorBase(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRegionReverseIteratorBase<std::remove_const_t<TImage>, VIsConst>;
+
+template <typename TImage>
+ImageRegionReverseIteratorBase(TImage *, const typename TImage::RegionType &)
+  -> ImageRegionReverseIteratorBase<TImage, /*VIsConst=*/false>;
+
+template <typename TImage>
+ImageRegionReverseIteratorBase(const TImage *, const typename TImage::RegionType &)
+  -> ImageRegionReverseIteratorBase<TImage, /*VIsConst=*/true>;
 
 } // end namespace itk
 
