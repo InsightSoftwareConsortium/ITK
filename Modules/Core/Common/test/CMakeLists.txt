@@ -5,7 +5,6 @@ set(
   itkDataObjectTest.cxx
   itkDirectoryTest.cxx
   itkExceptionObjectTest.cxx
-  itkExtractImageTest.cxx
   itkFileOutputWindowTest.cxx
   itkFixedArrayTest2.cxx
   itkFloatingPointExceptionsTest.cxx
@@ -189,12 +188,6 @@ if(ITK_BUILD_SHARED_LIBS)
   add_dependencies(ITKCommon2TestDriver FactoryTestLib)
 endif()
 
-itk_add_test(
-  NAME itkExtractImageTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkExtractImageTest
-)
 itk_add_test(
   NAME itkColorTableTest1
   COMMAND
@@ -1497,6 +1490,7 @@ set(
   itkEventObjectGTest.cxx
   itkExceptionObjectGTest.cxx
   itkExtractImage3Dto2DGTest.cxx
+  itkExtractImageGTest.cxx
   itkFilterDispatchGTest.cxx
   itkFixedArrayGTest.cxx
   itkFloodFilledSpatialFunctionGTest.cxx
