@@ -30,7 +30,7 @@ from urllib.parse import urlsplit
 # comes first because it is the lowest-latency bulk-hosted option and does
 # not rate-limit CI.
 GATEWAYS = (
-    "https://insightsoftwareconsortium.github.io/ITKTestingData/cid/{cid}",
+    "https://insightsoftwareconsortium.github.io/ITKTestingData/CID/{cid}",
     "https://ipfs.io/ipfs/{cid}",
     "https://gateway.pinata.cloud/ipfs/{cid}",
     "https://cloudflare-ipfs.com/ipfs/{cid}",
