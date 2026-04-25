@@ -18,31 +18,11 @@
 #ifndef itkImageLinearIteratorWithIndex_hxx
 #define itkImageLinearIteratorWithIndex_hxx
 
+// All ImageLinearIteratorWithIndex functionality has been absorbed into
+// ImageLinearIteratorWithIndexBase<TImage, VIsConst> (see
+// itkImageLinearConstIteratorWithIndex.h). This header is retained only
+// for backward compatibility with code that #includes it directly.
 
-namespace itk
-{
-template <typename TImage>
-ImageLinearIteratorWithIndex<TImage>::ImageLinearIteratorWithIndex(TImage * ptr, const RegionType & region)
-  : ImageLinearConstIteratorWithIndex<TImage>(ptr, region)
-{}
-
-template <typename TImage>
-ImageLinearIteratorWithIndex<TImage>::ImageLinearIteratorWithIndex(const ImageIteratorWithIndex<TImage> & it)
-  : ImageLinearConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageLinearIteratorWithIndex<TImage>::ImageLinearIteratorWithIndex(const ImageLinearConstIteratorWithIndex<TImage> & it)
-  : ImageLinearConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageLinearIteratorWithIndex<TImage> &
-ImageLinearIteratorWithIndex<TImage>::operator=(const ImageLinearConstIteratorWithIndex<TImage> & it)
-{
-  this->ImageLinearConstIteratorWithIndex<TImage>::operator=(it);
-  return *this;
-}
-} // end namespace itk
+#include "itkImageLinearIteratorWithIndex.h"
 
 #endif

@@ -22,24 +22,25 @@
 namespace itk
 {
 
-template <typename TImage>
-ImageRegionExclusionConstIteratorWithIndex<TImage>::ImageRegionExclusionConstIteratorWithIndex(
-  const TImage *     ptr,
+template <typename TImage, bool VIsConst>
+ImageRegionExclusionIteratorWithIndexBase<TImage, VIsConst>::ImageRegionExclusionIteratorWithIndexBase(
+  ImagePointer       ptr,
   const RegionType & region)
   : Superclass(ptr, region)
 {}
 
-template <typename TImage>
-ImageRegionExclusionConstIteratorWithIndex<TImage>::ImageRegionExclusionConstIteratorWithIndex(const Superclass & it)
+template <typename TImage, bool VIsConst>
+ImageRegionExclusionIteratorWithIndexBase<TImage, VIsConst>::ImageRegionExclusionIteratorWithIndexBase(
+  const Superclass & it)
 {
   Superclass::operator=(it);
 }
 //----------------------------------------------------------------------
 //  Set the region to exclude from the walk
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageRegionExclusionConstIteratorWithIndex<TImage>::SetExclusionRegion(const RegionType & region)
+ImageRegionExclusionIteratorWithIndexBase<TImage, VIsConst>::SetExclusionRegion(const RegionType & region)
 {
   // Crop the exclusion region so that it lies entirely within the
   // iterator region.
@@ -59,9 +60,9 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>::SetExclusionRegion(const Reg
 //  Set the region to exclude from the walk to a region that is inset
 //  one pixel from the boundary of the region
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageRegionExclusionConstIteratorWithIndex<TImage>::SetExclusionRegionToInsetRegion()
+ImageRegionExclusionIteratorWithIndexBase<TImage, VIsConst>::SetExclusionRegionToInsetRegion()
 {
   RegionType excludeRegion = this->m_Region;
   for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
@@ -85,9 +86,9 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>::SetExclusionRegionToInsetReg
 //----------------------------------------------------------------------
 // Move to beginning of region
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageRegionExclusionConstIteratorWithIndex<TImage>::GoToBegin()
+ImageRegionExclusionIteratorWithIndexBase<TImage, VIsConst>::GoToBegin()
 {
   // Check whether exclusion region covers the entire region
   if (m_ExclusionRegion == this->m_Region)
@@ -120,9 +121,9 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>::GoToBegin()
 //----------------------------------------------------------------------
 // Move to the end of the region
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageRegionExclusionConstIteratorWithIndex<TImage>::GoToReverseBegin()
+ImageRegionExclusionIteratorWithIndexBase<TImage, VIsConst>::GoToReverseBegin()
 {
   // Check whether exclusion region covers the entire region
   if (m_ExclusionRegion == this->m_Region)
@@ -156,9 +157,9 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>::GoToReverseBegin()
 //----------------------------------------------------------------------
 //  Advance along the line, skipping the exclusion region
 //----------------------------------------------------------------------
-template <typename TImage>
-ImageRegionExclusionConstIteratorWithIndex<TImage> &
-ImageRegionExclusionConstIteratorWithIndex<TImage>::operator++()
+template <typename TImage, bool VIsConst>
+ImageRegionExclusionIteratorWithIndexBase<TImage, VIsConst> &
+ImageRegionExclusionIteratorWithIndexBase<TImage, VIsConst>::operator++()
 {
   this->Superclass::operator++();
 
@@ -180,9 +181,9 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>::operator++()
 //----------------------------------------------------------------------
 //  Advance along the line in reverse direction, skipping exclusion region
 //----------------------------------------------------------------------
-template <typename TImage>
-ImageRegionExclusionConstIteratorWithIndex<TImage> &
-ImageRegionExclusionConstIteratorWithIndex<TImage>::operator--()
+template <typename TImage, bool VIsConst>
+ImageRegionExclusionIteratorWithIndexBase<TImage, VIsConst> &
+ImageRegionExclusionIteratorWithIndexBase<TImage, VIsConst>::operator--()
 {
   this->Superclass::operator--();
 

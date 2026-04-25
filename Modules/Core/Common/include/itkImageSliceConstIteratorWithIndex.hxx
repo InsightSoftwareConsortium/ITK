@@ -24,9 +24,9 @@ namespace itk
 //----------------------------------------------------------------------
 //  Advance to Next Line
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageSliceConstIteratorWithIndex<TImage>::NextLine()
+ImageSliceIteratorWithIndexBase<TImage, VIsConst>::NextLine()
 {
   // Move to next line
   this->m_PositionIndex[m_Direction_B]++;
@@ -40,9 +40,9 @@ ImageSliceConstIteratorWithIndex<TImage>::NextLine()
 //----------------------------------------------------------------------
 //  Advance to Previous Line
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageSliceConstIteratorWithIndex<TImage>::PreviousLine()
+ImageSliceIteratorWithIndexBase<TImage, VIsConst>::PreviousLine()
 {
   // Move to previous line
   this->m_PositionIndex[m_Direction_B]--;
@@ -56,9 +56,9 @@ ImageSliceConstIteratorWithIndex<TImage>::PreviousLine()
 //----------------------------------------------------------------------
 //  Go to the first pixel of the current slice
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageSliceConstIteratorWithIndex<TImage>::GoToBeginOfSlice()
+ImageSliceIteratorWithIndexBase<TImage, VIsConst>::GoToBeginOfSlice()
 {
   // Move to beginning of Slice
   this->m_PositionIndex[m_Direction_B] = this->m_BeginIndex[m_Direction_B];
@@ -68,9 +68,9 @@ ImageSliceConstIteratorWithIndex<TImage>::GoToBeginOfSlice()
 //----------------------------------------------------------------------
 //  Advance to next slice
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageSliceConstIteratorWithIndex<TImage>::NextSlice()
+ImageSliceIteratorWithIndexBase<TImage, VIsConst>::NextSlice()
 {
   // Move to beginning of Slice
   this->m_Position -= m_LineJump * (this->m_PositionIndex[m_Direction_B] - this->m_BeginIndex[m_Direction_B]);
@@ -101,9 +101,9 @@ ImageSliceConstIteratorWithIndex<TImage>::NextSlice()
 //----------------------------------------------------------------------
 //  Go Back to previous slice
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageSliceConstIteratorWithIndex<TImage>::PreviousSlice()
+ImageSliceIteratorWithIndexBase<TImage, VIsConst>::PreviousSlice()
 {
   // Move to end of Slice
   this->m_PositionIndex[m_Direction_B] = this->m_EndIndex[m_Direction_B] - 1;
@@ -134,9 +134,9 @@ ImageSliceConstIteratorWithIndex<TImage>::PreviousSlice()
 //----------------------------------------------------------------------
 //  Test for end of line
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 bool
-ImageSliceConstIteratorWithIndex<TImage>::IsAtEndOfLine() const
+ImageSliceIteratorWithIndexBase<TImage, VIsConst>::IsAtEndOfLine() const
 {
   return this->m_PositionIndex[m_Direction_A] >= this->m_EndIndex[m_Direction_A];
 }
@@ -144,9 +144,9 @@ ImageSliceConstIteratorWithIndex<TImage>::IsAtEndOfLine() const
 //----------------------------------------------------------------------
 //  Test for end of slice
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 bool
-ImageSliceConstIteratorWithIndex<TImage>::IsAtEndOfSlice() const
+ImageSliceIteratorWithIndexBase<TImage, VIsConst>::IsAtEndOfSlice() const
 {
   return this->m_PositionIndex[m_Direction_B] >= this->m_EndIndex[m_Direction_B];
 }
@@ -154,9 +154,9 @@ ImageSliceConstIteratorWithIndex<TImage>::IsAtEndOfSlice() const
 //----------------------------------------------------------------------
 //  Test for begin of line
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 bool
-ImageSliceConstIteratorWithIndex<TImage>::IsAtReverseEndOfLine() const
+ImageSliceIteratorWithIndexBase<TImage, VIsConst>::IsAtReverseEndOfLine() const
 {
   return this->m_PositionIndex[m_Direction_A] < this->m_BeginIndex[m_Direction_A];
 }
@@ -164,9 +164,9 @@ ImageSliceConstIteratorWithIndex<TImage>::IsAtReverseEndOfLine() const
 //----------------------------------------------------------------------
 //  Test for begin of slice
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 bool
-ImageSliceConstIteratorWithIndex<TImage>::IsAtReverseEndOfSlice() const
+ImageSliceIteratorWithIndexBase<TImage, VIsConst>::IsAtReverseEndOfSlice() const
 {
   return this->m_PositionIndex[m_Direction_B] < this->m_BeginIndex[m_Direction_B];
 }
@@ -174,9 +174,9 @@ ImageSliceConstIteratorWithIndex<TImage>::IsAtReverseEndOfSlice() const
 //----------------------------------------------------------------------
 //  Select the fastest changing direction
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageSliceConstIteratorWithIndex<TImage>::SetFirstDirection(unsigned int direction)
+ImageSliceIteratorWithIndexBase<TImage, VIsConst>::SetFirstDirection(unsigned int direction)
 {
   if (direction >= TImage::ImageDimension)
   {
@@ -190,9 +190,9 @@ ImageSliceConstIteratorWithIndex<TImage>::SetFirstDirection(unsigned int directi
 //----------------------------------------------------------------------
 //  Select the second fastest changing direction
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageSliceConstIteratorWithIndex<TImage>::SetSecondDirection(unsigned int direction)
+ImageSliceIteratorWithIndexBase<TImage, VIsConst>::SetSecondDirection(unsigned int direction)
 {
   if (direction >= TImage::ImageDimension)
   {
@@ -206,9 +206,9 @@ ImageSliceConstIteratorWithIndex<TImage>::SetSecondDirection(unsigned int direct
 //----------------------------------------------------------------------
 //  Advance along a line
 //----------------------------------------------------------------------
-template <typename TImage>
-ImageSliceConstIteratorWithIndex<TImage> &
-ImageSliceConstIteratorWithIndex<TImage>::operator++()
+template <typename TImage, bool VIsConst>
+ImageSliceIteratorWithIndexBase<TImage, VIsConst> &
+ImageSliceIteratorWithIndexBase<TImage, VIsConst>::operator++()
 {
   this->m_PositionIndex[m_Direction_A]++;
   this->m_Position += m_PixelJump;
@@ -218,9 +218,9 @@ ImageSliceConstIteratorWithIndex<TImage>::operator++()
 //----------------------------------------------------------------------
 //  Go back along a line
 //----------------------------------------------------------------------
-template <typename TImage>
-ImageSliceConstIteratorWithIndex<TImage> &
-ImageSliceConstIteratorWithIndex<TImage>::operator--()
+template <typename TImage, bool VIsConst>
+ImageSliceIteratorWithIndexBase<TImage, VIsConst> &
+ImageSliceIteratorWithIndexBase<TImage, VIsConst>::operator--()
 {
   this->m_PositionIndex[m_Direction_A]--;
   this->m_Position -= m_PixelJump;

@@ -18,35 +18,12 @@
 #ifndef itkImageRandomNonRepeatingIteratorWithIndex_hxx
 #define itkImageRandomNonRepeatingIteratorWithIndex_hxx
 
+// All ImageRandomNonRepeatingIteratorWithIndex functionality has been
+// absorbed into ImageRandomNonRepeatingIteratorWithIndexBase<TImage, VIsConst>
+// (see itkImageRandomNonRepeatingConstIteratorWithIndex.h). This header is
+// retained only for backward compatibility with code that #includes it
+// directly.
 
-namespace itk
-{
-template <typename TImage>
-ImageRandomNonRepeatingIteratorWithIndex<TImage>::ImageRandomNonRepeatingIteratorWithIndex(TImage *           ptr,
-                                                                                           const RegionType & region)
-  : ImageRandomNonRepeatingConstIteratorWithIndex<TImage>(ptr, region)
-{}
-
-template <typename TImage>
-ImageRandomNonRepeatingIteratorWithIndex<TImage>::ImageRandomNonRepeatingIteratorWithIndex(
-  const ImageIteratorWithIndex<TImage> & it)
-  : ImageRandomNonRepeatingConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageRandomNonRepeatingIteratorWithIndex<TImage>::ImageRandomNonRepeatingIteratorWithIndex(
-  const ImageRandomNonRepeatingConstIteratorWithIndex<TImage> & it)
-  : ImageRandomNonRepeatingConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageRandomNonRepeatingIteratorWithIndex<TImage> &
-ImageRandomNonRepeatingIteratorWithIndex<TImage>::operator=(
-  const ImageRandomNonRepeatingConstIteratorWithIndex<TImage> & it)
-{
-  this->ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::operator=(it);
-  return *this;
-}
-} // end namespace itk
+#include "itkImageRandomNonRepeatingIteratorWithIndex.h"
 
 #endif

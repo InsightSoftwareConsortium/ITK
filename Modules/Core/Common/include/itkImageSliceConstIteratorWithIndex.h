@@ -19,7 +19,7 @@
 #define itkImageSliceConstIteratorWithIndex_h
 
 #include "itkImageConstIteratorWithIndex.h"
-#include <type_traits> // For remove_const_t.
+#include <type_traits> // For enable_if_t, remove_const_t.
 
 namespace itk
 {
@@ -110,13 +110,13 @@ namespace itk
  * \sa ImageConstIteratorWithIndex
  * \ingroup ITKCommon
  */
-template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageSliceConstIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
+template <typename TImage, bool VIsConst>
+class ITK_TEMPLATE_EXPORT ImageSliceIteratorWithIndexBase : public ImageIteratorWithIndexBase<TImage, VIsConst>
 {
 public:
   /** Standard class type aliases. */
-  using Self = ImageSliceConstIteratorWithIndex;
-  using Superclass = ImageConstIteratorWithIndex<TImage>;
+  using Self = ImageSliceIteratorWithIndexBase;
+  using Superclass = ImageIteratorWithIndexBase<TImage, VIsConst>;
 
   /** Inherit types from the superclass */
   using typename Superclass::IndexType;
@@ -124,6 +124,7 @@ public:
   using typename Superclass::OffsetType;
   using typename Superclass::RegionType;
   using typename Superclass::ImageType;
+  using typename Superclass::ImagePointer;
   using typename Superclass::PixelContainer;
   using typename Superclass::PixelContainerPointer;
   using typename Superclass::InternalPixelType;
@@ -131,14 +132,14 @@ public:
   using typename Superclass::AccessorType;
 
   /** Default constructor. */
-  ImageSliceConstIteratorWithIndex()
-    : ImageConstIteratorWithIndex<TImage>()
+  ImageSliceIteratorWithIndexBase()
+    : Superclass()
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageSliceConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
-    : ImageConstIteratorWithIndex<TImage>(ptr, region)
+  ImageSliceIteratorWithIndexBase(ImagePointer ptr, const RegionType & region)
+    : Superclass(ptr, region)
     , m_PixelJump(0)
     , m_LineJump(0)
     , m_Direction_A(0)
@@ -151,10 +152,20 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageSliceConstIteratorWithIndex. */
-  ImageSliceConstIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it)
-  {
-    this->ImageConstIteratorWithIndex<TImage>::operator=(it);
-  }
+  ImageSliceIteratorWithIndexBase(const Superclass & it) { this->Superclass::operator=(it); }
+
+  /** Converting constructor: non-const -> const. */
+  template <bool VOtherConst, typename = std::enable_if_t<VIsConst && !VOtherConst>>
+  ImageSliceIteratorWithIndexBase(const ImageSliceIteratorWithIndexBase<TImage, VOtherConst> & it)
+    : Superclass(static_cast<const ImageIteratorWithIndexBase<TImage, VOtherConst> &>(it))
+    , m_PixelJump(it.m_PixelJump)
+    , m_LineJump(it.m_LineJump)
+    , m_Direction_A(it.m_Direction_A)
+    , m_Direction_B(it.m_Direction_B)
+  {}
+
+  template <typename, bool>
+  friend class ImageSliceIteratorWithIndexBase;
 
   /** Go to the next line
    * \sa operator++ \sa EndOfLine \sa End \sa NextSlice */
@@ -223,10 +234,39 @@ private:
   unsigned int  m_Direction_B;
 };
 
-// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ImageSliceConstIteratorWithIndex
+  : public ImageSliceIteratorWithIndexBase<TImage, /*VIsConst=*/true>
+{
+public:
+  using Superclass = ImageSliceIteratorWithIndexBase<TImage, /*VIsConst=*/true>;
+  using Superclass::Superclass;
+};
+
 template <typename TImage>
 ImageSliceConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
   -> ImageSliceConstIteratorWithIndex<std::remove_const_t<TImage>>;
+
+template <typename TImage>
+ImageSliceConstIteratorWithIndex(TImage *, const typename TImage::RegionType &)
+  -> ImageSliceConstIteratorWithIndex<TImage>;
+
+template <typename TImage>
+ImageSliceConstIteratorWithIndex(const TImage *, const typename TImage::RegionType &)
+  -> ImageSliceConstIteratorWithIndex<TImage>;
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage, bool VIsConst = std::is_const_v<TImage>>
+ImageSliceIteratorWithIndexBase(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageSliceIteratorWithIndexBase<std::remove_const_t<TImage>, VIsConst>;
+
+template <typename TImage>
+ImageSliceIteratorWithIndexBase(TImage *, const typename TImage::RegionType &)
+  -> ImageSliceIteratorWithIndexBase<TImage, /*VIsConst=*/false>;
+
+template <typename TImage>
+ImageSliceIteratorWithIndexBase(const TImage *, const typename TImage::RegionType &)
+  -> ImageSliceIteratorWithIndexBase<TImage, /*VIsConst=*/true>;
 
 } // end namespace itk
 

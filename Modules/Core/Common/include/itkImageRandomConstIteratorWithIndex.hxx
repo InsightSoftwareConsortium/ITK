@@ -22,31 +22,31 @@
 namespace itk
 {
 
-template <typename TImage>
-ImageRandomConstIteratorWithIndex<TImage>::ImageRandomConstIteratorWithIndex(const TImage *     ptr,
-                                                                             const RegionType & region)
-  : ImageConstIteratorWithIndex<TImage>(ptr, region)
+template <typename TImage, bool VIsConst>
+ImageRandomIteratorWithIndexBase<TImage, VIsConst>::ImageRandomIteratorWithIndexBase(ImagePointer       ptr,
+                                                                                     const RegionType & region)
+  : Superclass(ptr, region)
   , m_NumberOfPixelsInRegion{ region.GetNumberOfPixels() }
 {}
 
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageRandomConstIteratorWithIndex<TImage>::ReinitializeSeed()
+ImageRandomIteratorWithIndexBase<TImage, VIsConst>::ReinitializeSeed()
 {
   m_Generator->SetSeed();
 }
 
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageRandomConstIteratorWithIndex<TImage>::ReinitializeSeed(int seed)
+ImageRandomIteratorWithIndexBase<TImage, VIsConst>::ReinitializeSeed(int seed)
 {
   m_Generator->SetSeed(seed);
   // vnl_sample_reseed(seed);
 }
 
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageRandomConstIteratorWithIndex<TImage>::RandomJump()
+ImageRandomIteratorWithIndexBase<TImage, VIsConst>::RandomJump()
 {
   using PositionValueType = IndexValueType;
 

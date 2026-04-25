@@ -19,7 +19,7 @@
 #define itkImageRegionConstIteratorWithIndex_h
 
 #include "itkImageConstIteratorWithIndex.h"
-#include <type_traits> // For remove_const_t.
+#include <type_traits> // For enable_if_t, remove_const_t.
 
 namespace itk
 {
@@ -127,13 +127,13 @@ namespace itk
  Index Without Write Access}
  * \endsphinx
  */
-template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageRegionConstIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
+template <typename TImage, bool VIsConst>
+class ITK_TEMPLATE_EXPORT ImageRegionIteratorWithIndexBase : public ImageIteratorWithIndexBase<TImage, VIsConst>
 {
 public:
   /** Standard class type aliases. */
-  using Self = ImageRegionConstIteratorWithIndex;
-  using Superclass = ImageConstIteratorWithIndex<TImage>;
+  using Self = ImageRegionIteratorWithIndexBase;
+  using Superclass = ImageIteratorWithIndexBase<TImage, VIsConst>;
 
   /**
    * Index type alias support While these were already typedef'ed in the superclass
@@ -146,6 +146,7 @@ public:
   using typename Superclass::OffsetType;
   using typename Superclass::RegionType;
   using typename Superclass::ImageType;
+  using typename Superclass::ImagePointer;
   using typename Superclass::PixelContainer;
   using typename Superclass::PixelContainerPointer;
   using typename Superclass::InternalPixelType;
@@ -153,14 +154,14 @@ public:
   using typename Superclass::AccessorType;
 
   /** Default constructor. */
-  ImageRegionConstIteratorWithIndex()
-    : ImageConstIteratorWithIndex<TImage>()
+  ImageRegionIteratorWithIndexBase()
+    : Superclass()
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageRegionConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
-    : ImageConstIteratorWithIndex<TImage>(ptr, region)
+  ImageRegionIteratorWithIndexBase(ImagePointer ptr, const RegionType & region)
+    : Superclass(ptr, region)
   {}
 
   /** Constructor that can be used to cast from an ImageIterator to an
@@ -169,10 +170,13 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionConstIteratorWithIndex. */
-  ImageRegionConstIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it)
-  {
-    this->ImageConstIteratorWithIndex<TImage>::operator=(it);
-  }
+  ImageRegionIteratorWithIndexBase(const Superclass & it) { this->Superclass::operator=(it); }
+
+  /** Converting constructor: non-const -> const. */
+  template <bool VOtherConst, typename = std::enable_if_t<VIsConst && !VOtherConst>>
+  ImageRegionIteratorWithIndexBase(const ImageRegionIteratorWithIndexBase<TImage, VOtherConst> & it)
+    : Superclass(static_cast<const ImageIteratorWithIndexBase<TImage, VOtherConst> &>(it))
+  {}
 
   /** Increment (prefix) the fastest moving dimension of the iterator's index.
    * This operator will constrain the iterator within the region (i.e. the
@@ -195,10 +199,39 @@ public:
   operator--();
 };
 
-// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ImageRegionConstIteratorWithIndex
+  : public ImageRegionIteratorWithIndexBase<TImage, /*VIsConst=*/true>
+{
+public:
+  using Superclass = ImageRegionIteratorWithIndexBase<TImage, /*VIsConst=*/true>;
+  using Superclass::Superclass;
+};
+
 template <typename TImage>
 ImageRegionConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
   -> ImageRegionConstIteratorWithIndex<std::remove_const_t<TImage>>;
+
+template <typename TImage>
+ImageRegionConstIteratorWithIndex(TImage *, const typename TImage::RegionType &)
+  -> ImageRegionConstIteratorWithIndex<TImage>;
+
+template <typename TImage>
+ImageRegionConstIteratorWithIndex(const TImage *, const typename TImage::RegionType &)
+  -> ImageRegionConstIteratorWithIndex<TImage>;
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage, bool VIsConst = std::is_const_v<TImage>>
+ImageRegionIteratorWithIndexBase(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageRegionIteratorWithIndexBase<std::remove_const_t<TImage>, VIsConst>;
+
+template <typename TImage>
+ImageRegionIteratorWithIndexBase(TImage *, const typename TImage::RegionType &)
+  -> ImageRegionIteratorWithIndexBase<TImage, /*VIsConst=*/false>;
+
+template <typename TImage>
+ImageRegionIteratorWithIndexBase(const TImage *, const typename TImage::RegionType &)
+  -> ImageRegionIteratorWithIndexBase<TImage, /*VIsConst=*/true>;
 
 } // end namespace itk
 

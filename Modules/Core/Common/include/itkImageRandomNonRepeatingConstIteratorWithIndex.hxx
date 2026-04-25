@@ -22,24 +22,24 @@
 namespace itk
 {
 
-template <typename TImage>
-ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::ImageRandomNonRepeatingConstIteratorWithIndex(
-  const TImage *     ptr,
+template <typename TImage, bool VIsConst>
+ImageRandomNonRepeatingIteratorWithIndexBase<TImage, VIsConst>::ImageRandomNonRepeatingIteratorWithIndexBase(
+  ImagePointer       ptr,
   const RegionType & region)
-  : ImageConstIteratorWithIndex<TImage>(ptr, region)
+  : Superclass(ptr, region)
   , m_NumberOfSamplesRequested(0L)
   , m_NumberOfSamplesDone(0L)
   , m_NumberOfPixelsInRegion(region.GetNumberOfPixels())
   , m_Permutation(new RandomPermutation(m_NumberOfPixelsInRegion))
 {}
 
-template <typename TImage>
-ImageRandomNonRepeatingConstIteratorWithIndex<TImage> &
-ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::operator=(const Self & it)
+template <typename TImage, bool VIsConst>
+ImageRandomNonRepeatingIteratorWithIndexBase<TImage, VIsConst> &
+ImageRandomNonRepeatingIteratorWithIndexBase<TImage, VIsConst>::operator=(const Self & it)
 {
   if (this != &it)
   {
-    this->ImageConstIteratorWithIndex<TImage>::operator=(it);
+    this->Superclass::operator=(it);
     if (m_Permutation)
     {
       *m_Permutation = *(it.m_Permutation);
@@ -55,25 +55,26 @@ ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::operator=(const Self & it
   return *this;
 }
 
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::ReinitializeSeed()
+ImageRandomNonRepeatingIteratorWithIndexBase<TImage, VIsConst>::ReinitializeSeed()
 {
   this->m_Permutation->ReinitializeSeed();
   this->m_Permutation->Shuffle();
 }
 
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::ReinitializeSeed(int seed)
+ImageRandomNonRepeatingIteratorWithIndexBase<TImage, VIsConst>::ReinitializeSeed(int seed)
 {
   this->m_Permutation->ReinitializeSeed(seed);
   this->m_Permutation->Shuffle();
 }
 
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::SetPriorityImage(const PriorityImageType * priorityImage)
+ImageRandomNonRepeatingIteratorWithIndexBase<TImage, VIsConst>::SetPriorityImage(
+  const PriorityImageType * priorityImage)
 {
   // should probably do error checking to be sure that the priority
   // image is the right size
@@ -97,9 +98,9 @@ ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::SetPriorityImage(const Pr
   this->m_Permutation->Shuffle();
 }
 
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::UpdatePosition()
+ImageRandomNonRepeatingIteratorWithIndexBase<TImage, VIsConst>::UpdatePosition()
 {
   using PositionValueType = IndexValueType;
 

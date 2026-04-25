@@ -24,8 +24,8 @@ namespace itk
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template <typename TImage>
-ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const Self & it)
+template <typename TImage, bool VIsConst>
+ImageIteratorWithIndexBase<TImage, VIsConst>::ImageIteratorWithIndexBase(const Self & it)
   : m_Image(it.m_Image) // copy the smart pointer
   , m_PositionIndex(it.m_PositionIndex)
   , m_BeginIndex(it.m_BeginIndex)
@@ -46,14 +46,14 @@ ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const Self & it
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template <typename TImage>
-ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
+template <typename TImage, bool VIsConst>
+ImageIteratorWithIndexBase<TImage, VIsConst>::ImageIteratorWithIndexBase(ImagePointer ptr, const RegionType & region)
   : m_Image(ptr)
   , m_BeginIndex(region.GetIndex())
   , m_Region(region)
   , m_Remaining(region.GetNumberOfPixels() > 0)
 {
-  const InternalPixelType * buffer = m_Image->GetBufferPointer();
+  InternalPixelPointer buffer = m_Image->GetBufferPointer();
   m_PositionIndex = m_BeginIndex;
   if (region.GetNumberOfPixels() > 0) // If region is non-empty
   {
@@ -87,9 +87,9 @@ ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const TImage * 
 //----------------------------------------------------------------------
 //    Assignment Operator
 //----------------------------------------------------------------------
-template <typename TImage>
-ImageConstIteratorWithIndex<TImage> &
-ImageConstIteratorWithIndex<TImage>::operator=(const Self & it)
+template <typename TImage, bool VIsConst>
+ImageIteratorWithIndexBase<TImage, VIsConst> &
+ImageIteratorWithIndexBase<TImage, VIsConst>::operator=(const Self & it)
 {
   if (this != &it)
   {
@@ -117,9 +117,9 @@ ImageConstIteratorWithIndex<TImage>::operator=(const Self & it)
 //----------------------------------------------------------------------------
 // GoToBegin() is the first pixel in the region.
 //----------------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageConstIteratorWithIndex<TImage>::GoToBegin()
+ImageIteratorWithIndexBase<TImage, VIsConst>::GoToBegin()
 {
   // Set the position at begin
 
@@ -132,9 +132,9 @@ ImageConstIteratorWithIndex<TImage>::GoToBegin()
 //----------------------------------------------------------------------------
 // GoToReverseBegin() is the last pixel in the region.
 //----------------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageConstIteratorWithIndex<TImage>::GoToReverseBegin()
+ImageIteratorWithIndexBase<TImage, VIsConst>::GoToReverseBegin()
 {
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
@@ -144,8 +144,8 @@ ImageConstIteratorWithIndex<TImage>::GoToReverseBegin()
   m_Remaining = m_Region.GetNumberOfPixels() > 0;
 
   // Set the position at the end
-  const InternalPixelType * buffer = m_Image->GetBufferPointer();
-  const OffsetValueType     offset = m_Image->ComputeOffset(m_PositionIndex);
+  InternalPixelPointer  buffer = m_Image->GetBufferPointer();
+  const OffsetValueType offset = m_Image->ComputeOffset(m_PositionIndex);
   m_Position = buffer + offset;
 }
 

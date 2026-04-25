@@ -18,34 +18,12 @@
 #ifndef itkImageRegionExclusionIteratorWithIndex_hxx
 #define itkImageRegionExclusionIteratorWithIndex_hxx
 
+// All ImageRegionExclusionIteratorWithIndex functionality has been
+// absorbed into ImageRegionExclusionIteratorWithIndexBase<TImage, VIsConst>
+// (see itkImageRegionExclusionConstIteratorWithIndex.h). This header is
+// retained only for backward compatibility with code that #includes it
+// directly.
 
-namespace itk
-{
-template <typename TImage>
-ImageRegionExclusionIteratorWithIndex<TImage>::ImageRegionExclusionIteratorWithIndex(TImage *           ptr,
-                                                                                     const RegionType & region)
-  : ImageRegionExclusionConstIteratorWithIndex<TImage>(ptr, region)
-{}
-
-template <typename TImage>
-ImageRegionExclusionIteratorWithIndex<TImage>::ImageRegionExclusionIteratorWithIndex(
-  const ImageIteratorWithIndex<TImage> & it)
-  : ImageRegionExclusionConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageRegionExclusionIteratorWithIndex<TImage>::ImageRegionExclusionIteratorWithIndex(
-  const ImageRegionExclusionConstIteratorWithIndex<TImage> & it)
-  : ImageRegionExclusionConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageRegionExclusionIteratorWithIndex<TImage> &
-ImageRegionExclusionIteratorWithIndex<TImage>::operator=(const ImageRegionExclusionConstIteratorWithIndex<TImage> & it)
-{
-  this->ImageRegionExclusionConstIteratorWithIndex<TImage>::operator=(it);
-  return *this;
-}
-} // end namespace itk
+#include "itkImageRegionExclusionIteratorWithIndex.h"
 
 #endif

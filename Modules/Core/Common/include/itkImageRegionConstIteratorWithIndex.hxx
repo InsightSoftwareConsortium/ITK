@@ -24,9 +24,9 @@ namespace itk
 //----------------------------------------------------------------------
 //  Advance along the line
 //----------------------------------------------------------------------
-template <typename TImage>
-ImageRegionConstIteratorWithIndex<TImage> &
-ImageRegionConstIteratorWithIndex<TImage>::operator++()
+template <typename TImage, bool VIsConst>
+ImageRegionIteratorWithIndexBase<TImage, VIsConst> &
+ImageRegionIteratorWithIndexBase<TImage, VIsConst>::operator++()
 {
   this->m_Remaining = false;
   for (unsigned int in = 0; in < TImage::ImageDimension; ++in)
@@ -54,9 +54,9 @@ ImageRegionConstIteratorWithIndex<TImage>::operator++()
 //----------------------------------------------------------------------
 //  Advance along the line in reverse direction
 //----------------------------------------------------------------------
-template <typename TImage>
-ImageRegionConstIteratorWithIndex<TImage> &
-ImageRegionConstIteratorWithIndex<TImage>::operator--()
+template <typename TImage, bool VIsConst>
+ImageRegionIteratorWithIndexBase<TImage, VIsConst> &
+ImageRegionIteratorWithIndexBase<TImage, VIsConst>::operator--()
 {
   this->m_Remaining = false;
   for (unsigned int in = 0; in < TImage::ImageDimension; ++in)

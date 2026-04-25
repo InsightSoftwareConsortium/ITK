@@ -24,10 +24,10 @@ namespace itk
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template <typename TImage>
-ImageLinearConstIteratorWithIndex<TImage>::ImageLinearConstIteratorWithIndex(const TImage *     ptr,
-                                                                             const RegionType & region)
-  : ImageConstIteratorWithIndex<TImage>(ptr, region)
+template <typename TImage, bool VIsConst>
+ImageLinearIteratorWithIndexBase<TImage, VIsConst>::ImageLinearIteratorWithIndexBase(ImagePointer       ptr,
+                                                                                     const RegionType & region)
+  : Superclass(ptr, region)
 {
   this->SetDirection(0);
 }
@@ -35,9 +35,9 @@ ImageLinearConstIteratorWithIndex<TImage>::ImageLinearConstIteratorWithIndex(con
 //----------------------------------------------------------------------
 //  Go to the last pixel of the current line
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageLinearConstIteratorWithIndex<TImage>::GoToReverseBeginOfLine()
+ImageLinearIteratorWithIndexBase<TImage, VIsConst>::GoToReverseBeginOfLine()
 {
   const OffsetValueType distanceToEnd = this->m_EndIndex[m_Direction] - this->m_PositionIndex[m_Direction] - 1;
 
@@ -48,9 +48,9 @@ ImageLinearConstIteratorWithIndex<TImage>::GoToReverseBeginOfLine()
 //----------------------------------------------------------------------
 //  Go to the first pixel of the current line
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageLinearConstIteratorWithIndex<TImage>::GoToBeginOfLine()
+ImageLinearIteratorWithIndexBase<TImage, VIsConst>::GoToBeginOfLine()
 {
   const OffsetValueType distanceToBegin = this->m_PositionIndex[m_Direction] - this->m_BeginIndex[m_Direction];
 
@@ -62,9 +62,9 @@ ImageLinearConstIteratorWithIndex<TImage>::GoToBeginOfLine()
 //----------------------------------------------------------------------
 //  Pass to the past last pixel of the current line
 //----------------------------------------------------------------------
-template <typename TImage>
+template <typename TImage, bool VIsConst>
 void
-ImageLinearConstIteratorWithIndex<TImage>::GoToEndOfLine()
+ImageLinearIteratorWithIndexBase<TImage, VIsConst>::GoToEndOfLine()
 {
   const OffsetValueType distanceToEnd = this->m_EndIndex[m_Direction] - this->m_PositionIndex[m_Direction];
 

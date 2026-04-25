@@ -20,11 +20,15 @@
 
 #include "itkIndex.h"
 #include "itkImage.h"
+#include "itkWeakPointer.h"
 #include <memory>
-#include <type_traits> // For remove_const_t.
+#include <type_traits> // For conditional_t, enable_if_t, remove_const_t.
 
 namespace itk
 {
+template <typename TImage, bool VIsConst>
+class ImageIteratorWithIndexBase;
+
 /** \class ImageConstIteratorWithIndex
  * \brief A base class for multi-dimensional iterators templated over image
  * type that are designed to efficiently keep track of the iterator
@@ -89,12 +93,12 @@ namespace itk
  * \ingroup ImageIterators
  * \ingroup ITKCommon
  */
-template <typename TImage>
-class ITK_TEMPLATE_EXPORT ImageConstIteratorWithIndex
+template <typename TImage, bool VIsConst>
+class ITK_TEMPLATE_EXPORT ImageIteratorWithIndexBase
 {
 public:
   /** Standard class type aliases. */
-  using Self = ImageConstIteratorWithIndex;
+  using Self = ImageIteratorWithIndexBase;
 
   /** Dimension of the image that the iterator walks.  This constant is needed so
    * functions that are templated over image iterator type (as opposed to
@@ -137,20 +141,46 @@ public:
   using OffsetType = typename TImage::OffsetType;
   using OffsetValueType = typename OffsetType::OffsetValueType;
 
+  using InternalPixelPointer = std::conditional_t<VIsConst, const InternalPixelType *, InternalPixelType *>;
+  using ImageWeakPointer = std::conditional_t<VIsConst, typename TImage::ConstWeakPointer, WeakPointer<TImage>>;
+  using ImagePointer = std::conditional_t<VIsConst, const TImage *, TImage *>;
+
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */
-  ImageConstIteratorWithIndex() = default;
+  ImageIteratorWithIndexBase() = default;
 
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
-  ImageConstIteratorWithIndex(const Self & it);
+  ImageIteratorWithIndexBase(const Self & it);
+
+  /** Converting constructor: non-const -> const. */
+  template <bool VOtherConst, typename = std::enable_if_t<VIsConst && !VOtherConst>>
+  ImageIteratorWithIndexBase(const ImageIteratorWithIndexBase<TImage, VOtherConst> & it)
+    : m_Image(it.m_Image)
+    , m_PositionIndex(it.m_PositionIndex)
+    , m_BeginIndex(it.m_BeginIndex)
+    , m_EndIndex(it.m_EndIndex)
+    , m_Region(it.m_Region)
+    , m_Position(it.m_Position)
+    , m_Begin(it.m_Begin)
+    , m_End(it.m_End)
+    , m_Remaining(it.m_Remaining)
+    , m_PixelAccessor(it.m_PixelAccessor)
+    , m_PixelAccessorFunctor(it.m_PixelAccessorFunctor)
+  {
+    std::copy_n(it.m_OffsetTable, ImageDimension + 1, m_OffsetTable);
+    if (m_Image)
+    {
+      m_PixelAccessorFunctor.SetBegin(m_Image->GetBufferPointer());
+    }
+  }
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  ImageConstIteratorWithIndex(const TImage * ptr, const RegionType & region);
+  ImageIteratorWithIndexBase(ImagePointer ptr, const RegionType & region);
 
   /** Default Destructor. */
-  virtual ~ImageConstIteratorWithIndex() = default;
+  virtual ~ImageIteratorWithIndexBase() = default;
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
@@ -256,6 +286,22 @@ public:
     return *m_Position;
   }
 
+  /** Return a mutable reference to the pixel. SFINAE-gated on !VIsConst. */
+  template <bool VCopy = VIsConst, std::enable_if_t<!VCopy, int> = 0>
+  PixelType &
+  Value()
+  {
+    return *m_Position;
+  }
+
+  /** Set the pixel value. SFINAE-gated on !VIsConst. */
+  template <bool VCopy = VIsConst, std::enable_if_t<!VCopy, int> = 0>
+  void
+  Set(const PixelType & value) const
+  {
+    this->m_PixelAccessorFunctor.Set(*m_Position, value);
+  }
+
   /** Move an iterator to the beginning of the region. */
   void
   GoToBegin();
@@ -285,8 +331,11 @@ public:
     return m_Remaining;
   }
 
+  template <typename, bool>
+  friend class ImageIteratorWithIndexBase;
+
 protected: // made protected so other iterators can access
-  typename TImage::ConstWeakPointer m_Image{};
+  ImageWeakPointer m_Image{};
 
   IndexType m_PositionIndex{ { 0 } }; // Index where we currently are
   IndexType m_BeginIndex{ { 0 } };    // Index to start iterating over
@@ -298,9 +347,9 @@ protected: // made protected so other iterators can access
 
   OffsetValueType m_OffsetTable[ImageDimension + 1]{};
 
-  const InternalPixelType * m_Position{ nullptr };
-  const InternalPixelType * m_Begin{ nullptr };
-  const InternalPixelType * m_End{ nullptr };
+  InternalPixelPointer m_Position{ nullptr };
+  InternalPixelPointer m_Begin{ nullptr };
+  InternalPixelPointer m_End{ nullptr };
 
   bool m_Remaining{ false };
 
@@ -308,10 +357,36 @@ protected: // made protected so other iterators can access
   AccessorFunctorType m_PixelAccessorFunctor{};
 };
 
-// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ImageConstIteratorWithIndex : public ImageIteratorWithIndexBase<TImage, /*VIsConst=*/true>
+{
+public:
+  using Superclass = ImageIteratorWithIndexBase<TImage, /*VIsConst=*/true>;
+  using Superclass::Superclass;
+};
+
 template <typename TImage>
 ImageConstIteratorWithIndex(SmartPointer<TImage>, const typename TImage::RegionType &)
   -> ImageConstIteratorWithIndex<std::remove_const_t<TImage>>;
+
+template <typename TImage>
+ImageConstIteratorWithIndex(TImage *, const typename TImage::RegionType &) -> ImageConstIteratorWithIndex<TImage>;
+
+template <typename TImage>
+ImageConstIteratorWithIndex(const TImage *, const typename TImage::RegionType &) -> ImageConstIteratorWithIndex<TImage>;
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage, bool VIsConst = std::is_const_v<TImage>>
+ImageIteratorWithIndexBase(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ImageIteratorWithIndexBase<std::remove_const_t<TImage>, VIsConst>;
+
+template <typename TImage>
+ImageIteratorWithIndexBase(TImage *, const typename TImage::RegionType &)
+  -> ImageIteratorWithIndexBase<TImage, /*VIsConst=*/false>;
+
+template <typename TImage>
+ImageIteratorWithIndexBase(const TImage *, const typename TImage::RegionType &)
+  -> ImageIteratorWithIndexBase<TImage, /*VIsConst=*/true>;
 
 } // end namespace itk
 

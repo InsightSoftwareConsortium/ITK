@@ -18,31 +18,11 @@
 #ifndef itkImageSliceIteratorWithIndex_hxx
 #define itkImageSliceIteratorWithIndex_hxx
 
+// All ImageSliceIteratorWithIndex functionality has been absorbed into
+// ImageSliceIteratorWithIndexBase<TImage, VIsConst> (see
+// itkImageSliceConstIteratorWithIndex.h). This header is retained only
+// for backward compatibility with code that #includes it directly.
 
-namespace itk
-{
-template <typename TImage>
-ImageSliceIteratorWithIndex<TImage>::ImageSliceIteratorWithIndex(TImage * ptr, const RegionType & region)
-  : ImageSliceConstIteratorWithIndex<TImage>(ptr, region)
-{}
-
-template <typename TImage>
-ImageSliceIteratorWithIndex<TImage>::ImageSliceIteratorWithIndex(const ImageIteratorWithIndex<TImage> & it)
-  : ImageSliceConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageSliceIteratorWithIndex<TImage>::ImageSliceIteratorWithIndex(const ImageSliceConstIteratorWithIndex<TImage> & it)
-  : ImageSliceConstIteratorWithIndex<TImage>(it)
-{}
-
-template <typename TImage>
-ImageSliceIteratorWithIndex<TImage> &
-ImageSliceIteratorWithIndex<TImage>::operator=(const ImageSliceConstIteratorWithIndex<TImage> & it)
-{
-  this->ImageSliceConstIteratorWithIndex<TImage>::operator=(it);
-  return *this;
-}
-} // end namespace itk
+#include "itkImageSliceIteratorWithIndex.h"
 
 #endif
