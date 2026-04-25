@@ -128,3 +128,21 @@ f1bc82756aaf853c50b6c2b5cfb4dfd88bc4824f
 13f99f81510fd76b0409b98dac6a4670436e007a
 # STYLE: Change to hxx extension for dev tools
 2fccd272862ab7cc408d643c8db2e1cb5d098fcf
+
+# Bulk format changes 2024-2026 (clang-format, black, gersemi)
+# STYLE: Run clang-format.exe manually at the client side
+ffd9ccfb150914e748d69050f4cff18a7ad3865d
+# STYLE: Enforce black formatting for toolkit.
+9c0bd2716fdfb95d1ae7f92b27dfb9fa900a9d38
+# STYLE: Rigorous style conformance with clang-format 19.1.4
+814a24c84d3bf4bdc42ce8f07276997fabdb45d3
+# STYLE: clang-format pre-commit updates
+2659871fef7018d3357c6ca49f7567626043dee9
+# STYLE: Add CMake stubs for gersemi formatting
+322727428c5c947823393cf0cb9d8ca975b584fb
+# STYLE: Upstream clang-format changes applied
+2673ad57b6279a97cfee9847e28fc7b3d5065522
+# STYLE: Run gersemi on ITK's CMake code for thirdparty libraries
+ef3f7ba06fe5d13bc055e2072818ac55cd4d3613
+# STYLE: Apply gersemi style to a deeper layer in Thirdparty libraries
+7401fed2af22e87a39030b49a1bc1099f9beb0f0
