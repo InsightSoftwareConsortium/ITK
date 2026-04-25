@@ -573,7 +573,14 @@ while(NOT dashboard_done)
       dashboard_hook_submit()
     endif()
     if(NOT dashboard_no_submit)
-      ctest_submit()
+      # Retry the main submission so a transient HTTPS hiccup does not
+      # leave the per-step results unsubmitted.  The Done part is sent
+      # below after the loop, *unconditionally*, so the CDash GitHub
+      # check on the commit can flip from in-progress to success/failure.
+      ctest_submit(RETRY_COUNT 3 RETRY_DELAY 30 RETURN_VALUE submit_return)
+      if(NOT submit_return EQUAL 0)
+        message(WARNING "ctest_submit returned ${submit_return}; final Done submit will retry.")
+      endif()
     endif()
     ci_section_end("submit_${_dashboard_iteration}")
     if(COMMAND dashboard_hook_end)
@@ -592,6 +599,30 @@ while(NOT dashboard_done)
     set(dashboard_done 1)
   endif()
 endwhile()
+
+# Always send the Done sentinel, even if earlier steps reported errors.
+#
+# Without this, CDash leaves the build row's `done` column at 0 and the
+# server-side GitHub check (open-cdash-org App, src reference: CDash
+# `app/cdash/app/Lib/Repository/GitHub.php::getCheckSummaryForBuildRow`)
+# treats the build as still pending forever -- so the "CDash" check on
+# the PR never flips to success or failure.  See discussion in PR #6137
+# triage notes (2026-04-25).
+#
+# Use a longer retry window than the per-step submit because this is the
+# call that actually unblocks PR signalling; we would rather wait two
+# extra minutes than leave a check stuck in-progress for hours.
+if(NOT dashboard_no_submit)
+  ctest_submit(PARTS Done
+               RETRY_COUNT 5
+               RETRY_DELAY 60
+               RETURN_VALUE done_submit_return)
+  if(NOT done_submit_return EQUAL 0)
+    message(WARNING
+      "Final ctest_submit(PARTS Done) returned ${done_submit_return}; "
+      "the CDash PR check may remain in-progress.")
+  endif()
+endif()
 
 set(ci_completed_successfully 0)
 if(NOT ${configure_return} EQUAL 0)
