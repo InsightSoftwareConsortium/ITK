@@ -16,18 +16,17 @@
  *
  *=========================================================================*/
 
-#include <iostream>
 #include "itkExtractImageFilter.h"
 #include "itkFileOutputWindow.h"
 #include "itkStreamingImageFilter.h"
 #include "itkRandomImageSource.h"
 #include "itkCastImageFilter.h"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
 #include <set>
 
 namespace
 {
-bool
+void
 ExtractImageInPlaceTest()
 {
   // This is to test the InPlace option
@@ -54,7 +53,7 @@ ExtractImageInPlaceTest()
   extract->UpdateLargestPossibleRegion();
 
   // check that the it was not run in-place
-  ITK_TEST_EXPECT_TRUE(source->GetOutput()->GetBufferedRegion().GetSize() != zeroSize);
+  EXPECT_NE(source->GetOutput()->GetBufferedRegion().GetSize(), zeroSize);
 
   // add a filter between which will produce the requested region, and
   // enable in-place operation
@@ -68,10 +67,10 @@ ExtractImageInPlaceTest()
 
 
   // this buffer should still be ok
-  ITK_TEST_EXPECT_TRUE(source->GetOutput()->GetBufferedRegion().GetSize() != zeroSize);
+  EXPECT_NE(source->GetOutput()->GetBufferedRegion().GetSize(), zeroSize);
 
   // this should have been taken by the in-place;
-  ITK_TEST_EXPECT_TRUE(filter->GetOutput()->GetBufferedRegion().GetSize() == zeroSize);
+  EXPECT_EQ(filter->GetOutput()->GetBufferedRegion().GetSize(), zeroSize);
 
   // try with in-place disabled
   extract->InPlaceOff();
@@ -79,15 +78,12 @@ ExtractImageInPlaceTest()
 
 
   // these buffers should still be ok
-  ITK_TEST_EXPECT_TRUE(source->GetOutput()->GetBufferedRegion().GetSize() != zeroSize);
-  ITK_TEST_EXPECT_TRUE(filter->GetOutput()->GetBufferedRegion().GetSize() != zeroSize);
-
-  return EXIT_SUCCESS;
+  EXPECT_NE(source->GetOutput()->GetBufferedRegion().GetSize(), zeroSize);
+  EXPECT_NE(filter->GetOutput()->GetBufferedRegion().GetSize(), zeroSize);
 }
 } // namespace
 
-int
-itkExtractImageTest(int, char *[])
+TEST(ExtractImage, ConvertedLegacyTest)
 {
   const itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
   fow->SetInstance(fow);
@@ -204,8 +200,7 @@ itkExtractImageTest(int, char *[])
   }
   else
   {
-    std::cout << "ExtractImageFilter case 1 failed." << std::endl;
-    return EXIT_FAILURE;
+    FAIL() << "ExtractImageFilter case 1 failed.";
   }
 
   extract->GetOutput()->Print(std::cout);
@@ -284,8 +279,7 @@ itkExtractImageTest(int, char *[])
   }
   else
   {
-    std::cout << "ExtractImageFilter case 2 failed." << std::endl;
-    return EXIT_FAILURE;
+    FAIL() << "ExtractImageFilter case 2 failed.";
   }
 
   // Case 3: Try extracting a single row
@@ -329,8 +323,7 @@ itkExtractImageTest(int, char *[])
   }
   else
   {
-    std::cout << "ExtractImageFilter case 3 failed." << std::endl;
-    return EXIT_FAILURE;
+    FAIL() << "ExtractImageFilter case 3 failed.";
   }
 
   // Test streaming enumeration for ExtractImageFilterEnums::DirectionCollapseStrategy elements
@@ -345,5 +338,5 @@ itkExtractImageTest(int, char *[])
     std::cout << "STREAMED ENUM VALUE ExtractImageFilterEnums::DirectionCollapseStrategy: " << ee << std::endl;
   }
 
-  return ExtractImageInPlaceTest();
+  ExtractImageInPlaceTest();
 }
