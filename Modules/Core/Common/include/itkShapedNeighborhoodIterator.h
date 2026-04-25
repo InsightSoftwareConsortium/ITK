@@ -20,6 +20,7 @@
 
 #include <vector>
 #include <list>
+#include <type_traits> // For add_const_t.
 #include "itkConstShapedNeighborhoodIterator.h"
 
 namespace itk
@@ -219,9 +220,23 @@ public:
 
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
-  ShapedNeighborhoodIterator(const SizeType & radius, const ImageType * ptr, const RegionType & region)
-    : Superclass(radius, const_cast<ImageType *>(ptr), region)
+  ShapedNeighborhoodIterator(const SizeType & radius, ImageType * ptr, const RegionType & region)
+    : Superclass(radius, ptr, region)
   {}
+
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  /** Constructor which establishes the region size, neighborhood, and image over which to walk.
+  \deprecated This constructor is intended to be removed. For a `const` image, use ConstShapedNeighborhoodIterator
+  instead! */
+  ITK_FUTURE_DEPRECATED(
+    "This constructor is intended to be removed. For a `const` image, use ConstShapedNeighborhoodIterator instead!")
+  ShapedNeighborhoodIterator(const SizeType & radius, std::add_const_t<ImageType> * ptr, const RegionType & region)
+    : Superclass(radius, ptr, region)
+  {
+    // Note: parameter type `std::add_const_t<ImageType> *` prevents accidental class template argument deduction
+    // (CTAD).
+  }
+#endif
 
   // Expose the following methods from the superclass.  This is a restricted
   // subset of the methods available for NeighborhoodIterator.
