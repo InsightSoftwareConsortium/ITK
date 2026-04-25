@@ -31,14 +31,14 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template <typename TImage, typename TFunction>
-class ITK_TEMPLATE_EXPORT FloodFilledSpatialFunctionConditionalConstIterator
-  : public FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
+template <typename TImage, typename TFunction, bool VIsConst>
+class ITK_TEMPLATE_EXPORT FloodFilledSpatialFunctionConditionalIteratorBase
+  : public FloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>
 {
 public:
   /** Standard class type aliases. */
-  using Self = FloodFilledSpatialFunctionConditionalConstIterator;
-  using Superclass = FloodFilledFunctionConditionalConstIterator<TImage, TFunction>;
+  using Self = FloodFilledSpatialFunctionConditionalIteratorBase;
+  using Superclass = FloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>;
 
   /** Type of function */
   using typename Superclass::FunctionType;
@@ -67,23 +67,31 @@ public:
   /** External Pixel Type */
   using typename Superclass::PixelType;
 
+  using typename Superclass::ImagePointer;
+
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor uses
    * an explicit seed pixel for the flood fill, the "startIndex" */
-  FloodFilledSpatialFunctionConditionalConstIterator(const ImageType * imagePtr,
-                                                     FunctionType *    fnPtr,
-                                                     IndexType         startIndex);
+  FloodFilledSpatialFunctionConditionalIteratorBase(ImagePointer imagePtr, FunctionType * fnPtr, IndexType startIndex);
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor
    * should be used when the seed pixel is unknown. */
-  FloodFilledSpatialFunctionConditionalConstIterator(const ImageType * imagePtr, FunctionType * fnPtr);
+  FloodFilledSpatialFunctionConditionalIteratorBase(ImagePointer imagePtr, FunctionType * fnPtr);
   /** Default Destructor. */
-  ~FloodFilledSpatialFunctionConditionalConstIterator() override = default;
+  ~FloodFilledSpatialFunctionConditionalIteratorBase() override = default;
 
   /** Compute whether the index of interest should be included in the flood */
   bool
   IsPixelIncluded(const IndexType & index) const override;
+
+  /** Set the pixel value. SFINAE-gated on !VIsConst. */
+  template <bool VCopy = VIsConst, std::enable_if_t<!VCopy, int> = 0>
+  void
+  Set(const PixelType & value)
+  {
+    this->m_Image->GetPixel(this->m_IndexStack.front()) = value;
+  }
 
   /** Set the inclusion strategy to origin */
   void
@@ -127,6 +135,16 @@ protected: // made protected so other iterators can access
 
   unsigned char m_InclusionStrategy{};
 };
+
+template <typename TImage, typename TFunction>
+class ITK_TEMPLATE_EXPORT FloodFilledSpatialFunctionConditionalConstIterator
+  : public FloodFilledSpatialFunctionConditionalIteratorBase<TImage, TFunction, /*VIsConst=*/true>
+{
+public:
+  using Superclass = FloodFilledSpatialFunctionConditionalIteratorBase<TImage, TFunction, /*VIsConst=*/true>;
+  using Superclass::Superclass;
+};
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

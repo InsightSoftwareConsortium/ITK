@@ -31,14 +31,14 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template <typename TImage, typename TFunction>
-class ITK_TEMPLATE_EXPORT FloodFilledImageFunctionConditionalConstIterator
-  : public FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
+template <typename TImage, typename TFunction, bool VIsConst>
+class ITK_TEMPLATE_EXPORT FloodFilledImageFunctionConditionalIteratorBase
+  : public FloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>
 {
 public:
   /** Standard class type aliases. */
-  using Self = FloodFilledImageFunctionConditionalConstIterator<TImage, TFunction>;
-  using Superclass = FloodFilledFunctionConditionalConstIterator<TImage, TFunction>;
+  using Self = FloodFilledImageFunctionConditionalIteratorBase;
+  using Superclass = FloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>;
 
   /** Type of function */
   using typename Superclass::FunctionType;
@@ -67,6 +67,8 @@ public:
   /** External Pixel Type */
   using typename Superclass::PixelType;
 
+  using typename Superclass::ImagePointer;
+
   /** Dimension of the image the iterator walks.  This constant is needed so
    * functions that are templated over image iterator type (as opposed to
    * being templated over pixel type and dimension) can have compile time
@@ -76,34 +78,50 @@ public:
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor uses
    * an explicit seed pixel for the flood fill, the "startIndex" */
-  FloodFilledImageFunctionConditionalConstIterator(const ImageType * imagePtr,
-                                                   FunctionType *    fnPtr,
-                                                   IndexType         startIndex)
+  FloodFilledImageFunctionConditionalIteratorBase(ImagePointer imagePtr, FunctionType * fnPtr, IndexType startIndex)
     : Superclass(imagePtr, fnPtr, startIndex)
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor uses
    * an explicit list of seed pixels for the flood fill, the "startIndex" */
-  FloodFilledImageFunctionConditionalConstIterator(const ImageType *        imagePtr,
-                                                   FunctionType *           fnPtr,
-                                                   std::vector<IndexType> & startIndex)
+  FloodFilledImageFunctionConditionalIteratorBase(ImagePointer             imagePtr,
+                                                  FunctionType *           fnPtr,
+                                                  std::vector<IndexType> & startIndex)
     : Superclass(imagePtr, fnPtr, startIndex)
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor
    * should be used when the seed pixel is unknown. */
-  FloodFilledImageFunctionConditionalConstIterator(const ImageType * imagePtr, FunctionType * fnPtr)
+  FloodFilledImageFunctionConditionalIteratorBase(ImagePointer imagePtr, FunctionType * fnPtr)
     : Superclass(imagePtr, fnPtr)
   {}
   /** Default Destructor. */
-  ~FloodFilledImageFunctionConditionalConstIterator() override = default;
+  ~FloodFilledImageFunctionConditionalIteratorBase() override = default;
+
+  /** Set the pixel value. SFINAE-gated on !VIsConst. */
+  template <bool VCopy = VIsConst, std::enable_if_t<!VCopy, int> = 0>
+  void
+  Set(const PixelType & value)
+  {
+    this->m_Image->GetPixel(this->m_IndexStack.front()) = value;
+  }
 
   /** Compute whether the index of interest should be included in the flood */
   bool
   IsPixelIncluded(const IndexType & index) const override;
 };
+
+template <typename TImage, typename TFunction>
+class ITK_TEMPLATE_EXPORT FloodFilledImageFunctionConditionalConstIterator
+  : public FloodFilledImageFunctionConditionalIteratorBase<TImage, TFunction, /*VIsConst=*/true>
+{
+public:
+  using Superclass = FloodFilledImageFunctionConditionalIteratorBase<TImage, TFunction, /*VIsConst=*/true>;
+  using Superclass::Superclass;
+};
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

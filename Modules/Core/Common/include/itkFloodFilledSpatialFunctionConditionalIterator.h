@@ -32,79 +32,14 @@ namespace itk
  * \ingroup ITKCommon
  */
 template <typename TImage, typename TFunction>
-class FloodFilledSpatialFunctionConditionalIterator
-  : public FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>
+class ITK_TEMPLATE_EXPORT FloodFilledSpatialFunctionConditionalIterator
+  : public FloodFilledSpatialFunctionConditionalIteratorBase<TImage, TFunction, /*VIsConst=*/false>
 {
 public:
-  /** Standard class type aliases. */
-  using Self = FloodFilledSpatialFunctionConditionalIterator;
-  using Superclass = FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>;
-
-  /** Type of function */
-  using typename Superclass::FunctionType;
-
-  /** Type of vector used to store location info in the spatial function */
-  using typename Superclass::FunctionInputType;
-
-  /** Index type alias support */
-  using typename Superclass::IndexType;
-
-  /** Index ContainerType. */
-  using typename Superclass::SeedsContainerType;
-
-  /** Size type alias support */
-  using typename Superclass::SizeType;
-
-  /** Region type alias support */
-  using typename Superclass::RegionType;
-
-  /** Image type alias support */
-  using typename Superclass::ImageType;
-
-  /** Internal Pixel Type */
-  using typename Superclass::InternalPixelType;
-
-  /** External Pixel Type */
-  using typename Superclass::PixelType;
-
-  /** Constructor establishes an iterator to walk a particular image and a
-   * particular region of that image. This version of the constructor uses
-   * an explicit seed pixel for the flood fill, the "startIndex" */
-  FloodFilledSpatialFunctionConditionalIterator(ImageType * imagePtr, FunctionType * fnPtr, IndexType startIndex)
-    : Superclass(imagePtr, fnPtr, startIndex)
-  {}
-
-  /** Constructor establishes an iterator to walk a particular image and a
-   * particular region of that image. This version of the constructor
-   * should be used when the seed pixel is unknown. */
-  FloodFilledSpatialFunctionConditionalIterator(ImageType * imagePtr, FunctionType * fnPtr)
-    : Superclass(imagePtr, fnPtr)
-  {}
-
-  /** Get the pixel value, const version to avoid overload warnings */
-  [[nodiscard]] const PixelType
-  Get() const override
-  {
-    return const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_IndexStack.front());
-  }
-
-  /** Get the pixel value, non-const version is sometimes useful. */
-  PixelType
-  Get()
-  {
-    return const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_IndexStack.front());
-  }
-
-  /** Set the pixel value */
-  void
-  Set(const PixelType & value)
-  {
-    const_cast<ImageType *>(this->m_Image.GetPointer())->GetPixel(this->m_IndexStack.front()) = value;
-  }
-
-  /** Default Destructor. */
-  ~FloodFilledSpatialFunctionConditionalIterator() override = default;
+  using Superclass = FloodFilledSpatialFunctionConditionalIteratorBase<TImage, TFunction, /*VIsConst=*/false>;
+  using Superclass::Superclass;
 };
+
 } // end namespace itk
 
 #endif

@@ -22,13 +22,10 @@
 
 namespace itk
 {
-template <typename TImage, typename TFunction>
-ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::ShapedFloodFilledFunctionConditionalConstIterator(
-  const ImageType * imagePtr,
-  FunctionType *    fnPtr,
-  IndexType         startIndex)
+template <typename TImage, typename TFunction, bool VIsConst>
+ShapedFloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::
+  ShapedFloodFilledFunctionConditionalIteratorBase(ImagePointer imagePtr, FunctionType * fnPtr, IndexType startIndex)
   : m_Function(fnPtr)
-
 {
   this->m_Image = imagePtr;
   m_Seeds.push_back(startIndex);
@@ -37,13 +34,12 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::ShapedFloo
   this->InitializeIterator();
 }
 
-template <typename TImage, typename TFunction>
-ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::ShapedFloodFilledFunctionConditionalConstIterator(
-  const ImageType *        imagePtr,
-  FunctionType *           fnPtr,
-  std::vector<IndexType> & startIndex)
+template <typename TImage, typename TFunction, bool VIsConst>
+ShapedFloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::
+  ShapedFloodFilledFunctionConditionalIteratorBase(ImagePointer             imagePtr,
+                                                   FunctionType *           fnPtr,
+                                                   std::vector<IndexType> & startIndex)
   : m_Function(fnPtr)
-
 {
   this->m_Image = imagePtr; // can not be done in the initialization list
   for (unsigned int i = 0; i < startIndex.size(); ++i)
@@ -55,21 +51,19 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::ShapedFloo
   this->InitializeIterator();
 }
 
-template <typename TImage, typename TFunction>
-ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::ShapedFloodFilledFunctionConditionalConstIterator(
-  const ImageType * imagePtr,
-  FunctionType *    fnPtr)
+template <typename TImage, typename TFunction, bool VIsConst>
+ShapedFloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::
+  ShapedFloodFilledFunctionConditionalIteratorBase(ImagePointer imagePtr, FunctionType * fnPtr)
   : m_Function(fnPtr)
-
 {
   this->m_Image = imagePtr;
   // Set up the temporary image
   this->InitializeIterator();
 }
 
-template <typename TImage, typename TFunction>
+template <typename TImage, typename TFunction, bool VIsConst>
 void
-ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::InitializeIterator()
+ShapedFloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::InitializeIterator()
 {
   // Get the origin and spacing from the image in simple arrays
   m_ImageOrigin = this->m_Image->GetOrigin();
@@ -107,9 +101,9 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::Initialize
   }
 }
 
-template <typename TImage, typename TFunction>
+template <typename TImage, typename TFunction, bool VIsConst>
 void
-ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FindSeedPixel()
+ShapedFloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::FindSeedPixel()
 {
   // Create an iterator that will walk the input image
 
@@ -130,9 +124,9 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FindSeedPi
   }
 }
 
-template <typename TImage, typename TFunction>
+template <typename TImage, typename TFunction, bool VIsConst>
 void
-ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FindSeedPixels()
+ShapedFloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::FindSeedPixels()
 {
   // Create an iterator that will walk the input image
 
@@ -155,9 +149,9 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FindSeedPi
   }
 }
 
-template <typename TImage, typename TFunction>
+template <typename TImage, typename TFunction, bool VIsConst>
 void
-ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::DoFloodStep()
+ShapedFloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::DoFloodStep()
 {
   // The index in the front of the queue should always be
   // valid and be inside since this is what the iterator
@@ -208,9 +202,9 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::DoFloodSte
   }
 }
 
-template <typename TImage, typename TFunction>
+template <typename TImage, typename TFunction, bool VIsConst>
 void
-ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::SetFullyConnected(const bool _arg)
+ShapedFloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::SetFullyConnected(const bool _arg)
 {
   if (this->m_FullyConnected != _arg)
   {
@@ -219,9 +213,9 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::SetFullyCo
   }
 }
 
-template <typename TImage, typename TFunction>
+template <typename TImage, typename TFunction, bool VIsConst>
 bool
-ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::GetFullyConnected() const
+ShapedFloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::GetFullyConnected() const
 {
   return this->m_FullyConnected;
 }

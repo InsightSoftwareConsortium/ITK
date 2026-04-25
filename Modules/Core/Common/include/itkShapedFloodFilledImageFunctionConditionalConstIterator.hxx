@@ -21,9 +21,9 @@
 
 namespace itk
 {
-template <typename TImage, typename TFunction>
+template <typename TImage, typename TFunction, bool VIsConst>
 bool
-ShapedFloodFilledImageFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIncluded(
+ShapedFloodFilledImageFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::IsPixelIncluded(
   const IndexType & index) const
 {
   return this->m_Function->EvaluateAtIndex(index);

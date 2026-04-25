@@ -19,6 +19,8 @@
 #define itkConditionalConstIterator_h
 
 #include "itkIndex.h"
+#include "itkWeakPointer.h"
+#include <type_traits>
 
 namespace itk
 {
@@ -34,12 +36,12 @@ namespace itk
  * \ingroup ImageIterators
  * \ingroup ITKCommon
  */
-template <typename TImage>
-class ITK_TEMPLATE_EXPORT ConditionalConstIterator
+template <typename TImage, bool VIsConst>
+class ITK_TEMPLATE_EXPORT ConditionalIteratorBase
 {
 public:
   /** Standard class type aliases. */
-  using Self = ConditionalConstIterator;
+  using Self = ConditionalIteratorBase;
 
   /** Dimension of the image the iterator walks.  This constant is needed so
    * that functions that are templated over image iterator type (as opposed to
@@ -64,6 +66,9 @@ public:
 
   /** External Pixel Type */
   using PixelType = typename TImage::PixelType;
+
+  using ImageWeakPointer = std::conditional_t<VIsConst, typename TImage::ConstWeakPointer, WeakPointer<TImage>>;
+  using ImagePointer = std::conditional_t<VIsConst, const TImage *, TImage *>;
 
   /** Compute whether the index of interest should be included in the flood */
   [[nodiscard]] virtual bool
@@ -98,15 +103,15 @@ public:
   operator++() = 0;
 
   /** Constructor */
-  ConditionalConstIterator() = default;
+  ConditionalIteratorBase() = default;
 
   /** Destructor */
-  virtual ~ConditionalConstIterator() = default;
+  virtual ~ConditionalIteratorBase() = default;
 
 protected: // made protected so other iterators can access
   /** Smart pointer to the source image. */
   // SmartPointer<const ImageType> m_Image;
-  typename ImageType::ConstWeakPointer m_Image{};
+  ImageWeakPointer m_Image{};
 
   /** Region type to iterate over. */
   RegionType m_Region{};
@@ -114,6 +119,25 @@ protected: // made protected so other iterators can access
   /** Is the iterator at the end of its walk? */
   bool m_IsAtEnd{ false };
 };
+
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ConditionalConstIterator : public ConditionalIteratorBase<TImage, /*VIsConst=*/true>
+{
+public:
+  using Superclass = ConditionalIteratorBase<TImage, /*VIsConst=*/true>;
+  using Superclass::Superclass;
+};
+
+template <typename TImage>
+ConditionalConstIterator(SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ConditionalConstIterator<std::remove_const_t<TImage>>;
+
+template <typename TImage>
+ConditionalConstIterator(TImage *, const typename TImage::RegionType &) -> ConditionalConstIterator<TImage>;
+
+template <typename TImage>
+ConditionalConstIterator(const TImage *, const typename TImage::RegionType &) -> ConditionalConstIterator<TImage>;
+
 } // end namespace itk
 
 #endif

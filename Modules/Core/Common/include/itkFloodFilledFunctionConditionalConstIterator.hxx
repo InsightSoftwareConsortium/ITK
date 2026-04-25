@@ -22,23 +22,22 @@
 
 namespace itk
 {
-template <typename TImage, typename TFunction>
-FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FloodFilledFunctionConditionalConstIterator(
-  const ImageType * imagePtr,
-  FunctionType *    fnPtr,
-  IndexType         startIndex)
+template <typename TImage, typename TFunction, bool VIsConst>
+FloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::FloodFilledFunctionConditionalIteratorBase(
+  ImagePointer   imagePtr,
+  FunctionType * fnPtr,
+  IndexType      startIndex)
   : m_Function(fnPtr)
 {
   this->m_Image = imagePtr;
   m_Seeds.push_back(startIndex);
 
-  // Set up the temporary image
   this->InitializeIterator();
 }
 
-template <typename TImage, typename TFunction>
-FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FloodFilledFunctionConditionalConstIterator(
-  const ImageType *        imagePtr,
+template <typename TImage, typename TFunction, bool VIsConst>
+FloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::FloodFilledFunctionConditionalIteratorBase(
+  ImagePointer             imagePtr,
   FunctionType *           fnPtr,
   std::vector<IndexType> & startIndex)
   : m_Function(fnPtr)
@@ -49,25 +48,23 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FloodFilledFunct
     m_Seeds.push_back(startIndex[i]);
   }
 
-  // Set up the temporary image
   this->InitializeIterator();
 }
 
-template <typename TImage, typename TFunction>
-FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FloodFilledFunctionConditionalConstIterator(
-  const ImageType * imagePtr,
-  FunctionType *    fnPtr)
+template <typename TImage, typename TFunction, bool VIsConst>
+FloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::FloodFilledFunctionConditionalIteratorBase(
+  ImagePointer   imagePtr,
+  FunctionType * fnPtr)
   : m_Function(fnPtr)
 {
   this->m_Image = imagePtr;
 
-  // Set up the temporary image
   this->InitializeIterator();
 }
 
-template <typename TImage, typename TFunction>
+template <typename TImage, typename TFunction, bool VIsConst>
 void
-FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::InitializeIterator()
+FloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::InitializeIterator()
 {
   m_FoundUncheckedNeighbor = false;
   m_IsValidIndex = false;
@@ -100,9 +97,9 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::InitializeIterat
   }
 }
 
-template <typename TImage, typename TFunction>
+template <typename TImage, typename TFunction, bool VIsConst>
 void
-FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FindSeedPixel()
+FloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::FindSeedPixel()
 {
   // Create an iterator that will walk the input image
 
@@ -123,9 +120,9 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FindSeedPixel()
   }
 }
 
-template <typename TImage, typename TFunction>
+template <typename TImage, typename TFunction, bool VIsConst>
 void
-FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FindSeedPixels()
+FloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::FindSeedPixels()
 {
   // Create an iterator that will walk the input image
 
@@ -148,9 +145,9 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FindSeedPixels()
   }
 }
 
-template <typename TImage, typename TFunction>
+template <typename TImage, typename TFunction, bool VIsConst>
 void
-FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::DoFloodStep()
+FloodFilledFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::DoFloodStep()
 {
   // The index in the front of the queue should always be
   // valid and be inside since this is what the iterator
@@ -204,8 +201,6 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::DoFloodStep()
     } // end left/right neighbor loop
   } // end check all neighbors
 
-  // Now that all the potential neighbors have been
-  // inserted we can get rid of the pixel in the front
   m_IndexStack.pop();
 
   if (m_IndexStack.empty())

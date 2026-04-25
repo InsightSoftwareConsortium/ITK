@@ -21,29 +21,28 @@
 
 namespace itk
 {
-template <typename TImage, typename TFunction>
-FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::
-  FloodFilledSpatialFunctionConditionalConstIterator(const ImageType * imagePtr,
-                                                     FunctionType *    fnPtr,
-                                                     IndexType         startIndex)
+template <typename TImage, typename TFunction, bool VIsConst>
+FloodFilledSpatialFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::
+  FloodFilledSpatialFunctionConditionalIteratorBase(ImagePointer imagePtr, FunctionType * fnPtr, IndexType startIndex)
   : Superclass(imagePtr, fnPtr, startIndex)
 {
   // The default inclusion strategy is "center"
   this->SetCenterInclusionStrategy();
 }
 
-template <typename TImage, typename TFunction>
-FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::
-  FloodFilledSpatialFunctionConditionalConstIterator(const ImageType * imagePtr, FunctionType * fnPtr)
+template <typename TImage, typename TFunction, bool VIsConst>
+FloodFilledSpatialFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::
+  FloodFilledSpatialFunctionConditionalIteratorBase(ImagePointer imagePtr, FunctionType * fnPtr)
   : Superclass(imagePtr, fnPtr)
 {
   // The default inclusion strategy is "center"
   this->SetCenterInclusionStrategy();
 }
 
-template <typename TImage, typename TFunction>
+template <typename TImage, typename TFunction, bool VIsConst>
 bool
-FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIncluded(const IndexType & index) const
+FloodFilledSpatialFunctionConditionalIteratorBase<TImage, TFunction, VIsConst>::IsPixelIncluded(
+  const IndexType & index) const
 {
   // This temp var is used in all cases
   FunctionInputType position;
