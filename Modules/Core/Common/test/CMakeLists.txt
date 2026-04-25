@@ -5,7 +5,6 @@ set(
   itkDataObjectTest.cxx
   itkDirectoryTest.cxx
   itkExceptionObjectTest.cxx
-  itkExtractImage3Dto2DTest.cxx
   itkExtractImageTest.cxx
   itkFileOutputWindowTest.cxx
   itkFixedArrayTest2.cxx
@@ -190,12 +189,6 @@ if(ITK_BUILD_SHARED_LIBS)
   add_dependencies(ITKCommon2TestDriver FactoryTestLib)
 endif()
 
-itk_add_test(
-  NAME itkExtractImage3Dto2DTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkExtractImage3Dto2DTest
-)
 itk_add_test(
   NAME itkExtractImageTest
   COMMAND
@@ -1503,6 +1496,7 @@ set(
   itkDiffusionTensor3DGTest.cxx
   itkEventObjectGTest.cxx
   itkExceptionObjectGTest.cxx
+  itkExtractImage3Dto2DGTest.cxx
   itkFilterDispatchGTest.cxx
   itkFixedArrayGTest.cxx
   itkFloodFilledSpatialFunctionGTest.cxx
