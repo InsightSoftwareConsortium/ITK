@@ -2,106 +2,57 @@
 # Find the packages required by this module
 #
 
-# Needed VTK version
-set(VERSION_MIN "8.1.0")
+# Required VTK version. ITK 6 requires VTK 9.1 or newer because:
+#   * VTK 9.0 was the first stable release of the new module system, which
+#     replaces the legacy `vtk_module_config` macro with imported targets
+#     (e.g. VTK::CommonCore).
+#   * VTK 9.0 ships only the OpenGL2 rendering backend.
+#   * VTK 9.1 stabilised the imported-target names and the
+#     `vtk_module_autoinit` helper that ITKVtkGlue relies on
+#     unconditionally.
+# VTK 9.4+ is recommended (current security/CVE patches and bug fixes)
+# but not required.
+set(VERSION_MIN "9.1.0")
 
-# Look for VTK
-find_package(VTK NO_MODULE REQUIRED)
+find_package(VTK ${VERSION_MIN} NO_MODULE REQUIRED)
 
-if(NOT COMMAND vtk_module_config)
-  macro(vtk_module_config ns)
-    foreach(arg ${ARGN})
-      if(${arg} MATCHES "^[Vv][Tt][Kk]")
-        string(REGEX REPLACE "^[Vv][Tt][Kk]" "" _arg ${arg})
-      else()
-        set(_arg ${arg})
-      endif()
-      set(
-        ${ns}_LIBRARIES
-        ${${ns}_LIBRARIES}
-        VTK::${_arg}
-      )
-    endforeach()
-  endmacro()
-
-  if(NOT VTK_RENDERING_BACKEND)
-    set(VTK_RENDERING_BACKEND OpenGL2)
-  endif()
-endif()
-
-# Older versions of VTK (VTK 5.5 for example) do not have VTK_VERSION, in this
-# case it needs to be defined manually
-if(NOT VTK_VERSION)
-  set(
-    VTK_VERSION
-    "${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION}.${VTK_BUILD_VERSION}"
-  )
-endif()
 if(NOT VTK_RENDERING_BACKEND)
-  if(NOT COMMAND vtk_module_config)
-    set(VTK_RENDERING_BACKEND OpenGL2)
-  else()
-    set(VTK_RENDERING_BACKEND OpenGL)
-  endif()
+  set(VTK_RENDERING_BACKEND OpenGL2)
 endif()
-set(_target_prefix "vtk")
-set(_vtk_sys_name "sys")
-if(VTK_VERSION VERSION_GREATER_EQUAL 8.90.0)
-  set(_target_prefix "VTK::")
-  set(_vtk_sys_name "vtksys")
-endif()
+
 set(_target_freetypeopengl)
-if(TARGET ${_target_prefix}RenderingFreeType${VTK_RENDERING_BACKEND})
-  set(
-    _target_freetypeopengl
-    ${_target_prefix}RenderingFreeType${VTK_RENDERING_BACKEND}
-  )
+if(TARGET VTK::RenderingFreeType${VTK_RENDERING_BACKEND})
+  set(_target_freetypeopengl VTK::RenderingFreeType${VTK_RENDERING_BACKEND})
 endif()
 
 set(
   _required_vtk_libraries
-  ${_target_prefix}IOImage
-  ${_target_prefix}ImagingSources
+  VTK::IOImage
+  VTK::ImagingSources
+  VTK::vtksys
+  VTK::kwiml
 )
-
-if(VTK_VERSION VERSION_GREATER_EQUAL 8.90.0)
-  list(
-    APPEND
-    _required_vtk_libraries
-    "VTK::vtksys"
-    "VTK::kwiml"
-  )
-else()
-  list(APPEND _required_vtk_libraries "vtksys")
-endif()
 
 if(ITK_WRAP_PYTHON)
   list(
     APPEND
     _required_vtk_libraries
-    ${_target_prefix}WrappingPythonCore
-    ${_target_prefix}CommonCore
-    ${_target_prefix}CommonDataModel
-    ${_target_prefix}CommonExecutionModel
+    VTK::WrappingPythonCore
+    VTK::CommonCore
+    VTK::CommonDataModel
+    VTK::CommonExecutionModel
   )
 endif()
 if(NOT VTK_RENDERING_BACKEND STREQUAL "None")
   list(
     APPEND
     _required_vtk_libraries
-    ${_target_prefix}Rendering${VTK_RENDERING_BACKEND}
-    ${_target_prefix}RenderingFreeType
+    VTK::Rendering${VTK_RENDERING_BACKEND}
+    VTK::RenderingFreeType
     ${_target_freetypeopengl}
-    ${_target_prefix}InteractionStyle
-    ${_target_prefix}InteractionWidgets
+    VTK::InteractionStyle
+    VTK::InteractionWidgets
   )
 endif()
-if(${VTK_VERSION} VERSION_LESS ${VERSION_MIN})
-  message(
-    ERROR
-    " VtkGlue requires VTK version ${VERSION_MIN} or newer but the current version is ${VTK_VERSION}"
-  )
-else()
-  vtk_module_config(ITKVtkGlue_VTK ${_required_vtk_libraries})
-  set(ITKVtkGlue_VTK_LIBRARIES ${_required_vtk_libraries})
-endif()
+
+set(ITKVtkGlue_VTK_LIBRARIES ${_required_vtk_libraries})

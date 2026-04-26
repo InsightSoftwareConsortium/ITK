@@ -64,60 +64,55 @@ set_property(
       ${ITKVtkGlue_VTK_DEFINITIONS}
 )
 
+# Export blocks emitted into the consumer's ITKConfig.cmake. Both the
+# install-tree and build-tree variants assume VTK >= 9.1 (imported
+# targets, OpenGL2 only, no `vtk_module_config` shim).
+#
+# Note on `\$` escapes inside the quoted string bodies below:
+# variables like `_target_freetypeopengl` and `_required_vtk_libraries`
+# are *defined inside* these string bodies and must therefore expand
+# at the consumer's `find_package(ITK)` time, not at ITK's configure
+# time. The `\$` keeps the literal `${...}` in the generated config
+# file. `\${VTK_RENDERING_BACKEND}` is escaped on the same timeline
+# for internal consistency (its default-value `if`-block also runs at
+# consumer time). Mixing escaped and unescaped references is a latent
+# bug — the unescaped variant expands at ITK time when these locals
+# are still empty, silently dropping content from the consumer's
+# config (see PR #6144 for the empirical reproduction).
 set(
   ITKVtkGlue_EXPORT_CODE_INSTALL
   "
 set(VTK_DIR \"${VTK_DIR}\")
-
-find_package(VTK NO_MODULE REQUIRED)
-
-  if(NOT COMMAND vtk_module_config)
-    macro(vtk_module_config ns)
-       foreach(arg \${ARGN})
-        if(\${arg} MATCHES \"^[Vv][Tt][Kk]\")
-          string(REGEX REPLACE \"^[Vv][Tt][Kk]\" \"\" _arg \${arg})
-        else()
-          set(_arg \${arg})
-        endif()
-        set(\${ns}_LIBRARIES \${\${ns}_LIBRARIES} VTK::\${_arg})
-       endforeach()
-    endmacro()
-  endif()
-
-if(NOT VTK_VERSION)
-  set(VTK_VERSION \"${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION}.${VTK_BUILD_VERSION}\")
-endif()
+find_package(VTK 9.1 NO_MODULE REQUIRED)
 if(NOT VTK_RENDERING_BACKEND)
-  if(NOT COMMAND vtk_module_config)
-    set(VTK_RENDERING_BACKEND OpenGL2)
-  else()
-    set(VTK_RENDERING_BACKEND OpenGL)
-  endif()
+  set(VTK_RENDERING_BACKEND OpenGL2)
 endif()
 set(_target_freetypeopengl)
-if(TARGET ${_target_prefix}RenderingFreeType${VTK_RENDERING_BACKEND})
-  set(_target_freetypeopengl ${_target_prefix}RenderingFreeType${VTK_RENDERING_BACKEND})
+if(TARGET VTK::RenderingFreeType\${VTK_RENDERING_BACKEND})
+  set(_target_freetypeopengl VTK::RenderingFreeType\${VTK_RENDERING_BACKEND})
 endif()
-
 set(_required_vtk_libraries
-  ${_target_prefix}IOImage
-  ${_target_prefix}ImagingSources
+  VTK::IOImage
+  VTK::ImagingSources
+  VTK::vtksys
+  VTK::kwiml
   )
 if(ITK_WRAP_PYTHON)
-  list(APPEND _required_vtk_libraries ${_target_prefix}WrappingPythonCore)
+  list(APPEND _required_vtk_libraries
+    VTK::WrappingPythonCore
+    VTK::CommonCore
+    VTK::CommonDataModel
+    VTK::CommonExecutionModel)
 endif()
 if(NOT VTK_RENDERING_BACKEND STREQUAL \"None\")
   list(APPEND _required_vtk_libraries
-    ${_target_prefix}Rendering${VTK_RENDERING_BACKEND}
-    ${_target_prefix}RenderingFreeType
-    ${_target_freetypeopengl}
-    ${_target_prefix}InteractionStyle
-    ${_target_prefix}InteractionWidgets
+    VTK::Rendering\${VTK_RENDERING_BACKEND}
+    VTK::RenderingFreeType
+    \${_target_freetypeopengl}
+    VTK::InteractionStyle
+    VTK::InteractionWidgets
   )
 endif()
-vtk_module_config(ITKVtkGlue_VTK
-  \${_required_vtk_libraries}
-  )
 set(ITKVtkGlue_VTK_LIBRARIES \${_required_vtk_libraries})
 set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS \${ITKVtkGlue_VTK_DEFINITIONS})
 "
@@ -127,55 +122,36 @@ set(
   "
 if(NOT ITK_BINARY_DIR)
   set(VTK_DIR \"${VTK_DIR}\")
-
-  if(NOT COMMAND vtk_module_config)
-    macro(vtk_module_config ns)
-       foreach(arg \${ARGN})
-        if(\${arg} MATCHES \"^[Vv][Tt][Kk]\")
-          string(REGEX REPLACE \"^[Vv][Tt][Kk]\" \"\" _arg \${arg})
-        else()
-          set(_arg \${arg})
-        endif()
-        set(\${ns}_LIBRARIES \${\${ns}_LIBRARIES} VTK::\${_arg})
-       endforeach()
-    endmacro()
-  endif()
-
-  find_package(VTK NO_MODULE REQUIRED)
-
-  if(NOT VTK_VERSION)
-    set(VTK_VERSION \"${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION}.${VTK_BUILD_VERSION}\")
-  endif()
+  find_package(VTK 9.1 NO_MODULE REQUIRED)
   if(NOT VTK_RENDERING_BACKEND)
-    if(NOT COMMAND vtk_module_config)
-      set(VTK_RENDERING_BACKEND OpenGL2)
-    else()
-      set(VTK_RENDERING_BACKEND OpenGL)
-    endif()
+    set(VTK_RENDERING_BACKEND OpenGL2)
   endif()
-  if(TARGET ${_target_prefix}RenderingFreeType${VTK_RENDERING_BACKEND})
-    set(_target_freetypeopengl ${_target_prefix}RenderingFreeType${VTK_RENDERING_BACKEND})
+  set(_target_freetypeopengl)
+  if(TARGET VTK::RenderingFreeType\${VTK_RENDERING_BACKEND})
+    set(_target_freetypeopengl VTK::RenderingFreeType\${VTK_RENDERING_BACKEND})
   endif()
-
   set(_required_vtk_libraries
-    ${_target_prefix}IOImage
-    ${_target_prefix}ImagingSources
+    VTK::IOImage
+    VTK::ImagingSources
+    VTK::vtksys
+    VTK::kwiml
     )
   if(ITK_WRAP_PYTHON)
-    list(APPEND _required_vtk_libraries ${_target_prefix}WrappingPythonCore)
+    list(APPEND _required_vtk_libraries
+      VTK::WrappingPythonCore
+      VTK::CommonCore
+      VTK::CommonDataModel
+      VTK::CommonExecutionModel)
   endif()
   if(NOT VTK_RENDERING_BACKEND STREQUAL \"None\")
     list(APPEND _required_vtk_libraries
-      ${_target_prefix}Rendering${VTK_RENDERING_BACKEND}
-      ${_target_prefix}RenderingFreeType
-      ${_target_freetypeopengl}
-      ${_target_prefix}InteractionStyle
-      ${_target_prefix}InteractionWidgets
+      VTK::Rendering\${VTK_RENDERING_BACKEND}
+      VTK::RenderingFreeType
+      \${_target_freetypeopengl}
+      VTK::InteractionStyle
+      VTK::InteractionWidgets
     )
   endif()
-  vtk_module_config(ITKVtkGlue_VTK
-    \${_required_vtk_libraries}
-    )
   set(ITKVtkGlue_VTK_LIBRARIES \${_required_vtk_libraries})
   set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS \${ITKVtkGlue_VTK_DEFINITIONS})
 endif()

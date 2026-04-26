@@ -11,6 +11,96 @@ Many backward compatible/ forward enabling compiler features are now required to
 
 Replace `ITKv5_CONST` with `const`
 
+Minimum supported VTK version: 9.1
+----------------------------------
+
+`ITKVtkGlue` (and any code that links it) now requires **VTK 9.1 or
+newer**. The previous floor of VTK 8.1 has been raised because:
+
+* VTK 9.0 was the first stable release of the new module system, which
+  replaces the legacy `vtk_module_config(NS …)` macro with imported
+  targets such as `VTK::CommonCore` and `VTK::IOImage`.
+* VTK 9.0 removed the `OpenGL` rendering backend; only `OpenGL2` is
+  shipped.
+* VTK 9.1 stabilised the imported-target names and the
+  `vtk_module_autoinit` helper that ITKVtkGlue now relies on
+  unconditionally, removing a significant amount of legacy
+  compatibility code from `Modules/Bridge/VtkGlue/`.
+
+**VTK 9.4 or newer is recommended** for current security/CVE patches
+and bug fixes, but **not required** — every imported-target name and
+CMake helper that ITKVtkGlue depends on was already stable in 9.1, so
+ITK 6 is happy to build against any 9.1.x release. Use 9.4+ if you
+have the choice.
+
+### What you need to do
+
+If your project links `ITKVtkGlue` (directly or via `find_package(ITK)`):
+
+1. **Build / link against VTK 9.1 or newer.** Distribution packages
+   that ship a supported VTK as of this release: Ubuntu 22.04 LTS and
+   24.04 LTS (`libvtk9.1`), Fedora 38+ (9.2+), Homebrew (`brew install
+   vtk` tracks current — currently 9.5). Anaconda's `conda-forge::vtk`
+   is at 9.4+. 3D Slicer and ParaView build VTK 9.4+ from source as
+   part of their superbuild.
+
+2. **Remove any local `vtk_module_config(...)` calls in your CMake.**
+   The shim that ITKVtkGlue used to inject when consuming legacy VTK
+   has been deleted. Replace such calls with a direct
+   `target_link_libraries(<your-target> PUBLIC VTK::IOImage VTK::…)`,
+   then call `vtk_module_autoinit` so VTK's object factories and I/O
+   readers/writers register at startup. Without this call, factory-
+   dispatched features (e.g., `vtkImageReader2Factory`) silently
+   produce empty results:
+   ```cmake
+   target_link_libraries(<your-target>
+     PUBLIC
+       VTK::IOImage
+       VTK::ImagingSources
+       # …other VTK modules you use
+   )
+   vtk_module_autoinit(
+     TARGETS <your-target>
+     MODULES VTK::IOImage VTK::ImagingSources # …same list as above
+   )
+   ```
+
+3. **Remove any `VTK_RENDERING_BACKEND` selection logic that fell back
+   to `OpenGL`.** Only `OpenGL2` is supported now. Code such as
+   ```cmake
+   if(VTK_RENDERING_BACKEND STREQUAL "OpenGL")
+     # ...
+   endif()
+   ```
+   can be deleted; the special cases for `OpenGL` no longer exist
+   upstream.
+
+4. **Update `find_package(VTK …)` calls** to require 9.1 explicitly:
+   ```cmake
+   find_package(VTK 9.1 NO_MODULE REQUIRED)
+   ```
+   If a project also exports its own `<Project>Config.cmake`, mirror
+   the version pin so downstream consumers get a clear failure rather
+   than a confusing missing-target error. Bump to `9.4` instead of
+   `9.1` if you want to enforce the recommended-not-required floor in
+   your own build.
+
+### Note for downstream projects that pin both ITK and VTK
+
+ITK 6 + VTK 9.1+ is the supported combination, with VTK 9.4+
+recommended. If you maintain a SuperBuild that pins both
+(e.g., 3D Slicer, BRAINSTools, ANTs, ITK Remote Modules), bump the
+pinned VTK tag to **at least `v9.1.0`** (or, preferably, the latest
+9.4.x) before bumping the ITK pin to 6. Building ITK 6 against VTK
+8.x or VTK 9.0 will fail at `find_package` time with a clear
+version-mismatch error.
+
+Distributions still on VTK 8.x or VTK 9.0 should track ITK 5.4.x
+until their VTK is updated; ITK 5.4 patch releases continue to
+support the wider VTK 8.1+/9.0+ range.
+
+
+
 Remove support for ITKv4 interfaces
 -----------------------------------
 
