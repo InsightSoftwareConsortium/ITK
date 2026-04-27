@@ -74,7 +74,7 @@ namespace itk
  * via SetNumberOfSpatialSamples(). Typically, the number of
  * spatial samples used should increase with the image size.
  *
- * The option UseAllPixelOn() disables the random sampling and uses
+ * The option UseAllPixelsOn() disables the random sampling and uses
  * all the pixels of the FixedImageRegion in order to estimate the
  * joint intensity PDF.
  *
