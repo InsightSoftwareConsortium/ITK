@@ -22,14 +22,13 @@ if(NOT VTK_RENDERING_BACKEND STREQUAL "None")
 endif()
 
 createtestdriver(ITKVtkGlue "${ITKVtkGlue-Test_LIBRARIES}" "${ITKVtkGlueTests}")
-if(VTK_VERSION VERSION_GREATER_EQUAL "8.90.0")
-  vtk_module_autoinit(
-      TARGETS
-      ITKVtkGlueTestDriver
-      MODULES
-      ${_required_vtk_libraries}
-  )
-endif()
+# VTK 9.1+ provides vtk_module_autoinit unconditionally.
+vtk_module_autoinit(
+  TARGETS
+    ITKVtkGlueTestDriver
+  MODULES
+    ${_required_vtk_libraries}
+)
 
 itk_add_test(
   NAME itkImageToVTKImageFilterTest
