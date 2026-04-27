@@ -124,11 +124,27 @@ def normalize_message(subj: str, body: str) -> tuple[str, str, bool]:
 
 
 def replay(base: str, *, dry_run: bool, run_pre_commit: bool) -> int:
-    out = required(["git", "rev-list", "--reverse", f"{base}..HEAD"])
+    # Skip merge commits. ``git cherry-pick`` rejects them without ``-m N``,
+    # and even with ``-m 1`` a merge that has been linearized by replaying
+    # its non-merge ancestors would re-apply that content. The non-merge
+    # commits we keep in this list collectively reproduce the final tree
+    # without the merge nodes; ``git blame`` after the merge boundary
+    # still walks back to original authors because authorship is preserved.
+    out = required(["git", "rev-list", "--reverse", "--no-merges", f"{base}..HEAD"])
     commits = out.split()
     if not commits:
         print("Nothing to do — branch contains no commits beyond base.")
         return 0
+
+    # For visibility: report how many merges were dropped from the replay.
+    all_count = len(required(["git", "rev-list", "--reverse", f"{base}..HEAD"]).split())
+    merge_count = all_count - len(commits)
+    if merge_count:
+        print(
+            f"Skipping {merge_count} merge commit(s); "
+            f"their content arrives via the {len(commits)} non-merge commits.",
+            file=sys.stderr,
+        )
 
     print(f"Replaying {len(commits)} commits onto {base}...", file=sys.stderr)
 
@@ -162,31 +178,40 @@ def replay(base: str, *, dry_run: bool, run_pre_commit: bool) -> int:
 
     for sha in commits:
         meta = required(
-            ["git", "show", "-s", "--format=%an%x00%ae%x00%aI%x00%s%x00%b", sha]
+            ["git", "show", "-s", "--format=%an%x00%ae%x00%aI%x00%P%x00%s%x00%b", sha]
         )
-        an, ae, ad, subj, body = meta.split("\x00", 4)
+        an, ae, ad, parents, subj, body = meta.split("\x00", 5)
+        # Defense in depth: ``--no-merges`` should have stripped these
+        # already, but if a merge commit ever reaches here, treat it as
+        # mainline-relative so cherry-pick succeeds rather than crashing.
+        is_merge = len(parents.split()) > 1
 
         # ``-X theirs`` biases toward the cherry-picked commit's content
         # whenever pre-commit's auto-fix on an earlier commit clashes
         # with the base state this commit expects. Pre-commit re-runs
         # below and re-normalizes the merged tree.
-        cp = run(
-            [
-                "git",
-                "cherry-pick",
-                "--allow-empty",
-                "--no-commit",
-                "--strategy=recursive",
-                "-X",
-                "theirs",
-                sha,
-            ]
-        )
+        cp_args = [
+            "git",
+            "cherry-pick",
+            "--allow-empty",
+            "--no-commit",
+            "--strategy=recursive",
+            "-X",
+            "theirs",
+        ]
+        if is_merge:
+            cp_args += ["-m", "1"]
+        cp_args.append(sha)
+        cp = run(cp_args)
         if cp.returncode != 0:
             # Fall back to default 3-way merge — sometimes a true
             # content conflict needs human review.
             run(["git", "cherry-pick", "--abort"])
-            cp2 = run(["git", "cherry-pick", "--allow-empty", "--no-commit", sha])
+            cp2_args = ["git", "cherry-pick", "--allow-empty", "--no-commit"]
+            if is_merge:
+                cp2_args += ["-m", "1"]
+            cp2_args.append(sha)
+            cp2 = run(cp2_args)
             if cp2.returncode != 0:
                 sys.stderr.write(f"cherry-pick failed for {sha[:10]}:\n{cp2.stderr}")
                 run(["git", "cherry-pick", "--abort"])
