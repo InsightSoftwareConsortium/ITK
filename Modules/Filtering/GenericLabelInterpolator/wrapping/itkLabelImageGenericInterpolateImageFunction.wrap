@@ -1,0 +1,23 @@
+itk_wrap_include("itkLinearInterpolateImageFunction.h")
+itk_wrap_include("itkNearestNeighborInterpolateImageFunction.h")
+
+itk_wrap_class("itk::LabelImageGenericInterpolateImageFunction" POINTER)
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    # UC is required for InterpolateImageFunction
+    UNIQUE(types "${WRAP_ITK_SCALAR};UC;${WRAP_ITK_COLOR}")
+    foreach(t ${types})
+      itk_wrap_template("${ITKM_I${t}${d}}Linear" "${ITKT_I${t}${d}},itk::LinearInterpolateImageFunction")
+      itk_wrap_template("${ITKM_I${t}${d}}NearestNeighbor" "${ITKT_I${t}${d}},itk::NearestNeighborInterpolateImageFunction")
+    endforeach()
+
+    # FIXME: Build fails with the following errors:
+    #   error: no match for ‘operator<’ (operand types are ‘const itk::CovariantVector<float, 3>’ and ‘const itk::CovariantVector<float, 3>’)
+    #   error: no match for ‘operator<’ (operand types are ‘const itk::Vector<float, 3>’ and ‘const itk::Vector<float, 3>’)
+    #   error: no match for ‘operator<’ (operand types are ‘const itk::CovariantVector<float, 2>’ and ‘const itk::CovariantVector<float, 2>’)
+    #   error: no match for ‘operator<’ (operand types are ‘const itk::Vector<float, 2>’ and ‘const itk::Vector<float, 2>’)
+    # foreach(t ${WRAP_ITK_VECTOR})
+    #   itk_wrap_template("${ITKM_I${t}${d}${d}}Linear" "${ITKT_I${t}${d}${d}},itk::LinearInterpolateImageFunction")
+    # endforeach()
+
+  endforeach()
+itk_end_wrap_class()
