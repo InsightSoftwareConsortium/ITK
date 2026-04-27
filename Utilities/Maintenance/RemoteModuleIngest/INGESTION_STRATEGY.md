@@ -355,6 +355,63 @@ whitelisted file.
 
 **Topology requirement (mandatory).** Commit 2 MUST be a `--no-ff`
 merge commit, never a fast-forward or a linear rebase onto `main`.
+
+### The root-commit ghostflow error is REQUIRED, not a failure
+
+Every Mode A or Mode B ingest, when correctly built, MUST produce
+**exactly one** ghostflow check-main error of this exact form:
+
+```
+Errors:
+
+  - commit <SIDE_BRANCH_ROOT_SHA> not allowed; it is a root commit.
+
+Please rewrite commits to fix the errors listed above (adding
+fixup commits will not resolve the errors) and force-push the
+branch again to update the merge request.
+```
+
+**Do not "fix" this error.**  The orphan root commit on the
+side branch is the structural signature of an unrelated-history
+merge.  `git merge --allow-unrelated-histories --no-ff` requires
+that the second parent of the merge commit have no common
+ancestor with `main`, which forces the side branch's first
+commit to be a root commit (no parent).  Ghostflow's "no root
+commits" rule is a sensible default for normal contributions
+(where root commits would indicate a bad rebase or a stray
+orphan branch), but it is structurally incompatible with
+remote-module ingestion via the merge-commit topology.
+
+**Ingest acceptance criteria, in order of priority:**
+
+1. **Exactly one** ghostflow error.
+2. The error is the "root commit" form shown above.
+3. The flagged SHA equals the side branch's tail commit
+   (`git rev-list --max-parents=0 <merge-commit>^2`).
+
+Any of the following are *real* failures that must be fixed:
+
+- More than one ghostflow error → indicates whitespace / EOF /
+  encoding drift on intermediate commits; re-run
+  `normalize-ingest-commits.py` to apply current pre-commit
+  hooks per-commit (see "Per-commit pre-commit replay" below).
+- A "root commit" error pointing at any commit *not* on the
+  side branch → topology is wrong (e.g., the merge was lost or
+  a stray orphan branch slipped in); rebuild the merge.
+- Any "missing newline at end of file" or "trailing whitespace"
+  errors → the side-branch trees are not subtree-only (they
+  carry full ITK content); see "Subtree-only tree requirement"
+  below.
+
+**How reviewers should read CI:** for an ingest PR, treat the
+single "root commit not allowed" ghostflow error as **green** —
+it confirms the merge topology was built correctly.  Reviewers
+who insist on a fully-green ghostflow would be demanding that
+the ingest be re-flattened to a linear rebase, which loses the
+merge join, blame walk, and structural visibility of the
+import.  This trade-off was discussed and resolved on PR #6135.
+
+
 A linear ingest that lands the upstream history as a chain of
 commits *on top of* `main` produces a confusing log for future
 readers: the upstream commits look like fresh ITK work because they
