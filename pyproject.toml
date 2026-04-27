@@ -55,6 +55,7 @@ cmd = '''cmake
   -DModule_AnisotropicDiffusionLBR:BOOL=ON
   -DModule_Montage:BOOL=ON
   -DModule_GenericLabelInterpolator:BOOL=ON
+  -DModule_MGHIO:BOOL=ON
   -DITK_COMPUTER_MEMORY_SIZE:STRING=11
   -DModule_StructuralSimilarity:BOOL=ON'''
 description = "Configure ITK for CI (with ccache compiler launcher)"
