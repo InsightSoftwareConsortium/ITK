@@ -47,6 +47,20 @@ cost and picks one of three ingest modes per module based on thresholds.
    - upstream URL + upstream tip SHA in the commit body
    - upstream repo stays archived (read-only) on GitHub after ingest so
      the full history is reachable by anyone who needs it
+5. **Per-commit pre-commit replay (new — 2026-04-27).** For modes A/B,
+   every ingested commit is re-stamped through ITK's current
+   `pre-commit` hook set so historical `git show <sha>` reads cleanly.
+   Original author, author-email, and author-date are preserved
+   verbatim; only the committer (and committer date) reflect the
+   ingest. The full message body is preserved verbatim. Subject lines
+   that violate ITK conventions (no `BUG:`/`COMP:`/`DOC:`/`ENH:`/
+   `PERF:`/`STYLE:` prefix, or > 78 chars) are normalized: a
+   conforming subject is synthesized and the original subject is
+   recorded as `Original subject: <text>` in the body so no
+   information is lost. Commits that become empty after the
+   pre-commit pass — typically intermediate style-only commits that
+   today's hooks would have prevented from existing — are dropped.
+   Driver: `normalize-ingest-commits.py`.
 5. **Upstream-tip first, then ingest (unchanged).** Bump `GIT_TAG` to
    the current upstream tip before ingesting so the structural change
    has no behavior delta.
@@ -322,9 +336,10 @@ passes have run: ≤ 700 KiB pack delta, no surviving blob > 85 KiB.
 ```
 1. COMP:  Bump <Name> to upstream/<branch> tip
 2. ENH:   Ingest ITK<Name> into Modules/<Group>   (merge commit of whitelisted + CID-normalized history)
-3. COMP:  Remove <Name>.remote.cmake
-4. COMP:  Fix pre-commit hook failures
-5. STYLE: Remove non-ITK artifacts from ingested <Name>   (usually empty; kept as safety net)
+3. COMP:  Drop standalone-build boilerplate from <Name>/CMakeLists.txt
+4. COMP:  Remove <Name>.remote.cmake
+5. COMP:  Fix pre-commit hook failures
+6. STYLE: Remove non-ITK artifacts from ingested <Name>   (usually empty; kept as safety net)
 ```
 
 Commit 2 is a `git merge --allow-unrelated-histories --no-ff` of a
@@ -337,6 +352,27 @@ Commit 2 is a `git merge --allow-unrelated-histories --no-ff` of a
 
 `git blame` walks across the merge into original authors on every
 whitelisted file.
+
+**Topology requirement (mandatory).** Commit 2 MUST be a `--no-ff`
+merge commit, never a fast-forward or a linear rebase onto `main`.
+A linear ingest that lands the upstream history as a chain of
+commits *on top of* `main` produces a confusing log for future
+readers: the upstream commits look like fresh ITK work because they
+have no merge join visible on the first-parent path.  The merge
+commit makes the join structurally explicit, matches the topology
+of every prior remote-module ingest, and lets `git log
+--first-parent main` skip cleanly past the upstream history when
+reviewers want a high-level view.  Per @dzenanz on #6135:
+
+> *All the commits now live on top of the main branch.  Which is
+> different from the other ingested modules, and feels strange.  I
+> assume it would be confusing to someone in the future reading the
+> log, unaware of this recent ingestion campaign.*
+
+If a normalization or rebase pass accidentally linearizes the
+ingest, restore the topology by re-merging from the side branch
+(see "Restoring merge topology after a linearizing rebase" below)
+before pushing.
 
 ### Mode B — filtered-history merge
 
@@ -354,12 +390,15 @@ under filtered caps).  Adds one more filter-repo pass:
 2. ENH:   Ingest ITK<Name> into Modules/<Group>
           (merge commit body lists each filter pass; whitelist set;
            CID-normalization summary; blob cap)
-3. COMP:  Remove <Name>.remote.cmake
-4. COMP:  Fix pre-commit hook failures
-5. STYLE: Remove non-ITK artifacts from ingested <Name>   (usually empty)
+3. COMP:  Drop standalone-build boilerplate from <Name>/CMakeLists.txt
+4. COMP:  Remove <Name>.remote.cmake
+5. COMP:  Fix pre-commit hook failures
+6. STYLE: Remove non-ITK artifacts from ingested <Name>   (usually empty)
 ```
 
-`git blame` still walks across the merge on surviving files.
+`git blame` still walks across the merge on surviving files.  The
+same `--no-ff` topology requirement from Mode A applies — Mode B
+ingests must also land as a merge commit, not a linear rebase.
 
 ### Mode C — squash-to-one-commit
 
@@ -582,9 +621,186 @@ after each audit runs. "TBD" means audit hasn't been run yet.)*
 | IOScanco | IO | Wave 2 | pending | TBD |
 | MGHIO | IO | Wave 2 | pending | TBD |
 
+## Standalone-build boilerplate cleanup (modes A/B)
+
+Most upstream remote modules carry a top-level `CMakeLists.txt` that
+supports two build modes: standalone (`find_package(ITK)` then
+`include(ITKModuleExternal)`) and in-tree (`itk_module_impl()`).
+Once the module is ingested into ITK proper, only the in-tree mode
+is reachable — the standalone branch becomes dead code, and the
+preamble (`cmake_minimum_required`, `project(...)`) duplicates
+state that ITK's parent CMake already owns.
+
+The mandatory cleanup commit (step 3 in modes A/B above) collapses
+the dual-mode CMakeLists.txt to its single in-tree form. Per
+@dzenanz on #6135 (review #4182101157, line 4 of the module's
+`CMakeLists.txt`):
+
+> *I guess we don't need this branch any more?  Could the ingestion
+> script be modified to simplify this file?  Or can that be done
+> manually?*
+
+The cleanup commit must:
+
+- Remove the leading `cmake_minimum_required(VERSION ...)` line
+  (ITK's root CMake owns this).
+- Remove the `project(<Name>)` line (ITK's root project declaration
+  applies to in-tree modules).
+- Remove the entire `if(NOT ITK_SOURCE_DIR) ... else() ... endif()`
+  guard, leaving only the `itk_module_impl()` call that the
+  `else()` branch contained.
+- If the module's `test/CMakeLists.txt` has a parallel guard (some
+  upstreams place a `if(NOT ITK_SOURCE_DIR)` around test registration
+  too), strip that guard the same way.
+
+The end state for the typical module is a `CMakeLists.txt`
+containing exactly one line:
+
+```cmake
+itk_module_impl()
+```
+
+A two-line variant is also acceptable when the module needs custom
+pre-`itk_module_impl()` setup (e.g., setting an option default or a
+group `set_property`).  Anything beyond that should be reviewed —
+the module's CMake should be inheriting almost everything from
+`ITKModuleMacros`.
+
+## Restoring merge topology after a linearizing rebase
+
+If `git rebase` (or a normalize-pass that resets onto `upstream/main`
+and replays linearly) flattens the ingest into a chain of commits
+on top of `main`, the merge topology can be reconstructed
+without re-running the original filter-repo pass:
+
+```bash
+# 1. Identify which commits are upstream history vs. ITK-side
+#    housekeeping (everything authored before the ingest date and
+#    in subdirectory Modules/<Group>/<Name>/ is upstream-history).
+python3 Utilities/Maintenance/RemoteModuleIngest/normalize-ingest-commits.py \
+    --base upstream/main --merge-topology --module-path Modules/<Group>/<Name> \
+    --backup-tag pre-merge-topology
+```
+
+The driver:
+
+1. Walks `<base>..HEAD` and partitions commits by author-date and
+   path.  Commits dated before the ingest start date (or whose
+   tree changes are confined to `Modules/<Group>/<Name>/`) form
+   the "upstream-history" set.
+2. Builds the upstream-history set on a side branch `_ingest-history`.
+3. Resets the working branch to `<base>` and creates the merge
+   commit: `git merge --allow-unrelated-histories --no-ff -m
+   "ENH: Ingest ITK<Name> into Modules/<Group>" _ingest-history`.
+4. Cherry-picks the remaining ITK-side housekeeping commits on
+   top of the merge commit.
+5. Force-pushes (`--force-with-lease`) to update the PR.
+
+If `--merge-topology` is omitted, the driver behaves as before
+(linear normalize, no merge join restoration).
+
+**Subtree-only tree requirement (mandatory).** When recreating
+side-branch commits via `git commit-tree`, the *tree* of each
+commit must contain **only** the `Modules/<Group>/<Module>/`
+subtree, not a full ITK tree.  Concretely:
+
+1. Extract the module-only subtree hash from the source commit:
+   `git ls-tree <sha> Modules/<Group>/<Module>` → tree hash.
+2. Wrap it back in the directory structure with `git mktree`,
+   one level at a time (`Modules/<Group>/<Module>` →
+   `Modules/<Group>` → `Modules` → root).
+3. Pass the resulting root-tree hash to `git commit-tree`.
+
+Why this matters: if the source commits are linearized on top of
+`upstream/main` (as happens after a rebase-style normalize), each
+tree carries the **entire** ITK repo plus the module's files.
+Building side-branch commits directly from those trees leaves the
+orphan root commit appearing to "add" every binary file in ITK,
+which trips ghostflow's missing-trailing-newline check on the
+~hundreds of `.raw` / `.md5` / `.png.md5` content-link blobs that
+ITK already carries.  The subtree extraction step is the manual
+equivalent of `git filter-repo --to-subdirectory-filter` and must
+not be skipped.
+
+This was the root cause of the ghostflow failure on PR #6135's
+intermediate `e9dd49efa8` HEAD; the fix landed on `20e97606da`.
+
+## Per-commit pre-commit replay (modes A/B)
+
+After the merge commit lands but before the ingest PR is pushed for
+review, run:
+
+```bash
+python3 Utilities/Maintenance/RemoteModuleIngest/normalize-ingest-commits.py \
+    --base upstream/main --backup-tag pre-normalize-<Module>
+```
+
+What the driver does, per commit in `<base>..HEAD`:
+
+1. Cherry-pick the commit (`-X theirs` so an earlier commit's
+   pre-commit auto-fix never blocks a later commit's content from
+   replaying).
+2. Run `pre-commit run --files <touched>` on the commit's modified
+   paths; auto-fixes (whitespace, EOF, gersemi, clang-format) are
+   re-staged.
+3. Subject-line normalization — see rule 5 above. Original subject is
+   recorded as `Original subject: <text>` in the body when rewritten.
+4. If the resulting tree is identical to the parent's (i.e., the
+   commit's only effect was something today's pre-commit auto-corrects),
+   the commit is dropped.
+5. Commit with original `GIT_AUTHOR_NAME`, `GIT_AUTHOR_EMAIL`, and
+   `GIT_AUTHOR_DATE` preserved.
+
+The script is idempotent: re-running on an already-normalized branch
+produces the same tree of SHAs (subject only to the committer-date
+update from the cherry-pick).
+
+**Verification after running:**
+
+```bash
+# Tip tree must be identical (no behavior change at the tip)
+git diff pre-normalize-<Module>..HEAD          # expect: empty
+
+# Authorship must be preserved
+git log --format='%an <%ae>' pre-normalize-<Module>.. | sort -u
+git log --format='%an <%ae>' upstream/main..HEAD | sort -u
+# expect: identical sets
+
+# Each historical commit must satisfy current pre-commit
+for sha in $(git rev-list upstream/main..HEAD); do
+    git checkout "$sha" -- Modules/<Group>/<Module>/
+    pre-commit run --files Modules/<Group>/<Module>/**/* || \
+        echo "DIRTY: $sha"
+done
+# expect: no DIRTY lines
+
+# Each commit must be ghostflow-clean (no diff with whitespace errors).
+# This catches the same problem ghostflow-check-main reports — but
+# locally, before push.  Required because pre-commit caches can
+# silently no-op on the first invocation in a fresh environment;
+# --check operates on the diff itself and is always authoritative.
+for sha in $(git rev-list upstream/main..HEAD); do
+    git show "$sha" --pretty=format: --check >/dev/null 2>&1 || \
+        echo "GHOSTFLOW-DIRTY: $sha"
+done
+# expect: no GHOSTFLOW-DIRTY lines
+
+# If GHOSTFLOW-DIRTY lines appear, re-run normalize-ingest-commits.py
+# (it is idempotent) before pushing.  ghostflow's check is on the diff
+# each commit *adds*, not on the file's final state, so a later commit
+# fixing whitespace does not silence the earlier-commit warning.
+```
+
+**Why this is safe**: the tip tree is byte-identical before and after
+the normalization (verified above), so CI behavior is unchanged. The
+only differences are intra-history: each historical commit's tree is
+now a clean, modern-conforming tree rather than the original
+not-yet-formatted state.
+
 ## References
 
 - `ingest-remote-module.sh` — automated ingestion script (adds audit + mode)
+- `normalize-ingest-commits.py` — per-commit pre-commit replay + subject normalization
 - `CLEANUP_CHECKLIST.md` — artifact removal details (extended with bloat-specific paths)
 - `INGEST_LOG.md` — post-ingest metrics, one block per module
 - Issue #6060 — original consolidation discussion
