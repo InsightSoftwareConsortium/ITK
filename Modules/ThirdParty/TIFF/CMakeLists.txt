@@ -17,9 +17,14 @@ if(ITK_USE_SYSTEM_TIFF)
   # Check availability of different methods to access TIFF's field
   # data structure.
   include(CheckTypeSize)
+  include(CheckSymbolExists)
   set(CMAKE_REQUIRED_LIBRARIES TIFF::TIFF)
   set(CMAKE_EXTRA_INCLUDE_FILES "tiffio.h")
-  check_type_size(TIFFFieldReadCount ITK_TIFF_HAS_TIFFFieldReadCount)
+  # TIFFFieldReadCount is a function, not a type. Using
+  # check_type_size (sizeof) on a function is non-standard and fails
+  # on MSVC, causing the wrong code path and crashes. Use
+  # check_symbol_exists instead.
+  check_symbol_exists(TIFFFieldReadCount "tiffio.h" ITK_TIFF_HAS_TIFFFieldReadCount)
   check_type_size(TIFFField*  ITK_TIFF_HAS_TIFFField)
 else()
   set(ITKTIFF_INCLUDE_DIRS
