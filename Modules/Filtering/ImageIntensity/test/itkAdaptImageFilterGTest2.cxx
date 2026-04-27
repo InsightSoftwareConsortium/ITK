@@ -35,6 +35,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNthElementPixelAccessor.h"
 #include "itkMath.h"
+#include "itkGTest.h"
 
 #include <algorithm> // For generate.
 #include <random>    // For mt19937.
@@ -43,6 +44,8 @@
 //-------------------------------------
 //     Typedefs for convenience
 //-------------------------------------
+namespace
+{
 using myVectorImageType = itk::Image<itk::Vector<float, 3>, 2>;
 using myVectorIteratorType = itk::ImageRegionIteratorWithIndex<myVectorImageType>;
 
@@ -50,17 +53,10 @@ using myAccessorType = itk::NthElementPixelAccessor<float, itk::Vector<float, 3>
 
 using myImageType = itk::Image<float, 2>;
 using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
+} // namespace
 
-//-------------------------
-//
-//   Main code
-//
-//-------------------------
-int
-itkAdaptImageFilterTest2(int, char *[])
+TEST(AdaptImageFilter2, ConvertedLegacyTest)
 {
-
-
   auto size = myVectorImageType::SizeType::Filled(2);
 
   myVectorImageType::IndexType index;
@@ -94,21 +90,6 @@ itkAdaptImageFilterTest2(int, char *[])
     ++it1;
   }
 
-  // Reading the values to verify the image content
-  std::cout << "--- Initial image --- " << std::endl;
-  it1.GoToBegin();
-  while (!it1.IsAtEnd())
-  {
-    const myVectorImageType::PixelType c(it1.Get());
-    std::cout << c[0] << "  ";
-    std::cout << c[1] << "  ";
-    std::cout << c[2] << std::endl;
-    ++it1;
-  }
-
-
-  bool passed = true;
-
   // Get the first element
   using AdaptFilterType = itk::AdaptImageFilter<myVectorImageType, myImageType, myAccessorType>;
 
@@ -123,18 +104,11 @@ itkAdaptImageFilterTest2(int, char *[])
 
   myIteratorType it(adaptImage->GetOutput(), adaptImage->GetOutput()->GetRequestedRegion());
 
-  std::cout << "--- First component values --- " << std::endl;
-
   it.GoToBegin();
   it1.GoToBegin();
   while (!it.IsAtEnd())
   {
-    std::cout << it.Get() << std::endl;
-    if (itk::Math::NotExactlyEquals(it.Get(), it1.Get()[0]))
-    {
-      passed = false;
-    }
-
+    EXPECT_EQ(it.Get(), it1.Get()[0]);
     ++it;
     ++it1;
   }
@@ -146,18 +120,11 @@ itkAdaptImageFilterTest2(int, char *[])
 
   it = myIteratorType(adaptImage->GetOutput(), adaptImage->GetOutput()->GetRequestedRegion());
 
-  std::cout << "--- Second component values --- " << std::endl;
-
   it.GoToBegin();
   it1.GoToBegin();
   while (!it.IsAtEnd())
   {
-    std::cout << it.Get() << std::endl;
-    if (itk::Math::NotExactlyEquals(it.Get(), it1.Get()[1]))
-    {
-      passed = false;
-    }
-
+    EXPECT_EQ(it.Get(), it1.Get()[1]);
     ++it;
     ++it1;
   }
@@ -169,31 +136,15 @@ itkAdaptImageFilterTest2(int, char *[])
 
   it = myIteratorType(adaptImage->GetOutput(), adaptImage->GetOutput()->GetRequestedRegion());
 
-  std::cout << "--- Third component values --- " << std::endl;
-
   it.GoToBegin();
   it1.GoToBegin();
   while (!it.IsAtEnd())
   {
-    std::cout << it.Get() << std::endl;
-    if (itk::Math::NotExactlyEquals(it.Get(), it1.Get()[2]))
-    {
-      passed = false;
-    }
-
+    EXPECT_EQ(it.Get(), it1.Get()[2]);
     ++it;
     ++it1;
   }
 
   // Test access to Accessor
-  std::cout << adaptImage->GetAccessor().GetElementNumber() << std::endl;
-
-  std::cout << std::endl;
-  if (passed)
-  {
-    std::cout << "AdaptImageFilterTest2 passed" << std::endl;
-    return EXIT_SUCCESS;
-  }
-  std::cout << "AdaptImageFilterTest2 passed" << std::endl;
-  return EXIT_FAILURE;
+  EXPECT_EQ(adaptImage->GetAccessor().GetElementNumber(), 2u);
 }

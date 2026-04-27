@@ -18,12 +18,11 @@
 
 #include "itkAddImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkGTest.h"
 
 
-int
-itkAddImageFilterFrameTest(int, char *[])
+TEST(AddImageFilterFrame, ConvertedLegacyTest)
 {
-
   // Define the dimension of the images
   constexpr unsigned int myDimension{ 3 };
 
@@ -72,11 +71,9 @@ itkAddImageFilterFrameTest(int, char *[])
   myIteratorType1 it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
-  std::cout << "First operand " << std::endl;
   while (!it1.IsAtEnd())
   {
     it1.Set(2.0);
-    std::cout << it1.Get() << std::endl;
     ++it1;
   }
 
@@ -84,11 +81,9 @@ itkAddImageFilterFrameTest(int, char *[])
   myIteratorType2 it2(inputImageB, inputImageB->GetBufferedRegion());
 
   // Initialize the content of Image B
-  std::cout << "Second operand " << std::endl;
   while (!it2.IsAtEnd())
   {
     it2.Set(3.0);
-    std::cout << it2.Get() << std::endl;
     ++it2;
   }
 
@@ -110,17 +105,8 @@ itkAddImageFilterFrameTest(int, char *[])
   inputImageB->SetOrigin(borigin);
 
 
-  // Execute the filter
-  try
-  {
-    filter->Update();
-    std::cout << "No exception thrown for a difference in origins!" << std::endl;
-    return EXIT_FAILURE;
-  }
-  catch (const itk::ExceptionObject & exc)
-  {
-    std::cout << "Known exception caught (origin)! " << exc << std::endl;
-  }
+  // Execute the filter -- expect exception due to differing origins
+  EXPECT_THROW(filter->Update(), itk::ExceptionObject);
 
 
   // Make Image B have a different spacing
@@ -129,17 +115,8 @@ itkAddImageFilterFrameTest(int, char *[])
   auto bspacing = itk::MakeFilled<myImageType2::SpacingType>(1.001);
   inputImageB->SetSpacing(bspacing);
 
-  // Execute the filter
-  try
-  {
-    filter->Update();
-    std::cout << "No exception thrown for a difference in spacings!" << std::endl;
-    return EXIT_FAILURE;
-  }
-  catch (const itk::ExceptionObject & exc)
-  {
-    std::cout << "Known exception caught (spacing)! " << exc << std::endl;
-  }
+  // Execute the filter -- expect exception due to differing spacings
+  EXPECT_THROW(filter->Update(), itk::ExceptionObject);
 
 
   // Make Image B have different direction cosines
@@ -150,19 +127,9 @@ itkAddImageFilterFrameTest(int, char *[])
   bdirections[2][2] = -1.0;
   inputImageB->SetDirection(bdirections);
 
-  // Execute the filter
-  try
-  {
-    filter->Update();
-    std::cout << "No exception thrown for a difference in directions!" << std::endl;
-    return EXIT_FAILURE;
-  }
-  catch (const itk::ExceptionObject & exc)
-  {
-    std::cout << "Known exception caught (directions)! " << exc << std::endl;
-  }
+  // Execute the filter -- expect exception due to differing directions
+  EXPECT_THROW(filter->Update(), itk::ExceptionObject);
 
 
   // All objects should be automatically destroyed at this point
-  return EXIT_SUCCESS;
 }

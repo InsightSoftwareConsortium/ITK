@@ -1,12 +1,6 @@
 itk_module_test()
 set(
   ITKImageIntensityTests
-  itkAbsImageFilterAndAdaptorTest.cxx
-  itkAcosImageFilterAndAdaptorTest.cxx
-  itkAdaptImageFilterTest.cxx
-  itkAdaptImageFilterTest2.cxx
-  itkAddImageAdaptorTest.cxx
-  itkAddImageFilterFrameTest.cxx
   itkAddImageFilterTest.cxx
   itkAddImageFilterTest2.cxx
   itkAndImageFilterTest.cxx
@@ -256,12 +250,6 @@ itk_add_test(
     itkComplexToModulusFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME itkAddImageAdaptorTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkAddImageAdaptorTest
-)
-itk_add_test(
   NAME itkAndImageFilterTest
   COMMAND
     ITKImageIntensityTestDriver
@@ -270,12 +258,6 @@ itk_add_test(
     93d46ee3d5e0c157e2b2d27977ae4d0f
     itkAndImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkAndImageFilterTest.png
-)
-itk_add_test(
-  NAME itkAdaptImageFilterTest2
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkAdaptImageFilterTest2
 )
 itk_add_test(
   NAME itkLogImageFilterAndAdaptorTest
@@ -330,12 +312,6 @@ itk_add_test(
     itkAddImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
     ${TEMP}/itkAddImageFilterTest2.mha
-)
-itk_add_test(
-  NAME itkAddImageFilterFrameTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkAddImageFilterFrameTest
 )
 itk_add_test(
   NAME itkPowImageFilterTest
@@ -411,12 +387,6 @@ itk_add_test(
     7f199e1363c4b754eb03cf4d0ba8d343
     itkTernaryMagnitudeImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkTernaryMagnitudeImageFilterTest.png
-)
-itk_add_test(
-  NAME itkAbsImageFilterAndAdaptorTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkAbsImageFilterAndAdaptorTest
 )
 itk_add_test(
   NAME itkMaximumImageFilterTest
@@ -495,12 +465,6 @@ itk_add_test(
     itkHistogramMatchingImageFilterTest
 )
 itk_add_test(
-  NAME itkAcosImageFilterAndAdaptorTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkAcosImageFilterAndAdaptorTest
-)
-itk_add_test(
   NAME itkExpNegativeImageFilterAndAdaptorTest
   COMMAND
     ITKImageIntensityTestDriver
@@ -550,12 +514,6 @@ if(NOT ITK_LEGACY_REMOVE)
       itkVectorExpandImageFilterTest
   )
 endif()
-itk_add_test(
-  NAME itkAdaptImageFilterTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkAdaptImageFilterTest
-)
 itk_add_test(
   NAME itkOrImageFilterTest
   COMMAND
@@ -821,6 +779,12 @@ itk_add_test(
 
 set(
   ITKImageIntensityGTests
+  itkAbsImageFilterAndAdaptorGTest.cxx
+  itkAcosImageFilterAndAdaptorGTest.cxx
+  itkAdaptImageFilterGTest.cxx
+  itkAdaptImageFilterGTest2.cxx
+  itkAddImageAdaptorGTest.cxx
+  itkAddImageFilterFrameGTest.cxx
   itkArithmeticOpsFunctorsTest.cxx
   itkBitwiseOpsFunctorsTest.cxx
 )

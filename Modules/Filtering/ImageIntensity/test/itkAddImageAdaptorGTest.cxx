@@ -19,11 +19,10 @@
 #include "itkAddImageAdaptor.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkSubtractImageFilter.h"
+#include "itkGTest.h"
 
-int
-itkAddImageAdaptorTest(int, char *[])
+TEST(AddImageAdaptor, ConvertedLegacyTest)
 {
-
   // Define the dimension of the images
   constexpr unsigned int Dimension{ 3 };
 
@@ -60,13 +59,11 @@ itkAddImageAdaptorTest(int, char *[])
   IteratorType it1(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of Image A
-  std::cout << "First operand " << std::endl;
   PixelType value = 13;
   while (!it1.IsAtEnd())
   {
     it1.Set(value);
     value += 1;
-    std::cout << it1.Get() << std::endl;
     ++it1;
   }
 
@@ -96,9 +93,6 @@ itkAddImageAdaptorTest(int, char *[])
   const ImageType::Pointer diffImage = diffFilter->GetOutput();
 
   //  Check the content of the diff image
-  std::cout << "Comparing the results with those of an Adaptor" << std::endl;
-  std::cout << "Verification of the output " << std::endl;
-
   // Create an iterator for going through the image output
   IteratorType dt(diffImage, diffImage->GetBufferedRegion());
 
@@ -108,22 +102,12 @@ itkAddImageAdaptorTest(int, char *[])
 
   while (!dt.IsAtEnd())
   {
-    std::cout << dt.Get() << std::endl;
-
     auto v1 = static_cast<RealPixelType>(dt.Get());
     auto v2 = static_cast<RealPixelType>(additiveConstant);
 
     const RealPixelType diff = itk::Math::Absolute(v1 - v2);
 
-    if (diff > itk::Math::eps)
-    {
-      std::cerr << "Error in itkAddImageFilterTest " << std::endl;
-      std::cerr << "Comparing results with Adaptors" << std::endl;
-      std::cerr << " difference = " << diff << std::endl;
-      std::cerr << " differs from 0 ";
-      std::cerr << " by more than " << itk::Math::eps << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_LE(diff, itk::Math::eps);
     ++dt;
   }
 
@@ -133,23 +117,14 @@ itkAddImageAdaptorTest(int, char *[])
   index[1] = 1;
   index[2] = 1;
 
-  const PixelType p1 = addAdaptor->GetPixel(index);
-
-  std::cout << " Pixel " << index << " had value = " << p1 << std::endl;
+  // Exercise GetPixel for code coverage; original test printed but did
+  // not assert on this read.
+  (void)addAdaptor->GetPixel(index);
 
   constexpr PixelType newValue{ 27 };
 
-  std::cout << " We set Pixel " << index << " to value = " << newValue << std::endl;
   addAdaptor->SetPixel(index, newValue);
 
   const PixelType p2 = addAdaptor->GetPixel(index);
-  std::cout << " Now Pixel " << index << " has value = " << p2 << std::endl;
-
-  if (p2 != newValue)
-  {
-    std::cerr << "SetPixel()/GetPixel() methods failed" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  return EXIT_SUCCESS;
+  EXPECT_EQ(p2, newValue);
 }
