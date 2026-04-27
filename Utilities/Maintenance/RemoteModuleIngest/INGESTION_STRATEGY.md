@@ -725,6 +725,29 @@ not be skipped.
 This was the root cause of the ghostflow failure on PR #6135's
 intermediate `e9dd49efa8` HEAD; the fix landed on `20e97606da`.
 
+**Post-merge fixup hazard (mandatory awareness).** Once the merge
+topology is in place, **never** use plain `git rebase --autosquash
+upstream/main` on the branch — it walks past the merge commit and
+replays everything linearly onto `upstream/main`, silently
+re-flattening the topology you just built.
+
+For follow-up fixups after the ingest merge has landed:
+
+1. **Preferred:** add discrete commits on top of the merge tip with
+   `git commit` (no `--fixup`).  The PR will have an extra commit but
+   the merge join survives.
+2. **If you must autosquash**, use `git rebase --rebase-merges
+   --autosquash <merge-commit>^` so the rebase preserves the merge
+   commit's parent structure.  Test the post-rebase topology with
+   `git log -1 --format='%h parents: %P' <merge-sha>` — output must
+   show two parents.
+3. After any rebase that touches the post-merge segment, re-verify
+   with `git log --graph --first-parent` and the parents-of-merge
+   check above before pushing.
+
+This was the cause of the second linear-history regression on PR
+#6135 (`72fafe6cb8` HEAD); restored on `45eece304c`.
+
 ## Per-commit pre-commit replay (modes A/B)
 
 After the merge commit lands but before the ingest PR is pushed for
