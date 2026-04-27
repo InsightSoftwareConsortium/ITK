@@ -18,10 +18,9 @@
 
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkObject.h"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
 
-int
-itkMinimumMaximumImageCalculatorTest(int, char *[])
+TEST(MinimumMaximumImageCalculator, ConvertedLegacyTest)
 {
 
   using SizeType = itk::Size<3>;
@@ -83,18 +82,18 @@ itkMinimumMaximumImageCalculatorTest(int, char *[])
   // Create and initialize the calculator
   auto calculator = MinMaxCalculatorType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(calculator, MinimumMaximumImageCalculator, Object);
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(calculator, MinimumMaximumImageCalculator, Object);
 
   calculator->SetImage(image);
   calculator->Compute();
 
   // Test minimum of intensity
-  ITK_TEST_SET_GET_VALUE(minimum, calculator->GetMinimum());
-  ITK_TEST_SET_GET_VALUE(minIntensityValueIndex, calculator->GetIndexOfMinimum());
+  EXPECT_EQ(minimum, calculator->GetMinimum());
+  EXPECT_EQ(minIntensityValueIndex, calculator->GetIndexOfMinimum());
 
   // Test maximum of intensity
-  ITK_TEST_SET_GET_VALUE(maximum, calculator->GetMaximum());
-  ITK_TEST_SET_GET_VALUE(maxIntensityValueIndex, calculator->GetIndexOfMaximum());
+  EXPECT_EQ(maximum, calculator->GetMaximum());
+  EXPECT_EQ(maxIntensityValueIndex, calculator->GetIndexOfMaximum());
 
   // Set the region over which perform the computations
   constexpr itk::Size<3>                 regionSize{ { 4, 4, 4 } };
@@ -118,15 +117,12 @@ itkMinimumMaximumImageCalculatorTest(int, char *[])
   calculator->ComputeMinimum();
 
   // Test minimum of intensity
-  ITK_TEST_SET_GET_VALUE(minimum, calculator->GetMinimum());
-  ITK_TEST_SET_GET_VALUE(minIntensityValueIndex, calculator->GetIndexOfMinimum());
+  EXPECT_EQ(minimum, calculator->GetMinimum());
+  EXPECT_EQ(minIntensityValueIndex, calculator->GetIndexOfMinimum());
 
   calculator->ComputeMaximum();
 
   // Test maximum of intensity
-  ITK_TEST_SET_GET_VALUE(maximum, calculator->GetMaximum());
-  ITK_TEST_SET_GET_VALUE(maxIntensityValueIndex, calculator->GetIndexOfMaximum());
-
-
-  return EXIT_SUCCESS;
+  EXPECT_EQ(maximum, calculator->GetMaximum());
+  EXPECT_EQ(maxIntensityValueIndex, calculator->GetIndexOfMaximum());
 }

@@ -5,13 +5,10 @@ set(
   itkDataObjectTest.cxx
   itkDirectoryTest.cxx
   itkExceptionObjectTest.cxx
-  itkExtractImage3Dto2DTest.cxx
-  itkExtractImageTest.cxx
   itkFileOutputWindowTest.cxx
   itkFixedArrayTest2.cxx
   itkFloatingPointExceptionsTest.cxx
   itkGaussianSpatialFunctionTest.cxx
-  itkImageAdaptorPipeLineTest.cxx
   itkImageComputeOffsetAndIndexTest.cxx
   itkImageDuplicatorTest.cxx
   itkImageDuplicatorTest2.cxx
@@ -111,7 +108,6 @@ set(
   itkObjectFactoryTest2.cxx
   itkObjectFactoryTest3.cxx
   itkObjectFactoryOnlyNewTest.cxx
-  itkMinimumMaximumImageCalculatorTest.cxx
   itkSliceIteratorTest.cxx
   itkImageRegionExclusionIteratorWithIndexTest.cxx
   itkImageFillBufferTest.cxx
@@ -192,24 +188,6 @@ if(ITK_BUILD_SHARED_LIBS)
 endif()
 
 itk_add_test(
-  NAME itkImageAdaptorPipeLineTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkImageAdaptorPipeLineTest
-)
-itk_add_test(
-  NAME itkExtractImage3Dto2DTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkExtractImage3Dto2DTest
-)
-itk_add_test(
-  NAME itkExtractImageTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkExtractImageTest
-)
-itk_add_test(
   NAME itkColorTableTest1
   COMMAND
     ITKCommon1TestDriver
@@ -253,12 +231,6 @@ itk_add_test(
     ITKCommon1TestDriver
     itkMultipleLogOutputTest
     ${TEMP}/test_multi.txt
-)
-itk_add_test(
-  NAME itkMinimumMaximumImageCalculatorTest
-  COMMAND
-    ITKCommon2TestDriver
-    itkMinimumMaximumImageCalculatorTest
 )
 itk_add_test(
   NAME itkFixedArrayTest2
@@ -1510,6 +1482,8 @@ set(
   itkDiffusionTensor3DGTest.cxx
   itkEventObjectGTest.cxx
   itkExceptionObjectGTest.cxx
+  itkExtractImage3Dto2DGTest.cxx
+  itkExtractImageGTest.cxx
   itkFilterDispatchGTest.cxx
   itkFixedArrayGTest.cxx
   itkFloodFilledSpatialFunctionGTest.cxx
@@ -1517,6 +1491,7 @@ set(
   itkGaussianDerivativeOperatorGTest.cxx
   itkHashTableGTest.cxx
   itkHeavisideStepFunctionGTest.cxx
+  itkImageAdaptorPipeLineGTest.cxx
   itkImageBaseGTest.cxx
   itkImageBufferRangeGTest.cxx
   itkImageGTest.cxx
@@ -1541,6 +1516,7 @@ set(
   itkMatrixGTest.cxx
   itkMersenneTwisterRandomVariateGeneratorGTest.cxx
   itkMetaDataDictionaryGTest.cxx
+  itkMinimumMaximumImageCalculatorGTest.cxx
   itkModifiedTimeGTest.cxx
   itkNeighborhoodAllocatorGTest.cxx
   itkNumberToStringGTest.cxx

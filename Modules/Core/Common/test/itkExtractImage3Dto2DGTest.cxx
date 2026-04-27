@@ -16,13 +16,11 @@
  *
  *=========================================================================*/
 
-#include <iostream>
 #include "itkExtractImageFilter.h"
 #include "itkRandomImageSource.h"
-#include "itkMath.h"
+#include "itkGTest.h"
 
-int
-itkExtractImage3Dto2DTest(int, char *[])
+TEST(ExtractImage3Dto2D, ConvertedLegacyTest)
 {
   using Image3DType = itk::Image<unsigned char, 3>;
   using Image2DType = itk::Image<unsigned char, 2>;
@@ -65,10 +63,7 @@ itkExtractImage3Dto2DTest(int, char *[])
   const Image2DType::Pointer extractedImage = extract->GetOutput();
   Image2DType::DirectionType identity;
   identity.SetIdentity();
-  if (extractedImage->GetDirection() != identity)
-  {
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(extractedImage->GetDirection(), identity);
 
   // check CollapseToSubmatrix
   extract = ExtractType::New();
@@ -86,13 +81,8 @@ itkExtractImage3Dto2DTest(int, char *[])
   // remove first column/row, should obtain :
   // 0 1
   // 1 0
-  if (itk::Math::NotExactlyEquals(extract->GetOutput()->GetDirection()[0][0], 0) ||
-      itk::Math::NotExactlyEquals(extract->GetOutput()->GetDirection()[1][1], 0) ||
-      itk::Math::NotExactlyEquals(extract->GetOutput()->GetDirection()[0][1], 1) ||
-      itk::Math::NotExactlyEquals(extract->GetOutput()->GetDirection()[1][0], 1))
-  {
-    return EXIT_FAILURE;
-  }
-
-  return EXIT_SUCCESS;
+  EXPECT_EQ(extract->GetOutput()->GetDirection()[0][0], 0);
+  EXPECT_EQ(extract->GetOutput()->GetDirection()[1][1], 0);
+  EXPECT_EQ(extract->GetOutput()->GetDirection()[0][1], 1);
+  EXPECT_EQ(extract->GetOutput()->GetDirection()[1][0], 1);
 }
