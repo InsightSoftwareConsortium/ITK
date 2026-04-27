@@ -23,7 +23,10 @@
 #include "itksys/SystemTools.hxx"
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
-#include "vnl/vnl_random.h"
+#include <cstdint>
+#include <limits>
+#include <random>
+#include <type_traits>
 namespace itk
 {
 class IOTestHelper
@@ -133,48 +136,34 @@ public:
     }
   }
 
-  //
-  // generate random pixels of various types
   static void
-  RandomPix(vnl_random & randgen, itk::RGBPixel<unsigned char> & pix)
+  RandomPix(std::mt19937 & randomNumberEngine, itk::RGBPixel<unsigned char> & pix)
   {
     for (unsigned int i = 0; i < 3; ++i)
     {
-      pix[i] = randgen.lrand32(itk::NumericTraits<unsigned char>::max());
+      pix[i] = static_cast<unsigned char>(randomNumberEngine());
     }
   }
 
   template <typename TPixel>
   static void
-  RandomPix(vnl_random & randgen, TPixel & pix)
+  RandomPix(std::mt19937 & randomNumberEngine, TPixel & pix)
   {
-    pix = randgen.lrand32(itk::NumericTraits<TPixel>::max());
-  }
-
-  static void
-  RandomPix(vnl_random & randgen, long long & pix)
-  {
-    pix = randgen.lrand32(itk::NumericTraits<int>::max());
-    pix = (pix << 32) | randgen.lrand32();
-  }
-
-  static void
-  RandomPix(vnl_random & randgen, unsigned long long & pix)
-  {
-    pix = randgen.lrand32();
-    pix = (pix << 32) | randgen.lrand32();
-  }
-
-  static void
-  RandomPix(vnl_random & randgen, double & pix)
-  {
-    pix = randgen.drand64(itk::NumericTraits<double>::max());
-  }
-
-  static void
-  RandomPix(vnl_random & randgen, float & pix)
-  {
-    pix = randgen.drand64(itk::NumericTraits<float>::max());
+    static_assert(std::is_integral_v<TPixel> || std::is_floating_point_v<TPixel>,
+                  "RandomPix: TPixel must be integral or floating-point");
+    if constexpr (std::is_integral_v<TPixel> && sizeof(TPixel) < sizeof(std::mt19937::result_type))
+    {
+      // Bound the engine output to TPixel's representable range so the
+      // narrowing cast cannot drop the high bits silently.  Skipped when
+      // sizeof(TPixel) >= sizeof(engine output) because then
+      // numeric_limits<TPixel>::max() + 1 would itself overflow.
+      pix = static_cast<TPixel>(randomNumberEngine() %
+                                (static_cast<std::mt19937::result_type>(std::numeric_limits<TPixel>::max()) + 1));
+    }
+    else
+    {
+      pix = static_cast<TPixel>(randomNumberEngine());
+    }
   }
 
   static int

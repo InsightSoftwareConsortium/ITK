@@ -116,7 +116,7 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
                 FieldPixelType pixel;
                 for (size_t q = 0; q < TVecLength; ++q)
                 {
-                  // pixel[q] = randgen.drand32(lowrange,highrange);
+                  // pixel[q] = randomNumberEngine.drand32(lowrange,highrange);
                   Decrement(value);
                   pixel[q] = value;
                 }
