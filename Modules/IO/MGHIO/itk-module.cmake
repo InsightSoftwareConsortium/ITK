@@ -1,7 +1,11 @@
-set(DOCUMENTATION "This modules contains an ImageIO class to read or write the
-  MGH file format that is an integral part of FreeSurfer based tools.")
+set(
+  DOCUMENTATION
+  "This modules contains an ImageIO class to read or write the
+  MGH file format that is an integral part of FreeSurfer based tools."
+)
 
-itk_module(MGHIO
+itk_module(
+  MGHIO
   ENABLE_SHARED
   DEPENDS
     ITKIOImageBase
@@ -12,6 +16,5 @@ itk_module(MGHIO
   EXCLUDE_FROM_DEFAULT
   FACTORY_NAMES
     ImageIO::MGH
-  DESCRIPTION
-    "${DOCUMENTATION}"
+  DESCRIPTION "${DOCUMENTATION}"
 )
