@@ -267,6 +267,34 @@ def replay(base: str, *, dry_run: bool, run_pre_commit: bool) -> int:
     return 0
 
 
+DEPRECATION_NOTICE = """
+ERROR: normalize-ingest-commits.py is DEPRECATED as of 2026-04-28.
+
+This script linearizes the ingest history (it skips merge commits
+and replays only the non-merge parents via cherry-pick). The
+resulting branch loses the upstream merge topology, which is a
+process violation per
+Utilities/Maintenance/RemoteModuleIngest/INGESTION_STRATEGY.md
+("Topology requirement (mandatory).").
+
+Linearization was applied to PRs #6135, #6137, #6159, and #6161
+before the user repeatedly flagged it as unacceptable.
+
+Use the merge-preserving replacement instead:
+    rewrite-history-merge-preserving.py
+
+That replacement walks every commit (including merges) via
+git filter-repo --blob-callback, applies trailing-whitespace +
+end-of-file fixes uniformly to text blobs, and verifies the
+rewritten tip matches a Phase-1 reference tree (upstream main with
+current ITK pre-commit hooks applied once).
+
+To override this guard for a specific case where you accept the
+linearization (you almost certainly should not), pass
+--i-understand-this-linearizes.
+"""
+
+
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
@@ -283,7 +311,20 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Skip the per-commit pre-commit auto-fix pass (subject-only normalization)",
     )
+    p.add_argument(
+        "--i-understand-this-linearizes",
+        action="store_true",
+        help="Acknowledge the linearization caveat (see deprecation notice). "
+        "Required to override the deprecation guard.",
+    )
     args = p.parse_args(argv)
+
+    # Hard refuse-to-run guard (deprecation as of 2026-04-28).
+    # See INGESTION_STRATEGY.md "Linearization is forbidden" subsection
+    # and rewrite-history-merge-preserving.py for the replacement.
+    if not args.i_understand_this_linearizes:
+        sys.stderr.write(DEPRECATION_NOTICE)
+        return 3
 
     # Sanity: clean working tree
     if (
