@@ -25,8 +25,10 @@ function(generate_castxml_commandline_flags)
     set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX${CMAKE_CXX_STANDARD}_STANDARD_COMPILE_OPTION}")
   endif()
 
-  # Aggressive optimization flags cause cast_xml to give invalid error conditions
-  set(INVALID_OPTIMIZATION_FLAGS "-fopenmp;-march=[a-zA-Z0-9\-]*;-mtune=[a-zA-Z0-9\-]*;-mfma")
+  # Aggressive optimization flags cause cast_xml to give invalid error conditions.
+  # The -march=/-mtune= class must accept '.','+','_' to strip extended targets
+  # like armv8.2-a+fp16 or znver3 as one token (issue #6133).
+  set(INVALID_OPTIMIZATION_FLAGS "-fopenmp;-march=[A-Za-z0-9._+\-]*;-mtune=[A-Za-z0-9._+\-]*;-mfma")
   foreach(rmmatch ${INVALID_OPTIMIZATION_FLAGS})
     string(
       REGEX
