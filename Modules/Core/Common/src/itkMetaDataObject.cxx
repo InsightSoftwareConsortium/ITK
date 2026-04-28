@@ -16,6 +16,14 @@
  *
  *=========================================================================*/
 #define ITK_TEMPLATE_EXPLICIT_MetaDataObject
+
+
+#include "itkPrintHelper.h"
+namespace itk
+{
+// Use the overloaded operator<< to print the values of std::vector<T>
+using namespace print_helper;
+}
 #include "itkMetaDataObject.h"
 
 namespace itk
