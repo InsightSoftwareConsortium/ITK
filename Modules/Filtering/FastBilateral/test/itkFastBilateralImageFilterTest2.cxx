@@ -54,7 +54,7 @@ itkFastBilateralImageFilterTest2(int ac, char * av[])
   filter->SetRangeSigma(50.0);
 
 
-  // Test itkSetVectorMacro
+  // Test itkSetMacro with a fixed-size array
   double domainSigma[dimension];
   for (unsigned int i = 0; i < dimension; i++)
   {
@@ -74,12 +74,12 @@ itkFastBilateralImageFilterTest2(int ac, char * av[])
   catch (itk::ExceptionObject & e)
   {
     std::cerr << "Exception detected: " << e.GetDescription();
-    return -1;
+    return EXIT_FAILURE;
   }
   catch (...)
   {
     std::cerr << "Some other exception occurred" << std::endl;
-    return -2;
+    return EXIT_FAILURE;
   }
 
   // Generate test image

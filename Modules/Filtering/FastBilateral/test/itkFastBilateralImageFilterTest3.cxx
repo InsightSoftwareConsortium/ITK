@@ -34,7 +34,7 @@ itkFastBilateralImageFilterTest3(int ac, char * av[])
   if (ac < 3)
   {
     std::cerr << "Usage: " << av[0] << " InputImage BaselineImage\n";
-    return -1;
+    return EXIT_FAILURE;
   }
 
   using PixelType = unsigned char;
@@ -70,23 +70,23 @@ itkFastBilateralImageFilterTest3(int ac, char * av[])
   filter3->SetDomainSigma(4.0);
   filter3->SetRangeSigma(20.0);
 
-  try
-  {
-    input->Update();
-    filter3->Update();
-  }
-  catch (itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e.GetDescription();
-    return -1;
-  }
-
   // Generate test image
   itk::ImageFileWriter<ImageType>::Pointer writer;
   writer = itk::ImageFileWriter<ImageType>::New();
   writer->SetInput(filter3->GetOutput());
   writer->SetFileName(av[2]);
-  writer->Update();
+
+  try
+  {
+    input->Update();
+    filter3->Update();
+    writer->Update();
+  }
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception detected: " << e.GetDescription();
+    return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }

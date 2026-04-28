@@ -69,7 +69,7 @@ namespace itk
  * \todo Support for vector images
  */
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 class ITK_EXPORT FastBilateralImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
@@ -120,7 +120,7 @@ public:
   /** Standard get/set macros for filter parameters.
    *  DomainSigma is specified in the same units as the Image spacing.
    *  RangeSigma is specified in the units of intensity. */
-  itkGetConstMacro(DomainSigma, const DomainSigmaArrayType);
+  itkGetConstMacro(DomainSigma, DomainSigmaArrayType);
   itkSetMacro(DomainSigma, DomainSigmaArrayType);
   itkGetConstMacro(RangeSigma, double);
   itkSetMacro(RangeSigma, double);
@@ -143,7 +143,7 @@ protected:
     m_RangeSigma = 50.0;
   }
 
-  virtual ~FastBilateralImageFilter() {}
+  ~FastBilateralImageFilter() override = default;
 
   /*
    * The FastBilateralImageFilter needs a larger input requested

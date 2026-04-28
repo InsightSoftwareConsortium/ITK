@@ -114,7 +114,7 @@ FastBilateralImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // The amount of padding around the grid images, required so that
   // interpolation is not done outside of the grid during reconstruction
-  int padding = 2;
+  const int padding = 2;
 
   // Setup the higher dimensional grids (gridImage and gridWeight).
   {
@@ -214,8 +214,8 @@ FastBilateralImageFilter<TInputImage, TOutputImage>::GenerateData()
     // This variance approximately corresponds to a 1D filter of [1 2 1] which is
     // used in Paris and Durands C++ implementation to blur their down-sampled
     // data. With this variance a kernel width larger than 5 is not necessary.
-    double variance = 1.59577;
-    int    maxWidth = 5;
+    const double variance = 1.59577;
+    const int    maxWidth = 5;
 
     // Setup the Gaussian filter
     typename BlurType::Pointer gridImageBlurFilter = BlurType::New();
