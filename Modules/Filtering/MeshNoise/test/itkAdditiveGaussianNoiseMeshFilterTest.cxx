@@ -53,7 +53,7 @@ itkAdditiveGaussianNoiseMeshFilterTest(int itkNotUsed(argc), char * itkNotUsed(a
   TSphere::Pointer sphere = TSphere::New();
 
   sphere->SetResolution(SPHERE_RESOLUTION);
-  sphere->SetScale(TSphere::VectorType(SPHERE_SCALE));
+  sphere->SetScale(TSphere::VectorType::Filled(static_cast<float>(SPHERE_SCALE)));
 
   TNoise::Pointer noise = TNoise::New();
 
