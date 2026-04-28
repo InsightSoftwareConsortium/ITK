@@ -98,7 +98,7 @@ jobs:
         python_executable=`which python3`
         python_root_dir=$(dirname $(dirname ${python_executable}))
         cat > dashboard.cmake << EOF
-        set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
+        set(CTEST_BUILD_CONFIGURATION "Release")
         set(CTEST_CMAKE_GENERATOR "Ninja")
         set(BUILD_NAME_SUFFIX "-Python")
         set(dashboard_cache "
