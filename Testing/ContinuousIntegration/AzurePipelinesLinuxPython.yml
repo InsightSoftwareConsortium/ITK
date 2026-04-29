@@ -87,6 +87,36 @@ jobs:
         path: $(CCACHE_DIR)
       displayName: 'Restore ccache'
 
+    # WIP: cache the 2.2 GB of castxml-generated XML at
+    # ${BUILD}/Wrapping/castxml_inputs/. Single trailing unquoted glob
+    # per Cache@2 syntax (the prior #6168 attempt failed because it had
+    # multiple ** segments and quoted them). Key invalidates whenever
+    # any wrapped header changes, which is the only time castxml output
+    # actually needs to be regenerated.
+    - task: Cache@2
+      inputs:
+        key: '"castxml-xml-v1" | "$(Agent.OS)" | "LinuxPython" | Modules/**/include/*.h'
+        path: $(Pipeline.Workspace)/castxml-xml-cache
+      displayName: 'Restore castxml XML output cache'
+
+    - bash: |
+        set -x
+        CACHE=$(Pipeline.Workspace)/castxml-xml-cache
+        DEST=$(Build.SourcesDirectory)-build/Wrapping/castxml_inputs
+        if [ -d "$CACHE" ] && [ -n "$(ls -A "$CACHE" 2>/dev/null)" ]; then
+          mkdir -p "$DEST"
+          # rsync preserves the directory structure; touching afterwards
+          # bumps mtimes so Ninja sees the .xml files as up-to-date
+          # relative to the checkout's just-cloned header mtimes and
+          # skips the (slow) castxml regeneration step.
+          rsync -a "$CACHE"/ "$DEST"/
+          find "$DEST" -name '*.xml' -exec touch {} +
+          echo "Restored $(find "$DEST" -name '*.xml' | wc -l) cached castxml XML files."
+        else
+          echo "No castxml cache hit; build will regenerate XML."
+        fi
+      displayName: 'Populate build tree from castxml XML cache (if hit)'
+
     - bash: |
         set -x
         ccache --zero-stats
@@ -133,6 +163,26 @@ jobs:
     - bash: ccache --show-stats
       condition: always()
       displayName: 'ccache stats'
+
+    # Mirror the build's castxml XML output back to the workspace cache
+    # path so the post-job Cache@2 save sees fresh content. Only runs
+    # when the build directory actually exists (i.e. the build step
+    # at least started).
+    - bash: |
+        set -x
+        SRC=$(Build.SourcesDirectory)-build/Wrapping/castxml_inputs
+        CACHE=$(Pipeline.Workspace)/castxml-xml-cache
+        if [ -d "$SRC" ]; then
+          mkdir -p "$CACHE"
+          rsync -a --delete "$SRC"/ "$CACHE"/
+          COUNT=$(find "$CACHE" -name '*.xml' 2>/dev/null | wc -l)
+          SIZE=$(du -sh "$CACHE" 2>/dev/null | cut -f1)
+          echo "Mirrored $COUNT castxml XML files ($SIZE) to cache path."
+        else
+          echo "Build dir absent; skipping castxml cache populate."
+        fi
+      condition: always()
+      displayName: 'Populate castxml XML cache from build tree'
 
     - bash: python3 $(Build.SourcesDirectory)/Testing/ContinuousIntegration/report_build_diagnostics.py $(Build.SourcesDirectory)-build
       condition: succeededOrFailed()
