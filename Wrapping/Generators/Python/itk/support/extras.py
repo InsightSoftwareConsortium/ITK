@@ -437,15 +437,17 @@ def GetImageFromArray(
     If is_vector is True, then a 3D array will be treated as a 2D vector image,
     otherwise it will be treated as a 3D image.
 
-    If the array uses Fortran-order indexing, i.e. i,j,k, the Image Size
-    will have the same dimensions as the array shape. If the array uses
-    C-order indexing, i.e. k,j,i, the image Size will have the dimensions
-    reversed from the array shape.
+    The image's Size is the reverse of the array's shape — i.e.
+    ``itk.size(image) == array.shape[::-1]`` — and the index ordering
+    follows ``image[i, j, k] == array[k, j, i]``. This holds regardless
+    of the array's memory layout: non-C-contiguous inputs (Fortran-order,
+    transposed, sliced, etc.) are first deep-copied via
+    ``np.ascontiguousarray()`` so the NumPy-reversed-shape rule applies
+    uniformly.
 
-    Therefore, since the *np.transpose* operator on a 2D array simply
-    inverts the indexing scheme, the Image representation will be the
-    same for an array and its transpose. If flipping is desired, see
-    *np.reshape*.
+    Consequently, ``arr`` and ``arr.T`` produce ITK images with
+    different (reversed) sizes — ``np.transpose`` / ``.T`` is the correct
+    operation to flip the dimension order.
 
     ttype can be used te specify a specific itk.Image type.
     """
@@ -463,17 +465,19 @@ def GetImageViewFromArray(
     If is_vector is True, then a 3D array will be treated as a 2D vector image,
     otherwise it will be treated as a 3D image.
 
-    If the array uses Fortran-order indexing, i.e. i,j,k, the Image Size
-    will have the same dimensions as the array shape. If the array uses
-    C-order indexing, i.e. k,j,i, the image Size will have the dimensions
-    reversed from the array shape.
+    The image's Size is the reverse of the array's shape — i.e.
+    ``itk.size(image) == array.shape[::-1]`` — and the index ordering
+    follows ``image[i, j, k] == array[k, j, i]``. This holds regardless
+    of the array's memory layout: non-C-contiguous inputs (Fortran-order,
+    transposed, sliced, etc.) are first deep-copied via
+    ``np.ascontiguousarray()`` so the NumPy-reversed-shape rule applies
+    uniformly.
 
-    Therefore, since the *np.transpose* operator on a 2D array simply
-    inverts the indexing scheme, the Image representation will be the
-    same for an array and its transpose. If flipping is desired, see
-    *np.reshape*.
+    Consequently, ``arr`` and ``arr.T`` produce ITK images with
+    different (reversed) sizes — ``np.transpose`` / ``.T`` is the correct
+    operation to flip the dimension order.
 
-    By default, a warning is issued if this function is called on a non-contiguous
+    By default, a warning is issued if this function is called on a non-C-contiguous
     array, since a copy is performed and care must be taken to keep a reference
     to the copied array. This warning can be suppressed with need_contiguous=False
     """
