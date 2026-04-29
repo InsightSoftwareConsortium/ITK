@@ -87,6 +87,35 @@ jobs:
         path: $(CCACHE_DIR)
       displayName: 'Restore ccache'
 
+    # WIP: investigate caching SWIG/CastXML artifacts and tarballs.
+    # Paths are best-guess based on ExternalProject_Add layout and
+    # WRAPPER_LIBRARY_OUTPUT_DIR conventions; the diagnostic step at
+    # the end of the job lists what actually got generated where.
+
+    - task: Cache@2
+      inputs:
+        key: '"swig-castxml-tarballs-v1" | "$(Agent.OS)" | "Wrapping/Generators/SwigInterface/CMakeLists.txt" | "Wrapping/Generators/CastXML/CMakeLists.txt"'
+        restoreKeys: |
+          "swig-castxml-tarballs-v1" | "$(Agent.OS)"
+        path: $(Pipeline.Workspace)/swig-castxml-tarballs
+      displayName: 'Restore SWIG/CastXML downloaded tarballs'
+
+    - task: Cache@2
+      inputs:
+        key: '"castxml-xml-v1" | "$(Agent.OS)" | "LinuxPython" | "Modules/**/include/*.h" | "Modules/**/wrapping/*.cmake"'
+        restoreKeys: |
+          "castxml-xml-v1" | "$(Agent.OS)" | "LinuxPython"
+        path: $(Pipeline.Workspace)/castxml-xml-cache
+      displayName: 'Restore castxml-generated XML files'
+
+    - task: Cache@2
+      inputs:
+        key: '"swig-cxx-v1" | "$(Agent.OS)" | "LinuxPython" | "Modules/**/wrapping/*.i" | "Modules/**/wrapping/*.cmake"'
+        restoreKeys: |
+          "swig-cxx-v1" | "$(Agent.OS)" | "LinuxPython"
+        path: $(Pipeline.Workspace)/swig-cxx-cache
+      displayName: 'Restore SWIG-generated CXX files'
+
     - bash: |
         set -x
         ccache --zero-stats
@@ -133,6 +162,36 @@ jobs:
     - bash: ccache --show-stats
       condition: always()
       displayName: 'ccache stats'
+
+    # WIP: diagnostic for SWIG/CastXML cache investigation. Reports
+    # artifact locations and sizes, then populates the cache paths so
+    # the post-job Cache@2 save sees a non-empty tree.
+    - bash: |
+        set -x
+        BLD=$(Build.SourcesDirectory)-build
+        echo "=== CastXML XML outputs (top 20) ==="
+        find "$BLD" -name "*.xml" -path "*castxml_inputs*" -printf "%s\t%p\n" 2>/dev/null | sort -rn | head -20
+        echo "=== CastXML XML count + size ==="
+        find "$BLD" -name "*.xml" -path "*castxml_inputs*" 2>/dev/null | wc -l
+        find "$BLD" -name "*.xml" -path "*castxml_inputs*" -printf "%s\n" 2>/dev/null | awk '{s+=$1} END {print s/1024/1024" MB"}'
+        echo "=== SWIG-generated cxx (top 20) ==="
+        find "$BLD" -name "*Python.cxx" -printf "%s\t%p\n" 2>/dev/null | sort -rn | head -20
+        echo "=== SWIG cxx count + size ==="
+        find "$BLD" -name "*Python.cxx" 2>/dev/null | wc -l
+        find "$BLD" -name "*Python.cxx" -printf "%s\n" 2>/dev/null | awk '{s+=$1} END {print s/1024/1024" MB"}'
+        echo "=== Tarball / ExternalProject downloads ==="
+        find "$BLD/Wrapping" -path "*-prefix/src/*" -maxdepth 6 -type f \( -name "*.tar.*" -o -name "*.zip" \) 2>/dev/null | xargs -r ls -lh
+        echo "=== Populating cache mirror dirs ==="
+        mkdir -p $(Pipeline.Workspace)/swig-castxml-tarballs
+        mkdir -p $(Pipeline.Workspace)/castxml-xml-cache
+        mkdir -p $(Pipeline.Workspace)/swig-cxx-cache
+        find "$BLD/Wrapping" -path "*-prefix/src/*" -maxdepth 6 -type f \( -name "*.tar.*" -o -name "*.zip" \) -exec cp -v {} $(Pipeline.Workspace)/swig-castxml-tarballs/ \; 2>/dev/null || true
+        find "$BLD" -name "*.xml" -path "*castxml_inputs*" 2>/dev/null | tar -czf $(Pipeline.Workspace)/castxml-xml-cache/xml.tar.gz -T - 2>/dev/null || true
+        find "$BLD" -name "*Python.cxx" 2>/dev/null | tar -czf $(Pipeline.Workspace)/swig-cxx-cache/cxx.tar.gz -T - 2>/dev/null || true
+        echo "=== Cache mirror sizes ==="
+        du -sh $(Pipeline.Workspace)/swig-castxml-tarballs $(Pipeline.Workspace)/castxml-xml-cache $(Pipeline.Workspace)/swig-cxx-cache 2>/dev/null
+      condition: always()
+      displayName: 'WIP: discover SWIG/CastXML artifact paths and populate caches'
 
     - bash: python3 $(Build.SourcesDirectory)/Testing/ContinuousIntegration/report_build_diagnostics.py $(Build.SourcesDirectory)-build
       condition: succeededOrFailed()
