@@ -450,7 +450,11 @@ addcompliancetest(raw-YBR_FULL)
 addcompliancetest(raw-YBR_FULL_422)
 addcompliancetest(RLE-RGB)
 
-set(ITKGDCMImageIOGTests itkGDCMImageIOGTest.cxx)
+set(
+  ITKGDCMImageIOGTests
+  itkGDCMImageIOGTest.cxx
+  itkGDCMSeriesDirectionGTest.cxx
+)
 creategoogletestdriver(ITKGDCMImageIO "${ITKIOGDCM-Test_LIBRARIES}" "${ITKGDCMImageIOGTests}")
 
 ExternalData_Expand_Arguments(
