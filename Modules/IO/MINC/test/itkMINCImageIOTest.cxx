@@ -25,99 +25,6 @@
 #include "itkObjectFactoryBase.h"
 #include <random>
 
-static void
-RandomPix(std::mt19937 &                 randomNumberEngine,
-          itk::RGBPixel<unsigned char> & pix,
-          double                         _max = itk::NumericTraits<unsigned char>::max())
-{
-  std::uniform_int_distribution<unsigned int> dist{ 0u, static_cast<unsigned int>(_max) };
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = static_cast<unsigned char>(dist(randomNumberEngine));
-  }
-}
-
-static void
-RandomPix(std::mt19937 & randomNumberEngine, itk::RGBPixel<char> & pix, double _max = itk::NumericTraits<char>::max())
-{
-  std::uniform_int_distribution<int> dist{ 0, static_cast<int>(_max) };
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = static_cast<char>(dist(randomNumberEngine));
-  }
-}
-
-
-static void
-RandomPix(std::mt19937 &                   randomNumberEngine,
-          itk::Vector<unsigned short, 3> & pix,
-          double                           _max = itk::NumericTraits<unsigned short>::max())
-{
-  std::uniform_int_distribution<unsigned int> dist{ 0u, static_cast<unsigned int>(_max) };
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = static_cast<unsigned short>(dist(randomNumberEngine));
-  }
-}
-
-static void
-RandomPix(std::mt19937 &          randomNumberEngine,
-          itk::Vector<short, 3> & pix,
-          double                  _max = itk::NumericTraits<short>::max())
-{
-  std::uniform_int_distribution<int> dist{ 0, static_cast<int>(_max) };
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = static_cast<short>(dist(randomNumberEngine));
-  }
-}
-
-static void
-RandomPix(std::mt19937 &                 randomNumberEngine,
-          itk::Vector<unsigned int, 3> & pix,
-          double                         _max = itk::NumericTraits<unsigned int>::max())
-{
-  (void)_max;
-  std::uniform_int_distribution<unsigned int> dist;
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = dist(randomNumberEngine);
-  }
-}
-
-static void
-RandomPix(std::mt19937 & randomNumberEngine, itk::Vector<int, 3> & pix, double _max = itk::NumericTraits<int>::max())
-{
-  (void)_max;
-  std::uniform_int_distribution<int> dist;
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = dist(randomNumberEngine);
-  }
-}
-
-static void
-RandomPix(std::mt19937 & randomNumberEngine, itk::Vector<float, 3> & pix, float _max = itk::NumericTraits<float>::max())
-{
-  std::uniform_real_distribution<float> dist{ 0.0f, _max };
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = dist(randomNumberEngine);
-  }
-}
-
-static void
-RandomPix(std::mt19937 &           randomNumberEngine,
-          itk::Vector<double, 3> & pix,
-          double                   _max = itk::NumericTraits<double>::max())
-{
-  std::uniform_real_distribution<double> dist{ 0.0, _max };
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = dist(randomNumberEngine);
-  }
-}
-
 static double
 abs_diff(const itk::RGBPixel<unsigned char> & pix1, const itk::RGBPixel<unsigned char> & pix2)
 {
@@ -217,34 +124,6 @@ abs_diff(const itk::Vector<unsigned short> & pix1, const itk::Vector<unsigned sh
 }
 
 
-static void
-RandomPix(std::mt19937 & randomNumberEngine, double & pix, double _max = itk::NumericTraits<double>::max())
-{
-  std::uniform_real_distribution<double> dist{ 0.0, _max };
-  pix = dist(randomNumberEngine);
-}
-
-static void
-RandomPix(std::mt19937 & randomNumberEngine, float & pix, float _max = itk::NumericTraits<float>::max())
-{
-  std::uniform_real_distribution<float> dist{ 0.0f, _max };
-  pix = dist(randomNumberEngine);
-}
-
-static void
-RandomPix(std::mt19937 & randomNumberEngine, int & pix)
-{
-  std::uniform_int_distribution<int> dist;
-  pix = dist(randomNumberEngine);
-}
-
-static void
-RandomPix(std::mt19937 & randomNumberEngine, unsigned int & pix)
-{
-  std::uniform_int_distribution<unsigned int> dist;
-  pix = dist(randomNumberEngine);
-}
-
 template <typename TPixel>
 static double
 abs_diff(const TPixel & pix1, const TPixel & pix2)
@@ -263,16 +142,6 @@ RandomVectorPix(std::mt19937 &                      randomNumberEngine,
   {
     pix.SetElement(i, static_cast<TPixel>(dist(randomNumberEngine)));
   }
-}
-
-template <typename TPixel>
-static void
-RandomPix(std::mt19937 & randomNumberEngine, TPixel & pix, double _max = itk::NumericTraits<TPixel>::max())
-{
-  // Templated catch-all: integer pixel types here are short / unsigned short / etc.;
-  // the narrower 8-bit integer types use the explicit overloads above.
-  std::uniform_int_distribution<int> dist{ 0, static_cast<int>(_max) };
-  pix = static_cast<TPixel>(dist(randomNumberEngine));
 }
 
 template <typename TPixel>
@@ -407,11 +276,11 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
     TPixel pix;
     if (tolerance > 0.0)
     {
-      RandomPix(randomNumberEngine, pix, 100);
+      itk::IOTestHelper::RandomPix(randomNumberEngine, pix, 100);
     }
     else
     {
-      RandomPix(randomNumberEngine, pix);
+      itk::IOTestHelper::RandomPix(randomNumberEngine, pix);
     }
     it.Set(pix);
   }

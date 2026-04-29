@@ -40,17 +40,6 @@ static constexpr int    point_counter = 1000;
 
 template <typename T>
 void
-RandomPix(std::mt19937 & randomNumberEngine, itk::Vector<T, 3> & pix, double _max = itk::NumericTraits<T>::max())
-{
-  std::uniform_real_distribution<double> dist{ 0.0, _max };
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = static_cast<T>(dist(randomNumberEngine));
-  }
-}
-
-template <typename T>
-void
 RandomPoint(std::mt19937 & randomNumberEngine, itk::Point<T, 3> & pix, double _max = itk::NumericTraits<T>::max())
 {
   std::uniform_real_distribution<double> dist{ 0.0, _max };
@@ -173,11 +162,11 @@ compare_nonlinear_double(const char * nonlinear_transform)
     DisplacementFieldType::PixelType pix;
     if (tolerance > 0.0)
     {
-      RandomPix<double>(randomNumberEngine, pix, 100);
+      itk::IOTestHelper::RandomPix(randomNumberEngine, pix, 100);
     }
     else
     {
-      RandomPix<double>(randomNumberEngine, pix);
+      itk::IOTestHelper::RandomPix(randomNumberEngine, pix);
     }
     it.Set(pix);
   }

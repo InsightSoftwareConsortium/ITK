@@ -23,6 +23,8 @@
 #include "itksys/SystemTools.hxx"
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
+#include "itkRGBPixel.h"
+#include "itkVector.h"
 #include <cstdint>
 #include <limits>
 #include <random>
@@ -136,33 +138,74 @@ public:
     }
   }
 
-  static void
-  RandomPix(std::mt19937 & randomNumberEngine, itk::RGBPixel<unsigned char> & pix)
+  // Sample a value of arithmetic type T uniformly in [0, bound], avoiding
+  // implementation-defined narrowing and the high-bits-zero artifact that
+  // a single 32-bit engine() output produces for 64-bit integral types.
+  template <typename T>
+  static T
+  BoundedRandom(std::mt19937 & randomNumberEngine, T bound)
   {
-    for (unsigned int i = 0; i < 3; ++i)
+    static_assert(std::is_arithmetic_v<T>, "BoundedRandom: T must be arithmetic");
+    if constexpr (std::is_floating_point_v<T>)
     {
-      pix[i] = static_cast<unsigned char>(randomNumberEngine());
+      std::uniform_real_distribution<T> dist{ static_cast<T>(0), bound };
+      return dist(randomNumberEngine);
+    }
+    else
+    {
+      using U = std::make_unsigned_t<T>;
+      U raw;
+      if constexpr (sizeof(T) > sizeof(std::mt19937::result_type))
+      {
+        // Combine two 32-bit engine outputs to fill the high bits of 64-bit pixel types.
+        raw = (static_cast<U>(randomNumberEngine()) << 32) | static_cast<U>(randomNumberEngine());
+      }
+      else
+      {
+        raw = static_cast<U>(randomNumberEngine());
+      }
+      const U bound_u = static_cast<U>(bound);
+      // No bound to apply when bound saturates U; bound_u + 1 would wrap to 0
+      // and raw % 0 traps with SIGFPE.
+      if (bound_u == std::numeric_limits<U>::max())
+      {
+        return static_cast<T>(raw);
+      }
+      return static_cast<T>(raw % (bound_u + U{ 1 }));
     }
   }
 
   template <typename TPixel>
   static void
-  RandomPix(std::mt19937 & randomNumberEngine, TPixel & pix)
+  RandomPix(std::mt19937 & randomNumberEngine,
+            TPixel &       pix,
+            double         _max = static_cast<double>(itk::NumericTraits<TPixel>::max()))
   {
-    static_assert(std::is_integral_v<TPixel> || std::is_floating_point_v<TPixel>,
-                  "RandomPix: TPixel must be integral or floating-point");
-    if constexpr (std::is_integral_v<TPixel> && sizeof(TPixel) < sizeof(std::mt19937::result_type))
+    static_assert(std::is_arithmetic_v<TPixel>, "RandomPix: TPixel must be arithmetic");
+    pix = BoundedRandom<TPixel>(randomNumberEngine, static_cast<TPixel>(_max));
+  }
+
+  template <typename T>
+  static void
+  RandomPix(std::mt19937 &     randomNumberEngine,
+            itk::RGBPixel<T> & pix,
+            double             _max = static_cast<double>(itk::NumericTraits<T>::max()))
+  {
+    for (unsigned int i = 0; i < 3; ++i)
     {
-      // Bound the engine output to TPixel's representable range so the
-      // narrowing cast cannot drop the high bits silently.  Skipped when
-      // sizeof(TPixel) >= sizeof(engine output) because then
-      // numeric_limits<TPixel>::max() + 1 would itself overflow.
-      pix = static_cast<TPixel>(randomNumberEngine() %
-                                (static_cast<std::mt19937::result_type>(std::numeric_limits<TPixel>::max()) + 1));
+      pix[i] = BoundedRandom<T>(randomNumberEngine, static_cast<T>(_max));
     }
-    else
+  }
+
+  template <typename T, unsigned int VLength>
+  static void
+  RandomPix(std::mt19937 &            randomNumberEngine,
+            itk::Vector<T, VLength> & pix,
+            double                    _max = static_cast<double>(itk::NumericTraits<T>::max()))
+  {
+    for (unsigned int i = 0; i < VLength; ++i)
     {
-      pix = static_cast<TPixel>(randomNumberEngine());
+      pix[i] = BoundedRandom<T>(randomNumberEngine, static_cast<T>(_max));
     }
   }
 
