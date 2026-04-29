@@ -81,9 +81,9 @@ selfadjoint_matrix_vector_product<Scalar, Index, StorageOrder, UpLo, ConjugateLh
     Packet ptmp1 = pset1<Packet>(t1);
 
     Scalar t2(0);
-    Packet ptmp2 = pset1<Packet>(t2);
+    Packet ptmp2 = pzero(Packet{});
     Scalar t3(0);
-    Packet ptmp3 = pset1<Packet>(t3);
+    Packet ptmp3 = pzero(Packet{});
 
     Index starti = FirstTriangular ? 0 : j + 2;
     Index endi = FirstTriangular ? j : size;
