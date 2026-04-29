@@ -356,6 +356,38 @@ whitelisted file.
 **Topology requirement (mandatory).** Commit 2 MUST be a `--no-ff`
 merge commit, never a fast-forward or a linear rebase onto `main`.
 
+**All upstream-side merges must also survive.** If the source remote
+module had `Merge pull request #N from …` commits in its history,
+those merge commits MUST appear in the ingested history with both
+parents reachable. Operator check before push:
+
+```bash
+[ "$(git rev-list --count --merges upstream/main..HEAD)" -ge \
+  $((1 + UPSTREAM_INTERNAL_MERGES)) ] \
+  || { echo "FAIL: merge topology lost"; exit 1; }
+```
+
+**Linearization is forbidden.** Plain `git rebase`, plain
+`git cherry-pick` of each upstream commit, and the deprecated
+`normalize-ingest-commits.py` (which uses linear cherry-pick replay
+and explicitly skips merges) all produce a linearized branch.
+Reviewers have flagged linearization repeatedly (PRs #6135, #6137,
+#6159, #6161); it is a process violation, not an acceptable
+shortcut. When per-commit re-formatting is needed, use a
+merge-preserving rewriter:
+
+| Use | When |
+|-----|------|
+| `rewrite-history-merge-preserving.py` (this directory) | Standard ingest per-commit re-formatting (text-blob trailing-whitespace + end-of-file uniform pass) |
+| `git rebase --rebase-merges -i` with `edit` on a single commit | One historical commit needs in-place edit |
+| `git filter-repo --commit-callback` | Many commits need uniform path/mode rewrites (e.g. exec-bit drift) |
+| `git filter-repo --blob-callback` | Per-file content rewrites across history |
+
+**`normalize-ingest-commits.py` is DEPRECATED** as of 2026-04-28. It
+will refuse to run unless invoked with `--i-understand-this-linearizes`.
+Use `rewrite-history-merge-preserving.py` for per-commit
+re-formatting on ingest branches.
+
 ### The root-commit ghostflow error is REQUIRED, not a failure
 
 Every Mode A or Mode B ingest, when correctly built, MUST produce
