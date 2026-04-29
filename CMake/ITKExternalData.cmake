@@ -49,7 +49,11 @@ if(NOT ITK_FORBID_DOWNLOADS)
   list(
     APPEND
     ExternalData_URL_TEMPLATES
-    # Data published on GitHub Pages
+    # Data published on GitHub Pages — primary CID source.
+    # %(algo) substitutes the uppercase algorithm name (CID, MD5, SHA512),
+    # matching the case-sensitive directory layout on the ITKTestingData
+    # gh-pages branch (/CID/, /MD5/, /SHA512/). See commit 317ab5fdaed2
+    # for the parallel fix to PrefetchCIDContentLinks.py.
     "https://insightsoftwareconsortium.github.io/ITKTestingData/%(algo)/%(hash)"
     # Data published on Girder
     "https://data.kitware.com:443/api/v1/file/hashsum/%(algo)/%(hash)/download"
