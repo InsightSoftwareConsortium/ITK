@@ -448,3 +448,28 @@ addcompliancetest(raw-YBR_FULL_422)
 addcompliancetest(RLE-RGB)
 addcompliancetest(HTJ2K-YBR_ICT Lily_full.mha)
 addcompliancetest(HTJ2K-YBR_RCT Lily_full.mha)
+
+set(ITKGDCMImageIOGTests itkGDCMImageIOGTest.cxx)
+creategoogletestdriver(ITKGDCMImageIO "${ITKIOGDCM-Test_LIBRARIES}" "${ITKGDCMImageIOGTests}")
+
+ExternalData_Expand_Arguments(
+  ITKData
+  _DICOM_SERIES_INPUT
+  "DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}"
+)
+target_compile_definitions(
+  ITKGDCMImageIOGTestDriver
+  PRIVATE
+    "DICOM_SERIES_INPUT=${_DICOM_SERIES_INPUT}"
+  PRIVATE
+    "ITK_TEST_OUTPUT_DIR=${ITK_TEST_OUTPUT_DIR}"
+)
+
+set_property(
+  TARGET
+    ITKGDCMImageIOGTestDriver
+  APPEND
+  PROPERTY
+    DEPENDS
+      ITKData
+)
