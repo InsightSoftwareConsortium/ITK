@@ -449,7 +449,11 @@ addcompliancetest(RLE-RGB)
 addcompliancetest(HTJ2K-YBR_ICT Lily_full.mha)
 addcompliancetest(HTJ2K-YBR_RCT Lily_full.mha)
 
-set(ITKGDCMImageIOGTests itkGDCMImageIOGTest.cxx)
+set(
+  ITKGDCMImageIOGTests
+  itkGDCMImageIOGTest.cxx
+  itkGDCMSeriesDirectionGTest.cxx
+)
 creategoogletestdriver(ITKGDCMImageIO "${ITKIOGDCM-Test_LIBRARIES}" "${ITKGDCMImageIOGTests}")
 
 ExternalData_Expand_Arguments(
