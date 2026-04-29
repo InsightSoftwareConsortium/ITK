@@ -1,31 +1,8 @@
 name: ITK.Windows.Python
 
-trigger:
-  branches:
-    include:
-    - main
-    - release*
-  paths:
-    exclude:
-    - '*.md'
-    - LICENSE
-    - NOTICE
-    - Documentation/*
-    - Utilities/Debugger/*
-    - Utilities/ITKv5Preparation/*
-    - Utilities/Maintenance/*
-    - Modules/Remote/*.remote.cmake
-pr:
-  paths:
-    exclude:
-    - '*.md'
-    - LICENSE
-    - NOTICE
-    - Documentation/*
-    - Utilities/Debugger/*
-    - Utilities/ITKv5Preparation/*
-    - Utilities/Maintenance/*
-    - Modules/Remote/*.remote.cmake
+trigger: none
+pr: none
+
 variables:
   ExternalData_OBJECT_STORES: $(Pipeline.Workspace)/ExternalData
   CCACHE_DIR: $(Pipeline.Workspace)/.ccache

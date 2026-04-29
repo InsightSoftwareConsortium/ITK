@@ -2,12 +2,7 @@
 
 name: ITK.Batch
 
-trigger:
-  batch: true
-  branches:
-    include:
-    - main
-    - release*
+trigger: none
 pr: none
 
 variables:
