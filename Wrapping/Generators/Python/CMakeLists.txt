@@ -186,6 +186,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     support/extras
     support/xarray
     support/lazy
+    support/_lazy_submodule
     support/helpers
     support/init_helpers
     support/build_options
