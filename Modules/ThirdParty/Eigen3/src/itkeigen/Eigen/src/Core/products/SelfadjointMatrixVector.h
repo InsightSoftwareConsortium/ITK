@@ -112,13 +112,17 @@ selfadjoint_matrix_vector_product<Scalar, Index, StorageOrder, UpLo, ConjugateLh
     const Scalar* EIGEN_RESTRICT rhsIt = rhs + alignedStart;
     Scalar* EIGEN_RESTRICT resIt = res + alignedStart;
     for (Index i = alignedStart; i < alignedEnd; i += PacketSize) {
-      Packet A0i = ploadu<Packet>(a0It);
+      Packet A0i = pzero(Packet{});
+      A0i = ploadu<Packet>(a0It);
       a0It += PacketSize;
-      Packet A1i = ploadu<Packet>(a1It);
+      Packet A1i = pzero(Packet{});
+      A1i = ploadu<Packet>(a1It);
       a1It += PacketSize;
-      Packet Bi = ploadu<Packet>(rhsIt);
+      Packet Bi = pzero(Packet{});
+      Bi = ploadu<Packet>(rhsIt);
       rhsIt += PacketSize;  // FIXME should be aligned in most cases
-      Packet Xi = pload<Packet>(resIt);
+      Packet Xi = pzero(Packet{});
+      Xi = pload<Packet>(resIt);
 
       Xi = pcj0.pmadd(A0i, ptmp0, pcj0.pmadd(A1i, ptmp1, Xi));
       ptmp2 = pcj1.pmadd(A0i, Bi, ptmp2);
