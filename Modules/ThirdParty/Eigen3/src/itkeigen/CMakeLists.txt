@@ -1,10 +1,10 @@
 # Same version of ITK cmake_minimum_required
-cmake_minimum_required(VERSION 3.10.2)
+cmake_minimum_required(VERSION 3.16.3)
 
 project(Eigen3)
 
 # ITK doesn't compile anything here, just generates targets for the INTERFACE library.
-if(FALSE)
+#[[ # ITK - START DISABLE UPSTREAM EIGEN LOGIC
 
 cmake_minimum_required(VERSION 3.10.0)
 
@@ -828,7 +828,7 @@ message(STATUS "")
 message(STATUS "Configured Eigen ${EIGEN_VERSION_STRING}")
 message(STATUS "")
 
-endif() # Regular CMakeLists of Eigen ends here
+#]] # ITK -STOP DISABLE UPSTREAM EIGEN LOGIC
 
 ###############################################################################
 ################################ ITK ##########################################
