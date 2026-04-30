@@ -92,7 +92,10 @@ def __getattr__(name: str):
 
 
 def __dir__():
-    return sorted(set(globals().keys()) | _lazy_attribute_to_module.keys())
+    # Set literal — avoids resolving the bare name `set`, which is
+    # shadowed in module globals by `itk.set` (itkTemplate std::set)
+    # once any SWIG module is loaded.
+    return sorted({*globals().keys(), *_lazy_attribute_to_module.keys()})
 
 
 def _initialize_module():
