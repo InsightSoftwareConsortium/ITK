@@ -117,6 +117,14 @@ namespace itk
 #  define ITK_GCC_SUPPRESS_Warray_bounds
 #endif
 
+// -Wmaybe-uninitialized is a real-GCC-only warning name; Apple Clang emits
+// -Wunknown-warning-option for it (which ITK's dashboard treats as fatal).
+#if defined(__GNUC__) && !defined(__clang__)
+#  define ITK_GCC_SUPPRESS_Wmaybe_uninitialized ITK_PRAGMA(GCC diagnostic ignored "-Wmaybe-uninitialized")
+#else
+#  define ITK_GCC_SUPPRESS_Wmaybe_uninitialized
+#endif
+
 // For Clang only (and not GCC):
 #if defined(__clang__) && defined(__has_warning)
 #  define ITK_CLANG_PRAGMA_PUSH ITK_PRAGMA(clang diagnostic push)
