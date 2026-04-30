@@ -42,6 +42,7 @@
 #include "itkISQHeaderIO.h"
 
 #include <algorithm>
+#include <cstdio>
 #include <ctime>
 #include <filesystem>
 
@@ -354,11 +355,11 @@ ScancoImageIO::SetHeaderFromMetaDataDictionary()
   std::string stringMeta;
   if (ExposeMetaData<std::string>(metaData, "Version", stringMeta))
   {
-    strncpy(this->m_HeaderData.m_Version, stringMeta.c_str(), 18);
+    std::snprintf(this->m_HeaderData.m_Version, sizeof(this->m_HeaderData.m_Version), "%s", stringMeta.c_str());
   }
   if (ExposeMetaData<std::string>(metaData, "PatientName", stringMeta))
   {
-    strncpy(this->m_HeaderData.m_PatientName, stringMeta.c_str(), 42);
+    std::snprintf(this->m_HeaderData.m_PatientName, sizeof(this->m_HeaderData.m_PatientName), "%s", stringMeta.c_str());
   }
 
   ExposeMetaData<int>(metaData, "PatientIndex", this->m_HeaderData.m_PatientIndex);
@@ -366,11 +367,13 @@ ScancoImageIO::SetHeaderFromMetaDataDictionary()
 
   if (ExposeMetaData<std::string>(metaData, "CreationDate", stringMeta))
   {
-    strncpy(this->m_HeaderData.m_CreationDate, stringMeta.c_str(), 32);
+    std::snprintf(
+      this->m_HeaderData.m_CreationDate, sizeof(this->m_HeaderData.m_CreationDate), "%s", stringMeta.c_str());
   }
   if (ExposeMetaData<std::string>(metaData, "ModificationDate", stringMeta))
   {
-    strncpy(this->m_HeaderData.m_ModificationDate, stringMeta.c_str(), 32);
+    std::snprintf(
+      this->m_HeaderData.m_ModificationDate, sizeof(this->m_HeaderData.m_ModificationDate), "%s", stringMeta.c_str());
   }
 
   ExposeMetaData<double>(metaData, "SliceThickness", this->m_HeaderData.m_SliceThickness);
@@ -399,11 +402,13 @@ ScancoImageIO::SetHeaderFromMetaDataDictionary()
   ExposeMetaData<int>(metaData, "RescaleType", this->m_HeaderData.m_RescaleType);
   if (ExposeMetaData<std::string>(metaData, "RescaleUnits", stringMeta))
   {
-    strncpy(this->m_HeaderData.m_RescaleUnits, stringMeta.c_str(), 18);
+    std::snprintf(
+      this->m_HeaderData.m_RescaleUnits, sizeof(this->m_HeaderData.m_RescaleUnits), "%s", stringMeta.c_str());
   }
   if (ExposeMetaData<std::string>(metaData, "CalibrationData", stringMeta))
   {
-    strncpy(this->m_HeaderData.m_CalibrationData, stringMeta.c_str(), 66);
+    std::snprintf(
+      this->m_HeaderData.m_CalibrationData, sizeof(this->m_HeaderData.m_CalibrationData), "%s", stringMeta.c_str());
   }
 
   ExposeMetaData<double>(metaData, "RescaleSlope", this->m_HeaderData.m_RescaleSlope);

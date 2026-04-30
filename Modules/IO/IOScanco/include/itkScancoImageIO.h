@@ -55,6 +55,7 @@
 #include "IOScancoExport.h"
 
 
+#include <cstdio>
 #include <fstream>
 #include "itkImageIOBase.h"
 #include "itkScancoDataManipulation.h"
@@ -167,7 +168,7 @@ public:
   void
   SetVersion(const char * version)
   {
-    strncpy(this->m_HeaderData.m_Version, version, 18);
+    std::snprintf(this->m_HeaderData.m_Version, sizeof(this->m_HeaderData.m_Version), "%s", version);
     this->Modified();
   }
 
@@ -179,7 +180,8 @@ public:
   void
   SetCalibrationData(const char * calibrationData)
   {
-    strncpy(this->m_HeaderData.m_CalibrationData, calibrationData, 66);
+    std::snprintf(
+      this->m_HeaderData.m_CalibrationData, sizeof(this->m_HeaderData.m_CalibrationData), "%s", calibrationData);
     this->Modified();
   }
 
@@ -191,7 +193,7 @@ public:
   void
   SetRescaleUnits(const char * rescaleUnits)
   {
-    strncpy(this->m_HeaderData.m_RescaleUnits, rescaleUnits, 18);
+    std::snprintf(this->m_HeaderData.m_RescaleUnits, sizeof(this->m_HeaderData.m_RescaleUnits), "%s", rescaleUnits);
     this->Modified();
   }
 
@@ -284,7 +286,7 @@ public:
   void
   SetPatientName(const char * patientName)
   {
-    strncpy(this->m_HeaderData.m_PatientName, patientName, 42);
+    std::snprintf(this->m_HeaderData.m_PatientName, sizeof(this->m_HeaderData.m_PatientName), "%s", patientName);
     this->Modified();
   }
 
@@ -296,7 +298,7 @@ public:
   void
   SetCreationDate(const char * creationDate)
   {
-    strncpy(this->m_HeaderData.m_CreationDate, creationDate, 32);
+    std::snprintf(this->m_HeaderData.m_CreationDate, sizeof(this->m_HeaderData.m_CreationDate), "%s", creationDate);
     this->Modified();
   }
 
@@ -308,7 +310,8 @@ public:
   void
   SetModificationDate(const char * modificationDate)
   {
-    strncpy(this->m_HeaderData.m_ModificationDate, modificationDate, 32);
+    std::snprintf(
+      this->m_HeaderData.m_ModificationDate, sizeof(this->m_HeaderData.m_ModificationDate), "%s", modificationDate);
     this->Modified();
   }
 
