@@ -949,8 +949,7 @@ add_library (ITKInternalEigen3::Eigen ALIAS eigen_internal)
 # This would wrongly enforce EIGEN_MPL2_ONLY to other libraries using Eigen.
 # We wrap this definition in ITK_USE_EIGEN_MPL2_ONLY, and only enabling it internally in the dashboards and CI,
 # to avoid introducing GPL code from Eigen3 internally in ITK.
-option(ITK_USE_EIGEN_MPL2_ONLY "Set compile definition EIGEN_MPL2_ONLY for ITKInternalEigen3." OFF)
-mark_as_advanced(ITK_USE_EIGEN_MPL2_ONLY)
+# (ITK_USE_EIGEN_MPL2_ONLY is declared once near line 844 of this file.)
 
 if(ITK_USE_EIGEN_MPL2_ONLY)
   target_compile_definitions (eigen_internal INTERFACE "EIGEN_MPL2_ONLY")
@@ -961,7 +960,6 @@ endif()
 # INSTALL: headers require pre-prend itkeigen/Eigen/X.
 target_include_directories (eigen_internal SYSTEM INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
-  # $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/..>
   $<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}>
   )
 
