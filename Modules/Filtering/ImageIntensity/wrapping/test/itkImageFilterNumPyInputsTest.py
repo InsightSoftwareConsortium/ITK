@@ -15,9 +15,6 @@
 #   limitations under the License.
 #
 # ==========================================================================
-import itkConfig
-
-itkConfig.LazyLoading = False
 import itk
 import numpy as np
 

@@ -23,13 +23,6 @@
 # to wait until this first thread releases the RLock.
 
 
-# NOTE: This test requires itkConfig.LazyLoading=True
-#       Explicitly set to override potential environmental
-#       variable settings.
-import itkConfig
-
-itkConfig.LazyLoading = True
-
 from multiprocessing.pool import ThreadPool
 from multiprocessing import cpu_count
 

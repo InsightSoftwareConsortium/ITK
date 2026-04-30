@@ -22,7 +22,8 @@
 # in order to maintain the singular value of the module values.
 # `import .conf.itkConfig` is a different context than
 # `import itkConfig`, even if they are the same file. The
-# LazyLoading and other values may be different in the two contexts.
+# DefaultFactoryLoading and other values may be different in the
+# two contexts.
 from itkConfig import ITK_GLOBAL_VERSION_STRING as __version__
 
 # Tests/lazy.py asserts itk.__package__ == "itk"; guard the invariant.

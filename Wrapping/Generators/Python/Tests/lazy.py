@@ -15,13 +15,9 @@
 #   limitations under the License.
 #
 # ==========================================================================
-import itkConfig
-
-# Override environmental variable default to force LazyLoading
-itkConfig.LazyLoading = True
 import itk
 
-# Test PEP 366 compliance of LazyITKModule
+# Test PEP 366 compliance of itk and per-submodule namespaces
 assert itk.__package__ == "itk"
 from itk import ITKCommon
 
