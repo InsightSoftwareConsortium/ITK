@@ -2,7 +2,9 @@
 set -euo pipefail
 
 # Batch-pin every CID in Testing/Data/content-links.manifest locally and on
-# every configured remote pinning service (itk-pinata, itk-filebase, ...).
+# every configured remote pinning service (itk-filebase, plus itk-pinata or
+# any other PSA-compatible remote if registered with `ipfs pin remote
+# service add`).
 #
 # Usage: ipfs-pin-all.sh [--background]
 #

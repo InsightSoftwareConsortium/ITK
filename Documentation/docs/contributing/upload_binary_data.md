@@ -53,8 +53,9 @@ locations so it can be retrieved from any of the following at build time:
 
 - Local [Kubo] gateway (typically `127.0.0.1:8080`)
 - [ITKTestingData] GitHub Pages mirror
-- [Pinata] (community pinning service, remote name `itk-pinata`)
 - [Filebase] (community pinning service, remote name `itk-filebase`)
+- [Pinata] (community pinning service, remote name `itk-pinata`,
+  *optional* — pin-by-CID requires a paid Pinata plan)
 - Public IPFS HTTP gateways (`ipfs.io`, `dweb.link`, `cloudflare-ipfs.com`)
 - Kitware's Apache HTTP Server
 - Local `ExternalData_OBJECT_STORES` cache
@@ -65,14 +66,15 @@ locations so it can be retrieved from any of the following at build time:
 
 *Testing data workflow. Testing or example data is uploaded to IPFS via the
 content-link-upload.itk.org web app. New content is added with the
-`Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh` script, which pushes
-the bytes to a local [Kubo] node and pins them on `itk-pinata` and
-`itk-filebase` for redundancy. The resulting CID is written as a `.cid`
-content link in the ITK source tree and recorded in
-`Testing/Data/content-links.manifest`. Files ≤ 50 MB can additionally be
-mirrored into [ITKTestingData] for GitHub Pages CDN delivery. At test time an
-ITK build can fetch the data from a local cache, archive tarball, the Apache
-HTTP server, the GitHub Pages mirror, or any of several IPFS HTTP gateways.*
+`Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh` script, which
+pushes the bytes to a local [Kubo] node and pins them on `itk-filebase`
+(and `itk-pinata` if a paid Pinata plan is configured) for redundancy. The
+resulting CID is written as a `.cid` content link in the ITK source tree
+and recorded in `Testing/Data/content-links.manifest`. Files ≤ 50 MB can
+additionally be mirrored into [ITKTestingData] for GitHub Pages CDN
+delivery. At test time an ITK build can fetch the data from a local cache,
+archive tarball, the Apache HTTP server, the GitHub Pages mirror, or any
+of several IPFS HTTP gateways.*
 
 See also our [Data](data.md) guide for more information.
 
@@ -113,13 +115,17 @@ The upload workflow requires:
 - A local [Kubo] daemon (CLI or IPFS Desktop) with the **UnixFS v1 2025**
   profile applied, so CIDs are reproducible across implementations
   (`ipfs config profile apply unixfs-v1-2025`, Kubo ≥ 0.40.0).
-- Two remote pinning services configured under the exact names
-  `itk-pinata` and `itk-filebase`. The upload script looks up these names
-  and fails if they are missing.
+- The [Filebase] remote pinning service registered as `itk-filebase`. This
+  is **required** — it works on Filebase's free tier.
+- Optionally, the [Pinata] remote pinning service registered as
+  `itk-pinata`. Pinata's pin-by-CID endpoint requires a **paid plan**
+  (the free plan rejects PSA `pin remote add` with `PAID_FEATURE_ONLY`),
+  so configure this only if you have a paid Pinata account; the upload
+  script skips it with a notice when it isn't registered.
 
 The full step-by-step setup — installing Kubo, signing up with
-[Pinata] and [Filebase], and registering each service as a remote —
-is documented in
+[Filebase] (and optionally [Pinata]), and registering each service
+as a remote — is documented in
 [`Utilities/Maintenance/ExternalDataUpload/README.md`]. Complete that
 one-time setup before proceeding.
 
@@ -137,11 +143,12 @@ The script will:
 
 1. Add the file to IPFS with `--cid-version=1` under the UnixFS v1 2025
    profile, producing a deterministic CID.
-2. Pin locally, then on `itk-pinata` and `itk-filebase`. By default the
-   script waits until each remote reports `pinned`, which surfaces
-   failures immediately but can take minutes per file as the remote
-   fetches the content. For batch runs pass `--background` to submit
-   pins asynchronously and verify afterwards with
+2. Pin locally, then on `itk-filebase` (and on `itk-pinata` if it is
+   registered — otherwise the script logs a notice and continues). By
+   default the script waits until each remote reports `pinned`, which
+   surfaces failures immediately but can take minutes per file as the
+   remote fetches the content. For batch runs pass `--background` to
+   submit pins asynchronously and verify afterwards with
    `ipfs pin remote ls --status=queued,pinning,pinned`.
 3. Replace `MyTest.png` in the source tree with `MyTest.png.cid` — a
    one-line text file containing the CID.
@@ -165,8 +172,8 @@ This populates the GitHub Pages mirror gateway
 already listed in [`CMake/ITKExternalData.cmake`]. Commit and push in
 the `ITKTestingData` repo to publish. Files larger than **50 MB** are
 skipped for the mirror step only (GitHub rejects pushes containing
-files over 50 MB per file) — IPFS pinning on `itk-pinata` and
-`itk-filebase` still proceeds for those files.
+files over 50 MB per file) — IPFS pinning on `itk-filebase` (and on
+`itk-pinata` when configured) still proceeds for those files.
 
 ### Alternative: upload via the web app
 

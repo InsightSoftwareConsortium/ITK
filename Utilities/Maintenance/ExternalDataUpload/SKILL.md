@@ -2,8 +2,10 @@
 name: external-data-upload
 description: >
   Upload ITK test data to IPFS and produce .cid content links, pin on
-  itk-pinata and itk-filebase, optionally mirror into ITKTestingData, and
-  normalize existing .md5 / .sha256 / .cid content links. Use when the
+  itk-filebase (and itk-pinata if configured — Pinata is optional because
+  pin-by-CID requires a paid plan there), optionally mirror into
+  ITKTestingData, and normalize existing .md5 / .sha256 / .cid content
+  links. Use when the
   user wants to add test images, baseline data, or model files under
   Testing/Data/ or a module's data/ directory, or when asked to convert
   hash-based content links to CID.
@@ -28,8 +30,14 @@ Required:
 
 - IPFS daemon running (`ipfs daemon` or IPFS Desktop)
 - UnixFS v1 2025 profile applied (`ipfs config profile apply unixfs-v1-2025`)
-- `itk-pinata` remote pinning service configured
-- `itk-filebase` remote pinning service configured
+- `itk-filebase` remote pinning service configured (works on the free tier)
+
+Optional:
+
+- `itk-pinata` remote pinning service configured. Pinata's pin-by-CID
+  endpoint is **paid-only** — the free plan rejects PSA `pin remote add`
+  with `PAID_FEATURE_ONLY` (403). The upload script skips this service
+  with a notice if it isn't registered.
 
 ## Tasks this skill handles
 
@@ -53,7 +61,8 @@ Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh \
 The script will:
 
 1. Add to IPFS with `--cid-version=1` (UnixFS v1 2025 profile)
-2. Pin locally, on `itk-pinata`, and on `itk-filebase`
+2. Pin locally and on `itk-filebase`; also on `itk-pinata` if registered
+   (skipped with a notice when only Filebase is configured)
 3. If `--testing-data-repo` given and file ≤ 50 MB, copy to
    `<path>/CID/<cid>` and `git add` it there. Files over 50 MB are skipped
    for the mirror step only (GitHub rejects > 50 MB) — IPFS pinning still
