@@ -23,6 +23,37 @@ from itk import ITKCommon
 
 assert ITKCommon.__package__ == "itk"
 
+# PEP 562 __dir__: lazy attributes are visible to tab-completion and
+# tooling without forcing a SWIG load. Only dunder attributes (which
+# the lazy __getattr__ explicitly skips) have been touched up to this
+# point, so the underlying SWIG modules have not been loaded yet --
+# "Image" must show up in dir() but stay absent from the module's
+# __dict__ until first access.
+assert "Image" in dir(itk)
+assert "Image" not in vars(itk)
+assert "Image" in dir(ITKCommon)
+assert "Image" not in vars(ITKCommon)
+
+# Factory hook: under the default configuration, accessing a class
+# whose module declares a needed factory (ITKIOImageBase -> ImageIO)
+# must trigger the corresponding factory registration as a side effect
+# of the lazy load. nodefaultfactories.py covers the disabled path.
+import itkConfig
+
+if itkConfig.DefaultFactoryLoading:
+    factories_before = len(itk.ObjectFactoryBase.GetRegisteredFactories())
+    _ = itk.ImageFileReader
+    factories_after = len(itk.ObjectFactoryBase.GetRegisteredFactories())
+    assert factories_after > factories_before
+
+# stdlib pickle round-trip on a per-submodule namespace: the lazy
+# submodule is registered in sys.modules and its instance __reduce_ex__
+# resolves through importlib.import_module, so plain pickle (not just
+# cloudpickle) must round-trip to the same instance.
+import pickle
+
+assert pickle.loads(pickle.dumps(itk.ITKCommon)) is itk.ITKCommon
+
 # Test pickling used bash Dask
 _has_cloudpickle: bool = False
 try:

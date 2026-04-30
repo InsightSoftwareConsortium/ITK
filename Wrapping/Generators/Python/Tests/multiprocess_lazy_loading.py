@@ -1,25 +1,24 @@
 #!/usr/bin/env python
-# LazyLoading must be threadsafe
+# Lazy module loading must be threadsafe
 #
 # The loading of modules in python *must* occur as a
 # single atomic transaction in multiprocessing environments (i.e.
 # the module should only be loaded by one thread).
 #
-# The LazyLoading of ITK did not treat the loading of
+# Historically ITK's lazy loader did not treat the loading of
 # modules as an atomic transaction, and multiple threads
 # would attempt to load the cascading dependencies out of
 # order.
 #
-# The `getattr` override that allows LazyLoading to work
-# in the case where the module is *not* loaded now blocks
-# while the first thread completes the delayed module loading.
+# The PEP 562 ``__getattr__`` hook that triggers a delayed
+# load now blocks while the first thread completes the load.
 # After the first thread completes module load as an atomic
 # transaction, the other threads fall through (skip loading)
 # and return the value requested.
 #
 # Need to use a recursive lock for thread ownership so that the
 # first thread can can acquire a RLock as often as needed while
-# recursively processing dependent modules lazy loads.  Other threads need
+# recursively processing dependent module loads.  Other threads need
 # to wait until this first thread releases the RLock.
 
 

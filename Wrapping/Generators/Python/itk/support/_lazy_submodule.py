@@ -18,9 +18,8 @@
 
 """Builder for per-submodule lazy namespaces (``itk.ITKCommon``, ...).
 
-Replaces the legacy ``LazyITKModule(types.ModuleType)`` subclass with a
-plain ``types.ModuleType`` instance wired with PEP 562 ``__getattr__`` /
-``__dir__`` callables. The submodule is registered in
+Each submodule is a plain ``types.ModuleType`` instance wired with PEP 562
+``__getattr__`` / ``__dir__`` callables, registered in
 ``sys.modules['itk.<Module>']`` so ``cloudpickle`` (used by the Dask
 worker round-trip exercised in ``Tests/lazy.py``) can re-import it by
 its dotted name.
