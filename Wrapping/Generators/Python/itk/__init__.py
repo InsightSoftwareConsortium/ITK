@@ -111,7 +111,7 @@ def _initialize_module():
     # use of the builtin set
     from builtins import set as _builtin_set
 
-    from .support import lazy as _lazy
+    from .support._lazy_submodule import _make_itk_lazy_submodule
 
     # Build the flat first-owner-wins map driving module-level
     # __getattr__, and populate base.itk_base_global_lazy_attributes
@@ -141,10 +141,11 @@ def _initialize_module():
             ).add(module)
             _lazy_attribute_to_module.setdefault(function, module)
 
-    # Per-submodule LazyITKModule instances (itk.ITKCommon, ...).
-    # Phase 03 will replace these with plain types.ModuleType + PEP 562
-    # closures; for now they remain so the build stays green and the
-    # pickle / cloudpickle paths exercised by Tests/lazy.py keep working.
+    # Per-submodule lazy namespaces (itk.ITKCommon, ...). Plain
+    # types.ModuleType instances wired with PEP 562 __getattr__ /
+    # __dir__ closures by _make_itk_lazy_submodule, registered in
+    # sys.modules['itk.<Module>'] so cloudpickle round-trips by
+    # dotted name (Tests/lazy.py).
     this_module = sys.modules[__name__]
     for module, data in _base.itk_base_global_module_data.items():
         attributes: dict[str, list[str]] = {}
@@ -163,7 +164,7 @@ def _initialize_module():
             seen = _builtin_set()
             attributes[k] = [m for m in v if not (m in seen or seen.add(m))]
 
-        itk_module = _lazy.LazyITKModule(module, attributes)
+        itk_module = _make_itk_lazy_submodule(module, attributes, _lazy_load_lock)
         setattr(this_module, module, itk_module)
 
         # Check if the module installed its own init file and load it.
@@ -185,8 +186,8 @@ def _initialize_module():
         spec.loader.exec_module(loaded_module)
 
 
-# Build the lazy-attribute map and materialise per-submodule
-# LazyITKModule instances. This must run before any consumer attribute
-# access; module-level __getattr__ depends on _lazy_attribute_to_module
-# being populated.
+# Build the lazy-attribute map and materialise per-submodule lazy
+# namespaces. This must run before any consumer attribute access;
+# module-level __getattr__ depends on _lazy_attribute_to_module being
+# populated.
 _initialize_module()
