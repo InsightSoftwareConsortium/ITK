@@ -1152,7 +1152,9 @@ class SwigInputGenerator:
         if len(process_objects) > 0:
             self.outputFile.write("\n\n#ifdef SWIGPYTHON\n")
             self.outputFile.write("%pythoncode %{\n")
-            for process_object, class_type in process_objects:
+            for process_object, class_type in sorted(
+                process_objects, key=lambda x: (x[0], str(x[1]))
+            ):
                 snake_case = self.camel_case_to_snake_case(process_object)
                 if snake_case in self.snakeCaseProcessObjectFunctions:
                     continue
@@ -1195,6 +1197,7 @@ class SwigInputGenerator:
                         arg_type = get_arg_type(decls, arg_type)
                         if arg_type is not None:
                             kwarg_types.append(arg_type)
+                    kwarg_types.sort()
                     if len(kwarg_types) == 0:
                         pass
                     elif len(kwarg_types) == 1:
@@ -1612,7 +1615,7 @@ from . import _ITKCommonPython
             import_file.write("%%import %s\n" % f)
         import_file.write("\n\n")
 
-        for src in used_sources:
+        for src in sorted(used_sources):
             import_file.write("%%import %s.i\n" % src)
         import_file.write("\n\n")
         return import_file
@@ -1637,7 +1640,7 @@ from . import _ITKCommonPython
         apply_file_names = set(self.apply_file_names)
         # Apply file, for passing std::string as reference in methods
         apply_file = StringIO()
-        for name in apply_file_names:
+        for name in sorted(apply_file_names):
             apply_file.write(
                 "%apply (std::string& INOUT) { std::string & " + name + "};\n"
             )
@@ -1656,7 +1659,7 @@ from . import _ITKCommonPython
         )
         with open(typedef_input) as f:
             typedef_file.write(f.read() + "\n")
-        for src in used_sources:
+        for src in sorted(used_sources):
             typedef_file.write(f'#include "{src}SwigInterface.h"\n')
         typedef_file.write("#endif\n")
         typedef_output = os.path.join(
