@@ -30,14 +30,37 @@ struct itkScancoPixelData
   int    m_PixelType;
 };
 
+// Scanco header fixed-width fields. The on-disk format stores each text field
+// at a fixed binary width (no NUL terminator); the in-memory buffer is two
+// bytes wider so that decoded strings are always NUL-terminated.
+namespace ScancoHeaderField
+{
+inline constexpr std::size_t VersionDiskWidth = 16;
+inline constexpr std::size_t VersionBufferSize = VersionDiskWidth + 2;
+
+inline constexpr std::size_t PatientNameDiskWidth = 40;
+inline constexpr std::size_t PatientNameBufferSize = PatientNameDiskWidth + 2;
+
+inline constexpr std::size_t RescaleUnitsDiskWidth = 16;
+inline constexpr std::size_t RescaleUnitsBufferSize = RescaleUnitsDiskWidth + 2;
+
+inline constexpr std::size_t CalibrationDataDiskWidth = 64;
+inline constexpr std::size_t CalibrationDataBufferSize = CalibrationDataDiskWidth + 2;
+
+// ISQ stores creation/modification timestamps as an 8-byte binary date; in
+// memory both ends decode to a 32-byte human-readable date string.
+inline constexpr std::size_t EncodedDateDiskWidth = 8;
+inline constexpr std::size_t DateStringBufferSize = 32;
+} // namespace ScancoHeaderField
+
 struct itkScancoHeaderData
 {
-  char                  m_Version[18]; // Version string, e.g., "AIMDATA_V020   "
-  char                  m_PatientName[42];
+  char                  m_Version[ScancoHeaderField::VersionBufferSize]; // e.g., "AIMDATA_V020   "
+  char                  m_PatientName[ScancoHeaderField::PatientNameBufferSize];
   int                   m_PatientIndex;
   int                   m_ScannerID;
-  char                  m_CreationDate[32];
-  char                  m_ModificationDate[32];
+  char                  m_CreationDate[ScancoHeaderField::DateStringBufferSize];
+  char                  m_ModificationDate[ScancoHeaderField::DateStringBufferSize];
   int                   m_ScanDimensionsPixels[3];
   double                m_ScanDimensionsPhysical[3];
   double                m_SliceThickness; // Slice thickness in mm
@@ -59,8 +82,8 @@ struct itkScancoHeaderData
   double                m_Energy;
   double                m_Intensity;
   int                   m_RescaleType;
-  char                  m_RescaleUnits[18];
-  char                  m_CalibrationData[66];
+  char                  m_RescaleUnits[ScancoHeaderField::RescaleUnitsBufferSize];
+  char                  m_CalibrationData[ScancoHeaderField::CalibrationDataBufferSize];
   double                m_RescaleSlope;
   double                m_RescaleIntercept;
   double                m_MuWater;
@@ -96,7 +119,7 @@ constexpr int ScancoHeaderBlockSize = 512;
  *  2 if AIM 020, 3 if AIM 030.
  */
 int
-CheckVersion(const char header[16]);
+CheckVersion(const char header[ScancoHeaderField::VersionDiskWidth]);
 
 /** Convert char data to 32-bit int (little-endian).
  *
@@ -203,7 +226,7 @@ EncodeCurrentDate(void * target);
  * \param dateString  A string in the format "YYYY-MM-DD HH:MM:SS.mmm"
  */
 void
-EncodeDateFromString(void * target, const char dateString[32]);
+EncodeDateFromString(void * target, const char dateString[ScancoHeaderField::DateStringBufferSize]);
 
 /** Strip a string by removing trailing whitespace.
  *

@@ -30,13 +30,13 @@ typedef EncodedByte EncodedDouble[8];
 
 struct ISQEncodedPreHeader
 {
-  EncodedByte     m_Version[16];
+  EncodedByte     m_Version[ScancoHeaderField::VersionDiskWidth];
   EncodedInt      m_DataType;
   EncodedInt      m_ImageSizeBytes;
   EncodedInt      m_ImageSizeBlocks;
   EncodedInt      m_PatientIndex;
   EncodedInt      m_ScannerID;
-  EncodedByte     m_CreationDate[8];
+  EncodedByte     m_CreationDate[ScancoHeaderField::EncodedDateDiskWidth];
   EncodedIntTuple m_PixelDimensions;
   EncodedIntTuple m_PhysicalDimensions;
 };
@@ -59,7 +59,7 @@ struct ISQEncodedHeaderBlock
   EncodedInt          m_Site;
   EncodedInt          m_ReferenceLine;
   EncodedInt          m_ReconstructionAlg;
-  EncodedByte         m_PatientName[40] = { 0 };
+  EncodedByte         m_PatientName[ScancoHeaderField::PatientNameDiskWidth] = { 0 };
   EncodedInt          m_Energy = { 0 };    /* V */
   EncodedInt          m_Intensity = { 0 }; /* uA */
   EncodedByte         m_Fill[83 * 4] = { 0 };
@@ -73,7 +73,7 @@ struct RADEncodedHeaderBlock
   EncodedInt          m_DataMin;
   EncodedInt          m_DataMax;
   EncodedInt          m_MuScaling;
-  EncodedByte         m_PatientName[40] = { 0 };
+  EncodedByte         m_PatientName[ScancoHeaderField::PatientNameDiskWidth] = { 0 };
   EncodedInt          m_ZPosition;
   EncodedByte         m_UnknownFill[4];
   EncodedInt          m_SampleTime;
@@ -89,18 +89,18 @@ struct RADEncodedHeaderBlock
 struct ISQCalibrationHeaderBlock
 {
   EncodedByte m_Fill1[136];
-  EncodedByte m_Title[16];
+  EncodedByte m_Title[ScancoHeaderField::VersionDiskWidth];
   EncodedInt  m_CalHeaderSize; // size of calibration header in blocks
   EncodedByte m_Fill2[356];
 
   EncodedByte m_Fill3[28];
-  EncodedByte m_CalibrationData[64];
+  EncodedByte m_CalibrationData[ScancoHeaderField::CalibrationDataDiskWidth];
   EncodedByte m_Fill4[420];
 
   EncodedByte   m_Fill5[120];
   EncodedInt    m_RescaleType;
   EncodedByte   m_Fill6[12];
-  EncodedByte   m_RescaleUnits[16];
+  EncodedByte   m_RescaleUnits[ScancoHeaderField::RescaleUnitsDiskWidth];
   EncodedDouble m_RescaleSlope;
   EncodedDouble m_RescaleIntercept;
   EncodedByte   m_Fill7[8];
@@ -133,8 +133,8 @@ ISQHeaderIO::ReadHeader(std::ifstream & infile)
     throw std::runtime_error("ISQHeaderIO: cannot read file, is not an ISQ.");
   }
 
-  memcpy(this->m_HeaderData->m_Version, imageInfo->m_Version, 16);
-  this->m_HeaderData->m_Version[16] = '\0'; // ensure null-terminated string
+  memcpy(this->m_HeaderData->m_Version, imageInfo->m_Version, ScancoHeaderField::VersionDiskWidth);
+  this->m_HeaderData->m_Version[ScancoHeaderField::VersionDiskWidth] = '\0'; // ensure null-terminated string
   this->m_HeaderData->m_PixelData.m_ComponentType = DecodeInt(imageInfo->m_DataType);
   // Ignore image blocks and bytes size information
   // This will be re-populated on write
@@ -199,7 +199,7 @@ ISQHeaderIO::WriteHeader(std::ofstream & outfile, unsigned long imageSize)
 
   ISQEncodedHeaderBlock header = { 0 };
 
-  PadString(header.m_PreHeader.m_Version, this->m_HeaderData->m_Version, 16);
+  PadString(header.m_PreHeader.m_Version, this->m_HeaderData->m_Version, ScancoHeaderField::VersionDiskWidth);
   EncodeInt(3, header.m_PreHeader.m_DataType);
   EncodeInt(imageSize, header.m_PreHeader.m_ImageSizeBytes);
   EncodeInt(imageSize / ScancoHeaderBlockSize, header.m_PreHeader.m_ImageSizeBlocks);
@@ -234,7 +234,7 @@ ISQHeaderIO::WriteHeader(std::ofstream & outfile, unsigned long imageSize)
   EncodeInt((int)(this->m_HeaderData->m_Site), header.m_Site);
   EncodeInt((int)(this->m_HeaderData->m_ReferenceLine * 1e3), header.m_ReferenceLine);
   EncodeInt((int)(this->m_HeaderData->m_ReconstructionAlg), header.m_ReconstructionAlg);
-  PadString(header.m_PatientName, this->m_HeaderData->m_PatientName, 40);
+  PadString(header.m_PatientName, this->m_HeaderData->m_PatientName, ScancoHeaderField::PatientNameDiskWidth);
   EncodeInt((int)(this->m_HeaderData->m_Energy * 1e3), header.m_Energy);
   EncodeInt((int)(this->m_HeaderData->m_Intensity * 1e3), header.m_Intensity);
   const std::size_t fillSize = 83 * 4;
@@ -318,7 +318,7 @@ ISQHeaderIO::ReadRADHeader(RADEncodedHeaderBlock * headerData)
   this->m_HeaderData->m_DataRange[0] = DecodeInt(headerData->m_DataMin);
   this->m_HeaderData->m_DataRange[1] = DecodeInt(headerData->m_DataMax);
   this->m_HeaderData->m_MuScaling = DecodeInt(headerData->m_MuScaling);
-  StripString(this->m_HeaderData->m_PatientName, headerData->m_PatientName, 40);
+  StripString(this->m_HeaderData->m_PatientName, headerData->m_PatientName, ScancoHeaderField::PatientNameDiskWidth);
   this->m_HeaderData->m_ZPosition = DecodeInt(headerData->m_ZPosition) * 1e-3;
   this->m_HeaderData->m_SampleTime = DecodeInt(headerData->m_SampleTime) * 1e-3;
   this->m_HeaderData->m_Energy = DecodeInt(headerData->m_Energy) * 1e-3;
@@ -353,7 +353,7 @@ ISQHeaderIO::ReadISQHeader(ISQEncodedHeaderBlock * headerData)
   this->m_HeaderData->m_Site = DecodeInt(headerData->m_Site);
   this->m_HeaderData->m_ReferenceLine = DecodeInt(headerData->m_ReferenceLine) * 1e-3;
   this->m_HeaderData->m_ReconstructionAlg = DecodeInt(headerData->m_ReconstructionAlg);
-  StripString(this->m_HeaderData->m_PatientName, headerData->m_PatientName, 40);
+  StripString(this->m_HeaderData->m_PatientName, headerData->m_PatientName, ScancoHeaderField::PatientNameDiskWidth);
   this->m_HeaderData->m_Energy = DecodeInt(headerData->m_Energy) * 1e-3;
   this->m_HeaderData->m_Intensity = DecodeInt(headerData->m_Intensity) * 1e-3;
   this->m_HeaderSize = (DecodeInt(headerData->m_DataOffset) + 1) * 512;
@@ -413,11 +413,13 @@ ISQHeaderIO::ReadExtendedHeader(const char * buffer, unsigned long length)
   if (calHeader && calHeaderSize >= 1024)
   {
     // Read Calibration data from header
-    StripString(this->m_HeaderData->m_CalibrationData, calHeader->m_CalibrationData, 64);
+    StripString(
+      this->m_HeaderData->m_CalibrationData, calHeader->m_CalibrationData, ScancoHeaderField::CalibrationDataDiskWidth);
     // std::string calFile(h + 112, 256);
     // std::string s3(h + 376, 256);
     this->m_HeaderData->m_RescaleType = DecodeInt(calHeader->m_RescaleType);
-    StripString(this->m_HeaderData->m_RescaleUnits, calHeader->m_RescaleUnits, 16);
+    StripString(
+      this->m_HeaderData->m_RescaleUnits, calHeader->m_RescaleUnits, ScancoHeaderField::RescaleUnitsDiskWidth);
     // std::string s5(h + 700, 16);
     // std::string calFilter(h + 772, 16);
     this->m_HeaderData->m_RescaleSlope = DecodeDouble(calHeader->m_RescaleSlope);
@@ -443,12 +445,13 @@ ISQHeaderIO::WriteExtendedHeader(std::ofstream & outfile)
 
   // Next block adds calibration data
   memcpy(calHeader.m_Title, "Calibration     ", 16);
-  PadString(calHeader.m_CalibrationData, this->m_HeaderData->m_CalibrationData, 64);
+  PadString(
+    calHeader.m_CalibrationData, this->m_HeaderData->m_CalibrationData, ScancoHeaderField::CalibrationDataDiskWidth);
   EncodeInt(2, calHeader.m_CalHeaderSize);
 
   // Last block adds density scaling data:
   EncodeInt((int)this->m_HeaderData->m_RescaleType, calHeader.m_RescaleType);
-  PadString(calHeader.m_RescaleUnits, this->m_HeaderData->m_RescaleUnits, 16);
+  PadString(calHeader.m_RescaleUnits, this->m_HeaderData->m_RescaleUnits, ScancoHeaderField::RescaleUnitsDiskWidth);
   EncodeDouble(this->m_HeaderData->m_RescaleSlope, calHeader.m_RescaleSlope);
   EncodeDouble(this->m_HeaderData->m_RescaleIntercept, calHeader.m_RescaleIntercept);
   EncodeDouble(this->m_HeaderData->m_MuWater, calHeader.m_MuWater);

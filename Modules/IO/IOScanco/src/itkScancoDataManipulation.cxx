@@ -44,11 +44,11 @@ static constexpr const char * monthStrings[] = { "XXX", "JAN", "FEB", "MAR", "AP
                                                  "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
 
 int
-CheckVersion(const char header[16])
+CheckVersion(const char header[ScancoHeaderField::VersionDiskWidth])
 {
   int fileType = 0;
 
-  if (strncmp(header, "CTDATA-HEADER_V1", 16) == 0)
+  if (strncmp(header, "CTDATA-HEADER_V1", ScancoHeaderField::VersionDiskWidth) == 0)
   {
     fileType = 1;
   }
@@ -266,7 +266,7 @@ GetCurrentDateString(void * target)
 void
 EncodeCurrentDate(void * target)
 {
-  char * dateString = new char[32];
+  char * dateString = new char[ScancoHeaderField::DateStringBufferSize];
   GetCurrentDateString(dateString);
   EncodeDateFromString(target, dateString);
   delete[] dateString;
@@ -295,7 +295,7 @@ julianDayFromDate(int year, int month, int day)
 }
 
 void
-EncodeDateFromString(void * target, const char dateString[32])
+EncodeDateFromString(void * target, const char dateString[ScancoHeaderField::DateStringBufferSize])
 {
   int  year, day, hour, minute, second, millis = 0;
   char monthStr[4];

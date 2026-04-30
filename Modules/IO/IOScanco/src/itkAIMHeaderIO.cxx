@@ -130,7 +130,7 @@ AIMHeaderIO::ReadHeader(std::ifstream & infile)
     case static_cast<int>(ScancoFileVersions::AIM_030):
       this->m_IntSize = 8; // AIM v030 uses 64-bit [8 byte] integers
       strcpy(this->m_HeaderData->m_Version, AIM030String);
-      bytesRead += 16; // Skip the version string
+      bytesRead += ScancoHeaderField::VersionDiskWidth; // Skip the version string
       break;
 
     default:
@@ -153,10 +153,12 @@ AIMHeaderIO::ReadHeader(std::ifstream & infile)
     // Allocate more space for the header and read the rest into the raw header
     delete[] headerBytes;
     delete[] this->m_HeaderData->m_RawHeader;
-    headerBytes = new char[headerSize + (versionType == static_cast<int>(ScancoFileVersions::AIM_030) ? 16 : 0)];
+    const size_t v030Extra =
+      (versionType == static_cast<int>(ScancoFileVersions::AIM_030)) ? ScancoHeaderField::VersionDiskWidth : 0;
+    headerBytes = new char[headerSize + v030Extra];
     // headerSize does not include the version string from v030
     infile.seekg(0, std::ios::beg);
-    infile.read(headerBytes, headerSize + (versionType == static_cast<int>(ScancoFileVersions::AIM_030) ? 16 : 0));
+    infile.read(headerBytes, headerSize + v030Extra);
   }
   // we have read the full header, save to our data structure
   this->m_HeaderData->m_RawHeader = headerBytes;
