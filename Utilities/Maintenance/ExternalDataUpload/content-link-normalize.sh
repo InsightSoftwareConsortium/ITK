@@ -10,8 +10,9 @@ set -euo pipefail
 #   2. Verifies the bytes against the declared hash or CID.
 #   3. Re-materialises the actual file alongside the link, then invokes
 #      ipfs-upload.sh on it so a fresh CID is produced under the UnixFS
-#      v1 2025 profile, pinned on itk-pinata and itk-filebase, and
-#      (optionally) mirrored into ITKTestingData.
+#      v1 2025 profile, pinned on itk-filebase (and on itk-pinata if
+#      configured — see ipfs-upload.sh), and (optionally) mirrored
+#      into ITKTestingData.
 #
 # Usage:
 #   content-link-normalize.sh [options] <path-or-file>

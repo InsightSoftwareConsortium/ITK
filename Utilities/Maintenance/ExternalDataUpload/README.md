@@ -84,32 +84,16 @@ References:
 
 ### 3. Configure Remote Pinning Services
 
-The upload script pins content on two remote services for redundancy, matching
-the gateways declared in `CMake/ITKExternalData.cmake`. Both services must be
-configured under the **exact names `itk-pinata` and `itk-filebase`** — the
-upload script looks up those names and fails if they are missing.
+The upload script pins content on community-run remote services for
+redundancy alongside the GitHub Pages mirror, matching the gateways
+declared in `CMake/ITKExternalData.cmake`. Use the **exact service names**
+`itk-filebase` (required) and `itk-pinata` (optional) — the upload script
+looks up those names.
 
-#### Pinata (service name: `itk-pinata`)
+#### Filebase (service name: `itk-filebase`, **required**)
 
-1. Sign up at <https://pinata.cloud>
-2. Create an API key at <https://app.pinata.cloud/developers/api-keys>
-   - Enable **pinByHash** and **pinFileToIPFS** permissions
-3. Copy the JWT token and add the service (use a prompt to avoid leaking
-   the token into shell history):
-
-```bash
-printf "Pinata JWT: " && read -rs PINATA_JWT && echo
-ipfs pin remote service add itk-pinata https://api.pinata.cloud/psa "$PINATA_JWT"
-```
-
-4. Verify:
-
-```bash
-ipfs pin remote service ls
-# Should show: itk-pinata https://api.pinata.cloud/psa
-```
-
-#### Filebase (service name: `itk-filebase`)
+Filebase's IPFS Pinning Service endpoint accepts pin-by-CID on the free
+tier, so this is the baseline pinning provider for ITK.
 
 1. Sign up at <https://console.filebase.com>
 2. Create an **IPFS bucket** at <https://console.filebase.com/buckets>
@@ -129,6 +113,34 @@ ipfs pin remote service ls
 # Should show: itk-filebase https://api.filebase.io/v1/ipfs
 ```
 
+#### Pinata (service name: `itk-pinata`, **optional — paid plan**)
+
+Pinata's `pin remote add` endpoint (the IPFS Pinning Service API) is
+restricted to **paid plans** — the free plan rejects pin-by-CID with
+`PAID_FEATURE_ONLY` (HTTP 403). Configure this service only if you have a
+paid Pinata plan; otherwise leave it out and the upload script will skip
+it with an informational message. Filebase + the GitHub Pages mirror still
+provide redundancy.
+
+1. Sign up at <https://pinata.cloud> and select a paid plan that includes
+   pin-by-CID
+2. Create an API key at <https://app.pinata.cloud/developers/api-keys>
+   - Enable **pinByHash** and **pinFileToIPFS** permissions
+3. Copy the JWT token and add the service (use a prompt to avoid leaking
+   the token into shell history):
+
+```bash
+printf "Pinata JWT: " && read -rs PINATA_JWT && echo
+ipfs pin remote service add itk-pinata https://api.pinata.cloud/psa "$PINATA_JWT"
+```
+
+4. Verify:
+
+```bash
+ipfs pin remote service ls
+# Should show: itk-pinata https://api.pinata.cloud/psa
+```
+
 ## Usage
 
 ### Upload a single file
@@ -141,7 +153,8 @@ The script will:
 
 1. Add the file to IPFS with `--cid-version=1` (UnixFS v1 2025 profile)
 2. Pin it locally
-3. Pin it on `itk-pinata` and `itk-filebase`
+3. Pin it on `itk-filebase` (and on `itk-pinata` if that service is
+   configured; otherwise the script logs a notice and continues)
 4. Replace the original file with `<filepath>.cid` containing the CID
 5. Append/update an entry in `Testing/Data/content-links.manifest`
 6. Print the `git rm` / `git add` commands to stage the change
@@ -164,9 +177,9 @@ Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh \
 **GitHub 50 MB file size limit.** `ITKTestingData` is hosted on GitHub, which
 hard-rejects pushes containing files larger than **50 MB** per file. The upload
 script checks the file size before mirroring and refuses to copy files over
-50 MB into the `ITKTestingData` tree. IPFS pinning (local + `itk-pinata` +
-`itk-filebase`) still proceeds for oversized files — the mirror step is the
-only one that gets skipped, with a clear warning.
+50 MB into the `ITKTestingData` tree. IPFS pinning (local + `itk-filebase`,
+plus `itk-pinata` when configured) still proceeds for oversized files — the
+mirror step is the only one that gets skipped, with a clear warning.
 
 Commit the staged `CID/<cid>` file in `ITKTestingData` and push; the
 `gh-pages` workflow on that repo republishes the new file at the GitHub Pages
@@ -212,10 +225,10 @@ The script will, for each content link under the given path:
    link is left untouched and reported.
 3. Re-materialize the actual file next to the content link, then invoke
    `ipfs-upload.sh` on it so the new CID is produced under the UnixFS v1 2025
-   profile, pinned locally and on `itk-pinata` / `itk-filebase`, and (if
-   `--testing-data-repo` is passed) mirrored into `ITKTestingData`. The old
-   `.md5` / `.sha256` / `.sha512` link is removed; a `.cid` link is written in
-   its place.
+   profile, pinned locally and on `itk-filebase` (and `itk-pinata` if
+   configured), and (if `--testing-data-repo` is passed) mirrored into
+   `ITKTestingData`. The old `.md5` / `.sha256` / `.sha512` link is removed;
+   a `.cid` link is written in its place.
 
 Common options:
 
@@ -247,8 +260,9 @@ queues the pin and fetches the content itself, and the script returns
 right away. Check final pin state with:
 
 ```bash
-ipfs pin remote ls --service=itk-pinata   --status=queued,pinning,pinned
 ipfs pin remote ls --service=itk-filebase --status=queued,pinning,pinned
+# Only when itk-pinata is configured (paid Pinata plan):
+ipfs pin remote ls --service=itk-pinata   --status=queued,pinning,pinned
 ```
 
 Both scripts also pre-check each remote for an existing pin on the same
@@ -321,13 +335,26 @@ Start the daemon: `ipfs daemon` in a separate terminal, or launch IPFS
 Desktop. The script tests the connection with `ipfs swarm peers`, which
 requires an active daemon.
 
-### `Required pinning service 'itk-pinata' is not configured`
+### `Required pinning service 'itk-filebase' is not configured`
 
 Run `ipfs pin remote service ls` to see configured services. Re-add with the
 commands in step 3 above. Tokens may have expired if you revoked the API key.
-The script intentionally refuses to upload if either `itk-pinata` or
-`itk-filebase` is missing: a single pin provider is not enough redundancy for
-test data CI relies on.
+The script intentionally refuses to upload if `itk-filebase` is missing — it
+is the baseline pin provider that works on the free tier. `itk-pinata` is
+optional (paid plan only); if it isn't registered the script prints a
+notice and continues.
+
+### `PAID_FEATURE_ONLY` / `403 Forbidden` from Pinata
+
+Pinata's free plan no longer accepts pin-by-CID via the IPFS Pinning Service
+API; their `pin remote add` endpoint is gated to paid plans. If you don't
+have a paid plan, remove the service so the upload script skips it cleanly:
+
+```bash
+ipfs pin remote service rm itk-pinata
+```
+
+Filebase + the GitHub Pages mirror still provide redundancy.
 
 ### Remote pin failed
 

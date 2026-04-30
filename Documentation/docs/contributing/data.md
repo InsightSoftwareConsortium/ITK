@@ -55,9 +55,11 @@ Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh \
 ```
 
 The script adds the file to your local IPFS node under the UnixFS v1 2025
-profile, pins it on the `itk-pinata` and `itk-filebase` remote pinning
-services, and replaces the original file with `MyTest.png.cid` containing the
-resulting CID. The CID and source-tree path are also recorded in
+profile, pins it on the `itk-filebase` remote pinning service (and on
+`itk-pinata` when that service is configured — Pinata is optional because
+its pin-by-CID endpoint requires a paid plan), and replaces the original
+file with `MyTest.png.cid` containing the resulting CID. The CID and
+source-tree path are also recorded in
 `Testing/Data/content-links.manifest`.
 
 For advanced CLI usage, first-time users must complete the one-time Kubo + pinning-service setup

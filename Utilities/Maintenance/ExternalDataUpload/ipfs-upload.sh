@@ -2,9 +2,11 @@
 set -euo pipefail
 
 # Upload a file to IPFS (CIDv1, UnixFS v1 2025 profile), pin it on the
-# itk-pinata and itk-filebase remote pinning services, and replace the
-# original with a .cid content link. Optionally mirror the bytes into a
-# local ITKTestingData checkout at CID/<cid-value>.
+# itk-filebase remote pinning service (and on itk-pinata if it is
+# configured — Pinata is optional because pin-by-CID is a paid-plan
+# feature there), and replace the original with a .cid content link.
+# Optionally mirror the bytes into a local ITKTestingData checkout at
+# CID/<cid-value>.
 #
 # Usage:
 #   ipfs-upload.sh [--testing-data-repo <path>] [--background] <filepath>
@@ -30,15 +32,25 @@ set -euo pipefail
 #   - Kubo (go-ipfs) installed and `ipfs` on PATH
 #   - IPFS daemon running (ipfs daemon, or IPFS Desktop)
 #   - UnixFS v1 2025 profile applied: `ipfs config profile apply unixfs-v1-2025`
-#   - `itk-pinata` and `itk-filebase` remote pinning services configured
+#   - `itk-filebase` remote pinning service configured (required)
+#   - `itk-pinata` remote pinning service configured (optional — Pinata's
+#     pin-by-CID endpoint is paid-only, so configure it only if you have
+#     a paid plan)
 #
 # See README.md in this directory for full setup.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 
-# Required remote pinning services — script errors if not configured.
-REQUIRED_SERVICES=(itk-pinata itk-filebase)
+# Required pinning service — Filebase's free tier supports pin-by-CID
+# via the IPFS Pinning Service API, so we always need this one.
+REQUIRED_SERVICES=(itk-filebase)
+
+# Optional pinning service — Pinata's pin-by-CID endpoint requires a paid
+# plan (their free tier rejects PSA `pin remote add` with
+# PAID_FEATURE_ONLY/403). Pinned to if configured, skipped with a notice
+# if not.
+OPTIONAL_SERVICES=(itk-pinata)
 
 # GitHub hard-rejects pushes containing any file > 50 MB. The ITKTestingData
 # mirror step is skipped for files over this limit.
@@ -164,13 +176,24 @@ if ! ipfs swarm peers &>/dev/null; then
     exit 1
 fi
 
-# Check required remote pinning services are configured.
+# Check required remote pinning services are configured. Optional services
+# are recorded so they're attempted in addition to the required ones; a
+# missing optional service is reported but does not abort the upload.
 CONFIGURED_SERVICES="$(ipfs pin remote service ls 2>/dev/null || true)"
 for svc in "${REQUIRED_SERVICES[@]}"; do
     if ! echo "$CONFIGURED_SERVICES" | grep -q "^${svc} "; then
         echo "ERROR: Required pinning service '${svc}' is not configured." >&2
         echo "       See: Utilities/Maintenance/ExternalDataUpload/README.md" >&2
         exit 1
+    fi
+done
+
+ACTIVE_SERVICES=("${REQUIRED_SERVICES[@]}")
+for svc in "${OPTIONAL_SERVICES[@]}"; do
+    if echo "$CONFIGURED_SERVICES" | grep -q "^${svc} "; then
+        ACTIVE_SERVICES+=("$svc")
+    else
+        echo "==> Optional pinning service '${svc}' is not configured; skipping."
     fi
 done
 
@@ -201,7 +224,7 @@ ipfs pin add "$CID" >/dev/null
 
 FAILED_PINS=()
 
-for svc in "${REQUIRED_SERVICES[@]}"; do
+for svc in "${ACTIVE_SERVICES[@]}"; do
     # Skip services where this CID is already queued/pinning/pinned —
     # Pinata rejects duplicate `pin remote add` calls with
     # DUPLICATE_OBJECT (400), and resubmitting on Filebase just makes a
@@ -248,7 +271,7 @@ if [[ -n "$TESTING_DATA_REPO" ]]; then
         echo "WARNING: ${PIN_NAME} is ${FILE_SIZE_BYTES} bytes (> 50 MB)." >&2
         echo "         GitHub rejects pushes containing files > 50 MB, so it" >&2
         echo "         will NOT be mirrored to ITKTestingData." >&2
-        echo "         IPFS pin (local + itk-pinata + itk-filebase) succeeded;" >&2
+        echo "         IPFS pin (local + ${ACTIVE_SERVICES[*]}) succeeded;" >&2
         echo "         the .cid content link will still be produced." >&2
     else
         MIRROR_DIR="$TESTING_DATA_REPO/CID"
