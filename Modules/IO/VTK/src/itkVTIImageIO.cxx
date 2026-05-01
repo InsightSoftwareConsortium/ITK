@@ -109,6 +109,11 @@ struct VTIParseState
   int pieceCount{ 0 };
 
   // <PointData ...>
+  // inPointData tracks whether the parser is currently inside a <PointData>
+  // element so that <DataArray> children of <CellData>, <FieldData>, or any
+  // other container are ignored.  The active{Scalars,Vectors,Tensors} hints
+  // are scoped to the same nesting level (cleared on </PointData>).
+  bool        inPointData{ false };
   std::string activeScalars;
   std::string activeVectors;
   std::string activeTensors;
@@ -187,12 +192,20 @@ extern "C"
     }
     else if (std::strcmp(name, "PointData") == 0)
     {
+      st->inPointData = true;
       st->activeScalars = FindAttribute(atts, "Scalars");
       st->activeVectors = FindAttribute(atts, "Vectors");
       st->activeTensors = FindAttribute(atts, "Tensors");
     }
     else if (std::strcmp(name, "DataArray") == 0)
     {
+      // Only consume DataArray children of <PointData>.  CellData / FieldData
+      // / Coordinates arrays are silently skipped here; if no PointData
+      // arrays exist the post-parse "No DataArray element found" check fires.
+      if (!st->inPointData)
+      {
+        return;
+      }
       const std::string daName = FindAttribute(atts, "Name");
       if (st->haveDataArray)
       {
@@ -240,6 +253,16 @@ extern "C"
       st->inActiveDataArray = false;
       st->isAsciiActive = false;
       st->isBase64Active = false;
+    }
+    else if (std::strcmp(name, "PointData") == 0)
+    {
+      // Clear the in-PointData flag so any later <DataArray> children of
+      // sibling <CellData> / <FieldData> elements are not consumed as image
+      // data.  active{Scalars,Vectors,Tensors} are intentionally not cleared
+      // — the post-parse pixel-type derivation in ReadImageInformation reads
+      // them by daName, and the captured DataArray was already gated on
+      // inPointData at the time it was matched.
+      st->inPointData = false;
     }
   }
 
