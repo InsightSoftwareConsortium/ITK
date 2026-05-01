@@ -187,3 +187,28 @@ jobs:
         - name: ccache stats
           if: always()
           run: ccache --show-stats
+
+    prune-superseded-caches:
+      # Background housekeeping: removes ccache entries whose SHA-suffixed
+      # key has been superseded by a newer build of the same (ref, OS).
+      # ccache restore-keys still falls back to the newest prefix match,
+      # so older entries are dead weight under the 10 GB repo cache budget.
+      needs: Pixi-Cxx
+      if: always()
+      runs-on: ubuntu-24.04
+      permissions:
+        actions: write
+        contents: read
+      continue-on-error: true
+      steps:
+        - name: Checkout maintenance script
+          uses: actions/checkout@v5
+          with:
+            sparse-checkout: Utilities/Maintenance/PruneSupersededCiCaches.py
+            sparse-checkout-cone-mode: false
+
+        - name: Prune superseded ccache entries
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_REPOSITORY: ${{ github.repository }}
+          run: python3 Utilities/Maintenance/PruneSupersededCiCaches.py
