@@ -35,18 +35,7 @@ namespace internal {
 #define EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS 32
 #endif
 
-#if 0
-#define EIGEN_MSA_DEBUG                                                             \
-  static bool firstTime = true;                                                     \
-  do {                                                                              \
-    if (firstTime) {                                                                \
-      std::cout << __FILE__ << ':' << __LINE__ << ':' << __FUNCTION__ << std::endl; \
-      firstTime = false;                                                            \
-    }                                                                               \
-  } while (0)
-#else
 #define EIGEN_MSA_DEBUG
-#endif
 
 #define EIGEN_MSA_SHF_I8(a, b, c, d) (((d) << 6) | ((c) << 4) | ((b) << 2) | (a))
 
@@ -81,7 +70,7 @@ struct packet_traits<float> : default_packet_traits {
     Vectorizable = 1,
     AlignedOnScalar = 1,
     size = 4,
-    // FIXME check the Has*
+    // FIXME: verify the Has* flags.
     HasDiv = 1,
     HasSin = EIGEN_FAST_MATH,
     HasCos = EIGEN_FAST_MATH,
@@ -91,7 +80,6 @@ struct packet_traits<float> : default_packet_traits {
     HasExp = 1,
     HasSqrt = 1,
     HasRsqrt = 1,
-    HasBlend = 1
   };
 };
 
@@ -103,9 +91,8 @@ struct packet_traits<int32_t> : default_packet_traits {
     Vectorizable = 1,
     AlignedOnScalar = 1,
     size = 4,
-    // FIXME check the Has*
+    // FIXME: verify the Has* flags.
     HasDiv = 1,
-    HasBlend = 1
   };
 };
 
@@ -803,19 +790,36 @@ EIGEN_STRONG_INLINE Packet4f pround<Packet4f>(const Packet4f& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4f pblend(const Selector<4>& ifPacket, const Packet4f& thenPacket,
-                                    const Packet4f& elsePacket) {
-  Packet4ui select = {ifPacket.select[0], ifPacket.select[1], ifPacket.select[2], ifPacket.select[3]};
-  Packet4i mask = __builtin_msa_ceqi_w((Packet4i)select, 0);
-  return (Packet4f)__builtin_msa_bsel_v((v16u8)mask, (v16u8)thenPacket, (v16u8)elsePacket);
+EIGEN_STRONG_INLINE Packet4f print<Packet4f>(const Packet4f& a) {
+  // frint.w uses the current rounding mode (default: round to nearest, ties to even).
+  Packet4f v = a;
+  asm volatile("frint.w %w[v], %w[v]\n" : [v] "+f"(v));
+  return v;
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet4i pblend(const Selector<4>& ifPacket, const Packet4i& thenPacket,
-                                    const Packet4i& elsePacket) {
-  Packet4ui select = {ifPacket.select[0], ifPacket.select[1], ifPacket.select[2], ifPacket.select[3]};
-  Packet4i mask = __builtin_msa_ceqi_w((Packet4i)select, 0);
-  return (Packet4i)__builtin_msa_bsel_v((v16u8)mask, (v16u8)thenPacket, (v16u8)elsePacket);
+EIGEN_STRONG_INLINE Packet4f ptrunc<Packet4f>(const Packet4f& a) {
+  Packet4f v = a;
+  int32_t old_mode, new_mode;
+  asm volatile(
+      "cfcmsa  %[old_mode], $1\n"
+      "ori     %[new_mode], %[old_mode], 3\n"
+      "xori    %[new_mode], %[new_mode], 2\n"  // 1 = round toward zero.
+      "ctcmsa  $1, %[new_mode]\n"
+      "frint.w %w[v], %w[v]\n"
+      "ctcmsa  $1, %[old_mode]\n"
+      :  // outputs
+      [old_mode] "=r"(old_mode), [new_mode] "=r"(new_mode),
+      [v] "+f"(v)
+      :  // inputs
+      :  // clobbers
+  );
+  return v;
+}
+
+template <>
+EIGEN_STRONG_INLINE Packet4f pcmp_lt_or_nan<Packet4f>(const Packet4f& a, const Packet4f& b) {
+  return (Packet4f)__builtin_msa_fcult_w(a, b);
 }
 
 //---------- double ----------
@@ -851,12 +855,11 @@ struct packet_traits<double> : default_packet_traits {
     Vectorizable = 1,
     AlignedOnScalar = 1,
     size = 2,
-    // FIXME check the Has*
+    // FIXME: verify the Has* flags.
     HasDiv = 1,
     HasExp = 1,
     HasSqrt = 1,
     HasRsqrt = 1,
-    HasBlend = 1
   };
 };
 
@@ -1223,11 +1226,36 @@ EIGEN_STRONG_INLINE Packet2d pround<Packet2d>(const Packet2d& a) {
 }
 
 template <>
-EIGEN_STRONG_INLINE Packet2d pblend(const Selector<2>& ifPacket, const Packet2d& thenPacket,
-                                    const Packet2d& elsePacket) {
-  Packet2ul select = {ifPacket.select[0], ifPacket.select[1]};
-  Packet2l mask = __builtin_msa_ceqi_d((Packet2l)select, 0);
-  return (Packet2d)__builtin_msa_bsel_v((v16u8)mask, (v16u8)thenPacket, (v16u8)elsePacket);
+EIGEN_STRONG_INLINE Packet2d print<Packet2d>(const Packet2d& a) {
+  // frint.d uses the current rounding mode (default: round to nearest, ties to even).
+  Packet2d v = a;
+  asm volatile("frint.d %w[v], %w[v]\n" : [v] "+f"(v));
+  return v;
+}
+
+template <>
+EIGEN_STRONG_INLINE Packet2d ptrunc<Packet2d>(const Packet2d& a) {
+  Packet2d v = a;
+  int32_t old_mode, new_mode;
+  asm volatile(
+      "cfcmsa  %[old_mode], $1\n"
+      "ori     %[new_mode], %[old_mode], 3\n"
+      "xori    %[new_mode], %[new_mode], 2\n"  // 1 = round toward zero.
+      "ctcmsa  $1, %[new_mode]\n"
+      "frint.d %w[v], %w[v]\n"
+      "ctcmsa  $1, %[old_mode]\n"
+      :  // outputs
+      [old_mode] "=r"(old_mode), [new_mode] "=r"(new_mode),
+      [v] "+f"(v)
+      :  // inputs
+      :  // clobbers
+  );
+  return v;
+}
+
+template <>
+EIGEN_STRONG_INLINE Packet2d pcmp_lt_or_nan<Packet2d>(const Packet2d& a, const Packet2d& b) {
+  return (Packet2d)__builtin_msa_fcult_d(a, b);
 }
 
 }  // end namespace internal

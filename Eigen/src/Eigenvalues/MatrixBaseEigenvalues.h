@@ -111,8 +111,7 @@ template <typename Derived>
 inline typename MatrixBase<Derived>::RealScalar MatrixBase<Derived>::operatorNorm() const {
   using std::sqrt;
   typename Derived::PlainObject m_eval(derived());
-  // FIXME if it is really guaranteed that the eigenvalues are already sorted,
-  // then we don't need to compute a maxCoeff() here, comparing the 1st and last ones is enough.
+  // FIXME: if eigenvalues are guaranteed to be sorted, comparing the first and last is sufficient.
   return sqrt((m_eval * m_eval.adjoint()).eval().template selfadjointView<Lower>().eigenvalues().maxCoeff());
 }
 

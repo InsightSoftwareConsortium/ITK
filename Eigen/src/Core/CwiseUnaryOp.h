@@ -57,22 +57,26 @@ class CwiseUnaryOp : public CwiseUnaryOpImpl<UnaryOp, XprType, typename internal
   typedef typename internal::ref_selector<XprType>::type XprTypeNested;
   typedef internal::remove_all_t<XprType> NestedExpression;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit CwiseUnaryOp(const XprType& xpr, const UnaryOp& func = UnaryOp())
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE explicit CwiseUnaryOp(const XprType& xpr,
+                                                                        const UnaryOp& func = UnaryOp())
       : m_xpr(xpr), m_functor(func) {}
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index rows() const noexcept { return m_xpr.rows(); }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index cols() const noexcept { return m_xpr.cols(); }
+  EIGEN_DEVICE_FUNC constexpr Index rows() const noexcept { return m_xpr.rows(); }
+  EIGEN_DEVICE_FUNC constexpr Index cols() const noexcept { return m_xpr.cols(); }
 
   /** \returns the functor representing the unary operation */
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const UnaryOp& functor() const { return m_functor; }
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE const UnaryOp& functor() const { return m_functor; }
 
   /** \returns the nested expression */
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const internal::remove_all_t<XprTypeNested>& nestedExpression() const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE const internal::remove_all_t<XprTypeNested>& nestedExpression()
+      const {
     return m_xpr;
   }
 
   /** \returns the nested expression */
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE internal::remove_all_t<XprTypeNested>& nestedExpression() { return m_xpr; }
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE internal::remove_all_t<XprTypeNested>& nestedExpression() {
+    return m_xpr;
+  }
 
  protected:
   XprTypeNested m_xpr;

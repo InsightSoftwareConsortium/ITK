@@ -100,7 +100,7 @@ class Map : public MapBase<Map<PlainObjectType, MapOptions, StrideType> > {
 
   typedef typename Base::PointerType PointerType;
   typedef PointerType PointerArgType;
-  EIGEN_DEVICE_FUNC inline PointerType cast_to_pointer_type(PointerArgType ptr) { return ptr; }
+  EIGEN_DEVICE_FUNC constexpr inline PointerType cast_to_pointer_type(PointerArgType ptr) const { return ptr; }
 
   EIGEN_DEVICE_FUNC constexpr Index innerStride() const {
     return StrideType::InnerStrideAtCompileTime != 0 ? m_stride.inner() : 1;
@@ -120,7 +120,7 @@ class Map : public MapBase<Map<PlainObjectType, MapOptions, StrideType> > {
    * \param dataPtr pointer to the array to map
    * \param stride optional Stride object, passing the strides.
    */
-  EIGEN_DEVICE_FUNC explicit inline Map(PointerArgType dataPtr, const StrideType& stride = StrideType())
+  EIGEN_DEVICE_FUNC constexpr explicit inline Map(PointerArgType dataPtr, const StrideType& stride = StrideType())
       : Base(cast_to_pointer_type(dataPtr)), m_stride(stride) {}
 
   /** Constructor in the dynamic-size vector case.
@@ -129,7 +129,7 @@ class Map : public MapBase<Map<PlainObjectType, MapOptions, StrideType> > {
    * \param size the size of the vector expression
    * \param stride optional Stride object, passing the strides.
    */
-  EIGEN_DEVICE_FUNC inline Map(PointerArgType dataPtr, Index size, const StrideType& stride = StrideType())
+  EIGEN_DEVICE_FUNC constexpr inline Map(PointerArgType dataPtr, Index size, const StrideType& stride = StrideType())
       : Base(cast_to_pointer_type(dataPtr), size), m_stride(stride) {}
 
   /** Constructor in the dynamic-size matrix case.
@@ -139,7 +139,8 @@ class Map : public MapBase<Map<PlainObjectType, MapOptions, StrideType> > {
    * \param cols the number of columns of the matrix expression
    * \param stride optional Stride object, passing the strides.
    */
-  EIGEN_DEVICE_FUNC inline Map(PointerArgType dataPtr, Index rows, Index cols, const StrideType& stride = StrideType())
+  EIGEN_DEVICE_FUNC constexpr inline Map(PointerArgType dataPtr, Index rows, Index cols,
+                                         const StrideType& stride = StrideType())
       : Base(cast_to_pointer_type(dataPtr), rows, cols), m_stride(stride) {}
 
   EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Map)

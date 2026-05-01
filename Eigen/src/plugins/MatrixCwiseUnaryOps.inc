@@ -30,7 +30,7 @@ EIGEN_DOC_UNARY_ADDONS(cwiseAbs, absolute value)
 ///
 /// \sa cwiseAbs2()
 ///
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const CwiseAbsReturnType cwiseAbs() const {
+EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE const CwiseAbsReturnType cwiseAbs() const {
   return CwiseAbsReturnType(derived());
 }
 
@@ -43,7 +43,7 @@ EIGEN_DOC_UNARY_ADDONS(cwiseAbs2, squared absolute value)
 ///
 /// \sa cwiseAbs()
 ///
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const CwiseAbs2ReturnType cwiseAbs2() const {
+EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE const CwiseAbs2ReturnType cwiseAbs2() const {
   return CwiseAbs2ReturnType(derived());
 }
 
@@ -56,7 +56,9 @@ EIGEN_DOC_UNARY_ADDONS(cwiseSqrt, square - root)
 ///
 /// \sa cwisePow(), cwiseSquare(), cwiseCbrt()
 ///
-EIGEN_DEVICE_FUNC inline const CwiseSqrtReturnType cwiseSqrt() const { return CwiseSqrtReturnType(derived()); }
+EIGEN_DEVICE_FUNC constexpr inline const CwiseSqrtReturnType cwiseSqrt() const {
+  return CwiseSqrtReturnType(derived());
+}
 
 /// \returns an expression of the coefficient-wise cube root of *this.
 ///
@@ -64,7 +66,9 @@ EIGEN_DOC_UNARY_ADDONS(cwiseCbrt, cube - root)
 ///
 /// \sa cwiseSqrt(), cwiseSquare(), cwisePow()
 ///
-EIGEN_DEVICE_FUNC inline const CwiseCbrtReturnType cwiseCbrt() const { return CwiseCbrtReturnType(derived()); }
+EIGEN_DEVICE_FUNC constexpr inline const CwiseCbrtReturnType cwiseCbrt() const {
+  return CwiseCbrtReturnType(derived());
+}
 
 /// \returns an expression of the coefficient-wise square of *this.
 ///
@@ -72,7 +76,9 @@ EIGEN_DOC_UNARY_ADDONS(cwiseSquare, square)
 ///
 /// \sa cwisePow(), cwiseSqrt(), cwiseCbrt()
 ///
-EIGEN_DEVICE_FUNC inline const CwiseSquareReturnType cwiseSquare() const { return CwiseSquareReturnType(derived()); }
+EIGEN_DEVICE_FUNC constexpr inline const CwiseSquareReturnType cwiseSquare() const {
+  return CwiseSquareReturnType(derived());
+}
 
 /// \returns an expression of the coefficient-wise signum of *this.
 ///
@@ -81,7 +87,9 @@ EIGEN_DEVICE_FUNC inline const CwiseSquareReturnType cwiseSquare() const { retur
 ///
 EIGEN_DOC_UNARY_ADDONS(cwiseSign, sign function)
 ///
-EIGEN_DEVICE_FUNC inline const CwiseSignReturnType cwiseSign() const { return CwiseSignReturnType(derived()); }
+EIGEN_DEVICE_FUNC constexpr inline const CwiseSignReturnType cwiseSign() const {
+  return CwiseSignReturnType(derived());
+}
 
 /// \returns an expression of the coefficient-wise inverse of *this.
 ///
@@ -92,7 +100,9 @@ EIGEN_DOC_UNARY_ADDONS(cwiseInverse, inverse)
 ///
 /// \sa cwiseProduct()
 ///
-EIGEN_DEVICE_FUNC inline const CwiseInverseReturnType cwiseInverse() const { return CwiseInverseReturnType(derived()); }
+EIGEN_DEVICE_FUNC constexpr inline const CwiseInverseReturnType cwiseInverse() const {
+  return CwiseInverseReturnType(derived());
+}
 
 /// \returns an expression of the coefficient-wise phase angle of \c *this
 ///
@@ -101,9 +111,9 @@ EIGEN_DEVICE_FUNC inline const CwiseInverseReturnType cwiseInverse() const { ret
 ///
 EIGEN_DOC_UNARY_ADDONS(cwiseArg, arg)
 
-EIGEN_DEVICE_FUNC inline const CwiseArgReturnType cwiseArg() const { return CwiseArgReturnType(derived()); }
+EIGEN_DEVICE_FUNC constexpr inline const CwiseArgReturnType cwiseArg() const { return CwiseArgReturnType(derived()); }
 
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const CwiseCArgReturnType cwiseCArg() const {
+EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE const CwiseCArgReturnType cwiseCArg() const {
   return CwiseCArgReturnType(derived());
 }
 
@@ -113,6 +123,7 @@ using CwisePowReturnType =
                      CwiseUnaryOp<internal::scalar_unary_pow_op<Scalar, ScalarExponent>, const Derived>>;
 
 template <typename ScalarExponent>
-EIGEN_DEVICE_FUNC inline const CwisePowReturnType<ScalarExponent> cwisePow(const ScalarExponent& exponent) const {
+EIGEN_DEVICE_FUNC constexpr inline const CwisePowReturnType<ScalarExponent> cwisePow(
+    const ScalarExponent& exponent) const {
   return CwisePowReturnType<ScalarExponent>(derived(), internal::scalar_unary_pow_op<Scalar, ScalarExponent>(exponent));
 }

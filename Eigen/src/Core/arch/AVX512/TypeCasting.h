@@ -1,7 +1,7 @@
 // This file is part of Eigen, a lightweight C++ template library
 // for linear algebra.
 //
-// Copyright (C) 2019 Rasmus Munk Larsen <rmlarsen@google.com>
+// Copyright (C) 2019 Rasmus Munk Larsen <rmlarsen@gmail.com>
 //
 // This Source Code Form is subject to the terms of the Mozilla
 // Public License v. 2.0. If a copy of the MPL was not distributed
@@ -52,9 +52,17 @@ struct type_casting_traits<bfloat16, float> : vectorized_type_casting_traits<bfl
 template <>
 struct type_casting_traits<float, bfloat16> : vectorized_type_casting_traits<float, bfloat16> {};
 
+EIGEN_STRONG_INLINE __mmask16 _eigen_mm512_cmpneq_ps_mask(__m512 a, __m512 b) {
+#if EIGEN_COMP_GNUC && (EIGEN_COMP_CLANG < 1000 || EIGEN_COMP_GNUC < 810)
+  return _mm512_cmp_ps_mask(a, b, _CMP_NEQ_UQ);
+#else
+  return _mm512_cmpneq_ps_mask(a, b);
+#endif
+}
+
 template <>
 EIGEN_STRONG_INLINE Packet16b pcast<Packet16f, Packet16b>(const Packet16f& a) {
-  __mmask16 mask = _mm512_cmpneq_ps_mask(a, pzero(a));
+  __mmask16 mask = _eigen_mm512_cmpneq_ps_mask(a, pzero(a));
   return _mm512_maskz_cvtepi32_epi8(mask, _mm512_set1_epi32(1));
 }
 

@@ -97,7 +97,9 @@ struct ColPivHouseholderQR_LAPACKE_impl {
 
     maxpivot = qr.diagonal().cwiseAbs().maxCoeff();
     hCoeffs.adjointInPlace();
-    RealScalar defaultThreshold = NumTraits<RealScalar>::epsilon() * RealScalar(qr.diagonalSize());
+    // Higham's backward error bound (Theorem 19.4): ||ΔA||₂ ≤ c·min(m,n)·u·||A||₂.
+    // The factor of 4 covers the constant c (typically 3–6 worst-case).
+    RealScalar defaultThreshold = NumTraits<RealScalar>::epsilon() * RealScalar(4 * qr.diagonalSize());
     RealScalar threshold = usePrescribedThreshold ? prescribedThreshold : defaultThreshold;
     RealScalar premultiplied_threshold = maxpivot * threshold;
     nonzero_pivots = (qr.diagonal().cwiseAbs().array() > premultiplied_threshold).count();

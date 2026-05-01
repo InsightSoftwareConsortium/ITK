@@ -17,30 +17,6 @@ namespace Eigen {
 
 namespace internal {
 
-// template<typename Scalar, int mr, int StorageOrder, bool Conjugate, int Mode>
-// struct gemm_pack_lhs_triangular
-// {
-//   Matrix<Scalar,mr,mr,
-//   void operator()(Scalar* blockA, const EIGEN_RESTRICT Scalar* lhs_, int lhsStride, int depth, int rows)
-//   {
-//     conj_if<NumTraits<Scalar>::IsComplex && Conjugate> cj;
-//     const_blas_data_mapper<Scalar, StorageOrder> lhs(lhs_,lhsStride);
-//     int count = 0;
-//     const int peeled_mc = (rows/mr)*mr;
-//     for(int i=0; i<peeled_mc; i+=mr)
-//     {
-//       for(int k=0; k<depth; k++)
-//         for(int w=0; w<mr; w++)
-//           blockA[count++] = cj(lhs(i+w, k));
-//     }
-//     for(int i=peeled_mc; i<rows; i++)
-//     {
-//       for(int k=0; k<depth; k++)
-//         blockA[count++] = cj(lhs(i, k));
-//     }
-//   }
-// };
-
 /* Optimized triangular matrix * matrix (_TRMM++) product built on top of
  * the general matrix matrix product.
  */

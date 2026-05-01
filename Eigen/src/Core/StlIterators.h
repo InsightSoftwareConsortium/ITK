@@ -28,7 +28,7 @@ class indexed_based_stl_iterator_base {
   typedef indexed_based_stl_iterator_base<typename traits::non_const_iterator> non_const_iterator;
   typedef indexed_based_stl_iterator_base<typename traits::const_iterator> const_iterator;
   typedef std::conditional_t<internal::is_const<XprType>::value, non_const_iterator, const_iterator> other_iterator;
-  // NOTE: in C++03 we cannot declare friend classes through typedefs because we need to write friend class:
+
   friend class indexed_based_stl_iterator_base<typename traits::const_iterator>;
   friend class indexed_based_stl_iterator_base<typename traits::non_const_iterator>;
 
@@ -174,7 +174,7 @@ class indexed_based_stl_reverse_iterator_base {
   typedef indexed_based_stl_reverse_iterator_base<typename traits::non_const_iterator> non_const_iterator;
   typedef indexed_based_stl_reverse_iterator_base<typename traits::const_iterator> const_iterator;
   typedef std::conditional_t<internal::is_const<XprType>::value, non_const_iterator, const_iterator> other_iterator;
-  // NOTE: in C++03 we cannot declare friend classes through typedefs because we need to write friend class:
+
   friend class indexed_based_stl_reverse_iterator_base<typename traits::const_iterator>;
   friend class indexed_based_stl_reverse_iterator_base<typename traits::non_const_iterator>;
 
@@ -318,7 +318,7 @@ class pointer_based_stl_iterator {
   typedef pointer_based_stl_iterator<std::remove_const_t<XprType>> non_const_iterator;
   typedef pointer_based_stl_iterator<std::add_const_t<XprType>> const_iterator;
   typedef std::conditional_t<internal::is_const<XprType>::value, non_const_iterator, const_iterator> other_iterator;
-  // NOTE: in C++03 we cannot declare friend classes through typedefs because we need to write friend class:
+
   friend class pointer_based_stl_iterator<std::add_const_t<XprType>>;
   friend class pointer_based_stl_iterator<std::remove_const_t<XprType>>;
 
@@ -335,10 +335,9 @@ class pointer_based_stl_iterator {
   typedef std::conditional_t<bool(is_lvalue), value_type*, const value_type*> pointer;
   typedef std::conditional_t<bool(is_lvalue), value_type&, const value_type&> reference;
 
-  pointer_based_stl_iterator() noexcept : m_ptr(0) {}
-  pointer_based_stl_iterator(XprType& xpr, Index index) noexcept : m_incr(xpr.innerStride()) {
-    m_ptr = xpr.data() + index * m_incr.value();
-  }
+  pointer_based_stl_iterator() noexcept : m_ptr(0), m_incr(XprType::InnerStrideAtCompileTime) {}
+  pointer_based_stl_iterator(XprType& xpr, Index index) noexcept
+      : m_ptr(xpr.data() + index * xpr.innerStride()), m_incr(xpr.innerStride()) {}
 
   pointer_based_stl_iterator(const non_const_iterator& other) noexcept : m_ptr(other.m_ptr), m_incr(other.m_incr) {}
 
@@ -450,7 +449,7 @@ class generic_randaccess_stl_iterator
   using Base::m_index;
   using Base::mp_xpr;
 
-  // TODO currently const Transpose/Reshape expressions never returns const references,
+  // TODO: currently const Transpose/Reshape expressions never returns const references,
   // so lets return by value too.
   // typedef std::conditional_t<bool(has_direct_access), const value_type&, const value_type> read_only_ref_t;
   typedef const value_type read_only_ref_t;

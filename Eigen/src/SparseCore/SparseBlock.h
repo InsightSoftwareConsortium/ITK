@@ -18,7 +18,7 @@ namespace Eigen {
 // Subset of columns or rows
 template <typename XprType, int BlockRows, int BlockCols>
 class BlockImpl<XprType, BlockRows, BlockCols, true, Sparse>
-    : public SparseMatrixBase<Block<XprType, BlockRows, BlockCols, true> > {
+    : public SparseCompressedBase<Block<XprType, BlockRows, BlockCols, true> > {
   typedef internal::remove_all_t<typename XprType::Nested> MatrixTypeNested_;
   typedef Block<XprType, BlockRows, BlockCols, true> BlockType;
 
@@ -27,7 +27,7 @@ class BlockImpl<XprType, BlockRows, BlockCols, true, Sparse>
 
  protected:
   enum { OuterSize = IsRowMajor ? BlockRows : BlockCols };
-  typedef SparseMatrixBase<BlockType> Base;
+  typedef SparseCompressedBase<BlockType> Base;
   using Base::convert_index;
 
  public:
@@ -67,6 +67,32 @@ class BlockImpl<XprType, BlockRows, BlockCols, true, Sparse>
   Index startCol() const { return IsRowMajor ? 0 : m_outerStart; }
   Index blockRows() const { return IsRowMajor ? m_outerSize.value() : m_matrix.rows(); }
   Index blockCols() const { return IsRowMajor ? m_matrix.cols() : m_outerSize.value(); }
+
+  inline const Scalar* valuePtr() const { return m_matrix.valuePtr(); }
+  inline Scalar* valuePtr() { return m_matrix.valuePtr(); }
+
+  inline const StorageIndex* innerIndexPtr() const { return m_matrix.innerIndexPtr(); }
+  inline StorageIndex* innerIndexPtr() { return m_matrix.innerIndexPtr(); }
+
+  inline const StorageIndex* outerIndexPtr() const {
+    const StorageIndex* p = m_matrix.outerIndexPtr();
+    return p ? p + m_outerStart : 0;
+  }
+  inline StorageIndex* outerIndexPtr() {
+    StorageIndex* p = m_matrix.outerIndexPtr();
+    return p ? p + m_outerStart : 0;
+  }
+
+  inline const StorageIndex* innerNonZeroPtr() const {
+    const StorageIndex* p = m_matrix.innerNonZeroPtr();
+    return p ? p + m_outerStart : 0;
+  }
+  inline StorageIndex* innerNonZeroPtr() {
+    StorageIndex* p = m_matrix.innerNonZeroPtr();
+    return p ? p + m_outerStart : 0;
+  }
+
+  bool isCompressed() const { return m_matrix.innerNonZeroPtr() == 0; }
 
  protected:
   typename internal::ref_selector<XprType>::non_const_type m_matrix;

@@ -29,8 +29,7 @@
 #include <Availability.h>
 #include <TargetConditionals.h>
 #endif
-// Checks whether C++11's `thread_local` storage duration specifier is
-// supported.
+// Checks whether the `thread_local` storage duration specifier is supported.
 #if EIGEN_COMP_CLANGAPPLE && \
     ((EIGEN_COMP_CLANGAPPLE < 8000042) || (TARGET_OS_IPHONE && __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0))
 // Notes: Xcode's clang did not support `thread_local` until version
@@ -90,7 +89,7 @@ struct ThreadLocalNoOpRelease {
 //
 //   Eigen::ThreadLocal<Counter> counter(10);
 //
-//   // Each thread will have access to it's own counter object.
+//   // Each thread will have access to its own counter object.
 //   Counter& cnt = counter.local();
 //   cnt++;
 //

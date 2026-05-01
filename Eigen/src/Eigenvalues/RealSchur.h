@@ -207,7 +207,7 @@ class RealSchur {
   }
 
   /** \brief Returns the maximum number of iterations. */
-  Index getMaxIterations() { return m_maxIters; }
+  Index getMaxIterations() const { return m_maxIters; }
 
   /** \brief Maximum number of iterations per row.
    *
@@ -343,9 +343,9 @@ RealSchur<MatrixType>& RealSchur<MatrixType>::computeFromHessenberg(const HessMa
 template <typename MatrixType>
 inline typename MatrixType::Scalar RealSchur<MatrixType>::computeNormOfT() {
   const Index size = m_matT.cols();
-  // FIXME to be efficient the following would requires a triangular reduxion code
-  // Scalar norm = m_matT.upper().cwiseAbs().sum()
-  //               + m_matT.bottomLeftCorner(size-1,size-1).diagonal().cwiseAbs().sum();
+  // m_matT is upper-Hessenberg, so per column only rows [0, j+1] are nonzero.
+  // The column-wise loop touches ~n^2/2 entries; scanning the full matrix
+  // would double that, and TriangularView has no direct cwiseAbs().sum().
   Scalar norm(0);
   for (Index j = 0; j < size; ++j) norm += m_matT.col(j).segment(0, (std::min)(size, j + 2)).cwiseAbs().sum();
   return norm;
@@ -409,7 +409,7 @@ inline void RealSchur<MatrixType>::computeShift(Index iu, Index iter, Scalar& ex
   shiftInfo.coeffRef(2) = m_matT.coeff(iu, iu - 1) * m_matT.coeff(iu - 1, iu);
 
   // Alternate exceptional shifting strategy every 16 iterations.
-  if (iter % 16 == 0) {
+  if (iter > 0 && iter % 16 == 0) {
     // Wilkinson's original ad hoc shift
     if (iter % 32 != 0) {
       exshift += shiftInfo.coeff(0);

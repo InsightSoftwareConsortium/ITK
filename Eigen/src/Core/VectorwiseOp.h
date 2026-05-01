@@ -146,6 +146,22 @@ struct member_redux {
   const BinaryOp& binaryFunc() const { return m_functor; }
   const BinaryOp m_functor;
 };
+
+template <typename Scalar>
+struct scalar_replace_zero_with_one_op {
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const Scalar& x) const {
+    return numext::is_exactly_zero(x) ? Scalar(1) : x;
+  }
+  template <typename Packet>
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet packetOp(const Packet& x) const {
+    return pselect(pcmp_eq(x, pzero(x)), pset1<Packet>(Scalar(1)), x);
+  }
+};
+template <typename Scalar>
+struct functor_traits<scalar_replace_zero_with_one_op<Scalar>> {
+  enum { Cost = 1, PacketAccess = packet_traits<Scalar>::HasCmp };
+};
+
 }  // namespace internal
 
 /** \class VectorwiseOp
@@ -624,18 +640,28 @@ class VectorwiseOp {
     return m_matrix / extendedTo(other.derived());
   }
 
+  using Normalized_NonzeroNormType =
+      CwiseUnaryOp<internal::scalar_replace_zero_with_one_op<Scalar>, const NormReturnType>;
+  using NormalizedReturnType = CwiseBinaryOp<internal::scalar_quotient_op<Scalar>, const ExpressionTypeNestedCleaned,
+                                             const typename OppositeExtendedType<Normalized_NonzeroNormType>::Type>;
+
   /** \returns an expression where each column (or row) of the referenced matrix are normalized.
    * The referenced matrix is \b not modified.
+   *
+   * \warning If the input columns (or rows) are too small (i.e., their norm equals to 0), they remain unchanged in the
+   *          resulting expression.
+   *
    * \sa MatrixBase::normalized(), normalize()
    */
-  EIGEN_DEVICE_FUNC CwiseBinaryOp<internal::scalar_quotient_op<Scalar>, const ExpressionTypeNestedCleaned,
-                                  const typename OppositeExtendedType<NormReturnType>::Type>
-  normalized() const {
-    return m_matrix.cwiseQuotient(extendedToOpposite(this->norm()));
+  EIGEN_DEVICE_FUNC NormalizedReturnType normalized() const {
+    return m_matrix.cwiseQuotient(extendedToOpposite(Normalized_NonzeroNormType(this->norm())));
   }
 
   /** Normalize in-place each row or columns of the referenced matrix.
-   * \sa MatrixBase::normalize(), normalized()
+   *
+   * \warning If the input columns (or rows) are too small (i.e., their norm equals to 0), they are left unchanged.
+   *
+   * \sa MatrixBase::normalized(), normalize()
    */
   EIGEN_DEVICE_FUNC void normalize() { m_matrix = this->normalized(); }
 

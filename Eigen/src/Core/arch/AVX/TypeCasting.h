@@ -56,6 +56,40 @@ struct type_casting_traits<int64_t, double> : vectorized_type_casting_traits<int
 #endif
 #endif
 
+EIGEN_STRONG_INLINE __m256 _eigen_mm256_set_m128(__m128 hi, __m128 lo) {
+#if EIGEN_COMP_GNUC && (EIGEN_COMP_CLANG < 1000 || EIGEN_COMP_GNUC < 810)
+  __m256 result = _mm256_castps128_ps256(lo);
+  return _mm256_insertf128_ps(result, hi, 1);
+#else
+  return _mm256_set_m128(hi, lo);
+#endif
+}
+
+EIGEN_STRONG_INLINE __m256d _eigen_mm256_set_m128d(__m128d hi, __m128d lo) {
+#if EIGEN_COMP_GNUC && (EIGEN_COMP_CLANG < 1000 || EIGEN_COMP_GNUC < 810)
+  __m256d result = _mm256_castpd128_pd256(lo);
+  return _mm256_insertf128_pd(result, hi, 1);
+#else
+  return _mm256_set_m128d(hi, lo);
+#endif
+}
+
+EIGEN_STRONG_INLINE __m256i _eigen_mm256_set_m128i(__m128i hi, __m128i lo) {
+#if EIGEN_COMP_GNUC && (EIGEN_COMP_CLANG < 1000 || EIGEN_COMP_GNUC < 810)
+#if defined(EIGEN_VECTORIZE_AVX2)
+  __m256i result = _mm256_castsi128_si256(lo);
+  return _mm256_inserti128_si256(result, hi, 1);
+#else
+  EIGEN_ALIGN32 int32_t tmp[8];
+  _mm_storeu_si128(reinterpret_cast<__m128i*>(tmp), lo);
+  _mm_storeu_si128(reinterpret_cast<__m128i*>(tmp + 4), hi);
+  return _mm256_loadu_si256(reinterpret_cast<const __m256i*>(tmp));
+#endif
+#else
+  return _mm256_set_m128i(hi, lo);
+#endif
+}
+
 template <>
 EIGEN_STRONG_INLINE Packet16b pcast<Packet8f, Packet16b>(const Packet8f& a, const Packet8f& b) {
   __m256 nonzero_a = _mm256_cmp_ps(a, pzero(a), _CMP_NEQ_UQ);
@@ -109,7 +143,7 @@ EIGEN_STRONG_INLINE Packet8i pcast<Packet8f, Packet8i>(const Packet8f& a) {
 
 template <>
 EIGEN_STRONG_INLINE Packet8i pcast<Packet4d, Packet8i>(const Packet4d& a, const Packet4d& b) {
-  return _mm256_set_m128i(_mm256_cvttpd_epi32(b), _mm256_cvttpd_epi32(a));
+  return _eigen_mm256_set_m128i(_mm256_cvttpd_epi32(b), _mm256_cvttpd_epi32(a));
 }
 
 template <>
@@ -124,7 +158,7 @@ EIGEN_STRONG_INLINE Packet8f pcast<Packet8i, Packet8f>(const Packet8i& a) {
 
 template <>
 EIGEN_STRONG_INLINE Packet8f pcast<Packet4d, Packet8f>(const Packet4d& a, const Packet4d& b) {
-  return _mm256_set_m128(_mm256_cvtpd_ps(b), _mm256_cvtpd_ps(a));
+  return _eigen_mm256_set_m128(_mm256_cvtpd_ps(b), _mm256_cvtpd_ps(a));
 }
 
 template <>
@@ -240,8 +274,8 @@ EIGEN_STRONG_INLINE Packet4d pcast<Packet4l, Packet4d>(const Packet4l& a) {
 #if defined(EIGEN_VECTORIZE_AVX512DQ) && defined(EIGEN_VECTORIZE_AVS512VL)
   return _mm256_cvtepi64_pd(a);
 #else
-  EIGEN_ALIGN16 int64_t aux[4];
-  pstore(aux, a);
+  int64_t aux[4];
+  pstoreu(aux, a);
   return _mm256_set_pd(static_cast<double>(aux[3]), static_cast<double>(aux[2]), static_cast<double>(aux[1]),
                        static_cast<double>(aux[0]));
 #endif
@@ -249,7 +283,7 @@ EIGEN_STRONG_INLINE Packet4d pcast<Packet4l, Packet4d>(const Packet4l& a) {
 
 template <>
 EIGEN_STRONG_INLINE Packet4d pcast<Packet2l, Packet4d>(const Packet2l& a, const Packet2l& b) {
-  return _mm256_set_m128d((pcast<Packet2l, Packet2d>(b)), (pcast<Packet2l, Packet2d>(a)));
+  return _eigen_mm256_set_m128d((pcast<Packet2l, Packet2d>(b)), (pcast<Packet2l, Packet2d>(a)));
 }
 
 template <>

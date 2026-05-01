@@ -433,7 +433,7 @@ class ThreadPoolTempl : public Eigen::ThreadPoolInterface {
     // If we are shutting down and all worker threads blocked without work,
     // that's we are done.
     blocked_++;
-    // TODO is blocked_ required to be unsigned?
+    // TODO: is blocked_ required to be unsigned?
     if (done_ && blocked_ == static_cast<unsigned>(num_threads_)) {
       ec_.CancelWait();
       // Almost done, but need to re-check queues.

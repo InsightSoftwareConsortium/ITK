@@ -20,11 +20,14 @@ namespace internal {
 template <typename Xpr>
 struct eigen_fill_helper : std::false_type {};
 
+// Only enable std::fill_n for trivially copyable scalars.  GCC's libstdc++
+// fill_n pessimizes non-trivially-copyable types (extra moves per iteration),
+// causing measurable regressions for types like AutoDiffScalar (issue #2956).
 template <typename Scalar, int Rows, int Cols, int Options, int MaxRows, int MaxCols>
-struct eigen_fill_helper<Matrix<Scalar, Rows, Cols, Options, MaxRows, MaxCols>> : std::true_type {};
+struct eigen_fill_helper<Matrix<Scalar, Rows, Cols, Options, MaxRows, MaxCols>> : std::is_trivially_copyable<Scalar> {};
 
 template <typename Scalar, int Rows, int Cols, int Options, int MaxRows, int MaxCols>
-struct eigen_fill_helper<Array<Scalar, Rows, Cols, Options, MaxRows, MaxCols>> : std::true_type {};
+struct eigen_fill_helper<Array<Scalar, Rows, Cols, Options, MaxRows, MaxCols>> : std::is_trivially_copyable<Scalar> {};
 
 template <typename Xpr, int BlockRows, int BlockCols>
 struct eigen_fill_helper<Block<Xpr, BlockRows, BlockCols, /*InnerPanel*/ true>> : eigen_fill_helper<Xpr> {};
@@ -60,12 +63,12 @@ struct eigen_fill_impl<Xpr, /*use_fill*/ false> {
   using Func = scalar_constant_op<Scalar>;
   using PlainObject = typename Xpr::PlainObject;
   using Constant = typename PlainObject::ConstantReturnType;
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void run(Xpr& dst, const Scalar& val) {
+  static EIGEN_DEVICE_FUNC constexpr void run(Xpr& dst, const Scalar& val) {
     const Constant src(dst.rows(), dst.cols(), val);
     run(dst, src);
   }
   template <typename SrcXpr>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void run(Xpr& dst, const SrcXpr& src) {
+  static EIGEN_DEVICE_FUNC constexpr void run(Xpr& dst, const SrcXpr& src) {
     call_dense_assignment_loop(dst, src, assign_op<Scalar, Scalar>());
   }
 };
@@ -78,8 +81,9 @@ template <typename Xpr>
 struct eigen_fill_impl<Xpr, /*use_fill*/ true> {
   using Scalar = typename Xpr::Scalar;
   static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Xpr& dst, const Scalar& val) {
+    const Scalar val_copy = val;
     using std::fill_n;
-    fill_n(dst.data(), dst.size(), val);
+    fill_n(dst.data(), dst.size(), val_copy);
   }
   template <typename SrcXpr>
   static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Xpr& dst, const SrcXpr& src) {
@@ -92,8 +96,10 @@ struct eigen_fill_impl<Xpr, /*use_fill*/ true> {
 
 template <typename Xpr>
 struct eigen_memset_helper {
-  static constexpr bool value =
-      std::is_trivially_copyable<typename Xpr::Scalar>::value && eigen_fill_helper<Xpr>::value;
+  using Scalar = typename Xpr::Scalar;
+  static constexpr bool value = std::is_trivially_copyable<Scalar>::value &&
+                                !static_cast<bool>(NumTraits<Scalar>::RequireInitialization) &&
+                                eigen_fill_helper<Xpr>::value;
 };
 
 template <typename Xpr>
@@ -101,12 +107,12 @@ struct eigen_zero_impl<Xpr, /*use_memset*/ false> {
   using Scalar = typename Xpr::Scalar;
   using PlainObject = typename Xpr::PlainObject;
   using Zero = typename PlainObject::ZeroReturnType;
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void run(Xpr& dst) {
+  static EIGEN_DEVICE_FUNC constexpr void run(Xpr& dst) {
     const Zero src(dst.rows(), dst.cols());
     run(dst, src);
   }
   template <typename SrcXpr>
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void run(Xpr& dst, const SrcXpr& src) {
+  static EIGEN_DEVICE_FUNC constexpr void run(Xpr& dst, const SrcXpr& src) {
     call_dense_assignment_loop(dst, src, assign_op<Scalar, Scalar>());
   }
 };
@@ -114,17 +120,15 @@ struct eigen_zero_impl<Xpr, /*use_memset*/ false> {
 template <typename Xpr>
 struct eigen_zero_impl<Xpr, /*use_memset*/ true> {
   using Scalar = typename Xpr::Scalar;
-  static constexpr size_t max_bytes = (std::numeric_limits<std::ptrdiff_t>::max)();
   static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Xpr& dst) {
-    const size_t num_bytes = dst.size() * sizeof(Scalar);
-    if (num_bytes == 0) return;
+    const std::ptrdiff_t num_bytes = dst.size() * static_cast<std::ptrdiff_t>(sizeof(Scalar));
+    if (num_bytes <= 0) return;
     void* dst_ptr = static_cast<void*>(dst.data());
 #ifndef EIGEN_NO_DEBUG
-    if (num_bytes > max_bytes) throw_std_bad_alloc();
     eigen_assert((dst_ptr != nullptr) && "null pointer dereference error!");
 #endif
     EIGEN_USING_STD(memset);
-    memset(dst_ptr, 0, num_bytes);
+    memset(dst_ptr, 0, static_cast<std::size_t>(num_bytes));
   }
   template <typename SrcXpr>
   static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void run(Xpr& dst, const SrcXpr& src) {
