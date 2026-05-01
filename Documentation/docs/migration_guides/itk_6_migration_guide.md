@@ -557,3 +557,59 @@ target_link_libraries(MyExample ITK::MyModuleModule)
 #### Backward Compatibility
 
 For backward compatibility, non-namespaced aliases are created with deprecation warnings. However, new code should use the namespaced `ITK::` targets exclusively.
+
+## NumPy bridge: `image_from_array(arr.T)` is no longer transpose-equivalent to `image_from_array(arr)`
+
+### Rationale
+
+Previously, `itk.image_from_array` (and the underlying
+`itk.PyBuffer.GetImageViewFromArray` / `GetImageFromArray`) special-cased
+F-contiguous inputs, with the result that `image_from_array(arr)` and
+`image_from_array(arr.T)` produced ITK images with **identical** sizes and
+content -- the transpose was effectively a no-op through this API. The
+docstrings explicitly documented this behavior and pointed users at
+`np.reshape` for any actual flipping.
+
+This was buggy in practice: the C++ side performed its own shape reversal
+on F-contiguous buffers, so size handling double-reversed and `image.shape`
+disagreed with `array.shape[::-1]` for F-contiguous inputs. Round-tripping
+through `array_from_image(image_from_array(arr))` could silently transpose
+the data.
+
+### What changed in ITKv6
+
+`GetImageViewFromArray` / `GetImageFromArray` now **deep-copy** any
+non-C-contiguous input via `np.ascontiguousarray()` before constructing
+the image. The resulting image owns an independent buffer that does
+**not** reference the user's original array; mutations to the original
+will no longer be visible through the image. The shape rule is now
+uniform regardless of memory layout:
+
+```
+itk.size(image)            ==  array.shape[::-1]
+image.GetPixel((i, j, k))  ==  array[k, j, i]
+```
+
+As a consequence, `arr` and `arr.T` produce ITK images with **different
+(reversed) sizes** -- `np.transpose` / `.T` is now the correct operation
+to flip the dimension order through this API.
+
+### What you need to do
+
+Audit any code that relied on `image_from_array(arr)` and
+`image_from_array(arr.T)` returning the same image. The most common idioms
+to inspect:
+
+- Code that called `itk.image_from_array(some_view.T)` expecting the
+  transpose to be ignored. Drop the `.T` to recover the prior behavior,
+  or accept the new transposed-image semantics if that was the intent.
+- Code that round-trips arrays through ITK: previously
+  `array_from_image(image_from_array(arr_f))` could differ from `arr_f`
+  for F-contiguous inputs; now it equals `np.ascontiguousarray(arr_f)`,
+  preserving values exactly with the original `arr_f.shape`.
+- A new warning fires when `GetImageViewFromArray` is called on a
+  non-C-contiguous input (since a deep-copy is performed). Set
+  `need_contiguous=False` to silence it if the deep-copy is intended.
+  `GetImageFromArray` already silences the warning internally because
+  it always deep-copies via `ImageDuplicator`; the kwarg is not exposed
+  on that API.
