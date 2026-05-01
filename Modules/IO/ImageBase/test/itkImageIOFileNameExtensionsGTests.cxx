@@ -17,12 +17,12 @@
  *=========================================================================*/
 
 #include "itkImageIOBase.h"
+#include "itkGTest.h"
 
 
 // Specific ImageIO test
 
-int
-itkImageIOFileNameExtensionsTests(int, char *[])
+TEST(ImageIOFileNameExtensions, ConvertedLegacyTest)
 {
   using IOBaseType = itk::ImageIOBase;
   using ArrayOfImageIOType = std::list<itk::LightObject::Pointer>;
@@ -37,38 +37,30 @@ itkImageIOFileNameExtensionsTests(int, char *[])
 
     auto * io = dynamic_cast<IOBaseType *>(itr->GetPointer());
 
-    if (!io)
+    ASSERT_NE(io, nullptr);
+
+    std::cout << "---------------------------------" << std::endl;
+    std::cout << "ImageIO: " << io->GetNameOfClass() << std::endl;
+
+    const ArrayOfExtensionsType & readExtensions = io->GetSupportedReadExtensions();
+    const ArrayOfExtensionsType & writeExtensions = io->GetSupportedWriteExtensions();
+
+    auto readItr = readExtensions.begin();
+    auto writeItr = writeExtensions.begin();
+
+    std::cout << "Supported Read Extensions" << std::endl;
+    while (readItr != readExtensions.end())
     {
-      std::cerr << "Got a null pointer in the array" << std::endl;
-      return EXIT_FAILURE;
+      std::cout << *readItr << std::endl;
+      ++readItr;
     }
-    else
+
+    std::cout << "Supported Write Extensions" << std::endl;
+    while (writeItr != writeExtensions.end())
     {
-      std::cout << "---------------------------------" << std::endl;
-      std::cout << "ImageIO: " << io->GetNameOfClass() << std::endl;
-
-      const ArrayOfExtensionsType & readExtensions = io->GetSupportedReadExtensions();
-      const ArrayOfExtensionsType & writeExtensions = io->GetSupportedWriteExtensions();
-
-      auto readItr = readExtensions.begin();
-      auto writeItr = writeExtensions.begin();
-
-      std::cout << "Supported Read Extensions" << std::endl;
-      while (readItr != readExtensions.end())
-      {
-        std::cout << *readItr << std::endl;
-        ++readItr;
-      }
-
-      std::cout << "Supported Write Extensions" << std::endl;
-      while (writeItr != writeExtensions.end())
-      {
-        std::cout << *writeItr << std::endl;
-        ++writeItr;
-      }
+      std::cout << *writeItr << std::endl;
+      ++writeItr;
     }
     ++itr;
   }
-
-  return EXIT_SUCCESS;
 }

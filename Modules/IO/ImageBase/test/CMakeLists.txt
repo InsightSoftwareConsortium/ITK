@@ -3,14 +3,11 @@ set(
   ITKIOImageBaseTests
   itk64bitTest.cxx
   itkArchetypeSeriesFileNamesTest.cxx
-  itkConvertBufferTest.cxx
-  itkConvertBufferTest2.cxx
   itkImageFileReaderDimensionsTest.cxx
   itkImageFileReaderManyComponentVectorTest.cxx
   itkImageFileReaderPositiveSpacingTest.cxx
   itkImageFileReaderStreamingTest.cxx
   itkImageFileReaderStreamingTest2.cxx
-  itkImageFileReaderTest1.cxx
   itkImageFileWriterPastingTest1.cxx
   itkImageFileWriterPastingTest2.cxx
   itkImageFileWriterPastingTest3.cxx
@@ -20,22 +17,17 @@ set(
   itkImageFileWriterTest.cxx
   itkImageFileWriterTest2.cxx
   itkImageFileWriterUpdateLargestPossibleRegionTest.cxx
-  itkImageIOBaseTest.cxx
   itkImageIODirection2DTest.cxx
   itkImageIODirection3DTest.cxx
-  itkImageIOFileNameExtensionsTests.cxx
   itkImageSeriesReaderDimensionsTest.cxx
   itkImageSeriesReaderSamplingTest.cxx
   itkImageSeriesReaderVectorTest.cxx
   itkImageSeriesWriterTest.cxx
-  itkIOCommonTest.cxx
-  itkIOCommonTest2.cxx
   itkIOPluginTest.cxx
   itkLargeImageWriteConvertReadTest.cxx
   itkLargeImageWriteReadTest.cxx
   itkMatrixImageWriteReadTest.cxx
   itkNoiseImageFilterTest.cxx
-  itkNumericSeriesFileNamesTest.cxx
   itkReadWriteImageWithDictionaryTest.cxx
   itkRegularExpressionSeriesFileNamesTest.cxx
   itkVectorImageReadWriteTest.cxx
@@ -113,47 +105,11 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/Archetype/image.010}
 )
 itk_add_test(
-  NAME itkConvertBufferTest
-  COMMAND
-    ITKIOImageBaseTestDriver
-    itkConvertBufferTest
-)
-itk_add_test(
-  NAME itkConvertBufferTest2
-  COMMAND
-    ITKIOImageBaseTestDriver
-    itkConvertBufferTest2
-)
-itk_add_test(
-  NAME itkImageFileReaderTest1
-  COMMAND
-    ITKIOImageBaseTestDriver
-    itkImageFileReaderTest1
-)
-itk_add_test(
   NAME itkImageFileWriterTest
   COMMAND
     ITKIOImageBaseTestDriver
     itkImageFileWriterTest
     ${ITK_TEST_OUTPUT_DIR}/test.png
-)
-itk_add_test(
-  NAME itkIOCommonTest
-  COMMAND
-    ITKIOImageBaseTestDriver
-    itkIOCommonTest
-)
-itk_add_test(
-  NAME itkIOCommonTest2
-  COMMAND
-    ITKIOImageBaseTestDriver
-    itkIOCommonTest2
-)
-itk_add_test(
-  NAME itkNumericSeriesFileNamesTest
-  COMMAND
-    ITKIOImageBaseTestDriver
-    itkNumericSeriesFileNamesTest
 )
 itk_add_test(
   NAME itk64bitTestNRRDtoMHA
@@ -489,12 +445,6 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterUpdateLargestPossibleRegionTest.png
 )
 itk_add_test(
-  NAME itkImageIOBaseTest
-  COMMAND
-    ITKIOImageBaseTestDriver
-    itkImageIOBaseTest
-)
-itk_add_test(
   NAME itkImageIODirection2DTest01
   COMMAND
     ITKIOImageBaseTestDriver
@@ -821,13 +771,6 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection003.nhdr
 )
 itk_add_test(
-  NAME itkImageIOFileNameExtensionsTests
-  COMMAND
-    ITKIOImageBaseTestDriver
-    itkImageIOFileNameExtensionsTests
-)
-
-itk_add_test(
   NAME itkImageSeriesReaderDimensionsTest1
   COMMAND
     ITKIOImageBaseTestDriver
@@ -1007,5 +950,16 @@ target_link_libraries(itkUnicodeIOTest ${ITKIOImageBase-Test_LIBRARIES})
 itk_module_target_label(itkUnicodeIOTest)
 itk_add_test(NAME itkUnicodeIOTest COMMAND itkUnicodeIOTest)
 
-set(ITKIOImageBaseGTests itkWriteImageFunctionGTest.cxx)
+set(
+  ITKIOImageBaseGTests
+  itkConvertBufferGTest.cxx
+  itkConvertBufferGTest2.cxx
+  itkIOCommonGTest.cxx
+  itkIOCommonGTest2.cxx
+  itkImageFileReaderGTest1.cxx
+  itkImageIOBaseGTest.cxx
+  itkImageIOFileNameExtensionsGTests.cxx
+  itkNumericSeriesFileNamesGTest.cxx
+  itkWriteImageFunctionGTest.cxx
+)
 creategoogletestdriver(ITKIOImageBase "${ITKIOImageBase-Test_LIBRARIES}" "${ITKIOImageBaseGTests}")

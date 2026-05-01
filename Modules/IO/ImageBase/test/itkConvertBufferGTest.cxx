@@ -17,11 +17,10 @@
  *=========================================================================*/
 
 #include "itkImageFileReader.h"
+#include "itkGTest.h"
 #include <iostream>
-#include "itkTestingMacros.h"
 
-int
-itkConvertBufferTest(int, char *[])
+TEST(ConvertBuffer, ConvertedLegacyTest)
 {
   int                       piInit[3] = { 3, 1, 4 };
   const itk::RGBPixel<int>  pi = piInit;
@@ -44,7 +43,7 @@ itkConvertBufferTest(int, char *[])
     std::cerr << p[j] << ", ";
     for (unsigned long k = 0; k < std::size(p); ++k)
     {
-      ITK_TEST_EXPECT_EQUAL(p[j][k], ipa[j]);
+      EXPECT_EQ(p[j][k], ipa[j]);
     }
   }
   std::cerr << '\n';
@@ -59,7 +58,7 @@ itkConvertBufferTest(int, char *[])
     std::cerr << pf[j] << ' ';
     for (unsigned int k = 0; k < std::size(pf); ++k)
     {
-      ITK_TEST_EXPECT_EQUAL(pf[k][j], ipa3com[j + k * 3]);
+      EXPECT_EQ(pf[k][j], ipa3com[j + k * 3]);
     }
   }
   std::cerr << '\n';
@@ -72,10 +71,10 @@ itkConvertBufferTest(int, char *[])
     std::cerr << pa[j] << ' ';
     for (unsigned int k = 0; k < std::size(pa); ++k)
     {
-      ITK_TEST_EXPECT_EQUAL(pa[k][j], ipa3com[j + k * 3]);
+      EXPECT_EQ(pa[k][j], ipa3com[j + k * 3]);
     }
   }
-  ITK_TEST_EXPECT_EQUAL(pa[0][3], 1.f); // Alpha must be 1.0f for float input pixel.
+  EXPECT_EQ(pa[0][3], 1.f); // Alpha must be 1.0f for float input pixel.
   std::cerr << '\n';
   unsigned char ucipa3com[] = { 1, 1, 1, 2, 2, 2, 3, 3, 3 };
   // convert from unsigned char[3] to RGBA<unsigned char>
@@ -91,10 +90,10 @@ itkConvertBufferTest(int, char *[])
     std::cerr << ucpa[j] << ' ';
     for (unsigned int k = 0; k < std::size(ucpa); ++k)
     {
-      ITK_TEST_EXPECT_EQUAL(ucpa[k][j], ucipa3com[j + k * 3]);
+      EXPECT_EQ(ucpa[k][j], ucipa3com[j + k * 3]);
     }
   }
-  ITK_TEST_EXPECT_EQUAL(ucpa[0][3], 255); // Alpha must be 255 for unsigned char input pixel type
+  EXPECT_EQ(ucpa[0][3], 255); // Alpha must be 255 for unsigned char input pixel type
   std::cerr << '\n';
   // create an initial array of floats
   float farray[] = { 1.1f, 2.2f, 3.3f, 4.4f, 5.5f, 6.4f, 7.4f, 8.8f, 9.9f };
@@ -108,7 +107,7 @@ itkConvertBufferTest(int, char *[])
   for (int i = 0; i < arraySize; ++i)
   {
     std::cerr << farray[i] << ' ';
-    ITK_TEST_EXPECT_EQUAL(darray[i], static_cast<double>(farray[i]));
+    EXPECT_EQ(darray[i], static_cast<double>(farray[i]));
   }
   // convert a float array to an int array
   itk::ConvertPixelBuffer<float, int, itk::DefaultConvertPixelTraits<int>>::Convert(farray, 1, iarray, arraySize);
@@ -116,7 +115,7 @@ itkConvertBufferTest(int, char *[])
   for (int i = 0; i < arraySize; ++i)
   {
     std::cerr << iarray[i] << ' ';
-    ITK_TEST_EXPECT_EQUAL(iarray[i], static_cast<int>(farray[i]));
+    EXPECT_EQ(iarray[i], static_cast<int>(farray[i]));
   }
   // convert the int array to the float array
   itk::ConvertPixelBuffer<int, float, itk::DefaultConvertPixelTraits<float>>::Convert(iarray, 1, farray, arraySize);
@@ -124,8 +123,7 @@ itkConvertBufferTest(int, char *[])
   for (int i = 0; i < arraySize; ++i)
   {
     std::cerr << darray[i] << ' ';
-    ITK_TEST_EXPECT_EQUAL(farray[i], static_cast<float>(iarray[i]));
+    EXPECT_EQ(farray[i], static_cast<float>(iarray[i]));
   }
   std::cerr << '\n';
-  return EXIT_SUCCESS;
 }

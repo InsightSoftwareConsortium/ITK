@@ -17,10 +17,10 @@
  *=========================================================================*/
 
 #include "itkImageFileReader.h"
+#include "itkGTest.h"
 #include <iostream>
 
-int
-itkConvertBufferTest2(int, char *[])
+TEST(ConvertBuffer2, ConvertedLegacyTest)
 {
   // inputs
   int gray1[] = { 1, 2, 3, 4, 5 };
@@ -75,6 +75,4 @@ itkConvertBufferTest2(int, char *[])
 
   itk::ConvertPixelBuffer<int, itk::RGBAPixel<int>, itk::DefaultConvertPixelTraits<itk::RGBAPixel<int>>>::Convert(
     gray5, 5, rgbapixel, 5);
-
-  return EXIT_SUCCESS;
 }

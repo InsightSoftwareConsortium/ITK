@@ -17,32 +17,26 @@
  *=========================================================================*/
 
 #include "itkImageFileReader.h"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
 
 
-int
-itkImageFileReaderTest1(int argc, char * argv[])
+TEST(ImageFileReader, ConvertedLegacyTest)
 {
-  ITK_TEST_EXPECT_TRUE(argc == 1);
   using ImageNDType = itk::Image<short, 2>;
   using ReaderType = itk::ImageFileReader<ImageNDType>;
 
   // Try an empty read
   auto reader = ReaderType::New();
-  ITK_TRY_EXPECT_EXCEPTION(reader->Update());
+  EXPECT_THROW(reader->Update(), itk::ExceptionObject);
 
 
   // Now try a read with an image that doesn't exist
   reader->SetFileName("this_file_should_not_exist");
-  ITK_TRY_EXPECT_EXCEPTION(reader->Update());
+  EXPECT_THROW(reader->Update(), itk::ExceptionObject);
 
 
-  // Let's try to read a file where no ImageIO can read it
-  // This is the executable and no reader should be able to read it
-  reader->SetFileName(argv[0]);
-  ITK_TRY_EXPECT_EXCEPTION(reader->Update());
-
-
-  std::cout << "Test finished." << std::endl;
-  return EXIT_SUCCESS;
+  // Let's try to read a file where no ImageIO can read it.
+  // Use the test binary itself, which is guaranteed to exist on disk.
+  reader->SetFileName(::testing::internal::GetArgvs()[0]);
+  EXPECT_THROW(reader->Update(), itk::ExceptionObject);
 }
