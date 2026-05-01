@@ -11,14 +11,22 @@ set(
   itkVTIImageIOTest.cxx
   itkVTIImageIOReadWriteTest.cxx
   itkVTIImageIODirectionTest.cxx
-  itkVTIImageIOFutureFeaturesTest.cxx
   itkVTIImageIOGeneratedFixturesTest.cxx
 )
 
 createtestdriver(ITKIOVTK "${ITKIOVTK-Test_LIBRARIES}" "${ITKIOVTKTests}")
 
-set(ITKIOVTKGTests itkVTIImageIOSwapBufferGTest.cxx)
+set(
+  ITKIOVTKGTests
+  itkVTIImageIOFutureFeaturesGTest.cxx
+  itkVTIImageIOSwapBufferGTest.cxx
+)
 creategoogletestdriver(ITKIOVTK "${ITKIOVTK-Test_LIBRARIES}" "${ITKIOVTKGTests}")
+target_compile_definitions(
+  ITKIOVTKGTestDriver
+  PRIVATE
+    VTI_TEST_INPUT_DIR="${CMAKE_CURRENT_SOURCE_DIR}/Input"
+)
 
 itk_add_test(
   NAME itkVTIImageIOTest
@@ -35,14 +43,6 @@ itk_add_test(
     itkVTIImageIODirectionTest
     ${CMAKE_CURRENT_SOURCE_DIR}/Input
     ${ITK_TEST_OUTPUT_DIR}
-)
-
-itk_add_test(
-  NAME itkVTIImageIOFutureFeaturesTest
-  COMMAND
-    ITKIOVTKTestDriver
-    itkVTIImageIOFutureFeaturesTest
-    ${CMAKE_CURRENT_SOURCE_DIR}/Input
 )
 
 itk_add_test(

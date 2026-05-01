@@ -29,11 +29,14 @@
 // comparison" in the same commit that removes the guard -- producing a
 // visible red/green transition in git history.
 
-#include "itkImageFileReader.h"
-#include "itkTestingMacros.h"
 #include "itkVTIImageIO.h"
+#include "itkGTest.h"
 
 #include <string>
+
+#ifndef VTI_TEST_INPUT_DIR
+#  error "VTI_TEST_INPUT_DIR must be defined by the build system."
+#endif
 
 namespace
 {
@@ -55,63 +58,32 @@ ExpectException(const std::string & fname)
   return {};
 }
 
-bool
-Contains(const std::string & haystack, const std::string & needle)
+void
+CheckGuard(const std::string & fixture, const std::string & expectedTag)
 {
-  return haystack.find(needle) != std::string::npos;
-}
-
-int
-CheckGuard(const char * label, const std::string & fname, const std::string & expectedTag)
-{
+  const std::string fname = std::string(VTI_TEST_INPUT_DIR) + "/" + fixture;
   const std::string message = ExpectException(fname);
-  if (message.empty())
-  {
-    std::cerr << label << " FAILED: no exception thrown for " << fname << std::endl;
-    return EXIT_FAILURE;
-  }
-  if (!Contains(message, expectedTag))
-  {
-    std::cerr << label << " FAILED: exception did not contain '" << expectedTag << "' tag.  Message was:\n"
-              << message << std::endl;
-    return EXIT_FAILURE;
-  }
-  std::cout << label << " OK: guard fired with '" << expectedTag << "' tag" << std::endl;
-  return EXIT_SUCCESS;
+  ASSERT_FALSE(message.empty()) << "no exception thrown for " << fname;
+  EXPECT_NE(message.find(expectedTag), std::string::npos)
+    << "exception did not contain '" << expectedTag << "' tag.  Message was:\n"
+    << message;
 }
 } // namespace
 
-int
-itkVTIImageIOFutureFeaturesTest(int argc, char * argv[])
+// F-001: vtkLZ4DataCompressor should raise a tagged exception.
+TEST(VTIImageIOFutureFeatures, F001_LZ4) { CheckGuard("VTI_guard_lz4.vti", "F-001 LZ4"); }
+
+// F-002: vtkLZMADataCompressor should raise a tagged exception.
+TEST(VTIImageIOFutureFeatures, F002_LZMA) { CheckGuard("VTI_guard_lzma.vti", "F-002 LZMA"); }
+
+// F-010: unknown compressor string should raise the catch-all exception.
+TEST(VTIImageIOFutureFeatures, F010_UnknownCompressor)
 {
-  if (argc < 2)
-  {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <inputDir>" << std::endl;
-    return EXIT_FAILURE;
-  }
-  const std::string inputDir = argv[1];
-  int               status = EXIT_SUCCESS;
-
-  // F-001: vtkLZ4DataCompressor should raise a tagged exception.
-  status |= CheckGuard("F-001 LZ4", inputDir + "/VTI_guard_lz4.vti", "F-001 LZ4");
-
-  // F-002: vtkLZMADataCompressor should raise a tagged exception.
-  status |= CheckGuard("F-002 LZMA", inputDir + "/VTI_guard_lzma.vti", "F-002 LZMA");
-
-  // F-010: unknown compressor string should raise the catch-all exception.
-  status |= CheckGuard(
-    "F-010 unknown-compressor", inputDir + "/VTI_guard_unknown_compressor.vti", "F-010 Unknown VTK compressor");
-
-  // F-005: multi-Piece ImageData should raise a tagged exception.
-  status |= CheckGuard("F-005 multi-Piece", inputDir + "/VTI_guard_multipiece.vti", "F-005 Multi-Piece");
-
-  // F-007: binary symmetric-tensor write path is guarded in Write().
-  //   Tested in itkVTIImageIOTest (`Binary tensor write correctly rejected`),
-  //   which exercises the writer directly.  Not repeated here.
-
-  if (status == EXIT_SUCCESS)
-  {
-    std::cout << "itkVTIImageIOFutureFeaturesTest PASSED" << std::endl;
-  }
-  return status;
+  CheckGuard("VTI_guard_unknown_compressor.vti", "F-010 Unknown VTK compressor");
 }
+
+// F-005: multi-Piece ImageData should raise a tagged exception.
+TEST(VTIImageIOFutureFeatures, F005_MultiPiece) { CheckGuard("VTI_guard_multipiece.vti", "F-005 Multi-Piece"); }
+
+// F-007 (binary symmetric-tensor write) is guarded in Write() and exercised
+// in itkVTIImageIOTest's "Binary tensor write correctly rejected" block.
