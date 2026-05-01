@@ -71,9 +71,7 @@ def __getattr__(name: str):
     try:
         module_name = _lazy_attribute_to_module[name]
     except KeyError:
-        raise AttributeError(
-            f"module 'itk' has no attribute {name!r}"
-        ) from None
+        raise AttributeError(f"module 'itk' has no attribute {name!r}") from None
     g = globals()
     with _lazy_load_lock:
         cached = g.get(name, _MISSING)
@@ -87,9 +85,7 @@ def __getattr__(name: str):
     try:
         return g[name]
     except KeyError:
-        raise AttributeError(
-            f"module 'itk' has no attribute {name!r}"
-        ) from None
+        raise AttributeError(f"module 'itk' has no attribute {name!r}") from None
 
 
 def __dir__():
@@ -129,9 +125,9 @@ def _initialize_module():
     for module, data in _base.itk_base_global_module_data.items():
         for template_feature in data._template_feature_tuples:
             attr = template_feature._py_class_name
-            _base.itk_base_global_lazy_attributes.setdefault(
-                attr, _builtin_set()
-            ).add(module)
+            _base.itk_base_global_lazy_attributes.setdefault(attr, _builtin_set()).add(
+                module
+            )
             if template_feature._class_in_module:
                 _lazy_attribute_to_module[attr] = module
             else:
@@ -152,13 +148,13 @@ def _initialize_module():
         attributes: dict[str, list[str]] = {}
         for template_feature in data._template_feature_tuples:
             if template_feature._class_in_module:
-                attributes.setdefault(
-                    template_feature._py_class_name, []
-                ).insert(0, module)
+                attributes.setdefault(template_feature._py_class_name, []).insert(
+                    0, module
+                )
             else:
-                attributes.setdefault(
-                    template_feature._py_class_name, []
-                ).append(module)
+                attributes.setdefault(template_feature._py_class_name, []).append(
+                    module
+                )
         for function in data._snake_case_functions:
             attributes.setdefault(function, []).append(module)
         for k, v in attributes.items():
