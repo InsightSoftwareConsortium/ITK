@@ -62,7 +62,6 @@ def _make_itk_lazy_submodule(
     m.__loader__ = None
 
     belong: dict[str, str] = {k: v[0] for k, v in lazy_attributes.items() if v}
-    loaded_modules: set[str] = set()
 
     def __getattr__(name: str):
         if name.startswith("__") and name.endswith("__"):
@@ -81,7 +80,6 @@ def _make_itk_lazy_submodule(
             namespace: dict = {}
             _base.itk_load_swig_module(target, namespace)
             d.update(namespace)
-            loaded_modules.add(target)
             if _itkConfig.DefaultFactoryLoading:
                 _base.load_module_needed_factories(target)
         try:

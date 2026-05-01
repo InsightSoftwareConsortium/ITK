@@ -420,13 +420,19 @@ them:
 
 - `itkConfig.LazyLoading = False` — assignment alone is silently ignored
   (module attributes are mutable, but no ITK code reads the value
-  anymore). Any subsequent *read* of `itkConfig.LazyLoading`, however,
-  will raise `AttributeError`. Delete both the write and any reads:
+  anymore). On a fresh `import itkConfig` with no prior assignment, a
+  *read* of `itkConfig.LazyLoading` raises `AttributeError` because the
+  attribute is no longer defined. Delete both the writes and any reads:
 
   ```python
   import itkConfig
-  itkConfig.LazyLoading = False  # remove this line
-  if itkConfig.LazyLoading:       # this read now raises AttributeError
+
+  # Remove any assignments — they are silently no-ops:
+  itkConfig.LazyLoading = False
+
+  # Remove any reads — without a prior assignment they raise
+  # AttributeError, since itkConfig no longer defines this attribute:
+  if itkConfig.LazyLoading:
       ...
   ```
 
