@@ -12,6 +12,11 @@ clean = { cmd = "git clean -fdx", description = "Clean the repository" }
 [tool.pixi.dependencies]
 python = ">=3.13.5,<3.14"
 
+[tool.pixi.feature.external-data-upload.dependencies]
+boto3 = ">=1.34"
+nodejs = ">=20"
+requests = ">=2.32"
+
 [tool.pixi.feature.pre-commit.dependencies]
 pre-commit = ">=4.1.0,<5"
 
@@ -173,3 +178,4 @@ dev = ["dev"]
 cxx = ["dev", "cxx"]
 python = ["python", "dev"]
 pre-commit = ["pre-commit"]
+external-data-upload = ["external-data-upload"]

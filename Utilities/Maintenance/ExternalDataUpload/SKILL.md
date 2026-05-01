@@ -1,14 +1,13 @@
 ---
 name: external-data-upload
 description: >
-  Upload ITK test data to IPFS and produce .cid content links, pin on
-  itk-filebase (and itk-pinata if configured — Pinata is optional because
-  pin-by-CID requires a paid plan there), optionally mirror into
-  ITKTestingData, and normalize existing .md5 / .sha256 / .cid content
-  links. Use when the
-  user wants to add test images, baseline data, or model files under
-  Testing/Data/ or a module's data/ directory, or when asked to convert
-  hash-based content links to CID.
+  Upload ITK test data to Filebase IPFS storage and produce .cid content
+  links via the S3 REST API + npx ipfs-car (no Kubo daemon required),
+  optionally mirror into ITKTestingData, and normalize existing
+  .md5 / .sha256 / .cid content links. Use when the user wants to add
+  test images, baseline data, or model files under Testing/Data/ or a
+  module's data/ directory, or when asked to convert hash-based content
+  links to CID.
 allowed-tools:
   - Bash
   - Read
@@ -16,75 +15,73 @@ allowed-tools:
 
 # ITK External Data Upload
 
-Upload a file to IPFS and replace it with a `.cid` content link, maintain the
-`Testing/Data/content-links.manifest`, and (optionally) mirror the bytes into
-`ITKTestingData` for the GitHub Pages gateway. Also: regenerate existing
-`.md5` / `.sha256` / `.cid` content links under the UnixFS v1 2025 profile.
+Upload a file to Filebase IPFS storage and replace it with a `.cid` content
+link, maintain `Testing/Data/content-links.manifest`, and (optionally) mirror
+the bytes into `ITKTestingData` for the GitHub Pages gateway. Also: regenerate
+existing `.md5` / `.sha256` / `.cid` content links under the unixfs-v1-2025
+profile.
 
 ## Prerequisites
 
-The developer must have IPFS and pinning services configured. If not, direct
-them to [`README.md`](./README.md) in this directory.
+The developer must have the `external-data-upload` pixi environment installed
+and Filebase credentials exported. If not, direct them to
+[`README.md`](./README.md) in this directory.
 
 Required:
 
-- IPFS daemon running (`ipfs daemon` or IPFS Desktop)
-- UnixFS v1 2025 profile applied (`ipfs config profile apply unixfs-v1-2025`)
-- `itk-filebase` remote pinning service configured (works on the free tier)
+- pixi environment installed: `pixi install -e external-data-upload`
+- Filebase IPFS bucket with an S3 access key
+- Environment variables exported: `FILEBASE_ACCESS_KEY`,
+  `FILEBASE_SECRET_KEY`, `FILEBASE_BUCKET`
 
-Optional:
-
-- `itk-pinata` remote pinning service configured. Pinata's pin-by-CID
-  endpoint is **paid-only** — the free plan rejects PSA `pin remote add`
-  with `PAID_FEATURE_ONLY` (403). The upload script skips this service
-  with a notice if it isn't registered.
+A local Kubo daemon, IPFS Desktop, or any `ipfs pin remote` PSA service is
+**not** required — the upload talks to Filebase's S3 REST API directly and
+relies on `npx ipfs-car` (installed via Node.js in the pixi environment) for
+local CAR construction.
 
 ## Tasks this skill handles
 
 ### 1. Upload a single file
 
-Run the upload script:
+Run the upload script via pixi:
 
 ```bash
-Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh <filepath>
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/upload.py <filepath>
 ```
 
 If the user mentions `ITKTestingData` or asks you to mirror the bytes to
 GitHub Pages, pass `--testing-data-repo <path>`:
 
 ```bash
-Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh \
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/upload.py \
     --testing-data-repo <path-to-ITKTestingData> \
     <filepath>
 ```
 
 The script will:
 
-1. Add to IPFS with `--cid-version=1` (UnixFS v1 2025 profile)
-2. Pin locally and on `itk-filebase`; also on `itk-pinata` if registered
-   (skipped with a notice when only Filebase is configured)
+1. Pack the file into a CARv1 with `npx ipfs-car pack --no-wrap`
+   (defaults match the unixfs-v1-2025 profile)
+2. Upload the CAR to the Filebase IPFS bucket via boto3 with
+   `Metadata={"import": "car"}` and verify the CID returned by
+   `head_object` matches the local CID
 3. If `--testing-data-repo` given and file ≤ 50 MB, copy to
    `<path>/CID/<cid>` and `git add` it there. Files over 50 MB are skipped
-   for the mirror step only (GitHub rejects > 50 MB) — IPFS pinning still
+   for the mirror step only (GitHub rejects > 50 MB) — Filebase pinning still
    succeeds.
 4. Replace the source file with `<source>.cid`
 5. Update `Testing/Data/content-links.manifest`
 
-### 2. Pin every CID from the manifest
-
-```bash
-Utilities/Maintenance/ExternalDataUpload/ipfs-pin-all.sh
-```
-
-Use for bootstrapping a new IPFS node or re-pinning after rotating a provider.
-
-### 3. Normalize existing content links
+### 2. Normalize existing content links
 
 Use when the user wants to convert `.md5` / `.sha256` / `.sha512` links to
-`.cid`, or re-generate `.cid` links under the UnixFS v1 2025 profile.
+`.cid`, or re-generate `.cid` links under the unixfs-v1-2025 profile.
 
 ```bash
-Utilities/Maintenance/ExternalDataUpload/content-link-normalize.sh <path-or-file>
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/normalize.py <path-or-file>
 ```
 
 Useful options:
@@ -92,16 +89,13 @@ Useful options:
 - `--dry-run` — report what would change
 - `--hash-only` — only touch `.md5` / `.shaNNN` links, leave `.cid` alone
 - `--cid-only` — only re-hash existing `.cid` links under the new profile
-- `--testing-data-repo <path>` — forwarded to `ipfs-upload.sh`
-- `--background` — forwarded to `ipfs-upload.sh`; submit remote pins
-  asynchronously instead of waiting for each to reach `pinned`. Use for
-  batch runs where synchronous pinning would take minutes per file.
-  Verify final state afterwards with `ipfs pin remote ls`.
+- `--testing-data-repo <path>` — forwarded to the upload helper
+- `--bucket <name>` — Filebase bucket override (default: `$FILEBASE_BUCKET`)
 
 The normalize script fetches bytes through the gateway templates in
 `CMake/ITKExternalData.cmake` (same order as the build), verifies them
-against the declared hash or CID, and invokes `ipfs-upload.sh` to produce
-the new `.cid`.
+against the declared hash or CID, and calls `upload.upload_file_to_filebase`
+to produce the new `.cid`.
 
 ## After Upload
 

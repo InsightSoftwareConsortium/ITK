@@ -3,11 +3,9 @@
 # One entry per line, format: <cid> <repo-relative-path>
 #
 # Maintained automatically by
-#   Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh
-# and used by
-#   Utilities/Maintenance/ExternalDataUpload/ipfs-pin-all.sh
-# to batch-pin every CID on the local Kubo node and every configured
-# remote pinning service (itk-pinata, itk-filebase, ...).
+#   Utilities/Maintenance/ExternalDataUpload/upload.py
+# which packs each file into a CARv1 (unixfs-v1-2025 profile) and uploads
+# the CAR to a Filebase IPFS bucket via boto3.
 #
 # Paths must not contain whitespace (the manifest uses a single space as
 # the field delimiter). Data lines are kept sorted by path; comment lines
