@@ -394,6 +394,68 @@ for thread in threads:
 issues with callbacks, you can disable GIL release by setting `-DITK_PYTHON_RELEASE_GIL=OFF`
 when building ITK.
 
+Python lazy loading is always on
+--------------------------------
+
+The Python wrapping layer's lazy-loading mechanism has been rewritten on top
+of the standard-library [PEP 562](https://peps.python.org/pep-0562/)
+module-level `__getattr__` / `__dir__` protocol. Lazy first-touch resolution
+is now the only mode of operation: there is no eager-import alternative.
+
+### Removed
+
+- `itkConfig.LazyLoading` — previously a boolean attribute on `itkConfig`
+  that, when set to `False`, forced every wrapped submodule to be imported
+  at `import itk` time.
+- `ITK_PYTHON_LAZYLOADING` — the environment variable that seeded the value
+  of `itkConfig.LazyLoading` at startup.
+- The custom `itk.support.lazy.LazyITKModule` `types.ModuleType` subclass
+  (and its `ITKLazyLoadLock`, `_lazy_itk_module_reconstructor`, and
+  `not_loaded` sentinel) that the previous implementation relied on.
+
+### What you need to do
+
+If your code or test suite contains either of the following, remove
+them:
+
+- `itkConfig.LazyLoading = False` — assignment alone is silently ignored
+  (module attributes are mutable, but no ITK code reads the value
+  anymore). Any subsequent *read* of `itkConfig.LazyLoading`, however,
+  will raise `AttributeError`. Delete both the write and any reads:
+
+  ```python
+  import itkConfig
+  itkConfig.LazyLoading = False  # remove this line
+  if itkConfig.LazyLoading:       # this read now raises AttributeError
+      ...
+  ```
+
+- `ITK_PYTHON_LAZYLOADING` — the environment variable is no longer
+  consulted. Any export is silently ignored; remove it from launch
+  scripts and CI configurations:
+
+  ```bash
+  ITK_PYTHON_LAZYLOADING=0 python my_script.py  # drop the env var
+  ```
+
+The observable contract from a caller's point of view is otherwise
+unchanged: `import itk` returns the package, attribute access on `itk`
+or any `itk.<Submodule>` resolves on first touch, `dir(itk)` lists the
+full set of lazily-discoverable attributes, and pickle / cloudpickle
+round-trips through `sys.modules` continue to work.
+
+### Why this changed
+
+The previous `LazyITKModule.__getattribute__` intercepted *every* attribute
+read on the `itk` package just to check a sentinel; the PEP 562 hook only
+fires on a miss, so steady-state attribute access now hits the standard
+module fast path. The legacy `ITKLazyLoadLock` also combined
+`threading.RLock` and `multiprocessing.RLock`, and constructing the
+multiprocessing half pinned the multiprocessing start method at
+`import itk` time — breaking downstream callers that wanted to call
+`multiprocessing.set_start_method(...)` after import. The replacement uses
+only `threading.RLock`.
+
 Modern CMake Interface Libraries
 ---------------------------------
 
