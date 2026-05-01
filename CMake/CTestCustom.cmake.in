@@ -132,6 +132,30 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   # ignore some third party warnings
   ".*Modules/ThirdParty/.*warning:.*Wzero-as-null-pointer-constant"
   ".*Modules/ThirdParty/Eigen3/.*warning:.*"
+  # MSVC emits "warning C####:" rather than "warning:"; cover that form too
+  # so Eigen-internal MSVC warnings (e.g. C4750 from
+  # Eigenvalues/Tridiagonalization.h, "function with _alloca() inlined into
+  # a loop") do not fail the dashboard.
+  ".*Modules.ThirdParty.Eigen3.*warning C[0-9]+:.*"
+  # GCC IPA-CP cloning produces -Wmaybe-uninitialized false positives in
+  # Core/products/SelfadjointMatrixVector.h at -O3 + C++20 on Ubuntu 24.04
+  # (and matching ARM toolchains); the multi-line "note: by argument N of
+  # type ... declared here" continuation also lives in Eigen3 paths.
+  # The 'warning:' wildcard above already covers the primary line; this
+  # extra pattern silences GCC's path-less continuation lines that the
+  # reporter associates with the same Eigen file.
+  ".*Modules/ThirdParty/Eigen3/.*note:.*"
+  # Apple clang on macOS does not recognise GCC's -Wmaybe-uninitialized
+  # warning group, so every use of ITK_GCC_SUPPRESS_Wmaybe_uninitialized
+  # in itkMacro.h emits a four-line diagnostic burst (warning + three
+  # macro-expansion notes per site).  At ~50 use-sites that's ~200
+  # warnings on a single Darwin Python build, which exceeds the dashboard
+  # ceiling.  Suppressing the four lines individually keeps any genuine
+  # -Wunknown-warning-option diagnostic from a non-Wmaybe context still
+  # visible.
+  "warning: unknown warning group '-Wmaybe-uninitialized'"
+  "note: expanded from macro 'ITK_GCC_SUPPRESS_Wmaybe_uninitialized'"
+  "note: expanded from macro 'ITK_PRAGMA'"
 
   # CircleCI distcc warnings
   ".*WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED.*"
