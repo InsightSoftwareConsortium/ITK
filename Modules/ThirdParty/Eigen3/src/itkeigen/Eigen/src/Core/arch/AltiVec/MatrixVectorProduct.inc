@@ -380,7 +380,8 @@ EIGEN_STRONG_INLINE void gemv_col(Index rows, Index cols, const LhsMapper& alhs,
   conj_helper<LhsPacket, RhsPacket, false, false> pcj;
 
   const Index lhsStride = lhs.stride();
-  // TODO: for padded aligned inputs, we could enable aligned reads
+  // LhsAlignment stays Unaligned; enabling aligned reads would require
+  // propagating the Mapper's Alignment through the run() template.
   enum {
     LhsAlignment = Unaligned,
     ResPacketSize = Traits::ResPacketSize,
@@ -1866,7 +1867,7 @@ EIGEN_ALWAYS_INLINE void disassembleResults(__vector_quad* c0, PacketBlock<Scala
   if (GEMV_GETN_COMPLEX(N) > iter1) {                      \
     if (GEMV_IS_COMPLEX_FLOAT) {                           \
       GEMV_LOADPAIR2_COL_COMPLEX_MMA(iter2, iter2);        \
-      EIGEN_UNUSED_VARIABLE(a##iter3)                      \
+      EIGEN_UNUSED_VARIABLE(a##iter3);                     \
     } else {                                               \
       GEMV_LOADPAIR2_COL_COMPLEX_MMA(iter2, iter2 << 1);   \
       GEMV_LOADPAIR2_COL_COMPLEX_MMA(iter3, iter3 << 1);   \
@@ -2058,7 +2059,8 @@ EIGEN_STRONG_INLINE void gemv_complex_col(Index rows, Index cols, const LhsMappe
   conj_helper<LhsScalar, RhsScalar, ConjugateLhs, ConjugateRhs> cj;
 
   const Index lhsStride = lhs.stride();
-  // TODO: for padded aligned inputs, we could enable aligned reads
+  // LhsAlignment stays Unaligned; enabling aligned reads would require
+  // propagating the Mapper's Alignment through the run() template.
   enum {
     LhsAlignment = Unaligned,
     ResPacketSize = PTraits::ResPacketSize,
@@ -2390,7 +2392,8 @@ EIGEN_STRONG_INLINE void gemv_row(Index rows, Index cols, const LhsMapper& alhs,
   const Index n2 = rows - 1;
 #endif
 
-  // TODO: for padded aligned inputs, we could enable aligned reads
+  // LhsAlignment stays Unaligned; enabling aligned reads would require
+  // propagating the Mapper's Alignment through the run() template.
   enum {
     LhsAlignment = Unaligned,
     ResPacketSize = Traits::ResPacketSize,
@@ -2733,7 +2736,8 @@ EIGEN_STRONG_INLINE void gemv_complex_row(Index rows, Index cols, const LhsMappe
   const Index n2 = rows - 1;
 #endif
 
-  // TODO: for padded aligned inputs, we could enable aligned reads
+  // LhsAlignment stays Unaligned; enabling aligned reads would require
+  // propagating the Mapper's Alignment through the run() template.
   enum {
     LhsAlignment = Unaligned,
     ResPacketSize = PTraits::ResPacketSize,

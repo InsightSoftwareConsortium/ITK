@@ -27,11 +27,11 @@ class VariableAndFixedInt;
  *
  * This class embeds a compile-time integer \c N.
  *
- * It is similar to c++11 std::integral_constant<int,N> but with some additional features
+ * It is similar to std::integral_constant<int,N> but with some additional features
  * such as:
  *  - implicit conversion to int
  *  - arithmetic and some bitwise operators: -, +, *, /, %, &, |
- *  - c++98/14 compatibility with fix<N> and fix<N>() syntax to define integral constants.
+ *  - fix<N> and fix<N>() syntax to define integral constants.
  *
  * It is strongly discouraged to directly deal with this class FixedInt. Instances are expected to
  * be created by the user using Eigen::fix<N> or Eigen::fix<N>().
@@ -144,8 +144,8 @@ template <int N>
 class VariableAndFixedInt {
  public:
   static const int value = N;
-  operator int() const { return m_value; }
-  VariableAndFixedInt(int val) { m_value = val; }
+  constexpr operator int() const { return m_value; }
+  constexpr VariableAndFixedInt(int val) : m_value(val) {}
 
  protected:
   int m_value;
@@ -172,7 +172,7 @@ struct get_fixed_value<variable_if_dynamic<T, N>, Default> {
 };
 
 template <typename T>
-EIGEN_DEVICE_FUNC Index get_runtime_value(const T &x) {
+EIGEN_DEVICE_FUNC constexpr Index get_runtime_value(const T &x) {
   return x;
 }
 

@@ -52,7 +52,7 @@ void SparseLUImpl<Scalar, StorageIndex>::heap_relax_snode(const Index n, IndexVe
   IndexVector post;
   internal::treePostorder(StorageIndex(n), et, post);  // Post order etree
   IndexVector inv_post(n + 1);
-  for (StorageIndex i = 0; i < n + 1; ++i) inv_post(post(i)) = i;  // inv_post = post.inverse()???
+  for (StorageIndex i = 0; i < n + 1; ++i) inv_post(post(i)) = i;  // Compute the inverse postorder permutation.
 
   // Renumber etree in postorder
   IndexVector iwork(n);

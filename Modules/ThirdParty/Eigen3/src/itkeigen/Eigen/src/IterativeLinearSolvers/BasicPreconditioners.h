@@ -86,14 +86,14 @@ class DiagonalPreconditioner {
   }
 
   template <typename Rhs>
-  inline const Solve<DiagonalPreconditioner, Rhs> solve(const MatrixBase<Rhs>& b) const {
+  inline Solve<DiagonalPreconditioner, Rhs> solve(const MatrixBase<Rhs>& b) const {
     eigen_assert(m_isInitialized && "DiagonalPreconditioner is not initialized.");
     eigen_assert(m_invdiag.size() == b.rows() &&
                  "DiagonalPreconditioner::solve(): invalid number of rows of the right hand side matrix b");
     return Solve<DiagonalPreconditioner, Rhs>(*this, b.derived());
   }
 
-  ComputationInfo info() { return Success; }
+  ComputationInfo info() const { return Success; }
 
  protected:
   Vector m_invdiag;
@@ -166,7 +166,7 @@ class LeastSquareDiagonalPreconditioner : public DiagonalPreconditioner<Scalar_>
     return factorize(mat);
   }
 
-  ComputationInfo info() { return Success; }
+  ComputationInfo info() const { return Success; }
 
  protected:
 };
@@ -205,7 +205,7 @@ class IdentityPreconditioner {
     return b;
   }
 
-  ComputationInfo info() { return Success; }
+  ComputationInfo info() const { return Success; }
 };
 
 }  // end namespace Eigen

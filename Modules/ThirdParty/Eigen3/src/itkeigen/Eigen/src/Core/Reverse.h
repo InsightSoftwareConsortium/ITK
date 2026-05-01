@@ -83,7 +83,7 @@ class Reverse : public internal::dense_xpr_base<Reverse<MatrixType, Direction> >
   typedef internal::reverse_packet_cond<PacketScalar, ReversePacket> reverse_packet;
 
  public:
-  EIGEN_DEVICE_FUNC explicit inline Reverse(const MatrixType& matrix) : m_matrix(matrix) {}
+  EIGEN_DEVICE_FUNC constexpr explicit inline Reverse(const MatrixType& matrix) : m_matrix(matrix) {}
 
   EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Reverse)
 
@@ -92,7 +92,7 @@ class Reverse : public internal::dense_xpr_base<Reverse<MatrixType, Direction> >
 
   EIGEN_DEVICE_FUNC inline Index innerStride() const { return -m_matrix.innerStride(); }
 
-  EIGEN_DEVICE_FUNC const internal::remove_all_t<typename MatrixType::Nested>& nestedExpression() const {
+  EIGEN_DEVICE_FUNC constexpr const internal::remove_all_t<typename MatrixType::Nested>& nestedExpression() const {
     return m_matrix;
   }
 

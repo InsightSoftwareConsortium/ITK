@@ -160,7 +160,7 @@ template <typename Derived>
 class RefBase;
 template <typename PlainObjectType, int Options = 0,
           typename StrideType =
-              typename std::conditional_t<PlainObjectType::IsVectorAtCompileTime, InnerStride<1>, OuterStride<>>>
+              std::conditional_t<PlainObjectType::IsVectorAtCompileTime, InnerStride<1>, OuterStride<>>>
 class Ref;
 template <typename ViewOp, typename MatrixType, typename StrideType = Stride<0, 0>>
 class CwiseUnaryView;
@@ -171,6 +171,8 @@ template <typename MatrixType, unsigned int Mode>
 class TriangularView;
 template <typename MatrixType, unsigned int Mode>
 class SelfAdjointView;
+template <typename Derived>
+class RealView;
 template <typename MatrixType>
 class SparseView;
 template <typename ExpressionType>
@@ -397,14 +399,14 @@ template <typename Scalar_, int Rows_, int Cols_,
                                                                    : EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION),
           int MaxRows_ = Rows_, int MaxCols_ = Cols_>
 class Array;
-template <typename ConditionMatrixType, typename ThenMatrixType, typename ElseMatrixType>
-class Select;
 template <typename MatrixType, typename BinaryOp, int Direction>
 class PartialReduxExpr;
 template <typename ExpressionType, int Direction>
 class VectorwiseOp;
 template <typename MatrixType, int RowFactor, int ColFactor>
 class Replicate;
+template <int Direction, typename LhsType, typename RhsType>
+class Concat;
 template <typename MatrixType, int Direction = BothDirections>
 class Reverse;
 
@@ -517,6 +519,9 @@ struct eigen_zero_impl;
 
 template <typename Packet>
 struct has_packet_segment : std::false_type {};
+
+template <typename T>
+struct complex_array_access;
 }  // namespace internal
 
 }  // end namespace Eigen

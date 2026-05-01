@@ -264,7 +264,7 @@ void IncompleteCholesky<Scalar, UpLo_, OrderingType>::factorize(const MatrixType
     else
       m_scale(j) = 1;
 
-  // TODO disable scaling if not needed, i.e., if it is roughly uniform? (this will make solve() faster)
+  // TODO: disable scaling when roughly uniform to speed up solve().
 
   // Scale and compute the shift for the matrix
   RealScalar mindiag = NumTraits<RealScalar>::highest();

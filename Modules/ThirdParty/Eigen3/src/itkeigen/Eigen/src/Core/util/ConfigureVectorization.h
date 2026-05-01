@@ -11,6 +11,18 @@
 #ifndef EIGEN_CONFIGURE_VECTORIZATION_H
 #define EIGEN_CONFIGURE_VECTORIZATION_H
 
+// Prepare for using the generic clang backend if requested.
+#if defined(EIGEN_VECTORIZE_GENERIC) && !defined(EIGEN_DONT_VECTORIZE) && !defined(EIGEN_DONT_ALIGN)
+#if !EIGEN_ARCH_VECTOR_EXTENSIONS
+#error "The compiler does not support clang vector extensions."
+#endif
+#define EIGEN_VECTORIZE
+#ifndef EIGEN_GENERIC_VECTOR_SIZE_BYTES
+#define EIGEN_GENERIC_VECTOR_SIZE_BYTES 64
+#endif
+#define EIGEN_MAX_ALIGN_BYTES EIGEN_GENERIC_VECTOR_SIZE_BYTES
+#endif
+
 //------------------------------------------------------------------------------------------
 // Static and dynamic alignment control
 //
@@ -60,6 +72,9 @@
 #else
 #define EIGEN_IDEAL_MAX_ALIGN_BYTES 0
 #endif
+#elif defined(EIGEN_VECTORIZE_GENERIC)
+// Generic clang backend overrides native SIMD; align to the generic vector size.
+#define EIGEN_IDEAL_MAX_ALIGN_BYTES EIGEN_GENERIC_VECTOR_SIZE_BYTES
 #elif defined(__AVX512F__)
 // 64 bytes static alignment is preferred only if really required
 #define EIGEN_IDEAL_MAX_ALIGN_BYTES 64
@@ -68,6 +83,8 @@
 #define EIGEN_IDEAL_MAX_ALIGN_BYTES 32
 #elif defined __HVX__ && (__HVX_LENGTH__ == 128)
 #define EIGEN_IDEAL_MAX_ALIGN_BYTES 128
+#elif defined(EIGEN_RISCV64_USE_RVV10)
+#define EIGEN_IDEAL_MAX_ALIGN_BYTES 64
 #else
 #define EIGEN_IDEAL_MAX_ALIGN_BYTES 16
 #endif
@@ -104,7 +121,7 @@
 // Only static alignment is really problematic (relies on nonstandard compiler extensions),
 // try to keep heap alignment even when we have to disable static alignment.
 #if EIGEN_COMP_GNUC && !(EIGEN_ARCH_i386_OR_x86_64 || EIGEN_ARCH_ARM_OR_ARM64 || EIGEN_ARCH_PPC || EIGEN_ARCH_IA64 || \
-                         EIGEN_ARCH_MIPS || EIGEN_ARCH_LOONGARCH64)
+                         EIGEN_ARCH_MIPS || EIGEN_ARCH_LOONGARCH64 || EIGEN_ARCH_RISCV)
 #define EIGEN_GCC_AND_ARCH_DOESNT_WANT_STACK_ALIGNMENT 1
 #else
 #define EIGEN_GCC_AND_ARCH_DOESNT_WANT_STACK_ALIGNMENT 0
@@ -200,7 +217,7 @@
 #endif
 #endif
 
-#if !(defined(EIGEN_DONT_VECTORIZE) || defined(EIGEN_GPUCC))
+#if !(defined(EIGEN_DONT_VECTORIZE) || defined(EIGEN_GPUCC) || defined(EIGEN_VECTORIZE_GENERIC))
 
 #if defined(EIGEN_SSE2_ON_NON_MSVC) || defined(EIGEN_SSE2_ON_MSVC_2008_OR_LATER)
 
@@ -228,7 +245,7 @@
 #define EIGEN_VECTORIZE_SSE4_2
 #endif
 #ifdef __AVX__
-#ifndef EIGEN_USE_SYCL
+#if !defined(EIGEN_USE_SYCL) && !EIGEN_COMP_EMSCRIPTEN
 #define EIGEN_VECTORIZE_AVX
 #endif
 #define EIGEN_VECTORIZE_SSE3
@@ -343,7 +360,7 @@
 // notice that since these are C headers, the extern "C" is theoretically needed anyways.
 extern "C" {
 // In theory we should only include immintrin.h and not the other *mmintrin.h header files directly.
-// Doing so triggers some issues with ICC. However old gcc versions seems to not have this file, thus:
+// Doing so triggers some issues with ICC. However old gcc versions may not have this file, thus:
 #if EIGEN_COMP_ICC >= 1110 || EIGEN_COMP_EMSCRIPTEN
 #include <immintrin.h>
 #else
@@ -374,7 +391,7 @@ extern "C" {
 #define EIGEN_VECTORIZE_VSX 1
 #define EIGEN_VECTORIZE_FMA
 #include <altivec.h>
-// We need to #undef all these ugly tokens defined in <altivec.h>
+// We need to #undef macros defined by <altivec.h> that conflict with standard C++ names.
 // => use __vector instead of vector
 #undef bool
 #undef vector
@@ -386,7 +403,7 @@ extern "C" {
 #define EIGEN_VECTORIZE_ALTIVEC
 #define EIGEN_VECTORIZE_FMA
 #include <altivec.h>
-// We need to #undef all these ugly tokens defined in <altivec.h>
+// We need to #undef macros defined by <altivec.h> that conflict with standard C++ names.
 // => use __vector instead of vector
 #undef bool
 #undef vector
@@ -406,13 +423,58 @@ extern "C" {
 #define EIGEN_VECTORIZE_SVE
 #include <arm_sve.h>
 
-// Since we depend on knowing SVE vector lengths at compile-time, we need
-// to ensure a fixed lengths is set
+// Since we depend on knowing SVE vector length at compile-time, we need
+// to ensure a fixed length is set
 #if defined __ARM_FEATURE_SVE_BITS
 #define EIGEN_ARM64_SVE_VL __ARM_FEATURE_SVE_BITS
 #else
 #error "Eigen requires a fixed SVE lector length but EIGEN_ARM64_SVE_VL is not set."
 #endif
+
+#elif EIGEN_ARCH_RISCV
+
+#if defined(__riscv_zfh)
+#define EIGEN_HAS_BUILTIN_FLOAT16
+#endif
+
+// We currently require RVV to be enabled explicitly via EIGEN_RISCV64_USE_RVV and
+// will not select the backend automatically
+#if (defined EIGEN_RISCV64_USE_RVV10)
+
+#define EIGEN_VECTORIZE
+#define EIGEN_VECTORIZE_RVV10
+#include <riscv_vector.h>
+
+// Since we depend on knowing RVV vector length at compile-time, we need
+// to ensure a fixed length is set
+#if defined(__riscv_v_fixed_vlen)
+#define EIGEN_RISCV64_RVV_VL __riscv_v_fixed_vlen
+#if __riscv_v_fixed_vlen >= 256
+#undef EIGEN_GCC_AND_ARCH_DOESNT_WANT_STACK_ALIGNMENT
+#define EIGEN_GCC_AND_ARCH_DOESNT_WANT_STACK_ALIGNMENT 1
+#endif
+#else
+#error "Eigen requires a fixed RVV vector length but -mrvv-vector-bits=zvl is not set."
+#endif
+
+#undef EIGEN_STACK_ALLOCATION_LIMIT
+#define EIGEN_STACK_ALLOCATION_LIMIT 196608
+
+#if defined(__riscv_zvfh) && defined(__riscv_zfh)
+#define EIGEN_VECTORIZE_RVV10FP16
+#elif defined(__riscv_zvfh)
+#if defined(__GNUC__) || defined(__clang__)
+#warning "The Eigen::Half vectorization requires Zfh and Zvfh extensions."
+#elif defined(_MSC_VER)
+#pragma message("The Eigen::Half vectorization requires Zfh and Zvfh extensions.")
+#endif
+#endif
+
+#if defined(__riscv_zvfbfwma)
+#define EIGEN_VECTORIZE_RVV10BF16
+#endif
+
+#endif  // defined(EIGEN_ARCH_RISCV)
 
 #elif (defined __s390x__ && defined __VEC__)
 
@@ -479,12 +541,6 @@ extern "C" {
 #if defined EIGEN_CUDACC
 #define EIGEN_VECTORIZE_GPU
 #include <vector_types.h>
-#if EIGEN_CUDA_SDK_VER >= 70500
-#define EIGEN_HAS_CUDA_FP16
-#endif
-#endif
-
-#if defined(EIGEN_HAS_CUDA_FP16)
 #include <cuda_runtime_api.h>
 #include <cuda_fp16.h>
 #endif
@@ -492,10 +548,16 @@ extern "C" {
 #if defined(EIGEN_HIPCC)
 #define EIGEN_VECTORIZE_GPU
 #include <hip/hip_vector_types.h>
-#define EIGEN_HAS_HIP_FP16
 #include <hip/hip_fp16.h>
 #define EIGEN_HAS_HIP_BF16
 #include <hip/hip_bfloat16.h>
+#endif
+
+#if defined(__riscv)
+// Defines the default LMUL for RISC-V
+#ifndef EIGEN_RISCV64_DEFAULT_LMUL
+#define EIGEN_RISCV64_DEFAULT_LMUL 1
+#endif
 #endif
 
 /** \brief Namespace containing all symbols from the %Eigen library. */
@@ -504,7 +566,7 @@ extern "C" {
 
 namespace Eigen {
 
-inline static const char *SimdInstructionSetsInUse(void) {
+inline static const char* SimdInstructionSetsInUse(void) {
 #if defined(EIGEN_VECTORIZE_AVX512)
   return "AVX512, FMA, AVX2, AVX, SSE, SSE2, SSE3, SSSE3, SSE4.1, SSE4.2";
 #elif defined(EIGEN_VECTORIZE_AVX)

@@ -43,12 +43,12 @@ struct general_matrix_vector_product;
 
 template <typename From, typename To>
 struct get_factor {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE To run(const From& x) { return To(x); }
+  EIGEN_DEVICE_FUNC constexpr static EIGEN_STRONG_INLINE To run(const From& x) { return To(x); }
 };
 
 template <typename Scalar>
 struct get_factor<Scalar, typename NumTraits<Scalar>::Real> {
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE typename NumTraits<Scalar>::Real run(const Scalar& x) {
+  EIGEN_DEVICE_FUNC constexpr static EIGEN_STRONG_INLINE typename NumTraits<Scalar>::Real run(const Scalar& x) {
     return numext::real(x);
   }
 };
@@ -56,9 +56,9 @@ struct get_factor<Scalar, typename NumTraits<Scalar>::Real> {
 template <typename Scalar, typename Index>
 class BlasVectorMapper {
  public:
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE BlasVectorMapper(Scalar* data) : m_data(data) {}
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE BlasVectorMapper(Scalar* data) : m_data(data) {}
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Scalar operator()(Index i) const { return m_data[i]; }
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE Scalar operator()(Index i) const { return m_data[i]; }
   template <typename Packet, int AlignmentType>
   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Packet load(Index i) const {
     return ploadt<Packet, AlignmentType>(m_data + i);
@@ -79,14 +79,14 @@ class BlasLinearMapper;
 template <typename Scalar, typename Index, int AlignmentType>
 class BlasLinearMapper<Scalar, Index, AlignmentType> {
  public:
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE BlasLinearMapper(Scalar* data, Index incr = 1) : m_data(data) {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE BlasLinearMapper(Scalar* data, Index incr = 1) : m_data(data) {
     EIGEN_ONLY_USED_FOR_DEBUG(incr);
     eigen_assert(incr == 1);
   }
 
   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void prefetch(Index i) const { internal::prefetch(&operator()(i)); }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Scalar& operator()(Index i) const { return m_data[i]; }
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE Scalar& operator()(Index i) const { return m_data[i]; }
 
   template <typename PacketType>
   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE PacketType loadPacket(Index i) const {
@@ -178,27 +178,27 @@ class blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, 1> {
   typedef blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType> SubMapper;
   typedef BlasVectorMapper<Scalar, Index> VectorMapper;
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE blas_data_mapper(Scalar* data, Index stride, Index incr = 1)
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE blas_data_mapper(Scalar* data, Index stride, Index incr = 1)
       : m_data(data), m_stride(stride) {
     EIGEN_ONLY_USED_FOR_DEBUG(incr);
     eigen_assert(incr == 1);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE SubMapper getSubMapper(Index i, Index j) const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE SubMapper getSubMapper(Index i, Index j) const {
     return SubMapper(&operator()(i, j), m_stride);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE LinearMapper getLinearMapper(Index i, Index j) const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE LinearMapper getLinearMapper(Index i, Index j) const {
     return LinearMapper(&operator()(i, j));
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE VectorMapper getVectorMapper(Index i, Index j) const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE VectorMapper getVectorMapper(Index i, Index j) const {
     return VectorMapper(&operator()(i, j));
   }
 
   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void prefetch(Index i, Index j) const { internal::prefetch(&operator()(i, j)); }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Scalar& operator()(Index i, Index j) const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE Scalar& operator()(Index i, Index j) const {
     return m_data[StorageOrder == RowMajor ? j + i * m_stride : i + j * m_stride];
   }
 
@@ -239,8 +239,8 @@ class blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, 1> {
     return pgather<Scalar, SubPacket>(&operator()(i, j), m_stride);
   }
 
-  EIGEN_DEVICE_FUNC const Index stride() const { return m_stride; }
-  EIGEN_DEVICE_FUNC const Index incr() const { return 1; }
+  EIGEN_DEVICE_FUNC constexpr const Index stride() const { return m_stride; }
+  EIGEN_DEVICE_FUNC constexpr const Index incr() const { return 1; }
   EIGEN_DEVICE_FUNC constexpr const Scalar* data() const { return m_data; }
 
   EIGEN_DEVICE_FUNC Index firstAligned(Index size) const {
@@ -268,11 +268,14 @@ class blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, 1> {
 template <typename Scalar, typename Index, int AlignmentType, int Incr>
 class BlasLinearMapper {
  public:
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE BlasLinearMapper(Scalar* data, Index incr) : m_data(data), m_incr(incr) {}
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE BlasLinearMapper(Scalar* data, Index incr)
+      : m_data(data), m_incr(incr) {}
 
   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void prefetch(int i) const { internal::prefetch(&operator()(i)); }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Scalar& operator()(Index i) const { return m_data[i * m_incr.value()]; }
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE Scalar& operator()(Index i) const {
+    return m_data[i * m_incr.value()];
+  }
 
   template <typename PacketType>
   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE PacketType loadPacket(Index i) const {
@@ -306,20 +309,20 @@ class blas_data_mapper {
   typedef BlasLinearMapper<Scalar, Index, AlignmentType, Incr> LinearMapper;
   typedef blas_data_mapper SubMapper;
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE blas_data_mapper(Scalar* data, Index stride, Index incr)
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE blas_data_mapper(Scalar* data, Index stride, Index incr)
       : m_data(data), m_stride(stride), m_incr(incr) {}
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE SubMapper getSubMapper(Index i, Index j) const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE SubMapper getSubMapper(Index i, Index j) const {
     return SubMapper(&operator()(i, j), m_stride, m_incr.value());
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE LinearMapper getLinearMapper(Index i, Index j) const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE LinearMapper getLinearMapper(Index i, Index j) const {
     return LinearMapper(&operator()(i, j), m_incr.value());
   }
 
   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void prefetch(Index i, Index j) const { internal::prefetch(&operator()(i, j)); }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Scalar& operator()(Index i, Index j) const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE Scalar& operator()(Index i, Index j) const {
     return m_data[StorageOrder == RowMajor ? j * m_incr.value() + i * m_stride : i * m_incr.value() + j * m_stride];
   }
 
@@ -428,8 +431,8 @@ class blas_data_mapper {
     spb.store(this, i, j, block);
   }
 
-  EIGEN_DEVICE_FUNC const Index stride() const { return m_stride; }
-  EIGEN_DEVICE_FUNC const Index incr() const { return m_incr.value(); }
+  EIGEN_DEVICE_FUNC constexpr const Index stride() const { return m_stride; }
+  EIGEN_DEVICE_FUNC constexpr const Index incr() const { return m_incr.value(); }
   EIGEN_DEVICE_FUNC constexpr Scalar* data() const { return m_data; }
 
  protected:
@@ -567,18 +570,18 @@ struct blas_traits<const T> : blas_traits<T> {};
 
 template <typename T, bool HasUsableDirectAccess = blas_traits<T>::HasUsableDirectAccess>
 struct extract_data_selector {
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE static const typename T::Scalar* run(const T& m) {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE static const typename T::Scalar* run(const T& m) {
     return blas_traits<T>::extract(m).data();
   }
 };
 
 template <typename T>
 struct extract_data_selector<T, false> {
-  EIGEN_DEVICE_FUNC static typename T::Scalar* run(const T&) { return 0; }
+  EIGEN_DEVICE_FUNC constexpr static typename T::Scalar* run(const T&) { return 0; }
 };
 
 template <typename T>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE const typename T::Scalar* extract_data(const T& m) {
+EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE const typename T::Scalar* extract_data(const T& m) {
   return extract_data_selector<T>::run(m);
 }
 
@@ -588,30 +591,31 @@ EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE const typename T::Scalar* extract_data(con
  */
 template <typename ResScalar, typename Lhs, typename Rhs>
 struct combine_scalar_factors_impl {
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE static ResScalar run(const Lhs& lhs, const Rhs& rhs) {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE static ResScalar run(const Lhs& lhs, const Rhs& rhs) {
     return blas_traits<Lhs>::extractScalarFactor(lhs) * blas_traits<Rhs>::extractScalarFactor(rhs);
   }
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE static ResScalar run(const ResScalar& alpha, const Lhs& lhs, const Rhs& rhs) {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE static ResScalar run(const ResScalar& alpha, const Lhs& lhs,
+                                                                       const Rhs& rhs) {
     return alpha * blas_traits<Lhs>::extractScalarFactor(lhs) * blas_traits<Rhs>::extractScalarFactor(rhs);
   }
 };
 template <typename Lhs, typename Rhs>
 struct combine_scalar_factors_impl<bool, Lhs, Rhs> {
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE static bool run(const Lhs& lhs, const Rhs& rhs) {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE static bool run(const Lhs& lhs, const Rhs& rhs) {
     return blas_traits<Lhs>::extractScalarFactor(lhs) && blas_traits<Rhs>::extractScalarFactor(rhs);
   }
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE static bool run(const bool& alpha, const Lhs& lhs, const Rhs& rhs) {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE static bool run(const bool& alpha, const Lhs& lhs, const Rhs& rhs) {
     return alpha && blas_traits<Lhs>::extractScalarFactor(lhs) && blas_traits<Rhs>::extractScalarFactor(rhs);
   }
 };
 
 template <typename ResScalar, typename Lhs, typename Rhs>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE ResScalar combine_scalar_factors(const ResScalar& alpha, const Lhs& lhs,
-                                                                       const Rhs& rhs) {
+EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE ResScalar combine_scalar_factors(const ResScalar& alpha, const Lhs& lhs,
+                                                                                 const Rhs& rhs) {
   return combine_scalar_factors_impl<ResScalar, Lhs, Rhs>::run(alpha, lhs, rhs);
 }
 template <typename ResScalar, typename Lhs, typename Rhs>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE ResScalar combine_scalar_factors(const Lhs& lhs, const Rhs& rhs) {
+EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE ResScalar combine_scalar_factors(const Lhs& lhs, const Rhs& rhs) {
   return combine_scalar_factors_impl<ResScalar, Lhs, Rhs>::run(lhs, rhs);
 }
 

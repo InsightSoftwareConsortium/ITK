@@ -57,7 +57,7 @@ class RunQueue {
     Elem* e = &array_[front & kMask];
     uint8_t s = e->state.load(std::memory_order_relaxed);
     if (s != kEmpty || !e->state.compare_exchange_strong(s, kBusy, std::memory_order_acquire)) return w;
-    front_.store(front + 1 + (kSize << 1), std::memory_order_relaxed);
+    front_.store(front + 1 + (kSize << 1), std::memory_order_release);
     e->w = std::move(w);
     e->state.store(kReady, std::memory_order_release);
     return Work();
@@ -73,7 +73,7 @@ class RunQueue {
     Work w = std::move(e->w);
     e->state.store(kEmpty, std::memory_order_release);
     front = ((front - 1) & kMask2) | (front & ~kMask2);
-    front_.store(front, std::memory_order_relaxed);
+    front_.store(front, std::memory_order_release);
     return w;
   }
 
@@ -86,7 +86,7 @@ class RunQueue {
     uint8_t s = e->state.load(std::memory_order_relaxed);
     if (s != kEmpty || !e->state.compare_exchange_strong(s, kBusy, std::memory_order_acquire)) return w;
     back = ((back - 1) & kMask2) | (back & ~kMask2);
-    back_.store(back, std::memory_order_relaxed);
+    back_.store(back, std::memory_order_release);
     e->w = std::move(w);
     e->state.store(kReady, std::memory_order_release);
     return Work();
@@ -102,7 +102,7 @@ class RunQueue {
     if (s != kReady || !e->state.compare_exchange_strong(s, kBusy, std::memory_order_acquire)) return Work();
     Work w = std::move(e->w);
     e->state.store(kEmpty, std::memory_order_release);
-    back_.store(back + 1 + (kSize << 1), std::memory_order_relaxed);
+    back_.store(back + 1 + (kSize << 1), std::memory_order_release);
     return w;
   }
 
@@ -132,7 +132,7 @@ class RunQueue {
       e->state.store(kEmpty, std::memory_order_release);
       n++;
     }
-    if (n != 0) back_.store(start + 1 + (kSize << 1), std::memory_order_relaxed);
+    if (n != 0) back_.store(start + 1 + (kSize << 1), std::memory_order_release);
     return n;
   }
 

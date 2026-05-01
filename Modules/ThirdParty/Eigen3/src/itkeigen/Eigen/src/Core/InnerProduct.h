@@ -142,30 +142,35 @@ struct inner_product_impl<Evaluator, true> {
     const UnsignedIndex numPackets = size / PacketSize;
     const UnsignedIndex numRemPackets = (packetEnd - quadEnd) / PacketSize;
 
-    Packet presult0, presult1, presult2, presult3;
+    Packet presult0 = eval.template packet<Packet>(0 * PacketSize);
+    if (numPackets >= 2) {
+      Packet presult1 = eval.template packet<Packet>(1 * PacketSize);
+      if (numPackets >= 3) {
+        Packet presult2 = eval.template packet<Packet>(2 * PacketSize);
+        if (numPackets >= 4) {
+          Packet presult3 = eval.template packet<Packet>(3 * PacketSize);
 
-    presult0 = eval.template packet<Packet>(0 * PacketSize);
-    if (numPackets >= 2) presult1 = eval.template packet<Packet>(1 * PacketSize);
-    if (numPackets >= 3) presult2 = eval.template packet<Packet>(2 * PacketSize);
-    if (numPackets >= 4) {
-      presult3 = eval.template packet<Packet>(3 * PacketSize);
+          for (UnsignedIndex k = 4 * PacketSize; k < quadEnd; k += 4 * PacketSize) {
+            presult0 = eval.packet(presult0, k + 0 * PacketSize);
+            presult1 = eval.packet(presult1, k + 1 * PacketSize);
+            presult2 = eval.packet(presult2, k + 2 * PacketSize);
+            presult3 = eval.packet(presult3, k + 3 * PacketSize);
+          }
 
-      for (UnsignedIndex k = 4 * PacketSize; k < quadEnd; k += 4 * PacketSize) {
-        presult0 = eval.packet(presult0, k + 0 * PacketSize);
-        presult1 = eval.packet(presult1, k + 1 * PacketSize);
-        presult2 = eval.packet(presult2, k + 2 * PacketSize);
-        presult3 = eval.packet(presult3, k + 3 * PacketSize);
+          if (numRemPackets >= 1) {
+            presult0 = eval.packet(presult0, quadEnd + 0 * PacketSize);
+            if (numRemPackets >= 2) {
+              presult1 = eval.packet(presult1, quadEnd + 1 * PacketSize);
+              if (numRemPackets == 3) presult2 = eval.packet(presult2, quadEnd + 2 * PacketSize);
+            }
+          }
+
+          presult2 = padd(presult2, presult3);
+        }
+        presult1 = padd(presult1, presult2);
       }
-
-      if (numRemPackets >= 1) presult0 = eval.packet(presult0, quadEnd + 0 * PacketSize);
-      if (numRemPackets >= 2) presult1 = eval.packet(presult1, quadEnd + 1 * PacketSize);
-      if (numRemPackets == 3) presult2 = eval.packet(presult2, quadEnd + 2 * PacketSize);
-
-      presult2 = padd(presult2, presult3);
+      presult0 = padd(presult0, presult1);
     }
-
-    if (numPackets >= 3) presult1 = padd(presult1, presult2);
-    if (numPackets >= 2) presult0 = padd(presult0, presult1);
 
     Scalar result = predux(presult0);
     for (UnsignedIndex k = packetEnd; k < size; k++) {
@@ -211,8 +216,14 @@ struct scalar_inner_product_op {
   static constexpr bool PacketAccess = false;
 };
 
+// Partial specialization for packet access if and only if
+// LhsScalar == RhsScalar == ScalarBinaryOpTraits<LhsScalar, RhsScalar>::ReturnType.
 template <typename Scalar, bool Conj>
-struct scalar_inner_product_op<Scalar, Scalar, Conj> {
+struct scalar_inner_product_op<
+    Scalar,
+    std::enable_if_t<internal::is_same<typename ScalarBinaryOpTraits<Scalar, Scalar>::ReturnType, Scalar>::value,
+                     Scalar>,
+    Conj> {
   using result_type = Scalar;
   using conj_helper = conditional_conj<Scalar, Conj>;
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar coeff(const Scalar& a, const Scalar& b) const {

@@ -49,12 +49,12 @@ class Inverse : public InverseImpl<XprType, typename internal::traits<XprType>::
   typedef typename internal::ref_selector<Inverse>::type Nested;
   typedef internal::remove_all_t<XprType> NestedExpression;
 
-  explicit EIGEN_DEVICE_FUNC Inverse(const XprType& xpr) : m_xpr(xpr) {}
+  explicit EIGEN_DEVICE_FUNC constexpr Inverse(const XprType& xpr) : m_xpr(xpr) {}
 
   EIGEN_DEVICE_FUNC constexpr Index rows() const noexcept { return m_xpr.cols(); }
   EIGEN_DEVICE_FUNC constexpr Index cols() const noexcept { return m_xpr.rows(); }
 
-  EIGEN_DEVICE_FUNC const XprTypeNestedCleaned& nestedExpression() const { return m_xpr; }
+  EIGEN_DEVICE_FUNC constexpr const XprTypeNestedCleaned& nestedExpression() const { return m_xpr; }
 
  protected:
   XprTypeNested m_xpr;

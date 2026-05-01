@@ -31,7 +31,7 @@ template <typename XprType>
 struct CommaInitializer {
   typedef typename XprType::Scalar Scalar;
 
-  EIGEN_DEVICE_FUNC inline CommaInitializer(XprType& xpr, const Scalar& s)
+  EIGEN_DEVICE_FUNC constexpr CommaInitializer(XprType& xpr, const Scalar& s)
       : m_xpr(xpr), m_row(0), m_col(1), m_currentBlockRows(1) {
     eigen_assert(m_xpr.rows() > 0 && m_xpr.cols() > 0 && "Cannot comma-initialize a 0x0 matrix (operator<<)");
     m_xpr.coeffRef(0, 0) = s;
@@ -48,7 +48,6 @@ struct CommaInitializer {
 
   /* Copy/Move constructor which transfers ownership. This is crucial in
    * absence of return value optimization to avoid assertions during destruction. */
-  // FIXME in C++11 mode this could be replaced by a proper RValue constructor
   EIGEN_DEVICE_FUNC inline CommaInitializer(const CommaInitializer& o)
       : m_xpr(o.m_xpr), m_row(o.m_row), m_col(o.m_col), m_currentBlockRows(o.m_currentBlockRows) {
     // Mark original object as finished. In absence of R-value references we need to const_cast:

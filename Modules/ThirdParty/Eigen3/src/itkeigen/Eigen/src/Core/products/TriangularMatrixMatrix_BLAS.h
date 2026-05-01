@@ -318,6 +318,10 @@ EIGEN_BLAS_TRMM_R(dcomplex, double, cd, ztrmm_)
 EIGEN_BLAS_TRMM_R(float, float, f, strmm_)
 EIGEN_BLAS_TRMM_R(scomplex, float, cf, ctrmm_)
 #endif
+
+#undef EIGEN_BLAS_TRMM_SPECIALIZE
+#undef EIGEN_BLAS_TRMM_L
+#undef EIGEN_BLAS_TRMM_R
 }  // end namespace internal
 
 }  // end namespace Eigen

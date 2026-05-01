@@ -37,7 +37,7 @@ namespace Eigen {
  * For proper Euler angle configurations (a0 == a2), the returned angles are in the ranges [-pi:pi]x[0:pi]x[-pi:pi].
  *
  * The approach used is also described here:
- * https://d3cw3dd2w32x2b.cloudfront.net/wp-content/uploads/2012/07/euler-angles.pdf
+ * https://web.archive.org/web/20240715191429/https://d3cw3dd2w32x2b.cloudfront.net/wp-content/uploads/2012/07/euler-angles.pdf
  *
  * \sa class AngleAxis
  */
@@ -91,8 +91,26 @@ EIGEN_DEVICE_FUNC inline Matrix<typename MatrixBase<Derived>::Scalar, 3, 1> Matr
     //
     //  Thus:  m11.c1 - m21.s1 = c3  &   m12.c1 - m22.s1 = s3
 
-    Scalar s1 = numext::sin(res[0]);
-    Scalar c1 = numext::cos(res[0]);
+    // Recover sin(res[0]) and cos(res[0]) from the atan2 arguments directly,
+    // avoiding a redundant sin+cos evaluation. s2 = hypot(coeff(j,i), coeff(k,i))
+    // is the norm of the atan2 arguments (with sign adjustment for !odd).
+    Scalar s1, c1;
+    if (s2 > NumTraits<Scalar>::epsilon()) {
+      Scalar inv_s2 = Scalar(1) / s2;
+      if (odd) {
+        // res[0] = atan2(coeff(j,i), coeff(k,i))
+        s1 = coeff(j, i) * inv_s2;
+        c1 = coeff(k, i) * inv_s2;
+      } else {
+        // res[0] = atan2(-coeff(j,i), -coeff(k,i))
+        s1 = -coeff(j, i) * inv_s2;
+        c1 = -coeff(k, i) * inv_s2;
+      }
+    } else {
+      // Gimbal lock (s2 ≈ 0): recover sin/cos from the computed angle.
+      s1 = numext::sin(res[0]);
+      c1 = numext::cos(res[0]);
+    }
     res[2] = numext::atan2(c1 * coeff(j, k) - s1 * coeff(k, k), c1 * coeff(j, j) - s1 * coeff(k, j));
   } else {
     // Tait-Bryan angles (all three axes are different; typically used for yaw-pitch-roll calculations).
@@ -102,6 +120,11 @@ EIGEN_DEVICE_FUNC inline Matrix<typename MatrixBase<Derived>::Scalar, 3, 1> Matr
     //  c2s3    s2s1s3 + c1c3     s2c1s3 - s1c3
     // -s2      c2s1              c2c1
 
+    // Recover sin(res[0]) and cos(res[0]) from the atan2 arguments directly:
+    //   res[0] = atan2(coeff(j,k), coeff(k,k))
+    //   sin(res[0]) = coeff(j,k) / hypot(coeff(j,k), coeff(k,k))
+    //   cos(res[0]) = coeff(k,k) / hypot(coeff(j,k), coeff(k,k))
+    Scalar n1 = numext::hypot(coeff(j, k), coeff(k, k));
     res[0] = numext::atan2(coeff(j, k), coeff(k, k));
 
     Scalar c2 = numext::hypot(coeff(i, i), coeff(i, j));
@@ -109,8 +132,17 @@ EIGEN_DEVICE_FUNC inline Matrix<typename MatrixBase<Derived>::Scalar, 3, 1> Matr
     // range [-pi/2, pi/2]
     res[1] = numext::atan2(-coeff(i, k), c2);
 
-    Scalar s1 = numext::sin(res[0]);
-    Scalar c1 = numext::cos(res[0]);
+    Scalar s1, c1;
+    if (n1 > NumTraits<Scalar>::epsilon()) {
+      Scalar inv_n1 = Scalar(1) / n1;
+      s1 = coeff(j, k) * inv_n1;
+      c1 = coeff(k, k) * inv_n1;
+    } else {
+      // Gimbal lock: coeff(j,k) and coeff(k,k) are both near zero.
+      // Fall back to sin/cos of the computed angle.
+      s1 = numext::sin(res[0]);
+      c1 = numext::cos(res[0]);
+    }
     res[2] = numext::atan2(s1 * coeff(k, i) - c1 * coeff(j, i), c1 * coeff(j, j) - s1 * coeff(k, j));
   }
   if (!odd) {
@@ -133,8 +165,8 @@ EIGEN_DEVICE_FUNC inline Matrix<typename MatrixBase<Derived>::Scalar, 3, 1> Matr
  * \sa class AngleAxis
  */
 template <typename Derived>
-EIGEN_DEPRECATED EIGEN_DEVICE_FUNC inline Matrix<typename MatrixBase<Derived>::Scalar, 3, 1>
-MatrixBase<Derived>::eulerAngles(Index a0, Index a1, Index a2) const {
+EIGEN_DEVICE_FUNC inline Matrix<typename MatrixBase<Derived>::Scalar, 3, 1> MatrixBase<Derived>::eulerAngles(
+    Index a0, Index a1, Index a2) const {
   /* Implemented from Graphics Gems IV */
   EIGEN_STATIC_ASSERT_MATRIX_SPECIFIC_SIZE(Derived, 3, 3)
 

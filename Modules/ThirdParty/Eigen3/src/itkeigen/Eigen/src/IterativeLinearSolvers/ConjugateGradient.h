@@ -150,6 +150,7 @@ struct traits<ConjugateGradient<MatrixType_, UpLo_, Preconditioner_> > {
   */
 template <typename MatrixType_, int UpLo_, typename Preconditioner_>
 class ConjugateGradient : public IterativeSolverBase<ConjugateGradient<MatrixType_, UpLo_, Preconditioner_> > {
+ protected:
   typedef IterativeSolverBase<ConjugateGradient> Base;
   using Base::m_error;
   using Base::m_info;

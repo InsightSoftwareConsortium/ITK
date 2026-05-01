@@ -125,11 +125,29 @@ struct SymbolicExpressionEvaluator<FixedInt<N>, SizeAtCompileTime, void> {
 // Handling of generic indices (e.g. array)
 //--------------------------------------------------------------------------------
 
+// Detect Eigen expression types that are not plain objects (Matrix/Array).
+// These types may hold internal references to temporaries and must be evaluated before storing.
+template <typename T, typename = void>
+struct is_eigen_index_expression : std::false_type {};
+
+template <typename T>
+struct is_eigen_index_expression<T, std::enable_if_t<!std::is_same<T, typename T::PlainObject>::value>>
+    : std::true_type {};
+
 // Potentially wrap indices in a type that is better-suited for IndexedView evaluation.
 template <typename Indices, int NestedSizeAtCompileTime, typename EnableIf = void>
 struct IndexedViewHelperIndicesWrapper {
   using type = Indices;
   static const type& CreateIndexSequence(const Indices& indices, Index /*nested_size*/) { return indices; }
+};
+
+// Specialization for Eigen expression types (Reshaped, Block, CwiseOp, etc.) used as indices.
+// These may hold dangling references to temporaries if not evaluated.
+template <typename Indices, int NestedSizeAtCompileTime>
+struct IndexedViewHelperIndicesWrapper<Indices, NestedSizeAtCompileTime,
+                                       std::enable_if_t<is_eigen_index_expression<Indices>::value>> {
+  using type = typename Indices::PlainObject;
+  static type CreateIndexSequence(const Indices& indices, Index /*nested_size*/) { return indices.eval(); }
 };
 
 // Extract compile-time and runtime first, size, increments.
@@ -155,16 +173,16 @@ class ArithmeticSequenceRange {
   static constexpr Index SizeAtCompileTime = SizeAtCompileTime_;
   static constexpr Index IncrAtCompileTime = IncrAtCompileTime_;
 
-  constexpr ArithmeticSequenceRange(Index first, Index size, Index incr) : first_{first}, size_{size}, incr_{incr} {}
+  constexpr ArithmeticSequenceRange(Index first, Index size, Index incr) : m_first{first}, m_size{size}, m_incr{incr} {}
   constexpr Index operator[](Index i) const { return first() + i * incr(); }
-  constexpr Index first() const noexcept { return first_.value(); }
-  constexpr Index size() const noexcept { return size_.value(); }
-  constexpr Index incr() const noexcept { return incr_.value(); }
+  constexpr Index first() const noexcept { return m_first.value(); }
+  constexpr Index size() const noexcept { return m_size.value(); }
+  constexpr Index incr() const noexcept { return m_incr.value(); }
 
  private:
-  variable_if_dynamicindex<Index, int(FirstAtCompileTime)> first_;
-  variable_if_dynamic<Index, int(SizeAtCompileTime)> size_;
-  variable_if_dynamicindex<Index, int(IncrAtCompileTime)> incr_;
+  variable_if_dynamicindex<Index, int(FirstAtCompileTime)> m_first;
+  variable_if_dynamic<Index, int(SizeAtCompileTime)> m_size;
+  variable_if_dynamicindex<Index, int(IncrAtCompileTime)> m_incr;
 };
 
 template <typename FirstType, typename SizeType, typename IncrType, int NestedSizeAtCompileTime>
@@ -221,14 +239,14 @@ class SingleRange {
   static constexpr Index SizeAtCompileTime = Index(1);
   static constexpr Index IncrAtCompileTime = Index(1);  // Needs to be 1 to be treated as block-like.
 
-  constexpr SingleRange(Index v) noexcept : value_(v) {}
+  constexpr SingleRange(Index v) noexcept : m_value(v) {}
   constexpr Index operator[](Index) const noexcept { return first(); }
-  constexpr Index first() const noexcept { return value_.value(); }
+  constexpr Index first() const noexcept { return m_value.value(); }
   constexpr Index size() const noexcept { return SizeAtCompileTime; }
   constexpr Index incr() const noexcept { return IncrAtCompileTime; }
 
  private:
-  variable_if_dynamicindex<Index, int(ValueAtCompileTime)> value_;
+  variable_if_dynamicindex<Index, int(ValueAtCompileTime)> m_value;
 };
 
 template <typename T>
@@ -280,14 +298,14 @@ class AllRange {
   static constexpr Index FirstAtCompileTime = Index(0);
   static constexpr Index SizeAtCompileTime = SizeAtCompileTime_;
   static constexpr Index IncrAtCompileTime = Index(1);
-  constexpr AllRange(Index size) : size_(size) {}
+  constexpr AllRange(Index size) : m_size(size) {}
   constexpr Index operator[](Index i) const noexcept { return i; }
   constexpr Index first() const noexcept { return FirstAtCompileTime; }
-  constexpr Index size() const noexcept { return size_.value(); }
+  constexpr Index size() const noexcept { return m_size.value(); }
   constexpr Index incr() const noexcept { return IncrAtCompileTime; }
 
  private:
-  variable_if_dynamic<Index, int(SizeAtCompileTime)> size_;
+  variable_if_dynamic<Index, int(SizeAtCompileTime)> m_size;
 };
 
 template <int NestedSizeAtCompileTime>
@@ -416,9 +434,8 @@ struct VectorIndexedViewSelector<
   using ColMajorReturnType = IndexedView<Derived, IvcType<Indices, Derived::SizeAtCompileTime>, ZeroIndex>;
   using ConstColMajorReturnType = IndexedView<const Derived, IvcType<Indices, Derived::SizeAtCompileTime>, ZeroIndex>;
 
-  using ReturnType = typename internal::conditional<IsRowMajor, RowMajorReturnType, ColMajorReturnType>::type;
-  using ConstReturnType =
-      typename internal::conditional<IsRowMajor, ConstRowMajorReturnType, ConstColMajorReturnType>::type;
+  using ReturnType = std::conditional_t<IsRowMajor, RowMajorReturnType, ColMajorReturnType>;
+  using ConstReturnType = std::conditional_t<IsRowMajor, ConstRowMajorReturnType, ConstColMajorReturnType>;
 
   template <bool UseRowMajor = IsRowMajor, std::enable_if_t<UseRowMajor, bool> = true>
   static inline RowMajorReturnType run(Derived& derived, const Indices& indices) {

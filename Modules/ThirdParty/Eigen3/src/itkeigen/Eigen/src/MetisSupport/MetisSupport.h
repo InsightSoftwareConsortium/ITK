@@ -38,7 +38,7 @@ class MetisOrdering {
     IndexVector visited(m);
     visited.setConstant(-1);
     for (StorageIndex j = 0; j < m; j++) {
-      // Compute the union structure of of A(j,:) and At(j,:)
+      // Compute the union structure of A(j,:) and At(j,:)
       visited(j) = j;  // Do not include the diagonal element
       // Get the nonzeros in row/column j of A
       for (typename MatrixType::InnerIterator it(A, j); it; ++it) {

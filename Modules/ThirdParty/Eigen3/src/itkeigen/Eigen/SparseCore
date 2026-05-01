@@ -12,11 +12,7 @@
 
 #include "src/Core/util/DisableStupidWarnings.h"
 
-#include <vector>
 #include <map>
-#include <cstdlib>
-#include <cstring>
-#include <algorithm>
 #include <numeric>
 
 /**

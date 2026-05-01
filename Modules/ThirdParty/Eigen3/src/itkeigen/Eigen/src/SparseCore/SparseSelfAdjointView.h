@@ -64,6 +64,8 @@ class SparseSelfAdjointView : public EigenBase<SparseSelfAdjointView<MatrixType,
   typedef Matrix<StorageIndex, Dynamic, 1> VectorI;
   typedef typename internal::ref_selector<MatrixType>::non_const_type MatrixTypeNested;
   typedef internal::remove_all_t<MatrixTypeNested> MatrixTypeNested_;
+  typedef SparseMatrix<Scalar, (MatrixTypeNested_::Flags & RowMajorBit) ? RowMajor : ColMajor, StorageIndex>
+      PlainObject;
 
   explicit inline SparseSelfAdjointView(MatrixType& matrix) : m_matrix(matrix) {
     eigen_assert(rows() == cols() && "SelfAdjointView is only for squared matrices");
@@ -114,6 +116,16 @@ class SparseSelfAdjointView : public EigenBase<SparseSelfAdjointView<MatrixType,
     return Product<OtherDerived, SparseSelfAdjointView>(lhs.derived(), rhs);
   }
 
+  // Scalar multiplication intentionally materializes the full matrix, unlike dense SelfAdjointView's lazy wrapper,
+  // matching the existing SparseSelfAdjointView products.
+  PlainObject operator*(const Scalar& s) const { return s * *this; }
+
+  friend PlainObject operator*(const Scalar& s, const SparseSelfAdjointView& mat) {
+    PlainObject res(mat);
+    res *= s;
+    return res;
+  }
+
   /** Perform a symmetric rank K update of the selfadjoint matrix \c *this:
    * \f$ this = this + \alpha ( u u^* ) \f$ where \a u is a vector or matrix.
    *
@@ -126,7 +138,7 @@ class SparseSelfAdjointView : public EigenBase<SparseSelfAdjointView<MatrixType,
   SparseSelfAdjointView& rankUpdate(const SparseMatrixBase<DerivedU>& u, const Scalar& alpha = Scalar(1));
 
   /** \returns an expression of P H P^-1 */
-  // TODO implement twists in a more evaluator friendly fashion
+  // TODO: implement twists in a more evaluator friendly fashion
   SparseSymmetricPermutationProduct<MatrixTypeNested_, Mode> twistedBy(
       const PermutationMatrix<Dynamic, Dynamic, StorageIndex>& perm) const {
     return SparseSymmetricPermutationProduct<MatrixTypeNested_, Mode>(m_matrix, perm);
@@ -161,8 +173,7 @@ class SparseSelfAdjointView : public EigenBase<SparseSelfAdjointView<MatrixType,
 
  protected:
   MatrixTypeNested m_matrix;
-  // mutable VectorI m_countPerRow;
-  // mutable VectorI m_countPerCol;
+
  private:
   template <typename Dest>
   void evalTo(Dest&) const;
@@ -205,7 +216,7 @@ SparseSelfAdjointView<MatrixType, Mode>& SparseSelfAdjointView<MatrixType, Mode>
 
 namespace internal {
 
-// TODO currently a selfadjoint expression has the form SelfAdjointView<.,.>
+// TODO: currently a selfadjoint expression has the form SelfAdjointView<.,.>
 //      in the future selfadjoint-ness should be defined by the expression traits
 //      such that Transpose<SelfAdjointView<.,.> > is valid. (currently TriangularBase::transpose() is overloaded to
 //      make it work)

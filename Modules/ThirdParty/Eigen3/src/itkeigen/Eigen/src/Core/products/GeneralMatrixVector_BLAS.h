@@ -132,6 +132,8 @@ EIGEN_BLAS_GEMV_SPECIALIZATION(dcomplex, double, zgemv_)
 EIGEN_BLAS_GEMV_SPECIALIZATION(scomplex, float, cgemv_)
 #endif
 
+#undef EIGEN_BLAS_GEMV_SPECIALIZE
+#undef EIGEN_BLAS_GEMV_SPECIALIZATION
 }  // namespace internal
 
 }  // end namespace Eigen
