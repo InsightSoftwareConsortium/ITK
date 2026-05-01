@@ -246,4 +246,4 @@ inline const Product<Inverse<PermutationType>, SparseDerived, AliasFreeProduct> 
 
 }  // end namespace Eigen
 
-#endif  // EIGEN_SPARSE_SELFADJOINTVIEW_H
+#endif  // EIGEN_SPARSE_PERMUTATION_H

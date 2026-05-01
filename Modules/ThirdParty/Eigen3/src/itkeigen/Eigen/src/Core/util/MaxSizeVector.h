@@ -34,104 +34,103 @@ class MaxSizeVector {
  public:
   // Construct a new MaxSizeVector, reserve n elements.
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit MaxSizeVector(size_t n)
-      : reserve_(n), size_(0), data_(static_cast<T*>(internal::handmade_aligned_malloc(n * sizeof(T), alignment))) {}
+      : m_reserve(n), m_size(0), m_data(static_cast<T*>(internal::handmade_aligned_malloc(n * sizeof(T), alignment))) {}
 
   // Construct a new MaxSizeVector, reserve and resize to n.
   // Copy the init value to all elements.
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE MaxSizeVector(size_t n, const T& init)
-      : reserve_(n), size_(n), data_(static_cast<T*>(internal::handmade_aligned_malloc(n * sizeof(T), alignment))) {
+      : m_reserve(n), m_size(n), m_data(static_cast<T*>(internal::handmade_aligned_malloc(n * sizeof(T), alignment))) {
     size_t i = 0;
     EIGEN_TRY {
-      for (; i < size_; ++i) {
-        new (&data_[i]) T(init);
+      for (; i < m_size; ++i) {
+        new (&m_data[i]) T(init);
       }
     }
     EIGEN_CATCH(...) {
       // Construction failed, destruct in reverse order:
       for (; (i + 1) > 0; --i) {
-        data_[i - 1].~T();
+        m_data[i - 1].~T();
       }
-      internal::handmade_aligned_free(data_);
+      internal::handmade_aligned_free(m_data);
       EIGEN_THROW;
     }
   }
 
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE ~MaxSizeVector() {
-    for (size_t i = size_; i > 0; --i) {
-      data_[i - 1].~T();
+    for (size_t i = m_size; i > 0; --i) {
+      m_data[i - 1].~T();
     }
-    internal::handmade_aligned_free(data_);
+    internal::handmade_aligned_free(m_data);
   }
 
   void resize(size_t n) {
-    eigen_assert(n <= reserve_);
-    for (; size_ < n; ++size_) {
-      new (&data_[size_]) T;
+    eigen_assert(n <= m_reserve);
+    for (; m_size < n; ++m_size) {
+      new (&m_data[m_size]) T;
     }
-    for (; size_ > n; --size_) {
-      data_[size_ - 1].~T();
+    for (; m_size > n; --m_size) {
+      m_data[m_size - 1].~T();
     }
-    eigen_assert(size_ == n);
+    eigen_assert(m_size == n);
   }
 
   // Append new elements (up to reserved size).
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void push_back(const T& t) {
-    eigen_assert(size_ < reserve_);
-    new (&data_[size_++]) T(t);
+    eigen_assert(m_size < m_reserve);
+    new (&m_data[m_size++]) T(t);
   }
 
-  // For C++03 compatibility this only takes one argument
   template <class X>
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void emplace_back(const X& x) {
-    eigen_assert(size_ < reserve_);
-    new (&data_[size_++]) T(x);
+    eigen_assert(m_size < m_reserve);
+    new (&m_data[m_size++]) T(x);
   }
 
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const T& operator[](size_t i) const {
-    eigen_assert(i < size_);
-    return data_[i];
+    eigen_assert(i < m_size);
+    return m_data[i];
   }
 
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T& operator[](size_t i) {
-    eigen_assert(i < size_);
-    return data_[i];
+    eigen_assert(i < m_size);
+    return m_data[i];
   }
 
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T& back() {
-    eigen_assert(size_ > 0);
-    return data_[size_ - 1];
+    eigen_assert(m_size > 0);
+    return m_data[m_size - 1];
   }
 
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const T& back() const {
-    eigen_assert(size_ > 0);
-    return data_[size_ - 1];
+    eigen_assert(m_size > 0);
+    return m_data[m_size - 1];
   }
 
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void pop_back() {
-    eigen_assert(size_ > 0);
-    data_[--size_].~T();
+    eigen_assert(m_size > 0);
+    m_data[--m_size].~T();
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE size_t size() const { return size_; }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE size_t size() const { return m_size; }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool empty() const { return size_ == 0; }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool empty() const { return m_size == 0; }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr T* data() { return data_; }
+  EIGEN_DEVICE_FUNC constexpr T* data() { return m_data; }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr const T* data() const { return data_; }
+  EIGEN_DEVICE_FUNC constexpr const T* data() const { return m_data; }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr T* begin() { return data_; }
+  EIGEN_DEVICE_FUNC constexpr T* begin() { return m_data; }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr T* end() { return data_ + size_; }
+  EIGEN_DEVICE_FUNC constexpr T* end() { return m_data + m_size; }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr const T* begin() const { return data_; }
+  EIGEN_DEVICE_FUNC constexpr const T* begin() const { return m_data; }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr const T* end() const { return data_ + size_; }
+  EIGEN_DEVICE_FUNC constexpr const T* end() const { return m_data + m_size; }
 
  private:
-  size_t reserve_;
-  size_t size_;
-  T* data_;
+  size_t m_reserve;
+  size_t m_size;
+  T* m_data;
 };
 
 }  // namespace Eigen

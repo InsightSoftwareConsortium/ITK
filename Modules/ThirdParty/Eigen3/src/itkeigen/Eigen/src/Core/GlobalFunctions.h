@@ -130,12 +130,12 @@ using GlobalUnaryPowReturnType = std::enable_if_t<
  */
 #ifdef EIGEN_PARSED_BY_DOXYGEN
 template <typename Derived, typename ScalarExponent>
-EIGEN_DEVICE_FUNC inline const GlobalUnaryPowReturnType<Derived, ScalarExponent> pow(const Eigen::ArrayBase<Derived>& x,
-                                                                                     const ScalarExponent& exponent);
+EIGEN_DEVICE_FUNC constexpr inline const GlobalUnaryPowReturnType<Derived, ScalarExponent> pow(
+    const Eigen::ArrayBase<Derived>& x, const ScalarExponent& exponent);
 #else
 template <typename Derived, typename ScalarExponent>
-EIGEN_DEVICE_FUNC inline const GlobalUnaryPowReturnType<Derived, ScalarExponent> pow(const Eigen::ArrayBase<Derived>& x,
-                                                                                     const ScalarExponent& exponent) {
+EIGEN_DEVICE_FUNC constexpr inline const GlobalUnaryPowReturnType<Derived, ScalarExponent> pow(
+    const Eigen::ArrayBase<Derived>& x, const ScalarExponent& exponent) {
   return GlobalUnaryPowReturnType<Derived, ScalarExponent>(
       x.derived(), internal::scalar_unary_pow_op<typename Derived::Scalar, ScalarExponent>(exponent));
 }

@@ -15,8 +15,6 @@
 
 /** \defgroup Cholesky_Module Cholesky module
  *
- *
- *
  * This module provides two variants of the Cholesky decomposition for selfadjoint (hermitian) matrices.
  * Those decompositions are also accessible via the following methods:
  *  - MatrixBase::llt()

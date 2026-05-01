@@ -75,7 +75,7 @@ class SparseView : public SparseMatrixBase<SparseView<MatrixType> > {
 
 namespace internal {
 
-// TODO find a way to unify the two following variants
+// TODO: find a way to unify the two following variants
 // This is tricky because implementing an inner iterator on top of an IndexBased evaluator is
 // not easy because the evaluators do not expose the sizes of the underlying expression.
 

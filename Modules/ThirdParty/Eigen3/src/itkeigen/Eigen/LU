@@ -23,10 +23,10 @@
  * \endcode
  */
 
+// IWYU pragma: begin_exports
 #include "src/misc/Kernel.h"
 #include "src/misc/Image.h"
-
-// IWYU pragma: begin_exports
+#include "src/misc/RankRevealingBase.h"
 #include "src/LU/FullPivLU.h"
 #include "src/LU/PartialPivLU.h"
 #ifdef EIGEN_USE_LAPACKE
@@ -36,8 +36,11 @@
 #include "src/LU/Determinant.h"
 #include "src/LU/InverseImpl.h"
 
+#ifndef EIGEN_VECTORIZE_GENERIC
+// TODO(rmlarsen): Make these work with generic vectorization if possible.
 #if defined EIGEN_VECTORIZE_SSE || defined EIGEN_VECTORIZE_NEON
 #include "src/LU/arch/InverseSize4.h"
+#endif
 #endif
 // IWYU pragma: end_exports
 

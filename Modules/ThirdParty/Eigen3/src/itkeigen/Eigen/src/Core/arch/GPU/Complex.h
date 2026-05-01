@@ -62,54 +62,6 @@ namespace Eigen {
 // Specialized std::complex overloads.
 namespace complex_operator_detail {
 
-template <typename T>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T> complex_multiply(const std::complex<T>& a,
-                                                                       const std::complex<T>& b) {
-  const T a_real = numext::real(a);
-  const T a_imag = numext::imag(a);
-  const T b_real = numext::real(b);
-  const T b_imag = numext::imag(b);
-  return std::complex<T>(a_real * b_real - a_imag * b_imag, a_imag * b_real + a_real * b_imag);
-}
-
-template <typename T>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T> complex_divide_fast(const std::complex<T>& a,
-                                                                          const std::complex<T>& b) {
-  const T a_real = numext::real(a);
-  const T a_imag = numext::imag(a);
-  const T b_real = numext::real(b);
-  const T b_imag = numext::imag(b);
-  const T norm = (b_real * b_real + b_imag * b_imag);
-  return std::complex<T>((a_real * b_real + a_imag * b_imag) / norm, (a_imag * b_real - a_real * b_imag) / norm);
-}
-
-template <typename T>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T> complex_divide_stable(const std::complex<T>& a,
-                                                                            const std::complex<T>& b) {
-  const T a_real = numext::real(a);
-  const T a_imag = numext::imag(a);
-  const T b_real = numext::real(b);
-  const T b_imag = numext::imag(b);
-  // Smith's complex division (https://arxiv.org/pdf/1210.4539.pdf),
-  // guards against over/under-flow.
-  const bool scale_imag = numext::abs(b_imag) <= numext::abs(b_real);
-  const T rscale = scale_imag ? T(1) : b_real / b_imag;
-  const T iscale = scale_imag ? b_imag / b_real : T(1);
-  const T denominator = b_real * rscale + b_imag * iscale;
-  return std::complex<T>((a_real * rscale + a_imag * iscale) / denominator,
-                         (a_imag * rscale - a_real * iscale) / denominator);
-}
-
-template <typename T>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T> complex_divide(const std::complex<T>& a,
-                                                                     const std::complex<T>& b) {
-#if EIGEN_FAST_MATH
-  return complex_divide_fast(a, b);
-#else
-  return complex_divide_stable(a, b);
-#endif
-}
-
 // NOTE: We cannot specialize compound assignment operators with Scalar T,
 //         (i.e.  operator@=(const T&), for @=+,-,*,/)
 //       since they are already specialized for float/double/long double within
@@ -151,7 +103,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T> complex_divide(const std::
                                                                                                                     \
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T> operator*(const std::complex<T>& a,                         \
                                                                   const std::complex<T>& b) {                       \
-    return complex_multiply(a, b);                                                                                  \
+    return internal::complex_multiply(a, b);                                                                        \
   }                                                                                                                 \
                                                                                                                     \
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T> operator*(const std::complex<T>& a, const T& b) {           \
@@ -164,7 +116,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T> complex_divide(const std::
                                                                                                                     \
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T> operator/(const std::complex<T>& a,                         \
                                                                   const std::complex<T>& b) {                       \
-    return complex_divide(a, b);                                                                                    \
+    return internal::complex_divide(a, b);                                                                          \
   }                                                                                                                 \
                                                                                                                     \
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T> operator/(const std::complex<T>& a, const T& b) {           \
@@ -172,7 +124,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T> complex_divide(const std::
   }                                                                                                                 \
                                                                                                                     \
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T> operator/(const T& a, const std::complex<T>& b) {           \
-    return complex_divide(std::complex<T>(a, 0), b);                                                                \
+    return internal::complex_divide(std::complex<T>(a, 0), b);                                                      \
   }                                                                                                                 \
                                                                                                                     \
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T>& operator+=(std::complex<T>& a, const std::complex<T>& b) { \
@@ -188,12 +140,12 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T> complex_divide(const std::
   }                                                                                                                 \
                                                                                                                     \
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T>& operator*=(std::complex<T>& a, const std::complex<T>& b) { \
-    a = complex_multiply(a, b);                                                                                     \
+    a = internal::complex_multiply(a, b);                                                                           \
     return a;                                                                                                       \
   }                                                                                                                 \
                                                                                                                     \
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T>& operator/=(std::complex<T>& a, const std::complex<T>& b) { \
-    a = complex_divide(a, b);                                                                                       \
+    a = internal::complex_divide(a, b);                                                                             \
     return a;                                                                                                       \
   }                                                                                                                 \
                                                                                                                     \

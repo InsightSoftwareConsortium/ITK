@@ -24,17 +24,43 @@ namespace internal {
 EIGEN_INSTANTIATE_GENERIC_MATH_FUNCS_FLOAT(Packet8f)
 
 EIGEN_DOUBLE_PACKET_FUNCTION(atanh, Packet4d)
+EIGEN_DOUBLE_PACKET_FUNCTION(sinh, Packet4d)
+EIGEN_DOUBLE_PACKET_FUNCTION(cosh, Packet4d)
+EIGEN_DOUBLE_PACKET_FUNCTION(asinh, Packet4d)
+EIGEN_DOUBLE_PACKET_FUNCTION(acosh, Packet4d)
 EIGEN_DOUBLE_PACKET_FUNCTION(log, Packet4d)
-EIGEN_DOUBLE_PACKET_FUNCTION(log2, Packet4d)
+EIGEN_DOUBLE_PACKET_FUNCTION(log10, Packet4d)
 EIGEN_DOUBLE_PACKET_FUNCTION(exp, Packet4d)
+EIGEN_DOUBLE_PACKET_FUNCTION(log2, Packet4d)
 EIGEN_DOUBLE_PACKET_FUNCTION(tanh, Packet4d)
 EIGEN_DOUBLE_PACKET_FUNCTION(cbrt, Packet4d)
 #ifdef EIGEN_VECTORIZE_AVX2
 EIGEN_DOUBLE_PACKET_FUNCTION(sin, Packet4d)
 EIGEN_DOUBLE_PACKET_FUNCTION(cos, Packet4d)
+EIGEN_DOUBLE_PACKET_FUNCTION(tan, Packet4d)
+#else
+// Without AVX2, psincos_double<Packet4d> requires 256-bit integer operations (Packet4l)
+// that are not available. Process as two Packet2d halves using the SSE implementation.
+template <>
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4d psin<Packet4d>(const Packet4d& x) {
+  return _mm256_insertf128_pd(_mm256_castpd128_pd256(psin(_mm256_castpd256_pd128(x))),
+                              psin(_mm256_extractf128_pd(x, 1)), 1);
+}
+template <>
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4d pcos<Packet4d>(const Packet4d& x) {
+  return _mm256_insertf128_pd(_mm256_castpd128_pd256(pcos(_mm256_castpd256_pd128(x))),
+                              pcos(_mm256_extractf128_pd(x, 1)), 1);
+}
+template <>
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4d ptan<Packet4d>(const Packet4d& x) {
+  return _mm256_insertf128_pd(_mm256_castpd128_pd256(ptan(_mm256_castpd256_pd128(x))),
+                              ptan(_mm256_extractf128_pd(x, 1)), 1);
+}
 #endif
 EIGEN_GENERIC_PACKET_FUNCTION(atan, Packet4d)
 EIGEN_GENERIC_PACKET_FUNCTION(exp2, Packet4d)
+EIGEN_GENERIC_PACKET_FUNCTION(expm1, Packet4d)
+EIGEN_DOUBLE_PACKET_FUNCTION(log1p, Packet4d)
 
 // Notice that for newer processors, it is counterproductive to use Newton
 // iteration for square root. In particular, Skylake and Zen2 processors
@@ -95,32 +121,10 @@ EIGEN_STRONG_INLINE Packet8bf pldexp(const Packet8bf& a, const Packet8bf& expone
   return F32ToBf16(pldexp<Packet8f>(Bf16ToF32(a), Bf16ToF32(exponent)));
 }
 
-BF16_PACKET_FUNCTION(Packet8f, Packet8bf, pcos)
-BF16_PACKET_FUNCTION(Packet8f, Packet8bf, pexp)
-BF16_PACKET_FUNCTION(Packet8f, Packet8bf, pexp2)
-BF16_PACKET_FUNCTION(Packet8f, Packet8bf, pexpm1)
-BF16_PACKET_FUNCTION(Packet8f, Packet8bf, plog)
-BF16_PACKET_FUNCTION(Packet8f, Packet8bf, plog1p)
-BF16_PACKET_FUNCTION(Packet8f, Packet8bf, plog2)
-BF16_PACKET_FUNCTION(Packet8f, Packet8bf, preciprocal)
-BF16_PACKET_FUNCTION(Packet8f, Packet8bf, prsqrt)
-BF16_PACKET_FUNCTION(Packet8f, Packet8bf, psin)
-BF16_PACKET_FUNCTION(Packet8f, Packet8bf, psqrt)
-BF16_PACKET_FUNCTION(Packet8f, Packet8bf, ptanh)
+EIGEN_INSTANTIATE_GENERIC_MATH_FUNCS_BF16(Packet8f, Packet8bf)
 
 #ifndef EIGEN_VECTORIZE_AVX512FP16
-F16_PACKET_FUNCTION(Packet8f, Packet8h, pcos)
-F16_PACKET_FUNCTION(Packet8f, Packet8h, pexp)
-F16_PACKET_FUNCTION(Packet8f, Packet8h, pexp2)
-F16_PACKET_FUNCTION(Packet8f, Packet8h, pexpm1)
-F16_PACKET_FUNCTION(Packet8f, Packet8h, plog)
-F16_PACKET_FUNCTION(Packet8f, Packet8h, plog1p)
-F16_PACKET_FUNCTION(Packet8f, Packet8h, plog2)
-F16_PACKET_FUNCTION(Packet8f, Packet8h, preciprocal)
-F16_PACKET_FUNCTION(Packet8f, Packet8h, prsqrt)
-F16_PACKET_FUNCTION(Packet8f, Packet8h, psin)
-F16_PACKET_FUNCTION(Packet8f, Packet8h, psqrt)
-F16_PACKET_FUNCTION(Packet8f, Packet8h, ptanh)
+EIGEN_INSTANTIATE_GENERIC_MATH_FUNCS_F16(Packet8f, Packet8h)
 #endif
 
 }  // end namespace internal

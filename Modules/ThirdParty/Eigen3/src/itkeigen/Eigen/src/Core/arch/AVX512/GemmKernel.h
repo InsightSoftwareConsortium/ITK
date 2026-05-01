@@ -35,6 +35,8 @@
 namespace Eigen {
 namespace internal {
 
+#if EIGEN_USE_AVX512_GEMM_KERNELS
+
 template <typename Scalar, bool is_unit_inc>
 class gemm_class {
   using vec = typename packet_traits<Scalar>::type;
@@ -79,10 +81,10 @@ class gemm_class {
   Index m;
   const Index n, k, ldc;
   const Index inc;
-  const Scalar *alpha;
+  const Scalar* alpha;
 
   const Scalar *a, *b;
-  Scalar *c;
+  Scalar* c;
 
   const bool is_alpha1;
   const bool is_beta0;
@@ -90,26 +92,26 @@ class gemm_class {
   const Index a_stride, b_stride;
   const Index a_off, b_off;
 
-  EIGEN_ALWAYS_INLINE void prefetch_a(const Scalar *a_addr) {
-    _mm_prefetch((char *)(a_prefetch_size + a_addr - a_shift), _MM_HINT_T0);
+  EIGEN_ALWAYS_INLINE void prefetch_a(const Scalar* a_addr) {
+    _mm_prefetch((char*)(a_prefetch_size + a_addr - a_shift), _MM_HINT_T0);
   }
 
-  EIGEN_ALWAYS_INLINE void prefetch_b(const Scalar *b_addr) {
-    _mm_prefetch((char *)(b_prefetch_size + b_addr - b_shift), _MM_HINT_T0);
+  EIGEN_ALWAYS_INLINE void prefetch_b(const Scalar* b_addr) {
+    _mm_prefetch((char*)(b_prefetch_size + b_addr - b_shift), _MM_HINT_T0);
   }
 
-  EIGEN_ALWAYS_INLINE void prefetch_x(const Scalar *x_addr) { _mm_prefetch((char *)(x_addr - a_shift), _MM_HINT_T2); }
+  EIGEN_ALWAYS_INLINE void prefetch_x(const Scalar* x_addr) { _mm_prefetch((char*)(x_addr - a_shift), _MM_HINT_T2); }
 
-  EIGEN_ALWAYS_INLINE void prefetch_c(const Scalar *c_addr) {
+  EIGEN_ALWAYS_INLINE void prefetch_c(const Scalar* c_addr) {
 #if defined(__PRFCHW__) && __PRFCHW__ == 1
-    _m_prefetchw((void *)c_addr);
+    _m_prefetchw((void*)c_addr);
 #else
-    _mm_prefetch((char *)c_addr, _MM_HINT_T0);
+    _mm_prefetch((char*)c_addr, _MM_HINT_T0);
 #endif
   }
 
   template <int nelems>
-  EIGEN_ALWAYS_INLINE void a_load(vec &a_reg, const Scalar *a_addr) {
+  EIGEN_ALWAYS_INLINE void a_load(vec& a_reg, const Scalar* a_addr) {
     switch (nelems * sizeof(*a_addr) * 8) {
       default:
       case 512 * 3:
@@ -122,13 +124,13 @@ class gemm_class {
         a_reg = ploadu<vec>(a_addr);
         break;
       case 256 * 1:
-        a_reg = preinterpret<vec>(_mm512_broadcast_f64x4(ploadu<Packet4d>(reinterpret_cast<const double *>(a_addr))));
+        a_reg = preinterpret<vec>(_mm512_broadcast_f64x4(ploadu<Packet4d>(reinterpret_cast<const double*>(a_addr))));
         break;
       case 128 * 1:
-        a_reg = preinterpret<vec>(_mm512_broadcast_f32x4(ploadu<Packet4f>(reinterpret_cast<const float *>(a_addr))));
+        a_reg = preinterpret<vec>(_mm512_broadcast_f32x4(ploadu<Packet4f>(reinterpret_cast<const float*>(a_addr))));
         break;
       case 64 * 1:
-        a_reg = preinterpret<vec>(pload1<Packet8d>(reinterpret_cast<const double *>(a_addr)));
+        a_reg = preinterpret<vec>(pload1<Packet8d>(reinterpret_cast<const double*>(a_addr)));
         break;
       case 32 * 1:
         a_reg = pload1<vec>(a_addr);
@@ -136,10 +138,10 @@ class gemm_class {
     }
   }
 
-  EIGEN_ALWAYS_INLINE void b_load(vec &b_reg, const Scalar *b_addr) { b_reg = pload1<vec>(b_addr); }
+  EIGEN_ALWAYS_INLINE void b_load(vec& b_reg, const Scalar* b_addr) { b_reg = pload1<vec>(b_addr); }
 
   template <int nelems>
-  EIGEN_ALWAYS_INLINE void c_store(Scalar *mem, vec &src) {
+  EIGEN_ALWAYS_INLINE void c_store(Scalar* mem, vec& src) {
     if (is_unit_inc) {
       switch (nelems * sizeof(*mem) * 8) {
         default:
@@ -194,7 +196,7 @@ class gemm_class {
   }
 
   template <int nelems>
-  EIGEN_ALWAYS_INLINE void vaddm(vec &dst, const Scalar *mem, vec &src, vec &reg) {
+  EIGEN_ALWAYS_INLINE void vaddm(vec& dst, const Scalar* mem, vec& src, vec& reg) {
     if (is_unit_inc) {
       switch (nelems * sizeof(*mem) * 8) {
         default:
@@ -261,7 +263,7 @@ class gemm_class {
     }
   }
 
-  EIGEN_STRONG_INLINE void vfmadd(vec &dst, const vec &src1, const vec &src2) {
+  EIGEN_STRONG_INLINE void vfmadd(vec& dst, const vec& src1, const vec& src2) {
     dst = pmadd(src1, src2, dst);
 
 #if (EIGEN_COMP_GNUC != 0) || (EIGEN_COMP_CLANG != 0)
@@ -271,7 +273,7 @@ class gemm_class {
   }
 
   template <int nelems>
-  EIGEN_ALWAYS_INLINE void vfmaddm(vec &dst, const Scalar *mem, vec &src, vec &scale, vec &reg) {
+  EIGEN_ALWAYS_INLINE void vfmaddm(vec& dst, const Scalar* mem, vec& src, vec& scale, vec& reg) {
     if (is_unit_inc) {
       switch (nelems * sizeof(*mem) * 8) {
         default:
@@ -348,16 +350,16 @@ class gemm_class {
   }
 
   template <int j, int endX, int i, int endY, int nelems>
-  EIGEN_ALWAYS_INLINE std::enable_if_t<(j > endX) || (i > endY)> a_loads(const Scalar *ao) {
+  EIGEN_ALWAYS_INLINE std::enable_if_t<(j > endX) || (i > endY)> a_loads(const Scalar* ao) {
     EIGEN_UNUSED_VARIABLE(ao);
   }
 
   template <int j, int endX, int i, int endY, int nelems>
-  EIGEN_ALWAYS_INLINE std::enable_if_t<(j <= endX) && (i <= endY)> a_loads(const Scalar *ao) {
+  EIGEN_ALWAYS_INLINE std::enable_if_t<(j <= endX) && (i <= endY)> a_loads(const Scalar* ao) {
     if (j < endX) {
       if (i < endY) {
-        auto &a_reg = zmm[a_regs[i + (j % 2) * 3]];
-        const Scalar *a_addr = ao + nelems * j + nelems_in_cache_line * i - a_shift;
+        auto& a_reg = zmm[a_regs[i + (j % 2) * 3]];
+        const Scalar* a_addr = ao + nelems * j + nelems_in_cache_line * i - a_shift;
         a_load<nelems>(a_reg, a_addr);
 
         a_loads<j, endX, i + 1, endY, nelems>(ao);
@@ -368,8 +370,8 @@ class gemm_class {
   }
 
   template <int un, int max_b_unroll, int i, int um_vecs, int a_unroll, int b_unroll>
-  EIGEN_ALWAYS_INLINE std::enable_if_t<(un > max_b_unroll) || (i > um_vecs)> prefetch_cs(const Scalar *co1,
-                                                                                         const Scalar *co2) {
+  EIGEN_ALWAYS_INLINE std::enable_if_t<(un > max_b_unroll) || (i > um_vecs)> prefetch_cs(const Scalar* co1,
+                                                                                         const Scalar* co2) {
     EIGEN_UNUSED_VARIABLE(co1);
     EIGEN_UNUSED_VARIABLE(co2);
   }
@@ -389,13 +391,13 @@ class gemm_class {
    */
 
   template <int un, int max_b_unroll, int i, int um_vecs, int a_unroll, int b_unroll>
-  EIGEN_ALWAYS_INLINE std::enable_if_t<(un <= max_b_unroll) && (i <= um_vecs)> prefetch_cs(Scalar *&co1, Scalar *&co2) {
+  EIGEN_ALWAYS_INLINE std::enable_if_t<(un <= max_b_unroll) && (i <= um_vecs)> prefetch_cs(Scalar*& co1, Scalar*& co2) {
     if (un < max_b_unroll) {
       if (b_unroll >= un + 1) {
         if (un == 4 && i == 0) co2 = co1 + 4 * ldc;
 
         if (i < um_vecs) {
-          Scalar *co = (un + 1 <= 4) ? co1 : co2;
+          Scalar* co = (un + 1 <= 4) ? co1 : co2;
           auto co_off = (un % 4) * ldc + a_unroll - 1 + i * nelems_in_cache_line * sizeof *co;
           prefetch_c(co + co_off);
 
@@ -412,16 +414,16 @@ class gemm_class {
 
   // load_c
   template <int i, int um_vecs, int idx, int nelems>
-  EIGEN_ALWAYS_INLINE std::enable_if_t<(i > um_vecs)> scale_load_c(const Scalar *cox, vec &alpha_reg) {
+  EIGEN_ALWAYS_INLINE std::enable_if_t<(i > um_vecs)> scale_load_c(const Scalar* cox, vec& alpha_reg) {
     EIGEN_UNUSED_VARIABLE(cox);
     EIGEN_UNUSED_VARIABLE(alpha_reg);
   }
 
   template <int i, int um_vecs, int idx, int nelems>
-  EIGEN_ALWAYS_INLINE std::enable_if_t<(i <= um_vecs)> scale_load_c(const Scalar *cox, vec &alpha_reg) {
+  EIGEN_ALWAYS_INLINE std::enable_if_t<(i <= um_vecs)> scale_load_c(const Scalar* cox, vec& alpha_reg) {
     if (i < um_vecs) {
-      auto &c_reg = zmm[c_regs[i + idx * 3]];
-      auto &c_load_reg = zmm[c_load_regs[i % 3]];
+      auto& c_reg = zmm[c_regs[i + idx * 3]];
+      auto& c_load_reg = zmm[c_load_regs[i % 3]];
       auto c_mem = cox;
       if (is_unit_inc)
         c_mem += i * nelems_in_cache_line;
@@ -441,14 +443,14 @@ class gemm_class {
 
   // store_c
   template <int i, int um_vecs, int idx, int nelems>
-  EIGEN_ALWAYS_INLINE std::enable_if_t<(i > um_vecs)> write_c(Scalar *cox) {
+  EIGEN_ALWAYS_INLINE std::enable_if_t<(i > um_vecs)> write_c(Scalar* cox) {
     EIGEN_UNUSED_VARIABLE(cox);
   }
 
   template <int i, int um_vecs, int idx, int nelems>
-  EIGEN_ALWAYS_INLINE std::enable_if_t<(i <= um_vecs)> write_c(Scalar *cox) {
+  EIGEN_ALWAYS_INLINE std::enable_if_t<(i <= um_vecs)> write_c(Scalar* cox) {
     if (i < um_vecs) {
-      auto &c_reg = zmm[c_regs[i + idx * 3]];
+      auto& c_reg = zmm[c_regs[i + idx * 3]];
       auto c_mem = cox;
       if (is_unit_inc)
         c_mem += i * nelems_in_cache_line;
@@ -493,20 +495,20 @@ class gemm_class {
    */
 
   template <int pow, int a_unroll, int idx>
-  EIGEN_ALWAYS_INLINE void c_update_1count(Scalar *&cox) {
+  EIGEN_ALWAYS_INLINE void c_update_1count(Scalar*& cox) {
     if (pow >= 4) cox += ldc;
 
     const int um_vecs = numext::div_ceil(a_unroll, nelems_in_cache_line);
-    auto &alpha_reg = zmm[alpha_load_reg];
+    auto& alpha_reg = zmm[alpha_load_reg];
 
     scale_load_c<0, um_vecs, idx, a_unroll>(cox, alpha_reg);
     write_c<0, um_vecs, idx, a_unroll>(cox);
   }
 
   template <int pow, int a_unroll>
-  EIGEN_ALWAYS_INLINE void c_update_1pow(Scalar *&co1, Scalar *&co2) {
+  EIGEN_ALWAYS_INLINE void c_update_1pow(Scalar*& co1, Scalar*& co2) {
     constexpr int idx = pow / 2;
-    Scalar *&cox = idx == 0 ? co1 : co2;
+    Scalar*& cox = idx == 0 ? co1 : co2;
 
     constexpr int max_count = (pow + 1) / 2;
     static_assert(max_count <= 4, "Unsupported max_count.");
@@ -518,8 +520,8 @@ class gemm_class {
   }
 
   template <int max_b_unroll, int a_unroll, int b_unroll>
-  EIGEN_ALWAYS_INLINE void c_update(Scalar *&co1, Scalar *&co2) {
-    auto &alpha_reg = zmm[alpha_load_reg];
+  EIGEN_ALWAYS_INLINE void c_update(Scalar*& co1, Scalar*& co2) {
+    auto& alpha_reg = zmm[alpha_load_reg];
 
     co2 = co1 + ldc;
     if (!is_alpha1) alpha_reg = pload1<vec>(alpha);
@@ -540,8 +542,8 @@ class gemm_class {
 
   // compute
   template <int um, int um_vecs, int idx, int uk, bool fetch_x, bool ktail>
-  EIGEN_ALWAYS_INLINE std::enable_if_t<(um > um_vecs)> compute(const Scalar *ao, const Scalar *bo, int &fetchA_idx,
-                                                               int &fetchB_idx, vec &b_reg) {
+  EIGEN_ALWAYS_INLINE std::enable_if_t<(um > um_vecs)> compute(const Scalar* ao, const Scalar* bo, int& fetchA_idx,
+                                                               int& fetchB_idx, vec& b_reg) {
     EIGEN_UNUSED_VARIABLE(ao);
     EIGEN_UNUSED_VARIABLE(bo);
     EIGEN_UNUSED_VARIABLE(fetchA_idx);
@@ -550,11 +552,11 @@ class gemm_class {
   }
 
   template <int um, int um_vecs, int idx, int uk, bool fetch_x, bool ktail>
-  EIGEN_ALWAYS_INLINE std::enable_if_t<(um <= um_vecs)> compute(const Scalar *ao, const Scalar *bo, int &fetchA_idx,
-                                                                int &fetchB_idx, vec &b_reg) {
+  EIGEN_ALWAYS_INLINE std::enable_if_t<(um <= um_vecs)> compute(const Scalar* ao, const Scalar* bo, int& fetchA_idx,
+                                                                int& fetchB_idx, vec& b_reg) {
     if (um < um_vecs) {
-      auto &c_reg = zmm[c_regs[um + idx * 3]];
-      auto &a_reg = zmm[a_regs[um + (uk % 2) * 3]];
+      auto& c_reg = zmm[c_regs[um + idx * 3]];
+      auto& a_reg = zmm[a_regs[um + (uk % 2) * 3]];
 
       vfmadd(c_reg, a_reg, b_reg);
 
@@ -576,25 +578,25 @@ class gemm_class {
 
   // load_a
   template <int um, int um_vecs, int uk, int nelems, bool ktail>
-  EIGEN_ALWAYS_INLINE std::enable_if_t<(um > um_vecs)> load_a(const Scalar *ao) {
+  EIGEN_ALWAYS_INLINE std::enable_if_t<(um > um_vecs)> load_a(const Scalar* ao) {
     EIGEN_UNUSED_VARIABLE(ao);
   }
 
   template <int um, int um_vecs, int uk, int nelems, bool ktail>
-  EIGEN_ALWAYS_INLINE std::enable_if_t<(um <= um_vecs)> load_a(const Scalar *ao) {
+  EIGEN_ALWAYS_INLINE std::enable_if_t<(um <= um_vecs)> load_a(const Scalar* ao) {
     if (um < um_vecs) {
-      auto &a_reg = zmm[a_regs[um + (uk % 2) * 3]];
-      const Scalar *a_addr = ao + nelems * (1 + !ktail * !use_less_a_regs + uk) + nelems_in_cache_line * um - a_shift;
+      auto& a_reg = zmm[a_regs[um + (uk % 2) * 3]];
+      const Scalar* a_addr = ao + nelems * (1 + !ktail * !use_less_a_regs + uk) + nelems_in_cache_line * um - a_shift;
       a_load<nelems>(a_reg, a_addr);
 
       load_a<um + 1, um_vecs, uk, nelems, ktail>(ao);
     }
   }
   template <int uk, int pow, int count, int um_vecs, int b_unroll, bool ktail, bool fetch_x, bool c_fetch>
-  EIGEN_ALWAYS_INLINE std::enable_if_t<(count > (pow + 1) / 2)> innerkernel_1pow(const Scalar *&aa,
-                                                                                 const Scalar *const &ao,
-                                                                                 const Scalar *const &bo, Scalar *&co2,
-                                                                                 int &fetchA_idx, int &fetchB_idx) {
+  EIGEN_ALWAYS_INLINE std::enable_if_t<(count > (pow + 1) / 2)> innerkernel_1pow(const Scalar*& aa,
+                                                                                 const Scalar* const& ao,
+                                                                                 const Scalar* const& bo, Scalar*& co2,
+                                                                                 int& fetchA_idx, int& fetchB_idx) {
     EIGEN_UNUSED_VARIABLE(aa);
     EIGEN_UNUSED_VARIABLE(ao);
     EIGEN_UNUSED_VARIABLE(bo);
@@ -604,14 +606,14 @@ class gemm_class {
   }
 
   template <int uk, int pow, int count, int um_vecs, int b_unroll, bool ktail, bool fetch_x, bool c_fetch>
-  EIGEN_ALWAYS_INLINE std::enable_if_t<(count <= (pow + 1) / 2)> innerkernel_1pow(const Scalar *&aa,
-                                                                                  const Scalar *const &ao,
-                                                                                  const Scalar *const &bo, Scalar *&co2,
-                                                                                  int &fetchA_idx, int &fetchB_idx) {
+  EIGEN_ALWAYS_INLINE std::enable_if_t<(count <= (pow + 1) / 2)> innerkernel_1pow(const Scalar*& aa,
+                                                                                  const Scalar* const& ao,
+                                                                                  const Scalar* const& bo, Scalar*& co2,
+                                                                                  int& fetchA_idx, int& fetchB_idx) {
     const int idx = (pow / 2) + count;
 
     if (count < (pow + 1) / 2) {
-      auto &b_reg = zmm[b_regs[idx % 2]];
+      auto& b_reg = zmm[b_regs[idx % 2]];
 
       if (fetch_x && uk == 3 && idx == 0) prefetch_x(aa);
       if (fetch_x && uk == 3 && idx == 4) aa += 8;
@@ -619,7 +621,7 @@ class gemm_class {
       if (b_unroll >= pow) {
         compute<0, um_vecs, idx, uk, fetch_x, ktail>(ao, bo, fetchA_idx, fetchB_idx, b_reg);
 
-        const Scalar *b_addr = bo + b_unroll * uk + idx + 1 + (b_unroll > 1) * !use_less_b_regs - b_shift;
+        const Scalar* b_addr = bo + b_unroll * uk + idx + 1 + (b_unroll > 1) * !use_less_b_regs - b_shift;
         b_load(b_reg, b_addr);
       }
 
@@ -641,8 +643,8 @@ class gemm_class {
 
   template <int uk, int max_b_unroll, int a_unroll, int b_unroll, bool ktail, bool fetch_x, bool c_fetch,
             bool no_a_preload = false>
-  EIGEN_ALWAYS_INLINE void innerkernel_1uk(const Scalar *&aa, const Scalar *const &ao, const Scalar *const &bo,
-                                           Scalar *&co2, int &fetchA_idx, int &fetchB_idx) {
+  EIGEN_ALWAYS_INLINE void innerkernel_1uk(const Scalar*& aa, const Scalar* const& ao, const Scalar* const& bo,
+                                           Scalar*& co2, int& fetchA_idx, int& fetchB_idx) {
     const int um_vecs = numext::div_ceil(a_unroll, nelems_in_cache_line);
 
     if (max_b_unroll >= 1)
@@ -699,7 +701,7 @@ class gemm_class {
 
   template <int a_unroll, int b_unroll, int k_factor, int max_b_unroll, int max_k_factor, bool c_fetch,
             bool no_a_preload = false>
-  EIGEN_ALWAYS_INLINE void innerkernel(const Scalar *&aa, const Scalar *&ao, const Scalar *&bo, Scalar *&co2) {
+  EIGEN_ALWAYS_INLINE void innerkernel(const Scalar*& aa, const Scalar*& ao, const Scalar*& bo, Scalar*& co2) {
     int fetchA_idx = 0;
     int fetchB_idx = 0;
 
@@ -729,7 +731,7 @@ class gemm_class {
   }
 
   template <int a_unroll, int b_unroll, int max_b_unroll>
-  EIGEN_ALWAYS_INLINE void kloop(const Scalar *&aa, const Scalar *&ao, const Scalar *&bo, Scalar *&co1, Scalar *&co2) {
+  EIGEN_ALWAYS_INLINE void kloop(const Scalar*& aa, const Scalar*& ao, const Scalar*& bo, Scalar*& co1, Scalar*& co2) {
     const int um_vecs = numext::div_ceil(a_unroll, nelems_in_cache_line);
     if (!use_less_a_regs && k > 1)
       a_loads<0, 2, 0, um_vecs, a_unroll>(ao);
@@ -793,7 +795,7 @@ class gemm_class {
   }
 
   template <int a_unroll, int b_unroll, int max_b_unroll>
-  EIGEN_ALWAYS_INLINE void nloop(const Scalar *&aa, const Scalar *&ao, const Scalar *&bo, Scalar *&co1, Scalar *&co2) {
+  EIGEN_ALWAYS_INLINE void nloop(const Scalar*& aa, const Scalar*& ao, const Scalar*& bo, Scalar*& co1, Scalar*& co2) {
     // Set A matrix pointer.
     ao = a + a_off * a_unroll;
 
@@ -810,9 +812,9 @@ class gemm_class {
   }
 
   template <int a_unroll, int max_a_unroll, int max_b_unroll>
-  EIGEN_ALWAYS_INLINE void mloop(const Scalar *&ao, const Scalar *&bo, Scalar *&co1, Scalar *&co2) {
+  EIGEN_ALWAYS_INLINE void mloop(const Scalar*& ao, const Scalar*& bo, Scalar*& co1, Scalar*& co2) {
     // Set prefetch A pointers.
-    const Scalar *aa = a + a_unroll * a_stride;
+    const Scalar* aa = a + a_unroll * a_stride;
 
     // Set C matrix pointers.
     co1 = c;
@@ -830,10 +832,6 @@ class gemm_class {
 
     // n-remainders.
     if (n & 4 && max_b_unroll > 4) nloop<a_unroll, 4, max_b_unroll>(aa, ao, bo, co1, co2);
-#if 0
-        if (n & 2 && max_b_unroll > 2) nloop<a_unroll, 2, max_b_unroll>(aa, ao, bo, co1, co2);
-        if (n & 1 && max_b_unroll > 1) nloop<a_unroll, 1, max_b_unroll>(aa, ao, bo, co1, co2);
-#else
     // Copy kernels don't support tails of n = 2 for single/double precision.
     // Loop over ones.
     int n_rem = 2 * ((n & 2) != 0) + 1 * ((n & 1) != 0);
@@ -841,7 +839,6 @@ class gemm_class {
       nloop<a_unroll, 1, max_b_unroll>(aa, ao, bo, co1, co2);
       n_rem--;
     }
-#endif
 
     // Advance A matrix pointer.
     a = ao + a_unroll * (a_stride - k - a_off);
@@ -854,10 +851,10 @@ class gemm_class {
     a -= -a_shift;
     b -= -b_shift;
 
-    const Scalar *ao = nullptr;
-    const Scalar *bo = nullptr;
-    Scalar *co1 = nullptr;
-    Scalar *co2 = nullptr;
+    const Scalar* ao = nullptr;
+    const Scalar* bo = nullptr;
+    Scalar* co1 = nullptr;
+    Scalar* co2 = nullptr;
 
     // Main m-loop.
     for (; m >= max_a_unroll; m -= max_a_unroll) mloop<max_a_unroll, max_a_unroll, max_b_unroll>(ao, bo, co1, co2);
@@ -881,8 +878,8 @@ class gemm_class {
     }
   }
 
-  gemm_class(Index m_, Index n_, Index k_, Index ldc_, Index inc_, const Scalar *alpha_, const Scalar *a_,
-             const Scalar *b_, Scalar *c_, bool is_alpha1_, bool is_beta0_, Index a_stride_, Index b_stride_,
+  gemm_class(Index m_, Index n_, Index k_, Index ldc_, Index inc_, const Scalar* alpha_, const Scalar* a_,
+             const Scalar* b_, Scalar* c_, bool is_alpha1_, bool is_beta0_, Index a_stride_, Index b_stride_,
              Index a_off_, Index b_off_)
       : m(m_),
         n(n_),
@@ -927,6 +924,15 @@ class gemm_class {
   }
 };
 
+template <typename Scalar, bool is_unit_inc>
+const int gemm_class<Scalar, is_unit_inc>::a_regs[];
+
+template <typename Scalar, bool is_unit_inc>
+const int gemm_class<Scalar, is_unit_inc>::b_regs[];
+
+template <typename Scalar, bool is_unit_inc>
+const int gemm_class<Scalar, is_unit_inc>::c_regs[];
+
 // Compute kernel with max unroll support of:
 //   Single precision:
 //     max_a_unroll: 48, 32, 16, 8, 4, 2, 1
@@ -935,8 +941,8 @@ class gemm_class {
 //     max_a_unroll: 24, 16, 8, 4, 2, 1
 //     max_b_unroll: 8, 4, 2, 1
 template <typename Scalar, int max_a_unroll, int max_b_unroll, bool is_alpha1, bool is_beta0, bool is_unit_inc>
-EIGEN_DONT_INLINE void gemm_kern_avx512(Index m, Index n, Index k, Scalar *alpha, const Scalar *a, const Scalar *b,
-                                        Scalar *c, Index ldc, Index inc = 1, Index a_stride = -1, Index b_stride = -1,
+EIGEN_DONT_INLINE void gemm_kern_avx512(Index m, Index n, Index k, Scalar* alpha, const Scalar* a, const Scalar* b,
+                                        Scalar* c, Index ldc, Index inc = 1, Index a_stride = -1, Index b_stride = -1,
                                         Index a_off = 0, Index b_off = 0) {
   if (a_stride == -1) a_stride = k;
   if (b_stride == -1) b_stride = k;
@@ -947,7 +953,6 @@ EIGEN_DONT_INLINE void gemm_kern_avx512(Index m, Index n, Index k, Scalar *alpha
 }
 
 // Template specializations of GEBP kernels with nr = 8.
-#if EIGEN_USE_AVX512_GEMM_KERNELS
 template <bool ConjLhs_, bool ConjRhs_, int PacketSize_>
 class gebp_traits<float, float, ConjLhs_, ConjRhs_, Architecture::Target, PacketSize_>
     : public gebp_traits<float, float, ConjLhs_, ConjRhs_, Architecture::Generic, PacketSize_> {
@@ -971,13 +976,13 @@ struct gemm_pack_rhs<Scalar, Index, DataMapper, 8, ColMajor, Conjugate, PanelMod
   typedef typename packet_traits<Scalar>::type Packet;
   typedef typename DataMapper::LinearMapper LinearMapper;
   enum { PacketSize = packet_traits<Scalar>::size };
-  EIGEN_DONT_INLINE void operator()(Scalar *blockB, const DataMapper &rhs, Index depth, Index cols, Index stride = 0,
-                                    Index offset = 0);
+  EIGEN_DONT_INLINE void operator()(Scalar* blockB, const DataMapper& rhs, Index depth, Index cols, Index stride = 0,
+                                    Index offset = 0) const;
 };
 
 template <typename Scalar, typename Index, typename DataMapper, bool Conjugate, bool PanelMode>
 EIGEN_DONT_INLINE void gemm_pack_rhs<Scalar, Index, DataMapper, 8, ColMajor, Conjugate, PanelMode>::operator()(
-    Scalar *blockB, const DataMapper &rhs, Index depth, Index cols, Index stride, Index offset) {
+    Scalar* blockB, const DataMapper& rhs, Index depth, Index cols, Index stride, Index offset) const {
   constexpr int nr = 8;
   EIGEN_ASM_COMMENT("EIGEN PRODUCT PACK RHS COLMAJOR");
   EIGEN_UNUSED_VARIABLE(stride);
@@ -1001,10 +1006,9 @@ EIGEN_DONT_INLINE void gemm_pack_rhs<Scalar, Index, DataMapper, 8, ColMajor, Con
       const LinearMapper dm6 = rhs.getLinearMapper(0, j2 + 6);
       const LinearMapper dm7 = rhs.getLinearMapper(0, j2 + 7);
       Index k = 0;
-      if ((PacketSize % 8) == 0)  // TODO enable vectorized transposition for PacketSize==4
-      {
+      EIGEN_IF_CONSTEXPR((PacketSize % 8) == 0 || PacketSize == 4) {
         for (; k < peeled_k; k += PacketSize) {
-          PacketBlock<Packet, (PacketSize % 8) == 0 ? 8 : PacketSize> kernel;
+          PacketBlock<Packet, 8> kernel;
 
           kernel.packet[0] = dm0.template loadPacket<Packet>(k);
           kernel.packet[1] = dm1.template loadPacket<Packet>(k);
@@ -1015,16 +1019,43 @@ EIGEN_DONT_INLINE void gemm_pack_rhs<Scalar, Index, DataMapper, 8, ColMajor, Con
           kernel.packet[6] = dm6.template loadPacket<Packet>(k);
           kernel.packet[7] = dm7.template loadPacket<Packet>(k);
 
-          ptranspose(kernel);
+          EIGEN_IF_CONSTEXPR(PacketSize == 4) {
+            // For PacketSize==4 we cannot ptranspose 8 packets directly; compose two
+            // 4-packet transposes (cols 0-3 and 4-7) and interleave the halves so
+            // the 8 stores produce 4 rows of 8 packed elements.
+            PacketBlock<Packet, 4> tmp_lo;
+            tmp_lo.packet[0] = kernel.packet[0];
+            tmp_lo.packet[1] = kernel.packet[1];
+            tmp_lo.packet[2] = kernel.packet[2];
+            tmp_lo.packet[3] = kernel.packet[3];
+            ptranspose(tmp_lo);
+            PacketBlock<Packet, 4> tmp_hi;
+            tmp_hi.packet[0] = kernel.packet[4];
+            tmp_hi.packet[1] = kernel.packet[5];
+            tmp_hi.packet[2] = kernel.packet[6];
+            tmp_hi.packet[3] = kernel.packet[7];
+            ptranspose(tmp_hi);
+            kernel.packet[0] = tmp_lo.packet[0];
+            kernel.packet[1] = tmp_hi.packet[0];
+            kernel.packet[2] = tmp_lo.packet[1];
+            kernel.packet[3] = tmp_hi.packet[1];
+            kernel.packet[4] = tmp_lo.packet[2];
+            kernel.packet[5] = tmp_hi.packet[2];
+            kernel.packet[6] = tmp_lo.packet[3];
+            kernel.packet[7] = tmp_hi.packet[3];
+          }
+          else {
+            ptranspose(kernel);
+          }
 
           pstoreu(blockB + count + 0 * PacketSize, cj.pconj(kernel.packet[0]));
-          pstoreu(blockB + count + 1 * PacketSize, cj.pconj(kernel.packet[1 % PacketSize]));
-          pstoreu(blockB + count + 2 * PacketSize, cj.pconj(kernel.packet[2 % PacketSize]));
-          pstoreu(blockB + count + 3 * PacketSize, cj.pconj(kernel.packet[3 % PacketSize]));
-          pstoreu(blockB + count + 4 * PacketSize, cj.pconj(kernel.packet[4 % PacketSize]));
-          pstoreu(blockB + count + 5 * PacketSize, cj.pconj(kernel.packet[5 % PacketSize]));
-          pstoreu(blockB + count + 6 * PacketSize, cj.pconj(kernel.packet[6 % PacketSize]));
-          pstoreu(blockB + count + 7 * PacketSize, cj.pconj(kernel.packet[7 % PacketSize]));
+          pstoreu(blockB + count + 1 * PacketSize, cj.pconj(kernel.packet[1]));
+          pstoreu(blockB + count + 2 * PacketSize, cj.pconj(kernel.packet[2]));
+          pstoreu(blockB + count + 3 * PacketSize, cj.pconj(kernel.packet[3]));
+          pstoreu(blockB + count + 4 * PacketSize, cj.pconj(kernel.packet[4]));
+          pstoreu(blockB + count + 5 * PacketSize, cj.pconj(kernel.packet[5]));
+          pstoreu(blockB + count + 6 * PacketSize, cj.pconj(kernel.packet[6]));
+          pstoreu(blockB + count + 7 * PacketSize, cj.pconj(kernel.packet[7]));
           count += 8 * PacketSize;
         }
       }
@@ -1054,19 +1085,35 @@ EIGEN_DONT_INLINE void gemm_pack_rhs<Scalar, Index, DataMapper, 8, ColMajor, Con
       const LinearMapper dm3 = rhs.getLinearMapper(0, j2 + 3);
 
       Index k = 0;
-      if ((PacketSize % 4) == 0)  // TODO enable vectorized transposition for PacketSize==2 ??
-      {
+      EIGEN_IF_CONSTEXPR((PacketSize % 4) == 0 || PacketSize == 2) {
         for (; k < peeled_k; k += PacketSize) {
-          PacketBlock<Packet, (PacketSize % 4) == 0 ? 4 : PacketSize> kernel;
+          PacketBlock<Packet, 4> kernel;
           kernel.packet[0] = dm0.template loadPacket<Packet>(k);
-          kernel.packet[1 % PacketSize] = dm1.template loadPacket<Packet>(k);
-          kernel.packet[2 % PacketSize] = dm2.template loadPacket<Packet>(k);
-          kernel.packet[3 % PacketSize] = dm3.template loadPacket<Packet>(k);
-          ptranspose(kernel);
+          kernel.packet[1] = dm1.template loadPacket<Packet>(k);
+          kernel.packet[2] = dm2.template loadPacket<Packet>(k);
+          kernel.packet[3] = dm3.template loadPacket<Packet>(k);
+          EIGEN_IF_CONSTEXPR(PacketSize == 2) {
+            // See the matching note in GeneralBlockPanelKernel.h.
+            PacketBlock<Packet, 2> tmp01;
+            tmp01.packet[0] = kernel.packet[0];
+            tmp01.packet[1] = kernel.packet[1];
+            ptranspose(tmp01);
+            PacketBlock<Packet, 2> tmp23;
+            tmp23.packet[0] = kernel.packet[2];
+            tmp23.packet[1] = kernel.packet[3];
+            ptranspose(tmp23);
+            kernel.packet[0] = tmp01.packet[0];
+            kernel.packet[1] = tmp23.packet[0];
+            kernel.packet[2] = tmp01.packet[1];
+            kernel.packet[3] = tmp23.packet[1];
+          }
+          else {
+            ptranspose(kernel);
+          }
           pstoreu(blockB + count + 0 * PacketSize, cj.pconj(kernel.packet[0]));
-          pstoreu(blockB + count + 1 * PacketSize, cj.pconj(kernel.packet[1 % PacketSize]));
-          pstoreu(blockB + count + 2 * PacketSize, cj.pconj(kernel.packet[2 % PacketSize]));
-          pstoreu(blockB + count + 3 * PacketSize, cj.pconj(kernel.packet[3 % PacketSize]));
+          pstoreu(blockB + count + 1 * PacketSize, cj.pconj(kernel.packet[1]));
+          pstoreu(blockB + count + 2 * PacketSize, cj.pconj(kernel.packet[2]));
+          pstoreu(blockB + count + 3 * PacketSize, cj.pconj(kernel.packet[3]));
           count += 4 * PacketSize;
         }
       }
@@ -1105,8 +1152,8 @@ struct gemm_pack_rhs<Scalar, Index, DataMapper, 8, RowMajor, Conjugate, PanelMod
     HalfPacketSize = unpacket_traits<HalfPacket>::size,
     QuarterPacketSize = unpacket_traits<QuarterPacket>::size
   };
-  EIGEN_DONT_INLINE void operator()(Scalar *blockB, const DataMapper &rhs, Index depth, Index cols, Index stride = 0,
-                                    Index offset = 0) {
+  EIGEN_DONT_INLINE void operator()(Scalar* blockB, const DataMapper& rhs, Index depth, Index cols, Index stride = 0,
+                                    Index offset = 0) const {
     constexpr int nr = 8;
     EIGEN_ASM_COMMENT("EIGEN PRODUCT PACK RHS ROWMAJOR");
     EIGEN_UNUSED_VARIABLE(stride);
@@ -1204,33 +1251,32 @@ struct gemm_pack_rhs<Scalar, Index, DataMapper, 8, RowMajor, Conjugate, PanelMod
 
 template <typename Scalar, typename Index, typename DataMapper, int mr, bool ConjugateLhs, bool ConjugateRhs>
 struct gebp_kernel<Scalar, Scalar, Index, DataMapper, mr, 8, ConjugateLhs, ConjugateRhs> {
-  EIGEN_ALWAYS_INLINE void operator()(const DataMapper &res, const Scalar *blockA, const Scalar *blockB, Index rows,
+  EIGEN_ALWAYS_INLINE void operator()(const DataMapper& res, const Scalar* blockA, const Scalar* blockB, Index rows,
                                       Index depth, Index cols, Scalar alpha, Index strideA = -1, Index strideB = -1,
-                                      Index offsetA = 0, Index offsetB = 0);
+                                      Index offsetA = 0, Index offsetB = 0) const;
 };
 
 template <typename Scalar, typename Index, typename DataMapper, int mr, bool ConjugateLhs, bool ConjugateRhs>
 EIGEN_ALWAYS_INLINE void gebp_kernel<Scalar, Scalar, Index, DataMapper, mr, 8, ConjugateLhs, ConjugateRhs>::operator()(
-    const DataMapper &res, const Scalar *blockA, const Scalar *blockB, Index rows, Index depth, Index cols,
-    Scalar alpha, Index strideA, Index strideB, Index offsetA, Index offsetB) {
+    const DataMapper& res, const Scalar* blockA, const Scalar* blockB, Index rows, Index depth, Index cols,
+    Scalar alpha, Index strideA, Index strideB, Index offsetA, Index offsetB) const {
   if (res.incr() == 1) {
     if (alpha == 1) {
-      gemm_kern_avx512<Scalar, mr, 8, true, false, true>(rows, cols, depth, &alpha, blockA, blockB,
-                                                         (Scalar *)res.data(), res.stride(), res.incr(), strideA,
-                                                         strideB, offsetA, offsetB);
+      gemm_kern_avx512<Scalar, mr, 8, true, false, true>(rows, cols, depth, &alpha, blockA, blockB, (Scalar*)res.data(),
+                                                         res.stride(), res.incr(), strideA, strideB, offsetA, offsetB);
     } else {
       gemm_kern_avx512<Scalar, mr, 8, false, false, true>(rows, cols, depth, &alpha, blockA, blockB,
-                                                          (Scalar *)res.data(), res.stride(), res.incr(), strideA,
+                                                          (Scalar*)res.data(), res.stride(), res.incr(), strideA,
                                                           strideB, offsetA, offsetB);
     }
   } else {
     if (alpha == 1) {
       gemm_kern_avx512<Scalar, mr, 8, true, false, false>(rows, cols, depth, &alpha, blockA, blockB,
-                                                          (Scalar *)res.data(), res.stride(), res.incr(), strideA,
+                                                          (Scalar*)res.data(), res.stride(), res.incr(), strideA,
                                                           strideB, offsetA, offsetB);
     } else {
       gemm_kern_avx512<Scalar, mr, 8, false, false, false>(rows, cols, depth, &alpha, blockA, blockB,
-                                                           (Scalar *)res.data(), res.stride(), res.incr(), strideA,
+                                                           (Scalar*)res.data(), res.stride(), res.incr(), strideA,
                                                            strideB, offsetA, offsetB);
     }
   }

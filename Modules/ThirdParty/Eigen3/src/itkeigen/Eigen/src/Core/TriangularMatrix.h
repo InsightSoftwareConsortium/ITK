@@ -89,6 +89,11 @@ class TriangularBase : public EigenBase<Derived> {
     return coeffRef(row, col);
   }
 
+#ifdef EIGEN_MULTIDIMENSIONAL_SUBSCRIPT
+  EIGEN_DEVICE_FUNC inline Scalar operator[](Index row, Index col) const { return operator()(row, col); }
+  EIGEN_DEVICE_FUNC inline Scalar& operator[](Index row, Index col) { return operator()(row, col); }
+#endif
+
 #ifndef EIGEN_PARSED_BY_DOXYGEN
   EIGEN_DEVICE_FUNC inline const Derived& derived() const { return *static_cast<const Derived*>(this); }
   EIGEN_DEVICE_FUNC inline Derived& derived() { return *static_cast<Derived*>(this); }
@@ -239,7 +244,7 @@ class TriangularView
   }
 
   template <typename Other>
-  EIGEN_DEVICE_FUNC inline const Solve<TriangularView, Other> solve(const MatrixBase<Other>& other) const {
+  EIGEN_DEVICE_FUNC inline Solve<TriangularView, Other> solve(const MatrixBase<Other>& other) const {
     return Solve<TriangularView, Other>(*this, other.derived());
   }
 
@@ -408,6 +413,21 @@ class TriangularViewImpl<MatrixType_, Mode_, Dense> : public TriangularBase<Tria
     return Product<OtherDerived, TriangularViewType>(lhs.derived(), rhs.derived());
   }
 
+  // Scaling a unit triangular view would break its implicit unit diagonal, so only non-unit modes participate.
+  template <unsigned int M = Mode, std::enable_if_t<(M & UnitDiag) == 0, int> = 0>
+  EIGEN_DEVICE_FUNC const
+      TriangularView<const EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(MatrixType, Scalar, product), Mode>
+      operator*(const Scalar& s) const {
+    return (derived().nestedExpression() * s).template triangularView<Mode>();
+  }
+
+  template <unsigned int M = Mode, std::enable_if_t<(M & UnitDiag) == 0, int> = 0>
+  friend EIGEN_DEVICE_FUNC const
+      TriangularView<const EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(Scalar, MatrixType, product), Mode>
+      operator*(const Scalar& s, const TriangularViewImpl& mat) {
+    return (s * mat.derived().nestedExpression()).template triangularView<Mode>();
+  }
+
   /** \returns the product of the inverse of \c *this with \a other, \a *this being triangular.
    *
    * This function computes the inverse-matrix matrix product inverse(\c *this) * \a other if
@@ -563,7 +583,7 @@ EIGEN_DEVICE_FUNC void TriangularBase<Derived>::evalTo(MatrixBase<DenseDerived>&
  */
 template <typename Derived>
 template <unsigned int Mode>
-EIGEN_DEVICE_FUNC typename MatrixBase<Derived>::template TriangularViewReturnType<Mode>::Type
+EIGEN_DEVICE_FUNC constexpr typename MatrixBase<Derived>::template TriangularViewReturnType<Mode>::Type
 MatrixBase<Derived>::triangularView() {
   return typename TriangularViewReturnType<Mode>::Type(derived());
 }
@@ -571,7 +591,7 @@ MatrixBase<Derived>::triangularView() {
 /** This is the const version of MatrixBase::triangularView() */
 template <typename Derived>
 template <unsigned int Mode>
-EIGEN_DEVICE_FUNC typename MatrixBase<Derived>::template ConstTriangularViewReturnType<Mode>::Type
+EIGEN_DEVICE_FUNC constexpr typename MatrixBase<Derived>::template ConstTriangularViewReturnType<Mode>::Type
 MatrixBase<Derived>::triangularView() const {
   return typename ConstTriangularViewReturnType<Mode>::Type(derived());
 }
@@ -628,7 +648,7 @@ bool MatrixBase<Derived>::isLowerTriangular(const RealScalar& prec) const {
 
 namespace internal {
 
-// TODO currently a triangular expression has the form TriangularView<.,.>
+// TODO: currently a triangular expression has the form TriangularView<.,.>
 //      in the future triangular-ness should be defined by the expression traits
 //      such that Transpose<TriangularView<.,.> > is valid. (currently TriangularBase::transpose() is overloaded to make
 //      it work)
@@ -812,28 +832,51 @@ struct triangular_assignment_loop<Kernel, Mode, 0, SetOpposite> {
 template <typename Kernel, unsigned int Mode, bool SetOpposite>
 struct triangular_assignment_loop<Kernel, Mode, Dynamic, SetOpposite> {
   typedef typename Kernel::Scalar Scalar;
+  typedef typename Kernel::DstEvaluatorType DstEvaluatorType;
+  typedef typename Kernel::AssignmentTraits AssignmentTraits;
+
+  enum {
+    IsRowMajor = (int(DstEvaluatorType::Flags) & RowMajorBit) != 0,
+    // In col-major: inner=row, outer=col. Upper means row<col i.e. inner<outer -> active before diagonal.
+    // In row-major: inner=col, outer=row. Upper means row<col i.e. inner>outer -> active after diagonal.
+    // So ActiveBeforeDiag = (Upper XOR IsRowMajor).
+    ActiveBeforeDiag = (bool(Mode & Upper) != bool(IsRowMajor))
+  };
+
+  // Compile-time outer/inner to row/col mapping. These constant-fold away entirely:
+  // ColMajor: row(outer,i) -> i, col(outer,i) -> outer
+  // RowMajor: row(outer,i) -> outer, col(outer,i) -> i
+  static constexpr Index row(Index outer, Index inner) { return IsRowMajor ? outer : inner; }
+  static constexpr Index col(Index outer, Index inner) { return IsRowMajor ? inner : outer; }
+
+  // Iterates in outer/inner order matching the storage layout for cache friendliness.
+  // Unlike the old code (which always iterated outer=col, inner=row), this gives
+  // contiguous memory access for both ColMajor and RowMajor storage.
+  // Simple scalar loops allow GCC to recognize memcpy/memset idioms and Clang to auto-vectorize.
+  // Uses a single running index 'i' per column (not separate loop variables) so the compiler
+  // can track the continuous progression and optimize register allocation.
   EIGEN_DEVICE_FUNC static inline void run(Kernel& kernel) {
-    for (Index j = 0; j < kernel.cols(); ++j) {
-      Index maxi = numext::mini(j, kernel.rows());
+    const Index outerSize = IsRowMajor ? kernel.rows() : kernel.cols();
+    const Index innerSize = IsRowMajor ? kernel.cols() : kernel.rows();
+
+    for (Index outer = 0; outer < outerSize; ++outer) {
+      const Index maxi = numext::mini(outer, innerSize);
       Index i = 0;
-      if (((Mode & Lower) && SetOpposite) || (Mode & Upper)) {
-        for (; i < maxi; ++i)
-          if (Mode & Upper)
-            kernel.assignCoeff(i, j);
-          else
-            kernel.assignOppositeCoeff(i, j);
-      } else
+
+      if (ActiveBeforeDiag) {
+        for (; i < maxi; ++i) kernel.assignCoeff(row(outer, i), col(outer, i));
+      } else if (SetOpposite) {
+        for (; i < maxi; ++i) kernel.assignOppositeCoeff(row(outer, i), col(outer, i));
+      } else {
         i = maxi;
+      }
 
-      if (i < kernel.rows())  // then i==j
-        kernel.assignDiagonalCoeff(i++);
+      if (i < innerSize) kernel.assignDiagonalCoeff(i++);
 
-      if (((Mode & Upper) && SetOpposite) || (Mode & Lower)) {
-        for (; i < kernel.rows(); ++i)
-          if (Mode & Lower)
-            kernel.assignCoeff(i, j);
-          else
-            kernel.assignOppositeCoeff(i, j);
+      if (!ActiveBeforeDiag) {
+        for (; i < innerSize; ++i) kernel.assignCoeff(row(outer, i), col(outer, i));
+      } else if (SetOpposite) {
+        for (; i < innerSize; ++i) kernel.assignOppositeCoeff(row(outer, i), col(outer, i));
       }
     }
   }

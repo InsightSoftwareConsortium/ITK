@@ -281,10 +281,7 @@ class HouseholderSequence : public EigenBase<HouseholderSequence<VectorsType, Co
       for (Index k = 0; k < cols() - vecs; ++k) dst.col(k).tail(rows() - k - 1).setZero();
     } else if (m_length > BlockSize) {
       dst.setIdentity(rows(), rows());
-      if (m_reverse)
-        applyThisOnTheLeft(dst, workspace, true);
-      else
-        applyThisOnTheLeft(dst, workspace, true);
+      applyThisOnTheLeft(dst, workspace, true);
     } else {
       dst.setIdentity(rows(), rows());
       for (Index k = vecs - 1; k >= 0; --k) {
@@ -309,14 +306,49 @@ class HouseholderSequence : public EigenBase<HouseholderSequence<VectorsType, Co
   /** \internal */
   template <typename Dest, typename Workspace>
   inline void applyThisOnTheRight(Dest& dst, Workspace& workspace) const {
-    workspace.resize(dst.rows());
-    for (Index k = 0; k < m_length; ++k) {
-      Index actual_k = m_reverse ? m_length - k - 1 : k;
-      dst.rightCols(rows() - m_shift - actual_k)
-          .applyHouseholderOnTheRight(essentialVector(actual_k), m_coeffs.coeff(actual_k), workspace.data());
+    // Use the block path when the reflectors are long enough for GEMM to outperform GEMV.
+    // The threshold on rows() (the reflector length) is higher than for the left-side path because
+    // the right-side block application has more overhead from the tmp = mat * V product layout.
+    if (m_length >= BlockSize && rows() - m_shift >= 4 * BlockSize) {
+      applyBlockOnTheRight(dst);
+    } else {
+      workspace.resize(dst.rows());
+      for (Index k = 0; k < m_length; ++k) {
+        Index actual_k = m_reverse ? m_length - k - 1 : k;
+        dst.rightCols(rows() - m_shift - actual_k)
+            .applyHouseholderOnTheRight(essentialVector(actual_k), m_coeffs.coeff(actual_k), workspace.data());
+      }
     }
   }
 
+ private:
+  /** \internal Block Householder application on the right, kept out-of-line
+   * to avoid template bloat pessimizing the scalar path above. */
+  template <typename Dest>
+  EIGEN_DONT_INLINE void applyBlockOnTheRight(Dest& dst) const {
+    // Make sure we have at least 2 useful blocks, otherwise it is point-less:
+    Index blockSize = m_length < Index(2 * BlockSize) ? (m_length + 1) / 2 : Index(BlockSize);
+    for (Index i = 0; i < m_length; i += blockSize) {
+      // Right-side application processes blocks in opposite order to left-side:
+      // forward (m_reverse=false): first block first; reversed: last block first.
+      Index end = m_reverse ? m_length - i : (std::min)(m_length, i + blockSize);
+      Index k = m_reverse ? (std::max)(Index(0), end - blockSize) : i;
+      Index bs = end - k;
+      Index start = k + m_shift;
+
+      typedef Block<internal::remove_all_t<VectorsType>, Dynamic, Dynamic> SubVectorsType;
+      SubVectorsType sub_vecs1(m_vectors.const_cast_derived(), Side == OnTheRight ? k : start,
+                               Side == OnTheRight ? start : k, Side == OnTheRight ? bs : m_vectors.rows() - start,
+                               Side == OnTheRight ? m_vectors.cols() - start : bs);
+      std::conditional_t<Side == OnTheRight, Transpose<SubVectorsType>, SubVectorsType&> sub_vecs(sub_vecs1);
+
+      Index dstCols = rows() - m_shift - k;
+      auto sub_dst = dst.rightCols(dstCols);
+      internal::apply_block_householder_on_the_right(sub_dst, sub_vecs, m_coeffs.segment(k, bs), !m_reverse);
+    }
+  }
+
+ public:
   /** \internal */
   template <typename Dest>
   inline void applyThisOnTheLeft(Dest& dst, bool inputIsIdentity = false) const {

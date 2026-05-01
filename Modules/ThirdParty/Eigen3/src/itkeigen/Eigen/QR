@@ -11,14 +11,11 @@
 #include "Core"
 
 #include "Cholesky"
-#include "Jacobi"
 #include "Householder"
 
 #include "src/Core/util/DisableStupidWarnings.h"
 
 /** \defgroup QR_Module QR module
- *
- *
  *
  * This module provides various QR decompositions
  * This module also provides some MatrixBase methods, including:
@@ -30,6 +27,8 @@
  * #include <Eigen/QR>
  * \endcode
  */
+
+#include "src/misc/RankRevealingBase.h"
 
 // IWYU pragma: begin_exports
 #include "src/QR/HouseholderQR.h"

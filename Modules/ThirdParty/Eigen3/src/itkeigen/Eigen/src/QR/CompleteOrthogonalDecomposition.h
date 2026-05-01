@@ -1,7 +1,7 @@
 // This file is part of Eigen, a lightweight C++ template library
 // for linear algebra.
 //
-// Copyright (C) 2016 Rasmus Munk Larsen <rmlarsen@google.com>
+// Copyright (C) 2016 Rasmus Munk Larsen <rmlarsen@gmail.com>
 //
 // This Source Code Form is subject to the terms of the Mozilla
 // Public License v. 2.0. If a copy of the MPL was not distributed
@@ -140,7 +140,7 @@ class CompleteOrthogonalDecomposition
    *
    */
   template <typename Rhs>
-  inline const Solve<CompleteOrthogonalDecomposition, Rhs> solve(const MatrixBase<Rhs>& b) const;
+  inline Solve<CompleteOrthogonalDecomposition, Rhs> solve(const MatrixBase<Rhs>& b) const;
 #endif
 
   HouseholderSequenceType householderQ(void) const;
@@ -293,7 +293,7 @@ class CompleteOrthogonalDecomposition
    * \warning: Do not compute \c this->pseudoInverse()*rhs to solve a linear systems.
    * It is more efficient and numerically stable to call \c this->solve(rhs).
    */
-  inline const Inverse<CompleteOrthogonalDecomposition> pseudoInverse() const {
+  inline Inverse<CompleteOrthogonalDecomposition> pseudoInverse() const {
     eigen_assert(m_cpqr.m_isInitialized && "CompleteOrthogonalDecomposition is not initialized.");
     return Inverse<CompleteOrthogonalDecomposition>(*this);
   }
@@ -638,7 +638,7 @@ CompleteOrthogonalDecomposition<MatrixType, PermutationIndex>::householderQ() co
  */
 template <typename Derived>
 template <typename PermutationIndex>
-const CompleteOrthogonalDecomposition<typename MatrixBase<Derived>::PlainObject, PermutationIndex>
+CompleteOrthogonalDecomposition<typename MatrixBase<Derived>::PlainObject, PermutationIndex>
 MatrixBase<Derived>::completeOrthogonalDecomposition() const {
   return CompleteOrthogonalDecomposition<PlainObject>(eval());
 }

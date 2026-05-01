@@ -173,7 +173,7 @@ Scalar_& AmbiVector<Scalar_, StorageIndex_>::coeffRef(Index i) {
     return m_buffer[i];
   else {
     ListEl* EIGEN_RESTRICT llElements = reinterpret_cast<ListEl*>(m_buffer);
-    // TODO factorize the following code to reduce code generation
+    // TODO: factor out the following code to reduce code generation
     eigen_assert(m_mode == IsSparse);
     if (m_llSize == 0) {
       // this is the first element
@@ -238,8 +238,8 @@ Scalar_& AmbiVector<Scalar_, StorageIndex_>::coeff(Index i) {
       Index elid = m_llStart;
       while (elid >= 0 && llElements[elid].index < i) elid = llElements[elid].next;
 
-      if (llElements[elid].index == i)
-        return llElements[m_llCurrent].value;
+      if (elid >= 0 && llElements[elid].index == i)
+        return llElements[elid].value;
       else
         return m_zero;
     }

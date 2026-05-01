@@ -1,10 +1,12 @@
 # Same version of ITK cmake_minimum_required
-cmake_minimum_required(VERSION 3.10.2)
+cmake_minimum_required(VERSION 3.16.3)
 
 project(Eigen3)
 
 # ITK doesn't compile anything here, just generates targets for the INTERFACE library.
-if(FALSE)
+#[[ # ITK - START DISABLE UPSTREAM EIGEN LOGIC
+
+cmake_minimum_required(VERSION 3.10.0)
 
 #==============================================================================
 # CMake Policy issues.
@@ -40,9 +42,16 @@ if (POLICY CMP0177)
   cmake_policy(SET CMP0177 NEW)
 endif ()
 
+# Respect <PackageName>_ROOT variables.
+if (POLICY CMP0074)
+  cmake_policy(SET CMP0074 NEW)
+endif ()
+
 #==============================================================================
 # CMake Project.
 #==============================================================================
+
+project(Eigen3)
 
 # Remove this block after bumping CMake to v3.21.0
 # PROJECT_IS_TOP_LEVEL is defined then by default
@@ -67,19 +76,12 @@ option(EIGEN_LEAVE_TEST_IN_ALL_TARGET "Leaves tests in the all target, needed by
 option(EIGEN_BUILD_BLAS "Toggles the building of the Eigen Blas library" ${PROJECT_IS_TOP_LEVEL})
 option(EIGEN_BUILD_LAPACK "Toggles the building of the included Eigen LAPACK library" ${PROJECT_IS_TOP_LEVEL})
 if (EIGEN_BUILD_BLAS OR EIGEN_BUILD_LAPACK)
-  # BLAS and LAPACK currently need a fortran compiler.
-  include(CMakeDetermineFortranCompiler)
-  if (NOT CMAKE_Fortran_COMPILER)
-    set(EIGEN_BUILD_BLAS OFF)
-    set(EIGEN_BUILD_LAPACK OFF)
-  else()
-    # Determine if we should build shared libraries for BLAS/LAPACK on this platform.
+  # Determine if we should build shared libraries for BLAS/LAPACK on this platform.
+  if (NOT EIGEN_BUILD_SHARED_LIBS)
     get_cmake_property(EIGEN_BUILD_SHARED_LIBS TARGET_SUPPORTS_SHARED_LIBS)
   endif()
 endif()
 
-option(EIGEN_BUILD_BTL "Build benchmark suite" OFF)
-option(EIGEN_BUILD_SPBENCH "Build sparse benchmark suite" OFF)
 # Avoid building docs if included from another project.
 # Building documentation requires creating and running executables on the host
 # platform.  We shouldn't do this if cross-compiling.
@@ -96,7 +98,7 @@ if(NOT WIN32 OR NOT CMAKE_HOST_SYSTEM_NAME MATCHES Windows)
 endif()
 option(EIGEN_BUILD_CMAKE_PACKAGE "Enables the creation of EigenConfig.cmake and related files" ${PROJECT_IS_TOP_LEVEL})
 
-if (EIGEN_BUILD_TESTING OR EIGEN_BUILD_BLAS OR EIGEN_BUILD_LAPACK OR EIGEN_BUILT_BTL OR EIGEN_BUILD_BTL OR EIGEN_BUILD_SPBENCH OR EIGEN_BUILD_DOC OR EIGEN_BUILD_DEMOS)
+if (EIGEN_BUILD_TESTING OR EIGEN_BUILD_BLAS OR EIGEN_BUILD_LAPACK OR EIGEN_BUILD_DOC OR EIGEN_BUILD_DEMOS)
   set(EIGEN_IS_BUILDING_ ON)
 endif()
 
@@ -104,15 +106,28 @@ endif()
 # Version Info.
 #==============================================================================
 
-# Automatically parse the version number from header files.
-file(READ "${PROJECT_SOURCE_DIR}/Eigen/src/Core/util/Macros.h" _eigen_version_header)
-string(REGEX MATCH "define[ \t]+EIGEN_WORLD_VERSION[ \t]+([0-9]+)" _eigen_world_version_match "${_eigen_version_header}")
-set(EIGEN_WORLD_VERSION "${CMAKE_MATCH_1}")
-string(REGEX MATCH "define[ \t]+EIGEN_MAJOR_VERSION[ \t]+([0-9]+)" _eigen_major_version_match "${_eigen_version_header}")
-set(EIGEN_MAJOR_VERSION "${CMAKE_MATCH_1}")
-string(REGEX MATCH "define[ \t]+EIGEN_MINOR_VERSION[ \t]+([0-9]+)" _eigen_minor_version_match "${_eigen_version_header}")
-set(EIGEN_MINOR_VERSION "${CMAKE_MATCH_1}")
-set(EIGEN_VERSION_NUMBER ${EIGEN_WORLD_VERSION}.${EIGEN_MAJOR_VERSION}.${EIGEN_MINOR_VERSION})
+# If version information is not provided, automatically parse the version number
+# from header files.
+file(READ "${PROJECT_SOURCE_DIR}/Eigen/Version" _eigen_version_header)
+if (NOT DEFINED EIGEN_WORLD_VERSION)
+  string(REGEX MATCH "define[ \t]+EIGEN_WORLD_VERSION[ \t]+([0-9]+)" _eigen_world_version_match "${_eigen_version_header}")
+  set(EIGEN_WORLD_VERSION "${CMAKE_MATCH_1}" CACHE STRING "")
+endif()
+if (NOT DEFINED EIGEN_MAJOR_VERSION)
+  string(REGEX MATCH "define[ \t]+EIGEN_MAJOR_VERSION[ \t]+([0-9]+)" _eigen_major_version_match "${_eigen_version_header}")
+  set(EIGEN_MAJOR_VERSION "${CMAKE_MATCH_1}" CACHE STRING "")
+endif()
+if (NOT DEFINED EIGEN_MINOR_VERSION)
+  string(REGEX MATCH "define[ \t]+EIGEN_MINOR_VERSION[ \t]+([0-9]+)" _eigen_minor_version_match "${_eigen_version_header}")
+  set(EIGEN_MINOR_VERSION "${CMAKE_MATCH_1}" CACHE STRING "")
+endif()
+if (NOT DEFINED EIGEN_PATCH_VERSION)
+  string(REGEX MATCH "define[ \t]+EIGEN_PATCH_VERSION[ \t]+([0-9]+)" _eigen_patch_version_match "${_eigen_version_header}")
+  set(EIGEN_PATCH_VERSION "${CMAKE_MATCH_1}" CACHE STRING "")
+endif()
+if (NOT DEFINED EIGEN_PRERELEASE_VERSION)
+  set(EIGEN_PRERELEASE_VERSION "dev")
+endif()
 
 # If we are in a git repo, extract a changeset.
 if(IS_DIRECTORY ${CMAKE_SOURCE_DIR}/.git)
@@ -123,15 +138,31 @@ endif()
 
 # extract the git rev number from the git output...
 if(EIGEN_GIT_OUTPUT)
-string(REGEX MATCH "^([0-9;a-f]+).*" EIGEN_GIT_CHANGESET_MATCH "${EIGEN_GIT_OUTPUT}")
-set(EIGEN_GIT_REVNUM "${CMAKE_MATCH_1}")
+  string(REGEX MATCH "^([0-9;a-f]+).*" EIGEN_GIT_CHANGESET_MATCH "${EIGEN_GIT_OUTPUT}")
+  set(EIGEN_GIT_REVNUM "${CMAKE_MATCH_1}")
 endif()
-#...and show it next to the version number
-if(EIGEN_GIT_REVNUM)
-  set(EIGEN_VERSION "${EIGEN_VERSION_NUMBER} (git rev ${EIGEN_GIT_REVNUM})")
+
+if (NOT DEFINED EIGEN_BUILD_VERSION AND DEFINED EIGEN_GIT_REVNUM)
+  string(SUBSTRING "${EIGEN_GIT_REVNUM}" 0 8 EIGEN_BUILD_VERSION)
 else()
-  set(EIGEN_VERSION "${EIGEN_VERSION_NUMBER}")
+  set(EIGEN_BUILD_VERSION "" CACHE STRING "")
 endif()
+
+# The EIGEN_VERSION_NUMBER must be of the form <major.minor.patch>.
+# The EIGEN_VERSION_STRING can contain the preprelease/build strings.
+set(EIGEN_VERSION_NUMBER "${EIGEN_MAJOR_VERSION}.${EIGEN_MINOR_VERSION}.${EIGEN_PATCH_VERSION}" CACHE STRING "")
+set(EIGEN_VERSION_STRING "${EIGEN_VERSION_NUMBER}" CACHE STRING "")
+if (NOT "x${EIGEN_PRERELEASE_VERSION}" STREQUAL "x")
+  set(EIGEN_VERSION_STRING "${EIGEN_VERSION_STRING}-${EIGEN_PRERELEASE_VERSION}" CACHE STRING "")
+endif()
+if (NOT "x${EIGEN_BUILD_VERSION}" STREQUAL "x")
+  set(EIGEN_VERSION_STRING "${EIGEN_VERSION_STRING}+${EIGEN_BUILD_VERSION}" CACHE STRING "")
+endif()
+
+
+# Generate version file.
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Version.in"
+               "${CMAKE_CURRENT_BINARY_DIR}/include/Eigen/Version")
 
 #==============================================================================
 # Install Path Configuration.
@@ -180,11 +211,6 @@ endforeach()
 # Eigen Library.
 #==============================================================================
 
-set ( EIGEN_VERSION_STRING ${EIGEN_VERSION_NUMBER} )
-set ( EIGEN_VERSION_MAJOR  ${EIGEN_WORLD_VERSION} )
-set ( EIGEN_VERSION_MINOR  ${EIGEN_MAJOR_VERSION} )
-set ( EIGEN_VERSION_PATCH  ${EIGEN_MINOR_VERSION} )
-
 # Alias Eigen_*_DIR to Eigen3_*_DIR:
 set(Eigen_SOURCE_DIR ${Eigen3_SOURCE_DIR})
 set(Eigen_BINARY_DIR ${Eigen3_BINARY_DIR})
@@ -196,6 +222,9 @@ target_include_directories (eigen INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   $<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}>
 )
+
+# Eigen requires at least C++14
+target_compile_features (eigen INTERFACE cxx_std_14)
 
 # Export as title case Eigen
 set_target_properties (eigen PROPERTIES EXPORT_NAME Eigen)
@@ -216,6 +245,9 @@ if(EIGEN_BUILD_PKGCONFIG)
 endif()
 
 install(DIRECTORY Eigen DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel)
+# Replace the "Version" header file with the generated one.
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/Eigen/Version
+    DESTINATION ${INCLUDE_INSTALL_DIR}/Eigen/ COMPONENT Devel)
 
 install(TARGETS eigen EXPORT Eigen3Targets)
 
@@ -229,25 +261,10 @@ if(EIGEN_BUILD_CMAKE_PACKAGE)
     NO_CHECK_REQUIRED_COMPONENTS_MACRO # Eigen does not provide components
   )
 
-  # NOTE Remove the first code path once the minimum required CMake version is
-  # bumped to 3.14 or above.
-  if (CMAKE_VERSION VERSION_LESS 3.14)
-    # Remove CMAKE_SIZEOF_VOID_P from Eigen3ConfigVersion.cmake since Eigen does
-    # not depend on architecture specific settings or libraries. More
-    # specifically, an Eigen3Config.cmake generated from a 64 bit target can be
-    # used for 32 bit targets as well (and vice versa).
-    set (_Eigen3_CMAKE_SIZEOF_VOID_P ${CMAKE_SIZEOF_VOID_P})
-    unset (CMAKE_SIZEOF_VOID_P)
-    write_basic_package_version_file (Eigen3ConfigVersion.cmake
-                                      VERSION ${EIGEN_VERSION_NUMBER}
-                                      COMPATIBILITY SameMajorVersion)
-    set (CMAKE_SIZEOF_VOID_P ${_Eigen3_CMAKE_SIZEOF_VOID_P})
-  else (CMAKE_VERSION VERSION_LESS 3.14)
-    write_basic_package_version_file (Eigen3ConfigVersion.cmake
-                                      VERSION ${EIGEN_VERSION_NUMBER}
-                                      COMPATIBILITY SameMajorVersion
-                                      ARCH_INDEPENDENT)
-  endif (CMAKE_VERSION VERSION_LESS 3.14)
+  set(CVF_VERSION "${EIGEN_VERSION_NUMBER}")
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Eigen3ConfigVersion.cmake.in"
+                 "Eigen3ConfigVersion.cmake"
+                 @ONLY)
 
   # The Eigen target will be located in the Eigen3 namespace. Other CMake
   # targets can refer to it using Eigen3::Eigen.
@@ -299,17 +316,29 @@ if (EIGEN_IS_BUILDING_)
   set(CMAKE_INCLUDE_CURRENT_DIR OFF)
 
   find_package(StandardMathLibrary)
+  find_package(AOCL QUIET)
   set(EIGEN_STANDARD_LIBRARIES_TO_LINK_TO "")
-  if(NOT STANDARD_MATH_LIBRARY_FOUND)
-    message(FATAL_ERROR
-      "Can't link to the standard math library. Please report to the Eigen developers, telling them about your platform.")
-  else()
-    if(EIGEN_STANDARD_LIBRARIES_TO_LINK_TO)
-      set(EIGEN_STANDARD_LIBRARIES_TO_LINK_TO "${EIGEN_STANDARD_LIBRARIES_TO_LINK_TO} ${STANDARD_MATH_LIBRARY}")
-    else()
-      set(EIGEN_STANDARD_LIBRARIES_TO_LINK_TO "${STANDARD_MATH_LIBRARY}")
+  if(AOCL_FOUND)
+    list(APPEND EIGEN_STANDARD_LIBRARIES_TO_LINK_TO ${AOCL_LIBRARIES})
+    if(AOCL_INCLUDE_DIRS)
+      include_directories(${AOCL_INCLUDE_DIRS})
     endif()
   endif()
+
+  if(NOT STANDARD_MATH_LIBRARY_FOUND)
+  message(FATAL_ERROR
+    "Can't link to the standard math library. Please report to the Eigen developers, telling them about your platform.")
+  else()
+  if(EIGEN_STANDARD_LIBRARIES_TO_LINK_TO)
+    set(EIGEN_STANDARD_LIBRARIES_TO_LINK_TO "${EIGEN_STANDARD_LIBRARIES_TO_LINK_TO} ${STANDARD_MATH_LIBRARY}")
+  else()
+    set(EIGEN_STANDARD_LIBRARIES_TO_LINK_TO "${STANDARD_MATH_LIBRARY}")
+  endif()
+  # Clean up any leading/trailing whitespace in the variable to avoid CMP0004 errors
+  string(STRIP "${EIGEN_STANDARD_LIBRARIES_TO_LINK_TO}" EIGEN_STANDARD_LIBRARIES_TO_LINK_TO)
+ endif()
+
+
   if(EIGEN_STANDARD_LIBRARIES_TO_LINK_TO)
     message(STATUS "Standard libraries to link to explicitly: ${EIGEN_STANDARD_LIBRARIES_TO_LINK_TO}")
   else()
@@ -386,6 +415,8 @@ if (EIGEN_BUILD_TESTING)
     ei_add_cxx_compiler_flag("-Wshorten-64-to-32")
     ei_add_cxx_compiler_flag("-Wlogical-op")
     ei_add_cxx_compiler_flag("-Wenum-conversion")
+    ei_add_cxx_compiler_flag("-Werror=deprecated-anon-enum-enum-conversion")
+    ei_add_cxx_compiler_flag("-Werror=deprecated-enum-enum-conversion")
     ei_add_cxx_compiler_flag("-Wc++11-extensions")
     ei_add_cxx_compiler_flag("-Wdouble-promotion")
     # ei_add_cxx_compiler_flag("-Wconversion")
@@ -393,6 +424,7 @@ if (EIGEN_BUILD_TESTING)
     ei_add_cxx_compiler_flag("-Wno-psabi")
     ei_add_cxx_compiler_flag("-Wno-variadic-macros")
     ei_add_cxx_compiler_flag("-Wno-long-long")
+    ei_add_cxx_compiler_flag("-Wno-pass-failed")          # disable clang's warning for unrolling when the loop count is dynamic.
     ei_add_cxx_compiler_flag("-fno-common")
     ei_add_cxx_compiler_flag("-fstrict-aliasing")
     ei_add_cxx_compiler_flag("-wd981")                    # disable ICC's "operands are evaluated in unspecified order" remark
@@ -401,6 +433,17 @@ if (EIGEN_BUILD_TESTING)
     # Clang emits warnings about unused flag.
     if (NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
       ei_add_cxx_compiler_flag("-fno-check-new")
+    endif()
+
+    # GCC 12+ emits false-positive -Warray-bounds, -Wmaybe-uninitialized,
+    # -Wstringop-overread, and -Wnonnull warnings at -O2/-O3 in heavily
+    # templated code with mixed static/dynamic sizes.  These are well-known
+    # compiler bugs (see GCC PR 109394, 106247, 105329, 98610, among others).
+    if (CMAKE_COMPILER_IS_GNUCXX)
+      ei_add_cxx_compiler_flag("-Wno-array-bounds")
+      ei_add_cxx_compiler_flag("-Wno-maybe-uninitialized")
+      ei_add_cxx_compiler_flag("-Wno-stringop-overread")
+      ei_add_cxx_compiler_flag("-Wno-nonnull")
     endif()
 
 
@@ -639,7 +682,7 @@ if (EIGEN_BUILD_TESTING)
   endif()
 
   set(EIGEN_CUDA_CXX_FLAGS "" CACHE STRING "Additional flags to pass to the cuda compiler.")
-  set(EIGEN_CUDA_COMPUTE_ARCH 30 CACHE STRING "The CUDA compute architecture(s) to target when compiling CUDA code")
+  set(EIGEN_CUDA_COMPUTE_ARCH 70 CACHE STRING "The CUDA compute architecture(s) to target when compiling CUDA code")
 
   option(EIGEN_TEST_SYCL "Add Sycl support." OFF)
   if(EIGEN_TEST_SYCL)
@@ -729,15 +772,6 @@ if(EIGEN_BUILD_DOC)
   add_subdirectory(doc EXCLUDE_FROM_ALL)
 endif()
 
-# TODO: consider also replacing EIGEN_BUILD_BTL by a custom target "make btl"?
-if(EIGEN_BUILD_BTL)
-  add_subdirectory(bench/btl EXCLUDE_FROM_ALL)
-endif()
-
-if(NOT WIN32 AND EIGEN_BUILD_SPBENCH)
-  add_subdirectory(bench/spbench EXCLUDE_FROM_ALL)
-endif()
-
 if (EIGEN_BUILD_DEMOS)
   add_subdirectory(demos EXCLUDE_FROM_ALL)
 endif()
@@ -791,9 +825,10 @@ if(PROJECT_IS_TOP_LEVEL)
 endif()
 
 message(STATUS "")
-message(STATUS "Configured Eigen ${EIGEN_VERSION_NUMBER}")
+message(STATUS "Configured Eigen ${EIGEN_VERSION_STRING}")
 message(STATUS "")
-endif() # Regular CMakeLists of Eigen ends here
+
+#]] # ITK -STOP DISABLE UPSTREAM EIGEN LOGIC
 
 ###############################################################################
 ################################ ITK ##########################################
@@ -814,15 +849,33 @@ include(GNUInstallDirs)
 set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDEDIR}")
 set(CMAKEPACKAGE_INSTALL_DIR "${CMAKE_INSTALL_DATADIR}")
 
-# automatically parse the version number
-file(READ "${PROJECT_SOURCE_DIR}/Eigen/src/Core/util/Macros.h" _eigen_version_header)
+# Automatically parse the version number.
+# Eigen 5+ moved the version macros from Eigen/src/Core/util/Macros.h to
+# Eigen/Version, and switched to semantic versioning. EIGEN_WORLD_VERSION
+# is now permanently "3" (legacy "Eigen3" name); EIGEN_MAJOR_VERSION /
+# EIGEN_MINOR_VERSION / EIGEN_PATCH_VERSION carry the real semver triple.
+# Build EIGEN_VERSION_NUMBER as MAJOR.MINOR.PATCH so that
+# find_package(Eigen3 X.Y.Z) and Eigen3_VERSION reflect the real version.
+if(EXISTS "${PROJECT_SOURCE_DIR}/Eigen/Version")
+  file(READ "${PROJECT_SOURCE_DIR}/Eigen/Version" _eigen_version_header)
+else()
+  file(READ "${PROJECT_SOURCE_DIR}/Eigen/src/Core/util/Macros.h" _eigen_version_header)
+endif()
 string(REGEX MATCH "define[ \t]+EIGEN_WORLD_VERSION[ \t]+([0-9]+)" _eigen_world_version_match "${_eigen_version_header}")
 set(EIGEN_WORLD_VERSION "${CMAKE_MATCH_1}")
 string(REGEX MATCH "define[ \t]+EIGEN_MAJOR_VERSION[ \t]+([0-9]+)" _eigen_major_version_match "${_eigen_version_header}")
 set(EIGEN_MAJOR_VERSION "${CMAKE_MATCH_1}")
 string(REGEX MATCH "define[ \t]+EIGEN_MINOR_VERSION[ \t]+([0-9]+)" _eigen_minor_version_match "${_eigen_version_header}")
 set(EIGEN_MINOR_VERSION "${CMAKE_MATCH_1}")
-set(EIGEN_VERSION_NUMBER ${EIGEN_WORLD_VERSION}.${EIGEN_MAJOR_VERSION}.${EIGEN_MINOR_VERSION})
+string(REGEX MATCH "define[ \t]+EIGEN_PATCH_VERSION[ \t]+([0-9]+)" _eigen_patch_version_match "${_eigen_version_header}")
+set(EIGEN_PATCH_VERSION "${CMAKE_MATCH_1}")
+if(EIGEN_WORLD_VERSION STREQUAL "3" AND EIGEN_PATCH_VERSION)
+  # Eigen >= 5.0: WORLD frozen at 3, real version is MAJOR.MINOR.PATCH.
+  set(EIGEN_VERSION_NUMBER ${EIGEN_MAJOR_VERSION}.${EIGEN_MINOR_VERSION}.${EIGEN_PATCH_VERSION})
+else()
+  # Eigen <= 3.4.x: legacy WORLD.MAJOR.MINOR layout.
+  set(EIGEN_VERSION_NUMBER ${EIGEN_WORLD_VERSION}.${EIGEN_MAJOR_VERSION}.${EIGEN_MINOR_VERSION})
+endif()
 
 include (CMakePackageConfigHelpers)
 
@@ -882,7 +935,7 @@ install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/Eigen3Config.cmake
 # Install files (used for both eigen_external and eigen_internal)
 install(
   DIRECTORY   "${CMAKE_CURRENT_SOURCE_DIR}/Eigen/"
-  DESTINATION "${ITK3P_INSTALL_INCLUDE_DIR}/itkeigen/Eigen"
+  DESTINATION "${INCLUDE_INSTALL_DIR}/itkeigen/Eigen"
   PATTERN "*.txt" EXCLUDE)
 
 ######################### eigen_internal #####################################
@@ -896,6 +949,7 @@ add_library (ITKInternalEigen3::Eigen ALIAS eigen_internal)
 # This would wrongly enforce EIGEN_MPL2_ONLY to other libraries using Eigen.
 # We wrap this definition in ITK_USE_EIGEN_MPL2_ONLY, and only enabling it internally in the dashboards and CI,
 # to avoid introducing GPL code from Eigen3 internally in ITK.
+# (ITK_USE_EIGEN_MPL2_ONLY is declared once near line 844 of this file.)
 
 if(ITK_USE_EIGEN_MPL2_ONLY)
   target_compile_definitions (eigen_internal INTERFACE "EIGEN_MPL2_ONLY")
@@ -905,10 +959,40 @@ endif()
 #   #include <itkeigen/Eigen/x>
 # INSTALL: headers require pre-prend itkeigen/Eigen/X.
 target_include_directories (eigen_internal SYSTEM INTERFACE
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-  "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${ITK3P_INSTALL_INCLUDE_DIR}/itkeigen>;"
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
+  $<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}>
   )
 
 # Export as title case Eigen
-install (TARGETS eigen_internal EXPORT ${ITK3P_INSTALL_EXPORT_NAME})
+set_target_properties (eigen_internal PROPERTIES EXPORT_NAME Eigen)
+install (TARGETS eigen_internal EXPORT ITKInternalEigen3Targets)
 
+set(EIGEN3_TARGETS_FILE ITKInternalEigen3Targets.cmake)
+configure_package_config_file (
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Eigen3Config.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/ITKInternalEigen3Config.cmake
+  INSTALL_DESTINATION ${CMAKEPACKAGE_INSTALL_DIR}
+  NO_CHECK_REQUIRED_COMPONENTS_MACRO # Eigen does not provide components
+  )
+# Remove CMAKE_SIZEOF_VOID_P from Eigen3ConfigVersion.cmake since Eigen does
+# not depend on architecture specific settings or libraries. More
+# specifically, an Eigen3Config.cmake generated from a 64 bit target can be
+# used for 32 bit targets as well (and vice versa).
+set (_Eigen3_CMAKE_SIZEOF_VOID_P ${CMAKE_SIZEOF_VOID_P})
+unset (CMAKE_SIZEOF_VOID_P)
+write_basic_package_version_file (ITKInternalEigen3ConfigVersion.cmake
+  VERSION ${EIGEN_VERSION_NUMBER}
+  COMPATIBILITY SameMajorVersion)
+set (CMAKE_SIZEOF_VOID_P ${_Eigen3_CMAKE_SIZEOF_VOID_P})
+# The Eigen target will be located in the Eigen3 namespace. Other CMake
+# targets can refer to it using Eigen3::Eigen.
+export (TARGETS eigen_internal NAMESPACE ITKInternalEigen3:: FILE ITKInternalEigen3Targets.cmake)
+install (EXPORT ITKInternalEigen3Targets NAMESPACE ITKInternalEigen3:: DESTINATION ${CMAKEPACKAGE_INSTALL_DIR})
+# Files already installed in eigen_external
+# install(
+#   DIRECTORY   "${CMAKE_CURRENT_SOURCE_DIR}/Eigen/"
+#   DESTINATION "${INCLUDE_INSTALL_DIR}/itkeigen/Eigen"
+#   PATTERN "*.txt" EXCLUDE)
+install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/ITKInternalEigen3Config.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/ITKInternalEigen3ConfigVersion.cmake
+  DESTINATION ${CMAKEPACKAGE_INSTALL_DIR} )

@@ -239,7 +239,7 @@ EIGEN_DEVICE_FUNC void JacobiRotation<Scalar>::makeGivens(const Scalar& p, const
 
 namespace internal {
 /** \jacobi_module
- * Applies the clock wise 2D rotation \a j to the set of 2D vectors of coordinates \a x and \a y:
+ * Applies the clockwise 2D rotation \a j to the set of 2D vectors of coordinates \a x and \a y:
  * \f$ \left ( \begin{array}{cc} x \\ y \end{array} \right )  =  J \left ( \begin{array}{cc} x \\ y \end{array} \right )
  * \f$
  *
@@ -305,7 +305,7 @@ struct apply_rotation_in_the_plane_selector<Scalar, OtherScalar, SizeAtCompileTi
     typedef typename packet_traits<OtherScalar>::type OtherPacket;
 
     constexpr int RequiredAlignment =
-        (std::max)(unpacket_traits<Packet>::alignment, unpacket_traits<OtherPacket>::alignment);
+        (std::max<int>)(unpacket_traits<Packet>::alignment, unpacket_traits<OtherPacket>::alignment);
     constexpr Index PacketSize = packet_traits<Scalar>::size;
 
     /*** dynamic-size vectorized paths ***/
@@ -335,8 +335,8 @@ struct apply_rotation_in_the_plane_selector<Scalar, OtherScalar, SizeAtCompileTi
         for (Index i = alignedStart; i < alignedEnd; i += PacketSize) {
           Packet xi = pload<Packet>(px);
           Packet yi = pload<Packet>(py);
-          pstore(px, padd(pm.pmul(pc, xi), pcj.pmul(ps, yi)));
-          pstore(py, psub(pcj.pmul(pc, yi), pm.pmul(ps, xi)));
+          pstore(px, pm.pmadd(pc, xi, pcj.pmul(ps, yi)));
+          pstore(py, pcj.pmsub(pc, yi, pm.pmul(ps, xi)));
           px += PacketSize;
           py += PacketSize;
         }
@@ -347,18 +347,18 @@ struct apply_rotation_in_the_plane_selector<Scalar, OtherScalar, SizeAtCompileTi
           Packet xi1 = ploadu<Packet>(px + PacketSize);
           Packet yi = pload<Packet>(py);
           Packet yi1 = pload<Packet>(py + PacketSize);
-          pstoreu(px, padd(pm.pmul(pc, xi), pcj.pmul(ps, yi)));
-          pstoreu(px + PacketSize, padd(pm.pmul(pc, xi1), pcj.pmul(ps, yi1)));
-          pstore(py, psub(pcj.pmul(pc, yi), pm.pmul(ps, xi)));
-          pstore(py + PacketSize, psub(pcj.pmul(pc, yi1), pm.pmul(ps, xi1)));
+          pstoreu(px, pm.pmadd(pc, xi, pcj.pmul(ps, yi)));
+          pstoreu(px + PacketSize, pm.pmadd(pc, xi1, pcj.pmul(ps, yi1)));
+          pstore(py, pcj.pmsub(pc, yi, pm.pmul(ps, xi)));
+          pstore(py + PacketSize, pcj.pmsub(pc, yi1, pm.pmul(ps, xi1)));
           px += Peeling * PacketSize;
           py += Peeling * PacketSize;
         }
         if (alignedEnd != peelingEnd) {
           Packet xi = ploadu<Packet>(x + peelingEnd);
           Packet yi = pload<Packet>(y + peelingEnd);
-          pstoreu(x + peelingEnd, padd(pm.pmul(pc, xi), pcj.pmul(ps, yi)));
-          pstore(y + peelingEnd, psub(pcj.pmul(pc, yi), pm.pmul(ps, xi)));
+          pstoreu(x + peelingEnd, pm.pmadd(pc, xi, pcj.pmul(ps, yi)));
+          pstore(y + peelingEnd, pcj.pmsub(pc, yi, pm.pmul(ps, xi)));
         }
       }
 
@@ -381,8 +381,8 @@ struct apply_rotation_in_the_plane_selector<Scalar, OtherScalar, SizeAtCompileTi
       for (Index i = 0; i < size; i += PacketSize) {
         Packet xi = pload<Packet>(px);
         Packet yi = pload<Packet>(py);
-        pstore(px, padd(pm.pmul(pc, xi), pcj.pmul(ps, yi)));
-        pstore(py, psub(pcj.pmul(pc, yi), pm.pmul(ps, xi)));
+        pstore(px, pm.pmadd(pc, xi, pcj.pmul(ps, yi)));
+        pstore(py, pcj.pmsub(pc, yi, pm.pmul(ps, xi)));
         px += PacketSize;
         py += PacketSize;
       }
@@ -418,6 +418,47 @@ EIGEN_DEVICE_FUNC void inline apply_rotation_in_the_plane(DenseBase<VectorX>& xp
   constexpr int Alignment = (std::min)(int(evaluator<VectorX>::Alignment), int(evaluator<VectorY>::Alignment));
   apply_rotation_in_the_plane_selector<Scalar, OtherScalar, VectorX::SizeAtCompileTime, Alignment, Vectorizable>::run(
       x, incrx, y, incry, size, c, s);
+}
+
+template <typename MatrixType, typename RealScalar, typename Index>
+EIGEN_DONT_INLINE void real_2x2_jacobi_svd(const MatrixType& matrix, Index p, Index q,
+                                           JacobiRotation<RealScalar>* j_left, JacobiRotation<RealScalar>* j_right) {
+  // Extract 2x2 submatrix into scalars (avoids Matrix construction on stack).
+  const RealScalar m00 = numext::real(matrix.coeff(p, p));
+  const RealScalar m01 = numext::real(matrix.coeff(p, q));
+  const RealScalar m10 = numext::real(matrix.coeff(q, p));
+  const RealScalar m11 = numext::real(matrix.coeff(q, q));
+
+  // Compute the symmetrizing rotation rot1 such that rot1 * [m] is symmetric.
+  const RealScalar t = m00 + m11;
+  const RealScalar d = m10 - m01;
+
+  RealScalar c1, s1;
+  if (numext::abs(d) < (std::numeric_limits<RealScalar>::min)()) {
+    c1 = RealScalar(1);
+    s1 = RealScalar(0);
+  } else {
+    // If d!=0, then t/d cannot overflow because the magnitude of the
+    // entries forming d are not too small compared to the ones forming t.
+    RealScalar u = t / d;
+    s1 = RealScalar(1) / numext::sqrt(RealScalar(1) + numext::abs2(u));
+    c1 = u * s1;
+  }
+
+  // Apply rot1 to the 2x2 submatrix inline (avoids rotation dispatch overhead).
+  // Result is symmetric, so we only need 3 values: a00, a01 (== a10), a11.
+  const RealScalar a00 = c1 * m00 + s1 * m10;
+  const RealScalar a01 = c1 * m01 + s1 * m11;
+  const RealScalar a11 = -s1 * m01 + c1 * m11;
+
+  // Compute the diagonalizing rotation j_right from the symmetrized matrix.
+  j_right->makeJacobi(a00, a01, a11);
+
+  // Compose j_left = rot1 * j_right^T inline (avoids template machinery overhead).
+  const RealScalar jr_c = j_right->c();
+  const RealScalar jr_s = j_right->s();
+  j_left->c() = c1 * jr_c + s1 * jr_s;
+  j_left->s() = s1 * jr_c - c1 * jr_s;
 }
 
 }  // end namespace internal

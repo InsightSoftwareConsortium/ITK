@@ -12,7 +12,6 @@
 
 #include "SVD"
 #include "LU"
-#include <limits>
 
 #include "src/Core/util/DisableStupidWarnings.h"
 
@@ -48,9 +47,12 @@
 #include "src/Geometry/AlignedBox.h"
 #include "src/Geometry/Umeyama.h"
 
+#ifndef EIGEN_VECTORIZE_GENERIC
+// TODO(rmlarsen): Make these work with generic vectorization if possible.
 // Use the SSE optimized version whenever possible.
 #if (defined EIGEN_VECTORIZE_SSE) || (defined EIGEN_VECTORIZE_NEON)
 #include "src/Geometry/arch/Geometry_SIMD.h"
+#endif
 #endif
 // IWYU pragma: end_exports
 

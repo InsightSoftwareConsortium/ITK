@@ -20,11 +20,10 @@ namespace internal {
 
 // useful for unsigned / signed integer comparisons when idx is intended to be non-negative
 template <typename IndexType>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE typename make_unsigned<IndexType>::type returnUnsignedIndexValue(
-    const IndexType& idx) {
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::make_unsigned_t<IndexType> returnUnsignedIndexValue(const IndexType& idx) {
   EIGEN_STATIC_ASSERT((NumTraits<IndexType>::IsInteger), THIS FUNCTION IS FOR INTEGER TYPES)
   eigen_internal_assert(idx >= 0 && "Index value is negative and target type is unsigned");
-  using UnsignedType = typename make_unsigned<IndexType>::type;
+  using UnsignedType = std::make_unsigned_t<IndexType>;
   return static_cast<UnsignedType>(idx);
 }
 
@@ -97,7 +96,7 @@ struct promote_scalar_arg;
 
 template <typename S, typename T>
 struct promote_scalar_arg<S, T, true> {
-  typedef T type;
+  using type = T;
 };
 
 // Recursively check safe conversion to PromotedType, and then ExprScalar if they are different.
@@ -113,7 +112,7 @@ struct promote_scalar_arg<S, T, false> : promote_scalar_arg_unsupported<S, T, ty
 // We found a match!
 template <typename S, typename T, typename PromotedType>
 struct promote_scalar_arg_unsupported<S, T, PromotedType, true, true> {
-  typedef PromotedType type;
+  using type = PromotedType;
 };
 
 // No match, but no real-to-integer issues, and ExprScalar and current PromotedType are different,
@@ -132,8 +131,7 @@ struct promote_scalar_arg_unsupported<S, T, S, false, true> {};
 
 // classes inheriting no_assignment_operator don't generate a default operator=.
 class no_assignment_operator {
- private:
-  no_assignment_operator& operator=(const no_assignment_operator&);
+  no_assignment_operator& operator=(const no_assignment_operator&) = delete;
 
  protected:
   EIGEN_DEFAULT_COPY_CONSTRUCTOR(no_assignment_operator)
@@ -143,7 +141,7 @@ class no_assignment_operator {
 /** \internal return the index type with the largest number of bits */
 template <typename I1, typename I2>
 struct promote_index_type {
-  typedef std::conditional_t<(sizeof(I1) < sizeof(I2)), I2, I1> type;
+  using type = std::conditional_t<(sizeof(I1) < sizeof(I2)), I2, I1>;
 };
 
 /** \internal If the template parameter Value is Dynamic, this class is just a wrapper around a T variable that
@@ -153,13 +151,12 @@ struct promote_index_type {
 template <typename T, int Value>
 class variable_if_dynamic {
  public:
-  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(variable_if_dynamic)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit variable_if_dynamic(T v) {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE explicit variable_if_dynamic(T v) {
     EIGEN_ONLY_USED_FOR_DEBUG(v);
     eigen_assert(v == T(Value));
   }
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE constexpr T value() { return T(Value); }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr operator T() const { return T(Value); }
+  EIGEN_DEVICE_FUNC static constexpr T value() { return T(Value); }
+  EIGEN_DEVICE_FUNC constexpr operator T() const { return T(Value); }
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void setValue(T v) const {
     EIGEN_ONLY_USED_FOR_DEBUG(v);
     eigen_assert(v == T(Value));
@@ -171,9 +168,9 @@ class variable_if_dynamic<T, Dynamic> {
   T m_value;
 
  public:
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit variable_if_dynamic(T value = 0) noexcept : m_value(value) {}
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE T value() const { return m_value; }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE operator T() const { return m_value; }
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE explicit variable_if_dynamic(T value = 0) noexcept : m_value(value) {}
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE T value() const { return m_value; }
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE operator T() const { return m_value; }
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void setValue(T value) { m_value = value; }
 };
 
@@ -182,12 +179,12 @@ class variable_if_dynamic<T, Dynamic> {
 template <typename T, int Value>
 class variable_if_dynamicindex {
  public:
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit variable_if_dynamicindex(T v) {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE explicit variable_if_dynamicindex(T v) {
     EIGEN_ONLY_USED_FOR_DEBUG(v);
     eigen_assert(v == T(Value));
   }
-  EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE constexpr T value() { return T(Value); }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void setValue(T) {}
+  EIGEN_DEVICE_FUNC static constexpr T value() { return T(Value); }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void setValue(T) {}
 };
 
 template <typename T>
@@ -196,8 +193,8 @@ class variable_if_dynamicindex<T, DynamicIndex> {
   EIGEN_DEVICE_FUNC variable_if_dynamicindex() { eigen_assert(false); }
 
  public:
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE explicit variable_if_dynamicindex(T value) : m_value(value) {}
-  EIGEN_DEVICE_FUNC T EIGEN_STRONG_INLINE value() const { return m_value; }
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE explicit variable_if_dynamicindex(T value) : m_value(value) {}
+  EIGEN_DEVICE_FUNC constexpr T EIGEN_STRONG_INLINE value() const { return m_value; }
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void setValue(T value) { m_value = value; }
 };
 
@@ -277,17 +274,17 @@ struct find_best_packet_helper;
 
 template <int Size, typename PacketType>
 struct find_best_packet_helper<Size, PacketType, true> {
-  typedef PacketType type;
+  using type = PacketType;
 };
 
 template <int Size, typename PacketType>
 struct find_best_packet_helper<Size, PacketType, false> {
-  typedef typename find_best_packet_helper<Size, typename unpacket_traits<PacketType>::half>::type type;
+  using type = typename find_best_packet_helper<Size, typename unpacket_traits<PacketType>::half>::type;
 };
 
 template <typename T, int Size>
 struct find_best_packet {
-  typedef typename find_best_packet_helper<Size, typename packet_traits<T>::type>::type type;
+  using type = typename find_best_packet_helper<Size, typename packet_traits<T>::type>::type;
 };
 
 template <int Size, typename PacketType,
@@ -349,17 +346,16 @@ template <typename Scalar_, int Rows_, int Cols_,
                                       : (Cols_ == 1 && Rows_ != 1) ? ColMajor
                                                                    : EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION),
           int MaxRows_ = Rows_, int MaxCols_ = Cols_>
-class make_proper_matrix_type {
-  enum {
-    IsColVector = Cols_ == 1 && Rows_ != 1,
-    IsRowVector = Rows_ == 1 && Cols_ != 1,
-    Options = IsColVector   ? (Options_ | ColMajor) & ~RowMajor
-              : IsRowVector ? (Options_ | RowMajor) & ~ColMajor
-                            : Options_
-  };
+struct make_proper_matrix_type {
+ private:
+  static constexpr bool IsColVector = Cols_ == 1 && Rows_ != 1;
+  static constexpr bool IsRowVector = Rows_ == 1 && Cols_ != 1;
+  static constexpr int Options = IsColVector   ? (Options_ | ColMajor) & ~RowMajor
+                                 : IsRowVector ? (Options_ | RowMajor) & ~ColMajor
+                                               : Options_;
 
  public:
-  typedef Matrix<Scalar_, Rows_, Cols_, Options, MaxRows_, MaxCols_> type;
+  using type = Matrix<Scalar_, Rows_, Cols_, Options, MaxRows_, MaxCols_>;
 };
 
 constexpr unsigned compute_matrix_flags(int Options) {
@@ -391,32 +387,30 @@ template <typename T, typename BaseClassType, int Flags>
 struct plain_matrix_type_dense;
 template <typename T>
 struct plain_matrix_type<T, Dense> {
-  typedef typename plain_matrix_type_dense<T, typename traits<T>::XprKind, traits<T>::Flags>::type type;
+  using type = typename plain_matrix_type_dense<T, typename traits<T>::XprKind, traits<T>::Flags>::type;
 };
 template <typename T>
 struct plain_matrix_type<T, DiagonalShape> {
-  typedef typename T::PlainObject type;
+  using type = typename T::PlainObject;
 };
 
 template <typename T>
 struct plain_matrix_type<T, SkewSymmetricShape> {
-  typedef typename T::PlainObject type;
+  using type = typename T::PlainObject;
 };
 
 template <typename T, int Flags>
 struct plain_matrix_type_dense<T, MatrixXpr, Flags> {
-  typedef Matrix<typename traits<T>::Scalar, traits<T>::RowsAtCompileTime, traits<T>::ColsAtCompileTime,
-                 AutoAlign | (Flags & RowMajorBit ? RowMajor : ColMajor), traits<T>::MaxRowsAtCompileTime,
-                 traits<T>::MaxColsAtCompileTime>
-      type;
+  using type = Matrix<typename traits<T>::Scalar, traits<T>::RowsAtCompileTime, traits<T>::ColsAtCompileTime,
+                      AutoAlign | (Flags & RowMajorBit ? RowMajor : ColMajor), traits<T>::MaxRowsAtCompileTime,
+                      traits<T>::MaxColsAtCompileTime>;
 };
 
 template <typename T, int Flags>
 struct plain_matrix_type_dense<T, ArrayXpr, Flags> {
-  typedef Array<typename traits<T>::Scalar, traits<T>::RowsAtCompileTime, traits<T>::ColsAtCompileTime,
-                AutoAlign | (Flags & RowMajorBit ? RowMajor : ColMajor), traits<T>::MaxRowsAtCompileTime,
-                traits<T>::MaxColsAtCompileTime>
-      type;
+  using type = Array<typename traits<T>::Scalar, traits<T>::RowsAtCompileTime, traits<T>::ColsAtCompileTime,
+                     AutoAlign | (Flags & RowMajorBit ? RowMajor : ColMajor), traits<T>::MaxRowsAtCompileTime,
+                     traits<T>::MaxColsAtCompileTime>;
 };
 
 /* eval : the return type of eval(). For matrices, this is just a const reference
@@ -428,36 +422,28 @@ struct eval;
 
 template <typename T>
 struct eval<T, Dense> {
-  typedef typename plain_matrix_type<T>::type type;
-  //   typedef typename T::PlainObject type;
-  //   typedef T::Matrix<typename traits<T>::Scalar,
-  //                 traits<T>::RowsAtCompileTime,
-  //                 traits<T>::ColsAtCompileTime,
-  //                 AutoAlign | (traits<T>::Flags&RowMajorBit ? RowMajor : ColMajor),
-  //                 traits<T>::MaxRowsAtCompileTime,
-  //                 traits<T>::MaxColsAtCompileTime
-  //           > type;
+  using type = typename plain_matrix_type<T>::type;
 };
 
 template <typename T>
 struct eval<T, DiagonalShape> {
-  typedef typename plain_matrix_type<T>::type type;
+  using type = typename plain_matrix_type<T>::type;
 };
 
 template <typename T>
 struct eval<T, SkewSymmetricShape> {
-  typedef typename plain_matrix_type<T>::type type;
+  using type = typename plain_matrix_type<T>::type;
 };
 
 // for matrices, no need to evaluate, just use a const reference to avoid a useless copy
 template <typename Scalar_, int Rows_, int Cols_, int Options_, int MaxRows_, int MaxCols_>
 struct eval<Matrix<Scalar_, Rows_, Cols_, Options_, MaxRows_, MaxCols_>, Dense> {
-  typedef const Matrix<Scalar_, Rows_, Cols_, Options_, MaxRows_, MaxCols_>& type;
+  using type = const Matrix<Scalar_, Rows_, Cols_, Options_, MaxRows_, MaxCols_>&;
 };
 
 template <typename Scalar_, int Rows_, int Cols_, int Options_, int MaxRows_, int MaxCols_>
 struct eval<Array<Scalar_, Rows_, Cols_, Options_, MaxRows_, MaxCols_>, Dense> {
-  typedef const Array<Scalar_, Rows_, Cols_, Options_, MaxRows_, MaxCols_>& type;
+  using type = const Array<Scalar_, Rows_, Cols_, Options_, MaxRows_, MaxCols_>&;
 };
 
 /* similar to plain_matrix_type, but using the evaluator's Flags */
@@ -466,37 +452,31 @@ struct plain_object_eval;
 
 template <typename T>
 struct plain_object_eval<T, Dense> {
-  typedef typename plain_matrix_type_dense<T, typename traits<T>::XprKind, evaluator<T>::Flags>::type type;
+  using type = typename plain_matrix_type_dense<T, typename traits<T>::XprKind, evaluator<T>::Flags>::type;
 };
 
 /* plain_matrix_type_column_major : same as plain_matrix_type but guaranteed to be column-major
  */
 template <typename T>
 struct plain_matrix_type_column_major {
-  enum {
-    Rows = traits<T>::RowsAtCompileTime,
-    Cols = traits<T>::ColsAtCompileTime,
-    MaxRows = traits<T>::MaxRowsAtCompileTime,
-    MaxCols = traits<T>::MaxColsAtCompileTime
-  };
-  typedef Matrix<typename traits<T>::Scalar, Rows, Cols, (MaxRows == 1 && MaxCols != 1) ? RowMajor : ColMajor, MaxRows,
-                 MaxCols>
-      type;
+  static constexpr int Rows = traits<T>::RowsAtCompileTime;
+  static constexpr int Cols = traits<T>::ColsAtCompileTime;
+  static constexpr int MaxRows = traits<T>::MaxRowsAtCompileTime;
+  static constexpr int MaxCols = traits<T>::MaxColsAtCompileTime;
+  using type = Matrix<typename traits<T>::Scalar, Rows, Cols, (MaxRows == 1 && MaxCols != 1) ? RowMajor : ColMajor,
+                      MaxRows, MaxCols>;
 };
 
 /* plain_matrix_type_row_major : same as plain_matrix_type but guaranteed to be row-major
  */
 template <typename T>
 struct plain_matrix_type_row_major {
-  enum {
-    Rows = traits<T>::RowsAtCompileTime,
-    Cols = traits<T>::ColsAtCompileTime,
-    MaxRows = traits<T>::MaxRowsAtCompileTime,
-    MaxCols = traits<T>::MaxColsAtCompileTime
-  };
-  typedef Matrix<typename traits<T>::Scalar, Rows, Cols, (MaxCols == 1 && MaxRows != 1) ? ColMajor : RowMajor, MaxRows,
-                 MaxCols>
-      type;
+  static constexpr int Rows = traits<T>::RowsAtCompileTime;
+  static constexpr int Cols = traits<T>::ColsAtCompileTime;
+  static constexpr int MaxRows = traits<T>::MaxRowsAtCompileTime;
+  static constexpr int MaxCols = traits<T>::MaxColsAtCompileTime;
+  using type = Matrix<typename traits<T>::Scalar, Rows, Cols, (MaxCols == 1 && MaxRows != 1) ? ColMajor : RowMajor,
+                      MaxRows, MaxCols>;
 };
 
 /** \internal The reference selector for template expressions. The idea is that we don't
@@ -504,15 +484,9 @@ struct plain_matrix_type_row_major {
  * objects which should generate no copying overhead. */
 template <typename T>
 struct ref_selector {
-  typedef std::conditional_t<bool(traits<T>::Flags& NestByRefBit), T const&, const T> type;
+  using type = std::conditional_t<bool(traits<T>::Flags& NestByRefBit), T const&, const T>;
 
-  typedef std::conditional_t<bool(traits<T>::Flags& NestByRefBit), T&, T> non_const_type;
-};
-
-/** \internal Adds the const qualifier on the value-type of T2 if and only if T1 is a const type */
-template <typename T1, typename T2>
-struct transfer_constness {
-  typedef std::conditional_t<bool(internal::is_const<T1>::value), add_const_on_value_type_t<T2>, T2> type;
+  using non_const_type = std::conditional_t<bool(traits<T>::Flags& NestByRefBit), T&, T>;
 };
 
 // However, we still need a mechanism to detect whether an expression which is evaluated multiple time
@@ -546,13 +520,8 @@ struct nested_eval {
     Evaluate = (int(evaluator<T>::Flags) & EvalBeforeNestingBit) || (int(CostEval) < int(CostNoEval))
   };
 
-  typedef std::conditional_t<Evaluate, PlainObject, typename ref_selector<T>::type> type;
+  using type = std::conditional_t<Evaluate, PlainObject, typename ref_selector<T>::type>;
 };
-
-template <typename T>
-EIGEN_DEVICE_FUNC inline T* const_cast_ptr(const T* ptr) {
-  return const_cast<T*>(ptr);
-}
 
 template <typename Derived, typename XprKind = typename traits<Derived>::XprKind>
 struct dense_xpr_base {
@@ -562,12 +531,12 @@ struct dense_xpr_base {
 
 template <typename Derived>
 struct dense_xpr_base<Derived, MatrixXpr> {
-  typedef MatrixBase<Derived> type;
+  using type = MatrixBase<Derived>;
 };
 
 template <typename Derived>
 struct dense_xpr_base<Derived, ArrayXpr> {
-  typedef ArrayBase<Derived> type;
+  using type = ArrayBase<Derived>;
 };
 
 template <typename Derived, typename XprKind = typename traits<Derived>::XprKind,
@@ -576,15 +545,15 @@ struct generic_xpr_base;
 
 template <typename Derived, typename XprKind>
 struct generic_xpr_base<Derived, XprKind, Dense> {
-  typedef typename dense_xpr_base<Derived, XprKind>::type type;
+  using type = typename dense_xpr_base<Derived, XprKind>::type;
 };
 
 template <typename XprType, typename CastType>
 struct cast_return_type {
-  typedef typename XprType::Scalar CurrentScalarType;
-  typedef remove_all_t<CastType> CastType_;
-  typedef typename CastType_::Scalar NewScalarType;
-  typedef std::conditional_t<is_same<CurrentScalarType, NewScalarType>::value, const XprType&, CastType> type;
+  using CurrentScalarType = typename XprType::Scalar;
+  using CastType_ = remove_all_t<CastType>;
+  using NewScalarType = typename CastType_::Scalar;
+  using type = std::conditional_t<is_same<CurrentScalarType, NewScalarType>::value, const XprType&, CastType>;
 };
 
 template <typename A, typename B>
@@ -592,15 +561,15 @@ struct promote_storage_type;
 
 template <typename A>
 struct promote_storage_type<A, A> {
-  typedef A ret;
+  using ret = A;
 };
 template <typename A>
 struct promote_storage_type<A, const A> {
-  typedef A ret;
+  using ret = A;
 };
 template <typename A>
 struct promote_storage_type<const A, A> {
-  typedef A ret;
+  using ret = A;
 };
 
 /** \internal Specify the "storage kind" of applying a coefficient-wise
@@ -621,27 +590,27 @@ struct cwise_promote_storage_type;
 
 template <typename A, typename Functor>
 struct cwise_promote_storage_type<A, A, Functor> {
-  typedef A ret;
+  using ret = A;
 };
 template <typename Functor>
 struct cwise_promote_storage_type<Dense, Dense, Functor> {
-  typedef Dense ret;
+  using ret = Dense;
 };
 template <typename A, typename Functor>
 struct cwise_promote_storage_type<A, Dense, Functor> {
-  typedef Dense ret;
+  using ret = Dense;
 };
 template <typename B, typename Functor>
 struct cwise_promote_storage_type<Dense, B, Functor> {
-  typedef Dense ret;
+  using ret = Dense;
 };
 template <typename Functor>
 struct cwise_promote_storage_type<Sparse, Dense, Functor> {
-  typedef Sparse ret;
+  using ret = Sparse;
 };
 template <typename Functor>
 struct cwise_promote_storage_type<Dense, Sparse, Functor> {
-  typedef Sparse ret;
+  using ret = Sparse;
 };
 
 template <typename LhsKind, typename RhsKind, int LhsOrder, int RhsOrder>
@@ -681,74 +650,74 @@ struct product_promote_storage_type;
 
 template <typename A, int ProductTag>
 struct product_promote_storage_type<A, A, ProductTag> {
-  typedef A ret;
+  using ret = A;
 };
 template <int ProductTag>
 struct product_promote_storage_type<Dense, Dense, ProductTag> {
-  typedef Dense ret;
+  using ret = Dense;
 };
 template <typename A, int ProductTag>
 struct product_promote_storage_type<A, Dense, ProductTag> {
-  typedef Dense ret;
+  using ret = Dense;
 };
 template <typename B, int ProductTag>
 struct product_promote_storage_type<Dense, B, ProductTag> {
-  typedef Dense ret;
+  using ret = Dense;
 };
 
 template <typename A, int ProductTag>
 struct product_promote_storage_type<A, DiagonalShape, ProductTag> {
-  typedef A ret;
+  using ret = A;
 };
 template <typename B, int ProductTag>
 struct product_promote_storage_type<DiagonalShape, B, ProductTag> {
-  typedef B ret;
+  using ret = B;
 };
 template <int ProductTag>
 struct product_promote_storage_type<Dense, DiagonalShape, ProductTag> {
-  typedef Dense ret;
+  using ret = Dense;
 };
 template <int ProductTag>
 struct product_promote_storage_type<DiagonalShape, Dense, ProductTag> {
-  typedef Dense ret;
+  using ret = Dense;
 };
 
 template <typename A, int ProductTag>
 struct product_promote_storage_type<A, SkewSymmetricShape, ProductTag> {
-  typedef A ret;
+  using ret = A;
 };
 template <typename B, int ProductTag>
 struct product_promote_storage_type<SkewSymmetricShape, B, ProductTag> {
-  typedef B ret;
+  using ret = B;
 };
 template <int ProductTag>
 struct product_promote_storage_type<Dense, SkewSymmetricShape, ProductTag> {
-  typedef Dense ret;
+  using ret = Dense;
 };
 template <int ProductTag>
 struct product_promote_storage_type<SkewSymmetricShape, Dense, ProductTag> {
-  typedef Dense ret;
+  using ret = Dense;
 };
 template <int ProductTag>
 struct product_promote_storage_type<SkewSymmetricShape, SkewSymmetricShape, ProductTag> {
-  typedef Dense ret;
+  using ret = Dense;
 };
 
 template <typename A, int ProductTag>
 struct product_promote_storage_type<A, PermutationStorage, ProductTag> {
-  typedef A ret;
+  using ret = A;
 };
 template <typename B, int ProductTag>
 struct product_promote_storage_type<PermutationStorage, B, ProductTag> {
-  typedef B ret;
+  using ret = B;
 };
 template <int ProductTag>
 struct product_promote_storage_type<Dense, PermutationStorage, ProductTag> {
-  typedef Dense ret;
+  using ret = Dense;
 };
 template <int ProductTag>
 struct product_promote_storage_type<PermutationStorage, Dense, ProductTag> {
-  typedef Dense ret;
+  using ret = Dense;
 };
 
 /** \internal gives the plain matrix or array type to store a row/column/diagonal of a matrix type.
@@ -756,63 +725,56 @@ struct product_promote_storage_type<PermutationStorage, Dense, ProductTag> {
  */
 template <typename ExpressionType, typename Scalar = typename ExpressionType::Scalar>
 struct plain_row_type {
-  typedef Matrix<Scalar, 1, ExpressionType::ColsAtCompileTime,
-                 int(ExpressionType::PlainObject::Options) | int(RowMajor), 1, ExpressionType::MaxColsAtCompileTime>
-      MatrixRowType;
-  typedef Array<Scalar, 1, ExpressionType::ColsAtCompileTime, int(ExpressionType::PlainObject::Options) | int(RowMajor),
-                1, ExpressionType::MaxColsAtCompileTime>
-      ArrayRowType;
+  using MatrixRowType =
+      Matrix<Scalar, 1, ExpressionType::ColsAtCompileTime, int(ExpressionType::PlainObject::Options) | int(RowMajor), 1,
+             ExpressionType::MaxColsAtCompileTime>;
+  using ArrayRowType =
+      Array<Scalar, 1, ExpressionType::ColsAtCompileTime, int(ExpressionType::PlainObject::Options) | int(RowMajor), 1,
+            ExpressionType::MaxColsAtCompileTime>;
 
-  typedef std::conditional_t<is_same<typename traits<ExpressionType>::XprKind, MatrixXpr>::value, MatrixRowType,
-                             ArrayRowType>
-      type;
+  using type = std::conditional_t<is_same<typename traits<ExpressionType>::XprKind, MatrixXpr>::value, MatrixRowType,
+                                  ArrayRowType>;
 };
 
 template <typename ExpressionType, typename Scalar = typename ExpressionType::Scalar>
 struct plain_col_type {
-  typedef Matrix<Scalar, ExpressionType::RowsAtCompileTime, 1, ExpressionType::PlainObject::Options & ~RowMajor,
-                 ExpressionType::MaxRowsAtCompileTime, 1>
-      MatrixColType;
-  typedef Array<Scalar, ExpressionType::RowsAtCompileTime, 1, ExpressionType::PlainObject::Options & ~RowMajor,
-                ExpressionType::MaxRowsAtCompileTime, 1>
-      ArrayColType;
+  using MatrixColType =
+      Matrix<Scalar, ExpressionType::RowsAtCompileTime, 1, ExpressionType::PlainObject::Options & ~RowMajor,
+             ExpressionType::MaxRowsAtCompileTime, 1>;
+  using ArrayColType = Array<Scalar, ExpressionType::RowsAtCompileTime, 1,
+                             ExpressionType::PlainObject::Options & ~RowMajor, ExpressionType::MaxRowsAtCompileTime, 1>;
 
-  typedef std::conditional_t<is_same<typename traits<ExpressionType>::XprKind, MatrixXpr>::value, MatrixColType,
-                             ArrayColType>
-      type;
+  using type = std::conditional_t<is_same<typename traits<ExpressionType>::XprKind, MatrixXpr>::value, MatrixColType,
+                                  ArrayColType>;
 };
 
 template <typename ExpressionType, typename Scalar = typename ExpressionType::Scalar>
 struct plain_diag_type {
-  enum {
-    diag_size = internal::min_size_prefer_dynamic(ExpressionType::RowsAtCompileTime, ExpressionType::ColsAtCompileTime),
-    max_diag_size = min_size_prefer_fixed(ExpressionType::MaxRowsAtCompileTime, ExpressionType::MaxColsAtCompileTime)
-  };
-  typedef Matrix<Scalar, diag_size, 1, ExpressionType::PlainObject::Options & ~RowMajor, max_diag_size, 1>
-      MatrixDiagType;
-  typedef Array<Scalar, diag_size, 1, ExpressionType::PlainObject::Options & ~RowMajor, max_diag_size, 1> ArrayDiagType;
+  static constexpr int diag_size =
+      internal::min_size_prefer_dynamic(ExpressionType::RowsAtCompileTime, ExpressionType::ColsAtCompileTime);
+  static constexpr int max_diag_size =
+      min_size_prefer_fixed(ExpressionType::MaxRowsAtCompileTime, ExpressionType::MaxColsAtCompileTime);
+  using MatrixDiagType =
+      Matrix<Scalar, diag_size, 1, ExpressionType::PlainObject::Options & ~RowMajor, max_diag_size, 1>;
+  using ArrayDiagType = Array<Scalar, diag_size, 1, ExpressionType::PlainObject::Options & ~RowMajor, max_diag_size, 1>;
 
-  typedef std::conditional_t<is_same<typename traits<ExpressionType>::XprKind, MatrixXpr>::value, MatrixDiagType,
-                             ArrayDiagType>
-      type;
+  using type = std::conditional_t<is_same<typename traits<ExpressionType>::XprKind, MatrixXpr>::value, MatrixDiagType,
+                                  ArrayDiagType>;
 };
 
 template <typename Expr, typename Scalar = typename Expr::Scalar>
 struct plain_constant_type {
-  enum { Options = (traits<Expr>::Flags & RowMajorBit) ? RowMajor : 0 };
+  static constexpr int Options = (traits<Expr>::Flags & RowMajorBit) ? RowMajor : 0;
 
-  typedef Array<Scalar, traits<Expr>::RowsAtCompileTime, traits<Expr>::ColsAtCompileTime, Options,
-                traits<Expr>::MaxRowsAtCompileTime, traits<Expr>::MaxColsAtCompileTime>
-      array_type;
+  using array_type = Array<Scalar, traits<Expr>::RowsAtCompileTime, traits<Expr>::ColsAtCompileTime, Options,
+                           traits<Expr>::MaxRowsAtCompileTime, traits<Expr>::MaxColsAtCompileTime>;
 
-  typedef Matrix<Scalar, traits<Expr>::RowsAtCompileTime, traits<Expr>::ColsAtCompileTime, Options,
-                 traits<Expr>::MaxRowsAtCompileTime, traits<Expr>::MaxColsAtCompileTime>
-      matrix_type;
+  using matrix_type = Matrix<Scalar, traits<Expr>::RowsAtCompileTime, traits<Expr>::ColsAtCompileTime, Options,
+                             traits<Expr>::MaxRowsAtCompileTime, traits<Expr>::MaxColsAtCompileTime>;
 
-  typedef CwiseNullaryOp<
+  using type = CwiseNullaryOp<
       scalar_constant_op<Scalar>,
-      const std::conditional_t<is_same<typename traits<Expr>::XprKind, MatrixXpr>::value, matrix_type, array_type>>
-      type;
+      const std::conditional_t<is_same<typename traits<Expr>::XprKind, MatrixXpr>::value, matrix_type, array_type>>;
 };
 
 template <typename ExpressionType>
@@ -854,7 +816,7 @@ template <typename S1, typename S2>
 struct glue_shapes;
 template <>
 struct glue_shapes<DenseShape, TriangularShape> {
-  typedef TriangularShape type;
+  using type = TriangularShape;
 };
 
 template <typename T1, typename T2>
@@ -1049,34 +1011,34 @@ struct ScalarBinaryOpTraits
 
 template <typename T, typename BinaryOp>
 struct ScalarBinaryOpTraits<T, T, BinaryOp> {
-  typedef T ReturnType;
+  using ReturnType = T;
 };
 
 template <typename T, typename BinaryOp>
 struct ScalarBinaryOpTraits<T, typename NumTraits<std::enable_if_t<NumTraits<T>::IsComplex, T>>::Real, BinaryOp> {
-  typedef T ReturnType;
+  using ReturnType = T;
 };
 template <typename T, typename BinaryOp>
 struct ScalarBinaryOpTraits<typename NumTraits<std::enable_if_t<NumTraits<T>::IsComplex, T>>::Real, T, BinaryOp> {
-  typedef T ReturnType;
+  using ReturnType = T;
 };
 
 // For Matrix * Permutation
 template <typename T, typename BinaryOp>
 struct ScalarBinaryOpTraits<T, void, BinaryOp> {
-  typedef T ReturnType;
+  using ReturnType = T;
 };
 
 // For Permutation * Matrix
 template <typename T, typename BinaryOp>
 struct ScalarBinaryOpTraits<void, T, BinaryOp> {
-  typedef T ReturnType;
+  using ReturnType = T;
 };
 
 // for Permutation*Permutation
 template <typename BinaryOp>
 struct ScalarBinaryOpTraits<void, void, BinaryOp> {
-  typedef void ReturnType;
+  using ReturnType = void;
 };
 
 // We require Lhs and Rhs to have "compatible" scalar types.

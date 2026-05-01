@@ -128,7 +128,7 @@ Index SparseLUImpl<Scalar, StorageIndex>::expand(VectorType& vec, Index& length,
  * \param n number of columns
  * \param annz number of initial nonzeros in the matrix
  * \param lwork  if lwork=-1, this routine returns an estimated size of the required memory
- * \param glu persistent data to facilitate multiple factors : will be deleted later ??
+ * \param glu persistent data to facilitate multiple factors (may be deleted later).
  * \param fillratio estimated ratio of fill in the factors
  * \param panel_size Size of a panel
  * \return an estimated size of the required memory if lwork = -1; otherwise, return the size of actually allocated

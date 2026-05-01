@@ -129,8 +129,8 @@ EIGEN_ALWAYS_INLINE void trans8x8blocks(PacketBlock<Packet8d, 8> &kernel) {
 template <typename Scalar>
 class trans {
  public:
-  using vec = typename std::conditional<std::is_same<Scalar, float>::value, vecFullFloat, vecFullDouble>::type;
-  using vecHalf = typename std::conditional<std::is_same<Scalar, float>::value, vecHalfFloat, vecFullDouble>::type;
+  using vec = std::conditional_t<std::is_same<Scalar, float>::value, vecFullFloat, vecFullDouble>;
+  using vecHalf = std::conditional_t<std::is_same<Scalar, float>::value, vecHalfFloat, vecFullDouble>;
   static constexpr int64_t PacketSize = packet_traits<Scalar>::size;
 
   /***********************************
@@ -281,8 +281,8 @@ class trans {
 template <typename Scalar>
 class transB {
  public:
-  using vec = typename std::conditional<std::is_same<Scalar, float>::value, vecFullFloat, vecFullDouble>::type;
-  using vecHalf = typename std::conditional<std::is_same<Scalar, float>::value, vecHalfFloat, vecFullDouble>::type;
+  using vec = std::conditional_t<std::is_same<Scalar, float>::value, vecFullFloat, vecFullDouble>;
+  using vecHalf = std::conditional_t<std::is_same<Scalar, float>::value, vecHalfFloat, vecFullDouble>;
   static constexpr int64_t PacketSize = packet_traits<Scalar>::size;
 
   /***********************************
@@ -585,7 +585,7 @@ class transB {
 template <typename Scalar>
 class trsm {
  public:
-  using vec = typename std::conditional<std::is_same<Scalar, float>::value, vecFullFloat, vecFullDouble>::type;
+  using vec = std::conditional_t<std::is_same<Scalar, float>::value, vecFullFloat, vecFullDouble>;
   static constexpr int64_t PacketSize = packet_traits<Scalar>::size;
 
   /***********************************
@@ -864,7 +864,7 @@ class trsm {
 template <typename Scalar, bool isAdd>
 class gemm {
  public:
-  using vec = typename std::conditional<std::is_same<Scalar, float>::value, vecFullFloat, vecFullDouble>::type;
+  using vec = std::conditional_t<std::is_same<Scalar, float>::value, vecFullFloat, vecFullDouble>;
   static constexpr int64_t PacketSize = packet_traits<Scalar>::size;
 
   /***********************************

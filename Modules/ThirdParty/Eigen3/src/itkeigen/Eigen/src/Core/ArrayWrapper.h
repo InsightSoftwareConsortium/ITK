@@ -21,7 +21,7 @@ namespace Eigen {
  * \brief Expression of a mathematical vector or matrix as an array object
  *
  * This class is the return type of MatrixBase::array(), and most of the time
- * this is the only way it is use.
+ * this is the only way it is used.
  *
  * \sa MatrixBase::array(), class MatrixWrapper
  */
@@ -54,7 +54,8 @@ class ArrayWrapper : public ArrayBase<ArrayWrapper<ExpressionType> > {
 
   using Base::coeffRef;
 
-  EIGEN_DEVICE_FUNC explicit EIGEN_STRONG_INLINE ArrayWrapper(ExpressionType& matrix) : m_expression(matrix) {}
+  EIGEN_DEVICE_FUNC constexpr explicit EIGEN_STRONG_INLINE ArrayWrapper(ExpressionType& matrix)
+      : m_expression(matrix) {}
 
   EIGEN_DEVICE_FUNC constexpr Index rows() const noexcept { return m_expression.rows(); }
   EIGEN_DEVICE_FUNC constexpr Index cols() const noexcept { return m_expression.cols(); }
@@ -75,7 +76,7 @@ class ArrayWrapper : public ArrayBase<ArrayWrapper<ExpressionType> > {
     dst = m_expression;
   }
 
-  EIGEN_DEVICE_FUNC const internal::remove_all_t<NestedExpressionType>& nestedExpression() const {
+  EIGEN_DEVICE_FUNC constexpr const internal::remove_all_t<NestedExpressionType>& nestedExpression() const {
     return m_expression;
   }
 
@@ -96,7 +97,7 @@ class ArrayWrapper : public ArrayBase<ArrayWrapper<ExpressionType> > {
  * \brief Expression of an array as a mathematical vector or matrix
  *
  * This class is the return type of ArrayBase::matrix(), and most of the time
- * this is the only way it is use.
+ * this is the only way it is used.
  *
  * \sa MatrixBase::matrix(), class ArrayWrapper
  */
@@ -129,7 +130,7 @@ class MatrixWrapper : public MatrixBase<MatrixWrapper<ExpressionType> > {
 
   using Base::coeffRef;
 
-  EIGEN_DEVICE_FUNC explicit inline MatrixWrapper(ExpressionType& matrix) : m_expression(matrix) {}
+  EIGEN_DEVICE_FUNC constexpr explicit inline MatrixWrapper(ExpressionType& matrix) : m_expression(matrix) {}
 
   EIGEN_DEVICE_FUNC constexpr Index rows() const noexcept { return m_expression.rows(); }
   EIGEN_DEVICE_FUNC constexpr Index cols() const noexcept { return m_expression.cols(); }
@@ -145,7 +146,7 @@ class MatrixWrapper : public MatrixBase<MatrixWrapper<ExpressionType> > {
 
   EIGEN_DEVICE_FUNC inline const Scalar& coeffRef(Index index) const { return m_expression.coeffRef(index); }
 
-  EIGEN_DEVICE_FUNC const internal::remove_all_t<NestedExpressionType>& nestedExpression() const {
+  EIGEN_DEVICE_FUNC constexpr const internal::remove_all_t<NestedExpressionType>& nestedExpression() const {
     return m_expression;
   }
 

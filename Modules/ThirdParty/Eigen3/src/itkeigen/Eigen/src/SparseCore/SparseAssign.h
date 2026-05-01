@@ -25,7 +25,7 @@ Derived &SparseMatrixBase<Derived>::operator=(const EigenBase<OtherDerived> &oth
 template <typename Derived>
 template <typename OtherDerived>
 Derived &SparseMatrixBase<Derived>::operator=(const ReturnByValue<OtherDerived> &other) {
-  // TODO use the evaluator mechanism
+  // TODO: use the evaluator mechanism
   other.evalTo(derived());
   return derived();
 }

@@ -114,6 +114,12 @@ class SelfAdjointView : public TriangularBase<SelfAdjointView<MatrixType_, UpLo>
     return Product<OtherDerived, SelfAdjointView>(lhs.derived(), rhs);
   }
 
+  EIGEN_DEVICE_FUNC const
+      SelfAdjointView<const EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(MatrixType, Scalar, product), UpLo>
+      operator*(const Scalar& s) const {
+    return (nestedExpression() * s).template selfadjointView<UpLo>();
+  }
+
   friend EIGEN_DEVICE_FUNC const
       SelfAdjointView<const EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(Scalar, MatrixType, product), UpLo>
       operator*(const Scalar& s, const SelfAdjointView& mat) {
@@ -217,10 +223,32 @@ class SelfAdjointView : public TriangularBase<SelfAdjointView<MatrixType_, UpLo>
     return typename MatrixType::ConstDiagonalReturnType(m_matrix);
   }
 
+  /** \returns the matrix 1-norm (maximum absolute column sum) of the implicit
+   * full self-adjoint matrix, reading only the stored triangle. For Hermitian
+   * (complex) scalars the unstored entries are conjugates of stored ones, and
+   * since |conj(x)| = |x| the result matches the L1 norm of the full matrix.
+   */
+  EIGEN_DEVICE_FUNC typename NumTraits<Scalar>::Real l1Norm() const {
+    typedef typename NumTraits<Scalar>::Real RealScalar_;
+    RealScalar_ norm = RealScalar_(0);
+    const Index n = m_matrix.rows();
+    for (Index col = 0; col < n; ++col) {
+      RealScalar_ abs_col_sum;
+      if (UpLo == Lower)
+        abs_col_sum =
+            m_matrix.col(col).tail(n - col).template lpNorm<1>() + m_matrix.row(col).head(col).template lpNorm<1>();
+      else
+        abs_col_sum =
+            m_matrix.col(col).head(col).template lpNorm<1>() + m_matrix.row(col).tail(n - col).template lpNorm<1>();
+      if (abs_col_sum > norm) norm = abs_col_sum;
+    }
+    return norm;
+  }
+
   /////////// Cholesky module ///////////
 
-  const LLT<PlainObject, UpLo> llt() const;
-  const LDLT<PlainObject, UpLo> ldlt() const;
+  LLT<PlainObject, UpLo> llt() const;
+  LDLT<PlainObject, UpLo> ldlt() const;
 
   /////////// Eigenvalue module ///////////
 
@@ -235,14 +263,6 @@ class SelfAdjointView : public TriangularBase<SelfAdjointView<MatrixType_, UpLo>
  protected:
   MatrixTypeNested m_matrix;
 };
-
-// template<typename OtherDerived, typename MatrixType, unsigned int UpLo>
-// internal::selfadjoint_matrix_product_returntype<OtherDerived,SelfAdjointView<MatrixType,UpLo> >
-// operator*(const MatrixBase<OtherDerived>& lhs, const SelfAdjointView<MatrixType,UpLo>& rhs)
-// {
-//   return internal::matrix_selfadjoint_product_returntype<OtherDerived,SelfAdjointView<MatrixType,UpLo>
-//   >(lhs.derived(),rhs);
-// }
 
 // selfadjoint to dense matrix
 
@@ -288,6 +308,14 @@ class triangular_dense_assignment_kernel<UpLo, SelfAdjoint, SetOpposite, DstEval
     m_functor.assignCoeff(m_dst.coeffRef(col, row), numext::conj(tmp));
   }
 
+  // Override to ensure the SelfAdjoint assignCoeff (which mirrors conjugates) is called,
+  // not the base class version (which is a plain copy).
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void assignCoeffByOuterInner(Index outer, Index inner) {
+    Index row = Base::rowIndexByOuterInner(outer, inner);
+    Index col = Base::colIndexByOuterInner(outer, inner);
+    assignCoeff(row, col);
+  }
+
   EIGEN_DEVICE_FUNC void assignDiagonalCoeff(Index id) { Base::assignCoeff(id, id); }
 
   EIGEN_DEVICE_FUNC void assignOppositeCoeff(Index, Index) { eigen_internal_assert(false && "should never be called"); }
@@ -302,7 +330,7 @@ class triangular_dense_assignment_kernel<UpLo, SelfAdjoint, SetOpposite, DstEval
 /** This is the const version of MatrixBase::selfadjointView() */
 template <typename Derived>
 template <unsigned int UpLo>
-EIGEN_DEVICE_FUNC typename MatrixBase<Derived>::template ConstSelfAdjointViewReturnType<UpLo>::Type
+EIGEN_DEVICE_FUNC constexpr typename MatrixBase<Derived>::template ConstSelfAdjointViewReturnType<UpLo>::Type
 MatrixBase<Derived>::selfadjointView() const {
   return typename ConstSelfAdjointViewReturnType<UpLo>::Type(derived());
 }
@@ -319,7 +347,7 @@ MatrixBase<Derived>::selfadjointView() const {
  */
 template <typename Derived>
 template <unsigned int UpLo>
-EIGEN_DEVICE_FUNC typename MatrixBase<Derived>::template SelfAdjointViewReturnType<UpLo>::Type
+EIGEN_DEVICE_FUNC constexpr typename MatrixBase<Derived>::template SelfAdjointViewReturnType<UpLo>::Type
 MatrixBase<Derived>::selfadjointView() {
   return typename SelfAdjointViewReturnType<UpLo>::Type(derived());
 }
