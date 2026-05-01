@@ -49,3 +49,6 @@ CMakeUserPresets.json
 # pixi environments
 .pixi
 *.egg-info
+
+# Serena: https://oraios.github.io/serena/
+.serena
