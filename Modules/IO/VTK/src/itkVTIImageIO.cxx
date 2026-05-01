@@ -118,6 +118,13 @@ struct VTIParseState
   std::string activeVectors;
   std::string activeTensors;
 
+  // Set when a <CellData> element with at least one <DataArray> child is
+  // seen.  Used to distinguish a genuinely empty file (no DataArray
+  // anywhere) from a CellData-only file that this reader does not yet
+  // support, so the post-parse diagnostic can name the limitation.
+  bool cellDataHasArray{ false };
+  bool inCellData{ false };
+
   // First / active <DataArray ...>
   bool        haveDataArray{ false };
   std::string daType;
@@ -197,11 +204,20 @@ extern "C"
       st->activeVectors = FindAttribute(atts, "Vectors");
       st->activeTensors = FindAttribute(atts, "Tensors");
     }
+    else if (std::strcmp(name, "CellData") == 0)
+    {
+      st->inCellData = true;
+    }
     else if (std::strcmp(name, "DataArray") == 0)
     {
       // Only consume DataArray children of <PointData>.  CellData / FieldData
-      // / Coordinates arrays are silently skipped here; if no PointData
-      // arrays exist the post-parse "No DataArray element found" check fires.
+      // / Coordinates arrays are silently skipped here; the post-parse F-011
+      // / no-DataArray diagnostics distinguish 'CellData-only' from 'truly
+      // empty file' so the user knows what's wrong.
+      if (st->inCellData)
+      {
+        st->cellDataHasArray = true;
+      }
       if (!st->inPointData)
       {
         return;
@@ -263,6 +279,10 @@ extern "C"
       // them by daName, and the captured DataArray was already gated on
       // inPointData at the time it was matched.
       st->inPointData = false;
+    }
+    else if (std::strcmp(name, "CellData") == 0)
+    {
+      st->inCellData = false;
     }
   }
 
@@ -651,6 +671,14 @@ VTIImageIO::ReadImageInformation()
   }
   if (!st.haveDataArray)
   {
+    if (st.cellDataHasArray)
+    {
+      itkExceptionMacro("F-011 CellData-only ImageData files not yet supported.  File '"
+                        << m_FileName
+                        << "' has DataArray elements only inside <CellData>; VTIImageIO consumes "
+                           "<PointData> arrays only.  Deferred to the follow-up PR; see F-011 in "
+                           "commit history.");
+    }
     itkExceptionMacro("No DataArray element found in file: " << m_FileName);
   }
 

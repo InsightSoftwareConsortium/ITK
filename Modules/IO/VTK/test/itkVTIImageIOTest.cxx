@@ -920,23 +920,29 @@ itkVTIImageIOTest(int argc, char * argv[])
     auto reader = itk::ImageFileReader<ImageType>::New();
     reader->SetFileName(fname);
     reader->SetImageIO(itk::VTIImageIO::New());
-    bool threw = false;
+    std::string description;
     try
     {
       reader->Update();
     }
-    catch (const itk::ExceptionObject &)
+    catch (const itk::ExceptionObject & e)
     {
-      threw = true;
+      description = e.GetDescription();
     }
-    if (threw)
-    {
-      std::cout << "  CellData-only rejection OK" << std::endl;
-    }
-    else
+    if (description.empty())
     {
       std::cerr << "  ERROR: File with only <CellData> arrays was not rejected: " << fname << std::endl;
       status = EXIT_FAILURE;
+    }
+    else if (description.find("F-011") == std::string::npos)
+    {
+      std::cerr << "  ERROR: CellData-only rejection diagnostic missing F-011 tag.  Message:\n"
+                << description << std::endl;
+      status = EXIT_FAILURE;
+    }
+    else
+    {
+      std::cout << "  CellData-only rejection OK (F-011 tag present)" << std::endl;
     }
   }
 

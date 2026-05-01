@@ -69,7 +69,7 @@ namespace itk
  *   * F-008 appended-base64 writer                                 (latent)
  *   * F-009 MetaDataDictionary round-trip                          (latent)
  *   * F-010 catch-all for unknown compressors                      (guard)
- *   * F-011 <CellData> images (only <PointData> is consumed today) (latent)
+ *   * F-011 <CellData>-only images (only <PointData> consumed)    (guard)
  *
  * Implementation notes:
  *   * XML header parsing uses expat (ITKExpat); <!DOCTYPE>/<!ENTITY>
