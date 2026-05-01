@@ -891,5 +891,114 @@ itkVTIImageIOTest(int argc, char * argv[])
     }
   }
 
+  // ---- CellData-only file is rejected -----------------------------------
+  // VTI files whose only DataArray children live inside <CellData> (rather
+  // than <PointData>) are not supported today.  The reader must raise an
+  // exception ("No DataArray element found") rather than silently picking
+  // up the cell-centered array as if it were point data.
+  {
+    const std::string fname = outDir + sep + "vti_celldata_only.vti";
+    {
+      std::ofstream f(fname.c_str());
+      f << "<?xml version=\"1.0\"?>\n";
+      f << "<VTKFile type=\"ImageData\" version=\"1.0\" byte_order=\"LittleEndian\" header_type=\"UInt64\">\n";
+      f << "  <ImageData WholeExtent=\"0 1 0 1 0 0\" Origin=\"0 0 0\" Spacing=\"1 1 1\">\n";
+      f << "    <Piece Extent=\"0 1 0 1 0 0\">\n";
+      f << "      <PointData>\n";
+      f << "      </PointData>\n";
+      f << "      <CellData Scalars=\"density\">\n";
+      f << "        <DataArray type=\"Float32\" Name=\"density\" format=\"ascii\">\n";
+      f << "          1.0\n";
+      f << "        </DataArray>\n";
+      f << "      </CellData>\n";
+      f << "    </Piece>\n";
+      f << "  </ImageData>\n";
+      f << "</VTKFile>\n";
+    }
+
+    using ImageType = itk::Image<float, 2>;
+    auto reader = itk::ImageFileReader<ImageType>::New();
+    reader->SetFileName(fname);
+    reader->SetImageIO(itk::VTIImageIO::New());
+    bool threw = false;
+    try
+    {
+      reader->Update();
+    }
+    catch (const itk::ExceptionObject &)
+    {
+      threw = true;
+    }
+    if (threw)
+    {
+      std::cout << "  CellData-only rejection OK" << std::endl;
+    }
+    else
+    {
+      std::cerr << "  ERROR: File with only <CellData> arrays was not rejected: " << fname << std::endl;
+      status = EXIT_FAILURE;
+    }
+  }
+
+  // ---- PointData wins over CellData in mixed file -----------------------
+  // When a file contains both <CellData> and <PointData> with DataArray
+  // children, the reader must consume the PointData array and ignore the
+  // CellData one, regardless of element order in the file.  Order the
+  // CellData block first to exercise the stronger guarantee: the
+  // PointData-scoping check must reject CellData even if its DataArray
+  // appears earlier in the document.
+  {
+    const std::string fname = outDir + sep + "vti_celldata_then_pointdata.vti";
+    {
+      std::ofstream f(fname.c_str());
+      f << "<?xml version=\"1.0\"?>\n";
+      f << "<VTKFile type=\"ImageData\" version=\"1.0\" byte_order=\"LittleEndian\" header_type=\"UInt64\">\n";
+      f << "  <ImageData WholeExtent=\"0 1 0 1 0 0\" Origin=\"0 0 0\" Spacing=\"1 1 1\">\n";
+      f << "    <Piece Extent=\"0 1 0 1 0 0\">\n";
+      f << "      <CellData Scalars=\"cell_density\">\n";
+      f << "        <DataArray type=\"Float32\" Name=\"cell_density\" format=\"ascii\">\n";
+      f << "          99.0\n";
+      f << "        </DataArray>\n";
+      f << "      </CellData>\n";
+      f << "      <PointData Scalars=\"point_density\">\n";
+      f << "        <DataArray type=\"Float32\" Name=\"point_density\" format=\"ascii\">\n";
+      f << "          1.0  2.0  3.0  4.0\n";
+      f << "        </DataArray>\n";
+      f << "      </PointData>\n";
+      f << "    </Piece>\n";
+      f << "  </ImageData>\n";
+      f << "</VTKFile>\n";
+    }
+
+    using ImageType = itk::Image<float, 2>;
+    auto reader = itk::ImageFileReader<ImageType>::New();
+    reader->SetFileName(fname);
+    reader->SetImageIO(itk::VTIImageIO::New());
+    ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+    auto                 out = reader->GetOutput();
+    ImageType::IndexType idx;
+    idx[0] = 0;
+    idx[1] = 0;
+    if (std::abs(out->GetPixel(idx) - 1.0f) > 1e-5f)
+    {
+      std::cerr << "  ERROR: PointData-vs-CellData pixel(0,0) = " << out->GetPixel(idx)
+                << ", expected 1.0 (PointData), got cell_density value if 99.0" << std::endl;
+      status = EXIT_FAILURE;
+    }
+    idx[0] = 1;
+    idx[1] = 1;
+    if (std::abs(out->GetPixel(idx) - 4.0f) > 1e-5f)
+    {
+      std::cerr << "  ERROR: PointData-vs-CellData pixel(1,1) = " << out->GetPixel(idx) << ", expected 4.0"
+                << std::endl;
+      status = EXIT_FAILURE;
+    }
+    if (status == EXIT_SUCCESS)
+    {
+      std::cout << "  PointData wins over CellData OK" << std::endl;
+    }
+  }
+
   return status;
 }
