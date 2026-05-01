@@ -53,7 +53,7 @@ jobs:
 
     - task: UsePythonVersion@0
       inputs:
-        versionSpec: '3.10'
+        versionSpec: '3.12'
         architecture: 'x64'
 
     - bash: |
@@ -113,7 +113,7 @@ jobs:
           Python3_ROOT_DIR:PATH=${python_root_dir}
           Python3_EXECUTABLE:FILEPATH=${python_executable}
           DISABLE_MODULE_TESTS:BOOL=ON
-          BUILD_SHARED_LIBS:BOOL=OFF
+          BUILD_SHARED_LIBS:BOOL=ON
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=ON
           CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
