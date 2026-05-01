@@ -1160,17 +1160,27 @@ RemapTensorVTKToITK(void * buffer, std::size_t numPixels, std::size_t componentS
 
 // Scope guard that applies RemapTensorVTKToITK when destroyed, so every
 // early `return` out of Read() gets the remap without having to edit each
-// exit point individually.  Does nothing if the image is not a symmetric
-// tensor.
+// exit point individually.  The guard is armed only after the buffer has
+// been populated — call commit() at the end of each successful encoding
+// path.  If Read() throws before commit() runs (e.g. truncated payload,
+// decompression mismatch), the destructor leaves the caller's buffer
+// untouched rather than scrambling whatever partial bytes were written.
+// Does nothing if the image is not a symmetric tensor.
 struct TensorRemapGuard
 {
   void *      buffer;
   std::size_t numPixels;
   std::size_t componentSize;
   bool        active;
+  bool        committed{ false };
+  void
+  commit()
+  {
+    committed = true;
+  }
   ~TensorRemapGuard()
   {
-    if (active)
+    if (active && committed)
     {
       RemapTensorVTKToITK(buffer, numPixels, componentSize);
     }
@@ -1200,6 +1210,7 @@ VTIImageIO::Read(void * buffer)
     }
     std::istringstream is(m_AsciiDataContent);
     this->ReadBufferAsASCII(is, buffer, this->GetComponentType(), totalComponents);
+    tensorGuard.commit();
     return;
   }
 
@@ -1243,6 +1254,7 @@ VTIImageIO::Read(void * buffer)
       std::memcpy(buffer, dataPtr, static_cast<std::size_t>(totalBytes));
     }
     SwapBufferIfNeeded(buffer, componentSize, totalComponents, m_ByteOrder);
+    tensorGuard.commit();
     return;
   }
 
@@ -1336,6 +1348,7 @@ VTIImageIO::Read(void * buffer)
     }
 
     SwapBufferIfNeeded(buffer, componentSize, totalComponents, m_ByteOrder);
+    tensorGuard.commit();
     return;
   }
 
@@ -1430,6 +1443,7 @@ VTIImageIO::Read(void * buffer)
     }
     std::memcpy(buffer, uncompressed.data(), static_cast<std::size_t>(totalBytes));
     SwapBufferIfNeeded(buffer, componentSize, totalComponents, m_ByteOrder);
+    tensorGuard.commit();
     return;
   }
 
@@ -1447,6 +1461,7 @@ VTIImageIO::Read(void * buffer)
   }
 
   SwapBufferIfNeeded(buffer, componentSize, totalComponents, m_ByteOrder);
+  tensorGuard.commit();
 }
 
 // ---------------------------------------------------------------------------
