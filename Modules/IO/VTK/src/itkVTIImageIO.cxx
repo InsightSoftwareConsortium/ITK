@@ -714,6 +714,15 @@ VTIImageIO::ReadImageInformation()
       itkExceptionMacro("Malformed Direction attribute '"
                         << st.direction << "' (expected 9 space-separated floats) in file: " << m_FileName);
     }
+    // Reject trailing non-whitespace junk after the 9 floats.  std::istream
+    // does not flag failure on a successful 9-token read followed by garbage,
+    // so check explicitly.
+    std::string trailing;
+    if (dirStream >> trailing)
+    {
+      itkExceptionMacro("Direction attribute '" << st.direction << "' has unexpected content after the 9 floats: '"
+                                                << trailing << "' in file: " << m_FileName);
+    }
     directionSpecified = true;
   }
 

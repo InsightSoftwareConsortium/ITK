@@ -1000,5 +1000,52 @@ itkVTIImageIOTest(int argc, char * argv[])
     }
   }
 
+  // ---- Direction attribute trailing-junk rejection ----------------------
+  // 9 valid floats followed by trailing non-whitespace text must be rejected;
+  // a sloppy `>>`-only parse would silently accept the 9 floats and discard
+  // the rest.
+  {
+    const std::string fname = outDir + sep + "vti_direction_trailing_junk.vti";
+    {
+      std::ofstream f(fname.c_str());
+      f << "<?xml version=\"1.0\"?>\n";
+      f << "<VTKFile type=\"ImageData\" version=\"1.0\" byte_order=\"LittleEndian\" header_type=\"UInt64\">\n";
+      f << "  <ImageData WholeExtent=\"0 1 0 1 0 0\" Origin=\"0 0 0\" Spacing=\"1 1 1\""
+        << " Direction=\"1 0 0 0 1 0 0 0 1 garbage\">\n";
+      f << "    <Piece Extent=\"0 1 0 1 0 0\">\n";
+      f << "      <PointData Scalars=\"density\">\n";
+      f << "        <DataArray type=\"Float32\" Name=\"density\" format=\"ascii\">\n";
+      f << "          1.0 2.0 3.0 4.0\n";
+      f << "        </DataArray>\n";
+      f << "      </PointData>\n";
+      f << "    </Piece>\n";
+      f << "  </ImageData>\n";
+      f << "</VTKFile>\n";
+    }
+
+    using ImageType = itk::Image<float, 2>;
+    auto reader = itk::ImageFileReader<ImageType>::New();
+    reader->SetFileName(fname);
+    reader->SetImageIO(itk::VTIImageIO::New());
+    bool threw = false;
+    try
+    {
+      reader->Update();
+    }
+    catch (const itk::ExceptionObject &)
+    {
+      threw = true;
+    }
+    if (threw)
+    {
+      std::cout << "  Direction trailing-junk rejection OK" << std::endl;
+    }
+    else
+    {
+      std::cerr << "  ERROR: Direction with trailing junk was not rejected: " << fname << std::endl;
+      status = EXIT_FAILURE;
+    }
+  }
+
   return status;
 }
