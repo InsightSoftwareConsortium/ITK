@@ -348,13 +348,21 @@ their branch into logical commits (preferred), maintainers should use the
 *Squash and merge* button on the pull request to consolidate patches into
 logical commits.
 
-For bug fixes that are ready to be included in the next patch release, make a
-comment on the pull request which states the topic should be merged to the
-`release` and `release-X.X` maintenance branch, where `X.X` are the current
-maintenance version, e.g. `5.4`.
+### Merge a bug fix for a patch release
 
-Here are the recommended steps to merge a topic to both `release` and `main`
-branches, assuming the topic branch is forked off the `release` branch:
+For bug fixes that need to be included in a patch release, follow these steps
+to merge the topic into the `release`, `release-X.X`, and `main` branches,
+where `X.X` is the maintenance version targeted by the fix (e.g., `5.4`).
+
+1. Branch the topic appropriately:
+
+   - If the patch applies to the **upcoming patch of the most recent release**,
+     fork the topic off `release`.
+   - If the patch applies to an **older maintenance series** (e.g., ITK 5),
+     fork the topic off `release-5.4` (or the corresponding `release-X.X`
+     branch). Open the pull request against that same `release-X.X` branch.
+
+2. Merge the topic into the `release-X.X` branch:
 
 ```bash
 git checkout release-X.X
@@ -363,7 +371,7 @@ git merge --no-ff my-topic
 git push upstream release-X.X
 ```
 
-then:
+3. Merge the `release-X.X` branch into the `release` branch:
 
 ```bash
 git checkout release
@@ -372,7 +380,7 @@ git merge --no-ff release-X.X
 git push upstream release
 ```
 
-then:
+4. Finally, merge the `release` branch back into the `main` branch:
 
 ```bash
 git checkout main
@@ -381,7 +389,11 @@ git merge --no-ff release
 git push upstream main
 ```
 
-to merge the `release` branch back to `main`.
+This ensures the bug fix is included in the patch release and the `main`
+development branch, and that `release-X.X`, `release`, and `main` all stay
+connected in the Git history (the directed acyclic graph that records branch
+ancestry). Keeping the branches connected also avoids future merge conflicts
+between the maintenance and development lines.
 
 (delete-a-topic)=
 Delete a Topic
