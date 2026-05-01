@@ -128,7 +128,7 @@ jobs:
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
-        CCACHE_MAXSIZE: 2.4G
+        CCACHE_MAXSIZE: 8G
 
     - bash: ccache --show-stats
       condition: always()
