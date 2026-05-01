@@ -1101,5 +1101,53 @@ itkVTIImageIOTest(int argc, char * argv[])
     }
   }
 
+  // ---- Malformed: non-numeric NumberOfComponents -----------------------
+  // The reader wraps std::stoul in try/catch and rethrows as
+  // itk::ExceptionObject; the prior tests had no fixture that hit that
+  // path.  A bogus NumberOfComponents="banana" must surface as an ITK
+  // exception rather than std::invalid_argument.
+  {
+    const std::string fname = outDir + sep + "vti_bogus_components.vti";
+    {
+      std::ofstream f(fname.c_str());
+      f << "<?xml version=\"1.0\"?>\n";
+      f << "<VTKFile type=\"ImageData\" version=\"1.0\" byte_order=\"LittleEndian\" header_type=\"UInt64\">\n";
+      f << "  <ImageData WholeExtent=\"0 1 0 1 0 0\" Origin=\"0 0 0\" Spacing=\"1 1 1\">\n";
+      f << "    <Piece Extent=\"0 1 0 1 0 0\">\n";
+      f << "      <PointData Scalars=\"density\">\n";
+      f << "        <DataArray type=\"Float32\" Name=\"density\" format=\"ascii\""
+        << " NumberOfComponents=\"banana\">\n";
+      f << "          1.0 2.0 3.0 4.0\n";
+      f << "        </DataArray>\n";
+      f << "      </PointData>\n";
+      f << "    </Piece>\n";
+      f << "  </ImageData>\n";
+      f << "</VTKFile>\n";
+    }
+
+    using ImageType = itk::Image<float, 2>;
+    auto reader = itk::ImageFileReader<ImageType>::New();
+    reader->SetFileName(fname);
+    reader->SetImageIO(itk::VTIImageIO::New());
+    bool threwITK = false;
+    try
+    {
+      reader->Update();
+    }
+    catch (const itk::ExceptionObject &)
+    {
+      threwITK = true;
+    }
+    if (threwITK)
+    {
+      std::cout << "  Bogus NumberOfComponents rejection OK (itk::ExceptionObject)" << std::endl;
+    }
+    else
+    {
+      std::cerr << "  ERROR: NumberOfComponents='banana' did not raise itk::ExceptionObject: " << fname << std::endl;
+      status = EXIT_FAILURE;
+    }
+  }
+
   return status;
 }
