@@ -46,29 +46,31 @@ this example, with the [content-link-upload] web app. This app will
 upload the data to IPFS and provide a *.cid* CMake ExternalData content link file
 to download. This is the easiest and recommended way to upload new test data.
 
-For advanced command line driven uploads, the upload script at
-`Utilities/Maintenance/ExternalDataUpload/` can be used:
+For command-line uploads, run the Python helper at
+`Utilities/Maintenance/ExternalDataUpload/upload.py` from the
+`external-data-upload` pixi environment:
 
 ```bash
-Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh \
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/upload.py \
     Modules/.../test/Baseline/MyTest.png
 ```
 
-The script adds the file to your local IPFS node under the UnixFS v1 2025
-profile, pins it on the `itk-filebase` remote pinning service (and on
-`itk-pinata` when that service is configured — Pinata is optional because
-its pin-by-CID endpoint requires a paid plan), and replaces the original
-file with `MyTest.png.cid` containing the resulting CID. The CID and
-source-tree path are also recorded in
-`Testing/Data/content-links.manifest`.
+The helper packs the file into a CARv1 with `npx ipfs-car` (defaults
+match the unixfs-v1-2025 / IPIP-0499 profile so CIDs are reproducible),
+uploads the CAR to your [Filebase] IPFS bucket via Filebase's S3-compatible
+REST API, verifies the CID Filebase reports back matches what was computed
+locally, and replaces the original file with `MyTest.png.cid` containing
+that CID. The CID and source-tree path are also recorded in
+`Testing/Data/content-links.manifest`. A local IPFS daemon is **not**
+required.
 
-For advanced CLI usage, first-time users must complete the one-time Kubo + pinning-service setup
+First-time CLI users must complete the one-time pixi + Filebase setup
 documented in
-[`Utilities/Maintenance/ExternalDataUpload/README.md`] before the script will
-succeed. Contributors who cannot run a local Kubo daemon may instead use
-the [content-link-upload] web app, which pins to [Filebase] and [Pinata] and returns
-a `.cid` file directly — manifest and mirror updates must then be added by
-hand.
+[`Utilities/Maintenance/ExternalDataUpload/README.md`] before the helper
+will succeed. Contributors who prefer not to run any local tooling can
+instead use the [content-link-upload] web app, which returns a `.cid`
+file directly — manifest and mirror updates must then be added by hand.
 
 For more details, see the description and procedures in [Upload Binary Data].
 
@@ -172,4 +174,3 @@ the [InterPlanetary File System (IPFS)].
 [Upload Binary Data]: upload_binary_data.md
 [`Utilities/Maintenance/ExternalDataUpload/README.md`]: https://github.com/InsightSoftwareConsortium/ITK/blob/main/Utilities/Maintenance/ExternalDataUpload/README.md
 [Filebase]: https://filebase.com/
-[Pinata]: https://pinata.cloud/

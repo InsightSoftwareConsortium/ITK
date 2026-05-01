@@ -1,6 +1,7 @@
 # ITK External Data Upload
 
-Upload large test images and baselines to IPFS, optionally mirror them into the
+Upload large test images and baselines to [Filebase] IPFS storage, optionally
+mirror them into the
 [`ITKTestingData`](https://github.com/InsightSoftwareConsortium/ITKTestingData)
 repository, and replace the original with a lightweight `.cid` content link
 committed to the ITK source tree.
@@ -11,153 +12,99 @@ which fetches content at test configure time from the gateways listed there
 gateway, `ipfs.io`, `gateway.pinata.cloud`, `cloudflare-ipfs.com`,
 `dweb.link`).
 
+## How the upload works
+
+Uploads go directly to a Filebase IPFS bucket over Filebase's
+S3-compatible REST API. A local
+[Kubo](https://github.com/ipfs/kubo) daemon, IPFS Desktop, or any
+configured `ipfs pin remote` PSA service is **not** required.
+
+For each upload the helper script:
+
+1. Packs the file into a CARv1 with `npx ipfs-car pack --no-wrap`. ipfs-car
+   v1+ defaults to **1 MiB chunks, 1024 children per node, raw leaves,
+   CIDv1**, which is exactly the [unixfs-v1-2025] / IPIP-0499 profile, so
+   the CID is reproducible across implementations and matches what other
+   contributors and CI compute for the same content.
+2. PUTs the CAR to the configured Filebase bucket with the
+   `x-amz-meta-import: car` header. Filebase imports the CAR and pins the
+   resulting CID server-side, exposing it via `head_object` metadata.
+3. Reads the CID back from `head_object` and verifies it matches the local
+   CID. A mismatch aborts the upload.
+4. Writes `<file>.cid`, removes the original file, appends/updates an entry
+   in `Testing/Data/content-links.manifest`, and (with
+   `--testing-data-repo`) copies the bytes into a local `ITKTestingData`
+   clone for the GitHub Pages CDN mirror.
+
+[unixfs-v1-2025]: https://github.com/ipfs/specs/blob/main/IPIP/0499-unixfs-v1-2025-profile.md
+
 ## One-Time Developer Setup
 
-### 1. Install Kubo (IPFS)
+### 1. Install the pixi environment
 
-You need the Kubo IPFS implementation. Choose one method:
-
-**IPFS Desktop** (recommended — bundles the Kubo daemon with a GUI, with a
-system-tray icon, peer/bandwidth statistics, a file browser for your MFS, and
-one-click start/stop):
-
-Download from <https://docs.ipfs.tech/install/ipfs-desktop/>. IPFS Desktop
-auto-starts the daemon on login and exposes the same HTTP API that the `ipfs`
-CLI uses (default `127.0.0.1:5001`), so every command in this guide works
-identically whether you started the daemon from the command line or from the
-tray.
-
-**CLI only** (macOS):
+The upload helpers run on top of a small pixi environment that brings in
+[boto3] for the Filebase S3 calls, Node.js for `npx ipfs-car`, and
+`requests` for the gateway-fetch verification path used by `normalize.py`.
+From the ITK source tree:
 
 ```bash
-brew install ipfs
+pixi install -e external-data-upload
 ```
 
-**CLI only** (Linux):
+[boto3]: https://boto3.amazonaws.com/
 
-Download the latest release from <https://dist.ipfs.tech/#kubo>, then:
+That installs everything into `.pixi/envs/external-data-upload/`. Verify:
 
 ```bash
-tar xvfz kubo_*_linux-amd64.tar.gz
-cd kubo && sudo bash install.sh
+pixi run -e external-data-upload python --version
+pixi run -e external-data-upload node --version
+pixi run -e external-data-upload npx --yes ipfs-car --version
 ```
 
-After installation, verify `ipfs` is on your PATH:
+The first `npx ipfs-car` invocation downloads the package into the npm
+cache; subsequent runs are offline.
+
+### 2. Create a Filebase IPFS bucket and S3 keys
+
+1. Sign up at <https://console.filebase.com> (the free tier supports
+   pin-by-CID via the S3 import path).
+2. Create an **IPFS bucket** at <https://console.filebase.com/buckets>.
+   The bucket name is local to your account — the published CID is the
+   only thing other contributors need to retrieve the bytes.
+3. Create an S3 access key for that bucket at
+   <https://console.filebase.com/keys>. Filebase ties keys to a single
+   bucket, so the access key + secret you receive can only see and
+   write to that bucket.
+
+### 3. Export the credentials
+
+The helper scripts read three environment variables:
 
 ```bash
-ipfs --version
+export FILEBASE_ACCESS_KEY=...      # S3 access key
+export FILEBASE_SECRET_KEY=...      # S3 secret key
+export FILEBASE_BUCKET=itk-data     # bucket name from step 2
 ```
 
-### 2. Initialize and Start the Daemon
-
-```bash
-# One-time initialization (creates ~/.ipfs)
-ipfs init
-
-# Start the daemon (keep running in a separate terminal, or use IPFS Desktop)
-ipfs daemon
-```
-
-### 2a. Apply the UnixFS v1 2025 Profile
-
-Requires **Kubo v0.40.0 or later**. Apply once per node, before your first
-upload:
-
-```bash
-ipfs config profile apply unixfs-v1-2025
-```
-
-This pins the UnixFS importer settings (chunker, layout, raw-leaves, HAMT
-directory thresholds) to standardized values for reproducible CIDs. Without it,
-`ipfs add` defaults may drift across Kubo patch releases and across
-implementations (Helia, rust-ipfs, boxo), so two contributors uploading the
-same file can produce different CIDs — which breaks the `.cid` content-link
-contract ITK relies on.
-
-The profile applies to **new adds only**; existing pinned content and
-already-committed `.cid` files are unaffected.
-
-References:
-
-- [Kubo v0.40.0 release notes](https://github.com/ipfs/kubo/releases/tag/v0.40.0)
-- [Reproducible CIDs — IPFS blog, March 2026](https://blog.ipfs.tech/2026-03-reproducible-cids/)
-
-### 3. Configure Remote Pinning Services
-
-The upload script pins content on community-run remote services for
-redundancy alongside the GitHub Pages mirror, matching the gateways
-declared in `CMake/ITKExternalData.cmake`. Use the **exact service names**
-`itk-filebase` (required) and `itk-pinata` (optional) — the upload script
-looks up those names.
-
-#### Filebase (service name: `itk-filebase`, **required**)
-
-Filebase's IPFS Pinning Service endpoint accepts pin-by-CID on the free
-tier, so this is the baseline pinning provider for ITK.
-
-1. Sign up at <https://console.filebase.com>
-2. Create an **IPFS bucket** at <https://console.filebase.com/buckets>
-3. Go to <https://console.filebase.com/keys>, select your IPFS bucket in the
-   "IPFS Pinning Service API Endpoint" section, and copy the generated token
-4. Add the service:
-
-```bash
-printf "Filebase token: " && read -rs FILEBASE_TOKEN && echo
-ipfs pin remote service add itk-filebase https://api.filebase.io/v1/ipfs "$FILEBASE_TOKEN"
-```
-
-5. Verify:
-
-```bash
-ipfs pin remote service ls
-# Should show: itk-filebase https://api.filebase.io/v1/ipfs
-```
-
-#### Pinata (service name: `itk-pinata`, **optional — paid plan**)
-
-Pinata's `pin remote add` endpoint (the IPFS Pinning Service API) is
-restricted to **paid plans** — the free plan rejects pin-by-CID with
-`PAID_FEATURE_ONLY` (HTTP 403). Configure this service only if you have a
-paid Pinata plan; otherwise leave it out and the upload script will skip
-it with an informational message. Filebase + the GitHub Pages mirror still
-provide redundancy.
-
-1. Sign up at <https://pinata.cloud> and select a paid plan that includes
-   pin-by-CID
-2. Create an API key at <https://app.pinata.cloud/developers/api-keys>
-   - Enable **pinByHash** and **pinFileToIPFS** permissions
-3. Copy the JWT token and add the service (use a prompt to avoid leaking
-   the token into shell history):
-
-```bash
-printf "Pinata JWT: " && read -rs PINATA_JWT && echo
-ipfs pin remote service add itk-pinata https://api.pinata.cloud/psa "$PINATA_JWT"
-```
-
-4. Verify:
-
-```bash
-ipfs pin remote service ls
-# Should show: itk-pinata https://api.pinata.cloud/psa
-```
+Add the exports to your shell profile or a `.env` file you source before
+uploads. **Do not** commit credentials to the repository.
 
 ## Usage
 
 ### Upload a single file
 
 ```bash
-Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh <filepath>
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/upload.py <filepath>
 ```
 
 The script will:
 
-1. Add the file to IPFS with `--cid-version=1` (UnixFS v1 2025 profile)
-2. Pin it locally
-3. Pin it on `itk-filebase` (and on `itk-pinata` if that service is
-   configured; otherwise the script logs a notice and continues)
-4. Replace the original file with `<filepath>.cid` containing the CID
-5. Append/update an entry in `Testing/Data/content-links.manifest`
-6. Print the `git rm` / `git add` commands to stage the change
+1. Pack the file into a CAR (CIDv1, unixfs-v1-2025 profile)
+2. Upload the CAR to your Filebase IPFS bucket and verify the CID
+3. Replace the original file with `<filepath>.cid` containing the CID
+4. Append/update an entry in `Testing/Data/content-links.manifest`
+5. Print the `git rm` / `git add` commands to stage the change
 
 ### Also mirror the bytes to `ITKTestingData`
 
@@ -169,7 +116,8 @@ at `CID/<cid-value>` and `git add` it there. This populates the
 gateway already listed in `CMake/ITKExternalData.cmake`.
 
 ```bash
-Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh \
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/upload.py \
     --testing-data-repo ~/src/ITKTestingData \
     Testing/Data/Input/brain.nii.gz
 ```
@@ -177,98 +125,55 @@ Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh \
 **GitHub 50 MB file size limit.** `ITKTestingData` is hosted on GitHub, which
 hard-rejects pushes containing files larger than **50 MB** per file. The upload
 script checks the file size before mirroring and refuses to copy files over
-50 MB into the `ITKTestingData` tree. IPFS pinning (local + `itk-filebase`,
-plus `itk-pinata` when configured) still proceeds for oversized files — the
-mirror step is the only one that gets skipped, with a clear warning.
+50 MB into the `ITKTestingData` tree. The Filebase upload still proceeds for
+oversized files — the mirror step is the only one that gets skipped, with a
+clear warning.
 
 Commit the staged `CID/<cid>` file in `ITKTestingData` and push; the
 `gh-pages` workflow on that repo republishes the new file at the GitHub Pages
 mirror gateway.
 
-### Batch-pin every CID in the manifest
-
-```bash
-Utilities/Maintenance/ExternalDataUpload/ipfs-pin-all.sh
-```
-
-Reads `Testing/Data/content-links.manifest` and pins every CID locally plus on
-every configured remote pinning service. Useful for:
-
-- Bootstrapping a new local Kubo node with all ITK test content
-- Re-pinning everything after rotating a pinning provider
-- Verifying all pinned content is still reachable
-
-Use `--background` to queue remote pins asynchronously (the remote services
-then fetch the content themselves):
-
-```bash
-Utilities/Maintenance/ExternalDataUpload/ipfs-pin-all.sh --background
-```
-
 ### Normalize existing content links to CID
 
 `.md5` / `.sha256` / `.sha512` content links can be converted to `.cid`, and
-existing `.cid` links can be regenerated under the UnixFS v1 2025 profile (in
+existing `.cid` links can be regenerated under the unixfs-v1-2025 profile (in
 case they were originally produced with older chunker defaults).
 
 ```bash
-Utilities/Maintenance/ExternalDataUpload/content-link-normalize.sh <path-or-file>
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/normalize.py <path-or-file>
 ```
 
 The script will, for each content link under the given path:
 
-1. Fetch the bytes through the gateways in `CMake/ITKExternalData.cmake` (same
-   order the build uses, so a gateway CI can't reach is a gateway this script
-   won't accept).
+1. Fetch the bytes through the gateways in `CMake/ITKExternalData.cmake`
+   (same order the build uses, so a gateway CI can't reach is a gateway
+   this script won't accept).
 2. Verify the fetched bytes against the declared hash (for `.md5` / `.shaNNN`
-   links) or the declared CID (for `.cid` links). If verification fails the
-   link is left untouched and reported.
-3. Re-materialize the actual file next to the content link, then invoke
-   `ipfs-upload.sh` on it so the new CID is produced under the UnixFS v1 2025
-   profile, pinned locally and on `itk-filebase` (and `itk-pinata` if
-   configured), and (if `--testing-data-repo` is passed) mirrored into
-   `ITKTestingData`. The old `.md5` / `.sha256` / `.sha512` link is removed;
-   a `.cid` link is written in its place.
+   links) or the declared CID (for `.cid` links — accepted only when fetched
+   via an IPFS HTTP gateway, which verifies server-side).
+3. Re-materialize the actual file next to the content link, then call the
+   Filebase uploader so the new CID is produced under the unixfs-v1-2025
+   profile and (if `--testing-data-repo` is passed) mirrored into
+   `ITKTestingData`. The old `.md5` / `.sha256` / `.sha512` link is
+   removed; a `.cid` link is written in its place.
 
 Common options:
 
 ```bash
 # Dry run — report what would change, modify nothing.
-content-link-normalize.sh Modules/Filtering/Foo --dry-run
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/normalize.py Modules/Filtering/Foo --dry-run
 
 # Also mirror bytes into a local ITKTestingData checkout.
-content-link-normalize.sh Testing/Data/Input --testing-data-repo ~/src/ITKTestingData
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/normalize.py Testing/Data/Input \
+    --testing-data-repo ~/src/ITKTestingData
 
 # Only process files that are currently .md5 / .shaNNN (skip existing .cid).
-content-link-normalize.sh Modules --hash-only
-
-# Batch run with asynchronous remote pinning (returns without waiting for
-# each remote to reach 'pinned'). Verify afterwards with `ipfs pin remote ls`.
-content-link-normalize.sh Modules --hash-only --background
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/normalize.py Modules --hash-only
 ```
-
-### Synchronous vs. asynchronous remote pinning
-
-Both `ipfs-upload.sh` and `content-link-normalize.sh` default to
-**synchronous** remote pinning: `ipfs pin remote add` blocks until the
-remote reports `pinned`, which surfaces failures immediately and is
-safest for one-off uploads. Remote fetch can take minutes per file,
-however, which is impractical for batch runs.
-
-Pass `--background` to submit pin requests asynchronously — the remote
-queues the pin and fetches the content itself, and the script returns
-right away. Check final pin state with:
-
-```bash
-ipfs pin remote ls --service=itk-filebase --status=queued,pinning,pinned
-# Only when itk-pinata is configured (paid Pinata plan):
-ipfs pin remote ls --service=itk-pinata   --status=queued,pinning,pinned
-```
-
-Both scripts also pre-check each remote for an existing pin on the same
-CID and skip the `pin remote add` call if one is already queued, pinning,
-or pinned — this prevents `DUPLICATE_OBJECT` (400) errors on Pinata when
-re-running on already-uploaded content.
 
 ## Content Link Manifest
 
@@ -291,9 +196,9 @@ Rules:
 - `<filepath>` is a repo-relative path and **must not contain whitespace** —
   the manifest uses a single space as the field delimiter. Rename files with
   spaces before uploading.
-- `ipfs-upload.sh` maintains this file automatically: entries are added on
-  first upload and replaced on re-upload. The data lines are sorted by path
-  for a minimal review diff; comment lines at the top are preserved.
+- `upload.py` maintains this file automatically: entries are added on first
+  upload and replaced on re-upload. The data lines are sorted by path for a
+  minimal review diff; comment lines at the top are preserved.
 - The manifest should be committed alongside the `.cid` files the upload
   produced.
 
@@ -322,45 +227,31 @@ CID, and the cache lookup misses.
 
 ## Troubleshooting
 
-### `ipfs command not found on PATH`
+### `ERROR: 'npx' not found on PATH`
 
-Install Kubo (see step 1 above). If using IPFS Desktop on macOS, the app
-installs `/usr/local/bin/ipfs` automatically; on Linux, IPFS Desktop does not
-install a CLI symlink, so either add Kubo separately or point your shell at
-the bundled binary inside the AppImage.
+The pixi environment is not active. Run the helpers via `pixi run -e
+external-data-upload python ...`, or activate the environment first with
+`pixi shell -e external-data-upload`.
 
-### `IPFS daemon does not appear to be running`
+### `ERROR: Missing Filebase credentials`
 
-Start the daemon: `ipfs daemon` in a separate terminal, or launch IPFS
-Desktop. The script tests the connection with `ipfs swarm peers`, which
-requires an active daemon.
+Export `FILEBASE_ACCESS_KEY`, `FILEBASE_SECRET_KEY`, and `FILEBASE_BUCKET`
+(or pass `--bucket`) before running the upload script. See setup step 3.
 
-### `Required pinning service 'itk-filebase' is not configured`
+### `Filebase did not return a CID for ...`
 
-Run `ipfs pin remote service ls` to see configured services. Re-add with the
-commands in step 3 above. Tokens may have expired if you revoked the API key.
-The script intentionally refuses to upload if `itk-filebase` is missing — it
-is the baseline pin provider that works on the free tier. `itk-pinata` is
-optional (paid plan only); if it isn't registered the script prints a
-notice and continues.
+The CAR was uploaded but Filebase did not import it. Common causes:
 
-### `PAID_FEATURE_ONLY` / `403 Forbidden` from Pinata
+- The bucket is a regular S3 bucket, not an **IPFS** bucket — recreate at
+  <https://console.filebase.com/buckets>.
+- The S3 access key is read-only or scoped to a different bucket.
+- Filebase rate-limited the request — retry after a few seconds.
 
-Pinata's free plan no longer accepts pin-by-CID via the IPFS Pinning Service
-API; their `pin remote add` endpoint is gated to paid plans. If you don't
-have a paid plan, remove the service so the upload script skips it cleanly:
+### `CID mismatch: local=... filebase=...`
 
-```bash
-ipfs pin remote service rm itk-pinata
-```
-
-Filebase + the GitHub Pages mirror still provide redundancy.
-
-### Remote pin failed
-
-The script prints retry commands for any failed pins. Common causes:
-
-- **Expired API token** — regenerate at the service dashboard
-- **Rate limiting** — wait a moment and retry
-- **Large file timeout** — the file may take time to transfer; retry the
-  printed `ipfs pin remote add` command manually
+The CID this client computed (via `npx ipfs-car`) and the CID Filebase
+reported after import disagree. This indicates a chunker/profile drift
+between the local ipfs-car version and Filebase's importer. Confirm
+`pixi run -e external-data-upload npx ipfs-car --version` is v1 or newer,
+then retry; if the mismatch persists, file an issue and include both CIDs
+in the report.

@@ -33,30 +33,25 @@ adopting Web3, we gain:
 - **Scalability**
 - **Sustainability**
 
-Contributors to the ITK upload their data through a simple web app
-that utilizes an easy-to-use, permissionless service, [Pinata].
+Contributors upload their data by running a small Python helper that packs
+the file into a [CARv1] using `npx ipfs-car`, uploads the CAR to a [Filebase]
+IPFS bucket through Filebase's S3-compatible REST API, records the resulting
+CID in a manifest, and (optionally) mirrors the bytes into the [ITKTestingData]
+GitHub Pages repository. A local [Kubo] daemon, IPFS Desktop, or any
+`ipfs pin remote` PSA service is **not** required. See
+[`Utilities/Maintenance/ExternalDataUpload/README.md`] for the one-time
+developer setup and full workflow.
 
-Data used in the ITK Git repository is periodically tracked in a
-dedicated DataLad repository, the [ITKData DataLad repository].
-and stored across redundant locations so it can be retrieved from any of
-the following:
-
-Contributors upload their data by running a small shell script that pushes
-the file into [IPFS] via a local [Kubo] daemon, pins it on redundant
-community-run pinning services, records the resulting CID in a manifest, and
-(optionally) mirrors the bytes into the [ITKTestingData] GitHub Pages
-repository. See [`Utilities/Maintenance/ExternalDataUpload/README.md`] for
-the one-time developer setup and full workflow.
+[CARv1]: https://ipld.io/specs/transport/car/carv1/
 
 Data referenced from the ITK Git repository is stored across redundant
 locations so it can be retrieved from any of the following at build time:
 
-- Local [Kubo] gateway (typically `127.0.0.1:8080`)
+- [Filebase] IPFS gateway (where uploads land)
 - [ITKTestingData] GitHub Pages mirror
-- [Filebase] (community pinning service, remote name `itk-filebase`)
-- [Pinata] (community pinning service, remote name `itk-pinata`,
-  *optional* — pin-by-CID requires a paid Pinata plan)
-- Public IPFS HTTP gateways (`ipfs.io`, `dweb.link`, `cloudflare-ipfs.com`)
+- Public IPFS HTTP gateways (`ipfs.io`, `dweb.link`, `cloudflare-ipfs.com`,
+  `gateway.pinata.cloud`)
+- Local [Kubo] gateway (typically `127.0.0.1:8080`) when present
 - Kitware's Apache HTTP Server
 - Local `ExternalData_OBJECT_STORES` cache
 - Archive tarballs from GitHub Releases
@@ -64,17 +59,19 @@ locations so it can be retrieved from any of the following at build time:
 
 ![ITK testing data figure](./itk-testing-data.png)
 
-*Testing data workflow. Testing or example data is uploaded to IPFS via the
-content-link-upload.itk.org web app. New content is added with the
-`Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh` script, which
-pushes the bytes to a local [Kubo] node and pins them on `itk-filebase`
-(and `itk-pinata` if a paid Pinata plan is configured) for redundancy. The
-resulting CID is written as a `.cid` content link in the ITK source tree
-and recorded in `Testing/Data/content-links.manifest`. Files ≤ 50 MB can
-additionally be mirrored into [ITKTestingData] for GitHub Pages CDN
-delivery. At test time an ITK build can fetch the data from a local cache,
-archive tarball, the Apache HTTP server, the GitHub Pages mirror, or any
-of several IPFS HTTP gateways.*
+*Testing data workflow. New content is added with the
+`Utilities/Maintenance/ExternalDataUpload/upload.py` helper, which packs
+the file into a CAR with `npx ipfs-car` (defaults match the
+unixfs-v1-2025 / IPIP-0499 profile so CIDs are reproducible) and uploads
+the CAR to a [Filebase] IPFS bucket via boto3 against Filebase's
+S3-compatible API. The CID Filebase reports back from `head_object` is
+verified against the locally computed CID, written as a `.cid` content
+link in the ITK source tree, and recorded in
+`Testing/Data/content-links.manifest`. Files ≤ 50 MB can additionally be
+mirrored into [ITKTestingData] for GitHub Pages CDN delivery. At test
+time an ITK build can fetch the data from a local cache, archive tarball,
+the Apache HTTP server, the GitHub Pages mirror, or any of several public
+IPFS HTTP gateways.*
 
 See also our [Data](data.md) guide for more information.
 
@@ -104,52 +101,53 @@ need to be followed:
 Upload new testing data
 -----------------------
 
-### Web app
+### One-time setup
 
-The easiest, recommended way to upload data is The [Content Link Upload] browser interface.
+The upload workflow needs:
 
-### CLI one-time setup
+- The `external-data-upload` pixi environment installed
+  (`pixi install -e external-data-upload`). It provides Python 3, [boto3],
+  and Node.js (which makes `npx ipfs-car` available without a separate
+  global install).
+- A [Filebase] IPFS bucket and an S3 access key for that bucket. Filebase's
+  free tier is sufficient — the upload uses the S3 import-as-CAR path,
+  not the legacy IPFS Pinning Service API.
+- The credentials exported as environment variables before running the
+  helper:
 
-The upload workflow requires:
+```bash
+export FILEBASE_ACCESS_KEY=...
+export FILEBASE_SECRET_KEY=...
+export FILEBASE_BUCKET=itk-data
+```
 
-- A local [Kubo] daemon (CLI or IPFS Desktop) with the **UnixFS v1 2025**
-  profile applied, so CIDs are reproducible across implementations
-  (`ipfs config profile apply unixfs-v1-2025`, Kubo ≥ 0.40.0).
-- The [Filebase] remote pinning service registered as `itk-filebase`. This
-  is **required** — it works on Filebase's free tier.
-- Optionally, the [Pinata] remote pinning service registered as
-  `itk-pinata`. Pinata's pin-by-CID endpoint requires a **paid plan**
-  (the free plan rejects PSA `pin remote add` with `PAID_FEATURE_ONLY`),
-  so configure this only if you have a paid Pinata account; the upload
-  script skips it with a notice when it isn't registered.
-
-The full step-by-step setup — installing Kubo, signing up with
-[Filebase] (and optionally [Pinata]), and registering each service
-as a remote — is documented in
+The full step-by-step setup is documented in
 [`Utilities/Maintenance/ExternalDataUpload/README.md`]. Complete that
 one-time setup before proceeding.
 
+[boto3]: https://boto3.amazonaws.com/
+
 ### Upload a file
 
-From the ITK source tree, run the upload script with the path to the file
+From the ITK source tree, run the upload helper with the path to the file
 you want to upload:
 
 ```bash
-Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh \
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/upload.py \
     Modules/.../test/Baseline/MyTest.png
 ```
 
-The script will:
+The helper will:
 
-1. Add the file to IPFS with `--cid-version=1` under the UnixFS v1 2025
-   profile, producing a deterministic CID.
-2. Pin locally, then on `itk-filebase` (and on `itk-pinata` if it is
-   registered — otherwise the script logs a notice and continues). By
-   default the script waits until each remote reports `pinned`, which
-   surfaces failures immediately but can take minutes per file as the
-   remote fetches the content. For batch runs pass `--background` to
-   submit pins asynchronously and verify afterwards with
-   `ipfs pin remote ls --status=queued,pinning,pinned`.
+1. Pack the file into a CARv1 with `npx ipfs-car pack --no-wrap` —
+   ipfs-car v1+ defaults to 1 MiB chunks, 1024 children per node, raw
+   leaves, CIDv1, which is the unixfs-v1-2025 profile, so the CID is
+   reproducible across implementations.
+2. PUT the CAR to your Filebase IPFS bucket with
+   `x-amz-meta-import: car` so Filebase imports it server-side, then
+   read the imported CID back via `head_object` and verify it matches
+   the locally computed CID.
 3. Replace `MyTest.png` in the source tree with `MyTest.png.cid` — a
    one-line text file containing the CID.
 4. Append the CID and source-tree path to
@@ -162,7 +160,8 @@ Pass `--testing-data-repo <path>` to additionally copy the file into a
 local clone of [ITKTestingData] at `CID/<cid>`:
 
 ```bash
-Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh \
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/upload.py \
     --testing-data-repo ~/src/ITKTestingData \
     Modules/.../test/Baseline/MyTest.png
 ```
@@ -172,40 +171,40 @@ This populates the GitHub Pages mirror gateway
 already listed in [`CMake/ITKExternalData.cmake`]. Commit and push in
 the `ITKTestingData` repo to publish. Files larger than **50 MB** are
 skipped for the mirror step only (GitHub rejects pushes containing
-files over 50 MB per file) — IPFS pinning on `itk-filebase` (and on
-`itk-pinata` when configured) still proceeds for those files.
+files over 50 MB per file) — the Filebase upload still proceeds for
+those files.
 
 ### Alternative: upload via the web app
 
-Contributors who prefer not to run a local [Kubo] daemon can upload a file
+Contributors who prefer not to run any local tooling can upload a file
 through the [Content Link Upload] web app ([Alt Link]). The app pins the
-file on [web3.storage] and returns the corresponding `.cid` content link
-to download. The resulting CID is usable anywhere the script-produced CID
-would be — but the manifest entry and the optional [ITKTestingData]
-mirror must then be added by hand. The script-based workflow above is
-preferred when available because it also updates
-`Testing/Data/content-links.manifest` and pins on the ITK community
-services in one step.
+file and returns the corresponding `.cid` content link to download. The
+resulting CID is usable anywhere the helper-produced CID would be — but
+the manifest entry and the optional [ITKTestingData] mirror must then be
+added by hand. The helper above is preferred when available because it
+also updates `Testing/Data/content-links.manifest` in one step.
 
 ### Normalize existing content links
 
 Older `.md5` / `.sha256` / `.sha512` content links can be converted to
-`.cid`, and existing `.cid` links can be regenerated under the UnixFS
-v1 2025 profile, with:
+`.cid`, and existing `.cid` links can be regenerated under the
+unixfs-v1-2025 profile, with:
 
 ```bash
-Utilities/Maintenance/ExternalDataUpload/content-link-normalize.sh <path-or-file>
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/normalize.py <path-or-file>
 ```
 
 See [`Utilities/Maintenance/ExternalDataUpload/README.md`] for the full
-set of options (`--dry-run`, `--hash-only`, `--cid-only`, `--background`,
-`--testing-data-repo`).
+set of options (`--dry-run`, `--hash-only`, `--cid-only`,
+`--testing-data-repo`, `--bucket`).
 
 ### Add the content link to the source tree
 
-The upload script prints the exact commands to stage:
+The upload helper prints the exact commands to stage:
 
 ```bash
+git rm path/to/MyTest.png
 git add path/to/MyTest.png.cid
 git add Testing/Data/content-links.manifest
 git commit
@@ -233,6 +232,5 @@ reachable gateway in [`CMake/ITKExternalData.cmake`].
 [ITKTestingData]: https://github.com/InsightSoftwareConsortium/ITKTestingData
 [Kubo]: https://github.com/ipfs/kubo
 [multiformats]: https://multiformats.io/
-[Pinata]: https://pinata.cloud/
 [solution to this problem]: https://blog.kitware.com/cmake-externaldata-using-large-files-with-distributed-version-control/
 [`Utilities/Maintenance/ExternalDataUpload/README.md`]: https://github.com/InsightSoftwareConsortium/ITK/blob/main/Utilities/Maintenance/ExternalDataUpload/README.md
