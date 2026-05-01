@@ -67,6 +67,12 @@ set(
   "Use pvrg lib, only turn it on if you know what you are doing."
 )
 set(GDCM_USE_SYSTEM_LJPEG OFF CACHE INTERNAL "Use system ljpeg (ijg lib)")
+# Use ITK's libjpeg-turbo as the JPEG backend instead of GDCM's IJG 6b
+set(GDCM_USE_JPEGTURBO ON CACHE INTERNAL "Use libjpeg-turbo for JPEG codec")
+if(GDCM_USE_JPEGTURBO)
+  set(GDCM_JPEGTURBO_INCLUDE_DIRS ${ITKJPEG_INCLUDE_DIRS})
+  set(GDCM_JPEGTURBO_LIBRARIES ${ITKJPEG_LIBRARIES})
+endif()
 set(GDCM_USE_SYSTEM_OPENSSL OFF CACHE INTERNAL "Use system OpenSSL")
 set(GDCM_USE_SYSTEM_PODOFO OFF CACHE INTERNAL "Use system podofo (pdf)")
 set(GDCM_USE_SYSTEM_POPPLER OFF CACHE INTERNAL "Use system poppler (pdf)")
