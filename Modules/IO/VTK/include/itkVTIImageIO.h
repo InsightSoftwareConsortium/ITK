@@ -44,6 +44,14 @@ namespace itk
  *     [XX, YY, ZZ, XY, YZ, XZ] layout remapped to ITK's internal
  *     [e00, e01, e02, e11, e12, e22] on read).
  *
+ * Single-image semantics: VTIImageIO yields exactly one image per file.
+ * When <PointData> declares Scalars/Vectors/Tensors hint attributes, the
+ * named DataArray is selected; when no hint is given, the first
+ * <DataArray> child of <PointData> is used.  Sibling DataArrays in the
+ * same <PointData> are silently ignored, since ITK's IO model is one
+ * image per file.  Arrays inside <CellData>, <FieldData>, or other
+ * containers are not consumed (see F-011).
+ *
  * Supported on write:
  *   * <VTKFile version="1.0" header_type="UInt64"> matching ParaView 5.7+.
  *   * format = "ascii" and "binary" (inline base64) for every supported
