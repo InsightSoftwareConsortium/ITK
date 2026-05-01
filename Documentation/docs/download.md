@@ -20,31 +20,31 @@ Additionally, wheels for external modules are available through the Python Packa
 
 **Guide and Textbook**
 
-- [InsightSoftwareGuide-Book1-5.4.5.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightSoftwareGuide-Book1-5.4.5.pdf)
-- [InsightSoftwareGuide-Book2-5.4.5.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightSoftwareGuide-Book2-5.4.5.pdf)
+- [InsightSoftwareGuide-Book1-5.4.6.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.6/InsightSoftwareGuide-Book1-5.4.6.pdf)
+- [InsightSoftwareGuide-Book2-5.4.6.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.6/InsightSoftwareGuide-Book2-5.4.6.pdf)
 
 **Library Sources**
 
-- [InsightToolkit-5.4.5.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightToolkit-5.4.5.tar.gz)
-- [InsightToolkit-5.4.5.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightToolkit-5.4.5.zip)
+- [InsightToolkit-5.4.6.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.6/InsightToolkit-5.4.6.tar.gz)
+- [InsightToolkit-5.4.6.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.6/InsightToolkit-5.4.6.zip)
 
 **Testing Data**
 
 Unpack optional testing data in the same directory where the Library Source is unpacked.
 
-- [InsightData-5.4.5.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightData-5.4.5.tar.gz)
-- [InsightData-5.4.5.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightData-5.4.5.zip)
+- [InsightData-5.4.6.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.6/InsightData-5.4.6.tar.gz)
+- [InsightData-5.4.6.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.6/InsightData-5.4.6.zip)
 
 **Checksums and Signatures**
 
-- [InsightToolkit-5.4.5.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightToolkit-5.4.5.tar.gz.asc)
-- [InsightToolkit-5.4.5.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightToolkit-5.4.5.zip.asc)
+- [InsightToolkit-5.4.6.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.6/InsightToolkit-5.4.6.tar.gz.asc)
+- [InsightToolkit-5.4.6.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.6/InsightToolkit-5.4.6.zip.asc)
 
-- [InsightData-5.4.5.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightData-5.4.5.tar.gz.asc)
-- [InsightData-5.4.5.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/InsightData-5.4.5.zip.asc)
+- [InsightData-5.4.6.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.6/InsightData-5.4.6.tar.gz.asc)
+- [InsightData-5.4.6.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.6/InsightData-5.4.6.zip.asc)
 
-- [MD5SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/MD5SUMS)
-- [SHA512SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.5/SHA512SUMS)
+- [MD5SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.6/MD5SUMS)
+- [SHA512SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.6/SHA512SUMS)
 
 Additional releases can be downloaded from [ITK's GitHub Releases page].
 
