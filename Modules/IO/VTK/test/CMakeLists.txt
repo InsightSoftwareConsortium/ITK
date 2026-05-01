@@ -10,7 +10,6 @@ set(
   itkVTKImageIOTest3.cxx
   itkVTIImageIOTest.cxx
   itkVTIImageIOReadWriteTest.cxx
-  itkVTIImageIODirectionTest.cxx
   itkVTIImageIOGeneratedFixturesTest.cxx
 )
 
@@ -18,6 +17,7 @@ createtestdriver(ITKIOVTK "${ITKIOVTK-Test_LIBRARIES}" "${ITKIOVTKTests}")
 
 set(
   ITKIOVTKGTests
+  itkVTIImageIODirectionGTest.cxx
   itkVTIImageIOFutureFeaturesGTest.cxx
   itkVTIImageIOSwapBufferGTest.cxx
 )
@@ -33,15 +33,6 @@ itk_add_test(
   COMMAND
     ITKIOVTKTestDriver
     itkVTIImageIOTest
-    ${ITK_TEST_OUTPUT_DIR}
-)
-
-itk_add_test(
-  NAME itkVTIImageIODirectionTest
-  COMMAND
-    ITKIOVTKTestDriver
-    itkVTIImageIODirectionTest
-    ${CMAKE_CURRENT_SOURCE_DIR}/Input
     ${ITK_TEST_OUTPUT_DIR}
 )
 

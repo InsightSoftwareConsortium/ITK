@@ -18,13 +18,17 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkTestingMacros.h"
 #include "itkVTIImageIO.h"
 #include "itkVTIImageIOFactory.h"
+#include "itkGTest.h"
 
 #include <cmath>
 #include <string>
 #include <vector>
+
+#ifndef VTI_TEST_INPUT_DIR
+#  error "VTI_TEST_INPUT_DIR must be defined by the build system."
+#endif
 
 namespace
 {
@@ -38,8 +42,8 @@ constexpr double kExpectedDirection[3][3] = {
 
 constexpr double kDirectionTol = 1.0e-6;
 
-bool
-DirectionMatchesOblique(const itk::ImageIOBase * io, const char * where)
+void
+ExpectDirectionMatchesOblique(const itk::ImageIOBase * io)
 {
   const unsigned int nd = io->GetNumberOfDimensions();
   for (unsigned int axis = 0; axis < nd && axis < 3; ++axis)
@@ -47,63 +51,36 @@ DirectionMatchesOblique(const itk::ImageIOBase * io, const char * where)
     const std::vector<double> & v = io->GetDirection(axis);
     for (unsigned int r = 0; r < nd && r < 3; ++r)
     {
-      const double want = kExpectedDirection[r][axis];
-      const double got = v[r];
-      if (std::abs(got - want) > kDirectionTol)
-      {
-        std::cerr << where << ": Direction mismatch at axis " << axis << ", component " << r << ": got " << got
-                  << ", expected " << want << std::endl;
-        return false;
-      }
+      EXPECT_NEAR(v[r], kExpectedDirection[r][axis], kDirectionTol)
+        << "Direction mismatch at axis " << axis << ", component " << r;
     }
   }
-  return true;
 }
 } // namespace
 
-int
-itkVTIImageIODirectionTest(int argc, char * argv[])
+TEST(VTIImageIODirection, RoundTrip)
 {
-  if (argc < 3)
-  {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <inputDir> <outputDir>" << std::endl;
-    return EXIT_FAILURE;
-  }
-  const std::string inputDir = argv[1];
-  const std::string outputDir = argv[2];
-  const std::string fixture = inputDir + "/VTI_oblique_direction.vti";
-  const std::string rtOutput = outputDir + "/VTI_oblique_direction_rt.vti";
-
   using ImageT = itk::Image<unsigned char, 3>;
+  const std::string fixture = std::string(VTI_TEST_INPUT_DIR) + "/VTI_oblique_direction.vti";
+  const std::string rtOutput = std::string(::testing::TempDir()) + "/VTI_oblique_direction_rt.vti";
 
   // --- Read the fixture and assert Direction was recovered. --------------
   auto reader = itk::ImageFileReader<ImageT>::New();
   reader->SetFileName(fixture);
   reader->SetImageIO(itk::VTIImageIO::New());
-  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
-
-  if (!DirectionMatchesOblique(reader->GetImageIO(), "initial read"))
-  {
-    return EXIT_FAILURE;
-  }
+  ASSERT_NO_THROW(reader->Update());
+  ExpectDirectionMatchesOblique(reader->GetImageIO());
 
   // --- Round-trip: write, re-read, assert Direction survived. -----------
   auto writer = itk::ImageFileWriter<ImageT>::New();
   writer->SetFileName(rtOutput);
   writer->SetInput(reader->GetOutput());
   writer->SetImageIO(itk::VTIImageIO::New());
-  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ASSERT_NO_THROW(writer->Update());
 
   auto reader2 = itk::ImageFileReader<ImageT>::New();
   reader2->SetFileName(rtOutput);
   reader2->SetImageIO(itk::VTIImageIO::New());
-  ITK_TRY_EXPECT_NO_EXCEPTION(reader2->Update());
-
-  if (!DirectionMatchesOblique(reader2->GetImageIO(), "round-trip read"))
-  {
-    return EXIT_FAILURE;
-  }
-
-  std::cout << "Direction round-trip OK" << std::endl;
-  return EXIT_SUCCESS;
+  ASSERT_NO_THROW(reader2->Update());
+  ExpectDirectionMatchesOblique(reader2->GetImageIO());
 }
