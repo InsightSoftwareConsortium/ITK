@@ -1047,5 +1047,53 @@ itkVTIImageIOTest(int argc, char * argv[])
     }
   }
 
+  // ---- Malformed: <AppendedData> without the '_' marker -----------------
+  // A valid AppendedData block has a single '_' before the binary payload.
+  // The reader scans forward from the tag offset for that byte; if the file
+  // ends first, the read must throw a clear diagnostic rather than reading
+  // past EOF or returning garbage.
+  {
+    const std::string fname = outDir + sep + "vti_appended_no_marker.vti";
+    {
+      std::ofstream f(fname.c_str(), std::ios::out | std::ios::binary);
+      f << "<?xml version=\"1.0\"?>\n";
+      f << "<VTKFile type=\"ImageData\" version=\"1.0\" byte_order=\"LittleEndian\" header_type=\"UInt64\">\n";
+      f << "  <ImageData WholeExtent=\"0 1 0 1 0 0\" Origin=\"0 0 0\" Spacing=\"1 1 1\">\n";
+      f << "    <Piece Extent=\"0 1 0 1 0 0\">\n";
+      f << "      <PointData Scalars=\"density\">\n";
+      f << "        <DataArray type=\"Float32\" Name=\"density\" format=\"appended\" offset=\"0\"/>\n";
+      f << "      </PointData>\n";
+      f << "    </Piece>\n";
+      f << "  </ImageData>\n";
+      f << "  <AppendedData encoding=\"raw\">\n";
+      // Intentionally NO '_' marker here.  Truncate.
+      f << "</AppendedData>\n";
+      f << "</VTKFile>\n";
+    }
+
+    using ImageType = itk::Image<float, 2>;
+    auto reader = itk::ImageFileReader<ImageType>::New();
+    reader->SetFileName(fname);
+    reader->SetImageIO(itk::VTIImageIO::New());
+    bool threw = false;
+    try
+    {
+      reader->Update();
+    }
+    catch (const itk::ExceptionObject &)
+    {
+      threw = true;
+    }
+    if (threw)
+    {
+      std::cout << "  Missing '_' marker rejection OK" << std::endl;
+    }
+    else
+    {
+      std::cerr << "  ERROR: AppendedData file with no '_' marker was not rejected: " << fname << std::endl;
+      status = EXIT_FAILURE;
+    }
+  }
+
   return status;
 }
