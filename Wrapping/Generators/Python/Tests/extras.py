@@ -655,3 +655,76 @@ try:
 except ImportError:
     print("vtk not imported. Skipping vtk conversion tests")
     pass
+
+# Test SimpleITK to ITK conversion
+try:
+    import SimpleITK as sitk
+
+    print("Testing SimpleITK conversion")
+
+    # Test 2D scalar image
+    sitk_image = sitk.Image([12, 8], sitk.sitkFloat32)
+    sitk_image.SetSpacing([0.5, 1.5])
+    sitk_image.SetOrigin([10.0, 20.0])
+    theta = np.radians(30)
+    cosine = np.cos(theta)
+    sine = np.sin(theta)
+    sitk_image.SetDirection([cosine, -sine, sine, cosine])
+    # Fill with known data
+    arr_2d = np.random.rand(8, 12).astype(np.float32)
+    for y in range(8):
+        for x in range(12):
+            sitk_image[x, y] = float(arr_2d[y, x])
+
+    itk_image = itk.image_from_simpleitk(sitk_image)
+    assert np.array_equal(
+        np.array(sitk_image.GetSpacing()), np.array(itk.spacing(itk_image))
+    )
+    assert np.array_equal(
+        np.array(sitk_image.GetOrigin()), np.array(itk.origin(itk_image))
+    )
+    sitk_dir = np.array(sitk_image.GetDirection()).reshape(2, 2)
+    itk_dir = itk.array_from_matrix(itk_image.GetDirection())
+    assert np.allclose(sitk_dir, itk_dir)
+    assert np.array_equal(
+        sitk.GetArrayFromImage(sitk_image), itk.array_from_image(itk_image)
+    )
+
+    # Test 3D scalar image
+    sitk_3d = sitk.Image([4, 6, 8], sitk.sitkFloat32)
+    sitk_3d.SetSpacing([1.0, 2.0, 3.0])
+    sitk_3d.SetOrigin([5.0, 10.0, 15.0])
+    itk_3d = itk.image_from_simpleitk(sitk_3d)
+    assert np.array_equal(np.array(sitk_3d.GetSpacing()), np.array(itk.spacing(itk_3d)))
+    assert np.array_equal(np.array(sitk_3d.GetOrigin()), np.array(itk.origin(itk_3d)))
+    assert itk_3d.GetImageDimension() == 3
+
+    # Test vector image (multi-component -> VectorImage)
+    sitk_vector = sitk.Image([10, 10], sitk.sitkVectorFloat32, 3)
+    sitk_vector.SetSpacing([0.8, 1.2])
+    itk_vector = itk.image_from_simpleitk(sitk_vector)
+    assert itk_vector.GetNumberOfComponentsPerPixel() == 3
+    assert isinstance(itk_vector, itk.VectorImage[itk.F, 2])
+    assert np.array_equal(
+        np.array(sitk_vector.GetSpacing()), np.array(itk.spacing(itk_vector))
+    )
+
+    # Test MetaDataDictionary preservation
+    sitk_meta = sitk.Image([4, 4], sitk.sitkFloat32)
+    sitk_meta.SetMetaData("test_key", "test_value")
+    sitk_meta.SetMetaData("0010|0010", "patient_name")
+    itk_meta = itk.image_from_simpleitk(sitk_meta)
+    meta_dict = itk_meta.GetMetaDataDictionary()
+    assert meta_dict["test_key"] == "test_value"
+    assert meta_dict["0010|0010"] == "patient_name"
+
+    # Test auto-detection in filter function
+    sitk_input = sitk.Image([32, 32], sitk.sitkFloat32)
+    result = itk.median_image_filter(sitk_input, radius=1)
+    assert isinstance(result, itk.Image[itk.F, 2])
+
+    print("SimpleITK conversion tests passed")
+
+except ImportError:
+    print("SimpleITK not imported. Skipping SimpleITK conversion tests")
+    pass
