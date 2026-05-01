@@ -41,7 +41,7 @@ namespace itk
  * corresponding `std::sto*` calls, but rethrow conversion failures as
  * `itk::ExceptionObject` whose message includes a caller-supplied
  * `context` describing what was being parsed (e.g.
- * `"NRRD header field 'sizes'"`) plus the offending input string.
+ * ``"NRRD header field 'sizes'"``) plus the offending input string.
  *
  * **Fixed-width integer return types** are used (`int32_t`, `int64_t`,
  * `uint32_t`, `uint64_t`) rather than the platform-dependent C++
