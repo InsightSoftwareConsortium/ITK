@@ -1,108 +1,114 @@
-# Commit prefix regexes
-type:Compiler:
-  title: "^COMP:.*"
+# srvaroa/labeler v1.x configuration.  See
+# https://github.com/srvaroa/labeler#configuration for schema details.
+# Patterns under `files:` are Go RE2 regexes matched unanchored against
+# every file path in the PR; `title:` is matched against the PR title.
+version: 1
+labels:
+  # Commit prefix regexes
+  - label: "type:Compiler"
+    title: "^COMP:.*"
 
-type:Bug:
-  title: "^BUG:.*"
+  - label: "type:Bug"
+    title: "^BUG:.*"
 
-type:Documentation:
-  title: "^DOC:.*"
+  - label: "type:Documentation"
+    title: "^DOC:.*"
 
-type:Enhancement:
-  title: "^ENH:.*"
+  - label: "type:Enhancement"
+    title: "^ENH:.*"
 
-type:Performance:
-  title: "^PERF:.*"
+  - label: "type:Performance"
+    title: "^PERF:.*"
 
-type:Style:
-  title: "^STYLE:.*"
+  - label: "type:Style"
+    title: "^STYLE:.*"
 
-type:Coverage:
-  title: "coverage"
+  - label: "type:Coverage"
+    title: "coverage"
 
-type:Design:
-  title: "design"
+  - label: "type:Design"
+    title: "design"
 
-# Filename regexes
-area:Bridge:
-  files:
-    - "Modules/Bridge/*"
+  # Filename regexes
+  - label: "area:Bridge"
+    files:
+      - "Modules/Bridge/*"
 
-area:Core:
-  files:
-    - "Modules/Core/*"
+  - label: "area:Core"
+    files:
+      - "Modules/Core/*"
 
-area:Documentation:
-  files:
-    - "Documentation/*"
-    - "Utilities/Doxygen/*"
+  - label: "area:Documentation"
+    files:
+      - "Documentation/*"
+      - "Utilities/Doxygen/*"
 
-area:Examples:
-  files:
-    - "Examples/*"
+  - label: "area:Examples"
+    files:
+      - "Examples/*"
 
-area:Filtering:
-  files:
-    - "Modules/Filtering/*"
+  - label: "area:Filtering"
+    files:
+      - "Modules/Filtering/*"
 
-area:IO:
-  files:
-    - "Modules/IO/*"
+  - label: "area:IO"
+    files:
+      - "Modules/IO/*"
 
-area:Numerics:
-  files:
-    - "Modules/Numerics/*"
+  - label: "area:Numerics"
+    files:
+      - "Modules/Numerics/*"
 
-area:Nonunit:
-  files:
-    - "src/Nonunit/*"
+  - label: "area:Nonunit"
+    files:
+      - "src/Nonunit/*"
 
-area:Python wrapping:
-  files:
-    - "Modules/Generators/Python/*"
-    - "Modules/.*/wrapping/*"
-    - ".*.notwrapped"
-    - ".*.py.*"
-    - ".*.wrap"
+  - label: "area:Python wrapping"
+    files:
+      - "Modules/Generators/Python/*"
+      - "Modules/.*/wrapping/*"
+      - ".*.notwrapped"
+      - ".*.py.*"
+      - ".*.wrap"
 
-area:Registration:
-  files:
-    - "Modules/Registration/*"
+  - label: "area:Registration"
+    files:
+      - "Modules/Registration/*"
 
-area:Remotes:
-  files:
-    - "Modules/Remote/*"
+  - label: "area:Remotes"
+    files:
+      - "Modules/Remote/*"
 
-area:Segmentation:
-  files:
-    - "Modules/Segmentation/*"
+  - label: "area:Segmentation"
+    files:
+      - "Modules/Segmentation/*"
 
-area:ThirdParty:
-  files:
-    - "Modules/ThirdParty/*"
+  - label: "area:ThirdParty"
+    files:
+      - "Modules/ThirdParty/*"
 
-area:Video:
-  files:
-    - "Modules/Video/*"
+  - label: "area:Video"
+    files:
+      - "Modules/Video/*"
 
-type:Data:
-  files:
-    - ".*.jpeg"
-    - ".*.jpg"
-    - ".*.md5"
-    - ".*.png"
-    - ".*.sha512"
+  - label: "type:Data"
+    files:
+      - ".*.jpeg"
+      - ".*.jpg"
+      - ".*.md5"
+      - ".*.png"
+      - ".*.sha512"
 
-type:Testing:
-  files:
-    - "Testing/*"
-    - ".*Test.*.cxx"
-    - ".*Test.*.h.*"
-    - ".*Test.*.py"
+  - label: "type:Testing"
+    files:
+      - "Testing/*"
+      - ".*Test.*.cxx"
+      - ".*Test.*.h.*"
+      - ".*Test.*.py"
 
-type:Infrastructure:
-  files:
-    - ".github/*"
-    - "CMake/*"
-    - "Testing/ContinuousIntegration/*"
-    - "Utilities/*"
+  - label: "type:Infrastructure"
+    files:
+      - ".github/*"
+      - "CMake/*"
+      - "Testing/ContinuousIntegration/*"
+      - "Utilities/*"
