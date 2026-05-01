@@ -34,91 +34,90 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkRGBAPixel.h"
 #include "itkSymmetricSecondRankTensor.h"
-#include "itkTestingMacros.h"
 #include "itkVTIImageIO.h"
 #include "itkVector.h"
+#include "itkGTest.h"
+#include "itkTestDriverIncludeRequiredFactories.h"
 
 #include <cmath>
-#include <string>
 #include <filesystem>
+#include <string>
+
+#ifndef VTI_TEST_INPUT_DIR
+#  error "VTI_TEST_INPUT_DIR must be defined by the build system."
+#endif
 
 namespace
 {
+struct VTIImageIOGeneratedFixtures : public ::testing::Test
+{
+  void
+  SetUp() override
+  {
+    RegisterRequiredFactories();
+  }
+};
+
 template <typename TImage, typename TEqual>
-int
-CompareImages(TImage * vti, TImage * mhd, TEqual && pixelEqual)
+::testing::AssertionResult
+ImagesEqual(TImage * vti, TImage * mhd, TEqual && pixelEqual)
 {
   if (vti->GetLargestPossibleRegion() != mhd->GetLargestPossibleRegion())
   {
-    std::cerr << "FAILED: region mismatch " << vti->GetLargestPossibleRegion() << " vs "
-              << mhd->GetLargestPossibleRegion() << std::endl;
-    return EXIT_FAILURE;
+    return ::testing::AssertionFailure() << "region mismatch " << vti->GetLargestPossibleRegion() << " vs "
+                                         << mhd->GetLargestPossibleRegion();
   }
-
   itk::ImageRegionConstIteratorWithIndex<TImage> vIt(vti, vti->GetLargestPossibleRegion());
   itk::ImageRegionConstIteratorWithIndex<TImage> mIt(mhd, mhd->GetLargestPossibleRegion());
   for (vIt.GoToBegin(), mIt.GoToBegin(); !vIt.IsAtEnd(); ++vIt, ++mIt)
   {
     if (!pixelEqual(vIt.Get(), mIt.Get()))
     {
-      std::cerr << "FAILED: pixel mismatch at " << vIt.GetIndex() << ": vti=" << vIt.Get() << " mhd=" << mIt.Get()
-                << std::endl;
-      return EXIT_FAILURE;
+      return ::testing::AssertionFailure()
+             << "pixel mismatch at " << vIt.GetIndex() << ": vti=" << vIt.Get() << " mhd=" << mIt.Get();
     }
   }
-
-  return EXIT_SUCCESS;
+  return ::testing::AssertionSuccess();
 }
 
 template <typename TImage, typename TEqual>
-int
+void
 CompareVtiToMhd(const std::string & label,
-                const std::string & vtiPath,
-                const std::string & mhdPath,
+                const std::string & vtiFixture,
+                const std::string & mhdFixture,
                 TEqual &&           pixelEqual,
                 bool                tryCompression = true)
 {
-  std::cout << label << std::endl;
   using ReaderType = itk::ImageFileReader<TImage>;
+  const std::string vtiPath = std::string(VTI_TEST_INPUT_DIR) + "/" + vtiFixture;
+  const std::string mhdPath = std::string(VTI_TEST_INPUT_DIR) + "/" + mhdFixture;
 
   auto vtiReader = ReaderType::New();
   vtiReader->SetFileName(vtiPath);
   vtiReader->SetImageIO(itk::VTIImageIO::New());
-  ITK_TRY_EXPECT_NO_EXCEPTION(vtiReader->Update());
+  ASSERT_NO_THROW(vtiReader->Update());
 
   auto mhdReader = ReaderType::New();
   mhdReader->SetFileName(mhdPath);
-  ITK_TRY_EXPECT_NO_EXCEPTION(mhdReader->Update());
+  ASSERT_NO_THROW(mhdReader->Update());
 
-  auto vti = vtiReader->GetOutput();
-  auto mhd = mhdReader->GetOutput();
-
-  if (CompareImages(vti, mhd, pixelEqual) != EXIT_SUCCESS)
-  {
-    return EXIT_FAILURE;
-  }
-  std::cout << "OK: " << vtiPath << " matches " << mhdPath << std::endl;
+  auto * vti = vtiReader->GetOutput();
+  auto * mhd = mhdReader->GetOutput();
+  EXPECT_TRUE(ImagesEqual(vti, mhd, pixelEqual)) << "fixture vs MHD oracle: " << vtiPath << " vs " << mhdPath;
 
   if (tryCompression)
   {
-    // Now write a compressed VTI and compare it to the same MHD image
+    // Write a compressed VTI from the just-read image and compare it to the
+    // same MHD oracle: exercises the writer's ZLib appended-raw path against
+    // the same independent MHD-layout reference.
     const std::filesystem::path tempDir = std::filesystem::temp_directory_path() / "itkVTICompressed";
-    std::filesystem::create_directories(tempDir); // Make sure the temp directory exists
+    std::filesystem::create_directories(tempDir);
     const std::string compressedVtiPath = (tempDir / (label + ".vti")).string();
-    itk::WriteImage(vti, compressedVtiPath, true);
+    ASSERT_NO_THROW(itk::WriteImage(vti, compressedVtiPath, true));
     auto cvti = itk::ReadImage<TImage>(compressedVtiPath);
-    if (CompareImages(cvti.GetPointer(), mhd, pixelEqual) != EXIT_SUCCESS)
-    {
-      return EXIT_FAILURE;
-    }
-    std::cout << "OK: " << compressedVtiPath << " matches " << mhdPath << std::endl;
+    EXPECT_TRUE(ImagesEqual(cvti.GetPointer(), mhd, pixelEqual))
+      << "compressed-write round-trip: " << compressedVtiPath << " vs " << mhdPath;
   }
-  else
-  {
-    std::cout << "Skipped compression test" << std::endl;
-  }
-
-  return EXIT_SUCCESS;
 }
 
 template <typename T>
@@ -162,60 +161,57 @@ Vector3AlmostEqual(const itk::Vector<float, 3> & a, const itk::Vector<float, 3> 
 }
 } // namespace
 
-int
-itkVTIImageIOGeneratedFixturesTest(int argc, char * argv[])
+// Fixture A: UInt8 scalar, appended-raw (uncompressed), UInt64 header.
+TEST_F(VTIImageIOGeneratedFixtures, ScalarU8AppendedRaw)
 {
-  if (argc < 2)
-  {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <inputDir>" << std::endl;
-    return EXIT_FAILURE;
-  }
-  const std::string inputDir = argv[1];
-  int               status = EXIT_SUCCESS;
+  CompareVtiToMhd<itk::Image<unsigned char, 3>>("scalar_u8_appended_raw",
+                                                "VTI_scalar_u8_appended_raw.vti",
+                                                "VTI_scalar_u8_appended_raw.mhd",
+                                                ExactEqual<unsigned char>);
+}
 
-  // Fixture A: UInt8 scalar, appended-raw (uncompressed), UInt64 header.
-  status |= CompareVtiToMhd<itk::Image<unsigned char, 3>>("scalar_u8_appended_raw",
-                                                          inputDir + "/VTI_scalar_u8_appended_raw.vti",
-                                                          inputDir + "/VTI_scalar_u8_appended_raw.mhd",
-                                                          ExactEqual<unsigned char>);
+// Fixture B: Float32 scalar, ZLib appended-raw, UInt64 header.
+TEST_F(VTIImageIOGeneratedFixtures, ScalarF32ZLibAppended)
+{
+  CompareVtiToMhd<itk::Image<float, 3>>("scalar_f32_zlib_appended",
+                                        "VTI_scalar_f32_zlib_appended.vti",
+                                        "VTI_scalar_f32_zlib_appended.mhd",
+                                        FloatAlmostEqual);
+}
 
-  // Fixture B: Float32 scalar, ZLib appended-raw, UInt64 header.
-  status |= CompareVtiToMhd<itk::Image<float, 3>>("scalar_f32_zlib_appended",
-                                                  inputDir + "/VTI_scalar_f32_zlib_appended.vti",
-                                                  inputDir + "/VTI_scalar_f32_zlib_appended.mhd",
-                                                  FloatAlmostEqual);
+// Fixture C: RGBA<UInt8> 4-component, appended-raw.
+TEST_F(VTIImageIOGeneratedFixtures, RgbaU8AppendedRaw)
+{
+  CompareVtiToMhd<itk::Image<itk::RGBAPixel<unsigned char>, 3>>("rgba_u8_appended_raw",
+                                                                "VTI_rgba_u8_appended_raw.vti",
+                                                                "VTI_rgba_u8_appended_raw.mhd",
+                                                                ExactEqual<itk::RGBAPixel<unsigned char>>);
+}
 
-  // Fixture C: RGBA<UInt8> 4-component, appended-raw.
-  status |= CompareVtiToMhd<itk::Image<itk::RGBAPixel<unsigned char>, 3>>("rgba_u8_appended_raw",
-                                                                          inputDir + "/VTI_rgba_u8_appended_raw.vti",
-                                                                          inputDir + "/VTI_rgba_u8_appended_raw.mhd",
-                                                                          ExactEqual<itk::RGBAPixel<unsigned char>>);
+// Fixture C2: Vector<Float32,3>, ZLib appended-raw, UInt64 header.  Covers
+// the same code path (multi-component Float32 ZLib decompression of
+// appended-raw data) that the upstream-broken
+// itkVTIImageIOReadWriteTestVHFColorZLib test would exercise if its
+// ParaView-produced fixture were available via ExternalData (blocked on
+// ITK #4340).  The fixture's <PointData Vectors="vectors"> hint drives
+// the reader to IOPixelEnum::VECTOR dispatch.
+TEST_F(VTIImageIOGeneratedFixtures, Vector3F32ZLibAppended)
+{
+  CompareVtiToMhd<itk::Image<itk::Vector<float, 3>, 3>>("vector3_f32_zlib_appended",
+                                                        "VTI_vector3_f32_zlib_appended.vti",
+                                                        "VTI_vector3_f32_zlib_appended.mhd",
+                                                        Vector3AlmostEqual);
+}
 
-  // Fixture C2: Vector<Float32,3> 3-component, ZLib appended-raw, UInt64
-  // header.  Covers the same code path (multi-component Float32 ZLib
-  // decompression of appended-raw data) that the upstream-broken
-  // itkVTIImageIOReadWriteTestVHFColorZLib test would exercise if its
-  // ParaView-produced fixture were available via ExternalData
-  // (blocked on ITK #4340).  The fixture's <PointData Vectors="vectors">
-  // hint drives the reader to IOPixelEnum::VECTOR dispatch.
-  status |= CompareVtiToMhd<itk::Image<itk::Vector<float, 3>, 3>>("vector3_f32_zlib_appended",
-                                                                  inputDir + "/VTI_vector3_f32_zlib_appended.vti",
-                                                                  inputDir + "/VTI_vector3_f32_zlib_appended.mhd",
-                                                                  Vector3AlmostEqual);
-
-  // Fixture D: symmetric tensor Float32, ASCII.  VTI layout is VTK-canonical
-  // [XX, YY, ZZ, XY, YZ, XZ]; reader remaps to ITK's [e00, e01, e02, e11,
-  // e12, e22] so the in-memory tensor matches the MHD oracle's ITK layout.
-  status |=
-    CompareVtiToMhd<itk::Image<itk::SymmetricSecondRankTensor<float, 3>, 3>>("tensor_f32_ascii",
-                                                                             inputDir + "/VTI_tensor_f32_ascii.vti",
-                                                                             inputDir + "/VTI_tensor_f32_ascii.mhd",
-                                                                             TensorAlmostEqual,
-                                                                             false);
-
-  if (status == EXIT_SUCCESS)
-  {
-    std::cout << "itkVTIImageIOGeneratedFixturesTest PASSED" << std::endl;
-  }
-  return status;
+// Fixture D: symmetric tensor Float32, ASCII.  VTI layout is VTK-canonical
+// [XX, YY, ZZ, XY, YZ, XZ]; reader remaps to ITK's [e00, e01, e02, e11,
+// e12, e22] so the in-memory tensor matches the MHD oracle's ITK layout.
+// Compression skipped because F-007 (binary tensor write) is deferred.
+TEST_F(VTIImageIOGeneratedFixtures, TensorF32Ascii)
+{
+  CompareVtiToMhd<itk::Image<itk::SymmetricSecondRankTensor<float, 3>, 3>>("tensor_f32_ascii",
+                                                                           "VTI_tensor_f32_ascii.vti",
+                                                                           "VTI_tensor_f32_ascii.mhd",
+                                                                           TensorAlmostEqual,
+                                                                           /*tryCompression=*/false);
 }
