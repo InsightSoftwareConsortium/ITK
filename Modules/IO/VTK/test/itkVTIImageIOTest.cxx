@@ -1149,5 +1149,39 @@ itkVTIImageIOTest(int argc, char * argv[])
     }
   }
 
+  // ---- Non-orthonormal Direction: warning, not exception ---------------
+  // ITK pipelines assume orthonormality for Direction, so the reader emits
+  // an itkWarningMacro for non-orthonormal matrices.  The read must still
+  // succeed -- the user might be loading legacy data and just wants the
+  // pixels.  Assert no exception, which both proves the warning is
+  // non-fatal and that ortho-validation didn't accidentally introduce a
+  // throw.
+  {
+    const std::string fname = outDir + sep + "vti_nonortho_direction.vti";
+    {
+      std::ofstream f(fname.c_str());
+      f << "<?xml version=\"1.0\"?>\n";
+      f << "<VTKFile type=\"ImageData\" version=\"1.0\" byte_order=\"LittleEndian\" header_type=\"UInt64\">\n";
+      f << "  <ImageData WholeExtent=\"0 1 0 1 0 0\" Origin=\"0 0 0\" Spacing=\"1 1 1\""
+        << " Direction=\"1 1 1 0 1 0 0 0 1\">\n";
+      f << "    <Piece Extent=\"0 1 0 1 0 0\">\n";
+      f << "      <PointData Scalars=\"density\">\n";
+      f << "        <DataArray type=\"Float32\" Name=\"density\" format=\"ascii\">\n";
+      f << "          1.0 2.0 3.0 4.0\n";
+      f << "        </DataArray>\n";
+      f << "      </PointData>\n";
+      f << "    </Piece>\n";
+      f << "  </ImageData>\n";
+      f << "</VTKFile>\n";
+    }
+
+    using ImageType = itk::Image<float, 2>;
+    auto reader = itk::ImageFileReader<ImageType>::New();
+    reader->SetFileName(fname);
+    reader->SetImageIO(itk::VTIImageIO::New());
+    ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+    std::cout << "  Non-orthonormal Direction load OK (warning expected on console)" << std::endl;
+  }
+
   return status;
 }

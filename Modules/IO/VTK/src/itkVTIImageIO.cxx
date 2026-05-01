@@ -751,6 +751,40 @@ VTIImageIO::ReadImageInformation()
       itkExceptionMacro("Direction attribute '" << st.direction << "' has unexpected content after the 9 floats: '"
                                                 << trailing << "' in file: " << m_FileName);
     }
+
+    // Direction matrix should be orthonormal: D * D^T == I within tolerance.
+    // ITK's downstream geometry code assumes orthonormality (rotations or
+    // axis-permutations); a degenerate or non-orthogonal Direction silently
+    // breaks resampling, registration, and physical-space conversions.  VTK
+    // itself does not validate, and ParaView always writes orthonormal
+    // matrices, so a non-orthonormal value almost always means the file was
+    // written by a tool that conflates "Direction" with raw column vectors.
+    // Emit a warning rather than throwing so legacy files still load while
+    // making the issue visible.
+    constexpr double kOrthoTol = 1.0e-6;
+    bool             orthonormal = true;
+    for (int i = 0; i < 3 && orthonormal; ++i)
+    {
+      for (int j = 0; j < 3 && orthonormal; ++j)
+      {
+        double dot = 0.0;
+        for (int k = 0; k < 3; ++k)
+        {
+          dot += directionMatrix[i][k] * directionMatrix[j][k];
+        }
+        const double expected = (i == j) ? 1.0 : 0.0;
+        if (std::abs(dot - expected) > kOrthoTol)
+        {
+          orthonormal = false;
+        }
+      }
+    }
+    if (!orthonormal)
+    {
+      itkWarningMacro("Direction attribute '"
+                      << st.direction << "' is not orthonormal (D * D^T != I within " << kOrthoTol
+                      << "); ITK geometry pipelines may behave incorrectly.  File: " << m_FileName);
+    }
     directionSpecified = true;
   }
 
