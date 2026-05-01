@@ -54,14 +54,22 @@ namespace itk
  *   * Direction is always emitted as a row-major 3x3 Direction attribute,
  *     padded with identity for images of dimension < 3.
  *
- * Deferred to the follow-up PR (each has a tagged guard exception so
- * `git grep F-NNN` locates the guard + test + commit):
- *   * F-001 vtkLZ4DataCompressor read
- *   * F-002 vtkLZMADataCompressor read
- *   * F-005 multi-<Piece> images
- *   * F-007 binary symmetric-tensor write
- *   * F-009 MetaDataDictionary round-trip
- *   * F-010 catch-all for unknown compressors
+ * Deferred to the follow-up PR.  Items marked (guard) raise an
+ * itkExceptionMacro tagged with the F-NNN identifier so `git grep
+ * F-NNN` locates the guard + test + commit; items marked (latent)
+ * have no public API surface today and so cannot be triggered without
+ * a code change, but are listed here so the F-NNN identifier is
+ * findable from the header:
+ *   * F-001 vtkLZ4DataCompressor read                              (guard)
+ *   * F-002 vtkLZMADataCompressor read                             (guard)
+ *   * F-003 appended-raw writer (no compression)                   (latent)
+ *   * F-004 streaming read for appended-raw                        (latent)
+ *   * F-005 multi-<Piece> images                                   (guard)
+ *   * F-007 binary symmetric-tensor write                          (guard)
+ *   * F-008 appended-base64 writer                                 (latent)
+ *   * F-009 MetaDataDictionary round-trip                          (latent)
+ *   * F-010 catch-all for unknown compressors                      (guard)
+ *   * F-011 <CellData> images (only <PointData> is consumed today) (latent)
  *
  * Implementation notes:
  *   * XML header parsing uses expat (ITKExpat); <!DOCTYPE>/<!ENTITY>
