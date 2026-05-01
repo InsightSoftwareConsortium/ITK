@@ -22,6 +22,7 @@
 #include "itkTestVerifyMetaData.h"
 #include "itkMath.h"
 #include "itkTestingMacros.h"
+#include <random>
 
 
 template <typename TPixel>
@@ -97,12 +98,12 @@ HDF5ReadWriteTest(const char * fileName)
 
   //
   // fill image buffer
-  vnl_random                          randgen(12345678);
+  std::mt19937                        randomNumberEngine(12345678);
   itk::ImageRegionIterator<ImageType> it(im, im->GetLargestPossibleRegion());
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
     TPixel pix;
-    itk::IOTestHelper::RandomPix(randgen, pix);
+    itk::IOTestHelper::RandomPix(randomNumberEngine, pix);
     it.Set(pix);
   }
   typename ImageType::Pointer im2;

@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <random>
 #include "itkMINCTransformIOFactory.h"
 #include "itkMINCImageIOFactory.h"
 #include "itkMINCTransformIO.h"
@@ -40,21 +41,12 @@ using MINCTransformIO = itk::MINCTransformIO;
 
 template <typename T>
 void
-RandomPix(vnl_random & randgen, itk::Vector<T, 3> & pix, double _max = itk::NumericTraits<T>::max())
+RandomPoint(std::mt19937 & randomNumberEngine, itk::Point<T, 3> & pix, double _max = itk::NumericTraits<T>::max())
 {
+  std::uniform_real_distribution<double> dist{ 0.0, _max };
   for (unsigned int i = 0; i < 3; ++i)
   {
-    pix[i] = randgen.drand64(_max);
-  }
-}
-
-template <typename T>
-void
-RandomPoint(vnl_random & randgen, itk::Point<T, 3> & pix, double _max = itk::NumericTraits<T>::max())
-{
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = randgen.drand64(_max);
+    pix[i] = static_cast<T>(dist(randomNumberEngine));
   }
 }
 
@@ -122,7 +114,7 @@ check_linear(const char * linear_transform, bool ras_to_lps)
   std::cout << "Read transform : " << std::endl;
   // affine2->Print(std::cout);
 
-  vnl_random randgen(12345678);
+  std::mt19937 randomNumberEngine(12345678);
 
   AffineTransformType::InputPointType pnt, pnt2;
 
@@ -132,7 +124,7 @@ check_linear(const char * linear_transform, bool ras_to_lps)
     AffineTransformType::OutputPointType v1;
     AffineTransformType::OutputPointType v2;
 
-    RandomPoint<double>(randgen, pnt, 100);
+    RandomPoint<double>(randomNumberEngine, pnt, 100);
     pnt2 = pnt;
     v1 = affine->TransformPoint(pnt);
     v2 = affine2->TransformPoint(pnt2);
@@ -185,7 +177,7 @@ check_nonlinear_double(const char * nonlinear_transform, bool ras_to_lps)
   DisplacementFieldType::PixelType zeroDisplacement{};
   field->FillBuffer(zeroDisplacement);
 
-  vnl_random                                      randgen(12345678);
+  std::mt19937                                    randomNumberEngine(12345678);
   itk::ImageRegionIterator<DisplacementFieldType> it(field, field->GetLargestPossibleRegion());
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
@@ -193,11 +185,11 @@ check_nonlinear_double(const char * nonlinear_transform, bool ras_to_lps)
     DisplacementFieldType::PixelType pix;
     if (tolerance > 0.0)
     {
-      RandomPix<double>(randgen, pix, 100);
+      itk::IOTestHelper::RandomPix(randomNumberEngine, pix, 100);
     }
     else
     {
-      RandomPix<double>(randgen, pix);
+      itk::IOTestHelper::RandomPix(randomNumberEngine, pix);
     }
     it.Set(pix);
   }
@@ -318,7 +310,7 @@ check_nonlinear_float(const char * nonlinear_transform, bool ras_to_lps)
   DisplacementFieldType::PixelType zeroDisplacement{};
   field->FillBuffer(zeroDisplacement);
 
-  vnl_random                                      randgen(12345678);
+  std::mt19937                                    randomNumberEngine(12345678);
   itk::ImageRegionIterator<DisplacementFieldType> it(field, field->GetLargestPossibleRegion());
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
@@ -326,11 +318,11 @@ check_nonlinear_float(const char * nonlinear_transform, bool ras_to_lps)
     DisplacementFieldType::PixelType pix;
     if (tolerance > 0.0)
     {
-      RandomPix<float>(randgen, pix, 100);
+      itk::IOTestHelper::RandomPix(randomNumberEngine, pix, 100);
     }
     else
     {
-      RandomPix<float>(randgen, pix);
+      itk::IOTestHelper::RandomPix(randomNumberEngine, pix);
     }
     it.Set(pix);
   }
@@ -523,7 +515,7 @@ check_composite(const char * transform_file, bool ras_to_lps)
   std::cout << "Read transform : " << std::endl;
   // affine_xfm->(std::cout);
 
-  vnl_random randgen(12345678);
+  std::mt19937 randomNumberEngine(12345678);
 
   AffineTransformType::InputPointType pnt, pnt2;
 
@@ -533,7 +525,7 @@ check_composite(const char * transform_file, bool ras_to_lps)
     AffineTransformType::OutputPointType v1;
     AffineTransformType::OutputPointType v2;
 
-    RandomPoint<double>(randgen, pnt, 100);
+    RandomPoint<double>(randomNumberEngine, pnt, 100);
     pnt2 = pnt;
     v1 = compositeTransform->TransformPoint(pnt);
     v2 = affine_xfm->TransformPoint(pnt2);

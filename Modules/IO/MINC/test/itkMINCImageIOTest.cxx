@@ -23,87 +23,7 @@
 #include "itkIOTestHelper.h"
 #include "itkMetaDataObject.h"
 #include "itkObjectFactoryBase.h"
-
-static void
-RandomPix(vnl_random &                   randgen,
-          itk::RGBPixel<unsigned char> & pix,
-          double                         _max = itk::NumericTraits<unsigned char>::max())
-{
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = randgen.lrand32(_max);
-  }
-}
-
-static void
-RandomPix(vnl_random & randgen, itk::RGBPixel<char> & pix, double _max = itk::NumericTraits<char>::max())
-{
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = randgen.lrand32(_max);
-  }
-}
-
-
-static void
-RandomPix(vnl_random &                     randgen,
-          itk::Vector<unsigned short, 3> & pix,
-          double                           _max = itk::NumericTraits<unsigned short>::max())
-{
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = randgen.lrand32(_max);
-  }
-}
-
-static void
-RandomPix(vnl_random & randgen, itk::Vector<short, 3> & pix, double _max = itk::NumericTraits<short>::max())
-{
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = randgen.lrand32(_max);
-  }
-}
-
-static void
-RandomPix(vnl_random &                   randgen,
-          itk::Vector<unsigned int, 3> & pix,
-          double                         _max = itk::NumericTraits<unsigned int>::max())
-{
-  (void)_max;
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = randgen.lrand32();
-  }
-}
-
-static void
-RandomPix(vnl_random & randgen, itk::Vector<int, 3> & pix, double _max = itk::NumericTraits<int>::max())
-{
-  (void)_max;
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = randgen.lrand32();
-  }
-}
-
-static void
-RandomPix(vnl_random & randgen, itk::Vector<float, 3> & pix, float _max = itk::NumericTraits<float>::max())
-{
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = randgen.drand64(_max);
-  }
-}
-
-static void
-RandomPix(vnl_random & randgen, itk::Vector<double, 3> & pix, double _max = itk::NumericTraits<double>::max())
-{
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    pix[i] = randgen.drand64(_max);
-  }
-}
+#include <random>
 
 static double
 abs_diff(const itk::RGBPixel<unsigned char> & pix1, const itk::RGBPixel<unsigned char> & pix2)
@@ -204,30 +124,6 @@ abs_diff(const itk::Vector<unsigned short> & pix1, const itk::Vector<unsigned sh
 }
 
 
-static void
-RandomPix(vnl_random & randgen, double & pix, double _max = itk::NumericTraits<double>::max())
-{
-  pix = randgen.drand64(_max);
-}
-
-static void
-RandomPix(vnl_random & randgen, float & pix, float _max = itk::NumericTraits<float>::max())
-{
-  pix = randgen.drand64(_max);
-}
-
-static void
-RandomPix(vnl_random & randgen, int & pix)
-{
-  pix = randgen.lrand32();
-}
-
-static void
-RandomPix(vnl_random & randgen, unsigned int & pix)
-{
-  pix = randgen.lrand32();
-}
-
 template <typename TPixel>
 static double
 abs_diff(const TPixel & pix1, const TPixel & pix2)
@@ -237,21 +133,15 @@ abs_diff(const TPixel & pix1, const TPixel & pix2)
 
 template <typename TPixel>
 static void
-RandomVectorPix(vnl_random &                        randgen,
+RandomVectorPix(std::mt19937 &                      randomNumberEngine,
                 itk::VariableLengthVector<TPixel> & pix,
                 double                              _max = itk::NumericTraits<TPixel>::max())
 {
+  std::uniform_real_distribution<double> dist{ 0.0, _max };
   for (size_t i = 0; i < pix.GetSize(); ++i)
   {
-    pix.SetElement(i, randgen.drand64(_max));
+    pix.SetElement(i, static_cast<TPixel>(dist(randomNumberEngine)));
   }
-}
-
-template <typename TPixel>
-static void
-RandomPix(vnl_random & randgen, TPixel & pix, double _max = itk::NumericTraits<TPixel>::max())
-{
-  pix = randgen.lrand32((TPixel)_max);
 }
 
 template <typename TPixel>
@@ -378,7 +268,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
 
   //
   // fill image buffer
-  vnl_random                          randgen(12345678);
+  std::mt19937                        randomNumberEngine(12345678);
   itk::ImageRegionIterator<ImageType> it(im, im->GetLargestPossibleRegion());
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
@@ -386,11 +276,11 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
     TPixel pix;
     if (tolerance > 0.0)
     {
-      RandomPix(randgen, pix, 100);
+      itk::IOTestHelper::RandomPix(randomNumberEngine, pix, 100);
     }
     else
     {
-      RandomPix(randgen, pix);
+      itk::IOTestHelper::RandomPix(randomNumberEngine, pix);
     }
     it.Set(pix);
   }
@@ -634,7 +524,7 @@ MINCReadWriteTestVector(const char * fileName,
 
   //
   // fill image buffer
-  vnl_random                          randgen(12345678);
+  std::mt19937                        randomNumberEngine(12345678);
   itk::ImageRegionIterator<ImageType> it(im, im->GetLargestPossibleRegion());
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
@@ -642,11 +532,11 @@ MINCReadWriteTestVector(const char * fileName,
     InternalPixelType pix(vector_length);
     if (tolerance > 0.0)
     {
-      RandomVectorPix<TPixel>(randgen, pix, 100.0);
+      RandomVectorPix<TPixel>(randomNumberEngine, pix, 100.0);
     }
     else
     {
-      RandomVectorPix<TPixel>(randgen, pix);
+      RandomVectorPix<TPixel>(randomNumberEngine, pix);
     }
     it.Set(pix);
   }

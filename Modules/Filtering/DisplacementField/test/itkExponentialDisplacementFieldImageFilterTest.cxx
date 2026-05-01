@@ -18,7 +18,7 @@
 
 #include "itkExponentialDisplacementFieldImageFilter.h"
 #include "itkTestingMacros.h"
-#include "vnl/vnl_random.h"
+#include <random>
 
 
 int
@@ -231,16 +231,17 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
   computeInverse = false;
   filter->SetComputeInverse(computeInverse);
 
-  // Random number generator
-  vnl_random       rng;
-  constexpr double power{ 5.0 };
+  // Random number generator (deterministic seed for reproducible tests)
+  std::mt19937                     rng{ 12345678 };
+  std::normal_distribution<double> normalDist{ 0.0, 1.0 };
+  constexpr double                 power{ 5.0 };
 
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
     for (unsigned int d = 0; d < ImageDimension; ++d)
     {
-      it.Value()[d] = power * rng.normal();
+      it.Value()[d] = power * normalDist(rng);
     }
     ++it;
   }
