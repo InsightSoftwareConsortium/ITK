@@ -119,17 +119,20 @@ function(generate_castxml_commandline_flags)
 
   foreach(_depend IN LISTS WRAPPER_LIBRARY_LINK_LIBRARIES)
     if(TARGET ${_depend})
+      # $<JOIN:list,glue> (CMake 3.0+) carries the per-element prefix in
+      # the glue string; $<$<BOOL:property>:…> guards against empty-property
+      # output of a stray "-I" / "-D" / "-isystem".
       set(
         CONFIG_CASTXML_INC_CONTENTS
-        "${CONFIG_CASTXML_INC_CONTENTS}$<LIST:JOIN,$<LIST:TRANSFORM,$<TARGET_PROPERTY:${_depend},INTERFACE_INCLUDE_DIRECTORIES>,REPLACE,^(.+)$,\"-I\\1\">,\n>\n"
+        "${CONFIG_CASTXML_INC_CONTENTS}$<$<BOOL:$<TARGET_PROPERTY:${_depend},INTERFACE_INCLUDE_DIRECTORIES>>:\"-I$<JOIN:$<TARGET_PROPERTY:${_depend},INTERFACE_INCLUDE_DIRECTORIES>,\"\n\"-I>\">\n"
       )
       set(
         CONFIG_CASTXML_INC_CONTENTS
-        "${CONFIG_CASTXML_INC_CONTENTS}$<LIST:JOIN,$<LIST:TRANSFORM,$<TARGET_PROPERTY:${_depend},INTERFACE_SYSTEM_INCLUDE_DIRECTORIES>,REPLACE,^(.+)$,\"-isystem\" \"\\1\">,\n>\n"
+        "${CONFIG_CASTXML_INC_CONTENTS}$<$<BOOL:$<TARGET_PROPERTY:${_depend},INTERFACE_SYSTEM_INCLUDE_DIRECTORIES>>:\"-isystem\" \"$<JOIN:$<TARGET_PROPERTY:${_depend},INTERFACE_SYSTEM_INCLUDE_DIRECTORIES>,\"\n\"-isystem\" \">\">\n"
       )
       set(
         CONFIG_CASTXML_INC_CONTENTS
-        "${CONFIG_CASTXML_INC_CONTENTS}$<LIST:JOIN,$<LIST:TRANSFORM,$<TARGET_PROPERTY:${_depend},INTERFACE_COMPILE_DEFINITIONS>,REPLACE,^(.+)$,\"-D\\1\">,\n>\n"
+        "${CONFIG_CASTXML_INC_CONTENTS}$<$<BOOL:$<TARGET_PROPERTY:${_depend},INTERFACE_COMPILE_DEFINITIONS>>:\"-D$<JOIN:$<TARGET_PROPERTY:${_depend},INTERFACE_COMPILE_DEFINITIONS>,\"\n\"-D>\">\n"
       )
     endif()
   endforeach()
