@@ -297,9 +297,16 @@ itkWarpVectorImageFilterTest(int, char *[])
 
   vcaster->SetInput(warper->GetDisplacementField());
 
+  // Route the image input through a CastImageFilter as well so streaming chunks both
+  // the displacement field and the image; an in-memory Image alone never sees a
+  // shrunken BufferedRegion under streaming.
+  using ImageCasterType = itk::CastImageFilter<ImageType, ImageType>;
+  auto icaster = ImageCasterType::New();
+  icaster->SetInput(warper->GetInput());
+
   auto warper2 = WarperType::New();
 
-  warper2->SetInput(warper->GetInput());
+  warper2->SetInput(icaster->GetOutput());
   warper2->SetDisplacementField(vcaster->GetOutput());
   warper2->SetEdgePaddingValue(warper->GetEdgePaddingValue());
 
