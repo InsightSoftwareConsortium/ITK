@@ -47,7 +47,6 @@ set(
   itkNaryMaximumImageFilterTest.cxx
   itkNormalizeImageFilterTest.cxx
   itkNormalizeToConstantImageFilterTest.cxx
-  itkNotEqualTest.cxx
   itkNotImageFilterTest.cxx
   itkNthElementPixelAccessorTest2.cxx
   itkOrImageFilterTest.cxx
@@ -614,12 +613,6 @@ itk_add_test(
     itkEqualTest
 )
 itk_add_test(
-  NAME itkNotEqualTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkNotEqualTest
-)
-itk_add_test(
   NAME itkGreaterEqualTest
   COMMAND
     ITKImageIntensityTestDriver
@@ -767,6 +760,7 @@ set(
   itkArithmeticOpsFunctorsTest.cxx
   itkBitwiseOpsFunctorsTest.cxx
   itkLessGTest.cxx
+  itkNotEqualGTest.cxx
   itkRoundImageFilterGTest.cxx
   itkSquareImageFilterGTest.cxx
 )
