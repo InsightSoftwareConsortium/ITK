@@ -26,7 +26,6 @@ set(
   itkEqualTest.cxx
   itkExpImageFilterAndAdaptorTest.cxx
   itkExpNegativeImageFilterAndAdaptorTest.cxx
-  itkGreaterEqualTest.cxx
   itkHistogramMatchingImageFilterTest.cxx
   itkImageAdaptorNthElementTest.cxx
   itkIntensityWindowingImageFilterTest.cxx
@@ -612,12 +611,6 @@ itk_add_test(
     itkEqualTest
 )
 itk_add_test(
-  NAME itkGreaterEqualTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkGreaterEqualTest
-)
-itk_add_test(
   NAME itkLessEqualTest
   COMMAND
     ITKImageIntensityTestDriver
@@ -752,6 +745,7 @@ set(
   itkAddImageFilterFrameGTest.cxx
   itkArithmeticOpsFunctorsTest.cxx
   itkBitwiseOpsFunctorsTest.cxx
+  itkGreaterEqualGTest.cxx
   itkGreaterGTest.cxx
   itkLessGTest.cxx
   itkNotEqualGTest.cxx
