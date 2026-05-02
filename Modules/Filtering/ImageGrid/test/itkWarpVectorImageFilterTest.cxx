@@ -20,6 +20,7 @@
 
 #include "itkWarpVectorImageFilter.h"
 #include "itkCastImageFilter.h"
+#include "itkPipelineMonitorImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkTestingMacros.h"
 
@@ -297,17 +298,30 @@ itkWarpVectorImageFilterTest(int, char *[])
 
   vcaster->SetInput(warper->GetDisplacementField());
 
+  // Streaming verified on displacement-field input only; WarpVectorImageFilter requests the full image input.
+  using FieldMonitorType = itk::PipelineMonitorImageFilter<FieldType>;
+  auto vmonitor = FieldMonitorType::New();
+  vmonitor->SetInput(vcaster->GetOutput());
+
   auto warper2 = WarperType::New();
 
   warper2->SetInput(warper->GetInput());
-  warper2->SetDisplacementField(vcaster->GetOutput());
+  warper2->SetDisplacementField(vmonitor->GetOutput());
   warper2->SetEdgePaddingValue(warper->GetEdgePaddingValue());
 
   using StreamerType = itk::StreamingImageFilter<ImageType, ImageType>;
   auto streamer = StreamerType::New();
   streamer->SetInput(warper2->GetOutput());
-  streamer->SetNumberOfStreamDivisions(3);
+  constexpr int numStreamDivisions = 3;
+  streamer->SetNumberOfStreamDivisions(numStreamDivisions);
   streamer->Update();
+
+  if (!vmonitor->VerifyInputFilterExecutedStreaming(numStreamDivisions))
+  {
+    std::cerr << "Displacement field did not stream as expected." << std::endl;
+    std::cerr << vmonitor;
+    return EXIT_FAILURE;
+  }
 
   std::cout << "Compare standalone and streamed outputs" << std::endl;
 

@@ -19,6 +19,8 @@
 #include <iostream>
 
 #include "itkAffineTransform.h"
+#include "itkCastImageFilter.h"
+#include "itkPipelineMonitorImageFilter.h"
 #include "itkResampleImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkTestingMacros.h"
@@ -79,8 +81,13 @@ itkResampleImageTest7(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(resample, ResampleImageFilter, ImageToImageFilter);
   resample->SetInterpolator(interp);
 
-  resample->SetInput(image);
-  ITK_TEST_SET_GET_VALUE(image.GetPointer(), resample->GetInput());
+  const auto upstream = itk::CastImageFilter<ImageType, ImageType>::New();
+  upstream->SetInput(image);
+  using MonitorType = itk::PipelineMonitorImageFilter<ImageType>;
+  const auto monitor = MonitorType::New();
+  monitor->SetInput(upstream->GetOutput());
+  resample->SetInput(monitor->GetOutput());
+  ITK_TEST_SET_GET_VALUE(monitor->GetOutput(), resample->GetInput());
 
   resample->SetSize(size);
   ITK_TEST_SET_GET_VALUE(size, resample->GetSize());
@@ -109,11 +116,19 @@ itkResampleImageTest7(int, char *[])
   const ImagePointerType outputNoSDI = streamer->GetOutput(); // save output for later comparison
   outputNoSDI->DisconnectPipeline();                          // disconnect to create new output
 
-  // Run the resampling filter with streaming
+  monitor->ClearPipelineSavedInformation();
+
   image->Modified();
-  numStreamDiv = 8; // split into numStream pieces for streaming.
+  numStreamDiv = 8;
   streamer->SetNumberOfStreamDivisions(numStreamDiv);
   ITK_TRY_EXPECT_NO_EXCEPTION(streamer->UpdateLargestPossibleRegion());
+
+  if (!monitor->VerifyInputFilterExecutedStreaming(static_cast<int>(numStreamDiv)))
+  {
+    std::cerr << "Streaming did not chunk the input as expected." << std::endl;
+    std::cerr << monitor;
+    return EXIT_FAILURE;
+  }
 
   // Verify that we only requested a smaller chunk when streaming
   const ImageRegionType finalRequestedRegion(image->GetRequestedRegion());
