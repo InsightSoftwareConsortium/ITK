@@ -30,7 +30,6 @@ set(
   itkImageAdaptorNthElementTest.cxx
   itkIntensityWindowingImageFilterTest.cxx
   itkInvertIntensityImageFilterTest.cxx
-  itkLessEqualTest.cxx
   itkLog10ImageFilterAndAdaptorTest.cxx
   itkLogImageFilterAndAdaptorTest.cxx
   itkMagnitudeAndPhaseToComplexImageFilterTest.cxx
@@ -611,12 +610,6 @@ itk_add_test(
     itkEqualTest
 )
 itk_add_test(
-  NAME itkLessEqualTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkLessEqualTest
-)
-itk_add_test(
   NAME itkClampImageFilterTest
   COMMAND
     ITKImageIntensityTestDriver
@@ -747,6 +740,7 @@ set(
   itkBitwiseOpsFunctorsTest.cxx
   itkGreaterEqualGTest.cxx
   itkGreaterGTest.cxx
+  itkLessEqualGTest.cxx
   itkLessGTest.cxx
   itkNotEqualGTest.cxx
   itkRoundImageFilterGTest.cxx
