@@ -1,6 +1,7 @@
 itk_module_test()
 set(
   ITKIODCMTKTests
+  itkDCMTKGetDicomTagsTest.cxx
   itkDCMTKImageIOMultiFrameImageTest.cxx
   itkDCMTKImageIONoPreambleTest.cxx
   itkDCMTKImageIOOrthoDirTest.cxx
@@ -71,6 +72,15 @@ if(NOT ITK_USE_SYSTEM_DCMTK)
   unset(_dcmtk_libs)
   unset(_dcmtk_ep_inc)
 endif()
+
+itk_add_test(
+  NAME itkDCMTKGetDicomTagsTest
+  COMMAND
+    ITKIODCMTKTestDriver
+    itkDCMTKGetDicomTagsTest
+    DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm}
+    ${ITK_TEST_OUTPUT_DIR}/DICOMTags.txt
+)
 
 itk_add_test(
   NAME itkDCMTKImageIOTest1
