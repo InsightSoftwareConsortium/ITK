@@ -18,6 +18,7 @@
 #include <itkQuadEdgeMesh.h>
 #include <itkRegularSphereMeshSource.h>
 #include <itkAdditiveGaussianNoiseQuadEdgeMeshFilter.h>
+#include "itkMakeFilled.h"
 #include "itkTestingMacros.h"
 
 int
@@ -53,7 +54,7 @@ itkAdditiveGaussianNoiseQuadEdgeMeshFilterTest(int itkNotUsed(argc), char * itkN
   TSphere::Pointer sphere = TSphere::New();
 
   sphere->SetResolution(SPHERE_RESOLUTION);
-  sphere->SetScale(TSphere::VectorType::Filled(static_cast<float>(SPHERE_SCALE)));
+  sphere->SetScale(itk::MakeFilled<TSphere::VectorType>(static_cast<float>(SPHERE_SCALE)));
 
   TNoise::Pointer noise = TNoise::New();
 
