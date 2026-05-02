@@ -1107,13 +1107,26 @@ str = str
 
     %typemap(typecheck) swig_name & {
         void *ptr;
-        if (SWIG_ConvertPtr($input, &ptr, $1_descriptor, 0) == -1
-            && ( !PySequence_Check($input) || PyObject_Length($input) != dim )
-            && !PyInt_Check($input) && !PyFloat_Check($input) ) {
-            _v = 0;
-            PyErr_Clear();
-        } else {
+        _v = 0;
+        if (SWIG_ConvertPtr($input, &ptr, $1_descriptor, 0) != -1) {
             _v = 1;
+        } else {
+            PyErr_Clear();
+            /* Reject inputs that are SWIG-wrapped instances of an
+             * unrelated type.  Wrapped types like itk::Index,
+             * itk::ContinuousIndex and itk::Point all expose
+             * __getitem__ / __len__, which makes them satisfy
+             * PySequence_Check below — that previously caused this
+             * typecheck to claim viability for foreign types and the
+             * overload dispatcher would pick the wrong overload
+             * (see Discourse #7495). */
+            if (SWIG_Python_GetSwigThis($input) != NULL) {
+                _v = 0;
+            } else if (PyInt_Check($input) || PyFloat_Check($input)) {
+                _v = 1;
+            } else if (PySequence_Check($input) && PyObject_Length($input) == dim) {
+                _v = 1;
+            }
         }
     }
 
@@ -1160,13 +1173,18 @@ str = str
 
     %typemap(typecheck) swig_name {
         void *ptr;
-        if (SWIG_ConvertPtr($input, &ptr, $descriptor(swig_name *), 0) == -1
-            && ( !PySequence_Check($input) || PyObject_Length($input) != dim )
-            && !PyInt_Check($input) && !PyFloat_Check($input) ) {
-            _v = 0;
-            PyErr_Clear();
-        } else {
+        _v = 0;
+        if (SWIG_ConvertPtr($input, &ptr, $descriptor(swig_name *), 0) != -1) {
             _v = 1;
+        } else {
+            PyErr_Clear();
+            if (SWIG_Python_GetSwigThis($input) != NULL) {
+                _v = 0;
+            } else if (PyInt_Check($input) || PyFloat_Check($input)) {
+                _v = 1;
+            } else if (PySequence_Check($input) && PyObject_Length($input) == dim) {
+                _v = 1;
+            }
         }
     }
 
@@ -1223,12 +1241,19 @@ str = str
 
     %typemap(typecheck) type & {
         void *ptr;
-        if (SWIG_ConvertPtr($input, &ptr, $1_descriptor, 0) == -1
-            && !PySequence_Check($input) ) {
-            _v = 0;
-            PyErr_Clear();
-        } else {
+        _v = 0;
+        if (SWIG_ConvertPtr($input, &ptr, $1_descriptor, 0) != -1) {
             _v = 1;
+        } else {
+            PyErr_Clear();
+            /* Reject SWIG wrappers of unrelated types — they all expose
+             * __getitem__ / __len__ and would otherwise trick this
+             * typecheck into claiming overload viability. */
+            if (SWIG_Python_GetSwigThis($input) != NULL) {
+                _v = 0;
+            } else if (PySequence_Check($input)) {
+                _v = 1;
+            }
         }
     }
 
@@ -1269,12 +1294,16 @@ str = str
 
     %typemap(typecheck) type {
         void *ptr;
-        if (SWIG_ConvertPtr($input, &ptr, $descriptor(type *), 0) == -1
-            && !PySequence_Check($input) ) {
-            _v = 0;
-            PyErr_Clear();
-        } else {
+        _v = 0;
+        if (SWIG_ConvertPtr($input, &ptr, $descriptor(type *), 0) != -1) {
             _v = 1;
+        } else {
+            PyErr_Clear();
+            if (SWIG_Python_GetSwigThis($input) != NULL) {
+                _v = 0;
+            } else if (PySequence_Check($input)) {
+                _v = 1;
+            }
         }
     }
 
@@ -1332,13 +1361,31 @@ str = str
 
     %typemap(typecheck) swig_name & {
         void *ptr;
-        if (SWIG_ConvertPtr($input, &ptr, $1_descriptor, 0) == -1
-            && ( !PySequence_Check($input) || PyObject_Length($input) != dim )
-            && !PyInt_Check($input) ) {
-            _v = 0;
-            PyErr_Clear();
-        } else {
+        _v = 0;
+        if (SWIG_ConvertPtr($input, &ptr, $1_descriptor, 0) != -1) {
             _v = 1;
+        } else {
+            PyErr_Clear();
+            /* Reject SWIG-wrapped instances of an unrelated type
+             * (see ContinuousIndex/Point note in DECL_PYTHON_VEC_TYPEMAP). */
+            if (SWIG_Python_GetSwigThis($input) != NULL) {
+                _v = 0;
+            } else if (PyInt_Check($input) || PyLong_Check($input)) {
+                _v = 1;
+            } else if (PySequence_Check($input) && PyObject_Length($input) == dim) {
+                /* This typemap is integer-only.  Peek at element 0 and
+                 * reject sequences whose elements are not integers
+                 * (e.g. [1.5, 2.5, 3.5]).  Without this check, the
+                 * Index overload claimed viability for float lists and
+                 * the dispatcher never reached the ContinuousIndex /
+                 * Point overloads (see Discourse #7495). */
+                PyObject *o = PySequence_GetItem($input, 0);
+                if (o != NULL && (PyInt_Check(o) || PyLong_Check(o))) {
+                    _v = 1;
+                }
+                Py_XDECREF(o);
+                PyErr_Clear();
+            }
         }
     }
 
@@ -1378,13 +1425,23 @@ str = str
 
     %typemap(typecheck) swig_name {
         void *ptr;
-        if (SWIG_ConvertPtr($input, &ptr, $descriptor(swig_name *), 0) == -1
-            && ( !PySequence_Check($input) || PyObject_Length($input) != dim )
-            && !(PyInt_Check($input) || PyLong_Check($input)) ) {
-            _v = 0;
-            PyErr_Clear();
-        } else {
+        _v = 0;
+        if (SWIG_ConvertPtr($input, &ptr, $descriptor(swig_name *), 0) != -1) {
             _v = 1;
+        } else {
+            PyErr_Clear();
+            if (SWIG_Python_GetSwigThis($input) != NULL) {
+                _v = 0;
+            } else if (PyInt_Check($input) || PyLong_Check($input)) {
+                _v = 1;
+            } else if (PySequence_Check($input) && PyObject_Length($input) == dim) {
+                PyObject *o = PySequence_GetItem($input, 0);
+                if (o != NULL && (PyInt_Check(o) || PyLong_Check(o))) {
+                    _v = 1;
+                }
+                Py_XDECREF(o);
+                PyErr_Clear();
+            }
         }
     }
 
