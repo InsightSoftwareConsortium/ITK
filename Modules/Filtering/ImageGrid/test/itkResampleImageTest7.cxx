@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkAffineTransform.h"
+#include "itkCastImageFilter.h"
 #include "itkResampleImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkTestingMacros.h"
@@ -79,8 +80,12 @@ itkResampleImageTest7(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(resample, ResampleImageFilter, ImageToImageFilter);
   resample->SetInterpolator(interp);
 
-  resample->SetInput(image);
-  ITK_TEST_SET_GET_VALUE(image.GetPointer(), resample->GetInput());
+  // Route the input through CastImageFilter so the streaming-equivalence comparison
+  // exercises a chunked BufferedRegion, which an in-memory Image alone cannot produce.
+  const auto upstream = itk::CastImageFilter<ImageType, ImageType>::New();
+  upstream->SetInput(image);
+  resample->SetInput(upstream->GetOutput());
+  ITK_TEST_SET_GET_VALUE(upstream->GetOutput(), resample->GetInput());
 
   resample->SetSize(size);
   ITK_TEST_SET_GET_VALUE(size, resample->GetSize());
