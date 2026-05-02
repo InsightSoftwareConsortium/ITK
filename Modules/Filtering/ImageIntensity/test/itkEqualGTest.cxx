@@ -15,11 +15,14 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkCommonEnums.h"
 #include "itkLogicOpsFunctors.h"
+
 #include "itkBinaryFunctorImageFilter.h"
+#include "itkCommonEnums.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkLogicTestSupport.h"
+
+#include "itkGTest.h"
 
 namespace
 {
@@ -60,10 +63,9 @@ public:
 };
 } // namespace
 
-int
-itkEqualTest(int, char *[])
-{
 
+TEST(EqualImageFilter, ConvertedLegacyTest)
+{
   // Define the dimension of the images
   constexpr unsigned int myDimension{ 3 };
 
@@ -131,10 +133,7 @@ itkEqualTest(int, char *[])
   {
     // Create a logic Filter
     const myFilterTypePointer filter = myFilterType::New();
-    if (filter.IsNull())
-    {
-      return EXIT_FAILURE;
-    }
+    ASSERT_FALSE(filter.IsNull());
 
     // Connect the input images
     filter->SetInput1(inputImageA);
@@ -153,15 +152,9 @@ itkEqualTest(int, char *[])
     const PixelType FG = filter->GetFunctor().GetForegroundValue();
     const PixelType BG = filter->GetFunctor().GetBackgroundValue();
 
-    const int status1 =
-      checkImOnImRes<myImageType1, myImageType2, myImageType3, std::equal_to<myImageType1::PixelType>>(
-        inputImageA, inputImageB, outputImage, FG, BG);
-    if (status1 == EXIT_FAILURE)
-    {
-      return EXIT_FAILURE;
-    }
-
-    std::cout << "Step 1 passed" << std::endl;
+    ASSERT_EQ((checkImOnImRes<myImageType1, myImageType2, myImageType3, std::equal_to<myImageType1::PixelType>>(
+                inputImageA, inputImageB, outputImage, FG, BG)),
+              EXIT_SUCCESS);
   }
 
   {
@@ -182,14 +175,9 @@ itkEqualTest(int, char *[])
     const PixelType FG = filter->GetFunctor().GetForegroundValue();
     const PixelType BG = filter->GetFunctor().GetBackgroundValue();
     const PixelType C = filter->GetConstant2();
-    const int       status2 = checkImOnConstRes<myImageType1, PixelType, myImageType3, std::equal_to<PixelType>>(
-      inputImageA, C, outputImage, FG, BG);
-    if (status2 == EXIT_FAILURE)
-    {
-      return EXIT_FAILURE;
-    }
-
-    std::cout << "Step 2 passed " << std::endl;
+    ASSERT_EQ((checkImOnConstRes<myImageType1, PixelType, myImageType3, std::equal_to<PixelType>>(
+                inputImageA, C, outputImage, FG, BG)),
+              EXIT_SUCCESS);
   }
   // Now try testing with constant : 3 == Im2
   {
@@ -209,26 +197,17 @@ itkEqualTest(int, char *[])
     const PixelType FG = filter->GetFunctor().GetForegroundValue();
     const PixelType BG = filter->GetFunctor().GetBackgroundValue();
 
-    const int status3 = checkConstOnImRes<PixelType, myImageType2, myImageType3, std::equal_to<PixelType>>(
-      filter->GetConstant1(), inputImageB, outputImage, FG, BG);
-    if (status3 == EXIT_FAILURE)
-    {
-      return EXIT_FAILURE;
-    }
-
-    std::cout << "Step 3 passed" << std::endl;
+    ASSERT_EQ((checkConstOnImRes<PixelType, myImageType2, myImageType3, std::equal_to<PixelType>>(
+                filter->GetConstant1(), inputImageB, outputImage, FG, BG)),
+              EXIT_SUCCESS);
   }
 
   {
     // BinaryImageFilter
     using iFIB = itk::BinaryFunctorImageFilter<itk::Image<double>, itk::Image<double>, itk::Image<double>, Bogus>;
     auto FIB = iFIB::New();
-    if (FIB.IsNull())
-    {
-      return EXIT_FAILURE;
-    }
+    ASSERT_FALSE(FIB.IsNull());
   }
 
   // All objects should be automatically destroyed at this point
-  return EXIT_SUCCESS;
 }

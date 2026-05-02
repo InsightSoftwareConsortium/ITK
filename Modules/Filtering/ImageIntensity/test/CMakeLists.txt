@@ -23,7 +23,6 @@ set(
   itkDivideImageFilterTest2.cxx
   itkDivideOrZeroOutImageFilterTest.cxx
   itkEdgePotentialImageFilterTest.cxx
-  itkEqualTest.cxx
   itkExpImageFilterAndAdaptorTest.cxx
   itkExpNegativeImageFilterAndAdaptorTest.cxx
   itkHistogramMatchingImageFilterTest.cxx
@@ -604,12 +603,6 @@ itk_add_test(
     itkNormalizeToConstantImageFilterTest
 )
 itk_add_test(
-  NAME itkEqualTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkEqualTest
-)
-itk_add_test(
   NAME itkClampImageFilterTest
   COMMAND
     ITKImageIntensityTestDriver
@@ -738,6 +731,7 @@ set(
   itkAddImageFilterFrameGTest.cxx
   itkArithmeticOpsFunctorsTest.cxx
   itkBitwiseOpsFunctorsTest.cxx
+  itkEqualGTest.cxx
   itkGreaterEqualGTest.cxx
   itkGreaterGTest.cxx
   itkLessEqualGTest.cxx
