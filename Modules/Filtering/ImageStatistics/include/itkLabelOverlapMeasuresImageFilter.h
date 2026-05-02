@@ -100,6 +100,48 @@ public:
     return this->m_LabelSetMeasures;
   }
 
+  /** Get the labels for which set measures have been computed.
+   *
+   * Provided for Python ergonomics: SWIG cannot wrap
+   * `std::unordered_map<LabelType, LabelOverlapLabelSetMeasures>` as a
+   * Python dict across submodule boundaries (the value type is `%import`-ed
+   * rather than `%include`-d, so `%template` is silently dropped).  Pair
+   * this accessor with `GetMeasureForLabel()` to iterate labels and look up
+   * their measures from Python:
+   *
+   * \code{.py}
+   *   for label in filter.GetLabels():
+   *       m = filter.GetMeasureForLabel(label)
+   * \endcode
+   */
+  std::vector<LabelType>
+  GetLabels() const
+  {
+    std::vector<LabelType> labels;
+    labels.reserve(this->m_LabelSetMeasures.size());
+    for (const auto & kv : this->m_LabelSetMeasures)
+    {
+      labels.push_back(kv.first);
+    }
+    return labels;
+  }
+
+  /** Get the per-label measures struct for a single label.  Throws
+   *  itk::ExceptionObject if the label is not present in the map.
+   *  See GetLabels() for the Python iteration idiom.
+   */
+  LabelOverlapLabelSetMeasures
+  GetMeasureForLabel(LabelType label) const
+  {
+    const auto it = this->m_LabelSetMeasures.find(label);
+    if (it == this->m_LabelSetMeasures.end())
+    {
+      itkExceptionMacro("Label " << static_cast<typename NumericTraits<LabelType>::PrintType>(label)
+                                 << " is not present in the label set measures map.");
+    }
+    return it->second;
+  }
+
   // Overlap agreement metrics
 
   /** Get the total overlap over all labels. */
