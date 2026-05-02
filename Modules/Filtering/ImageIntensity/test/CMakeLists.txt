@@ -59,7 +59,6 @@ set(
   itkRescaleIntensityImageFilterTest.cxx
   itkRGBToLuminanceImageFilterAndAdaptorTest.cxx
   itkRGBToVectorAdaptImageFilterTest.cxx
-  itkRoundImageFilterTest.cxx
   itkShiftScaleImageFilterTest.cxx
   itkSigmoidImageFilterTest.cxx
   itkSinImageFilterAndAdaptorTest.cxx
@@ -677,12 +676,6 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkMagnitudeAndPhaseToComplexImageFilterTest.mha
 )
 itk_add_test(
-  NAME itkRoundImageFilterTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkRoundImageFilterTest
-)
-itk_add_test(
   NAME itkDiscreteHessianGaussianImageFunctionTest
   COMMAND
     ITKImageIntensityTestDriver
@@ -787,6 +780,7 @@ set(
   itkAddImageFilterFrameGTest.cxx
   itkArithmeticOpsFunctorsTest.cxx
   itkBitwiseOpsFunctorsTest.cxx
+  itkRoundImageFilterGTest.cxx
 )
 
 if(MSVC)

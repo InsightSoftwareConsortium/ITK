@@ -16,17 +16,17 @@
  *
  *=========================================================================*/
 
+#include "itkRoundImageFilter.h"
+
 #include "itkImageRegionIterator.h"
 #include "itkMath.h"
 #include "itkRandomImageSource.h"
-#include "itkRoundImageFilter.h"
-#include "itkTestingMacros.h"
+
+#include "itkGTest.h"
 
 
-int
-itkRoundImageFilterTest(int, char *[])
+TEST(RoundImageFilter, ConvertedLegacyTest)
 {
-
   constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = float;
@@ -40,7 +40,7 @@ itkRoundImageFilterTest(int, char *[])
   using FilterType = itk::RoundImageFilter<InputImageType, OutputImageType>;
   auto roundImageFilter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(roundImageFilter, RoundImageFilter, UnaryGeneratorImageFilter);
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(roundImageFilter, RoundImageFilter, UnaryGeneratorImageFilter);
 
 
   // Create a random image
@@ -56,7 +56,7 @@ itkRoundImageFilterTest(int, char *[])
 
   roundImageFilter->SetInput(randomImageSource->GetOutput());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(roundImageFilter->Update());
+  ASSERT_NO_THROW(roundImageFilter->Update());
 
   itk::ImageRegionIterator<InputImageType>  it1(randomImageSource->GetOutput(),
                                                randomImageSource->GetOutput()->GetLargestPossibleRegion());
@@ -68,13 +68,9 @@ itkRoundImageFilterTest(int, char *[])
 
   while (!it1.IsAtEnd() || !it2.IsAtEnd())
   {
-    ITK_TEST_EXPECT_EQUAL(itk::Math::Round<OutputImageType::ValueType>(it1.Get()), it2.Get());
+    EXPECT_EQ(itk::Math::Round<OutputImageType::ValueType>(it1.Get()), it2.Get());
 
     ++it1;
     ++it2;
   }
-
-
-  std::cout << "Test finished." << std::endl;
-  return EXIT_SUCCESS;
 }
