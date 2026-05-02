@@ -31,12 +31,12 @@ namespace itk
  *        files.
  *
  * Supported on read (every encoding ParaView 5.x emits by default):
- *   * <VTKFile> attributes: type="ImageData", any version, any byte_order
+ *   * `<VTKFile>` attributes: type="ImageData", any version, any byte_order
  *     (LittleEndian / BigEndian), header_type in {UInt32, UInt64}.
- *   * <ImageData> attributes: WholeExtent, Origin, Spacing, and
+ *   * `<ImageData>` attributes: WholeExtent, Origin, Spacing, and
  *     Direction (VTK 9+; defaults to identity when absent).
- *   * Single-<Piece> images.
- *   * <DataArray> format = "ascii" | "binary" (inline base64) |
+ *   * Single-`<Piece>` images.
+ *   * `<DataArray>` format = "ascii" | "binary" (inline base64) |
  *     "appended" (raw or base64 AppendedData).
  *   * compressor = vtkZLibDataCompressor, or absent (uncompressed).
  *   * Pixel types: Scalar, Vector (3-component), RGB (3), RGBA (4), and
@@ -45,15 +45,15 @@ namespace itk
  *     [e00, e01, e02, e11, e12, e22] on read).
  *
  * Single-image semantics: VTIImageIO yields exactly one image per file.
- * When <PointData> declares Scalars/Vectors/Tensors hint attributes, the
+ * When `<PointData>` declares Scalars/Vectors/Tensors hint attributes, the
  * named DataArray is selected; when no hint is given, the first
- * <DataArray> child of <PointData> is used.  Sibling DataArrays in the
- * same <PointData> are silently ignored, since ITK's IO model is one
- * image per file.  Arrays inside <CellData>, <FieldData>, or other
+ * `<DataArray>` child of `<PointData>` is used.  Sibling DataArrays in the
+ * same `<PointData>` are silently ignored, since ITK's IO model is one
+ * image per file.  Arrays inside `<CellData>`, `<FieldData>`, or other
  * containers are not consumed (see F-011).
  *
  * Supported on write:
- *   * <VTKFile version="1.0" header_type="UInt64"> matching ParaView 5.7+.
+ *   * `<VTKFile version="1.0" header_type="UInt64">` matching ParaView 5.7+.
  *   * format = "ascii" and "binary" (inline base64) for every supported
  *     pixel type except binary symmetric tensor (see deferred list).
  *   * format = "appended" encoding="raw" + vtkZLibDataCompressor: enabled
@@ -72,19 +72,19 @@ namespace itk
  *   * F-002 vtkLZMADataCompressor read                             (guard)
  *   * F-003 appended-raw writer (no compression)                   (latent)
  *   * F-004 streaming read for appended-raw                        (latent)
- *   * F-005 multi-<Piece> images                                   (guard)
+ *   * F-005 multi-`<Piece>` images                                 (guard)
  *   * F-007 binary symmetric-tensor write                          (guard)
  *   * F-008 appended-base64 writer                                 (latent)
  *   * F-009 MetaDataDictionary round-trip                          (latent)
  *   * F-010 catch-all for unknown compressors                      (guard)
- *   * F-011 <CellData>-only images (only <PointData> consumed)    (guard)
+ *   * F-011 `<CellData>`-only images (only `<PointData>` consumed) (guard)
  *
  * Implementation notes:
- *   * XML header parsing uses expat (ITKExpat); <!DOCTYPE>/<!ENTITY>
+ *   * XML header parsing uses expat (ITKExpat); `<!DOCTYPE>`/`<!ENTITY>`
  *     declarations are rejected up-front to mitigate billion-laughs
  *     and XXE attacks.
  *   * Expat is fed the file in chunks and suspended (XML_StopParser) at
- *     the <AppendedData> start tag so binary bytes never enter the parser.
+ *     the `<AppendedData>` start tag so binary bytes never enter the parser.
  *     For large files this avoids a full in-memory copy of the binary
  *     payload during ReadImageInformation().
  *
