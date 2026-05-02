@@ -19,52 +19,94 @@
 #include "itkImageIOFactory.h"
 
 #include <mutex>
-
+#include <vector>
 
 namespace itk
 {
 
 namespace
 {
-std::mutex createImageIOMutex;
+// Collect all currently-registered ImageIOBase instances. The mutex
+// scopes only the call to ObjectFactoryBase::CreateAllInstance; the
+// subsequent CanReadFile/CanWriteFile probing in CreateImageIO runs
+// without the lock so independent reads on different files do not
+// serialize.
+std::vector<ImageIOBase::Pointer>
+GetAllImageIOInstances()
+{
+  static std::mutex                 createImageIOLock;
+  const std::lock_guard<std::mutex> mutexHolder(createImageIOLock);
+
+  const auto                        allInstances = ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
+  std::vector<ImageIOBase::Pointer> result;
+  result.reserve(allInstances.size());
+  for (auto & possibleImageIO : allInstances)
+  {
+    auto * io = dynamic_cast<ImageIOBase *>(possibleImageIO.GetPointer());
+    if (io)
+    {
+      result.emplace_back(io);
+    }
+    else
+    {
+      std::cerr << "Error ImageIO factory did not return an ImageIOBase: " << possibleImageIO->GetNameOfClass() << '\n';
+    }
+  }
+  return result;
 }
+} // namespace
 
 ImageIOBase::Pointer
 ImageIOFactory::CreateImageIO(const char * path, IOFileModeEnum mode)
 {
-  std::list<ImageIOBase::Pointer> possibleImageIO;
-
-  const std::lock_guard<std::mutex> lockGuard(createImageIOMutex);
-
-  for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkImageIOBase"))
+  if (mode != IOFileModeEnum::ReadMode && mode != IOFileModeEnum::WriteMode)
   {
-    auto * io = dynamic_cast<ImageIOBase *>(allobject.GetPointer());
-    if (io)
+    return nullptr;
+  }
+
+  auto           imageIOInstances = GetAllImageIOInstances();
+  constexpr bool ignoreCase = true;
+  const bool     isRead = (mode == IOFileModeEnum::ReadMode);
+
+  // Phase 1: probe only IOs whose advertised extension list already
+  // matches `path`. CanReadFile / CanWriteFile typically opens the
+  // file and parses its header, so trying extension-matching IOs
+  // first turns the common case into a single header-parse instead
+  // of one per registered IO.
+  for (auto & imageIO : imageIOInstances)
+  {
+    const bool extensionMatch = isRead ? imageIO->HasSupportedReadExtension(path, ignoreCase)
+                                       : imageIO->HasSupportedWriteExtension(path, ignoreCase);
+    if (!extensionMatch)
     {
-      possibleImageIO.emplace_back(io);
+      continue;
     }
-    else
+    const bool canHandle = isRead ? imageIO->CanReadFile(path) : imageIO->CanWriteFile(path);
+    if (canHandle)
     {
-      std::cerr << "Error ImageIO factory did not return an ImageIOBase: " << allobject->GetNameOfClass() << std::endl;
+      return imageIO;
+    }
+    // Extension matched but the IO cannot actually handle the file.
+    // Null it out so phase 2 does not re-probe.
+    imageIO = nullptr;
+  }
+
+  // Phase 2: fall through for files whose extension matched no IO
+  // (or is missing). Probe remaining IOs directly, matching legacy
+  // behavior for unrecognized extensions.
+  for (auto & imageIO : imageIOInstances)
+  {
+    if (!imageIO)
+    {
+      continue;
+    }
+    const bool canHandle = isRead ? imageIO->CanReadFile(path) : imageIO->CanWriteFile(path);
+    if (canHandle)
+    {
+      return imageIO;
     }
   }
-  for (auto & k : possibleImageIO)
-  {
-    if (mode == IOFileModeEnum::ReadMode)
-    {
-      if (k->CanReadFile(path))
-      {
-        return k;
-      }
-    }
-    else if (mode == IOFileModeEnum::WriteMode)
-    {
-      if (k->CanWriteFile(path))
-      {
-        return k;
-      }
-    }
-  }
+
   return nullptr;
 }
 
