@@ -21,7 +21,8 @@
 #include "itkNeighborhoodIterator.h"
 #include "itkImageToImageFilter.h"
 #include "itkVector.h"
-#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_matrix_fixed.h"
+#include "vnl/vnl_vector_fixed.h"
 #include "vnl/vnl_det.h"
 
 namespace itk
@@ -81,14 +82,9 @@ namespace itk
  * C array of TRealValue type.
  *
  * \par Constraints
- * We use vnl_det for determinant computation, which only supports square
- * matrices. So the vector dimension of the input image values must be equal
- * to the image dimensions, which is trivially true for a deformation field
- * that maps an n-dimensional space onto itself.
-
- * Currently, dimensions up to and including 4 are supported. This
- * limitation comes from the presence of vnl_det() functions for matrices of
- * dimension up to 4x4.
+ * The vector dimension of the input image values must equal the image
+ * dimensions, which is trivially true for a deformation field that maps
+ * an n-dimensional space onto itself.
  *
  * The template parameter TRealType must be floating point (float or double) or
  * a user-defined "real" numerical type with arithmetic operations defined
@@ -264,6 +260,10 @@ protected:
   WeightsType m_HalfDerivativeWeights{};
 
 private:
+  /** Matrix type used to store the input direction matrix and the gradient matrix from
+      which the Jacobian determinant is computed. */
+  using InternalMatrixType = vnl_matrix_fixed<TRealType, ImageDimension, ImageDimension>;
+
   bool m_UseImageSpacing{ true };
 
   ThreadIdType m_RequestedNumberOfWorkUnits{};
@@ -271,6 +271,8 @@ private:
   typename ImageBaseType::ConstPointer m_RealValuedInputImage{};
 
   RadiusType m_NeighborhoodRadius{};
+
+  InternalMatrixType m_InputDirection{};
 };
 } // end namespace itk
 
