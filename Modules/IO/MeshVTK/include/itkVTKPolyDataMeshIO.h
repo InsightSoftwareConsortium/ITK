@@ -275,6 +275,20 @@ protected:
             itkExceptionStringMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
           }
         }
+        /** For FIELD entries the next line is the array header
+         *  (`<name> <numComponents> <numTuples> <dataType>`); consume it
+         *  before reading the component values. */
+        else if (line.find("FIELD") != std::string::npos)
+        {
+          if (!inputFile.eof())
+          {
+            std::getline(inputFile, line, '\n');
+          }
+          else
+          {
+            itkExceptionStringMacro("UnExpected end of line while trying to read FIELD array header");
+          }
+        }
 
         /** for VECTORS or NORMALS or TENSORS, we could read them directly */
         Self::ReadComponentsAsASCII(
@@ -317,6 +331,20 @@ protected:
           else
           {
             itkExceptionStringMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
+          }
+        }
+        /** For FIELD entries the next line is the array header
+         *  (`<name> <numComponents> <numTuples> <dataType>`); consume it
+         *  before reading the binary block. */
+        else if (line.find("FIELD") != std::string::npos)
+        {
+          if (!inputFile.eof())
+          {
+            std::getline(inputFile, line, '\n');
+          }
+          else
+          {
+            itkExceptionStringMacro("UnExpected end of line while trying to read FIELD array header");
           }
         }
 
@@ -367,6 +395,18 @@ protected:
             itkExceptionStringMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
           }
         }
+        /** For FIELD entries the next line is the array header; consume it. */
+        else if (line.find("FIELD") != std::string::npos)
+        {
+          if (!inputFile.eof())
+          {
+            std::getline(inputFile, line, '\n');
+          }
+          else
+          {
+            itkExceptionStringMacro("UnExpected end of line while trying to read FIELD array header");
+          }
+        }
 
         /** for VECTORS or NORMALS or TENSORS, we could read them directly */
         Self::ReadComponentsAsASCII(
@@ -409,6 +449,18 @@ protected:
           else
           {
             itkExceptionStringMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
+          }
+        }
+        /** For FIELD entries the next line is the array header; consume it. */
+        else if (line.find("FIELD") != std::string::npos)
+        {
+          if (!inputFile.eof())
+          {
+            std::getline(inputFile, line, '\n');
+          }
+          else
+          {
+            itkExceptionStringMacro("UnExpected end of line while trying to read FIELD array header");
           }
         }
 
@@ -929,13 +981,15 @@ protected:
         while (i < num)
         {
           // row 1
-          outputFile << *ptr++ << indent;
+          outputFile << ConvertNumberToString(*ptr++) << indent;
           e12 = *ptr++;
-          outputFile << e12 << indent << zero << '\n';
+          outputFile << ConvertNumberToString(e12) << indent << ConvertNumberToString(zero) << '\n';
           // row 2
-          outputFile << e12 << indent << *ptr++ << indent << zero << '\n';
+          outputFile << ConvertNumberToString(e12) << indent << ConvertNumberToString(*ptr++) << indent
+                     << ConvertNumberToString(zero) << '\n';
           // row 3
-          outputFile << zero << indent << zero << indent << zero << "\n\n";
+          outputFile << ConvertNumberToString(zero) << indent << ConvertNumberToString(zero) << indent
+                     << ConvertNumberToString(zero) << "\n\n";
           i += 3;
         }
       }
@@ -947,17 +1001,18 @@ protected:
         while (i < num)
         {
           // row 1
-          outputFile << *ptr++ << indent;
+          outputFile << ConvertNumberToString(*ptr++) << indent;
           e12 = *ptr++;
-          outputFile << e12 << indent;
+          outputFile << ConvertNumberToString(e12) << indent;
           e13 = *ptr++;
-          outputFile << e13 << '\n';
+          outputFile << ConvertNumberToString(e13) << '\n';
           // row 2
-          outputFile << e12 << indent << *ptr++ << indent;
+          outputFile << ConvertNumberToString(e12) << indent << ConvertNumberToString(*ptr++) << indent;
           e23 = *ptr++;
-          outputFile << e23 << '\n';
+          outputFile << ConvertNumberToString(e23) << '\n';
           // row 3
-          outputFile << e13 << indent << e23 << indent << *ptr++ << "\n\n";
+          outputFile << ConvertNumberToString(e13) << indent << ConvertNumberToString(e23) << indent
+                     << ConvertNumberToString(*ptr++) << "\n\n";
           i += 6;
         }
       }
@@ -977,9 +1032,9 @@ protected:
         unsigned int jj = 0;
         for (; jj < this->m_NumberOfCellPixelComponents - 1; ++jj)
         {
-          outputFile << buffer[ii * this->m_NumberOfCellPixelComponents + jj] << indent;
+          outputFile << ConvertNumberToString(buffer[ii * this->m_NumberOfCellPixelComponents + jj]) << indent;
         }
-        outputFile << buffer[ii * this->m_NumberOfCellPixelComponents + jj] << '\n';
+        outputFile << ConvertNumberToString(buffer[ii * this->m_NumberOfCellPixelComponents + jj]) << '\n';
       }
     }
   }
@@ -1059,7 +1114,7 @@ protected:
     {
       for (unsigned int jj = 0; jj < numberOfPixelComponents; ++jj)
       {
-        outputFile << ConvertNumberToString(static_cast<float>(buffer[ii * numberOfPixelComponents + jj])) << indent;
+        outputFile << ConvertNumberToString(buffer[ii * numberOfPixelComponents + jj]) << indent;
       }
 
       outputFile << '\n';
