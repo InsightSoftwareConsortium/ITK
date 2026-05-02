@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5 CACHE STRING "")
+set(ENV{CMAKE_POLICY_VERSION_MINIMUM} 3.5)
 
 foreach(p
     CMP0025 # CMake 3.0
