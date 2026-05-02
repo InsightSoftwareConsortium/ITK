@@ -29,6 +29,14 @@ lom_filter = itk.LabelOverlapMeasuresImageFilter[itk.Image[itk.UC, 3]].New()
 lom_filter.SetTargetImage(seg)
 lom_filter.SetSourceImage(ref)
 lom_filter.UpdateLargestPossibleRegion()
-lsm = lom_filter.GetLabelSetMeasures()
-for label, measure in lsm.items():
-    print(f"Label: {label}, i: {measure.m_Intersection}, u: {measure.m_Union}")
+
+# GetLabelSetMeasures() returns std::unordered_map<LabelType, ...>, which SWIG
+# cannot wrap as a Python dict across submodule boundaries.  Use the paired
+# accessors GetLabels() + GetMeasureForLabel() for Python iteration.
+labels = list(lom_filter.GetLabels())
+print(f"Found {len(labels)} labels")
+for label in sorted(labels):
+    measure = lom_filter.GetMeasureForLabel(label)
+    # Use the explicit Get* accessors (igenerator does not expose public data
+    # members of a struct to Python; the m_Foo fields are not visible).
+    print(f"Label: {label}, i: {measure.GetIntersection()}, u: {measure.GetUnion()}")
