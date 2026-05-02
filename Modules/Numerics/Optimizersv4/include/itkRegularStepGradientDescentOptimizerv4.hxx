@@ -168,8 +168,6 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>::AdvanceOne
     // Pass exception to caller
     throw;
   }
-
-  this->InvokeEvent(IterationEvent());
 }
 
 template <typename TInternalComputationValueType>

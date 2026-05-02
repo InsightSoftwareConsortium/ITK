@@ -98,7 +98,6 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>::Adv
     // Pass exception to caller
     throw;
   }
-  this->InvokeEvent(IterationEvent());
 }
 
 
