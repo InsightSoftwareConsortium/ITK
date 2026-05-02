@@ -63,7 +63,6 @@ set(
   itkSigmoidImageFilterTest.cxx
   itkSinImageFilterAndAdaptorTest.cxx
   itkSqrtImageFilterAndAdaptorTest.cxx
-  itkSquareImageFilterTest.cxx
   itkSubtractImageFilterTest.cxx
   itkSymmetricEigenAnalysisImageFilterTest.cxx
   itkTanImageFilterAndAdaptorTest.cxx
@@ -408,12 +407,6 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/MatrixIndexSelectionImageFilterTest.png
     itkMatrixIndexSelectionImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/MatrixIndexSelectionImageFilterTest.png
-)
-itk_add_test(
-  NAME itkSquareImageFilterTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkSquareImageFilterTest
 )
 itk_add_test(
   NAME itkRGBToVectorAdaptImageFilterTest.cxx
@@ -781,6 +774,7 @@ set(
   itkArithmeticOpsFunctorsTest.cxx
   itkBitwiseOpsFunctorsTest.cxx
   itkRoundImageFilterGTest.cxx
+  itkSquareImageFilterGTest.cxx
 )
 
 if(MSVC)

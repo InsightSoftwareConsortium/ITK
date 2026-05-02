@@ -17,14 +17,15 @@
  *=========================================================================*/
 
 #include "itkSquareImageFilter.h"
+
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkMath.h"
-#include "itkTestingMacros.h"
 
-int
-itkSquareImageFilterTest(int, char *[])
+#include "itkGTest.h"
+
+
+TEST(SquareImageFilter, ConvertedLegacyTest)
 {
-
   // Define the dimension of the images
   constexpr unsigned int ImageDimension{ 3 };
 
@@ -60,12 +61,10 @@ itkSquareImageFilterTest(int, char *[])
 
   // Initialize the content of Image A
   constexpr double value{ 30 };
-  std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
     it.Set(value);
-    std::cout << it.Get() << std::endl;
     ++it;
   }
 
@@ -75,7 +74,7 @@ itkSquareImageFilterTest(int, char *[])
   // Create a Filter
   auto filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SquareImageFilter, UnaryGeneratorImageFilter);
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(filter, SquareImageFilter, UnaryGeneratorImageFilter);
 
   // Connect the input images
   filter->SetInput(inputImage);
@@ -102,18 +101,9 @@ itkSquareImageFilterTest(int, char *[])
     const double                     x1 = input;
     const double                     x2 = x1 * x1;
     const auto                       square = static_cast<OutputImageType::PixelType>(x2);
-    if (!itk::Math::FloatAlmostEqual(square, output, 10, epsilon))
-    {
-      std::cerr.precision(static_cast<unsigned int>(itk::Math::Absolute(std::log10(epsilon))));
-      std::cerr << "Error in itkSquareImageFilterTest " << std::endl;
-      std::cerr << " square( " << input << ") = " << square << std::endl;
-      std::cerr << " differs from " << output;
-      std::cerr << " by more than " << epsilon << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_TRUE(itk::Math::FloatAlmostEqual(square, output, 10, epsilon))
+      << "square(" << input << ") = " << square << " differs from " << output << " by more than " << epsilon;
     ++ot;
     ++it;
   }
-
-  return EXIT_SUCCESS;
 }
