@@ -23,6 +23,7 @@ set(
   itkImageIOBaseTest.cxx
   itkImageIODirection2DTest.cxx
   itkImageIODirection3DTest.cxx
+  itkImageIOExtensionFactoryTest.cxx
   itkImageIOFileNameExtensionsTests.cxx
   itkImageSeriesReaderDimensionsTest.cxx
   itkImageSeriesReaderSamplingTest.cxx
@@ -825,6 +826,12 @@ itk_add_test(
   COMMAND
     ITKIOImageBaseTestDriver
     itkImageIOFileNameExtensionsTests
+)
+itk_add_test(
+  NAME itkImageIOExtensionFactoryTest
+  COMMAND
+    ITKIOImageBaseTestDriver
+    itkImageIOExtensionFactoryTest
 )
 
 itk_add_test(

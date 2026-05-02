@@ -773,6 +773,21 @@ public:
   }
   /** @ITKEndGrouping */
 
+  /** Check whether `fileName` ends with one of the extensions in the
+   * IO's supported-read / supported-write extension list. If `ignoreCase`
+   * is true (the default), the comparison is case-insensitive.
+   *
+   * Public so that `ImageIOFactory::CreateImageIO()` (and other callers
+   * that need a cheap pre-check) can avoid the cost of `CanReadFile()` /
+   * `CanWriteFile()` (which typically opens and parses the file header)
+   * when the filename's extension already excludes the IO. */
+  /** @ITKStartGrouping */
+  virtual bool
+  HasSupportedReadExtension(const char * fileName, bool ignoreCase = true);
+  virtual bool
+  HasSupportedWriteExtension(const char * fileName, bool ignoreCase = true);
+  /** @ITKEndGrouping */
+
 protected:
   ImageIOBase();
   ~ImageIOBase() override;
@@ -781,17 +796,6 @@ protected:
 
   virtual const ImageRegionSplitterBase *
   GetImageRegionSplitter() const;
-
-  /** Check fileName as an extensions contained in the supported
-   * extension list. If ignoreCase is true, the case of the characters
-   * is ignored.
-   */
-  /** @ITKStartGrouping */
-  virtual bool
-  HasSupportedReadExtension(const char * fileName, bool ignoreCase = true);
-  virtual bool
-  HasSupportedWriteExtension(const char * fileName, bool ignoreCase = true);
-  /** @ITKEndGrouping */
 
   /** Used internally to keep track of the type of the pixel. */
   IOPixelEnum m_PixelType{ IOPixelEnum::SCALAR };
