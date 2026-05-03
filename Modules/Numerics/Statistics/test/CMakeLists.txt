@@ -47,7 +47,6 @@ set(
   itkMembershipSampleTest2.cxx
   itkMembershipSampleTest3.cxx
   itkMembershipSampleTest4.cxx
-  itkMixtureModelComponentBaseTest.cxx
   itkNeighborhoodSamplerTest1.cxx
   itkPointSetToListSampleAdaptorTest.cxx
   itkProbabilityDistributionTest.cxx
@@ -742,12 +741,6 @@ itk_add_test(
     itkNeighborhoodSamplerTest1
 )
 itk_add_test(
-  NAME itkMixtureModelComponentBaseTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkMixtureModelComponentBaseTest
-)
-itk_add_test(
   NAME itkSampleTest
   COMMAND
     ITKStatisticsTestDriver
@@ -969,6 +962,7 @@ set(
   itkMaximumDecisionRuleGTest.cxx
   itkMaximumRatioDecisionRuleGTest.cxx
   itkMinimumDecisionRuleGTest.cxx
+  itkMixtureModelComponentBaseGTest.cxx
   itkNormalVariateGeneratorGTest1.cxx
   itkRandomVariateGeneratorBaseGTest.cxx
   itkStatisticsTypesGTest.cxx
