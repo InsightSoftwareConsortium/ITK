@@ -18,12 +18,15 @@
 
 // Ensure we do not get NaN's with a constant image
 
-#include "itkScalarImageToCooccurrenceMatrixFilter.h"
 #include "itkHistogramToTextureFeaturesFilter.h"
-#include "itkMath.h"
 
-int
-itkHistogramToTextureFeaturesFilterNaNTest(int, char *[])
+#include "itkMath.h"
+#include "itkScalarImageToCooccurrenceMatrixFilter.h"
+
+#include "itkGTest.h"
+
+
+TEST(HistogramToTextureFeaturesFilter, ConvertedLegacyTestNaN)
 {
   constexpr unsigned int Dimension{ 2 };
   using PixelType = unsigned char;
@@ -53,10 +56,5 @@ itkHistogramToTextureFeaturesFilterNaNTest(int, char *[])
 
   const TextureFilterType::MeasurementType correlation = filter->GetCorrelation();
   std::cout << "Correlation: " << correlation << std::endl;
-  if (itk::Math::isnan(correlation))
-  {
-    return EXIT_FAILURE;
-  }
-
-  return EXIT_SUCCESS;
+  EXPECT_FALSE(itk::Math::isnan(correlation));
 }

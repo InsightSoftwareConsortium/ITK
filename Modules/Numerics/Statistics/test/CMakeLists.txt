@@ -17,7 +17,6 @@ set(
   itkGaussianMixtureModelComponentTest.cxx
   itkGaussianRandomSpatialNeighborSubsamplerTest.cxx
   itkHistogramTest.cxx
-  itkHistogramToTextureFeaturesFilterNaNTest.cxx
   itkHistogramToTextureFeaturesFilterTest.cxx
   itkImageToHistogramFilterTest.cxx
   itkImageToHistogramFilterTest2.cxx
@@ -465,12 +464,6 @@ itk_add_test(
   COMMAND
     ITKStatisticsTestDriver
     itkHistogramToTextureFeaturesFilterTest
-)
-itk_add_test(
-  NAME itkHistogramToTextureFeaturesFilterNaNTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkHistogramToTextureFeaturesFilterNaNTest
 )
 itk_add_test(
   NAME itkCovarianceSampleFilterTest
@@ -979,6 +972,7 @@ itk_add_test(
 set(
   ITKStatisticsGTests
   itkChiSquareDistributionGTest.cxx
+  itkHistogramToTextureFeaturesFilterNaNGTest.cxx
   itkMaximumDecisionRuleGTest.cxx
   itkMinimumDecisionRuleGTest.cxx
   itkNormalVariateGeneratorGTest1.cxx
