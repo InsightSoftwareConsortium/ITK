@@ -18,6 +18,14 @@ set(
 
 createtestdriver(ITKIOGDCM "${ITKIOGDCM-Test_LIBRARIES}" "${ITKIOGDCMTests}")
 
+set(ITKIOGDCMGTests itkGDCMImageIOInvalidVRTypeGTest.cxx)
+creategoogletestdriver(ITKIOGDCM "${ITKIOGDCM-Test_LIBRARIES}" "${ITKIOGDCMGTests}")
+target_compile_definitions(
+  ITKIOGDCMGTestDriver
+  PRIVATE
+    "ITK_TEST_OUTPUT_DIR=${ITK_TEST_OUTPUT_DIR}"
+)
+
 itk_add_test(
   NAME itkGDCMImageIOTest1
   COMMAND
