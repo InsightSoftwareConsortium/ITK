@@ -30,9 +30,7 @@ Currently-supported options are:
     be called when each new library is imported in the import process.
     ImportCallback must be a function that takes two parameters: the name of
     the library being imported, and a float (between 0 and 1) reflecting the
-    fraction of the import that is completed.
-  LazyLoading: Only load an itk library when needed. Before the library is
-    loaded, the namespace will be inhabited with dummy objects."""
+    fraction of the import that is completed."""
 
 
 # User options
@@ -79,7 +77,6 @@ def _get_environment_boolean(environment_var: str, default_string: str) -> bool:
 DefaultFactoryLoading: bool = _get_environment_boolean(
     "ITK_PYTHON_DEFAULTFACTORYLOADING", "True"
 )
-LazyLoading: bool = _get_environment_boolean("ITK_PYTHON_LAZYLOADING", "True")
 NotInPlace: bool = _get_environment_boolean("ITK_PYTHON_NOTINPLACE", "False")
 del _get_environment_boolean
 
