@@ -54,7 +54,6 @@ set(
   itkNeighborhoodSamplerTest1.cxx
   itkPointSetToListSampleAdaptorTest.cxx
   itkProbabilityDistributionTest.cxx
-  itkRandomVariateGeneratorBaseTest.cxx
   itkSampleTest.cxx
   itkSampleTest2.cxx
   itkSampleTest3.cxx
@@ -704,12 +703,6 @@ itk_add_test(
     itkProbabilityDistributionTest
 )
 itk_add_test(
-  NAME itkRandomVariateGeneratorBaseTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkRandomVariateGeneratorBaseTest
-)
-itk_add_test(
   NAME itkMahalanobisDistanceMetricTest
   COMMAND
     ITKStatisticsTestDriver
@@ -995,6 +988,7 @@ set(
   itkChiSquareDistributionGTest.cxx
   itkMaximumDecisionRuleGTest.cxx
   itkNormalVariateGeneratorGTest1.cxx
+  itkRandomVariateGeneratorBaseGTest.cxx
   itkStatisticsTypesGTest.cxx
 )
 creategoogletestdriver(ITKStatistics "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisticsGTests}")
