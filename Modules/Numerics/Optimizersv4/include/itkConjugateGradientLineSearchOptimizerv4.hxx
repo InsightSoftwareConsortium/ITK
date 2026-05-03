@@ -97,8 +97,6 @@ ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>::A
     // Pass exception to caller
     throw;
   }
-
-  this->InvokeEvent(IterationEvent());
 }
 
 template <typename TInternalComputationValueType>

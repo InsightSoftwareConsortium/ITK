@@ -35,7 +35,11 @@ set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 createtestdriver(ITKOptimizersv4 "${ITKOptimizersv4-Test_LIBRARIES}" "${ITKOptimizersv4Tests}")
 
-set(ITKOptimizersv4GTests itkWindowConvergenceMonitoringFunctionGTest.cxx)
+set(
+  ITKOptimizersv4GTests
+  itkGradientDescentOptimizerv4ObserverGTest.cxx
+  itkWindowConvergenceMonitoringFunctionGTest.cxx
+)
 creategoogletestdriver(ITKOptimizersv4 "${ITKOptimizersv4-Test_LIBRARIES}" "${ITKOptimizersv4GTests}")
 
 itk_add_test(

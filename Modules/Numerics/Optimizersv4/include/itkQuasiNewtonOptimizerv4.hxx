@@ -173,8 +173,6 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::AdvanceOneStep()
     // Pass exception to caller
     throw;
   }
-
-  this->InvokeEvent(IterationEvent());
 }
 
 template <typename TInternalComputationValueType>

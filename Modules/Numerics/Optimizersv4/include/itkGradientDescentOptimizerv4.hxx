@@ -138,6 +138,10 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::ResumeOptimiz
       }
     }
 
+    // Fire IterationEvent before stepping so observers see GetCurrentMetricValue and
+    // GetCurrentPosition at the position where the value was actually evaluated (issue #2570).
+    this->InvokeEvent(IterationEvent());
+
     // Advance one step along the gradient.
     // This will modify the gradient and update the transform.
     this->AdvanceOneStep();
@@ -153,6 +157,25 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::ResumeOptimiz
     this->m_CurrentIteration++;
 
   } // while (!m_Stop)
+
+  // Fire one final IterationEvent at the converged / stopped state so
+  // observers see GetCurrentMetricValue and GetCurrentPosition consistently
+  // at the post-loop final position. The in-loop IterationEvent always
+  // fires before AdvanceOneStep, so without this final emission observers
+  // would never see the (position, value) pair after the last step.
+  // Re-evaluate the metric so the value matches the final position; this
+  // costs one extra metric evaluation per ResumeOptimization() call.
+  try
+  {
+    this->m_Metric->GetValueAndDerivative(this->m_CurrentMetricValue, this->m_Gradient);
+  }
+  catch (const ExceptionObject &)
+  {
+    // Best-effort: the optimizer is already stopping. Leave the previous
+    // m_CurrentMetricValue intact rather than propagating, so observers
+    // still receive a final IterationEvent.
+  }
+  this->InvokeEvent(IterationEvent());
 }
 
 template <typename TInternalComputationValueType>
@@ -184,8 +207,6 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::AdvanceOneSte
     // Pass exception to caller
     throw;
   }
-
-  this->InvokeEvent(IterationEvent());
 }
 
 template <typename TInternalComputationValueType>

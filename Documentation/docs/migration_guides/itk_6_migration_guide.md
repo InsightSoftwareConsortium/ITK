@@ -557,3 +557,28 @@ target_link_libraries(MyExample ITK::MyModuleModule)
 #### Backward Compatibility
 
 For backward compatibility, non-namespaced aliases are created with deprecation warnings. However, new code should use the namespaced `ITK::` targets exclusively.
+
+v4 Gradient-Optimizer IterationEvent ordering
+---------------------------------------------
+
+`GradientDescentOptimizerv4`, `GradientDescentLineSearchOptimizerv4`,
+`ConjugateGradientLineSearchOptimizerv4`, `RegularStepGradientDescentOptimizerv4`,
+and `QuasiNewtonOptimizerv4` now fire `IterationEvent` **before** `AdvanceOneStep()`
+inside the `ResumeOptimization()` loop, plus one final `IterationEvent` after the
+loop exits (issue #2570). Previously the event fired at the end of `AdvanceOneStep()`,
+producing an inconsistent `(GetCurrentMetricValue(), GetCurrentPosition())` pair
+where the value was evaluated at the pre-step position but the position reported
+was the post-step one.
+
+Observable changes for code that observes `IterationEvent`:
+
+- **One additional event per `StartOptimization()` call.** The new final event
+  fires after the loop exits to report the converged/stopped state.
+- **`GetCurrentPosition()` at the event now matches `GetCurrentMetricValue()`.**
+  Trajectories recorded at observer time are shifted back by one step.
+- **One additional metric evaluation per `ResumeOptimization()` call.** The
+  final event re-evaluates `GetValueAndDerivative` so its `(position, value)`
+  pair is consistent.
+
+Code that counts events to derive the iteration index, exports per-iteration
+trajectories, or benchmarks with cheap toy metrics may need adjustment.
