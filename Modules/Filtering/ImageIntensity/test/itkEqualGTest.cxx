@@ -16,14 +16,56 @@
  *
  *=========================================================================*/
 #include "itkLogicOpsFunctors.h"
+
 #include "itkBinaryFunctorImageFilter.h"
+#include "itkCommonEnums.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkLogicTestSupport.h"
 
-int
-itkGreaterTest(int, char *[])
-{
+#include "itkGTest.h"
 
+namespace
+{
+// A bogus class for testing purposes.
+class Bogus
+{
+public:
+  // using Self = Bogus;
+  // using Pointer = SmartPointer<Self>;
+  // itkNewMacro(Self);
+  //     static Bogus* New() { return new Bogus(); };
+  //     void Register() {};
+  //     void UnRegister() {};
+
+  float
+  operator()(double d, double)
+  {
+    return static_cast<float>(d);
+  }
+  void
+  Visit(int, Bogus *)
+  {}
+
+  itk::CellGeometryEnum
+  GetCellTopologyId()
+  {
+    return itk::CellGeometryEnum::HEXAHEDRON_CELL;
+  }
+
+  itk::CellGeometryEnum
+  GetTopologyId()
+  {
+    return itk::CellGeometryEnum::HEXAHEDRON_CELL;
+  }
+
+  Bogus() = default;
+  virtual ~Bogus() = default;
+};
+} // namespace
+
+
+TEST(EqualImageFilter, ConvertedLegacyTest)
+{
   // Define the dimension of the images
   constexpr unsigned int myDimension{ 3 };
 
@@ -32,18 +74,18 @@ itkGreaterTest(int, char *[])
   using myImageType2 = itk::Image<float, myDimension>;
   using myImageType3 = itk::Image<float, myDimension>;
   using PixelType = myImageType1::PixelType;
+
   // Declare the type of the size
   using mySizeType = itk::Size<myDimension>;
 
   // Declare the type of the Region
   using myRegionType = itk::ImageRegion<myDimension>;
 
-  // Declare the type for the ADD filter
   using myFilterType = itk::BinaryFunctorImageFilter<
     myImageType1,
     myImageType2,
     myImageType3,
-    itk::Functor::Greater<myImageType1::PixelType, myImageType2::PixelType, myImageType3::PixelType>>;
+    itk::Functor::Equal<myImageType1::PixelType, myImageType2::PixelType, myImageType3::PixelType>>;
 
   // Declare the pointers to images
   using myImageType1Pointer = myImageType1::Pointer;
@@ -76,6 +118,7 @@ itkGreaterTest(int, char *[])
   myIteratorType1 it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
+
   it1.Set(3.0);
   ++it1;
   while (!it1.IsAtEnd())
@@ -90,7 +133,7 @@ itkGreaterTest(int, char *[])
   {
     // Create a logic Filter
     const myFilterTypePointer filter = myFilterType::New();
-
+    ASSERT_FALSE(filter.IsNull());
 
     // Connect the input images
     filter->SetInput1(inputImageA);
@@ -101,27 +144,22 @@ itkGreaterTest(int, char *[])
     // Get the Smart Pointer to the Filter Output
     const myImageType3Pointer outputImage = filter->GetOutput();
 
-
     // Execute the filter
     filter->Update();
     filter->SetFunctor(filter->GetFunctor());
+
+    // check the results
     const PixelType FG = filter->GetFunctor().GetForegroundValue();
     const PixelType BG = filter->GetFunctor().GetBackgroundValue();
 
-    const int status1 = checkImOnImRes<myImageType1, myImageType2, myImageType3, std::greater<myImageType1::PixelType>>(
-      inputImageA, inputImageB, outputImage, FG, BG);
-    if (status1 == EXIT_FAILURE)
-    {
-      return EXIT_FAILURE;
-    }
-
-    std::cout << "Step 1 passed" << std::endl;
+    ASSERT_EQ((checkImOnImRes<myImageType1, myImageType2, myImageType3, std::equal_to<myImageType1::PixelType>>(
+                inputImageA, inputImageB, outputImage, FG, BG)),
+              EXIT_SUCCESS);
   }
 
   {
     // Create a logic Filter
     const myFilterTypePointer filter = myFilterType::New();
-
 
     // Connect the input images
     filter->SetInput1(inputImageA);
@@ -131,27 +169,24 @@ itkGreaterTest(int, char *[])
     // Get the Smart Pointer to the Filter Output
     const myImageType3Pointer outputImage = filter->GetOutput();
 
-    // Now try testing with constant : Im1 > 2
+    // Now try testing with constant : Im1 == 2
     filter->SetConstant(2.0);
     filter->Update();
     const PixelType FG = filter->GetFunctor().GetForegroundValue();
     const PixelType BG = filter->GetFunctor().GetBackgroundValue();
     const PixelType C = filter->GetConstant2();
-    const int       status2 = checkImOnConstRes<myImageType1, PixelType, myImageType3, std::greater<PixelType>>(
-      inputImageA, C, outputImage, FG, BG);
-    if (status2 == EXIT_FAILURE)
-    {
-      return EXIT_FAILURE;
-    }
-
-    std::cout << "Step 2 passed " << std::endl;
+    ASSERT_EQ((checkImOnConstRes<myImageType1, PixelType, myImageType3, std::equal_to<PixelType>>(
+                inputImageA, C, outputImage, FG, BG)),
+              EXIT_SUCCESS);
   }
-  // Now try testing with constant : 3 != Im2
+  // Now try testing with constant : 3 == Im2
   {
     // Create a logic Filter
     const myFilterTypePointer filter = myFilterType::New();
 
+
     // Connect the input images
+
     filter->SetFunctor(filter->GetFunctor());
 
     // Get the Smart Pointer to the Filter Output
@@ -162,15 +197,17 @@ itkGreaterTest(int, char *[])
     const PixelType FG = filter->GetFunctor().GetForegroundValue();
     const PixelType BG = filter->GetFunctor().GetBackgroundValue();
 
-    const int status3 = checkConstOnImRes<PixelType, myImageType2, myImageType3, std::greater<PixelType>>(
-      filter->GetConstant1(), inputImageB, outputImage, FG, BG);
-    if (status3 == EXIT_FAILURE)
-    {
-      return EXIT_FAILURE;
-    }
-
-    std::cout << "Step 3 passed" << std::endl;
+    ASSERT_EQ((checkConstOnImRes<PixelType, myImageType2, myImageType3, std::equal_to<PixelType>>(
+                filter->GetConstant1(), inputImageB, outputImage, FG, BG)),
+              EXIT_SUCCESS);
   }
+
+  {
+    // BinaryImageFilter
+    using iFIB = itk::BinaryFunctorImageFilter<itk::Image<double>, itk::Image<double>, itk::Image<double>, Bogus>;
+    auto FIB = iFIB::New();
+    ASSERT_FALSE(FIB.IsNull());
+  }
+
   // All objects should be automatically destroyed at this point
-  return EXIT_SUCCESS;
 }

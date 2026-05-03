@@ -23,17 +23,12 @@ set(
   itkDivideImageFilterTest2.cxx
   itkDivideOrZeroOutImageFilterTest.cxx
   itkEdgePotentialImageFilterTest.cxx
-  itkEqualTest.cxx
   itkExpImageFilterAndAdaptorTest.cxx
   itkExpNegativeImageFilterAndAdaptorTest.cxx
-  itkGreaterEqualTest.cxx
-  itkGreaterTest.cxx
   itkHistogramMatchingImageFilterTest.cxx
   itkImageAdaptorNthElementTest.cxx
   itkIntensityWindowingImageFilterTest.cxx
   itkInvertIntensityImageFilterTest.cxx
-  itkLessEqualTest.cxx
-  itkLessTest.cxx
   itkLog10ImageFilterAndAdaptorTest.cxx
   itkLogImageFilterAndAdaptorTest.cxx
   itkMagnitudeAndPhaseToComplexImageFilterTest.cxx
@@ -48,7 +43,6 @@ set(
   itkNaryMaximumImageFilterTest.cxx
   itkNormalizeImageFilterTest.cxx
   itkNormalizeToConstantImageFilterTest.cxx
-  itkNotEqualTest.cxx
   itkNotImageFilterTest.cxx
   itkNthElementPixelAccessorTest2.cxx
   itkOrImageFilterTest.cxx
@@ -59,12 +53,10 @@ set(
   itkRescaleIntensityImageFilterTest.cxx
   itkRGBToLuminanceImageFilterAndAdaptorTest.cxx
   itkRGBToVectorAdaptImageFilterTest.cxx
-  itkRoundImageFilterTest.cxx
   itkShiftScaleImageFilterTest.cxx
   itkSigmoidImageFilterTest.cxx
   itkSinImageFilterAndAdaptorTest.cxx
   itkSqrtImageFilterAndAdaptorTest.cxx
-  itkSquareImageFilterTest.cxx
   itkSubtractImageFilterTest.cxx
   itkSymmetricEigenAnalysisImageFilterTest.cxx
   itkTanImageFilterAndAdaptorTest.cxx
@@ -411,12 +403,6 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/MatrixIndexSelectionImageFilterTest.png
 )
 itk_add_test(
-  NAME itkSquareImageFilterTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkSquareImageFilterTest
-)
-itk_add_test(
   NAME itkRGBToVectorAdaptImageFilterTest.cxx
   COMMAND
     ITKImageIntensityTestDriver
@@ -617,42 +603,6 @@ itk_add_test(
     itkNormalizeToConstantImageFilterTest
 )
 itk_add_test(
-  NAME itkEqualTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkEqualTest
-)
-itk_add_test(
-  NAME itkNotEqualTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkNotEqualTest
-)
-itk_add_test(
-  NAME itkGreaterEqualTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkGreaterEqualTest
-)
-itk_add_test(
-  NAME itkGreaterTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkGreaterTest
-)
-itk_add_test(
-  NAME itkLessEqualTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkLessEqualTest
-)
-itk_add_test(
-  NAME itkLessTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkLessTest
-)
-itk_add_test(
   NAME itkClampImageFilterTest
   COMMAND
     ITKImageIntensityTestDriver
@@ -675,12 +625,6 @@ itk_add_test(
     DATA{Input/itkBrainSliceComplexMagnitude.mha}
     DATA{Input/itkBrainSliceComplexPhase.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkMagnitudeAndPhaseToComplexImageFilterTest.mha
-)
-itk_add_test(
-  NAME itkRoundImageFilterTest
-  COMMAND
-    ITKImageIntensityTestDriver
-    itkRoundImageFilterTest
 )
 itk_add_test(
   NAME itkDiscreteHessianGaussianImageFunctionTest
@@ -787,6 +731,14 @@ set(
   itkAddImageFilterFrameGTest.cxx
   itkArithmeticOpsFunctorsTest.cxx
   itkBitwiseOpsFunctorsTest.cxx
+  itkEqualGTest.cxx
+  itkGreaterEqualGTest.cxx
+  itkGreaterGTest.cxx
+  itkLessEqualGTest.cxx
+  itkLessGTest.cxx
+  itkNotEqualGTest.cxx
+  itkRoundImageFilterGTest.cxx
+  itkSquareImageFilterGTest.cxx
 )
 
 if(MSVC)

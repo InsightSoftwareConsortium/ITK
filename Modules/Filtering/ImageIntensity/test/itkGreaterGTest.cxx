@@ -16,14 +16,16 @@
  *
  *=========================================================================*/
 #include "itkLogicOpsFunctors.h"
+
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkLogicTestSupport.h"
 
-int
-itkLessTest(int, char *[])
-{
+#include "itkGTest.h"
 
+
+TEST(GreaterImageFilter, ConvertedLegacyTest)
+{
   // Define the dimension of the images
   constexpr unsigned int myDimension{ 3 };
 
@@ -32,7 +34,6 @@ itkLessTest(int, char *[])
   using myImageType2 = itk::Image<float, myDimension>;
   using myImageType3 = itk::Image<float, myDimension>;
   using PixelType = myImageType1::PixelType;
-
   // Declare the type of the size
   using mySizeType = itk::Size<myDimension>;
 
@@ -44,7 +45,7 @@ itkLessTest(int, char *[])
     myImageType1,
     myImageType2,
     myImageType3,
-    itk::Functor::Less<myImageType1::PixelType, myImageType2::PixelType, myImageType3::PixelType>>;
+    itk::Functor::Greater<myImageType1::PixelType, myImageType2::PixelType, myImageType3::PixelType>>;
 
   // Declare the pointers to images
   using myImageType1Pointer = myImageType1::Pointer;
@@ -92,6 +93,7 @@ itkLessTest(int, char *[])
     // Create a logic Filter
     const myFilterTypePointer filter = myFilterType::New();
 
+
     // Connect the input images
     filter->SetInput1(inputImageA);
     filter->SetInput2(inputImageB);
@@ -101,25 +103,22 @@ itkLessTest(int, char *[])
     // Get the Smart Pointer to the Filter Output
     const myImageType3Pointer outputImage = filter->GetOutput();
 
+
     // Execute the filter
     filter->Update();
     filter->SetFunctor(filter->GetFunctor());
     const PixelType FG = filter->GetFunctor().GetForegroundValue();
     const PixelType BG = filter->GetFunctor().GetBackgroundValue();
 
-    const int status1 = checkImOnImRes<myImageType1, myImageType2, myImageType3, std::less<myImageType1::PixelType>>(
-      inputImageA, inputImageB, outputImage, FG, BG);
-    if (status1 == EXIT_FAILURE)
-    {
-      return EXIT_FAILURE;
-    }
-
-    std::cout << "Step 1 passed" << std::endl;
+    ASSERT_EQ((checkImOnImRes<myImageType1, myImageType2, myImageType3, std::greater<myImageType1::PixelType>>(
+                inputImageA, inputImageB, outputImage, FG, BG)),
+              EXIT_SUCCESS);
   }
 
   {
     // Create a logic Filter
     const myFilterTypePointer filter = myFilterType::New();
+
 
     // Connect the input images
     filter->SetInput1(inputImageA);
@@ -135,14 +134,9 @@ itkLessTest(int, char *[])
     const PixelType FG = filter->GetFunctor().GetForegroundValue();
     const PixelType BG = filter->GetFunctor().GetBackgroundValue();
     const PixelType C = filter->GetConstant2();
-    const int       status2 = checkImOnConstRes<myImageType1, PixelType, myImageType3, std::less<PixelType>>(
-      inputImageA, C, outputImage, FG, BG);
-    if (status2 == EXIT_FAILURE)
-    {
-      return EXIT_FAILURE;
-    }
-
-    std::cout << "Step 2 passed " << std::endl;
+    ASSERT_EQ((checkImOnConstRes<myImageType1, PixelType, myImageType3, std::greater<PixelType>>(
+                inputImageA, C, outputImage, FG, BG)),
+              EXIT_SUCCESS);
   }
   // Now try testing with constant : 3 != Im2
   {
@@ -160,15 +154,9 @@ itkLessTest(int, char *[])
     const PixelType FG = filter->GetFunctor().GetForegroundValue();
     const PixelType BG = filter->GetFunctor().GetBackgroundValue();
 
-    const int status3 = checkConstOnImRes<PixelType, myImageType2, myImageType3, std::less<PixelType>>(
-      filter->GetConstant1(), inputImageB, outputImage, FG, BG);
-    if (status3 == EXIT_FAILURE)
-    {
-      return EXIT_FAILURE;
-    }
-
-    std::cout << "Step 3 passed" << std::endl;
+    ASSERT_EQ((checkConstOnImRes<PixelType, myImageType2, myImageType3, std::greater<PixelType>>(
+                filter->GetConstant1(), inputImageB, outputImage, FG, BG)),
+              EXIT_SUCCESS);
   }
   // All objects should be automatically destroyed at this point
-  return EXIT_SUCCESS;
 }
