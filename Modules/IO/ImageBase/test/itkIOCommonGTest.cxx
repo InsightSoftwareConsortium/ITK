@@ -17,9 +17,12 @@
  *=========================================================================*/
 
 #include "itkIOCommon.h"
+#include "itkGTest.h"
 #include <cstring>
 #include "itksys/SystemTools.hxx"
 
+namespace
+{
 bool
 CheckFileNameParsing(const std::string & fileName,
                      const std::string & correctNameOnly,
@@ -136,9 +139,9 @@ CheckFileNameParsing(const std::string & fileName,
 
   return correctParse;
 }
+} // namespace
 
-int
-itkIOCommonTest(int, char *[])
+TEST(IOCommon, ConvertedLegacyTest)
 {
   bool success = true;
 
@@ -197,5 +200,5 @@ itkIOCommonTest(int, char *[])
     std::cout << "STREAMED ENUM VALUE IOCommonEnums::AtomicPixel: " << ee << std::endl;
   }
 
-  return success ? EXIT_SUCCESS : EXIT_FAILURE;
+  EXPECT_TRUE(success);
 }

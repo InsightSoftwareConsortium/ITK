@@ -18,15 +18,14 @@
 
 #include "itkNumericSeriesFileNames.h"
 #include "itksys/SystemTools.hxx"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
 
-int
-itkNumericSeriesFileNamesTest(int, char *[])
+TEST(NumericSeriesFileNames, ConvertedLegacyTest)
 {
 
   const itk::NumericSeriesFileNames::Pointer fit = itk::NumericSeriesFileNames::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(fit, NumericSeriesFileNames, Object);
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(fit, NumericSeriesFileNames, Object);
 
 
   // Test exceptions
@@ -36,7 +35,7 @@ itkNumericSeriesFileNamesTest(int, char *[])
   fit->SetStartIndex(startIndex);
   fit->SetEndIndex(endIndex);
 
-  ITK_TRY_EXPECT_EXCEPTION(fit->GetFileNames());
+  EXPECT_THROW(fit->GetFileNames(), itk::ExceptionObject);
 
   endIndex = 7;
   fit->SetEndIndex(endIndex);
@@ -44,42 +43,33 @@ itkNumericSeriesFileNamesTest(int, char *[])
   itk::SizeValueType incrementIndex = 0;
   fit->SetIncrementIndex(incrementIndex);
 
-  ITK_TRY_EXPECT_EXCEPTION(fit->GetFileNames());
+  EXPECT_THROW(fit->GetFileNames(), itk::ExceptionObject);
 
 
   startIndex = 10;
   fit->SetStartIndex(startIndex);
-  ITK_TEST_SET_GET_VALUE(startIndex, fit->GetStartIndex());
+  EXPECT_EQ(startIndex, fit->GetStartIndex());
 
   endIndex = 20;
   fit->SetEndIndex(endIndex);
-  ITK_TEST_SET_GET_VALUE(endIndex, fit->GetEndIndex());
+  EXPECT_EQ(endIndex, fit->GetEndIndex());
 
   incrementIndex = 2;
   fit->SetIncrementIndex(incrementIndex);
-  ITK_TEST_SET_GET_VALUE(incrementIndex, fit->GetIncrementIndex());
+  EXPECT_EQ(incrementIndex, fit->GetIncrementIndex());
 
   const std::string format = "foo.%0200d.png";
   fit->SetSeriesFormat(format);
-  ITK_TEST_SET_GET_VALUE(format, fit->GetSeriesFormat());
+  EXPECT_EQ(format, fit->GetSeriesFormat());
 
   const std::vector<std::string> names = fit->GetFileNames();
 
   for (auto & name : names)
   {
     // Check for filename truncation
-    if (itksys::SystemTools::GetFilenameLastExtension(name) != ".png")
-    {
-      std::cerr << "Generated file name: " << name << " does not have the proper extension"
-                << " .png"
-                << " and may have been truncated." << std::endl;
-      return EXIT_FAILURE;
-    }
-    std::cout << "File: " << name.c_str() << std::endl;
+    EXPECT_EQ(itksys::SystemTools::GetFilenameLastExtension(name), ".png");
   }
 
   // Exercise the PrintSelf method to print the filenames for coverage purposes
   std::cout << fit;
-
-  return EXIT_SUCCESS;
 }
