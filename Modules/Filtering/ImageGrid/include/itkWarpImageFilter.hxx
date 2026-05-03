@@ -183,6 +183,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::EvaluateDisplace
   const DisplacementFieldType * fieldPtr,
   DisplacementType &            output)
 {
+  // Explicit <double> keeps the index in double precision under ITK_USE_FLOAT_SPACE_PRECISION=ON.
   const ContinuousIndex<double, ImageDimension> index =
     fieldPtr->template TransformPhysicalPointToContinuousIndex<double>(point);
   /**

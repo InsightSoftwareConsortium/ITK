@@ -184,7 +184,7 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetDer
       using MovingImageContinuousIndexType = ContinuousIndex<CoordinateType, MovingImageType::ImageDimension>;
 
       const MovingImageContinuousIndexType tempIndex =
-        this->GetMovingImage()->template TransformPhysicalPointToContinuousIndex<CoordinateType>(transformedPoint);
+        this->GetMovingImage()->TransformPhysicalPointToContinuousIndex(transformedPoint);
 
       typename MovingImageType::IndexType mappedIndex;
       mappedIndex.CopyWithRound(tempIndex);
@@ -327,7 +327,7 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetVal
       using MovingImageContinuousIndexType = ContinuousIndex<CoordinateType, MovingImageType::ImageDimension>;
 
       const MovingImageContinuousIndexType tempIndex =
-        this->GetMovingImage()->template TransformPhysicalPointToContinuousIndex<CoordinateType>(transformedPoint);
+        this->GetMovingImage()->TransformPhysicalPointToContinuousIndex(transformedPoint);
 
       typename MovingImageType::IndexType mappedIndex;
       mappedIndex.CopyWithRound(tempIndex);
