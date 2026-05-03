@@ -53,7 +53,6 @@ set(
   itkMinimumDecisionRuleTest.cxx
   itkMixtureModelComponentBaseTest.cxx
   itkNeighborhoodSamplerTest1.cxx
-  itkNormalVariateGeneratorTest1.cxx
   itkPointSetToListSampleAdaptorTest.cxx
   itkProbabilityDistributionTest.cxx
   itkRandomVariateGeneratorBaseTest.cxx
@@ -785,12 +784,6 @@ itk_add_test(
     itkMixtureModelComponentBaseTest
 )
 itk_add_test(
-  NAME itkNormalVariateGeneratorTest1
-  COMMAND
-    ITKStatisticsTestDriver
-    itkNormalVariateGeneratorTest1
-)
-itk_add_test(
   NAME itkSampleTest
   COMMAND
     ITKStatisticsTestDriver
@@ -1011,5 +1004,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkScalarImageToHistogramGeneratorTest.txt
 )
 
-set(ITKStatisticsGTests itkChiSquareDistributionGTest.cxx)
+set(
+  ITKStatisticsGTests
+  itkChiSquareDistributionGTest.cxx
+  itkNormalVariateGeneratorGTest1.cxx
+)
 creategoogletestdriver(ITKStatistics "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisticsGTests}")
