@@ -80,7 +80,6 @@ set(
   itkStandardDeviationPerComponentSampleFilterTest.cxx
   itkStatisticsAlgorithmTest.cxx
   itkStatisticsAlgorithmTest2.cxx
-  itkStatisticsTypesTest.cxx
   itkSubsampleTest.cxx
   itkSubsampleTest2.cxx
   itkSubsampleTest3.cxx
@@ -914,12 +913,6 @@ itk_add_test(
     itkStandardDeviationPerComponentSampleFilterTest
 )
 itk_add_test(
-  NAME itkStatisticsTypesTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkStatisticsTypesTest
-)
-itk_add_test(
   NAME itkSubsampleTest
   COMMAND
     ITKStatisticsTestDriver
@@ -1008,5 +1001,6 @@ set(
   ITKStatisticsGTests
   itkChiSquareDistributionGTest.cxx
   itkNormalVariateGeneratorGTest1.cxx
+  itkStatisticsTypesGTest.cxx
 )
 creategoogletestdriver(ITKStatistics "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisticsGTests}")
