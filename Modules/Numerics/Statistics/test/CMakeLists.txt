@@ -49,7 +49,6 @@ set(
   itkMembershipSampleTest2.cxx
   itkMembershipSampleTest3.cxx
   itkMembershipSampleTest4.cxx
-  itkMinimumDecisionRuleTest.cxx
   itkMixtureModelComponentBaseTest.cxx
   itkNeighborhoodSamplerTest1.cxx
   itkPointSetToListSampleAdaptorTest.cxx
@@ -430,12 +429,6 @@ itk_add_test(
   COMMAND
     ITKStatisticsTestDriver
     itkKdTreeTestSamplePoints
-)
-itk_add_test(
-  NAME itkMinimumDecisionRuleTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkMinimumDecisionRuleTest
 )
 itk_add_test(
   NAME itkMaximumRatioDecisionRuleTest
@@ -987,6 +980,7 @@ set(
   ITKStatisticsGTests
   itkChiSquareDistributionGTest.cxx
   itkMaximumDecisionRuleGTest.cxx
+  itkMinimumDecisionRuleGTest.cxx
   itkNormalVariateGeneratorGTest1.cxx
   itkRandomVariateGeneratorBaseGTest.cxx
   itkStatisticsTypesGTest.cxx
