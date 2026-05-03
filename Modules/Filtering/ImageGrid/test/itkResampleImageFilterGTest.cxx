@@ -19,7 +19,13 @@
 // The header file to be tested:
 #include "itkResampleImageFilter.h"
 
+#include "itkAffineTransform.h"
+#include "itkCastImageFilter.h"
+#include "itkGaussianInterpolateImageFunction.h"
 #include "itkImage.h"
+#include "itkImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkStreamingImageFilter.h"
 
 // Google Test header file:
 #include <gtest/gtest.h>
@@ -171,4 +177,65 @@ TEST(ResampleImageFilter, FilterPreservesMinAndMaxInt64PixelValuesByDefault)
 TEST(ResampleImageFilter, ThrowsOnIncompleteConfiguration)
 {
   Expect_ResampleImageFilter_thows_on_incomplete_configuration(128.0);
+}
+
+
+// Streaming a Gaussian-interpolated resample must reproduce the non-streamed result (issue #1011).
+TEST(ResampleImageFilter, StreamingMatchesNonStreamedWithGaussianInterpolator)
+{
+  constexpr unsigned int Dimension{ 3 };
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType, Dimension>;
+
+  const auto                    input = ImageType::New();
+  constexpr ImageType::SizeType size{ { 32, 32, 32 } };
+  input->SetRegions(size);
+  input->Allocate();
+  for (itk::ImageRegionIteratorWithIndex<ImageType> it(input, input->GetLargestPossibleRegion()); !it.IsAtEnd(); ++it)
+  {
+    const auto idx = it.GetIndex();
+    it.Set(static_cast<PixelType>(idx[0] + idx[1] + idx[2]));
+  }
+
+  const auto transform = itk::AffineTransform<double, Dimension>::New();
+  transform->Scale(0.9);
+
+  using InterpolatorType = itk::GaussianInterpolateImageFunction<ImageType, double>;
+  const auto interpolator = InterpolatorType::New();
+  auto       sigma = itk::MakeFilled<InterpolatorType::ArrayType>(1.0);
+  interpolator->SetSigma(sigma);
+  interpolator->SetAlpha(1.0);
+
+  // CastImageFilter is a streaming-aware no-op; it produces a per-chunk BufferedRegion
+  // upstream of the resampler, which is required to exercise the interpolator bug.
+  const auto upstream = itk::CastImageFilter<ImageType, ImageType>::New();
+  upstream->SetInput(input);
+
+  const auto resampler = itk::ResampleImageFilter<ImageType, ImageType>::New();
+  resampler->SetInput(upstream->GetOutput());
+  resampler->SetTransform(transform);
+  resampler->SetInterpolator(interpolator);
+  resampler->SetSize(size);
+
+  const auto streamer = itk::StreamingImageFilter<ImageType, ImageType>::New();
+  streamer->SetInput(resampler->GetOutput());
+
+  streamer->SetNumberOfStreamDivisions(1);
+  ASSERT_NO_THROW(streamer->UpdateLargestPossibleRegion());
+  const ImageType::Pointer unstreamed = streamer->GetOutput();
+  unstreamed->DisconnectPipeline();
+
+  input->Modified();
+  streamer->SetNumberOfStreamDivisions(8);
+  ASSERT_NO_THROW(streamer->UpdateLargestPossibleRegion());
+  const ImageType::Pointer streamed = streamer->GetOutput();
+  streamed->DisconnectPipeline();
+
+  itk::ImageRegionIterator<ImageType> itU(unstreamed, unstreamed->GetLargestPossibleRegion());
+  itk::ImageRegionIterator<ImageType> itS(streamed, streamed->GetLargestPossibleRegion());
+  for (; !itU.IsAtEnd() && !itS.IsAtEnd(); ++itU, ++itS)
+  {
+    EXPECT_FLOAT_EQ(itU.Get(), itS.Get());
+  }
+  EXPECT_EQ(itU.IsAtEnd(), itS.IsAtEnd());
 }
