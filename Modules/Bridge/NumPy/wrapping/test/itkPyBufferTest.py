@@ -18,6 +18,7 @@
 
 import sys
 import unittest
+import warnings
 import datetime as dt
 
 import itk
@@ -210,6 +211,52 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
         self.assertEqual(vectorndarr.dtype, convertedvectorImage.dtype)
         self.assertTupleEqual(vectorndarr.shape, convertedvectorImage.shape)
 
+        # F-contiguous vector ndarray: after the simplification of the
+        # GetImageViewFromArray vector-shape handling, F-order inputs are
+        # internally deep-copied to C order; the resulting image must still
+        # report the F-input shape.  Exercise both the components=1 case
+        # (where the vector dim collapses) and the multi-component case
+        # (which is the more common F-contig regression site).
+        for componentCount in (1, 3):
+            with self.subTest(componentCount=componentCount):
+                vectorImage = VectorImageType.New()
+                vectorImage.SetRegions(region)
+                vectorImage.SetNumberOfComponentsPerPixel(componentCount)
+                vectorImage.Allocate()
+                cVectorndarr = itk.PyBuffer[VectorImageType].GetArrayViewFromImage(
+                    vectorImage
+                )
+                # Seed with a known pattern so we can pixel-compare both layouts.
+                cVectorndarr[...] = np.arange(
+                    cVectorndarr.size, dtype=cVectorndarr.dtype
+                ).reshape(cVectorndarr.shape)
+                fortranVectorndarr = np.asfortranarray(cVectorndarr)
+                self.assertTrue(fortranVectorndarr.flags.f_contiguous)
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    convertedFortranVectorImage = itk.PyBuffer[
+                        VectorImageType
+                    ].GetImageViewFromArray(fortranVectorndarr, is_vector=True)
+                self.assertEqual(
+                    fortranVectorndarr.ndim, convertedFortranVectorImage.ndim
+                )
+                self.assertEqual(
+                    fortranVectorndarr.dtype, convertedFortranVectorImage.dtype
+                )
+                self.assertTupleEqual(
+                    fortranVectorndarr.shape, convertedFortranVectorImage.shape
+                )
+                # Pixel-data round-trip: F input -> deep-copied C buffer ->
+                # array view should equal np.ascontiguousarray of the input.
+                roundTripView = itk.PyBuffer[VectorImageType].GetArrayViewFromImage(
+                    convertedFortranVectorImage
+                )
+                self.assertTrue(
+                    np.array_equal(
+                        roundTripView, np.ascontiguousarray(fortranVectorndarr)
+                    )
+                )
+
     def test_NumPyBridge_itkRGBImage(self):
         "Try to convert an RGB ITK image to NumPy array view"
 
@@ -309,18 +356,25 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
         index[1] = 1
         assert image.GetPixel(index) == 3
 
+        # F-contiguous arrays are deep-copied to C-contiguous internally so
+        # that ITK[i,j] == NumPy[j,i] holds for both layouts. arrFortran has
+        # shape (3,2) with values arrFortran[i,j] == arr[i + 3*j]; after the
+        # internal C-copy, ITK image dims are (2,3) and pixel (i,j) maps to
+        # arrFortran[j,i].
         arrFortran = np.reshape(arr, (3, 2), order="F")
         assert arrFortran.flags.f_contiguous
-        image = itk.PyBuffer[ImageType].GetImageViewFromArray(arrFortran)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            image = itk.PyBuffer[ImageType].GetImageViewFromArray(arrFortran)
         index[0] = 0
         index[1] = 0
-        assert image.GetPixel(index) == 0
+        assert image.GetPixel(index) == arrFortran[0, 0]
         index[0] = 1
         index[1] = 0
-        assert image.GetPixel(index) == 1
+        assert image.GetPixel(index) == arrFortran[0, 1]
         index[0] = 0
         index[1] = 1
-        assert image.GetPixel(index) == 3
+        assert image.GetPixel(index) == arrFortran[1, 0]
 
     def test_NumPyBridge_ImageFromBuffer(self):
         "Create an image with image_from_array with a non-writeable input"
