@@ -16,18 +16,15 @@
  *
  *=========================================================================*/
 
-#include <iostream>
-
 #include "itkMaximumDecisionRule.h"
 
+#include "itkGTest.h"
 
-int
-itkMaximumDecisionRuleTest(int, char *[])
+#include <iostream>
+
+
+TEST(MaximumDecisionRule, ConvertedLegacyTest)
 {
-
-  std::cout << "==================================" << std::endl;
-  std::cout << "Testing MaximumDecionRule " << std::endl << std::endl;
-
   using DecisionRuleType = itk::Statistics::MaximumDecisionRule;
   auto decisionRule = DecisionRuleType::New();
 
@@ -38,11 +35,7 @@ itkMaximumDecisionRuleTest(int, char *[])
   discriminantScores[1] = 1.0;
   discriminantScores[2] = 2.0;
 
-  if (decisionRule->Evaluate(discriminantScores) != 2)
-  {
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(decisionRule->Evaluate(discriminantScores), 2);
 
   DecisionRuleType::MembershipVectorType discriminantScores2;
   discriminantScores2.resize(3);
@@ -51,13 +44,5 @@ itkMaximumDecisionRuleTest(int, char *[])
   discriminantScores2[1] = 1.0;
   discriminantScores2[2] = 2.0;
 
-  if (decisionRule->Evaluate(discriminantScores2) != 2)
-  {
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  std::cout << "[SUCCEEDED]" << std::endl;
-
-  return EXIT_SUCCESS;
+  EXPECT_EQ(decisionRule->Evaluate(discriminantScores2), 2);
 }
