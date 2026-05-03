@@ -17,7 +17,6 @@ set(
   itkGaussianMixtureModelComponentTest.cxx
   itkGaussianRandomSpatialNeighborSubsamplerTest.cxx
   itkHistogramTest.cxx
-  itkHistogramToTextureFeaturesFilterNaNTest.cxx
   itkHistogramToTextureFeaturesFilterTest.cxx
   itkImageToHistogramFilterTest.cxx
   itkImageToHistogramFilterTest2.cxx
@@ -38,25 +37,18 @@ set(
   itkListSampleTest.cxx
   itkMahalanobisDistanceMetricTest.cxx
   itkManhattanDistanceMetricTest.cxx
-  itkMaximumDecisionRuleTest.cxx
-  itkMaximumRatioDecisionRuleTest.cxx
   itkMeanSampleFilterTest.cxx
   itkMeanSampleFilterTest2.cxx
   itkMeanSampleFilterTest3.cxx
   itkMeasurementVectorTraitsTest.cxx
-  itkMembershipFunctionBaseTest.cxx
   itkMembershipFunctionBaseTest2.cxx
   itkMembershipSampleTest1.cxx
   itkMembershipSampleTest2.cxx
   itkMembershipSampleTest3.cxx
   itkMembershipSampleTest4.cxx
-  itkMinimumDecisionRuleTest.cxx
-  itkMixtureModelComponentBaseTest.cxx
   itkNeighborhoodSamplerTest1.cxx
-  itkNormalVariateGeneratorTest1.cxx
   itkPointSetToListSampleAdaptorTest.cxx
   itkProbabilityDistributionTest.cxx
-  itkRandomVariateGeneratorBaseTest.cxx
   itkSampleTest.cxx
   itkSampleTest2.cxx
   itkSampleTest3.cxx
@@ -81,13 +73,11 @@ set(
   itkStandardDeviationPerComponentSampleFilterTest.cxx
   itkStatisticsAlgorithmTest.cxx
   itkStatisticsAlgorithmTest2.cxx
-  itkStatisticsTypesTest.cxx
   itkSubsampleTest.cxx
   itkSubsampleTest2.cxx
   itkSubsampleTest3.cxx
   itkTDistributionTest.cxx
   itkUniformRandomSpatialNeighborSubsamplerTest.cxx
-  itkVectorContainerToListSampleAdaptorTest.cxx
   itkWeightedCentroidKdTreeGeneratorTest1.cxx
   itkWeightedCentroidKdTreeGeneratorTest8.cxx
   itkWeightedCentroidKdTreeGeneratorTest9.cxx
@@ -436,24 +426,6 @@ itk_add_test(
     itkKdTreeTestSamplePoints
 )
 itk_add_test(
-  NAME itkMaximumDecisionRuleTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkMaximumDecisionRuleTest
-)
-itk_add_test(
-  NAME itkMinimumDecisionRuleTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkMinimumDecisionRuleTest
-)
-itk_add_test(
-  NAME itkMaximumRatioDecisionRuleTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkMaximumRatioDecisionRuleTest
-)
-itk_add_test(
   NAME itkMeanSampleFilterTest
   COMMAND
     ITKStatisticsTestDriver
@@ -482,12 +454,6 @@ itk_add_test(
   COMMAND
     ITKStatisticsTestDriver
     itkHistogramToTextureFeaturesFilterTest
-)
-itk_add_test(
-  NAME itkHistogramToTextureFeaturesFilterNaNTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkHistogramToTextureFeaturesFilterNaNTest
 )
 itk_add_test(
   NAME itkCovarianceSampleFilterTest
@@ -713,12 +679,6 @@ itk_add_test(
     itkProbabilityDistributionTest
 )
 itk_add_test(
-  NAME itkRandomVariateGeneratorBaseTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkRandomVariateGeneratorBaseTest
-)
-itk_add_test(
   NAME itkMahalanobisDistanceMetricTest
   COMMAND
     ITKStatisticsTestDriver
@@ -729,12 +689,6 @@ itk_add_test(
   COMMAND
     ITKStatisticsTestDriver
     itkManhattanDistanceMetricTest
-)
-itk_add_test(
-  NAME itkMembershipFunctionBaseTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkMembershipFunctionBaseTest
 )
 itk_add_test(
   NAME itkMembershipFunctionBaseTest2
@@ -777,18 +731,6 @@ itk_add_test(
   COMMAND
     ITKStatisticsTestDriver
     itkNeighborhoodSamplerTest1
-)
-itk_add_test(
-  NAME itkMixtureModelComponentBaseTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkMixtureModelComponentBaseTest
-)
-itk_add_test(
-  NAME itkNormalVariateGeneratorTest1
-  COMMAND
-    ITKStatisticsTestDriver
-    itkNormalVariateGeneratorTest1
 )
 itk_add_test(
   NAME itkSampleTest
@@ -921,12 +863,6 @@ itk_add_test(
     itkStandardDeviationPerComponentSampleFilterTest
 )
 itk_add_test(
-  NAME itkStatisticsTypesTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkStatisticsTypesTest
-)
-itk_add_test(
   NAME itkSubsampleTest
   COMMAND
     ITKStatisticsTestDriver
@@ -974,12 +910,6 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkUniformRandomSubsamplingTest.mha
 )
 itk_add_test(
-  NAME itkVectorContainerToListSampleAdaptorTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkVectorContainerToListSampleAdaptorTest
-)
-itk_add_test(
   NAME itkImageToHistogramFilterTest
   COMMAND
     ITKStatisticsTestDriver
@@ -1011,5 +941,18 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkScalarImageToHistogramGeneratorTest.txt
 )
 
-set(ITKStatisticsGTests itkChiSquareDistributionGTest.cxx)
+set(
+  ITKStatisticsGTests
+  itkChiSquareDistributionGTest.cxx
+  itkHistogramToTextureFeaturesFilterNaNGTest.cxx
+  itkMaximumDecisionRuleGTest.cxx
+  itkMaximumRatioDecisionRuleGTest.cxx
+  itkMembershipFunctionBaseGTest.cxx
+  itkMinimumDecisionRuleGTest.cxx
+  itkMixtureModelComponentBaseGTest.cxx
+  itkNormalVariateGeneratorGTest1.cxx
+  itkRandomVariateGeneratorBaseGTest.cxx
+  itkStatisticsTypesGTest.cxx
+  itkVectorContainerToListSampleAdaptorGTest.cxx
+)
 creategoogletestdriver(ITKStatistics "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisticsGTests}")

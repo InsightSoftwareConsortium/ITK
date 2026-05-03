@@ -18,8 +18,10 @@
 
 #include "itkNormalVariateGenerator.h"
 
-int
-itkNormalVariateGeneratorTest1(int, char *[])
+#include "itkGTest.h"
+
+
+TEST(NormalVariateGenerator, ConvertedLegacyTest)
 {
   using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
 
@@ -54,8 +56,4 @@ itkNormalVariateGeneratorTest1(int, char *[])
   //
   // FIXME: Add here numerical verification (regression testing)
   //
-
-
-  std::cerr << "[PASSED]" << std::endl;
-  return EXIT_SUCCESS;
 }

@@ -18,6 +18,8 @@
 
 #include "itkMeasurementVectorTraits.h"
 
+#include "itkGTest.h"
+
 #define declareType(_x)                                    \
   using _x = itk::Statistics::MeasurementVectorTraits::_x; \
   std::cout << #_x << " = " << sizeof(_x) << " bytes ";    \
@@ -31,15 +33,12 @@
   }                                                        \
   ITK_MACROEND_NOOP_STATEMENT
 
-int
-itkStatisticsTypesTest(int, char *[])
-{
 
+TEST(StatisticsTypes, ConvertedLegacyTest)
+{
   declareType(InstanceIdentifier);
   declareType(AbsoluteFrequencyType);
   declareType(RelativeFrequencyType);
   declareType(TotalAbsoluteFrequencyType);
   declareType(TotalRelativeFrequencyType);
-
-  return EXIT_SUCCESS;
 }

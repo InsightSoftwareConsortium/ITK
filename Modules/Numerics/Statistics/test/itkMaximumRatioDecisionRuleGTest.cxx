@@ -16,20 +16,19 @@
  *
  *=========================================================================*/
 
+#include "itkMaximumRatioDecisionRule.h"
+
+#include "itkGTest.h"
+
 #include <iostream>
 
-#include "itkMaximumRatioDecisionRule.h"
-#include "itkTestingMacros.h"
 
-
-int
-itkMaximumRatioDecisionRuleTest(int, char *[])
+TEST(MaximumRatioDecisionRule, ConvertedLegacyTest)
 {
-
   using DecisionRuleType = itk::Statistics::MaximumRatioDecisionRule;
   auto decisionRule = DecisionRuleType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(decisionRule, MaximumRatioDecisionRule, DecisionRule);
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(decisionRule, MaximumRatioDecisionRule, DecisionRule);
 
 
   DecisionRuleType::MembershipVectorType discriminantScores;
@@ -50,14 +49,10 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
   for (auto & value : aPrioris)
   {
     auto index = &value - &aPrioris.front();
-    ITK_TEST_SET_GET_VALUE(value, decisionRule->GetPriorProbabilities()[index]);
+    EXPECT_EQ(value, decisionRule->GetPriorProbabilities()[index]);
   }
 
-  if (decisionRule->Evaluate(discriminantScores) != 2)
-  {
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(decisionRule->Evaluate(discriminantScores), 2);
 
   // run with uniform prior
   aPrioris.clear();
@@ -65,15 +60,8 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
   for (auto & value : aPrioris)
   {
     auto index = &value - &aPrioris.front();
-    ITK_TEST_SET_GET_VALUE(value, decisionRule->GetPriorProbabilities()[index]);
+    EXPECT_EQ(value, decisionRule->GetPriorProbabilities()[index]);
   }
 
-  if (decisionRule->Evaluate(discriminantScores) != 1)
-  {
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  std::cout << "Test finished." << std::endl;
-  return EXIT_SUCCESS;
+  EXPECT_EQ(decisionRule->Evaluate(discriminantScores), 1);
 }

@@ -16,18 +16,15 @@
  *
  *=========================================================================*/
 
-#include <iostream>
-
 #include "itkMinimumDecisionRule.h"
 
+#include "itkGTest.h"
 
-int
-itkMinimumDecisionRuleTest(int, char *[])
+#include <iostream>
+
+
+TEST(MinimumDecisionRule, ConvertedLegacyTest)
 {
-
-  std::cout << "==================================" << std::endl;
-  std::cout << "Testing MinimumDecionRule " << std::endl << std::endl;
-
   using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
   auto decisionRule = DecisionRuleType::New();
 
@@ -38,11 +35,7 @@ itkMinimumDecisionRuleTest(int, char *[])
   discriminantScores[1] = 1.0;
   discriminantScores[2] = 2.0;
 
-  if (decisionRule->Evaluate(discriminantScores) != 0)
-  {
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(decisionRule->Evaluate(discriminantScores), 0);
 
   DecisionRuleType::MembershipVectorType discriminantScores2;
   discriminantScores2.resize(3);
@@ -51,11 +44,7 @@ itkMinimumDecisionRuleTest(int, char *[])
   discriminantScores2[1] = 1.0;
   discriminantScores2[2] = 2.0;
 
-  if (decisionRule->Evaluate(discriminantScores2) != 0)
-  {
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(decisionRule->Evaluate(discriminantScores2), 0);
 
 
   DecisionRuleType::MembershipVectorType discriminantScores3;
@@ -65,12 +54,5 @@ itkMinimumDecisionRuleTest(int, char *[])
   discriminantScores3[1] = 1.0;
   discriminantScores3[2] = 2.0;
 
-  if (decisionRule->Evaluate(discriminantScores3) != 0)
-  {
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  std::cout << "[SUCCEEDED]" << std::endl;
-  return EXIT_SUCCESS;
+  EXPECT_EQ(decisionRule->Evaluate(discriminantScores3), 0);
 }

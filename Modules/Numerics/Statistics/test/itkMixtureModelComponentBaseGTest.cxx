@@ -17,8 +17,10 @@
  *=========================================================================*/
 
 #include "itkMixtureModelComponentBase.h"
+
 #include "itkListSample.h"
-#include "itkTestingMacros.h"
+
+#include "itkGTest.h"
 
 namespace itk::Statistics
 {
@@ -60,8 +62,7 @@ protected:
 } // namespace itk::Statistics
 
 
-int
-itkMixtureModelComponentBaseTest(int, char *[])
+TEST(MixtureModelComponentBase, ConvertedLegacyTest)
 {
   using MeasurementVectorType = itk::Array<double>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
@@ -72,8 +73,5 @@ itkMixtureModelComponentBaseTest(int, char *[])
   std::cout << "component->GetWeights(): " << component->GetWeights() << std::endl;
   component->RunTests();
 
-  ITK_TRY_EXPECT_EXCEPTION(component->GetWeight(5));
-
-  std::cerr << "[PASSED]" << std::endl;
-  return EXIT_SUCCESS;
+  EXPECT_THROW(component->GetWeight(5), itk::ExceptionObject);
 }

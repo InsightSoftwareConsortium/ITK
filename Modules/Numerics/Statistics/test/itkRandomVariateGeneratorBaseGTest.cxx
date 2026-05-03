@@ -17,7 +17,10 @@
  *=========================================================================*/
 
 #include "itkRandomVariateGeneratorBase.h"
+
 #include "itkObjectFactory.h"
+
+#include "itkGTest.h"
 
 namespace itk::Statistics
 {
@@ -53,8 +56,7 @@ public:
 } // namespace itk::Statistics
 
 
-int
-itkRandomVariateGeneratorBaseTest(int, char *[])
+TEST(RandomVariateGeneratorBase, ConvertedLegacyTest)
 {
   using GeneratorType = itk::Statistics::VariateGeneratorTestHelper;
 
@@ -65,7 +67,4 @@ itkRandomVariateGeneratorBaseTest(int, char *[])
   generator->RunTests();
 
   generator->Print(std::cout);
-
-  std::cerr << "[PASSED]" << std::endl;
-  return EXIT_SUCCESS;
 }
