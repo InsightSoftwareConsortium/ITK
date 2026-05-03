@@ -41,7 +41,6 @@ set(
   itkMeanSampleFilterTest2.cxx
   itkMeanSampleFilterTest3.cxx
   itkMeasurementVectorTraitsTest.cxx
-  itkMembershipFunctionBaseTest.cxx
   itkMembershipFunctionBaseTest2.cxx
   itkMembershipSampleTest1.cxx
   itkMembershipSampleTest2.cxx
@@ -692,12 +691,6 @@ itk_add_test(
     itkManhattanDistanceMetricTest
 )
 itk_add_test(
-  NAME itkMembershipFunctionBaseTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkMembershipFunctionBaseTest
-)
-itk_add_test(
   NAME itkMembershipFunctionBaseTest2
   COMMAND
     ITKStatisticsTestDriver
@@ -954,6 +947,7 @@ set(
   itkHistogramToTextureFeaturesFilterNaNGTest.cxx
   itkMaximumDecisionRuleGTest.cxx
   itkMaximumRatioDecisionRuleGTest.cxx
+  itkMembershipFunctionBaseGTest.cxx
   itkMinimumDecisionRuleGTest.cxx
   itkMixtureModelComponentBaseGTest.cxx
   itkNormalVariateGeneratorGTest1.cxx

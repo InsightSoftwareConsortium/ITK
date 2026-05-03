@@ -16,8 +16,11 @@
  *
  *=========================================================================*/
 
-#include <iostream>
 #include "itkMembershipFunctionBase.h"
+
+#include "itkGTest.h"
+
+#include <iostream>
 
 namespace itk::Statistics::MembershipFunctionBaseTest
 {
@@ -53,10 +56,8 @@ public:
 } // namespace itk::Statistics::MembershipFunctionBaseTest
 
 
-int
-itkMembershipFunctionBaseTest(int, char *[])
+TEST(MembershipFunctionBase, ConvertedLegacyTest)
 {
-
   constexpr unsigned int MeasurementVectorSize{ 17 };
 
   using MeasurementVectorType = itk::FixedArray<float, MeasurementVectorSize>;
@@ -73,26 +74,9 @@ itkMembershipFunctionBaseTest(int, char *[])
 
   function->SetMeasurementVectorSize(MeasurementVectorSize); // for code coverage
 
-  if (function->GetMeasurementVectorSize() != MeasurementVectorSize)
-  {
-    std::cerr << "GetMeasurementVectorSize() Failed !" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_EQ(function->GetMeasurementVectorSize(), MeasurementVectorSize);
 
   // Test if an exception will be thrown if we try to resize the measurement vector
   // size
-  try
-  {
-    function->SetMeasurementVectorSize(MeasurementVectorSize + 1);
-    std::cerr
-      << "Exception should have been thrown since we are trying to resize non-resizeable measurement vector type "
-      << std::endl;
-    return EXIT_FAILURE;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Caughted expected exception: " << excp << std::endl;
-  }
-
-  return EXIT_SUCCESS;
+  EXPECT_THROW(function->SetMeasurementVectorSize(MeasurementVectorSize + 1), itk::ExceptionObject);
 }
