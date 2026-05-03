@@ -20,12 +20,12 @@
 
 #include "itkImageSink.h"
 #include "itkNumericTraits.h"
+#include "itkLabelOverlapLabelSetMeasures.h"
 #include <mutex>
 #include <unordered_map>
 
 namespace itk
 {
-
 /** \class LabelOverlapMeasuresImageFilter
  * \brief Computes overlap measures between the same set of labels of
  * pixels of two images. Background is assumed to be 0.
@@ -71,25 +71,14 @@ public:
   /** Type to use for computations. */
   using RealType = typename NumericTraits<LabelType>::RealType;
 
-  /** \class LabelSetMeasures
-   * \brief Metrics stored per label
-   * \ingroup ITKImageStatistics
-   */
-  class LabelSetMeasures
-  {
-  public:
-    // default constructor/copy/move etc...
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  /** Type to use for computations. */
+  using LabelSetMeasures = LabelOverlapLabelSetMeasures;
+#endif // !ITK_FUTURE_LEGACY_REMOVE
 
-    SizeValueType m_Source{ 0 };
-    SizeValueType m_Target{ 0 };
-    SizeValueType m_Union{ 0 };
-    SizeValueType m_Intersection{ 0 };
-    SizeValueType m_SourceComplement{ 0 };
-    SizeValueType m_TargetComplement{ 0 };
-  };
 
   /** Type of the map used to store data per label */
-  using MapType = std::unordered_map<LabelType, LabelSetMeasures>;
+  using MapType = std::unordered_map<LabelType, LabelOverlapLabelSetMeasures>;
   using MapIterator = typename MapType::iterator;
   using MapConstIterator = typename MapType::const_iterator;
 
@@ -109,6 +98,48 @@ public:
   GetLabelSetMeasures()
   {
     return this->m_LabelSetMeasures;
+  }
+
+  /** Get the labels for which set measures have been computed.
+   *
+   * Provided for Python ergonomics: SWIG cannot wrap
+   * `std::unordered_map<LabelType, LabelOverlapLabelSetMeasures>` as a
+   * Python dict across submodule boundaries (the value type is `%import`-ed
+   * rather than `%include`-d, so `%template` is silently dropped).  Pair
+   * this accessor with `GetMeasureForLabel()` to iterate labels and look up
+   * their measures from Python:
+   *
+   * \code{.py}
+   *   for label in filter.GetLabels():
+   *       m = filter.GetMeasureForLabel(label)
+   * \endcode
+   */
+  std::vector<LabelType>
+  GetLabels() const
+  {
+    std::vector<LabelType> labels;
+    labels.reserve(this->m_LabelSetMeasures.size());
+    for (const auto & kv : this->m_LabelSetMeasures)
+    {
+      labels.push_back(kv.first);
+    }
+    return labels;
+  }
+
+  /** Get the per-label measures struct for a single label.  Throws
+   *  itk::ExceptionObject if the label is not present in the map.
+   *  See GetLabels() for the Python iteration idiom.
+   */
+  LabelOverlapLabelSetMeasures
+  GetMeasureForLabel(LabelType label) const
+  {
+    const auto it = this->m_LabelSetMeasures.find(label);
+    if (it == this->m_LabelSetMeasures.end())
+    {
+      itkExceptionMacro("Label " << static_cast<typename NumericTraits<LabelType>::PrintType>(label)
+                                 << " is not present in the label set measures map.");
+    }
+    return it->second;
   }
 
   // Overlap agreement metrics
