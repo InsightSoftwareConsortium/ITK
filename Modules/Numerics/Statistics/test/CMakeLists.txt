@@ -79,7 +79,6 @@ set(
   itkSubsampleTest3.cxx
   itkTDistributionTest.cxx
   itkUniformRandomSpatialNeighborSubsamplerTest.cxx
-  itkVectorContainerToListSampleAdaptorTest.cxx
   itkWeightedCentroidKdTreeGeneratorTest1.cxx
   itkWeightedCentroidKdTreeGeneratorTest8.cxx
   itkWeightedCentroidKdTreeGeneratorTest9.cxx
@@ -918,12 +917,6 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkUniformRandomSubsamplingTest.mha
 )
 itk_add_test(
-  NAME itkVectorContainerToListSampleAdaptorTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkVectorContainerToListSampleAdaptorTest
-)
-itk_add_test(
   NAME itkImageToHistogramFilterTest
   COMMAND
     ITKStatisticsTestDriver
@@ -966,5 +959,6 @@ set(
   itkNormalVariateGeneratorGTest1.cxx
   itkRandomVariateGeneratorBaseGTest.cxx
   itkStatisticsTypesGTest.cxx
+  itkVectorContainerToListSampleAdaptorGTest.cxx
 )
 creategoogletestdriver(ITKStatistics "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisticsGTests}")

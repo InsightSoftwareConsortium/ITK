@@ -17,12 +17,12 @@
  *=========================================================================*/
 
 #include "itkVectorContainerToListSampleAdaptor.h"
-#include "itkTestingMacros.h"
 
-int
-itkVectorContainerToListSampleAdaptorTest(int, char *[])
+#include "itkGTest.h"
+
+
+TEST(VectorContainerToListSampleAdaptor, ConvertedLegacyTest)
 {
-
   using VectorType = itk::Vector<double, 5>;
 
   using ContainerType = itk::VectorContainer<VectorType>;
@@ -31,17 +31,17 @@ itkVectorContainerToListSampleAdaptorTest(int, char *[])
 
   auto adaptor = AdaptorType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(adaptor, VectorContainerToListSampleAdaptor, ListSample);
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(adaptor, VectorContainerToListSampleAdaptor, ListSample);
 
   // Test the exceptions
-  ITK_TRY_EXPECT_EXCEPTION(adaptor->Size());
+  EXPECT_THROW(adaptor->Size(), itk::ExceptionObject);
 
   constexpr typename AdaptorType::InstanceIdentifier instance = 0;
-  ITK_TRY_EXPECT_EXCEPTION(adaptor->GetMeasurementVector(instance));
+  EXPECT_THROW(adaptor->GetMeasurementVector(instance), itk::ExceptionObject);
 
-  ITK_TRY_EXPECT_EXCEPTION(adaptor->GetFrequency(instance));
+  EXPECT_THROW(adaptor->GetFrequency(instance), itk::ExceptionObject);
 
-  ITK_TRY_EXPECT_EXCEPTION(adaptor->GetTotalFrequency());
+  EXPECT_THROW(adaptor->GetTotalFrequency(), itk::ExceptionObject);
 
   // Set the vector container
   constexpr unsigned int containerSize{ 3 };
@@ -54,21 +54,17 @@ itkVectorContainerToListSampleAdaptorTest(int, char *[])
   }
 
   adaptor->SetVectorContainer(container);
-  ITK_TEST_SET_GET_VALUE(container, adaptor->GetVectorContainer());
+  EXPECT_EQ(container, adaptor->GetVectorContainer());
 
   constexpr typename AdaptorType::InstanceIdentifier expectedSize = 3;
   const typename AdaptorType::InstanceIdentifier     size = adaptor->Size();
-  ITK_TEST_EXPECT_EQUAL(expectedSize, size);
+  EXPECT_EQ(expectedSize, size);
 
   constexpr typename AdaptorType::AbsoluteFrequencyType expectedFreq = 1;
   const typename AdaptorType::AbsoluteFrequencyType     freq = adaptor->GetFrequency(instance);
-  ITK_TEST_EXPECT_EQUAL(expectedFreq, freq);
+  EXPECT_EQ(expectedFreq, freq);
 
   constexpr typename AdaptorType::TotalAbsoluteFrequencyType expectedTotalFreq = 3;
   const typename AdaptorType::TotalAbsoluteFrequencyType     totalFreq = adaptor->GetTotalFrequency();
-  ITK_TEST_EXPECT_EQUAL(expectedTotalFreq, totalFreq);
-
-
-  std::cout << "Test finished." << std::endl;
-  return EXIT_SUCCESS;
+  EXPECT_EQ(expectedTotalFreq, totalFreq);
 }
