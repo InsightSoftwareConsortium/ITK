@@ -61,7 +61,7 @@ itkSTLMeshIOTest(int argc, char * argv[])
     writer->SetFileTypeAsBINARY();
   }
 
-  reader->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
   QEMeshType * mesh = reader->GetOutput();
 
   writer->SetInput(reader->GetOutput());

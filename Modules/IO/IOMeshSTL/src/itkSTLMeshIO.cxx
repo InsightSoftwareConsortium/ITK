@@ -96,7 +96,6 @@ STLMeshIO ::ReadMeshInformation()
     itkExceptionMacro("Unable to open file\n"
                       "inputFilename= "
                       << this->m_FileName);
-    return;
   }
 
 
@@ -130,7 +129,6 @@ STLMeshIO ::ReadMeshInformation()
         itkExceptionMacro("Unable to open file\n"
                           "inputFilename= "
                           << this->m_FileName);
-        return;
       }
 #endif
     }
@@ -150,7 +148,6 @@ STLMeshIO ::ReadMeshInformation()
         itkExceptionMacro("Unable to open file\n"
                           "inputFilename= "
                           << this->m_FileName);
-        return;
       }
 #endif
     }
@@ -272,14 +269,8 @@ STLMeshIO ::ReadMeshInternalFromBinary()
   //
   // UINT32 -- Number of Triangles
   //
-  int32_t numberOfTriangles;
-  this->m_InputStream.read(reinterpret_cast<char *>(&numberOfTriangles), sizeof(numberOfTriangles));
-
-  //
-  // Binary values in STL files are expected to be in little endian
-  // https://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
-  //
-  ByteSwapper<int32_t>::SwapFromSystemToLittleEndian(&numberOfTriangles);
+  uint32_t numberOfTriangles;
+  this->ReadUInt32AsBinary(numberOfTriangles);
 
   this->SetNumberOfCells(numberOfTriangles);
 
@@ -408,9 +399,8 @@ STLMeshIO ::WriteMeshInformation()
   if (!this->m_OutputStream.is_open())
   {
     itkExceptionMacro("Unable to open file\n"
-                      "inputFilename= "
+                      "outputFilename= "
                       << this->m_FileName);
-    return;
   }
 
   if (this->GetFileType() == IOFileEnum::ASCII)
@@ -560,7 +550,7 @@ STLMeshIO ::WriteCellsAsBinary(void * buffer)
   //
   // UINT32 -- Number of Triangles
   //
-  int32_t numberOfTriangles = 0;
+  uint32_t numberOfTriangles = 0;
 
   SizeValueType index2 = 0;
 
@@ -584,7 +574,7 @@ STLMeshIO ::WriteCellsAsBinary(void * buffer)
     index2 += numberOfVerticesInCell;
   }
 
-  this->WriteInt32AsBinary(numberOfTriangles);
+  this->WriteUInt32AsBinary(numberOfTriangles);
 
   for (SizeValueType polygonItr = 0; polygonItr < numberOfPolygons; polygonItr++)
   {
@@ -685,6 +675,14 @@ STLMeshIO ::WriteInt32AsBinary(int32_t value)
 
 
 void
+STLMeshIO ::WriteUInt32AsBinary(uint32_t value)
+{
+  ByteSwapper<uint32_t>::SwapFromSystemToLittleEndian(&value);
+  this->m_OutputStream.write(reinterpret_cast<const char *>(&value), sizeof(value));
+}
+
+
+void
 STLMeshIO ::WriteInt16AsBinary(int16_t value)
 {
   //
@@ -754,6 +752,14 @@ STLMeshIO ::ReadInt32AsBinary(int32_t & value)
   // https://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
   //
   ByteSwapper<int32_t>::SwapFromSystemToLittleEndian(&value);
+}
+
+
+void
+STLMeshIO ::ReadUInt32AsBinary(uint32_t & value)
+{
+  this->m_InputStream.read(reinterpret_cast<char *>(&value), sizeof(value));
+  ByteSwapper<uint32_t>::SwapFromSystemToLittleEndian(&value);
 }
 
 

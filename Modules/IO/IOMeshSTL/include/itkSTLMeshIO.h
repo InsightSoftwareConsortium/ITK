@@ -204,6 +204,8 @@ private:
   void
   WriteInt32AsBinary(int32_t value);
   void
+  WriteUInt32AsBinary(uint32_t value);
+  void
   WriteInt16AsBinary(int16_t value);
   void
   WriteNormalAsBinary(const NormalType & normal);
@@ -219,6 +221,8 @@ private:
   /** Helper functions to read elements from binary file */
   void
   ReadInt32AsBinary(int32_t & value);
+  void
+  ReadUInt32AsBinary(uint32_t & value);
   void
   ReadInt16AsBinary(int16_t & value);
   void
