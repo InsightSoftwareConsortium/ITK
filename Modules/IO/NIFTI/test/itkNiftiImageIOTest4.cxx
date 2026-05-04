@@ -18,6 +18,7 @@
 
 
 #include "itkNiftiImageIOTest.h"
+#include <random>
 
 using Test4ImageType = itk::Image<unsigned char, 3>;
 
@@ -64,7 +65,8 @@ itkNiftiImageIOTest4(int argc, char * argv[])
 
   // arbitrarily rotate the unit vectors to pick random direction
   // cosines;
-  vnl_random randgen(8775070);
+  std::mt19937                           randomNumberEngine(8775070);
+  std::uniform_real_distribution<double> angleDist{ 0.0, 2.0 * 3.1415926 };
 
   using TransformType = itk::AffineTransform<double, 3>;
   using AxisType = itk::Vector<double, 3>;
@@ -74,15 +76,15 @@ itkNiftiImageIOTest4(int argc, char * argv[])
   axis[0] = 1.0;
   axis[1] = 0.0;
   axis[2] = 0.0;
-  transform->Rotate3D(axis, randgen.drand32(0, 3.1415926 * 2.0));
+  transform->Rotate3D(axis, angleDist(randomNumberEngine));
   axis[0] = 0.0;
   axis[1] = 1.0;
   axis[2] = 0.0;
-  transform->Rotate3D(axis, randgen.drand32(0, 3.1415926 * 2.0));
+  transform->Rotate3D(axis, angleDist(randomNumberEngine));
   axis[0] = 0.0;
   axis[1] = 0.0;
   axis[2] = 1.0;
-  transform->Rotate3D(axis, randgen.drand32(0, 3.1415926 * 2.0));
+  transform->Rotate3D(axis, angleDist(randomNumberEngine));
   TransformType::MatrixType mat = transform->GetMatrix();
   for (unsigned int i = 0; i < 3; ++i)
   {

@@ -1,0 +1,122 @@
+# YAML 1.2 — Citation File Format 1.2.0 — https://citation-file-format.github.io/
+cff-version: 1.2.0
+message: "If you use ITK in your research, please cite the references below. The most general citation is the Frontiers in Neuroinformatics paper listed under preferred-citation."
+title: "ITK: The Insight Toolkit"
+abstract: "ITK is an open-source, cross-platform toolkit for N-dimensional scientific image processing, segmentation, and registration."
+type: software
+url: "https://itk.org"
+repository-code: "https://github.com/InsightSoftwareConsortium/ITK"
+license: Apache-2.0
+authors:
+  - name: "The Insight Software Consortium"
+    website: "https://insightsoftwareconsortium.org/"
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.800928
+    description: "Zenodo concept DOI for all ITK releases"
+preferred-citation:
+  type: article
+  title: "ITK: enabling reproducible research and open science"
+  authors:
+    - given-names: Matthew
+      family-names: McCormick
+    - given-names: Xiaoxiao
+      family-names: Liu
+    - given-names: Julien
+      family-names: Jomier
+    - given-names: Charles
+      family-names: Marion
+    - given-names: Luis
+      family-names: Ibáñez
+  journal: "Frontiers in Neuroinformatics"
+  year: 2014
+  month: 2
+  volume: 8
+  doi: 10.3389/fninf.2014.00013
+  url: "https://www.frontiersin.org/articles/10.3389/fninf.2014.00013"
+  issn: 1662-5196
+references:
+  - type: book
+    title: "The ITK Software Guide Book 1: Introduction and Development Guidelines"
+    authors:
+      - given-names: "Hans J."
+        family-names: Johnson
+      - given-names: "Matthew M."
+        family-names: McCormick
+      - given-names: Luis
+        family-names: Ibáñez
+      - name: "The Insight Software Consortium"
+    edition: "Fourth"
+    publisher:
+      name: "Kitware, Inc."
+      city: "Clifton Park"
+      region: "NY"
+      country: US
+    year: 2015
+    month: 1
+    isbn: "978-1-930934-27-6"
+    doi: 10.5555/2789434
+    url: "https://itk.org/"
+  - type: book
+    title: "The ITK Software Guide Book 2: Design and Functionality"
+    authors:
+      - given-names: "Hans J."
+        family-names: Johnson
+      - given-names: "Matthew M."
+        family-names: McCormick
+      - given-names: Luis
+        family-names: Ibáñez
+      - name: "The Insight Software Consortium"
+    edition: "Fourth"
+    publisher:
+      name: "Kitware, Inc."
+      city: "Clifton Park"
+      region: "NY"
+      country: US
+    year: 2015
+    month: 1
+    isbn: "978-1-930934-28-3"
+    doi: 10.5555/2789408
+    url: "https://itk.org/"
+  - type: conference-paper
+    title: "Engineering and Algorithm Design for an Image Processing API: A Technical Report on ITK - the Insight Toolkit"
+    authors:
+      - given-names: "Terry S."
+        family-names: Yoo
+      - given-names: "Michael J."
+        family-names: Ackerman
+      - given-names: "William E."
+        family-names: Lorensen
+      - given-names: Will
+        family-names: Schroeder
+      - given-names: Vikram
+        family-names: Chalana
+      - given-names: Stephen
+        family-names: Aylward
+      - given-names: Dimitris
+        family-names: Metaxas
+      - given-names: Ross
+        family-names: Whitaker
+    editors:
+      - given-names: "James D."
+        family-names: Westwood
+      - given-names: "Helene Miller"
+        family-names: Hoffman
+      - given-names: "Richard A."
+        family-names: Robb
+      - given-names: Don
+        family-names: Stredney
+    collection-title: "Studies in Health Technology and Informatics"
+    conference:
+      name: "10th Annual Medicine Meets Virtual Reality Conference"
+      city: "Newport Beach"
+      region: "CA"
+      country: US
+    publisher:
+      name: "IOS Press, Inc."
+    year: 2002
+    month: 1
+    volume: 85
+    start: 586
+    end: 592
+    isbn: "978-1-58603-203-6"

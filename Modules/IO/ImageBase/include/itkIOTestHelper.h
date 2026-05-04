@@ -23,7 +23,12 @@
 #include "itksys/SystemTools.hxx"
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
-#include "vnl/vnl_random.h"
+#include "itkRGBPixel.h"
+#include "itkVector.h"
+#include <cstdint>
+#include <limits>
+#include <random>
+#include <type_traits>
 namespace itk
 {
 class IOTestHelper
@@ -133,48 +138,75 @@ public:
     }
   }
 
-  //
-  // generate random pixels of various types
-  static void
-  RandomPix(vnl_random & randgen, itk::RGBPixel<unsigned char> & pix)
+  // Sample a value of arithmetic type T uniformly in [0, bound], avoiding
+  // implementation-defined narrowing and the high-bits-zero artifact that
+  // a single 32-bit engine() output produces for 64-bit integral types.
+  template <typename T>
+  static T
+  BoundedRandom(std::mt19937 & randomNumberEngine, T bound)
   {
-    for (unsigned int i = 0; i < 3; ++i)
+    static_assert(std::is_arithmetic_v<T>, "BoundedRandom: T must be arithmetic");
+    if constexpr (std::is_floating_point_v<T>)
     {
-      pix[i] = randgen.lrand32(itk::NumericTraits<unsigned char>::max());
+      std::uniform_real_distribution<T> dist{ static_cast<T>(0), bound };
+      return dist(randomNumberEngine);
+    }
+    else
+    {
+      using U = std::make_unsigned_t<T>;
+      U raw;
+      if constexpr (sizeof(T) > sizeof(std::mt19937::result_type))
+      {
+        // Combine two 32-bit engine outputs to fill the high bits of 64-bit pixel types.
+        raw = (static_cast<U>(randomNumberEngine()) << 32) | static_cast<U>(randomNumberEngine());
+      }
+      else
+      {
+        raw = static_cast<U>(randomNumberEngine());
+      }
+      const U bound_u = static_cast<U>(bound);
+      // No bound to apply when bound saturates U; bound_u + 1 would wrap to 0
+      // and raw % 0 traps with SIGFPE.
+      if (bound_u == std::numeric_limits<U>::max())
+      {
+        return static_cast<T>(raw);
+      }
+      return static_cast<T>(raw % (bound_u + U{ 1 }));
     }
   }
 
   template <typename TPixel>
   static void
-  RandomPix(vnl_random & randgen, TPixel & pix)
+  RandomPix(std::mt19937 & randomNumberEngine,
+            TPixel &       pix,
+            double         _max = static_cast<double>(itk::NumericTraits<TPixel>::max()))
   {
-    pix = randgen.lrand32(itk::NumericTraits<TPixel>::max());
+    static_assert(std::is_arithmetic_v<TPixel>, "RandomPix: TPixel must be arithmetic");
+    pix = BoundedRandom<TPixel>(randomNumberEngine, static_cast<TPixel>(_max));
   }
 
+  template <typename T>
   static void
-  RandomPix(vnl_random & randgen, long long & pix)
+  RandomPix(std::mt19937 &     randomNumberEngine,
+            itk::RGBPixel<T> & pix,
+            double             _max = static_cast<double>(itk::NumericTraits<T>::max()))
   {
-    pix = randgen.lrand32(itk::NumericTraits<int>::max());
-    pix = (pix << 32) | randgen.lrand32();
+    for (unsigned int i = 0; i < 3; ++i)
+    {
+      pix[i] = BoundedRandom<T>(randomNumberEngine, static_cast<T>(_max));
+    }
   }
 
+  template <typename T, unsigned int VLength>
   static void
-  RandomPix(vnl_random & randgen, unsigned long long & pix)
+  RandomPix(std::mt19937 &            randomNumberEngine,
+            itk::Vector<T, VLength> & pix,
+            double                    _max = static_cast<double>(itk::NumericTraits<T>::max()))
   {
-    pix = randgen.lrand32();
-    pix = (pix << 32) | randgen.lrand32();
-  }
-
-  static void
-  RandomPix(vnl_random & randgen, double & pix)
-  {
-    pix = randgen.drand64(itk::NumericTraits<double>::max());
-  }
-
-  static void
-  RandomPix(vnl_random & randgen, float & pix)
-  {
-    pix = randgen.drand64(itk::NumericTraits<float>::max());
+    for (unsigned int i = 0; i < VLength; ++i)
+    {
+      pix[i] = BoundedRandom<T>(randomNumberEngine, static_cast<T>(_max));
+    }
   }
 
   static int

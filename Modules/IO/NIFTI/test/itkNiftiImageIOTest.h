@@ -37,7 +37,7 @@
 #include "itkRGBAPixel.h"
 #include "itkRandomImageSource.h"
 
-#include "vnl/vnl_random.h"
+#include <random>
 #include "itkMath.h"
 
 #include "nifti1_io.h"
@@ -321,7 +321,7 @@ TestImageOfSymMats(const std::string & fname)
                 PixelType pixel;
                 for (unsigned int q = 0; q < pixel.Size(); ++q)
                 {
-                  // pixel[q] = randgen.drand32(lowrange,highrange);
+                  // pixel[q] = randomNumberEngine.drand32(lowrange,highrange);
                   pixel[q] = incr_value++;
                 }
                 for (unsigned int q = 0; q < VDimension; ++q)
@@ -475,14 +475,15 @@ RGBTest(int argc, char * argv[])
 
   const typename RGBImageType::Pointer im =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<RGBImageType>(imageRegion, spacing);
-  vnl_random                             randgen(12345678);
-  itk::ImageRegionIterator<RGBImageType> it(im, im->GetLargestPossibleRegion());
+  std::mt19937                                randomNumberEngine(12345678);
+  std::uniform_int_distribution<unsigned int> dist{ 0u, 255u };
+  itk::ImageRegionIterator<RGBImageType>      it(im, im->GetLargestPossibleRegion());
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
     RGBPixelType pix;
     for (unsigned int i = 0; i < RGBPixelType::Dimension; ++i)
     {
-      pix[i] = randgen.lrand32(255);
+      pix[i] = static_cast<typename RGBPixelType::ComponentType>(dist(randomNumberEngine));
     }
     it.Set(pix);
   }

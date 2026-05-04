@@ -126,6 +126,13 @@ Citation
 
 To cite ITK, please reference, as appropriate:
 
+* GitHub renders a "Cite this repository" button from
+  [`CITATION.cff`](CITATION.cff) at the repository root (Citation File
+  Format 1.2.0) — use it to copy a ready-made APA or BibTeX entry.
+* LaTeX users can include the BibTeX entries in
+  [`Documentation/Citations/itk.bib`](Documentation/Citations/itk.bib)
+  directly.
+
 ### The papers
 
 > McCormick M, Liu X, Jomier J, Marion C, Ibanez L. ITK: enabling reproducible research and open science. Front Neuroinform. 2014;8:13. Published 2014 Feb 20. doi:10.3389/fninf.2014.00013
