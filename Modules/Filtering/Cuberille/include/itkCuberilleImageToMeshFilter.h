@@ -19,11 +19,6 @@
 #ifndef itkCuberilleImageToMeshFilter_h
 #define itkCuberilleImageToMeshFilter_h
 
-#define DEBUG_PRINT 0
-#define USE_GRADIENT_RECURSIVE_GAUSSIAN 0
-#define USE_ADVANCED_PROJECTION 0
-#define USE_LINESEARCH_PROJECTION 0
-
 #include "itkMacro.h"
 #include "itkMesh.h"
 #include "itkImageToMeshFilter.h"

@@ -19,6 +19,11 @@
 #ifndef itkCuberilleImageToMeshFilter_hxx
 #define itkCuberilleImageToMeshFilter_hxx
 
+#define DEBUG_PRINT 0
+#define USE_GRADIENT_RECURSIVE_GAUSSIAN 0
+#define USE_ADVANCED_PROJECTION 0
+#define USE_LINESEARCH_PROJECTION 0
+
 #include "itkMath.h"
 #include "itkNumericTraits.h"
 #include <itkConnectedComponentImageFilter.h>
