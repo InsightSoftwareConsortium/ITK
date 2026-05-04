@@ -291,7 +291,7 @@ private:
     bool
     operator>=(const Self & node) const
     {
-      return (m_Y >= node.m_Y) || ((m_Y == node.m_Y) && (m_X >= node.m_X));
+      return (m_Y > node.m_Y) || ((m_Y == node.m_Y) && (m_X >= node.m_X));
     }
     bool
     operator<(const Self & node) const
@@ -301,7 +301,7 @@ private:
     bool
     operator<=(const Self & node) const
     {
-      return (m_Y <= node.m_Y) || ((m_Y == node.m_Y) && (m_X <= node.m_X));
+      return (m_Y < node.m_Y) || ((m_Y == node.m_Y) && (m_X <= node.m_X));
     }
 
   private:
