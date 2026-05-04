@@ -215,3 +215,35 @@ def _initialize_module():
 # module-level __getattr__ depends on _lazy_attribute_to_module being
 # populated.
 _initialize_module()
+
+
+def _eager_import_all() -> None:
+    """Force-load every SWIG module advertised by the lazy-attribute map.
+
+    Triggered when ``ITK_EAGER_IMPORT`` is set to ``1`` or ``true`` in
+    the environment.  Walks the unique set of owning SWIG modules and
+    drives one ``__getattr__`` per module so any import-time error
+    (missing dependency, broken extension, mis-configured factory)
+    surfaces synchronously at ``import itk`` rather than being deferred
+    to first-attribute-access in user code.  Diagnostic-only — leaves
+    the lazy machinery in place so subsequent accesses still hit the
+    fast cached path."""
+    import os as _os
+
+    flag = _os.environ.get("ITK_EAGER_IMPORT", "").strip().lower()
+    if flag not in ("1", "true", "yes", "on"):
+        return
+    seen_modules: set = set()
+    for owner in _lazy_attribute_to_module.values():
+        if owner in seen_modules:
+            continue
+        seen_modules.add(owner)
+        for attr_name, attr_owner in _lazy_attribute_to_module.items():
+            if attr_owner == owner:
+                # Trigger module-level __getattr__ exactly once per
+                # SWIG module by resolving any one of its attributes.
+                __getattr__(attr_name)
+                break
+
+
+_eager_import_all()
