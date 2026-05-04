@@ -130,6 +130,31 @@ jobs:
         CTEST_OUTPUT_ON_FAILURE: 1
         CCACHE_MAXSIZE: 8G
 
+    - bash: |
+        set -eo pipefail
+        set -x
+        # Shrink the local ccache and prune the build tree before the
+        # implicit post-job 'Cache@2' uploader tars CCACHE_DIR. The
+        # post-job tar fails ENOSPC when the runner's writable disk is
+        # too full to hold the temporary archive (Azure DevOps
+        # ITK.Linux.Python builds 14748 / 14751 both hit
+        #   tar: Wrote only 4096 of 10240 bytes
+        #   tar: Error is not recoverable
+        # at 95-96% disk usage). Drop ccache items > 5 days old, force
+        # the local store under 6.5G via env-var override (so the
+        # tighter ceiling does not get baked into ccache.conf inside
+        # CCACHE_DIR, which is what Cache@2 archives), then 'ninja
+        # clean' the build tree to free the .o files no longer needed
+        # after build/test reported.
+        df -h /
+        ccache --show-stats
+        ccache --evict-older-than 5d
+        CCACHE_MAXSIZE=6.5G ccache -c
+        ninja -C $(Build.SourcesDirectory)-build clean || true
+        df -h /
+      condition: always()
+      displayName: 'Free disk before post-job ccache upload'
+
     - bash: ccache --show-stats
       condition: always()
       displayName: 'ccache stats'
