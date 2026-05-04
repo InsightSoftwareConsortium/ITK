@@ -1,4 +1,5 @@
-set(IOMeshSTL_SRC
+set(
+  IOMeshSTL_SRC
   itkSTLMeshIO.cxx
   itkSTLMeshIOFactory.cxx
 )
