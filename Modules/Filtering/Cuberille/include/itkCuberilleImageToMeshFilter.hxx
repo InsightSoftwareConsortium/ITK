@@ -19,10 +19,6 @@
 #ifndef itkCuberilleImageToMeshFilter_hxx
 #define itkCuberilleImageToMeshFilter_hxx
 
-#define USE_GRADIENT_RECURSIVE_GAUSSIAN 0
-#define USE_ADVANCED_PROJECTION 0
-#define USE_LINESEARCH_PROJECTION 0
-
 #include "itkMath.h"
 #include "itkNumericTraits.h"
 #include <itkConnectedComponentImageFilter.h>
@@ -447,150 +443,148 @@ template <typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVertexToIsoSurface(PointType & vertex)
 {
-#if USE_ADVANCED_PROJECTION
-  // Set up
-  bool                   done = false;
-  double                 step = m_ProjectVertexStepLength;
-  unsigned int           numberOfSteps = 0;
-  PointType              temp[2];
-  PointType              tempBest;
-  InterpolatorOutputType value[2];
-  double                 diff[2];
-  double                 diffBest = -1.0;
-  unsigned int           i, swaps = 0;
-  int                    previousi = -1;
-
-  while (!done)
+  if constexpr (UseAdvancedProjection)
   {
-    // Compute normal vector
-    GradientPixelType normal = m_GradientInterpolator->Evaluate(vertex);
-    if (normal.Normalize() == 0.0) // old norm was zero
+    // Set up
+    bool                   done = false;
+    double                 step = m_ProjectVertexStepLength;
+    unsigned int           numberOfSteps = 0;
+    PointType              temp[2];
+    InterpolatorOutputType value[2];
+    double                 diff[2];
+    unsigned int           i, swaps = 0;
+    int                    previousi = -1;
+
+    while (!done)
     {
-      break;
-    }
-
-    // Step along both directions of normal
-    for (i = 0; i < InputImageType::ImageDimension; ++i)
-    {
-      temp[0][i] = vertex[i] + (normal[i] * +1.0 * step);
-      temp[1][i] = vertex[i] + (normal[i] * -1.0 * step);
-    }
-    step *= m_ProjectVertexStepLengthRelaxationFactor;
-
-    // Compute which direction moves vertex closer to iso-surface value
-    value[0] = m_Interpolator->Evaluate(temp[0]);
-    value[1] = m_Interpolator->Evaluate(temp[1]);
-    diff[0] = itk::Math::abs(value[0] - m_IsoSurfaceValue);
-    diff[1] = itk::Math::abs(value[1] - m_IsoSurfaceValue);
-    i = (diff[0] <= diff[1]) ? 0 : 1;
-    if (previousi < 0)
-    {
-      previousi = i;
-    }
-    swaps += (int)(previousi != i);
-    vertex = temp[i];
-
-    // Determine whether vertex is close enough to iso-surface value
-    done |= diff[i] < m_ProjectVertexSurfaceDistanceThreshold;
-    if (done)
-    {
-      break;
-    }
-
-    // Determine whether we have done enough steps
-    done |= numberOfSteps++ > m_ProjectVertexMaximumNumberOfSteps;
-    if (done)
-    {
-      break;
-    }
-
-    // Determine whether there has been too many sign swaps (oscillating)
-    done |= (swaps >= 5);
-    if (done)
-    {
-      break;
-    }
-  }
-#elif USE_LINESEARCH_PROJECTION
-
-  // Set up
-  unsigned int           k;
-  GradientPixelType      normal;
-  InterpolatorOutputType value;
-  PointType              temp, bestVertex;
-  double                 sign, d, metric, bestMetric = 10000;
-
-  // Compute normal vector
-  normal = m_GradientInterpolator->Evaluate(vertex);
-  if (normal.Normalize() == 0.0) // old norm was zero
-  {
-    break;
-  }
-
-  // Search on both sides of the line
-  for (sign = -1.0; sign <= 1.0; sign += 2.0)
-  {
-    k = (sign == -1.0) ? 0 : 1;
-    for (unsigned int j = 1; j < m_ProjectVertexMaximumNumberOfSteps / 2; ++j)
-    {
-      // Compute current location along line
-      d = (double)j / ((double)m_ProjectVertexMaximumNumberOfSteps / 2.0);
-      for (unsigned int i = 0; i < InputImageType::ImageDimension; ++i)
+      // Compute normal vector
+      GradientPixelType normal = m_GradientInterpolator->Evaluate(vertex);
+      if (normal.Normalize() == 0.0) // old norm was zero
       {
-        temp[i] = vertex[i] + (normal[i] * sign * m_ProjectVertexStepLength * d);
+        break;
       }
-      // Compute metric (combination of difference and distance)
-      value = m_Interpolator->Evaluate(temp);
-      metric = itk::Math::abs(value - m_IsoSurfaceValue); // Difference
-      // metric /= NumericTraits<InputPixelType>::max(); // Normalized difference
-      // metric /= d; // Distance
 
-      // Determine if current position is the "best"
-      if (metric < bestMetric)
+      // Step along both directions of normal
+      for (i = 0; i < InputImageType::ImageDimension; ++i)
       {
-        bestMetric = metric;
-        bestVertex = temp;
+        temp[0][i] = vertex[i] + (normal[i] * +1.0 * step);
+        temp[1][i] = vertex[i] + (normal[i] * -1.0 * step);
+      }
+      step *= m_ProjectVertexStepLengthRelaxationFactor;
+
+      // Compute which direction moves vertex closer to iso-surface value
+      value[0] = m_Interpolator->Evaluate(temp[0]);
+      value[1] = m_Interpolator->Evaluate(temp[1]);
+      diff[0] = itk::Math::abs(value[0] - m_IsoSurfaceValue);
+      diff[1] = itk::Math::abs(value[1] - m_IsoSurfaceValue);
+      i = (diff[0] <= diff[1]) ? 0 : 1;
+      if (previousi < 0)
+      {
+        previousi = i;
+      }
+      swaps += (int)(previousi != i);
+      vertex = temp[i];
+
+      // Determine whether vertex is close enough to iso-surface value
+      done |= diff[i] < m_ProjectVertexSurfaceDistanceThreshold;
+      if (done)
+      {
+        break;
+      }
+
+      // Determine whether we have done enough steps
+      done |= numberOfSteps++ > m_ProjectVertexMaximumNumberOfSteps;
+      if (done)
+      {
+        break;
+      }
+
+      // Determine whether there has been too many sign swaps (oscillating)
+      done |= (swaps >= 5);
+      if (done)
+      {
+        break;
       }
     }
   }
-  vertex = bestVertex;
-
-#else
-  // Set up
-  bool                   done = false;
-  double                 sign = 1.0;
-  double                 step = m_ProjectVertexStepLength;
-  unsigned int           numberOfSteps = 0;
-  GradientPixelType      normal;
-  InterpolatorOutputType value;
-
-  while (!done)
+  else if constexpr (UseLineSearchProjection)
   {
+
+    // Set up
+    GradientPixelType      normal;
+    InterpolatorOutputType value;
+    PointType              temp, bestVertex;
+    double                 sign, d, metric, bestMetric = 10000;
+
     // Compute normal vector
     normal = m_GradientInterpolator->Evaluate(vertex);
     if (normal.Normalize() == 0.0) // old norm was zero
     {
-      break;
+      return;
     }
 
-    // Compute whether vertex is close enough to iso-surface value
-    value = m_Interpolator->Evaluate(vertex);
-    done |= itk::Math::abs(value - m_IsoSurfaceValue) < m_ProjectVertexSurfaceDistanceThreshold;
-    if (done)
+    // Search on both sides of the line
+    for (sign = -1.0; sign <= 1.0; sign += 2.0)
     {
-      break;
-    }
+      for (unsigned int j = 1; j < m_ProjectVertexMaximumNumberOfSteps / 2; ++j)
+      {
+        // Compute current location along line
+        d = (double)j / ((double)m_ProjectVertexMaximumNumberOfSteps / 2.0);
+        for (unsigned int i = 0; i < InputImageType::ImageDimension; ++i)
+        {
+          temp[i] = vertex[i] + (normal[i] * sign * m_ProjectVertexStepLength * d);
+        }
+        // Compute metric (combination of difference and distance)
+        value = m_Interpolator->Evaluate(temp);
+        metric = itk::Math::abs(value - m_IsoSurfaceValue); // Difference
 
-    // Step along the normal towards the iso-surface value
-    sign = (value < m_IsoSurfaceValue) ? +1.0 : -1.0;
-    for (unsigned int i = 0; i < InputImageType::ImageDimension; ++i)
-    {
-      vertex[i] += (normal[i] * sign * step);
+        // Determine if current position is the "best"
+        if (metric < bestMetric)
+        {
+          bestMetric = metric;
+          bestVertex = temp;
+        }
+      }
     }
-    step *= m_ProjectVertexStepLengthRelaxationFactor;
-    done |= numberOfSteps++ > m_ProjectVertexMaximumNumberOfSteps;
+    vertex = bestVertex;
   }
-#endif
+  else
+  {
+    // Set up
+    bool                   done = false;
+    double                 sign = 1.0;
+    double                 step = m_ProjectVertexStepLength;
+    unsigned int           numberOfSteps = 0;
+    GradientPixelType      normal;
+    InterpolatorOutputType value;
+
+    while (!done)
+    {
+      // Compute normal vector
+      normal = m_GradientInterpolator->Evaluate(vertex);
+      if (normal.Normalize() == 0.0) // old norm was zero
+      {
+        break;
+      }
+
+      // Compute whether vertex is close enough to iso-surface value
+      value = m_Interpolator->Evaluate(vertex);
+      done |= itk::Math::abs(value - m_IsoSurfaceValue) < m_ProjectVertexSurfaceDistanceThreshold;
+      if (done)
+      {
+        break;
+      }
+
+      // Step along the normal towards the iso-surface value
+      sign = (value < m_IsoSurfaceValue) ? +1.0 : -1.0;
+      for (unsigned int i = 0; i < InputImageType::ImageDimension; ++i)
+      {
+        vertex[i] += (normal[i] * sign * step);
+      }
+      step *= m_ProjectVertexStepLengthRelaxationFactor;
+      done |= numberOfSteps++ > m_ProjectVertexMaximumNumberOfSteps;
+    }
+  }
 }
 
 template <typename TInputImage, typename TOutputMesh, typename TInterpolator>
@@ -601,10 +595,11 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ComputeGrad
   {
     typename GradientFilterType::Pointer gradientFilter = GradientFilterType::New();
     gradientFilter->SetInput(Superclass::GetInput(0));
-#if USE_GRADIENT_RECURSIVE_GAUSSIAN
-    gradientFilter->SetSigma(m_MaxSpacing * 1.0);
-    gradientFilter->SetNormalizeAcrossScale(true);
-#endif
+    if constexpr (UseGradientRecursiveGaussian)
+    {
+      gradientFilter->SetSigma(m_MaxSpacing * 1.0);
+      gradientFilter->SetNormalizeAcrossScale(true);
+    }
     gradientFilter->Update();
     m_GradientInterpolator = GradientInterpolatorType::New();
     m_GradientInterpolator->SetInputImage(gradientFilter->GetOutput());

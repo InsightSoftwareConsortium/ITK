@@ -32,6 +32,8 @@
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
 
+#include <type_traits>
+
 namespace itk
 {
 
@@ -126,6 +128,16 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(CuberilleImageToMeshFilter, ImageToMeshFilter);
 
+  /** Compile-time configuration flags (formerly preprocessor macros).
+   * Flip a flag to true and rebuild to enable the corresponding alternative
+   * algorithm path; the dead branch is dropped by the C++ compiler via
+   * `if constexpr`. */
+  /** @ITKStartGrouping */
+  static constexpr bool UseGradientRecursiveGaussian = false;
+  static constexpr bool UseAdvancedProjection = false;
+  static constexpr bool UseLineSearchProjection = false;
+  /** @ITKEndGrouping */
+
   /** Some convenient type alias. */
   using OutputMeshType = TOutputMesh;
   using OutputMeshPointer = typename OutputMeshType::Pointer;
@@ -164,11 +176,9 @@ public:
 
   /** Other convenient type alias. */
   using InputImageIteratorType = ConstShapedNeighborhoodIterator<InputImageType>;
-#if USE_GRADIENT_RECURSIVE_GAUSSIAN
-  using GradientFilterType = GradientRecursiveGaussianImageFilter<InputImageType>;
-#else
-  using GradientFilterType = GradientImageFilter<InputImageType>;
-#endif
+  using GradientFilterType = std::conditional_t<UseGradientRecursiveGaussian,
+                                                GradientRecursiveGaussianImageFilter<InputImageType>,
+                                                GradientImageFilter<InputImageType>>;
   using GradientFilterPointer = typename GradientFilterType::Pointer;
   using GradientImageType = typename GradientFilterType::OutputImageType;
   using GradientImagePointer = typename GradientImageType::Pointer;
