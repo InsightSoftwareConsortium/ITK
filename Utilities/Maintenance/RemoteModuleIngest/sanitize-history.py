@@ -403,6 +403,25 @@ def filename_is_text(filename: bytes) -> bool:
     return base in TEXT_FILE_BASENAMES
 
 
+# Many ITK remote-module itk-module.cmake files do
+#   file(READ "${MY_CURRENT_DIR}/README.rst" DOCUMENTATION)
+# to populate the CMake `DESCRIPTION` variable.  The v4 whitelist
+# excludes the upstream README (the operator ships a new README.md as
+# part of the ingest PR), so leaving that line as-is breaks every
+# historical commit's build.  Rewriting the reference to README.md
+# makes every commit independently buildable in the ingested tree.
+README_RST_REF_RE = re.compile(
+    rb"(file\s*\(\s*READ\s+[^)]*?)README\.rst", re.IGNORECASE
+)
+
+
+def patch_readme_reference(data: bytes) -> tuple[bytes, bool]:
+    """Rewrite `file(READ ".../README.rst" ...)` -> README.md.  Returns
+    (new_data, changed)."""
+    new_data, n = README_RST_REF_RE.subn(rb"\1README.md", data)
+    return new_data, n > 0
+
+
 def fmt_cmake(data: bytes, gersemi_bin: str, gersemi_config: str | None) -> bytes:
     cmd = [gersemi_bin]
     if gersemi_config:
@@ -453,6 +472,7 @@ class HistorySanitizer:
         self.subject_truncations = 0
         self.subject_blank_inserts = 0
         self.mode_normalizations = 0
+        self.readme_ref_patches = 0
         self.blob_count = 0
         self.format_changes = 0
         self.kind_counts: dict[str, int] = {}
@@ -476,6 +496,9 @@ class HistorySanitizer:
             new_data = fmt_py(original_data, self.black_bin)
         elif kind == "cmake":
             new_data = fmt_cmake(original_data, self.gersemi_bin, self.gersemi_config)
+            new_data, readme_patched = patch_readme_reference(new_data)
+            if readme_patched:
+                self.readme_ref_patches += 1
         else:  # 'text'
             new_data = original_data
 
@@ -650,6 +673,7 @@ def main() -> int:
         f"  subjects truncated:    {sanitizer.subject_truncations}\n"
         f"  blank lines inserted:  {sanitizer.subject_blank_inserts}\n"
         f"  exec-bits cleared:     {sanitizer.mode_normalizations}\n"
+        f"  README.rst->.md fixes: {sanitizer.readme_ref_patches}\n"
         f"  blobs scanned:         {sanitizer.blob_count}\n"
         f"  blobs reformatted:     {sanitizer.format_changes}\n"
         f"  by-kind sniff:         "
