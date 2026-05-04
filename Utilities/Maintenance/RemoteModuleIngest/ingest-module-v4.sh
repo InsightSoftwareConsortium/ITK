@@ -240,6 +240,12 @@ info "Running scaffolding deny-pattern strip pass..."
     --path-glob '**/.clang-format' \
     --path-glob '**/.clang-tidy' \
     --path-glob '**/.pre-commit-config.yaml' \
+    --path-glob '**/*.orig' \
+    --path-glob '**/*.rej' \
+    --path-glob '**/*.BACKUP.*' \
+    --path-glob '**/*.LOCAL.*' \
+    --path-glob '**/*.REMOTE.*' \
+    --path-glob '**/*.BASE.*' \
     --prune-empty always
 ) || die "filter-repo deny-pass failed"
 

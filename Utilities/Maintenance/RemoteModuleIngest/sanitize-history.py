@@ -68,6 +68,42 @@ except ImportError:
 # ---------------------------------------------------------------------------
 
 PREFIX_RE = re.compile(rb"^\s*(BUG|COMP|DOC|ENH|PERF|STYLE|WIP)\s*:")
+SUBJECT_MAX_LEN = 78  # ITK ghostflow / kw-commit-msg rule
+SUBJECT_WORDBREAK_MIN = 40  # only break at a space past this offset
+
+
+def truncate_subject_to_body(subject: bytes, rest: bytes) -> tuple[bytes, bytes, bool]:
+    """If the subject exceeds SUBJECT_MAX_LEN, truncate it (preferring a word
+    break) and prepend the excess to the body.  Returns (new_subject, new_rest,
+    changed)."""
+    if len(subject) <= SUBJECT_MAX_LEN:
+        return subject, rest, False
+    cut = SUBJECT_MAX_LEN
+    space_pos = subject.rfind(b" ", 0, SUBJECT_MAX_LEN)
+    if space_pos > SUBJECT_WORDBREAK_MIN:
+        cut = space_pos
+    head = subject[:cut].rstrip()
+    tail = subject[cut:].lstrip()
+    if not tail:
+        return head, rest, True
+    if rest:
+        # rest starts with at least one '\n' from the original separator
+        new_rest = b"\n\n" + tail + rest
+    else:
+        new_rest = b"\n\n" + tail + b"\n"
+    return head, new_rest, True
+
+
+def ensure_blank_line_after_subject(rest: bytes) -> tuple[bytes, bool]:
+    """Subject must be followed by a blank line if a body exists.  rest, when
+    non-empty, starts with '\\n' (the original line separator).  If the next
+    char isn't also '\\n', insert one to make it a proper blank line."""
+    if not rest:
+        return rest, False
+    if rest.startswith(b"\n\n"):
+        return rest, False
+    # rest starts with single '\n' followed by body content; convert to "\n\n"
+    return b"\n" + rest, True
 
 
 def heuristic_prefix(subject: bytes) -> bytes:
@@ -315,6 +351,58 @@ def fmt_py(data: bytes, black_bin: str) -> bytes:
         return data
 
 
+TEXT_FILE_EXTS = (
+    b".c",
+    b".cc",
+    b".cpp",
+    b".cxx",
+    b".h",
+    b".hpp",
+    b".hxx",
+    b".txx",
+    b".tcc",
+    b".py",
+    b".cmake",
+    b".wrap",
+    b".md",
+    b".rst",
+    b".txt",
+    b".yml",
+    b".yaml",
+    b".json",
+    b".toml",
+    b".ini",
+    b".cfg",
+    b".in",
+    b".tex",
+    b".bib",
+    b".css",
+    b".html",
+    b".xml",
+    b".dox",
+)
+TEXT_FILE_BASENAMES = (
+    b"cmakelists.txt",
+    b"license",
+    b"readme",
+    b"copying",
+    b"authors",
+    b"changelog",
+    b"itk-module.cmake",
+)
+
+
+def filename_is_text(filename: bytes) -> bool:
+    """Return True for filenames that are clearly source/text and should
+    therefore never carry the executable bit (used to fix mode-bit drift in
+    upstream module commits)."""
+    lower = filename.lower()
+    if any(lower.endswith(e) for e in TEXT_FILE_EXTS):
+        return True
+    base = lower.rsplit(b"/", 1)[-1]
+    return base in TEXT_FILE_BASENAMES
+
+
 def fmt_cmake(data: bytes, gersemi_bin: str, gersemi_config: str | None) -> bytes:
     cmd = [gersemi_bin]
     if gersemi_config:
@@ -362,6 +450,9 @@ class HistorySanitizer:
         self.format_log = (log_dir / "format-actions.log").open("w", buffering=1)
         self.commit_count = 0
         self.prefix_changes = 0
+        self.subject_truncations = 0
+        self.subject_blank_inserts = 0
+        self.mode_normalizations = 0
         self.blob_count = 0
         self.format_changes = 0
         self.kind_counts: dict[str, int] = {}
@@ -407,21 +498,56 @@ class HistorySanitizer:
 
     def commit_callback(self, commit: fr.Commit, _metadata: dict) -> None:
         self.commit_count += 1
+
+        # ---- subject sanitization ----
         msg = commit.message
         nl = msg.find(b"\n")
         subject = msg if nl == -1 else msg[:nl]
         rest = b"" if nl == -1 else msg[nl:]
-        if PREFIX_RE.match(subject):
-            return
-        prefix = heuristic_prefix(subject)
-        commit.message = prefix + b": " + subject + rest
-        self.prefix_changes += 1
-        try:
-            old = subject.decode("utf-8", "replace").strip()[:120]
-            sha = (commit.original_id or b"<new>").decode("utf-8", "replace")
-            self.prefix_log.write(f"{sha[:12]} {prefix.decode()}: {old}\n")
-        except Exception:
-            pass
+
+        # Step 1: ensure ITK prefix
+        prepended = False
+        if not PREFIX_RE.match(subject):
+            prefix = heuristic_prefix(subject)
+            subject = prefix + b": " + subject
+            self.prefix_changes += 1
+            prepended = True
+            try:
+                old = (
+                    (msg if nl == -1 else msg[:nl])
+                    .decode("utf-8", "replace")
+                    .strip()[:120]
+                )
+                sha = (commit.original_id or b"<new>").decode("utf-8", "replace")
+                self.prefix_log.write(f"{sha[:12]} {prefix.decode()}: {old}\n")
+            except Exception:
+                pass
+
+        # Step 2: enforce 78-char subject limit (ghostflow / kw-commit-msg)
+        subject, rest, truncated = truncate_subject_to_body(subject, rest)
+        if truncated:
+            self.subject_truncations += 1
+
+        # Step 3: ensure subject is followed by a blank line if a body exists
+        rest, blank_inserted = ensure_blank_line_after_subject(rest)
+        if blank_inserted:
+            self.subject_blank_inserts += 1
+
+        if prepended or truncated or blank_inserted:
+            commit.message = subject + rest
+
+        # ---- file-mode normalization (clear executable bit on text files) ----
+        if commit.file_changes:
+            for change in commit.file_changes:
+                if change.type not in (b"M", b"A"):
+                    continue
+                if not change.filename or not change.mode:
+                    continue
+                if change.mode != b"100755":
+                    continue
+                if filename_is_text(change.filename):
+                    change.mode = b"100644"
+                    self.mode_normalizations += 1
 
     def close(self) -> None:
         for f in (self.prefix_log, self.format_log):
@@ -521,6 +647,9 @@ def main() -> int:
         f"\nsanitize-history complete:\n"
         f"  commits walked:        {sanitizer.commit_count}\n"
         f"  prefix auto-prepended: {sanitizer.prefix_changes}\n"
+        f"  subjects truncated:    {sanitizer.subject_truncations}\n"
+        f"  blank lines inserted:  {sanitizer.subject_blank_inserts}\n"
+        f"  exec-bits cleared:     {sanitizer.mode_normalizations}\n"
         f"  blobs scanned:         {sanitizer.blob_count}\n"
         f"  blobs reformatted:     {sanitizer.format_changes}\n"
         f"  by-kind sniff:         "
