@@ -53,18 +53,35 @@ from itk.support.types import (
     OT,
 )
 
+import sys as _sys
 import threading as _threading
 
 import itkConfig as _itkConfig
 from itk.support import base as _base
 
-# Recursive lock so transitive dependency loads from the same thread
-# don't self-deadlock. Deliberately threading.RLock — a
+# Per-SWIG-module RLock map.  RLock so transitive dependency loads from
+# the same thread don't self-deadlock; one per module so unrelated
+# first-loads (e.g. ITKCommon and ITKIOImageBase from threading.Pool
+# workers) proceed in parallel.  Deliberately threading.RLock — a
 # multiprocessing.RLock would pin the multiprocessing start method
 # and break spawn/forkserver after `import itk`.
-_lazy_load_lock = _threading.RLock()
+_module_load_locks: dict[str, _threading.RLock] = {}
+_module_load_locks_init = _threading.Lock()
 _lazy_attribute_to_module: dict[str, str] = {}
 _MISSING = object()
+
+
+def _get_module_load_lock(module_name: str) -> _threading.RLock:
+    """Return the RLock for ``module_name``, creating it on first call.
+
+    The lookup is GIL-atomic in CPython; only the create-on-miss path
+    takes the small init lock to ensure two racing threads don't end
+    up with two distinct locks for the same module."""
+    lock = _module_load_locks.get(module_name)
+    if lock is None:
+        with _module_load_locks_init:
+            lock = _module_load_locks.setdefault(module_name, _threading.RLock())
+    return lock
 
 
 def __getattr__(name: str):
@@ -74,20 +91,21 @@ def __getattr__(name: str):
         module_name = _lazy_attribute_to_module[name]
     except KeyError:
         raise AttributeError(f"module 'itk' has no attribute {name!r}") from None
-    g = globals()
-    with _lazy_load_lock:
-        cached = g.get(name, _MISSING)
+    this_module = _sys.modules[__name__]
+    with _get_module_load_lock(module_name):
+        cached = getattr(this_module, name, _MISSING)
         if cached is not _MISSING:
             return cached
         namespace: dict = {}
         _base.itk_load_swig_module(module_name, namespace)
-        g.update(namespace)
+        for _attr_name, _attr_value in namespace.items():
+            setattr(this_module, _attr_name, _attr_value)
         if _itkConfig.DefaultFactoryLoading:
             _base.load_module_needed_factories(module_name)
-    try:
-        return g[name]
-    except KeyError:
+    result = getattr(this_module, name, _MISSING)
+    if result is _MISSING:
         raise AttributeError(f"module 'itk' has no attribute {name!r}") from None
+    return result
 
 
 def __dir__():
@@ -170,7 +188,7 @@ def _initialize_module():
             seen = _builtin_set()
             attributes[k] = [m for m in v if not (m in seen or seen.add(m))]
 
-        itk_module = _make_itk_lazy_submodule(module, attributes, _lazy_load_lock)
+        itk_module = _make_itk_lazy_submodule(module, attributes, _get_module_load_lock)
         setattr(this_module, module, itk_module)
 
         # Check if the module installed its own init file and load it.

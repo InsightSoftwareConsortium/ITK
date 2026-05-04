@@ -40,7 +40,7 @@ _MISSING = object()
 def _make_itk_lazy_submodule(
     module_name: str,
     lazy_attributes: dict[str, list[str]],
-    lazy_load_lock,
+    get_module_load_lock,
 ) -> types.ModuleType:
     """Build the lazy ``itk.<module_name>`` namespace.
 
@@ -53,10 +53,12 @@ def _make_itk_lazy_submodule(
         Mapping from attribute name to the list of owning submodule
         names. The first element of each list wins (matching the
         legacy ``__belong_lazy_attributes`` first-owner-wins rule).
-    lazy_load_lock
-        The shared recursive lock from ``itk/__init__.py`` used to
-        serialise SWIG module loads across both top-level and
-        per-submodule lazy paths.
+    get_module_load_lock
+        Callable ``(swig_module_name: str) -> RLock`` from
+        ``itk/__init__.py`` that returns a per-SWIG-module RLock so
+        unrelated SWIG modules can first-load in parallel while loads
+        of the same module remain serialised across both top-level
+        and per-submodule lazy paths.
     """
     m = types.ModuleType(f"itk.{module_name}")
     m.__package__ = "itk"  # PEP 366
@@ -78,22 +80,22 @@ def _make_itk_lazy_submodule(
             raise AttributeError(
                 f"module {m.__name__!r} has no attribute {name!r}"
             ) from None
-        d = m.__dict__
-        with lazy_load_lock:
-            cached = d.get(name, _MISSING)
+        with get_module_load_lock(target):
+            cached = getattr(m, name, _MISSING)
             if cached is not _MISSING:
                 return cached
             namespace: dict = {}
             _base.itk_load_swig_module(target, namespace)
-            d.update(namespace)
+            for _attr_name, _attr_value in namespace.items():
+                setattr(m, _attr_name, _attr_value)
             if _itkConfig.DefaultFactoryLoading:
                 _base.load_module_needed_factories(target)
-        try:
-            return d[name]
-        except KeyError:
+        result = getattr(m, name, _MISSING)
+        if result is _MISSING:
             raise AttributeError(
                 f"module {m.__name__!r} has no attribute {name!r}"
             ) from None
+        return result
 
     def __dir__():
         # Set literal — avoids resolving the bare name `set`, which
