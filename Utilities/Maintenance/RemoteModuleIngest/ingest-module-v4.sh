@@ -197,6 +197,53 @@ info "Running filter-repo whitelist pass (--paths-from-file)..."
 ) || die "filter-repo whitelist pass failed"
 
 # --------------------------------------------------------------------
+# Step 2b: scaffolding deny-pass.  The whitelist admits whole
+# directories (test/, wrapping/, ...) but upstream remote modules
+# sometimes place CI / packaging scaffolding inside those (e.g.
+# test/Docker/, wrapping/azure-pipelines.yml, .github/ inside test/).
+# Strip those out across all history with a per-commit invert-glob
+# pass.  Without this, scaffolding leaks into ITK's history; bug
+# discovered on the first Cuberille v4 ingest (test/Docker/* leaked).
+# --------------------------------------------------------------------
+info "Running scaffolding deny-pattern strip pass..."
+(
+  cd "$CLONE"
+  git filter-repo --force \
+    --invert-paths \
+    --path-glob '**/CTestConfig.cmake' \
+    --path-glob '**/azure-pipelines*.yml' \
+    --path-glob '**/azure-pipelines/*' \
+    --path-glob '**/Dockerfile' \
+    --path-glob '**/Dockerfile.*' \
+    --path-glob '**/Dockerfile-*' \
+    --path-glob '**/.dockerignore' \
+    --path-glob '**/[Dd]ocker/*' \
+    --path-glob '**/.[Dd]ocker/*' \
+    --path-glob '**/Jenkinsfile' \
+    --path-glob '**/.circleci/*' \
+    --path-glob '**/circle.yml' \
+    --path-glob '**/.travis.yml' \
+    --path-glob '**/appveyor.yml' \
+    --path-glob '**/.appveyor.yml' \
+    --path-glob '**/.cirun.yml' \
+    --path-glob '**/.gitlab-ci.yml' \
+    --path-glob '**/.github/*' \
+    --path-glob '**/codecov.yml' \
+    --path-glob '**/.codecov.yml' \
+    --path-glob '**/tox.ini' \
+    --path-glob '**/pyproject.toml' \
+    --path-glob '**/setup.py' \
+    --path-glob '**/setup.cfg' \
+    --path-glob '**/MANIFEST.in' \
+    --path-glob '**/requirements*.txt' \
+    --path-glob '**/environment*.yml' \
+    --path-glob '**/.clang-format' \
+    --path-glob '**/.clang-tidy' \
+    --path-glob '**/.pre-commit-config.yaml' \
+    --prune-empty always
+) || die "filter-repo deny-pass failed"
+
+# --------------------------------------------------------------------
 # Step 3: subdirectory move into Modules/<DestGroup>/<Module>/
 # --------------------------------------------------------------------
 info "Moving into Modules/$DEST_GROUP/$MODULE/ ..."
