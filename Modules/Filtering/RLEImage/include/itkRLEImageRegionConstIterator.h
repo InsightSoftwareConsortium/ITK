@@ -246,6 +246,16 @@ public:
     ImageRegionConstIterator<ImageType>::operator=(it);
   }
 }; // no additional implementation required
+
+// CTAD deduction guide.  C++17 generates implicit deduction guides only from
+// the primary template; the RLEImage partial specialization needs an explicit
+// guide so generic code calling `ImageRegionConstIterator it(img, region);`
+// (e.g. itkImageAlgorithm.hxx) compiles when img is an RLEImage.
+template <typename TPixel, unsigned int VImageDimension, typename CounterType>
+ImageRegionConstIterator(const RLEImage<TPixel, VImageDimension, CounterType> *,
+                         const typename RLEImage<TPixel, VImageDimension, CounterType>::RegionType &)
+  -> ImageRegionConstIterator<RLEImage<TPixel, VImageDimension, CounterType>>;
+
 } // end namespace itk
 
 #endif // itkRLEImageRegionConstIterator_h

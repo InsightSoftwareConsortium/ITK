@@ -161,6 +161,14 @@ public:
     ImageRegionConstIterator<ImageType>::operator=(it);
   }
 }; // no additional implementation required
+
+// CTAD deduction guide.  See the matching guide in
+// itkRLEImageRegionConstIterator.h for rationale.
+template <typename TPixel, unsigned int VImageDimension, typename CounterType>
+ImageRegionIterator(RLEImage<TPixel, VImageDimension, CounterType> *,
+                    const typename RLEImage<TPixel, VImageDimension, CounterType>::RegionType &)
+  -> ImageRegionIterator<RLEImage<TPixel, VImageDimension, CounterType>>;
+
 } // end namespace itk
 
 #endif // itkRLEImageRegionIterator_h
