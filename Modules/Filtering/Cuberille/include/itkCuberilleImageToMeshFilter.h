@@ -415,9 +415,6 @@ private:
   double                      m_ProjectVertexStepLength{ -1.0 };
   double                      m_ProjectVertexStepLengthRelaxationFactor{ 0.95 };
   unsigned int                m_ProjectVertexMaximumNumberOfSteps{ 50 };
-#if DEBUG_PRINT
-  unsigned int m_ProjectVertexTerminate[3];
-#endif
 };
 
 } // end namespace itk

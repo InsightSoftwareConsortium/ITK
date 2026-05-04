@@ -19,7 +19,6 @@
 #ifndef itkCuberilleImageToMeshFilter_hxx
 #define itkCuberilleImageToMeshFilter_hxx
 
-#define DEBUG_PRINT 0
 #define USE_GRADIENT_RECURSIVE_GAUSSIAN 0
 #define USE_ADVANCED_PROJECTION 0
 #define USE_LINESEARCH_PROJECTION 0
@@ -61,11 +60,6 @@ template <typename TInputImage, typename TOutputMesh, typename TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateData()
 {
-#if DEBUG_PRINT
-  m_ProjectVertexTerminate[0] = 0;
-  m_ProjectVertexTerminate[1] = 0;
-  m_ProjectVertexTerminate[2] = 0;
-#endif
 
   // Get input/output
   InputImageConstPointer           image = Superclass::GetInput(0);
@@ -259,14 +253,6 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
 
     } // end if num faces > 0
   }
-
-#if DEBUG_PRINT
-  std::cout << "Number of terminations due to surface distance threshold: " << m_ProjectVertexTerminate[0] << std::endl;
-  std::cout << "Number of terminations due to maximum number of steps: " << m_ProjectVertexTerminate[1] << std::endl;
-#  if USE_ADVANCED_PROJECTION
-  std::cout << "Number of terminations due to too many sign swaps: " << m_ProjectVertexTerminate[2] << std::endl;
-#  endif
-#endif
 }
 
 template <typename TInputImage, typename TOutputMesh, typename TInterpolator>
@@ -506,12 +492,6 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVert
 
     // Determine whether vertex is close enough to iso-surface value
     done |= diff[i] < m_ProjectVertexSurfaceDistanceThreshold;
-#  if DEBUG_PRINT
-    if (done)
-    {
-      m_ProjectVertexTerminate[0]++;
-    }
-#  endif
     if (done)
     {
       break;
@@ -519,12 +499,6 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVert
 
     // Determine whether we have done enough steps
     done |= numberOfSteps++ > m_ProjectVertexMaximumNumberOfSteps;
-#  if DEBUG_PRINT
-    if (done)
-    {
-      m_ProjectVertexTerminate[1]++;
-    }
-#  endif
     if (done)
     {
       break;
@@ -532,12 +506,6 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVert
 
     // Determine whether there has been too many sign swaps (oscillating)
     done |= (swaps >= 5);
-#  if DEBUG_PRINT
-    if (done)
-    {
-      m_ProjectVertexTerminate[2]++;
-    }
-#  endif
     if (done)
     {
       break;
@@ -608,12 +576,6 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVert
     // Compute whether vertex is close enough to iso-surface value
     value = m_Interpolator->Evaluate(vertex);
     done |= itk::Math::abs(value - m_IsoSurfaceValue) < m_ProjectVertexSurfaceDistanceThreshold;
-#  if DEBUG_PRINT
-    if (done)
-    {
-      m_ProjectVertexTerminate[0]++;
-    }
-#  endif
     if (done)
     {
       break;
@@ -627,12 +589,6 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVert
     }
     step *= m_ProjectVertexStepLengthRelaxationFactor;
     done |= numberOfSteps++ > m_ProjectVertexMaximumNumberOfSteps;
-#  if DEBUG_PRINT
-    if (done)
-    {
-      m_ProjectVertexTerminate[1]++;
-    }
-#  endif
   }
 #endif
 }
