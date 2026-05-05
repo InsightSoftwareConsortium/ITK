@@ -498,6 +498,12 @@ public:
   static bool
   IsImageFile(const std::string & filename);
 
+  DcmDataset *
+  GetDataset() const
+  {
+    return m_Dataset;
+  }
+
 private:
   std::string      m_FileName;
   DcmFileFormat *  m_DFile{ nullptr };
