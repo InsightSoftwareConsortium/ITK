@@ -418,6 +418,10 @@ MZ3MeshIO::WriteMeshInformation()
   else
   {
     m_Ofstream.open(m_FileName.c_str(), std::ios::binary);
+    if (!m_Ofstream.is_open())
+    {
+      itkExceptionMacro("File cannot be written: " << m_FileName);
+    }
   }
 
   // Write header
