@@ -53,16 +53,24 @@ CartesianToPolarTransform<TParametersValueType, NDimensions>::TransformPoint(con
   const InputVectorType vector = inputPoint - this->m_Center;
 
   outputPoint[1] = std::sqrt(vector[0] * vector[0] + vector[1] * vector[1]); // r= sqrt(x^2 + y^2)
-  outputPoint[0] = std::acos(vector[0] / outputPoint[1]);                    // alpha = acos(x/r)
-  outputPoint[0] += m_AngleOffset; // add offset before 2*pi adjustment to keep values within [-pi,pi]
-  if (vector[1] < 0.0)
+  if (outputPoint[1] == 0.0)
   {
-    outputPoint[0] = Math::twopi - outputPoint[0];
+    // alpha is undefined at r=0; choose 0 to avoid 0/0 NaN propagating through std::acos.
+    outputPoint[0] = 0.0;
   }
-
-  if (m_ConstArcIncr)
+  else
   {
-    outputPoint[0] *= outputPoint[1]; // arc= r*alpha
+    outputPoint[0] = std::acos(vector[0] / outputPoint[1]); // alpha = acos(x/r)
+    outputPoint[0] += m_AngleOffset; // add offset before 2*pi adjustment to keep values within [-pi,pi]
+    if (vector[1] < 0.0)
+    {
+      outputPoint[0] = Math::twopi - outputPoint[0];
+    }
+
+    if (m_ConstArcIncr)
+    {
+      outputPoint[0] *= outputPoint[1]; // arc= r*alpha
+    }
   }
 
   return outputPoint;
