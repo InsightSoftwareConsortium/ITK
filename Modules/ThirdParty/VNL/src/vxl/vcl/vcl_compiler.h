@@ -119,8 +119,122 @@
 #  else
 #   define VCL_GCC_100
 #  endif
+# elif (__GNUC__==11)
+#  define VCL_GCC_11
+#  if (__GNUC_MINOR__ > 2 )
+#   define VCL_GCC_113
+#  elif (__GNUC_MINOR__ > 1 )
+#   define VCL_GCC_112
+#  elif (__GNUC_MINOR__ > 0 )
+#   define VCL_GCC_111
+#  else
+#   define VCL_GCC_110
+#  endif
+# elif (__GNUC__==12)
+#  define VCL_GCC_12
+#  if (__GNUC_MINOR__ > 2 )
+#   define VCL_GCC_123
+#  elif (__GNUC_MINOR__ > 1 )
+#   define VCL_GCC_122
+#  elif (__GNUC_MINOR__ > 0 )
+#   define VCL_GCC_121
+#  else
+#   define VCL_GCC_120
+#  endif
+# elif (__GNUC__==13)
+#  define VCL_GCC_13
+#  if (__GNUC_MINOR__ > 2 )
+#   define VCL_GCC_133
+#  elif (__GNUC_MINOR__ > 1 )
+#   define VCL_GCC_132
+#  elif (__GNUC_MINOR__ > 0 )
+#   define VCL_GCC_131
+#  else
+#   define VCL_GCC_130
+#  endif
+# elif (__GNUC__==14)
+#  define VCL_GCC_14
+#  if (__GNUC_MINOR__ > 2 )
+#   define VCL_GCC_143
+#  elif (__GNUC_MINOR__ > 1 )
+#   define VCL_GCC_142
+#  elif (__GNUC_MINOR__ > 0 )
+#   define VCL_GCC_141
+#  else
+#   define VCL_GCC_140
+#  endif
+# elif (__GNUC__==15)
+#  define VCL_GCC_15
+#  if (__GNUC_MINOR__ > 2 )
+#   define VCL_GCC_153
+#  elif (__GNUC_MINOR__ > 1 )
+#   define VCL_GCC_152
+#  elif (__GNUC_MINOR__ > 0 )
+#   define VCL_GCC_151
+#  else
+#   define VCL_GCC_150
+#  endif
+# elif (__GNUC__==16)
+#  define VCL_GCC_16
+#  if (__GNUC_MINOR__ > 2 )
+#   define VCL_GCC_163
+#  elif (__GNUC_MINOR__ > 1 )
+#   define VCL_GCC_162
+#  elif (__GNUC_MINOR__ > 0 )
+#   define VCL_GCC_161
+#  else
+#   define VCL_GCC_160
+#  endif
+# elif (__GNUC__==17)
+#  define VCL_GCC_17
+#  if (__GNUC_MINOR__ > 2 )
+#   define VCL_GCC_173
+#  elif (__GNUC_MINOR__ > 1 )
+#   define VCL_GCC_172
+#  elif (__GNUC_MINOR__ > 0 )
+#   define VCL_GCC_171
+#  else
+#   define VCL_GCC_170
+#  endif
+# elif (__GNUC__==18)
+#  define VCL_GCC_18
+#  if (__GNUC_MINOR__ > 2 )
+#   define VCL_GCC_183
+#  elif (__GNUC_MINOR__ > 1 )
+#   define VCL_GCC_182
+#  elif (__GNUC_MINOR__ > 0 )
+#   define VCL_GCC_181
+#  else
+#   define VCL_GCC_180
+#  endif
+# elif (__GNUC__==19)
+#  define VCL_GCC_19
+#  if (__GNUC_MINOR__ > 2 )
+#   define VCL_GCC_193
+#  elif (__GNUC_MINOR__ > 1 )
+#   define VCL_GCC_192
+#  elif (__GNUC_MINOR__ > 0 )
+#   define VCL_GCC_191
+#  else
+#   define VCL_GCC_190
+#  endif
+# elif (__GNUC__==20)
+#  define VCL_GCC_20
+#  if (__GNUC_MINOR__ > 2 )
+#   define VCL_GCC_203
+#  elif (__GNUC_MINOR__ > 1 )
+#   define VCL_GCC_202
+#  elif (__GNUC_MINOR__ > 0 )
+#   define VCL_GCC_201
+#  else
+#   define VCL_GCC_200
+#  endif
 # else
-#  error "Dunno about this gcc"
+// Unknown future gcc (>= 21).  VCL_GCC is already defined above; the
+// per-major-version VCL_GCC_<N> macros gate workarounds for known
+// historical compiler bugs and a future gcc legitimately needs no such
+// marker.  Do not error: extend the explicit branches above when
+// targeting a specific future major version.
 # endif
 #endif
 
