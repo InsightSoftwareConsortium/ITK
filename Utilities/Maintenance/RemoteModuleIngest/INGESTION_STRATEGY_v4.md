@@ -272,6 +272,7 @@ by the v4 sanitizer; operators do not need to fix them by hand:
 |---|---|---|
 | `**/.ExternalData_*` (e.g. `.ExternalData_MD5_<hash>` baseline cache) | `ingest-module-v4.sh` deny-pass | Local fetch-cache from upstream's CTest run; ExternalData regenerates from `.cid` / `.md5` sidecars on demand. (@dzenanz, PR #6206) |
 | `if(NOT ITK_SOURCE_DIR) ... find_package(ITK) ... else() itk_module_impl() endif()` standalone-build guard in module `CMakeLists.txt` | `sanitize-history.py:patch_standalone_build_guard` | In-tree, `ITK_SOURCE_DIR` is always defined; the if-branch is dead code. (@dzenanz, PR #6206) |
+| `cmake_minimum_required(VERSION X.Y.Z)` line at the top of an ingested module's `CMakeLists.txt` | `sanitize-history.py:patch_drop_cmake_minimum_required` | ITK's top-level CMakeLists pins a higher minimum; per-module declarations are redundant and frequently **lower** than the ITK floor (3.10.2 is common upstream). (@dzenanz, PR #6215 IOFDF) |
 | `README.rst` references in CMake `file(READ ...)` calls | `sanitize-history.py:patch_readme_reference` | Phase B archival promotes `MIGRATION_README.md` to `README.md`; in-tree consumers read the markdown form |
 | `*.orig`, `*.rej`, `*.BACKUP.*`, `*.LOCAL.*`, `*.REMOTE.*`, `*.BASE.*` | deny-pass | Leftover merge-conflict artifacts |
 | Scaffolding (`Dockerfile*`, `azure-pipelines*.yml`, `.github/`, `.travis.yml`, `.circleci/`, `tox.ini`, `pyproject.toml`, `setup.py`, `.clang-format`, `.pre-commit-config.yaml`, …) | deny-pass | Module's per-repo CI/packaging is irrelevant in-tree |
