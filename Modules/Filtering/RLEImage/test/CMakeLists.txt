@@ -48,7 +48,6 @@ itk_add_test(
   COMMAND
     RLEImageTestDriver
     itkRLEImageIteratorTest
-    itkRLEImageIteratorWithIndexTest
 )
 itk_add_test(
   NAME itkRLEImageIteratorWithIndexTest
