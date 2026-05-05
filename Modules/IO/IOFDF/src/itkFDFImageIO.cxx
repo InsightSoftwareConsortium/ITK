@@ -105,11 +105,20 @@ FDFImageIO::ReadImageInformation()
     line = ParseLine(line);
     Tokenize(line, tokens, " ;");
 
-    if (tokens.size() == 4)
+    if (tokens.size() >= 4)
     {
       type = tokens[0];
       name = tokens[1];
+      // Re-join tokens[3..] so multi-word values (e.g. storage =
+      // "unsigned char") are not silently dropped by the size==4
+      // gate.  Header values like vector matrices are also space-
+      // separated; the StringToVector callers below parse them again.
       value = tokens[3];
+      for (size_t k = 4; k < tokens.size(); ++k)
+      {
+        value += ' ';
+        value += tokens[k];
+      }
 
       if (name == "spatial_rank")
       {
