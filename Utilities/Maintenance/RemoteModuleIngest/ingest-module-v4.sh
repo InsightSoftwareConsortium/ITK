@@ -246,6 +246,7 @@ info "Running scaffolding deny-pattern strip pass..."
     --path-glob '**/*.LOCAL.*' \
     --path-glob '**/*.REMOTE.*' \
     --path-glob '**/*.BASE.*' \
+    --path-glob '**/.ExternalData_*' \
     --prune-empty always
 ) || die "filter-repo deny-pass failed"
 
