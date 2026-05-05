@@ -1,0 +1,58 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+
+itk_wrap_include("itkRLEImage.h")
+itk_wrap_include("itkRLERegionOfInterestImageFilter.h")
+
+# first wrap the ImageSource (first templated class in inheritance hierarchy)
+itk_wrap_class("itk::ImageSource" POINTER)
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(t ${WRAP_ITK_SCALAR})
+    # ImageSource only has output. Do it only for RLEImage, as regular image is wrapped elsewhere.
+    itk_wrap_template("RLEImage${ITKM_${t}}${d}US" "itk::RLEImage<${ITKT_${t}},${d},unsigned short>")
+  endforeach()
+endforeach()
+itk_end_wrap_class()
+
+# now wrap the base class: ImageToImageFilter
+itk_wrap_class("itk::ImageToImageFilter" POINTER)
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(t ${WRAP_ITK_SCALAR})
+    # RLEImage to RLEImage
+    itk_wrap_template("RLEImage${ITKM_${t}}${d}USRLEImage${ITKM_${t}}${d}US"
+        "itk::RLEImage<${ITKT_${t}},${d},unsigned short>,itk::RLEImage<${ITKT_${t}},${d},unsigned short>"
+    )
+
+    # RLEImage to itk::Image
+    itk_wrap_template("RLEImage${ITKM_${t}}${d}USI${ITKM_${t}}${d}"
+        "itk::RLEImage<${ITKT_${t}},${d},unsigned short>,itk::Image<${ITKT_${t}},${d}>"
+    )
+
+    # itk::Image to RLEImage
+    itk_wrap_template("I${ITKM_${t}}${d}RLEImage${ITKM_${t}}${d}US"
+        "itk::Image<${ITKT_${t}},${d}>,itk::RLEImage<${ITKT_${t}},${d},unsigned short>"
+    )
+  endforeach()
+endforeach()
+itk_end_wrap_class()
+
+# now we can wrap the class of interest with our custom type (RLEImage)
+itk_wrap_class("itk::RegionOfInterestImageFilter" POINTER)
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(t ${WRAP_ITK_SCALAR})
+    # RLEImage to RLEImage
+    itk_wrap_template("RLEImage${ITKM_${t}}${d}USRLEImage${ITKM_${t}}${d}US"
+        "itk::RLEImage<${ITKT_${t}},${d},unsigned short>,itk::RLEImage<${ITKT_${t}},${d},unsigned short>"
+    )
+
+    # RLEImage to itk::Image
+    itk_wrap_template("RLEImage${ITKM_${t}}${d}USI${ITKM_${t}}${d}"
+        "itk::RLEImage<${ITKT_${t}},${d},unsigned short>,itk::Image<${ITKT_${t}},${d}>"
+    )
+
+    # itk::Image to RLEImage
+    itk_wrap_template("I${ITKM_${t}}${d}RLEImage${ITKM_${t}}${d}US"
+        "itk::Image<${ITKT_${t}},${d}>,itk::RLEImage<${ITKT_${t}},${d},unsigned short>"
+    )
+  endforeach()
+endforeach()
+itk_end_wrap_class()
