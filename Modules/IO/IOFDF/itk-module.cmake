@@ -13,7 +13,6 @@ itk_module(
   IOFDF
   ENABLE_SHARED
   DEPENDS
-    ITKNIFTI
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel

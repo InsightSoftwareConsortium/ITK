@@ -64,14 +64,9 @@ FDFImageIO::CanReadFile(const char * file)
   inFile.open(m_FileName.c_str(), std::ios::in | std::ios::binary);
   if (!inFile)
   {
-    ExceptionObject exception(__FILE__, __LINE__);
-    std::string     msg = "File \"" + m_FileName + "\" cannot be read.";
-    exception.SetDescription(msg.c_str());
-    throw exception;
+    itkDebugMacro(<< "File \"" << m_FileName << "\" cannot be opened.");
+    return false;
   }
-
-  // Check for a neccessary header variable
-
 
   return true;
 }
@@ -299,6 +294,11 @@ FDFImageIO::ReadImageInformation()
   long int fileSize = inFile.tellg();
   this->m_InputPosition = fileSize - this->GetImageSizeInBytes();
 
+  if (this->m_Roi.size() < this->GetNumberOfDimensions())
+  {
+    itkExceptionMacro("FDF header missing 'roi' entries: have " << this->m_Roi.size() << ", need "
+                                                                << this->GetNumberOfDimensions());
+  }
   for (unsigned int i = 0; i < this->GetNumberOfDimensions(); i++)
   {
     this->SetSpacing(i, (this->m_Roi[i] * 10) / this->GetDimensions(i));
