@@ -52,7 +52,14 @@ MZ3MeshIO::~MZ3MeshIO()
   }
   else
   {
-    m_Ifstream.close();
+    if (m_Ifstream.is_open())
+    {
+      m_Ifstream.close();
+    }
+    if (m_Ofstream.is_open())
+    {
+      m_Ofstream.close();
+    }
   }
 }
 
@@ -78,8 +85,8 @@ MZ3MeshIO::CanReadFile(const char * fileName)
   // Read magic number (first 2 bytes)
   uint8_t magic1;
   uint8_t magic2;
-  file.read((char *)&magic1, static_cast<std::streamsize>(sizeof(uint8_t)));
-  file.read((char *)&magic2, static_cast<std::streamsize>(sizeof(uint8_t)));
+  file.read(reinterpret_cast<char *>(&magic1), static_cast<std::streamsize>(sizeof(uint8_t)));
+  file.read(reinterpret_cast<char *>(&magic2), static_cast<std::streamsize>(sizeof(uint8_t)));
 
   // Check for MZ3 signature
   if (magic1 == 0x4D && magic2 == 0x5A)
@@ -115,8 +122,8 @@ MZ3MeshIO::ReadMeshInformation()
   // Read magic number (first 2 bytes)
   uint8_t magic1;
   uint8_t magic2;
-  file.read((char *)&magic1, static_cast<std::streamsize>(sizeof(uint8_t)));
-  file.read((char *)&magic2, static_cast<std::streamsize>(sizeof(uint8_t)));
+  file.read(reinterpret_cast<char *>(&magic1), static_cast<std::streamsize>(sizeof(uint8_t)));
+  file.read(reinterpret_cast<char *>(&magic2), static_cast<std::streamsize>(sizeof(uint8_t)));
   file.close();
 
   // GZip signature (0x1F8B)
@@ -159,19 +166,19 @@ MZ3MeshIO::ReadMeshInformation()
 
   if (m_IsCompressed)
   {
-    gzread(m_Internal->m_GzFile, (char *)&magic, static_cast<unsigned int>(sizeof(magic)));
-    gzread(m_Internal->m_GzFile, (char *)&attr, static_cast<unsigned int>(sizeof(attr)));
-    gzread(m_Internal->m_GzFile, (char *)&nface, static_cast<unsigned int>(sizeof(nface)));
-    gzread(m_Internal->m_GzFile, (char *)&nvert, static_cast<unsigned int>(sizeof(nvert)));
-    gzread(m_Internal->m_GzFile, (char *)&nskip, static_cast<unsigned int>(sizeof(nskip)));
+    gzread(m_Internal->m_GzFile, reinterpret_cast<char *>(&magic), static_cast<unsigned int>(sizeof(magic)));
+    gzread(m_Internal->m_GzFile, reinterpret_cast<char *>(&attr), static_cast<unsigned int>(sizeof(attr)));
+    gzread(m_Internal->m_GzFile, reinterpret_cast<char *>(&nface), static_cast<unsigned int>(sizeof(nface)));
+    gzread(m_Internal->m_GzFile, reinterpret_cast<char *>(&nvert), static_cast<unsigned int>(sizeof(nvert)));
+    gzread(m_Internal->m_GzFile, reinterpret_cast<char *>(&nskip), static_cast<unsigned int>(sizeof(nskip)));
   }
   else
   {
-    m_Ifstream.read((char *)&magic, static_cast<std::streamsize>(sizeof(magic)));
-    m_Ifstream.read((char *)&attr, static_cast<std::streamsize>(sizeof(attr)));
-    m_Ifstream.read((char *)&nface, static_cast<std::streamsize>(sizeof(nface)));
-    m_Ifstream.read((char *)&nvert, static_cast<std::streamsize>(sizeof(nvert)));
-    m_Ifstream.read((char *)&nskip, static_cast<std::streamsize>(sizeof(nskip)));
+    m_Ifstream.read(reinterpret_cast<char *>(&magic), static_cast<std::streamsize>(sizeof(magic)));
+    m_Ifstream.read(reinterpret_cast<char *>(&attr), static_cast<std::streamsize>(sizeof(attr)));
+    m_Ifstream.read(reinterpret_cast<char *>(&nface), static_cast<std::streamsize>(sizeof(nface)));
+    m_Ifstream.read(reinterpret_cast<char *>(&nvert), static_cast<std::streamsize>(sizeof(nvert)));
+    m_Ifstream.read(reinterpret_cast<char *>(&nskip), static_cast<std::streamsize>(sizeof(nskip)));
   }
 
   // const auto isFace = (attr & 1) != 0;
@@ -483,12 +490,12 @@ MZ3MeshIO::WriteMeshInformation()
 
   if (m_IsCompressed)
   {
-    gzwrite(m_Internal->m_GzFile, (char *)&magic1, sizeof(magic1));
-    gzwrite(m_Internal->m_GzFile, (char *)&magic2, sizeof(magic2));
-    gzwrite(m_Internal->m_GzFile, (char *)&attr, sizeof(attr));
-    gzwrite(m_Internal->m_GzFile, (char *)&nface, sizeof(nface));
-    gzwrite(m_Internal->m_GzFile, (char *)&nvert, sizeof(nvert));
-    gzwrite(m_Internal->m_GzFile, (char *)&nskip, sizeof(nskip));
+    gzwrite(m_Internal->m_GzFile, reinterpret_cast<char *>(&magic1), sizeof(magic1));
+    gzwrite(m_Internal->m_GzFile, reinterpret_cast<char *>(&magic2), sizeof(magic2));
+    gzwrite(m_Internal->m_GzFile, reinterpret_cast<char *>(&attr), sizeof(attr));
+    gzwrite(m_Internal->m_GzFile, reinterpret_cast<char *>(&nface), sizeof(nface));
+    gzwrite(m_Internal->m_GzFile, reinterpret_cast<char *>(&nvert), sizeof(nvert));
+    gzwrite(m_Internal->m_GzFile, reinterpret_cast<char *>(&nskip), sizeof(nskip));
   }
   else
   {
@@ -556,7 +563,7 @@ MZ3MeshIO::WriteCells(void * buffer)
     }
     case IOComponentEnum::CHAR:
     {
-      WriteCells(static_cast<unsigned char *>(buffer));
+      WriteCells(static_cast<char *>(buffer));
       break;
     }
     case IOComponentEnum::USHORT:
@@ -611,8 +618,7 @@ MZ3MeshIO::WritePointData(void * buffer)
 {
   if (this->m_PointPixelComponentType == IOComponentEnum::UNKNOWNCOMPONENTTYPE)
   {
-    std::cerr << "Unknown point pixel component type****" << std::endl;
-    return;
+    itkExceptionMacro("Unknown point pixel component type");
   }
   if (m_IsCompressed)
   {
