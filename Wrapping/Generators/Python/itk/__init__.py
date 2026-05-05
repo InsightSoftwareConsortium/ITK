@@ -22,8 +22,14 @@
 # in order to maintain the singular value of the module values.
 # `import .conf.itkConfig` is a different context than
 # `import itkConfig`, even if they are the same file. The
-# LazyLoading and other values may be different in the two contexts.
+# DefaultFactoryLoading and other values may be different in the
+# two contexts.
 from itkConfig import ITK_GLOBAL_VERSION_STRING as __version__
+
+if __package__ != "itk":
+    raise RuntimeError(
+        f"itk/__init__.py loaded as package {__package__!r}; expected 'itk'."
+    )
 
 from itk.support.extras import *
 from itk.support.init_helpers import *
@@ -47,96 +53,143 @@ from itk.support.types import (
     OT,
 )
 
+import sys as _sys
+import threading as _threading
+
+import itkConfig as _itkConfig
+from itk.support import base as _base
+
+# Per-SWIG-module RLock map.  RLock so transitive dependency loads from
+# the same thread don't self-deadlock; one per module so unrelated
+# first-loads (e.g. ITKCommon and ITKIOImageBase from threading.Pool
+# workers) proceed in parallel.  Deliberately threading.RLock — a
+# multiprocessing.RLock would pin the multiprocessing start method
+# and break spawn/forkserver after `import itk`.
+_module_load_locks: dict[str, _threading.RLock] = {}
+_module_load_locks_init = _threading.Lock()
+_lazy_attribute_to_module: dict[str, str] = {}
+_MISSING = object()
+
+
+def _get_module_load_lock(module_name: str) -> _threading.RLock:
+    """Return the RLock for ``module_name``, creating it on first call.
+
+    The lookup is GIL-atomic in CPython; only the create-on-miss path
+    takes the small init lock to ensure two racing threads don't end
+    up with two distinct locks for the same module."""
+    lock = _module_load_locks.get(module_name)
+    if lock is None:
+        with _module_load_locks_init:
+            lock = _module_load_locks.setdefault(module_name, _threading.RLock())
+    return lock
+
+
+def __getattr__(name: str):
+    if name.startswith("__") and name.endswith("__"):
+        raise AttributeError(name)
+    try:
+        module_name = _lazy_attribute_to_module[name]
+    except KeyError:
+        raise AttributeError(f"module 'itk' has no attribute {name!r}") from None
+    this_module = _sys.modules[__name__]
+    with _get_module_load_lock(module_name):
+        cached = vars(this_module).get(name, _MISSING)
+        if cached is not _MISSING:
+            return cached
+        namespace: dict = {}
+        _base.itk_load_swig_module(module_name, namespace)
+        for _attr_name, _attr_value in namespace.items():
+            setattr(this_module, _attr_name, _attr_value)
+        if _itkConfig.DefaultFactoryLoading:
+            _base.load_module_needed_factories(module_name)
+    result = vars(this_module).get(name, _MISSING)
+    if result is _MISSING:
+        raise AttributeError(f"module 'itk' has no attribute {name!r}") from None
+    return result
+
+
+def __dir__():
+    # Set literal — avoids resolving the bare name `set`, which is
+    # shadowed in module globals by `itk.set` (itkTemplate std::set)
+    # once any SWIG module is loaded.
+    return sorted({*globals().keys(), *_lazy_attribute_to_module.keys()})
+
+
+def __reduce_ex__(_protocol: int):
+    # Bare types.ModuleType has no reducer; stdlib pickle raises on 3.12+.
+    import importlib as _importlib
+
+    return (_importlib.import_module, (__name__,))
+
 
 def _initialize_module():
     """
     A function to explicitly avoid polluting the global namespace
     """
-    from .support.base import ITKModuleInfo, ITKTemplateFeatures
+    import importlib
+    import os
+    import sys
 
     # Needed to avoid problem with aliasing of itk.set (itkTemplate)
     # inside the itk namespace.  We need to explicitly specify the
     # use of the builtin set
     from builtins import set as _builtin_set
 
-    def _get_lazy_attributes(local_lazy_attributes, l_module, l_data: ITKModuleInfo):
-        """
-        Set up lazy attribute relationships
-        """
-        for template_feature in l_data._template_feature_tuples:
-            if template_feature._class_in_module:
-                # insert in front front if in library
-                local_lazy_attributes.setdefault(
-                    template_feature._py_class_name, []
-                ).insert(0, l_module)
-            else:
-                # append to end
-                local_lazy_attributes.setdefault(
-                    template_feature._py_class_name, []
-                ).append(l_module)
+    from .support._lazy_submodule import _make_itk_lazy_submodule
 
-        for function in l_data._snake_case_functions:
-            # snake case always appended to end
-            local_lazy_attributes.setdefault(function, []).append(l_module)
-
-        # Remove duplicates in attributes, preserving only the first
-        def _dedup(seq):
-            seen = _builtin_set()
-            seen_add = seen.add
-            return [x for x in seq if not (x in seen or seen_add(x))]
-
-        for k, v in local_lazy_attributes.items():
-            local_lazy_attributes[k] = _dedup(v)
-
-    from .support import base as _base
-    from .support import lazy as _lazy
-    from itkConfig import LazyLoading as _LazyLoading
-    import sys
-    import os
-    import importlib
-
-    if _LazyLoading:
-        # If we are loading lazily (on-demand), make a dict mapping the available
-        # classes/functions/etc. (read from the configuration modules) to the
-        # modules they are declared in. Then pass that dict to a LazyITKModule
-        # instance and (later) do some surgery on sys.modules so that the 'itk'
-        # module becomes that new instance instead of what is executed from this
-        # file.
-        lazy_attributes = {}
-        for module, data in _base.itk_base_global_module_data.items():
-            _get_lazy_attributes(lazy_attributes, module, data)
-
-        if isinstance(sys.modules[__name__], _lazy.LazyITKModule):
-            # Handle reload case where we've already done this once.
-            # If we made a new module every time, multiple reload()s would fail
-            # because the identity of sys.modules['itk'] would always be changing.
-            sys.modules[__name__].__init__(__name__, lazy_attributes)
-            del lazy_attributes
-        else:
-            # Create a new LazyITKModule
-            lzy_module = _lazy.LazyITKModule(__name__, lazy_attributes)
-
-            # Pre-existing attributes need to be propagated too!
-            # except for the lazy overridden elements
-            exclusion_copy_list = ["__name__", "__loader__", "__builtins__"]
-            for k, v in sys.modules[__name__].__dict__.items():
-                if k not in exclusion_copy_list:
-                    setattr(lzy_module, k, v)
-
-            # Now override the default  sys.modules[__name__] (__name__  == 'itk' )
-            sys.modules[__name__] = lzy_module
-    else:
-        # We're not lazy-loading. Just load the modules in the order specified in
-        # the known_modules list for consistency.
-        for module in _base.itk_base_global_module_data.keys():
-            _base.itk_load_swig_module(module, sys.modules[__name__].__dict__)
-
-    # Populate itk.ITKModuleName
+    # Build the flat first-owner-wins map driving module-level
+    # __getattr__, and populate base.itk_base_global_lazy_attributes
+    # with the full set of owners per attribute (consumed by
+    # support/template_class.py:_LoadModules).
+    #
+    # Precedence rules (mirroring the legacy _get_lazy_attributes +
+    # __belong_lazy_attributes pipeline):
+    #   - template_feature with _class_in_module=True: that module
+    #     wins, even over a previously recorded owner.
+    #   - template_feature with _class_in_module=False: first walk
+    #     wins; later writers do not override.
+    #   - snake_case_functions: first walk wins; never override.
     for module, data in _base.itk_base_global_module_data.items():
-        attributes = {}
-        _get_lazy_attributes(attributes, module, data)
-        itk_module = _lazy.LazyITKModule(module, attributes)
-        setattr(sys.modules[__name__], module, itk_module)
+        for template_feature in data._template_feature_tuples:
+            attr = template_feature._py_class_name
+            _base.itk_base_global_lazy_attributes.setdefault(attr, _builtin_set()).add(
+                module
+            )
+            if template_feature._class_in_module:
+                _lazy_attribute_to_module[attr] = module
+            else:
+                _lazy_attribute_to_module.setdefault(attr, module)
+        for function in data._snake_case_functions:
+            _base.itk_base_global_lazy_attributes.setdefault(
+                function, _builtin_set()
+            ).add(module)
+            _lazy_attribute_to_module.setdefault(function, module)
+
+    # Per-submodule lazy namespaces (itk.ITKCommon, ...). Plain
+    # types.ModuleType instances wired with PEP 562 __getattr__ /
+    # __dir__ closures by _make_itk_lazy_submodule, registered in
+    # sys.modules['itk.<Module>'] so cloudpickle round-trips by
+    # dotted name (Tests/lazy.py).
+    this_module = sys.modules[__name__]
+    for module, data in _base.itk_base_global_module_data.items():
+        attributes: dict[str, list[str]] = {}
+        for template_feature in data._template_feature_tuples:
+            if template_feature._class_in_module:
+                attributes.setdefault(template_feature._py_class_name, []).insert(
+                    0, module
+                )
+            else:
+                attributes.setdefault(template_feature._py_class_name, []).append(
+                    module
+                )
+        for function in data._snake_case_functions:
+            attributes.setdefault(function, []).append(module)
+        for k, v in attributes.items():
+            seen = _builtin_set()
+            attributes[k] = [m for m in v if not (m in seen or seen.add(m))]
+
+        itk_module = _make_itk_lazy_submodule(module, attributes, _get_module_load_lock)
+        setattr(this_module, module, itk_module)
 
         # Check if the module installed its own init file and load it.
         # ITK Modules __init__.py must be renamed to __init_{module_name}__.py before packaging
@@ -157,6 +210,40 @@ def _initialize_module():
         spec.loader.exec_module(loaded_module)
 
 
-# After 'lifting' external symbols into this itk namespace,
-# Now do the initialization, and conversion to LazyLoading if necessary
+# Build the lazy-attribute map and materialise per-submodule lazy
+# namespaces. This must run before any consumer attribute access;
+# module-level __getattr__ depends on _lazy_attribute_to_module being
+# populated.
 _initialize_module()
+
+
+def _eager_import_all() -> None:
+    """Force-load every SWIG module advertised by the lazy-attribute map.
+
+    Triggered when ``ITK_EAGER_IMPORT`` is set to ``1`` or ``true`` in
+    the environment.  Walks the unique set of owning SWIG modules and
+    drives one ``__getattr__`` per module so any import-time error
+    (missing dependency, broken extension, mis-configured factory)
+    surfaces synchronously at ``import itk`` rather than being deferred
+    to first-attribute-access in user code.  Diagnostic-only — leaves
+    the lazy machinery in place so subsequent accesses still hit the
+    fast cached path."""
+    import os as _os
+
+    flag = _os.environ.get("ITK_EAGER_IMPORT", "").strip().lower()
+    if flag not in ("1", "true", "yes", "on"):
+        return
+    seen_modules: set = set()
+    for owner in _lazy_attribute_to_module.values():
+        if owner in seen_modules:
+            continue
+        seen_modules.add(owner)
+        for attr_name, attr_owner in _lazy_attribute_to_module.items():
+            if attr_owner == owner:
+                # Trigger module-level __getattr__ exactly once per
+                # SWIG module by resolving any one of its attributes.
+                __getattr__(attr_name)
+                break
+
+
+_eager_import_all()

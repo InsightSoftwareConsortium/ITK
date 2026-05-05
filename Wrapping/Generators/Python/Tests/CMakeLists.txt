@@ -111,9 +111,9 @@ itk_python_add_test(
     ${CMAKE_CURRENT_SOURCE_DIR}/lazy.py
 )
 itk_python_add_test(
-  NAME PythonNoLazyModule
+  NAME PythonLazyImportTime
   COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/nolazy.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/lazy_importtime.py
 )
 itk_python_add_test(
   NAME PythonNoDefaultFactories

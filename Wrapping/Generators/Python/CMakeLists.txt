@@ -10,7 +10,7 @@
 ##      - itk/
 ##        - __init__.py  # cmake copied file
 ##        - support/
-##          - itk(Extras|Template|Base|LazyLoading|...).py # static python files cmake copied
+##          - (extras|template_class|base|_lazy_submodule|...).py # static python files cmake copied
 ##        - Configuration/
 ##          -- ITK${MODULE_ITEM}Config.py # igenerator.py output config database index files for .so
 ##          -- ITK${MODULE_ITEM}_snake_case.py # igenerator.py output config database index files for .so
@@ -185,7 +185,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     support/types
     support/extras
     support/xarray
-    support/lazy
+    support/_lazy_submodule
     support/helpers
     support/init_helpers
     support/build_options
