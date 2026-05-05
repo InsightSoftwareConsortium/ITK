@@ -227,7 +227,7 @@ public:
   }
 
   /** We need to allow itk-style const iterators to be constructed. */
-  typename BufferType::Pointer
+  typename BufferType::ConstPointer
   GetBuffer() const
   {
     return m_Buffer;
