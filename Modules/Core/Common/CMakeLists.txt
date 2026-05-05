@@ -46,6 +46,7 @@ set_property(
       TBB
       Pool
       Platform
+      Single
 )
 
 # See if compiler preprocessor has the __FUNCTION__ directive used by itkExceptionMacro
