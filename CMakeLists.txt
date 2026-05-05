@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.5...3.30 FATAL_ERROR)
 set(CMAKE_POLICY_VERSION_MINIMUM 3.5 CACHE STRING "")
 list(APPEND CMAKE_TRY_COMPILE_PLATFORM_VARIABLES CMAKE_POLICY_VERSION_MINIMUM)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS ON)
 
 foreach(p
     CMP0025 # CMake 3.0
@@ -16,6 +19,19 @@ foreach(p
     )
   if(POLICY ${p})
     cmake_policy(SET ${p} NEW)
+  endif()
+endforeach()
+
+# Preserve era-original behavior for test-source-list construction:
+# create_test_sourcelist accepts entries without an explicit .cxx
+# extension throughout ITK 4.13's test CMakeLists.  CMP0115 (CMake 3.20)
+# made the extension mandatory; pin OLD so the existing per-module test
+# lists keep working without a tree-wide rewrite.
+foreach(p
+    CMP0115 # CMake 3.20
+    )
+  if(POLICY ${p})
+    cmake_policy(SET ${p} OLD)
   endif()
 endforeach()
 
