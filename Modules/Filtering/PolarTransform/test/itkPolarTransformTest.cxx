@@ -18,6 +18,7 @@
 #include "itkPolarToCartesianTransform.h"
 #include "itkCartesianToPolarTransform.h"
 #include "itkMath.h"
+#include <cmath>
 
 int
 itkPolarTransformTest(int, char *[])
@@ -94,6 +95,63 @@ itkPolarTransformTest(int, char *[])
     {
       std::cout << "Invalid cartesian to polar and back computed." << std::endl;
       return EXIT_FAILURE;
+    }
+  }
+
+  /* Regression: r=0 (input at center) must not produce NaN in CartesianToPolar. */
+  {
+    itk::Point<double, Dimension> atCenter(center);
+    tmp = c2p->TransformPoint(atCenter);
+    for (unsigned int i = 0; i < Dimension; ++i)
+    {
+      if (std::isnan(tmp[i]))
+      {
+        std::cout << "NaN produced when input equals center (CartesianToPolar)." << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+    if (tmp[1] != 0.0)
+    {
+      std::cout << "r should be 0 when input equals center." << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+
+  /* Regression: ConstArcIncr=true with r=0 must not divide by zero. */
+  {
+    P2CTransformType::Pointer p2cArc = P2CTransformType::New();
+    p2cArc->SetConstArcIncr(true);
+    itk::Point<double, Dimension> rZero;
+    rZero.Fill(0.0);
+    tmp = p2cArc->TransformPoint(rZero);
+    for (unsigned int i = 0; i < Dimension; ++i)
+    {
+      if (std::isnan(tmp[i]) || std::isinf(tmp[i]))
+      {
+        std::cout << "NaN/Inf produced for r=0 with ConstArcIncr (PolarToCartesian)." << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+  }
+
+  /* Regression: round-trip through pass-through dims with non-zero center in dim >= 2. */
+  {
+    P2CTransformType::InputPointType offsetCenter;
+    offsetCenter.Fill(0.0);
+    offsetCenter[2] = 5.0;
+    P2CTransformType::Pointer p2cOff = P2CTransformType::New();
+    C2PTransformType::Pointer c2pOff = C2PTransformType::New();
+    p2cOff->SetCenter(offsetCenter);
+    c2pOff->SetCenter(offsetCenter);
+
+    tmp = p2cOff->TransformPoint(c2pOff->TransformPoint(c));
+    for (unsigned int i = 0; i < Dimension; ++i)
+    {
+      if (itk::Math::abs(tmp[i] - c[i]) > epsilon)
+      {
+        std::cout << "Round-trip failed with non-zero center in pass-through dim." << std::endl;
+        return EXIT_FAILURE;
+      }
     }
   }
 
