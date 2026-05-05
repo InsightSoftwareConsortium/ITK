@@ -422,6 +422,45 @@ def patch_readme_reference(data: bytes) -> tuple[bytes, bool]:
     return new_data, n > 0
 
 
+# Upstream remote modules wrap their top-level CMakeLists.txt in a
+# standalone-build guard so the same file works both as a
+# remote-fetched module and as a stand-alone CMake project:
+#
+#     if(NOT ITK_SOURCE_DIR)
+#       find_package(ITK REQUIRED)
+#       list(APPEND CMAKE_MODULE_PATH ${ITK_CMAKE_DIR})
+#       include(ITKModuleExternal)
+#     else()
+#       itk_module_impl()
+#     endif()
+#
+# In an in-tree ingested module, ITK_SOURCE_DIR is always defined, so
+# the if-branch is dead code.  Reviewers flag it on every ingest (e.g.
+# @dzenanz on PR #6206 IOMeshSTL).  Strip the wrapper here so it is
+# never present in the ingest history.
+STANDALONE_BUILD_GUARD_RE = re.compile(
+    rb"if\s*\(\s*NOT\s+ITK_SOURCE_DIR\s*\)[ \t]*\n"
+    rb"[ \t]*find_package\s*\(\s*ITK\s+REQUIRED\s*\)[ \t]*\n"
+    rb"[ \t]*list\s*\(\s*APPEND\s+CMAKE_MODULE_PATH\s+"
+    rb"\$\{\s*ITK_CMAKE_DIR\s*\}\s*\)[ \t]*\n"
+    rb"[ \t]*include\s*\(\s*ITKModuleExternal\s*\)[ \t]*\n"
+    rb"[ \t]*else\s*\(\s*\)[ \t]*\n"
+    rb"([ \t]*)itk_module_impl\s*\(\s*\)[ \t]*\n"
+    rb"[ \t]*endif\s*\(\s*\)",
+    re.IGNORECASE,
+)
+
+
+def patch_standalone_build_guard(data: bytes) -> tuple[bytes, bool]:
+    """Replace the `if(NOT ITK_SOURCE_DIR) ... else() itk_module_impl() endif()`
+    standalone-build wrapper with a bare `itk_module_impl()`.  Returns
+    (new_data, changed).  The replacement preserves the indentation of the
+    inner `itk_module_impl()` line so post-rewrite gersemi has a stable
+    starting point."""
+    new_data, n = STANDALONE_BUILD_GUARD_RE.subn(rb"\1itk_module_impl()", data)
+    return new_data, n > 0
+
+
 def fmt_cmake(data: bytes, gersemi_bin: str, gersemi_config: str | None) -> bytes:
     cmd = [gersemi_bin]
     if gersemi_config:
@@ -473,6 +512,7 @@ class HistorySanitizer:
         self.subject_blank_inserts = 0
         self.mode_normalizations = 0
         self.readme_ref_patches = 0
+        self.standalone_guard_patches = 0
         self.blob_count = 0
         self.format_changes = 0
         self.kind_counts: dict[str, int] = {}
@@ -495,7 +535,10 @@ class HistorySanitizer:
         elif kind == "py":
             new_data = fmt_py(original_data, self.black_bin)
         elif kind == "cmake":
-            new_data = fmt_cmake(original_data, self.gersemi_bin, self.gersemi_config)
+            new_data, guard_unwrapped = patch_standalone_build_guard(original_data)
+            if guard_unwrapped:
+                self.standalone_guard_patches += 1
+            new_data = fmt_cmake(new_data, self.gersemi_bin, self.gersemi_config)
             new_data, readme_patched = patch_readme_reference(new_data)
             if readme_patched:
                 self.readme_ref_patches += 1
@@ -674,6 +717,7 @@ def main() -> int:
         f"  blank lines inserted:  {sanitizer.subject_blank_inserts}\n"
         f"  exec-bits cleared:     {sanitizer.mode_normalizations}\n"
         f"  README.rst->.md fixes: {sanitizer.readme_ref_patches}\n"
+        f"  standalone-guard rm:   {sanitizer.standalone_guard_patches}\n"
         f"  blobs scanned:         {sanitizer.blob_count}\n"
         f"  blobs reformatted:     {sanitizer.format_changes}\n"
         f"  by-kind sniff:         "
