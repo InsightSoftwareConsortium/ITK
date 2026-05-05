@@ -1,0 +1,73 @@
+itk_wrap_class("itk::SplitComponentsImageFilter" POINTER)
+
+# Vector -> scalar
+set(types ${WRAP_ITK_INT})
+if(ITK_WRAP_vector_float)
+  list(APPEND types "F")
+endif()
+if(ITK_WRAP_vector_double)
+  list(APPEND types "D")
+endif()
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(t ${types})
+    if(DEFINED ITKT_IV${t}${d}${d})
+      itk_wrap_template(
+          "${ITKM_IV${t}${d}${d}}${ITKM_I${t}${d}}"
+          "${ITKT_IV${t}${d}${d}}, ${ITKT_I${t}${d}}"
+      )
+    endif()
+  endforeach()
+endforeach()
+
+# CovariantVector -> scalar
+set(types ${WRAP_ITK_INT})
+if(ITK_WRAP_covariant_vector_float)
+  list(APPEND types "F")
+endif()
+if(ITK_WRAP_covariant_vector_double)
+  list(APPEND types "D")
+endif()
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(t ${types})
+    if(DEFINED ITKT_IV${t}${d}${d})
+      itk_wrap_template(
+          "${ITKM_ICV${t}${d}${d}}${ITKM_I${t}${d}}"
+          "itk::Image<itk::CovariantVector<${ITKT_${t}}, ${d}>, ${d}>, ${ITKT_I${t}${d}}"
+      )
+    endif()
+  endforeach()
+endforeach()
+
+# VectorImage -> scalar
+unique(types "${WRAP_ITK_SCALAR}")
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(t ${types})
+    itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_I${t}${d}}" "${ITKT_VI${t}${d}},${ITKT_I${t}${d}}")
+  endforeach()
+endforeach()
+
+# RGB(A) -> scalar
+if(ITK_WRAP_rgb_unsigned_char AND ITK_WRAP_unsigned_char)
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    itk_wrap_template("I${ITKM_RGBUC}${d}I${ITKM_UC}${d}3" "itk::Image<${ITKT_RGBUC},${d}>,itk::Image<${ITKT_UC},${d}>,3")
+  endforeach()
+endif()
+if(ITK_WRAP_rgb_unsigned_short AND ITK_WRAP_unsigned_short)
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    itk_wrap_template("I${ITKM_RGBUS}${d}I${ITKM_US}${d}3" "itk::Image<${ITKT_RGBUS},${d}>,itk::Image<${ITKT_US},${d}>,3")
+  endforeach()
+  itk_wrap_image_filter_types(RGBUS US 3)
+endif()
+if(ITK_WRAP_rgba_unsigned_char AND ITK_WRAP_unsigned_char)
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    itk_wrap_template("I${ITKM_RGBAUC}${d}I${ITKM_UC}${d}3" "itk::Image<${ITKT_RGBAUC},${d}>,itk::Image<${ITKT_UC},${d}>,4")
+  endforeach()
+  itk_wrap_image_filter_types(RGBAUC UC 4)
+endif()
+if(ITK_WRAP_rgba_unsigned_short AND ITK_WRAP_unsigned_short)
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    itk_wrap_template("I${ITKM_RGBAUS}${d}I${ITKM_US}${d}3" "itk::Image<${ITKT_RGBAUS},${d}>,itk::Image<${ITKT_US},${d}>,4")
+  endforeach()
+endif()
+
+itk_end_wrap_class()
