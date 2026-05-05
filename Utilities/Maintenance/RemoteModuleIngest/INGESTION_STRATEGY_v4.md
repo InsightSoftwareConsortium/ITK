@@ -240,6 +240,53 @@ sidecar log; the cost of `ENH: STYLE-cleanup-of-headers` slipping past
 review is much lower than the cost of `STYLE: Add new IO format
 support` mis-prefixed.
 
+## Known artifacts at PR-review time
+
+### Unavoidable: ghostflow root-commit failure
+
+The Mode-A `--allow-unrelated-histories` merge brings the upstream
+module's whole lineage into the PR diff, including its first commit
+(zero parents).  ITK's `ghostflow-check-main` rejects every PR that
+introduces a root commit:
+
+```
+commit <sha> not allowed; it is a root commit.
+```
+
+This single error is **expected and accepted** for every v4 ingest —
+maintainers override at merge time.  Removing the root would force
+linearization (squash or rebase-without-merges) and forfeit the
+merge-topology requirement (per `feedback_ingest_merge_topology.md`),
+which the project considers a worse trade.
+
+If `ghostflow-check-main` reports any error other than the single
+root-commit line, that error **is** a real problem for the operator to
+fix before maintainer review.  Keep an eye on the message body.
+
+### Code-level patterns commonly flagged by Greptile post-ingest
+
+Phase A's per-commit gates fix style and prefix issues but not
+semantics.  These patterns recur across upstream remote modules and
+each requires a human-judgment fix once the ingest is in PR form.
+The list is intentionally short — only patterns observed on multiple
+v3/v4 ingests are listed.  Treat it as the operator's pre-ready-for-
+review checklist, not as something to auto-fix.
+
+| Pattern | Where seen | Resolution |
+|---|---|---|
+| Signed `int32_t` / `int` used for spec-defined unsigned counts (e.g. file-format triangle counts, voxel counts) | IOMeshSTL #6206 | Switch to `uint32_t` / `SizeValueType`; retype `ByteSwapper<>`; verify decrement loops |
+| Missing `override` specifier on virtual base-class method overrides | (universal) | Add `override`; if base method is non-virtual, document why the derived method shadows |
+| Dead `return;` after `itkExceptionMacro(...)` | IOMeshSTL #6206 | `itkExceptionMacro` throws; the trailing `return;` is unreachable — delete |
+| `inputFilename=` in error path that opens the **output** stream (and vice-versa) | IOMeshSTL #6206 | Cosmetic but misleading; correct the label |
+| Test pipeline `Update()` not wrapped in `ITK_TRY_EXPECT_NO_EXCEPTION` | IOMeshSTL #6206 | Wrap so failure surfaces with a descriptive message instead of an unhandled-exception crash |
+| `GetBuffer() const` returning a non-`const` smart pointer (allows mutation through a `const` receiver) | RLEImage #6208 | Return `BufferType::ConstPointer`; consider whether `m_Buffer`'s `mutable` is necessary |
+| Global-namespace forward declaration + `friend class ::Foo;` inside an ITK header, where `Foo` is not part of ITK | RLEImage #6208 | Strip both the forward decl and the `friend` grant; they are remote-module-internal coupling |
+| Stray positional argument after the function name in `itk_add_test(... COMMAND ...Driver fnName <stray>)` | RLEImage #6208 | Test driver passes `argv[2..n]` to `fnName` as arguments — it does not invoke a second function. Remove the stray, register the second test separately if needed |
+| Allocator overrides whose `bool initialize` parameter is silently ignored | RLEImage #6208 | Verify the override has an internal invariant requiring unconditional init **before** "fixing" — for some module types (e.g. RLEImage's RLE-line buffer) the unconditional fill IS the contract; document it instead |
+
+When an upcoming ingest hits a new pattern that recurs across modules,
+extend this table; it is the durable channel for v4 review-knowledge.
+
 ## What this strategy explicitly does NOT change from v3
 
 - The Mode-A (`--no-ff --allow-unrelated-histories`) merge into ITK
