@@ -55,7 +55,7 @@ itkDCMTKImageIOMetadataTest(int argc, char * argv[])
   // Values are specific to the test file Input/DicomSeries/Image0075.dcm
   std::string value;
 
-  // (0008,0021) DA  StudyDate
+  // (0008,0021) DA  SeriesDate
   ITK_TEST_EXPECT_TRUE(itk::ExposeMetaData<std::string>(dict, "0008|0021", value));
   ITK_TEST_EXPECT_EQUAL(value, std::string("20030625"));
 
