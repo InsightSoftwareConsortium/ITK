@@ -416,8 +416,104 @@ image = itk.GetImageViewFromArray(arr)
 image.FillBuffer(2)
 assert np.all(arr == itk.array_from_image(image))
 arr_fortran = arr.copy(order="F")
-image = itk.GetImageViewFromArray(arr_fortran)
+# F-contiguous input now triggers a deep-copy warning from GetImageViewFromArray.
+import warnings as _w
+
+with _w.catch_warnings():
+    _w.simplefilter("ignore")
+    image = itk.GetImageViewFromArray(arr_fortran)
 assert np.array_equal(arr_fortran.shape, image.shape)
+# Test that image_from_array handles array.T correctly (F-contiguous arrays)
+test_arr = np.empty((1, 2, 3))
+image_from_arr = itk.image_from_array(test_arr)
+image_from_transpose = itk.image_from_array(test_arr.T)
+image_from_transpose_copy = itk.image_from_array(test_arr.T.copy())
+assert np.array_equal(
+    image_from_arr.shape, test_arr.shape
+), f"Expected shape {test_arr.shape}, got {image_from_arr.shape}"
+assert np.array_equal(
+    image_from_transpose.shape, test_arr.T.shape
+), f"Expected shape {test_arr.T.shape}, got {image_from_transpose.shape}"
+assert np.array_equal(
+    image_from_transpose_copy.shape, test_arr.T.shape
+), f"Expected shape {test_arr.T.shape}, got {image_from_transpose_copy.shape}"
+# Also verify with image_view_from_array for consistency
+image_view_from_arr = itk.image_view_from_array(test_arr)
+image_view_from_transpose = itk.image_view_from_array(test_arr.T)
+assert np.array_equal(
+    image_view_from_arr.shape, test_arr.shape
+), f"Expected shape {test_arr.shape}, got {image_view_from_arr.shape}"
+assert np.array_equal(
+    image_view_from_transpose.shape, test_arr.T.shape
+), f"Expected shape {test_arr.T.shape}, got {image_view_from_transpose.shape}"
+
+# Pixel-data correctness: image_from_array(arr.T) must reflect the transposed
+# data, not the original.  Use a non-symmetric pattern so a silent no-op
+# transpose would be detectable.
+seeded = np.arange(2 * 3 * 4, dtype=np.float32).reshape((2, 3, 4))
+image_seeded = itk.image_from_array(seeded)
+image_seeded_T = itk.image_from_array(seeded.T)
+seeded_back = itk.array_from_image(image_seeded)
+seeded_T_back = itk.array_from_image(image_seeded_T)
+assert np.array_equal(seeded_back, seeded), "C-contig pixel data round-trip failed"
+assert np.array_equal(
+    seeded_T_back, np.ascontiguousarray(seeded.T)
+), "Transposed pixel data does not match np.ascontiguousarray(seeded.T)"
+# And the transpose must NOT silently equal the original (the bug we fixed).
+assert not np.array_equal(seeded_back, seeded_T_back), (
+    "image_from_array(arr.T) silently produced the same image as "
+    "image_from_array(arr); the F-contiguous double-reversal bug regressed."
+)
+
+# Round-trip self-consistency: array -> image -> array equals
+# np.ascontiguousarray(input) for both C- and F-contiguous inputs.
+for layout, candidate in (
+    ("C", seeded),
+    ("F", np.asfortranarray(seeded)),
+    ("transposed", seeded.T),
+    ("non-contig slice", seeded[:, :, ::2]),
+):
+    img = itk.image_from_array(candidate)
+    arr_back = itk.array_from_image(img)
+    expected = np.ascontiguousarray(candidate)
+    assert np.array_equal(arr_back, expected), (
+        f"Round-trip failed for {layout} input "
+        f"(shape={candidate.shape}, contig=C:{candidate.flags['C_CONTIGUOUS']}/"
+        f"F:{candidate.flags['F_CONTIGUOUS']})"
+    )
+
+# Deep-copy independence: mutating the original array after conversion must
+# NOT change the resulting image (since non-C-contiguous inputs deep-copy,
+# and image_from_array deep-copies via ImageDuplicator regardless).
+mut = np.asfortranarray(seeded)
+img_mut = itk.image_from_array(mut)
+mut_snapshot = itk.array_from_image(img_mut).copy()
+mut[...] = -1  # in-place modification of the original
+assert np.array_equal(itk.array_from_image(img_mut), mut_snapshot), (
+    "Mutating the original F-contiguous array changed the image; deep-copy "
+    "ownership invariant broken."
+)
+
+# Error paths: ndim must be in 1..5, and is_vector requires ndim>=2.
+try:
+    itk.PyBuffer[itk.Image[itk.UC, 3]].GetImageViewFromArray(
+        np.empty((2, 2, 2, 2, 2, 2), dtype=np.uint8)
+    )
+except ValueError:
+    pass
+else:
+    raise AssertionError("GetImageViewFromArray(ndim=6) should have raised ValueError")
+try:
+    itk.PyBuffer[itk.VectorImage[itk.UC, 3]].GetImageViewFromArray(
+        np.empty((4,), dtype=np.uint8), is_vector=True
+    )
+except ValueError:
+    pass
+else:
+    raise AssertionError(
+        "GetImageViewFromArray(ndim=1, is_vector=True) should have raised ValueError"
+    )
+
 image = itk.image_from_array(arr, is_vector=True)
 assert image.GetImageDimension() == 2
 image = itk.GetImageViewFromArray(arr, is_vector=True)

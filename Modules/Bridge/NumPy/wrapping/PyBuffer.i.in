@@ -70,38 +70,44 @@
         If is_vector is True, then a 3D array will be treated as a 2D vector image,
         otherwise it will be treated as a 3D image.
 
-        If the array uses Fortran-order indexing, i.e. i,j,k, the Image Size
-        will have the same dimensions as the array shape. If the array uses
-        C-order indexing, i.e. k,j,i, the image Size will have the dimensions
-        reversed from the array shape.
+        The image's Size is the reverse of the array's shape -- i.e.
+        ``itk.size(image) == array.shape[::-1]`` -- and the index ordering
+        follows ``image[i, j, k] == array[k, j, i]``. This holds regardless
+        of the array's memory layout: non-C-contiguous inputs (Fortran-order,
+        transposed, sliced, etc.) are first deep-copied via
+        ``np.ascontiguousarray()`` so the NumPy-reversed-shape rule applies
+        uniformly.
 
-        Therefore, since the *np.transpose* operator on a 2D array simply
-        inverts the indexing scheme, the Image representation will be the
-        same for an array and its transpose. If flipping is desired, see
-        *np.reshape*.
+        Consequently, ``arr`` and ``arr.T`` produce ITK images with
+        different (reversed) sizes -- ``np.transpose`` / ``.T`` is the correct
+        operation to flip the dimension order.
 
-        By default, a warning is issued if this function is called on a non-contiguous
+        By default, a warning is issued if this function is called on a non-C-contiguous
         array, since a copy is performed and care must be taken to keep a reference
         to the copied array. This warning can be suppressed with need_contiguous=False
         """
 
-        assert ndarr.ndim in (1, 2, 3, 4, 5), \
-            "Only arrays of 1, 2, 3, 4 or 5 dimensions are supported."
-        if not ndarr.flags['C_CONTIGUOUS'] and not ndarr.flags['F_CONTIGUOUS']:
+        if ndarr.ndim not in (1, 2, 3, 4, 5):
+            raise ValueError(
+                "Only arrays of 1, 2, 3, 4 or 5 dimensions are supported; got ndim={0}.".format(ndarr.ndim)
+            )
+        if is_vector and ndarr.ndim < 2:
+            raise ValueError(
+                "is_vector=True requires ndim>=2: the last numpy axis is the component count "
+                "and at least one spatial axis must remain; got ndim={0}.".format(ndarr.ndim)
+            )
+        if not ndarr.flags['C_CONTIGUOUS']:
             ndarr = np.ascontiguousarray(ndarr)
             if need_contiguous:
                 import warnings
-                msg = """Because the input array was not contiguous, the returned
-                image is not a view of the array passed to this function. Instead,
-                it is a view of the member "base" of the returned image! If that
-                member is ever garbage collected, this view becomes invalid."""
-                warnings.warn(msg)
+                msg = ("Because the input array was not C-contiguous, the returned "
+                       "image is not a view of the array passed to this function. Instead, "
+                       "it is a view of the member \"base\" of the returned image! If that "
+                       "member is ever garbage collected, this view becomes invalid.")
+                warnings.warn(msg, stacklevel=2)
 
         if is_vector:
-            if ndarr.flags['C_CONTIGUOUS']:
-                imgview = itkPyBuffer@PyBufferTypes@._get_image_view_from_contiguous_array(ndarr, ndarr.shape[-2::-1], ndarr.shape[-1])
-            else:
-                imgview = itkPyBuffer@PyBufferTypes@._get_image_view_from_contiguous_array(ndarr, ndarr.shape[-1:0:-1], ndarr.shape[0])
+            imgview = itkPyBuffer@PyBufferTypes@._get_image_view_from_contiguous_array(ndarr, ndarr.shape[-2::-1], ndarr.shape[-1])
         else:
             imgview = itkPyBuffer@PyBufferTypes@._get_image_view_from_contiguous_array(ndarr, ndarr.shape[::-1], 1)
 
@@ -121,15 +127,17 @@
         If is_vector is True, then a 3D array will be treated as a 2D vector image,
         otherwise it will be treated as a 3D image.
 
-        If the array uses Fortran-order indexing, i.e. i,j,k, the Image Size
-        will have the same dimensions as the array shape. If the array uses
-        C-order indexing, i.e. k,j,i, the image Size will have the dimensions
-        reversed from the array shape.
+        The image's Size is the reverse of the array's shape -- i.e.
+        ``itk.size(image) == array.shape[::-1]`` -- and the index ordering
+        follows ``image[i, j, k] == array[k, j, i]``. This holds regardless
+        of the array's memory layout: non-C-contiguous inputs (Fortran-order,
+        transposed, sliced, etc.) are first deep-copied via
+        ``np.ascontiguousarray()`` so the NumPy-reversed-shape rule applies
+        uniformly.
 
-        Therefore, since the *np.transpose* operator on a 2D array simply
-        inverts the indexing scheme, the Image representation will be the
-        same for an array and its transpose. If flipping is desired, see
-        *np.reshape*.
+        Consequently, ``arr`` and ``arr.T`` produce ITK images with
+        different (reversed) sizes -- ``np.transpose`` / ``.T`` is the correct
+        operation to flip the dimension order.
         """
 
         # Create a temporary image view of the array
