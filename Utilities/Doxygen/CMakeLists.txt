@@ -1,7 +1,16 @@
 #
 # Build the documentation
 #
-include (${CMAKE_ROOT}/Modules/Documentation.cmake)
+# CMake's Documentation.cmake was deprecated in CMake 3.18 via CMP0106 and
+# removed entirely in CMake 4.0.  Use the bundled module on older CMake
+# (preserving any auxiliary behavior it provides on era-original toolchains)
+# and inline the BUILD_DOCUMENTATION option on CMake >= 4.0 where the file
+# no longer ships.
+if(CMAKE_VERSION VERSION_LESS 4.0)
+  include(${CMAKE_ROOT}/Modules/Documentation.cmake)
+else()
+  option(BUILD_DOCUMENTATION "Build the documentation (Doxygen)." OFF)
+endif()
 
 mark_as_advanced(BUILD_DOCUMENTATION)
 
