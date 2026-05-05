@@ -57,6 +57,7 @@ cmd = '''cmake
   -DModule_Montage:BOOL=ON
   -DModule_FastBilateral:BOOL=ON
   -DModule_GenericLabelInterpolator:BOOL=ON
+  -DModule_IOMeshSTL:BOOL=ON
   -DModule_LabelErodeDilate:BOOL=ON
   -DModule_MeshNoise:BOOL=ON
   -DModule_MGHIO:BOOL=ON
