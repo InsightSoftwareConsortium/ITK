@@ -27,7 +27,7 @@ namespace itk
 /**
  * \class MZ3MeshIOFactory
  * \brief Create instances of MZ3MeshIO objects using an object factory.
- * \ingroup ITKIOMeshMZ3
+ * \ingroup IOMeshMZ3
  */
 class IOMeshMZ3_EXPORT MZ3MeshIOFactory : public ObjectFactoryBase
 {

@@ -130,7 +130,6 @@ public:
   Write() override;
 
 protected:
-protected:
   MZ3MeshIO();
   ~MZ3MeshIO() override;
 
