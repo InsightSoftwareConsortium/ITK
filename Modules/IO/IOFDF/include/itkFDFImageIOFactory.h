@@ -24,8 +24,8 @@
 namespace itk
 {
 /** \class FDFImageIOFactory
- *  \ingroup ITKIOFDF
  * \brief Create instances of FDFImageIO objects using an object factory.
+ * \ingroup IOFDF
  */
 class IOFDF_EXPORT FDFImageIOFactory : public ObjectFactoryBase
 {

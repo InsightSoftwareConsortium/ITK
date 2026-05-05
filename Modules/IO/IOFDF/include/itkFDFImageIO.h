@@ -28,7 +28,7 @@ namespace itk
  *
  * \brief ImageIO object for reading and writing FDF images
  *
- * \ingroup IOIOFDF
+ * \ingroup IOFDF
  *
  */
 class IOFDF_EXPORT FDFImageIO : public ImageIOBase
