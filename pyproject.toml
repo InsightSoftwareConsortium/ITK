@@ -62,6 +62,7 @@ cmd = '''cmake
   -DModule_MeshNoise:BOOL=ON
   -DModule_MGHIO:BOOL=ON
   -DModule_SplitComponents:BOOL=ON
+  -DModule_IOMeshMZ3:BOOL=ON
   -DITK_COMPUTER_MEMORY_SIZE:STRING=11
   -DModule_StructuralSimilarity:BOOL=ON'''
 description = "Configure ITK for CI (with ccache compiler launcher)"
