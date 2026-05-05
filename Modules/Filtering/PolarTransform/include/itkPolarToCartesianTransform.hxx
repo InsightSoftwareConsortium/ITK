@@ -73,13 +73,9 @@ PolarToCartesianTransform<TParametersValueType, NDimensions>::TransformPoint(con
 
   alpha += m_AngleOffset; // add offset after NaN return to keep values within [-pi,pi]
 
-  outputPoint[0] = inputPoint[1] * std::cos(alpha); // r*cos(alpha)
-  outputPoint[1] = inputPoint[1] * std::sin(alpha); // r*sin(alpha)
-
-  for (unsigned int ii = 0; ii < SpaceDimension; ++ii)
-  {
-    outputPoint[ii] = this->m_Center[ii] + outputPoint[ii];
-  }
+  // Pass-through dims (ii >= 2) keep inputPoint values to match CartesianToPolar's round-trip.
+  outputPoint[0] = this->m_Center[0] + inputPoint[1] * std::cos(alpha); // m_Center[0] + r*cos(alpha)
+  outputPoint[1] = this->m_Center[1] + inputPoint[1] * std::sin(alpha); // m_Center[1] + r*sin(alpha)
 
   return outputPoint;
 }
