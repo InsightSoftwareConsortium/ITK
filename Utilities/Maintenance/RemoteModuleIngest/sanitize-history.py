@@ -461,6 +461,30 @@ def patch_standalone_build_guard(data: bytes) -> tuple[bytes, bool]:
     return new_data, n > 0
 
 
+# Upstream module CMakeLists.txt frequently begin with their own
+# cmake_minimum_required(VERSION X.Y.Z) declaration (often
+# 3.10.2 or earlier).  In-tree, ITK's top-level CMakeLists pins a
+# higher minimum, so the per-module line is at best redundant and at
+# worst conflicts with policy.  Reviewers (e.g. @dzenanz on PR #6215
+# IOFDF) flag it on every ingest with the comment "Version behind,
+# not needed."  Strip the standalone declaration here so it is never
+# present in the ingest history.
+CMAKE_MIN_REQUIRED_RE = re.compile(
+    rb"^[ \t]*cmake_minimum_required\s*\([^)]*\)[ \t]*\n",
+    re.IGNORECASE | re.MULTILINE,
+)
+
+
+def patch_drop_cmake_minimum_required(data: bytes) -> tuple[bytes, bool]:
+    """Remove any ``cmake_minimum_required(...)`` line from a CMake blob.
+    Returns (new_data, changed).  Safe to apply to every CMake blob:
+    only top-level module CMakeLists files normally carry this idiom,
+    and ITK does not want the per-module declaration anywhere in the
+    ingested tree."""
+    new_data, n = CMAKE_MIN_REQUIRED_RE.subn(b"", data)
+    return new_data, n > 0
+
+
 def fmt_cmake(data: bytes, gersemi_bin: str, gersemi_config: str | None) -> bytes:
     cmd = [gersemi_bin]
     if gersemi_config:
@@ -513,6 +537,7 @@ class HistorySanitizer:
         self.mode_normalizations = 0
         self.readme_ref_patches = 0
         self.standalone_guard_patches = 0
+        self.cmake_min_required_drops = 0
         self.blob_count = 0
         self.format_changes = 0
         self.kind_counts: dict[str, int] = {}
@@ -538,6 +563,9 @@ class HistorySanitizer:
             new_data, guard_unwrapped = patch_standalone_build_guard(original_data)
             if guard_unwrapped:
                 self.standalone_guard_patches += 1
+            new_data, cmake_min_dropped = patch_drop_cmake_minimum_required(new_data)
+            if cmake_min_dropped:
+                self.cmake_min_required_drops += 1
             new_data = fmt_cmake(new_data, self.gersemi_bin, self.gersemi_config)
             new_data, readme_patched = patch_readme_reference(new_data)
             if readme_patched:
@@ -718,6 +746,7 @@ def main() -> int:
         f"  exec-bits cleared:     {sanitizer.mode_normalizations}\n"
         f"  README.rst->.md fixes: {sanitizer.readme_ref_patches}\n"
         f"  standalone-guard rm:   {sanitizer.standalone_guard_patches}\n"
+        f"  cmake_min_required rm: {sanitizer.cmake_min_required_drops}\n"
         f"  blobs scanned:         {sanitizer.blob_count}\n"
         f"  blobs reformatted:     {sanitizer.format_changes}\n"
         f"  by-kind sniff:         "
