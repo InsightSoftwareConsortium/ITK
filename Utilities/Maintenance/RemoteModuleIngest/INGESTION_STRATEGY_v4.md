@@ -263,14 +263,29 @@ If `ghostflow-check-main` reports any error other than the single
 root-commit line, that error **is** a real problem for the operator to
 fix before maintainer review.  Keep an eye on the message body.
 
+### Patterns Phase A now sanitizes automatically
+
+The following recurring upstream artifacts are stripped or rewritten
+by the v4 sanitizer; operators do not need to fix them by hand:
+
+| Artifact | Where handled | Why |
+|---|---|---|
+| `**/.ExternalData_*` (e.g. `.ExternalData_MD5_<hash>` baseline cache) | `ingest-module-v4.sh` deny-pass | Local fetch-cache from upstream's CTest run; ExternalData regenerates from `.cid` / `.md5` sidecars on demand. (@dzenanz, PR #6206) |
+| `if(NOT ITK_SOURCE_DIR) ... find_package(ITK) ... else() itk_module_impl() endif()` standalone-build guard in module `CMakeLists.txt` | `sanitize-history.py:patch_standalone_build_guard` | In-tree, `ITK_SOURCE_DIR` is always defined; the if-branch is dead code. (@dzenanz, PR #6206) |
+| `README.rst` references in CMake `file(READ ...)` calls | `sanitize-history.py:patch_readme_reference` | Phase B archival promotes `MIGRATION_README.md` to `README.md`; in-tree consumers read the markdown form |
+| `*.orig`, `*.rej`, `*.BACKUP.*`, `*.LOCAL.*`, `*.REMOTE.*`, `*.BASE.*` | deny-pass | Leftover merge-conflict artifacts |
+| Scaffolding (`Dockerfile*`, `azure-pipelines*.yml`, `.github/`, `.travis.yml`, `.circleci/`, `tox.ini`, `pyproject.toml`, `setup.py`, `.clang-format`, `.pre-commit-config.yaml`, …) | deny-pass | Module's per-repo CI/packaging is irrelevant in-tree |
+
+Each sanitizer prints a `<count> patches` line in the run summary so
+the operator can confirm the rule fired (or didn't) on a given module.
+
 ### Code-level patterns commonly flagged by Greptile post-ingest
 
-Phase A's per-commit gates fix style and prefix issues but not
-semantics.  These patterns recur across upstream remote modules and
-each requires a human-judgment fix once the ingest is in PR form.
-The list is intentionally short — only patterns observed on multiple
+The patterns below still require **human judgment** to fix — they're
+semantic, not mechanical, and the v4 sanitizer leaves them alone.
+The list is intentionally short: only patterns observed on multiple
 v3/v4 ingests are listed.  Treat it as the operator's pre-ready-for-
-review checklist, not as something to auto-fix.
+review checklist.
 
 | Pattern | Where seen | Resolution |
 |---|---|---|
