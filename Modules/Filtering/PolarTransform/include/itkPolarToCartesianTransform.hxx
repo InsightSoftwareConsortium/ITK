@@ -52,7 +52,15 @@ PolarToCartesianTransform<TParametersValueType, NDimensions>::TransformPoint(con
   double alpha = inputPoint[0];
   if (m_ConstArcIncr)
   {
-    alpha /= inputPoint[1]; // alpha = arc/r
+    if (inputPoint[1] == 0.0)
+    {
+      // r=0: output collapses to the center; alpha is undefined, avoid arc/r = 0/0 or arc/0.
+      alpha = 0.0;
+    }
+    else
+    {
+      alpha /= inputPoint[1]; // alpha = arc/r
+    }
   }
 
   if (m_ReturnNaN && (alpha < -Math::pi || Math::pi < alpha))
