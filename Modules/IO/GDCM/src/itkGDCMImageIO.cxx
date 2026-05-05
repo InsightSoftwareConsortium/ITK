@@ -880,7 +880,17 @@ GDCMImageIO::Write(const void * buffer)
     {
       const gdcm::DictEntry & dictEntry = pubdict.GetDictEntry(tag);
       const gdcm::VR::VRType  vrtype = dictEntry.GetVR();
-      if (dictEntry.GetVR() == gdcm::VR::SQ)
+      if (vrtype == gdcm::VR::INVALID)
+      {
+        // The (group,element) parsed cleanly but is not in GDCM's public
+        // dictionary (private vendor tag, custom tag, or typo).  Calling
+        // gdcm::StringFilter::FromString with VR::INVALID falls through
+        // to its switch default and hits gdcm_assert(0), terminating the
+        // process.  Surface the key via the existing problematicKeys
+        // warning channel and skip writing this tag.
+        problematicKeys.push_back(key);
+      }
+      else if (vrtype == gdcm::VR::SQ)
       {
         // How did we reach here ?
       }
