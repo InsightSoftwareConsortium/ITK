@@ -506,7 +506,8 @@ DCMTKImageIO::ReadImageInformation()
       std::snprintf(key, sizeof(key), "%04x|%04x", tag.getGroup(), tag.getElement());
 
       const DcmEVR vr = element->getVR();
-      if (vr == EVR_SQ || vr == EVR_OB || vr == EVR_OW || vr == EVR_OF || vr == EVR_UN || vr == EVR_ox || vr == EVR_px)
+      if (vr == EVR_SQ || vr == EVR_OB || vr == EVR_OW || vr == EVR_OF || vr == EVR_OD || vr == EVR_OL ||
+          vr == EVR_OV || vr == EVR_UN || vr == EVR_ox || vr == EVR_px)
       {
         // Binary VR — base64-encode the raw bytes
         Uint8 * byteValue = nullptr;
