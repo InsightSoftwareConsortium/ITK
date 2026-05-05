@@ -765,7 +765,8 @@ GDCMImageIO::InternalReadImageInformation()
     // Process binary field and encode them as mime64: only when we do not know
     // of any better
     // representation. VR::US is binary, but user want ASCII representation.
-    if (vr & (gdcm::VR::OB | gdcm::VR::OF | gdcm::VR::OW | gdcm::VR::SQ | gdcm::VR::UN))
+    if (vr & (gdcm::VR::OB | gdcm::VR::OD | gdcm::VR::OF | gdcm::VR::OL | gdcm::VR::OV | gdcm::VR::OW | gdcm::VR::SQ |
+              gdcm::VR::UN))
     {
       // itkAssertInDebugAndIgnoreInReleaseMacro( vr & gdcm::VR::VRBINARY );
       /*
@@ -894,9 +895,8 @@ GDCMImageIO::Write(const void * buffer)
       {
         // How did we reach here ?
       }
-      else if (vrtype & (gdcm::VR::OB | gdcm::VR::OF | gdcm::VR::OW /*|
-                                                                      gdcm::VR::SQ*/
-                         | gdcm::VR::UN))
+      else if (vrtype &
+               (gdcm::VR::OB | gdcm::VR::OD | gdcm::VR::OF | gdcm::VR::OL | gdcm::VR::OV | gdcm::VR::OW | gdcm::VR::UN))
       {
         // Custom VR::VRBINARY
         // convert value from Base64
