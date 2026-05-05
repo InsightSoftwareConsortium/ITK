@@ -499,7 +499,7 @@ public:
   IsImageFile(const std::string & filename);
 
   DcmDataset *
-  GetDataset() const
+  GetDataset()
   {
     return m_Dataset;
   }
