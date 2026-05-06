@@ -89,7 +89,7 @@ itkVTIImageIOReadWriteTest(int argc, char * argv[])
   reader->SetFileName(inputImage);
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->UpdateOutputInformation());
 
-  auto imageIO = reader->GetImageIO();
+  auto imageIO = reader->GetModifiableImageIO();
   imageIO->SetFileName(inputImage);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(imageIO->ReadImageInformation());

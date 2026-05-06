@@ -16,6 +16,10 @@ set(
 
 createtestdriver( RLEImage "${RLEImage-Test_LIBRARIES}" "${RLEImageTests}" )
 
+set(RLEImageGTests itkRLEImageAlgorithmCopyGTest.cxx)
+
+creategoogletestdriver(RLEImage "${RLEImage-Test_LIBRARIES}" "${RLEImageGTests}")
+
 add_executable(
   runFromIDE
   manualTest.cxx

@@ -53,8 +53,8 @@ ImageAlgorithm::ReferenceCopy(const InputImageType *                       inIma
     return;
   }
 
-  ImageRegionConstIterator it(inImage, inRegion);
-  ImageRegionIterator      ot(outImage, outRegion);
+  ImageRegionConstIterator<InputImageType> it(inImage, inRegion);
+  ImageRegionIterator<OutputImageType>     ot(outImage, outRegion);
 
   while (!it.IsAtEnd())
   {
