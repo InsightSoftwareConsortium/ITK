@@ -35,6 +35,7 @@
 #include "dcmtk/dcmdata/dcsequen.h"
 #include "itkMacro.h"
 #include "itkImageIOBase.h"
+#include "itkMetaDataDictionary.h"
 
 class DcmSequenceOfItems;
 class DcmFileFormat;
@@ -498,11 +499,8 @@ public:
   static bool
   IsImageFile(const std::string & filename);
 
-  DcmDataset *
-  GetDataset()
-  {
-    return m_Dataset;
-  }
+  void
+  PopulateMetaDataDictionary(MetaDataDictionary & dict) const;
 
 private:
   std::string      m_FileName;

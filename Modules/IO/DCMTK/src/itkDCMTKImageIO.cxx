@@ -21,18 +21,15 @@
 #include "itkByteSwapper.h"
 #include "itksys/SystemTools.hxx"
 #include "itkDCMTKFileReader.h"
-#include "itkMetaDataObject.h"
 #include <iostream>
 #include "vnl/vnl_cross.h"
 #include "itkMath.h"
-#include "itksys/Base64.h"
 
 #include "dcmtk/dcmimgle/dcmimage.h"
 #include "dcmtk/dcmjpeg/djdecode.h"
 #include "dcmtk/dcmjpls/djdecode.h"
 #include "dcmtk/dcmdata/dcmetinf.h"
 #include "dcmtk/dcmdata/dcrledrg.h"
-#include "dcmtk/dcmdata/dcelem.h"
 #include "dcmtk/oflog/oflog.h"
 
 namespace
@@ -481,69 +478,7 @@ DCMTKImageIO::ReadImageInformation()
     this->m_Spacing.push_back(1.0);
   }
 
-  // Populate the metadata dictionary with all DICOM tag values
-  MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  dict.Clear();
-  DcmDataset * dataset = reader.GetDataset();
-  if (dataset != nullptr)
-  {
-    const unsigned long numElements = dataset->card();
-    for (unsigned long i = 0; i < numElements; ++i)
-    {
-      DcmElement * element = dataset->getElement(i);
-      if (element == nullptr)
-      {
-        continue;
-      }
-      const DcmTag & tag = element->getTag();
-      // Skip pixel data (7FE0,0010)
-      if (tag.getGroup() == 0x7fe0 && tag.getElement() == 0x0010)
-      {
-        continue;
-      }
-      // Format key as "GGGG|EEEE" (lowercase hex, matching GDCMImageIO)
-      char key[10];
-      std::snprintf(key, sizeof(key), "%04x|%04x", tag.getGroup(), tag.getElement());
-
-      const DcmEVR vr = element->getVR();
-      if (vr == EVR_SQ)
-      {
-        // Sequences are nested datasets, not byte arrays; getUint8Array() does
-        // not return their content.  Skip rather than emit an empty entry.
-        continue;
-      }
-      if (vr == EVR_OB || vr == EVR_OW || vr == EVR_OF || vr == EVR_OD || vr == EVR_OL || vr == EVR_OV ||
-          vr == EVR_UN || vr == EVR_ox || vr == EVR_px)
-      {
-        // Binary VR — base64-encode the raw bytes
-        Uint8 * byteValue = nullptr;
-        if (element->getUint8Array(byteValue) == EC_Normal && byteValue != nullptr)
-        {
-          const Uint32 length = element->getLength();
-          if (length > 0)
-          {
-            int encodedLengthEstimate = 2 * static_cast<int>(length);
-            encodedLengthEstimate = ((encodedLengthEstimate / 4) + 1) * 4;
-            const auto bin = std::make_unique<char[]>(encodedLengthEstimate);
-            const auto encodedLengthActual =
-              static_cast<unsigned int>(itksysBase64_Encode(reinterpret_cast<const unsigned char *>(byteValue),
-                                                            static_cast<SizeValueType>(length),
-                                                            reinterpret_cast<unsigned char *>(bin.get()),
-                                                            0));
-            EncapsulateMetaData<std::string>(dict, key, std::string(bin.get(), encodedLengthActual));
-          }
-        }
-      }
-      else
-      {
-        OFString value;
-        if (element->getOFStringArray(value) == EC_Normal)
-        {
-          EncapsulateMetaData<std::string>(dict, key, std::string(value.c_str()));
-        }
-      }
-    }
-  }
+  reader.PopulateMetaDataDictionary(this->GetMetaDataDictionary());
 
   this->OpenDicomImage();
   const DiPixel * interData = this->m_DImage->getInterData();
