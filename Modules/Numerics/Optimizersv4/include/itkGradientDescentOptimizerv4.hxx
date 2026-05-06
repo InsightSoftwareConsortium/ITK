@@ -138,6 +138,19 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::ResumeOptimiz
       }
     }
 
+    // Fire IterationEvent before stepping so observers see GetCurrentMetricValue and
+    // GetCurrentPosition at the position where the value was actually evaluated (issue #2570).
+    this->InvokeEvent(IterationEvent());
+
+    // An observer may call StopOptimization() during IterationEvent to terminate
+    // before taking another step (e.g. cancellation from a UI thread, custom
+    // convergence check); honor that request by exiting before AdvanceOneStep.
+    if (this->m_Stop)
+    {
+      this->m_StopConditionDescription << "StopOptimization() called from IterationEvent observer";
+      break;
+    }
+
     // Advance one step along the gradient.
     // This will modify the gradient and update the transform.
     this->AdvanceOneStep();
@@ -184,8 +197,6 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::AdvanceOneSte
     // Pass exception to caller
     throw;
   }
-
-  this->InvokeEvent(IterationEvent());
 }
 
 template <typename TInternalComputationValueType>
