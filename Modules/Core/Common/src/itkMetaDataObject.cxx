@@ -16,6 +16,21 @@
  *
  *=========================================================================*/
 #define ITK_TEMPLATE_EXPLICIT_MetaDataObject
+
+
+#include "itkPrintHelper.h"
+namespace itk
+{
+// Bring print_helper's operator<< overloads for std::vector<T>,
+// std::list<T>, and std::array<T, N> into scope so the explicit
+// MetaDataObject<...>::Print() instantiations below can resolve the
+// streaming call.  The 'extern template' declarations in
+// itkMetaDataObject.h prevent these specializations from being
+// re-instantiated in client TUs, so the using-directive's effect on
+// has_output_operator<> trait dispatch stays local to this single
+// translation unit.
+using namespace print_helper;
+} // namespace itk
 #include "itkMetaDataObject.h"
 
 namespace itk

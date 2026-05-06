@@ -30,6 +30,26 @@
 namespace itk::print_helper
 {
 
+// Forward declarations so the per-container bodies below see all overloads at
+// definition time.  Required for nested cases like vector<list<T>>, where the
+// recursive `os << *it` is parsed before the list overload would otherwise be
+// declared, and ADL on std container types never reaches itk::print_helper.
+template <typename T>
+std::ostream &
+operator<<(std::ostream & os, const std::vector<T> & v);
+
+template <typename T>
+std::ostream &
+operator<<(std::ostream & os, const std::list<T> & l);
+
+template <typename T, size_t VLength>
+std::ostream &
+operator<<(std::ostream & os, const std::array<T, VLength> & container);
+
+template <typename T, size_t VLength, typename = std::enable_if_t<!std::is_same_v<T, char>>>
+std::ostream &
+operator<<(std::ostream & os, const T (&arr)[VLength]);
+
 template <typename T>
 std::ostream &
 operator<<(std::ostream & os, const std::vector<T> & v)
@@ -40,7 +60,13 @@ operator<<(std::ostream & os, const std::vector<T> & v)
   }
 
   os << '[';
-  std::copy(v.begin(), v.end() - 1, std::ostream_iterator<T>(os, ", "));
+  // Manual loop so that an unqualified `os << *it` resolves overloads in
+  // itk::print_helper for nested containers; std::ostream_iterator inserts
+  // from inside namespace std and would not see them.
+  for (auto it = v.begin(); it != std::prev(v.end()); ++it)
+  {
+    os << *it << ", ";
+  }
   return os << v.back() << ']';
 }
 
@@ -54,7 +80,10 @@ operator<<(std::ostream & os, const std::list<T> & l)
   }
 
   os << '[';
-  std::copy(l.begin(), std::prev(l.end()), std::ostream_iterator<T>(os, ", "));
+  for (auto it = l.begin(); it != std::prev(l.end()); ++it)
+  {
+    os << *it << ", ";
+  }
   return os << l.back() << ']';
 }
 
@@ -69,13 +98,16 @@ operator<<(std::ostream & os, [[maybe_unused]] const std::array<T, VLength> & co
   else
   {
     os << '(';
-    std::copy(container.cbegin(), std::prev(container.cend()), std::ostream_iterator<T>(os, ", "));
+    for (auto it = container.cbegin(); it != std::prev(container.cend()); ++it)
+    {
+      os << *it << ", ";
+    }
     return os << container.back() << ')';
   }
 }
 
 // Stream insertion operator for C-style arrays, excluding character arrays (strings)
-template <typename T, size_t VLength, typename = std::enable_if_t<!std::is_same_v<T, char>>>
+template <typename T, size_t VLength, typename>
 std::ostream &
 operator<<(std::ostream & os, const T (&arr)[VLength])
 {

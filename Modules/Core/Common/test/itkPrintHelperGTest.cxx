@@ -19,6 +19,7 @@
 #include "itkPrintHelper.h"
 #include "itkOffset.h"
 #include "gtest/gtest.h"
+#include <array>
 #include <sstream>
 #include <vector>
 #include <list>
@@ -88,4 +89,44 @@ TEST(PrintHelper, VectorOfOffsets)
   std::ostringstream oss;
   oss << v;
   EXPECT_EQ(oss.str(), "[[1, 2], [3, 4]]");
+}
+
+// Recursive case: vector<vector<T>>.  Verifies the inner operator<< is
+// reachable from the outer template body via in-namespace lookup, which
+// requires the manual loop to replace std::ostream_iterator (whose
+// insertion happens inside namespace std and bypasses ADL into print_helper).
+TEST(PrintHelper, VectorOfVector)
+{
+  using namespace itk::print_helper;
+  std::vector<std::vector<int>> v{ { 1, 2, 3 }, { 4, 5, 6 } };
+  std::ostringstream            oss;
+  oss << v;
+  EXPECT_EQ(oss.str(), "[[1, 2, 3], [4, 5, 6]]");
+}
+
+TEST(PrintHelper, VectorOfEmptyVector)
+{
+  using namespace itk::print_helper;
+  std::vector<std::vector<int>> v{ {}, { 7 } };
+  std::ostringstream            oss;
+  oss << v;
+  EXPECT_EQ(oss.str(), "[[], [7]]");
+}
+
+TEST(PrintHelper, VectorOfList)
+{
+  using namespace itk::print_helper;
+  std::vector<std::list<int>> v{ { 1, 2 }, { 3, 4, 5 } };
+  std::ostringstream          oss;
+  oss << v;
+  EXPECT_EQ(oss.str(), "[[1, 2], [3, 4, 5]]");
+}
+
+TEST(PrintHelper, ArrayOfVector)
+{
+  using namespace itk::print_helper;
+  std::array<std::vector<int>, 2> a{ std::vector<int>{ 1, 2 }, std::vector<int>{ 3 } };
+  std::ostringstream              oss;
+  oss << a;
+  EXPECT_EQ(oss.str(), "([1, 2], [3])");
 }
