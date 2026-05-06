@@ -422,6 +422,46 @@ def patch_readme_reference(data: bytes) -> tuple[bytes, bool]:
     return new_data, n > 0
 
 
+# After ingest, the in-tree README.md is the archival migration notice.
+# It contains semicolons and bracket characters that CMake's
+# foreach(arg ${ARGN}) expands into spurious arguments, triggering
+#   CMake Warning (dev): Unknown argument [...]
+# in ITKModuleMacros.cmake for every configure.
+#
+# The pattern to eliminate:
+#   get_filename_component(MY_CURRENT_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+#   file(READ "${MY_CURRENT_DIR}/README.md" DOCUMENTATION)
+#   ...
+#   DESCRIPTION "${DOCUMENTATION}"
+#
+# Replace the two preamble lines with nothing and the DESCRIPTION arg
+# with a static one-liner.
+_README_FILE_READ_RE = re.compile(
+    rb"[ \t]*(?:get_filename_component\s*\([^)]*\)\s*\n)?"
+    rb"[ \t]*file\s*\(\s*READ\s+[^\n]*README\.md[^\n]*\)\s*\n",
+    re.IGNORECASE,
+)
+_DOCUMENTATION_DESCRIPTION_RE = re.compile(
+    rb'([ \t]*DESCRIPTION\s+)"?\$\{DOCUMENTATION\}"?',
+    re.IGNORECASE,
+)
+
+
+def patch_dynamic_description(data: bytes) -> tuple[bytes, bool]:
+    """Remove the file(READ README.md DOCUMENTATION) preamble and replace
+    DESCRIPTION "${DOCUMENTATION}" with a static one-liner.
+
+    The archival README.md contains semicolons and bracket characters that
+    CMake list expansion splits into spurious itk_module() arguments,
+    producing CMake (dev) configure warnings.  Returns (new_data, changed).
+    """
+    new_data, n1 = _README_FILE_READ_RE.subn(b"", data)
+    new_data, n2 = _DOCUMENTATION_DESCRIPTION_RE.subn(
+        rb'\1"Module ingested from upstream."', new_data
+    )
+    return new_data, (n1 + n2) > 0
+
+
 # Upstream remote modules wrap their top-level CMakeLists.txt in a
 # standalone-build guard so the same file works both as a
 # remote-fetched module and as a stand-alone CMake project:
@@ -536,6 +576,7 @@ class HistorySanitizer:
         self.subject_blank_inserts = 0
         self.mode_normalizations = 0
         self.readme_ref_patches = 0
+        self.dynamic_description_patches = 0
         self.standalone_guard_patches = 0
         self.cmake_min_required_drops = 0
         self.blob_count = 0
@@ -570,6 +611,9 @@ class HistorySanitizer:
             new_data, readme_patched = patch_readme_reference(new_data)
             if readme_patched:
                 self.readme_ref_patches += 1
+            new_data, desc_patched = patch_dynamic_description(new_data)
+            if desc_patched:
+                self.dynamic_description_patches += 1
         else:  # 'text'
             new_data = original_data
 
@@ -745,6 +789,7 @@ def main() -> int:
         f"  blank lines inserted:  {sanitizer.subject_blank_inserts}\n"
         f"  exec-bits cleared:     {sanitizer.mode_normalizations}\n"
         f"  README.rst->.md fixes: {sanitizer.readme_ref_patches}\n"
+        f"  dynamic DESCRIPTION rm:{sanitizer.dynamic_description_patches}\n"
         f"  standalone-guard rm:   {sanitizer.standalone_guard_patches}\n"
         f"  cmake_min_required rm: {sanitizer.cmake_min_required_drops}\n"
         f"  blobs scanned:         {sanitizer.blob_count}\n"
