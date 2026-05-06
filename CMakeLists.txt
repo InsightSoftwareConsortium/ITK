@@ -917,7 +917,6 @@ ExternalData_Add_Target(ITKData)
 mark_as_advanced(
   FORCE
   Module_AdaptiveDenoising
-  Module_AnalyzeObjectLabelMap
   Module_AnisotropicDiffusionLBR
   Module_BioCell
   Module_BoneEnhancement
