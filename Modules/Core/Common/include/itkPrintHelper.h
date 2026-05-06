@@ -40,7 +40,13 @@ operator<<(std::ostream & os, const std::vector<T> & v)
   }
 
   os << '[';
-  std::copy(v.begin(), v.end() - 1, std::ostream_iterator<T>(os, ", "));
+  // Manual loop so that an unqualified `os << *it` resolves overloads in
+  // itk::print_helper for nested containers; std::ostream_iterator inserts
+  // from inside namespace std and would not see them.
+  for (auto it = v.begin(); it != std::prev(v.end()); ++it)
+  {
+    os << *it << ", ";
+  }
   return os << v.back() << ']';
 }
 
@@ -54,7 +60,10 @@ operator<<(std::ostream & os, const std::list<T> & l)
   }
 
   os << '[';
-  std::copy(l.begin(), std::prev(l.end()), std::ostream_iterator<T>(os, ", "));
+  for (auto it = l.begin(); it != std::prev(l.end()); ++it)
+  {
+    os << *it << ", ";
+  }
   return os << l.back() << ']';
 }
 
@@ -69,7 +78,10 @@ operator<<(std::ostream & os, [[maybe_unused]] const std::array<T, VLength> & co
   else
   {
     os << '(';
-    std::copy(container.cbegin(), std::prev(container.cend()), std::ostream_iterator<T>(os, ", "));
+    for (auto it = container.cbegin(); it != std::prev(container.cend()); ++it)
+    {
+      os << *it << ", ";
+    }
     return os << container.back() << ')';
   }
 }
