@@ -136,12 +136,9 @@ void SparseLUImpl<Scalar, StorageIndex>::dfs_kernel(const StorageIndex jj, Index
         //    segment is seen for the first time. (Note that
         //    "repfnz(krep)" may change later.)
         //    Baktrack dfs to its parent
-        if (traits.update_segrep(krep, jj))
-        // if (marker1(krep) < jcol )
-        {
+        if (traits.update_segrep(krep, jj)) {
           segrep(nseg) = krep;
           ++nseg;
-          // marker1(krep) = jj;
         }
 
         kpar = parent(krep);            // Pop recursion, mimic recursion

@@ -52,6 +52,9 @@ struct general_matrix_matrix_product<Index, LhsScalar, LhsStorageOrder, Conjugat
   static void run(Index rows, Index cols, Index depth, const LhsScalar* lhs_, Index lhsStride, const RhsScalar* rhs_,
                   Index rhsStride, ResScalar* res_, Index resIncr, Index resStride, ResScalar alpha,
                   level3_blocking<LhsScalar, RhsScalar>& blocking, GemmParallelInfo<Index>* info = 0) {
+    // BLAS contract: if alpha == 0, the result is unchanged (and lhs/rhs need not be read).
+    if (numext::is_exactly_zero(alpha)) return;
+
     typedef const_blas_data_mapper<LhsScalar, Index, LhsStorageOrder> LhsMapper;
     typedef const_blas_data_mapper<RhsScalar, Index, RhsStorageOrder> RhsMapper;
     typedef blas_data_mapper<typename Traits::ResScalar, Index, ColMajor, Unaligned, ResInnerStride> ResMapper;
@@ -383,8 +386,8 @@ struct generic_product_impl<Lhs, Rhs, DenseShape, DenseShape, GemmProduct>
     // to determine the following heuristic.
     // EIGEN_GEMM_TO_COEFFBASED_THRESHOLD is typically defined to 20 in GeneralProduct.h,
     // unless it has been specialized by the user or for a given architecture.
-    // Note that the condition rhs.rows()>0 was required because lazy product is (was?) not happy with empty inputs.
-    // I'm not sure it is still required.
+    // Note that the condition rhs.rows()>0 was required because lazy product did not handle empty inputs
+    // correctly. It is unclear whether this guard is still necessary.
     if ((rhs.rows() + dst.rows() + dst.cols()) < EIGEN_GEMM_TO_COEFFBASED_THRESHOLD && rhs.rows() > 0)
       lazyproduct::eval_dynamic(dst, lhs, rhs, internal::assign_op<typename Dst::Scalar, Scalar>());
     else {

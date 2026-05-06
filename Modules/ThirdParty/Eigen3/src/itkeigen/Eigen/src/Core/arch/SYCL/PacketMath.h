@@ -542,31 +542,6 @@ EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void ptranspose(PacketBlock<cl::sycl::cl_d
   kernel.packet[1].x() = tmp;
 }
 
-template <>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE cl::sycl::cl_half8 pblend(
-    const Selector<unpacket_traits<cl::sycl::cl_half8>::size>& ifPacket, const cl::sycl::cl_half8& thenPacket,
-    const cl::sycl::cl_half8& elsePacket) {
-  cl::sycl::cl_short8 condition(ifPacket.select[0] ? 0 : -1, ifPacket.select[1] ? 0 : -1, ifPacket.select[2] ? 0 : -1,
-                                ifPacket.select[3] ? 0 : -1, ifPacket.select[4] ? 0 : -1, ifPacket.select[5] ? 0 : -1,
-                                ifPacket.select[6] ? 0 : -1, ifPacket.select[7] ? 0 : -1);
-  return cl::sycl::select(thenPacket, elsePacket, condition);
-}
-
-template <>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE cl::sycl::cl_float4 pblend(
-    const Selector<unpacket_traits<cl::sycl::cl_float4>::size>& ifPacket, const cl::sycl::cl_float4& thenPacket,
-    const cl::sycl::cl_float4& elsePacket) {
-  cl::sycl::cl_int4 condition(ifPacket.select[0] ? 0 : -1, ifPacket.select[1] ? 0 : -1, ifPacket.select[2] ? 0 : -1,
-                              ifPacket.select[3] ? 0 : -1);
-  return cl::sycl::select(thenPacket, elsePacket, condition);
-}
-
-template <>
-inline cl::sycl::cl_double2 pblend(const Selector<unpacket_traits<cl::sycl::cl_double2>::size>& ifPacket,
-                                   const cl::sycl::cl_double2& thenPacket, const cl::sycl::cl_double2& elsePacket) {
-  cl::sycl::cl_long2 condition(ifPacket.select[0] ? 0 : -1, ifPacket.select[1] ? 0 : -1);
-  return cl::sycl::select(thenPacket, elsePacket, condition);
-}
 #endif  // SYCL_DEVICE_ONLY
 
 }  // end namespace internal

@@ -43,43 +43,102 @@ EIGEN_DONT_INLINE void triangular_matrix_vector_product<Index, Mode, LhsScalar, 
   Index rows = IsLower ? _rows : (std::min)(_rows, _cols);
   Index cols = IsLower ? (std::min)(_rows, _cols) : _cols;
 
-  typedef Map<const Matrix<LhsScalar, Dynamic, Dynamic, ColMajor>, 0, OuterStride<> > LhsMap;
-  const LhsMap lhs(lhs_, rows, cols, OuterStride<>(lhsStride));
-  typename conj_expr_if<ConjLhs, LhsMap>::type cjLhs(lhs);
-
-  typedef Map<const Matrix<RhsScalar, Dynamic, 1>, 0, InnerStride<> > RhsMap;
-  const RhsMap rhs(rhs_, cols, InnerStride<>(rhsIncr));
-  typename conj_expr_if<ConjRhs, RhsMap>::type cjRhs(rhs);
-
-  typedef Map<Matrix<ResScalar, Dynamic, 1> > ResMap;
-  ResMap res(res_, rows);
-
   typedef const_blas_data_mapper<LhsScalar, Index, ColMajor> LhsMapper;
   typedef const_blas_data_mapper<RhsScalar, Index, RowMajor> RhsMapper;
 
+  conj_if<ConjLhs> cjl;
+  conj_if<ConjRhs> cjr;
+
   for (Index pi = 0; pi < size; pi += PanelWidth) {
     Index actualPanelWidth = (std::min)(PanelWidth, size - pi);
-    for (Index k = 0; k < actualPanelWidth; ++k) {
-      Index i = pi + k;
-      Index s = IsLower ? ((HasUnitDiag || HasZeroDiag) ? i + 1 : i) : pi;
-      Index r = IsLower ? actualPanelWidth - k : k + 1;
-      if ((!(HasUnitDiag || HasZeroDiag)) || (--r) > 0)
-        res.segment(s, r) += (alpha * cjRhs.coeff(i)) * cjLhs.col(i).segment(s, r);
-      if (HasUnitDiag) res.coeffRef(i) += alpha * cjRhs.coeff(i);
+
+    // Process the triangular panel using raw pointer operations with 2-column batching
+    // to eliminate expression template overhead and share result loads/stores.
+    if (IsLower) {
+      Index k = 0;
+      for (; k + 1 < actualPanelWidth; k += 2) {
+        Index i0 = pi + k;
+        Index i1 = i0 + 1;
+        ResScalar s0 = alpha * cjr(rhs_[i0 * rhsIncr]);
+        ResScalar s1 = alpha * cjr(rhs_[i1 * rhsIncr]);
+        const LhsScalar* EIGEN_RESTRICT c0 = lhs_ + i0 * lhsStride;
+        const LhsScalar* EIGEN_RESTRICT c1 = lhs_ + i1 * lhsStride;
+
+        // Diagonal of column 0
+        if (!(HasUnitDiag || HasZeroDiag)) res_[i0] += s0 * cjl(c0[i0]);
+        // Row i1: contribution from column 0 + diagonal of column 1
+        {
+          ResScalar r1 = s0 * cjl(c0[i1]);
+          if (!(HasUnitDiag || HasZeroDiag)) r1 += s1 * cjl(c1[i1]);
+          res_[i1] += r1;
+        }
+        // Shared rows where both columns contribute
+        Index panelEnd = pi + actualPanelWidth;
+        for (Index j = i1 + 1; j < panelEnd; ++j) res_[j] += s0 * cjl(c0[j]) + s1 * cjl(c1[j]);
+
+        if (HasUnitDiag) {
+          res_[i0] += s0;
+          res_[i1] += s1;
+        }
+      }
+      if (k < actualPanelWidth) {
+        Index i = pi + k;
+        ResScalar s = alpha * cjr(rhs_[i * rhsIncr]);
+        const LhsScalar* EIGEN_RESTRICT c = lhs_ + i * lhsStride;
+        if (!(HasUnitDiag || HasZeroDiag)) res_[i] += s * cjl(c[i]);
+        if (HasUnitDiag) res_[i] += s;
+      }
+    } else {
+      // Upper triangular: process 2 columns at a time
+      Index k = 0;
+      for (; k + 1 < actualPanelWidth; k += 2) {
+        Index i0 = pi + k;
+        Index i1 = i0 + 1;
+        ResScalar s0 = alpha * cjr(rhs_[i0 * rhsIncr]);
+        ResScalar s1 = alpha * cjr(rhs_[i1 * rhsIncr]);
+        const LhsScalar* EIGEN_RESTRICT c0 = lhs_ + i0 * lhsStride;
+        const LhsScalar* EIGEN_RESTRICT c1 = lhs_ + i1 * lhsStride;
+
+        // Shared rows before the diagonal block
+        for (Index j = pi; j < i0; ++j) res_[j] += s0 * cjl(c0[j]) + s1 * cjl(c1[j]);
+
+        // Row i0: diagonal of col0 + contribution from col1
+        {
+          ResScalar r0 = s1 * cjl(c1[i0]);
+          if (!(HasUnitDiag || HasZeroDiag)) r0 += s0 * cjl(c0[i0]);
+          res_[i0] += r0;
+        }
+        // Diagonal of column 1
+        if (!(HasUnitDiag || HasZeroDiag)) res_[i1] += s1 * cjl(c1[i1]);
+
+        if (HasUnitDiag) {
+          res_[i0] += s0;
+          res_[i1] += s1;
+        }
+      }
+      if (k < actualPanelWidth) {
+        Index i = pi + k;
+        ResScalar s = alpha * cjr(rhs_[i * rhsIncr]);
+        const LhsScalar* EIGEN_RESTRICT c = lhs_ + i * lhsStride;
+        for (Index j = pi; j < i; ++j) res_[j] += s * cjl(c[j]);
+        if (!(HasUnitDiag || HasZeroDiag)) res_[i] += s * cjl(c[i]);
+        if (HasUnitDiag) res_[i] += s;
+      }
     }
+
+    // Rectangular part: delegate to optimized GEMV
     Index r = IsLower ? rows - pi - actualPanelWidth : pi;
     if (r > 0) {
       Index s = IsLower ? pi + actualPanelWidth : 0;
       general_matrix_vector_product<Index, LhsScalar, LhsMapper, ColMajor, ConjLhs, RhsScalar, RhsMapper, ConjRhs,
-                                    BuiltIn>::run(r, actualPanelWidth, LhsMapper(&lhs.coeffRef(s, pi), lhsStride),
-                                                  RhsMapper(&rhs.coeffRef(pi), rhsIncr), &res.coeffRef(s), resIncr,
-                                                  alpha);
+                                    BuiltIn>::run(r, actualPanelWidth, LhsMapper(&lhs_[pi * lhsStride + s], lhsStride),
+                                                  RhsMapper(&rhs_[pi * rhsIncr], rhsIncr), &res_[s], resIncr, alpha);
     }
   }
   if ((!IsLower) && cols > size) {
     general_matrix_vector_product<Index, LhsScalar, LhsMapper, ColMajor, ConjLhs, RhsScalar, RhsMapper, ConjRhs>::run(
-        rows, cols - size, LhsMapper(&lhs.coeffRef(0, size), lhsStride), RhsMapper(&rhs.coeffRef(size), rhsIncr), res_,
-        resIncr, alpha);
+        rows, cols - size, LhsMapper(&lhs_[size * lhsStride], lhsStride), RhsMapper(&rhs_[size * rhsIncr], rhsIncr),
+        res_, resIncr, alpha);
   }
 }
 
@@ -105,43 +164,48 @@ EIGEN_DONT_INLINE void triangular_matrix_vector_product<Index, Mode, LhsScalar, 
   Index rows = IsLower ? _rows : diagSize;
   Index cols = IsLower ? diagSize : _cols;
 
-  typedef Map<const Matrix<LhsScalar, Dynamic, Dynamic, RowMajor>, 0, OuterStride<> > LhsMap;
-  const LhsMap lhs(lhs_, rows, cols, OuterStride<>(lhsStride));
-  typename conj_expr_if<ConjLhs, LhsMap>::type cjLhs(lhs);
-
-  typedef Map<const Matrix<RhsScalar, Dynamic, 1> > RhsMap;
-  const RhsMap rhs(rhs_, cols);
-  typename conj_expr_if<ConjRhs, RhsMap>::type cjRhs(rhs);
-
-  typedef Map<Matrix<ResScalar, Dynamic, 1>, 0, InnerStride<> > ResMap;
-  ResMap res(res_, rows, InnerStride<>(resIncr));
-
   typedef const_blas_data_mapper<LhsScalar, Index, RowMajor> LhsMapper;
   typedef const_blas_data_mapper<RhsScalar, Index, RowMajor> RhsMapper;
 
+  conj_if<ConjLhs> cjl;
+  conj_if<ConjRhs> cjr;
+
   for (Index pi = 0; pi < diagSize; pi += PanelWidth) {
     Index actualPanelWidth = (std::min)(PanelWidth, diagSize - pi);
+
+    // Process the triangular panel using raw dot products to eliminate
+    // the cwiseProduct().sum() expression template overhead.
     for (Index k = 0; k < actualPanelWidth; ++k) {
       Index i = pi + k;
-      Index s = IsLower ? pi : ((HasUnitDiag || HasZeroDiag) ? i + 1 : i);
-      Index r = IsLower ? k + 1 : actualPanelWidth - k;
-      if ((!(HasUnitDiag || HasZeroDiag)) || (--r) > 0)
-        res.coeffRef(i) += alpha * (cjLhs.row(i).segment(s, r).cwiseProduct(cjRhs.segment(s, r).transpose())).sum();
-      if (HasUnitDiag) res.coeffRef(i) += alpha * cjRhs.coeff(i);
+      const LhsScalar* EIGEN_RESTRICT row_i = lhs_ + i * lhsStride;
+      ResScalar dot = ResScalar(0);
+
+      if (IsLower) {
+        Index s = pi;
+        Index len = (HasUnitDiag || HasZeroDiag) ? k : k + 1;
+        for (Index j = 0; j < len; ++j) dot += cjl(row_i[s + j]) * cjr(rhs_[s + j]);
+      } else {
+        Index s = (HasUnitDiag || HasZeroDiag) ? i + 1 : i;
+        Index len = pi + actualPanelWidth - s;
+        for (Index j = 0; j < len; ++j) dot += cjl(row_i[s + j]) * cjr(rhs_[s + j]);
+      }
+      res_[i * resIncr] += alpha * dot;
+      if (HasUnitDiag) res_[i * resIncr] += alpha * cjr(rhs_[i]);
     }
+
+    // Rectangular part: delegate to optimized GEMV
     Index r = IsLower ? pi : cols - pi - actualPanelWidth;
     if (r > 0) {
       Index s = IsLower ? 0 : pi + actualPanelWidth;
       general_matrix_vector_product<Index, LhsScalar, LhsMapper, RowMajor, ConjLhs, RhsScalar, RhsMapper, ConjRhs,
-                                    BuiltIn>::run(actualPanelWidth, r, LhsMapper(&lhs.coeffRef(pi, s), lhsStride),
-                                                  RhsMapper(&rhs.coeffRef(s), rhsIncr), &res.coeffRef(pi), resIncr,
-                                                  alpha);
+                                    BuiltIn>::run(actualPanelWidth, r, LhsMapper(&lhs_[pi * lhsStride + s], lhsStride),
+                                                  RhsMapper(&rhs_[s], rhsIncr), &res_[pi * resIncr], resIncr, alpha);
     }
   }
   if (IsLower && rows > diagSize) {
     general_matrix_vector_product<Index, LhsScalar, LhsMapper, RowMajor, ConjLhs, RhsScalar, RhsMapper, ConjRhs>::run(
-        rows - diagSize, cols, LhsMapper(&lhs.coeffRef(diagSize, 0), lhsStride), RhsMapper(&rhs.coeffRef(0), rhsIncr),
-        &res.coeffRef(diagSize), resIncr, alpha);
+        rows - diagSize, cols, LhsMapper(&lhs_[diagSize * lhsStride], lhsStride), RhsMapper(rhs_, rhsIncr),
+        &res_[diagSize * resIncr], resIncr, alpha);
   }
 }
 
@@ -212,7 +276,7 @@ struct trmv_selector<Mode, ColMajor> {
     ResScalar actualAlpha = alpha * lhs_alpha * rhs_alpha;
 
     // FIXME find a way to allow an inner stride on the result if packet_traits<Scalar>::size==1
-    // on, the other hand it is good for the cache to pack the vector anyways...
+    // On the other hand, it is good for the cache to pack the vector anyways...
     constexpr bool EvalToDestAtCompileTime = Dest::InnerStrideAtCompileTime == 1;
     constexpr bool ComplexByReal = (NumTraits<LhsScalar>::IsComplex) && (!NumTraits<RhsScalar>::IsComplex);
     constexpr bool MightCannotUseDest = (Dest::InnerStrideAtCompileTime != 1) || ComplexByReal;

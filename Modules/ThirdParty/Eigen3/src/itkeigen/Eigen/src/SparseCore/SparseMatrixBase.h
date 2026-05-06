@@ -115,7 +115,7 @@ class SparseMatrixBase : public EigenBase<Derived> {
   typedef Transpose<Derived> TransposeReturnType;
   typedef Transpose<const Derived> ConstTransposeReturnType;
 
-  // FIXME storage order do not match evaluator storage order
+  // FIXME: storage order may not match evaluator storage order.
   typedef SparseMatrix<Scalar, Flags & RowMajorBit ? RowMajor : ColMajor, StorageIndex> PlainObject;
 
   /** This is the "real scalar" type; if the \a Scalar type is already real numbers
@@ -203,7 +203,7 @@ class SparseMatrixBase : public EigenBase<Derived> {
     return derived();
   }
 
-  SparseMatrixBase() : m_isRValue(false) { /* TODO check flags */
+  SparseMatrixBase() : m_isRValue(false) { /* TODO: validate traits flags. */
   }
 
   template <typename OtherDerived>
@@ -224,33 +224,84 @@ class SparseMatrixBase : public EigenBase<Derived> {
  public:
 #ifndef EIGEN_NO_IO
   friend std::ostream& operator<<(std::ostream& s, const SparseMatrixBase& m) {
-    typedef typename Derived::Nested Nested;
-    typedef internal::remove_all_t<Nested> NestedCleaned;
+    using Nested = typename Derived::Nested;
+    using NestedCleaned = internal::remove_all_t<Nested>;
 
     if (Flags & RowMajorBit) {
       Nested nm(m.derived());
       internal::evaluator<NestedCleaned> thisEval(nm);
+
+      // compute global width
+      std::size_t width = 0;
+      {
+        std::ostringstream ss0;
+        ss0.copyfmt(s);
+        ss0 << Scalar(0);
+        width = ss0.str().size();
+        for (Index row = 0; row < nm.outerSize(); ++row) {
+          for (typename internal::evaluator<NestedCleaned>::InnerIterator it(thisEval, row); it; ++it) {
+            std::ostringstream ss;
+            ss.copyfmt(s);
+            ss << it.value();
+
+            const std::size_t potential_width = ss.str().size();
+            if (potential_width > width) width = potential_width;
+          }
+        }
+      }
+
       for (Index row = 0; row < nm.outerSize(); ++row) {
         Index col = 0;
         for (typename internal::evaluator<NestedCleaned>::InnerIterator it(thisEval, row); it; ++it) {
-          for (; col < it.index(); ++col) s << "0 ";
+          for (; col < it.index(); ++col) {
+            s.width(width);
+            s << Scalar(0) << " ";
+          }
+          s.width(width);
           s << it.value() << " ";
           ++col;
         }
-        for (; col < m.cols(); ++col) s << "0 ";
+        for (; col < m.cols(); ++col) {
+          s.width(width);
+          s << Scalar(0) << " ";
+        }
         s << std::endl;
       }
     } else {
       Nested nm(m.derived());
       internal::evaluator<NestedCleaned> thisEval(nm);
       if (m.cols() == 1) {
+        // compute local width (single col)
+        std::size_t width = 0;
+        {
+          std::ostringstream ss0;
+          ss0.copyfmt(s);
+          ss0 << Scalar(0);
+          width = ss0.str().size();
+          for (typename internal::evaluator<NestedCleaned>::InnerIterator it(thisEval, 0); it; ++it) {
+            std::ostringstream ss;
+            ss.copyfmt(s);
+            ss << it.value();
+
+            const std::size_t potential_width = ss.str().size();
+            if (potential_width > width) width = potential_width;
+          }
+        }
+
         Index row = 0;
         for (typename internal::evaluator<NestedCleaned>::InnerIterator it(thisEval, 0); it; ++it) {
-          for (; row < it.index(); ++row) s << "0" << std::endl;
+          for (; row < it.index(); ++row) {
+            s.width(width);
+            s << Scalar(0) << std::endl;
+          }
+          s.width(width);
           s << it.value() << std::endl;
           ++row;
         }
-        for (; row < m.rows(); ++row) s << "0" << std::endl;
+        for (; row < m.rows(); ++row) {
+          s.width(width);
+          s << Scalar(0) << std::endl;
+        }
       } else {
         SparseMatrix<Scalar, RowMajorBit, StorageIndex> trans = m;
         s << static_cast<const SparseMatrixBase<SparseMatrix<Scalar, RowMajorBit, StorageIndex> >&>(trans);

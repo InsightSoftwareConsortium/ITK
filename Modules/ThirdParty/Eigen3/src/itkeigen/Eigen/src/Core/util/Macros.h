@@ -17,13 +17,9 @@
 // Eigen version and basic defaults
 //------------------------------------------------------------------------------------------
 
-#define EIGEN_WORLD_VERSION 3
-#define EIGEN_MAJOR_VERSION 4
-#define EIGEN_MINOR_VERSION 90
-
 #define EIGEN_VERSION_AT_LEAST(x, y, z) \
-  (EIGEN_WORLD_VERSION > x ||           \
-   (EIGEN_WORLD_VERSION >= x && (EIGEN_MAJOR_VERSION > y || (EIGEN_MAJOR_VERSION >= y && EIGEN_MINOR_VERSION >= z))))
+  (EIGEN_MAJOR_VERSION > x ||           \
+   (EIGEN_MAJOR_VERSION >= x && (EIGEN_MINOR_VERSION > y || (EIGEN_MINOR_VERSION >= y && EIGEN_PATCH_VERSION >= z))))
 
 #ifdef EIGEN_DEFAULT_TO_ROW_MAJOR
 #define EIGEN_DEFAULT_MATRIX_STORAGE_ORDER_OPTION Eigen::RowMajor
@@ -54,6 +50,26 @@
 #ifndef EIGEN_STACK_ALLOCATION_LIMIT
 // 131072 == 128 KB
 #define EIGEN_STACK_ALLOCATION_LIMIT 131072
+#endif
+
+/* Specify whether to use std::fma for scalar multiply-add instructions.
+ *
+ * On machines that have FMA as a single instruction, this will generally
+ * improve precision without significant performance implications.
+ *
+ * Without a single instruction, performance has been found to be reduced 2-3x
+ * on Intel CPUs, and up to 30x for WASM.
+ *
+ * If unspecified, defaults to using FMA if hardware support is available.
+ * The default should be used in most cases to ensure consistency between
+ * vectorized and non-vectorized paths.
+ */
+#ifndef EIGEN_SCALAR_MADD_USE_FMA
+#ifdef EIGEN_VECTORIZE_FMA
+#define EIGEN_SCALAR_MADD_USE_FMA 1
+#else
+#define EIGEN_SCALAR_MADD_USE_FMA 0
+#endif
 #endif
 
 //------------------------------------------------------------------------------------------
@@ -132,13 +148,8 @@
 #endif
 
 #if defined(__NVCC__)
-#if defined(__CUDACC_VER_MAJOR__) && (__CUDACC_VER_MAJOR__ >= 9)
+// CUDA 11.4+ always defines __CUDACC_VER_MAJOR__.
 #define EIGEN_COMP_NVCC ((__CUDACC_VER_MAJOR__ * 10000) + (__CUDACC_VER_MINOR__ * 100))
-#elif defined(__CUDACC_VER__)
-#define EIGEN_COMP_NVCC __CUDACC_VER__
-#else
-#error "NVCC did not define compiler version."
-#endif
 #else
 #define EIGEN_COMP_NVCC 0
 #endif
@@ -262,10 +273,10 @@
 
 /// \internal EIGEN_COMP_GNUC_STRICT set to 1 if the compiler is really GCC and not a compatible compiler (e.g., ICC,
 /// clang, mingw, etc.)
-#if EIGEN_COMP_GNUC &&                                                                                      \
-    !(EIGEN_COMP_CLANG || EIGEN_COMP_ICC || EIGEN_COMP_CLANGICC || EIGEN_COMP_MINGW || EIGEN_COMP_PGI ||    \
-      EIGEN_COMP_IBM || EIGEN_COMP_ARM || EIGEN_COMP_EMSCRIPTEN || EIGEN_COMP_FCC || EIGEN_COMP_CLANGFCC || \
-      EIGEN_COMP_CPE || EIGEN_COMP_CLANGCPE || EIGEN_COMP_LCC)
+#if EIGEN_COMP_GNUC &&                                                                                   \
+    !(EIGEN_COMP_CLANG || EIGEN_COMP_ICC || EIGEN_COMP_CLANGICC || EIGEN_COMP_MINGW || EIGEN_COMP_PGI || \
+      EIGEN_COMP_NVHPC || EIGEN_COMP_IBM || EIGEN_COMP_ARM || EIGEN_COMP_EMSCRIPTEN || EIGEN_COMP_FCC || \
+      EIGEN_COMP_CLANGFCC || EIGEN_COMP_CPE || EIGEN_COMP_CLANGCPE || EIGEN_COMP_LCC)
 #define EIGEN_COMP_GNUC_STRICT 1
 #else
 #define EIGEN_COMP_GNUC_STRICT 0
@@ -402,6 +413,13 @@
 #define EIGEN_ARCH_PPC 1
 #else
 #define EIGEN_ARCH_PPC 0
+#endif
+
+/// \internal EIGEN_ARCH_RISCV set to 1 if the architecture is RISC-V.
+#if defined(__riscv)
+#define EIGEN_ARCH_RISCV 1
+#else
+#define EIGEN_ARCH_RISCV 0
 #endif
 
 //------------------------------------------------------------------------------------------
@@ -552,6 +570,10 @@
 #define EIGEN_CUDA_SDK_VER 0
 #endif
 
+#if defined(EIGEN_CUDACC) && EIGEN_CUDA_SDK_VER > 0 && EIGEN_CUDA_SDK_VER < 110400
+#error "Eigen requires CUDA 11.4 or later."
+#endif
+
 #if defined(__HIPCC__) && !defined(EIGEN_NO_HIP) && !defined(__SYCL_DEVICE_ONLY__)
 // Means the compiler is HIPCC (analogous to EIGEN_CUDACC, but for HIP)
 #define EIGEN_HIPCC __HIPCC__
@@ -561,29 +583,34 @@
 // ++ host_defines.h which contains the defines for the __host__ and __device__ macros
 #include <hip/hip_runtime.h>
 
+// Eigen requires ROCm/HIP >= 5.6 (GFX906 minimum architecture).
+// This floor exists to allow simplifying shared CUDA/HIP preprocessor guards —
+// all __HIP_ARCH_HAS_WARP_SHUFFLE__, __HIP_ARCH_HAS_FP16__, etc. are always true on GFX906+.
+#if defined(HIP_VERSION_MAJOR) && (HIP_VERSION_MAJOR < 5 || (HIP_VERSION_MAJOR == 5 && HIP_VERSION_MINOR < 6))
+#error "Eigen requires ROCm/HIP >= 5.6."
+#endif
+
 #if defined(__HIP_DEVICE_COMPILE__) && !defined(__SYCL_DEVICE_ONLY__)
 // analogous to EIGEN_CUDA_ARCH, but for HIP
 #define EIGEN_HIP_DEVICE_COMPILE __HIP_DEVICE_COMPILE__
 #endif
 
-// For HIP (ROCm 3.5 and higher), we need to explicitly set the launch_bounds attribute
-// value to 1024. The compiler assigns a default value of 256 when the attribute is not
-// specified. This results in failures on the HIP platform, for cases when a GPU kernel
-// without an explicit launch_bounds attribute is called with a threads_per_block value
-// greater than 256.
-//
-// This is a regression in functioanlity and is expected to be fixed within the next
-// couple of ROCm releases (compiler will go back to using 1024 value as the default)
-//
-// In the meantime, we will use a "only enabled for HIP" macro to set the launch_bounds
-// attribute.
+// HIP compilers default to launch_bounds(256), which causes failures when kernels
+// are called with more than 256 threads per block. On CUDA, without explicit
+// launch_bounds the compiler may over-allocate registers per thread, causing
+// cudaErrorLaunchOutOfResources for kernels launched with 1024 threads (e.g. 3D
+// convolution). Set to 1024 for all GPU compilers.
 
 #define EIGEN_HIP_LAUNCH_BOUNDS_1024 __launch_bounds__(1024)
 
 #endif
 
 #if !defined(EIGEN_HIP_LAUNCH_BOUNDS_1024)
+#if defined(EIGEN_CUDACC)
+#define EIGEN_HIP_LAUNCH_BOUNDS_1024 __launch_bounds__(1024)
+#else
 #define EIGEN_HIP_LAUNCH_BOUNDS_1024
+#endif
 #endif  // !defined(EIGEN_HIP_LAUNCH_BOUNDS_1024)
 
 // Unify CUDA/HIPCC
@@ -684,6 +711,13 @@
 #define EIGEN_HAS_BUILTIN(x) 0
 #endif
 
+// Cross compiler wrapper around LLVM's __has_attribute
+#ifdef __has_attribute
+#define EIGEN_HAS_ATTRIBUTE(x) __has_attribute(x)
+#else
+#define EIGEN_HAS_ATTRIBUTE(x) 0
+#endif
+
 // A Clang feature extension to determine compiler features.
 // We use it to determine 'cxx_rvalue_references'
 #ifndef __has_feature
@@ -695,12 +729,12 @@
 //
 // With MSVC, without defining /Zc:__cplusplus, the __cplusplus macro will
 // report 199711L regardless of the language standard specified via /std.
-// We need to rely on _MSVC_LANG instead, which is only available after
-// VS2015.3.
+// We need to rely on _MSVC_LANG instead where available. Older MSVC versions
+// supported by Eigen do not define _MSVC_LANG, so use Eigen's minimum standard.
 #if EIGEN_COMP_MSVC_LANG > 0
 #define EIGEN_CPLUSPLUS EIGEN_COMP_MSVC_LANG
 #elif EIGEN_COMP_MSVC >= 1900
-#define EIGEN_CPLUSPLUS 201103L
+#define EIGEN_CPLUSPLUS 201402L
 #elif defined(__cplusplus)
 #define EIGEN_CPLUSPLUS __cplusplus
 #else
@@ -716,10 +750,8 @@
 #define EIGEN_COMP_CXXVER 17
 #elif EIGEN_CPLUSPLUS >= 201402L
 #define EIGEN_COMP_CXXVER 14
-#elif EIGEN_CPLUSPLUS >= 201103L
-#define EIGEN_COMP_CXXVER 11
 #else
-#define EIGEN_COMP_CXXVER 03
+#define EIGEN_COMP_CXXVER 0
 #endif
 
 // The macros EIGEN_HAS_CXX?? defines a rough estimate of available c++ features
@@ -748,8 +780,8 @@
 
 // Does the compiler support std::hash?
 #ifndef EIGEN_HAS_STD_HASH
-// The std::hash struct is defined in C++11 but is not labelled as a __device__
-// function and is not constexpr, so cannot be used on device.
+// The std::hash struct is not labelled as a __device__ function and is not
+// constexpr, so cannot be used on device.
 #if !defined(EIGEN_GPU_COMPILE_PHASE)
 #define EIGEN_HAS_STD_HASH 1
 #else
@@ -774,6 +806,15 @@
 // NOTE: Intel C++ Compiler Classic (icc) Version 19.0 and later supports dynamic allocation
 //       for over-aligned data, but not in a manner that is compatible with Eigen.
 //       See https://gitlab.com/libeigen/eigen/-/issues/2575
+// Does the compiler support C++17 if constexpr?
+#ifndef EIGEN_HAS_CXX17_IFCONSTEXPR
+#if EIGEN_MAX_CPP_VER >= 17 && EIGEN_COMP_CXXVER >= 17 &&                                                            \
+    ((EIGEN_COMP_MSVC >= 1911) || (EIGEN_GNUC_STRICT_AT_LEAST(7, 0, 0)) || (EIGEN_CLANG_STRICT_AT_LEAST(3, 9, 0)) || \
+     (EIGEN_COMP_CLANGAPPLE && EIGEN_COMP_CLANGAPPLE >= 10000000))
+#define EIGEN_HAS_CXX17_IFCONSTEXPR 1
+#endif
+#endif
+
 #ifndef EIGEN_HAS_CXX17_OVERALIGN
 #if EIGEN_MAX_CPP_VER >= 17 && EIGEN_COMP_CXXVER >= 17 &&                                                            \
     ((EIGEN_COMP_MSVC >= 1912) || (EIGEN_GNUC_STRICT_AT_LEAST(7, 0, 0)) || (EIGEN_CLANG_STRICT_AT_LEAST(5, 0, 0)) || \
@@ -786,7 +827,7 @@
 #endif
 
 #if defined(EIGEN_CUDACC)
-// While available already with c++11, this is useful mostly starting with c++14 and relaxed constexpr rules
+// Enable device-side constexpr when the toolchain supports relaxed constexpr rules.
 #if defined(__NVCC__)
 // nvcc considers constexpr functions as __host__ __device__ with the option --expt-relaxed-constexpr
 #ifdef __CUDACC_RELAXED_CONSTEXPR__
@@ -812,6 +853,18 @@
 #else
 #define EIGEN_HAS_BUILTIN_INT128 0
 #endif
+#endif
+
+// Does the compiler support vector types?
+#if EIGEN_HAS_ATTRIBUTE(ext_vector_type) && EIGEN_HAS_BUILTIN(__builtin_vectorelements)
+#define EIGEN_ARCH_VECTOR_EXTENSIONS 1
+#else
+#define EIGEN_ARCH_VECTOR_EXTENSIONS 0
+#endif
+
+// Multidimensional subscript operator feature test
+#if defined(__cpp_multidimensional_subscript) && __cpp_multidimensional_subscript >= 202110L
+#define EIGEN_MULTIDIMENSIONAL_SUBSCRIPT
 #endif
 
 //------------------------------------------------------------------------------------------
@@ -853,6 +906,17 @@
 #define EIGEN_ALWAYS_INLINE __attribute__((always_inline)) inline
 #else
 #define EIGEN_ALWAYS_INLINE EIGEN_STRONG_INLINE
+#endif
+
+// EIGEN_LAMBDA_ALWAYS_INLINE forces inlining of lambda functions.
+// On GCC/Clang, __attribute__((always_inline)) works on lambdas.
+// On MSVC, [[msvc::forceinline]] cannot be applied to generic lambdas
+// (those with auto parameters), so we leave it empty and rely on the
+// optimizer to inline small lambda bodies at /O2.
+#if EIGEN_COMP_GNUC && !defined(SYCL_DEVICE_ONLY)
+#define EIGEN_LAMBDA_ALWAYS_INLINE __attribute__((always_inline))
+#else
+#define EIGEN_LAMBDA_ALWAYS_INLINE
 #endif
 
 #if EIGEN_COMP_GNUC
@@ -944,6 +1008,22 @@
 #define EIGEN_DEPRECATED
 #endif
 
+#ifndef EIGEN_NO_DEPRECATED_WARNING
+#if EIGEN_COMP_GNUC
+#define EIGEN_DEPRECATED_WITH_REASON(message) __attribute__((deprecated(message)))
+#elif EIGEN_COMP_MSVC
+#define EIGEN_DEPRECATED_WITH_REASON(message) __declspec(deprecated(message))
+#else
+#define EIGEN_DEPRECATED_WITH_REASON(message)
+#endif
+#else
+#define EIGEN_DEPRECATED_WITH_REASON(message)
+#endif
+
+// Deprecated no-op macro. Was a workaround for GCC 4.3 empty struct issues, removed in Eigen 5.0.
+// Defined here for backward compatibility with downstream code that still references it.
+#define EIGEN_EMPTY_STRUCT_CTOR(X)
+
 #if EIGEN_COMP_GNUC
 #define EIGEN_UNUSED __attribute__((unused))
 #else
@@ -970,13 +1050,13 @@
 namespace Eigen {
 namespace internal {
 template <typename T>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void ignore_unused_variable(const T&) {}
+EIGEN_DEVICE_FUNC constexpr void ignore_unused_variable(const T&) {}
 }  // namespace internal
 }  // namespace Eigen
-#define EIGEN_UNUSED_VARIABLE(var) Eigen::internal::ignore_unused_variable(var);
+#define EIGEN_UNUSED_VARIABLE(var) Eigen::internal::ignore_unused_variable(var)
 
 #if !defined(EIGEN_ASM_COMMENT)
-#if EIGEN_COMP_GNUC && (EIGEN_ARCH_i386_OR_x86_64 || EIGEN_ARCH_ARM_OR_ARM64)
+#if EIGEN_COMP_GNUC && (EIGEN_ARCH_i386_OR_x86_64 || EIGEN_ARCH_ARM_OR_ARM64 || EIGEN_ARCH_RISCV)
 #define EIGEN_ASM_COMMENT(X) __asm__("#" X)
 #else
 #define EIGEN_ASM_COMMENT(X)
@@ -993,8 +1073,9 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void ignore_unused_variable(cons
 #endif
 
 #if !defined(EIGEN_OPTIMIZATION_BARRIER)
-#if EIGEN_COMP_GNUC
-   // According to https://gcc.gnu.org/onlinedocs/gcc/Constraints.html:
+// Implement the barrier on GNUC compilers or clang-cl.
+#if EIGEN_COMP_GNUC || (defined(__clang__) && defined(_MSC_VER))
+// According to https://gcc.gnu.org/onlinedocs/gcc/Constraints.html:
 //   X: Any operand whatsoever.
 //   r: A register operand is allowed provided that it is in a general
 //      register.
@@ -1027,44 +1108,44 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void ignore_unused_variable(cons
 // directly for std::complex<T>, Eigen::half, Eigen::bfloat16. For these,
 // you will need to apply to the underlying POD type.
 #if EIGEN_ARCH_PPC && EIGEN_COMP_GNUC_STRICT
-   // This seems to be broken on clang. Packet4f is loaded into a single
+// This seems to be broken on clang. Packet4f is loaded into a single
 //   register rather than a vector, zeroing out some entries. Integer
 //   types also generate a compile error.
 #if EIGEN_OS_MAC
-   // General, Altivec for Apple (VSX were added in ISA v2.06):
+// General, Altivec for Apple (VSX were added in ISA v2.06):
 #define EIGEN_OPTIMIZATION_BARRIER(X) __asm__("" : "+r,v"(X));
 #else
-   // General, Altivec, VSX otherwise:
+// General, Altivec, VSX otherwise:
 #define EIGEN_OPTIMIZATION_BARRIER(X) __asm__("" : "+r,v,wa"(X));
 #endif
 #elif EIGEN_ARCH_ARM_OR_ARM64
 #ifdef __ARM_FP
-   // General, VFP or NEON.
+// General, VFP or NEON.
 // Clang doesn't like "r",
 //    error: non-trivial scalar-to-vector conversion, possible invalid
 //           constraint for vector typ
 #define EIGEN_OPTIMIZATION_BARRIER(X) __asm__("" : "+g,w"(X));
 #else
-   // Arm without VFP or NEON.
+// Arm without VFP or NEON.
 // "w" constraint will not compile.
 #define EIGEN_OPTIMIZATION_BARRIER(X) __asm__("" : "+g"(X));
 #endif
 #elif EIGEN_ARCH_i386_OR_x86_64
-   // General, SSE.
+// General, SSE.
 #define EIGEN_OPTIMIZATION_BARRIER(X) __asm__("" : "+g,x"(X));
 #else
-   // Not implemented for other architectures.
+// Not implemented for other architectures.
 #define EIGEN_OPTIMIZATION_BARRIER(X)
 #endif
 #else
-   // Not implemented for other compilers.
+// Not implemented for other compilers.
 #define EIGEN_OPTIMIZATION_BARRIER(X)
 #endif
 #endif
 
 #if EIGEN_COMP_MSVC
 // NOTE MSVC often gives C4127 warnings with compiletime if statements. See bug 1362.
-// This workaround is ugly, but it does the job.
+// This workaround suppresses MSVC C4127 warnings for compile-time conditionals.
 #define EIGEN_CONST_CONDITIONAL(cond) (void)0, cond
 #else
 #define EIGEN_CONST_CONDITIONAL(cond) cond
@@ -1131,7 +1212,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void ignore_unused_variable(cons
 /** \internal
  * \brief Macro to manually inherit assignment operators.
  * This is necessary, because the implicitly defined assignment operator gets deleted when a custom operator= is
- * defined. With C++11 or later this also default-implements the copy-constructor
+ * defined. This also default-implements the copy-constructor.
  */
 #define EIGEN_INHERIT_ASSIGNMENT_OPERATORS(Derived) \
   EIGEN_INHERIT_ASSIGNMENT_EQUAL_OPERATOR(Derived)  \
@@ -1141,8 +1222,6 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void ignore_unused_variable(cons
  * \brief Macro to manually define default constructors and destructors.
  * This is necessary when the copy constructor is re-defined.
  * For empty helper classes this should usually be protected, to avoid accidentally creating empty objects.
- *
- * Hiding the default destructor lead to problems in C++03 mode together with boost::multiprecision
  */
 #define EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(Derived) \
   EIGEN_DEVICE_FUNC Derived() = default;                        \
@@ -1201,7 +1280,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void ignore_unused_variable(cons
 
 #define EIGEN_MAKE_CWISE_BINARY_OP(METHOD, OPNAME)                                                                \
   template <typename OtherDerived>                                                                                \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const EIGEN_CWISE_BINARY_RETURN_TYPE(                                     \
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE const EIGEN_CWISE_BINARY_RETURN_TYPE(                           \
       Derived, OtherDerived, OPNAME)(METHOD)(const EIGEN_CURRENT_STORAGE_BASE_CLASS<OtherDerived>& other) const { \
     return EIGEN_CWISE_BINARY_RETURN_TYPE(Derived, OtherDerived, OPNAME)(derived(), other.derived());             \
   }
@@ -1222,7 +1301,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void ignore_unused_variable(cons
 
 #define EIGEN_MAKE_SCALAR_BINARY_OP_ONTHERIGHT(METHOD, OPNAME)                                                       \
   template <typename T>                                                                                              \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(                                \
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE const EIGEN_EXPR_BINARYOP_SCALAR_RETURN_TYPE(                      \
       Derived,                                                                                                       \
       typename internal::promote_scalar_arg<Scalar EIGEN_COMMA T EIGEN_COMMA EIGEN_SCALAR_BINARY_SUPPORTED(          \
           OPNAME, Scalar, T)>::type,                                                                                 \
@@ -1236,7 +1315,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void ignore_unused_variable(cons
 
 #define EIGEN_MAKE_SCALAR_BINARY_OP_ONTHELEFT(METHOD, OPNAME)                                                        \
   template <typename T>                                                                                              \
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE friend const EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(                         \
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE friend const EIGEN_SCALAR_BINARYOP_EXPR_RETURN_TYPE(               \
       typename internal::promote_scalar_arg<Scalar EIGEN_COMMA T EIGEN_COMMA EIGEN_SCALAR_BINARY_SUPPORTED(          \
           OPNAME, T, Scalar)>::type,                                                                                 \
       Derived, OPNAME)(METHOD)(const T& scalar, const StorageBaseType& matrix) {                                     \
@@ -1281,10 +1360,10 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void ignore_unused_variable(cons
 namespace Eigen {
 namespace internal {
 
-EIGEN_DEVICE_FUNC inline bool all() { return true; }
+EIGEN_DEVICE_FUNC constexpr bool all() { return true; }
 
 template <typename T, typename... Ts>
-EIGEN_DEVICE_FUNC bool all(T t, Ts... ts) {
+EIGEN_DEVICE_FUNC constexpr bool all(T t, Ts... ts) {
   return t && all(ts...);
 }
 

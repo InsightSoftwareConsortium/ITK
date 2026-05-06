@@ -27,11 +27,11 @@
 /// \sa class Reshaped, fix, fix<N>(int)
 ///
 template <int Order = ColMajor, typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC inline Reshaped<Derived, ...> reshaped(NRowsType nRows, NColsType nCols);
+EIGEN_DEVICE_FUNC constexpr inline Reshaped<Derived, ...> reshaped(NRowsType nRows, NColsType nCols);
 
 /// This is the const version of reshaped(NRowsType,NColsType).
 template <int Order = ColMajor, typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC inline const Reshaped<const Derived, ...> reshaped(NRowsType nRows, NColsType nCols) const;
+EIGEN_DEVICE_FUNC constexpr inline const Reshaped<const Derived, ...> reshaped(NRowsType nRows, NColsType nCols) const;
 
 /// \returns an expression of \c *this with columns (or rows) stacked to a linear column vector
 ///
@@ -56,11 +56,11 @@ EIGEN_DEVICE_FUNC inline const Reshaped<const Derived, ...> reshaped(NRowsType n
 /// \sa reshaped(NRowsType,NColsType), class Reshaped
 ///
 template <int Order = ColMajor>
-EIGEN_DEVICE_FUNC inline Reshaped<Derived, ...> reshaped();
+EIGEN_DEVICE_FUNC constexpr inline Reshaped<Derived, ...> reshaped();
 
 /// This is the const version of reshaped().
 template <int Order = ColMajor>
-EIGEN_DEVICE_FUNC inline const Reshaped<const Derived, ...> reshaped() const;
+EIGEN_DEVICE_FUNC constexpr inline const Reshaped<const Derived, ...> reshaped() const;
 
 #else
 
@@ -79,7 +79,7 @@ EIGEN_DEVICE_FUNC inline const Reshaped<const Derived, ...> reshaped() const;
 #endif
 
 template <typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC inline Reshaped<
+EIGEN_DEVICE_FUNC constexpr inline Reshaped<
     EIGEN_RESHAPED_METHOD_CONST Derived,
     internal::get_compiletime_reshape_size<NRowsType, NColsType, SizeAtCompileTime>::value,
     internal::get_compiletime_reshape_size<NColsType, NRowsType, SizeAtCompileTime>::value>
@@ -92,7 +92,7 @@ reshaped(NRowsType nRows, NColsType nCols) EIGEN_RESHAPED_METHOD_CONST {
 }
 
 template <int Order, typename NRowsType, typename NColsType>
-EIGEN_DEVICE_FUNC inline Reshaped<
+EIGEN_DEVICE_FUNC constexpr inline Reshaped<
     EIGEN_RESHAPED_METHOD_CONST Derived,
     internal::get_compiletime_reshape_size<NRowsType, NColsType, SizeAtCompileTime>::value,
     internal::get_compiletime_reshape_size<NColsType, NRowsType, SizeAtCompileTime>::value,
@@ -108,14 +108,14 @@ reshaped(NRowsType nRows, NColsType nCols) EIGEN_RESHAPED_METHOD_CONST {
 
 // Views as linear vectors
 
-EIGEN_DEVICE_FUNC inline Reshaped<EIGEN_RESHAPED_METHOD_CONST Derived, SizeAtCompileTime, 1> reshaped()
+EIGEN_DEVICE_FUNC constexpr inline Reshaped<EIGEN_RESHAPED_METHOD_CONST Derived, SizeAtCompileTime, 1> reshaped()
     EIGEN_RESHAPED_METHOD_CONST {
   return Reshaped<EIGEN_RESHAPED_METHOD_CONST Derived, SizeAtCompileTime, 1>(derived(), size(), 1);
 }
 
 template <int Order>
-EIGEN_DEVICE_FUNC inline Reshaped<EIGEN_RESHAPED_METHOD_CONST Derived, SizeAtCompileTime, 1,
-                                  internal::get_compiletime_reshape_order(Flags, Order)>
+EIGEN_DEVICE_FUNC constexpr inline Reshaped<EIGEN_RESHAPED_METHOD_CONST Derived, SizeAtCompileTime, 1,
+                                            internal::get_compiletime_reshape_order(Flags, Order)>
 reshaped() EIGEN_RESHAPED_METHOD_CONST {
   EIGEN_STATIC_ASSERT(Order == RowMajor || Order == ColMajor || Order == AutoOrder, INVALID_TEMPLATE_PARAMETER);
   return Reshaped<EIGEN_RESHAPED_METHOD_CONST Derived, SizeAtCompileTime, 1,

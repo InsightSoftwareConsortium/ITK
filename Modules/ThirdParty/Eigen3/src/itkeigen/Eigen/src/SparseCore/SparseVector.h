@@ -140,7 +140,7 @@ class SparseVector : public SparseCompressedBase<SparseVector<Scalar_, Options_,
     return insertBack(inner);
   }
   inline Scalar& insertBack(Index i) {
-    m_data.append(0, i);
+    m_data.append(Scalar(0), i);
     return m_data.value(m_data.size() - 1);
   }
 
@@ -150,7 +150,7 @@ class SparseVector : public SparseCompressedBase<SparseVector<Scalar_, Options_,
     return insertBackUnordered(inner);
   }
   inline Scalar& insertBackUnordered(Index i) {
-    m_data.append(0, i);
+    m_data.append(Scalar(0), i);
     return m_data.value(m_data.size() - 1);
   }
 
@@ -168,7 +168,7 @@ class SparseVector : public SparseCompressedBase<SparseVector<Scalar_, Options_,
 
     Index startId = 0;
     Index p = Index(m_data.size()) - 1;
-    // TODO smart realloc
+    // TODO: implement smart reallocation.
     m_data.resize(p + 2, 1);
 
     while ((p >= startId) && (m_data.index(p) > i)) {
@@ -177,7 +177,7 @@ class SparseVector : public SparseCompressedBase<SparseVector<Scalar_, Options_,
       --p;
     }
     m_data.index(p + 1) = convert_index(i);
-    m_data.value(p + 1) = 0;
+    m_data.value(p + 1) = Scalar(0);
     return m_data.value(p + 1);
   }
 
@@ -354,40 +354,40 @@ class SparseVector : public SparseCompressedBase<SparseVector<Scalar_, Options_,
 
  public:
   /** \internal \deprecated use setZero() and reserve() */
-  EIGEN_DEPRECATED void startFill(Index reserve) {
+  EIGEN_DEPRECATED_WITH_REASON("Use .setZero() and .reserve() instead.") void startFill(Index reserve) {
     setZero();
     m_data.reserve(reserve);
   }
 
   /** \internal \deprecated use insertBack(Index,Index) */
-  EIGEN_DEPRECATED Scalar& fill(Index r, Index c) {
+  EIGEN_DEPRECATED_WITH_REASON("Use .insertBack() instead.") Scalar& fill(Index r, Index c) {
     eigen_assert(r == 0 || c == 0);
     return fill(IsColVector ? r : c);
   }
 
   /** \internal \deprecated use insertBack(Index) */
-  EIGEN_DEPRECATED Scalar& fill(Index i) {
-    m_data.append(0, i);
+  EIGEN_DEPRECATED_WITH_REASON("Use .insertBack() instead.") Scalar& fill(Index i) {
+    m_data.append(Scalar(0), i);
     return m_data.value(m_data.size() - 1);
   }
 
   /** \internal \deprecated use insert(Index,Index) */
-  EIGEN_DEPRECATED Scalar& fillrand(Index r, Index c) {
+  EIGEN_DEPRECATED_WITH_REASON("Use .insert() instead.") Scalar& fillrand(Index r, Index c) {
     eigen_assert(r == 0 || c == 0);
     return fillrand(IsColVector ? r : c);
   }
 
   /** \internal \deprecated use insert(Index) */
-  EIGEN_DEPRECATED Scalar& fillrand(Index i) { return insert(i); }
+  EIGEN_DEPRECATED_WITH_REASON("Use .insert() instead.") Scalar& fillrand(Index i) { return insert(i); }
 
   /** \internal \deprecated use finalize() */
-  EIGEN_DEPRECATED void endFill() {}
+  EIGEN_DEPRECATED_WITH_REASON("Use .finalize() instead.") void endFill() {}
 
   // These two functions were here in the 3.1 release, so let's keep them in case some code rely on them.
   /** \internal \deprecated use data() */
-  EIGEN_DEPRECATED Storage& _data() { return m_data; }
+  EIGEN_DEPRECATED_WITH_REASON("Use .data() instead.") Storage& _data() { return m_data; }
   /** \internal \deprecated use data() */
-  EIGEN_DEPRECATED const Storage& _data() const { return m_data; }
+  EIGEN_DEPRECATED_WITH_REASON("Use .data() instead.") const Storage& _data() const { return m_data; }
 
 #ifdef EIGEN_SPARSEVECTOR_PLUGIN
 #include EIGEN_SPARSEVECTOR_PLUGIN
@@ -487,12 +487,16 @@ class Serializer<SparseVector<Scalar, Options, StorageIndex>, void> {
 
     // Inner indices.
     std::size_t data_bytes = sizeof(StorageIndex) * header.num_non_zeros;
-    memcpy(dest, value.innerIndexPtr(), data_bytes);
+    if (data_bytes != 0) {
+      memcpy(dest, value.innerIndexPtr(), data_bytes);
+    }
     dest += data_bytes;
 
     // Values.
     data_bytes = sizeof(Scalar) * header.num_non_zeros;
-    memcpy(dest, value.valuePtr(), data_bytes);
+    if (data_bytes != 0) {
+      memcpy(dest, value.valuePtr(), data_bytes);
+    }
     dest += data_bytes;
 
     return dest;
@@ -515,13 +519,17 @@ class Serializer<SparseVector<Scalar, Options, StorageIndex>, void> {
     // Inner indices.
     std::size_t data_bytes = sizeof(StorageIndex) * header.num_non_zeros;
     if (EIGEN_PREDICT_FALSE(src + data_bytes > end)) return nullptr;
-    memcpy(value.innerIndexPtr(), src, data_bytes);
+    if (data_bytes != 0) {
+      memcpy(value.innerIndexPtr(), src, data_bytes);
+    }
     src += data_bytes;
 
     // Values.
     data_bytes = sizeof(Scalar) * header.num_non_zeros;
     if (EIGEN_PREDICT_FALSE(src + data_bytes > end)) return nullptr;
-    memcpy(value.valuePtr(), src, data_bytes);
+    if (data_bytes != 0) {
+      memcpy(value.valuePtr(), src, data_bytes);
+    }
     src += data_bytes;
     return src;
   }

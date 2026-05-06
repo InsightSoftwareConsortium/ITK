@@ -107,7 +107,7 @@ class Reshaped : public ReshapedImpl<XprType, Rows, Cols, Order, typename intern
 
   /** Fixed-size constructor
    */
-  EIGEN_DEVICE_FUNC inline Reshaped(XprType& xpr) : Impl(xpr) {
+  EIGEN_DEVICE_FUNC constexpr inline Reshaped(XprType& xpr) : Impl(xpr) {
     EIGEN_STATIC_ASSERT(RowsAtCompileTime != Dynamic && ColsAtCompileTime != Dynamic,
                         THIS_METHOD_IS_ONLY_FOR_FIXED_SIZE)
     eigen_assert(Rows * Cols == xpr.rows() * xpr.cols());
@@ -115,7 +115,7 @@ class Reshaped : public ReshapedImpl<XprType, Rows, Cols, Order, typename intern
 
   /** Dynamic-size constructor
    */
-  EIGEN_DEVICE_FUNC inline Reshaped(XprType& xpr, Index reshapeRows, Index reshapeCols)
+  EIGEN_DEVICE_FUNC constexpr inline Reshaped(XprType& xpr, Index reshapeRows, Index reshapeCols)
       : Impl(xpr, reshapeRows, reshapeCols) {
     eigen_assert((RowsAtCompileTime == Dynamic || RowsAtCompileTime == reshapeRows) &&
                  (ColsAtCompileTime == Dynamic || ColsAtCompileTime == reshapeCols));
@@ -136,8 +136,8 @@ class ReshapedImpl<XprType, Rows, Cols, Order, Dense>
  public:
   typedef Impl Base;
   EIGEN_INHERIT_ASSIGNMENT_OPERATORS(ReshapedImpl)
-  EIGEN_DEVICE_FUNC inline ReshapedImpl(XprType& xpr) : Impl(xpr) {}
-  EIGEN_DEVICE_FUNC inline ReshapedImpl(XprType& xpr, Index reshapeRows, Index reshapeCols)
+  EIGEN_DEVICE_FUNC constexpr inline ReshapedImpl(XprType& xpr) : Impl(xpr) {}
+  EIGEN_DEVICE_FUNC constexpr inline ReshapedImpl(XprType& xpr, Index reshapeRows, Index reshapeCols)
       : Impl(xpr, reshapeRows, reshapeCols) {}
 };
 
@@ -161,15 +161,15 @@ class ReshapedImpl_dense<XprType, Rows, Cols, Order, false>
 
   /** Fixed-size constructor
    */
-  EIGEN_DEVICE_FUNC inline ReshapedImpl_dense(XprType& xpr) : m_xpr(xpr), m_rows(Rows), m_cols(Cols) {}
+  EIGEN_DEVICE_FUNC constexpr inline ReshapedImpl_dense(XprType& xpr) : m_xpr(xpr), m_rows(Rows), m_cols(Cols) {}
 
   /** Dynamic-size constructor
    */
-  EIGEN_DEVICE_FUNC inline ReshapedImpl_dense(XprType& xpr, Index nRows, Index nCols)
+  EIGEN_DEVICE_FUNC constexpr inline ReshapedImpl_dense(XprType& xpr, Index nRows, Index nCols)
       : m_xpr(xpr), m_rows(nRows), m_cols(nCols) {}
 
-  EIGEN_DEVICE_FUNC Index rows() const { return m_rows; }
-  EIGEN_DEVICE_FUNC Index cols() const { return m_cols; }
+  EIGEN_DEVICE_FUNC constexpr Index rows() const { return m_rows; }
+  EIGEN_DEVICE_FUNC constexpr Index cols() const { return m_cols; }
 
 #ifdef EIGEN_PARSED_BY_DOXYGEN
   /** \sa MapBase::data() */
@@ -179,10 +179,10 @@ class ReshapedImpl_dense<XprType, Rows, Cols, Order, false>
 #endif
 
   /** \returns the nested expression */
-  EIGEN_DEVICE_FUNC const internal::remove_all_t<XprType>& nestedExpression() const { return m_xpr; }
+  EIGEN_DEVICE_FUNC constexpr const internal::remove_all_t<XprType>& nestedExpression() const { return m_xpr; }
 
   /** \returns the nested expression */
-  EIGEN_DEVICE_FUNC std::remove_reference_t<XprType>& nestedExpression() { return m_xpr; }
+  EIGEN_DEVICE_FUNC constexpr std::remove_reference_t<XprType>& nestedExpression() { return m_xpr; }
 
  protected:
   MatrixTypeNested m_xpr;
@@ -203,16 +203,16 @@ class ReshapedImpl_dense<XprType, Rows, Cols, Order, true> : public MapBase<Resh
 
   /** Fixed-size constructor
    */
-  EIGEN_DEVICE_FUNC inline ReshapedImpl_dense(XprType& xpr) : Base(xpr.data()), m_xpr(xpr) {}
+  EIGEN_DEVICE_FUNC constexpr inline ReshapedImpl_dense(XprType& xpr) : Base(xpr.data()), m_xpr(xpr) {}
 
   /** Dynamic-size constructor
    */
-  EIGEN_DEVICE_FUNC inline ReshapedImpl_dense(XprType& xpr, Index nRows, Index nCols)
+  EIGEN_DEVICE_FUNC constexpr inline ReshapedImpl_dense(XprType& xpr, Index nRows, Index nCols)
       : Base(xpr.data(), nRows, nCols), m_xpr(xpr) {}
 
-  EIGEN_DEVICE_FUNC const internal::remove_all_t<XprTypeNested>& nestedExpression() const { return m_xpr; }
+  EIGEN_DEVICE_FUNC constexpr const internal::remove_all_t<XprTypeNested>& nestedExpression() const { return m_xpr; }
 
-  EIGEN_DEVICE_FUNC XprType& nestedExpression() { return m_xpr; }
+  EIGEN_DEVICE_FUNC constexpr XprType& nestedExpression() { return m_xpr; }
 
   /** \sa MapBase::innerStride() */
   EIGEN_DEVICE_FUNC constexpr Index innerStride() const { return m_xpr.innerStride(); }
@@ -265,7 +265,7 @@ struct evaluator<Reshaped<ArgType, Rows, Cols, Order> >
     Alignment = evaluator<ArgType>::Alignment
   };
   typedef reshaped_evaluator<ArgType, Rows, Cols, Order, HasDirectAccess> reshaped_evaluator_type;
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType& xpr) : reshaped_evaluator_type(xpr) {
+  EIGEN_DEVICE_FUNC constexpr explicit evaluator(const XprType& xpr) : reshaped_evaluator_type(xpr) {
     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 };
@@ -283,7 +283,8 @@ struct reshaped_evaluator<ArgType, Rows, Cols, Order, /* HasDirectAccess */ fals
     Alignment = 0
   };
 
-  EIGEN_DEVICE_FUNC explicit reshaped_evaluator(const XprType& xpr) : m_argImpl(xpr.nestedExpression()), m_xpr(xpr) {
+  EIGEN_DEVICE_FUNC constexpr explicit reshaped_evaluator(const XprType& xpr)
+      : m_argImpl(xpr.nestedExpression()), m_xpr(xpr) {
     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 
@@ -292,7 +293,7 @@ struct reshaped_evaluator<ArgType, Rows, Cols, Order, /* HasDirectAccess */ fals
 
   typedef std::pair<Index, Index> RowCol;
 
-  EIGEN_DEVICE_FUNC inline RowCol index_remap(Index rowId, Index colId) const {
+  EIGEN_DEVICE_FUNC constexpr inline RowCol index_remap(Index rowId, Index colId) const {
     if (Order == ColMajor) {
       const Index nth_elem_idx = colId * m_xpr.rows() + rowId;
       return RowCol(nth_elem_idx % m_xpr.nestedExpression().rows(), nth_elem_idx / m_xpr.nestedExpression().rows());
@@ -302,74 +303,38 @@ struct reshaped_evaluator<ArgType, Rows, Cols, Order, /* HasDirectAccess */ fals
     }
   }
 
-  EIGEN_DEVICE_FUNC inline Scalar& coeffRef(Index rowId, Index colId) {
+  EIGEN_DEVICE_FUNC constexpr inline Scalar& coeffRef(Index rowId, Index colId) {
     EIGEN_STATIC_ASSERT_LVALUE(XprType)
     const RowCol row_col = index_remap(rowId, colId);
     return m_argImpl.coeffRef(row_col.first, row_col.second);
   }
 
-  EIGEN_DEVICE_FUNC inline const Scalar& coeffRef(Index rowId, Index colId) const {
+  EIGEN_DEVICE_FUNC constexpr inline const Scalar& coeffRef(Index rowId, Index colId) const {
     const RowCol row_col = index_remap(rowId, colId);
     return m_argImpl.coeffRef(row_col.first, row_col.second);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const CoeffReturnType coeff(Index rowId, Index colId) const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE const CoeffReturnType coeff(Index rowId, Index colId) const {
     const RowCol row_col = index_remap(rowId, colId);
     return m_argImpl.coeff(row_col.first, row_col.second);
   }
 
-  EIGEN_DEVICE_FUNC inline Scalar& coeffRef(Index index) {
+  EIGEN_DEVICE_FUNC constexpr inline Scalar& coeffRef(Index index) {
     EIGEN_STATIC_ASSERT_LVALUE(XprType)
     const RowCol row_col = index_remap(Rows == 1 ? 0 : index, Rows == 1 ? index : 0);
     return m_argImpl.coeffRef(row_col.first, row_col.second);
   }
 
-  EIGEN_DEVICE_FUNC inline const Scalar& coeffRef(Index index) const {
+  EIGEN_DEVICE_FUNC constexpr inline const Scalar& coeffRef(Index index) const {
     const RowCol row_col = index_remap(Rows == 1 ? 0 : index, Rows == 1 ? index : 0);
     return m_argImpl.coeffRef(row_col.first, row_col.second);
   }
 
-  EIGEN_DEVICE_FUNC inline const CoeffReturnType coeff(Index index) const {
+  EIGEN_DEVICE_FUNC constexpr inline const CoeffReturnType coeff(Index index) const {
     const RowCol row_col = index_remap(Rows == 1 ? 0 : index, Rows == 1 ? index : 0);
     return m_argImpl.coeff(row_col.first, row_col.second);
   }
-#if 0
-  EIGEN_DEVICE_FUNC
-  template<int LoadMode>
-  inline PacketScalar packet(Index rowId, Index colId) const
-  {
-    const RowCol row_col = index_remap(rowId, colId);
-    return m_argImpl.template packet<Unaligned>(row_col.first, row_col.second);
 
-  }
-
-  template<int LoadMode>
-  EIGEN_DEVICE_FUNC
-  inline void writePacket(Index rowId, Index colId, const PacketScalar& val)
-  {
-    const RowCol row_col = index_remap(rowId, colId);
-    m_argImpl.const_cast_derived().template writePacket<Unaligned>
-            (row_col.first, row_col.second, val);
-  }
-
-  template<int LoadMode>
-  EIGEN_DEVICE_FUNC
-  inline PacketScalar packet(Index index) const
-  {
-    const RowCol row_col = index_remap(RowsAtCompileTime == 1 ? 0 : index,
-                                        RowsAtCompileTime == 1 ? index : 0);
-    return m_argImpl.template packet<Unaligned>(row_col.first, row_col.second);
-  }
-
-  template<int LoadMode>
-  EIGEN_DEVICE_FUNC
-  inline void writePacket(Index index, const PacketScalar& val)
-  {
-    const RowCol row_col = index_remap(RowsAtCompileTime == 1 ? 0 : index,
-                                        RowsAtCompileTime == 1 ? index : 0);
-    return m_argImpl.template packet<Unaligned>(row_col.first, row_col.second, val);
-  }
-#endif
  protected:
   evaluator<ArgType> m_argImpl;
   const XprType& m_xpr;
@@ -382,10 +347,8 @@ struct reshaped_evaluator<ArgType, Rows, Cols, Order, /* HasDirectAccess */ true
   typedef Reshaped<ArgType, Rows, Cols, Order> XprType;
   typedef typename XprType::Scalar Scalar;
 
-  EIGEN_DEVICE_FUNC explicit reshaped_evaluator(const XprType& xpr)
+  EIGEN_DEVICE_FUNC constexpr explicit reshaped_evaluator(const XprType& xpr)
       : mapbase_evaluator<XprType, typename XprType::PlainObject>(xpr) {
-    // TODO: for the 3.4 release, this should be turned to an internal assertion, but let's keep it as is for the beta
-    // lifetime
     eigen_assert(((std::uintptr_t(xpr.data()) % plain_enum_max(1, evaluator<XprType>::Alignment)) == 0) &&
                  "data is not aligned");
   }

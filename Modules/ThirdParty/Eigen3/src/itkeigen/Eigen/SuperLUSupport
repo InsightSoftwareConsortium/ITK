@@ -16,6 +16,7 @@
 #define EIGEN_EMPTY_WAS_ALREADY_DEFINED
 #endif
 
+// Required by SuperLU headers, which expect int_t to be defined as a global typedef.
 typedef int int_t;
 #include <slu_Cnames.h>
 #include <supermatrix.h>

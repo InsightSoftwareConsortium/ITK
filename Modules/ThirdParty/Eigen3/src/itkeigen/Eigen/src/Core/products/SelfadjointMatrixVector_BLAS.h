@@ -108,6 +108,8 @@ EIGEN_BLAS_SYMV_SPECIALIZATION(dcomplex, double, zhemv_)
 EIGEN_BLAS_SYMV_SPECIALIZATION(scomplex, float, chemv_)
 #endif
 
+#undef EIGEN_BLAS_SYMV_SPECIALIZATION
+#undef EIGEN_BLAS_SYMV_SPECIALIZE
 }  // end namespace internal
 
 }  // end namespace Eigen

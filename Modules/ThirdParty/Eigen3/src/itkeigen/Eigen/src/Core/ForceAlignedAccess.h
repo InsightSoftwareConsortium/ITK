@@ -39,7 +39,7 @@ class ForceAlignedAccess : public internal::dense_xpr_base<ForceAlignedAccess<Ex
   typedef typename internal::dense_xpr_base<ForceAlignedAccess>::type Base;
   EIGEN_DENSE_PUBLIC_INTERFACE(ForceAlignedAccess)
 
-  EIGEN_DEVICE_FUNC explicit inline ForceAlignedAccess(const ExpressionType& matrix) : m_expression(matrix) {}
+  EIGEN_DEVICE_FUNC explicit constexpr ForceAlignedAccess(const ExpressionType& matrix) : m_expression(matrix) {}
 
   EIGEN_DEVICE_FUNC constexpr Index rows() const noexcept { return m_expression.rows(); }
   EIGEN_DEVICE_FUNC constexpr Index cols() const noexcept { return m_expression.cols(); }
@@ -101,25 +101,6 @@ inline const ForceAlignedAccess<Derived> MatrixBase<Derived>::forceAlignedAccess
 template <typename Derived>
 inline ForceAlignedAccess<Derived> MatrixBase<Derived>::forceAlignedAccess() {
   return ForceAlignedAccess<Derived>(derived());
-}
-
-/** \returns an expression of *this with forced aligned access if \a Enable is true.
- * \sa forceAlignedAccess(), class ForceAlignedAccess
- */
-template <typename Derived>
-template <bool Enable>
-inline add_const_on_value_type_t<std::conditional_t<Enable, ForceAlignedAccess<Derived>, Derived&>>
-MatrixBase<Derived>::forceAlignedAccessIf() const {
-  return derived();  // FIXME This should not work but apparently is never used
-}
-
-/** \returns an expression of *this with forced aligned access if \a Enable is true.
- * \sa forceAlignedAccess(), class ForceAlignedAccess
- */
-template <typename Derived>
-template <bool Enable>
-inline std::conditional_t<Enable, ForceAlignedAccess<Derived>, Derived&> MatrixBase<Derived>::forceAlignedAccessIf() {
-  return derived();  // FIXME This should not work but apparently is never used
 }
 
 }  // end namespace Eigen

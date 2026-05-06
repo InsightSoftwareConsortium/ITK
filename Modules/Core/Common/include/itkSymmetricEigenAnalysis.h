@@ -1029,8 +1029,16 @@ private:
       }
     }
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
+    // GCC's IPA cannot prove that Eigen 5's analytical 3x3 SelfAdjointEigenSolver
+    // fully writes m_eivalues; Eigen's own CMakeLists adds -Wno-maybe-uninitialized
+    // for the same reason (see Modules/ThirdParty/Eigen3/.../CMakeLists.txt).
+    // clang-format off
+    ITK_GCC_PRAGMA_PUSH
+    ITK_GCC_SUPPRESS_Wmaybe_uninitialized
     const EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
     auto                  eigenValues = solver.eigenvalues();
+    ITK_GCC_PRAGMA_POP
+    // clang-format on
     if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
     {
       detail::sortEigenValuesByMagnitude(eigenValues, VDimension);

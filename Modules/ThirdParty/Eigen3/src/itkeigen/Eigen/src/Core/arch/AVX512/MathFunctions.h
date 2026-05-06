@@ -106,32 +106,10 @@ EIGEN_STRONG_INLINE Packet16f preciprocal<Packet16f>(const Packet16f& a) {
 }
 #endif
 
-BF16_PACKET_FUNCTION(Packet16f, Packet16bf, pcos)
-BF16_PACKET_FUNCTION(Packet16f, Packet16bf, pexp)
-BF16_PACKET_FUNCTION(Packet16f, Packet16bf, pexp2)
-BF16_PACKET_FUNCTION(Packet16f, Packet16bf, pexpm1)
-BF16_PACKET_FUNCTION(Packet16f, Packet16bf, plog)
-BF16_PACKET_FUNCTION(Packet16f, Packet16bf, plog1p)
-BF16_PACKET_FUNCTION(Packet16f, Packet16bf, plog2)
-BF16_PACKET_FUNCTION(Packet16f, Packet16bf, preciprocal)
-BF16_PACKET_FUNCTION(Packet16f, Packet16bf, prsqrt)
-BF16_PACKET_FUNCTION(Packet16f, Packet16bf, psin)
-BF16_PACKET_FUNCTION(Packet16f, Packet16bf, psqrt)
-BF16_PACKET_FUNCTION(Packet16f, Packet16bf, ptanh)
+EIGEN_INSTANTIATE_GENERIC_MATH_FUNCS_BF16(Packet16f, Packet16bf)
 
 #ifndef EIGEN_VECTORIZE_AVX512FP16
-F16_PACKET_FUNCTION(Packet16f, Packet16h, pcos)
-F16_PACKET_FUNCTION(Packet16f, Packet16h, pexp)
-F16_PACKET_FUNCTION(Packet16f, Packet16h, pexp2)
-F16_PACKET_FUNCTION(Packet16f, Packet16h, pexpm1)
-F16_PACKET_FUNCTION(Packet16f, Packet16h, plog)
-F16_PACKET_FUNCTION(Packet16f, Packet16h, plog1p)
-F16_PACKET_FUNCTION(Packet16f, Packet16h, plog2)
-F16_PACKET_FUNCTION(Packet16f, Packet16h, preciprocal)
-F16_PACKET_FUNCTION(Packet16f, Packet16h, prsqrt)
-F16_PACKET_FUNCTION(Packet16f, Packet16h, psin)
-F16_PACKET_FUNCTION(Packet16f, Packet16h, psqrt)
-F16_PACKET_FUNCTION(Packet16f, Packet16h, ptanh)
+EIGEN_INSTANTIATE_GENERIC_MATH_FUNCS_F16(Packet16f, Packet16h)
 #endif  // EIGEN_VECTORIZE_AVX512FP16
 
 }  // end namespace internal

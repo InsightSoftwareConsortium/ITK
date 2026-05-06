@@ -9,14 +9,10 @@
 #define EIGEN_SVD_MODULE_H
 
 #include "QR"
-#include "Householder"
-#include "Jacobi"
 
 #include "src/Core/util/DisableStupidWarnings.h"
 
 /** \defgroup SVD_Module SVD module
- *
- *
  *
  * This module provides SVD decomposition for matrices (both real and complex).
  * Two decomposition algorithms are provided:
@@ -33,7 +29,6 @@
  */
 
 // IWYU pragma: begin_exports
-#include "src/misc/RealSvd2x2.h"
 #include "src/SVD/UpperBidiagonalization.h"
 #include "src/SVD/SVDBase.h"
 #include "src/SVD/JacobiSVD.h"
@@ -41,6 +36,8 @@
 #ifdef EIGEN_USE_LAPACKE
 #ifdef EIGEN_USE_MKL
 #include "mkl_lapacke.h"
+#elif defined(EIGEN_LAPACKE_SYSTEM)
+#include <lapacke.h>
 #else
 #include "src/misc/lapacke.h"
 #endif

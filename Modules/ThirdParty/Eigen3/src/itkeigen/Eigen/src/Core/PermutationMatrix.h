@@ -109,6 +109,9 @@ class PermutationBase : public EigenBase<Derived> {
    */
   DenseMatrixType toDenseMatrix() const { return derived(); }
 
+  /** \returns the plain matrix representation of the permutation. */
+  DenseMatrixType eval() const { return toDenseMatrix(); }
+
   /** const version of indices(). */
   const IndicesType& indices() const { return derived().indices(); }
   /** \returns a reference to the stored array representing the permutation. */
@@ -468,17 +471,17 @@ class PermutationWrapper : public PermutationBase<PermutationWrapper<IndicesType
 /** \returns the matrix with the permutation applied to the columns.
  */
 template <typename MatrixDerived, typename PermutationDerived>
-EIGEN_DEVICE_FUNC const Product<MatrixDerived, PermutationDerived, AliasFreeProduct> operator*(
+EIGEN_DEVICE_FUNC const Product<MatrixDerived, PermutationDerived, DefaultProduct> operator*(
     const MatrixBase<MatrixDerived>& matrix, const PermutationBase<PermutationDerived>& permutation) {
-  return Product<MatrixDerived, PermutationDerived, AliasFreeProduct>(matrix.derived(), permutation.derived());
+  return Product<MatrixDerived, PermutationDerived, DefaultProduct>(matrix.derived(), permutation.derived());
 }
 
 /** \returns the matrix with the permutation applied to the rows.
  */
 template <typename PermutationDerived, typename MatrixDerived>
-EIGEN_DEVICE_FUNC const Product<PermutationDerived, MatrixDerived, AliasFreeProduct> operator*(
+EIGEN_DEVICE_FUNC const Product<PermutationDerived, MatrixDerived, DefaultProduct> operator*(
     const PermutationBase<PermutationDerived>& permutation, const MatrixBase<MatrixDerived>& matrix) {
-  return Product<PermutationDerived, MatrixDerived, AliasFreeProduct>(permutation.derived(), matrix.derived());
+  return Product<PermutationDerived, MatrixDerived, DefaultProduct>(permutation.derived(), matrix.derived());
 }
 
 template <typename PermutationType>
@@ -520,16 +523,16 @@ class InverseImpl<PermutationType, PermutationStorage> : public EigenBase<Invers
   /** \returns the matrix with the inverse permutation applied to the columns.
    */
   template <typename OtherDerived>
-  friend const Product<OtherDerived, InverseType, AliasFreeProduct> operator*(const MatrixBase<OtherDerived>& matrix,
-                                                                              const InverseType& trPerm) {
-    return Product<OtherDerived, InverseType, AliasFreeProduct>(matrix.derived(), trPerm.derived());
+  friend const Product<OtherDerived, InverseType, DefaultProduct> operator*(const MatrixBase<OtherDerived>& matrix,
+                                                                            const InverseType& trPerm) {
+    return Product<OtherDerived, InverseType, DefaultProduct>(matrix.derived(), trPerm.derived());
   }
 
   /** \returns the matrix with the inverse permutation applied to the rows.
    */
   template <typename OtherDerived>
-  const Product<InverseType, OtherDerived, AliasFreeProduct> operator*(const MatrixBase<OtherDerived>& matrix) const {
-    return Product<InverseType, OtherDerived, AliasFreeProduct>(derived(), matrix.derived());
+  const Product<InverseType, OtherDerived, DefaultProduct> operator*(const MatrixBase<OtherDerived>& matrix) const {
+    return Product<InverseType, OtherDerived, DefaultProduct>(derived(), matrix.derived());
   }
 };
 

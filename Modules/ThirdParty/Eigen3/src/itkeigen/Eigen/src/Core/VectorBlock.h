@@ -68,13 +68,13 @@ class VectorBlock : public Block<VectorType, internal::traits<VectorType>::Flags
 
   /** Dynamic-size constructor
    */
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE VectorBlock(VectorType& vector, Index start, Index size)
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE VectorBlock(VectorType& vector, Index start, Index size)
       : Base(vector, IsColVector ? start : 0, IsColVector ? 0 : start, IsColVector ? size : 1, IsColVector ? 1 : size) {
   }
 
   /** Fixed-size constructor
    */
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE VectorBlock(VectorType& vector, Index start)
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE VectorBlock(VectorType& vector, Index start)
       : Base(vector, IsColVector ? start : 0, IsColVector ? 0 : start) {}
 };
 

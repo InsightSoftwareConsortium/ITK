@@ -6,10 +6,16 @@ shopt -s dotglob
 
 readonly name="Eigen3"
 readonly ownership="Eigen Upstream <kwrobot@kitware.com>"
+# ITK has applied a small number of post-import patches under itkeigen/
+# (e.g., SelfadjointMatrixVector.h pzero init), so the tree no longer
+# bytewise matches the previous import commit's tree. Use log-based
+# matching instead of exact-tree matching for the previous-import probe.
+exact_tree_match=false
 readonly subtree="Modules/ThirdParty/Eigen3/src/itkeigen"
 readonly repo="https://github.com/InsightSoftwareConsortium/eigen"
-readonly tag="for/itk-20260305-4c99fca"
+readonly tag="for/itk-20260501-879885e1"
 readonly paths="
+Eigen/AccelerateSupport
 Eigen/Cholesky
 Eigen/CholmodSupport
 Eigen/Core
@@ -20,6 +26,7 @@ Eigen/Geometry
 Eigen/Householder
 Eigen/IterativeLinearSolvers
 Eigen/Jacobi
+Eigen/KLUSupport
 Eigen/LU
 Eigen/MetisSupport
 Eigen/OrderingMethods
@@ -38,7 +45,9 @@ Eigen/StdDeque
 Eigen/StdList
 Eigen/StdVector
 Eigen/SuperLUSupport
+Eigen/ThreadPool
 Eigen/UmfPackSupport
+Eigen/Version
 Eigen/src
 
 COPYING.BSD

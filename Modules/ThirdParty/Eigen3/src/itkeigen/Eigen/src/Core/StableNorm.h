@@ -40,8 +40,7 @@ inline void stable_norm_kernel(const ExpressionType& bl, Scalar& ssq, Scalar& sc
     scale = maxCoeff;
   }
 
-  // TODO if the maxCoeff is much much smaller than the current scale,
-  // then we can neglect this sub vector
+  // TODO: skip sub-vector when maxCoeff << current scale.
   if (scale > Scalar(0))  // if scale==0, then bl is 0
     ssq += (bl * invScale).squaredNorm();
 }

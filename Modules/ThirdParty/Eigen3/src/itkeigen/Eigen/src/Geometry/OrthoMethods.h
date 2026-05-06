@@ -200,7 +200,7 @@ struct unitOrthogonal_selector<Derived, 3> {
   EIGEN_DEVICE_FUNC static inline VectorType run(const Derived& src) {
     VectorType perp;
     /* Let us compute the crossed product of *this with a vector
-     * that is not too close to being colinear to *this.
+     * that is not too close to being collinear to *this.
      */
 
     /* unless the x and y coords are both close to zero, we can
@@ -213,7 +213,7 @@ struct unitOrthogonal_selector<Derived, 3> {
       perp.coeffRef(2) = 0;
     }
     /* if both x and y are close to zero, then the vector is close
-     * to the z-axis, so it's far from colinear to the x-axis for instance.
+     * to the z-axis, so it's far from collinear to the x-axis for instance.
      * So we take the crossed product with (1,0,0) and normalize it.
      */
     else {
@@ -242,7 +242,7 @@ struct unitOrthogonal_selector<Derived, 2> {
  * \returns a unit vector which is orthogonal to \c *this
  *
  * The size of \c *this must be at least 2. If the size is exactly 2,
- * then the returned vector is a counter clock wise rotation of \c *this, i.e., (-y,x).normalized().
+ * then the returned vector is a counter-clockwise rotation of \c *this, i.e., (-y,x).normalized().
  *
  * \sa cross()
  */

@@ -58,20 +58,19 @@ class Stride {
   enum { InnerStrideAtCompileTime = InnerStrideAtCompileTime_, OuterStrideAtCompileTime = OuterStrideAtCompileTime_ };
 
   /** Default constructor, for use when strides are fixed at compile time */
-  EIGEN_DEVICE_FUNC Stride() : m_outer(OuterStrideAtCompileTime), m_inner(InnerStrideAtCompileTime) {
-    // FIXME: for Eigen 4 we should use DynamicIndex instead of Dynamic.
-    // FIXME: for Eigen 4 we should also unify this API with fix<>
+  EIGEN_DEVICE_FUNC constexpr Stride() : m_outer(OuterStrideAtCompileTime), m_inner(InnerStrideAtCompileTime) {
     eigen_assert(InnerStrideAtCompileTime != Dynamic && OuterStrideAtCompileTime != Dynamic);
   }
 
   /** Constructor allowing to pass the strides at runtime */
-  EIGEN_DEVICE_FUNC Stride(Index outerStride, Index innerStride) : m_outer(outerStride), m_inner(innerStride) {}
+  EIGEN_DEVICE_FUNC constexpr Stride(Index outerStride, Index innerStride)
+      : m_outer(outerStride), m_inner(innerStride) {}
 
   /** Copy constructor */
-  EIGEN_DEVICE_FUNC Stride(const Stride& other) : m_outer(other.outer()), m_inner(other.inner()) {}
+  EIGEN_DEVICE_FUNC constexpr Stride(const Stride& other) : m_outer(other.outer()), m_inner(other.inner()) {}
 
   /** Copy assignment operator */
-  EIGEN_DEVICE_FUNC Stride& operator=(const Stride& other) {
+  EIGEN_DEVICE_FUNC constexpr Stride& operator=(const Stride& other) {
     m_outer.setValue(other.outer());
     m_inner.setValue(other.inner());
     return *this;
@@ -94,8 +93,8 @@ class InnerStride : public Stride<0, Value> {
   typedef Stride<0, Value> Base;
 
  public:
-  EIGEN_DEVICE_FUNC InnerStride() : Base() {}
-  EIGEN_DEVICE_FUNC InnerStride(Index v) : Base(0, v) {}  // FIXME making this explicit could break valid code
+  EIGEN_DEVICE_FUNC constexpr InnerStride() : Base() {}
+  EIGEN_DEVICE_FUNC constexpr InnerStride(Index v) : Base(0, v) {}  // FIXME making this explicit could break valid code
 };
 
 /** \brief Convenience specialization of Stride to specify only an outer stride
@@ -105,8 +104,8 @@ class OuterStride : public Stride<Value, 0> {
   typedef Stride<Value, 0> Base;
 
  public:
-  EIGEN_DEVICE_FUNC OuterStride() : Base() {}
-  EIGEN_DEVICE_FUNC OuterStride(Index v) : Base(v, 0) {}  // FIXME making this explicit could break valid code
+  EIGEN_DEVICE_FUNC constexpr OuterStride() : Base() {}
+  EIGEN_DEVICE_FUNC constexpr OuterStride(Index v) : Base(v, 0) {}  // FIXME making this explicit could break valid code
 };
 
 }  // end namespace Eigen

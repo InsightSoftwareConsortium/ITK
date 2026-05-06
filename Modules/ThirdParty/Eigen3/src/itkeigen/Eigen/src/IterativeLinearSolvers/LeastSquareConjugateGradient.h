@@ -145,6 +145,7 @@ struct traits<LeastSquaresConjugateGradient<MatrixType_, Preconditioner_> > {
 template <typename MatrixType_, typename Preconditioner_>
 class LeastSquaresConjugateGradient
     : public IterativeSolverBase<LeastSquaresConjugateGradient<MatrixType_, Preconditioner_> > {
+ protected:
   typedef IterativeSolverBase<LeastSquaresConjugateGradient> Base;
   using Base::m_error;
   using Base::m_info;

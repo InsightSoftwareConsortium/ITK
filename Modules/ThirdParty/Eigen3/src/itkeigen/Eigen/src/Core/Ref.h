@@ -43,7 +43,7 @@ struct traits<Ref<PlainObjectType_, Options_, StrideType_> >
       OuterStrideMatch = IsVectorAtCompileTime || int(OuterStrideAtCompileTime) == int(Dynamic) ||
                          int(OuterStrideAtCompileTime) == int(Derived::OuterStrideAtCompileTime),
       // NOTE, this indirection of evaluator<Derived>::Alignment is needed
-      // to workaround a very strange bug in MSVC related to the instantiation
+      // to work around an MSVC bug related to the instantiation
       // of has_*ary_operator in evaluator<CwiseNullaryOp>.
       // This line is surprisingly very sensitive. For instance, simply adding parenthesis
       // as "DerivedAlignment = (int(evaluator<Derived>::Alignment))," will make MSVC fail...
@@ -265,7 +265,7 @@ class Ref : public RefBase<Ref<PlainObjectType, Options, StrideType> > {
  private:
   typedef internal::traits<Ref> Traits;
   template <typename Derived>
-  EIGEN_DEVICE_FUNC inline Ref(
+  EIGEN_DEVICE_FUNC constexpr inline Ref(
       const PlainObjectBase<Derived>& expr,
       std::enable_if_t<bool(Traits::template match<Derived>::MatchAtCompileTime), Derived>* = 0);
 
@@ -275,17 +275,17 @@ class Ref : public RefBase<Ref<PlainObjectType, Options, StrideType> > {
 
 #ifndef EIGEN_PARSED_BY_DOXYGEN
   template <typename Derived>
-  EIGEN_DEVICE_FUNC inline Ref(
+  EIGEN_DEVICE_FUNC constexpr inline Ref(
       PlainObjectBase<Derived>& expr,
       std::enable_if_t<bool(Traits::template match<Derived>::MatchAtCompileTime), Derived>* = 0) {
     EIGEN_STATIC_ASSERT(bool(Traits::template match<Derived>::MatchAtCompileTime), STORAGE_LAYOUT_DOES_NOT_MATCH);
     // Construction must pass since we will not create temporary storage in the non-const case.
     const bool success = Base::construct(expr.derived());
-    EIGEN_UNUSED_VARIABLE(success)
+    EIGEN_UNUSED_VARIABLE(success);
     eigen_assert(success);
   }
   template <typename Derived>
-  EIGEN_DEVICE_FUNC inline Ref(
+  EIGEN_DEVICE_FUNC constexpr inline Ref(
       const DenseBase<Derived>& expr,
       std::enable_if_t<bool(Traits::template match<Derived>::MatchAtCompileTime), Derived>* = 0)
 #else
@@ -299,7 +299,7 @@ class Ref : public RefBase<Ref<PlainObjectType, Options, StrideType> > {
     EIGEN_STATIC_ASSERT(!Derived::IsPlainObjectBase, THIS_EXPRESSION_IS_NOT_A_LVALUE__IT_IS_READ_ONLY);
     // Construction must pass since we will not create temporary storage in the non-const case.
     const bool success = Base::construct(expr.const_cast_derived());
-    EIGEN_UNUSED_VARIABLE(success)
+    EIGEN_UNUSED_VARIABLE(success);
     eigen_assert(success);
   }
 
@@ -327,8 +327,9 @@ class Ref<const TPlainObjectType, Options, StrideType>
   EIGEN_DENSE_PUBLIC_INTERFACE(Ref)
 
   template <typename Derived>
-  EIGEN_DEVICE_FUNC inline Ref(const DenseBase<Derived>& expr,
-                               std::enable_if_t<bool(Traits::template match<Derived>::ScalarTypeMatch), Derived>* = 0) {
+  EIGEN_DEVICE_FUNC constexpr inline Ref(
+      const DenseBase<Derived>& expr,
+      std::enable_if_t<bool(Traits::template match<Derived>::ScalarTypeMatch), Derived>* = 0) {
     //      std::cout << match_helper<Derived>::HasDirectAccess << "," << match_helper<Derived>::OuterStrideMatch << ","
     //      << match_helper<Derived>::InnerStrideMatch << "\n"; std::cout << int(StrideType::OuterStrideAtCompileTime)
     //      << " - " << int(Derived::OuterStrideAtCompileTime) << "\n"; std::cout <<
@@ -338,11 +339,11 @@ class Ref<const TPlainObjectType, Options, StrideType>
     construct(expr.derived(), typename Traits::template match<Derived>::type());
   }
 
-  EIGEN_DEVICE_FUNC inline Ref(const Ref& other) : Base(other) {
+  EIGEN_DEVICE_FUNC constexpr inline Ref(const Ref& other) : Base(other) {
     // copy constructor shall not copy the m_object, to avoid unnecessary malloc and copy
   }
 
-  EIGEN_DEVICE_FUNC inline Ref(Ref&& other) {
+  EIGEN_DEVICE_FUNC constexpr inline Ref(Ref&& other) {
     if (other.data() == other.m_object.data()) {
       m_object = std::move(other.m_object);
       Base::construct(m_object);
@@ -351,7 +352,7 @@ class Ref<const TPlainObjectType, Options, StrideType>
   }
 
   template <typename OtherRef>
-  EIGEN_DEVICE_FUNC inline Ref(const RefBase<OtherRef>& other) {
+  EIGEN_DEVICE_FUNC constexpr inline Ref(const RefBase<OtherRef>& other) {
     EIGEN_STATIC_ASSERT(Traits::template match<OtherRef>::type::value || may_map_m_object_successfully,
                         STORAGE_LAYOUT_DOES_NOT_MATCH);
     construct(other.derived(), typename Traits::template match<OtherRef>::type());
@@ -370,7 +371,7 @@ class Ref<const TPlainObjectType, Options, StrideType>
   EIGEN_DEVICE_FUNC void construct(const Expression& expr, internal::false_type) {
     internal::call_assignment_no_alias(m_object, expr, internal::assign_op<Scalar, Scalar>());
     const bool success = Base::construct(m_object);
-    EIGEN_ONLY_USED_FOR_DEBUG(success)
+    EIGEN_ONLY_USED_FOR_DEBUG(success);
     eigen_assert(success);
   }
 

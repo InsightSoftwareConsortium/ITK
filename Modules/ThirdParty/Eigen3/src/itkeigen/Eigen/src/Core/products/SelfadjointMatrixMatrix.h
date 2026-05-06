@@ -22,7 +22,7 @@ template <typename Scalar, typename Index, int Pack1, int Pack2_dummy, int Stora
 struct symm_pack_lhs {
   template <int BlockRows>
   inline void pack(Scalar* blockA, const const_blas_data_mapper<Scalar, Index, StorageOrder>& lhs, Index cols, Index i,
-                   Index& count) {
+                   Index& count) const {
     // normal copy
     for (Index k = 0; k < i; k++)
       for (Index w = 0; w < BlockRows; w++) blockA[count++] = lhs(i + w, k);  // normal
@@ -40,7 +40,7 @@ struct symm_pack_lhs {
     for (Index k = i + BlockRows; k < cols; k++)
       for (Index w = 0; w < BlockRows; w++) blockA[count++] = numext::conj(lhs(k, i + w));  // transposed
   }
-  void operator()(Scalar* blockA, const Scalar* lhs_, Index lhsStride, Index cols, Index rows) {
+  void operator()(Scalar* blockA, const Scalar* lhs_, Index lhsStride, Index cols, Index rows) const {
     typedef typename unpacket_traits<typename packet_traits<Scalar>::type>::half HalfPacket;
     typedef typename unpacket_traits<typename unpacket_traits<typename packet_traits<Scalar>::type>::half>::half
         QuarterPacket;
@@ -99,7 +99,7 @@ struct symm_pack_lhs {
 template <typename Scalar, typename Index, int nr, int StorageOrder>
 struct symm_pack_rhs {
   enum { PacketSize = packet_traits<Scalar>::size };
-  void operator()(Scalar* blockB, const Scalar* rhs_, Index rhsStride, Index rows, Index cols, Index k2) {
+  void operator()(Scalar* blockB, const Scalar* rhs_, Index rhsStride, Index rows, Index cols, Index k2) const {
     Index end_k = k2 + rows;
     Index count = 0;
     const_blas_data_mapper<Scalar, Index, StorageOrder> rhs(rhs_, rhsStride);

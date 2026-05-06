@@ -35,4 +35,4 @@
 
 #include "src/Core/util/ReenableStupidWarnings.h"
 
-#endif
+#endif  // EIGEN_SPARSEQR_MODULE_H

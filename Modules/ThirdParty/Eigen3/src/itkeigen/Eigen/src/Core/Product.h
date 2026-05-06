@@ -219,16 +219,16 @@ class Product
   using TransposeReturnType = typename internal::product_transpose_helper<Lhs, Rhs, Option>::TransposeType;
   using AdjointReturnType = typename internal::product_transpose_helper<Lhs, Rhs, Option>::AdjointType;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Product(const Lhs& lhs, const Rhs& rhs) : m_lhs(lhs), m_rhs(rhs) {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE Product(const Lhs& lhs, const Rhs& rhs) : m_lhs(lhs), m_rhs(rhs) {
     eigen_assert(lhs.cols() == rhs.rows() && "invalid matrix product" &&
                  "if you wanted a coeff-wise or a dot product use the respective explicit functions");
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index rows() const noexcept { return m_lhs.rows(); }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index cols() const noexcept { return m_rhs.cols(); }
+  EIGEN_DEVICE_FUNC constexpr Index rows() const noexcept { return m_lhs.rows(); }
+  EIGEN_DEVICE_FUNC constexpr Index cols() const noexcept { return m_rhs.cols(); }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const LhsNestedCleaned& lhs() const { return m_lhs; }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const RhsNestedCleaned& rhs() const { return m_rhs; }
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE const LhsNestedCleaned& lhs() const { return m_lhs; }
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE const RhsNestedCleaned& rhs() const { return m_rhs; }
 
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE TransposeReturnType transpose() const {
     return internal::product_transpose_helper<Lhs, Rhs, Option>::run_transpose(*this);

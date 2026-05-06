@@ -59,7 +59,7 @@ struct traits<IndexedView<XprType, RowIndices, ColIndices>> : traits<XprType> {
     ReturnAsBlock = (!ReturnAsScalar) && IsBlockAlike,
     ReturnAsIndexedView = (!ReturnAsScalar) && (!ReturnAsBlock),
 
-    // FIXME we deal with compile-time strides if and only if we have DirectAccessBit flag,
+    // FIXME: we deal with compile-time strides if and only if we have DirectAccessBit flag,
     // but this is too strict regarding negative strides...
     DirectAccessMask = (int(InnerIncr) != Undefined && int(OuterIncr) != Undefined && InnerIncr >= 0 && OuterIncr >= 0)
                            ? DirectAccessBit
@@ -259,26 +259,27 @@ struct unary_evaluator<IndexedView<ArgType, RowIndices, ColIndices>, IndexBased>
     Alignment = 0
   };
 
-  EIGEN_DEVICE_FUNC explicit unary_evaluator(const XprType& xpr) : m_argImpl(xpr.nestedExpression()), m_xpr(xpr) {
+  EIGEN_DEVICE_FUNC constexpr explicit unary_evaluator(const XprType& xpr)
+      : m_argImpl(xpr.nestedExpression()), m_xpr(xpr) {
     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 
   typedef typename XprType::Scalar Scalar;
   typedef typename XprType::CoeffReturnType CoeffReturnType;
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE CoeffReturnType coeff(Index row, Index col) const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE CoeffReturnType coeff(Index row, Index col) const {
     eigen_assert(m_xpr.rowIndices()[row] >= 0 && m_xpr.rowIndices()[row] < m_xpr.nestedExpression().rows() &&
                  m_xpr.colIndices()[col] >= 0 && m_xpr.colIndices()[col] < m_xpr.nestedExpression().cols());
     return m_argImpl.coeff(m_xpr.rowIndices()[row], m_xpr.colIndices()[col]);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar& coeffRef(Index row, Index col) {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE Scalar& coeffRef(Index row, Index col) {
     eigen_assert(m_xpr.rowIndices()[row] >= 0 && m_xpr.rowIndices()[row] < m_xpr.nestedExpression().rows() &&
                  m_xpr.colIndices()[col] >= 0 && m_xpr.colIndices()[col] < m_xpr.nestedExpression().cols());
     return m_argImpl.coeffRef(m_xpr.rowIndices()[row], m_xpr.colIndices()[col]);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar& coeffRef(Index index) {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE Scalar& coeffRef(Index index) {
     EIGEN_STATIC_ASSERT_LVALUE(XprType)
     Index row = XprType::RowsAtCompileTime == 1 ? 0 : index;
     Index col = XprType::RowsAtCompileTime == 1 ? index : 0;
@@ -287,7 +288,7 @@ struct unary_evaluator<IndexedView<ArgType, RowIndices, ColIndices>, IndexBased>
     return m_argImpl.coeffRef(m_xpr.rowIndices()[row], m_xpr.colIndices()[col]);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar& coeffRef(Index index) const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE const Scalar& coeffRef(Index index) const {
     Index row = XprType::RowsAtCompileTime == 1 ? 0 : index;
     Index col = XprType::RowsAtCompileTime == 1 ? index : 0;
     eigen_assert(m_xpr.rowIndices()[row] >= 0 && m_xpr.rowIndices()[row] < m_xpr.nestedExpression().rows() &&
@@ -295,7 +296,7 @@ struct unary_evaluator<IndexedView<ArgType, RowIndices, ColIndices>, IndexBased>
     return m_argImpl.coeffRef(m_xpr.rowIndices()[row], m_xpr.colIndices()[col]);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const CoeffReturnType coeff(Index index) const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE const CoeffReturnType coeff(Index index) const {
     Index row = XprType::RowsAtCompileTime == 1 ? 0 : index;
     Index col = XprType::RowsAtCompileTime == 1 ? index : 0;
     eigen_assert(m_xpr.rowIndices()[row] >= 0 && m_xpr.rowIndices()[row] < m_xpr.nestedExpression().rows() &&
@@ -307,6 +308,10 @@ struct unary_evaluator<IndexedView<ArgType, RowIndices, ColIndices>, IndexBased>
   evaluator<ArgType> m_argImpl;
   const XprType& m_xpr;
 };
+
+// Catch assignments to an IndexedView.
+template <typename ArgType, typename RowIndices, typename ColIndices>
+struct evaluator_assume_aliasing<IndexedView<ArgType, RowIndices, ColIndices>> : std::true_type {};
 
 }  // end namespace internal
 

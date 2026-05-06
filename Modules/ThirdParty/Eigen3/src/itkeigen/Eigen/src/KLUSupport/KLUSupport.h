@@ -112,32 +112,7 @@ class KLU : public SparseSolverBase<KLU<MatrixType_> > {
     eigen_assert(m_isInitialized && "Decomposition is not initialized.");
     return m_info;
   }
-#if 0  // not implemented yet
-    inline const LUMatrixType& matrixL() const
-    {
-      if (m_extractedDataAreDirty) extractData();
-      return m_l;
-    }
-
-    inline const LUMatrixType& matrixU() const
-    {
-      if (m_extractedDataAreDirty) extractData();
-      return m_u;
-    }
-
-    inline const IntColVectorType& permutationP() const
-    {
-      if (m_extractedDataAreDirty) extractData();
-      return m_p;
-    }
-
-    inline const IntRowVectorType& permutationQ() const
-    {
-      if (m_extractedDataAreDirty) extractData();
-      return m_q;
-    }
-#endif
-  /** Computes the sparse Cholesky decomposition of \a matrix
+  /** Computes the sparse LU factorization of \a matrix
    *  Note that the matrix should be column-major, and in compressed format for best performance.
    *  \sa SparseMatrix::makeCompressed().
    */
@@ -150,7 +125,7 @@ class KLU : public SparseSolverBase<KLU<MatrixType_> > {
     factorize_impl();
   }
 
-  /** Performs a symbolic decomposition on the sparcity of \a matrix.
+  /** Performs a symbolic decomposition on the sparsity of \a matrix.
    *
    * This function is particularly useful when solving for several problems having the same structure.
    *
@@ -172,7 +147,7 @@ class KLU : public SparseSolverBase<KLU<MatrixType_> > {
    */
   inline const klu_common &kluCommon() const { return m_common; }
 
-  /** Provides access to the control settings array used by UmfPack.
+  /** Provides access to the control settings array used by KLU.
    *
    * If this array contains NaN's, the default values are used.
    *
@@ -182,7 +157,7 @@ class KLU : public SparseSolverBase<KLU<MatrixType_> > {
 
   /** Performs a numeric decomposition of \a matrix
    *
-   * The given matrix must has the same sparcity than the matrix on which the pattern anylysis has been performed.
+   * The given matrix must have the same sparsity as the matrix on which the pattern analysis has been performed.
    *
    * \sa analyzePattern(), compute()
    */
@@ -199,12 +174,6 @@ class KLU : public SparseSolverBase<KLU<MatrixType_> > {
   /** \internal */
   template <typename BDerived, typename XDerived>
   bool _solve_impl(const MatrixBase<BDerived> &b, MatrixBase<XDerived> &x) const;
-
-#if 0  // not implemented yet
-    Scalar determinant() const;
-
-    void extractData() const;
-#endif
 
  protected:
   void init() {
@@ -255,14 +224,6 @@ class KLU : public SparseSolverBase<KLU<MatrixType_> > {
     }
   }
 
-  // cached data to reduce reallocation, etc.
-#if 0  // not implemented yet
-    mutable LUMatrixType m_l;
-    mutable LUMatrixType m_u;
-    mutable IntColVectorType m_p;
-    mutable IntRowVectorType m_q;
-#endif
-
   KLUMatrixType m_dummy;
   KLUMatrixRef mp_matrix;
 
@@ -277,45 +238,6 @@ class KLU : public SparseSolverBase<KLU<MatrixType_> > {
  private:
   KLU(const KLU &) {}
 };
-
-#if 0  // not implemented yet
-template<typename MatrixType>
-void KLU<MatrixType>::extractData() const
-{
-  if (m_extractedDataAreDirty)
-  {
-     eigen_assert(false && "KLU: extractData Not Yet Implemented");
-
-    // get size of the data
-    int lnz, unz, rows, cols, nz_udiag;
-    umfpack_get_lunz(&lnz, &unz, &rows, &cols, &nz_udiag, m_numeric, Scalar());
-
-    // allocate data
-    m_l.resize(rows,(std::min)(rows,cols));
-    m_l.resizeNonZeros(lnz);
-
-    m_u.resize((std::min)(rows,cols),cols);
-    m_u.resizeNonZeros(unz);
-
-    m_p.resize(rows);
-    m_q.resize(cols);
-
-    // extract
-    umfpack_get_numeric(m_l.outerIndexPtr(), m_l.innerIndexPtr(), m_l.valuePtr(),
-                        m_u.outerIndexPtr(), m_u.innerIndexPtr(), m_u.valuePtr(),
-                        m_p.data(), m_q.data(), 0, 0, 0, m_numeric);
-
-    m_extractedDataAreDirty = false;
-  }
-}
-
-template<typename MatrixType>
-typename KLU<MatrixType>::Scalar KLU<MatrixType>::determinant() const
-{
-  eigen_assert(false && "KLU: extractData Not Yet Implemented");
-  return Scalar();
-}
-#endif
 
 template <typename MatrixType>
 template <typename BDerived, typename XDerived>

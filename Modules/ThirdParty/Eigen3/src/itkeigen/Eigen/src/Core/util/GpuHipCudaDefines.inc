@@ -15,11 +15,11 @@
 // There is code in the Tensorflow codebase that will define EIGEN_USE_GPU,  but
 // for some reason gets sent to the gcc/host compiler instead of the gpu/nvcc/hipcc compiler
 // When compiling such files, gcc will end up trying to pick up the CUDA headers by
-// default (see the code within "unsupported/Eigen/CXX11/Tensor" that is guarded by EIGEN_USE_GPU)
+// default (see the code within "unsupported/Eigen/Tensor" that is guarded by EIGEN_USE_GPU)
 // This will obviously not work when trying to compile tensorflow on a system with no CUDA
 // To work around this issue for HIP systems (and leave the default behaviour intact), the
 // HIP tensorflow build defines EIGEN_USE_HIP when compiling all source files, and
-// "unsupported/Eigen/CXX11/Tensor" has been updated to use HIP header when EIGEN_USE_HIP is
+// "unsupported/Eigen/Tensor" has been updated to use HIP header when EIGEN_USE_HIP is
 // defined. In continuation of that requirement, the guard here needs to be EIGEN_USE_HIP as well
 
 #if defined(EIGEN_USE_HIP)

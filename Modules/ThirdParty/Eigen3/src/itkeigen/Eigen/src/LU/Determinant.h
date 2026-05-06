@@ -25,10 +25,7 @@ EIGEN_DEVICE_FUNC inline const typename Derived::Scalar bruteforce_det3_helper(c
 
 template <typename Derived, int DeterminantType = Derived::RowsAtCompileTime>
 struct determinant_impl {
-  static inline typename traits<Derived>::Scalar run(const Derived& m) {
-    if (Derived::ColsAtCompileTime == Dynamic && m.rows() == 0) return typename traits<Derived>::Scalar(1);
-    return m.partialPivLu().determinant();
-  }
+  static inline typename traits<Derived>::Scalar run(const Derived& m) { return internal::partial_lu_determinant(m); }
 };
 
 template <typename Derived>

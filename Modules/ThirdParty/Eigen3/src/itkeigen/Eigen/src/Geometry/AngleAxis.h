@@ -130,6 +130,18 @@ class AngleAxis : public RotationBase<AngleAxis<Scalar_>, 3> {
   EIGEN_DEVICE_FUNC AngleAxis& fromRotationMatrix(const MatrixBase<Derived>& m);
   EIGEN_DEVICE_FUNC Matrix3 toRotationMatrix(void) const;
 
+  /** Applies the rotation to a 3D vector using Rodrigues' formula directly,
+   * without constructing the full rotation matrix. */
+  template <typename OtherVectorType>
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Vector3 _transformVector(const OtherVectorType& v) const {
+    EIGEN_USING_STD(sin)
+    EIGEN_USING_STD(cos)
+    // Rodrigues' rotation formula: v' = v*cos(θ) + (k×v)*sin(θ) + k*(k·v)*(1-cos(θ))
+    const Scalar c = cos(m_angle);
+    const Scalar s = sin(m_angle);
+    return v * c + m_axis.cross(v) * s + m_axis * (m_axis.dot(v) * (Scalar(1) - c));
+  }
+
   /** \returns \c *this with scalar type casted to \a NewScalarType
    *
    * Note that if \a NewScalarType is equal to the current scalar type of \c *this
@@ -197,9 +209,7 @@ EIGEN_DEVICE_FUNC AngleAxis<Scalar>& AngleAxis<Scalar>::operator=(const Quaterni
 template <typename Scalar>
 template <typename Derived>
 EIGEN_DEVICE_FUNC AngleAxis<Scalar>& AngleAxis<Scalar>::operator=(const MatrixBase<Derived>& mat) {
-  // Since a direct conversion would not be really faster,
-  // let's use the robust Quaternion implementation:
-  return *this = QuaternionType(mat);
+  return fromRotationMatrix(mat);
 }
 
 /**
@@ -208,7 +218,65 @@ EIGEN_DEVICE_FUNC AngleAxis<Scalar>& AngleAxis<Scalar>::operator=(const MatrixBa
 template <typename Scalar>
 template <typename Derived>
 EIGEN_DEVICE_FUNC AngleAxis<Scalar>& AngleAxis<Scalar>::fromRotationMatrix(const MatrixBase<Derived>& mat) {
-  return *this = QuaternionType(mat);
+  EIGEN_USING_STD(atan2)
+  EIGEN_USING_STD(sqrt)
+  EIGEN_STATIC_ASSERT(
+      (internal::is_same<Scalar, typename Derived::Scalar>::value),
+      YOU_MIXED_DIFFERENT_NUMERIC_TYPES__YOU_NEED_TO_USE_THE_CAST_METHOD_OF_MATRIXBASE_TO_CAST_NUMERIC_TYPES_EXPLICITLY)
+  eigen_assert(mat.cols() == 3 && mat.rows() == 3);
+
+  const typename internal::nested_eval<Derived, 3>::type m(mat);
+
+  // Skew-symmetric part gives sin(angle) * axis.
+  const Scalar sx = m.coeff(2, 1) - m.coeff(1, 2);
+  const Scalar sy = m.coeff(0, 2) - m.coeff(2, 0);
+  const Scalar sz = m.coeff(1, 0) - m.coeff(0, 1);
+  const Scalar s = sqrt(sx * sx + sy * sy + sz * sz);  // = 2*sin(angle)
+
+  // trace = 1 + 2*cos(angle)
+  const Scalar c = m.trace() - Scalar(1);  // = 2*cos(angle)
+
+  // Use atan2 for the angle: accurate at all angles including near 0 and pi.
+  m_angle = atan2(s, c);
+
+  // Use the skew-symmetric part only when sin(angle) is large enough for
+  // accurate axis extraction. Near angle=0 or angle=pi, sin(angle) is small
+  // and the axis must be computed differently.
+  const Scalar sin_threshold = sqrt(NumTraits<Scalar>::epsilon());
+  if (s > sin_threshold) {
+    // General case: axis from skew-symmetric part.
+    const Scalar inv_s = Scalar(1) / s;
+    m_axis << sx * inv_s, sy * inv_s, sz * inv_s;
+  } else if (c > Scalar(0)) {
+    // Near identity (angle ≈ 0): axis is arbitrary, use (1,0,0).
+    m_axis << Scalar(1), Scalar(0), Scalar(0);
+  } else {
+    // Near angle = pi: extract axis from the symmetric part (R + I) / 2.
+    // The axis is the eigenvector corresponding to eigenvalue 1.
+    // Use the column of (R + I) with the largest diagonal entry for robustness.
+    const Scalar d0 = m.coeff(0, 0);
+    const Scalar d1 = m.coeff(1, 1);
+    const Scalar d2 = m.coeff(2, 2);
+    if (d0 >= d1 && d0 >= d2) {
+      // x is the largest component
+      const Scalar x = sqrt(numext::maxi(d0 - d1 - d2 + Scalar(1), Scalar(0)) * Scalar(0.5));
+      const Scalar inv_2x = Scalar(0.5) / (x + NumTraits<Scalar>::epsilon());
+      m_axis << x, (m.coeff(0, 1) + m.coeff(1, 0)) * inv_2x, (m.coeff(0, 2) + m.coeff(2, 0)) * inv_2x;
+    } else if (d1 >= d2) {
+      // y is the largest component
+      const Scalar y = sqrt(numext::maxi(d1 - d0 - d2 + Scalar(1), Scalar(0)) * Scalar(0.5));
+      const Scalar inv_2y = Scalar(0.5) / (y + NumTraits<Scalar>::epsilon());
+      m_axis << (m.coeff(0, 1) + m.coeff(1, 0)) * inv_2y, y, (m.coeff(1, 2) + m.coeff(2, 1)) * inv_2y;
+    } else {
+      // z is the largest component
+      const Scalar z = sqrt(numext::maxi(d2 - d0 - d1 + Scalar(1), Scalar(0)) * Scalar(0.5));
+      const Scalar inv_2z = Scalar(0.5) / (z + NumTraits<Scalar>::epsilon());
+      m_axis << (m.coeff(0, 2) + m.coeff(2, 0)) * inv_2z, (m.coeff(1, 2) + m.coeff(2, 1)) * inv_2z, z;
+    }
+    m_axis.normalize();
+  }
+
+  return *this;
 }
 
 /** Constructs and \returns an equivalent 3x3 rotation matrix.

@@ -67,7 +67,7 @@ struct general_matrix_matrix_rankupdate
 
 EIGEN_BLAS_RANKUPDATE_SPECIALIZE(double)
 EIGEN_BLAS_RANKUPDATE_SPECIALIZE(float)
-// TODO handle complex cases
+// TODO: handle complex cases
 // EIGEN_BLAS_RANKUPDATE_SPECIALIZE(dcomplex)
 // EIGEN_BLAS_RANKUPDATE_SPECIALIZE(scomplex)
 
@@ -137,10 +137,12 @@ EIGEN_BLAS_RANKUPDATE_R(double, double, dsyrk_)
 EIGEN_BLAS_RANKUPDATE_R(float, float, ssyrk_)
 #endif
 
-// TODO handle complex cases
+// TODO: handle complex cases
 // EIGEN_BLAS_RANKUPDATE_C(dcomplex, double, double, zherk_)
 // EIGEN_BLAS_RANKUPDATE_C(scomplex, float,  float, cherk_)
 
+#undef EIGEN_BLAS_RANKUPDATE_SPECIALIZE
+#undef EIGEN_BLAS_RANKUPDATE_R
 }  // end namespace internal
 
 }  // end namespace Eigen

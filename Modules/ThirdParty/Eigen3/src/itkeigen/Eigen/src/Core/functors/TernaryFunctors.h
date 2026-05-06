@@ -21,12 +21,13 @@ namespace internal {
 
 template <typename ThenScalar, typename ElseScalar, typename ConditionScalar>
 struct scalar_boolean_select_op {
-  static constexpr bool ThenElseAreSame = is_same<ThenScalar, ElseScalar>::value;
+  static constexpr bool ThenElseAreSame =
+      is_same<std::remove_const_t<ThenScalar>, std::remove_const_t<ElseScalar>>::value;
   EIGEN_STATIC_ASSERT(ThenElseAreSame, THEN AND ELSE MUST BE SAME TYPE)
   using Scalar = ThenScalar;
   using result_type = Scalar;
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const ThenScalar& a, const ElseScalar& b,
-                                                          const ConditionScalar& cond) const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE Scalar operator()(const ThenScalar& a, const ElseScalar& b,
+                                                                    const ConditionScalar& cond) const {
     return cond == ConditionScalar(0) ? b : a;
   }
   template <typename Packet>

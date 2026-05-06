@@ -51,7 +51,7 @@ class SparseLUTransposeView : public SparseSolverBase<SparseLUTransposeView<Conj
     eigen_assert(m_sparseLU->info() == Success && "The matrix should be factorized first");
     EIGEN_STATIC_ASSERT((Dest::Flags & RowMajorBit) == 0, THIS_METHOD_IS_ONLY_FOR_COLUMN_MAJOR_MATRICES);
 
-    // this ugly const_cast_derived() helps to detect aliasing when applying the permutations
+    // const_cast_derived() is needed to enable aliasing detection when applying the permutations.
     for (Index j = 0; j < B.cols(); ++j) {
       X.col(j) = m_sparseLU->colsPermutation() * B.const_cast_derived().col(j);
     }
@@ -310,7 +310,7 @@ class SparseLU : public SparseSolverBase<SparseLU<MatrixType_, OrderingType_>>,
    * \sa compute()
    */
   template <typename Rhs>
-  inline const Solve<SparseLU, Rhs> solve(const MatrixBase<Rhs>& B) const;
+  inline Solve<SparseLU, Rhs> solve(const MatrixBase<Rhs>& B) const;
 #endif  // EIGEN_PARSED_BY_DOXYGEN
 
   /** \brief Reports whether previous computation was successful.
@@ -344,7 +344,7 @@ class SparseLU : public SparseSolverBase<SparseLU<MatrixType_, OrderingType_>>,
     // on return, X is overwritten by the computed solution
     X.resize(B.rows(), B.cols());
 
-    // this ugly const_cast_derived() helps to detect aliasing when applying the permutations
+    // const_cast_derived() is needed to enable aliasing detection when applying the permutations.
     for (Index j = 0; j < B.cols(); ++j) X.col(j) = rowsPermutation() * B.const_cast_derived().col(j);
 
     // Forward substitution with L
@@ -360,7 +360,7 @@ class SparseLU : public SparseSolverBase<SparseLU<MatrixType_, OrderingType_>>,
   /** \brief Give the absolute value of the determinant.
    *
    * \returns the absolute value of the determinant of the matrix of which
-   * *this is the QR decomposition.
+   * *this is the LU factorization.
    *
    * \warning a determinant can be very big or small, so for matrices
    * of large enough dimension, there is a risk of overflow/underflow.
@@ -368,7 +368,7 @@ class SparseLU : public SparseSolverBase<SparseLU<MatrixType_, OrderingType_>>,
    *
    * \sa logAbsDeterminant(), signDeterminant()
    */
-  Scalar absDeterminant() {
+  Scalar absDeterminant() const {
     using std::abs;
     eigen_assert(m_factorizationIsOk && "The matrix should be factorized first.");
     // Initialize with the determinant of the row matrix
@@ -389,7 +389,7 @@ class SparseLU : public SparseSolverBase<SparseLU<MatrixType_, OrderingType_>>,
   /** \brief Give the natural log of the absolute determinant.
    *
    * \returns the natural log of the absolute value of the determinant of the matrix
-   * of which **this is the QR decomposition
+   * of which *this is the LU factorization
    *
    * \note This method is useful to work around the risk of overflow/underflow that's
    * inherent to the determinant computation.
@@ -420,7 +420,7 @@ class SparseLU : public SparseSolverBase<SparseLU<MatrixType_, OrderingType_>>,
    *
    * \sa absDeterminant(), logAbsDeterminant()
    */
-  Scalar signDeterminant() {
+  Scalar signDeterminant() const {
     eigen_assert(m_factorizationIsOk && "The matrix should be factorized first.");
     // Initialize with the determinant of the row matrix
     Index det = 1;
@@ -446,7 +446,7 @@ class SparseLU : public SparseSolverBase<SparseLU<MatrixType_, OrderingType_>>,
    *
    * \sa absDeterminant(), logAbsDeterminant()
    */
-  Scalar determinant() {
+  Scalar determinant() const {
     eigen_assert(m_factorizationIsOk && "The matrix should be factorized first.");
     // Initialize with the determinant of the row matrix
     Scalar det = Scalar(1.);
@@ -507,7 +507,7 @@ class SparseLU : public SparseSolverBase<SparseLU<MatrixType_, OrderingType_>>,
   SparseLU(const SparseLU&);
 };  // End class SparseLU
 
-// Functions needed by the anaysis phase
+// Functions needed by the analysis phase
 /** \brief Compute the column permutation.
  *
  * Compute the column permutation to minimize the fill-in
@@ -535,19 +535,21 @@ void SparseLU<MatrixType, OrderingType>::analyzePattern(const MatrixType& mat) {
   OrderingType ord;
   ord(m_mat, m_perm_c);
 
-  // Apply the permutation to the column of the input  matrix
+  // Apply the permutation to the column of the input matrix
   if (m_perm_c.size()) {
-    m_mat.uncompress();  // NOTE: The effect of this command is only to create the InnerNonzeros pointers. FIXME : This
-                         // vector is filled but not subsequently used.
-    // Then, permute only the column pointers
+    // Switch to uncompressed mode so innerNonZeroPtr() exists and can be
+    // permuted consistently with outerIndexPtr().
+    // Downstream sparse traversals may also rely on these per-column counts
+    // while m_mat remains uncompressed.
+    m_mat.uncompress();
+    // A compressed column-major input already exposes valid column pointers.
+    // Otherwise snapshot the internal column-major structure before permuting in place.
+    const bool useInputOuterIndex = !MatrixType::IsRowMajor && mat.isCompressed();
     ei_declare_aligned_stack_constructed_variable(
-        StorageIndex, outerIndexPtr, mat.cols() + 1,
-        mat.isCompressed() ? const_cast<StorageIndex*>(mat.outerIndexPtr()) : 0);
-
-    // If the input matrix 'mat' is uncompressed, then the outer-indices do not match the ones of m_mat, and a copy is
-    // thus needed.
-    if (!mat.isCompressed())
-      IndexVector::Map(outerIndexPtr, mat.cols() + 1) = IndexVector::Map(m_mat.outerIndexPtr(), mat.cols() + 1);
+        StorageIndex, outerIndexPtr, m_mat.cols() + 1,
+        useInputOuterIndex ? const_cast<StorageIndex*>(mat.outerIndexPtr()) : 0);
+    if (!useInputOuterIndex)
+      IndexVector::Map(outerIndexPtr, m_mat.cols() + 1) = IndexVector::Map(m_mat.outerIndexPtr(), m_mat.cols() + 1);
 
     // Apply the permutation and compute the nnz per column.
     for (Index i = 0; i < mat.cols(); i++) {
@@ -603,7 +605,7 @@ void SparseLU<MatrixType, OrderingType>::analyzePattern(const MatrixType& mat) {
  * > A->ncol: number of bytes allocated when memory allocation failure occurred, plus A->ncol.
  * If lwork = -1, it is the estimated amount of space needed, plus A->ncol.
  *
- * It seems that A was the name of the matrix in the past.
+ * Note: 'A' in the above description refers to the factored matrix (historical naming from SuperLU).
  *
  * \sa analyzePattern(), compute(), SparseLU(), info(), lastErrorMessage()
  */
@@ -616,24 +618,21 @@ void SparseLU<MatrixType, OrderingType>::factorize(const MatrixType& matrix) {
   m_isInitialized = true;
 
   // Apply the column permutation computed in analyzepattern()
-  //   m_mat = matrix * m_perm_c.inverse();
   m_mat = matrix;
   if (m_perm_c.size()) {
-    m_mat.uncompress();  // NOTE: The effect of this command is only to create the InnerNonzeros pointers.
-    // Then, permute only the column pointers
-    const StorageIndex* outerIndexPtr;
-    if (matrix.isCompressed())
-      outerIndexPtr = matrix.outerIndexPtr();
-    else {
-      StorageIndex* outerIndexPtr_t = new StorageIndex[matrix.cols() + 1];
-      for (Index i = 0; i <= matrix.cols(); i++) outerIndexPtr_t[i] = m_mat.outerIndexPtr()[i];
-      outerIndexPtr = outerIndexPtr_t;
-    }
+    // Switch to uncompressed mode so innerNonZeroPtr() exists and can be
+    // permuted consistently with outerIndexPtr().
+    m_mat.uncompress();
+    const bool useInputOuterIndex = !MatrixType::IsRowMajor && matrix.isCompressed();
+    ei_declare_aligned_stack_constructed_variable(
+        StorageIndex, outerIndexPtr, m_mat.cols() + 1,
+        useInputOuterIndex ? const_cast<StorageIndex*>(matrix.outerIndexPtr()) : 0);
+    if (!useInputOuterIndex)
+      IndexVector::Map(outerIndexPtr, m_mat.cols() + 1) = IndexVector::Map(m_mat.outerIndexPtr(), m_mat.cols() + 1);
     for (Index i = 0; i < matrix.cols(); i++) {
       m_mat.outerIndexPtr()[m_perm_c.indices()(i)] = outerIndexPtr[i];
       m_mat.innerNonZeroPtr()[m_perm_c.indices()(i)] = outerIndexPtr[i + 1] - outerIndexPtr[i];
     }
-    if (!matrix.isCompressed()) delete[] outerIndexPtr;
   } else {  // FIXME This should not be needed if the empty permutation is handled transparently
     m_perm_c.resize(matrix.cols());
     for (StorageIndex i = 0; i < matrix.cols(); ++i) m_perm_c.indices()(i) = i;
@@ -777,11 +776,6 @@ void SparseLU<MatrixType, OrderingType>::factorize(const MatrixType& matrix) {
         m_factorizationIsOk = false;
         return;
       }
-
-      // Update the determinant of the row permutation matrix
-      // FIXME: the following test is not correct, we should probably take iperm_c into account and pivrow is not
-      // directly the row pivot.
-      if (pivrow != jj) m_detPermR = -m_detPermR;
 
       // Prune columns (0:jj-1) using column jj
       Base::pruneL(jj, m_perm_r.indices(), pivrow, nseg, segrep, repfnz_k, xprune, m_glu);

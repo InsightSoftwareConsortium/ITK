@@ -406,7 +406,7 @@ class SimplicialLLT : public SimplicialCholeskyBase<SimplicialLLT<MatrixType_, U
     return *this;
   }
 
-  /** Performs a symbolic decomposition on the sparcity of \a matrix.
+  /** Performs a symbolic decomposition on the sparsity of \a matrix.
    *
    * This function is particularly useful when solving for several problems having the same structure.
    *
@@ -416,7 +416,8 @@ class SimplicialLLT : public SimplicialCholeskyBase<SimplicialLLT<MatrixType_, U
 
   /** Performs a numeric decomposition of \a matrix
    *
-   * The given matrix must has the same sparcity than the matrix on which the symbolic decomposition has been performed.
+   * The given matrix must have the same sparsity as the matrix on which the symbolic decomposition has been
+   * performed.
    *
    * \sa analyzePattern()
    */
@@ -494,7 +495,7 @@ class SimplicialLDLT : public SimplicialCholeskyBase<SimplicialLDLT<MatrixType_,
     return *this;
   }
 
-  /** Performs a symbolic decomposition on the sparcity of \a matrix.
+  /** Performs a symbolic decomposition on the sparsity of \a matrix.
    *
    * This function is particularly useful when solving for several problems having the same structure.
    *
@@ -504,7 +505,8 @@ class SimplicialLDLT : public SimplicialCholeskyBase<SimplicialLDLT<MatrixType_,
 
   /** Performs a numeric decomposition of \a matrix
    *
-   * The given matrix must has the same sparcity than the matrix on which the symbolic decomposition has been performed.
+   * The given matrix must have the same sparsity as the matrix on which the symbolic decomposition has been
+   * performed.
    *
    * \sa analyzePattern()
    */
@@ -575,7 +577,7 @@ class SimplicialNonHermitianLLT
     return *this;
   }
 
-  /** Performs a symbolic decomposition on the sparcity of \a matrix.
+  /** Performs a symbolic decomposition on the sparsity of \a matrix.
    *
    * This function is particularly useful when solving for several problems having the same structure.
    *
@@ -585,7 +587,8 @@ class SimplicialNonHermitianLLT
 
   /** Performs a numeric decomposition of \a matrix
    *
-   * The given matrix must has the same sparcity than the matrix on which the symbolic decomposition has been performed.
+   * The given matrix must have the same sparsity as the matrix on which the symbolic decomposition has been
+   * performed.
    *
    * \sa analyzePattern()
    */
@@ -664,7 +667,7 @@ class SimplicialNonHermitianLDLT
     return *this;
   }
 
-  /** Performs a symbolic decomposition on the sparcity of \a matrix.
+  /** Performs a symbolic decomposition on the sparsity of \a matrix.
    *
    * This function is particularly useful when solving for several problems having the same structure.
    *
@@ -674,7 +677,8 @@ class SimplicialNonHermitianLDLT
 
   /** Performs a numeric decomposition of \a matrix
    *
-   * The given matrix must has the same sparcity than the matrix on which the symbolic decomposition has been performed.
+   * The given matrix must have the same sparsity as the matrix on which the symbolic decomposition has been
+   * performed.
    *
    * \sa analyzePattern()
    */
@@ -742,7 +746,7 @@ class SimplicialCholesky : public SimplicialCholeskyBase<SimplicialCholesky<Matr
     return *this;
   }
 
-  /** Performs a symbolic decomposition on the sparcity of \a matrix.
+  /** Performs a symbolic decomposition on the sparsity of \a matrix.
    *
    * This function is particularly useful when solving for several problems having the same structure.
    *
@@ -757,7 +761,8 @@ class SimplicialCholesky : public SimplicialCholeskyBase<SimplicialCholesky<Matr
 
   /** Performs a numeric decomposition of \a matrix
    *
-   * The given matrix must has the same sparcity than the matrix on which the symbolic decomposition has been performed.
+   * The given matrix must have the same sparsity as the matrix on which the symbolic decomposition has been
+   * performed.
    *
    * \sa analyzePattern()
    */

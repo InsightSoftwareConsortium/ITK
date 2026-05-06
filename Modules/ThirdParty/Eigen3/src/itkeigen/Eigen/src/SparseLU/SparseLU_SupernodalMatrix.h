@@ -27,11 +27,7 @@ namespace internal {
  * NOTE : This class corresponds to the SCformat structure in SuperLU
  *
  */
-/* TODO
- * InnerIterator as for sparsematrix
- * SuperInnerIterator to iterate through all supernodes
- * Function for triangular solve
- */
+// TODO: add InnerIterator, SuperInnerIterator, and triangular solve support.
 template <typename Scalar_, typename StorageIndex_>
 class MappedSuperNodalMatrix {
  public:

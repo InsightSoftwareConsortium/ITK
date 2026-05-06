@@ -62,7 +62,7 @@ class SkewSymmetricBase : public EigenBase<Derived> {
   /**
    * Constructs a dense matrix from \c *this. Note, this directly returns a dense matrix type,
    * not an expression.
-   * \returns A dense matrix, with its entries set from the the derived object. */
+   * \returns A dense matrix, with its entries set from the derived object. */
   EIGEN_DEVICE_FUNC DenseMatrixType toDenseMatrix() const { return derived(); }
 
   /** Determinant vanishes */
@@ -158,6 +158,61 @@ class SkewSymmetricBase : public EigenBase<Derived> {
   EIGEN_DEVICE_FUNC inline SkewSymmetricDifferenceReturnType<OtherDerived> operator-(
       const SkewSymmetricBase<OtherDerived>& other) const {
     return (vector() - other.vector()).asSkewSymmetric();
+  }
+
+  // Return type of dense +/- skew. Scalar follows ScalarBinaryOpTraits, so
+  // mixed-scalar cases go through the same promotion machinery as the rest of
+  // Eigen (and are rejected at compile time unless a user-provided
+  // specialization makes them valid). Shape is always 3x3.
+  template <typename OtherDerived, typename BinaryOp>
+  using DenseSkewBinaryReturnType = Matrix<
+      typename ScalarBinaryOpTraits<typename internal::traits<OtherDerived>::Scalar, Scalar, BinaryOp>::ReturnType, 3,
+      3>;
+
+  template <typename OtherDerived>
+  using DenseSkewSumReturnType =
+      DenseSkewBinaryReturnType<OtherDerived,
+                                internal::scalar_sum_op<typename internal::traits<OtherDerived>::Scalar, Scalar>>;
+
+  template <typename OtherDerived>
+  using DenseSkewDifferenceReturnType = DenseSkewBinaryReturnType<
+      OtherDerived, internal::scalar_difference_op<typename internal::traits<OtherDerived>::Scalar, Scalar>>;
+
+  /** \returns the sum of a dense matrix \a lhs and the skew symmetric matrix \a rhs as a dense matrix.
+   *
+   * The LHS must be 3x3 at compile time (or Dynamic, which is checked at runtime by the conversion).
+   * Only the skew side is materialized via \c toDenseMatrix(); the LHS remains a lazy expression
+   * until the enclosing assignment. */
+  template <typename OtherDerived>
+  EIGEN_DEVICE_FUNC friend EIGEN_STRONG_INLINE DenseSkewSumReturnType<OtherDerived> operator+(
+      const MatrixBase<OtherDerived>& lhs, const SkewSymmetricBase& rhs) {
+    EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(OtherDerived, DenseMatrixType);
+    return lhs.derived() + rhs.toDenseMatrix();
+  }
+
+  /** \returns the sum of the skew symmetric matrix \a lhs and a dense matrix \a rhs as a dense matrix.
+   *
+   * Sum is commutative, so this forwards to the \c dense+skew overload. */
+  template <typename OtherDerived>
+  EIGEN_DEVICE_FUNC friend EIGEN_STRONG_INLINE DenseSkewSumReturnType<OtherDerived> operator+(
+      const SkewSymmetricBase& lhs, const MatrixBase<OtherDerived>& rhs) {
+    return rhs + lhs;
+  }
+
+  /** \returns the difference of a dense matrix \a lhs and the skew symmetric matrix \a rhs as a dense matrix. */
+  template <typename OtherDerived>
+  EIGEN_DEVICE_FUNC friend EIGEN_STRONG_INLINE DenseSkewDifferenceReturnType<OtherDerived> operator-(
+      const MatrixBase<OtherDerived>& lhs, const SkewSymmetricBase& rhs) {
+    EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(OtherDerived, DenseMatrixType);
+    return lhs.derived() - rhs.toDenseMatrix();
+  }
+
+  /** \returns the difference of the skew symmetric matrix \a lhs and a dense matrix \a rhs as a dense matrix. */
+  template <typename OtherDerived>
+  EIGEN_DEVICE_FUNC friend EIGEN_STRONG_INLINE DenseSkewDifferenceReturnType<OtherDerived> operator-(
+      const SkewSymmetricBase& lhs, const MatrixBase<OtherDerived>& rhs) {
+    EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(OtherDerived, DenseMatrixType);
+    return lhs.toDenseMatrix() - rhs.derived();
   }
 };
 
@@ -308,7 +363,7 @@ class SkewSymmetricWrapper : public SkewSymmetricBase<SkewSymmetricWrapper<SkewS
  * \sa class SkewSymmetricWrapper, class SkewSymmetricMatrix3, vector(), isSkewSymmetric()
  **/
 template <typename Derived>
-EIGEN_DEVICE_FUNC inline const SkewSymmetricWrapper<const Derived> MatrixBase<Derived>::asSkewSymmetric() const {
+EIGEN_DEVICE_FUNC constexpr const SkewSymmetricWrapper<const Derived> MatrixBase<Derived>::asSkewSymmetric() const {
   return SkewSymmetricWrapper<const Derived>(derived());
 }
 

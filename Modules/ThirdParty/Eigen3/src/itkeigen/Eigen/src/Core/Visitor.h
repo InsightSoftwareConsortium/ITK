@@ -46,8 +46,8 @@ struct visitor_impl<Visitor, Derived, UnrollCount, Vectorize, false, ShortCircui
 
   static constexpr bool CanVectorize(int K) {
     constexpr int InnerSizeAtCompileTime = RowMajor ? ColsAtCompileTime : RowsAtCompileTime;
-    if (InnerSizeAtCompileTime < PacketSize) return false;
-    return Vectorize && (InnerSizeAtCompileTime - (K % InnerSizeAtCompileTime) >= PacketSize);
+    return Vectorize && InnerSizeAtCompileTime >= PacketSize &&
+           (InnerSizeAtCompileTime - (K % (InnerSizeAtCompileTime > 0 ? InnerSizeAtCompileTime : 1)) >= PacketSize);
   }
 
   template <int K = 0, bool Empty = (K == UnrollCount), std::enable_if_t<Empty, bool> = true>
@@ -317,6 +317,13 @@ class visitor_evaluator {
   const XprType& m_xpr;
 };
 
+template <typename T, typename = void>
+struct visitor_has_linear_access : std::false_type {};
+
+template <typename T>
+struct visitor_has_linear_access<T, decltype(functor_traits<T>::LinearAccess)>
+    : std::integral_constant<bool, static_cast<bool>(functor_traits<T>::LinearAccess)> {};
+
 template <typename Derived, typename Visitor, bool ShortCircuitEvaulation>
 struct visit_impl {
   using Evaluator = visitor_evaluator<Derived>;
@@ -329,8 +336,7 @@ struct visit_impl {
   static constexpr int InnerSizeAtCompileTime = IsRowMajor ? ColsAtCompileTime : RowsAtCompileTime;
   static constexpr int OuterSizeAtCompileTime = IsRowMajor ? RowsAtCompileTime : ColsAtCompileTime;
 
-  static constexpr bool LinearAccess =
-      Evaluator::LinearAccess && static_cast<bool>(functor_traits<Visitor>::LinearAccess);
+  static constexpr bool LinearAccess = Evaluator::LinearAccess && visitor_has_linear_access<Visitor>::value;
   static constexpr bool Vectorize = Evaluator::PacketAccess && static_cast<bool>(functor_traits<Visitor>::PacketAccess);
 
   static constexpr int PacketSize = packet_traits<Scalar>::size;

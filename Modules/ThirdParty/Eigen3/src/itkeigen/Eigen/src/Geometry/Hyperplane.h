@@ -111,7 +111,7 @@ class Hyperplane {
    * If the dimension of the ambient space is greater than 2, then there isn't uniqueness,
    * so an arbitrary choice is made.
    */
-  // FIXME to be consistent with the rest this could be implemented as a static Through function ??
+  // FIXME: for consistency, consider implementing as a static Through function.
   EIGEN_DEVICE_FUNC explicit Hyperplane(const ParametrizedLine<Scalar, AmbientDimAtCompileTime>& parametrized) {
     normal() = parametrized.direction().unitOrthogonal();
     offset() = -parametrized.origin().dot(normal());

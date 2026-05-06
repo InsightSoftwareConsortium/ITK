@@ -276,7 +276,7 @@ struct Assignment<DstXprType, Inverse<XprType>,
  * \sa computeInverseAndDetWithCheck()
  */
 template <typename Derived>
-EIGEN_DEVICE_FUNC inline const Inverse<Derived> MatrixBase<Derived>::inverse() const {
+EIGEN_DEVICE_FUNC inline Inverse<Derived> MatrixBase<Derived>::inverse() const {
   EIGEN_STATIC_ASSERT(!NumTraits<Scalar>::IsInteger, THIS_FUNCTION_IS_NOT_FOR_INTEGER_NUMERIC_TYPES)
   eigen_assert(rows() == cols());
   return Inverse<Derived>(derived());
@@ -308,8 +308,9 @@ inline void MatrixBase<Derived>::computeInverseAndDetWithCheck(ResultType& inver
                                                                typename ResultType::Scalar& determinant,
                                                                bool& invertible,
                                                                const RealScalar& absDeterminantThreshold) const {
-  // i'd love to put some static assertions there, but SFINAE means that they have no effect...
+  EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Derived, ResultType)
   eigen_assert(rows() == cols());
+  inverse.resize(rows(), cols());
   // for 2x2, it's worth giving a chance to avoid evaluating.
   // for larger sizes, evaluating has negligible cost and limits code size.
   typedef std::conditional_t<RowsAtCompileTime == 2,
@@ -343,8 +344,6 @@ template <typename ResultType>
 inline void MatrixBase<Derived>::computeInverseWithCheck(ResultType& inverse, bool& invertible,
                                                          const RealScalar& absDeterminantThreshold) const {
   Scalar determinant;
-  // i'd love to put some static assertions there, but SFINAE means that they have no effect...
-  eigen_assert(rows() == cols());
   computeInverseAndDetWithCheck(inverse, determinant, invertible, absDeterminantThreshold);
 }
 

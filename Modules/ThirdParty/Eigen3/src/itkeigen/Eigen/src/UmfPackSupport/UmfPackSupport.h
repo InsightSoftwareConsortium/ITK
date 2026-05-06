@@ -11,7 +11,7 @@
 #define EIGEN_UMFPACKSUPPORT_H
 
 // for compatibility with super old version of umfpack,
-// not sure this is really needed, but this is harmless.
+// This may not be strictly needed, but it is harmless.
 #ifndef SuiteSparse_long
 #ifdef UF_long
 #define SuiteSparse_long UF_long
@@ -381,7 +381,7 @@ class UmfPackLU : public SparseSolverBase<UmfPackLU<MatrixType_> > {
     factorize_impl();
   }
 
-  /** Performs a symbolic decomposition on the sparcity of \a matrix.
+  /** Performs a symbolic decomposition on the sparsity of \a matrix.
    *
    * This function is particularly useful when solving for several problems having the same structure.
    *
@@ -425,7 +425,7 @@ class UmfPackLU : public SparseSolverBase<UmfPackLU<MatrixType_> > {
 
   /** Performs a numeric decomposition of \a matrix
    *
-   * The given matrix must has the same sparcity than the matrix on which the pattern anylysis has been performed.
+   * The given matrix must have the same sparsity as the matrix on which the pattern analysis has been performed.
    *
    * \sa analyzePattern(), compute()
    */

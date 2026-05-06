@@ -50,7 +50,7 @@ struct traits<CwiseNullaryOp<NullaryOp, PlainObjectType> > : traits<PlainObjectT
   for vectors.
   *
   * See DenseBase::NullaryExpr(Index,const CustomNullaryOp&) for an example binding
-  * C++11 random number generators.
+  * std random number generators.
   *
   * A nullary expression can also be used to implement custom sophisticated matrix manipulations
   * that cannot be covered by the existing set of natively supported matrix manipulations.
@@ -66,21 +66,21 @@ class CwiseNullaryOp : public internal::dense_xpr_base<CwiseNullaryOp<NullaryOp,
   typedef typename internal::dense_xpr_base<CwiseNullaryOp>::type Base;
   EIGEN_DENSE_PUBLIC_INTERFACE(CwiseNullaryOp)
 
-  EIGEN_DEVICE_FUNC CwiseNullaryOp(Index rows, Index cols, const NullaryOp& func = NullaryOp())
+  EIGEN_DEVICE_FUNC constexpr CwiseNullaryOp(Index rows, Index cols, const NullaryOp& func = NullaryOp())
       : m_rows(rows), m_cols(cols), m_functor(func) {
     eigen_assert(rows >= 0 && (RowsAtCompileTime == Dynamic || RowsAtCompileTime == rows) && cols >= 0 &&
                  (ColsAtCompileTime == Dynamic || ColsAtCompileTime == cols));
   }
-  EIGEN_DEVICE_FUNC CwiseNullaryOp(Index size, const NullaryOp& func = NullaryOp())
+  EIGEN_DEVICE_FUNC constexpr CwiseNullaryOp(Index size, const NullaryOp& func = NullaryOp())
       : CwiseNullaryOp(RowsAtCompileTime == 1 ? 1 : size, RowsAtCompileTime == 1 ? size : 1, func) {
     EIGEN_STATIC_ASSERT(CwiseNullaryOp::IsVectorAtCompileTime, YOU_TRIED_CALLING_A_VECTOR_METHOD_ON_A_MATRIX);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index rows() const { return m_rows.value(); }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index cols() const { return m_cols.value(); }
+  EIGEN_DEVICE_FUNC constexpr Index rows() const { return m_rows.value(); }
+  EIGEN_DEVICE_FUNC constexpr Index cols() const { return m_cols.value(); }
 
   /** \returns the functor representing the nullary operation */
-  EIGEN_DEVICE_FUNC const NullaryOp& functor() const { return m_functor; }
+  EIGEN_DEVICE_FUNC constexpr const NullaryOp& functor() const { return m_functor; }
 
  protected:
   const internal::variable_if_dynamic<Index, RowsAtCompileTime> m_rows;
@@ -94,7 +94,7 @@ class CwiseNullaryOp : public internal::dense_xpr_base<CwiseNullaryOp<NullaryOp,
  * the returned matrix. Must be compatible with this MatrixBase type.
  *
  * This variant is meant to be used for dynamic-size matrix types. For fixed-size types,
- * it is redundant to pass \a rows and \a cols as arguments, so Zero() should be used
+ * it is redundant to pass \a rows and \a cols as arguments, so NullaryExpr(const CustomNullaryOp&) should be used
  * instead.
  *
  * The template parameter \a CustomNullaryOp is the type of the functor.
@@ -121,12 +121,12 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
  * \only_for_vectors
  *
  * This variant is meant to be used for dynamic-size vector types. For fixed-size types,
- * it is redundant to pass \a size as argument, so Zero() should be used
+ * it is redundant to pass \a size as argument, so NullaryExpr(const CustomNullaryOp&) should be used
  * instead.
  *
  * The template parameter \a CustomNullaryOp is the type of the functor.
  *
- * Here is an example with C++11 random generators: \include random_cpp11.cpp
+ * Here is an example with std random generators: \include random_cpp11.cpp
  * Output: \verbinclude random_cpp11.out
  *
  * \sa class CwiseNullaryOp
@@ -174,7 +174,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
  * the returned matrix. Must be compatible with this DenseBase type.
  *
  * This variant is meant to be used for dynamic-size matrix types. For fixed-size types,
- * it is redundant to pass \a rows and \a cols as arguments, so Zero() should be used
+ * it is redundant to pass \a rows and \a cols as arguments, so Constant(const Scalar&) should be used
  * instead.
  *
  * The template parameter \a CustomNullaryOp is the type of the functor.
@@ -195,7 +195,7 @@ DenseBase<Derived>::Constant(Index rows, Index cols, const Scalar& value) {
  * \only_for_vectors
  *
  * This variant is meant to be used for dynamic-size vector types. For fixed-size types,
- * it is redundant to pass \a size as argument, so Zero() should be used
+ * it is redundant to pass \a size as argument, so Constant(const Scalar&) should be used
  * instead.
  *
  * The template parameter \a CustomNullaryOp is the type of the functor.
@@ -235,8 +235,7 @@ DenseBase<Derived>::Constant(const Scalar& value) {
  * \sa LinSpaced(Index,const Scalar&, const Scalar&), setLinSpaced(Index,const Scalar&,const Scalar&)
  */
 template <typename Derived>
-EIGEN_DEPRECATED EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename DenseBase<
-    Derived>::RandomAccessLinSpacedReturnType
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename DenseBase<Derived>::RandomAccessLinSpacedReturnType
 DenseBase<Derived>::LinSpaced(Sequential_t, Index size, const Scalar& low, const Scalar& high) {
   EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   return DenseBase<Derived>::NullaryExpr(size, internal::linspaced_op<Scalar>(low, high, size));
@@ -247,8 +246,7 @@ DenseBase<Derived>::LinSpaced(Sequential_t, Index size, const Scalar& low, const
  * \sa LinSpaced(const Scalar&, const Scalar&)
  */
 template <typename Derived>
-EIGEN_DEPRECATED EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename DenseBase<
-    Derived>::RandomAccessLinSpacedReturnType
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const typename DenseBase<Derived>::RandomAccessLinSpacedReturnType
 DenseBase<Derived>::LinSpaced(Sequential_t, const Scalar& low, const Scalar& high) {
   EIGEN_STATIC_ASSERT_VECTOR_ONLY(Derived)
   EIGEN_STATIC_ASSERT_FIXED_SIZE(Derived)

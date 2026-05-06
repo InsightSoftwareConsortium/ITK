@@ -19,6 +19,192 @@ namespace Eigen {
 namespace internal {
 
 //==============================================================================
+// type_casting_traits
+//==============================================================================
+
+// float <-> double
+template <>
+struct type_casting_traits<float, double> : vectorized_type_casting_traits<float, double> {};
+template <>
+struct type_casting_traits<double, float> : vectorized_type_casting_traits<double, float> {};
+
+// float <-> integer types
+template <>
+struct type_casting_traits<float, int8_t> : vectorized_type_casting_traits<float, int8_t> {};
+template <>
+struct type_casting_traits<int8_t, float> : vectorized_type_casting_traits<int8_t, float> {};
+template <>
+struct type_casting_traits<float, uint8_t> : vectorized_type_casting_traits<float, uint8_t> {};
+template <>
+struct type_casting_traits<uint8_t, float> : vectorized_type_casting_traits<uint8_t, float> {};
+template <>
+struct type_casting_traits<float, int16_t> : vectorized_type_casting_traits<float, int16_t> {};
+template <>
+struct type_casting_traits<int16_t, float> : vectorized_type_casting_traits<int16_t, float> {};
+template <>
+struct type_casting_traits<float, uint16_t> : vectorized_type_casting_traits<float, uint16_t> {};
+template <>
+struct type_casting_traits<uint16_t, float> : vectorized_type_casting_traits<uint16_t, float> {};
+template <>
+struct type_casting_traits<float, int32_t> : vectorized_type_casting_traits<float, int32_t> {};
+template <>
+struct type_casting_traits<int32_t, float> : vectorized_type_casting_traits<int32_t, float> {};
+template <>
+struct type_casting_traits<float, uint32_t> : vectorized_type_casting_traits<float, uint32_t> {};
+template <>
+struct type_casting_traits<uint32_t, float> : vectorized_type_casting_traits<uint32_t, float> {};
+template <>
+struct type_casting_traits<float, int64_t> : vectorized_type_casting_traits<float, int64_t> {};
+template <>
+struct type_casting_traits<int64_t, float> : vectorized_type_casting_traits<int64_t, float> {};
+template <>
+struct type_casting_traits<float, uint64_t> : vectorized_type_casting_traits<float, uint64_t> {};
+template <>
+struct type_casting_traits<uint64_t, float> : vectorized_type_casting_traits<uint64_t, float> {};
+
+// double <-> integer types
+template <>
+struct type_casting_traits<double, int8_t> : vectorized_type_casting_traits<double, int8_t> {};
+template <>
+struct type_casting_traits<int8_t, double> : vectorized_type_casting_traits<int8_t, double> {};
+template <>
+struct type_casting_traits<double, uint8_t> : vectorized_type_casting_traits<double, uint8_t> {};
+template <>
+struct type_casting_traits<uint8_t, double> : vectorized_type_casting_traits<uint8_t, double> {};
+template <>
+struct type_casting_traits<double, int16_t> : vectorized_type_casting_traits<double, int16_t> {};
+template <>
+struct type_casting_traits<int16_t, double> : vectorized_type_casting_traits<int16_t, double> {};
+template <>
+struct type_casting_traits<double, uint16_t> : vectorized_type_casting_traits<double, uint16_t> {};
+template <>
+struct type_casting_traits<uint16_t, double> : vectorized_type_casting_traits<uint16_t, double> {};
+template <>
+struct type_casting_traits<double, int32_t> : vectorized_type_casting_traits<double, int32_t> {};
+template <>
+struct type_casting_traits<int32_t, double> : vectorized_type_casting_traits<int32_t, double> {};
+template <>
+struct type_casting_traits<double, uint32_t> : vectorized_type_casting_traits<double, uint32_t> {};
+template <>
+struct type_casting_traits<uint32_t, double> : vectorized_type_casting_traits<uint32_t, double> {};
+template <>
+struct type_casting_traits<double, int64_t> : vectorized_type_casting_traits<double, int64_t> {};
+template <>
+struct type_casting_traits<int64_t, double> : vectorized_type_casting_traits<int64_t, double> {};
+template <>
+struct type_casting_traits<double, uint64_t> : vectorized_type_casting_traits<double, uint64_t> {};
+template <>
+struct type_casting_traits<uint64_t, double> : vectorized_type_casting_traits<uint64_t, double> {};
+
+// int8_t <-> other integer types
+template <>
+struct type_casting_traits<int8_t, int16_t> : vectorized_type_casting_traits<int8_t, int16_t> {};
+template <>
+struct type_casting_traits<int16_t, int8_t> : vectorized_type_casting_traits<int16_t, int8_t> {};
+template <>
+struct type_casting_traits<int8_t, uint16_t> : vectorized_type_casting_traits<int8_t, uint16_t> {};
+template <>
+struct type_casting_traits<uint16_t, int8_t> : vectorized_type_casting_traits<uint16_t, int8_t> {};
+template <>
+struct type_casting_traits<int8_t, int32_t> : vectorized_type_casting_traits<int8_t, int32_t> {};
+template <>
+struct type_casting_traits<int32_t, int8_t> : vectorized_type_casting_traits<int32_t, int8_t> {};
+template <>
+struct type_casting_traits<int8_t, uint32_t> : vectorized_type_casting_traits<int8_t, uint32_t> {};
+template <>
+struct type_casting_traits<uint32_t, int8_t> : vectorized_type_casting_traits<uint32_t, int8_t> {};
+template <>
+struct type_casting_traits<int8_t, int64_t> : vectorized_type_casting_traits<int8_t, int64_t> {};
+template <>
+struct type_casting_traits<int64_t, int8_t> : vectorized_type_casting_traits<int64_t, int8_t> {};
+template <>
+struct type_casting_traits<int8_t, uint64_t> : vectorized_type_casting_traits<int8_t, uint64_t> {};
+template <>
+struct type_casting_traits<uint64_t, int8_t> : vectorized_type_casting_traits<uint64_t, int8_t> {};
+
+// uint8_t <-> other integer types
+template <>
+struct type_casting_traits<uint8_t, int16_t> : vectorized_type_casting_traits<uint8_t, int16_t> {};
+template <>
+struct type_casting_traits<int16_t, uint8_t> : vectorized_type_casting_traits<int16_t, uint8_t> {};
+template <>
+struct type_casting_traits<uint8_t, uint16_t> : vectorized_type_casting_traits<uint8_t, uint16_t> {};
+template <>
+struct type_casting_traits<uint16_t, uint8_t> : vectorized_type_casting_traits<uint16_t, uint8_t> {};
+template <>
+struct type_casting_traits<uint8_t, int32_t> : vectorized_type_casting_traits<uint8_t, int32_t> {};
+template <>
+struct type_casting_traits<int32_t, uint8_t> : vectorized_type_casting_traits<int32_t, uint8_t> {};
+template <>
+struct type_casting_traits<uint8_t, uint32_t> : vectorized_type_casting_traits<uint8_t, uint32_t> {};
+template <>
+struct type_casting_traits<uint32_t, uint8_t> : vectorized_type_casting_traits<uint32_t, uint8_t> {};
+template <>
+struct type_casting_traits<uint8_t, int64_t> : vectorized_type_casting_traits<uint8_t, int64_t> {};
+template <>
+struct type_casting_traits<int64_t, uint8_t> : vectorized_type_casting_traits<int64_t, uint8_t> {};
+template <>
+struct type_casting_traits<uint8_t, uint64_t> : vectorized_type_casting_traits<uint8_t, uint64_t> {};
+template <>
+struct type_casting_traits<uint64_t, uint8_t> : vectorized_type_casting_traits<uint64_t, uint8_t> {};
+
+// int16_t <-> wider integer types
+template <>
+struct type_casting_traits<int16_t, int32_t> : vectorized_type_casting_traits<int16_t, int32_t> {};
+template <>
+struct type_casting_traits<int32_t, int16_t> : vectorized_type_casting_traits<int32_t, int16_t> {};
+template <>
+struct type_casting_traits<int16_t, uint32_t> : vectorized_type_casting_traits<int16_t, uint32_t> {};
+template <>
+struct type_casting_traits<uint32_t, int16_t> : vectorized_type_casting_traits<uint32_t, int16_t> {};
+template <>
+struct type_casting_traits<int16_t, int64_t> : vectorized_type_casting_traits<int16_t, int64_t> {};
+template <>
+struct type_casting_traits<int64_t, int16_t> : vectorized_type_casting_traits<int64_t, int16_t> {};
+template <>
+struct type_casting_traits<int16_t, uint64_t> : vectorized_type_casting_traits<int16_t, uint64_t> {};
+template <>
+struct type_casting_traits<uint64_t, int16_t> : vectorized_type_casting_traits<uint64_t, int16_t> {};
+
+// uint16_t <-> wider integer types
+template <>
+struct type_casting_traits<uint16_t, int32_t> : vectorized_type_casting_traits<uint16_t, int32_t> {};
+template <>
+struct type_casting_traits<int32_t, uint16_t> : vectorized_type_casting_traits<int32_t, uint16_t> {};
+template <>
+struct type_casting_traits<uint16_t, uint32_t> : vectorized_type_casting_traits<uint16_t, uint32_t> {};
+template <>
+struct type_casting_traits<uint32_t, uint16_t> : vectorized_type_casting_traits<uint32_t, uint16_t> {};
+template <>
+struct type_casting_traits<uint16_t, int64_t> : vectorized_type_casting_traits<uint16_t, int64_t> {};
+template <>
+struct type_casting_traits<int64_t, uint16_t> : vectorized_type_casting_traits<int64_t, uint16_t> {};
+template <>
+struct type_casting_traits<uint16_t, uint64_t> : vectorized_type_casting_traits<uint16_t, uint64_t> {};
+template <>
+struct type_casting_traits<uint64_t, uint16_t> : vectorized_type_casting_traits<uint64_t, uint16_t> {};
+
+// int32_t <-> 64-bit integer types
+template <>
+struct type_casting_traits<int32_t, int64_t> : vectorized_type_casting_traits<int32_t, int64_t> {};
+template <>
+struct type_casting_traits<int64_t, int32_t> : vectorized_type_casting_traits<int64_t, int32_t> {};
+template <>
+struct type_casting_traits<int32_t, uint64_t> : vectorized_type_casting_traits<int32_t, uint64_t> {};
+template <>
+struct type_casting_traits<uint64_t, int32_t> : vectorized_type_casting_traits<uint64_t, int32_t> {};
+
+// uint32_t <-> 64-bit integer types
+template <>
+struct type_casting_traits<uint32_t, int64_t> : vectorized_type_casting_traits<uint32_t, int64_t> {};
+template <>
+struct type_casting_traits<int64_t, uint32_t> : vectorized_type_casting_traits<int64_t, uint32_t> {};
+template <>
+struct type_casting_traits<uint32_t, uint64_t> : vectorized_type_casting_traits<uint32_t, uint64_t> {};
+template <>
+struct type_casting_traits<uint64_t, uint32_t> : vectorized_type_casting_traits<uint64_t, uint32_t> {};
+
+//==============================================================================
 // preinterpret
 //==============================================================================
 template <>
@@ -93,42 +279,42 @@ EIGEN_STRONG_INLINE Packet2ul preinterpret<Packet2ul, Packet2l>(const Packet2l& 
 template <>
 EIGEN_STRONG_INLINE Packet2l pcast<Packet4f, Packet2l>(const Packet4f& a) {
   Packet2d tmp = __lsx_vfcvtl_d_s(a);
-  return __lsx_vftint_l_d(tmp);
+  return __lsx_vftintrz_l_d(tmp);
 }
 template <>
 EIGEN_STRONG_INLINE Packet2ul pcast<Packet4f, Packet2ul>(const Packet4f& a) {
   Packet2d tmp = __lsx_vfcvtl_d_s(a);
-  return __lsx_vftint_lu_d(tmp);
+  return __lsx_vftintrz_lu_d(tmp);
 }
 template <>
 EIGEN_STRONG_INLINE Packet4i pcast<Packet4f, Packet4i>(const Packet4f& a) {
-  return __lsx_vftint_w_s(a);
+  return __lsx_vftintrz_w_s(a);
 }
 template <>
 EIGEN_STRONG_INLINE Packet4ui pcast<Packet4f, Packet4ui>(const Packet4f& a) {
-  return __lsx_vftint_wu_s(a);
+  return __lsx_vftintrz_wu_s(a);
 }
 template <>
 EIGEN_STRONG_INLINE Packet8s pcast<Packet4f, Packet8s>(const Packet4f& a, const Packet4f& b) {
-  return __lsx_vssrlni_h_w(__lsx_vftint_w_s(a), __lsx_vftint_w_s(b), 0);
+  return __lsx_vpickev_h(__lsx_vftintrz_w_s(b), __lsx_vftintrz_w_s(a));
 }
 template <>
 EIGEN_STRONG_INLINE Packet8us pcast<Packet4f, Packet8us>(const Packet4f& a, const Packet4f& b) {
-  return __lsx_vssrlni_hu_w(__lsx_vftint_wu_s(a), __lsx_vftint_wu_s(b), 0);
+  return __lsx_vpickev_h(__lsx_vftintrz_wu_s(b), __lsx_vftintrz_wu_s(a));
 }
 template <>
 EIGEN_STRONG_INLINE Packet16c pcast<Packet4f, Packet16c>(const Packet4f& a, const Packet4f& b, const Packet4f& c,
                                                          const Packet4f& d) {
-  Packet8s tmp1 = __lsx_vssrlni_h_w(__lsx_vftint_w_s(a), __lsx_vftint_w_s(b), 0);
-  Packet8s tmp2 = __lsx_vssrlni_h_w(__lsx_vftint_w_s(c), __lsx_vftint_w_s(d), 0);
-  return __lsx_vssrlni_b_h((__m128i)tmp1, (__m128i)tmp2, 0);
+  Packet8s tmp1 = __lsx_vpickev_h(__lsx_vftintrz_w_s(b), __lsx_vftintrz_w_s(a));
+  Packet8s tmp2 = __lsx_vpickev_h(__lsx_vftintrz_w_s(d), __lsx_vftintrz_w_s(c));
+  return __lsx_vpickev_b((__m128i)tmp2, (__m128i)tmp1);
 }
 template <>
 EIGEN_STRONG_INLINE Packet16uc pcast<Packet4f, Packet16uc>(const Packet4f& a, const Packet4f& b, const Packet4f& c,
                                                            const Packet4f& d) {
-  Packet8us tmp1 = __lsx_vssrlni_hu_w(__lsx_vftint_wu_s(a), __lsx_vftint_wu_s(b), 0);
-  Packet8us tmp2 = __lsx_vssrlni_hu_w(__lsx_vftint_wu_s(c), __lsx_vftint_wu_s(d), 0);
-  return __lsx_vssrlni_bu_h((__m128i)tmp1, (__m128i)tmp2, 0);
+  Packet8us tmp1 = __lsx_vpickev_h(__lsx_vftintrz_wu_s(b), __lsx_vftintrz_wu_s(a));
+  Packet8us tmp2 = __lsx_vpickev_h(__lsx_vftintrz_wu_s(d), __lsx_vftintrz_wu_s(c));
+  return __lsx_vpickev_b((__m128i)tmp2, (__m128i)tmp1);
 }
 
 template <>
@@ -230,11 +416,11 @@ EIGEN_STRONG_INLINE Packet4ui pcast<Packet8s, Packet4ui>(const Packet8s& a) {
 }
 template <>
 EIGEN_STRONG_INLINE Packet16c pcast<Packet8s, Packet16c>(const Packet8s& a, const Packet8s& b) {
-  return __lsx_vssrlni_b_h((__m128i)a, (__m128i)b, 0);
+  return __lsx_vpickev_b((__m128i)b, (__m128i)a);
 }
 template <>
 EIGEN_STRONG_INLINE Packet16uc pcast<Packet8s, Packet16uc>(const Packet8s& a, const Packet8s& b) {
-  return (Packet16uc)__lsx_vssrlni_b_h((__m128i)a, (__m128i)b, 0);
+  return (Packet16uc)__lsx_vpickev_b((__m128i)b, (__m128i)a);
 }
 
 template <>
@@ -262,11 +448,11 @@ EIGEN_STRONG_INLINE Packet4i pcast<Packet8us, Packet4i>(const Packet8us& a) {
 }
 template <>
 EIGEN_STRONG_INLINE Packet16uc pcast<Packet8us, Packet16uc>(const Packet8us& a, const Packet8us& b) {
-  return __lsx_vssrlni_bu_h((__m128i)a, (__m128i)b, 0);
+  return __lsx_vpickev_b((__m128i)b, (__m128i)a);
 }
 template <>
 EIGEN_STRONG_INLINE Packet16c pcast<Packet8us, Packet16c>(const Packet8us& a, const Packet8us& b) {
-  return (Packet16c)__lsx_vssrlni_bu_h((__m128i)a, (__m128i)b, 0);
+  return (Packet16c)__lsx_vpickev_b((__m128i)b, (__m128i)a);
 }
 
 template <>
@@ -283,25 +469,25 @@ EIGEN_STRONG_INLINE Packet2ul pcast<Packet4i, Packet2ul>(const Packet4i& a) {
 }
 template <>
 EIGEN_STRONG_INLINE Packet8s pcast<Packet4i, Packet8s>(const Packet4i& a, const Packet4i& b) {
-  return __lsx_vssrlni_h_w((__m128i)a, (__m128i)b, 0);
+  return __lsx_vpickev_h((__m128i)b, (__m128i)a);
 }
 template <>
 EIGEN_STRONG_INLINE Packet8us pcast<Packet4i, Packet8us>(const Packet4i& a, const Packet4i& b) {
-  return (Packet8us)__lsx_vssrlni_h_w((__m128i)a, (__m128i)b, 0);
+  return (Packet8us)__lsx_vpickev_h((__m128i)b, (__m128i)a);
 }
 template <>
 EIGEN_STRONG_INLINE Packet16c pcast<Packet4i, Packet16c>(const Packet4i& a, const Packet4i& b, const Packet4i& c,
                                                          const Packet4i& d) {
-  Packet8s tmp1 = __lsx_vssrlni_h_w((__m128i)a, (__m128i)b, 0);
-  Packet8s tmp2 = __lsx_vssrlni_h_w((__m128i)c, (__m128i)d, 0);
-  return __lsx_vssrlni_b_h((__m128i)tmp1, (__m128i)tmp2, 0);
+  Packet8s tmp1 = __lsx_vpickev_h((__m128i)b, (__m128i)a);
+  Packet8s tmp2 = __lsx_vpickev_h((__m128i)d, (__m128i)c);
+  return __lsx_vpickev_b((__m128i)tmp2, (__m128i)tmp1);
 }
 template <>
 EIGEN_STRONG_INLINE Packet16uc pcast<Packet4i, Packet16uc>(const Packet4i& a, const Packet4i& b, const Packet4i& c,
                                                            const Packet4i& d) {
-  Packet8s tmp1 = __lsx_vssrlni_h_w((__m128i)a, (__m128i)b, 0);
-  Packet8s tmp2 = __lsx_vssrlni_h_w((__m128i)c, (__m128i)d, 0);
-  return (Packet16uc)__lsx_vssrlni_b_h((__m128i)tmp1, (__m128i)tmp2, 0);
+  Packet8s tmp1 = __lsx_vpickev_h((__m128i)b, (__m128i)a);
+  Packet8s tmp2 = __lsx_vpickev_h((__m128i)d, (__m128i)c);
+  return (Packet16uc)__lsx_vpickev_b((__m128i)tmp2, (__m128i)tmp1);
 }
 
 template <>
@@ -318,52 +504,52 @@ EIGEN_STRONG_INLINE Packet2l pcast<Packet4ui, Packet2l>(const Packet4ui& a) {
 }
 template <>
 EIGEN_STRONG_INLINE Packet8us pcast<Packet4ui, Packet8us>(const Packet4ui& a, const Packet4ui& b) {
-  return __lsx_vssrlni_hu_w((__m128i)a, (__m128i)b, 0);
+  return __lsx_vpickev_h((__m128i)b, (__m128i)a);
 }
 template <>
 EIGEN_STRONG_INLINE Packet8s pcast<Packet4ui, Packet8s>(const Packet4ui& a, const Packet4ui& b) {
-  return (Packet8s)__lsx_vssrlni_hu_w((__m128i)a, (__m128i)b, 0);
+  return (Packet8s)__lsx_vpickev_h((__m128i)b, (__m128i)a);
 }
 template <>
 EIGEN_STRONG_INLINE Packet16uc pcast<Packet4ui, Packet16uc>(const Packet4ui& a, const Packet4ui& b, const Packet4ui& c,
                                                             const Packet4ui& d) {
-  Packet8us tmp1 = __lsx_vssrlni_hu_w((__m128i)a, (__m128i)b, 0);
-  Packet8us tmp2 = __lsx_vssrlni_hu_w((__m128i)c, (__m128i)d, 0);
-  return __lsx_vssrlni_bu_h((__m128i)tmp1, (__m128i)tmp2, 0);
+  Packet8us tmp1 = __lsx_vpickev_h((__m128i)b, (__m128i)a);
+  Packet8us tmp2 = __lsx_vpickev_h((__m128i)d, (__m128i)c);
+  return __lsx_vpickev_b((__m128i)tmp2, (__m128i)tmp1);
 }
 template <>
 EIGEN_STRONG_INLINE Packet16c pcast<Packet4ui, Packet16c>(const Packet4ui& a, const Packet4ui& b, const Packet4ui& c,
                                                           const Packet4ui& d) {
-  Packet8us tmp1 = __lsx_vssrlni_hu_w((__m128i)a, (__m128i)b, 0);
-  Packet8us tmp2 = __lsx_vssrlni_hu_w((__m128i)c, (__m128i)d, 0);
-  return (Packet16c)__lsx_vssrlni_bu_h((__m128i)tmp1, (__m128i)tmp2, 0);
+  Packet8us tmp1 = __lsx_vpickev_h((__m128i)b, (__m128i)a);
+  Packet8us tmp2 = __lsx_vpickev_h((__m128i)d, (__m128i)c);
+  return (Packet16c)__lsx_vpickev_b((__m128i)tmp2, (__m128i)tmp1);
 }
 
 template <>
 EIGEN_STRONG_INLINE Packet4f pcast<Packet2l, Packet4f>(const Packet2l& a, const Packet2l& b) {
-  return __lsx_vffint_s_w(__lsx_vssrlni_w_d((__m128i)a, (__m128i)b, 0));
+  return __lsx_vfcvt_s_d(__lsx_vffint_d_l(b), __lsx_vffint_d_l(a));
 }
 template <>
 EIGEN_STRONG_INLINE Packet4i pcast<Packet2l, Packet4i>(const Packet2l& a, const Packet2l& b) {
-  return __lsx_vssrlni_w_d((__m128i)a, (__m128i)b, 0);
+  return __lsx_vpickev_w((__m128i)b, (__m128i)a);
 }
 template <>
 EIGEN_STRONG_INLINE Packet4ui pcast<Packet2l, Packet4ui>(const Packet2l& a, const Packet2l& b) {
-  return (Packet4ui)__lsx_vssrlni_w_d((__m128i)a, (__m128i)b, 0);
+  return (Packet4ui)__lsx_vpickev_w((__m128i)b, (__m128i)a);
 }
 template <>
 EIGEN_STRONG_INLINE Packet8s pcast<Packet2l, Packet8s>(const Packet2l& a, const Packet2l& b, const Packet2l& c,
                                                        const Packet2l& d) {
-  Packet4i tmp1 = __lsx_vssrlni_w_d((__m128i)a, (__m128i)b, 0);
-  Packet4i tmp2 = __lsx_vssrlni_w_d((__m128i)c, (__m128i)d, 0);
-  return __lsx_vssrlni_h_w((__m128i)tmp1, (__m128i)tmp2, 0);
+  Packet4i tmp1 = __lsx_vpickev_w((__m128i)b, (__m128i)a);
+  Packet4i tmp2 = __lsx_vpickev_w((__m128i)d, (__m128i)c);
+  return __lsx_vpickev_h((__m128i)tmp2, (__m128i)tmp1);
 }
 template <>
 EIGEN_STRONG_INLINE Packet8us pcast<Packet2l, Packet8us>(const Packet2l& a, const Packet2l& b, const Packet2l& c,
                                                          const Packet2l& d) {
-  Packet4i tmp1 = __lsx_vssrlni_w_d((__m128i)a, (__m128i)b, 0);
-  Packet4i tmp2 = __lsx_vssrlni_w_d((__m128i)c, (__m128i)d, 0);
-  return (Packet8us)__lsx_vssrlni_h_w((__m128i)tmp1, (__m128i)tmp2, 0);
+  Packet4i tmp1 = __lsx_vpickev_w((__m128i)b, (__m128i)a);
+  Packet4i tmp2 = __lsx_vpickev_w((__m128i)d, (__m128i)c);
+  return (Packet8us)__lsx_vpickev_h((__m128i)tmp2, (__m128i)tmp1);
 }
 template <>
 EIGEN_STRONG_INLINE Packet16c pcast<Packet2l, Packet16c>(const Packet2l& a, const Packet2l& b, const Packet2l& c,
@@ -371,7 +557,7 @@ EIGEN_STRONG_INLINE Packet16c pcast<Packet2l, Packet16c>(const Packet2l& a, cons
                                                          const Packet2l& g, const Packet2l& h) {
   const Packet8s abcd = pcast<Packet2l, Packet8s>(a, b, c, d);
   const Packet8s efgh = pcast<Packet2l, Packet8s>(e, f, g, h);
-  return __lsx_vssrlni_b_h((__m128i)abcd, (__m128i)efgh, 0);
+  return __lsx_vpickev_b((__m128i)efgh, (__m128i)abcd);
 }
 template <>
 EIGEN_STRONG_INLINE Packet16uc pcast<Packet2l, Packet16uc>(const Packet2l& a, const Packet2l& b, const Packet2l& c,
@@ -379,34 +565,34 @@ EIGEN_STRONG_INLINE Packet16uc pcast<Packet2l, Packet16uc>(const Packet2l& a, co
                                                            const Packet2l& g, const Packet2l& h) {
   const Packet8us abcd = pcast<Packet2l, Packet8us>(a, b, c, d);
   const Packet8us efgh = pcast<Packet2l, Packet8us>(e, f, g, h);
-  return __lsx_vssrlni_bu_h((__m128i)abcd, (__m128i)efgh, 0);
+  return __lsx_vpickev_b((__m128i)efgh, (__m128i)abcd);
 }
 
 template <>
 EIGEN_STRONG_INLINE Packet4f pcast<Packet2ul, Packet4f>(const Packet2ul& a, const Packet2ul& b) {
-  return __lsx_vffint_s_wu(__lsx_vssrlni_w_d((__m128i)a, (__m128i)b, 0));
+  return __lsx_vfcvt_s_d(__lsx_vffint_d_lu(b), __lsx_vffint_d_lu(a));
 }
 template <>
 EIGEN_STRONG_INLINE Packet4ui pcast<Packet2ul, Packet4ui>(const Packet2ul& a, const Packet2ul& b) {
-  return __lsx_vssrlni_wu_d((__m128i)a, (__m128i)b, 0);
+  return __lsx_vpickev_w((__m128i)b, (__m128i)a);
 }
 template <>
 EIGEN_STRONG_INLINE Packet4i pcast<Packet2ul, Packet4i>(const Packet2ul& a, const Packet2ul& b) {
-  return (Packet4i)__lsx_vssrlni_wu_d((__m128i)a, (__m128i)b, 0);
+  return (Packet4i)__lsx_vpickev_w((__m128i)b, (__m128i)a);
 }
 template <>
 EIGEN_STRONG_INLINE Packet8us pcast<Packet2ul, Packet8us>(const Packet2ul& a, const Packet2ul& b, const Packet2ul& c,
                                                           const Packet2ul& d) {
-  Packet4ui tmp1 = __lsx_vssrlni_wu_d((__m128i)a, (__m128i)b, 0);
-  Packet4ui tmp2 = __lsx_vssrlni_wu_d((__m128i)c, (__m128i)d, 0);
-  return __lsx_vssrlni_hu_w((__m128i)tmp1, (__m128i)tmp2, 0);
+  Packet4ui tmp1 = __lsx_vpickev_w((__m128i)b, (__m128i)a);
+  Packet4ui tmp2 = __lsx_vpickev_w((__m128i)d, (__m128i)c);
+  return __lsx_vpickev_h((__m128i)tmp2, (__m128i)tmp1);
 }
 template <>
 EIGEN_STRONG_INLINE Packet8s pcast<Packet2ul, Packet8s>(const Packet2ul& a, const Packet2ul& b, const Packet2ul& c,
                                                         const Packet2ul& d) {
-  Packet4ui tmp1 = __lsx_vssrlni_wu_d((__m128i)a, (__m128i)b, 0);
-  Packet4ui tmp2 = __lsx_vssrlni_wu_d((__m128i)c, (__m128i)d, 0);
-  return (Packet8s)__lsx_vssrlni_hu_w((__m128i)tmp1, (__m128i)tmp2, 0);
+  Packet4ui tmp1 = __lsx_vpickev_w((__m128i)b, (__m128i)a);
+  Packet4ui tmp2 = __lsx_vpickev_w((__m128i)d, (__m128i)c);
+  return (Packet8s)__lsx_vpickev_h((__m128i)tmp2, (__m128i)tmp1);
 }
 template <>
 EIGEN_STRONG_INLINE Packet16uc pcast<Packet2ul, Packet16uc>(const Packet2ul& a, const Packet2ul& b, const Packet2ul& c,
@@ -414,7 +600,7 @@ EIGEN_STRONG_INLINE Packet16uc pcast<Packet2ul, Packet16uc>(const Packet2ul& a, 
                                                             const Packet2ul& g, const Packet2ul& h) {
   const Packet8s abcd = pcast<Packet2ul, Packet8s>(a, b, c, d);
   const Packet8s efgh = pcast<Packet2ul, Packet8s>(e, f, g, h);
-  return __lsx_vssrlni_b_h((__m128i)abcd, (__m128i)efgh, 0);
+  return __lsx_vpickev_b((__m128i)efgh, (__m128i)abcd);
 }
 template <>
 EIGEN_STRONG_INLINE Packet16c pcast<Packet2ul, Packet16c>(const Packet2ul& a, const Packet2ul& b, const Packet2ul& c,
@@ -422,7 +608,7 @@ EIGEN_STRONG_INLINE Packet16c pcast<Packet2ul, Packet16c>(const Packet2ul& a, co
                                                           const Packet2ul& g, const Packet2ul& h) {
   const Packet8us abcd = pcast<Packet2ul, Packet8us>(a, b, c, d);
   const Packet8us efgh = pcast<Packet2ul, Packet8us>(e, f, g, h);
-  return __lsx_vssrlni_bu_h((__m128i)abcd, (__m128i)efgh, 0);
+  return __lsx_vpickev_b((__m128i)efgh, (__m128i)abcd);
 }
 
 template <>
@@ -431,33 +617,33 @@ EIGEN_STRONG_INLINE Packet4f pcast<Packet2d, Packet4f>(const Packet2d& a, const 
 }
 template <>
 EIGEN_STRONG_INLINE Packet2l pcast<Packet2d, Packet2l>(const Packet2d& a) {
-  return __lsx_vftint_l_d(a);
+  return __lsx_vftintrz_l_d(a);
 }
 template <>
 EIGEN_STRONG_INLINE Packet2ul pcast<Packet2d, Packet2ul>(const Packet2d& a) {
-  return __lsx_vftint_lu_d(a);
+  return __lsx_vftintrz_lu_d(a);
 }
 template <>
 EIGEN_STRONG_INLINE Packet4i pcast<Packet2d, Packet4i>(const Packet2d& a, const Packet2d& b) {
-  return __lsx_vssrlni_w_d(__lsx_vftint_l_d(a), __lsx_vftint_l_d(b), 0);
+  return __lsx_vpickev_w(__lsx_vftintrz_l_d(b), __lsx_vftintrz_l_d(a));
 }
 template <>
 EIGEN_STRONG_INLINE Packet4ui pcast<Packet2d, Packet4ui>(const Packet2d& a, const Packet2d& b) {
-  return __lsx_vssrlni_wu_d(__lsx_vftint_lu_d(a), __lsx_vftint_lu_d(b), 0);
+  return __lsx_vpickev_w(__lsx_vftintrz_lu_d(b), __lsx_vftintrz_lu_d(a));
 }
 template <>
 EIGEN_STRONG_INLINE Packet8s pcast<Packet2d, Packet8s>(const Packet2d& a, const Packet2d& b, const Packet2d& c,
                                                        const Packet2d& d) {
-  Packet4i tmp1 = __lsx_vssrlni_w_d(__lsx_vftint_l_d(a), __lsx_vftint_l_d(b), 0);
-  Packet4i tmp2 = __lsx_vssrlni_w_d(__lsx_vftint_l_d(c), __lsx_vftint_l_d(d), 0);
-  return __lsx_vssrlni_h_w((__m128i)tmp1, (__m128i)tmp2, 0);
+  Packet4i tmp1 = __lsx_vpickev_w(__lsx_vftintrz_l_d(b), __lsx_vftintrz_l_d(a));
+  Packet4i tmp2 = __lsx_vpickev_w(__lsx_vftintrz_l_d(d), __lsx_vftintrz_l_d(c));
+  return __lsx_vpickev_h((__m128i)tmp2, (__m128i)tmp1);
 }
 template <>
 EIGEN_STRONG_INLINE Packet8us pcast<Packet2d, Packet8us>(const Packet2d& a, const Packet2d& b, const Packet2d& c,
                                                          const Packet2d& d) {
-  Packet4ui tmp1 = __lsx_vssrlni_wu_d(__lsx_vftint_lu_d(a), __lsx_vftint_lu_d(b), 0);
-  Packet4ui tmp2 = __lsx_vssrlni_wu_d(__lsx_vftint_lu_d(c), __lsx_vftint_lu_d(d), 0);
-  return __lsx_vssrlni_hu_w((__m128i)tmp1, (__m128i)tmp2, 0);
+  Packet4ui tmp1 = __lsx_vpickev_w(__lsx_vftintrz_lu_d(b), __lsx_vftintrz_lu_d(a));
+  Packet4ui tmp2 = __lsx_vpickev_w(__lsx_vftintrz_lu_d(d), __lsx_vftintrz_lu_d(c));
+  return __lsx_vpickev_h((__m128i)tmp2, (__m128i)tmp1);
 }
 template <>
 EIGEN_STRONG_INLINE Packet16c pcast<Packet2d, Packet16c>(const Packet2d& a, const Packet2d& b, const Packet2d& c,
@@ -465,7 +651,7 @@ EIGEN_STRONG_INLINE Packet16c pcast<Packet2d, Packet16c>(const Packet2d& a, cons
                                                          const Packet2d& g, const Packet2d& h) {
   const Packet8s abcd = pcast<Packet2d, Packet8s>(a, b, c, d);
   const Packet8s efgh = pcast<Packet2d, Packet8s>(e, f, g, h);
-  return __lsx_vssrlni_b_h((__m128i)abcd, (__m128i)efgh, 0);
+  return __lsx_vpickev_b((__m128i)efgh, (__m128i)abcd);
 }
 template <>
 EIGEN_STRONG_INLINE Packet16uc pcast<Packet2d, Packet16uc>(const Packet2d& a, const Packet2d& b, const Packet2d& c,
@@ -473,7 +659,7 @@ EIGEN_STRONG_INLINE Packet16uc pcast<Packet2d, Packet16uc>(const Packet2d& a, co
                                                            const Packet2d& g, const Packet2d& h) {
   const Packet8us abcd = pcast<Packet2d, Packet8us>(a, b, c, d);
   const Packet8us efgh = pcast<Packet2d, Packet8us>(e, f, g, h);
-  return __lsx_vssrlni_bu_h((__m128i)abcd, (__m128i)efgh, 0);
+  return __lsx_vpickev_b((__m128i)efgh, (__m128i)abcd);
 }
 
 template <>

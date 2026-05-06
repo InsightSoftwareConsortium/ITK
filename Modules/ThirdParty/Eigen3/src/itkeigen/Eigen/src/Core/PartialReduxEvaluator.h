@@ -42,12 +42,12 @@ namespace internal {
 /* logic deciding a strategy for unrolling of vectorized paths */
 template <typename Func, typename Evaluator>
 struct packetwise_redux_traits {
-  enum {
-    OuterSize = int(Evaluator::IsRowMajor) ? Evaluator::RowsAtCompileTime : Evaluator::ColsAtCompileTime,
-    Cost = OuterSize == Dynamic ? HugeCost
-                                : OuterSize * Evaluator::CoeffReadCost + (OuterSize - 1) * functor_traits<Func>::Cost,
-    Unrolling = Cost <= EIGEN_UNROLLING_LIMIT ? CompleteUnrolling : NoUnrolling
-  };
+  static constexpr int OuterSize =
+      int(Evaluator::IsRowMajor) ? Evaluator::RowsAtCompileTime : Evaluator::ColsAtCompileTime;
+  static constexpr int Cost = OuterSize == Dynamic
+                                  ? HugeCost
+                                  : OuterSize * Evaluator::CoeffReadCost + (OuterSize - 1) * functor_traits<Func>::Cost;
+  static constexpr int Unrolling = Cost <= EIGEN_UNROLLING_LIMIT ? CompleteUnrolling : NoUnrolling;
 };
 
 /* Value to be returned when size==0 , by default let's return 0 */
@@ -70,8 +70,8 @@ struct packetwise_redux_impl;
 /* Perform the actual reduction with unrolling */
 template <typename Func, typename Evaluator>
 struct packetwise_redux_impl<Func, Evaluator, CompleteUnrolling> {
-  typedef redux_novec_unroller<Func, Evaluator, 0, Evaluator::SizeAtCompileTime> Base;
-  typedef typename Evaluator::Scalar Scalar;
+  using Base = redux_novec_unroller<Func, Evaluator, 0, Evaluator::SizeAtCompileTime>;
+  using Scalar = typename Evaluator::Scalar;
 
   template <typename PacketType>
   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE PacketType run(const Evaluator& eval, const Func& func, Index /*size*/) {
@@ -96,8 +96,8 @@ struct redux_vec_unroller<Func, Evaluator, Start, 0> {
 /* Perform the actual reduction for dynamic sizes */
 template <typename Func, typename Evaluator>
 struct packetwise_redux_impl<Func, Evaluator, NoUnrolling> {
-  typedef typename Evaluator::Scalar Scalar;
-  typedef typename redux_traits<Func, Evaluator>::PacketType PacketScalar;
+  using Scalar = typename Evaluator::Scalar;
+  using PacketScalar = typename redux_traits<Func, Evaluator>::PacketType;
 
   template <typename PacketType>
   EIGEN_DEVICE_FUNC static PacketType run(const Evaluator& eval, const Func& func, Index size) {
@@ -122,8 +122,8 @@ struct packetwise_redux_impl<Func, Evaluator, NoUnrolling> {
 
 template <typename Func, typename Evaluator>
 struct packetwise_segment_redux_impl {
-  typedef typename Evaluator::Scalar Scalar;
-  typedef typename redux_traits<Func, Evaluator>::PacketType PacketScalar;
+  using Scalar = typename Evaluator::Scalar;
+  using PacketScalar = typename redux_traits<Func, Evaluator>::PacketType;
 
   template <typename PacketType>
   EIGEN_DEVICE_FUNC static PacketType run(const Evaluator& eval, const Func& func, Index size, Index begin,
@@ -140,16 +140,16 @@ struct packetwise_segment_redux_impl {
 template <typename ArgType, typename MemberOp, int Direction>
 struct evaluator<PartialReduxExpr<ArgType, MemberOp, Direction> >
     : evaluator_base<PartialReduxExpr<ArgType, MemberOp, Direction> > {
-  typedef PartialReduxExpr<ArgType, MemberOp, Direction> XprType;
-  typedef typename internal::nested_eval<ArgType, 1>::type ArgTypeNested;
-  typedef add_const_on_value_type_t<ArgTypeNested> ConstArgTypeNested;
-  typedef internal::remove_all_t<ArgTypeNested> ArgTypeNestedCleaned;
-  typedef typename ArgType::Scalar InputScalar;
-  typedef typename XprType::Scalar Scalar;
+  using XprType = PartialReduxExpr<ArgType, MemberOp, Direction>;
+  using ArgTypeNested = typename internal::nested_eval<ArgType, 1>::type;
+  using ConstArgTypeNested = add_const_on_value_type_t<ArgTypeNested>;
+  using ArgTypeNestedCleaned = internal::remove_all_t<ArgTypeNested>;
+  using InputScalar = typename ArgType::Scalar;
+  using Scalar = typename XprType::Scalar;
   enum {
     TraversalSize = Direction == int(Vertical) ? int(ArgType::RowsAtCompileTime) : int(ArgType::ColsAtCompileTime)
   };
-  typedef typename MemberOp::template Cost<int(TraversalSize)> CostOpType;
+  using CostOpType = typename MemberOp::template Cost<int(TraversalSize)>;
   enum {
     CoeffReadCost = TraversalSize == Dynamic ? HugeCost
                     : TraversalSize == 0
@@ -168,13 +168,13 @@ struct evaluator<PartialReduxExpr<ArgType, MemberOp, Direction> >
     Alignment = 0  // FIXME this will need to be improved once PartialReduxExpr is vectorized
   };
 
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType xpr) : m_arg(xpr.nestedExpression()), m_functor(xpr.functor()) {
+  EIGEN_DEVICE_FUNC explicit evaluator(const XprType& xpr) : m_arg(xpr.nestedExpression()), m_functor(xpr.functor()) {
     EIGEN_INTERNAL_CHECK_COST_VALUE(TraversalSize == Dynamic ? HugeCost
                                                              : (TraversalSize == 0 ? 1 : int(CostOpType::value)));
     EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
   }
 
-  typedef typename XprType::CoeffReturnType CoeffReturnType;
+  using CoeffReturnType = typename XprType::CoeffReturnType;
 
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar coeff(Index i, Index j) const {
     return coeff(Direction == Vertical ? j : i);
@@ -199,11 +199,10 @@ struct evaluator<PartialReduxExpr<ArgType, MemberOp, Direction> >
     using BinaryOp = typename MemberOp::BinaryOp;
     using Impl = internal::packetwise_redux_impl<BinaryOp, PanelEvaluator>;
 
-    // FIXME
-    // See bug 1612, currently if PacketSize==1 (i.e. complex<double> with 128bits registers) then the storage-order of
-    // panel get reversed and methods like packetByOuterInner do not make sense anymore in this context. So let's just
-    // by pass "vectorization" in this case:
-    if (PacketSize == 1) return internal::pset1<PacketType>(coeff(idx));
+    // Workaround for issue 1612 (closed): when PacketSize==1 (i.e. complex<double> with 128bits registers) the
+    // storage-order of panel gets reversed and methods like packetByOuterInner do not make sense in this context, so
+    // bypass "vectorization":
+    EIGEN_IF_CONSTEXPR(PacketSize == 1) return internal::pset1<PacketType>(coeff(idx));
 
     Index startRow = Direction == Vertical ? 0 : idx;
     Index startCol = Direction == Vertical ? idx : 0;

@@ -105,7 +105,7 @@ struct sparse_eval<T, Rows, 1, Flags> {
   typedef SparseVector<Scalar_, ColMajor, StorageIndex_> type;
 };
 
-// TODO this seems almost identical to plain_matrix_type<T, Sparse>
+// TODO: consider unifying with plain_matrix_type<T, Sparse>.
 template <typename T, int Rows, int Cols, int Flags>
 struct sparse_eval {
   typedef typename traits<T>::Scalar Scalar_;

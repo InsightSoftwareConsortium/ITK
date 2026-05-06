@@ -118,7 +118,7 @@ class CwiseTernaryOp : public CwiseTernaryOpImpl<TernaryOp, Arg1Type, Arg2Type, 
     eigen_assert(a1.rows() == a2.rows() && a1.cols() == a2.cols() && a1.rows() == a3.rows() && a1.cols() == a3.cols());
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index rows() const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE Index rows() const {
     // return the fixed size type if available to enable compile time
     // optimizations
     if (internal::traits<internal::remove_all_t<Arg1Nested>>::RowsAtCompileTime == Dynamic &&
@@ -130,7 +130,7 @@ class CwiseTernaryOp : public CwiseTernaryOpImpl<TernaryOp, Arg1Type, Arg2Type, 
     else
       return m_arg1.rows();
   }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Index cols() const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE Index cols() const {
     // return the fixed size type if available to enable compile time
     // optimizations
     if (internal::traits<internal::remove_all_t<Arg1Nested>>::ColsAtCompileTime == Dynamic &&
@@ -144,13 +144,13 @@ class CwiseTernaryOp : public CwiseTernaryOpImpl<TernaryOp, Arg1Type, Arg2Type, 
   }
 
   /** \returns the first argument nested expression */
-  EIGEN_DEVICE_FUNC const Arg1Nested_& arg1() const { return m_arg1; }
+  EIGEN_DEVICE_FUNC constexpr const Arg1Nested_& arg1() const { return m_arg1; }
   /** \returns the first argument nested expression */
-  EIGEN_DEVICE_FUNC const Arg2Nested_& arg2() const { return m_arg2; }
+  EIGEN_DEVICE_FUNC constexpr const Arg2Nested_& arg2() const { return m_arg2; }
   /** \returns the third argument nested expression */
-  EIGEN_DEVICE_FUNC const Arg3Nested_& arg3() const { return m_arg3; }
+  EIGEN_DEVICE_FUNC constexpr const Arg3Nested_& arg3() const { return m_arg3; }
   /** \returns the functor representing the ternary operation */
-  EIGEN_DEVICE_FUNC const TernaryOp& functor() const { return m_functor; }
+  EIGEN_DEVICE_FUNC constexpr const TernaryOp& functor() const { return m_functor; }
 
  protected:
   Arg1Nested m_arg1;

@@ -47,7 +47,7 @@ inline void manage_multi_threading(Action action, int* v);
 // Public APIs.
 
 /** Must be call first when calling Eigen from multiple threads */
-EIGEN_DEPRECATED inline void initParallel() {}
+EIGEN_DEPRECATED_WITH_REASON("Initialization is no longer needed.") inline void initParallel() {}
 
 /** \returns the max number of threads reserved for Eigen
  * \sa setNbThreads */
@@ -141,7 +141,7 @@ inline void manage_multi_threading(Action action, int* v) {
     // for OpenMP.
     eigen_internal_assert(*v >= 0);
     int omp_threads = omp_get_max_threads();
-    m_maxThreads = (*v == 0 ? omp_threads : std::min(*v, omp_threads));
+    m_maxThreads = (*v == 0 ? omp_threads : std::min<int>(*v, omp_threads));
 #elif defined(EIGEN_GEMM_THREADPOOL)
     // Calling action == SetAction and *v = 0 means
     // restoring m_maxThreads to the number of threads in the ThreadPool,
@@ -182,7 +182,7 @@ EIGEN_STRONG_INLINE void parallelize_gemm(const Functor& func, Index rows, Index
 
   // compute the maximal number of threads from the total amount of work:
   double work = static_cast<double>(rows) * static_cast<double>(cols) * static_cast<double>(depth);
-  double kMinTaskSize = 50000;  // FIXME improve this heuristic.
+  double kMinTaskSize = 50000;  // FIXME: tune this minimum task-size heuristic based on architecture and scalar type.
   pb_max_threads = std::max<Index>(1, std::min<Index>(pb_max_threads, static_cast<Index>(work / kMinTaskSize)));
 
   // compute the number of threads we are going to use

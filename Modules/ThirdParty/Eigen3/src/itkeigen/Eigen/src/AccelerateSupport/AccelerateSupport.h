@@ -110,7 +110,7 @@ using AccelerateCholeskyAtA = AccelerateImpl<MatrixType, 0, SparseFactorizationC
 namespace internal {
 template <typename T>
 struct AccelFactorizationDeleter {
-  void operator()(T* sym) {
+  void operator()(T* sym) const {
     if (sym) {
       SparseCleanup(*sym);
       delete sym;

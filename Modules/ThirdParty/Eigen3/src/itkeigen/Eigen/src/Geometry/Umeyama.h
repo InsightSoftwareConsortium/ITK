@@ -141,6 +141,13 @@ typename internal::umeyama_transform_matrix_type<Derived, OtherDerived>::type um
     // Eq. (36)-(37)
     const Scalar src_var = src_demean.rowwise().squaredNorm().sum() * one_over_n;
 
+    if (src_var <= Scalar(0)) {
+      // Degenerate: source points have zero variance (all nearly identical).
+      // Scaling is undefined; return the best-fit pure translation.
+      Rt.col(m).head(m) = dst_mean - src_mean;
+      return Rt;
+    }
+
     // Eq. (42)
     const Scalar c = Scalar(1) / src_var * svd.singularValues().dot(S);
 

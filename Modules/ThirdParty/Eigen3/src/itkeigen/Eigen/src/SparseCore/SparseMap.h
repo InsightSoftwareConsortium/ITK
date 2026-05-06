@@ -131,11 +131,8 @@ class SparseMapBase<Derived, ReadOnlyAccessors> : public SparseCompressedBase<De
         m_values(valuePtr),
         m_innerNonZeros(0) {}
 
-  /** Empty destructor */
-  inline ~SparseMapBase() {}
-
  protected:
-  inline SparseMapBase() {}
+  inline SparseMapBase() = default;
 };
 
 /** \ingroup SparseCore_Module
@@ -194,11 +191,8 @@ class SparseMapBase<Derived, WriteAccessors> : public SparseMapBase<Derived, Rea
   inline SparseMapBase(Index size, Index nnz, StorageIndex* innerIndexPtr, Scalar* valuePtr)
       : Base(size, nnz, innerIndexPtr, valuePtr) {}
 
-  /** Empty destructor */
-  inline ~SparseMapBase() {}
-
  protected:
-  inline SparseMapBase() {}
+  inline SparseMapBase() = default;
 };
 
 /** \ingroup SparseCore_Module
@@ -238,8 +232,6 @@ class Map<SparseMatrixType> : public SparseMapBase<Derived, WriteAccessors>
              Scalar* valuePtr, StorageIndex* innerNonZerosPtr = 0)
       : Base(rows, cols, nnz, outerIndexPtr, innerIndexPtr, valuePtr, innerNonZerosPtr) {}
 #ifndef EIGEN_PARSED_BY_DOXYGEN
-  /** Empty destructor */
-  inline ~Map() {}
 };
 
 template <typename MatScalar, int MatOptions, typename MatIndex, int Options, typename StrideType>
@@ -260,9 +252,6 @@ class Map<const SparseMatrix<MatScalar, MatOptions, MatIndex>, Options, StrideTy
   inline Map(Index rows, Index cols, Index nnz, const StorageIndex* outerIndexPtr, const StorageIndex* innerIndexPtr,
              const Scalar* valuePtr, const StorageIndex* innerNonZerosPtr = 0)
       : Base(rows, cols, nnz, outerIndexPtr, innerIndexPtr, valuePtr, innerNonZerosPtr) {}
-
-  /** Empty destructor */
-  inline ~Map() {}
 };
 
 namespace internal {

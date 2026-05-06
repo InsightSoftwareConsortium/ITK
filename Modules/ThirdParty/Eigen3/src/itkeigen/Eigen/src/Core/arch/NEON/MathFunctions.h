@@ -33,12 +33,7 @@ EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC Packet8hf ptanh<Packet8hf>(const Packet8hf
 }
 #endif  // EIGEN_HAS_ARM64_FP16_VECTOR_ARITHMETIC
 
-BF16_PACKET_FUNCTION(Packet4f, Packet4bf, psin)
-BF16_PACKET_FUNCTION(Packet4f, Packet4bf, pcos)
-BF16_PACKET_FUNCTION(Packet4f, Packet4bf, plog)
-BF16_PACKET_FUNCTION(Packet4f, Packet4bf, pexp)
-BF16_PACKET_FUNCTION(Packet4f, Packet4bf, pexp2)
-BF16_PACKET_FUNCTION(Packet4f, Packet4bf, ptanh)
+EIGEN_INSTANTIATE_GENERIC_MATH_FUNCS_BF16(Packet4f, Packet4bf)
 
 template <>
 EIGEN_STRONG_INLINE Packet4bf pfrexp(const Packet4bf& a, Packet4bf& exponent) {

@@ -28,6 +28,11 @@ namespace internal {
 template <typename SPQRType>
 struct traits<SPQRMatrixQReturnType<SPQRType> > {
   typedef typename SPQRType::MatrixType ReturnType;
+  typedef typename ReturnType::Scalar Scalar;
+  typedef typename ReturnType::StorageIndex StorageIndex;
+  typedef typename ReturnType::StorageKind StorageKind;
+  static constexpr int RowsAtCompileTime = Dynamic;
+  static constexpr int ColsAtCompileTime = Dynamic;
 };
 template <typename SPQRType>
 struct traits<SPQRMatrixQTransposeReturnType<SPQRType> > {
@@ -120,7 +125,9 @@ class SPQR : public SparseSolverBase<SPQR<MatrixType_> > {
     cholmod_l_free_sparse(&m_cR, &m_cc);
     cholmod_l_free_dense(&m_HTau, &m_cc);
     std::free(m_E);
+    m_E = nullptr;
     std::free(m_HPinv);
+    m_HPinv = nullptr;
   }
 
   void compute(const MatrixType_& matrix) {
@@ -146,6 +153,12 @@ class SPQR : public SparseSolverBase<SPQR<MatrixType_> > {
                                    &m_cR, &m_E, &m_H, &m_HPinv, &m_HTau, &m_cc);
 
     if (!m_cR) {
+      m_info = NumericalIssue;
+      m_isInitialized = false;
+      return;
+    }
+    if (!m_E && !initIdentityPermutation(m_cR->ncol)) {
+      SPQR_free();
       m_info = NumericalIssue;
       m_isInitialized = false;
       return;
@@ -193,7 +206,7 @@ class SPQR : public SparseSolverBase<SPQR<MatrixType_> > {
 
   /** \returns the sparse triangular factor R. It is a sparse matrix
    */
-  const MatrixType matrixR() const {
+  const MatrixType& matrixR() const {
     eigen_assert(m_isInitialized && " The QR factorization should be computed first, call compute()");
     if (!m_isRUpToDate) {
       m_R = viewAsEigen<Scalar, StorageIndex>(*m_cR);
@@ -255,6 +268,16 @@ class SPQR : public SparseSolverBase<SPQR<MatrixType_> > {
   mutable cholmod_common m_cc;              // Workspace and parameters
   bool m_useDefaultThreshold;               // Use default threshold
   Index m_rows;
+
+  bool initIdentityPermutation(StorageIndex size) {
+    if (m_E || size == 0) return true;
+    // SuiteSparse can omit the permutation array when no column reordering is applied.
+    m_E = static_cast<StorageIndex*>(std::malloc(sizeof(StorageIndex) * size));
+    if (!m_E) return false;
+    for (StorageIndex i = 0; i < size; ++i) m_E[i] = i;
+    return true;
+  }
+
   template <typename, typename>
   friend struct SPQR_QProduct;
 };
@@ -267,33 +290,102 @@ struct SPQR_QProduct : ReturnByValue<SPQR_QProduct<SPQRType, Derived> > {
   SPQR_QProduct(const SPQRType& spqr, const Derived& other, bool transpose)
       : m_spqr(spqr), m_other(other), m_transpose(transpose) {}
 
-  inline Index rows() const { return m_transpose ? m_spqr.rows() : m_spqr.cols(); }
+  inline Index rows() const { return m_spqr.rows(); }
   inline Index cols() const { return m_other.cols(); }
   // Assign to a vector
   template <typename ResType>
   void evalTo(ResType& res) const {
+    evalToImpl(res, m_other);
+  }
+
+ private:
+  template <typename ResType, typename OtherDerived,
+            typename std::enable_if<(int(OtherDerived::Flags) & DirectAccessBit) == DirectAccessBit, int>::type = 0>
+  void evalToImpl(ResType& res, const MatrixBase<OtherDerived>& otherExpr) const {
     cholmod_dense y_cd;
     cholmod_dense* x_cd;
     int method = m_transpose ? SPQR_QTX : SPQR_QX;
     cholmod_common* cc = m_spqr.cholmodCommon();
-    y_cd = viewAsCholmod(m_other.const_cast_derived());
+    y_cd = viewAsCholmod(otherExpr.const_cast_derived());
     x_cd = SuiteSparseQR_qmult<Scalar>(method, m_spqr.m_H, m_spqr.m_HTau, m_spqr.m_HPinv, &y_cd, cc);
     res = Matrix<Scalar, ResType::RowsAtCompileTime, ResType::ColsAtCompileTime>::Map(
         reinterpret_cast<Scalar*>(x_cd->x), x_cd->nrow, x_cd->ncol);
     cholmod_l_free_dense(&x_cd, cc);
   }
+
+  template <typename ResType, typename OtherDerived,
+            typename std::enable_if<(int(OtherDerived::Flags) & DirectAccessBit) == 0, int>::type = 0>
+  void evalToImpl(ResType& res, const MatrixBase<OtherDerived>& otherExpr) const {
+    cholmod_dense y_cd;
+    cholmod_dense* x_cd;
+    int method = m_transpose ? SPQR_QTX : SPQR_QX;
+    cholmod_common* cc = m_spqr.cholmodCommon();
+    typename OtherDerived::PlainObject other = otherExpr;
+    y_cd = viewAsCholmod(other);
+    x_cd = SuiteSparseQR_qmult<Scalar>(method, m_spqr.m_H, m_spqr.m_HTau, m_spqr.m_HPinv, &y_cd, cc);
+    res = Matrix<Scalar, ResType::RowsAtCompileTime, ResType::ColsAtCompileTime>::Map(
+        reinterpret_cast<Scalar*>(x_cd->x), x_cd->nrow, x_cd->ncol);
+    cholmod_l_free_dense(&x_cd, cc);
+  }
+
+  template <typename ResType, typename OtherDerived>
+  void evalToImpl(ResType& res, const SparseMatrixBase<OtherDerived>& otherExpr) const {
+    cholmod_sparse y_cs;
+    cholmod_sparse* x_cs;
+    int method = m_transpose ? SPQR_QTX : SPQR_QX;
+    cholmod_common* cc = m_spqr.cholmodCommon();
+    typename OtherDerived::PlainObject other = otherExpr;
+    other.makeCompressed();
+    y_cs = viewAsCholmod(other);
+    x_cs = SuiteSparseQR_qmult<Scalar>(method, m_spqr.m_H, m_spqr.m_HTau, m_spqr.m_HPinv, &y_cs, cc);
+    res = viewAsEigen<Scalar, StorageIndex>(*x_cs);
+    cholmod_l_free_sparse(&x_cs, cc);
+  }
+
+  template <typename ResType, typename OtherScalar, int OtherOptions, typename OtherStorageIndex,
+            typename std::enable_if<internal::is_same<OtherStorageIndex, StorageIndex>::value, int>::type = 0>
+  void evalToImpl(ResType& res, const SparseMatrix<OtherScalar, OtherOptions, OtherStorageIndex>& otherExpr) const {
+    cholmod_sparse y_cs;
+    cholmod_sparse* x_cs;
+    int method = m_transpose ? SPQR_QTX : SPQR_QX;
+    cholmod_common* cc = m_spqr.cholmodCommon();
+    const SparseMatrix<OtherScalar, OtherOptions, OtherStorageIndex>* otherPtr = &otherExpr;
+    SparseMatrix<OtherScalar, OtherOptions, OtherStorageIndex> other;
+
+    if (!otherExpr.isCompressed()) {
+      other = otherExpr;
+      other.makeCompressed();
+      otherPtr = &other;
+    }
+
+    y_cs = viewAsCholmod(*otherPtr);
+    x_cs = SuiteSparseQR_qmult<Scalar>(method, m_spqr.m_H, m_spqr.m_HTau, m_spqr.m_HPinv, &y_cs, cc);
+    res = viewAsEigen<Scalar, StorageIndex>(*x_cs);
+    cholmod_l_free_sparse(&x_cs, cc);
+  }
+
+ public:
   const SPQRType& m_spqr;
   const Derived& m_other;
   bool m_transpose;
 };
 template <typename SPQRType>
-struct SPQRMatrixQReturnType {
+struct SPQRMatrixQReturnType : public EigenBase<SPQRMatrixQReturnType<SPQRType> > {
+  typedef typename SPQRType::Scalar Scalar;
+  static constexpr int RowsAtCompileTime = Dynamic;
+  static constexpr int ColsAtCompileTime = Dynamic;
   SPQRMatrixQReturnType(const SPQRType& spqr) : m_spqr(spqr) {}
   template <typename Derived>
   SPQR_QProduct<SPQRType, Derived> operator*(const MatrixBase<Derived>& other) {
     return SPQR_QProduct<SPQRType, Derived>(m_spqr, other.derived(), false);
   }
+  template <typename Derived>
+  SPQR_QProduct<SPQRType, Derived> operator*(const SparseMatrixBase<Derived>& other) {
+    return SPQR_QProduct<SPQRType, Derived>(m_spqr, other.derived(), false);
+  }
   SPQRMatrixQTransposeReturnType<SPQRType> adjoint() const { return SPQRMatrixQTransposeReturnType<SPQRType>(m_spqr); }
+  inline Index rows() const { return m_spqr.rows(); }
+  inline Index cols() const { return m_spqr.rows(); }
   // To use for operations with the transpose of Q
   SPQRMatrixQTransposeReturnType<SPQRType> transpose() const {
     return SPQRMatrixQTransposeReturnType<SPQRType>(m_spqr);
@@ -308,8 +400,47 @@ struct SPQRMatrixQTransposeReturnType {
   SPQR_QProduct<SPQRType, Derived> operator*(const MatrixBase<Derived>& other) {
     return SPQR_QProduct<SPQRType, Derived>(m_spqr, other.derived(), true);
   }
+  template <typename Derived>
+  SPQR_QProduct<SPQRType, Derived> operator*(const SparseMatrixBase<Derived>& other) {
+    return SPQR_QProduct<SPQRType, Derived>(m_spqr, other.derived(), true);
+  }
   const SPQRType& m_spqr;
 };
+
+namespace internal {
+
+template <typename SPQRType>
+struct evaluator_traits<SPQRMatrixQReturnType<SPQRType> > {
+  typedef typename SPQRType::MatrixType MatrixType;
+  typedef typename storage_kind_to_evaluator_kind<typename MatrixType::StorageKind>::Kind Kind;
+  typedef SparseShape Shape;
+};
+
+template <typename DstXprType, typename SPQRType>
+struct Assignment<DstXprType, SPQRMatrixQReturnType<SPQRType>,
+                  internal::assign_op<typename DstXprType::Scalar, typename DstXprType::Scalar>, Sparse2Sparse> {
+  typedef SPQRMatrixQReturnType<SPQRType> SrcXprType;
+  typedef typename DstXprType::Scalar Scalar;
+
+  static void run(DstXprType& dst, const SrcXprType& src, const internal::assign_op<Scalar, Scalar>& /*func*/) {
+    typename DstXprType::PlainObject idMat(src.rows(), src.cols());
+    idMat.setIdentity();
+    dst = src.m_spqr.matrixQ() * idMat;
+  }
+};
+
+template <typename DstXprType, typename SPQRType>
+struct Assignment<DstXprType, SPQRMatrixQReturnType<SPQRType>,
+                  internal::assign_op<typename DstXprType::Scalar, typename DstXprType::Scalar>, Sparse2Dense> {
+  typedef SPQRMatrixQReturnType<SPQRType> SrcXprType;
+  typedef typename DstXprType::Scalar Scalar;
+
+  static void run(DstXprType& dst, const SrcXprType& src, const internal::assign_op<Scalar, Scalar>& /*func*/) {
+    dst = src.m_spqr.matrixQ() * DstXprType::Identity(src.rows(), src.cols());
+  }
+};
+
+}  // namespace internal
 
 }  // End namespace Eigen
 #endif

@@ -32,7 +32,7 @@ namespace Eigen {
 //  4 - dense op dense     product      dense
 //                         generic      dense
 //
-// TODO to ease compiler job, we could specialize product/quotient with a scalar
+// TODO: to ease compiler job, we could specialize product/quotient with a scalar
 //      and fallback to cwise-unary evaluator using bind1st_op and bind2nd_op.
 
 template <typename BinaryOp, typename Lhs, typename Rhs>
@@ -858,7 +858,7 @@ Derived& SparseMatrixBase<Derived>::operator+=(const EigenBase<OtherDerived>& ot
 template <typename Derived>
 template <typename OtherDerived>
 Derived& SparseMatrixBase<Derived>::operator-=(const EigenBase<OtherDerived>& other) {
-  call_assignment(derived(), other.derived(), internal::assign_op<Scalar, typename OtherDerived::Scalar>());
+  call_assignment(derived(), other.derived(), internal::sub_assign_op<Scalar, typename OtherDerived::Scalar>());
   return derived();
 }
 

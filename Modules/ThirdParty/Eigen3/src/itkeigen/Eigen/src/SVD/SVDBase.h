@@ -290,7 +290,7 @@ class SVDBase : public SolverBase<SVDBase<Derived> > {
    * A x - b \Vert \f$.
    */
   template <typename Rhs>
-  inline const Solve<Derived, Rhs> solve(const MatrixBase<Rhs>& b) const;
+  inline Solve<Derived, Rhs> solve(const MatrixBase<Rhs>& b) const;
 #endif
 
   /** \brief Reports whether previous computation was successful.

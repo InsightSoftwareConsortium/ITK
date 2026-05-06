@@ -69,8 +69,8 @@ class Solve : public SolveImpl<Decomposition, RhsType, typename internal::traits
   EIGEN_DEVICE_FUNC constexpr Index rows() const noexcept { return m_dec.cols(); }
   EIGEN_DEVICE_FUNC constexpr Index cols() const noexcept { return m_rhs.cols(); }
 
-  EIGEN_DEVICE_FUNC const Decomposition &dec() const { return m_dec; }
-  EIGEN_DEVICE_FUNC const RhsType &rhs() const { return m_rhs; }
+  EIGEN_DEVICE_FUNC constexpr const Decomposition &dec() const { return m_dec; }
+  EIGEN_DEVICE_FUNC constexpr const RhsType &rhs() const { return m_rhs; }
 
  protected:
   const Decomposition &m_dec;

@@ -17,9 +17,17 @@
 namespace Eigen {
 
 namespace internal {
-template <int n>
+template <int N>
 struct decrement_size {
-  enum { ret = n == Dynamic ? n : n - 1 };
+  static constexpr int ret = N - 1;
+};
+template <>
+struct decrement_size<0> {
+  static constexpr int ret = 0;
+};
+template <>
+struct decrement_size<Dynamic> {
+  static constexpr int ret = Dynamic;
 };
 }  // namespace internal
 
@@ -65,12 +73,11 @@ template <typename EssentialPart>
 EIGEN_DEVICE_FUNC void MatrixBase<Derived>::makeHouseholder(EssentialPart& essential, Scalar& tau,
                                                             RealScalar& beta) const {
   using numext::conj;
-  using numext::sqrt;
 
   EIGEN_STATIC_ASSERT_VECTOR_ONLY(EssentialPart)
-  VectorBlock<const Derived, EssentialPart::SizeAtCompileTime> tail(derived(), 1, size() - 1);
+  const VectorBlock<const Derived, EssentialPart::SizeAtCompileTime> tail(derived(), 1, size() - 1);
 
-  RealScalar tailSqNorm = size() == 1 ? RealScalar(0) : tail.squaredNorm();
+  RealScalar tailSqNorm = size() == 1 ? RealScalar(0) : tail.unwind().squaredNorm();
   Scalar c0 = coeff(0);
   const RealScalar tol = (std::numeric_limits<RealScalar>::min)();
 
@@ -79,9 +86,9 @@ EIGEN_DEVICE_FUNC void MatrixBase<Derived>::makeHouseholder(EssentialPart& essen
     beta = numext::real(c0);
     essential.setZero();
   } else {
-    beta = sqrt(numext::abs2(c0) + tailSqNorm);
+    beta = numext::sqrt(numext::abs2(c0) + tailSqNorm);
     if (numext::real(c0) >= RealScalar(0)) beta = -beta;
-    essential = tail / (c0 - beta);
+    essential = tail.unwind() / (c0 - beta);
     tau = conj((beta - c0) / beta);
   }
 }
@@ -111,10 +118,10 @@ EIGEN_DEVICE_FUNC void MatrixBase<Derived>::applyHouseholderOnTheLeft(const Esse
     Map<typename internal::plain_row_type<PlainObject>::type> tmp(workspace, cols());
     Block<Derived, EssentialPart::SizeAtCompileTime, Derived::ColsAtCompileTime> bottom(derived(), 1, 0, rows() - 1,
                                                                                         cols());
-    tmp.noalias() = essential.adjoint() * bottom;
-    tmp += this->row(0);
-    this->row(0) -= tau * tmp;
-    bottom.noalias() -= tau * essential * tmp;
+    tmp.noalias() = essential.adjoint() * bottom.unwind();
+    tmp = tau * (tmp + this->row(0));
+    this->row(0) = this->row(0) - tmp;
+    bottom.unwind().noalias() -= essential * tmp;
   }
 }
 
@@ -143,10 +150,10 @@ EIGEN_DEVICE_FUNC void MatrixBase<Derived>::applyHouseholderOnTheRight(const Ess
     Map<typename internal::plain_col_type<PlainObject>::type> tmp(workspace, rows());
     Block<Derived, Derived::RowsAtCompileTime, EssentialPart::SizeAtCompileTime> right(derived(), 0, 1, rows(),
                                                                                        cols() - 1);
-    tmp.noalias() = right * essential;
-    tmp += this->col(0);
-    this->col(0) -= tau * tmp;
-    right.noalias() -= tau * tmp * essential.adjoint();
+    tmp.noalias() = right.unwind() * essential;
+    tmp = tau * (tmp + this->col(0));
+    this->col(0) = this->col(0) - tmp;
+    right.unwind().noalias() -= tmp * essential.adjoint();
   }
 }
 

@@ -121,14 +121,14 @@ class Block
 
   /** Column or Row constructor
    */
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Block(XprType& xpr, Index i) : Impl(xpr, i) {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE Block(XprType& xpr, Index i) : Impl(xpr, i) {
     eigen_assert((i >= 0) && (((BlockRows == 1) && (BlockCols == XprType::ColsAtCompileTime) && i < xpr.rows()) ||
                               ((BlockRows == XprType::RowsAtCompileTime) && (BlockCols == 1) && i < xpr.cols())));
   }
 
   /** Fixed-size constructor
    */
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Block(XprType& xpr, Index startRow, Index startCol)
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE Block(XprType& xpr, Index startRow, Index startCol)
       : Impl(xpr, startRow, startCol) {
     EIGEN_STATIC_ASSERT(RowsAtCompileTime != Dynamic && ColsAtCompileTime != Dynamic,
                         THIS_METHOD_IS_ONLY_FOR_FIXED_SIZE)
@@ -138,8 +138,8 @@ class Block
 
   /** Dynamic-size constructor
    */
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Block(XprType& xpr, Index startRow, Index startCol, Index blockRows,
-                                              Index blockCols)
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE Block(XprType& xpr, Index startRow, Index startCol, Index blockRows,
+                                                        Index blockCols)
       : Impl(xpr, startRow, startCol, blockRows, blockCols) {
     eigen_assert((RowsAtCompileTime == Dynamic || RowsAtCompileTime == blockRows) &&
                  (ColsAtCompileTime == Dynamic || ColsAtCompileTime == blockCols));
@@ -175,11 +175,11 @@ class BlockImpl<XprType, BlockRows, BlockCols, InnerPanel, Dense>
  public:
   typedef Impl Base;
   EIGEN_INHERIT_ASSIGNMENT_OPERATORS(BlockImpl)
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE BlockImpl(XprType& xpr, Index i) : Impl(xpr, i) {}
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE BlockImpl(XprType& xpr, Index startRow, Index startCol)
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE BlockImpl(XprType& xpr, Index i) : Impl(xpr, i) {}
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE BlockImpl(XprType& xpr, Index startRow, Index startCol)
       : Impl(xpr, startRow, startCol) {}
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE BlockImpl(XprType& xpr, Index startRow, Index startCol, Index blockRows,
-                                                  Index blockCols)
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE BlockImpl(XprType& xpr, Index startRow, Index startCol,
+                                                            Index blockRows, Index blockCols)
       : Impl(xpr, startRow, startCol, blockRows, blockCols) {}
 };
 
@@ -196,11 +196,9 @@ class BlockImpl_dense : public internal::dense_xpr_base<Block<XprType, BlockRows
   EIGEN_DENSE_PUBLIC_INTERFACE(BlockType)
   EIGEN_INHERIT_ASSIGNMENT_OPERATORS(BlockImpl_dense)
 
-  // class InnerIterator; // FIXME apparently never used
-
   /** Column or Row constructor
    */
-  EIGEN_DEVICE_FUNC inline BlockImpl_dense(XprType& xpr, Index i)
+  EIGEN_DEVICE_FUNC constexpr BlockImpl_dense(XprType& xpr, Index i)
       : m_xpr(xpr),
         // It is a row if and only if BlockRows==1 and BlockCols==XprType::ColsAtCompileTime,
         // and it is a column if and only if BlockRows==XprType::RowsAtCompileTime and BlockCols==1,
@@ -213,17 +211,17 @@ class BlockImpl_dense : public internal::dense_xpr_base<Block<XprType, BlockRows
 
   /** Fixed-size constructor
    */
-  EIGEN_DEVICE_FUNC inline BlockImpl_dense(XprType& xpr, Index startRow, Index startCol)
+  EIGEN_DEVICE_FUNC constexpr BlockImpl_dense(XprType& xpr, Index startRow, Index startCol)
       : m_xpr(xpr), m_startRow(startRow), m_startCol(startCol), m_blockRows(BlockRows), m_blockCols(BlockCols) {}
 
   /** Dynamic-size constructor
    */
-  EIGEN_DEVICE_FUNC inline BlockImpl_dense(XprType& xpr, Index startRow, Index startCol, Index blockRows,
-                                           Index blockCols)
+  EIGEN_DEVICE_FUNC constexpr BlockImpl_dense(XprType& xpr, Index startRow, Index startCol, Index blockRows,
+                                              Index blockCols)
       : m_xpr(xpr), m_startRow(startRow), m_startCol(startCol), m_blockRows(blockRows), m_blockCols(blockCols) {}
 
-  EIGEN_DEVICE_FUNC inline Index rows() const { return m_blockRows.value(); }
-  EIGEN_DEVICE_FUNC inline Index cols() const { return m_blockCols.value(); }
+  EIGEN_DEVICE_FUNC constexpr Index rows() const { return m_blockRows.value(); }
+  EIGEN_DEVICE_FUNC constexpr Index cols() const { return m_blockCols.value(); }
 
   EIGEN_DEVICE_FUNC inline Scalar& coeffRef(Index rowId, Index colId) {
     EIGEN_STATIC_ASSERT_LVALUE(XprType)
@@ -289,9 +287,9 @@ class BlockImpl_dense : public internal::dense_xpr_base<Block<XprType, BlockRows
 
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE XprType& nestedExpression() { return m_xpr; }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr StorageIndex startRow() const noexcept { return m_startRow.value(); }
+  EIGEN_DEVICE_FUNC constexpr StorageIndex startRow() const noexcept { return m_startRow.value(); }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr StorageIndex startCol() const noexcept { return m_startCol.value(); }
+  EIGEN_DEVICE_FUNC constexpr StorageIndex startCol() const noexcept { return m_startCol.value(); }
 
  protected:
   XprTypeNested m_xpr;
@@ -380,22 +378,21 @@ class BlockImpl_dense<XprType, BlockRows, BlockCols, InnerPanel, true>
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE XprType& nestedExpression() { return m_xpr; }
 
   /** \sa MapBase::innerStride() */
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index innerStride() const noexcept {
+  EIGEN_DEVICE_FUNC constexpr Index innerStride() const noexcept {
     return internal::traits<BlockType>::HasSameStorageOrderAsXprType ? m_xpr.innerStride() : m_xpr.outerStride();
   }
 
   /** \sa MapBase::outerStride() */
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index outerStride() const noexcept {
+  EIGEN_DEVICE_FUNC constexpr Index outerStride() const noexcept {
     return internal::traits<BlockType>::HasSameStorageOrderAsXprType ? m_xpr.outerStride() : m_xpr.innerStride();
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr StorageIndex startRow() const noexcept { return m_startRow.value(); }
+  EIGEN_DEVICE_FUNC constexpr StorageIndex startRow() const noexcept { return m_startRow.value(); }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr StorageIndex startCol() const noexcept { return m_startCol.value(); }
+  EIGEN_DEVICE_FUNC constexpr StorageIndex startCol() const noexcept { return m_startCol.value(); }
 
 #ifndef __SUNPRO_CC
-  // FIXME sunstudio is not friendly with the above friend...
-  // META-FIXME there is no 'friend' keyword around here. Is this obsolete?
+  // Historical workaround for SunStudio's handling of the access specifier here.
  protected:
 #endif
 

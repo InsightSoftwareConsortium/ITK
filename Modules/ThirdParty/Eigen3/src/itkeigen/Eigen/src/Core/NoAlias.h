@@ -35,7 +35,7 @@ class NoAlias {
  public:
   typedef typename ExpressionType::Scalar Scalar;
 
-  EIGEN_DEVICE_FUNC explicit NoAlias(ExpressionType& expression) : m_expression(expression) {}
+  EIGEN_DEVICE_FUNC constexpr explicit NoAlias(ExpressionType& expression) : m_expression(expression) {}
 
   template <typename OtherDerived>
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE ExpressionType& operator=(const StorageBase<OtherDerived>& other) {
@@ -58,7 +58,7 @@ class NoAlias {
     return m_expression;
   }
 
-  EIGEN_DEVICE_FUNC ExpressionType& expression() const { return m_expression; }
+  EIGEN_DEVICE_FUNC constexpr ExpressionType& expression() const { return m_expression; }
 
  protected:
   ExpressionType& m_expression;

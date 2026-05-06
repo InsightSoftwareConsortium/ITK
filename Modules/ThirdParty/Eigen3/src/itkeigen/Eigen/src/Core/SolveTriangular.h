@@ -53,10 +53,11 @@ struct triangular_solver_selector<Lhs, Rhs, Side, Mode, NoUnrolling, 1> {
   typedef typename Lhs::Scalar LhsScalar;
   typedef typename Rhs::Scalar RhsScalar;
   typedef blas_traits<Lhs> LhsProductTraits;
-  typedef typename LhsProductTraits::ExtractType ActualLhsType;
+  typedef typename LhsProductTraits::DirectLinearAccessType ActualLhsType;
+  typedef remove_all_t<ActualLhsType> ActualLhsTypeCleaned;
   typedef Map<Matrix<RhsScalar, Dynamic, 1>, Aligned> MappedRhs;
   static EIGEN_DEVICE_FUNC void run(const Lhs& lhs, Rhs& rhs) {
-    ActualLhsType actualLhs = LhsProductTraits::extract(lhs);
+    add_const_on_value_type_t<ActualLhsType> actualLhs = LhsProductTraits::extract(lhs);
 
     // FIXME find a way to allow an inner stride if packet_traits<Scalar>::size==1
 
@@ -67,10 +68,11 @@ struct triangular_solver_selector<Lhs, Rhs, Side, Mode, NoUnrolling, 1> {
     if (!useRhsDirectly) MappedRhs(actualRhs, rhs.size()) = rhs;
 
     triangular_solve_vector<LhsScalar, RhsScalar, Index, Side, Mode, LhsProductTraits::NeedToConjugate,
-                            (int(Lhs::Flags) & RowMajorBit) ? RowMajor : ColMajor>::run(actualLhs.cols(),
-                                                                                        actualLhs.data(),
-                                                                                        actualLhs.outerStride(),
-                                                                                        actualRhs);
+                            (int(ActualLhsTypeCleaned::Flags) & RowMajorBit) ? RowMajor
+                                                                             : ColMajor>::run(actualLhs.cols(),
+                                                                                              actualLhs.data(),
+                                                                                              actualLhs.outerStride(),
+                                                                                              actualRhs);
 
     if (!useRhsDirectly) rhs = MappedRhs(actualRhs, rhs.size());
   }
@@ -181,11 +183,15 @@ EIGEN_DEVICE_FUNC void TriangularViewImpl<MatrixType, Mode, Dense>::solveInPlace
   if (derived().cols() == 0) return;
 
   enum {
-    copy = (internal::traits<OtherDerived>::Flags & RowMajorBit) && OtherDerived::IsVectorAtCompileTime &&
-           OtherDerived::SizeAtCompileTime != 1
+    OtherFlags = internal::traits<OtherDerived>::Flags,
+    IsRowMajorVector =
+        (OtherFlags & RowMajorBit) && OtherDerived::IsVectorAtCompileTime && OtherDerived::SizeAtCompileTime != 1,
+    copy = IsRowMajorVector || ((OtherFlags & DirectAccessBit) == 0)
   };
-  typedef std::conditional_t<copy, typename internal::plain_matrix_type_column_major<OtherDerived>::type, OtherDerived&>
-      OtherCopy;
+  typedef std::conditional_t<IsRowMajorVector, typename internal::plain_matrix_type_column_major<OtherDerived>::type,
+                             typename internal::plain_matrix_type<OtherDerived>::type>
+      OtherPlainObject;
+  typedef std::conditional_t<copy, OtherPlainObject, OtherDerived&> OtherCopy;
   OtherCopy otherCopy(other);
 
   internal::triangular_solver_selector<MatrixType, std::remove_reference_t<OtherCopy>, Side, Mode>::run(

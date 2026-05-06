@@ -360,7 +360,7 @@ class CholmodBase : public SparseSolverBase<Derived> {
       this->m_info = NumericalIssue;
       return;
     }
-    // TODO optimize this copy by swapping when possible (be careful with alignment, etc.)
+    // TODO: optimize this copy by swapping when possible (be careful with alignment, etc.)
     // NOTE Actually, the copy can be avoided by calling cholmod_solve2 instead of cholmod_solve
     dest = Matrix<Scalar, Dest::RowsAtCompileTime, Dest::ColsAtCompileTime>::Map(reinterpret_cast<Scalar*>(x_cd->x),
                                                                                  b.rows(), b.cols());
@@ -386,7 +386,7 @@ class CholmodBase : public SparseSolverBase<Derived> {
       this->m_info = NumericalIssue;
       return;
     }
-    // TODO optimize this copy by swapping when possible (be careful with alignment, etc.)
+    // TODO: optimize this copy by swapping when possible (be careful with alignment, etc.)
     // NOTE cholmod_spsolve in fact just calls the dense solver for blocks of 4 columns at a time (similar to Eigen's
     // sparse solver)
     dest.derived() = viewAsEigen<typename DestDerived::Scalar, typename DestDerived::StorageIndex>(*x_cs);

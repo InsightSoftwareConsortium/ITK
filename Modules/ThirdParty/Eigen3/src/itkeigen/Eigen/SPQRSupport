@@ -38,4 +38,4 @@
 
 #include "src/Core/util/ReenableStupidWarnings.h"
 
-#endif
+#endif  // EIGEN_SPQRSUPPORT_MODULE_H

@@ -713,7 +713,7 @@ static void init_scoring(
   for (c = n_col - 1; c >= 0; c--) {
     deg = Col[c].length;
     if (deg == 0) {
-      /* this is a empty column, kill and order it last */
+      /* this is an empty column, kill and order it last */
       Col[c].shared2.order = --n_col2;
       Col[c].kill_principal();
     }

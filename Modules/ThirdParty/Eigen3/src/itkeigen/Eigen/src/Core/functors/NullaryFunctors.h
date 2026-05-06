@@ -19,10 +19,10 @@ namespace internal {
 
 template <typename Scalar>
 struct scalar_constant_op {
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE scalar_constant_op(const Scalar& other) : m_other(other) {}
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator()() const { return m_other; }
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE scalar_constant_op(const Scalar& other) : m_other(other) {}
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE Scalar operator()() const { return m_other; }
   template <typename PacketType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const PacketType packetOp() const {
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE PacketType packetOp() const {
     return internal::pset1<PacketType>(m_other);
   }
   const Scalar m_other;
@@ -38,10 +38,10 @@ struct functor_traits<scalar_constant_op<Scalar>> {
 
 template <typename Scalar>
 struct scalar_zero_op {
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE scalar_zero_op() = default;
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator()() const { return Scalar(0); }
+  EIGEN_DEVICE_FUNC scalar_zero_op() = default;
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE Scalar operator()() const { return Scalar(0); }
   template <typename PacketType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const PacketType packetOp() const {
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE PacketType packetOp() const {
     return internal::pzero<PacketType>(PacketType());
   }
 };
@@ -51,7 +51,7 @@ struct functor_traits<scalar_zero_op<Scalar>> : functor_traits<scalar_constant_o
 template <typename Scalar>
 struct scalar_identity_op {
   template <typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator()(IndexType row, IndexType col) const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE Scalar operator()(IndexType row, IndexType col) const {
     return row == col ? Scalar(1) : Scalar(0);
   }
 };
@@ -67,7 +67,7 @@ template <typename Scalar>
 struct linspaced_op_impl<Scalar, /*IsInteger*/ false> {
   typedef typename NumTraits<Scalar>::Real RealScalar;
 
-  EIGEN_DEVICE_FUNC linspaced_op_impl(const Scalar& low, const Scalar& high, Index num_steps)
+  EIGEN_DEVICE_FUNC constexpr linspaced_op_impl(const Scalar& low, const Scalar& high, Index num_steps)
       : m_low(low),
         m_high(high),
         m_size1(num_steps == 1 ? 1 : num_steps - 1),
@@ -75,7 +75,7 @@ struct linspaced_op_impl<Scalar, /*IsInteger*/ false> {
         m_flip(numext::abs(high) < numext::abs(low)) {}
 
   template <typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator()(IndexType i) const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE Scalar operator()(IndexType i) const {
     if (m_flip)
       return (i == 0) ? m_low : Scalar(m_high - RealScalar(m_size1 - i) * m_step);
     else
@@ -83,7 +83,7 @@ struct linspaced_op_impl<Scalar, /*IsInteger*/ false> {
   }
 
   template <typename Packet, typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(IndexType i) const {
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet packetOp(IndexType i) const {
     // Principle:
     // [low, ..., low] + ( [step, ..., step] * ( [i, ..., i] + [0, ..., size] ) )
     Packet low = pset1<Packet>(m_low);
@@ -111,7 +111,7 @@ struct linspaced_op_impl<Scalar, /*IsInteger*/ false> {
 
 template <typename Scalar>
 struct linspaced_op_impl<Scalar, /*IsInteger*/ true> {
-  EIGEN_DEVICE_FUNC linspaced_op_impl(const Scalar& low, const Scalar& high, Index num_steps)
+  EIGEN_DEVICE_FUNC constexpr linspaced_op_impl(const Scalar& low, const Scalar& high, Index num_steps)
       : m_low(low),
         m_multiplier((high - low) / convert_index<Scalar>(num_steps <= 1 ? 1 : num_steps - 1)),
         m_divisor(convert_index<Scalar>((high >= low ? num_steps : -num_steps) + (high - low)) /
@@ -119,7 +119,7 @@ struct linspaced_op_impl<Scalar, /*IsInteger*/ true> {
         m_use_divisor(num_steps > 1 && (numext::abs(high - low) + 1) < num_steps) {}
 
   template <typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator()(IndexType i) const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE Scalar operator()(IndexType i) const {
     if (m_use_divisor)
       return m_low + convert_index<Scalar>(i) / m_divisor;
     else
@@ -151,16 +151,16 @@ struct functor_traits<linspaced_op<Scalar>> {
 };
 template <typename Scalar>
 struct linspaced_op {
-  EIGEN_DEVICE_FUNC linspaced_op(const Scalar& low, const Scalar& high, Index num_steps)
+  EIGEN_DEVICE_FUNC constexpr linspaced_op(const Scalar& low, const Scalar& high, Index num_steps)
       : impl((num_steps == 1 ? high : low), high, num_steps) {}
 
   template <typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator()(IndexType i) const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE Scalar operator()(IndexType i) const {
     return impl(i);
   }
 
   template <typename Packet, typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(IndexType i) const {
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet packetOp(IndexType i) const {
     return impl.template packetOp<Packet>(i);
   }
 
@@ -173,9 +173,9 @@ template <typename Scalar>
 struct equalspaced_op {
   typedef typename NumTraits<Scalar>::Real RealScalar;
 
-  EIGEN_DEVICE_FUNC equalspaced_op(const Scalar& start, const Scalar& step) : m_start(start), m_step(step) {}
+  EIGEN_DEVICE_FUNC constexpr equalspaced_op(const Scalar& start, const Scalar& step) : m_start(start), m_step(step) {}
   template <typename IndexType>
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator()(IndexType i) const {
+  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE Scalar operator()(IndexType i) const {
     return m_start + m_step * static_cast<Scalar>(i);
   }
   template <typename Packet, typename IndexType>

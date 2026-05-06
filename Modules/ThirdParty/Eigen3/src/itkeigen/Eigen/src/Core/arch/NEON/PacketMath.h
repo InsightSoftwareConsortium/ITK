@@ -189,22 +189,29 @@ struct packet_traits<float> : default_packet_traits {
     HasNegate = 1,
     HasAbs = 1,
     HasArg = 0,
-    HasAbs2 = 1,
     HasAbsDiff = 1,
     HasMin = 1,
     HasMax = 1,
     HasConj = 1,
     HasSetLinear = 1,
-    HasBlend = 0,
     HasDiv = 1,
     HasSin = EIGEN_FAST_MATH,
     HasCos = EIGEN_FAST_MATH,
+    HasTan = EIGEN_FAST_MATH,
     HasACos = 1,
     HasASin = 1,
     HasATan = 1,
     HasATanh = 1,
+    HasSinh = 1,
+    HasCosh = 1,
+    HasASinh = 1,
+    HasACosh = 1,
     HasLog = 1,
+    HasLog10 = 1,
     HasExp = 1,
+    HasLog1p = 1,
+    HasExpm1 = 1,
+    HasPow = 1,
     HasSqrt = 1,
     HasRsqrt = 1,
     HasCbrt = 1,
@@ -234,12 +241,10 @@ struct packet_traits<int8_t> : default_packet_traits {
     HasAbs = 1,
     HasAbsDiff = 1,
     HasArg = 0,
-    HasAbs2 = 1,
     HasMin = 1,
     HasMax = 1,
     HasConj = 1,
     HasSetLinear = 1,
-    HasBlend = 0
   };
 };
 
@@ -261,12 +266,10 @@ struct packet_traits<uint8_t> : default_packet_traits {
     HasAbs = 1,
     HasAbsDiff = 1,
     HasArg = 0,
-    HasAbs2 = 1,
     HasMin = 1,
     HasMax = 1,
     HasConj = 1,
     HasSetLinear = 1,
-    HasBlend = 0,
 
     HasSqrt = 1
   };
@@ -290,12 +293,10 @@ struct packet_traits<int16_t> : default_packet_traits {
     HasAbs = 1,
     HasAbsDiff = 1,
     HasArg = 0,
-    HasAbs2 = 1,
     HasMin = 1,
     HasMax = 1,
     HasConj = 1,
     HasSetLinear = 1,
-    HasBlend = 0
   };
 };
 
@@ -317,12 +318,10 @@ struct packet_traits<uint16_t> : default_packet_traits {
     HasAbs = 1,
     HasAbsDiff = 1,
     HasArg = 0,
-    HasAbs2 = 1,
     HasMin = 1,
     HasMax = 1,
     HasConj = 1,
     HasSetLinear = 1,
-    HasBlend = 0,
     HasSqrt = 1
   };
 };
@@ -344,13 +343,11 @@ struct packet_traits<int32_t> : default_packet_traits {
     HasNegate = 1,
     HasAbs = 1,
     HasArg = 0,
-    HasAbs2 = 1,
     HasAbsDiff = 1,
     HasMin = 1,
     HasMax = 1,
     HasConj = 1,
     HasSetLinear = 1,
-    HasBlend = 0
   };
 };
 
@@ -371,13 +368,11 @@ struct packet_traits<uint32_t> : default_packet_traits {
     HasNegate = 0,
     HasAbs = 1,
     HasArg = 0,
-    HasAbs2 = 1,
     HasAbsDiff = 1,
     HasMin = 1,
     HasMax = 1,
     HasConj = 1,
     HasSetLinear = 1,
-    HasBlend = 0,
 
     HasSqrt = 1
   };
@@ -400,13 +395,11 @@ struct packet_traits<int64_t> : default_packet_traits {
     HasNegate = 1,
     HasAbs = 1,
     HasArg = 0,
-    HasAbs2 = 1,
     HasAbsDiff = 1,
     HasMin = 1,
     HasMax = 1,
     HasConj = 1,
     HasSetLinear = 1,
-    HasBlend = 0
   };
 };
 
@@ -427,234 +420,82 @@ struct packet_traits<uint64_t> : default_packet_traits {
     HasNegate = 0,
     HasAbs = 1,
     HasArg = 0,
-    HasAbs2 = 1,
     HasAbsDiff = 1,
     HasMin = 1,
     HasMax = 1,
     HasConj = 1,
     HasSetLinear = 1,
-    HasBlend = 0
   };
 };
 
+template <typename Packet, typename Scalar>
+struct neon_unpacket_default {
+  using type = Scalar;
+  using half = Packet;
+  static constexpr int size = sizeof(Packet) / sizeof(Scalar);
+  static constexpr int alignment = sizeof(Packet);
+  static constexpr bool vectorizable = true;
+  static constexpr bool masked_load_available = false;
+  static constexpr bool masked_store_available = false;
+};
+
 template <>
-struct unpacket_traits<Packet2f> {
-  typedef float type;
-  typedef Packet2f half;
-  typedef Packet2i integer_packet;
-  enum {
-    size = 2,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
+struct unpacket_traits<Packet2f> : neon_unpacket_default<Packet2f, float> {
+  using integer_packet = Packet2i;
 };
 template <>
-struct unpacket_traits<Packet4f> {
-  typedef float type;
-  typedef Packet2f half;
-  typedef Packet4i integer_packet;
-  enum {
-    size = 4,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
+struct unpacket_traits<Packet4f> : neon_unpacket_default<Packet4f, float> {
+  using half = Packet2f;
+  using integer_packet = Packet4i;
 };
 template <>
-struct unpacket_traits<Packet4c> {
-  typedef int8_t type;
-  typedef Packet4c half;
-  enum {
-    size = 4,
-    alignment = Unaligned,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
+struct unpacket_traits<Packet4c> : neon_unpacket_default<Packet4c, int8_t> {};
+template <>
+struct unpacket_traits<Packet8c> : neon_unpacket_default<Packet8c, int8_t> {
+  using half = Packet4c;
 };
 template <>
-struct unpacket_traits<Packet8c> {
-  typedef int8_t type;
-  typedef Packet4c half;
-  enum {
-    size = 8,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
+struct unpacket_traits<Packet16c> : neon_unpacket_default<Packet16c, int8_t> {
+  using half = Packet8c;
 };
 template <>
-struct unpacket_traits<Packet16c> {
-  typedef int8_t type;
-  typedef Packet8c half;
-  enum {
-    size = 16,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
+struct unpacket_traits<Packet4uc> : neon_unpacket_default<Packet4uc, uint8_t> {};
+template <>
+struct unpacket_traits<Packet8uc> : neon_unpacket_default<Packet8uc, uint8_t> {
+  using half = Packet4uc;
 };
 template <>
-struct unpacket_traits<Packet4uc> {
-  typedef uint8_t type;
-  typedef Packet4uc half;
-  enum {
-    size = 4,
-    alignment = Unaligned,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
+struct unpacket_traits<Packet16uc> : neon_unpacket_default<Packet16uc, uint8_t> {
+  using half = Packet8uc;
 };
 template <>
-struct unpacket_traits<Packet8uc> {
-  typedef uint8_t type;
-  typedef Packet4uc half;
-  enum {
-    size = 8,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
+struct unpacket_traits<Packet4s> : neon_unpacket_default<Packet4s, int16_t> {};
+template <>
+struct unpacket_traits<Packet8s> : neon_unpacket_default<Packet8s, int16_t> {
+  using half = Packet4s;
 };
 template <>
-struct unpacket_traits<Packet16uc> {
-  typedef uint8_t type;
-  typedef Packet8uc half;
-  enum {
-    size = 16,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
+struct unpacket_traits<Packet4us> : neon_unpacket_default<Packet4us, uint16_t> {};
+template <>
+struct unpacket_traits<Packet8us> : neon_unpacket_default<Packet8us, uint16_t> {
+  using half = Packet4us;
 };
 template <>
-struct unpacket_traits<Packet4s> {
-  typedef int16_t type;
-  typedef Packet4s half;
-  enum {
-    size = 4,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
+struct unpacket_traits<Packet2i> : neon_unpacket_default<Packet2i, int32_t> {};
+template <>
+struct unpacket_traits<Packet4i> : neon_unpacket_default<Packet4i, int32_t> {
+  using half = Packet2i;
 };
 template <>
-struct unpacket_traits<Packet8s> {
-  typedef int16_t type;
-  typedef Packet4s half;
-  enum {
-    size = 8,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
+struct unpacket_traits<Packet2ui> : neon_unpacket_default<Packet2ui, uint32_t> {};
+template <>
+struct unpacket_traits<Packet4ui> : neon_unpacket_default<Packet4ui, uint32_t> {
+  using half = Packet2ui;
 };
 template <>
-struct unpacket_traits<Packet4us> {
-  typedef uint16_t type;
-  typedef Packet4us half;
-  enum {
-    size = 4,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
-};
+struct unpacket_traits<Packet2l> : neon_unpacket_default<Packet2l, int64_t> {};
 template <>
-struct unpacket_traits<Packet8us> {
-  typedef uint16_t type;
-  typedef Packet4us half;
-  enum {
-    size = 8,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
-};
-template <>
-struct unpacket_traits<Packet2i> {
-  typedef int32_t type;
-  typedef Packet2i half;
-  enum {
-    size = 2,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
-};
-template <>
-struct unpacket_traits<Packet4i> {
-  typedef int32_t type;
-  typedef Packet2i half;
-  enum {
-    size = 4,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
-};
-template <>
-struct unpacket_traits<Packet2ui> {
-  typedef uint32_t type;
-  typedef Packet2ui half;
-  enum {
-    size = 2,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
-};
-template <>
-struct unpacket_traits<Packet4ui> {
-  typedef uint32_t type;
-  typedef Packet2ui half;
-  enum {
-    size = 4,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
-};
-template <>
-struct unpacket_traits<Packet2l> {
-  typedef int64_t type;
-  typedef Packet2l half;
-  enum {
-    size = 2,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
-};
-template <>
-struct unpacket_traits<Packet2ul> {
-  typedef uint64_t type;
-  typedef Packet2ul half;
-  enum {
-    size = 2,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
-};
+struct unpacket_traits<Packet2ul> : neon_unpacket_default<Packet2ul, uint64_t> {};
 
 template <>
 EIGEN_STRONG_INLINE Packet2f pzero(const Packet2f& /*a*/) {
@@ -2417,11 +2258,11 @@ EIGEN_STRONG_INLINE Packet2ul plogical_shift_left(Packet2ul a) {
 
 template <>
 EIGEN_STRONG_INLINE Packet2f pload<Packet2f>(const float* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1_f32(from);
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1_f32(assume_aligned<unpacket_traits<Packet2f>::alignment>(from));
 }
 template <>
 EIGEN_STRONG_INLINE Packet4f pload<Packet4f>(const float* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_f32(from);
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_f32(assume_aligned<unpacket_traits<Packet4f>::alignment>(from));
 }
 template <>
 EIGEN_STRONG_INLINE Packet4c pload<Packet4c>(const int8_t* from) {
@@ -2431,11 +2272,11 @@ EIGEN_STRONG_INLINE Packet4c pload<Packet4c>(const int8_t* from) {
 }
 template <>
 EIGEN_STRONG_INLINE Packet8c pload<Packet8c>(const int8_t* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1_s8(from);
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1_s8(assume_aligned<unpacket_traits<Packet8c>::alignment>(from));
 }
 template <>
 EIGEN_STRONG_INLINE Packet16c pload<Packet16c>(const int8_t* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_s8(from);
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_s8(assume_aligned<unpacket_traits<Packet16c>::alignment>(from));
 }
 template <>
 EIGEN_STRONG_INLINE Packet4uc pload<Packet4uc>(const uint8_t* from) {
@@ -2445,51 +2286,51 @@ EIGEN_STRONG_INLINE Packet4uc pload<Packet4uc>(const uint8_t* from) {
 }
 template <>
 EIGEN_STRONG_INLINE Packet8uc pload<Packet8uc>(const uint8_t* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1_u8(from);
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1_u8(assume_aligned<unpacket_traits<Packet8uc>::alignment>(from));
 }
 template <>
 EIGEN_STRONG_INLINE Packet16uc pload<Packet16uc>(const uint8_t* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_u8(from);
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_u8(assume_aligned<unpacket_traits<Packet16uc>::alignment>(from));
 }
 template <>
 EIGEN_STRONG_INLINE Packet4s pload<Packet4s>(const int16_t* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1_s16(from);
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1_s16(assume_aligned<unpacket_traits<Packet4s>::alignment>(from));
 }
 template <>
 EIGEN_STRONG_INLINE Packet8s pload<Packet8s>(const int16_t* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_s16(from);
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_s16(assume_aligned<unpacket_traits<Packet8s>::alignment>(from));
 }
 template <>
 EIGEN_STRONG_INLINE Packet4us pload<Packet4us>(const uint16_t* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1_u16(from);
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1_u16(assume_aligned<unpacket_traits<Packet4us>::alignment>(from));
 }
 template <>
 EIGEN_STRONG_INLINE Packet8us pload<Packet8us>(const uint16_t* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_u16(from);
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_u16(assume_aligned<unpacket_traits<Packet8us>::alignment>(from));
 }
 template <>
 EIGEN_STRONG_INLINE Packet2i pload<Packet2i>(const int32_t* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1_s32(from);
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1_s32(assume_aligned<unpacket_traits<Packet2i>::alignment>(from));
 }
 template <>
 EIGEN_STRONG_INLINE Packet4i pload<Packet4i>(const int32_t* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_s32(from);
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_s32(assume_aligned<unpacket_traits<Packet4i>::alignment>(from));
 }
 template <>
 EIGEN_STRONG_INLINE Packet2ui pload<Packet2ui>(const uint32_t* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1_u32(from);
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1_u32(assume_aligned<unpacket_traits<Packet2ui>::alignment>(from));
 }
 template <>
 EIGEN_STRONG_INLINE Packet4ui pload<Packet4ui>(const uint32_t* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_u32(from);
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_u32(assume_aligned<unpacket_traits<Packet4ui>::alignment>(from));
 }
 template <>
 EIGEN_STRONG_INLINE Packet2l pload<Packet2l>(const int64_t* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_s64(from);
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_s64(assume_aligned<unpacket_traits<Packet2l>::alignment>(from));
 }
 template <>
 EIGEN_STRONG_INLINE Packet2ul pload<Packet2ul>(const uint64_t* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_u64(from);
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_u64(assume_aligned<unpacket_traits<Packet2ul>::alignment>(from));
 }
 
 template <>
@@ -2660,38 +2501,60 @@ template <>
 EIGEN_STRONG_INLINE Packet4f ploadquad<Packet4f>(const float* from) {
   return vld1q_dup_f32(from);
 }
+
+// WORKAROUND: Apple Clang 17.0.0 (and Homebrew Clang 21.1.8) at -O0 optimization
+// generate incorrect code for vld1_dup_[su]8, ignoring the pointer offset.
+// We use vdup_n_s8(*from) to force a safe scalar load before broadcast.
+EIGEN_ALWAYS_INLINE int8x8_t eigen_vld1_dup_s8(const int8_t* ptr) {
+#if EIGEN_COMP_CLANGAPPLE && EIGEN_ARCH_ARM64
+  return vdup_n_s8(*ptr);
+#else
+  return vld1_dup_s8(ptr);
+#endif
+}
+
+EIGEN_ALWAYS_INLINE uint8x8_t eigen_vld1_dup_u8(const uint8_t* ptr) {
+#if EIGEN_COMP_CLANGAPPLE && EIGEN_ARCH_ARM64
+  return vdup_n_u8(*ptr);
+#else
+  return vld1_dup_u8(ptr);
+#endif
+}
+
 template <>
 EIGEN_STRONG_INLINE Packet4c ploadquad<Packet4c>(const int8_t* from) {
-  return vget_lane_s32(vreinterpret_s32_s8(vld1_dup_s8(from)), 0);
+  return vget_lane_s32(vreinterpret_s32_s8(eigen_vld1_dup_s8(from)), 0);
 }
 template <>
 EIGEN_STRONG_INLINE Packet8c ploadquad<Packet8c>(const int8_t* from) {
   return vreinterpret_s8_u32(
-      vzip_u32(vreinterpret_u32_s8(vld1_dup_s8(from)), vreinterpret_u32_s8(vld1_dup_s8(from + 1))).val[0]);
+      vzip_u32(vreinterpret_u32_s8(eigen_vld1_dup_s8(from)), vreinterpret_u32_s8(eigen_vld1_dup_s8(from + 1))).val[0]);
 }
 template <>
 EIGEN_STRONG_INLINE Packet16c ploadquad<Packet16c>(const int8_t* from) {
   const int8x8_t a = vreinterpret_s8_u32(
-      vzip_u32(vreinterpret_u32_s8(vld1_dup_s8(from)), vreinterpret_u32_s8(vld1_dup_s8(from + 1))).val[0]);
+      vzip_u32(vreinterpret_u32_s8(eigen_vld1_dup_s8(from)), vreinterpret_u32_s8(eigen_vld1_dup_s8(from + 1))).val[0]);
   const int8x8_t b = vreinterpret_s8_u32(
-      vzip_u32(vreinterpret_u32_s8(vld1_dup_s8(from + 2)), vreinterpret_u32_s8(vld1_dup_s8(from + 3))).val[0]);
+      vzip_u32(vreinterpret_u32_s8(eigen_vld1_dup_s8(from + 2)), vreinterpret_u32_s8(eigen_vld1_dup_s8(from + 3)))
+          .val[0]);
   return vcombine_s8(a, b);
 }
 template <>
 EIGEN_STRONG_INLINE Packet4uc ploadquad<Packet4uc>(const uint8_t* from) {
-  return vget_lane_u32(vreinterpret_u32_u8(vld1_dup_u8(from)), 0);
+  return vget_lane_u32(vreinterpret_u32_u8(eigen_vld1_dup_u8(from)), 0);
 }
 template <>
 EIGEN_STRONG_INLINE Packet8uc ploadquad<Packet8uc>(const uint8_t* from) {
   return vreinterpret_u8_u32(
-      vzip_u32(vreinterpret_u32_u8(vld1_dup_u8(from)), vreinterpret_u32_u8(vld1_dup_u8(from + 1))).val[0]);
+      vzip_u32(vreinterpret_u32_u8(eigen_vld1_dup_u8(from)), vreinterpret_u32_u8(eigen_vld1_dup_u8(from + 1))).val[0]);
 }
 template <>
 EIGEN_STRONG_INLINE Packet16uc ploadquad<Packet16uc>(const uint8_t* from) {
   const uint8x8_t a = vreinterpret_u8_u32(
-      vzip_u32(vreinterpret_u32_u8(vld1_dup_u8(from)), vreinterpret_u32_u8(vld1_dup_u8(from + 1))).val[0]);
+      vzip_u32(vreinterpret_u32_u8(eigen_vld1_dup_u8(from)), vreinterpret_u32_u8(eigen_vld1_dup_u8(from + 1))).val[0]);
   const uint8x8_t b = vreinterpret_u8_u32(
-      vzip_u32(vreinterpret_u32_u8(vld1_dup_u8(from + 2)), vreinterpret_u32_u8(vld1_dup_u8(from + 3))).val[0]);
+      vzip_u32(vreinterpret_u32_u8(eigen_vld1_dup_u8(from + 2)), vreinterpret_u32_u8(eigen_vld1_dup_u8(from + 3)))
+          .val[0]);
   return vcombine_u8(a, b);
 }
 template <>
@@ -2713,11 +2576,11 @@ EIGEN_STRONG_INLINE Packet4ui ploadquad<Packet4ui>(const uint32_t* from) {
 
 template <>
 EIGEN_STRONG_INLINE void pstore<float>(float* to, const Packet2f& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1_f32(to, from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1_f32(assume_aligned<unpacket_traits<Packet2f>::alignment>(to), from);
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<float>(float* to, const Packet4f& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1q_f32(to, from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1q_f32(assume_aligned<unpacket_traits<Packet4f>::alignment>(to), from);
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<int8_t>(int8_t* to, const Packet4c& from) {
@@ -2725,11 +2588,11 @@ EIGEN_STRONG_INLINE void pstore<int8_t>(int8_t* to, const Packet4c& from) {
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<int8_t>(int8_t* to, const Packet8c& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1_s8(to, from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1_s8(assume_aligned<unpacket_traits<Packet8c>::alignment>(to), from);
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<int8_t>(int8_t* to, const Packet16c& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1q_s8(to, from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1q_s8(assume_aligned<unpacket_traits<Packet16c>::alignment>(to), from);
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<uint8_t>(uint8_t* to, const Packet4uc& from) {
@@ -2737,51 +2600,51 @@ EIGEN_STRONG_INLINE void pstore<uint8_t>(uint8_t* to, const Packet4uc& from) {
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<uint8_t>(uint8_t* to, const Packet8uc& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1_u8(to, from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1_u8(assume_aligned<unpacket_traits<Packet8uc>::alignment>(to), from);
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<uint8_t>(uint8_t* to, const Packet16uc& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1q_u8(to, from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1q_u8(assume_aligned<unpacket_traits<Packet16uc>::alignment>(to), from);
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<int16_t>(int16_t* to, const Packet4s& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1_s16(to, from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1_s16(assume_aligned<unpacket_traits<Packet4s>::alignment>(to), from);
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<int16_t>(int16_t* to, const Packet8s& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1q_s16(to, from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1q_s16(assume_aligned<unpacket_traits<Packet8s>::alignment>(to), from);
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<uint16_t>(uint16_t* to, const Packet4us& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1_u16(to, from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1_u16(assume_aligned<unpacket_traits<Packet4us>::alignment>(to), from);
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<uint16_t>(uint16_t* to, const Packet8us& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1q_u16(to, from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1q_u16(assume_aligned<unpacket_traits<Packet8us>::alignment>(to), from);
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<int32_t>(int32_t* to, const Packet2i& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1_s32(to, from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1_s32(assume_aligned<unpacket_traits<Packet2i>::alignment>(to), from);
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<int32_t>(int32_t* to, const Packet4i& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1q_s32(to, from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1q_s32(assume_aligned<unpacket_traits<Packet4i>::alignment>(to), from);
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<uint32_t>(uint32_t* to, const Packet2ui& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1_u32(to, from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1_u32(assume_aligned<unpacket_traits<Packet2ui>::alignment>(to), from);
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<uint32_t>(uint32_t* to, const Packet4ui& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1q_u32(to, from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1q_u32(assume_aligned<unpacket_traits<Packet4ui>::alignment>(to), from);
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<int64_t>(int64_t* to, const Packet2l& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1q_s64(to, from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1q_s64(assume_aligned<unpacket_traits<Packet2l>::alignment>(to), from);
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<uint64_t>(uint64_t* to, const Packet2ul& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1q_u64(to, from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1q_u64(assume_aligned<unpacket_traits<Packet2ul>::alignment>(to), from);
 }
 
 template <>
@@ -3665,27 +3528,27 @@ EIGEN_STRONG_INLINE uint64_t predux<Packet2ul>(const Packet2ul& a) {
 #endif
 
 template <>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet4c predux_half_dowto4(const Packet8c& a) {
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet4c predux_half(const Packet8c& a) {
   return vget_lane_s32(vreinterpret_s32_s8(vadd_s8(a, vreinterpret_s8_s32(vrev64_s32(vreinterpret_s32_s8(a))))), 0);
 }
 template <>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet8c predux_half_dowto4(const Packet16c& a) {
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet8c predux_half(const Packet16c& a) {
   return vadd_s8(vget_high_s8(a), vget_low_s8(a));
 }
 template <>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet4uc predux_half_dowto4(const Packet8uc& a) {
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet4uc predux_half(const Packet8uc& a) {
   return vget_lane_u32(vreinterpret_u32_u8(vadd_u8(a, vreinterpret_u8_u32(vrev64_u32(vreinterpret_u32_u8(a))))), 0);
 }
 template <>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet8uc predux_half_dowto4(const Packet16uc& a) {
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet8uc predux_half(const Packet16uc& a) {
   return vadd_u8(vget_high_u8(a), vget_low_u8(a));
 }
 template <>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet4s predux_half_dowto4(const Packet8s& a) {
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet4s predux_half(const Packet8s& a) {
   return vadd_s16(vget_high_s16(a), vget_low_s16(a));
 }
 template <>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet4us predux_half_dowto4(const Packet8us& a) {
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet4us predux_half(const Packet8us& a) {
   return vadd_u16(vget_high_u16(a), vget_low_u16(a));
 }
 
@@ -4130,8 +3993,16 @@ EIGEN_STRONG_INLINE uint64_t predux_max<Packet2ul>(const Packet2ul& a) {
 
 template <>
 EIGEN_STRONG_INLINE bool predux_any(const Packet4f& x) {
-  uint32x2_t tmp = vorr_u32(vget_low_u32(vreinterpretq_u32_f32(x)), vget_high_u32(vreinterpretq_u32_f32(x)));
-  return vget_lane_u32(vpmax_u32(tmp, tmp), 0);
+  uint32x4_t u = vreinterpretq_u32_f32(x);
+#if EIGEN_ARCH_ARM64
+  return vget_lane_u64(vreinterpret_u64_u16(vmovn_u32(u)), 0);
+#else
+  uint32x2_t tmp = vorr_u32(vget_low_u32(u), vget_high_u32(u));
+  uint32_t a, b;
+  // GCC and Clang refuse to emit this instruction.
+  asm("vmov %0, %1, %P2" : "=r"(a), "=r"(b) : "w"(tmp));
+  return a | b;
+#endif
 }
 
 // Helpers for ptranspose.
@@ -4780,13 +4651,11 @@ struct packet_traits<bfloat16> : default_packet_traits {
     HasNegate = 1,
     HasAbs = 1,
     HasArg = 0,
-    HasAbs2 = 1,
     HasAbsDiff = 1,
     HasMin = 1,
     HasMax = 1,
     HasConj = 1,
     HasSetLinear = 1,
-    HasBlend = 0,
     HasDiv = 1,
     HasSin = EIGEN_FAST_MATH,
     HasCos = EIGEN_FAST_MATH,
@@ -4801,17 +4670,7 @@ struct packet_traits<bfloat16> : default_packet_traits {
 };
 
 template <>
-struct unpacket_traits<Packet4bf> {
-  typedef bfloat16 type;
-  typedef Packet4bf half;
-  enum {
-    size = 4,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
-};
+struct unpacket_traits<Packet4bf> : neon_unpacket_default<Packet4bf, bfloat16> {};
 
 namespace detail {
 template <>
@@ -4866,7 +4725,8 @@ EIGEN_STRONG_INLINE bfloat16 pfirst<Packet4bf>(const Packet4bf& from) {
 
 template <>
 EIGEN_STRONG_INLINE Packet4bf pload<Packet4bf>(const bfloat16* from) {
-  return Packet4bf(pload<Packet4us>(reinterpret_cast<const uint16_t*>(from)));
+  return Packet4bf(
+      pload<Packet4us>(reinterpret_cast<const uint16_t*>(assume_aligned<unpacket_traits<Packet4bf>::alignment>(from))));
 }
 
 template <>
@@ -4876,7 +4736,8 @@ EIGEN_STRONG_INLINE Packet4bf ploadu<Packet4bf>(const bfloat16* from) {
 
 template <>
 EIGEN_STRONG_INLINE void pstore<bfloat16>(bfloat16* to, const Packet4bf& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1_u16(reinterpret_cast<uint16_t*>(to), from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1_u16(
+      reinterpret_cast<uint16_t*>(assume_aligned<unpacket_traits<Packet4bf>::alignment>(to)), from);
 }
 
 template <>
@@ -5173,24 +5034,31 @@ struct packet_traits<double> : default_packet_traits {
     HasNegate = 1,
     HasAbs = 1,
     HasArg = 0,
-    HasAbs2 = 1,
     HasAbsDiff = 1,
     HasMin = 1,
     HasMax = 1,
     HasConj = 1,
     HasSetLinear = 1,
-    HasBlend = 0,
 
     HasDiv = 1,
 
 #if EIGEN_ARCH_ARM64 && !EIGEN_APPLE_DOUBLE_NEON_BUG
     HasExp = 1,
     HasLog = 1,
+    HasLog10 = 1,
+    HasLog1p = 1,
+    HasExpm1 = 1,
+    HasPow = 1,
     HasATan = 1,
     HasATanh = 1,
+    HasSinh = 1,
+    HasCosh = 1,
+    HasASinh = 1,
+    HasACosh = 1,
 #endif
     HasSin = EIGEN_FAST_MATH,
     HasCos = EIGEN_FAST_MATH,
+    HasTan = EIGEN_FAST_MATH,
     HasSqrt = 1,
     HasRsqrt = 1,
     HasCbrt = 1,
@@ -5201,17 +5069,8 @@ struct packet_traits<double> : default_packet_traits {
 };
 
 template <>
-struct unpacket_traits<Packet2d> {
-  typedef double type;
-  typedef Packet2d half;
-  typedef Packet2l integer_packet;
-  enum {
-    size = 2,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
+struct unpacket_traits<Packet2d> : neon_unpacket_default<Packet2d, double> {
+  using integer_packet = Packet2l;
 };
 
 template <>
@@ -5373,7 +5232,7 @@ EIGEN_STRONG_INLINE Packet2d pcmp_eq(const Packet2d& a, const Packet2d& b) {
 
 template <>
 EIGEN_STRONG_INLINE Packet2d pload<Packet2d>(const double* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_f64(from);
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_f64(assume_aligned<unpacket_traits<Packet2d>::alignment>(from));
 }
 
 template <>
@@ -5387,7 +5246,7 @@ EIGEN_STRONG_INLINE Packet2d ploaddup<Packet2d>(const double* from) {
 }
 template <>
 EIGEN_STRONG_INLINE void pstore<double>(double* to, const Packet2d& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1q_f64(to, from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1q_f64(assume_aligned<unpacket_traits<Packet2d>::alignment>(to), from);
 }
 
 template <>
@@ -5555,13 +5414,11 @@ struct packet_traits<Eigen::half> : default_packet_traits {
     HasNegate = 1,
     HasAbs = 1,
     HasArg = 0,
-    HasAbs2 = 1,
     HasAbsDiff = 0,
     HasMin = 1,
     HasMax = 1,
     HasConj = 1,
     HasSetLinear = 1,
-    HasBlend = 0,
     HasInsert = 1,
     HasReduxp = 1,
     HasDiv = 1,
@@ -5579,33 +5436,14 @@ struct packet_traits<Eigen::half> : default_packet_traits {
 };
 
 template <>
-struct unpacket_traits<Packet4hf> {
-  typedef Eigen::half type;
-  typedef Packet4hf half;
-  enum {
-    size = 4,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
+struct unpacket_traits<Packet4hf> : neon_unpacket_default<Packet4hf, half> {};
+template <>
+struct unpacket_traits<Packet8hf> : neon_unpacket_default<Packet8hf, half> {
+  using half = Packet4hf;
 };
 
 template <>
-struct unpacket_traits<Packet8hf> {
-  typedef Eigen::half type;
-  typedef Packet4hf half;
-  enum {
-    size = 8,
-    alignment = Aligned16,
-    vectorizable = true,
-    masked_load_available = false,
-    masked_store_available = false
-  };
-};
-
-template <>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet4hf predux_half_dowto4<Packet8hf>(const Packet8hf& a) {
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet4hf predux_half<Packet8hf>(const Packet8hf& a) {
   return vadd_f16(vget_low_f16(a), vget_high_f16(a));
 }
 
@@ -5934,12 +5772,14 @@ EIGEN_STRONG_INLINE Packet4hf pandnot<Packet4hf>(const Packet4hf& a, const Packe
 
 template <>
 EIGEN_STRONG_INLINE Packet8hf pload<Packet8hf>(const Eigen::half* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_f16(reinterpret_cast<const float16_t*>(from));
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1q_f16(
+      reinterpret_cast<const float16_t*>(assume_aligned<unpacket_traits<Packet8hf>::alignment>(from)));
 }
 
 template <>
 EIGEN_STRONG_INLINE Packet4hf pload<Packet4hf>(const Eigen::half* from) {
-  EIGEN_DEBUG_ALIGNED_LOAD return vld1_f16(reinterpret_cast<const float16_t*>(from));
+  EIGEN_DEBUG_ALIGNED_LOAD return vld1_f16(
+      reinterpret_cast<const float16_t*>(assume_aligned<unpacket_traits<Packet4hf>::alignment>(from)));
 }
 
 template <>
@@ -6014,12 +5854,14 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet4hf pinsertlast(const Packet4hf& a, 
 
 template <>
 EIGEN_STRONG_INLINE void pstore<Eigen::half>(Eigen::half* to, const Packet8hf& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1q_f16(reinterpret_cast<float16_t*>(to), from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1q_f16(
+      reinterpret_cast<float16_t*>(assume_aligned<unpacket_traits<Packet8hf>::alignment>(to)), from);
 }
 
 template <>
 EIGEN_STRONG_INLINE void pstore<Eigen::half>(Eigen::half* to, const Packet4hf& from) {
-  EIGEN_DEBUG_ALIGNED_STORE vst1_f16(reinterpret_cast<float16_t*>(to), from);
+  EIGEN_DEBUG_ALIGNED_STORE vst1_f16(
+      reinterpret_cast<float16_t*>(assume_aligned<unpacket_traits<Packet4hf>::alignment>(to)), from);
 }
 
 template <>

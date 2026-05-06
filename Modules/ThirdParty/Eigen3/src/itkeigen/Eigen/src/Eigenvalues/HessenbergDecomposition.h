@@ -317,7 +317,7 @@ namespace internal {
  * HessenbergDecomposition class until the it is assigned or evaluated for
  * some other reason (the reference should remain valid during the life time
  * of this object). This class is the return type of
- * HessenbergDecomposition::matrixH(); there is probably no other use for this
+ * HessenbergDecomposition::matrixH(); there is no other intended use for this
  * class.
  */
 template <typename MatrixType>

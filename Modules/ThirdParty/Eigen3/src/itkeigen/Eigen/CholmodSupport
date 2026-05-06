@@ -26,7 +26,7 @@
  * For the sake of completeness, this module also propose the two following classes:
  * - class CholmodSimplicialLLT
  * - class CholmodSimplicialLDLT
- * Note that these classes does not bring any particular advantage compared to the built-in
+ * Note that these classes do not bring any particular advantage compared to the built-in
  * SimplicialLLT and SimplicialLDLT factorization classes.
  *
  * \code

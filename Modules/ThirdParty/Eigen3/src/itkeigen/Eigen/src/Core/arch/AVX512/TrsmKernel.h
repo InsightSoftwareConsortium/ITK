@@ -44,6 +44,8 @@
 namespace Eigen {
 namespace internal {
 
+#if (EIGEN_USE_AVX512_TRSM_KERNELS)
+
 #define EIGEN_AVX_MAX_NUM_ACC (int64_t(24))
 #define EIGEN_AVX_MAX_NUM_ROW (int64_t(8))  // Denoted L in code.
 #define EIGEN_AVX_MAX_K_UNROL (int64_t(4))
@@ -58,7 +60,8 @@ typedef Packet4d vecHalfDouble;
 // Note: this depends on macros and typedefs above.
 #include "TrsmUnrolls.inc"
 
-#if (EIGEN_USE_AVX512_TRSM_KERNELS) && (EIGEN_COMP_CLANG != 0)
+#if (EIGEN_COMP_CLANG != 0)
+
 /**
  * For smaller problem sizes, and certain compilers, using the optimized kernels trsmKernelL/R directly
  * is faster than the packed versions in TriangularSolverMatrix.h.
@@ -118,7 +121,7 @@ int64_t avx512_trsm_cutoff(int64_t L2Size, int64_t N, double L2Cap) {
  * Used by gemmKernel for the case A/B row-major and C col-major.
  */
 template <typename Scalar, typename vec, int64_t unrollM, int64_t unrollN, bool remM, bool remN>
-EIGEN_ALWAYS_INLINE void transStoreC(PacketBlock<vec, EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS> &zmm, Scalar *C_arr,
+EIGEN_ALWAYS_INLINE void transStoreC(PacketBlock<vec, EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS>& zmm, Scalar* C_arr,
                                      int64_t LDC, int64_t remM_ = 0, int64_t remN_ = 0) {
   EIGEN_UNUSED_VARIABLE(remN_);
   EIGEN_UNUSED_VARIABLE(remM_);
@@ -218,13 +221,13 @@ EIGEN_ALWAYS_INLINE void transStoreC(PacketBlock<vec, EIGEN_ARCH_DEFAULT_NUMBER_
  * handleKRem: Handle arbitrary K? This is not needed for trsm.
  */
 template <typename Scalar, bool isARowMajor, bool isCRowMajor, bool isAdd, bool handleKRem>
-void gemmKernel(Scalar *A_arr, Scalar *B_arr, Scalar *C_arr, int64_t M, int64_t N, int64_t K, int64_t LDA, int64_t LDB,
+void gemmKernel(Scalar* A_arr, Scalar* B_arr, Scalar* C_arr, int64_t M, int64_t N, int64_t K, int64_t LDA, int64_t LDB,
                 int64_t LDC) {
   using urolls = unrolls::gemm<Scalar, isAdd>;
   constexpr int64_t U3 = urolls::PacketSize * 3;
   constexpr int64_t U2 = urolls::PacketSize * 2;
   constexpr int64_t U1 = urolls::PacketSize * 1;
-  using vec = typename std::conditional<std::is_same<Scalar, float>::value, vecFullFloat, vecFullDouble>::type;
+  using vec = std::conditional_t<std::is_same<Scalar, float>::value, vecFullFloat, vecFullDouble>;
   int64_t N_ = (N / U3) * U3;
   int64_t M_ = (M / EIGEN_AVX_MAX_NUM_ROW) * EIGEN_AVX_MAX_NUM_ROW;
   int64_t K_ = (K / EIGEN_AVX_MAX_K_UNROL) * EIGEN_AVX_MAX_K_UNROL;
@@ -261,8 +264,8 @@ void gemmKernel(Scalar *A_arr, Scalar *B_arr, Scalar *C_arr, int64_t M, int64_t 
       }
     }
     if (M - i >= 4) {  // Note: this block assumes EIGEN_AVX_MAX_NUM_ROW = 8. Should be removed otherwise
-      Scalar *A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
-      Scalar *B_t = &B_arr[0 * LDB + j];
+      Scalar* A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
+      Scalar* B_t = &B_arr[0 * LDB + j];
       PacketBlock<vec, EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS> zmm;
       urolls::template setzero<3, 4>(zmm);
       for (int64_t k = 0; k < K_; k += EIGEN_AVX_MAX_K_UNROL) {
@@ -291,8 +294,8 @@ void gemmKernel(Scalar *A_arr, Scalar *B_arr, Scalar *C_arr, int64_t M, int64_t 
       i += 4;
     }
     if (M - i >= 2) {
-      Scalar *A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
-      Scalar *B_t = &B_arr[0 * LDB + j];
+      Scalar* A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
+      Scalar* B_t = &B_arr[0 * LDB + j];
       PacketBlock<vec, EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS> zmm;
       urolls::template setzero<3, 2>(zmm);
       for (int64_t k = 0; k < K_; k += EIGEN_AVX_MAX_K_UNROL) {
@@ -321,8 +324,8 @@ void gemmKernel(Scalar *A_arr, Scalar *B_arr, Scalar *C_arr, int64_t M, int64_t 
       i += 2;
     }
     if (M - i > 0) {
-      Scalar *A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
-      Scalar *B_t = &B_arr[0 * LDB + j];
+      Scalar* A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
+      Scalar* B_t = &B_arr[0 * LDB + j];
       PacketBlock<vec, EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS> zmm;
       urolls::template setzero<3, 1>(zmm);
       {
@@ -384,8 +387,8 @@ void gemmKernel(Scalar *A_arr, Scalar *B_arr, Scalar *C_arr, int64_t M, int64_t 
       }
     }
     if (M - i >= 4) {  // Note: this block assumes EIGEN_AVX_MAX_NUM_ROW = 8. Should be removed otherwise
-      Scalar *A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
-      Scalar *B_t = &B_arr[0 * LDB + j];
+      Scalar* A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
+      Scalar* B_t = &B_arr[0 * LDB + j];
       PacketBlock<vec, EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS> zmm;
       urolls::template setzero<2, 4>(zmm);
       for (int64_t k = 0; k < K_; k += EIGEN_AVX_MAX_K_UNROL) {
@@ -414,8 +417,8 @@ void gemmKernel(Scalar *A_arr, Scalar *B_arr, Scalar *C_arr, int64_t M, int64_t 
       i += 4;
     }
     if (M - i >= 2) {
-      Scalar *A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
-      Scalar *B_t = &B_arr[0 * LDB + j];
+      Scalar* A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
+      Scalar* B_t = &B_arr[0 * LDB + j];
       PacketBlock<vec, EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS> zmm;
       urolls::template setzero<2, 2>(zmm);
       for (int64_t k = 0; k < K_; k += EIGEN_AVX_MAX_K_UNROL) {
@@ -444,8 +447,8 @@ void gemmKernel(Scalar *A_arr, Scalar *B_arr, Scalar *C_arr, int64_t M, int64_t 
       i += 2;
     }
     if (M - i > 0) {
-      Scalar *A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
-      Scalar *B_t = &B_arr[0 * LDB + j];
+      Scalar* A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
+      Scalar* B_t = &B_arr[0 * LDB + j];
       PacketBlock<vec, EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS> zmm;
       urolls::template setzero<2, 1>(zmm);
       for (int64_t k = 0; k < K_; k += EIGEN_AVX_MAX_K_UNROL) {
@@ -505,8 +508,8 @@ void gemmKernel(Scalar *A_arr, Scalar *B_arr, Scalar *C_arr, int64_t M, int64_t 
       }
     }
     if (M - i >= 4) {  // Note: this block assumes EIGEN_AVX_MAX_NUM_ROW = 8. Should be removed otherwise
-      Scalar *A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
-      Scalar *B_t = &B_arr[0 * LDB + j];
+      Scalar* A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
+      Scalar* B_t = &B_arr[0 * LDB + j];
       PacketBlock<vec, EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS> zmm;
       urolls::template setzero<1, 4>(zmm);
       for (int64_t k = 0; k < K_; k += EIGEN_AVX_MAX_K_UNROL) {
@@ -535,8 +538,8 @@ void gemmKernel(Scalar *A_arr, Scalar *B_arr, Scalar *C_arr, int64_t M, int64_t 
       i += 4;
     }
     if (M - i >= 2) {
-      Scalar *A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
-      Scalar *B_t = &B_arr[0 * LDB + j];
+      Scalar* A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
+      Scalar* B_t = &B_arr[0 * LDB + j];
       PacketBlock<vec, EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS> zmm;
       urolls::template setzero<1, 2>(zmm);
       for (int64_t k = 0; k < K_; k += EIGEN_AVX_MAX_K_UNROL) {
@@ -565,8 +568,8 @@ void gemmKernel(Scalar *A_arr, Scalar *B_arr, Scalar *C_arr, int64_t M, int64_t 
       i += 2;
     }
     if (M - i > 0) {
-      Scalar *A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
-      Scalar *B_t = &B_arr[0 * LDB + j];
+      Scalar* A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
+      Scalar* B_t = &B_arr[0 * LDB + j];
       PacketBlock<vec, EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS> zmm;
       urolls::template setzero<1, 1>(zmm);
       {
@@ -600,8 +603,8 @@ void gemmKernel(Scalar *A_arr, Scalar *B_arr, Scalar *C_arr, int64_t M, int64_t 
     constexpr int64_t EIGEN_AVX_MAX_B_LOAD = EIGEN_AVX_B_LOAD_SETS * 1;
     int64_t i = 0;
     for (; i < M_; i += EIGEN_AVX_MAX_NUM_ROW) {
-      Scalar *A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
-      Scalar *B_t = &B_arr[0 * LDB + j];
+      Scalar* A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
+      Scalar* B_t = &B_arr[0 * LDB + j];
       PacketBlock<vec, EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS> zmm;
       urolls::template setzero<1, EIGEN_AVX_MAX_NUM_ROW>(zmm);
       for (int64_t k = 0; k < K_; k += EIGEN_AVX_MAX_K_UNROL) {
@@ -629,8 +632,8 @@ void gemmKernel(Scalar *A_arr, Scalar *B_arr, Scalar *C_arr, int64_t M, int64_t 
       }
     }
     if (M - i >= 4) {  // Note: this block assumes EIGEN_AVX_MAX_NUM_ROW = 8. Should be removed otherwise
-      Scalar *A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
-      Scalar *B_t = &B_arr[0 * LDB + j];
+      Scalar* A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
+      Scalar* B_t = &B_arr[0 * LDB + j];
       PacketBlock<vec, EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS> zmm;
       urolls::template setzero<1, 4>(zmm);
       for (int64_t k = 0; k < K_; k += EIGEN_AVX_MAX_K_UNROL) {
@@ -659,8 +662,8 @@ void gemmKernel(Scalar *A_arr, Scalar *B_arr, Scalar *C_arr, int64_t M, int64_t 
       i += 4;
     }
     if (M - i >= 2) {
-      Scalar *A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
-      Scalar *B_t = &B_arr[0 * LDB + j];
+      Scalar* A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
+      Scalar* B_t = &B_arr[0 * LDB + j];
       PacketBlock<vec, EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS> zmm;
       urolls::template setzero<1, 2>(zmm);
       for (int64_t k = 0; k < K_; k += EIGEN_AVX_MAX_K_UNROL) {
@@ -689,8 +692,8 @@ void gemmKernel(Scalar *A_arr, Scalar *B_arr, Scalar *C_arr, int64_t M, int64_t 
       i += 2;
     }
     if (M - i > 0) {
-      Scalar *A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
-      Scalar *B_t = &B_arr[0 * LDB + j];
+      Scalar* A_t = &A_arr[idA<isARowMajor>(i, 0, LDA)];
+      Scalar* B_t = &B_arr[0 * LDB + j];
       PacketBlock<vec, EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS> zmm;
       urolls::template setzero<1, 1>(zmm);
       for (int64_t k = 0; k < K_; k += EIGEN_AVX_MAX_K_UNROL) {
@@ -729,7 +732,7 @@ void gemmKernel(Scalar *A_arr, Scalar *B_arr, Scalar *C_arr, int64_t M, int64_t 
  * The B matrix (RHS) is assumed to be row-major
  */
 template <typename Scalar, typename vec, int64_t unrollM, bool isARowMajor, bool isFWDSolve, bool isUnitDiag>
-EIGEN_ALWAYS_INLINE void triSolveKernel(Scalar *A_arr, Scalar *B_arr, int64_t K, int64_t LDA, int64_t LDB) {
+EIGEN_ALWAYS_INLINE void triSolveKernel(Scalar* A_arr, Scalar* B_arr, int64_t K, int64_t LDA, int64_t LDB) {
   static_assert(unrollM <= EIGEN_AVX_MAX_NUM_ROW, "unrollM should be equal to EIGEN_AVX_MAX_NUM_ROW");
   using urolls = unrolls::trsm<Scalar>;
   constexpr int64_t U3 = urolls::PacketSize * 3;
@@ -779,10 +782,10 @@ EIGEN_ALWAYS_INLINE void triSolveKernel(Scalar *A_arr, Scalar *B_arr, int64_t K,
  * The B matrix (RHS) is assumed to be row-major
  */
 template <typename Scalar, bool isARowMajor, bool isFWDSolve, bool isUnitDiag>
-void triSolveKernelLxK(Scalar *A_arr, Scalar *B_arr, int64_t M, int64_t K, int64_t LDA, int64_t LDB) {
+void triSolveKernelLxK(Scalar* A_arr, Scalar* B_arr, int64_t M, int64_t K, int64_t LDA, int64_t LDB) {
   // Note: this assumes EIGEN_AVX_MAX_NUM_ROW = 8. Unrolls should be adjusted
   // accordingly if EIGEN_AVX_MAX_NUM_ROW is smaller.
-  using vec = typename std::conditional<std::is_same<Scalar, float>::value, vecFullFloat, vecFullDouble>::type;
+  using vec = std::conditional_t<std::is_same<Scalar, float>::value, vecFullFloat, vecFullDouble>;
   if (M == 8)
     triSolveKernel<Scalar, vec, 8, isARowMajor, isFWDSolve, isUnitDiag>(A_arr, B_arr, K, LDA, LDB);
   else if (M == 7)
@@ -810,11 +813,11 @@ void triSolveKernelLxK(Scalar *A_arr, Scalar *B_arr, int64_t M, int64_t K, int64
  *
  */
 template <typename Scalar, bool toTemp = true, bool remM = false>
-EIGEN_ALWAYS_INLINE void copyBToRowMajor(Scalar *B_arr, int64_t LDB, int64_t K, Scalar *B_temp, int64_t LDB_,
+EIGEN_ALWAYS_INLINE void copyBToRowMajor(Scalar* B_arr, int64_t LDB, int64_t K, Scalar* B_temp, int64_t LDB_,
                                          int64_t remM_ = 0) {
   EIGEN_UNUSED_VARIABLE(remM_);
   using urolls = unrolls::transB<Scalar>;
-  using vecHalf = typename std::conditional<std::is_same<Scalar, float>::value, vecHalfFloat, vecFullDouble>::type;
+  using vecHalf = std::conditional_t<std::is_same<Scalar, float>::value, vecHalfFloat, vecFullDouble>;
   PacketBlock<vecHalf, EIGEN_ARCH_DEFAULT_NUMBER_OF_REGISTERS> ymm;
   constexpr int64_t U3 = urolls::PacketSize * 3;
   constexpr int64_t U2 = urolls::PacketSize * 2;
@@ -897,7 +900,7 @@ EIGEN_ALWAYS_INLINE void copyBToRowMajor(Scalar *B_arr, int64_t LDB, int64_t K, 
  */
 template <typename Scalar, bool isARowMajor = true, bool isBRowMajor = true, bool isFWDSolve = true,
           bool isUnitDiag = false>
-void triSolve(Scalar *A_arr, Scalar *B_arr, int64_t M, int64_t numRHS, int64_t LDA, int64_t LDB) {
+void triSolve(Scalar* A_arr, Scalar* B_arr, int64_t M, int64_t numRHS, int64_t LDA, int64_t LDB) {
   constexpr int64_t psize = packet_traits<Scalar>::size;
   /**
    * The values for kB, numM were determined experimentally.
@@ -916,7 +919,7 @@ void triSolve(Scalar *A_arr, Scalar *B_arr, int64_t M, int64_t numRHS, int64_t L
   constexpr int64_t numM = 8 * EIGEN_AVX_MAX_NUM_ROW;
 
   int64_t sizeBTemp = 0;
-  Scalar *B_temp = NULL;
+  Scalar* B_temp = NULL;
   EIGEN_IF_CONSTEXPR(!isBRowMajor) {
     /**
      * If B is col-major, we copy it to a fixed-size temporary array of size at most ~numM*kB and
@@ -926,7 +929,7 @@ void triSolve(Scalar *A_arr, Scalar *B_arr, int64_t M, int64_t numRHS, int64_t L
     sizeBTemp = (((std::min(kB, numRHS) + psize - 1) / psize + 4) * psize) * numM;
   }
 
-  EIGEN_IF_CONSTEXPR(!isBRowMajor) B_temp = (Scalar *)handmade_aligned_malloc(sizeof(Scalar) * sizeBTemp, 64);
+  EIGEN_IF_CONSTEXPR(!isBRowMajor) B_temp = (Scalar*)handmade_aligned_malloc(sizeof(Scalar) * sizeBTemp, 64);
 
   for (int64_t k = 0; k < numRHS; k += kB) {
     int64_t bK = numRHS - k > kB ? kB : numRHS - k;
@@ -1060,7 +1063,6 @@ void triSolve(Scalar *A_arr, Scalar *B_arr, int64_t M, int64_t numRHS, int64_t L
 }
 
 // Template specializations of trsmKernelL/R for float/double and inner strides of 1.
-#if (EIGEN_USE_AVX512_TRSM_KERNELS)
 #if (EIGEN_USE_AVX512_TRSM_R_KERNELS)
 template <typename Scalar, typename Index, int Mode, bool Conjugate, int TriStorageOrder, int OtherInnerStride,
           bool Specialized>
@@ -1068,19 +1070,19 @@ struct trsmKernelR;
 
 template <typename Index, int Mode, int TriStorageOrder>
 struct trsmKernelR<float, Index, Mode, false, TriStorageOrder, 1, true> {
-  static void kernel(Index size, Index otherSize, const float *_tri, Index triStride, float *_other, Index otherIncr,
+  static void kernel(Index size, Index otherSize, const float* _tri, Index triStride, float* _other, Index otherIncr,
                      Index otherStride);
 };
 
 template <typename Index, int Mode, int TriStorageOrder>
 struct trsmKernelR<double, Index, Mode, false, TriStorageOrder, 1, true> {
-  static void kernel(Index size, Index otherSize, const double *_tri, Index triStride, double *_other, Index otherIncr,
+  static void kernel(Index size, Index otherSize, const double* _tri, Index triStride, double* _other, Index otherIncr,
                      Index otherStride);
 };
 
 template <typename Index, int Mode, int TriStorageOrder>
 EIGEN_DONT_INLINE void trsmKernelR<float, Index, Mode, false, TriStorageOrder, 1, true>::kernel(
-    Index size, Index otherSize, const float *_tri, Index triStride, float *_other, Index otherIncr,
+    Index size, Index otherSize, const float* _tri, Index triStride, float* _other, Index otherIncr,
     Index otherStride) {
   EIGEN_UNUSED_VARIABLE(otherIncr);
 #ifdef EIGEN_RUNTIME_NO_MALLOC
@@ -1091,12 +1093,12 @@ EIGEN_DONT_INLINE void trsmKernelR<float, Index, Mode, false, TriStorageOrder, 1
   }
 #endif
   triSolve<float, TriStorageOrder != RowMajor, true, (Mode & Lower) != Lower, (Mode & UnitDiag) != 0>(
-      const_cast<float *>(_tri), _other, size, otherSize, triStride, otherStride);
+      const_cast<float*>(_tri), _other, size, otherSize, triStride, otherStride);
 }
 
 template <typename Index, int Mode, int TriStorageOrder>
 EIGEN_DONT_INLINE void trsmKernelR<double, Index, Mode, false, TriStorageOrder, 1, true>::kernel(
-    Index size, Index otherSize, const double *_tri, Index triStride, double *_other, Index otherIncr,
+    Index size, Index otherSize, const double* _tri, Index triStride, double* _other, Index otherIncr,
     Index otherStride) {
   EIGEN_UNUSED_VARIABLE(otherIncr);
 #ifdef EIGEN_RUNTIME_NO_MALLOC
@@ -1107,7 +1109,7 @@ EIGEN_DONT_INLINE void trsmKernelR<double, Index, Mode, false, TriStorageOrder, 
   }
 #endif
   triSolve<double, TriStorageOrder != RowMajor, true, (Mode & Lower) != Lower, (Mode & UnitDiag) != 0>(
-      const_cast<double *>(_tri), _other, size, otherSize, triStride, otherStride);
+      const_cast<double*>(_tri), _other, size, otherSize, triStride, otherStride);
 }
 #endif  // (EIGEN_USE_AVX512_TRSM_R_KERNELS)
 
@@ -1119,19 +1121,19 @@ struct trsmKernelL;
 
 template <typename Index, int Mode, int TriStorageOrder>
 struct trsmKernelL<float, Index, Mode, false, TriStorageOrder, 1, true> {
-  static void kernel(Index size, Index otherSize, const float *_tri, Index triStride, float *_other, Index otherIncr,
+  static void kernel(Index size, Index otherSize, const float* _tri, Index triStride, float* _other, Index otherIncr,
                      Index otherStride);
 };
 
 template <typename Index, int Mode, int TriStorageOrder>
 struct trsmKernelL<double, Index, Mode, false, TriStorageOrder, 1, true> {
-  static void kernel(Index size, Index otherSize, const double *_tri, Index triStride, double *_other, Index otherIncr,
+  static void kernel(Index size, Index otherSize, const double* _tri, Index triStride, double* _other, Index otherIncr,
                      Index otherStride);
 };
 
 template <typename Index, int Mode, int TriStorageOrder>
 EIGEN_DONT_INLINE void trsmKernelL<float, Index, Mode, false, TriStorageOrder, 1, true>::kernel(
-    Index size, Index otherSize, const float *_tri, Index triStride, float *_other, Index otherIncr,
+    Index size, Index otherSize, const float* _tri, Index triStride, float* _other, Index otherIncr,
     Index otherStride) {
   EIGEN_UNUSED_VARIABLE(otherIncr);
 #ifdef EIGEN_RUNTIME_NO_MALLOC
@@ -1142,12 +1144,12 @@ EIGEN_DONT_INLINE void trsmKernelL<float, Index, Mode, false, TriStorageOrder, 1
   }
 #endif
   triSolve<float, TriStorageOrder == RowMajor, false, (Mode & Lower) == Lower, (Mode & UnitDiag) != 0>(
-      const_cast<float *>(_tri), _other, size, otherSize, triStride, otherStride);
+      const_cast<float*>(_tri), _other, size, otherSize, triStride, otherStride);
 }
 
 template <typename Index, int Mode, int TriStorageOrder>
 EIGEN_DONT_INLINE void trsmKernelL<double, Index, Mode, false, TriStorageOrder, 1, true>::kernel(
-    Index size, Index otherSize, const double *_tri, Index triStride, double *_other, Index otherIncr,
+    Index size, Index otherSize, const double* _tri, Index triStride, double* _other, Index otherIncr,
     Index otherStride) {
   EIGEN_UNUSED_VARIABLE(otherIncr);
 #ifdef EIGEN_RUNTIME_NO_MALLOC
@@ -1158,10 +1160,12 @@ EIGEN_DONT_INLINE void trsmKernelL<double, Index, Mode, false, TriStorageOrder, 
   }
 #endif
   triSolve<double, TriStorageOrder == RowMajor, false, (Mode & Lower) == Lower, (Mode & UnitDiag) != 0>(
-      const_cast<double *>(_tri), _other, size, otherSize, triStride, otherStride);
+      const_cast<double*>(_tri), _other, size, otherSize, triStride, otherStride);
 }
 #endif  // EIGEN_USE_AVX512_TRSM_L_KERNELS
+
 #endif  // EIGEN_USE_AVX512_TRSM_KERNELS
+
 }  // namespace internal
 }  // namespace Eigen
 #endif  // EIGEN_CORE_ARCH_AVX512_TRSM_KERNEL_H

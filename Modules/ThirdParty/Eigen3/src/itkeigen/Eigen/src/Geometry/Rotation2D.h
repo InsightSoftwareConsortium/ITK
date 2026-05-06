@@ -23,7 +23,7 @@ namespace Eigen {
  *
  * \tparam Scalar_ the scalar type, i.e., the type of the coefficients
  *
- * This class is equivalent to a single scalar representing a counter clock wise rotation
+ * This class is equivalent to a single scalar representing a counter-clockwise rotation
  * as a single angle in radian. It provides some additional features such as the automatic
  * conversion from/to a 2x2 rotation matrix. Moreover this class aims to provide a similar
  * interface to Quaternion in order to facilitate the writing of generic algorithms
@@ -57,7 +57,7 @@ class Rotation2D : public RotationBase<Rotation2D<Scalar_>, 2> {
   Scalar m_angle;
 
  public:
-  /** Construct a 2D counter clock wise rotation from the angle \a a in radian. */
+  /** Construct a 2D counter-clockwise rotation from the angle \a a in radian. */
   EIGEN_DEVICE_FUNC explicit inline Rotation2D(const Scalar& a) : m_angle(a) {}
 
   /** Default constructor without initialization. The represented rotation is undefined. */

@@ -87,7 +87,7 @@ template <typename Kernel, typename Device, int Traversal = Kernel::AssignmentTr
           int Unrolling = Kernel::AssignmentTraits::Unrolling>
 struct dense_assignment_loop_with_device {
   using Base = dense_assignment_loop<Kernel, Traversal, Unrolling>;
-  static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void run(Kernel& kernel, Device&) { Base::run(kernel); }
+  static EIGEN_DEVICE_FUNC constexpr void run(Kernel& kernel, Device&) { Base::run(kernel); }
 };
 
 // entry point for a generic expression with device
@@ -104,7 +104,7 @@ EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr void call_assignment_no_alias(De
   using ActualDstType = std::conditional_t<NeedToTranspose, Transpose<Dst>, Dst&>;
   ActualDstType actualDst(dst.derived());
 
-  // TODO check whether this is the right place to perform these checks:
+  // TODO: check whether this is the right place to perform these checks:
   EIGEN_STATIC_ASSERT_LVALUE(Dst)
   EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(ActualDstTypeCleaned, Src)
   EIGEN_CHECK_BINARY_COMPATIBILIY(Func, typename ActualDstTypeCleaned::Scalar, typename Src::Scalar);

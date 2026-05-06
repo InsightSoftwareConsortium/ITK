@@ -57,7 +57,7 @@ class InnerIterator {
     m_iter.operator+=(i);
     return *this;
   }
-  EIGEN_STRONG_INLINE InnerIterator operator+(Index i) {
+  EIGEN_STRONG_INLINE InnerIterator operator+(Index i) const {
     InnerIterator result(*this);
     result += i;
     return result;

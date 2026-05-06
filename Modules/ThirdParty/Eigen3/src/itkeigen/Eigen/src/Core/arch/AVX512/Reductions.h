@@ -55,7 +55,7 @@ EIGEN_STRONG_INLINE int64_t predux(const Packet8l& a) {
 // MSVC's _mm512_reduce_mul_epi64 is borked, at least up to and including 1939.
 //    alignas(64) int64_t data[] = { 1,1,-1,-1,1,-1,-1,-1 };
 //    int64_t out = _mm512_reduce_mul_epi64(_mm512_load_epi64(data));
-// produces garbage: 4294967295.  It seems to happen whenever the output is supposed to be negative.
+// produces garbage: 4294967295.  This occurs when the result should be negative.
 // Fall back to a manual approach:
 template <>
 EIGEN_STRONG_INLINE int64_t predux_mul(const Packet8l& a) {

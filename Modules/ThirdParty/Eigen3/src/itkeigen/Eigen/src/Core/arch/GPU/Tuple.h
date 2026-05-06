@@ -34,7 +34,7 @@ class TupleImpl<N, T1, Ts...> {
   template <typename U1 = T1,
             typename EnableIf = std::enable_if_t<std::is_default_constructible<U1>::value &&
                                                  reduce_all<std::is_default_constructible<Ts>::value...>::value>>
-  constexpr EIGEN_DEVICE_FUNC TupleImpl() : head_{}, tail_{} {}
+  constexpr EIGEN_DEVICE_FUNC TupleImpl() : m_head{}, m_tail{} {}
 
   // Element constructor.
   template <typename U1, typename... Us,
@@ -45,45 +45,45 @@ class TupleImpl<N, T1, Ts...> {
                                                       // this does not look like a copy/move constructor.
                                                       N > 1 || std::is_convertible<U1, T1>::value)>>
   constexpr EIGEN_DEVICE_FUNC TupleImpl(U1&& arg1, Us&&... args)
-      : head_(std::forward<U1>(arg1)), tail_(std::forward<Us>(args)...) {}
+      : m_head(std::forward<U1>(arg1)), m_tail(std::forward<Us>(args)...) {}
 
   // The first stored value.
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE T1& head() { return head_; }
+  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE T1& head() { return m_head; }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE const T1& head() const { return head_; }
+  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE const T1& head() const { return m_head; }
 
   // The tail values.
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE TupleImpl<N - 1, Ts...>& tail() { return tail_; }
+  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE TupleImpl<N - 1, Ts...>& tail() { return m_tail; }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE const TupleImpl<N - 1, Ts...>& tail() const { return tail_; }
+  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE const TupleImpl<N - 1, Ts...>& tail() const { return m_tail; }
 
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void swap(TupleImpl& other) {
     using numext::swap;
-    swap(head_, other.head_);
-    swap(tail_, other.tail_);
+    swap(m_head, other.m_head);
+    swap(m_tail, other.m_tail);
   }
 
   template <typename... UTypes>
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE TupleImpl& operator=(const TupleImpl<N, UTypes...>& other) {
-    head_ = other.head_;
-    tail_ = other.tail_;
+    m_head = other.m_head;
+    m_tail = other.m_tail;
     return *this;
   }
 
   template <typename... UTypes>
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE TupleImpl& operator=(TupleImpl<N, UTypes...>&& other) {
-    head_ = std::move(other.head_);
-    tail_ = std::move(other.tail_);
+    m_head = std::move(other.m_head);
+    m_tail = std::move(other.m_tail);
     return *this;
   }
 
  private:
-  // Allow related tuples to reference head_/tail_.
+  // Allow related tuples to reference m_head/m_tail.
   template <size_t M, typename... UTypes>
   friend class TupleImpl;
 
-  T1 head_;
-  TupleImpl<N - 1, Ts...> tail_;
+  T1 m_head;
+  TupleImpl<N - 1, Ts...> m_tail;
 };
 
 // Empty tuple specialization.
@@ -187,7 +187,7 @@ struct unwrap_reference_wrapper<std::reference_wrapper<T>> {
 // For use in make_tuple, decays a type and unwraps a reference_wrapper.
 template <typename T>
 struct unwrap_decay {
-  using type = typename unwrap_reference_wrapper<typename std::decay<T>::type>::type;
+  using type = typename unwrap_reference_wrapper<std::decay_t<T>>::type;
 };
 
 /**
@@ -223,12 +223,12 @@ constexpr EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE typename tuple_get_impl<Idx, Typ
  * \param tuples ... list of tuples.
  * \return concatenated tuple.
  */
-template <typename... Tuples, typename EnableIf = std::enable_if_t<
-                                  internal::reduce_all<is_tuple<typename std::decay<Tuples>::type>::value...>::value>>
+template <typename... Tuples,
+          typename EnableIf = std::enable_if_t<internal::reduce_all<is_tuple<std::decay_t<Tuples>>::value...>::value>>
 constexpr EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-    typename tuple_cat_impl<sizeof...(Tuples), typename std::decay<Tuples>::type...>::ReturnType
+    typename tuple_cat_impl<sizeof...(Tuples), std::decay_t<Tuples>...>::ReturnType
     tuple_cat(Tuples&&... tuples) {
-  return tuple_cat_impl<sizeof...(Tuples), typename std::decay<Tuples>::type...>::run(std::forward<Tuples>(tuples)...);
+  return tuple_cat_impl<sizeof...(Tuples), std::decay_t<Tuples>...>::run(std::forward<Tuples>(tuples)...);
 }
 
 /**
