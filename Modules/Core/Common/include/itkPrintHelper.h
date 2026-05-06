@@ -30,6 +30,26 @@
 namespace itk::print_helper
 {
 
+// Forward declarations so the per-container bodies below see all overloads at
+// definition time.  Required for nested cases like vector<list<T>>, where the
+// recursive `os << *it` is parsed before the list overload would otherwise be
+// declared, and ADL on std container types never reaches itk::print_helper.
+template <typename T>
+std::ostream &
+operator<<(std::ostream & os, const std::vector<T> & v);
+
+template <typename T>
+std::ostream &
+operator<<(std::ostream & os, const std::list<T> & l);
+
+template <typename T, size_t VLength>
+std::ostream &
+operator<<(std::ostream & os, const std::array<T, VLength> & container);
+
+template <typename T, size_t VLength, typename = std::enable_if_t<!std::is_same_v<T, char>>>
+std::ostream &
+operator<<(std::ostream & os, const T (&arr)[VLength]);
+
 template <typename T>
 std::ostream &
 operator<<(std::ostream & os, const std::vector<T> & v)
@@ -87,7 +107,7 @@ operator<<(std::ostream & os, [[maybe_unused]] const std::array<T, VLength> & co
 }
 
 // Stream insertion operator for C-style arrays, excluding character arrays (strings)
-template <typename T, size_t VLength, typename = std::enable_if_t<!std::is_same_v<T, char>>>
+template <typename T, size_t VLength, typename>
 std::ostream &
 operator<<(std::ostream & os, const T (&arr)[VLength])
 {
