@@ -955,12 +955,23 @@ if(ITK_USE_EIGEN_MPL2_ONLY)
   target_compile_definitions (eigen_internal INTERFACE "EIGEN_MPL2_ONLY")
 endif()
 
-# BUILD: go one directory before to localize the headers:
-#   #include <itkeigen/Eigen/x>
-# INSTALL: headers require pre-prend itkeigen/Eigen/X.
+# Resolve both #include <Eigen/x> (preferred, ITKv6 canonical syntax) and
+# #include <itkeigen/Eigen/x> (legacy ITK_EIGEN(x) macro expansion).
 target_include_directories (eigen_internal SYSTEM INTERFACE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
+  $<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/itkeigen>
   $<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}>
+  )
+
+# Eigen headers trip several Clang warnings that don't fire elsewhere in ITK.
+target_compile_options (eigen_internal INTERFACE
+  $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang>:-Wno-alloca>
+  $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang>:-Wno-used-but-marked-unused>
+  $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang>:-Wno-unused-template>
+  $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang>:-Wno-missing-noreturn>
+  $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang>:-Wno-zero-as-null-pointer-constant>
+  $<$<COMPILE_LANG_AND_ID:CXX,Clang,AppleClang>:-Wno-deprecated>
   )
 
 # Export as title case Eigen

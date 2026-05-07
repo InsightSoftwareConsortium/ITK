@@ -19,7 +19,14 @@
 #ifndef itk_eigen_h
 #define itk_eigen_h
 
-/* Usage:
+/* Legacy include shim. New code should write `#include <Eigen/Eigenvalues>`
+ * (or any other Eigen header) directly.  The Eigen3::Eigen CMake target,
+ * which is automatically linked when a module declares ITKEigen3 as a
+ * dependency in itk-module.cmake, provides the include path and (for
+ * bundled Eigen) the EIGEN_MPL2_ONLY define and Eigen-specific Clang
+ * warning suppressions.
+ *
+ * Legacy usage:
  *  ITK_EIGEN(Eigenvalues)
  *  If using a Eigen3 header containing non MPL2 code
  *  It would generate errors when using internal Eigen, but not with system Eigen.
