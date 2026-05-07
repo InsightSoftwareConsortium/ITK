@@ -145,9 +145,9 @@ TestDisplacementJacobianDeterminantValue()
   const float detOriginal = GetDeterminantAtPoint(displacementField, physPt);
 
   // Check that this is the same as above, just to be sure the function above works
-  if (itk::Math::abs(detOriginal - expectedJacobianDeterminant) > epsilon)
+  if (itk::Math::Absolute(detOriginal - expectedJacobianDeterminant) > epsilon)
   {
-    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr.precision(static_cast<int>(itk::Math::Absolute(std::log10(epsilon))));
     std::cerr << "Test failed " << std::endl;
     std::cerr << "Error in pixel value at physical point " << physPt << std::endl;
     std::cerr << "Expected value " << expectedJacobianDeterminant << std::endl;
@@ -213,13 +213,13 @@ TestDisplacementJacobianDeterminantValue()
 
   constexpr double delta = 1e-13;
 
-  if (itk::Math::abs(detPermuted - detOriginal) > delta)
+  if (itk::Math::Absolute(detPermuted - detOriginal) > delta)
   {
     std::cerr << "Test failed: determinant differs after Permute." << std::endl;
     testPassed = false;
   }
 
-  if (itk::Math::abs(detFlipped - detOriginal) > delta)
+  if (itk::Math::Absolute(detFlipped - detOriginal) > delta)
   {
     std::cerr << "Test failed: determinant differs after Flip." << std::endl;
     testPassed = false;
