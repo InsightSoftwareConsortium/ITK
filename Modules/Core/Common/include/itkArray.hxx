@@ -54,8 +54,7 @@ template <typename TValue>
 Array<TValue>::Array(ValueType * datain, SizeValueType sz, bool LetArrayManageMemory)
   : m_LetArrayManageMemory(LetArrayManageMemory)
 {
-  vnl_vector<TValue>::data = datain;
-  vnl_vector<TValue>::num_elmts = sz;
+  vnl_vector<TValue>::protected_set_data(datain, sz, LetArrayManageMemory);
 }
 
 #if defined(ITK_LEGACY_REMOVE)
@@ -82,7 +81,7 @@ Array<TValue>::~Array()
 {
   if (!m_LetArrayManageMemory)
   {
-    vnl_vector<TValue>::data = nullptr;
+    vnl_vector<TValue>::protected_set_data(nullptr, 0, false);
   }
 }
 
@@ -94,8 +93,7 @@ Array<TValue>::SetDataSameSize(TValue * datain, bool LetArrayManageMemory)
   {
     vnl_vector<TValue>::destroy();
   }
-  vnl_vector<TValue>::data = datain;
-  // NOTE: Required to have same size vnl_vector< TValue >::num_elmts = sz;
+  vnl_vector<TValue>::protected_set_data(datain, this->size(), LetArrayManageMemory);
   m_LetArrayManageMemory = LetArrayManageMemory;
 }
 
@@ -107,8 +105,7 @@ Array<TValue>::SetData(TValue * datain, SizeValueType sz, bool LetArrayManageMem
   {
     vnl_vector<TValue>::destroy();
   }
-  vnl_vector<TValue>::data = datain;
-  vnl_vector<TValue>::num_elmts = sz;
+  vnl_vector<TValue>::protected_set_data(datain, sz, LetArrayManageMemory);
   m_LetArrayManageMemory = LetArrayManageMemory;
 }
 
@@ -122,7 +119,7 @@ Array<TValue>::SetSize(SizeValueType sz)
     // on a resize
     if (!m_LetArrayManageMemory)
     {
-      vnl_vector<TValue>::data = nullptr;
+      vnl_vector<TValue>::protected_set_data(nullptr, 0, true);
     }
 
     // Call the superclass's set_size

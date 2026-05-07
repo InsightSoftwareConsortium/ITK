@@ -5,10 +5,7 @@ option(ITK_USE_SYSTEM_VXL "Use an outside build of VXL." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_VXL)
 
 if(ITK_USE_SYSTEM_VXL)
-  find_package(VXL 3.0.0 REQUIRED)
-  # 3.0.0 is the first version of VXL that supports
-  # the requirement of front() and back() members
-  # in the vnl_vector and vnl_vector_fixed.
+  find_package(VXL 4.0.0 REQUIRED)
   set(
     ITKVNL_SYSTEM_INCLUDE_DIRS
     ${VXL_NETLIB_INCLUDE_DIR}
@@ -103,27 +100,16 @@ else()
   # set(VXL_USE_DCMTK                    OFF CACHE BOOL "VXL configuration for ITK" FORCE) # <- Not visible in itk extracted code
   # set(VXL_USE_ECW                      OFF CACHE BOOL "VXL configuration for ITK" FORCE) # <- Visible, but unreachable in itk extracted code
   set(VXL_USE_GEOTIFF OFF CACHE BOOL "VXL configuration for ITK" FORCE)
-  if(ITK_LEGACY_REMOVE OR ITK_FUTURE_LEGACY_REMOVE)
-    set(
-      VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS
-      OFF
-      CACHE BOOL
-      "Allow default deprecated implicit conversions."
-      FORCE
-    )
-  else()
-    set(
-      VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS
-      ON
-      CACHE BOOL
-      "Allow default deprecated implicit conversions."
-      FORCE
-    )
-  endif()
-  # MUST ALWAYS BE ON currently
+  set(
+    VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS
+    OFF
+    CACHE BOOL
+    "Allow default deprecated implicit conversions."
+    FORCE
+  )
   set(
     VXL_USE_HISTORICAL_PROTECTED_IVARS
-    ON
+    OFF
     CACHE BOOL
     "VXL configuration for ITK"
     FORCE
@@ -205,8 +191,8 @@ mark_as_advanced(
   #VXL_USE_DCMTK <- Not visible in itk extracted code
   #VXL_USE_ECW   <- Visible, but unreachable in itk extracted code
   VXL_USE_GEOTIFF # <- Visible, and must be off
-  VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS # <- must track ITK LegacyRemove setting
-  VXL_USE_HISTORICAL_PROTECTED_IVARS # <- must track ITK LegacyRemove setting
+  VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS # <- forced OFF; ITK targets the modern VNL API
+  VXL_USE_HISTORICAL_PROTECTED_IVARS # <- forced OFF; ITK targets the modern VNL API
   VXL_USE_LFS # <- Visible, and must be off
   #VXL_VIL_INCLUDE_IMAGE_IO <- Not visible in itk extracted code
 )
