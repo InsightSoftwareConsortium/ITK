@@ -264,33 +264,27 @@ MorphologicalContourInterpolator<TImage>::Dilate1(typename BoolSliceType::Pointe
   using CrossDilateType = BinaryDilateImageFilter<BoolSliceType, BoolSliceType, CrossStructuringElementType>;
   using BallDilateType = BinaryDilateImageFilter<BoolSliceType, BoolSliceType, BallStructuringElementType>;
 
-  thread_local bool                              initialized = false;
-  thread_local typename CrossDilateType::Pointer crossDilator = CrossDilateType::New();
-  thread_local typename BallDilateType::Pointer  ballDilator = BallDilateType::New();
-  thread_local CrossStructuringElementType       crossStructuringElement;
-  thread_local BallStructuringElementType        ballStructuringElement;
+  typename CrossDilateType::Pointer crossDilator = CrossDilateType::New();
+  typename BallDilateType::Pointer  ballDilator = BallDilateType::New();
+  CrossStructuringElementType       crossStructuringElement;
+  BallStructuringElementType        ballStructuringElement;
   using AndFilterType = AndImageFilter<BoolSliceType, BoolSliceType, BoolSliceType>;
-  thread_local typename AndFilterType::Pointer andFilter = AndFilterType::New();
+  typename AndFilterType::Pointer andFilter = AndFilterType::New();
 
-  if (!initialized) // make sure these non-trivial operations are executed only once per thread
-  {
-    andFilter->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
-    using SizeType = Size<BoolSliceType::ImageDimension>;
-    SizeType size;
-    size.Fill(1);
+  andFilter->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
+  using SizeType = Size<BoolSliceType::ImageDimension>;
+  SizeType size;
+  size.Fill(1);
 
-    crossDilator->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
-    crossStructuringElement.SetRadius(size);
-    crossStructuringElement.CreateStructuringElement();
-    crossDilator->SetKernel(crossStructuringElement);
+  crossDilator->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
+  crossStructuringElement.SetRadius(size);
+  crossStructuringElement.CreateStructuringElement();
+  crossDilator->SetKernel(crossStructuringElement);
 
-    ballDilator->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
-    ballStructuringElement.SetRadius(size);
-    ballStructuringElement.CreateStructuringElement();
-    ballDilator->SetKernel(ballStructuringElement);
-
-    initialized = true;
-  }
+  ballDilator->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
+  ballStructuringElement.SetRadius(size);
+  ballStructuringElement.CreateStructuringElement();
+  ballDilator->SetKernel(ballStructuringElement);
 
   typename BoolSliceType::Pointer temp;
   if (m_UseBallStructuringElement)
@@ -355,7 +349,7 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDilations(typename Bool
 
   // generate union of transition sequences
   using OrType = OrImageFilter<BoolSliceType>;
-  thread_local typename OrType::Pointer orFilter = OrType::New();
+  typename OrType::Pointer orFilter = OrType::New();
   orFilter->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
 
   std::vector<typename BoolSliceType::Pointer> seq;
@@ -393,7 +387,7 @@ MorphologicalContourInterpolator<TImage>::MaurerDM(typename BoolSliceType::Point
   typename FloatSliceType::Pointer
 {
   using FilterType = itk::SignedMaurerDistanceMapImageFilter<BoolSliceType, FloatSliceType>;
-  thread_local typename FilterType::Pointer filter = FilterType::New();
+  typename FilterType::Pointer filter = FilterType::New();
   filter->SetUseImageSpacing(false); // interpolation algorithm calls for working in index space
   filter->SetNumberOfWorkUnits(1);   // excessive threading is counterproductive
   filter->SetInput(mask);
@@ -496,8 +490,8 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
   // threshold at distance bestBin is the median intersection
   using FloatBinarizerType = BinaryThresholdImageFilter<FloatSliceType, BoolSliceType>;
   using AndFilterType = AndImageFilter<BoolSliceType, BoolSliceType, BoolSliceType>;
-  thread_local typename FloatBinarizerType::Pointer threshold = FloatBinarizerType::New();
-  thread_local typename AndFilterType::Pointer      andFilter = AndFilterType::New();
+  typename FloatBinarizerType::Pointer threshold = FloatBinarizerType::New();
+  typename AndFilterType::Pointer      andFilter = AndFilterType::New();
   // excessive threading is counterproductive
   threshold->SetNumberOfWorkUnits(1);
   andFilter->SetNumberOfWorkUnits(1);
@@ -656,7 +650,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
 
   // create intersection
   using AndSliceType = AndImageFilter<BoolSliceType>;
-  thread_local typename AndSliceType::Pointer sAnd = AndSliceType::New();
+  typename AndSliceType::Pointer sAnd = AndSliceType::New();
   sAnd->SetNumberOfWorkUnits(1); // excessive threading is counterproductive
   sAnd->SetInput(0, iSlice);
   sAnd->SetInput(1, jSlice);
