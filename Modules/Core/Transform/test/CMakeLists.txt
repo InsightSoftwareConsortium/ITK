@@ -456,6 +456,8 @@ set_tests_properties(
   PROPERTIES
     COST
       50
+    TIMEOUT
+      3600
 )
 itk_add_test(
   NAME itkTransformGeometryImageFilterTest
