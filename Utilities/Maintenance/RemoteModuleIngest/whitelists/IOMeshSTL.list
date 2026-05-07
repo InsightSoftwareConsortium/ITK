@@ -1,0 +1,25 @@
+# IOMeshSTL — files that migrate into ITK at Modules/IO/MeshSTL/
+#
+# Format: one path per line, relative to the upstream repo root.
+# Globs supported via filter-repo --paths-from-file (treated as
+# path prefixes; trailing /** matches everything beneath the dir).
+# Lines starting with '#' are comments; blank lines ignored.
+
+# Public headers
+include
+
+# Implementation sources
+src
+
+# Tests + fixtures
+test
+
+# Python wrapping
+wrapping
+
+# CMake / module metadata
+CMakeLists.txt
+itk-module.cmake
+
+# License (always migrates with the code)
+LICENSE
