@@ -158,7 +158,7 @@ LoopTriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::CopyInpu
       InputPointIdIterator pter = cell->PointIdsBegin();
       while (pter != cell->PointIdsEnd())
       {
-        smoothedPointSet.insert(*it);
+        smoothedPointSet.insert(*pter);
         ++pter;
       }
 
