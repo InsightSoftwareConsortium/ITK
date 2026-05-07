@@ -59,12 +59,12 @@ test_memory_main(int /*argc*/, char * /*argv*/[])
     std::unique_ptr<A> pa2(new B());
     std::unique_ptr<A> pa3(std::move(pb1));
 
-    A * ptr = get_A(*pa1);
+    const A * ptr = get_A(*pa1);
     ASSERT(ptr == pa1.get(), "auto_ptr does not return correct object when dereferenced");
     ptr = pa1->self();
     ASSERT(ptr == pa1.get(), "auto_ptr does not return correct pointer from operator->");
 
-    A * before = pa0.get();
+    const A * before = pa0.get();
     pa0.reset(new A());
     ASSERT(pa0.get() && pa0.get() != before, "auto_ptr does not hold a new object after reset(new A())");
 
@@ -100,7 +100,7 @@ test_memory_main(int /*argc*/, char * /*argv*/[])
     const std::shared_ptr<A> spa3(spb1);
     const std::weak_ptr<A> wpa1(spa1);
 
-    A * ptr = get_A(*spa1);
+    const A * ptr = get_A(*spa1);
     ASSERT(ptr == spa1.get(), "shared_ptr does not return correct object when dereferenced");
     ptr = spa1->self();
     ASSERT(ptr == spa1.get(), "shared_ptr does not return correct pointer from operator->");

@@ -213,7 +213,7 @@ public:
   }
 
   //: Const iterators
-  typedef const T * const_iterator;
+  using const_iterator = const T *;
   //: Iterator pointing to start of data
   const_iterator
   begin() const
@@ -228,9 +228,9 @@ public:
   }
 
   //: Type defs for iterators
-  typedef const T element_type;
+  using element_type = const T;
   //: Type defs for iterators
-  typedef const T * iterator;
+  using iterator = const T *;
 
   const T &
   operator()(unsigned r, unsigned c) const
@@ -318,7 +318,7 @@ public:
   get_n_columns(unsigned colstart, unsigned n) const;
 
   //: Type def for norms.
-  typedef typename vnl_c_vector<T>::abs_t abs_t;
+  using abs_t = typename vnl_c_vector<T>::abs_t;
 
   //: Return sum of absolute values of elements
   abs_t
@@ -547,7 +547,7 @@ private:
 template <class T, unsigned num_rows, unsigned num_cols>
 class VNL_EXPORT vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T, num_rows, num_cols>
 {
-  typedef vnl_matrix_fixed_ref_const<T, num_rows, num_cols> base;
+  using base = vnl_matrix_fixed_ref_const<T, num_rows, num_cols>;
 
 public:
   // this is the only point where the const_cast happens
@@ -965,10 +965,10 @@ public:
 
   //----------------------------------------------------------------------
 
-  typedef T element_type;
+  using element_type = T;
 
   //: Iterators
-  typedef T * iterator;
+  using iterator = T *;
   //: Iterator pointing to start of data
   iterator
   begin() const

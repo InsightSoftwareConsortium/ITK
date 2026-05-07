@@ -440,9 +440,7 @@ vxl_add_library(
     DISABLE_MSVC_MP
 )
 
-if(UNIX)
-  target_link_libraries(${VXL_LIB_PREFIX}v3p_netlib m)
-endif()
+target_link_libraries(${VXL_LIB_PREFIX}v3p_netlib PRIVATE vxl_platform_math)
 
 if(BUILD_TESTING)
   add_subdirectory(tests)

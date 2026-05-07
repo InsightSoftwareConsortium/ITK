@@ -547,7 +547,7 @@ vnl_sparse_matrix<T>::set_row(unsigned int r, const std::vector<int> & colz, con
     rw = row(colz.size());
   for (unsigned int i = 0; i < colz.size(); ++i)
     rw[i] = vnl_sparse_matrix_pair<T>(colz[i], vals[i]);
-  typedef typename vnl_sparse_matrix_pair<T>::less less;
+  using less = typename vnl_sparse_matrix_pair<T>::less;
   std::sort(rw.begin(), rw.end(), less());
   return *this;
 }
@@ -925,9 +925,9 @@ template <class T>
 vnl_sparse_matrix<T> &
 vnl_sparse_matrix<T>::normalize_rows()
 {
-  typedef typename vnl_numeric_traits<T>::abs_t Abs_t;
-  typedef typename vnl_numeric_traits<T>::real_t Real_t;
-  typedef typename vnl_numeric_traits<Real_t>::abs_t abs_real_t;
+  using Abs_t = typename vnl_numeric_traits<T>::abs_t;
+  using Real_t = typename vnl_numeric_traits<T>::real_t;
+  using abs_real_t = typename vnl_numeric_traits<Real_t>::abs_t;
 
   // Iterate through the matrix rows, and normalize one at a time:
   for (typename std::vector<row>::iterator row_iter = elements.begin(); row_iter != elements.end(); ++row_iter)

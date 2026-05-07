@@ -13,6 +13,8 @@
 //  dac (Manchester) 28/03/2001: tidied up documentation
 // \endverbatim
 
+#include <cassert>
+#include <limits>
 #include <vnl/vnl_vector.h>
 #include <vnl/algo/vnl_algo_export.h>
 
@@ -29,7 +31,9 @@ public:
   int
   width() const
   {
-    return vec_.size();
+    const size_t vecSize = vec_.size();
+    assert(vecSize <= static_cast<size_t>(std::numeric_limits<int>::max()));
+    return static_cast<int>(vecSize);
   }
   double
   operator[](int i) const

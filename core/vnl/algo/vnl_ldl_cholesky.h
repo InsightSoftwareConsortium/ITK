@@ -7,6 +7,8 @@
 // \author Tim Cootes
 // \date   29 Mar 2006
 
+#include <cassert>
+#include <limits>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/algo/vnl_algo_export.h>
@@ -111,7 +113,9 @@ public:
   int
   rank_deficiency() const
   {
-    return num_dims_rank_def_;
+    assert(num_dims_rank_def_ >= static_cast<long>(std::numeric_limits<int>::min()) &&
+           num_dims_rank_def_ <= static_cast<long>(std::numeric_limits<int>::max()));
+    return static_cast<int>(num_dims_rank_def_);
   }
 
   //: Return reciprocal condition number (smallest/largest singular values).

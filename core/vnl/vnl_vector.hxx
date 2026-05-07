@@ -716,9 +716,9 @@ template <class T>
 T
 cos_angle(const vnl_vector<T> & a, const vnl_vector<T> & b)
 {
-  typedef typename vnl_numeric_traits<T>::real_t real_t;
-  typedef typename vnl_numeric_traits<T>::abs_t abs_t;
-  typedef typename vnl_numeric_traits<abs_t>::real_t abs_r;
+  using real_t = typename vnl_numeric_traits<T>::real_t;
+  using abs_t = typename vnl_numeric_traits<T>::abs_t;
+  using abs_r = typename vnl_numeric_traits<abs_t>::real_t;
 
   const real_t ab = inner_product(a, b);
   const real_t a_b = static_cast<real_t>(std::sqrt(abs_r(a.squared_magnitude() * b.squared_magnitude())));
@@ -735,8 +735,8 @@ template <class T>
 double
 angle(const vnl_vector<T> & a, const vnl_vector<T> & b)
 {
-  typedef typename vnl_numeric_traits<T>::abs_t abs_t;
-  typedef typename vnl_numeric_traits<abs_t>::real_t abs_r;
+  using abs_t = typename vnl_numeric_traits<T>::abs_t;
+  using abs_r = typename vnl_numeric_traits<abs_t>::real_t;
   const abs_r c = abs_r(cos_angle(a, b));
   // IMS: sometimes cos_angle returns 1+eps, which can mess up std::acos.
   if (c >= 1.0)

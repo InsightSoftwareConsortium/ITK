@@ -1,6 +1,7 @@
 // This is core/vnl/algo/vnl_sparse_lu.cxx
 //:
 // \file
+#include <algorithm>
 #include <iostream>
 #include <cassert>
 #include "vnl_sparse_lu.h"
@@ -78,8 +79,7 @@ vnl_sparse_lu::solve(const vnl_vector<double> & b, vnl_vector<double> * x)
   const unsigned n = b.size();
   assert(n == A_.columns());
   auto * rhs = new spREAL[n + 1];
-  for (unsigned i = 0; i < n; ++i)
-    rhs[i + 1] = b[i];
+  std::copy_n(b.begin(), n, rhs + 1);
   if (mode_ == verbose || mode_ == estimate_condition_verbose)
   {
     std::cout << "Matrix before ordering\n";
@@ -138,8 +138,7 @@ vnl_sparse_lu::solve_transpose(const vnl_vector<double> & b, vnl_vector<double> 
   const unsigned n = b.size();
   assert(n == A_.columns());
   auto * rhs = new spREAL[n + 1];
-  for (unsigned i = 0; i < n; ++i)
-    rhs[i + 1] = b[i];
+  std::copy_n(b.begin(), n, rhs + 1);
   int error = 0;
   if (mode_ == verbose || mode_ == estimate_condition_verbose)
   {

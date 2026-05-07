@@ -691,7 +691,7 @@ vnl_vector_test_conversion()
     }
     TEST("(const int*) m.data_block", check, true);
 
-    typedef int block[12];
+    using block = int[12];
     const block & v2 = *((const block *)data);
     {
       check = true;

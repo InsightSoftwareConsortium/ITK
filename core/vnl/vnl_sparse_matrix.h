@@ -121,9 +121,9 @@ template <class T>
 class VNL_EXPORT vnl_sparse_matrix
 {
 public:
-  typedef vnl_sparse_matrix_pair<T> pair_t;
-  typedef std::vector<pair_t> row;
-  typedef std::vector<row> vnl_sparse_matrix_elements;
+  using pair_t = vnl_sparse_matrix_pair<T>;
+  using row = std::vector<pair_t>;
+  using vnl_sparse_matrix_elements = std::vector<row>;
 
   //: Construct an empty matrix
   vnl_sparse_matrix();

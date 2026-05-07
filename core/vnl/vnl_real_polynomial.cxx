@@ -48,7 +48,7 @@ template std::complex<double> vnl_real_polynomial_evaluate SELECT(std::complex<d
 double
 vnl_real_polynomial::evaluate(double x) const
 {
-  return vnl_real_polynomial_evaluate SELECT(double)(coeffs_.data_block(), coeffs_.size(), x);
+  return vnl_real_polynomial_evaluate SELECT(double)(coeffs_.data_block(), static_cast<int>(coeffs_.size()), x);
 }
 
 
@@ -56,7 +56,7 @@ vnl_real_polynomial::evaluate(double x) const
 std::complex<double>
 vnl_real_polynomial::evaluate(const std::complex<double> & x) const
 {
-  return vnl_real_polynomial_evaluate SELECT(std::complex<double>)(coeffs_.data_block(), coeffs_.size(), x);
+  return vnl_real_polynomial_evaluate SELECT(std::complex<double>)(coeffs_.data_block(), static_cast<int>(coeffs_.size()), x);
 }
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
@@ -79,7 +79,7 @@ vnl_real_polynomial::devaluate(const std::complex<double> & x) const
 double
 vnl_real_polynomial::evaluate_integral(double x) const
 {
-  const int d = coeffs_.size() - 1;
+  const int d = static_cast<int>(coeffs_.size() - 1);
   const double * const f = coeffs_.data_block();
   double sum = 0.0;
   int di = 1;
@@ -117,11 +117,11 @@ operator+(const vnl_real_polynomial & f1, const vnl_real_polynomial & f2)
   // Coefficients are stored such that f(i) is coef. on x^(d-i)
   for (unsigned int i = 0; i <= d; ++i)
   {
-    sum[d - i] = 0.0;
+    sum[static_cast<int>(d - i)] = 0.0;
     if (i <= d1)
-      sum[d - i] += f1[d1 - i];
+      sum[static_cast<int>(d - i)] += f1[static_cast<int>(d1 - i)];
     if (i <= d2)
-      sum[d - i] += f2[d2 - i];
+      sum[static_cast<int>(d - i)] += f2[static_cast<int>(d2 - i)];
   }
 
   return sum;
@@ -143,11 +143,11 @@ operator-(const vnl_real_polynomial & f1, const vnl_real_polynomial & f2)
   // Coefficients are stored such that f(i) is coef. on x^(d-i)
   for (unsigned int i = 0; i <= d; ++i)
   {
-    diff[d - i] = 0.0;
+    diff[static_cast<int>(d - i)] = 0.0;
     if (i <= d1)
-      diff[d - i] += f1[d1 - i];
+      diff[static_cast<int>(d - i)] += f1[static_cast<int>(d1 - i)];
     if (i <= d2)
-      diff[d - i] -= f2[d2 - i];
+      diff[static_cast<int>(d - i)] -= f2[static_cast<int>(d2 - i)];
   }
 
   return diff;
@@ -166,7 +166,7 @@ operator*(const vnl_real_polynomial & f1, const vnl_real_polynomial & f2)
 
   for (unsigned int i = 0; i <= d1; ++i)
     for (unsigned int j = 0; j <= d2; ++j)
-      prod[d - (i + j)] += f1[d1 - i] * f2[d2 - j];
+      prod[static_cast<int>(d - (i + j))] += f1[static_cast<int>(d1 - i)] * f2[static_cast<int>(d2 - j)];
 
   return prod;
 }
@@ -225,7 +225,7 @@ vnl_real_polynomial::derivative() const
 vnl_real_polynomial
 vnl_real_polynomial::primitive() const
 {
-  const int d = coeffs_.size(); // degree+1
+  const int d = static_cast<int>(coeffs_.size()); // degree+1
   vnl_vector<double> cd(d + 1);
   cd[d] = 0.0; // constant term
   for (int i = d - 1, di = 1; i >= 0; --i, ++di)

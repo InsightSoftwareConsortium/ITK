@@ -86,7 +86,7 @@ vnl_c_na_vector_rms_norm(const T * p, unsigned n, S * out)
       n_finite++;
     }
   }
-  typedef typename vnl_numeric_traits<S>::real_t real_t;
+  using real_t = typename vnl_numeric_traits<S>::real_t;
   *out = n_finite ? S(std::sqrt(real_t(val / n_finite))) : vnl_na(T());
 }
 
@@ -112,7 +112,7 @@ void
 vnl_c_na_vector_two_norm(const T * p, unsigned n, S * out)
 {
   vnl_c_na_vector_two_norm_squared(p, n, out);
-  typedef typename vnl_numeric_traits<S>::real_t real_t;
+  using real_t = typename vnl_numeric_traits<S>::real_t;
   *out = S(std::sqrt(real_t(*out)));
 }
 

@@ -32,7 +32,7 @@ protected:
   const T * data_;
 
 public:
-  typedef size_t size_type;
+  using size_type = size_t;
 
   vnl_vector_fixed_ref_const(const vnl_vector_fixed<T, n> & rhs)
     : data_(rhs.data_block())
@@ -77,8 +77,7 @@ public:
   void
   copy_out(T * ptr) const
   {
-    for (size_type i = 0; i < n; ++i)
-      ptr[i] = data_[i];
+    std::copy_n(data_, n, ptr);
   }
 
 
@@ -165,12 +164,12 @@ public:
   //----------------------------------------------------------------------
 
   //: Type defs for iterators
-  typedef T element_type;
+  using element_type = T;
   //: Type defs for iterators
-  typedef const T * iterator;
+  using iterator = const T *;
 
   //: Const iterator type
-  typedef const T * const_iterator;
+  using const_iterator = const T *;
   //: Iterator pointing to start of data
   const_iterator
   begin() const
@@ -207,7 +206,7 @@ public:
   extract(unsigned int len, unsigned int start = 0) const;
 
   // norms etc
-  typedef typename vnl_c_vector<T>::abs_t abs_t;
+  using abs_t = typename vnl_c_vector<T>::abs_t;
 
   //: Return sum of squares of elements
   abs_t
@@ -469,10 +468,10 @@ private:
 template <class T, unsigned n>
 class VNL_EXPORT vnl_vector_fixed_ref : public vnl_vector_fixed_ref_const<T, n>
 {
-  typedef vnl_vector_fixed_ref_const<T, n> base;
+  using base = vnl_vector_fixed_ref_const<T, n>;
 
 public:
-  typedef unsigned int size_type;
+  using size_type = unsigned int;
 
   // this is the only point where the const_cast happens
   // the base class is used to store the pointer, so that conversion is not necessary
@@ -568,7 +567,7 @@ public:
     return data_block()[i];
   }
 
-  typedef T * iterator;
+  using iterator = T *;
   //: Iterator pointing to start of data
   iterator
   begin() const

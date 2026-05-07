@@ -69,7 +69,7 @@ vnl_determinant(const vnl_matrix<T> & M, bool balance)
       if (balance)
       {
         vnl_matrix<T> tmp(M);
-        typedef typename vnl_numeric_traits<T>::abs_t abs_t;
+        using abs_t = typename vnl_numeric_traits<T>::abs_t;
         abs_t scalings(1);
         for (int t = 0; t < 5; ++t)
         {

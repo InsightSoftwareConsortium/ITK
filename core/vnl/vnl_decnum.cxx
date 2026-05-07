@@ -86,7 +86,7 @@ vnl_decnum::vnl_decnum(unsigned long r)
   {
     while (r)
     {
-      data_.insert(data_.begin(), '0' + (r % 10));
+      data_.insert(data_.begin(), static_cast<char>('0' + (r % 10)));
       r /= 10;
     }
   }
@@ -127,7 +127,7 @@ vnl_decnum::operator std::string() const
   std::string e = "";
   while (exp)
   {
-    e.insert(e.begin(), '0' + (exp % 10));
+    e.insert(e.begin(), static_cast<char>('0' + (exp % 10)));
     exp /= 10;
   }
   return r + e;
@@ -305,7 +305,7 @@ vnl_decnum::plus(const std::string & a, const std::string & b, long exp)
   int carry = 0;
   for (--na, --nb; na >= 0 && nb >= 0; --na, --nb)
   {
-    char c = a.c_str()[na] + (b.c_str()[nb] - '0') + carry;
+    char c = static_cast<char>(a.c_str()[na] + (b.c_str()[nb] - '0') + carry);
     if (c > '9')
       c -= 10, carry = 1;
     else
@@ -314,7 +314,7 @@ vnl_decnum::plus(const std::string & a, const std::string & b, long exp)
   }
   for (; na >= 0 && nb < 0; --na)
   {
-    char c = a.c_str()[na] + carry;
+    char c = static_cast<char>(a.c_str()[na] + carry);
     if (c > '9')
       c -= 10, carry = 1;
     else
@@ -323,7 +323,7 @@ vnl_decnum::plus(const std::string & a, const std::string & b, long exp)
   }
   for (; nb >= 0 && na < 0; --nb)
   {
-    char c = b.c_str()[nb] + carry;
+    char c = static_cast<char>(b.c_str()[nb] + carry);
     if (c > '9')
       c -= 10, carry = 1;
     else
@@ -352,7 +352,7 @@ vnl_decnum::minus(const std::string & a, const std::string & b, long exp)
   assert(na >= nb);
   for (--na, --nb; na >= 0 && nb >= 0; --na, --nb)
   {
-    char c = a.c_str()[na] - (b.c_str()[nb] - '0') - carry;
+    char c = static_cast<char>(a.c_str()[na] - (b.c_str()[nb] - '0') - carry);
     if (c < '0')
       c += 10, carry = 1;
     else
@@ -361,7 +361,7 @@ vnl_decnum::minus(const std::string & a, const std::string & b, long exp)
   }
   for (; na >= 0 && nb < 0; --na)
   {
-    char c = a.c_str()[na] - carry;
+    char c = static_cast<char>(a.c_str()[na] - carry);
     if (c < '0')
       c += 10, carry = 1;
     else
@@ -443,10 +443,10 @@ vnl_decnum::mult(const std::string & a, char b)
     assert(c >= 0 && c <= 99);
     carry = c / 10;
     c %= 10;
-    result.insert(result.begin(), '0' + c);
+    result.insert(result.begin(), static_cast<char>('0' + c));
   }
   if (carry)
-    result.insert(result.begin(), '0' + carry);
+    result.insert(result.begin(), static_cast<char>('0' + carry));
   return result;
 }
 
@@ -558,7 +558,7 @@ vnl_decnum::operator/(const vnl_decnum & r) const
     result += vnl_decnum(d);
     const vnl_decnum m = vnl_decnum(a) - vnl_decnum(c);
     a = m.data();
-    na = a.length();
+    na = static_cast<int>(a.length());
   }
   result <<= (exp_ - r.exp());
   const int sign = (sign_ == '-' ? -1 : 1) * (r.sign() == '-' ? -1 : 1);
@@ -600,7 +600,7 @@ vnl_decnum::operator%(const vnl_decnum & r) const
 #endif
     vnl_decnum const m = vnl_decnum(a) - vnl_decnum(c);
     a = m.data();
-    na = a.length();
+    na = static_cast<int>(a.length());
   }
   if (na == 0)
     return vnl_decnum(0L);
@@ -645,28 +645,28 @@ operator>>(std::istream & s, vnl_decnum & r)
       c = s.get();
     while ((c >= '0' && c <= '9') || c == '.')
     {
-      data.push_back(c);
+      data.push_back(static_cast<char>(c));
       c = s.get();
     }
     if (c == 'e')
     {
-      data.push_back(c);
+      data.push_back(static_cast<char>(c));
       c = s.get();
       if (c == '-' || c == '+')
       {
-        data.push_back(c);
+        data.push_back(static_cast<char>(c));
         c = s.get();
       }
       while (c >= '0' && c <= '9')
       {
-        data.push_back(c);
+        data.push_back(static_cast<char>(c));
         c = s.get();
       }
     }
   }
   r = vnl_decnum(data);
   if (c > 0)
-    s.putback(c);
+    s.putback(static_cast<char>(c));
   return s;
 }
 
@@ -685,7 +685,7 @@ vnl_decnum::compactify()
   const unsigned long l = data_.length();
   if (n < l)
   { // at least one trailing zero is found
-    exp_ += l - n;
+    exp_ += static_cast<long>(l - n);
     data_.erase(n);
   }
   else if (n > l)

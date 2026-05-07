@@ -17,7 +17,7 @@ vnl_convolve_cyclic_using_fft(const vnl_vector<T1> & v1, const vnl_vector<T2> & 
   assert(v1.size() == v2.size());
   const unsigned int n = v1.size();
 
-  typedef std::complex<double> C;
+  using C = std::complex<double>;
   vnl_vector<C> w1(n, C(0));
   for (unsigned i = 0; i < n; ++i)
     w1[i] = v1[i];

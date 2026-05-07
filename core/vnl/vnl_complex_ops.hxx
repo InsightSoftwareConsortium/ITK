@@ -11,6 +11,7 @@
 #include "vnl_real.h"
 #include "vnl_imag.h"
 
+#include <algorithm>
 #include <cassert>
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
@@ -22,8 +23,7 @@ template <class T>
 void
 vnl_complexify(const T * src, std::complex<T> * dst, unsigned n)
 {
-  for (unsigned i = 0; i < n; ++i)
-    dst[i] = src[i];
+  std::copy_n(src, n, dst);
 }
 
 template <class T>

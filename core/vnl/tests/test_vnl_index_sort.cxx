@@ -104,7 +104,7 @@ test_vnl_index_sort()
 
   vnl_random genRand(9667566);
   for (int cx = 0; cx < numelrows; ++cx)
-    randomVals(cx) = genRand.lrand32(numelrows * 2);
+    randomVals(cx) = genRand.next_int32(numelrows * 2);
 
   IndexSortType indexSort;
 
@@ -152,7 +152,7 @@ test_vnl_index_sort()
   MeasurementMatrixType randomValM(numelrows, numelcols);
   for (unsigned int rx = 0; rx < randomValM.rows(); ++rx)
     for (unsigned int cx = 0; cx < randomValM.cols(); ++cx)
-      randomValM(rx, cx) = genRand.lrand32(numelrows * 2);
+      randomValM(rx, cx) = genRand.next_int32(numelrows * 2);
 
   MeasurementMatrixType sortedValM;
   IndexMatrixType sortedIndicesM;
@@ -216,7 +216,7 @@ test_vnl_index_sort()
   // check In-place matrix sorting now...
   for (unsigned int rx = 0; rx < randomValM.rows(); ++rx)
     for (unsigned int cx = 0; cx < randomValM.cols(); ++cx)
-      randomValM(rx, cx) = genRand.lrand32(numelrows * 2);
+      randomValM(rx, cx) = genRand.next_int32(numelrows * 2);
 
   // initialize to random for in-place sort check...
   sortedValM = randomValM;

@@ -148,7 +148,7 @@ vnl_matlab_write(std::ostream & s, const T & x, const char * name)
   hdr.rows = 1;
   hdr.cols = 1;
   hdr.imag = vnl_is_complex(x);
-  hdr.namlen = (unsigned long)std::strlen(name) + 1L;
+  hdr.namlen = static_cast<vxl_int_32>(std::strlen(name) + 1);
 
   ::vnl_write_bytes(s, &hdr, sizeof(hdr));
   ::vnl_write_bytes(s, name, hdr.namlen);
@@ -166,10 +166,10 @@ vnl_matlab_write(std::ostream & s, const T * v, unsigned n, const char * name)
 {
   vnl_matlab_header hdr;
   hdr.type = native_BYTE_ORDER + vnl_matlab_header::vnl_COLUMN_WISE + vnl_scalar_precision(v[0]);
-  hdr.rows = (long)n;
-  hdr.cols = 1L;
+  hdr.rows = static_cast<vxl_int_32>(n);
+  hdr.cols = 1;
   hdr.imag = vnl_is_complex(v[0]);
-  hdr.namlen = (unsigned long)std::strlen(name) + 1L;
+  hdr.namlen = static_cast<vxl_int_32>(std::strlen(name) + 1);
 
   ::vnl_write_bytes(s, &hdr, sizeof(hdr));
   ::vnl_write_bytes(s, name, hdr.namlen);
@@ -188,10 +188,10 @@ vnl_matlab_write(std::ostream & s, const T * const * data, unsigned rows, unsign
 {
   vnl_matlab_header hdr;
   hdr.type = native_BYTE_ORDER + vnl_matlab_header::vnl_ROW_WISE + vnl_scalar_precision(data[0][0]);
-  hdr.rows = (long)rows;
-  hdr.cols = (long)cols;
+  hdr.rows = static_cast<vxl_int_32>(rows);
+  hdr.cols = static_cast<vxl_int_32>(cols);
   hdr.imag = vnl_is_complex(data[0][0]);
-  hdr.namlen = (unsigned long)std::strlen(name) + 1L;
+  hdr.namlen = static_cast<vxl_int_32>(std::strlen(name) + 1);
 
   ::vnl_write_bytes(s, &hdr, sizeof(hdr));
   ::vnl_write_bytes(s, name, hdr.namlen);

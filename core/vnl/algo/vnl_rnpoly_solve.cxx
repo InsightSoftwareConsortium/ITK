@@ -1,6 +1,7 @@
 // This is core/vnl/algo/vnl_rnpoly_solve.cxx
 //:
 // \file
+#include <algorithm>
 #include <cmath>
 #include <cassert>
 #include <iostream>
@@ -96,12 +97,12 @@ public:
   }
 };
 
-static const double twopi = vnl_math::twopi;
+static constexpr double twopi = vnl_math::twopi;
 
-static const double epsilonB = 2.e-03;
+static constexpr double epsilonB = 2.e-03;
 static const vnl_rnpoly_solve_cmplx epsilonZ = vnl_rnpoly_solve_cmplx(1.e-04, 1.e-04);
-static const double final_eps = 1.e-10;
-static const double stepinit = 1.e-02;
+static constexpr double final_eps = 1.e-10;
+static constexpr double stepinit = 1.e-02;
 
 
 std::vector<vnl_vector<double> *>
@@ -156,7 +157,7 @@ inptbr(std::vector<vnl_rnpoly_solve_cmplx> & p, std::vector<vnl_rnpoly_solve_cmp
   q.resize(dim_);
   for (unsigned int j = 0; j < dim_; ++j)
   {
-    const int jj = j % 10;
+    const unsigned int jj = j % 10;
     p[j] = pp[jj];
     q[j] = qq[jj];
   }
@@ -165,7 +166,7 @@ inptbr(std::vector<vnl_rnpoly_solve_cmplx> & p, std::vector<vnl_rnpoly_solve_cmp
 //-----------------------------  POWR  -----------------------
 //: This returns the complex number y raised to the nth degree
 static inline vnl_rnpoly_solve_cmplx
-powr(int n, const vnl_rnpoly_solve_cmplx & y)
+powr(unsigned int n, const vnl_rnpoly_solve_cmplx & y)
 {
   vnl_rnpoly_solve_cmplx x(1, 0);
   if (n > 0)
@@ -194,8 +195,8 @@ initr(const std::vector<unsigned int> & ideg,
   r.resize(dim_);
   for (unsigned int j = 0; j < dim_; j++)
   {
-    pdg[j] = powr(ideg[j], p[j]);
-    qdg[j] = powr(ideg[j], q[j]);
+    pdg[j] = powr(static_cast<int>(ideg[j]), p[j]);
+    qdg[j] = powr(static_cast<int>(ideg[j]), q[j]);
     r[j] = q[j] / p[j];
   }
 }
@@ -206,7 +207,8 @@ initr(const std::vector<unsigned int> & ideg,
 static inline int
 degree(int index)
 {
-  return (index < 0) ? 0 : (index % max_deg_) + 1;
+  // Note: max_deg_ is unsigned int but always used as int here
+  return (index < 0) ? 0 : (index % static_cast<int>(max_deg_)) + 1;
 }
 
 
@@ -228,7 +230,7 @@ ffunr(const std::vector<double> & coeff,
   pows.resize(max_deg_ * dim_);
   for (unsigned int i = 0; i < dim_; i++) // for all variables
   {
-    int index = max_deg_ * i;
+    int index = static_cast<int>(max_deg_) * static_cast<int>(i);
     pows[index] = x[i];
     for (unsigned int j = 1; j < max_deg_; ++j, ++index) // for all powers
       pows[index + 1] = pows[index] * x[i];
@@ -256,15 +258,15 @@ ffunr(const std::vector<double> & coeff,
     }
 
   // Compute the Derivative!
-  for (int i = dim_ - 1; i >= 0; i--)   // Over equations
-    for (int l = dim_ - 1; l >= 0; l--) // With respect to each variable
+  for (int i = static_cast<int>(dim_) - 1; i >= 0; i--)   // Over equations
+    for (int l = static_cast<int>(dim_) - 1; l >= 0; l--) // With respect to each variable
     {
       vnl_rnpoly_solve_cmplx & df_il = df[i * dim_ + l];
-      for (int j = terms[i] - 1; j >= 0; j--)                  // Over terms in each equation
-        if (polyn[i * dim_ * max_nterms_ + j * dim_ + l] >= 0) // if 0 deg in l, df term is 0
+      for (int j = static_cast<int>(terms[i]) - 1; j >= 0; j--) // Over terms in each equation
+        if (polyn[i * dim_ * max_nterms_ + j * dim_ + l] >= 0)  // if 0 deg in l, df term is 0
         {
           vnl_rnpoly_solve_cmplx tmp = vnl_rnpoly_solve_cmplx(1, 0);
-          for (int k = dim_ - 1; k >= 0; k--) // Over each variable in each term
+          for (int k = static_cast<int>(dim_) - 1; k >= 0; k--) // Over each variable in each term
           {
             const int index = polyn[i * dim_ * max_nterms_ + j * dim_ + k];
             if (index >= 0)
@@ -274,7 +276,7 @@ ffunr(const std::vector<double> & coeff,
                 const int deg = degree(index);
                 if (deg > 1)
                   tmp *= pows[index - 1];
-                tmp *= (double)deg;
+                tmp *= static_cast<double>(deg);
               }
               else
                 tmp *= pows[index];
@@ -310,21 +312,21 @@ gfunr(const std::vector<unsigned int> & ideg,
     if (ideg[j] <= 1)
       tmp = vnl_rnpoly_solve_cmplx(1, 0);
     else
-      tmp = pows[j * max_deg_ + ideg[j] - 2];
+      tmp = pows[static_cast<int>(j) * static_cast<int>(max_deg_) + static_cast<int>(ideg[j]) - 2];
 
     pxdgm1[j] = pdg[j] * tmp;
   }
 
   for (unsigned int j = 0; j < dim_; ++j)
   {
-    const int index = j * max_deg_ + ideg[j] - 1;
+    const int index = static_cast<int>(j) * static_cast<int>(max_deg_) + static_cast<int>(ideg[j]) - 1;
     pxdg[j] = pdg[j] * pows[index];
   }
 
   for (unsigned int j = 0; j < dim_; ++j)
   {
     g[j] = pxdg[j] - qdg[j];
-    dg[j] = pxdgm1[j] * ideg[j];
+    dg[j] = pxdgm1[j] * static_cast<int>(ideg[j]);
   }
 }
 
@@ -438,7 +440,7 @@ ludcmp(std::vector<vnl_rnpoly_solve_cmplx> & a, std::vector<int> & indx)
       // Also interchange the scale factor
       vv[imax] = vv[j];
     }
-    indx[j] = imax;
+    indx[j] = static_cast<int>(imax);
 
     vnl_rnpoly_solve_cmplx & ajj = a[j * dim_ + j];
     if (ajj.norm() == 0.0)
@@ -466,8 +468,7 @@ lubksb(const std::vector<vnl_rnpoly_solve_cmplx> & a,
        std::vector<vnl_rnpoly_solve_cmplx> & b)
 {
   int ii = -1;
-  for (unsigned int k = 0; k < dim_; ++k)
-    b[k] = bb[k];
+  std::copy_n(bb.begin(), dim_, b.begin());
 
   for (unsigned int i = 0; i < dim_; ++i)
   {
@@ -482,13 +483,13 @@ lubksb(const std::vector<vnl_rnpoly_solve_cmplx> & a,
       // A nonzero element was encountered, so from now on we
       // will have to do the sums in the loop above
       if (sum.norm() > 0)
-        ii = i;
+        ii = static_cast<int>(i);
 
     b[i] = sum;
   }
 
   // Now do the backsubstitution
-  for (int i = dim_ - 1; i >= 0; i--)
+  for (int i = static_cast<int>(dim_) - 1; i >= 0; i--)
   {
     for (unsigned int j = i + 1; j < dim_; ++j)
       b[i] -= a[i * dim_ + j] * b[j];
@@ -812,7 +813,7 @@ Perform_Distributed_Task(const std::vector<unsigned int> & ideg,
   // int Psize = 2*dim_*sizeof(double);
   int totdegree = 1; // Total degree of the system
   for (unsigned int j = 0; j < dim_; j++)
-    totdegree *= ideg[j];
+    totdegree *= static_cast<int>(ideg[j]);
 
   // *************  Send initial information ****************
   // Initialize(dim_,maxns,maxdt,maxit,maxroot,
@@ -886,8 +887,9 @@ vnl_rnpoly_solve::Read_Input(std::vector<unsigned int> & ideg,
       coeff[i * max_nterms_ + k] = ps_[i]->coeffs_(k);
       for (unsigned int j = 0; j < dim_; j++)
       {
-        const int deg = ps_[i]->polyn_(k, j);
-        polyn[i * dim_ * max_nterms_ + k * dim_ + j] = deg ? int(j * max_deg_) + deg - 1 : -1;
+        const int deg = static_cast<int>(ps_[i]->polyn_(k, j));
+        polyn[i * dim_ * max_nterms_ + k * dim_ + j] =
+          deg ? static_cast<int>(j * static_cast<unsigned int>(max_deg_)) + deg - 1 : -1;
       }
     }
   }
@@ -924,7 +926,7 @@ vnl_rnpoly_solve::compute()
 
   int totdegree = 1;
   for (unsigned int j = 0; j < dim_; ++j)
-    totdegree *= ideg[j];
+    totdegree *= static_cast<int>(ideg[j]);
 
   std::vector<std::vector<vnl_rnpoly_solve_cmplx>> ans = Perform_Distributed_Task(ideg, terms, polyn, coeff);
 

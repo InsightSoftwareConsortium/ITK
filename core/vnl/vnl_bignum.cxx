@@ -533,11 +533,11 @@ vnl_bignum::operator*=(const vnl_bignum & b)
   if (b.count == 0 || this->count == 0)
     return (*this) = 0L;
   vnl_bignum prod;
-  prod.resize(this->count + b.count);        //   allocate data for product
-  for (Counter i = 0; i < b.count; i++)      //   multiply each b "digit"
-    multiply_aux(*this, b.data[i], prod, i); //   times b1 and add to total
-  prod.sign = this->sign * b.sign;           //   determine correct sign
-  prod.trim();                               //   trim excess data and ret.
+  prod.resize(static_cast<short>(this->count + b.count)); //   allocate data for product
+  for (Counter i = 0; i < b.count; i++)                   //   multiply each b "digit"
+    multiply_aux(*this, b.data[i], prod, i);              //   times b1 and add to total
+  prod.sign = this->sign * b.sign;                        //   determine correct sign
+  prod.trim();                                            //   trim excess data and ret.
   return (*this) = prod;
 }
 
@@ -766,7 +766,7 @@ vnl_bignum::operator float() const
 {
   float f = 0.0f;
   for (Counter i = this->count; i > 0;)
-    f = f * 0x10000 + this->data[--i];
+    f = f * 65536.0f + static_cast<float>(this->data[--i]);
   if (this->is_infinity())
     f = std::numeric_limits<float>::infinity();
   return (this->sign < 0) ? -f : f;
@@ -933,8 +933,8 @@ vnl_bignum::resize(short new_count)
       for (; i < this->count; i++)
         new_data[i] = this->data[i];
     }
-    for (; i < new_count; i++)
-      new_data[i] = 0;
+    if (i < new_count)
+      std::fill_n(new_data + i, new_count - i, Data{ 0 });
   }
   else
   {
@@ -985,7 +985,7 @@ add(const vnl_bignum & b1, const vnl_bignum & b2, vnl_bignum & sum)
     bmax = &b2;
     bmin = &b1;
   }
-  sum.resize(bmax->count); // Allocate data for their sum
+  sum.resize(static_cast<short>(bmax->count)); // Allocate data for their sum
   unsigned long temp = 0;
   unsigned long carry = 0;
   Counter i = 0;
@@ -1011,9 +1011,9 @@ add(const vnl_bignum & b1, const vnl_bignum & b2, vnl_bignum & sum)
     }
   }
   if (carry)
-  {                              // if carry left over
-    sum.resize(bmax->count + 1); //   allocate another word
-    sum.data[bmax->count] = 1;   //   save the carry in it
+  {                                                  // if carry left over
+    sum.resize(static_cast<short>(bmax->count + 1)); //   allocate another word
+    sum.data[bmax->count] = 1;                       //   save the carry in it
   }
 }
 
@@ -1033,7 +1033,7 @@ increment(vnl_bignum & bnum)
   }
   if (carry)
   {
-    bnum.resize(bnum.count + 1);
+    bnum.resize(static_cast<short>(bnum.count + 1));
     bnum.data[bnum.count - 1] = 1;
   }
 }
@@ -1043,7 +1043,7 @@ increment(vnl_bignum & bnum)
 void
 subtract(const vnl_bignum & bmax, const vnl_bignum & bmin, vnl_bignum & diff)
 {
-  diff.resize(bmax.count); // Allocate data for difference
+  diff.resize(static_cast<short>(bmax.count)); // Allocate data for difference
   unsigned long temp = 0;
   int borrow = 0;
   Counter i = 0;
@@ -1158,8 +1158,8 @@ Data
 normalize(const vnl_bignum & b1, const vnl_bignum & b2, vnl_bignum & u, vnl_bignum & v)
 {
   const Data d = Data(0x10000L / ((unsigned long)(b2.data[b2.count - 1]) + 1L)); // Calculate normalization factor.
-  u.resize(b1.count + 1);                                                        // Get data for u (plus extra)
-  v.resize(b2.count);                                                            // Get data for v
+  u.resize(static_cast<short>(b1.count + 1));                                    // Get data for u (plus extra)
+  v.resize(static_cast<short>(b2.count));                                        // Get data for v
   u.data[b1.count] = 0;                                                          // Set u's leading digit to 0
   multiply_aux(b1, d, u, 0);                                                     // u = b1 * d
   multiply_aux(b2, d, v, 0);                                                     // v = b2 * d
@@ -1263,9 +1263,9 @@ multiply_subtract(vnl_bignum & u, const vnl_bignum & v, Data q_hat, Counter j)
   // correct number of times or one too large.
 
   if (q_hat == 0)
-    return q_hat;            // if q_hat 0, nothing to do
-  vnl_bignum rslt;           // create a temporary vnl_bignum
-  rslt.resize(v.count + 1u); // allocate data for it
+    return q_hat;                                // if q_hat 0, nothing to do
+  vnl_bignum rslt;                               // create a temporary vnl_bignum
+  rslt.resize(static_cast<short>(v.count + 1u)); // allocate data for it
 
   // simultaneous computation of u - v*q_hat
   unsigned long diff = 0;
@@ -1332,9 +1332,9 @@ divide(const vnl_bignum & b1, const vnl_bignum & b2, vnl_bignum & q, vnl_bignum 
   else if (mag == 0)                     // if abs(b1) == abs(b2)
     q = 1L;                              //   quotient is 1, remainder is 0
   else
-  {                                     // otherwise abs(b1) > abs(b2), so divide
-    q.resize(b1.count + 1u - b2.count); // Allocate quotient
-    r.resize(b2.count);                 // Allocate remainder
+  {                                                         // otherwise abs(b1) > abs(b2), so divide
+    q.resize(static_cast<short>(b1.count + 1u - b2.count)); // Allocate quotient
+    r.resize(static_cast<short>(b2.count));                 // Allocate remainder
     if (b2.count == 1)
     {                                           // Single digit divisor?
       divide_aux(b1, b2.data[0], q, r.data[0]); // Do single digit divide
@@ -1396,14 +1396,14 @@ left_shift(const vnl_bignum & b1, int l)
   // shifting the data array l bits to the left, we shift just enough to get
   // the correct word alignment, and then pad the array on the right with as
   // many zeros as we need.
-  vnl_bignum rslt;                                    // result of shift
-  rslt.sign = b1.sign;                                // result follows sign of input
-  auto growth = Counter(l / 16);                      // # of words rslt will grow by
-  const Data shift = Data(l % 16);                    // amount to actually shift
-  const Data rshift = Data(16 - shift);               // amount to shift next word by
-  const Data carry = Data(                            // value that will be shifted
-    b1.data[b1.count - 1] >> (16 - shift));           // out end of current array
-  rslt.resize(b1.count + growth + (carry ? 1u : 0u)); // allocate new data array
+  vnl_bignum rslt;                                                        // result of shift
+  rslt.sign = b1.sign;                                                    // result follows sign of input
+  auto growth = Counter(l / 16);                                          // # of words rslt will grow by
+  const Data shift = Data(l % 16);                                        // amount to actually shift
+  const Data rshift = Data(16 - shift);                                   // amount to shift next word by
+  const Data carry = Data(                                                // value that will be shifted
+    b1.data[b1.count - 1] >> (16 - shift));                               // out end of current array
+  rslt.resize(static_cast<short>(b1.count + growth + (carry ? 1u : 0u))); // allocate new data array
   Counter i = 0;
   while (i < growth) // zero out padded elements
     rslt.data[i++] = 0;
@@ -1438,10 +1438,10 @@ right_shift(const vnl_bignum & b1, int l)
   const Data shift = Data(l % 16);                         // amount to actually shift
   const Data dregs = Data(b1.data[b1.count - 1] >> shift); // high end data to save
   if (shrinkage + (dregs == 0) < b1.count)
-  {                                                           // if not all data shifted out
-    rslt.sign = b1.sign;                                      // rslt follows sign of input
-    rslt.resize(b1.count - shrinkage - (dregs == 0 ? 1 : 0)); // allocate new data
-    const Data lshift = Data(16 - shift);                     // amount to shift high word
+  {                                                                               // if not all data shifted out
+    rslt.sign = b1.sign;                                                          // rslt follows sign of input
+    rslt.resize(static_cast<short>(b1.count - shrinkage - (dregs == 0 ? 1 : 0))); // allocate new data
+    const Data lshift = Data(16 - shift);                                         // amount to shift high word
     Counter i = 0;
     while (i < rslt.count - 1)
     {                                                         // shift current word

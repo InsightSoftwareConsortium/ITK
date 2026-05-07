@@ -745,8 +745,8 @@ template <class T>
 T
 cos_angle(const vnl_matrix<T> & a, const vnl_matrix<T> & b)
 {
-  typedef typename vnl_numeric_traits<T>::abs_t Abs_t;
-  typedef typename vnl_numeric_traits<Abs_t>::real_t abs_r;
+  using Abs_t = typename vnl_numeric_traits<T>::abs_t;
+  using abs_r = typename vnl_numeric_traits<Abs_t>::real_t;
 
   T ab = inner_product(a, b);
   const Abs_t a_b = (Abs_t)std::sqrt((abs_r)vnl_math::abs(inner_product(a, a) * inner_product(b, b)));
@@ -834,9 +834,9 @@ template <class T>
 vnl_matrix<T> &
 vnl_matrix<T>::normalize_rows()
 {
-  typedef typename vnl_numeric_traits<T>::abs_t Abs_t;
-  typedef typename vnl_numeric_traits<T>::real_t Real_t;
-  typedef typename vnl_numeric_traits<Real_t>::abs_t abs_real_t;
+  using Abs_t = typename vnl_numeric_traits<T>::abs_t;
+  using Real_t = typename vnl_numeric_traits<T>::real_t;
+  using abs_real_t = typename vnl_numeric_traits<Real_t>::abs_t;
   for (unsigned int i = 0; i < this->num_rows; ++i)
   {                                                   // For each row in the Matrix
     Abs_t norm(0);                                    // double will not do for all types.
@@ -859,9 +859,9 @@ template <class T>
 vnl_matrix<T> &
 vnl_matrix<T>::normalize_columns()
 {
-  typedef typename vnl_numeric_traits<T>::abs_t Abs_t;
-  typedef typename vnl_numeric_traits<T>::real_t Real_t;
-  typedef typename vnl_numeric_traits<Real_t>::abs_t abs_real_t;
+  using Abs_t = typename vnl_numeric_traits<T>::abs_t;
+  using Real_t = typename vnl_numeric_traits<T>::real_t;
+  using abs_real_t = typename vnl_numeric_traits<Real_t>::abs_t;
   for (unsigned int j = 0; j < this->num_cols; j++)
   {                // For each column in the Matrix
     Abs_t norm(0); // double will not do for all types.
@@ -1307,7 +1307,7 @@ vnl_matrix<T>::read_ascii(std::istream & s)
     return s.good() || s.eof();
   }
 
-  const bool debug = false;
+  constexpr bool debug = false;
 
   std::vector<T> first_row_vals;
   if (debug)
@@ -1358,8 +1358,7 @@ loademup:
   {
     // Copy first row.  Can't use first_row_vals, as may be a vector of bool...
     T * row = vnl_c_vector<T>::allocate_T(colz);
-    for (unsigned int k = 0; k < colz; ++k)
-      row[k] = first_row_vals[k];
+    std::copy_n(first_row_vals.begin(), colz, row);
     row_vals.push_back(row);
   }
 
@@ -1528,7 +1527,9 @@ int
 vnl_inplace_transpose(doublereal * a, unsigned m, unsigned n, char * move, unsigned iwrk)
 {
   doublereal b, c;
-  const int k = m * n - 1;
+  const int im_ = static_cast<int>(m);
+  const int in_ = static_cast<int>(n);
+  const int k = im_ * in_ - 1;
   int iter, i1, i2, im, i1c, i2c, ncount, max_;
 
   // *****
@@ -1557,8 +1558,8 @@ vnl_inplace_transpose(doublereal * a, unsigned m, unsigned n, char * move, unsig
     for (unsigned i = 0; i < n; ++i)
       for (unsigned j = i + 1; j < n; ++j)
       {
-        i1 = i + j * n;
-        i2 = j + i * m;
+        i1 = static_cast<int>(i + j * n);
+        i2 = static_cast<int>(j + i * m);
         b = a[i1];
         a[i1] = a[i2];
         a[i2] = b;
@@ -1571,8 +1572,8 @@ vnl_inplace_transpose(doublereal * a, unsigned m, unsigned n, char * move, unsig
   if (m > 2 && n > 2)
   {
     // CALCULATE THE NUMBER OF FIXED POINTS, EUCLIDS ALGORITHM FOR GCD(M-1,N-1).
-    int ir2 = m - 1;
-    int ir1 = n - 1;
+    int ir2 = im_ - 1;
+    int ir1 = in_ - 1;
     int ir0 = ir2 % ir1;
     while (ir0 != 0)
     {
@@ -1584,7 +1585,7 @@ vnl_inplace_transpose(doublereal * a, unsigned m, unsigned n, char * move, unsig
   }
   // SET INITIAL VALUES FOR SEARCH
   iter = 1;
-  im = m;
+  im = im_;
   // AT LEAST ONE LOOP MUST BE RE-ARRANGED
   goto L80;
 // SEARCH FOR LOOPS TO REARRANGE
@@ -1593,7 +1594,7 @@ L40:
   ++iter;
   if (iter > max_)
     return iter; // error return
-  im += m;
+  im += im_;
   if (im > k)
     im -= k;
   i2 = im;
@@ -1609,7 +1610,7 @@ L40:
   while (i2 > iter && i2 < max_)
   {
     i1 = i2;
-    i2 = m * i1 - k * (i1 / n);
+    i2 = im_ * i1 - k * (i1 / in_);
   }
   if (i2 != iter)
     goto L40;
@@ -1621,7 +1622,7 @@ L80:
   c = a[i1c];
   while (true)
   {
-    i2 = m * i1 - k * (i1 / n);
+    i2 = im_ * i1 - k * (i1 / in_);
     i2c = k - i2;
     if (i1 <= (int)iwrk)
       move[i1 - 1] = '1'; // true;

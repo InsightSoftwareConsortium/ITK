@@ -1,4 +1,5 @@
 // This is core/vnl/vnl_rotation_matrix.cxx
+#include <array>
 #include <cmath>
 #include "vnl_rotation_matrix.h"
 
@@ -11,7 +12,7 @@ vnl_rotation_matrix(const double x[3], double ** R)
       R[i][j] = (i == j ? 1 : 0);
 
   // normalize x to a unit vector u, of norm 'angle'.
-  double u[3] = { x[0], x[1], x[2] };
+  std::array<double, 3> u = { x[0], x[1], x[2] };
   const double angle = std::sqrt(u[0] * u[0] + u[1] * u[1] + u[2] * u[2]);
   if (angle == 0)
     return true;
@@ -40,15 +41,15 @@ vnl_rotation_matrix(const double x[3], double ** R)
 bool
 vnl_rotation_matrix(const double axis[3], double R[3][3])
 {
-  double * R_[3] = { R[0], R[1], R[2] };
-  return vnl_rotation_matrix(axis, R_);
+  std::array<double *, 3> R_ = { R[0], R[1], R[2] };
+  return vnl_rotation_matrix(axis, R_.data());
 }
 
 bool
 vnl_rotation_matrix(const double axis[3], double * R0, double * R1, double * R2)
 {
-  double * R[3] = { R0, R1, R2 };
-  return vnl_rotation_matrix(axis, R);
+  std::array<double *, 3> R = { R0, R1, R2 };
+  return vnl_rotation_matrix(axis, R.data());
 }
 
 #include "vnl/vnl_vector_fixed.h"
