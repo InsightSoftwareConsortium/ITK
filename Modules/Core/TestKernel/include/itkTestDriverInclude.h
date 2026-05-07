@@ -52,6 +52,10 @@
 #include "itkIntTypes.h"
 #include "itkWin32Header.h"
 
+#ifdef _WIN32
+#  include <windows.h>
+#endif
+
 constexpr int ITK_TEST_DIMENSION_MAX{ 6 };
 
 extern int

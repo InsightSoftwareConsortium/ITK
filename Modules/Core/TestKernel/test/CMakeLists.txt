@@ -49,6 +49,7 @@ set(
   itkGoogleTest.cxx
   itkGoogleTestFixture.cxx
   itkTestingComparisonImageFilterGTest.cxx
+  itkUtf8FilenameGTest.cxx
 )
 
 creategoogletestdriver(ITKTestKernel "${ITKTestKernel-Test_LIBRARIES}" "${ITKTestKernelGTests}")

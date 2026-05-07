@@ -90,6 +90,7 @@ EM_ASM(
     PRIVATE
       "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>"
   )
+  itk_target_attach_windows_utf8_manifest(${KIT}TestDriver)
   itk_module_target_label(${KIT}TestDriver)
 endfunction()
 
@@ -286,6 +287,7 @@ function(CreateGoogleTestDriver KIT KIT_LIBS KitTests)
     PRIVATE
       "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>"
   )
+  itk_target_attach_windows_utf8_manifest(${exe})
   itk_module_target_label(${exe})
 
   include(GoogleTest)

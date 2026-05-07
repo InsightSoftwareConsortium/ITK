@@ -12,6 +12,7 @@ if(NOT DO_NOT_BUILD_ITK_TEST_DRIVER)
   add_executable(itkTestDriver itkTestDriver.cxx)
   target_link_libraries(itkTestDriver PRIVATE ${ITKTestKernel_LIBRARIES})
 
+  itk_target_attach_windows_utf8_manifest(itkTestDriver)
   itk_module_target_label(itkTestDriver)
   itk_module_target_export(itkTestDriver)
   target_link_options(

@@ -19,6 +19,12 @@
 // CMake command create_test_sourcelist. This is included directly before
 // the call to the test main function.
 
+#ifdef _WIN32
+  // Render UTF-8 console output correctly. The active code page itself
+  // is set to UTF-8 by the Windows-utf8-codepage.manifest attached at
+  // link time; this call only affects what stdout / stderr render.
+  SetConsoleOutputCP(CP_UTF8);
+#endif
   vnl_sample_reseed(8775070);
   try
     {
