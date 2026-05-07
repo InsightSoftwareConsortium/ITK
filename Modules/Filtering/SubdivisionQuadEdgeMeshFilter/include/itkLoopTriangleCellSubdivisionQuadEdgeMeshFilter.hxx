@@ -172,50 +172,6 @@ LoopTriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::CopyInpu
 
       if (smoothedPointSet.count(ptIt->Index()))
       {
-        /*
-        InputPointType opt;
-        opt.Fill( NumericTraits< typename InputPointType::ValueType >::Zero );
-        unsigned int nn = 0;
-
-        InputPointType bpt;
-        bpt.Fill( NumericTraits< typename InputPointType::ValueType >::Zero );
-        unsigned int nb = 0;
-
-        InputQEType *edge = ptIt->Value().GetEdge();
-        typename InputQEType::IteratorGeom q_it = edge->BeginGeomOnext();
-        while ( q_it != edge->EndGeomOnext() )
-          {
-          if ( q_it.Value()->IsAtBorder() )
-            {
-            bpt += points->ElementAt( q_it.Value()->GetDestination() ).GetVectorFromOrigin();
-            ++nb;
-            }
-
-          opt += points->ElementAt( q_it.Value()->GetDestination() ).GetVectorFromOrigin();
-          ++nn;
-          ++q_it;
-          }
-
-        if ( nb )
-          {
-          for ( unsigned int kk = 0; kk < InputMeshType::PointDimension; ++kk )
-            {
-            opt[kk] = 0.75 * ipt[kk] + 0.125 * bpt[kk];
-            }
-          }
-        else
-          {
-          InputCoordType var  = 0.375 + 0.25 * std::cos(2.0 * itk::Math::pi / nn);
-          InputCoordType beta = ( 0.625 - var * var ) / nn;
-          for ( unsigned int kk = 0; kk < InputMeshType::PointDimension; ++kk )
-            {
-            opt[kk] = ( 1.0 - nn * beta ) * ipt[kk] + beta * opt[kk];
-            }
-          }
-        OutputPointType outpoint;
-        outpoint.CastFrom( opt );
-        output->SetPoint( ptIt->Index(), outpoint );
-        */
         OutputPointType outpoint;
         outpoint.CastFrom(this->SmoothingPoint(ptIt->Value(), points));
         output->SetPoint(ptIt->Index(), outpoint);
