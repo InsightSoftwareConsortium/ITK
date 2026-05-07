@@ -400,3 +400,17 @@ itk_add_test(
     ITKLevelSetsv4TestDriver
     itkMultiLevelSetMalcolmImageSubset2DTest
 )
+set_property(
+  TEST
+    itkMultiLevelSetsv4MalcolmImageSubset2DTest
+  APPEND
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
+set_tests_properties(
+  itkMultiLevelSetsv4MalcolmImageSubset2DTest
+  PROPERTIES
+    TIMEOUT
+      3600
+)
