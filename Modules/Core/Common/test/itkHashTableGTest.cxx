@@ -22,6 +22,7 @@
 #include <unordered_map>
 #include <iostream>
 #include <cstring>
+#include <string_view>
 
 /**
  * Helper function to prevent compiler's unused variable warning.
@@ -40,8 +41,17 @@ struct eqstr
   }
 };
 
+struct CStrHash
+{
+  size_t
+  operator()(const char * s) const
+  {
+    return std::hash<std::string_view>{}(s);
+  }
+};
+
 void
-lookup(const std::unordered_set<const char *, std::hash<const char *>, eqstr> & Set, const char * word)
+lookup(const std::unordered_set<const char *, CStrHash, eqstr> & Set, const char * word)
 {
   auto it = Set.find(word);
   std::cout << word << ": " << (it != Set.end() ? "present" : "not present") << std::endl;
@@ -70,7 +80,7 @@ TEST(HashTable, StdHash)
 TEST(HashTable, UnorderedSet)
 {
   println("Testing std::unordered_set");
-  using HashSetType = std::unordered_set<const char *, std::hash<const char *>, eqstr>;
+  using HashSetType = std::unordered_set<const char *, CStrHash, eqstr>;
   HashSetType Set;
   Set.insert("kiwi");
   Set.insert("plum");
@@ -102,7 +112,7 @@ TEST(HashTable, UnorderedSet)
 TEST(HashTable, UnorderedMap)
 {
   println("Testing std::unordered_map");
-  using HashMapType = std::unordered_map<const char *, int, std::hash<const char *>, eqstr>;
+  using HashMapType = std::unordered_map<const char *, int, CStrHash, eqstr>;
 
   HashMapType months;
   months["january"] = 31;
