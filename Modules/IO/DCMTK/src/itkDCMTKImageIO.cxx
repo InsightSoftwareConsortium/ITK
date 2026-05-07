@@ -478,6 +478,7 @@ DCMTKImageIO::ReadImageInformation()
     this->m_Spacing.push_back(1.0);
   }
 
+  reader.PopulateMetaDataDictionary(this->GetMetaDataDictionary());
 
   this->OpenDicomImage();
   const DiPixel * interData = this->m_DImage->getInterData();
