@@ -112,7 +112,7 @@ int
 CuberilleTest_Issue66(int, char *[])
 {
   int countFailed = 0;
-  for (const auto image : { case1(), case2() })
+  for (const auto & image : { case1(), case2() })
   {
 
     const auto extract = TExtract::New();
