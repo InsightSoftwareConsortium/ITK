@@ -33,42 +33,42 @@ libopenblas = ">=0.3.30,<0.4"
 libgfortran5 = ">=15.2.0,<16"
 
 [tool.pixi.feature.cxx.tasks.configure]
-cmd = '''cmake
-  -Bbuild
-  -S.
-  -GNinja
-  -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
+cmd = '''cmake \
+  -Bbuild \
+  -S. \
+  -GNinja \
+  -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo \
   -DBUILD_TESTING:BOOL=ON'''
 description = "Configure ITK"
 outputs = ["build/CMakeFiles/"]
 
 [tool.pixi.feature.cxx.tasks.configure-ci]
-cmd = '''cmake
-  -Bbuild
-  -S.
-  -GNinja
-  -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
-  -DBUILD_TESTING:BOOL=ON
-  -DITK_USE_CCACHE:BOOL=ON
-  -DCMAKE_C_COMPILER_LAUNCHER:STRING=ccache
-  -DCMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
-  -DModule_AnisotropicDiffusionLBR:BOOL=ON
-  -DModule_Cuberille:BOOL=ON
-  -DModule_Montage:BOOL=ON
-  -DModule_FastBilateral:BOOL=ON
-  -DModule_GenericLabelInterpolator:BOOL=ON
-  -DModule_IOMeshSTL:BOOL=ON
-  -DModule_LabelErodeDilate:BOOL=ON
-  -DModule_MeshNoise:BOOL=ON
-  -DModule_MGHIO:BOOL=ON
-  -DModule_PolarTransform:BOOL=ON
-  -DModule_SplitComponents:BOOL=ON
-  -DModule_IOMeshMZ3:BOOL=ON
-  -DModule_IOFDF:BOOL=ON
-  -DModule_MorphologicalContourInterpolation:BOOL=ON
-  -DModule_RLEImage:BOOL=ON
-  -DModule_SubdivisionQuadEdgeMeshFilter:BOOL=ON
-  -DITK_COMPUTER_MEMORY_SIZE:STRING=11
+cmd = '''cmake \
+  -Bbuild \
+  -S. \
+  -GNinja \
+  -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo \
+  -DBUILD_TESTING:BOOL=ON \
+  -DITK_USE_CCACHE:BOOL=ON \
+  -DCMAKE_C_COMPILER_LAUNCHER:STRING=ccache \
+  -DCMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache \
+  -DModule_AnisotropicDiffusionLBR:BOOL=ON \
+  -DModule_Cuberille:BOOL=ON \
+  -DModule_Montage:BOOL=ON \
+  -DModule_FastBilateral:BOOL=ON \
+  -DModule_GenericLabelInterpolator:BOOL=ON \
+  -DModule_IOMeshSTL:BOOL=ON \
+  -DModule_LabelErodeDilate:BOOL=ON \
+  -DModule_MeshNoise:BOOL=ON \
+  -DModule_MGHIO:BOOL=ON \
+  -DModule_PolarTransform:BOOL=ON \
+  -DModule_SplitComponents:BOOL=ON \
+  -DModule_IOMeshMZ3:BOOL=ON \
+  -DModule_IOFDF:BOOL=ON \
+  -DModule_MorphologicalContourInterpolation:BOOL=ON \
+  -DModule_RLEImage:BOOL=ON \
+  -DModule_SubdivisionQuadEdgeMeshFilter:BOOL=ON \
+  -DITK_COMPUTER_MEMORY_SIZE:STRING=11 \
   -DModule_StructuralSimilarity:BOOL=ON'''
 description = "Configure ITK for CI (with ccache compiler launcher)"
 outputs = ["build/CMakeFiles/"]
@@ -85,11 +85,11 @@ description = "Test ITK"
 depends-on = ["build"]
 
 [tool.pixi.feature.cxx.tasks.configure-debug]
-cmd = '''cmake
-  -Bbuild-debug
-  -S.
-  -GNinja
-  -DCMAKE_BUILD_TYPE:STRING=Debug
+cmd = '''cmake \
+  -Bbuild-debug \
+  -S. \
+  -GNinja \
+  -DCMAKE_BUILD_TYPE:STRING=Debug \
   -DBUILD_TESTING:BOOL=ON'''
 description = "Configure ITK - Debug"
 outputs = ["build-debug/CMakeFiles/"]
@@ -106,11 +106,11 @@ description = "Test ITK - Debug"
 depends-on = ["build-debug"]
 
 [tool.pixi.feature.cxx.tasks.configure-release]
-cmd = '''cmake
-  -Bbuild-release
-  -S.
-  -GNinja
-  -DCMAKE_BUILD_TYPE:STRING=Release
+cmd = '''cmake \
+  -Bbuild-release \
+  -S. \
+  -GNinja \
+  -DCMAKE_BUILD_TYPE:STRING=Release \
   -DBUILD_TESTING:BOOL=ON'''
 description = "Configure ITK - Release"
 outputs = ["build-release/CMakeFiles/"]
@@ -127,12 +127,12 @@ description = "Test ITK - Release"
 depends-on = ["build-release"]
 
 [tool.pixi.feature.python.tasks.configure-python]
-cmd = '''cmake
-  -Bbuild-python
-  -S.
-  -GNinja
-  -DITK_WRAP_PYTHON:BOOL=ON
-  -DCMAKE_BUILD_TYPE:STRING=Release
+cmd = '''cmake \
+  -Bbuild-python \
+  -S. \
+  -GNinja \
+  -DITK_WRAP_PYTHON:BOOL=ON \
+  -DCMAKE_BUILD_TYPE:STRING=Release \
   -DBUILD_TESTING:BOOL=ON'''
 description = "Configure ITK Python"
 outputs = ["build-python/CMakeFiles/"]
@@ -155,12 +155,12 @@ description = "Run a Python executable with the development ITK Python package"
 depends-on = ["build-python"]
 
 [tool.pixi.feature.python.tasks.configure-debug-python]
-cmd = '''cmake
-  -Bbuild-debug-python
-  -S.
-  -GNinja
-  -DITK_WRAP_PYTHON:BOOL=ON
-  -DCMAKE_BUILD_TYPE:STRING=Debug
+cmd = '''cmake \
+  -Bbuild-debug-python \
+  -S. \
+  -GNinja \
+  -DITK_WRAP_PYTHON:BOOL=ON \
+  -DCMAKE_BUILD_TYPE:STRING=Debug \
   -DBUILD_TESTING:BOOL=ON'''
 description = "Configure ITK Python - Debug"
 outputs = ["build-debug-python/CMakeFiles/"]
