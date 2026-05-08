@@ -68,6 +68,7 @@ cmd = '''cmake \
   -DModule_MorphologicalContourInterpolation:BOOL=ON \
   -DModule_RLEImage:BOOL=ON \
   -DModule_SubdivisionQuadEdgeMeshFilter:BOOL=ON \
+  -DModule_TextureFeatures:BOOL=ON \
   -DITK_COMPUTER_MEMORY_SIZE:STRING=11 \
   -DModule_StructuralSimilarity:BOOL=ON'''
 description = "Configure ITK for CI (with ccache compiler launcher)"
