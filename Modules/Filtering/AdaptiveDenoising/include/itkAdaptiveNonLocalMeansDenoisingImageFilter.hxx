@@ -440,7 +440,7 @@ AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>
 
   ImageRegionIteratorWithIndex<OutputImageType> ItO(this->GetOutput(), this->GetOutput()->GetRequestedRegion());
   ImageRegionConstIterator<RealImageType>       ItL(this->m_ThreadContributionCountImage,
-                                                    this->m_ThreadContributionCountImage->GetRequestedRegion());
+                                              this->m_ThreadContributionCountImage->GetRequestedRegion());
 
   for (ItO.GoToBegin(), ItL.GoToBegin(); !ItO.IsAtEnd(); ++ItO, ++ItL)
   {

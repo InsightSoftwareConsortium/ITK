@@ -52,6 +52,7 @@ cmd = '''cmake \
   -DITK_USE_CCACHE:BOOL=ON \
   -DCMAKE_C_COMPILER_LAUNCHER:STRING=ccache \
   -DCMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache \
+  -DModule_AdaptiveDenoising:BOOL=ON \
   -DModule_AnisotropicDiffusionLBR:BOOL=ON \
   -DModule_Cuberille:BOOL=ON \
   -DModule_Montage:BOOL=ON \
