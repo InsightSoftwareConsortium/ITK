@@ -25,12 +25,12 @@
 namespace itk
 {
 /** \class VarianceImageFilter
- * \brief Applies an averaging filter to an image
+ * \brief Applies a variance filter to an image
  *
- * Computes an image where a given pixel is the variance value of the
- * the pixels in a neighborhood about the corresponding input pixel.
+ * Computes an image where a given pixel is the sample variance of the
+ * pixels in a neighborhood about the corresponding input pixel.
  *
- * A variacne filter is one of the family of linear filters.
+ * A variance filter is a nonlinear (quadratic) neighborhood filter.
  *
  * \ingroup AdaptiveDenoising
  */
@@ -45,14 +45,14 @@ public:
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
 
   /** Standard class typedefs. */
-  typedef VarianceImageFilter                             Self;
-  typedef BoxImageFilter<InputImageType, OutputImageType> Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  using Self = VarianceImageFilter;
+  using Superclass = BoxImageFilter<InputImageType, OutputImageType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -61,14 +61,14 @@ public:
   itkOverrideGetNameOfClassMacro(VarianceImageFilter);
 
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType               InputPixelType;
-  typedef typename OutputImageType::PixelType              OutputPixelType;
-  typedef typename NumericTraits<InputPixelType>::RealType InputRealType;
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using InputRealType = typename NumericTraits<InputPixelType>::RealType;
 
-  typedef typename InputImageType::RegionType  InputImageRegionType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
-  typedef typename InputImageType::SizeType InputSizeType;
+  using InputSizeType = typename InputImageType::SizeType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

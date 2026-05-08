@@ -54,10 +54,10 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(AdaptiveNonLocalMeansDenoisingImageFilter);
 
   /** Standard class typedefs. */
-  typedef AdaptiveNonLocalMeansDenoisingImageFilter                Self;
-  typedef NonLocalPatchBasedImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                                       Pointer;
-  typedef SmartPointer<const Self>                                 ConstPointer;
+  using Self = AdaptiveNonLocalMeansDenoisingImageFilter;
+  using Superclass = NonLocalPatchBasedImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Runtime information support. */
   itkOverrideGetNameOfClassMacro(AdaptiveNonLocalMeansDenoisingImageFilter);
@@ -69,26 +69,26 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                        InputImageType;
-  typedef typename InputImageType::PixelType InputPixelType;
-  typedef TOutputImage                       OutputImageType;
-  typedef typename Superclass::RegionType    RegionType;
+  using InputImageType = TInputImage;
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputImageType = TOutputImage;
+  using RegionType = typename Superclass::RegionType;
 
-  typedef TMaskImage                        MaskImageType;
-  typedef typename MaskImageType::PixelType MaskPixelType;
-  typedef typename MaskImageType::PixelType LabelType;
+  using MaskImageType = TMaskImage;
+  using MaskPixelType = typename MaskImageType::PixelType;
+  using LabelType = typename MaskImageType::PixelType;
 
-  typedef typename Superclass::RealType         RealType;
-  typedef typename Superclass::RealImageType    RealImageType;
-  typedef typename Superclass::RealImagePointer RealImagePointer;
-  typedef typename Superclass::IndexType        IndexType;
+  using RealType = typename Superclass::RealType;
+  using RealImageType = typename Superclass::RealImageType;
+  using RealImagePointer = typename Superclass::RealImagePointer;
+  using IndexType = typename Superclass::IndexType;
 
-  typedef typename Superclass::ConstNeighborhoodIteratorType ConstNeighborhoodIteratorType;
-  typedef typename Superclass::NeighborhoodRadiusType        NeighborhoodRadiusType;
-  typedef typename Superclass::NeighborhoodOffsetType        NeighborhoodOffsetType;
-  typedef typename Superclass::NeighborhoodOffsetListType    NeighborhoodOffsetListType;
+  using ConstNeighborhoodIteratorType = typename Superclass::ConstNeighborhoodIteratorType;
+  using NeighborhoodRadiusType = typename Superclass::NeighborhoodRadiusType;
+  using NeighborhoodOffsetType = typename Superclass::NeighborhoodOffsetType;
+  using NeighborhoodOffsetListType = typename Superclass::NeighborhoodOffsetListType;
 
-  typedef GaussianOperator<RealType> ModifiedBesselCalculatorType;
+  using ModifiedBesselCalculatorType = GaussianOperator<RealType>;
 
   /**
    * The image expected for input for noise correction.

@@ -123,10 +123,13 @@ NonLocalPatchBasedImageFilter<TInputImage, TOutputImage>::VectorizeImagePatch(co
         it = 0.;
       }
     }
-    const auto inv_standardDeviation = 1. / standardDeviation;
-    for (auto & it : patchVector)
+    else
     {
-      it = (it - mean) * inv_standardDeviation;
+      const auto inv_standardDeviation = 1. / standardDeviation;
+      for (auto & it : patchVector)
+      {
+        it = (it - mean) * inv_standardDeviation;
+      }
     }
   }
   return patchVector;
