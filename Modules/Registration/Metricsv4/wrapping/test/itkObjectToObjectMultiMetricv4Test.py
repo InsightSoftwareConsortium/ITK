@@ -22,22 +22,13 @@
 # classes, while asserting that the historical 2-argument form continues to
 # resolve to the same SWIG class for backward compatibility.
 #
-# AddMetric() requirement and the SWIG cross-module upcast caveat
-# ----------------------------------------------------------------
-# itk::ObjectToObjectMultiMetricv4<F, M, V>::AddMetric expects a
-# pointer to itk::ObjectToObjectMetric<F, M, V>, the immediate parent of
-# itk::ImageToImageMetricv4<F, M, V>. SWIG registers that C++ type under
-# the name itkImageToImageMetricv4F2F2IF2_Superclass through the
-# POINTER_WITH_SUPERCLASS wrap of itk::ImageToImageMetricv4. The derived
-# image-metric classes use POINTER_WITH_2_SUPERCLASSES, which exposes the
-# same C++ instantiation under their *own* _Superclass_Superclass name in a
-# *different* SWIG module. SWIG's runtime does not automatically equate
-# those two names across modules, so an implicit upcast from a derived
-# metric to AddMetric's parameter slot fails. The bridge below uses the
-# .cast() classmethod on the canonical _Superclass typedef, which is a
-# stable, wrap-derived API, to perform the explicit upcast.
-#
-# A friendlier helper for this idiom is added in a follow-up commit.
+# AddMetric() upcast helper
+# -------------------------
+# itk::ObjectToObjectMultiMetricv4<F, M, V>::AddMetric expects a pointer to
+# itk::ObjectToObjectMetric<F, M, V>. SWIG cannot auto-upcast across the
+# POINTER_WITH_2_SUPERCLASSES chain on the derived image-metric classes, so
+# the caller has to perform an explicit upcast. itk.as_metric_base() wraps
+# that idiom.
 
 import itk
 
@@ -86,11 +77,9 @@ assert type(ms_2arg).__name__ == type(ms_3arg).__name__
 # ---------------------------------------------------------------------------
 multi_metric = itk.ObjectToObjectMultiMetricv4[2, 2, ImageType].New()
 
-from itk.itkImageToImageMetricv4Python import itkImageToImageMetricv4F2F2IF2_Superclass
-
-multi_metric.AddMetric(itkImageToImageMetricv4F2F2IF2_Superclass.cast(ms_2arg))
-multi_metric.AddMetric(itkImageToImageMetricv4F2F2IF2_Superclass.cast(mattes_2arg))
-multi_metric.AddMetric(itkImageToImageMetricv4F2F2IF2_Superclass.cast(ms_3arg))
+multi_metric.AddMetric(itk.as_metric_base(ms_2arg))
+multi_metric.AddMetric(itk.as_metric_base(mattes_2arg))
+multi_metric.AddMetric(itk.as_metric_base(ms_3arg))
 assert multi_metric.GetNumberOfMetrics() == 3
 
 weights = itk.Array[itk.D](3)

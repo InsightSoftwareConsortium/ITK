@@ -118,6 +118,7 @@ __all__ = [
     "pipeline",
     "auto_pipeline",
     "down_cast",
+    "as_metric_base",
     "template",
     "class_",
     "ctype",
@@ -2027,6 +2028,67 @@ def down_cast(obj: itkt.LightObject):
         raise RuntimeError(f"Can't downcast to a specialization of {class_name}")
     else:
         return t.cast(obj)
+
+
+def as_metric_base(metric, virtual_image_type=None):
+    """Upcast a derived ImageToImageMetricv4 to its ObjectToObjectMetric base.
+
+    itk::ObjectToObjectMultiMetricv4::AddMetric() takes a pointer to
+    itk::ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage>.
+    SWIG does not auto-upcast across the POINTER_WITH_2_SUPERCLASSES chain on
+    the derived image-metric classes (their _Superclass_Superclass typedef is
+    registered in a different SWIG module than the base ImageToImageMetricv4
+    _Superclass typedef that names the same C++ type). This helper performs
+    the explicit upcast through the canonical _Superclass class so that
+    `multi_metric.AddMetric(itk.as_metric_base(ms_metric))` works regardless
+    of which derived metric class is passed in.
+
+    Parameters
+    ----------
+    metric : derived metric instance
+        Any itk::ImageToImageMetricv4-derived metric (MeanSquares, Mattes,
+        Correlation, Demons, ANTSNeighborhoodCorrelation, JointHistogramMI).
+    virtual_image_type : itk class, optional
+        The TVirtualImage instantiation to cast through. Defaults to the
+        metric's own fixed-image template parameter, matching the C++ default
+        TVirtualImage = TFixedImage.
+
+    Returns
+    -------
+    The metric upcast to the SWIG class registered as
+    itk::ImageToImageMetricv4<...>::Superclass — accepted directly by
+    AddMetric().
+    """
+    import sys
+
+    import itk
+    from itk.support.template_class import itkTemplateBase
+
+    cls = metric.__class__
+    template_entry = itkTemplateBase.__template_instantiations_object_to_name__.get(cls)
+    if template_entry is None:
+        raise TypeError(
+            f"Cannot determine template parameters of {cls.__name__}; "
+            "as_metric_base requires a wrapped ImageToImageMetricv4-derived metric."
+        )
+    template, params = template_entry
+    if len(params) < 2:
+        raise TypeError(
+            f"{cls.__name__} does not have at least 2 template arguments; "
+            "as_metric_base expects an ImageToImageMetricv4-derived metric."
+        )
+    fixed_image_type = params[0]
+    moving_image_type = params[1]
+    if virtual_image_type is None:
+        virtual_image_type = params[2] if len(params) >= 3 else fixed_image_type
+
+    base = itk.ImageToImageMetricv4[
+        fixed_image_type, moving_image_type, virtual_image_type
+    ]
+    base_module = sys.modules[base.__module__]
+    superclass_typedef_name = f"{base.__name__}_Superclass"
+    superclass_class = getattr(base_module, superclass_typedef_name)
+    return superclass_class.cast(metric)
 
 
 def attribute_list(inputobject, name: str):
