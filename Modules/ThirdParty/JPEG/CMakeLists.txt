@@ -8,8 +8,6 @@ option(
 )
 mark_as_advanced(ITK_USE_SYSTEM_JPEG)
 
-option(ITK_USE_JPEG_TURBO "Use libjpeg-turbo build of JPEG" ON)
-
 if(ITK_USE_SYSTEM_JPEG)
   find_package(JPEG REQUIRED)
   set(ITKJPEG_INCLUDE_DIRS ${ITKJPEG_BINARY_DIR}/src)
