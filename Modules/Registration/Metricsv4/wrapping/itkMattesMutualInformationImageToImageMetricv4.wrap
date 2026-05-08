@@ -1,3 +1,18 @@
 itk_wrap_class("itk::MattesMutualInformationImageToImageMetricv4" POINTER_WITH_2_SUPERCLASSES)
-itk_wrap_image_filter("${WRAP_ITK_REAL}" 2 2+)
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(t ${WRAP_ITK_REAL})
+    # Canonical: 3 explicit template arguments (TFixedImage, TMovingImage, TVirtualImage)
+    itk_wrap_template(
+        "${ITKM_${t}}${d}${ITKM_${t}}${d}I${ITKM_${t}}${d}"
+        "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >"
+    )
+    # Backwards-compat alias: 2-argument key resolves to the same SWIG class.
+    add_python_config_template(
+        "MattesMutualInformationImageToImageMetricv4"
+        "itk::MattesMutualInformationImageToImageMetricv4"
+        "itkMattesMutualInformationImageToImageMetricv4${ITKM_${t}}${d}${ITKM_${t}}${d}I${ITKM_${t}}${d}"
+        "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >"
+    )
+  endforeach()
+endforeach()
 itk_end_wrap_class()
