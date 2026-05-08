@@ -11,6 +11,7 @@ the minimum set for the task at hand.
 
 | Task | Read |
 |------|------|
+| Writing ANY committed text (in-source comment, commit message, PR body) | [prose-budget.md](./Documentation/AI/prose-budget.md) |
 | Understanding the codebase layout | [architecture.md](./Documentation/AI/architecture.md) |
 | Building or configuring ITK | [building.md](./Documentation/AI/building.md) |
 | Writing or running tests | [testing.md](./Documentation/AI/testing.md) |
@@ -33,6 +34,7 @@ the minimum set for the task at hand.
 4. **`Update()` is required** — filters don't execute until called; parameter changes after `Update()` need another call.
 5. **Link errors → check `itk-module.cmake`** — missing `DEPENDS` or `PRIVATE_DEPENDS` is the usual cause.
 6. **Licensing** — verify AI output does not reproduce third-party code in conflict with Apache 2.0.
+7. **Verbose committed text is a review-blocking defect** — not a stylistic preference. Reviewers reject PRs whose commit messages, in-source comments, or PR bodies exceed the budgets in [prose-budget.md](./Documentation/AI/prose-budget.md). Cut prose, not code.
 
 ## Resources
 

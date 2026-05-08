@@ -19,6 +19,12 @@ The prefix (e.g., `DOC: `) counts toward the 78. When a descriptive
 subject would exceed the limit, move detail to the commit body — the
 subject should be scannable in `git log --oneline`.
 
+## Body budget
+
+Commit-message body caps, forbidden content, and good/bad examples
+are defined in [prose-budget.md](./prose-budget.md). Read it before
+authoring any commit body.
+
 ## Prefixes
 
 | Prefix | Use for |

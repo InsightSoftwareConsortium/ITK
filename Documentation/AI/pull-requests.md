@@ -32,6 +32,16 @@ Lead with a **1-3 line visible summary**. Sequester longer analysis,
 AI disclosure, test output, and background context inside `<details>`
 blocks. See [attribution.md](./attribution.md) for examples.
 
+## Visible-summary budget
+
+PR-body caps, forbidden content, and good/bad examples are defined
+in [prose-budget.md](./prose-budget.md). Read it before authoring
+any PR body.
+
+Reviewer-actionable call-outs ("Stacked on #NNNN, do not merge
+until that lands") stay visible above the first `<details>`;
+context-only material goes inside `<details>`.
+
 ```markdown
 Short summary of what changed and why. Closes #NNNN.
 
