@@ -64,7 +64,8 @@ public:
     First = Platform,
     Pool,
     TBB,
-    Last = TBB,
+    Single,
+    Last = Single,
     Unknown = -1
   };
 
@@ -168,6 +169,7 @@ public:
   static constexpr ThreaderEnum First = ThreaderEnum::First;
   static constexpr ThreaderEnum Pool = ThreaderEnum::Pool;
   static constexpr ThreaderEnum TBB = ThreaderEnum::TBB;
+  static constexpr ThreaderEnum Single = ThreaderEnum::Single;
   static constexpr ThreaderEnum Last = ThreaderEnum::Last;
   static constexpr ThreaderEnum Unknown = ThreaderEnum::Unknown;
 #endif
@@ -188,6 +190,8 @@ public:
         return "Pool";
       case ThreaderEnum::TBB:
         return "TBB";
+      case ThreaderEnum::Single:
+        return "Single";
       case ThreaderEnum::Unknown:
       default:
         return "Unknown";

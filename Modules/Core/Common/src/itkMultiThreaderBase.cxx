@@ -27,6 +27,7 @@
  *=========================================================================*/
 #include "itkMultiThreaderBase.h"
 #include "itkPlatformMultiThreader.h"
+#include "itkSingleMultiThreader.h"
 
 #if defined(ITK_USE_POOL_MULTI_THREADER)
 #  include "itkPoolMultiThreader.h"
@@ -206,6 +207,10 @@ MultiThreaderBase::ThreaderTypeFromString(std::string threaderString)
   else if (threaderString == "TBB")
   {
     return ThreaderEnum::TBB;
+  }
+  else if (threaderString == "SINGLE")
+  {
+    return ThreaderEnum::Single;
   }
   else
   {
@@ -404,6 +409,8 @@ MultiThreaderBase::New()
 #else
         itkGenericExceptionMacro("ITK has been built without TBB support!");
 #endif
+      case ThreaderEnum::Single:
+        return SingleMultiThreader::New();
       default:
         itkGenericExceptionMacro("MultiThreaderBase::GetGlobalDefaultThreader returned Unknown!");
     }
@@ -601,6 +608,8 @@ operator<<(std::ostream & out, const MultiThreaderBaseEnums::Threader value)
         return "itk::MultiThreaderBaseEnums::Threader::Pool";
       case MultiThreaderBaseEnums::Threader::TBB:
         return "itk::MultiThreaderBaseEnums::Threader::TBB";
+      case MultiThreaderBaseEnums::Threader::Single:
+        return "itk::MultiThreaderBaseEnums::Threader::Single";
         //      TODO    case MultiThreaderBaseEnums::Threader::Last:
         //                    return "itk::MultiThreaderBaseEnums::Threader::Last";
       case MultiThreaderBaseEnums::Threader::Unknown:

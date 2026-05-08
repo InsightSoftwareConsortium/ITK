@@ -123,6 +123,7 @@ set(
   itkOctreeNode.cxx
   itkOutputWindow.cxx
   itkPlatformMultiThreader.cxx
+  itkSingleMultiThreader.cxx
   itkProcessObject.cxx
   itkProgressAccumulator.cxx
   itkProgressReporter.cxx

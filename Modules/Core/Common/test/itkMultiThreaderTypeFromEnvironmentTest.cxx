@@ -73,6 +73,7 @@ itkMultiThreaderTypeFromEnvironmentTest(int argc, char * argv[])
 #ifdef ITK_USE_TBB
     ThreaderEnum::TBB,
 #endif // ITK_USE_TBB
+    ThreaderEnum::Single,
   };
   for (auto thType : threadersToTest)
   {
@@ -84,7 +85,7 @@ itkMultiThreaderTypeFromEnvironmentTest(int argc, char * argv[])
   // 1. insert it into threadersToTest set
   // 2. add tests to Modules/Core/Common/test/CMakeLists.txt similarly to tests for other multi-threaders
   // 3. rewrite the condition below to use whatever is really the last threader type
-  itkAssertOrThrowMacro(ThreaderEnum::TBB == ThreaderEnum::Last,
+  itkAssertOrThrowMacro(ThreaderEnum::Single == ThreaderEnum::Last,
                         "All multi-threader implementation have to be tested!");
 
   if (success)

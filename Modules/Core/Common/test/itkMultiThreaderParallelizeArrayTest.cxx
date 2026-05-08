@@ -88,6 +88,39 @@ itkMultiThreaderParallelizeArrayTest(int argc, char * argv[])
     }
   }
 
+  // Test single-element range [5, 6): functor must be called exactly once with index 5.
+  // Progress events are printed by the ShowProgress observer; their exact values
+  // depend on the threader implementation and are exercised by the per-threader
+  // CTest variants driven by ITK_GLOBAL_DEFAULT_THREADER.
+  {
+    std::cout << "\nSingle-element array [5,6) test:";
+    bool               singleCalled = false;
+    itk::SizeValueType singleIndex = std::numeric_limits<itk::SizeValueType>::max();
+
+    auto singlePO = SomeProcessObject::New();
+    singlePO->AddObserver(itk::ProgressEvent(), showProgress);
+
+    mt->ParallelizeArray(
+      5,
+      6,
+      [&singleCalled, &singleIndex](itk::SizeValueType i) {
+        singleCalled = true;
+        singleIndex = i;
+      },
+      singlePO);
+
+    if (!singleCalled)
+    {
+      std::cerr << "\nSingle-element: functor was not called!" << std::endl;
+      result = EXIT_FAILURE;
+    }
+    else if (singleIndex != 5)
+    {
+      std::cerr << "\nSingle-element: expected index 5, got " << singleIndex << std::endl;
+      result = EXIT_FAILURE;
+    }
+  }
+
   if (result != EXIT_FAILURE)
   {
     std::cout << "\nTest PASSED" << std::endl;

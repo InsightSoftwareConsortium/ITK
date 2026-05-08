@@ -659,6 +659,18 @@ set_tests_properties(
       "ITK_GLOBAL_DEFAULT_THREADER=Pool"
 )
 itk_add_test(
+  NAME itkMultiThreaderBaseTestSingle
+  COMMAND
+    ITKCommon2TestDriver
+    itkMultiThreaderBaseTest
+)
+set_tests_properties(
+  itkMultiThreaderBaseTestSingle
+  PROPERTIES
+    ENVIRONMENT
+      "ITK_GLOBAL_DEFAULT_THREADER=Single"
+)
+itk_add_test(
   NAME itkMultiThreaderBaseTest3
   COMMAND
     ITKCommon2TestDriver
@@ -692,6 +704,20 @@ set_tests_properties(
   PROPERTIES
     ENVIRONMENT
       "ITK_GLOBAL_DEFAULT_THREADER=pOoL"
+) # tests letter case too
+
+itk_add_test(
+  NAME itkMultiThreaderTypeFromEnvironmentTestSingle
+  COMMAND
+    ITKCommon2TestDriver
+    itkMultiThreaderTypeFromEnvironmentTest
+    SiNgLe
+)
+set_tests_properties(
+  itkMultiThreaderTypeFromEnvironmentTestSingle
+  PROPERTIES
+    ENVIRONMENT
+      "ITK_GLOBAL_DEFAULT_THREADER=sInGlE"
 ) # tests letter case too
 
 if(Module_ITKTBB) # ITK_USE_TBB is not yet defined here
@@ -759,6 +785,18 @@ set_tests_properties(
   PROPERTIES
     ENVIRONMENT
       "ITK_GLOBAL_DEFAULT_THREADER=Pool"
+)
+itk_add_test(
+  NAME itkMultiThreaderParallelizeArrayTestSingle
+  COMMAND
+    ITKCommon2TestDriver
+    itkMultiThreaderParallelizeArrayTest
+)
+set_tests_properties(
+  itkMultiThreaderParallelizeArrayTestSingle
+  PROPERTIES
+    ENVIRONMENT
+      "ITK_GLOBAL_DEFAULT_THREADER=Single"
 )
 itk_add_test(
   NAME itkMultiThreaderParallelizeArrayTest3

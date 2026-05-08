@@ -91,6 +91,7 @@ itkMultiThreaderExceptionsTest(int, char *[])
 #ifdef ITK_USE_TBB
     ThreaderEnum::TBB,
 #endif // ITK_USE_TBB
+    ThreaderEnum::Single,
   };
   for (auto thType : threadersToTest)
   {
@@ -98,7 +99,13 @@ itkMultiThreaderExceptionsTest(int, char *[])
     const typename itk::DummyImageSource<OutputImageType>::Pointer dummySrc =
       itk::DummyImageSource<OutputImageType>::New();
     dummySrc->SetNumberOfWorkUnits(4);
-    for (itk::IndexValueType i = 0; i < dummySrc->GetNumberOfWorkUnits(); ++i)
+    // SingleMultiThreader always uses 1 work unit covering the full region (starting at index 0),
+    // so only ExceptionIndex=0 is valid. Other threaders split into N sub-regions,
+    // one per requested work unit.
+    const auto loopBound = (thType == ThreaderEnum::Single)
+                             ? itk::IndexValueType{ 1 }
+                             : static_cast<itk::IndexValueType>(dummySrc->GetNumberOfWorkUnits());
+    for (itk::IndexValueType i = 0; i < loopBound; ++i)
     {
       dummySrc->SetExceptionIndex(i);
       ITK_TRY_EXPECT_EXCEPTION(dummySrc->Update());

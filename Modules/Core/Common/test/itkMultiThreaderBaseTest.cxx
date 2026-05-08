@@ -20,6 +20,7 @@
 #include "itkMultiThreaderBase.h"
 #include "itkPlatformMultiThreader.h"
 #include "itkPoolMultiThreader.h"
+#include "itkSingleMultiThreader.h"
 #ifdef ITK_USE_TBB
 #  include "itkTBBMultiThreader.h"
 #endif
@@ -122,6 +123,7 @@ itkMultiThreaderBaseTest(int argc, char * argv[])
 
   TEST_SINGLE_CLASS(PlatformMultiThreader);
   TEST_SINGLE_CLASS(PoolMultiThreader);
+  TEST_SINGLE_CLASS(SingleMultiThreader);
 #ifdef ITK_USE_TBB
   TEST_SINGLE_CLASS(TBBMultiThreader);
 #endif
@@ -154,6 +156,7 @@ itkMultiThreaderBaseTest(int argc, char * argv[])
     //            itk::MultiThreaderBaseEnums::Threader::First,
     itk::MultiThreaderBaseEnums::Threader::Pool,
     itk::MultiThreaderBaseEnums::Threader::TBB,
+    itk::MultiThreaderBaseEnums::Threader::Single,
     //            itk::MultiThreaderBaseEnums::Threader::Last,
     itk::MultiThreaderBaseEnums::Threader::Unknown
   };
