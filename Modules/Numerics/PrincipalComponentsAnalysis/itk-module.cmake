@@ -14,5 +14,5 @@ itk_module(
   TEST_DEPENDS
     ITKTestKernel
   EXCLUDE_FROM_DEFAULT
-  DESCRIPTION "Module ingested from upstream."
+  DESCRIPTION "${DOCUMENTATION}"
 )
