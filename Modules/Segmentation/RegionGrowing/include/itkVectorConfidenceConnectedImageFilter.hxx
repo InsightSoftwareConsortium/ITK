@@ -51,9 +51,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::
   os << indent << "Seeds: " << m_Seeds << std::endl;
   os << indent << "Multiplier: " << m_Multiplier << std::endl;
   os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
-  os << indent
-     << "ReplaceValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ReplaceValue", m_ReplaceValue);
   os << indent << "InitialNeighborhoodRadius: " << m_InitialNeighborhoodRadius << std::endl;
 
   itkPrintSelfObjectMacro(ThresholdFunction);

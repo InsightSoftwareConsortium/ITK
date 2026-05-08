@@ -26,6 +26,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkMath.h"
 #include "itkProgressTransformer.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -458,12 +459,8 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream
 
   os << indent << "Variance: " << m_Variance << std::endl;
   os << indent << "MaximumError: " << m_MaximumError << std::endl;
-  os << indent
-     << "UpperThreshold: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_UpperThreshold)
-     << std::endl;
-  os << indent
-     << "LowerThreshold: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_LowerThreshold)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "UpperThreshold", m_UpperThreshold);
+  print_helper::PrintNumericTrait(os, indent, "LowerThreshold", m_LowerThreshold);
   os << indent << "Center: " << m_Center << std::endl;
   os << indent << "Stride: " << m_Stride << std::endl;
   itkPrintSelfObjectMacro(GaussianFilter);

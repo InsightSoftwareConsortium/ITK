@@ -20,6 +20,7 @@
 
 #include "itkMath.h"
 #include "vnl/vnl_det.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -304,7 +305,7 @@ Similarity3DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Scale: " << static_cast<typename NumericTraits<ScaleType>::PrintType>(m_Scale) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Scale", m_Scale);
 }
 
 } // namespace itk

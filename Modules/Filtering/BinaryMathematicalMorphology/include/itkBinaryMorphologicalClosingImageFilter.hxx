@@ -25,6 +25,7 @@
 #include "itkConstantPadImageFilter.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkProgressReporter.h"
+#include "itkPrintHelper.h"
 
 /*
  * This code was contributed in the Insight Journal paper:
@@ -158,9 +159,7 @@ BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Print
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "ForegroundValue: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ForegroundValue", m_ForegroundValue);
   os << indent << "SafeBorder: " << m_SafeBorder << std::endl;
 }
 } // end namespace itk

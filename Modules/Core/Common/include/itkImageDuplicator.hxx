@@ -19,6 +19,7 @@
 #define itkImageDuplicator_hxx
 
 #include "itkImageAlgorithm.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -64,8 +65,7 @@ ImageDuplicator<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
   itkPrintSelfObjectMacro(InputImage);
   itkPrintSelfObjectMacro(DuplicateImage);
 
-  os << indent << "InternalImageTime: " << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_InternalImageTime)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "InternalImageTime", m_InternalImageTime);
 }
 } // end namespace itk
 

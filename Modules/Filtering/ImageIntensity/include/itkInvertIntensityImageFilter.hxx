@@ -29,6 +29,7 @@
 #define itkInvertIntensityImageFilter_hxx
 
 #include "itkMinimumMaximumImageCalculator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -51,7 +52,7 @@ InvertIntensityImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Maximum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Maximum) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Maximum", m_Maximum);
 }
 } // end namespace itk
 

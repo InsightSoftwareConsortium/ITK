@@ -18,6 +18,8 @@
 #ifndef itkFEMFiniteDifferenceFunctionLoad_hxx
 #define itkFEMFiniteDifferenceFunctionLoad_hxx
 
+
+#include "itkPrintHelper.h"
 namespace itk::fem
 {
 
@@ -340,12 +342,8 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::PrintSelf(std::ostream & os, Inde
 
   os << indent << "MetricRadius: " << m_MetricRadius << std::endl;
 
-  os << indent << "MovingSize: "
-     << static_cast<typename itk::NumericTraits<typename MovingImageType::SizeType>::PrintType>(m_MovingSize)
-     << std::endl;
-  os << indent << "FixedSize: "
-     << static_cast<typename itk::NumericTraits<typename FixedImageType::SizeType>::PrintType>(m_FixedSize)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "MovingSize", m_MovingSize);
+  print_helper::PrintNumericTrait(os, indent, "FixedSize", m_FixedSize);
 
   os << indent << "NumberOfIntegrationPoints: " << m_NumberOfIntegrationPoints << std::endl;
   os << indent << "SolutionIndex: " << m_SolutionIndex << std::endl;
@@ -362,7 +360,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::PrintSelf(std::ostream & os, Inde
     os << "(null)" << std::endl;
   }
 
-  os << indent << "GradSigma: " << static_cast<typename NumericTraits<Float>::PrintType>(m_GradSigma) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "GradSigma", m_GradSigma);
   os << indent << "Sign: " << m_Sign << std::endl;
   os << indent << "WhichMetric: " << m_WhichMetric << std::endl;
 

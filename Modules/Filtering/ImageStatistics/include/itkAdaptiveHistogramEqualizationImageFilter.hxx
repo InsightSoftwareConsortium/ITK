@@ -27,6 +27,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkProgressReporter.h"
 #include "itkMinimumMaximumImageFilter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -60,10 +61,8 @@ AdaptiveHistogramEqualizationImageFilter<TImageType, TKernel>::PrintSelf(std::os
   os << indent << "Alpha: " << m_Alpha << std::endl;
   os << indent << "Beta: " << m_Beta << std::endl;
 
-  os << indent << "InputMinimum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputMinimum)
-     << std::endl;
-  os << indent << "InputMaximum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputMaximum)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "InputMinimum", m_InputMinimum);
+  print_helper::PrintNumericTrait(os, indent, "InputMaximum", m_InputMaximum);
 
   itkPrintSelfBooleanMacro(UseLookupTable);
 }

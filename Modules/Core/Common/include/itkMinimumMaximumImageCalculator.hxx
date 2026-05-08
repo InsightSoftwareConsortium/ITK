@@ -19,6 +19,7 @@
 #define itkMinimumMaximumImageCalculator_hxx
 
 #include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -113,8 +114,8 @@ MinimumMaximumImageCalculator<TInputImage>::PrintSelf(std::ostream & os, Indent 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Minimum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Minimum) << std::endl;
-  os << indent << "Maximum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Maximum) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Minimum", m_Minimum);
+  print_helper::PrintNumericTrait(os, indent, "Maximum", m_Maximum);
   os << indent << "Index of Minimum: " << m_IndexOfMinimum << std::endl;
   os << indent << "Index of Maximum: " << m_IndexOfMaximum << std::endl;
   itkPrintSelfObjectMacro(Image);

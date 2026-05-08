@@ -20,6 +20,7 @@
 
 #include "itkNumericTraits.h"
 #include <algorithm>
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -56,8 +57,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::PrintSelf(std::ostream & os, In
   os << indent << "Trial points: " << m_TrialPoints.GetPointer() << std::endl;
   os << indent << "Speed constant: " << m_SpeedConstant << std::endl;
   os << indent << "Stopping value: " << m_StoppingValue << std::endl;
-  os << indent << "Large Value: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_LargeValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Large Value", m_LargeValue);
   os << indent << "Normalization Factor: " << m_NormalizationFactor << std::endl;
   os << indent << "Collect points: " << m_CollectPoints << std::endl;
   os << indent << "OverrideOutputInformation: ";

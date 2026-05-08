@@ -24,6 +24,7 @@
 #include "itkFixedArray.h"
 #include "itkTotalProgressReporter.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -164,12 +165,8 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "ForegroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
-  os << indent
-     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ForegroundValue", m_ForegroundValue);
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue", m_BackgroundValue);
 }
 } // namespace itk
 

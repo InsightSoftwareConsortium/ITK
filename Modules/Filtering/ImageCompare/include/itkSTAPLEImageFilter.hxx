@@ -32,9 +32,7 @@ STAPLEImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inden
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "ForegroundValue: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ForegroundValue", m_ForegroundValue);
   os << indent << "ElapsedIterations: " << m_ElapsedIterations << std::endl;
   os << indent << "MaximumIterations: " << m_MaximumIterations << std::endl;
   os << indent << "ConfidenceWeight: " << m_ConfidenceWeight << std::endl;

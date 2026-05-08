@@ -23,6 +23,7 @@
 #include "itkImageDuplicator.h"
 #include "itkImportImageFilter.h"
 #include "itkMultiplyImageFilter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -195,7 +196,7 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Prin
      << "NumberOfControlPointsForTheConstantVelocityField: " << m_NumberOfControlPointsForTheConstantVelocityField
      << std::endl;
   os << indent << "NumberOfControlPointsForTheUpdateField: " << m_NumberOfControlPointsForTheUpdateField << std::endl;
-  os << indent << "SplineOrder: " << static_cast<NumericTraits<SplineOrderType>::PrintType>(m_SplineOrder) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "SplineOrder", m_SplineOrder);
 }
 
 } // namespace itk

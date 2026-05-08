@@ -19,6 +19,7 @@
 #define itkBinaryReconstructionLabelMapFilter_hxx
 
 #include "itkProgressReporter.h"
+#include "itkPrintHelper.h"
 
 
 namespace itk
@@ -67,9 +68,7 @@ BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>::Pr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "ForegroundValue: " << static_cast<typename NumericTraits<MarkerImagePixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ForegroundValue", m_ForegroundValue);
 }
 
 } // end namespace itk

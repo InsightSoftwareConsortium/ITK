@@ -21,6 +21,7 @@
 
 #include "itkProgressReporter.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -325,11 +326,9 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::PrintSelf(std::ostream & o
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FirstBin: " << static_cast<typename itk::NumericTraits<InstanceIdentifier>::PrintType>(m_FirstBin)
-     << std::endl;
-  os << indent << "LastBin: " << static_cast<typename itk::NumericTraits<InstanceIdentifier>::PrintType>(m_LastBin)
-     << std::endl;
-  os << indent << "Size: " << static_cast<typename itk::NumericTraits<SizeValueType>::PrintType>(m_Size) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "FirstBin", m_FirstBin);
+  print_helper::PrintNumericTrait(os, indent, "LastBin", m_LastBin);
+  print_helper::PrintNumericTrait(os, indent, "Size", m_Size);
 }
 } // end namespace itk
 

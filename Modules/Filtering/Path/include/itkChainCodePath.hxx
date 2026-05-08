@@ -95,7 +95,7 @@ ChainCodePath<VDimension>::PrintSelf(std::ostream & os, Indent indent) const
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Start: " << static_cast<typename NumericTraits<IndexType>::PrintType>(m_Start) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Start", m_Start);
   os << indent << "Chain: " << m_Chain << std::endl;
 }
 } // end namespace itk

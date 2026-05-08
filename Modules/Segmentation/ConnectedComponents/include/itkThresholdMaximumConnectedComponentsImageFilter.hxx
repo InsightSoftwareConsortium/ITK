@@ -22,6 +22,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkObjectFactory.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -181,18 +182,12 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage, TOutputImage>::Print
   itkPrintSelfObjectMacro(MinMaxCalculator);
 
   os << indent << "MinimumObjectSizeInPixels: " << m_MinimumObjectSizeInPixels << std::endl;
-  os << indent << "OutsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue)
-     << std::endl;
-  os << indent << "InsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_InsideValue)
-     << std::endl;
-  os << indent << "LowerBoundary: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_LowerBoundary)
-     << std::endl;
-  os << indent << "UpperBoundary: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_UpperBoundary)
-     << std::endl;
-  os << indent << "Threshold Value: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ThresholdValue)
-     << std::endl;
-  os << indent << "NumberOfObjects: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfObjects)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "OutsideValue", m_OutsideValue);
+  print_helper::PrintNumericTrait(os, indent, "InsideValue", m_InsideValue);
+  print_helper::PrintNumericTrait(os, indent, "LowerBoundary", m_LowerBoundary);
+  print_helper::PrintNumericTrait(os, indent, "UpperBoundary", m_UpperBoundary);
+  print_helper::PrintNumericTrait(os, indent, "Threshold Value", m_ThresholdValue);
+  print_helper::PrintNumericTrait(os, indent, "NumberOfObjects", m_NumberOfObjects);
 }
 } // end namespace itk
 

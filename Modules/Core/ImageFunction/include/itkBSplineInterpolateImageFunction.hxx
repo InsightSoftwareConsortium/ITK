@@ -59,9 +59,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::Prin
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Scratch: " << m_Scratch << std::endl;
-  os << indent
-     << "DataLength: " << static_cast<typename NumericTraits<typename TImageType::SizeType>::PrintType>(m_DataLength)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "DataLength", m_DataLength);
   os << indent << "SplineOrder: " << m_SplineOrder << std::endl;
 
   itkPrintSelfObjectMacro(Coefficients);
@@ -73,8 +71,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::Prin
 
   itkPrintSelfBooleanMacro(UseImageDirection);
 
-  os << indent << "NumberOfWorkUnits: " << static_cast<NumericTraits<ThreadIdType>::PrintType>(m_NumberOfWorkUnits)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfWorkUnits", m_NumberOfWorkUnits);
 
   os << indent << "ThreadedEvaluateIndex: ";
   if (m_ThreadedEvaluateIndex != nullptr)

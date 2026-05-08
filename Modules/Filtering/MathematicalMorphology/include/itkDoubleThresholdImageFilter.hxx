@@ -21,6 +21,7 @@
 #include "itkReconstructionByDilationImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkProgressAccumulator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -116,18 +117,12 @@ DoubleThresholdImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Threshold1: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold1)
-     << std::endl;
-  os << indent << "Threshold2: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold2)
-     << std::endl;
-  os << indent << "Threshold3: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold3)
-     << std::endl;
-  os << indent << "Threshold4: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold4)
-     << std::endl;
-  os << indent << "InsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_InsideValue)
-     << std::endl;
-  os << indent << "OutsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Threshold1", m_Threshold1);
+  print_helper::PrintNumericTrait(os, indent, "Threshold2", m_Threshold2);
+  print_helper::PrintNumericTrait(os, indent, "Threshold3", m_Threshold3);
+  print_helper::PrintNumericTrait(os, indent, "Threshold4", m_Threshold4);
+  print_helper::PrintNumericTrait(os, indent, "InsideValue", m_InsideValue);
+  print_helper::PrintNumericTrait(os, indent, "OutsideValue", m_OutsideValue);
   os << indent << "NumberOfIterationsUsed: " << m_NumberOfIterationsUsed << std::endl;
   itkPrintSelfBooleanMacro(FullyConnected);
 }

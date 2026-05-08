@@ -21,6 +21,7 @@
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 #include <algorithm>
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -48,8 +49,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::PrintSelf(std::os
   os << indent << "TargetOffset: " << m_TargetOffset << std::endl;
   os << indent << "TargetReachedMode: " << m_TargetReachedMode << std::endl;
   os << indent << "TargetValue: " << m_TargetValue << std::endl;
-  os << indent << "NumberOfTargets: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfTargets)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfTargets", m_NumberOfTargets);
 }
 
 template <typename TLevelSet, typename TSpeedImage>

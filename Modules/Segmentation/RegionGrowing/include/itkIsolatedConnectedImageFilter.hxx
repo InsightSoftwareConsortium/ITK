@@ -51,20 +51,13 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream 
   os << indent << "Seeds1: " << std::endl;
   os << indent << "Seeds2: " << std::endl;
 
-  os << indent << "Lower: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Lower)
-     << std::endl;
-  os << indent << "Upper: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Upper)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Lower", m_Lower);
+  print_helper::PrintNumericTrait(os, indent, "Upper", m_Upper);
 
-  os << indent
-     << "ReplaceValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ReplaceValue", m_ReplaceValue);
 
-  os << indent
-     << "IsolatedValue: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_IsolatedValue)
-     << std::endl;
-  os << indent << "IsolatedValueTolerance: "
-     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_IsolatedValueTolerance) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "IsolatedValue", m_IsolatedValue);
+  print_helper::PrintNumericTrait(os, indent, "IsolatedValueTolerance", m_IsolatedValueTolerance);
 
   itkPrintSelfBooleanMacro(FindUpperThreshold);
   itkPrintSelfBooleanMacro(ThresholdingFailed);

@@ -19,6 +19,7 @@
 #define itkLabelStatisticsKeepNObjectsImageFilter_hxx
 
 #include "itkProgressAccumulator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -111,9 +112,7 @@ LabelStatisticsKeepNObjectsImageFilter<TInputImage, TFeatureImage>::PrintSelf(st
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue", m_BackgroundValue);
   os << indent << "NumberOfObjects: " << m_NumberOfObjects << std::endl;
   os << indent << "ReverseOrdering: " << m_ReverseOrdering << std::endl;
   os << indent << "Attribute: " << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ')'

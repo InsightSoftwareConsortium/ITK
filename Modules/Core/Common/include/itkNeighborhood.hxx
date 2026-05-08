@@ -117,8 +117,8 @@ void
 Neighborhood<TPixel, VDimension, TContainer>::PrintSelf(std::ostream & os, Indent indent) const
 {
   using namespace itk::print_helper;
-  os << indent << "Size: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Size) << std::endl;
-  os << indent << "Radius: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Radius) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Size", m_Size);
+  print_helper::PrintNumericTrait(os, indent, "Radius", m_Radius);
   os << indent << "StrideTable: " << m_StrideTable << std::endl;
   os << indent << "OffsetTable: " << m_OffsetTable << std::endl;
 }

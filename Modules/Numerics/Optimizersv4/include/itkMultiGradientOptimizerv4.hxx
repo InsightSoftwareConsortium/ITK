@@ -47,12 +47,8 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::PrintSelf(std::
   os << indent << "StopConditionDescription: " << m_StopConditionDescription.str() << std::endl;
   os << indent << "OptimizersList: " << m_OptimizersList << std::endl;
   os << indent << "MetricValuesList: " << m_MetricValuesList << std::endl;
-  os << indent
-     << "MinimumMetricValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_MinimumMetricValue)
-     << std::endl;
-  os << indent
-     << "MaximumMetricValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_MaximumMetricValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "MinimumMetricValue", m_MinimumMetricValue);
+  print_helper::PrintNumericTrait(os, indent, "MaximumMetricValue", m_MaximumMetricValue);
 }
 
 template <typename TInternalComputationValueType>

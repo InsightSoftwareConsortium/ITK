@@ -21,6 +21,7 @@
 #include "itkNumericTraits.h"
 #include "itkTotalProgressReporter.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -165,9 +166,7 @@ LabelImageToLabelMapFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue", m_BackgroundValue);
 }
 } // end namespace itk
 #endif

@@ -21,6 +21,7 @@
 #include "itkMakeUniqueForOverwrite.h"
 #include "itkMath.h"
 #include "itkNumericTraits.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -198,7 +199,7 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::PrintSelf(std::o
 
   itkPrintSelfObjectMacro(FinalOffsetValues);
 
-  os << indent << "SwathSize: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_SwathSize) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "SwathSize", m_SwathSize);
 }
 
 // The next three functions are private helper functions

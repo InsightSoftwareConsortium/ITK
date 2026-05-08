@@ -20,6 +20,7 @@
 
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -121,8 +122,7 @@ KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>::PrintSelf(std::ostr
   os << indent << "SigmaFactor: " << this->m_SigmaFactor << std::endl;
   os << indent << "NumberOfIterations: " << this->m_NumberOfIterations << std::endl;
 
-  os << indent << "Output: " << static_cast<typename itk::NumericTraits<InputPixelType>::PrintType>(m_Output)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Output", m_Output);
 
   itkPrintSelfObjectMacro(Image);
   itkPrintSelfObjectMacro(Mask);

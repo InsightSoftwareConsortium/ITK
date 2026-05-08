@@ -27,6 +27,7 @@
 #include "itkIdentityTransform.h"
 
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -293,7 +294,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ost
 
   os << indent << "MaximumError: " << m_MaximumError << std::endl;
   os << indent << "NumberOfLevels: " << m_NumberOfLevels << std::endl;
-  os << indent << "Schedule: " << static_cast<NumericTraits<ScheduleType>::PrintType>(m_Schedule) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Schedule", m_Schedule);
   itkPrintSelfBooleanMacro(UseShrinkImageFilter);
 }
 

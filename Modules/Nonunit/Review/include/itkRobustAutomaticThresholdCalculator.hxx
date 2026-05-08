@@ -19,6 +19,7 @@
 #define itkRobustAutomaticThresholdCalculator_hxx
 
 #include "itkImageRegionConstIterator.h"
+#include "itkPrintHelper.h"
 
 
 namespace itk
@@ -76,7 +77,7 @@ RobustAutomaticThresholdCalculator<TInputImage, TGradientImage>::PrintSelf(std::
 
   os << indent << "Valid: " << m_Valid << std::endl;
   os << indent << "Pow: " << m_Pow << std::endl;
-  os << indent << "Output: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Output) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Output", m_Output);
 
   itkPrintSelfObjectMacro(Input);
   itkPrintSelfObjectMacro(Gradient);

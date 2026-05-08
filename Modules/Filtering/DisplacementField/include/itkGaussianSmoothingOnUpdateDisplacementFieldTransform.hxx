@@ -27,6 +27,7 @@
 #include "itkImportImageFilter.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkVectorNeighborhoodOperatorImageFilter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -244,12 +245,10 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimen
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "GaussianSmoothingVarianceForTheUpdateField: "
-     << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_GaussianSmoothingVarianceForTheUpdateField)
-     << std::endl;
-  os << indent << "GaussianSmoothingVarianceForTheTotalField: "
-     << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_GaussianSmoothingVarianceForTheTotalField)
-     << std::endl;
+  print_helper::PrintNumericTrait(
+    os, indent, "GaussianSmoothingVarianceForTheUpdateField", m_GaussianSmoothingVarianceForTheUpdateField);
+  print_helper::PrintNumericTrait(
+    os, indent, "GaussianSmoothingVarianceForTheTotalField", m_GaussianSmoothingVarianceForTheTotalField);
   os << indent << "GaussianSmoothingOperator: " << m_GaussianSmoothingOperator << std::endl;
 }
 } // namespace itk

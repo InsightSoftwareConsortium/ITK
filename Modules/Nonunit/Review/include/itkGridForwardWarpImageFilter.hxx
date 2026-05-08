@@ -23,6 +23,7 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
 #include "itkLineIterator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -141,10 +142,8 @@ GridForwardWarpImageFilter<TDisplacementField, TOutputImage>::PrintSelf(std::ost
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
-  os << indent << "ForegroundValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue", m_BackgroundValue);
+  print_helper::PrintNumericTrait(os, indent, "ForegroundValue", m_ForegroundValue);
   os << indent << "GridPixSpacing: " << m_GridPixSpacing << std::endl;
 }
 } // end namespace itk

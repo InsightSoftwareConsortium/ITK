@@ -22,6 +22,7 @@
 #include "itkImageScanlineConstIterator.h"
 #include "itkTotalProgressReporter.h"
 #include <algorithm> // For min and max.
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -471,8 +472,8 @@ LabelStatisticsImageFilter<TImage, TLabelImage>::PrintSelf(std::ostream & os, In
   os << indent << "ValidLabelValues: " << m_ValidLabelValues << std::endl;
   itkPrintSelfBooleanMacro(UseHistograms);
   os << indent << "NumBins: " << m_NumBins << std::endl;
-  os << indent << "LowerBound: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_LowerBound) << std::endl;
-  os << indent << "UpperBound: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_UpperBound) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "LowerBound", m_LowerBound);
+  print_helper::PrintNumericTrait(os, indent, "UpperBound", m_UpperBound);
 }
 } // end namespace itk
 #endif

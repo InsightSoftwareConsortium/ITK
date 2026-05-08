@@ -23,6 +23,7 @@
 #include "itkShapeOpeningLabelMapFilter.h"
 #include "itkLabelMapMaskImageFilter.h"
 #include "itkProgressAccumulator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -129,9 +130,7 @@ BinaryFillholeImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "ForegroundValue: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ForegroundValue", m_ForegroundValue);
   itkPrintSelfBooleanMacro(FullyConnected);
 }
 

@@ -19,6 +19,7 @@
 #define itkSpatialObjectPoint_hxx
 
 
+#include "itkPrintHelper.h"
 namespace itk
 {
 
@@ -128,10 +129,8 @@ void
 SpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "Id: " << m_Id << std::endl;
-  os << indent
-     << "PositionInObjectSpace: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_PositionInObjectSpace)
-     << std::endl;
-  os << indent << "Color: " << static_cast<NumericTraits<ColorType>::PrintType>(m_Color) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "PositionInObjectSpace", m_PositionInObjectSpace);
+  print_helper::PrintNumericTrait(os, indent, "Color", m_Color);
 
   os << indent << "ScalarDictionary: " << std::endl;
   for (const auto & keyval : m_ScalarDictionary)

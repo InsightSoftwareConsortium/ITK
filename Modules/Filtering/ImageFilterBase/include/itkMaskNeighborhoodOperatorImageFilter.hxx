@@ -22,6 +22,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkTotalProgressReporter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -159,8 +160,7 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
   Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Default value : " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_DefaultValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Default value ", m_DefaultValue);
   os << indent << "UseDefaultValue : " << m_UseDefaultValue << std::endl;
 }
 } // end namespace itk

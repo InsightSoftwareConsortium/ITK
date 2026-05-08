@@ -25,6 +25,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkCastImageFilter.h"
 #include "itkMakeUniqueForOverwrite.h"
+#include "itkPrintHelper.h"
 
 /*
  * This code was contributed in the Insight Journal paper
@@ -230,7 +231,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfBooleanMacro(FullyConnected);
-  os << indent << "Lambda: " << static_cast<typename NumericTraits<AttributeType>::PrintType>(m_Lambda) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Lambda", m_Lambda);
 }
 } // end namespace itk
 

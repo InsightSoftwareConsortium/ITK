@@ -19,6 +19,7 @@
 #define itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor_hxx
 
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -81,19 +82,17 @@ GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "GaussianSmoothingVarianceForTheUpdateField: "
-     << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_GaussianSmoothingVarianceForTheUpdateField)
-     << std::endl;
-  os << indent << "GaussianSmoothingVarianceForTheTotalField: "
-     << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_GaussianSmoothingVarianceForTheTotalField)
-     << std::endl;
+  print_helper::PrintNumericTrait(
+    os, indent, "GaussianSmoothingVarianceForTheUpdateField", m_GaussianSmoothingVarianceForTheUpdateField);
+  print_helper::PrintNumericTrait(
+    os, indent, "GaussianSmoothingVarianceForTheTotalField", m_GaussianSmoothingVarianceForTheTotalField);
 
-  os << indent << "GaussianSmoothingVarianceForTheUpdateFieldSetTime: "
-     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_GaussianSmoothingVarianceForTheUpdateFieldSetTime)
-     << std::endl;
-  os << indent << "GaussianSmoothingVarianceForTheTotalFieldSetTime: "
-     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_GaussianSmoothingVarianceForTheTotalFieldSetTime)
-     << std::endl;
+  print_helper::PrintNumericTrait(os,
+                                  indent,
+                                  "GaussianSmoothingVarianceForTheUpdateFieldSetTime",
+                                  m_GaussianSmoothingVarianceForTheUpdateFieldSetTime);
+  print_helper::PrintNumericTrait(
+    os, indent, "GaussianSmoothingVarianceForTheTotalFieldSetTime", m_GaussianSmoothingVarianceForTheTotalFieldSetTime);
 }
 
 } // namespace itk

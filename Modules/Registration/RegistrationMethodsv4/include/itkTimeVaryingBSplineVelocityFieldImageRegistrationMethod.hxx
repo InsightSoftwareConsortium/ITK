@@ -31,6 +31,7 @@
 #include "itkVectorMagnitudeImageFilter.h"
 #include "itkWindowConvergenceMonitoringFunction.h"
 #include "itkNeighborhoodAlgorithm.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -855,16 +856,11 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
 
   itkPrintSelfObjectMacro(IdentityDisplacementFieldTransform);
 
-  os << indent << "LearningRate: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_LearningRate)
-     << std::endl;
-  os << indent
-     << "ConvergenceThreshold: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_ConvergenceThreshold)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "LearningRate", m_LearningRate);
+  print_helper::PrintNumericTrait(os, indent, "ConvergenceThreshold", m_ConvergenceThreshold);
   os << indent << "ConvergenceWindowSize: " << m_ConvergenceWindowSize << std::endl;
   os << indent << "NumberOfIterationsPerLevel: " << m_NumberOfIterationsPerLevel << std::endl;
-  os << indent
-     << "NumberOfTimePointSamples: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfTimePointSamples)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfTimePointSamples", m_NumberOfTimePointSamples);
   os << indent << "BoundaryWeight: " << m_BoundaryWeight << std::endl;
 }
 

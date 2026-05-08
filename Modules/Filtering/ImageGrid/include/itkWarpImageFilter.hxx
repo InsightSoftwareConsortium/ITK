@@ -27,6 +27,7 @@
 #include "itkContinuousIndex.h"
 #include "itkMath.h"
 #include "itkTransform.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -64,8 +65,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::PrintSelf(std::o
   os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
   os << indent << "OutputSize: " << m_OutputSize << std::endl;
   os << indent << "OutputStartIndex: " << m_OutputStartIndex << std::endl;
-  os << indent << "EdgePaddingValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_EdgePaddingValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "EdgePaddingValue", m_EdgePaddingValue);
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
 }
 

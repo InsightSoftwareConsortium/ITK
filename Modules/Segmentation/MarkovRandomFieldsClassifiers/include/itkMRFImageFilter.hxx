@@ -45,17 +45,10 @@ MRFImageFilter<TInputImage, TClassifiedImage>::PrintSelf(std::ostream & os, Inde
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "InputImageNeighborhoodRadius: "
-     << static_cast<typename NumericTraits<InputImageNeighborhoodRadiusType>::PrintType>(m_InputImageNeighborhoodRadius)
-     << std::endl;
-  os << indent << "LabelledImageNeighborhoodRadius: "
-     << static_cast<typename NumericTraits<LabelledImageNeighborhoodRadiusType>::PrintType>(
-          m_LabelledImageNeighborhoodRadius)
-     << std::endl;
-  os << indent << "LabelStatusImageNeighborhoodRadius: "
-     << static_cast<typename NumericTraits<LabelStatusImageNeighborhoodRadiusType>::PrintType>(
-          m_LabelStatusImageNeighborhoodRadius)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "InputImageNeighborhoodRadius", m_InputImageNeighborhoodRadius);
+  print_helper::PrintNumericTrait(os, indent, "LabelledImageNeighborhoodRadius", m_LabelledImageNeighborhoodRadius);
+  print_helper::PrintNumericTrait(
+    os, indent, "LabelStatusImageNeighborhoodRadius", m_LabelStatusImageNeighborhoodRadius);
 
   os << indent << "NumberOfClasses: " << m_NumberOfClasses << std::endl;
   os << indent << "MaximumNumberOfIterations: " << m_MaximumNumberOfIterations << std::endl;

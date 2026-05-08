@@ -22,6 +22,7 @@
 #include "itkImageAlgorithm.h"
 #include "itkContinuousIndex.h"
 #include "itkImportImageFilter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -213,7 +214,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimens
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "SplineOrder: " << static_cast<NumericTraits<SplineOrderType>::PrintType>(m_SplineOrder) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "SplineOrder", m_SplineOrder);
   itkPrintSelfBooleanMacro(EnforceStationaryBoundary);
   os << indent << "NumberOfControlPointsForTheUpdateField: " << m_NumberOfControlPointsForTheUpdateField << std::endl;
   os << indent << "NumberOfControlPointsForTheTotalField: " << m_NumberOfControlPointsForTheTotalField << std::endl;

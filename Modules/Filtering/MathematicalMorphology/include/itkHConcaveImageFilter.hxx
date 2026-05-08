@@ -21,6 +21,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkHMinimaImageFilter.h"
 #include "itkSubtractImageFilter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -94,8 +95,7 @@ HConcaveImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Ind
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Depth of local minima (contrast): "
-     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Height) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Depth of local minima (contrast)", m_Height);
   os << indent << "Number of iterations used to produce current output: " << m_NumberOfIterationsUsed << std::endl;
   itkPrintSelfBooleanMacro(FullyConnected);
 }

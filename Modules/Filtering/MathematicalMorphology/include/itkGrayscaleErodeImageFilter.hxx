@@ -21,6 +21,7 @@
 #include "itkNumericTraits.h"
 #include "itkProgressAccumulator.h"
 #include <string>
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -215,7 +216,7 @@ GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>::PrintSelf(std::os
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Boundary: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Boundary) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Boundary", m_Boundary);
   os << indent << "Algorithm: " << m_Algorithm << std::endl;
 }
 } // end namespace itk

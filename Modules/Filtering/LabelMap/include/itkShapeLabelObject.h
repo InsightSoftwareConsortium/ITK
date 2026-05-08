@@ -22,6 +22,7 @@
 #include "itkLabelMap.h"
 #include "itkMath.h"
 #include "itkAffineTransform.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -733,14 +734,10 @@ protected:
     Superclass::PrintSelf(os, indent);
 
     os << indent << "BoundingBox: " << m_BoundingBox << std::endl;
-    os << indent << "NumberOfPixels: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixels)
-       << std::endl;
+    print_helper::PrintNumericTrait(os, indent, "NumberOfPixels", m_NumberOfPixels);
     os << indent << "PhysicalSize: " << m_PhysicalSize << std::endl;
-    os << indent << "Centroid: " << static_cast<typename NumericTraits<CentroidType>::PrintType>(m_Centroid)
-       << std::endl;
-    os << indent
-       << "NumberOfPixelsOnBorder: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsOnBorder)
-       << std::endl;
+    print_helper::PrintNumericTrait(os, indent, "Centroid", m_Centroid);
+    print_helper::PrintNumericTrait(os, indent, "NumberOfPixelsOnBorder", m_NumberOfPixelsOnBorder);
     os << indent << "PerimeterOnBorder: " << m_PerimeterOnBorder << std::endl;
     os << indent << "FeretDiameter: " << m_FeretDiameter << std::endl;
     os << indent << "PrincipalMoments: " << m_PrincipalMoments << std::endl;
@@ -753,12 +750,8 @@ protected:
     os << indent << "EquivalentEllipsoidDiameter: " << m_EquivalentEllipsoidDiameter << std::endl;
     os << indent << "Flatness: " << m_Flatness << std::endl;
     os << indent << "PerimeterOnBorderRatio: " << m_PerimeterOnBorderRatio << std::endl;
-    os << indent << "OrientedBoundingBoxSize: "
-       << static_cast<typename NumericTraits<OrientedBoundingBoxSizeType>::PrintType>(m_OrientedBoundingBoxSize)
-       << std::endl;
-    os << indent << "OrientedBoundingBoxOrigin: "
-       << static_cast<typename NumericTraits<OrientedBoundingBoxPointType>::PrintType>(m_OrientedBoundingBoxOrigin)
-       << std::endl;
+    print_helper::PrintNumericTrait(os, indent, "OrientedBoundingBoxSize", m_OrientedBoundingBoxSize);
+    print_helper::PrintNumericTrait(os, indent, "OrientedBoundingBoxOrigin", m_OrientedBoundingBoxOrigin);
   }
 
 private:

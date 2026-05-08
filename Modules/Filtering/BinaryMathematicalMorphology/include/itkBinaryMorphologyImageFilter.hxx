@@ -25,6 +25,7 @@
 #include "itkConstantBoundaryCondition.h"
 #include "itkOffset.h"
 #include "itkProgressReporter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -321,12 +322,8 @@ void
 BinaryMorphologyImageFilter<TInputImage, TOutput, TKernel>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent
-     << "Foreground Value: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
-  os << indent
-     << "Background Value: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Foreground Value", m_ForegroundValue);
+  print_helper::PrintNumericTrait(os, indent, "Background Value", m_BackgroundValue);
   os << indent << "BoundaryToForeground: " << m_BoundaryToForeground << std::endl;
 }
 } // end namespace itk

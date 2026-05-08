@@ -19,6 +19,7 @@
 #define itkPipelineMonitorImageFilter_hxx
 
 
+#include "itkPrintHelper.h"
 namespace itk
 {
 
@@ -327,14 +328,9 @@ PipelineMonitorImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent inde
     i->Print(os, indent.GetNextIndent());
   }
 
-  os << indent
-     << "UpdatedOutputOrigin: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_UpdatedOutputOrigin)
-     << std::endl;
-  os << indent << "UpdatedOutputDirection: "
-     << static_cast<typename NumericTraits<DirectionType>::PrintType>(m_UpdatedOutputDirection) << std::endl;
-  os << indent
-     << "UpdatedOutputSpacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_UpdatedOutputSpacing)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "UpdatedOutputOrigin", m_UpdatedOutputOrigin);
+  print_helper::PrintNumericTrait(os, indent, "UpdatedOutputDirection", m_UpdatedOutputDirection);
+  print_helper::PrintNumericTrait(os, indent, "UpdatedOutputSpacing", m_UpdatedOutputSpacing);
   os << indent << "UpdatedOutputLargestPossibleRegion: " << m_UpdatedOutputLargestPossibleRegion << std::endl;
 }
 

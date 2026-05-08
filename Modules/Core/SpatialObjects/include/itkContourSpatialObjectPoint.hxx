@@ -19,6 +19,7 @@
 #define itkContourSpatialObjectPoint_hxx
 
 
+#include "itkPrintHelper.h"
 namespace itk
 {
 
@@ -64,9 +65,7 @@ ContourSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent 
   Superclass::PrintSelf(os, indent);
 
   os << indent << "PickedPointInObjectSpace: " << m_PickedPointInObjectSpace << std::endl;
-  os << indent
-     << "NormalInObjectSpace: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_NormalInObjectSpace)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NormalInObjectSpace", m_NormalInObjectSpace);
 }
 } // end namespace itk
 

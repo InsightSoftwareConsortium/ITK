@@ -19,6 +19,7 @@
 #define itkGPUReduction_hxx
 
 #include "itkMacro.h"
+#include "itkPrintHelper.h"
 
 // #define CPU_VERIFY
 
@@ -59,8 +60,8 @@ GPUReduction<TElement>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Size: " << m_Size << std::endl;
   itkPrintSelfBooleanMacro(SmallBlock);
 
-  os << indent << "GPUResult: " << static_cast<typename NumericTraits<TElement>::PrintType>(m_GPUResult) << std::endl;
-  os << indent << "CPUResult: " << static_cast<typename NumericTraits<TElement>::PrintType>(m_CPUResult) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "GPUResult", m_GPUResult);
+  print_helper::PrintNumericTrait(os, indent, "CPUResult", m_CPUResult);
 }
 
 template <typename TElement>

@@ -143,13 +143,13 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>::PrintSelf(std::ostrea
 
   itkPrintSelfObjectMacro(MeanImage);
 
-  os << indent << "m_Size: " << static_cast<typename NumericTraits<BasisSizeType>::PrintType>(m_Size) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "m_Size", m_Size);
 
   itkPrintSelfObjectMacro(Image);
 
   os << indent << "BasisMatrix: " << m_BasisMatrix << std::endl;
   itkPrintSelfBooleanMacro(BasisMatrixCalculated);
-  os << indent << "NumPixels: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumPixels) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumPixels", m_NumPixels);
 }
 } // end namespace itk
 

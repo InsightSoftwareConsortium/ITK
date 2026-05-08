@@ -20,6 +20,7 @@
 
 #include "itkSize.h"
 #include "itkDefaultConvertPixelTraits.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -221,8 +222,7 @@ ImageSpatialObject<TDimension, PixelType>::PrintSelf(std::ostream & os, Indent i
 
   itkPrintSelfObjectMacro(Image);
 
-  os << indent << "SliceNumber: " << static_cast<typename NumericTraits<IndexType>::PrintType>(m_SliceNumber)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "SliceNumber", m_SliceNumber);
 
 #if !defined(ITK_LEGACY_REMOVE)
   os << indent << "PixelType: " << m_PixelType << std::endl;

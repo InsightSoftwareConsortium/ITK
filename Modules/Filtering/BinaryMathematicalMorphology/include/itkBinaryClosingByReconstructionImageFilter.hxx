@@ -25,6 +25,7 @@
 #include "itkConstantPadImageFilter.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodIterator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -108,9 +109,7 @@ BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>::PrintSelf(std::o
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "ForegroundValue: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ForegroundValue", m_ForegroundValue);
   itkPrintSelfBooleanMacro(FullyConnected);
 }
 

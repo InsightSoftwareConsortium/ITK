@@ -20,6 +20,7 @@
 
 
 #include "itkMacro.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -39,8 +40,7 @@ MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "StencilRadius: " << static_cast<typename NumericTraits<RadiusValueType>::PrintType>(m_StencilRadius)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "StencilRadius", m_StencilRadius);
 }
 
 template <typename TInputImage, typename TOutputImage>

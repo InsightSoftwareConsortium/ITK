@@ -22,6 +22,7 @@
 #include "itkPathIterator.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -234,12 +235,11 @@ PathToImageFilter<TInputPath, TOutputImage>::PrintSelf(std::ostream & os, Indent
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Size: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Size) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Size", m_Size);
   os << indent << "Spacing: " << m_Spacing << std::endl;
   os << indent << "Origin: " << m_Origin << std::endl;
-  os << indent << "PathValue : " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_PathValue) << std::endl;
-  os << indent << "BackgroundValue : " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "PathValue ", m_PathValue);
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue ", m_BackgroundValue);
 }
 } // end namespace itk
 

@@ -21,6 +21,7 @@
 #include "itkContinuousIndex.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -2650,9 +2651,8 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::PrintSelf(std::ostream & os, I
 
   os << indent << "LUT: " << m_LUT << std::endl;
 
-  os << indent << "LastVoxel: " << static_cast<NumericTraits<IdentifierType>::PrintType>(*m_LastVoxel) << std::endl;
-  os << indent << "CurrentVoxel: " << static_cast<NumericTraits<IdentifierType>::PrintType>(*m_CurrentVoxel)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "LastVoxel", *m_LastVoxel);
+  print_helper::PrintNumericTrait(os, indent, "CurrentVoxel", *m_CurrentVoxel);
 
   os << indent << "LastRow: ";
   if (m_LastRow != nullptr)
@@ -2716,10 +2716,8 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::PrintSelf(std::ostream & os, I
 
   os << indent << "LocationOffset: " << m_LocationOffset << std::endl;
 
-  os << indent << "NumberOfNodes: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfNodes)
-     << std::endl;
-  os << indent << "NumberOfCells: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfCells)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfNodes", m_NumberOfNodes);
+  print_helper::PrintNumericTrait(os, indent, "NumberOfCells", m_NumberOfCells);
 
   os << indent << "NodeLimit: " << m_NodeLimit << std::endl;
   os << indent << "CellLimit: " << m_CellLimit << std::endl;
@@ -2734,8 +2732,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::PrintSelf(std::ostream & os, I
   os << indent << "LastFrameIndex: " << m_LastFrameIndex << std::endl;
 
   os << indent << "PointFound: " << m_PointFound << std::endl;
-  os << indent << "ObjectValue: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ObjectValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ObjectValue", m_ObjectValue);
 
   os << indent << "m_OutputMesh: ";
   if (m_OutputMesh != nullptr)

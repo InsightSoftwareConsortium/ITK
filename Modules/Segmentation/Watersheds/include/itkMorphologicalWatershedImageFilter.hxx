@@ -23,6 +23,7 @@
 #include "itkConnectedComponentImageFilter.h"
 #include "itkMorphologicalWatershedFromMarkersImageFilter.h"
 #include "itkNumericTraits.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -145,8 +146,7 @@ MorphologicalWatershedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ost
 
   itkPrintSelfBooleanMacro(FullyConnected);
   os << indent << "MarkWatershedLine: " << m_MarkWatershedLine << std::endl;
-  os << indent << "Level: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Level)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Level", m_Level);
 }
 
 } // end namespace itk

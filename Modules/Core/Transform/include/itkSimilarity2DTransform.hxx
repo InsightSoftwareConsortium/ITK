@@ -19,6 +19,7 @@
 #define itkSimilarity2DTransform_hxx
 
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -215,7 +216,7 @@ Similarity2DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Scale: " << static_cast<typename NumericTraits<ScaleType>::PrintType>(m_Scale) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Scale", m_Scale);
 }
 
 

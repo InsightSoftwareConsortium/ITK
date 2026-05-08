@@ -26,6 +26,7 @@
 
 #include <vector>
 #include <algorithm>
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -157,12 +158,8 @@ VotingBinaryImageFilter<TInputImage, TOutput>::PrintSelf(std::ostream & os, Inde
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Radius: " << m_Radius << std::endl;
-  os << indent
-     << "Foreground value : " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
-  os << indent
-     << "Background value : " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Foreground value ", m_ForegroundValue);
+  print_helper::PrintNumericTrait(os, indent, "Background value ", m_BackgroundValue);
   os << indent << "Birth Threshold   : " << m_BirthThreshold << std::endl;
   os << indent << "Survival Threshold   : " << m_SurvivalThreshold << std::endl;
 }

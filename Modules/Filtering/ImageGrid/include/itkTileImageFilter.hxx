@@ -27,6 +27,7 @@
 #include "itkNumericTraitsRGBPixel.h"
 #include "itkProgressAccumulator.h"
 #include "itkDefaultConvertPixelTraits.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -400,9 +401,7 @@ TileImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "DefaultPixelValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_DefaultPixelValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "DefaultPixelValue", m_DefaultPixelValue);
   os << indent << "Layout: " << m_Layout << std::endl;
 }
 } // end namespace itk

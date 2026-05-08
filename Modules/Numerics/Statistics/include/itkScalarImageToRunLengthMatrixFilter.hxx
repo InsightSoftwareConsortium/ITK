@@ -23,6 +23,7 @@
 #include "itkNeighborhood.h"
 #include "itkMacro.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk::Statistics
 {
@@ -300,14 +301,11 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::Pr
   Superclass::PrintSelf(os, indent);
 
   os << indent << "NumberOfBinsPerAxis: " << m_NumberOfBinsPerAxis << std::endl;
-  os << indent << "Min: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Min) << std::endl;
-  os << indent << "Max: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Max) << std::endl;
-  os << indent << "MinDistance: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_MinDistance)
-     << std::endl;
-  os << indent << "MaxDistance: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_MaxDistance)
-     << std::endl;
-  os << indent << "InsidePixelValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_InsidePixelValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Min", m_Min);
+  print_helper::PrintNumericTrait(os, indent, "Max", m_Max);
+  print_helper::PrintNumericTrait(os, indent, "MinDistance", m_MinDistance);
+  print_helper::PrintNumericTrait(os, indent, "MaxDistance", m_MaxDistance);
+  print_helper::PrintNumericTrait(os, indent, "InsidePixelValue", m_InsidePixelValue);
   os << indent << "LowerBound: " << m_LowerBound << std::endl;
   os << indent << "UpperBound: " << m_UpperBound << std::endl;
 

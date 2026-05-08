@@ -19,6 +19,7 @@
 #define itkStatisticsRelabelImageFilter_hxx
 
 #include "itkProgressAccumulator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -110,9 +111,7 @@ StatisticsRelabelImageFilter<TInputImage, TFeatureImage>::PrintSelf(std::ostream
   Superclass::PrintSelf(os, indent);
 
   os << indent << "ReverseOrdering: " << m_ReverseOrdering << std::endl;
-  os << indent
-     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue", m_BackgroundValue);
   os << indent << "Attribute: " << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ')'
      << std::endl;
 }

@@ -20,6 +20,7 @@
 
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -121,12 +122,8 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "UpperBinaryValue: " << static_cast<typename NumericTraits<BinaryValueType>::PrintType>(m_UpperBinaryValue)
-     << std::endl;
-  os << indent
-     << "LowerBinaryValue: " << static_cast<typename NumericTraits<BinaryValueType>::PrintType>(m_LowerBinaryValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "UpperBinaryValue", m_UpperBinaryValue);
+  print_helper::PrintNumericTrait(os, indent, "LowerBinaryValue", m_LowerBinaryValue);
 
   itkPrintSelfObjectMacro(InputImage);
 }

@@ -19,6 +19,7 @@
 #define itkRigid2DTransform_hxx
 
 #include "vnl/algo/vnl_svd.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -49,8 +50,7 @@ Rigid2DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Angle: " << static_cast<typename NumericTraits<TParametersValueType>::PrintType>(m_Angle)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Angle", m_Angle);
 }
 
 

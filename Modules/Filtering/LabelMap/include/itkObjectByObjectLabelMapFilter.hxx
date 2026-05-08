@@ -28,6 +28,7 @@
 #include "itkLabelMapToLabelImageFilter.h"
 #include "itkLabelSelectionLabelMapFilter.h"
 #include "itkAutoCropLabelMapFilter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -336,12 +337,10 @@ ObjectByObjectLabelMapFilter<TInputImage,
   os << indent << "PadSize: " << m_PadSize << std::endl;
   os << indent << "BinaryInternalOutput: " << m_BinaryInternalOutput << std::endl;
   os << indent << "KeepLabels: " << m_KeepLabels << std::endl;
-  os << indent << "InternalForegroundValue: "
-     << static_cast<typename NumericTraits<InternalOutputPixelType>::PrintType>(m_InternalForegroundValue) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "InternalForegroundValue", m_InternalForegroundValue);
   os << indent << "InputFilter: " << m_InputFilter << std::endl;
   os << indent << "OutputFilter: " << m_OutputFilter << std::endl;
-  os << indent << "Label: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Label)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Label", m_Label);
 }
 
 } // end namespace itk

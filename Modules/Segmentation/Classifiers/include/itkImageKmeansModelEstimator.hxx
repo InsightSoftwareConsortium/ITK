@@ -19,6 +19,7 @@
 #define itkImageKmeansModelEstimator_hxx
 
 #include "itkMakeUniqueForOverwrite.h"
+#include "itkPrintHelper.h"
 
 
 namespace itk
@@ -53,13 +54,9 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::PrintSelf(std::ostr
   os << indent << "OutputDistortion: " << m_OutputDistortion << std::endl;
   os << indent << "OutputNumberOfEmptyCells: " << m_OutputNumberOfEmptyCells << std::endl;
 
-  os << indent << "VectorDimension: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_VectorDimension)
-     << std::endl;
-  os << indent << "NumberOfCodewords: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfCodewords)
-     << std::endl;
-  os << indent
-     << "CurrentNumberOfCodewords: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_CurrentNumberOfCodewords)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "VectorDimension", m_VectorDimension);
+  print_helper::PrintNumericTrait(os, indent, "NumberOfCodewords", m_NumberOfCodewords);
+  print_helper::PrintNumericTrait(os, indent, "CurrentNumberOfCodewords", m_CurrentNumberOfCodewords);
 
   os << indent << "CodewordHistogram: " << m_CodewordHistogram << std::endl;
   os << indent << "CodewordDistortion: " << m_CodewordDistortion << std::endl;

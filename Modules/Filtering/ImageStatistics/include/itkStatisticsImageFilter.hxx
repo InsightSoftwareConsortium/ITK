@@ -21,6 +21,7 @@
 
 #include "itkImageScanlineIterator.h"
 #include <mutex>
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -139,11 +140,9 @@ StatisticsImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Count: " << static_cast<NumericTraits<SizeValueType>::PrintType>(this->m_Count) << std::endl;
-  os << indent << "Minimum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(this->GetMinimum())
-     << std::endl;
-  os << indent << "Maximum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(this->GetMaximum())
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Count", this->m_Count);
+  print_helper::PrintNumericTrait(os, indent, "Minimum", this->GetMinimum());
+  print_helper::PrintNumericTrait(os, indent, "Maximum", this->GetMaximum());
   os << indent << "Sum: " << this->GetSum() << std::endl;
   os << indent << "Mean: " << this->GetMean() << std::endl;
   os << indent << "Sigma: " << this->GetSigma() << std::endl;

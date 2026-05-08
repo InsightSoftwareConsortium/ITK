@@ -19,6 +19,7 @@
 #define itkJensenHavrdaCharvatTsallisPointSetToPointSetMetricv4_hxx
 
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -201,20 +202,16 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 
   itkPrintSelfBooleanMacro(UseAnisotropicCovariances);
 
-  os << indent << "PointSetSigma: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_PointSetSigma)
-     << std::endl;
-  os << indent << "KernelSigma: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_KernelSigma)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "PointSetSigma", m_PointSetSigma);
+  print_helper::PrintNumericTrait(os, indent, "KernelSigma", m_KernelSigma);
   os << indent << "CovarianceKNeighborhood: " << m_CovarianceKNeighborhood << std::endl;
   os << indent << "EvaluationKNeighborhood: " << m_EvaluationKNeighborhood << std::endl;
 
-  os << indent << "Alpha: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_Alpha) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Alpha", m_Alpha);
 
-  os << indent
-     << "TotalNumberOfPoints: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_TotalNumberOfPoints)
-     << std::endl;
-  os << indent << "Prefactor0: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_Prefactor0) << std::endl;
-  os << indent << "Prefactor1: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_Prefactor1) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "TotalNumberOfPoints", m_TotalNumberOfPoints);
+  print_helper::PrintNumericTrait(os, indent, "Prefactor0", m_Prefactor0);
+  print_helper::PrintNumericTrait(os, indent, "Prefactor1", m_Prefactor1);
 }
 } // end namespace itk
 

@@ -58,24 +58,16 @@ ResourceProbe<ValueType, MeanType>::Print(std::ostream & os, Indent indent) cons
 {
   using namespace print_helper;
 
-  os << indent << "StartValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_StartValue)
-     << std::endl;
-  os << indent << "TotalValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_TotalValue)
-     << std::endl;
-  os << indent << "MinimumValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_MinimumValue)
-     << std::endl;
-  os << indent << "MaximumValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_MaximumValue)
-     << std::endl;
-  os << indent
-     << "StandardDeviation: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_StandardDeviation)
-     << std::endl;
-  os << indent << "StandardError: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_StandardError)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "StartValue", m_StartValue);
+  print_helper::PrintNumericTrait(os, indent, "TotalValue", m_TotalValue);
+  print_helper::PrintNumericTrait(os, indent, "MinimumValue", m_MinimumValue);
+  print_helper::PrintNumericTrait(os, indent, "MaximumValue", m_MaximumValue);
+  print_helper::PrintNumericTrait(os, indent, "StandardDeviation", m_StandardDeviation);
+  print_helper::PrintNumericTrait(os, indent, "StandardError", m_StandardError);
 
-  os << indent << "NumberOfStarts: " << static_cast<NumericTraits<CountType>::PrintType>(m_NumberOfStarts) << std::endl;
-  os << indent << "NumberOfStops: " << static_cast<NumericTraits<CountType>::PrintType>(m_NumberOfStops) << std::endl;
-  os << indent << "NumberOfIteration: " << static_cast<NumericTraits<CountType>::PrintType>(m_NumberOfIteration)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfStarts", m_NumberOfStarts);
+  print_helper::PrintNumericTrait(os, indent, "NumberOfStops", m_NumberOfStops);
+  print_helper::PrintNumericTrait(os, indent, "NumberOfIteration", m_NumberOfIteration);
 
   os << indent << "ProbeValueList: " << m_ProbeValueList << std::endl;
 

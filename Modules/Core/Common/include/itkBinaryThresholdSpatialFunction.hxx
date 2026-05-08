@@ -19,6 +19,7 @@
 #define itkBinaryThresholdSpatialFunction_hxx
 
 
+#include "itkPrintHelper.h"
 namespace itk
 {
 
@@ -28,12 +29,8 @@ BinaryThresholdSpatialFunction<TFunction>::PrintSelf(std::ostream & os, Indent i
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "LowerThreshold: " << static_cast<typename NumericTraits<FunctionOutputType>::PrintType>(m_LowerThreshold)
-     << std::endl;
-  os << indent
-     << "UpperThreshold: " << static_cast<typename NumericTraits<FunctionOutputType>::PrintType>(m_UpperThreshold)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "LowerThreshold", m_LowerThreshold);
+  print_helper::PrintNumericTrait(os, indent, "UpperThreshold", m_UpperThreshold);
 
   itkPrintSelfObjectMacro(Function);
 }

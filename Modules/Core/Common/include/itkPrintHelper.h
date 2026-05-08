@@ -81,7 +81,7 @@ operator<<(std::ostream & os, const T (&arr)[VLength]);
  * Equivalent to the boilerplate
  * \code
  *   os << indent << "Name: "
- *      << static_cast<typename NumericTraits<T>::PrintType>(this->m_Name)
+ *      << static_cast<typename NumericTraits<T>::PrintType>(m_Name)
  *      << std::endl;
  * \endcode
  * but with explicit \a os and \a indent parameters and no preprocessor
@@ -89,7 +89,7 @@ operator<<(std::ostream & os, const T (&arr)[VLength]);
  *
  * Typical use inside a \c PrintSelf override:
  * \code
- *   itk::print_helper::PrintNumericTrait(os, indent, "Threshold", this->m_Threshold);
+ *   print_helper::PrintNumericTrait(os, indent, "Threshold", m_Threshold);
  * \endcode
  */
 template <typename T>

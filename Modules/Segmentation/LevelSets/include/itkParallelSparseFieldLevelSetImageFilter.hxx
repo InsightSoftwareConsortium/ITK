@@ -2426,8 +2426,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PrintSelf(std
 
   os << indent << "Layers: " << m_Layers << std::endl;
 
-  os << indent << "NumberOfLayers: " << static_cast<NumericTraits<StatusType>::PrintType>(m_NumberOfLayers)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfLayers", m_NumberOfLayers);
 
   itkPrintSelfObjectMacro(StatusImage);
   itkPrintSelfObjectMacro(OutputImage);
@@ -2437,16 +2436,14 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PrintSelf(std
 
   itkPrintSelfObjectMacro(LayerNodeStore);
 
-  os << indent << "IsoSurfaceValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_IsoSurfaceValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "IsoSurfaceValue", m_IsoSurfaceValue);
 
   os << indent << "TimeStepList: " << m_TimeStepList << std::endl;
   os << indent << "ValidTimeStepList: " << m_ValidTimeStepList << std::endl;
 
-  os << indent << "TimeStep: " << static_cast<typename NumericTraits<TimeStepType>::PrintType>(m_TimeStep) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "TimeStep", m_TimeStep);
 
-  os << indent << "NumOfWorkUnits: " << static_cast<NumericTraits<ThreadIdType>::PrintType>(m_NumOfWorkUnits)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumOfWorkUnits", m_NumOfWorkUnits);
 
   os << indent << "SplitAxis: " << m_SplitAxis << std::endl;
   os << indent << "ZSize: " << m_ZSize << std::endl;

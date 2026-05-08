@@ -20,6 +20,7 @@
 
 #include "itkMacro.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -74,16 +75,14 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDispla
   itkPrintSelfObjectMacro(MovingImageInterpolator);
   itkPrintSelfObjectMacro(MovingImageWarper);
 
-  os << indent << "TimeStep: " << static_cast<typename NumericTraits<TimeStepType>::PrintType>(m_TimeStep) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "TimeStep", m_TimeStep);
 
   os << indent << "DenominatorThreshold: " << m_DenominatorThreshold << std::endl;
   os << indent << "IntensityDifferenceThreshold: " << m_IntensityDifferenceThreshold << std::endl;
 
   os << indent << "Metric: " << m_Metric << std::endl;
   os << indent << "SumOfSquaredDifference: " << m_SumOfSquaredDifference << std::endl;
-  os << indent
-     << "NumberOfPixelsProcessed: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsProcessed)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfPixelsProcessed", m_NumberOfPixelsProcessed);
   os << indent << "RMSChange: " << m_RMSChange << std::endl;
   os << indent << "SumOfSquaredChange: " << m_SumOfSquaredChange << std::endl;
 }

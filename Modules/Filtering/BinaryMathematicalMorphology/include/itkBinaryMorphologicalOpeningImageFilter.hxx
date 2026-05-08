@@ -21,6 +21,7 @@
 #include "itkBinaryErodeImageFilter.h"
 #include "itkBinaryDilateImageFilter.h"
 #include "itkProgressAccumulator.h"
+#include "itkPrintHelper.h"
 
 /*
  *
@@ -83,10 +84,8 @@ BinaryMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>::Print
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ForegroundValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
-  os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ForegroundValue", m_ForegroundValue);
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue", m_BackgroundValue);
 }
 } // end namespace itk
 #endif

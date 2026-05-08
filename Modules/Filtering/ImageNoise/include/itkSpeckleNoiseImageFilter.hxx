@@ -22,6 +22,7 @@
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkImageScanlineIterator.h"
 #include "itkTotalProgressReporter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -122,8 +123,7 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "StandardDeviation: " << static_cast<NumericTraits<double>::PrintType>(m_StandardDeviation)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "StandardDeviation", m_StandardDeviation);
 }
 } // end namespace itk
 

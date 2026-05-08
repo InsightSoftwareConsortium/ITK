@@ -20,6 +20,7 @@
 #define itkGenerateImageSource_hxx
 
 
+#include "itkPrintHelper.h"
 namespace itk
 {
 template <typename TOutputImage>
@@ -96,11 +97,10 @@ GenerateImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) c
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Size: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Size) << std::endl;
-  os << indent << "Spacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_Spacing) << std::endl;
-  os << indent << "Origin: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_Origin) << std::endl;
-  os << indent << "Direction: " << static_cast<typename NumericTraits<DirectionType>::PrintType>(m_Direction)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Size", m_Size);
+  print_helper::PrintNumericTrait(os, indent, "Spacing", m_Spacing);
+  print_helper::PrintNumericTrait(os, indent, "Origin", m_Origin);
+  print_helper::PrintNumericTrait(os, indent, "Direction", m_Direction);
   os << indent << "UseReferenceImage: " << this->GetUseReferenceImage() << std::endl;
 }
 } // end namespace itk

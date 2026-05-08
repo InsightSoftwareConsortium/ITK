@@ -22,6 +22,7 @@
 #include "itkImageScanlineIterator.h"
 #include "itkConnectedComponentAlgorithm.h"
 #include "itkProgressTransformer.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -219,9 +220,7 @@ LabelContourImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
   Superclass::PrintSelf(os, indent);
 
   os << indent << "FullyConnected: " << this->m_FullyConnected << std::endl;
-  os << indent
-     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue", m_BackgroundValue);
 }
 
 } // end namespace itk

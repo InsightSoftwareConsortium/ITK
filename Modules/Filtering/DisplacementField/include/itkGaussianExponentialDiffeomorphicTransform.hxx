@@ -23,6 +23,7 @@
 #include "itkImageDuplicator.h"
 #include "itkImportImageFilter.h"
 #include "itkMultiplyImageFilter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -229,13 +230,12 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Pri
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "GaussianSmoothingVarianceForTheConstantVelocityField: "
-     << static_cast<typename NumericTraits<ScalarType>::PrintType>(
-          m_GaussianSmoothingVarianceForTheConstantVelocityField)
-     << std::endl;
-  os << indent << "GaussianSmoothingVarianceForTheUpdateField: "
-     << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_GaussianSmoothingVarianceForTheUpdateField)
-     << std::endl;
+  print_helper::PrintNumericTrait(os,
+                                  indent,
+                                  "GaussianSmoothingVarianceForTheConstantVelocityField",
+                                  m_GaussianSmoothingVarianceForTheConstantVelocityField);
+  print_helper::PrintNumericTrait(
+    os, indent, "GaussianSmoothingVarianceForTheUpdateField", m_GaussianSmoothingVarianceForTheUpdateField);
 }
 
 } // namespace itk

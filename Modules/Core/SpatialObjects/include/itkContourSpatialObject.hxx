@@ -20,6 +20,7 @@
 
 #include "itkNumericTraits.h"
 #include <algorithm> // For min and max.
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -157,8 +158,7 @@ ContourSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) co
   os << indent << "InterpolationFactor: " << m_InterpolationFactor << std::endl;
   itkPrintSelfBooleanMacro(IsClosed);
   os << indent << "OrientationInObjectSpace: " << m_OrientationInObjectSpace << std::endl;
-  os << indent << "OrientationInObjectSpaceMTime: "
-     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_OrientationInObjectSpaceMTime) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "OrientationInObjectSpaceMTime", m_OrientationInObjectSpaceMTime);
   os << indent << "AttachedToSlice: " << m_AttachedToSlice << std::endl;
 }
 

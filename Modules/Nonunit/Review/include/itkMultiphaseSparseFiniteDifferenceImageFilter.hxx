@@ -1347,19 +1347,13 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   Superclass::PrintSelf(os, indent);
 
   os << indent << "ConstantGradientValue: " << m_ConstantGradientValue << std::endl;
-  os << indent << "ValueOne: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_ValueOne) << std::endl;
-  os << indent << "ValueZero: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_ValueZero) << std::endl;
-  os << indent << "StatusChanging: " << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusChanging)
-     << std::endl;
-  os << indent << "StatusActiveChangingUp: "
-     << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusActiveChangingUp) << std::endl;
-  os << indent << "StatusActiveChangingDown: "
-     << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusActiveChangingDown) << std::endl;
-  os << indent
-     << "StatusBoundaryPixel: " << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusBoundaryPixel)
-     << std::endl;
-  os << indent << "StatusNull: " << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusNull)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ValueOne", m_ValueOne);
+  print_helper::PrintNumericTrait(os, indent, "ValueZero", m_ValueZero);
+  print_helper::PrintNumericTrait(os, indent, "StatusChanging", m_StatusChanging);
+  print_helper::PrintNumericTrait(os, indent, "StatusActiveChangingUp", m_StatusActiveChangingUp);
+  print_helper::PrintNumericTrait(os, indent, "StatusActiveChangingDown", m_StatusActiveChangingDown);
+  print_helper::PrintNumericTrait(os, indent, "StatusBoundaryPixel", m_StatusBoundaryPixel);
+  print_helper::PrintNumericTrait(os, indent, "StatusNull", m_StatusNull);
 
   os << indent << "SparseData: ";
   for (IdCellType i = 0; i < this->m_FunctionCount; ++i)
@@ -1395,10 +1389,8 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   }
 
   os << indent << "NumberOfLayers: " << m_NumberOfLayers << std::endl;
-  os << indent << "IsoSurfaceValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_IsoSurfaceValue)
-     << std::endl;
-  os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "IsoSurfaceValue", m_IsoSurfaceValue);
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue", m_BackgroundValue);
   os << indent << "InterpolateSurfaceLocation: " << m_InterpolateSurfaceLocation << std::endl;
   os << indent << "CurrentFunctionIndex: " << m_CurrentFunctionIndex << std::endl;
   os << indent << "RMSSum: " << m_RMSSum << std::endl;

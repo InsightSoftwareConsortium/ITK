@@ -23,6 +23,7 @@
 #include "itkShiftScaleImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkProgressAccumulator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -103,8 +104,7 @@ HMinimaImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Depth of local maxima (contrast): "
-     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Height) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Depth of local maxima (contrast)", m_Height);
   os << indent << "Number of iterations used to produce current output: " << m_NumberOfIterationsUsed << std::endl;
   itkPrintSelfBooleanMacro(FullyConnected);
 }

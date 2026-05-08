@@ -22,6 +22,7 @@
 #include "itkBoundingBox.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -227,10 +228,8 @@ PointSetToImageFilter<TInputPointSet, TOutputImage>::PrintSelf(std::ostream & os
   os << indent << "Origin: " << m_Origin << std::endl;
   os << indent << "Spacing: " << m_Spacing << std::endl;
   os << indent << "Direction: " << m_Direction << std::endl;
-  os << indent << "Inside Value : " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_InsideValue)
-     << std::endl;
-  os << indent << "Outside Value : " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_OutsideValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Inside Value ", m_InsideValue);
+  print_helper::PrintNumericTrait(os, indent, "Outside Value ", m_OutsideValue);
 }
 } // end namespace itk
 

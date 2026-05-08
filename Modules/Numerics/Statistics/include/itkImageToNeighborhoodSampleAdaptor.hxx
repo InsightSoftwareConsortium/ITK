@@ -19,6 +19,7 @@
 #define itkImageToNeighborhoodSampleAdaptor_hxx
 
 
+#include "itkPrintHelper.h"
 namespace itk
 {
 namespace Statistics
@@ -101,15 +102,10 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::PrintSelf(std::ost
 
   itkPrintSelfObjectMacro(Image);
 
-  os << indent << "MeasurementVectorInternal: "
-     << static_cast<typename NumericTraits<MeasurementVectorType>::PrintType>(m_MeasurementVectorInternal) << std::endl;
-  os << indent << "InstanceIdentifierInternal: "
-     << static_cast<typename NumericTraits<InstanceIdentifier>::PrintType>(m_InstanceIdentifierInternal) << std::endl;
-  os << indent
-     << "NeighborIndexInternal: " << static_cast<typename NumericTraits<IndexType>::PrintType>(m_NeighborIndexInternal)
-     << std::endl;
-  os << indent << "Radius: " << static_cast<typename NumericTraits<NeighborhoodRadiusType>::PrintType>(m_Radius)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "MeasurementVectorInternal", m_MeasurementVectorInternal);
+  print_helper::PrintNumericTrait(os, indent, "InstanceIdentifierInternal", m_InstanceIdentifierInternal);
+  print_helper::PrintNumericTrait(os, indent, "NeighborIndexInternal", m_NeighborIndexInternal);
+  print_helper::PrintNumericTrait(os, indent, "Radius", m_Radius);
   os << indent << "Region: " << m_Region << std::endl;
   os << indent << "OffsetTable: " << m_OffsetTable << std::endl;
   itkPrintSelfBooleanMacro(UseImageRegion);

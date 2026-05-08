@@ -24,6 +24,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkOffset.h"
 #include "itkTotalProgressReporter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -114,14 +115,10 @@ void
 SimpleContourExtractorImageFilter<TInputImage, TOutput>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Input Foreground Value: "
-     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputForegroundValue) << std::endl;
-  os << indent << "Input Background Value: "
-     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputBackgroundValue) << std::endl;
-  os << indent << "Output Foreground Value: "
-     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputForegroundValue) << std::endl;
-  os << indent << "Output Background Value: "
-     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputBackgroundValue) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Input Foreground Value", m_InputForegroundValue);
+  print_helper::PrintNumericTrait(os, indent, "Input Background Value", m_InputBackgroundValue);
+  print_helper::PrintNumericTrait(os, indent, "Output Foreground Value", m_OutputForegroundValue);
+  print_helper::PrintNumericTrait(os, indent, "Output Background Value", m_OutputBackgroundValue);
 }
 } // end namespace itk
 

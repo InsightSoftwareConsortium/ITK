@@ -26,6 +26,7 @@
 
 #include <iomanip>
 #include <sstream>
+#include "itkPrintHelper.h"
 
 /*
  *
@@ -57,7 +58,7 @@ MaskedRankImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel>::PrintSelf
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Rank: " << static_cast<NumericTraits<float>::PrintType>(m_Rank) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Rank", m_Rank);
 }
 } // end namespace itk
 #endif

@@ -18,6 +18,7 @@
 #include "itkSPSAOptimizer.h"
 
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -44,28 +45,23 @@ SPSAOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Gradient: " << static_cast<NumericTraits<DerivativeType>::PrintType>(m_Gradient) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Gradient", m_Gradient);
   os << indent << "LearningRate: " << m_LearningRate << std::endl;
-  os << indent << "Delta: " << static_cast<NumericTraits<DerivativeType>::PrintType>(m_Delta) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Delta", m_Delta);
   itkPrintSelfBooleanMacro(Stop);
   os << indent << "StopCondition: " << m_StopCondition << std::endl;
   os << indent << "StateOfConvergence: " << m_StateOfConvergence << std::endl;
-  os << indent << "CurrentIteration: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_CurrentIteration)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "CurrentIteration", m_CurrentIteration);
 
   itkPrintSelfObjectMacro(Generator);
 
-  os << indent << "MinimumNumberOfIterations: "
-     << static_cast<NumericTraits<SizeValueType>::PrintType>(m_MinimumNumberOfIterations) << std::endl;
-  os << indent << "MaximumNumberOfIterations: "
-     << static_cast<NumericTraits<SizeValueType>::PrintType>(m_MaximumNumberOfIterations) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "MinimumNumberOfIterations", m_MinimumNumberOfIterations);
+  print_helper::PrintNumericTrait(os, indent, "MaximumNumberOfIterations", m_MaximumNumberOfIterations);
   os << indent << "StateOfConvergenceDecayRate: " << m_StateOfConvergenceDecayRate << std::endl;
   os << indent << "Tolerance: " << m_Tolerance << std::endl;
   itkPrintSelfBooleanMacro(Maximize);
   os << indent << "GradientMagnitude: " << m_GradientMagnitude << std::endl;
-  os << indent
-     << "NumberOfPerturbations: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfPerturbations)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfPerturbations", m_NumberOfPerturbations);
 
   os << indent << "Sa: " << m_Sa << std::endl;
   os << indent << "Sc: " << m_Sc << std::endl;

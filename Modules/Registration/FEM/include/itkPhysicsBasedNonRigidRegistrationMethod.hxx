@@ -20,6 +20,7 @@
 
 #include <iostream>
 #include "itkTimeProbe.h"
+#include "itkPrintHelper.h"
 
 namespace itk::fem
 {
@@ -102,10 +103,8 @@ PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TM
 
   os << indent << "SelectFraction: " << m_SelectFraction << std::endl;
   os << indent << "NonConnectivity: " << m_NonConnectivity << std::endl;
-  os << indent << "BlockRadius: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_BlockRadius)
-     << std::endl;
-  os << indent << "SearchRadius: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_SearchRadius)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "BlockRadius", m_BlockRadius);
+  print_helper::PrintNumericTrait(os, indent, "SearchRadius", m_SearchRadius);
   os << indent << "ApproximationSteps: " << m_ApproximationSteps << std::endl;
   os << indent << "OutlierRejectionSteps: " << m_OutlierRejectionSteps << std::endl;
 

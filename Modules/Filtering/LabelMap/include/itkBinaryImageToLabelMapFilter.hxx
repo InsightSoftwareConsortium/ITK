@@ -24,6 +24,7 @@
 #include "itkConnectedComponentAlgorithm.h"
 #include "itkProgressReporter.h"
 #include "itkProgressTransformer.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -202,11 +203,8 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "InputForegroundValue: "
-     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(this->m_InputForegroundValue) << std::endl;
-  os << indent << "OutputBackgroundValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->m_OutputBackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "InputForegroundValue", this->m_InputForegroundValue);
+  print_helper::PrintNumericTrait(os, indent, "OutputBackgroundValue", this->m_OutputBackgroundValue);
   os << indent << "Number of Objects: " << this->m_NumberOfObjects << std::endl;
 }
 } // end namespace itk

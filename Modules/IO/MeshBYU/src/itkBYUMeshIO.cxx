@@ -21,6 +21,7 @@
 #include "itkBYUMeshIO.h"
 
 #include "itksys/SystemTools.hxx"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -503,8 +504,7 @@ BYUMeshIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FilePosition: " << static_cast<NumericTraits<StreamOffsetType>::PrintType>(m_FilePosition)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "FilePosition", m_FilePosition);
   os << indent << "PartId: " << m_PartId << std::endl;
   os << indent << "First Cell Id: " << m_FirstCellId << std::endl;
   os << indent << "Last Cell Id: " << m_LastCellId << std::endl;

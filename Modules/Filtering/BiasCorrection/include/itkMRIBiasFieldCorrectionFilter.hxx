@@ -19,6 +19,7 @@
 #define itkMRIBiasFieldCorrectionFilter_hxx
 
 
+#include "itkPrintHelper.h"
 namespace itk
 {
 
@@ -932,14 +933,12 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::PrintSelf(s
   itkPrintSelfBooleanMacro(GeneratingOutput);
 
   os << indent << "SlabNumberOfSamples: " << m_SlabNumberOfSamples << std::endl;
-  os << indent << "SlabBackgroundMinimumThreshold: "
-     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_SlabBackgroundMinimumThreshold)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "SlabBackgroundMinimumThreshold", m_SlabBackgroundMinimumThreshold);
   os << indent << "SlabTolerance" << m_SlabTolerance << std::endl;
 
   os << indent << "BiasFieldDegree: " << m_BiasFieldDegree << std::endl;
   os << indent << "NumberOfLevels: " << m_NumberOfLevels << std::endl;
-  os << indent << "Schedule: " << static_cast<NumericTraits<ScheduleType>::PrintType>(m_Schedule) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Schedule", m_Schedule);
 
   os << indent << "VolumeCorrectionMaximumIteration: " << m_VolumeCorrectionMaximumIteration << std::endl;
   os << indent << "InterSliceCorrectionMaximumIteration: " << m_InterSliceCorrectionMaximumIteration << std::endl;

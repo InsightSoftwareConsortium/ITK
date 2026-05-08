@@ -30,6 +30,7 @@
 
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -95,12 +96,8 @@ RescaleIntensityImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "Output Minimum: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_OutputMinimum)
-     << std::endl;
-  os << indent
-     << "Output Maximum: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_OutputMaximum)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Output Minimum", this->m_OutputMinimum);
+  print_helper::PrintNumericTrait(os, indent, "Output Maximum", this->m_OutputMaximum);
 }
 
 } // end namespace itk

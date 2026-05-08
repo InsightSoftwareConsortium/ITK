@@ -23,6 +23,7 @@
 #include <mutex>
 
 #include <vector>
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -123,10 +124,8 @@ MinimumMaximumImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) c
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Minimum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(this->GetMinimum())
-     << std::endl;
-  os << indent << "Maximum: " << static_cast<typename NumericTraits<PixelType>::PrintType>(this->GetMaximum())
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Minimum", this->GetMinimum());
+  print_helper::PrintNumericTrait(os, indent, "Maximum", this->GetMaximum());
 }
 } // end namespace itk
 #endif

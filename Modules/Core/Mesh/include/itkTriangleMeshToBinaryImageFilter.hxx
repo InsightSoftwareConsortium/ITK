@@ -21,6 +21,7 @@
 #include "itkNumericTraits.h"
 #include <cstdlib>
 #include <algorithm> // For max.
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -489,10 +490,8 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PrintSelf(std::ostrea
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Size : " << m_Size << std::endl;
-  os << indent << "Inside Value : " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_InsideValue)
-     << std::endl;
-  os << indent << "Outside Value : " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_OutsideValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Inside Value ", m_InsideValue);
+  print_helper::PrintNumericTrait(os, indent, "Outside Value ", m_OutsideValue);
   os << indent << "Tolerance: " << m_Tolerance << std::endl;
   os << indent << "Origin: " << m_Origin << std::endl;
   os << indent << "Spacing: " << m_Spacing << std::endl;

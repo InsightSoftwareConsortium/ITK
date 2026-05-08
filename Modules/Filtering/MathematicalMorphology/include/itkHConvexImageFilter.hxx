@@ -21,6 +21,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkHMaximaImageFilter.h"
 #include "itkSubtractImageFilter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -95,8 +96,7 @@ HConvexImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Height of local maxima (contrast): "
-     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Height) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Height of local maxima (contrast)", m_Height);
   os << indent << "Number of iterations used to produce current output: " << m_NumberOfIterationsUsed << std::endl;
   itkPrintSelfBooleanMacro(FullyConnected);
 }

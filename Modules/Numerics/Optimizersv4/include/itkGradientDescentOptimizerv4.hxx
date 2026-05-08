@@ -19,6 +19,7 @@
 #define itkGradientDescentOptimizerv4_hxx
 
 
+#include "itkPrintHelper.h"
 namespace itk
 {
 
@@ -279,23 +280,13 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::PrintSelf(std
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "LearningRate: "
-     << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(this->m_LearningRate)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "LearningRate", this->m_LearningRate);
   os << indent << "MinimumConvergenceValue: " << this->m_MinimumConvergenceValue << std::endl;
-  os << indent << "ConvergenceValue: "
-     << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(this->m_ConvergenceValue)
-     << std::endl;
-  os << indent
-     << "CurrentBestValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(this->m_CurrentBestValue)
-     << std::endl;
-  os << indent
-     << "BestParameters: " << static_cast<typename NumericTraits<ParametersType>::PrintType>(this->m_BestParameters)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ConvergenceValue", this->m_ConvergenceValue);
+  print_helper::PrintNumericTrait(os, indent, "CurrentBestValue", this->m_CurrentBestValue);
+  print_helper::PrintNumericTrait(os, indent, "BestParameters", this->m_BestParameters);
   itkPrintSelfBooleanMacro(ReturnBestParametersAndValue);
-  os << indent
-     << "PreviousGradient: " << static_cast<typename NumericTraits<DerivativeType>::PrintType>(this->m_PreviousGradient)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "PreviousGradient", this->m_PreviousGradient);
 }
 } // namespace itk
 

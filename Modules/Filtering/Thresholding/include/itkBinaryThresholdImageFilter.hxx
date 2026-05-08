@@ -29,6 +29,7 @@
 #define itkBinaryThresholdImageFilter_hxx
 
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -235,16 +236,10 @@ BinaryThresholdImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "OutsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue)
-     << std::endl;
-  os << indent << "InsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_InsideValue)
-     << std::endl;
-  os << indent
-     << "LowerThreshold: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(this->GetLowerThreshold())
-     << std::endl;
-  os << indent
-     << "UpperThreshold: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(this->GetUpperThreshold())
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "OutsideValue", m_OutsideValue);
+  print_helper::PrintNumericTrait(os, indent, "InsideValue", m_InsideValue);
+  print_helper::PrintNumericTrait(os, indent, "LowerThreshold", this->GetLowerThreshold());
+  print_helper::PrintNumericTrait(os, indent, "UpperThreshold", this->GetUpperThreshold());
 }
 } // end namespace itk
 

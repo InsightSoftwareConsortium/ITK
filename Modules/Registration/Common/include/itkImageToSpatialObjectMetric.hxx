@@ -19,6 +19,7 @@
 #define itkImageToSpatialObjectMetric_hxx
 
 
+#include "itkPrintHelper.h"
 namespace itk
 {
 
@@ -82,7 +83,7 @@ ImageToSpatialObjectMetric<TFixedImage, TMovingSpatialObject>::PrintSelf(std::os
   Superclass::PrintSelf(os, indent);
 
 
-  os << indent << "MatchMeasure: " << static_cast<NumericTraits<MeasureType>::PrintType>(m_MatchMeasure) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "MatchMeasure", m_MatchMeasure);
   os << indent << "MatchMeasureDerivatives: " << m_MatchMeasureDerivatives << std::endl;
 
   itkPrintSelfObjectMacro(Transform);

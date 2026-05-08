@@ -20,6 +20,7 @@
 
 #include "itkMacro.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -55,14 +56,12 @@ MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::P
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "FixedImageSpacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_FixedImageSpacing)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "FixedImageSpacing", m_FixedImageSpacing);
 
   itkPrintSelfObjectMacro(FixedImageGradientCalculator);
   itkPrintSelfObjectMacro(MovingImageInterpolator);
 
-  os << indent << "TimeStep: " << static_cast<typename NumericTraits<TimeStepType>::PrintType>(m_TimeStep) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "TimeStep", m_TimeStep);
 
   os << indent << "DenominatorThreshold: " << m_DenominatorThreshold << std::endl;
   os << indent << "IntensityDifferenceThreshold: " << m_IntensityDifferenceThreshold << std::endl;

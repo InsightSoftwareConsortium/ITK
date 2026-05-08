@@ -22,6 +22,7 @@
 #include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
 #include "itkRGBPixel.h"
+#include "itkPrintHelper.h"
 
 namespace itk::Function
 {
@@ -115,16 +116,10 @@ protected:
   {
     Superclass::PrintSelf(os, indent);
 
-    os << indent << "Minimum RGB Component Value: "
-       << static_cast<typename NumericTraits<RGBComponentType>::PrintType>(this->GetMinimumRGBComponentValue())
-       << std::endl;
-    os << indent << "Maximum RGB Component Value: "
-       << static_cast<typename NumericTraits<RGBComponentType>::PrintType>(this->GetMaximumRGBComponentValue())
-       << std::endl;
-    os << indent << "Minimum Input Value: "
-       << static_cast<typename NumericTraits<ScalarType>::PrintType>(this->GetMinimumInputValue()) << std::endl;
-    os << indent << "Maximum Input Value: "
-       << static_cast<typename NumericTraits<ScalarType>::PrintType>(this->GetMaximumInputValue()) << std::endl;
+    print_helper::PrintNumericTrait(os, indent, "Minimum RGB Component Value", this->GetMinimumRGBComponentValue());
+    print_helper::PrintNumericTrait(os, indent, "Maximum RGB Component Value", this->GetMaximumRGBComponentValue());
+    print_helper::PrintNumericTrait(os, indent, "Minimum Input Value", this->GetMinimumInputValue());
+    print_helper::PrintNumericTrait(os, indent, "Maximum Input Value", this->GetMaximumInputValue());
   }
 
 private:

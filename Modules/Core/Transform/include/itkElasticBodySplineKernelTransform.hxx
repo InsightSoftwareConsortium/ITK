@@ -18,6 +18,8 @@
 #ifndef itkElasticBodySplineKernelTransform_hxx
 #define itkElasticBodySplineKernelTransform_hxx
 
+
+#include "itkPrintHelper.h"
 namespace itk
 {
 template <typename TParametersValueType, unsigned int VDimension>
@@ -55,8 +57,7 @@ ElasticBodySplineKernelTransform<TParametersValueType, VDimension>::PrintSelf(st
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Alpha: " << static_cast<typename NumericTraits<TParametersValueType>::PrintType>(m_Alpha)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Alpha", m_Alpha);
 }
 } // namespace itk
 #endif
