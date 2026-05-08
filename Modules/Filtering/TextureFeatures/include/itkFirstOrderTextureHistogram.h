@@ -34,7 +34,7 @@ namespace Function
  * std::map based "histogram" during iteration and computes first
  * order statistics from the histogram.
  *
- * \ingroup ITKTextureFeatures
+ * \ingroup TextureFeatures
  */
 template <class TInputPixel, class TOutputPixel>
 class ITK_TEMPLATE_EXPORT FirstOrderTextureHistogram
@@ -96,8 +96,8 @@ public:
 
     const double mean = sum / count;
 
-    // unbiased estimate
-    const double variance = (sum2 - (sum * sum) / count) / (count - 1);
+    // unbiased estimate (requires at least 2 samples)
+    const double variance = (count > 1) ? (sum2 - (sum * sum) / count) / (count - 1) : 0.0;
     const double sigma = std::sqrt(variance);
     double       skewness = 0.0;
     double       kurtosis = 0.0;

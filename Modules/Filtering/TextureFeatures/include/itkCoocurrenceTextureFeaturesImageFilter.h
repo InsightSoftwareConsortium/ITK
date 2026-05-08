@@ -19,8 +19,8 @@
 #define itkCoocurrenceTextureFeaturesImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkScalarImageToRunLengthMatrixFilter.h"
 #include "itkConstNeighborhoodIterator.h"
+#include "itkVectorContainer.h"
 
 namespace itk
 {

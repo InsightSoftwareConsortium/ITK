@@ -2,21 +2,6 @@ itk_module_test()
 
 set(
   TextureFeaturesTests
-  ScalarImageToRunLengthFeaturesImageFilterInstantiationTest.cxx
-  ScalarImageToRunLengthFeaturesImageFilterTest.cxx
-  ScalarImageToRunLengthFeaturesImageFilterTestSeparateFeatures.cxx
-  ScalarImageToRunLengthFeaturesImageFilterTestWithoutMask.cxx
-  ScalarImageToRunLengthFeaturesImageFilterTestWithVectorImage.cxx
-  ScalarImageToRunLengthFeaturesImageFilterTestVectorImageSeparateFeatures.cxx
-  ScalarImageToTextureFeaturesImageFilterInstantiationTest.cxx
-  ScalarImageToTextureFeaturesImageFilterTest.cxx
-  ScalarImageToTextureFeaturesImageFilterTestSeparateFeatures.cxx
-  ScalarImageToTextureFeaturesImageFilterTestWithoutMask.cxx
-  ScalarImageToTextureFeaturesImageFilterTestWithVectorImage.cxx
-)
-
-set(
-  TextureFeaturesTests
   RunLengthTextureFeaturesImageFilterInstantiationTest.cxx
   RunLengthTextureFeaturesImageFilterTest.cxx
   RunLengthTextureFeaturesImageFilterTestSeparateFeatures.cxx

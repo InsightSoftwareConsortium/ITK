@@ -45,7 +45,7 @@ namespace itk
  * so that the boundary pixel have lets data to compute the
  * statistics.
  *
- * \ingroup ITKTextureFeatures
+ * \ingroup TextureFeatures
  */
 
 template <class TInputImage, class TOutputImage, class TKernel>

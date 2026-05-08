@@ -24,6 +24,8 @@
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkDigitizerFunctor.h"
 
+#include <vector>
+
 namespace itk
 {
 namespace Statistics
@@ -229,6 +231,11 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Dy
         this->ComputeFeatures(hist, totalNumberOfFreq, outputPixel);
         outputIt.Set(outputPixel);
       }
+      else
+      {
+        outputPixel.Fill(0);
+        outputIt.Set(outputPixel);
+      }
 
       ++inputNIt;
       ++outputIt;
@@ -360,12 +367,8 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Co
   // cleverly compressed to one pass, but it's not clear that that's necessary.
 
   // Initialize everything
-  auto * marginalSums = new double[m_NumberOfBinsPerAxis];
+  std::vector<double> marginalSums(m_NumberOfBinsPerAxis, 0.0);
 
-  for (double * ms_It = marginalSums; ms_It < marginalSums + m_NumberOfBinsPerAxis; ms_It++)
-  {
-    *ms_It = 0;
-  }
   pixelMean = 0;
 
   // Ok, now do the first pass through the histogram to get the marginal sums
@@ -417,8 +420,6 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Co
       pixelVariance += (a - pixelMean) * (a - pixelMean) * (frequency);
     }
   }
-
-  delete[] marginalSums;
 }
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
