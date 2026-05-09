@@ -154,7 +154,7 @@ in case of desperation.
 Use ITK in combination with GDCM: http://gdcm.sourceforge.net/.
 
 GDCM is an open source package developed by the Creatis team at
-INSA-Lyon. It is distributed under a license similar to ITK: http://gdcm.sourceforge.net/Copyright.html.
+INSA-Lyon. It is distributed under a license similar to ITK: https://github.com/malaterre/GDCM/blob/master/Copyright.txt.
 
 GCDM uses CMake in order to configure its build process, so you will
 find a familiar setup. Once you download, configure and build GDCM, you
