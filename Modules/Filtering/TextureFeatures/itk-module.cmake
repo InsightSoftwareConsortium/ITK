@@ -1,10 +1,3 @@
-set(
-  DOCUMENTATION
-  "N-dimensional textural feature image filters: first-order,
-run-length, and co-occurrence (GLCM) features computed over a
-sliding window for radiomics and computer-vision pipelines."
-)
-
 itk_module(
   TextureFeatures
   DEPENDS
@@ -18,6 +11,7 @@ itk_module(
     ITKImageIntensity
     ITKImageNoise
     ITKGoogleTest
-  DESCRIPTION "${DOCUMENTATION}"
+  DESCRIPTION
+    "N-dimensional textural feature image filters: first-order, run-length, and co-occurrence (GLCM) features computed over a sliding window for radiomics and computer-vision pipelines."
   EXCLUDE_FROM_DEFAULT
 )
