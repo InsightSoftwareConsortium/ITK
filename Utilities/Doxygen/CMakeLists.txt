@@ -1,16 +1,11 @@
 #
 # Build the documentation
 #
-# CMake's Documentation.cmake was deprecated in CMake 3.18 via CMP0106 and
-# removed entirely in CMake 4.0.  Use the bundled module on older CMake
-# (preserving any auxiliary behavior it provides on era-original toolchains)
-# and inline the BUILD_DOCUMENTATION option on CMake >= 4.0 where the file
-# no longer ships.
-if(CMAKE_VERSION VERSION_LESS 4.0)
-  include(${CMAKE_ROOT}/Modules/Documentation.cmake)
-else()
-  option(BUILD_DOCUMENTATION "Build the documentation (Doxygen)." OFF)
-endif()
+# CMake's Documentation.cmake (the source of BUILD_DOCUMENTATION on legacy
+# toolchains) is deprecated under CMP0106 since CMake 3.18 and removed in
+# CMake 4.0.  Define the option directly; no auxiliary variable from that
+# module is referenced in this tree.
+option(BUILD_DOCUMENTATION "Build the documentation (Doxygen)." OFF)
 
 mark_as_advanced(BUILD_DOCUMENTATION)
 
