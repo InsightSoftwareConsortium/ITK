@@ -9,10 +9,23 @@ retry_wait_time = 30  # seconds; matches lychee's default Retry-After honouring
 timeout = 30
 user_agent = "ITK-link-checker (https://github.com/InsightSoftwareConsortium/ITK)"
 
-# Treat 429 (rate limit) and 999 (LinkedIn / GitHub bot block) as
-# non-failures.  These are not "broken link" signals; they mean the
-# host throttled this run.
-accept = [200, 203, 206, 301, 302, 303, 307, 308, 403, 429, 999]
+# Treat the following as non-failures.  None of these are "broken
+# link" signals; they mean the host or gateway misbehaved on this
+# run, not that the target is gone.
+#   429 — rate limit.
+#   504 — gateway timeout (e.g. eth.limo gateway in front of
+#         content-link-upload.itk.eth.limo, Cloudflare in front of
+#         opencollective.org).
+#   522 — Cloudflare "origin unreachable" (transient).
+#   999 — LinkedIn / GitHub bot block.
+accept = [200, 203, 206, 301, 302, 303, 307, 308, 403, 429, 504, 522, 999]
+
+# Connection-reset / DNS / firewall failures that occur from the
+# specific network the maintainer happens to be on (e.g. ipfs.io,
+# monai.io, dicom.nema.org all reset the TCP connection from some
+# residential ISPs).  These are reachability artifacts, not broken
+# links, so accept them rather than surface as errors every run.
+accept_timeouts = true
 
 # Path filters --------------------------------------------------------
 # Limit lychee's recursive scan to documentation-style file extensions;
