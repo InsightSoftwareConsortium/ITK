@@ -30,9 +30,7 @@ namespace itk
 
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>
 HigherOrderAccurateGradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::
-  HigherOrderAccurateGradientImageFilter()
-
-  = default;
+  HigherOrderAccurateGradientImageFilter() = default;
 
 
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>
@@ -126,7 +124,7 @@ HigherOrderAccurateGradientImageFilter<TInputImage, TOperatorValueType, TOutputV
     op[i].FlipAxes();
 
     // Take into account the pixel spacing if necessary
-    if (m_UseImageSpacing == true)
+    if (m_UseImageSpacing)
     {
       if (this->GetInput()->GetSpacing()[i] == 0.0)
       {

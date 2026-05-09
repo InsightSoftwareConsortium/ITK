@@ -41,7 +41,11 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 typename HigherOrderAccurateDerivativeOperator<TPixel, VDimension, TAllocator>::CoefficientVector
 HigherOrderAccurateDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateFirstOrderCoefficients()
 {
-  unsigned int      order = this->m_OrderOfAccuracy;
+  unsigned int order = this->m_OrderOfAccuracy;
+  if (order == 0)
+  {
+    itkExceptionMacro(<< "OrderOfAccuracy must be >= 1.");
+  }
   unsigned int      length = 2 * order + 1;
   CoefficientVector coeff(length);
 

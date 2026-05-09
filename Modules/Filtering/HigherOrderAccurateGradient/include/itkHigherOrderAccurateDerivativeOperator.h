@@ -72,9 +72,7 @@ public:
   itkTypeMacro(HigherOrderAccurateDerivativeOperator, NeighborhoodOperator);
 
   /** Constructor. */
-  HigherOrderAccurateDerivativeOperator()
-
-    = default;
+  HigherOrderAccurateDerivativeOperator() = default;
 
   /** Copy constructor. */
   HigherOrderAccurateDerivativeOperator(const Self & other)
@@ -92,7 +90,9 @@ public:
     return *this;
   }
 
-  /** Sets the order of the derivative. */
+  /** Sets the order of the derivative. Only `order == 1` is currently
+   * implemented; any other value triggers a runtime exception in
+   * GenerateCoefficients(). */
   void
   SetOrder(const unsigned int & order)
   {
