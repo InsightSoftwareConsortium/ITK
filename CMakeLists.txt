@@ -180,7 +180,6 @@ include(PreventInSourceBuilds)
 include(PreventInBuildInstalls)
 include(ITKModuleMacros)
 include(ITKExternalData)
-include(ITKWindowsUtf8)
 include(ITKModuleTest)
 include(itkCheckSourceTree)
 
