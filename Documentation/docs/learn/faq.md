@@ -142,12 +142,13 @@ in case of desperation.
    MetaImage and Analyze format (among others). She graciously has made
    this application publicly available at:
    https://darkwing.uoregon.edu/~jolinda/MRIConvert/.
-1. Jeff Brubaker and Stephen R. Aylward, at the UNC  CADDLab
+1. Jeff Brubaker and Stephen R. Aylward, at the UNC CADDLab
    developed a DICOM query/move application called "MIND"
    (with the motto: "MIND is not DICOM"). This application loads
    DICOM files over the network and export them in MetaImage format.
-   This application is open source and it is available at:
-   http://www.jeffro.net/mind/ and http://caddlab.rad.unc.edu/software/MIND/.
+   The application was open source; both distribution URLs
+   (`www.jeffro.net/mind/` and `caddlab.rad.unc.edu/software/MIND/`)
+   are no longer reachable.
 
 ##### How do I write a volume as DICOM series?
 
