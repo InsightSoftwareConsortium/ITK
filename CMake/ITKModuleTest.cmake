@@ -11,6 +11,8 @@
 #   KitTests - a list of tests to be included in the test driver
 #   ADDITIONAL_SRC (optional) - additional source files, which don't contain tests
 
+include(ITKWindowsUtf8)
+
 function(CreateTestDriver KIT KIT_LIBS KitTests)
   set(ADDITIONAL_SRC ${ARGN})
   if(EMSCRIPTEN)
