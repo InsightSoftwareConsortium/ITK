@@ -515,8 +515,8 @@ Transformations" section, where resampling is explained, before you get
 involved with image registration methods. That will save you a lot of
 misunderstandings that are common in new users.
 
-You will also find useful the tutorial sessions, in particular [the
-overview](http://www.itk.org/CourseWare/Training/RegistrationMethodsOverview.pdf).
+You will also find useful the registration tutorial sessions in the
+[ITK Software Guide](https://itk.org/ITKSoftwareGuide/html/Book2/ITKSoftwareGuide-Book2ch3.html).
 
 ## Common problems
 
