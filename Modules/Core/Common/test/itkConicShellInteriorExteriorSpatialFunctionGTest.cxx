@@ -17,12 +17,15 @@
  *=========================================================================*/
 
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
+#include "itkGTest.h"
 #include "itkMath.h"
 #include "itkTestingMacros.h"
 
 
+namespace
+{
 int
-itkConicShellInteriorExteriorSpatialFunctionTest(int, char *[])
+DoConicShellInteriorExteriorSpatialFunctionTest(int, char *[])
 {
 
   int testStatus = EXIT_SUCCESS;
@@ -166,4 +169,11 @@ itkConicShellInteriorExteriorSpatialFunctionTest(int, char *[])
   }
 
   return testStatus;
+}
+} // namespace
+
+
+TEST(ConicShellInteriorExteriorSpatialFunction, ConvertedLegacyTest)
+{
+  EXPECT_EQ(0, DoConicShellInteriorExteriorSpatialFunctionTest(0, nullptr));
 }

@@ -17,12 +17,15 @@
  *=========================================================================*/
 
 #include "itkFileOutputWindow.h"
+#include "itkGTest.h"
 
 #include <iostream>
 
 
+namespace
+{
 int
-itkFileOutputWindowTest(int, char *[])
+DoFileOutputWindowTest(int, char *[])
 {
 
   // Declare the type for the morphology Filter
@@ -59,3 +62,7 @@ itkFileOutputWindowTest(int, char *[])
 
   return EXIT_SUCCESS;
 }
+} // namespace
+
+
+TEST(FileOutputWindow, ConvertedLegacyTest) { EXPECT_EQ(0, DoFileOutputWindowTest(0, nullptr)); }

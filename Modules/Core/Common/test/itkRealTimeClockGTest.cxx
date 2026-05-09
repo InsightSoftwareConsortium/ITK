@@ -20,11 +20,14 @@
 #include <cmath>
 #include "itkMath.h"
 #include "itkRealTimeClock.h"
+#include "itkGTest.h"
 #include "itkStdStreamStateSave.h"
 #include "itkTestingMacros.h"
 
+namespace
+{
 int
-itkRealTimeClockTest(int, char *[])
+DoRealTimeClockTest(int, char *[])
 {
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
@@ -100,3 +103,7 @@ itkRealTimeClockTest(int, char *[])
   std::cout << "[PASSED]" << std::endl;
   return EXIT_SUCCESS;
 }
+} // namespace
+
+
+TEST(RealTimeClock, ConvertedLegacyTest) { EXPECT_EQ(0, DoRealTimeClockTest(0, nullptr)); }

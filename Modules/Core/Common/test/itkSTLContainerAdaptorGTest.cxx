@@ -20,11 +20,14 @@
 #include "itkMapContainer.h"
 
 #include "itkSTLContainerAdaptor.h"
+#include "itkGTest.h"
 #include "itkSTLConstContainerAdaptor.h"
 
 
+namespace
+{
 int
-itkSTLContainerAdaptorTest(int, char *[])
+DoSTLContainerAdaptorTest(int, char *[])
 {
 
   using IndexType = unsigned long;
@@ -283,3 +286,7 @@ itkSTLContainerAdaptorTest(int, char *[])
 
   return EXIT_SUCCESS;
 }
+} // namespace
+
+
+TEST(STLContainerAdaptor, ConvertedLegacyTest) { EXPECT_EQ(0, DoSTLContainerAdaptorTest(0, nullptr)); }

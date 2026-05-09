@@ -17,9 +17,12 @@
  *=========================================================================*/
 
 #include "itkSymmetricEllipsoidInteriorExteriorSpatialFunction.h"
+#include "itkGTest.h"
 
+namespace
+{
 int
-itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
+DoSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
 {
   std::cout << "itkSymmetricEllipsoidInteriorExteriorSpatialFunction test start" << std::endl;
 
@@ -127,4 +130,11 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
             << spatialFunc->GetCenter()[2] << ')' << std::endl
             << "itkSymmetricEllipsoidSpatialFunction failed :(" << std::endl;
   return EXIT_FAILURE;
+}
+} // namespace
+
+
+TEST(SymmetricEllipsoidInteriorExteriorSpatialFunction, ConvertedLegacyTest)
+{
+  EXPECT_EQ(0, DoSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(0, nullptr));
 }

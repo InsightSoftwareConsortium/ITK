@@ -18,9 +18,12 @@
 
 #include <iostream>
 #include "itkVariableSizeMatrix.h"
+#include "itkGTest.h"
 
+namespace
+{
 int
-itkVariableSizeMatrixTest(int, char *[])
+DoVariableSizeMatrixTest(int, char *[])
 {
   using FloatVariableSizeMatrixType = itk::VariableSizeMatrix<float>;
   using DoubleVariableSizeMatrixType = itk::VariableSizeMatrix<double>;
@@ -233,3 +236,7 @@ itkVariableSizeMatrixTest(int, char *[])
 
   return EXIT_SUCCESS;
 }
+} // namespace
+
+
+TEST(VariableSizeMatrix, ConvertedLegacyTest) { EXPECT_EQ(0, DoVariableSizeMatrixTest(0, nullptr)); }

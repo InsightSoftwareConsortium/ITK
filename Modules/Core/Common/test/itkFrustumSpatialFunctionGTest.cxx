@@ -17,12 +17,15 @@
  *=========================================================================*/
 
 #include "itkFrustumSpatialFunction.h"
+#include "itkGTest.h"
 #include "itkTestingMacros.h"
 #include <set>
 
 
+namespace
+{
 int
-itkFrustumSpatialFunctionTest(int, char *[])
+DoFrustumSpatialFunctionTest(int, char *[])
 {
 
   // Define the dimensionality
@@ -214,3 +217,7 @@ itkFrustumSpatialFunctionTest(int, char *[])
 
   return testStatus;
 }
+} // namespace
+
+
+TEST(FrustumSpatialFunction, ConvertedLegacyTest) { EXPECT_EQ(0, DoFrustumSpatialFunctionTest(0, nullptr)); }

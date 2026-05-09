@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkConstNeighborhoodIterator.h"
+#include "itkGTest.h"
 #include "itkVectorImage.h"
 
 using ImageType = itk::Image<int, 2>;
@@ -118,8 +119,10 @@ CheckInputRequestedRegion(const RegionType & imageRegion,
   return true;
 }
 
+namespace
+{
 int
-itkZeroFluxBoundaryConditionTest(int, char *[])
+DoZeroFluxBoundaryConditionTest(int, char *[])
 {
   // Test an image to cover one operator() method.
   auto image = ImageType::New();
@@ -268,3 +271,7 @@ itkZeroFluxBoundaryConditionTest(int, char *[])
 
   return EXIT_SUCCESS;
 }
+} // namespace
+
+
+TEST(ZeroFluxBoundaryCondition, ConvertedLegacyTest) { EXPECT_EQ(0, DoZeroFluxBoundaryConditionTest(0, nullptr)); }

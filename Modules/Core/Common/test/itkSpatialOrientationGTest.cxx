@@ -17,12 +17,15 @@
  *=========================================================================*/
 
 #include "itkSpatialOrientation.h"
+#include "itkGTest.h"
 #include <iostream>
 #include <set>
 
 
+namespace
+{
 int
-itkSpatialOrientationTest(int, char *[])
+DoSpatialOrientationTest(int, char *[])
 {
 
   // Test streaming enumeration for SpatialOrientationEnums::CoordinateTerms elements
@@ -112,3 +115,7 @@ itkSpatialOrientationTest(int, char *[])
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
+} // namespace
+
+
+TEST(SpatialOrientation, ConvertedLegacyTest) { EXPECT_EQ(0, DoSpatialOrientationTest(0, nullptr)); }

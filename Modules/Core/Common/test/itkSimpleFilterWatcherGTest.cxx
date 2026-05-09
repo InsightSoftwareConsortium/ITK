@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include "itkSimpleFilterWatcher.h"
+#include "itkGTest.h"
 #include "itkUnaryFunctorImageFilter.h"
 
 namespace itk
@@ -80,8 +81,10 @@ protected:
 
 } // namespace itk
 
+namespace
+{
 int
-itkSimpleFilterWatcherTest(int, char *[])
+DoSimpleFilterWatcherTest(int, char *[])
 {
   // Test out the code
   using WatcherType = itk::SimpleFilterWatcher;
@@ -157,3 +160,7 @@ itkSimpleFilterWatcherTest(int, char *[])
   std::cout << "SimpleFilterWatcher test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 }
+} // namespace
+
+
+TEST(SimpleFilterWatcher, ConvertedLegacyTest) { EXPECT_EQ(0, DoSimpleFilterWatcherTest(0, nullptr)); }
