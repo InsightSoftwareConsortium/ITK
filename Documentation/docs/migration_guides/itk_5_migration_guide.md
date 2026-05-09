@@ -627,10 +627,12 @@ To resolve these errors, update the remote module's dependency specification in
 Update scripts
 --------------
 
-[Utilities/ITKv5Preparation](https://github.com/InsightSoftwareConsortium/ITK/tree/main/Utilities/ITKv5Preparation) directory contains
-bash scripts which have been used to update ITK to version 5. These scripts
-
-
+A set of bash scripts that automate common ITKv4 → ITKv5 source-tree
+rewrites used to live at [`Utilities/ITKv5Preparation/`](https://github.com/InsightSoftwareConsortium/ITK/tree/21851448adfe9b81790f0f370314b8c1a21fbdba/Utilities/ITKv5Preparation).
+The directory was removed from the active ITK tree after the migration
+window closed; the permalink above points to the last commit where the
+scripts were present, so they remain accessible to anyone bringing a
+very old ITKv4 codebase forward.
 
 Backported ITKv6 features
 -------------------------
