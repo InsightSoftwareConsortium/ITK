@@ -965,6 +965,12 @@ target_include_directories (eigen_internal SYSTEM INTERFACE
 
 # Export as title case Eigen
 set_target_properties (eigen_internal PROPERTIES EXPORT_NAME Eigen)
+# Register in ITK's main export set so find_package(ITK) resolves
+# eigen_internal as an IMPORTED target loaded from ITKTargets.cmake
+# (issue #6239: SimpleITK FetchContent + FIND_PACKAGE_ARGS fallback).
+install (TARGETS eigen_internal EXPORT ${ITK3P_INSTALL_EXPORT_NAME})
+# Also register in the standalone ITKInternalEigen3 export set used by
+# find_package(ITKInternalEigen3) consumers.
 install (TARGETS eigen_internal EXPORT ITKInternalEigen3Targets)
 
 set(EIGEN3_TARGETS_FILE ITKInternalEigen3Targets.cmake)
