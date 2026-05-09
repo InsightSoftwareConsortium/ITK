@@ -40,7 +40,7 @@ images.
 | GE Advantage Windows | | [`itk::GEAdwImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1GEAdwImageIO.html) |
 | [GIPL](https://www.ncbi.nlm.nih.gov/pubmed/12956259) (Guy's Image Processing Lab) (.gipl) | [`itk::GiplImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1GiplImageIO.html) | |
 | IPLCommon | [`itk::IPLCommonImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1IPLCommonImageIO.html) | |
-| [ITK HDF5](https://support.hdfgroup.org/HDF5/) | | |
+| [ITK HDF5](https://www.hdfgroup.org/solutions/hdf5/) | | |
 | [JPEG](https://en.wikipedia.org/wiki/JPEG_File_Interchange_Format) † | [`itk::JPEGImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1JPEGImageIO.html) | |
 | [LSM](https://www.openwetware.org/wiki/Dissecting_LSM_files) | [`itk::LSMImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1LSMImageIO.html) | |
 | [MetaImage](https://insightsoftwareconsortium.github.io/ITKWikiArchive/Wiki/ITK/MetaIO/Documentation) (.mha/.mhd) | [`itk::MetaImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MetaImageIO.html) | |
