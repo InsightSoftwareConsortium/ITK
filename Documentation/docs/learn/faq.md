@@ -51,7 +51,7 @@ images.
 | [NRRD](http://teem.sourceforge.net/nrrd/format.html) (.nhdr/.nrrd) | [`itk::NrrdImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1NrrdImageIO.html) | |
 | [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) † | [`itk::PNGImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1PNGImageIO.html) | |
 | Raw ‡ | [`itk::RawImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1RawImageIO.html) | |
-| [Scanco microCT volume file format](https://www.scanco.ch/en/support/customer-login/faq-customers/faq-customers-import-export.html) | | |
+| Scanco microCT volume file format | | |
 | Siemens Vision | | [`itk::SiemensVisionImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1SiemensVisionImageIO.html) |
 | Stimulate (spr/sdt) | [`itk::StimulateImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1TIFFImageIO.html) | |
 | [TIFF](https://en.wikipedia.org/wiki/TIFF) | [`itk::TIFFImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1TIFFImageIO.html) | |
