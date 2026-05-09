@@ -97,8 +97,8 @@ protected:
   }
 
 private:
-  double m_KernelSigma;
-  double m_OneOverMinusTwoSigmaSqr;
+  double m_KernelSigma{ 1.0 };
+  double m_OneOverMinusTwoSigmaSqr{ -0.5 };
 };
 
 template <typename TVectorFieldElementType,
@@ -227,7 +227,6 @@ private:
   unsigned int m_ComponentCount{ 0 };
   unsigned int m_SetSize{ 0 };
   unsigned int m_VectorDimCount{ 0 };
-  unsigned int m_VertexCount{ 0 };
   unsigned int m_PointDim{ 0 };
 
   MatrixType m_V0;

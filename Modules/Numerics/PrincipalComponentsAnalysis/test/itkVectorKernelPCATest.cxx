@@ -21,7 +21,6 @@
 #include "itkVectorFieldPCA.h"
 #include "itkTestingMacros.h"
 #include "vnl/vnl_vector.h"
-#include "vnl/vnl_vector.h"
 
 
 template <typename TPixel, typename TMesh, typename TVectorContainer>
@@ -191,9 +190,6 @@ itkVectorKernelPCATest(int argc, char * argv[])
   distKernel->SetKernelSigma(kernelSigma);
   pcaCalc->SetKernelFunction(distKernel);
 
-
-  std::ofstream debugOut;
-  debugOut.precision(15);
 
   // Get the output and perform basic checks
   unsigned int computedNumberOfAverageVectorFieldCols = pcaCalc->GetAveVectorField().cols();

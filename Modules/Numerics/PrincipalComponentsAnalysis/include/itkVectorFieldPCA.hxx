@@ -98,15 +98,11 @@ VectorFieldPCA<TVectorFieldElementType,
       return;
     }
 
-    //  PointSet only necessary for Kernel PCA, but check that it matches if set...
-    if (m_PointSet)
+    //  PointSet only necessary for Kernel PCA, check that it matches.
+    if (m_PointSet->GetNumberOfPoints() != m_VectorDimCount)
     {
-      if (m_PointSet->GetNumberOfPoints() != m_VectorDimCount)
-      {
-        itkExceptionMacro("Point Set count (" << m_PointSet->GetNumberOfPoints()
-                                              << ") does not match vector field count (" << m_VectorDimCount << ").");
-        return;
-      }
+      itkExceptionMacro("Point Set count (" << m_PointSet->GetNumberOfPoints()
+                                            << ") does not match vector field count (" << m_VectorDimCount << ").");
     }
   }
 
@@ -323,7 +319,6 @@ VectorFieldPCA<TVectorFieldElementType,
   os << indent << "ComponentCount: " << this->m_ComponentCount << std::endl;
   os << indent << "SetSize: " << this->m_SetSize << std::endl;
   os << indent << "VectorDimCount: " << this->m_VectorDimCount << std::endl;
-  os << indent << "VertexCount: " << this->m_VertexCount << std::endl;
   os << indent << "PointDim: " << this->m_PointDim << std::endl;
 
   os << indent << "V0 : " << this->m_V0 << std::endl;
