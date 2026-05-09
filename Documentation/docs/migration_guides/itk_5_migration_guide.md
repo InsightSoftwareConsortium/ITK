@@ -111,15 +111,15 @@ Multithreading refactored
 
 Since ITK 5.0 `itk::MultiThreader` has been split into a class hierarchy.
 Instead of a single `itk::MultiThreader` class which could optionally delegate work
-to an [itk::ThreadPool](https://itk.org/Insight/Doxygen/html/classitk_1_1ThreadPool.html),
+to an [itk::ThreadPool](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1ThreadPool.html),
 there are now multiple backends to provide thread-based parallel processing.
 Most of the time you will want to replace `itk::MultiThreader` by
-[itk::MultiThreaderBase](https://itk.org/Insight/Doxygen/html/classitk_1_1MultiThreaderBase.html).
+[itk::MultiThreaderBase](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MultiThreaderBase.html).
 
-[PlatformMultiThreader](https://itk.org/Insight/Doxygen/html/itkPlatformMultiThreader_8h.html)
+[PlatformMultiThreader](https://docs.itk.org/projects/doxygen/en/stable/itkPlatformMultiThreader_8h.html)
 is essentially the old `itk::MultiThreader`, renamed. `itk::PoolMultiThreader` behaves like
 the old `itk::MultiThreader` with `ITK_USE_THREADPOOL=ON`. There is an addition of
-[TBBMultiThreader](https://itk.org/Insight/Doxygen/html/classitk_1_1TBBMultiThreader.html),
+[TBBMultiThreader](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1TBBMultiThreader.html),
 which uses Intel Thread Building Blocks library's thread-pool, with has load balancing features.
 The option to build TBB support must be enabled during the CMake configuration step.
 The default multi-threader can be set via environment variable
