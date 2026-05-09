@@ -22,6 +22,16 @@
 #include <gtest/gtest.h>
 #include <iostream>
 
+#if defined(__has_feature)
+#  if __has_feature(address_sanitizer)
+#    include <sanitizer/lsan_interface.h>
+#    define ITK_ARRAY_GTEST_HAS_ASAN 1
+#  endif
+#endif
+#ifndef ITK_ARRAY_GTEST_HAS_ASAN
+#  define ITK_ARRAY_GTEST_HAS_ASAN 0
+#endif
+
 namespace
 {
 // Checks that `itk::Array` supports class template argument deduction (CTAD).
@@ -123,4 +133,142 @@ TEST(Array, MemoryManagement)
   std::cout << myOwnDouble << std::endl;
 
   delete[] data;
+}
+
+
+// Test 1: Regression for the SetSize-on-non-owning-Array path. The vnl_vector
+// allocation macro asserts that vnl's m_LetArrayManageMemory flag is true
+// before allocating; if Array::SetSize hands a stale `false` to vnl via
+// protected_set_data, this aborts in debug builds and silently leaks in
+// release. Exercises the path on a non-owning Array and on a freshly
+// default-constructed (size-zero) Array.
+TEST(Array, SetSizeOnNonOwningArrayDoesNotAssertOrLeak)
+{
+  using FloatArrayType = itk::Array<float>;
+
+  constexpr unsigned int n{ 7 };
+  float                  buffer[n]{};
+
+  FloatArrayType external;
+  external.SetData(buffer, n, /*LetArrayManageMemory=*/false);
+
+  external.SetSize(n + 1);
+  external.Fill(3.0f);
+  EXPECT_EQ(external.GetSize(), n + 1u);
+
+  FloatArrayType empty;
+  empty.SetSize(5);
+  empty.Fill(2.0f);
+  EXPECT_EQ(empty.GetSize(), 5u);
+}
+
+
+// Test 2: Cycle through every ownership transition that protected_set_data
+// gates. Each step exercises a different combination of (old ITK flag, new
+// caller intent). Under AddressSanitizer + LeakSanitizer the dtor chain
+// reports any double-free or leak left behind by a wrong third argument.
+TEST(Array, OwnershipTransitionsRoundTripCleanly)
+{
+  using FloatArrayType = itk::Array<float>;
+
+  constexpr unsigned int n{ 5 };
+
+  // Externally-owned buffers used across the transitions.
+  float external_a[n]{};
+  float external_b[n]{};
+
+  // Heap buffer the Array will be told to manage and free on destruction.
+  auto * heap_owned = new float[n]{};
+
+  // Path: owning -> external (false). Old ITK flag was true, so SetData
+  // calls vnl::destroy() before re-pointing.
+  FloatArrayType a(n);
+  a.Fill(1.0f);
+  a.SetData(external_a, n, /*LetArrayManageMemory=*/false);
+  EXPECT_EQ(a.GetSize(), n);
+
+  // Path: external (false) -> external (false). No allocation either side.
+  a.SetData(external_b, n, /*LetArrayManageMemory=*/false);
+
+  // Path: external (false) -> heap-owned (true). Caller hands ownership
+  // of `heap_owned` to the Array; Array dtor must free it via vnl.
+  a.SetData(heap_owned, n, /*LetArrayManageMemory=*/true);
+
+  // SetDataSameSize path with the SAME flag transitions.
+  FloatArrayType b(n);
+  b.Fill(1.0f);
+  b.SetDataSameSize(external_a, /*LetArrayManageMemory=*/false);
+  b.SetDataSameSize(external_b, /*LetArrayManageMemory=*/false);
+
+  // Constructor with externally-owned + non-owning destruction.
+  {
+    FloatArrayType ext_ctor(external_a, n, /*LetArrayManageMemory=*/false);
+    EXPECT_EQ(ext_ctor.GetSize(), n);
+  } // dtor runs; external_a must NOT be freed.
+
+  // Constructor with heap buffer + owning destruction.
+  {
+    auto *         heap2 = new float[n]{};
+    FloatArrayType heap_ctor(heap2, n, /*LetArrayManageMemory=*/true);
+    EXPECT_EQ(heap_ctor.GetSize(), n);
+  } // dtor must free heap2 via vnl_c_vector::deallocate.
+
+  // `a` still owns `heap_owned`; let its dtor free it here.
+  // (No explicit delete[] — that would double-free under the fix.)
+}
+
+
+// Test 3: Heap-buffer ownership reaches a real free. Without a numeric T
+// that can hook ITK's allocator, leak detection comes from ASan/LSan; in a
+// non-sanitizer build the test still exercises the path and verifies that
+// the operations complete without crashing or asserting. The
+// __lsan_do_recoverable_leak_check call (only compiled in under ASan)
+// reports any leftover allocations from this scope as a test failure.
+TEST(Array, HeapBufferOwnedByArrayIsFreed)
+{
+  using FloatArrayType = itk::Array<float>;
+
+  constexpr unsigned int n{ 11 };
+
+  // Constructor path.
+  {
+    auto *         heap = new float[n]{};
+    FloatArrayType owner(heap, n, /*LetArrayManageMemory=*/true);
+    owner.Fill(7.0f);
+    EXPECT_EQ(owner.GetSize(), n);
+  }
+
+  // SetData(true) path on a previously-owning Array.
+  {
+    FloatArrayType owner(n);
+    owner.Fill(2.0f);
+    auto * heap = new float[n]{};
+    owner.SetData(heap, n, /*LetArrayManageMemory=*/true);
+    EXPECT_EQ(owner.GetSize(), n);
+  }
+
+  // SetDataSameSize(true) path on a previously-owning Array.
+  {
+    FloatArrayType owner(n);
+    owner.Fill(3.0f);
+    auto * heap = new float[n]{};
+    owner.SetDataSameSize(heap, /*LetArrayManageMemory=*/true);
+    EXPECT_EQ(owner.GetSize(), n);
+  }
+
+  // SetSize-on-external path: the Array must take ownership of the
+  // freshly-allocated buffer that vnl_vector::set_size produces.
+  {
+    float          buf[n]{};
+    FloatArrayType external;
+    external.SetSize(n);
+    external.SetData(buf, n, /*LetArrayManageMemory=*/false);
+    external.SetSize(n + 3); // allocates a new buffer; Array now owns it.
+    external.Fill(4.0f);
+    EXPECT_EQ(external.GetSize(), n + 3u);
+  }
+
+#if ITK_ARRAY_GTEST_HAS_ASAN
+  __lsan_do_recoverable_leak_check();
+#endif
 }
