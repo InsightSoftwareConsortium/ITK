@@ -52,3 +52,7 @@ CMakeUserPresets.json
 
 # Serena: https://oraios.github.io/serena/
 .serena
+
+# lychee link-checker (Utilities/Maintenance/check-links.sh) local artifacts
+.lycheecache
+.lychee-report.md

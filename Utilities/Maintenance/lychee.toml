@@ -1,0 +1,47 @@
+# Configuration for Utilities/Maintenance/check-links.sh.
+#
+# See https://lychee.cli.rs/usage/config/ for the full schema.
+
+# Network behaviour ---------------------------------------------------
+max_concurrency = 8
+max_retries = 3
+retry_wait_time = 30  # seconds; matches lychee's default Retry-After honouring
+timeout = 30
+user_agent = "ITK-link-checker (https://github.com/InsightSoftwareConsortium/ITK)"
+
+# Treat 429 (rate limit) and 999 (LinkedIn / GitHub bot block) as
+# non-failures.  These are not "broken link" signals; they mean the
+# host throttled this run.
+accept = [200, 203, 206, 301, 302, 303, 307, 308, 403, 429, 999]
+
+# Path filters --------------------------------------------------------
+# Limit lychee's recursive scan to documentation-style file extensions;
+# skipping the vendored ThirdParty trees keeps run time tractable and
+# avoids vendored README links that are not maintained by ITK.
+extensions = ["md", "rst", "txt", "html"]
+
+exclude_path = [
+    "Modules/ThirdParty",
+    ".git",
+    ".lycheecache",
+    "build",
+    "build-debug",
+    "build-release",
+    "build-python",
+]
+
+# URL patterns to skip.  GitHub commit URLs return 429 reliably and
+# need no checking; localhost / example placeholders are not real
+# targets; mailto and DOI redirects are checked elsewhere.
+exclude = [
+    "https?://github\\.com/[^/]+/[^/]+/commit/[0-9a-f]+",
+    "https?://localhost(?::\\d+)?",
+    "https?://127\\.0\\.0\\.1(?::\\d+)?",
+    "https?://example\\.com",
+    "^mailto:",
+    "^file:",
+]
+
+exclude_link_local = true
+exclude_loopback = true
+include_mail = false
