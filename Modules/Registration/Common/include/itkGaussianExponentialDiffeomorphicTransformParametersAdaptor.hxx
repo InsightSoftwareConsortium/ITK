@@ -19,6 +19,7 @@
 #define itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_hxx
 
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -83,20 +84,20 @@ GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>::PrintSel
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "GaussianSmoothingVarianceForTheConstantVelocityField: "
-     << static_cast<typename NumericTraits<ScalarType>::PrintType>(
-          m_GaussianSmoothingVarianceForTheConstantVelocityField)
-     << std::endl;
-  os << indent << "GaussianSmoothingVarianceForTheUpdateField: "
-     << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_GaussianSmoothingVarianceForTheUpdateField)
-     << std::endl;
-  os << indent << "GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime: "
-     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(
-          m_GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime)
-     << std::endl;
-  os << indent << "GaussianSmoothingVarianceForTheUpdateFieldSetTime: "
-     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_GaussianSmoothingVarianceForTheUpdateFieldSetTime)
-     << std::endl;
+  print_helper::PrintNumericTrait(os,
+                                  indent,
+                                  "GaussianSmoothingVarianceForTheConstantVelocityField",
+                                  m_GaussianSmoothingVarianceForTheConstantVelocityField);
+  print_helper::PrintNumericTrait(
+    os, indent, "GaussianSmoothingVarianceForTheUpdateField", m_GaussianSmoothingVarianceForTheUpdateField);
+  print_helper::PrintNumericTrait(os,
+                                  indent,
+                                  "GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime",
+                                  m_GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime);
+  print_helper::PrintNumericTrait(os,
+                                  indent,
+                                  "GaussianSmoothingVarianceForTheUpdateFieldSetTime",
+                                  m_GaussianSmoothingVarianceForTheUpdateFieldSetTime);
 }
 
 } // namespace itk

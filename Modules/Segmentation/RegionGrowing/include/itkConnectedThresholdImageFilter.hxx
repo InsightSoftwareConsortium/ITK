@@ -24,6 +24,7 @@
 
 #include "itkShapedFloodFilledImageFunctionConditionalIterator.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -280,13 +281,9 @@ void
 ConnectedThresholdImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
-  os << indent << "Upper: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->GetUpper())
-     << std::endl;
-  os << indent << "Lower: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->GetLower())
-     << std::endl;
-  os << indent
-     << "ReplaceValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Upper", this->GetUpper());
+  print_helper::PrintNumericTrait(os, indent, "Lower", this->GetLower());
+  print_helper::PrintNumericTrait(os, indent, "ReplaceValue", m_ReplaceValue);
   os << indent << "Seeds: ";
   for (unsigned int i = 0; i < this->m_Seeds.size(); ++i)
   {

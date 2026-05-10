@@ -29,6 +29,7 @@
 #define itkSimplexMeshAdaptTopologyFilter_hxx
 
 
+#include "itkPrintHelper.h"
 namespace itk
 {
 template <typename TInputMesh, typename TOutputMesh>
@@ -378,8 +379,7 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "IdOffset: " << static_cast<typename NumericTraits<CellIdentifier>::PrintType>(m_IdOffset)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "IdOffset", m_IdOffset);
   os << indent << "Threshold: " << m_Threshold << std::endl;
   os << indent << "SelectionMethod: " << m_SelectionMethod << std::endl;
   os << indent << "ModifiedCount: " << m_ModifiedCount << std::endl;

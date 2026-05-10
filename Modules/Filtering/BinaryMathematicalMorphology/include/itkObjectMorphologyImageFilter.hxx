@@ -25,6 +25,7 @@
 #include "itkTotalProgressReporter.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -217,9 +218,8 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::PrintSelf(std::
   m_DefaultBoundaryCondition.Print(os, indent);
 
   itkPrintSelfBooleanMacro(UseBoundaryCondition);
-  os << indent << "Kernel: " << static_cast<typename NumericTraits<KernelType>::PrintType>(m_Kernel) << std::endl;
-  os << indent << "ObjectValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ObjectValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Kernel", m_Kernel);
+  print_helper::PrintNumericTrait(os, indent, "ObjectValue", m_ObjectValue);
 }
 } // end namespace itk
 #endif

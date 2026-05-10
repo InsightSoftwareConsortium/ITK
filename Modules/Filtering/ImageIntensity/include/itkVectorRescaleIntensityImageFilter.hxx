@@ -29,6 +29,7 @@
 #define itkVectorRescaleIntensityImageFilter_hxx
 
 #include "itkImageRegionConstIterator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -81,14 +82,10 @@ VectorRescaleIntensityImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ost
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Output Maximum Magnitude: "
-     << static_cast<typename NumericTraits<OutputRealType>::PrintType>(m_OutputMaximumMagnitude) << std::endl;
-  os << indent << "Input Maximum Magnitude: "
-     << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_InputMaximumMagnitude) << std::endl;
-  os << indent << "Internal Scale : " << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_Scale)
-     << std::endl;
-  os << indent << "Internal Shift : " << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_Shift)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Output Maximum Magnitude", m_OutputMaximumMagnitude);
+  print_helper::PrintNumericTrait(os, indent, "Input Maximum Magnitude", m_InputMaximumMagnitude);
+  print_helper::PrintNumericTrait(os, indent, "Internal Scale ", m_Scale);
+  print_helper::PrintNumericTrait(os, indent, "Internal Shift ", m_Shift);
 }
 } // end namespace itk
 

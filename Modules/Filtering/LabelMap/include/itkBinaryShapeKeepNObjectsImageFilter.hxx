@@ -19,6 +19,7 @@
 #define itkBinaryShapeKeepNObjectsImageFilter_hxx
 
 #include "itkProgressAccumulator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -112,12 +113,8 @@ BinaryShapeKeepNObjectsImageFilter<TInputImage>::PrintSelf(std::ostream & os, In
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfBooleanMacro(FullyConnected);
-  os << indent
-     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
-  os << indent
-     << "ForegroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue", m_BackgroundValue);
+  print_helper::PrintNumericTrait(os, indent, "ForegroundValue", m_ForegroundValue);
   os << indent << "NumberOfObjects: " << m_NumberOfObjects << std::endl;
   os << indent << "ReverseOrdering: " << m_ReverseOrdering << std::endl;
   os << indent << "Attribute: " << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ')'

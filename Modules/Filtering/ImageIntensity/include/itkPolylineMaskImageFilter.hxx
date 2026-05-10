@@ -28,6 +28,7 @@
 #include "itkPathIterator.h"
 #include "itkVector.h"
 #include "itkBoundingBox.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -491,9 +492,8 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::PrintSel
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Viewing vector: " << static_cast<typename NumericTraits<VectorType>::PrintType>(m_ViewVector)
-     << std::endl;
-  os << indent << "Up Vector: " << static_cast<typename NumericTraits<VectorType>::PrintType>(m_UpVector) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Viewing vector", m_ViewVector);
+  print_helper::PrintNumericTrait(os, indent, "Up Vector", m_UpVector);
   os << indent << "Camera Center Point: " << m_CameraCenterPoint << std::endl;
   os << indent << "Focal  Point       : " << m_FocalPoint << std::endl;
   os << indent << "Focal Distance     : " << m_FocalDistance << std::endl;

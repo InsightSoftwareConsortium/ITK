@@ -19,6 +19,7 @@
 #define itkBinaryImageToStatisticsLabelMapFilter_hxx
 
 #include "itkProgressAccumulator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -99,10 +100,8 @@ BinaryImageToStatisticsLabelMapFilter<TInputImage, TFeatureImage, TOutputImage>:
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfBooleanMacro(FullyConnected);
-  os << indent << "OutputBackgroundValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_OutputBackgroundValue) << std::endl;
-  os << indent << "InputForegroundValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_InputForegroundValue) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "OutputBackgroundValue", m_OutputBackgroundValue);
+  print_helper::PrintNumericTrait(os, indent, "InputForegroundValue", m_InputForegroundValue);
   os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << std::endl;
   os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
   os << indent << "ComputeHistogram: " << m_ComputeHistogram << std::endl;

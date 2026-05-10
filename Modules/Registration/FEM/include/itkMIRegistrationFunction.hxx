@@ -24,6 +24,7 @@
 #include "itkNeighborhoodIterator.h"
 
 #include "vnl/vnl_matrix.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -524,12 +525,8 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf
   Superclass::PrintSelf(os, indent);
 
   os << indent << "TimeStep: " << m_TimeStep << std::endl;
-  os << indent
-     << "FixedImageSpacing: " << static_cast<typename itk::NumericTraits<SpacingType>::PrintType>(m_FixedImageSpacing)
-     << std::endl;
-  os << indent
-     << "FixedImageOrigin: " << static_cast<typename itk::NumericTraits<PointType>::PrintType>(m_FixedImageOrigin)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "FixedImageSpacing", m_FixedImageSpacing);
+  print_helper::PrintNumericTrait(os, indent, "FixedImageOrigin", m_FixedImageOrigin);
 
   itkPrintSelfObjectMacro(FixedImageGradientCalculator);
   itkPrintSelfObjectMacro(MovingImageGradientCalculator);

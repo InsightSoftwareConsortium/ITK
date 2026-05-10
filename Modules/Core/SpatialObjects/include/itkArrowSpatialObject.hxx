@@ -19,6 +19,7 @@
 #define itkArrowSpatialObject_hxx
 
 
+#include "itkPrintHelper.h"
 namespace itk
 {
 
@@ -159,9 +160,7 @@ ArrowSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) cons
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "PositionInObjectSpace: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_PositionInObjectSpace)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "PositionInObjectSpace", m_PositionInObjectSpace);
   os << indent << "LengthInObjectSpace: " << m_LengthInObjectSpace << std::endl;
 }
 } // end namespace itk

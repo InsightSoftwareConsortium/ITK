@@ -25,6 +25,7 @@
 
 #include "itkImageRegionIterator.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
+#include "itkPrintHelper.h"
 
 /*
  *
@@ -356,13 +357,9 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
   Superclass::PrintSelf(os, indent);
 
   os << indent << "GenerateOutputMask: " << m_GenerateOutputMask << std::endl;
-  os << indent << "FillValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_FillValue)
-     << std::endl;
-  os << indent << "MaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(m_MaskValue)
-     << std::endl;
-  os << indent
-     << "BackgroundMaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(m_BackgroundMaskValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "FillValue", m_FillValue);
+  print_helper::PrintNumericTrait(os, indent, "MaskValue", m_MaskValue);
+  print_helper::PrintNumericTrait(os, indent, "BackgroundMaskValue", m_BackgroundMaskValue);
 }
 } // end namespace itk
 #endif

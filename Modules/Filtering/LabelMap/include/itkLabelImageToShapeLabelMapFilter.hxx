@@ -19,6 +19,7 @@
 #define itkLabelImageToShapeLabelMapFilter_hxx
 
 #include "itkProgressAccumulator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -87,9 +88,7 @@ LabelImageToShapeLabelMapFilter<TInputImage, TOutputImage>::PrintSelf(std::ostre
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue", m_BackgroundValue);
   os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << std::endl;
   os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
   os << indent << "ComputeOrientedBoundingBox: " << m_ComputeOrientedBoundingBox << std::endl;

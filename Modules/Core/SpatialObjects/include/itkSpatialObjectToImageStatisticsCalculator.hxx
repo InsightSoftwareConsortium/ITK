@@ -24,6 +24,7 @@
 #include "itkCovarianceSampleFilter.h"
 #include "itkImageMaskSpatialObject.h"
 #include <algorithm> // For max.
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -219,16 +220,13 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
   itkPrintSelfObjectMacro(SpatialObject);
 
   os << indent << "Mean: " << m_Mean << std::endl;
-  os << indent << "Sum: " << static_cast<typename NumericTraits<AccumulateType>::PrintType>(m_Sum) << std::endl;
-  os << indent << "NumberOfPixels: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixels)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Sum", m_Sum);
+  print_helper::PrintNumericTrait(os, indent, "NumberOfPixels", m_NumberOfPixels);
   os << indent << "CovarianceMatrix: " << m_CovarianceMatrix << std::endl;
   os << indent << "SampleDirection: " << m_SampleDirection << std::endl;
-  os << indent << "InternalImageTime: " << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_InternalImageTime)
-     << std::endl;
-  os << indent << "InternalSpatialObjectTime: "
-     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_InternalSpatialObjectTime) << std::endl;
-  os << indent << "ModifiedTime: " << static_cast<NumericTraits<TimeStamp>::PrintType>(m_ModifiedTime) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "InternalImageTime", m_InternalImageTime);
+  print_helper::PrintNumericTrait(os, indent, "InternalSpatialObjectTime", m_InternalSpatialObjectTime);
+  print_helper::PrintNumericTrait(os, indent, "ModifiedTime", m_ModifiedTime);
 
   itkPrintSelfObjectMacro(Sample);
 }

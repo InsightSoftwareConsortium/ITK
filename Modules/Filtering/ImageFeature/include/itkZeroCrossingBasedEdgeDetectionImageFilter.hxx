@@ -22,6 +22,7 @@
 #include "itkLaplacianImageFilter.h"
 #include "itkZeroCrossingImageFilter.h"
 #include "itkProgressAccumulator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -83,12 +84,8 @@ ZeroCrossingBasedEdgeDetectionImageFilter<TInputImage, TOutputImage>::PrintSelf(
   Superclass::PrintSelf(os, indent);
   os << indent << "Variance: " << m_Variance << std::endl;
   os << indent << "MaximumError: " << m_MaximumError << std::endl;
-  os << indent
-     << "ForegroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
-  os << indent
-     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ForegroundValue", m_ForegroundValue);
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue", m_BackgroundValue);
 }
 } // namespace itk
 

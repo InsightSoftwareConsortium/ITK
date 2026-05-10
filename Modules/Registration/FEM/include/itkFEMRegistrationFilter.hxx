@@ -32,6 +32,7 @@
 #include "itkRecursiveGaussianImageFilter.h"
 
 #include "vnl/algo/vnl_determinant.h"
+#include "itkPrintHelper.h"
 
 namespace itk::fem
 {
@@ -1438,9 +1439,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintSelf(std::ost
   os << indent << "MaxLevel: " << m_MaxLevel << std::endl;
   os << indent << "FileCount: " << m_FileCount << std::endl;
   os << indent << "CurrentLevel: " << m_CurrentLevel << std::endl;
-  os << indent << "CurrentLevelImageSize: "
-     << static_cast<typename NumericTraits<typename FixedImageType::SizeType>::PrintType>(m_CurrentLevelImageSize)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "CurrentLevelImageSize", m_CurrentLevelImageSize);
   os << indent << "WhichMetric: " << m_WhichMetric << std::endl;
 
   os << indent << "MeshPixelsPerElementAtEachResolution: " << m_MeshPixelsPerElementAtEachResolution << std::endl;
@@ -1461,21 +1460,14 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintSelf(std::ost
   os << indent << "EmployRegridding: " << m_EmployRegridding << std::endl;
   os << indent << "DescentDirection: " << m_DescentDirection << std::endl;
   os << indent << "EnergyReductionFactor: " << m_EnergyReductionFactor << std::endl;
-  os << indent << "FullImageSize: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_FullImageSize)
-     << std::endl;
-  os << indent << "ImageOrigin: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_ImageOrigin)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "FullImageSize", m_FullImageSize);
+  print_helper::PrintNumericTrait(os, indent, "ImageOrigin", m_ImageOrigin);
 
-  os << indent << "ImageScaling: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_ImageScaling)
-     << std::endl;
-  os << indent
-     << "CurrentImageScaling: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_CurrentImageScaling)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ImageScaling", m_ImageScaling);
+  print_helper::PrintNumericTrait(os, indent, "CurrentImageScaling", m_CurrentImageScaling);
 
   os << indent << "FieldRegion: " << m_FieldRegion << std::endl;
-  os << indent
-     << "FieldSize: " << static_cast<typename NumericTraits<typename FieldType::SizeType>::PrintType>(m_FieldSize)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "FieldSize", m_FieldSize);
 
   itkPrintSelfObjectMacro(Field);
   itkPrintSelfObjectMacro(TotalField);
@@ -1485,9 +1477,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintSelf(std::ost
   itkPrintSelfObjectMacro(FloatImage);
 
   os << indent << "Wregion: " << m_Wregion << std::endl;
-  os << indent
-     << "Windex: " << static_cast<typename NumericTraits<typename FixedImageType::IndexType>::PrintType>(m_Windex)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Windex", m_Windex);
 
   itkPrintSelfObjectMacro(MovingImage);
   itkPrintSelfObjectMacro(OriginalMovingImage);
@@ -1509,8 +1499,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintSelf(std::ost
   os << indent << "MaximumError: " << m_MaximumError << std::endl;
   os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
 
-  os << indent << "StandardDeviation: "
-     << static_cast<typename NumericTraits<StandardDeviationsType>::PrintType>(m_StandardDeviations) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "StandardDeviation", m_StandardDeviations);
 }
 
 } // namespace itk::fem

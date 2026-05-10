@@ -20,6 +20,7 @@
 
 #include "itkMacro.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -52,27 +53,22 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplaceme
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "FixedImageSpacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_FixedImageSpacing)
-     << std::endl;
-  os << indent << "FixedImageOrigin: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_FixedImageOrigin)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "FixedImageSpacing", m_FixedImageSpacing);
+  print_helper::PrintNumericTrait(os, indent, "FixedImageOrigin", m_FixedImageOrigin);
 
   os << indent << "Normalizer: " << m_Normalizer << std::endl;
 
   itkPrintSelfObjectMacro(FixedImageGradientCalculator);
   itkPrintSelfObjectMacro(MovingImageInterpolator);
 
-  os << indent << "TimeStep: " << static_cast<typename NumericTraits<TimeStepType>::PrintType>(m_TimeStep) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "TimeStep", m_TimeStep);
 
   os << indent << "DenominatorThreshold: " << m_DenominatorThreshold << std::endl;
   os << indent << "IntensityDifferenceThreshold: " << m_IntensityDifferenceThreshold << std::endl;
 
   os << indent << "Metric: " << m_Metric << std::endl;
   os << indent << "SumOfSquaredDifference: " << m_SumOfSquaredDifference << std::endl;
-  os << indent
-     << "NumberOfPixelsProcessed: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsProcessed)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfPixelsProcessed", m_NumberOfPixelsProcessed);
   os << indent << "RMSChange: " << m_RMSChange << std::endl;
   os << indent << "SumOfSquaredChange: " << m_SumOfSquaredChange << std::endl;
 }

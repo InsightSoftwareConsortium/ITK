@@ -19,6 +19,7 @@
 #define itkSimplexMeshVolumeCalculator_hxx
 
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -273,11 +274,10 @@ SimplexMeshVolumeCalculator<TInputMesh>::PrintSelf(std::ostream & os, Indent ind
   os << indent << "Wxy: " << m_Wxy << std::endl;
   os << indent << "Wxz: " << m_Wxz << std::endl;
   os << indent << "Wyz: " << m_Wyz << std::endl;
-  os << indent << "Muncx: " << static_cast<NumericTraits<IndexValueType>::PrintType>(m_Muncx) << std::endl;
-  os << indent << "Muncy: " << static_cast<NumericTraits<IndexValueType>::PrintType>(m_Muncy) << std::endl;
-  os << indent << "Muncz: " << static_cast<NumericTraits<IndexValueType>::PrintType>(m_Muncz) << std::endl;
-  os << indent << "NumberOfTriangles: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfTriangles)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Muncx", m_Muncx);
+  print_helper::PrintNumericTrait(os, indent, "Muncy", m_Muncy);
+  print_helper::PrintNumericTrait(os, indent, "Muncz", m_Muncz);
+  print_helper::PrintNumericTrait(os, indent, "NumberOfTriangles", m_NumberOfTriangles);
 }
 } // namespace itk
 

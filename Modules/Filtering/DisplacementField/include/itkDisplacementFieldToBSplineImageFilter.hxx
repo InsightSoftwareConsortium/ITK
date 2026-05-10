@@ -22,6 +22,7 @@
 #include "itkContinuousIndex.h"
 #include "itkImportImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -416,16 +417,10 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
   itkPrintSelfBooleanMacro(UsePointWeights);
 
-  os << indent
-     << "BSplineDomainOrigin: " << static_cast<typename NumericTraits<OriginType>::PrintType>(m_BSplineDomainOrigin)
-     << std::endl;
-  os << indent
-     << "BSplineDomainSpacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_BSplineDomainSpacing)
-     << std::endl;
-  os << indent << "BSplineDomainSize: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_BSplineDomainSize)
-     << std::endl;
-  os << indent << "BSplineDomainDirection: "
-     << static_cast<typename NumericTraits<DirectionType>::PrintType>(m_BSplineDomainDirection) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "BSplineDomainOrigin", m_BSplineDomainOrigin);
+  print_helper::PrintNumericTrait(os, indent, "BSplineDomainSpacing", m_BSplineDomainSpacing);
+  print_helper::PrintNumericTrait(os, indent, "BSplineDomainSize", m_BSplineDomainSize);
+  print_helper::PrintNumericTrait(os, indent, "BSplineDomainDirection", m_BSplineDomainDirection);
 
   itkPrintSelfBooleanMacro(BSplineDomainIsDefined);
   itkPrintSelfBooleanMacro(UseInputFieldToDefineTheBSplineDomain);

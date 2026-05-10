@@ -20,6 +20,7 @@
 
 #include "itkMacro.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -66,11 +67,8 @@ LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "FixedImageSpacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_FixedImageSpacing)
-     << std::endl;
-  os << indent << "FixedImageOrigin: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_FixedImageOrigin)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "FixedImageSpacing", m_FixedImageSpacing);
+  print_helper::PrintNumericTrait(os, indent, "FixedImageOrigin", m_FixedImageOrigin);
 
   itkPrintSelfObjectMacro(MovingImageSmoothingFilter);
 
@@ -84,9 +82,7 @@ LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField
 
   os << indent << "Metric: " << m_Metric << std::endl;
   os << indent << "SumOfSquaredDifference: " << m_SumOfSquaredDifference << std::endl;
-  os << indent
-     << "NumberOfPixelsProcessed: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsProcessed)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfPixelsProcessed", m_NumberOfPixelsProcessed);
   os << indent << "RMSChange: " << m_RMSChange << std::endl;
   os << indent << "SumOfSquaredChange: " << m_SumOfSquaredChange << std::endl;
 

@@ -19,6 +19,7 @@
 #define itkShapePriorSegmentationLevelSetFunction_hxx
 
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -37,9 +38,7 @@ ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::PrintSelf
 
   itkPrintSelfObjectMacro(ShapeFunction);
 
-  os << indent
-     << "ShapePriorWeight: " << static_cast<typename NumericTraits<ScalarValueType>::PrintType>(m_ShapePriorWeight)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ShapePriorWeight", m_ShapePriorWeight);
 }
 
 template <typename TImageType, typename TFeatureImageType>

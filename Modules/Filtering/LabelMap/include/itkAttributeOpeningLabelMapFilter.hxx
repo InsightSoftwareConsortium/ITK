@@ -19,6 +19,7 @@
 #define itkAttributeOpeningLabelMapFilter_hxx
 
 #include "itkProgressReporter.h"
+#include "itkPrintHelper.h"
 
 
 namespace itk
@@ -83,8 +84,7 @@ AttributeOpeningLabelMapFilter<TImage, TAttributeAccessor>::PrintSelf(std::ostre
   Superclass::PrintSelf(os, indent);
 
   os << indent << "ReverseOrdering: " << m_ReverseOrdering << std::endl;
-  os << indent << "Lambda: " << static_cast<typename NumericTraits<AttributeValueType>::PrintType>(m_Lambda)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Lambda", m_Lambda);
 }
 
 } // end namespace itk

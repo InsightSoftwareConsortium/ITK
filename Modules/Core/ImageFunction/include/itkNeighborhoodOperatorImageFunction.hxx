@@ -22,6 +22,7 @@
 #include "itkConstNeighborhoodIterator.h"
 
 #include <cassert>
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -32,8 +33,7 @@ NeighborhoodOperatorImageFunction<TInputImage, TOutput>::PrintSelf(std::ostream 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Operator: " << static_cast<typename NumericTraits<NeighborhoodType>::PrintType>(m_Operator)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Operator", m_Operator);
 }
 
 template <typename TInputImage, typename TOutput>

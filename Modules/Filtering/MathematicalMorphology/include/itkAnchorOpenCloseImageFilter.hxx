@@ -22,6 +22,7 @@
 #include "itkAnchorUtilities.h"
 #include "itkImageRegionIterator.h"
 #include "itkIndexRange.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -202,10 +203,8 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::PrintSelf(std
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Boundary1: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Boundary1)
-     << std::endl;
-  os << indent << "Boundary2: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Boundary2)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Boundary1", m_Boundary1);
+  print_helper::PrintNumericTrait(os, indent, "Boundary2", m_Boundary2);
 }
 
 } // end namespace itk

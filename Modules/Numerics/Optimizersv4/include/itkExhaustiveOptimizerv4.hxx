@@ -19,6 +19,7 @@
 #define itkExhaustiveOptimizerv4_hxx
 
 
+#include "itkPrintHelper.h"
 namespace itk
 {
 
@@ -224,18 +225,13 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>::PrintSelf(std::ostream & o
   Superclass::PrintSelf(os, indent);
 
   os << indent << "InitialPosition: " << m_InitialPosition << std::endl;
-  os << indent << "CurrentValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_CurrentValue)
-     << std::endl;
-  os << indent << "NumberOfSteps: " << static_cast<NumericTraits<StepsType>::PrintType>(m_NumberOfSteps) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "CurrentValue", m_CurrentValue);
+  print_helper::PrintNumericTrait(os, indent, "NumberOfSteps", m_NumberOfSteps);
   itkPrintSelfBooleanMacro(Stop);
   os << indent << "StepLength: " << m_StepLength << std::endl;
   os << indent << "CurrentIndex: " << m_CurrentIndex << std::endl;
-  os << indent
-     << "MaximumMetricValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_MaximumMetricValue)
-     << std::endl;
-  os << indent
-     << "MinimumMetricValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_MinimumMetricValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "MaximumMetricValue", m_MaximumMetricValue);
+  print_helper::PrintNumericTrait(os, indent, "MinimumMetricValue", m_MinimumMetricValue);
   os << indent << "MinimumMetricValuePosition: " << m_MinimumMetricValuePosition << std::endl;
   os << indent << "MaximumMetricValuePosition: " << m_MaximumMetricValuePosition << std::endl;
 

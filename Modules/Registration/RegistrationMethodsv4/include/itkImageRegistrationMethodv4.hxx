@@ -1115,16 +1115,11 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "CurrentLevel: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_CurrentLevel) << std::endl;
-  os << indent << "NumberOfLevels: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfLevels)
-     << std::endl;
-  os << indent << "CurrentIteration: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_CurrentIteration)
-     << std::endl;
-  os << indent
-     << "CurrentMetricValue: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_CurrentMetricValue)
-     << std::endl;
-  os << indent << "CurrentConvergenceValue: "
-     << static_cast<typename NumericTraits<RealType>::PrintType>(m_CurrentConvergenceValue) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "CurrentLevel", m_CurrentLevel);
+  print_helper::PrintNumericTrait(os, indent, "NumberOfLevels", m_NumberOfLevels);
+  print_helper::PrintNumericTrait(os, indent, "CurrentIteration", m_CurrentIteration);
+  print_helper::PrintNumericTrait(os, indent, "CurrentMetricValue", m_CurrentMetricValue);
+  print_helper::PrintNumericTrait(os, indent, "CurrentConvergenceValue", m_CurrentConvergenceValue);
   itkPrintSelfBooleanMacro(IsConverged);
 
   os << indent << "FixedSmoothImages: " << m_FixedSmoothImages << std::endl;
@@ -1137,26 +1132,19 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   os << indent << "FixedPointSets: " << m_FixedPointSets << std::endl;
   os << indent << "MovingPointSets: " << m_MovingPointSets << std::endl;
 
-  os << indent
-     << "NumberOfFixedObjects: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfFixedObjects)
-     << std::endl;
-  os << indent
-     << "NumberOfMovingObjects: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfMovingObjects)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfFixedObjects", m_NumberOfFixedObjects);
+  print_helper::PrintNumericTrait(os, indent, "NumberOfMovingObjects", m_NumberOfMovingObjects);
 
   itkPrintSelfObjectMacro(Optimizer);
 
-  os << indent
-     << "OptimizerWeights: " << static_cast<typename NumericTraits<OptimizerWeightsType>::PrintType>(m_OptimizerWeights)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "OptimizerWeights", m_OptimizerWeights);
   itkPrintSelfBooleanMacro(OptimizerWeightsAreIdentity);
 
   itkPrintSelfObjectMacro(Metric);
 
   os << indent << "MetricSamplingStrategy: " << m_MetricSamplingStrategy << std::endl;
   os << indent << "MetricSamplingPercentagePerLevel: " << m_MetricSamplingPercentagePerLevel << std::endl;
-  os << indent << "NumberOfMetrics: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfMetrics)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfMetrics", m_NumberOfMetrics);
   os << indent << "FirstImageMetricIndex: " << m_FirstImageMetricIndex << std::endl;
   os << indent << "ShrinkFactorsPerLevel: " << m_ShrinkFactorsPerLevel << std::endl;
   os << indent << "SmoothingSigmasPerLevel: " << m_SmoothingSigmasPerLevel << std::endl;

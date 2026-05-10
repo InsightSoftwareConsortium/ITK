@@ -19,6 +19,7 @@
 #define itkImageToListSampleFilter_hxx
 
 #include "itkImageRegionConstIterator.h"
+#include "itkPrintHelper.h"
 
 namespace itk::Statistics
 {
@@ -37,8 +38,7 @@ void
 ImageToListSampleFilter<TImage, TMaskImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "MaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(this->GetMaskValue())
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "MaskValue", this->GetMaskValue());
 }
 
 template <typename TImage, typename TMaskImage>

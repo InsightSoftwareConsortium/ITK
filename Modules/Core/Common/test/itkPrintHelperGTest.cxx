@@ -20,6 +20,7 @@
 #include "itkOffset.h"
 #include "gtest/gtest.h"
 #include <array>
+#include <complex>
 #include <sstream>
 #include <vector>
 #include <list>
@@ -129,4 +130,56 @@ TEST(PrintHelper, ArrayOfVector)
   std::ostringstream              oss;
   oss << a;
   EXPECT_EQ(oss.str(), "([1, 2], [3])");
+}
+
+TEST(PrintHelper, PrintNumericTraitDouble)
+{
+  std::ostringstream oss;
+  itk::print_helper::PrintNumericTrait(oss, itk::Indent{}, "Value", 3.5);
+  EXPECT_EQ(oss.str(), "Value: 3.5\n");
+}
+
+TEST(PrintHelper, PrintNumericTraitIntIsIdentityCast)
+{
+  // PrintType<int> == int, so the constexpr branch skips static_cast and
+  // streams the value directly.
+  std::ostringstream oss;
+  itk::print_helper::PrintNumericTrait(oss, itk::Indent{}, "Count", 42);
+  EXPECT_EQ(oss.str(), "Count: 42\n");
+}
+
+TEST(PrintHelper, PrintNumericTraitCharRendersNumerically)
+{
+  // PrintType<unsigned char> == int.  Without the cast the value would be
+  // emitted as the ASCII character; the helper must produce the integer.
+  std::ostringstream  oss;
+  const unsigned char ch = 65;
+  itk::print_helper::PrintNumericTrait(oss, itk::Indent{}, "Byte", ch);
+  EXPECT_EQ(oss.str(), "Byte: 65\n");
+}
+
+TEST(PrintHelper, PrintNumericTraitSignedCharRendersNumerically)
+{
+  std::ostringstream oss;
+  const signed char  sc = -7;
+  itk::print_helper::PrintNumericTrait(oss, itk::Indent{}, "Offset", sc);
+  EXPECT_EQ(oss.str(), "Offset: -7\n");
+}
+
+TEST(PrintHelper, PrintNumericTraitComplexIsIdentityCast)
+{
+  // NumericTraits<std::complex<T>>::PrintType is Self, so PrintNumericTrait
+  // forwards to the value's own ostream insertion overload unchanged.
+  std::ostringstream   oss;
+  std::complex<double> z{ 1.0, -2.5 };
+  itk::print_helper::PrintNumericTrait(oss, itk::Indent{}, "Z", z);
+  EXPECT_EQ(oss.str(), "Z: (1,-2.5)\n");
+}
+
+TEST(PrintHelper, PrintNumericTraitIndentation)
+{
+  std::ostringstream oss;
+  itk::Indent        indent{ 4 };
+  itk::print_helper::PrintNumericTrait(oss, indent, "Threshold", 0.125);
+  EXPECT_EQ(oss.str(), "    Threshold: 0.125\n");
 }

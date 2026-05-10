@@ -22,6 +22,7 @@
 #include "itkShapeOpeningLabelMapFilter.h"
 #include "itkLabelMapToBinaryImageFilter.h"
 #include "itkProgressAccumulator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -103,12 +104,8 @@ BinaryGrindPeakImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent ind
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "ForegroundValue: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
-  os << indent
-     << "BackgroundValue: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ForegroundValue", m_ForegroundValue);
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue", m_BackgroundValue);
   itkPrintSelfBooleanMacro(FullyConnected);
 }
 } // end namespace itk

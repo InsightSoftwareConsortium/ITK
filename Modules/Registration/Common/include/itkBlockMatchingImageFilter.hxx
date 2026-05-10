@@ -23,6 +23,7 @@
 #include <limits>
 #include "itkMultiThreaderBase.h"
 #include "itkMakeUniqueForOverwrite.h"
+#include "itkPrintHelper.h"
 
 
 namespace itk
@@ -60,11 +61,9 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "BlockRadius: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_BlockRadius)
-     << std::endl;
-  os << indent << "SearchRadius: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_SearchRadius)
-     << std::endl;
-  os << indent << "PointsCount: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_PointsCount) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "BlockRadius", m_BlockRadius);
+  print_helper::PrintNumericTrait(os, indent, "SearchRadius", m_SearchRadius);
+  print_helper::PrintNumericTrait(os, indent, "PointsCount", m_PointsCount);
 
   os << indent << "DisplacementsVectorsArray: ";
   if (m_DisplacementsVectorsArray != nullptr)

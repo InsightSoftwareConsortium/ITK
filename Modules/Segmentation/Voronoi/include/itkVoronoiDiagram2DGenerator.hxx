@@ -23,6 +23,7 @@
 #include "vnl/vnl_sample.h"
 #include "itkMath.h"
 #include "itkMakeUniqueForOverwrite.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -1286,9 +1287,8 @@ VoronoiDiagram2DGenerator<TCoordinate>::PrintSelf(std::ostream & os, Indent inde
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Number Of Seeds: " << m_NumberOfSeeds << std::endl;
-  os << indent << "VorBoundary: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_VorBoundary)
-     << std::endl;
-  os << indent << "OutputVD: " << static_cast<typename NumericTraits<OutputType>::PrintType>(m_OutputVD) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "VorBoundary", m_VorBoundary);
+  print_helper::PrintNumericTrait(os, indent, "OutputVD", m_OutputVD);
 
   os << indent << "Pxmin: " << m_Pxmin << std::endl;
   os << indent << "Pxmax: " << m_Pxmax << std::endl;

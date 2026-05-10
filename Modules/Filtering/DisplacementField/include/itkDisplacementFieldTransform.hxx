@@ -25,6 +25,7 @@
 #include "vnl/algo/vnl_matrix_inverse.h"
 #include "itkCastImageFilter.h"
 #include <algorithm> // For min and max.
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -586,12 +587,9 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::PrintSelf(std::ost
   itkPrintSelfObjectMacro(Interpolator);
   itkPrintSelfObjectMacro(InverseInterpolator);
 
-  os << indent << "DisplacementFieldSetTime: "
-     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_DisplacementFieldSetTime) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "DisplacementFieldSetTime", m_DisplacementFieldSetTime);
 
-  os << indent
-     << "IdentityJacobian: " << static_cast<typename NumericTraits<JacobianType>::PrintType>(m_IdentityJacobian)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "IdentityJacobian", m_IdentityJacobian);
 
   os << indent << "CoordinateTolerance: " << m_CoordinateTolerance << std::endl;
   os << indent << "DirectionTolerance: " << m_DirectionTolerance << std::endl;

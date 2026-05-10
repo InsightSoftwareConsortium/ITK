@@ -19,6 +19,7 @@
 #define itkParametricPath_hxx
 
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -117,9 +118,7 @@ ParametricPath<VDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "DefaultInputStepSize: " << static_cast<typename NumericTraits<InputType>::PrintType>(m_DefaultInputStepSize)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "DefaultInputStepSize", m_DefaultInputStepSize);
 }
 } // namespace itk
 

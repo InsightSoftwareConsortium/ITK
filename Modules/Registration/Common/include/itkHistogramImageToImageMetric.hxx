@@ -22,6 +22,7 @@
 #include "itkNumericTraits.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -357,9 +358,7 @@ void
 HistogramImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent
-     << "Padding value: " << static_cast<typename NumericTraits<FixedImagePixelType>::PrintType>(m_PaddingValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Padding value", m_PaddingValue);
   os << indent << "Use padding value?: " << m_UsePaddingValue << std::endl;
   os << indent << "Derivative step length: " << m_DerivativeStepLength << std::endl;
   os << indent << "Derivative step length scales: ";

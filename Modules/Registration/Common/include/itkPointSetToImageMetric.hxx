@@ -19,6 +19,7 @@
 #define itkPointSetToImageMetric_hxx
 
 
+#include "itkPrintHelper.h"
 namespace itk
 {
 
@@ -108,9 +109,7 @@ PointSetToImageMetric<TFixedPointSet, TMovingImage>::PrintSelf(std::ostream & os
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "NumberOfPixelsCounted: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsCounted)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfPixelsCounted", m_NumberOfPixelsCounted);
 
   itkPrintSelfObjectMacro(FixedPointSet);
   itkPrintSelfObjectMacro(MovingImage);

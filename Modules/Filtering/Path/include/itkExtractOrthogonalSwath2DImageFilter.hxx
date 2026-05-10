@@ -22,6 +22,7 @@
 #include "itkProgressReporter.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -173,9 +174,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::PrintSelf(std::ostream & os, Indent
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Size:  " << m_Size << std::endl;
-  os << indent
-     << "DefaultPixelValue:  " << static_cast<typename NumericTraits<ImagePixelType>::PrintType>(m_DefaultPixelValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "DefaultPixelValue:  ", m_DefaultPixelValue);
 }
 } // end namespace itk
 

@@ -19,6 +19,7 @@
 #define itkLabelImageToStatisticsLabelMapFilter_hxx
 
 #include "itkProgressAccumulator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -95,9 +96,7 @@ LabelImageToStatisticsLabelMapFilter<TInputImage, TFeatureImage, TOutputImage>::
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue", m_BackgroundValue);
   os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << std::endl;
   os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
   os << indent << "ComputeHistogram: " << m_ComputeHistogram << std::endl;

@@ -23,6 +23,7 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageAlgorithm.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -380,14 +381,12 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Label: " << static_cast<typename NumericTraits<LabelType>::PrintType>(m_Label) << std::endl;
-  os << indent
-     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Label", m_Label);
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue", m_BackgroundValue);
   os << indent << "Negated: " << m_Negated << std::endl;
   os << indent << "Crop: " << m_Crop << std::endl;
   os << indent << "CropBorder: " << m_CropBorder << std::endl;
-  os << indent << "CropTimeStamp: " << static_cast<NumericTraits<TimeStamp>::PrintType>(m_CropTimeStamp) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "CropTimeStamp", m_CropTimeStamp);
 }
 
 

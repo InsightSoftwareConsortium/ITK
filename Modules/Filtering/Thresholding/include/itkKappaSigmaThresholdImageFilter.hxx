@@ -20,6 +20,7 @@
 
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkProgressAccumulator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -75,18 +76,12 @@ KappaSigmaThresholdImageFilter<TInputImage, TMaskImage, TOutputImage>::PrintSelf
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Threshold: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold)
-     << std::endl;
-  os << indent << "MaskValue: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(m_MaskValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Threshold", m_Threshold);
+  print_helper::PrintNumericTrait(os, indent, "MaskValue", m_MaskValue);
   os << indent << "SigmaFactor: " << m_SigmaFactor << std::endl;
   os << indent << "NumberOfIterations: " << this->m_NumberOfIterations << std::endl;
-  os << indent
-     << "Inside value: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_InsideValue)
-     << std::endl;
-  os << indent
-     << "Outside value: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_OutsideValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Inside value", this->m_InsideValue);
+  print_helper::PrintNumericTrait(os, indent, "Outside value", this->m_OutsideValue);
 }
 } // end namespace itk
 #endif

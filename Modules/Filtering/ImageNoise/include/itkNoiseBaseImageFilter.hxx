@@ -19,6 +19,7 @@
 #define itkNoiseBaseImageFilter_hxx
 
 #include <ctime>
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -70,7 +71,7 @@ NoiseBaseImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, In
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Seed: " << static_cast<NumericTraits<uint32_t>::PrintType>(m_Seed) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Seed", m_Seed);
 }
 } // end namespace itk
 

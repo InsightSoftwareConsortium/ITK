@@ -21,6 +21,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkContinuousIndex.h"
 #include "itkObjectFactory.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -187,19 +188,12 @@ ChangeInformationImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent i
   itkPrintSelfBooleanMacro(ChangeRegion);
   itkPrintSelfBooleanMacro(UseReferenceImage);
 
-  os << indent << "OutputSpacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_OutputSpacing)
-     << std::endl;
-  os << indent << "OutputOrigin: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_OutputOrigin)
-     << std::endl;
-  os << indent
-     << "OutputDirection: " << static_cast<typename NumericTraits<DirectionType>::PrintType>(m_OutputDirection)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "OutputSpacing", m_OutputSpacing);
+  print_helper::PrintNumericTrait(os, indent, "OutputOrigin", m_OutputOrigin);
+  print_helper::PrintNumericTrait(os, indent, "OutputDirection", m_OutputDirection);
 
-  os << indent
-     << "OutputOffset: " << static_cast<typename NumericTraits<OutputImageOffsetType>::PrintType>(m_OutputOffset)
-     << std::endl;
-  os << indent << "Shift: " << static_cast<typename NumericTraits<OutputImageOffsetType>::PrintType>(m_Shift)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "OutputOffset", m_OutputOffset);
+  print_helper::PrintNumericTrait(os, indent, "Shift", m_Shift);
 }
 } // end namespace itk
 

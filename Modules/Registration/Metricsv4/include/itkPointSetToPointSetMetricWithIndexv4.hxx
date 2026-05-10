@@ -20,6 +20,7 @@
 
 #include "itkIdentityTransform.h"
 #include "itkCompensatedSummation.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -658,10 +659,8 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
   itkPrintSelfBooleanMacro(HaveWarnedAboutNumberOfValidPoints);
   itkPrintSelfBooleanMacro(StoreDerivativeAsSparseFieldForLocalSupportTransforms);
 
-  os << indent << "MovingTransformedPointSetTime: "
-     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_MovingTransformedPointSetTime) << std::endl;
-  os << indent << "FixedTransformedPointSetTime: "
-     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_FixedTransformedPointSetTime) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "MovingTransformedPointSetTime", m_MovingTransformedPointSetTime);
+  print_helper::PrintNumericTrait(os, indent, "FixedTransformedPointSetTime", m_FixedTransformedPointSetTime);
 }
 } // end namespace itk
 

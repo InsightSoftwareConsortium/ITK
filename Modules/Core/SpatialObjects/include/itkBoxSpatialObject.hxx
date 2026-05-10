@@ -19,6 +19,7 @@
 #define itkBoxSpatialObject_hxx
 
 #include "itkNumericTraits.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -99,11 +100,8 @@ BoxSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "SizeInObjectSpace: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_SizeInObjectSpace)
-     << std::endl;
-  os << indent
-     << "PositionInObjectSpace: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_PositionInObjectSpace)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "SizeInObjectSpace", m_SizeInObjectSpace);
+  print_helper::PrintNumericTrait(os, indent, "PositionInObjectSpace", m_PositionInObjectSpace);
 }
 } // end namespace itk
 

@@ -22,6 +22,7 @@
 #include "itkProgressReporter.h"
 #include "itkImageRegionIterator.h"
 #include "itkProgressTransformer.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -148,10 +149,8 @@ LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
 {
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "ForegroundValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->m_ForegroundValue) << std::endl;
-  os << indent << "BackgroundValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->m_BackgroundValue) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ForegroundValue", this->m_ForegroundValue);
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue", this->m_BackgroundValue);
 }
 } // end namespace itk
 

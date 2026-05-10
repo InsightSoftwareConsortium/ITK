@@ -20,6 +20,7 @@
 
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -94,9 +95,7 @@ LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>::P
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue", m_BackgroundValue);
 }
 
 } // end namespace itk

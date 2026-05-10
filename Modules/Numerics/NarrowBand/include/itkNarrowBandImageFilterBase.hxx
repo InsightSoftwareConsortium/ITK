@@ -19,6 +19,7 @@
 #define itkNarrowBandImageFilterBase_hxx
 
 #include "itkShiftScaleImageFilter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -289,8 +290,7 @@ void
 NarrowBandImageFilterBase<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "IsoSurfaceValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_IsoSurfaceValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "IsoSurfaceValue", m_IsoSurfaceValue);
 }
 } // end namespace itk
 

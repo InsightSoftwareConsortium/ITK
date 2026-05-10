@@ -20,6 +20,7 @@
 
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkProgressAccumulator.h"
+#include "itkPrintHelper.h"
 
 
 namespace itk
@@ -77,13 +78,10 @@ RobustAutomaticThresholdImageFilter<TInputImage, TGradientImage, TOutputImage>::
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Threshold: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Threshold", m_Threshold);
   os << indent << "Pow: " << m_Pow << std::endl;
-  os << indent << "OutsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue)
-     << std::endl;
-  os << indent << "InsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_InsideValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "OutsideValue", m_OutsideValue);
+  print_helper::PrintNumericTrait(os, indent, "InsideValue", m_InsideValue);
 }
 } // end namespace itk
 #endif

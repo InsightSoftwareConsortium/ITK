@@ -19,6 +19,8 @@
 #ifndef itkPrintHelper_h
 #define itkPrintHelper_h
 
+#include "itkIndent.h"
+
 #include <array>
 #include <iostream>
 #include <iterator>
@@ -27,6 +29,17 @@
 #include <type_traits>
 
 
+namespace itk
+{
+// Forward declaration so itkPrintHelper.h can be safely included from
+// itkMacro.h without re-entering itkNumericTraits.h (which itself uses
+// macros defined later in itkMacro.h).  Every PrintNumericTrait() call
+// site needs the full NumericTraits<T> specialization in scope, but those
+// sites already #include "itkNumericTraits.h" directly or transitively.
+template <typename T>
+class NumericTraits;
+} // namespace itk
+
 namespace itk::print_helper
 {
 
@@ -34,6 +47,9 @@ namespace itk::print_helper
 // definition time.  Required for nested cases like vector<list<T>>, where the
 // recursive `os << *it` is parsed before the list overload would otherwise be
 // declared, and ADL on std container types never reaches itk::print_helper.
+// PrintNumericTrait further down also dispatches through `os << value` and
+// must see these forward declarations to instantiate against std container
+// member types at the call site.
 template <typename T>
 std::ostream &
 operator<<(std::ostream & os, const std::vector<T> & v);
@@ -49,6 +65,48 @@ operator<<(std::ostream & os, const std::array<T, VLength> & container);
 template <typename T, size_t VLength, typename = std::enable_if_t<!std::is_same_v<T, char>>>
 std::ostream &
 operator<<(std::ostream & os, const T (&arr)[VLength]);
+
+/** \brief Print "<name>: <value>\n" indented, matching ITK's PrintSelf style.
+ *
+ * Formats and writes a single named member to \a os preceded by \a indent,
+ * followed by a newline.  When \c NumericTraits<T>::PrintType differs from
+ * \a T (the relevant case being the \c char family, whose \c PrintType is
+ * \c int, so values render numerically rather than as ASCII characters) the
+ * value is forwarded through a \c static_cast.  When the two types coincide
+ * (the common case, including all built-in scalars wider than \c char and
+ * \c std::complex specialisations whose \c PrintType is \c Self) the cast
+ * step is skipped entirely so the value's own stream insertion overload is
+ * selected directly.
+ *
+ * Equivalent to the boilerplate
+ * \code
+ *   os << indent << "Name: "
+ *      << static_cast<typename NumericTraits<T>::PrintType>(m_Name)
+ *      << std::endl;
+ * \endcode
+ * but with explicit \a os and \a indent parameters and no preprocessor
+ * macro expansion.
+ *
+ * Typical use inside a \c PrintSelf override:
+ * \code
+ *   print_helper::PrintNumericTrait(os, indent, "Threshold", m_Threshold);
+ * \endcode
+ */
+template <typename T>
+inline void
+PrintNumericTrait(std::ostream & os, const Indent & indent, const char * name, const T & value)
+{
+  os << indent << name << ": ";
+  if constexpr (std::is_same_v<T, typename NumericTraits<T>::PrintType>)
+  {
+    os << value;
+  }
+  else
+  {
+    os << static_cast<typename NumericTraits<T>::PrintType>(value);
+  }
+  os << std::endl;
+}
 
 template <typename T>
 std::ostream &

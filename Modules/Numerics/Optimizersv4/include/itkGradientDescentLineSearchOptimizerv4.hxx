@@ -19,6 +19,7 @@
 #define itkGradientDescentLineSearchOptimizerv4_hxx
 
 
+#include "itkPrintHelper.h"
 namespace itk
 {
 
@@ -43,19 +44,11 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>::Pri
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "LowerLimit: " << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(m_LowerLimit)
-     << std::endl;
-  os << indent
-     << "UpperLimit: " << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(m_UpperLimit)
-     << std::endl;
-  os << indent << "Phi: " << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(m_Phi)
-     << std::endl;
-  os << indent << "Resphi: " << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(m_Resphi)
-     << std::endl;
-  os << indent
-     << "Epsilon: " << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(m_Epsilon)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "LowerLimit", m_LowerLimit);
+  print_helper::PrintNumericTrait(os, indent, "UpperLimit", m_UpperLimit);
+  print_helper::PrintNumericTrait(os, indent, "Phi", m_Phi);
+  print_helper::PrintNumericTrait(os, indent, "Resphi", m_Resphi);
+  print_helper::PrintNumericTrait(os, indent, "Epsilon", m_Epsilon);
 
   os << indent << "MaximumLineSearchIterations: " << m_MaximumLineSearchIterations << std::endl;
   os << indent << "LineSearchIterations: " << m_LineSearchIterations << std::endl;

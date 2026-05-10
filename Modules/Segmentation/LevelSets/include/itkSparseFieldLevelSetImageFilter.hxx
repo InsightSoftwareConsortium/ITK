@@ -75,7 +75,7 @@ SparseFieldCityBlockNeighborList<TNeighborhoodType>::Print(std::ostream & os, In
   os << "SparseFieldCityBlockNeighborList: " << std::endl;
 
   os << indent << "Size: " << m_Size << std::endl;
-  os << indent << "Radius: " << static_cast<typename NumericTraits<RadiusType>::PrintType>(m_Radius) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Radius", m_Radius);
   os << indent << "ArrayIndex: " << m_ArrayIndex << std::endl;
   os << indent << "NeighborhoodOffset: " << m_NeighborhoodOffset << std::endl;
   os << indent << "StrideTable: " << m_StrideTable << std::endl;
@@ -1095,10 +1095,8 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
   itkPrintSelfObjectMacro(StatusImage);
   itkPrintSelfObjectMacro(LayerNodeStore);
 
-  os << indent << "IsoSurfaceValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_IsoSurfaceValue)
-     << std::endl;
-  os << indent << "UpdateBuffer: " << static_cast<typename NumericTraits<UpdateBufferType>::PrintType>(m_UpdateBuffer)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "IsoSurfaceValue", m_IsoSurfaceValue);
+  print_helper::PrintNumericTrait(os, indent, "UpdateBuffer", m_UpdateBuffer);
   itkPrintSelfBooleanMacro(InterpolateSurfaceLocation);
 
   itkPrintSelfObjectMacro(InputImage);

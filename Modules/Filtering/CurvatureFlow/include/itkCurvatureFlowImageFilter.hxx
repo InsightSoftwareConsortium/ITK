@@ -19,6 +19,7 @@
 #define itkCurvatureFlowImageFilter_hxx
 
 #include "itkMacro.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -40,7 +41,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "TimeStep: " << static_cast<typename NumericTraits<TimeStepType>::PrintType>(m_TimeStep) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "TimeStep", m_TimeStep);
 }
 
 template <typename TInputImage, typename TOutputImage>

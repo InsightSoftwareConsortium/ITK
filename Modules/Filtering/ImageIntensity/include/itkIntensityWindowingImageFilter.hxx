@@ -30,6 +30,7 @@
 
 #include "itkMinimumMaximumImageCalculator.h"
 #include <algorithm> // For min.
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -106,22 +107,12 @@ IntensityWindowingImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "Output Minimum: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_OutputMinimum)
-     << std::endl;
-  os << indent
-     << "Output Maximum: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->m_OutputMaximum)
-     << std::endl;
-  os << indent
-     << "Window Minimum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(this->m_WindowMinimum)
-     << std::endl;
-  os << indent
-     << "Window Maximum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(this->m_WindowMaximum)
-     << std::endl;
-  os << indent << "Scale Factor: " << static_cast<typename NumericTraits<RealType>::PrintType>(this->m_Scale)
-     << std::endl;
-  os << indent << "Shift offset: " << static_cast<typename NumericTraits<RealType>::PrintType>(this->m_Shift)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Output Minimum", this->m_OutputMinimum);
+  print_helper::PrintNumericTrait(os, indent, "Output Maximum", this->m_OutputMaximum);
+  print_helper::PrintNumericTrait(os, indent, "Window Minimum", this->m_WindowMinimum);
+  print_helper::PrintNumericTrait(os, indent, "Window Maximum", this->m_WindowMaximum);
+  print_helper::PrintNumericTrait(os, indent, "Scale Factor", this->m_Scale);
+  print_helper::PrintNumericTrait(os, indent, "Shift offset", this->m_Shift);
 }
 
 } // end namespace itk

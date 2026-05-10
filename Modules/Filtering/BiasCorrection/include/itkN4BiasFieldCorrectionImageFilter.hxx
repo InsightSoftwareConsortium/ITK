@@ -37,6 +37,7 @@ ITK_GCC_SUPPRESS_Wfloat_equal
 #include "vnl/algo/vnl_fft_1d.h"
 #include "vnl/vnl_complex_traits.h"
 #include "complex"
+#include "itkPrintHelper.h"
 ITK_GCC_PRAGMA_POP
 
 namespace itk
@@ -689,8 +690,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::PrintSe
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Use Mask Label: " << m_UseMaskLabel << std::endl;
-  os << indent << "Mask label: " << static_cast<typename NumericTraits<MaskPixelType>::PrintType>(this->m_MaskLabel)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Mask label", this->m_MaskLabel);
   os << indent << "Number of histogram bins: " << this->m_NumberOfHistogramBins << std::endl;
   os << indent << "Wiener filter noise: " << this->m_WienerFilterNoise << std::endl;
   os << indent << "Bias field FWHM: " << this->m_BiasFieldFullWidthAtHalfMaximum << std::endl;

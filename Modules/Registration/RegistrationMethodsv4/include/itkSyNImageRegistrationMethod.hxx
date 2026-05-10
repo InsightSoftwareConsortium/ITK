@@ -28,6 +28,7 @@
 #include "itkMultiplyImageFilter.h"
 #include "itkVectorNeighborhoodOperatorImageFilter.h"
 #include "itkWindowConvergenceMonitoringFunction.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -861,10 +862,8 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "LearningRate: " << static_cast<typename NumericTraits<RealType>::PrintType>(this->m_LearningRate)
-     << std::endl;
-  os << indent << "ConvergenceThreshold: "
-     << static_cast<typename NumericTraits<RealType>::PrintType>(this->m_ConvergenceThreshold) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "LearningRate", this->m_LearningRate);
+  print_helper::PrintNumericTrait(os, indent, "ConvergenceThreshold", this->m_ConvergenceThreshold);
   os << indent << "ConvergenceWindowSize: " << this->m_ConvergenceWindowSize << std::endl;
 
   itkPrintSelfObjectMacro(MovingToMiddleTransform);
@@ -873,12 +872,10 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
   os << indent << "NumberOfIterationsPerLevel: " << this->m_NumberOfIterationsPerLevel << std::endl;
   os << indent << "DownsampleImagesForMetricDerivatives: " << m_DownsampleImagesForMetricDerivatives << std::endl;
   os << indent << "AverageMidPointGradients: " << m_AverageMidPointGradients << std::endl;
-  os << indent << "GaussianSmoothingVarianceForTheUpdateField: "
-     << static_cast<typename NumericTraits<RealType>::PrintType>(this->m_GaussianSmoothingVarianceForTheUpdateField)
-     << std::endl;
-  os << indent << "GaussianSmoothingVarianceForTheTotalField: "
-     << static_cast<typename NumericTraits<RealType>::PrintType>(this->m_GaussianSmoothingVarianceForTheTotalField)
-     << std::endl;
+  print_helper::PrintNumericTrait(
+    os, indent, "GaussianSmoothingVarianceForTheUpdateField", this->m_GaussianSmoothingVarianceForTheUpdateField);
+  print_helper::PrintNumericTrait(
+    os, indent, "GaussianSmoothingVarianceForTheTotalField", this->m_GaussianSmoothingVarianceForTheTotalField);
 }
 
 } // end namespace itk

@@ -23,6 +23,7 @@
 #include "itkImageScanlineIterator.h"
 #include "itkTotalProgressReporter.h"
 #include "itkNormalVariateGenerator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -113,7 +114,7 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, In
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Scale: " << static_cast<NumericTraits<double>::PrintType>(m_Scale) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Scale", m_Scale);
 }
 } // end namespace itk
 

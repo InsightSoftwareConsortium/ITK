@@ -21,6 +21,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkTotalProgressReporter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -58,8 +59,7 @@ WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::PrintSelf(
   os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;
   os << indent << "OutputOrigin: " << m_OutputOrigin << std::endl;
   os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
-  os << indent << "EdgePaddingValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_EdgePaddingValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "EdgePaddingValue", m_EdgePaddingValue);
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
 }
 

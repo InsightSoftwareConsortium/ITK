@@ -22,6 +22,7 @@
 #include "itkTotalProgressReporter.h"
 #include "itkImageAlgorithm.h"
 #include "itkImageScanlineIterator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -303,9 +304,7 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::PrintSelf(std::ostrea
   Superclass::PrintSelf(os, indent);
 
   os << indent << "SourceRegion: " << m_SourceRegion << std::endl;
-  os << indent
-     << "DestinationIndex: " << static_cast<typename NumericTraits<InputImageIndexType>::PrintType>(m_DestinationIndex)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "DestinationIndex", m_DestinationIndex);
   os << indent << "DestinationSkipAxes: " << m_DestinationSkipAxes << std::endl;
 }
 } // end namespace itk

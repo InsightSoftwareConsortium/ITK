@@ -20,6 +20,7 @@
 
 #include "itkProgressReporter.h"
 #include "itkIterationReporter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -181,12 +182,8 @@ IsolatedWatershedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream 
   this->Superclass::PrintSelf(os, indent);
   os << indent << "Threshold: " << m_Threshold << std::endl;
   os << indent << "UpperValueLimit: " << m_UpperValueLimit << std::endl;
-  os << indent
-     << "ReplaceValue1: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue1)
-     << std::endl;
-  os << indent
-     << "ReplaceValue2: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue2)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "ReplaceValue1", m_ReplaceValue1);
+  print_helper::PrintNumericTrait(os, indent, "ReplaceValue2", m_ReplaceValue2);
   os << indent << "Seed1: " << m_Seed1 << std::endl;
   os << indent << "Seed2: " << m_Seed2 << std::endl;
   os << indent << "IsolatedValue: " << m_IsolatedValue << std::endl;

@@ -1212,17 +1212,12 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Inde
   itkPrintSelfBooleanMacro(UseFixedImageIndexes);
   os << indent << "FixedImageIndexes: " << m_FixedImageIndexes << std::endl;
   itkPrintSelfBooleanMacro(UseFixedImageSamplesIntensityThreshold);
-  os << indent << "FixedImageSamplesIntensityThreshold: "
-     << static_cast<typename NumericTraits<FixedImagePixelType>::PrintType>(m_FixedImageSamplesIntensityThreshold)
-     << std::endl;
+  print_helper::PrintNumericTrait(
+    os, indent, "FixedImageSamplesIntensityThreshold", m_FixedImageSamplesIntensityThreshold);
   os << indent << "FixedImageSamples: " << m_FixedImageSamples << std::endl;
-  os << indent << "NumberOfParameters: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfParameters)
-     << std::endl;
-  os << indent << "NumberOfFixedImageSamples: "
-     << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfFixedImageSamples) << std::endl;
-  os << indent
-     << "NumberOfPixelsCounted: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsCounted)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfParameters", m_NumberOfParameters);
+  print_helper::PrintNumericTrait(os, indent, "NumberOfFixedImageSamples", m_NumberOfFixedImageSamples);
+  print_helper::PrintNumericTrait(os, indent, "NumberOfPixelsCounted", m_NumberOfPixelsCounted);
 
   itkPrintSelfObjectMacro(MovingImage);
   itkPrintSelfObjectMacro(FixedImage);
@@ -1246,8 +1241,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Inde
   itkPrintSelfObjectMacro(MovingImageMask);
   itkPrintSelfObjectMacro(FixedImageMask);
 
-  os << indent << "NumberOfWorkUnits: " << static_cast<NumericTraits<ThreadIdType>::PrintType>(m_NumberOfWorkUnits)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfWorkUnits", m_NumberOfWorkUnits);
   itkPrintSelfBooleanMacro(UseAllPixels);
   itkPrintSelfBooleanMacro(UseSequentialSampling);
   itkPrintSelfBooleanMacro(ReseedIterator);
@@ -1257,8 +1251,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Inde
   itkPrintSelfBooleanMacro(TransformIsBSpline);
 #endif
 
-  os << indent << "NumBSplineWeights: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumBSplineWeights)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumBSplineWeights", m_NumBSplineWeights);
 
   itkPrintSelfObjectMacro(BSplineTransform);
 
@@ -1266,17 +1259,11 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Inde
   os << indent << "BSplineTransformIndicesArray: " << m_BSplineTransformIndicesArray << std::endl;
   os << indent << "BSplinePreTransformPointsArray: " << m_BSplinePreTransformPointsArray << std::endl;
   os << indent << "WithinBSplineSupportRegionArray: " << m_WithinBSplineSupportRegionArray << std::endl;
-  os << indent << "BSplineParametersOffset: "
-     << static_cast<typename NumericTraits<BSplineParametersOffsetType>::PrintType>(m_BSplineParametersOffset)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "BSplineParametersOffset", m_BSplineParametersOffset);
 
   itkPrintSelfBooleanMacro(UseCachingOfBSplineWeights);
-  os << indent << "BSplineTransformWeights: "
-     << static_cast<typename NumericTraits<BSplineTransformWeightsType>::PrintType>(m_BSplineTransformWeights)
-     << std::endl;
-  os << indent << "BSplineTransformIndices: "
-     << static_cast<typename NumericTraits<BSplineTransformIndexArrayType>::PrintType>(m_BSplineTransformIndices)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "BSplineTransformWeights", m_BSplineTransformWeights);
+  print_helper::PrintNumericTrait(os, indent, "BSplineTransformIndices", m_BSplineTransformIndices);
 
   os << indent << "ThreaderBSplineTransformWeights: ";
   if (m_ThreaderBSplineTransformWeights.get() != nullptr)

@@ -21,6 +21,7 @@
 #include "itkMacro.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -190,9 +191,7 @@ NCCRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSel
   Superclass::PrintSelf(os, indent);
 
   os << indent << "TimeStep: " << m_TimeStep << std::endl;
-  os << indent
-     << "FixedImageSpacing: " << static_cast<typename itk::NumericTraits<SpacingType>::PrintType>(m_FixedImageSpacing)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "FixedImageSpacing", m_FixedImageSpacing);
 
   itkPrintSelfObjectMacro(FixedImageGradientCalculator);
   itkPrintSelfObjectMacro(MovingImageInterpolator);

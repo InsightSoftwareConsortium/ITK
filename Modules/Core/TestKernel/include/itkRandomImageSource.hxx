@@ -31,6 +31,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkObjectFactory.h"
 #include "itkTotalProgressReporter.h"
+#include "itkPrintHelper.h"
 
 
 namespace itk
@@ -119,8 +120,8 @@ void
 RandomImageSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Max: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_Max) << std::endl;
-  os << indent << "Min: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_Min) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Max", m_Max);
+  print_helper::PrintNumericTrait(os, indent, "Min", m_Min);
 
   os << indent << "Origin: [";
   unsigned int ii = 0;

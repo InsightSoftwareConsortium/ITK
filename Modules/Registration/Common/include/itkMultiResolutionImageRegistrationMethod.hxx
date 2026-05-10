@@ -270,27 +270,21 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PrintSelf(std
   itkPrintSelfObjectMacro(MovingImagePyramid);
   itkPrintSelfObjectMacro(FixedImagePyramid);
 
-  os << indent << "InitialTransformParameters: "
-     << static_cast<typename NumericTraits<ParametersType>::PrintType>(m_InitialTransformParameters) << std::endl;
-  os << indent << "InitialTransformParametersOfNextLevel: "
-     << static_cast<typename NumericTraits<ParametersType>::PrintType>(m_InitialTransformParametersOfNextLevel)
-     << std::endl;
-  os << indent << "LastTransformParameters: "
-     << static_cast<typename NumericTraits<ParametersType>::PrintType>(m_LastTransformParameters) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "InitialTransformParameters", m_InitialTransformParameters);
+  print_helper::PrintNumericTrait(
+    os, indent, "InitialTransformParametersOfNextLevel", m_InitialTransformParametersOfNextLevel);
+  print_helper::PrintNumericTrait(os, indent, "LastTransformParameters", m_LastTransformParameters);
 
   os << indent << "FixedImageRegion: " << m_FixedImageRegion << std::endl;
   os << indent << "FixedImageRegionPyramid: " << m_FixedImageRegionPyramid << std::endl;
 
-  os << indent << "NumberOfLevels: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfLevels)
-     << std::endl;
-  os << indent << "CurrentLevel: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_CurrentLevel) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfLevels", m_NumberOfLevels);
+  print_helper::PrintNumericTrait(os, indent, "CurrentLevel", m_CurrentLevel);
 
   itkPrintSelfBooleanMacro(Stop);
 
-  os << indent << "FixedImagePyramidSchedule: "
-     << static_cast<typename NumericTraits<ScheduleType>::PrintType>(m_FixedImagePyramidSchedule) << std::endl;
-  os << indent << "MovingImagePyramidSchedule: "
-     << static_cast<typename NumericTraits<ScheduleType>::PrintType>(m_MovingImagePyramidSchedule) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "FixedImagePyramidSchedule", m_FixedImagePyramidSchedule);
+  print_helper::PrintNumericTrait(os, indent, "MovingImagePyramidSchedule", m_MovingImagePyramidSchedule);
 
   itkPrintSelfBooleanMacro(ScheduleSpecified);
   itkPrintSelfBooleanMacro(Stop);

@@ -20,6 +20,7 @@
 
 #include "itkProgressReporter.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -123,12 +124,8 @@ ClampImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "Lower bound: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->GetLowerBound())
-     << std::endl;
-  os << indent
-     << "Upper bound: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(this->GetUpperBound())
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Lower bound", this->GetLowerBound());
+  print_helper::PrintNumericTrait(os, indent, "Upper bound", this->GetUpperBound());
 }
 } // namespace itk
 

@@ -23,6 +23,7 @@
 
 #include <list>
 #include <algorithm>
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -39,8 +40,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::PrintSelf(std::ostr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "OldPointID: " << static_cast<typename NumericTraits<PointIdentifier>::PrintType>(m_OldPointID)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "OldPointID", m_OldPointID);
   os << indent << "EdgeStatus: ";
 
   switch (m_EdgeStatus)

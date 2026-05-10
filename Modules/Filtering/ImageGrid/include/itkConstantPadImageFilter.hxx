@@ -19,6 +19,7 @@
 #define itkConstantPadImageFilter_hxx
 
 #include "itkObjectFactory.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -42,9 +43,7 @@ ConstantPadImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Constant: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_InternalBoundaryCondition.GetConstant())
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Constant", m_InternalBoundaryCondition.GetConstant());
 }
 
 } // end namespace itk

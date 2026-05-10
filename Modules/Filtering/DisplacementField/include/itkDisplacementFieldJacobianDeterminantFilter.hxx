@@ -266,12 +266,9 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
   os << indent << "DerivativeWeights: " << m_DerivativeWeights << std::endl;
   os << indent << "HalfDerivativeWeights: " << m_HalfDerivativeWeights << std::endl;
   itkPrintSelfBooleanMacro(UseImageSpacing);
-  os << indent << "RequestedNumberOfThreads: "
-     << static_cast<NumericTraits<ThreadIdType>::PrintType>(m_RequestedNumberOfWorkUnits) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "RequestedNumberOfThreads", m_RequestedNumberOfWorkUnits);
   os << indent << "RealValuedInputImage: " << m_RealValuedInputImage.GetPointer() << std::endl;
-  os << indent
-     << "NeighborhoodRadius: " << static_cast<typename NumericTraits<RadiusType>::PrintType>(m_NeighborhoodRadius)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NeighborhoodRadius", m_NeighborhoodRadius);
 }
 } // end namespace itk
 

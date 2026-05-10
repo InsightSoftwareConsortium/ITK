@@ -21,6 +21,7 @@
 #include "itkTransform.h"
 #include "itkIdentityTransform.h"
 #include "itkCompositeTransform.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -541,8 +542,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   itkPrintSelfObjectMacro(VirtualImage);
 
   itkPrintSelfBooleanMacro(UserHasSetVirtualDomain);
-  os << indent << "NumberOfValidPoints: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_NumberOfValidPoints)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfValidPoints", m_NumberOfValidPoints);
 }
 
 } // namespace itk

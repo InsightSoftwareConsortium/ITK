@@ -33,6 +33,7 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkMath.h"
 #include "itkTotalProgressReporter.h"
+#include "itkPrintHelper.h"
 
 namespace itk::Testing
 {
@@ -150,17 +151,13 @@ StretchIntensityImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Scale: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_Scale) << std::endl;
-  os << indent << "Shift: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_Shift) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Scale", m_Scale);
+  print_helper::PrintNumericTrait(os, indent, "Shift", m_Shift);
 
-  os << indent << "Input Minimum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputMinimum)
-     << std::endl;
-  os << indent << "Input Maximum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputMaximum)
-     << std::endl;
-  os << indent << "Output Minimum: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputMinimum)
-     << std::endl;
-  os << indent << "Output Maximum: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutputMaximum)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Input Minimum", m_InputMinimum);
+  print_helper::PrintNumericTrait(os, indent, "Input Maximum", m_InputMaximum);
+  print_helper::PrintNumericTrait(os, indent, "Output Minimum", m_OutputMinimum);
+  print_helper::PrintNumericTrait(os, indent, "Output Maximum", m_OutputMaximum);
 }
 } // namespace itk::Testing
 

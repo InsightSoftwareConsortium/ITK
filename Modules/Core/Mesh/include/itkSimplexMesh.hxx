@@ -24,6 +24,7 @@
 
 #include "vxl_version.h"
 #include "vnl/vnl_cross.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -219,8 +220,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::PrintSelf(std::ostream & os, I
 {
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "LastCellId: " << static_cast<typename NumericTraits<CellIdentifier>::PrintType>(m_LastCellId)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "LastCellId", m_LastCellId);
 
   itkPrintSelfObjectMacro(GeometryData);
 }

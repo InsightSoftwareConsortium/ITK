@@ -20,6 +20,7 @@
 
 #include "itkNeighborhoodOperator.h"
 #include "itkVector.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -225,13 +226,10 @@ public:
     os << indent << "Thickness: " << m_Thickness << std::endl;
     os << indent << "Normalize: " << m_Normalize << std::endl;
     os << indent << "BrightCenter: " << m_BrightCenter << std::endl;
-    os << indent << "InteriorValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_InteriorValue)
-       << std::endl;
-    os << indent << "AnnulusValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_AnnulusValue)
-       << std::endl;
-    os << indent << "ExteriorValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ExteriorValue)
-       << std::endl;
-    os << indent << "Spacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_Spacing) << std::endl;
+    print_helper::PrintNumericTrait(os, indent, "InteriorValue", m_InteriorValue);
+    print_helper::PrintNumericTrait(os, indent, "AnnulusValue", m_AnnulusValue);
+    print_helper::PrintNumericTrait(os, indent, "ExteriorValue", m_ExteriorValue);
+    print_helper::PrintNumericTrait(os, indent, "Spacing", m_Spacing);
   }
 
 protected:

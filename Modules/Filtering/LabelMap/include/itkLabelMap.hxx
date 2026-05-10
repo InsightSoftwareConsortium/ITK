@@ -31,6 +31,7 @@
 #include "itkProcessObject.h"
 
 #include <algorithm>
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -41,8 +42,7 @@ LabelMap<TLabelObject>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<LabelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "BackgroundValue", m_BackgroundValue);
   os << indent << "LabelObjectContainer: " << &m_LabelObjectContainer << std::endl;
 }
 

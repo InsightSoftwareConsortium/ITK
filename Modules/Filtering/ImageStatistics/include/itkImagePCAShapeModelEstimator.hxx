@@ -45,8 +45,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::PrintSelf(std::ostream &
   os << indent << "EigenVectors: " << m_EigenVectors << std::endl;
   os << indent << "EigenValues: " << m_EigenValues << std::endl;
   os << indent << "EigenVectorNormalizedEnergy: " << m_EigenVectorNormalizedEnergy << std::endl;
-  os << indent << "InputImageSize: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_InputImageSize)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "InputImageSize", m_InputImageSize);
   os << indent << "NumberOfPixels: " << m_NumberOfPixels << std::endl;
   os << indent << "NumberOfTrainingImages: " << m_NumberOfTrainingImages << std::endl;
   os << indent << "NumberOfPrincipalComponentsRequired: " << m_NumberOfPrincipalComponentsRequired << std::endl;

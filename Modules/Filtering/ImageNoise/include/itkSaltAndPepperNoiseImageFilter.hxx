@@ -21,6 +21,7 @@
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkImageScanlineIterator.h"
 #include "itkTotalProgressReporter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -102,7 +103,7 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Probability: " << static_cast<NumericTraits<double>::PrintType>(m_Probability) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Probability", m_Probability);
 }
 } // end namespace itk
 

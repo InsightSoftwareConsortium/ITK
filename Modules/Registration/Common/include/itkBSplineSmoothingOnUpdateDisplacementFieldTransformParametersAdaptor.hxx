@@ -19,6 +19,7 @@
 #define itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor_hxx
 
 
+#include "itkPrintHelper.h"
 namespace itk
 {
 
@@ -126,12 +127,10 @@ BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>:
 
   os << indent << "NumberOfControlPointsForTheUpdateField: " << m_NumberOfControlPointsForTheUpdateField << std::endl;
   os << indent << "NumberOfControlPointsForTheTotalField: " << m_NumberOfControlPointsForTheTotalField << std::endl;
-  os << indent << "NumberOfControlPointsForTheUpdateFieldSetTime: "
-     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_NumberOfControlPointsForTheUpdateFieldSetTime)
-     << std::endl;
-  os << indent << "NumberOfControlPointsForTheTotalFieldSetTime: "
-     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_NumberOfControlPointsForTheTotalFieldSetTime)
-     << std::endl;
+  print_helper::PrintNumericTrait(
+    os, indent, "NumberOfControlPointsForTheUpdateFieldSetTime", m_NumberOfControlPointsForTheUpdateFieldSetTime);
+  print_helper::PrintNumericTrait(
+    os, indent, "NumberOfControlPointsForTheTotalFieldSetTime", m_NumberOfControlPointsForTheTotalFieldSetTime);
 }
 
 } // namespace itk

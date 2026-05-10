@@ -18,6 +18,7 @@
 #define ITK_TEMPLATE_EXPLICIT_ObjectToObjectOptimizerBaseTemplate
 #include "itkObjectToObjectOptimizerBase.h"
 #include "itkMultiThreaderBase.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -49,20 +50,12 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::PrintSelf(st
 
   itkPrintSelfObjectMacro(Metric);
 
-  os << indent
-     << "NumberOfWorkUnits: " << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_NumberOfWorkUnits)
-     << std::endl;
-  os << indent
-     << "CurrentIteration: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentIteration)
-     << std::endl;
-  os << indent
-     << "NumberOfIterations: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfIterations)
-     << std::endl;
-  os << indent
-     << "CurrentMetricValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_CurrentMetricValue)
-     << std::endl;
-  os << indent << "Scales: " << static_cast<typename NumericTraits<ScalesType>::PrintType>(m_Scales) << std::endl;
-  os << indent << "Weights: " << static_cast<typename NumericTraits<ScalesType>::PrintType>(m_Weights) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "NumberOfWorkUnits", m_NumberOfWorkUnits);
+  print_helper::PrintNumericTrait(os, indent, "CurrentIteration", m_CurrentIteration);
+  print_helper::PrintNumericTrait(os, indent, "NumberOfIterations", m_NumberOfIterations);
+  print_helper::PrintNumericTrait(os, indent, "CurrentMetricValue", m_CurrentMetricValue);
+  print_helper::PrintNumericTrait(os, indent, "Scales", m_Scales);
+  print_helper::PrintNumericTrait(os, indent, "Weights", m_Weights);
 
   itkPrintSelfBooleanMacro(ScalesAreIdentity);
 

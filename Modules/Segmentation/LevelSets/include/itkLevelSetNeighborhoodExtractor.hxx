@@ -23,6 +23,7 @@
 #include "itkMath.h"
 
 #include <algorithm>
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -54,8 +55,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::PrintSelf(std::ostream & os, Indent in
   os << indent << "NarrowBandwidth: " << m_NarrowBandwidth << std::endl;
   os << indent << "InputNarrowBand: " << m_InputNarrowBand << std::endl;
   os << indent << "ImageRegion: " << m_ImageRegion << std::endl;
-  os << indent << "LargeValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_LargeValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "LargeValue", m_LargeValue);
   // ToDo
   // os << indent << "NodesUsed: " << m_NodesUsed << std::endl;
   itkPrintSelfBooleanMacro(LastPointIsInside);

@@ -22,6 +22,7 @@
 #include "itksys/SystemTools.hxx"
 #include "itkMetaDataObject.h"
 #include "itkStringConvert.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -928,9 +929,7 @@ Bruker2dseqImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "OnDiskComponentType" << static_cast<NumericTraits<IOComponentEnum>::PrintType>(m_OnDiskComponentType)
-     << std::endl;
-  os << indent << "MachineByteOrder" << static_cast<NumericTraits<IOByteOrderEnum>::PrintType>(m_MachineByteOrder)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "OnDiskComponentType", m_OnDiskComponentType);
+  print_helper::PrintNumericTrait(os, indent, "MachineByteOrder", m_MachineByteOrder);
 }
 } // end namespace itk

@@ -26,6 +26,7 @@
 
 #include <iomanip>
 #include <sstream>
+#include "itkPrintHelper.h"
 
 /*
  *
@@ -56,7 +57,7 @@ RankImageFilter<TInputImage, TOutputImage, TKernel>::PrintSelf(std::ostream & os
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Rank: " << static_cast<NumericTraits<float>::PrintType>(m_Rank) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Rank", m_Rank);
 }
 } // end namespace itk
 #endif

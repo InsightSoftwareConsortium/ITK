@@ -19,6 +19,7 @@
 #define itkIntermodesThresholdCalculator_hxx
 
 #include "itkProgressReporter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -147,8 +148,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>::PrintSelf(std::ostream & os,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "MaximumSmoothingIterations: "
-     << static_cast<itk::NumericTraits<SizeValueType>::PrintType>(m_MaximumSmoothingIterations) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "MaximumSmoothingIterations", m_MaximumSmoothingIterations);
   os << indent << "UseInterMode: " << m_UseInterMode << std::endl;
 }
 

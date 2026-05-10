@@ -26,6 +26,7 @@
 #include "itkOffset.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -468,9 +469,7 @@ void
 BinaryErodeImageFilter<TInputImage, TOutput, TKernel>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent
-     << "Dilate Value: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(this->GetForegroundValue())
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Dilate Value", this->GetForegroundValue());
 }
 } // end namespace itk
 

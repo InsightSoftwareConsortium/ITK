@@ -27,6 +27,7 @@
 
 #include <vector>
 #include <algorithm>
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -94,12 +95,8 @@ VotingBinaryIterativeHoleFillingImageFilter<TInputImage>::PrintSelf(std::ostream
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Radius: " << m_Radius << std::endl;
-  os << indent
-     << "Foreground value : " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_ForegroundValue)
-     << std::endl;
-  os << indent
-     << "Background value : " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_BackgroundValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "Foreground value ", m_ForegroundValue);
+  print_helper::PrintNumericTrait(os, indent, "Background value ", m_BackgroundValue);
   os << indent << "Maximum Number of Iterations : " << m_MaximumNumberOfIterations << std::endl;
   os << indent << "Current Number of Iterations : " << m_CurrentNumberOfIterations << std::endl;
   os << indent << "Majority Threshold           : " << m_MajorityThreshold << std::endl;

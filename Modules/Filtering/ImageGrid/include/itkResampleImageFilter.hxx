@@ -29,6 +29,7 @@
 
 #include <algorithm>   // For max.
 #include <type_traits> // For is_same.
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -658,9 +659,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "DefaultPixelValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_DefaultPixelValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "DefaultPixelValue", m_DefaultPixelValue);
   os << indent << "Size: " << m_Size << std::endl;
   os << indent << "OutputStartIndex: " << m_OutputStartIndex << std::endl;
   os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;

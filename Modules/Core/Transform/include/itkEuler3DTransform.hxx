@@ -19,6 +19,7 @@
 #define itkEuler3DTransform_hxx
 
 
+#include "itkPrintHelper.h"
 namespace itk
 {
 
@@ -361,9 +362,9 @@ Euler3DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "AngleX: " << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_AngleX) << std::endl;
-  os << indent << "AngleY: " << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_AngleY) << std::endl;
-  os << indent << "AngleZ: " << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_AngleZ) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "AngleX", m_AngleX);
+  print_helper::PrintNumericTrait(os, indent, "AngleY", m_AngleY);
+  print_helper::PrintNumericTrait(os, indent, "AngleZ", m_AngleZ);
   itkPrintSelfBooleanMacro(ComputeZYX);
 }
 

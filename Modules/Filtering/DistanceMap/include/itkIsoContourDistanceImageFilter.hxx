@@ -21,6 +21,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkIndex.h"
 #include <mutex>
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -49,11 +50,9 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "LevelSetValue: " << static_cast<typename NumericTraits<PixelRealType>::PrintType>(m_LevelSetValue)
-     << std::endl;
-  os << indent << "FarValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_FarValue) << std::endl;
-  os << indent << "Spacing: " << static_cast<typename NumericTraits<InputSpacingType>::PrintType>(m_Spacing)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "LevelSetValue", m_LevelSetValue);
+  print_helper::PrintNumericTrait(os, indent, "FarValue", m_FarValue);
+  print_helper::PrintNumericTrait(os, indent, "Spacing", m_Spacing);
   itkPrintSelfBooleanMacro(NarrowBanding);
 
   itkPrintSelfObjectMacro(NarrowBand);

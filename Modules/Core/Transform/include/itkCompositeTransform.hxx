@@ -19,6 +19,7 @@
 #define itkCompositeTransform_hxx
 
 
+#include "itkPrintHelper.h"
 namespace itk
 {
 
@@ -961,8 +962,8 @@ CompositeTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & o
     os << std::endl;
   }
 
-  os << indent << "PreviousTransformsToOptimizeUpdateTime: "
-     << static_cast<NumericTraits<ModifiedTimeType>::PrintType>(m_PreviousTransformsToOptimizeUpdateTime) << std::endl;
+  print_helper::PrintNumericTrait(
+    os, indent, "PreviousTransformsToOptimizeUpdateTime", m_PreviousTransformsToOptimizeUpdateTime);
 }
 
 

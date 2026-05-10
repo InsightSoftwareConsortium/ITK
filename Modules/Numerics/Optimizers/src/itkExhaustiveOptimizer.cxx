@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include "itkExhaustiveOptimizer.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -196,20 +197,16 @@ ExhaustiveOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "CurrentValue: " << static_cast<NumericTraits<MeasureType>::PrintType>(m_CurrentValue) << std::endl;
-  os << indent << "NumberOfSteps: " << static_cast<NumericTraits<StepsType>::PrintType>(m_NumberOfSteps) << std::endl;
-  os << indent << "CurrentIteration: " << static_cast<NumericTraits<SizeValueType>::PrintType>(m_CurrentIteration)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "CurrentValue", m_CurrentValue);
+  print_helper::PrintNumericTrait(os, indent, "NumberOfSteps", m_NumberOfSteps);
+  print_helper::PrintNumericTrait(os, indent, "CurrentIteration", m_CurrentIteration);
   itkPrintSelfBooleanMacro(Stop);
   os << indent << "CurrentParameter: " << m_CurrentParameter << std::endl;
   os << indent << "StepLength: " << m_StepLength << std::endl;
   os << indent << "CurrentIndex: " << m_CurrentIndex << std::endl;
-  os << indent << "MaximumNumberOfIterations: "
-     << static_cast<NumericTraits<SizeValueType>::PrintType>(m_MaximumNumberOfIterations) << std::endl;
-  os << indent << "MaximumMetricValue: " << static_cast<NumericTraits<MeasureType>::PrintType>(m_MaximumMetricValue)
-     << std::endl;
-  os << indent << "MinimumMetricValue: " << static_cast<NumericTraits<MeasureType>::PrintType>(m_MinimumMetricValue)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "MaximumNumberOfIterations", m_MaximumNumberOfIterations);
+  print_helper::PrintNumericTrait(os, indent, "MaximumMetricValue", m_MaximumMetricValue);
+  print_helper::PrintNumericTrait(os, indent, "MinimumMetricValue", m_MinimumMetricValue);
   os << indent << "MinimumMetricValuePosition: " << m_MinimumMetricValuePosition << std::endl;
   os << indent << "MaximumMetricValuePosition: " << m_MaximumMetricValuePosition << std::endl;
 

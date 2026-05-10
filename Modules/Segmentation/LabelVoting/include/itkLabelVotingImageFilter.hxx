@@ -23,6 +23,7 @@
 #include "itkTotalProgressReporter.h"
 
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -147,8 +148,7 @@ LabelVotingImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "LabelForUndecidedPixels: "
-     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_HasLabelForUndecidedPixels) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "LabelForUndecidedPixels", m_HasLabelForUndecidedPixels);
   itkPrintSelfBooleanMacro(HasLabelForUndecidedPixels);
   os << indent << "TotalLabelCount: " << m_TotalLabelCount << std::endl;
 }

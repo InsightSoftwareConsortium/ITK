@@ -25,6 +25,7 @@
 #include <array>
 #include <utility>
 #include <bitset>
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -989,16 +990,10 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::PrintSelf(s
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "IsoSurfaceValue: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_IsoSurfaceValue)
-     << std::endl;
-  os << indent << "MaxSpacing: " << static_cast<typename NumericTraits<SpacingValueType>::PrintType>(m_MaxSpacing)
-     << std::endl;
-  os << indent << "GenerateTriangleFaces: " << static_cast<NumericTraits<bool>::PrintType>(m_GenerateTriangleFaces)
-     << std::endl;
-  os << indent
-     << "ProjectVerticesToIsoSurface: " << static_cast<NumericTraits<bool>::PrintType>(m_ProjectVerticesToIsoSurface)
-     << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "IsoSurfaceValue", m_IsoSurfaceValue);
+  print_helper::PrintNumericTrait(os, indent, "MaxSpacing", m_MaxSpacing);
+  print_helper::PrintNumericTrait(os, indent, "GenerateTriangleFaces", m_GenerateTriangleFaces);
+  print_helper::PrintNumericTrait(os, indent, "ProjectVerticesToIsoSurface", m_ProjectVerticesToIsoSurface);
   os << indent << "ProjectVertexSurfaceDistanceThreshold: " << m_ProjectVertexSurfaceDistanceThreshold << std::endl;
   os << indent << "ProjectVertexStepLength: " << m_ProjectVertexStepLength << std::endl;
   os << indent << "ProjectVertexStepLengthRelaxationFactor: " << m_ProjectVertexStepLengthRelaxationFactor << std::endl;

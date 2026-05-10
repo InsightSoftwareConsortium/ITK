@@ -34,6 +34,7 @@
 #include "itkTotalProgressReporter.h"
 #include "itkMacro.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -136,10 +137,9 @@ ThresholdImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "OutsideValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_OutsideValue)
-     << std::endl;
-  os << indent << "Lower: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Lower) << std::endl;
-  os << indent << "Upper: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Upper) << std::endl;
+  print_helper::PrintNumericTrait(os, indent, "OutsideValue", m_OutsideValue);
+  print_helper::PrintNumericTrait(os, indent, "Lower", m_Lower);
+  print_helper::PrintNumericTrait(os, indent, "Upper", m_Upper);
 }
 } // end namespace itk
 
