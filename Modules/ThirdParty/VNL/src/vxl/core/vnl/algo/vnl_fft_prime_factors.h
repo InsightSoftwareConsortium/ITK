@@ -14,6 +14,7 @@
 
 #include "vnl/vnl_export.h"
 #include <vnl/algo/vnl_algo_export.h>
+#include <array>
 
 //: Holds prime factor information
 // Helper class used by the vnl_fft_xd<> FFT routines
@@ -52,7 +53,7 @@ public:
   const long *
   pqr() const
   {
-    return pqr_;
+    return pqr_.data();
   }
 
   explicit
@@ -75,8 +76,8 @@ public:
 
 private:
   T * trigs_;
-  long number_; // the number that is being split into prime-facs
-  long pqr_[3]; // store P, Q and R
+  long number_;               // the number that is being split into prime-facs
+  std::array<long, 3> pqr_{}; // store P, Q and R
   long info_;
 
   void

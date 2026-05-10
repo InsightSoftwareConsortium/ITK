@@ -87,10 +87,13 @@ template <class T, unsigned int n>
 vnl_vector_fixed<T, n> &
 vnl_vector_fixed<T, n>::update(const vnl_vector<T> & v, unsigned int start)
 {
-  const size_type stop = start + v.size();
-  assert(stop <= n);
-  for (size_type i = start; i < stop; i++)
-    this->data_[i] = v[i - start];
+  assert(start + v.size() <= n);
+  // Copy at most (n - start) elements so the optimizer can prove the
+  // write never exceeds data_[n-1]; this both silences GCC
+  // -Wstringop-overflow on small-N specializations and turns the
+  // would-be NDEBUG overrun into a defensive truncation.
+  const size_type count = std::min(v.size(), static_cast<size_type>(n - start));
+  std::copy_n(v.begin(), count, this->data_ + start);
   return *this;
 }
 

@@ -13,6 +13,8 @@
 //      Feb.2002 - Peter Vanroose - brief doxygen comment placed on single line
 // \endverbatim
 
+#include <cassert>
+#include <limits>
 #include <string>
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
@@ -90,7 +92,9 @@ public:
   int
   get_max_function_evals() const
   {
-    return maxfev;
+    assert(maxfev >= static_cast<long>(std::numeric_limits<int>::min()) &&
+           maxfev <= static_cast<long>(std::numeric_limits<int>::max()));
+    return static_cast<int>(maxfev);
   }
 
   //: Set the step length for FD Jacobian.
@@ -165,7 +169,9 @@ public:
   int
   get_num_evaluations() const
   {
-    return num_evaluations_;
+    assert(num_evaluations_ >= static_cast<long>(std::numeric_limits<int>::min()) &&
+           num_evaluations_ <= static_cast<long>(std::numeric_limits<int>::max()));
+    return static_cast<int>(num_evaluations_);
   }
 
   //: Return the number of {\em iterations} in the last minimization.
@@ -173,7 +179,8 @@ public:
   int
   get_num_iterations() const
   {
-    return num_iterations_;
+    assert(num_iterations_ <= static_cast<unsigned>(std::numeric_limits<int>::max()));
+    return static_cast<int>(num_iterations_);
   }
 
   //: Some generic return codes that apply to all minimizers.

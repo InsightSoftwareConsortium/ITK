@@ -14,7 +14,7 @@
 template <class T>
 struct vnl_fft_2d : public vnl_fft_base<2, T>
 {
-  typedef vnl_fft_base<2, T> base;
+  using base = vnl_fft_base<2, T>;
 
   //: constructor takes size of signal.
   vnl_fft_2d(int M, int N)

@@ -144,7 +144,6 @@ testlib_test_assert_equal(const std::string & msg, long expr, long target);
   }
 
 //: A simplified version of the main test, just in one line.
-// This (new) variant is to be used with the (new) CMake GENERATE_TEST_DRIVER()
 #define TEST_MAIN(testname)   \
   int testname(int, char *[]) \
   {                           \
@@ -163,7 +162,6 @@ testlib_test_assert_equal(const std::string & msg, long expr, long target);
   }
 
 //: A simplified version of the main test, with parameter passing.
-// This (new) variant is to be used with the (new) CMake GENERATE_TEST_DRIVER()
 #define TEST_MAIN_ARGS(testname)        \
   int testname(int argc, char * argv[]) \
   {                                     \

@@ -179,14 +179,14 @@ public:
 
   //: Return the total number of elements stored by the matrix.
   // This equals rows() * cols()
-  inline unsigned int
+  [[nodiscard]] inline unsigned int
   size() const
   {
     return this->num_rows * this->num_cols;
   }
 
   //: Return the number of rows.
-  inline unsigned int
+  [[nodiscard]] inline unsigned int
   rows() const
   {
     return this->num_rows;
@@ -194,7 +194,7 @@ public:
 
   //: Return the number of columns.
   // A synonym for columns().
-  inline unsigned int
+  [[nodiscard]] inline unsigned int
   cols() const
   {
     return this->num_cols;
@@ -202,7 +202,7 @@ public:
 
   //: Return the number of columns.
   // A synonym for cols().
-  inline unsigned int
+  [[nodiscard]] inline unsigned int
   columns() const
   {
     return this->num_cols;
@@ -690,7 +690,7 @@ public:
   swap(vnl_matrix<T> & that) noexcept;
 
   //: Type def for norms.
-  typedef typename vnl_c_vector<T>::abs_t abs_t;
+  using abs_t = typename vnl_c_vector<T>::abs_t;
 
   //: Return sum of absolute values of elements
   abs_t
@@ -794,7 +794,7 @@ public:
   // predicates
 
   //: Return true iff the size is zero.
-  bool
+  [[nodiscard]] bool
   empty() const
   {
     return !data || !num_rows || !num_cols;
@@ -809,11 +809,11 @@ public:
   is_identity(double tol) const;
 
   //: Return true if all elements equal to zero.
-  bool
+  [[nodiscard]] bool
   is_zero() const;
 
   //: Return true if all elements equal to zero, within given tolerance
-  bool
+  [[nodiscard]] bool
   is_zero(double tol) const;
 
   //:  Return true if all elements of both matrices are equal, within given tolerance
@@ -821,7 +821,7 @@ public:
   is_equal(const vnl_matrix<T> & rhs, double tol) const;
 
   //: Return true if finite
-  bool
+  [[nodiscard]] bool
   is_finite() const;
 
   //: Return true if matrix contains NaNs
@@ -893,10 +893,10 @@ public:
     return data;
   }
 
-  typedef T element_type;
+  using element_type = T;
 
   //: Iterators
-  typedef T * iterator;
+  using iterator = T *;
   //: Iterator pointing to start of data
   iterator
   begin()
@@ -911,7 +911,7 @@ public:
   }
 
   //: Const iterators
-  typedef const T * const_iterator;
+  using const_iterator = const T *;
   //: Iterator pointing to start of data
   const_iterator
   begin() const

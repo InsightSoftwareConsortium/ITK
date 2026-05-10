@@ -143,7 +143,7 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const & M, double zero_out_tol)
   if (vnl_svd_test_heavily)
   {
     // Test that recomposed matrix == M
-    typedef typename vnl_numeric_traits<T>::abs_t abs_t;
+    using abs_t = typename vnl_numeric_traits<T>::abs_t;
     const abs_t recomposition_residual = std::abs((recompose() - M).fro_norm());
     const abs_t n = std::abs(M.fro_norm());
     const abs_t thresh = abs_t(m_) * abs_t(vnl_math::eps) * n;

@@ -35,7 +35,7 @@
 template <class T>
 class VNL_EXPORT vnl_matrix_ref : public vnl_matrix<T>
 {
-  typedef vnl_matrix<T> Base;
+  using Base = vnl_matrix<T>;
 
 public:
   // Constructors/Destructors--------------------------------------------------

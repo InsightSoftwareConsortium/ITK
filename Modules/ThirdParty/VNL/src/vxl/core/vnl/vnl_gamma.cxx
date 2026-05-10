@@ -31,8 +31,8 @@ vnl_log_gamma(double x)
 }
 
 constexpr int MAX_ITS = 100;
-const double MaxRelError = 3.0e-7;
-const double vnl_very_small = 1.0e-30;
+constexpr double MaxRelError = 3.0e-7;
+constexpr double vnl_very_small = 1.0e-30;
 
 //: Use series expansion of incomplete gamma function
 static double
@@ -123,7 +123,7 @@ vnl_digamma(double z)
 {
   const double t0 = (z - 0.5) / (z + 4.65) - 1.0;
   const double tlg = std::log(4.65 + z);
-  const double tc = 2.50662827563479526904;
+  constexpr double tc = 2.50662827563479526904;
   const double t1 = 225.525584619175212544 / z;
   const double t2 = -268.295973841304927459 / (1 + z);
   const double t3 = +80.9030806934622512966 / (2 + z);

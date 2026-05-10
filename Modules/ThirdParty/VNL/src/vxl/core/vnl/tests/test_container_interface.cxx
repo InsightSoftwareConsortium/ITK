@@ -39,10 +39,10 @@ void
 test_common_interface()
 {
   TContainer m(2, 2);
-  m.size();
-  m.rows();
-  m.cols();
-  m.columns();
+  TEST("size() of 2x2 container", m.size(), 4);
+  TEST("rows() of 2x2 container", m.rows(), 2);
+  TEST("cols() of 2x2 container", m.cols(), 2);
+  TEST("columns() of 2x2 container", m.columns(), 2);
   m.put(0, 0, 0);
   m.get(0, 0);
   m[0];
@@ -163,11 +163,15 @@ test_common_interface()
   m.arg_min();
   m.arg_max();
   m.mean();
-  m.empty();
+  TEST("empty() on 2x2 container", m.empty(), false);
   m.is_identity();
   m.is_identity(10e-6);
-  m.is_zero();
-  m.is_zero(10e-6);
+  {
+    TContainer zero_matrix(2, 2);
+    zero_matrix.fill(0);
+    TEST("is_zero() on zero-filled container", zero_matrix.is_zero(), true);
+    TEST("is_zero(tol) on zero-filled container", zero_matrix.is_zero(10e-6), true);
+  }
   ////////////////////////////
   // Test `is_equal` Method //
   ////////////////////////////
@@ -181,7 +185,11 @@ test_common_interface()
     r.put(0, 0, 25);
     TEST("is_equal (false)", !l.is_equal(r, 10e-6), true);
   }
-  m.is_finite();
+  {
+    TContainer finite_matrix(2, 2);
+    finite_matrix.fill(1);
+    TEST("is_finite() on finite-valued container", finite_matrix.is_finite(), true);
+  }
   m.has_nans();
   m.assert_size(2, 2);
   m.assert_finite();

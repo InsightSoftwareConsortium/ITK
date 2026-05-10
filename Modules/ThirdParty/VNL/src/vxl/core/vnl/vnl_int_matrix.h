@@ -21,7 +21,7 @@
 //: Specializes vnl_matrix for integers, adding a vnl_matrix<double> ctor.
 class VNL_EXPORT vnl_int_matrix : public vnl_matrix<int>
 {
-  typedef vnl_matrix<int> Base;
+  using Base = vnl_matrix<int>;
 
 public:
   vnl_int_matrix() = default;

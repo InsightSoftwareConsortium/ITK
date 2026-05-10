@@ -24,8 +24,8 @@ template <class T>
 class vnl_scatter_3x3 : public vnl_matrix_fixed<T, 3, 3>
 {
 public:
-  typedef vnl_matrix_fixed<T, 3, 3> base;
-  typedef vnl_vector_fixed<T, 3> vect;
+  using base = vnl_matrix_fixed<T, 3, 3>;
+  using vect = vnl_vector_fixed<T, 3>;
 
   //: Constructor.  Fills with zeros.
   vnl_scatter_3x3();

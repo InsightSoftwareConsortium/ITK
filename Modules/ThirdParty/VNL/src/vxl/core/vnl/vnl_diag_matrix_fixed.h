@@ -164,12 +164,12 @@ public:
 
   // iterators
 
-  typedef typename vnl_vector_fixed<T, N>::iterator iterator;
+  using iterator = typename vnl_vector_fixed<T, N>::iterator;
   iterator
   begin();
   iterator
   end();
-  typedef typename vnl_vector_fixed<T, N>::const_iterator const_iterator;
+  using const_iterator = typename vnl_vector_fixed<T, N>::const_iterator;
   const_iterator
   begin() const;
   const_iterator

@@ -15,6 +15,6 @@
 
 #include "vnl_matrix_fixed.h"
 
-typedef vnl_matrix_fixed<double, 2, 2> vnl_double_2x2;
+using vnl_double_2x2 = vnl_matrix_fixed<double, 2, 2>;
 
 #endif // vnl_double_2x2_h_

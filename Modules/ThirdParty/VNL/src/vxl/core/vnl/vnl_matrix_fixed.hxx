@@ -352,7 +352,7 @@ vnl_matrix_fixed<T, nrows, ncols>::normalize_rows()
 
     if (norm != 0)
     {
-      typedef typename vnl_numeric_traits<abs_t>::real_t real_t;
+      using real_t = typename vnl_numeric_traits<abs_t>::real_t;
       const real_t scale = real_t(1) / std::sqrt((real_t)norm);
       for (unsigned int j = 0; j < ncols; ++j)
       {
@@ -377,7 +377,7 @@ vnl_matrix_fixed<T, nrows, ncols>::normalize_columns()
 
     if (norm != 0)
     {
-      typedef typename vnl_numeric_traits<abs_t>::real_t real_t;
+      using real_t = typename vnl_numeric_traits<abs_t>::real_t;
       const real_t scale = real_t(1) / std::sqrt((real_t)norm);
       for (unsigned int i = 0; i < nrows; ++i)
       {

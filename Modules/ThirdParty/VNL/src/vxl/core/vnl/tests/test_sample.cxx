@@ -10,9 +10,9 @@ static void
 test_sample_uniform()
 {
   std::cout << "*************** sample uniform ***************\n";
-  const unsigned N = 100000;
-  const double a = 123.456;
-  const double b = 543.210;
+  constexpr unsigned N = 100000;
+  constexpr double a = 123.456;
+  constexpr double b = 543.210;
   vnl_sample_reseed(); // initialise the random seed in a random way
 
   double X[N];

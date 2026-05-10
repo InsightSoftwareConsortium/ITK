@@ -113,9 +113,9 @@ test_math()
   test_static_const_definition();
   test_math_constants();
 
-  const int n = -11;
-  const float f = -7.5f;
-  const double d = -vnl_math::pi;
+  constexpr int n = -11;
+  constexpr float f = -7.5f;
+  constexpr double d = -vnl_math::pi;
   const std::complex<double> i(0, 1);
   const std::complex<double> z(-1, 2);
   const std::complex<double> e_ipi = std::exp(d * i);
@@ -436,16 +436,16 @@ test_math()
 
     std::cout << "+ +" << std::endl;
 
-    const unsigned short x_short_u = 7;
-    const unsigned short y_short_u = 2;
+    constexpr unsigned short x_short_u = 7;
+    constexpr unsigned short y_short_u = 2;
     signed short x_short_s = 7;
     signed short y_short_s = 2;
-    const unsigned int x_int_u = 7;
-    const unsigned int y_int_u = 2;
+    constexpr unsigned int x_int_u = 7;
+    constexpr unsigned int y_int_u = 2;
     signed int x_int_s = 7;
     signed int y_int_s = 2;
-    const unsigned long x_long_u = 7;
-    const unsigned long y_long_u = 2;
+    constexpr unsigned long x_long_u = 7;
+    constexpr unsigned long y_long_u = 2;
     signed long x_long_s = 7;
     signed long y_long_s = 2;
     float x_float = 7;
@@ -596,16 +596,16 @@ test_math()
 
     std::cout << "+ +" << std::endl;
 
-    const unsigned short x_short_u = 7;
-    const unsigned short y_short_u = 2;
+    constexpr unsigned short x_short_u = 7;
+    constexpr unsigned short y_short_u = 2;
     signed short x_short_s = 7;
     signed short y_short_s = 2;
-    const unsigned int x_int_u = 7;
-    const unsigned int y_int_u = 2;
+    constexpr unsigned int x_int_u = 7;
+    constexpr unsigned int y_int_u = 2;
     signed int x_int_s = 7;
     signed int y_int_s = 2;
-    const unsigned long x_long_u = 7;
-    const unsigned long y_long_u = 2;
+    constexpr unsigned long x_long_u = 7;
+    constexpr unsigned long y_long_u = 2;
     signed long x_long_s = 7;
     signed long y_long_s = 2;
     float x_float = 7;

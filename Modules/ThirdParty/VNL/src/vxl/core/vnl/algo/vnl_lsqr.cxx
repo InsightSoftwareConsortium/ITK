@@ -158,13 +158,13 @@ vnl_lsqr::minimize(vnl_vector<double> & result)
   // We should return the return code, as translate_return_code is public and
   // it is very misleading that the return code from this function can't be fed
   // into translate_return_code. (Brian Amberg)
-  return return_code_;
+  return static_cast<int>(return_code_);
 }
 
 void
 vnl_lsqr::diagnose_outcome(std::ostream & os) const
 {
-  translate_return_code(os, return_code_);
+  translate_return_code(os, static_cast<int>(return_code_));
   os << __FILE__ " : residual norm estimate = " << resid_norm_estimate_ << std::endl
      << __FILE__ " : result norm estimate   = " << result_norm_estimate_ << std::endl
      << __FILE__ " : condition no. estimate = " << A_condition_estimate_ << std::endl

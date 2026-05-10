@@ -1,5 +1,6 @@
 // This is core/vnl/vnl_matlab_print_scalar.cxx
 
+#include <array>
 #include <cstdio>
 #include <cstdlib>
 #include <cstdint>
@@ -170,22 +171,22 @@ vnl_matlab_print_scalar(std::complex<double> v, char * buf, size_t buf_len, vnl_
   const double r = std::real(v);
   double i = std::imag(v);
 
-  char fmt[1024];
+  std::array<char, 1024> fmt;
   // Real part
   if (r == 0)
   {
-    std::snprintf(fmt,
-                  sizeof(fmt),
+    std::snprintf(fmt.data(),
+                  fmt.size(),
                   "%%"
                   "%d"
                   "d ",
                   width);
-    std::snprintf(buf, buf_len, fmt, 0);
+    std::snprintf(buf, buf_len, fmt.data(), 0);
   }
   else
   {
-    std::snprintf(fmt,
-                  sizeof(fmt),
+    std::snprintf(fmt.data(),
+                  fmt.size(),
                   "%%"
                   "%d"
                   "."
@@ -194,7 +195,7 @@ vnl_matlab_print_scalar(std::complex<double> v, char * buf, size_t buf_len, vnl_
                   width,
                   precision,
                   conv);
-    std::snprintf(buf, buf_len, fmt, r);
+    std::snprintf(buf, buf_len, fmt.data(), r);
   }
 
   buf += std::strlen(buf);
@@ -202,13 +203,13 @@ vnl_matlab_print_scalar(std::complex<double> v, char * buf, size_t buf_len, vnl_
   // Imaginary part.  Width is reduced as sign is taken care of separately
   if (i == 0)
   {
-    std::snprintf(fmt,
-                  sizeof(fmt),
+    std::snprintf(fmt.data(),
+                  fmt.size(),
                   " %%"
                   "%d"
                   "s  ",
                   width - 1);
-    std::snprintf(buf, buf_len, fmt, "");
+    std::snprintf(buf, buf_len, fmt.data(), "");
   }
   else
   {
@@ -218,15 +219,15 @@ vnl_matlab_print_scalar(std::complex<double> v, char * buf, size_t buf_len, vnl_
       sign = '-';
       i = -i;
     }
-    std::snprintf(fmt,
-                  sizeof(fmt),
+    std::snprintf(fmt.data(),
+                  fmt.size(),
                   "%c%%"
                   "%d.%d%ci ",
                   sign,
                   width - 1,
                   precision,
                   conv);
-    std::snprintf(buf, buf_len, fmt, i);
+    std::snprintf(buf, buf_len, fmt.data(), i);
   }
 }
 
@@ -280,22 +281,22 @@ vnl_matlab_print_scalar(std::complex<float> v, char * buf, size_t buf_len, vnl_m
   const float r = std::real(v);
   float i = std::imag(v);
 
-  char fmt[1024];
+  std::array<char, 1024> fmt;
   // Real part
   if (r == 0)
   {
-    std::snprintf(fmt,
-                  sizeof(fmt),
+    std::snprintf(fmt.data(),
+                  fmt.size(),
                   "%%"
                   "%d"
                   "d ",
                   width);
-    std::snprintf(buf, buf_len, fmt, 0);
+    std::snprintf(buf, buf_len, fmt.data(), 0);
   }
   else
   {
-    std::snprintf(fmt,
-                  sizeof(fmt),
+    std::snprintf(fmt.data(),
+                  fmt.size(),
                   "%%"
                   "%d"
                   "."
@@ -304,7 +305,7 @@ vnl_matlab_print_scalar(std::complex<float> v, char * buf, size_t buf_len, vnl_m
                   width,
                   precision,
                   conv);
-    std::snprintf(buf, buf_len, fmt, r);
+    std::snprintf(buf, buf_len, fmt.data(), r);
   }
 
   buf += std::strlen(buf);
@@ -312,13 +313,13 @@ vnl_matlab_print_scalar(std::complex<float> v, char * buf, size_t buf_len, vnl_m
   // Imaginary part.  Width is reduced as sign is taken care of separately
   if (i == 0)
   {
-    std::snprintf(fmt,
-                  sizeof(fmt),
+    std::snprintf(fmt.data(),
+                  fmt.size(),
                   " %%"
                   "%d"
                   "s  ",
                   width - 1);
-    std::snprintf(buf, buf_len, fmt, "");
+    std::snprintf(buf, buf_len, fmt.data(), "");
   }
   else
   {
@@ -328,15 +329,15 @@ vnl_matlab_print_scalar(std::complex<float> v, char * buf, size_t buf_len, vnl_m
       sign = '-';
       i = -i;
     }
-    std::snprintf(fmt,
-                  sizeof(fmt),
+    std::snprintf(fmt.data(),
+                  fmt.size(),
                   "%c%%"
                   "%d.%d%ci ",
                   sign,
                   width - 1,
                   precision,
                   conv);
-    std::snprintf(buf, buf_len, fmt, i);
+    std::snprintf(buf, buf_len, fmt.data(), i);
   }
 }
 
@@ -351,7 +352,10 @@ vnl_matlab_print_scalar(std::complex<float> v, char * buf, vnl_matlab_print_form
 void
 vnl_matlab_print_scalar(std::complex<long double> v, char * buf, size_t buf_len, vnl_matlab_print_format format)
 {
-  vnl_matlab_print_scalar(std::complex<double>(std::real(v), std::imag(v)), buf, buf_len, format); // FIXME
+  vnl_matlab_print_scalar(std::complex<double>(static_cast<double>(std::real(v)), static_cast<double>(std::imag(v))),
+                          buf,
+                          buf_len,
+                          format); // FIXME
 }
 
 #if !VXL_LEGACY_FUTURE_REMOVE
@@ -366,9 +370,9 @@ template <class T>
 std::ostream &
 vnl_matlab_print_scalar(std::ostream & s, T value, vnl_matlab_print_format format)
 {
-  char buf[1024];
-  vnl_matlab_print_scalar(value, buf, sizeof(buf), format);
-  return s << buf;
+  std::array<char, 1024> buf;
+  vnl_matlab_print_scalar(value, buf.data(), buf.size(), format);
+  return s << buf.data();
 }
 
 #define inst(T) template std::ostream & vnl_matlab_print_scalar(std::ostream &, T, vnl_matlab_print_format)

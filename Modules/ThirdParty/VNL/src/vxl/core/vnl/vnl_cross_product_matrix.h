@@ -31,7 +31,7 @@
 class vnl_cross_product_matrix : public vnl_double_3x3
 {
 public:
-  typedef vnl_double_3x3 base;
+  using base = vnl_double_3x3;
 
   vnl_cross_product_matrix(const vnl_vector_fixed<double, 3> & v) { set(v.data_block()); }
   vnl_cross_product_matrix(const vnl_vector<double> & v) { set(v.data_block()); }

@@ -37,7 +37,7 @@ vnl_generalized_eigensystem::vnl_generalized_eigensystem(const vnl_matrix<double
   // If b was not pos-def, retry with projection onto nullspace
   if (ierr == 7 * n + 1)
   {
-    const double THRESH = 1e-8;
+    constexpr double THRESH = 1e-8;
     vnl_symmetric_eigensystem<double> eig(B);
     if (eig.D(0, 0) < -THRESH)
     {
@@ -52,7 +52,7 @@ vnl_generalized_eigensystem::vnl_generalized_eigensystem(const vnl_matrix<double
 
   // transpose-copy V1 to V
   {
-    double * vptr = &V1[0];
+    const double * vptr = &V1[0];
     for (int c = 0; c < n; ++c)
       for (int r = 0; r < n; ++r)
         V(r, c) = *vptr++;
