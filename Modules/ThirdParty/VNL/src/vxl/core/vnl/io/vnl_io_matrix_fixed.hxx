@@ -6,7 +6,6 @@
 
 #include "vnl_io_matrix_fixed.h"
 #include <vnl/vnl_matrix_fixed.h>
-#include <vsl/vsl_b_read_block_old.h>
 #include <vsl/vsl_block_binary.h>
 #include <vsl/vsl_indent.h>
 
@@ -41,24 +40,9 @@ vsl_b_read(vsl_b_istream & is, vnl_matrix_fixed<T, m, n> & p)
   switch (v)
   {
     case 1:
-#if !VXL_LEGACY_FUTURE_REMOVE
-      vsl_b_read(is, stream_m);
-      vsl_b_read(is, stream_n);
-      if (stream_n != n || stream_m != m)
-      {
-        std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_matrix_fixed<T>&)\n"
-                  << "           Expected size " << m << ',' << n << "; got " << stream_m << ',' << stream_n << '\n';
-        is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
-        return;
-      }
-      // Calling begin() on empty matrix_fixed causes segfault
-      if (m * n > 0)
-        vsl_b_read_block_old(is, p.begin(), p.size());
-      break;
-#else
       std::cerr << "I/O ERROR: Old version 1 file formats are no longer supported since deprecation of required "
                    "function vsl_b_read_block_old in 2006\n";
-#endif
+      break;
 
     case 2:
       vsl_b_read(is, stream_m);

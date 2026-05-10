@@ -55,10 +55,8 @@ public:
     return M_.transpose();
   }
 #else
-#  if VXL_LEGACY_FUTURE_REMOVE
-  VXL_DEPRECATED_MSG(
-    "Implicit cast conversion is dangerous.\nUSE: .as_matrix() or .as_ref() member function for clarity.")
-#  endif
+  [[deprecated(
+    "Implicit cast conversion is dangerous.\nUSE: .as_matrix() or .as_ref() member function for clarity.")]]
   operator vnl_matrix<double>() const
   {
     std::cerr << "vnl_transpose being converted to matrix -- help! I don't wanna go!\n";
@@ -72,14 +70,6 @@ public:
   {
     return M_.transpose();
   }
-#if !VXL_LEGACY_FUTURE_REMOVE
-  VXL_DEPRECATED_MSG("Deprecated inconsistent name.\nUSE: .as_matrix() new consistent name.")
-  vnl_matrix<double>
-  asMatrix() const
-  {
-    return this->as_matrix();
-  }
-#endif
 
   //: Return M' * O
   vnl_matrix<double>

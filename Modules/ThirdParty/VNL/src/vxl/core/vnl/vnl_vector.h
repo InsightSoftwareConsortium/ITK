@@ -13,6 +13,7 @@
 //   Oct.2010 - Peter Vanroose - mutators and setters now return *this
 // \endverbatim
 #include <iosfwd>
+#include <utility>
 #include "vnl_error.h"
 
 #include <vcl_compiler.h>
@@ -679,7 +680,6 @@ protected:
     , m_LetArrayManageMemory{ manage_own_memory }
   {}
 
-  // #if !VXL_LEGACY_FUTURE_REMOVE
   /*
    * This function is a work around for transitioning to data members
    * being private
@@ -691,7 +691,18 @@ protected:
     this->num_elmts = nelmts;
     this->m_LetArrayManageMemory = manage_own_memory;
   }
-  // #endif
+
+  //: Subclass extension point: swap only the memory-management flag
+  //  between two vnl_vector instances, leaving the data pointer and
+  //  size alone. Provided so subclasses that implement their own
+  //  swap() can transfer ownership state without needing direct
+  //  access to the private m_LetArrayManageMemory ivar.
+  void
+  swap_memory_management(vnl_vector<T> & other) noexcept
+  {
+    using std::swap;
+    swap(this->m_LetArrayManageMemory, other.m_LetArrayManageMemory);
+  }
 
   void
   assert_size_internal(size_t sz) const;

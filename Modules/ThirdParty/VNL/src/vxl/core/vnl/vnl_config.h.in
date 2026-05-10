@@ -10,9 +10,6 @@
 // This is not intended to also control \e size checks when doing matrix-vector arithmetic.
 #define VNL_CONFIG_CHECK_BOUNDS   @VNL_CONFIG_CHECK_BOUNDS@
 
-//: Set to 1 to enable the deprecated methods vnl_vector<T>::set_[xyzt]().
-#define VNL_CONFIG_LEGACY_METHODS @VNL_CONFIG_LEGACY_METHODS@
-
 //: Set to 0 if you don't need thread safe code (and use a more efficient alloc).
 #define VNL_CONFIG_THREAD_SAFE    @VNL_CONFIG_THREAD_SAFE@
 

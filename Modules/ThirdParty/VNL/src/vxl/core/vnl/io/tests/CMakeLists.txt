@@ -1,8 +1,4 @@
 # This is core/vnl/io/tests/CMakeLists.txt
-if(NOT VXL_LEGACY_FUTURE_REMOVE)
-  set(_LEGACY_CODE_SRCS golden_test_vnl_io.cxx)
-endif()
-
 add_executable( vnl_io_test_all
   # Driver source
   test_driver.cxx
@@ -20,9 +16,6 @@ add_executable( vnl_io_test_all
   test_sym_matrix_io.cxx
   test_vector_fixed_io.cxx
   test_vector_io.cxx
-
-  # Legacy code tests
-  ${_LEGACY_CODE_SRCS}
 )
 
 target_link_libraries( vnl_io_test_all ${VXL_LIB_PREFIX}vnl_io ${VXL_LIB_PREFIX}vsl ${VXL_LIB_PREFIX}testlib ${VXL_LIB_PREFIX}vpl )
@@ -39,10 +32,6 @@ add_test( NAME vnl_io_test_sparse_matrix_io COMMAND $<TARGET_FILE:vnl_io_test_al
 add_test( NAME vnl_io_test_sym_matrix_io COMMAND $<TARGET_FILE:vnl_io_test_all> test_sym_matrix_io           )
 add_test( NAME vnl_io_test_vector_fixed_io COMMAND $<TARGET_FILE:vnl_io_test_all> test_vector_fixed_io         )
 add_test( NAME vnl_io_test_vector_io COMMAND $<TARGET_FILE:vnl_io_test_all> test_vector_io               )
-if(NOT VXL_LEGACY_FUTURE_REMOVE)
-  # This test requires deprecated file reading capabilities.
-  add_test( NAME vnl_io_golden_test_vnl_io COMMAND $<TARGET_FILE:vnl_io_test_all> golden_test_vnl_io           )
-endif()
 
 add_executable( vnl_io_test_include test_include.cxx )
 target_link_libraries( vnl_io_test_include ${VXL_LIB_PREFIX}vnl_io )

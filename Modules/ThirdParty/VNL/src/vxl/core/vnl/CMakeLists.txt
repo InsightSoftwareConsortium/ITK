@@ -10,10 +10,17 @@ doxygen_add_library(core/vnl
 # Create vnl_config.h
 option(VNL_CONFIG_CHECK_BOUNDS
   "Whether vnl_vector/vnl_matrix accessor methods check index bounds." ON)
-option(VNL_CONFIG_LEGACY_METHODS
-  "Whether backward-compatibility methods are provided by vnl." OFF)
 option(VNL_CONFIG_THREAD_SAFE
   "Whether thread-safe vnl implementations are used." ON)
+
+# VNL_CONFIG_LEGACY_METHODS was retired in vxl 7.0; warn if the user
+# still has it set so build scripts can be cleaned up.
+if(DEFINED CACHE{VNL_CONFIG_LEGACY_METHODS} OR DEFINED VNL_CONFIG_LEGACY_METHODS)
+  message(WARNING
+    "VNL_CONFIG_LEGACY_METHODS is no longer a valid configuration flag and has no effect. "
+    "Please remove it from your CMake cache or configuration scripts.")
+  unset(VNL_CONFIG_LEGACY_METHODS CACHE)
+endif()
 
 
 option(VNL_CONFIG_ENABLE_SSE2_ROUNDING
@@ -33,7 +40,6 @@ endif()
 
 mark_as_advanced(
   VNL_CONFIG_CHECK_BOUNDS
-  VNL_CONFIG_LEGACY_METHODS
   VNL_CONFIG_THREAD_SAFE
   VNL_CONFIG_ENABLE_SSE2_ROUNDING
   )
@@ -42,11 +48,6 @@ if(VNL_CONFIG_CHECK_BOUNDS)
   set(VNL_CONFIG_CHECK_BOUNDS 1)
 else()
   set(VNL_CONFIG_CHECK_BOUNDS 0)
-endif()
-if(VNL_CONFIG_LEGACY_METHODS)
-  set(VNL_CONFIG_LEGACY_METHODS 1)
-else()
-  set(VNL_CONFIG_LEGACY_METHODS 0)
 endif()
 if(VNL_CONFIG_THREAD_SAFE)
   set(VNL_CONFIG_THREAD_SAFE 1)

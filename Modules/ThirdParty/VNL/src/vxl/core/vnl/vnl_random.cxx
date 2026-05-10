@@ -42,7 +42,7 @@ vnl_random::vnl_random(unsigned long seed)
 //: Construct with seed
 vnl_random::vnl_random(const std::array<unsigned long, vnl_random_array_size> & seed) { reseed(seed); }
 
-// Deprecated C-array seed constructor (VXL_DEPRECATED_MSG in header):
+// Deprecated C-array seed constructor ([[deprecated]] in header):
 // copies into std::array and forwards to the std::array overload.
 // NOLINTNEXTLINE(modernize-avoid-c-arrays)
 vnl_random::vnl_random(const unsigned long seed[vnl_random_array_size])
@@ -115,7 +115,7 @@ vnl_random::reseed(const std::array<unsigned long, vnl_random_array_size> & seed
   mz_array = seed;
 }
 
-// Deprecated C-array reseed (VXL_DEPRECATED_MSG in header): copies into
+// Deprecated C-array reseed ([[deprecated]] in header): copies into
 // std::array and forwards to the std::array overload.
 void
 // NOLINTNEXTLINE(modernize-avoid-c-arrays)
