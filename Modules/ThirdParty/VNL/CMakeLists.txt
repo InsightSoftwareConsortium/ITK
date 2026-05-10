@@ -146,6 +146,10 @@ endif()
 
 itk_module_impl()
 
+if(TARGET vxl_platform_math)
+  install(TARGETS vxl_platform_math EXPORT ITKTargets)
+endif()
+
 mark_as_advanced(
   FORCE
   TESTLIB_VCL_WHERE_ROOT_DIR_H
