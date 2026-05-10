@@ -6,6 +6,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <iostream>
+#include <mutex>
 #include <vector>
 #include <cassert>
 #include "vnl_sparse_symmetric_eigensystem.h"
@@ -13,6 +14,28 @@
 #include "vnl/vnl_vector_ref.h"
 
 #include <vnl/algo/vnl_netlib.h> // dnlaso_() dseupd_() dsaupd_()
+
+// The dnlaso/dsaupd/dseupd entry points are f2c translations of
+// FORTRAN code that use SAVE'd locals (and ARPACK's reverse-
+// communication callback below threads through a static
+// current_system pointer because the FORTRAN ABI cannot carry
+// per-call state). Both make this entire compute path inherently
+// non-reentrant. Serialize all callers across threads with the
+// mutex below; the lock is held for the duration of one
+// CalculateNPairs / CalculatePairs invocation.
+//
+// Band-aid: regenerating netlib via thread-safe LAPACK (issue #23)
+// and removing the current_system shim are the proper fixes. See
+// also core/vnl/algo/README_threading.md.
+namespace
+{
+std::mutex &
+sse_call_mutex()
+{
+  static std::mutex m;
+  return m;
+}
+} // namespace
 
 static vnl_sparse_symmetric_eigensystem * current_system = nullptr;
 
@@ -69,6 +92,11 @@ vnl_sparse_symmetric_eigensystem::~vnl_sparse_symmetric_eigensystem()
 int
 vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double> & M, int n, bool smallest, long nfigures)
 {
+  // Serialize against the f2c SAVE'd state in dnlaso_ and the
+  // current_system reverse-communication shim. See banner at top
+  // of this file.
+  std::lock_guard<std::mutex> guard(sse_call_mutex());
+
   mat = &M;
 
   // Clear current vectors.
@@ -215,6 +243,11 @@ vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double> & A,
                                                   int maxIterations,
                                                   double sigma)
 {
+  // Serialize against the f2c SAVE'd state in dsaupd_/dseupd_ and
+  // the current_system reverse-communication shim. See banner at
+  // top of this file.
+  std::lock_guard<std::mutex> guard(sse_call_mutex());
+
   mat = &A;
   Bmat = &B;
 

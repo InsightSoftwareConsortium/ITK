@@ -1,7 +1,7 @@
 #ifndef vxl_copyright_h_
 #define vxl_copyright_h_
 
-// Copyright 2000-2013 VXL Contributors
+// Copyright 2000-2026 VXL Contributors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without

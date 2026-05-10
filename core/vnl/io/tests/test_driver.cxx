@@ -13,9 +13,6 @@ DECLARE(test_sparse_matrix_io);
 DECLARE(test_sym_matrix_io);
 DECLARE(test_vector_fixed_io);
 DECLARE(test_vector_io);
-#if !VXL_LEGACY_FUTURE_REMOVE
-DECLARE(golden_test_vnl_io);
-#endif
 
 void
 register_tests()
@@ -32,9 +29,6 @@ register_tests()
   REGISTER(test_sym_matrix_io);
   REGISTER(test_vector_fixed_io);
   REGISTER(test_vector_io);
-#if !VXL_LEGACY_FUTURE_REMOVE
-  REGISTER(golden_test_vnl_io);
-#endif
 }
 
 DEFINE_MAIN;

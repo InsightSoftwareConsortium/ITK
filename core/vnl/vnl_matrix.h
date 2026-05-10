@@ -31,6 +31,7 @@
 // \endverbatim
 
 #include <iosfwd>
+#include <utility>
 #include <vcl_compiler.h>
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
@@ -996,6 +997,18 @@ protected:
   //: Delete data
   void
   destroy();
+
+  //: Subclass extension point: swap only the memory-management flag
+  //  between two vnl_matrix instances, leaving the data pointer and
+  //  shape alone. Provided so subclasses that implement their own
+  //  swap() can transfer ownership state without needing direct
+  //  access to the private m_LetArrayManageMemory ivar.
+  void
+  swap_memory_management(vnl_matrix<T> & other) noexcept
+  {
+    using std::swap;
+    swap(this->m_LetArrayManageMemory, other.m_LetArrayManageMemory);
+  }
 
 #if !VXL_USE_HISTORICAL_PROTECTED_IVARS
 private:

@@ -15,13 +15,11 @@ cmake versions greater than 3.20
 #if !defined(_MSC_VER) // MSVC does not consistently define __cplusplus
 #  pragma message "The vcl_compiler_detection.h header file is no longer used.\n"   \
                   "In most cases, references to this file can simply be removed.\n" \
-                  "Use of VXL_DEPRECATED or VXL_DEPRECATED_MSG should include\n"    \
-                  "vcl_compiler.h instead."
+                  "Use the standard [[deprecated]] / [[deprecated(\"msg\")]] attributes directly."
 #else
 #  warning "The vcl_compiler_detection.h header file is no longer used.\n"   \
          "In most cases, references to this file can simply be removed.\n" \
-         "Use of VXL_DEPRECATED or VXL_DEPRECATED_MSG should include\n"    \
-         "vcl_compiler.h instead."
+         "Use the standard [[deprecated]] / [[deprecated(\"msg\")]] attributes directly."
 #endif
 
 #include <vcl_compiler.h>

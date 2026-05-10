@@ -10,9 +10,31 @@
 #include <array>
 #include <cstring>
 #include <iostream>
+#include <mutex>
 #include "vnl_lbfgsb.h"
 
 #include <vnl/algo/vnl_netlib.h> // setulb_()
+
+namespace
+{
+// L-BFGS-B (v3p_netlib_setulb_) is the f2c translation of FORTRAN
+// code that uses SAVE'd locals; calling it from multiple threads
+// concurrently corrupts that state. Serialize all invocations
+// across threads with this mutex. The lock is held for the duration
+// of a single setulb_ call; the cost-function evaluation between
+// reverse-communication invocations runs without the lock so that
+// caller-supplied f_->compute(...) can do its own work.
+//
+// This is a band-aid: regenerating netlib via thread-safe LAPACK
+// (issue #23) would let us drop this. See also core/vnl/algo/
+// README_threading.md for the full inventory of serialised paths.
+std::mutex &
+lbfgsb_call_mutex()
+{
+  static std::mutex m;
+  return m;
+}
+} // namespace
 
 //----------------------------------------------------------------------------
 vnl_lbfgsb::vnl_lbfgsb(vnl_cost_function & f)
@@ -83,25 +105,31 @@ vnl_lbfgsb::minimize(vnl_vector<double> & x)
   bool ok = true;
   for (;;)
   {
-    // Call the L-BFGS-B code.
-    v3p_netlib_setulb_(&n,
-                       &m,
-                       x.data_block(),
-                       this->lower_bound_.data_block(),
-                       this->upper_bound_.data_block(),
-                       this->bound_selection_.data_block(),
-                       &f,
-                       gradient.data_block(),
-                       &this->convergence_factor_,
-                       &this->projected_gradient_tolerance_,
-                       wa.data_block(),
-                       iwa.data_block(),
-                       task.data(),
-                       &iprint,
-                       csave.data(),
-                       lsave.data(),
-                       isave.data(),
-                       dsave.data());
+    // Call the L-BFGS-B code. Hold the band-aid mutex only across this
+    // call so that f_->compute() between reverse-communication
+    // iterations runs without the lock (the cost function is the
+    // user's; it must not be serialised here).
+    {
+      std::lock_guard<std::mutex> guard(lbfgsb_call_mutex());
+      v3p_netlib_setulb_(&n,
+                         &m,
+                         x.data_block(),
+                         this->lower_bound_.data_block(),
+                         this->upper_bound_.data_block(),
+                         this->bound_selection_.data_block(),
+                         &f,
+                         gradient.data_block(),
+                         &this->convergence_factor_,
+                         &this->projected_gradient_tolerance_,
+                         wa.data_block(),
+                         iwa.data_block(),
+                         task.data(),
+                         &iprint,
+                         csave.data(),
+                         lsave.data(),
+                         isave.data(),
+                         dsave.data());
+    }
 
     // Check the current task.
     if (std::strncmp("FG", task.data(), 2) == 0)
