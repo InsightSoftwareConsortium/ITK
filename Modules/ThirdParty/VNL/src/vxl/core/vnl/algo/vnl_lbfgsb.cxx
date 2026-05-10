@@ -18,12 +18,11 @@
 namespace
 {
 // L-BFGS-B (v3p_netlib_setulb_) is the f2c translation of FORTRAN
-// code that uses SAVE'd locals; calling it from multiple threads
-// concurrently corrupts that state. Serialize all invocations
-// across threads with this mutex. The lock is held for the duration
-// of a single setulb_ call; the cost-function evaluation between
-// reverse-communication invocations runs without the lock so that
-// caller-supplied f_->compute(...) can do its own work.
+// code that uses SAVE'd locals; concurrent reverse-communication
+// drivers interleaving setulb_ calls corrupt that global state.
+// The lock is acquired at minimize() entry and held for the full
+// driver loop so that one minimize() invocation completes its
+// reverse-communication sequence before another may begin.
 //
 // This is a band-aid: regenerating netlib via thread-safe LAPACK
 // (issue #23) would let us drop this. See also core/vnl/algo/
@@ -59,6 +58,10 @@ vnl_lbfgsb::init_parameters()
 bool
 vnl_lbfgsb::minimize(vnl_vector<double> & x)
 {
+  // Serialize the entire reverse-communication driver loop. See the
+  // anonymous-namespace comment for lbfgsb_call_mutex() above.
+  std::lock_guard<std::mutex> lbfgsb_minimize_guard(lbfgsb_call_mutex());
+
   // Basic setup.
   const long n = this->f_->get_number_of_unknowns();
   const long m = this->max_corrections_;
@@ -105,31 +108,26 @@ vnl_lbfgsb::minimize(vnl_vector<double> & x)
   bool ok = true;
   for (;;)
   {
-    // Call the L-BFGS-B code. Hold the band-aid mutex only across this
-    // call so that f_->compute() between reverse-communication
-    // iterations runs without the lock (the cost function is the
-    // user's; it must not be serialised here).
-    {
-      std::lock_guard<std::mutex> guard(lbfgsb_call_mutex());
-      v3p_netlib_setulb_(&n,
-                         &m,
-                         x.data_block(),
-                         this->lower_bound_.data_block(),
-                         this->upper_bound_.data_block(),
-                         this->bound_selection_.data_block(),
-                         &f,
-                         gradient.data_block(),
-                         &this->convergence_factor_,
-                         &this->projected_gradient_tolerance_,
-                         wa.data_block(),
-                         iwa.data_block(),
-                         task.data(),
-                         &iprint,
-                         csave.data(),
-                         lsave.data(),
-                         isave.data(),
-                         dsave.data());
-    }
+    // Call the L-BFGS-B code. The full driver loop is serialised by
+    // the lock_guard at minimize() entry.
+    v3p_netlib_setulb_(&n,
+                       &m,
+                       x.data_block(),
+                       this->lower_bound_.data_block(),
+                       this->upper_bound_.data_block(),
+                       this->bound_selection_.data_block(),
+                       &f,
+                       gradient.data_block(),
+                       &this->convergence_factor_,
+                       &this->projected_gradient_tolerance_,
+                       wa.data_block(),
+                       iwa.data_block(),
+                       task.data(),
+                       &iprint,
+                       csave.data(),
+                       lsave.data(),
+                       isave.data(),
+                       dsave.data());
 
     // Check the current task.
     if (std::strncmp("FG", task.data(), 2) == 0)
