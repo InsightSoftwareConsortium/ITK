@@ -7,8 +7,11 @@ shopt -s dotglob
 readonly name='VXL'
 readonly ownership='VXL Maintainers <vxl-maintainers@lists.sourceforge.net>'
 readonly subtree="Modules/ThirdParty/VNL/src/vxl"
-readonly repo="https://github.com/vxl/vxl.git"
-readonly tag="master"
+# TODO: revert to canonical 'https://github.com/vxl/vxl.git' / 'master' once
+# the integration branch lands upstream; this PR is a preview sync against
+# the integration tip so ITK CI exercises the pending VXL changes.
+readonly repo="https://github.com/hjmjohnson/vxl.git"
+readonly tag="integration/all-open-prs-2026-05-10"
 readonly shortlog=false
 readonly exact_tree_match=false
 readonly paths="
