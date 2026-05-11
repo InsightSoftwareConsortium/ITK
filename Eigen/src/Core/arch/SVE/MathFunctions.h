@@ -16,7 +16,31 @@
 namespace Eigen {
 namespace internal {
 
-EIGEN_INSTANTIATE_GENERIC_MATH_FUNCS_FLOAT(PacketXf)
+template <>
+EIGEN_STRONG_INLINE PacketXf pexp<PacketXf>(const PacketXf& x) {
+  return pexp_float(x);
+}
+
+template <>
+EIGEN_STRONG_INLINE PacketXf plog<PacketXf>(const PacketXf& x) {
+  return plog_float(x);
+}
+
+template <>
+EIGEN_STRONG_INLINE PacketXf psin<PacketXf>(const PacketXf& x) {
+  return psin_float(x);
+}
+
+template <>
+EIGEN_STRONG_INLINE PacketXf pcos<PacketXf>(const PacketXf& x) {
+  return pcos_float(x);
+}
+
+// Hyperbolic Tangent function.
+template <>
+EIGEN_STRONG_INLINE PacketXf ptanh<PacketXf>(const PacketXf& x) {
+  return ptanh_float(x);
+}
 
 }  // end namespace internal
 }  // end namespace Eigen

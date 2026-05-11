@@ -29,7 +29,7 @@ extern "C" {
  * \endcode
  *
  * In order to use this module, the klu and btf headers must be accessible from the include paths, and your binary must
- * be linked to the klu library and its dependencies. The dependencies depend on how KLU has been compiled. For a
+ * be linked to the klu library and its dependencies. The dependencies depend on how umfpack has been compiled. For a
  * cmake based project, you can use our FindKLU.cmake module to help you in this task.
  *
  */

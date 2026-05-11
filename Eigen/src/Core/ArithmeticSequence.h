@@ -178,10 +178,11 @@ auto seq(FirstType f, LastType l, IncrType incr)
 
 namespace placeholders {
 
-/** \returns a symbolic ArithmeticSequence representing the last \a size elements with increment \a incr.
+/** \cpp11
+ * \returns a symbolic ArithmeticSequence representing the last \a size elements with increment \a incr.
  *
  * It is a shortcut for: \code seqN(last-(size-fix<1>)*incr, size, incr) \endcode
- * \anchor Eigen_placeholders_lastN
+ *
  * \sa lastN(SizeType), seqN(FirstType,SizeType), seq(FirstType,LastType,IncrType) */
 template <typename SizeType, typename IncrType>
 auto lastN(SizeType size, IncrType incr)
@@ -189,7 +190,8 @@ auto lastN(SizeType size, IncrType incr)
   return seqN(Eigen::placeholders::last - (size - fix<1>()) * incr, size, incr);
 }
 
-/** \returns a symbolic ArithmeticSequence representing the last \a size elements with a unit increment.
+/** \cpp11
+ * \returns a symbolic ArithmeticSequence representing the last \a size elements with a unit increment.
  *
  *  It is a shortcut for: \code seq(last+fix<1>-size, last) \endcode
  *
@@ -218,7 +220,7 @@ auto lastN(SizeType size) -> decltype(seqN(Eigen::placeholders::last + fix<1>() 
   using Eigen::seqN;
   using Eigen::placeholders::all;
   using Eigen::placeholders::last;
-  using Eigen::placeholders::lastN;
+  using Eigen::placeholders::lastN;  // c++11 only
   using Eigen::placeholders::lastp1;
   \endcode
   */

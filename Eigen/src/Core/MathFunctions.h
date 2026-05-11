@@ -11,7 +11,7 @@
 #ifndef EIGEN_MATHFUNCTIONS_H
 #define EIGEN_MATHFUNCTIONS_H
 
-// TODO: consider moving these constants to NumTraits.
+// TODO this should better be moved to NumTraits
 // Source: WolframAlpha
 #define EIGEN_PI 3.141592653589793238462643383279502884197169399375105820974944592307816406L
 #define EIGEN_LOG2E 1.442695040888963407359924681001892137426645954152985934135449406931109219L
@@ -74,7 +74,7 @@ struct global_math_functions_filtering_base<
 template <typename Scalar, bool IsComplex = NumTraits<Scalar>::IsComplex>
 struct real_default_impl {
   typedef typename NumTraits<Scalar>::Real RealScalar;
-  EIGEN_DEVICE_FUNC static constexpr RealScalar run(const Scalar& x) { return x; }
+  EIGEN_DEVICE_FUNC static inline RealScalar run(const Scalar& x) { return x; }
 };
 
 template <typename Scalar>
@@ -170,22 +170,16 @@ struct imag_ref_default_impl {
 
 template <typename Scalar>
 struct imag_ref_default_impl<Scalar, false> {
-  typedef typename NumTraits<Scalar>::Real RealScalar;
-  EIGEN_DEVICE_FUNC constexpr static inline RealScalar run(Scalar&) { return RealScalar(0); }
-  EIGEN_DEVICE_FUNC constexpr static inline RealScalar run(const Scalar&) { return RealScalar(0); }
+  EIGEN_DEVICE_FUNC constexpr static Scalar run(Scalar&) { return Scalar(0); }
+  EIGEN_DEVICE_FUNC constexpr static const Scalar run(const Scalar&) { return Scalar(0); }
 };
 
 template <typename Scalar>
 struct imag_ref_impl : imag_ref_default_impl<Scalar, NumTraits<Scalar>::IsComplex> {};
 
-template <typename Scalar, bool IsComplex = NumTraits<Scalar>::IsComplex>
+template <typename Scalar>
 struct imag_ref_retval {
   typedef typename NumTraits<Scalar>::Real& type;
-};
-
-template <typename Scalar>
-struct imag_ref_retval<Scalar, false> {
-  typedef typename NumTraits<Scalar>::Real type;
 };
 
 }  // namespace internal
@@ -228,7 +222,7 @@ namespace internal {
 
 template <typename Scalar, bool IsComplex = NumTraits<Scalar>::IsComplex>
 struct conj_default_impl {
-  EIGEN_DEVICE_FUNC static constexpr Scalar run(const Scalar& x) { return x; }
+  EIGEN_DEVICE_FUNC static inline Scalar run(const Scalar& x) { return x; }
 };
 
 template <typename Scalar>
@@ -293,7 +287,7 @@ struct sqrt_impl {
 
 // Complex sqrt defined in MathFunctionsImpl.h.
 template <typename ComplexT>
-EIGEN_DEVICE_FUNC constexpr ComplexT complex_sqrt(const ComplexT& a_x);
+EIGEN_DEVICE_FUNC ComplexT complex_sqrt(const ComplexT& a_x);
 
 // Custom implementation is faster than `std::sqrt`, works on
 // GPU, and correctly handles special cases (unlike MSVC).
@@ -313,7 +307,7 @@ struct rsqrt_impl;
 
 // Complex rsqrt defined in MathFunctionsImpl.h.
 template <typename ComplexT>
-EIGEN_DEVICE_FUNC constexpr ComplexT complex_rsqrt(const ComplexT& a_x);
+EIGEN_DEVICE_FUNC ComplexT complex_rsqrt(const ComplexT& a_x);
 
 template <typename T>
 struct rsqrt_impl<std::complex<T>> {
@@ -396,7 +390,7 @@ struct cast_impl<OldType, NewType,
   }
 };
 
-// Returns NewType directly to avoid unintended intermediate conversions.
+// here, for once, we're plainly returning NewType: we don't want cast to do weird things.
 
 template <typename OldType, typename NewType>
 EIGEN_DEVICE_FUNC inline NewType cast(const OldType& x) {
@@ -510,7 +504,7 @@ struct expm1_retval {
 
 // Complex log defined in MathFunctionsImpl.h.
 template <typename ComplexT>
-EIGEN_DEVICE_FUNC constexpr ComplexT complex_log(const ComplexT& z);
+EIGEN_DEVICE_FUNC ComplexT complex_log(const ComplexT& z);
 
 template <typename Scalar>
 struct log_impl {
@@ -838,8 +832,8 @@ EIGEN_DEVICE_FUNC std::enable_if_t<(std::numeric_limits<T>::has_infinity && !Num
 
 template <typename T>
 EIGEN_DEVICE_FUNC
-    std::enable_if_t<!(std::numeric_limits<T>::has_quiet_NaN || std::numeric_limits<T>::has_signaling_NaN), bool>
-    isnan_impl(const T&) {
+std::enable_if_t<!(std::numeric_limits<T>::has_quiet_NaN || std::numeric_limits<T>::has_signaling_NaN), bool>
+isnan_impl(const T&) {
   return false;
 }
 
@@ -898,37 +892,6 @@ struct sign_impl<bool, false, true> {
 
 template <typename Scalar>
 struct sign_retval {
-  typedef Scalar type;
-};
-
-template <typename Scalar, bool IsComplex = (NumTraits<Scalar>::IsComplex != 0),
-          bool IsInteger = (NumTraits<Scalar>::IsInteger != 0)>
-struct copysign_impl {
-  EIGEN_DEVICE_FUNC static inline Scalar run(const Scalar& a, const Scalar& b) {
-    EIGEN_USING_STD(copysign);
-    return Scalar(copysign(a, b));
-  }
-};
-
-template <typename Scalar, bool IsInteger>
-struct copysign_impl<Scalar, true, IsInteger> {
-  EIGEN_DEVICE_FUNC static inline Scalar run(const Scalar& a, const Scalar& b) {
-    EIGEN_USING_STD(copysign);
-    return Scalar(copysign(numext::real(a), numext::real(b)), copysign(numext::imag(a), numext::imag(b)));
-  }
-};
-
-template <typename Scalar>
-struct copysign_impl<Scalar, false, true> {
-  EIGEN_DEVICE_FUNC static inline Scalar run(const Scalar& a, const Scalar& b) {
-    EIGEN_IF_CONSTEXPR(!NumTraits<Scalar>::IsSigned) return a;
-    const Scalar abs_a = a < Scalar(0) ? -a : a;
-    return b < Scalar(0) ? -abs_a : abs_a;
-  }
-};
-
-template <typename Scalar>
-struct copysign_retval {
   typedef Scalar type;
 };
 
@@ -1060,13 +1023,13 @@ namespace numext {
 
 #if (!defined(EIGEN_GPUCC) || defined(EIGEN_CONSTEXPR_ARE_DEVICE_FUNC))
 template <typename T>
-EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE T mini(const T& x, const T& y) {
+EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE T mini(const T& x, const T& y) {
   EIGEN_USING_STD(min)
   return min EIGEN_NOT_A_MACRO(x, y);
 }
 
 template <typename T>
-EIGEN_DEVICE_FUNC constexpr EIGEN_ALWAYS_INLINE T maxi(const T& x, const T& y) {
+EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE T maxi(const T& x, const T& y) {
   EIGEN_USING_STD(max)
   return max EIGEN_NOT_A_MACRO(x, y);
 }
@@ -1209,11 +1172,6 @@ EIGEN_DEVICE_FUNC inline EIGEN_MATHFUNC_RETVAL(conj, Scalar) conj(const Scalar& 
 template <typename Scalar>
 EIGEN_DEVICE_FUNC inline EIGEN_MATHFUNC_RETVAL(sign, Scalar) sign(const Scalar& x) {
   return EIGEN_MATHFUNC_IMPL(sign, Scalar)::run(x);
-}
-
-template <typename Scalar>
-EIGEN_DEVICE_FUNC inline EIGEN_MATHFUNC_RETVAL(copysign, Scalar) copysign(const Scalar& x, const Scalar& y) {
-  return EIGEN_MATHFUNC_IMPL(copysign, Scalar)::run(x, y);
 }
 
 template <typename Scalar>
@@ -1376,7 +1334,7 @@ EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE double trunc(const double& x) {
 // T is assumed to be an integer type with a>=0, and b>0
 template <typename T>
 EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE constexpr T div_ceil(T a, T b) {
-  using UnsignedT = std::make_unsigned_t<T>;
+  using UnsignedT = typename internal::make_unsigned<T>::type;
   EIGEN_STATIC_ASSERT((NumTraits<T>::IsInteger), THIS FUNCTION IS FOR INTEGER TYPES)
   // Note: explicitly declaring a and b as non-negative values allows the compiler to use better optimizations
   const UnsignedT ua = UnsignedT(a);
@@ -1389,20 +1347,14 @@ EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE constexpr T div_ceil(T a, T b) {
 // T is assumed to be an integer type with a>=0, and b>0
 template <typename T, typename U>
 EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE constexpr T round_down(T a, U b) {
-  using UnsignedT = std::make_unsigned_t<T>;
-  using UnsignedU = std::make_unsigned_t<U>;
+  using UnsignedT = typename internal::make_unsigned<T>::type;
+  using UnsignedU = typename internal::make_unsigned<U>::type;
   EIGEN_STATIC_ASSERT((NumTraits<T>::IsInteger), THIS FUNCTION IS FOR INTEGER TYPES)
   EIGEN_STATIC_ASSERT((NumTraits<U>::IsInteger), THIS FUNCTION IS FOR INTEGER TYPES)
   // Note: explicitly declaring a and b as non-negative values allows the compiler to use better optimizations
   const UnsignedT ua = UnsignedT(a);
   const UnsignedU ub = UnsignedU(b);
   return ub * (ua / ub);
-}
-
-template <typename T>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE T log2(T x) {
-  EIGEN_USING_STD(log2);
-  return log2(x);
 }
 
 /** Log base 2 for 32 bits positive integers.
@@ -1484,17 +1436,17 @@ EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE double log(const double& x) {
 #endif
 
 template <typename T>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE
-    std::enable_if_t<NumTraits<T>::IsSigned || NumTraits<T>::IsComplex, typename NumTraits<T>::Real>
-    abs(const T& x) {
+EIGEN_DEVICE_FUNC
+EIGEN_ALWAYS_INLINE std::enable_if_t<NumTraits<T>::IsSigned || NumTraits<T>::IsComplex, typename NumTraits<T>::Real>
+abs(const T& x) {
   EIGEN_USING_STD(abs);
   return abs(x);
 }
 
 template <typename T>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE
-    std::enable_if_t<!(NumTraits<T>::IsSigned || NumTraits<T>::IsComplex), typename NumTraits<T>::Real>
-    abs(const T& x) {
+EIGEN_DEVICE_FUNC
+EIGEN_ALWAYS_INLINE std::enable_if_t<!(NumTraits<T>::IsSigned || NumTraits<T>::IsComplex), typename NumTraits<T>::Real>
+abs(const T& x) {
   return x;
 }
 
@@ -1959,8 +1911,7 @@ EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE double fmod(const double& a, const double&
 
 template <typename Scalar, typename Enable = std::enable_if_t<std::is_integral<Scalar>::value>>
 EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar logical_shift_left(const Scalar& a, int n) {
-  using UnsignedScalar = typename numext::get_integer_by_size<sizeof(Scalar)>::unsigned_type;
-  return bit_cast<Scalar, UnsignedScalar>(bit_cast<UnsignedScalar, Scalar>(a) << n);
+  return a << n;
 }
 
 template <typename Scalar, typename Enable = std::enable_if_t<std::is_integral<Scalar>::value>>
@@ -2133,15 +2084,7 @@ struct expm1_impl<std::complex<RealScalar>> {
 
 template <typename T>
 struct rsqrt_impl {
-// C4804: unsafe use of type 'bool' in operation. Unavoidable when instantiated with T=bool.
-#if EIGEN_COMP_MSVC
-#pragma warning(push)
-#pragma warning(disable : 4804)
-#endif
   EIGEN_DEVICE_FUNC static EIGEN_ALWAYS_INLINE T run(const T& x) { return T(1) / numext::sqrt(x); }
-#if EIGEN_COMP_MSVC
-#pragma warning(pop)
-#endif
 };
 
 #if defined(EIGEN_GPU_COMPILE_PHASE)
@@ -2152,57 +2095,6 @@ struct conj_impl<std::complex<T>, true> {
   }
 };
 #endif
-
-// Complex multiply and division operators.
-// Note that these do not handle the case if inf+NaNi, which is considered an infinity.
-// This is for consistency with our standard pmul, pdiv implementations.
-template <typename T>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T> complex_multiply(const std::complex<T>& a,
-                                                                       const std::complex<T>& b) {
-  const T a_real = numext::real(a);
-  const T a_imag = numext::imag(a);
-  const T b_real = numext::real(b);
-  const T b_imag = numext::imag(b);
-  return std::complex<T>(a_real * b_real - a_imag * b_imag, a_imag * b_real + a_real * b_imag);
-}
-
-template <typename T>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T> complex_divide_fast(const std::complex<T>& a,
-                                                                          const std::complex<T>& b) {
-  const T a_real = numext::real(a);
-  const T a_imag = numext::imag(a);
-  const T b_real = numext::real(b);
-  const T b_imag = numext::imag(b);
-  const T norm = (b_real * b_real + b_imag * b_imag);
-  return std::complex<T>((a_real * b_real + a_imag * b_imag) / norm, (a_imag * b_real - a_real * b_imag) / norm);
-}
-
-template <typename T>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T> complex_divide_smith(const std::complex<T>& a,
-                                                                           const std::complex<T>& b) {
-  const T a_real = numext::real(a);
-  const T a_imag = numext::imag(a);
-  const T b_real = numext::real(b);
-  const T b_imag = numext::imag(b);
-  // Smith's complex division (https://arxiv.org/pdf/1210.4539.pdf),
-  // guards against over/under-flow.
-  const bool scale_imag = numext::abs(b_imag) <= numext::abs(b_real);
-  const T rscale = scale_imag ? T(1) : b_real / b_imag;
-  const T iscale = scale_imag ? b_imag / b_real : T(1);
-  const T denominator = b_real * rscale + b_imag * iscale;
-  return std::complex<T>((a_real * rscale + a_imag * iscale) / denominator,
-                         (a_imag * rscale - a_real * iscale) / denominator);
-}
-
-template <typename T>
-EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE std::complex<T> complex_divide(const std::complex<T>& a,
-                                                                     const std::complex<T>& b) {
-#if EIGEN_FAST_MATH
-  return complex_divide_fast(a, b);
-#else
-  return complex_divide_smith(a, b);
-#endif
-}
 
 }  // end namespace internal
 

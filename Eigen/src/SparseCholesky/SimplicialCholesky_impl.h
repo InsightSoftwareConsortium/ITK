@@ -89,7 +89,7 @@ struct simpl_chol_helper {
         m_set[u] = v;
         u = next;
       }
-    }
+    };
   };
 
   // Computes the higher adjacency pattern by transposing the input lower adjacency matrix.
@@ -274,12 +274,9 @@ struct simpl_chol_helper {
   }
 };
 
-// Required pre-C++17 for ODR; redundant and deprecated since (C++17 makes
-// constexpr static data members implicitly inline).
-#if EIGEN_COMP_CXXVER < 17
+// Symbol is ODR-used, so we need a definition.
 template <typename Scalar, typename StorageIndex>
 constexpr StorageIndex simpl_chol_helper<Scalar, StorageIndex>::kEmpty;
-#endif
 
 }  // namespace internal
 
