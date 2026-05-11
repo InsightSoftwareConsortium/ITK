@@ -36,7 +36,6 @@ bool JPEGTurboCodec::IsStateSuspension() const { return false; }
 // libjpeg-turbo headers (via ITK wrapper, symbols are mangled with itk_ prefix)
 extern "C" {
 #include "itk_jpeg.h"
-#include <itkjpeg-turbo/jpegint.h>  // for cinfo.master->lossless
 }
 
 /*
@@ -71,18 +70,7 @@ static boolean turbo_fill_input_buffer(j_decompress_ptr cinfo)
 {
   turbo_src_ptr src = (turbo_src_ptr)cinfo->src;
 
-  std::streampos pos = src->infile->tellg();
-  std::streampos end = src->infile->seekg(0, std::ios::end).tellg();
-  src->infile->seekg(pos, std::ios::beg);
-
-  if (end == pos)
-    return FALSE; // suspension
-
-  size_t toread = TURBO_INPUT_BUF_SIZE;
-  if ((end - pos) < (std::streamoff)TURBO_INPUT_BUF_SIZE)
-    toread = (size_t)(end - pos);
-
-  src->infile->read((char *)src->buffer, toread);
+  src->infile->read((char *)src->buffer, TURBO_INPUT_BUF_SIZE);
   std::streamsize gcount = src->infile->gcount();
 
   if (gcount <= 0) {
@@ -231,10 +219,11 @@ static void turbo_error_exit(j_common_ptr cinfo)
 class JPEGTurboInternals
 {
 public:
-  JPEGTurboInternals() : cinfo(), cinfo_comp(), jerr(), StateSuspension(0), SampBuffer(nullptr) {}
+  JPEGTurboInternals() : cinfo(), cinfo_comp(), jerr(), jerr_comp(), StateSuspension(0), SampBuffer(nullptr) {}
   jpeg_decompress_struct cinfo;
   jpeg_compress_struct cinfo_comp;
   turbo_error_mgr jerr;
+  turbo_error_mgr jerr_comp;
   int StateSuspension;
   void *SampBuffer;
 };
@@ -252,16 +241,15 @@ JPEGTurboCodec::~JPEGTurboCodec()
 /*
  * --------------------------------------------------------------------------
  *  Helper: determine if the decompressor is in lossless mode.
- *  Uses the internal master->lossless flag set after jpeg_read_header().
+ *  Lossless JPEG (SOF3) is identified by the scan parameters set after
+ *  jpeg_read_header(): Ss holds the predictor (1-7), Se == 0, and
+ *  progressive_mode is false.  These are all public jpeglib.h fields,
+ *  avoiding any dependency on the private jpegint.h header.
  * --------------------------------------------------------------------------
  */
 static bool turbo_is_lossless(j_decompress_ptr cinfo)
 {
-  // After jpeg_read_header, master is allocated and lossless flag is set
-  if (cinfo->master)
-    return cinfo->master->lossless != 0;
-  // Fallback heuristic: lossless requires Se==0, Ss in [1..7]
-  return false;
+  return !cinfo->progressive_mode && cinfo->Se == 0 && cinfo->Ss >= 1;
 }
 
 /*
@@ -353,7 +341,6 @@ bool JPEGTurboCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
       if (turbo_is_lossless(&cinfo))
         PI = PhotometricInterpretation::RGB;
       this->PF.SetSamplesPerPixel(3);
-      this->PlanarConfiguration = 1;
     } else if (cinfo.jpeg_color_space == JCS_CMYK) {
       gdcm_assert(cinfo.num_components == 4);
       PI = PhotometricInterpretation::CMYK;
@@ -680,7 +667,10 @@ bool JPEGTurboCodec::InternalCode(const char *input, unsigned long len, std::ost
         jpeg_write_scanlines(&cinfo, row_pointer, 1);
       }
     } else {
-      JSAMPLE *tempbuffer = (JSAMPLE *)malloc(row_stride * sizeof(JSAMPLE));
+      // Use JPEG pool allocation so the buffer is freed by jpeg_destroy_compress
+      // even if jpeg_write_scanlines triggers a longjmp error exit.
+      JSAMPLE *tempbuffer = (JSAMPLE *)(*cinfo.mem->alloc_small)(
+        (j_common_ptr)&cinfo, JPOOL_IMAGE, row_stride * sizeof(JSAMPLE));
       row_pointer[0] = tempbuffer;
       int offset = image_height * image_width;
       while (cinfo.next_scanline < cinfo.image_height) {
@@ -696,7 +686,6 @@ bool JPEGTurboCodec::InternalCode(const char *input, unsigned long len, std::ost
         }
         jpeg_write_scanlines(&cinfo, row_pointer, 1);
       }
-      free(tempbuffer);
     }
   } else if (precision <= 12) {
     J12SAMPROW row12;
@@ -733,7 +722,7 @@ bool JPEGTurboCodec::EncodeBuffer(std::ostream &os, const char *data, size_t dat
   int image_height = dims[1];
 
   jpeg_compress_struct &cinfo = Internals->cinfo_comp;
-  turbo_error_mgr &jerr = Internals->jerr;
+  turbo_error_mgr &jerr = Internals->jerr_comp;
   std::ostream *outfile = &os;
   size_t row_stride;
 
