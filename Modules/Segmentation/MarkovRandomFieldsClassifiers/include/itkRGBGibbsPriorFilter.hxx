@@ -41,6 +41,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::RGBGibbsPriorFilter()
 
 {
   m_StartPoint.Fill(0);
+  this->SetMaximumNumberOfIterations(10);
 }
 
 template <typename TInputImage, typename TClassifiedImage>
@@ -165,7 +166,7 @@ void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::SetClassifier(typename ClassifierType::Pointer ptrToClassifier)
 {
   m_ClassifierPtr = ptrToClassifier;
-  m_ClassifierPtr->SetNumberOfClasses(m_NumberOfClasses);
+  m_ClassifierPtr->SetNumberOfClasses(this->GetNumberOfClasses());
 }
 
 template <typename TInputImage, typename TClassifiedImage>
@@ -683,8 +684,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::PrintSelf(std::ostream & os,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfClasses: " << m_NumberOfClasses << std::endl;
-  os << indent << "MaximumNumberOfIterations: " << m_MaximumNumberOfIterations << std::endl;
   os << indent << "ObjectThreshold: " << m_ObjectThreshold << std::endl;
   os << indent << "BoundaryGradient: " << m_BoundaryGradient << std::endl;
   os << indent << "CliqueWeight_1: " << m_CliqueWeight_1 << std::endl;
