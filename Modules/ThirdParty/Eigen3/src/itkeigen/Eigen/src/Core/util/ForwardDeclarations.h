@@ -160,7 +160,7 @@ template <typename Derived>
 class RefBase;
 template <typename PlainObjectType, int Options = 0,
           typename StrideType =
-              std::conditional_t<PlainObjectType::IsVectorAtCompileTime, InnerStride<1>, OuterStride<>>>
+              typename std::conditional_t<PlainObjectType::IsVectorAtCompileTime, InnerStride<1>, OuterStride<>>>
 class Ref;
 template <typename ViewOp, typename MatrixType, typename StrideType = Stride<0, 0>>
 class CwiseUnaryView;
@@ -405,8 +405,6 @@ template <typename ExpressionType, int Direction>
 class VectorwiseOp;
 template <typename MatrixType, int RowFactor, int ColFactor>
 class Replicate;
-template <int Direction, typename LhsType, typename RhsType>
-class Concat;
 template <typename MatrixType, int Direction = BothDirections>
 class Reverse;
 
@@ -519,9 +517,6 @@ struct eigen_zero_impl;
 
 template <typename Packet>
 struct has_packet_segment : std::false_type {};
-
-template <typename T>
-struct complex_array_access;
 }  // namespace internal
 
 }  // end namespace Eigen

@@ -17,9 +17,6 @@
     EIGEN_STRONG_INLINE PACKET_CPLX pmadd(const PACKET_REAL& x, const PACKET_CPLX& y, const PACKET_CPLX& c) const { \
       return padd(c, this->pmul(x, y));                                                                             \
     }                                                                                                               \
-    EIGEN_STRONG_INLINE PACKET_CPLX pmsub(const PACKET_REAL& x, const PACKET_CPLX& y, const PACKET_CPLX& c) const { \
-      return psub(this->pmul(x, y), c);                                                                             \
-    }                                                                                                               \
     EIGEN_STRONG_INLINE PACKET_CPLX pmul(const PACKET_REAL& x, const PACKET_CPLX& y) const {                        \
       return PACKET_CPLX(Eigen::internal::pmul<PACKET_REAL>(x, y.v));                                               \
     }                                                                                                               \
@@ -29,9 +26,6 @@
   struct conj_helper<PACKET_CPLX, PACKET_REAL, false, false> {                                                      \
     EIGEN_STRONG_INLINE PACKET_CPLX pmadd(const PACKET_CPLX& x, const PACKET_REAL& y, const PACKET_CPLX& c) const { \
       return padd(c, this->pmul(x, y));                                                                             \
-    }                                                                                                               \
-    EIGEN_STRONG_INLINE PACKET_CPLX pmsub(const PACKET_CPLX& x, const PACKET_REAL& y, const PACKET_CPLX& c) const { \
-      return psub(this->pmul(x, y), c);                                                                             \
     }                                                                                                               \
     EIGEN_STRONG_INLINE PACKET_CPLX pmul(const PACKET_CPLX& x, const PACKET_REAL& y) const {                        \
       return PACKET_CPLX(Eigen::internal::pmul<PACKET_REAL>(x.v, y));                                               \
@@ -82,11 +76,6 @@ struct conj_helper {
     return this->pmul(x, y) + c;
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE ResultType pmsub(const LhsType& x, const RhsType& y,
-                                                         const ResultType& c) const {
-    return this->pmul(x, y) - c;
-  }
-
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE ResultType pmul(const LhsType& x, const RhsType& y) const {
     return conj_if<ConjLhs>()(x) * conj_if<ConjRhs>()(y);
   }
@@ -115,10 +104,6 @@ struct conj_helper<Packet, Packet, ConjLhs, ConjRhs> {
     return Eigen::internal::pmadd(conj_if<ConjLhs>().pconj(x), conj_if<ConjRhs>().pconj(y), c);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet pmsub(const Packet& x, const Packet& y, const Packet& c) const {
-    return Eigen::internal::pmsub(conj_if<ConjLhs>().pconj(x), conj_if<ConjRhs>().pconj(y), c);
-  }
-
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet pmul(const Packet& x, const Packet& y) const {
     return Eigen::internal::pmul(conj_if<ConjLhs>().pconj(x), conj_if<ConjRhs>().pconj(y));
   }
@@ -130,9 +115,6 @@ struct conj_helper<Packet, Packet, true, true> {
 
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet pmadd(const Packet& x, const Packet& y, const Packet& c) const {
     return Eigen::internal::pmadd(pconj(x), pconj(y), c);
-  }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet pmsub(const Packet& x, const Packet& y, const Packet& c) const {
-    return Eigen::internal::pmsub(pconj(x), pconj(y), c);
   }
   // We save a conjuation by using the identity conj(a)*conj(b) = conj(a*b).
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet pmul(const Packet& x, const Packet& y) const {

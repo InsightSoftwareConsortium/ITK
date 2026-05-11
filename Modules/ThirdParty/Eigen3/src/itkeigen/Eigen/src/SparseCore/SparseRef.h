@@ -89,19 +89,11 @@ class SparseRefBase : public SparseMapBase<Derived> {
  protected:
   template <typename Expression>
   void construct(Expression& expr) {
-    if (Expression::IsVectorAtCompileTime) {
-      const Index offset = expr.outerIndexPtr() ? expr.outerIndexPtr()[0] : 0;
-      auto inner_index_ptr = expr.innerIndexPtr();
-      auto value_ptr = expr.valuePtr();
-      if (inner_index_ptr) inner_index_ptr += offset;
-      if (value_ptr) value_ptr += offset;
-      internal::construct_at<Base>(this, expr.size(), expr.nonZeros(), inner_index_ptr, value_ptr);
-    } else if (expr.outerIndexPtr() == 0) {
+    if (expr.outerIndexPtr() == 0)
       internal::construct_at<Base>(this, expr.size(), expr.nonZeros(), expr.innerIndexPtr(), expr.valuePtr());
-    } else {
+    else
       internal::construct_at<Base>(this, expr.rows(), expr.cols(), expr.nonZeros(), expr.outerIndexPtr(),
                                    expr.innerIndexPtr(), expr.valuePtr(), expr.innerNonZeroPtr());
-    }
   }
 };
 
@@ -125,8 +117,7 @@ class Ref<SparseMatrix<MatScalar, MatOptions, MatIndex>, Options, StrideType>
 #else
 template <typename SparseMatrixType, int Options>
 class Ref<SparseMatrixType, Options>
-    : public SparseMapBase<Derived, WriteAccessors>  // Note: 'Derived' is used here intentionally; it resolves
-                                                     // correctly via CRTP.
+    : public SparseMapBase<Derived, WriteAccessors>  // yes, that's weird to use Derived here, but that works!
 #endif
 {
   typedef SparseMatrix<MatScalar, MatOptions, MatIndex> PlainObjectType;
@@ -276,8 +267,6 @@ class Ref<SparseVectorType> : public SparseMapBase<Derived, WriteAccessors>
   {
     EIGEN_STATIC_ASSERT(bool(internal::is_lvalue<Derived>::value), THIS_EXPRESSION_IS_NOT_A_LVALUE__IT_IS_READ_ONLY);
     EIGEN_STATIC_ASSERT(bool(Traits::template match<Derived>::MatchAtCompileTime), STORAGE_LAYOUT_DOES_NOT_MATCH);
-    EIGEN_STATIC_ASSERT((!std::is_same<Derived, PlainObjectType>::value),
-                        THIS_EXPRESSION_IS_NOT_A_LVALUE__IT_IS_READ_ONLY);
     Base::construct(expr.const_cast_derived());
   }
 };
@@ -333,8 +322,8 @@ class Ref<const SparseVector<MatScalar, MatOptions, MatIndex>, Options, StrideTy
 
 namespace internal {
 
-// FIXME: consider introducing a general evaluator_ref that we can specialize for any sparse object once, and thus
-// remove this copy-pasta thing...
+// FIXME shall we introduce a general evaluatior_ref that we can specialize for any sparse object once, and thus remove
+// this copy-pasta thing...
 
 template <typename MatScalar, int MatOptions, typename MatIndex, int Options, typename StrideType>
 struct evaluator<Ref<SparseMatrix<MatScalar, MatOptions, MatIndex>, Options, StrideType>>

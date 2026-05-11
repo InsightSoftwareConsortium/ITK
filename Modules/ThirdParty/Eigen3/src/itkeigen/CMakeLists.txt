@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: The Eigen Authors
+# SPDX-License-Identifier: MPL-2.0
+
 # Same version of ITK cmake_minimum_required
 cmake_minimum_required(VERSION 3.16.3)
 
@@ -965,6 +968,10 @@ target_include_directories (eigen_internal SYSTEM INTERFACE
 
 # Export as title case Eigen
 set_target_properties (eigen_internal PROPERTIES EXPORT_NAME Eigen)
+# Issue InsightSoftwareConsortium/ITK#6239: ship eigen_internal in ITKTargets.cmake when building inside ITK.
+if(DEFINED ITK3P_INSTALL_EXPORT_NAME)
+  install (TARGETS eigen_internal EXPORT ${ITK3P_INSTALL_EXPORT_NAME})
+endif()
 install (TARGETS eigen_internal EXPORT ITKInternalEigen3Targets)
 
 set(EIGEN3_TARGETS_FILE ITKInternalEigen3Targets.cmake)

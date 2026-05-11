@@ -152,12 +152,16 @@ struct packet_traits<float> : default_packet_traits {
     HasNegate = 1,
     HasAbs = 1,
     HasArg = 0,
+    HasAbs2 = 0,
     HasAbsDiff = 0,
     HasMin = 1,
     HasMax = 1,
     HasConj = 0,
     HasSetLinear = 0,
+    HasBlend = 0,
+
     HasDiv = 0,
+
     HasSin = 0,
     HasCos = 0,
     HasACos = 0,
@@ -237,18 +241,18 @@ EIGEN_STRONG_INLINE Packet8f pzero<Packet8f>(const Packet8f&) {
 }
 
 template <HVXPacketSize T>
-EIGEN_STRONG_INLINE typename unpacket_traits<HVXPacket<T>>::half predux_half_hvx(const HVXPacket<T>& a) {
+EIGEN_STRONG_INLINE typename unpacket_traits<HVXPacket<T>>::half predux_half_dowto4_hvx(const HVXPacket<T>& a) {
   const Index packet_size = unpacket_traits<HVXPacket<T>>::size;
   return unpacket_traits<HVXPacket<T>>::half::Create(
       Q6_Vsf_equals_Vqf32(Q6_Vqf32_vadd_VsfVsf(Q6_V_vror_VR(a.Get(), sizeof(float) * packet_size / 2), a.Get())));
 }
 template <>
-EIGEN_STRONG_INLINE Packet16f predux_half(const Packet32f& a) {
-  return predux_half_hvx(a);
+EIGEN_STRONG_INLINE Packet16f predux_half_dowto4(const Packet32f& a) {
+  return predux_half_dowto4_hvx(a);
 }
 template <>
-EIGEN_STRONG_INLINE Packet8f predux_half(const Packet16f& a) {
-  return predux_half_hvx(a);
+EIGEN_STRONG_INLINE Packet8f predux_half_dowto4(const Packet16f& a) {
+  return predux_half_dowto4_hvx(a);
 }
 
 template <HVXPacketSize T>
@@ -764,19 +768,11 @@ EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet32f, 32>& kernel) {
 template <HVXPacketSize T>
 EIGEN_STRONG_INLINE float predux_hvx(const HVXPacket<T>& a) {
   const Index packet_size = unpacket_traits<HVXPacket<T>>::size;
-#if __HVX_ARCH__ >= 79
-  HVX_Vector vsum = Q6_Vsf_vadd_VsfVsf(a.Get(), Q6_V_vror_VR(a.Get(), sizeof(float)));
-  for (int i = 2; i < packet_size; i <<= 1) {
-    vsum = Q6_Vsf_vadd_VsfVsf(vsum, Q6_V_vror_VR(vsum, i * sizeof(float)));
-  }
-  return pfirst(HVXPacket<T>::Create(vsum));
-#else
   HVX_Vector vsum = Q6_Vqf32_vadd_VsfVsf(a.Get(), Q6_V_vror_VR(a.Get(), sizeof(float)));
   for (int i = 2; i < packet_size; i <<= 1) {
     vsum = Q6_Vqf32_vadd_Vqf32Vqf32(vsum, Q6_V_vror_VR(vsum, i * sizeof(float)));
   }
   return pfirst(HVXPacket<T>::Create(Q6_Vsf_equals_Vqf32(vsum)));
-#endif
 }
 template <>
 EIGEN_STRONG_INLINE float predux<Packet32f>(const Packet32f& a) {

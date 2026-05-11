@@ -36,6 +36,12 @@
 #include <new>
 #endif
 
+// Disable the ipa-cp-clone optimization flag with MinGW 6.x or older (enabled by default with -O3)
+// See http://eigen.tuxfamily.org/bz/show_bug.cgi?id=556 for details.
+#if EIGEN_COMP_MINGW && EIGEN_GNUC_STRICT_LESS_THAN(6, 0, 0)
+#pragma GCC optimize("-fno-ipa-cp-clone")
+#endif
+
 // Prevent ICC from specializing std::complex operators that silently fail
 // on device. This allows us to use our own device-compatible specializations
 // instead.
@@ -47,12 +53,10 @@
 // this include file manages BLAS and MKL related macros
 // and inclusion of their respective header files
 #include "src/Core/util/MKL_support.h"
-#include "src/Core/util/AOCL_Support.h"
 
-
-// EIGEN_HAS_GPU_FP16 is now always true when compiling with CUDA or HIP.
-// Use EIGEN_GPUCC (compile-time) or EIGEN_GPU_COMPILE_PHASE (device phase) instead.
-// TODO: Remove EIGEN_HAS_GPU_BF16 similarly once HIP bf16 guards are cleaned up.
+#if defined(EIGEN_HAS_CUDA_FP16) || defined(EIGEN_HAS_HIP_FP16)
+#define EIGEN_HAS_GPU_FP16
+#endif
 
 #if defined(EIGEN_HAS_CUDA_BF16) || defined(EIGEN_HAS_HIP_BF16)
 #define EIGEN_HAS_GPU_BF16
@@ -67,7 +71,8 @@
 #include <omp.h>
 #endif
 
-#if !EIGEN_COMP_ARM
+// MSVC for windows mobile does not have the errno.h file
+#if !(EIGEN_COMP_MSVC && EIGEN_OS_WINCE) && !EIGEN_COMP_ARM
 #define EIGEN_HAS_ERRNO
 #endif
 
@@ -96,9 +101,6 @@
 // for std::is_nothrow_move_assignable
 #include <type_traits>
 
-// for std::move, std::forward, std::declval
-#include <utility>
-
 // for std::this_thread::yield().
 #if !defined(EIGEN_USE_BLAS) && (defined(EIGEN_HAS_OPENMP) || defined(EIGEN_GEMM_THREADPOOL))
 #include <thread>
@@ -121,16 +123,8 @@
 
 // required for __cpuid, needs to be included after cmath
 // also required for _BitScanReverse on Windows on ARM
-#if EIGEN_COMP_MSVC && (EIGEN_ARCH_i386_OR_x86_64 || EIGEN_ARCH_ARM64)
+#if EIGEN_COMP_MSVC && (EIGEN_ARCH_i386_OR_x86_64 || EIGEN_ARCH_ARM64) && !EIGEN_OS_WINCE
 #include <intrin.h>
-#endif
-
-// Required for querying cache sizes on Linux and macOS.
-#if EIGEN_OS_LINUX
-#include <unistd.h>
-#elif EIGEN_OS_MAC
-#include <sys/types.h>
-#include <sys/sysctl.h>
 #endif
 
 #if defined(EIGEN_USE_SYCL)
@@ -142,6 +136,7 @@
 #include <CL/sycl.hpp>
 #include <map>
 #include <thread>
+#include <utility>
 #ifndef EIGEN_SYCL_LOCAL_THREAD_DIM0
 #define EIGEN_SYCL_LOCAL_THREAD_DIM0 16
 #endif
@@ -150,9 +145,19 @@
 #endif
 #endif
 
+#if defined EIGEN2_SUPPORT_STAGE40_FULL_EIGEN3_STRICTNESS || defined EIGEN2_SUPPORT_STAGE30_FULL_EIGEN3_API || \
+    defined EIGEN2_SUPPORT_STAGE20_RESOLVE_API_CONFLICTS || defined EIGEN2_SUPPORT_STAGE10_FULL_EIGEN2_API ||  \
+    defined EIGEN2_SUPPORT
+// This will generate an error message:
+#error Eigen2-support is only available up to version 3.2. Please go to "http://eigen.tuxfamily.org/index.php?title=Eigen2" for further information
+#endif
+
 namespace Eigen {
 
+// we use size_t frequently and we'll never remember to prepend it with std:: every time just to
+// ensure QNX/QCC support
 using std::size_t;
+// gcc 4.6.0 wants std:: for ptrdiff_t
 using std::ptrdiff_t;
 
 }  // namespace Eigen
@@ -170,8 +175,6 @@ using std::ptrdiff_t;
 #ifdef EIGEN_USE_LAPACKE
 #ifdef EIGEN_USE_MKL
 #include "mkl_lapacke.h"
-#elif defined(EIGEN_LAPACKE_SYSTEM)
-#include <lapacke.h>
 #else
 #include "src/misc/lapacke.h"
 #endif
@@ -202,13 +205,6 @@ using std::ptrdiff_t;
 #include "src/Core/arch/Default/BFloat16.h"
 #include "src/Core/arch/Default/GenericPacketMathFunctionsFwd.h"
 
-#if defined(EIGEN_VECTORIZE_GENERIC) && !defined(EIGEN_DONT_VECTORIZE)
-#include "src/Core/arch/clang/PacketMath.h"
-#include "src/Core/arch/clang/TypeCasting.h"
-#include "src/Core/arch/clang/Complex.h"
-#include "src/Core/arch/clang/Reductions.h"
-#include "src/Core/arch/clang/MathFunctions.h"
-#else
 #if defined EIGEN_VECTORIZE_AVX512
 #include "src/Core/arch/SSE/PacketMath.h"
 #include "src/Core/arch/SSE/Reductions.h"
@@ -274,18 +270,6 @@ using std::ptrdiff_t;
 #include "src/Core/arch/SVE/PacketMath.h"
 #include "src/Core/arch/SVE/TypeCasting.h"
 #include "src/Core/arch/SVE/MathFunctions.h"
-#elif defined EIGEN_VECTORIZE_RVV10
-#include "src/Core/arch/RVV10/PacketMath.h"
-#include "src/Core/arch/RVV10/PacketMath4.h"
-#include "src/Core/arch/RVV10/PacketMath2.h"
-#include "src/Core/arch/RVV10/TypeCasting.h"
-#include "src/Core/arch/RVV10/MathFunctions.h"
-#if defined EIGEN_VECTORIZE_RVV10FP16
-#include "src/Core/arch/RVV10/PacketMathFP16.h"
-#endif
-#if defined EIGEN_VECTORIZE_RVV10BF16
-#include "src/Core/arch/RVV10/PacketMathBF16.h"
-#endif
 #elif defined EIGEN_VECTORIZE_ZVECTOR
 #include "src/Core/arch/ZVector/PacketMath.h"
 #include "src/Core/arch/ZVector/MathFunctions.h"
@@ -312,8 +296,6 @@ using std::ptrdiff_t;
 #include "src/Core/arch/SYCL/TypeCasting.h"
 #endif
 #endif
-
-#endif  // #ifndef EIGEN_VECTORIZE_GENERIC
 
 #include "src/Core/arch/Default/Settings.h"
 // This file provides generic implementations valid for scalar as well
@@ -358,12 +340,13 @@ using std::ptrdiff_t;
 #include "src/Core/DenseStorage.h"
 #include "src/Core/NestByValue.h"
 
+// #include "src/Core/ForceAlignedAccess.h"
+
 #include "src/Core/ReturnByValue.h"
 #include "src/Core/NoAlias.h"
 #include "src/Core/PlainObjectBase.h"
 #include "src/Core/Matrix.h"
 #include "src/Core/Array.h"
-#include "src/Core/StructuredBindings.h"
 #include "src/Core/Fill.h"
 #include "src/Core/CwiseTernaryOp.h"
 #include "src/Core/CwiseBinaryOp.h"
@@ -424,20 +407,16 @@ using std::ptrdiff_t;
 #include "src/Core/CoreIterators.h"
 #include "src/Core/ConditionEstimator.h"
 
-#if !defined(EIGEN_VECTORIZE_GENERIC)
 #if defined(EIGEN_VECTORIZE_VSX)
 #include "src/Core/arch/AltiVec/MatrixProduct.h"
 #elif defined EIGEN_VECTORIZE_NEON
 #include "src/Core/arch/NEON/GeneralBlockPanelKernel.h"
 #elif defined EIGEN_VECTORIZE_LSX
 #include "src/Core/arch/LSX/GeneralBlockPanelKernel.h"
-#elif defined EIGEN_VECTORIZE_RVV10
-#include "src/Core/arch/RVV10/GeneralBlockPanelKernel.h"
 #endif
 
 #if defined(EIGEN_VECTORIZE_AVX512)
 #include "src/Core/arch/AVX512/GemmKernel.h"
-#endif
 #endif
 
 #include "src/Core/Select.h"
@@ -445,7 +424,6 @@ using std::ptrdiff_t;
 #include "src/Core/PartialReduxEvaluator.h"
 #include "src/Core/Random.h"
 #include "src/Core/Replicate.h"
-#include "src/Core/ConcatOp.h"
 #include "src/Core/Reverse.h"
 #include "src/Core/ArrayWrapper.h"
 #include "src/Core/StlIterators.h"
@@ -463,10 +441,6 @@ using std::ptrdiff_t;
 
 #ifdef EIGEN_USE_MKL_VML
 #include "src/Core/Assign_MKL.h"
-#endif
-
-#ifdef EIGEN_USE_AOCL_VML
-#include "src/Core/Assign_AOCL.h"
 #endif
 
 #include "src/Core/GlobalFunctions.h"
