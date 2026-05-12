@@ -38,6 +38,8 @@ namespace itk
 // sites already #include "itkNumericTraits.h" directly or transitively.
 template <typename T>
 class NumericTraits;
+// Same circular-include guard as NumericTraits<T> above.
+class Indent;
 } // namespace itk
 
 namespace itk::print_helper
