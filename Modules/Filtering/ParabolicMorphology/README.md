@@ -19,11 +19,11 @@ upstream archive).
 
 ## References
 
-- Beare R. *A Locally Constrained Radial Sum Decomposition for Fast
-  Spherical Mathematical Morphology.* International Symposium on
-  Mathematical Morphology, 2007.
+- Beare R. *Morphology with parabolic structuring elements.* The
+  Insight Journal. January-June. 2008.
+  <https://hdl.handle.net/1926/1370>
+- Beare R., Jackway P. *Parabolic Morphology in ITK.* The Insight
+  Journal. 2012. <https://doi.org/10.54294/aq68pt>
 - Felzenszwalb P., Huttenlocher D. *Distance Transforms of Sampled
   Functions.* Theory of Computing 8(19), 415-428, 2012.
   <https://doi.org/10.4086/toc.2012.v008a019>
-- Beare R., Jackway P. *Parabolic Morphology in ITK.* The Insight
-  Journal. 2012. <https://doi.org/10.54294/aq68pt>
