@@ -29,6 +29,7 @@ namespace itk
  * All iterators must
  *  - point to images of the same type
  *  - be of the same size (number of values from begin to end)
+ * \ingroup ImageIterators
  * \ingroup MultipleImageIterator */
 template <typename TIterator>
 class MultipleImageIterator
