@@ -18,7 +18,7 @@
 #   --upstream-url URL    Override the GIT_REPOSITORY parsed from
 #                         Modules/Remote/<Module>.remote.cmake.
 #   --whitelist FILE      Override the default whitelist location
-#                         (whitelists/<Module>.list, this directory).
+#                         (whitelists/default.list, this directory).
 #   --dry-run             Run filter-repo + sanitize passes but do
 #                         NOT merge into ITK.  Reports what would
 #                         land.
@@ -108,12 +108,13 @@ if ! $DRY_RUN && [[ -n "$(git -C "$ITK_SRC" status --porcelain)" ]]; then
   die "Working tree not clean; commit or stash first (or use --dry-run)"
 fi
 
-# Resolve whitelist
+# Resolve whitelist.  Default to the shared `whitelists/default.list`
+# which covers the canonical remote-module layout; modules with
+# unusual upstream layouts can override via --whitelist FILE.
 if [[ -z "$WHITELIST" ]]; then
-  WHITELIST="$SCRIPT_DIR/whitelists/$MODULE.list"
+  WHITELIST="$SCRIPT_DIR/whitelists/default.list"
 fi
-[[ -r "$WHITELIST" ]] || die "Whitelist not readable: $WHITELIST
-  Create it from a sibling module's whitelist as a starting point."
+[[ -r "$WHITELIST" ]] || die "Whitelist not readable: $WHITELIST"
 
 # Resolve clang-format / gersemi config files from the destination ITK tree
 CLANG_FORMAT_STYLE="$ITK_SRC/.clang-format"
@@ -246,7 +247,12 @@ info "Running scaffolding deny-pattern strip pass..."
     --path-glob '**/*.LOCAL.*' \
     --path-glob '**/*.REMOTE.*' \
     --path-glob '**/*.BASE.*' \
+    --path-glob '**/*~' \
     --path-glob '**/.ExternalData_*' \
+    --path-glob 'LICENSE' \
+    --path-glob 'LICENSE.*' \
+    --path-glob 'COPYING' \
+    --path-glob 'COPYING.*' \
     --prune-empty always
 ) || die "filter-repo deny-pass failed"
 

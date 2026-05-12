@@ -1,0 +1,30 @@
+# Default ingest whitelist — covers the canonical layout of an
+# ITK external remote module.  Used by `ingest-module-v4.sh` for
+# any module that does not provide an explicit `--whitelist`.
+#
+# filter-repo's `--paths-from-file` silently ignores paths that do
+# not exist in a given upstream tree, so this single file is safe
+# to apply across modules with assorted layouts (header-only,
+# header+src, with-or-without-wrapping, etc.).
+#
+# Per-module quirks (e.g. an upstream `CMakeLists.txt` that carries
+# bespoke find_package machinery conflicting with ITK's in-tree
+# build) should be handled inside `ingest-module-v4.sh` via flags
+# or a follow-up sanitizer pass, NOT by maintaining a separate
+# per-module whitelist.
+
+# Public headers
+include
+
+# Source (optional — header-only modules will simply have no match)
+src
+
+# Tests + fixtures
+test
+
+# Python wrapping
+wrapping
+
+# CMake / module metadata
+CMakeLists.txt
+itk-module.cmake
