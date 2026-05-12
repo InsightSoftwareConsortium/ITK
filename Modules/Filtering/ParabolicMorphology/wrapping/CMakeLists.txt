@@ -1,19 +1,3 @@
 itk_wrap_module(ParabolicMorphology)
-
-set(
-  WRAPPER_SUBMODULE_ORDER
-  itkMorphologicalDistanceTransformImageFilter
-  itkMorphologicalSharpeningImageFilter
-  itkMorphologicalSignedDistanceTransformImageFilter
-  itkParabolicCloseImageFilter
-  itkParabolicDilateImageFilter
-  itkParabolicErodeImageFilter
-  itkParabolicOpenImageFilter
-  itkBinaryCloseParabolicImageFilter
-  itkBinaryDilateParabolicImageFilter
-  itkBinaryErodeParabolicImageFilter
-  itkBinaryOpenParabolicImageFilter
-)
-
 itk_auto_load_submodules()
 itk_end_wrap_module()

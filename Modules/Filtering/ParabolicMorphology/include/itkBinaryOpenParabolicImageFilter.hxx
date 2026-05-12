@@ -20,7 +20,6 @@
 
 #include "itkProgressAccumulator.h"
 #include "itkParabolicErodeImageFilter.h"
-#include "itkProgressAccumulator.h"
 #include "itkCropImageFilter.h"
 #include "itkConstantPadImageFilter.h"
 #include "itkMath.h"

@@ -25,7 +25,7 @@ namespace itk
 {
 /**
  * \class BinaryDilateParabolicImageFilter
- * \brief Class for binary morphological erosion operation.
+ * \brief Class for binary morphological dilation operation.
  *
  * This class uses the parabolic morphology operations to do very
  * efficient erosions by circles/spheres. The operations are efficient

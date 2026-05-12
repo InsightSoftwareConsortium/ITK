@@ -20,7 +20,6 @@
 
 #include "itkProgressAccumulator.h"
 #include "itkParabolicErodeImageFilter.h"
-#include "itkProgressAccumulator.h"
 
 namespace itk
 {
