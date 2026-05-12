@@ -292,6 +292,16 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GPUGener
     this->BuildKernel();
   }
 
+  // Recompute the b-coefficients and M-matrix against the actual input spacing.
+  // SetSigmaArray() reads GetOutput()->GetSpacing() before Update(), where the
+  // output DataObject still carries the default unit spacing; the CPU sibling
+  // recomputes per-call in BeforeThreadedGenerateData (see #6243).
+  const typename InputImageType::SpacingType & inputSpacing = this->GetInput()->GetSpacing();
+  if (inputSpacing[0] != 0)
+  {
+    this->SetUp(inputSpacing[0]);
+  }
+
   constexpr unsigned int X = 0;
   constexpr unsigned int Y = 1;
   constexpr unsigned int Z = 2;
