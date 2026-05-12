@@ -40,7 +40,7 @@ public:
   using ImageType = typename IteratorType::ImageType;
   /// Access one of the iterators
   IteratorType &
-  operator[](const int i)
+  operator[](const unsigned int i)
   {
     return m_Iterators[i];
   }

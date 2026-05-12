@@ -25,14 +25,13 @@
 #include "itkMultipleImageIterator.h"
 
 // Dumps random samples from files into a csv file
-using namespace std;
 
 int
 DumpIntensities(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    cerr << "Usage: DumpIntensities outfile inImage [inImage ...]" << endl;
+    std::cerr << "Usage: DumpIntensities outfile inImage [inImage ...]" << std::endl;
     return 1;
   }
   using PixelType = unsigned short;
@@ -42,7 +41,7 @@ DumpIntensities(int argc, char * argv[])
   using IteratorType = itk::ImageRegionIterator<ImageType>;
   itk::MultipleImageIterator<IteratorType> it;
 
-  vector<ImageType::Pointer> images; // Need to keep a reference as iterators only have weak references
+  std::vector<ImageType::Pointer> images; // Need to keep a reference as iterators only have weak references
   for (int i = 2; i < argc; ++i)
   {
     ReaderType::Pointer r = ReaderType::New();
@@ -56,7 +55,7 @@ DumpIntensities(int argc, char * argv[])
 
   unsigned long long c = 0;
   using Vec3 = itk::FixedArray<PixelType, 3>;
-  vector<Vec3> values;
+  std::vector<Vec3> values;
   for (it.GoToBegin(); !it.IsAtEnd(); ++it, ++c)
   {
     if (c % 42 == 0)
