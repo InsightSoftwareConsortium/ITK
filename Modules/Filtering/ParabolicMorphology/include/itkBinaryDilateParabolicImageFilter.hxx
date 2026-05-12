@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkBinaryDilateParaImageFilter_hxx
-#define itkBinaryDilateParaImageFilter_hxx
+#ifndef itkBinaryDilateParabolicImageFilter_hxx
+#define itkBinaryDilateParabolicImageFilter_hxx
 
 #include "itkProgressAccumulator.h"
 #include "itkParabolicDilateImageFilter.h"
@@ -25,7 +25,7 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
-BinaryDilateParaImageFilter<TInputImage, TOutputImage>::BinaryDilateParaImageFilter()
+BinaryDilateParabolicImageFilter<TInputImage, TOutputImage>::BinaryDilateParabolicImageFilter()
 {
   this->SetNumberOfRequiredOutputs(1);
   this->SetNumberOfRequiredInputs(1);
@@ -41,7 +41,7 @@ BinaryDilateParaImageFilter<TInputImage, TOutputImage>::BinaryDilateParaImageFil
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryDilateParaImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType radius)
+BinaryDilateParabolicImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType radius)
 {
   RadiusType s;
 
@@ -51,7 +51,7 @@ BinaryDilateParaImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryDilateParaImageFilter<TInputImage, TOutputImage>::GenerateData()
+BinaryDilateParabolicImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();
@@ -129,7 +129,7 @@ BinaryDilateParaImageFilter<TInputImage, TOutputImage>::GenerateData()
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryDilateParaImageFilter<TInputImage, TOutputImage>::Modified() const
+BinaryDilateParabolicImageFilter<TInputImage, TOutputImage>::Modified() const
 {
   Superclass::Modified();
   m_CircPara->Modified();
@@ -140,7 +140,7 @@ BinaryDilateParaImageFilter<TInputImage, TOutputImage>::Modified() const
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryDilateParaImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+BinaryDilateParabolicImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   if (this->m_CircPara->GetUseImageSpacing())

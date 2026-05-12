@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkBinaryCloseParaImageFilter_hxx
-#define itkBinaryCloseParaImageFilter_hxx
+#ifndef itkBinaryCloseParabolicImageFilter_hxx
+#define itkBinaryCloseParabolicImageFilter_hxx
 
 #include "itkProgressAccumulator.h"
 #include "itkParabolicErodeImageFilter.h"
@@ -28,7 +28,7 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
-BinaryCloseParaImageFilter<TInputImage, TOutputImage>::BinaryCloseParaImageFilter()
+BinaryCloseParabolicImageFilter<TInputImage, TOutputImage>::BinaryCloseParabolicImageFilter()
 {
   this->SetNumberOfRequiredOutputs(1);
   this->SetNumberOfRequiredInputs(1);
@@ -49,7 +49,7 @@ BinaryCloseParaImageFilter<TInputImage, TOutputImage>::BinaryCloseParaImageFilte
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryCloseParaImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType radius)
+BinaryCloseParabolicImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType radius)
 {
   RadiusType s;
 
@@ -59,7 +59,7 @@ BinaryCloseParaImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType 
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryCloseParaImageFilter<TInputImage, TOutputImage>::GenerateData()
+BinaryCloseParabolicImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();
@@ -219,7 +219,7 @@ BinaryCloseParaImageFilter<TInputImage, TOutputImage>::GenerateData()
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryCloseParaImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+BinaryCloseParabolicImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   if (this->m_CircErode->GetUseImageSpacing())

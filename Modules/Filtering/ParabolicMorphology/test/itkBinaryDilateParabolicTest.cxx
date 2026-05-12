@@ -24,10 +24,10 @@
 #include "itkTimeProbe.h"
 #include "itkMultiThreaderBase.h"
 #include <itkBinaryThresholdImageFilter.h>
-#include "itkBinaryErodeParaImageFilter.h"
+#include "itkBinaryDilateParabolicImageFilter.h"
 
 int
-itkBinaryErodeParaTest(int argc, char * argv[])
+itkBinaryDilateParabolicTest(int argc, char * argv[])
 {
   if (argc != 5)
   {
@@ -62,7 +62,7 @@ itkBinaryErodeParaTest(int argc, char * argv[])
   thresh->SetInsideValue(0);
   thresh->SetOutsideValue(1);
   // now to apply the erosion
-  using FilterType = itk::BinaryErodeParaImageFilter<IType, IType>;
+  using FilterType = itk::BinaryDilateParabolicImageFilter<IType, IType>;
 
   FilterType::Pointer filter = FilterType::New();
 

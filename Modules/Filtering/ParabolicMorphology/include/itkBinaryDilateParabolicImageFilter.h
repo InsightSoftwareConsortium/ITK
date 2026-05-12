@@ -15,19 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkBinaryCloseParaImageFilter_h
-#define itkBinaryCloseParaImageFilter_h
+#ifndef itkBinaryDilateParabolicImageFilter_h
+#define itkBinaryDilateParabolicImageFilter_h
 
-#include "itkParabolicErodeImageFilter.h"
 #include "itkParabolicDilateImageFilter.h"
-#include "itkGreaterEqualValImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 
 namespace itk
 {
 /**
- * \class BinaryCloseParaImageFilter
- * \brief Class for binary morphological opening operation.
+ * \class BinaryDilateParabolicImageFilter
+ * \brief Class for binary morphological erosion operation.
  *
  * This class uses the parabolic morphology operations to do very
  * efficient erosions by circles/spheres. The operations are efficient
@@ -47,17 +45,17 @@ namespace itk
  * equal to the circle radius, rather than any part of the voxel
  * inside the circle.
  *
- * Also note that the inputs must be 0/1 not 0/max for pixel type.
- *
  * This filter was developed as a result of discussions with
  * M.Starring on the ITK mailing list.
+ *
+ * Also note that the inputs must be 0/1 not 0/max for pixel type.
  *
  * Core methods described in the InsightJournal article:
  * "Morphology with parabolic structuring elements"
  *
  * https://hdl.handle.net/1926/1370
  *
- * \sa itkParabolicErodeImageFilter
+ * \sa itkParabolicDilateImageFilter
  *
  * \ingroup ParabolicMorphology
  *
@@ -66,14 +64,14 @@ namespace itk
  **/
 
 template <typename TInputImage, typename TOutputImage = TInputImage>
-class ITK_TEMPLATE_EXPORT BinaryCloseParaImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT BinaryDilateParabolicImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_MOVE(BinaryCloseParaImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryDilateParabolicImageFilter);
 
   /** Standard class type alias. */
-  using Self = BinaryCloseParaImageFilter;
+  using Self = BinaryDilateParabolicImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -82,7 +80,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryCloseParaImageFilter, ImageToImageFilter);
+  itkTypeMacro(BinaryDilateParabolicImageFilter, ImageToImageFilter);
 
   /** Pixel Type of the input image */
   using InputImageType = TInputImage;
@@ -113,12 +111,13 @@ public:
   itkGetConstReferenceMacro(Radius, RadiusType);
 
   void
+  Modified() const override;
+
+  void
   SetUseImageSpacing(bool g)
   {
-    m_RectErode->SetUseImageSpacing(g);
-    m_RectDilate->SetUseImageSpacing(g);
-    m_CircErode->SetUseImageSpacing(g);
-    m_CircDilate->SetUseImageSpacing(g);
+    m_RectPara->SetUseImageSpacing(g);
+    m_CircPara->SetUseImageSpacing(g);
   }
 
   /**
@@ -128,13 +127,6 @@ public:
   itkSetMacro(Circular, bool);
   itkGetConstReferenceMacro(Circular, bool);
   itkBooleanMacro(Circular);
-
-  /** A safe border is added to input image to avoid borders effects
-   * and remove it once the closing is done */
-  itkSetMacro(SafeBorder, bool);
-  itkGetConstReferenceMacro(SafeBorder, bool);
-  itkBooleanMacro(SafeBorder);
-
   /** Image related type alias. */
 
   /* add in the traits here */
@@ -142,45 +134,32 @@ protected:
   void
   GenerateData() override;
 
-  BinaryCloseParaImageFilter();
-  ~BinaryCloseParaImageFilter() override = default;
+  BinaryDilateParabolicImageFilter();
+  ~BinaryDilateParabolicImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   using InternalRealImageType = typename itk::Image<InternalRealType, InputImageType::ImageDimension>;
   using InternalIntImageType = typename itk::Image<InternalIntType, InputImageType::ImageDimension>;
-  using CircErodeType = typename itk::ParabolicErodeImageFilter<TInputImage, InternalRealImageType>;
-  using RectErodeType = typename itk::ParabolicErodeImageFilter<TInputImage, InternalIntImageType>;
-  using CircDilateType = typename itk::ParabolicDilateImageFilter<OutputImageType, InternalRealImageType>;
-  using RectDilateType = typename itk::ParabolicDilateImageFilter<OutputImageType, InternalRealImageType>;
-
-  using CCastTypeA = typename itk::GreaterEqualValImageFilter<InternalRealImageType, OutputImageType>;
-  using CCastTypeB = typename itk::BinaryThresholdImageFilter<InternalRealImageType, OutputImageType>;
-
-  using RCastTypeA = typename itk::GreaterEqualValImageFilter<InternalIntImageType, OutputImageType>;
-  using RCastTypeB = typename itk::BinaryThresholdImageFilter<InternalRealImageType, OutputImageType>;
+  using CircParabolicType = typename itk::ParabolicDilateImageFilter<TInputImage, InternalRealImageType>;
+  using RectParabolicType = typename itk::ParabolicDilateImageFilter<TInputImage, InternalRealImageType>;
+  using CCastType = typename itk::BinaryThresholdImageFilter<InternalRealImageType, OutputImageType>;
+  using RCastType = typename itk::BinaryThresholdImageFilter<InternalRealImageType, OutputImageType>;
 
 private:
   RadiusType m_Radius;
   bool       m_Circular;
-  bool       m_SafeBorder;
 
-  typename CircErodeType::Pointer  m_CircErode;
-  typename CircDilateType::Pointer m_CircDilate;
+  typename CircParabolicType::Pointer m_CircPara;
+  typename CCastType::Pointer         m_CircCast;
 
-  typename CCastTypeA::Pointer m_CircCastA;
-  typename CCastTypeB::Pointer m_CircCastB;
-
-  typename RectErodeType::Pointer  m_RectErode;
-  typename RectDilateType::Pointer m_RectDilate;
-
-  typename RCastTypeA::Pointer m_RectCastA;
-  typename RCastTypeB::Pointer m_RectCastB;
+  typename RectParabolicType::Pointer m_RectPara;
+  typename RCastType::Pointer         m_RectCast;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkBinaryCloseParaImageFilter.hxx"
+#  include "itkBinaryDilateParabolicImageFilter.hxx"
 #endif
 
-#endif //__itkBinaryCloseParaImageFilter_h
+#endif //__itkBinaryDilateParabolicImageFilter_h

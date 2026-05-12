@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkBinaryOpenParaImageFilter_hxx
-#define itkBinaryOpenParaImageFilter_hxx
+#ifndef itkBinaryOpenParabolicImageFilter_hxx
+#define itkBinaryOpenParabolicImageFilter_hxx
 
 #include "itkProgressAccumulator.h"
 #include "itkParabolicErodeImageFilter.h"
@@ -28,7 +28,7 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
-BinaryOpenParaImageFilter<TInputImage, TOutputImage>::BinaryOpenParaImageFilter()
+BinaryOpenParabolicImageFilter<TInputImage, TOutputImage>::BinaryOpenParabolicImageFilter()
 {
   this->SetNumberOfRequiredOutputs(1);
   this->SetNumberOfRequiredInputs(1);
@@ -49,7 +49,7 @@ BinaryOpenParaImageFilter<TInputImage, TOutputImage>::BinaryOpenParaImageFilter(
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryOpenParaImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType radius)
+BinaryOpenParabolicImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType radius)
 {
   RadiusType s;
 
@@ -59,7 +59,7 @@ BinaryOpenParaImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType r
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryOpenParaImageFilter<TInputImage, TOutputImage>::GenerateData()
+BinaryOpenParabolicImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();
@@ -222,7 +222,7 @@ BinaryOpenParaImageFilter<TInputImage, TOutputImage>::GenerateData()
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryOpenParaImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+BinaryOpenParabolicImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   if (this->m_Circular)

@@ -9,10 +9,10 @@ set(
   itkParabolicDilateImageFilter
   itkParabolicErodeImageFilter
   itkParabolicOpenImageFilter
-  itkBinaryCloseParaImageFilter
-  itkBinaryDilateParaImageFilter
-  itkBinaryErodeParaImageFilter
-  itkBinaryOpenParaImageFilter
+  itkBinaryCloseParabolicImageFilter
+  itkBinaryDilateParabolicImageFilter
+  itkBinaryErodeParabolicImageFilter
+  itkBinaryOpenParabolicImageFilter
 )
 
 itk_auto_load_submodules()

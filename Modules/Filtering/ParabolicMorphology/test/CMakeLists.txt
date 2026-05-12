@@ -7,10 +7,10 @@ set(
   itkParaSpacingTest.cxx
   itkParaSharpenTest.cxx
   itkParaDTTest.cxx
-  itkBinaryDilateParaTest.cxx
-  itkBinaryErodeParaTest.cxx
-  itkBinaryOpenParaTest.cxx
-  itkBinaryCloseParaTest.cxx
+  itkBinaryDilateParabolicTest.cxx
+  itkBinaryErodeParabolicTest.cxx
+  itkBinaryOpenParabolicTest.cxx
+  itkBinaryCloseParabolicTest.cxx
 )
 
 set(INPUT_IMAGE ${CMAKE_CURRENT_SOURCE_DIR}/images/cthead1.png)
@@ -236,13 +236,13 @@ itk_add_test(
 
 ## Binary morphology
 itk_add_test(
-  NAME itkBinaryDilatePara2D_10
+  NAME itkBinaryDilateParabolic2D_10
   COMMAND
     ParabolicMorphologyTestDriver
     --compare
     dilatebinary10.mha
     ${CMAKE_CURRENT_SOURCE_DIR}/baseline/dilatebinary10.mha
-    itkBinaryDilateParaTest
+    itkBinaryDilateParabolicTest
     ${INPUT_IMAGE}
     150
     10
@@ -250,13 +250,13 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME itkBinaryErodePara2D_10
+  NAME itkBinaryErodeParabolic2D_10
   COMMAND
     ParabolicMorphologyTestDriver
     --compare
     erodebinary10.mha
     ${CMAKE_CURRENT_SOURCE_DIR}/baseline/erodebinary10.mha
-    itkBinaryErodeParaTest
+    itkBinaryErodeParabolicTest
     ${INPUT_IMAGE}
     120
     10
@@ -264,13 +264,13 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME itkBinaryOpenPara2D_10
+  NAME itkBinaryOpenParabolic2D_10
   COMMAND
     ParabolicMorphologyTestDriver
     --compare
     openbinary10.mha
     ${CMAKE_CURRENT_SOURCE_DIR}/baseline/openbinary10.mha
-    itkBinaryOpenParaTest
+    itkBinaryOpenParabolicTest
     ${INPUT_IMAGE}
     130
     10
@@ -278,13 +278,13 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME itkBinaryClosePara2D_10
+  NAME itkBinaryCloseParabolic2D_10
   COMMAND
     ParabolicMorphologyTestDriver
     --compare
     closebinary10.mha
     ${CMAKE_CURRENT_SOURCE_DIR}/baseline/closebinary10.mha
-    itkBinaryCloseParaTest
+    itkBinaryCloseParabolicTest
     ${INPUT_IMAGE}
     150
     10

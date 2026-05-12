@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkBinaryErodeParaImageFilter_hxx
-#define itkBinaryErodeParaImageFilter_hxx
+#ifndef itkBinaryErodeParabolicImageFilter_hxx
+#define itkBinaryErodeParabolicImageFilter_hxx
 
 #include "itkProgressAccumulator.h"
 #include "itkParabolicErodeImageFilter.h"
@@ -25,7 +25,7 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
-BinaryErodeParaImageFilter<TInputImage, TOutputImage>::BinaryErodeParaImageFilter()
+BinaryErodeParabolicImageFilter<TInputImage, TOutputImage>::BinaryErodeParabolicImageFilter()
 {
   this->SetNumberOfRequiredOutputs(1);
   this->SetNumberOfRequiredInputs(1);
@@ -41,7 +41,7 @@ BinaryErodeParaImageFilter<TInputImage, TOutputImage>::BinaryErodeParaImageFilte
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryErodeParaImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType radius)
+BinaryErodeParabolicImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType radius)
 {
   RadiusType s;
 
@@ -51,7 +51,7 @@ BinaryErodeParaImageFilter<TInputImage, TOutputImage>::SetRadius(ScalarRealType 
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryErodeParaImageFilter<TInputImage, TOutputImage>::GenerateData()
+BinaryErodeParabolicImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();
@@ -129,7 +129,7 @@ BinaryErodeParaImageFilter<TInputImage, TOutputImage>::GenerateData()
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryErodeParaImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+BinaryErodeParabolicImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   if (this->m_CircPara->GetUseImageSpacing())
@@ -144,7 +144,7 @@ BinaryErodeParaImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & 
 
 template <typename TInputImage, typename TOutputImage>
 void
-BinaryErodeParaImageFilter<TInputImage, TOutputImage>::Modified() const
+BinaryErodeParabolicImageFilter<TInputImage, TOutputImage>::Modified() const
 {
   Superclass::Modified();
   m_CircPara->Modified();
