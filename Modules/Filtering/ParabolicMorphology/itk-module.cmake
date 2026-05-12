@@ -1,11 +1,4 @@
-# the top-level README is used for describing this module, just
-# re-used it for documentation here
-# itk_module() defines the module dependencies in ParabolicMorphology
-# The testing module in ParabolicMorphology depends on ITKTestKernel
-# By convention those modules outside of ITK are not prefixed with
-# ITK.
-
-# define the dependencies of the include module and the tests
+# Maintainer: Richard Beare <richard.beare@monash.edu>
 itk_module(
   ParabolicMorphology
   DEPENDS
@@ -17,5 +10,6 @@ itk_module(
     ITKMathematicalMorphology
     ITKSmoothing
   EXCLUDE_FROM_DEFAULT
-  DESCRIPTION "Module ingested from upstream."
+  DESCRIPTION
+    "Classes performing morphology using parabolic functions. Fast distance transforms and binary erosions/dilations/openings/closings by spheres, sharpenings and grayscale operations. https://doi.org/10.54294/aq68pt"
 )
