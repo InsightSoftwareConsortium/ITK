@@ -130,7 +130,7 @@ public:
   MultiThreaderBase *
   GetMultiThreader()
   {
-    return m_Threader;
+    return this->m_Threader;
   }
 
 protected:
@@ -183,10 +183,6 @@ private:
   bool                       m_MeasureMatches{ true };
   std::vector<MeasureType>   m_ThreadMatches{};
   std::vector<SizeValueType> m_ThreadCounts{};
-
-  /** Support processing data in multiple threads. Used by subclasses
-   * (e.g., ImageSource). */
-  MultiThreaderBase::Pointer m_Threader{ MultiThreaderBase::New() };
 };
 } // end namespace itk
 
