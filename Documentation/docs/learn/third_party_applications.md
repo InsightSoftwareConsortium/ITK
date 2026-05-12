@@ -19,7 +19,7 @@ application uses ITK in some way (whether built in or by plugin).
   Asclepios research project, at INRIA Sophia-Antipolis.
 - [**Osirix**](https://www.osirix-viewer.com/) open-source medical
   imaging navigation and visualization tool for DICOM data.
-- [**Seg3D**](https://www.sci.utah.edu/cibc-software/seg3d.html) is a
+- [**Seg3D**](https://www.sci.utah.edu/seg3d) is a
   volume segmentation and processing tool developed by the NIH Center
   for Integrative Biomedical Computing at the University of Utah
   Scientific Computing and Imaging (SCI) Institute.
@@ -49,7 +49,7 @@ application uses ITK in some way (whether built in or by plugin).
 - [**MeVisLab**](https://www.mevislab.de/) is a modular framework
   for image processing research and development with a special
   focus on medical imaging.
-- [**SCIRun**](https://www.sci.utah.edu/cibc-software/scirun.html) is a
+- [**SCIRun**](https://www.sci.utah.edu/scirun) is a
   Problem Solving Environment (PSE), for modeling, simulation and
   visualization of scientific problems.
 - [**Voreen**](https://www.uni-muenster.de/Voreen/) is an open-source
@@ -66,7 +66,7 @@ application uses ITK in some way (whether built in or by plugin).
 - [**MARVIN**](https://www.sciencedirect.com/science/article/abs/pii/S0169260708000965)
   was a C++ application framework for rapid and simple development of medical
   applications, part of [NCCR "Co-Me - Computer Aided and Image Guided Medical Interventions"](https://www.snf.ch/en/9ihBpawyw4Fro4Y9/page/researchinFocus/nccr/nccr-co-me/).
-- [**MITK**](https://www.mitk.org/wiki/The_Medical_Imaging_Interaction_Toolkit_(MITK))
+- [**MITK**](https://www.mitk.org/)
   is a free open-source software for the development of interactive
   medical image processing software.
 - [**Orfeo Toolbox**](https://www.orfeo-toolbox.org/) is an open-source

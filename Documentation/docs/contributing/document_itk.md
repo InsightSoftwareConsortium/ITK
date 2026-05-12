@@ -89,7 +89,7 @@ The most common Doxygen commands used to document classes in ITK are:
 
 - [`\class`](https://www.doxygen.nl/manual/commands.html#cmdclass)
 - [`\brief`](https://www.doxygen.nl/manual/commands.html#cmdbrief)
-- [`\tparam`](http://www.stack.nl/~dimitri/doxygen/commands.html#cmdtparam)
+- [`\tparam`](https://www.doxygen.nl/manual/commands.html#cmdtparam)
 - [`\ingroup`](https://www.doxygen.nl/manual/commands.html#cmdingroup)
 - [`\sa`](https://www.doxygen.nl/manual/commands.html#cmdsa)
 

@@ -1250,9 +1250,10 @@ You are under no obligation whatsoever to provide any bug fixes, patches, or upg
 -----------------------------------------------------------------------------
 
 Limited portions of HDF5 were developed by Lawrence Berkeley National
-Laboratory (LBNL). LBNL's Copyright Notice and Licensing Terms can be
-found here: COPYING_LBNL_HDF5 file in this directory or at
-https://support.hdfgroup.org/ftp/HDF5/releases/COPYING_LBNL_HDF5.
+Laboratory (LBNL). LBNL's Copyright Notice and Licensing Terms (formerly
+distributed as COPYING_LBNL_HDF5) are now consolidated into HDF5's
+top-level LICENSE file at
+https://github.com/HDFGroup/hdf5/blob/develop/LICENSE.
 
 -----------------------------------------------------------------------------
 

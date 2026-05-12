@@ -956,7 +956,7 @@ For the final release, the release notes produced should be used to
   * Provide the release notes in the [ITK GitHub Releases]
   * Post a message in the [ITK discussion]
   * Create a post in the [Kitware blog]
-  * Add a release note doc in [ITK/Documentation/ReleaseNotes](https://github.com/InsightSoftwareConsortium/ITK/tree/main/Documentation/ReleaseNotes)
+  * Add a release note doc in [ITK/Documentation/ReleaseNotes](https://github.com/InsightSoftwareConsortium/ITK/tree/main/Documentation/docs/releases)
   * Update [ITK's Wikipedia page](https://en.wikipedia.org/wiki/Insight_Segmentation_and_Registration_Toolkit).
   * Send out a summary to Arliss <help@numfocus.org> at NumFOCUS to announce
     the release in the NumFOCUS project update monthly newsletter.

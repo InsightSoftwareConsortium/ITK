@@ -111,15 +111,15 @@ Multithreading refactored
 
 Since ITK 5.0 `itk::MultiThreader` has been split into a class hierarchy.
 Instead of a single `itk::MultiThreader` class which could optionally delegate work
-to an [itk::ThreadPool](https://itk.org/Insight/Doxygen/html/classitk_1_1ThreadPool.html),
+to an [itk::ThreadPool](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1ThreadPool.html),
 there are now multiple backends to provide thread-based parallel processing.
 Most of the time you will want to replace `itk::MultiThreader` by
-[itk::MultiThreaderBase](https://itk.org/Insight/Doxygen/html/classitk_1_1MultiThreaderBase.html).
+[itk::MultiThreaderBase](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MultiThreaderBase.html).
 
-[PlatformMultiThreader](https://itk.org/Insight/Doxygen/html/itkPlatformMultiThreader_8h.html)
+[PlatformMultiThreader](https://docs.itk.org/projects/doxygen/en/stable/itkPlatformMultiThreader_8h.html)
 is essentially the old `itk::MultiThreader`, renamed. `itk::PoolMultiThreader` behaves like
 the old `itk::MultiThreader` with `ITK_USE_THREADPOOL=ON`. There is an addition of
-[TBBMultiThreader](https://itk.org/Insight/Doxygen/html/classitk_1_1TBBMultiThreader.html),
+[TBBMultiThreader](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1TBBMultiThreader.html),
 which uses Intel Thread Building Blocks library's thread-pool, with has load balancing features.
 The option to build TBB support must be enabled during the CMake configuration step.
 The default multi-threader can be set via environment variable
@@ -627,10 +627,12 @@ To resolve these errors, update the remote module's dependency specification in
 Update scripts
 --------------
 
-[Utilities/ITKv5Preparation](https://github.com/InsightSoftwareConsortium/ITK/tree/main/Utilities/ITKv5Preparation) directory contains
-bash scripts which have been used to update ITK to version 5. These scripts
-
-
+A set of bash scripts that automate common ITKv4 → ITKv5 source-tree
+rewrites used to live at [`Utilities/ITKv5Preparation/`](https://github.com/InsightSoftwareConsortium/ITK/tree/21851448adfe9b81790f0f370314b8c1a21fbdba/Utilities/ITKv5Preparation).
+The directory was removed from the active ITK tree after the migration
+window closed; the permalink above points to the last commit where the
+scripts were present, so they remain accessible to anyone bringing a
+very old ITKv4 codebase forward.
 
 Backported ITKv6 features
 -------------------------

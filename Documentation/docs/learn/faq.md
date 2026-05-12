@@ -40,21 +40,21 @@ images.
 | GE Advantage Windows | | [`itk::GEAdwImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1GEAdwImageIO.html) |
 | [GIPL](https://www.ncbi.nlm.nih.gov/pubmed/12956259) (Guy's Image Processing Lab) (.gipl) | [`itk::GiplImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1GiplImageIO.html) | |
 | IPLCommon | [`itk::IPLCommonImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1IPLCommonImageIO.html) | |
-| [ITK HDF5](https://support.hdfgroup.org/HDF5/) | | |
+| [ITK HDF5](https://www.hdfgroup.org/solutions/hdf5/) | | |
 | [JPEG](https://en.wikipedia.org/wiki/JPEG_File_Interchange_Format) † | [`itk::JPEGImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1JPEGImageIO.html) | |
 | [LSM](https://www.openwetware.org/wiki/Dissecting_LSM_files) | [`itk::LSMImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1LSMImageIO.html) | |
 | [MetaImage](https://insightsoftwareconsortium.github.io/ITKWikiArchive/Wiki/ITK/MetaIO/Documentation) (.mha/.mhd) | [`itk::MetaImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MetaImageIO.html) | |
 | [MINC 2.0](https://en.wikibooks.org/wiki/MINC/SoftwareDevelopment/MINC2.0_File_Format_Reference) (Medical Image NetCDF) | [`itk::MINCImagIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MINCImageIO.html) | |
-| [MGH](https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/MghFormat) | [`itk:MGHImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MGHImageIO.html) | |
+| [MGH](https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/MghFormat) | [`itk::MGHImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MGHImageIO.html) | |
 | [MRC](http://www.ccpem.ac.uk/mrc_format/mrc_format.php) | [`itk::MRCImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MRCImageIO.html) | |
 | [NIfTI](https://nifti.nimh.nih.gov/nifti-1) (.nii) | [`itk::NiftiImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1NiftiImageIO.html) | |
 | [NRRD](http://teem.sourceforge.net/nrrd/format.html) (.nhdr/.nrrd) | [`itk::NrrdImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1NrrdImageIO.html) | |
 | [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) † | [`itk::PNGImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1PNGImageIO.html) | |
 | Raw ‡ | [`itk::RawImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1RawImageIO.html) | |
-| [Scanco microCT volume file format](https://www.scanco.ch/en/support/customer-login/faq-customers/faq-customers-import-export.html) | | |
+| Scanco microCT volume file format | | |
 | Siemens Vision | | [`itk::SiemensVisionImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1SiemensVisionImageIO.html) |
 | Stimulate (spr/sdt) | [`itk::StimulateImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1TIFFImageIO.html) | |
-| [TIFF](https://en.wikipedia.org/wiki/TIFF) | [`itk::TIFFImageIO`]() | |
+| [TIFF](https://en.wikipedia.org/wiki/TIFF) | [`itk::TIFFImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1TIFFImageIO.html) | |
 | [Varian FDF](https://github.com/InsightSoftwareConsortium/ITKIOFDF) | | |
 | [VTK Structured Points](https://www.vtk.org/VTK/img/file-formats.pdf) | [`itk::VTKImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1VTKImageIO.html) | |
 
@@ -142,19 +142,20 @@ in case of desperation.
    MetaImage and Analyze format (among others). She graciously has made
    this application publicly available at:
    https://darkwing.uoregon.edu/~jolinda/MRIConvert/.
-1. Jeff Brubaker and Stephen R. Aylward, at the UNC  CADDLab
+1. Jeff Brubaker and Stephen R. Aylward, at the UNC CADDLab
    developed a DICOM query/move application called "MIND"
    (with the motto: "MIND is not DICOM"). This application loads
    DICOM files over the network and export them in MetaImage format.
-   This application is open source and it is available at:
-   http://www.jeffro.net/mind/ and http://caddlab.rad.unc.edu/software/MIND/.
+   The application was open source; both distribution URLs
+   (`www.jeffro.net/mind/` and `caddlab.rad.unc.edu/software/MIND/`)
+   are no longer reachable.
 
 ##### How do I write a volume as DICOM series?
 
 Use ITK in combination with GDCM: http://gdcm.sourceforge.net/.
 
 GDCM is an open source package developed by the Creatis team at
-INSA-Lyon. It is distributed under a license similar to ITK: http://gdcm.sourceforge.net/Copyright.html.
+INSA-Lyon. It is distributed under a license similar to ITK: https://github.com/malaterre/GDCM/blob/master/Copyright.txt.
 
 GCDM uses CMake in order to configure its build process, so you will
 find a familiar setup. Once you download, configure and build GDCM, you
@@ -515,8 +516,8 @@ Transformations" section, where resampling is explained, before you get
 involved with image registration methods. That will save you a lot of
 misunderstandings that are common in new users.
 
-You will also find useful the tutorial sessions, in particular [the
-overview](http://www.itk.org/CourseWare/Training/RegistrationMethodsOverview.pdf).
+You will also find useful the registration tutorial sessions in the
+[ITK Software Guide](https://itk.org/ITKSoftwareGuide/html/Book2/ITKSoftwareGuide-Book2ch3.html).
 
 ## Common problems
 
