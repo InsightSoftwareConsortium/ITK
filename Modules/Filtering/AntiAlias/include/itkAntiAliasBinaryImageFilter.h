@@ -177,8 +177,6 @@ private:
   BinaryValueType m_LowerBinaryValue{};
 
   typename CurvatureFunctionType::Pointer m_CurvatureFunction{};
-
-  const TInputImage * m_InputImage{};
 };
 } // end namespace itk
 
