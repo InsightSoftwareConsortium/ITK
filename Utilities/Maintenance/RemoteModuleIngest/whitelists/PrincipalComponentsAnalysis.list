@@ -1,8 +1,0 @@
-# PrincipalComponentsAnalysis — files that migrate into ITK at
-# Modules/Numerics/PrincipalComponentsAnalysis/
-include
-test
-wrapping
-CMakeLists.txt
-itk-module.cmake
-LICENSE
