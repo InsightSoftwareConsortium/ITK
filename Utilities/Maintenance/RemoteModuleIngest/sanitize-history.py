@@ -232,12 +232,11 @@ def is_binary(head: bytes) -> bool:
 
 
 def is_skip_content(data: bytes, head: bytes) -> bool:
-    """Return True for content that should be left untouched (CID/sha
-    content-links, VTK volumes, SVG, etc.)."""
+    """Return True for content that should be left untouched (VTK volumes,
+    SVG, etc.).  Hash sidecar files (.sha / .sha512 / .cid) are NOT skipped
+    — they need universal text fixers so the hash gets a trailing newline,
+    which ghostflow-check-main rejects when missing."""
     if any(s in head[:512] for s in SKIP_HINTS):
-        return True
-    # Single-token hex hash file (CID content-link sidecar)
-    if data.count(b"\n") <= 1 and HEX_HASH_RE.match(data.strip()):
         return True
     return False
 
@@ -451,15 +450,93 @@ def patch_dynamic_description(data: bytes) -> tuple[bytes, bool]:
     """Remove the file(READ README.md DOCUMENTATION) preamble and replace
     DESCRIPTION "${DOCUMENTATION}" with a static one-liner.
 
-    The archival README.md contains semicolons and bracket characters that
-    CMake list expansion splits into spurious itk_module() arguments,
-    producing CMake (dev) configure warnings.  Returns (new_data, changed).
+    Only rewrite `${DOCUMENTATION}` when the file(READ) preamble was the
+    source.  When DOCUMENTATION is defined via a literal `set(DOCUMENTATION
+    "...")` block, the variable expands to safe static text and may be
+    used as DESCRIPTION as-is.
     """
     new_data, n1 = _README_FILE_READ_RE.subn(b"", data)
-    new_data, n2 = _DOCUMENTATION_DESCRIPTION_RE.subn(
-        rb'\1"Module ingested from upstream."', new_data
-    )
+    n2 = 0
+    if n1 > 0:
+        new_data, n2 = _DOCUMENTATION_DESCRIPTION_RE.subn(
+            rb'\1"Module ingested from upstream."', new_data
+        )
     return new_data, (n1 + n2) > 0
+
+
+# Strip per-module CMake scaffolding that is dead code in-tree:
+#   * itk_module_examples()         — examples/ directory not ingested
+#   * cmake_policy(CMP...)          — ITK top-level pins all policies
+#   * doc-build option blocks       — doc/ directory not ingested
+# Reviewers flag each of these on every ingest (e.g. PRs #6238, #6240).
+_ITK_MODULE_EXAMPLES_RE = re.compile(
+    rb"^[ \t]*itk_module_examples\s*\([^)]*\)[ \t]*\n",
+    re.IGNORECASE | re.MULTILINE,
+)
+_CMAKE_POLICY_RE = re.compile(
+    rb"^[ \t]*cmake_policy\s*\(\s*(?:SET\s+CMP|VERSION\s)[^)]*\)[ \t]*\n",
+    re.IGNORECASE | re.MULTILINE,
+)
+_DOC_OPTION_BLOCK_RE = re.compile(
+    rb"^[ \t]*(?:cmake_dependent_option|option)\s*\("
+    rb"\s*Module_\$\{[^}]+\}_BUILD_DOCUMENTATION[^)]*\)[ \t]*\n",
+    re.IGNORECASE | re.MULTILINE,
+)
+_DOC_IF_OPEN_RE = re.compile(
+    rb"^[ \t]*if\s*\(\s*Module_\$\{[^}]+\}_BUILD_DOCUMENTATION[^)]*\)[ \t]*\n",
+    re.IGNORECASE | re.MULTILINE,
+)
+_CMAKE_IF_OPEN_RE = re.compile(rb"^[ \t]*if\s*\(", re.IGNORECASE | re.MULTILINE)
+_CMAKE_ENDIF_RE = re.compile(
+    rb"^[ \t]*endif\s*\([^)]*\)[ \t]*\n", re.IGNORECASE | re.MULTILINE
+)
+
+
+def _strip_doc_if_blocks(data: bytes) -> tuple[bytes, int]:
+    """Depth-aware removal of `if(Module_${...}_BUILD_DOCUMENTATION) ... endif()`
+    blocks, accounting for nested `if(...)` so the regex doesn't close on an
+    inner endif (greptile finding on PR #6263)."""
+    out = bytearray()
+    pos = 0
+    removed = 0
+    while True:
+        m = _DOC_IF_OPEN_RE.search(data, pos)
+        if not m:
+            out.extend(data[pos:])
+            break
+        out.extend(data[pos : m.start()])
+        depth = 1
+        scan = m.end()
+        while depth > 0:
+            next_if = _CMAKE_IF_OPEN_RE.search(data, scan)
+            next_endif = _CMAKE_ENDIF_RE.search(data, scan)
+            if not next_endif:
+                out.extend(data[m.start() :])
+                return bytes(out), removed
+            if next_if and next_if.start() < next_endif.start():
+                depth += 1
+                scan = next_if.end()
+            else:
+                depth -= 1
+                scan = next_endif.end()
+        pos = scan
+        removed += 1
+    return bytes(out), removed
+
+
+def patch_drop_module_scaffolding(data: bytes) -> tuple[bytes, bool]:
+    """Strip itk_module_examples(), cmake_policy(...), and doc-build
+    option/if blocks from CMake blobs.  Returns (new_data, changed)."""
+    total = 0
+    new_data, n = _ITK_MODULE_EXAMPLES_RE.subn(b"", data)
+    total += n
+    new_data, n = _CMAKE_POLICY_RE.subn(b"", new_data)
+    total += n
+    new_data, n = _strip_doc_if_blocks(new_data)
+    total += n
+    new_data, n = _DOC_OPTION_BLOCK_RE.subn(b"", new_data)
+    total += n
+    return new_data, total > 0
 
 
 # Upstream remote modules wrap their top-level CMakeLists.txt in a
@@ -579,6 +656,7 @@ class HistorySanitizer:
         self.dynamic_description_patches = 0
         self.standalone_guard_patches = 0
         self.cmake_min_required_drops = 0
+        self.module_scaffolding_drops = 0
         self.blob_count = 0
         self.format_changes = 0
         self.kind_counts: dict[str, int] = {}
@@ -607,6 +685,9 @@ class HistorySanitizer:
             new_data, cmake_min_dropped = patch_drop_cmake_minimum_required(new_data)
             if cmake_min_dropped:
                 self.cmake_min_required_drops += 1
+            new_data, scaffolding_dropped = patch_drop_module_scaffolding(new_data)
+            if scaffolding_dropped:
+                self.module_scaffolding_drops += 1
             new_data = fmt_cmake(new_data, self.gersemi_bin, self.gersemi_config)
             new_data, readme_patched = patch_readme_reference(new_data)
             if readme_patched:
@@ -792,6 +873,7 @@ def main() -> int:
         f"  dynamic DESCRIPTION rm:{sanitizer.dynamic_description_patches}\n"
         f"  standalone-guard rm:   {sanitizer.standalone_guard_patches}\n"
         f"  cmake_min_required rm: {sanitizer.cmake_min_required_drops}\n"
+        f"  module-scaffolding rm: {sanitizer.module_scaffolding_drops}\n"
         f"  blobs scanned:         {sanitizer.blob_count}\n"
         f"  blobs reformatted:     {sanitizer.format_changes}\n"
         f"  by-kind sniff:         "
