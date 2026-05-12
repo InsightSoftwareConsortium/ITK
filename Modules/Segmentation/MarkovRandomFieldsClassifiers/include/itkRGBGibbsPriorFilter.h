@@ -130,45 +130,6 @@ public:
   void
   SetClassifier(typename ClassifierType::Pointer ptrToClassifier);
 
-  /** Set the number of classes. */
-  void
-  SetNumberOfClasses(const unsigned int numberOfClasses) override
-  {
-    itkDebugMacro("setting NumberOfClasses to " << numberOfClasses);
-    if (this->m_NumberOfClasses != numberOfClasses)
-    {
-      this->m_NumberOfClasses = numberOfClasses;
-      this->Modified();
-    }
-  }
-
-  /** Get the number of classes. */
-  [[nodiscard]] unsigned int
-  GetNumberOfClasses() const override
-  {
-    return this->m_NumberOfClasses;
-  }
-
-  /** Set/Get the number of iteration of the Iterated Conditional Mode
-   * (ICM) algorithm. A default value is set at 50 iterations. */
-  void
-  SetMaximumNumberOfIterations(const unsigned int numberOfIterations) override
-  {
-    itkDebugMacro("setting MaximumNumberOfIterations to " << numberOfIterations);
-    if (this->m_MaximumNumberOfIterations != numberOfIterations)
-    {
-      this->m_MaximumNumberOfIterations = numberOfIterations;
-      this->Modified();
-    }
-  }
-
-  /** Get the number of iterations of the Iterated Conditional Mode
-   * (ICM) algorithm. */
-  [[nodiscard]] unsigned int
-  GetMaximumNumberOfIterations() const override
-  {
-    return this->m_MaximumNumberOfIterations;
-  }
 
   /** Set/Get the threshold for the object size. */
   /** @ITKStartGrouping */
@@ -251,12 +212,6 @@ private:
 
   /** Output. */
   LabelledImageType m_LabelledImage{};
-
-  /** Number of classes that need to be classified. */
-  unsigned int m_NumberOfClasses{ 0 };
-
-  /** Maximum number of iterations. */
-  unsigned int m_MaximumNumberOfIterations{ 10 };
 
   typename ClassifierType::Pointer m_ClassifierPtr{};
 

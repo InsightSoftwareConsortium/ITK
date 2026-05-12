@@ -21,3 +21,11 @@ itk_add_test(
     ITKMarkovRandomFieldsClassifiersTestDriver
     itkRGBGibbsPriorFilterTest
 )
+
+set(ITKMarkovRandomFieldsClassifiersGTests itkRGBGibbsPriorFilterGTest.cxx)
+
+creategoogletestdriver(
+  ITKMarkovRandomFieldsClassifiers
+  "${ITKMarkovRandomFieldsClassifiers-Test_LIBRARIES}"
+  "${ITKMarkovRandomFieldsClassifiersGTests}"
+)
