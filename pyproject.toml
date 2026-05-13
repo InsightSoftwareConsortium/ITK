@@ -70,6 +70,7 @@ cmd = '''cmake \
   -DModule_IOFDF:BOOL=ON \
   -DModule_MorphologicalContourInterpolation:BOOL=ON \
   -DModule_ParabolicMorphology:BOOL=ON \
+  -DModule_MultipleImageIterator:BOOL=ON \
   -DModule_RLEImage:BOOL=ON \
   -DModule_SubdivisionQuadEdgeMeshFilter:BOOL=ON \
   -DModule_TextureFeatures:BOOL=ON \
