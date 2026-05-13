@@ -145,15 +145,6 @@ protected:
   }
 
 private:
-  /** Slices for the ND neighborhood. */
-  std::slice x_slice[ImageDimension];
-
-  /** The offset of the center pixel in the neighborhood. */
-  OffsetValueType m_Center{ 0 };
-
-  /** Stride length along the y-dimension. */
-  OffsetValueType m_xStride[ImageDimension]{};
-
   double m_DerivativeSigma{ 1.0 };
 };
 } // end namespace itk

@@ -349,9 +349,6 @@ protected:
   static double m_WaveDT;
   static double m_DT;
 
-  /** Slices for the ND neighborhood. */
-  std::slice x_slice[Self::ImageDimension];
-
   /** The offset of the center pixel in the neighborhood. */
   OffsetValueType m_Center{ 0 };
 
