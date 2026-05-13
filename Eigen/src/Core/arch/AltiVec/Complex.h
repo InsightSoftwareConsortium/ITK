@@ -109,6 +109,9 @@ struct packet_traits<std::complex<float> > : default_packet_traits {
     HasSqrt = 1,
     HasLog = 1,
     HasExp = 1,
+#ifdef EIGEN_VECTORIZE_VSX
+    HasBlend = 1,
+#endif
     HasSetLinear = 0
   };
 };
@@ -361,7 +364,31 @@ EIGEN_STRONG_INLINE Packet2cf pcmp_eq(const Packet2cf& a, const Packet2cf& b) {
   return Packet2cf(vec_and(eq, vec_perm(eq, eq, p16uc_COMPLEX32_REV)));
 }
 
-EIGEN_INSTANTIATE_COMPLEX_MATH_FUNCS(Packet2cf)
+#ifdef EIGEN_VECTORIZE_VSX
+template <>
+EIGEN_STRONG_INLINE Packet2cf pblend(const Selector<2>& ifPacket, const Packet2cf& thenPacket,
+                                     const Packet2cf& elsePacket) {
+  Packet2cf result;
+  result.v = reinterpret_cast<Packet4f>(
+      pblend<Packet2d>(ifPacket, reinterpret_cast<Packet2d>(thenPacket.v), reinterpret_cast<Packet2d>(elsePacket.v)));
+  return result;
+}
+#endif
+
+template <>
+EIGEN_STRONG_INLINE Packet2cf psqrt<Packet2cf>(const Packet2cf& a) {
+  return psqrt_complex<Packet2cf>(a);
+}
+
+template <>
+EIGEN_STRONG_INLINE Packet2cf plog<Packet2cf>(const Packet2cf& a) {
+  return plog_complex<Packet2cf>(a);
+}
+
+template <>
+EIGEN_STRONG_INLINE Packet2cf pexp<Packet2cf>(const Packet2cf& a) {
+  return pexp_complex<Packet2cf>(a);
+}
 
 //---------- double ----------
 #ifdef EIGEN_VECTORIZE_VSX
@@ -608,7 +635,15 @@ EIGEN_STRONG_INLINE Packet1cd pcmp_eq(const Packet1cd& a, const Packet1cd& b) {
   return Packet1cd(vec_and(eq, eq_swapped));
 }
 
-EIGEN_INSTANTIATE_COMPLEX_MATH_FUNCS_NO_EXP(Packet1cd)
+template <>
+EIGEN_STRONG_INLINE Packet1cd psqrt<Packet1cd>(const Packet1cd& a) {
+  return psqrt_complex<Packet1cd>(a);
+}
+
+template <>
+EIGEN_STRONG_INLINE Packet1cd plog<Packet1cd>(const Packet1cd& a) {
+  return plog_complex<Packet1cd>(a);
+}
 
 #endif  // __VSX__
 }  // end namespace internal

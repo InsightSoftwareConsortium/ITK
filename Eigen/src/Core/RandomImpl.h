@@ -56,21 +56,19 @@ struct random_bits_impl {
   EIGEN_STATIC_ASSERT(std::is_unsigned<Scalar>::value, SCALAR MUST BE A BUILT - IN UNSIGNED INTEGER)
   using RandomDevice = eigen_random_device;
   using RandomReturnType = typename RandomDevice::ReturnType;
+  static constexpr int kEntropy = RandomDevice::Entropy;
   static constexpr int kTotalBits = sizeof(Scalar) * CHAR_BIT;
-  static constexpr int kEntropy = plain_enum_min(kTotalBits, RandomDevice::Entropy);
   // return a Scalar filled with numRandomBits beginning from the least significant bit
   static EIGEN_DEVICE_FUNC inline Scalar run(int numRandomBits) {
     eigen_assert((numRandomBits >= 0) && (numRandomBits <= kTotalBits));
+    const Scalar mask = Scalar(-1) >> ((kTotalBits - numRandomBits) & (kTotalBits - 1));
     Scalar randomBits = 0;
-    for (int filledBits = 0; filledBits < numRandomBits; filledBits += kEntropy) {
-      Scalar r = static_cast<Scalar>(RandomDevice::run());
-      int remainingBits = numRandomBits - filledBits;
-      if (remainingBits < kEntropy) {
-        // clear the excess bits to avoid UB and rounding bias
-        r >>= kEntropy - remainingBits;
-      }
-      randomBits |= r << filledBits;
+    for (int shift = 0; shift < numRandomBits; shift += kEntropy) {
+      RandomReturnType r = RandomDevice::run();
+      randomBits |= static_cast<Scalar>(r) << shift;
     }
+    // clear the excess bits
+    randomBits &= mask;
     return randomBits;
   }
 };
@@ -206,8 +204,7 @@ struct random_int_impl<Scalar, false, true> {
 template <typename Scalar>
 struct random_int_impl<Scalar, true, true> {
   static constexpr int kTotalBits = sizeof(Scalar) * CHAR_BIT;
-  // avoid implicit integral promotion to `int`
-  using BitsType = std::conditional_t<(sizeof(Scalar) < sizeof(int)), unsigned int, std::make_unsigned_t<Scalar> >;
+  using BitsType = typename make_unsigned<Scalar>::type;
   static EIGEN_DEVICE_FUNC inline Scalar run(const Scalar& x, const Scalar& y) {
     if (y <= x) return x;
     // Avoid overflow by representing `range` as an unsigned type

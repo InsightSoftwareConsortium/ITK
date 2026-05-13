@@ -17,8 +17,8 @@
 namespace Eigen {
 
 namespace internal {
-// UpperBidiagonalization may be replaced by a Bidiagonalization class; not part of stable API.
-// Kept for now as it is one of the few tests exercising the BandMatrix class.
+// UpperBidiagonalization will probably be replaced by a Bidiagonalization class, don't want to make it stable API.
+// At the same time, it's useful to keep for now as it's about the only thing that is testing the BandMatrix class.
 
 template <typename MatrixType_>
 class UpperBidiagonalization {
@@ -171,10 +171,8 @@ void upperbidiagonalization_blocked_helper(
 
     // 1 - update the k-th column of A
     SubColumnType v_k = A.col(k).tail(remainingRows);
-    if (k) {
-      v_k.noalias() -= V_k1 * Y.row(k).head(k).adjoint();
-      v_k.noalias() -= X_k1 * A.col(k).head(k);
-    }
+    v_k -= V_k1 * Y.row(k).head(k).adjoint();
+    if (k) v_k.noalias() -= X_k1 * A.col(k).head(k);
 
     // 2 - construct left Householder transform in-place
     v_k.makeHouseholderInPlace(tau_v, diagonal[k]);
@@ -206,7 +204,7 @@ void upperbidiagonalization_blocked_helper(
       u_k = u_k.conjugate();
       {
         u_k.noalias() -= Y_k * A.row(k).head(k + 1).adjoint();
-        if (k) u_k.noalias() -= U_k1.adjoint() * X.row(k).head(k).adjoint();
+        if (k) u_k -= U_k1.adjoint() * X.row(k).head(k).adjoint();
       }
 
       // 5 - construct right Householder transform in-place
@@ -265,7 +263,7 @@ void upperbidiagonalization_blocked_helper(
  * Bidiagonal Form. by Jaeyoung Choi, Jack J. Dongarra, David W. Walker. (1995) section 3.3
  */
 template <typename MatrixType, typename BidiagType>
-void upperbidiagonalization_inplace_blocked(MatrixType& A, BidiagType& bidiagonal, Index maxBlockSize = 16,
+void upperbidiagonalization_inplace_blocked(MatrixType& A, BidiagType& bidiagonal, Index maxBlockSize = 32,
                                             typename MatrixType::Scalar* /*tempData*/ = 0) {
   typedef typename MatrixType::Scalar Scalar;
   typedef Block<MatrixType, Dynamic, Dynamic> BlockType;
@@ -313,7 +311,7 @@ void upperbidiagonalization_inplace_blocked(MatrixType& A, BidiagType& bidiagona
     typename MatrixType::RealScalar* upper_diagonal_ptr =
         upper_diagonal.size() > 0 ? &upper_diagonal.coeffRef(k) : nullptr;
 
-    if (k + bs == cols || bcols < 2 * blockSize)  // fall back to unblocked for small trailing submatrices
+    if (k + bs == cols || bcols < 48)  // somewhat arbitrary threshold
     {
       upperbidiagonalization_inplace_unblocked(B, &(bidiagonal.template diagonal<0>().coeffRef(k)), upper_diagonal_ptr,
                                                X.data());
@@ -332,7 +330,7 @@ UpperBidiagonalization<MatrixType_>& UpperBidiagonalization<MatrixType_>::comput
   Index cols = matrix.cols();
   EIGEN_ONLY_USED_FOR_DEBUG(cols);
 
-  eigen_assert(rows >= cols && "UpperBidiagonalization is only for matrices satisfying rows>=cols.");
+  eigen_assert(rows >= cols && "UpperBidiagonalization is only for Arices satisfying rows>=cols.");
 
   m_householder = matrix;
 
@@ -352,7 +350,7 @@ UpperBidiagonalization<MatrixType_>& UpperBidiagonalization<MatrixType_>::comput
   EIGEN_ONLY_USED_FOR_DEBUG(rows);
   EIGEN_ONLY_USED_FOR_DEBUG(cols);
 
-  eigen_assert(rows >= cols && "UpperBidiagonalization is only for matrices satisfying rows>=cols.");
+  eigen_assert(rows >= cols && "UpperBidiagonalization is only for Arices satisfying rows>=cols.");
 
   m_householder = matrix;
   upperbidiagonalization_inplace_blocked(m_householder, m_bidiagonal);
@@ -360,6 +358,19 @@ UpperBidiagonalization<MatrixType_>& UpperBidiagonalization<MatrixType_>::comput
   m_isInitialized = true;
   return *this;
 }
+
+#if 0
+/** \return the Householder QR decomposition of \c *this.
+  *
+  * \sa class Bidiagonalization
+  */
+template<typename Derived>
+const UpperBidiagonalization<typename MatrixBase<Derived>::PlainObject>
+MatrixBase<Derived>::bidiagonalization() const
+{
+  return UpperBidiagonalization<PlainObject>(eval());
+}
+#endif
 
 }  // end namespace internal
 

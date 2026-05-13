@@ -157,7 +157,7 @@ class PardisoImpl : public SparseSolverBase<Derived> {
 
   /** Performs a numeric decomposition of \a matrix
    *
-   * The given matrix must have the same sparsity as the matrix on which the symbolic decomposition has been
+   * The given matrix must have the same sparsity than the matrix on which the symbolic decomposition has been
    * performed.
    *
    * \sa analyzePattern()
@@ -185,7 +185,7 @@ class PardisoImpl : public SparseSolverBase<Derived> {
     bool symmetric = std::abs(m_type) < 10;
     m_iparm[0] = 1;                   // No solver default
     m_iparm[1] = 2;                   // use Metis for the ordering
-    m_iparm[2] = 0;                   // Reserved. Set to zero. (Was number of processors / OMP_NUM_THREADS.)
+    m_iparm[2] = 0;                   // Reserved. Set to zero. (??Numbers of processors, value of OMP_NUM_THREADS??)
     m_iparm[3] = 0;                   // No iterative-direct algorithm
     m_iparm[4] = 0;                   // No user fill-in reducing permutation
     m_iparm[5] = 0;                   // Write solution into x, b is left unchanged

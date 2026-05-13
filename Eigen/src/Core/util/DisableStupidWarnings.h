@@ -84,7 +84,8 @@
 #endif
 
 #if defined __NVCC__ && defined __CUDACC__
-// MSVC does not support the _Pragma keyword, so we use Microsoft's __pragma extension.
+// MSVC 14.16 (required by CUDA 9.*) does not support the _Pragma keyword, so
+// we instead use Microsoft's __pragma extension.
 #if defined _MSC_VER
 #define EIGEN_MAKE_PRAGMA(X) __pragma(#X)
 #else

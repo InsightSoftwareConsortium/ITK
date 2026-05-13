@@ -247,7 +247,7 @@ struct homogeneous_left_product_impl<Homogeneous<MatrixType, Vertical>, Lhs>
 
   template <typename Dest>
   EIGEN_DEVICE_FUNC void evalTo(Dest& dst) const {
-    // FIXME: investigate how to allow lazy evaluation of this product when possible.
+    // FIXME investigate how to allow lazy evaluation of this product when possible
     dst = Block < const LhsMatrixTypeNested, LhsMatrixTypeNested::RowsAtCompileTime,
     LhsMatrixTypeNested::ColsAtCompileTime == Dynamic
         ? Dynamic
@@ -278,7 +278,7 @@ struct homogeneous_right_product_impl<Homogeneous<MatrixType, Horizontal>, Rhs>
 
   template <typename Dest>
   EIGEN_DEVICE_FUNC void evalTo(Dest& dst) const {
-    // FIXME: investigate how to allow lazy evaluation of this product when possible.
+    // FIXME investigate how to allow lazy evaluation of this product when possible
     dst = m_lhs * Block < const RhsNested,
     RhsNested::RowsAtCompileTime == Dynamic ? Dynamic : RhsNested::RowsAtCompileTime - 1,
     RhsNested::ColsAtCompileTime > (m_rhs, 0, 0, m_rhs.rows() - 1, m_rhs.cols());
@@ -392,6 +392,8 @@ struct generic_product_impl<Lhs, Homogeneous<RhsArg, Vertical>, DenseShape, Homo
   }
 };
 
+// TODO: the following specialization is to address a regression from 3.2 to 3.3
+// In the future, this path should be optimized.
 template <typename Lhs, typename RhsArg, int ProductTag>
 struct generic_product_impl<Lhs, Homogeneous<RhsArg, Vertical>, TriangularShape, HomogeneousShape, ProductTag> {
   template <typename Dest>

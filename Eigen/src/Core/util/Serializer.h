@@ -46,7 +46,7 @@ class Serializer<T,
    * \param value the value to serialize.
    * \return the next memory address past the end of the serialized data.
    */
-  EIGEN_DEVICE_FUNC uint8_t* serialize(uint8_t* dest, uint8_t* end, const T& value) const {
+  EIGEN_DEVICE_FUNC uint8_t* serialize(uint8_t* dest, uint8_t* end, const T& value) {
     if (EIGEN_PREDICT_FALSE(dest == nullptr)) return nullptr;
     if (EIGEN_PREDICT_FALSE(dest + sizeof(value) > end)) return nullptr;
     EIGEN_USING_STD(memcpy)
@@ -84,7 +84,7 @@ class Serializer<DenseBase<Derived>, void> {
 
   EIGEN_DEVICE_FUNC size_t size(const Derived& value) const { return sizeof(Header) + sizeof(Scalar) * value.size(); }
 
-  EIGEN_DEVICE_FUNC uint8_t* serialize(uint8_t* dest, uint8_t* end, const Derived& value) const {
+  EIGEN_DEVICE_FUNC uint8_t* serialize(uint8_t* dest, uint8_t* end, const Derived& value) {
     if (EIGEN_PREDICT_FALSE(dest == nullptr)) return nullptr;
     if (EIGEN_PREDICT_FALSE(dest + size(value) > end)) return nullptr;
     const size_t header_bytes = sizeof(Header);
@@ -129,7 +129,7 @@ struct serialize_impl;
 
 template <size_t N, typename T1, typename... Ts>
 struct serialize_impl<N, T1, Ts...> {
-  using Serializer = Eigen::Serializer<std::decay_t<T1>>;
+  using Serializer = Eigen::Serializer<typename std::decay<T1>::type>;
 
   static EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE size_t serialize_size(const T1& value, const Ts&... args) {
     Serializer serializer;

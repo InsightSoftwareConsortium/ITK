@@ -98,33 +98,33 @@ class CwiseBinaryOp : public CwiseBinaryOpImpl<BinaryOp, LhsType, RhsType,
   typedef std::remove_reference_t<RhsNested> RhsNested_;
 
 #if EIGEN_COMP_MSVC
-  // Required for Visual Studio, which may fail to inline the copy constructor otherwise.
+  // Required for Visual Studio or the Copy constructor will probably not get inlined!
   EIGEN_STRONG_INLINE CwiseBinaryOp(const CwiseBinaryOp<BinaryOp, LhsType, RhsType>&) = default;
 #endif
 
-  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE CwiseBinaryOp(const Lhs& aLhs, const Rhs& aRhs,
-                                                                const BinaryOp& func = BinaryOp())
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE CwiseBinaryOp(const Lhs& aLhs, const Rhs& aRhs,
+                                                      const BinaryOp& func = BinaryOp())
       : m_lhs(aLhs), m_rhs(aRhs), m_functor(func) {
     eigen_assert(aLhs.rows() == aRhs.rows() && aLhs.cols() == aRhs.cols());
   }
 
-  EIGEN_DEVICE_FUNC constexpr Index rows() const noexcept {
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index rows() const noexcept {
     // return the fixed size type if available to enable compile time optimizations
     return internal::traits<internal::remove_all_t<LhsNested>>::RowsAtCompileTime == Dynamic ? m_rhs.rows()
                                                                                              : m_lhs.rows();
   }
-  EIGEN_DEVICE_FUNC constexpr Index cols() const noexcept {
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE constexpr Index cols() const noexcept {
     // return the fixed size type if available to enable compile time optimizations
     return internal::traits<internal::remove_all_t<LhsNested>>::ColsAtCompileTime == Dynamic ? m_rhs.cols()
                                                                                              : m_lhs.cols();
   }
 
   /** \returns the left hand side nested expression */
-  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE const LhsNested_& lhs() const { return m_lhs; }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const LhsNested_& lhs() const { return m_lhs; }
   /** \returns the right hand side nested expression */
-  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE const RhsNested_& rhs() const { return m_rhs; }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const RhsNested_& rhs() const { return m_rhs; }
   /** \returns the functor representing the binary operation */
-  EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE const BinaryOp& functor() const { return m_functor; }
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const BinaryOp& functor() const { return m_functor; }
 
  protected:
   LhsNested m_lhs;
@@ -145,7 +145,7 @@ class CwiseBinaryOpImpl : public internal::generic_xpr_base<CwiseBinaryOp<Binary
  */
 template <typename Derived>
 template <typename OtherDerived>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Derived& MatrixBase<Derived>::operator-=(const MatrixBase<OtherDerived>& other) {
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& MatrixBase<Derived>::operator-=(const MatrixBase<OtherDerived>& other) {
   call_assignment(derived(), other.derived(), internal::sub_assign_op<Scalar, typename OtherDerived::Scalar>());
   return derived();
 }
@@ -156,7 +156,7 @@ EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Derived& MatrixBase<Derived>::operator-=(c
  */
 template <typename Derived>
 template <typename OtherDerived>
-EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Derived& MatrixBase<Derived>::operator+=(const MatrixBase<OtherDerived>& other) {
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Derived& MatrixBase<Derived>::operator+=(const MatrixBase<OtherDerived>& other) {
   call_assignment(derived(), other.derived(), internal::add_assign_op<Scalar, typename OtherDerived::Scalar>());
   return derived();
 }

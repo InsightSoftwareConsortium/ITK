@@ -292,7 +292,7 @@ class EigenSolver {
   }
 
   /** \brief Returns the maximum number of iterations. */
-  Index getMaxIterations() const { return m_realSchur.getMaxIterations(); }
+  Index getMaxIterations() { return m_realSchur.getMaxIterations(); }
 
  private:
   void doComputeEigenvectors();

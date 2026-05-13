@@ -57,12 +57,13 @@ struct default_packet_traits {
     HasConj = 1,
     HasSetLinear = 1,
     HasSign = 1,
-    HasAbsDiff = 1,
     // By default, the nearest integer functions (rint, round, floor, ceil, trunc) are enabled for all scalar and packet
     // types
     HasRound = 1,
 
     HasArg = 0,
+    HasAbsDiff = 0,
+    HasBlend = 0,
     // This flag is used to indicate whether packet comparison is supported.
     // pcmp_eq and pcmp_lt should be defined for it to be true.
     HasCmp = 0,
@@ -87,8 +88,6 @@ struct default_packet_traits {
     HasATanh = 0,
     HasSinh = 0,
     HasCosh = 0,
-    HasASinh = 0,
-    HasACosh = 0,
     HasTanh = 0,
     HasLGamma = 0,
     HasDiGamma = 0,
@@ -118,7 +117,6 @@ struct packet_traits : default_packet_traits {
   enum {
     HasAdd = 0,
     HasSub = 0,
-    HasAbsDiff = 0,
     HasMul = 0,
     HasNegate = 0,
     HasAbs = 0,
@@ -133,18 +131,17 @@ struct packet_traits : default_packet_traits {
 template <typename T>
 struct packet_traits<const T> : packet_traits<T> {};
 
-struct default_unpacket_traits {
-  enum { vectorizable = false, masked_load_available = false, masked_store_available = false };
-};
-
 template <typename T>
-struct unpacket_traits : default_unpacket_traits {
+struct unpacket_traits {
   typedef T type;
   typedef T half;
   typedef typename numext::get_integer_by_size<sizeof(T)>::signed_type integer_packet;
   enum {
     size = 1,
     alignment = alignof(T),
+    vectorizable = false,
+    masked_load_available = false,
+    masked_store_available = false
   };
 };
 
@@ -612,7 +609,7 @@ EIGEN_DEVICE_FUNC inline bool pselect<bool>(const bool& cond, const bool& a, con
   return cond ? a : b;
 }
 
-/** \internal \returns the min or max of \a a and \a b (coeff-wise)
+/** \internal \returns the min or of \a a and \a b (coeff-wise)
     If either \a a or \a b are NaN, the result is implementation defined. */
 template <int NaNPropagation, bool IsInteger>
 struct pminmax_impl {
@@ -650,7 +647,7 @@ struct pminmax_impl<PropagateNumbers, false> {
 #define EIGEN_BINARY_OP_NAN_PROPAGATION(Type, Func) [](const Type& aa, const Type& bb) { return Func(aa, bb); }
 
 /** \internal \returns the min of \a a and \a b  (coeff-wise).
-    If \a a or \a b is NaN, the return value is implementation defined. */
+    If \a a or \b b is NaN, the return value is implementation defined. */
 template <typename Packet>
 EIGEN_DEVICE_FUNC inline Packet pmin(const Packet& a, const Packet& b) {
   return numext::mini(a, b);
@@ -665,7 +662,7 @@ EIGEN_DEVICE_FUNC inline Packet pmin(const Packet& a, const Packet& b) {
 }
 
 /** \internal \returns the max of \a a and \a b  (coeff-wise)
-    If \a a or \a b is NaN, the return value is implementation defined. */
+    If \a a or \b b is NaN, the return value is implementation defined. */
 template <typename Packet>
 EIGEN_DEVICE_FUNC inline Packet pmax(const Packet& a, const Packet& b) {
   return numext::maxi(a, b);
@@ -751,14 +748,8 @@ EIGEN_DEVICE_FUNC inline Packet pldexp(const Packet& a, const Packet& exponent) 
 
 /** \internal \returns the min of \a a and \a b  (coeff-wise) */
 template <typename Packet>
-EIGEN_DEVICE_FUNC inline std::enable_if_t<NumTraits<typename unpacket_traits<Packet>::type>::IsInteger, Packet>
-pabsdiff(const Packet& a, const Packet& b) {
+EIGEN_DEVICE_FUNC inline Packet pabsdiff(const Packet& a, const Packet& b) {
   return pselect(pcmp_lt(a, b), psub(b, a), psub(a, b));
-}
-template <typename Packet>
-EIGEN_DEVICE_FUNC inline std::enable_if_t<!NumTraits<typename unpacket_traits<Packet>::type>::IsInteger, Packet>
-pabsdiff(const Packet& a, const Packet& b) {
-  return pabs(psub(a, b));
 }
 
 /** \internal \returns a packet version of \a *from, from must be properly aligned */
@@ -823,24 +814,10 @@ EIGEN_DEVICE_FUNC inline Packet pset1(const typename unpacket_traits<Packet>::ty
 template <typename Packet, typename BitsType>
 EIGEN_DEVICE_FUNC inline Packet pset1frombits(BitsType a);
 
-template <typename Scalar, std::enable_if_t<std::is_trivially_copyable<Scalar>::value, int> = 0>
-EIGEN_DEVICE_FUNC inline Scalar pload1_scalar(const Scalar* a) {
-  Scalar scalar;
-  EIGEN_USING_STD(memcpy)
-  memcpy(&scalar, a, sizeof(Scalar));
-  return scalar;
-}
-
-template <typename Scalar, std::enable_if_t<!std::is_trivially_copyable<Scalar>::value, int> = 0>
-EIGEN_DEVICE_FUNC inline Scalar pload1_scalar(const Scalar* a) {
-  return Scalar(*a);
-}
-
 /** \internal \returns a packet with constant coefficients \a a[0], e.g.: (a[0],a[0],a[0],a[0]) */
 template <typename Packet>
 EIGEN_DEVICE_FUNC inline Packet pload1(const typename unpacket_traits<Packet>::type* a) {
-  using Scalar = typename unpacket_traits<Packet>::type;
-  return pset1<Packet>(pload1_scalar<Scalar>(a));
+  return pset1<Packet>(*a);
 }
 
 /** \internal \returns a packet with elements of \a *from duplicated.
@@ -850,7 +827,7 @@ EIGEN_DEVICE_FUNC inline Packet pload1(const typename unpacket_traits<Packet>::t
  */
 template <typename Packet>
 EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet ploaddup(const typename unpacket_traits<Packet>::type* from) {
-  return pload1<Packet>(from);
+  return *from;
 }
 
 /** \internal \returns a packet with elements of \a *from quadrupled.
@@ -1026,24 +1003,10 @@ EIGEN_DEVICE_FUNC inline Packet preverse(const Packet& a) {
   return a;
 }
 
-/** \internal \returns \a a with real and imaginary parts flipped (for complex types only) */
+/** \internal \returns \a a with real and imaginary part flipped (for complex type only) */
 template <typename Packet>
 EIGEN_DEVICE_FUNC inline Packet pcplxflip(const Packet& a) {
   return Packet(numext::imag(a), numext::real(a));
-}
-
-/** \internal \returns \a a with real part duplicated (for complex types only) */
-// TODO(rmlarsen): Define and use in all complex backends.
-template <typename Packet>
-EIGEN_DEVICE_FUNC inline Packet pdupreal(const Packet& a) {
-  return Packet(numext::real(a), numext::real(a));
-}
-
-/** \internal \returns \a a with imaginary part duplicated (for complex types only) */
-// TODO(rmlarsen): Define and use in all complex backends.
-template <typename Packet>
-EIGEN_DEVICE_FUNC inline Packet pdupimag(const Packet& a) {
-  return Packet(numext::imag(a), numext::imag(a));
 }
 
 /**************************
@@ -1132,20 +1095,6 @@ template <typename Packet>
 EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet patanh(const Packet& a) {
   EIGEN_USING_STD(atanh);
   return atanh(a);
-}
-
-/** \internal \returns the inverse hyperbolic sine of \a a (coeff-wise) */
-template <typename Packet>
-EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet pasinh(const Packet& a) {
-  EIGEN_USING_STD(asinh);
-  return asinh(a);
-}
-
-/** \internal \returns the inverse hyperbolic cosine of \a a (coeff-wise) */
-template <typename Packet>
-EIGEN_DECLARE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet pacosh(const Packet& a) {
-  EIGEN_USING_STD(acosh);
-  return acosh(a);
 }
 
 /** \internal \returns the exp of \a a (coeff-wise) */
@@ -1276,7 +1225,7 @@ EIGEN_DEVICE_FUNC inline typename unpacket_traits<Packet>::type pfirst(const Pac
 template <typename Packet>
 EIGEN_DEVICE_FUNC inline std::conditional_t<(unpacket_traits<Packet>::size % 8) == 0,
                                             typename unpacket_traits<Packet>::half, Packet>
-predux_half(const Packet& a) {
+predux_half_dowto4(const Packet& a) {
   return a;
 }
 
@@ -1359,7 +1308,9 @@ EIGEN_DEVICE_FUNC inline typename unpacket_traits<Packet>::type predux_max(const
 /** \internal \returns true if all coeffs of \a a means "true"
  * It is supposed to be called on values returned by pcmp_*.
  */
-// TODO: implement predux_all when needed.
+// not needed yet
+// template<typename Packet> EIGEN_DEVICE_FUNC inline bool predux_all(const Packet& a)
+// { return bool(a); }
 
 /** \internal \returns true if any coeffs of \a a means "true"
  * It is supposed to be called on values returned by pcmp_*.
@@ -1392,7 +1343,7 @@ struct pmadd_impl {
     return psub(c, pmul(a, b));
   }
   static EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Packet pnmsub(const Packet& a, const Packet& b, const Packet& c) {
-    return pnegate(padd(pmul(a, b), c));
+    return pnegate(pmadd(a, b, c));
   }
 };
 
@@ -1526,9 +1477,24 @@ struct PacketBlock {
   Packet packet[N];
 };
 
-template <typename Packet, int size = 1>
-EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet, size>& /*kernel*/) {
+template <typename Packet>
+EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet, 1>& /*kernel*/) {
   // Nothing to do in the scalar case, i.e. a 1x1 matrix.
+}
+
+/***************************************************************************
+ * Selector, i.e. vector of N boolean values used to select (i.e. blend)
+ * words from 2 packets.
+ ***************************************************************************/
+template <size_t N>
+struct Selector {
+  bool select[N];
+};
+
+template <typename Packet>
+EIGEN_DEVICE_FUNC inline Packet pblend(const Selector<unpacket_traits<Packet>::size>& ifPacket,
+                                       const Packet& thenPacket, const Packet& elsePacket) {
+  return ifPacket.select[0] ? thenPacket : elsePacket;
 }
 
 /** \internal \returns 1 / a (coeff-wise) */
