@@ -11,7 +11,7 @@
 #define EIGEN_UMFPACKSUPPORT_H
 
 // for compatibility with super old version of umfpack,
-// This may not be strictly needed, but it is harmless.
+// not sure this is really needed, but this is harmless.
 #ifndef SuiteSparse_long
 #ifdef UF_long
 #define SuiteSparse_long UF_long
@@ -425,7 +425,7 @@ class UmfPackLU : public SparseSolverBase<UmfPackLU<MatrixType_> > {
 
   /** Performs a numeric decomposition of \a matrix
    *
-   * The given matrix must have the same sparsity as the matrix on which the pattern analysis has been performed.
+   * The given matrix must have the same sparsity than the matrix on which the pattern anylysis has been performed.
    *
    * \sa analyzePattern(), compute()
    */

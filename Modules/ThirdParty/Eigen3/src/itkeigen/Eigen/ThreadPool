@@ -27,7 +27,7 @@
 
 #include <cstddef>
 #include <cstring>
-#include <ctime>
+#include <time.h>
 
 #include <vector>
 #include <atomic>
@@ -77,4 +77,4 @@
 
 #include "src/Core/util/ReenableStupidWarnings.h"
 
-#endif  // EIGEN_THREADPOOL_MODULE_H
+#endif  // EIGEN_CXX11_THREADPOOL_MODULE_H

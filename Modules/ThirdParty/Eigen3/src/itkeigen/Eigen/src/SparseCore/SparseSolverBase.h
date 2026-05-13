@@ -64,17 +64,14 @@ std::enable_if_t<Rhs::ColsAtCompileTime == 1 || Dest::ColsAtCompileTime == 1> so
  *
  */
 template <typename Derived>
-class SparseSolverBase {
+class SparseSolverBase : internal::noncopyable {
  public:
   /** Default constructor */
   SparseSolverBase() : m_isInitialized(false) {}
 
-  SparseSolverBase(const SparseSolverBase&) = delete;
-  SparseSolverBase& operator=(const SparseSolverBase&) = delete;
+  SparseSolverBase(SparseSolverBase&& other) : internal::noncopyable{}, m_isInitialized{other.m_isInitialized} {}
 
-  SparseSolverBase(SparseSolverBase&& other) : m_isInitialized{other.m_isInitialized} {}
-
-  ~SparseSolverBase() = default;
+  ~SparseSolverBase() {}
 
   Derived& derived() { return *static_cast<Derived*>(this); }
   const Derived& derived() const { return *static_cast<const Derived*>(this); }
@@ -84,7 +81,7 @@ class SparseSolverBase {
    * \sa compute()
    */
   template <typename Rhs>
-  inline Solve<Derived, Rhs> solve(const MatrixBase<Rhs>& b) const {
+  inline const Solve<Derived, Rhs> solve(const MatrixBase<Rhs>& b) const {
     eigen_assert(m_isInitialized && "Solver is not initialized.");
     eigen_assert(derived().rows() == b.rows() && "solve(): invalid number of rows of the right hand side matrix b");
     return Solve<Derived, Rhs>(derived(), b.derived());
@@ -95,7 +92,7 @@ class SparseSolverBase {
    * \sa compute()
    */
   template <typename Rhs>
-  inline Solve<Derived, Rhs> solve(const SparseMatrixBase<Rhs>& b) const {
+  inline const Solve<Derived, Rhs> solve(const SparseMatrixBase<Rhs>& b) const {
     eigen_assert(m_isInitialized && "Solver is not initialized.");
     eigen_assert(derived().rows() == b.rows() && "solve(): invalid number of rows of the right hand side matrix b");
     return Solve<Derived, Rhs>(derived(), b.derived());

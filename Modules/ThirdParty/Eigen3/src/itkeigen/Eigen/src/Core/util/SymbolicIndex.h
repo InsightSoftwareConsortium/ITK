@@ -188,10 +188,10 @@ template <typename IndexType>
 class ValueExpr : BaseExpr<ValueExpr<IndexType>> {
  public:
   constexpr ValueExpr() = default;
-  constexpr ValueExpr(IndexType val) : m_value(val) {}
+  constexpr ValueExpr(IndexType val) : value_(val) {}
   template <typename... Tags, typename... Types>
   constexpr IndexType eval_impl(const SymbolValue<Tags, Types>&...) const {
-    return m_value;
+    return value_;
   }
   template <typename... Tags, typename... Types>
   static constexpr IndexType eval_at_compile_time_impl(const SymbolValue<Tags, Types>&...) {
@@ -199,7 +199,7 @@ class ValueExpr : BaseExpr<ValueExpr<IndexType>> {
   }
 
  protected:
-  IndexType m_value;
+  IndexType value_;
 };
 
 // Specialization for compile-time value,
@@ -232,10 +232,10 @@ class SymbolValue<Tag, Index> : public BaseExpr<SymbolValue<Tag, Index>> {
   constexpr SymbolValue() = default;
 
   /** Default constructor from the value \a val */
-  constexpr SymbolValue(Index val) : m_value(val) {}
+  constexpr SymbolValue(Index val) : value_(val) {}
 
   /** \returns the stored value of the symbol */
-  constexpr Index value() const { return m_value; }
+  constexpr Index value() const { return value_; }
 
   /** \returns the stored value of the symbol at compile time, or Undefined if not known. */
   static constexpr Index value_at_compile_time() { return Index(Undefined); }
@@ -251,7 +251,7 @@ class SymbolValue<Tag, Index> : public BaseExpr<SymbolValue<Tag, Index>> {
   }
 
  protected:
-  Index m_value;
+  Index value_;
 };
 
 template <typename Tag, int N>

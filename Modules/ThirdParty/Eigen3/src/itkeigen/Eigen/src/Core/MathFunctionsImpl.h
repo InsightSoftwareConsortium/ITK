@@ -37,16 +37,15 @@ struct generic_reciprocal_newton_step {
   static_assert(Steps > 0, "Steps must be at least 1.");
   EIGEN_DEVICE_FUNC static EIGEN_STRONG_INLINE Packet run(const Packet& a, const Packet& approx_a_recip) {
     using Scalar = typename unpacket_traits<Packet>::type;
-    const Packet one = pset1<Packet>(Scalar(1));
+    const Packet two = pset1<Packet>(Scalar(2));
     // Refine the approximation using one Newton-Raphson step:
     //   x_{i} = x_{i-1} * (2 - a * x_{i-1})
     const Packet x = generic_reciprocal_newton_step<Packet, Steps - 1>::run(a, approx_a_recip);
-    const Packet tmp = pnmadd(a, x, one);
+    const Packet tmp = pnmadd(a, x, two);
     // If tmp is NaN, it means that a is either +/-0 or +/-Inf.
     // In this case return the approximation directly.
     const Packet is_not_nan = pcmp_eq(tmp, tmp);
-    // Use two FMAs instead of FMA+FMUL to improve precision.
-    return pselect(is_not_nan, pmadd(x, tmp, x), x);
+    return pselect(is_not_nan, pmul(x, tmp), x);
   }
 };
 
@@ -148,16 +147,16 @@ struct generic_sqrt_newton_step {
 };
 
 template <typename RealScalar>
-EIGEN_DEVICE_FUNC constexpr EIGEN_STRONG_INLINE RealScalar positive_real_hypot(const RealScalar& x,
-                                                                               const RealScalar& y) {
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE RealScalar positive_real_hypot(const RealScalar& x, const RealScalar& y) {
   // IEEE IEC 6059 special cases.
   if ((numext::isinf)(x) || (numext::isinf)(y)) return NumTraits<RealScalar>::infinity();
   if ((numext::isnan)(x) || (numext::isnan)(y)) return NumTraits<RealScalar>::quiet_NaN();
 
   EIGEN_USING_STD(sqrt);
-  RealScalar p = numext::maxi(x, y);
+  RealScalar p, qp;
+  p = numext::maxi(x, y);
   if (numext::is_exactly_zero(p)) return RealScalar(0);
-  RealScalar qp = numext::mini(y, x) / p;
+  qp = numext::mini(y, x) / p;
   return p * sqrt(RealScalar(1) + qp * qp);
 }
 
@@ -173,7 +172,7 @@ struct hypot_impl {
 // Generic complex sqrt implementation that correctly handles corner cases
 // according to https://en.cppreference.com/w/cpp/numeric/complex/sqrt
 template <typename ComplexT>
-EIGEN_DEVICE_FUNC constexpr ComplexT complex_sqrt(const ComplexT& z) {
+EIGEN_DEVICE_FUNC ComplexT complex_sqrt(const ComplexT& z) {
   // Computes the principal sqrt of the input.
   //
   // For a complex square root of the number x + i*y. We want to find real
@@ -209,7 +208,7 @@ EIGEN_DEVICE_FUNC constexpr ComplexT complex_sqrt(const ComplexT& z) {
 
 // Generic complex rsqrt implementation.
 template <typename ComplexT>
-EIGEN_DEVICE_FUNC constexpr ComplexT complex_rsqrt(const ComplexT& z) {
+EIGEN_DEVICE_FUNC ComplexT complex_rsqrt(const ComplexT& z) {
   // Computes the principal reciprocal sqrt of the input.
   //
   // For a complex reciprocal square root of the number z = x + i*y. We want to
@@ -248,7 +247,7 @@ EIGEN_DEVICE_FUNC constexpr ComplexT complex_rsqrt(const ComplexT& z) {
 }
 
 template <typename ComplexT>
-EIGEN_DEVICE_FUNC constexpr ComplexT complex_log(const ComplexT& z) {
+EIGEN_DEVICE_FUNC ComplexT complex_log(const ComplexT& z) {
   // Computes complex log.
   using T = typename NumTraits<ComplexT>::Real;
   T a = numext::abs(z);

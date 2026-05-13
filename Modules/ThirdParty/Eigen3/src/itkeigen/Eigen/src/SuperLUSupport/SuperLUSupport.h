@@ -208,7 +208,7 @@ struct SluMatrix : SuperMatrix {
 
     res.setScalarType<typename MatrixType::Scalar>();
 
-    // FIXME: the following type mapping is approximate.
+    // FIXME the following is not very accurate
     if (int(MatrixType::Flags) & int(Upper)) res.Mtype = SLU_TRU;
     if (int(MatrixType::Flags) & int(Lower)) res.Mtype = SLU_TRL;
 
@@ -259,7 +259,7 @@ struct SluMatrixMapHelper<SparseMatrixBase<Derived> > {
 
     res.setScalarType<typename MatrixType::Scalar>();
 
-    // FIXME: the following type mapping is approximate.
+    // FIXME the following is not very accurate
     if (MatrixType::Flags & Upper) res.Mtype = SLU_TRU;
     if (MatrixType::Flags & Lower) res.Mtype = SLU_TRL;
 
@@ -487,7 +487,7 @@ class SuperLU : public SuperLUBase<MatrixType_, SuperLU<MatrixType_> > {
 
   /** Performs a numeric decomposition of \a matrix
    *
-   * The given matrix must have the same sparsity as the matrix on which the symbolic decomposition has been
+   * The given matrix must have the same sparsity than the matrix on which the symbolic decomposition has been
    * performed.
    *
    * \sa analyzePattern()
@@ -583,7 +583,7 @@ void SuperLU<MatrixType>::factorize(const MatrixType &a) {
 
   m_extractedDataAreDirty = true;
 
-  // FIXME: implement more detailed error checking based on SuperLU info codes.
+  // FIXME how to better check for errors ???
   m_info = info == 0 ? Success : NumericalIssue;
   m_factorizationIsOk = true;
 }
@@ -792,7 +792,7 @@ class SuperILU : public SuperLUBase<MatrixType_, SuperILU<MatrixType_> > {
 
   /** Performs a numeric decomposition of \a matrix
    *
-   * The given matrix must have the same sparsity as the matrix on which the symbolic decomposition has been
+   * The given matrix must have the same sparsity than the matrix on which the symbolic decomposition has been
    * performed.
    *
    * \sa analyzePattern()
@@ -872,7 +872,7 @@ void SuperILU<MatrixType>::factorize(const MatrixType &a) {
                 &info, Scalar());
   StatFree(&m_sluStat);
 
-  // FIXME: implement more detailed error checking based on SuperLU info codes.
+  // FIXME how to better check for errors ???
   m_info = info == 0 ? Success : NumericalIssue;
   m_factorizationIsOk = true;
 }

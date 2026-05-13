@@ -39,11 +39,7 @@ struct product_evaluator<Product<Lhs, Rhs, DefaultProduct>, ProductTag, Diagonal
     : public sparse_diagonal_product_evaluator<Rhs, typename Lhs::DiagonalVectorType,
                                                Rhs::Flags & RowMajorBit ? SDP_AsScalarProduct : SDP_AsCwiseProduct> {
   typedef Product<Lhs, Rhs, DefaultProduct> XprType;
-  enum {
-    CoeffReadCost = HugeCost,
-    Flags = Rhs::Flags & RowMajorBit,
-    Alignment = 0
-  };  // FIXME: compute proper CoeffReadCost and propagate Flags.
+  enum { CoeffReadCost = HugeCost, Flags = Rhs::Flags & RowMajorBit, Alignment = 0 };  // FIXME CoeffReadCost & Flags
 
   typedef sparse_diagonal_product_evaluator<Rhs, typename Lhs::DiagonalVectorType,
                                             Rhs::Flags & RowMajorBit ? SDP_AsScalarProduct : SDP_AsCwiseProduct>
@@ -56,11 +52,7 @@ struct product_evaluator<Product<Lhs, Rhs, DefaultProduct>, ProductTag, SparseSh
     : public sparse_diagonal_product_evaluator<Lhs, Transpose<const typename Rhs::DiagonalVectorType>,
                                                Lhs::Flags & RowMajorBit ? SDP_AsCwiseProduct : SDP_AsScalarProduct> {
   typedef Product<Lhs, Rhs, DefaultProduct> XprType;
-  enum {
-    CoeffReadCost = HugeCost,
-    Flags = Lhs::Flags & RowMajorBit,
-    Alignment = 0
-  };  // FIXME: compute proper CoeffReadCost and propagate Flags.
+  enum { CoeffReadCost = HugeCost, Flags = Lhs::Flags & RowMajorBit, Alignment = 0 };  // FIXME CoeffReadCost & Flags
 
   typedef sparse_diagonal_product_evaluator<Lhs, Transpose<const typename Rhs::DiagonalVectorType>,
                                             Lhs::Flags & RowMajorBit ? SDP_AsCwiseProduct : SDP_AsScalarProduct>

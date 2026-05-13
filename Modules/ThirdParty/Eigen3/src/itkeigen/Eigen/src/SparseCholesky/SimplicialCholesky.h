@@ -416,7 +416,7 @@ class SimplicialLLT : public SimplicialCholeskyBase<SimplicialLLT<MatrixType_, U
 
   /** Performs a numeric decomposition of \a matrix
    *
-   * The given matrix must have the same sparsity as the matrix on which the symbolic decomposition has been
+   * The given matrix must have the same sparsity than the matrix on which the symbolic decomposition has been
    * performed.
    *
    * \sa analyzePattern()
@@ -505,7 +505,7 @@ class SimplicialLDLT : public SimplicialCholeskyBase<SimplicialLDLT<MatrixType_,
 
   /** Performs a numeric decomposition of \a matrix
    *
-   * The given matrix must have the same sparsity as the matrix on which the symbolic decomposition has been
+   * The given matrix must have the same sparsity than the matrix on which the symbolic decomposition has been
    * performed.
    *
    * \sa analyzePattern()
@@ -587,7 +587,7 @@ class SimplicialNonHermitianLLT
 
   /** Performs a numeric decomposition of \a matrix
    *
-   * The given matrix must have the same sparsity as the matrix on which the symbolic decomposition has been
+   * The given matrix must have the same sparsity than the matrix on which the symbolic decomposition has been
    * performed.
    *
    * \sa analyzePattern()
@@ -677,7 +677,7 @@ class SimplicialNonHermitianLDLT
 
   /** Performs a numeric decomposition of \a matrix
    *
-   * The given matrix must have the same sparsity as the matrix on which the symbolic decomposition has been
+   * The given matrix must have the same sparsity than the matrix on which the symbolic decomposition has been
    * performed.
    *
    * \sa analyzePattern()
@@ -761,7 +761,7 @@ class SimplicialCholesky : public SimplicialCholeskyBase<SimplicialCholesky<Matr
 
   /** Performs a numeric decomposition of \a matrix
    *
-   * The given matrix must have the same sparsity as the matrix on which the symbolic decomposition has been
+   * The given matrix must have the same sparsity than the matrix on which the symbolic decomposition has been
    * performed.
    *
    * \sa analyzePattern()

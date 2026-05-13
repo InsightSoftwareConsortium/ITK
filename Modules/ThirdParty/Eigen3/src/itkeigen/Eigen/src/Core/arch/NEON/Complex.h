@@ -456,8 +456,35 @@ EIGEN_DEVICE_FUNC inline void ptranspose(PacketBlock<Packet2cf, 2>& kernel) {
   kernel.packet[1].v = tmp;
 }
 
-EIGEN_INSTANTIATE_COMPLEX_MATH_FUNCS(Packet1cf)
-EIGEN_INSTANTIATE_COMPLEX_MATH_FUNCS(Packet2cf)
+template <>
+EIGEN_STRONG_INLINE Packet1cf psqrt<Packet1cf>(const Packet1cf& a) {
+  return psqrt_complex<Packet1cf>(a);
+}
+
+template <>
+EIGEN_STRONG_INLINE Packet2cf psqrt<Packet2cf>(const Packet2cf& a) {
+  return psqrt_complex<Packet2cf>(a);
+}
+
+template <>
+EIGEN_STRONG_INLINE Packet1cf plog<Packet1cf>(const Packet1cf& a) {
+  return plog_complex(a);
+}
+
+template <>
+EIGEN_STRONG_INLINE Packet2cf plog<Packet2cf>(const Packet2cf& a) {
+  return plog_complex(a);
+}
+
+template <>
+EIGEN_STRONG_INLINE Packet1cf pexp<Packet1cf>(const Packet1cf& a) {
+  return pexp_complex(a);
+}
+
+template <>
+EIGEN_STRONG_INLINE Packet2cf pexp<Packet2cf>(const Packet2cf& a) {
+  return pexp_complex(a);
+}
 
 //---------- double ----------
 #if EIGEN_ARCH_ARM64 && !EIGEN_APPLE_DOUBLE_NEON_BUG
@@ -489,7 +516,6 @@ struct packet_traits<std::complex<double>> : default_packet_traits {
     HasNegate = 1,
     HasSqrt = 1,
     HasLog = 1,
-    HasExp = 1,
     HasAbs = 0,
     HasAbs2 = 0,
     HasMin = 0,
@@ -687,7 +713,15 @@ EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet1cd, 2>& kernel) {
   kernel.packet[1].v = tmp;
 }
 
-EIGEN_INSTANTIATE_COMPLEX_MATH_FUNCS(Packet1cd)
+template <>
+EIGEN_STRONG_INLINE Packet1cd psqrt<Packet1cd>(const Packet1cd& a) {
+  return psqrt_complex<Packet1cd>(a);
+}
+
+template <>
+EIGEN_STRONG_INLINE Packet1cd plog<Packet1cd>(const Packet1cd& a) {
+  return plog_complex(a);
+}
 
 #endif  // EIGEN_ARCH_ARM64
 
