@@ -30,7 +30,6 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>::AntiAliasBinaryImageFilte
   : m_UpperBinaryValue(NumericTraits<BinaryValueType>::OneValue())
   , m_LowerBinaryValue(BinaryValueType{})
   , m_CurvatureFunction(CurvatureFunctionType::New())
-  , m_InputImage(nullptr)
 {
   this->SetDifferenceFunction(m_CurvatureFunction);
 
@@ -64,7 +63,7 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>::CalculateUpdateValue(cons
 {
   // This method introduces the constraint on the flow of the surface.
 
-  const BinaryValueType binary_val = m_InputImage->GetPixel(idx);
+  const BinaryValueType binary_val = this->m_InputImage->GetPixel(idx);
   const ValueType       new_value = value + dt * change;
 
   if (Math::ExactlyEquals(binary_val, m_UpperBinaryValue))
@@ -87,13 +86,13 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>::GenerateData()
                     << "  This value can be set by calling SetNumberOfLayers(n) on this filter.");
   }
 
-  m_InputImage = this->GetInput();
+  this->m_InputImage = this->GetInput();
 
   // Find the minimum and maximum of the input image and use these values to
   // set m_UpperBinaryValue, m_LowerBinaryValue, and m_IsoSurfaceValue in the
   // parent class.
   auto minmax = itk::MinimumMaximumImageCalculator<InputImageType>::New();
-  minmax->SetImage(m_InputImage);
+  minmax->SetImage(this->m_InputImage);
   minmax->ComputeMinimum();
   minmax->ComputeMaximum();
 
@@ -113,7 +112,7 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>::GenerateData()
   Superclass::GenerateData();
 
   // Release the pointer
-  m_InputImage = nullptr;
+  this->m_InputImage = nullptr;
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -124,8 +123,6 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & 
 
   print_helper::PrintNumericTrait(os, indent, "UpperBinaryValue", m_UpperBinaryValue);
   print_helper::PrintNumericTrait(os, indent, "LowerBinaryValue", m_LowerBinaryValue);
-
-  itkPrintSelfObjectMacro(InputImage);
 }
 } // end namespace itk
 
