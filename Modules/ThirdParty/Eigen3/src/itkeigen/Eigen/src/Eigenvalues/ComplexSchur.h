@@ -233,7 +233,7 @@ class ComplexSchur {
   }
 
   /** \brief Returns the maximum number of iterations. */
-  Index getMaxIterations() const { return m_maxIters; }
+  Index getMaxIterations() { return m_maxIters; }
 
   /** \brief Maximum number of iterations per row.
    *
@@ -277,8 +277,7 @@ typename ComplexSchur<MatrixType>::ComplexScalar ComplexSchur<MatrixType>::compu
   using std::abs;
   if ((iter == 10 || iter == 20) && iu > 1) {
     // exceptional shift, taken from http://www.netlib.org/eispack/comqr.f
-    return ComplexSchur<MatrixType>::ComplexScalar(abs(numext::real(m_matT.coeff(iu, iu - 1))) +
-                                                   abs(numext::real(m_matT.coeff(iu - 1, iu - 2))));
+    return abs(numext::real(m_matT.coeff(iu, iu - 1))) + abs(numext::real(m_matT.coeff(iu - 1, iu - 2)));
   }
 
   // compute the shift as one of the eigenvalues of t, the 2x2
@@ -363,7 +362,7 @@ struct complex_schur_reduce_to_hessenberg<MatrixType, false> {
     _this.m_hess.compute(matrix);
     _this.m_matT = _this.m_hess.matrixH().template cast<ComplexScalar>();
     if (computeU) {
-      // TODO: this temporary allocation could potentially be avoided.
+      // This may cause an allocation which seems to be avoidable
       MatrixType Q = _this.m_hess.matrixQ();
       _this.m_matU = Q.template cast<ComplexScalar>();
     }
