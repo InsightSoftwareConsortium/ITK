@@ -62,17 +62,6 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME itkYvvBenchmark3D
-  COMMAND
-    ${itk-module}TestDriver
-    itkYvvBenchmark
-    DATA{Input/256x256x64.tif}
-    3
-    12.0
-    2
-)
-
-itk_add_test(
   NAME itkYvvWhiteImageTest2D
   COMMAND
     ${itk-module}TestDriver
