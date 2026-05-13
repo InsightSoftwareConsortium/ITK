@@ -38,6 +38,7 @@ createtestdriver(ITKOptimizersv4 "${ITKOptimizersv4-Test_LIBRARIES}" "${ITKOptim
 set(
   ITKOptimizersv4GTests
   itkGradientDescentOptimizerv4ObserverGTest.cxx
+  itkMultiGradientOptimizerv4GTest.cxx
   itkWindowConvergenceMonitoringFunctionGTest.cxx
 )
 creategoogletestdriver(ITKOptimizersv4 "${ITKOptimizersv4-Test_LIBRARIES}" "${ITKOptimizersv4GTests}")

@@ -137,14 +137,10 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /* Common variables for optimization control and reporting */
-  bool                                     m_Stop{ false };
-  StopConditionObjectToObjectOptimizerEnum m_StopCondition{};
-  StopConditionDescriptionType             m_StopConditionDescription{};
-  OptimizersListType                       m_OptimizersList{};
-  MetricValuesListType                     m_MetricValuesList{};
-  MeasureType                              m_MinimumMetricValue{};
-  MeasureType                              m_MaximumMetricValue{};
+  OptimizersListType   m_OptimizersList{};
+  MetricValuesListType m_MetricValuesList{};
+  MeasureType          m_MinimumMetricValue{};
+  MeasureType          m_MaximumMetricValue{};
 };
 
 /** This helps to meet backward compatibility */
