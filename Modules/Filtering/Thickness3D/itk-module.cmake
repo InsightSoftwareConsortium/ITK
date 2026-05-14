@@ -20,7 +20,7 @@ itk_module(
   TEST_DEPENDS
     ITKTestKernel
     ITKMetaIO
-  DESCRIPTION "Module ingested from upstream."
+  DESCRIPTION "Tools for 3D thickness measurement"
   EXCLUDE_FROM_DEFAULT
   ENABLE_SHARED
 )
