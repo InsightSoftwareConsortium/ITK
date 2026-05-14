@@ -30,23 +30,20 @@
 namespace itk
 {
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 BinaryThinningImageFilter3D<TInputImage, TOutputImage>::BinaryThinningImageFilter3D()
 {
   this->SetNumberOfRequiredOutputs(1);
-
-  // OutputImagePointer thinImage = OutputImageType::New();
-  // this->SetNthOutput(0, thinImage.GetPointer());
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 typename BinaryThinningImageFilter3D<TInputImage, TOutputImage>::OutputImageType *
 BinaryThinningImageFilter3D<TInputImage, TOutputImage>::GetThinning()
 {
   return dynamic_cast<OutputImageType *>(this->ProcessObject::GetOutput(0));
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 BinaryThinningImageFilter3D<TInputImage, TOutputImage>::PrepareData()
 {
@@ -74,18 +71,18 @@ BinaryThinningImageFilter3D<TInputImage, TOutputImage>::PrepareData()
   {
     if (it.Get())
     {
-      ot.Set(NumericTraits<OutputImagePixelType>::One);
+      ot.Set(NumericTraits<OutputImagePixelType>::OneValue());
     }
     else
     {
-      ot.Set(NumericTraits<OutputImagePixelType>::Zero);
+      ot.Set(NumericTraits<OutputImagePixelType>::ZeroValue());
     }
     ++it;
     ++ot;
   }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 BinaryThinningImageFilter3D<TInputImage, TOutputImage>::ComputeThinImage()
 {
@@ -200,13 +197,13 @@ BinaryThinningImageFilter3D<TInputImage, TOutputImage>::ComputeThinImage()
            ++simpleBorderPointsIt)
       {
         // 1. Set simple border point to 0
-        thinImage->SetPixel(*simpleBorderPointsIt, NumericTraits<OutputImagePixelType>::Zero);
+        thinImage->SetPixel(*simpleBorderPointsIt, NumericTraits<OutputImagePixelType>::ZeroValue());
         // 2. Check if neighborhood is still connected
         ot.SetLocation(*simpleBorderPointsIt);
         if (!this->IsSimplePoint(ot.GetNeighborhood()))
         {
           // We cannot delete current point, so reset
-          thinImage->SetPixel(*simpleBorderPointsIt, NumericTraits<OutputImagePixelType>::One);
+          thinImage->SetPixel(*simpleBorderPointsIt, NumericTraits<OutputImagePixelType>::OneValue());
         }
         else
         {
@@ -222,7 +219,7 @@ BinaryThinningImageFilter3D<TInputImage, TOutputImage>::ComputeThinImage()
   }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 BinaryThinningImageFilter3D<TInputImage, TOutputImage>::GenerateData()
 {
@@ -231,7 +228,7 @@ BinaryThinningImageFilter3D<TInputImage, TOutputImage>::GenerateData()
   this->ComputeThinImage();
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 BinaryThinningImageFilter3D<TInputImage, TOutputImage>::FillEulerLUT(int * LUT)
 {
@@ -369,7 +366,7 @@ BinaryThinningImageFilter3D<TInputImage, TOutputImage>::FillEulerLUT(int * LUT)
   LUT[255] = -1;
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 bool
 BinaryThinningImageFilter3D<TInputImage, TOutputImage>::IsEulerInvariant(NeighborhoodType neighbors, const int * LUT)
 {
@@ -651,7 +648,7 @@ BinaryThinningImageFilter3D<TInputImage, TOutputImage>::IsEulerInvariant(Neighbo
   }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 bool
 BinaryThinningImageFilter3D<TInputImage, TOutputImage>::IsSimplePoint(NeighborhoodType neighbors)
 {
@@ -730,7 +727,7 @@ BinaryThinningImageFilter3D<TInputImage, TOutputImage>::IsSimplePoint(Neighborho
   return true;
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 BinaryThinningImageFilter3D<TInputImage, TOutputImage>::OctreeLabeling(int octant, int label, int * cube)
 {
@@ -1090,7 +1087,7 @@ BinaryThinningImageFilter3D<TInputImage, TOutputImage>::OctreeLabeling(int octan
   }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 BinaryThinningImageFilter3D<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {

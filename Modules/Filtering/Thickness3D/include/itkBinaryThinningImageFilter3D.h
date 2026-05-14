@@ -18,10 +18,10 @@
 #ifndef itkBinaryThinningImageFilter3D_h
 #define itkBinaryThinningImageFilter3D_h
 
-#include <itkNeighborhoodIterator.h>
-#include <itkImageToImageFilter.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkConstantBoundaryCondition.h>
+#include "itkNeighborhoodIterator.h"
+#include "itkImageToImageFilter.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkConstantBoundaryCondition.h"
 
 namespace itk
 {
@@ -57,7 +57,7 @@ namespace itk
  * \ingroup ImageEnhancement MathematicalMorphologyImageFilters Thickness3D
  */
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT BinaryThinningImageFilter3D : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
