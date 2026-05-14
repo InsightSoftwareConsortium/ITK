@@ -368,7 +368,8 @@ BinaryThinningImageFilter3D<TInputImage, TOutputImage>::FillEulerLUT(int * LUT)
 
 template <typename TInputImage, typename TOutputImage>
 bool
-BinaryThinningImageFilter3D<TInputImage, TOutputImage>::IsEulerInvariant(NeighborhoodType neighbors, const int * LUT)
+BinaryThinningImageFilter3D<TInputImage, TOutputImage>::IsEulerInvariant(const NeighborhoodType & neighbors,
+                                                                         const int *              LUT)
 {
   // Calculate Euler characteristic for each octant and sum up
   int           EulerChar = 0;
@@ -650,7 +651,7 @@ BinaryThinningImageFilter3D<TInputImage, TOutputImage>::IsEulerInvariant(Neighbo
 
 template <typename TInputImage, typename TOutputImage>
 bool
-BinaryThinningImageFilter3D<TInputImage, TOutputImage>::IsSimplePoint(NeighborhoodType neighbors)
+BinaryThinningImageFilter3D<TInputImage, TOutputImage>::IsSimplePoint(const NeighborhoodType & neighbors)
 {
   // Copy neighbors for labeling
   int cube[26];

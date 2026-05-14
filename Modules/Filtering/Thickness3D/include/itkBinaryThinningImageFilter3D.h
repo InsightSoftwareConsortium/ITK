@@ -150,7 +150,7 @@ protected:
 
   /** Check for Euler invariance (see [Lee94]). */
   bool
-  IsEulerInvariant(NeighborhoodType neighbors, const int * LUT);
+  IsEulerInvariant(const NeighborhoodType & neighbors, const int * LUT);
 
   /** Fill the Euler look-up table (LUT) for later check of the Euler
    * invariance (see [Lee94]). */
@@ -162,7 +162,7 @@ protected:
    * Outputs the number of connected objects in a neighborhood of a point
    * after this point would have been removed. */
   bool
-  IsSimplePoint(NeighborhoodType neighbors);
+  IsSimplePoint(const NeighborhoodType & neighbors);
 
   /** Recursive method that calculates the number of connected components in
    * the 3D neighbourhood after the center pixel would have been removed (see)
