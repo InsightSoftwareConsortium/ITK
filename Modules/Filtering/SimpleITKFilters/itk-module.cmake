@@ -14,6 +14,7 @@ itk_module(
     ITKCommon
     ITKImageFeature
   COMPILE_DEPENDS
+    ITKImageGrid
   TEST_DEPENDS
     ITKTestKernel
     ITKGoogleTest
