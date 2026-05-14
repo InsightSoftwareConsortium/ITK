@@ -97,8 +97,7 @@ template <typename TInputImage, typename TOutputPath>
 typename ArrivalFunctionToPathFilter<TInputImage, TOutputPath>::InputImageType *
 ArrivalFunctionToPathFilter<TInputImage, TOutputPath>::ComputeArrivalFunction()
 {
-  auto * function = (InputImageType *)this->ProcessObject::GetInput(0);
-  return function;
+  return const_cast<InputImageType *>(this->GetInput());
 }
 
 template <typename TInputImage, typename TOutputPath>
@@ -110,7 +109,6 @@ ArrivalFunctionToPathFilter<TInputImage, TOutputPath>::GenerateData()
   if (input.IsNull())
   {
     itkExceptionMacro("Input image must be provided");
-    return;
   }
 
   // Check the number of paths is not none
@@ -206,8 +204,9 @@ ArrivalFunctionToPathFilter<TInputImage, TOutputPath>::Execute(const Object * ob
 {
   (void)event;
 
-  // Cast object to optmizer
-  typename OptimizerType::Pointer optimizer = (OptimizerType *)dynamic_cast<const OptimizerType *>(object);
+  // Cast object to optimizer
+  auto *                          rawOptimizer = dynamic_cast<const OptimizerType *>(object);
+  typename OptimizerType::Pointer optimizer = const_cast<OptimizerType *>(rawOptimizer);
   if (optimizer.IsNull())
   {
     return;
