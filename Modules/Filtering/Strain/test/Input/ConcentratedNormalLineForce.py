@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """
 Calculate displacements and strains for line loading in an elastic half-space
 of a isotropic, homogeneous body undergoing small strain.
@@ -80,7 +78,7 @@ with open("LineLoadDisplacement.vtk", "w") as f:
     f.write("VECTORS displacement double\n")
     for i in range(ux.shape[0]):
         for j in range(ux.shape[1]):
-            f.write("{0:.20g} {1:.20g} 0.0\n".format(ux[j, i], uy[j, i]))
+            f.write(f"{ux[j, i]:.20g} {uy[j, i]:.20g} 0.0\n")
 
 for i in range(3):
     with open("../Baseline/LineLoadStrainComponent" + str(i) + ".mhd", "w") as f:
