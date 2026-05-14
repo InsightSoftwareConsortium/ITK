@@ -153,7 +153,11 @@ public:
 
 protected:
   FastGrowCut() = default;
-  ~FastGrowCut() = default;
+  ~FastGrowCut() override
+  {
+    delete m_Heap;
+    delete[] m_HeapNodes;
+  }
 
   static constexpr NodeKeyValueType DIST_INF = std::numeric_limits<float>::max();
   static constexpr NodeKeyValueType DIST_EPSILON = 1e-3f;
