@@ -17,5 +17,6 @@ itk_module(
   TEST_DEPENDS
     ITKTestKernel
   EXCLUDE_FROM_DEFAULT
-  DESCRIPTION "Module ingested from upstream."
+  DESCRIPTION
+    "Multi-scale steerable filters for computing a contrast-invariant phase-symmetry edge/ridge measure based on local phase congruency."
 )
