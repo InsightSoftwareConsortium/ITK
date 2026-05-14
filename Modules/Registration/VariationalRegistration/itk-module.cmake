@@ -19,6 +19,7 @@ itk_module(
     ITKRegistrationCommon
     ITKMathematicalMorphology
     ITKBinaryMathematicalMorphology
+  PRIVATE_DEPENDS
     ITKIOGDCM
     ITKIOMeta
     ITKIOJPEG
