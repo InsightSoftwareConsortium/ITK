@@ -108,12 +108,12 @@ ScancoHeaderIO::WriteHeader(unsigned long imageSize, const std::string filename)
 
   std::ios::openmode mode = std::ios::out | std::ios::trunc | std::ios::binary;
 
-  outfile.open(filename.c_str(), mode);
+  outfile.open(this->m_FileName.c_str(), mode);
 
   if (!outfile.is_open() || outfile.fail())
   {
     throw std::runtime_error("Could not open file: " + this->m_FileName +
-                             " for writing. Reason: " + std::strerror(errno) + "/n");
+                             " for writing. Reason: " + std::strerror(errno) + "\n");
   }
 
   return this->WriteHeader(outfile, imageSize);
