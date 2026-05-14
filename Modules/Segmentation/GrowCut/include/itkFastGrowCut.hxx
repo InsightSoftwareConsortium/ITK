@@ -59,18 +59,12 @@ template <typename TInputImage, typename TLabelImage, typename TMaskImage>
 void
 FastGrowCut<TInputImage, TLabelImage, TMaskImage>::Reset()
 {
-  // if (m_Heap != nullptr)
-  // {
-  //   delete m_Heap;
-  //   m_Heap = nullptr;
-  // }
-  // if (m_HeapNodes != nullptr)
-  // {
-  //   delete[] m_HeapNodes;
-  //   m_HeapNodes = nullptr;
-  // }
-  // m_bSegInitialized = false;
-  // m_DistanceVolume = DistanceImageType::New()
+  delete m_Heap;
+  m_Heap = nullptr;
+  delete[] m_HeapNodes;
+  m_HeapNodes = nullptr;
+  m_bSegInitialized = false;
+  m_DistanceVolume = DistanceImageType::New();
 }
 
 template <typename TInputImage, typename TLabelImage, typename TMaskImage>
