@@ -81,6 +81,7 @@ cmd = '''cmake \
   -DModule_PhaseSymmetry:BOOL=ON \
   -DModule_PolarTransform:BOOL=ON \
   -DModule_PrincipalComponentsAnalysis:BOOL=ON \
+  -DModule_RANSAC:BOOL=ON \
   -DModule_RLEImage:BOOL=ON \
   -DModule_SmoothingRecursiveYvvGaussianFilter:BOOL=ON \
   -DModule_SplitComponents:BOOL=ON \
