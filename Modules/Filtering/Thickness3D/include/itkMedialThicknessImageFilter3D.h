@@ -40,7 +40,7 @@ namespace itk
  * \ingroup MathematicalMorphologyImageFilters Thickness3D
  */
 template <typename TInputImage, typename TOutputImage>
-class MedialThicknessImageFilter3D : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT MedialThicknessImageFilter3D : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MedialThicknessImageFilter3D);
