@@ -185,8 +185,9 @@ void
 SpeedFunctionToPathFilter<TInputImage, TOutputPath>::Execute(const Object *      object,
                                                              const EventObject & itkNotUsed(event))
 {
-  // Cast object to optmizer
-  typename OptimizerType::Pointer optimizer = (OptimizerType *)dynamic_cast<const OptimizerType *>(object);
+  // Cast object to optimizer
+  auto *                          rawOptimizer = dynamic_cast<const OptimizerType *>(object);
+  typename OptimizerType::Pointer optimizer = const_cast<OptimizerType *>(rawOptimizer);
   if (optimizer.IsNull())
     return;
 
