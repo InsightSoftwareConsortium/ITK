@@ -31,7 +31,7 @@
 // #include "itkTestDriverInclude.h"
 #include "itkObjectFactoryBase.h"
 
-void
+inline void
 RegisterRequiredFactories()
 {
   itk::ObjectFactoryBase::RegisterFactory(itk::MetaImageIOFactory::New());
