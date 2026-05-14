@@ -28,7 +28,7 @@ itk_add_test(
   COMMAND
     StrainTestDriver
     --compare
-    DATA{Baseline/LineLoadStrain.mha}
+    DATA{Baseline/LineLoadStrainLagrangian.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterLagrangianTestOutput.vtk
     itkStrainImageFilterTest
     DATA{Input/LineLoadDisplacement.mha}
@@ -41,7 +41,7 @@ itk_add_test(
   COMMAND
     StrainTestDriver
     --compare
-    DATA{Baseline/LineLoadStrain.mha}
+    DATA{Baseline/LineLoadStrainEulerian.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterEulerianTestOutput.vtk
     itkStrainImageFilterTest
     DATA{Input/LineLoadDisplacement.mha}
