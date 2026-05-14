@@ -63,6 +63,7 @@ cmd = '''cmake \
   -DModule_LabelErodeDilate:BOOL=ON \
   -DModule_MeshNoise:BOOL=ON \
   -DModule_MGHIO:BOOL=ON \
+  -DModule_MinimalPathExtraction:BOOL=ON \
   -DModule_PolarTransform:BOOL=ON \
   -DModule_PrincipalComponentsAnalysis:BOOL=ON \
   -DModule_SmoothingRecursiveYvvGaussianFilter:BOOL=ON \

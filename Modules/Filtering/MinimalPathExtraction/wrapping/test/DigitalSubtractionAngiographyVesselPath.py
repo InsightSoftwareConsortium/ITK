@@ -1,4 +1,3 @@
-
 import sys
 from pathlib import Path
 
@@ -26,7 +25,7 @@ PointType = itk.Point[itk.D, Dimension]
 PathInformationType = itk.SpeedFunctionPathInformation[PointType]
 
 path_information = PathInformationType.New()
-with open(path_filename, "r") as fp:
+with open(path_filename) as fp:
     for line in fp:
         line = line.replace("Path: ", "")
         line = line.replace("[", "").strip()
@@ -92,7 +91,7 @@ print("Number of paths: " + str(number_of_paths))
 for ii in range(number_of_paths):
     path = path_filter.GetOutput(ii)
     number_of_vertices = path.GetVertexList().Size()
-    print("Number of Path {0} vertices: {1}".format(ii, number_of_vertices))
+    print(f"Number of Path {ii} vertices: {number_of_vertices}")
 assert number_of_vertices != 0
 
 path_filter.GetNumberOfOutputs()
