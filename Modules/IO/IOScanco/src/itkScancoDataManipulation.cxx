@@ -56,7 +56,7 @@ CheckVersion(const char header[ScancoHeaderField::VersionDiskWidth])
   {
     fileType = 3;
   }
-  else
+  else if (strncmp(header, "AIMDATA_V020   ", ScancoHeaderField::VersionDiskWidth) == 0)
   {
     fileType = 2;
   }
