@@ -17,7 +17,12 @@ itk_module(
     ITKTestKernel
     ITKSmoothing
     ITKMetaIO
-  DESCRIPTION "Module ingested from upstream."
+  DESCRIPTION
+    "Fast GrowCut segmentation: a Dijkstra-based region-growing
+algorithm that propagates user-provided seed labels through an N-D image
+using a Fibonacci-heap priority queue. Supports optional masking and
+adaptive (incremental) re-segmentation when seeds change. Ingested from
+the InsightSoftwareConsortium/ITKGrowCut remote module."
   EXCLUDE_FROM_DEFAULT
   ENABLE_SHARED
 )
