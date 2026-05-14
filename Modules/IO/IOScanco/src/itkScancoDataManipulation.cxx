@@ -60,6 +60,18 @@ CheckVersion(const char header[ScancoHeaderField::VersionDiskWidth])
   {
     fileType = 2;
   }
+  else
+  {
+    // Legacy pre-magic AIM v020 files start with the pre-header byte count
+    // (20 = 0x14) in little-endian uint32. Recognize that structural signature
+    // instead of self-nominating for arbitrary unrelated content.
+    const auto *   bytes = reinterpret_cast<const unsigned char *>(header);
+    const uint32_t preHeaderSize = bytes[0] | (bytes[1] << 8) | (bytes[2] << 16) | (bytes[3] << 24);
+    if (preHeaderSize == 20)
+    {
+      fileType = 2;
+    }
+  }
 
   return fileType;
 }
