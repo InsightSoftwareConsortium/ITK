@@ -19,6 +19,7 @@
 #ifndef itkLandmarkRegistrationEstimator_h
 #define itkLandmarkRegistrationEstimator_h
 
+#include <memory>
 #include "itkPoint.h"
 #include "itkObjectFactory.h"
 #include "itkPointsLocator.h"
@@ -98,7 +99,7 @@ private:
   PointsLocatorType::Pointer pointsLocator;
   PointsContainer::Pointer   agreePoints;
   VectorofVectorsT           samples;
-  KdTreeT *                  mat_adaptor;
+  std::unique_ptr<KdTreeT>   mat_adaptor;
 };
 
 } // end namespace itk

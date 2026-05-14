@@ -269,7 +269,7 @@ LandmarkRegistrationEstimator<Dimension, TTransform>::SetAgreeData(std::vector<P
     }
   }
 
-  this->mat_adaptor = new KdTreeT(dim, this->samples, 5);
+  this->mat_adaptor = std::make_unique<KdTreeT>(dim, this->samples, 5);
   this->mat_adaptor->index->buildIndex();
 }
 
@@ -434,7 +434,8 @@ LandmarkRegistrationEstimator<Dimension, TTransform>::AgreeMultiple(std::vector<
 
     resultSet.init(&ret_indexes[0], &out_dists_sqr[0]);
     this->mat_adaptor->index->findNeighbors(resultSet, &query_pt[0], nanoflann::SearchParams(10));
-    bool flag = out_dists_sqr[0] < this->delta;
+    // out_dists_sqr is squared distance; delta is Euclidean threshold.
+    bool flag = out_dists_sqr[0] < this->delta * this->delta;
     if (flag)
     {
       localBest++;
