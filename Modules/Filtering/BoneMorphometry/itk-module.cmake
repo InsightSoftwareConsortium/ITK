@@ -21,7 +21,8 @@ itk_module(
     ITKTestKernel
     ITKMetaIO
     ITKImageIntensity
-  DESCRIPTION "Module ingested from upstream."
+  DESCRIPTION
+    "Filters for trabecular bone morphometry: BVTV, TbTh, TbSp, TbN, BSBV metrics and per-voxel feature maps."
   EXCLUDE_FROM_DEFAULT
   ENABLE_SHARED
 )
