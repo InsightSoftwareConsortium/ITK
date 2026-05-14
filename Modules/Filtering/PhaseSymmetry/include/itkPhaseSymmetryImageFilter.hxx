@@ -83,7 +83,7 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::PhaseSymmetryImageFilter()
   }
 
   // Defaults
-  m_AngleBandwidth = itk::Math::pi;
+  m_AngleBandwidth = Math::pi;
   m_Sigma = 0.55;
   m_NoiseThreshold = 10.0;
   m_Polarity = 0;
