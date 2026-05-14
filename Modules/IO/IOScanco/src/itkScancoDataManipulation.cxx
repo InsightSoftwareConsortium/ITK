@@ -349,11 +349,12 @@ StripString(char * dest, const char * source, size_t length)
 void
 PadString(char * dest, const char * source, size_t length)
 {
-  for (size_t i = 0; i < length && *source != '\0'; ++i)
+  size_t written = 0;
+  for (; written < length && *source != '\0'; ++written)
   {
     *dest++ = *source++;
   }
-  for (size_t i = 0; i < length; ++i)
+  for (; written < length; ++written)
   {
     *dest++ = ' ';
   }
