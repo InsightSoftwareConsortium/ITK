@@ -69,6 +69,7 @@ cmd = '''cmake \
   -DModule_SplitComponents:BOOL=ON \
   -DModule_IOMeshMZ3:BOOL=ON \
   -DModule_IOFDF:BOOL=ON \
+  -DModule_IsotropicWavelets:BOOL=ON \
   -DModule_MorphologicalContourInterpolation:BOOL=ON \
   -DModule_ParabolicMorphology:BOOL=ON \
   -DModule_MultipleImageIterator:BOOL=ON \
