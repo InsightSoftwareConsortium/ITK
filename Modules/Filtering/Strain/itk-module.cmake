@@ -16,7 +16,6 @@ itk_module(
     ITKTestKernel
     ITKIOVTK
     ITKDisplacementField
-    ITKIOVTK
   EXCLUDE_FROM_DEFAULT
-  DESCRIPTION "Module ingested from upstream."
+  DESCRIPTION "Filters to estimate strain from a displacement field"
 )
