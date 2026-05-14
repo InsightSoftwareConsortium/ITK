@@ -43,7 +43,6 @@
 #include "itkComplexToRealImageFilter.h"
 #include "itkComplexToPhaseImageFilter.h"
 #include "itkComplexToImaginaryImageFilter.h"
-#include "itkComplexToImaginaryImageFilter.h"
 #include "itkComplexToModulusImageFilter.h"
 #include "itkShiftScaleImageFilter.h"
 #include "itkAbsImageFilter.h"
