@@ -71,15 +71,11 @@ LogGaborFreqImageSource<TOutputImage>::DynamicThreadedGenerateData(const OutputI
   for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
   {
     const typename OutputImageType::IndexType index = outIt.GetIndex();
-    // std::cout << "index: " << index << std::endl;
 
     double radius = 0.0;
     for (unsigned int ii = 0; ii < ImageDimension; ++ii)
     {
       const double dist = (centerPoint[ii] - double(index[ii])) / double(size[ii]);
-      // %todo: is this correct for odd numbers?
-      // const SizeValueType halfLength = size[ii] / 2;
-      // const double dist = (index[ii] % halfLength) / double(halfLength);
       radius += dist * dist * m_Wavelengths[ii] * m_Wavelengths[ii];
     }
     if (radius == 0.0)
@@ -88,7 +84,6 @@ LogGaborFreqImageSource<TOutputImage>::DynamicThreadedGenerateData(const OutputI
       continue;
     }
     radius = std::sqrt(radius);
-    // std::cout << "radius: " << radius << std::endl;
 
     radius = std::log(radius);
     radius *= radius;
