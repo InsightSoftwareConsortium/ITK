@@ -8,17 +8,11 @@ set(
 
 createtestdriver(IOScanco  "${IOScanco-Test_LIBRARIES}" "${IOScancoTests}")
 
-# C0004255.ISQ is a 107 MB fixture hosted via SHA512 on data.kitware.com
-# (exceeds GitHub's 100 MB single-file limit so cannot live in ITKTestingData).
-# Tests that download it are opt-in via ITK_BUILD_BIG_DATA_TESTS.
-option(
-  ITK_BUILD_BIG_DATA_TESTS
-  "Build IOScanco tests that require multi-hundred-megabyte fixtures"
-  OFF
-)
-mark_as_advanced(ITK_BUILD_BIG_DATA_TESTS)
-
-if(ITK_BUILD_BIG_DATA_TESTS)
+# C0004255.ISQ is a 107 MB input + 67 MB baseline fixture hosted on
+# data.kitware.com via SHA512 (exceeds GitHub's 100 MB single-file limit so
+# cannot live in ITKTestingData). Gate on ITK_COMPUTER_MEMORY_SIZE to match
+# Modules/IO/TIFF/test/CMakeLists.txt itkLargeTIFFImageWriteReadTest* pattern.
+if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
   itk_add_test(
     NAME itkScancoImageIOISQConvertTest
     COMMAND
@@ -50,7 +44,7 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/AIMIOTestImage.mha
 )
 
-if(ITK_BUILD_BIG_DATA_TESTS)
+if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
   itk_add_test(
     NAME itkScancoImageIOISQHeaderCheckTest
     COMMAND
@@ -78,7 +72,7 @@ itk_add_test(
     1
 )
 
-if(ITK_BUILD_BIG_DATA_TESTS)
+if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
   itk_add_test(
     NAME itkScancoImageIOISQHeaderCheckTest2
     COMMAND
@@ -132,7 +126,7 @@ set_property(
       itkScancoImageIOAIMHeaderCheckTest
 )
 
-if(ITK_BUILD_BIG_DATA_TESTS)
+if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
   itk_add_test(
     NAME itkScancoImageIOISQReadWritten
     COMMAND
