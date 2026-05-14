@@ -32,7 +32,8 @@ itk_module(
     ITKIONIFTI
   TEST_DEPENDS
     ITKTestKernel
-  DESCRIPTION "Module ingested from upstream."
+  DESCRIPTION
+    "Diffeomorphic, demons, and curvature-based variational image registration with multi-resolution support."
   EXCLUDE_FROM_DEFAULT
   # Only use with libraries with compiled source ENABLE_SHARED
 )

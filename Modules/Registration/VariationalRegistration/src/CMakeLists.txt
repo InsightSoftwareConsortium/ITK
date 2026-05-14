@@ -51,14 +51,14 @@ target_link_libraries(
 target_include_directories(
   VariationalRegistration
   PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/../include
+    ${CMAKE_CURRENT_LIST_DIR}
+    ${CMAKE_CURRENT_LIST_DIR}/../include
 )
 if(WIN32 AND MSVC)
   target_include_directories(
     VariationalRegistration
     PRIVATE
-      ${CMAKE_CURRENT_SOURCE_DIR}/win32_compatibility
+      ${CMAKE_CURRENT_LIST_DIR}/win32_compatibility
   )
 endif()
 
@@ -70,14 +70,14 @@ target_link_libraries(
 target_include_directories(
   VariationalRegistration2D
   PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/../include
+    ${CMAKE_CURRENT_LIST_DIR}
+    ${CMAKE_CURRENT_LIST_DIR}/../include
 )
 if(WIN32 AND MSVC)
   target_include_directories(
     VariationalRegistration2D
     PRIVATE
-      ${CMAKE_CURRENT_SOURCE_DIR}/win32_compatibility
+      ${CMAKE_CURRENT_LIST_DIR}/win32_compatibility
   )
 endif()
 target_compile_definitions(VariationalRegistration2D PRIVATE USE_2D_IMPL)
