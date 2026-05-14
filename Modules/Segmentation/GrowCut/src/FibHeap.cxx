@@ -12,8 +12,8 @@
 
 using namespace std;
 
-#define OK 0
-#define NOTOK -1
+constexpr int OK = 0;
+constexpr int NOTOK = -1;
 
 const NodeIndexType    FibHeapNode::NullNodeIndex = 0xFFFFFFFF;
 const NodeKeyValueType FibHeapNode::NegativeInfinity = -std::numeric_limits<NodeKeyValueType>::infinity();
@@ -269,7 +269,7 @@ FibHeap::Print(FibHeapNode * tree, FibHeapNode * theParent)
       cout << "(m_Left is nullptr)";
     }
     temp->Print();
-    if (temp->m_Parent != theParent->m_Index)
+    if (theParent != nullptr && temp->m_Parent != theParent->m_Index)
     {
       cout << "(m_Parent is incorrect)";
     }
@@ -317,9 +317,7 @@ FibHeap::Print(FibHeapNode * tree, FibHeapNode * theParent)
 
   if (theParent == nullptr)
   {
-    char ch;
-    cout << "Done Printing.  Hit a key.\n";
-    cin >> ch;
+    cout << "Done Printing.\n";
   }
 }
 
