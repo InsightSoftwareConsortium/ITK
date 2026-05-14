@@ -51,7 +51,6 @@ set(
 
 if(ITKVtkGlue_ENABLED)
   find_package(VTK REQUIRED)
-  include_directories(SYSTEM ${VTK_INCLUDE_DIRS})
   list(APPEND Libraries ${VTK_LIBRARIES})
 endif()
 
@@ -66,6 +65,15 @@ mark_as_advanced(ITK_VISUALIZE_TESTS)
 
 createtestdriver(IsotropicWavelets "${Libraries}" "${IsotropicWaveletsTests}")
 
+if(ITKVtkGlue_ENABLED)
+  target_include_directories(
+    IsotropicWaveletsTestDriver
+    SYSTEM
+    PRIVATE
+      ${VTK_INCLUDE_DIRS}
+  )
+endif()
+
 # Coverage flags.
 # set(COVERAGE_FLAGS "-coverage -fprofile-arcs -ftest-coverage")
 # set_target_properties(IsotropicWaveletsTestDriver
@@ -73,7 +81,7 @@ createtestdriver(IsotropicWavelets "${Libraries}" "${IsotropicWaveletsTests}")
 #              LINK_FLAGS "-fprofile-arcs"
 #   )
 
-# use #ifdef ITK_VISUALIZE_TESTS, instead of checking value with #ifdef ITK_VISUALIZE_TESTS
+# use #ifdef ITK_VISUALIZE_TESTS (existence check), not #if ITK_VISUALIZE_TESTS
 if(ITK_VISUALIZE_TESTS)
   target_compile_definitions(
     IsotropicWaveletsTestDriver
