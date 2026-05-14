@@ -84,6 +84,15 @@ BoneMorphometryFeaturesFilter<TInputImage, TMaskImage>::AfterThreadedGenerateDat
   SizeValueType numZO = m_NumZO.load();
 
   typename TInputImage::SpacingType inSpacing = this->GetInput()->GetSpacing();
+  if (numVoxelsInsideMask == 0)
+  {
+    m_Pp = RealType{};
+    m_PlX = RealType{};
+    m_PlY = RealType{};
+    m_PlZ = RealType{};
+    m_Pl = RealType{};
+    return;
+  }
   m_Pp = numBoneVoxels / static_cast<RealType>(numVoxelsInsideMask);
   m_PlX = ((numX + numXO) / 2.0) / (numVoxelsInsideMask * inSpacing[0]) * 2;
   m_PlY = ((numY + numYO) / 2.0) / (numVoxelsInsideMask * inSpacing[1]) * 2;
@@ -114,8 +123,7 @@ BoneMorphometryFeaturesFilter<TInputImage, TMaskImage>::DynamicThreadedGenerateD
   SizeValueType numYO = 0;
   SizeValueType numZO = 0;
 
-  MaskImagePointer maskPointer = TMaskImage::New();
-  maskPointer = const_cast<TMaskImage *>(this->GetMaskImage());
+  MaskImagePointer maskPointer = const_cast<TMaskImage *>(this->GetMaskImage());
 
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>                        boundaryFacesCalculator;
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::FaceListType faceList =

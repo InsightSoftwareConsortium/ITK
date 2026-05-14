@@ -70,8 +70,7 @@ BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Dynam
   NeighborhoodOffsetType            tempOffset;
   typename TInputImage::SpacingType inSpacing = this->GetInput()->GetSpacing();
 
-  MaskImagePointer maskPointer = TMaskImage::New();
-  maskPointer = const_cast<TMaskImage *>(this->GetMaskImage());
+  MaskImagePointer maskPointer = const_cast<TMaskImage *>(this->GetMaskImage());
 
   IndexType firstIndex;
   firstIndex[0] = 0;
