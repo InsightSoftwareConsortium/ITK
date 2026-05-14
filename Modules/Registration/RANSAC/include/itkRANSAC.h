@@ -160,10 +160,6 @@ public:
   double
   GetCheckCorrespondenceEdgeLength();
 
-  bool   checkCorresspondenceDistanceFlag = false;
-  double checkCorrespondenceEdgeLengthTest = 0;
-
-
 protected:
   /**
    * Construct an instance of the RANSAC algorithm. The number of threads used
@@ -213,6 +209,9 @@ private:
   // number of threads used in computing the RANSAC hypotheses
   unsigned int numberOfThreads;
   unsigned int maxIteration;
+
+  bool   checkCorresspondenceDistanceFlag = false;
+  double checkCorrespondenceEdgeLengthTest = 0;
 
   // the following variables are shared by all threads used in the RANSAC
   // computation
