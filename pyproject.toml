@@ -77,7 +77,8 @@ cmd = '''cmake \
   -DModule_SubdivisionQuadEdgeMeshFilter:BOOL=ON \
   -DModule_TextureFeatures:BOOL=ON \
   -DITK_COMPUTER_MEMORY_SIZE:STRING=11 \
-  -DModule_StructuralSimilarity:BOOL=ON'''
+  -DModule_StructuralSimilarity:BOOL=ON \
+  -DModule_VariationalRegistration:BOOL=ON'''
 description = "Configure ITK for CI (with ccache compiler launcher)"
 outputs = ["build/CMakeFiles/"]
 
