@@ -644,7 +644,8 @@ if(ITK_USE_FFTWF)
       ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkOddTest.tiff
   )
   list(
-    APPEND TEST_LIST
+    APPEND
+    TEST_LIST
     itkFrequencyExpandOddTest
     itkFrequencyShrinkOddTest
   )

@@ -130,14 +130,14 @@ ComputeAllPermutations(const std::set<TIndicesArrayType, std::greater<TIndicesAr
 template <typename TIndicesArrayType, unsigned int VImageDimension>
 ITK_TEMPLATE_EXPORT std::set<TIndicesArrayType, std::greater<TIndicesArrayType>>
                     ComputeAllPossibleIndices(const unsigned int & order)
-                    {
-                      using SetType = std::set<TIndicesArrayType, std::greater<TIndicesArrayType>>;
-                      SetType           uniqueIndices;
-                      TIndicesArrayType index(VImageDimension);
-                      index[0] = order;
-                      itk::utils::ComputeUniqueIndices<TIndicesArrayType, VImageDimension>(index, uniqueIndices, 0);
-                      return itk::utils::ComputeAllPermutations<TIndicesArrayType>(uniqueIndices);
-                    }
+{
+  using SetType = std::set<TIndicesArrayType, std::greater<TIndicesArrayType>>;
+  SetType           uniqueIndices;
+  TIndicesArrayType index(VImageDimension);
+  index[0] = order;
+  itk::utils::ComputeUniqueIndices<TIndicesArrayType, VImageDimension>(index, uniqueIndices, 0);
+  return itk::utils::ComputeAllPermutations<TIndicesArrayType>(uniqueIndices);
+}
 
 template <typename TIndicesArrayType, unsigned int VImageDimension>
 ITK_TEMPLATE_EXPORT bool
