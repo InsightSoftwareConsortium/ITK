@@ -13,9 +13,9 @@ itk_module(
     ITKFFT
     ITKImageIntensity
     ITKImageSources
+    ITKImageCompose
   TEST_DEPENDS
     ITKTestKernel
-    ITKImageCompose
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "Module ingested from upstream."
 )
