@@ -104,9 +104,7 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::DynamicThr
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     ImageRegionConstIterator<GradientOutputImageType> gradientIt(
-      reinterpret_cast<GradientOutputImageType *>(
-        dynamic_cast<GradientOutputImageType *>(this->ProcessObject::GetOutput(i + 1))),
-      region);
+      dynamic_cast<GradientOutputImageType *>(this->ProcessObject::GetOutput(i + 1)), region);
     for (outputIt.GoToBegin(), gradientIt.GoToBegin(); !gradientIt.IsAtEnd(); ++outputIt, ++gradientIt)
     {
       typename OutputImageType::PixelType outputPixel = outputIt.Get();
@@ -133,9 +131,7 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::DynamicThr
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         ImageRegionConstIterator<GradientOutputImageType> gradientIt(
-          reinterpret_cast<GradientOutputImageType *>(
-            dynamic_cast<GradientOutputImageType *>(this->ProcessObject::GetOutput(i + 1))),
-          region);
+          dynamic_cast<GradientOutputImageType *>(this->ProcessObject::GetOutput(i + 1)), region);
         for (outputIt.GoToBegin(), gradientIt.GoToBegin(); !gradientIt.IsAtEnd(); ++outputIt, ++gradientIt)
         {
           typename OutputImageType::PixelType outputPixel = outputIt.Get();
@@ -156,9 +152,7 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::DynamicThr
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         ImageRegionConstIterator<GradientOutputImageType> gradientIt(
-          reinterpret_cast<GradientOutputImageType *>(
-            dynamic_cast<GradientOutputImageType *>(this->ProcessObject::GetOutput(i + 1))),
-          region);
+          dynamic_cast<GradientOutputImageType *>(this->ProcessObject::GetOutput(i + 1)), region);
         for (outputIt.GoToBegin(), gradientIt.GoToBegin(); !gradientIt.IsAtEnd(); ++outputIt, ++gradientIt)
         {
           typename OutputImageType::PixelType outputPixel = outputIt.Get();
