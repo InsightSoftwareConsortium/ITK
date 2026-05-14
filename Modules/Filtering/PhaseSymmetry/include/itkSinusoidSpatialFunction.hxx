@@ -49,8 +49,6 @@ SinusoidSpatialFunction<TOutput, VImageDimension, TInput>::Evaluate(const TInput
   frequencyTerm += this->m_PhaseOffset;
   const double value = std::cos(frequencyTerm);
   return static_cast<TOutput>(value);
-
-  return (TOutput)value;
 }
 
 
