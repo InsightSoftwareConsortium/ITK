@@ -64,32 +64,6 @@ MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::EnlargeOutpu
   Superclass::EnlargeOutputRequestedRegion(data);
   OutputImagePointer imgData = dynamic_cast<TOutputImage *>(data);
 
-  // if ( this->GetInput() )
-  // {
-  //   OutputImageRegionType region = this->GetOutputRegion();
-  //   // crop the input requested region at the input's largest possible region
-  //   if ( region.Crop( imgData->GetLargestPossibleRegion() ) )
-  //   {
-  //     imgData->SetRequestedRegion(region);
-  //     return;
-  //   }
-  //   else
-  //   {
-  //     // Couldn't crop the region (requested region is outside the largest
-  //     // possible region).  Throw an exception.
-
-  //     // store what we tried to request (prior to trying to crop)
-  //     imgData->SetRequestedRegion(region);
-
-  //     // build an exception
-  //     InvalidRequestedRegionError e(__FILE__, __LINE__);
-  //     e.SetLocation(ITK_LOCATION);
-  //     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
-  //     e.SetDataObject(imgData);
-  //     throw e;
-  //   }
-  // }
-  // else
   if (imgData)
   {
     imgData->SetRequestedRegionToLargestPossibleRegion();
