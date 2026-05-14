@@ -18,6 +18,7 @@
 #ifndef itkReplaceFeatureMapNanInfImageFilter_hxx
 #define itkReplaceFeatureMapNanInfImageFilter_hxx
 
+#include <limits>
 
 namespace itk
 {
@@ -45,20 +46,21 @@ ReplaceFeatureMapNanInfImageFilter<TImage>::GenerateData()
     InterIteratorType interIt(m_IndexSelectionFiter->GetOutput(),
                               m_IndexSelectionFiter->GetOutput()->GetLargestPossibleRegion());
     interIt.GoToBegin();
-    RealType min = interIt.Get();
-    RealType max = interIt.Get();
+    RealType min = std::numeric_limits<RealType>::max();
+    RealType max = std::numeric_limits<RealType>::lowest();
 
     while (!interIt.IsAtEnd())
     {
-      if (!Math::isnan(interIt.Get()) && !Math::isinf(interIt.Get()))
+      const RealType v = interIt.Get();
+      if (!Math::isnan(v) && !Math::isinf(v))
       {
-        if (interIt.Get() < min)
+        if (v < min)
         {
-          min = interIt.Get();
+          min = v;
         }
-        if (interIt.Get() > max)
+        if (v > max)
         {
-          max = interIt.Get();
+          max = v;
         }
       }
       ++interIt;
