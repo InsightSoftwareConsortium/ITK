@@ -48,7 +48,6 @@
 #include <cstdlib>
 #ifndef NDEBUG
 #  include <cassert>
-#  include "itkPrintHelper.h" // for ostream operator<<std::vector<T>
 #endif
 
 #include <sstream>

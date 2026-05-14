@@ -31,15 +31,10 @@
 
 namespace itk
 {
-// Forward declaration so itkPrintHelper.h can be safely included from
-// itkMacro.h without re-entering itkNumericTraits.h (which itself uses
-// macros defined later in itkMacro.h).  Every PrintNumericTrait() call
-// site needs the full NumericTraits<T> specialization in scope, but those
-// sites already #include "itkNumericTraits.h" directly or transitively.
+// Forward declaration; call sites must have the full NumericTraits<T>
+// specialization in scope via #include "itkNumericTraits.h".
 template <typename T>
 class NumericTraits;
-// Same circular-include guard as NumericTraits<T> above.
-class Indent;
 } // namespace itk
 
 namespace itk::print_helper

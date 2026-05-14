@@ -89,4 +89,8 @@ private:
 };
 } // end namespace itk
 
+#ifndef NDEBUG
+#  include "itkPrintHelper.h" // for itkDebugMacro ostream operator<<
+#endif
+
 #endif
