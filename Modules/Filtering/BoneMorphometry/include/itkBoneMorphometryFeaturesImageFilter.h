@@ -23,7 +23,6 @@
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkHistogram.h"
 #include "itkConstNeighborhoodIterator.h"
-#include "itkSimpleDataObjectDecorator.h"
 #include "itkConstantBoundaryCondition.h"
 
 #include <vector>

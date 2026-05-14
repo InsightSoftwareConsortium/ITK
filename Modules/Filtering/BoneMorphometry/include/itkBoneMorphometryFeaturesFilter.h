@@ -23,7 +23,6 @@
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkHistogram.h"
 #include "itkConstNeighborhoodIterator.h"
-#include "itkSimpleDataObjectDecorator.h"
 #include "itkConstantBoundaryCondition.h"
 
 #include <vector>
@@ -106,12 +105,12 @@ public:
   {
     return m_Pp;
   }
-  RealTypeDecoratedType *
+  typename RealTypeDecoratedType::Pointer
   GetBVTVOutput()
   {
     typename RealTypeDecoratedType::Pointer decoratedBVTV = RealTypeDecoratedType::New();
     decoratedBVTV->Set(this->GetBVTV());
-    return decoratedBVTV.GetPointer();
+    return decoratedBVTV;
   }
 
   RealType
@@ -119,51 +118,51 @@ public:
   {
     return m_Pl;
   }
-  RealTypeDecoratedType *
+  typename RealTypeDecoratedType::Pointer
   GetTbNOutput()
   {
     typename RealTypeDecoratedType::Pointer decoratedTbN = RealTypeDecoratedType::New();
     decoratedTbN->Set(this->GetTbN());
-    return decoratedTbN.GetPointer();
+    return decoratedTbN;
   }
 
   RealType
   GetTbTh()
   {
-    return m_Pp / m_Pl;
+    return (m_Pl > RealType{}) ? (m_Pp / m_Pl) : RealType{};
   }
-  RealTypeDecoratedType *
+  typename RealTypeDecoratedType::Pointer
   GetTbThOutput()
   {
     typename RealTypeDecoratedType::Pointer decoratedTbTh = RealTypeDecoratedType::New();
     decoratedTbTh->Set(this->GetTbTh());
-    return decoratedTbTh.GetPointer();
+    return decoratedTbTh;
   }
 
   RealType
   GetTbSp()
   {
-    return (1.0 - m_Pp) / m_Pl;
+    return (m_Pl > RealType{}) ? ((1.0 - m_Pp) / m_Pl) : RealType{};
   }
-  RealTypeDecoratedType *
+  typename RealTypeDecoratedType::Pointer
   GetTbSpOutput()
   {
     typename RealTypeDecoratedType::Pointer decoratedTbSp = RealTypeDecoratedType::New();
     decoratedTbSp->Set(this->GetTbSp());
-    return decoratedTbSp.GetPointer();
+    return decoratedTbSp;
   }
 
   RealType
   GetBSBV()
   {
-    return 2.0 * (m_Pl / m_Pp);
+    return (m_Pp > RealType{}) ? (2.0 * (m_Pl / m_Pp)) : RealType{};
   }
-  RealTypeDecoratedType *
+  typename RealTypeDecoratedType::Pointer
   GetBSBVOutput()
   {
     typename RealTypeDecoratedType::Pointer decoratedBSBV = RealTypeDecoratedType::New();
     decoratedBSBV->Set(this->GetBSBV());
-    return decoratedBSBV.GetPointer();
+    return decoratedBSBV;
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
