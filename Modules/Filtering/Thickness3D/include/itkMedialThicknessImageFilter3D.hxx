@@ -18,9 +18,6 @@
 #ifndef itkMedialThicknessImageFilter3D_hxx
 #define itkMedialThicknessImageFilter3D_hxx
 
-#include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
-
 namespace itk
 {
 
@@ -34,7 +31,7 @@ MedialThicknessImageFilter3D<TInputImage, TOutputImage>::MedialThicknessImageFil
   m_MaskFilter = MaskImageFilterType::New();
   m_MaskFilter->SetInput(m_DistanceFilter->GetOutput());
   m_MaskFilter->SetMaskImage(m_ThinningFilter->GetOutput());
-  m_ThinningFilter->ReleaseDataFlagOn();
+  m_MaskFilter->ReleaseDataFlagOn();
   m_MultiplyFilter = MultiplyImageFilterType::New();
   m_MultiplyFilter->SetInput(m_MaskFilter->GetOutput());
   m_MultiplyFilter->SetConstant(-2.0);
