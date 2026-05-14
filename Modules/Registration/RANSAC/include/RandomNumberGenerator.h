@@ -40,6 +40,14 @@ public:
 
   ~RandomNumberGenerator() { delete generator; }
 
+  // Non-copyable, non-movable: owns raw 'generator' pointer.
+  RandomNumberGenerator(const RandomNumberGenerator &) = delete;
+  RandomNumberGenerator &
+  operator=(const RandomNumberGenerator &) = delete;
+  RandomNumberGenerator(RandomNumberGenerator &&) = delete;
+  RandomNumberGenerator &
+  operator=(RandomNumberGenerator &&) = delete;
+
 
   /**
    * Get a random number uniformly distributed in (a,b).
