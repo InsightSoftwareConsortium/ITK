@@ -23,7 +23,6 @@
 #include "itkImageAlgorithm.h"
 #include "itkImageRegionSplitterSlowDimension.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkImageRegionSplitterSlowDimension.h"
 
 namespace itk
 {
