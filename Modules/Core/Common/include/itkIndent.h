@@ -28,7 +28,10 @@
 #ifndef itkIndent_h
 #define itkIndent_h
 
-#include "itkMacro.h"
+#ifndef itkMacro_h
+#  error "itkMacro.h must be included before including itkIndent.h"
+#endif
+
 #include <iostream>
 
 namespace itk

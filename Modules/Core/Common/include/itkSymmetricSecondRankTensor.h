@@ -23,7 +23,6 @@
 #  undef SymmetricSecondRankTensor
 #endif
 
-#include "itkIndent.h"
 #include "itkFixedArray.h"
 #include "itkMatrix.h"
 #include "itkSymmetricEigenAnalysis.h"
