@@ -19,10 +19,34 @@ if(WIN32 AND MSVC)
   )
 endif()
 
+set(
+  _VariationalRegistration_example_link_libraries
+  ITKCommon
+  ITKIOImageBase
+  ITKImageFilterBase
+  ITKSmoothing
+  ITKFFT
+  ITKFiniteDifference
+  ITKDisplacementField
+  ITKRegistrationCommon
+  ITKMathematicalMorphology
+  ITKBinaryMathematicalMorphology
+  ITKIOGDCM
+  ITKIOMeta
+  ITKIOJPEG
+  ITKIOPNG
+  ITKIOTIFF
+  ITKIOBMP
+  ITKIOVTK
+  ITKIONRRD
+  ITKIOGIPL
+  ITKIONIFTI
+)
+
 add_executable(VariationalRegistration ${VariationalRegistration_SRC})
 target_link_libraries(
   VariationalRegistration
-  ${VariationalRegistration_LIBRARIES}
+  ${_VariationalRegistration_example_link_libraries}
 )
 target_include_directories(
   VariationalRegistration
@@ -41,7 +65,7 @@ endif()
 add_executable(VariationalRegistration2D ${VariationalRegistration_SRC})
 target_link_libraries(
   VariationalRegistration2D
-  ${VariationalRegistration_LIBRARIES}
+  ${_VariationalRegistration_example_link_libraries}
 )
 target_include_directories(
   VariationalRegistration2D
