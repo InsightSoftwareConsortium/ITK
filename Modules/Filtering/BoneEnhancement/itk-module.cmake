@@ -22,7 +22,8 @@ itk_module(
     ITKTestKernel
     ITKGoogleTest
     ITKMetaIO
-  DESCRIPTION "Module ingested from upstream."
+  DESCRIPTION
+    "Filters for enhancing cortical bones in quantitative computed tomography."
   EXCLUDE_FROM_DEFAULT
   ENABLE_SHARED
 )
