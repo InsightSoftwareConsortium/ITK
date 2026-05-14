@@ -13,7 +13,6 @@ itk_module(
   DEPENDS
     ITKCommon
     ITKImageGrid
-    ITKSpatialObjects
   TEST_DEPENDS
     ITKTestKernel
     ITKSmoothing

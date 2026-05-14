@@ -21,37 +21,6 @@
 
 
 #include "itkPrintHelper.h"
-#include "itkImageMaskSpatialObject.h"
-
-namespace
-{
-template <typename PixelType>
-void
-ExtractITKImageROI(const itk::Image<PixelType, 3> * im,
-                   const std::vector<long> &        imROI,
-                   std::vector<PixelType> &         imROIVec)
-{
-
-  // Copy itk image ROI to vector
-  typedef itk::Image<PixelType, 3> ImageType;
-  typename ImageType::IndexType    index;
-  long                             i, j, k, kk, DIMXYZ;
-
-  DIMXYZ = (imROI[3] - imROI[0] + 1) * (imROI[4] - imROI[1] + 1) * (imROI[5] - imROI[2] + 1);
-  imROIVec.clear();
-  imROIVec.resize(DIMXYZ);
-  kk = 0;
-  for (k = imROI[2]; k <= imROI[5]; k++)
-    for (j = imROI[1]; j <= imROI[4]; j++)
-      for (i = imROI[0]; i <= imROI[3]; i++)
-      {
-        index[0] = i;
-        index[1] = j;
-        index[2] = k;
-        imROIVec[kk++] = im->GetPixel(index);
-      }
-}
-} // namespace
 
 namespace itk
 {
@@ -95,10 +64,6 @@ FastGrowCut<TInputImage, TLabelImage, TMaskImage>::InitializationAHP()
   NodeIndexType dimXYZ = m_DimX * m_DimY * m_DimZ;
 
   m_HeapNodes = new FibHeapNode[dimXYZ + 1]; // size is +1 for storing the zeroValueElement
-  if (m_HeapNodes == nullptr)
-  {
-    itkExceptionMacro("Memory allocation failed. Dimensions: " << m_DimX << "x" << m_DimY << "x" << m_DimZ);
-  }
 
   m_Heap = new FibHeap;
   m_Heap->SetHeapNodes(m_HeapNodes);
