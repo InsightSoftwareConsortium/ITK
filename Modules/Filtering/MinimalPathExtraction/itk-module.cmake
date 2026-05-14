@@ -11,7 +11,7 @@ itk_module(
   TEST_DEPENDS
     ITKTestKernel
     ITKIOSpatialObjects
-  DESCRIPTION "Module ingested from upstream."
+  DESCRIPTION
+    "Minimal path extraction via Fast Marching and gradient-based optimization."
   EXCLUDE_FROM_DEFAULT
-  ENABLE_SHARED
 )
