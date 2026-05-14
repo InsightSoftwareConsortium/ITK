@@ -82,6 +82,14 @@ struct KDTreeVectorOfVectorsAdaptor
 
   ~KDTreeVectorOfVectorsAdaptor() { delete index; }
 
+  // Non-copyable, non-movable: owns raw 'index' pointer.
+  KDTreeVectorOfVectorsAdaptor(const KDTreeVectorOfVectorsAdaptor &) = delete;
+  KDTreeVectorOfVectorsAdaptor &
+  operator=(const KDTreeVectorOfVectorsAdaptor &) = delete;
+  KDTreeVectorOfVectorsAdaptor(KDTreeVectorOfVectorsAdaptor &&) = delete;
+  KDTreeVectorOfVectorsAdaptor &
+  operator=(KDTreeVectorOfVectorsAdaptor &&) = delete;
+
   const VectorOfVectorsType & m_data;
 
   /** Query for the \a num_closest closest points to a given point
