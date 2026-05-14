@@ -28,9 +28,7 @@
 #ifndef itkIndent_h
 #define itkIndent_h
 
-#ifndef itkMacro_h
-#  error "itkMacro.h must be included before including itkIndent.h"
-#endif
+#include "ITKCommonExport.h"
 
 #include <iostream>
 
