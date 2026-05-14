@@ -134,7 +134,7 @@ MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::GenerateData
   if (mask)
   {
     m_EigenToMeasureParameterEstimationFilter->SetMask(mask);
-    m_EigenToMeasureParameterEstimationFilter->SetMask(mask);
+    m_EigenToMeasureImageFilter->SetMask(mask);
   }
 
   /* After executing we want to release data to save memory */
