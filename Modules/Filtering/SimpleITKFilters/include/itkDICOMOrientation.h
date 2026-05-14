@@ -32,7 +32,7 @@ namespace itk
  *  Defines enums to for patient orientation in a compatible way with DICOM.
  *
  *  Instances hold the patient orientation enum and allow conversion to and from enums, string and direction cosine
- * matrices. Conversions from a direction cosine matrix is approximated with the orientation of the closes axes.
+ * matrices. Conversions from a direction cosine matrix are approximated with the orientation of the closest axes.
  *
  * \ingroup SimpleITKFilters
  */
@@ -75,16 +75,10 @@ private:
   GetCoordinateTerm(CoordinateMajornessTermsEnum cmt) const;
 
 public:
-#if 0
-#  define ITK_ORIENTATIONENUM toOrientation
-#else
-
-#  define ITK_ORIENTATIONENUM(P, S, T)                                                                   \
-    (static_cast<uint32_t>(P) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::PrimaryMinor)) +     \
-      (static_cast<uint32_t>(S) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::SecondaryMinor)) + \
-      (static_cast<uint32_t>(T) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::TertiaryMinor))
-
-#endif
+#define ITK_ORIENTATIONENUM(P, S, T)                                                                   \
+  (static_cast<uint32_t>(P) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::PrimaryMinor)) +     \
+    (static_cast<uint32_t>(S) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::SecondaryMinor)) + \
+    (static_cast<uint32_t>(T) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::TertiaryMinor))
 
   enum class OrientationEnum : uint32_t
 

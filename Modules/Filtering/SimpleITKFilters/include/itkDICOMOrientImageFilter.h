@@ -139,7 +139,7 @@ public:
   void
   GenerateOutputInformation() override;
 
-  static_assert(ImageDimension == 3, "Only 3 dimensional images are support!");
+  static_assert(ImageDimension == 3, "Only 3 dimensional images are supported!");
 
 protected:
   DICOMOrientImageFilter();
