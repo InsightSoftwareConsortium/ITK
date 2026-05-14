@@ -291,7 +291,6 @@ ScancoImageIO::ReadImageInformation()
     this->SetComponentType(IOComponentEnum::SHORT);
     this->m_Compression = 0;
   }
-  this->SetPixelType(IOPixelEnum::SCALAR);
 
   infile.close();
   this->PopulateMetaDataDictionary();
