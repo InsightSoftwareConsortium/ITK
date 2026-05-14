@@ -23,14 +23,9 @@ set(
   _VariationalRegistration_example_link_libraries
   ITKCommon
   ITKIOImageBase
-  ITKImageFilterBase
   ITKSmoothing
   ITKFFT
-  ITKFiniteDifference
-  ITKDisplacementField
-  ITKRegistrationCommon
   ITKMathematicalMorphology
-  ITKBinaryMathematicalMorphology
   ITKIOGDCM
   ITKIOMeta
   ITKIOJPEG
