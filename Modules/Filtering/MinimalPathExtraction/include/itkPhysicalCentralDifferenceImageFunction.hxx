@@ -23,14 +23,14 @@ namespace itk
 {
 
 
-template <class TInputImage, class TCoordRep>
+template <typename TInputImage, typename TCoordRep>
 PhysicalCentralDifferenceImageFunction<TInputImage, TCoordRep>::PhysicalCentralDifferenceImageFunction()
 {
   m_Interpolator = InterpolateImageFunctionType::New();
 }
 
 
-template <class TInputImage, class TCoordRep>
+template <typename TInputImage, typename TCoordRep>
 void
 PhysicalCentralDifferenceImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -38,7 +38,7 @@ PhysicalCentralDifferenceImageFunction<TInputImage, TCoordRep>::PrintSelf(std::o
 }
 
 
-template <class TInputImage, class TCoordRep>
+template <typename TInputImage, typename TCoordRep>
 typename PhysicalCentralDifferenceImageFunction<TInputImage, TCoordRep>::OutputType
 PhysicalCentralDifferenceImageFunction<TInputImage, TCoordRep>::Evaluate(const PointType & point) const
 {
