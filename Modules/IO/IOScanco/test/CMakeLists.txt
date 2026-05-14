@@ -8,17 +8,35 @@ set(
 
 createtestdriver(IOScanco  "${IOScanco-Test_LIBRARIES}" "${IOScancoTests}")
 
-itk_add_test(
-  NAME itkScancoImageIOISQConvertTest
-  COMMAND
-    IOScancoTestDriver
-    --compare
-    DATA{Baseline/C0004255.mha}
-    ${ITK_TEST_OUTPUT_DIR}/C0004255.mha
-    itkScancoImageIOTest
-    DATA{Input/C0004255.ISQ}
-    ${ITK_TEST_OUTPUT_DIR}/C0004255.mha
+# C0004255.ISQ is a 107 MB fixture hosted via SHA512 on data.kitware.com
+# (exceeds GitHub's 100 MB single-file limit so cannot live in ITKTestingData).
+# Tests that download it are opt-in via ITK_BUILD_BIG_DATA_TESTS.
+option(
+  ITK_BUILD_BIG_DATA_TESTS
+  "Build IOScanco tests that require multi-hundred-megabyte fixtures"
+  OFF
 )
+mark_as_advanced(ITK_BUILD_BIG_DATA_TESTS)
+
+if(ITK_BUILD_BIG_DATA_TESTS)
+  itk_add_test(
+    NAME itkScancoImageIOISQConvertTest
+    COMMAND
+      IOScancoTestDriver
+      --compare
+      DATA{Baseline/C0004255.mha}
+      ${ITK_TEST_OUTPUT_DIR}/C0004255.mha
+      itkScancoImageIOTest
+      DATA{Input/C0004255.ISQ}
+      ${ITK_TEST_OUTPUT_DIR}/C0004255.mha
+  )
+  set_tests_properties(
+    itkScancoImageIOISQConvertTest
+    PROPERTIES
+      LABELS
+        "BigIO;RUNS_LONG"
+  )
+endif()
 
 itk_add_test(
   NAME itkScancoImageIOAIMConvertTest
@@ -32,15 +50,23 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/AIMIOTestImage.mha
 )
 
-itk_add_test(
-  NAME itkScancoImageIOISQHeaderCheckTest
-  COMMAND
-    IOScancoTestDriver
-    itkScancoImageIOTest2
-    DATA{Input/C0004255.ISQ}
-    ${ITK_TEST_OUTPUT_DIR}/C0003665.isq
-    1
-)
+if(ITK_BUILD_BIG_DATA_TESTS)
+  itk_add_test(
+    NAME itkScancoImageIOISQHeaderCheckTest
+    COMMAND
+      IOScancoTestDriver
+      itkScancoImageIOTest2
+      DATA{Input/C0004255.ISQ}
+      ${ITK_TEST_OUTPUT_DIR}/C0003665.isq
+      1
+  )
+  set_tests_properties(
+    itkScancoImageIOISQHeaderCheckTest
+    PROPERTIES
+      LABELS
+        "BigIO;RUNS_LONG"
+  )
+endif()
 
 itk_add_test(
   NAME itkScancoImageIOAIMHeaderCheckTest
@@ -52,29 +78,39 @@ itk_add_test(
     1
 )
 
-itk_add_test(
-  NAME itkScancoImageIOISQHeaderCheckTest2
-  COMMAND
-    IOScancoTestDriver
-    --compare
-    DATA{Baseline/C0004255.mha}
-    ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.mha
-    itkScancoImageIOTest2
-    DATA{Input/C0004255.ISQ}
-    ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.mha
-)
+if(ITK_BUILD_BIG_DATA_TESTS)
+  itk_add_test(
+    NAME itkScancoImageIOISQHeaderCheckTest2
+    COMMAND
+      IOScancoTestDriver
+      --compare
+      DATA{Baseline/C0004255.mha}
+      ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.mha
+      itkScancoImageIOTest2
+      DATA{Input/C0004255.ISQ}
+      ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.mha
+  )
 
-itk_add_test(
-  NAME itkScancoImageIOISQHeaderWriteTest2
-  COMMAND
-    IOScancoTestDriver
-    --compare
-    DATA{Baseline/C0004255.mha}
-    ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.isq
-    itkScancoImageIOTest2
-    DATA{Input/C0004255.ISQ}
-    ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.isq
-)
+  itk_add_test(
+    NAME itkScancoImageIOISQHeaderWriteTest2
+    COMMAND
+      IOScancoTestDriver
+      --compare
+      DATA{Baseline/C0004255.mha}
+      ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.isq
+      itkScancoImageIOTest2
+      DATA{Input/C0004255.ISQ}
+      ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.isq
+  )
+
+  set_tests_properties(
+    itkScancoImageIOISQHeaderCheckTest2
+    itkScancoImageIOISQHeaderWriteTest2
+    PROPERTIES
+      LABELS
+        "BigIO;RUNS_LONG"
+  )
+endif()
 
 itk_add_test(
   NAME itkScancoImageIOAIMHeaderCheckTest2
@@ -96,22 +132,30 @@ set_property(
       itkScancoImageIOAIMHeaderCheckTest
 )
 
-itk_add_test(
-  NAME itkScancoImageIOISQReadWritten
-  COMMAND
-    IOScancoTestDriver
-    itkScancoImageIOTest2
-    ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.isq
-    ${ITK_TEST_OUTPUT_DIR}/ISQWrite.ISQ
-)
-set_property(
-  TEST
+if(ITK_BUILD_BIG_DATA_TESTS)
+  itk_add_test(
+    NAME itkScancoImageIOISQReadWritten
+    COMMAND
+      IOScancoTestDriver
+      itkScancoImageIOTest2
+      ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.isq
+      ${ITK_TEST_OUTPUT_DIR}/ISQWrite.ISQ
+  )
+  set_property(
+    TEST
+      itkScancoImageIOISQReadWritten
+    APPEND
+    PROPERTY
+      DEPENDS
+        itkScancoImageIOISQHeaderWriteTest2
+  )
+  set_tests_properties(
     itkScancoImageIOISQReadWritten
-  APPEND
-  PROPERTY
-    DEPENDS
-      itkScancoImageIOISQHeaderWriteTest2
-)
+    PROPERTIES
+      LABELS
+        "BigIO;RUNS_LONG"
+  )
+endif()
 
 itk_add_test(
   NAME itkScancoImageIOAIMWriteTest
