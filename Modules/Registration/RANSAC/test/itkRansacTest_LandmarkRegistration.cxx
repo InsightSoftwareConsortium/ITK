@@ -163,18 +163,7 @@ GenerateData(std::vector<itk::Point<double, Dimension>> & data,
     data.push_back(p0);
   }
 
-  std::vector<unsigned int> indexArray;
-  unsigned int              minCount = std::min(mesh1->GetNumberOfPoints(), mesh2->GetNumberOfPoints());
-  unsigned int              maxCount = std::max(mesh1->GetNumberOfPoints(), mesh2->GetNumberOfPoints());
-  indexArray.reserve(maxCount);
-
-  // shuffle the larger pointset to sample points uniformly from pointset
-  for (unsigned int i = 0; i < maxCount; ++i)
-  {
-    indexArray.push_back(i);
-  }
-
-  std::shuffle(indexArray.begin(), indexArray.end(), std::default_random_engine(0));
+  const unsigned int minCount = std::min(mesh1->GetNumberOfPoints(), mesh2->GetNumberOfPoints());
   for (unsigned int i = 0; i < minCount; ++i)
   {
     auto point1 = mesh1_all->GetPoint(i);
