@@ -23,12 +23,12 @@ itk_add_test(
   COMMAND
     BoneMorphometryTestDriver
     --compare
-    DATA{Baseline/resultTestFilterInstensiation.nrrd}
-    ${ITK_TEST_OUTPUT_DIR}/resultTestFilterInstensiation.nrrd
+    DATA{Baseline/resultTestFilterInstantiation.nrrd}
+    ${ITK_TEST_OUTPUT_DIR}/resultTestFilterInstantiation.nrrd
     BoneMorphometryFeaturesImageFilterInstantiationTest
     DATA{Input/Scan_CBCT_13R.nrrd}
     DATA{Input/SegmC_CBCT_13R.nrrd}
-    ${ITK_TEST_OUTPUT_DIR}/resultTestFilterInstensiation.nrrd
+    ${ITK_TEST_OUTPUT_DIR}/resultTestFilterInstantiation.nrrd
 )
 
 itk_add_test(
@@ -36,7 +36,7 @@ itk_add_test(
   COMMAND
     BoneMorphometryTestDriver
     --compare
-    DATA{Baseline/resultTestFilterInstensiation.nrrd}
+    DATA{Baseline/resultTestFilterInstantiation.nrrd}
     ${ITK_TEST_OUTPUT_DIR}/resultTestReplaceFeatureMapNanInfImageFilter.nrrd
     ReplaceFeatureMapNanInfImageFilterInstantiationTest
     DATA{Input/Scan_CBCT_13R.nrrd}
