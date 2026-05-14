@@ -22,6 +22,7 @@
 #include "itkRANSAC.h"
 #include "itkPointsLocator.h"
 #include "itkSimilarity3DTransform.h"
+#include <random>
 
 namespace itk
 {
@@ -168,11 +169,9 @@ RANSAC<T, SType, TTransform>::Compute(std::vector<SType> & parameters, double de
   // this->
   this->numerator = log(1.0 - desiredProbabilityForNoOutliers);
 
-  srand((unsigned)time(NULL)); // seed random number generator
-
   // STEP2: create the threads that generate hypotheses and test
-  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(this->numberOfThreads);
   itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
+  threader->SetNumberOfWorkUnits(this->numberOfThreads);
   // runs all threads and blocks till they finish
   threader->SetSingleMethodAndExecute(RANSAC<T, SType, TTransform>::RANSACThreadCallback, this);
 
@@ -301,6 +300,10 @@ RANSAC<T, SType, TTransform>::RANSACThreadCallback(void * arg)
     std::vector<T *>   exactEstimateData;
     std::vector<SType> exactEstimateParameters;
 
+    // Per-thread PRNG: rand() shares global state and is not thread-safe.
+    std::random_device rd;
+    std::mt19937       randomNumberEngine(rd());
+
     // true if agreeData[i] agrees with the current model, otherwise false
     bool * curVotes = new bool[numAgreeObjects];
     // true if data[i] is NOT chosen for computing the exact fit, otherwise false
@@ -323,7 +326,8 @@ RANSAC<T, SType, TTransform>::RANSACThreadCallback(void * arg)
       for (l = 0; l < numForEstimate; l++)
       {
         // selectedIndex is in [0,maxIndex]
-        int selectedIndex = (int)(((float)rand() / (float)RAND_MAX) * maxIndex + 0.5);
+        std::uniform_int_distribution<int> dist(0, static_cast<int>(maxIndex));
+        int                                selectedIndex = dist(randomNumberEngine);
         for (j = -1, k = 0; k < numDataObjects && j < selectedIndex; k++)
         {
           if (notChosen[k])
