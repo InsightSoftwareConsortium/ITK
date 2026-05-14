@@ -37,8 +37,8 @@ SteerableFilterFreqImageSource<TOutputImage>::SteerableFilterFreqImageSource()
     m_Origin[i] = 0.0;
   }
   m_Direction.SetIdentity();
-
-  // this->ReleaseDataBeforeUpdateFlagOn();
+  m_Orientation.Fill(0.0);
+  m_AngularBandwidth = 0.0;
 }
 
 
@@ -127,14 +127,15 @@ SteerableFilterFreqImageSource<TOutputImage>::DynamicThreadedGenerateData(
       radius = radius + (dist[i] * dist[i]);
     }
     radius = sqrt(radius);
-    dotProduct = dotProduct / (radius * orientationRadius);
-    dangle = acos(dotProduct);
-
-
-    angularGaussianValue = exp(-((dangle * dangle) / (2 * angularSigma * angularSigma)));
     if (radius == 0)
     {
       angularGaussianValue = 1.0;
+    }
+    else
+    {
+      dotProduct = dotProduct / (radius * orientationRadius);
+      dangle = acos(dotProduct);
+      angularGaussianValue = exp(-((dangle * dangle) / (2 * angularSigma * angularSigma)));
     }
     // Set the pixel value to the function value
     outIt.Set((typename TOutputImage::PixelType)angularGaussianValue);
