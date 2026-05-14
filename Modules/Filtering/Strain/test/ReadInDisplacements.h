@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __ReadInDisplacements_h
-#define __ReadInDisplacements_h
+#ifndef ReadInDisplacements_h
+#define ReadInDisplacements_h
 
 #include "itkImageFileReader.h"
 

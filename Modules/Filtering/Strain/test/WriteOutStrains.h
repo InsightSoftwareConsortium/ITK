@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __WriteOutStrains_h
-#define __WriteOutStrains_h
+#ifndef WriteOutStrains_h
+#define WriteOutStrains_h
 
 #include "itkImageFileWriter.h"
 #include "itkImageRegionConstIterator.h"
