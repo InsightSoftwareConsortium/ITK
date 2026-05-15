@@ -400,6 +400,16 @@ FastGrowCut<TInputImage, TLabelImage, TMaskImage>::GenerateInputRequestedRegion(
     typename InputImageType::Pointer input = const_cast<TInputImage *>(this->GetInput());
     input->SetRequestedRegionToLargestPossibleRegion();
   }
+  if (this->GetSeedImage())
+  {
+    typename LabelImageType::Pointer seedImage = const_cast<LabelImageType *>(this->GetSeedImage());
+    seedImage->SetRequestedRegionToLargestPossibleRegion();
+  }
+  if (this->GetMaskImage())
+  {
+    typename MaskImageType::Pointer maskImage = const_cast<MaskImageType *>(this->GetMaskImage());
+    maskImage->SetRequestedRegionToLargestPossibleRegion();
+  }
 }
 
 
