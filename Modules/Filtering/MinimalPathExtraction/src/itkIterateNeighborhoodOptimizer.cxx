@@ -33,6 +33,8 @@ IterateNeighborhoodOptimizer ::IterateNeighborhoodOptimizer()
   m_FullyConnected = true;
   m_CurrentIteration = 0;
   m_CurrentValue = 0.0;
+  m_NeighborhoodSize.SetSize(2);
+  m_NeighborhoodSize.Fill(1.0);
 }
 
 /**
