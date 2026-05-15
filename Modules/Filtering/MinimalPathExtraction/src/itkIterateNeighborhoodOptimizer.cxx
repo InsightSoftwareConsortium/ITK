@@ -201,6 +201,12 @@ IterateNeighborhoodOptimizer ::AdvanceOneStep()
             }
           } // end for k
         } // end spaceDimension == 3
+        else
+        {
+          itkExceptionMacro("Fully-connected neighborhood iteration is only implemented for 2-D and 3-D parameter "
+                            "spaces; got spaceDimension="
+                            << spaceDimension << '.');
+        }
       } // end for j
     } // end for i
   } // end m_FullyConnected
