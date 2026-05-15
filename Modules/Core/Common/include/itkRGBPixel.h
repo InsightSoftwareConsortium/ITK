@@ -23,7 +23,6 @@
 #  undef RGBPixel
 #endif
 
-#include "itkIndent.h"
 #include "itkFixedArray.h"
 #include "itkMath.h"
 
