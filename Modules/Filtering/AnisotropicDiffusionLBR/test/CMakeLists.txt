@@ -4,6 +4,13 @@ set(AnisotropicDiffusionLBRTests CoherenceEnhancingDiffusionTest.cxx)
 
 createtestdriver(AnisotropicDiffusionLBR  "${AnisotropicDiffusionLBR-Test_LIBRARIES}" "${AnisotropicDiffusionLBRTests}")
 
+set(
+  AnisotropicDiffusionLBRGTests
+  itkLinearAnisotropicDiffusionLBRImageFilterGTest.cxx
+)
+
+creategoogletestdriver(AnisotropicDiffusionLBR "${AnisotropicDiffusionLBR-Test_LIBRARIES}" "${AnisotropicDiffusionLBRGTests}")
+
 set(TestOutput ${ITK_TEST_OUTPUT_DIR})
 
 ################ fig:PacMan #################
