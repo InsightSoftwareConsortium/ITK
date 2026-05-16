@@ -26,10 +26,11 @@ namespace itk
 template <typename TImage>
 SingleImageCostFunction<TImage>::SingleImageCostFunction()
 {
-  m_Image = nullptr;                 // Provided by user
-  m_Interpolator = nullptr;          // Configured in Initialize()
-  m_GradientImageFunction = nullptr; // Configured in Initialize()
-  m_DerivativeThreshold = 15.0;      // as in original implementation
+  m_Image = nullptr;                                          // Provided by user
+  m_Interpolator = nullptr;                                   // Configured in Initialize()
+  m_GradientImageFunction = nullptr;                          // Configured in Initialize()
+  m_DerivativeThreshold = 15.0;                               // as in original implementation
+  m_OutsideValue = itk::NumericTraits<ImagePixelType>::max(); // Updated by SetMinimize()/SetMaximize()
 }
 
 
