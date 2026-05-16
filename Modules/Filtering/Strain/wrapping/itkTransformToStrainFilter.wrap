@@ -1,0 +1,14 @@
+unique(types "D;${WRAP_ITK_REAL}")
+
+itk_wrap_include("itkTransform.h")
+itk_wrap_class("itk::TransformToStrainFilter" POINTER)
+foreach(d1 ${ITK_WRAP_IMAGE_DIMS})
+  foreach(d2 ${ITK_WRAP_IMAGE_DIMS})
+    foreach(t ${types})
+      itk_wrap_template("T${ITKM_${t}}${d1}${d2}${ITKM_${t}}${ITKM_${t}}"
+                          "itk::Transform<${ITKT_${t}},${d1},${d2}>, ${ITKT_${t}}, ${ITKT_${t}}"
+      )
+    endforeach()
+  endforeach()
+endforeach()
+itk_end_wrap_class()

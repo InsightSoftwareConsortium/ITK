@@ -67,6 +67,7 @@ cmd = '''cmake \
   -DModule_PrincipalComponentsAnalysis:BOOL=ON \
   -DModule_SmoothingRecursiveYvvGaussianFilter:BOOL=ON \
   -DModule_SplitComponents:BOOL=ON \
+  -DModule_Strain:BOOL=ON \
   -DModule_IOMeshMZ3:BOOL=ON \
   -DModule_IOFDF:BOOL=ON \
   -DModule_Thickness3D:BOOL=ON \
