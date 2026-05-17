@@ -1,8 +1,19 @@
 itk_module_test()
 
-set(GrowCutTests itkFastGrowCutTest.cxx)
+set(
+  GrowCutTests
+  itkFastGrowCutTest.cxx
+  itkFastGrowCutRegressionTest.cxx
+)
 
 createtestdriver(GrowCut "${GrowCut-Test_LIBRARIES}" "${GrowCutTests}")
+
+itk_add_test(
+  NAME itkFastGrowCutRegressionTest
+  COMMAND
+    GrowCutTestDriver
+    itkFastGrowCutRegressionTest
+)
 
 itk_add_test(
   NAME itkFastGrowCutTestDzZ_L1

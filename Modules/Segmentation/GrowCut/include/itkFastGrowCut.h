@@ -25,6 +25,7 @@
 #include "FibHeap.h"
 
 #include "itkImageToImageFilter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -101,7 +102,19 @@ public:
    * Zero by default, meaning spatial distance does not play a role in the region growing,
    * only intensity value similarity.
    */
-  itkSetMacro(DistancePenalty, double);
+  virtual void
+  SetDistancePenalty(double penalty)
+  {
+    if (Math::ExactlyEquals(m_DistancePenalty, penalty))
+    {
+      return;
+    }
+    m_DistancePenalty = penalty;
+    // The cached distance volume is derived from the penalty; discard it so
+    // the next Update() recomputes it instead of taking the incremental path.
+    this->Reset();
+    this->Modified();
+  }
   itkGetMacro(DistancePenalty, double);
 
   void
