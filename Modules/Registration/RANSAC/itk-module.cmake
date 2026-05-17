@@ -1,7 +1,7 @@
 # the top-level README is used for describing this module, just
 # re-used it for documentation here
 itk_module(
-  Ransac
+  RANSAC
   ENABLE_SHARED
   COMPILE_DEPENDS
     ITKCommon

@@ -1,13 +1,13 @@
 itk_module_test()
 
-set(RansacTests itkRansacTest_LandmarkRegistration.cxx)
+set(RANSACTests itkRansacTest_LandmarkRegistration.cxx)
 
-createtestdriver(Ransac "${Ransac-Test_LIBRARIES}" "${RansacTests}")
+createtestdriver(RANSAC "${RANSAC-Test_LIBRARIES}" "${RANSACTests}")
 
 itk_add_test(
   NAME itkRansacTest_LandmarkRegistration
   COMMAND
-    RansacTestDriver
+    RANSACTestDriver
     itkRansacTest_LandmarkRegistration
     DATA{Baseline/movingFeatureMesh.vtk}
     DATA{Baseline/fixedFeatureMesh.vtk}

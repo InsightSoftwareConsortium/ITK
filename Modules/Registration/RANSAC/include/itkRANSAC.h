@@ -70,7 +70,7 @@ namespace itk
  *
  * \brief RANSAC for various usecases such as plane estimation, point set registration.
  *
- *  \ingroup Ransac
+ *  \ingroup RANSAC
  */
 
 template <typename T, typename SType, typename TTransform>
