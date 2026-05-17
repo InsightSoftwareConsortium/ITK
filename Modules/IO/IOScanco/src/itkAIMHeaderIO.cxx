@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkAIMHeaderIO.h"
 #include <sstream>
+#include <cstdio>
 #include <cstring>
 #include <iomanip>
 
@@ -405,11 +406,13 @@ AIMHeaderIO::ReadProcessingLog(std::ifstream & infile, size_t offset, size_t len
     // check for known keys
     if (key == "Time")
     {
-      strncpy(this->m_HeaderData->m_ModificationDate, value.c_str(), value.length() + 1);
+      std::snprintf(
+        this->m_HeaderData->m_ModificationDate, sizeof(this->m_HeaderData->m_ModificationDate), "%s", value.c_str());
     }
     else if (key == "Original Creation-Date")
     {
-      strncpy(this->m_HeaderData->m_CreationDate, value.c_str(), value.length() + 1);
+      std::snprintf(
+        this->m_HeaderData->m_CreationDate, sizeof(this->m_HeaderData->m_CreationDate), "%s", value.c_str());
     }
     else if (key == "Orig-ISQ-Dim-p")
     {
@@ -431,7 +434,7 @@ AIMHeaderIO::ReadProcessingLog(std::ifstream & infile, size_t offset, size_t len
     }
     else if (key == "Patient Name")
     {
-      strncpy(this->m_HeaderData->m_PatientName, value.c_str(), value.length() + 1);
+      std::snprintf(this->m_HeaderData->m_PatientName, sizeof(this->m_HeaderData->m_PatientName), "%s", value.c_str());
     }
     else if (key == "Index Patient")
     {
@@ -510,11 +513,13 @@ AIMHeaderIO::ReadProcessingLog(std::ifstream & infile, size_t offset, size_t len
     }
     else if (key == "Calibration Data")
     {
-      strncpy(this->m_HeaderData->m_CalibrationData, value.c_str(), value.length() + 1);
+      std::snprintf(
+        this->m_HeaderData->m_CalibrationData, sizeof(this->m_HeaderData->m_CalibrationData), "%s", value.c_str());
     }
     else if (key == "Density: unit")
     {
-      strncpy(this->m_HeaderData->m_RescaleUnits, value.c_str(), value.length() + 1);
+      std::snprintf(
+        this->m_HeaderData->m_RescaleUnits, sizeof(this->m_HeaderData->m_RescaleUnits), "%s", value.c_str());
     }
     else if (key == "Density: slope")
     {
