@@ -176,6 +176,8 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::Initialize()
   // Create filter bank by multiplying log gabor filters with directional filters
   typename DoubleFFTShiftImageFilterType::Pointer fftShiftFilter = DoubleFFTShiftImageFilterType::New();
 
+  // Rebuild from scratch so repeated Initialize() calls do not accumulate
+  m_FilterBank.clear();
   for (unsigned int w = 0; w < m_Wavelengths.rows(); w++)
   {
     tempStack.clear();
@@ -219,6 +221,12 @@ template <typename TInputImage, typename TOutputImage>
 void
 PhaseSymmetryImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
+  // Self-initialize so Update() works without an explicit Initialize() call
+  if (m_FilterBank.empty())
+  {
+    this->Initialize();
+  }
+
   typename TInputImage::SizeType          inputSize;
   typename TInputImage::IndexType         inputIndex;
   typename Superclass::OutputImagePointer output = this->GetOutput();

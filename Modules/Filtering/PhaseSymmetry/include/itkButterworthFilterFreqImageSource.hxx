@@ -75,9 +75,12 @@ ButterworthFilterFreqImageSource<TOutputImage>::DynamicThreadedGenerateData(
     radius = std::sqrt(radius);
 
     double value = 0.0;
-    value = radius / m_Cutoff;
-    value = std::pow(value, 2 * m_Order);
-    value = 1. / (1. + value);
+    if (m_Cutoff > 0.0)
+    {
+      value = radius / m_Cutoff;
+      value = std::pow(value, 2 * m_Order);
+      value = 1. / (1. + value);
+    }
 
     outIt.Set(static_cast<typename TOutputImage::PixelType>(value));
   }
