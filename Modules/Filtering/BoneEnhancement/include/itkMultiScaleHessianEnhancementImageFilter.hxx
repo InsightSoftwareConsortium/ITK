@@ -189,7 +189,9 @@ MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::generateResp
   m_HessianFilter->SetSigma(thisSigma);
   // m_EigenToMeasureImageFilter->GetOutput()->SetRequestedRegion(this->GetOutputRegion());
   m_EigenToMeasureImageFilter->Update();
-  return m_EigenToMeasureImageFilter->GetOutput();
+  typename TOutputImage::Pointer result = m_EigenToMeasureImageFilter->GetOutput();
+  result->DisconnectPipeline();
+  return result;
 }
 
 template <typename TInputImage, typename TOutputImage>
