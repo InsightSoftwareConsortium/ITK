@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "itkIndent.h"
 #include "itkTimeProbe.h"
 #include "itkMath.h"
 
