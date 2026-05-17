@@ -66,7 +66,7 @@ CuberilleTest01Helper(int argc, char * argv[])
   int          arg = 1;
   char *       filenameInputImage = argv[arg++];
   char *       filenameOutputMesh = argv[arg++];
-  PixelType    isoSurfaceValue = atoi(argv[arg++]);
+  PixelType    isoSurfaceValue = static_cast<PixelType>(atof(argv[arg++]));
   unsigned int expectedNumberOfPoints = atoi(argv[arg++]);
   unsigned int expectedNumberOfCells = atoi(argv[arg++]);
 
@@ -255,7 +255,7 @@ CuberilleTest01(int argc, char * argv[])
 {
 
   constexpr unsigned int Dimension = 3;
-  using PixelType = unsigned char;
+  using PixelType = float;
   using CoordinateType = double;
   using QEMeshType = itk::QuadEdgeMesh<CoordinateType, Dimension>;
   using MeshType = itk::Mesh<CoordinateType, Dimension>;
