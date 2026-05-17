@@ -187,13 +187,13 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
         const auto   components = this->m_LabelsArray.at(bitmaskID);
         const auto   component = components.at(offsetID);
         unsigned int look = (i < 4) ? look0 : look1; // First four are first slice
-        if (!lookup[look].GetVertex(vindex[0], vindex[1], component, v[i]))
+        if (!lookup[look].GetVertex(vindex[0], vindex[1], vindex[2], component, v[i]))
         {
           // Vertex was not in lookup, create and add to lookup
           v[i] = nextVertexId;
           const auto numComponents = (*std::max_element(components.begin(), components.end())) + 1;
           const auto pv = AddVertex(nextVertexId, vindex, image, mesh, numComponents);
-          lookup[look].AddVertex(vindex[0], vindex[1], pv);
+          lookup[look].AddVertex(vindex[0], vindex[1], vindex[2], pv);
         }
 
       } // end foreach vertex
