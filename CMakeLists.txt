@@ -67,7 +67,15 @@ project(
     C
 )
 
-set(ITK_CMAKE_DIR "${ITK_SOURCE_DIR}/CMake")
+# Required as a cache variable for FetchContent parent projects can
+# resolve ITK's CMake macros and config paths.
+set(
+  ITK_CMAKE_DIR
+  "${ITK_SOURCE_DIR}/CMake"
+  CACHE INTERNAL
+  "Directory containing CMake files for ITK configuration and module macros"
+  FORCE
+)
 
 if(APPLE)
   include(itkApple)

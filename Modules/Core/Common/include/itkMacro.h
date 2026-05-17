@@ -48,7 +48,6 @@
 #include <cstdlib>
 #ifndef NDEBUG
 #  include <cassert>
-#  include "itkPrintHelper.h" // for ostream operator<<std::vector<T>
 #endif
 
 #include <sstream>
@@ -1581,4 +1580,7 @@ ContainerCopyWithCheck(MemberContainerType & m, const CopyFromContainerType & c,
 
 
 #undef allow_inclusion_of_itkExceptionObject_h
+
+
+#include "itkPrintHelper.h"
 #endif // itkMacro_h
