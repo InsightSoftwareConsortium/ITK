@@ -208,7 +208,7 @@ private:
 
   // number of threads used in computing the RANSAC hypotheses
   unsigned int numberOfThreads;
-  unsigned int maxIteration;
+  unsigned int maxIteration{ std::numeric_limits<unsigned int>::max() };
 
   bool   checkCorresspondenceDistanceFlag = false;
   double checkCorrespondenceEdgeLengthTest = 0;
@@ -220,7 +220,7 @@ private:
   // agrees with the best model, otherwise false
   bool *       bestVotes;
   unsigned int numVotesForBest;
-  double       bestRMSE;
+  double       bestRMSE{ std::numeric_limits<double>::max() };
 
   std::vector<T>      data;
   std::vector<T>      agreeData;
