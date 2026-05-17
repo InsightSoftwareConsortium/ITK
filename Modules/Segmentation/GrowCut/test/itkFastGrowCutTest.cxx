@@ -103,6 +103,9 @@ itkFastGrowCutTest(int argc, char * argv[])
     medianFilter->Update();
 
     fgcFilter->SetInput(medianFilter->GetOutput());
+    // Reset() is required when the intensity volume changes; otherwise the
+    // incremental path reuses stale cached state and produces garbage labels.
+    fgcFilter->Reset();
     fgcFilter->Update();
     ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(fgcFilter->GetOutput(), medianLabels, true));
   }
