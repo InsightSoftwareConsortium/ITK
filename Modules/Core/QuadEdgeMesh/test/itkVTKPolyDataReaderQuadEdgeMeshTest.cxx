@@ -36,8 +36,6 @@ itkVTKPolyDataReaderQuadEdgeMeshTest(int argc, char * argv[])
 
   auto polyDataReader = ReaderType::New();
 
-  using PointType = ReaderType::PointType;
-
   polyDataReader->SetFileName(argv[1]);
 
   try
@@ -57,9 +55,6 @@ itkVTKPolyDataReaderQuadEdgeMeshTest(int argc, char * argv[])
 
   std::cout << "Using following MeshType :";
   std::cout << mesh->GetNameOfClass() << std::endl;
-
-  const PointType point{};
-
 
   std::cout << "Testing itk::VTKPolyDataReader" << std::endl;
 

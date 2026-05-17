@@ -30,7 +30,7 @@ template <typename T>
 void
 checkField(itk::MetaDataDictionary & metadata, const std::string & key, const T & expectedValue)
 {
-  T value;
+  T value{};
   if (!itk::ExposeMetaData<T>(metadata, key, value))
   {
     std::cerr << "Metadata test failed: '" << key << "' is not found" << std::endl;
