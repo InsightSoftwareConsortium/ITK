@@ -59,6 +59,8 @@ if(NOT ITK_FORBID_DOWNLOADS)
     "http://127.0.0.1:8080/ipfs/%(hash)"
     # Protocol Labs gateway
     "https://ipfs.io/ipfs/%(hash)"
+    # Filebase gateway
+    "https://ipfs.filebase.io/ipfs/%(hash)"
     # Gateway for data pinned on pinata
     "https://gateway.pinata.cloud/ipfs/%(hash)"
     # Cloudflare gateway
