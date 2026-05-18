@@ -66,6 +66,26 @@ def build_car(input_path: Path, output_car: Path) -> str:
     )
 
 
+def _cid_from_response(response: dict) -> str:
+    """Pull a Filebase-reported CID out of a boto3 PUT or HEAD response.
+
+    Filebase publishes the imported root CID via the ``x-amz-meta-cid``
+    response header. boto3 promotes ``x-amz-meta-*`` headers into the
+    ``Metadata`` dict (with lowercased keys), but only on responses where
+    its model declares a metadata field. ``put_object``'s response model
+    has no ``Metadata`` field, so we have to read directly from
+    ``ResponseMetadata.HTTPHeaders``. ``head_object`` does populate
+    ``Metadata`` — check both to be robust across boto3 versions and
+    Filebase response variations.
+    """
+    metadata = response.get("Metadata") or {}
+    cid = metadata.get("cid") or metadata.get("CID")
+    if cid:
+        return cid
+    headers = response.get("ResponseMetadata", {}).get("HTTPHeaders", {})
+    return headers.get("x-amz-meta-cid", "") or headers.get("X-Amz-Meta-Cid", "")
+
+
 def upload_car_to_filebase(
     car_path: Path,
     bucket: str,
@@ -76,10 +96,13 @@ def upload_car_to_filebase(
     """Upload a CAR to a Filebase IPFS bucket and return the CID Filebase reports.
 
     Setting ``Metadata={"import": "car"}`` tells Filebase to import the CAR
-    server-side; the imported root CID is then exposed via
-    ``head_object()['Metadata']['cid']``. ``put_object`` is used directly
-    rather than ``upload_file`` because the latter's multipart code path can
-    strip user metadata on small payloads.
+    server-side. Filebase echoes the imported CID via the
+    ``x-amz-meta-cid`` header on the PUT response synchronously for sub-5GB
+    objects; we read it from there first, then fall back to a ``head_object``
+    call for cases where the PUT response shape changes (older Filebase or
+    boto3 client configurations strip user-metadata headers off the PUT
+    response). ``put_object`` is used directly rather than ``upload_file``
+    because the latter's multipart code path can strip user metadata.
     """
     import boto3  # imported lazily so --help works without the env active
 
@@ -91,14 +114,31 @@ def upload_car_to_filebase(
         region_name="us-east-1",
     )
     with car_path.open("rb") as f:
-        s3.put_object(
+        put_response = s3.put_object(
             Bucket=bucket,
             Key=object_key,
             Body=f,
             Metadata={"import": "car"},
         )
-    head = s3.head_object(Bucket=bucket, Key=object_key)
-    return head.get("Metadata", {}).get("cid", "")
+    cid = _cid_from_response(put_response)
+    if cid:
+        return cid
+
+    head_response = s3.head_object(Bucket=bucket, Key=object_key)
+    cid = _cid_from_response(head_response)
+    if cid:
+        return cid
+
+    print(
+        "DEBUG: Filebase response did not include x-amz-meta-cid. Dumping "
+        "PUT and HEAD response details for diagnosis:",
+        file=sys.stderr,
+    )
+    for label, resp in (("put_object", put_response), ("head_object", head_response)):
+        print(f"DEBUG: {label}.Metadata = {resp.get('Metadata')}", file=sys.stderr)
+        headers = resp.get("ResponseMetadata", {}).get("HTTPHeaders", {})
+        print(f"DEBUG: {label}.HTTPHeaders = {headers}", file=sys.stderr)
+    return ""
 
 
 def upload_file_to_filebase(
