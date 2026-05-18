@@ -8,8 +8,8 @@ committed to the ITK source tree.
 
 This complements [`CMake/ITKExternalData.cmake`](../../../CMake/ITKExternalData.cmake),
 which fetches content at test configure time from the gateways listed there
-(`ITKTestingData` on GitHub Pages, `data.kitware.com`, `itk.org`, local Kubo
-gateway, `ipfs.io`, `gateway.pinata.cloud`, `cloudflare-ipfs.com`,
+(`ITKTestingData` on GitHub Pages, local Kubo
+gateway, `ipfs.filebase.io`, `ipfs.io`, `gateway.pinata.cloud`, `cloudflare-ipfs.com`,
 `dweb.link`).
 
 ## How the upload works

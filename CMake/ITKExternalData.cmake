@@ -51,10 +51,6 @@ if(NOT ITK_FORBID_DOWNLOADS)
     ExternalData_URL_TEMPLATES
     # Data published on GitHub Pages
     "https://insightsoftwareconsortium.github.io/ITKTestingData/%(algo)/%(hash)"
-    # Data published on Girder
-    "https://data.kitware.com:443/api/v1/file/hashsum/%(algo)/%(hash)/download"
-    # Data published by developers using git-gerrit-push.
-    "https://itk.org/files/ExternalData/%(algo)/%(hash)"
     # Local IPFS gateway
     "http://127.0.0.1:8080/ipfs/%(hash)"
     # Protocol Labs gateway
@@ -67,6 +63,10 @@ if(NOT ITK_FORBID_DOWNLOADS)
     "https://cloudflare-ipfs.com/ipfs/%(hash)"
     # Additional gateway (modern but has redirect)
     "https://dweb.link/ipfs/%(hash)"
+    # Data published on Girder
+    "https://data.kitware.com:443/api/v1/file/hashsum/%(algo)/%(hash)/download"
+    # Data published by developers using git-gerrit-push.
+    "https://itk.org/files/ExternalData/%(algo)/%(hash)"
   )
 endif()
 
