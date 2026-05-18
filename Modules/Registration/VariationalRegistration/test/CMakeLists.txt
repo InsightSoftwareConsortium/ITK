@@ -47,8 +47,13 @@ add_custom_target(
 #####################################
 
 function(Test2D TestName OutputExt)
+  set(OutParam "")
   if(OutputExt)
-    set(OutParam "${TEMP}/${TestName}.${OutputExt}")
+    set(
+      OutParam
+      -O
+      "${TEMP}/${TestName}.${OutputExt}"
+    )
   endif()
 
   itk_add_test(
@@ -72,7 +77,6 @@ function(Test2D TestName OutputExt)
       ${ARGN}
       -W
       ${TEMP}/${TestName}.tif
-      -O
       ${OutParam}
   )
 
