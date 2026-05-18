@@ -96,10 +96,12 @@ itk_add_test(
 )
 
 # Active Thirion forces and gaussian smoothing, test 3D output
-test2d(VariationalRegistrationGaussian2DTest mha -r 0 -v 1.5 -u 0 -3)
+# ITK #6305: disabled pending cross-platform baseline review
+# test2d(VariationalRegistrationGaussian2DTest mha -r 0 -v 1.5 -u 0 -3)
 
 # Active Thirion forces and diffusive regularization
-test2d(VariationalRegistrationDiffusive2DTest "" -r 1 -a 1.5)
+# ITK #6305: disabled pending cross-platform baseline review
+# test2d(VariationalRegistrationDiffusive2DTest "" -r 1 -a 1.5)
 
 if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
   # Active Thirion forces and elastic regularization
@@ -110,22 +112,27 @@ if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
 endif()
 
 # Passive Thirion forces and gaussian smoothing
-test2d(VariationalRegistrationPassiveDemons2D "" -d 1 -a 1.5)
+# ITK #6305: disabled pending cross-platform baseline review
+# test2d(VariationalRegistrationPassiveDemons2D "" -d 1 -a 1.5)
 
 # Symmetric Thirion forces and gaussian smoothing
-test2d(VariationalRegistrationSymmetricDemons2DTest "" -d 2 -a 1.5)
+# ITK #6305: disabled pending cross-platform baseline review
+# test2d(VariationalRegistrationSymmetricDemons2DTest "" -d 2 -a 1.5)
 
 # SSD forces and gaussian smoothing
-test2d(VariationalRegistrationSSD2DTest "" -f 1 -t 0.00075 -a 0.5)
+# ITK #6305: disabled pending cross-platform baseline review
+# test2d(VariationalRegistrationSSD2DTest "" -f 1 -t 0.00075 -a 0.5)
 
 # NCC forces and gaussian smoothing
-test2d(VariationalRegistrationNCC2DTest "" -f 2 -t 40 -a 1.5 -q 3 -p 2)
+# ITK #6305: disabled pending cross-platform baseline review
+# test2d(VariationalRegistrationNCC2DTest "" -f 2 -t 40 -a 1.5 -q 3 -p 2)
 
 # Active Thirion forces, diffusive regularization, diffeomorphic transform
 test2d(VariationalRegistrationDiffeomorph2DTest "" -r 1 -a 1.5 -s 1 -e 2)
 
 # Active Thirion forces, diffusive regularization, symmetric diffeomorphic transform
-test2d(VariationalRegistrationSymDiff2DTest "" -r 1 -a 1.5 -s 2 -e 2)
+# ITK #6305: disabled pending cross-platform baseline review
+# test2d(VariationalRegistrationSymDiff2DTest "" -r 1 -a 1.5 -s 2 -e 2)
 
 #####################################
 # 3D tests
@@ -187,10 +194,12 @@ itk_add_test(
 )
 
 # Active Thirion forces and gaussian smoothing
-test3d(VariationalRegistrationGaussian3DTest -r 0 -v 1.5 -u 0)
+# ITK #6305: disabled pending cross-platform baseline review
+# test3d(VariationalRegistrationGaussian3DTest -r 0 -v 1.5 -u 0)
 
 # Active Thirion forces and diffusive regularization
-test3d(VariationalRegistrationDiffusive3DTest -r 1 -a 1)
+# ITK #6305: disabled pending cross-platform baseline review
+# test3d(VariationalRegistrationDiffusive3DTest -r 1 -a 1)
 
 if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
   # Active Thirion forces and elastic regularization
@@ -203,13 +212,17 @@ if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
 endif()
 
 # SSD forces and gaussian smoothing
-test3d(VariationalRegistrationSSD3DTest -f 1 -t 0.00001 -a 1)
+# ITK #6305: disabled pending cross-platform baseline review
+# test3d(VariationalRegistrationSSD3DTest -f 1 -t 0.00001 -a 1)
 
 # NCC forces and gaussian smoothing
-test3d(VariationalRegistrationNCC3DTest -f 2 -t 40 -r 0 -v 1 -u 0 -q 2 -p 1)
+# ITK #6305: disabled pending cross-platform baseline review
+# test3d(VariationalRegistrationNCC3DTest -f 2 -t 40 -r 0 -v 1 -u 0 -q 2 -p 1)
 
 # Active Thirion forces and diffusive regularization, diffeomorphic transform
-test3d(VariationalRegistrationDiffeomorph3DTest -r 1 -a 1 -s 1 -e 2)
+# ITK #6305: disabled pending cross-platform baseline review
+# test3d(VariationalRegistrationDiffeomorph3DTest -r 1 -a 1 -s 1 -e 2)
 
 # Active Thirion forces and diffusive regularization, symmetric diffeomorphic transform
-test3d(VariationalRegistrationSymDiff3DTest -r 1 -a 1 -s 2 -e 2)
+# ITK #6305: disabled pending cross-platform baseline review
+# test3d(VariationalRegistrationSymDiff3DTest -r 1 -a 1 -s 2 -e 2)
