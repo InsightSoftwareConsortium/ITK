@@ -168,9 +168,19 @@ def fetch_and_verify(ext: str, value: str, templates: list[str]) -> Path:
 
 
 def enumerate_links(target: Path, hash_only: bool, cid_only: bool) -> list[Path]:
-    if target.is_file():
-        return [target]
     exts = {f".{e}" for e in upload_module.CONTENT_LINK_EXTS}
+    if target.is_file():
+        if target.suffix not in exts:
+            sys.exit(
+                f"ERROR: {target} is not a content link "
+                f"(extension must be one of: "
+                f"{', '.join(sorted(upload_module.CONTENT_LINK_EXTS))}).\n"
+                "       normalize.py converts existing .md5/.shaNNN/.cid links; "
+                "to upload a raw file for the first time, use upload.py:\n"
+                f"         pixi run -e external-data-upload python "
+                f"Utilities/Maintenance/ExternalDataUpload/upload.py {target}"
+            )
+        return [target]
     found = sorted(p for p in target.rglob("*") if p.is_file() and p.suffix in exts)
     filtered: list[Path] = []
     for link in found:
