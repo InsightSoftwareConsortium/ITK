@@ -97,6 +97,38 @@ The normalize script fetches bytes through the gateway templates in
 against the declared hash or CID, and calls `upload.upload_file_to_filebase`
 to produce the new `.cid`.
 
+### 3. Reconcile a local ITKTestingData mirror with Filebase and the manifest
+
+Use when the user has files under `<ITKTestingData>/CID/` that are
+referenced by `.cid` content links in the ITK source tree but are missing
+from `Testing/Data/content-links.manifest` (and so may not be pinned on
+Filebase yet).
+
+```bash
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/sync.py \
+    --testing-data-repo <path-to-ITKTestingData>
+```
+
+The sync script:
+
+1. Loads CIDs already in the manifest and skips files whose CID is listed.
+2. Indexes `.cid` content links in the source tree via `git ls-files`.
+3. For each file in `<ITKTestingData>/CID/` whose CID is unlisted and is
+   referenced by at least one `.cid` link, uploads the bytes to Filebase
+   under the unixfs-v1-2025 profile and verifies the returned CID matches
+   the filename.
+4. Appends a manifest entry per referencing `.cid` link.
+
+Files in `<ITKTestingData>/CID/` not referenced by any `.cid` link are
+skipped silently — the script will not pin loose bytes. The source-tree
+`.cid` files are never modified.
+
+Useful options:
+
+- `--dry-run` — preview the CIDs that would be uploaded
+- `--bucket <name>` — Filebase bucket override (default: `$FILEBASE_BUCKET`)
+
 ## After Upload
 
 Stage the git changes the upload script prints. Typical ITK workflow:

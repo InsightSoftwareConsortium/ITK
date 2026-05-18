@@ -175,6 +175,40 @@ pixi run -e external-data-upload python \
     Utilities/Maintenance/ExternalDataUpload/normalize.py Modules --hash-only
 ```
 
+### Reconcile a local `ITKTestingData/CID/` mirror with Filebase and the manifest
+
+`sync.py` pushes files from a local `ITKTestingData/CID/` checkout to Filebase
+and fills in the matching `Testing/Data/content-links.manifest` entries — for
+the subset of files that are *referenced by a `.cid` content link in the ITK
+source tree* but *not yet listed in the manifest*.
+
+```bash
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/sync.py \
+    --testing-data-repo ~/src/ITKTestingData
+```
+
+For each file under `<ITKTestingData>/CID/`, the script:
+
+1. Loads the set of CIDs already in `content-links.manifest` and skips the
+   file if its CID (the filename) is already listed.
+2. Scans the ITK source tree (via `git ls-files`) for `.cid` content links
+   and indexes them by CID value. Files in `ITKTestingData/CID/` that no
+   `.cid` link references are skipped silently — the script will not pin
+   loose bytes from your local mirror.
+3. Uploads each remaining file to Filebase under the unixfs-v1-2025 profile
+   and verifies the CID Filebase returns matches the filename.
+4. Appends a `<cid> <repo-relative-path>` entry to the manifest for every
+   `.cid` content link in the source tree that holds the value.
+
+Pass `--dry-run` to preview the list of CIDs that would be uploaded without
+modifying anything. Pass `--bucket` to override `$FILEBASE_BUCKET` for this
+invocation.
+
+The script does **not** modify any `.cid` content link in the source tree
+and does **not** copy bytes back into `ITKTestingData` (the files are
+already there — that is the script's input).
+
 ## Content Link Manifest
 
 `Testing/Data/content-links.manifest` is a plain-text index of every CID the
