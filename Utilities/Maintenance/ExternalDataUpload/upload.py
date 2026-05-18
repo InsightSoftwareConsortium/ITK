@@ -175,6 +175,13 @@ def upload_file_to_filebase(
 
 def update_manifest(cid: str, rel_path: str) -> None:
     """Insert/replace ``cid <rel_path>`` in Testing/Data/content-links.manifest."""
+    if any(c.isspace() for c in rel_path):
+        print(
+            f"WARNING: skipping {rel_path!r}: path contains whitespace, "
+            f"which is not allowed by the manifest format",
+            file=sys.stderr,
+        )
+        return
     MANIFEST.parent.mkdir(parents=True, exist_ok=True)
 
     header_lines: list[str] = []
