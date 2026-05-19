@@ -49,13 +49,12 @@ else() # build proxTV here with the selected Eigen3
     #    set(CMAKE_CXX_EXTENSIONS OFF)
   endif()
 
-  set(proxTV_Eigen_LIBRARIES ITK::ITKEigen3Module)
-
   set(
     proxTV_GIT_REPOSITORY
     "https://github.com/InsightSoftwareConsortium/proxTV.git"
   )
   set(proxTV_GIT_TAG "for/itk-proxtv-3.3.0-69062fe5")
+
   FetchContent_Declare(
     proxtv_fetch
     GIT_REPOSITORY ${proxTV_GIT_REPOSITORY}
@@ -63,10 +62,43 @@ else() # build proxTV here with the selected Eigen3
   )
 
   # proxTV options:
+  message(
+    STATUS
+    "TotalVariation_proxTV_USE_EIGEN: ${TotalVariation_proxTV_USE_EIGEN}"
+  )
   if(TotalVariation_proxTV_USE_EIGEN)
     set(proxTV_USE_LAPACK 0)
+    if(NOT ITK_USE_SYSTEM_EIGEN)
+      # Set Eigen3_DIR to the internal Eigen3 used in ITK
+      set(Eigen3_DIR "${ITKInternalEigen3_DIR}")
+      message(
+        STATUS
+        "ITKTotalVariation: Using internal ITK Eigen Config found in: ${Eigen3_DIR}"
+      )
+    endif()
+    find_package(Eigen3 REQUIRED)
+    set(
+      ${PROJECT_NAME}_EXPORT_CODE_INSTALL
+      "${${PROJECT_NAME}_EXPORT_CODE_INSTALL}
+  find_package(OpenMP)
+  set(Eigen3_DIR \"${Eigen3_DIR}\")
+  find_package(Eigen3 REQUIRED CONFIG)
+  "
+    )
+    set(
+      ${PROJECT_NAME}_EXPORT_CODE_BUILD
+      "${${PROJECT_NAME}_EXPORT_CODE_BUILD}
+  if(NOT ITK_BINARY_DIR)
+    find_package(OpenMP)
+    set(Eigen3_DIR \"${Eigen3_DIR}\")
+    find_package(Eigen3 REQUIRED CONFIG)
+  endif()
+  "
+    )
   else()
+    # proxTV will be build with external system LAPACK instead of Eigen3
     set(proxTV_USE_LAPACK 1)
+    add_compile_definitions(PROXTV_USE_LAPACK)
   endif()
 
   # end proxTV options
