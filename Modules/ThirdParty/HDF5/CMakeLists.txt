@@ -40,7 +40,7 @@ endif()
         hdf5_cpp-shared
         hdf5-shared
         hdf5_hl-shared
-        hdf5_hl_cpp
+        hdf5_hl_cpp-shared
       )
     elseif(TARGET hdf5::hdf5-shared)
       set(
@@ -75,7 +75,7 @@ endif()
         hdf5_cpp-static
         hdf5-static
         hdf5_hl-static
-        hdf5_hl_cpp
+        hdf5_hl_cpp-static
       )
     elseif(TARGET hdf5::hdf5-static)
       set(
