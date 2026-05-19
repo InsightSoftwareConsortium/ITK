@@ -222,7 +222,7 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::ResetFitti
   m_ElapsedIterations = 0;
   m_CurrentIncreaseCount = 0;
 
-  m_MaxMetricValue = NumericTraits<double>::max();
+  m_MaxMetricValue = NumericTraits<double>::min();
   m_MinMetricValue = NumericTraits<double>::max();
 
   if (m_IterationArray != nullptr)
@@ -369,7 +369,10 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::CheckStopR
         break;
 
       case LINE_FITTING_MODE_NORMALIZED:
-        scaleFactor = 1.0 / (m_MaxMetricValue - m_MinMetricValue);
+        if (m_MaxMetricValue > m_MinMetricValue)
+        {
+          scaleFactor = 1.0 / (m_MaxMetricValue - m_MinMetricValue);
+        }
 
         // Normalization to [0,1].
         for (int k = 0; k < m_NumberOfFittingIterations; k++)
