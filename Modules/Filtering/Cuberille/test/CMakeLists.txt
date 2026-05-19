@@ -453,8 +453,6 @@ set_tests_properties(
   PROPERTIES
     RUN_SERIAL
       TRUE
-    RESOURCE_LOCK
-      Cuberille_prostate_00
 )
 
 itk_add_test(

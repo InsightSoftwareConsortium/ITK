@@ -350,7 +350,7 @@ private:
       m_Map.clear();
     }
 
-    /** Add the given vertex identifer to the given [x,y] position. */
+    /** Add the given vertex identifer to the given [x,y,z] position. */
     void
     AddVertex(unsigned int x, unsigned int y, unsigned int z, PointVectorType ids)
     {
@@ -358,7 +358,7 @@ private:
       m_Map.insert(typename MapType::value_type(node, ids));
     }
 
-    /** Get the vertex identifer for the given [x,y] position.
+    /** Get the vertex identifer for the given [x,y,z] position.
      * Returns true if the vertex exists and id contains the identifer.
      * Returns false if the vertex does not exist and id is undefined. */
     bool
