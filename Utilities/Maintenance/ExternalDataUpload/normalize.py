@@ -22,6 +22,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -292,7 +293,9 @@ def main(argv: list[str] | None = None) -> int:
             fail += 1
             continue
 
-        tmp_bytes.rename(real_file)
+        # shutil.move, not Path.rename: tmp_bytes is in /tmp (tmpfs) and
+        # os.rename rejects cross-fs moves with EXDEV.
+        shutil.move(str(tmp_bytes), real_file)
         link.unlink()
 
         try:
@@ -310,7 +313,8 @@ def main(argv: list[str] | None = None) -> int:
         cid_path = real_file.with_name(real_file.name + ".cid")
         cid_path.write_text(cid + "\n")
         real_file.unlink()
-        rel_path = real_file.relative_to(REPO_ROOT).as_posix()
+        # resolve() so a user-relative target ("Modules") becomes absolute.
+        rel_path = real_file.resolve().relative_to(REPO_ROOT).as_posix()
         update_manifest(cid, rel_path)
         print(f"NORMALIZE  {link}  ({ext})  ->  {cid_path}")
 
