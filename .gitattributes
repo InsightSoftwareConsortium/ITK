@@ -59,6 +59,7 @@ Modules/ThirdParty/Expat/src/expat/lib/xmlparse.c hooks-max-size=320000
 Documentation/docs/releases/* hooks-max-size=300000
 Documentation/Art/* hooks-max-size=300000
 pixi.lock hooks-max-size=1000000
+Testing/Data/content-links.manifest hooks-max-size=1000000
 
 # VNL-specific .gitattributes should go into Modules/ThirdParty/VNL/.gitattributes
 # GDCM-specific .gitattributes should go into Modules/ThirdParty/GDCM/src/gdcm/.gitattributes
