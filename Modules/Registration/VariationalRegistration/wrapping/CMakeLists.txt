@@ -1,0 +1,24 @@
+itk_wrap_module(VariationalRegistration)
+
+set(
+  WRAPPER_SUBMODULE_ORDER
+  itkContinuousBorderWarpImageFilter
+  itkVariationalDiffeomophicRegistrationFilter
+  itkVariationalRegistrationCurvatureRegularizer
+  itkVariationalRegistrationDemonsFunction
+  itkVariationalRegistrationDiffusionRegularizer
+  itkVariationalRegistrationElasticRegularizer
+  itkVariationalRegistrationFastNCCFunction
+  itkVariationalRegistrationFilter
+  itkVariationalRegistrationFunction
+  itkVariationalRegistrationGaussianRegularizer
+  itkVariationalRegistrationMultiResolutionFilter
+  itkVariationalRegistrationNCCFunction
+  itkVariationalRegistrationRegularizer
+  itkVariationalRegistrationSSDFunction
+  itkVariationalRegistrationStopCriterion
+  itkVariationalSymmetricDiffeomophicRegistrationFilter
+)
+
+itk_auto_load_submodules()
+itk_end_wrap_module()
