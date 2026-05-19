@@ -81,7 +81,7 @@ cache; subsequent runs are offline.
 The helper scripts read three environment variables:
 
 ```bash
-export FILEBASE_ACCESS_KEY=...      # S3 access key
+export FILEBASE_ACCESS_KEY=...      # S3 access token
 export FILEBASE_SECRET_KEY=...      # S3 secret key
 export FILEBASE_BUCKET=itk-data     # bucket name from step 2
 ```

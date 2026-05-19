@@ -70,7 +70,7 @@ documented in
 [`Utilities/Maintenance/ExternalDataUpload/README.md`] before the helper
 will succeed. Contributors who prefer not to run any local tooling can
 instead use the [content-link-upload] web app, which returns a `.cid`
-file directly — manifest and mirror updates must then be added by hand.
+file directly.
 
 For more details, see the description and procedures in [Upload Binary Data].
 
