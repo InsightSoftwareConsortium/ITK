@@ -618,6 +618,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CalculateBi
   ones.Fill(1);
   const IndexType localorigin = vindex - ones;
   std::bitset<8>  bitmask;
+  const auto      region = this->GetInput()->GetBufferedRegion();
   for (size_t i = 0; i < 8; ++i)
   {
     std::bitset<3>                 bits(i);
@@ -626,6 +627,11 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CalculateBi
     offset[1] = bits[1];
     offset[2] = bits[2];
     const auto index = localorigin + offset;
+    if (!region.IsInside(index))
+    {
+      bitmask[i] = false;
+      continue;
+    }
     const auto pixel = this->GetInput()->GetPixel(index);
     bitmask[i] = (pixel >= this->m_IsoSurfaceValue);
   }
