@@ -37,6 +37,10 @@ ReplaceFeatureMapNanInfImageFilter<TImage>::GenerateData()
 {
   m_IndexSelectionFiter->SetInput(this->GetInput());
 
+  TImage * outputPtr = this->GetOutput();
+  outputPtr->SetRegions(this->GetInput()->GetLargestPossibleRegion());
+  outputPtr->Allocate();
+
   for (unsigned int i = 0; i < 5; i++)
   {
     m_IndexSelectionFiter->SetInput(this->GetInput());
@@ -66,9 +70,6 @@ ReplaceFeatureMapNanInfImageFilter<TImage>::GenerateData()
       ++interIt;
     }
 
-    TImage * outputPtr = this->GetOutput();
-    outputPtr->SetRegions(this->GetInput()->GetLargestPossibleRegion());
-    outputPtr->Allocate();
     using IteratorType = ImageRegionIterator<TImage>;
     IteratorType outputIt(outputPtr, outputPtr->GetLargestPossibleRegion());
     outputIt.GoToBegin();
