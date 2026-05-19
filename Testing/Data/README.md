@@ -20,11 +20,12 @@ To add new test data, use the upload skill at
 `Utilities/Maintenance/ExternalDataUpload/`:
 
 ```bash
-Utilities/Maintenance/ExternalDataUpload/ipfs-upload.sh <path-to-file>
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/upload.py <path-to-file>
 ```
 
-The script uploads the file to IPFS, pins it on the redundant pinning
-services, replaces the original with a `.cid` content-link, and records the
-CID in `Testing/Data/content-links.manifest`. See the skill's `README.md`
-for one-time setup and the full workflow, including the optional
-`ITKTestingData` GitHub Pages mirror step.
+The script packs the file into a CARv1, uploads it to Filebase IPFS storage,
+replaces the original with a `.cid` content-link, and records the CID in
+`Testing/Data/content-links.manifest`. See the skill's `README.md` for
+one-time setup and the full workflow, including the optional `ITKTestingData`
+GitHub Pages mirror step.

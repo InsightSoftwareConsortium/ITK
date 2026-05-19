@@ -305,7 +305,15 @@ def main(argv: list[str] | None = None) -> int:
             continue
 
         if testing_data_repo is not None:
-            mirror_to_testing_data(real_file, cid, testing_data_repo)
+            try:
+                mirror_to_testing_data(real_file, cid, testing_data_repo)
+            except (subprocess.CalledProcessError, OSError) as exc:
+                # Best-effort: Filebase already has the bytes; sync.py can
+                # re-apply the mirror later.
+                print(
+                    f"WARN     {link}  mirror-failed: {exc}",
+                    file=sys.stderr,
+                )
 
         cid_path = real_file.with_name(real_file.name + ".cid")
         cid_path.write_text(cid + "\n")
