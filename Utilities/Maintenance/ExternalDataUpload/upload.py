@@ -208,9 +208,7 @@ def update_manifest(cid: str, rel_path: str) -> None:
     MANIFEST.write_text("\n".join(header_lines + data_lines) + "\n")
 
 
-def mirror_to_testing_data(
-    file_path: Path, cid: str, testing_data_repo: Path
-) -> bool:
+def mirror_to_testing_data(file_path: Path, cid: str, testing_data_repo: Path) -> bool:
     """Copy ``file_path`` to ``<repo>/CID/<cid>`` and ``git add`` it.
 
     Returns False (with a warning) for files over GitHub's 50 MB push limit;

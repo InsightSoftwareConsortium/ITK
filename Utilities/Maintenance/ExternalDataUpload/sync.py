@@ -114,8 +114,7 @@ def main(argv: list[str] | None = None) -> int:
         "--dry-run",
         action="store_true",
         help=(
-            "List CIDs that would be uploaded; do not upload or modify the "
-            "manifest."
+            "List CIDs that would be uploaded; do not upload or modify the " "manifest."
         ),
     )
     args = parser.parse_args(argv)

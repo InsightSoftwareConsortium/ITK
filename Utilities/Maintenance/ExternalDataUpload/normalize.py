@@ -97,8 +97,7 @@ def parse_url_templates(cmake_file: Path) -> list[str]:
 
     if end_idx is None:
         sys.exit(
-            f"ERROR: unterminated ExternalData_URL_TEMPLATES list() in "
-            f"{cmake_file}"
+            f"ERROR: unterminated ExternalData_URL_TEMPLATES list() in " f"{cmake_file}"
         )
 
     body = text[anchor.end() : end_idx]
@@ -273,9 +272,7 @@ def main(argv: list[str] | None = None) -> int:
             continue
 
         if args.dry_run:
-            print(
-                f"WOULD-NORMALIZE  {link}  ({ext}={value})  ->  {real_file}.cid"
-            )
+            print(f"WOULD-NORMALIZE  {link}  ({ext}={value})  ->  {real_file}.cid")
             continue
 
         print(f"==> Normalizing {link} ({ext}={value})")
