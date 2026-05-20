@@ -27,9 +27,14 @@ namespace itk
 
 /** \class DCMTKTransformIO
  *
- *  \brief Read transforms in DICOM format.
+ *  \brief Read spatial transforms stored as DICOM Spatial-Registration
+ *  Objects (SOP class UID_SpatialRegistrationStorage) via DCMTK.
  *
- *  \todo Detailed description.
+ *  Each MatrixRegistration item is materialized as the most-specific
+ *  ITK transform indicated by FrameOfReferenceTransformationMatrixType
+ *  (RIGID, RIGID_SCALE, or AFFINE). When a target Frame-of-Reference
+ *  UID is set via SetFrameOfReferenceUID(), items not matching that
+ *  UID are skipped. Write support is not implemented.
  *
  * \ingroup IOTransformDCMTK
  */
