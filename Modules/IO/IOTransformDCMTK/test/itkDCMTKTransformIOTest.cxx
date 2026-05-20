@@ -71,11 +71,13 @@ itkDCMTKTransformIOTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
   readTransform->Print(std::cout);
-  ITK_TEST_EXPECT_EQUAL(3, transformIO->GetReadTransformList().size());
+  // Fixture rect-offset-sro-rigid/transform.dcm carries three MatrixRegistration
+  // items across two Frame-of-Reference UIDs.
+  ITK_TEST_EXPECT_EQUAL(transformIO->GetReadTransformList().size(), 3u);
 
   transformIO->SetFrameOfReferenceUID("1.2.826.0.1.3680043.8.274.1.1.8323328.22085.1372783046.709932");
   ITK_TRY_EXPECT_NO_EXCEPTION(transformReader->Update());
-  ITK_TEST_EXPECT_EQUAL(2, transformIO->GetReadTransformList().size());
+  ITK_TEST_EXPECT_EQUAL(transformIO->GetReadTransformList().size(), 2u);
 
   return EXIT_SUCCESS;
 }
