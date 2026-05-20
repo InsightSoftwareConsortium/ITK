@@ -33,35 +33,47 @@ adopting Web3, we gain:
 - **Scalability**
 - **Sustainability**
 
-Contributors to the ITK upload their data through a simple web app
-that utilizes an easy-to-use, permissionless, free service, [web3.storage].
+Contributors upload their data by running a small Python helper that packs
+the file into a [CARv1] using `npx ipfs-car`, uploads the CAR to a [Filebase]
+IPFS bucket through Filebase's S3-compatible REST API, records the resulting
+CID in a manifest, and (optionally) mirrors the bytes into the [ITKTestingData]
+GitHub Pages repository. A local [Kubo] daemon, IPFS Desktop, or any
+`ipfs pin remote` PSA service is **not** required. See
+[`Utilities/Maintenance/ExternalDataUpload/README.md`] for the one-time
+developer setup and full workflow.
 
-Data used in the ITK Git repository is periodically tracked in a
-dedicated DataLad repository, the [ITKData DataLad repository].
-and stored across redundant locations so it can be retrieved from any of
-the following:
+[CARv1]: https://ipld.io/specs/transport/car/carv1/
 
-- Local [IPFS](https://ipfs.io/) nodes
-- Peer [IPFS](https://ipfs.io/) nodes
-- [web3.storage](https://web3.storage/)
-- [pinata.cloud](https://pinata.cloud)
-- Kitware's IPFS Server
-- [ITKTestingData](https://github.com/InsightSoftwareConsortium/ITKTestingData) GitHub Pages CDN
+Data referenced from the ITK Git repository is stored across redundant
+locations so it can be retrieved from any of the following at build time:
+
+- [Filebase] IPFS gateway (where uploads land)
+- [ITKTestingData] GitHub Pages mirror
+- Public IPFS HTTP gateways (`ipfs.io`, `dweb.link`, `cloudflare-ipfs.com`,
+  `gateway.pinata.cloud`)
+- Local [Kubo] gateway (typically `127.0.0.1:8080`) when present
 - Kitware's Apache HTTP Server
-- Local testing data cache
+- Local `ExternalData_OBJECT_STORES` cache
 - Archive tarballs from GitHub Releases
+- Historical [ITKData DataLad repository] snapshots (older content links)
 
 ![ITK testing data figure](./itk-testing-data.png)
 
-*Testing data workflow. Testing or example data is uploaded to IPFS via the content-link-upload.itk.org web app.
-This pins the data on multiple servers across the globe.
-At release time, the data is also pinned on multiple servers in the USA and France and community pinners.
-At release time, the data is also stored in the DataLad Git repository, served on an Apache HTTP server, and the GitHub Pages CDN.
-At test time an ITK build can pull the data from a local cache, archive tarball, the Apache HTTP server, GitHub Pages CDN, or multiple IPFS HTTP gateways.*
+*Testing data workflow. New content is added with the
+`Utilities/Maintenance/ExternalDataUpload/upload.py` helper, which packs
+the file into a CAR with `npx ipfs-car` (defaults match the
+unixfs-v1-2025 / IPIP-0499 profile so CIDs are reproducible) and uploads
+the CAR to a [Filebase] IPFS bucket via boto3 against Filebase's
+S3-compatible API. The CID Filebase reports back from `head_object` is
+verified against the locally computed CID, written as a `.cid` content
+link in the ITK source tree, and recorded in
+`Testing/Data/content-links.manifest`. Files ≤ 50 MB can additionally be
+mirrored into [ITKTestingData] for GitHub Pages CDN delivery. At test
+time an ITK build can fetch the data from a local cache, archive tarball,
+the Apache HTTP server, the GitHub Pages mirror, or any of several public
+IPFS HTTP gateways.*
 
-See also our [Data](data.md) guide for more information. If you just
-want to browse and download the ITK testing images, see the
-[ITKData DataLad repository].
+See also our [Data](data.md) guide for more information.
 
 Adding images as input to ITK sources
 -------------------------------------
@@ -89,88 +101,119 @@ need to be followed:
 Upload new testing data
 -----------------------
 
-### Prerequisites
+### One-time setup
 
-[web3.storage] is a decentralized IPFS storage
-provider where any ITK community member can upload binary data files.
-There are two primary methods available to upload data files:
+The upload workflow needs:
 
-A.  The CMake ExternalData Web3 upload browser interface.
-B.  The <span class="title-ref">w3</span> command line executable that
-    comes with the [@web3-storage/w3cli] Node.js NPM package.
-
-Once files have been uploaded, they will be publicly
-available and accessible since data is content addressed on the IPFS
-peer-to-peer network.
-
-In addition to these two methods, documented in detail below, another
-possibility includes pinning the data on IPFS with [other pinning services]
-and creating the content link file manually. The content link file is simply a
-plan text file with a `.cid` extension whose contents are the CID file.
-However, the documented two methods are recommended due to their simplicity
-and in order to keep CID values consistent.
-
-At release time, the release manager uploads and archives repository data
-references in other storage locations for additional redundancy.
-
-### Option A) Upload Via the Web Interface
-
-Use the [Content Link Upload]
-tool ([Alt Link]) to
-upload your data to the [IPFS] and download the
-corresponding CMake content link file.
-
-![[CMake ExternalData Web3
-Content Link Upload](https://content-link-upload.itk.org/)](./content-link-upload.png)
-
-### Option B) Upload Via CMake and Node.js CLI
-
-Install the <span class="title-ref">w3</span> CLI with the
-[@web3-storage/w3cli] [Node.js] package:
+- The `external-data-upload` pixi environment installed
+  (`pixi install -e external-data-upload`). It provides Python 3, [boto3],
+  and Node.js (which makes `npx ipfs-car` available without a separate
+  global install).
+- A [Filebase] IPFS bucket and an S3 access key for that bucket. Filebase's
+  free tier is sufficient — the upload uses the S3 import-as-CAR path,
+  not the legacy IPFS Pinning Service API.
+- The credentials exported as environment variables before running the
+  helper:
 
 ```bash
-npm install -g @web3-storage/w3cli
+export FILEBASE_ACCESS_KEY=...
+export FILEBASE_SECRET_KEY=...
+export FILEBASE_BUCKET=itk-data
 ```
 
-Login in with your credentials.
+The full step-by-step setup is documented in
+[`Utilities/Maintenance/ExternalDataUpload/README.md`]. Complete that
+one-time setup before proceeding.
+
+[boto3]: https://boto3.amazonaws.com/
+
+### Upload a file
+
+From the ITK source tree, run the upload helper with the path to the file
+you want to upload:
 
 ```bash
-w3 login
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/upload.py \
+    Modules/.../test/Baseline/MyTest.png
 ```
 
-Create an <span class="title-ref">w3externaldata</span> bash/zsh
-function:
+The helper will:
+
+1. Pack the file into a CARv1 with `npx ipfs-car pack --no-wrap` —
+   ipfs-car v1+ defaults to 1 MiB chunks, 1024 children per node, raw
+   leaves, CIDv1, which is the unixfs-v1-2025 profile, so the CID is
+   reproducible across implementations.
+2. PUT the CAR to your Filebase IPFS bucket with
+   `x-amz-meta-import: car` so Filebase imports it server-side, then
+   read the imported CID back via `head_object` and verify it matches
+   the locally computed CID.
+3. Replace `MyTest.png` in the source tree with `MyTest.png.cid` — a
+   one-line text file containing the CID.
+4. Append the CID and source-tree path to
+   `Testing/Data/content-links.manifest`.
+5. Print the `git rm` / `git add` commands needed to stage the change.
+
+### Mirror to ITKTestingData (optional but recommended)
+
+Pass `--testing-data-repo <path>` to additionally copy the file into a
+local clone of [ITKTestingData] at `CID/<cid>`:
 
 ```bash
-function w3externaldata() { w3 put $1 --no-wrap | tail -n 1 | awk -F "/ipfs/" '{print $2}' | tee $1.cid }
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/upload.py \
+    --testing-data-repo ~/src/ITKTestingData \
+    Modules/.../test/Baseline/MyTest.png
 ```
 
-Call the function with the file to be uploaded. This command will
-generate the <span class="title-ref">\<filename\>.cid</span> content
-link:
+This populates the GitHub Pages mirror gateway
+(`https://insightsoftwareconsortium.github.io/ITKTestingData/CID/<cid>`)
+already listed in [`CMake/ITKExternalData.cmake`]. Commit and push in
+the `ITKTestingData` repo to publish. Files larger than **50 MB** are
+skipped for the mirror step only (GitHub rejects pushes containing
+files over 50 MB per file) — the Filebase upload still proceeds for
+those files.
+
+### Alternative: upload via the web app
+
+Contributors who prefer not to run any local tooling can upload a file
+through the [Content Link Upload] web app ([Alt Link]). The app pins the
+file and returns the corresponding `.cid` content link to download. The
+resulting CID is usable anywhere the helper-produced CID would be — but
+the manifest entry and the optional [ITKTestingData] mirror must then be
+added by hand. The helper above is preferred when available because it
+also updates `Testing/Data/content-links.manifest` in one step.
+
+### Normalize existing content links
+
+Older `.md5` / `.sha256` / `.sha512` content links can be converted to
+`.cid`, and existing `.cid` links can be regenerated under the
+unixfs-v1-2025 profile, with:
 
 ```bash
-w3externaldata <filename>
-  1 file (0.3MB)
-⁂ Stored 1 file
-bafkreifpfhcc3gc7zo2ds3ktyyl5qrycwisyaolegp47cl27i4swxpa2ey
+pixi run -e external-data-upload python \
+    Utilities/Maintenance/ExternalDataUpload/normalize.py <path-or-file>
 ```
+
+See [`Utilities/Maintenance/ExternalDataUpload/README.md`] for the full
+set of options (`--dry-run`, `--hash-only`, `--cid-only`,
+`--testing-data-repo`, `--bucket`).
 
 ### Add the content link to the source tree
 
-Add the file to the repository in the directory referenced by the
-*CMakeLists.txt* script. Move the content link file to the **source tree** at
-the location where the actual file is desired in the build tree.
-
-Stage the new file to your commit:
+The upload helper prints the exact commands to stage:
 
 ```bash
-git add -- path/to/file.cid
+git rm path/to/MyTest.png
+git add path/to/MyTest.png.cid
+git add Testing/Data/content-links.manifest
+git commit
 ```
 
-Next time CMake configuration runs, it will find the new content link. During
-the next project build, the data file corresponding to the content link will
-be downloaded into the build tree.
+Next time CMake configuration runs, it will find the new content link.
+During the next project build, the data file corresponding to the
+content link will be downloaded into the build tree from the first
+reachable gateway in [`CMake/ITKExternalData.cmake`].
 
 [Alt Link]: https://content-link-upload.itk.eth.limo
 [Analyze format]: http://www.grahamwideman.com/gw/brain/analyze/formatdoc.htm
@@ -178,18 +221,16 @@ be downloaded into the build tree.
 [Content Link Upload]: https://content-link-upload.itk.org
 [CONTRIBUTING.md]: ../CONTRIBUTING.md
 [CMake]: https://cmake.org/
+[`CMake/ITKExternalData.cmake`]: https://github.com/InsightSoftwareConsortium/ITK/blob/main/CMake/ITKExternalData.cmake
+[Filebase]: https://filebase.com/
 [Git]: https://git-scm.com/
 [IPFS]: https://ipfs.io/
-[ITKData Datalad repository]: https://gin.g-node.org/InsightSoftwareConsortium/ITKData/src/main
 [ITK community]: https://discourse.itk.org/
 [ITK Sphinx Examples]: https://itk.org/ITKExamples/index.html
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
+[ITKData DataLad repository]: https://gin.g-node.org/InsightSoftwareConsortium/ITKData/src/main
 [ITKTestingData]: https://github.com/InsightSoftwareConsortium/ITKTestingData
-[MD5 hash]: https://en.wikipedia.org/wiki/MD5
+[Kubo]: https://github.com/ipfs/kubo
 [multiformats]: https://multiformats.io/
-[Node.js]: https://nodejs.org/
-[other pinning services]: https://docs.ipfs.tech/how-to/work-with-pinning-services/
-[SHA512 hash]: https://en.wikipedia.org/wiki/SHA-2
 [solution to this problem]: https://blog.kitware.com/cmake-externaldata-using-large-files-with-distributed-version-control/
-[web3.storage]: https://web3.storage/
-[@web3-storage/w3cli]: https://www.npmjs.com/package/@web3-storage/w3cli
+[`Utilities/Maintenance/ExternalDataUpload/README.md`]: https://github.com/InsightSoftwareConsortium/ITK/blob/main/Utilities/Maintenance/ExternalDataUpload/README.md
