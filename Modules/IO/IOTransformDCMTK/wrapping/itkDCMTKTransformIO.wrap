@@ -1,2 +1,10 @@
-itk_wrap_simple_class("itk::DCMTKTransformIO" POINTER)
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkDCMTKTransformIO.h")
+
+itk_wrap_class("itk::DCMTKTransformIO" POINTER)
+itk_wrap_template("${ITKM_D}" "${ITKT_D}")
+itk_wrap_template("${ITKM_F}" "${ITKT_F}")
+itk_end_wrap_class()
+set(WRAPPER_AUTO_INCLUDE_HEADERS ON)
+
 itk_wrap_simple_class("itk::DCMTKTransformIOFactory" POINTER)
