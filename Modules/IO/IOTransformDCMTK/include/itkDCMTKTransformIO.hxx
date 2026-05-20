@@ -22,6 +22,7 @@
 #include "itkAffineTransform.h"
 #include "itkCompositeTransform.h"
 #include "itkEuler3DTransform.h"
+#include "itkNumericLocale.h"
 #include "itkScaleTransform.h"
 #include "itkVersorTransform.h"
 
@@ -91,6 +92,10 @@ template <typename TInternalComputationValueType>
 void
 DCMTKTransformIO<TInternalComputationValueType>::Read()
 {
+  // DICOM Decimal-String values use '.' as decimal separator regardless
+  // of system locale; force LC_NUMERIC=C for std::stod parsing below.
+  const NumericLocale cLocale;
+
   TransformListType & transformList = this->GetReadTransformList();
   transformList.clear();
 
