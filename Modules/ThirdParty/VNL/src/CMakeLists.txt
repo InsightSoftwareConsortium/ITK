@@ -20,16 +20,6 @@ set(BUILD_DOCUMENTATION OFF)
 
 add_subdirectory(vxl)
 
-# The variable type of BUILD_EXAMPLES changed to INTERNAL type in VXL.
-# Retrive the variable type to CACHE.
-set(
-  BUILD_EXAMPLES
-  ${BUILD_EXAMPLES}
-  CACHE BOOL
-  "Build the examples from the ITK Software Guide."
-  FORCE
-)
-
 foreach(
   lib
   itkvcl
