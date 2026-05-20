@@ -95,8 +95,6 @@ private:
 
 } // end namespace itk
 
-// Note: Explicit instantiation is done in itkDCMTKTransformIO.cxx
-
 #endif // itkDCMTKTransformIO_h
 
 #ifndef ITK_TEMPLATE_EXPLICIT_DCMTKTransformIO
