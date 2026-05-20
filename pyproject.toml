@@ -59,6 +59,7 @@ cmd = '''cmake \
   -DCMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache \
   -DModule_AdaptiveDenoising:BOOL=ON \
   -DModule_AnisotropicDiffusionLBR:BOOL=ON \
+  -DModule_BoneEnhancement:BOOL=ON \
   -DModule_BoneMorphometry:BOOL=ON \
   -DModule_Cuberille:BOOL=ON \
   -DModule_FastBilateral:BOOL=ON \
