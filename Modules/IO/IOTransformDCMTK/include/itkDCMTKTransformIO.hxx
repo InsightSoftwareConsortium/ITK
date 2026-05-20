@@ -106,7 +106,11 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
     itkExceptionMacro("Could not load transform file: " << this->GetFileName());
   }
 
-  DcmDataset *         dataset = fileFormat.getDataset();
+  DcmDataset * dataset = fileFormat.getDataset();
+  if (dataset == nullptr)
+  {
+    itkExceptionMacro("Could not get dataset from transform file: " << this->GetFileName());
+  }
   DcmSequenceOfItems * registrationSequence = nullptr;
   result = dataset->findAndGetSequence(DCM_RegistrationSequence, registrationSequence);
   if (result.good())
@@ -115,6 +119,10 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
     for (unsigned long ii = 0; ii < numOfRegistrationSequenceItems; ++ii)
     {
       DcmItem * currentRegistrationSequenceItem = registrationSequence->getItem(ii);
+      if (currentRegistrationSequenceItem == nullptr)
+      {
+        itkExceptionMacro("Null RegistrationSequence item at index " << ii);
+      }
 
       if (haveDesiredFrameOfReference)
       {
@@ -153,10 +161,13 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
         {
           DcmItem * currentmatrixRegistrationSequenceItem =
             matrixRegistrationSequence->getItem(matrixRegistrationSequenceIndex);
+          if (currentmatrixRegistrationSequenceItem == nullptr)
+          {
+            itkExceptionMacro("Null MatrixRegistrationSequence item at index " << matrixRegistrationSequenceIndex);
+          }
           if (currentmatrixRegistrationSequenceItem->isEmpty())
           {
             itkExceptionMacro("Empty MatrixRegistrationSequenceItem in transform file.");
-            break;
           }
           DcmSequenceOfItems * matrixSequence = nullptr;
           result = currentmatrixRegistrationSequenceItem->findAndGetSequence(DCM_MatrixSequence, matrixSequence);
@@ -167,10 +178,13 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
                  ++matrixSequenceItemIndex)
             {
               DcmItem * currentMatrixSequenceItem = matrixSequence->getItem(matrixSequenceItemIndex);
+              if (currentMatrixSequenceItem == nullptr)
+              {
+                itkExceptionMacro("Null MatrixSequence item at index " << matrixSequenceItemIndex);
+              }
               if (currentMatrixSequenceItem->isEmpty())
               {
                 itkExceptionMacro("Empty MatrixSequence in transform file.");
-                break;
               }
 
               using AffineTransformType = itk::AffineTransform<TInternalComputationValueType, Dimension>;

@@ -34,7 +34,7 @@ int
 ReadDicomTransformAndResampleExample(int argc, char * argv[])
 {
   // Parse command line arguments
-  if (argc < 5)
+  if (argc < 6)
   {
     std::cerr << "Usage: " << argv[0] << " fixedSeriesDirectory movingSeriesDirectory"
               << " transform fixedImageOutput resampledMovingOutput" << std::endl;
