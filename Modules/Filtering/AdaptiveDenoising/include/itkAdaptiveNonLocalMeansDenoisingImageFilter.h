@@ -128,49 +128,49 @@ public:
    * Employ Rician noise model.  Otherwise use a Gaussian noise model.
    * Default = true.
    */
-  itkSetMacro(UseRicianNoiseModel, bool);
-  itkGetConstMacro(UseRicianNoiseModel, bool);
-  itkBooleanMacro(UseRicianNoiseModel);
+  itkNonVirtualSetMacro(UseRicianNoiseModel, bool);
+  itkNonVirtualGetConstMacro(UseRicianNoiseModel, bool);
+  itkNonVirtualBooleanMacro(UseRicianNoiseModel);
 
   /**
    * Smoothing factor for noise.  Default = 1.0.
    */
-  itkSetMacro(SmoothingFactor, RealType);
-  itkGetConstMacro(SmoothingFactor, RealType);
+  itkNonVirtualSetMacro(SmoothingFactor, RealType);
+  itkNonVirtualGetConstMacro(SmoothingFactor, RealType);
 
   /**
    * Smoothing variance for Rician noise.  Default = 2.0.
    */
-  itkSetMacro(SmoothingVariance, RealType);
-  itkGetConstMacro(SmoothingVariance, RealType);
+  itkNonVirtualSetMacro(SmoothingVariance, RealType);
+  itkNonVirtualGetConstMacro(SmoothingVariance, RealType);
 
   /**
    * Epsilon for minimum value of mean and variance at a pixel.
    * Default = 0.00001.
    */
-  itkSetMacro(Epsilon, RealType);
-  itkGetConstMacro(Epsilon, RealType);
+  itkNonVirtualSetMacro(Epsilon, RealType);
+  itkNonVirtualGetConstMacro(Epsilon, RealType);
 
   /**
    * Mean threshold.
    * Default = 0.95.
    */
-  itkSetMacro(MeanThreshold, RealType);
-  itkGetConstMacro(MeanThreshold, RealType);
+  itkNonVirtualSetMacro(MeanThreshold, RealType);
+  itkNonVirtualGetConstMacro(MeanThreshold, RealType);
 
   /**
    * Variance threshold.
    * Default = 0.5.
    */
-  itkSetMacro(VarianceThreshold, RealType);
-  itkGetConstMacro(VarianceThreshold, RealType);
+  itkNonVirtualSetMacro(VarianceThreshold, RealType);
+  itkNonVirtualGetConstMacro(VarianceThreshold, RealType);
 
   /**
    * Neighborhood for computing local mean and variance images.
    * Default = 1x1x...
    */
-  itkSetMacro(NeighborhoodRadiusForLocalMeanAndVariance, NeighborhoodRadiusType);
-  itkGetConstMacro(NeighborhoodRadiusForLocalMeanAndVariance, NeighborhoodRadiusType);
+  itkNonVirtualSetMacro(NeighborhoodRadiusForLocalMeanAndVariance, NeighborhoodRadiusType);
+  itkNonVirtualGetConstMacro(NeighborhoodRadiusForLocalMeanAndVariance, NeighborhoodRadiusType);
 
 protected:
   AdaptiveNonLocalMeansDenoisingImageFilter();
