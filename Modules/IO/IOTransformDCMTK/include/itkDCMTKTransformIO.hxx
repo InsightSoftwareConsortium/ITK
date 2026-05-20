@@ -144,7 +144,7 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
         result = currentRegistrationSequenceItem->findAndGetOFString(DCM_FrameOfReferenceUID, frameOfReferenceUID);
         if (result.good())
         {
-          if (frameOfReferenceUID.compare(m_FrameOfReferenceUID.c_str()) == 0)
+          if (frameOfReferenceUID == m_FrameOfReferenceUID.c_str())
           {
             desiredFrameOfReferenceFound = true;
           }
