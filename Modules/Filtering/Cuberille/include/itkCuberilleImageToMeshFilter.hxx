@@ -187,13 +187,13 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
         const auto   components = this->m_LabelsArray.at(bitmaskID);
         const auto   component = components.at(offsetID);
         unsigned int look = (i < 4) ? look0 : look1; // First four are first slice
-        if (!lookup[look].GetVertex(vindex[0], vindex[1], component, v[i]))
+        if (!lookup[look].GetVertex(vindex[0], vindex[1], vindex[2], component, v[i]))
         {
           // Vertex was not in lookup, create and add to lookup
           v[i] = nextVertexId;
           const auto numComponents = (*std::max_element(components.begin(), components.end())) + 1;
           const auto pv = AddVertex(nextVertexId, vindex, image, mesh, numComponents);
-          lookup[look].AddVertex(vindex[0], vindex[1], pv);
+          lookup[look].AddVertex(vindex[0], vindex[1], vindex[2], pv);
         }
 
       } // end foreach vertex
@@ -618,6 +618,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CalculateBi
   ones.Fill(1);
   const IndexType localorigin = vindex - ones;
   std::bitset<8>  bitmask;
+  const auto      region = this->GetInput()->GetBufferedRegion();
   for (size_t i = 0; i < 8; ++i)
   {
     std::bitset<3>                 bits(i);
@@ -626,6 +627,11 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CalculateBi
     offset[1] = bits[1];
     offset[2] = bits[2];
     const auto index = localorigin + offset;
+    if (!region.IsInside(index))
+    {
+      bitmask[i] = false;
+      continue;
+    }
     const auto pixel = this->GetInput()->GetPixel(index);
     bitmask[i] = (pixel >= this->m_IsoSurfaceValue);
   }

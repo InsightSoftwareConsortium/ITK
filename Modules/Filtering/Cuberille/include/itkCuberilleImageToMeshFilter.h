@@ -32,6 +32,7 @@
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
 
+#include <tuple>
 #include <type_traits>
 
 namespace itk
@@ -275,9 +276,10 @@ private:
 
     /** Constructors */
     VertexLookupNode() = default;
-    VertexLookupNode(unsigned long x, unsigned long y)
+    VertexLookupNode(unsigned long x, unsigned long y, unsigned long z)
       : m_X(x)
       , m_Y(y)
+      , m_Z(z)
     {}
 
     /** Parameters */
@@ -291,32 +293,41 @@ private:
     {
       return m_Y;
     }
+    unsigned long
+    GetZ()
+    {
+      return m_Z;
+    }
 
-    /** Comparison operators for sorting */
+    /** Comparison operators for sorting. The full (z, y, x) grid identity
+     * is used: keying on (x, y) alone lets vertices from different z planes
+     * collide in the lookup map, reusing a point-id vector that was sized
+     * for a different bitmask and overflowing it. */
     bool
     operator>(const Self & node) const
     {
-      return (m_Y > node.m_Y) || ((m_Y == node.m_Y) && (m_X > node.m_X));
+      return std::tie(m_Z, m_Y, m_X) > std::tie(node.m_Z, node.m_Y, node.m_X);
     }
     bool
     operator>=(const Self & node) const
     {
-      return (m_Y > node.m_Y) || ((m_Y == node.m_Y) && (m_X >= node.m_X));
+      return std::tie(m_Z, m_Y, m_X) >= std::tie(node.m_Z, node.m_Y, node.m_X);
     }
     bool
     operator<(const Self & node) const
     {
-      return (m_Y < node.m_Y) || ((m_Y == node.m_Y) && (m_X < node.m_X));
+      return std::tie(m_Z, m_Y, m_X) < std::tie(node.m_Z, node.m_Y, node.m_X);
     }
     bool
     operator<=(const Self & node) const
     {
-      return (m_Y < node.m_Y) || ((m_Y == node.m_Y) && (m_X <= node.m_X));
+      return std::tie(m_Z, m_Y, m_X) <= std::tie(node.m_Z, node.m_Y, node.m_X);
     }
 
   private:
     unsigned long m_X{ 0 };
     unsigned long m_Y{ 0 };
+    unsigned long m_Z{ 0 };
   };
 
   /** \class VertexLookupMap A private class providing vertex lookup functionality.
@@ -339,22 +350,22 @@ private:
       m_Map.clear();
     }
 
-    /** Add the given vertex identifer to the given [x,y] position. */
+    /** Add the given vertex identifer to the given [x,y,z] position. */
     void
-    AddVertex(unsigned int x, unsigned int y, PointVectorType ids)
+    AddVertex(unsigned int x, unsigned int y, unsigned int z, PointVectorType ids)
     {
-      VertexLookupNode node(x, y);
+      VertexLookupNode node(x, y, z);
       m_Map.insert(typename MapType::value_type(node, ids));
     }
 
-    /** Get the vertex identifer for the given [x,y] position.
+    /** Get the vertex identifer for the given [x,y,z] position.
      * Returns true if the vertex exists and id contains the identifer.
      * Returns false if the vertex does not exist and id is undefined. */
     bool
-    GetVertex(unsigned int x, unsigned int y, const size_t component, PointIdentifier & id)
+    GetVertex(unsigned int x, unsigned int y, unsigned int z, const size_t component, PointIdentifier & id)
     {
       bool             result = false;
-      VertexLookupNode node(x, y);
+      VertexLookupNode node(x, y, z);
       auto             it = m_Map.find(node);
       if (it != m_Map.end())
       {
