@@ -32,28 +32,30 @@ itkDCMTKTransformIOTest(int argc, char * argv[])
   }
   const char * transformFileName = argv[1];
 
+  int testStatus = EXIT_SUCCESS;
+
   constexpr unsigned int Dimension = 3;
   using ScalarType = float;
 
-  itk::DCMTKTransformIOFactory::Pointer dcmtkTransformIOFactory = itk::DCMTKTransformIOFactory::New();
+  auto dcmtkTransformIOFactory = itk::DCMTKTransformIOFactory::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(dcmtkTransformIOFactory, DCMTKTransformIOFactory, ObjectFactoryBase);
   std::cout << std::endl;
   itk::ObjectFactoryBase::RegisterFactory(dcmtkTransformIOFactory);
 
   using TransformReaderType = itk::TransformFileReaderTemplate<ScalarType>;
-  TransformReaderType::Pointer transformReader = TransformReaderType::New();
+  auto transformReader = TransformReaderType::New();
   transformReader->SetFileName(transformFileName);
 
   using TransformIOType = itk::DCMTKTransformIO<ScalarType>;
-  TransformIOType::Pointer transformIO = TransformIOType::New();
+  auto transformIO = TransformIOType::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(transformIO, DCMTKTransformIO, TransformIOBaseTemplate);
   transformReader->SetTransformIO(transformIO);
 
-  ITK_TEST_EXPECT_TRUE(!transformIO->CanWriteFile(transformFileName));
+  ITK_TEST_SET_GET_VALUE(std::string{}, transformIO->GetFrameOfReferenceUID());
 
-  ITK_TEST_EXPECT_TRUE(!transformIO->CanReadFile("fileThatDoesNotExist.dcm"));
-
-  ITK_TEST_EXPECT_TRUE(transformIO->CanReadFile(transformFileName));
+  ITK_TEST_EXPECT_TRUE_STATUS_VALUE(!transformIO->CanWriteFile(transformFileName), testStatus);
+  ITK_TEST_EXPECT_TRUE_STATUS_VALUE(!transformIO->CanReadFile("fileThatDoesNotExist.dcm"), testStatus);
+  ITK_TEST_EXPECT_TRUE_STATUS_VALUE(transformIO->CanReadFile(transformFileName), testStatus);
 
   ITK_TRY_EXPECT_EXCEPTION(transformIO->Write());
 
@@ -63,9 +65,9 @@ itkDCMTKTransformIOTest(int argc, char * argv[])
   const TransformListType * const transformList = transformReader->GetTransformList();
 
   using ReadTransformType = itk::CompositeTransform<ScalarType, Dimension>;
-  auto                       transformIt = transformList->begin();
-  ReadTransformType::Pointer readTransform = dynamic_cast<ReadTransformType *>((*transformIt).GetPointer());
-  if (readTransform.IsNull())
+  auto       transformIt = transformList->begin();
+  const auto readTransform = dynamic_cast<ReadTransformType *>((*transformIt).GetPointer());
+  if (readTransform == nullptr)
   {
     std::cerr << "Did not get the expected transform out." << std::endl;
     return EXIT_FAILURE;
@@ -73,11 +75,14 @@ itkDCMTKTransformIOTest(int argc, char * argv[])
   readTransform->Print(std::cout);
   // Fixture rect-offset-sro-rigid/transform.dcm carries three MatrixRegistration
   // items across two Frame-of-Reference UIDs.
-  ITK_TEST_EXPECT_EQUAL(transformIO->GetReadTransformList().size(), 3u);
+  ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(transformIO->GetReadTransformList().size(), 3u, testStatus);
 
-  transformIO->SetFrameOfReferenceUID("1.2.826.0.1.3680043.8.274.1.1.8323328.22085.1372783046.709932");
+  const std::string firstFrameUID{ "1.2.826.0.1.3680043.8.274.1.1.8323328.22085.1372783046.709932" };
+  transformIO->SetFrameOfReferenceUID(firstFrameUID);
+  ITK_TEST_SET_GET_VALUE(firstFrameUID, transformIO->GetFrameOfReferenceUID());
   ITK_TRY_EXPECT_NO_EXCEPTION(transformReader->Update());
-  ITK_TEST_EXPECT_EQUAL(transformIO->GetReadTransformList().size(), 2u);
+  ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(transformIO->GetReadTransformList().size(), 2u, testStatus);
 
-  return EXIT_SUCCESS;
+  std::cout << "Test finished." << std::endl;
+  return testStatus;
 }
