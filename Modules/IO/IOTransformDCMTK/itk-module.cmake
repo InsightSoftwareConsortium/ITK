@@ -21,5 +21,6 @@ itk_module(
   FACTORY_NAMES
     TransformIO::DCMTK
   EXCLUDE_FROM_DEFAULT
-  DESCRIPTION "Module ingested from upstream."
+  DESCRIPTION
+    "Read spatial transforms from DICOM Spatial-Registration Objects via DCMTK."
 )
