@@ -23,7 +23,7 @@
 namespace itk
 {
 
-DCMTKTransformIOFactory ::DCMTKTransformIOFactory()
+DCMTKTransformIOFactory::DCMTKTransformIOFactory()
 {
   this->RegisterOverride("itkTransformIOBaseTemplate",
                          "itkDCMTKTransformIO",
@@ -38,24 +38,26 @@ DCMTKTransformIOFactory ::DCMTKTransformIOFactory()
                          CreateObjectFunction<DCMTKTransformIO<double>>::New());
 }
 
-DCMTKTransformIOFactory ::~DCMTKTransformIOFactory() = default;
+DCMTKTransformIOFactory::~DCMTKTransformIOFactory() = default;
 
 const char *
-DCMTKTransformIOFactory ::GetITKSourceVersion() const
+DCMTKTransformIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char *
-DCMTKTransformIOFactory ::GetDescription() const
+DCMTKTransformIOFactory::GetDescription() const
 {
   return "DCMTK TransformIO Factory, allows the"
          " loading of DICOM transforms into Insight";
 }
 
 void
-DCMTKTransformIOFactory ::PrintSelf(std::ostream &, Indent) const
-{}
+DCMTKTransformIOFactory::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.

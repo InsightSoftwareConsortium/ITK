@@ -42,6 +42,15 @@ DCMTKTransformIO<TInternalComputationValueType>::~DCMTKTransformIO() = default;
 
 
 template <typename TInternalComputationValueType>
+void
+DCMTKTransformIO<TInternalComputationValueType>::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "FrameOfReferenceUID: " << m_FrameOfReferenceUID << std::endl;
+}
+
+
+template <typename TInternalComputationValueType>
 bool
 DCMTKTransformIO<TInternalComputationValueType>::CanReadFile(const char * fileName)
 {
