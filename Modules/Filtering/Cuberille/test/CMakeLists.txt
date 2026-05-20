@@ -392,6 +392,70 @@ itk_add_test(
 #)
 
 itk_add_test(
+  NAME Cuberille_tibial_cartilage_cropped_0.1
+  COMMAND
+    CuberilleTestDriver
+    CuberilleTest01
+    DATA{Input/tibial_cartilage_cropped.nrrd}
+    ${ITK_TEST_OUTPUT_DIR}/tibial_cartilage_cropped_0.1.vtk
+    0.1 # Iso-surface value
+    # Counts not asserted: itk::Mesh-path vertex count is nondeterministic (issue #6301)
+    0 # Expected number of points
+    0 # Expected number of cells
+    1 # Generate triangle faces
+    1 # Project vertices to iso-surface
+    0.05 # Surface distance threshold
+)
+
+itk_add_test(
+  NAME Cuberille_tibial_cartilage_cropped_0.5
+  COMMAND
+    CuberilleTestDriver
+    CuberilleTest01
+    DATA{Input/tibial_cartilage_cropped.nrrd}
+    ${ITK_TEST_OUTPUT_DIR}/tibial_cartilage_cropped_0.5.vtk
+    0.5 # Iso-surface value
+    # Counts not asserted: itk::Mesh-path vertex count is nondeterministic (issue #6301)
+    0 # Expected number of points
+    0 # Expected number of cells
+    1 # Generate triangle faces
+    1 # Project vertices to iso-surface
+    0.05 # Surface distance threshold
+)
+
+itk_add_test(
+  NAME Cuberille_prostate_00
+  COMMAND
+    CuberilleTestDriver
+    CuberilleTest01
+    DATA{Input/prostate_00.nii.gz}
+    ${ITK_TEST_OUTPUT_DIR}/prostate_00.vtk
+    1 # Iso-surface value
+    # Counts not asserted: itk::Mesh-path vertex count is nondeterministic (issue #6301)
+    0 # Expected number of points
+    0 # Expected number of cells
+    1 # Generate triangle faces
+    1 # Project vertices to iso-surface
+    0.05 # Surface distance threshold
+)
+# Serialized: segfaults under `ctest -j3` memory pressure on constrained CI
+# runners (RAM over-subscribed via ITK_COMPUTER_MEMORY_SIZE); see issue #6301.
+set_property(
+  TEST
+    Cuberille_prostate_00
+  APPEND
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
+set_tests_properties(
+  Cuberille_prostate_00
+  PROPERTIES
+    RUN_SERIAL
+      TRUE
+)
+
+itk_add_test(
   NAME CuberilleIssue66
   COMMAND
     ${itk-module}TestDriver
