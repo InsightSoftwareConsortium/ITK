@@ -30,7 +30,7 @@
 
 
 int
-ReadDicomTransformAndResampleExample(int argc, char * argv[])
+itkDCMTKTransformIOResampleTest(int argc, char * argv[])
 {
   if (argc < 6)
   {

@@ -2,7 +2,7 @@ itk_module_test()
 set(
   IOTransformDCMTKTests
   itkDCMTKTransformIOTest.cxx
-  ReadDicomTransformAndResampleExample.cxx
+  itkDCMTKTransformIOResampleTest.cxx
 )
 
 createtestdriver(IOTransformDCMTK "${IOTransformDCMTK-Test_LIBRARIES}" "${IOTransformDCMTKTests}")
@@ -18,7 +18,7 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME ReadDicomTransformAndResampleExampleTest
+  NAME itkDCMTKTransformIOResampleTest
   COMMAND
     IOTransformDCMTKTestDriver
     --compareRadiusTolerance
@@ -26,7 +26,7 @@ itk_add_test(
     --compare
     DATA{Baseline/DicomTransformResampledMovingOutputBaseline.mha}
     ${TEMP}/DicomTransformResampledMovingOutput.mha
-    ReadDicomTransformAndResampleExample
+    itkDCMTKTransformIOResampleTest
     DATA{Input/rect-centered/,REGEX:image[0-9]+.dcm}
     DATA{Input/rect-offset/,REGEX:image[0-9]+.dcm}
     DATA{Input/rect-offset-sro-rigid/transform.dcm}
