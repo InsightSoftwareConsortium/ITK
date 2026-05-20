@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "VNLSparseLUSolverTraits.h"
+#include "itkGTest.h"
 #include "itkMath.h" // itk::Math::Absolute
 
 #include <iostream>
@@ -44,8 +45,10 @@ VectorsEquals(const TVector & v1, const TVector & v2, const typename TVector::el
   return true;
 }
 
+namespace
+{
 int
-VNLSparseLUSolverTraitsTest(int, char *[])
+DoVNLSparseLUSolverTraitsTest(int, char *[])
 {
   /**
    * Define an sparse LU solver traits type that operates over sparse matrices and
@@ -226,3 +229,7 @@ VNLSparseLUSolverTraitsTest(int, char *[])
 
   return EXIT_SUCCESS;
 }
+} // namespace
+
+
+TEST(VNLSparseLUSolverTraits, ConvertedLegacyTest) { EXPECT_EQ(0, DoVNLSparseLUSolverTraitsTest(0, nullptr)); }

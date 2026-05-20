@@ -20,9 +20,12 @@
 
 // Spatial function stuff
 #include "itkSphereSpatialFunction.h"
+#include "itkGTest.h"
 
+namespace
+{
 int
-itkSpatialFunctionTest(int, char *[])
+DoSpatialFunctionTest(int, char *[])
 {
   // Change this parameter (and the positions, below) to work in higher or lower dimensions
   constexpr unsigned int dim{ 3 };
@@ -64,3 +67,7 @@ itkSpatialFunctionTest(int, char *[])
 
   return EXIT_FAILURE;
 }
+} // namespace
+
+
+TEST(SpatialFunction, ConvertedLegacyTest) { EXPECT_EQ(0, DoSpatialFunctionTest(0, nullptr)); }

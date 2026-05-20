@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkSparseImage.h"
+#include "itkGTest.h"
 #include <iostream>
 
 /* This test exercises the itkSparseImage class. */
@@ -38,8 +39,10 @@ public:
 
 } // namespace itk
 
+namespace
+{
 int
-itkSparseImageTest(int, char *[])
+DoSparseImageTest(int, char *[])
 {
   using DummyImageType = itk::Image<int, 2>;
   using NodeType = itk::NodeClass<DummyImageType>;
@@ -78,3 +81,7 @@ itkSparseImageTest(int, char *[])
 
   return EXIT_SUCCESS;
 }
+} // namespace
+
+
+TEST(SparseImage, ConvertedLegacyTest) { EXPECT_EQ(0, DoSparseImageTest(0, nullptr)); }

@@ -17,11 +17,14 @@
  *=========================================================================*/
 
 #include "itkTorusInteriorExteriorSpatialFunction.h"
+#include "itkGTest.h"
 #include "itkTestingMacros.h"
 
 
+namespace
+{
 int
-itkTorusInteriorExteriorSpatialFunctionTest(int, char *[])
+DoTorusInteriorExteriorSpatialFunctionTest(int, char *[])
 {
 
   // Define the dimensionality
@@ -95,4 +98,11 @@ itkTorusInteriorExteriorSpatialFunctionTest(int, char *[])
   }
 
   return testStatus;
+}
+} // namespace
+
+
+TEST(TorusInteriorExteriorSpatialFunction, ConvertedLegacyTest)
+{
+  EXPECT_EQ(0, DoTorusInteriorExteriorSpatialFunctionTest(0, nullptr));
 }

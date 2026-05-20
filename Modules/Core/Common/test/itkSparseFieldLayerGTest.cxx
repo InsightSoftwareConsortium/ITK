@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkSparseFieldLayer.h"
+#include "itkGTest.h"
 #include <iostream>
 
 
@@ -28,8 +29,10 @@ struct node_type
 };
 
 
+namespace
+{
 int
-itkSparseFieldLayerTest(int, char *[])
+DoSparseFieldLayerTest(int, char *[])
 {
   auto * store = new node_type[4000];
 
@@ -115,3 +118,7 @@ itkSparseFieldLayerTest(int, char *[])
 
   return EXIT_SUCCESS;
 }
+} // namespace
+
+
+TEST(SparseFieldLayer, ConvertedLegacyTest) { EXPECT_EQ(0, DoSparseFieldLayerTest(0, nullptr)); }

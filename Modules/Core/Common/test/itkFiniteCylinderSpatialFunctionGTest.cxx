@@ -16,60 +16,67 @@
  *
  *=========================================================================*/
 
-#include "itkEllipsoidInteriorExteriorSpatialFunction.h"
+#include "itkFiniteCylinderSpatialFunction.h"
+#include "itkGTest.h"
+#include "itkTestingMacros.h"
 
-int
-itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
+namespace
 {
-  std::cout << "itkEllipsoidInteriorExteriorSpatialFunction test start" << std::endl;
+int
+DoFiniteCylinderSpatialFunctionTest(int, char *[])
+{
+  std::cout << "itkFiniteCylinderSpatialFunction test start" << std::endl;
 
-  // Test will create an ellipsoid (3-dimensional)
+  // Test will create a cylinder (3 - dimensional)
   constexpr unsigned int dimension{ 3 };
 
-  // Ellipsoid spatial function type alias
-  using TEllipsoidFunctionType = itk::EllipsoidInteriorExteriorSpatialFunction<3>;
+  // Cylinder spatial function type alias.
+  using TCylinderFunctionType = itk::FiniteCylinderSpatialFunction<dimension>;
+  using TCylinderFunctionVectorType = TCylinderFunctionType::InputType;
 
-  // Point position type alias
-  using TEllipsoidFunctionVectorType = TEllipsoidFunctionType::InputType;
+  // cylinder
+  auto spatialFunc = TCylinderFunctionType::New();
 
-  // Create an ellipsoid spatial function for the source image
-  auto spatialFunc = TEllipsoidFunctionType::New();
-  // Define and set the axes lengths for the ellipsoid
-  TEllipsoidFunctionVectorType axes;
-  axes[0] = 40;
-  axes[1] = 30;
-  axes[2] = 20;
-  spatialFunc->SetAxes(axes);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(spatialFunc, FiniteCylinderSpatialFunction, InteriorExteriorSpatialFunction);
 
-  // Define function doitkEllipsoidInteriorExteriorSpatialFunctionTest, which encapsulates ellipsoid.
+
+  // Test exceptions
+  TCylinderFunctionVectorType orientation;
+  orientation[0] = 0.0;
+  orientation[1] = 0.0;
+  orientation[2] = 0.0;
+  ITK_TRY_EXPECT_EXCEPTION(spatialFunc->SetOrientation(orientation));
+
+  constexpr double axis{ 40.0 };
+  spatialFunc->SetAxisLength(axis);
+  ITK_TEST_SET_GET_VALUE(axis, spatialFunc->GetAxisLength());
+
+  // Define function, which encapsulates cylinder.
   constexpr int xExtent{ 50 };
   constexpr int yExtent{ 50 };
   constexpr int zExtent{ 50 };
 
-  // Define and set the center of the ellipsoid in the center of
-  // the function doitkEllipsoidInteriorExteriorSpatialFunctionTest
-  TEllipsoidFunctionVectorType center;
+  TCylinderFunctionVectorType center;
   center[0] = xExtent / 2;
   center[1] = yExtent / 2;
   center[2] = zExtent / 2;
   spatialFunc->SetCenter(center);
+  ITK_TEST_SET_GET_VALUE(center, spatialFunc->GetCenter());
 
-  // Define the orientations of the ellipsoid axes
-  // (0,1,0) corresponds to the axes of length axes[0]
-  // (1,0,0) corresponds to the axes of length axes[1]
-  // (0,0,1) corresponds to the axes of length axes[2]
-  double                   data[] = { 0, 1, 0, 1, 0, 0, 0, 0, 1 };
-  const vnl_matrix<double> orientations(data, 3, 3);
+  orientation[0] = .35;
+  orientation[1] = .35;
+  orientation[2] = .30;
+  spatialFunc->SetOrientation(orientation);
+  ITK_TEST_SET_GET_VALUE(orientation, spatialFunc->GetOrientation());
 
-  // Set the orientations of the ellipsoids
-  spatialFunc->SetOrientations(orientations);
+  constexpr double radius{ 5.0 };
+  spatialFunc->SetRadius(radius);
+  ITK_TEST_SET_GET_VALUE(radius, spatialFunc->GetRadius());
 
   // Evaluate all points in the spatial function and count the number of
-  // pixels that are inside the sphere.
-  double
-    testPosition[dimension]; // position of a pixel in the function doitkEllipsoidInteriorExteriorSpatialFunctionTest
-
-  int interiorPixelCounter = 0; // Count pixels inside ellipsoid
+  // pixels that are inside the cylinder.
+  double testPosition[dimension];  // position of a pixel
+  int    interiorPixelCounter = 0; // Count pixels inside cylinder
 
   for (int x = 0; x < xExtent; ++x)
   {
@@ -81,7 +88,7 @@ itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
         testPosition[1] = y;
         testPosition[2] = z;
         // Value of pixel at a given position
-        bool functionValue = spatialFunc->Evaluate(testPosition);
+        const bool functionValue = spatialFunc->Evaluate(testPosition);
         if (functionValue)
         {
           interiorPixelCounter++;
@@ -95,10 +102,10 @@ itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   testPosition[0] = center[0];
   testPosition[1] = center[1];
   testPosition[2] = center[2];
-  bool functionValue = spatialFunc->Evaluate(testPosition);
+  const bool functionValue = spatialFunc->Evaluate(testPosition);
 
-  // Volume of ellipsoid using V=(4/3)*pi*(a/2)*(b/2)*(c/2)
-  const double volume = 4.18879013333 * (axes[0] / 2) * (axes[1] / 2) * (axes[2] / 2);
+  // Volume of cylinder using V=pi*r^2*h
+  const double volume = 3.14159 * pow(radius, 2) * axis;
 
   // Percent difference in volume measurement and calculation
   const double volumeError = (itk::Math::Absolute(volume - interiorPixelCounter) / volume) * 100;
@@ -107,7 +114,7 @@ itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
 
   // 5% error was randomly chosen as a successful ellipsoid fill.
   // This should actually be some function of the image/ellipsoid size.
-  if (volumeError <= 5 || functionValue)
+  if (volumeError <= 7.0 && functionValue)
   {
 
     // With testing settings, results should yield:
@@ -115,28 +122,31 @@ itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
     // measured ellipsoid volume = 12428 pixels
     // volume error = 1.10907%
     // function value = 1
-    std::cout << "calculated ellipsoid volume = " << volume << std::endl
-              << "measured ellipsoid volume = " << interiorPixelCounter << std::endl
+    std::cout << "calculated cylinder volume = " << volume << std::endl
+              << "measured cylinder volume = " << interiorPixelCounter << std::endl
               << "volume error = " << volumeError << '%' << std::endl
               << "function value = " << functionValue << std::endl
               << "center location = (" << spatialFunc->GetCenter()[0] << ", " << spatialFunc->GetCenter()[0] << ", "
               << spatialFunc->GetCenter()[2] << ')' << std::endl
-              << "major axis length = " << spatialFunc->GetAxes()[0]
-              << " minor axis 1 length = " << spatialFunc->GetAxes()[1]
-              << " minor axis 2 length = " << spatialFunc->GetAxes()[2] << std::endl
-              << "itkEllipsoidSpatialFunction ended successfully!" << std::endl;
+              << "axis length = " << axis << std::endl
+              << "itkFiniteCylinderSpatialFunction test ended successfully!" << std::endl;
     return EXIT_SUCCESS;
   }
-  // Default behavior is to fail
+  // Default is to produce error code
   std::cerr << "calculated ellipsoid volume = " << volume << std::endl
             << "measured ellipsoid volume = " << interiorPixelCounter << std::endl
             << "volume error = " << volumeError << '%' << std::endl
             << "function value = " << functionValue << std::endl
             << "center location = (" << spatialFunc->GetCenter()[0] << ", " << spatialFunc->GetCenter()[0] << ", "
             << spatialFunc->GetCenter()[2] << ')' << std::endl
-            << "major axis length = " << spatialFunc->GetAxes()[0]
-            << " minor axis 1 length = " << spatialFunc->GetAxes()[1]
-            << " minor axis 2 length = " << spatialFunc->GetAxes()[2] << std::endl
-            << "itkEllipsoidSpatialFunction failed :(" << std::endl;
+            << "axis length = " << axis << std::endl
+            << "itkFiniteCylinderSpatialFunction test failed :(" << std::endl;
   return EXIT_FAILURE;
+}
+} // namespace
+
+
+TEST(FiniteCylinderSpatialFunction, ConvertedLegacyTest)
+{
+  EXPECT_EQ(0, DoFiniteCylinderSpatialFunctionTest(0, nullptr));
 }

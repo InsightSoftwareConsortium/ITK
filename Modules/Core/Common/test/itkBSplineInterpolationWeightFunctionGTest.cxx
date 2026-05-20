@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkBSplineInterpolationWeightFunction.h"
+#include "itkGTest.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkTestingMacros.h"
 
@@ -40,8 +41,10 @@ static_assert((itk::BSplineInterpolationWeightFunction<float, 2, 1>::NumberOfWei
  * This test exercises methods in the
  * BSplineInterpolationWeightFunction class.
  */
+namespace
+{
 int
-itkBSplineInterpolationWeightFunctionTest(int, char *[])
+DoBSplineInterpolationWeightFunctionTest(int, char *[])
 {
 
   { // Creating a local scope
@@ -305,4 +308,11 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     std::cout << "Test passed. " << std::endl;
   }
   return EXIT_SUCCESS;
+}
+} // namespace
+
+
+TEST(BSplineInterpolationWeightFunction, ConvertedLegacyTest)
+{
+  EXPECT_EQ(0, DoBSplineInterpolationWeightFunctionTest(0, nullptr));
 }
