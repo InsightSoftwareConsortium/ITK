@@ -33,6 +33,12 @@ set(
 
 createtestdriver(ITKLevelSets "${ITKLevelSets-Test_LIBRARIES}" "${ITKLevelSetsTests}")
 
+set(
+  ITKLevelSetsGTests
+  itkParallelSparseFieldLevelSetImageFilterRobustnessGTest.cxx
+)
+creategoogletestdriver(ITKLevelSets "${ITKLevelSets-Test_LIBRARIES}" "${ITKLevelSetsGTests}")
+
 itk_add_test(
   NAME itkThresholdSegmentationLevelSetImageFilterTest
   COMMAND
