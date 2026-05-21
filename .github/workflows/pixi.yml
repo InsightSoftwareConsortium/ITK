@@ -147,10 +147,14 @@ jobs:
         - name: Free disk space after build
           shell: bash
           run: |
-            # Remove object files and static libraries (not needed for testing)
-            find build -type f -name "*.o" -delete
-            find build -type f -name "*.a" -delete
+            # Remove compiler intermediates not needed for testing. Scope by path:
+            # .obj/.lib also name Wavefront-mesh and Makefile test data, so match
+            # only compiled objects in intermediate dirs (CMakeFiles/ for Ninja,
+            # *.dir/ for Visual Studio) and archives under lib/.
+            find build -type f \( -path '*/CMakeFiles/*' -o -path '*.dir/*' \) \( -name "*.o" -o -name "*.obj" \) -delete
+            find build/lib -type f \( -name "*.a" -o -name "*.lib" \) -delete 2>/dev/null || true
             # Trim ccache to stay within CCACHE_MAXSIZE and remove orphaned entries
+            ccache --evict-older-than 1d 2>/dev/null || true
             ccache --cleanup 2>/dev/null || true
             echo "****** df -h /  -- post cleanup"
             df -h /
