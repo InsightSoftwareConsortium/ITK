@@ -29,32 +29,6 @@
  *  ITK_EIGEN(SparseCholesky)
  */
 
-/* Re-using internal Eigen3 in other project:
- * A project can re-use the internal Eigen3, not dealing with this header
- * nor with the ITK_EIGEN macro (intended for internal usage only).
- *
-\code{.cmake}
-find_package(ITK REQUIRED COMPONENTS
-  ITKCommon
-  ITKEigen3
-  )
-include(${ITK_USE_FILE})
-if(DEFINED ITKInternalEigen3_DIR)
-  set(Eigen3_DIR ${ITKInternalEigen3_DIR})
-endif()
-message(STATUS "From ITK: Eigen3_DIR: ${Eigen3_DIR}")
-find_package(Eigen3 REQUIRED CONFIG)
-add_executable(main main.cpp)
-target_link_libraries(main PUBLIC ${ITK_LIBRARIES})
-target_link_libraries(main PUBLIC Eigen3::Eigen)
-\endcode
- *
- * Then, the user can use Eigen3 as usual:
- * #include "Eigen/Eigenvalues"
- * This is intended to facilitate bridging third party libraries and algorithms
- * which currently use Eigen3 internally.
- * For an example check the module: https://github.com/phcerdan/ITKTotalVariation
- */
 
 /* Helper macro to stringify
  * dev: If not stringified, the macro cannot be used twice in the same header. */

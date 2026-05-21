@@ -10,7 +10,7 @@ mark_as_advanced(ITK_USE_SYSTEM_EIGEN)
 
 option(
   ITK_USE_EIGEN_MPL2_ONLY
-  "Set compile definition EIGEN_MPL2_ONLY for eigen_internal."
+  "Set compile definition EIGEN_MPL2_ONLY when using internal Eigen."
   OFF
 )
 mark_as_advanced(ITK_USE_EIGEN_MPL2_ONLY)
@@ -54,18 +54,38 @@ if(ITK_USE_SYSTEM_EIGEN)
 "
   )
 else()
-  set(ITKEigen3_LIBRARIES eigen_internal)
-  # Two include directories are required so both ITK's own
-  # ITK_EIGEN(X) macro convention <itkeigen/Eigen/X> and the upstream
-  # Eigen convention <Eigen/X> resolve.  ITK code rooted at
-  # ${ITKEigen3_SOURCE_DIR}/src uses the macro form; external
-  # consumers (proxTV, anything else that includes Eigen the
-  # standard way) need the parent of <Eigen/X>, which is
-  # ${ITKEigen3_SOURCE_DIR}/src/itkeigen.
+  # Eigen3 is header-only, so no library linking is required.
+  # The ITK_EIGEN(X) macro handles header inclusion with the "itkeigen/Eigen/" prefix.
+
+  # Re-using internal Eigen3 in another project:
+  # A downstream project can re-use ITK's vendored Eigen3 via the exported
+  # Eigen3Config.cmake without depending on the ITK_EIGEN() macro.
+  #
+  #   find_package(ITK)
+  #   if(DEFINED ITKInternalEigen3_DIR)
+  #     set(Eigen3_DIR ${ITKInternalEigen3_DIR})
+  #   endif()
+  #   find_package(Eigen3 REQUIRED CONFIG)
+  #   add_executable(main main.cpp)
+  #   target_link_libraries(main PUBLIC ITK::ITKCommonModule Eigen3::Eigen)
+  #
+  # Then the project can include Eigen headers directly:
+  #   #include <Eigen/Eigenvalues>
+
+  set(ITKEigen3_LIBRARIES "")
+  set(ITKEigen3_INCLUDE_DIRS ${ITKEigen3_SOURCE_DIR}/src)
+
   set(
-    ITKEigen3_INCLUDE_DIRS
-    ${ITKEigen3_SOURCE_DIR}/src
-    ${ITKEigen3_SOURCE_DIR}/src/itkeigen
+    ITKEigen3_EXPORT_CODE_INSTALL
+    "
+set(ITKInternalEigen3_DIR \"\${ITK_MODULES_DIR}\")
+"
+  )
+  set(
+    ITKEigen3_EXPORT_CODE_BUILD
+    "
+set(ITKInternalEigen3_DIR \"${ITKEigen3_BINARY_DIR}/src/itkeigen\")
+"
   )
 endif()
 
