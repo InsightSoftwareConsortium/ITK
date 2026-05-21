@@ -557,12 +557,21 @@ while(NOT dashboard_done)
     if(NOT dashboard_do_coverage
        AND NOT dashboard_continuous
        AND NOT dashboard_keep_objects)
-      file(GLOB_RECURSE _dashboard_object_files
+      # Scope by path: .obj also names Wavefront mesh fixtures and .lib names a
+      # Makefile template, so match compiled objects only in compiler intermediate
+      # dirs (CMakeFiles/ for Ninja/Makefiles, <target>.dir/ for Visual Studio) and
+      # archives only under lib/ to avoid deleting test data before ctest_test.
+      file(GLOB_RECURSE _dashboard_compiled_objects
            LIST_DIRECTORIES FALSE
            "${CTEST_BINARY_DIRECTORY}/*.o"
+           "${CTEST_BINARY_DIRECTORY}/*.obj")
+      list(FILTER _dashboard_compiled_objects INCLUDE REGEX "/CMakeFiles/|\\.dir/")
+      file(GLOB_RECURSE _dashboard_archives
+           LIST_DIRECTORIES FALSE
            "${CTEST_BINARY_DIRECTORY}/*.a"
-           "${CTEST_BINARY_DIRECTORY}/*.obj"
            "${CTEST_BINARY_DIRECTORY}/*.lib")
+      list(FILTER _dashboard_archives INCLUDE REGEX "/lib/")
+      set(_dashboard_object_files ${_dashboard_compiled_objects} ${_dashboard_archives})
       list(LENGTH _dashboard_object_files _dashboard_object_count)
       if(_dashboard_object_count GREATER 0)
         ci_section_start("cleanup_objects_${_dashboard_iteration}" "Free build-tree object files")
@@ -572,6 +581,8 @@ while(NOT dashboard_done)
       endif()
       unset(_dashboard_object_files)
       unset(_dashboard_object_count)
+      unset(_dashboard_compiled_objects)
+      unset(_dashboard_archives)
     endif()
 
     ci_section_start("test_${_dashboard_iteration}" "Test")
