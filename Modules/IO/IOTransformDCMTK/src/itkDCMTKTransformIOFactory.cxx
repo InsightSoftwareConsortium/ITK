@@ -53,12 +53,6 @@ DCMTKTransformIOFactory::GetDescription() const
          " loading of DICOM transforms into Insight";
 }
 
-void
-DCMTKTransformIOFactory::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-}
-
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
 static bool DCMTKTransformIOFactoryHasBeenRegistered;
