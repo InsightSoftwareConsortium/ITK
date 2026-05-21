@@ -28,6 +28,7 @@
 #include "itkMath.h"
 #include "itkPlatformMultiThreader.h"
 #include "itkPrintHelper.h"
+#include <thread>
 
 namespace itk
 {
@@ -1155,16 +1156,40 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Iterate()
       return;
     }
 
-    mt->ParallelizeArray(
-      0,
-      m_NumOfWorkUnits,
-      [this](SizeValueType threadId) {
-        this->ThreadedApplyUpdate(m_TimeStep, threadId);
-        // We only need to wait for neighbors because ThreadedCalculateChange
-        // requires information only from the neighbors.
-        this->SignalNeighborsAndWait(threadId);
-      },
-      nullptr);
+    // Each work unit needs its own concurrent OS thread: SignalNeighborsAndWait blocks until neighbors arrive.
+    {
+      std::vector<std::thread> applyThreads;
+      applyThreads.reserve(m_NumOfWorkUnits > 0 ? m_NumOfWorkUnits - 1 : 0);
+      // Join every spawned thread on scope exit, including the exception path,
+      // so a joinable std::thread is never destroyed (which calls std::terminate).
+      const auto joinAll = [&applyThreads]() {
+        for (auto & th : applyThreads)
+        {
+          if (th.joinable())
+          {
+            th.join();
+          }
+        }
+      };
+      try
+      {
+        for (ThreadIdType t = 1; t < m_NumOfWorkUnits; ++t)
+        {
+          applyThreads.emplace_back([this, t]() {
+            this->ThreadedApplyUpdate(m_TimeStep, t);
+            this->SignalNeighborsAndWait(t);
+          });
+        }
+        this->ThreadedApplyUpdate(m_TimeStep, 0);
+        this->SignalNeighborsAndWait(0);
+      }
+      catch (...)
+      {
+        joinAll();
+        throw;
+      }
+      joinAll();
+    }
 
 
     if (this->GetElapsedIterations() % LOAD_BALANCE_ITERATION_FREQUENCY == 0)
