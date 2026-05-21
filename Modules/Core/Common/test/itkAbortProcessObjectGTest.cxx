@@ -82,6 +82,9 @@ TEST(AbortProcessObject, ConvertedLegacyTest)
     itk::ExtractImageFilter<ShortImage, ShortImage>::New();
   extract->SetInput(img);
 
+  // Single thread: work units run sequentially so the progress observer fires between them.
+  extract->GetMultiThreader()->SetMaximumNumberOfThreads(1);
+
   // fill in an image
   constexpr ShortImage::SizeType extractSize{ 99, 99 };
   const ShortImage::RegionType   extractRegion{ extractSize };
