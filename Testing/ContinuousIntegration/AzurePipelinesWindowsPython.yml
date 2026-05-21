@@ -61,7 +61,7 @@ jobs:
       displayName: 'Install dependencies'
 
     - script: |
-        git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
+        git clone -b dashboard-cleanup-objects-before-test --single-branch https://github.com/hjmjohnson/ITK.git ITK-dashboard
       workingDirectory: $(Agent.BuildDirectory)
       displayName: 'Download dashboard script'
 
