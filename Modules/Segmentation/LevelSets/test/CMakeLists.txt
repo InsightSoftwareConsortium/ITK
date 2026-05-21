@@ -21,6 +21,7 @@ set(
   itkNarrowBandCurvesLevelSetImageFilterTest.cxx
   itkNarrowBandThresholdSegmentationLevelSetImageFilterTest.cxx
   itkParallelSparseFieldLevelSetImageFilterTest.cxx
+  itkParallelSparseFieldLevelSetImageFilterRobustnessTest.cxx
   itkReinitializeLevelSetImageFilterTest.cxx
   itkShapeDetectionLevelSetImageFilterTest.cxx
   itkShapePriorMAPCostFunctionTest.cxx
@@ -100,6 +101,12 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/ParallelSparseFieldLevelSetImageFilterTest.mha
     itkParallelSparseFieldLevelSetImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/ParallelSparseFieldLevelSetImageFilterTest.mha
+)
+itk_add_test(
+  NAME itkParallelSparseFieldLevelSetImageFilterRobustnessTest
+  COMMAND
+    ITKLevelSetsTestDriver
+    itkParallelSparseFieldLevelSetImageFilterRobustnessTest
 )
 itk_add_test(
   NAME itkShapeDetectionLevelSetImageFilterTest
