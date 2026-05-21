@@ -5,6 +5,7 @@ itk_module(
     ITKImageGrid
   TEST_DEPENDS
     ITKTestKernel
+    ITKGoogleTest
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "Run-length encoded memory compression scheme for an itk::Image."
 )
