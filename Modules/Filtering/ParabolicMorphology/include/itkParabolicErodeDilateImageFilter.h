@@ -200,7 +200,7 @@ protected:
 private:
   RadiusType m_Scale;
 
-  int m_CurrentDimension;
+  unsigned int m_CurrentDimension;
 };
 } // end namespace itk
 

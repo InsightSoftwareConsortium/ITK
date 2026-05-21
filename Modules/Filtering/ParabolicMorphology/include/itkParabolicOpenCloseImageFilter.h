@@ -167,9 +167,9 @@ protected:
 private:
   RadiusType m_Scale;
 
-  int  m_CurrentDimension;
-  int  m_Stage;
-  bool m_UseImageSpacing;
+  unsigned int m_CurrentDimension;
+  int          m_Stage;
+  bool         m_UseImageSpacing;
 };
 } // end namespace itk
 
