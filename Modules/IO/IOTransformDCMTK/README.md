@@ -17,15 +17,17 @@ merges; it remains reachable at the URL above.
 
 ## Dependencies
 
-This module requires DCMTK (`Module_ITKDCMTK=ON`) and is therefore
-`EXCLUDE_FROM_DEFAULT`. Enable explicitly:
+This module depends on DCMTK and is `EXCLUDE_FROM_DEFAULT`. Enable
+it via:
 
 ```
--DModule_ITKDCMTK:BOOL=ON
 -DModule_IOTransformDCMTK:BOOL=ON
 ```
 
-Test dependencies additionally require `ITKIODCMTK`, `ITKIOGDCM`,
+`Module_ITKDCMTK` is pulled in transitively as a dependency and
+does not need to be set explicitly.
+
+Test dependencies additionally pull in `ITKIODCMTK`, `ITKIOGDCM`,
 and `ITKImageGrid`.
 
 ## What lives here
