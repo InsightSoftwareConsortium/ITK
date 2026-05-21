@@ -108,7 +108,7 @@ public:
 
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
-  ConstNeighborhoodIterator(const SizeType & radius, const ImageType * ptr, const RegionType & region)
+  ConstNeighborhoodIterator(const SizeType & radius, const TImage * ptr, const RegionType & region)
   {
     this->Initialize(radius, ptr, region);
     for (DimensionValueType i = 0; i < Dimension; ++i)

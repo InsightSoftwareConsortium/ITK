@@ -98,7 +98,7 @@ public:
 
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
-  ConstNeighborhoodIteratorWithOnlyIndex(const SizeType & radius, const ImageType * ptr, const RegionType & region);
+  ConstNeighborhoodIteratorWithOnlyIndex(const SizeType & radius, const TImage * ptr, const RegionType & region);
 
   /** Standard itk print method */
   void

@@ -252,7 +252,7 @@ public:
 
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
-  ConstShapedNeighborhoodIterator(const SizeType & radius, const ImageType * ptr, const RegionType & region)
+  ConstShapedNeighborhoodIterator(const SizeType & radius, const TImage * ptr, const RegionType & region)
     : Superclass(radius, const_cast<ImageType *>(ptr), region)
   {}
 
