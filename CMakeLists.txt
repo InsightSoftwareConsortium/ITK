@@ -815,39 +815,15 @@ message(STATUS "")
 ################################ ITK ##########################################
 ###############################################################################
 
-
-# Caller from ITK needs to pass to this project in itkExternal_Eigen3:
-# CMAKE_INSTALL_PREFIX: install prefix, make sure is an absolute path.
-# CMAKE_INSTALL_INCLUDEDIR: Location where headers files are installed: ${ITK_INSTALL_INCLUDE_DIR}
-# CMAKE_INSTALL_DATADIR: Location to install Targets and Config files: ${ITK_INSTALL_PACKAGE_DIR}/Modules
-# (optionally) ITK_USE_EIGEN_MPL2_ONLY (OFF by default)
-
-option(ITK_USE_EIGEN_MPL2_ONLY "Set compile definition EIGEN_MPL2_ONLY for ITKInternalEigen3." OFF)
-mark_as_advanced(ITK_USE_EIGEN_MPL2_ONLY)
-
-include(GNUInstallDirs)
-# Variables CMAKE_INSTALL_X are handled by GNUInstallDirs
-set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDEDIR}")
-set(CMAKEPACKAGE_INSTALL_DIR "${CMAKE_INSTALL_DATADIR}")
-
-
-
 include (CMakePackageConfigHelpers)
 
-######################### eigen_external #####################################
-
-# eigen_external can be reused for third-parties and modules, generates a
-# regular Eigen3Targets.cmake and Eigen3Config.cmake, and find_package(Eigen3) can be used to find it
-# It will point to the internal Eigen of ITK, without using #include itkeigen/Eigen/X headers but regular Eigen/X
-# The only modification to upstream is the INSTALL_INTERFACE, where itkeigen is appended.
-# Imported target support
-
+# eigen_external: INTERFACE target exporting Eigen3Config.cmake for find_package(Eigen3 CONFIG).
 add_library (eigen_external INTERFACE)
 
 target_compile_definitions (eigen_external INTERFACE ${EIGEN_DEFINITIONS})
 target_include_directories (eigen_external INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-  $<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/itkeigen>
+  $<INSTALL_INTERFACE:${ITK3P_INSTALL_INCLUDE_DIR}/itkeigen>
   )
 
 # Export as title case Eigen
@@ -859,7 +835,7 @@ set(EIGEN3_TARGETS_FILE Eigen3Targets.cmake)
 configure_package_config_file (
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Eigen3Config.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/Eigen3Config.cmake
-  INSTALL_DESTINATION ${CMAKEPACKAGE_INSTALL_DIR}
+  INSTALL_DESTINATION ${ITK3P_INSTALL_DATADIR}
   NO_CHECK_REQUIRED_COMPONENTS_MACRO # Eigen does not provide components
   )
 # Remove CMAKE_SIZEOF_VOID_P from Eigen3ConfigVersion.cmake since Eigen does
@@ -881,42 +857,14 @@ export (TARGETS eigen_external NAMESPACE Eigen3:: FILE Eigen3Targets.cmake)
 # CMake even if it has not been installed to a standard directory.
 # export (PACKAGE Eigen3)
 
-install (EXPORT Eigen3Targets NAMESPACE Eigen3:: DESTINATION ${CMAKEPACKAGE_INSTALL_DIR})
+install (EXPORT Eigen3Targets NAMESPACE Eigen3:: DESTINATION ${ITK3P_INSTALL_DATADIR})
 
 install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/Eigen3Config.cmake
   ${CMAKE_CURRENT_BINARY_DIR}/Eigen3ConfigVersion.cmake
-  DESTINATION ${CMAKEPACKAGE_INSTALL_DIR} )
+  DESTINATION ${ITK3P_INSTALL_DATADIR} )
 
 # Install files (used for both eigen_external and eigen_internal)
 install(
   DIRECTORY   "${CMAKE_CURRENT_SOURCE_DIR}/Eigen/"
   DESTINATION "${ITK3P_INSTALL_INCLUDE_DIR}/itkeigen/Eigen"
   PATTERN "*.txt" EXCLUDE)
-
-######################### eigen_internal #####################################
-
-# eigen_internal is the Eigen used internally in ITK if ITK_USE_SYSTEM_EIGEN is not set.
-
-# Imported target support
-add_library (eigen_internal INTERFACE)
-add_library (ITKInternalEigen3::Eigen ALIAS eigen_internal)
-# Because the header-only nature of Eigen3, EIGEN_MPL2_ONLY definition could be leaked outside ITK.
-# This would wrongly enforce EIGEN_MPL2_ONLY to other libraries using Eigen.
-# We wrap this definition in ITK_USE_EIGEN_MPL2_ONLY, and only enabling it internally in the dashboards and CI,
-# to avoid introducing GPL code from Eigen3 internally in ITK.
-
-if(ITK_USE_EIGEN_MPL2_ONLY)
-  target_compile_definitions (eigen_internal INTERFACE "EIGEN_MPL2_ONLY")
-endif()
-
-# BUILD: go one directory before to localize the headers:
-#   #include <itkeigen/Eigen/x>
-# INSTALL: headers require pre-prend itkeigen/Eigen/X.
-target_include_directories (eigen_internal SYSTEM INTERFACE
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-  "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${ITK3P_INSTALL_INCLUDE_DIR}/itkeigen>;"
-  )
-
-# Export as title case Eigen
-install (TARGETS eigen_internal EXPORT ${ITK3P_INSTALL_EXPORT_NAME})
-
