@@ -329,6 +329,12 @@ public:
     this->SetPixel(this->GetCenterNeighborhoodIndex() - this->GetStride(axis), v);
   }
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+NeighborhoodIterator(const typename TImage::SizeType &, SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> NeighborhoodIterator<TImage>;
+
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

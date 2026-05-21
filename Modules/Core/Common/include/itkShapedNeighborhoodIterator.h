@@ -275,6 +275,12 @@ protected:
 
   using typename Superclass::NeighborIndexType;
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ShapedNeighborhoodIterator(const typename TImage::SizeType &, SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ShapedNeighborhoodIterator<TImage>;
+
 } // namespace itk
 
 #endif
