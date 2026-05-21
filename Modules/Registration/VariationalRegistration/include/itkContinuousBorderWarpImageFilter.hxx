@@ -72,7 +72,8 @@ ContinuousBorderWarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::
       }
 
       // project point into image region
-      inputPtr->TransformPhysicalPointToContinuousIndex(point, contIndex);
+      contIndex =
+        inputPtr->template TransformPhysicalPointToContinuousIndex<typename ContinuousIndexType::ValueType>(point);
 
       for (unsigned int j = 0; j < ImageDimension; j++)
       {
