@@ -36,6 +36,12 @@
 #   dashboard_do_coverage     = True to enable coverage (ex: gcov)
 #   dashboard_do_memcheck     = True to enable memcheck (ex: valgrind)
 #   dashboard_no_clean        = True to skip build tree wipeout
+#   dashboard_keep_objects    = True to skip the post-build delete of
+#                               *.o / *.a / *.obj / *.lib intermediates
+#                               (default: removed before tests to free
+#                               disk; auto-skipped when
+#                               dashboard_do_coverage or
+#                               dashboard_continuous is set)
 #   dashboard_no_update       = True to skip source tree update
 #   CTEST_UPDATE_COMMAND      = path to git command-line client
 #   CTEST_BUILD_FLAGS         = build tool arguments (ex: -j2)
@@ -544,6 +550,29 @@ while(NOT dashboard_done)
     # without having to expand the build section.
     ci_report_build_diagnostics(
       "${CTEST_BINARY_DIRECTORY}" "${build_warnings}" "${build_errors}")
+
+    # Drop intermediates between build and test to free disk on tight CI runners.
+    # Skipped under coverage (gcov needs .gcno colocated with .o) and continuous
+    # mode (incremental relinking next iteration would force a full rebuild).
+    if(NOT dashboard_do_coverage
+       AND NOT dashboard_continuous
+       AND NOT dashboard_keep_objects)
+      file(GLOB_RECURSE _dashboard_object_files
+           LIST_DIRECTORIES FALSE
+           "${CTEST_BINARY_DIRECTORY}/*.o"
+           "${CTEST_BINARY_DIRECTORY}/*.a"
+           "${CTEST_BINARY_DIRECTORY}/*.obj"
+           "${CTEST_BINARY_DIRECTORY}/*.lib")
+      list(LENGTH _dashboard_object_files _dashboard_object_count)
+      if(_dashboard_object_count GREATER 0)
+        ci_section_start("cleanup_objects_${_dashboard_iteration}" "Free build-tree object files")
+        message("Removing ${_dashboard_object_count} object/archive files from ${CTEST_BINARY_DIRECTORY}")
+        file(REMOVE ${_dashboard_object_files})
+        ci_section_end("cleanup_objects_${_dashboard_iteration}")
+      endif()
+      unset(_dashboard_object_files)
+      unset(_dashboard_object_count)
+    endif()
 
     ci_section_start("test_${_dashboard_iteration}" "Test")
     if(COMMAND dashboard_hook_test)
