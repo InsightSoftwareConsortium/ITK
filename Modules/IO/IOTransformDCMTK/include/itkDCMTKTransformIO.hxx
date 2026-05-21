@@ -23,8 +23,7 @@
 #include "itkCompositeTransform.h"
 #include "itkEuler3DTransform.h"
 #include "itkNumericLocale.h"
-#include "itkScaleTransform.h"
-#include "itkVersorTransform.h"
+#include "itkSimilarity3DTransform.h"
 
 #include <dcmtk/dcmdata/dcfilefo.h>
 #include <dcmtk/dcmdata/dcdeftag.h>
@@ -69,7 +68,6 @@ DCMTKTransformIO<TInternalComputationValueType>::CanReadFile(const char * fileNa
     return false;
   }
 
-  OFString seriesNumber;
   if (sopClass == UID_SpatialRegistrationStorage)
   {
     return true;
@@ -233,32 +231,37 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
               OFString matrixType;
               result =
                 currentMatrixSequenceItem->findAndGetOFString(DCM_FrameOfReferenceTransformationMatrixType, matrixType);
-              if (result.good())
+              if (!result.good())
               {
-                if (matrixType.find("RIGID_SCALE") != std::string::npos)
-                {
-                  using ScaleTransformType = ScaleTransform<TInternalComputationValueType, Dimension>;
-                  typename ScaleTransformType::Pointer scaleTransform = ScaleTransformType::New();
-                  scaleTransform->SetMatrix(affineTransform->GetMatrix());
-                  scaleTransform->SetOffset(affineTransform->GetOffset());
-                  transformList.push_back(scaleTransform.GetPointer());
-                }
-                else if (matrixType.find("RIGID") != std::string::npos)
-                {
-                  using RigidTransformType = Euler3DTransform<TInternalComputationValueType>;
-                  typename RigidTransformType::Pointer rigidTransform = RigidTransformType::New();
-                  rigidTransform->SetMatrix(affineTransform->GetMatrix(), 1e-5);
-                  rigidTransform->SetOffset(affineTransform->GetOffset());
-                  transformList.push_back(rigidTransform.GetPointer());
-                }
-                else if (matrixType.find("AFFINE") != std::string::npos)
-                {
-                  transformList.push_back(affineTransform.GetPointer());
-                }
-                else
-                {
-                  itkExceptionMacro("Unknown TransformationMatrixType");
-                }
+                itkExceptionMacro("Missing FrameOfReferenceTransformationMatrixType for matrix item at index "
+                                  << matrixSequenceItemIndex);
+              }
+              if (matrixType.find("RIGID_SCALE") != std::string::npos)
+              {
+                // DICOM RIGID_SCALE = rotation + isotropic scale + translation (7 DOF).
+                // Similarity3DTransform::SetMatrix(m, tol) extracts scale = cbrt(det(m))
+                // and recovers the rotation via polar decomposition.
+                using SimilarityTransformType = Similarity3DTransform<TInternalComputationValueType>;
+                typename SimilarityTransformType::Pointer similarityTransform = SimilarityTransformType::New();
+                similarityTransform->SetMatrix(affineTransform->GetMatrix(), 1e-5);
+                similarityTransform->SetOffset(affineTransform->GetOffset());
+                transformList.push_back(similarityTransform.GetPointer());
+              }
+              else if (matrixType.find("RIGID") != std::string::npos)
+              {
+                using RigidTransformType = Euler3DTransform<TInternalComputationValueType>;
+                typename RigidTransformType::Pointer rigidTransform = RigidTransformType::New();
+                rigidTransform->SetMatrix(affineTransform->GetMatrix(), 1e-5);
+                rigidTransform->SetOffset(affineTransform->GetOffset());
+                transformList.push_back(rigidTransform.GetPointer());
+              }
+              else if (matrixType.find("AFFINE") != std::string::npos)
+              {
+                transformList.push_back(affineTransform.GetPointer());
+              }
+              else
+              {
+                itkExceptionMacro("Unknown TransformationMatrixType");
               }
             }
           }
