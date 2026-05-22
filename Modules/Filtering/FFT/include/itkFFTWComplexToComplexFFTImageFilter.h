@@ -161,6 +161,18 @@ struct FFTImageFilterTraits<FFTWComplexToComplexFFTImageFilter>
   using FilterDimensions = std::integer_sequence<unsigned int, 4, 3, 2, 1>;
 };
 
+// Disable the precision whose FFTW backend is absent (avoids instantiating an undefined fftw proxy).
+#if !defined(ITK_USE_FFTWF)
+template <>
+struct FFTImageFilterEnableFloat<FFTWComplexToComplexFFTImageFilter> : std::false_type
+{};
+#endif
+#if !defined(ITK_USE_FFTWD)
+template <>
+struct FFTImageFilterEnableDouble<FFTWComplexToComplexFFTImageFilter> : std::false_type
+{};
+#endif
+
 
 } // namespace itk
 
