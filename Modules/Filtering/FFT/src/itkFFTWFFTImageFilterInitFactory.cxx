@@ -36,6 +36,64 @@
 
 namespace itk
 {
+
+// FFTW supplies a precision backend only for the precisions configured in
+// (ITK_USE_FFTWF / ITK_USE_FFTWD). Disable factory registration for any
+// precision whose backend is absent so the FFTW filters are not instantiated
+// against an undefined fftw::Proxy / fftw::ComplexToComplexProxy.
+#  if !defined(ITK_USE_FFTWF)
+template <>
+struct FFTImageFilterEnableFloat<FFTWComplexToComplex1DFFTImageFilter> : std::false_type
+{};
+template <>
+struct FFTImageFilterEnableFloat<FFTWComplexToComplexFFTImageFilter> : std::false_type
+{};
+template <>
+struct FFTImageFilterEnableFloat<FFTWForward1DFFTImageFilter> : std::false_type
+{};
+template <>
+struct FFTImageFilterEnableFloat<FFTWForwardFFTImageFilter> : std::false_type
+{};
+template <>
+struct FFTImageFilterEnableFloat<FFTWHalfHermitianToRealInverseFFTImageFilter> : std::false_type
+{};
+template <>
+struct FFTImageFilterEnableFloat<FFTWInverse1DFFTImageFilter> : std::false_type
+{};
+template <>
+struct FFTImageFilterEnableFloat<FFTWInverseFFTImageFilter> : std::false_type
+{};
+template <>
+struct FFTImageFilterEnableFloat<FFTWRealToHalfHermitianForwardFFTImageFilter> : std::false_type
+{};
+#  endif
+#  if !defined(ITK_USE_FFTWD)
+template <>
+struct FFTImageFilterEnableDouble<FFTWComplexToComplex1DFFTImageFilter> : std::false_type
+{};
+template <>
+struct FFTImageFilterEnableDouble<FFTWComplexToComplexFFTImageFilter> : std::false_type
+{};
+template <>
+struct FFTImageFilterEnableDouble<FFTWForward1DFFTImageFilter> : std::false_type
+{};
+template <>
+struct FFTImageFilterEnableDouble<FFTWForwardFFTImageFilter> : std::false_type
+{};
+template <>
+struct FFTImageFilterEnableDouble<FFTWHalfHermitianToRealInverseFFTImageFilter> : std::false_type
+{};
+template <>
+struct FFTImageFilterEnableDouble<FFTWInverse1DFFTImageFilter> : std::false_type
+{};
+template <>
+struct FFTImageFilterEnableDouble<FFTWInverseFFTImageFilter> : std::false_type
+{};
+template <>
+struct FFTImageFilterEnableDouble<FFTWRealToHalfHermitianForwardFFTImageFilter> : std::false_type
+{};
+#  endif
+
 FFTWFFTImageFilterInitFactory::FFTWFFTImageFilterInitFactory() { FFTWFFTImageFilterInitFactory::RegisterFactories(); }
 
 FFTWFFTImageFilterInitFactory::~FFTWFFTImageFilterInitFactory() = default;
