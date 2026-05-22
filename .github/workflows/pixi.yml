@@ -140,7 +140,7 @@ jobs:
           run: |
             echo "****** df -h /  -- pre build"
             df -h /
-            pixi run --skip-deps build
+            pixi run --skip-deps build-ci
             echo "****** df -h /  -- post build"
             df -h /
 
@@ -160,7 +160,7 @@ jobs:
             df -h /
 
         - name: Test
-          run: pixi run --skip-deps test
+          run: pixi run --skip-deps test-ci
 
         - name: Disk space reporting AFTER (optimize free-disk-space)
           run: |
