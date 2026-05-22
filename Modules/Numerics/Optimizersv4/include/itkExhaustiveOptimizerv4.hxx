@@ -134,6 +134,10 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>::ResumeWalking()
                                << "@ index " << this->GetCurrentIndex() << " value is " << m_CurrentValue;
 
     this->InvokeEvent(IterationEvent());
+    if (m_Stop)
+    {
+      break;
+    }
     this->AdvanceOneStep();
     this->m_CurrentIteration++;
   }
