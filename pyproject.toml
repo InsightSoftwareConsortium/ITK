@@ -105,6 +105,11 @@ cmd = "ctest -j3 --test-dir build"
 description = "Test ITK"
 depends-on = ["build"]
 
+[tool.pixi.feature.cxx.tasks.build-external-data-ci]
+cmd = "cmake --build build --target ITKData"
+description = "Fetch ITK ExternalData for CI (fails fast on download errors)"
+depends-on = ["configure-ci"]
+
 [tool.pixi.feature.cxx.tasks.build-ci]
 cmd = "cmake --build build"
 description = "Build ITK for CI"

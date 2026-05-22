@@ -137,6 +137,9 @@ jobs:
         - name: Configure
           run: pixi run configure-ci
 
+        - name: Fetch ExternalData
+          run: pixi run --skip-deps build-external-data-ci
+
         - name: Build
           run: |
             echo "****** df -h /  -- pre build"
