@@ -424,7 +424,7 @@ protected:
     while (!inputFile.eof())
     {
       std::getline(inputFile, line, '\n');
-      if (line.find("POINT_DATA") != std::string::npos)
+      if (line.find("CELL_DATA") != std::string::npos)
       {
         if (!inputFile.eof())
         {
@@ -432,7 +432,7 @@ protected:
         }
         else
         {
-          itkExceptionStringMacro("UnExpected end of line while trying to read POINT_DATA");
+          itkExceptionStringMacro("UnExpected end of line while trying to read CELL_DATA");
         }
 
         /** For scalars we have to read the next line of LOOKUP_TABLE */
