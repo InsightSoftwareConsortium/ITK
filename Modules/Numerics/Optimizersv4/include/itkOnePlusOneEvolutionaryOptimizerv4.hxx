@@ -257,6 +257,13 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::StartOptimizat
     }
 
     this->InvokeEvent(IterationEvent());
+    if (m_Stop)
+    {
+      m_StopConditionDescription.str("");
+      m_StopConditionDescription << this->GetNameOfClass() << ": "
+                                 << "StopOptimization() called";
+      break;
+    }
     itkDebugMacro("Current position: " << this->GetCurrentPosition());
   }
   if (this->m_CurrentIteration >= m_MaximumIteration)

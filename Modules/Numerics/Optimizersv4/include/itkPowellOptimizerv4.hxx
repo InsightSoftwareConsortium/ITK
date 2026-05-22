@@ -498,6 +498,12 @@ PowellOptimizerv4<TInternalComputationValueType>::StartOptimization(bool /* doOn
     }
 
     this->InvokeEvent(IterationEvent());
+    if (m_Stop)
+    {
+      m_StopConditionDescription << "StopOptimization() called";
+      this->InvokeEvent(EndEvent());
+      return;
+    }
   }
 
   m_StopConditionDescription << "Maximum number of iterations exceeded. "
