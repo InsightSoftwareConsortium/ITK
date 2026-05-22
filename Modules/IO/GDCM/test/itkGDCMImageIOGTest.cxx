@@ -64,23 +64,23 @@ public:
   SetUp() override
   {
     // CTest runs each TEST_F in a separate process and may run them
-    // concurrently.  Suffix m_TempDir with the running test name so each
-    // process owns its own scratch directory; otherwise one test's
-    // TearDown races with another test's body.
+    // concurrently.  Suffix the scratch directory with the running test
+    // name so each process owns its own scratch directory; otherwise one
+    // test's TearDown races with another test's body.
     const auto * info = ::testing::UnitTest::GetInstance()->current_test_info();
-    m_TempDir = std::string(TOSTRING(ITK_TEST_OUTPUT_DIR)) + "/ITKGDCMSeriesTestData_" + info->name();
-    itksys::SystemTools::MakeDirectory(m_TempDir);
+    m_SeriesTempDir = std::string(TOSTRING(ITK_TEST_OUTPUT_DIR)) + "/ITKGDCMSeriesTestData_" + info->name();
+    itksys::SystemTools::MakeDirectory(m_SeriesTempDir);
     CreateTestDicomSeries();
   }
 
   void
   TearDown() override
   {
-    itksys::SystemTools::RemoveADirectory(m_TempDir);
+    itksys::SystemTools::RemoveADirectory(m_SeriesTempDir);
   }
 
 protected:
-  std::string              m_TempDir;
+  std::string              m_SeriesTempDir;
   std::vector<std::string> m_DicomFiles;
 
 
@@ -142,7 +142,7 @@ private:
       itk::EncapsulateMetaData<std::string>(dict, "0008|0020", "20240101");        // StudyDate
       itk::EncapsulateMetaData<std::string>(dict, "0008|0030", "120000");          // StudyTime
 
-      const std::string filename = m_TempDir + "/slice_" + std::to_string(i + 1) + ".dcm";
+      const std::string filename = m_SeriesTempDir + "/slice_" + std::to_string(i + 1) + ".dcm";
       writer->SetFileName(filename);
       writer->SetInput(image);
       writer->Update();
@@ -232,7 +232,7 @@ TEST_F(ITKGDCMSeriesTestData, CreateAndReadTestSeries)
   // Read the series using GDCMSeriesFileNames
   using NamesGeneratorType = itk::GDCMSeriesFileNames;
   auto namesGenerator = NamesGeneratorType::New();
-  namesGenerator->SetDirectory(m_TempDir);
+  namesGenerator->SetDirectory(m_SeriesTempDir);
   namesGenerator->SetUseSeriesDetails(true);
 
   std::vector<std::string> fileNames = namesGenerator->GetInputFileNames();
