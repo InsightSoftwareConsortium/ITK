@@ -76,7 +76,11 @@ itkInverse1DFFTImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+#if defined(ITK_USE_FFTWD)
   using PixelType = double;
+#else
+  using PixelType = float;
+#endif
   const unsigned int Dimension = 2;
 
   using ImageType = itk::Image<PixelType, Dimension>;
