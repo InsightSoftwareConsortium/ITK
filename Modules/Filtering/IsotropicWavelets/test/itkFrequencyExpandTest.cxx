@@ -47,7 +47,13 @@ runFrequencyExpandTest(const std::string & inputImage, const std::string & outpu
   bool               testPassed = true;
   const unsigned int Dimension = VDimension;
 
+  // Use the precision for which an FFTW backend is configured so odd-sized
+  // inputs (non-2,3,5 factors) use FFTW rather than the Vnl fallback.
+#if defined(ITK_USE_FFTWD)
   using PixelType = double;
+#else
+  using PixelType = float;
+#endif
   using ImageType = itk::Image<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
