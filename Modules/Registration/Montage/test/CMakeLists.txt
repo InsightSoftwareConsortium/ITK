@@ -222,6 +222,16 @@ set_tests_properties(
   PROPERTIES
     WILL_FAIL
       TRUE
+    TIMEOUT
+      1500
+)
+set_property(
+  TEST
+    itkMontageSingleLayer3D
+  APPEND
+  PROPERTY
+    LABELS
+      RUNS_LONG
 )
 
 itk_add_test(
@@ -474,6 +484,20 @@ function(GroundTruthTest2D tempDir inputFile intensityTolerance) # other command
       ${outDir}
       ${ARGN}
   )
+  set_property(
+    TEST
+      itkMontageGroundTruthMake${tempDir}
+    APPEND
+    PROPERTY
+      LABELS
+        RUNS_LONG
+  )
+  set_tests_properties(
+    itkMontageGroundTruthMake${tempDir}
+    PROPERTIES
+      TIMEOUT
+        1500
+  )
   set(regressionPart "")
   if(Module_Montage_EnableFailingTests)
     set(
@@ -580,6 +604,20 @@ itk_add_test(
     1
     25
     0
+)
+set_property(
+  TEST
+    itkMontage-S200-6-C
+  APPEND
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
+set_tests_properties(
+  itkMontage-S200-6-C
+  PROPERTIES
+    TIMEOUT
+      1500
 )
 
 itk_add_test(

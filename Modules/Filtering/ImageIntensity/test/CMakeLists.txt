@@ -640,6 +640,21 @@ itk_add_test(
     0.01
     32
 )
+# Runs several minutes in Debug; give headroom above the default test timeout.
+set_tests_properties(
+  itkDiscreteHessianGaussianImageFunctionTest
+  PROPERTIES
+    TIMEOUT
+      1500
+)
+set_property(
+  TEST
+    itkDiscreteHessianGaussianImageFunctionTest
+  APPEND
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
 itk_add_test(
   NAME itkDiscreteGradientMagnitudeGaussianImageFunctionTest01
   COMMAND

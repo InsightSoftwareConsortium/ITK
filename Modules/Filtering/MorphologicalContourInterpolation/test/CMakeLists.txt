@@ -159,6 +159,12 @@ function(DSCTest ImageName Ext)
       LABELS
         RUNS_LONG
   )
+  set_tests_properties(
+    itkMCI_DSC_${ImageName}
+    PROPERTIES
+      TIMEOUT
+        1500
+  )
 endfunction()
 
 # Handcrafted tests

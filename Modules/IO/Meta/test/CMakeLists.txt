@@ -494,6 +494,8 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
         MEMORY_SIZE
       COST
         10
+      TIMEOUT
+        1800
   )
   set_property(
     TEST

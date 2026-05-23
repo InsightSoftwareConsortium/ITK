@@ -162,6 +162,27 @@ if(NOT EXISTS "${ITK_SOURCE_DIR}/.ExternalData/README.rst")
   # store configuration.
   option(BUILD_TESTING "Build the testing tree." OFF)
 endif()
+
+# Default per-test timeout. Debug builds run several-fold slower than optimized
+# builds, so give them more headroom; a handful of long tests set an explicit
+# TIMEOUT property. Multi-config generators have no configure-time
+# CMAKE_BUILD_TYPE and fall through to the optimized value, so their Debug test
+# legs should pass `ctest --timeout` (or set CTEST_TEST_TIMEOUT) explicitly.
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  set(
+    DART_TESTING_TIMEOUT
+    600
+    CACHE STRING
+    "Maximum time (seconds) allowed for each test"
+  )
+else()
+  set(
+    DART_TESTING_TIMEOUT
+    120
+    CACHE STRING
+    "Maximum time (seconds) allowed for each test"
+  )
+endif()
 include(CTest)
 mark_as_advanced(CLEAR BUILD_TESTING)
 

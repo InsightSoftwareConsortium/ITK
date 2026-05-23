@@ -915,6 +915,21 @@ itk_add_test(
     ITKStatisticsTestDriver
     itkImageToHistogramFilterTest
 )
+# Runs several minutes in Debug; give headroom above the default test timeout.
+set_tests_properties(
+  itkImageToHistogramFilterTest
+  PROPERTIES
+    TIMEOUT
+      1800
+)
+set_property(
+  TEST
+    itkImageToHistogramFilterTest
+  APPEND
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
 itk_add_test(
   NAME itkImageToHistogramFilterTest2
   COMMAND
