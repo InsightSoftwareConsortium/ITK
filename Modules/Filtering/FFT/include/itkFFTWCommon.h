@@ -373,6 +373,52 @@ public:
   }
 
 
+  static PlanType
+  Plan_r2r(int                   rank,
+           const int *           n,
+           PixelType *           in,
+           PixelType *           out,
+           const fftw_r2r_kind * kind,
+           unsigned int          flags,
+           [[maybe_unused]] int  threads = 1,
+           bool                  canDestroyInput = false)
+  {
+#  ifndef ITK_USE_CUFFTW
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
+    fftwf_plan_with_nthreads(threads);
+#  endif
+    unsigned int roflags = flags;
+    if (!(flags & FFTW_ESTIMATE))
+    {
+      roflags = flags | FFTW_WISDOM_ONLY;
+    }
+    PlanType plan = fftwf_plan_r2r(rank, n, in, out, kind, roflags);
+    if (plan == nullptr)
+    {
+      if (canDestroyInput)
+      {
+        plan = fftwf_plan_r2r(rank, n, in, out, kind, flags);
+      }
+      else
+      {
+        int total = 1;
+        for (int i = 0; i < rank; ++i)
+        {
+          total *= n[i];
+        }
+        auto * din = new PixelType[total];
+        fftwf_plan_r2r(rank, n, din, out, kind, flags);
+        delete[] din;
+        plan = fftwf_plan_r2r(rank, n, in, out, kind, roflags);
+      }
+#  ifndef ITK_USE_CUFFTW
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
+#  endif
+    }
+    itkAssertOrThrowMacro(plan != nullptr, "PLAN_CREATION_FAILED ");
+    return plan;
+  }
+
   static void
   Execute(PlanType p)
   {
@@ -701,6 +747,52 @@ public:
     return plan;
   }
 
+
+  static PlanType
+  Plan_r2r(int                   rank,
+           const int *           n,
+           PixelType *           in,
+           PixelType *           out,
+           const fftw_r2r_kind * kind,
+           unsigned int          flags,
+           [[maybe_unused]] int  threads = 1,
+           bool                  canDestroyInput = false)
+  {
+#  ifndef ITK_USE_CUFFTW
+    const std::lock_guard<FFTWGlobalConfiguration::MutexType> lockGuard(FFTWGlobalConfiguration::GetLockMutex());
+    fftw_plan_with_nthreads(threads);
+#  endif
+    unsigned int roflags = flags;
+    if (!(flags & FFTW_ESTIMATE))
+    {
+      roflags = flags | FFTW_WISDOM_ONLY;
+    }
+    PlanType plan = fftw_plan_r2r(rank, n, in, out, kind, roflags);
+    if (plan == nullptr)
+    {
+      if (canDestroyInput)
+      {
+        plan = fftw_plan_r2r(rank, n, in, out, kind, flags);
+      }
+      else
+      {
+        int total = 1;
+        for (int i = 0; i < rank; ++i)
+        {
+          total *= n[i];
+        }
+        auto * din = new PixelType[total];
+        fftw_plan_r2r(rank, n, din, out, kind, flags);
+        delete[] din;
+        plan = fftw_plan_r2r(rank, n, in, out, kind, roflags);
+      }
+#  ifndef ITK_USE_CUFFTW
+      FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
+#  endif
+    }
+    itkAssertOrThrowMacro(plan != nullptr, "PLAN_CREATION_FAILED ");
+    return plan;
+  }
 
   static void
   Execute(PlanType p)

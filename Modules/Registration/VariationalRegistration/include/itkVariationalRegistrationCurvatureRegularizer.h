@@ -89,16 +89,11 @@ public:
   typedef typename DisplacementFieldType::SizeType::SizeValueType OffsetValueType;
 
   /** Types for FFTW proxy */
-
 #  if defined(ITK_USE_FFTWD)
-  // Prefer to use double precision
+  // Prefer double precision when available; otherwise use single precision.
   using RealTypeFFT = double;
 #  else
-#    if defined(ITK_USE_FFTWF)
-// Allow to use single precision
-#      warning "Using single precision for FFT computations!"
   using RealTypeFFT = float;
-#    endif
 #  endif
 
   using FFTWProxyType = typename fftw::Proxy<RealTypeFFT>;

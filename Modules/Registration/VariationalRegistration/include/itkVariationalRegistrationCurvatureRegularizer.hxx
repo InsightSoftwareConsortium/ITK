@@ -194,31 +194,30 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::InitializeCurva
     size[(ImageDimension - 1) - i] = this->m_Size[i];
   }
 
-  // Create the plan for the FFT
-  // We need only one plan forward and backward because we reuse the input and output buffers
-  // fftw_plan_r2r transforms are not available in FFTWProxyType, so we have to call FFTW functions
-  // directly
-
-  // first set multi-threading
-  fftw_plan_with_nthreads(this->GetNumberOfWorkUnits());
-
-  this->m_PlanForward = fftw_plan_r2r(ImageDimension,
-                                      size,
-                                      this->m_VectorFieldComponentBuffer,
-                                      this->m_DCTVectorFieldComponentBuffer,
-                                      fftForwardKind,
-                                      FFTW_MEASURE | FFTW_DESTROY_INPUT);
+  // Create the plan for the FFT. One forward and one backward plan suffice
+  // because the input and output buffers are reused. FFTWProxyType::Plan_r2r
+  // dispatches to the precision-appropriate (float/double) FFTW r2r call.
+  this->m_PlanForward = FFTWProxyType::Plan_r2r(ImageDimension,
+                                                size,
+                                                this->m_VectorFieldComponentBuffer,
+                                                this->m_DCTVectorFieldComponentBuffer,
+                                                fftForwardKind,
+                                                FFTW_MEASURE | FFTW_DESTROY_INPUT,
+                                                this->GetNumberOfWorkUnits(),
+                                                true);
   if (this->m_PlanForward == nullptr)
   {
     return false;
   }
 
-  this->m_PlanBackward = fftw_plan_r2r(ImageDimension,
-                                       size,
-                                       this->m_DCTVectorFieldComponentBuffer,
-                                       this->m_VectorFieldComponentBuffer,
-                                       fftBackwardKind,
-                                       FFTW_MEASURE | FFTW_DESTROY_INPUT);
+  this->m_PlanBackward = FFTWProxyType::Plan_r2r(ImageDimension,
+                                                 size,
+                                                 this->m_DCTVectorFieldComponentBuffer,
+                                                 this->m_VectorFieldComponentBuffer,
+                                                 fftBackwardKind,
+                                                 FFTW_MEASURE | FFTW_DESTROY_INPUT,
+                                                 this->GetNumberOfWorkUnits(),
+                                                 true);
   if (this->m_PlanBackward == nullptr)
   {
     return false;
