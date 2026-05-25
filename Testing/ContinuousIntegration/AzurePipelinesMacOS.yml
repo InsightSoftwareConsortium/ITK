@@ -26,6 +26,11 @@ pr:
     - Utilities/Maintenance/*
 variables:
   ExternalDataVersion: 5.4.5
+  CCACHE_DIR: $(Pipeline.Workspace)/.ccache
+  CCACHE_BASEDIR: $(Build.SourcesDirectory)
+  CCACHE_COMPILERCHECK: content
+  CCACHE_NOHASHDIR: 'true'
+  CCACHE_SLOPPINESS: pch_defines,time_macros
 jobs:
 - job: macOS
   timeoutInMinutes: 0
@@ -54,7 +59,22 @@ jobs:
         sudo python3 -m pip install --upgrade setuptools
         sudo python3 -m pip install scikit-ci-addons
         sudo python3 -m pip install lxml
+        brew install ccache
       displayName: Install dependencies
+
+    - task: Cache@2
+      inputs:
+        key: 'ccache | rel54 | "$(Agent.OS)" | "macOS" | "$(Build.SourceVersion)"'
+        restoreKeys: |
+          ccache | rel54 | "$(Agent.OS)" | "macOS"
+        path: $(CCACHE_DIR)
+      displayName: 'ccache'
+
+    - bash: |
+        set -x
+        ccache --zero-stats
+        ccache --show-config
+      displayName: 'ccache config'
 
     - bash: |
         set -x
@@ -74,6 +94,8 @@ jobs:
           BUILD_SHARED_LIBS:BOOL=ON
           BUILD_EXAMPLES:BOOL=ON
           ITK_WRAP_PYTHON:BOOL=OFF
+          CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
+          CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
         ")
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
         EOF

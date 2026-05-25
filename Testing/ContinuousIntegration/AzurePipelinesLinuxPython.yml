@@ -26,6 +26,11 @@ pr:
     - Utilities/Maintenance/*
 variables:
   ExternalDataVersion: 5.4.5
+  CCACHE_DIR: $(Pipeline.Workspace)/.ccache
+  CCACHE_BASEDIR: $(Build.SourcesDirectory)
+  CCACHE_COMPILERCHECK: content
+  CCACHE_NOHASHDIR: 'true'
+  CCACHE_SLOPPINESS: pch_defines,time_macros
 jobs:
 - job: Linux
   timeoutInMinutes: 0
@@ -50,9 +55,25 @@ jobs:
 
     - bash: |
         set -x
+        sudo apt-get update
+        sudo apt-get install -y ccache
         python3 -m pip install ninja numpy>=1.20 typing-extensions
         python3 -m pip install lxml scikit-ci-addons dask distributed
       displayName: 'Install dependencies'
+
+    - task: Cache@2
+      inputs:
+        key: 'ccache | rel54 | "$(Agent.OS)" | "LinuxPython" | "$(Build.SourceVersion)"'
+        restoreKeys: |
+          ccache | rel54 | "$(Agent.OS)" | "LinuxPython"
+        path: $(CCACHE_DIR)
+      displayName: 'ccache'
+
+    - bash: |
+        set -x
+        ccache --zero-stats
+        ccache --show-config
+      displayName: 'ccache config'
 
     - bash: |
         set -x
@@ -79,6 +100,8 @@ jobs:
           BUILD_SHARED_LIBS:BOOL=OFF
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=ON
+          CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
+          CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
         ")
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
         EOF
