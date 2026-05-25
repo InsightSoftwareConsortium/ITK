@@ -25,12 +25,18 @@ on:
 
 env:
     ExternalDataVersion: 5.4.5
+    CCACHE_DIR: ${{ github.workspace }}/.ccache
+    CCACHE_BASEDIR: ${{ github.workspace }}
+    CCACHE_COMPILERCHECK: content
+    CCACHE_NOHASHDIR: 'true'
+    CCACHE_SLOPPINESS: pch_defines,time_macros
 
 jobs:
     Pixi-Cxx:
       runs-on: ${{ matrix.os }}
       timeout-minutes: 0
       strategy:
+        fail-fast: false
         matrix:
           os: [ubuntu-22.04, windows-2022, macos-15-intel, macos-14]
       steps:
@@ -53,11 +59,23 @@ jobs:
         - name: Set up Pixi
           uses: prefix-dev/setup-pixi@v0.8.1
 
+        - name: Cache ccache
+          uses: actions/cache@v4
+          with:
+            path: ${{ github.workspace }}/.ccache
+            key: ccache-rel54-${{ matrix.os }}-${{ github.run_id }}
+            restore-keys: |
+              ccache-rel54-${{ matrix.os }}-
+
         - name: Configure
-          run: pixi run configure
+          run: pixi run configure-ci
 
         - name: Build
-          run: pixi run build
+          run: pixi run build-ci
 
         - name: Test
-          run: pixi run test
+          run: pixi run test-ci
+
+        - name: ccache stats
+          if: always()
+          run: pixi run ccache-stats
