@@ -42,6 +42,25 @@ jobs:
               with:
                   python-version: '3.11'
 
+            - name: Install ccache
+              run: |
+                set -x
+                brew install ccache
+                echo "CCACHE_BASEDIR=${GITHUB_WORKSPACE}" >> "$GITHUB_ENV"
+                echo "CCACHE_COMPILERCHECK=content" >> "$GITHUB_ENV"
+                echo "CCACHE_NOHASHDIR=true" >> "$GITHUB_ENV"
+                echo "CCACHE_SLOPPINESS=pch_defines,time_macros" >> "$GITHUB_ENV"
+                echo "CCACHE_DIR=${{ runner.temp }}/ccache" >> "$GITHUB_ENV"
+                echo "CCACHE_MAXSIZE=5G" >> "$GITHUB_ENV"
+
+            - name: Cache ccache
+              uses: actions/cache@v4
+              with:
+                path: ${{ runner.temp }}/ccache
+                key: ccache-rel54-macosarm-${{ github.run_id }}
+                restore-keys: |
+                  ccache-rel54-macosarm-
+
             - name: Install dependencies
               run: |
                 set -x
@@ -66,6 +85,8 @@ jobs:
                     BUILD_EXAMPLES:BOOL=ON
                     ITK_WRAP_PYTHON:BOOL=OFF
                     ITK_USE_CLANG_FORMAT:BOOL=OFF
+                    CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
+                    CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
                 ")
                 include(${{ github.workspace }}/ITK-dashboard/github_actions_dashboard.cmake)
                 EOF
@@ -82,6 +103,10 @@ jobs:
               env:
                 CTEST_OUTPUT_ON_FAILURE: 1
 
+            - name: ccache stats
+              if: always()
+              run: ccache --show-stats
+
     macOS-Python:
         runs-on: macos-14
         timeout-minutes: 0
@@ -96,6 +121,25 @@ jobs:
               uses: actions/setup-python@v5
               with:
                   python-version: '3.11'
+
+            - name: Install ccache
+              run: |
+                set -x
+                brew install ccache
+                echo "CCACHE_BASEDIR=${GITHUB_WORKSPACE}" >> "$GITHUB_ENV"
+                echo "CCACHE_COMPILERCHECK=content" >> "$GITHUB_ENV"
+                echo "CCACHE_NOHASHDIR=true" >> "$GITHUB_ENV"
+                echo "CCACHE_SLOPPINESS=pch_defines,time_macros" >> "$GITHUB_ENV"
+                echo "CCACHE_DIR=${{ runner.temp }}/ccache" >> "$GITHUB_ENV"
+                echo "CCACHE_MAXSIZE=5G" >> "$GITHUB_ENV"
+
+            - name: Cache ccache
+              uses: actions/cache@v4
+              with:
+                path: ${{ runner.temp }}/ccache
+                key: ccache-rel54-macosarm-python-${{ github.run_id }}
+                restore-keys: |
+                  ccache-rel54-macosarm-python-
 
             - name: Install dependencies
               run: |
@@ -122,6 +166,8 @@ jobs:
                     BUILD_EXAMPLES:BOOL=OFF
                     ITK_WRAP_PYTHON:BOOL=ON
                     ITK_USE_CLANG_FORMAT:BOOL=OFF
+                    CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
+                    CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
                 ")
                 include(${{ github.workspace }}/ITK-dashboard/github_actions_dashboard.cmake)
                 EOF
@@ -137,3 +183,7 @@ jobs:
                 ctest -S ${{ github.workspace }}/ITK-dashboard/dashboard.cmake -VV -j 4 -E itkPyBufferMemoryLeakTest
               env:
                 CTEST_OUTPUT_ON_FAILURE: 1
+
+            - name: ccache stats
+              if: always()
+              run: ccache --show-stats
