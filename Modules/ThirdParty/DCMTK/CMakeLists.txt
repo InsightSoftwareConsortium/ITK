@@ -505,3 +505,8 @@ endforeach()
     SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/${DCMTK_EPNAME}-build/cmake_install.cmake
   )
 endif(ITK_USE_SYSTEM_DCMTK)
+
+if(MSVC)
+  # DCMTK's osconfig.h guards C++11/14/17 on __cplusplus, which MSVC underreports without this.
+  target_compile_options(ITKDCMTKModule INTERFACE /Zc:__cplusplus)
+endif()

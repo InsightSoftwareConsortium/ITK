@@ -9,7 +9,6 @@ itk_module(
   ENABLE_SHARED
   DEPENDS
     ITKIOImageBase
-  PRIVATE_DEPENDS
     ITKDCMTK
   TEST_DEPENDS
     ITKTestKernel
