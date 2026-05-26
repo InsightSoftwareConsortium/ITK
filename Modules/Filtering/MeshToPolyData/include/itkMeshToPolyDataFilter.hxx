@@ -633,19 +633,31 @@ MeshToPolyDataFilter<TInputMesh>::GenerateDataDispatch()
     // Copy the cell data in appropriate order : verts / lines / polys / strips
     for (SizeValueType ii = 0; ii < verticesCellIds->Size(); ++ii)
     {
-      outputCellData->InsertElement(ii, inputCellData->ElementAt(verticesCellIds->ElementAt(ii)));
+      typename CellDataContainerType::Element value;
+      if (inputCellData->GetElementIfIndexExists(verticesCellIds->ElementAt(ii), &value))
+      {
+        outputCellData->InsertElement(ii, value);
+      }
     }
     offset += size;
     size = linesCellIds->Size();
     for (SizeValueType ii = 0; ii < size; ++ii)
     {
-      outputCellData->InsertElement(offset + ii, inputCellData->ElementAt(linesCellIds->ElementAt(ii)));
+      typename CellDataContainerType::Element value;
+      if (inputCellData->GetElementIfIndexExists(linesCellIds->ElementAt(ii), &value))
+      {
+        outputCellData->InsertElement(offset + ii, value);
+      }
     }
     offset += size;
     size = polygonsCellIds->Size();
     for (SizeValueType ii = 0; ii < size; ++ii)
     {
-      outputCellData->InsertElement(offset + ii, inputCellData->ElementAt(polygonsCellIds->ElementAt(ii)));
+      typename CellDataContainerType::Element value;
+      if (inputCellData->GetElementIfIndexExists(polygonsCellIds->ElementAt(ii), &value))
+      {
+        outputCellData->InsertElement(offset + ii, value);
+      }
     }
     offset += size;
     // size = triangleStripsCellIds->Size();
