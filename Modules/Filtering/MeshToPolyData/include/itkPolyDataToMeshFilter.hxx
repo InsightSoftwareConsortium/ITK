@@ -218,8 +218,11 @@ PolyDataToMeshFilter<TInputPolyData>::GenerateData()
       typename CellType::CellAutoPointer cell;
       cell.TakeOwnership(new VertexCellType);
 
-      cell->SetPointId(0, inputCellItr.Value());
-      ++inputCellItr;
+      if (inputCellItr != inputCellEnd)
+      {
+        cell->SetPointId(0, inputCellItr.Value());
+        ++inputCellItr;
+      }
 
       outputMesh->SetCell(cellId, cell);
       cellId++;
@@ -253,7 +256,7 @@ PolyDataToMeshFilter<TInputPolyData>::GenerateData()
         cell.TakeOwnership(new LineCellType);
       }
 
-      for (unsigned int i = 0; i < numPoints; i++)
+      for (unsigned int i = 0; i < numPoints && inputCellItr != inputCellEnd; i++)
       {
         cell->SetPointId(i, inputCellItr.Value());
         ++inputCellItr;
@@ -342,7 +345,7 @@ PolyDataToMeshFilter<TInputPolyData>::GenerateData()
         cell.TakeOwnership(new PolygonCellType(numPoints));
       }
 
-      for (unsigned int i = 0; i < numPoints; i++)
+      for (unsigned int i = 0; i < numPoints && inputCellItr != inputCellEnd; i++)
       {
         cell->SetPointId(i, inputCellItr.Value());
         ++inputCellItr;
