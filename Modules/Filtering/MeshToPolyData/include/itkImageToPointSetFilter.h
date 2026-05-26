@@ -77,13 +77,11 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
 protected:
-  ImageToPointSetFilter() {}
-  virtual ~ImageToPointSetFilter() {}
+  ImageToPointSetFilter() = default;
+  ~ImageToPointSetFilter() override = default;
 
   void
   GenerateData() override;
-
-private:
 };
 
 } // end namespace itk
