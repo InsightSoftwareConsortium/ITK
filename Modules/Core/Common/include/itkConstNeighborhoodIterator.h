@@ -21,6 +21,8 @@
 #include <vector>
 #include <cstring>
 #include <iostream>
+#include <type_traits> // For remove_const_t.
+
 #include "itkImage.h"
 #include "itkNeighborhood.h"
 #include "itkMacro.h"
@@ -108,7 +110,7 @@ public:
 
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
-  ConstNeighborhoodIterator(const SizeType & radius, const ImageType * ptr, const RegionType & region)
+  ConstNeighborhoodIterator(const SizeType & radius, const TImage * ptr, const RegionType & region)
   {
     this->Initialize(radius, ptr, region);
     for (DimensionValueType i = 0; i < Dimension; ++i)
@@ -645,6 +647,12 @@ protected:
   /** Functor type used to access neighborhoods of pixel pointers */
   NeighborhoodAccessorFunctorType m_NeighborhoodAccessorFunctor{};
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ConstNeighborhoodIterator(const typename TImage::SizeType &, SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> ConstNeighborhoodIterator<std::remove_const_t<TImage>>;
+
 
 template <typename TImage>
 inline ConstNeighborhoodIterator<TImage>

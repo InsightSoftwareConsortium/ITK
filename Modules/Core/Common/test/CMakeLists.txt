@@ -1437,6 +1437,7 @@ set(
   itkMinimumMaximumImageCalculatorGTest.cxx
   itkModifiedTimeGTest.cxx
   itkNeighborhoodAllocatorGTest.cxx
+  itkNeighborhoodIteratorsGTest.cxx
   itkNumberToStringGTest.cxx
   itkNumericLocaleGTest.cxx
   itkObjectFactoryBaseGTest.cxx

@@ -20,6 +20,8 @@
 
 #include <vector>
 #include <list>
+#include <type_traits> // For remove_const_t.
+
 #include "itkNeighborhoodIterator.h"
 
 namespace itk
@@ -252,7 +254,7 @@ public:
 
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
-  ConstShapedNeighborhoodIterator(const SizeType & radius, const ImageType * ptr, const RegionType & region)
+  ConstShapedNeighborhoodIterator(const SizeType & radius, const TImage * ptr, const RegionType & region)
     : Superclass(radius, const_cast<ImageType *>(ptr), region)
   {}
 
@@ -426,6 +428,14 @@ protected:
   bool          m_CenterIsActive{ false };
   IndexListType m_ActiveIndexList{};
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ConstShapedNeighborhoodIterator(const typename TImage::SizeType &,
+                                SmartPointer<TImage>,
+                                const typename TImage::RegionType &)
+  -> ConstShapedNeighborhoodIterator<std::remove_const_t<TImage>>;
+
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

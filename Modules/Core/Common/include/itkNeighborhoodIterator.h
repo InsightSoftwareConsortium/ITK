@@ -250,7 +250,7 @@ public:
 
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
-  NeighborhoodIterator(const SizeType & radius, ImageType * ptr, const RegionType & region)
+  NeighborhoodIterator(const SizeType & radius, TImage * ptr, const RegionType & region)
     : Superclass(radius, ptr, region)
   {}
 
@@ -329,6 +329,12 @@ public:
     this->SetPixel(this->GetCenterNeighborhoodIndex() - this->GetStride(axis), v);
   }
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+NeighborhoodIterator(const typename TImage::SizeType &, SmartPointer<TImage>, const typename TImage::RegionType &)
+  -> NeighborhoodIterator<TImage>;
+
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -21,6 +21,8 @@
 #include <vector>
 #include <cstring>
 #include <iostream>
+#include <type_traits> // For remove_const_t.
+
 #include "itkImage.h"
 #include "itkNeighborhood.h"
 #include "itkMacro.h"
@@ -98,7 +100,7 @@ public:
 
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
-  ConstNeighborhoodIteratorWithOnlyIndex(const SizeType & radius, const ImageType * ptr, const RegionType & region);
+  ConstNeighborhoodIteratorWithOnlyIndex(const SizeType & radius, const TImage * ptr, const RegionType & region);
 
   /** Standard itk print method */
   void
@@ -403,6 +405,14 @@ protected:
   /** Does the specified region need to worry about boundary conditions? */
   bool m_NeedToUseBoundaryCondition{ false };
 };
+
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TImage>
+ConstNeighborhoodIteratorWithOnlyIndex(const typename TImage::SizeType &,
+                                       SmartPointer<TImage>,
+                                       const typename TImage::RegionType &)
+  -> ConstNeighborhoodIteratorWithOnlyIndex<std::remove_const_t<TImage>>;
+
 
 template <typename TImage>
 inline ConstNeighborhoodIteratorWithOnlyIndex<TImage>

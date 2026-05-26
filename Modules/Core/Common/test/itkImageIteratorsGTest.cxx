@@ -148,6 +148,7 @@ void
 CheckConstIteratorsSupportClassTemplateArgumentDeduction()
 {
   (CheckConstIteratorSupportsClassTemplateArgumentDeduction<TIteratorTemplate, itk::Image<int>>(), ...);
+  (CheckConstIteratorSupportsClassTemplateArgumentDeduction<TIteratorTemplate, itk::Image<double, 3>>(), ...);
 }
 } // namespace
 
