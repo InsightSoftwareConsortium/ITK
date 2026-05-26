@@ -26,20 +26,13 @@
 namespace itk
 {
 
+template <typename TInputType, typename = void>
+struct HasCellTraits : std::false_type
+{};
+
 template <typename TInputType>
-class HasCellTraits
-{
-  typedef char Yes[1];
-  typedef char No[2];
-  template <typename CellType>
-  static Yes &
-  test(typename CellType::CellTraits *); // selected if CellType is a class type
-  template <typename CellType>
-  static No &
-  test(...); // selected otherwise
-public:
-  static const bool value = sizeof(test<TInputType>(0)) == sizeof(Yes);
-};
+struct HasCellTraits<TInputType, std::void_t<typename TInputType::CellTraits>> : std::true_type
+{};
 
 /** \class MeshToPolyDataFilter
  *
