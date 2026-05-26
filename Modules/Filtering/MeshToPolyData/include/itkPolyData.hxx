@@ -476,6 +476,11 @@ PolyData<TPixelType, TCellPixel>::Initialize()
   m_PointsContainer = nullptr;
   m_PointDataContainer = nullptr;
   m_CellDataContainer = nullptr;
+
+  m_VerticesContainer = nullptr;
+  m_LinesContainer = nullptr;
+  m_PolygonsContainer = nullptr;
+  m_TriangleStripsContainer = nullptr;
 }
 
 } // end namespace itk
