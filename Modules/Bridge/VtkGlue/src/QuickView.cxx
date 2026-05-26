@@ -204,6 +204,10 @@ QuickView::Visualize(bool interact)
 {
   unsigned int rendererSize = this->m_ViewPortSize;
   unsigned int numberOfImages = this->Images.size() + this->RGBImages.size();
+  if (numberOfImages == 0)
+  {
+    return;
+  }
   unsigned int numberOfRows = (numberOfImages - 1) / this->m_NumberOfColumns + 1;
   unsigned int numberOfColumns = numberOfImages / (numberOfRows) + 1;
   if (numberOfColumns > numberOfImages)
