@@ -307,7 +307,7 @@ QuickView::Visualize(bool interact)
       // RGB Images
       else if (i >= this->Images.size() && i < numberOfImages)
       {
-        unsigned int              j = row * numberOfColumns + col - this->Images.size();
+        const size_t              j = i - this->Images.size();
         RGBConnectorType::Pointer connector = RGBConnectorType::New();
         RGBconnectors.push_back(connector);
         connector->SetInput(this->RGBImages[j].m_Image);
