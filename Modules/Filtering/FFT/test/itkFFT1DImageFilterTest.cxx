@@ -83,7 +83,11 @@ itkFFT1DImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+#if defined(ITK_USE_FFTWD)
   using PixelType = double;
+#else
+  using PixelType = float;
+#endif
   constexpr unsigned int Dimension{ 2 };
 
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -100,20 +104,28 @@ itkFFT1DImageFilterTest(int argc, char * argv[])
 
   if (backend == 0) // Default backend
   {
-    using VnlForwardFFTSubtype = itk::VnlForward1DFFTImageFilter<ImageType, ComplexImageType>;
-    using VnlInverseFFTSubtype = itk::VnlInverse1DFFTImageFilter<ComplexImageType, ImageType>;
+    // When FFTW is configured it auto-registers a 1D factory for the pixel
+    // type and is the default backend; otherwise Vnl is the default.
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+    using DefaultForwardSubtype = itk::FFTWForward1DFFTImageFilter<ImageType, ComplexImageType>;
+    using DefaultInverseSubtype = itk::FFTWInverse1DFFTImageFilter<ComplexImageType, ImageType>;
+    const char * const defaultBackendName = "FFTW";
+#else
+    using DefaultForwardSubtype = itk::VnlForward1DFFTImageFilter<ImageType, ComplexImageType>;
+    using DefaultInverseSubtype = itk::VnlInverse1DFFTImageFilter<ComplexImageType, ImageType>;
+    const char * const defaultBackendName = "Vnl";
+#endif
 
-    // Verify that FFT class is instantiated with expected backend through the object factory
     auto forward = FFTForwardType::New();
-    if (dynamic_cast<VnlForwardFFTSubtype *>(forward.GetPointer()) == nullptr)
+    if (dynamic_cast<DefaultForwardSubtype *>(forward.GetPointer()) == nullptr)
     {
-      std::cerr << "Did not get Vnl default backend for forward FFT as expected!" << std::endl;
+      std::cerr << "Did not get " << defaultBackendName << " default backend for forward FFT as expected!" << std::endl;
       return EXIT_FAILURE;
     }
     auto inverse = FFTInverseType::New();
-    if (dynamic_cast<VnlInverseFFTSubtype *>(inverse.GetPointer()) == nullptr)
+    if (dynamic_cast<DefaultInverseSubtype *>(inverse.GetPointer()) == nullptr)
     {
-      std::cerr << "Did not get Vnl default backend for inverse FFT as expected!" << std::endl;
+      std::cerr << "Did not get " << defaultBackendName << " default backend for inverse FFT as expected!" << std::endl;
       return EXIT_FAILURE;
     }
     return doTest<FFTForwardType, FFTInverseType>(argv[1], argv[2]);

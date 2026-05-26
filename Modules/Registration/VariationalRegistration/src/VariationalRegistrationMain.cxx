@@ -755,7 +755,7 @@ main(int argc, char * argv[])
       curvatureRegularizer->SetAlpha(regulAlpha);
       regularizer = curvatureRegularizer;
 #else
-      ExceptionMacro(<< "ITK has to be built with ITK_USE_FFTWD set ON for elastic regularisation!");
+      ExceptionMacro(<< "ITK has to be built with FFTW (ITK_USE_FFTWF or ITK_USE_FFTWD) for curvature regularisation!");
 #endif
     }
     break;

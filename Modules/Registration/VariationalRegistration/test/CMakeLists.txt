@@ -1,5 +1,29 @@
 itk_module_test()
 
+# Tolerances for the registration-output baseline comparisons (ITK #6305):
+# registration converges to a valid but slightly platform-dependent solution,
+# so match each pixel against a small neighborhood (radius) with a modest
+# intensity tolerance, and allow a small count of differing pixels for
+# cross-platform variation.
+set(
+  VR_RADIUS_TOL
+  "2"
+  CACHE STRING
+  "VariationalRegistration baseline radius tolerance"
+)
+set(
+  VR_INTENSITY_TOL
+  "20"
+  CACHE STRING
+  "VariationalRegistration baseline intensity tolerance"
+)
+set(
+  VR_NPIXELS_TOL
+  "200"
+  CACHE STRING
+  "VariationalRegistration baseline number-of-pixels tolerance"
+)
+
 set(
   ${itk-module}Tests
   VariationalRegistrationFilterTest.cxx
@@ -60,6 +84,12 @@ function(Test2D TestName OutputExt)
     NAME ${TestName}
     COMMAND
       itkTestDriver
+      --compareRadiusTolerance
+      ${VR_RADIUS_TOL}
+      --compareIntensityTolerance
+      ${VR_INTENSITY_TOL}
+      --compareNumberOfPixelsTolerance
+      ${VR_NPIXELS_TOL}
       --compare
       DATA{Baseline/${TestName}.tif}
       ${TEMP}/${TestName}.tif
@@ -143,6 +173,12 @@ function(Test3D TestName)
     NAME ${TestName}
     COMMAND
       itkTestDriver
+      --compareRadiusTolerance
+      ${VR_RADIUS_TOL}
+      --compareIntensityTolerance
+      ${VR_INTENSITY_TOL}
+      --compareNumberOfPixelsTolerance
+      ${VR_NPIXELS_TOL}
       --compare
       DATA{Baseline/${TestName}.nii.gz}
       ${TEMP}/${TestName}.nii.gz
