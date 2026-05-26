@@ -277,8 +277,13 @@ PolyDataToMeshFilter<TInputPolyData>::GenerateData()
       auto numPoints = inputCellItr.Value();
       ++inputCellItr;
 
-      // Verify at least one strip is described
-      itkAssertInDebugAndIgnoreInReleaseMacro(numPoints >= TriangleCellType::NumberOfPoints);
+      // A triangle strip needs at least three points; skip degenerate
+      // strips so the unsigned numPoints - 2 below cannot underflow.
+      if (numPoints < TriangleCellType::NumberOfPoints)
+      {
+        inputCellItr += numPoints;
+        continue;
+      }
 
       for (unsigned int i = 0; i < numPoints - 2; i++)
       {
