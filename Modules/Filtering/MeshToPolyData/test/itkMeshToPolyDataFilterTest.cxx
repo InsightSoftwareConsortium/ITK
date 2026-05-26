@@ -68,7 +68,7 @@ itkMeshToPolyDataFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
   const char * inputMeshFileName = argv[1];
-  const char * outputPolyDataFileName = argv[1];
+  const char * outputPolyDataFileName = argv[2];
 
   const unsigned int Dimension = 3;
   using PixelType = float;
