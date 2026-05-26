@@ -50,7 +50,7 @@ ImageToPointSetFilter<TInputImage, TOutputMesh>::GenerateData()
     pointData = PointDataContainer::New();
   }
 
-  const unsigned long numberOfPixels = image->GetRequestedRegion().GetNumberOfPixels();
+  const SizeValueType numberOfPixels = image->GetRequestedRegion().GetNumberOfPixels();
   ProgressReporter    progress(this, 0, numberOfPixels);
   points->Reserve(numberOfPixels);
   pointData->Reserve(numberOfPixels);
