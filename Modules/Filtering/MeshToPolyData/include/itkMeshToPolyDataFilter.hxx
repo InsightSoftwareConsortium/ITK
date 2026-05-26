@@ -138,7 +138,7 @@ public:
   void
   Visit(unsigned long cellId, PolyLineCellType * cell)
   {
-    int numberOfPoints = cell->GetNumberOfPoints();
+    const unsigned int numberOfPoints = cell->GetNumberOfPoints();
     m_Lines->push_back(numberOfPoints);
     const typename PolyLineCellType::PointIdConstIterator pointIdEnd = cell->PointIdsEnd();
     for (typename PolyLineCellType::PointIdConstIterator pointIdIt = cell->PointIdsBegin(); pointIdIt != pointIdEnd;
