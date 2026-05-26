@@ -260,15 +260,15 @@ public:
   //}
 
 private:
-  CellsContainerType * m_Vertices;
-  CellsContainerType * m_Lines;
-  CellsContainerType * m_Polygons;
-  CellsContainerType * m_TriangleStrips;
+  CellsContainerType * m_Vertices{ nullptr };
+  CellsContainerType * m_Lines{ nullptr };
+  CellsContainerType * m_Polygons{ nullptr };
+  CellsContainerType * m_TriangleStrips{ nullptr };
 
-  CellsContainerType * m_VerticesCellIds;
-  CellsContainerType * m_LinesCellIds;
-  CellsContainerType * m_PolygonsCellIds;
-  CellsContainerType * m_TriangleStripsCellIds;
+  CellsContainerType * m_VerticesCellIds{ nullptr };
+  CellsContainerType * m_LinesCellIds{ nullptr };
+  CellsContainerType * m_PolygonsCellIds{ nullptr };
+  CellsContainerType * m_TriangleStripsCellIds{ nullptr };
 };
 
 } // end anonymous namespace
