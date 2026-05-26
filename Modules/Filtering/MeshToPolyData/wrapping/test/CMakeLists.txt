@@ -7,12 +7,12 @@ itk_python_add_test(
   COMMAND
     itkMeshToPolyDataFilterTest2.py
 )
-itk_python_add_test(NAME itkPolyLineCellTest COMMAND itkPolyLineCellTest.py)
 itk_python_expression_add_test(
   NAME itkPolyDataPythonTest
   EXPRESSION "poly_data = itk.PolyData.New()"
 )
 
+# The following Python tests require numpy.
 execute_process(
   COMMAND
     ${PYTHON_EXECUTABLE} -c "import numpy"
@@ -21,6 +21,7 @@ execute_process(
   ERROR_QUIET
 )
 if(_have_numpy_return_code EQUAL 0)
+  itk_python_add_test(NAME itkPolyLineCellTest COMMAND itkPolyLineCellTest.py)
   itk_python_add_test(
     NAME itkPyVectorContainerTest
     COMMAND
