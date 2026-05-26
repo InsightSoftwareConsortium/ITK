@@ -462,11 +462,11 @@ MeshToPolyDataFilter<TInputMesh>::GenerateDataDispatch()
   // new vert/line/poly/strip cells, for copying cell data
   // in appropriate order.
   typename CellsContainerType::Pointer verticesCellIds = CellsContainerType::New();
-  verticesCellIds->Reserve(numberOfCells / 4 + 1);
+  verticesCellIds->reserve(numberOfCells / 4 + 1);
   typename CellsContainerType::Pointer linesCellIds = CellsContainerType::New();
-  linesCellIds->Reserve(numberOfCells / 4 + 1);
+  linesCellIds->reserve(numberOfCells / 4 + 1);
   typename CellsContainerType::Pointer polygonsCellIds = CellsContainerType::New();
-  polygonsCellIds->Reserve(numberOfCells / 4 + 1);
+  polygonsCellIds->reserve(numberOfCells / 4 + 1);
   // typename CellsContainerType::Pointer triangleStripsCellIds = CellsContainerType::New();
   // triangleStripsCellIds->Reserve( numberOfCells / 4 + 1 );
 
