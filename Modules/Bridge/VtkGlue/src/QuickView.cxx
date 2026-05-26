@@ -223,8 +223,6 @@ QuickView::Visualize(bool interact)
   interactor->SetRenderWindow(renderWindow);
 
   // Render all of the images
-  std::vector<double *> viewports;
-
   using ConnectorType = itk::ImageToVTKImageFilter<itk::Image<unsigned char, 2>>;
   using RGBConnectorType = itk::ImageToVTKImageFilter<itk::Image<itk::RGBPixel<unsigned char>, 2>>;
   std::vector<ConnectorType::Pointer>
@@ -247,7 +245,6 @@ QuickView::Visualize(bool interact)
                                (numberOfRows * rendererSize),
                              static_cast<double>(col + 1) * rendererSize / (numberOfColumns * rendererSize),
                              static_cast<double>(numberOfRows - row) * rendererSize / (numberOfRows * rendererSize) };
-      viewports.push_back(viewport);
 
       // Grayscale images
       if (i < this->Images.size())
@@ -267,7 +264,7 @@ QuickView::Visualize(bool interact)
         // Setup renderer
         vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
         renderWindow->AddRenderer(renderer);
-        renderer->SetViewport(viewports[i]);
+        renderer->SetViewport(viewport);
         renderer->SetBackground(background);
         if (m_ShareCamera)
         {
@@ -326,7 +323,7 @@ QuickView::Visualize(bool interact)
         // Setup renderer
         vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
         renderWindow->AddRenderer(renderer);
-        renderer->SetViewport(viewports[i]);
+        renderer->SetViewport(viewport);
         renderer->SetBackground(background);
         if (m_ShareCamera)
         {
@@ -372,7 +369,7 @@ QuickView::Visualize(bool interact)
         // Fill empty viewports
         vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
         renderWindow->AddRenderer(renderer);
-        renderer->SetViewport(viewports[i]);
+        renderer->SetViewport(viewport);
         renderer->SetBackground(background);
         continue;
       }
