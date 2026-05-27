@@ -239,8 +239,8 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet
         }
       }
 
-      // Take only first neighbors in sorted order
-      unsigned int neighbor_count = std::min(neighbors, (unsigned int)neighbor_vect.size());
+      // Use all neighbors that passed the radius filter; FindClosestNPoints already caps the count.
+      unsigned int neighbor_count = static_cast<unsigned int>(neighbor_vect.size());
       for (size_t k = 0; k < neighbor_count; k++)
       {
         for (int j = 0; j < 33; j++)
