@@ -26,10 +26,7 @@ namespace itk
 
 /** \class PointFeature
  *
- * \brief Filters a image by iterating over its pixels.
- *
- * Filters a image by iterating over its pixels in a multi-threaded way
- * and {to be completed by the developer}.
+ * \brief Computes Fast Point Feature Histogram (FPFH) descriptors for a point set.
  *
  * \ingroup Fpfh
  *
