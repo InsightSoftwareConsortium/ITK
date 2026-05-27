@@ -63,14 +63,14 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputePairFeatures(const Vector3
     result[2] = angle1;
   }
 
-  auto   v = itk::CrossProduct(dp2p1, n1_copy);
+  auto   v = CrossProduct(dp2p1, n1_copy);
   double v_norm = v.GetNorm();
   if (v_norm == 0.0)
   {
     return Vector4d();
   }
   v /= v_norm;
-  auto w = itk::CrossProduct(n1_copy, v);
+  auto w = CrossProduct(n1_copy, v);
   result[1] = v * (n2_copy);
   result[0] = std::atan2(w * (n2_copy), n1_copy * (n2_copy));
 
@@ -91,7 +91,7 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet
   unsigned long int   num_of_points = input->GetNumberOfPoints();
   std::vector<double> feature1(33 * num_of_points, 0);
 
-  auto ProcessPoint = [&](itk::SizeValueType i) {
+  auto ProcessPoint = [&](SizeValueType i) {
     auto point = input->GetPoint(i);
     auto normal = input_normals->GetPoint(i);
 
@@ -119,10 +119,10 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet
         }
       }
 
-      unsigned int neighbor_count = std::min(neighbors, (unsigned int)neighbor_vect.size());
+      unsigned int neighbor_count = std::min(neighbors, static_cast<unsigned int>(neighbor_vect.size()));
 
       // only compute SPFH feature when a point has neighbors
-      double hist_incr = 100.0 / (double)neighbor_count;
+      double hist_incr = 100.0 / static_cast<double>(neighbor_count);
       for (size_t k = 0; k < neighbor_count; k++)
       {
         auto point2 = input->GetPoint(neighbor_vect[k].second);
@@ -143,7 +143,7 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet
         Vector4d pair_feature =
           ComputePairFeatures(temp_point_vector1, temp_normal_vector1, temp_point_vector2, temp_normal_vector2);
 
-        int h_index = (int)(std::floor(11 * (pair_feature[0] + itk::Math::pi) / (2.0 * itk::Math::pi)));
+        int h_index = static_cast<int>(std::floor(11 * (pair_feature[0] + Math::pi) / (2.0 * Math::pi)));
         if (h_index < 0)
         {
           h_index = 0;
@@ -155,7 +155,7 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet
         size_t temp_index = h_index * num_of_points + i;
         feature1[temp_index] = hist_incr + feature1[temp_index];
 
-        h_index = (int)(std::floor(11 * (pair_feature[1] + 1.0) * 0.5));
+        h_index = static_cast<int>(std::floor(11 * (pair_feature[1] + 1.0) * 0.5));
         if (h_index < 0)
         {
           h_index = 0;
@@ -167,7 +167,7 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet
         temp_index = (h_index + 11) * num_of_points + i;
         feature1[temp_index] = hist_incr + feature1[temp_index];
 
-        h_index = (int)(std::floor(11 * (pair_feature[2] + 1.0) * 0.5));
+        h_index = static_cast<int>(std::floor(11 * (pair_feature[2] + 1.0) * 0.5));
         if (h_index < 0)
         {
           h_index = 0;
@@ -182,7 +182,7 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet
     }
   };
 
-  itk::MultiThreaderBase::Pointer mt = itk::MultiThreaderBase::New();
+  MultiThreaderBase::Pointer mt = MultiThreaderBase::New();
   mt->ParallelizeArray(0, num_of_points, ProcessPoint, nullptr);
 
   // This is done to optimize the code by avoiding GetElement, SetElement overhead.
@@ -210,7 +210,7 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet
   auto & spfh1 = spfh->CastToSTLContainer();
 
   // Method to perform processing in parallel
-  auto ProcessPoint = [&](itk::SizeValueType i) {
+  auto ProcessPoint = [&](SizeValueType i) {
     auto point = input->GetPoint(i);
 
     typename PointsLocatorType::NeighborsIdentifierType indices;
@@ -267,7 +267,7 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet
     }
   };
 
-  itk::MultiThreaderBase::Pointer mt = itk::MultiThreaderBase::New();
+  MultiThreaderBase::Pointer mt = MultiThreaderBase::New();
   mt->ParallelizeArray(0, num_of_points, ProcessPoint, nullptr);
 
   // This is done to optimize the code by avoiding GetElement, SetElement overhead.

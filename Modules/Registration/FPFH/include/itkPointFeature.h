@@ -57,13 +57,13 @@ public:
 
   using InputPointSetPointsContainerConstPointer = typename TInputPointSet::PointsContainerConstPointer;
   using PointsContainerConstIterator = typename InputPointSetType::PointsContainer::ConstIterator;
-  using Vector3d = typename itk::Vector<double, 3>;
-  using Vector4d = typename itk::Vector<double, 4>;
+  using Vector3d = Vector<double, 3>;
+  using Vector4d = Vector<double, 4>;
 
-  using PointsLocatorType = typename itk::PointsLocator<itk::VectorContainer<PointIdentifier, PointType>>;
+  using PointsLocatorType = PointsLocator<VectorContainer<PointIdentifier, PointType>>;
   using PointsLocatorTypePointer = typename PointsLocatorType::Pointer;
   // using FeatureType = std::vector<double>;
-  using FeatureType = typename itk::VectorContainer<PointIdentifier, double>;
+  using FeatureType = VectorContainer<PointIdentifier, double>;
   using FeatureTypePointer = typename FeatureType::Pointer;
 
   /** Run-time type information. */
