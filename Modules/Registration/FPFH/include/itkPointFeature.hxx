@@ -19,7 +19,7 @@
 #define itkPointFeature_hxx
 
 
-#include "math.h"
+#include <cmath>
 #include "itkPointFeature.h"
 #include "itkMultiThreaderBase.h"
 
@@ -143,7 +143,7 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet
         Vector4d pair_feature =
           ComputePairFeatures(temp_point_vector1, temp_normal_vector1, temp_point_vector2, temp_normal_vector2);
 
-        int h_index = (int)(floor(11 * (pair_feature[0] + itk::Math::pi) / (2.0 * itk::Math::pi)));
+        int h_index = (int)(std::floor(11 * (pair_feature[0] + itk::Math::pi) / (2.0 * itk::Math::pi)));
         if (h_index < 0)
         {
           h_index = 0;
@@ -155,7 +155,7 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet
         unsigned int temp_index = h_index * num_of_points + i;
         feature1[temp_index] = hist_incr + feature1[temp_index];
 
-        h_index = (int)(floor(11 * (pair_feature[1] + 1.0) * 0.5));
+        h_index = (int)(std::floor(11 * (pair_feature[1] + 1.0) * 0.5));
         if (h_index < 0)
         {
           h_index = 0;
@@ -167,7 +167,7 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet
         temp_index = (h_index + 11) * num_of_points + i;
         feature1[temp_index] = hist_incr + feature1[temp_index];
 
-        h_index = (int)(floor(11 * (pair_feature[2] + 1.0) * 0.5));
+        h_index = (int)(std::floor(11 * (pair_feature[2] + 1.0) * 0.5));
         if (h_index < 0)
         {
           h_index = 0;
