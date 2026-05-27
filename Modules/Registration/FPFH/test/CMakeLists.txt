@@ -11,3 +11,7 @@ itk_add_test(
     itkPointFeatureTest
     DATA{Input/WSB_subsampled.vtk}
 )
+
+set(FpfhGTests itkPointFeatureGTest.cxx)
+
+creategoogletestdriver(Fpfh "${Fpfh-Test_LIBRARIES}" "${FpfhGTests}")

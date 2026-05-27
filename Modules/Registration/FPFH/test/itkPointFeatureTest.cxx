@@ -45,22 +45,6 @@ ReadMesh(std::string filename)
   output->DisconnectPipeline();
   return output;
 }
-
-int
-BasicTests()
-{
-  using PixelType = float;
-  using PointSetType = itk::PointSet<PixelType, Dimension>;
-
-  using FilterType = itk::PointFeature<PointSetType, PointSetType>;
-  FilterType::Pointer filter = FilterType::New();
-
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, PointFeature, MeshToMeshFilter);
-
-  std::cout << "Basic tests finished." << std::endl;
-
-  return EXIT_SUCCESS;
-}
 } // namespace
 
 int
@@ -72,8 +56,7 @@ itkPointFeatureTest(int argc, char * argv[])
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputMesh";
     std::cerr << std::endl;
-    std::cout << "Running basic tests only." << std::endl;
-    return BasicTests();
+    return EXIT_FAILURE;
   }
 
   MeshType::Pointer points = ReadMesh(argv[1]);
