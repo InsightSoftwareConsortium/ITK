@@ -220,7 +220,7 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet
     {
       double sum[3] = { 0.0, 0.0, 0.0 };
 
-      std::vector<std::pair<float, int>> neighbor_vect;
+      std::vector<std::pair<double, int>> neighbor_vect;
       neighbor_vect.reserve(indices.size());
 
       for (size_t k = 0; k < indices.size(); k++)
