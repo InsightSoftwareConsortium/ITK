@@ -91,7 +91,7 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet
   unsigned long int   num_of_points = input->GetNumberOfPoints();
   std::vector<double> feature1(33 * num_of_points, 0);
 
-  auto ProcessPoint = [&](int i) {
+  auto ProcessPoint = [&](itk::SizeValueType i) {
     auto point = input->GetPoint(i);
     auto normal = input_normals->GetPoint(i);
 
@@ -152,7 +152,7 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet
         {
           h_index = 10;
         }
-        unsigned int temp_index = h_index * num_of_points + i;
+        size_t temp_index = h_index * num_of_points + i;
         feature1[temp_index] = hist_incr + feature1[temp_index];
 
         h_index = (int)(std::floor(11 * (pair_feature[1] + 1.0) * 0.5));
@@ -210,7 +210,7 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet
   auto & spfh1 = spfh->CastToSTLContainer();
 
   // Method to perform processing in parallel
-  auto ProcessPoint = [&](int i) {
+  auto ProcessPoint = [&](itk::SizeValueType i) {
     auto point = input->GetPoint(i);
 
     typename PointsLocatorType::NeighborsIdentifierType indices;
