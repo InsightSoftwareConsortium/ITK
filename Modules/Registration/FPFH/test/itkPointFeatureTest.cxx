@@ -109,13 +109,14 @@ itkPointFeatureTest(int argc, char * argv[])
   using FilterType = itk::PointFeature<MeshType, MeshType>;
   FilterType::Pointer fpfh = FilterType::New();
   fpfh->ComputeFPFHFeature(points, normals, 2.4219912533797725, 100);
-  auto result = fpfh->GetFpfhFeature();
-  auto resultSTL = result->CastToSTLConstContainer();
+  auto       result = fpfh->GetFpfhFeature();
+  auto       resultSTL = result->CastToSTLConstContainer();
+  const auto numberOfPoints = points->GetNumberOfPoints();
   for (i = 0; i < numDebugPoints; ++i)
   {
     std::cout << "FPFH Feature for point " << i << ":";
     for (unsigned k = 0; k < 33; ++k)
-      std::cout << ' ' << resultSTL[i * 33 + k];
+      std::cout << ' ' << resultSTL[k * numberOfPoints + i];
     std::cout << std::endl;
   }
 
