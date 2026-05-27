@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include <cmath>
+
 #include "itkPointFeature.h"
 #include "itkPointSet.h"
 #include "itkTestingMacros.h"
@@ -109,15 +111,31 @@ itkPointFeatureTest(int argc, char * argv[])
   using FilterType = itk::PointFeature<MeshType, MeshType>;
   FilterType::Pointer fpfh = FilterType::New();
   fpfh->ComputeFPFHFeature(points, normals, 2.4219912533797725, 100);
-  auto       result = fpfh->GetFpfhFeature();
+  auto result = fpfh->GetFpfhFeature();
+  ITK_TEST_EXPECT_TRUE(result != nullptr);
+
   auto       resultSTL = result->CastToSTLConstContainer();
   const auto numberOfPoints = points->GetNumberOfPoints();
+
+  // The feature buffer holds 33 histogram bins per input point.
+  ITK_TEST_EXPECT_EQUAL(resultSTL.size(), 33 * numberOfPoints);
+
   for (i = 0; i < numDebugPoints; ++i)
   {
     std::cout << "FPFH Feature for point " << i << ":";
     for (unsigned k = 0; k < 33; ++k)
       std::cout << ' ' << resultSTL[k * numberOfPoints + i];
     std::cout << std::endl;
+  }
+
+  // Every descriptor entry must be a finite, non-negative histogram weight.
+  for (const double value : resultSTL)
+  {
+    if (!std::isfinite(value) || value < 0.0)
+    {
+      std::cerr << "Test failed: FPFH feature contains an invalid value: " << value << std::endl;
+      return EXIT_FAILURE;
+    }
   }
 
   return EXIT_SUCCESS;
