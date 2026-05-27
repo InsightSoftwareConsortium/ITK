@@ -18,7 +18,8 @@ itk_module(
     ITKTestKernel
     ITKMetaIO
     ITKIOMeshBase
-  DESCRIPTION "Module ingested from upstream."
+  DESCRIPTION
+    "Fast Point Feature Histogram (FPFH) descriptors for point-set registration."
   EXCLUDE_FROM_DEFAULT
   ENABLE_SHARED
 )
