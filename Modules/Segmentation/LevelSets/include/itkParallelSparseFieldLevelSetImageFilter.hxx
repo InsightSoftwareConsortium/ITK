@@ -125,6 +125,9 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ParallelSpars
   , m_IsoSurfaceValue(m_ValueZero)
 {
   this->SetRMSChange(static_cast<double>(m_ValueOne));
+  // Neighbor-blocking inter-phase sync requires a dedicated OS thread per work unit.
+  this->DynamicMultiThreadingOff();
+  this->SetMultiThreader(PlatformMultiThreader::New());
 }
 
 template <typename TInputImage, typename TOutputImage>
