@@ -20,6 +20,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <cctype>
 #include <string>
 
 #include <itkImage.h>
@@ -198,7 +199,10 @@ public:
   SetSnapshotExtension(const std::string & iExtension)
   {
     m_SnapshotExtension = iExtension;
-    std::transform(m_SnapshotExtension.begin(), m_SnapshotExtension.end(), m_SnapshotExtension.begin(), ::tolower);
+    std::transform(m_SnapshotExtension.begin(),
+                   m_SnapshotExtension.end(),
+                   m_SnapshotExtension.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
   }
 
   /** Set the number of columns, default 4.*/
