@@ -217,7 +217,7 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetDer
   const TransformParametersType & itkNotUsed(parameters),
   DerivativeType &                itkNotUsed(derivative)) const
 {
-  // under construction
+  itkExceptionMacro("GetDerivative is not implemented for this metric; use a non-derivative optimizer.");
 }
 
 
@@ -228,7 +228,7 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetVal
   MeasureType &                   itkNotUsed(value),
   DerivativeType &                itkNotUsed(derivative)) const
 {
-  // under construction
+  itkExceptionMacro("GetValueAndDerivative is not implemented for this metric; use a non-derivative optimizer.");
 }
 
 
