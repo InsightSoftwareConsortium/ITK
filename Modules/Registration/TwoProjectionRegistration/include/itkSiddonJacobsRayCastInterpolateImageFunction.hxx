@@ -74,8 +74,6 @@ SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::SiddonJacob
   // constant for converting degrees into radians
   const float dtr = (atan(1.0) * 4.0) / 180.0;
   m_CamRotTransform->SetRotation(dtr * (-90.0), 0.0, 0.0);
-
-  m_Threshold = 0;
 }
 
 
