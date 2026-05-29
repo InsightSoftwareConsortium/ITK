@@ -5,6 +5,7 @@ set(
   itkImageToPointSetFilterTest.cxx
   itkMeshToPolyDataFilterTest.cxx
   itkMeshToPolyDataFilterCellDataTest.cxx
+  itkMeshToPolyDataFilterLinePolyLineCellDataTest.cxx
   itkPolyDataTest.cxx
   itkPolyDataToMeshFilterTest.cxx
 )
@@ -25,6 +26,13 @@ itk_add_test(
   COMMAND
     MeshToPolyDataTestDriver
     itkMeshToPolyDataFilterCellDataTest
+)
+
+itk_add_test(
+  NAME itkMeshToPolyDataFilterLinePolyLineCellDataTest
+  COMMAND
+    MeshToPolyDataTestDriver
+    itkMeshToPolyDataFilterLinePolyLineCellDataTest
 )
 
 itk_add_test(

@@ -465,6 +465,8 @@ MeshToPolyDataFilter<TInputMesh>::GenerateDataDispatch()
   verticesCellIds->reserve(numberOfCells / 4 + 1);
   typename CellsContainerType::Pointer linesCellIds = CellsContainerType::New();
   linesCellIds->reserve(numberOfCells / 4 + 1);
+  typename CellsContainerType::Pointer polylinesCellIds = CellsContainerType::New();
+  polylinesCellIds->reserve(numberOfCells / 4 + 1);
   typename CellsContainerType::Pointer polygonsCellIds = CellsContainerType::New();
   polygonsCellIds->reserve(numberOfCells / 4 + 1);
   // typename CellsContainerType::Pointer triangleStripsCellIds = CellsContainerType::New();
@@ -501,7 +503,7 @@ MeshToPolyDataFilter<TInputMesh>::GenerateDataDispatch()
   polyLineVisitor->SetPolygons(polygons);
   // lineVisitor->SetTriangleStrips( triangleStrips );
   polyLineVisitor->SetVerticesCellIds(verticesCellIds);
-  polyLineVisitor->SetLinesCellIds(linesCellIds);
+  polyLineVisitor->SetLinesCellIds(polylinesCellIds);
   polyLineVisitor->SetPolygonsCellIds(polygonsCellIds);
   // lineVisitor->SetTriangleStripsCellIds( triangleStripsCellIds );
 
@@ -637,6 +639,17 @@ MeshToPolyDataFilter<TInputMesh>::GenerateDataDispatch()
       if (inputCellData->GetElementIfIndexExists(verticesCellIds->ElementAt(ii), &value))
       {
         outputCellData->InsertElement(ii, value);
+      }
+    }
+    offset += size;
+    // Must match the polylines-then-lines output merge order above.
+    size = polylinesCellIds->Size();
+    for (SizeValueType ii = 0; ii < size; ++ii)
+    {
+      typename CellDataContainerType::Element value;
+      if (inputCellData->GetElementIfIndexExists(polylinesCellIds->ElementAt(ii), &value))
+      {
+        outputCellData->InsertElement(offset + ii, value);
       }
     }
     offset += size;
