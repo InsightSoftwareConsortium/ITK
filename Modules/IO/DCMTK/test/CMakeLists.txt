@@ -41,8 +41,6 @@ if(NOT ITK_USE_SYSTEM_DCMTK)
     dcmjpeg
     dcmjpls
     dcmnet
-    dcmwlm
-    dcmrt
     dcmiod
     dcmfg
     dcmseg
