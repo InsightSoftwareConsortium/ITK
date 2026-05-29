@@ -340,7 +340,7 @@ TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::SetFixedImage2(
     this->m_FixedImage2 = fixedImage2;
 
     // Process object is not const-correct so the const_cast is required here
-    this->ProcessObject::SetNthInput(0, const_cast<FixedImageType *>(fixedImage2));
+    this->ProcessObject::SetNthInput(1, const_cast<FixedImageType *>(fixedImage2));
 
     this->Modified();
   }
@@ -358,7 +358,7 @@ TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::SetMovingImage(
     this->m_MovingImage = movingImage;
 
     // Process object is not const-correct so the const_cast is required here
-    this->ProcessObject::SetNthInput(1, const_cast<MovingImageType *>(movingImage));
+    this->ProcessObject::SetNthInput(2, const_cast<MovingImageType *>(movingImage));
 
     this->Modified();
   }
