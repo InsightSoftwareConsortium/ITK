@@ -265,7 +265,7 @@ public:
     IndexType indR(m_Image->GetBufferedRegion().GetIndex());
 
     indR[0] += m_Index0;
-    typename BufferType::IndexType bufInd = m_BI.GetIndex();
+    typename BufferType::IndexType bufInd = m_BI.ComputeIndex();
     for (IndexValueType i = 1; i < VImageDimension; i++)
     {
       indR[i] = bufInd[i - 1];
