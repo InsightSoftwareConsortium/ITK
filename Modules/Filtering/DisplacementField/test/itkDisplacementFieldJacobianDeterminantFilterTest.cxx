@@ -169,8 +169,8 @@ TestDisplacementJacobianDeterminantValue()
   auto displacementFieldPermuted = permute->GetOutput();
 
   // Adjust direction to match permutation
-  itk::Matrix<double, 2, 2> origDir = displacementField->GetDirection();
-  itk::Matrix<double, 2, 2> newDirPermute;
+  FieldType::DirectionType origDir = displacementField->GetDirection();
+  FieldType::DirectionType newDirPermute;
   newDirPermute[0][0] = origDir[1][0];
   newDirPermute[0][1] = origDir[1][1];
   newDirPermute[1][0] = origDir[0][0];
@@ -196,11 +196,11 @@ TestDisplacementJacobianDeterminantValue()
   auto displacementFieldFlip = flip->GetOutput();
 
   // Adjust direction to compensate flip
-  itk::Matrix<double, 2, 2> flipMat;
+  FieldType::DirectionType flipMat;
   flipMat.SetIdentity();
   flipMat[0][0] = -1.0;
 
-  itk::Matrix<double, 2, 2> newDirFlip = flipMat * displacementField->GetDirection();
+  FieldType::DirectionType newDirFlip = flipMat * displacementField->GetDirection();
 
   displacementFieldFlip->SetDirection(newDirFlip);
 
