@@ -172,8 +172,10 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
 {
   auto *    globalData = (GlobalDataStruct *)gd;
   PixelType update{};
-  IndexType FirstIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex();
-  IndexType LastIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex() +
+  NumericTraits<PixelType>::SetLength(update, ImageDimension);
+  const unsigned int numberOfUpdateComponents = NumericTraits<PixelType>::GetLength(update);
+  IndexType          FirstIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex();
+  IndexType          LastIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex() +
                         this->GetFixedImage()->GetLargestPossibleRegion().GetSize();
 
   const IndexType index = it.GetIndex();
@@ -325,7 +327,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
   {
     PointType mappedPoint{};
     this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
-    for (unsigned int j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < numberOfUpdateComponents; ++j)
     {
       mappedPoint[j] += it.GetCenterPixel()[j];
     }
@@ -365,7 +367,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
     {
       const double factor = 2.0 * speedValue / denom;
 
-      for (unsigned int j = 0; j < ImageDimension; ++j)
+      for (unsigned int j = 0; j < numberOfUpdateComponents; ++j)
       {
         update[j] = factor * usedGradientTimes2[j];
       }
