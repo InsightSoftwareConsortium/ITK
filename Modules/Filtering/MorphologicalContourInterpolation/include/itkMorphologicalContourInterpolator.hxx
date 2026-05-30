@@ -876,7 +876,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
       auto                       res = std::find(jRegionIds.begin(), jRegionIds.end(), jVal);
       if (res != jRegionIds.end())
       {
-        blobs[res - jRegionIds.begin()]->SetPixel(maskIt.GetIndex(), true);
+        blobs[res - jRegionIds.begin()]->SetPixel(maskIt.ComputeIndex(), true);
         belongInit.Set(res - jRegionIds.begin() + 1);
       }
     }

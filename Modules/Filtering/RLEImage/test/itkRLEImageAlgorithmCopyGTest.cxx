@@ -57,7 +57,7 @@ TEST(RLEImageAlgorithmCopy, FromRLEToImage)
 
   for (itk::ImageRegionConstIterator<ImageType> it(dst, region); !it.IsAtEnd(); ++it)
   {
-    ASSERT_EQ(it.Get(), 7) << "Mismatch at " << it.GetIndex();
+    ASSERT_EQ(it.Get(), 7) << "Mismatch at " << it.ComputeIndex();
   }
 }
 
