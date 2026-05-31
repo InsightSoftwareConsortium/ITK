@@ -98,7 +98,6 @@ set(
   itkVNLRoundProfileTest1.cxx
   itkMemoryProbesCollecterBaseTest.cxx
   itkImageAlgorithmCopyTest.cxx
-  itkImageAlgorithmCopyTest2.cxx
   itkConstantBoundaryConditionTest.cxx
   itkDataObjectAndProcessObjectTest.cxx
   itkOptimizerParametersTest.cxx
@@ -1125,12 +1124,6 @@ itk_add_test(
     itkImageAlgorithmCopyTest
 )
 itk_add_test(
-  NAME itkImageAlgorithmCopyTest2
-  COMMAND
-    ITKCommon2TestDriver
-    itkImageAlgorithmCopyTest2
-)
-itk_add_test(
   NAME itkOptimizerParametersTest
   COMMAND
     ITKCommon2TestDriver
@@ -1396,6 +1389,7 @@ set(
   itkHashTableGTest.cxx
   itkHeavisideStepFunctionGTest.cxx
   itkImageAdaptorPipeLineGTest.cxx
+  itkImageAlgorithmCopyGTest2.cxx
   itkImageBaseGTest.cxx
   itkImageBufferRangeGTest.cxx
   itkImageGTest.cxx
