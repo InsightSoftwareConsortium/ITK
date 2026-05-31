@@ -35,6 +35,12 @@ set(
 createtestdriver(ITKQuadEdgeMesh "${ITKQuadEdgeMesh-Test_LIBRARIES}" "${ITKQuadEdgeMeshTests}")
 
 itk_add_test(
+  NAME itkQuadEdgeMeshBasicLayerTest
+  COMMAND
+    ITKQuadEdgeMeshTestDriver
+    itkQuadEdgeMeshBasicLayerTest
+)
+itk_add_test(
   NAME itkQuadEdgeMeshPointTest1
   COMMAND
     ITKQuadEdgeMeshTestDriver
