@@ -19,6 +19,7 @@
 #define itkQuadEdgeMeshBaseIterator_h
 
 #include "itkMacro.h"
+#include "itkIntTypes.h"
 
 // -------------------------------------------------------------------------
 #define itkQEDefineIteratorMethodsMacro(Op)                                                                        \
@@ -104,6 +105,8 @@ public:
       m_Iterator = r.m_Iterator;
       m_OpType = r.m_OpType;
       m_Start = r.m_Start;
+      m_NumberOfSteps = r.m_NumberOfSteps;
+      m_MaximumNumberOfSteps = r.m_MaximumNumberOfSteps;
     }
     return *this;
   }
@@ -129,6 +132,22 @@ public:
     return m_Start;
   }
 
+  /** Maximum number of steps before iteration is judged non-terminating.
+   * A valid Onext / Lnext / Sym / ... ring returns to the start edge, so it
+   * always terminates well below the (deliberately huge) default. A malformed
+   * (non-closing) ring would otherwise loop forever; the iterator throws once
+   * this bound is crossed. See InsightSoftwareConsortium/ITK#6372. */
+  void
+  SetMaximumNumberOfSteps(itk::SizeValueType maxSteps)
+  {
+    m_MaximumNumberOfSteps = maxSteps;
+  }
+  [[nodiscard]] itk::SizeValueType
+  GetMaximumNumberOfSteps() const
+  {
+    return m_MaximumNumberOfSteps;
+  }
+
   /** Iteration methods. */
   bool
   operator==(const Self & r) const
@@ -146,6 +165,7 @@ public:
     {
       this->GoToNext();
       m_Start = !(m_Iterator == m_StartEdge);
+      this->CheckRingClosure();
     }
 
     return *this;
@@ -158,11 +178,24 @@ public:
     {
       this->GoToNext();
       m_Start = !(m_Iterator == m_StartEdge);
+      this->CheckRingClosure();
     }
     return *this;
   }
 
 protected:
+  void
+  CheckRingClosure()
+  {
+    if (m_Start && ++m_NumberOfSteps > m_MaximumNumberOfSteps)
+    {
+      itkGenericExceptionMacro("QuadEdgeMesh ring iterator took more than "
+                               << m_MaximumNumberOfSteps
+                               << " steps without returning to its start edge; the underlying quad-edge ring does "
+                                  "not close (malformed/inconsistent connectivity).");
+    }
+  }
+
   /** Method that should do all the iteration work. */
   virtual void
   GoToNext()
@@ -214,10 +247,12 @@ protected:
   }
 
 protected:
-  QuadEdgeType * m_StartEdge{}; /**< Start edge */
-  QuadEdgeType * m_Iterator{};  /**< Current iteration position */
-  int            m_OpType{};    /**< Operation type */
-  bool           m_Start{};     /**< Indicates iteration has just started */
+  QuadEdgeType *     m_StartEdge{};                       /**< Start edge */
+  QuadEdgeType *     m_Iterator{};                        /**< Current iteration position */
+  int                m_OpType{};                          /**< Operation type */
+  bool               m_Start{};                           /**< Indicates iteration has just started */
+  itk::SizeValueType m_NumberOfSteps{};                   /**< Steps taken; guards against non-closing rings */
+  itk::SizeValueType m_MaximumNumberOfSteps{ 100000000 }; /**< Non-closing-ring guard threshold (1e8) */
 };
 
 /**
