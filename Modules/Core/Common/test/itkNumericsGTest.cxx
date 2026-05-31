@@ -15,10 +15,13 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "itkGTest.h"
 #include <iostream>
 
 #include "vnl/algo/vnl_svd.h"
 
+namespace
+{
 template <typename T>
 void
 print_vnl_matrix(T & mat)
@@ -65,9 +68,9 @@ test_svd()
   print_vnl_matrix(result);
   return 0;
 }
+} // namespace
 
-int
-itkNumericsTest(int, char *[])
+TEST(Numerics, ConvertedLegacyTest)
 {
   test_svd();
   double             data[] = { 1, 1, 1, 1, 2, 3, 1, 3, 6 };
@@ -81,6 +84,4 @@ itkNumericsTest(int, char *[])
     }
     std::cout << std::endl;
   }
-
-  return 0;
 }

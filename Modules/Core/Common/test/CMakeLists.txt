@@ -33,7 +33,6 @@ set(
   itkNeighborhoodAlgorithmTest.cxx
   itkNeighborhoodOperatorTest.cxx
   itkNumberToStringTest.cxx
-  itkNumericsTest.cxx
   itkNumericTraitsTest.cxx
   itkObjectFactoryTest.cxx
   itkObjectStoreTest.cxx
@@ -862,12 +861,6 @@ itk_add_test(
     itkNeighborhoodOperatorTest
 )
 itk_add_test(
-  NAME itkNumericsTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkNumericsTest
-)
-itk_add_test(
   NAME itkNumericTraitsTest
   COMMAND
     ITKCommon1TestDriver
@@ -1414,6 +1407,7 @@ set(
   itkNeighborhoodIteratorsGTest.cxx
   itkNumberToStringGTest.cxx
   itkNumericLocaleGTest.cxx
+  itkNumericsGTest.cxx
   itkObjectFactoryBaseGTest.cxx
   itkOffsetGTest.cxx
   itkOptimizerParametersGTest.cxx
