@@ -16,10 +16,9 @@
  *
  *=========================================================================*/
 
-#include "itkOptimizerParameters.h"
 #include "itkImageVectorOptimizerParametersHelper.h"
-#include "itkTestingMacros.h"
-#include "itkMath.h"
+#include "itkOptimizerParameters.h"
+#include "itkGTest.h"
 
 namespace
 {
@@ -38,11 +37,9 @@ using OptimizerParametersType = itk::OptimizerParameters<ValueType>;
 using ImageVectorOptimizerParametersHelperType =
   itk::ImageVectorOptimizerParametersHelper<ValueType, VectorDimension, ImageDimension>;
 
-int
+void
 testMemoryAccess(OptimizerParametersType & params, ImageVectorPointer imageOfVectors, itk::SizeValueType dimLength)
 {
-  int result = EXIT_SUCCESS;
-
   for (itk::SizeValueType y = 0; y < dimLength; ++y)
   {
     for (itk::SizeValueType x = 0; x < dimLength; ++x)
@@ -58,25 +55,17 @@ testMemoryAccess(OptimizerParametersType & params, ImageVectorPointer imageOfVec
       for (itk::SizeValueType ind = 0; ind < VectorDimension; ++ind)
       {
         const ValueType paramsValue = params[offset + ind];
-        if (itk::Math::NotExactlyEquals(vectorpixel[ind], paramsValue))
-        {
-          std::cout << "VectorImage pixel value does not match params value."
-                    << "vectorpixel[" << ind << "]: " << vectorpixel[ind] << std::endl
-                    << "params[" << offset + ind << "]: " << paramsValue << std::endl;
-          result = EXIT_FAILURE;
-        }
+        EXPECT_EQ(vectorpixel[ind], paramsValue);
       }
     }
   }
-  return result;
 }
 
 } // namespace
 
 /******************************************************/
 
-int
-itkImageVectorOptimizerParametersHelperTest(int, char *[])
+TEST(ImageVectorOptimizerParametersHelper, ConvertedLegacyTest)
 {
   constexpr int dimLength{ 3 };
   auto          size = itk::MakeFilled<SizeType>(dimLength);
@@ -109,10 +98,7 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
       VectorPixelType & vectorpixel = imageOfVectors->GetPixel(index);
       vectorpixel.Fill(value);
       vectorpixel += vectorvalues;
-
-      std::cout << value << ' ';
     }
-    std::cout << std::endl;
   }
 
   // Create a parameter object and assign the ImageVector helper.
@@ -125,7 +111,7 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
   // to the image data.
   params.SetParametersObject(imageOfVectors);
 
-  const int result = testMemoryAccess(params, imageOfVectors, dimLength);
+  testMemoryAccess(params, imageOfVectors, dimLength);
 
   // Test MoveDataPointer
   itk::Array<ValueType> array(imageOfVectors->GetPixelContainer()->Size(), 1.23);
@@ -133,12 +119,10 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
 
   // Test null image pointer
   params.SetParametersObject(nullptr);
-  ITK_TRY_EXPECT_EXCEPTION(params.MoveDataPointer(array.data_block()));
+  EXPECT_THROW(params.MoveDataPointer(array.data_block()), itk::ExceptionObject);
 
   // Test setting an image of wrong type
   using BadImageType = itk::Image<signed char, 2>;
   auto badImage = BadImageType::New();
-  ITK_TRY_EXPECT_EXCEPTION(params.SetParametersObject(badImage));
-
-  return result;
+  EXPECT_THROW(params.SetParametersObject(badImage), itk::ExceptionObject);
 }
