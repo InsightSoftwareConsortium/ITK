@@ -87,7 +87,6 @@ set(
   itkConstShapedNeighborhoodIteratorTest2.cxx
   itkLoggerOutputTest.cxx
   itkNeighborhoodTest.cxx
-  itkVersorTest.cxx
   itkObjectFactoryTest2.cxx
   itkObjectFactoryTest3.cxx
   itkObjectFactoryOnlyNewTest.cxx
@@ -998,12 +997,6 @@ itk_add_test(
     itkTimeProbesTest
 )
 itk_add_test(
-  NAME itkVersorTest
-  COMMAND
-    ITKCommon2TestDriver
-    itkVersorTest
-)
-itk_add_test(
   NAME itkSymmetricSecondRankTensorImageReadTest
   COMMAND
     ITKCommon1TestDriver
@@ -1480,6 +1473,7 @@ set(
   itkVectorContainerGTest.cxx
   itkVectorGTest.cxx
   itkVersionGTest.cxx
+  itkVersorGTest.cxx
   itkWeakPointerGTest.cxx
   itkZeroFluxBoundaryConditionGTest.cxx
   VNLSparseLUSolverTraitsGTest.cxx
