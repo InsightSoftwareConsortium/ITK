@@ -22,19 +22,11 @@
 #include "itkLevelSetEquationChanAndVeseInternalTerm.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
-#include "itkTestingMacros.h"
+#include <iostream>
 
 int
-itkLevelSetEquationChanAndVeseInternalTermTest(int argc, char * argv[])
+itkLevelSetEquationChanAndVeseInternalTermTest(int, char *[])
 {
-
-  if (argc < 2)
-  {
-    std::cerr << "Missing Arguments" << std::endl;
-    std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << std::endl;
-    return EXIT_FAILURE;
-  }
-
   constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = unsigned short;

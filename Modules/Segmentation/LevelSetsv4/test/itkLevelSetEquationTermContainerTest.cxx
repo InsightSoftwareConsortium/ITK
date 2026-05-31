@@ -25,15 +25,8 @@
 #include "itkTestingMacros.h"
 
 int
-itkLevelSetEquationTermContainerTest(int argc, char * argv[])
+itkLevelSetEquationTermContainerTest(int, char *[])
 {
-  if (argc < 2)
-  {
-    std::cerr << "Missing Arguments" << std::endl;
-    std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << std::endl;
-    return EXIT_FAILURE;
-  }
-
   constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = unsigned short;

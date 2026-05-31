@@ -73,14 +73,12 @@ itk_add_test(
   COMMAND
     ITKLevelSetsv4TestDriver
     itkLevelSetEquationChanAndVeseInternalTermTest
-    DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
 )
 itk_add_test(
   NAME itkLevelSetsv4EquationTermContainerTest
   COMMAND
     ITKLevelSetsv4TestDriver
     itkLevelSetEquationTermContainerTest
-    DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
 )
 itk_add_test(
   NAME itkLevelSetsv4DenseImageBaseTest
