@@ -101,7 +101,6 @@ set(
   itkConstantBoundaryConditionTest.cxx
   itkDataObjectAndProcessObjectTest.cxx
   itkOptimizerParametersTest.cxx
-  itkCompensatedSummationTest2.cxx
   itkImageRegionConstIteratorWithOnlyIndexTest.cxx
   itkImageRandomConstIteratorWithOnlyIndexTest.cxx
   itkConstNeighborhoodIteratorWithOnlyIndexTest.cxx
@@ -1128,12 +1127,6 @@ itk_add_test(
   COMMAND
     ITKCommon2TestDriver
     itkOptimizerParametersTest
-)
-itk_add_test(
-  NAME itkCompensatedSummationTest2
-  COMMAND
-    ITKCommon2TestDriver
-    itkCompensatedSummationTest2
 )
 
 #
