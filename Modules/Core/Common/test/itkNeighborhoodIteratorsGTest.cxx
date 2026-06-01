@@ -30,7 +30,7 @@
 
 namespace
 {
-template <template <typename> typename TIteratorTemplate, typename TImage>
+template <template <typename...> typename TIteratorTemplate, typename TImage>
 void
 CheckIteratorSupportsClassTemplateArgumentDeduction()
 {
@@ -42,7 +42,7 @@ CheckIteratorSupportsClassTemplateArgumentDeduction()
 }
 
 
-template <template <typename> typename TIteratorTemplate, typename TImage>
+template <template <typename...> typename TIteratorTemplate, typename TImage>
 void
 CheckConstIteratorSupportsClassTemplateArgumentDeduction()
 {
@@ -54,7 +54,7 @@ CheckConstIteratorSupportsClassTemplateArgumentDeduction()
 }
 
 
-template <template <typename> typename... TIteratorTemplate>
+template <template <typename...> typename... TIteratorTemplate>
 void
 CheckIteratorsSupportClassTemplateArgumentDeduction()
 {
@@ -63,7 +63,7 @@ CheckIteratorsSupportClassTemplateArgumentDeduction()
 }
 
 
-template <template <typename> typename... TIteratorTemplate>
+template <template <typename...> typename... TIteratorTemplate>
 void
 CheckConstIteratorsSupportClassTemplateArgumentDeduction()
 {
