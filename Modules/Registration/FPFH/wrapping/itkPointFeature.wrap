@@ -1,0 +1,10 @@
+itk_wrap_include("itkMesh.h")
+itk_wrap_include("itkDefaultStaticMeshTraits.h")
+
+itk_wrap_class("itk::PointFeature" POINTER_WITH_2_SUPERCLASSES)
+foreach(t ${WRAP_ITK_REAL})
+  itk_wrap_template("M${ITKM_${t}}3M${ITKM_${t}}3"
+      "itk::PointSet< ${ITKT_${t}},3 >, itk::PointSet< ${ITKT_${t}},3 >"
+  )
+endforeach()
+itk_end_wrap_class()
