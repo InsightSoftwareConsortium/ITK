@@ -42,7 +42,7 @@ public:
     e1->SetOnext(e1);
     e2->SetOnext(e4);
     e3->SetOnext(e3);
-    e4->SetOnext(e4);
+    e4->SetOnext(e2); // dual quadrants form the e2<->e4 2-cycle (Guibas-Stolfi MakeEdge)
 
     return e1;
   }
