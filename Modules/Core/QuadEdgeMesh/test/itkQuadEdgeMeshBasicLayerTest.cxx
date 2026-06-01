@@ -42,7 +42,7 @@ public:
     e1->SetOnext(e1);
     e2->SetOnext(e4);
     e3->SetOnext(e3);
-    e4->SetOnext(e4);
+    e4->SetOnext(e2); // dual quadrants form the e2<->e4 2-cycle (Guibas-Stolfi MakeEdge)
 
     return e1;
   }
@@ -57,9 +57,9 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
 
   //////////////////////////////////////////////////////////
   std::cout << "Creating edges" << std::endl;
-  for (auto & i : e)
   {
-    i = new PrimalType;
+    PrimalType defaultConstructed; // default-ctor smoke test; real edges built below
+    (void)defaultConstructed;
   }
   std::cout << "Passed" << std::endl;
 
@@ -228,6 +228,15 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
     }
   }
   std::cout << "Passed" << std::endl;
+
+  // Free the five quad-edges; each owns a four-element Rot ring.
+  for (auto & i : e)
+  {
+    delete i->GetRot()->GetRot()->GetRot();
+    delete i->GetRot()->GetRot();
+    delete i->GetRot();
+    delete i;
+  }
 
   return EXIT_SUCCESS;
 }
