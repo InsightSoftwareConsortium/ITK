@@ -570,9 +570,11 @@ bool JPEGTurboCodec::DecodeByStreams(std::istream &is, std::ostream &os)
 
   jpeg_destroy_decompress(&cinfo);
 
-  if (jerr.pub.num_warnings > 1) {
-    gdcmErrorMacro("Too many warnings during decompression: " << jerr.pub.num_warnings);
-    return false;
+  if (jerr.pub.num_warnings > 0) {
+    // In DICOM, each JPEG fragment stream ends at EOF which causes a benign
+    // "Premature end of JPEG file" warning.  Since jpeg_finish_decompress
+    // already returned TRUE, the data was decoded successfully.
+    gdcmWarningMacro("Warnings during decompression: " << jerr.pub.num_warnings);
   }
   Internals->StateSuspension = 0;
   return true;
@@ -615,28 +617,54 @@ bool JPEGTurboCodec::InternalCode(const char *input, unsigned long len, std::ost
   cinfo.image_width = image_width;
   cinfo.image_height = image_height;
 
-  switch (this->GetPhotometricInterpretation()) {
-  case PhotometricInterpretation::MONOCHROME1:
-  case PhotometricInterpretation::MONOCHROME2:
-  case PhotometricInterpretation::PALETTE_COLOR:
-    cinfo.input_components = 1;
-    cinfo.in_color_space = JCS_GRAYSCALE;
-    break;
-  case PhotometricInterpretation::RGB:
-  case PhotometricInterpretation::YBR_RCT:
-  case PhotometricInterpretation::YBR_ICT:
-    cinfo.input_components = 3;
-    cinfo.in_color_space = JCS_RGB;
-    break;
-  case PhotometricInterpretation::YBR_FULL:
-  case PhotometricInterpretation::YBR_FULL_422:
-  case PhotometricInterpretation::YBR_PARTIAL_420:
-  case PhotometricInterpretation::YBR_PARTIAL_422:
-    cinfo.input_components = 3;
-    cinfo.in_color_space = JCS_YCbCr;
-    break;
-  default:
-    return false;
+  if (!LossyFlag) {
+    // For lossless JPEG, use JCS_UNKNOWN to prevent libjpeg-turbo from
+    // applying any color space semantics (subsampling defaults, Huffman
+    // table assignment by luminance/chrominance, etc.). DICOM lossless
+    // JPEG stores raw sample values without color conversion.
+    switch (this->GetPhotometricInterpretation()) {
+    case PhotometricInterpretation::MONOCHROME1:
+    case PhotometricInterpretation::MONOCHROME2:
+    case PhotometricInterpretation::PALETTE_COLOR:
+      cinfo.input_components = 1;
+      break;
+    case PhotometricInterpretation::RGB:
+    case PhotometricInterpretation::YBR_RCT:
+    case PhotometricInterpretation::YBR_ICT:
+    case PhotometricInterpretation::YBR_FULL:
+    case PhotometricInterpretation::YBR_FULL_422:
+    case PhotometricInterpretation::YBR_PARTIAL_420:
+    case PhotometricInterpretation::YBR_PARTIAL_422:
+      cinfo.input_components = 3;
+      break;
+    default:
+      return false;
+    }
+    cinfo.in_color_space = JCS_UNKNOWN;
+  } else {
+    switch (this->GetPhotometricInterpretation()) {
+    case PhotometricInterpretation::MONOCHROME1:
+    case PhotometricInterpretation::MONOCHROME2:
+    case PhotometricInterpretation::PALETTE_COLOR:
+      cinfo.input_components = 1;
+      cinfo.in_color_space = JCS_GRAYSCALE;
+      break;
+    case PhotometricInterpretation::RGB:
+    case PhotometricInterpretation::YBR_RCT:
+    case PhotometricInterpretation::YBR_ICT:
+      cinfo.input_components = 3;
+      cinfo.in_color_space = JCS_RGB;
+      break;
+    case PhotometricInterpretation::YBR_FULL:
+    case PhotometricInterpretation::YBR_FULL_422:
+    case PhotometricInterpretation::YBR_PARTIAL_420:
+    case PhotometricInterpretation::YBR_PARTIAL_422:
+      cinfo.input_components = 3;
+      cinfo.in_color_space = JCS_YCbCr;
+      break;
+    default:
+      return false;
+    }
   }
 
   // Set data_precision based on our pixel format's bits stored
