@@ -69,6 +69,18 @@ itk_add_test(
     itkLevelSetEquationOverlapPenaltyTermTest
 )
 itk_add_test(
+  NAME itkLevelSetsv4EquationChanAndVeseInternalTermTest
+  COMMAND
+    ITKLevelSetsv4TestDriver
+    itkLevelSetEquationChanAndVeseInternalTermTest
+)
+itk_add_test(
+  NAME itkLevelSetsv4EquationTermContainerTest
+  COMMAND
+    ITKLevelSetsv4TestDriver
+    itkLevelSetEquationTermContainerTest
+)
+itk_add_test(
   NAME itkLevelSetsv4DenseImageBaseTest
   COMMAND
     ITKLevelSetsv4TestDriver

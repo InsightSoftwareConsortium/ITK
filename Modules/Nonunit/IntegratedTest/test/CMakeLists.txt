@@ -1,9 +1,9 @@
 itk_module_test()
 set(
   ITKIntegratedTestTests
-  itkFilterImageAddTest.cxx # missing itk_add_test() call
+  itkFilterImageAddTest.cxx
   itkNumericsPrintTest.cxx
-  itkReleaseDataFilterTest.cxx # missing itk_add_test() call
+  itkReleaseDataFilterTest.cxx
   itkStatisticsPrintTest.cxx
   itkCommonPrintTest.cxx
   itkIOPrintTest.cxx
@@ -13,6 +13,19 @@ set(
 )
 
 createtestdriver(ITKIntegratedTest "${ITKIntegratedTest-Test_LIBRARIES}" "${ITKIntegratedTestTests}")
+
+itk_add_test(
+  NAME itkFilterImageAddTest
+  COMMAND
+    ITKIntegratedTestTestDriver
+    itkFilterImageAddTest
+)
+itk_add_test(
+  NAME itkReleaseDataFilterTest
+  COMMAND
+    ITKIntegratedTestTestDriver
+    itkReleaseDataFilterTest
+)
 
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 

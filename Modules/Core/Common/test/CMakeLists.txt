@@ -221,6 +221,36 @@ itk_add_test(
     itkFixedArrayTest2
 )
 itk_add_test(
+  NAME itkObjectStoreTest
+  COMMAND
+    ITKCommon1TestDriver
+    itkObjectStoreTest
+)
+itk_add_test(
+  NAME itkImageComputeOffsetAndIndexTest
+  COMMAND
+    ITKCommon1TestDriver
+    itkImageComputeOffsetAndIndexTest
+)
+itk_add_test(
+  NAME itkImageRegionExplicitTest
+  COMMAND
+    ITKCommon1TestDriver
+    itkImageRegionExplicitTest
+)
+itk_add_test(
+  NAME itkMetaProgrammingLibraryTest
+  COMMAND
+    ITKCommon2TestDriver
+    itkMetaProgrammingLibraryTest
+)
+itk_add_test(
+  NAME itkPromoteType
+  COMMAND
+    ITKCommon2TestDriver
+    itkPromoteType
+)
+itk_add_test(
   NAME itkSobelOperatorImageConvolutionHorizTest
   COMMAND
     ITKCommon1TestDriver

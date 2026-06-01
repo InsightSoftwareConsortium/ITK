@@ -26,6 +26,18 @@ itk_add_test(
     240
 )
 itk_add_test(
+  NAME itkJPEG2000ImageIOFactoryTest01
+  COMMAND
+    ITKIOJPEG2000TestDriver
+    itkJPEG2000ImageIOFactoryTest01
+)
+itk_add_test(
+  NAME itkJPEG2000ImageIOTest00
+  COMMAND
+    ITKIOJPEG2000TestDriver
+    itkJPEG2000ImageIOTest00
+)
+itk_add_test(
   NAME itkJPEG2000Test01
   COMMAND
     ITKIOJPEG2000TestDriver
