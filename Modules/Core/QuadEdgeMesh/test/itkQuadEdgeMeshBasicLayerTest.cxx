@@ -19,6 +19,7 @@
 // Program test for the basic QE layer.
 #include <iostream>
 #include "itkGeometricalQuadEdge.h"
+#include "itkTestingMacros.h"
 
 class itkQuadEdgeMeshBasicLayerTestHelper
 {
@@ -27,7 +28,7 @@ public:
   using DualType = PrimalType::DualType;
 
   static PrimalType *
-  MakeQuadEdges()
+  MakeQuadEdges(bool degenerateDual = false)
   {
     auto * e1 = new PrimalType();
     auto * e2 = new DualType();
@@ -42,17 +43,71 @@ public:
     e1->SetOnext(e1);
     e2->SetOnext(e4);
     e3->SetOnext(e3);
-    e4->SetOnext(e2); // dual quadrants form the e2<->e4 2-cycle (Guibas-Stolfi MakeEdge)
+    // dual quadrants form the e2<->e4 2-cycle (Guibas-Stolfi MakeEdge); the
+    // degenerate self-loop is kept available to build a non-closing ring.
+    e4->SetOnext(degenerateDual ? e4 : e2);
 
     return e1;
   }
 };
 
+namespace
+{
+using PrimalType = itkQuadEdgeMeshBasicLayerTestHelper::PrimalType;
+
+// Free five quad-edges; each owns a four-element Rot ring.
+void
+FreeQuadEdges(PrimalType * e[5])
+{
+  for (int i = 0; i < 5; ++i)
+  {
+    delete e[i]->GetRot()->GetRot()->GetRot();
+    delete e[i]->GetRot()->GetRot();
+    delete e[i]->GetRot();
+    delete e[i];
+  }
+}
+
+// Build the two-triangle structure with the degenerate dual init (the historical
+// bug). The caller owns the five edges and must free them with FreeQuadEdges().
+void
+BuildDegenerateLnextRing(PrimalType * e[5])
+{
+  for (int i = 0; i < 5; ++i)
+  {
+    e[i] = itkQuadEdgeMeshBasicLayerTestHelper::MakeQuadEdges(true);
+  }
+  const int org[5] = { 0, 1, 2, 3, 0 };
+  const int dest[5] = { 1, 2, 3, 0, 2 };
+  for (int i = 0; i < 5; ++i)
+  {
+    e[i]->SetOrigin(org[i]);
+    e[i]->SetDestination(dest[i]);
+  }
+  e[0]->Splice(e[4]);
+  e[4]->Splice(e[3]->GetSym());
+  e[1]->Splice(e[0]->GetSym());
+  e[2]->Splice(e[4]->GetSym());
+  e[4]->GetSym()->Splice(e[1]->GetSym());
+  e[3]->Splice(e[2]->GetSym());
+}
+
+// Fully traverse a left-face ring; the iterator guard throws if it never
+// closes. See InsightSoftwareConsortium/ITK#6372.
+void
+TraverseLnextRing(PrimalType * start)
+{
+  auto it = start->BeginGeomLnext();
+  it.SetMaximumNumberOfSteps(1000);
+  for (; it != start->EndGeomLnext(); ++it)
+  {
+  }
+}
+} // namespace
+
 int
 itkQuadEdgeMeshBasicLayerTest(int, char *[])
 {
-  using PrimalType = itkQuadEdgeMeshBasicLayerTestHelper::PrimalType;
-
   PrimalType * e[5];
 
   //////////////////////////////////////////////////////////
@@ -229,14 +284,15 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
   }
   std::cout << "Passed" << std::endl;
 
-  // Free the five quad-edges; each owns a four-element Rot ring.
-  for (auto & i : e)
-  {
-    delete i->GetRot()->GetRot()->GetRot();
-    delete i->GetRot()->GetRot();
-    delete i->GetRot();
-    delete i;
-  }
+  //////////////////////////////////////////////////////////
+  std::cout << "Testing non-closing-ring guard... " << std::endl;
+  PrimalType * degenerate[5];
+  BuildDegenerateLnextRing(degenerate);
+  ITK_TRY_EXPECT_EXCEPTION(TraverseLnextRing(degenerate[0]));
+  FreeQuadEdges(degenerate);
+  std::cout << "Passed" << std::endl;
+
+  FreeQuadEdges(e);
 
   return EXIT_SUCCESS;
 }
