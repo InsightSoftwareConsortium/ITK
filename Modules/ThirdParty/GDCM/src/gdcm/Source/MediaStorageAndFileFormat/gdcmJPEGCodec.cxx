@@ -17,9 +17,13 @@
 #include "gdcmDataElement.h"
 #include "gdcmSequenceOfFragments.h"
 #include "gdcmSwapper.h"
+#ifdef GDCM_USE_JPEGTURBO
+#include "gdcmJPEGTurboCodec.h"
+#else
 #include "gdcmJPEG8Codec.h"
 #include "gdcmJPEG12Codec.h"
 #include "gdcmJPEG16Codec.h"
+#endif
 
 #include <cstring>
 #include <numeric>
@@ -101,6 +105,18 @@ void JPEGCodec::SetupJPEGBitCodec(int bit)
 {
   BitSample = bit;
   delete Internal; Internal = nullptr;
+#ifdef GDCM_USE_JPEGTURBO
+  // libjpeg-turbo handles 8/12/16-bit in a single codec
+  if ( bit >= 1 && bit <= 16 )
+    {
+    gdcmDebugMacro( "Using JPEGTurbo" );
+    Internal = new JPEGTurboCodec;
+    }
+  else
+    {
+    gdcmWarningMacro( "Cannot instantiate JPEG codec for bit sample: " << bit );
+    }
+#else
   // what should I do with those single bit images ?
   if ( BitSample <= 8 )
     {
@@ -122,6 +138,7 @@ void JPEGCodec::SetupJPEGBitCodec(int bit)
     // gdcmNonImageData/RT/RTDOSE.dcm
     gdcmWarningMacro( "Cannot instantiate JPEG codec for bit sample: " << bit );
     }
+#endif
 }
 
 void JPEGCodec::SetBitSample(int bit)

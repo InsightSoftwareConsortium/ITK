@@ -1,7 +1,8 @@
 # Wrapping and stuff
 
 # Do jpeg (8,12, 16 lossly lossless). From ijg
-if(NOT GDCM_USE_SYSTEM_LJPEG)
+# Skip building IJG jpeg when using libjpeg-turbo backend
+if(NOT GDCM_USE_SYSTEM_LJPEG AND NOT GDCM_USE_JPEGTURBO)
   APPEND_COPYRIGHT(${CMAKE_CURRENT_SOURCE_DIR}/gdcmjpeg/COPYRIGHT.dcmtk)
   set(JPEG_NAMESPACE "GDCMJPEG")
   set(JPEG_INSTALL_NO_LIBRARIES ${GDCM_INSTALL_NO_LIBRARIES})
