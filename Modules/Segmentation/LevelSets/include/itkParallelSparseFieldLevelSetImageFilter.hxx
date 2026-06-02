@@ -29,6 +29,11 @@
 #include "itkPlatformMultiThreader.h"
 #include "itkPrintHelper.h"
 
+#include <atomic> // std::atomic_ref (C++20); defines __cpp_lib_atomic_ref when available
+#if !defined(__cpp_lib_atomic_ref) && defined(_MSC_VER) && !defined(__clang__) && !defined(__GNUC__)
+#  include <intrin.h> // __iso_volatile_load8 / __iso_volatile_store8 (C++17 MSVC fallback)
+#endif
+
 namespace itk
 {
 template <typename TNeighborhoodType>
@@ -1467,8 +1472,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedUpdat
       bool flag = false;
       for (unsigned int i = 0; i < Neighbor_Size; ++i)
       {
-        if (m_StatusImage->GetPixel(centerIndex + m_NeighborList.GetNeighborhoodOffset(i)) ==
-            m_StatusActiveChangingDown)
+        if (this->AtomicGetStatus(centerIndex + m_NeighborList.GetNeighborhoodOffset(i)) == m_StatusActiveChangingDown)
         {
           flag = true;
           break;
@@ -1496,7 +1500,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedUpdat
       UpList->PushFront(release_node);
 
       //
-      m_StatusImage->SetPixel(centerIndex, m_StatusActiveChangingUp);
+      this->AtomicSetStatus(centerIndex, m_StatusActiveChangingUp);
     }
     else if (new_value < LOWER_ACTIVE_THRESHOLD)
     {
@@ -1505,7 +1509,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedUpdat
       bool flag = false;
       for (unsigned int i = 0; i < Neighbor_Size; ++i)
       {
-        if (m_StatusImage->GetPixel(centerIndex + m_NeighborList.GetNeighborhoodOffset(i)) == m_StatusActiveChangingUp)
+        if (this->AtomicGetStatus(centerIndex + m_NeighborList.GetNeighborhoodOffset(i)) == m_StatusActiveChangingUp)
         {
           flag = true;
           break;
@@ -1532,7 +1536,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedUpdat
       // now add release_node to status down list
       DownList->PushFront(release_node);
 
-      m_StatusImage->SetPixel(centerIndex, m_StatusActiveChangingDown);
+      this->AtomicSetStatus(centerIndex, m_StatusActiveChangingDown);
     }
     else
     {
@@ -1690,7 +1694,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedProce
     // happen. Solution: If a pixel comes multiple times than we would find
     // that the Status image would already be reflecting the new status after
     // the pixel was encountered the first time
-    if (m_StatusImage->GetPixel(center_index) == 0)
+    if (this->AtomicGetStatus(center_index) == 0)
     {
       // duplicate node => return it to the node pool
       m_Data[ThreadId].m_LayerNodeStore->Return(nodePtr);
@@ -1698,7 +1702,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedProce
     }
 
     // set status to zero
-    m_StatusImage->SetPixel(center_index, 0);
+    this->AtomicSetStatus(center_index, 0);
     // add node to the layer-0
     m_Data[ThreadId].m_Layers[0]->PushFront(nodePtr);
 
@@ -1710,7 +1714,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedProce
     for (unsigned int i = 0; i < neighbor_Size; ++i)
     {
       const auto n_index = center_index + m_NeighborList.GetNeighborhoodOffset(i);
-      const auto neighbor_status = m_StatusImage->GetPixel(n_index);
+      const auto neighbor_status = this->AtomicGetStatus(n_index);
 
       // Have we bumped up against the boundary?  If so, turn on bounds
       // checking.
@@ -1740,10 +1744,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedProce
 
       if (neighbor_status == SearchForStatus)
       {
-        // mark this pixel so we MAY NOT add it twice
-        // This STILL DOES NOT GUARANTEE RACE CONDITIONS BETWEEN THREADS. This
-        // is handled at the next stage
-        m_StatusImage->SetPixel(n_index, m_StatusChanging);
+        // Provisional de-dup marker; cross-thread duplicates are resolved in the next phase.
+        this->AtomicSetStatus(n_index, m_StatusChanging);
 
         const unsigned int tmpId = this->GetThreadNumber(n_index[m_SplitAxis]);
 
@@ -1842,7 +1844,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedProce
     // Solution: If a pixel comes multiple times than we would find that the
     // Status image would already be reflecting
     // the new status after the pixel was encountered the first time
-    if ((BufferLayerNumber != 0) && (m_StatusImage->GetPixel(center_index) == ChangeToStatus))
+    if ((BufferLayerNumber != 0) && (this->AtomicGetStatus(center_index) == ChangeToStatus))
     {
       // duplicate node => return it to the node pool
       m_Data[ThreadId].m_LayerNodeStore->Return(nodePtr);
@@ -1853,13 +1855,13 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedProce
     // add to layer
     m_Data[ThreadId].m_Layers[ChangeToStatus]->PushFront(nodePtr);
     // change the status
-    m_StatusImage->SetPixel(center_index, ChangeToStatus);
+    this->AtomicSetStatus(center_index, ChangeToStatus);
 
     for (unsigned int i = 0; i < neighbor_size; ++i)
     {
       IndexType n_index = center_index + m_NeighborList.GetNeighborhoodOffset(i);
 
-      const StatusType neighbor_status = m_StatusImage->GetPixel(n_index);
+      const StatusType neighbor_status = this->AtomicGetStatus(n_index);
 
       // Have we bumped up against the boundary?  If so, turn on bounds
       // checking.
@@ -1870,10 +1872,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedProce
 
       if (neighbor_status == SearchForStatus)
       {
-        // mark this pixel so we MAY NOT add it twice
-        // This STILL DOES NOT AVOID RACE CONDITIONS BETWEEN THREADS (This is
-        // handled at the next stage)
-        m_StatusImage->SetPixel(n_index, m_StatusChanging);
+        // Provisional de-dup marker; cross-thread duplicates are resolved in the next phase.
+        this->AtomicSetStatus(n_index, m_StatusChanging);
 
         const unsigned int tmpId = this->GetThreadNumber(n_index[m_SplitAxis]);
 
@@ -1933,7 +1933,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedProce
     LayerNodeType * nodePtr = OutsideList->Front();
     OutsideList->PopFront();
 
-    m_StatusImage->SetPixel(nodePtr->m_Index, ChangeToStatus);
+    this->AtomicSetStatus(nodePtr->m_Index, ChangeToStatus);
     m_Data[ThreadId].m_Layers[ChangeToStatus]->PushFront(nodePtr);
   }
 }
@@ -1960,7 +1960,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedPropa
   {
     const IndexType centerIndex = toIt->m_Index;
 
-    const StatusType centerStatus = m_StatusImage->GetPixel(centerIndex);
+    const StatusType centerStatus = this->AtomicGetStatus(centerIndex);
 
     if (centerStatus != to)
     {
@@ -1979,7 +1979,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedPropa
     for (unsigned int i = 0; i < Neighbor_Size; ++i)
     {
       const IndexType  nIndex = centerIndex + m_NeighborList.GetNeighborhoodOffset(i);
-      const StatusType nStatus = m_StatusImage->GetPixel(nIndex);
+      const StatusType nStatus = this->AtomicGetStatus(nIndex);
       // If this neighbor is in the "from" list, compare its absolute value
       // to any previous values found in the "from" list.  Keep only the
       // value with the smallest magnitude.
@@ -2023,12 +2023,12 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedPropa
       if (promote > past_end)
       {
         m_Data[ThreadId].m_LayerNodeStore->Return(nodePtr);
-        m_StatusImage->SetPixel(centerIndex, m_StatusNull);
+        this->AtomicSetStatus(centerIndex, m_StatusNull);
       }
       else
       {
         m_Data[ThreadId].m_Layers[promote]->PushFront(nodePtr);
-        m_StatusImage->SetPixel(centerIndex, promote);
+        this->AtomicSetStatus(centerIndex, promote);
       }
     }
   }
@@ -2411,6 +2411,48 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::WaitForNeighb
       mutexHolder, [&td, SemaphoreArrayNumber] { return td.m_Semaphore[SemaphoreArrayNumber] != 0; });
   }
   --td.m_Semaphore[SemaphoreArrayNumber];
+}
+
+template <typename TInputImage, typename TOutputImage>
+auto
+ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::AtomicGetStatus(const IndexType & index) const
+  -> StatusType
+{
+#if defined(__cpp_lib_atomic_ref)
+  return std::atomic_ref<StatusType>(m_StatusImage->GetPixel(index)).load(std::memory_order_relaxed);
+#else
+  const StatusType * const p = &(m_StatusImage->GetPixel(index));
+#  if defined(__GNUC__) || defined(__clang__)
+  return __atomic_load_n(p, __ATOMIC_RELAXED);
+#  elif defined(_MSC_VER)
+  return static_cast<StatusType>(__iso_volatile_load8(reinterpret_cast<const volatile char *>(p)));
+#  else
+  static_assert(false,
+                "AtomicGetStatus: no relaxed-atomic byte load for this compiler; add a compiler-specific branch.");
+  return *p;
+#  endif
+#endif
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
+ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::AtomicSetStatus(const IndexType & index,
+                                                                                   StatusType        status)
+{
+#if defined(__cpp_lib_atomic_ref)
+  std::atomic_ref<StatusType>(m_StatusImage->GetPixel(index)).store(status, std::memory_order_relaxed);
+#else
+  StatusType * const p = &(m_StatusImage->GetPixel(index));
+#  if defined(__GNUC__) || defined(__clang__)
+  __atomic_store_n(p, status, __ATOMIC_RELAXED);
+#  elif defined(_MSC_VER)
+  __iso_volatile_store8(reinterpret_cast<volatile char *>(p), static_cast<char>(status));
+#  else
+  static_assert(false,
+                "AtomicSetStatus: no relaxed-atomic byte store for this compiler; add a compiler-specific branch.");
+  *p = status;
+#  endif
+#endif
 }
 
 template <typename TInputImage, typename TOutputImage>

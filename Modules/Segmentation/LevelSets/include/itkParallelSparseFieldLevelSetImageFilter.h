@@ -703,6 +703,14 @@ protected:
   void
   WaitForNeighbor(unsigned int SemaphoreArrayNumber, ThreadIdType ThreadId);
 
+  /** Relaxed-atomic accessors for the shared status image: concurrent work units
+   *  touch neighbor-owned boundary voxels; cross-phase ordering comes from SignalNeighborsAndWait. */
+  StatusType
+  AtomicGetStatus(const IndexType & index) const;
+
+  void
+  AtomicSetStatus(const IndexType & index, StatusType status);
+
   /** If child classes need an entry point to the start of every iteration step
    * they can override this method. This method is defined but empty in this class. */
   virtual void
