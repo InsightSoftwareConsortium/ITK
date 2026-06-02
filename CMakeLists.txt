@@ -769,6 +769,11 @@ if(BUILD_TESTING OR ITK_BUILD_DOCUMENTATION OR ITK_WRAP_PYTHON)
 endif()
 
 #----------------------------------------------------------------------
+# Fail early on stale remote-module clones left without a controlling
+# .remote.cmake (e.g. after ingestion into core).
+include(itkCheckForOrphanedRemoteModules)
+
+#----------------------------------------------------------------------
 # Make sure remote modules are downloaded before sorting out the module
 # dependencies.
 add_subdirectory(Modules/Remote)
