@@ -13,7 +13,7 @@ feedback rounds on PR #6093:
   `@web3-storage/w3cli`), `examples/` routed to top-level `Examples/`
   in a separate follow-up PR.
 
-The audit is implemented as a phase inside `ingest-remote-module.sh`
+The audit is implemented as a phase inside `ingest-module-v4.sh`
 (or the standalone `audit-upstream.sh` if we split it out for re-use).
 
 ## What the audit answers
@@ -75,7 +75,7 @@ upstream repo (read-only clone, shallow-unshallowed)
 
 ## `audit.json` schema
 
-Machine-readable output consumed by the rest of `ingest-remote-module.sh`
+Machine-readable output consumed by the rest of `ingest-module-v4.sh`
 to decide on mode and to populate `INGEST_LOG.md` after the merge.
 
 ```json
@@ -83,7 +83,7 @@ to decide on mode and to populate `INGEST_LOG.md` after the merge.
   "upstream_url": "https://github.com/.../ITK<Name>.git",
   "upstream_sha": "203260b9...",
   "audit_date":   "2026-04-22",
-  "audit_tool_version": "ingest-remote-module.sh @ <script_sha>",
+  "audit_tool_version": "ingest-module-v4.sh @ <script_sha>",
 
   "commits":          136,
   "distinct_authors": 12,
@@ -230,7 +230,7 @@ The auto-recommendation is a default, not a mandate. Humans can
 override:
 
 ```bash
-./ingest-remote-module.sh <Name> <Group> \
+./ingest-module-v4.sh <Name> <Group> \
     --mode=filtered-history \
     --strip-paths 'Old/' 'papers/' \
     --strip-blobs-bigger-than 1M \
@@ -248,7 +248,7 @@ default was overridden.
 
 | File | Role |
 |---|---|
-| `ingest-remote-module.sh` | End-to-end driver. Contains the audit phase, the three mode implementations, and `INGEST_LOG.md` emission. |
+| `ingest-module-v4.sh` | End-to-end driver. Contains the audit phase, the three mode implementations, and `INGEST_LOG.md` emission. |
 | `audit.json` | Per-run machine output in the ingest tempdir. Consumed by the script to pick a mode and to populate `INGEST_LOG.md`. |
 | `INGEST_LOG.md` | Append-only human-readable record, one block per module. |
 | `INGESTION_STRATEGY.md` | High-level strategy document. Thresholds live here so they're reviewable separately from the script. |
