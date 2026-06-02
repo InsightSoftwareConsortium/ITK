@@ -2,10 +2,7 @@ itk_module_test()
 
 set(TotalVariationTests itkProxTVImageFilterTest.cxx)
 
-set(Libraries ${TotalVariation-Test_LIBRARIES})
-list(APPEND Libraries ${_proxTV_lib})
-
-createtestdriver(TotalVariation "${Libraries}" "${TotalVariationTests}")
+createtestdriver(TotalVariation "${TotalVariation-Test_LIBRARIES}" "${TotalVariationTests}")
 
 itk_add_test(
   NAME itkProxTVImageFilterTest
