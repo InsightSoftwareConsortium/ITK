@@ -67,9 +67,6 @@ ProxTVImageFilter<TInputImage, TOutputImage>::GenerateData()
   double *       info = nullptr;
   if (ImageDimension == 2)
   {
-    // int DR2_TV(size_t M (rows), size_t N (cols), double*inputProxTV (image),
-    // double W1, double W2, double norm1, double norm2, double*s, int nThreads,
-    // int maxit, double* info);
     std::ignore = DR2_TV(regionSize[0],
                          regionSize[1],
                          const_cast<double *>(inputProxTV),
@@ -84,8 +81,6 @@ ProxTVImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
   else
   {
-    // int PD_TV(double *y,double *lambdas,double *norms,double *dims,double *x,
-    // double *info,int *ns,int nds,int npen,int ncores,int maxIters){
     double norms[ImageDimension];
     double weights[ImageDimension];
     int    elements[ImageDimension];
@@ -94,7 +89,7 @@ ProxTVImageFilter<TInputImage, TOutputImage>::GenerateData()
     {
       weights[i] = m_Weights[i];
       norms[i] = m_Norms[i];
-      elements[i] = regionSize[i];
+      elements[i] = static_cast<int>(regionSize[i]);
       dims[i] = i + 1;
     }
     std::ignore = PD_TV(const_cast<double *>(inputProxTV),

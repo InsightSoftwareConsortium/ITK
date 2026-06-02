@@ -26,10 +26,10 @@ namespace itk
 
 /** \class ProxTVImageFilter
  *
- * \brief Filters a image by iterating over its pixels.
+ * \brief Fast total-variation proximity operator for 2D and 3D images.
  *
- * Filters a image by iterating over its pixels in a multi-threaded way
- * and {to be completed by the developer}.
+ * Wraps the proxTV library DR2_TV (2D) and PD_TV (N-D) solvers, with
+ * configurable per-dimension weights and norms.
  *
  * \ingroup TotalVariation
  *
@@ -43,7 +43,7 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   using InputImageType = TInputImage;
-  using OutputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
   using InputPixelType = typename InputImageType::PixelType;
   using OutputPixelType = typename OutputImageType::PixelType;
 
@@ -82,7 +82,7 @@ protected:
 
   using OutputRegionType = typename OutputImageType::RegionType;
 
-  virtual void
+  void
   GenerateData() override;
 
 private:
@@ -104,4 +104,4 @@ private:
 #  include "itkProxTVImageFilter.hxx"
 #endif
 
-#endif // itkProxTVImageFilter
+#endif // itkProxTVImageFilter_h
