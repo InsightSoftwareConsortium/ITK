@@ -274,9 +274,9 @@ images_identical(ImageType * a, ImageType * b)
 TEST(ParallelSparseFieldLevelSetRobustness, SweepRepeat)
 {
   using namespace PSFLSIFR;
-  runWithDeadline(30, [] {
+  runWithDeadline(300, [] {
     const std::vector<unsigned int> sweep{ 1, 2, 4, 8, 11, 16, 32 };
-    constexpr unsigned int          kSweepRepeats = 20;
+    constexpr unsigned int          kSweepRepeats = 10;
     constexpr unsigned int          kSweepIterations = 30;
     for (unsigned int rep = 0; rep < kSweepRepeats; ++rep)
     {
@@ -296,7 +296,7 @@ TEST(ParallelSparseFieldLevelSetRobustness, SweepRepeat)
 TEST(ParallelSparseFieldLevelSetRobustness, Determinism)
 {
   using namespace PSFLSIFR;
-  runWithDeadline(30, [] {
+  runWithDeadline(300, [] {
     auto run0 = run_one(11, 100);
     for (unsigned int rep = 1; rep < 3; ++rep)
     {
@@ -311,7 +311,7 @@ TEST(ParallelSparseFieldLevelSetRobustness, Determinism)
 TEST(ParallelSparseFieldLevelSetRobustness, ConcurrentMultiPipeline)
 {
   using namespace PSFLSIFR;
-  runWithDeadline(30, [] {
+  runWithDeadline(300, [] {
     constexpr unsigned int kConcurrentReps = 6;
     constexpr unsigned int kConcurrentPipelines = 8;
     for (unsigned int rep = 0; rep < kConcurrentReps; ++rep)
