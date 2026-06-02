@@ -97,6 +97,7 @@ cmd = '''cmake \
   -DModule_SubdivisionQuadEdgeMeshFilter:BOOL=ON \
   -DModule_TextureFeatures:BOOL=ON \
   -DModule_Thickness3D:BOOL=ON \
+  -DModule_TotalVariation:BOOL=ON \
   -DModule_TwoProjectionRegistration:BOOL=ON \
   -DModule_VariationalRegistration:BOOL=ON \
   -DITK_COMPUTER_MEMORY_SIZE:STRING=5'''
