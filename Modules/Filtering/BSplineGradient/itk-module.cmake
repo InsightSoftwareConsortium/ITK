@@ -1,13 +1,9 @@
-# the top-level README is used for describing this module, just
-# re-used it for documentation here
-# itk_module() defines the module dependencies in BSplineGradient
-# BSplineGradient depends on ITKCommon
-# The testing module in BSplineGradient depends on ITKTestKernel
-# and ITKMetaIO(besides BSplineGradient and ITKCore)
-# By convention those modules outside of ITK are not prefixed with
-# ITK.
+set(
+  DOCUMENTATION
+  "Approximate an image gradient from a BSpline fit to the intensities, and
+related BSpline scattered-data gradient filters."
+)
 
-# define the dependencies of the include module and the tests
 itk_module(
   BSplineGradient
   DEPENDS
@@ -21,6 +17,6 @@ itk_module(
     ITKMetaIO
     ITKIOMeshVTK
     ITKImageGradient
-  DESCRIPTION "Module ingested from upstream."
+  DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
 )
