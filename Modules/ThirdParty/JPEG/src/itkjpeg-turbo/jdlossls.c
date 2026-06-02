@@ -57,12 +57,13 @@
 
 #define UNDIFFERENCE_1D(INITIAL_PREDICTOR) \
   int Ra; \
+  int precision_mask = (1 << cinfo->data_precision) - 1; \
   \
-  Ra = (*diff_buf++ + INITIAL_PREDICTOR) & 0xFFFF; \
+  Ra = (*diff_buf++ + INITIAL_PREDICTOR) & precision_mask; \
   *undiff_buf++ = Ra; \
   \
   while (--width) { \
-    Ra = (*diff_buf++ + PREDICTOR1) & 0xFFFF; \
+    Ra = (*diff_buf++ + PREDICTOR1) & precision_mask; \
     *undiff_buf++ = Ra; \
   }
 
@@ -78,21 +79,23 @@
  * interleaved image with Vi=1, for example), we must take care to buffer Rb/Rc
  * before writing the current reconstructed sample value into output_buf.
  *
- * The reconstructed sample is supposed to be calculated modulo 2^16, so we
- * logically AND the result with 0xFFFF.
+ * The reconstructed sample is supposed to be calculated modulo 2^P, where P
+ * is the data precision, so we logically AND the result with
+ * (1 << data_precision) - 1.
  */
 
 #define UNDIFFERENCE_2D(PREDICTOR) \
   int Ra, Rb, Rc; \
+  int precision_mask = (1 << cinfo->data_precision) - 1; \
   \
   Rb = *prev_row++; \
-  Ra = (*diff_buf++ + PREDICTOR2) & 0xFFFF; \
+  Ra = (*diff_buf++ + PREDICTOR2) & precision_mask; \
   *undiff_buf++ = Ra; \
   \
   while (--width) { \
     Rc = Rb; \
     Rb = *prev_row++; \
-    Ra = (*diff_buf++ + PREDICTOR) & 0xFFFF; \
+    Ra = (*diff_buf++ + PREDICTOR) & precision_mask; \
     *undiff_buf++ = Ra; \
   }
 

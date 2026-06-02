@@ -422,7 +422,7 @@ prepare_range_limit_table(j_decompress_ptr cinfo)
 #endif
   int i;
 
-  if (cinfo->data_precision == 16) {
+  if (cinfo->data_precision > 12) {
 #ifdef D_LOSSLESS_SUPPORTED
     table16 = (J16SAMPLE *)
       (*cinfo->mem->alloc_small) ((j_common_ptr)cinfo, JPOOL_IMAGE,
@@ -449,7 +449,7 @@ prepare_range_limit_table(j_decompress_ptr cinfo)
 #else
     ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
 #endif
-  } else if (cinfo->data_precision == 12) {
+  } else if (cinfo->data_precision > 8) {
     table12 = (J12SAMPLE *)
       (*cinfo->mem->alloc_small) ((j_common_ptr)cinfo, JPOOL_IMAGE,
                   (5 * (MAXJ12SAMPLE + 1) + CENTERJ12SAMPLE) *
@@ -615,14 +615,14 @@ master_selection(j_decompress_ptr cinfo)
       ERREXIT(cinfo, JERR_NOT_COMPILED);
 #endif
     } else {
-      if (cinfo->data_precision == 16) {
+      if (cinfo->data_precision > 12) {
 #ifdef D_LOSSLESS_SUPPORTED
         j16init_color_deconverter(cinfo);
         j16init_upsampler(cinfo);
 #else
         ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
 #endif
-      } else if (cinfo->data_precision == 12) {
+      } else if (cinfo->data_precision > 8) {
         j12init_color_deconverter(cinfo);
         j12init_upsampler(cinfo);
       } else {
@@ -630,13 +630,13 @@ master_selection(j_decompress_ptr cinfo)
         jinit_upsampler(cinfo);
       }
     }
-    if (cinfo->data_precision == 16)
+    if (cinfo->data_precision > 12)
 #ifdef D_LOSSLESS_SUPPORTED
       j16init_d_post_controller(cinfo, cinfo->enable_2pass_quant);
 #else
       ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
 #endif
-    else if (cinfo->data_precision == 12)
+    else if (cinfo->data_precision > 8)
       j12init_d_post_controller(cinfo, cinfo->enable_2pass_quant);
     else
       jinit_d_post_controller(cinfo, cinfo->enable_2pass_quant);
@@ -647,9 +647,9 @@ master_selection(j_decompress_ptr cinfo)
     /* Prediction, sample undifferencing, point transform, and sample size
      * scaling
      */
-    if (cinfo->data_precision == 16)
+    if (cinfo->data_precision > 12)
       j16init_lossless_decompressor(cinfo);
-    else if (cinfo->data_precision == 12)
+    else if (cinfo->data_precision > 8)
       j12init_lossless_decompressor(cinfo);
     else
       jinit_lossless_decompressor(cinfo);
@@ -663,9 +663,9 @@ master_selection(j_decompress_ptr cinfo)
     /* Initialize principal buffer controllers. */
     use_c_buffer = cinfo->inputctl->has_multiple_scans ||
                    cinfo->buffered_image;
-    if (cinfo->data_precision == 16)
+    if (cinfo->data_precision > 12)
       j16init_d_diff_controller(cinfo, use_c_buffer);
-    else if (cinfo->data_precision == 12)
+    else if (cinfo->data_precision > 8)
       j12init_d_diff_controller(cinfo, use_c_buffer);
     else
       jinit_d_diff_controller(cinfo, use_c_buffer);
@@ -673,7 +673,7 @@ master_selection(j_decompress_ptr cinfo)
     ERREXIT(cinfo, JERR_NOT_COMPILED);
 #endif
   } else {
-    if (cinfo->data_precision == 16)
+    if (cinfo->data_precision > 12)
       ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
     /* Inverse DCT */
     if (cinfo->data_precision == 12)
@@ -708,14 +708,14 @@ master_selection(j_decompress_ptr cinfo)
   }
 
   if (!cinfo->raw_data_out) {
-    if (cinfo->data_precision == 16)
+    if (cinfo->data_precision > 12)
 #ifdef D_LOSSLESS_SUPPORTED
       j16init_d_main_controller(cinfo,
                                 FALSE /* never need full buffer here */);
 #else
       ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
 #endif
-    else if (cinfo->data_precision == 12)
+    else if (cinfo->data_precision > 8)
       j12init_d_main_controller(cinfo,
                                 FALSE /* never need full buffer here */);
     else
