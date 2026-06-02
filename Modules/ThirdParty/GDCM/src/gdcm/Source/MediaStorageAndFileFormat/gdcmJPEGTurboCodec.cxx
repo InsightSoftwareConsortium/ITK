@@ -70,7 +70,30 @@ static boolean turbo_fill_input_buffer(j_decompress_ptr cinfo)
 {
   turbo_src_ptr src = (turbo_src_ptr)cinfo->src;
 
-  src->infile->read((char *)src->buffer, TURBO_INPUT_BUF_SIZE);
+  // NOTE: The IJG comment inherited by this function states "there is no such
+  // thing as an EOF return", implying FALSE should never be returned.  In a
+  // plain file-reading scenario that is correct.  In DICOM, however, a single
+  // JPEG image may be split across multiple SequenceOfFragments items, each
+  // presented to this codec as a separate std::stringstream.  Returning FALSE
+  // when the current fragment's stream is exhausted triggers libjpeg's
+  // suspension mechanism; JPEGCodec::Decode detects the suspended state, feeds
+  // the next fragment, and calls DecodeByStreams again to resume.  Without this
+  // the decoder would instead insert a fake EOI, "finish" the first fragment
+  // prematurely, and then try to decode the second fragment as a new JPEG
+  // stream — producing "Not a JPEG file" errors and a crash.
+  //
+  // Use tellg/seekg to probe the remaining byte count without consuming data,
+  // and return FALSE (suspend) when the stream is at its end.
+  std::streampos pos = src->infile->tellg();
+  std::streampos end = src->infile->seekg(0, std::ios::end).tellg();
+  src->infile->seekg(pos, std::ios::beg);
+  if (end == pos) {
+    return FALSE;
+  }
+
+  std::streamsize remaining = end - pos;
+  std::streamsize toRead = (remaining < TURBO_INPUT_BUF_SIZE) ? remaining : TURBO_INPUT_BUF_SIZE;
+  src->infile->read((char *)src->buffer, toRead);
   std::streamsize gcount = src->infile->gcount();
 
   if (gcount <= 0) {
