@@ -100,10 +100,16 @@ protected:
   void
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
+  /** Build the interpolator (and its B-spline coefficients) once, before the
+   * threads run, so per-thread evaluation is read-only. */
+  void
+  BeforeThreadedGenerateData() override;
+
   void
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
+  InterpolatorPointerType m_Interpolator{};
 };
 
 } // end namespace itk

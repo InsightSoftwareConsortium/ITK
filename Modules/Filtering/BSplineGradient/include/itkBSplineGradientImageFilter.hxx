@@ -63,6 +63,17 @@ BSplineGradientImageFilter<TInputImage, TOutputValueType, TCoordRep, TCoefficien
 
 template <typename TInputImage, typename TOutputValueType, typename TCoordRep, typename TCoefficientType>
 void
+BSplineGradientImageFilter<TInputImage, TOutputValueType, TCoordRep, TCoefficientType>::BeforeThreadedGenerateData()
+{
+  // Build the interpolator once. SetInputImage runs a B-spline decomposition
+  // on the input; doing it per-thread races on the shared input pipeline.
+  m_Interpolator = InterpolatorType::New();
+  m_Interpolator->SetInputImage(const_cast<TInputImage *>(this->GetInput()));
+}
+
+
+template <typename TInputImage, typename TOutputValueType, typename TCoordRep, typename TCoefficientType>
+void
 BSplineGradientImageFilter<TInputImage, TOutputValueType, TCoordRep, TCoefficientType>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
@@ -73,27 +84,19 @@ BSplineGradientImageFilter<TInputImage, TOutputValueType, TCoordRep, TCoefficien
     return;
   }
 
-  // this filter requires the all of the input image to be in
-  // the buffer
-  InputImagePointer       inputPtr = const_cast<TInputImage *>(this->GetInput());
-  InterpolatorPointerType interpolator = InterpolatorType::New();
-  // This will calculate the coefficients.
-  interpolator->SetInputImage(inputPtr);
-
   using IteratorType = typename itk::ImageRegionIteratorWithIndex<OutputImageType>;
   typename OutputImageType::IndexType            index;
   typename InterpolatorType::ContinuousIndexType contIndex;
-  unsigned int                                   i;
   IteratorType                                   it(outputPtr, outputRegionForThread);
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
     index = it.GetIndex();
-    for (i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       contIndex[i] = static_cast<CoordinateType>(index[i]);
     }
-    it.Set(interpolator->EvaluateDerivativeAtContinuousIndex(contIndex));
+    it.Set(m_Interpolator->EvaluateDerivativeAtContinuousIndex(contIndex));
   }
 }
 
