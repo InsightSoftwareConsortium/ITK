@@ -76,6 +76,7 @@ cmd = '''cmake \
   -DModule_LabelErodeDilate:BOOL=ON \
   -DModule_MGHIO:BOOL=ON \
   -DModule_MeshNoise:BOOL=ON \
+  -DModule_MeshToPolyData:BOOL=ON \
   -DModule_MinimalPathExtraction:BOOL=ON \
   -DModule_Montage:BOOL=ON \
   -DModule_MorphologicalContourInterpolation:BOOL=ON \
