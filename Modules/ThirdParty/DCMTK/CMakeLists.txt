@@ -123,8 +123,6 @@ set(
   dcmjpeg
   dcmjpls
   dcmnet
-  dcmwlm
-  dcmrt
   dcmiod
   dcmfg
   dcmseg
