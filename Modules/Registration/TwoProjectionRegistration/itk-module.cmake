@@ -25,7 +25,8 @@ itk_module(
     ITKSpatialObjects
     ITKTransform
     ITKTestKernel
-  DESCRIPTION "Module ingested from upstream."
+  DESCRIPTION
+    "Intensity-based 2D/3D rigid registration of two projection (DRR) images to a 3D volume for radiotherapy patient setup, using normalized correlation, Powell optimization, and Siddon-Jacobs ray casting."
   EXCLUDE_FROM_DEFAULT
   # Header only libraries do not use ENABLE_SHARED
 )
