@@ -70,20 +70,10 @@ static boolean turbo_fill_input_buffer(j_decompress_ptr cinfo)
 {
   turbo_src_ptr src = (turbo_src_ptr)cinfo->src;
 
-  // NOTE: The IJG comment inherited by this function states "there is no such
-  // thing as an EOF return", implying FALSE should never be returned.  In a
-  // plain file-reading scenario that is correct.  In DICOM, however, a single
-  // JPEG image may be split across multiple SequenceOfFragments items, each
-  // presented to this codec as a separate std::stringstream.  Returning FALSE
-  // when the current fragment's stream is exhausted triggers libjpeg's
-  // suspension mechanism; JPEGCodec::Decode detects the suspended state, feeds
-  // the next fragment, and calls DecodeByStreams again to resume.  Without this
-  // the decoder would instead insert a fake EOI, "finish" the first fragment
-  // prematurely, and then try to decode the second fragment as a new JPEG
-  // stream — producing "Not a JPEG file" errors and a crash.
-  //
-  // Use tellg/seekg to probe the remaining byte count without consuming data,
-  // and return FALSE (suspend) when the stream is at its end.
+  // Return FALSE (suspend) at fragment end; libjpeg suspension resumes with the next DICOM fragment.
+  if (!src->infile->good()) {
+    return FALSE;
+  }
   std::streampos pos = src->infile->tellg();
   std::streampos end = src->infile->seekg(0, std::ios::end).tellg();
   src->infile->seekg(pos, std::ios::beg);
