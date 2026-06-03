@@ -15,10 +15,13 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "itkGTest.h"
 #include <iostream>
 
 #include "vnl/algo/vnl_svd.h"
 
+namespace
+{
 template <typename T>
 void
 print_vnl_matrix(T & mat)
@@ -50,37 +53,27 @@ solve_with_warning(const vnl_matrix<V> & M, const vnl_matrix<V> & B)
 }
 
 
-int
-test_svd()
+} // namespace
+
+TEST(Numerics, ConvertedLegacyTest)
 {
   double                   data[] = { 1, 1, 1, 1, 2, 3, 1, 3, 6 };
   vnl_matrix<double>       M(data, 3, 3);
   const vnl_matrix<double> B(3, 1, 7.0); // column vector [7 7 7]^T
-  vnl_matrix<double>       result = solve_with_warning(M, B);
-  std::cout << "Original svd problem solution" << std::endl;
+
+  // The original problem is non-singular; the solution is [7, 0, 0]^T.
+  vnl_matrix<double> result = solve_with_warning(M, B);
   print_vnl_matrix(result);
+  EXPECT_NEAR(result(0, 0), 7.0, 1e-6);
+  EXPECT_NEAR(result(1, 0), 0.0, 1e-6);
+  EXPECT_NEAR(result(2, 0), 0.0, 1e-6);
+
+  // Making M singular forces the SVD to return the minimum-norm
+  // solution [35/6, 7/3, -7/6]^T.
   M(2, 2) = 5;
   result = solve_with_warning(M, B);
-  std::cout << std::endl << "Modified svd problem solution" << std::endl;
   print_vnl_matrix(result);
-  return 0;
-}
-
-int
-itkNumericsTest(int, char *[])
-{
-  test_svd();
-  double             data[] = { 1, 1, 1, 1, 2, 3, 1, 3, 6 };
-  vnl_matrix<double> mat(data, 3, 3);
-  std::cout << std::endl << "A matrix" << std::endl;
-  for (unsigned int r = 0; r < mat.rows(); ++r)
-  {
-    for (unsigned int c = 0; c < mat.rows(); ++c)
-    {
-      std::cout << mat(r, c) << ' ';
-    }
-    std::cout << std::endl;
-  }
-
-  return 0;
+  EXPECT_NEAR(result(0, 0), 35.0 / 6.0, 1e-6);
+  EXPECT_NEAR(result(1, 0), 7.0 / 3.0, 1e-6);
+  EXPECT_NEAR(result(2, 0), -7.0 / 6.0, 1e-6);
 }

@@ -26,8 +26,11 @@
  */
 
 #include "itkVersor.h"
+#include "itkGTest.h"
 #include <iostream>
 
+namespace
+{
 itk::Matrix<double, 3, 3>
 TestCreateRotationMatrixFromAngles(const double alpha, const double beta, const double gamma)
 {
@@ -84,7 +87,6 @@ TestCreateRotationVersorFromAngles(const double alpha, const double beta, const 
 
   itk::Versor<double> v;
   v.Set(q[1], q[2], q[3], q[0]);
-  std::cout << "versor: " << v << std::endl;
   return v;
 }
 
@@ -165,16 +167,11 @@ RotationMatrixToVersorTest()
   }
   return errorCount;
 }
+} // namespace
 
-//-------------------------
-//
-//   Main code
-//
-//-------------------------
-int
-itkVersorTest(int, char *[])
+
+TEST(Versor, ConvertedLegacyTest)
 {
-
   using ValueType = double;
 
   constexpr ValueType epsilon{ 1e-12 };
@@ -201,63 +198,36 @@ itkVersorTest(int, char *[])
   using MatrixType = VersorType::MatrixType;
 
   {
-    std::cout << "Test default constructor... ";
+    // Test default constructor
     constexpr VersorType qa;
-    if (itk::Math::Absolute(qa.GetX()) > epsilon)
-    {
-      std::cout << "Error ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (itk::Math::Absolute(qa.GetY()) > epsilon)
-    {
-      std::cout << "Error ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (itk::Math::Absolute(qa.GetZ()) > epsilon)
-    {
-      std::cout << "Error ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (itk::Math::Absolute(qa.GetW() - 1.0) > epsilon)
-    {
-      std::cout << "Error ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    std::cout << " PASSED !" << std::endl;
+    EXPECT_NEAR(qa.GetX(), 0.0, epsilon);
+    EXPECT_NEAR(qa.GetY(), 0.0, epsilon);
+    EXPECT_NEAR(qa.GetZ(), 0.0, epsilon);
+    EXPECT_NEAR(qa.GetW(), 1.0, epsilon);
   }
 
 
   {
-    std::cout << "Test initialization and GetMatrix()... ";
+    // Test initialization and GetMatrix()
     VersorType qa;
     qa.SetIdentity();
-    const MatrixType ma = qa.GetMatrix();
-    std::cout << "Matrix = " << std::endl;
-    std::cout << ma << std::endl;
+    [[maybe_unused]] const MatrixType ma = qa.GetMatrix();
   }
 
   {
-    std::cout << "Test for setting Axis (0,0,0) and Angle...";
+    // Test for setting Axis (0,0,0) and Angle
     VersorType qa;
     VectorType xa;
     xa[0] = 0.0;
     xa[1] = 0.0;
     xa[2] = 0.0;
     constexpr ValueType angle{ 0 };
-    try
-    {
-      qa.Set(xa, angle);
-      return EXIT_FAILURE;
-    } // setting the axis to (0,0,0) should throw an exception
-    catch (const itk::ExceptionObject & excp)
-    {
-      std::cout << "Caught expected exception: " << excp;
-      std::cout << " PASSED !" << std::endl;
-    }
+    // setting the axis to (0,0,0) should throw an exception
+    EXPECT_THROW(qa.Set(xa, angle), itk::ExceptionObject);
   }
 
   {
-    std::cout << "Test for setting Axis and Angle...";
+    // Test for setting Axis and Angle
     VersorType qa;
     VectorType xa;
     xa[0] = 2.5;
@@ -273,37 +243,15 @@ itkVersorTest(int, char *[])
 
     const VectorType xb = xa * sinangle;
 
-    if (itk::Math::Absolute(qa.GetX() - xb[0]) > epsilon)
-    {
-      std::cout << "Error in X ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (itk::Math::Absolute(qa.GetY() - xb[1]) > epsilon)
-    {
-      std::cout << "Error in Y ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (itk::Math::Absolute(qa.GetZ() - xb[2]) > epsilon)
-    {
-      std::cout << "Error in Z ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (itk::Math::Absolute(qa.GetW() - cosangle) > epsilon)
-    {
-      std::cout << "Error in W ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (itk::Math::Absolute(qa.GetAngle() - angle) > epsilon)
-    {
-      std::cout << "Error in Angle ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-
-    std::cout << " PASSED !" << std::endl;
+    EXPECT_NEAR(qa.GetX(), xb[0], epsilon);
+    EXPECT_NEAR(qa.GetY(), xb[1], epsilon);
+    EXPECT_NEAR(qa.GetZ(), xb[2], epsilon);
+    EXPECT_NEAR(qa.GetW(), cosangle, epsilon);
+    EXPECT_NEAR(qa.GetAngle(), angle, epsilon);
   }
 
   {
-    std::cout << "Test for setting Right part...";
+    // Test for setting Right part
     const ValueType angle = std::atan(1.0) * 30.0 / 45.0;
     const ValueType sin2a = std::sin(angle / 2.0);
 
@@ -319,24 +267,12 @@ itkVersorTest(int, char *[])
     qa.Set(xa, angle);
     const ValueType cos2a = std::cos(angle / 2.0);
 
-    if (itk::Math::Absolute(qa.GetW() - cos2a) > epsilon)
-    {
-      std::cout << "Error in W ! " << std::endl;
-      std::cout << "W= " << qa.GetW();
-      std::cout << " it should be " << cos2a << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (itk::Math::Absolute(qa.GetAngle() - angle) > epsilon)
-    {
-      std::cout << "Error in Angle ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    std::cout << " PASSED !" << std::endl;
+    EXPECT_NEAR(qa.GetW(), cos2a, epsilon);
+    EXPECT_NEAR(qa.GetAngle(), angle, epsilon);
   }
 
   {
-    std::cout << "Test for Square Root...";
-
+    // Test for Square Root
     const ValueType angle = std::atan(1.0) * 30.0 / 45.0;
     const ValueType sin2a = std::sin(angle / 2.0);
 
@@ -353,18 +289,11 @@ itkVersorTest(int, char *[])
 
     const VersorType qb = qa.SquareRoot();
 
-    if (itk::Math::Absolute(qa.GetAngle() - 2.0 * qb.GetAngle()) > epsilon)
-    {
-      std::cout << "Error in Square Root ! " << std::endl;
-      std::cout << "Angle = " << qb.GetAngle();
-      std::cout << " it should be " << qa.GetAngle() / 2.0 << std::endl;
-      return EXIT_FAILURE;
-    }
-    std::cout << " PASSED !" << std::endl;
+    EXPECT_NEAR(qa.GetAngle(), 2.0 * qb.GetAngle(), epsilon);
   }
 
   {
-    std::cout << "Test for Transforming a vector...";
+    // Test for Transforming a vector
     VectorType xa;
     xa[0] = 2.5;
     xa[1] = 2.5;
@@ -380,26 +309,13 @@ itkVersorTest(int, char *[])
     VectorType xc = qa.Transform(xb);
 
     // This rotation will just permute the axis
-    if (itk::Math::Absolute(xc[1] - xb[0]) > epsilon)
-    {
-      std::cout << "Error in X ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (itk::Math::Absolute(xc[2] - xb[1]) > epsilon)
-    {
-      std::cout << "Error in Y ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (itk::Math::Absolute(xc[0] - xb[2]) > epsilon)
-    {
-      std::cout << "Error in Z ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    std::cout << " PASSED !" << std::endl;
+    EXPECT_NEAR(xc[1], xb[0], epsilon);
+    EXPECT_NEAR(xc[2], xb[1], epsilon);
+    EXPECT_NEAR(xc[0], xb[2], epsilon);
   }
 
   {
-    std::cout << "Test for Transforming a point...";
+    // Test for Transforming a point
     VectorType xa;
     xa[0] = 2.5;
     xa[1] = 2.5;
@@ -415,27 +331,14 @@ itkVersorTest(int, char *[])
     PointType xc = qa.Transform(xb);
 
     // This rotation will just permute the axis
-    if (itk::Math::Absolute(xc[1] - xb[0]) > epsilon)
-    {
-      std::cout << "Error in X ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (itk::Math::Absolute(xc[2] - xb[1]) > epsilon)
-    {
-      std::cout << "Error in Y ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (itk::Math::Absolute(xc[0] - xb[2]) > epsilon)
-    {
-      std::cout << "Error in Z ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    std::cout << " PASSED !" << std::endl;
+    EXPECT_NEAR(xc[1], xb[0], epsilon);
+    EXPECT_NEAR(xc[2], xb[1], epsilon);
+    EXPECT_NEAR(xc[0], xb[2], epsilon);
   }
 
 
   {
-    std::cout << "Test for Transforming a covariantvector...";
+    // Test for Transforming a covariantvector
     VectorType xa;
     xa[0] = 2.5;
     xa[1] = 2.5;
@@ -451,26 +354,13 @@ itkVersorTest(int, char *[])
     CovariantVectorType xc = qa.Transform(xb);
 
     // This rotation will just permute the axis
-    if (itk::Math::Absolute(xc[1] - xb[0]) > epsilon)
-    {
-      std::cout << "Error in X ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (itk::Math::Absolute(xc[2] - xb[1]) > epsilon)
-    {
-      std::cout << "Error in Y ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (itk::Math::Absolute(xc[0] - xb[2]) > epsilon)
-    {
-      std::cout << "Error in Z ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    std::cout << " PASSED !" << std::endl;
+    EXPECT_NEAR(xc[1], xb[0], epsilon);
+    EXPECT_NEAR(xc[2], xb[1], epsilon);
+    EXPECT_NEAR(xc[0], xb[2], epsilon);
   }
 
   {
-    std::cout << "Test for Transforming a vnl_vector...";
+    // Test for Transforming a vnl_vector
     VectorType xa;
     xa[0] = 2.5;
     xa[1] = 2.5;
@@ -488,26 +378,13 @@ itkVersorTest(int, char *[])
     VnlVectorType xc = qa.Transform(xb);
 
     // This rotation will just permute the axis
-    if (itk::Math::Absolute(xc[1] - xb[0]) > epsilon)
-    {
-      std::cout << "Error in X ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (itk::Math::Absolute(xc[2] - xb[1]) > epsilon)
-    {
-      std::cout << "Error in Y ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    if (itk::Math::Absolute(xc[0] - xb[2]) > epsilon)
-    {
-      std::cout << "Error in Z ! " << std::endl;
-      return EXIT_FAILURE;
-    }
-    std::cout << " PASSED !" << std::endl;
+    EXPECT_NEAR(xc[1], xb[0], epsilon);
+    EXPECT_NEAR(xc[2], xb[1], epsilon);
+    EXPECT_NEAR(xc[0], xb[2], epsilon);
   }
 
   {
-    std::cout << "Test for Set components operations ...";
+    // Test for Set components operations
 
     // First, create a known versor
     VectorType::ValueType x1Init[3] = { 2.5f, 1.5f, 3.5f };
@@ -529,17 +406,12 @@ itkVersorTest(int, char *[])
     v2.Set(x, y, z, w);
 
     // Compare both versors
-    if (itk::Math::Absolute(v1.GetX() - v2.GetX()) > epsilon || itk::Math::Absolute(v1.GetY() - v2.GetY()) > epsilon ||
-        itk::Math::Absolute(v1.GetZ() - v2.GetZ()) > epsilon || itk::Math::Absolute(v1.GetW() - v2.GetW()) > epsilon)
-    {
-      std::cout << "Error in Versor Set(x,y,z,w) ! " << std::endl;
-      std::cout << "v1  = " << v1 << std::endl;
-      std::cout << "v2  = " << v2 << std::endl;
-      return EXIT_FAILURE;
-    }
-    std::cout << " PASSED !" << std::endl;
+    EXPECT_NEAR(v1.GetX(), v2.GetX(), epsilon);
+    EXPECT_NEAR(v1.GetY(), v2.GetY(), epsilon);
+    EXPECT_NEAR(v1.GetZ(), v2.GetZ(), epsilon);
+    EXPECT_NEAR(v1.GetW(), v2.GetW(), epsilon);
 
-    std::cout << "Test for Set quaternion ...";
+    // Test for Set quaternion
     // Get a vnl_quaternion
     VnlQuaternionType vnlq = v1.GetVnlQuaternion();
     vnlq *= scale;
@@ -547,17 +419,12 @@ itkVersorTest(int, char *[])
     v2.Set(vnlq);
 
     // Compare both versors
-    if (itk::Math::Absolute(v1.GetX() - v2.GetX()) > epsilon || itk::Math::Absolute(v1.GetY() - v2.GetY()) > epsilon ||
-        itk::Math::Absolute(v1.GetZ() - v2.GetZ()) > epsilon || itk::Math::Absolute(v1.GetW() - v2.GetW()) > epsilon)
-    {
-      std::cout << "Error in Versor Set( vnl_quaternion ) ! " << std::endl;
-      std::cout << "v1  = " << v1 << std::endl;
-      std::cout << "v2  = " << v2 << std::endl;
-      return EXIT_FAILURE;
-    }
-    std::cout << " PASSED !" << std::endl;
+    EXPECT_NEAR(v1.GetX(), v2.GetX(), epsilon);
+    EXPECT_NEAR(v1.GetY(), v2.GetY(), epsilon);
+    EXPECT_NEAR(v1.GetZ(), v2.GetZ(), epsilon);
+    EXPECT_NEAR(v1.GetW(), v2.GetW(), epsilon);
 
-    std::cout << "Test for Set(x,y,z,w) with negative W.";
+    // Test for Set(x,y,z,w) with negative W.
     // Check that a negative W results in negating
     // all the versor components.
     x = -v1.GetX();
@@ -569,20 +436,14 @@ itkVersorTest(int, char *[])
     v3.Set(x, y, z, w);
 
     // Compare both versors
-    if (itk::Math::Absolute(v1.GetX() - v3.GetX()) > epsilon || itk::Math::Absolute(v1.GetY() - v3.GetY()) > epsilon ||
-        itk::Math::Absolute(v1.GetZ() - v3.GetZ()) > epsilon || itk::Math::Absolute(v1.GetW() - v3.GetW()) > epsilon)
-    {
-      std::cout << "Error in Versor Set() with negative W ! " << std::endl;
-      std::cout << "v1  = " << v1 << std::endl;
-      std::cout << "v3  = " << v3 << std::endl;
-      return EXIT_FAILURE;
-    }
-    std::cout << " PASSED !" << std::endl;
+    EXPECT_NEAR(v1.GetX(), v3.GetX(), epsilon);
+    EXPECT_NEAR(v1.GetY(), v3.GetY(), epsilon);
+    EXPECT_NEAR(v1.GetZ(), v3.GetZ(), epsilon);
+    EXPECT_NEAR(v1.GetW(), v3.GetW(), epsilon);
   }
 
   {
-    std::cout << "Test for Reciprocal and Conjugate Operations...";
-
+    // Test for Reciprocal and Conjugate Operations
     VectorType::ValueType x1Init[3] = { 2.5f, 1.5f, 0.5f };
     VectorType            x1 = x1Init;
 
@@ -601,40 +462,24 @@ itkVersorTest(int, char *[])
     const VersorType v2r = v2.GetReciprocal();
     VersorType       unit = v2 * v2r;
 
-    if (itk::Math::Absolute(unit.GetX()) > epsilon || itk::Math::Absolute(unit.GetY()) > epsilon ||
-        itk::Math::Absolute(unit.GetZ()) > epsilon || itk::Math::Absolute(unit.GetW() - 1.0) > epsilon)
-    {
-      std::cout << "Error in Reciprocal ! " << std::endl;
-      std::cout << "Versor     = " << v2 << std::endl;
-      std::cout << "Reciprocal = " << v2r << std::endl;
-      std::cout << "Product    = " << unit << std::endl;
-
-      return EXIT_FAILURE;
-    }
+    EXPECT_NEAR(unit.GetX(), 0.0, epsilon);
+    EXPECT_NEAR(unit.GetY(), 0.0, epsilon);
+    EXPECT_NEAR(unit.GetZ(), 0.0, epsilon);
+    EXPECT_NEAR(unit.GetW(), 1.0, epsilon);
 
     unit = v2 / v2;
 
-    if (itk::Math::Absolute(unit.GetX()) > epsilon || itk::Math::Absolute(unit.GetY()) > epsilon ||
-        itk::Math::Absolute(unit.GetZ()) > epsilon || itk::Math::Absolute(unit.GetW() - 1.0) > epsilon)
-    {
-      std::cout << "Error in Division ! " << std::endl;
-      std::cout << "Versor          = " << v2 << std::endl;
-      std::cout << "Self Division   = " << unit << std::endl;
-
-      return EXIT_FAILURE;
-    }
+    EXPECT_NEAR(unit.GetX(), 0.0, epsilon);
+    EXPECT_NEAR(unit.GetY(), 0.0, epsilon);
+    EXPECT_NEAR(unit.GetZ(), 0.0, epsilon);
+    EXPECT_NEAR(unit.GetW(), 1.0, epsilon);
 
     unit = v2;
     unit /= v2;
-    if (itk::Math::Absolute(unit.GetX()) > epsilon || itk::Math::Absolute(unit.GetY()) > epsilon ||
-        itk::Math::Absolute(unit.GetZ()) > epsilon || itk::Math::Absolute(unit.GetW() - 1.0) > epsilon)
-    {
-      std::cout << "Error in Division operator/= ! " << std::endl;
-      std::cout << "Versor          = " << v2 << std::endl;
-      std::cout << "Self Division   = " << unit << std::endl;
-
-      return EXIT_FAILURE;
-    }
+    EXPECT_NEAR(unit.GetX(), 0.0, epsilon);
+    EXPECT_NEAR(unit.GetY(), 0.0, epsilon);
+    EXPECT_NEAR(unit.GetZ(), 0.0, epsilon);
+    EXPECT_NEAR(unit.GetW(), 1.0, epsilon);
 
     x1.Normalize();
     x2.Normalize();
@@ -643,20 +488,14 @@ itkVersorTest(int, char *[])
     const VersorType v3 = v1 * v2;
     const VersorType v4 = v3 * v2r;
 
-    if (itk::Math::Absolute(v1.GetX() - v4.GetX()) > epsilon || itk::Math::Absolute(v1.GetY() - v4.GetY()) > epsilon ||
-        itk::Math::Absolute(v1.GetZ() - v4.GetZ()) > epsilon || itk::Math::Absolute(v1.GetW() - v4.GetW()) > epsilon)
-    {
-      std::cout << "Error in Versor division ! " << std::endl;
-      std::cout << "v1  = " << v1 << std::endl;
-      std::cout << "v1' = " << v4 << std::endl;
-      return EXIT_FAILURE;
-    }
-    std::cout << " PASSED !" << std::endl;
+    EXPECT_NEAR(v1.GetX(), v4.GetX(), epsilon);
+    EXPECT_NEAR(v1.GetY(), v4.GetY(), epsilon);
+    EXPECT_NEAR(v1.GetZ(), v4.GetZ(), epsilon);
+    EXPECT_NEAR(v1.GetW(), v4.GetW(), epsilon);
   }
 
 
   { // Test for the Set() matrix method
-    std::cout << "Test for Set( MatrixType ) method ..." << std::endl;
     MatrixType mm;
     // Setting the matrix of a 90 degrees rotation around Z
     mm[0][0] = 0.0;
@@ -676,40 +515,20 @@ itkVersorTest(int, char *[])
 
     const double halfSqrtOfTwo = std::sqrt(2.0) / 2.0;
 
-    if (itk::Math::Absolute(vv.GetX() - 0.0) > epsilon || itk::Math::Absolute(vv.GetY() - 0.0) > epsilon ||
-        itk::Math::Absolute(vv.GetZ() - (-halfSqrtOfTwo)) > epsilon ||
-        itk::Math::Absolute(vv.GetW() - halfSqrtOfTwo) > epsilon)
-    {
-      std::cout << "Error in Versor Set(Matrix) method ! " << std::endl;
-      std::cout << "vv  = " << vv << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_NEAR(vv.GetX(), 0.0, epsilon);
+    EXPECT_NEAR(vv.GetY(), 0.0, epsilon);
+    EXPECT_NEAR(vv.GetZ(), -halfSqrtOfTwo, epsilon);
+    EXPECT_NEAR(vv.GetW(), halfSqrtOfTwo, epsilon);
+
     // matrix no longer represents a rotation
     mm[0][0] = 1.0;
-    try
-    {
-      vv.Set(mm);
-      return EXIT_FAILURE;
-    } // should always get here, mm isn't a rotation
-    catch (const itk::ExceptionObject & excp)
-    {
-      std::cout << "Caught expected exception: " << excp;
-    }
-    std::cout << " PASSED !" << std::endl;
+    // should always throw, mm isn't a rotation
+    EXPECT_THROW(vv.Set(mm), itk::ExceptionObject);
   }
   {
-    std::cout << "Test for Set( MatrixType ) method with rotations that are susceptible to errors in conversion "
-                 "to/from the rotation matrix...";
-
+    // Test for Set( MatrixType ) method with rotations that are susceptible to errors in conversion
+    // to/from the rotation matrix
     const int RotationMatrixStabilityTestErrors = RotationMatrixToVersorTest();
-    if (RotationMatrixStabilityTestErrors > 0)
-    {
-      std::cout << "Error in stability of converting to/from RotationMatrix with Set(Matrix) method ! " << std::endl;
-      std::cout << "Errors Found  = " << RotationMatrixStabilityTestErrors << std::endl;
-      return EXIT_FAILURE;
-    }
-    std::cout << " PASSED !" << std::endl;
+    EXPECT_EQ(RotationMatrixStabilityTestErrors, 0);
   }
-
-  return EXIT_SUCCESS;
 }

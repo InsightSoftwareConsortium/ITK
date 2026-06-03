@@ -33,7 +33,6 @@ set(
   itkNeighborhoodAlgorithmTest.cxx
   itkNeighborhoodOperatorTest.cxx
   itkNumberToStringTest.cxx
-  itkNumericsTest.cxx
   itkNumericTraitsTest.cxx
   itkObjectFactoryTest.cxx
   itkObjectStoreTest.cxx
@@ -87,7 +86,6 @@ set(
   itkConstShapedNeighborhoodIteratorTest2.cxx
   itkLoggerOutputTest.cxx
   itkNeighborhoodTest.cxx
-  itkVersorTest.cxx
   itkObjectFactoryTest2.cxx
   itkObjectFactoryTest3.cxx
   itkObjectFactoryOnlyNewTest.cxx
@@ -99,12 +97,9 @@ set(
   itkVNLRoundProfileTest1.cxx
   itkMemoryProbesCollecterBaseTest.cxx
   itkImageAlgorithmCopyTest.cxx
-  itkImageAlgorithmCopyTest2.cxx
   itkConstantBoundaryConditionTest.cxx
   itkDataObjectAndProcessObjectTest.cxx
   itkOptimizerParametersTest.cxx
-  itkImageVectorOptimizerParametersHelperTest.cxx
-  itkCompensatedSummationTest2.cxx
   itkImageRegionConstIteratorWithOnlyIndexTest.cxx
   itkImageRandomConstIteratorWithOnlyIndexTest.cxx
   itkConstNeighborhoodIteratorWithOnlyIndexTest.cxx
@@ -896,12 +891,6 @@ itk_add_test(
     itkNeighborhoodOperatorTest
 )
 itk_add_test(
-  NAME itkNumericsTest
-  COMMAND
-    ITKCommon1TestDriver
-    itkNumericsTest
-)
-itk_add_test(
   NAME itkNumericTraitsTest
   COMMAND
     ITKCommon1TestDriver
@@ -1026,12 +1015,6 @@ itk_add_test(
   COMMAND
     ITKCommon2TestDriver
     itkTimeProbesTest
-)
-itk_add_test(
-  NAME itkVersorTest
-  COMMAND
-    ITKCommon2TestDriver
-    itkVersorTest
 )
 itk_add_test(
   NAME itkSymmetricSecondRankTensorImageReadTest
@@ -1163,28 +1146,10 @@ itk_add_test(
     itkImageAlgorithmCopyTest
 )
 itk_add_test(
-  NAME itkImageAlgorithmCopyTest2
-  COMMAND
-    ITKCommon2TestDriver
-    itkImageAlgorithmCopyTest2
-)
-itk_add_test(
   NAME itkOptimizerParametersTest
   COMMAND
     ITKCommon2TestDriver
     itkOptimizerParametersTest
-)
-itk_add_test(
-  NAME itkImageVectorOptimizerParametersHelperTest
-  COMMAND
-    ITKCommon2TestDriver
-    itkImageVectorOptimizerParametersHelperTest
-)
-itk_add_test(
-  NAME itkCompensatedSummationTest2
-  COMMAND
-    ITKCommon2TestDriver
-    itkCompensatedSummationTest2
 )
 
 #
@@ -1440,6 +1405,7 @@ set(
   itkHashTableGTest.cxx
   itkHeavisideStepFunctionGTest.cxx
   itkImageAdaptorPipeLineGTest.cxx
+  itkImageAlgorithmCopyGTest2.cxx
   itkImageBaseGTest.cxx
   itkImageBufferRangeGTest.cxx
   itkImageGTest.cxx
@@ -1451,6 +1417,7 @@ set(
   itkImageRegionGTest.cxx
   itkImageRegionRangeGTest.cxx
   itkImageTransformGTest.cxx
+  itkImageVectorOptimizerParametersHelperGTest.cxx
   itkImportContainerGTest.cxx
   itkImportImageGTest.cxx
   itkIndexGTest.cxx
@@ -1470,6 +1437,7 @@ set(
   itkNeighborhoodIteratorsGTest.cxx
   itkNumberToStringGTest.cxx
   itkNumericLocaleGTest.cxx
+  itkNumericsGTest.cxx
   itkObjectFactoryBaseGTest.cxx
   itkOffsetGTest.cxx
   itkOptimizerParametersGTest.cxx
@@ -1510,6 +1478,7 @@ set(
   itkVectorContainerGTest.cxx
   itkVectorGTest.cxx
   itkVersionGTest.cxx
+  itkVersorGTest.cxx
   itkWeakPointerGTest.cxx
   itkZeroFluxBoundaryConditionGTest.cxx
   VNLSparseLUSolverTraitsGTest.cxx
