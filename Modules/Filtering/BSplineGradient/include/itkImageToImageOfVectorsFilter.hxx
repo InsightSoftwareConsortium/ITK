@@ -66,15 +66,15 @@ ImageToImageOfVectorsFilter<TInputImage, VComponents>::DynamicThreadedGenerateDa
   oit.GoToBegin();
 
   using InputIteratorType = ImageRegionConstIterator<InputImageType>;
-  std::vector<InputIteratorType *> inputItContainer;
+  std::vector<InputIteratorType> inputItContainer;
+  inputItContainer.reserve(VComponents);
 
   for (unsigned int i = 0; i < VComponents; i++)
   {
-    typename InputImageType::Pointer inputImagePointer =
-      static_cast<InputImageType *>(this->ProcessObject::GetInput(i));
+    const auto inputImagePointer = static_cast<InputImageType *>(this->ProcessObject::GetInput(i));
 
-    auto * iit = new InputIteratorType(inputImagePointer, outputRegionForThread);
-    iit->GoToBegin();
+    InputIteratorType iit(inputImagePointer, outputRegionForThread);
+    iit.GoToBegin();
     inputItContainer.push_back(iit);
   }
 
@@ -83,16 +83,11 @@ ImageToImageOfVectorsFilter<TInputImage, VComponents>::DynamicThreadedGenerateDa
   {
     for (unsigned int i = 0; i < VComponents; i++)
     {
-      pix[i] = inputItContainer[i]->Get();
-      ++(*inputItContainer[i]);
+      pix[i] = inputItContainer[i].Get();
+      ++inputItContainer[i];
     }
     oit.Set(pix);
     ++oit;
-  }
-
-  for (unsigned int i = 0; i < VComponents; i++)
-  {
-    delete inputItContainer[i];
   }
 }
 
