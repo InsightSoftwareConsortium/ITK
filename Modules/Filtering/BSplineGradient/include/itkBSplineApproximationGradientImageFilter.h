@@ -75,7 +75,6 @@ public:
   static constexpr unsigned int InputVectorDimension = InputPixelType::Dimension;
 
   /** Internal filter type */
-  /** Internal filter type */
   using PointSetToGradientFilterType = BSplineScatteredDataPointSetToGradientImageFilter<PointSetType, OutputValueType>;
   using PointSetToGradientFilterPointerType = typename PointSetToGradientFilterType::Pointer;
   using ArrayType = typename PointSetToGradientFilterType::ArrayType;

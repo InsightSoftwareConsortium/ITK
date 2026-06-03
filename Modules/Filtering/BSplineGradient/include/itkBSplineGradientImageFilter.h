@@ -84,7 +84,7 @@ public:
   /** Typedefs for the interpolator. */
   using CoordinateType = TCoordRep;
   using CoefficientType = TCoefficientType;
-  using InterpolatorType = itk::BSplineInterpolateImageFunction<InputImageType, CoordinateType, CoefficientType>;
+  using InterpolatorType = BSplineInterpolateImageFunction<InputImageType, CoordinateType, CoefficientType>;
   using InterpolatorPointerType = typename InterpolatorType::Pointer;
 
 protected:

@@ -38,7 +38,7 @@ namespace itk
  * calculate a gradient image.
  *
  * The point data on the input PointSet should be
- * \doxgygen{VariableLengthVector}'s, and an
+ * \doxygen{VariableLengthVector}'s, and an
  * \doxygen{CovariantVector} on will be placed on each output corresponding to
  * the components to of the point data vector.
  *
@@ -50,7 +50,7 @@ namespace itk
  * \ingroup BSplineGradient
  */
 template <typename TInputPointSet, typename TOutputValueType>
-class BSplineScatteredDataPointSetToGradientImageFilter
+class ITK_TEMPLATE_EXPORT BSplineScatteredDataPointSetToGradientImageFilter
   : public PointSetToImageFilter<
       TInputPointSet,
       Image<CovariantVector<TOutputValueType, TInputPointSet::PointDimension>, TInputPointSet::PointDimension>>
@@ -90,11 +90,11 @@ public:
   using OutputValueType = TOutputValueType;
   using OutputPixelType = CovariantVector<OutputValueType, ImageDimension>;
   using OutputImageRegionType = typename OutputImageType::RegionType;
-  using InternalImageType = typename itk::Image<InputPixelType, ImageDimension>;
+  using InternalImageType = Image<InputPixelType, ImageDimension>;
 
   /** Internal filter type. */
   using BSplineScatteredDataFilterType =
-    typename itk::BSplineScatteredDataPointSetToImageFilter<InputPointSetType, InternalImageType>;
+    BSplineScatteredDataPointSetToImageFilter<InputPointSetType, InternalImageType>;
   using BSplineScatteredDataFilterPointerType = typename BSplineScatteredDataFilterType::Pointer;
 
   using ArrayType = typename BSplineScatteredDataFilterType::ArrayType;

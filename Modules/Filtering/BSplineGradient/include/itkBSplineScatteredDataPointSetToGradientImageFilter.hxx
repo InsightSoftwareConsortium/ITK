@@ -119,7 +119,7 @@ BSplineScatteredDataPointSetToGradientImageFilter<TInputPointSet, TOutputValueTy
   bspliner->SetOrigin(this->m_BSplineScatteredDataFilter->GetOrigin());
   bspliner->SetInputImage(this->m_BSplineScatteredDataFilter->GetPhiLattice());
 
-  using OutputIteratorType = typename itk::ImageRegionIteratorWithIndex<OutputImageType>;
+  using OutputIteratorType = ImageRegionIteratorWithIndex<OutputImageType>;
   InternalGradientType                      gradient;
   OutputPixelType                           gradientPixel;
   typename OutputImageType::PointType       point;

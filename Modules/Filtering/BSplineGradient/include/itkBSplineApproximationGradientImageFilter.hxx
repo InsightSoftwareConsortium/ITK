@@ -94,7 +94,7 @@ BSplineApproximationGradientImageFilter<TInputImage, TOutputValueType>::Generate
   ArrayType ncpts;
   for (i = 0; i < ImageDimension; ++i)
   {
-    ncpts[i] = static_cast<typename ArrayType::ValueType>(vcl_floor(
+    ncpts[i] = static_cast<typename ArrayType::ValueType>(std::floor(
       static_cast<double>(size[i]) /
       (m_ControlPointSpacingRatio[i] * static_cast<double>(std::pow(2., static_cast<int>(m_NumberOfLevels[i] - 1))))));
   }
