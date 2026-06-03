@@ -10,7 +10,7 @@ ITK's git pack small.
 
 | File | Role |
 |---|---|
-| `ingest-remote-module.sh` | The driver.  One invocation per module: clones upstream, runs the whitelist `filter-repo` passes, writes the merge commit with `Co-authored-by:` trailers for every upstream contributor. |
+| `ingest-module-v4.sh` | The driver.  One invocation per module: clones upstream, runs the whitelist `filter-repo` passes, writes the merge commit with `Co-authored-by:` trailers for every upstream contributor. |
 | `INGESTION_STRATEGY.md` | The current-version strategy document.  Lives here so changes to the strategy are reviewable and versioned with the tree rather than scattered in PR comments. |
 | `AUDIT_DESIGN.md` | Design notes for the pre-ingest audit pass (blob-size histogram, strip-candidate paths, copyright-review flag, recommended-mode logic). |
 | `CLEANUP_CHECKLIST.md` | What to strip (history-wide or working-tree).  Mostly a safety net once the whitelist is in effect; still used for copyright review and for mode B residual blobs. |
@@ -33,7 +33,7 @@ cd <ITK-checkout>
 git checkout -b ingest-<Module> upstream/main
 
 # 1. Run the driver (creates the merge commit).
-Utilities/Maintenance/RemoteModuleIngest/ingest-remote-module.sh \
+Utilities/Maintenance/RemoteModuleIngest/ingest-module-v4.sh \
     <Module> <DestGroup>
 
 # 2. Add the module-level README that points at the archived upstream.
@@ -95,7 +95,7 @@ Before actually running an ingest — especially for an unfamiliar
 upstream — run the driver with `--dry-run`:
 
 ```bash
-Utilities/Maintenance/RemoteModuleIngest/ingest-remote-module.sh \
+Utilities/Maintenance/RemoteModuleIngest/ingest-module-v4.sh \
     <Module> <DestGroup> --dry-run --keep-tempdir
 ```
 

@@ -4,7 +4,7 @@ This file is written for AI coding agents (Claude Code, Cursor, GPT
 Codex, similar) that are asked to ingest a remote ITK module into
 the main source tree.  It complements `README.md` (human-focused)
 and `INGESTION_STRATEGY.md` (policy-focused).  Read this before
-running `ingest-remote-module.sh`.
+running `ingest-module-v4.sh`.
 
 ## When to invoke this workflow
 
@@ -46,7 +46,7 @@ an ingest unless the destination is `Modules/<Group>/<Module>/`.
 
 5. **Always dry-run first** for any module you haven't ingested before:
    ```
-   Utilities/Maintenance/RemoteModuleIngest/ingest-remote-module.sh \
+   Utilities/Maintenance/RemoteModuleIngest/ingest-module-v4.sh \
        <Module> <Group> --dry-run --keep-tempdir
    ```
    Inspect the tempdir output before the real run.  In particular:
@@ -130,7 +130,7 @@ fixup folded into the merge commit.  Either is fine.  What is
 **not** fine is pushing the PR with `.md5` or `.shaNNN` stubs still
 in the tree.
 
-When the `ingest-remote-module.sh` driver finishes and
+When the `ingest-module-v4.sh` driver finishes and
 non-`.cid` content-links remain, it exits with code `2`
 ("action required") and prints the list of files.  Don't treat that
 as a warning; treat it as a blocking pre-push gate.

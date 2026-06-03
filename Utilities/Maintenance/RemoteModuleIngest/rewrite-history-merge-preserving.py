@@ -41,7 +41,7 @@ What this does (Phase 1 / Phase 2 / Phase 3 / Phase 4 model):
 
   Phase 4 — MERGE
     The rewritten history is then ready for the Mode A merge step
-    in ``ingest-remote-module.sh``.  This script does NOT perform
+    in ``ingest-module-v4.sh``.  This script does NOT perform
     the merge; it produces a rewritten history that the ingest
     script consumes.
 
@@ -233,7 +233,7 @@ def main(argv: list[str] | None = None) -> int:
         help="Minimum number of merge commits expected to survive in the "
         "rewritten range.  Pass N where N is the number of upstream-side "
         "merge commits in the source history; the Mode A ingest merge is "
-        "added later by ingest-remote-module.sh and is not counted here.",
+        "added later by ingest-module-v4.sh and is not counted here.",
     )
     p.add_argument(
         "--phase-1",

@@ -600,24 +600,24 @@ measured impact on the ITK repo:
 
 ## Automated workflow
 
-`ingest-remote-module.sh` grows a pre-ingest audit phase and the three
+`ingest-module-v4.sh` grows a pre-ingest audit phase and the three
 modes.
 
 ```bash
-./ingest-remote-module.sh <ModuleName> <DestGroup> [OPTIONS]
+./ingest-module-v4.sh <ModuleName> <DestGroup> [OPTIONS]
 
 # Run the audit and print the recommendation without modifying anything:
-./ingest-remote-module.sh AnisotropicDiffusionLBR Filtering --audit-only
+./ingest-module-v4.sh AnisotropicDiffusionLBR Filtering --audit-only
 
 # Accept the audit's recommendation:
-./ingest-remote-module.sh AnisotropicDiffusionLBR Filtering
+./ingest-module-v4.sh AnisotropicDiffusionLBR Filtering
 
 # Override the recommendation (after human review):
-./ingest-remote-module.sh AnisotropicDiffusionLBR Filtering --mode=full-history
-./ingest-remote-module.sh AnisotropicDiffusionLBR Filtering --mode=filtered-history \
+./ingest-module-v4.sh AnisotropicDiffusionLBR Filtering --mode=full-history
+./ingest-module-v4.sh AnisotropicDiffusionLBR Filtering --mode=filtered-history \
     --strip-paths 'Old/' 'paper/' \
     --strip-blobs-bigger-than=1M
-./ingest-remote-module.sh AnisotropicDiffusionLBR Filtering --mode=squash
+./ingest-module-v4.sh AnisotropicDiffusionLBR Filtering --mode=squash
 ```
 
 Flag additions:
@@ -911,7 +911,7 @@ not-yet-formatted state.
 
 ## References
 
-- `ingest-remote-module.sh` — automated ingestion script (adds audit + mode)
+- `ingest-module-v4.sh` — automated ingestion script (adds audit + mode)
 - `normalize-ingest-commits.py` — per-commit pre-commit replay + subject normalization
 - `CLEANUP_CHECKLIST.md` — artifact removal details (extended with bloat-specific paths)
 - `INGEST_LOG.md` — post-ingest metrics, one block per module

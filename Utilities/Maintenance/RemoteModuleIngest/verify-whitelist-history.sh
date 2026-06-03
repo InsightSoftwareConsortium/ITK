@@ -2,7 +2,7 @@
 # verify-whitelist-history.sh — confirm no scaffolding patterns leaked
 # into an ingested module's history.
 #
-# The whitelist in ingest-remote-module.sh admits everything under
+# The whitelist in ingest-module-v4.sh admits everything under
 # `include/`, `src/`, `test/`, `wrapping/` + the two root CMake
 # files.  Directory-level admission is not tight enough on its own:
 # some upstream repos put scaffolding (CI configs, Dockerfiles,
@@ -15,7 +15,7 @@
 # and exits with code 2 if any are found.
 #
 # Intended uses:
-#  * As the final step of ingest-remote-module.sh (driver embeds it).
+#  * As the final step of ingest-module-v4.sh (driver embeds it).
 #  * As a standalone audit of an already-merged ingest:
 #      verify-whitelist-history.sh Modules/Filtering/AnisotropicDiffusionLBR
 #  * As a CI check on the ingest branch before push.
