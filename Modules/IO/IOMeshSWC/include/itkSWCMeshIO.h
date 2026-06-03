@@ -51,7 +51,7 @@ public:
   };
 };
 extern IOMeshSWC_EXPORT std::ostream &
-operator<<(std::ostream & out, const SWCMeshIOEnums::SWCPointData value);
+                        operator<<(std::ostream & out, const SWCMeshIOEnums::SWCPointData value);
 
 /**
  *\class SWCMeshIO
