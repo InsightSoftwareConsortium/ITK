@@ -15,7 +15,8 @@ itk_module(
     ITKIOMeshBase
   TEST_DEPENDS
     ITKTestKernel
-  DESCRIPTION "Module ingested from upstream."
+  DESCRIPTION
+    "Read and write meshes from SWC files, a format for representing neuron morphology."
   EXCLUDE_FROM_DEFAULT
   FACTORY_NAMES
     MeshIO::SWC
