@@ -20,6 +20,10 @@
 
 #include "itkRealToHalfHermitianForwardFFTImageFilter.h"
 #include "itkFFTWCommon.h"
+// Include fftw3.h directly: the proxy header skips it when first included before ITK_USE_FFTW* is defined.
+#if defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD)
+#  include "fftw3.h"
+#endif
 
 #include "itkFFTImageFilterFactory.h"
 
@@ -146,6 +150,18 @@ struct FFTImageFilterTraits<FFTWRealToHalfHermitianForwardFFTImageFilter>
   using OutputPixelType = std::complex<TUnderlying>;
   using FilterDimensions = std::integer_sequence<unsigned int, 4, 3, 2, 1>;
 };
+
+// Disable the precision whose FFTW backend is absent (avoids instantiating an undefined fftw proxy).
+#if !defined(ITK_USE_FFTWF)
+template <>
+struct FFTImageFilterEnableFloat<FFTWRealToHalfHermitianForwardFFTImageFilter> : std::false_type
+{};
+#endif
+#if !defined(ITK_USE_FFTWD)
+template <>
+struct FFTImageFilterEnableDouble<FFTWRealToHalfHermitianForwardFFTImageFilter> : std::false_type
+{};
+#endif
 
 } // namespace itk
 

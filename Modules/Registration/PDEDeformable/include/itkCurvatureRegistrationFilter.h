@@ -21,7 +21,9 @@
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkMeanSquareRegistrationFunction.h"
 
-#if !defined(ITK_USE_CUFFTW) && (defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD))
+// Uses FFTW real-to-real (DCT) transforms, implemented only for double
+// precision here, so this filter requires ITK_USE_FFTWD.
+#if !defined(ITK_USE_CUFFTW) && defined(ITK_USE_FFTWD)
 #  include "fftw3.h"
 
 namespace itk
@@ -136,16 +138,7 @@ public:
   using DisplacementFieldComponentType = typename DisplacementFieldPixelType::ValueType;
   static constexpr unsigned int DeformationVectorDimension = DisplacementFieldPixelType::Dimension;
 
-#  if defined(ITK_USE_FFTWD)
-  // Prefer to use double precision
   using RealTypeDFT = double;
-#  else
-#    if defined(ITK_USE_FFTWF)
-  // Allow to use single precision
-#      warning "Using single precision for FFT computations!"
-  using RealTypeDFT = double;
-#    endif
-#  endif
 
   using DisplacementFieldComponentImageType = Image<RealTypeDFT, TDisplacementField::ImageDimension>;
   using DisplacementFieldComponentImagePointer = typename DisplacementFieldComponentImageType::Pointer;
@@ -213,6 +206,6 @@ private:
 #    include "itkCurvatureRegistrationFilter.hxx"
 #  endif
 
-#endif // defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD)
+#endif // !defined(ITK_USE_CUFFTW) && defined(ITK_USE_FFTWD)
 
 #endif
