@@ -71,6 +71,7 @@ cmd = '''cmake \
   -DModule_IOFDF:BOOL=ON \
   -DModule_IOMeshMZ3:BOOL=ON \
   -DModule_IOMeshSTL:BOOL=ON \
+  -DModule_IOMeshSWC:BOOL=ON \
   -DModule_IOTransformDCMTK:BOOL=ON \
   -DModule_ITKDCMTK:BOOL=ON \
   -DModule_IsotropicWavelets:BOOL=ON \
