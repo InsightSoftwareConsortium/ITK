@@ -70,7 +70,20 @@ static boolean turbo_fill_input_buffer(j_decompress_ptr cinfo)
 {
   turbo_src_ptr src = (turbo_src_ptr)cinfo->src;
 
-  src->infile->read((char *)src->buffer, TURBO_INPUT_BUF_SIZE);
+  // Return FALSE (suspend) at fragment end; libjpeg suspension resumes with the next DICOM fragment.
+  if (!src->infile->good()) {
+    return FALSE;
+  }
+  std::streampos pos = src->infile->tellg();
+  std::streampos end = src->infile->seekg(0, std::ios::end).tellg();
+  src->infile->seekg(pos, std::ios::beg);
+  if (end == pos) {
+    return FALSE;
+  }
+
+  std::streamsize remaining = end - pos;
+  std::streamsize toRead = (remaining < TURBO_INPUT_BUF_SIZE) ? remaining : TURBO_INPUT_BUF_SIZE;
+  src->infile->read((char *)src->buffer, toRead);
   std::streamsize gcount = src->infile->gcount();
 
   if (gcount <= 0) {
