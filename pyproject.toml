@@ -63,6 +63,7 @@ cmd = '''cmake \
   -DModule_BoneMorphometry:BOOL=ON \
   -DModule_Cuberille:BOOL=ON \
   -DModule_FastBilateral:BOOL=ON \
+  -DModule_FixedPointInverseDisplacementField:BOOL=ON \
   -DModule_Fpfh:BOOL=ON \
   -DModule_GenericLabelInterpolator:BOOL=ON \
   -DModule_GrowCut:BOOL=ON \
