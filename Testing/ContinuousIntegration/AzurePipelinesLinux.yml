@@ -26,6 +26,11 @@ pr:
     - Utilities/Maintenance/*
 variables:
   ExternalDataVersion: 5.4.5
+  CCACHE_DIR: $(Pipeline.Workspace)/.ccache
+  CCACHE_BASEDIR: $(Build.SourcesDirectory)
+  CCACHE_COMPILERCHECK: content
+  CCACHE_NOHASHDIR: 'true'
+  CCACHE_SLOPPINESS: pch_defines,time_macros
 jobs:
 - job: Linux
   timeoutInMinutes: 0
@@ -52,9 +57,23 @@ jobs:
         set -x
         sudo pip3 install ninja
         sudo apt-get update
-        sudo apt-get install -y python3-venv
+        sudo apt-get install -y python3-venv ccache
         sudo python3 -m pip install lxml scikit-ci-addons
       displayName: 'Install dependencies'
+
+    - task: Cache@2
+      inputs:
+        key: 'ccache | rel54 | "$(Agent.OS)" | "Linux" | "$(Build.SourceVersion)"'
+        restoreKeys: |
+          ccache | rel54 | "$(Agent.OS)" | "Linux"
+        path: $(CCACHE_DIR)
+      displayName: 'ccache'
+
+    - bash: |
+        set -x
+        ccache --zero-stats
+        ccache --show-config
+      displayName: 'ccache config'
 
     - bash: |
         set -x
@@ -74,6 +93,8 @@ jobs:
           BUILD_SHARED_LIBS:BOOL=OFF
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=OFF
+          CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
+          CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
         ")
         set(CTEST_TEST_ARGS EXCLUDE_LABEL BigIO) # Disabled to conserve disk space
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
@@ -125,9 +146,23 @@ jobs:
         set -x
         sudo pip3 install ninja
         sudo apt-get update
-        sudo apt-get install -y python3-venv
+        sudo apt-get install -y python3-venv ccache
         sudo python3 -m pip install lxml scikit-ci-addons
       displayName: 'Install dependencies'
+
+    - task: Cache@2
+      inputs:
+        key: 'ccache | rel54 | "$(Agent.OS)" | "LinuxLegacyRemoved" | "$(Build.SourceVersion)"'
+        restoreKeys: |
+          ccache | rel54 | "$(Agent.OS)" | "LinuxLegacyRemoved"
+        path: $(CCACHE_DIR)
+      displayName: 'ccache'
+
+    - bash: |
+        set -x
+        ccache --zero-stats
+        ccache --show-config
+      displayName: 'ccache config'
 
     - bash: |
         set -x
@@ -149,6 +184,8 @@ jobs:
           BUILD_SHARED_LIBS:BOOL=OFF
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=OFF
+          CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
+          CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
         ")
         set(CTEST_TEST_ARGS EXCLUDE_LABEL BigIO) # Disabled to conserve disk space
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
