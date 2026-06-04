@@ -121,12 +121,12 @@ install(TARGETS ${INSTALL_LIBS}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Libraries
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Libraries
 )
-# --ITK]]
 
 # Install includes files
 install(FILES openjpeg.h
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${OPENJPEG_INSTALL_SUBDIR} COMPONENT Headers
 )
+# --ITK]]
 
 # -- ITK Begin
 # Apply user-defined properties to the library target.
@@ -146,6 +146,11 @@ install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/openjpeg_mangle.h
   ${CMAKE_CURRENT_BINARY_DIR}/opj_config.h
   DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR}
+  COMPONENT Development
+)
+install(FILES
+  ${CMAKE_CURRENT_SOURCE_DIR}/openjpeg.h
+  DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR}/openjpeg/src/lib/openjp2
   COMPONENT Development
 )
 #-- ITK End
