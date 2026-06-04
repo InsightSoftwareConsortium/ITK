@@ -114,8 +114,10 @@ wrap_type("itk::FixedArray" "FA" "itkFixedArray.h")
 set(dims ${ITK_WRAP_IMAGE_DIMS_INCREMENTED})
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   math(EXPR d2 "${d} * 2")
+
   # for itk::SymmetricSecondRankTensor
   math(EXPR d3 "${d} * (${d} + 1) / 2")
+
   list(
     APPEND
     dims
@@ -129,9 +131,9 @@ endforeach()
 # needs to have defined sizes for:
 # - ITK_WRAP_IMAGE_DIMS_INCREMENTED
 # - ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED
-# Dimensions 1;2;3;4;6 should always be wrapped.
+# Dimensions 1;2;3;4;6;9 should always be wrapped.
 
-unique(array_sizes "${dims};1;2;3;4;6;${ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED}")
+unique(array_sizes "${dims};1;2;3;4;6;9;${ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED}")
 
 # 3-D FixedArrays are required as superclass of rgb pixels
 # TODO: Do we need fixed arrays for all of these types? For just the selected
@@ -160,12 +162,10 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
   endforeach()
 
   # Check if computed comp dimension has already wrapped above
-  # by searching for it in ITK_WRAP_IMAGE_DIMS.
-  # If not, wrap it.
-  list(FIND ITK_WRAP_IMAGE_DIMS ${comp} ITK_FIXED_ARRAY_COMP_INDEX)
+  list(FIND array_sizes ${comp} array_sizes_index)
 
-  if(ITK_FIXED_ARRAY_COMP_INDEX LESS 0)
-    # Not already in ITK_WRAP_IMAGE_DIMS
+  if(array_sizes_index LESS 0)
+    # Not already in array_sizes
     add_template("${ITKM_D}${comp}" "${ITKT_D},${comp}")
     add_template("${ITKM_UL}${comp}" "${ITKT_UL},${comp}")
   endif()
