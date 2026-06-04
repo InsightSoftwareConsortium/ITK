@@ -278,15 +278,36 @@ else(ITK_USE_SYSTEM_DCMTK)
 
   # Register DCMTK's targets with ITK's module system. itk_module_target()
   # applies ITK's output naming, creates the namespaced ITK::<lib> aliases that
-  # itk_module_impl() links ITKDCMTKModule against, and appends them to ITK's
-  # build-tree targets file. Installation is handled separately, so NO_INSTALL.
+  # itk_module_impl() links ITKDCMTKModule against, appends them to ITK's
+  # targets file, and installs the libraries into ITK's export set.
   foreach(lib ${_ITKDCMTK_LIB_NAMES})
     if(TARGET ${lib})
-      itk_module_target(${lib} NO_INSTALL)
+      itk_module_target(${lib})
     endif()
   endforeach()
 
   itk_module_impl()
+
+  # itk_module_target() installs the libraries; install DCMTK's headers into
+  # ITK's include tree so consumers of the installed ITK can #include
+  # <dcmtk/...>. Each DCMTK module keeps its public headers under
+  # <module>/include/dcmtk, plus the generated osconfig.h under config/include.
+  foreach(lib ${_ITKDCMTK_LIB_NAMES})
+    if(EXISTS ${dcmtk_SOURCE_DIR}/${lib}/include/dcmtk)
+      install(
+        DIRECTORY
+          ${dcmtk_SOURCE_DIR}/${lib}/include/dcmtk
+        DESTINATION ${ITKDCMTK_INSTALL_INCLUDE_DIR}
+        COMPONENT Development
+      )
+    endif()
+  endforeach()
+  install(
+    DIRECTORY
+      ${dcmtk_BINARY_DIR}/config/include/dcmtk
+    DESTINATION ${ITKDCMTK_INSTALL_INCLUDE_DIR}
+    COMPONENT Development
+  )
 endif(ITK_USE_SYSTEM_DCMTK)
 
 if(MSVC)
