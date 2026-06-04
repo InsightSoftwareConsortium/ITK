@@ -57,3 +57,7 @@ itk_add_test(
     DATA{Input/11706c2.CNG.swc}
     ${ITK_TEST_OUTPUT_DIR}/11706c2.CNG.swc
 )
+
+set(IOMeshSWCGTests itkSWCMeshIOGTest.cxx)
+
+creategoogletestdriver(IOMeshSWC "${IOMeshSWC-Test_LIBRARIES}" "${IOMeshSWCGTests}")
