@@ -8,14 +8,14 @@ readonly name="jpeg-turbo"
 readonly ownership="libjpeg-turbo Upstream <kwrobot@kitware.com>"
 readonly subtree="Modules/ThirdParty/JPEG/src/itk$name"
 readonly repo="https://github.com/libjpeg-turbo/libjpeg-turbo.git"
-readonly tag="3.0.4"
+readonly tag="3.1.4"
 readonly exact_tree_match=false
 readonly paths="
-j*.c
-j*.h
-jconfig.h.in
-jconfigint.h.in
-jversion.h.in
+src/j*.c
+src/j*.h
+src/jconfig.h.in
+src/jconfigint.h.in
+src/jversion.h.in
 
 LICENSE.md
 README.ijg
