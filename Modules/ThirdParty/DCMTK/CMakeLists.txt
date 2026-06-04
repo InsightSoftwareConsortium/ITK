@@ -269,22 +269,13 @@ else(ITK_USE_SYSTEM_DCMTK)
   endforeach()
   list(APPEND ITKDCMTK_INCLUDE_DIRS ${dcmtk_BINARY_DIR}/config/include)
 
-  # itk_module_impl() wires ITKDCMTKModule to the namespaced names
-  # (ITK::dcmdata ...). Create the build-tree aliases here; a later commit
-  # replaces this with full itk_module_target() export/install integration.
+  # Register DCMTK's targets with ITK's module system. itk_module_target()
+  # applies ITK's output naming, creates the namespaced ITK::<lib> aliases that
+  # itk_module_impl() links ITKDCMTKModule against, and appends them to ITK's
+  # build-tree targets file. Installation is handled separately, so NO_INSTALL.
   foreach(lib ${_ITKDCMTK_LIB_NAMES})
-    if(
-      TARGET
-        ${lib}
-      AND
-        NOT
-          TARGET
-            ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${lib}
-    )
-      add_library(
-        ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${lib}
-        ALIAS ${lib}
-      )
+    if(TARGET ${lib})
+      itk_module_target(${lib} NO_INSTALL)
     endif()
   endforeach()
 
