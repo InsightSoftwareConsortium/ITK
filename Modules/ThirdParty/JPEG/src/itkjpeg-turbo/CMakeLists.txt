@@ -78,9 +78,9 @@ configure_file(
         "${CMAKE_CURRENT_BINARY_DIR}/jconfig.h")
 
 set(headers
-        jerror.h
-        jmorecfg.h
-        jpeglib.h
+        src/jerror.h
+        src/jmorecfg.h
+        src/jpeglib.h
         "${CMAKE_CURRENT_BINARY_DIR}/jconfig.h")
 
 include(CheckTypeSize)
@@ -143,4 +143,8 @@ install(TARGETS itkjpeg
         RUNTIME DESTINATION ${ITK3P_INSTALL_RUNTIME_DIR} COMPONENT RuntimeLibraries
         LIBRARY DESTINATION ${ITK3P_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
         ARCHIVE DESTINATION ${ITK3P_INSTALL_ARCHIVE_DIR} COMPONENT Development
+)
+install(FILES ${headers}
+        DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR}/itkjpeg-turbo/src
+        COMPONENT Development
 )
