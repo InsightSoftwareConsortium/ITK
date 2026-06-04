@@ -22,6 +22,7 @@ else()
   set(
     ITKPNG_INCLUDE_DIRS
     ${ITKPNG_BINARY_DIR}/src
+    ${ITKPNG_BINARY_DIR}/src/itkpng
     ${ITKPNG_SOURCE_DIR}/src
   )
   set(ITKPNG_LIBRARIES itkpng)
