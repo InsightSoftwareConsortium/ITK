@@ -6,7 +6,7 @@
  * Lossless JPEG Modifications:
  * Copyright (C) 1999, Ken Murchison.
  * libjpeg-turbo Modifications:
- * Copyright (C) 2022, D. R. Commander.
+ * Copyright (C) 2022, 2024, 2026, D. R. Commander.
  * For conditions of distribution and use, see the accompanying README.ijg
  * file.
  *
@@ -228,6 +228,9 @@ jpeg_difference_first_row(j_compress_ptr cinfo, int ci,
     case 7:
       losslessc->predict_difference[ci] = jpeg_difference7;
       break;
+    default:
+      ERREXIT4(cinfo, JERR_BAD_PROGRESSION,
+               cinfo->Ss, cinfo->Se, cinfo->Ah, cinfo->Al);
     }
   }
 }
@@ -307,6 +310,14 @@ GLOBAL(void)
 _jinit_lossless_compressor(j_compress_ptr cinfo)
 {
   lossless_comp_ptr losslessc;
+
+#if BITS_IN_JSAMPLE == 8
+  if (cinfo->data_precision > BITS_IN_JSAMPLE || cinfo->data_precision < 2)
+#else
+  if (cinfo->data_precision > BITS_IN_JSAMPLE ||
+      cinfo->data_precision < BITS_IN_JSAMPLE - 3)
+#endif
+    ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
 
   /* Create subobject in permanent pool */
   losslessc = (lossless_comp_ptr)

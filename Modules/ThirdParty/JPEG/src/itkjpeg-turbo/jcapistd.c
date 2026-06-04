@@ -4,7 +4,7 @@
  * This file was part of the Independent JPEG Group's software:
  * Copyright (C) 1994-1996, Thomas G. Lane.
  * libjpeg-turbo Modifications:
- * Copyright (C) 2022, D. R. Commander.
+ * Copyright (C) 2022, 2024, D. R. Commander.
  * For conditions of distribution and use, see the accompanying README.ijg
  * file.
  *
@@ -88,8 +88,21 @@ _jpeg_write_scanlines(j_compress_ptr cinfo, _JSAMPARRAY scanlines,
 #if BITS_IN_JSAMPLE != 16 || defined(C_LOSSLESS_SUPPORTED)
   JDIMENSION row_ctr, rows_left;
 
-  if (cinfo->data_precision != BITS_IN_JSAMPLE)
-    ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
+#ifdef C_LOSSLESS_SUPPORTED
+  if (cinfo->master->lossless) {
+#if BITS_IN_JSAMPLE == 8
+    if (cinfo->data_precision > BITS_IN_JSAMPLE || cinfo->data_precision < 2)
+#else
+    if (cinfo->data_precision > BITS_IN_JSAMPLE ||
+        cinfo->data_precision < BITS_IN_JSAMPLE - 3)
+#endif
+      ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
+  } else
+#endif
+  {
+    if (cinfo->data_precision != BITS_IN_JSAMPLE)
+      ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
+  }
 
   if (cinfo->global_state != CSTATE_SCANNING)
     ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
@@ -117,6 +130,8 @@ _jpeg_write_scanlines(j_compress_ptr cinfo, _JSAMPARRAY scanlines,
     num_lines = rows_left;
 
   row_ctr = 0;
+  if (cinfo->main->_process_data == NULL)
+    ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
   (*cinfo->main->_process_data) (cinfo, scanlines, &row_ctr, num_lines);
   cinfo->next_scanline += row_ctr;
   return row_ctr;
@@ -174,6 +189,8 @@ _jpeg_write_raw_data(j_compress_ptr cinfo, _JSAMPIMAGE data,
     ERREXIT(cinfo, JERR_BUFFER_SIZE);
 
   /* Directly compress the row. */
+  if (cinfo->coef->_compress_data == NULL)
+    ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
   if (!(*cinfo->coef->_compress_data) (cinfo, data)) {
     /* If compressor did not consume the whole row, suspend processing. */
     return 0;
