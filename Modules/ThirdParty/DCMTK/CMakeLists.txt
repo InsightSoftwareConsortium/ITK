@@ -248,6 +248,13 @@ else(ITK_USE_SYSTEM_DCMTK)
     string(APPEND CMAKE_CXX_FLAGS " /Zc:__cplusplus")
   endif()
 
+  # DCMTK is third-party code; silence its compiler warnings so they do not
+  # drown out ITK's own diagnostics (ITK builds at /W4, DCMTK at /W3, which
+  # also triggers the MSVC D9025 override warning on every file).
+  # itk_module_impl() does this for third-party modules, but DCMTK is
+  # configured by add_subdirectory() before that call runs.
+  itk_module_warnings_disable(C CXX)
+
   # FetchContent_MakeAvailable() (CMake 3.14+, below ITK's 3.22.1 floor) does
   # the add_subdirectory and avoids the FetchContent_Populate(<name>) form that
   # was deprecated in CMake 3.30. EXCLUDE_FROM_ALL is intentionally NOT used:
