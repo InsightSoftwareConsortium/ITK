@@ -102,21 +102,6 @@ SWCMeshIO ::ReadMeshInformation()
   std::string line;
 
   m_HeaderContent.clear();
-  bool inHeader = true;
-  while (inHeader && !inputFile.eof())
-  {
-    std::getline(inputFile, line);
-
-    const size_t first = line.find_first_of('#');
-    if (first == std::string::npos)
-    {
-      inHeader = false;
-    }
-    else
-    {
-      m_HeaderContent.push_back(line.substr(first + 1));
-    }
-  }
 
   SizeValueType numberOfPoints = 0;
   SizeValueType numberOfCells = 0;
@@ -128,41 +113,58 @@ SWCMeshIO ::ReadMeshInformation()
   m_CellsBuffer->clear();
   this->m_CellBufferSize = 0;
   m_SampleIdentifierToPointIndex.clear();
-  while (!inputFile.eof())
+
+  // Driving the loop with getline() handles a missing final newline and an
+  // arbitrary mix of comment and data lines.
+  while (std::getline(inputFile, line))
   {
+    // Tolerate CRLF line endings on files authored on Windows.
+    if (!line.empty() && line.back() == '\r')
+    {
+      line.pop_back();
+    }
+
+    const size_t firstNonBlank = line.find_first_not_of(" \t");
+    if (firstNonBlank == std::string::npos)
+    {
+      continue; // blank line
+    }
+    if (line[firstNonBlank] == '#')
+    {
+      m_HeaderContent.push_back(line.substr(firstNonBlank + 1));
+      continue;
+    }
+
     std::istringstream istrm(line);
 
     SampleIdentifierType sampleIdentifier;
-    istrm >> sampleIdentifier;
+    TypeIdentifierType   typeIdentifier;
+    double               x;
+    double               y;
+    double               z;
+    double               radius;
+    ParentIdentifierType parentIdentifier;
+    if (!(istrm >> sampleIdentifier >> typeIdentifier >> x >> y >> z >> radius >> parentIdentifier))
+    {
+      itkExceptionMacro("Malformed SWC record (expected 7 fields) in " << this->m_FileName << ": '" << line << "'");
+    }
+
     m_SampleIdentifiers->push_back(sampleIdentifier);
     m_SampleIdentifierToPointIndex[sampleIdentifier] = numberOfPoints;
-
-    TypeIdentifierType typeIdentifier;
-    istrm >> typeIdentifier;
     m_TypeIdentifiers->push_back(typeIdentifier);
-
-    double pointComponent;
-    istrm >> pointComponent;
-    m_PointsBuffer->push_back(pointComponent);
-    istrm >> pointComponent;
-    m_PointsBuffer->push_back(pointComponent);
-    istrm >> pointComponent;
-    m_PointsBuffer->push_back(pointComponent);
-
-    double radius;
-    istrm >> radius;
+    m_PointsBuffer->push_back(x);
+    m_PointsBuffer->push_back(y);
+    m_PointsBuffer->push_back(z);
     m_Radii->push_back(radius);
-
-    ParentIdentifierType parentIdentifier;
-    istrm >> parentIdentifier;
     m_ParentIdentifiers->push_back(parentIdentifier);
-    if (parentIdentifier != -1)
+
+    // The root (first node) is emitted as a point only; every later node with a
+    // parent contributes one line cell.  ReadCells skips index 0 to match.
+    if (numberOfPoints > 0 && parentIdentifier != -1)
     {
       ++numberOfCells;
       this->m_CellBufferSize += 4;
     }
-
-    std::getline(inputFile, line);
 
     ++numberOfPoints;
   }
@@ -235,10 +237,20 @@ SWCMeshIO ::ReadCells(void * buffer)
     const auto parentIdentifier = m_ParentIdentifiers->GetElement(pointIndex);
     if (parentIdentifier != -1)
     {
+      const auto parentEntry = m_SampleIdentifierToPointIndex.find(parentIdentifier);
+      if (parentEntry == m_SampleIdentifierToPointIndex.end())
+      {
+        itkExceptionMacro("SWC node " << sampleIdentifier << " references undefined parent " << parentIdentifier);
+      }
+      const auto sampleEntry = m_SampleIdentifierToPointIndex.find(sampleIdentifier);
+      if (sampleEntry == m_SampleIdentifierToPointIndex.end())
+      {
+        itkExceptionMacro("SWC node " << sampleIdentifier << " has no point-index mapping");
+      }
       data[cellBufferIndex++] = static_cast<uint32_t>(CommonEnums::CellGeometry::LINE_CELL);
       data[cellBufferIndex++] = 2;
-      data[cellBufferIndex++] = m_SampleIdentifierToPointIndex[parentIdentifier];
-      data[cellBufferIndex++] = m_SampleIdentifierToPointIndex[sampleIdentifier];
+      data[cellBufferIndex++] = parentEntry->second;
+      data[cellBufferIndex++] = sampleEntry->second;
     }
   }
 }
@@ -432,17 +444,8 @@ SWCMeshIO ::WriteCells(void * buffer)
     itkExceptionMacro("No Input FileName");
   }
 
-  // Write to output file
-  std::ofstream outputFile(this->m_FileName.c_str(), std::ios_base::app);
-
-  if (!outputFile.is_open())
-  {
-    itkExceptionMacro("Unable to open file\n"
-                      "outputFilename= "
-                      << this->m_FileName);
-  }
-
-  // Write polygons
+  // This pass only populates m_ParentIdentifiers in memory; the records are
+  // serialized later in Write().
   switch (this->m_CellComponentType)
   {
     case IOComponentEnum::UCHAR:

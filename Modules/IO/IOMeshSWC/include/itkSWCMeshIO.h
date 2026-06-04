@@ -290,7 +290,15 @@ protected:
       const auto samplePoint = static_cast<IdentifierType>(buffer[index]);
       ++index;
 
-      const auto parentIdentifier = m_PointIndexToSampleIdentifier[parentPoint];
+      if (parentPoint >= this->GetNumberOfPoints() || samplePoint >= this->GetNumberOfPoints())
+      {
+        itkExceptionMacro("SWC cell references point index out of range [0, "
+                          << this->GetNumberOfPoints() << "): parent=" << parentPoint << " sample=" << samplePoint);
+      }
+      const auto parentEntry = m_PointIndexToSampleIdentifier.find(parentPoint);
+      const auto parentIdentifier = (parentEntry != m_PointIndexToSampleIdentifier.end())
+                                      ? parentEntry->second
+                                      : static_cast<SampleIdentifierType>(parentPoint);
       m_ParentIdentifiers->SetElement(samplePoint, parentIdentifier);
     }
   }
