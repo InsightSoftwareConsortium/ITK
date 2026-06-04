@@ -1,3 +1,11 @@
+# ITK downstream fork of libjpeg-turbo's build system.
+# Builds the core libjpeg API as the library itkjpeg.
+# No SIMD, no TurboJPEG API, no tools.
+# Three compiled precision tiers (BITS_IN_JSAMPLE=8/12/16) cover:
+#   lossy DCT JPEG at 8 and 12 bits/sample;
+#   lossless JPEG at 2-16 bits/sample (2-8 via 8-bit objects,
+#   9-12 via 12-bit objects, 13-16 via 16-bit objects).
+
 set(JPEG16_SOURCES jcapistd.c jccolor.c jcdiffct.c jclossls.c jcmainct.c
         jcprepct.c jcsample.c jdapistd.c jdcolor.c jddiffct.c jdlossls.c jdmainct.c
         jdpostct.c jdsample.c jutils.c)
@@ -28,8 +36,9 @@ endif()
 set(BITS_IN_JSAMPLE 8)
 
 set(JPEG_LIB_VERSION 80)
-set(LIBJPEG_TURBO_VERSION "3.0.4")
-set(LIBJPEG_TURBO_VERSION_NUMBER "003000004")
+set(LIBJPEG_TURBO_VERSION "3.1.4")
+set(LIBJPEG_TURBO_VERSION_NUMBER "003001004")
+set(COPYRIGHT_YEAR "1991-2026")
 set(MEM_SRCDST_SUPPORTED 1)
 set(C_ARITH_CODING_SUPPORTED 1)
 set(D_ARITH_CODING_SUPPORTED 1)
@@ -73,6 +82,7 @@ else ()
   set(JPEG_SHARED_LIBS 0)
 endif ()
 
+set(VERSION "${LIBJPEG_TURBO_VERSION}")
 configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}${header_input_dir}/jconfig.h.in"
         "${CMAKE_CURRENT_BINARY_DIR}/jconfig.h")
@@ -83,6 +93,7 @@ set(headers
         jpeglib.h
         "${CMAKE_CURRENT_BINARY_DIR}/jconfig.h")
 
+include(CheckCSourceCompiles)
 include(CheckTypeSize)
 check_type_size("size_t" SIZE_T)
 
@@ -91,8 +102,16 @@ if(SIZE_T EQUAL UNSIGNED_LONG)
           HAVE_BUILTIN_CTZL)
 endif()
 
+if(NOT WIN32)
+  check_c_source_compiles(
+    "extern const int table[1]; const int __attribute__((visibility(\"hidden\"))) table[1] = { 0 }; int main(void) { return table[0]; }"
+    HIDDEN_WORKS)
+  if(HIDDEN_WORKS)
+    set(HIDDEN "__attribute__((visibility(\"hidden\")))") 
+  endif()
+endif()
+
 set(SIZEOF_SIZE_T "${SIZE_T}")
-set(VERSION "${LIBJPEG_TURBO_VERSION}")
 set(PACKAGE_NAME "itkjpeg")
 string(TIMESTAMP BUILD "%Y%m%d")
 
