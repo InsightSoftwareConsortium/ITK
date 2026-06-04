@@ -182,334 +182,113 @@ endif()
 
   itk_module_impl()
 else(ITK_USE_SYSTEM_DCMTK)
-  set(DCMTK_EPNAME ITKDCMTK_ExtProject)
-  set(lib_dir ${CMAKE_CURRENT_BINARY_DIR}/${DCMTK_EPNAME}-build/lib)
-
-  if(BUILD_SHARED_LIBS)
-    set(_ITKDCMTK_LIB_LINKAGE SHARED)
-  else()
-    set(_ITKDCMTK_LIB_LINKAGE STATIC)
-  endif()
-  foreach(lib ${_ITKDCMTK_LIB_NAMES})
-    # add it as an imported  library target
-    # Note: because of the manual export, we can not use an ALIAS target for the namespace
-    add_library(
-      ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${lib}
-      ${_ITKDCMTK_LIB_LINKAGE}
-      IMPORTED
-      GLOBAL
-    )
-  endforeach()
-
-  # Use DCMTK include files in place in the build directory.
-  set(ITKDCMTK_INCLUDE ${CMAKE_CURRENT_BINARY_DIR}/${DCMTK_EPNAME})
-
-  # 'stringize' the libraries. Brad King addition
-  set(ITKDCMTK_LIBRARIES "${_ITKDCMTK_LIB_NAMES}")
-  #
-  # add all the embedded include directories to include dirs
-  foreach(lib ${_ITKDCMTK_LIB_NAMES})
-    # add to include list
-    list(APPEND ITKDCMTK_INCLUDE_DIRS ${ITKDCMTK_INCLUDE}/${lib}/include)
-  endforeach()
-
-  #
-  # need the base include dir as well.
-  list(
-    APPEND
-    ITKDCMTK_INCLUDE_DIRS
-    ${CMAKE_CURRENT_BINARY_DIR}/${DCMTK_EPNAME}-build/config/include
-  )
-
-  set(
-    ITKDCMTK_EXPORT_CODE_BUILD
-    "
-set(CMAKE_MODULE_PATH
-  \"${CMAKE_CURRENT_SOURCE_DIR}/CMake\" \${CMAKE_MODULE_PATH})
-"
-  )
-
-  set(ITKDCMTK_LINK_DEPENDENCIES ${ITKDCMTK_LIBDEP_WIN})
-  # create imported targets when module is loaded from build tree
-  if(CMAKE_CONFIGURATION_TYPES)
-    set(
-      ITKDCMTK_EXPORT_CODE_BUILD
-      "
-${ITKDCMTK_EXPORT_CODE_BUILD}
-foreach(lib ${_ITKDCMTK_LIB_NAMES})
-  if(NOT TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib})
-    add_library(${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} ${_ITKDCMTK_LIB_LINKAGE} IMPORTED)
-    foreach(c ${CMAKE_CONFIGURATION_TYPES})
-      string(TOUPPER \"\${c}\" C)
-      set_property(TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} PROPERTY IMPORTED_LOCATION_\${C}
-        \"${lib_dir}/\${c}/${lib_prefix}\${lib}${lib_suffix}\")
-    set_property(TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} PROPERTY
-      IMPORTED_LINK_INTERFACE_LIBRARIES
-      ${ITKDCMTK_LINK_DEPENDENCIES})
-    endforeach()
-  endif()
-endforeach()
-"
-    )
-  else()
-    set(
-      ITKDCMTK_EXPORT_CODE_BUILD
-      "
-${ITKDCMTK_EXPORT_CODE_BUILD}
-foreach(lib ${_ITKDCMTK_LIB_NAMES})
-  if(NOT TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib})
-    add_library(${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} ${_ITKDCMTK_LIB_LINKAGE} IMPORTED)
-    set_property(TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} PROPERTY IMPORTED_LOCATION
-      \"${lib_dir}/${lib_prefix}\${lib}${lib_suffix}\")
-    set_property(TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} PROPERTY
-      IMPORTED_LINK_INTERFACE_LIBRARIES
-      ${ITKDCMTK_LINK_DEPENDENCIES})
-  endif()
-endforeach()
-"
-    )
-  endif()
-  # create imported targets when module is loaded from install tree
-  set(
-    ITKDCMTK_EXPORT_CODE_INSTALL
-    "
-foreach(lib ${_ITKDCMTK_LIB_NAMES})
-  if(NOT TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib})
-    add_library(${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} ${_ITKDCMTK_LIB_LINKAGE} IMPORTED)
-    set_property(TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} PROPERTY IMPORTED_LOCATION
-            \"\${ITK_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/${lib_prefix}\${lib}${lib_suffix}\")
-    set_property(TARGET ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}\${lib} PROPERTY
-      IMPORTED_LINK_INTERFACE_LIBRARIES
-      ${ITKDCMTK_LINK_DEPENDENCIES})
-  endif()
-endforeach()
-"
-  )
-
-  # implement module before the ExternalProject, to process
-  # dependencies
-  itk_module_impl()
-
-  foreach(libdep JPEG TIFF ZLIB PNG)
-    #
-    # if we're using ITK-built versions of libraries, then
-    # have to find the actual library name, instead of the cmake logical name
-    set(DCMTK${libdep}_LIBRARIES "")
-
-    foreach(_lib ${ITK${libdep}_LIBRARIES})
-      if(TARGET ${_lib})
-        set(_lib $<TARGET_FILE:${_lib}>)
-      endif()
-      list(APPEND DCMTK${libdep}_LIBRARIES ${_lib})
-    endforeach()
-
-    # have to replace ; with another separator in order to pass lists into
-    # the external project without them getting messed up.
-    string(
-      REPLACE
-      ";"
-      ":::"
-      DCMTK${libdep}_LIBRARIES
-      "${DCMTK${libdep}_LIBRARIES}"
-    )
-    string(
-      REPLACE
-      ";"
-      ":::"
-      DCMTK${libdep}_INCLUDE_DIRS
-      "${ITK${libdep}_INCLUDE_DIRS}"
-    )
-  endforeach()
-
+  # Build DCMTK in ITK's own CMake scope (FetchContent + add_subdirectory)
+  # rather than a separate ExternalProject, so DCMTK consumes ITK's codec
+  # *targets* directly (the GDCM model) with no $<TARGET_FILE:> marshalling
+  # or :::-separated CMAKE_ARGS lists.
+  include(FetchContent)
   include(${CMAKE_CURRENT_LIST_DIR}/DCMTKGitTag.cmake)
 
-  set(
-    DCMTK_EP_FLAGS
-    -DCMAKE_CXX_STANDARD:STRING=${CMAKE_CXX_STANDARD}
-    -DCMAKE_CXX_STANDARD_REQUIRED:BOOL=${CMAKE_CXX_STANDARD_REQUIRED}
-    -DCMAKE_CXX_EXTENSIONS:BOOL=${CMAKE_CXX_EXTENSIONS}
-    -DDCMTK_ENABLE_CXX11:BOOL=ON
-    -DDCMTK_FORCE_FPIC_ON_UNIX:BOOL=ON
-    -DBUILD_APPS:BOOL=OFF # Only DCMTK libraries are needed
-    -DDCMTK_USE_FIND_PACKAGE:BOOL=ON
-    -DDCMTK_WITH_OPENSSL:BOOL=OFF
-    -DDCMTK_WITH_PNG:BOOL=ON
-    -DDCMTK_WITH_XML:BOOL=OFF
-    -DDCMTK_WITH_TIFF:BOOL=ON
-    -DDCMTK_WITH_ZLIB:BOOL=ON
-  )
+  # The ITK<dep>_LIBRARIES/_INCLUDE_DIRS variables are only populated by
+  # itk_module_use(); call it up front so the codec variables exist before we
+  # configure DCMTK. (Idempotent: itk_module_impl()'s later call is guarded by
+  # <mod>_USED.)
+  itk_module_use(${ITK_MODULE_${itk-module}_DEPENDS})
+
+  # Hand DCMTK ITK's codec libraries as the standard variables. Because DCMTK
+  # is now in-scope these are the live ITK imported targets, whose include dirs
+  # and transitive dependencies propagate through normal target linking.
+  set(DCMTK_USE_FIND_PACKAGE ON CACHE INTERNAL "")
+  set(DCMTK_WITH_TIFF ON CACHE INTERNAL "")
+  set(DCMTK_WITH_PNG ON CACHE INTERNAL "")
+  set(DCMTK_WITH_ZLIB ON CACHE INTERNAL "")
+  set(DCMTK_WITH_OPENSSL OFF CACHE INTERNAL "")
+  set(DCMTK_WITH_XML OFF CACHE INTERNAL "")
+  set(TIFF_LIBRARIES ${ITKTIFF_LIBRARIES})
+  set(TIFF_INCLUDE_DIRS ${ITKTIFF_INCLUDE_DIRS})
+  set(JPEG_LIBRARIES ${ITKJPEG_LIBRARIES})
+  set(JPEG_INCLUDE_DIRS ${ITKJPEG_INCLUDE_DIRS})
+  set(PNG_LIBRARIES ${ITKPNG_LIBRARIES})
+  set(PNG_INCLUDE_DIRS ${ITKPNG_INCLUDE_DIRS})
+  set(ZLIB_LIBRARIES ${ITKZLIB_LIBRARIES})
+  set(ZLIB_INCLUDE_DIRS ${ITKZLIB_INCLUDE_DIRS})
+
+  # DCMTK build options formerly passed via the ExternalProject CMAKE_ARGS.
+  # CMAKE_CXX_STANDARD and the compiler/runtime settings are inherited directly
+  # from ITK's scope.
+  set(BUILD_APPS OFF CACHE INTERNAL "")
+  set(DCMTK_ENABLE_CXX11 ON CACHE INTERNAL "")
+  set(DCMTK_FORCE_FPIC_ON_UNIX ON CACHE INTERNAL "")
+  set(DCMTK_DEFAULT_DICT builtin CACHE INTERNAL "")
+  set(DCMTK_WITH_DOXYGEN OFF CACHE INTERNAL "")
+  set(DCMTK_WITH_SNDFILE OFF CACHE INTERNAL "")
+  set(DCMTK_WITH_WRAP OFF CACHE INTERNAL "")
+  set(DCMTK_ENABLE_PRIVATE_TAGS ON CACHE INTERNAL "")
+
+  # Charset conversion: honor the DCMTK_USE_ICU opt-in. The DCMTK_USE_ICU block
+  # at the top of this file builds ICU and sets ICU_ROOT_DIR; wire those through
+  # to the in-scope DCMTK build instead of unconditionally forcing oficonv.
+  # Otherwise use DCMTK's built-in oficonv data, which needs no dependency.
+  if(DCMTK_USE_ICU)
+    set(DCMTK_WITH_ICU ON CACHE INTERNAL "")
+    set(DCMTK_WITH_STDLIBC_ICONV OFF CACHE INTERNAL "")
+    set(DCMTK_ENABLE_CHARSET_CONVERSION "ICU" CACHE INTERNAL "")
+    set(ICU_ROOT "${ICU_ROOT_DIR}" CACHE INTERNAL "")
+  else()
+    set(DCMTK_WITH_ICU OFF CACHE INTERNAL "")
+    set(DCMTK_ENABLE_BUILTIN_OFICONV_DATA ON CACHE INTERNAL "")
+    set(DCMTK_ENABLE_CHARSET_CONVERSION "oficonv" CACHE INTERNAL "")
+  endif()
 
   if(MSVC)
-    list(APPEND DCMTK_EP_FLAGS -DDCMTK_OVERWRITE_WIN32_COMPILER_FLAGS:BOOL=OFF)
+    set(DCMTK_OVERWRITE_WIN32_COMPILER_FLAGS OFF CACHE INTERNAL "")
     # DCMTK's STL feature probes read __cplusplus, which MSVC underreports
-    # until /Zc:__cplusplus is set; pass it up front so the probes enable C++17.
-    list(
-      APPEND
-      DCMTK_EP_FLAGS
-      "-DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS} /Zc:__cplusplus"
-    )
+    # until /Zc:__cplusplus is set. This set() is directory-scoped, so it
+    # reaches the DCMTK subdirectory without leaking to sibling ITK modules.
+    string(APPEND CMAKE_CXX_FLAGS " /Zc:__cplusplus")
   endif()
 
-  if("${CMAKE_GENERATOR}" MATCHES "Unix Makefiles")
-    list(
-      APPEND
-      DCMTK_EP_FLAGS
-      -DCMAKE_VERBOSE_MAKEFILE:BOOL=${CMAKE_VERBOSE_MAKEFILE}
-    )
-  endif()
-
-  # build the list of libraries upon which DCMTK depends
-  set(ITKDCMTK_LIBDEP "")
-  list(APPEND ITKDCMTK_LIBDEP ${ITKDCMTK_LIBDEP_WIN})
-  foreach(
-    lib
-    ITKJPEG_LIBRARIES
-    ITKTIFF_LIBRARIES
-    ITKPNG_LIBRARIES
-    ITKZLIB_LIBRARIES
-    ITKDCMTK_ICU_LIBRARIES
-  )
-    foreach(_lib ${${lib}})
-      if(TARGET ${_lib})
-        list(APPEND ITKDCMTK_LIBDEP ${_lib})
-      endif()
-    endforeach()
-  endforeach()
-  # attach actual filenames to the
-  # imported libraries from the ExternalProject
-  foreach(lib ${_ITKDCMTK_LIB_NAMES})
-    # tell the imported library where it's file lives
-    if(CMAKE_CONFIGURATION_TYPES)
-      foreach(c ${CMAKE_CONFIGURATION_TYPES})
-        string(TOUPPER "${c}" C)
-        set_property(
-          TARGET
-            ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${lib}
-          PROPERTY
-            IMPORTED_LOCATION_${C}
-              ${lib_dir}/${c}/${lib_prefix}${lib}${lib_suffix}
-        )
-        list(
-          APPEND
-          DCMTK_BYPRODUCTS
-          "${lib_dir}/${c}/${lib_prefix}${lib}${lib_suffix}"
-        )
-      endforeach()
-    else()
-      set_property(
-        TARGET
-          ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${lib}
-        PROPERTY
-          IMPORTED_LOCATION
-            ${lib_dir}/${lib_prefix}${lib}${lib_suffix}
-      )
-      list(
-        APPEND
-        DCMTK_BYPRODUCTS
-        "${lib_dir}/${lib_prefix}${lib}${lib_suffix}"
-      )
-    endif()
-
-    # make the imported library depend on its prerequisite
-    # libraries
-    set_property(
-      TARGET
-        ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${lib}
-      PROPERTY
-        IMPORTED_LINK_INTERFACE_LIBRARIES
-          ${ITKDCMTK_LIBDEP}
-    )
-  endforeach()
-
-  set(
-    CMAKE_CXX_COMPILER_LAUNCHER_FLAG
-    -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH=${CMAKE_CXX_COMPILER_LAUNCHER}
-  )
-  set(
-    CMAKE_C_COMPILER_LAUNCHER_FLAG
-    -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=${CMAKE_C_COMPILER_LAUNCHER}
-  )
-  set(_cross_compiling_flags)
-  if(CMAKE_TOOLCHAIN_FILE)
-    list(
-      APPEND
-      _cross_compiling_flags
-      -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${CMAKE_TOOLCHAIN_FILE}
-    )
-  endif()
-  if(CMAKE_CROSSCOMPILING_EMULATOR)
-    list(
-      APPEND
-      _cross_compiling_flags
-      -DCMAKE_CROSSCOMPILING_EMULATOR:FILEPATH=${CMAKE_CROSSCOMPILING_EMULATOR}
-    )
-  endif()
-  itk_download_attempt_check(${DCMTK_EPNAME})
-  ExternalProject_Add(
-    ${DCMTK_EPNAME}
+  # FetchContent_MakeAvailable() (CMake 3.14+, below ITK's 3.22.1 floor) does
+  # the add_subdirectory and avoids the FetchContent_Populate(<name>) form that
+  # was deprecated in CMake 3.30. EXCLUDE_FROM_ALL is intentionally NOT used:
+  # on the in-scope DCMTK directory it leaked into ITK's own test targets and
+  # dropped them from the ALL target. DCMTK's libraries are needed by
+  # ITKIODCMTK so they belong in ALL anyway, and DCMTK builds no apps
+  # (BUILD_APPS OFF) or tests, so nothing extraneous is added.
+  FetchContent_Declare(
+    dcmtk
     GIT_REPOSITORY ${DCMTK_GIT_REPOSITORY}
     GIT_TAG ${DCMTK_GIT_TAG}
-    SOURCE_DIR ${DCMTK_EPNAME}
-    BINARY_DIR ${DCMTK_EPNAME}-build
-    LIST_SEPARATOR ":::"
-    INSTALL_COMMAND
-      ""
-    CMAKE_ARGS
-      -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
-      -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
-      -DCMAKE_MSVC_RUNTIME_LIBRARY:STRING=${CMAKE_MSVC_RUNTIME_LIBRARY}
-      -DDCMTK_DEFAULT_DICT:STRING=builtin -DDCMTK_WITH_DOXYGEN:BOOL=OFF
-      -DDCMTK_WITH_SNDFILE:BOOL=OFF -DDCMTK_WITH_WRAP:BOOL=OFF
-      -DDCMTK_ENABLE_PRIVATE_TAGS:BOOL=ON
-      -DJPEG_LIBRARIES:STRING=${DCMTKJPEG_LIBRARIES}
-      -DJPEG_INCLUDE_DIRS:STRING=${DCMTKJPEG_INCLUDE_DIRS}
-      -DTIFF_LIBRARIES:STRING=${DCMTKTIFF_LIBRARIES}
-      -DTIFF_INCLUDE_DIRS:STRING=${DCMTKTIFF_INCLUDE_DIRS}
-      -DZLIB_LIBRARIES:STRING=${DCMTKZLIB_LIBRARIES}
-      -DZLIB_INCLUDE_DIRS:STRING=${DCMTKZLIB_INCLUDE_DIRS}
-      -DPNG_LIBRARIES:STRING=${DCMTKPNG_LIBRARIES}
-      -DPNG_INCLUDE_DIRS:STRING=${DCMTKPNG_INCLUDE_DIRS} ${DCMTK_EP_FLAGS}
-      ${_cross_compiling_flags}
-      -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
-      ${CMAKE_CXX_COMPILER_LAUNCHER_FLAG}
-      -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
-      ${CMAKE_C_COMPILER_LAUNCHER_FLAG}
-      -DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-      -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY:PATH=${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
-      -DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-      -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_INSTALL_PREFIX}
-      -DCMAKE_INSTALL_LIBDIR:PATH=${CMAKE_INSTALL_LIBDIR}
-      -DCMAKE_INSTALL_BINDIR:PATH=${CMAKE_INSTALL_BINDIR}
-      -DDCMTK_ENABLE_BUILTIN_OFICONV_DATA:BOOL=${DCMTK_ENABLE_BUILTIN_OFICONV_DATA}
-      ${CHARSET_CONVERSION_ARGS}
-    DEPENDS
-      ${JPEG_DEPENDENCY}
-      ${PNG_DEPENDENCY}
-      ${TIFF_DEPENDENCY}
-      ${ICU_DEPENDENCY}
-    BUILD_BYPRODUCTS
-      ${DCMTK_BYPRODUCTS}
   )
+  FetchContent_MakeAvailable(dcmtk)
+
+  # Expose DCMTK's now-in-scope targets to the rest of ITK.
+  set(ITKDCMTK_LIBRARIES ${_ITKDCMTK_LIB_NAMES})
   foreach(lib ${_ITKDCMTK_LIB_NAMES})
-    # make imported library target depend on external project target
-    add_dependencies(
-      ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${lib}
-      ${DCMTK_EPNAME}
+    list(APPEND ITKDCMTK_INCLUDE_DIRS ${dcmtk_SOURCE_DIR}/${lib}/include)
+  endforeach()
+  list(APPEND ITKDCMTK_INCLUDE_DIRS ${dcmtk_BINARY_DIR}/config/include)
+
+  # itk_module_impl() wires ITKDCMTKModule to the namespaced names
+  # (ITK::dcmdata ...). Create the build-tree aliases here; a later commit
+  # replaces this with full itk_module_target() export/install integration.
+  foreach(lib ${_ITKDCMTK_LIB_NAMES})
+    if(
+      TARGET
+        ${lib}
+      AND
+        NOT
+          TARGET
+            ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${lib}
     )
+      add_library(
+        ${ITK_MODULE_${itk-module}_TARGETS_NAMESPACE}${lib}
+        ALIAS ${lib}
+      )
+    endif()
   endforeach()
 
-  # Tell CPack to install DCMTK stuff
-  list(
-    APPEND
-    CPACK_INSTALL_CMAKE_PROJECTS
-    "${CMAKE_CURRENT_BINARY_DIR}/${DCMTK_EPNAME}-build;DCMTK;ALL;/"
-  )
-
-  #
-  # run DCMTK's cmake install script
-  install(
-    SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/${DCMTK_EPNAME}-build/cmake_install.cmake
-  )
+  itk_module_impl()
 endif(ITK_USE_SYSTEM_DCMTK)
 
 if(MSVC)
