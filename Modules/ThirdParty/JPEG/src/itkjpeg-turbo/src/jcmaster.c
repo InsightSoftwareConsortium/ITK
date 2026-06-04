@@ -7,7 +7,7 @@
  * Lossless JPEG Modifications:
  * Copyright (C) 1999, Ken Murchison.
  * libjpeg-turbo Modifications:
- * Copyright (C) 2010, 2016, 2018, 2022-2024, D. R. Commander.
+ * Copyright (C) 2010, 2016, 2018, 2022-2024, 2026, D. R. Commander.
  * For conditions of distribution and use, see the accompanying README.ijg
  * file.
  *
@@ -190,13 +190,19 @@ initial_setup(j_compress_ptr cinfo, boolean transcode_only)
   if ((long)jd_samplesperrow != samplesperrow)
     ERREXIT(cinfo, JERR_WIDTH_OVERFLOW);
 
+  /* Lossy JPEG images must have 8 or 12 bits per sample.  Lossless JPEG images
+   * can have 2 to 16 bits per sample.
+   */
 #ifdef C_LOSSLESS_SUPPORTED
-  if (cinfo->data_precision != 8 && cinfo->data_precision != 12 &&
-      cinfo->data_precision != 16)
-#else
-  if (cinfo->data_precision != 8 && cinfo->data_precision != 12)
+  if (cinfo->master->lossless) {
+    if (cinfo->data_precision < 2 || cinfo->data_precision > 16)
+      ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
+  } else
 #endif
-    ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
+  {
+    if (cinfo->data_precision != 8 && cinfo->data_precision != 12)
+      ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
+  }
 
   /* Check that number of components won't exceed internal array sizes */
   if (cinfo->num_components > MAX_COMPONENTS)
@@ -270,11 +276,11 @@ validate_script(j_compress_ptr cinfo)
  */
 {
   const jpeg_scan_info *scanptr;
-  int scanno, ncomps, ci, coefi, thisi;
+  int scanno, ncomps, ci, thisi;
   int Ss, Se, Ah, Al;
   boolean component_sent[MAX_COMPONENTS];
 #ifdef C_PROGRESSIVE_SUPPORTED
-  int *last_bitpos_ptr;
+  int coefi, *last_bitpos_ptr;
   int last_bitpos[MAX_COMPONENTS][DCTSIZE2];
   /* -1 until that coefficient has been seen; then last Al for it */
 #endif
@@ -613,8 +619,8 @@ prepare_for_pass(j_compress_ptr cinfo)
      */
     master->pass_type = output_pass;
     master->pass_number++;
-#endif
     FALLTHROUGH                 /*FALLTHROUGH*/
+#endif
   case output_pass:
     /* Do a data-output pass. */
     /* We need not repeat per-scan setup if prior optimization pass did it. */
@@ -731,6 +737,7 @@ jinit_c_master_control(j_compress_ptr cinfo, boolean transcode_only)
     cinfo->num_scans = 1;
   }
 
+#ifdef C_LOSSLESS_SUPPORTED
   /* Disable smoothing and subsampling in lossless mode, since those are lossy
    * algorithms.  Set the JPEG colorspace to the input colorspace.  Disable raw
    * (downsampled) data input, because it isn't particularly useful without
@@ -747,6 +754,7 @@ jinit_c_master_control(j_compress_ptr cinfo, boolean transcode_only)
          ci++, compptr++)
       compptr->h_samp_factor = compptr->v_samp_factor = 1;
   }
+#endif
 
   /* Validate parameters, determine derived values */
   initial_setup(cinfo, transcode_only);

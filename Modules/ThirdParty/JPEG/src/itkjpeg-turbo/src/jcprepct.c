@@ -6,7 +6,7 @@
  * Lossless JPEG Modifications:
  * Copyright (C) 1999, Ken Murchison.
  * libjpeg-turbo Modifications:
- * Copyright (C) 2022, D. R. Commander.
+ * Copyright (C) 2022, 2024, 2026, D. R. Commander.
  * For conditions of distribution and use, see the accompanying README.ijg
  * file.
  *
@@ -38,21 +38,21 @@
 
 
 /*
- * For the simple (no-context-row) case, we just need to buffer one
- * row group's worth of pixels for the downsampling step.  At the bottom of
- * the image, we pad to a full row group by replicating the last pixel row.
- * The downsampler's last output row is then replicated if needed to pad
- * out to a full iMCU row.
+ * For the simple (no-context-row) case, we just need to buffer one row group's
+ * worth of components for the downsampling step.  At the bottom of the image,
+ * we pad to a full row group by replicating the last component row(s).  The
+ * downsampler's last output row is then replicated if needed to pad out to a
+ * full iMCU row.
  *
  * When providing context rows, we must buffer three row groups' worth of
- * pixels.  Three row groups are physically allocated, but the row pointer
+ * components.  Three row groups are physically allocated, but the row pointer
  * arrays are made five row groups high, with the extra pointers above and
  * below "wrapping around" to point to the last and first real row groups.
- * This allows the downsampler to access the proper context rows.
- * At the top and bottom of the image, we create dummy context rows by
- * copying the first or last real pixel row.  This copying could be avoided
- * by pointer hacking as is done in jdmainct.c, but it doesn't seem worth the
- * trouble on the compression side.
+ * This allows the downsampler to access the proper context rows.  At the top
+ * and bottom of the image, we create dummy context rows by copying the first
+ * or last real component row(s).  This copying could be avoided by pointer
+ * hacking, as is done in jdmainct.c, but it doesn't seem worth the trouble on
+ * the compression side.
  */
 
 
@@ -324,8 +324,21 @@ _jinit_c_prep_controller(j_compress_ptr cinfo, boolean need_full_buffer)
   jpeg_component_info *compptr;
   int data_unit = cinfo->master->lossless ? 1 : DCTSIZE;
 
-  if (cinfo->data_precision != BITS_IN_JSAMPLE)
-    ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
+#ifdef C_LOSSLESS_SUPPORTED
+  if (cinfo->master->lossless) {
+#if BITS_IN_JSAMPLE == 8
+    if (cinfo->data_precision > BITS_IN_JSAMPLE || cinfo->data_precision < 2)
+#else
+    if (cinfo->data_precision > BITS_IN_JSAMPLE ||
+        cinfo->data_precision < BITS_IN_JSAMPLE - 3)
+#endif
+      ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
+  } else
+#endif
+  {
+    if (cinfo->data_precision != BITS_IN_JSAMPLE)
+      ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
+  }
 
   if (need_full_buffer)         /* safety check */
     ERREXIT(cinfo, JERR_BAD_BUFFER_MODE);
