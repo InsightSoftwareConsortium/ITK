@@ -91,6 +91,7 @@ set(headers
         src/jerror.h
         src/jmorecfg.h
         src/jpeglib.h
+        itk_jpeg_mangle.h
         "${CMAKE_CURRENT_BINARY_DIR}/jconfig.h")
 
 include(CheckCSourceCompiles)
