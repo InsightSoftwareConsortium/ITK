@@ -15,6 +15,7 @@ itk_module(
     ITKIOMeshBase
   TEST_DEPENDS
     ITKTestKernel
+    ITKGoogleTest
   DESCRIPTION
     "Read and write meshes from SWC files, a format for representing neuron morphology."
   EXCLUDE_FROM_DEFAULT

@@ -26,6 +26,7 @@ itk_module(
   COMPILE_DEPENDS
     ITKKWSys
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKMesh
     ITKImageIntensity

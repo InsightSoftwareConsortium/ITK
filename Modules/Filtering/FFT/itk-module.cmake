@@ -22,6 +22,7 @@ itk_module(
   COMPILE_DEPENDS
     ITKImageGrid
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKImageCompare
     ITKImageIntensity

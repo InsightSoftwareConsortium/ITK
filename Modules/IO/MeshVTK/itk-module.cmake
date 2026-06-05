@@ -14,6 +14,7 @@ itk_module(
   COMPILE_DEPENDS
     ITKMesh
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKQuadEdgeMesh
   FACTORY_NAMES

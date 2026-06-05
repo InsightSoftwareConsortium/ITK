@@ -14,6 +14,7 @@ itk_module(
     ITKImageFeature
     ITKAnisotropicSmoothing
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
   DESCRIPTION "${DOCUMENTATION}"
 )

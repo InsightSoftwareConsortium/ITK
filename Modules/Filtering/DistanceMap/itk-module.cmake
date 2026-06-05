@@ -12,6 +12,7 @@ itk_module(
     ITKImageLabel
     ITKNarrowBand
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
   DESCRIPTION "${DOCUMENTATION}"
 )

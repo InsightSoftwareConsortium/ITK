@@ -16,6 +16,7 @@ itk_module(
     ITKTransform
     ITKStatistics
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
   DESCRIPTION "${DOCUMENTATION}"
 )

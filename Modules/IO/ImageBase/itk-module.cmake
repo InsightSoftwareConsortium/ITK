@@ -16,6 +16,7 @@ itk_module(
   DEPENDS
     ITKCommon
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKIOGDCM
     ITKIOMeta

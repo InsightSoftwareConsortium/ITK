@@ -14,6 +14,7 @@ itk_module(
   PRIVATE_DEPENDS
     ITKGDCM
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKGDCM
     ITKImageIntensity

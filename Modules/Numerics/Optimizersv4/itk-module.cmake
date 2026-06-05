@@ -18,6 +18,7 @@ itk_module(
     ITKImageGrid
     ITKDisplacementField
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKMetricsv4
   DESCRIPTION "${DOCUMENTATION}"

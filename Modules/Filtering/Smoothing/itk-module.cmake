@@ -14,6 +14,7 @@ itk_module(
     ITKImageFunction
     ITKImageSources
   TEST_DEPENDS
+    ITKGoogleTest
     ITKConvolution
     ITKTestKernel
   DESCRIPTION "${DOCUMENTATION}"

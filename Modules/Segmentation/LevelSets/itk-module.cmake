@@ -24,6 +24,7 @@ itk_module(
   COMPILE_DEPENDS
     ITKIOImageBase
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
   DESCRIPTION "${DOCUMENTATION}"
 )

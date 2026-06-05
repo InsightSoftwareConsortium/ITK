@@ -15,6 +15,7 @@ itk_module(
     ITKCommon
     ITKNetlib
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKImageIntensity
     ITKImageCompose

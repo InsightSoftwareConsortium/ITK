@@ -79,6 +79,7 @@ itk_module(
     ITKCommon
     ITKMesh
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKMesh
   DESCRIPTION "${DOCUMENTATION}"
