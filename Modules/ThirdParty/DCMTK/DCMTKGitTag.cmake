@@ -10,8 +10,10 @@ set(
 #Francois Budin (1):
 #COMP: Uses ITK PNG instead of system PNG
 
-#Hans Johnson (1):
+#Hans Johnson (3):
 #COMP: Mods to allow using ITK libs
+#COMP: Use ITK-provided JPEG/TIFF hints instead of find_package
+#COMP: Consume standard *_LIBRARIES variables for TIFF/JPEG/PNG/ZLIB
 
 #Jean-Christophe Fillion-Robin (1):
 #COMP: Set 3rd party package CMake variables only if needed
@@ -36,4 +38,4 @@ set(
 #COMP: fix WASI compiler errors
 #COMP: fix missing <csetjmp> header issue
 
-set(DCMTK_GIT_TAG "2f645cb91b603ccc674857ea05b9822a8a899675") # for/itk-dcmtk-3.7.0-ccfd10b
+set(DCMTK_GIT_TAG "7c7dc11d8e638711ac9c475210d7c7b352832cee") # for/itk-dcmtk-3.7.0-ccfd10b
