@@ -64,7 +64,8 @@ extern "C"
 void
 XMLReaderBase::parse()
 {
-  XML_Parser Parser = XML_ParserCreate(nullptr);
+  std::unique_ptr<XML_ParserStruct, decltype(&XML_ParserFree)> parserGuard(XML_ParserCreate(nullptr), XML_ParserFree);
+  XML_Parser                                                   Parser = parserGuard.get();
 
   XML_SetElementHandler(Parser, &itkXMLParserStartElement, &itkXMLParserEndElement);
 
@@ -109,7 +110,6 @@ XMLReaderBase::parse()
     exception.SetDescription(message.c_str());
     throw exception;
   }
-  XML_ParserFree(Parser);
 }
 
 void
