@@ -12,7 +12,20 @@ function(itk_check_for_orphaned_remote_modules)
       continue()
     endif()
     get_filename_component(_name "${_entry}" NAME)
-    if(_name STREQUAL "Deprecated")
+    string(REGEX REPLACE "^ITK" "" _name "${_name}")
+    if(
+      _name
+        STREQUAL
+        "Deprecated"
+      OR
+        _name
+          STREQUAL
+          "ITK-Wasm"
+      OR
+        _name
+          STREQUAL
+          "scifio-imageio"
+    )
       continue()
     endif()
     if(
