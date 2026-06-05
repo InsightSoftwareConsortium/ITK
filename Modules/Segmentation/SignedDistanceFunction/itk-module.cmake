@@ -11,6 +11,7 @@ itk_module(
   DEPENDS
     ITKImageFunction
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
   DESCRIPTION "${DOCUMENTATION}"
 )

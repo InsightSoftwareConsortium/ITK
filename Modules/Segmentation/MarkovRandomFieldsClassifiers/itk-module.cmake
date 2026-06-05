@@ -13,6 +13,7 @@ itk_module(
     ITKStatistics
     ITKClassifiers
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
   DESCRIPTION "${DOCUMENTATION}"
 )

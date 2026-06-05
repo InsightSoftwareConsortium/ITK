@@ -17,6 +17,7 @@ itk_module(
     ITKThresholding
     ITKConnectedComponents
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
   DESCRIPTION "${DOCUMENTATION}"
 )

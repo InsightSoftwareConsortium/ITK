@@ -17,6 +17,7 @@ itk_module(
     ITKImageGradient
   TEST_DEPENDS
     ITKTestKernel
+    ITKGoogleTest
   DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
   # Header only library, no ENABLE_SHARED

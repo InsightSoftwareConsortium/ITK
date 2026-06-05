@@ -15,6 +15,7 @@ itk_module(
     ITKSpatialObjects
     ITKImageCompose
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKIOGDCM
     ITKIOMeta

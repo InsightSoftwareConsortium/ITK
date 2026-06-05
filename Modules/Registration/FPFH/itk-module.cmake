@@ -18,6 +18,7 @@ itk_module(
     ITKTestKernel
     ITKMetaIO
     ITKIOMeshBase
+    ITKGoogleTest
   DESCRIPTION
     "Fast Point Feature Histogram (FPFH) descriptors for point-set registration."
   EXCLUDE_FROM_DEFAULT

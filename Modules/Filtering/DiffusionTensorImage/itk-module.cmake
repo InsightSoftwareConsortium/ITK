@@ -11,6 +11,7 @@ itk_module(
   DEPENDS
     ITKSpatialObjects
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKImageFeature
   DESCRIPTION "${DOCUMENTATION}"

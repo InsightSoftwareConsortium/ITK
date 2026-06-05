@@ -18,6 +18,7 @@ itk_module(
     ITKMesh
     ITKImageStatistics
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKThresholding
   DESCRIPTION "${DOCUMENTATION}"

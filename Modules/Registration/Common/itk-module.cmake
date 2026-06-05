@@ -39,6 +39,7 @@ itk_module(
     ITKDisplacementField
     ITKStatistics
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKDistanceMap
     ITKImageSources

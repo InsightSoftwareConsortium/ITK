@@ -10,6 +10,7 @@ itk_module(
   DEPENDS
     ITKIOTransformBase
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
   FACTORY_NAMES
     TransformIO::Matlab

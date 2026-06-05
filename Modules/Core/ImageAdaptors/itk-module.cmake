@@ -12,6 +12,7 @@ itk_module(
   COMPILE_DEPENDS
     ITKCommon
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKCommon
   DESCRIPTION "${DOCUMENTATION}"

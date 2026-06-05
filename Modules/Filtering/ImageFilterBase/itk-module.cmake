@@ -13,6 +13,7 @@ itk_module(
   COMPILE_DEPENDS
     ITKCommon
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKImageIntensity
   DESCRIPTION "${DOCUMENTATION}"

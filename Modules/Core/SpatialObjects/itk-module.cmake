@@ -19,6 +19,7 @@ itk_module(
     ITKMetaIO
     ITKMesh
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKMetaIO
     ITKMesh

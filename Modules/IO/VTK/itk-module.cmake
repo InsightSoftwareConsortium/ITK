@@ -14,6 +14,7 @@ itk_module(
     ITKExpat
     ITKZLIB
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKImageSources
     ITKZLIB

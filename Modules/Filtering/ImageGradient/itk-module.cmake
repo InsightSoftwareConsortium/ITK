@@ -13,6 +13,7 @@ itk_module(
   COMPILE_DEPENDS
     ITKImageAdaptors
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
   DESCRIPTION "${DOCUMENTATION}"
 )
