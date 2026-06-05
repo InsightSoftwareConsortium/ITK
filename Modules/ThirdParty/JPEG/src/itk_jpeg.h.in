@@ -35,8 +35,8 @@
 # include <jpeglib.h>
 # include <jerror.h>
 #else
-# include <itkjpeg-turbo/jpeglib.h>
-# include <itkjpeg-turbo/jerror.h>
+# include <itkjpeg-turbo/src/jpeglib.h>
+# include <itkjpeg-turbo/src/jerror.h>
 #endif
 
 #endif
