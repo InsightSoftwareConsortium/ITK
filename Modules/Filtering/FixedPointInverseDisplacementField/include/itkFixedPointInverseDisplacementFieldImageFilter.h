@@ -50,7 +50,6 @@ Medical Physics, vol. 35, issue 1, p. 81
  *
  * \author Marcel Lüthi, Computer Science Department, University of Basel
  *
- * \ingroup ImageToImageFilter
  * \ingroup FixedPointInverseDisplacementField
  */
 

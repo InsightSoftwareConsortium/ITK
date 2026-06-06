@@ -50,7 +50,7 @@ namespace itk
  * \author Jakub Bican, Department of Image Processing, Institute of Information Theory and Automation, Academy of
  * Sciences of the Czech Republic.
  *
- * \ingroup Transforms
+ * \ingroup GeometricTransform
  * \ingroup PolarTransform
  */
 template <typename TParametersValueType = double, // Data type for scalars (float or double)

@@ -61,8 +61,6 @@ namespace itk
  * \author Dan Mueller, Queensland University of Technology, dan.muel[at]gmail.com
  *
  * \sa ArrivalFunctionToPathFilter
- * \ingroup ImageToPathFilters
- *
  * \ingroup MinimalPathExtraction
  */
 template <typename TInputImage, typename TOutputPath = PolyLineParametricPath<TInputImage::ImageDimension>>

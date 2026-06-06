@@ -46,7 +46,7 @@ namespace itk
  *  and displacement field type all have the same number of dimensions.
  *
  *  \ingroup VariationalRegistration
- *  \ingroup GeometricTransforms
+ *  \ingroup GeometricTransform
  *  \ingroup MultiThreaded
  *
  *  \note This class was developed with funding from the German Research
