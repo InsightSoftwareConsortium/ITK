@@ -48,6 +48,7 @@
 #include <array>
 #include <cassert>
 #include <cmath>   // for abs()
+#include <cstdint> // for uint32_t
 #include <cstdlib> // for abs()
 #include <functional>
 #include <istream>
