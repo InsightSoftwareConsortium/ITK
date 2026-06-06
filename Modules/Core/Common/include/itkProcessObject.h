@@ -500,7 +500,7 @@ public:
 
   /** Get/Set the number of work units to create when executing. */
   /** @ITKStartGrouping */
-  itkSetClampMacro(NumberOfWorkUnits, ThreadIdType, 1, ITK_MAX_THREADS);
+  itkVirtualSetClampMacro(NumberOfWorkUnits, ThreadIdType, 1, ITK_MAX_THREADS);
   itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
   /** @ITKEndGrouping */
 
