@@ -61,4 +61,5 @@ contributing/index
 :caption: 🌱 Scientific ecosystem
 
 scientific_ecosystem/itk_ecosystem.md
+scientific_ecosystem/remote_modules.md
 ```
