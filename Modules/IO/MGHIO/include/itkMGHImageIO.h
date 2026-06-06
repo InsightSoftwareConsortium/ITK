@@ -56,7 +56,7 @@ public:
 
   /** Determine if the file can be read with this ImageIO implementation.
    * \param FileNameToRead The name of the file to test for reading.
-   * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
+   * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToRead
    * \return Returns true if this ImageIO can read the file specified.
    */
   bool
@@ -73,8 +73,8 @@ public:
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine if the file can be written with this ImageIO implementation.
-   * \param FileNameToWrite The name of the file to test for writing.
-   * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
+   * \param name The name of the file to test for writing.
+   * \post Sets classes ImageIOBase::m_FileName variable to be name
    * \return Returns true if this ImageIO can write the file specified.
    */
   bool
