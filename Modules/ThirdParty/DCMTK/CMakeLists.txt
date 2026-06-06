@@ -267,7 +267,47 @@ else(ITK_USE_SYSTEM_DCMTK)
     GIT_REPOSITORY ${DCMTK_GIT_REPOSITORY}
     GIT_TAG ${DCMTK_GIT_TAG}
   )
+
+  # DCMTK's configure runs many CHECK_*_EXISTS probes that mutate the shared
+  # CMAKE_REQUIRED_* state; in ITK's in-scope build that would leak into
+  # sibling third-party feature probes, so snapshot and restore it.
+  set(
+    _dcmtk_required_vars
+    CMAKE_REQUIRED_FLAGS
+    CMAKE_REQUIRED_DEFINITIONS
+    CMAKE_REQUIRED_INCLUDES
+    CMAKE_REQUIRED_LIBRARIES
+    CMAKE_REQUIRED_QUIET
+  )
+  foreach(_v ${_dcmtk_required_vars})
+    set(_dcmtk_saved_${_v} "${${_v}}")
+  endforeach()
+
   FetchContent_MakeAvailable(dcmtk)
+
+  foreach(_v ${_dcmtk_required_vars})
+    set(${_v} "${_dcmtk_saved_${_v}}")
+    unset(_dcmtk_saved_${_v})
+  endforeach()
+  unset(_dcmtk_required_vars)
+
+  # DCMTK's GenerateDCMTKConfigure.cmake globally redefines standard CMake check
+  # commands (CHECK_FUNCTION_EXISTS on Windows, CHECK_CXX_SYMBOL_EXISTS). CMake
+  # commands are global, so those overrides leak into ITK modules configured
+  # afterward: MINC's and GDCM's CHECK_FUNCTION_EXISTS(tmpnam/_strnicmp ...) then
+  # run DCMTK's header-less check_symbol_exists, report the function missing, and
+  # those modules trip a #error. Whether a given module is affected depends on
+  # configure order, so restore the real implementations here, unconditionally,
+  # by including a copy of each module under a fresh path (include_guard(GLOBAL)
+  # blocks a plain re-include).
+  foreach(_check_mod CheckFunctionExists CheckCXXSymbolExists)
+    configure_file(
+      "${CMAKE_ROOT}/Modules/${_check_mod}.cmake"
+      "${CMAKE_CURRENT_BINARY_DIR}/RestoreChecks/${_check_mod}.cmake"
+      COPYONLY
+    )
+    include("${CMAKE_CURRENT_BINARY_DIR}/RestoreChecks/${_check_mod}.cmake")
+  endforeach()
 
   # Expose DCMTK's now-in-scope targets to the rest of ITK.
   set(ITKDCMTK_LIBRARIES ${_ITKDCMTK_LIB_NAMES})
