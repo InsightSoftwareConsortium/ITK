@@ -122,12 +122,12 @@ public:
 
   /** Get/Set the Fixed Object.  */
   /** @ITKStartGrouping */
-  itkSetConstObjectMacro(FixedObject, ObjectType);
+  itkVirtualSetConstObjectMacro(FixedObject, ObjectType);
   itkGetConstObjectMacro(FixedObject, ObjectType);
   /** @ITKEndGrouping */
   /** Get/Set the Moving Object.  */
   /** @ITKStartGrouping */
-  itkSetConstObjectMacro(MovingObject, ObjectType);
+  itkVirtualSetConstObjectMacro(MovingObject, ObjectType);
   itkGetConstObjectMacro(MovingObject, ObjectType);
   /** @ITKEndGrouping */
   using GradientSourceEnum = itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource;

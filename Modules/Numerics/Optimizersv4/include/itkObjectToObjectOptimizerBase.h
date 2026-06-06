@@ -152,7 +152,7 @@ public:
 
   /** Accessors for Metric */
   /** @ITKStartGrouping */
-  itkSetObjectMacro(Metric, MetricType);
+  itkVirtualSetObjectMacro(Metric, MetricType);
   itkGetModifiableObjectMacro(Metric, MetricType);
   /** @ITKEndGrouping */
 
@@ -249,10 +249,10 @@ public:
   itkGetConstMacro(CurrentIteration, SizeValueType);
 
   /** Set the number of iterations. */
-  itkSetMacro(NumberOfIterations, SizeValueType);
+  itkVirtualSetMacro(NumberOfIterations, SizeValueType);
 
   /** Get the number of iterations. */
-  itkGetConstMacro(NumberOfIterations, SizeValueType);
+  itkVirtualGetConstMacro(NumberOfIterations, SizeValueType);
 
   /** Get a reference to the current position of the optimization.
    * This returns the parameters from the assigned metric, since the optimizer

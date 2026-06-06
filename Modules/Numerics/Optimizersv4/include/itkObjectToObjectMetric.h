@@ -191,13 +191,13 @@ public:
   UpdateTransformParameters(const DerivativeType & derivative, TParametersValueType factor) override;
 
   /** Connect the fixed transform. */
-  itkSetObjectMacro(FixedTransform, FixedTransformType);
+  itkVirtualSetObjectMacro(FixedTransform, FixedTransformType);
 
   /** Get a pointer to the fixed transform.  */
   itkGetModifiableObjectMacro(FixedTransform, FixedTransformType);
 
   /** Connect the moving transform. */
-  itkSetObjectMacro(MovingTransform, MovingTransformType);
+  itkVirtualSetObjectMacro(MovingTransform, MovingTransformType);
 
   /** Get a pointer to the moving transform.  */
   itkGetModifiableObjectMacro(MovingTransform, MovingTransformType);

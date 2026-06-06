@@ -100,7 +100,7 @@ public:
   itkGetConstReferenceMacro(Gradient, DerivativeType);
 
   /** Get stop condition enum */
-  itkGetConstReferenceMacro(StopCondition, StopConditionObjectToObjectOptimizerEnum);
+  itkVirtualGetConstReferenceMacro(StopCondition, StopConditionObjectToObjectOptimizerEnum);
 
   /** Start and run the optimization */
   void
