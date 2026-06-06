@@ -16,6 +16,7 @@ set(DOXYGEN_NUM_PROC_THREADS "0")
 set(
   DOXYGEN_ALIASES
   "starteraliasnotused=@par not used"
+  "doxygen{1}=\\ref \\1"
   "sphinx=\\par ITK Sphinx Examples: ^^ \\li <a href=\\\"https://itk.org/ITKExamples\\\">All ITK Sphinx Examples</a> ^^"
   "sphinxexample{2}=\\li <a href=\\\"https://itk.org/ITKExamples/src/\\1/Documentation.html\\\">\\2</a> ^^"
   "endsphinx=^^ ^^ ^^"
@@ -209,7 +210,7 @@ set(
 )
 set(DOXYGEN_GRAPHICAL_HIERARCHY "NO")
 set(DOXYGEN_DOT_IMAGE_FORMAT "svg")
-set(DOXYGEN_DOT_GRAPH_MAX_NODES "250")
+set(DOXYGEN_DOT_GRAPH_MAX_NODES "300")
 set(DOXYGEN_INTERACTIVE_SVG "YES")
 set(DOXYGEN_DOT_MULTI_TARGETS "YES")
 set(
