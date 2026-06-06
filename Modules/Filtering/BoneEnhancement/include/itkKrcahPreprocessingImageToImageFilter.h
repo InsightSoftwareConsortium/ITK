@@ -32,8 +32,8 @@ namespace itk
  *
  * This filters performs an unsharp filter as defined by Krcah
  * et al. The unsharp filter is defined by:
- *  \f{
- *      J = I+k*(I-(I*G))
+ *  \f{eqnarray*}{
+ *      J &=& I+k*(I-(I*G))
  *  \f}
  *
  * Where \f$ k \f$ is a scaling constant set to 5 and the Guassian

@@ -45,7 +45,7 @@ namespace itk
  * \f$ \gamma \f$. This is done to seperate parameter estimation from the unary
  * functor. The modification is very simple. If the average of the trace is
  * denoted \f$ T \f$ the new parameter becomes:
- *  \f{
+ *  \f{eqnarray*}{
  *      \gamma &=& 0.25 \cdot T
  *  \f}
  *

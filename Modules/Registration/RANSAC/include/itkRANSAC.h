@@ -94,7 +94,7 @@ public:
    * Set/Get the number of threads used by the RANSAC implementation.
    *
    * @param numberOfThreads Number of threads the algorithm uses. Valid values
-   *                        are in [1, #cores].
+   *                        are in [1, \#cores].
    */
   void
   SetNumberOfThreads(unsigned int numberOfThreads);
@@ -163,7 +163,7 @@ public:
 protected:
   /**
    * Construct an instance of the RANSAC algorithm. The number of threads used
-   * in the computation is 1, valid values are in [1, #cores].
+   * in the computation is 1, valid values are in [1, \#cores].
    *
    */
   RANSAC();
