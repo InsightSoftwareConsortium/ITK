@@ -522,7 +522,7 @@ MetaImageIO::WriteImageInformation()
       // library, which results is an unreadable/corrupt file.
       itkWarningMacro("Unsupported or empty metaData item " << key << " of type "
                                                             << metaDict[key]->GetMetaDataObjectTypeName()
-                                                            << "found, won't be written to image file");
+                                                            << " found, won't be written to image file");
       // so this entry should be skipped.
       continue;
     }
