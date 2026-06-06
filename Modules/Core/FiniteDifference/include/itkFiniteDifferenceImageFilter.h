@@ -196,14 +196,14 @@ public:
   /** Set/Get the maximum error allowed in the solution.  This may not be
       defined for all solvers and its meaning may change with the application. */
   /** @ITKStartGrouping */
-  itkSetMacro(MaximumRMSError, double);
+  itkVirtualSetMacro(MaximumRMSError, double);
   itkGetConstReferenceMacro(MaximumRMSError, double);
   /** @ITKEndGrouping */
   /** Set/Get the root mean squared change of the previous iteration. May not
       be used by all solvers. */
   /** @ITKStartGrouping */
   itkSetMacro(RMSChange, double);
-  itkGetConstReferenceMacro(RMSChange, double);
+  itkVirtualGetConstReferenceMacro(RMSChange, double);
   /** @ITKEndGrouping */
   /** Require the filter to be manually reinitialized (by calling
       SetStateToUninitialized() */
