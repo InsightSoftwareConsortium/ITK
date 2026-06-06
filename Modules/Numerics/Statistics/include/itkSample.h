@@ -150,7 +150,7 @@ public:
   }
 
   /** Get method for the length of the measurement vector */
-  itkGetConstMacro(MeasurementVectorSize, MeasurementVectorSizeType);
+  itkVirtualGetConstMacro(MeasurementVectorSize, MeasurementVectorSizeType);
 
   /** Method to graft another sample */
   void

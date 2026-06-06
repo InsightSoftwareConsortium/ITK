@@ -93,7 +93,7 @@ public:
    *  The seed value will be used by subclasses where appropriate.
    */
   /** @ITKStartGrouping */
-  itkSetMacro(Seed, SeedType);
+  itkVirtualSetMacro(Seed, SeedType);
   itkGetConstReferenceMacro(Seed, SeedType);
   /** @ITKEndGrouping */
 
