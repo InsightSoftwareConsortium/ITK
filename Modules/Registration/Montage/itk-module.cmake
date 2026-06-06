@@ -3,8 +3,8 @@ set(
   "This module provides Montage: mosaic-stitching and 3D
 reconstruction of large datasets from a collection of partially
 overlapping 2D slices via phase-correlation image registration.
-Core pieces are \\\\ref PhaseCorrelationImageRegistrationMethod,
-\\\\ref TileMontage, and \\\\ref TileMergeImageFilter.
+Core pieces are \\\\ref itk::PhaseCorrelationImageRegistrationMethod,
+\\\\ref itk::TileMontage, and \\\\ref itk::TileMergeImageFilter.
 See the module README for in-tree vs archived-upstream scope."
 )
 

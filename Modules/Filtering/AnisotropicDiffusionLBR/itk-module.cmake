@@ -3,8 +3,8 @@ set(
   "This module provides coherence-enhancing (CED) and edge-enhancing
 (EED) anisotropic diffusion filters built on the
 Lattice-Basis-Reduction (LBR) stencil scheme by Jean-Marie Mirebeau.
-See the Doxygen on \\\\ref AnisotropicDiffusionLBRImageFilter and
-\\\\ref CoherenceEnhancingDiffusionImageFilter for the algorithm and
+See the Doxygen on \\\\ref itk::AnisotropicDiffusionLBRImageFilter and
+\\\\ref itk::CoherenceEnhancingDiffusionImageFilter for the algorithm and
 citations, and the module README for in-tree vs archived-upstream
 scope."
 )
