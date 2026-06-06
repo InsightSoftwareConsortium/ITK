@@ -15,4 +15,6 @@ itk_add_test(
     DATA{Input/classification_s4.mha}
     ${ITK_TEST_OUTPUT_DIR}/
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/gl_gaussian_3.mha
 )

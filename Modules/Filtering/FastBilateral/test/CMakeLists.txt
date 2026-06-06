@@ -18,6 +18,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkFastBilateralImageFilterTestOutput.mha
     itkFastBilateralImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkFastBilateralImageFilterTestOutput.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkFastBilateralImageFilterTestOutput.mha
 )
 
 itk_add_test(
@@ -30,6 +32,8 @@ itk_add_test(
     itkFastBilateralImageFilterTest2
     DATA{Input/cake_easy.png}
     ${ITK_TEST_OUTPUT_DIR}/itkFastBilateralImageFilterTest2Output.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkFastBilateralImageFilterTest2Output.png
 )
 
 itk_add_test(
@@ -41,5 +45,7 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkFastBilateralImageFilterTest3Output.png
     itkFastBilateralImageFilterTest3
     DATA{Input/cake_easy.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkFastBilateralImageFilterTest3Output.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkFastBilateralImageFilterTest3Output.png
 )

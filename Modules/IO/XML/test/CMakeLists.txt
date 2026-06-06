@@ -29,6 +29,8 @@ itk_add_test(
     itkDOMTest2
     DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
     ${ITK_TEST_OUTPUT_DIR}/xmldom-test21-output.xml
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/xmldom-test21-output.xml
 )
 
 itk_add_test(
@@ -37,6 +39,8 @@ itk_add_test(
     ITKIOXMLTestDriver
     itkDOMTest2
     DATA{${ITK_DATA_ROOT}/Input/XML/test.pso.xml}
+    ${ITK_TEST_OUTPUT_DIR}/xmldom-test22-output.xml
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/xmldom-test22-output.xml
 )
 
@@ -294,6 +298,8 @@ itk_add_test(
     ITKIOXMLTestDriver
     itkDOMTest5
     ${ITK_TEST_OUTPUT_DIR}/xmldom-test5/output.xml
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/xmldom-test5/output.xml
 )
 
 itk_add_test(
@@ -310,6 +316,8 @@ itk_add_test(
     itkDOMTest8
     ${ITK_TEST_OUTPUT_DIR}/xmldom-test8/
     output/test_file
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/xmldom-test8/output/test_file
 )
 
 itk_add_test(
@@ -325,5 +333,7 @@ itk_add_test(
     ITKIOXMLTestDriver
     itkFileToolsTest
     ${ITK_TEST_OUTPUT_DIR}/mytestdir
+    ${ITK_TEST_OUTPUT_DIR}/mytestfile.txt
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/mytestfile.txt
 )

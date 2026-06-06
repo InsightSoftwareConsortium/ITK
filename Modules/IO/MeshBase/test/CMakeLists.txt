@@ -12,4 +12,6 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/mushroom.vtk}
     ${ITK_TEST_OUTPUT_DIR}/itkMeshFileReaderWriterTest.vtk
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMeshFileReaderWriterTest.vtk
 )

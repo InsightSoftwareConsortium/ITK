@@ -101,6 +101,8 @@ itk_add_test(
     itkVTIImageIOReadWriteTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_CTHead1.vti
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_CTHead1.vti
 )
 
 itk_add_test(
@@ -112,6 +114,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_VisibleWomanEyeSlice.vti
     itkVTIImageIOReadWriteTest
     DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_VisibleWomanEyeSlice.vti
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_VisibleWomanEyeSlice.vti
 )
 
@@ -125,6 +129,8 @@ itk_add_test(
     itkVTIImageIOReadWriteTest
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_HeadMRVolume.vti
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_HeadMRVolume.vti
 )
 
 itk_add_test(
@@ -137,6 +143,8 @@ itk_add_test(
     itkVTIImageIOReadWriteTest
     DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw}
     ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_VHFColor.vti
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_VHFColor.vti
 )
 
 itk_add_test(
@@ -148,6 +156,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_reco2D_16line.vti
     itkVTIImageIOReadWriteTest
     DATA{Input/reco2D_16line.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_reco2D_16line.vti
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_reco2D_16line.vti
 )
 
@@ -162,6 +172,8 @@ itk_add_test(
     DATA{Input/reco2D_16line.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_reco2D_16line_compressed.vti
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkVTIImageIOReadWriteTest_reco2D_16line_compressed.vti
 )
 
 # itkVTIImageIOReadWriteTestVHFColorZLib is temporarily disabled until
@@ -208,12 +220,17 @@ itk_add_test(
     itkVTKImageIOTest
     ${ITK_TEST_OUTPUT_DIR}/test1.vtk
     ${ITK_TEST_OUTPUT_DIR}/test2.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/test1.vtk
+    ${ITK_TEST_OUTPUT_DIR}/test2.vtk
 )
 itk_add_test(
   NAME itkVTKImageIO2Test2
   COMMAND
     ITKIOVTKTestDriver
     itkVTKImageIO2Test2
+    ${ITK_TEST_OUTPUT_DIR}/itkVTKImageIO2Test2.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkVTKImageIO2Test2.vtk
 )
 itk_add_test(
@@ -222,6 +239,8 @@ itk_add_test(
     ITKIOVTKTestDriver
     itkVTKImageIOTest2
     DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw}
+    ${ITK_TEST_OUTPUT_DIR}/testVector.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/testVector.vtk
 )
 itk_add_test(
@@ -236,6 +255,8 @@ itk_add_test(
   COMMAND
     ITKIOVTKTestDriver
     itkVTKImageIOStreamTest
+    ${ITK_TEST_OUTPUT_DIR}/itkVTKImageIOStreamTest.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkVTKImageIOStreamTest.vtk
 )
 itk_add_test(

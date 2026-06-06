@@ -38,6 +38,8 @@ itk_add_test(
     itkMINCImageIOTest2
     DATA{Input/t1_z+_byte_cor.mnc}
     ${ITK_TEST_OUTPUT_DIR}/t1_z+_byte_cor_3.mnc
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/t1_z+_byte_cor_3.mnc
 )
 
 itk_add_test(
@@ -51,6 +53,8 @@ itk_add_test(
     DATA{Input/t1_z+_byte_cor.mnc}
     ${ITK_TEST_OUTPUT_DIR}/t1_z+_byte_cor_2.mnc
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/t1_z+_byte_cor_2.mnc
 )
 
 itk_add_test(
@@ -64,6 +68,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
     ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mnc
     -1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mnc
 )
 
 # Test to make sure that inter-slice normalization was properly dealt with
@@ -78,6 +84,8 @@ itk_add_test(
     DATA{Input/t1_z+_ubyte_yxz_nonorm.mnc}
     ${ITK_TEST_OUTPUT_DIR}/t1_z+_ubyte_yxz_nonorm_noParams.mnc
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/t1_z+_ubyte_yxz_nonorm_noParams.mnc
 )
 
 itk_add_test(
@@ -91,6 +99,8 @@ itk_add_test(
     DATA{Input/t1_z+_float_yxz_nonorm.mnc}
     ${ITK_TEST_OUTPUT_DIR}/t1_z+_float_yxz_nonorm_noParams.mnc
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/t1_z+_float_yxz_nonorm_noParams.mnc
 )
 
 itk_add_test(
@@ -102,6 +112,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/cthead1.mnc
     itkMINCImageIOTest_2D
     DATA{${ITK_DATA_ROOT}/Input/cthead1.tif}
+    ${ITK_TEST_OUTPUT_DIR}/cthead1.mnc
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/cthead1.mnc
 )
 
@@ -115,6 +127,8 @@ itk_add_test(
     itkMINCImageIOTest_4D
     DATA{Input/dti_sample.mnc}
     ${ITK_TEST_OUTPUT_DIR}/dti_sample.mnc
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/dti_sample.mnc
 )
 
 itk_add_test(
@@ -126,6 +140,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/labels_sample.mnc
     itkMINCImageIOTest_Labels
     DATA{Input/labels_sample.mnc}
+    ${ITK_TEST_OUTPUT_DIR}/labels_sample.mnc
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/labels_sample.mnc
 )
 
@@ -146,6 +162,8 @@ itk_add_test(
     -8.195741583
     72.45998819
     -3.148534512
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/t1_z+_float_yxz_nonorm.mnc
 )
 
 itk_add_test(
@@ -163,6 +181,8 @@ itk_add_test(
     -8.195741583
     72.45998819
     -3.148534512
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/t1_z+_float_yxz_norm.mnc
 )
 
 itk_add_test(
@@ -180,6 +200,8 @@ itk_add_test(
     -8.195741583
     72.45998819
     -3.148534512
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/t1_z+_ubyte_yxz_nonorm.mnc
 )
 
 # multiple loops because of different numerical parameters

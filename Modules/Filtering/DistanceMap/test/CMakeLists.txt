@@ -26,6 +26,8 @@ itk_add_test(
     0
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDanielssonDistanceMapImageFilterTest1.{mhd,zraw}
 )
 itk_add_test(
   NAME itkDanielssonDistanceMapImageFilterTest2
@@ -37,6 +39,8 @@ itk_add_test(
     itkDanielssonDistanceMapImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png}
     ${ITK_TEST_OUTPUT_DIR}/itkDanielssonDistanceMapImageFilterTest2.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDanielssonDistanceMapImageFilterTest2.png
 )
 itk_add_test(
   NAME itkDirectedHausdorffDistanceImageFilterTest
@@ -44,6 +48,8 @@ itk_add_test(
     ITKDistanceMapTestDriver
     itkDirectedHausdorffDistanceImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkDirectedHausdorffDistanceImageFilterTest2.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkDirectedHausdorffDistanceImageFilterTest2.png
 )
 itk_add_test(
@@ -63,6 +69,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png}
     ${ITK_TEST_OUTPUT_DIR}/itkSignedDanielssonDistanceMapImageFilterTest1.mhd
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSignedDanielssonDistanceMapImageFilterTest1.{mhd,zraw}
 )
 itk_add_test(
   NAME itkSignedDanielssonDistanceMapImageFilterTest2
@@ -73,6 +81,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkSignedDanielssonDistanceMapImageFilterTest2.mha
     itkSignedDanielssonDistanceMapImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkSignedDanielssonDistanceMapImageFilterTest2.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkSignedDanielssonDistanceMapImageFilterTest2.mha
 )
 # Test the distance filter on a 3D volume.
@@ -88,6 +98,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/BinarySquare3D.mhd,BinarySquare3D.zraw}
     ${ITK_TEST_OUTPUT_DIR}/itkSignedDanielssonDistanceMapImageFilterTest3D.mhd
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSignedDanielssonDistanceMapImageFilterTest3D.{mhd,zraw}
 )
 # Test the distance filter on a 4D volume.
 # The middle 3D volume of the output 4D volume should be exactly the same as the
@@ -104,6 +116,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/BinarySquare4D.mhd,BinarySquare4D.zraw}
     ${ITK_TEST_OUTPUT_DIR}/itkSignedDanielssonDistanceMapImageFilterTest4D.mhd
     4
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSignedDanielssonDistanceMapImageFilterTest4D.{mhd,zraw}
 )
 
 itk_add_test(
@@ -117,6 +131,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/SquareBinary201.png}
     ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest1.mhd
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest1.{mhd,zraw}
 )
 itk_add_test(
   NAME itkSignedMaurerDistanceMapImageFilterTest2
@@ -129,6 +145,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/BrainSliceBinary.png}
     ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest2.mhd
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest2.{mhd,zraw}
 )
 itk_add_test(
   NAME itkSignedMaurerDistanceMapImageFilterTest3
@@ -141,6 +159,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/LungSliceBinary.png}
     ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest3.mhd
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest3.{mhd,zraw}
 )
 # Test the distance filter on a 3D volume.
 itk_add_test(
@@ -154,6 +174,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/BinarySquare3D.mhd,BinarySquare3D.zraw}
     ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest3D.mhd
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest3D.{mhd,zraw}
 )
 # Test the distance filter on a 4D volume.
 # The middle 3D volume of the output 4D volume should be exactly the same as the
@@ -169,6 +191,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/BinarySquare4D.mhd,BinarySquare4D.zraw}
     ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest4D.mhd
     4
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSignedMaurerDistanceMapImageFilterTest4D.{mhd,zraw}
 )
 
 itk_add_test(
@@ -184,6 +208,8 @@ itk_add_test(
     itkApproximateSignedDistanceMapImageFilterTest
     100
     ${ITK_TEST_OUTPUT_DIR}/itkApproximateSignedDistanceMapImageFilterTest0.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkApproximateSignedDistanceMapImageFilterTest0.mha
 )
 itk_add_test(
   NAME itkApproximateSignedDistanceMapImageFilterTest1
@@ -195,6 +221,8 @@ itk_add_test(
     itkApproximateSignedDistanceMapImageFilterTest
     1
     ${ITK_TEST_OUTPUT_DIR}/itkApproximateSignedDistanceMapImageFilterTest1.mhd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkApproximateSignedDistanceMapImageFilterTest1.{mhd,raw}
 )
 set(
   ITKDistanceMapGTests

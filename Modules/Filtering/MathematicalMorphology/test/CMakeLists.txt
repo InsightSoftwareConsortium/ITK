@@ -88,6 +88,9 @@ itk_add_test(
     0
     0
     ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTestSubtract.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTest.png
+    ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTestSubtract.png
 )
 itk_add_test(
   NAME itkClosingByReconstructionImageFilterTest2
@@ -102,6 +105,9 @@ itk_add_test(
     4
     1
     0
+    ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTestSubtract2.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTest2.png
     ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTestSubtract2.png
 )
 itk_add_test(
@@ -118,6 +124,9 @@ itk_add_test(
     1
     1
     ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTestSubtractFullyConnected.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTestFullyConnected.png
+    ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTestSubtractFullyConnected.png
 )
 itk_add_test(
   NAME itkFlatStructuringElementTest
@@ -126,6 +135,8 @@ itk_add_test(
     --redirectOutput
     ${ITK_TEST_OUTPUT_DIR}/itkFlatStructuringElementTest.txt
     itkFlatStructuringElementTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkFlatStructuringElementTest.txt
 )
 set_tests_properties(
   itkFlatStructuringElementTest
@@ -144,6 +155,8 @@ itk_add_test(
     itkFlatStructuringElementTest2
     DATA{Baseline/FlatStructuringElementImageTest.png}
     ${ITK_TEST_OUTPUT_DIR}/FlatStructuringElementImageTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/FlatStructuringElementImageTest.png
 )
 
 itk_add_test(
@@ -158,6 +171,8 @@ itk_add_test(
     10
     4
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/FlatStructuringPoly4.png
 )
 itk_add_test(
   NAME itkFlatStructuringElementTest3_2
@@ -171,6 +186,8 @@ itk_add_test(
     10
     6
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/FlatStructuringPoly6.png
 )
 
 itk_add_test(
@@ -186,6 +203,8 @@ itk_add_test(
     174
     214
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedClosingImageFilterTest.png
 )
 itk_add_test(
   NAME itkGrayscaleConnectedClosingImageFilterTest2
@@ -200,6 +219,8 @@ itk_add_test(
     150
     169
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedClosingImageFilterTest2.png
 )
 itk_add_test(
   NAME itkGrayscaleConnectedOpeningImageFilterTest
@@ -214,6 +235,8 @@ itk_add_test(
     174
     214
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedOpeningImageFilterTest.png
 )
 itk_add_test(
   NAME itkGrayscaleConnectedOpeningImageFilterTest2
@@ -228,6 +251,8 @@ itk_add_test(
     150
     169
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/GrayscaleConnectedOpeningImageFilterTest2.png
 )
 itk_add_test(
   NAME itkGrayscaleFillholeImageFilterTestFullyConnectedOff
@@ -240,6 +265,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleFillholeImageFilterTestFullyConnectedOff.png
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleFillholeImageFilterTestFullyConnectedOff.png
 )
 itk_add_test(
   NAME itkGrayscaleFillholeImageFilterTestFullyConnectedOn
@@ -252,6 +279,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleFillholeImageFilterTestFullyConnectedOn.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleFillholeImageFilterTestFullyConnectedOn.png
 )
 itk_add_test(
   NAME itkGrayscaleFunctionDilateImageFilterTest
@@ -262,6 +291,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleFunctionDilateImageFilterTest.mha
     itkGrayscaleFunctionDilateImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleFunctionDilateImageFilterTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleFunctionDilateImageFilterTest.mha
 )
 itk_add_test(
   NAME itkGrayscaleFunctionErodeImageFilterTest
@@ -271,6 +302,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkGrayscaleFunctionErodeImageFilterTest.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleFunctionErodeImageFilterTest.mha
     itkGrayscaleFunctionErodeImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleFunctionErodeImageFilterTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleFunctionErodeImageFilterTest.mha
 )
 itk_add_test(
@@ -284,6 +317,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/GrayscaleMorphologicalClosingImageFilterTest.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/GrayscaleMorphologicalClosingImageFilterTest.png
 )
 itk_add_test(
   NAME itkGrayscaleMorphologicalOpeningImageFilterTest
@@ -296,6 +331,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/GrayscaleMorphologicalOpeningImageFilterTest.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/GrayscaleMorphologicalOpeningImageFilterTest.png
 )
 itk_add_test(
   NAME itkGrayscaleGeodesicErodeDilateImageFilterTest
@@ -310,6 +347,8 @@ itk_add_test(
     35
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleGeodesicErodeDilateImageFilterTest.png
 )
 itk_add_test(
   NAME itkGrayscaleGrindPeakImageFilterTest
@@ -322,6 +361,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleGrindPeakImageFilterTest.png
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleGrindPeakImageFilterTest.png
 )
 itk_add_test(
   NAME itkHConcaveImageFilterTestFullyConnectedOff
@@ -335,6 +376,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkHConcaveImageFilterTestFullyConnectedOff.png
     2000
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkHConcaveImageFilterTestFullyConnectedOff.png
 )
 itk_add_test(
   NAME itkHConcaveImageFilterTestFullyConnectedOn
@@ -348,6 +391,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkHConcaveImageFilterTestFullyConnectedOn.png
     2000
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkHConcaveImageFilterTestFullyConnectedOn.png
 )
 itk_add_test(
   NAME itkHConvexImageFilterTestFullyConnectedOff
@@ -361,6 +406,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkHConvexImageFilterTestFullyConnectedOff.png
     2000
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkHConvexImageFilterTestFullyConnectedOff.png
 )
 itk_add_test(
   NAME itkHConvexImageFilterTestFullyConnectedOn
@@ -374,6 +421,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkHConvexImageFilterTestFullyConnectedOn.png
     2000
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkHConvexImageFilterTestFullyConnectedOn.png
 )
 itk_add_test(
   NAME itkHConvexConcaveImageFilterTest
@@ -386,6 +435,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/HConvexConcaveImageFilterTest.png
     50
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/HConvexConcaveImageFilterTest.png
 )
 itk_add_test(
   NAME itkHMaximaImageFilterTestFullyConnectedOff
@@ -399,6 +450,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkHMaximaImageFilterTestFullyConnectedOff.png
     2000
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkHMaximaImageFilterTestFullyConnectedOff.png
 )
 itk_add_test(
   NAME itkHMaximaImageFilterTestFullyConnectedOn
@@ -412,6 +465,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkHMaximaImageFilterTestFullyConnectedOn.png
     2000
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkHMaximaImageFilterTestFullyConnectedOn.png
 )
 itk_add_test(
   NAME itkHMinimaImageFilterTestFullyConnectedOff
@@ -425,6 +480,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkHMinimaImageFilterTestFullyConnectedOff.png
     2000
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkHMinimaImageFilterTestFullyConnectedOff.png
 )
 itk_add_test(
   NAME itkHMinimaImageFilterTestFullyConnectedOn
@@ -438,6 +495,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkHMinimaImageFilterTestFullyConnectedOn.png
     2000
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkHMinimaImageFilterTestFullyConnectedOn.png
 )
 itk_add_test(
   NAME itkHMaximaMinimaImageFilterTest
@@ -450,6 +509,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cake_easy.png}
     ${ITK_TEST_OUTPUT_DIR}/HMaximaMinimaImageFilterTest.png
     35
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/HMaximaMinimaImageFilterTest.png
 )
 itk_add_test(
   NAME itkHMaximaMinimaImageFilterTest2
@@ -462,6 +523,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cake_hard.png}
     ${ITK_TEST_OUTPUT_DIR}/HMaximaMinimaImageFilterTest2.png
     35
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/HMaximaMinimaImageFilterTest2.png
 )
 itk_add_test(
   NAME itkMorphologicalGradientImageFilterTest
@@ -473,6 +536,8 @@ itk_add_test(
     itkMorphologicalGradientImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/MorphologicalGradientImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/MorphologicalGradientImageFilterTest.png
 )
 itk_add_test(
   NAME itkMorphologicalGradientImageFilterTest2
@@ -483,6 +548,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/MorphologicalGradientImageFilterTest2.png
     itkMorphologicalGradientImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/MorphologicalGradientImageFilterTest2.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/MorphologicalGradientImageFilterTest2.png
 )
 itk_add_test(
@@ -505,6 +572,9 @@ itk_add_test(
     0
     0
     ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtract.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTest.png
+    ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtract.png
 )
 itk_add_test(
   NAME itkOpeningByReconstructionImageFilterTest2
@@ -520,6 +590,9 @@ itk_add_test(
     1
     0
     ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtract2.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTest2.png
+    ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtract2.png
 )
 itk_add_test(
   NAME itkOpeningByReconstructionImageFilterTestFullyConnected
@@ -534,6 +607,9 @@ itk_add_test(
     4
     1
     1
+    ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtractFullyConnected.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestFullyConnected.png
     ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtractFullyConnected.png
 )
 itk_add_test(
@@ -553,6 +629,9 @@ itk_add_test(
     0.5
     0.5
     ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtractNoInput.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestNoInput.png
+    ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtractNoInput.png
 )
 itk_add_test(
   NAME itkOpeningByReconstructionImageFilterTestNoInput2
@@ -571,6 +650,9 @@ itk_add_test(
     0.5
     0.5
     ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtractNoInput2.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestNoInput2.png
+    ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtractNoInput2.png
 )
 itk_add_test(
   NAME itkDoubleThresholdImageFilterTest
@@ -587,6 +669,8 @@ itk_add_test(
     255
     255
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest.png
 )
 itk_add_test(
   NAME itkDoubleThresholdImageFilterTest2
@@ -603,6 +687,8 @@ itk_add_test(
     164
     180
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/DoubleThresholdImageFilterTest2.png
 )
 itk_add_test(
   NAME itkRemoveBoundaryObjectsTest
@@ -614,6 +700,8 @@ itk_add_test(
     itkRemoveBoundaryObjectsTest
     DATA{${ITK_DATA_ROOT}/Input/Spots.png}
     ${ITK_TEST_OUTPUT_DIR}/RemoveBoundaryObjectsTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/RemoveBoundaryObjectsTest.png
 )
 itk_add_test(
   NAME itkRemoveBoundaryObjectsTest2
@@ -624,6 +712,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/RemoveBoundaryObjectsTest2.png
     itkRemoveBoundaryObjectsTest2
     DATA{${ITK_DATA_ROOT}/Input/SpotsInverted.png}
+    ${ITK_TEST_OUTPUT_DIR}/RemoveBoundaryObjectsTest2.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/RemoveBoundaryObjectsTest2.png
 )
 itk_add_test(
@@ -647,6 +737,8 @@ itk_add_test(
     1
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBlackTopHatImageFilterTest.png
 )
 itk_add_test(
   NAME itkWhiteTopHatImageFilterTest
@@ -663,6 +755,8 @@ itk_add_test(
     1
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkWhiteTopHatImageFilterTest.png
 )
 itk_add_test(
   NAME itkGrayscaleMorphologicalClosingImageFilterTest2
@@ -685,6 +779,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2VHGW.png
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2Anchor.png
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2Basic.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2Histo.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2VHGW.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2Anchor.png
 )
 itk_add_test(
   NAME itkGrayscaleMorphologicalClosingImageFilterTest2SafeBorder
@@ -707,6 +806,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2VHGWSafeBorder.png
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2AnchorSafeBorder.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2BasicSafeBorder.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2HistoSafeBorder.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2VHGWSafeBorder.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2AnchorSafeBorder.png
 )
 itk_add_test(
   NAME itkGrayscaleMorphologicalOpeningImageFilterTest2
@@ -729,6 +833,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2VHGW.png
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2Anchor.png
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2Basic.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2Histo.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2VHGW.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2Anchor.png
 )
 itk_add_test(
   NAME itkGrayscaleMorphologicalOpeningImageFilterTest2SafeBorder
@@ -751,6 +860,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2VHGWSafeBorder.png
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2AnchorSafeBorder.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2BasicSafeBorder.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2HistoSafeBorder.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2VHGWSafeBorder.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalOpeningImageFilterTest2AnchorSafeBorder.png
 )
 itk_add_test(
   NAME itkGrayscaleDilateImageFilterTest
@@ -771,6 +885,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleDilateImageFilterTestHisto.png
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleDilateImageFilterTestVHGW.png
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleDilateImageFilterTestAnchor.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleDilateImageFilterTestBasic.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleDilateImageFilterTestHisto.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleDilateImageFilterTestVHGW.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleDilateImageFilterTestAnchor.png
 )
 itk_add_test(
   NAME itkGrayscaleErodeImageFilterTest
@@ -787,6 +906,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleErodeImageFilterTestAnchor.png
     itkGrayscaleErodeImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleErodeImageFilterTestBasic.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleErodeImageFilterTestHisto.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleErodeImageFilterTestVHGW.png
+    ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleErodeImageFilterTestAnchor.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleErodeImageFilterTestBasic.png
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleErodeImageFilterTestHisto.png
     ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleErodeImageFilterTestVHGW.png
@@ -813,6 +937,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalClosingImageFilterTestVHGW.png
     ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalClosingImageFilterTestAnchor.png
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalClosingImageFilterTestBasic.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalClosingImageFilterTestHisto.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalClosingImageFilterTestVHGW.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalClosingImageFilterTestAnchor.png
 )
 itk_add_test(
   NAME itkMapGrayscaleMorphologicalClosingImageFilterTestSafeBorder
@@ -834,6 +963,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalClosingImageFilterTestVHGWSafeBorder.png
     ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalClosingImageFilterTestAnchorSafeBorder.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalClosingImageFilterTestBasicSafeBorder.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalClosingImageFilterTestHistoSafeBorder.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalClosingImageFilterTestVHGWSafeBorder.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalClosingImageFilterTestAnchorSafeBorder.png
 )
 itk_add_test(
   NAME itkMapGrayscaleMorphologicalOpeningImageFilterTest
@@ -855,6 +989,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalOpeningImageFilterTestVHGW.png
     ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalOpeningImageFilterTestAnchor.png
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalOpeningImageFilterTestBasic.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalOpeningImageFilterTestHisto.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalOpeningImageFilterTestVHGW.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalOpeningImageFilterTestAnchor.png
 )
 itk_add_test(
   NAME itkMapGrayscaleMorphologicalOpeningImageFilterTestSafeBorder
@@ -876,6 +1015,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalOpeningImageFilterTestVHGWSafeBorder.png
     ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalOpeningImageFilterTestAnchorSafeBorder.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalOpeningImageFilterTestBasicSafeBorder.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalOpeningImageFilterTestHistoSafeBorder.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalOpeningImageFilterTestVHGWSafeBorder.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalOpeningImageFilterTestAnchorSafeBorder.png
 )
 
 itk_add_test(
@@ -893,6 +1037,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleDilateImageFilterTestAnchor.png
     itkMapGrayscaleDilateImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleDilateImageFilterTestBasic.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleDilateImageFilterTestHisto.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleDilateImageFilterTestVHGW.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleDilateImageFilterTestAnchor.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleDilateImageFilterTestBasic.png
     ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleDilateImageFilterTestHisto.png
     ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleDilateImageFilterTestVHGW.png
@@ -917,6 +1066,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleErodeImageFilterTestHisto.png
     ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleErodeImageFilterTestVHGW.png
     ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleErodeImageFilterTestAnchor.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleErodeImageFilterTestBasic.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleErodeImageFilterTestHisto.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleErodeImageFilterTestVHGW.png
+    ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleErodeImageFilterTestAnchor.png
 )
 itk_add_test(
   NAME itkRegionalMinimaImageFilterTest1
@@ -932,6 +1086,9 @@ itk_add_test(
     2
     1
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal1.png
+    ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal-ref1.png
 )
 itk_add_test(
   NAME itkRegionalMinimaImageFilterTest2
@@ -947,6 +1104,9 @@ itk_add_test(
     2
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal2.png
+    ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal-ref2.png
 )
 
 itk_add_test(
@@ -963,6 +1123,9 @@ itk_add_test(
     2
     1
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal1.png
+    ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal-ref1.png
 )
 itk_add_test(
   NAME itkRegionalMaximaImageFilterTest2
@@ -978,6 +1141,9 @@ itk_add_test(
     2
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal2.png
+    ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal-ref2.png
 )
 
 itk_add_test(
@@ -992,6 +1158,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal.png
     ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal-ref.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal.png
+    ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal-ref.png
 )
 itk_add_test(
   NAME itkValuedRegionalMaximaImageFilterTest2
@@ -1005,6 +1174,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal2.png
     ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal-ref2.png
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal2.png
+    ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal-ref2.png
 )
 itk_add_test(
   NAME itkValuedRegionalMinimaImageFilterTest
@@ -1018,6 +1190,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal.png
     ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal-ref.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal.png
+    ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal-ref.png
 )
 itk_add_test(
   NAME itkValuedRegionalMinimaImageFilterTest2
@@ -1031,6 +1206,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal2.png
     ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal-ref2.png
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal2.png
+    ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal-ref2.png
 )
 itk_add_test(
   NAME itkMapMaskedRankImageFilterTest3
@@ -1044,6 +1222,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1-mask.png}
     ${ITK_TEST_OUTPUT_DIR}/itkMapMaskedRankImageFilter3.png
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMapMaskedRankImageFilter3.png
 )
 itk_add_test(
   NAME itkMapMaskedRankImageFilterTest10
@@ -1057,6 +1237,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1-mask.png}
     ${ITK_TEST_OUTPUT_DIR}/itkMapMaskedRankImageFilter10.png
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMapMaskedRankImageFilter10.png
 )
 itk_add_test(
   NAME itkMapRankImageFilterTest3
@@ -1069,6 +1251,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkMapRankImageFilter3.png
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMapRankImageFilter3.png
 )
 itk_add_test(
   NAME itkMapRankImageFilterTest10
@@ -1081,6 +1265,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkMapRankImageFilter10.png
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMapRankImageFilter10.png
 )
 itk_add_test(
   NAME itkMaskedRankImageFilterTest3
@@ -1094,6 +1280,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1-mask.png}
     ${ITK_TEST_OUTPUT_DIR}/itkMaskedRankImageFilter3.png
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMaskedRankImageFilter3.png
 )
 itk_add_test(
   NAME itkMaskedRankImageFilterTest10
@@ -1107,6 +1295,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1-mask.png}
     ${ITK_TEST_OUTPUT_DIR}/itkMaskedRankImageFilter10.png
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMaskedRankImageFilter10.png
 )
 itk_add_test(
   NAME itkRankImageFilterTest3
@@ -1119,6 +1309,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkRankImageFilter3.png
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkRankImageFilter3.png
 )
 itk_add_test(
   NAME itkRankImageFilterTest10
@@ -1131,6 +1323,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkRankImageFilter10.png
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkRankImageFilter10.png
 )
 itk_add_test(
   NAME itkVanHerkGilWermanErodeDilateImageFilterTest

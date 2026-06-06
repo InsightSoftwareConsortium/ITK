@@ -32,6 +32,8 @@ itk_add_test(
     4
     2
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBayesianClassifierImageFilterTestLabelMapNoPriors.png
 )
 itk_add_test(
   NAME itkBayesianClassifierImageFilterTest2
@@ -46,6 +48,8 @@ itk_add_test(
     4
     2
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBayesianClassifierImageFilterTestLabelMapPriors.png
 )
 itk_add_test(
   NAME itkKmeansModelEstimatorTest
@@ -61,6 +65,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Baseline/Statistics/ImageClassifierFilterTestClassifiedImageTest.png}
     ${ITK_TEST_OUTPUT_DIR}/ImageClassifierFilterTestClassifiedImage.png
     itkImageClassifierFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/ImageClassifierFilterTestClassifiedImage.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/ImageClassifierFilterTestClassifiedImage.png
 )
 itk_add_test(
@@ -130,6 +136,8 @@ itk_add_test(
     165
     190
     220
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkScalarImageKmeansImageFilterTest.png
 )
 itk_add_test(
   NAME itkScalarImageKmeansImageFilter3DTest
@@ -141,5 +149,7 @@ itk_add_test(
     itkScalarImageKmeansImageFilter3DTest
     ${ITK_EXAMPLE_DATA_ROOT}/KmeansTest_T1UCharRaw.nii.gz
     ${ITK_EXAMPLE_DATA_ROOT}/KmeansTest_T1RawSkullStrip.nii.gz
+    ${ITK_TEST_OUTPUT_DIR}/KmeansTest_T1KmeansPrelimSegmentation.nii.gz
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/KmeansTest_T1KmeansPrelimSegmentation.nii.gz
 )

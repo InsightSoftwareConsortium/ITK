@@ -37,6 +37,8 @@ itk_add_test(
     0
     255
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryClosingByReconstructionImageFilterTest.png
 )
 itk_add_test(
   NAME itkBinaryDilateImageFilterTest
@@ -64,6 +66,8 @@ itk_add_test(
     0
     0
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-0-0.png
 )
 itk_add_test(
   NAME itkBinaryDilateImageFilterTest-100-0-1
@@ -79,6 +83,8 @@ itk_add_test(
     0
     1
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-0-1.png
 )
 itk_add_test(
   NAME itkBinaryDilateImageFilterTest-100-150-0
@@ -94,6 +100,8 @@ itk_add_test(
     150
     0
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-150-0.png
 )
 itk_add_test(
   NAME itkBinaryDilateImageFilterTest-100-150-1
@@ -109,6 +117,8 @@ itk_add_test(
     150
     1
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-150-1.png
 )
 itk_add_test(
   NAME itkBinaryDilateImageFilterTest-200-0-0
@@ -124,6 +134,8 @@ itk_add_test(
     0
     0
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-0-0.png
 )
 itk_add_test(
   NAME itkBinaryDilateImageFilterTest-200-0-1
@@ -139,6 +151,8 @@ itk_add_test(
     0
     1
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-0-1.png
 )
 itk_add_test(
   NAME itkBinaryDilateImageFilterTest-200-150-0
@@ -154,6 +168,8 @@ itk_add_test(
     150
     0
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-150-0.png
 )
 itk_add_test(
   NAME itkBinaryDilateImageFilterTest-200-150-1
@@ -169,6 +185,8 @@ itk_add_test(
     150
     1
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-150-1.png
 )
 itk_add_test(
   NAME itkBinaryErodeImageFilterTest
@@ -190,6 +208,8 @@ itk_add_test(
     0
     0
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-0-0.png
 )
 itk_add_test(
   NAME itkBinaryErodeImageFilterTest-100-0-1
@@ -205,6 +225,8 @@ itk_add_test(
     0
     1
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-0-1.png
 )
 itk_add_test(
   NAME itkBinaryErodeImageFilterTest-100-150-0
@@ -220,6 +242,8 @@ itk_add_test(
     150
     0
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-150-0.png
 )
 itk_add_test(
   NAME itkBinaryErodeImageFilterTest-100-150-1
@@ -235,6 +259,8 @@ itk_add_test(
     150
     1
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-150-1.png
 )
 itk_add_test(
   NAME itkBinaryErodeImageFilterTest-200-0-0
@@ -250,6 +276,8 @@ itk_add_test(
     0
     0
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-0-0.png
 )
 itk_add_test(
   NAME itkBinaryErodeImageFilterTest-200-0-1
@@ -265,6 +293,8 @@ itk_add_test(
     0
     1
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-0-1.png
 )
 itk_add_test(
   NAME itkBinaryErodeImageFilterTest-200-150-0
@@ -280,6 +310,8 @@ itk_add_test(
     150
     0
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-150-0.png
 )
 itk_add_test(
   NAME itkBinaryErodeImageFilterTest-200-150-1
@@ -295,6 +327,8 @@ itk_add_test(
     150
     1
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-150-1.png
 )
 itk_add_test(
   NAME itkBinaryMorphologicalClosingImageFilterTest
@@ -309,6 +343,8 @@ itk_add_test(
     40
     1
     200
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTest.png
 )
 itk_add_test(
   NAME itkBinaryMorphologicalClosingImageFilterTestUnsafe
@@ -323,6 +359,8 @@ itk_add_test(
     40
     0
     200
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png
 )
 itk_add_test(
   NAME itkBinaryMorphologicalOpeningImageFilterTest
@@ -337,6 +375,8 @@ itk_add_test(
     8
     150
     200
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalOpeningImageFilterTest.png
 )
 itk_add_test(
   NAME itkBinaryOpeningByReconstructionImageFilterTest
@@ -352,6 +392,8 @@ itk_add_test(
     0
     255
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryOpeningByReconstructionImageFilterTest.png
 )
 itk_add_test(
   NAME itkBinaryThinningImageFilterTest
@@ -362,5 +404,7 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/BinaryThinningImageFilterTest.png
     itkBinaryThinningImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/Shapes.png}
+    ${ITK_TEST_OUTPUT_DIR}/BinaryThinningImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/BinaryThinningImageFilterTest.png
 )

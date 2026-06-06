@@ -24,6 +24,8 @@ itk_add_test(
     ITKIOMetaTestDriver
     itkMetaImageIOMetaDataTest
     ${ITK_TEST_OUTPUT_DIR}/MetaImageIOMetaDataTest.mhd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/MetaImageIOMetaDataTest.{mhd,raw}
 )
 itk_add_test(
   NAME itkMetaImageIOGzTest
@@ -42,6 +44,8 @@ itk_add_test(
     itkMetaImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
     ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mhd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.{mhd,raw}
 )
 itk_add_test(
   NAME itkMetaImageIOTestList
@@ -53,6 +57,8 @@ itk_add_test(
     itkMetaImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/MetaIO/SmallRampVolumeList.mhd,SmallRampVolume01.tif,SmallRampVolume02.tif,SmallRampVolume03.tif,SmallRampVolume04.tif,SmallRampVolume05.tif,SmallRampVolume06.tif}
     ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestList.mhd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestList.{mhd,raw}
 )
 
 # Suppress on FreeBSD, `man make` says "There is no way of escaping a space character in a filename" and indeed make will fail here because of the spaces in the filenames.
@@ -78,6 +84,8 @@ if(
       itkMetaImageIOTest
       DATA{${ITK_DATA_ROOT}/Input/MetaIO/Small\ Ramp\ Volume\ List.mhd,Small\ Ramp\ Volume\ 01.tif,Small\ Ramp\ Volume\ 02.tif,Small\ Ramp\ Volume\ 03.tif,Small\ Ramp\ Volume\ 04.tif,Small\ Ramp\ Volume\ 05.tif,Small\ Ramp\ Volume\ 06.tif}
       ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestListWithFilenameSpaces.mhd
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestListWithFilenameSpaces.{mhd,raw}
   )
 endif()
 
@@ -91,6 +99,8 @@ itk_add_test(
     itkMetaImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/MetaIO/SmallRampVolumeRegEx.mhd,SmallRampVolume01.tif,SmallRampVolume02.tif,SmallRampVolume03.tif,SmallRampVolume04.tif,SmallRampVolume05.tif,SmallRampVolume06.tif}
     ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestRegEx.mhd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestRegEx.{mhd,raw}
 )
 
 # Suppress on FreeBSD, `man make` says "There is no way of escaping a space character in a filename" and indeed make will fail here because of the spaces in the filenames.
@@ -116,6 +126,8 @@ if(
       itkMetaImageIOTest
       DATA{${ITK_DATA_ROOT}/Input/MetaIO/Small\ Ramp\ Volume\ Reg\ Ex.mhd,Small\ Ramp\ Volume\ 01.tif,Small\ Ramp\ Volume\ 02.tif,Small\ Ramp\ Volume\ 03.tif,Small\ Ramp\ Volume\ 04.tif,Small\ Ramp\ Volume\ 05.tif,Small\ Ramp\ Volume\ 06.tif}
       ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestRegExWithFilenameSpaces.mhd
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestRegExWithFilenameSpaces.{mhd,raw}
   )
 endif()
 
@@ -124,6 +136,8 @@ itk_add_test(
   COMMAND
     ITKIOMetaTestDriver
     itkMetaImageIOTest2
+    ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTest2.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTest2.mha
 )
 itk_add_test(
@@ -393,6 +407,8 @@ itk_add_test(
     itkMetaImageStreamingIOTest
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
     ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStreamed.mhd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStreamed.{mhd,raw}
 )
 itk_add_test(
   NAME itkMetaImageCompressedStreamingIOTest
@@ -404,6 +420,8 @@ itk_add_test(
     itkMetaImageStreamingIOTest
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha}
     ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeCompressedStreamed.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeCompressedStreamed.mha
 )
 itk_add_test(
   NAME itkMetaImageStreamingWriterIOTest
@@ -414,6 +432,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha
     itkMetaImageStreamingWriterIOTest
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
+    ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha
 )
 
@@ -442,6 +462,8 @@ itk_add_test(
     itkMetaImageStreamingWriterIOTest
     DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
     ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha
 )
 
 itk_add_test(
@@ -460,6 +482,8 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
       itkLargeMetaImageWriteReadTest
       ${ITK_TEST_OUTPUT_DIR}/LargeImage01.mhd
       30000L
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/LargeImage01.{mhd,raw}
   )
 
   # Image of 2.98 Gigabytes (pixels size is 16bits)
@@ -470,6 +494,8 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
       itkLargeMetaImageWriteReadTest
       ${ITK_TEST_OUTPUT_DIR}/LargeImage02.mhd
       40000L
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/LargeImage02.{mhd,raw}
   )
 
   # Image of 4.9 Gigabytes (pixels size is 8-bits out and 16-bit in)
@@ -480,6 +506,8 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
       itkLargeMetaImageWriteReadTest
       ${ITK_TEST_OUTPUT_DIR}/LargeImage03.mhd
       50000L
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/LargeImage03.{mhd,raw}
   )
 
   # Due to the large memory requirements these tests must be run one by one
@@ -520,9 +548,6 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
         RUNS_LONG
   )
   # Clean up BigIO output files after completion
-  itk_add_file_test_cleanup(itkLargeMetaImageWriteReadTest1 ${ITK_TEST_OUTPUT_DIR}/LargeImage01.mhd)
-  itk_add_file_test_cleanup(itkLargeMetaImageWriteReadTest2 ${ITK_TEST_OUTPUT_DIR}/LargeImage02.mhd)
-  itk_add_file_test_cleanup(itkLargeMetaImageWriteReadTest3 ${ITK_TEST_OUTPUT_DIR}/LargeImage03.mhd)
 endif()
 
 if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12)
@@ -534,6 +559,8 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12)
       itkLargeMetaImageWriteReadTest
       ${ITK_TEST_OUTPUT_DIR}/LargeImage04.mhd
       70000L
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/LargeImage04.{mhd,raw}
   )
 
   # Due to the large memory requirements this test must be run serially
@@ -557,5 +584,4 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12)
       LABELS
         RUNS_LONG
   )
-  itk_add_file_test_cleanup(itkLargeMetaImageWriteReadTest4 ${ITK_TEST_OUTPUT_DIR}/LargeImage04.mhd)
 endif()

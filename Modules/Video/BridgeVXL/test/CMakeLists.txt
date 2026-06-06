@@ -40,6 +40,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/VXLVideoIOFactoryTest_Out.avi
     # Webcam Number:
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/VXLVideoIOFactoryTest_Out.avi
 )
 itk_add_test(
   NAME vidl_itk_istreamTest
@@ -53,4 +55,6 @@ itk_add_test(
     # Width Height
     320
     240
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/vidl_itk_istreamTest_Out.avi
 )

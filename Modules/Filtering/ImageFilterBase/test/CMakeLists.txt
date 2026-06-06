@@ -52,6 +52,8 @@ itk_add_test(
     itkMaskNeighborhoodOperatorImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png
 )
 itk_add_test(
   NAME itkCastImageFilterTest

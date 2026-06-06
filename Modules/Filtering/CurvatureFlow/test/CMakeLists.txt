@@ -19,4 +19,6 @@ itk_add_test(
     ITKCurvatureFlowTestDriver
     itkCurvatureFlowTest
     ${ITK_TEST_OUTPUT_DIR}/itkCurvatureFlowTest.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkCurvatureFlowTest.vtk
 )

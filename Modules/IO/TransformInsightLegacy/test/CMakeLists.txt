@@ -24,4 +24,6 @@ itk_add_test(
     itkIOEuler3DTransformTxtTest
     DATA{Input/euler3DOldFormat.tfm}
     ${ITK_TEST_OUTPUT_DIR}/euler3DNewFormat.tfm
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/euler3DNewFormat.tfm
 )

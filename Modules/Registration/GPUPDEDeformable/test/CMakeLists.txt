@@ -21,6 +21,8 @@ if(ITK_USE_GPU)
       DATA{Input/LenaFix.png}
       DATA{Input/LenaMov.png}
       ${ITK_TEST_OUTPUT_DIR}/gpuDemonsRegistrationTest2D.mha
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/gpuDemonsRegistrationTest2D.mha
   )
 
   itk_add_test(
@@ -33,6 +35,8 @@ if(ITK_USE_GPU)
       DATA{Input/LenaFix.png}
       DATA{Input/LenaMov.png}
       ${ITK_TEST_OUTPUT_DIR}/gpuDemonsRegistrationTest3D.mha
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/gpuDemonsRegistrationTest3D.mha
   )
 
   itk_add_test(
@@ -40,6 +44,9 @@ if(ITK_USE_GPU)
     COMMAND
       ITKGPUPDEDeformableRegistrationTestDriver
       itkGPUDemonsRegistrationFilterTest2
+      ${ITK_TEST_OUTPUT_DIR}/gpuDemonsRegistrationTest2Fixed.mha
+      ${ITK_TEST_OUTPUT_DIR}/gpuDemonsRegistrationTest2Warped.mha
+    ITK_REMOVE_TEMPORARY_TEST_FILES
       ${ITK_TEST_OUTPUT_DIR}/gpuDemonsRegistrationTest2Fixed.mha
       ${ITK_TEST_OUTPUT_DIR}/gpuDemonsRegistrationTest2Warped.mha
   )

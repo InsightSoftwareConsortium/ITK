@@ -13,6 +13,8 @@ if(ITK_USE_GPU)
       DATA{Input/BrainProtonDensitySlice.png}
       ${ITK_TEST_OUTPUT_DIR}/gpuNeighborhoodOperatorImageFilterTest2D.mha
       2
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/gpuNeighborhoodOperatorImageFilterTest2D.mha
   )
 
   itk_add_test(
@@ -23,5 +25,7 @@ if(ITK_USE_GPU)
       DATA{Input/HeadMRVolume.mha}
       ${ITK_TEST_OUTPUT_DIR}/gpuNeighborhoodOperatorImageFilterTest3D.mha
       3
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/gpuNeighborhoodOperatorImageFilterTest3D.mha
   )
 endif()

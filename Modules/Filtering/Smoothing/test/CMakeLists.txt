@@ -31,6 +31,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkBoxMeanImageFilter3.png
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBoxMeanImageFilter3.png
 )
 itk_add_test(
   NAME itkBoxMeanImageFilterTest10
@@ -43,6 +45,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkBoxMeanImageFilter10.png
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBoxMeanImageFilter10.png
 )
 itk_add_test(
   NAME itkBoxSigmaImageFilterTest3
@@ -55,6 +59,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkBoxSigmaImageFilter3.png
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBoxSigmaImageFilter3.png
 )
 itk_add_test(
   NAME itkBoxSigmaImageFilterTest10
@@ -67,6 +73,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkBoxSigmaImageFilter10.png
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBoxSigmaImageFilter10.png
 )
 itk_add_test(
   NAME itkDiscreteGaussianImageFilterTest2
@@ -81,6 +89,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
     ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterTest2_OutputA.mha
     1.870829
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterTest2_OutputA.mha
 )
 itk_add_test(
   NAME itkSmoothingRecursiveGaussianImageFilterTestNormalizeScalesOn
@@ -94,6 +104,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkSmoothingRecursiveGaussianImageFilterTestNormalizeScalesOn.png
     1
     2.5
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSmoothingRecursiveGaussianImageFilterTestNormalizeScalesOn.png
 )
 itk_add_test(
   NAME itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest
@@ -150,6 +162,8 @@ itk_add_test(
     3.5
     0.05
     35
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterComparisonTestOutput.mha
 )
 itk_add_test(
   NAME itkFFTDiscreteGaussianImageFilter2DComparisonTest
@@ -167,6 +181,8 @@ itk_add_test(
     35
     2
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/FFTDiscreteGaussianImageFilterComparisonTestOutput.mha
 )
 itk_add_test(
   NAME itkDiscreteGaussianImageFilter3DComparisonTest
@@ -183,6 +199,8 @@ itk_add_test(
     5.0
     0.03
     25
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilter3DComparisonTestOutput.mha
 )
 itk_add_test(
   NAME itkFFTDiscreteGaussianImageFilter3DComparisonTest
@@ -200,6 +218,8 @@ itk_add_test(
     25
     3
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/FFTDiscreteGaussianImageFilter3DComparisonTestOutput.mha
 )
 # Compare results on images with adjusted origin and spacing
 itk_add_test(
@@ -218,6 +238,8 @@ itk_add_test(
     0.03
     31
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterNonunitImageComparisonTestOutput.mha
 )
 itk_add_test(
   NAME itkFFTDiscreteGaussianImageFilterNonunitImageComparisonTest
@@ -235,6 +257,8 @@ itk_add_test(
     31
     2
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/FFTDiscreteGaussianImageFilterNonunitImageComparisonTestOutput.mha
 )
 # Comparing results of lower-dimensionality smoothing
 itk_add_test(
@@ -253,6 +277,8 @@ itk_add_test(
     0.02
     31
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilter3DComparisonTestOutput2.mha
 )
 itk_add_test(
   NAME itkFFTDiscreteGaussianImageFilter3DComparisonTest2
@@ -270,6 +296,8 @@ itk_add_test(
     31
     2
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/FFTDiscreteGaussianImageFilter3DComparisonTestOutput2.mha
 )
 # Test smoothing with GaussianImageSource
 itk_add_test(
@@ -288,6 +316,8 @@ itk_add_test(
     35
     2
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/FFTDiscreteGaussianImageFilterTestImageSourceOutput.mha
 )
 itk_add_test(
   NAME itkFFTDiscreteGaussianImageFilterKernelDimensionalityTest
@@ -305,6 +335,8 @@ itk_add_test(
     11
     1
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/FFTDiscreteGaussianImageFilterTestKernelDimensionalityOutput.mha
 )
 itk_add_test(
   NAME itkFFTDiscreteGaussianImageFilter3DImageSourceTest
@@ -322,6 +354,8 @@ itk_add_test(
     25
     3
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/FFTDiscreteGaussianImageFilter3DImageSourceTestOutput.mha
 )
 itk_add_test(
   NAME itkFFTDiscreteGaussianImageFilterFactoryTest

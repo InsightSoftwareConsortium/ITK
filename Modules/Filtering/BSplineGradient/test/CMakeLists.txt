@@ -17,6 +17,8 @@ itk_add_test(
     itkImageToImageOfVectorsFilterTest
     DATA{Input/foot.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkImageToImageOfVectorsFilterTestOutput.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkImageToImageOfVectorsFilterTestOutput.mha
 )
 
 itk_add_test(
@@ -25,6 +27,8 @@ itk_add_test(
     BSplineGradientTestDriver
     itkBSplineScatteredDataPointSetToGradientImageFilterTest
     DATA{Input/foot.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToGradientImageFilterTestGradientMagnitudeOutput.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToGradientImageFilterTestGradientMagnitudeOutput.mha
 )
 
@@ -35,6 +39,8 @@ itk_add_test(
     itkBSplineApproximationGradientImageFilterTest
     DATA{Input/foot.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineApproximationGradientImageFilterTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineApproximationGradientImageFilterTestGradient*.mha
 )
 
 itk_add_test(
@@ -43,5 +49,7 @@ itk_add_test(
     BSplineGradientTestDriver
     itkBSplineGradientImageFilterTest
     DATA{Input/foot.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineGradientImageFilterTestGradientMagnitude.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineGradientImageFilterTestGradientMagnitude.mha
 )

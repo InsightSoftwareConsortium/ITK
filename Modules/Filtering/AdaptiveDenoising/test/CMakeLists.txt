@@ -15,6 +15,8 @@ itk_add_test(
     DATA{Input/r16slice.nrrd}
     ${ITK_TEST_OUTPUT_DIR}/r16denoised_pearson_correlation.nrrd
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/r16denoised_pearson_correlation.nrrd
 )
 
 itk_add_test(
@@ -28,4 +30,6 @@ itk_add_test(
     DATA{Input/r16slice.nrrd}
     ${ITK_TEST_OUTPUT_DIR}/r16denoised_mean_squares.nrrd
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/r16denoised_mean_squares.nrrd
 )

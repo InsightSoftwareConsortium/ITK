@@ -122,6 +122,8 @@ itk_add_test(
     ${TEMP}/itkJointHistogramMutualInformationImageToImageRegistrationTest.nii.gz
     2
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkJointHistogramMutualInformationImageToImageRegistrationTest.nii.gz
 )
 
 itk_add_test(
@@ -134,6 +136,8 @@ itk_add_test(
     ${TEMP}/itkJointHistogramMutualInformationImageToImageRegistrationTest2.nii.gz
     2
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkJointHistogramMutualInformationImageToImageRegistrationTest2.nii.gz
 )
 
 itk_add_test(
@@ -182,6 +186,8 @@ itk_add_test(
     1
     1
     0.25
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkANTSNeighborhoodCorrelationImageToImageRegistrationTest.nii.gz
 )
 
 itk_add_test(
@@ -201,6 +207,8 @@ itk_add_test(
     ${TEMP}/itkMattesMutualInformationImageToImageMetricv4RegistrationTest.nii.gz
     5
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkMattesMutualInformationImageToImageMetricv4RegistrationTest.nii.gz
 )
 
 itk_add_test(
@@ -213,6 +221,8 @@ itk_add_test(
     ${TEMP}/itkMultiStartImageToImageMetricv4RegistrationTest.nii.gz
     5
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkMultiStartImageToImageMetricv4RegistrationTest.nii.gz
 )
 
 itk_add_test(
@@ -224,6 +234,8 @@ itk_add_test(
     DATA{Input/face_b.jpg}
     ${TEMP}/itkMultiGradientImageToImageMetricv4RegistrationTest.nii.gz
     5
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkMultiGradientImageToImageMetricv4RegistrationTest.nii.gz
 )
 
 itk_add_test(
@@ -243,6 +255,8 @@ itk_add_test(
     ${TEMP}/itkMeanSquaresImageToImageMetricv4RegistrationTest.nii.gz
     2
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkMeanSquaresImageToImageMetricv4RegistrationTest.nii.gz
 )
 
 itk_add_test(
@@ -252,6 +266,8 @@ itk_add_test(
     itkMeanSquaresImageToImageMetricv4RegistrationTest2
     DATA{${INPUTDATA}/r16slice.nii.gz}
     DATA{${INPUTDATA}/r64slice.nii.gz}
+    ${TEMP}/itkMeanSquaresImageToImageMetricv4RegistrationTest2.nii.gz
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/itkMeanSquaresImageToImageMetricv4RegistrationTest2.nii.gz
 )
 
@@ -317,6 +333,8 @@ itk_add_test(
     35 #iterations
     0 #sampling
     0 #image gradient filter
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkDemonsImageToImageMetricv4RegistrationTest.nii.gz
 )
 
 itk_add_test(
@@ -335,6 +353,8 @@ itk_add_test(
     35 #iterations
     1 #sampling
     0 #image gradient filter
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkDemonsImageToImageMetricv4RegistrationTest2.nii.gz
 )
 
 itk_add_test(
@@ -353,6 +373,8 @@ itk_add_test(
     35 #iterations
     0 #sampling
     1 #image gradient filter
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkDemonsImageToImageMetricv4RegistrationTest3.nii.gz
 )
 
 itk_add_test(
@@ -398,4 +420,6 @@ itk_add_test(
     ${TEMP}/itkMeanSquaresImageToImageMetricv4VectorRegistrationTest.nii.gz
     100
     25
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkMeanSquaresImageToImageMetricv4VectorRegistrationTest.nii.gz
 )

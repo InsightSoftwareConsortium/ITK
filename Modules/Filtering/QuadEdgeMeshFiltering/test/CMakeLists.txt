@@ -38,6 +38,8 @@ itk_add_test(
     0
     0
     ${TEMP}/border00.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/border00.vtk
 )
 
 itk_add_test(
@@ -48,6 +50,8 @@ itk_add_test(
     DATA{${INPUTDATA}/mushroom.vtk}
     0
     1
+    ${TEMP}/border01.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/border01.vtk
 )
 
@@ -60,6 +64,8 @@ itk_add_test(
     1
     0
     ${TEMP}/border10.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/border10.vtk
 )
 
 itk_add_test(
@@ -70,6 +76,8 @@ itk_add_test(
     DATA{${INPUTDATA}/mushroom.vtk}
     1
     1
+    ${TEMP}/border11.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/border11.vtk
 )
 
@@ -96,6 +104,8 @@ itk_add_test(
     DATA{${INPUTDATA}/mushroom.vtk}
     20
     ${TEMP}/temp_SquaredEdgeLengthDecimationResult1.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/temp_SquaredEdgeLengthDecimationResult1.vtk
 )
 
 itk_add_test(
@@ -108,6 +118,8 @@ itk_add_test(
     0.1
     0
     ${TEMP}/temp_SmoothResult0.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/temp_SmoothResult0.vtk
 )
 
 itk_add_test(
@@ -119,6 +131,8 @@ itk_add_test(
     10
     0.1
     1
+    ${TEMP}/temp_SmoothResult1.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/temp_SmoothResult1.vtk
 )
 
@@ -146,6 +160,8 @@ itk_add_test(
     itkDelaunayConformingQuadEdgeMeshFilterTest
     DATA{${INPUTDATA}/mushroom.vtk}
     ${TEMP}/mushroom_delaunay.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/mushroom_delaunay.vtk
 )
 itk_add_test(
   NAME itkCleanQuadEdgeMeshFilterTest
@@ -154,6 +170,8 @@ itk_add_test(
     itkCleanQuadEdgeMeshFilterTest
     DATA{${INPUTDATA}/mushroom.vtk}
     0.1
+    ${TEMP}/temp_CleanResult1.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/temp_CleanResult1.vtk
 )
 itk_add_test(
@@ -170,6 +188,8 @@ itk_add_test(
     DATA{${INPUTDATA}/mushroom.vtk}
     100
     ${TEMP}/temp_QuadricDecimationResult1.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/temp_QuadricDecimationResult1.vtk
 )
 itk_add_test(
   NAME itkQuadEdgeMeshQuadricDecimationTetrahedronTest
@@ -178,6 +198,8 @@ itk_add_test(
     itkQuadricDecimationQuadEdgeMeshFilterTest
     DATA{${INPUTDATA}/tetrahedron.vtk}
     2
+    ${TEMP}/temp_QuadricDecimationTetrahedron.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/temp_QuadricDecimationTetrahedron.vtk
 )
 itk_add_test(
@@ -197,6 +219,8 @@ itk_add_test(
   COMMAND
     ITKQuadEdgeMeshFilteringTestDriver
     itkRegularSphereQuadEdgeMeshSourceTest
+    ${ITK_TEST_OUTPUT_DIR}/itkRegularSphereMeshQuadEdgeMeshSourceTest.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkRegularSphereMeshQuadEdgeMeshSourceTest.vtk
 )
 itk_add_test(

@@ -60,6 +60,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/VectorThresholdSegmentationLevelSetImageFilterTest.png
     5.0
     50
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/VectorThresholdSegmentationLevelSetImageFilterTest.png
 )
 itk_add_test(
   NAME itkAnisotropicFourthOrderLevelSetImageFilterTest
@@ -106,6 +108,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/ParallelSparseFieldLevelSetImageFilterTest.mha
     itkParallelSparseFieldLevelSetImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/ParallelSparseFieldLevelSetImageFilterTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ParallelSparseFieldLevelSetImageFilterTest.mha
 )
 itk_add_test(
   NAME itkShapeDetectionLevelSetImageFilterTest
@@ -127,6 +131,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/itkNarrowBandCurvesLevelSetImageFilterTest.png}
     ${ITK_TEST_OUTPUT_DIR}/itkNarrowBandCurvesLevelSetImageFilterTest.png
     itkNarrowBandCurvesLevelSetImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkNarrowBandCurvesLevelSetImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkNarrowBandCurvesLevelSetImageFilterTest.png
 )
 itk_add_test(

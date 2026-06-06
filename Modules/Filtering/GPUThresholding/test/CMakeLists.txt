@@ -18,6 +18,8 @@ if(ITK_USE_GPU)
       ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
       ${ITK_TEST_OUTPUT_DIR}/gpuImageFilterTest2D.png
       2
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/gpuImageFilterTest2D.png
   )
   itk_add_test(
     NAME itkGPUImageFilterTest3D
@@ -27,6 +29,8 @@ if(ITK_USE_GPU)
       ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
       ${ITK_TEST_OUTPUT_DIR}/gpuImageFilterTest3D.png
       3
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/gpuImageFilterTest3D.png
   )
 
   #
@@ -44,6 +48,8 @@ if(ITK_USE_GPU)
       ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
       ${ITK_TEST_OUTPUT_DIR}/gpuBinaryThresholdImageFilterTest2D.mha
       2
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/gpuBinaryThresholdImageFilterTest2D.mha
   )
 
   itk_add_test(
@@ -54,5 +60,7 @@ if(ITK_USE_GPU)
       ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
       ${ITK_TEST_OUTPUT_DIR}/gpuBinaryThresholdImageFilterTest3D.mha
       3
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/gpuBinaryThresholdImageFilterTest3D.mha
   )
 endif()

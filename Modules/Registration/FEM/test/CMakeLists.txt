@@ -20,6 +20,10 @@ itk_add_test(
     ITKFEMRegistrationTestDriver
     itkFEMFiniteDifferenceFunctionLoadTest
     ${ITK_TEST_OUTPUT_DIR}/FiniteDifferenceFunctionLoadTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/FiniteDifferenceFunctionLoadTest*Image.mha
+    ${ITK_TEST_OUTPUT_DIR}/FiniteDifferenceFunctionLoadTest*Image.raw
+    ${ITK_TEST_OUTPUT_DIR}/FiniteDifferenceFunctionLoadTest*ForcesWithMetric[0-3].vtk
 )
 itk_add_test(
   NAME itkFEMRegistrationFilterTest
@@ -28,6 +32,9 @@ itk_add_test(
     itkFEMRegistrationFilterTest
     ${ITK_TEST_OUTPUT_DIR}/FEMDeformationField3D
     ${ITK_TEST_OUTPUT_DIR}/FEMDeformedMovingImage3D
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/FEMDeformationField3D[0-3].{mhd,raw}
+    ${ITK_TEST_OUTPUT_DIR}/FEMDeformedMovingImage3D[0-3].{mhd,raw}
 )
 itk_add_test(
   NAME itkFEMRegistrationFilter2DTest
@@ -36,6 +43,9 @@ itk_add_test(
     itkFEMRegistrationFilter2DTest
     ${ITK_TEST_OUTPUT_DIR}/FEMDeformationField2D
     ${ITK_TEST_OUTPUT_DIR}/FEMDeformedMovingImage2D
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/FEMDeformationField2D[0-3].{mhd,raw}
+    ${ITK_TEST_OUTPUT_DIR}/FEMDeformedMovingImage2D[0-3].{mhd,raw}
 )
 itk_add_test(
   NAME itkMIRegistrationFunctionTest
@@ -50,6 +60,9 @@ itk_add_test(
     itkFEMRegistrationFilterTest2
     ${ITK_TEST_OUTPUT_DIR}/FEMDeformationField3DMultiRes
     ${ITK_TEST_OUTPUT_DIR}/FEMDeformedMovingImage3DMultiRes
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/FEMDeformationField3DMultiRes[0-3].{mhd,raw}
+    ${ITK_TEST_OUTPUT_DIR}/FEMDeformedMovingImage3DMultiRes[0-3].{mhd,raw}
 )
 itk_add_test(
   NAME itkPhysicsBasedNonRigidRegistrationMethodTest
@@ -76,4 +89,6 @@ itk_add_test(
     5
     10
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPhysicsBasedNonRigidRegistrationMethodTest.mha
 )

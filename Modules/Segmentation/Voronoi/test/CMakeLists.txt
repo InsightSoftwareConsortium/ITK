@@ -43,6 +43,8 @@ itk_add_test(
     ITKVoronoiTestDriver
     itkVoronoiDiagram2DTest
     ${ITK_TEST_OUTPUT_DIR}/VoronoiDiagram2DTest.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/VoronoiDiagram2DTest.vtk
 )
 itk_add_test(
   NAME itkVoronoiPartitioningImageFilterTest1
@@ -57,6 +59,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/sf4.png}
     ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest1.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest1.png
 )
 itk_add_test(
   NAME itkVoronoiPartitioningImageFilterTest2
@@ -69,4 +73,6 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/sf4.png}
     ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest2.png
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest2.png
 )

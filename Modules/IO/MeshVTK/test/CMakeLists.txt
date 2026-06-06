@@ -19,6 +19,8 @@ itk_add_test(
     itkMeshFileReadWriteTest
     DATA{Input/sphere.vtk}
     ${ITK_TEST_OUTPUT_DIR}/sphere00.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/sphere00.vtk
 )
 itk_add_test(
   NAME itkMeshFileReadWriteTest01
@@ -26,6 +28,8 @@ itk_add_test(
     ITKIOMeshVTKTestDriver
     itkMeshFileReadWriteTest
     DATA{Input/sphere_51.vtk}
+    ${ITK_TEST_OUTPUT_DIR}/sphere_51_01.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/sphere_51_01.vtk
 )
 itk_add_test(
@@ -36,6 +40,8 @@ itk_add_test(
     DATA{Input/sphere_51_b.vtk}
     ${ITK_TEST_OUTPUT_DIR}/sphere_51_b_02.vtk
     binary
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/sphere_51_b_02.vtk
 )
 itk_add_test(
   NAME itkMeshFileReadWriteVectorAttributeTest
@@ -44,6 +50,8 @@ itk_add_test(
     itkMeshFileReadWriteVectorAttributeTest
     DATA{Baseline/sphere_norm.vtk}
     ${ITK_TEST_OUTPUT_DIR}/sphere_norm.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/sphere_norm.vtk
 )
 itk_add_test(
   NAME itkPolyLineReadWriteTest00
@@ -51,6 +59,8 @@ itk_add_test(
     ITKIOMeshVTKTestDriver
     itkPolylineReadWriteTest
     DATA{Baseline/fibers.vtk}
+    ${ITK_TEST_OUTPUT_DIR}/fibers.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/fibers.vtk
 )
 itk_add_test(
@@ -61,6 +71,8 @@ itk_add_test(
     DATA{Baseline/fibers.vtk}
     ${ITK_TEST_OUTPUT_DIR}/fibers_b.vtk
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/fibers_b.vtk
 )
 itk_add_test(
   NAME itkPolyLineReadWriteTest02
@@ -68,6 +80,8 @@ itk_add_test(
     ITKIOMeshVTKTestDriver
     itkPolylineReadWriteTest
     DATA{Baseline/hollow_test.vtk}
+    ${ITK_TEST_OUTPUT_DIR}/hollow_test.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/hollow_test.vtk
 )
 itk_add_test(
@@ -78,12 +92,17 @@ itk_add_test(
     DATA{Baseline/hollow_test.vtk}
     ${ITK_TEST_OUTPUT_DIR}/hollow_test_b.vtk
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/hollow_test_b.vtk
 )
 itk_add_test(
   NAME itkMeshFileWriteReadTensorTest
   COMMAND
     ITKIOMeshVTKTestDriver
     itkMeshFileWriteReadTensorTest
+    ${ITK_TEST_OUTPUT_DIR}/itkMeshFileWriteReadTensorTest2D.vtk
+    ${ITK_TEST_OUTPUT_DIR}/itkMeshFileWriteReadTensorTest3D.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkMeshFileWriteReadTensorTest2D.vtk
     ${ITK_TEST_OUTPUT_DIR}/itkMeshFileWriteReadTensorTest3D.vtk
 )
@@ -114,6 +133,9 @@ itk_add_test(
     0
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/sphere_a.vtk
+    ${ITK_TEST_OUTPUT_DIR}/ascii2asciivtk2mhaHeadMRVolume.mha
 )
 itk_add_test(
   NAME itkVTKPolyDataMeshIOTestInAsciiOutBinary
@@ -135,6 +157,9 @@ itk_add_test(
     0
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/sphere_b.vtk
+    ${ITK_TEST_OUTPUT_DIR}/ascii2binaryvtk2mhaHeadMRVolume.mha
 )
 itk_add_test(
   NAME itkVTKPolyDataMeshIOTestInBinaryOutAscii
@@ -156,6 +181,9 @@ itk_add_test(
     2
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/fibers_a.vtk
+    ${ITK_TEST_OUTPUT_DIR}/binary2asciivtk2mhaHeadMRVolume.mha
 )
 itk_add_test(
   NAME itkVTKPolyDataMeshIOTestInOutBinary
@@ -177,6 +205,9 @@ itk_add_test(
     2
     1
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/fibers_b_VTKPolyDataMeshIO.vtk
+    ${ITK_TEST_OUTPUT_DIR}/binary2binaryvtk2mhaHeadMRVolume.mha
 )
 itk_add_test(
   NAME itkMeshFileReadWriteTestField
@@ -184,6 +215,8 @@ itk_add_test(
     ITKIOMeshVTKTestDriver
     itkMeshFileReadWriteTest
     DATA{Input/gourd.vtk}
+    ${ITK_TEST_OUTPUT_DIR}/gourd.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/gourd.vtk
 )
 

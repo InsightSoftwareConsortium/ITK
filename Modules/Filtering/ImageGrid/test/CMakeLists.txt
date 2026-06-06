@@ -106,6 +106,8 @@ itk_add_test(
     itkBSplineScatteredDataPointSetToImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/cake_easy.png}
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest01.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest01.mha
 )
 itk_add_test(
   NAME itkBSplineScatteredDataPointSetToImageFilterTest02
@@ -115,6 +117,8 @@ itk_add_test(
     DATA{Baseline/itkBSplineScatteredDataPointSetToImageFilterTest02.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest02.mha
     itkBSplineScatteredDataPointSetToImageFilterTest2
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest02.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest02.mha
 )
 itk_add_test(
@@ -126,6 +130,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest03.mha
     itkBSplineScatteredDataPointSetToImageFilterTest3
     DATA{${ITK_DATA_ROOT}/Input/BSplineScatteredApproximationDataPointsInput.txt}
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest03.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest03.mha
 )
 itk_add_test(
@@ -143,6 +149,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest05_magnitude.png
     itkBSplineScatteredDataPointSetToImageFilterTest5
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest05_magnitude.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest05_magnitude.png
 )
 itk_add_test(
   NAME itkBSplineControlPointImageFilterTest1
@@ -156,6 +164,9 @@ itk_add_test(
     DATA{Baseline/N4ControlPoints_2D.nii.gz}
     ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_output.nii.gz
     ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_outputRefined.nii.gz
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_output.nii.gz
+    ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_outputRefined.nii.gz
 )
 itk_add_test(
   NAME itkBSplineControlPointImageFilterTest2
@@ -167,6 +178,9 @@ itk_add_test(
     itkBSplineControlPointImageFilterTest
     3
     DATA{Baseline/N4ControlPoints_3D.nii.gz}
+    ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_output.nii.gz
+    ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_outputRefined.nii.gz
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_output.nii.gz
     ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_outputRefined.nii.gz
 )
@@ -327,6 +341,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineUpsampleImageFilterTest1.mha
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineUpsampleImageFilterTest1.mha
 )
 
 itk_add_test(
@@ -336,6 +352,8 @@ itk_add_test(
     --redirectOutput
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineResampleImageFilterTest
     itkBSplineResampleImageFilterTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineResampleImageFilterTest
 )
 set_tests_properties(
   itkBSplineResampleImageFilterTest
@@ -358,6 +376,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineDownsampleImageFilterTest1.mha
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineDownsampleImageFilterTest1.mha
 )
 itk_add_test(
   NAME itkTileImageFilterTest
@@ -386,6 +406,9 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/smooth_circle.png}
     DATA{${ITK_DATA_ROOT}/Input/smooth_square.png}
     ${ITK_TEST_OUTPUT_DIR}/TileImageFilterTest%d.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/TileImageFilterTest4.png
+    ${ITK_TEST_OUTPUT_DIR}/TileImageFilterTest%d.png
 )
 itk_add_test(
   NAME itkInterpolateImageFilterTest
@@ -403,6 +426,8 @@ itk_add_test(
     itkPasteImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     DATA{${ITK_DATA_ROOT}/Input/cake_easy.png}
+    ${ITK_TEST_OUTPUT_DIR}/PasteImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/PasteImageFilterTest.png
 )
 itk_add_test(
@@ -449,6 +474,8 @@ itk_add_test(
     1.0
     11
     7
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/SwirledMirrored_0-11-7.nrrd
 )
 itk_add_test(
   NAME itkMirrorPadWithExponentialDecayTestFloat
@@ -464,6 +491,8 @@ itk_add_test(
     0.75
     11
     7
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/SwirledMirroredFloat_0.75-11-7.nrrd
 )
 itk_add_test(
   NAME itkMirrorPadWithExponentialDecayTestUChar
@@ -479,6 +508,8 @@ itk_add_test(
     0.75
     11
     7
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/SwirledMirroredUChar_0.75-11-7.nrrd
 )
 itk_add_test(
   NAME itkResampleImageTest
@@ -511,6 +542,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2dUseRefImageOff.png
     0
     0.8
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2aUseRefImageOff.png
+    ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2bUseRefImageOff.png
+    ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2cUseRefImageOff.png
+    ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2dUseRefImageOff.png
 )
 itk_add_test(
   NAME itkResampleImageTest2UseRefImageOn
@@ -536,6 +572,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2cUseRefImageOn.png
     ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2dUseRefImageOn.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2aUseRefImageOn.png
+    ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2bUseRefImageOn.png
+    ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2cUseRefImageOn.png
+    ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2dUseRefImageOn.png
 )
 itk_add_test(
   NAME itkResampleImageTest2Streaming
@@ -560,6 +601,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2bStreaming.mha
     ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2cStreaming.mha
     ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2dStreaming.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2aStreaming.mha
+    ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2bStreaming.mha
+    ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2cStreaming.mha
+    ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2dStreaming.mha
 )
 itk_add_test(
   NAME itkResampleImageTest3
@@ -570,6 +616,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest3.png
     itkResampleImageTest3
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest3.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest3.png
 )
 itk_add_test(
@@ -588,6 +636,8 @@ itk_add_test(
     itkResampleImageTest5
     10
     ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest5.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest5.png
 )
 itk_add_test(
   NAME itkResampleImageTest6
@@ -598,6 +648,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest6.png
     itkResampleImageTest6
     10
+    ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest6.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest6.png
 )
 itk_add_test(
@@ -631,6 +683,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cake_easy.png}
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/PushPopTileImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/PushPopTileImageFilterTest.png
 )
 itk_add_test(
   NAME itkShrinkImageStreamingTest
@@ -658,6 +712,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
     ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterDimension0Test.mha
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterDimension0Test.mha
 )
 itk_add_test(
   NAME itkSliceBySliceImageFilterDimension1Test
@@ -667,6 +723,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
     ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterDimension1Test.mha
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterDimension1Test.mha
 )
 itk_add_test(
   NAME itkSliceBySliceImageFilterDimension2Test
@@ -676,6 +734,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
     ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterDimension2Test.mha
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterDimension2Test.mha
 )
 itk_add_test(
   NAME itkPadImageFilterTest

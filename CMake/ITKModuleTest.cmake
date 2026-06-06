@@ -101,21 +101,29 @@ endfunction()
 # to the value of its containing module.
 #
 function(itk_add_test)
+  # Optional ITK_REMOVE_TEMPORARY_TEST_FILES <file>... lists the transient
+  # outputs to remove after the test.  It is the only parsed keyword, so it
+  # must appear LAST: every argument following it is consumed as a file to
+  # remove.  Arguments preceding it form the add_test specification.
+  cmake_parse_arguments(_iat "" "" "ITK_REMOVE_TEMPORARY_TEST_FILES" ${ARGN})
+  set(_iat_args ${_iat_UNPARSED_ARGUMENTS})
+
   # Add tests with data in the ITKData group.
   ExternalData_Add_Test(
     ITKData
-    ${ARGN}
+    ${_iat_args}
   )
 
-  if("NAME" STREQUAL "${ARGV0}")
-    set(_iat_testname ${ARGV1})
+  list(GET _iat_args 0 _iat_arg0)
+  if("NAME" STREQUAL "${_iat_arg0}")
+    list(GET _iat_args 1 _iat_testname)
   else()
-    set(_iat_testname ${ARGV0})
+    set(_iat_testname ${_iat_arg0})
   endif()
 
   if(itk-module)
     set(_label ${itk-module})
-    if(TARGET ${itk-module}-all AND "${ARGN}" MATCHES "DATA{")
+    if(TARGET ${itk-module}-all AND "${_iat_args}" MATCHES "DATA{")
       add_dependencies(${itk-module}-all ITKData)
     endif()
   else()
@@ -129,6 +137,13 @@ function(itk_add_test)
       LABELS
         ${_label}
   )
+
+  if(_iat_ITK_REMOVE_TEMPORARY_TEST_FILES)
+    itk_add_file_test_cleanup(
+      ${_iat_testname}
+      ${_iat_ITK_REMOVE_TEMPORARY_TEST_FILES}
+    )
+  endif()
 endfunction()
 
 #-----------------------------------------------------------------------------
@@ -343,15 +358,19 @@ function(itk_memcheck_ignore)
 endfunction()
 
 #-----------------------------------------------------------------------------
-# Option to automatically remove large test output files after completion.
-# BigIO write-read tests can produce multi-gigabyte temporary files
-# that exhaust disk space on CI runners and local builds.
+# Removing transient test outputs is the default behavior: each wired test
+# gets a companion cleanup test that deletes its ${ITK_TEST_OUTPUT_DIR}
+# outputs, which otherwise accumulate (BigIO write-read tests alone produce
+# multi-gigabyte files that exhaust disk on CI runners and local builds).
+# Cleanup runs unconditionally after the test (pass, fail, or skip); a
+# developer who needs to inspect outputs must opt out by configuring with
+# -DITK_REMOVE_TEMPORARY_TEST_FILES=OFF, which retains all test outputs.
 option(
-  ITK_REMOVE_TEST_FILES_ON_SUCCESS
-  "Remove large test output files after test completion. Set OFF to retain files for debugging."
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+  "Remove transient test outputs after each test (default ON; removed even on failure). Set OFF to retain all outputs for debugging."
   ON
 )
-mark_as_advanced(ITK_REMOVE_TEST_FILES_ON_SUCCESS)
+mark_as_advanced(ITK_REMOVE_TEMPORARY_TEST_FILES)
 
 #-----------------------------------------------------------------------------
 # itk_add_file_test_cleanup(<test_name> <output_file> [<output_file2> ...])
@@ -363,7 +382,7 @@ mark_as_advanced(ITK_REMOVE_TEST_FILES_ON_SUCCESS)
 # NOTE: Per CMake documentation, FIXTURES_CLEANUP tests execute
 # unconditionally after their fixture — they run regardless of whether the
 # SETUP test passed, failed, or was skipped.  To retain output files for
-# debugging after a failure, set ITK_REMOVE_TEST_FILES_ON_SUCCESS=OFF.
+# debugging after a failure, set ITK_REMOVE_TEMPORARY_TEST_FILES=OFF.
 #
 # NOTE: In a full unfiltered run all tests (including *_cleanup variants)
 # are in the active set and fixture ordering is respected.  When rerunning
@@ -371,11 +390,11 @@ mark_as_advanced(ITK_REMOVE_TEST_FILES_ON_SUCCESS)
 # the *_cleanup test does not match; omit the anchors (ctest -R <test_name>)
 # so both the main test and its cleanup are selected.
 #
-# When ITK_REMOVE_TEST_FILES_ON_SUCCESS is OFF, no cleanup test is added
+# When ITK_REMOVE_TEMPORARY_TEST_FILES is OFF, no cleanup test is added
 # and the output files are retained for manual inspection.
 #
 function(itk_add_file_test_cleanup TEST_NAME)
-  if(NOT ITK_REMOVE_TEST_FILES_ON_SUCCESS)
+  if(NOT ITK_REMOVE_TEMPORARY_TEST_FILES)
     return()
   endif()
 
@@ -389,31 +408,24 @@ function(itk_add_file_test_cleanup TEST_NAME)
         ${FIXTURE_NAME}
   )
 
-  # Build the removal command for all output files
-  set(RM_ARGS "")
-  foreach(OUTPUT_FILE ${ARGN})
-    # For .mhd files, also remove the companion .raw/.zraw
-    get_filename_component(EXT "${OUTPUT_FILE}" LAST_EXT)
-    get_filename_component(BASE_NAME "${OUTPUT_FILE}" NAME_WLE)
-    get_filename_component(DIR "${OUTPUT_FILE}" DIRECTORY)
-    list(APPEND RM_ARGS "${OUTPUT_FILE}")
-    if("${EXT}" STREQUAL ".mhd")
-      list(APPEND RM_ARGS "${DIR}/${BASE_NAME}.raw")
-      list(APPEND RM_ARGS "${DIR}/${BASE_NAME}.zraw")
-    endif()
-  endforeach()
+  # The developer supplies the exact files and glob patterns to remove.  Each
+  # entry is forwarded verbatim; itkRemoveTestFiles.cmake expands patterns at
+  # test time and removes only the matching files (never directories).
+  set(RM_ARGS ${ARGN})
 
-  add_test(
-    NAME ${TEST_NAME}_cleanup
-    COMMAND
-      ${CMAKE_COMMAND} -E rm -f ${RM_ARGS}
-  )
-  set_tests_properties(
-    ${TEST_NAME}_cleanup
-    PROPERTIES
-      FIXTURES_CLEANUP
-        ${FIXTURE_NAME}
-      LABELS
-        "CLEANUP"
-  )
+  if(RM_ARGS)
+    add_test(
+      NAME ${TEST_NAME}_cleanup
+      COMMAND
+        ${CMAKE_COMMAND} -P ${ITK_CMAKE_DIR}/itkRemoveTestFiles.cmake ${RM_ARGS}
+    )
+    set_tests_properties(
+      ${TEST_NAME}_cleanup
+      PROPERTIES
+        FIXTURES_CLEANUP
+          ${FIXTURE_NAME}
+        LABELS
+          "CLEANUP"
+    )
+  endif()
 endfunction()

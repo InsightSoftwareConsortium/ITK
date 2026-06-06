@@ -32,6 +32,8 @@ itk_add_test(
     20x20 # number of iterations
     none # mask
     200 # spline distance
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D.nii.gz
 )
 itk_add_test(
   NAME itkN4BiasFieldCorrectionImageFilterTest2
@@ -48,6 +50,8 @@ itk_add_test(
     10x10x10 # number of iterations
     none # mask
     150 # spline distance
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_Test2.nii.gz
 )
 
 itk_add_test(
@@ -66,4 +70,6 @@ itk_add_test(
     none # mask
     150 # spline distance
     1 # mask label
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_Test3.nii.gz
 )

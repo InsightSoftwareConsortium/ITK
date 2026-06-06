@@ -12,4 +12,6 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkAntiAliasBinaryImageFilterTest.mha
     itkAntiAliasBinaryImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkAntiAliasBinaryImageFilterTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkAntiAliasBinaryImageFilterTest.mha
 )

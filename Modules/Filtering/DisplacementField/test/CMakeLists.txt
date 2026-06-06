@@ -44,6 +44,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkIterativeInverseDisplacementFieldImageFilterTest.mha
     5
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkIterativeInverseDisplacementFieldImageFilterTest.mha
 )
 itk_add_test(
   NAME itkLandmarkDisplacementFieldSourceTest
@@ -52,12 +54,17 @@ itk_add_test(
     itkLandmarkDisplacementFieldSourceTest
     ${ITK_TEST_OUTPUT_DIR}/itkLandmarkDisplacementFieldSourceTestLandmarks.txt
     ${ITK_TEST_OUTPUT_DIR}/itkLandmarkDisplacementFieldSourceTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLandmarkDisplacementFieldSourceTestLandmarks.txt
+    ${ITK_TEST_OUTPUT_DIR}/itkLandmarkDisplacementFieldSourceTest.mha
 )
 itk_add_test(
   NAME itkInverseDisplacementFieldImageFilterTest
   COMMAND
     ITKDisplacementFieldTestDriver
     itkInverseDisplacementFieldImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkInverseDisplacementFieldImageFilterTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkInverseDisplacementFieldImageFilterTest.mha
 )
 itk_add_test(
@@ -145,6 +152,8 @@ itk_add_test(
     itkTransformToDisplacementFieldFilterTest
     Affine
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldFilterTestField01.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldFilterTestField01.mha
 )
 itk_add_test(
   NAME itkTransformToDisplacementFieldFilterTest02
@@ -157,6 +166,8 @@ itk_add_test(
     BSpline
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldFilterTestField02.mha
     DATA{${ITK_DATA_ROOT}/Input/parametersBSpline.txt}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldFilterTestField02.mha
 )
 itk_add_test(
   NAME itkTransformToDisplacementFieldFilterTest03
@@ -171,6 +182,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/transformedImage.nii
     ${ITK_TEST_OUTPUT_DIR}/warpedImage.nii
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/transformedImage.nii
+    ${ITK_TEST_OUTPUT_DIR}/warpedImage.nii
 )
 itk_add_test(
   NAME itkDisplacementFieldTransformCloneTest

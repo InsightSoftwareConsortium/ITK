@@ -28,6 +28,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkRandomImageSourceValuesTest.mha
     itkRandomImageSourceValuesTest
     ${ITK_TEST_OUTPUT_DIR}/itkRandomImageSourceValuesTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkRandomImageSourceValuesTest.mha
 )
 
 itk_add_test(

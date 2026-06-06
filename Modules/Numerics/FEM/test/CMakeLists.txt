@@ -357,6 +357,8 @@ itk_add_test(
     itkFEMElement2DC0LinearQuadrilateralStrainTest
     DATA{Input/2DC0LinearQuadrilateralStrainTest.meta}
     ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStrainTestWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStrainTestWrite.meta
 )
 
 itk_add_test(
@@ -394,6 +396,8 @@ itk_add_test(
     itkFEMElement2DC0LinearQuadrilateralMembraneTest
     DATA{Input/2DC0LinearQuadrilateralMembraneTest.meta}
     ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralMembraneTestWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralMembraneTestWrite.meta
 )
 
 itk_add_test(
@@ -403,6 +407,8 @@ itk_add_test(
     ITKFEMTestDriver
     itkFEMElement2DC0LinearTriangleMembraneTest
     DATA{Input/2DC0LinearTriangleMembraneTest.meta}
+    ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleMembraneTestWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleMembraneTestWrite.meta
 )
 
@@ -414,6 +420,8 @@ itk_add_test(
     itkFEMElement2DC0LinearTriangleStressTest
     DATA{Input/2DC0LinearTriangleStressTest.meta}
     ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleStressTestWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleStressTestWrite.meta
 )
 
 itk_add_test(
@@ -423,6 +431,8 @@ itk_add_test(
     ITKFEMTestDriver
     itkFEMElement2DC0LinearTriangleStrainTest
     DATA{Input/2DC0LinearTriangleStrainTest.meta}
+    ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleStrainTestWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleStrainTestWrite.meta
 )
 
@@ -434,6 +444,8 @@ itk_add_test(
     itkFEMElement2DC0QuadraticTriangleStrainTest
     DATA{Input/2DC0QuadraticTriangleStrainTest.meta}
     ${ITK_TEST_OUTPUT_DIR}/2DC0QuadraticTriangleStrainTestWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/2DC0QuadraticTriangleStrainTestWrite.meta
 )
 
 itk_add_test(
@@ -443,6 +455,8 @@ itk_add_test(
     ITKFEMTestDriver
     itkFEMElement2DC0QuadraticTriangleStressTest
     DATA{Input/2DC0QuadraticTriangleStressTest.meta}
+    ${ITK_TEST_OUTPUT_DIR}/2DC0QuadraticTriangleStressTestWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/2DC0QuadraticTriangleStressTestWrite.meta
 )
 
@@ -454,6 +468,8 @@ itk_add_test(
     itkFEMElement2DC0LinearLineStressTest
     DATA{Input/2DC0LinearLineStressTest.meta}
     ${ITK_TEST_OUTPUT_DIR}/2DC0LinearLineStressTestWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/2DC0LinearLineStressTestWrite.meta
 )
 
 itk_add_test(
@@ -463,6 +479,8 @@ itk_add_test(
     ITKFEMTestDriver
     itkFEMElement2DC0LinearQuadrilateralStrainItpackTest
     DATA{Input/2DC0LinearQuadrilateralStrainTest.meta}
+    ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStrainItpackTestWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStrainItpackTestWrite.meta
 )
 
@@ -474,6 +492,8 @@ itk_add_test(
     itkFEMElement2DC1BeamTest
     DATA{Input/2DC1BeamTest.meta}
     ${ITK_TEST_OUTPUT_DIR}/2DC1BeamTestWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/2DC1BeamTestWrite.meta
 )
 
 itk_add_test(
@@ -483,6 +503,8 @@ itk_add_test(
     ITKFEMTestDriver
     itkFEMElement3DC0LinearHexahedronStrainTest
     DATA{Input/3DC0LinearHexahedronStrainTest.meta}
+    ${ITK_TEST_OUTPUT_DIR}/3DC0LinearHexahedronStrainTestWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/3DC0LinearHexahedronStrainTestWrite.meta
 )
 
@@ -494,6 +516,8 @@ itk_add_test(
     itkFEMElement3DC0LinearHexahedronMembraneTest
     DATA{Input/3DC0LinearHexahedronMembraneTest.meta}
     ${ITK_TEST_OUTPUT_DIR}/3DC0LinearHexahedronMembraneTestWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/3DC0LinearHexahedronMembraneTestWrite.meta
 )
 
 itk_add_test(
@@ -503,6 +527,8 @@ itk_add_test(
     ITKFEMTestDriver
     itkFEMElement3DC0LinearTetrahedronStrainTest
     DATA{Input/3DC0LinearTetrahedronStrainTest.meta}
+    ${ITK_TEST_OUTPUT_DIR}/3DC0LinearTetrahedronStrainTestWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/3DC0LinearTetrahedronStrainTestWrite.meta
 )
 
@@ -514,6 +540,8 @@ itk_add_test(
     itkFEMElement3DC0LinearTetrahedronMembraneTest
     DATA{Input/3DC0LinearTetrahedronMembraneTest.meta}
     ${ITK_TEST_OUTPUT_DIR}/3DC0LinearTetrahedronMembraneTestWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/3DC0LinearTetrahedronMembraneTestWrite.meta
 )
 
 itk_add_test(
@@ -523,6 +551,8 @@ itk_add_test(
     ITKFEMTestDriver
     itkFEMLoadBCMFCTest
     DATA{Input/LoadBCMFCTest.meta}
+    ${ITK_TEST_OUTPUT_DIR}/LoadBCMFCTestWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/LoadBCMFCTestWrite.meta
 )
 
@@ -542,6 +572,8 @@ itk_add_test(
     itkFEMLoadEdgeTest
     DATA{Input/LoadEdgeTest.meta}
     ${ITK_TEST_OUTPUT_DIR}/LoadEdgeTestWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/LoadEdgeTestWrite.meta
 )
 
 itk_add_test(
@@ -551,6 +583,8 @@ itk_add_test(
     ITKFEMTestDriver
     itkFEMLoadGravConstTest
     DATA{Input/LoadGravConstTest.meta}
+    ${ITK_TEST_OUTPUT_DIR}/LoadGravConstWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/LoadGravConstWrite.meta
 )
 
@@ -569,6 +603,8 @@ itk_add_test(
     ITKFEMTestDriver
     itkFEMLandmarkLoadImplementationTest
     DATA{Input/quad-lm.meta}
+    ${ITK_TEST_OUTPUT_DIR}/QuadLandmardkWrite.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/QuadLandmardkWrite.meta
 )
 
@@ -609,6 +645,8 @@ itk_add_test(
     ITKFEMTestDriver
     itkFEMSolverTest3D
     DATA{Input/3DC0LinearHexahedronMembraneTest.meta}
+    ${ITK_TEST_OUTPUT_DIR}/3DC0LinearHexahedronMembraneTestWrite_NewSolver.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/3DC0LinearHexahedronMembraneTestWrite_NewSolver.meta
 )
 

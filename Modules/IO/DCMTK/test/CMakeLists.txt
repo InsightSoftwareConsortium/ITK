@@ -79,6 +79,8 @@ itk_add_test(
     itkDCMTKGetDicomTagsTest
     DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm}
     ${ITK_TEST_OUTPUT_DIR}/DICOMTags.txt
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/DICOMTags.txt
 )
 
 itk_add_test(
@@ -98,6 +100,10 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest.dcm
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest.png
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKRescaleImageIOTest.dcm
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest.png
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKRescaleImageIOTest.dcm
 )
 
 itk_add_test(
@@ -106,6 +112,10 @@ itk_add_test(
     ITKIODCMTKTestDriver
     itkDCMTKImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/itkGDCMImageIOTest.dcm}
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest2.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest2.png
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKRescaleImageIOTest2.dcm
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest2.dcm
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest2.png
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKRescaleImageIOTest2.dcm
@@ -120,6 +130,10 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest3.dcm
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest3.png
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKRescaleImageIOTest3.dcm
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest3.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest3.png
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKRescaleImageIOTest3.dcm
 )
 
 itk_add_test(
@@ -128,6 +142,10 @@ itk_add_test(
     ITKIODCMTKTestDriver
     itkDCMTKImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/itkGDCMImageIOTest3.dcm}
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest4.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest4.png
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKRescaleImageIOTest4.dcm
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest4.dcm
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest4.png
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKRescaleImageIOTest4.dcm
@@ -142,6 +160,10 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest5.dcm
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest5.png
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKRescaleImageIOTest5.dcm
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest5.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest5.png
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKRescaleImageIOTest5.dcm
 )
 
 itk_add_test(
@@ -150,6 +172,10 @@ itk_add_test(
     ITKIODCMTKTestDriver
     itkDCMTKImageIOTest
     DATA{Input/no_preamble.dcm}
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest6.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest6.png
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKRescaleImageIOTest6.dcm
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest6.dcm
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKImageIOTest6.png
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKRescaleImageIOTest6.dcm
@@ -165,6 +191,8 @@ itk_add_test(
     0
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesReadImageWrite.vtk
 )
 
 itk_add_test(
@@ -177,6 +205,8 @@ itk_add_test(
     0
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKDirCosinesTest.vtk
 )
 
 set_property(
@@ -199,6 +229,8 @@ itk_add_test(
     0.85939
     1.60016
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesStreamReadImageWrite1.{mhd,raw}
 )
 
 itk_add_test(
@@ -216,6 +248,8 @@ itk_add_test(
     0
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesImageOrientationWrite1.mha
 )
 
 itk_add_test(
@@ -233,6 +267,8 @@ itk_add_test(
     itkDCMTKMultiFrame4DTest
     DATA{${ITK_DATA_ROOT}/Input/Philips_4D_DICOM.dcm}
     ${ITK_TEST_OUTPUT_DIR}/Philips_4D_DICOM.nrrd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/Philips_4D_DICOM.nrrd
 )
 
 itk_add_test(
@@ -247,6 +283,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKNonSquare.nii.gz
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKNonSquare.nii.gz
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKNonSquareRescale.dcm
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKNonSquare.nii.gz
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKNonSquareRescale.dcm
 )
 
 itk_add_test(
@@ -259,6 +298,8 @@ itk_add_test(
     itkDCMTKRGBImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/RGBDicomTest.dcm}
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKColorImage.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKColorImage.png
 )
 
 itk_add_test(
@@ -270,6 +311,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKColorImageSpatialMetadata.nrrd
     itkDCMTKRGBImageIOTest
     DATA{Input/visible-male-rgb-slice.dcm}
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKColorImageSpatialMetadata.nrrd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkDCMTKColorImageSpatialMetadata.nrrd
 )
 

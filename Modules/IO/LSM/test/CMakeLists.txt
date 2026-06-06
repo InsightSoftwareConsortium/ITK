@@ -18,4 +18,6 @@ itk_add_test(
     itkLSMImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.lsm}
     ${ITK_TEST_OUTPUT_DIR}/itkLSMImageIOTest_cthead1.tif
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLSMImageIOTest_cthead1.tif
 )

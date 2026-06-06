@@ -53,6 +53,8 @@ itk_add_test(
     --redirectOutput
     ${TEMP}/itkVnlFFTTest.txt
     itkVnlFFTTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkVnlFFTTest.txt
 )
 set_tests_properties(
   itkVnlFFTTest
@@ -68,6 +70,8 @@ itk_add_test(
     --redirectOutput
     ${TEMP}/itkVnlRealFFTTest.txt
     itkVnlRealFFTTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkVnlRealFFTTest.txt
 )
 set_tests_properties(
   itkVnlRealFFTTest
@@ -159,6 +163,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/BrainSliceBinary.png}
     ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTest0.png
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTest0.png
 )
 itk_add_test(
   NAME itkFFTShiftImageFilterTestOdd1
@@ -171,6 +177,8 @@ itk_add_test(
     DATA{Baseline/itkFFTShiftImageFilterTest0.png}
     ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTest1.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTest1.png
 )
 itk_add_test(
   NAME itkFFTShiftImageFilterTestEven0
@@ -183,6 +191,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTestEven0.png
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTestEven0.png
 )
 itk_add_test(
   NAME itkFFTShiftImageFilterTestEven1
@@ -195,6 +205,8 @@ itk_add_test(
     DATA{Baseline/itkFFTShiftImageFilterTestEven0.png}
     ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTestEven1.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkFFTShiftImageFilterTestEven1.png
 )
 itk_add_test(
   NAME itkHalfToFullHermitianImageFilterTestEvenEven
@@ -286,6 +298,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkComplexToComplexFFTImageFilter2DFloatTest.mha
     float
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkComplexToComplexFFTImageFilter2DFloatTest.mha
 )
 # The data contained in ${ITK_DATA_ROOT}/Input/DicomSeries/
 # is required by mri3D.mhd:
@@ -312,6 +326,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
     ${ITK_TEST_OUTPUT_DIR}/itkComplexToComplexFFTImageFilter3DFloatTest.mha
     float
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkComplexToComplexFFTImageFilter3DFloatTest.mha
 )
 itk_add_test(
   NAME itkComplexToComplexFFTImageFilter2DDoubleTest
@@ -324,6 +340,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkComplexToComplexFFTImageFilter2DDoubleTest.mha
     double
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkComplexToComplexFFTImageFilter2DDoubleTest.mha
 )
 itk_add_test(
   NAME itkComplexToComplexFFTImageFilter3DDoubleTest
@@ -336,6 +354,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
     ${ITK_TEST_OUTPUT_DIR}/itkComplexToComplexFFTImageFilter3DDoubleTest.mha
     double
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkComplexToComplexFFTImageFilter3DDoubleTest.mha
 )
 
 itk_add_test(
@@ -349,6 +369,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter2DFloatTest.mha
     float
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter2DFloatTest.mha
 )
 itk_add_test(
   NAME itkVnlComplexToComplexFFTImageFilter3DFloatTest
@@ -361,6 +383,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
     ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter3DFloatTest.mha
     float
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter3DFloatTest.mha
 )
 itk_add_test(
   NAME itkVnlComplexToComplexFFTImageFilter2DDoubleTest
@@ -373,6 +397,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter2DDoubleTest.mha
     double
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter2DDoubleTest.mha
 )
 itk_add_test(
   NAME itkVnlComplexToComplexFFTImageFilter3DDoubleTest
@@ -385,6 +411,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
     ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter3DDoubleTest.mha
     double
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter3DDoubleTest.mha
 )
 
 if(ITK_USE_FFTWF)
@@ -399,6 +427,8 @@ if(ITK_USE_FFTWF)
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/itkFFTWComplexToComplexFFTImageFilter2DFloatTest.mha
       float
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTWComplexToComplexFFTImageFilter2DFloatTest.mha
   )
   itk_add_test(
     NAME itkFFTWComplexToComplexFFTImageFilter3DFloatTest
@@ -411,6 +441,8 @@ if(ITK_USE_FFTWF)
       DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
       ${ITK_TEST_OUTPUT_DIR}/itkFFTWComplexToComplexFFTImageFilter3DFloatTest.mha
       float
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTWComplexToComplexFFTImageFilter3DFloatTest.mha
   )
 endif()
 if(ITK_USE_FFTWD)
@@ -425,6 +457,8 @@ if(ITK_USE_FFTWD)
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/itkFFTWComplexToComplexFFTImageFilter2DDoubleTest.mha
       double
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTWComplexToComplexFFTImageFilter2DDoubleTest.mha
   )
   itk_add_test(
     NAME itkFFTWComplexToComplexFFTImageFilter3DDoubleTest
@@ -437,6 +471,8 @@ if(ITK_USE_FFTWD)
       DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
       ${ITK_TEST_OUTPUT_DIR}/itkFFTWComplexToComplexFFTImageFilter3DDoubleTest.mha
       double
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTWComplexToComplexFFTImageFilter3DDoubleTest.mha
   )
 endif()
 
@@ -484,6 +520,8 @@ itk_add_test(
     DATA{Input/itkForward1DFFTImageFilterTestBaselineRealFull.mhd}
     DATA{Input/itkForward1DFFTImageFilterTestBaselineImaginaryFull.mhd}
     ${ITK_TEST_OUTPUT_DIR}/itkComplexToComplex1DFFTImageFilterTestOutput.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkComplexToComplex1DFFTImageFilterTestOutput.mha
 )
 # use a forward fft, then inverse fft for this instead because of the FullMatrix
 # issue
@@ -496,6 +534,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkFFT1DImageFilterTestOutput.mha
     itkFFT1DImageFilterTest
     DATA{Input/TreeBarkTexture.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkFFT1DImageFilterTestOutput.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkFFT1DImageFilterTestOutput.mha
 )
 itk_add_test(
@@ -510,6 +550,8 @@ itk_add_test(
     DATA{Input/itkForward1DFFTImageFilterTestBaselineImaginaryFull.mhd,itkForward1DFFTImageFilterTestBaselineImaginaryFull.raw}
     ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplex1DFFTImageFilterTestOutput.mhd
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplex1DFFTImageFilterTestOutput.{mhd,raw}
 )
 itk_add_test(
   NAME itkVnlForward1DFFTImageFilterTest
@@ -525,6 +567,9 @@ itk_add_test(
     DATA{Input/TreeBarkTexture.png}
     ${ITK_TEST_OUTPUT_DIR}/itkVnlForward1DFFTImageFilterTestOutput
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlForward1DFFTImageFilterTestOutputReal.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlForward1DFFTImageFilterTestOutputImaginary.mha
 )
 itk_add_test(
   NAME itkVnlInverse1DFFTImageFilterTest
@@ -538,6 +583,8 @@ itk_add_test(
     DATA{Input/itkForward1DFFTImageFilterTestBaselineImaginaryFull.mhd,itkForward1DFFTImageFilterTestBaselineImaginaryFull.raw}
     ${ITK_TEST_OUTPUT_DIR}/itkVnlInverse1DFFTImageFilterTestOutput.mhd
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlInverse1DFFTImageFilterTestOutput.{mhd,raw}
 )
 itk_add_test(
   NAME itkVnlFFT1DImageFilterTest
@@ -550,6 +597,8 @@ itk_add_test(
     DATA{Input/TreeBarkTexture.png}
     ${ITK_TEST_OUTPUT_DIR}/itkVnlFFT1DImageFilterTestOutput.mha
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlFFT1DImageFilterTestOutput.mha
 )
 
 if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
@@ -567,6 +616,9 @@ if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
       DATA{Input/TreeBarkTexture.png}
       ${ITK_TEST_OUTPUT_DIR}/itkFFTWForward1DFFTImageFilterTestOutput
       2
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTWForward1DFFTImageFilterTestOutputReal.mha
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTWForward1DFFTImageFilterTestOutputImaginary.mha
   )
   itk_add_test(
     NAME itkFFTWInverse1DFFTImageFilterTest
@@ -580,6 +632,8 @@ if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
       DATA{Input/itkForward1DFFTImageFilterTestBaselineImaginaryFull.mhd,itkForward1DFFTImageFilterTestBaselineImaginaryFull.raw}
       ${ITK_TEST_OUTPUT_DIR}/itkFFTWInverse1DFFTImageFilterTestOutput.mha
       2
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTWInverse1DFFTImageFilterTestOutput.mha
   )
   itk_add_test(
     NAME itkFFTWComplexToComplex1DFFTImageFilterTest
@@ -593,6 +647,8 @@ if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
       DATA{Input/itkForward1DFFTImageFilterTestBaselineImaginaryFull.mhd}
       ${ITK_TEST_OUTPUT_DIR}/itkFFTWComplexToComplex1DFFTImageFilterTestOutput.mha
       2
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTWComplexToComplex1DFFTImageFilterTestOutput.mha
   )
   itk_add_test(
     NAME itkFFTW1DImageFilterTest
@@ -605,6 +661,8 @@ if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
       DATA{Input/TreeBarkTexture.png}
       ${ITK_TEST_OUTPUT_DIR}/itkFFTW1DImageFilterTestOutput.mha
       2
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTW1DImageFilterTestOutput.mha
   )
 endif()
 

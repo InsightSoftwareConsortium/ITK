@@ -12,6 +12,8 @@ itk_add_test(
     DATA{Baseline/sphere.vtk}
     ${ITK_TEST_OUTPUT_DIR}/sphere00.stl
     0 # write in ASCII
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/sphere00.stl
 )
 
 itk_add_test(
@@ -22,6 +24,8 @@ itk_add_test(
     DATA{Baseline/sphere.vtk}
     ${ITK_TEST_OUTPUT_DIR}/sphere01.stl
     1 # write in BINARY
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/sphere01.stl
 )
 
 itk_add_test(
@@ -32,6 +36,8 @@ itk_add_test(
     DATA{Baseline/sphere.stl}
     ${ITK_TEST_OUTPUT_DIR}/sphere02.stl
     0 # write in ASCII
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/sphere02.stl
 )
 
 itk_add_test(
@@ -42,6 +48,8 @@ itk_add_test(
     DATA{Baseline/sphere.stl}
     ${ITK_TEST_OUTPUT_DIR}/sphere03.stl
     1 # write in BINARY
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/sphere03.stl
 )
 
 itk_add_test(
@@ -52,6 +60,8 @@ itk_add_test(
     DATA{Baseline/tetrahedron.vtk}
     ${ITK_TEST_OUTPUT_DIR}/tetrahedron01.stl
     0 # write in ASCII
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/tetrahedron01.stl
 )
 
 itk_add_test(
@@ -62,6 +72,8 @@ itk_add_test(
     DATA{Baseline/tetrahedron.vtk}
     ${ITK_TEST_OUTPUT_DIR}/tetrahedron02.stl
     1 # write in BINARY
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/tetrahedron02.stl
 )
 
 itk_add_test(
@@ -72,6 +84,8 @@ itk_add_test(
     DATA{Baseline/tetrahedron.stl}
     ${ITK_TEST_OUTPUT_DIR}/tetrahedron03.stl
     0 # write in ASCII
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/tetrahedron03.stl
 )
 
 itk_add_test(
@@ -82,4 +96,6 @@ itk_add_test(
     DATA{Baseline/tetrahedron.stl}
     ${ITK_TEST_OUTPUT_DIR}/tetrahedron04.stl
     1 # write in BINARY
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/tetrahedron04.stl
 )

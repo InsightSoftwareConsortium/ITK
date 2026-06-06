@@ -26,6 +26,9 @@ itk_add_test(
     0
     6
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/byumeshiocube.byu
+    ${ITK_TEST_OUTPUT_DIR}/byu2vtkcube.vtk
 )
 itk_add_test(
   NAME itkMeshFileReadWriteTest06
@@ -33,5 +36,7 @@ itk_add_test(
     ITKIOMeshBYUTestDriver
     itkMeshFileReadWriteTest
     DATA{Baseline/cube.byu}
+    ${ITK_TEST_OUTPUT_DIR}/cube.byu
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/cube.byu
 )

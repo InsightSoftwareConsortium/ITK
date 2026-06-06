@@ -13,6 +13,8 @@ itk_add_test(
     itkGiplImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/ramp.gipl}
     ${ITK_TEST_OUTPUT_DIR}/ramp.mhd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ramp.{mhd,raw}
 )
 itk_add_test(
   NAME itkGiplImageIOGzTest
@@ -24,6 +26,8 @@ itk_add_test(
     itkGiplImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/ramp.gipl.gz}
     ${ITK_TEST_OUTPUT_DIR}/ramp-gz.mhd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ramp-gz.{mhd,raw}
 )
 itk_add_test(
   NAME itkGiplImageIOTest2
@@ -31,5 +35,7 @@ itk_add_test(
     ITKIOGIPLTestDriver
     itkGiplImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/ramp.gipl}
+    ${ITK_TEST_OUTPUT_DIR}/ramp.gipl
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/ramp.gipl
 )

@@ -29,6 +29,8 @@ itk_add_test(
     DATA{Input/Scan_CBCT_13R.nrrd}
     DATA{Input/SegmC_CBCT_13R.nrrd}
     ${ITK_TEST_OUTPUT_DIR}/resultTestFilterInstantiation.nrrd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/resultTestFilterInstantiation.nrrd
 )
 
 itk_add_test(
@@ -41,5 +43,7 @@ itk_add_test(
     ReplaceFeatureMapNanInfImageFilterInstantiationTest
     DATA{Input/Scan_CBCT_13R.nrrd}
     DATA{Input/SegmC_CBCT_13R.nrrd}
+    ${ITK_TEST_OUTPUT_DIR}/resultTestReplaceFeatureMapNanInfImageFilter.nrrd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/resultTestReplaceFeatureMapNanInfImageFilter.nrrd
 )

@@ -16,6 +16,10 @@ itk_add_test(
     ${TEMP}/ImageRegistration1TestPixelCentered.png
     ${TEMP}/ImageRegistration1DifferenceAfterTestPixelCentered.png
     ${TEMP}/ImageRegistration1DifferenceBeforeTestPixelCentered.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/ImageRegistration1TestPixelCentered.png
+    ${TEMP}/ImageRegistration1DifferenceAfterTestPixelCentered.png
+    ${TEMP}/ImageRegistration1DifferenceBeforeTestPixelCentered.png
 )
 
 itk_add_test(
@@ -28,6 +32,8 @@ itk_add_test(
     $<TARGET_FILE:ITKv3ImageRegistration3>
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceShifted13x17y.png
+    ${TEMP}/ImageRegistration3TestPixelCentered.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/ImageRegistration3TestPixelCentered.png
 )
 
@@ -48,6 +54,10 @@ itk_add_test(
     24
     10000
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/ImageRegistration4Test.png
+    ${TEMP}/ImageRegistration4BeforeTest.png
+    ${TEMP}/ImageRegistration4AfterTest.png
 )
 
 itk_add_test(
@@ -67,6 +77,10 @@ itk_add_test(
     24
     10000
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/ImageRegistration4Test2.png
+    ${TEMP}/ImageRegistration4BeforeTest2.png
+    ${TEMP}/ImageRegistration4AfterTest2.png
 )
 
 itk_add_test(
@@ -83,6 +97,10 @@ itk_add_test(
     5
     10000
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/ImageRegistration4Test3.png
+    ${TEMP}/ImageRegistration4BeforeTest3.png
+    ${TEMP}/ImageRegistration4AfterTest3.png
 )
 
 itk_add_test(
@@ -95,6 +113,8 @@ itk_add_test(
     $<TARGET_FILE:ITKv3ImageRegistration5>
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceRotated10.png
+    ${TEMP}/ImageRegistration5Test1PixelCentered.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/ImageRegistration5Test1PixelCentered.png
 )
 
@@ -109,6 +129,8 @@ itk_add_test(
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceR10X13Y17.png
     ${TEMP}/ImageRegistration5Test2PixelCentered.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/ImageRegistration5Test2PixelCentered.png
 )
 
 itk_add_test(
@@ -121,6 +143,8 @@ itk_add_test(
     $<TARGET_FILE:ITKv3ImageRegistration6>
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceR10X13Y17.png
+    ${TEMP}/ImageRegistration6TestPixelCentered.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/ImageRegistration6TestPixelCentered.png
 )
 
@@ -140,6 +164,10 @@ itk_add_test(
     1.0
     1.0
     0.0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/ImageRegistration7TestPixelCentered.png
+    ${TEMP}/ImageRegistration7BeforeTestPixelCentered.png
+    ${TEMP}/ImageRegistration7AfterTestPixelCentered.png
 )
 
 if(ITK_USE_BRAINWEB_DATA)
@@ -151,6 +179,8 @@ if(ITK_USE_BRAINWEB_DATA)
       $<TARGET_FILE:ConfidenceConnected3D>
       DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb165a10f17.mha}
       ${TEMP}/WhiteMatterSegmentation.mhd
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${TEMP}/WhiteMatterSegmentation.{mhd,raw}
   )
 
   itk_add_test(
@@ -170,6 +200,14 @@ if(ITK_USE_BRAINWEB_DATA)
       ${TEMP}/ImageRegistration8v3DifferenceBefore.png
       ${TEMP}/ImageRegistration8v3DifferenceAfter.png
       ${TEMP}/ImageRegistration8v3RegisteredSlice.png
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${TEMP}/ImageRegistration8v3RegisteredSlice.png
+      ${TEMP}/ImageRegistration8v3Output.{mhd,raw}
+      ${TEMP}/ImageRegistration8v3DifferenceBefore.{mhd,raw}
+      ${TEMP}/ImageRegistration8v3DifferenceAfter.{mhd,raw}
+      ${TEMP}/ImageRegistration8v3Output.png
+      ${TEMP}/ImageRegistration8v3DifferenceBefore.png
+      ${TEMP}/ImageRegistration8v3DifferenceAfter.png
   )
 endif()
 
@@ -183,6 +221,8 @@ itk_add_test(
     $<TARGET_FILE:ITKv3ImageRegistration9>
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceR10X13Y17.png
+    ${TEMP}/ImageRegistration9TestPixelCentered.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/ImageRegistration9TestPixelCentered.png
 )
 
@@ -198,6 +238,8 @@ itk_add_test(
     $<TARGET_FILE:ITKv3ImageRegistration13>
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceR10X13Y17.png
+    ${TEMP}/ImageRegistration13TestPixelCentered.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/ImageRegistration13TestPixelCentered.png
 )
 
@@ -216,6 +258,8 @@ itk_add_test(
     ${TEMP}/ImageRegistration13Test2PixelCentered.png
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/ImageRegistration13Test2PixelCentered.png
 )
 
 itk_add_test(
@@ -233,6 +277,8 @@ itk_add_test(
     ${TEMP}/ImageRegistration13Test3PixelCentered.png
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/ImageRegistration13Test3PixelCentered.png
 )
 
 itk_add_test(
@@ -250,6 +296,8 @@ itk_add_test(
     ${TEMP}/ImageRegistration13Test4PixelCentered.png
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/ImageRegistration13Test4PixelCentered.png
 )
 
 itk_add_test(
@@ -267,6 +315,8 @@ itk_add_test(
     ${TEMP}/ImageRegistration13Test5PixelCentered.png
     1
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/ImageRegistration13Test5PixelCentered.png
 )
 
 itk_add_test(
@@ -288,6 +338,8 @@ itk_add_test(
     0.15
     10.0
     14.0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/ImageRegistration14Test.png
 )
 set_property(
   TEST
@@ -314,6 +366,10 @@ itk_add_test(
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceShifted13x17y.png
     ${TEMP}/MultiResImageRegistration1Test.png
     100
+    ${TEMP}/MultiResImageRegistration1CheckerBoardBeforeTest.png
+    ${TEMP}/MultiResImageRegistration1CheckerBoardAfterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/MultiResImageRegistration1Test.png
     ${TEMP}/MultiResImageRegistration1CheckerBoardBeforeTest.png
     ${TEMP}/MultiResImageRegistration1CheckerBoardAfterTest.png
 )
@@ -345,6 +401,10 @@ itk_add_test(
     ${TEMP}/MultiResImageRegistration1CheckerBoardBeforeTest2.png
     ${TEMP}/MultiResImageRegistration1CheckerBoardAfterTest2.png
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/MultiResImageRegistration1Test2.png
+    ${TEMP}/MultiResImageRegistration1CheckerBoardBeforeTest2.png
+    ${TEMP}/MultiResImageRegistration1CheckerBoardAfterTest2.png
 )
 set_property(
   TEST
@@ -373,6 +433,12 @@ itk_add_test(
     ${TEMP}/DeformableRegistration12Test1DisplacementField.mhd
     0
     0
+    ${TEMP}/DeformableRegistration12Test1FinalTransformParameters.txt
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/DeformableRegistration12Test1.png
+    ${TEMP}/DeformableRegistration12Test1DifferenceAfter.png
+    ${TEMP}/DeformableRegistration12Test1DifferenceBefore.png
+    ${TEMP}/DeformableRegistration12Test1DisplacementField.{mhd,raw}
     ${TEMP}/DeformableRegistration12Test1FinalTransformParameters.txt
 )
 set_property(
@@ -403,6 +469,12 @@ itk_add_test(
     0
     1
     ${TEMP}/DeformableRegistration12Test2FinalTransformParameters.txt
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/DeformableRegistration12Test2.png
+    ${TEMP}/DeformableRegistration12Test2DifferenceAfter.png
+    ${TEMP}/DeformableRegistration12Test2DifferenceBefore.png
+    ${TEMP}/DeformableRegistration12Test2DisplacementField.{mhd,raw}
+    ${TEMP}/DeformableRegistration12Test2FinalTransformParameters.txt
 )
 
 itk_add_test(
@@ -423,6 +495,12 @@ itk_add_test(
     ${TEMP}/DeformableRegistration12Test3DisplacementField.mhd
     1
     0
+    ${TEMP}/DeformableRegistration12Test3FinalTransformParameters.txt
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/DeformableRegistration12Test3.png
+    ${TEMP}/DeformableRegistration12Test3DifferenceAfter.png
+    ${TEMP}/DeformableRegistration12Test3DifferenceBefore.png
+    ${TEMP}/DeformableRegistration12Test3DisplacementField.{mhd,raw}
     ${TEMP}/DeformableRegistration12Test3FinalTransformParameters.txt
 )
 set_property(
@@ -453,6 +531,12 @@ itk_add_test(
     1
     1
     ${TEMP}/DeformableRegistration12Test4FinalTransformParameters.txt
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/DeformableRegistration12Test4.png
+    ${TEMP}/DeformableRegistration12Test4DifferenceAfter.png
+    ${TEMP}/DeformableRegistration12Test4DifferenceBefore.png
+    ${TEMP}/DeformableRegistration12Test4DisplacementField.{mhd,raw}
+    ${TEMP}/DeformableRegistration12Test4FinalTransformParameters.txt
 )
 
 if(ITK_USE_BRAINWEB_DATA)
@@ -482,6 +566,12 @@ if(ITK_USE_BRAINWEB_DATA)
         ${TEMP}/DeformableRegistration8Test1FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
         ${ITK_EXAMPLE_DATA_ROOT}/IdentityTransform.tfm
+      ITK_REMOVE_TEMPORARY_TEST_FILES
+        ${TEMP}/DeformableRegistration8Test1.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test1DifferenceAfter.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test1DifferenceBefore.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test1DisplacementField.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test1FinalTransformParameters.txt
     )
     set_property(
       TEST
@@ -522,6 +612,12 @@ if(ITK_USE_BRAINWEB_DATA)
         ${TEMP}/DeformableRegistration8Test2FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
         ${ITK_EXAMPLE_DATA_ROOT}/IdentityTransform.tfm
+      ITK_REMOVE_TEMPORARY_TEST_FILES
+        ${TEMP}/DeformableRegistration8Test2.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test2DifferenceAfter.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test2DifferenceBefore.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test2DisplacementField.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test2FinalTransformParameters.txt
     )
     set_property(
       TEST
@@ -562,6 +658,12 @@ if(ITK_USE_BRAINWEB_DATA)
         ${TEMP}/DeformableRegistration8Test3FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
         ${ITK_EXAMPLE_DATA_ROOT}/IdentityTransform.tfm
+      ITK_REMOVE_TEMPORARY_TEST_FILES
+        ${TEMP}/DeformableRegistration8Test3.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test3DifferenceAfter.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test3DifferenceBefore.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test3DisplacementField.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test3FinalTransformParameters.txt
     )
     set_property(
       TEST
@@ -610,6 +712,12 @@ if(ITK_USE_BRAINWEB_DATA)
         ${TEMP}/DeformableRegistration8Test4FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
         ${ITK_EXAMPLE_DATA_ROOT}/IdentityTransform.tfm
+      ITK_REMOVE_TEMPORARY_TEST_FILES
+        ${TEMP}/DeformableRegistration8Test4.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test4DifferenceAfter.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test4DifferenceBefore.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test4DisplacementField.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test4FinalTransformParameters.txt
     )
     set_property(
       TEST
@@ -645,6 +753,12 @@ if(ITK_USE_BRAINWEB_DATA)
         0
         ${TEMP}/DeformableRegistration8Test5FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
+      ITK_REMOVE_TEMPORARY_TEST_FILES
+        ${TEMP}/DeformableRegistration8Test5.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test5DifferenceAfter.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test5DifferenceBefore.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test5DisplacementField.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test5FinalTransformParameters.txt
     )
     set_property(
       TEST
@@ -685,6 +799,12 @@ if(ITK_USE_BRAINWEB_DATA)
         1
         ${TEMP}/DeformableRegistration8Test6FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
+      ITK_REMOVE_TEMPORARY_TEST_FILES
+        ${TEMP}/DeformableRegistration8Test6.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test6DifferenceAfter.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test6DifferenceBefore.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test6DisplacementField.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test6FinalTransformParameters.txt
     )
     set_property(
       TEST
@@ -717,6 +837,12 @@ if(ITK_USE_BRAINWEB_DATA)
         0
         ${TEMP}/DeformableRegistration8Test7FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
+      ITK_REMOVE_TEMPORARY_TEST_FILES
+        ${TEMP}/DeformableRegistration8Test7.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test7DifferenceAfter.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test7DifferenceBefore.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test7DisplacementField.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test7FinalTransformParameters.txt
     )
     set_property(
       TEST
@@ -757,6 +883,12 @@ if(ITK_USE_BRAINWEB_DATA)
         1
         ${TEMP}/DeformableRegistration8Test8FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
+      ITK_REMOVE_TEMPORARY_TEST_FILES
+        ${TEMP}/DeformableRegistration8Test8.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test8DifferenceAfter.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test8DifferenceBefore.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test8DisplacementField.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test8FinalTransformParameters.txt
     )
     set_property(
       TEST
@@ -798,6 +930,12 @@ if(ITK_USE_BRAINWEB_DATA)
         0
         ${TEMP}/DeformableRegistration8Test9FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
+      ITK_REMOVE_TEMPORARY_TEST_FILES
+        ${TEMP}/DeformableRegistration8Test9.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test9DifferenceAfter.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test9DifferenceBefore.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test9DisplacementField.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test9FinalTransformParameters.txt
     )
     set_property(
       TEST
@@ -838,6 +976,12 @@ if(ITK_USE_BRAINWEB_DATA)
         1
         ${TEMP}/DeformableRegistration8Test10FinalTransformParameters.txt
         ${NUMBER_OF_BSPLINE_GRID_NODES}
+      ITK_REMOVE_TEMPORARY_TEST_FILES
+        ${TEMP}/DeformableRegistration8Test10.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test10DifferenceAfter.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test10DifferenceBefore.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test10DisplacementField.{mhd,raw}
+        ${TEMP}/DeformableRegistration8Test10FinalTransformParameters.txt
     )
     set_property(
       TEST
@@ -884,6 +1028,12 @@ if(ITK_USE_BRAINWEB_DATA)
           0
           ${TEMP}/DeformableRegistration8Test11FinalTransformParameters.txt
           ${NUMBER_OF_BSPLINE_GRID_NODES}
+        ITK_REMOVE_TEMPORARY_TEST_FILES
+          ${TEMP}/DeformableRegistration8Test11.{mhd,raw}
+          ${TEMP}/DeformableRegistration8Test11DifferenceAfter.{mhd,raw}
+          ${TEMP}/DeformableRegistration8Test11DifferenceBefore.{mhd,raw}
+          ${TEMP}/DeformableRegistration8Test11DisplacementField.{mhd,raw}
+          ${TEMP}/DeformableRegistration8Test11FinalTransformParameters.txt
       )
       set_property(
         TEST
@@ -916,6 +1066,12 @@ if(ITK_USE_BRAINWEB_DATA)
           1
           ${TEMP}/DeformableRegistration8Test12FinalTransformParameters.txt
           ${NUMBER_OF_BSPLINE_GRID_NODES}
+        ITK_REMOVE_TEMPORARY_TEST_FILES
+          ${TEMP}/DeformableRegistration8Test12.{mhd,raw}
+          ${TEMP}/DeformableRegistration8Test12DifferenceAfter.{mhd,raw}
+          ${TEMP}/DeformableRegistration8Test12DifferenceBefore.{mhd,raw}
+          ${TEMP}/DeformableRegistration8Test12DisplacementField.{mhd,raw}
+          ${TEMP}/DeformableRegistration8Test12FinalTransformParameters.txt
       )
       set_property(
         TEST
@@ -961,6 +1117,8 @@ if(TEST_DISABLED)
       ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
       ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceR10X13Y17.png
       ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20Mask.png
+      ${TEMP}/ImageRegistration12TestPixelCentered.png
+    ITK_REMOVE_TEMPORARY_TEST_FILES
       ${TEMP}/ImageRegistration12TestPixelCentered.png
   )
 endif()

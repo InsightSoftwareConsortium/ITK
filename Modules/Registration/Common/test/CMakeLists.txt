@@ -177,6 +177,8 @@ itk_add_test(
     --redirectOutput
     ${TEMP}/itkImageRegistrationMethodTest_16.txt
     itkImageRegistrationMethodTest_16
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkImageRegistrationMethodTest_16.txt
 )
 set_tests_properties(
   itkImageRegistrationMethodTest_16
@@ -478,6 +480,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBlockMatchingImageFilterTest.mha
     itkBlockMatchingImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkBlockMatchingImageFilterTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkBlockMatchingImageFilterTest.mha
 )
 

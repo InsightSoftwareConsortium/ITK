@@ -24,6 +24,8 @@ itk_add_test(
     5
     255
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkVotingBinaryImageFilterTest0.mha
 )
 itk_add_test(
   NAME itkVotingBinaryImageFilterTest1
@@ -38,6 +40,8 @@ itk_add_test(
     5
     100
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkVotingBinaryImageFilterTest1.mha
 )
 itk_add_test(
   NAME itkLabelVotingImageFilterTest
@@ -66,6 +70,8 @@ itk_add_test(
     fd3bd75fc6270e3c416a3f0807a6e24b
     itkVotingBinaryHoleFillingImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkVotingBinaryHoleFillingImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkVotingBinaryHoleFillingImageFilterTest.png
 )
 itk_add_test(

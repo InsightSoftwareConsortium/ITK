@@ -17,6 +17,9 @@ itk_add_test(
     itkRawImageIOTest
     ${ITK_TEST_OUTPUT_DIR}/raw1.raw
     ${ITK_TEST_OUTPUT_DIR}/raw2.raw
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/raw1.raw
+    ${ITK_TEST_OUTPUT_DIR}/raw2.raw
 )
 itk_add_test(
   NAME itkRawImageIOTest2
@@ -32,12 +35,18 @@ itk_add_test(
     itkRawImageIOTest3
     ${ITK_TEST_OUTPUT_DIR}/raw3.raw
     ${ITK_TEST_OUTPUT_DIR}/raw4.raw
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/raw3.raw
+    ${ITK_TEST_OUTPUT_DIR}/raw4.raw
 )
 itk_add_test(
   NAME itkRawImageIOTest4
   COMMAND
     ITKIORAWTestDriver
     itkRawImageIOTest4
+    ${ITK_TEST_OUTPUT_DIR}/bigendian.raw
+    ${ITK_TEST_OUTPUT_DIR}/littleendian.raw
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/bigendian.raw
     ${ITK_TEST_OUTPUT_DIR}/littleendian.raw
 )

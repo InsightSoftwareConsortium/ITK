@@ -124,12 +124,16 @@ itk_add_test(
     ITKSpatialObjectsTestDriver
     itkMetaArrowConverterTest
     ${ITK_TEST_OUTPUT_DIR}/MetaArrowConverterTestFile.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/MetaArrowConverterTestFile.mha
 )
 itk_add_test(
   NAME itkMetaGaussianConverterTest
   COMMAND
     ITKSpatialObjectsTestDriver
     itkMetaGaussianConverterTest
+    ${ITK_TEST_OUTPUT_DIR}/MetaGaussianConverterTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/MetaGaussianConverterTest.mha
 )
 itk_add_test(
@@ -165,6 +169,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/BoxSpatialObjectTest.png
     itkBoxSpatialObjectTest
     ${ITK_TEST_OUTPUT_DIR}/BoxSpatialObjectTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/BoxSpatialObjectTest.png
 )
 itk_add_test(
   NAME itkGaussianSpatialObjectTest
@@ -190,6 +196,8 @@ itk_add_test(
     itkPolygonSpatialObjectIsInsideInObjectSpaceTest
     DATA{Input/PolygonContourPoints.csv}
     DATA{Baseline/itkPolygonSpatialObjectIsInsideInObjectSpaceTest.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkPolygonSpatialObjectIsInsideInObjectSpaceTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkPolygonSpatialObjectIsInsideInObjectSpaceTest.mha
 )
 itk_add_test(
@@ -221,6 +229,8 @@ itk_add_test(
   COMMAND
     ITKSpatialObjectsTestDriver
     itkNewMetaObjectTypeTest
+    ${ITK_TEST_OUTPUT_DIR}/NewMetaObjectType.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/NewMetaObjectType.meta
 )
 

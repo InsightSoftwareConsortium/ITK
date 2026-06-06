@@ -147,6 +147,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
     ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest1.mha
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest1.mha
 )
 itk_add_test(
   NAME itkVectorIndexSelectionCastImageFilterTest2
@@ -159,6 +161,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
     ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest2.mha
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest2.mha
 )
 itk_add_test(
   NAME itkVectorIndexSelectionCastImageFilterTest3
@@ -171,6 +175,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
     ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest3.mha
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest3.mha
 )
 itk_add_test(
   NAME itkInvertIntensityImageFilterTest
@@ -181,6 +187,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/InvertIntensityImageFilterTest.png
     itkInvertIntensityImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/InvertIntensityImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/InvertIntensityImageFilterTest.png
 )
 itk_add_test(
@@ -197,6 +205,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByValue.png
     1
     ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByValue.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByValue.png
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByValue.png
 )
 itk_add_test(
   NAME itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude
@@ -211,6 +222,9 @@ itk_add_test(
     itkSymmetricEigenAnalysisImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude.png
     2
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByMagnitude.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude.png
     ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByMagnitude.png
 )
 # FixedDimension (with Eigen3) orders by value by default.
@@ -227,6 +241,9 @@ itk_add_test(
     itkSymmetricEigenAnalysisImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestDoNotOrder.png
     3
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestDoNotOrder.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestDoNotOrder.png
     ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestDoNotOrder.png
 )
 itk_add_test(
@@ -249,6 +266,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkAndImageFilterTest.png
     93d46ee3d5e0c157e2b2d27977ae4d0f
     itkAndImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkAndImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkAndImageFilterTest.png
 )
 itk_add_test(
@@ -278,6 +297,8 @@ itk_add_test(
     6ef609d089e93e2eed8f089f75bc67fb
     itkConstrainedValueAdditionImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueAdditionImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueAdditionImageFilterTest.png
 )
 itk_add_test(
   NAME itkAtanImageFilterAndAdaptorTest
@@ -303,6 +324,8 @@ itk_add_test(
     ITKImageIntensityTestDriver
     itkAddImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
+    ${TEMP}/itkAddImageFilterTest2.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/itkAddImageFilterTest2.mha
 )
 itk_add_test(
@@ -338,6 +361,8 @@ itk_add_test(
     --redirectOutput
     ${TEMP}/itkNormalizeImageFilterTest.txt
     itkNormalizeImageFilterTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkNormalizeImageFilterTest.txt
 )
 set_tests_properties(
   itkNormalizeImageFilterTest
@@ -379,6 +404,8 @@ itk_add_test(
     7f199e1363c4b754eb03cf4d0ba8d343
     itkTernaryMagnitudeImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkTernaryMagnitudeImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTernaryMagnitudeImageFilterTest.png
 )
 itk_add_test(
   NAME itkMaximumImageFilterTest
@@ -400,6 +427,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/MatrixIndexSelectionImageFilterTest.png}
     ${ITK_TEST_OUTPUT_DIR}/MatrixIndexSelectionImageFilterTest.png
     itkMatrixIndexSelectionImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/MatrixIndexSelectionImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/MatrixIndexSelectionImageFilterTest.png
 )
 itk_add_test(
@@ -509,6 +538,8 @@ itk_add_test(
     817d6d96c1c07cb12bfc200134aa57ba
     itkOrImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkOrImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkOrImageFilterTest.png
 )
 itk_add_test(
   NAME itkRGBToLuminanceImageFilterAndAdaptorTest.cxx
@@ -524,6 +555,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkXorImageFilterTest.png
     3b5b9852567ef7618aac7f5f2d74ef74
     itkXorImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkXorImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkXorImageFilterTest.png
 )
 itk_add_test(
@@ -557,6 +590,8 @@ itk_add_test(
     itkPolylineMask2DImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkPolylineMask2DImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPolylineMask2DImageFilterTest.png
 )
 itk_add_test(
   NAME itkPolylineMaskImageFilterTest
@@ -566,6 +601,8 @@ itk_add_test(
     DATA{Baseline/PolylineMaskImageFilterTest.mha}
     ${ITK_TEST_OUTPUT_DIR}/PolylineMaskImageFilterTest.mha
     itkPolylineMaskImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/PolylineMaskImageFilterTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/PolylineMaskImageFilterTest.mha
 )
 itk_add_test(
@@ -578,6 +615,8 @@ itk_add_test(
     itkPromoteDimensionImageTest
     DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
     ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.{mhd,raw}
 )
 itk_add_test(
   NAME itkModulusImageFilterTest
@@ -588,6 +627,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png
     itkModulusImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/Spots.png}
+    ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png
 )
 itk_add_test(
@@ -625,6 +666,8 @@ itk_add_test(
     DATA{Input/itkBrainSliceComplexMagnitude.mha}
     DATA{Input/itkBrainSliceComplexPhase.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkMagnitudeAndPhaseToComplexImageFilterTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMagnitudeAndPhaseToComplexImageFilterTest.mha
 )
 itk_add_test(
   NAME itkDiscreteHessianGaussianImageFunctionTest
@@ -639,6 +682,8 @@ itk_add_test(
     2.0
     0.01
     32
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteHessianGaussianImageFunctionTest.mha
 )
 itk_add_test(
   NAME itkDiscreteGradientMagnitudeGaussianImageFunctionTest01
@@ -655,6 +700,8 @@ itk_add_test(
     32
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest01.png
 )
 itk_add_test(
   NAME itkDiscreteGradientMagnitudeGaussianImageFunctionTest02
@@ -671,6 +718,8 @@ itk_add_test(
     64
     1
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest02.png
 )
 itk_add_test(
   NAME itkDiscreteGradientMagnitudeGaussianImageFunctionTestUseImageSpacingOff
@@ -687,6 +736,8 @@ itk_add_test(
     64
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGradientMagnitudeGaussianImageFunctionTestUseImageSpacingOff.png
 )
 itk_add_test(
   NAME itkDiscreteGaussianDerivativeImageFunctionTest01
@@ -703,6 +754,8 @@ itk_add_test(
     0.01
     32
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFunctionTest01.png
 )
 itk_add_test(
   NAME itkDiscreteGaussianDerivativeImageFunctionTest02
@@ -719,6 +772,8 @@ itk_add_test(
     0.03
     16
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFunctionTest02.png
 )
 
 set(

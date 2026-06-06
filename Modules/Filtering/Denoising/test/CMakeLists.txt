@@ -18,6 +18,8 @@ itk_add_test(
     DATA{Input/noisy_checkerboard.mha}
     ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterDefaultTest.mha
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterDefaultTest.mha
 )
 itk_add_test(
   NAME itkPatchBasedDenoisingImageFilterTest0
@@ -41,6 +43,8 @@ itk_add_test(
     2
     2
     200
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterTest0.mha
 )
 itk_add_test(
   NAME itkPatchBasedDenoisingImageFilterTestGaussian
@@ -68,6 +72,8 @@ itk_add_test(
     1
     GAUSSIAN
     0.1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterTestGaussian.mha
 )
 itk_add_test(
   NAME itkPatchBasedDenoisingImageFilterTestRician
@@ -95,6 +101,8 @@ itk_add_test(
     1
     RICIAN
     0.1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterTestRician.mha
 )
 itk_add_test(
   NAME itkPatchBasedDenoisingImageFilterTestPoisson
@@ -122,6 +130,8 @@ itk_add_test(
     1
     POISSON
     0.1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterTestPoisson.mha
 )
 # Extra tolerance for Tensors. The alternative EigenValues-computation of this class is faster,
 # but numerically unstable. The extra tolerance covers the difference between 64 and 32 bits machines.
@@ -147,4 +157,6 @@ itk_add_test(
     100
     0
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterTestTensors.nrrd
 )
