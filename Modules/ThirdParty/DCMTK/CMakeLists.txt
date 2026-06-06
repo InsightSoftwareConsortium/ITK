@@ -7,8 +7,22 @@ set(ITKDCMTK_NO_SRC 1)
 
 include(CMakeParseArguments)
 
+# oficonv is the fixed data backend; ICU and external iconv are mutually exclusive add-ons.
+set(
+  CHARSET_CONVERSION_ARGS
+  -DDCMTK_ENABLE_BUILTIN_OFICONV_DATA:BOOL=${DCMTK_ENABLE_BUILTIN_OFICONV_DATA}
+)
 if(DCMTK_USE_ICU)
   option(ITK_USE_SYSTEM_ICU "Use an installed version of ICU" OFF)
+  # ICU backend for both system and in-tree ICU; external iconv stays off.
+  list(
+    APPEND
+    CHARSET_CONVERSION_ARGS
+    -DDCMTK_WITH_STDLIBC_ICONV:BOOL=OFF
+    -DDCMTK_WITH_ICU:BOOL=ON
+    -DDCMTK_WITH_ICONV:BOOL=OFF
+    -DDCMTK_ENABLE_CHARSET_CONVERSION:STRING=ICU
+  )
   if(NOT ITK_USE_SYSTEM_ICU)
     set(ITKDCMTK_PREREQS ${ITKDCMTK_BINARY_DIR}/DCMTK_Prereqs)
     set(ITKDCMTK_ICU_LIBRARIES)
@@ -81,13 +95,7 @@ if(DCMTK_USE_ICU)
     else()
       set(ICU_ROOT_DIR ${ITKDCMTK_PREREQS})
     endif()
-    set(
-      CHARSET_CONVERSION_ARGS
-      -DDCMTK_WITH_STDLIBC_ICONV:BOOL=OFF
-      -DDCMTK_WITH_ICU:BOOL=ON
-      -DDCMTK_ENABLE_CHARSET_CONVERSION:STRING=ICU
-      -DICU_ROOT:PATH=${ICU_ROOT_DIR}
-    )
+    list(APPEND CHARSET_CONVERSION_ARGS -DICU_ROOT:PATH=${ICU_ROOT_DIR})
     itk_download_attempt_check(icu)
     ExternalProject_Add(
       icu
@@ -109,7 +117,13 @@ if(DCMTK_USE_ICU)
     set(ICU_DEPENDENCY icu)
   endif()
 else()
-  set(CHARSET_CONVERSION_ARGS -DDCMTK_WITH_ICU:BOOL=OFF)
+  # Built-in oficonv only; disable ICU and external iconv for a deterministic backend.
+  list(
+    APPEND
+    CHARSET_CONVERSION_ARGS
+    -DDCMTK_WITH_ICU:BOOL=OFF
+    -DDCMTK_WITH_ICONV:BOOL=OFF
+  )
 endif()
 
 set(
@@ -480,7 +494,6 @@ endforeach()
       -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_INSTALL_PREFIX}
       -DCMAKE_INSTALL_LIBDIR:PATH=${CMAKE_INSTALL_LIBDIR}
       -DCMAKE_INSTALL_BINDIR:PATH=${CMAKE_INSTALL_BINDIR}
-      -DDCMTK_ENABLE_BUILTIN_OFICONV_DATA:BOOL=${DCMTK_ENABLE_BUILTIN_OFICONV_DATA}
       ${CHARSET_CONVERSION_ARGS}
     DEPENDS
       ${JPEG_DEPENDENCY}
