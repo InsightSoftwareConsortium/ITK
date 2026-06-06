@@ -96,7 +96,7 @@ itk_add_test(
   COMMAND
     ITKIONIFTITestDriver
     itkNiftiImageIOTest
-    ${ITK_TEST_OUTPUT_DIR}/itkNiftiIOLittleEndianCompressedTest.nii.gz
+    ${ITK_TEST_OUTPUT_DIR}/itkNiftiIOLittleEndianTest.nii.gz
     itkNiftiIOLittleEndian
     DATA{${ITK_DATA_ROOT}/Input/LittleEndian.hdr,LittleEndian.mhd,LittleEndian.img}
 )

@@ -920,7 +920,7 @@ itk_add_test(
   COMMAND
     ITKIOImageBaseTestDriver
     itkReadWriteImageWithDictionaryTest
-    ${ITK_TEST_OUTPUT_DIR}/test.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkReadWriteImageWithDictionaryTest1.mha
 )
 itk_add_test(
   NAME itkVectorImageReadWriteTest

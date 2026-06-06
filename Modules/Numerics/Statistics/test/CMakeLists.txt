@@ -929,7 +929,7 @@ itk_add_test(
     ITKStatisticsTestDriver
     itkImageToHistogramFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
-    ${ITK_TEST_OUTPUT_DIR}/itkImageToHistogramFilterTest2.txt
+    ${ITK_TEST_OUTPUT_DIR}/itkImageToHistogramFilterTest2_Auto.txt
     1
 )
 itk_add_test(

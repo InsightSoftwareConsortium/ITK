@@ -32,7 +32,7 @@ if(ITK_USE_GPU)
       50 # number of iterations
       DATA{Input/LenaFix.png}
       DATA{Input/LenaMov.png}
-      ${ITK_TEST_OUTPUT_DIR}/gpuDemonsRegistrationTest2D.mha
+      ${ITK_TEST_OUTPUT_DIR}/gpuDemonsRegistrationTest3D.mha
   )
 
   itk_add_test(

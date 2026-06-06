@@ -378,7 +378,7 @@ itk_add_test(
     ITKLabelMapTestDriver
     itkBinaryImageToLabelMapFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/BinaryImage1Row.bmp}
-    ${ITK_TEST_OUTPUT_DIR}/LabelImage1Row.bmp
+    ${ITK_TEST_OUTPUT_DIR}/LabelImage1Row_Test7.bmp
     255
     0
     1
