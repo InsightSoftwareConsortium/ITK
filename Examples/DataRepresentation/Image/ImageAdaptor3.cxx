@@ -18,13 +18,13 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of \doxygen{ImageAdaptor}
+// This example illustrates the use of \itkref{ImageAdaptor}
 // to obtain access to the components of a vector image.
 // Specifically, it shows how to manage pixel accessors containing
 // internal parameters. In this example we create an image of vectors by using
 // a gradient filter. Then, we use an image adaptor to extract one of the
 // components of the vector image. The vector type used by the gradient filter
-// is the \doxygen{CovariantVector} class.
+// is the \itkref{CovariantVector} class.
 //
 // We start by including the relevant headers.
 //
@@ -121,8 +121,8 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  In order to test the pixel accessor, we generate an image of vectors
-  //  using the \doxygen{GradientRecursiveGaussianImageFilter}. This filter
-  //  produces an output image of \doxygen{CovariantVector} pixel type.
+  //  using the \itkref{GradientRecursiveGaussianImageFilter}. This filter
+  //  produces an output image of \itkref{CovariantVector} pixel type.
   //  Covariant vectors are the natural representation for gradients since
   //  they are the equivalent of normals to iso-values manifolds.
   //

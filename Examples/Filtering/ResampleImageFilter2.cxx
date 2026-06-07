@@ -36,7 +36,7 @@
 //  29.0 )$ and finally $P=(45.0, 104.0)$
 //
 //  The space coordinates of $P$ are mapped using the transform $T$ supplied
-//  to the \doxygen{ResampleImageFilter} in order to map the point $P$ to the
+//  to the \itkref{ResampleImageFilter} in order to map the point $P$ to the
 //  input image space point $Q = T(P)$.
 //
 //  The whole process is illustrated in Figure

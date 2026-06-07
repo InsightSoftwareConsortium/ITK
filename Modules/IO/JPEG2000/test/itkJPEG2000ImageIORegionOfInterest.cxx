@@ -51,13 +51,13 @@ itkJPEG2000ImageIORegionOfInterest(int argc, char * argv[])
 
   //  The RegionOfInterestImageFilter type is instantiated using
   //  the input and output image types. A filter object is created with the
-  //  New() method and assigned to a \doxygen{SmartPointer}.
+  //  New() method and assigned to a \itkref{SmartPointer}.
   using FilterType = itk::RegionOfInterestImageFilter<InputImageType, OutputImageType>;
   auto filter = FilterType::New();
 
   //  The RegionOfInterestImageFilter requires a region to be
-  //  defined by the user. The region is specified by an \doxygen{Index}
-  //  indicating the pixel where the region starts and an \doxygen{Size}
+  //  defined by the user. The region is specified by an \itkref{Index}
+  //  indicating the pixel where the region starts and an \itkref{Size}
   //  indicating how many pixels the region has along each dimension. In this
   //  example, the specification of the region is taken from the command line
   //  arguments (this example assumes that a 2D image is being processed).

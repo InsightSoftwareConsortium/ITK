@@ -38,8 +38,8 @@ namespace itk
  * calculate a gradient image.
  *
  * The point data on the input PointSet should be
- * \doxygen{VariableLengthVector}'s, and an
- * \doxygen{CovariantVector} on will be placed on each output corresponding to
+ * \itkref{VariableLengthVector}'s, and an
+ * \itkref{CovariantVector} on will be placed on each output corresponding to
  * the components to of the point data vector.
  *
  * \sa BSplineScatteredDataPointSetToImageFilter

@@ -18,10 +18,10 @@
 
 //  Software Guide : BeginLatex
 //
-//  A \doxygen{Mesh} can contain a variety of cell types. Typical cells are
-//  the \doxygen{LineCell}, \doxygen{TriangleCell},
-//  \doxygen{QuadrilateralCell}, \doxygen{TetrahedronCell}, and
-//  \doxygen{PolygonCell}. Additional flexibility is provided for managing
+//  A \itkref{Mesh} can contain a variety of cell types. Typical cells are
+//  the \itkref{LineCell}, \itkref{TriangleCell},
+//  \itkref{QuadrilateralCell}, \itkref{TetrahedronCell}, and
+//  \itkref{PolygonCell}. Additional flexibility is provided for managing
 //  cells at the price of a bit more of complexity than in the case of point
 //  management.
 //
@@ -104,7 +104,7 @@ main(int, char *[])
   //  responsible for allocating and releasing the cells' memory. This
   //  protocol is implemented in the form of a specific type of pointer called
   //  the \code{CellAutoPointer}. This pointer, based on the
-  //  \doxygen{AutoPointer}, differs in many respects from the
+  //  \itkref{AutoPointer}, differs in many respects from the
   //  \code{SmartPointer}. The \code{CellAutoPointer} has an internal pointer
   //  to the actual object and a boolean flag that indicates whether the
   //  \code{CellAutoPointer} is responsible for releasing the cell memory when

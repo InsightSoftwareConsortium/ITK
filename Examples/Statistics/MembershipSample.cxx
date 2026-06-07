@@ -20,8 +20,8 @@
 //
 // \index{itk::Statistics::MembershipSample}
 //
-// The \subdoxygen{Statistics}{MembershipSample} is derived from the class
-// \subdoxygen{Statistics}{Sample} that associates a class label with each
+// The \itksubref{Statistics}{MembershipSample} is derived from the class
+// \itksubref{Statistics}{Sample} that associates a class label with each
 // measurement vector. It needs another Sample object for storing measurement
 // vectors. A \code{MembershipSample} object stores a subset of instance
 // identifiers from another Sample object.  \emph{Any} subclass of Sample can
@@ -32,9 +32,9 @@
 //
 // To use a MembershipSample object, we include the header files for the
 // class itself and the Sample class. We will use the
-// \subdoxygen{Statistics}{ListSample} as the input sample.  We need another
-// header for measurement vectors. We are going to use the \doxygen{Vector}
-// class which is a subclass of the \doxygen{FixedArray}.
+// \itksubref{Statistics}{ListSample} as the input sample.  We need another
+// header for measurement vectors. We are going to use the \itkref{Vector}
+// class which is a subclass of the \itkref{FixedArray}.
 //
 // Software Guide : EndLatex
 
@@ -167,7 +167,7 @@ main()
   // We call the \code{GetClassSample()} method to get the
   // class subsample in the \code{membershipSample}. The
   // \code{MembershipSampleType::ClassSampleType} is actually a
-  // specialization of the \subdoxygen{Statistics}{Subsample}. We print
+  // specialization of the \itksubref{Statistics}{Subsample}. We print
   // out the instance identifiers, measurement vectors, and frequency
   // values that are part of the class. The output will be two lines for
   // the two instances that belong to the class $0$.

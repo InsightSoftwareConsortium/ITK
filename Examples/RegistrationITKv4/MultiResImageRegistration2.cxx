@@ -29,7 +29,7 @@
 //
 //  This example illustrates the use of more complex components of the
 //  registration framework. In particular, it introduces the use of the
-//  \doxygen{AffineTransform} and the importance of fine-tuning the scale
+//  \itkref{AffineTransform} and the importance of fine-tuning the scale
 //  parameters of the optimizer.
 //
 // \index{itk::ImageRegistrationMethod!AffineTransform}
@@ -271,7 +271,7 @@ ExampleMain(int argc, const char * const argv[])
   //  Software Guide : BeginLatex
   //
   //  One of the easiest ways of preparing a consistent set of parameters for
-  //  the transform is to use the \doxygen{CenteredTransformInitializer}. Once
+  //  the transform is to use the \itkref{CenteredTransformInitializer}. Once
   //  the transform is initialized, we can invoke its \code{GetParameters()}
   //  method to extract the array of parameters. Finally the array is passed
   //  to the registration method using its

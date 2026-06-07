@@ -96,7 +96,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The points representing the curve are stored in a
-  //  \doxygen{VectorContainer} of \doxygen{Point}.
+  //  \itkref{VectorContainer} of \itkref{Point}.
   //
   //  Software Guide : EndLatex
 

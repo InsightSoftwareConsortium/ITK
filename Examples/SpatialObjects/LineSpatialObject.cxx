@@ -20,7 +20,7 @@
 //
 // \index{itk::LineSpatialObject}
 //
-// \doxygen{LineSpatialObject} defines a line in an n-dimensional space.  A
+// \itkref{LineSpatialObject} defines a line in an n-dimensional space.  A
 // line is defined as a list of points which compose the line, i.e a
 // polyline. We begin the example by including the appropriate header files.
 //
@@ -39,7 +39,7 @@ main(int, char *[])
   // A \code{LineSpatialObject} contains a list of
   // \code{LineSpatialObjectPoint}s. A \code{LineSpatialObjectPoint} has a
   // position, $n-1$ normals and a color. Each normal is expressed as a
-  // \doxygen{CovariantVector} of size N.
+  // \itkref{CovariantVector} of size N.
   //
   // First, we define some type definitions and we create our line.
   //

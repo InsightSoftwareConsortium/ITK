@@ -28,8 +28,8 @@
 //
 // Insight implements the \emph{Observer/Command} design pattern
 // \cite{Gamma1995}.
-// The classes involved in this implementation are the \doxygen{Object},
-// \doxygen{Command} and \doxygen{EventObject} classes. The Object
+// The classes involved in this implementation are the \itkref{Object},
+// \itkref{Command} and \itkref{EventObject} classes. The Object
 // is the base class of most ITK objects. This class maintains a linked
 // list of pointers to event observers. The role of observers is played by
 // the Command class.  Observers register themselves with an
@@ -38,9 +38,9 @@
 // represented by the hierarchy of the Event class. Typical events
 // are \code{Start}, \code{End}, \code{Progress} and \code{Iteration}.
 //
-// Registration is controlled by an \doxygen{Optimizer}, which generally
+// Registration is controlled by an \itkref{Optimizer}, which generally
 // executes an iterative process. Most Optimizer classes invoke an
-// \doxygen{IterationEvent} at the end of each iteration. When an event is
+// \itkref{IterationEvent} at the end of each iteration. When an event is
 // invoked by an object, this object goes through its list of registered
 // observers (Commands) and checks whether any one of them has expressed
 // interest in the current event type. Whenever such an observer is found,

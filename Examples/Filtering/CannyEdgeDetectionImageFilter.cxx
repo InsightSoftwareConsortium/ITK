@@ -19,7 +19,7 @@
 //  Software Guide : BeginLatex
 //
 //  This example introduces the use of the
-//  \doxygen{CannyEdgeDetectionImageFilter}. Canny edge detection is widely
+//  \itkref{CannyEdgeDetectionImageFilter}. Canny edge detection is widely
 //  used for edge detection since it is the optimal solution satisfying the
 //  constraints of good sensitivity, localization and noise robustness.  To
 //  achieve this end, Canny edge detection is implemented internally as a
@@ -113,7 +113,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The \code{CharImageType} image is cast to and from \code{RealImageType}
-  //  using \doxygen{CastImageFilter} and \code{RescaleIntensityImageFilter},
+  //  using \itkref{CastImageFilter} and \code{RescaleIntensityImageFilter},
   //  respectively; both the input and output of
   //  \code{CannyEdgeDetectionImageFilter} are \code{RealImageType}.
   //

@@ -41,8 +41,8 @@
 //
 //  Resampling an image is a very important task in image analysis. It is
 //  especially important in the frame of image registration. The
-//  \doxygen{ResampleImageFilter} implements image resampling through the use
-//  of \doxygen{Transform}s. The inputs expected by this filter are an image,
+//  \itkref{ResampleImageFilter} implements image resampling through the use
+//  of \itkref{Transform}s. The inputs expected by this filter are an image,
 //  a transform and an interpolator. The space coordinates of the image are
 //  mapped through the transform in order to generate a new image. The extent
 //  and spacing of the resulting image are selected by the user. Resampling

@@ -222,7 +222,7 @@ ExampleMain(int argc, const char * const argv[])
   //  Type definitions are the same as previous example with an important
   //  subtle change: the transform type is not passed to the registration
   //  method as a template parameter anymore. In this case, the registration
-  //  filter will consider the transform base class \doxygen{Transform} as the
+  //  filter will consider the transform base class \itkref{Transform} as the
   //  type of its output transform.
   //
   //  Software Guide : EndLatex
@@ -342,7 +342,7 @@ ExampleMain(int argc, const char * const argv[])
   //
   //  Again notice that \emph{TransformType} is not passed to the type
   //  definition of the registration filter. It is important because when the
-  //  registration filter considers transform base class \doxygen{Transform}
+  //  registration filter considers transform base class \itkref{Transform}
   //  as the type of its output transform, it prevents the type mismatch when
   //  the two stages are cascaded to each other.
   //
@@ -350,7 +350,7 @@ ExampleMain(int argc, const char * const argv[])
   //  and connected to the registration object among the transform type.
   //  Despite the previous example, here we use the fixed image's center of
   //  mass to initialize the fixed parameters of the Affine transform.
-  //  \doxygen{ImageMomentsCalculator} filter is used for this purpose.
+  //  \itkref{ImageMomentsCalculator} filter is used for this purpose.
   //
   //  Software Guide : EndLatex
 
@@ -412,7 +412,7 @@ ExampleMain(int argc, const char * const argv[])
   //  Software Guide : BeginLatex
   //
   //  Now, the output of the first stage is wrapped through a
-  //  \doxygen{DataObjectDecorator} and is passed to the input
+  //  \itkref{DataObjectDecorator} and is passed to the input
   //  of the second stage as the moving initial transform via
   //  \code{SetMovingInitialTransformInput()} method. Note that
   //  this API has an ``Input'' word attached to the name of another

@@ -19,7 +19,7 @@
 //  Software Guide : BeginLatex
 //
 //  Previous examples have described the basic principles behind the
-//  \doxygen{ResampleImageFilter}. Now it's time to have some fun with it.
+//  \itkref{ResampleImageFilter}. Now it's time to have some fun with it.
 //
 //  Figure \ref{fig:ResampleImageFilterTransformComposition6} illustrates the
 //  general case of the resampling process. The origin and spacing of the
@@ -31,7 +31,7 @@
 //
 //  The transform applied is a rotation of $30$ degrees. It is important to
 //  note here that the transform supplied to the
-//  \doxygen{ResampleImageFilter} is a \emph{clockwise} rotation. This
+//  \itkref{ResampleImageFilter} is a \emph{clockwise} rotation. This
 //  transform rotates the \emph{coordinate system} of the output image 30
 //  degrees clockwise.  When the two images are relocated in a common
 //  coordinate system---as in Figure
@@ -234,7 +234,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  In a second step, a rotation of $30$ degrees is performed. In the
-  //  \doxygen{AffineTransform}, angles are specified in
+  //  \itkref{AffineTransform}, angles are specified in
   //  \emph{radians}. Also, a second boolean argument is used to specify if
   //  the current modification of the transform should be pre-composed or
   //  post-composed with the current transform content. In this case the
@@ -312,7 +312,7 @@ main(int argc, char * argv[])
   //  are $P=( 1 \times 40.0 + 50.0, 2 \times 30.0 + 130.0 ) = (90.0,190.0)$
   //  millimeters.
   //
-  //  This point $P$ is now mapped through the \doxygen{AffineTransform} into
+  //  This point $P$ is now mapped through the \itkref{AffineTransform} into
   //  the input image space.  The operation subtracts the origin,
   //  applies a $30$ degrees rotation and adds the origin back. Let's follow
   //  those steps.  Subtracting the origin from $P$ leads to
@@ -332,7 +332,7 @@ main(int argc, char * argv[])
   //  input image values.
   //
   //  In this particular code the interpolator used is simply a\newline
-  //  \doxygen{NearestNeighborInterpolateImageFunction} which will assign the
+  //  \itkref{NearestNeighborInterpolateImageFunction} which will assign the
   //  value of the closest pixel. This ends up being the pixel of index
   //  $I=(3,3)$ and can be seen from Figure
   //  \ref{fig:ResampleImageFilterTransformComposition6}.

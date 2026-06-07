@@ -20,7 +20,7 @@
 //
 // \index{itk::GaussianSpatialObject}
 //
-// This example shows how to create a \doxygen{GaussianSpatialObject} which
+// This example shows how to create a \itkref{GaussianSpatialObject} which
 // defines a Gaussian in an n-dimensional space. This object is particularly
 // useful to query the value at a point in physical space. Let's begin by
 // including the appropriate header file.
@@ -36,7 +36,7 @@ main(int, char *[])
 {
   // Software Guide : BeginLatex
   //
-  // The \doxygen{GaussianSpatialObject} is templated
+  // The \itkref{GaussianSpatialObject} is templated
   // over the dimensionality of the object.
   //
   // Software Guide : EndLatex

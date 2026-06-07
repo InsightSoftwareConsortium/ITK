@@ -359,7 +359,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   // The following piece of code will print out the proper pixel type /
-  // component for instantiating an \doxygen{ImageFileReader} that can
+  // component for instantiating an \itkref{ImageFileReader} that can
   // properly import the printed DICOM file.
   //
   //  Software Guide : EndLatex

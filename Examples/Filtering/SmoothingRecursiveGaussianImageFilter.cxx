@@ -34,7 +34,7 @@
 //  $\sigma$ of the Gaussian is large.  This is due to the larger size of the
 //  kernel, which results in a higher number of computations per pixel.
 //
-//  The \doxygen{RecursiveGaussianImageFilter} implements an approximation of
+//  The \itkref{RecursiveGaussianImageFilter} implements an approximation of
 //  convolution with the Gaussian and its derivatives by using
 //  IIR\footnote{Infinite Impulse Response} filters. In practice this filter
 //  requires a constant number of operations for approximating the
@@ -129,7 +129,7 @@ main(int argc, char * argv[])
   //  filters to produce smoothing in all directions.  In this example, we
   //  create a pair of filters since we are processing a $2D$ image.  The
   //  filters are created by invoking the \code{New()} method and assigning
-  //  the result to a \doxygen{SmartPointer}.
+  //  the result to a \itkref{SmartPointer}.
   //
   //  \index{itk::RecursiveGaussianImageFilter!New()}
   //  \index{itk::RecursiveGaussianImageFilter!Pointer}
@@ -160,7 +160,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{RecursiveGaussianImageFilter} can approximate the
+  //  The \itkref{RecursiveGaussianImageFilter} can approximate the
   //  convolution with the Gaussian or with its first and second
   //  derivatives. We select one of these options by using the
   //  \code{SetOrder()} method. Note that the argument is an \code{enum} whose
@@ -200,7 +200,7 @@ main(int argc, char * argv[])
   //          \frac{ 1 }{ \sigma^2  \sqrt{ 2 \pi } }
   //  \end{equation}
   //
-  //  The \doxygen{RecursiveGaussianImageFilter} has a boolean flag that
+  //  The \itkref{RecursiveGaussianImageFilter} has a boolean flag that
   //  allows users to select between these two normalization options.
   //  Selection is done with the method \code{SetNormalizeAcrossScale()}.
   //  Enable this flag to analyzing an image across scale-space.  In the

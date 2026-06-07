@@ -24,7 +24,7 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates how to use the
-// \doxygen{OtsuMultipleThresholdsCalculator}.
+// \itkref{OtsuMultipleThresholdsCalculator}.
 //
 // Software Guide : EndLatex
 

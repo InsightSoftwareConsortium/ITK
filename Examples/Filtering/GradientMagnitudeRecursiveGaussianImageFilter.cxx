@@ -38,7 +38,7 @@
 //  selected that ignores high frequency content, commonly considered image
 //  noise.
 //
-//  The \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} computes the
+//  The \itkref{GradientMagnitudeRecursiveGaussianImageFilter} computes the
 //  magnitude of the image gradient at each pixel location.  The computational
 //  process is equivalent to first smoothing the image by convolving it with a
 //  Gaussian kernel and then applying a differential operator.  The user
@@ -140,7 +140,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  A filter object is created by invoking the \code{New()} method and
-  //  assigning the result to a \doxygen{SmartPointer}.
+  //  assigning the result to a \itkref{SmartPointer}.
   //
   //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!New()}
   //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!Pointer}

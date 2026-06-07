@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 //
-// This example illustrates the use of the \doxygen{BSplineTransform}
+// This example illustrates the use of the \itkref{BSplineTransform}
 // class in a manually controlled multi-resolution scheme. Here we define two
 // transforms at two different resolution levels. A first registration is
 // performed with the spline grid of low resolution, and the results are then

@@ -19,7 +19,7 @@
 //  Software Guide : BeginLatex
 //
 //  This section illustrates how to represent a classical \emph{PolyLine}
-//  structure using the \doxygen{Mesh}
+//  structure using the \itkref{Mesh}
 //
 //  \index{itk::Mesh!PolyLine}
 //
@@ -29,7 +29,7 @@
 //  Software Guide : BeginLatex
 //
 //  A PolyLine only involves zero and one dimensional cells, which are
-//  represented by the \doxygen{VertexCell} and the \doxygen{LineCell}.
+//  represented by the \itkref{VertexCell} and the \itkref{LineCell}.
 //
 //  \index{itk::LineCell!header}
 //  \index{itk::VertexCell!header}
@@ -83,7 +83,7 @@ main(int, char *[])
   //
   //  The mesh is created and the points associated with the vertices are
   //  inserted.  Note that there is an important distinction between the
-  //  points in the mesh and the \doxygen{VertexCell} concept. A VertexCell
+  //  points in the mesh and the \itkref{VertexCell} concept. A VertexCell
   //  is a cell of dimension zero. Its main difference as compared to a point
   //  is that the cell can be aware of neighborhood relationships with other
   //  cells. Points are not aware of the existence of cells. In fact, from
@@ -164,7 +164,7 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  Finally the zero dimensional cells represented by the
-  //  \doxygen{VertexCell} are created and inserted in the mesh.
+  //  \itkref{VertexCell} are created and inserted in the mesh.
   //
   //  Software Guide : EndLatex
 

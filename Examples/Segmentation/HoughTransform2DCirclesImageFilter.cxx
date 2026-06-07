@@ -19,7 +19,7 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the
-// \doxygen{HoughTransform2DCirclesImageFilter} to find circles in a
+// \itkref{HoughTransform2DCirclesImageFilter} to find circles in a
 // 2-dimensional image.
 //
 // First, we include the header files of the filter.
@@ -173,7 +173,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  We can also get the circles as \doxygen{EllipseSpatialObject}. The
+  //  We can also get the circles as \itkref{EllipseSpatialObject}. The
   //  \code{GetCircles()} function return a list of those.
   //
   //  Software Guide : EndLatex

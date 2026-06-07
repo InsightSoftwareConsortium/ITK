@@ -86,7 +86,7 @@
 //  Software Guide : BeginLatex
 //
 //  The first step required to use the
-//  \doxygen{MinMaxCurvatureFlowImageFilter} is to include its header file.
+//  \itkref{MinMaxCurvatureFlowImageFilter} is to include its header file.
 //
 //  \index{itk::MinMax\-Curvature\-Flow\-Image\-Filter!header}
 //
@@ -129,7 +129,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{MinMaxCurvatureFlowImageFilter} type is now instantiated
+  //  The \itkref{MinMaxCurvatureFlowImageFilter} type is now instantiated
   //  using both the input image and the output image types. The filter is
   //  then created using the \code{New()} method.
   //
@@ -169,7 +169,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{MinMaxCurvatureFlowImageFilter} requires the two normal
+  //  The \itkref{MinMaxCurvatureFlowImageFilter} requires the two normal
   //  parameters of the CurvatureFlow image, the number of iterations to be
   //  performed and the time step used in the computation of the level set
   //  evolution. In addition, the radius of the neighborhood is also
@@ -259,7 +259,7 @@ main(int argc, char * argv[])
   //
   //  \relatedClasses
   //  \begin{itemize}
-  //  \item \doxygen{CurvatureFlowImageFilter}
+  //  \item \itkref{CurvatureFlowImageFilter}
   //  \end{itemize}
   //
   //

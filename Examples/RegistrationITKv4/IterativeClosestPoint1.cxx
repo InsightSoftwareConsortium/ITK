@@ -20,7 +20,7 @@
 //
 // This example illustrates how to perform Iterative Closest Point (ICP)
 // registration in ITK. The main class featured in this section is the
-// \doxygen{EuclideanDistancePointMetric}.
+// \itkref{EuclideanDistancePointMetric}.
 //
 // Software Guide : EndLatex
 

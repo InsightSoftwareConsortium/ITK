@@ -41,13 +41,13 @@
 //  of the optimizer.
 //
 //  This particular example shows how to use the
-//  \doxygen{HistogramToEntropyImageFilter} class in order to get access to
+//  \itkref{HistogramToEntropyImageFilter} class in order to get access to
 //  the joint histogram that is internally computed by the metric. This class
 //  represents the joint histogram as a $2D$ image and therefore can take
 //  advantage of the IO functionalities described in chapter~\ref{sec:IO}. The
 //  example registers two images using the gradient descent optimizer.  The
 //  transform used here is a simple translation transform. The metric is a
-//  \doxygen{MutualInformationHistogramImageToImageMetric}.
+//  \itkref{MutualInformationHistogramImageToImageMetric}.
 //
 //  In the code below we create a helper class called the
 //  \code{HistogramWriter}.  Its purpose is to save the joint histogram into a
@@ -82,9 +82,9 @@
 //  may want to instantiate respectively any of the following classes
 //
 //  \begin{itemize}
-//  \item \doxygen{HistogramToIntensityImageFilter}
-//  \item \doxygen{HistogramToProbabilityImageFilter}
-//  \item \doxygen{HistogramToLogProbabilityImageFilter}
+//  \item \itkref{HistogramToIntensityImageFilter}
+//  \item \itkref{HistogramToProbabilityImageFilter}
+//  \item \itkref{HistogramToLogProbabilityImageFilter}
 //  \end{itemize}
 //
 //  \index{Histogram\-To\-Log\-Probability\-ImageFilter}
@@ -161,7 +161,7 @@ public:
 //
 // Here we will create a simple class to write the joint histograms. This
 // class, that we arbitrarily name as \code{HistogramWriter}, uses internally
-// the \doxygen{HistogramToEntropyImageFilter} class among others.
+// the \itkref{HistogramToEntropyImageFilter} class among others.
 //
 // Software Guide : EndLatex
 

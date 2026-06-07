@@ -26,8 +26,8 @@
 // \index{Iterators!speed}
 // The ``WithIndex'' family of iterators was designed for algorithms that
 // use both the value and the location of image pixels in calculations. Unlike
-// \doxygen{ImageRegionIterator}, which calculates an index only when
-// asked for, \doxygen{ImageRegionIteratorWithIndex} maintains its
+// \itkref{ImageRegionIterator}, which calculates an index only when
+// asked for, \itkref{ImageRegionIteratorWithIndex} maintains its
 // index location as a member variable that is updated during the increment or
 // decrement process. Iteration speed is penalized, but the index queries are
 // more efficient.
@@ -36,7 +36,7 @@
 //
 // The following example illustrates the use of
 // ImageRegionIteratorWithIndex.  The algorithm mirrors
-// a 2D image across its $x$-axis (see \doxygen{FlipImageFilter} for an ND
+// a 2D image across its $x$-axis (see \itkref{FlipImageFilter} for an ND
 // version).  The algorithm makes extensive use of the \code{GetIndex()}
 // method.
 //

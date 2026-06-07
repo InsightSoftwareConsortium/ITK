@@ -37,12 +37,12 @@
 //  This example illustrates the use of the confidence connected concept
 //  applied to images with vector pixel types. The confidence connected
 //  algorithm is implemented for vector images in the class
-//  \doxygen{VectorConfidenceConnected}. The basic difference between the
+//  \itkref{VectorConfidenceConnected}. The basic difference between the
 //  scalar and vector version is that the vector version uses the covariance
 //  matrix instead of a variance, and a vector mean instead of a scalar mean.
 //  The membership of a vector pixel value to the region is measured using the
 //  Mahalanobis distance as implemented in the class
-//  \subdoxygen{Statistics}{MahalanobisDistanceThresholdImageFunction}.
+//  \itksubref{Statistics}{MahalanobisDistanceThresholdImageFunction}.
 //
 //  Software Guide : EndLatex
 
@@ -97,7 +97,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  We now declare the type of the region-growing filter. In this case it
-  //  is the \doxygen{VectorConfidenceConnectedImageFilter}.
+  //  is the \itkref{VectorConfidenceConnectedImageFilter}.
   //
   //  Software Guide : EndLatex
 
@@ -200,7 +200,7 @@ main(int argc, char * argv[])
   //  anatomical structure to be segmented. A small neighborhood around the
   //  seed point will be used to compute the initial mean and standard
   //  deviation for the inclusion criterion. The seed is passed in the form
-  //  of an \doxygen{Index} to the \code{SetSeed()} method.
+  //  of an \itkref{Index} to the \code{SetSeed()} method.
   //
   //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetSeed()}
   //  \index{itk::Vector\-Confidence\-Connected\-Image\-Filter!SetInitialNeighborhoodRadius()}

@@ -21,7 +21,7 @@
 //  Software Guide : BeginLatex
 //
 //  The first thing required to read an image from a file is to include
-//  the header file of the \doxygen{ImageFileReader} class.
+//  the header file of the \itkref{ImageFileReader} class.
 //
 //  Software Guide : EndLatex
 
@@ -71,7 +71,7 @@ main(int, char * argv[])
   // Software Guide : BeginLatex
   //
   // The reader type can now be used to create one reader object.  A
-  // \doxygen{SmartPointer} (defined by the \code{::Pointer} notation) is used
+  // \itkref{SmartPointer} (defined by the \code{::Pointer} notation) is used
   // to receive the reference to the newly created reader.  The \code{New()}
   // method is invoked to create an instance of the image reader.
   //
@@ -90,7 +90,7 @@ main(int, char * argv[])
   // of the image to be loaded in memory. This is provided through
   // the \code{SetFileName()} method. The file format here is inferred
   // from the filename extension. The user may also explicitly specify
-  // the data format using the \doxygen{ImageIOBase} class (a list
+  // the data format using the \itkref{ImageIOBase} class (a list
   // of possibilities can be found in the inheritance diagram of this
   // class.).
   //

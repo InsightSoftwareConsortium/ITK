@@ -147,7 +147,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // ITK internally queries GDCM and obtains all the DICOM tags from the file
-  // headers. The tag values are stored in the \doxygen{MetaDataDictionary}
+  // headers. The tag values are stored in the \itkref{MetaDataDictionary}
   // which is a general-purpose container for \{key,value\} pairs. The
   // Metadata dictionary can be recovered from any ImageIO class by invoking
   // the \code{GetMetaDataDictionary()} method.
@@ -166,7 +166,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // In this example, we are only interested in the DICOM tags that can be
-  // represented as strings. Therefore, we declare a \doxygen{MetaDataObject}
+  // represented as strings. Therefore, we declare a \itkref{MetaDataObject}
   // of string type in order to receive those particular values.
   //
   // \index{MetaDataDictionary!MetaDataObject}

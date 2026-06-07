@@ -18,7 +18,7 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates how to manually construct an \doxygen{Image}
+// This example illustrates how to manually construct an \itkref{Image}
 // class. The following is the minimal code needed to instantiate, declare
 // and create the \code{Image} class.
 //
@@ -54,7 +54,7 @@ main(int, char *[])
   //
   // The image can then be created by invoking the \code{New()} operator
   // from the corresponding image type and assigning the result
-  // to a \doxygen{SmartPointer}.
+  // to a \itkref{SmartPointer}.
   //
   // \index{itk::Image!Pointer}
   // \index{itk::Image!New()}
@@ -83,8 +83,8 @@ main(int, char *[])
   // instantiated as previously shown, and that regions describing the image
   // are then associated with it.
   //
-  // A region is defined by two classes: the \doxygen{Index} and
-  // \doxygen{Size} classes. The origin of the region within the
+  // A region is defined by two classes: the \itkref{Index} and
+  // \itkref{Size} classes. The origin of the region within the
   // image is defined by the \code{Index}. The extent, or size, of the region
   // is defined by the \code{Size}. When an image is created manually, the
   // user is responsible for defining the image size and the index at which
@@ -112,7 +112,7 @@ main(int, char *[])
   // Software Guide : BeginLatex
   //
   // The region size is represented by an array of the same dimension as the
-  // image (using the \doxygen{Size} class). The components of the array are
+  // image (using the \itkref{Size} class). The components of the array are
   // unsigned integers indicating the extent in pixels of the image along
   // every dimension.
   //
@@ -132,7 +132,7 @@ main(int, char *[])
   // Software Guide : BeginLatex
   //
   // Having defined the starting index and the image size, these two
-  // parameters are used to create an \doxygen{ImageRegion} object
+  // parameters are used to create an \itkref{ImageRegion} object
   // which basically encapsulates both concepts.
   // The region is initialized with the starting index and size of the
   // image.

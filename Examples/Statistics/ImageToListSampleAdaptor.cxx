@@ -19,8 +19,8 @@
 // Software Guide : BeginLatex
 //
 // This example shows how to instantiate an
-// \subdoxygen{Statistics}{ImageToListSampleAdaptor} object and plug-in an
-// \doxygen{Image} object as the data source for the adaptor.
+// \itksubref{Statistics}{ImageToListSampleAdaptor} object and plug-in an
+// \itkref{Image} object as the data source for the adaptor.
 //
 // \index{itk::Statistics::Image\-To\-List\-Adaptor}
 // \index{itk::Statistics::Scalar\-Image\-To\-List\-Adaptor|}
@@ -30,7 +30,7 @@
 // the input type of Image as the template argument. To users of the
 // ImageToListSampleAdaptor, the pixels of the input image are treated as
 // measurement vectors. The ImageToListSampleAdaptor is one of two adaptor
-// classes among the subclasses of the \subdoxygen{Statistics}{Sample}. That
+// classes among the subclasses of the \itksubref{Statistics}{Sample}. That
 // means an ImageToListSampleAdaptor object does not store any real data. The
 // data comes from other ITK data container classes. In this case, an instance
 // of the Image class is the source of the data.
@@ -38,17 +38,17 @@
 // To use an ImageToListSampleAdaptor object, include the header file for the
 // class.  Since we are using an adaptor, we also should include the header
 // file for the Image class.  For illustration, we use the
-// \doxygen{RandomImageSource} that generates an image with random pixel
+// \itkref{RandomImageSource} that generates an image with random pixel
 // values. So, we need to include the header file for this class.  Another
-// convenient filter is the \doxygen{ComposeImageFilter} which
+// convenient filter is the \itkref{ComposeImageFilter} which
 // creates an image with pixels of array type from one or more input images
 // composed of pixels of scalar type.  Since an element of a
 // Sample object is a measurement \emph{vector}, you
 // cannot plug in an image of scalar pixels. However, if we
 // want to use an image of scalar pixels without the help from the
 // ComposeImageFilter, we can use the
-// \subdoxygen{Statistics}{ScalarImageToListSampleAdaptor} class that is
-// derived from the \subdoxygen{Statistics}{ImageToListSampleAdaptor}. The
+// \itksubref{Statistics}{ScalarImageToListSampleAdaptor} class that is
+// derived from the \itksubref{Statistics}{ImageToListSampleAdaptor}. The
 // usage of the ScalarImageToListSampleAdaptor is identical to that of the
 // ImageToListSampleAdaptor.
 //
@@ -99,9 +99,9 @@ main()
   //
   // We now have an instance of Image and need to cast it to an
   // Image object with an array pixel type (anything derived from the
-  // \doxygen{FixedArray} class such as \doxygen{Vector},
-  // \doxygen{Point}, \doxygen{RGBPixel}, or
-  // \doxygen{CovariantVector}).
+  // \itkref{FixedArray} class such as \itkref{Vector},
+  // \itkref{Point}, \itkref{RGBPixel}, or
+  // \itkref{CovariantVector}).
   //
   // Since the image pixel type is \code{float} in this example,
   // we will use a single element \code{float} FixedArray as
@@ -158,7 +158,7 @@ main()
   // location) and pixel values altogether, we want to have a
   // measurement vector that consists of a pixel's value and physical
   // position. In that case, we can use the
-  // \subdoxygen{Statistics}{JointDomainImageToListSampleAdaptor}
+  // \itksubref{Statistics}{JointDomainImageToListSampleAdaptor}
   // class. With this class, when we call the
   // \code{GetMeasurementVector()} method, the returned measurement
   // vector is composed of the physical coordinates and pixel

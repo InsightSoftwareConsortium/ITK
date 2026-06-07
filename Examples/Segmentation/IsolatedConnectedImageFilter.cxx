@@ -25,8 +25,8 @@
 // Software Guide : BeginLatex
 //
 // The following example illustrates the use of the
-// \doxygen{IsolatedConnectedImageFilter}.  This filter is a close variant of
-// the \doxygen{ConnectedThresholdImageFilter}.  In this filter two seeds and
+// \itkref{IsolatedConnectedImageFilter}.  This filter is a close variant of
+// the \itkref{ConnectedThresholdImageFilter}.  In this filter two seeds and
 // a lower threshold are provided by the user. The filter will grow a region
 // connected to the first seed and \textbf{not connected} to the second one.
 // In order to do this, the filter finds an intensity value that could be used
@@ -175,7 +175,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  As in the \doxygen{ConnectedThresholdImageFilter} we must now specify
+  //  As in the \itkref{ConnectedThresholdImageFilter} we must now specify
   //  the intensity value to be set on the output pixels and at least one
   //  seed point to define the initial region.
   //
@@ -238,7 +238,7 @@ main(int argc, char * argv[])
   //  that of the input image.  As a reminder of this fact, Figure
   //  \ref{fig:IsolatedConnectedImageFilterOutput} presents, from left to
   //  right, the input image and the result of smoothing with the
-  //  \doxygen{CurvatureFlowImageFilter} followed by segmentation results.
+  //  \itkref{CurvatureFlowImageFilter} followed by segmentation results.
   //
   //  This filter is intended to be used in cases where adjacent anatomical
   //  structures are difficult to separate. Selecting one seed in one

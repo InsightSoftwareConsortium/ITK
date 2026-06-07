@@ -115,7 +115,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Now the \doxygen{VnlForwardFFTImageFilter} can be instantiated.
+  // Now the \itkref{VnlForwardFFTImageFilter} can be instantiated.
   // Like most ITK filters, the FFT filter is instantiated using the full
   // image type. By not setting the output image type, we decide to use the
   // default one provided by the filter. Using this type we construct one

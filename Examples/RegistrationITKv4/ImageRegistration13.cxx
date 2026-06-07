@@ -164,10 +164,10 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The \doxygen{Euler2DTransform} is initialized with 3 parameters,
+  // The \itkref{Euler2DTransform} is initialized with 3 parameters,
   // indicating the angle of rotation and the
   // translation to be applied after rotation. The initialization is done
-  // by the \doxygen{CenteredTransformInitializer}.
+  // by the \itkref{CenteredTransformInitializer}.
   // The transform initializer can operate in two modes, the first of
   // which assumes that the
   // anatomical objects to be registered are centered in their respective

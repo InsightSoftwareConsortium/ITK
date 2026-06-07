@@ -18,10 +18,10 @@
 
 // Software Guide : BeginLatex
 //
-//  This example illustrates the use of the \doxygen{SpatialObject} as a
+//  This example illustrates the use of the \itkref{SpatialObject} as a
 //  component of the registration framework in order to perform model based
 //  registration. In this case, a SpatialObject is used for generating a
-//  \doxygen{PointSet} whose points are located in a narrow band around the
+//  \itkref{PointSet} whose points are located in a narrow band around the
 //  edges of the SpatialObject. This PointSet is then used in order to perform
 //  PointSet to Image registration.
 //
@@ -30,7 +30,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  In this example we use the \doxygen{BoxSpatialObject}, that is one of the
+//  In this example we use the \itkref{BoxSpatialObject}, that is one of the
 //  simplest SpatialObjects in ITK.
 //
 //  \index{itk::BoxSpatialObject!header}
@@ -51,8 +51,8 @@
 //  close to the boundary of the mask are taken as elements of the final
 //  PointSet. The pixel values associated to the point in the PointSet are the
 //  values of distance from each point to the binary mask.  The first stage is
-//  performed by the \doxygen{SpatialObjectToImageFilter}, while the second
-//  stage is performed with the \doxygen{BinaryMaskToNarrowBandPointSetFilter}
+//  performed by the \itkref{SpatialObjectToImageFilter}, while the second
+//  stage is performed with the \itkref{BinaryMaskToNarrowBandPointSetFilter}
 //
 //  \index{itk::Spatial\-Object\-To\-Image\-Filter!header}
 //  \index{itk::Binary\-Mask\-To\-Narrow\-Band\-Point\-Set\-Filter!header}

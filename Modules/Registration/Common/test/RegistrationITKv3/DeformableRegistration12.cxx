@@ -18,7 +18,7 @@
 
 //
 // This example illustrates the use of the
-// \doxygen{BSplineTransform} class for performing
+// \itkref{BSplineTransform} class for performing
 // registration of two $2D$ images. The example code is for the most
 // part identical to the code presented in
 // Section~\ref{sec:DeformableRegistration8}.  The major difference is

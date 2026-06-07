@@ -18,7 +18,7 @@
 
 // Software Guide : BeginLatex
 //
-// \doxygen{ImageRandomConstIteratorWithIndex} was developed to randomly
+// \itkref{ImageRandomConstIteratorWithIndex} was developed to randomly
 // sample pixel values.  When incremented or decremented, it jumps to a random
 // location in its image region.
 //

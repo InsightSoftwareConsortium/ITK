@@ -23,7 +23,7 @@
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{BinaryMinMaxCurvatureFlowImageFilter} applies a variant of
+//  The \itkref{BinaryMinMaxCurvatureFlowImageFilter} applies a variant of
 //  the CurvatureFlow algorithm. Which means that the speed of propagation is
 //  proportional to the curvature $\kappa$ of iso-contours. This filter adds
 //  however, the restriction that negative curvatures are only accepted in
@@ -158,7 +158,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{BinaryMinMaxCurvatureFlowImageFilter} requires the same
+  //  The \itkref{BinaryMinMaxCurvatureFlowImageFilter} requires the same
   //  parameters of the MinMaxCurvatureFlowImageFilter plus the value of the
   //  threshold against which the neighborhood average will be compared. The
   //  threshold is passed using the \code{SetThreshold()} method. Then the

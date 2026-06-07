@@ -27,7 +27,7 @@
 //
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{BinaryMedianImageFilter} is commonly used as a robust
+//  The \itkref{BinaryMedianImageFilter} is commonly used as a robust
 //  approach for noise reduction. BinaryMedianImageFilter computes the value
 //  of each output pixel as the statistical median of the neighborhood of
 //  values around the corresponding input pixel. When the input images are
@@ -35,7 +35,7 @@
 //  of pixels ON/OFF around the current pixel.
 //
 //  This filter will work on images of any dimension thanks to the internal
-//  use of \doxygen{NeighborhoodIterator} and \doxygen{NeighborhoodOperator}.
+//  use of \itkref{NeighborhoodIterator} and \itkref{NeighborhoodOperator}.
 //  The size of the neighborhood over which the median is computed can be set
 //  by the user.
 //

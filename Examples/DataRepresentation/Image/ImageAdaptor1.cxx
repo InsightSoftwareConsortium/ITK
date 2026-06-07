@@ -18,7 +18,7 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates how the \doxygen{ImageAdaptor} can be used to cast
+// This example illustrates how the \itkref{ImageAdaptor} can be used to cast
 // an image from one pixel type to another. In particular, we will
 // \emph{adapt} an \code{unsigned char} image to make it appear as an image of
 // pixel type \code{float}.
@@ -179,7 +179,7 @@ main(int argc, char * argv[])
   // type
   //  \code{float}. Additionally, it should be noted that the adaptor is used
   // as if it was an actual image and not as a filter. ImageAdaptors conform
-  // to the same API as the  \doxygen{Image} class.
+  // to the same API as the  \itkref{Image} class.
   //
   //  Software Guide : EndLatex
 

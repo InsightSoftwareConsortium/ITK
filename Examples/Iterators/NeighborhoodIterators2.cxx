@@ -30,18 +30,18 @@
 // product of all image neighborhoods with a convolution kernel
 // \cite{Gonzalez1993} \cite{Castleman1996}.  In ITK, we use a class of
 // objects called \emph{neighborhood operators} as convolution kernels and a
-// special function object called \doxygen{NeighborhoodInnerProduct} to
+// special function object called \itkref{NeighborhoodInnerProduct} to
 // calculate inner products.
 //
 // The basic ITK convolution filtering routine is to step through the image
 // with a neighborhood iterator and use NeighborhoodInnerProduct to
 // find the inner product of each neighborhood with the desired kernel. The
 // resulting values are written to an output image.  This example uses a
-// neighborhood operator called the \doxygen{SobelOperator}, but all
+// neighborhood operator called the \itkref{SobelOperator}, but all
 // neighborhood operators can be convolved with images using this basic
 // routine.  Other examples of neighborhood operators include derivative
 // kernels, Gaussian kernels, and morphological
-// operators. \doxygen{NeighborhoodOperatorImageFilter} is a generalization of
+// operators. \itkref{NeighborhoodOperatorImageFilter} is a generalization of
 // the code in this section to ND images and arbitrary convolution kernels.
 //
 // We start writing this example by including the header files for the Sobel

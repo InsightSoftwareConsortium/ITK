@@ -18,10 +18,10 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{BSplineTransform}
+// This example illustrates the use of the \itkref{BSplineTransform}
 // class for performing registration of two $2D$ images in an ITKv4
 // registration framework. Due to the large number of parameters of
-// the BSpline transform, we will use a \doxygen{LBFGSOptimizerv4}
+// the BSpline transform, we will use a \itkref{LBFGSOptimizerv4}
 // instead of a simple steepest descent or a conjugate gradient
 // descent optimizer.
 //
@@ -165,7 +165,7 @@ main(int argc, char * argv[])
   //  before the registration. These parameters define origin,
   //  dimension, direction and mesh size of the transform grid
   //  and are set based on specifications of the fixed image space
-  //  lattice. We can use \doxygen{BSplineTransformInitializer} to
+  //  lattice. We can use \itkref{BSplineTransformInitializer} to
   //  initialize fixed parameters of a BSpline transform.
   //
   //  Software Guide : EndLatex
@@ -227,7 +227,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{RegistrationParameterScalesFromPhysicalShift} class
+  //  The \itkref{RegistrationParameterScalesFromPhysicalShift} class
   //  is used to estimate the parameters scales before we set the optimizer.
   //
   //  Software Guide : EndLatex
@@ -243,7 +243,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Now the scale estimator is passed to the \doxygen{LBFGSOptimizerv4},
+  //  Now the scale estimator is passed to the \itkref{LBFGSOptimizerv4},
   //  and we set other parameters of the optimizer as well.
   //
   //  Software Guide : EndLatex

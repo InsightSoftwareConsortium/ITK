@@ -18,12 +18,12 @@
 
 // Software Guide : BeginLatex
 //
-// We will describe how to use \doxygen{PointSet} as a
-// \subdoxygen{Statistics}{Sample} using an adaptor in this example.
+// We will describe how to use \itkref{PointSet} as a
+// \itksubref{Statistics}{Sample} using an adaptor in this example.
 //
 // \index{itk::Statistics::PointSetToListSampleAdaptor}
 //
-// The \subdoxygen{Statistics}{PointSetToListSampleAdaptor} class requires a
+// The \itksubref{Statistics}{PointSetToListSampleAdaptor} class requires a
 // PointSet as input. The PointSet class is an associative data
 // container. Each point in a PointSet object can have an associated
 // optional data value. For the statistics subsystem, the current
@@ -80,7 +80,7 @@ main()
   // dimension, we have to modify the \code{TMeshTraits} (one of the optional
   // template arguments for the \code{PointSet} class). The easiest way of
   // creating a custom mesh traits instance is to specialize the existing
-  // \doxygen{DefaultStaticMeshTraits}. By specifying the \code{TCoordinate}
+  // \itkref{DefaultStaticMeshTraits}. By specifying the \code{TCoordinate}
   // template argument, we can change the coordinate value type of a point.
   // By specifying the \code{VPointDimension} template argument, we can
   // change the dimension of the point. As mentioned earlier, a

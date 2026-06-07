@@ -19,7 +19,7 @@
 // Software Guide : BeginLatex
 //
 // The following example illustrates how to preprocess and segment images
-// using the \doxygen{WatershedImageFilter} for the particular case of
+// using the \itkref{WatershedImageFilter} for the particular case of
 // grayscale scalar image.
 //
 // Software Guide : EndLatex

@@ -24,12 +24,12 @@
 //    ARGUMENTS:    1.0   1.0   0.0
 
 //
-// This example illustrates the use of the \doxygen{CenteredSimilarity2DTransform}
+// This example illustrates the use of the \itkref{CenteredSimilarity2DTransform}
 // class for performing registration in $2D$. The example code is for
 // the most part identical to the code presented in Section
 // \ref{sec:InitializingRegistrationWithMoments}.  The main difference is the
-// use of \doxygen{CenteredSimilarity2DTransform} here rather than the
-// \doxygen{CenteredRigid2DTransform} class.
+// use of \itkref{CenteredSimilarity2DTransform} here rather than the
+// \itkref{CenteredRigid2DTransform} class.
 //
 // A similarity transform can be seen as a composition of rotations,
 // translations and uniform scaling. It preserves angles and map lines into
@@ -198,7 +198,7 @@ main(int argc, char * argv[])
 
   //
   //  In this example, we again use the helper class
-  //  \doxygen{CenteredTransformInitializer} to compute a reasonable
+  //  \itkref{CenteredTransformInitializer} to compute a reasonable
   //  value for the initial center of rotation and the translation.
   //
 
@@ -281,7 +281,7 @@ main(int argc, char * argv[])
   //
   //  We also set the ordinary parameters of the optimization method. In this
   //  case we are using a
-  //  \doxygen{RegularStepGradientDescentOptimizer}. Below we define the
+  //  \itkref{RegularStepGradientDescentOptimizer}. Below we define the
   //  optimization parameters, i.e. initial learning rate (step length), minimal
   //  step length and number of iterations. The last two act as stopping criteria
   //  for the optimization.

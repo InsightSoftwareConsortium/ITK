@@ -22,11 +22,11 @@
 //  back as another DICOM slice. In the process an intensity rescaling is also
 //  applied.
 //
-//  In order to read and write the slice we use the \doxygen{GDCMImageIO}
+//  In order to read and write the slice we use the \itkref{GDCMImageIO}
 //  class which encapsulates a connection to the underlying GDCM library. In
 //  this way we gain access from ITK to the DICOM functionalities offered by
 //  GDCM. The GDCMImageIO object is connected as the ImageIO object to be used
-//  by the \doxygen{ImageFileWriter}.
+//  by the \itkref{ImageFileWriter}.
 //
 //  We should first include the following header files.
 //
@@ -250,7 +250,7 @@ main(int argc, char * argv[])
   //
   // We proceed now to save the same rescaled image into a file in DICOM
   // format. For this purpose we just need to set up a
-  // \doxygen{ImageFileWriter} and pass to it the rescaled image as input.
+  // \itkref{ImageFileWriter} and pass to it the rescaled image as input.
   //
   // Software Guide : EndLatex
 

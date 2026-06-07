@@ -20,10 +20,10 @@
 //
 //  It is common to represent geometric objects by using points on their
 //  surfaces and normals associated with those points.  This structure can be
-//  easily instantiated with the \doxygen{PointSet} class.
+//  easily instantiated with the \itkref{PointSet} class.
 //
 //  The natural class for representing normals to surfaces and
-//  gradients of functions is the \doxygen{CovariantVector}. A
+//  gradients of functions is the \itkref{CovariantVector}. A
 //  covariant vector differs from a vector in the way it behaves
 //  under affine transforms, in particular under anisotropic
 //  scaling. If a covariant vector represents the gradient of a
@@ -164,7 +164,7 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  The CovariantVector class does not overload the \code{+}
-  //  operator with the \doxygen{Point}. In other words, CovariantVectors can
+  //  operator with the \itkref{Point}. In other words, CovariantVectors can
   //  not be added to points in order to get new points. Further, since we
   //  are ignoring physics in the example, we are also forced to do the
   //  illegal addition manually between the components of the gradient and

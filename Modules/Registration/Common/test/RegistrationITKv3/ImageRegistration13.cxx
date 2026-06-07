@@ -169,10 +169,10 @@ main(int argc, char * argv[])
 
   registration->SetFixedImageRegion(fixedImageReader->GetOutput()->GetBufferedRegion());
 
-  // The \doxygen{CenteredRigid2DTransform} is initialized by 5 parameters,
+  // The \itkref{CenteredRigid2DTransform} is initialized by 5 parameters,
   // indicating the angle of rotation, the center coordinates and the
   // translation to be applied after rotation. The initialization is done
-  // by the \doxygen{CenteredTransformInitializer}.
+  // by the \itkref{CenteredTransformInitializer}.
   // The transform can operate in two modes, one assumes that the
   // anatomical objects to be registered are centered in their respective
   // images. Hence the best initial guess for the registration is the one

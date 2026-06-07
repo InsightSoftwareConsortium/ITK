@@ -24,7 +24,7 @@
 //
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{ZeroCrossingBasedEdgeDetectionImageFilter} performs
+//  The \itkref{ZeroCrossingBasedEdgeDetectionImageFilter} performs
 //  edge detection by combining a sequence of Gaussian smoothing,
 //  Laplacian filter, and Zero crossing detections on the Laplacian.
 //
@@ -122,7 +122,7 @@ main(int argc, char * argv[])
   //  filter in order to create a pipeline. In this particular case the
   //  input is taken from a reader and the output is sent to a writer.
   //  Given that the zero crossing filter is producing a float image as
-  //  output, we use a \doxygen{RescaleIntensityImageFilter} to convert
+  //  output, we use a \itkref{RescaleIntensityImageFilter} to convert
   //  this image to an eight bits image before sending it to the writer.
   //
   //  Software Guide : EndLatex

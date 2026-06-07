@@ -24,7 +24,7 @@
 // convenient to encapsulate many of these operations in a single helper
 // class.
 //
-// The \subdoxygen{Statistics}{ScalarImageToHistogramGenerator} is the result
+// The \itksubref{Statistics}{ScalarImageToHistogramGenerator} is the result
 // of such encapsulation.  This example illustrates how to compute the
 // histogram of a scalar image using this helper class.
 //

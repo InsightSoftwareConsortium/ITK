@@ -26,12 +26,12 @@
 // For example, you could use:
 //
 // \begin{itemize}
-// \item \doxygen{MutualInformationImageToImageMetric}
-// \item \doxygen{MattesMutualInformationImageToImageMetric}
-// \item \doxygen{MutualInformationHistogramImageToImageMetric}
-// \item \doxygen{MutualInformationImageToImageMetric}
-// \item \doxygen{NormalizedMutualInformationHistogramImageToImageMetric}
-// \item \doxygen{KullbackLeiblerCompareHistogramImageToImageMetric}
+// \item \itkref{MutualInformationImageToImageMetric}
+// \item \itkref{MattesMutualInformationImageToImageMetric}
+// \item \itkref{MutualInformationHistogramImageToImageMetric}
+// \item \itkref{MutualInformationImageToImageMetric}
+// \item \itkref{NormalizedMutualInformationHistogramImageToImageMetric}
+// \item \itkref{KullbackLeiblerCompareHistogramImageToImageMetric}
 // \end{itemize}
 //
 // Mutual Information as computed in this example, and as commonly used in the
@@ -128,7 +128,7 @@ ExampleMain(int argc, const char * const argv[])
 
   // Software Guide : BeginLatex
   //
-  // Using the \doxygen{JoinImageFilter} we use the two input images and put
+  // Using the \itkref{JoinImageFilter} we use the two input images and put
   // them together in an image of two components.
   //
   // Software Guide : EndLatex
@@ -164,7 +164,7 @@ ExampleMain(int argc, const char * const argv[])
   // We now prepare the types to be used for the computation of the joint
   // histogram. For this purpose, we take the type of the image resulting from
   // the JoinImageFilter and use it as template argument of the
-  // \doxygen{ImageToHistogramFilter}. We then construct one by invoking the
+  // \itkref{ImageToHistogramFilter}. We then construct one by invoking the
   // \code{New()} method.
   //
   // Software Guide : EndLatex

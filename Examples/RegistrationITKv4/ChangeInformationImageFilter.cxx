@@ -18,7 +18,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{ChangeInformationImageFilter} is commonly used to modify
+//  The \itkref{ChangeInformationImageFilter} is commonly used to modify
 //  image metadata such as origin, spacing, and orientation. This filter
 //  leaves intact the pixel data of the image. This filter should be used
 //  with extreme caution, since it can easily change information that is

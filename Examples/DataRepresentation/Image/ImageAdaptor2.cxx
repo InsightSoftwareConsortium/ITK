@@ -18,7 +18,7 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates how to use the \doxygen{ImageAdaptor}
+// This example illustrates how to use the \itkref{ImageAdaptor}
 // to access the individual components of an RGB image. In this case, we
 // create an ImageAdaptor that will accept a RGB image as input and
 // presents it as a scalar image. The pixel data
@@ -67,7 +67,7 @@ public:
 //  Software Guide : BeginLatex
 //
 //  The \code{Get()} method simply calls the \code{GetRed()} method
-//  defined in the \doxygen{RGBPixel} class.
+//  defined in the \itkref{RGBPixel} class.
 //
 //  Software Guide : EndLatex
 
@@ -137,8 +137,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  We create an \doxygen{RescaleIntensityImageFilter} and an
-  //  \doxygen{ImageFileWriter} to rescale the dynamic range of the pixel
+  //  We create an \itkref{RescaleIntensityImageFilter} and an
+  //  \itkref{ImageFileWriter} to rescale the dynamic range of the pixel
   //  values and send the extracted channel to an image file. Note that the
   //  image type used for the rescaling filter is the \code{ImageAdaptorType}
   //  itself. That is, the adaptor type is used in the same context as an

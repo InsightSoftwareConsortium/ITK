@@ -55,7 +55,7 @@
 
 // Software Guide : BeginLatex
 //
-// The use of the \doxygen{ShapeDetectionLevelSetImageFilter} is illustrated
+// The use of the \itkref{ShapeDetectionLevelSetImageFilter} is illustrated
 // in the following example.  The implementation of this filter in ITK is
 // based on the paper by Malladi et al \cite{Malladi1995}.  In this
 // implementation, the governing differential equation has an additional
@@ -69,7 +69,7 @@
 //
 // The ShapeDetectionLevelSetImageFilter expects two inputs,
 // the first being an initial Level Set in the form of an
-// \doxygen{Image}, and the second being a feature image. For this algorithm,
+// \itkref{Image}, and the second being a feature image. For this algorithm,
 // the feature image is an edge potential image that basically
 // follows the same rules applicable to the speed image used for the
 // FastMarchingImageFilter discussed in
@@ -92,10 +92,10 @@
 // components involved in the application of the
 // ShapeDetectionLevelSetImageFilter to a segmentation task. The first stage
 // involves smoothing using the
-// \doxygen{CurvatureAnisotropicDiffusionImageFilter}. The smoothed image is
+// \itkref{CurvatureAnisotropicDiffusionImageFilter}. The smoothed image is
 // passed as the input for the
-// \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} and then to the
-// \doxygen{SigmoidImageFilter} in order to produce the edge potential image.
+// \itkref{GradientMagnitudeRecursiveGaussianImageFilter} and then to the
+// \itkref{SigmoidImageFilter} in order to produce the edge potential image.
 // A set of user-provided seeds is passed to an FastMarchingImageFilter in
 // order to compute the distance map. A constant value is subtracted from
 // this map in order to obtain a level set in which the \emph{zero set}
@@ -154,8 +154,8 @@
 // Software Guide : EndCodeSnippet
 
 
-//  Reading and writing images will be done with the \doxygen{ImageFileReader}
-//  and \doxygen{ImageFileWriter}.
+//  Reading and writing images will be done with the \itkref{ImageFileReader}
+//  and \itkref{ImageFileWriter}.
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -270,7 +270,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The filter is instantiated by invoking the \code{New()} method and
-  //  assigning the result to a \doxygen{SmartPointer}.
+  //  assigning the result to a \itkref{SmartPointer}.
   //
   //  Software Guide : EndLatex
 
@@ -452,7 +452,7 @@ main(int argc, char * argv[])
   //  pass not only one seed point but a set of them. Note the
   //  FastMarchingImageFilter is used here only as a helper in the
   //  determination of an initial level set. We could have used the
-  //  \doxygen{DanielssonDistanceMapImageFilter} in the same way.
+  //  \itkref{DanielssonDistanceMapImageFilter} in the same way.
   //
   //  \index{itk::FastMarchingImageFilter!Multiple seeds}
   //
@@ -482,7 +482,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Nodes are created as stack variables and initialized with a value and
-  //  an \doxygen{Index} position. Note that we assign the negative of the
+  //  an \itkref{Index} position. Note that we assign the negative of the
   //  value of the user-provided distance to the unique node of the seeds
   //  passed to the FastMarchingImageFilter. In this way, the value
   //  will increment as the front is propagated, until it reaches the zero

@@ -24,7 +24,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{GradientVectorFlowImageFilter} smooths multi-components
+//  The \itkref{GradientVectorFlowImageFilter} smooths multi-components
 //  images such as vector fields and color images by applying a computation of
 //  the diffusion equation.  A typical use of this filter is to smooth the
 //  vector field resulting from computing the gradient of an image, with the
@@ -119,7 +119,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  A filter object is created by invoking the \code{New()} method and
-  //  assigning the result to a \doxygen{SmartPointer}.
+  //  assigning the result to a \itkref{SmartPointer}.
   //
   //  \index{itk::GradientVectorFlowImageFilter!New()}
   //  \index{itk::GradientVectorFlowImageFilter!Pointer}

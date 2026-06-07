@@ -20,7 +20,7 @@
 //
 // The statistics framework in ITK has been designed for managing
 // multi-variate statistics in a natural way. The
-// \subdoxygen{Statistics}{Histogram} class reflects this concept clearly
+// \itksubref{Statistics}{Histogram} class reflects this concept clearly
 // since it is a N-variable joint histogram. This nature of the Histogram
 // class is exploited in the following example in order to build the joint
 // histogram of a color image encoded in RGB values.
@@ -30,8 +30,8 @@
 // the statistical framework.
 //
 // The most relevant class in this example is the
-// \subdoxygen{Statistics}{ImageToHistogramFilter}. This class will take
-// care of adapting the \doxygen{Image} to a list of samples and then to a
+// \itksubref{Statistics}{ImageToHistogramFilter}. This class will take
+// care of adapting the \itkref{Image} to a list of samples and then to a
 // histogram filter. The user is only bound to provide the desired
 // resolution on the histogram bins for each one of the image components.
 //

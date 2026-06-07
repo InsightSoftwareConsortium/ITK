@@ -20,7 +20,7 @@
 //
 // \index{itk::VesselTubeSpatialObject}
 //
-// \doxygen{VesselTubeSpatialObject} derives from \doxygen{TubeSpatialObject}.
+// \itkref{VesselTubeSpatialObject} derives from \itkref{TubeSpatialObject}.
 // It represents a blood vessel segmented from an image.
 // A VesselTubeSpatialObject is described as a list of centerline points which
 // have a position, a radius, and normals.

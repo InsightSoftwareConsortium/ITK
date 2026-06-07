@@ -40,7 +40,7 @@
 
 //
 //  The most important header in this example is the one corresponding to the
-//  \doxygen{ImageMaskSpatialObject} class.
+//  \itkref{ImageMaskSpatialObject} class.
 //
 //  \index{itk::ImageMaskSpatialObject!header}
 //
@@ -178,7 +178,7 @@ main(int argc, char * argv[])
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
   //
-  //  Here we instantiate the type of the \doxygen{ImageMaskSpatialObject}
+  //  Here we instantiate the type of the \itkref{ImageMaskSpatialObject}
   //  using the same dimension of the images to be registered.
   //
   //  \index{itk::ImageMaskSpatialObject!Instantiation}

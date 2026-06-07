@@ -23,7 +23,7 @@
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{GradientAnisotropicDiffusionImageFilter}  implements an
+//  The \itkref{GradientAnisotropicDiffusionImageFilter}  implements an
 //  $N$-dimensional version of the classic Perona-Malik anisotropic diffusion
 //  equation for scalar-valued images \cite{Perona1990}.
 //
@@ -218,9 +218,9 @@ main(int argc, char * argv[])
   //
   //  \relatedClasses
   //  \begin{itemize}
-  //  \item \doxygen{BilateralImageFilter}
-  //  \item \doxygen{CurvatureAnisotropicDiffusionImageFilter}
-  //  \item \doxygen{CurvatureFlowImageFilter}
+  //  \item \itkref{BilateralImageFilter}
+  //  \item \itkref{CurvatureAnisotropicDiffusionImageFilter}
+  //  \item \itkref{CurvatureFlowImageFilter}
   //  \end{itemize}
   //
   //  Software Guide : EndLatex

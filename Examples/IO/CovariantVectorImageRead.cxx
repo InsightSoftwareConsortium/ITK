@@ -20,15 +20,15 @@
 //
 //  This example illustrates how to read an image whose pixel type is
 //  \code{CovariantVector}. For practical purposes this example is applicable
-//  to images of pixel type \doxygen{Vector}, \doxygen{Point} and
-//  \doxygen{FixedArray}. These pixel types are similar in that they are all
+//  to images of pixel type \itkref{Vector}, \itkref{Point} and
+//  \itkref{FixedArray}. These pixel types are similar in that they are all
 //  arrays of fixed size in which the components have the same representation
 //  type.
 //
 //  In this example we are reading a gradient image from a file (written in
 //  the previous example) and computing its magnitude using the
-//  \doxygen{VectorMagnitudeImageFilter}. Note that this filter is
-//  different from the \doxygen{GradientMagnitudeImageFilter} which actually
+//  \itkref{VectorMagnitudeImageFilter}. Note that this filter is
+//  different from the \itkref{GradientMagnitudeImageFilter} which actually
 //  takes a scalar image as input and computes the magnitude of its gradient.
 //  The VectorMagnitudeImageFilter class takes an image of vector
 //  pixel type as input and computes pixel-wise the magnitude of each vector.
@@ -66,13 +66,13 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  We read an image of \doxygen{CovariantVector} pixels and compute pixel
+  //  We read an image of \itkref{CovariantVector} pixels and compute pixel
   //  magnitude to produce an image where each pixel is of type
   //  \code{unsigned short}. The components of the CovariantVector
   //  are selected to be \code{float} here. Notice that a renormalization is
   //  required in order to map the dynamic range of the magnitude values into
   //  the range of the output pixel type.  The
-  //  \doxygen{RescaleIntensityImageFilter} is used to achieve this.
+  //  \itkref{RescaleIntensityImageFilter} is used to achieve this.
   //
   //  Software Guide : EndLatex
 
@@ -93,7 +93,7 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{ImageFileReader} and \doxygen{ImageFileWriter}
+  //  The \itkref{ImageFileReader} and \itkref{ImageFileWriter}
   //  are instantiated using the image types.
   //
   //  Software Guide : EndLatex
@@ -108,7 +108,7 @@ main(int argc, char ** argv)
   //
   //  The VectorMagnitudeImageFilter is instantiated using the
   //  input and output image types. A filter object is created with the
-  //  \code{New()} method and assigned to a \doxygen{SmartPointer}.
+  //  \code{New()} method and assigned to a \itkref{SmartPointer}.
   //
   //  \index{VectorMagnitudeImageFilter!Instantiation}
   //  \index{VectorMagnitudeImageFilter!New()}
@@ -145,7 +145,7 @@ main(int argc, char ** argv)
   //  Software Guide : BeginLatex
   //
   //  In the following the minimum and maximum values for the output image
-  //  are specified. Note the use of the \doxygen{NumericTraits} class which
+  //  are specified. Note the use of the \itkref{NumericTraits} class which
   //  allows us to define a number of type-related constants in a generic
   //  way. The use of traits is a fundamental characteristic of generic
   //  programming~\cite{Austern1999,Alexandrescu2001}.
@@ -164,7 +164,7 @@ main(int argc, char ** argv)
   //  Software Guide : BeginLatex
   //
   //  Below, we create the reader and writer using the \code{New()} method and
-  //  assign the result to a \doxygen{SmartPointer}.
+  //  assign the result to a \itkref{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}

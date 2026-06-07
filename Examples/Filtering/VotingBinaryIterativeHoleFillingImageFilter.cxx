@@ -37,10 +37,10 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{VotingBinaryIterativeHoleFillingImageFilter} applies a voting
+//  The \itkref{VotingBinaryIterativeHoleFillingImageFilter} applies a voting
 //  operation in order to fill in cavities. This can be used for smoothing
 //  contours and for filling holes in binary images. This filter runs
-//  a \doxygen{VotingBinaryHoleFillingImageFilter} internally until no
+//  a \itkref{VotingBinaryHoleFillingImageFilter} internally until no
 //  pixels change or the maximum number of iterations has been reached.
 //
 //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter}

@@ -23,7 +23,7 @@
 // \index{Statistics!Mean}
 // \index{Statistics!Covariance}
 //
-// We include the header file for the \doxygen{Vector} class that will
+// We include the header file for the \itkref{Vector} class that will
 // be our measurement vector template in this example.
 //
 // Software Guide : EndLatex
@@ -34,7 +34,7 @@
 
 // Software Guide : BeginLatex
 //
-// We will use the \subdoxygen{Statistics}{ListSample} as our sample
+// We will use the \itksubref{Statistics}{ListSample} as our sample
 // template. We include the header for the class too.
 //
 // Software Guide : EndLatex
@@ -102,7 +102,7 @@ main()
   // Software Guide : BeginLatex
   //
   // To calculate the mean (vector) of a sample, we instantiate the
-  // \subdoxygen{Statistics}{MeanSampleFilter} class that implements the mean
+  // \itksubref{Statistics}{MeanSampleFilter} class that implements the mean
   // algorithm and plug in the sample using the
   // \code{SetInputSample(sample*)} method.  By calling the \code{Update()}
   // method, we run the algorithm. We get the mean vector using the

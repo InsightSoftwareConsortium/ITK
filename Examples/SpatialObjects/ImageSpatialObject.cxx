@@ -20,7 +20,7 @@
 //
 // \index{itk::ImageSpatialObject}
 //
-// An \doxygen{ImageSpatialObject} contains an \doxygen{Image} but adds the
+// An \itkref{ImageSpatialObject} contains an \itkref{Image} but adds the
 // notion of spatial transformations and parent-child hierarchy. Let's begin
 // the next example by including the appropriate header file.
 //
@@ -133,7 +133,7 @@ main(int, char *[])
   //  the \code{DerivativeAtInWorldSpace()} function. The first argument is
   //  the point in physical coordinates where we are evaluating the
   //  derivatives. The second argument is the order of the derivation, and the
-  //  third argument is the result expressed as a \doxygen{Vector}.
+  //  third argument is the result expressed as a \itkref{Vector}.
   //  Derivatives are computed iteratively using finite differences and, like
   //  the \code{ValueAtInWorldSpace()}, no interpolator is used.
   //

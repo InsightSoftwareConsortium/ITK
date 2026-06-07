@@ -39,7 +39,7 @@
 // \index{itk::ConfidenceConnectedImageFilter!header}
 //
 // The following example illustrates the use of the
-// \doxygen{ConfidenceConnectedImageFilter}. The criterion used by the
+// \itkref{ConfidenceConnectedImageFilter}. The criterion used by the
 // ConfidenceConnectedImageFilter is based on simple statistics of the
 // current region. First, the algorithm computes the mean and standard
 // deviation of intensity values for all the pixels currently included in the
@@ -66,7 +66,7 @@
 // considered for inclusion in the region.
 //
 // Let's look at the minimal code required to use this algorithm. First, the
-// following header defining the \doxygen{ConfidenceConnectedImageFilter}
+// following header defining the \itkref{ConfidenceConnectedImageFilter}
 // class must be included.
 //
 // Software Guide : EndLatex
@@ -87,7 +87,7 @@
 //  pre-process the image by using an edge-preserving smoothing filter. Any of
 //  the filters discussed in Section~\ref{sec:EdgePreservingSmoothingFilters}
 //  can be used to this end. In this particular example we use the
-//  \doxygen{CurvatureFlowImageFilter}, hence we need to include its header
+//  \itkref{CurvatureFlowImageFilter}, hence we need to include its header
 //  file.
 //
 //  Software Guide : EndLatex
@@ -153,7 +153,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Next the filter is created by invoking the \code{New()} method and
-  //  assigning the result to a \doxygen{SmartPointer}.
+  //  assigning the result to a \itkref{SmartPointer}.
   //
   //  Software Guide : EndLatex
 
@@ -284,7 +284,7 @@ main(int argc, char * argv[])
   //  \emph{typical} region of the anatomical structure to be segmented. A
   //  small neighborhood around the seed point will be used to compute the
   //  initial mean and standard deviation for the inclusion criterion. The
-  //  seed is passed in the form of an \doxygen{Index} to the \code{SetSeed()}
+  //  seed is passed in the form of an \itkref{Index} to the \code{SetSeed()}
   //  method.
   //
   //  \index{itk::ConfidenceConnectedImageFilter!SetSeed()}

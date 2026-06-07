@@ -21,7 +21,7 @@
 // \index{itk::ReadWriteSpatialObject}
 //
 // Reading and writing SpatialObjects is a fairly simple task. The classes
-// \doxygen{SpatialObjectReader} and \doxygen{SpatialObjectWriter} are used
+// \itkref{SpatialObjectReader} and \itkref{SpatialObjectWriter} are used
 // to read and write these objects, respectively. (Note these classes
 // make use of the MetaIO auxiliary I/O routines and therefore have a
 // \code{.meta} file suffix.)
@@ -58,7 +58,7 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // For this example, we create an \doxygen{EllipseSpatialObject}.
+  // For this example, we create an \itkref{EllipseSpatialObject}.
   //
   // Software Guide : EndLatex
 
@@ -112,7 +112,7 @@ main(int, char *[])
   //
   // To get the objects in the file you can call the \code{GetGroup()} method.
   // Calls to \code{GetGroup()} returns a pointer to a
-  // \doxygen{GroupSpatialObject}.
+  // \itkref{GroupSpatialObject}.
   //
   // Software Guide : EndLatex
 

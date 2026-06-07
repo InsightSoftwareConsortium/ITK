@@ -19,7 +19,7 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the
-// \doxygen{SignedDanielssonDistanceMapImageFilter}.  This filter generates a
+// \itkref{SignedDanielssonDistanceMapImageFilter}.  This filter generates a
 // distance map by running Danielsson distance map twice, once on the input
 // image and once on the flipped image.
 //
@@ -121,7 +121,7 @@ main(int argc, char * argv[])
 
 
   //  The input to the filter is taken from a reader and its output is passed
-  //  to a \doxygen{RescaleIntensityImageFilter} and then to a writer.
+  //  to a \itkref{RescaleIntensityImageFilter} and then to a writer.
 
   filter->SetInput(reader->GetOutput());
   scaler->SetInput(filter->GetOutput());
@@ -164,14 +164,14 @@ main(int argc, char * argv[])
   }
 
 
-  //  The distance filter also produces an image of \doxygen{Offset} pixels
+  //  The distance filter also produces an image of \itkref{Offset} pixels
   //  representing the vectorial distance to the closest object in the scene.
   //  The type of this output image is defined by the VectorImageType
   //  trait of the filter type.
 
   using OffsetImageType = FilterType::VectorImageType;
 
-  //  We can use this type for instantiating an \doxygen{ImageFileWriter} type
+  //  We can use this type for instantiating an \itkref{ImageFileWriter} type
   //  and creating an object of this class in the following lines.
 
   using WriterOffsetType = itk::ImageFileWriter<OffsetImageType>;

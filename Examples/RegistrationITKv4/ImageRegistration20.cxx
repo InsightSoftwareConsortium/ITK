@@ -24,7 +24,7 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{AffineTransform}
+// This example illustrates the use of the \itkref{AffineTransform}
 // for performing registration in $3D$.
 //
 // \index{itk::AffineTransform}
@@ -199,7 +199,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  In this example, we again use the
-  //  \doxygen{CenteredTransformInitializer} helper class in order to compute
+  //  \itkref{CenteredTransformInitializer} helper class in order to compute
   //  a reasonable value for the initial center of rotation and the
   //  translation. The initializer is set to use the center of mass of each
   //  image as the initial correspondence correction.
@@ -270,7 +270,7 @@ main(int argc, char * argv[])
   //
   //  We also set the usual parameters of the optimization method. In this
   //  case we are using an
-  //  \doxygen{RegularStepGradientDescentOptimizer}. Below, we define the
+  //  \itkref{RegularStepGradientDescentOptimizer}. Below, we define the
   //  optimization parameters like initial step length, minimal step length
   //  and number of iterations. These last two act as stopping criteria for
   //  the optimization.

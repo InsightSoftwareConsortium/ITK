@@ -18,8 +18,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{Mesh} class is intended to represent shapes in space.  It
-//  derives from the \doxygen{PointSet} class and hence inherits all the
+//  The \itkref{Mesh} class is intended to represent shapes in space.  It
+//  derives from the \itkref{PointSet} class and hence inherits all the
 //  functionality related to points and access to the pixel-data associated
 //  with the points.  The mesh class is also $N$-dimensional which
 //  allows a great flexibility in its use.
@@ -90,7 +90,7 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  Meshes typically require large amounts of memory. For this reason, they
-  //  are reference counted objects, managed using \doxygen{SmartPointers}.
+  //  are reference counted objects, managed using \itkref{SmartPointers}.
   //  The following line illustrates how a mesh is created by invoking the
   //  \code{New()} method on \code{MeshType} and assigning the result to a
   //  \code{SmartPointer}.

@@ -23,7 +23,7 @@
 
 // Software Guide : BeginLatex
 //
-// This example uses the \doxygen{NeighborhoodIterator} to implement a simple
+// This example uses the \itkref{NeighborhoodIterator} to implement a simple
 // Sobel edge detection algorithm \cite{Gonzalez1993}.  The algorithm uses the
 // neighborhood iterator to iterate through an input image and calculate a
 // series of finite difference derivatives.  Since the derivative results
@@ -33,7 +33,7 @@
 // inputs.
 //
 // We begin by including the proper header files.  The
-// \doxygen{ImageRegionIterator} will be used to write the results of
+// \itkref{ImageRegionIterator} will be used to write the results of
 // computations to the output image.  A const version of the neighborhood
 // iterator is used because the input image is read-only.
 //

@@ -19,7 +19,7 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the
-// \doxygen{HoughTransform2DLinesImageFilter} to find straight lines in a
+// \itkref{HoughTransform2DLinesImageFilter} to find straight lines in a
 // 2-dimensional image.
 //
 // First, we include the header files of the filter.
@@ -99,8 +99,8 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Once the image is loaded, we apply a
-  //  \doxygen{GradientMagnitudeImageFilter} to segment edges.  This casts
-  //  the input image using a \doxygen{CastImageFilter}.
+  //  \itkref{GradientMagnitudeImageFilter} to segment edges.  This casts
+  //  the input image using a \itkref{CastImageFilter}.
   //
   //  Software Guide : EndLatex
 
@@ -191,7 +191,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  We can also get the lines as \doxygen{LineSpatialObject}. The
+  //  We can also get the lines as \itkref{LineSpatialObject}. The
   //  \code{GetLines()} function return a list of those.
   //
   //  Software Guide : EndLatex

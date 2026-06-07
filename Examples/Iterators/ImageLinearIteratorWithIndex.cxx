@@ -18,7 +18,7 @@
 
 // Software Guide : BeginLatex
 //
-// The \doxygen{ImageLinearIteratorWithIndex} is designed for line-by-line
+// The \itkref{ImageLinearIteratorWithIndex} is designed for line-by-line
 // processing of an image.  It walks a linear path along a selected image
 // direction parallel to one of the coordinate axes of the image. This
 // iterator conceptually breaks an image into a set of parallel lines

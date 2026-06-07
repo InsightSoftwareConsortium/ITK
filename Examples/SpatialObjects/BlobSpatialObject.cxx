@@ -20,8 +20,8 @@
 //
 // \index{itk::BlobSpatialObject}
 //
-// \doxygen{BlobSpatialObject} defines an n-dimensional blob.
-// This class derives from \doxygen{itkPointBasedSpatialObject}.  A blob
+// \itkref{BlobSpatialObject} defines an n-dimensional blob.
+// This class derives from \itkref{itkPointBasedSpatialObject}.  A blob
 // is defined as a list of points which compose the object.
 //
 // Let's start by including the appropriate header file.

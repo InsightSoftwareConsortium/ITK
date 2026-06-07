@@ -21,10 +21,10 @@
 // \index{Statistics!Sampling measurement vectors using radius}
 // \index{itk::Statistics::NeighborhoodSampler}
 //
-// When we want to create an \subdoxygen{Statistics}{Subsample} object that
+// When we want to create an \itksubref{Statistics}{Subsample} object that
 // includes only the measurement vectors within a radius from a center in a
-// sample, we can use the \subdoxygen{Statistics}{NeighborhoodSampler}. In
-// this example, we will use the \subdoxygen{Statistics}{ListSample} as the
+// sample, we can use the \itksubref{Statistics}{NeighborhoodSampler}. In
+// this example, we will use the \itksubref{Statistics}{ListSample} as the
 // input sample.
 //
 // We include the header files for the ListSample and the
@@ -41,7 +41,7 @@
 // Software Guide : BeginLatex
 //
 // We need another header for measurement vectors. We are going to use the
-// \doxygen{Vector} class which is a subclass of the \doxygen{FixedArray}.
+// \itkref{Vector} class which is a subclass of the \itkref{FixedArray}.
 //
 // Software Guide : EndLatex
 
@@ -117,7 +117,7 @@ main()
   // Software Guide : BeginLatex
   //
   // The \code{SamplerType::OutputType} is in fact
-  // \subdoxygen{Statistics}{Subsample}. The following code prints out
+  // \itksubref{Statistics}{Subsample}. The following code prints out
   // the resampled measurement vectors.
   //
   // Software Guide : EndLatex

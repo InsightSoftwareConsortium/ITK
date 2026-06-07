@@ -27,7 +27,7 @@
 // This example shows how to use the KMeans model for classifying the pixel of
 // a scalar image.
 //
-// The  \subdoxygen{Statistics}{ScalarImageKmeansImageFilter} is used for
+// The  \itksubref{Statistics}{ScalarImageKmeansImageFilter} is used for
 // taking a scalar image and applying the K-Means algorithm in order to define
 // classes that represents statistical distributions of intensity values in
 // the pixels. The classes are then used in this filter for generating a
@@ -78,7 +78,7 @@ ExampleMain(int argc, const char * const argv[])
   // Software Guide : BeginLatex
   //
   // With the \code{ImageType} we instantiate the type of the
-  // \doxygen{ScalarImageKmeansImageFilter} that will compute the K-Means
+  // \itkref{ScalarImageKmeansImageFilter} that will compute the K-Means
   // model and then classify the image pixels.
   //
   // Software Guide : EndLatex
@@ -148,7 +148,7 @@ ExampleMain(int argc, const char * const argv[])
 
   // Software Guide : BeginLatex
   //
-  // The \doxygen{ScalarImageKmeansImageFilter} is predefined for producing
+  // The \itkref{ScalarImageKmeansImageFilter} is predefined for producing
   // an 8 bits scalar image as output. This output image contains labels
   // associated to each one of the classes in the K-Means algorithm. The
   // following line writes the output of the classification filter to file.

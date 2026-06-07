@@ -19,7 +19,7 @@
 //  Software Guide : BeginLatex
 //
 //  This example illustrates how to convert an RGB image into a grayscale one.
-//  The \doxygen{RGBToLuminanceImageFilter} is the central piece of this
+//  The \itkref{RGBToLuminanceImageFilter} is the central piece of this
 //  example.
 //
 //  \index{itk::RGBToLuminanceImageFilter!RGB Images}

@@ -19,8 +19,8 @@
 //  Software Guide : BeginLatex
 //
 //  The following example illustrates how to use the
-//  \doxygen{BSplineInterpolateImageFunction} for resampling an image.  In
-//  this particular case an \doxygen{AffineTransform} is used to map the input
+//  \itkref{BSplineInterpolateImageFunction} for resampling an image.  In
+//  this particular case an \itkref{AffineTransform} is used to map the input
 //  space into the output space.
 //
 //  \index{itk::AffineTransform!resampling}
@@ -98,7 +98,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The salient feature of this example is the use of the
-  //  \doxygen{BSplineInterpolateImageFunction}, which uses cubic BSplines in
+  //  \itkref{BSplineInterpolateImageFunction}, which uses cubic BSplines in
   //  order to interpolate the resampled image.
   //
   //  Software Guide : EndLatex

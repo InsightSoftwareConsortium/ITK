@@ -22,7 +22,7 @@
 // \index{itk::Statistics::KdTree\-Generator}
 // \index{itk::Statistics::Weighted\-Centroid\-KdTree\-Generator}
 //
-// The \subdoxygen{Statistics}{KdTree} implements a data structure that
+// The \itksubref{Statistics}{KdTree} implements a data structure that
 // separates samples in a $k$-dimension space.  The \code{std::vector} class
 // is used here as the container for the measurement vectors from a sample.
 //
@@ -42,7 +42,7 @@ main()
   // Software Guide : BeginLatex
   //
   // We define the measurement vector type and instantiate a
-  // \subdoxygen{Statistics}{ListSample} object, and then put 1000
+  // \itksubref{Statistics}{ListSample} object, and then put 1000
   // measurement vectors in the object.
   //
   // Software Guide : EndLatex
@@ -66,10 +66,10 @@ main()
   // Software Guide : BeginLatex
   //
   // The following code snippet shows how to create two KdTree objects. The
-  // first object \subdoxygen{Statistics}{KdTreeGenerator} has a minimal set
+  // first object \itksubref{Statistics}{KdTreeGenerator} has a minimal set
   // of information (partition dimension, partition value, and pointers to
   // the left and right child nodes). The second tree from the
-  // \subdoxygen{Statistics}{WeightedCentroidKdTreeGenerator} has additional
+  // \itksubref{Statistics}{WeightedCentroidKdTreeGenerator} has additional
   // information such as the number of children under each node, and the
   // vector sum of the measurement vectors belonging to children of a
   // particular node.  WeightedCentroidKdTreeGenerator and the resulting k-d

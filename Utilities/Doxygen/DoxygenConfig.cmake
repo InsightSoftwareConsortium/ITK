@@ -17,7 +17,12 @@ set(DOXYGEN_NUM_PROC_THREADS "0")
 set(
   DOXYGEN_ALIASES
   "starteraliasnotused=@par not used"
+  # Two names, not one overloaded alias: the Software Guide mirrors them as plain LaTeX \newcommands.
+  "itkref{1}=\\ref \\1"
+  "itksubref{2}=\\ref itk::\\1::\\2"
+  # Deprecated spellings of \itkref / \itksubref, kept for external tools and out-of-tree code.
   "doxygen{1}=\\ref \\1"
+  "subdoxygen{2}=\\ref itk::\\1::\\2"
   "sphinx=\\par ITK Sphinx Examples: ^^ \\li <a href=\\\"https://itk.org/ITKExamples\\\">All ITK Sphinx Examples</a> ^^"
   "sphinxexample{2}=\\li <a href=\\\"https://itk.org/ITKExamples/src/\\1/Documentation.html\\\">\\2</a> ^^"
   "endsphinx=^^ ^^ ^^"

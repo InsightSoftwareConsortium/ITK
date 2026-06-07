@@ -24,9 +24,9 @@
 // \index{itk::Sample!Interfaces}
 // \index{itk::Statistics::ListSample}
 //
-// Different subclasses of \subdoxygen{Statistics}{Sample} expect different
+// Different subclasses of \itksubref{Statistics}{Sample} expect different
 // sets of template arguments. In this example, we use the
-// \subdoxygen{Statistics}{ListSample} class that requires the type of
+// \itksubref{Statistics}{ListSample} class that requires the type of
 // measurement vectors. The ListSample uses
 // \href{https://www.sgi.com/tech/stl/}{STL} \code{vector} to store
 // measurement vectors. This class conforms to the common interface of Sample.
@@ -38,7 +38,7 @@
 // To use the ListSample class, we include the header file for the class.
 //
 // We need another header for measurement vectors. We are going to use
-// the \doxygen{Vector} class which is a subclass of the \doxygen{FixedArray}
+// the \itkref{Vector} class which is a subclass of the \itkref{FixedArray}
 // class.
 //
 // Software Guide : EndLatex
@@ -55,7 +55,7 @@ main()
   // Software Guide : BeginLatex
   //
   // The following code snippet defines the measurement vector type as a
-  // three component \code{float} \doxygen{Vector}. The
+  // three component \code{float} \itkref{Vector}. The
   // \code{MeasurementVectorType} is the measurement vector type in the
   // \code{SampleType}. An object is instantiated at the third line.
   //
@@ -127,7 +127,7 @@ main()
   // of occurrence within the sample. For the
   // ListSample and the adaptor classes (see Section
   // \ref{sec:SampleAdaptors}), the frequency value is always one.
-  // \subdoxygen{Statistics}{Histogram} can have a varying frequency
+  // \itksubref{Statistics}{Histogram} can have a varying frequency
   // (\code{float} type) for each measurement vector. We retrieve measurement
   // vectors using the \code{GetMeasurementVector(unsigned long instance
   // identifier)}, and frequency using the \code{GetFrequency(unsigned long
@@ -176,7 +176,7 @@ main()
   // adaptor classes, the return value should be exactly the same as that of
   // the \code{Size()} method, because the frequency values are always one
   // for each measurement vector. However, for the
-  // \subdoxygen{Statistics}{Histogram}, the frequency values can vary.
+  // \itksubref{Statistics}{Histogram}, the frequency values can vary.
   // Therefore, if we want to develop a general algorithm to calculate the
   // sample mean, we must use the \code{GetTotalFrequency()} method instead of
   // the \code{Size()} method.

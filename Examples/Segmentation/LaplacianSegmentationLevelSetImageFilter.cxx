@@ -27,11 +27,11 @@
 //
 // \index{itk::Laplacian\-Segmentation\-Level\-Set\-Image\-Filter}
 //
-// The \doxygen{LaplacianSegmentationLevelSetImageFilter} defines a speed
+// The \itkref{LaplacianSegmentationLevelSetImageFilter} defines a speed
 // term based on second derivative features in the image.  The speed term is
 // calculated as the Laplacian of the image values.  The goal is to attract
 // the evolving level set surface to local zero-crossings in the
-// Laplacian image.  Like \doxygen{CannySegmentationLevelSetImageFilter},
+// Laplacian image.  Like \itkref{CannySegmentationLevelSetImageFilter},
 // this filter is more suitable for refining existing segmentations than as a
 // stand-alone, region growing algorithm.  It is possible to perform region
 // growing segmentation, but be aware that the growing surface may tend to
@@ -39,12 +39,12 @@
 //
 // The propagation (speed) term for the
 // LaplacianSegmentationLevelSetImageFilter is constructed by applying the
-// \doxygen{LaplacianImageFilter} to the input feature image.  One nice
+// \itkref{LaplacianImageFilter} to the input feature image.  One nice
 // property of using the Laplacian is that there are no free parameters in
 // the calculation.
 //
 // LaplacianSegmentationLevelSetImageFilter expects two inputs.  The
-// first is an initial level set in the form of an \doxygen{Image}. The second
+// first is an initial level set in the form of an \itkref{Image}. The second
 // input is the feature image $g$ from which the propagation term is
 // calculated (see Equation~\ref{eqn:LevelSetEquation}).  Because the filter
 // performs a second derivative calculation, it is generally a good idea to do
@@ -264,7 +264,7 @@ main(int argc, char * argv[])
   //
   //  We can use this filter to make some subtle refinements to the ventricle
   //  segmentation from the example using the filter
-  //  \doxygen{ThresholdSegmentationLevelSetImageFilter}.  This application
+  //  \itkref{ThresholdSegmentationLevelSetImageFilter}.  This application
   //  was run using \code{Examples/Data/BrainProtonDensitySlice.png} and
   //  \code{Examples/Data/VentricleModel.png} as inputs.  We used $10$
   //  iterations of the diffusion filter with a conductance of 2.0.  The

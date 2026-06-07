@@ -24,7 +24,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{BinomialBlurImageFilter} computes a nearest neighbor average
+//  The \itkref{BinomialBlurImageFilter} computes a nearest neighbor average
 //  along each dimension. The process is repeated a number of times, as
 //  specified by the user. In principle, after a large number of iterations
 //  the result will approach the convolution with a Gaussian.

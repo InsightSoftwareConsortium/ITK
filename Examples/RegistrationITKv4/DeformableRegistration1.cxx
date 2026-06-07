@@ -81,7 +81,7 @@ using FEMObject3DType = itk::fem::FEMObject<3>;
 //  Software Guide : BeginLatex
 //
 //  Once all the necessary components have been instantiated, we can
-//  instantiate the \doxygen{FEMRegistrationFilter}, which depends on the
+//  instantiate the \itkref{FEMRegistrationFilter}, which depends on the
 //  image input and output types.
 //
 //  Software Guide : EndLatex

@@ -19,8 +19,8 @@
 // Software Guide : BeginLatex
 //
 // The following example illustrates the use of the
-// \doxygen{NeighborhoodConnectedImageFilter}.  This filter is a close variant
-// of the \doxygen{ConnectedThresholdImageFilter}. On one hand, the
+// \itkref{NeighborhoodConnectedImageFilter}.  This filter is a close variant
+// of the \itkref{ConnectedThresholdImageFilter}. On one hand, the
 // \code{ConnectedThresholdImageFilter} considers only the value of the pixel
 // itself when determining whether it belongs to the region: if its value is
 // within the interval [lowerThreshold,upperThreshold] it is included,
@@ -50,7 +50,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{CurvatureFlowImageFilter} is used here to smooth the image
+//  The \itkref{CurvatureFlowImageFilter} is used here to smooth the image
 //  while preserving edges.
 //
 //  Software Guide : EndLatex
@@ -120,7 +120,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Then, the filter is created by invoking the \code{New()} method and
-  //  assigning the result to a \doxygen{SmartPointer}.
+  //  assigning the result to a \itkref{SmartPointer}.
   //
   //  Software Guide : EndLatex
 

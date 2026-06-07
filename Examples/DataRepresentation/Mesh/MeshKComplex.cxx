@@ -18,7 +18,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{Mesh} class supports the representation of formal
+//  The \itkref{Mesh} class supports the representation of formal
 //  topologies. In particular the concept of \emph{K-Complex} can be
 //  correctly represented in the Mesh. An informal definition of K-Complex
 //  may be as follows: a K-Complex is a topological structure in which for
@@ -98,7 +98,7 @@ main(int, char *[])
   //
   //  The mesh is created and the points associated with the vertices are
   //  inserted.  Note that there is an important distinction between the
-  //  points in the mesh and the \doxygen{VertexCell} concept. A VertexCell
+  //  points in the mesh and the \itkref{VertexCell} concept. A VertexCell
   //  is a cell of dimension zero. Its main difference as compared to a point
   //  is that the cell can be aware of neighborhood relationships with other
   //  cells. Points are not aware of the existence of cells. In fact, from
@@ -240,7 +240,7 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  Note how the \code{CellAutoPointer} is reused every time. Reminder: the
-  //  \doxygen{AutoPointer} loses ownership of the cell when it is passed as
+  //  \itkref{AutoPointer} loses ownership of the cell when it is passed as
   //  an argument of the \code{SetCell()} method. The AutoPointer is attached
   //  to a new cell by using the \code{TakeOwnership()} method.
   //
@@ -288,7 +288,7 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  Finally the zero dimensional cells represented by the
-  //  \doxygen{VertexCell} are created and inserted in the mesh.
+  //  \itkref{VertexCell} are created and inserted in the mesh.
   //
   //  Software Guide : EndLatex
 

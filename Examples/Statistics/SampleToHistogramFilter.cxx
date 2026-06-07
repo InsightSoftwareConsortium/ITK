@@ -22,12 +22,12 @@
 // \index{itk::Statistics::List\-Sample\-To\-Histogram\-Filter}
 //
 // Sometimes we want to work with a histogram instead of a list of
-// measurement vectors (e.g. \subdoxygen{Statistics}{ListSample},
-// \subdoxygen{Statistics}{ImageToListSampleAdaptor}, or
-// \subdoxygen{Statistics}{PointSetToListSample}) to use less memory or to
+// measurement vectors (e.g. \itksubref{Statistics}{ListSample},
+// \itksubref{Statistics}{ImageToListSampleAdaptor}, or
+// \itksubref{Statistics}{PointSetToListSample}) to use less memory or to
 // perform a particular type of analysis. In such cases, we can import data
-// from a sample type to a \subdoxygen{Statistics}{Histogram} object
-// using the \subdoxygen{Statistics}{SampleToHistogramFiler}.
+// from a sample type to a \itksubref{Statistics}{Histogram} object
+// using the \itksubref{Statistics}{SampleToHistogramFiler}.
 //
 // We use a ListSample object as the input for the filter. We include the
 // header files for the ListSample and Histogram classes, as well as the
@@ -44,8 +44,8 @@
 // Software Guide : BeginLatex
 //
 // We need another header for the type of the measurement vectors. We are
-// going to use the \doxygen{Vector} class which is a subclass of the
-// \doxygen{FixedArray} in this example.
+// going to use the \itkref{Vector} class which is a subclass of the
+// \itkref{FixedArray} in this example.
 //
 // Software Guide : EndLatex
 

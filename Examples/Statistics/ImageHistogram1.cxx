@@ -22,13 +22,13 @@
 // the statistics framework classes operate on Samples and
 // ListOfSamples, we need to introduce a class that will make the image look
 // like a list of samples. This class is the
-// \subdoxygen{Statistics}{ImageToListSampleAdaptor}.  Once we have connected
+// \itksubref{Statistics}{ImageToListSampleAdaptor}.  Once we have connected
 // this adaptor to an image, we can proceed to use the
-// \subdoxygen{Statistics}{SampleToHistogramFilter} in order to compute
+// \itksubref{Statistics}{SampleToHistogramFilter} in order to compute
 // the histogram of the image.
 //
 // First, we need to include the headers for the
-// \subdoxygen{Statistics}{ImageToListSampleAdaptor} and the \doxygen{Image}
+// \itksubref{Statistics}{ImageToListSampleAdaptor} and the \itkref{Image}
 // classes.
 //
 // \index{itk::Statistics::Scalar\-Image\-To\-List\-Adaptor!header}
@@ -102,7 +102,7 @@ ExampleMain(int argc, const char * const argv[])
   // Software Guide : BeginLatex
   //
   // Now we introduce the central piece of this example, which is the use of
-  // the adaptor that will present the \doxygen{Image} as if it was a list of
+  // the adaptor that will present the \itkref{Image} as if it was a list of
   // samples. We instantiate the type of the adaptor by using the actual image
   // type. Then construct the adaptor by invoking its \code{New()} method and
   // assigning the result to the corresponding smart pointer. Finally we

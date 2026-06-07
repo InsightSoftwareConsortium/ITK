@@ -18,7 +18,7 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{BSplineTransform}
+// This example illustrates the use of the \itkref{BSplineTransform}
 // class in a multi-resolution scheme. Here we run 3 levels of resolutions.
 // The first level of registration is performed with the spline grid of
 // low resolution. Then, a common practice is to increase the resolution
@@ -29,13 +29,13 @@
 // Each level of each stage is defined by a transform adaptor
 // which describes how to adapt the transform to the current level by
 // increasing the resolution from the previous level.
-// Here, we used \doxygen{BSplineTransformParametersAdaptor} class
+// Here, we used \itkref{BSplineTransformParametersAdaptor} class
 // to adapt the BSpline transform parameters at each resolution level.
 // Note that for many transforms, such as affine, the
 // concept of an adaptor may be nonsensical since the number of transform
 // parameters does not change between resolution levels.
 //
-// This examples use the \doxygen{LBFGS2Optimizerv4}, which is the new
+// This examples use the \itkref{LBFGS2Optimizerv4}, which is the new
 // implementation of the quasi-Newton unbounded limited-memory
 // Broyden Fletcher Goldfarb Shannon (LBFGS) optimizer. The unbounded
 // version does not require specification of the bounds of the

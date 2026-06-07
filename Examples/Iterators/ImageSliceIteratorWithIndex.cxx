@@ -20,8 +20,8 @@
 //
 // \index{Iterators!and image slices}
 //
-// The \doxygen{ImageSliceIteratorWithIndex} class is an extension of
-// \doxygen{ImageLinearIteratorWithIndex} from iteration along lines to
+// The \itkref{ImageSliceIteratorWithIndex} class is an extension of
+// \itkref{ImageLinearIteratorWithIndex} from iteration along lines to
 // iteration along both lines \emph{and planes} in an image.
 // A \emph{slice} is a 2D
 // plane spanned by two vectors pointing along orthogonal coordinate axes. The

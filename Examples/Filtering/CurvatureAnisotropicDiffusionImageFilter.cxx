@@ -24,7 +24,7 @@
 //
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{CurvatureAnisotropicDiffusionImageFilter} performs
+//  The \itkref{CurvatureAnisotropicDiffusionImageFilter} performs
 //  anisotropic diffusion on an image using a modified curvature diffusion
 //  equation (MCDE).
 //
@@ -239,9 +239,9 @@ main(int argc, char * argv[])
   //
   //  \relatedClasses
   //  \begin{itemize}
-  //  \item \doxygen{BilateralImageFilter}
-  //  \item \doxygen{CurvatureFlowImageFilter}
-  //  \item \doxygen{GradientAnisotropicDiffusionImageFilter}
+  //  \item \itkref{BilateralImageFilter}
+  //  \item \itkref{CurvatureFlowImageFilter}
+  //  \item \itkref{GradientAnisotropicDiffusionImageFilter}
   //  \end{itemize}
   //
   //  Software Guide : EndLatex

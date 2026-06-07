@@ -23,7 +23,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{MedianImageFilter} is commonly used as a robust approach for
+//  The \itkref{MedianImageFilter} is commonly used as a robust approach for
 //  noise reduction. This filter is particularly efficient against
 //  \emph{salt-and-pepper} noise. In other words, it is robust to the presence
 //  of gray-level outliers. MedianImageFilter computes the value of each
@@ -52,8 +52,8 @@
 //
 //
 //  This filter will work on images of any dimension thanks to the internal
-//  use of \doxygen{NeighborhoodIterator} and
-//  \doxygen{NeighborhoodOperator}. The size of the neighborhood over which
+//  use of \itkref{NeighborhoodIterator} and
+//  \itkref{NeighborhoodOperator}. The size of the neighborhood over which
 //  the median is computed can be set by the user.
 //
 //  \index{itk::MedianImageFilter}

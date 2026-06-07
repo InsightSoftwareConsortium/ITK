@@ -20,16 +20,16 @@
 //
 //  This example illustrates how to write an image whose pixel type is
 //  \code{CovariantVector}. For practical purposes all the content in this
-//  example is applicable to images of pixel type \doxygen{Vector},
-//  \doxygen{Point} and \doxygen{FixedArray}. These pixel types are similar
+//  example is applicable to images of pixel type \itkref{Vector},
+//  \itkref{Point} and \itkref{FixedArray}. These pixel types are similar
 //  in that they are all arrays of fixed size in which the components have
 //  the same representational type.
 //
 //  In order to make this example a bit more interesting we setup a pipeline
 //  to read an image, compute its gradient and write the gradient to a file.
-//  Gradients are represented with \doxygen{CovariantVector}s as opposed to
+//  Gradients are represented with \itkref{CovariantVector}s as opposed to
 //  Vectors. In this way, gradients are transformed correctly under
-//  \doxygen{AffineTransform}s or in general, any transform having
+//  \itkref{AffineTransform}s or in general, any transform having
 //  anisotropic scaling.
 //
 //  Let's start by including the relevant header files.
@@ -46,7 +46,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  We use the \doxygen{GradientRecursiveGaussianImageFilter} in order to
+//  We use the \itkref{GradientRecursiveGaussianImageFilter} in order to
 //  compute the image gradient. The output of this filter is an image whose
 //  pixels are CovariantVectors.
 //
@@ -94,7 +94,7 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{ImageFileReader} and \doxygen{ImageFileWriter} are
+  //  The \itkref{ImageFileReader} and \itkref{ImageFileWriter} are
   //  instantiated using the image types.
   //
   //  Software Guide : EndLatex
@@ -109,7 +109,7 @@ main(int argc, char ** argv)
   //
   //  The GradientRecursiveGaussianImageFilter class is instantiated
   //  using the input and output image types. A filter object is created with
-  //  the \code{New()} method and assigned to a \doxygen{SmartPointer}.
+  //  the \code{New()} method and assigned to a \itkref{SmartPointer}.
   //
   //  Software Guide : EndLatex
 
@@ -139,7 +139,7 @@ main(int argc, char ** argv)
   //  Software Guide : BeginLatex
   //
   //  Below, we create the reader and writer using the \code{New()} method and
-  //  assign the result to a \doxygen{SmartPointer}.
+  //  assign the result to a \itkref{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}

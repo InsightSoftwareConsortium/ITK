@@ -21,10 +21,10 @@
 // \index{itk::Statistics::EuclideanDistanceMetric}
 //
 // The Euclidean distance function
-// (\subdoxygen{Statistics}{EuclideanDistanceMetric} requires as template
+// (\itksubref{Statistics}{EuclideanDistanceMetric} requires as template
 // parameter the type of the measurement vector. We can use this function for
-// any subclass of the \doxygen{FixedArray}. As a subclass of the
-// \subdoxygen{Statistics}{DistanceMetric}, it has two basic methods, the
+// any subclass of the \itkref{FixedArray}. As a subclass of the
+// \itksubref{Statistics}{DistanceMetric}, it has two basic methods, the
 // \code{SetOrigin(measurement vector)} and the \code{Evaluate(measurement
 // vector)}. The \code{Evaluate()} method returns the distance between its
 // argument (a measurement vector) and the measurement vector set by the
@@ -37,7 +37,7 @@
 // \code{Evaluate(measurement, measurement)}. The argument type of the
 // latter method is the type of the component of the measurement vector.
 //
-// We include the header files for the class and the \doxygen{Vector}.
+// We include the header files for the class and the \itkref{Vector}.
 //
 // Software Guide : EndLatex
 
@@ -80,7 +80,7 @@ main(int, char *[])
   // We create three measurement vectors, the \code{originPoint},
   // the \code{queryPointA}, and the \code{queryPointB}. The type of the
   // \code{originPoint} is fixed in the
-  // \subdoxygen{Statistics}{DistanceMetric} base class as
+  // \itksubref{Statistics}{DistanceMetric} base class as
   // \code{itk::Vector< double, length of the measurement vector of the
   // each distance metric instance>}.
   //

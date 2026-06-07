@@ -19,8 +19,8 @@
 //  Software Guide : BeginLatex
 //
 //  This example illustrates the use of the
-//  \doxygen{PolygonSpatialObject} for generating a binary image through the
-//  \doxygen{SpatialObjectToImageFilter}.
+//  \itkref{PolygonSpatialObject} for generating a binary image through the
+//  \itkref{SpatialObjectToImageFilter}.
 //
 //  \index{itk::PolygonSpatialObject|textbf}
 //  \index{itk::SpatialObjectToImageFilter|textbf}

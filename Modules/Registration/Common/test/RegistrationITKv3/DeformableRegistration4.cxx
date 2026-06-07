@@ -17,14 +17,14 @@
  *=========================================================================*/
 
 //
-// This example illustrates the use of the \doxygen{BSplineTransform}
+// This example illustrates the use of the \itkref{BSplineTransform}
 // class for performing registration of two $2D$ images. The example code is
 // for the most part identical to the code presented in
 // Section~\ref{sec:RigidRegistrationIn2D}.  The major difference is that this
 // example we replace the Transform for a more generic one endowed with a large
 // number of degrees of freedom. Due to the large number of parameters, we will
 // also replace the simple steepest descent optimizer with the
-// \doxygen{LBFGSOptimizer}.
+// \itkref{LBFGSOptimizer}.
 //
 //
 // \index{itk::BSplineTransform}

@@ -19,9 +19,9 @@
 //  Software Guide : BeginLatex
 //
 //  In cases where the user knows what file format to use and wants to
-//  indicate this explicitly, a specific \doxygen{ImageIO} class can be
+//  indicate this explicitly, a specific \itkref{ImageIO} class can be
 //  instantiated and assigned to the image file reader or writer. This
-//  circumvents the \doxygen{ImageIOFactory} mechanism which tries to find
+//  circumvents the \itkref{ImageIOFactory} mechanism which tries to find
 //  the appropriate ImageIO class for performing the IO operations. Explicit
 //  selection of the ImageIO also allows the user to invoke specialized
 //  features of a particular class which may not be available from the
@@ -29,7 +29,7 @@
 //
 //  The following example illustrates explicit instantiation of an IO class
 //  (in this case a VTK file format), setting its parameters and then
-//  connecting it to the \doxygen{ImageFileWriter}.
+//  connecting it to the \itkref{ImageFileWriter}.
 //
 //  The example begins by including the appropriate headers.
 //
@@ -80,7 +80,7 @@ main(int argc, char ** argv)
   //
   //  We can now instantiate the reader and writer. These two classes are
   //  parameterized over the image type. We instantiate the
-  //  \doxygen{VTKImageIO} class as well. Note that the ImageIO objects are
+  //  \itkref{VTKImageIO} class as well. Note that the ImageIO objects are
   //  not templated.
   //
   //  \index{itk::ImageFileReader!Instantiation}
@@ -99,7 +99,7 @@ main(int argc, char ** argv)
   //  Software Guide : BeginLatex
   //
   //  Then, we create one object of each type using the New() method and
-  //  assigning the result to a \doxygen{SmartPointer}.
+  //  assigning the result to a \itkref{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}
@@ -217,13 +217,13 @@ main(int argc, char ** argv)
   //  ImageIO class with the ImageFileWriter, the same
   //  can be done with the ImageFileReader. The typical case in
   //  which this is done is when reading raw image files with the
-  //  \doxygen{RawImageIO} object. The drawback of this approach is that the
+  //  \itkref{RawImageIO} object. The drawback of this approach is that the
   //  parameters of the image have to be explicitly written in the code.  The
   //  direct use of raw files is \textbf{strongly discouraged} in medical
   //  imaging.  It is always better to create a header for a raw file by
   //  using any of the file formats that combine a text header file and a raw
-  //  binary file, like \doxygen{MetaImageIO}, \doxygen{GiplImageIO} and
-  //  \doxygen{VTKImageIO}.
+  //  binary file, like \itkref{MetaImageIO}, \itkref{GiplImageIO} and
+  //  \itkref{VTKImageIO}.
   //
   //  Software Guide : EndLatex
 

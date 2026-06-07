@@ -24,7 +24,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{FlipImageFilter} is used for flipping the image content in
+//  The \itkref{FlipImageFilter} is used for flipping the image content in
 //  any of the coordinate axes. This filter must be used with \textbf{EXTREME}
 //  caution. You probably don't want to appear in the newspapers as
 //  responsible for a surgery mistake in which a doctor extirpates the left

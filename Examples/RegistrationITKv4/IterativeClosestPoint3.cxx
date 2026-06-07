@@ -25,7 +25,7 @@
 // iterative computation of the point-to-point distances. It is then necessary
 // in practice to ponder both factors.
 //
-// \doxygen{EuclideanDistancePointMetric}.
+// \itkref{EuclideanDistancePointMetric}.
 //
 // Software Guide : EndLatex
 

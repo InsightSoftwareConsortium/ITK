@@ -19,7 +19,7 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::SpatialObjectHierarchy}
-// This example describes how \doxygen{SpatialObject} can form a hierarchy.
+// This example describes how \itkref{SpatialObject} can form a hierarchy.
 // This first example also shows how to create and manipulate
 // spatial objects.
 //

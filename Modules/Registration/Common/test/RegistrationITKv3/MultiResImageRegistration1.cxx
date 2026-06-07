@@ -29,7 +29,7 @@
 // \index{itk::Multi\-Resolution\-Image\-Registration\-Method}
 //
 // This example illustrates the use of the
-// \doxygen{MultiResolutionImageRegistrationMethod} to solve a simple
+// \itkref{MultiResolutionImageRegistrationMethod} to solve a simple
 // multi-modality registration problem. In addition to the two input images,
 // a transform, a metric, an interpolator and an optimizer, the
 // multi-resolution framework also requires two image pyramids for creating
@@ -86,7 +86,7 @@
 // beginning registration at each resolution level,
 // MultiResolutionImageRegistrationMethod invokes an
 // IterationEvent. The registration components can be changed by
-// implementing a \doxygen{Command} which responds to the
+// implementing a \itkref{Command} which responds to the
 // event. A brief description the interaction between events and commands was
 // previously presented in Section \ref{sec:MonitoringImageRegistration}.
 //
@@ -299,7 +299,7 @@ main(int argc, const char * argv[])
 
   //
   // In the multi-resolution framework, a
-  // \doxygen{MultiResolutionPyramidImageFilter} is used to create a pyramid
+  // \itkref{MultiResolutionPyramidImageFilter} is used to create a pyramid
   // of downsampled images. The size of each downsampled image is specified
   // by the user in the form of a schedule of shrink factors. A description
   // of the filter and the format of the schedules are found in
@@ -344,7 +344,7 @@ main(int argc, const char * argv[])
   //
   //  The fixed and moving images are read from a file. Before connecting
   //  these images to the registration we need to cast them to the internal
-  //  image type using \doxygen{CastImageFilters}.
+  //  image type using \itkref{CastImageFilters}.
   //
   using FixedCastFilterType = itk::CastImageFilter<FixedImageType, InternalImageType>;
   using MovingCastFilterType = itk::CastImageFilter<MovingImageType, InternalImageType>;

@@ -20,7 +20,7 @@
 //
 // \index{itk::TubeSpatialObject}
 //
-// \doxygen{TubeSpatialObject} defines an n-dimensional tube.  A tube is
+// \itkref{TubeSpatialObject} defines an n-dimensional tube.  A tube is
 // defined as a list of centerline points which have a position, a radius,
 // some normals and other properties. Let's start by including the
 // appropriate header file.
@@ -144,8 +144,8 @@ main(int, char *[])
   // color of the point. \code{GetRadiusInObjectSpace()} returns the radius at
   // that point. \code{GetNormal1InObjectSpace()} and
   // \code{GetNormal2InObjectSpace()} functions return a
-  // \doxygen{CovariantVector} and \code{GetTangentInObjectSpace()} returns a
-  // \doxygen{Vector}.
+  // \itkref{CovariantVector} and \code{GetTangentInObjectSpace()} returns a
+  // \itkref{Vector}.
   //
   // Software Guide : EndLatex
 

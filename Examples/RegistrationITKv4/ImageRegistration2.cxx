@@ -29,11 +29,11 @@
 // The following simple example illustrates how multiple imaging modalities
 // can be registered using the ITK registration framework. The first
 // difference between this and previous examples is the use of the
-// \doxygen{MutualInformationImageToImageMetric} as the cost-function to be
+// \itkref{MutualInformationImageToImageMetric} as the cost-function to be
 // optimized. The second difference is the use of the
-// \doxygen{GradientDescentOptimizer}. Due to the stochastic nature of the
+// \itkref{GradientDescentOptimizer}. Due to the stochastic nature of the
 // metric computation, the values are too noisy to work successfully with the
-// \doxygen{RegularStepGradientDescentOptimizer}.  Therefore, we will use the
+// \itkref{RegularStepGradientDescentOptimizer}.  Therefore, we will use the
 // simpler GradientDescentOptimizer with a user defined learning rate.  The
 // following headers declare the basic components of this registration method.
 //
@@ -54,7 +54,7 @@
 //
 //  One way to simplify the computation of the mutual information is
 //  to normalize the statistical distribution of the two input images. The
-//  \doxygen{NormalizeImageFilter} is the perfect tool for this task.
+//  \itkref{NormalizeImageFilter} is the perfect tool for this task.
 //  It rescales the intensities of the input images in order to produce an
 //  output image with zero mean and unit variance. This filter has been
 //  discussed in Section \ref{sec:CastingImageFilters}.
@@ -69,7 +69,7 @@
 //
 //  Additionally, low-pass filtering of the images to be registered will also
 //  increase robustness against noise. In this example, we will use the
-//  \doxygen{DiscreteGaussianImageFilter} for that purpose. The
+//  \itkref{DiscreteGaussianImageFilter} for that purpose. The
 //  characteristics of this filter have been discussed in Section
 //  \ref{sec:BlurringFilters}.
 //

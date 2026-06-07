@@ -30,8 +30,8 @@
 // Mattes~\emph{et. al}~\cite{Mattes2003}.
 //
 // One of the main differences between
-// \doxygen{MattesMutualInformationImageToImageMetric} and
-// \doxygen{MutualInformationImageToImageMetric} is that only one spatial
+// \itkref{MattesMutualInformationImageToImageMetric} and
+// \itkref{MutualInformationImageToImageMetric} is that only one spatial
 // sample set is used for the whole registration process instead of using new
 // samples every iteration. The use of a single sample set results in a much
 // smoother cost function and hence allows the use of more intelligent
@@ -452,7 +452,7 @@ main(int argc, char * argv[])
   //  produced by MattesMutualInformationImageToImageMetric are smoother than
   //  those of the MutualInformationImageToImageMetric. This smoothness allows
   //  the use of more sophisticated optimizers such as the
-  //  \doxygen{RegularStepGradientDescentOptimizer} which efficiently locks
+  //  \itkref{RegularStepGradientDescentOptimizer} which efficiently locks
   //  onto the optimal value.
   //
   //

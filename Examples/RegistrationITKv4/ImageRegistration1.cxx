@@ -195,7 +195,7 @@ main(int argc, char * argv[])
   //
   //  Each one of the registration components is created using its
   //  \code{New()} method and is assigned to its respective
-  //  \doxygen{SmartPointer}.
+  //  \itkref{SmartPointer}.
   //
   //  Software Guide : EndLatex
 
@@ -275,7 +275,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  In this example, the fixed and moving images are read from files. This
-  //  requires the \doxygen{ImageRegistrationMethodv4} to acquire its inputs
+  //  requires the \itkref{ImageRegistrationMethodv4} to acquire its inputs
   //  from the output of the readers.
   //
   //  Software Guide : EndLatex
@@ -392,7 +392,7 @@ main(int argc, char * argv[])
   //  in this example is a variant of gradient descent that attempts to
   //  prevent it from taking steps that are too large. At each iteration, this
   //  optimizer will take a step along the direction of the
-  //  \doxygen{ImageToImageMetricv4} derivative. Each time the direction of
+  //  \itkref{ImageToImageMetricv4} derivative. Each time the direction of
   //  the derivative abruptly changes, the optimizer assumes that a local
   //  extrema has been passed and reacts by reducing the step length by a
   //  relaxation factor. The reducing factor should have a value between 0
@@ -415,8 +415,8 @@ main(int argc, char * argv[])
   //  like maximum number of iterations.
   //
   //  In other gradient descent-based optimizers of the ITKv4 framework, such
-  //  as \doxygen{GradientDescentLineSearchOptimizerv4} and
-  //  \doxygen{ConjugateGradientLineSearchOptimizerv4}, the convergence
+  //  as \itkref{GradientDescentLineSearchOptimizerv4} and
+  //  \itkref{ConjugateGradientLineSearchOptimizerv4}, the convergence
   //  criteria are set via \code{SetMinimumConvergenceValue()} which is
   //  computed based on the results of the last few iterations. The number of
   //  iterations involved in computations are defined by the convergence
@@ -556,7 +556,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  In the case of the \doxygen{TranslationTransform}, there is a
+  //  In the case of the \itkref{TranslationTransform}, there is a
   //  straightforward interpretation of the parameters.  Each element of the
   //  array corresponds to a translation along one spatial dimension.
   //
@@ -670,7 +670,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Now the mapping process is easily done with the
-  //  \doxygen{ResampleImageFilter}. Please refer to
+  //  \itkref{ResampleImageFilter}. Please refer to
   //  Section~\ref{sec:ResampleImageFilter} for details on the use of this
   //  filter.  First, a ResampleImageFilter type is instantiated using the
   //  image types. It is convenient to use the fixed image type as the output
@@ -755,7 +755,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The output of the filter is passed to a writer that will store the
-  //  image in a file. An \doxygen{CastImageFilter} is used to convert the
+  //  image in a file. An \itkref{CastImageFilter} is used to convert the
   //  pixel type of the resampled image to the final type used by the
   //  writer. The cast and writer filters are instantiated below.
   //
@@ -820,7 +820,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The fixed image and the transformed moving image can easily be compared
-  //  using the \doxygen{SubtractImageFilter}. This pixel-wise filter computes
+  //  using the \itkref{SubtractImageFilter}. This pixel-wise filter computes
   //  the difference between homologous pixels of its two input images.
   //
   //  Software Guide : EndLatex
@@ -850,7 +850,7 @@ main(int argc, char * argv[])
   //
   //  Since the differences between the two images may correspond to very low
   //  values of intensity, we rescale those intensities with a
-  //  \doxygen{RescaleIntensityImageFilter} in order to make them more
+  //  \itkref{RescaleIntensityImageFilter} in order to make them more
   //  visible. This rescaling will also make it possible to visualize the
   //  negative values even if we save the difference image in a file format
   //  that only supports unsigned pixel values\footnote{This is the case of
@@ -965,7 +965,7 @@ main(int argc, char * argv[])
   //  In this section, we used a very simple example to introduce the basic
   //  components of a registration process in ITKv4. However, studying this
   //  example alone is not enough to start using the
-  //  \doxygen{ImageRegistrationMethodv4}. In order to choose the best
+  //  \itkref{ImageRegistrationMethodv4}. In order to choose the best
   //  registration practice for a specific application, knowledge of other
   //  registration method instantiations and their capabilities are required.
   //  For example, direct initialization of the output optimizable transform

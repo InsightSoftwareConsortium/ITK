@@ -18,7 +18,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{RelabelComponentImageFilter} is commonly used for
+//  The \itkref{RelabelComponentImageFilter} is commonly used for
 //  reorganizing the labels in an image that has been produced as the result
 //  of a segmentation method. For example, region growing, or a K-means
 //  statistical classification.

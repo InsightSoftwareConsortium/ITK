@@ -108,9 +108,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  //  We also declare types for the \doxygen{GDCMImageIO} object that will
+  //  We also declare types for the \itkref{GDCMImageIO} object that will
   //  actually read and write the DICOM images, and the
-  //  \doxygen{GDCMSeriesFileNames} object that will generate and order all
+  //  \itkref{GDCMSeriesFileNames} object that will generate and order all
   //  the filenames for the slices composing the volume dataset. Once we have
   //  the types, we proceed to create instances of both objects.
   //

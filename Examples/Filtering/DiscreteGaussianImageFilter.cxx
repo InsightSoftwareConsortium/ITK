@@ -31,7 +31,7 @@
 //            {Discretized Gaussian.\label{fig:DiscretizedGaussian}}
 //  \end{floatingfigure}
 //
-//  The \doxygen{DiscreteGaussianImageFilter} computes the convolution of the
+//  The \itkref{DiscreteGaussianImageFilter} computes the convolution of the
 //  input image with a Gaussian kernel.  This is done in $ND$ by taking
 //  advantage of the separability of the Gaussian kernel.  A one-dimensional
 //  Gaussian function is discretized on a convolution kernel.  The size of the
@@ -228,7 +228,7 @@ main(int argc, char * argv[])
   //  Note that large Gaussian variances will produce large convolution
   //  kernels and correspondingly longer computation times.  Unless a high
   //  degree of accuracy is required, it may be more desirable to use the
-  //  approximating \doxygen{RecursiveGaussianImageFilter} with large
+  //  approximating \itkref{RecursiveGaussianImageFilter} with large
   //  variances.
   //
   //  Software Guide : EndLatex

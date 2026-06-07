@@ -215,7 +215,7 @@ main(int argc, char * argv[])
   //  Evolutionary algorithms are based on testing random variations
   //  of parameters. In order to support the computation of random values,
   //  ITK provides a family of random number generators. In this example, we
-  //  use the \doxygen{NormalVariateGenerator} which generates values with a
+  //  use the \itkref{NormalVariateGenerator} which generates values with a
   //  normal distribution.
   //
   //  \index{itk::NormalVariateGenerator!New()}
