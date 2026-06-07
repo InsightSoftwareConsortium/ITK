@@ -23,31 +23,34 @@ itk_add_test(
     "INFINITESIMAL"
 )
 
-itk_add_test(
-  NAME itkStrainImageFilterLagrangianTest
-  COMMAND
-    StrainTestDriver
-    --compare
-    DATA{Baseline/LineLoadStrainLagrangian.mha}
-    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterLagrangianTestOutput.vtk
-    itkStrainImageFilterTest
-    DATA{Input/LineLoadDisplacement.mha}
-    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterLagrangianTest
-    "GREENLAGRANGIAN"
-)
-
-itk_add_test(
-  NAME itkStrainImageFilterEulerianTest
-  COMMAND
-    StrainTestDriver
-    --compare
-    DATA{Baseline/LineLoadStrainEulerian.mha}
-    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterEulerianTestOutput.vtk
-    itkStrainImageFilterTest
-    DATA{Input/LineLoadDisplacement.mha}
-    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterEulerianTest
-    "EULERIANALMANSI"
-)
+# Disabled: baselines LineLoadStrainLagrangian.mha and LineLoadStrainEulerian.mha
+# are empty (0-byte) blobs in ITKTestingData and cannot be fetched. Re-enable once
+# the data is restored. See InsightSoftwareConsortium/ITK#6417.
+#itk_add_test(
+#  NAME itkStrainImageFilterLagrangianTest
+#  COMMAND
+#    StrainTestDriver
+#    --compare
+#    DATA{Baseline/LineLoadStrainLagrangian.mha}
+#    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterLagrangianTestOutput.vtk
+#    itkStrainImageFilterTest
+#    DATA{Input/LineLoadDisplacement.mha}
+#    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterLagrangianTest
+#    "GREENLAGRANGIAN"
+#)
+#
+#itk_add_test(
+#  NAME itkStrainImageFilterEulerianTest
+#  COMMAND
+#    StrainTestDriver
+#    --compare
+#    DATA{Baseline/LineLoadStrainEulerian.mha}
+#    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterEulerianTestOutput.vtk
+#    itkStrainImageFilterTest
+#    DATA{Input/LineLoadDisplacement.mha}
+#    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterEulerianTest
+#    "EULERIANALMANSI"
+#)
 
 itk_add_test(
   NAME itkStrainImageFilterDoGTest
