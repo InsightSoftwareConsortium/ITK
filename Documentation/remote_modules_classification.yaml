@@ -1,0 +1,86 @@
+# Curated classification of ITK-related repositories that are NOT in-tree
+# Modules/Remote remotes, plus the presentation metadata shared by every
+# consumer of this data. In-tree remotes are auto-detected from
+# Modules/Remote/*.remote.cmake and must not be listed under 'repositories'
+# (any that are will be dropped automatically to avoid duplicate listings).
+#
+# This file holds the judgments that cannot be derived mechanically from the
+# source tree (whether a repository is a friend project, a fork, already
+# integrated, non-C++, etc.). Add an entry when a new itk-module-tagged
+# repository appears that is not an in-tree remote, then regenerate the page
+# with Utilities/Maintenance/GenerateRemoteModuleList.py.
+
+# Human-readable description of each MODULE_COMPLIANCE_LEVEL value.
+compliance_levels:
+  "5": "Core-quality; could become an ITK main module"
+  "4": "Very high quality, possibly small community"
+  "3": "Quality beta code"
+  "2": "Alpha / niche code"
+  "1": "Pre-alpha, under development"
+  "0": "Known poor quality or deprecated"
+
+# Section ordering, headings, and blurbs for the curated repositories below.
+# The 'id' is the value used by each repository's 'kind' field.
+kinds:
+  - id: itk-friend
+    heading: ITK-friend projects
+    blurb: Related ITK projects that are not Modules/Remote modules.
+  - id: candidate
+    heading: Candidate remote modules
+    blurb: Repositories that could become Modules/Remote remotes.
+  - id: integrated
+    heading: Integrated into ITK
+    blurb: Former remote modules now part of ITK proper.
+  - id: fork
+    heading: Forks
+    blurb: Forks of a canonical repository; use the canonical one.
+  - id: non-cxx
+    heading: Non-C++ repositories
+    blurb: Tagged itk-module but not C++ ITK modules.
+  - id: archived
+    heading: Archived
+    blurb: No longer maintained.
+  - id: inaccessible
+    heading: Inaccessible
+    blurb: Outside ISC/KitwareMedical; availability not guaranteed.
+
+repositories:
+  - name: ITKElastix
+    repo: https://github.com/InsightSoftwareConsortium/ITKElastix
+    kind: itk-friend
+    note: Python/Wasm wrapper around elastix registration; not a Modules/Remote module.
+
+  - name: ITKModuleTemplate
+    repo: https://github.com/InsightSoftwareConsortium/ITKModuleTemplate
+    kind: itk-friend
+    note: Cookiecutter template for creating new external/remote modules.
+
+  - name: ITKWikiExamples
+    repo: https://github.com/InsightSoftwareConsortium/ITKWikiExamples
+    kind: archived
+    note: Empty/outdated; contents moved to ITKExamples.
+
+  - name: ITKHigherOrderAccurateGradient
+    repo: https://github.com/KitwareMedical/ITKHigherOrderAccurateGradient
+    kind: fork
+    note: Fork; the canonical remote lives under InsightSoftwareConsortium.
+
+  - name: ITKSimpleITKFilters
+    repo: https://github.com/blowekamp/ITKSimpleITKFilters
+    kind: fork
+    note: Personal fork; in-tree remote points at the ISC repository.
+
+  - name: itkSuperPixel
+    repo: https://github.com/blowekamp/itkSuperPixel
+    kind: integrated
+    note: Functionality integrated into ITK proper.
+
+  - name: Retinal-Images-Mosaicking
+    repo: https://github.com/anmaithien/Retinal-Images-Mosaicking
+    kind: non-cxx
+    note: MATLAB project; not a C++ ITK module.
+
+  - name: Liver-tumor-segmentation
+    repo: https://github.com/argaja10/Liver-tumor-segmentation
+    kind: non-cxx
+    note: Python/Jupyter project; not a C++ ITK module.
