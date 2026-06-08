@@ -13,8 +13,6 @@ set(
   vnl_c_vector
   vnl_cost_function
   vnl_diag_matrix
-  vnl_file_matrix
-  vnl_file_vector
   vnl_fortran_copy
   vnl_least_squares_function
   vnl_matrix_fixed
