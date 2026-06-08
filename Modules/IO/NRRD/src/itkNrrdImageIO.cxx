@@ -1259,10 +1259,12 @@ _dump_metadata_to_stream(MetaDataDictionary & thisDic, const std::string & key, 
 void
 NrrdImageIO::Write(const void * buffer)
 {
-  Nrrd *        nrrd = nrrdNew();
-  NrrdIoState * nio = nrrdIoStateNew();
-  int           kind[NRRD_DIM_MAX]{};
-  size_t        size[NRRD_DIM_MAX]{};
+  const std::unique_ptr<Nrrd, decltype(&nrrdNix)>               nrrdGuard(nrrdNew(), nrrdNix);
+  const std::unique_ptr<NrrdIoState, decltype(&nrrdIoStateNix)> nioGuard(nrrdIoStateNew(), nrrdIoStateNix);
+  Nrrd *                                                        nrrd = nrrdGuard.get();
+  NrrdIoState *                                                 nio = nioGuard.get();
+  int                                                           kind[NRRD_DIM_MAX]{};
+  size_t                                                        size[NRRD_DIM_MAX]{};
 
   double spaceDir[NRRD_DIM_MAX][NRRD_SPACE_DIM_MAX];
   std::fill(&spaceDir[0][0], &spaceDir[0][0] + NRRD_DIM_MAX * NRRD_SPACE_DIM_MAX, AIR_NAN);
@@ -1360,8 +1362,8 @@ NrrdImageIO::Write(const void * buffer)
          : nrrdSpaceDimensionSet(nrrd, spaceDim)) ||
       nrrdSpaceOriginSet(nrrd, originStd.data()))
   {
-    char * err = biffGetDone(NRRD); // would be nice to free(err)
-    itkExceptionMacro("Write: Error wrapping nrrd for " << this->GetFileName() << ":\n" << err);
+    const std::unique_ptr<char, decltype(&free)> err(biffGetDone(NRRD), free);
+    itkExceptionMacro("Write: Error wrapping nrrd for " << this->GetFileName() << ":\n" << err.get());
   }
   nrrdAxisInfoSet_nva(nrrd, nrrdAxisInfoKind, kind);
   nrrdAxisInfoSet_nva(nrrd, nrrdAxisInfoSpaceDirection, spaceDir);
@@ -1447,13 +1449,9 @@ NrrdImageIO::Write(const void * buffer)
   // Write the nrrd to file.
   if (nrrdSave(this->GetFileName(), nrrd, nio))
   {
-    char * err = biffGetDone(NRRD); // would be nice to free(err)
-    itkExceptionMacro("Write: Error writing " << this->GetFileName() << ":\n" << err);
+    const std::unique_ptr<char, decltype(&free)> err(biffGetDone(NRRD), free);
+    itkExceptionMacro("Write: Error writing " << this->GetFileName() << ":\n" << err.get());
   }
-
-  // Free the nrrd struct but don't touch nrrd->data
-  nrrdNix(nrrd);
-  nrrdIoStateNix(nio);
 }
 
 } // end namespace itk
