@@ -296,7 +296,7 @@ public:
    *  number of layers on ONE side of the active layer, so the total layers in
    *   the sparse field is 2 * NumberOfLayers +1 */
   /** @ITKStartGrouping */
-  itkSetMacro(NumberOfLayers, unsigned int);
+  itkVirtualSetMacro(NumberOfLayers, unsigned int);
   itkGetConstMacro(NumberOfLayers, unsigned int);
   /** @ITKEndGrouping */
   /** Set/Get the value of the isosurface to use in the input image. */

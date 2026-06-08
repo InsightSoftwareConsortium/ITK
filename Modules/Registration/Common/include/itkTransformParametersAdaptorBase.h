@@ -80,7 +80,7 @@ public:
   SetTransform(TransformBaseType * _arg, void * priorityLower = nullptr) = 0;
 
   /** Set the fixed parameters */
-  itkSetMacro(RequiredFixedParameters, FixedParametersType);
+  itkVirtualSetMacro(RequiredFixedParameters, FixedParametersType);
 
   /** Get the fixed parameters */
   itkGetConstReferenceMacro(RequiredFixedParameters, FixedParametersType);
