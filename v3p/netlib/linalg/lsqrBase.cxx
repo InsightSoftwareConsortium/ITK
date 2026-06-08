@@ -223,7 +223,7 @@ lsqrBase::D2Norm( double a, double b ) const
 void
 lsqrBase::Scale( unsigned int n, double factor, double *x ) const
 {
-  double * const xend = x + n;
+  const double * const xend = x + n;
   while( x != xend )
     {
     *x++ *= factor;

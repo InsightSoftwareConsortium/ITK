@@ -7,6 +7,7 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <array>
 #include <cmath>
 #include <cassert>
 #include <iostream>
@@ -82,9 +83,9 @@ vnl_cholesky::determinant() const
 {
   const long n = A_.columns();
   vnl_matrix<double> I = A_;
-  double det[2];
+  std::array<double, 2> det;
   const long job = 10;
-  v3p_netlib_dpodi_(I.data_block(), &n, &n, det, &job);
+  v3p_netlib_dpodi_(I.data_block(), &n, &n, det.data(), &job);
   return det[0] * std::pow(10.0, det[1]);
 }
 

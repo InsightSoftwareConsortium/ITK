@@ -20,11 +20,11 @@ public:
   //: Maximum value which this type can assume
   static const vnl_decnum maxval; // = infinity
   //: Return value of abs()
-  typedef vnl_decnum abs_t;
+  using abs_t = vnl_decnum;
   //: Name of a type twice as long as this one for accumulators and products.
-  typedef vnl_decnum double_t;
+  using double_t = vnl_decnum;
   //: Name of type which results from multiplying this type with a double
-  typedef vnl_decnum real_t;
+  using real_t = vnl_decnum;
   //: Name of this type
   using self = vnl_decnum;
   //: Name of type which results from using a unary operator-()

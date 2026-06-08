@@ -4,6 +4,9 @@
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif
+#include <array>
+#include <cstdint>
+#include "vcl_compiler.h"
 #include "vnl/vnl_export.h"
 
 //:
@@ -30,8 +33,8 @@ class VNL_EXPORT vnl_random
     mz_previous1 = 24
   };
   unsigned long linear_congruential_previous;
-  unsigned long mz_seed_array[vnl_random_array_size];
-  unsigned long mz_array[vnl_random_array_size];
+  std::array<unsigned long, vnl_random_array_size> mz_seed_array{};
+  std::array<unsigned long, vnl_random_array_size> mz_array{};
   unsigned int mz_array_position{ 0UL };
   int mz_borrow{ 0 };
   unsigned long
@@ -64,7 +67,12 @@ public:
   //  Initializes the random number generator deterministically
   //  using 37 ulongs as the 'seed'. The same seed will
   //  produce the same series of random numbers.
-  vnl_random(unsigned long seed[vnl_random_array_size]);
+  vnl_random(const std::array<unsigned long, vnl_random_array_size> & seed);
+
+  //: Construct with C-array seed (deprecated; use std::array overload).
+  VXL_DEPRECATED_MSG("Pass std::array<unsigned long, vnl_random_array_size> instead")
+  // NOLINTNEXTLINE(modernize-avoid-c-arrays)
+  vnl_random(const unsigned long seed[vnl_random_array_size]);
 
   //: Copy constructor.
   //  Initializes/sets the random number generator to exactly
@@ -89,7 +97,13 @@ public:
 
   //: Starts a new deterministic sequence from an already declared generator using the provided seed.
   void
-  reseed(const unsigned long[vnl_random_array_size]);
+  reseed(const std::array<unsigned long, vnl_random_array_size> & seed);
+
+  //: Reseed from C-array (deprecated; use std::array overload).
+  VXL_DEPRECATED_MSG("Pass std::array<unsigned long, vnl_random_array_size> instead")
+  // NOLINTNEXTLINE(modernize-avoid-c-arrays)
+  void
+  reseed(const unsigned long seed[vnl_random_array_size]);
 
   //: This restarts the sequence of random numbers.
   //  Restarts so that it repeats
@@ -98,24 +112,63 @@ public:
   void
   restart();
 
-  //: Generates a random unsigned 32-bit number.
+  //: Generates a random unsigned 32-bit value in [0, 2^32 - 1].
+  // \deprecated Use next_uint32() — fixed-width return type (issue #976).
+  VXL_DEPRECATED_MSG("Use next_uint32() - see vxl issue #976")
   unsigned long
   lrand32();
 
-  //: Generates a random unsigned long in [a,b]
+  //: Generates a random signed integer in the inclusive range [a, b].
+  // \deprecated Use next_int32(a, b) — fixed-width return type (issue #976).
+  // \pre \c a \c <= \c b
+  VXL_DEPRECATED_MSG("Use next_int32(a, b) - see vxl issue #976")
   int
   lrand32(int a, int b);
 
-  //: Generates a random unsigned long in [0,b]
+  //: Generates a random signed integer in the inclusive range [0, b].
+  // \deprecated Use next_int32(b) — fixed-width return type (issue #976).
+  // \pre \c 0 \c <= \c b
+  VXL_DEPRECATED_MSG("Use next_int32(b) - see vxl issue #976")
   int
   lrand32(int b)
   {
-    return lrand32(0, b);
+    return next_int32(0, b);
   }
 
-  //: Generates a random unsigned long in [a,b]
+  //: Generates a random signed integer in [a, b]; \c count returns
+  //  the number of underlying draws taken (rejection sampling).
+  // \deprecated No fixed-width replacement; use std::uniform_int_distribution
+  //             over next_uint32() if a draw count is needed.
+  VXL_DEPRECATED_MSG("No direct replacement; use std::uniform_int_distribution over next_uint32()")
   int
   lrand32(int a, int b, int &);
+
+  //: Generates a random 32-bit unsigned integer in [0, 2^32 - 1].
+  //  Strongly typed C++11 replacement for \c lrand32(). Delegates to
+  //  the same underlying Marsaglia-Zaman engine so migrating callers
+  //  observe an identical random sequence. Prefer this over
+  //  \c lrand32() in new code; the return type is guaranteed to be
+  //  exactly 32 bits on every platform.
+  std::uint32_t
+  next_uint32();
+
+  //: Generates a random signed 32-bit integer in [a, b] (inclusive).
+  //  Strongly typed C++11 replacement for \c lrand32(int,int).
+  //  Delegates to the existing rejection-sampling implementation, so
+  //  the produced sequence matches \c lrand32(a,b). Prefer this in
+  //  new code.
+  //  \pre \c a \c <= \c b
+  std::int32_t
+  next_int32(std::int32_t a, std::int32_t b);
+
+  //: Generates a random signed 32-bit integer in [0, b] (inclusive).
+  //  Strongly typed C++11 replacement for \c lrand32(int).
+  //  \pre \c 0 \c <= \c b
+  std::int32_t
+  next_int32(std::int32_t b)
+  {
+    return next_int32(0, b);
+  }
 
   //:  Generates a random double in the range a <= x <= b with 32 bit randomness.
   //   drand32(1,0) is random down to about the 10th decimal place.
@@ -128,7 +181,7 @@ public:
   unsigned long
   operator()(unsigned n)
   {
-    return lrand32(0, n - 1);
+    return static_cast<unsigned long>(next_int32(static_cast<std::int32_t>(n) - 1));
   }
 
   //:  Generates a random double in the range 0 <= x <= b with 32 bit randomness.

@@ -121,7 +121,7 @@ make_up_solution(const unsigned M, const unsigned N)
     bool okay = false;
     do
     {
-      true_assn[i] = randgen.lrand32(N);
+      true_assn[i] = randgen.next_int32(N - 1);
       okay = true;
       for (unsigned j = 0; j < i; ++j)
       {

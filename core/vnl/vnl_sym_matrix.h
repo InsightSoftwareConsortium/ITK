@@ -122,7 +122,7 @@ public:
 
   // iterators
 
-  typedef T * iterator;
+  using iterator = T *;
   inline iterator
   begin()
   {
@@ -133,7 +133,7 @@ public:
   {
     return data_ + size();
   }
-  typedef const T * const_iterator;
+  using const_iterator = const T *;
   inline const_iterator
   begin() const
   {

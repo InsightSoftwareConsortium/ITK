@@ -10,8 +10,8 @@
 #include <vnl/algo/vnl_bracket_minimum.h>
 
 // static const double GOLDEN_RATIO = 1.618033988749894848; // = 0.5*(std::sqrt(5)-1);
-static const double COMPL_GOLD = 0.381966011250105152; // = 0.5*(3-std::sqrt(5));
-static const double EPS = 1e-8;
+static constexpr double COMPL_GOLD = 0.381966011250105152; // = 0.5*(3-std::sqrt(5));
+static constexpr double EPS = 1e-8;
 
 // Wrapper to make it easy to evaluate the cost function
 class vnl_brent_minimizer_func

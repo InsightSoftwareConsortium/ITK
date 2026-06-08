@@ -169,7 +169,7 @@ public:
 
   // iterators
 
-  typedef typename vnl_vector<T>::iterator iterator;
+  using iterator = typename vnl_vector<T>::iterator;
   inline iterator
   begin()
   {
@@ -180,7 +180,7 @@ public:
   {
     return diagonal_.end();
   }
-  typedef typename vnl_vector<T>::const_iterator const_iterator;
+  using const_iterator = typename vnl_vector<T>::const_iterator;
   inline const_iterator
   begin() const
   {

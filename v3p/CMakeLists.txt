@@ -37,9 +37,6 @@ mark_as_advanced( VXL_FORCE_V3P_GEOTIFF )
 CMAKE_DEPENDENT_OPTION( VXL_FORCE_V3P_PNG "Use V3P instead of any native PNG library?" OFF
     "VXL_BUILD_CORE_IMAGING" OFF)
 mark_as_advanced( VXL_FORCE_V3P_PNG )
-CMAKE_DEPENDENT_OPTION( VXL_FORCE_V3P_DCMTK "Use V3P instead of any native DCMTK library?" OFF
-    "VXL_BUILD_CORE_IMAGING" OFF)
-mark_as_advanced( VXL_FORCE_V3P_DCMTK )
 CMAKE_DEPENDENT_OPTION( VXL_FORCE_V3P_OPENJPEG2 "Use V3P instead of any native OpenJPEG v2 library?" OFF
     "VXL_BUILD_CORE_IMAGING" OFF)
 mark_as_advanced( VXL_FORCE_V3P_OPENJPEG2 )
@@ -58,7 +55,6 @@ if(VXL_BUILD_CORE_IMAGING)
   add_subdirectory(tiff)
   add_subdirectory(geotiff)
   add_subdirectory(png)
-  add_subdirectory(dcmtk)
   add_subdirectory(openjpeg2)
   add_subdirectory(rply)
 endif()

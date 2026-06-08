@@ -50,8 +50,8 @@ template <class T>
 class VNL_EXPORT vnl_c_vector
 {
 public:
-  typedef typename vnl_numeric_traits<T>::abs_t abs_t;
-  typedef typename vnl_numeric_traits<T>::real_t real_t;
+  using abs_t = typename vnl_numeric_traits<T>::abs_t;
+  using real_t = typename vnl_numeric_traits<T>::real_t;
 
   static T
   sum(const T * v, unsigned n);

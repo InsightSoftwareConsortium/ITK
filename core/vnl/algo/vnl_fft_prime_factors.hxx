@@ -23,7 +23,7 @@ vnl_fft_prime_factors<T>::construct(int N)
   assert(N > 0);
   trigs_ = new T[2 * N];
   number_ = N;
-  vnl_fft_setgpfa(trigs_, number_, pqr_, &info_);
+  vnl_fft_setgpfa(trigs_, number_, pqr_.data(), &info_);
   // info_ == -1 if cannot split into primes
   if (info_ == -1)
     assert(!"you probably gave a signal size not of the form 2^p 3^q 5^r");

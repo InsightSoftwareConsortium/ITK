@@ -17,7 +17,7 @@
 std::string
 testlib_root_dir()
 {
-  char * ptr = std::getenv("VXLSRC");
+  const char * ptr = std::getenv("VXLSRC");
   if (ptr)
     return { ptr };
 

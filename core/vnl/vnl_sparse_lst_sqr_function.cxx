@@ -156,17 +156,17 @@ vnl_sparse_lst_sqr_function::f(const vnl_vector<double> & a,
   for (unsigned int i = 0; i < number_of_a(); ++i)
   {
     // This is semi const incorrect - there is no vnl_vector_ref_const
-    const vnl_vector_ref<double> ai(number_of_params_a(i), const_cast<double *>(a.data_block()) + index_a(i));
+    const vnl_vector_ref<double> ai(number_of_params_a(static_cast<int>(i)), const_cast<double *>(a.data_block()) + static_cast<size_t>(index_a(static_cast<int>(i))));
 
-    const vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(i);
+    const vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(static_cast<int>(i));
     for (auto & r_itr : row)
     {
-      const unsigned int j = r_itr.second;
-      const unsigned int k = r_itr.first;
+      const int j = r_itr.second;
+      const int k = r_itr.first;
       // This is semi const incorrect - there is no vnl_vector_ref_const
-      const vnl_vector_ref<double> bj(number_of_params_b(j), const_cast<double *>(b.data_block()) + index_b(j));
-      vnl_vector_ref<double> eij(number_of_residuals(k), e.data_block() + index_e(k));
-      fij(i, j, ai, bj, c, eij); // compute residual vector e_ij
+      const vnl_vector_ref<double> bj(number_of_params_b(j), const_cast<double *>(b.data_block()) + static_cast<size_t>(index_b(j)));
+      vnl_vector_ref<double> eij(number_of_residuals(k), e.data_block() + static_cast<size_t>(index_e(k)));
+      fij(static_cast<int>(i), j, ai, bj, c, eij); // compute residual vector e_ij
     }
   }
 }
@@ -191,19 +191,19 @@ vnl_sparse_lst_sqr_function::jac_blocks(const vnl_vector<double> & a,
   for (unsigned int i = 0; i < number_of_a(); ++i)
   {
     // This is semi const incorrect - there is no vnl_vector_ref_const
-    const vnl_vector_ref<double> ai(number_of_params_a(i), const_cast<double *>(a.data_block()) + index_a(i));
+    const vnl_vector_ref<double> ai(number_of_params_a(static_cast<int>(i)), const_cast<double *>(a.data_block()) + static_cast<size_t>(index_a(static_cast<int>(i))));
 
-    const vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(i);
+    const vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(static_cast<int>(i));
     for (auto & r_itr : row)
     {
-      const unsigned int j = r_itr.second;
-      const unsigned int k = r_itr.first;
+      const int j = r_itr.second;
+      const int k = r_itr.first;
       // This is semi const incorrect - there is no vnl_vector_ref_const
-      const vnl_vector_ref<double> bj(number_of_params_b(j), const_cast<double *>(b.data_block()) + index_b(j));
+      const vnl_vector_ref<double> bj(number_of_params_b(j), const_cast<double *>(b.data_block()) + static_cast<size_t>(index_b(j)));
 
-      jac_Aij(i, j, ai, bj, c, A[k]); // compute Jacobian A_ij
-      jac_Bij(i, j, ai, bj, c, B[k]); // compute Jacobian B_ij
-      jac_Cij(i, j, ai, bj, c, C[k]); // compute Jacobian C_ij
+      jac_Aij(static_cast<unsigned int>(i), j, ai, bj, c, A[k]); // compute Jacobian A_ij
+      jac_Bij(static_cast<unsigned int>(i), j, ai, bj, c, B[k]); // compute Jacobian B_ij
+      jac_Cij(static_cast<unsigned int>(i), j, ai, bj, c, C[k]); // compute Jacobian C_ij
     }
   }
 }
@@ -229,19 +229,19 @@ vnl_sparse_lst_sqr_function::fd_jac_blocks(const vnl_vector<double> & a,
   for (unsigned int i = 0; i < number_of_a(); ++i)
   {
     // This is semi const incorrect - there is no vnl_vector_ref_const
-    const vnl_vector_ref<double> ai(number_of_params_a(i), const_cast<double *>(a.data_block()) + index_a(i));
+    const vnl_vector_ref<double> ai(number_of_params_a(static_cast<int>(i)), const_cast<double *>(a.data_block()) + static_cast<size_t>(index_a(static_cast<int>(i))));
 
-    const vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(i);
+    const vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(static_cast<int>(i));
     for (auto & r_itr : row)
     {
-      const unsigned int j = r_itr.second;
-      const unsigned int k = r_itr.first;
+      const int j = r_itr.second;
+      const int k = r_itr.first;
       // This is semi const incorrect - there is no vnl_vector_ref_const
-      const vnl_vector_ref<double> bj(number_of_params_b(j), const_cast<double *>(b.data_block()) + index_b(j));
+      const vnl_vector_ref<double> bj(number_of_params_b(j), const_cast<double *>(b.data_block()) + static_cast<size_t>(index_b(j)));
 
-      fd_jac_Aij(i, j, ai, bj, c, A[k], stepsize); // compute Jacobian A_ij with finite differences
-      fd_jac_Bij(i, j, ai, bj, c, B[k], stepsize); // compute Jacobian B_ij with finite differences
-      fd_jac_Cij(i, j, ai, bj, c, C[k], stepsize); // compute Jacobian C_ij with finite differences
+      fd_jac_Aij(static_cast<int>(i), j, ai, bj, c, A[k], stepsize); // compute Jacobian A_ij with finite differences
+      fd_jac_Bij(static_cast<int>(i), j, ai, bj, c, B[k], stepsize); // compute Jacobian B_ij with finite differences
+      fd_jac_Cij(static_cast<int>(i), j, ai, bj, c, C[k], stepsize); // compute Jacobian C_ij with finite differences
     }
   }
 }
@@ -263,17 +263,17 @@ vnl_sparse_lst_sqr_function::compute_weights(const vnl_vector<double> & a,
   for (unsigned int i = 0; i < number_of_a(); ++i)
   {
     // This is semi const incorrect - there is no vnl_vector_ref_const
-    const vnl_vector_ref<double> ai(number_of_params_a(i), const_cast<double *>(a.data_block()) + index_a(i));
+    const vnl_vector_ref<double> ai(number_of_params_a(static_cast<int>(i)), const_cast<double *>(a.data_block()) + static_cast<size_t>(index_a(static_cast<int>(i))));
 
-    const vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(i);
+    const vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(static_cast<int>(i));
     for (auto & r_itr : row)
     {
-      const unsigned int j = r_itr.second;
-      const unsigned int k = r_itr.first;
+      const int j = r_itr.second;
+      const int k = r_itr.first;
       // This is semi const incorrect - there is no vnl_vector_ref_const
-      const vnl_vector_ref<double> bj(number_of_params_b(j), const_cast<double *>(b.data_block()) + index_b(j));
-      const vnl_vector_ref<double> eij(number_of_residuals(k), const_cast<double *>(e.data_block() + index_e(k)));
-      compute_weight_ij(i, j, ai, bj, c, eij, weights[k]);
+      const vnl_vector_ref<double> bj(number_of_params_b(j), const_cast<double *>(b.data_block()) + static_cast<size_t>(index_b(j)));
+      const vnl_vector_ref<double> eij(number_of_residuals(k), const_cast<double *>(e.data_block() + static_cast<size_t>(index_e(k))));
+      compute_weight_ij(static_cast<int>(i), j, ai, bj, c, eij, weights[k]);
     }
   }
 }
@@ -289,13 +289,13 @@ vnl_sparse_lst_sqr_function::apply_weights(const vnl_vector<double> & weights, v
 {
   for (unsigned int i = 0; i < number_of_a(); ++i)
   {
-    const vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(i);
+    const vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(static_cast<int>(i));
     for (auto & r_itr : row)
     {
-      const unsigned int j = r_itr.second;
-      const unsigned int k = r_itr.first;
-      vnl_vector_ref<double> eij(number_of_residuals(k), e.data_block() + index_e(k));
-      apply_weight_ij(i, j, weights[k], eij);
+      const int j = r_itr.second;
+      const int k = r_itr.first;
+      vnl_vector_ref<double> eij(number_of_residuals(k), e.data_block() + static_cast<size_t>(index_e(k)));
+      apply_weight_ij(static_cast<int>(i), j, weights[k], eij);
     }
   }
 }
@@ -314,12 +314,12 @@ vnl_sparse_lst_sqr_function::apply_weights(const vnl_vector<double> & weights,
 {
   for (unsigned int i = 0; i < number_of_a(); ++i)
   {
-    const vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(i);
+    const vnl_crs_index::sparse_vector row = residual_indices_.sparse_row(static_cast<int>(i));
     for (auto & r_itr : row)
     {
-      const unsigned int j = r_itr.second;
-      const unsigned int k = r_itr.first;
-      apply_weight_ij(i, j, weights[k], A[k], B[k], C[k]);
+      const int j = r_itr.second;
+      const int k = r_itr.first;
+      apply_weight_ij(static_cast<int>(i), j, weights[k], A[k], B[k], C[k]);
     }
   }
 }

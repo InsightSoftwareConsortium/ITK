@@ -48,7 +48,7 @@ template <class T>
 void
 vnl_hungarian_algorithm<T>::clear_vector(std::vector<bool> & v)
 {
-  typedef std::vector<bool>::iterator iter;
+  using iter = std::vector<bool>::iterator;
   const iter end = v.end();
   for (iter i = v.begin(); i != end; ++i)
   {
