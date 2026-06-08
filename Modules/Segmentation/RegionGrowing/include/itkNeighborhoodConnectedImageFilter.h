@@ -58,6 +58,8 @@ public:
   using IndexType = typename InputImageType::IndexType;
   using InputImageSizeType = typename InputImageType::SizeType;
 
+  using SeedsContainerType = std::vector<IndexType>;
+
   using OutputImageType = TOutputImage;
   using OutputImagePointer = typename OutputImageType::Pointer;
   using OutputImageRegionType = typename OutputImageType::RegionType;
@@ -77,6 +79,12 @@ public:
   /** Add a seed point */
   void
   AddSeed(const IndexType & seed);
+
+  /** Set/Get the seed container. */
+  /** @ITKStartGrouping */
+  itkSetMacro(Seeds, SeedsContainerType);
+  itkGetConstReferenceMacro(Seeds, SeedsContainerType);
+  /** @ITKEndGrouping */
 
   /** Set/Get the lower threshold. The default is 0. */
   /** @ITKStartGrouping */
@@ -115,7 +123,7 @@ public:
 protected:
   NeighborhoodConnectedImageFilter();
   ~NeighborhoodConnectedImageFilter() override = default;
-  std::vector<IndexType> m_Seeds{};
+  SeedsContainerType m_Seeds{};
 
   InputImagePixelType m_Lower{};
   InputImagePixelType m_Upper{};
