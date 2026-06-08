@@ -22,7 +22,7 @@
 class VNL_EXPORT vnl_double_2x3 : public vnl_matrix_fixed<double, 2, 3>
 {
 private:
-  typedef vnl_matrix_fixed<double, 2, 3> Base;
+  using Base = vnl_matrix_fixed<double, 2, 3>;
 
 public:
   vnl_double_2x3() = default;

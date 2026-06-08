@@ -55,8 +55,8 @@ public:
     PRIME
   };
 
-  typedef vnl_matrix<int> AssignmentMatrixType;
-  typedef std::vector<unsigned> AssignmentVectorType;
+  using AssignmentMatrixType = vnl_matrix<int>;
+  using AssignmentVectorType = std::vector<unsigned>;
 
   vnl_hungarian_algorithm()
     : m_TotalCost(0)

@@ -13,6 +13,9 @@
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif
+#include <algorithm>
+#include <functional>
+#include <numeric>
 #include "vnl/vnl_export.h"
 
 VNL_EXPORT void
@@ -23,15 +26,7 @@ template <class T>
 inline T
 vnl_block_sum(const T x[], unsigned n)
 {
-  if (n == 0)
-    return T(0);
-  else
-  {
-    T ans = x[0];
-    for (unsigned i = 1; i < n; ++i)
-      ans += x[i];
-    return ans;
-  }
+  return std::accumulate(x, x + n, T(0));
 }
 
 //: return product of elements
@@ -39,15 +34,7 @@ template <class T>
 inline T
 vnl_block_product(const T x[], unsigned n)
 {
-  if (n == 0)
-    return T(1);
-  else
-  {
-    T ans = x[0];
-    for (unsigned i = 1; i < n; ++i)
-      ans *= x[i];
-    return ans;
-  }
+  return std::accumulate(x, x + n, T(1), std::multiplies<T>{});
 }
 
 //: return smallest value.
@@ -113,8 +100,7 @@ template <class T>
 inline void
 vnl_block_copy(const T x[], T y[], unsigned n)
 {
-  for (unsigned i = 0; i < n; ++i)
-    y[i] = x[i];
+  std::copy_n(x, n, y);
 }
 
 //: reverses sequence
@@ -235,8 +221,7 @@ template <class T>
 inline void
 vnl_block_fill(T x[], unsigned n, T value)
 {
-  for (unsigned i = 0; i < n; ++i)
-    x[i] = value;
+  std::fill_n(x, n, value);
 }
 
 #endif // vnl_block_h_

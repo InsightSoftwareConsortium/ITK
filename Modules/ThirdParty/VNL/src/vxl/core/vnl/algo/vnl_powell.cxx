@@ -3,6 +3,7 @@
 // \file
 #include <iostream>
 #include <cassert>
+#include <limits>
 #include "vnl_powell.h"
 
 #include "vnl/vnl_math.h"
@@ -23,6 +24,20 @@
 #  endif
 #endif
 
+namespace
+{
+//: Validate that a size_t fits in an int before narrowing, so the guard
+// runs before the conversion is used. A delegating constructor evaluates
+// its target's argument in the member-initializer, before its own body, so
+// the check cannot be written as an assert in the constructor body.
+inline int
+vnl_powell_checked_int(size_t n)
+{
+  assert(n <= static_cast<size_t>(std::numeric_limits<int>::max()));
+  return static_cast<int>(n);
+}
+} // namespace
+
 class vnl_powell_1dfun : public vnl_cost_function
 {
 public:
@@ -40,6 +55,9 @@ public:
     , x0_(n)
     , dx_(n)
     , tmpx_(n)
+  {}
+  vnl_powell_1dfun(size_t n, vnl_cost_function * func, vnl_powell * p)
+    : vnl_powell_1dfun(vnl_powell_checked_int(n), func, p)
   {}
 
   void
@@ -72,7 +90,7 @@ vnl_nonlinear_minimizer::ReturnCodes
 vnl_powell::minimize(vnl_vector<double> & p)
 {
   // verbose_ = true;
-  const int n = p.size();
+  const size_t n = p.size();
   vnl_powell_1dfun f1d(n, functor_, this);
 
   vnl_matrix<double> xi(n, n, vnl_matrix_identity);
@@ -84,13 +102,13 @@ vnl_powell::minimize(vnl_vector<double> & p)
   while (num_iterations_ < unsigned(maxfev))
   {
     const double fp = fret;
-    int ibig = 0;
+    size_t ibig = 0;
     double del = 0.0;
 
-    for (int i = 0; i < n; i++)
+    for (size_t i = 0; i < n; i++)
     {
       // xit = ith column of xi
-      for (int j = 0; j < n; ++j)
+      for (size_t j = 0; j < n; ++j)
         xit[j] = xi[j][i];
       const double fptt = fret;
 
@@ -140,7 +158,7 @@ vnl_powell::minimize(vnl_vector<double> & p)
     if (num_iterations_ == unsigned(maxfev))
       return TOO_MANY_ITERATIONS;
 
-    for (int j = 0; j < n; ++j)
+    for (size_t j = 0; j < n; ++j)
     {
       ptt[j] = 2.0 * p[j] - pt[j];
       xit[j] = p[j] - pt[j];
@@ -179,7 +197,7 @@ vnl_powell::minimize(vnl_vector<double> & p)
 #endif
         f1d.uninit(xx, p);
 
-        for (int j = 0; j < n; j++)
+        for (size_t j = 0; j < n; j++)
         {
           xi[j][ibig] = xi[j][n - 1];
           xi[j][n - 1] = xit[j];

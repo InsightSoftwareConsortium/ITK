@@ -20,7 +20,7 @@ class vnl_svd_economy
 {
 public:
   //: The singular values of a matrix of complex<T> are of type T, not complex<T>
-  typedef typename vnl_numeric_traits<real_t>::abs_t singval_t;
+  using singval_t = typename vnl_numeric_traits<real_t>::abs_t;
 
   vnl_svd_economy(const vnl_matrix<real_t> & M);
 

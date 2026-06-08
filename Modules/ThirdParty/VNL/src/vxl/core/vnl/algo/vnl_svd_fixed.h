@@ -37,7 +37,7 @@ class vnl_svd_fixed
 {
 public:
   //: The singular values of a matrix of complex<T> are of type T, not complex<T>
-  typedef typename vnl_numeric_traits<T>::abs_t singval_t;
+  using singval_t = typename vnl_numeric_traits<T>::abs_t;
 
   //:
   // Construct a vnl_svd_fixed<T> object from $m \times n$ matrix $M$.  The

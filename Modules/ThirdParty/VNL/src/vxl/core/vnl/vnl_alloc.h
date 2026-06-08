@@ -90,7 +90,7 @@ class VNL_EXPORT vnl_alloc
 
 public:
   // this one is needed for proper vcl_simple_alloc wrapping
-  typedef char value_type;
+  using value_type = char;
 
   /* n must be > 0      */
   static void *

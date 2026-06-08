@@ -5,6 +5,7 @@
 // \author fsm
 // Adapted from awf's MatOps class.
 
+#include <array>
 #include <iostream>
 #include "vnl_matlab_print.h"
 
@@ -26,13 +27,13 @@ template <class T>
 std::ostream &
 vnl_matlab_print(std::ostream & s, const T * array, unsigned length, vnl_matlab_print_format format)
 {
-  char buf[1024];
+  std::array<char, 1024> buf;
   for (unsigned j = 0; j < length; j++)
   {
     // Format according to selected style
     // In both cases an exact 0 goes out as such
-    vnl_matlab_print_scalar(array[j], buf, sizeof(buf), format);
-    s << buf;
+    vnl_matlab_print_scalar(array[j], buf.data(), buf.size(), format);
+    s << buf.data();
   }
 
   return s;

@@ -23,7 +23,7 @@
 template <class T>
 struct vnl_fft_1d : public vnl_fft_base<1, T>
 {
-  typedef vnl_fft_base<1, T> base;
+  using base = vnl_fft_base<1, T>;
 
   //: constructor takes length of signal.
   vnl_fft_1d(int N) { base::factors_[0].resize(N); }

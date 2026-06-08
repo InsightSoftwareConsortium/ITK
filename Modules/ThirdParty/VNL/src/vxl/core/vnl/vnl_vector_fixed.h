@@ -25,6 +25,7 @@
 //   Oct.2010 - Peter Vanroose - mutators and setters now return *this
 // \endverbatim
 
+#include <algorithm>
 #include <cstring>
 #include <iosfwd>
 #include <cassert>
@@ -92,8 +93,8 @@ protected:
   T data_[n];
 
 public:
-  typedef vnl_vector_fixed<T, n> self;
-  typedef size_t size_type;
+  using self = vnl_vector_fixed<T, n>;
+  using size_type = size_t;
   // Compile-time accessible attribute to get the dimensionality of the vector.
   enum
   {
@@ -195,7 +196,7 @@ public:
 
   //: Length of the vector.
   // This is always \a n.
-  unsigned int
+  [[nodiscard]] unsigned int
   size() const
   {
     return n;
@@ -230,8 +231,7 @@ public:
   vnl_vector_fixed &
   copy_in(const T * ptr)
   {
-    for (size_type i = 0; i < n; ++i)
-      data_[i] = ptr[i];
+    std::copy_n(ptr, n, data_);
     return *this;
   }
 
@@ -240,8 +240,7 @@ public:
   void
   copy_out(T * ptr) const
   {
-    for (size_type i = 0; i < n; ++i)
-      ptr[i] = data_[i];
+    std::copy_n(data_, n, ptr);
   }
 
   //: Sets elements to ptr[i]
@@ -337,9 +336,9 @@ public:
   //----------------------------------------------------------------------
 
   //: Type defs for iterators
-  typedef T element_type;
+  using element_type = T;
   //: Type defs for iterators
-  typedef T * iterator;
+  using iterator = T *;
   //: Iterator pointing to start of data
   iterator
   begin()
@@ -355,7 +354,7 @@ public:
   }
 
   //: Const iterator type
-  typedef const T * const_iterator;
+  using const_iterator = const T *;
   //: Iterator pointing to start of data
   const_iterator
   begin() const
@@ -494,7 +493,7 @@ public:
   update(const vnl_vector<T> &, unsigned int start = 0);
 
   // norms etc
-  typedef typename vnl_c_vector<T>::abs_t abs_t;
+  using abs_t = typename vnl_c_vector<T>::abs_t;
 
   //: Return sum of squares of elements
   abs_t
@@ -616,15 +615,15 @@ public:
   }
 
   //: Return true if it's finite
-  bool
+  [[nodiscard]] bool
   is_finite() const;
 
   //: Return true iff all the entries are zero.
-  bool
+  [[nodiscard]] bool
   is_zero() const;
 
   //: Return true iff the size is zero.
-  bool
+  [[nodiscard]] bool
   empty() const
   {
     return n == 0;

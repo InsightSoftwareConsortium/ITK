@@ -9,7 +9,7 @@
 static void
 test_inverse()
 {
-  const double eps = 1e-11;
+  constexpr double eps = 1e-11;
   vnl_random rng(9667566ul);
   vnl_double_2x2 residue2;
   vnl_double_2x2 id2;

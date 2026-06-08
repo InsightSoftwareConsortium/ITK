@@ -24,14 +24,14 @@ public:
   //: Maximum value which this type can assume
   static VNL_EXPORT const vnl_rational maxval; // = vnl_numeric_traits<long>::maxval;
   //: Return value of abs()
-  typedef vnl_rational abs_t;
+  using abs_t = vnl_rational;
   //: Name of a type twice as long as this one for accumulators and products.
-  typedef vnl_rational double_t;
+  using double_t = vnl_rational;
   //: Name of type which results from multiplying this type with a double.
   //  Note that this requires an explicit cast from double to vnl_rational.
   //  This must be a built-in type: do not set this to vnl_rational, since
   //  that would require std::sqrt(vnl_rational) etc., which is not allowed.
-  typedef double real_t;
+  using real_t = double;
   //: Name of this type
   using self = vnl_rational;
   //: Name of type which results from using a unary operator-()
@@ -56,11 +56,11 @@ public:
   //: Maximum value which this type can assume; makes no sense for this type
   static const std::complex<vnl_rational> maxval;
   //: Return value of abs()
-  typedef vnl_rational abs_t;
+  using abs_t = vnl_rational;
   //: Name of a type twice as long as this one for accumulators and products.
-  typedef std::complex<vnl_rational> double_t;
+  using double_t = std::complex<vnl_rational>;
   //: Name of type which results from multiplying this type with a double
-  typedef std::complex<vnl_rational> real_t; // should be std::complex<double>, but that gives casting problems
+  using real_t = std::complex<vnl_rational>; // should be std::complex<double>, but that gives casting problems
 };
 
 template <>

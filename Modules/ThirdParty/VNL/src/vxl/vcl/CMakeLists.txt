@@ -105,9 +105,7 @@ set( vcl_sources
 vxl_add_library(LIBRARY_NAME ${VXL_LIB_PREFIX}vcl
   LIBRARY_SOURCES ${vcl_sources}
   )
-if(UNIX)
-  target_link_libraries(${VXL_LIB_PREFIX}vcl m)
-endif()
+target_link_libraries(${VXL_LIB_PREFIX}vcl PRIVATE vxl_platform_math )
 
 if( BUILD_TESTING)
   add_subdirectory(tests)

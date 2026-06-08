@@ -26,8 +26,8 @@
 class VNL_EXPORT vnl_crs_index
 {
 public:
-  typedef std::pair<int, int> idx_pair;
-  typedef std::vector<idx_pair> sparse_vector;
+  using idx_pair = std::pair<int, int>;
+  using sparse_vector = std::vector<idx_pair>;
 
   //: Constructor - default
   vnl_crs_index()
@@ -52,7 +52,7 @@ public:
   int
   num_cols() const
   {
-    return num_cols_;
+    return static_cast<int>(num_cols_);
   }
 
   //: number of non-zero elements

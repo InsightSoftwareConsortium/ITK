@@ -8,8 +8,11 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <algorithm>
 #include <cmath>
+#include <functional>
 #include <new>
+#include <numeric>
 #include "vnl_c_vector.h"
 #include <cassert>
 #include "vnl_math.h"
@@ -29,10 +32,9 @@ template <class T>
 void
 vnl_c_vector<T>::normalize(T * v, unsigned n)
 {
-  typedef typename vnl_numeric_traits<abs_t>::real_t real_abs_t;
-  abs_t tmp(0);
-  for (unsigned i = 0; i < n; ++i)
-    tmp += vnl_math::squared_magnitude(v[i]);
+  using real_abs_t = typename vnl_numeric_traits<abs_t>::real_t;
+  abs_t tmp =
+    std::accumulate(v, v + n, abs_t(0), [](abs_t s, const T & x) { return s + vnl_math::squared_magnitude(x); });
   if (tmp != 0)
   {
     tmp = abs_t(real_abs_t(1) / std::sqrt(real_abs_t(tmp)));
@@ -61,8 +63,7 @@ template <class T>
 void
 vnl_c_vector<T>::copy(const T * src, T * dst, unsigned n)
 {
-  for (unsigned i = 0; i < n; ++i)
-    dst[i] = src[i];
+  std::copy_n(src, n, dst);
 }
 
 template <class T>
@@ -213,9 +214,7 @@ template <class T>
 void
 vnl_c_vector<T>::fill(T * x, unsigned n, const T & v_)
 {
-  T v = v_;
-  for (unsigned i = 0; i < n; ++i)
-    x[i] = v;
+  std::fill_n(x, n, v_);
 }
 
 template <class T>
@@ -243,10 +242,9 @@ template <class T>
 T
 vnl_c_vector<T>::inner_product(const T * a, const T * b, unsigned n)
 {
-  T ip(0);
-  for (unsigned i = 0; i < n; ++i)
-    ip += a[i] * vnl_complex_traits<T>::conjugate(b[i]);
-  return ip;
+  return std::inner_product(a, a + n, b, T(0), std::plus<T>{}, [](const T & x, const T & y) {
+    return x * vnl_complex_traits<T>::conjugate(y);
+  });
 }
 
 // conjugates one block of data into another block.
@@ -339,7 +337,7 @@ vnl_c_vector_rms_norm(const T * p, unsigned n, S * out)
 {
   vnl_c_vector_two_norm_squared(p, n, out);
   *out /= n;
-  typedef typename vnl_numeric_traits<S>::real_t real_t;
+  using real_t = typename vnl_numeric_traits<S>::real_t;
   *out = S(std::sqrt(real_t(*out)));
 }
 
@@ -358,7 +356,7 @@ void
 vnl_c_vector_two_norm(const T * p, unsigned n, S * out)
 {
   vnl_c_vector_two_norm_squared(p, n, out);
-  typedef typename vnl_numeric_traits<S>::real_t real_t;
+  using real_t = typename vnl_numeric_traits<S>::real_t;
   *out = S(std::sqrt(real_t(*out)));
 }
 

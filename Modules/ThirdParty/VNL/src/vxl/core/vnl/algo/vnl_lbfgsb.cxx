@@ -7,6 +7,7 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <array>
 #include <cstring>
 #include <iostream>
 #include "vnl_lbfgsb.h"
@@ -57,13 +58,13 @@ vnl_lbfgsb::minimize(vnl_vector<double> & x)
   //
   //
   vnl_vector<long> iwa(3 * n);
-  char csave[60];
-  long lsave[4];
-  long isave[44];
-  double dsave[29];
+  std::array<char, 60> csave{};
+  std::array<long, 4> lsave{};
+  std::array<long, 44> isave{};
+  std::array<double, 29> dsave{};
 
   // Task communication.
-  char task[61] = "START                                                       ";
+  std::array<char, 61> task = { "START                                                       " };
 
   // Verbosity level inside lbfgs implementation.
   // (-1 no o/p, 0 start and end, 1 every iter)
@@ -95,15 +96,15 @@ vnl_lbfgsb::minimize(vnl_vector<double> & x)
                        &this->projected_gradient_tolerance_,
                        wa.data_block(),
                        iwa.data_block(),
-                       task,
+                       task.data(),
                        &iprint,
-                       csave,
-                       lsave,
-                       isave,
-                       dsave);
+                       csave.data(),
+                       lsave.data(),
+                       isave.data(),
+                       dsave.data());
 
     // Check the current task.
-    if (std::strncmp("FG", task, 2) == 0)
+    if (std::strncmp("FG", task.data(), 2) == 0)
     {
       // Evaluate the function and gradient.
       this->f_->compute(x, &f, &gradient);
@@ -121,7 +122,7 @@ vnl_lbfgsb::minimize(vnl_vector<double> & x)
       }
       this->report_eval(f);
     }
-    else if (std::strncmp("NEW_X", task, 5) == 0)
+    else if (std::strncmp("NEW_X", task.data(), 5) == 0)
     {
       // dsave[12] = the infinity norm of the projected gradient
       this->inf_norm_projected_gradient_ = dsave[12];
@@ -134,21 +135,21 @@ vnl_lbfgsb::minimize(vnl_vector<double> & x)
         break;
       }
     }
-    else if (std::strncmp("ERROR", task, 5) == 0)
+    else if (std::strncmp("ERROR", task.data(), 5) == 0)
     {
       // some error
       this->failure_code_ = ERROR_FAILURE;
       ok = false;
       break;
     }
-    else if (std::strncmp("ABNORMAL_TERMINATION_IN_LNSRCH", task, 30) == 0)
+    else if (std::strncmp("ABNORMAL_TERMINATION_IN_LNSRCH", task.data(), 30) == 0)
     {
       // some error
       this->failure_code_ = ABNORMAL_TERMINATION_IN_LNSRCH;
       ok = false;
       break;
     }
-    else if (std::strncmp("CONVERGENCE", task, 11) == 0)
+    else if (std::strncmp("CONVERGENCE", task.data(), 11) == 0)
     {
       // convergence has been reached
       if (f < this->end_error_)
@@ -157,12 +158,12 @@ vnl_lbfgsb::minimize(vnl_vector<double> & x)
         this->end_error_ = f;
       }
 
-      if (std::strncmp("CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH", task, 47) == 0)
+      if (std::strncmp("CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH", task.data(), 47) == 0)
       {
         // function tolerance reached
         this->failure_code_ = CONVERGED_FTOL;
       }
-      else if (std::strncmp("CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL", task, 48) == 0)
+      else if (std::strncmp("CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL", task.data(), 48) == 0)
       {
         // gradient tolerance reached
         this->failure_code_ = CONVERGED_GTOL;
@@ -172,7 +173,7 @@ vnl_lbfgsb::minimize(vnl_vector<double> & x)
         this->failure_code_ = ERROR_FAILURE;
         if (trace)
         {
-          std::cerr << "Unknown convergence type: " << task << std::endl;
+          std::cerr << "Unknown convergence type: " << task.data() << std::endl;
         }
       }
       break;
@@ -183,7 +184,7 @@ vnl_lbfgsb::minimize(vnl_vector<double> & x)
       this->failure_code_ = ERROR_FAILURE;
       if (trace)
       {
-        std::cerr << "Unknown failure with task: " << task << std::endl;
+        std::cerr << "Unknown failure with task: " << task.data() << std::endl;
       }
       ok = false;
       break;
