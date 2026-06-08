@@ -163,7 +163,7 @@ itk_add_test(
     ITKIOMeshVTKTestDriver
     itkVTKPolyDataMeshIOTest
     DATA{Baseline/fibers.vtk}
-    ${ITK_TEST_OUTPUT_DIR}/fibers_b.vtk
+    ${ITK_TEST_OUTPUT_DIR}/fibers_b_VTKPolyDataMeshIO.vtk
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
     ${ITK_TEST_OUTPUT_DIR}/binary2binaryvtk2mhaHeadMRVolume.mha
     0

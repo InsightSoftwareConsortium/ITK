@@ -463,7 +463,7 @@ itk_add_test(
     ITKFEMTestDriver
     itkFEMElement2DC0LinearQuadrilateralStrainItpackTest
     DATA{Input/2DC0LinearQuadrilateralStrainTest.meta}
-    ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStrainTestWrite.meta
+    ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStrainItpackTestWrite.meta
 )
 
 itk_add_test(

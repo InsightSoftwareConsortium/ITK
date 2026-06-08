@@ -37,7 +37,7 @@ itk_add_test(
     # Video Input:
     DATA{Input/inde-circulation.avi}
     # Output:
-    ${ITK_TEST_OUTPUT_DIR}/VXLVideoIOTest_Out.avi
+    ${ITK_TEST_OUTPUT_DIR}/VXLVideoIOFactoryTest_Out.avi
     # Webcam Number:
     0
 )

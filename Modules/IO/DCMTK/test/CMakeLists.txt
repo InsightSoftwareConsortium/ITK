@@ -173,7 +173,7 @@ itk_add_test(
     ITKIODCMTKTestDriver
     itkDCMTKSeriesReadImageWrite
     DATA{${ITK_DATA_ROOT}/Input/DicomDirectionsTest/,REGEX:1020_[0-9]+.dcm}
-    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesReadImageWrite.vtk
+    ${ITK_TEST_OUTPUT_DIR}/itkDCMTKDirCosinesTest.vtk
     0
     0
     0

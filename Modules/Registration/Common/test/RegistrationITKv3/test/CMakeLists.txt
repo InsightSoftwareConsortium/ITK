@@ -62,8 +62,8 @@ itk_add_test(
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceShifted13x17y.png
     ${TEMP}/ImageRegistration4Test2.png
     0
-    ${TEMP}/ImageRegistration4BeforeTest.png
-    ${TEMP}/ImageRegistration4AfterTest.png
+    ${TEMP}/ImageRegistration4BeforeTest2.png
+    ${TEMP}/ImageRegistration4AfterTest2.png
     24
     10000
     0

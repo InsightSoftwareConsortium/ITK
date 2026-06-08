@@ -93,7 +93,7 @@ itk_add_test(
     # Video Input:
     DATA{Input/inde-circulation_short.avi}
     # Output:
-    ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoIOTest_Out.avi
+    ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoIOFactoryTest_Out.avi
     # Webcam Number:
     0
 )

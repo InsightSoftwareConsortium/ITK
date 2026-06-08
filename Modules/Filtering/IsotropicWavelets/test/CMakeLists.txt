@@ -423,7 +423,7 @@ itk_add_test(
   COMMAND
     IsotropicWaveletsTestDriver
     itkIsotropicWaveletFrequencyFunctionTest
-    ${ITK_TEST_OUTPUT_DIR}/profileMotherWavelet
+    ${ITK_TEST_OUTPUT_DIR}/profileMotherWaveletHeld
     "unused"
     1
     "Held"
@@ -434,7 +434,7 @@ itk_add_test(
   COMMAND
     IsotropicWaveletsTestDriver
     itkIsotropicWaveletFrequencyFunctionTest
-    ${ITK_TEST_OUTPUT_DIR}/profileMotherWavelet
+    ${ITK_TEST_OUTPUT_DIR}/profileMotherWaveletShannon
     "unused"
     1
     "Shannon"
@@ -445,7 +445,7 @@ itk_add_test(
   COMMAND
     IsotropicWaveletsTestDriver
     itkIsotropicWaveletFrequencyFunctionTest
-    ${ITK_TEST_OUTPUT_DIR}/profileMotherWavelet
+    ${ITK_TEST_OUTPUT_DIR}/profileMotherWaveletSimoncelli
     "unused"
     1
     "Simoncelli"
@@ -456,7 +456,7 @@ itk_add_test(
   COMMAND
     IsotropicWaveletsTestDriver
     itkIsotropicWaveletFrequencyFunctionTest
-    ${ITK_TEST_OUTPUT_DIR}/profileMotherWavelet
+    ${ITK_TEST_OUTPUT_DIR}/profileMotherWaveletVow
     "unused"
     1
     "Vow"
@@ -613,10 +613,10 @@ itk_add_test(
     IsotropicWaveletsTestDriver
     # --compare
     # DATA{Baseline/vol11-16_16_16_output_expected.nrrd}
-    # ${ITK_TEST_OUTPUT_DIR}/vol11-16_16_16_L2_B2_S2.nrrd
+    # ${ITK_TEST_OUTPUT_DIR}/vol11-16_16_16_L2_B2_S2_SpatialDomain.nrrd
     itkWaveletCoeffsSpatialDomainImageFilterTest
     DATA{Input/vol11-16_16_16.nrrd}
-    ${ITK_TEST_OUTPUT_DIR}/vol11-16_16_16.nrrd
+    ${ITK_TEST_OUTPUT_DIR}/vol11-16_16_16_SpatialDomain.nrrd
     2
     2
     Simoncelli
