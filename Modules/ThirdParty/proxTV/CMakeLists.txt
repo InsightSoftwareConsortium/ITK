@@ -47,7 +47,7 @@ endif()
   )
 
   set(proxTV_USE_LAPACK 0)
-  set(proxTV_Eigen_LIBRARIES ITK::ITKEigen3Module)
+  set(proxTV_Eigen_LIBRARIES ${ITK_LIBRARY_NAMESPACE}::ITKEigen3Module)
 
   include(${CMAKE_CURRENT_LIST_DIR}/proxTVGitTag.cmake)
 
@@ -60,15 +60,6 @@ endif()
   # end proxTV options
 
   FetchContent_MakeAvailable(proxTV_fetch)
-
-  # proxTV sources include <Eigen/...>; ITK vendors Eigen under an itkeigen/
-  # prefix, so add the directory that holds Eigen/ directly to the build.
-  target_include_directories(
-    proxTV
-    SYSTEM
-    PRIVATE
-      "${ITKEigen3_SOURCE_DIR}/src/itkeigen"
-  )
 endif()
 
 itk_module_impl()
