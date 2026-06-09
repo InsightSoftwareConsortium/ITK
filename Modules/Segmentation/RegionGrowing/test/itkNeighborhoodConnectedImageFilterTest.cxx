@@ -83,5 +83,22 @@ itkNeighborhoodConnectedImageFilterTest(int argc, char * argv[])
   writer->SetFileName(argv[2]);
   writer->Update();
 
+  // Exercise SetSeeds/GetSeeds container interface
+  const FilterType::SeedsContainerType seeds = filter->GetSeeds();
+  filter->ClearSeeds();
+  if (!filter->GetSeeds().empty())
+  {
+    std::cerr << "Test FAILED!" << std::endl;
+    std::cerr << "Seed container not empty after ClearSeeds." << std::endl;
+    return EXIT_FAILURE;
+  }
+  filter->SetSeeds(seeds);
+  if (filter->GetSeeds() != seeds)
+  {
+    std::cerr << "Test FAILED!" << std::endl;
+    std::cerr << "Seed container from GetSeeds does not match SetSeeds input." << std::endl;
+    return EXIT_FAILURE;
+  }
+
   return EXIT_SUCCESS;
 }

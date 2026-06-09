@@ -79,6 +79,18 @@ itkConnectedThresholdImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  // Exercise SetSeeds/GetSeeds container interface using SeedsContainerType alias
+  connectedThresholdFilter->AddSeed(seed);
+  const ConnectedThresholdImageFilterType::SeedsContainerType seeds = connectedThresholdFilter->GetSeeds();
+  connectedThresholdFilter->ClearSeeds();
+  connectedThresholdFilter->SetSeeds(seeds);
+  if (connectedThresholdFilter->GetSeeds() != seeds)
+  {
+    std::cerr << "Test FAILED !" << std::endl;
+    std::cerr << "Seed container from GetSeeds does not match SetSeeds input." << std::endl;
+    return EXIT_FAILURE;
+  }
+
   connectedThresholdFilter->SetSeed(seed);
 
 
