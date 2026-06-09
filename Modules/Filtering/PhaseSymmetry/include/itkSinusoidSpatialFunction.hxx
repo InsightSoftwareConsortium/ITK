@@ -19,7 +19,7 @@
 #define itkSinusoidSpatialFunction_hxx
 
 #include <cmath>
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -45,7 +45,7 @@ SinusoidSpatialFunction<TOutput, VImageDimension, TInput>::Evaluate(const TInput
   {
     frequencyTerm += this->m_Frequency[ii] * position[ii];
   }
-  frequencyTerm *= 2.0 * vnl_math::pi;
+  frequencyTerm *= 2.0 * itk::Math::pi;
   frequencyTerm += this->m_PhaseOffset;
   const double value = std::cos(frequencyTerm);
   return static_cast<TOutput>(value);

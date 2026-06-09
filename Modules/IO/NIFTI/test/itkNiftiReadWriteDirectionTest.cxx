@@ -259,7 +259,7 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   const double trace = rRelative[0][0] + rRelative[1][1] + rRelative[2][2];
 
   // Calculate the angle of rotation between the two matrices
-  const double angle = std::acos((trace - 1.0) / 2.0) * 180.0 / vnl_math::pi;
+  const double angle = std::acos((trace - 1.0) / 2.0) * 180.0 / itk::Math::pi;
 
   // The angle between the two matrices will depend on the amount of shear in the sform. Some test images
   // have relatively large shear to make sure they trigger the sform correction. In practice, permissive mode
