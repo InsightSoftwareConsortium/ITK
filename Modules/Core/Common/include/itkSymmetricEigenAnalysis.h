@@ -159,9 +159,9 @@ Int2EigenValueOrderEnum(const uint8_t value)
 
 #if !defined(ITK_LEGACY_REMOVE)
 /** Enables reverse compatibility for enumeration values */
-static constexpr EigenValueOrderEnum OrderByValue = EigenValueOrderEnum::OrderByValue;
-static constexpr EigenValueOrderEnum OrderByMagnitude = EigenValueOrderEnum::OrderByMagnitude;
-static constexpr EigenValueOrderEnum DoNotOrder = EigenValueOrderEnum::DoNotOrder;
+inline constexpr EigenValueOrderEnum OrderByValue = EigenValueOrderEnum::OrderByValue;
+inline constexpr EigenValueOrderEnum OrderByMagnitude = EigenValueOrderEnum::OrderByMagnitude;
+inline constexpr EigenValueOrderEnum DoNotOrder = EigenValueOrderEnum::DoNotOrder;
 #endif
 
 /** \class SymmetricEigenAnalysis

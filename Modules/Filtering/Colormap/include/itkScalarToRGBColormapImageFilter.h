@@ -57,20 +57,20 @@ using RGBColormapFilterEnum = ScalarToRGBColormapImageFilterEnums::RGBColormapFi
 using RGBColormapFilterEnumType = ScalarToRGBColormapImageFilterEnums::RGBColormapFilter;
 // We need to expose the enum values at the class level
 // for backwards compatibility
-static constexpr RGBColormapFilterEnum Red = RGBColormapFilterEnum::Red;
-static constexpr RGBColormapFilterEnum Green = RGBColormapFilterEnum::Green;
-static constexpr RGBColormapFilterEnum Blue = RGBColormapFilterEnum::Blue;
-static constexpr RGBColormapFilterEnum Grey = RGBColormapFilterEnum::Grey;
-static constexpr RGBColormapFilterEnum Hot = RGBColormapFilterEnum::Hot;
-static constexpr RGBColormapFilterEnum Cool = RGBColormapFilterEnum::Cool;
-static constexpr RGBColormapFilterEnum Spring = RGBColormapFilterEnum::Spring;
-static constexpr RGBColormapFilterEnum Summer = RGBColormapFilterEnum::Summer;
-static constexpr RGBColormapFilterEnum Autumn = RGBColormapFilterEnum::Autumn;
-static constexpr RGBColormapFilterEnum Winter = RGBColormapFilterEnum::Winter;
-static constexpr RGBColormapFilterEnum Copper = RGBColormapFilterEnum::Copper;
-static constexpr RGBColormapFilterEnum Jet = RGBColormapFilterEnum::Jet;
-static constexpr RGBColormapFilterEnum HSV = RGBColormapFilterEnum::HSV;
-static constexpr RGBColormapFilterEnum OverUnder = RGBColormapFilterEnum::OverUnder;
+inline constexpr RGBColormapFilterEnum Red = RGBColormapFilterEnum::Red;
+inline constexpr RGBColormapFilterEnum Green = RGBColormapFilterEnum::Green;
+inline constexpr RGBColormapFilterEnum Blue = RGBColormapFilterEnum::Blue;
+inline constexpr RGBColormapFilterEnum Grey = RGBColormapFilterEnum::Grey;
+inline constexpr RGBColormapFilterEnum Hot = RGBColormapFilterEnum::Hot;
+inline constexpr RGBColormapFilterEnum Cool = RGBColormapFilterEnum::Cool;
+inline constexpr RGBColormapFilterEnum Spring = RGBColormapFilterEnum::Spring;
+inline constexpr RGBColormapFilterEnum Summer = RGBColormapFilterEnum::Summer;
+inline constexpr RGBColormapFilterEnum Autumn = RGBColormapFilterEnum::Autumn;
+inline constexpr RGBColormapFilterEnum Winter = RGBColormapFilterEnum::Winter;
+inline constexpr RGBColormapFilterEnum Copper = RGBColormapFilterEnum::Copper;
+inline constexpr RGBColormapFilterEnum Jet = RGBColormapFilterEnum::Jet;
+inline constexpr RGBColormapFilterEnum HSV = RGBColormapFilterEnum::HSV;
+inline constexpr RGBColormapFilterEnum OverUnder = RGBColormapFilterEnum::OverUnder;
 #endif
 /** Define how to print enumerations */
 extern ITKColormap_EXPORT std::ostream &
