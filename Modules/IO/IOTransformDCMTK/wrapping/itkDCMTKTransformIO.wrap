@@ -1,6 +1,0 @@
-itk_wrap_class("itk::DCMTKTransformIO" POINTER)
-itk_wrap_template("${ITKM_D}" "${ITKT_D}")
-itk_wrap_template("${ITKM_F}" "${ITKT_F}")
-itk_end_wrap_class()
-
-itk_wrap_simple_class("itk::DCMTKTransformIOFactory" POINTER)

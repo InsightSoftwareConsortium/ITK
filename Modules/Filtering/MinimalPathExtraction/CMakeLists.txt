@@ -1,4 +1,0 @@
-project(MinimalPathExtraction)
-set(MinimalPathExtraction_LIBRARIES MinimalPathExtraction)
-
-itk_module_impl()

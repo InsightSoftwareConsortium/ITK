@@ -1,0 +1,14 @@
+#ifndef vcl_compiler_h_
+#define vcl_compiler_h_
+
+//:
+// \file
+// \brief Backward-compatibility shim.
+//
+// The configured compiler/version macros (VXL_VERSION*, VCL_COMMA,
+// VXL_USED_IN_DEBUG, the legacy-macro poison guards, ...) now live in
+// vxl_config.h. This header is retained because downstream projects
+// (ITK, BRAINSTools, ANTs) include "vcl_compiler.h" directly.
+#include <vxl_config.h>
+
+#endif // vcl_compiler_h_

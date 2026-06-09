@@ -1,3 +1,0 @@
-itk_wrap_class("itk::IsotropicWaveletsUtilities")
-itk_wrap_template("IsotropicWaveletsUtilities" "")
-itk_end_wrap_class()

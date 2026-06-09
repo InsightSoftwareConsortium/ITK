@@ -1,3 +1,0 @@
-project(ITKQuadEdgeMeshFiltering)
-set(ITKQuadEdgeMeshFiltering_LIBRARIES ITKQuadEdgeMeshFiltering)
-itk_module_impl()

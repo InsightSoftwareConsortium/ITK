@@ -1,0 +1,18 @@
+//:
+// \file
+// \deprecated <vnl/vnl_config.h> is obsolete. Its options are no longer
+// configurable: bounds checks are always off and the thread-safe allocator is
+// always used. This backward-compatibility shim hard-codes the values an ITK
+// build always used; it is errored out under ITK_LEGACY_REMOVE so consumers
+// can find and drop the include.
+#ifndef vnl_config_h_
+#define vnl_config_h_
+
+#ifdef ITK_LEGACY_REMOVE
+#  error "<vnl/vnl_config.h> is obsolete; remove the include (its options are now unconditional)."
+#else
+#  define VNL_CONFIG_CHECK_BOUNDS 0
+#  define VNL_CONFIG_THREAD_SAFE 1
+#endif
+
+#endif

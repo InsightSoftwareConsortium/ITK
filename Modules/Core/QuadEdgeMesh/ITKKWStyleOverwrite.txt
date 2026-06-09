@@ -1,5 +1,0 @@
-itkQuadEdgeMeshEulerOperatorFlipEdgeFunction\.h Comments Disable
-itkGeometricalQuadEdgeTest1.cxx Namespace Disable
-itkQuadEdgeMeshBasicLayerTest.cxx Namespace Disable
-itkQuadEdgeMeshCellInterfaceTest.cxx Namespace Disable
-itkQuadEdgeMeshPointTest1.cxx Namespace Disable

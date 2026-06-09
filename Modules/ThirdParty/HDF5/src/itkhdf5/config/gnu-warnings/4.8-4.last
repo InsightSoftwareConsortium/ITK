@@ -1,3 +1,0 @@
-# -Wvla was later incorporated into -Wpedantic and
-# only needs to be specified explicitly for gcc 4
--Wvla

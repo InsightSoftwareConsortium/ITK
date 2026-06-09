@@ -1,7 +1,0 @@
-*.sh                         eol=lf
-debug/msvc/*.dat             eol=crlf
-debug/msvc/*.natvis          eol=crlf
-
-* -whitespace
-Eigen/src/misc/lapacke.h hooks-max-size=1500000
-Eigen/src/misc/lapacke.h hooks.MaxObjectKiB=2048

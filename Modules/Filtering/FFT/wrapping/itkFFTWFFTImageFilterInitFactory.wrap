@@ -1,3 +1,0 @@
-if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
-  itk_wrap_simple_class("itk::FFTWFFTImageFilterInitFactory" POINTER)
-endif()
