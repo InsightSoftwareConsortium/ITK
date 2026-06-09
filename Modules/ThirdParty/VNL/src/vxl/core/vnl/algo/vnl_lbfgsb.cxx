@@ -10,9 +10,30 @@
 #include <array>
 #include <cstring>
 #include <iostream>
+#include <mutex>
 #include "vnl_lbfgsb.h"
 
 #include <vnl/algo/vnl_netlib.h> // setulb_()
+
+namespace
+{
+// L-BFGS-B (v3p_netlib_setulb_) is the f2c translation of FORTRAN
+// code that uses SAVE'd locals; concurrent reverse-communication
+// drivers interleaving setulb_ calls corrupt that global state.
+// The lock is acquired at minimize() entry and held for the full
+// driver loop so that one minimize() invocation completes its
+// reverse-communication sequence before another may begin.
+//
+// This is a band-aid: regenerating netlib via thread-safe LAPACK
+// (issue #23) would let us drop this. See also core/vnl/algo/
+// README_threading.md for the full inventory of serialised paths.
+std::mutex &
+lbfgsb_call_mutex()
+{
+  static std::mutex m;
+  return m;
+}
+} // namespace
 
 //----------------------------------------------------------------------------
 vnl_lbfgsb::vnl_lbfgsb(vnl_cost_function & f)
@@ -37,6 +58,10 @@ vnl_lbfgsb::init_parameters()
 bool
 vnl_lbfgsb::minimize(vnl_vector<double> & x)
 {
+  // Serialize the entire reverse-communication driver loop. See the
+  // anonymous-namespace comment for lbfgsb_call_mutex() above.
+  std::lock_guard<std::mutex> lbfgsb_minimize_guard(lbfgsb_call_mutex());
+
   // Basic setup.
   const long n = this->f_->get_number_of_unknowns();
   const long m = this->max_corrections_;
@@ -83,7 +108,8 @@ vnl_lbfgsb::minimize(vnl_vector<double> & x)
   bool ok = true;
   for (;;)
   {
-    // Call the L-BFGS-B code.
+    // Call the L-BFGS-B code. The full driver loop is serialised by
+    // the lock_guard at minimize() entry.
     v3p_netlib_setulb_(&n,
                        &m,
                        x.data_block(),

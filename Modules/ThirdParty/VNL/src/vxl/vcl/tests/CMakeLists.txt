@@ -31,10 +31,9 @@ add_executable( vcl_test_all
      test_vector.cxx
      test_cstdio.cxx
      test_preprocessor.cxx
-     test_atomic_count.cxx
      test_typename.cxx
 )
-target_link_libraries( vcl_test_all ${VXL_LIB_PREFIX}vcl )
+target_link_libraries( vcl_test_all vcl )
 
 add_test( NAME vcl_test_algorithm COMMAND vcl_test_all test_algorithm )
 add_test( NAME vcl_test_cctype COMMAND vcl_test_all test_cctype )
@@ -59,10 +58,9 @@ if(NOT EMSCRIPTEN AND NOT WASI)
   add_test( NAME vcl_test_cstdio COMMAND vcl_test_all test_cstdio ${CMAKE_CURRENT_LIST_DIR}/test_cstdio.txt )
 endif()
 add_test( NAME vcl_test_preprocessor COMMAND vcl_test_all test_preprocessor )
-add_test( NAME vcl_test_atomic_count COMMAND vcl_test_all test_atomic_count )
 # Only a compiler test:
 #add_test( NAME vcl_test_stlfwd COMMAND vcl_test_all test_stlfwd )
 #add_test( NAME vcl_test_typename COMMAND vcl_test_all test_typename )
 
 add_executable( vcl_test_include test_include.cxx )
-target_link_libraries( vcl_test_include ${VXL_LIB_PREFIX}vcl )
+target_link_libraries( vcl_test_include vcl )

@@ -1,64 +1,9 @@
 # vxl/core/vnl/CMakeLists.txt
 project(vnl)
 
-doxygen_add_library(core/vnl
-  DEPENDS core/vsl
-  PACKAGE core
-  DESCRIPTION "Numerics Library"
-  )
-
-# Create vnl_config.h
-option(VNL_CONFIG_CHECK_BOUNDS
-  "Whether vnl_vector/vnl_matrix accessor methods check index bounds." ON)
-option(VNL_CONFIG_LEGACY_METHODS
-  "Whether backward-compatibility methods are provided by vnl." OFF)
-option(VNL_CONFIG_THREAD_SAFE
-  "Whether thread-safe vnl implementations are used." ON)
-
-
-option(VNL_CONFIG_ENABLE_SSE2_ROUNDING
-  "Enable Streaming SIMD Extensions 2 implementation of rounding (hardware dependant)."
-  ${VXL_HAS_SSE2_HARDWARE_SUPPORT} )
-if( VNL_CONFIG_ENABLE_SSE2_ROUNDING )
-  if( NOT VXL_HAS_SSE2_HARDWARE_SUPPORT )
-    if( VXL_SSE2_HARDWARE_SUPPORT_POSSIBLE )
-      message( ${VXL_SSE2_HARDWARE_SUPPORT_POSSIBLE_HELP} )
-    endif()
-    message( SEND_ERROR "Cannot have VNL_CONFIG_ENABLE_SSE2_ROUNDING because"
-                        " there is no SSE2 hardware support" )
-    set(VNL_CONFIG_ENABLE_SSE2_ROUNDING 0)
-  endif()
-endif()
-
-
-mark_as_advanced(
-  VNL_CONFIG_CHECK_BOUNDS
-  VNL_CONFIG_LEGACY_METHODS
-  VNL_CONFIG_THREAD_SAFE
-  VNL_CONFIG_ENABLE_SSE2_ROUNDING
-  )
-# Need to enforce 1/0 values for configuration.
-if(VNL_CONFIG_CHECK_BOUNDS)
-  set(VNL_CONFIG_CHECK_BOUNDS 1)
-else()
-  set(VNL_CONFIG_CHECK_BOUNDS 0)
-endif()
-if(VNL_CONFIG_LEGACY_METHODS)
-  set(VNL_CONFIG_LEGACY_METHODS 1)
-else()
-  set(VNL_CONFIG_LEGACY_METHODS 0)
-endif()
-if(VNL_CONFIG_THREAD_SAFE)
-  set(VNL_CONFIG_THREAD_SAFE 1)
-else()
-  set(VNL_CONFIG_THREAD_SAFE 0)
-endif()
-
-if(VNL_CONFIG_ENABLE_SSE2_ROUNDING)
-  set(VNL_CONFIG_ENABLE_SSE2_ROUNDING 1)
-else()
-  set(VNL_CONFIG_ENABLE_SSE2_ROUNDING 0)
-endif()
+# SSE2 rounding in vnl_math is gated purely by the compiler's __SSE2__ macro
+# (mandatory on x86-64, never on ARM), so no configure-time option or probe
+# is needed.
 
 # If VXL_INSTALL_INCLUDE_DIR is the default value
 if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
@@ -66,9 +11,14 @@ if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
 else()
   set(_config_install_dir ${VXL_INSTALL_INCLUDE_DIR}/vnl)
 endif()
-vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vnl_config.h.in
-                   ${PROJECT_BINARY_DIR}/vnl_config.h
-                   ${_config_install_dir})
+# vnl_config.h is an obsolete backward-compatibility shim (its options are now
+# unconditional). Generate it only when future-legacy code is retained; under
+# ITK_FUTURE_LEGACY_REMOVE it is omitted so stale includes fail fast.
+if(NOT ITK_FUTURE_LEGACY_REMOVE)
+  vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vnl_config.h.in
+                     ${PROJECT_BINARY_DIR}/vnl_config.h
+                     ${_config_install_dir})
+endif()
 
 set( vnl_sources
   dll.h
@@ -81,7 +31,6 @@ set( vnl_sources
                                vnl_vector_ref.h
   vnl_vector_fixed.hxx         vnl_vector_fixed.h
   vnl_vector_fixed_ref.hxx     vnl_vector_fixed_ref.h
-  vnl_file_vector.hxx          vnl_file_vector.h
   vnl_matrix.hxx               vnl_matrix.h
                                vnl_matrix_ref.h
   vnl_matrix_fixed.hxx         vnl_matrix_fixed.h
@@ -89,8 +38,6 @@ set( vnl_sources
   vnl_diag_matrix.hxx          vnl_diag_matrix.h
   vnl_diag_matrix_fixed.hxx    vnl_diag_matrix_fixed.h
   vnl_sparse_matrix.hxx        vnl_sparse_matrix.h
-  vnl_matrix_exp.hxx           vnl_matrix_exp.h
-  vnl_file_matrix.hxx          vnl_file_matrix.h
   vnl_sym_matrix.hxx           vnl_sym_matrix.h
 
   # matrix operators
@@ -102,7 +49,6 @@ set( vnl_sources
                                vnl_power.h
                                vnl_trace.h
   vnl_rank.hxx                 vnl_rank.h
-  vnl_scalar_join_iterator.hxx vnl_scalar_join_iterator.h
 
   #
   vnl_alloc.cxx                vnl_alloc.h
@@ -125,20 +71,12 @@ set( vnl_sources
   # Polyniomial representations
   vnl_polynomial.hxx           vnl_polynomial.h
   vnl_real_polynomial.cxx      vnl_real_polynomial.h
-  vnl_real_npolynomial.cxx     vnl_real_npolynomial.h
 
   # alternative number representations
 
   # Quaternions
   vnl_quaternion.hxx           vnl_quaternion.h
-  # Rational number arithmetic; represented by two long integers
-  vnl_rational.cxx             vnl_rational.h
-  # Arbitrary precision integers
-  vnl_bignum.cxx               vnl_bignum.h
-  # Arbitrary precision decimal numbers
-  vnl_decnum.cxx               vnl_decnum.h
   # Finite field and finite ring numbers and arithmetic
-  vnl_finite.h
 
   # ops
   vnl_fastops.cxx              vnl_fastops.h
@@ -149,9 +87,6 @@ set( vnl_sources
   # traits
   vnl_numeric_traits.cxx       vnl_numeric_traits.h
                                vnl_complex_traits.h
-  vnl_bignum_traits.cxx        vnl_bignum_traits.h
-  vnl_decnum_traits.cxx        vnl_decnum_traits.h
-  vnl_rational_traits.cxx      vnl_rational_traits.h
 
   # matrix and vector specialisations
   vnl_int_matrix.cxx           vnl_int_matrix.h
@@ -195,10 +130,8 @@ set( vnl_sources
   vnl_cost_function.cxx               vnl_cost_function.h
   vnl_least_squares_function.cxx      vnl_least_squares_function.h
   vnl_least_squares_cost_function.cxx vnl_least_squares_cost_function.h
-  vnl_sparse_lst_sqr_function.cxx     vnl_sparse_lst_sqr_function.h
   vnl_nonlinear_minimizer.cxx         vnl_nonlinear_minimizer.h
 
-  vnl_hungarian_algorithm.hxx         vnl_hungarian_algorithm.h
 
   # linear systems
   vnl_linear_system.cxx               vnl_linear_system.h
@@ -213,10 +146,8 @@ set( vnl_sources
   vnl_crs_index.cxx            vnl_crs_index.h
 
   # Special functions
-  vnl_bessel.cxx               vnl_bessel.h
                                vnl_cross.h
   vnl_gamma.cxx                vnl_gamma.h
-                               vnl_beta.h
   vnl_erf.cxx                  vnl_erf.h
   vnl_drand48.cpp              vnl_drand48.h
   vnl_sample.cxx               vnl_sample.h
@@ -236,24 +167,11 @@ set( vnl_sources
 
 aux_source_directory(Templates vnl_sources)
 
-if(CMAKE_COMPILER_IS_GNUCXX)
-  if(VNL_CONFIG_ENABLE_SSE2_ROUNDING)
-    if( NOT VXL_HAS_SSE2_HARDWARE_SUPPORT )
-      if( VXL_SSE2_HARDWARE_SUPPORT_POSSIBLE )
-        message( ${VXL_SSE2_HARDWARE_SUPPORT_POSSIBLE_HELP} )
-      endif()
-      message( SEND_ERROR "Cannot have VNL_CONFIG_ENABLE_SSE2_ROUNDING because"
-                          " there is no SSE2 hardware support" )
-      set(VNL_CONFIG_ENABLE_SSE2_ROUNDING FALSE)
-    endif()
-  endif()
-endif()
-
-vxl_add_library(LIBRARY_NAME ${VXL_LIB_PREFIX}vnl
+vxl_add_library(LIBRARY_NAME itkvnl
   LIBRARY_SOURCES ${vnl_sources}
   HEADER_BUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}"  # vnl_config.h
   HEADER_INSTALL_DIR vnl)
-target_link_libraries( ${VXL_LIB_PREFIX}vnl ${VXL_LIB_PREFIX}vcl )
+target_link_libraries(itkvnl PUBLIC vcl)
 set(_curr_lib_name vnl)
 # If VXL_INSTALL_INCLUDE_DIR is the default value
 if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
@@ -262,7 +180,7 @@ else()
   set(_install_dir ${VXL_INSTALL_INCLUDE_DIR}/${_curr_lib_name})
 endif()
 set_vxl_library_properties(
-     TARGET_NAME ${VXL_LIB_PREFIX}${_curr_lib_name}
+     TARGET_NAME itk${_curr_lib_name}
      BASE_NAME ${_curr_lib_name}
      EXPORT_HEADER_FILE ${VXLCORE_BINARY_INCLUDE_DIR}/${_curr_lib_name}/${_curr_lib_name}_export.h
      INSTALL_DIR ${_install_dir}
@@ -274,11 +192,3 @@ if( BUILD_TESTING )
 endif()
 
 add_subdirectory(algo)
-
-if( VXL_BUILD_EXAMPLES )
-  add_subdirectory(examples)
-endif()
-
-if (VXL_BUILD_OBJECT_LIBRARIES)
-  add_library(vnl-obj OBJECT ${vnl_sources})
-endif()

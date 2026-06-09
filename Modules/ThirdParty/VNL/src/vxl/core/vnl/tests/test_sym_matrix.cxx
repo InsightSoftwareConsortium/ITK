@@ -14,12 +14,7 @@ test_int()
   // CONSTRUCTORS //
   //////////////////
 
-#if VNL_CONFIG_CHECK_BOUNDS
-  // ssm1 must be mutable for VNL_CONFIG_CHECK_BOUNDS
-  vnl_sym_matrix<int> sm1(2);
-#else
   const vnl_sym_matrix<int> sm1(2);
-#endif
   TEST("\n\nvnl_sym_matrix<int> m1(2)", (sm1.rows() == 2 && sm1.columns() == 2), true);
   vnl_sym_matrix<int> sm2(2, 2);
   TEST(
@@ -76,79 +71,6 @@ test_int()
   // ACCESSORS //
   ///////////////
 
-#if VNL_CONFIG_CHECK_BOUNDS
-
-  {
-    // Get
-    bool exceptionThrownAndCaught = false;
-    try
-    {
-      sm1.get(0, 25);
-    } // Raise out of bounds exception.
-    catch (...)
-    {
-      exceptionThrownAndCaught = true;
-    }
-    TEST("Out of bounds get(0,25)", exceptionThrownAndCaught, true);
-
-    exceptionThrownAndCaught = false;
-    try
-    {
-      sm1.get(25, 0);
-    } // Raise out of bounds exception.
-    catch (...)
-    {
-      exceptionThrownAndCaught = true;
-    }
-    TEST("Out of bounds get(25,0)", exceptionThrownAndCaught, true);
-
-    exceptionThrownAndCaught = false;
-    try
-    {
-      sm1.get(25, 25);
-    } // Raise out of bounds exception.
-    catch (...)
-    {
-      exceptionThrownAndCaught = true;
-    }
-    TEST("Out of bounds get(25,25)", exceptionThrownAndCaught, true);
-
-    // Put
-    exceptionThrownAndCaught = false;
-    try
-    {
-      sm1.put(0, 25, 0);
-    } // Raise out of bounds exception.
-    catch (...)
-    {
-      exceptionThrownAndCaught = true;
-    }
-    TEST("Out of bounds put(0,25,0)", exceptionThrownAndCaught, true);
-
-    exceptionThrownAndCaught = false;
-    try
-    {
-      sm1.put(25, 0, 0);
-    } // Raise out of bounds exception.
-    catch (...)
-    {
-      exceptionThrownAndCaught = true;
-    }
-    TEST("Out of bounds put(25,0,0)", exceptionThrownAndCaught, true);
-
-    exceptionThrownAndCaught = false;
-    try
-    {
-      sm1.put(25, 25, 0);
-    } // Raise out of bounds exception.
-    catch (...)
-    {
-      exceptionThrownAndCaught = true;
-    }
-    TEST("Out of bounds put(25,25,0)", exceptionThrownAndCaught, true);
-  }
-
-#endif
 }
 
 

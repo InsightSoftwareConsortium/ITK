@@ -1,16 +1,10 @@
 # vcl/CMakeLists.txt
-
-if(WIN32)
-  # MSVC.NET produces lots of warnings like
-  # "warning LNK4221: no public symbols found; archive member will be inaccessible"
-  # that depend on subtle logic at compile time.
-  # This is a bit indescriminate, but it may be the only feasible way to suppress them.
-  if(CMAKE_CXX_COMPILER MATCHES "^cl$")
-    set( CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /WARN:0")
-    set( CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /WARN:0")
-  endif()
-endif()
-
+#
+# vcl is header-only: it provides the configured vcl_compiler.h /
+# vcl_where_root_dir.h and the vcl_msvc_warnings.h shim. The "vcl" INTERFACE
+# target carries the vcl and core include roots (source and generated) so any
+# target that links it resolves <vcl_compiler.h>, <vxl_config.h> and <vnl/...>
+# without a global include_directories.
 
 project( vcl )
 
@@ -23,94 +17,49 @@ endif()
 vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vcl_compiler.h.in ${PROJECT_BINARY_DIR}/vcl_compiler.h ${_config_destination})
 vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vcl_where_root_dir.h.in ${PROJECT_BINARY_DIR}/vcl_where_root_dir.h  ${_config_destination})
 
-include_directories(${PROJECT_BINARY_DIR})
-set( vcl_sources
-  vcl_legacy_aliases.h
-  vcl_deprecated.cxx
-  vcl_deprecated.h
+install(FILES vcl_msvc_warnings.h
+    DESTINATION ${_config_destination}
+    PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ
+    COMPONENT Development )
 
-  vcl_cmath.h
-  vcl_cassert.h
-  vcl_cstdlib.h
+# vcl carries the vcl + core include roots. By default it is a real static
+# archive holding one dummy symbol (vcl.cxx) so downstream link lines that still
+# reference -lvcl resolve; with ITK_FUTURE_LEGACY_REMOVE it becomes a pure
+# header-only INTERFACE target. Either way the include paths propagate.
+if(ITK_FUTURE_LEGACY_REMOVE)
+  add_library(vcl INTERFACE)
+  set(_vcl_scope INTERFACE)
+else()
+  add_library(vcl STATIC vcl.cxx)
+  set(_vcl_scope PUBLIC)
+endif()
+target_include_directories(vcl ${_vcl_scope}
+    "$<BUILD_INTERFACE:${VCL_INCLUDE_DIR}>"
+    "$<BUILD_INTERFACE:${VCL_BINARY_INCLUDE_DIR}>"
+    "$<BUILD_INTERFACE:${VXLCORE_INCLUDE_DIR}>"
+    "$<BUILD_INTERFACE:${VXLCORE_BINARY_INCLUDE_DIR}>")
+if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
+  target_include_directories(vcl ${_vcl_scope}
+      "$<INSTALL_INTERFACE:${VXL_INSTALL_INCLUDE_DIR}/vcl>"
+      "$<INSTALL_INTERFACE:${VXL_INSTALL_INCLUDE_DIR}/core>")
+else()
+  target_include_directories(vcl ${_vcl_scope}
+      "$<INSTALL_INTERFACE:${VXL_INSTALL_INCLUDE_DIR}>")
+endif()
+# Join the install export set so exported consumers do not trip
+# "target not in any export set" when this tree is embedded in ITK.
+install(TARGETS vcl EXPORT ${VXL_INSTALL_EXPORT_NAME}
+    ARCHIVE DESTINATION ${VXL_INSTALL_LIBRARY_DIR}
+    LIBRARY DESTINATION ${VXL_INSTALL_LIBRARY_DIR}
+    RUNTIME DESTINATION ${VXL_INSTALL_RUNTIME_DIR})
 
-  vcl_algorithm.h
-  vcl_bitset.h
-  vcl_cctype.h
-  vcl_cerrno.h
-  vcl_cfloat.h
-  vcl_ciso646.h
-  vcl_climits.h
-  vcl_clocale.h
-  vcl_complex.h
-  vcl_csetjmp.h
-  vcl_csignal.h
-  vcl_cstdarg.h
-  vcl_cstddef.h
-  vcl_cstdio.h
-  vcl_cstring.h
-  vcl_ctime.h
-  vcl_cwchar.h
-  vcl_cwctype.h
-  vcl_deque.h
-  vcl_exception.h
-  vcl_fstream.h
-  vcl_functional.h
-  vcl_iomanip.h
-  vcl_ios.h
-  vcl_iosfwd.h
-  vcl_iostream.h
-  vcl_istream.h
-  vcl_iterator.h
-  vcl_limits.h
-  vcl_list.h
-  vcl_locale.h
-  vcl_map.h
-  vcl_memory.h
-  vcl_msvc_warnings.h
-  vcl_numeric.h
-  vcl_ostream.h
-  vcl_queue.h
-  vcl_set.h
-  vcl_sstream.h
-  vcl_stack.h
-  vcl_stdexcept.h
-  vcl_stlfwd.h
-  vcl_streambuf.h
-  vcl_string.h
-  vcl_typeinfo.h
-  vcl_utility.h
-  vcl_valarray.h
-  vcl_vector.h
-  vcl_sys/time.h
-  vcl_sys/types.h
-
-  # The following shall not be used other than as reference count for smart pointers
-  vcl_atomic_count.h
-  internal/vcl_atomic_count_gcc.h
-  internal/vcl_atomic_count_gcc_x86.h
-  internal/vcl_atomic_count_pthreads.h
-  internal/vcl_atomic_count_solaris.h
-  internal/vcl_atomic_count_sync.h
-  internal/vcl_atomic_count_win32.h
-  internal/vcl_interlocked.h
-
-)
-
-
-# We use implicit instantiation of the standard library now,
-# so we shouldn't be explicitly instantiating anything.
-# This also avoid trouble where the instantiation hack conflict
-# with modern, more compliant compilers.
-#aux_source_directory(Templates vcl_sources)
-vxl_add_library(LIBRARY_NAME ${VXL_LIB_PREFIX}vcl
-  LIBRARY_SOURCES ${vcl_sources}
-  )
-target_link_libraries(${VXL_LIB_PREFIX}vcl PRIVATE vxl_platform_math )
+# When embedded in an ITK module build, ITK only auto-exports its own module
+# libraries to the build-tree targets file, not vxl's vcl. Add vcl there too so
+# build-tree consumers resolve it instead of emitting a dangling -lvcl.
+if(DEFINED itk-module AND DEFINED ${itk-module}-targets-build)
+  export(TARGETS vcl APPEND FILE ${${itk-module}-targets-build})
+endif()
 
 if( BUILD_TESTING)
   add_subdirectory(tests)
-endif()
-
-if (VXL_BUILD_OBJECT_LIBRARIES)
-  add_library(vcl-obj OBJECT ${vcl_sources})
 endif()

@@ -70,7 +70,7 @@ public:
   vnl_random(const std::array<unsigned long, vnl_random_array_size> & seed);
 
   //: Construct with C-array seed (deprecated; use std::array overload).
-  VXL_DEPRECATED_MSG("Pass std::array<unsigned long, vnl_random_array_size> instead")
+  [[deprecated("Pass std::array<unsigned long, vnl_random_array_size> instead")]]
   // NOLINTNEXTLINE(modernize-avoid-c-arrays)
   vnl_random(const unsigned long seed[vnl_random_array_size]);
 
@@ -100,7 +100,7 @@ public:
   reseed(const std::array<unsigned long, vnl_random_array_size> & seed);
 
   //: Reseed from C-array (deprecated; use std::array overload).
-  VXL_DEPRECATED_MSG("Pass std::array<unsigned long, vnl_random_array_size> instead")
+  [[deprecated("Pass std::array<unsigned long, vnl_random_array_size> instead")]]
   // NOLINTNEXTLINE(modernize-avoid-c-arrays)
   void
   reseed(const unsigned long seed[vnl_random_array_size]);
@@ -114,21 +114,21 @@ public:
 
   //: Generates a random unsigned 32-bit value in [0, 2^32 - 1].
   // \deprecated Use next_uint32() — fixed-width return type (issue #976).
-  VXL_DEPRECATED_MSG("Use next_uint32() - see vxl issue #976")
+  [[deprecated("Use next_uint32() - see vxl issue #976")]]
   unsigned long
   lrand32();
 
   //: Generates a random signed integer in the inclusive range [a, b].
   // \deprecated Use next_int32(a, b) — fixed-width return type (issue #976).
   // \pre \c a \c <= \c b
-  VXL_DEPRECATED_MSG("Use next_int32(a, b) - see vxl issue #976")
+  [[deprecated("Use next_int32(a, b) - see vxl issue #976")]]
   int
   lrand32(int a, int b);
 
   //: Generates a random signed integer in the inclusive range [0, b].
   // \deprecated Use next_int32(b) — fixed-width return type (issue #976).
   // \pre \c 0 \c <= \c b
-  VXL_DEPRECATED_MSG("Use next_int32(b) - see vxl issue #976")
+  [[deprecated("Use next_int32(b) - see vxl issue #976")]]
   int
   lrand32(int b)
   {
@@ -139,7 +139,7 @@ public:
   //  the number of underlying draws taken (rejection sampling).
   // \deprecated No fixed-width replacement; use std::uniform_int_distribution
   //             over next_uint32() if a draw count is needed.
-  VXL_DEPRECATED_MSG("No direct replacement; use std::uniform_int_distribution over next_uint32()")
+  [[deprecated("No direct replacement; use std::uniform_int_distribution over next_uint32()")]]
   int
   lrand32(int a, int b, int &);
 

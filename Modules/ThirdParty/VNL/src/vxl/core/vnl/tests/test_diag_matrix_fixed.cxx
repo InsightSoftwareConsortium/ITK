@@ -120,35 +120,6 @@ test_diag_matrix_fixed()
   // ACCESSORS //
   ///////////////
 
-#if VNL_CONFIG_CHECK_BOUNDS
-
-  {
-    // Get
-    bool exceptionThrownAndCaught = false;
-    try
-    {
-      m1.get(25, 25);
-    } // Raise out of bounds exception.
-    catch (...)
-    {
-      exceptionThrownAndCaught = true;
-    }
-    TEST("Out of bounds get(25,25)", exceptionThrownAndCaught, true);
-
-    // Put
-    exceptionThrownAndCaught = false;
-    try
-    {
-      m1.put(25, 25, 0);
-    } // Raise out of bounds exception.
-    catch (...)
-    {
-      exceptionThrownAndCaught = true;
-    }
-    TEST("Out of bounds put(25,25,0)", exceptionThrownAndCaught, true);
-  }
-
-#endif
 }
 
 TESTMAIN(test_diag_matrix_fixed);

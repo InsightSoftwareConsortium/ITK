@@ -42,19 +42,11 @@ struct vnl_matrix_inverse : public vnl_svd<T>
     return this->inverse();
   }
 
-#if !VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS
   explicit
   operator vnl_matrix<T>() const
   {
     return this->inverse();
   }
-#else
-#  if VXL_LEGACY_FUTURE_REMOVE
-  VXL_DEPRECATED_MSG(
-    "Implicit cast conversion is dangerous.\nUSE: .as_matrix() or .as_ref() member function for clarity.")
-#  endif
-  operator vnl_matrix<T>() const { return this->inverse(); }
-#endif
 };
 
 template <class T>

@@ -235,10 +235,6 @@ public:
   const T &
   operator()(unsigned r, unsigned c) const
   {
-#if VNL_CONFIG_CHECK_BOUNDS && (!defined NDEBUG)
-    assert(r < num_rows); // Check the row index is valid
-    assert(c < num_cols); // Check the column index is valid
-#endif
     return *(data_ + num_cols * r + c);
   }
 
@@ -601,10 +597,6 @@ public:
   T &
   operator()(unsigned r, unsigned c) const
   {
-#if VNL_CONFIG_CHECK_BOUNDS && (!defined NDEBUG)
-    assert(r < num_rows); // Check the row index is valid
-    assert(c < num_cols); // Check the column index is valid
-#endif
     return *(this->data_block() + num_cols * r + c);
   }
 
@@ -941,22 +933,11 @@ public:
   // Sometimes, such as with templated functions, the compiler cannot
   // use this user-defined conversion. For those cases, use the
   // explicit as_ref() method instead.
-#if !VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS
   explicit
   operator const vnl_matrix_ref<T>() const
   {
     return vnl_matrix_ref<T>(num_rows, num_cols, const_cast<T *>(data_block()));
   }
-#else
-#  if VXL_LEGACY_FUTURE_REMOVE
-  VXL_DEPRECATED_MSG(
-    "Implicit cast conversion is dangerous.\nUSE: .as_matrix() or .as_ref() member function for clarity.")
-#  endif
-  operator const vnl_matrix_ref<T>() const
-  {
-    return vnl_matrix_ref<T>(num_rows, num_cols, const_cast<T *>(data_block()));
-  }
-#endif
   explicit
   operator vnl_matrix<T>() const
   {
