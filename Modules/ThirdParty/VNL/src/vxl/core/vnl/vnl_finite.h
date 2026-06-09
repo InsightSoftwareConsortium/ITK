@@ -56,7 +56,7 @@ class vnl_finite_int
 private:
   int val_; //!< value of this number (smallest nonnegative representation)
 
-  typedef vnl_finite_int<N> Base;
+  using Base = vnl_finite_int<N>;
 
 public:
   //: The number of different finite_int numbers of this type
@@ -770,8 +770,8 @@ isfinite(const vnl_finite_int<N> &)
 template <int N, int M>
 class vnl_finite_int_poly
 {
-  typedef vnl_finite_int_poly<N, M> Base;
-  typedef vnl_finite_int<N> Scalar;
+  using Base = vnl_finite_int_poly<N, M>;
+  using Scalar = vnl_finite_int<N>;
 
   std::vector<Scalar> val_; //!< M-tuple (or degree M-1 polynomial) representing this
 

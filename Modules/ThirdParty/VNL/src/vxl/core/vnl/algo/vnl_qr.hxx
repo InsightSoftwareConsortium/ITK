@@ -117,7 +117,7 @@ vnl_qr<T>::Q() const
 
     // Golub and vanLoan, p199.  backward accumulation of householder matrices
     // Householder vector k is [zeros(1,k-1) qraux_[k] qrdc_out_[k,:]]
-    typedef typename vnl_numeric_traits<T>::abs_t abs_t;
+    using abs_t = typename vnl_numeric_traits<T>::abs_t;
     for (int k = n - 1; k >= 0; --k)
     {
       if (k >= m)

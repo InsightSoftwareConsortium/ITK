@@ -21,7 +21,7 @@ vnl_crs_index::vnl_crs_index(const std::vector<std::vector<bool>> & mask)
     {
       if (col[j])
       {
-        col_idx_.push_back(j);
+        col_idx_.push_back(static_cast<int>(j));
         ++k;
       }
     }

@@ -145,7 +145,7 @@ public:
   virtual ~vnl_vector();
 
   //: Return the length, number of elements, dimension of this vector.
-  size_t
+  [[nodiscard]] size_t
   size() const
   {
     return this->num_elmts;
@@ -362,11 +362,11 @@ public:
   }
 
   //: Type defs for iterators
-  typedef T element_type;
-  typedef size_t size_type;
+  using element_type = T;
+  using size_type = size_t;
 
   //: Type defs for iterators
-  typedef T * iterator;
+  using iterator = T *;
   //: Iterator pointing to start of data
   iterator
   begin()
@@ -382,7 +382,7 @@ public:
   }
 
   //: Const iterator type
-  typedef const T * const_iterator;
+  using const_iterator = const T *;
   //: Iterator pointing to start of data
   const_iterator
   begin() const
@@ -453,7 +453,7 @@ public:
   update(const vnl_vector<T> &, size_t start = 0);
 
   // norms etc
-  typedef typename vnl_c_vector<T>::abs_t abs_t;
+  using abs_t = typename vnl_c_vector<T>::abs_t;
 
   //: Return sum of squares of elements
   abs_t
@@ -601,15 +601,15 @@ public:
   }
 
   //: Return true if it's finite
-  bool
+  [[nodiscard]] bool
   is_finite() const;
 
   //: Return true iff all the entries are zero.
-  bool
+  [[nodiscard]] bool
   is_zero() const;
 
   //: Return true iff the size is zero.
-  bool
+  [[nodiscard]] bool
   empty() const
   {
     return !data || !num_elmts;

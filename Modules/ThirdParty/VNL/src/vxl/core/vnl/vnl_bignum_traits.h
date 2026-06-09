@@ -20,11 +20,11 @@ public:
   //: Maximum value which this type can assume
   static const vnl_bignum maxval; // = infinity
   //: Return value of abs()
-  typedef vnl_bignum abs_t;
+  using abs_t = vnl_bignum;
   //: Name of a type twice as long as this one for accumulators and products.
-  typedef vnl_bignum double_t;
+  using double_t = vnl_bignum;
   //: Name of type which results from multiplying this type with a double
-  typedef double real_t;
+  using real_t = double;
   //: Name of this type
   using self = vnl_bignum;
   //: Name of type which results from using a unary operator-()

@@ -7,7 +7,7 @@
 static void
 test_power()
 {
-  const double eps = 1e-11;
+  constexpr double eps = 1e-11;
   vnl_double_2x2 residue2;
   vnl_double_2x2 id2;
   id2.set_identity();

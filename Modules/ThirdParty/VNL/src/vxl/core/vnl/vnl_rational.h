@@ -435,12 +435,12 @@ public:
   inline bool
   operator<(double r) const
   {
-    return num_ < den_ * r;
+    return static_cast<double>(num_) < static_cast<double>(den_) * r;
   }
   inline bool
   operator>(double r) const
   {
-    return num_ > den_ * r;
+    return static_cast<double>(num_) > static_cast<double>(den_) * r;
   }
   inline bool
   operator<=(double r) const
@@ -480,9 +480,9 @@ public:
   {
     const int_type t = truncate();
     if (num_ < 0)
-      return ((-num_) % den_) >= 0.5 * den_ ? t - 1 : t;
+      return 2 * ((-num_) % den_) >= den_ ? t - 1 : t;
     else
-      return (num_ % den_) >= 0.5 * den_ ? t + 1 : t;
+      return 2 * (num_ % den_) >= den_ ? t + 1 : t;
   }
 
   // Implicit conversions

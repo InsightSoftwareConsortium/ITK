@@ -110,8 +110,8 @@ private:
   T data_[num_rows][num_cols]; // Local storage
 
 public:
-  typedef vnl_matrix_fixed<T, num_rows, num_cols> self;
-  typedef size_t size_type;
+  using self = vnl_matrix_fixed<T, num_rows, num_cols>;
+  using size_type = size_t;
 
   //: Construct an empty num_rows*num_cols matrix
   vnl_matrix_fixed() = default;
@@ -172,14 +172,14 @@ public:
 
   //: Return the total number of elements stored by the matrix.
   // This equals rows() * cols()
-  constexpr unsigned int
+  [[nodiscard]] constexpr unsigned int
   size() const
   {
     return num_elements;
   }
 
   //: Return the number of rows.
-  constexpr unsigned int
+  [[nodiscard]] constexpr unsigned int
   rows() const
   {
     return num_rows;
@@ -187,7 +187,7 @@ public:
 
   //: Return the number of columns.
   // A synonym for columns().
-  constexpr unsigned int
+  [[nodiscard]] constexpr unsigned int
   cols() const
   {
     return num_cols;
@@ -195,7 +195,7 @@ public:
 
   //: Return the number of columns.
   // A synonym for cols().
-  constexpr unsigned int
+  [[nodiscard]] constexpr unsigned int
   columns() const
   {
     return num_cols;
@@ -652,7 +652,7 @@ public:
   swap(vnl_matrix_fixed<T, num_rows, num_cols> & that);
 
   //: Type def for norms.
-  typedef typename vnl_c_vector<T>::abs_t abs_t;
+  using abs_t = typename vnl_c_vector<T>::abs_t;
 
   //: Return sum of absolute values of elements
   abs_t
@@ -756,7 +756,7 @@ public:
   // predicates
 
   //: Return true iff the size is zero.
-  bool
+  [[nodiscard]] bool
   empty() const
   {
     return num_rows == 0 && num_cols == 0;
@@ -771,11 +771,11 @@ public:
   is_identity(double tol) const;
 
   //: Return true if all elements equal to zero.
-  bool
+  [[nodiscard]] bool
   is_zero() const;
 
   //: Return true if all elements equal to zero, within given tolerance
-  bool
+  [[nodiscard]] bool
   is_zero(double tol) const;
 
   //:  Return true if all elements of both matrices are equal, within given tolerance
@@ -783,7 +783,7 @@ public:
   is_equal(const vnl_matrix_fixed<T, num_rows, num_cols> & rhs, double tol) const;
 
   //: Return true if finite
-  bool
+  [[nodiscard]] bool
   is_finite() const;
 
   //: Return true if matrix contains NaNs
@@ -885,10 +885,10 @@ public:
 
   //----------------------------------------------------------------------
 
-  typedef T element_type;
+  using element_type = T;
 
   //: Iterators
-  typedef T * iterator;
+  using iterator = T *;
   //: Iterator pointing to start of data
   inline iterator
   begin()
@@ -903,7 +903,7 @@ public:
   }
 
   //: Const iterators
-  typedef const T * const_iterator;
+  using const_iterator = const T *;
   //: Iterator pointing to start of data
   inline const_iterator
   begin() const

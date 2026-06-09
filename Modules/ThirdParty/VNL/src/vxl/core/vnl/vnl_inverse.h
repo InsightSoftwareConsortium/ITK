@@ -18,6 +18,7 @@
 #include "vnl_matrix_fixed.h"
 #include "vnl_matrix.h"
 #include "vnl_det.h"
+#include <array>
 #include <cassert>
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
@@ -64,12 +65,12 @@ vnl_inverse(const vnl_matrix_fixed<T, 2, 2> & m)
     return vnl_matrix_fixed<T, 2, 2>();
   }
   det = T(1) / det;
-  T d[4];
+  std::array<T, 4> d;
   d[0] = m(1, 1) * det;
   d[1] = -m(0, 1) * det;
   d[3] = m(0, 0) * det;
   d[2] = -m(1, 0) * det;
-  return vnl_matrix_fixed<T, 2, 2>(d);
+  return vnl_matrix_fixed<T, 2, 2>(d.data());
 }
 
 //: Calculates inverse of a small vnl_matrix_fixed (not using svd)
@@ -94,7 +95,7 @@ vnl_inverse(const vnl_matrix_fixed<T, 3, 3> & m)
     return vnl_matrix_fixed<T, 3, 3>();
   }
   det = T(1) / det;
-  T d[9];
+  std::array<T, 9> d;
   d[0] = (m(1, 1) * m(2, 2) - m(1, 2) * m(2, 1)) * det;
   d[1] = (m(2, 1) * m(0, 2) - m(2, 2) * m(0, 1)) * det;
   d[2] = (m(0, 1) * m(1, 2) - m(0, 2) * m(1, 1)) * det;
@@ -104,7 +105,7 @@ vnl_inverse(const vnl_matrix_fixed<T, 3, 3> & m)
   d[6] = (m(1, 0) * m(2, 1) - m(1, 1) * m(2, 0)) * det;
   d[7] = (m(0, 1) * m(2, 0) - m(0, 0) * m(2, 1)) * det;
   d[8] = (m(0, 0) * m(1, 1) - m(0, 1) * m(1, 0)) * det;
-  return vnl_matrix_fixed<T, 3, 3>(d);
+  return vnl_matrix_fixed<T, 3, 3>(d.data());
 }
 
 //: Calculates inverse of a small vnl_matrix_fixed (not using svd)
@@ -129,7 +130,7 @@ vnl_inverse(const vnl_matrix_fixed<T, 4, 4> & m)
     return vnl_matrix_fixed<T, 4, 4>();
   }
   det = T(1) / det;
-  T d[16];
+  std::array<T, 16> d;
   d[0] = m(1, 1) * m(2, 2) * m(3, 3) - m(1, 1) * m(2, 3) * m(3, 2) - m(2, 1) * m(1, 2) * m(3, 3) +
          m(2, 1) * m(1, 3) * m(3, 2) + m(3, 1) * m(1, 2) * m(2, 3) - m(3, 1) * m(1, 3) * m(2, 2);
   d[1] = -m(0, 1) * m(2, 2) * m(3, 3) + m(0, 1) * m(2, 3) * m(3, 2) + m(2, 1) * m(0, 2) * m(3, 3) -
@@ -162,7 +163,7 @@ vnl_inverse(const vnl_matrix_fixed<T, 4, 4> & m)
           m(1, 0) * m(0, 2) * m(3, 1) - m(3, 0) * m(0, 1) * m(1, 2) + m(3, 0) * m(0, 2) * m(1, 1);
   d[15] = m(0, 0) * m(1, 1) * m(2, 2) - m(0, 0) * m(1, 2) * m(2, 1) - m(1, 0) * m(0, 1) * m(2, 2) +
           m(1, 0) * m(0, 2) * m(2, 1) + m(2, 0) * m(0, 1) * m(1, 2) - m(2, 0) * m(0, 2) * m(1, 1);
-  return vnl_matrix_fixed<T, 4, 4>(d) * det;
+  return vnl_matrix_fixed<T, 4, 4>(d.data()) * det;
 }
 
 //: Calculates inverse of a small vnl_matrix_fixed (not using svd)
@@ -236,12 +237,12 @@ vnl_inverse_transpose(const vnl_matrix_fixed<T, 2, 2> & m)
     return vnl_matrix_fixed<T, 2, 2>();
   }
   det = T(1) / det;
-  T d[4];
+  std::array<T, 4> d;
   d[0] = m(1, 1) * det;
   d[2] = -m(0, 1) * det;
   d[3] = m(0, 0) * det;
   d[1] = -m(1, 0) * det;
-  return vnl_matrix_fixed<T, 2, 2>(d);
+  return vnl_matrix_fixed<T, 2, 2>(d.data());
 }
 
 //: Calculates transpose of the inverse of a small vnl_matrix_fixed (not using svd)
@@ -268,7 +269,7 @@ vnl_inverse_transpose(const vnl_matrix_fixed<T, 3, 3> & m)
     return vnl_matrix_fixed<T, 3, 3>();
   }
   det = T(1) / det;
-  T d[9];
+  std::array<T, 9> d;
   d[0] = (m(1, 1) * m(2, 2) - m(1, 2) * m(2, 1)) * det;
   d[3] = (m(2, 1) * m(0, 2) - m(2, 2) * m(0, 1)) * det;
   d[6] = (m(0, 1) * m(1, 2) - m(0, 2) * m(1, 1)) * det;
@@ -278,7 +279,7 @@ vnl_inverse_transpose(const vnl_matrix_fixed<T, 3, 3> & m)
   d[2] = (m(1, 0) * m(2, 1) - m(1, 1) * m(2, 0)) * det;
   d[5] = (m(0, 1) * m(2, 0) - m(0, 0) * m(2, 1)) * det;
   d[8] = (m(0, 0) * m(1, 1) - m(0, 1) * m(1, 0)) * det;
-  return vnl_matrix_fixed<T, 3, 3>(d);
+  return vnl_matrix_fixed<T, 3, 3>(d.data());
 }
 
 //: Calculates transpose of the inverse of a small vnl_matrix_fixed (not using svd)
@@ -305,7 +306,7 @@ vnl_inverse_transpose(const vnl_matrix_fixed<T, 4, 4> & m)
     return vnl_matrix_fixed<T, 4, 4>();
   }
   det = T(1) / det;
-  T d[16];
+  std::array<T, 16> d;
   d[0] = m(1, 1) * m(2, 2) * m(3, 3) - m(1, 1) * m(2, 3) * m(3, 2) - m(2, 1) * m(1, 2) * m(3, 3) +
          m(2, 1) * m(1, 3) * m(3, 2) + m(3, 1) * m(1, 2) * m(2, 3) - m(3, 1) * m(1, 3) * m(2, 2);
   d[4] = -m(0, 1) * m(2, 2) * m(3, 3) + m(0, 1) * m(2, 3) * m(3, 2) + m(2, 1) * m(0, 2) * m(3, 3) -
@@ -338,7 +339,7 @@ vnl_inverse_transpose(const vnl_matrix_fixed<T, 4, 4> & m)
           m(1, 0) * m(0, 2) * m(3, 1) - m(3, 0) * m(0, 1) * m(1, 2) + m(3, 0) * m(0, 2) * m(1, 1);
   d[15] = m(0, 0) * m(1, 1) * m(2, 2) - m(0, 0) * m(1, 2) * m(2, 1) - m(1, 0) * m(0, 1) * m(2, 2) +
           m(1, 0) * m(0, 2) * m(2, 1) + m(2, 0) * m(0, 1) * m(1, 2) - m(2, 0) * m(0, 2) * m(1, 1);
-  return vnl_matrix_fixed<T, 4, 4>(d) * det;
+  return vnl_matrix_fixed<T, 4, 4>(d.data()) * det;
 }
 
 //: Calculates transpose of the inverse of a small vnl_matrix_fixed (not using svd)

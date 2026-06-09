@@ -7,6 +7,7 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <algorithm>
 #include <cmath>
 #include <cassert>
 #include <iostream>
@@ -70,8 +71,7 @@ vnl_ldl_cholesky::vnl_ldl_cholesky(const vnl_matrix<double> & M, Operation mode)
     for (int j = 0; j < i; ++j)
       row[j] /= sqrt_d[j];
     row[i] = 1.0;
-    for (int j = i + 1; j < n; ++j)
-      row[j] = 0.0; // Zero upper triangle
+    std::fill(row + i + 1, row + n, 0.0); // Zero upper triangle
   }
 }
 
@@ -123,7 +123,7 @@ vnl_ldl_cholesky::inplace_solve(double * x) const
   const double * L_data = &L_(n - 1, n - 2);
   const double * x_data = &x[n - 1];
   unsigned c = 1;
-  for (int i = n - 2; i >= 0; --i, L_data -= (n + 1), --x_data, ++c)
+  for (int i = static_cast<int>(n) - 2; i >= 0; --i, L_data -= (n + 1), --x_data, ++c)
   {
     x[i] -= dot(L_data, n, x_data, c);
   }
@@ -245,7 +245,7 @@ vnl_ldl_cholesky::update(const vnl_matrix<double> & W0)
   vnl_vector<double> gamma(r); // Workspace
   for (unsigned j = 0; j < n; ++j)
   {
-    double * const Wj = W[j];
+    const double * const Wj = W[j];
     for (unsigned i = 0; i < r; ++i)
     {
       const double a2 = a[i] + Wj[i] * Wj[i] / d_[j];

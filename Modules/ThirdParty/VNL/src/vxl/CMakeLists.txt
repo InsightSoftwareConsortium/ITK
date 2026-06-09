@@ -21,7 +21,7 @@ else()
 endif()
 
 if(NOT CMAKE_CXX_STANDARD)
-   set(CMAKE_CXX_STANDARD "11")
+   set(CMAKE_CXX_STANDARD "17")
 endif()
 if(NOT CMAKE_CXX_STANDARD_REQUIRED)
   set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -29,9 +29,12 @@ endif()
 if(NOT CMAKE_CXX_EXTENSIONS)
   set(CMAKE_CXX_EXTENSIONS OFF)
 endif()
-set(VALID_CXX_STANDARDS "11" "14" "17" "20" "23")
+# VXL 7 requires C++17 or newer (inline constexpr variables, structured
+# bindings, ...), so reject the older standards rather than letting an
+# explicit CMAKE_CXX_STANDARD=11/14 pass validation and then fail to compile.
+set(VALID_CXX_STANDARDS "17" "20" "23")
 if(NOT CMAKE_CXX_STANDARD IN_LIST VALID_CXX_STANDARDS )
-   MESSAGE(FATAL_ERROR "CMAKE_CXX_STANDARD:STRING=${CMAKE_CXX_STANDARD} not in known standards list\n ${VALID_CXX_STANDARDS}.")
+   MESSAGE(FATAL_ERROR "CMAKE_CXX_STANDARD:STRING=${CMAKE_CXX_STANDARD} is not a supported C++ standard; VXL requires one of: ${VALID_CXX_STANDARDS}.")
 endif()
 
 if(NOT CMAKE_C_STANDARD)
@@ -67,7 +70,7 @@ foreach(p
 endforeach()
 
 project(VXL #Project name must be all caps to have properly generated VXL_VERSION_* variables
-    VERSION 6.1.0.1 # defines #MAJOR,MINOR,PATCH,TWEAK}
+    VERSION 7.0.0.0 # defines #MAJOR,MINOR,PATCH,TWEAK}; major bump signals C++17 minimum
     DESCRIPTION "A multi-platform collection of C++ software libraries for Computer Vision and Image Understanding."
     LANGUAGES CXX C)
 
@@ -137,6 +140,9 @@ include( ${VXL_CMAKE_DIR}/VXLStandardOptions.cmake )
 include( GenerateExportHeader )
 include( ${CMAKE_CURRENT_LIST_DIR}/config/cmake/config/vxl_utils.cmake )
 include(${CMAKE_CURRENT_LIST_DIR}/config/cmake/doxygen/doxygen.cmake)
+# set the vxl_platform_math target
+include(${CMAKE_CURRENT_LIST_DIR}/config/cmake/Modules/ConfigurePlatformMathTarget.cmake)
+
 
 # Location of VXL's FindXXX.cmake CMake modules.
 # This is identical to VXL_CMAKE_DIR.  Perhaps we should eliminate MODULE_PATH?

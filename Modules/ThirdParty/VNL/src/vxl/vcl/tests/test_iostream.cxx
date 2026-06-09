@@ -82,7 +82,7 @@ test_iostream_main(int /*argc*/, char * /*argv*/[])
   a = b;
   b = a; // quell warning about unused vars. compilers are sooo gullible.
 
-  std::streambuf * ptr = nullptr;
+  const std::streambuf * ptr = nullptr;
   if (ptr) // quell warning.
     ++ptr;
 

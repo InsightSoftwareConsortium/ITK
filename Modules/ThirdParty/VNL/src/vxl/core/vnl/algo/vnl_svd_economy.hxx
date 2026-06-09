@@ -98,8 +98,7 @@ vnl_svd_economy<real_t>::vnl_svd_economy(vnl_matrix<real_t> const & M)
   for (int j = 0; j < mm; ++j)
     sv_[j] = std::abs(wspace(j)); // we get rid of complexness here.
 
-  for (int j = mm; j < n_; ++j)
-    sv_[j] = 0;
+  std::fill(sv_.begin() + mm, sv_.begin() + n_, singval_t{ 0 });
 
   {
     const real_t * d = vspace.data_block();

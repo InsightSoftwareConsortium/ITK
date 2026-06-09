@@ -9,9 +9,9 @@
 #include "vnl_least_squares_cost_function.h"
 
 vnl_least_squares_cost_function::vnl_least_squares_cost_function(vnl_least_squares_function * func)
-  : vnl_cost_function(func->get_number_of_unknowns())
+  : vnl_cost_function(static_cast<int>(func->get_number_of_unknowns()))
   , storage_(func->get_number_of_residuals())
-  , jacobian_(func->get_number_of_residuals(), func->get_number_of_unknowns())
+  , jacobian_(static_cast<int>(func->get_number_of_residuals()), static_cast<int>(func->get_number_of_unknowns()))
   , f_(func)
 {}
 

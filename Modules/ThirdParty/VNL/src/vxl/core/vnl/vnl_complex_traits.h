@@ -13,164 +13,68 @@
 //-----------------------------------------------------------------------------
 
 #include <complex>
+#include <stdexcept>
+#include <type_traits>
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif
 #include "vnl/vnl_export.h"
 
-template <class T> // the primary template is empty, by design.
+template <class T, class = void>
 struct vnl_complex_traits;
 
-#define VCL_DEFINE_SPECIALIZATION_MACRO(T)                                                 \
-  template <>                                                                              \
-  struct VNL_EXPORT vnl_complex_traits<T>                                                  \
-  {                                                                                        \
-    enum                                                                                   \
-    {                                                                                      \
-      isreal = true                                                                        \
-    };                                                                                     \
-    static T                                                                               \
-    conjugate(T x)                                                                         \
-    {                                                                                      \
-      return x;                                                                            \
-    }                                                                                      \
-    /* std::complex is only defined for float, double */                                   \
-    /*              and long double.  All other types */                                   \
-    /*              are undefined behavior.           */                                   \
-    static std::complex<float>                                                             \
-    complexify(T /* x */)                                                                  \
-    {                                                                                      \
-      throw std::runtime_error("Can not call complexify on non floating point data type"); \
-      return std::complex<float>(0, (T)0);                                                 \
-    }                                                                                      \
-  }
-#define VCL_DEFINE_SPECIALIZATION_MACRO_SIGNED_UNSIGNED(T) \
-  VCL_DEFINE_SPECIALIZATION_MACRO(signed T);               \
-  VCL_DEFINE_SPECIALIZATION_MACRO(unsigned T)
-VCL_DEFINE_SPECIALIZATION_MACRO_SIGNED_UNSIGNED(char);
-VCL_DEFINE_SPECIALIZATION_MACRO_SIGNED_UNSIGNED(short);
-VCL_DEFINE_SPECIALIZATION_MACRO_SIGNED_UNSIGNED(int);
-VCL_DEFINE_SPECIALIZATION_MACRO_SIGNED_UNSIGNED(long);
-// long long - target type will have width of at least 64 bits. (since C++11)
-VCL_DEFINE_SPECIALIZATION_MACRO_SIGNED_UNSIGNED(long long);
-
-// 3.9.1 Fundamental types [basic.fundamental]
-// Plain char, signed char, and unsigned char are three distinct types
-//  We must explicitly instantiate the char type without signed/unsigned prefix
-VCL_DEFINE_SPECIALIZATION_MACRO(char);
-#undef VCL_DEFINE_SPECIALIZATION_MACRO_SIGNED_UNSIGNED
-#undef VCL_DEFINE_SPECIALIZATION_MACRO
-
-
-template <>
-struct VNL_EXPORT vnl_complex_traits<float>
+template <class T>
+struct VNL_EXPORT vnl_complex_traits<T, std::enable_if_t<std::is_integral_v<T>>>
 {
   enum
   {
     isreal = true
   };
-  static float
-  conjugate(float x)
+  static T
+  conjugate(T x)
   {
     return x;
   }
   static std::complex<float>
-  complexify(float x)
+  complexify(T)
   {
-    return { x, 0.0f };
+    throw std::runtime_error("Can not call complexify on non floating point data type");
   }
 };
 
-template <>
-struct VNL_EXPORT vnl_complex_traits<double>
+template <class T>
+struct VNL_EXPORT vnl_complex_traits<T, std::enable_if_t<std::is_floating_point_v<T>>>
 {
   enum
   {
     isreal = true
   };
-  static double
-  conjugate(double x)
+  static T
+  conjugate(T x)
   {
     return x;
   }
-  static std::complex<double>
-  complexify(double x)
+  static std::complex<T>
+  complexify(T x)
   {
-    return { x, 0.0 };
+    return { x, T{ 0 } };
   }
 };
 
-template <>
-struct VNL_EXPORT vnl_complex_traits<long double>
-{
-  enum
-  {
-    isreal = true
-  };
-  static long double
-  conjugate(long double x)
-  {
-    return x;
-  }
-  static std::complex<long double>
-  complexify(long double x)
-  {
-    return { x, 0.0 };
-  }
-};
-
-template <>
-struct VNL_EXPORT vnl_complex_traits<std::complex<float>>
+template <class T>
+struct VNL_EXPORT vnl_complex_traits<std::complex<T>, std::enable_if_t<std::is_floating_point_v<T>>>
 {
   enum
   {
     isreal = false
   };
-  static std::complex<float>
-  conjugate(std::complex<float> x)
+  static std::complex<T>
+  conjugate(std::complex<T> x)
   {
     return std::conj(x);
   }
-  static std::complex<float>
-  complexify(float x)
-  {
-    return x;
-  }
-};
-
-template <>
-struct VNL_EXPORT vnl_complex_traits<std::complex<double>>
-{
-  enum
-  {
-    isreal = false
-  };
-  static std::complex<double>
-  conjugate(std::complex<double> x)
-  {
-    return std::conj(x);
-  }
-  static std::complex<double>
-  complexify(double x)
-  {
-    return x;
-  }
-};
-
-template <>
-struct VNL_EXPORT vnl_complex_traits<std::complex<long double>>
-{
-  enum
-  {
-    isreal = false
-  };
-  static std::complex<long double>
-  conjugate(std::complex<long double> x)
-  {
-    return std::conj(x);
-  }
-  static std::complex<long double>
-  complexify(long double x)
+  static std::complex<T>
+  complexify(T x)
   {
     return x;
   }

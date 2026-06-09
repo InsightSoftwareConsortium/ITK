@@ -30,29 +30,23 @@ vnl_huge_val(long double)
 long int
 vnl_huge_val(long int)
 {
-  return 0x7fffffffffffffffL;
-}
-int
-vnl_huge_val(int)
-{
-  return 0x7fffffffffffffffL;
-}
-#else
-int
-vnl_huge_val(int)
-{
-  return 0x7fffffff;
+  return std::numeric_limits<long int>::max();
 }
 #endif
+int
+vnl_huge_val(int)
+{
+  return std::numeric_limits<int>::max();
+}
 short
 vnl_huge_val(short)
 {
-  return 0x7fff;
+  return std::numeric_limits<short>::max();
 }
 char
 vnl_huge_val(char)
 {
-  return 0x7f;
+  return std::numeric_limits<char>::max();
 }
 
 

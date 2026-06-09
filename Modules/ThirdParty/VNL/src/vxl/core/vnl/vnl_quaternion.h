@@ -63,7 +63,7 @@ template <class T>
 class VNL_EXPORT vnl_quaternion : public vnl_vector_fixed<T, 4>
 {
 private:
-  typedef vnl_vector_fixed<T, 4> Base;
+  using Base = vnl_vector_fixed<T, 4>;
 
 public:
   //: Constructor for null quaternion

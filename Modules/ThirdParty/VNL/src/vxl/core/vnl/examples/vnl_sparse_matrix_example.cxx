@@ -12,8 +12,8 @@ main()
 
   for (int i = 0; i < 10; ++i)
   {
-    const int x = rg.lrand32(N - 1);
-    const int y = rg.lrand32(N - 1);
+    const int x = rg.next_int32(N - 1);
+    const int y = rg.next_int32(N - 1);
     a(x, y) = a(y, x) = 10 * rg.normal(); // symmetric matrix
   }
 

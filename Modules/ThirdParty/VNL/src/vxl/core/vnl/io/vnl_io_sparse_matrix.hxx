@@ -73,8 +73,8 @@ template <class T>
 void
 vsl_b_write(vsl_b_ostream & os, const vnl_sparse_matrix<T> & p)
 {
-  typedef vnl_sparse_matrix_pair<T> pair_t;
-  typedef std::vector<pair_t> row;
+  using pair_t = vnl_sparse_matrix_pair<T>;
+  using row = std::vector<pair_t>;
 
   row rw;
   vnl_sparse_matrix<T> v = p;
@@ -104,7 +104,7 @@ vsl_b_read(vsl_b_istream & is, vnl_sparse_matrix<T> & p)
   if (!is)
     return;
 
-  typedef vnl_sparse_matrix_pair<T> pair_t;
+  using pair_t = vnl_sparse_matrix_pair<T>;
 
   short ver;
   unsigned n_rows;

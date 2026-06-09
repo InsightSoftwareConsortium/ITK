@@ -18,12 +18,12 @@ main()
   std::cin >> pts;
 
   // Build design matrix D
-  const int npts = pts.rows();
-  const int dim = pts.columns();
+  const unsigned int npts = pts.rows();
+  const unsigned int dim = pts.columns();
   vnl_matrix<double> D(npts, dim + 1);
-  for (int i = 0; i < npts; ++i)
+  for (unsigned int i = 0; i < npts; ++i)
   {
-    for (int j = 0; j < dim; ++j)
+    for (unsigned int j = 0; j < dim; ++j)
       D(i, j) = pts(i, j);
     D(i, dim) = 1;
   }
