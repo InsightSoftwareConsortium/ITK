@@ -24,17 +24,10 @@ if(ITK_USE_SYSTEM_VXL)
   set(ITKVNL_SYSTEM_LIBRARY_DIRS "${VXL_LIBRARY_DIR}")
   set(ITKVNL_NO_SRC 1)
 else()
-  # The ITK-stripped vxl is numerics-only: the non-numerics core groups, the
-  # v3p image-I/O backends, DCMTK, the GUI, historical-compatibility modes,
-  # large-file support, object libraries, the standalone export machinery and
-  # the configurable library prefix have all been removed upstream, so the
-  # long list of forced VXL_* options they gated is gone. Only the handful of
-  # options that still exist in that tree need forcing here.
-  set(VNL_CONFIG_CHECK_BOUNDS OFF CACHE BOOL "VXL configuration for ITK" FORCE)
-  set(VXL_BUILD_CORE_NUMERICS ON CACHE BOOL "VXL configuration for ITK" FORCE)
-  set(VXL_RUN_FAILING_TESTS OFF CACHE BOOL "VXL configuration for ITK" FORCE)
-  set(VXL_UPDATE_CONFIGURATION OFF CACHE BOOL "VXL configuration for ITK" FORCE)
-
+  # The ITK-stripped vxl is numerics-only and hardcodes its former configure
+  # options (bounds-checking off, thread-safe on, core-numerics on, no failing
+  # tests, no introspection), so there are no VXL_* options left to force here;
+  # only the library properties are passed through from ITK.
   set(VXL_LIBRARY_PROPERTIES ${ITK_LIBRARY_PROPERTIES})
 
   set(
@@ -62,17 +55,4 @@ endif()
 
 itk_module_impl()
 
-mark_as_advanced(
-  FORCE
-  TESTLIB_VCL_WHERE_ROOT_DIR_H
-  VNL_CONFIG_CHECK_BOUNDS
-  VXL_BUILD_CORE_NUMERICS
-  VXL_EXTRA_CMAKE_C_FLAGS
-  VXL_EXTRA_CMAKE_CXX_FLAGS
-  VXL_EXTRA_CMAKE_EXE_LINKER_FLAGS
-  VXL_EXTRA_CMAKE_MODULE_LINKER_FLAGS
-  VXL_EXTRA_CMAKE_SHARED_LINKER_FLAGS
-  VXL_LEGACY_ERROR_REPORTING
-  VXL_RUN_FAILING_TESTS
-  VXL_UPDATE_CONFIGURATION
-)
+mark_as_advanced(FORCE TESTLIB_VCL_WHERE_ROOT_DIR_H)
