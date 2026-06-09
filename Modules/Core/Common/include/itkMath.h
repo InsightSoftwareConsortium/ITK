@@ -42,13 +42,6 @@
 #include "itkConceptChecking.h"
 #include <vnl/vnl_math.h>
 
-/* Only maintain backwards compatibility with old versions
- * of VXL back to the point where vnl_math:: was introduced
- * versions of VXL where only vnl_math_ was available are not
- * supported.
- */
-#include <vxl_version.h>
-
 namespace itk::Math
 {
 // These mathematical constants originate from VXL's vnl_math.h: correctly-rounded
