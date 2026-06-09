@@ -30,7 +30,7 @@ namespace itk
  *
  * \ingroup ParabolicMorphology
  *
- * \ingroup IntensityImageFilters  Multithreaded
+ * \ingroup IntensityImageFilters  MultiThreaded
  */
 namespace Function
 {

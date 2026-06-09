@@ -78,12 +78,13 @@ public:
 
   /**
    * Multi-index notation
-   * S[n = (n1,...,nd)][m = (m1,...,md)]
    *
-   * S[n = (n1,...,nd)][m = (m1,...,md)] =
-   *  sqrt(\frac{m!}{n!}) \sum_{|k1| = n1} \cdots \sum_{|kd| = nd}
-   *  \delta_{k1 + k2 + k3, m} x
-   *  \\frac{n!}{k1! \cdots kd!} r_1^{k_1} \cdots r_d^{k_d}
+   * \f[
+   *  S[n = (n_1, \cdots, n_d)][m = (m_1, \cdots, m_d)] =
+   *  \sqrt{\frac{m!}{n!}} \sum_{|k_1| = n_1} \cdots \sum_{|k_d| = n_d}
+   *  \delta_{k_1 + \cdots + k_d, m} x
+   *  \frac{n!}{k_1! \cdots k_d!} r_1^{k_1} \cdots r_d^{k_d}
+   * \f]
    *
    * The indices are ordered in descending order:
    * For example, for order = 2:
