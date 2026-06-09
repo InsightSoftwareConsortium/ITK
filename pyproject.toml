@@ -30,6 +30,7 @@ cxx-compiler = ">=1.10.0,<2"
 ninja = ">=1.13.0,<2"
 
 [tool.pixi.feature.cxx.dependencies]
+ccache = ">=4.13.6,<5"
 
 [tool.pixi.feature.python.dependencies]
 pytest = ">=8.4.1,<9"
