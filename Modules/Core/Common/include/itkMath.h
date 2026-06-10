@@ -922,7 +922,9 @@ squared_magnitude(unsigned char x)
 constexpr unsigned int
 squared_magnitude(int x)
 {
-  return static_cast<unsigned int>(x * x);
+  // Multiply in unsigned: avoids the signed-overflow UB of vnl_math's x * x.
+  const auto ux = static_cast<unsigned int>(x);
+  return ux * ux;
 }
 constexpr unsigned int
 squared_magnitude(unsigned int x)
@@ -932,7 +934,8 @@ squared_magnitude(unsigned int x)
 constexpr unsigned long
 squared_magnitude(long x)
 {
-  return static_cast<unsigned long>(x * x);
+  const auto ux = static_cast<unsigned long>(x);
+  return ux * ux;
 }
 constexpr unsigned long
 squared_magnitude(unsigned long x)
@@ -942,7 +945,8 @@ squared_magnitude(unsigned long x)
 constexpr unsigned long long
 squared_magnitude(long long x)
 {
-  return static_cast<unsigned long long>(x * x);
+  const auto ux = static_cast<unsigned long long>(x);
+  return ux * ux;
 }
 constexpr unsigned long long
 squared_magnitude(unsigned long long x)
@@ -993,7 +997,9 @@ template <typename T, std::enable_if_t<std::is_integral_v<T> && std::is_signed_v
 constexpr T
 remainder_floored(T x, T y)
 {
-  return ((x % y) + y) % y;
+  // Conditional add: vnl_math's ((x % y) + y) % y overflows for |y| > max/2.
+  const T r = x % y;
+  return (r != 0 && ((r < 0) != (y < 0))) ? r + y : r;
 }
 template <typename T, std::enable_if_t<std::is_integral_v<T> && std::is_unsigned_v<T>, int> = 0>
 constexpr T
@@ -1086,12 +1092,8 @@ angle_0_to_2pi(double angle)
   if (angle >= 0)
     return angle;
   const double a = angle + twopi;
-  if (a > 0 && a < twopi)
-    return a;
-  // Guard the boundary: tiny negative inputs can produce exactly twopi above.
-  if (angle < 0)
-    return 6.28318530717958575;
-  return angle;
+  // Guard the boundary: tiny negative inputs round a up to exactly twopi; clamp 1 ULP below.
+  return (a < twopi) ? a : 6.28318530717958575;
 }
 
 /** \brief Normalize an angle (radians) into (-pi, pi]. */
