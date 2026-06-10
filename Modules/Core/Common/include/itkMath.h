@@ -114,7 +114,9 @@ static_assert(euler == std::numbers::egamma);
 
 //: IEEE double machine precision
 inline constexpr double eps = std::numeric_limits<double>::epsilon();
-inline constexpr double sqrteps = 1.490116119384766e-08;
+// sqrt(2^-52) = 2^-26 = 1.490116119384765625e-8 exactly, matching C++26 constexpr std::sqrt(eps);
+// vnl_math::sqrteps used 1.490116119384766e-08, which rounds 1 ULP above (2^-26 + 2^-78).
+inline constexpr double sqrteps = 0x1p-26;
 //: IEEE single machine precision
 inline constexpr float float_eps = std::numeric_limits<float>::epsilon();
 inline constexpr float float_sqrteps = 3.4526698300e-4F;
