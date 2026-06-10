@@ -85,6 +85,11 @@ function( vxl_add_library )
   if( ${num_src_files} GREATER 0 )
     add_library(${vxl_add_LIBRARY_NAME} ${vxl_add_LIBRARY_SOURCES} )
 
+    # Express (and propagate to consumers) the C++ standard the library is
+    # built with. Tracks CMAKE_CXX_STANDARD so raising it (e.g. to C++20) needs
+    # no change here.
+    target_compile_features(${vxl_add_LIBRARY_NAME} PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
+
     # This enables object-level build parallelism in VNL libraries for MSVC
     # - disabled for MSVC simulators such as clang-cl
     #     https://github.com/vxl/vxl/issues/863
@@ -96,12 +101,13 @@ function( vxl_add_library )
           $<$<COMPILE_LANGUAGE:CXX>:/MP> )
     endif()
 
-    set_property(GLOBAL APPEND PROPERTY VXLTargets_MODULES ${vxl_add_LIBRARY_NAME})
     if(VXL_LIBRARY_PROPERTIES)
        set_target_properties(${vxl_add_LIBRARY_NAME} PROPERTIES ${VXL_LIBRARY_PROPERTIES})
     endif()
 
-    # Installation
+    # Installation. The EXPORT association is retained even though the
+    # standalone VXLConfig generation is dropped: when embedded in ITK,
+    # ITK folds these targets into its own ITKTargets export set.
     install(TARGETS ${vxl_add_LIBRARY_NAME}
       EXPORT ${VXL_INSTALL_EXPORT_NAME}
       RUNTIME DESTINATION ${VXL_INSTALL_RUNTIME_DIR} COMPONENT RuntimeLibraries

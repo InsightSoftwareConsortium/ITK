@@ -9,7 +9,6 @@
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif
-#include <vnl/vnl_config.h> // for VNL_CONFIG_CHECK_BOUNDS
 
 // ==========================================================================
 //: Replaces the symmetric submatrix of THIS matrix, starting at top left corner, by the elements of matrix m.
@@ -19,10 +18,6 @@ vnl_sym_matrix<T> &
 vnl_sym_matrix<T>::update(const vnl_sym_matrix<T> & m, unsigned diagonal_start)
 {
   const unsigned int end_val = diagonal_start + m.nn_;
-#if VNL_CONFIG_CHECK_BOUNDS && (!defined NDEBUG)
-  if (this->nn_ < end_val)
-    vnl_error_matrix_dimension("vnl_sym_matrix::update", end_val, end_val, m.nn_, m.nn_);
-#endif
   for (unsigned int i = diagonal_start; i < end_val; i++)
     for (unsigned int j = diagonal_start; j <= i; j++)
       this->fast(i, j) = m.fast(i - diagonal_start, j - diagonal_start);
@@ -87,12 +82,6 @@ template <class T>
 void
 vnl_sym_matrix<T>::set_half_row(const vnl_vector<T> & half_row, unsigned i)
 {
-#if VNL_CONFIG_CHECK_BOUNDS && (!defined NDEBUG)
-  if (half_row.size() != i + 1)
-    vnl_error_vector_dimension("vnl_sym_matrix::set_half_row wrong size for half row", half_row.size(), i + 1);
-  if (i > nn_)
-    vnl_error_vector_dimension("vnl_sym_matrix::set_half_row wrong sizes", i + 1, rows());
-#endif
   half_row.copy_out(index_[i]);
 }
 

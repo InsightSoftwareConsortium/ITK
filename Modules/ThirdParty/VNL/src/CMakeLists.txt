@@ -20,14 +20,7 @@ set(BUILD_DOCUMENTATION OFF)
 
 add_subdirectory(vxl)
 
-foreach(
-  lib
-  itkvcl
-  itkv3p_netlib
-  itktestlib
-  itkvnl
-  itkvnl_algo
-)
+foreach(lib itkv3p_netlib itktestlib itkvnl itkvnl_algo)
   itk_module_target(${lib} NO_INSTALL)
 endforeach()
 

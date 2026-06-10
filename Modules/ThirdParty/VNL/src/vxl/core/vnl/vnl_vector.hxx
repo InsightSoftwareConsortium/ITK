@@ -653,9 +653,6 @@ vnl_vector<T> &
 vnl_vector<T>::flip(const size_t & b, const size_t & e)
 {
 
-#if VNL_CONFIG_CHECK_BOUNDS && (!defined NDEBUG)
-  assert(!(b > this->num_elmts || e > this->num_elmts || b > e));
-#endif
 
   for (size_t i = b; i < (e - b) / 2 + b; ++i)
   {

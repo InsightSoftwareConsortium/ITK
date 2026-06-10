@@ -5,10 +5,10 @@ set -x
 shopt -s dotglob
 
 readonly name='VXL'
-readonly ownership='VXL Maintainers <vxl-maintainers@lists.sourceforge.net>'
+readonly ownership='Insight Software Consortium Maintainers <https://discourse.itk.org/>'
 readonly subtree="Modules/ThirdParty/VNL/src/vxl"
-readonly repo="https://github.com/vxl/vxl.git"
-readonly tag="master"
+readonly repo="https://github.com/InsightSoftwareConsortium/vxl.git"
+readonly tag="for/itk-vxl-master-272c3f1" # 2026-06-09 (272c3f1: linkage fixes + config-option removals)
 readonly shortlog=false
 readonly exact_tree_match=false
 readonly paths="
@@ -28,9 +28,6 @@ readonly paths="
 extract_source () {
     git_archive
     pushd "${extractdir}/${name}-reduced"
-    rm v3p/netlib/triangle*
-    rm -rf v3p/netlib/toms
-    rm v3p/netlib/examples/showme.c
     echo "* -whitespace" > .gitattributes
     popd
 }

@@ -36,7 +36,6 @@
 #include "vnl_vector.h"
 #include "vnl_vector_fixed.h" // needed for e.g. vnl_matrix_fixed_mat_vec_mult()
 #include "vnl_c_vector.h"
-#include <vnl/vnl_config.h> // for VNL_CONFIG_CHECK_BOUNDS
 #include "vnl/vnl_export.h"
 
 template <class T, unsigned int num_rows, unsigned int num_cols>
@@ -205,12 +204,6 @@ public:
   inline void
   put(unsigned r, unsigned c, const T & v)
   {
-#if VNL_CONFIG_CHECK_BOUNDS
-    if (r >= num_rows)                      // If invalid size specified
-      vnl_error_matrix_row_index("put", r); // Raise exception
-    if (c >= num_cols)                      // If invalid size specified
-      vnl_error_matrix_col_index("put", c); // Raise exception
-#endif
     this->data_[r][c] = v;
   }
 
@@ -218,12 +211,6 @@ public:
   inline T
   get(unsigned r, unsigned c) const
   {
-#if VNL_CONFIG_CHECK_BOUNDS
-    if (r >= num_rows)                      // If invalid size specified
-      vnl_error_matrix_row_index("get", r); // Raise exception
-    if (c >= num_cols)                      // If invalid size specified
-      vnl_error_matrix_col_index("get", c); // Raise exception
-#endif
     return this->data_[r][c];
   }
 
@@ -256,10 +243,6 @@ public:
   T &
   operator()(unsigned r, unsigned c)
   {
-#if VNL_CONFIG_CHECK_BOUNDS && (!defined NDEBUG)
-    assert(r < rows()); // Check the row index is valid
-    assert(c < cols()); // Check the column index is valid
-#endif
     return this->data_[r][c];
   }
 
@@ -269,10 +252,6 @@ public:
   const T &
   operator()(unsigned r, unsigned c) const
   {
-#if VNL_CONFIG_CHECK_BOUNDS && (!defined NDEBUG)
-    assert(r < rows()); // Check the row index is valid
-    assert(c < cols()); // Check the column index is valid
-#endif
     return this->data_[r][c];
   }
 
@@ -863,19 +842,11 @@ public:
   // Sometimes, such as with templated functions, the compiler cannot
   // use this user-defined conversion. For those cases, use the
   // explicit as_ref() method instead.
-#if !VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS
   explicit
   operator const vnl_matrix_ref<T>() const
   {
     return this->as_ref();
   }
-#else
-#  if VXL_LEGACY_FUTURE_REMOVE
-  VXL_DEPRECATED_MSG(
-    "Implicit cast conversion is dangerous.\nUSE: .as_matrix() or .as_ref() member function for clarity.")
-#  endif
-  operator const vnl_matrix_ref<T>() const { return this->as_ref(); }
-#endif
   explicit
   operator vnl_matrix<T>() const
   {

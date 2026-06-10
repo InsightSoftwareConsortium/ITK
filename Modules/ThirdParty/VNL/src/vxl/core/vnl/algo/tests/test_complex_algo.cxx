@@ -7,13 +7,11 @@
 // that use std::complex.
 // Currently, the following classes or functions are tested here:
 // - vnl_svd_economy
-// - vnl_generalized_schur
 //
 // \author Peter Vanroose, ABIS Leuven.
 // \date 9 January 2011
 
 #include "testlib/testlib_test.h"
-#include <vnl/algo/vnl_complex_generalized_schur.h>
 #include <vnl/algo/vnl_svd_economy.h>
 #include <vnl/algo/vnl_svd.h>
 #include <vnl/algo/vnl_matrix_inverse.h>
@@ -50,24 +48,10 @@ test_matrix_inverse()
   TEST_NEAR("complex vnl_matrix_inverse", (m * inv - identity).array_inf_norm(), 0, 1e-6);
 }
 
-static void
-test_generalized_schur()
-{
-  vnl_matrix<std::complex<float>> A(4, 4, 0.0f);
-  vnl_matrix<std::complex<float>> B(4, 4, 0.0f);
-  vnl_matrix<std::complex<float>> L(4, 4, 1.0f);
-  vnl_matrix<std::complex<float>> R(4, 4, 1.0f);
-  vnl_vector<std::complex<float>> a(4, 0.0f);
-  vnl_vector<std::complex<float>> b(4, 0.0f);
-  const bool r = vnl_generalized_schur(&A, &B, &a, &b, &L, &R);
-  TEST("vnl_complex_generalized_schur", r, true);
-}
-
 void
 test_complex_algo()
 {
   test_matrix_inverse();
-  test_generalized_schur();
 }
 
 TESTMAIN(test_complex_algo);

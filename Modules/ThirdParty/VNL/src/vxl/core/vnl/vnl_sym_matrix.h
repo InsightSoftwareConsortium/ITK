@@ -182,12 +182,6 @@ public:
   inline void
   put(unsigned r, unsigned c, const T & v)
   {
-#if VNL_CONFIG_CHECK_BOUNDS
-    if (r >= this->nn_)                     // If invalid size specified
-      vnl_error_matrix_row_index("put", r); // Raise exception
-    if (c >= this->nn_)                     // If invalid size specified
-      vnl_error_matrix_col_index("put", c); // Raise exception
-#endif
     (r > c) ? index_[r][c] = v : index_[c][r] = v;
   }
 
@@ -195,12 +189,6 @@ public:
   inline T
   get(unsigned r, unsigned c) const
   {
-#if VNL_CONFIG_CHECK_BOUNDS
-    if (r >= this->nn_)                     // If invalid size specified
-      vnl_error_matrix_row_index("get", r); // Raise exception
-    if (c >= this->nn_)                     // If invalid size specified
-      vnl_error_matrix_col_index("get", c); // Raise exception
-#endif
     return (r > c) ? index_[r][c] : index_[c][r];
   }
 

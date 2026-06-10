@@ -13,6 +13,7 @@
 //   Oct.2010 - Peter Vanroose - mutators and setters now return *this
 // \endverbatim
 #include <iosfwd>
+#include <utility>
 #include "vnl_error.h"
 
 #include <vcl_compiler.h>
@@ -21,16 +22,9 @@
 #endif
 
 #include "vnl_c_vector.h"
-#include <vnl/vnl_config.h>
 #include "vnl_error.h"
 #include "vnl/vnl_export.h"
-#ifndef NDEBUG
-#  if VNL_CONFIG_CHECK_BOUNDS
-#    include <cassert>
-#  endif
-#else
-#  undef VNL_CONFIG_CHECK_BOUNDS
-#  define VNL_CONFIG_CHECK_BOUNDS 0
+#ifdef NDEBUG
 #  undef ERROR_CHECKING
 #endif
 #include "vnl_sse.h"
@@ -186,9 +180,6 @@ public:
   T &
   operator()(size_t i)
   {
-#if VNL_CONFIG_CHECK_BOUNDS
-    assert(i < size()); // Check the index is valid.
-#endif
     return data[i];
   }
   //: Return reference to the element at specified index. No range checking.
@@ -196,9 +187,6 @@ public:
   const T &
   operator()(size_t i) const
   {
-#if VNL_CONFIG_CHECK_BOUNDS
-    assert(i < size()); // Check the index is valid
-#endif
     return data[i];
   }
 
@@ -679,7 +667,6 @@ protected:
     , m_LetArrayManageMemory{ manage_own_memory }
   {}
 
-  // #if !VXL_LEGACY_FUTURE_REMOVE
   /*
    * This function is a work around for transitioning to data members
    * being private
@@ -691,7 +678,18 @@ protected:
     this->num_elmts = nelmts;
     this->m_LetArrayManageMemory = manage_own_memory;
   }
-  // #endif
+
+  //: Subclass extension point: swap only the memory-management flag
+  //  between two vnl_vector instances, leaving the data pointer and
+  //  size alone. Provided so subclasses that implement their own
+  //  swap() can transfer ownership state without needing direct
+  //  access to the private m_LetArrayManageMemory ivar.
+  void
+  swap_memory_management(vnl_vector<T> & other) noexcept
+  {
+    using std::swap;
+    swap(this->m_LetArrayManageMemory, other.m_LetArrayManageMemory);
+  }
 
   void
   assert_size_internal(size_t sz) const;
@@ -700,9 +698,7 @@ protected:
   void
   destroy();
 
-#if !VXL_USE_HISTORICAL_PROTECTED_IVARS
 private:
-#endif
   size_t num_elmts{ 0 }; // Number of elements (length)
   T * data{ nullptr };   // Pointer to the actual data
   bool m_LetArrayManageMemory{ true };
@@ -719,10 +715,6 @@ template <class T>
 inline T
 vnl_vector<T>::get(size_t i) const
 {
-#if VNL_CONFIG_CHECK_BOUNDS
-  if (i >= this->size())              // If invalid index specified
-    vnl_error_vector_index("get", i); // Raise exception
-#endif
   return this->data[i];
 }
 
@@ -733,10 +725,6 @@ template <class T>
 inline void
 vnl_vector<T>::put(size_t i, const T & v)
 {
-#if VNL_CONFIG_CHECK_BOUNDS
-  if (i >= this->size())              // If invalid index specified
-    vnl_error_vector_index("put", i); // Raise exception
-#endif
   this->data[i] = v; // Assign data value
 }
 

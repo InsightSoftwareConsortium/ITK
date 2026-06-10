@@ -86,9 +86,6 @@ public:
   const T &
   operator()(unsigned int i) const
   {
-#if VNL_CONFIG_CHECK_BOUNDS && (!defined NDEBUG)
-    assert(i < n); // Check the index is valid
-#endif
     return data_[i];
   }
 
@@ -139,22 +136,11 @@ public:
   {
     return this->as_ref();
   }
-#if !VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS
   explicit
   operator const vnl_vector_ref<T>() const
   {
     return vnl_vector_ref<T>(n, const_cast<T *>(data_));
   }
-#else
-#  if VXL_LEGACY_FUTURE_REMOVE
-  VXL_DEPRECATED_MSG(
-    "Implicit cast conversion is dangerous.\nUSE: .as_vector() or .as_ref() member function for clarity.")
-#  endif
-  operator const vnl_vector_ref<T>() const
-  {
-    return vnl_vector_ref<T>(n, const_cast<T *>(data_));
-  } // Implicit for backwards compatibility
-#endif
   explicit
   operator vnl_vector<T>() const
   {
@@ -554,9 +540,6 @@ public:
   T &
   operator()(unsigned int i) const
   {
-#if VNL_CONFIG_CHECK_BOUNDS && (!defined NDEBUG)
-    assert(i < n); // Check the index is valid.
-#endif
     return data_block()[i];
   }
 

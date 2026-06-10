@@ -2,7 +2,7 @@
 #define testlib_root_dir_h_
 //:
 // \file
-// \brief Function to return root directory (i.e. the parent directory of both core and contrib).
+// \brief Function to return root directory (i.e. the parent directory of core).
 // \author Tim Cootes
 // \verbatim
 //    Modifications
@@ -17,7 +17,7 @@
 #define TEST_STR(x) #x
 #define TEST_PATH_DEFINE(x) TEST_STR(x)
 
-//: Return source root directory (i.e. the parent directory of both core and contrib).
+//: Return source root directory (i.e. the parent directory of core).
 // *** Only use this directory tree for read-only operations! ***
 //
 //  If the file vcl_where_root_dir.h has been automatically generated

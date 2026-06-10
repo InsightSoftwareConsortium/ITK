@@ -36,7 +36,6 @@
 #include "vnl_vector_ref.h"
 #include "vnl_c_vector.h"
 #include "vnl_matrix.h"     // outerproduct
-#include <vnl/vnl_config.h> // for VNL_CONFIG_CHECK_BOUNDS
 #include "vnl_error.h"
 #include "vnl/vnl_export.h"
 
@@ -206,10 +205,6 @@ public:
   inline void
   put(unsigned int i, const T & v)
   {
-#if VNL_CONFIG_CHECK_BOUNDS
-    if (i >= this->size())              // If invalid index specified
-      vnl_error_vector_index("put", i); // Raise exception
-#endif
     this->data_[i] = v;
   }
 
@@ -315,19 +310,11 @@ public:
   // Sometimes, such as with templated functions, the compiler cannot
   // use this user-defined conversion. For those cases, use the
   // explicit as_ref() method instead.
-#if !VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS
   explicit
   operator const vnl_vector_ref<T>() const
   {
     return this->as_ref();
   }
-#else
-#  if VXL_LEGACY_FUTURE_REMOVE
-  VXL_DEPRECATED_MSG(
-    "Implicit cast conversion is dangerous.\nUSE: .as_vector() or .as_ref() member function for clarity.")
-#  endif
-  operator const vnl_vector_ref<T>() const { return this->as_ref(); } // Implicit for backwards compatibility
-#endif
   explicit
   operator vnl_vector<T>() const
   {

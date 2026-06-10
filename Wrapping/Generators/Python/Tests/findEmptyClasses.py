@@ -57,8 +57,6 @@ exclude = [
     "vnl_matrix_ref",
     "vnl_vector",
     "vnl_vector_ref",
-    "vnl_file_matrix",
-    "vnl_file_vector",
     "vnl_fortran_copy",
     "CosineWindowFunction",
     "HammingWindowFunction",

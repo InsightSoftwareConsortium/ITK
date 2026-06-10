@@ -17,27 +17,11 @@ vnl_matlab_print_scalar(int v, char * buf, size_t buf_len, vnl_matlab_print_form
   std::snprintf(buf, buf_len, "%4d ", v);
 }
 
-#if !VXL_LEGACY_FUTURE_REMOVE
-void
-vnl_matlab_print_scalar(int v, char * buf, vnl_matlab_print_format)
-{
-  vnl_matlab_print_scalar(v, buf, SIZE_MAX);
-}
-#endif
-
 void
 vnl_matlab_print_scalar(unsigned v, char * buf, size_t buf_len, vnl_matlab_print_format)
 {
   std::snprintf(buf, buf_len, "%4u ", v);
 }
-
-#if !VXL_LEGACY_FUTURE_REMOVE
-void
-vnl_matlab_print_scalar(unsigned v, char * buf, vnl_matlab_print_format)
-{
-  vnl_matlab_print_scalar(v, buf, SIZE_MAX);
-}
-#endif
 
 void
 vnl_matlab_print_scalar(float v, char * buf, size_t buf_len, vnl_matlab_print_format format)
@@ -69,14 +53,6 @@ vnl_matlab_print_scalar(float v, char * buf, size_t buf_len, vnl_matlab_print_fo
   }
 }
 
-#if !VXL_LEGACY_FUTURE_REMOVE
-void
-vnl_matlab_print_scalar(float v, char * buf, vnl_matlab_print_format format)
-{
-  vnl_matlab_print_scalar(v, buf, SIZE_MAX, format);
-}
-#endif
-
 void
 vnl_matlab_print_scalar(double v, char * buf, size_t buf_len, vnl_matlab_print_format format)
 {
@@ -107,27 +83,11 @@ vnl_matlab_print_scalar(double v, char * buf, size_t buf_len, vnl_matlab_print_f
   }
 }
 
-#if !VXL_LEGACY_FUTURE_REMOVE
-void
-vnl_matlab_print_scalar(double v, char * buf, vnl_matlab_print_format format)
-{
-  vnl_matlab_print_scalar(v, buf, SIZE_MAX, format);
-}
-#endif
-
 void
 vnl_matlab_print_scalar(long double v, char * buf, size_t buf_len, vnl_matlab_print_format format)
 {
   vnl_matlab_print_scalar(double(v), buf, buf_len, format); // FIXME
 }
-
-#if !VXL_LEGACY_FUTURE_REMOVE
-void
-vnl_matlab_print_scalar(long double v, char * buf, vnl_matlab_print_format format)
-{
-  vnl_matlab_print_scalar(v, buf, SIZE_MAX, format);
-}
-#endif
 
 void
 vnl_matlab_print_scalar(std::complex<double> v, char * buf, size_t buf_len, vnl_matlab_print_format format)
@@ -231,14 +191,6 @@ vnl_matlab_print_scalar(std::complex<double> v, char * buf, size_t buf_len, vnl_
   }
 }
 
-#if !VXL_LEGACY_FUTURE_REMOVE
-void
-vnl_matlab_print_scalar(std::complex<double> v, char * buf, vnl_matlab_print_format format)
-{
-  vnl_matlab_print_scalar(v, buf, SIZE_MAX, format);
-}
-#endif
-
 void
 vnl_matlab_print_scalar(std::complex<float> v, char * buf, size_t buf_len, vnl_matlab_print_format format)
 {
@@ -341,14 +293,6 @@ vnl_matlab_print_scalar(std::complex<float> v, char * buf, size_t buf_len, vnl_m
   }
 }
 
-#if !VXL_LEGACY_FUTURE_REMOVE
-void
-vnl_matlab_print_scalar(std::complex<float> v, char * buf, vnl_matlab_print_format format)
-{
-  vnl_matlab_print_scalar(v, buf, SIZE_MAX, format);
-}
-#endif
-
 void
 vnl_matlab_print_scalar(std::complex<long double> v, char * buf, size_t buf_len, vnl_matlab_print_format format)
 {
@@ -357,14 +301,6 @@ vnl_matlab_print_scalar(std::complex<long double> v, char * buf, size_t buf_len,
                           buf_len,
                           format); // FIXME
 }
-
-#if !VXL_LEGACY_FUTURE_REMOVE
-void
-vnl_matlab_print_scalar(std::complex<long double> v, char * buf, vnl_matlab_print_format format)
-{
-  vnl_matlab_print_scalar(v, buf, SIZE_MAX, format);
-}
-#endif
 
 template <class T>
 std::ostream &

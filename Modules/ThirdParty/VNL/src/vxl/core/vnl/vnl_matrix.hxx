@@ -401,10 +401,6 @@ template <class T>
 T &
 vnl_matrix<T>::operator()(unsigned r, unsigned c)
 {
-#if VNL_CONFIG_CHECK_BOUNDS
-  assert(r < rows()); // Check the row index is valid
-  assert(c < cols()); // Check the column index is valid
-#endif
   return this->data[r][c];
 }
 
@@ -414,10 +410,6 @@ template <class T>
 const T &
 vnl_matrix<T>::operator()(unsigned r, unsigned c) const
 {
-#if VNL_CONFIG_CHECK_BOUNDS
-  assert(r < rows()); // Check the row index is valid
-  assert(c < cols()); // Check the column index is valid
-#endif
   return this->data[r][c];
 }
 

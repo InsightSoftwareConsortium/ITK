@@ -38,8 +38,7 @@
 #endif
 #include <cassert>
 #include "vnl/vnl_export.h"
-#include "vnl/vnl_rational_traits.h"
-#include "vnl/vnl_decnum_traits.h"
+#include "vnl/vnl_numeric_traits.h"
 
 //: Evaluation of polynomials.
 //  vnl_polynomial<T> represents a univariate polynomial with

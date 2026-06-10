@@ -2,32 +2,12 @@
 
 project( netlib C )
 
-# Incompatible with ITK's License
-if(0)
-set(netlib_sources
-     # The "Triangle" program of Jonathan Richard Shewchuk
-     triangle.c triangle.h
-   )
-
-vxl_add_library(
-    LIBRARY_NAME ${VXL_LIB_PREFIX}netlib
-    LIBRARY_SOURCES ${netlib_sources}
-    DISABLE_MSVC_MP
-)
-
-if(UNIX)
-  target_link_libraries( ${VXL_LIB_PREFIX}netlib m )
-endif()
-# Incompatible with ITK's License
-endif()
-
-# Allow sources in subdirectories to see the include files.
-include_directories(${netlib_SOURCE_DIR})
 
 
 # Inform header files they are being included from a source inside the
-# v3p_netlib library.
-add_definitions(-DV3P_NETLIB_SRC)
+# v3p_netlib library. Directory-scoped so the netlib sources and their
+# tests see the internal f2c view; consumers get the public C++ view.
+add_compile_definitions(V3P_NETLIB_SRC)
 
 # List sources for each library component.
 set(V3P_NETLIB_base_SOURCES
@@ -180,88 +160,7 @@ set(V3P_NETLIB_eispack_SOURCES
      eispack/tred1.c eispack/tred1.h
      eispack/tred2.c eispack/tred2.h
    )
-set(V3P_NETLIB_laso_SOURCES
-     laso/dlabax.c laso/dlabax.h
-     laso/dlabcm.c laso/dlabcm.h
-     laso/dlabfc.c laso/dlabfc.h
-     laso/dlaeig.c laso/dlaeig.h
-     laso/dlager.c laso/dlager.h
-     laso/dlaran.c laso/dlaran.h
-     laso/dmvpc.c laso/dmvpc.h
-     laso/dnlaso.c laso/dnlaso.h
-     laso/dnppla.c laso/dnppla.h
-     laso/dortqr.c laso/dortqr.h
-     laso/dvsort.c laso/dvsort.h
-     laso/urand.c laso/urand.h
-   )
-set(V3P_NETLIB_arpack_SOURCES
-     arpack/dgetv0.c arpack/dgetv0.h
-     arpack/dsaitr.c arpack/dsaitr.h
-     arpack/dsapps.c arpack/dsapps.h
-     arpack/dsaup2.c arpack/dsaup2.h
-     arpack/dsaupd.c arpack/dsaupd.h
-     arpack/dsconv.c arpack/dsconv.h
-     arpack/dseigt.c arpack/dseigt.h
-     arpack/dsesrt.c arpack/dsesrt.h
-     arpack/dseupd.c arpack/dseupd.h
-     arpack/dsgets.c arpack/dsgets.h
-     arpack/dsortr.c arpack/dsortr.h
-     arpack/dstqrb.c arpack/dstqrb.h
-   )
 set(V3P_NETLIB_lapack_SOURCES
-     lapack/complex16/zgebak.c lapack/complex16/zgebak.h
-     lapack/complex16/zgebal.c lapack/complex16/zgebal.h
-     lapack/complex16/zgeev.c lapack/complex16/zgeev.h
-     lapack/complex16/zgehd2.c lapack/complex16/zgehd2.h
-     lapack/complex16/zgehrd.c lapack/complex16/zgehrd.h
-     lapack/complex16/zhseqr.c lapack/complex16/zhseqr.h
-     lapack/complex16/zlacgv.c lapack/complex16/zlacgv.h
-     lapack/complex16/zlacpy.c lapack/complex16/zlacpy.h
-     lapack/complex16/zladiv.c lapack/complex16/zladiv.h
-     lapack/complex16/zlahqr.c lapack/complex16/zlahqr.h
-     lapack/complex16/zlahrd.c lapack/complex16/zlahrd.h
-     lapack/complex16/zlange.c lapack/complex16/zlange.h
-     lapack/complex16/zlanhs.c lapack/complex16/zlanhs.h
-     lapack/complex16/zlarf.c lapack/complex16/zlarf.h
-     lapack/complex16/zlarfb.c lapack/complex16/zlarfb.h
-     lapack/complex16/zlarfg.c lapack/complex16/zlarfg.h
-     lapack/complex16/zlarft.c lapack/complex16/zlarft.h
-     lapack/complex16/zlarfx.c lapack/complex16/zlarfx.h
-     lapack/complex16/zlascl.c lapack/complex16/zlascl.h
-     lapack/complex16/zlaset.c lapack/complex16/zlaset.h
-     lapack/complex16/zlassq.c lapack/complex16/zlassq.h
-     lapack/complex16/zlatrs.c lapack/complex16/zlatrs.h
-     lapack/complex16/ztrevc.c lapack/complex16/ztrevc.h
-     lapack/complex16/zung2r.c lapack/complex16/zung2r.h
-     lapack/complex16/zunghr.c lapack/complex16/zunghr.h
-     lapack/complex16/zungqr.c lapack/complex16/zungqr.h
-     lapack/complex16/ztgsyl.c lapack/complex16/ztgsyl.h
-     lapack/complex16/zrot.c lapack/complex16/zrot.h
-     lapack/complex16/zlatdf.c lapack/complex16/zlatdf.h
-     lapack/complex16/zlacn2.c lapack/complex16/zlacn2.h
-     lapack/complex16/ztgsy2.c lapack/complex16/ztgsy2.h
-     lapack/complex16/ztgexc.c lapack/complex16/ztgexc.h
-     lapack/complex16/zggbak.c lapack/complex16/zggbak.h
-     lapack/complex16/zgetc2.c lapack/complex16/zgetc2.h
-     lapack/complex16/zhgeqz.c lapack/complex16/zhgeqz.h
-     lapack/complex16/zgges.c lapack/complex16/zgges.h
-     lapack/complex16/zlaswp.c lapack/complex16/zlaswp.h
-     lapack/complex16/zdrscl.c lapack/complex16/zdrscl.h
-     lapack/complex16/zlartg.c lapack/complex16/zlartg.h
-     lapack/complex16/zggbal.c lapack/complex16/zggbal.h
-     lapack/complex16/zgeqr2.c lapack/complex16/zgeqr2.h
-     lapack/complex16/zgecon.c lapack/complex16/zgecon.h
-     lapack/complex16/zunmqr.c lapack/complex16/zunmqr.h
-     lapack/complex16/zunm2r.c lapack/complex16/zunm2r.h
-     lapack/complex16/zgeqrf.c lapack/complex16/zgeqrf.h
-     lapack/complex16/ztgex2.c lapack/complex16/ztgex2.h
-     lapack/complex16/zgesc2.c lapack/complex16/zgesc2.h
-     lapack/complex16/ztgsen.c lapack/complex16/ztgsen.h
-     lapack/complex16/zgghrd.c lapack/complex16/zgghrd.h
-     lapack/complex16/zgees.c lapack/complex16/zgees.h
-     lapack/complex16/ztrexc.c lapack/complex16/ztrexc.h
-     lapack/complex16/ztrsen.c lapack/complex16/ztrsen.h
-     lapack/complex16/ztrsyl.c lapack/complex16/ztrsyl.h
      lapack/double/dgecon.c lapack/double/dgecon.h
      lapack/double/dgeqr2.c lapack/double/dgeqr2.h
      lapack/double/dgeqrf.c lapack/double/dgeqrf.h
@@ -370,9 +269,6 @@ set(V3P_NETLIB_linalg_SOURCES
      linalg/lsmrBase.cxx linalg/lsmrBase.h
      linalg/lsmrDense.cxx linalg/lsmrDense.h
    )
-set(V3P_NETLIB_datapac_SOURCES
-     datapac/camsun.c datapac/camsun.h
-   )
 set(V3P_NETLIB_mathews_SOURCES
      mathews/simpson.c mathews/simpson.h
      mathews/trapezod.c mathews/trapezod.h
@@ -394,18 +290,14 @@ set(v3p_netlib_sources
      ${V3P_NETLIB_base_SOURCES}
      ${V3P_NETLIB_libf2c_SOURCES}
      ${V3P_NETLIB_blas_SOURCES}
-     ${V3P_NETLIB_arpack_SOURCES}
      ${V3P_NETLIB_linpack_SOURCES}
      ${V3P_NETLIB_temperton_SOURCES}
      ${V3P_NETLIB_eispack_SOURCES}
-     ${V3P_NETLIB_laso_SOURCES}
      ${V3P_NETLIB_lapack_SOURCES}
      ${V3P_NETLIB_napack_SOURCES}
      ${V3P_NETLIB_minpack_SOURCES}
      ${V3P_NETLIB_opt_SOURCES}
      ${V3P_NETLIB_linalg_SOURCES}
-     ${V3P_NETLIB_toms_SOURCES}
-     ${V3P_NETLIB_datapac_SOURCES}
      ${V3P_NETLIB_mathews_SOURCES}
      ${V3P_NETLIB_sparse_SOURCES}
    )
@@ -423,7 +315,6 @@ if(CMAKE_COMPILER_IS_GNUCC)
   # Disable global optimizations for some source files.
   # See comments in the sources for details.
   set_source_files_properties(
-     lapack/complex16/zlarfx.c
      PROPERTIES COMPILE_FLAGS -fno-gcse
     )
 
@@ -439,21 +330,17 @@ endif()
 
 # Create a netlib library with mangled symbols.
 vxl_add_library(
-    LIBRARY_NAME ${VXL_LIB_PREFIX}v3p_netlib
+    LIBRARY_NAME itkv3p_netlib
     LIBRARY_SOURCES ${v3p_netlib_sources}
     DISABLE_MSVC_MP
 )
 
-target_link_libraries(${VXL_LIB_PREFIX}v3p_netlib PRIVATE vxl_platform_math)
+target_link_libraries(itkv3p_netlib PRIVATE ${VXL_PLATFORM_MATH_LIBRARIES})
+# The linalg/ subdirectory holds the lsqr/lsmr C++ headers that consumers
+# (e.g. vnl_lsqr) include directly; expose it so they need no manual path.
+target_include_directories(itkv3p_netlib PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/linalg>")
 
 if(BUILD_TESTING)
   add_subdirectory(tests)
-endif()
-
-if(VXL_BUILD_EXAMPLES)
-  add_subdirectory(examples)
-endif()
-
-if (VXL_BUILD_OBJECT_LIBRARIES)
-  add_library(v3p_netlib-obj OBJECT ${v3p_netlib_sources})
 endif()

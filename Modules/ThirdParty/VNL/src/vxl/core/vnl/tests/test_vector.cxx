@@ -86,33 +86,6 @@ vnl_vector_test_int()
   // ACCESSORS //
   ///////////////
 
-#if VNL_CONFIG_CHECK_BOUNDS
-
-  {
-    bool exceptionThrownAndCaught = false;
-    try
-    {
-      v0.get(25);
-    } // Raise out of bounds exception.
-    catch (...)
-    {
-      exceptionThrownAndCaught = true;
-    }
-    TEST("Out of bounds get()", exceptionThrownAndCaught, true);
-
-    exceptionThrownAndCaught = false;
-    try
-    {
-      v0.put(25, 0);
-    } // Raise out of bounds exception.
-    catch (...)
-    {
-      exceptionThrownAndCaught = true;
-    }
-    TEST("Out of bounds put()", exceptionThrownAndCaught, true);
-  }
-
-#endif
 
   //// test constructors, accessors
   //   TEST("v0.set_compare", (v0.set_compare(int_equal), true), true);

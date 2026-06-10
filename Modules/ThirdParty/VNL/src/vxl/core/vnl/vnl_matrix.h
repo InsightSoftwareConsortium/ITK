@@ -31,20 +31,14 @@
 // \endverbatim
 
 #include <iosfwd>
+#include <utility>
 #include <vcl_compiler.h>
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif
 #include "vnl_c_vector.h"
-#include <vnl/vnl_config.h>
 #include "vnl_error.h"
-#ifndef NDEBUG
-#  if VNL_CONFIG_CHECK_BOUNDS
-#    include <cassert>
-#  endif
-#else
-#  undef VNL_CONFIG_CHECK_BOUNDS
-#  define VNL_CONFIG_CHECK_BOUNDS 0
+#ifdef NDEBUG
 #  undef ERROR_CHECKING
 #endif
 #include "vnl/vnl_export.h"
@@ -997,9 +991,19 @@ protected:
   void
   destroy();
 
-#if !VXL_USE_HISTORICAL_PROTECTED_IVARS
+  //: Subclass extension point: swap only the memory-management flag
+  //  between two vnl_matrix instances, leaving the data pointer and
+  //  shape alone. Provided so subclasses that implement their own
+  //  swap() can transfer ownership state without needing direct
+  //  access to the private m_LetArrayManageMemory ivar.
+  void
+  swap_memory_management(vnl_matrix<T> & other) noexcept
+  {
+    using std::swap;
+    swap(this->m_LetArrayManageMemory, other.m_LetArrayManageMemory);
+  }
+
 private:
-#endif
   unsigned num_rows{ 0 }; // Number of rows
   unsigned num_cols{ 0 }; // Number of columns
   T ** data{ nullptr };   // Pointer to the vnl_matrix
@@ -1017,12 +1021,6 @@ template <class T>
 inline T
 vnl_matrix<T>::get(unsigned r, unsigned c) const
 {
-#if VNL_CONFIG_CHECK_BOUNDS
-  if (r >= this->num_rows)                // If invalid size specified
-    vnl_error_matrix_row_index("get", r); // Raise exception
-  if (c >= this->num_cols)                // If invalid size specified
-    vnl_error_matrix_col_index("get", c); // Raise exception
-#endif
   return this->data[r][c];
 }
 
@@ -1033,12 +1031,6 @@ template <class T>
 inline void
 vnl_matrix<T>::put(unsigned r, unsigned c, const T & v)
 {
-#if VNL_CONFIG_CHECK_BOUNDS
-  if (r >= this->num_rows)                // If invalid size specified
-    vnl_error_matrix_row_index("put", r); // Raise exception
-  if (c >= this->num_cols)                // If invalid size specified
-    vnl_error_matrix_col_index("put", c); // Raise exception
-#endif
   this->data[r][c] = v; // Assign data value
 }
 

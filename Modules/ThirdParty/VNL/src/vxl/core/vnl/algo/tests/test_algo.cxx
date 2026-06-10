@@ -7,50 +7,33 @@
 // This file contains short tests for several algorithms in vnl/algo
 // that are not tested more extensively in separate test files.
 // Currently, the following classes or functions are tested here:
-// - vnl_adjugate
 // - vnl_svd_economy
 // - vnl_matrix_inverse
 // - vnl_fft_1d
 // - vnl_fft_2d
-// - vnl_orthogonal_complement
 // - vnl_conjugate_gradient
 // - vnl_lbfgs
 // - vnl_powell
 // - vnl_lsqr
 // - vnl_discrete_diff_fwd
 // - vnl_discrete_diff_sym
-// - vnl_generalized_schur
 //
 // \author Peter Vanroose, KULeuven/ESAT.
 // \date 20 September 2003
 
-#include <vnl/algo/vnl_adjugate.h>
 #include <vnl/algo/vnl_conjugate_gradient.h>
 #include <vnl/algo/vnl_discrete_diff.h>
 #include <vnl/algo/vnl_fft_1d.h>
 #include <vnl/algo/vnl_fft_2d.h>
-#include <vnl/algo/vnl_generalized_schur.h>
 #include <vnl/algo/vnl_lbfgs.h>
 #include <vnl/algo/vnl_lbfgsb.h>
 #include <vnl/algo/vnl_lsqr.h>
 #include <vnl/algo/vnl_matrix_inverse.h>
-#include <vnl/algo/vnl_orthogonal_complement.h>
 #include <vnl/algo/vnl_powell.h>
 #include <vnl/algo/vnl_svd_economy.h>
 #include <vnl/algo/vnl_svd.h>
 #include "vnl/vnl_sparse_matrix_linear_system.h"
 #include "vnl/vnl_least_squares_function.h"
-
-static void
-test_adjugate()
-{
-  int data[] = { 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, -1, 1 };
-  const vnl_matrix<int> m(data, 4, 4);
-  const vnl_matrix<int> m_adj = vnl_adjugate(m);
-  vnl_matrix<int> identity(4, 4);
-  identity.set_identity();
-  TEST("vnl_adjugate", (m * m_adj - 16 * identity).array_inf_norm(), 0);
-}
 
 static void
 test_matrix_inverse()
@@ -87,16 +70,6 @@ test_fft()
   fft2d.fwd_transform(m);
   fft2d.bwd_transform(m);
   TEST_NEAR("vnl_fft_2d", m[5][5], 10 * 9 * 10.5, 1e-6);
-}
-
-static void
-test_orthogonal_complement()
-{
-  vnl_vector<double> v(20);
-  for (int i = 0; i < 20; ++i)
-    v[i] = 0.5 + i;
-  vnl_matrix<double> oc = vnl_orthogonal_complement(v);
-  TEST("vnl_orthogonal_complement", oc[0][0] < 0 && oc[0][1] == 0 && oc[1][0] > 0, true);
 }
 
 class F_test_powell : public vnl_cost_function
@@ -238,31 +211,14 @@ test_discrete_diff()
   TEST_NEAR("vnl_discrete_diff_sym", J(0, 1), -18, 1e-6);
 }
 
-static void
-test_generalized_schur()
-{
-  vnl_matrix<float> A(4, 4, 0.0f);
-  vnl_matrix<float> B(4, 4, 0.0f);
-  vnl_matrix<float> L(4, 4, 1.0f);
-  vnl_matrix<float> R(4, 4, 1.0f);
-  vnl_vector<float> ar(4, 0.0f);
-  vnl_vector<float> ai(4, 0.0f);
-  vnl_vector<float> b(4, 0.0f);
-  const bool r = vnl_generalized_schur(&A, &B, &ar, &ai, &b, &L, &R);
-  TEST("vnl_generalized_schur", r, true);
-}
-
 void
 test_algo()
 {
-  test_adjugate();
   test_matrix_inverse();
   test_fft();
-  test_orthogonal_complement();
   test_powell();
   test_lsqr();
   test_discrete_diff();
-  test_generalized_schur();
 }
 
 TESTMAIN(test_algo);

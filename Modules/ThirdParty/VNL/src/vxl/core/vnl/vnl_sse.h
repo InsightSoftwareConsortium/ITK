@@ -15,9 +15,8 @@
 #endif                  // for macro decisions based on compiler type
 #include <vxl_config.h> // for checking supported integer data types
 #include <cfloat>       // for DBL_MAX and FLT_MAX
+#include <cstddef>      // for std::size_t
 
-#include <vnl/vnl_config.h> // is SSE enabled
-#include "vnl_alloc.h"      // is SSE enabled
 #include "vnl/vnl_export.h"
 
 // some caveats...
@@ -46,15 +45,8 @@
 
 #define VNL_SSE_HEAP_STORE(pf) _mm_storeu_##pf
 #define VNL_SSE_HEAP_LOAD(pf) _mm_loadu_##pf
-#if VNL_CONFIG_THREAD_SAFE
-#  define VNL_SSE_ALLOC(n, s, a) new char[(n) * (s)]
-#  define VNL_SSE_FREE(v, n, s) (delete[] static_cast<char *>(v))
-#else
-#  define VNL_SSE_ALLOC(n, s, a) vnl_alloc::allocate((n == 0) ? 8 : (n * s));
-#  define VNL_SSE_FREE(v, n, s) \
-    if (v)                      \
-      vnl_alloc::deallocate(v, (n == 0) ? 8 : (n * s));
-#endif
+#define VNL_SSE_ALLOC(n, s, a) new char[(n) * (s)]
+#define VNL_SSE_FREE(v, n, s) (delete[] static_cast<char *>(v))
 
 
 // Stack memory can be aligned -> use SSE aligned store
