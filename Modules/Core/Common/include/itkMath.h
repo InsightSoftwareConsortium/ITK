@@ -46,59 +46,59 @@
 
 namespace itk::Math
 {
-// These constants originate from VXL's vnl_math.h. They have been
-// moved here to improve visibility, and to ensure that the constants
-// are available during compile time ( as opposed to static ITK_CONSTEXPR
-// member variables ).
+// These constants originate from VXL's vnl_math.h. They are exposed as
+// inline constexpr namespace-scope constants so they are usable in
+// constant expressions with a single shared definition across translation
+// units.
 
 
 /** \brief \f[e\f] The base of the natural logarithm or Euler's number */
-static constexpr double e = vnl_math::e;
+inline constexpr double e = vnl_math::e;
 /** \brief  \f[ \log_2 e \f] */
-static constexpr double log2e = vnl_math::log2e;
+inline constexpr double log2e = vnl_math::log2e;
 /** \brief \f[ \log_{10} e \f] */
-static constexpr double log10e = vnl_math::log10e;
+inline constexpr double log10e = vnl_math::log10e;
 /** \brief \f[ \log_e 2 \f] */
-static constexpr double ln2 = vnl_math::ln2;
+inline constexpr double ln2 = vnl_math::ln2;
 /** \brief \f[ \log_e 10 \f] */
-static constexpr double ln10 = vnl_math::ln10;
+inline constexpr double ln10 = vnl_math::ln10;
 /** \brief \f[ \pi \f]  */
-static constexpr double pi = vnl_math::pi;
+inline constexpr double pi = vnl_math::pi;
 /** \brief \f[ 2\pi \f]  */
-static constexpr double twopi = vnl_math::twopi;
+inline constexpr double twopi = vnl_math::twopi;
 /** \brief \f[ \frac{\pi}{2} \f]  */
-static constexpr double pi_over_2 = vnl_math::pi_over_2;
+inline constexpr double pi_over_2 = vnl_math::pi_over_2;
 /** \brief \f[ \frac{\pi}{4} \f]  */
-static constexpr double pi_over_4 = vnl_math::pi_over_4;
+inline constexpr double pi_over_4 = vnl_math::pi_over_4;
 /** \brief \f[ \frac{\pi}{180} \f]  */
-static constexpr double pi_over_180 = vnl_math::pi_over_180;
+inline constexpr double pi_over_180 = vnl_math::pi_over_180;
 /** \brief \f[ \frac{1}{\pi} \f]  */
-static constexpr double one_over_pi = vnl_math::one_over_pi;
+inline constexpr double one_over_pi = vnl_math::one_over_pi;
 /** \brief \f[ \frac{2}{\pi} \f]  */
-static constexpr double two_over_pi = vnl_math::two_over_pi;
+inline constexpr double two_over_pi = vnl_math::two_over_pi;
 /** \brief \f[ \frac{180}{\pi} \f]  */
-static constexpr double deg_per_rad = vnl_math::deg_per_rad;
+inline constexpr double deg_per_rad = vnl_math::deg_per_rad;
 /** \brief \f[ \sqrt{2\pi} \f]  */
-static constexpr double sqrt2pi = vnl_math::sqrt2pi;
+inline constexpr double sqrt2pi = vnl_math::sqrt2pi;
 /** \brief \f[ \frac{2}{\sqrt{\pi}} \f]  */
-static constexpr double two_over_sqrtpi = vnl_math::two_over_sqrtpi;
+inline constexpr double two_over_sqrtpi = vnl_math::two_over_sqrtpi;
 /** \brief \f[ \frac{1}{\sqrt{2\pi}} \f]  */
-static constexpr double one_over_sqrt2pi = vnl_math::one_over_sqrt2pi;
+inline constexpr double one_over_sqrt2pi = vnl_math::one_over_sqrt2pi;
 /** \brief \f[ \sqrt{2} \f]  */
-static constexpr double sqrt2 = vnl_math::sqrt2;
+inline constexpr double sqrt2 = vnl_math::sqrt2;
 /** \brief \f[ \sqrt{ \frac{1}{2}} \f] */
-static constexpr double sqrt1_2 = vnl_math::sqrt1_2;
+inline constexpr double sqrt1_2 = vnl_math::sqrt1_2;
 /** \brief \f[ \sqrt{ \frac{1}{3}} \f] */
-static constexpr double sqrt1_3 = vnl_math::sqrt1_3;
+inline constexpr double sqrt1_3 = vnl_math::sqrt1_3;
 /** \brief euler constant */
-static constexpr double euler = vnl_math::euler;
+inline constexpr double euler = vnl_math::euler;
 
 //: IEEE double machine precision
-static constexpr double eps = vnl_math::eps;
-static constexpr double sqrteps = vnl_math::sqrteps;
+inline constexpr double eps = vnl_math::eps;
+inline constexpr double sqrteps = vnl_math::sqrteps;
 //: IEEE single machine precision
-static constexpr float float_eps = vnl_math::float_eps;
-static constexpr float float_sqrteps = vnl_math::float_sqrteps;
+inline constexpr float float_eps = vnl_math::float_eps;
+inline constexpr float float_sqrteps = vnl_math::float_sqrteps;
 
 /** A useful macro to generate a template floating point to integer
  *  conversion templated on the return type and using either the 32

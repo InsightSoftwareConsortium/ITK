@@ -53,9 +53,9 @@ using OrderEnumType = GaussianOrderEnum;
 using EnumGaussianOrderType = GaussianOrderEnum;
 // We need to expose the enum values at the class level
 // for backwards compatibility
-static constexpr GaussianOrderEnum ZeroOrder = GaussianOrderEnum::ZeroOrder;
-static constexpr GaussianOrderEnum FirstOrder = GaussianOrderEnum::FirstOrder;
-static constexpr GaussianOrderEnum SecondOrder = GaussianOrderEnum::SecondOrder;
+inline constexpr GaussianOrderEnum ZeroOrder = GaussianOrderEnum::ZeroOrder;
+inline constexpr GaussianOrderEnum FirstOrder = GaussianOrderEnum::FirstOrder;
+inline constexpr GaussianOrderEnum SecondOrder = GaussianOrderEnum::SecondOrder;
 #endif
 
 /**

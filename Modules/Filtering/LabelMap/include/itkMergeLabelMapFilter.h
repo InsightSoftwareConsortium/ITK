@@ -56,10 +56,10 @@ using ChoiceMethodEnum = MergeLabelMapFilterEnums::ChoiceMethod;
 using ChoiceMethod = ChoiceMethodEnum;
 // We need to expose the enum values at the class level
 // for backwards compatibility
-static constexpr ChoiceMethodEnum KEEP = ChoiceMethodEnum::KEEP;
-static constexpr ChoiceMethodEnum AGGREGATE = ChoiceMethodEnum::AGGREGATE;
-static constexpr ChoiceMethodEnum PACK = ChoiceMethodEnum::PACK;
-static constexpr ChoiceMethodEnum STRICT = ChoiceMethodEnum::STRICT;
+inline constexpr ChoiceMethodEnum KEEP = ChoiceMethodEnum::KEEP;
+inline constexpr ChoiceMethodEnum AGGREGATE = ChoiceMethodEnum::AGGREGATE;
+inline constexpr ChoiceMethodEnum PACK = ChoiceMethodEnum::PACK;
+inline constexpr ChoiceMethodEnum STRICT = ChoiceMethodEnum::STRICT;
 #endif
 
 #ifdef TEMPINPLACELABELMAPSTRICT
