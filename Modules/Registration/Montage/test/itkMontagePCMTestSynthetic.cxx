@@ -256,8 +256,8 @@ PhaseCorrelationRegistration(int argc, char * argv[])
           {
             std::cout << finalParameters[i] << " == " << actualParameters[i] << " == " << transformParameters[i];
 
-            if ((itk::Math::abs(finalParameters[i] - actualParameters[i]) > tolerance) ||
-                (itk::Math::abs(transformParameters[i] - actualParameters[i]) > tolerance))
+            if ((itk::Math::Absolute(finalParameters[i] - actualParameters[i]) > tolerance) ||
+                (itk::Math::Absolute(transformParameters[i] - actualParameters[i]) > tolerance))
             {
               std::cout << "    Tolerance exceeded at component " << i << std::endl;
               pass = false;
@@ -271,8 +271,8 @@ PhaseCorrelationRegistration(int argc, char * argv[])
           // All other parameters must be 0
           for (unsigned int i = numberOfParameters; i < VDimension; i++)
           {
-            if ((itk::Math::abs(finalParameters[i]) > tolerance) ||
-                (itk::Math::abs(transformParameters[i]) > tolerance))
+            if ((itk::Math::Absolute(finalParameters[i]) > tolerance) ||
+                (itk::Math::Absolute(transformParameters[i]) > tolerance))
             {
               std::cout << "Tolerance exceeded at component " << i << std::endl;
               pass = false;

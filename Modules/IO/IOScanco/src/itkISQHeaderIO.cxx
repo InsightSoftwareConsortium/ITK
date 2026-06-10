@@ -361,11 +361,11 @@ ISQHeaderIO::ReadISQHeader(ISQEncodedHeaderBlock * headerData)
   // fix m_SliceThickness and m_SliceIncrement if they were truncated
   double computedSpacing =
     this->m_HeaderData->m_ScanDimensionsPhysical[2] / this->m_HeaderData->m_ScanDimensionsPixels[2];
-  if (itk::Math::abs(computedSpacing - this->m_HeaderData->m_SliceThickness) < 1.1e-3)
+  if (itk::Math::Absolute(computedSpacing - this->m_HeaderData->m_SliceThickness) < 1.1e-3)
   {
     this->m_HeaderData->m_SliceThickness = computedSpacing;
   }
-  if (itk::Math::abs(computedSpacing - this->m_HeaderData->m_SliceIncrement) < 1.1e-3)
+  if (itk::Math::Absolute(computedSpacing - this->m_HeaderData->m_SliceIncrement) < 1.1e-3)
   {
     this->m_HeaderData->m_SliceIncrement = computedSpacing;
   }
