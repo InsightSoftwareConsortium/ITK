@@ -41,7 +41,7 @@ test_random_round_trip()
   {
     // Need to be careful abount wrap around - don't test with angles that are too big
     vnl_vector_fixed<double, 3> euler(
-      rng.normal() * vnl_math::pi / 18.0, rng.normal() * vnl_math::pi / 18.0, rng.normal() * vnl_math::pi / 18.0);
+      rng.normal() * vnl_math::detail::pi / 18.0, rng.normal() * vnl_math::detail::pi / 18.0, rng.normal() * vnl_math::detail::pi / 18.0);
     const vnl_quaternion<double> quat(euler(0), euler(1), euler(2));
     const vnl_vector_fixed<double, 3> out = quat.rotation_euler_angles();
     const double err = vnl_vector_ssd(euler, out);
@@ -66,9 +66,9 @@ test_random_euler_near_zero()
   {
     // Need to be careful abount wrap around - don't test with angles that are too big
     vnl_vector_fixed<double, 3> euler(
-      rng.normal() * vnl_math::pi_over_180, rng.normal() * vnl_math::pi_over_180, rng.normal() * vnl_math::pi_over_180);
+      rng.normal() * vnl_math::detail::pi_over_180, rng.normal() * vnl_math::detail::pi_over_180, rng.normal() * vnl_math::detail::pi_over_180);
     vnl_quaternion<double> quat(euler(0), euler(1), euler(2));
-    if (quat.angle() > vnl_math::pi / 36.0)
+    if (quat.angle() > vnl_math::detail::pi / 36.0)
     {
       errcount++;
       std::cout << "ERROR: should be small: " << euler << ": " << quat << std::endl;
@@ -97,7 +97,7 @@ test_random_quat_near_zero()
     vnl_quaternion<double> quat(rng.normal() / 1000.0,
                                 rng.normal() / 1000.0,
                                 rng.normal() / 1000.0,
-                                vnl_math::sgn0(rng.normal()) * (1.0 + rng.normal() / 1000.0));
+                                vnl_math::detail::sgn0(rng.normal()) * (1.0 + rng.normal() / 1000.0));
     quat.normalize();
 
     const vnl_vector_fixed<double, 3> euler = quat.rotation_euler_angles();
@@ -128,7 +128,7 @@ test_rotation_matrix_and_euler_angles()
     const double z = rng.drand32(-1.0, 1.0);
     vnl_vector_fixed<double, 3> axis(x, y, z);
     axis.normalize();
-    const double ang = rng.drand32(-4 * vnl_math::pi, 4 * vnl_math::pi);
+    const double ang = rng.drand32(-4 * vnl_math::detail::pi, 4 * vnl_math::detail::pi);
 
     // Construct the quaternion from this axis and angle,
     // and extract both euler_angles and rotation matrix.
@@ -212,8 +212,8 @@ test_rotations()
   TEST_NEAR("rotate p2 using q0_d", vnl_vector_ssd(q0_d.rotate(p2), p2), 0.0, 1e-8);
 
   // The axis replacing rotation - i.e. 120 degrees about (1,1,1)
-  vnl_vector_fixed<double, 3> e1(vnl_math::pi / 2, 0, vnl_math::pi / 2);
-  const vnl_quaternion<double> q1(p1 / p1.magnitude(), vnl_math::twopi / 3.0);
+  vnl_vector_fixed<double, 3> e1(vnl_math::detail::pi / 2, 0, vnl_math::detail::pi / 2);
+  const vnl_quaternion<double> q1(p1 / p1.magnitude(), vnl_math::detail::twopi / 3.0);
   TEST_NEAR("rotate p1 using q1", vnl_vector_ssd(q1.rotate(p1), p1), 0.0, 1e-8);
   TEST_NEAR("rotate p2 using q1", vnl_vector_ssd(q1.rotate(p2), p3), 0.0, 1e-8);
   const vnl_vector_fixed<double, 3> e1_b = q1.rotation_euler_angles();

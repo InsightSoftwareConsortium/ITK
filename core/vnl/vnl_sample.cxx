@@ -37,7 +37,7 @@ void
 vnl_sample_normal_2(double * x, double * y)
 {
   const double u = vnl_sample_uniform(1, 0); // not (0,1): should not return 0
-  const double theta = vnl_sample_uniform(0, vnl_math::twopi);
+  const double theta = vnl_sample_uniform(0, vnl_math::detail::twopi);
 
   const double r = std::sqrt(-2 * std::log(u));
 

@@ -118,7 +118,7 @@ test_euler_rotations()
   for (unsigned i = 0; i < ntrials; ++i)
   {
     bool this_trial_ok = true;
-    const double ang = randgen.drand32(-4 * vnl_math::pi, 4 * vnl_math::pi);
+    const double ang = randgen.drand32(-4 * vnl_math::detail::pi, 4 * vnl_math::detail::pi);
 
     vnl_vector<double> axis(3);       // The magnitude of this vector indicates the angle of rotation
     vnl_matrix_fixed<double, 3, 3> M; // True answer

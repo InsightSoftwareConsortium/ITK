@@ -19,15 +19,15 @@ template <class T>
 void
 test_na_type(T na_v, T qnan_v)
 {
-  TEST("isnan(NaN)", vnl_math::isnan(qnan_v), true);
-  TEST("isnan(NA)", vnl_math::isnan(vnl_na(T())), true);
-  TEST("isnan(NA2)", vnl_math::isnan(na_v), true);
-  TEST("isnan(1/NA2)", vnl_math::isnan(1.0f / na_v), true);
+  TEST("isnan(NaN)", vnl_math::numeric_predicates::isnan(qnan_v), true);
+  TEST("isnan(NA)", vnl_math::numeric_predicates::isnan(vnl_na(T())), true);
+  TEST("isnan(NA2)", vnl_math::numeric_predicates::isnan(na_v), true);
+  TEST("isnan(1/NA2)", vnl_math::numeric_predicates::isnan(1.0f / na_v), true);
   TEST("isna(NA)", vnl_na_isna(vnl_na(T())), true);
   TEST("isna(NA2)", vnl_na_isna(na_v), true);
   TEST("isna(1/NA2)", vnl_na_isna(1.0f / na_v), true);
-  TEST("!isfinite(NA)", !vnl_math::isfinite(na_v), true);
-  TEST("!isinf(NA)", !vnl_math::isinf(na_v), true);
+  TEST("!isfinite(NA)", !vnl_math::numeric_predicates::isfinite(na_v), true);
+  TEST("!isinf(NA)", !vnl_math::numeric_predicates::isinf(na_v), true);
 
   TEST("!isna(0)", !vnl_na_isna(0.0), true);
   TEST("!isna(-0)", !vnl_na_isna(-0.0), true);

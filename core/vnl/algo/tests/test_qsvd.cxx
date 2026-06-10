@@ -1,5 +1,5 @@
 #include <cstdio>
-#include "vnl/vnl_math.h" // vnl_math::abs()
+#include "vnl/vnl_math.h" // vnl_math::detail::abs()
 #include "testlib/testlib_test.h"
 #undef printf // to work around a bug in libintl.h
 
@@ -76,13 +76,13 @@ test_qsvd()
               AA[8]);
 
   TEST("D1 must be (0.6,0.8,0.6)",
-       vnl_math::abs(Alpha[0] - 0.6) < 1e-6 && vnl_math::abs(Alpha[1] - 0.8) < 1e-6 &&
-         vnl_math::abs(Alpha[2] - 0.6) < 1e-6,
+       vnl_math::detail::abs(Alpha[0] - 0.6) < 1e-6 && vnl_math::detail::abs(Alpha[1] - 0.8) < 1e-6 &&
+         vnl_math::detail::abs(Alpha[2] - 0.6) < 1e-6,
        true);
 
   TEST("D2 must be (0.8,0.6,0.8)",
-       vnl_math::abs(Beta[0] - 0.8) < 1e-6 && vnl_math::abs(Beta[1] - 0.6) < 1e-6 &&
-         vnl_math::abs(Beta[2] - 0.8) < 1e-6,
+       vnl_math::detail::abs(Beta[0] - 0.8) < 1e-6 && vnl_math::detail::abs(Beta[1] - 0.6) < 1e-6 &&
+         vnl_math::detail::abs(Beta[2] - 0.8) < 1e-6,
        true);
 }
 

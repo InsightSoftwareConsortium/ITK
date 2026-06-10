@@ -739,7 +739,7 @@ angle(const vnl_vector<T> & a, const vnl_vector<T> & b)
   if (c >= 1.0)
     return 0;
   if (c <= -1.0)
-    return vnl_math::pi;
+    return vnl_math::detail::pi;
   return std::acos(c);
 }
 
@@ -748,7 +748,7 @@ bool
 vnl_vector<T>::is_finite() const
 {
   for (size_t i = 0; i < this->size(); ++i)
-    if (!vnl_math::isfinite((*this)[i]))
+    if (!vnl_math::numeric_predicates::isfinite((*this)[i]))
       return false;
 
   return true;
@@ -798,7 +798,7 @@ vnl_vector<T>::is_equal(const vnl_vector<T> & rhs, double tol) const
   if (this->size() != rhs.size()) // Size different ?
     return false;
   for (size_t i = 0; i < size(); i++)
-    if (!(vnl_math::abs(this->data[i] - rhs.data[i]) <= tol)) // Element different ?
+    if (!(vnl_math::detail::abs(this->data[i] - rhs.data[i]) <= tol)) // Element different ?
       return false;
 
   return true;

@@ -38,6 +38,7 @@
 #include <algorithm>
 #include <complex>
 #include <limits>
+#include <utility>
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif
@@ -46,28 +47,52 @@
 #include <vnl/vnl_export.h>
 
 //: Type-accessible infinities for use in templates.
+// Define VNL_MATH_DEPRECATE_HUGE_VAL=0 to silence during migration.
+#ifndef VNL_MATH_DEPRECATE_HUGE_VAL
+#  define VNL_MATH_DEPRECATE_HUGE_VAL 1
+#endif
+#if VNL_MATH_DEPRECATE_HUGE_VAL
+#  define VNL_HUGE_VAL_DEPRECATED                                                                       \
+    [[deprecated("vnl_huge_val is deprecated; use std::numeric_limits<T>::infinity() for "              \
+                 "floating-point T, or std::numeric_limits<T>::max() for integral T")]]
+#else
+#  define VNL_HUGE_VAL_DEPRECATED
+#endif
 template <class T>
-VNL_EXPORT T vnl_huge_val(T);
-extern VNL_EXPORT long double
+VNL_HUGE_VAL_DEPRECATED VNL_EXPORT T
+vnl_huge_val(T);
+VNL_HUGE_VAL_DEPRECATED extern VNL_EXPORT long double
 vnl_huge_val(long double);
-extern VNL_EXPORT double
+VNL_HUGE_VAL_DEPRECATED extern VNL_EXPORT double
 vnl_huge_val(double);
-extern VNL_EXPORT float
+VNL_HUGE_VAL_DEPRECATED extern VNL_EXPORT float
 vnl_huge_val(float);
-extern VNL_EXPORT long int
+VNL_HUGE_VAL_DEPRECATED extern VNL_EXPORT long int
 vnl_huge_val(long int);
-extern VNL_EXPORT int
+VNL_HUGE_VAL_DEPRECATED extern VNL_EXPORT int
 vnl_huge_val(int);
-extern VNL_EXPORT short
+VNL_HUGE_VAL_DEPRECATED extern VNL_EXPORT short
 vnl_huge_val(short);
-extern VNL_EXPORT char
+VNL_HUGE_VAL_DEPRECATED extern VNL_EXPORT char
 vnl_huge_val(char);
+#undef VNL_HUGE_VAL_DEPRECATED
 
 //: real numerical constants
 // Declared 'inline constexpr' so every translation unit that includes this
 // header sees the same object at the same address, rather than the per-TU
 // internal-linkage copies produced by 'static constexpr'.
 namespace vnl_math
+{
+//: Undeprecated numeric constants for vnl's own internal use.
+// vnl source and headers reference these (e.g. vnl_math::detail::pi)
+// so they are unaffected by the deprecation of the public vnl_math:: aliases
+// below, even when vnl headers are instantiated in downstream translation units.
+//
+// NOT part of the public API: this namespace and its members are an
+// implementation detail, carry no stability guarantee, and may be renamed or
+// removed at any time. Downstream code must use std::numbers (C++20) or its
+// toolkit's constants (e.g. itk::Math), never these.
+namespace detail // unstable; not part of the public API
 {
 //: pi, e and all that.  Constants are rounded to the shown precision.
 inline constexpr double e = 2.71828182845904523536;                // http://oeis.org/A001113
@@ -90,94 +115,70 @@ inline constexpr double sqrt2 = 1.41421356237309504880;            // http://oei
 inline constexpr double sqrt1_2 = 0.70710678118654752440;          // http://oeis.org/A010503
 inline constexpr double sqrt1_3 = 0.57735026918962576451;          // http://oeis.org/A020760
 inline constexpr double euler = 0.57721566490153286061;            // http://oeis.org/A001620
-
 //: IEEE double machine precision
 inline constexpr double eps = std::numeric_limits<double>::epsilon();
-inline constexpr double sqrteps = 1.490116119384766e-08;
+inline constexpr double sqrteps = 0x1p-26; // sqrt(eps) = sqrt(2^-52) = 2^-26, exactly representable
 //: IEEE single machine precision
 inline constexpr float float_eps = std::numeric_limits<float>::epsilon();
 inline constexpr float float_sqrteps = 3.4526698300e-4f;
+} // namespace detail
 
+// Deprecated public aliases. Downstream consumers that reference vnl_math::pi
+// (etc.) get a compile-time deprecation warning and should migrate to
+// std::numbers (C++20) or their toolkit's constants (e.g. itk::Math in ITK).
+// Define VNL_MATH_DEPRECATE_CONSTANTS=0 to silence during migration.
+#ifndef VNL_MATH_DEPRECATE_CONSTANTS
+#  define VNL_MATH_DEPRECATE_CONSTANTS 1
+#endif
+#if VNL_MATH_DEPRECATE_CONSTANTS
+#  define VNL_MATH_CONSTANT_DEPRECATED \
+    [[deprecated("vnl_math:: numeric constants are deprecated; use std::numbers (C++20) or itk::Math (ITK)")]]
+#else
+#  define VNL_MATH_CONSTANT_DEPRECATED
+#endif
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double e = detail::e;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double log2e = detail::log2e;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double log10e = detail::log10e;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double ln2 = detail::ln2;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double ln10 = detail::ln10;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double pi = detail::pi;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double twopi = detail::twopi;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double pi_over_2 = detail::pi_over_2;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double pi_over_4 = detail::pi_over_4;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double pi_over_180 = detail::pi_over_180;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double one_over_pi = detail::one_over_pi;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double two_over_pi = detail::two_over_pi;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double deg_per_rad = detail::deg_per_rad;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double sqrt2pi = detail::sqrt2pi;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double two_over_sqrtpi = detail::two_over_sqrtpi;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double one_over_sqrt2pi = detail::one_over_sqrt2pi;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double sqrt2 = detail::sqrt2;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double sqrt1_2 = detail::sqrt1_2;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double sqrt1_3 = detail::sqrt1_3;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double euler = detail::euler;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double eps = detail::eps;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr double sqrteps = detail::sqrteps;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr float float_eps = detail::float_eps;
+VNL_MATH_CONSTANT_DEPRECATED inline constexpr float float_sqrteps = detail::float_sqrteps;
+#undef VNL_MATH_CONSTANT_DEPRECATED
+
+namespace detail // unstable; not part of the public API
+{
 //: Convert an angle to [0, 2Pi) range
 VNL_EXPORT double
 angle_0_to_2pi(double angle);
 //: Convert an angle to [-Pi, Pi) range
 VNL_EXPORT double
 angle_minuspi_to_pi(double angle);
+} // namespace detail
 } // namespace vnl_math
-
-// Note that the three template functions below should not be declared "inline"
-// since that would override the non-inline specialisations. - PVr.
-//
 
 namespace vnl_math
 {
-#if defined(_MSC_VER)
-// MSVC does not properly implement isfinite, isinf, isnan for C++11 conformance for integral types
-// For integral types only:
-template <typename T>
-_Check_return_ typename std::enable_if<std::is_integral<T>::value, bool>::type
-isnan(_In_ T t) throw()
+namespace numeric_predicates
 {
-  return std::isnan(static_cast<double>(t));
-}
-template <typename T>
-_Check_return_ typename std::enable_if<std::is_integral<T>::value, bool>::type
-isinf(_In_ T t) throw()
-{
-  return std::isinf(static_cast<double>(t));
-}
-template <typename T>
-_Check_return_ typename std::enable_if<std::is_integral<T>::value, bool>::type
-isfinite(_In_ T t) throw()
-{
-  return std::isfinite(static_cast<double>(t));
-}
-template <typename T>
-_Check_return_ typename std::enable_if<std::is_integral<T>::value, bool>::type
-isnormal(_In_ T t) throw()
-{
-  return std::isnormal(static_cast<double>(t));
-}
-
-// Floating point types can alias C++ standard that is implemented
-template <typename T>
-_Check_return_ typename std::enable_if<std::is_floating_point<T>::value, bool>::type
-isnan(_In_ T t) throw()
-{
-  return std::isnan(t);
-}
-template <typename T>
-_Check_return_ typename std::enable_if<std::is_floating_point<T>::value, bool>::type
-isinf(_In_ T t) throw()
-{
-  return std::isinf(t);
-}
-template <typename T>
-_Check_return_ typename std::enable_if<std::is_floating_point<T>::value, bool>::type
-isfinite(_In_ T t) throw()
-{
-  return std::isfinite(t);
-}
-template <typename T>
-_Check_return_ typename std::enable_if<std::is_floating_point<T>::value, bool>::type
-isnormal(_In_ T t) throw()
-{
-  return std::isnormal(t);
-}
-#else
-// https://en.cppreference.com/w/cpp/numeric/math/isinf indicates that isinf should return bool
-// However, several compiler environments do not properly conform to the C++11 standard for
-// returning bool from these functions.  Wrap them to ensure conformance, and
-// rely on the compiler to optimize the overhead away.
-
-// Return a signed integer type has been seen with the following
-// compilers/libstdc++:
-//  RHEL7-devtool-6-gcc6.3
-//  RHEL7-devtool-6-gcc6.3-m32
-//  RHEL7-devtool-7-gcc7.2
-// 	RHEL7-devtool-7-gcc7.2-m32
-
+// Wrap the <cmath> classification functions to guarantee a bool return type;
+// some standard libraries returned a signed integer from these.
 template <typename TArg>
 inline bool
 isinf(TArg arg)
@@ -202,12 +203,70 @@ isnormal(TArg arg)
 {
   return bool(std::isnormal(arg));
 }
-#endif
-using std::max;
-using std::min;
-using std::cbrt;
-using std::hypot;
+} // namespace numeric_predicates
 
+// Deprecated public spellings; vnl-internal code uses numeric_predicates::.
+// Define VNL_MATH_DEPRECATE_PREDICATES=0 to silence during migration.
+#ifndef VNL_MATH_DEPRECATE_PREDICATES
+#  define VNL_MATH_DEPRECATE_PREDICATES 1
+#endif
+#if VNL_MATH_DEPRECATE_PREDICATES
+#  define VNL_MATH_PREDICATE_DEPRECATED \
+    [[deprecated("vnl_math:: classification functions are deprecated; use std::isnan/isinf/isfinite/isnormal or itk::Math")]]
+#else
+#  define VNL_MATH_PREDICATE_DEPRECATED
+#endif
+template <typename TArg>
+VNL_MATH_PREDICATE_DEPRECATED inline bool
+isinf(TArg arg)
+{
+  return numeric_predicates::isinf(arg);
+}
+template <typename TArg>
+VNL_MATH_PREDICATE_DEPRECATED inline bool
+isnan(TArg arg)
+{
+  return numeric_predicates::isnan(arg);
+}
+template <typename TArg>
+VNL_MATH_PREDICATE_DEPRECATED inline bool
+isfinite(TArg arg)
+{
+  return numeric_predicates::isfinite(arg);
+}
+template <typename TArg>
+VNL_MATH_PREDICATE_DEPRECATED inline bool
+isnormal(TArg arg)
+{
+  return numeric_predicates::isnormal(arg);
+}
+#undef VNL_MATH_PREDICATE_DEPRECATED
+// Deprecated re-exports of the std:: equivalents; use std:: directly.
+// Define VNL_MATH_DEPRECATE_STD_REEXPORTS=0 to silence during migration.
+#ifndef VNL_MATH_DEPRECATE_STD_REEXPORTS
+#  define VNL_MATH_DEPRECATE_STD_REEXPORTS 1
+#endif
+#if VNL_MATH_DEPRECATE_STD_REEXPORTS
+#  define VNL_MATH_STD_REEXPORT_DEPRECATED(fn) [[deprecated("vnl_math::" #fn " is deprecated; use std::" #fn)]]
+#else
+#  define VNL_MATH_STD_REEXPORT_DEPRECATED(fn)
+#endif
+#define VNL_MATH_DEPRECATED_STD_FORWARD(fn)                     \
+  template <typename... Args>                                   \
+  VNL_MATH_STD_REEXPORT_DEPRECATED(fn) inline auto fn(Args &&... args) \
+    ->decltype(std::fn(std::forward<Args>(args)...))            \
+  {                                                             \
+    return std::fn(std::forward<Args>(args)...);                \
+  }
+VNL_MATH_DEPRECATED_STD_FORWARD(max)
+VNL_MATH_DEPRECATED_STD_FORWARD(min)
+VNL_MATH_DEPRECATED_STD_FORWARD(cbrt)
+VNL_MATH_DEPRECATED_STD_FORWARD(hypot)
+#undef VNL_MATH_DEPRECATED_STD_FORWARD
+#undef VNL_MATH_STD_REEXPORT_DEPRECATED
+
+namespace detail // unstable; not part of the public API
+{
 // rnd_halfinttoeven  -- round towards nearest integer
 //         halfway cases are rounded towards the nearest even integer, e.g.
 //         rnd_halfinttoeven( 1.5) ==  2
@@ -660,6 +719,60 @@ remainder_floored(long double x, long double y)
 {
   return fmodl(fmodl(x, y) + y, y);
 }
+} // namespace detail
+
+// Deprecated public spellings; vnl-internal code uses vnl_math::detail::.
+// Each forwarder perfectly forwards to detail::, preserving the overload set
+// (scalar, integral and complex) and return type of the original.
+// Define VNL_MATH_DEPRECATE_FUNCTIONS=0 to silence during migration.
+#ifndef VNL_MATH_DEPRECATE_FUNCTIONS
+#  define VNL_MATH_DEPRECATE_FUNCTIONS 1
+#endif
+#if VNL_MATH_DEPRECATE_FUNCTIONS
+#  define VNL_MATH_FUNCTION_DEPRECATED \
+    [[deprecated("this vnl_math:: function is deprecated; use the std:: equivalent or itk::Math")]]
+#else
+#  define VNL_MATH_FUNCTION_DEPRECATED
+#endif
+#define VNL_MATH_DEPRECATED_FORWARD(fn)                       \
+  template <typename... Args>                                 \
+  VNL_MATH_FUNCTION_DEPRECATED inline auto fn(Args &&... args) \
+    ->decltype(detail::fn(std::forward<Args>(args)...))       \
+  {                                                           \
+    return detail::fn(std::forward<Args>(args)...);           \
+  }
+VNL_MATH_DEPRECATED_FORWARD(angle_0_to_2pi)
+VNL_MATH_DEPRECATED_FORWARD(angle_minuspi_to_pi)
+VNL_MATH_DEPRECATED_FORWARD(rnd_halfinttoeven)
+VNL_MATH_DEPRECATED_FORWARD(rnd_halfintup)
+VNL_MATH_DEPRECATED_FORWARD(rnd)
+VNL_MATH_DEPRECATED_FORWARD(floor)
+VNL_MATH_DEPRECATED_FORWARD(ceil)
+VNL_MATH_DEPRECATED_FORWARD(sgn)
+VNL_MATH_DEPRECATED_FORWARD(sgn0)
+VNL_MATH_DEPRECATED_FORWARD(remainder_truncated)
+VNL_MATH_DEPRECATED_FORWARD(remainder_floored)
+VNL_MATH_DEPRECATED_FORWARD(sqr)
+VNL_MATH_DEPRECATED_FORWARD(cube)
+VNL_MATH_DEPRECATED_FORWARD(squared_magnitude)
+#undef VNL_MATH_DEPRECATED_FORWARD
+#undef VNL_MATH_FUNCTION_DEPRECATED
+
+// abs migrates to itk::Math::Absolute(), which (unlike std::abs) preserves the
+// unsigned-returning integral semantics and supports INT_MIN and bool.
+#if VNL_MATH_DEPRECATE_FUNCTIONS
+#  define VNL_MATH_ABS_DEPRECATED \
+    [[deprecated("vnl_math::abs is deprecated; use itk::Math::Absolute() (ITK) or std::abs")]]
+#else
+#  define VNL_MATH_ABS_DEPRECATED
+#endif
+template <typename... Args>
+VNL_MATH_ABS_DEPRECATED inline auto
+abs(Args &&... args) -> decltype(detail::abs(std::forward<Args>(args)...))
+{
+  return detail::abs(std::forward<Args>(args)...);
+}
+#undef VNL_MATH_ABS_DEPRECATED
 
 } // end of namespace vnl_math
 #endif // vnl_math_h_

@@ -46,7 +46,7 @@ vnl_error_matrix_va_arg(int n);
 
 template <typename T>
 inline void
-vnl_error_assert_int_range(T v)
+vnl_error_assert_int_range([[maybe_unused]] T v)
 {
   static_assert(std::is_integral_v<T>);
   if constexpr (sizeof(T) > sizeof(int) || (std::is_unsigned_v<T> && sizeof(T) == sizeof(int)))

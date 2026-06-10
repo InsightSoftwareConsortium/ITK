@@ -59,7 +59,7 @@ test_euclid_dist_sq(const vnl_vector<float> & vec, const vnl_vector<float> & vec
   const unsigned n = vec.size();
   float correct(0);
   for (unsigned i = 0; i < n; ++i)
-    correct += vnl_math::sqr(vec(i) - vec2(i));
+    correct += vnl_math::detail::sqr(vec(i) - vec2(i));
 
   const float err = std::abs(correct - val);
   const float neps = float(n) * std::sqrt(std::numeric_limits<float>::epsilon());
