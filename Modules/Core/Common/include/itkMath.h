@@ -40,7 +40,10 @@
 #endif
 #include "itkMathDetail.h"
 #include "itkConceptChecking.h"
-#include <vnl/vnl_math.h>
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+// itk::Math no longer uses vnl_math; kept transitionally for downstream vnl_math:: users.
+#  include <vnl/vnl_math.h>
+#endif
 
 namespace itk::Math
 {
