@@ -34,7 +34,6 @@
 #include "itkObjectFactory.h"
 #include "itkMath.h"
 #include "vnl/vnl_cross.h"
-#include "vnl/vnl_math.h"
 
 namespace itk
 {
