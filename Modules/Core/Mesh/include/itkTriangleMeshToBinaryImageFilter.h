@@ -44,6 +44,9 @@ public:
 
   Point1D(const Point1D & point) = default;
 
+  Point1D &
+  operator=(const Point1D &) = default;
+
   [[nodiscard]] double
   getX() const
   {

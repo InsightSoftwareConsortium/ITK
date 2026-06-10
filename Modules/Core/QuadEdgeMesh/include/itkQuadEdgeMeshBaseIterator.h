@@ -243,6 +243,9 @@ public:
 
   QuadEdgeMeshIterator(const QuadEdgeMeshIterator &) = default;
 
+  Self &
+  operator=(const Self &) = default;
+
   ~QuadEdgeMeshIterator() override = default;
 
   QuadEdgeType *
@@ -281,6 +284,9 @@ public:
 
   QuadEdgeMeshIteratorGeom(const QuadEdgeMeshIteratorGeom &) = default;
 
+  QuadEdgeMeshIteratorGeom &
+  operator=(const QuadEdgeMeshIteratorGeom &) = default;
+
   OriginRefType
   operator*()
   {
@@ -313,6 +319,9 @@ public:
   {}
 
   QuadEdgeMeshConstIterator(const QuadEdgeMeshConstIterator &) = default;
+
+  Self &
+  operator=(const Self &) = default;
 
   ~QuadEdgeMeshConstIterator() override = default;
 
@@ -360,6 +369,9 @@ public:
   {}
 
   QuadEdgeMeshConstIteratorGeom(const QuadEdgeMeshConstIteratorGeom &) = default;
+
+  Self &
+  operator=(const Self &) = default;
 
   ~QuadEdgeMeshConstIteratorGeom() override = default;
 
