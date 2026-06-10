@@ -853,8 +853,8 @@ UnsignedPower(const uintmax_t base, const uintmax_t exponent) noexcept -> TRetur
 
 
 /*==========================================
- * Alias the vnl_math functions in the itk::Math
- * namespace. If possible, use the std:: equivalents
+ * itk::Math utility functions. std:: equivalents are used where they exist;
+ * the remainder are native definitions providing the historical interface.
  */
 using std::isnan;
 using std::isinf;
@@ -862,20 +862,246 @@ using std::isfinite;
 using std::isnormal;
 using std::cbrt;
 using std::hypot;
-using vnl_math::angle_0_to_2pi;
-using vnl_math::angle_minuspi_to_pi;
-using vnl_math::rnd_halfinttoeven;
-using vnl_math::rnd_halfintup;
-using vnl_math::rnd;
-using vnl_math::floor;
-using vnl_math::ceil;
-using vnl_math::sgn;
-using vnl_math::sgn0;
-using vnl_math::remainder_truncated;
-using vnl_math::remainder_floored;
-using vnl_math::sqr;
-using vnl_math::cube;
-using vnl_math::squared_magnitude;
+
+/** \brief Sign of a value: -1, 0, or +1. */
+template <typename T, std::enable_if_t<std::is_arithmetic_v<T>, int> = 0>
+constexpr int
+sgn(T x)
+{
+  return (x != T{}) ? ((x > T{}) ? 1 : -1) : 0;
+}
+
+/** \brief Sign of a value in {-1, +1}; zero maps to +1. */
+template <typename T, std::enable_if_t<std::is_arithmetic_v<T>, int> = 0>
+constexpr int
+sgn0(T x)
+{
+  return (x >= T{}) ? 1 : -1;
+}
+
+/** \brief Square of a value. */
+constexpr bool
+sqr(bool x)
+{
+  return x;
+}
+template <typename T, std::enable_if_t<std::is_arithmetic_v<T>, int> = 0>
+constexpr T
+sqr(T x)
+{
+  return x * x;
+}
+
+/** \brief Cube of a value. */
+constexpr bool
+cube(bool x)
+{
+  return x;
+}
+template <typename T, std::enable_if_t<std::is_arithmetic_v<T>, int> = 0>
+constexpr T
+cube(T x)
+{
+  return x * x * x;
+}
+
+/** \brief Squared magnitude; integer results are unsigned. */
+constexpr unsigned int
+squared_magnitude(char x)
+{
+  return static_cast<unsigned int>(static_cast<int>(x) * static_cast<int>(x));
+}
+constexpr unsigned int
+squared_magnitude(unsigned char x)
+{
+  return static_cast<unsigned int>(static_cast<int>(x) * static_cast<int>(x));
+}
+constexpr unsigned int
+squared_magnitude(int x)
+{
+  return static_cast<unsigned int>(x * x);
+}
+constexpr unsigned int
+squared_magnitude(unsigned int x)
+{
+  return x * x;
+}
+constexpr unsigned long
+squared_magnitude(long x)
+{
+  return static_cast<unsigned long>(x * x);
+}
+constexpr unsigned long
+squared_magnitude(unsigned long x)
+{
+  return x * x;
+}
+constexpr unsigned long long
+squared_magnitude(long long x)
+{
+  return static_cast<unsigned long long>(x * x);
+}
+constexpr unsigned long long
+squared_magnitude(unsigned long long x)
+{
+  return x * x;
+}
+constexpr float
+squared_magnitude(float x)
+{
+  return x * x;
+}
+constexpr double
+squared_magnitude(double x)
+{
+  return x * x;
+}
+constexpr long double
+squared_magnitude(long double x)
+{
+  return x * x;
+}
+
+/** \brief Truncated remainder: quotient truncated toward zero, result has the sign of x. */
+template <typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+constexpr T
+remainder_truncated(T x, T y)
+{
+  return x % y;
+}
+inline float
+remainder_truncated(float x, float y)
+{
+  return std::fmod(x, y);
+}
+inline double
+remainder_truncated(double x, double y)
+{
+  return std::fmod(x, y);
+}
+inline long double
+remainder_truncated(long double x, long double y)
+{
+  return std::fmod(x, y);
+}
+
+/** \brief Floored remainder: quotient rounded toward minus infinity, result has the sign of y. */
+template <typename T, std::enable_if_t<std::is_integral_v<T> && std::is_signed_v<T>, int> = 0>
+constexpr T
+remainder_floored(T x, T y)
+{
+  return ((x % y) + y) % y;
+}
+template <typename T, std::enable_if_t<std::is_integral_v<T> && std::is_unsigned_v<T>, int> = 0>
+constexpr T
+remainder_floored(T x, T y)
+{
+  return x % y;
+}
+inline float
+remainder_floored(float x, float y)
+{
+  return std::fmod(std::fmod(x, y) + y, y);
+}
+inline double
+remainder_floored(double x, double y)
+{
+  return std::fmod(std::fmod(x, y) + y, y);
+}
+inline long double
+remainder_floored(long double x, long double y)
+{
+  return std::fmod(std::fmod(x, y) + y, y);
+}
+
+/** \brief Round to nearest integer, halfway cases to the nearest even integer. */
+inline int
+rnd_halfinttoeven(float x)
+{
+  return static_cast<int>(std::lrint(x));
+}
+inline int
+rnd_halfinttoeven(double x)
+{
+  return static_cast<int>(std::lrint(x));
+}
+
+/** \brief Round to nearest integer, halfway cases upward (toward plus infinity).
+ *  Valid only for |x| < INT_MAX / 2. */
+inline int
+rnd_halfintup(float x)
+{
+  return rnd_halfinttoeven(2 * x + 0.5f) >> 1;
+}
+inline int
+rnd_halfintup(double x)
+{
+  return rnd_halfinttoeven(2 * x + 0.5) >> 1;
+}
+
+/** \brief Round to nearest integer; halfway cases follow round-half-to-even. */
+inline int
+rnd(float x)
+{
+  return static_cast<int>(std::lrint(x));
+}
+inline int
+rnd(double x)
+{
+  return static_cast<int>(std::lrint(x));
+}
+
+/** \brief Round toward minus infinity. */
+inline int
+floor(float x)
+{
+  return static_cast<int>(std::floor(x));
+}
+inline int
+floor(double x)
+{
+  return static_cast<int>(std::floor(x));
+}
+
+/** \brief Round toward plus infinity. */
+inline int
+ceil(float x)
+{
+  return static_cast<int>(std::ceil(x));
+}
+inline int
+ceil(double x)
+{
+  return static_cast<int>(std::ceil(x));
+}
+
+/** \brief Normalize an angle (radians) into [0, 2*pi). */
+inline double
+angle_0_to_2pi(double angle)
+{
+  angle = std::fmod(angle, twopi);
+  if (angle >= 0)
+    return angle;
+  const double a = angle + twopi;
+  if (a > 0 && a < twopi)
+    return a;
+  // Guard the boundary: tiny negative inputs can produce exactly twopi above.
+  if (angle < 0)
+    return 6.28318530717958575;
+  return angle;
+}
+
+/** \brief Normalize an angle (radians) into (-pi, pi]. */
+inline double
+angle_minuspi_to_pi(double angle)
+{
+  angle = std::fmod(angle, twopi);
+  if (angle > pi)
+    angle -= twopi;
+  if (angle < -pi)
+    angle += twopi;
+  return angle;
+}
 
 
 /**
