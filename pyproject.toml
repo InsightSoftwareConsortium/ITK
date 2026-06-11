@@ -136,7 +136,9 @@ depends-on = ["build-ci"]
 doxygen = ">=1.13,<2"
 
 # \cite resolution shells out to perl and bibtex; explicit \dot commands need graphviz.
-# texlive-core only resolves on linux here.
+# texlive-core (the bibtex provider, ~100 MB but linux-only on conda-forge) resolves
+# only in the linux targets; manual macOS/Windows runs need bibtex on PATH from a
+# system TeX distribution (MacTeX, MiKTeX).
 [tool.pixi.feature.doxygen.target.linux-64.dependencies]
 perl = ">=5.32"
 texlive-core = ">=20220321"
@@ -145,6 +147,18 @@ graphviz = ">=9"
 [tool.pixi.feature.doxygen.target.linux-aarch64.dependencies]
 perl = ">=5.32"
 texlive-core = ">=20220321"
+graphviz = ">=9"
+
+[tool.pixi.feature.doxygen.target.osx-64.dependencies]
+perl = ">=5.32"
+graphviz = ">=9"
+
+[tool.pixi.feature.doxygen.target.osx-arm64.dependencies]
+perl = ">=5.32"
+graphviz = ">=9"
+
+[tool.pixi.feature.doxygen.target.win-64.dependencies]
+perl = ">=5.32"
 graphviz = ">=9"
 
 [tool.pixi.feature.doxygen.tasks.configure-doxygen-ci]
