@@ -20,15 +20,15 @@
 //
 // \index{itk::Statistics::Subsample}
 //
-// The \subdoxygen{Statistics}{Subsample} is a derived sample. In other
-// words, it requires another \subdoxygen{Statistics}{Sample} object for
+// The \itksubref{Statistics}{Subsample} is a derived sample. In other
+// words, it requires another \itksubref{Statistics}{Sample} object for
 // storing measurement vectors. The Subsample class stores a subset of
 // instance identifiers from another Sample object.  \emph{Any} Sample's
 // subclass can be the source Sample object. You can create a Subsample
 // object out of another Subsample object. The Subsample class is useful for
 // storing classification results from a test Sample object or for just
 // extracting some part of interest in a Sample object. Another good use of
-// Subsample is sorting a Sample object. When we use an \doxygen{Image}
+// Subsample is sorting a Sample object. When we use an \itkref{Image}
 // object as the data source, we do not want to change the order of data
 // elements in the image. However, we sometimes want to sort or
 // select data elements according to their order. Statistics algorithms for
@@ -37,7 +37,7 @@
 //
 // To use a Subsample object, we include the header files for
 // the class itself and a Sample class. We will use the
-// \subdoxygen{Statistics}{ListSample} as the input sample.
+// \itksubref{Statistics}{ListSample} as the input sample.
 //
 // Software Guide : EndLatex
 
@@ -50,7 +50,7 @@
 // Software Guide : BeginLatex
 //
 // We need another header for measurement vectors. We are going to use
-// the \doxygen{Vector} class in this example.
+// the \itkref{Vector} class in this example.
 //
 // Software Guide : EndLatex
 

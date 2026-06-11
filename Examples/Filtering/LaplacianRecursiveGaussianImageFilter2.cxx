@@ -31,10 +31,10 @@
 //  Software Guide : BeginLatex
 //
 //  The previous example showed how to use the
-//  \doxygen{RecursiveGaussianImageFilter} for computing the equivalent of a
+//  \itkref{RecursiveGaussianImageFilter} for computing the equivalent of a
 //  Laplacian of an image after smoothing with a Gaussian.  The elements used
 //  in this previous example have been packaged together in the
-//  \doxygen{LaplacianRecursiveGaussianImageFilter} in order to simplify its
+//  \itkref{LaplacianRecursiveGaussianImageFilter} in order to simplify its
 //  usage. This current example shows how to use this convenience filter for
 //  achieving the same results as the previous example.
 //
@@ -117,7 +117,7 @@ main(int argc, char * argv[])
   //
   //  This filter packages all the components illustrated in the previous
   //  example.  The filter is created by invoking the \code{New()} method and
-  //  assigning the result to a \doxygen{SmartPointer}.
+  //  assigning the result to a \itkref{SmartPointer}.
   //
   //  \index{itk::LaplacianRecursiveGaussianImageFilter!New()}
   //  \index{itk::LaplacianRecursiveGaussianImageFilter!Pointer}

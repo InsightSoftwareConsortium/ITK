@@ -40,7 +40,7 @@
 //  Software Guide : BeginLatex
 //
 //  The filter used to extract a region from an image is the
-//  \doxygen{ExtractImageFilter}. Its header is included below.  This filter
+//  \itkref{ExtractImageFilter}. Its header is included below.  This filter
 //  is capable of extracting $(N-1)$-dimensional images from $N$-dimensional
 //  ones.
 //
@@ -87,8 +87,8 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  The types for the \doxygen{ImageFileReader} and
-  //  \doxygen{ImageFileWriter} are instantiated using the image types.
+  //  The types for the \itkref{ImageFileReader} and
+  //  \itkref{ImageFileWriter} are instantiated using the image types.
   //
   //  Software Guide : EndLatex
 
@@ -107,7 +107,7 @@ main(int argc, char ** argv)
   //  Software Guide : BeginLatex
   //
   //  Below, we create the reader and writer using the \code{New()} method and
-  //  assign the result to a \doxygen{SmartPointer}.
+  //  assign the result to a \itkref{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}
@@ -144,7 +144,7 @@ main(int argc, char ** argv)
   //
   //  The ExtractImageFilter type is instantiated using the input and
   //  output image types. A filter object is created with the \code{New()}
-  //  method and assigned to a \doxygen{SmartPointer}.
+  //  method and assigned to a \itkref{SmartPointer}.
   //
   //  Software Guide : EndLatex
 
@@ -159,8 +159,8 @@ main(int argc, char ** argv)
   //  Software Guide : BeginLatex
   //
   //  The ExtractImageFilter requires a region to be defined by the
-  //  user. The region is specified by an \doxygen{Index} indicating the
-  //  pixel where the region starts and an \doxygen{Size} indicating how many
+  //  user. The region is specified by an \itkref{Index} indicating the
+  //  pixel where the region starts and an \itkref{Size} indicating how many
   //  pixels the region has along each dimension. In order to extract a $2D$
   //  image from a $3D$ data set, it is enough to set the size of the region
   //  to $0$ in one dimension.  This will indicate to
@@ -222,7 +222,7 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  Finally, an \doxygen{ImageRegion} object is created and initialized with
+  //  Finally, an \itkref{ImageRegion} object is created and initialized with
   //  the start and size we just prepared using the slice information.
   //
   //  Software Guide : EndLatex

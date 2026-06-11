@@ -31,7 +31,7 @@
 // \index{itk::ImageRegistrationMethodv4!Multi-Modality}
 //
 // This example illustrates the use of the
-// \doxygen{ImageRegistrationMethodv4} to solve a simple
+// \itkref{ImageRegistrationMethodv4} to solve a simple
 // multi-modality registration problem by a multi-resolution approach.
 // Since ITKv4 registration method is designed based on a multi-resolution
 // structure, a separate set of classes are no longer required to run
@@ -39,10 +39,10 @@
 //
 // This a great advantage over the previous versions of ITK, as
 // in ITKv3 we had to use a different filter
-// (\doxygen{MultiResolutionImageRegistrationMethod})
+// (\itkref{MultiResolutionImageRegistrationMethod})
 // to run a multi-resolution process. Also, we had to use image pyramids
 // filters
-// (\doxygen{MultiResolutionPyramidImageFilter}) for creating the sequence of
+// (\itkref{MultiResolutionPyramidImageFilter}) for creating the sequence of
 // downsampled images. Hence, you can see how ITKv4 framework is
 // more user-friendly in more complex situations.
 //
@@ -100,7 +100,7 @@
 // beginning registration at each resolution level,
 // where ImageRegistrationMethodv4 invokes a
 // \code{MultiResolutionIterationEvent()}. The registration components can
-// be changed by implementing a \doxygen{Command} which responds to the
+// be changed by implementing a \itkref{Command} which responds to the
 // event. A brief description of the interaction between events and commands
 // was previously presented in Section \ref{sec:MonitoringImageRegistration}.
 //

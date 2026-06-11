@@ -37,7 +37,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{RegionOfInterestImageFilter} is the filter used to extract a
+//  The \itkref{RegionOfInterestImageFilter} is the filter used to extract a
 //  region from an image. Its header is included below.
 //
 //  \index{itk::RegionOfInterestImageFilter!header}
@@ -82,8 +82,8 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  The types for the \doxygen{ImageFileReader} and
-  //  \doxygen{ImageFileWriter} are instantiated using the image types.
+  //  The types for the \itkref{ImageFileReader} and
+  //  \itkref{ImageFileWriter} are instantiated using the image types.
   //
   //  Software Guide : EndLatex
 
@@ -97,7 +97,7 @@ main(int argc, char ** argv)
   //
   //  The RegionOfInterestImageFilter type is instantiated using
   //  the input and output image types. A filter object is created with the
-  //  \code{New()} method and assigned to a \doxygen{SmartPointer}.
+  //  \code{New()} method and assigned to a \itkref{SmartPointer}.
   //
   //  Software Guide : EndLatex
 
@@ -112,8 +112,8 @@ main(int argc, char ** argv)
   //  Software Guide : BeginLatex
   //
   //  The RegionOfInterestImageFilter requires a region to be
-  //  defined by the user. The region is specified by an \doxygen{Index}
-  //  indicating the pixel where the region starts and an \doxygen{Size}
+  //  defined by the user. The region is specified by an \itkref{Index}
+  //  indicating the pixel where the region starts and an \itkref{Size}
   //  indicating how many pixels the region has along each dimension. In this
   //  example, the specification of the region is taken from the command line
   //  arguments (this example assumes that a 2D image is being processed).
@@ -137,7 +137,7 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  An \doxygen{ImageRegion} object is created and initialized with start
+  //  An \itkref{ImageRegion} object is created and initialized with start
   //  and size obtained from the command line.
   //
   //  Software Guide : EndLatex
@@ -167,7 +167,7 @@ main(int argc, char ** argv)
   //  Software Guide : BeginLatex
   //
   //  Below, we create the reader and writer using the \code{New()} method and
-  //  assign the result to a \doxygen{SmartPointer}.
+  //  assign the result to a \itkref{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}

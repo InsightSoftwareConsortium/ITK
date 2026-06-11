@@ -18,8 +18,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  Cells are stored in the \doxygen{Mesh} as pointers to a generic cell
-//  \doxygen{CellInterface}.  This implies that only the virtual methods
+//  Cells are stored in the \itkref{Mesh} as pointers to a generic cell
+//  \itkref{CellInterface}.  This implies that only the virtual methods
 //  defined on this base cell class can be invoked. In order to use methods
 //  that are specific to each cell type it is necessary to down-cast the
 //  pointer to the actual type of the cell.  This can be done safely by taking

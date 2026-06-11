@@ -19,7 +19,7 @@
 //  Software Guide : BeginLatex
 //
 //  This example illustrates how to save an image using the
-//  \doxygen{ImageSeriesWriter}. This class enables the saving of a 3D volume
+//  \itkref{ImageSeriesWriter}. This class enables the saving of a 3D volume
 //  as a set of files containing one 2D slice per file.
 //
 //  \index{itk::ImageFileReader!header}
@@ -93,7 +93,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The writer requires a list of filenames to be generated. This list can
-  //  be produced with the help of the \doxygen{NumericSeriesFileNames} class.
+  //  be produced with the help of the \itkref{NumericSeriesFileNames} class.
   //
   //
   //  Software Guide : EndLatex

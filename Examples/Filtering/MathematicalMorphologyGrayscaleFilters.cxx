@@ -27,8 +27,8 @@
 //
 //  The following section illustrates the use of filters for performing basic
 //  mathematical morphology operations on grayscale images. The
-//  \doxygen{GrayscaleErodeImageFilter} and
-//  \doxygen{GrayscaleDilateImageFilter} are covered in this example. The
+//  \itkref{GrayscaleErodeImageFilter} and
+//  \itkref{GrayscaleDilateImageFilter} are covered in this example. The
 //  filter names clearly specify the type of image on which they operate.
 //  The header files required for a simple example of the use of
 //  grayscale mathematical morphology filters are presented below.
@@ -96,8 +96,8 @@ main(int argc, char * argv[])
   //  erosion and maximum for dilation.
   //
   //  The structuring element is implemented as a
-  //  \doxygen{NeighborhoodOperator}. In particular, the default structuring
-  //  element is the \doxygen{BinaryBallStructuringElement} class. This class
+  //  \itkref{NeighborhoodOperator}. In particular, the default structuring
+  //  element is the \itkref{BinaryBallStructuringElement} class. This class
   //  is instantiated using the pixel type and dimension of the input image.
   //
   //  Software Guide : EndLatex

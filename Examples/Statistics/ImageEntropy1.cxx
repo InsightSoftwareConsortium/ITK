@@ -45,7 +45,7 @@
 // its histogram, we must start by including the headers of the classes that
 // will perform such a computation. In this case, we are going to use a scalar
 // image as input, therefore we need the
-// \subdoxygen{Statistics}{ScalarImageToHistogramGenerator} class, as well as
+// \itksubref{Statistics}{ScalarImageToHistogramGenerator} class, as well as
 // the image class.
 //
 // Software Guide : EndLatex

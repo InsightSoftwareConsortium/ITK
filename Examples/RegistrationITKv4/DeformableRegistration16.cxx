@@ -51,7 +51,7 @@ POSSIBILITY OF SUCH DAMAGE.
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the
-// \doxygen{MultiResolutionPDEDeformableRegistration} class for performing
+// \itkref{MultiResolutionPDEDeformableRegistration} class for performing
 // deformable registration of two $2D$ images using multiple resolution
 // levels.
 //

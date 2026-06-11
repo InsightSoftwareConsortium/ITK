@@ -19,7 +19,7 @@
 //  Software Guide : BeginLatex
 //
 //  This example illustrates the use of the
-//  \doxygen{GradientRecursiveGaussianImageFilter}.
+//  \itkref{GradientRecursiveGaussianImageFilter}.
 //
 //  \index{itk::Gradient\-Recursive\-Gaussian\-Image\-Filter}
 //
@@ -110,7 +110,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  A filter object is created by invoking the \code{New()} method and
-  //  assigning the result to a \doxygen{SmartPointer}.
+  //  assigning the result to a \itkref{SmartPointer}.
   //
   //  \index{itk::Gradient\-Recursive\-Gaussian\-Image\-Filter!New()}
   //  \index{itk::Gradient\-Recursive\-Gaussian\-Image\-Filter!Pointer}

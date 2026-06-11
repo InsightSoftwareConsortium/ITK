@@ -20,7 +20,7 @@
 //
 // \index{itk::Statistics::Maximum\-Decision\-Rule}
 //
-// The \doxygen{MaximumDecisionRule} returns the index of the largest
+// The \itkref{MaximumDecisionRule} returns the index of the largest
 // discriminant score among the discriminant scores in the vector of
 // discriminant scores that is the input argument of the \code{Evaluate()}
 // method.

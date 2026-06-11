@@ -19,7 +19,7 @@
 //  Software Guide : BeginLatex
 //
 //  This example illustrates how to read and write an image of pixel type
-//  \doxygen{Vector}.
+//  \itkref{Vector}.
 //
 //  \index{itk::ImageFileRead!Vector images}
 //  \index{itk::ImageFileWrite!Vector images}

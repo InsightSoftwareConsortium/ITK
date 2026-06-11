@@ -28,7 +28,7 @@
 //  well. As in the vector case, each RGB component is diffused
 //  independently. The following example illustrates the use of the Vector
 //  curvature anisotropic diffusion filter on an image with
-//  \doxygen{RGBPixel} type.
+//  \itkref{RGBPixel} type.
 //
 //  \index{itk::Vector\-Gradient\-Anisotropic\-Diffusion\-Image\-Filter!RGB
 //  Images}
@@ -67,7 +67,7 @@
 //  \code{float} representation. However for input and output purposes
 //  \code{unsigned char} RGB components are commonly used. It is necessary to
 //  cast the type of color components along the pipeline before writing them
-//  to a file. The \doxygen{CastImageFilter} is used to achieve this
+//  to a file. The \itkref{CastImageFilter} is used to achieve this
 //  goal.
 //
 //  Software Guide : EndLatex
@@ -167,7 +167,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The filter output is now cast to \code{unsigned char} RGB components by
-  //  using the \doxygen{CastImageFilter}.
+  //  using the \itkref{CastImageFilter}.
   //
   //  \index{itk::CastImageFilter!instantiation}
   //  \index{itk::CastImageFilter!New()}

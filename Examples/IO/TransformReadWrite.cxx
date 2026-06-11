@@ -22,8 +22,8 @@
 // \index{itk::TransformWriter}
 //
 // This example shows how to read and write a transform
-// using the \doxygen{TransformFileReader} and
-// \doxygen{TransformFileWriter}.
+// using the \itkref{TransformFileReader} and
+// \itkref{TransformFileWriter}.
 // Let's first include the two appropriate header files.
 //
 // Software Guide : EndLatex
@@ -104,7 +104,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // We add a CompositeTransform with the
-  // SetInput() function. This function takes any \doxygen{Transform}
+  // SetInput() function. This function takes any \itkref{Transform}
   //
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
@@ -177,7 +177,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // The transform reader is templated and it returns a list
-  // of \doxygen{Transform}'s. Even thought the reader instantiate the
+  // of \itkref{Transform}'s. Even thought the reader instantiate the
   // appropriate transform class when reading the file, it is up to the user
   // to do the appropriate cast. To get the output list of transform we use
   // the GetTransformList() function.

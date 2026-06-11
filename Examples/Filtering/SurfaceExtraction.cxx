@@ -43,7 +43,7 @@
 // Software Guide : BeginLatex
 //
 // The representation of unstructured data in ITK is done with
-// the \doxygen{Mesh}. This class enables us to represent $N$-Dimensional
+// the \itkref{Mesh}. This class enables us to represent $N$-Dimensional
 // grids of varied topology. It is natural for the filter that extracts
 // surfaces from an image to produce a mesh as its output.
 //
@@ -118,7 +118,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The type of the \doxygen{Mesh} is instantiated by specifying the type to
+  // The type of the \itkref{Mesh} is instantiated by specifying the type to
   // be associated with the pixel value of the Mesh nodes. This particular
   // pixel type happens to be irrelevant for the purpose of extracting the
   // surface.

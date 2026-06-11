@@ -24,7 +24,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{BilateralImageFilter} performs smoothing by using both
+//  The \itkref{BilateralImageFilter} performs smoothing by using both
 //  domain and range neighborhoods.  Pixels that are close to a pixel in the
 //  image domain and similar to a pixel in the image range are used to
 //  calculate the filtered value. Two Gaussian kernels (one in the image
@@ -258,9 +258,9 @@ main(int argc, char * argv[])
   //
   //  \relatedClasses
   //  \begin{itemize}
-  //  \item \doxygen{GradientAnisotropicDiffusionImageFilter}
-  //  \item \doxygen{CurvatureAnisotropicDiffusionImageFilter}
-  //  \item \doxygen{CurvatureFlowImageFilter}
+  //  \item \itkref{GradientAnisotropicDiffusionImageFilter}
+  //  \item \itkref{CurvatureAnisotropicDiffusionImageFilter}
+  //  \item \itkref{CurvatureFlowImageFilter}
   //  \end{itemize}
   //
   //  Software Guide : EndLatex

@@ -35,7 +35,7 @@
 // Software Guide : BeginLatex
 //
 // The following example illustrates the use of the
-// \doxygen{ConnectedThresholdImageFilter}. This filter uses the flood fill
+// \itkref{ConnectedThresholdImageFilter}. This filter uses the flood fill
 // iterator. Most of the algorithmic complexity of a region growing method
 // comes from visiting neighboring pixels. The flood fill iterator assumes
 // this responsibility and greatly simplifies the implementation of the
@@ -79,7 +79,7 @@
 //  pre-process the image by using an edge-preserving smoothing filter. Any of
 //  the filters discussed in Section~\ref{sec:EdgePreservingSmoothingFilters}
 //  could be used to this end. In this particular example we use the
-//  \doxygen{CurvatureFlowImageFilter}, so we need to include its header
+//  \itkref{CurvatureFlowImageFilter}, so we need to include its header
 //  file.
 //
 //  Software Guide : EndLatex
@@ -149,7 +149,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Then the filter is created by invoking the \code{New()} method and
-  //  assigning the result to a \doxygen{SmartPointer}.
+  //  assigning the result to a \itkref{SmartPointer}.
   //
   //  Software Guide : EndLatex
 
@@ -255,7 +255,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The algorithm must be initialized by setting a seed point (i.e., the
-  //  \doxygen{Index} of the pixel from which the region will grow) using the
+  //  \itkref{Index} of the pixel from which the region will grow) using the
   //  \code{SetSeed()} method.  It is convenient to initialize with a point in
   //  a \emph{typical} region of the anatomical structure to be segmented.
   //
@@ -320,7 +320,7 @@ main(int argc, char * argv[])
   //  \itkcaption[ConnectedThreshold example parameters]{Parameters used for
   //  segmenting some brain structures shown in
   //  Figure~\ref{fig:ConnectedThresholdOutput} with the filter
-  //  \doxygen{ConnectedThresholdImageFilter}.\label{tab:ConnectedThresholdOutput}}
+  //  \itkref{ConnectedThresholdImageFilter}.\label{tab:ConnectedThresholdOutput}}
   //  \end{table}
   //
   // \begin{figure} \center

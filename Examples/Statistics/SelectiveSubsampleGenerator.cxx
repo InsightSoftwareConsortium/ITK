@@ -40,7 +40,7 @@
 // Software Guide : BeginLatex
 //
 // We need another header for measurement vectors. We are going to use
-// the \doxygen{Vector} class which is a subclass of the \doxygen{FixedArray}
+// the \itkref{Vector} class which is a subclass of the \itkref{FixedArray}
 // in this example.
 //
 // Software Guide : EndLatex
@@ -176,7 +176,7 @@ main()
   // We call the \code{GetClassSample(class label)} method to get the
   // class subsample in the \code{membershipSample}. The
   // \code{MembershipSampleType::ClassSampleType} is actually an
-  // specialization of the \subdoxygen{Statistics}{Subsample}. We print
+  // specialization of the \itksubref{Statistics}{Subsample}. We print
   // out the instance identifiers, measurement vectors, and frequency
   // values that are part of the class. The output will be two lines for
   // the two instances that belongs to the class \textbf{0}.

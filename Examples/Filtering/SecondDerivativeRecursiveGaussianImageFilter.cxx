@@ -19,7 +19,7 @@
 //  Software Guide : BeginLatex
 //
 //  This example illustrates how to compute second derivatives of
-//  a 3D image using the \doxygen{RecursiveGaussianImageFilter}.
+//  a 3D image using the \itkref{RecursiveGaussianImageFilter}.
 //
 //  It's good to be able to compute the raw derivative without any smoothing,
 //  but this can be problematic in a medical imaging scenario, when images
@@ -124,7 +124,7 @@ main(int argc, char * argv[])
   //  want to smooth in that direction first. So after the filters are
   //  created, each is given a dimension, and set to (in this example) the
   //  same sigma. Note that here, $\sigma$ represents the standard deviation,
-  //  whereas the \doxygen{DiscreteGaussianImageFilter} exposes the
+  //  whereas the \itkref{DiscreteGaussianImageFilter} exposes the
   //  \code{SetVariance} method.
   //
   //  Software Guide : EndLatex

@@ -20,8 +20,8 @@
 //
 // \index{itk::LandmarkSpatialObject}
 //
-// \doxygen{LandmarkSpatialObject} contains a list of
-// \doxygen{SpatialObjectPoint}s which have a position and a color. Let's
+// \itkref{LandmarkSpatialObject} contains a list of
+// \itkref{SpatialObjectPoint}s which have a position and a color. Let's
 // begin this example by including the appropriate header file.
 //
 // Software Guide : EndLatex

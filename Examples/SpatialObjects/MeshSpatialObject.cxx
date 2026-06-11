@@ -23,9 +23,9 @@
 //
 // \index{itk::MeshSpatialObject}
 //
-// A \doxygen{MeshSpatialObject} contains a pointer to an \doxygen{Mesh} but
+// A \itkref{MeshSpatialObject} contains a pointer to an \itkref{Mesh} but
 // adds the notion of spatial transformations and parent-child hierarchy. This
-// example shows how to create an \doxygen{MeshSpatialObject}, use it to form
+// example shows how to create an \itkref{MeshSpatialObject}, use it to form
 // a binary image, and write the mesh to disk.
 //
 // Let's begin by including the appropriate header file.
@@ -44,7 +44,7 @@ main(int, char *[])
 {
   // Software Guide : BeginLatex
   //
-  // The \code{MeshSpatialObject} wraps an \doxygen{Mesh}, therefore we first
+  // The \code{MeshSpatialObject} wraps an \itkref{Mesh}, therefore we first
   // create a mesh.
   //
   // Software Guide : EndLatex
@@ -141,7 +141,7 @@ main(int, char *[])
   // Software Guide : BeginLatex
   //
   // Now that we have defined the \code{MeshSpatialObject}, we can save the
-  // actual mesh using the \doxygen{SpatialObjectWriter}. In order to do so,
+  // actual mesh using the \itkref{SpatialObjectWriter}. In order to do so,
   // we need to specify the type of Mesh we are writing.
   //
   // Software Guide : EndLatex
@@ -166,7 +166,7 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // Reading the saved mesh is done using the \doxygen{SpatialObjectReader}.
+  // Reading the saved mesh is done using the \itkref{SpatialObjectReader}.
   // Once again we need to specify the type of mesh we intend to read.
   //
   // Software Guide : EndLatex
@@ -190,7 +190,7 @@ main(int, char *[])
   // Software Guide : BeginLatex
   //
   // Next, we show how to create a binary image of a \code{MeshSpatialObject}
-  // using the \doxygen{SpatialObjectToImageFilter}. The resulting image
+  // using the \itkref{SpatialObjectToImageFilter}. The resulting image
   // will have ones inside and zeros outside the mesh.
   // First we define and instantiate the SpatialObjectToImageFilter.
   //

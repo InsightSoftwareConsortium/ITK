@@ -27,7 +27,7 @@
 // In \cite{Leventon2000}, Leventon \emph{et al.} extended the
 // geodesic active contours method with an additional shape-influenced term in
 // the driving PDE. The
-// \doxygen{GeodesicActiveContourShapePriorLevelSetImageFilter} is a
+// \itkref{GeodesicActiveContourShapePriorLevelSetImageFilter} is a
 // generalization of Leventon's approach and its use is illustrated in the
 // following example.
 //
@@ -47,7 +47,7 @@
 // is not known ahead of time and has to be iteratively estimated in
 // conjunction with the contour evolution.
 //
-// As with the \doxygen{GeodesicActiveContourLevelSetImageFilter}, the
+// As with the \itkref{GeodesicActiveContourLevelSetImageFilter}, the
 // GeodesicActiveContourShapePriorLevelSetImageFilter expects two input
 // images: the first is an initial level set and the second a feature image
 // that represents the image edge potential. The configuration of this
@@ -67,33 +67,33 @@
 // \end{figure}
 //
 // The process pipeline begins with centering the input image using the
-// the \doxygen{ChangeInformationImageFilter} to simplify the estimation of
+// the \itkref{ChangeInformationImageFilter} to simplify the estimation of
 // the pose of the shape, to be explained later. The centered image is then
 // smoothed using non-linear diffusion to remove noise and the gradient
 // magnitude is computed from the smoothed image. For simplicity, this example
-// uses the \doxygen{BoundedReciprocalImageFilter} to produce the edge
+// uses the \itkref{BoundedReciprocalImageFilter} to produce the edge
 // potential image.
 //
-// The \doxygen{FastMarchingImageFilter} creates an initial level set using
+// The \itkref{FastMarchingImageFilter} creates an initial level set using
 // three user specified seed positions and an initial contour radius. Three
 // seeds are used in this example to facilitate the segmentation of long
 // narrow objects in a smaller number of iterations. The output of the
 // FastMarchingImageFilter is passed as the input to the
 // GeodesicActiveContourShapePriorLevelSetImageFilter. At then end of the
 // segmentation process, the output level set is passed to the
-// \doxygen{BinaryThresholdImageFilter} to produce a binary mask representing
+// \itkref{BinaryThresholdImageFilter} to produce a binary mask representing
 // the segmented object.
 //
 // The remaining objects in
 // Figure~\ref{fig:GeodesicActiveContourShapePriorCollaborationDiagram}
 // are used for shape modeling and estimation.
-// The \doxygen{PCAShapeSignedDistanceFunction} represents a statistical
+// The \itkref{PCAShapeSignedDistanceFunction} represents a statistical
 // shape model defined by a mean signed distance and the first $K$
-// principal components modes; while the \doxygen{Euler2DTransform} is used
+// principal components modes; while the \itkref{Euler2DTransform} is used
 // to represent the pose of the shape. In this implementation, the
 // best-fit shape estimation problem is reformulated as a minimization problem
-// where the \doxygen{ShapePriorMAPCostFunction} is the cost function to
-// be optimized using the \doxygen{OnePlusOneEvolutionaryOptimizer}.
+// where the \itkref{ShapePriorMAPCostFunction} is the cost function to
+// be optimized using the \itkref{OnePlusOneEvolutionaryOptimizer}.
 //
 // It should be noted that, although particular shape model, transform
 // cost function, and optimizer are used in this example, the implementation
@@ -146,7 +146,7 @@
 // run for several minutes and still produce an unsatisfactory result. For
 // debugging purposes it is quite helpful to track the evolution of the
 // segmentation as it progresses. The following defines a
-// custom \doxygen{Command} class
+// custom \itkref{Command} class
 // for monitoring the RMS change and shape parameters at each iteration.
 //
 //  \index{itk::Geodesic\-Active\-Contour\-Shape\-Prior\-LevelSet\-Image\-Filter!Monitoring}
@@ -253,7 +253,7 @@ main(int argc, char * argv[])
     itk::RescaleIntensityImageFilter<InternalImageType, OutputImageType>;
 
 
-  //  The \doxygen{CurvatureAnisotropicDiffusionImageFilter} type is
+  //  The \itkref{CurvatureAnisotropicDiffusionImageFilter} type is
   //  instantiated using the internal image type.
   //
   using SmoothingFilterType =
@@ -290,7 +290,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The following line instantiate a
-  //  \doxygen{GeodesicActiveContourShapePriorLevelSetImageFilter}
+  //  \itkref{GeodesicActiveContourShapePriorLevelSetImageFilter}
   //  using the \code{New()} method.
   //
   //  Software Guide : EndLatex
@@ -306,7 +306,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  // The \doxygen{ChangeInformationImageFilter} is the first filter in the
+  // The \itkref{ChangeInformationImageFilter} is the first filter in the
   // preprocessing stage and is used to force the image origin to the center
   // of the image.
   //
@@ -446,7 +446,7 @@ main(int argc, char * argv[])
   //  pass not only one seed point but a set of them. Note that the
   //  FastMarchingImageFilter is used here only as a helper in the
   //  determination of an initial level set. We could have used the
-  //  \doxygen{DanielssonDistanceMapImageFilter} in the same way.
+  //  \itkref{DanielssonDistanceMapImageFilter} in the same way.
   //
   //  The seeds are passed stored in a container. The type of this
   //  container is defined as \code{NodeContainer} among the
@@ -464,7 +464,7 @@ main(int argc, char * argv[])
 
 
   //  Nodes are created as stack variables and initialized with a value and an
-  //  \doxygen{Index} position. Note that here we assign the value of minus
+  //  \itkref{Index} position. Note that here we assign the value of minus
   //  the user-provided distance to the unique node of the seeds passed to the
   //  FastMarchingImageFilter. In this way, the value will increment
   //  as the front is propagated, until it reaches the zero value
@@ -577,7 +577,7 @@ main(int argc, char * argv[])
   //  $K$ principal components of the offset (signed distance - mean). The
   //  coefficients $\{\alpha_k\}$ form the set of \emph{shape} parameters.
   //
-  //  Given a set of training data, the \doxygen{ImagePCAShapeModelEstimator}
+  //  Given a set of training data, the \itkref{ImagePCAShapeModelEstimator}
   //  can be used to obtain
   //  the mean and principal mode shape images required by
   //  PCAShapeSignedDistanceFunction.
@@ -654,7 +654,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Next, we instantiate a \doxygen{Euler2DTransform} and connect it to the
+  // Next, we instantiate a \itkref{Euler2DTransform} and connect it to the
   // PCASignedDistanceFunction. The transform represent
   // the pose of the shape. The parameters of the transform
   // forms the set of \emph{pose} parameters.
@@ -675,7 +675,7 @@ main(int argc, char * argv[])
   //
   // Before updating the level set at each iteration, the parameters
   // of the current best-fit shape is estimated by minimizing the
-  // \doxygen{ShapePriorMAPCostFunction}. The cost function is composed of
+  // \itkref{ShapePriorMAPCostFunction}. The cost function is composed of
   // four terms: contour fit, image fit, shape prior and pose prior.
   // The user can specify the weights applied to each term.
   //
@@ -745,7 +745,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // In this example, we will use the
-  // \doxygen{OnePlusOneEvolutionaryOptimizer} to optimize the cost function.
+  // \itkref{OnePlusOneEvolutionaryOptimizer} to optimize the cost function.
   //
   // Software Guide : EndLatex
 
@@ -759,7 +759,7 @@ main(int argc, char * argv[])
   // The evolutionary optimization algorithm is based on testing
   // random permutations of the parameters. As such, we need to provide
   // the optimizer with a random number generator. In the following lines,
-  // we create a \doxygen{NormalVariateGenerator}, seed it, and
+  // we create a \itkref{NormalVariateGenerator}, seed it, and
   // connect it to the optimizer.
   //
   //  \index{itk::Statistics::NormalVariateGenerator!Initialize()}

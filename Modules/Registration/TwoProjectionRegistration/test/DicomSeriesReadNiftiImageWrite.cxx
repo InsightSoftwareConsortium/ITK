@@ -29,9 +29,9 @@ This program was modified from the ITK example--DicomSeriesReadSeriesWrite.cxx
 //  file format.
 //
 //  The example begins by including the appropriate headers. In particular we
-//  will need the \doxygen{GDCMImageIO} object in order to have access to the
+//  will need the \itkref{GDCMImageIO} object in order to have access to the
 //  capabilities of the GDCM library for reading DICOM files, and the
-//  \doxygen{GDCMSeriesFileNames} object for generating the lists of filenames
+//  \itkref{GDCMSeriesFileNames} object for generating the lists of filenames
 //  identifying the slices of a common volumetric dataset.
 //
 //  \index{itk::ImageSeriesReader!header}
@@ -240,7 +240,7 @@ main(int argc, char * argv[])
     // Software Guide : BeginLatex
     //
     //
-    // The list of filenames can now be passed to the \doxygen{ImageSeriesReader}
+    // The list of filenames can now be passed to the \itkref{ImageSeriesReader}
     // using the \code{SetFileNames()} method.
     //
     //  \index{itk::ImageSeriesReader!SetFileNames()}

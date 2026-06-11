@@ -20,10 +20,10 @@
 //
 //  This example illustrates how to read a series of 2D slices from
 //  independent files in order to compose a volume. The class
-//  \doxygen{ImageSeriesReader} is used for this purpose. This class works in
+//  \itkref{ImageSeriesReader} is used for this purpose. This class works in
 //  combination with a generator of filenames that will provide a list of
 //  files to be read. In this particular example we use the
-//  \doxygen{RegularExpressionSeriesFileNames} class as filename generator.
+//  \itkref{RegularExpressionSeriesFileNames} class as filename generator.
 //  This generator uses a regular expression for generating a list of
 //  filenames. The filenames are then ordered according to sub expression.
 //

@@ -27,11 +27,11 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{AffineTransform}
+// This example illustrates the use of the \itkref{AffineTransform}
 // for performing registration in $2D$. The example code is, for the most
 // part, identical to that in \ref{sec:InitializingRegistrationWithMoments}.
 // The main difference is the use of the AffineTransform here instead of the
-// \doxygen{Euler2DTransform}. We will focus on the most
+// \itkref{Euler2DTransform}. We will focus on the most
 // relevant changes in the current code and skip the basic elements already
 // explained in previous examples.
 //
@@ -213,7 +213,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  In this example, we again use the
-  //  \doxygen{CenteredTransformInitializer} helper class in order to compute
+  //  \itkref{CenteredTransformInitializer} helper class in order to compute
   //  reasonable values for the initial center of rotation and the
   //  translations. The initializer is set to use the center of mass of each
   //  image as the initial correspondence correction.
@@ -287,7 +287,7 @@ main(int argc, char * argv[])
   //
   //  We also set the usual parameters of the optimization method. In this
   //  case we are using an
-  //  \doxygen{RegularStepGradientDescentOptimizerv4} as before. Below, we
+  //  \itkref{RegularStepGradientDescentOptimizerv4} as before. Below, we
   //  define the optimization parameters like learning rate (initial step
   //  length), minimum step length and number of iterations. These last two
   //  act as stopping criteria for the optimization.

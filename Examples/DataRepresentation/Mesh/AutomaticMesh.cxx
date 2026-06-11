@@ -18,11 +18,11 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{Mesh} class is extremely general and flexible, but
+//  The \itkref{Mesh} class is extremely general and flexible, but
 //  there is some cost to convenience.  If convenience is exactly what
 //  you need, then it is possible to get it, in exchange for some of
 //  that flexibility, by means of the
-//  \doxygen{AutomaticTopologyMeshSource} class.  This class
+//  \itkref{AutomaticTopologyMeshSource} class.  This class
 //  automatically generates an explicit K-Complex, based on the cells
 //  you add.  It explicitly includes all boundary information, so that
 //  the resulting mesh can be easily traversed.  It merges all shared
@@ -67,8 +67,8 @@ main(int, char *[])
   //  type of all vertices and cells be \code{unsigned long}, which is
   //  already the default.  However, if you created a new mesh traits
   //  class to use string tags as identifiers, the resulting mesh
-  //  would not be compatible with \doxygen{AutomaticTopologyMeshSource}.
-  //  An \code{IdentifierArrayType} is simply an \doxygen{Array}
+  //  would not be compatible with \itkref{AutomaticTopologyMeshSource}.
+  //  An \code{IdentifierArrayType} is simply an \itkref{Array}
   //  of \code{IdentifierType} objects.
   //
   //  \index{itk::AutomaticTopologyMeshSource!IdentifierType}

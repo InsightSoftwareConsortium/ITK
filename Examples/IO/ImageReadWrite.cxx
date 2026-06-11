@@ -24,11 +24,11 @@
 //  Generally speaking they are referred to as filters, although readers have
 //  no pipeline input and writers have no pipeline output.
 //
-//  The reading of images is managed by the class \doxygen{ImageFileReader}
-//  while writing is performed by the class \doxygen{ImageFileWriter}. These
+//  The reading of images is managed by the class \itkref{ImageFileReader}
+//  while writing is performed by the class \itkref{ImageFileWriter}. These
 //  two classes are independent of any particular file format. The actual low
 //  level task of reading and writing specific file formats is done behind
-//  the scenes by a family of classes of type \doxygen{ImageIO}.
+//  the scenes by a family of classes of type \itkref{ImageIO}.
 //
 //  The first step for performing reading and writing is to include the
 //  following headers.
@@ -116,7 +116,7 @@ main(int argc, char ** argv)
   //  Software Guide : BeginLatex
   //
   //  Then, we create one object of each type using the New() method and
-  //  assign the result to a \doxygen{SmartPointer}.
+  //  assign the result to a \itkref{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}
@@ -213,10 +213,10 @@ main(int argc, char ** argv)
   //  extension, but the architecture supports arbitrarily complex processes
   //  to determine whether a file can be read or written. Alternatively, the
   //  user can specify the data file format by explicit instantiation and
-  //  assignment of the appropriate \doxygen{ImageIO} subclass.
+  //  assignment of the appropriate \itkref{ImageIO} subclass.
   //
   //  For historical reasons and as a convenience to the user, the
-  //  \doxygen{ImageFileWriter} also has a \code{Write()} method that is
+  //  \itkref{ImageFileWriter} also has a \code{Write()} method that is
   //  aliased to the \code{Update()} method. You can in principle use either
   //  of them but \code{Update()} is recommended since \code{Write()} may be
   //  deprecated in the future.

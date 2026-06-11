@@ -23,7 +23,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{MeanImageFilter} is commonly used for noise reduction. The
+//  The \itkref{MeanImageFilter} is commonly used for noise reduction. The
 //  filter computes the value of each output pixel by finding the statistical
 //  mean of the neighborhood of the corresponding input pixel.  The following
 //  figure illustrates the local effect of the MeanImageFilter in a $2D$
@@ -51,8 +51,8 @@
 //
 //  Note that this algorithm is sensitive to the presence of outliers in the
 //  neighborhood.  This filter will work on images of any dimension thanks to
-//  the internal use of \doxygen{SmartNeighborhoodIterator} and
-//  \doxygen{NeighborhoodOperator}.  The size of the neighborhood over which
+//  the internal use of \itkref{SmartNeighborhoodIterator} and
+//  \itkref{NeighborhoodOperator}.  The size of the neighborhood over which
 //  the mean is computed can be set by the user.
 //
 //  \index{itk::MeanImageFilter}

@@ -56,7 +56,7 @@
 // can be used.
 //
 // The following example illustrates the use of the
-// \doxygen{FastMarchingImageFilter}. This filter implements a fast marching
+// \itkref{FastMarchingImageFilter}. This filter implements a fast marching
 // solution to a simple level set evolution problem.  In this example, the
 // speed term used in the differential equation is expected to be provided by
 // the user in the form of an image.  This image is typically computed as a
@@ -94,12 +94,12 @@
 // Figure~\ref{fig:FastMarchingCollaborationDiagram} shows the major
 // components involved in the application of the FastMarchingImageFilter to a
 // segmentation task. It involves an initial stage of smoothing using the
-// \doxygen{CurvatureAnisotropicDiffusionImageFilter}. The smoothed image is
+// \itkref{CurvatureAnisotropicDiffusionImageFilter}. The smoothed image is
 // passed as the input to the
-// \doxygen{GradientMagnitudeRecursiveGaussianImageFilter} and then to the
-// \doxygen{SigmoidImageFilter}.  Finally, the output of the
+// \itkref{GradientMagnitudeRecursiveGaussianImageFilter} and then to the
+// \itkref{SigmoidImageFilter}.  Finally, the output of the
 // FastMarchingImageFilter is passed to a
-// \doxygen{BinaryThresholdImageFilter} in order to produce a binary mask
+// \itkref{BinaryThresholdImageFilter} in order to produce a binary mask
 // representing the segmented object.
 //
 // The code in the following example illustrates the typical setup of a
@@ -136,7 +136,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  Of course, we will need the \doxygen{Image} class and the
+//  Of course, we will need the \itkref{Image} class and the
 //  FastMarchingImageFilter class. Hence we include their headers.
 //
 //  Software Guide : EndLatex
@@ -161,8 +161,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  Reading and writing images will be done with the \doxygen{ImageFileReader}
-//  and \doxygen{ImageFileWriter}.
+//  Reading and writing images will be done with the \itkref{ImageFileReader}
+//  and \itkref{ImageFileWriter}.
 //
 //  Software Guide : EndLatex
 
@@ -172,7 +172,7 @@
 // Software Guide : EndCodeSnippet
 
 
-//  The \doxygen{RescaleIntensityImageFilter} is used to renormalize the
+//  The \itkref{RescaleIntensityImageFilter} is used to renormalize the
 //  output of filters before sending them to files.
 //
 #include "itkRescaleIntensityImageFilter.h"
@@ -298,7 +298,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Then, the filter is created by invoking the \code{New()} method and
-  //  assigning the result to a \doxygen{SmartPointer}.
+  //  assigning the result to a \itkref{SmartPointer}.
   //
   //  Software Guide : EndLatex
 
@@ -520,7 +520,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Nodes are created as stack variables and initialized with a value and an
-  //  \doxygen{Index} position.
+  //  \itkref{Index} position.
   //
   //  \index{itk::FastMarchingImageFilter!Seed initialization}
   //

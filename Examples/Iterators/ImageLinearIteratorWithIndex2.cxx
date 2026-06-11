@@ -18,7 +18,7 @@
 
 // Software Guide : BeginLatex
 //
-// This example shows how to use the \doxygen{ImageLinearIteratorWithIndex}
+// This example shows how to use the \itkref{ImageLinearIteratorWithIndex}
 // for computing the mean across time of a 4D image where the first three
 // dimensions correspond to spatial coordinates and the fourth dimension
 // corresponds to time. The result of the mean across time is to be stored in

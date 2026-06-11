@@ -36,7 +36,7 @@
 //
 // \index{itk::Threshold\-Segmentation\-Level\-Set\-Image\-Filter}
 //
-// The \doxygen{ThresholdSegmentationLevelSetImageFilter} is an extension of
+// The \itkref{ThresholdSegmentationLevelSetImageFilter} is an extension of
 // the threshold connected-component segmentation to the level set framework.
 // The goal is to define a range of intensity values that classify the tissue
 // type of interest and then base the propagation term on the level set
@@ -77,7 +77,7 @@
 // \end{figure}
 //
 // The threshold segmentation filter expects two inputs.  The first is an
-// initial level set in the form of an \doxygen{Image}. The second input is
+// initial level set in the form of an \itkref{Image}. The second input is
 // the feature image $g$.  For many applications, this filter requires little
 // or no preprocessing of its input.  Smoothing the input image is not
 // usually required to produce reasonable solutions, though it may still be
@@ -86,7 +86,7 @@
 // Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilterDiagram} shows how
 // the image processing pipeline is constructed. The initial surface is
 // generated using the fast marching filter.  The output of the segmentation
-// filter is passed to a \doxygen{BinaryThresholdImageFilter} to create a
+// filter is passed to a \itkref{BinaryThresholdImageFilter} to create a
 // binary representation of the segmented object.  Let's start by including
 // the appropriate header file.
 //
@@ -148,7 +148,7 @@ main(int argc, char * argv[])
 
   const auto input = itk::ReadImage<InternalImageType>(argv[1]);
 
-  //  We now declare the type of the \doxygen{FastMarchingImageFilter} that
+  //  We now declare the type of the \itkref{FastMarchingImageFilter} that
   //  will be used to generate the initial level set in the form of a distance
   //  map.
   //
@@ -254,7 +254,7 @@ main(int argc, char * argv[])
   //  pass not only one seed point but a set of them. Note the the
   //  FastMarchingImageFilter is used here only as a helper in the
   //  determination of an initial Level Set. We could have used the
-  //  \doxygen{DanielssonDistanceMapImageFilter} in the same way.
+  //  \itkref{DanielssonDistanceMapImageFilter} in the same way.
   //
   //  The seeds are passed stored in a container. The type of this
   //  container is defined as \code{NodeContainer} among the
@@ -271,7 +271,7 @@ main(int argc, char * argv[])
   seedPosition[1] = std::stoi(argv[4]);
 
   //  Nodes are created as stack variables and initialized with a value and an
-  //  \doxygen{Index} position. Note that here we assign the value of minus
+  //  \itkref{Index} position. Note that here we assign the value of minus
   //  the user-provided distance to the unique node of the seeds passed to the
   //  FastMarchingImageFilter. In this way, the value will increment
   //  as the front is propagated, until it reaches the zero value
@@ -370,7 +370,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Let's run this application with the same data and parameters as the
-  //  example given for \doxygen{ConnectedThresholdImageFilter} in
+  //  example given for \itkref{ConnectedThresholdImageFilter} in
   //  Section~\ref{sec:ConnectedThreshold}. We will use a value of 5 as the
   //  initial distance of the surface from the seed points.  The algorithm is
   //  relatively insensitive to this initialization.  Compare the results in

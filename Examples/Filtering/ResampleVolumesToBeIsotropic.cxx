@@ -107,7 +107,7 @@
 //
 // The first thing that you will need to do in order to resample this ugly
 // anisotropic dataset is to include the header files for the
-// \doxygen{ResampleImageFilter}, and the Gaussian smoothing filter.
+// \itkref{ResampleImageFilter}, and the Gaussian smoothing filter.
 //
 // Software Guide : EndLatex
 
@@ -126,7 +126,7 @@
 // The resampling filter will need a Transform in order to map point
 // coordinates and will need an interpolator in order to compute intensity
 // values for the new resampled image. In this particular case we use the
-// \doxygen{IdentityTransform} because the image is going to be resampled by
+// \itkref{IdentityTransform} because the image is going to be resampled by
 // preserving the physical extent of the sampled region. The Linear
 // interpolator is used as a common trade-off\footnote{Although arguably we
 // should use one type of interpolator for the in-plane subsampling process

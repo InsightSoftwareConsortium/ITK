@@ -27,11 +27,11 @@
 //    OUTPUTS: {ImageRegistration8RegisteredSlice.png}
 
 //
-// This example illustrates the use of the \doxygen{VersorRigid3DTransform}
+// This example illustrates the use of the \itkref{VersorRigid3DTransform}
 // class for performing registration of two $3D$ images. The example code is
 // for the most part identical to the code presented in
 // Section~\ref{sec:RigidRegistrationIn2D}.  The major difference is that this
-// example is done in $3D$. The class \doxygen{CenteredTransformInitializer} is
+// example is done in $3D$. The class \itkref{CenteredTransformInitializer} is
 // used to initialize the center and translation of the transform.  The case of
 // rigid registration of 3D images is probably one of the most commonly found
 // cases of image registration.
@@ -62,13 +62,13 @@
 //  and Vector addition for updating the last three components of the parameters
 //  array (translation parameters)~\cite{Hamilton1866,Joly1905}.
 //
-//  In the previous version of ITK, a special optimizer, \doxygen{VersorRigid3DTransformOptimizer}
+//  In the previous version of ITK, a special optimizer, \itkref{VersorRigid3DTransformOptimizer}
 //  was needed for registration to deal with versor computations.
-//  Fortunately in ITKv4, the \doxygen{RegularStepGradientDescentOptimizerv4}
+//  Fortunately in ITKv4, the \itkref{RegularStepGradientDescentOptimizerv4}
 //  can be used for both vector and versor transform optimizations because, in the new
 //  registration framework, the task of updating parameters is delegated to the
 //  moving transform itself. The \code{UpdateTransformParameters} method is implemented
-//  in the \doxygen{Transform} class as a virtual function, and all the derived transform
+//  in the \itkref{Transform} class as a virtual function, and all the derived transform
 //  classes can have their own implementations of this function. Due to this
 //  fact, the updating function is re-implemented for versor transforms
 //  so it can handle versor composition of the rotation parameters.
@@ -190,7 +190,7 @@ main(int argc, char * argv[])
   //
   //  The input images are taken from readers. It is not necessary here to
   //  explicitly call \code{Update()} on the readers since the
-  //  \doxygen{CenteredTransformInitializer} will do it as part of its
+  //  \itkref{CenteredTransformInitializer} will do it as part of its
   //  computations. The following code instantiates the type of the
   //  initializer. This class is templated over the fixed and moving image type
   //  as well as the transform type. An initializer is then constructed by
@@ -232,7 +232,7 @@ main(int argc, char * argv[])
 
   //
   //  The rotation part of the transform is initialized using a
-  //  \doxygen{Versor} which is simply a unit quaternion.  The
+  //  \itkref{Versor} which is simply a unit quaternion.  The
   //  \code{VersorType} can be obtained from the transform traits. The versor
   //  itself defines the type of the vector used to indicate the rotation axis.
   //  This trait can be extracted as \code{VectorType}. The following lines

@@ -30,11 +30,11 @@
 //  This example illustrates the use of more complex components of the
 //  registration framework. In particular, it introduces a multistage,
 //  multi-resolution approach to run a multi-modal registration process
-//  using two linear \doxygen{TranslationTransform} and
-//  \doxygen{AffineTransform}. Also, it shows the use of \emph{Scale
+//  using two linear \itkref{TranslationTransform} and
+//  \itkref{AffineTransform}. Also, it shows the use of \emph{Scale
 //  Estimators} for fine-tuning the scale parameters of the optimizer when an
 //  Affine transform is used. The
-//  \doxygen{RegistrationParameterScalesFromPhysicalShift} filter is used for
+//  \itkref{RegistrationParameterScalesFromPhysicalShift} filter is used for
 //  automatic estimation of the parameters scales.
 //
 // \index{itk::ImageRegistrationMethodv4!AffineTransform}
@@ -195,7 +195,7 @@ ExampleMain(int argc, const char * const argv[])
   //  Software Guide : BeginLatex
   //
   //  In a multistage scenario, each stage needs an individual instantiation
-  //  of the \doxygen{ImageRegistrationMethodv4}, so each stage can possibly
+  //  of the \itkref{ImageRegistrationMethodv4}, so each stage can possibly
   //  have a different transform, a different optimizer, and a different image
   //  metric and can be performed in multiple levels.
   //  The configuration of the registration method at each stage closely
@@ -228,9 +228,9 @@ ExampleMain(int argc, const char * const argv[])
   //  Software Guide : BeginLatex
   //
   //  The types of other registration components are defined here.\newline
-  //  \doxygen{RegularStepGradientDescentOptimizerv4} is used as the
+  //  \itkref{RegularStepGradientDescentOptimizerv4} is used as the
   //  optimizer of the first stage. Also, we use
-  //  \doxygen{MattesMutualInformationImageToImageMetricv4} as the metric
+  //  \itkref{MattesMutualInformationImageToImageMetricv4} as the metric
   //  since it is fitted for a multi-modal registration.
   //
   //  Software Guide : EndLatex
@@ -300,7 +300,7 @@ ExampleMain(int argc, const char * const argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  We can use a \doxygen{CompositeTransform} to stack all the output
+  //  We can use a \itkref{CompositeTransform} to stack all the output
   //  transforms resulted from multiple stages. This composite
   //  transform should also hold the moving initial transform (if it exists)
   //  because as explained in section \ref{sec:RigidRegistrationIn2D},
@@ -496,7 +496,7 @@ ExampleMain(int argc, const char * const argv[])
   //  Note that either center of gravity or geometrical center can be used
   //  as the center of rotation. In this example center of rotation is set
   //  to the geometrical center of the fixed image. We could also use
-  //  \doxygen{ImageMomentsCalculator} filter to compute the center of mass.
+  //  \itkref{ImageMomentsCalculator} filter to compute the center of mass.
   //
   //  Based on the above discussion, the user must set the fixed parameters of
   //  the registration transform outside of the registration method, so first
@@ -621,7 +621,7 @@ ExampleMain(int argc, const char * const argv[])
   //  scales when we have to deal with a large parameter space.
   //
   //  Fortunately, ITKv4 provides a framework for automated parameter scaling.
-  //  \doxygen{RegistrationParameterScalesEstimator} vastly reduces the
+  //  \itkref{RegistrationParameterScalesEstimator} vastly reduces the
   //  difficulty of tuning parameters for different transform/metric
   //  combinations. Parameter scales are estimated by analyzing the result of
   //  a small parameter update on the change in the magnitude of physical
@@ -630,10 +630,10 @@ ExampleMain(int argc, const char * const argv[])
   //  The impact from a unit change of a parameter may be defined in multiple
   //  ways, such as the maximum shift of voxels in index or physical space, or
   //  the average norm of transform Jacobian. Filters
-  //  \doxygen{RegistrationParameterScalesFromPhysicalShift} and
-  //  \doxygen{RegistrationParameterScalesFromIndexShift} use the first
+  //  \itkref{RegistrationParameterScalesFromPhysicalShift} and
+  //  \itkref{RegistrationParameterScalesFromIndexShift} use the first
   //  definition to estimate the scales, while the
-  //  \doxygen{RegistrationParameterScalesFromJacobian} filter estimates
+  //  \itkref{RegistrationParameterScalesFromJacobian} filter estimates
   //  scales based on the later definition. In all methods, the goal is to
   //  rescale the transform parameters such that a unit change of each
   //  \emph{scaled parameter} will have the same impact on deformation.

@@ -34,17 +34,17 @@
 //  many different types involved in a concept is called \emph{traits}. They
 //  are basically the list of all types that interact with the current class.
 //
-//  The \doxygen{Mesh} is templated over three parameters. So far only two of
+//  The \itkref{Mesh} is templated over three parameters. So far only two of
 //  them have been discussed, namely the \code{PixelType} and the
 //  \code{Dimension}. The third parameter is a class providing the set of
 //  traits required by the mesh. When the third parameter is omitted a default
 //  class is used. This default class is the
-//  \doxygen{DefaultStaticMeshTraits}. If you want to customize the types used
+//  \itkref{DefaultStaticMeshTraits}. If you want to customize the types used
 //  by the mesh, the way to proceed is to modify the default traits and
 //  provide them as the third parameter of the Mesh class instantiation.
 //
 //  There are two ways of achieving this. The first is to use the existing
-//  \doxygen{DefaultStaticMeshTraits} class. This class is itself templated
+//  \itkref{DefaultStaticMeshTraits} class. This class is itself templated
 //  over six parameters.  Customizing those parameters could provide enough
 //  flexibility to define a very specific kind of mesh. The second way is to
 //  write a traits class from scratch, in which case the easiest way to
@@ -127,7 +127,7 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{LineCell} type can now be instantiated using the traits
+  //  The \itkref{LineCell} type can now be instantiated using the traits
   //  taken from the Mesh.
   //
   //  \index{itk::LineCell!Instantiation}

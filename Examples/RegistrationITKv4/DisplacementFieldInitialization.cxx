@@ -21,12 +21,12 @@
 //  In order to initialize deformable registration algorithm it is often
 //  convenient to generate a displacement field from a set of feature
 //  correspondences provided by the user. The following example illustrates
-//  how to use the \doxygen{itkLandmarkDisplacementFieldSource} class in order
+//  how to use the \itkref{itkLandmarkDisplacementFieldSource} class in order
 //  to generate a displacement field from the specification of two sets of
 //  landmarks. Landmarks from one set are associated one-to-one to the
 //  landmarks in the other set. Each landmark pair defines one displacement
 //  vector. This class interpolates the values of all other displacement
-//  vectors using \doxygen{KernelBasedTransform}
+//  vectors using \itkref{KernelBasedTransform}
 //
 //
 //  \index{Registration!Finite Element-Based}

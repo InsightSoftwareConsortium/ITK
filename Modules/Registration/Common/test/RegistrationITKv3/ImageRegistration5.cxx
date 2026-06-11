@@ -32,12 +32,12 @@
 
 
 //
-// This example illustrates the use of the \doxygen{CenteredRigid2DTransform}
+// This example illustrates the use of the \itkref{CenteredRigid2DTransform}
 // for performing rigid registration in $2D$. The example code is for the
 // most part identical to that presented in Section
 // \ref{sec:IntroductionImageRegistration}.  The main difference is the use
 // of the CenteredRigid2DTransform here instead of the
-// \doxygen{TranslationTransform}.
+// \itkref{TranslationTransform}.
 //
 // \index{itk::CenteredRigid2DTransform}
 //
@@ -289,7 +289,7 @@ main(int argc, char * argv[])
 
   //
   //  Next we set the normal parameters of the optimization method. In this
-  //  case we are using an \doxygen{RegularStepGradientDescentOptimizer}.
+  //  case we are using an \itkref{RegularStepGradientDescentOptimizer}.
   //  Below, we define the optimization parameters like the relaxation factor,
   //  initial step length, minimal step length and number of iterations. These
   //  last two act as stopping criteria for the optimization.

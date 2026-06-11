@@ -126,7 +126,7 @@ main(int argc, char * argv[])
 
   //  Each one of the registration components is created using its
   //  \code{New()} method and is assigned to its respective
-  //  \doxygen{SmartPointer}.
+  //  \itkref{SmartPointer}.
   //
   auto metric = MetricType::New();
   auto transform = TransformType::New();
@@ -161,7 +161,7 @@ main(int argc, char * argv[])
 
 
   //  In this example, the fixed and moving images are read from files. This
-  //  requires the \doxygen{ImageRegistrationMethod} to acquire its inputs to
+  //  requires the \itkref{ImageRegistrationMethod} to acquire its inputs to
   //  the output of the readers.
   //
   registration->SetFixedImage(fixedImageReader->GetOutput());
@@ -324,7 +324,7 @@ main(int argc, char * argv[])
   //
   ParametersType finalParameters = registration->GetLastTransformParameters();
 
-  //  In the case of the \doxygen{AffineTransform}, there is a straightforward
+  //  In the case of the \itkref{AffineTransform}, there is a straightforward
   //  interpretation of the parameters.  The last two elements of the array
   //  corresponds to a translation along one spatial dimension.
   //
@@ -355,7 +355,7 @@ main(int argc, char * argv[])
 
   //  It is common, as the last step of a registration task, to use the
   //  resulting transform to map the moving image into the fixed image space.
-  //  This is easily done with the \doxygen{ResampleImageFilter}. Please
+  //  This is easily done with the \itkref{ResampleImageFilter}. Please
   //  refer to Section~\ref{sec:ResampleImageFilter} for details on the use
   //  of this filter.  First, a ResampleImageFilter type is instantiated
   //  using the image types. It is convenient to use the fixed image type as
@@ -402,7 +402,7 @@ main(int argc, char * argv[])
   resample->SetInterpolator(interpolator);
 
   //  The output of the filter is passed to a writer that will store the
-  //  image in a file. An \doxygen{CastImageFilter} is used to convert the
+  //  image in a file. An \itkref{CastImageFilter} is used to convert the
   //  pixel type of the resampled image to the final type used by the
   //  writer. The cast and writer filters are instantiated below.
   //

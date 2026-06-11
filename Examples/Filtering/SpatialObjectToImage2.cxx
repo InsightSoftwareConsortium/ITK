@@ -19,7 +19,7 @@
 //  Software Guide : BeginLatex
 //
 //  This example illustrates the use of the
-//  \doxygen{GaussianSpatialObjects} for composing complex smoothed shapes by
+//  \itkref{GaussianSpatialObjects} for composing complex smoothed shapes by
 //  aggregating them in a group. This process is equivalent to what is called
 //  ''MetaBalls'' in Computer Graphics.
 //
@@ -62,7 +62,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  Then we include the header of the \doxygen{GroupSpatialObject} that will
+//  Then we include the header of the \itkref{GroupSpatialObject} that will
 //  group together these instances of SpatialObjects.
 //
 //  \index{itk::GroupSpatialObject!header}

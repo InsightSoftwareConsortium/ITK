@@ -31,7 +31,7 @@
 //  Software Guide : BeginLatex
 //
 //  This example illustrates how to use the
-//  \doxygen{RecursiveGaussianImageFilter} for computing the Laplacian of a 2D
+//  \itkref{RecursiveGaussianImageFilter} for computing the Laplacian of a 2D
 //  image.
 //
 //  \index{itk::RecursiveGaussianImageFilter}
@@ -125,7 +125,7 @@ main(int argc, char * argv[])
   //  filters to produce smoothing in all directions.  In this example, we
   //  create a pair of filters since we are processing a $2D$ image.  The
   //  filters are created by invoking the \code{New()} method and assigning
-  //  the result to a \doxygen{SmartPointer}.
+  //  the result to a \itkref{SmartPointer}.
   //
   //  We need two filters for computing the X component of the Laplacian and
   //  two other filters for computing the Y component.
@@ -165,7 +165,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{RecursiveGaussianImageFilter} can approximate the
+  //  The \itkref{RecursiveGaussianImageFilter} can approximate the
   //  convolution with the Gaussian or with its first and second
   //  derivatives. We select one of these options by using the
   //  \code{SetOrder()} method. Note that the argument is an \code{enum} whose
@@ -208,7 +208,7 @@ main(int argc, char * argv[])
   //          \frac{ 1 }{ \sigma^2  \sqrt{ 2 \pi } }
   //  \end{equation}
   //
-  //  The \doxygen{RecursiveGaussianImageFilter} has a boolean flag that
+  //  The \itkref{RecursiveGaussianImageFilter} has a boolean flag that
   //  allows users to select between these two normalization options.
   //  Selection is done with the method \code{SetNormalizeAcrossScale()}.
   //  Enable this flag when analyzing an image across scale-space.  In the
@@ -278,7 +278,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Finally the two components of the Laplacian should be added together.
-  //  The \doxygen{AddImageFilter} is used for this purpose.
+  //  The \itkref{AddImageFilter} is used for this purpose.
   //
   //  \index{itk::AddImageFilter!Instantiation}
   //
@@ -319,7 +319,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The resulting image could be saved to a file using the
-  //  \doxygen{ImageFileWriter} class.
+  //  \itkref{ImageFileWriter} class.
   //
   //  Software Guide : EndLatex
 

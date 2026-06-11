@@ -18,7 +18,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  This example illustrates the use of the \doxygen{Similarity2DTransform}. A
+//  This example illustrates the use of the \itkref{Similarity2DTransform}. A
 //  similarity transform involves rotation, translation and scaling. Since the
 //  parameterization of rotations is difficult to get in a generic $ND$ case,
 //  a particular implementation is available for $2D$.
@@ -100,7 +100,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  A transform object is constructed by calling \code{New()} and passing
-  //  the result to a \doxygen{SmartPointer}.
+  //  the result to a \itkref{SmartPointer}.
   //
   //  \index{itk::Similarity2DTransform!New()}
   //  \index{itk::Similarity2DTransform!Pointer}

@@ -22,7 +22,7 @@
 //  \code{CovariantVector}, extract one of its components to form a scalar
 //  image and finally save this image into a file.
 //
-//  The \doxygen{VectorIndexSelectionCastImageFilter} is used to extract
+//  The \itkref{VectorIndexSelectionCastImageFilter} is used to extract
 //  a scalar from the vector image. It is also possible to cast the component
 //  type when using this filter. It is the user's responsibility to make sure
 //  that the cast will not result in any information loss.
@@ -61,7 +61,7 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  We read an image of \doxygen{CovariantVector} pixels and extract one of
+  //  We read an image of \itkref{CovariantVector} pixels and extract one of
   //  its components to generate a scalar image of a consistent pixel type.
   //  Then, we rescale the intensities of this scalar image and write it as an
   //  image of \code{unsigned short} pixels.
@@ -84,7 +84,7 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{ImageFileReader} and \doxygen{ImageFileWriter}
+  //  The \itkref{ImageFileReader} and \itkref{ImageFileWriter}
   //  are instantiated using the image types.
   //
   //  Software Guide : EndLatex
@@ -99,7 +99,7 @@ main(int argc, char ** argv)
   //
   //  The VectorIndexSelectionCastImageFilter is instantiated
   //  using the input and output image types. A filter object is created with
-  //  the \code{New()} method and assigned to a \doxygen{SmartPointer}.
+  //  the \code{New()} method and assigned to a \itkref{SmartPointer}.
   //
   //  \index{itk::Vector\-Index\-Selection\-Cast\-Image\-Filter!Instantiation}
   //  \index{itk::Vector\-Index\-Selection\-Cast\-Image\-Filter!New()}
@@ -147,7 +147,7 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{RescaleIntensityImageFilter} filter is instantiated here.
+  //  The \itkref{RescaleIntensityImageFilter} filter is instantiated here.
   //
   //  \index{RescaleIntensityImageFilter!Instantiation}
   //  \index{RescaleIntensityImageFilter!New()}
@@ -166,7 +166,7 @@ main(int argc, char ** argv)
   //  Software Guide : BeginLatex
   //
   //  The minimum and maximum values for the output image are specified in
-  //  the following. Note the use of the \doxygen{NumericTraits} class which
+  //  the following. Note the use of the \itkref{NumericTraits} class which
   //  allows us to define a number of type-related constants in a generic
   //  way. The use of traits is a fundamental characteristic of generic
   //  programming~\cite{Austern1999,Alexandrescu2001}.
@@ -185,7 +185,7 @@ main(int argc, char ** argv)
   //  Software Guide : BeginLatex
   //
   //  Below, we create the reader and writer using the \code{New()} method and
-  //  assign the result to a \doxygen{SmartPointer}.
+  //  assign the result to a \itkref{SmartPointer}.
   //
   //  \index{itk::ImageFileReader!New()}
   //  \index{itk::ImageFileWriter!New()}

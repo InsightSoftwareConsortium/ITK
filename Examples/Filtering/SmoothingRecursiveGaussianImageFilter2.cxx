@@ -22,7 +22,7 @@
 //  image may be a lot of work to do for achieving a simple goal. In order to
 //  avoid this inconvenience, a filter packaging this $m$ filters internally
 //  is available. This filter is the
-//  \doxygen{SmoothingRecursiveGaussianImageFilter}.
+//  \itkref{SmoothingRecursiveGaussianImageFilter}.
 //
 //  \index{itk::SmoothingRecursiveGaussianImageFilter}
 //
@@ -112,7 +112,7 @@ main(int argc, char * argv[])
   //
   //  Now a single filter is enough for smoothing the image along all the
   //  dimensions.  The filter is created by invoking the \code{New()} method
-  //  and assigning the result to a \doxygen{SmartPointer}.
+  //  and assigning the result to a \itkref{SmartPointer}.
   //
   //  \index{itk::SmoothingRecursiveGaussianImageFilter!New()}
   //  \index{itk::SmoothingRecursiveGaussianImageFilter!Pointer}

@@ -18,11 +18,11 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates how to import data into the \doxygen{Image}
+// This example illustrates how to import data into the \itkref{Image}
 // class. This is particularly useful for interfacing with other software
 // systems. Many systems use a contiguous block of memory as a buffer
 // for image pixel data. The current example assumes this is the case and
-// feeds the buffer into an \doxygen{ImportImageFilter}, thereby producing an
+// feeds the buffer into an \itkref{ImportImageFilter}, thereby producing an
 // image as output.
 //
 // Here we create a synthetic image with a centered sphere in
@@ -33,7 +33,7 @@
 // \index{itk::ImportImageFilter!Instantiation}
 // \index{itk::ImportImageFilter!Header}
 //
-// First, the header file of the \doxygen{ImportImageFilter} class must be
+// First, the header file of the \itkref{ImportImageFilter} class must be
 // included.
 //
 // Software Guide : EndLatex
@@ -174,7 +174,7 @@ main(int argc, char * argv[])
   // programming languages. Note that ITK
   // does not use \code{for()} loops in its internal code to access
   // pixels. All pixel access tasks are instead performed using an
-  // \doxygen{ImageIterator} that supports the management of
+  // \itkref{ImageIterator} that supports the management of
   // n-dimensional images.
   //
   // Software Guide : EndLatex

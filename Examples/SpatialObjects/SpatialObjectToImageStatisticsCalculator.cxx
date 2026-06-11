@@ -20,9 +20,9 @@
 //
 // \index{itk::Spatial\-Object\-To\-Image\-Statistics\-Calculator}
 // This example describes how to use the
-// \doxygen{SpatialObjectToImageStatisticsCalculator} to compute statistics
-// of an \doxygen{Image} only in a region defined inside a given
-// \doxygen{SpatialObject}.
+// \itkref{SpatialObjectToImageStatisticsCalculator} to compute statistics
+// of an \itkref{Image} only in a region defined inside a given
+// \itkref{SpatialObject}.
 //
 // Software Guide : EndLatex
 
@@ -39,7 +39,7 @@ main(int, char *[])
 {
   // Software Guide : BeginLatex
   //
-  // We first create a test image using the \doxygen{RandomImageSource}
+  // We first create a test image using the \itkref{RandomImageSource}
   //
   // Software Guide : EndLatex
 
@@ -57,7 +57,7 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // Next we create an \doxygen{EllipseSpatialObject} with a radius of 2.
+  // Next we create an \itkref{EllipseSpatialObject} with a radius of 2.
   // We also move the ellipse to the center of the image.
   //
   // Software Guide : EndLatex
@@ -74,7 +74,7 @@ main(int, char *[])
   // Software Guide : BeginLatex
   //
   // Then we can create the
-  // \doxygen{SpatialObjectToImageStatisticsCalculator}.
+  // \itkref{SpatialObjectToImageStatisticsCalculator}.
   //
   // Software Guide : EndLatex
 

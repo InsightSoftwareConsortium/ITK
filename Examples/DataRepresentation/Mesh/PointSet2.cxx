@@ -18,8 +18,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{PointSet} class uses an internal container to manage the
-//  storage of \doxygen{Point}s. It is more efficient, in general, to manage
+//  The \itkref{PointSet} class uses an internal container to manage the
+//  storage of \itkref{Point}s. It is more efficient, in general, to manage
 //  points by using the access methods provided directly on the points
 //  container. The following example illustrates how to interact with the
 //  point container and how to use point iterators.
@@ -53,8 +53,8 @@ main(int, char *[])
   //
   //  The actual type of \code{PointsContainer} depends on what style of
   //  \code{PointSet} is being used. The dynamic \code{PointSet} uses
-  //  \doxygen{MapContainer} while the static \code{PointSet} uses
-  //  \doxygen{VectorContainer}. The vector and map containers are basically
+  //  \itkref{MapContainer} while the static \code{PointSet} uses
+  //  \itkref{VectorContainer}. The vector and map containers are basically
   //  ITK wrappers around the \href{https://www.sgi.com/tech/stl/}{STL}
   //  classes \href{https://www.sgi.com/tech/stl/Map.html}{\code{std::map}}
   //  and \href{https://www.sgi.com/tech/stl/Vector.html}{\code{std::vector}}.
@@ -63,7 +63,7 @@ main(int, char *[])
   //  vector containers are templated over the type of element they contain.
   //  In this case they are templated over \code{PointType}. Containers are
   //  reference counted objects, created with the \code{New()} method and
-  //  assigned to a \doxygen{SmartPointer}. The following line creates a point
+  //  assigned to a \itkref{SmartPointer}. The following line creates a point
   //  container compatible with the type of the \code{PointSet} from which the
   //  trait has been taken.
   //

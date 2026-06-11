@@ -156,7 +156,7 @@ main(int argc, char * argv[])
   // the same homologous point on an object have the same intensity on both
   // the fixed and moving images to be registered. In this example, we will
   // preprocess the moving image to match the intensity between the images
-  // using the \doxygen{HistogramMatchingImageFilter}.
+  // using the \itkref{HistogramMatchingImageFilter}.
   //
   // \index{itk::HistogramMatchingImageFilter}
   //
@@ -225,7 +225,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // In the \doxygen{DemonsRegistrationFilter}, the deformation field is
+  // In the \itkref{DemonsRegistrationFilter}, the deformation field is
   // represented as an image whose pixels are floating point vectors.
   //
   // \index{itk::DemonsRegistrationFilter}
@@ -297,9 +297,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The \doxygen{ResampleImageFilter} can be used to warp the moving image
+  // The \itkref{ResampleImageFilter} can be used to warp the moving image
   // with the output deformation field. The default interpolator of the
-  // \doxygen{ResampleImageFilter}, is used but specification of the output
+  // \itkref{ResampleImageFilter}, is used but specification of the output
   // image spacing and origin are required.
   //
   // \index{itk::ResampleImageFilter}
@@ -331,7 +331,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // The \code{ResampleImageFilter} requires a transform, so a
-  // \doxygen{DisplacementFieldTransform} must be constructed then set
+  // \itkref{DisplacementFieldTransform} must be constructed then set
   // as the transform of the \code{ResampleImageFilter}. The resulting
   // warped or resampled image is written to file as per previous
   // examples.

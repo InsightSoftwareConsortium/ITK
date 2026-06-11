@@ -17,10 +17,10 @@
  *=========================================================================*/
 
 //
-// This example illustrates the use of the \doxygen{BSplineTransform}
+// This example illustrates the use of the \itkref{BSplineTransform}
 // class for performing registration of two $3D$ images and for the case of
 // multi-modality images. The image metric of choice in this case is the
-// \doxygen{MattesMutualInformationImageToImageMetric}.
+// \itkref{MattesMutualInformationImageToImageMetric}.
 //
 // \index{itk::BSplineTransform}
 // \index{itk::BSplineTransform!DeformableRegistration}

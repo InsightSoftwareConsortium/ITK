@@ -164,7 +164,7 @@ main(int argc, char * argv[])
   //
   //  Each one of the registration components is created using its
   //  \code{New()} method and is assigned to its respective
-  //  \doxygen{SmartPointer}.
+  //  \itkref{SmartPointer}.
   //
 
   const MetricType::Pointer       metric = MetricType::New();
@@ -201,7 +201,7 @@ main(int argc, char * argv[])
 
   //
   //  In this example, the fixed and moving images are read from files. This
-  //  requires the \doxygen{ImageRegistrationMethod} to acquire its inputs from
+  //  requires the \itkref{ImageRegistrationMethod} to acquire its inputs from
   //  the output of the readers.
   //
 
@@ -264,7 +264,7 @@ main(int argc, char * argv[])
   //  context of the optimization strategy it implements. The optimizer used in
   //  this example is a variant of gradient descent that attempts to prevent it
   //  from taking steps that are too large. At each iteration, this optimizer
-  //  will take a step along the direction of the \doxygen{ImageToImageMetric}
+  //  will take a step along the direction of the \itkref{ImageToImageMetric}
   //  derivative. The initial length of the step is defined by the user. Each
   //  time the direction of the derivative abruptly changes, the optimizer
   //  assumes that a local extrema has been passed and reacts by reducing the
@@ -344,7 +344,7 @@ main(int argc, char * argv[])
 
 
   //
-  //  In the case of the \doxygen{TranslationTransform}, there is a
+  //  In the case of the \itkref{TranslationTransform}, there is a
   //  straightforward interpretation of the parameters.  Each element of the
   //  array corresponds to a translation along one spatial dimension.
   //
@@ -419,7 +419,7 @@ main(int argc, char * argv[])
   //
   //  It is common, as the last step of a registration task, to use the
   //  resulting transform to map the moving image into the fixed image space.
-  //  This is easily done with the \doxygen{ResampleImageFilter}. Please
+  //  This is easily done with the \itkref{ResampleImageFilter}. Please
   //  refer to Section~\ref{sec:ResampleImageFilter} for details on the use
   //  of this filter.  First, a ResampleImageFilter type is instantiated
   //  using the image types. It is convenient to use the fixed image type as
@@ -444,9 +444,9 @@ main(int argc, char * argv[])
   //  also passed as input to the resampling filter. Note the use of the
   //  methods \code{GetOutput()} and \code{Get()}. This combination is needed
   //  here because the registration method acts as a filter whose output is a
-  //  transform decorated in the form of a \doxygen{DataObject}. For details in
+  //  transform decorated in the form of a \itkref{DataObject}. For details in
   //  this construction you may want to read the documentation of the
-  //  \doxygen{DataObjectDecorator}.
+  //  \itkref{DataObjectDecorator}.
   //
   //  \index{itk::ImageRegistrationMethod!Resampling image}
   //  \index{itk::ImageRegistrationMethod!Pipeline}
@@ -490,7 +490,7 @@ main(int argc, char * argv[])
 
   //
   //  The output of the filter is passed to a writer that will store the
-  //  image in a file. An \doxygen{CastImageFilter} is used to convert the
+  //  image in a file. An \itkref{CastImageFilter} is used to convert the
   //  pixel type of the resampled image to the final type used by the
   //  writer. The cast and writer filters are instantiated below.
   //
@@ -540,7 +540,7 @@ main(int argc, char * argv[])
 
   //
   //  The fixed image and the transformed moving image can easily be compared
-  //  using the \doxygen{SubtractImageFilter}. This pixel-wise filter computes
+  //  using the \itkref{SubtractImageFilter}. This pixel-wise filter computes
   //  the difference between homologous pixels of its two input images.
   //
 
@@ -563,7 +563,7 @@ main(int argc, char * argv[])
   //
   //  Since the differences between the two images may correspond to very low
   //  values of intensity, we rescale those intensities with a
-  //  \doxygen{RescaleIntensityImageFilter} in order to make them more visible.
+  //  \itkref{RescaleIntensityImageFilter} in order to make them more visible.
   //  This rescaling will also make it possible to visualize the negative values
   //  even if we save the difference image in a file format that only supports
   //  unsigned pixel values\footnote{This is the case of PNG, BMP, JPEG and

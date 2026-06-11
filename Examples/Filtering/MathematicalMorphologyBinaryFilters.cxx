@@ -27,7 +27,7 @@
 //
 //  The following section illustrates the use of filters that perform basic
 //  mathematical morphology operations on binary images. The
-//  \doxygen{BinaryErodeImageFilter} and \doxygen{BinaryDilateImageFilter} are
+//  \itkref{BinaryErodeImageFilter} and \itkref{BinaryDilateImageFilter} are
 //  described here. The filter names clearly specify the type of image on
 //  which they operate.  The header files required to construct a simple
 //  example of the use of the mathematical morphology filters are included
@@ -103,7 +103,7 @@ main(int argc, char * argv[])
   //
   //  The structuring element is implemented as a NeighborhoodOperator. In
   //  particular, the default structuring element is the
-  //  \doxygen{BinaryBallStructuringElement} class. This class is instantiated
+  //  \itkref{BinaryBallStructuringElement} class. This class is instantiated
   //  using the pixel type and dimension of the input image.
   //
   //  Software Guide : EndLatex
@@ -143,7 +143,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The filters can now be created by invoking the \code{New()} method and
-  //  assigning the result to \doxygen{SmartPointer}s.
+  //  assigning the result to \itkref{SmartPointer}s.
   //
   //  \index{itk::BinaryDilateImageFilter!New()}
   //  \index{itk::BinaryErodeImageFilter!New()}

@@ -25,7 +25,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{DerivativeImageFilter} is used for computing the partial
+//  The \itkref{DerivativeImageFilter} is used for computing the partial
 //  derivative of an image, the derivative of an image along a particular
 //  axial direction.
 //

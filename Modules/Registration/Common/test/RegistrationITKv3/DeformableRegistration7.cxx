@@ -17,12 +17,12 @@
  *=========================================================================*/
 
 //
-// This example illustrates the use of the \doxygen{BSplineTransform}
+// This example illustrates the use of the \itkref{BSplineTransform}
 // class for performing registration of two $3D$ images. The example code is
 // for the most part identical to the code presented in
 // Section~\ref{sec:BSplinesMultiGridImageRegistration}. The major difference is
 // that this example we set the image dimension to 3 and replace the
-// \doxygen{LBFGSOptimizer} optimizer with the \doxygen{LBFGSBOptimizer}. We
+// \itkref{LBFGSOptimizer} optimizer with the \itkref{LBFGSBOptimizer}. We
 // made the modification because we found that LBFGS does not behave well when
 // the starting position is at or close to optimal; instead we used LBFGSB in
 // unconstrained mode.

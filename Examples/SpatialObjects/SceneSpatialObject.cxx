@@ -20,7 +20,7 @@
 //
 // \index{itk::GroupSpatialObject - Continued}
 //
-// This example describes how to use the \doxygen{GroupSpatialObject} as a
+// This example describes how to use the \itkref{GroupSpatialObject} as a
 // replacement to ITKv4's \code{SceneSpatialObject}. This
 // example begins by including the appropriate header file.
 //
@@ -52,7 +52,7 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // Then we create two \doxygen{EllipseSpatialObject}s.
+  // Then we create two \itkref{EllipseSpatialObject}s.
   //
   // Software Guide : EndLatex
 

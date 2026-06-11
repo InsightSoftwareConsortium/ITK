@@ -32,7 +32,7 @@
 // compute the histogram of each channel independently.
 //
 // We start by including the header of the
-// \subdoxygen{Statistics}{ImageToHistogramFilter}, as well as the headers
+// \itksubref{Statistics}{ImageToHistogramFilter}, as well as the headers
 // for the image class and the RGBPixel class.
 //
 // \index{itk::Statistics::ImageToHistogramFilter!header}

@@ -26,14 +26,14 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the
-// \doxygen{DanielssonDistanceMapImageFilter}.  This filter generates a
+// \itkref{DanielssonDistanceMapImageFilter}.  This filter generates a
 // distance map from the input image using the algorithm developed by
 // Danielsson \cite{Danielsson1980}. As secondary outputs, a Voronoi
 // partition of the input elements is produced, as well as a vector image
 // with the components of the distance vector to the closest point. The input
 // to the map is assumed to be a set of points on the input image. The label
 // of each group of pixels is assigned by the
-// \doxygen{ConnectedComponentImageFilter}.
+// \itkref{ConnectedComponentImageFilter}.
 //
 // \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!Instantiation}
 // \index{itk::Danielsson\-Distance\-Map\-Image\-Filter!Header}
@@ -138,7 +138,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The input to the filter is taken from a reader and its output is passed
-  //  to a \doxygen{RescaleIntensityImageFilter} and then to a writer. The
+  //  to a \itkref{RescaleIntensityImageFilter} and then to a writer. The
   //  scaler and writer are both templated over the image type, so we
   //  instantiate a separate pipeline for the voronoi partition map starting
   //  at the scaler.
@@ -205,7 +205,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The distance filter also produces an image of \doxygen{Offset} pixels
+  //  The distance filter also produces an image of \itkref{Offset} pixels
   //  representing the vectorial distance to the closest object in the scene.
   //  The type of this output image is defined by the VectorImageType
   //  trait of the filter type.
@@ -219,7 +219,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  We can use this type for instantiating an \doxygen{ImageFileWriter} type
+  //  We can use this type for instantiating an \itkref{ImageFileWriter} type
   //  and creating an object of this class in the following lines.
   //
   //  Software Guide : EndLatex
@@ -268,8 +268,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Note that only the \doxygen{MetaImageIO} class supports reading and
-  //  writing images of pixel type \doxygen{Offset}.
+  //  Note that only the \itkref{MetaImageIO} class supports reading and
+  //  writing images of pixel type \itkref{Offset}.
   //
   //  Software Guide : EndLatex
 

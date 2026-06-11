@@ -23,10 +23,10 @@
 // \index{itk::Statistics::GaussianMembershipFunction}
 //
 // The Gaussian probability density function
-// \subdoxygen{Statistics}{GaussianMembershipFunction} requires two
+// \itksubref{Statistics}{GaussianMembershipFunction} requires two
 // distribution parameters---the mean vector and the covariance matrix.
 //
-// We include the header files for the class and the \doxygen{Vector}.
+// We include the header files for the class and the \itkref{Vector}.
 //
 // Software Guide : EndLatex
 

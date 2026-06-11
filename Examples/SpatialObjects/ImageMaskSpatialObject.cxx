@@ -21,15 +21,15 @@
 //
 // \index{itk::ImageMaskSpatialObject}
 //
-// An \doxygen{ImageMaskSpatialObject} is similar to the
-// \doxygen{ImageSpatialObject} and derived from it.
+// An \itkref{ImageMaskSpatialObject} is similar to the
+// \itkref{ImageSpatialObject} and derived from it.
 // However, the main difference is that the \code{IsInsideInWorldSpace()}
 // returns true if the pixel intensity in the image is not zero.
 //
-// The supported pixel types does not include \doxygen{RGBPixel},
-// \doxygen{RGBAPixel}, etc.
+// The supported pixel types does not include \itkref{RGBPixel},
+// \itkref{RGBAPixel}, etc.
 // So far it only allows to manage images of simple types like unsigned short,
-// unsigned int, or \doxygen{Vector}.
+// unsigned int, or \itkref{Vector}.
 // Let's begin by including the appropriate header file.
 //
 // Software Guide : EndLatex
@@ -57,7 +57,7 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // Next we create an \doxygen{Image} of size 50x50x50 filled with zeros
+  // Next we create an \itkref{Image} of size 50x50x50 filled with zeros
   // except a bright square in the middle which defines the mask.
   //
   // Software Guide : EndLatex
@@ -117,7 +117,7 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // We can then test if a physical \doxygen{Point} is inside or outside the
+  // We can then test if a physical \itkref{Point} is inside or outside the
   // mask image. This is particularly useful during the registration process
   // when only a part of the image should be used to compute the metric.
   //

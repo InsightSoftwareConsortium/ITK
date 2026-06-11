@@ -23,7 +23,7 @@
 
 // Software Guide : BeginLatex
 //
-// This example uses \doxygen{ShapedNeighborhoodIterator} to implement a
+// This example uses \itkref{ShapedNeighborhoodIterator} to implement a
 // binary erosion algorithm.  If we think of an image $I$ as a set of pixel
 // indices, then erosion of $I$ by a smaller set $E$, called the
 // \emph{structuring element}, is the set of all indices at locations $x$ in

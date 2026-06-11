@@ -151,7 +151,7 @@ main(int argc, char * argv[])
   // the same intensity on both the fixed and moving images to be
   // registered. In this example, we will preprocess the moving image
   // to match the intensity between the images using the
-  // \doxygen{HistogramMatchingImageFilter}.
+  // \itkref{HistogramMatchingImageFilter}.
   //
   // \index{itk::HistogramMatchingImageFilter}
   //
@@ -220,7 +220,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // In the \doxygen{LevelSetMotionRegistrationFilter}, the
+  // In the \itkref{LevelSetMotionRegistrationFilter}, the
   // deformation field is represented as an image whose pixels are
   // floating point vectors.
   //
@@ -292,8 +292,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The \doxygen{ResampleImageFilter} can be used to warp the moving image
-  // with the output deformation field. The \doxygen{ResampleImageFilter}
+  // The \itkref{ResampleImageFilter} can be used to warp the moving image
+  // with the output deformation field. The \itkref{ResampleImageFilter}
   // requires specifications for the input image to be resampled: an
   // input image interpolator, a transform, and the output image's
   // meta-data can be set from a reference image.

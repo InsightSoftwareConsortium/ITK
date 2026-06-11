@@ -21,7 +21,7 @@
 //  This example illustrates how to perform subsampling of a volume using ITK
 //  classes.  In order to avoid aliasing artifacts, the volume must be
 //  processed by a low-pass filter before resampling.  Here we use the
-//  \doxygen{RecursiveGaussianImageFilter} as a low-pass filter. The image is
+//  \itkref{RecursiveGaussianImageFilter} as a low-pass filter. The image is
 //  then resampled by using three different factors, one per dimension of the
 //  image.
 //
@@ -249,8 +249,8 @@ main(int argc, char * argv[])
   // The Linear interpolator is selected because it provides a good run-time
   // performance.  For applications that require better precision you may want
   // to replace this interpolator with the
-  // \doxygen{BSplineInterpolateImageFunction} interpolator or with the
-  // \doxygen{WindowedSincInterpolateImageFunction} interpolator.
+  // \itkref{BSplineInterpolateImageFunction} interpolator or with the
+  // \itkref{WindowedSincInterpolateImageFunction} interpolator.
   //
   // Software Guide : EndLatex
 

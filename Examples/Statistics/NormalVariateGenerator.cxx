@@ -21,7 +21,7 @@
 // \index{itk::Statistics::NormalVariateGenerator}
 // \index{Statistics!Random number generation!Normal (Gaussian) distribution}
 //
-// The \subdoxygen{Statistics}{NormalVariateGenerator} generates random
+// The \itksubref{Statistics}{NormalVariateGenerator} generates random
 // variables according to the standard normal distribution (mean = 0,
 // standard deviation = 1).
 //

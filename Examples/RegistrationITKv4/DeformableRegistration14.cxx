@@ -19,7 +19,7 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the
-// \doxygen{RegularStepGradientDescentOptimizer} in the context of a
+// \itkref{RegularStepGradientDescentOptimizer} in the context of a
 // deformable registration problem. The code of this example is almost
 // identical to the one in Section~\ref{sec:DeformableRegistration8}.
 //

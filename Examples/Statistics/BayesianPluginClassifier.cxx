@@ -28,12 +28,12 @@
 // all the components of the classifier system and the data flow. This system
 // differs with the previous k-means clustering algorithms in several
 // ways. The biggest difference is that this classifier uses the
-// \subdoxygen{Statistics}{GaussianDensityFunction}s as membership functions
+// \itksubref{Statistics}{GaussianDensityFunction}s as membership functions
 // instead of the
-// \subdoxygen{Statistics}{DistanceToCentroidMembershipFunction}. Since the
+// \itksubref{Statistics}{DistanceToCentroidMembershipFunction}. Since the
 // membership function is different, the membership function requires a
 // different set of parameters, mean vectors and covariance matrices. We
-// choose the \subdoxygen{Statistics}{CovarianceSampleFilter} (sample
+// choose the \itksubref{Statistics}{CovarianceSampleFilter} (sample
 // covariance) for the estimation algorithms of the two parameters. If we want
 // a more robust estimation algorithm, we can replace this estimation
 // algorithm with more alternatives without changing other components in the
@@ -51,10 +51,10 @@
 //  \protect\label{fig:BayesianPluginClassifier}
 // \end{figure}
 //
-// We use the \subdoxygen{Statistics}{ListSample} as the sample (test
-// and training). The \doxygen{Vector} is our measurement vector
+// We use the \itksubref{Statistics}{ListSample} as the sample (test
+// and training). The \itkref{Vector} is our measurement vector
 // class. To store measurement vectors into two separate sample
-// containers, we use the \subdoxygen{Statistics}{Subsample} objects.
+// containers, we use the \itksubref{Statistics}{Subsample} objects.
 //
 // Software Guide : EndLatex
 
@@ -91,7 +91,7 @@
 // Software Guide : BeginLatex
 //
 // We will fill the sample with random variables from two normal
-// distribution using the \subdoxygen{Statistics}{NormalVariateGenerator}.
+// distribution using the \itksubref{Statistics}{NormalVariateGenerator}.
 //
 // Software Guide : EndLatex
 

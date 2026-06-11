@@ -43,7 +43,7 @@
 // \end{figure}
 //
 // Figure \ref{fig:ImageOriginAndSpacing} illustrates the main geometrical
-// concepts associated with the \doxygen{Image}.
+// concepts associated with the \itkref{Image}.
 // In this figure, circles are
 // used to represent the center of pixels. The value of the pixel is assumed
 // to exist as a Dirac delta function located at the pixel center. Pixel
@@ -102,7 +102,7 @@ main(int, char *[])
   // the spacing of the image, an array of the corresponding type must be
   // created.  The elements of the array should then be initialized with the
   // spacing between the centers of adjacent pixels. The following code
-  // illustrates the methods available in the \doxygen{Image} class for
+  // illustrates the methods available in the \itkref{Image} class for
   // dealing with spacing and origin.
   //
   // \index{itk::Image!Spacing}
@@ -251,7 +251,7 @@ main(int, char *[])
   // physical space can be mapped into an image index for the purpose of
   // reading the content of the closest pixel.
   //
-  // First, a \doxygen{Point} type must be declared. The point type is
+  // First, a \itkref{Point} type must be declared. The point type is
   // templated over the type used to represent coordinates and over the
   // dimension of the space. In this particular case, the dimension of the
   // point must match the dimension of the image.
@@ -264,8 +264,8 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // The \doxygen{Point} class, like an \doxygen{Index}, is a relatively
-  // small and simple object. This means that no \doxygen{SmartPointer}
+  // The \itkref{Point} class, like an \itkref{Index}, is a relatively
+  // small and simple object. This means that no \itkref{SmartPointer}
   // is used here and the objects are simply declared as instances,
   // like any other C++ class. Once the point is declared, its
   // components can be accessed using traditional array notation. In

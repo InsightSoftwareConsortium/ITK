@@ -37,12 +37,12 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{Euler2DTransform}
+// This example illustrates the use of the \itkref{Euler2DTransform}
 // for performing rigid registration in $2D$. The example code is for the
 // most part identical to that presented in Section
 // \ref{sec:IntroductionImageRegistration}.  The main difference is the use
 // of the Euler2DTransform here instead of the
-// \doxygen{TranslationTransform}.
+// \itkref{TranslationTransform}.
 //
 // \index{itk::Euler2DTransform}
 //
@@ -176,7 +176,7 @@ main(int argc, char * argv[])
   //  such situations, consider an example of 3 stages registration process
   //  that is started using an initial moving transform ($\Gamma_{mi}$).
   //  Multiple stages are handled by linking multiple instantiations of
-  //  the \doxygen{ImageRegistrationMethodv4} class.
+  //  the \itkref{ImageRegistrationMethodv4} class.
   //  Inside the registration filter of the first stage, the initial moving
   //  transform is added to an internal composite transform along with an
   //  updatable identity transform ($\Gamma_{u}$). Although the whole
@@ -409,7 +409,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Next we set the normal parameters of the optimization method. In this
-  //  case we are using an \doxygen{RegularStepGradientDescentOptimizerv4}.
+  //  case we are using an \itkref{RegularStepGradientDescentOptimizerv4}.
   //  Below, we define the optimization parameters like the relaxation factor,
   //  learning rate (initial step length), minimal step length and number of
   //  iterations. These last two act as stopping criteria for the

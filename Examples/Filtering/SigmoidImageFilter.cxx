@@ -24,7 +24,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{SigmoidImageFilter} is commonly used as an intensity
+//  The \itkref{SigmoidImageFilter} is commonly used as an intensity
 //  transform.  It maps a specific range of intensity values into a new
 //  intensity range by making a very smooth and continuous transition in the
 //  borders of the range.  Sigmoids are widely used as a mechanism for

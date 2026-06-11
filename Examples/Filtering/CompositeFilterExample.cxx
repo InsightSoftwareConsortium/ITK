@@ -188,10 +188,10 @@ CompositeExampleImageFilter<TImage>::CompositeExampleImageFilter()
 //  buffer content have been updated by the pipeline. To prevent the
 //  mini-pipeline update from propagating upstream, the input image is
 //  disconnected from the pipeline by grafting its contents to a new
-//  \doxygen{Image} pointer.
+//  \itkref{Image} pointer.
 //
 //  This implies that the composite filter must
-//  implement pipeline methods that indicate the \doxygen{ImageRegion}'s it
+//  implement pipeline methods that indicate the \itkref{ImageRegion}'s it
 //  requires and generates, like \code{GenerateInputRequestedRegion()},
 //  \code{GenerateOutputRequestedRegion()}, \code{GenerateOutputInformation()}
 //  and \code{EnlargeOutputRequestedRegion()}, according to the behavior of

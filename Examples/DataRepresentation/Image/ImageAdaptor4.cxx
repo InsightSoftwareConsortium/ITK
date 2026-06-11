@@ -32,7 +32,7 @@
 //
 // Image adaptors can also be used to perform simple pixel-wise computations
 // on image data. The following example illustrates how to use the
-// \doxygen{ImageAdaptor} for image thresholding.
+// \itkref{ImageAdaptor} for image thresholding.
 //
 // \index{itk::ImageAdaptor!Instantiation}
 // \index{itk::ImageAdaptor!Header}
@@ -222,7 +222,7 @@ main(int argc, char * argv[])
   //  Figure~\ref{fig:ImageAdaptorThresholding} illustrates the result of
   //  applying the thresholding adaptor to a typical gray scale image using
   //  two different threshold values. Note that the same effect could have
-  //  been achieved by using the \doxygen{BinaryThresholdImageFilter} but at
+  //  been achieved by using the \itkref{BinaryThresholdImageFilter} but at
   //  the price of holding an extra copy of the image in memory.
   //
   // Software Guide : EndLatex

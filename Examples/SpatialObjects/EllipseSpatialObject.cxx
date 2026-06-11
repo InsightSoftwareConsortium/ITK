@@ -20,9 +20,9 @@
 //
 // \index{itk::EllipseSpatialObject}
 //
-// \doxygen{EllipseSpatialObject} defines an n-dimensional ellipse. Like
+// \itkref{EllipseSpatialObject} defines an n-dimensional ellipse. Like
 // other spatial objects this class derives from
-// \doxygen{SpatialObject}. Let's start by including the appropriate header
+// \itkref{SpatialObject}. Let's start by including the appropriate header
 // file.
 //
 // Software Guide : EndLatex
@@ -36,7 +36,7 @@ main(int, char *[])
 {
   // Software Guide : BeginLatex
   //
-  // Like most of the SpatialObjects, the \doxygen{EllipseSpatialObject} is
+  // Like most of the SpatialObjects, the \itkref{EllipseSpatialObject} is
   // templated over the dimension of the space. In this example we create a
   // 3-dimensional ellipse.
   //

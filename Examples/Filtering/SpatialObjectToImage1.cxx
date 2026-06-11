@@ -19,8 +19,8 @@
 //  Software Guide : BeginLatex
 //
 //  This example illustrates the use of the
-//  \doxygen{SpatialObjectToImageFilter}. This filter expect a
-//  \doxygen{SpatialObject} as input, and rasterize it in order to generate an
+//  \itkref{SpatialObjectToImageFilter}. This filter expect a
+//  \itkref{SpatialObject} as input, and rasterize it in order to generate an
 //  output image. This is particularly useful for generating synthetic images,
 //  in particular binary images containing a mask.
 //
@@ -64,7 +64,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  Then we include the header of the \doxygen{GroupSpatialObject} that will
+//  Then we include the header of the \itkref{GroupSpatialObject} that will
 //  group together these instances of SpatialObjects.
 //
 //  \index{itk::GroupSpatialObject!header}

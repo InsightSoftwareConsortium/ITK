@@ -155,7 +155,7 @@ main(int argc, char * argv[])
   // the same homologous point on an object have the same intensity on both
   // the fixed and moving images to be registered. In this example, we will
   // preprocess the moving image to match the intensity between the images
-  // using the \doxygen{HistogramMatchingImageFilter}.
+  // using the \itkref{HistogramMatchingImageFilter}.
   //
   // \index{itk::Histogram\-Matching\-Image\-Filter}
   //
@@ -224,7 +224,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // In the \doxygen{SymmetricForcesDemonsRegistrationFilter}, the deformation
+  // In the \itkref{SymmetricForcesDemonsRegistrationFilter}, the deformation
   // field is represented as an image whose pixels are floating point vectors.
   //
   // \index{itk::Symmetric\-Forces\-Demons\-Registration\-Filter}
@@ -294,8 +294,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The \doxygen{ResampleImageFilter} can be used to warp the moving image
-  // with the output deformation field. The \doxygen{ResampleImageFilter}
+  // The \itkref{ResampleImageFilter} can be used to warp the moving image
+  // with the output deformation field. The \itkref{ResampleImageFilter}
   // requires specifications for the input image to be resampled: an
   // input image interpolator, a transform and the output image's
   // meta-data can be set from a reference image.

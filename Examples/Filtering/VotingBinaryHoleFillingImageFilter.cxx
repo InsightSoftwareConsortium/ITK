@@ -37,7 +37,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{VotingBinaryHoleFillingImageFilter} applies a voting
+//  The \itkref{VotingBinaryHoleFillingImageFilter} applies a voting
 //  operation in order to fill in cavities. This can be used for smoothing
 //  contours and for filling holes in binary images.
 //

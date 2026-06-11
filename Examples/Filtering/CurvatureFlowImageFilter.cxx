@@ -24,7 +24,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{CurvatureFlowImageFilter} performs edge-preserving smoothing
+//  The \itkref{CurvatureFlowImageFilter} performs edge-preserving smoothing
 //  in a similar fashion to the classical anisotropic diffusion. The filter
 //  uses a level set formulation where the iso-intensity contours in an image
 //  are viewed as level sets, where pixels of a particular intensity form one
@@ -133,7 +133,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  A filter object is created by invoking the \code{New()} method and
-  //  assigning the result to a \doxygen{SmartPointer}.
+  //  assigning the result to a \itkref{SmartPointer}.
   //
   //  \index{itk::CurvatureFlowImageFilter!New()}
   //  \index{itk::CurvatureFlowImageFilter!Pointer}
@@ -248,9 +248,9 @@ main(int argc, char * argv[])
   //
   //  \relatedClasses
   //  \begin{itemize}
-  //  \item \doxygen{GradientAnisotropicDiffusionImageFilter}
-  //  \item \doxygen{CurvatureAnisotropicDiffusionImageFilter}
-  //  \item \doxygen{BilateralImageFilter}
+  //  \item \itkref{GradientAnisotropicDiffusionImageFilter}
+  //  \item \itkref{CurvatureAnisotropicDiffusionImageFilter}
+  //  \item \itkref{BilateralImageFilter}
   //  \end{itemize}
   //
   //  Software Guide : EndLatex

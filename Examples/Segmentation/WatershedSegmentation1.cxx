@@ -30,7 +30,7 @@
 // Software Guide : BeginLatex
 //
 // The following example illustrates how to preprocess and segment images
-// using the \doxygen{WatershedImageFilter}. Note that the care with which
+// using the \itkref{WatershedImageFilter}. Note that the care with which
 // the data are preprocessed will greatly affect the quality of your result.
 // Typically, the best results are obtained by preprocessing the original
 // image with an edge-preserving diffusion filter, such as one of the
@@ -40,9 +40,9 @@
 // object boundaries.  A suitable height function for many applications can
 // be generated as the gradient magnitude of the image to be segmented.
 //
-// The \doxygen{VectorGradientMagnitudeAnisotropicDiffusionImageFilter} class
+// The \itkref{VectorGradientMagnitudeAnisotropicDiffusionImageFilter} class
 // is used to smooth the image and the
-// \doxygen{VectorGradientMagnitudeImageFilter} is used to generate the
+// \itkref{VectorGradientMagnitudeImageFilter} is used to generate the
 // height function.  We begin by including all preprocessing filter header
 // files and the header file for the WatershedImageFilter.  We
 // use the vector versions of these filters because the input dataset is a
@@ -84,7 +84,7 @@ main(int argc, char * argv[])
   // work properly.  The preprocessing stages are applied directly to the
   // vector-valued data and the segmentation uses floating point
   // scalar data.  Images are converted from RGB pixel type to
-  // numerical vector type using \doxygen{CastImageFilter}.
+  // numerical vector type using \itkref{CastImageFilter}.
   //
   // Software Guide : EndLatex
 
@@ -176,10 +176,10 @@ main(int argc, char * argv[])
   // for the purposes of this example, we will convert it to RGB pixels.  RGB
   // images have the advantage that they can be saved as a simple png file
   // and viewed using any standard image viewer software.  The
-  // \subdoxygen{Functor}{ScalarToRGBPixelFunctor} class is a special
+  // \itksubref{Functor}{ScalarToRGBPixelFunctor} class is a special
   // function object designed to hash a scalar value into an
-  // \doxygen{RGBPixel}. Plugging this functor into the
-  // \doxygen{UnaryFunctorImageFilter} creates an image filter which
+  // \itkref{RGBPixel}. Plugging this functor into the
+  // \itkref{UnaryFunctorImageFilter} creates an image filter which
   // converts scalar images to RGB images.
   //
   // Software Guide : EndLatex

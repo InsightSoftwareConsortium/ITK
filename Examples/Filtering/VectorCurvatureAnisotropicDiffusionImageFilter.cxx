@@ -18,7 +18,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{VectorCurvatureAnisotropicDiffusionImageFilter} performs
+//  The \itkref{VectorCurvatureAnisotropicDiffusionImageFilter} performs
 //  anisotropic diffusion on a vector image using a modified curvature
 //  diffusion equation (MCDE).  The MCDE is the same described in
 //  \ref{sec:CurvatureAnisotropicDiffusionImageFilter}.
@@ -27,12 +27,12 @@
 //  independently of one another using a conductance term that is linked
 //  across the components.
 //
-//  This filter is designed to process images of \doxygen{Vector} type.  The
+//  This filter is designed to process images of \itkref{Vector} type.  The
 //  code relies on various type alias and overloaded operators defined in
-//  \doxygen{Vector}. It is perfectly reasonable, however, to apply this
+//  \itkref{Vector}. It is perfectly reasonable, however, to apply this
 //  filter to images of other, user-defined types as long as the appropriate
 //  type alias and operator overloads are in place.  As a general rule, follow
-//  the example of the \doxygen{Vector} class in defining your data types.
+//  the example of the \itkref{Vector} class in defining your data types.
 //
 //  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter}
 //

@@ -19,7 +19,7 @@
 //  Software Guide : BeginLatex
 //
 //  This example introduces the use of the
-//  \doxygen{AntiAliasBinaryImageFilter}. This filter expect a binary mask as
+//  \itkref{AntiAliasBinaryImageFilter}. This filter expect a binary mask as
 //  input, and using Level Sets it smooths the image by keeping the edge of
 //  the structure within 1 pixel distance from the original location. It is
 //  usually desirable to run this filter before extracting isocontour with
@@ -97,7 +97,7 @@ main(int argc, char * argv[])
   //
   //  This filter operates on image of pixel type float. It is then necessary
   //  to cast the type of the input images that are usually of integer type.
-  //  The \doxygen{CastImageFilter} is used here for that purpose. Its image
+  //  The \itkref{CastImageFilter} is used here for that purpose. Its image
   //  template parameters are defined for casting from the input type to the
   //  float type using for processing.
   //
@@ -114,7 +114,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{AntiAliasBinaryImageFilter} is instantiated using the float
+  //  The \itkref{AntiAliasBinaryImageFilter} is instantiated using the float
   //  image type.
   //
   //  \index{itk::AntiAliasBinaryImageFilter|textbf}

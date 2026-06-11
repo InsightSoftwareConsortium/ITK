@@ -103,7 +103,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The \doxygen{WarpImageFilter} is templated over the input image type,
+  // The \itkref{WarpImageFilter} is templated over the input image type,
   // output image type and the deformation field type.
   //
   // Software Guide : EndLatex

@@ -151,7 +151,7 @@ main(int argc, char ** argv)
   //
   // Searching for the local minimum involves finding the minimum in the
   // current neighborhood, then shifting the neighborhood in the direction of
-  // that minimum.  The \code{for} loop below records the \doxygen{Offset} of
+  // that minimum.  The \code{for} loop below records the \itkref{Offset} of
   // the minimum neighborhood pixel.  The neighborhood iterator is then moved
   // using that offset.  When a local minimum is detected, \code{flag} will
   // remain false and the \code{while} loop will exit.  Note that this code is

@@ -20,7 +20,7 @@
 //
 // \index{itk::GroupSpatialObject}
 //
-// A \doxygen{GroupSpatialObject} does not have
+// A \itkref{GroupSpatialObject} does not have
 // any data associated with it. It can be used to group objects
 // or to add transforms to a current object.
 // In this example we show how to use a GroupSpatialObject.
@@ -39,7 +39,7 @@ main(int, char *[])
 {
   // Software Guide : BeginLatex
   //
-  // The \doxygen{GroupSpatialObject} is templated
+  // The \itkref{GroupSpatialObject} is templated
   // over the dimensionality of the object.
   //
   // Software Guide : EndLatex
@@ -51,7 +51,7 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // Next, we create an \doxygen{EllipseSpatialObject} and add it to
+  // Next, we create an \itkref{EllipseSpatialObject} and add it to
   // the group.
   //
   // Software Guide : EndLatex

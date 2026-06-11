@@ -19,13 +19,13 @@
 //  Software Guide : BeginLatex
 //
 //  The following example illustrates how to use the
-//  \doxygen{WindowedSincInterpolateImageFunction} for resampling an image.
+//  \itkref{WindowedSincInterpolateImageFunction} for resampling an image.
 //  This interpolator is in theory the best possible interpolator for
 //  reconstructing the continuous values of a discrete image. In the spectral
 //  domain, this interpolator is performing the task of masking the central
 //  part of the spectrum of the sampled image, that in principle corresponds
 //  to the spectrum of the continuous image before it was sampled into a
-//  discrete one. In this particular case an \doxygen{AffineTransform} is used
+//  discrete one. In this particular case an \itkref{AffineTransform} is used
 //  to map the input space into the output space.
 //
 //  \index{itk::AffineTransform!resampling}
@@ -105,7 +105,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The salient feature of this example is the use of the
-  //  \doxygen{WindowedSincInterpolateImageFunction}, which uses a truncated
+  //  \itkref{WindowedSincInterpolateImageFunction}, which uses a truncated
   //  \emph{sinc} function in order to interpolate the resampled image.
   //
   //  There is a close relationship between operations performed in the

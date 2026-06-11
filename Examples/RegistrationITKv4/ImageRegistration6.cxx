@@ -27,11 +27,11 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{Euler2DTransform}
+// This example illustrates the use of the \itkref{Euler2DTransform}
 // for performing registration. The example code is for the most part
 // identical to the one presented in Section~\ref{sec:RigidRegistrationIn2D}.
 // Even though this current example is done in $2D$, the class
-// \doxygen{CenteredTransformInitializer} is quite generic and could be used
+// \itkref{CenteredTransformInitializer} is quite generic and could be used
 // in other dimensions. The objective of the initializer class is to simplify
 // the computation of the center of rotation and the translation required to
 // initialize certain transforms such as the
@@ -48,7 +48,7 @@
 // initial translation of the transform. In the second mode, the image centers
 // are not computed geometrically but by using the moments of the intensity
 // gray levels. The center of mass of each image is computed using the helper
-// class \doxygen{ImageMomentsCalculator}.  The center of mass of the fixed
+// class \itkref{ImageMomentsCalculator}.  The center of mass of the fixed
 // image is passed as the rotational center of the transform while the vector
 // going from the fixed image center of mass to the moving image center of
 // mass is passed as the initial translation of the transform. This second
@@ -222,7 +222,7 @@ main(int argc, char * argv[])
   //  class is templated over the fixed and moving images type as well as the
   //  transform type. An initializer is then constructed by calling the
   //  \code{New()} method and assigning the result to a
-  //  \doxygen{SmartPointer}.
+  //  \itkref{SmartPointer}.
   //
   // \index{itk::Euler2DTransform!Instantiation}
   // \index{itk::Euler2DTransform!New()}

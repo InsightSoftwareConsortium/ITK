@@ -18,13 +18,13 @@
 
 // Software Guide : BeginLatex
 //
-// We will describe how to use \doxygen{PointSet} as a \code{Sample}
+// We will describe how to use \itkref{PointSet} as a \code{Sample}
 // using an adaptor in this example.
 //
 // \index{itk::Sample!PointSetToListSampleAdaptor}
 //
-// \subdoxygen{Statistics}{PointSetToListSampleAdaptor} class requires the
-// type of input \doxygen{PointSet} object. The \doxygen{PointSet} class is an
+// \itksubref{Statistics}{PointSetToListSampleAdaptor} class requires the
+// type of input \itkref{PointSet} object. The \itkref{PointSet} class is an
 // associative data container. Each point in a \code{PointSet} object can have
 // its associated data value (optional). For the statistics subsystem, current
 // implementation of \code{PointSetToListSampleAdaptor} takes only the point
@@ -32,7 +32,7 @@
 // \code{PointSetToListSampleAdaptor} object are points from the
 // \code{PointSet} object that is plugged-into the adaptor object.
 //
-// To use, an \doxygen{PointSetToListSampleAdaptor} object, we include the
+// To use, an \itkref{PointSetToListSampleAdaptor} object, we include the
 // header file for the class.
 //
 // Software Guide : EndLatex
@@ -45,7 +45,7 @@
 // Software Guide : BeginLatex
 //
 // Since, we are using an adaptor, we also include the header file for
-// the \doxygen{PointSet} class.
+// the \itkref{PointSet} class.
 //
 // Software Guide :EndLatex
 
@@ -58,7 +58,7 @@ main()
 {
   // Software Guide : BeginLatex
   //
-  // We assume you already know how to create an \doxygen{PointSet} object.
+  // We assume you already know how to create an \itkref{PointSet} object.
   // The following code snippet will create a 2D image of float pixels filled
   // with random values.
   //
@@ -81,12 +81,12 @@ main()
 
   // Software Guide : BeginLatex
   //
-  // We now have an \doxygen{PointSet} object and need to cast it to an
-  // \doxygen{PointSet} object with array type (anything derived from
-  // the \doxygen{FixedArray} class) pixels.
+  // We now have an \itkref{PointSet} object and need to cast it to an
+  // \itkref{PointSet} object with array type (anything derived from
+  // the \itkref{FixedArray} class) pixels.
   //
-  // Since, the \doxygen{PointSet} object's pixel type is \code{float},
-  // We will use single element \code{float} \doxygen{FixedArray}
+  // Since, the \itkref{PointSet} object's pixel type is \code{float},
+  // We will use single element \code{float} \itkref{FixedArray}
   // as our measurement vector type. And that will also be our pixel
   // type for the cast filter.
   //
@@ -105,7 +105,7 @@ main()
 
   // Software Guide : BeginLatex
   //
-  // Up to now, we spend most of time to prepare an \doxygen{PointSet} object
+  // Up to now, we spend most of time to prepare an \itkref{PointSet} object
   // suitable for the adaptor. Actually, the hard part of this example is
   // done. Now, we must define an adaptor with the image type and
   // instantiate an object.

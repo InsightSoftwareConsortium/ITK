@@ -29,8 +29,8 @@
 //
 //  This section introduces the mechanisms for explicit casting of images that
 //  flow through the pipeline. The following four filters are treated in this
-//  section: \doxygen{CastImageFilter}, \doxygen{RescaleIntensityImageFilter},
-//  \doxygen{ShiftScaleImageFilter} and \doxygen{NormalizeImageFilter}.  These
+//  section: \itkref{CastImageFilter}, \itkref{RescaleIntensityImageFilter},
+//  \itkref{ShiftScaleImageFilter} and \itkref{NormalizeImageFilter}.  These
 //  filters are not directly related to each other except that they all modify
 //  pixel values.  They are presented together here for the purpose of
 //  comparing their individual features.
@@ -159,7 +159,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Object filters are created by invoking the \code{New()} method and
-  //  assigning the result to \doxygen{SmartPointer}s.
+  //  assigning the result to \itkref{SmartPointer}s.
   //
   //  \index{itk::ShiftScaleImageFilter!New()}
   //  \index{itk::RescaleIntensityImageFilter!New()}

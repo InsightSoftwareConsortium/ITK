@@ -19,7 +19,7 @@
 //  Software Guide : BeginLatex
 //
 //  The following section illustrates a realistic example of the use of Cell
-//  visitors on the \doxygen{Mesh}. A set of different visitors is defined
+//  visitors on the \itkref{Mesh}. A set of different visitors is defined
 //  here, each visitor associated with a particular type of cell. All the
 //  visitors are registered with a MultiVisitor class which is passed to the
 //  mesh.
@@ -392,7 +392,7 @@ main(int, char *[])
   //
   //  A visitor implementation class can now be created using the normal
   //  invocation to its \code{New()} method and assigning the result to a
-  //  \doxygen{SmartPointer}.
+  //  \itkref{SmartPointer}.
   //
   //  Software Guide : EndLatex
 

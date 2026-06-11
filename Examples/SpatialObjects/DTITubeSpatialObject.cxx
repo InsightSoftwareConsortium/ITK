@@ -20,7 +20,7 @@
 //
 // \index{itk::DTITubeSpatialObject}
 //
-// \doxygen{DTITubeSpatialObject} derives from \doxygen{TubeSpatialObject}.
+// \itkref{DTITubeSpatialObject} derives from \itkref{TubeSpatialObject}.
 // It represents a fiber tracts from Diffusion Tensor Imaging.
 // A DTITubeSpatialObject is described as a list of centerline points which
 // have a position, a radius, normals, the fractional anisotropy (FA) value,

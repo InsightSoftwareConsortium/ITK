@@ -20,7 +20,7 @@
 //
 // \index{itk::SurfaceSpatialObject}
 //
-// \doxygen{SurfaceSpatialObject} defines a surface in n-dimensional space.
+// \itkref{SurfaceSpatialObject} defines a surface in n-dimensional space.
 // A \code{SurfaceSpatialObject} is defined by a list of points which lie on
 // the surface. Each point has a position and a normal. The example begins by
 // including the appropriate header file.
@@ -122,7 +122,7 @@ main(int, char *[])
   // respectively
   // the position and the color of the point. \code{GetNormalInObjectSpace()}
   // returns the
-  // normal as a \doxygen{CovariantVector}.
+  // normal as a \itkref{CovariantVector}.
   //
   // Software Guide : EndLatex
 

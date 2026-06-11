@@ -18,7 +18,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{VectorGradientAnisotropicDiffusionImageFilter} implements an
+//  The \itkref{VectorGradientAnisotropicDiffusionImageFilter} implements an
 //  $N$-dimensional version of the classic Perona-Malik anisotropic diffusion
 //  equation for vector-valued images. Typically in vector-valued diffusion,
 //  vector components are diffused independently of one another using a
@@ -26,12 +26,12 @@
 //  equation was illustrated in
 //  \ref{sec:GradientAnisotropicDiffusionImageFilter}.
 //
-//  This filter is designed to process images of \doxygen{Vector} type.  The
+//  This filter is designed to process images of \itkref{Vector} type.  The
 //  code relies on various type alias and overloaded operators defined in
-//  \doxygen{Vector}. It is perfectly reasonable, however, to apply this
+//  \itkref{Vector}. It is perfectly reasonable, however, to apply this
 //  filter to images of other, user-defined types as long as the appropriate
 //  type alias and operator overloads are in place.  As a general rule, follow
-//  the example of \doxygen{Vector} in defining your data types.
+//  the example of \itkref{Vector} in defining your data types.
 //
 //  \index{itk::Vector\-Gradient\-Anisotropic\-Diffusion\-Image\-Filter}
 //

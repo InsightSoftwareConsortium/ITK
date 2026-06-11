@@ -38,12 +38,12 @@
 // cons of each algorithm, please refer to \cite{Duda2000}. ITK also
 // offers the \emph{quick select} algorithm.
 //
-// Among the subclasses of the \subdoxygen{Statistics}{Sample}, only the
-// class \subdoxygen{Statistics}{Subsample} allows users to change the order
+// Among the subclasses of the \itksubref{Statistics}{Sample}, only the
+// class \itksubref{Statistics}{Subsample} allows users to change the order
 // of the measurement vector. Therefore, we must create a Subsample to do any
 // sorting or selecting.
 //
-// We include the header files for the \subdoxygen{Statistics}{ListSample}
+// We include the header files for the \itksubref{Statistics}{ListSample}
 // and the \code{Subsample} classes.
 //
 // Software Guide : EndLatex
@@ -68,7 +68,7 @@
 // Software Guide : BeginLatex
 //
 // We need another header for measurement vectors. We are going to use
-// the \doxygen{Vector} class which is a subclass of the \doxygen{FixedArray}
+// the \itkref{Vector} class which is a subclass of the \itkref{FixedArray}
 // in this example.
 //
 // We define the types of the measurement vectors, the sample, and the
@@ -181,7 +181,7 @@ main()
   // only to the range specified by the beginning index and the ending
   // index. The ending index should be the actual last index plus one.
   //
-  // The \doxygen{InsertSort} function does not require any other optional
+  // The \itkref{InsertSort} function does not require any other optional
   // arguments. The following function call will sort the all measurement
   // vectors in the \code{subsample}. The beginning index is \code{0}, and
   // the ending index is the number of the measurement vectors in the

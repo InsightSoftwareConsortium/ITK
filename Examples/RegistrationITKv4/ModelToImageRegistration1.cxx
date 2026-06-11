@@ -18,7 +18,7 @@
 
 // Software Guide : BeginLatex
 //
-//  This example illustrates the use of the \doxygen{SpatialObject} as a
+//  This example illustrates the use of the \itkref{SpatialObject} as a
 //  component of the registration framework in order to perform model based
 //  registration. The current example creates a geometrical model composed of
 //  several ellipses. Then, it uses the model to produce a synthetic binary
@@ -34,8 +34,8 @@
 //
 //  Let's look first at the classes required to support
 //  SpatialObject. In this example we use the
-//  \doxygen{EllipseSpatialObject} as the basic shape components and we use
-//  the \doxygen{GroupSpatialObject} to group them together as a
+//  \itkref{EllipseSpatialObject} as the basic shape components and we use
+//  the \itkref{GroupSpatialObject} to group them together as a
 //  representation of a more complex shape. Their respective headers are
 //  included below.
 //
@@ -53,7 +53,7 @@
 //  Software Guide : BeginLatex
 //
 //  In order to generate the initial synthetic image of the ellipses, we use
-//  the \doxygen{SpatialObjectToImageFilter} that tests---for every pixel in
+//  the \itkref{SpatialObjectToImageFilter} that tests---for every pixel in
 //  the image---whether the pixel (and hence the spatial object) is
 //  \emph{inside} or \emph{outside} the geometric model.
 //
@@ -73,7 +73,7 @@
 //
 //  A metric is defined to evaluate the fitness between the
 //  SpatialObject and the Image. The base class for this
-//  type of metric is the \doxygen{ImageToSpatialObjectMetric}, whose header
+//  type of metric is the \itkref{ImageToSpatialObjectMetric}, whose header
 //  is included below.
 //
 //  \index{itk::Image\-To\-Spatial\-Object\-Metric!header}
@@ -89,7 +89,7 @@
 //
 //  As in previous registration problems, we have to evaluate the image
 //  intensity in non-grid positions. The
-//  \doxygen{LinearInterpolateImageFunction} is used here for this purpose.
+//  \itkref{LinearInterpolateImageFunction} is used here for this purpose.
 //
 //  \index{itk::Linear\-Interpolate\-Image\-Function!header}
 //
@@ -103,8 +103,8 @@
 //  Software Guide : BeginLatex
 //
 //  The SpatialObject is mapped from its own space into the image
-//  space by using a \doxygen{Transform}. In this
-//  example, we use the \doxygen{Euler2DTransform}.
+//  space by using a \itkref{Transform}. In this
+//  example, we use the \itkref{Euler2DTransform}.
 //
 //  Software Guide : EndLatex
 
@@ -119,7 +119,7 @@
 //  the optimizer used to search the parameter space and identify the best
 //  transformation that will map the shape model on top of the image. The
 //  optimizer used in this example is the
-//  \doxygen{OnePlusOneEvolutionaryOptimizer} that implements an
+//  \itkref{OnePlusOneEvolutionaryOptimizer} that implements an
 //  \href{http://www.aic.nrl.navy.mil/galist/}{evolutionary algorithm}.
 //
 //  Software Guide : EndLatex
@@ -142,7 +142,7 @@
 //  As in previous registration examples, it is important to
 //  track the evolution of the optimizer as it progresses through the
 //  parameter space.  This is done by using the Command/Observer paradigm. The
-//  following lines of code implement the \doxygen{Command} observer that
+//  following lines of code implement the \itkref{Command} observer that
 //  monitors the progress of the registration. The code is quite
 //  similar to what we have used in previous registration examples.
 //
@@ -566,7 +566,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{SpatialObjectToImageFilter} acts as a resampling filter.
+  //  The \itkref{SpatialObjectToImageFilter} acts as a resampling filter.
   //  Therefore it requires the user to define the size of the desired output
   //  image. This is specified with the \code{SetSize()} method.
   //
@@ -599,7 +599,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  In order to obtain a smoother metric, we blur the image using a
-  //  \doxygen{DiscreteGaussianImageFilter}. This extends the capture radius
+  //  \itkref{DiscreteGaussianImageFilter}. This extends the capture radius
   //  of the metric and produce a more continuous cost function to
   //  optimize. The following lines instantiate the Gaussian filter and
   //  create one object of this type using the \code{New()} method.
@@ -643,7 +643,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Below we instantiate the type of the
-  //  \doxygen{ImageToSpatialObjectRegistrationMethod} method and instantiate
+  //  \itkref{ImageToSpatialObjectRegistrationMethod} method and instantiate
   //  a registration object with the \code{New()} method. Note that the
   //  registration type is templated over the Image and the
   //  SpatialObject types. The spatial object in this case is the
@@ -725,7 +725,7 @@ main(int argc, char * argv[])
   //  Evolutionary algorithms are based on testing random variations
   //  of parameters. In order to support the computation of random values,
   //  ITK provides a family of random number generators. In this example, we
-  //  use the \doxygen{NormalVariateGenerator} which generates values with a
+  //  use the \itkref{NormalVariateGenerator} which generates values with a
   //  normal distribution.
   //
   //  \index{itk::NormalVariateGenerator!New()}

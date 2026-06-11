@@ -18,7 +18,7 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{RGBGibbsPriorFilter}.
+// This example illustrates the use of the \itkref{RGBGibbsPriorFilter}.
 // The filter outputs a binary segmentation that can be improved by the
 // deformable model. It is the first part of our hybrid framework.
 //

@@ -27,7 +27,7 @@
 //
 // \index{itk::Canny\-Segmentation\-LevelSet\-Image\-Filter}
 //
-// The \doxygen{CannySegmentationLevelSetImageFilter} defines a speed term
+// The \itkref{CannySegmentationLevelSetImageFilter} defines a speed term
 // that minimizes distance to the Canny edges in an image.  The initial
 // level set model moves through a gradient advection field until it locks
 // onto those edges.  This filter is more suitable for refining existing
@@ -44,8 +44,8 @@
 // \end{equation}
 //
 // where the distance transform $D$ is calculated using a
-// \doxygen{DanielssonDistanceMapImageFilter} applied to the output of the
-// \doxygen{CannyEdgeDetectionImageFilter}.
+// \itkref{DanielssonDistanceMapImageFilter} applied to the output of the
+// \itkref{CannyEdgeDetectionImageFilter}.
 //
 // For cases in which some surface expansion is to be allowed, a non-zero
 // value may be set for the propagation term.  The propagation term is simply
@@ -53,7 +53,7 @@
 // controls the smoothness of the surface.
 //
 // CannySegmentationLevelSetImageFilter expects two inputs.  The first is an
-// initial level set in the form of an \doxygen{Image}. The second input is
+// initial level set in the form of an \itkref{Image}. The second input is
 // the feature image $g$ from which propagation and advection terms are
 // calculated.  It is generally a good idea to do some preprocessing of the
 // feature image to remove noise.
@@ -284,7 +284,7 @@ main(int argc, char * argv[])
   //
   //  We can use this filter to make some subtle refinements to the ventricle
   //  segmentation from the previous example that used the
-  //  \doxygen{ThresholdSegmentationLevelSetImageFilter}.  The application
+  //  \itkref{ThresholdSegmentationLevelSetImageFilter}.  The application
   //  was run using \code{Examples/Data/BrainProtonDensitySlice.png} and
   //  \code{Examples/Data/VentricleModel.png} as inputs, a \code{threshold}
   //  of $7.0$, \code{variance} of $0.1$, \code{advection weight} of $10.0$,

@@ -18,16 +18,16 @@
 
 // Software Guide : BeginLatex
 //
-// This example shows how to create an \subdoxygen{Statistics}{Histogram}
+// This example shows how to create an \itksubref{Statistics}{Histogram}
 // object and use it.
 //
 // \index{itk::Sample!Histogram}
 //
 // We call an instance in a \code{Histogram} object a \emph{bin}.  The
 // Histogram differs from the
-// \subdoxygen{Statistics}{ListSample},
-// \subdoxygen{Statistics}{ImageToListSampleAdaptor}, or
-// \subdoxygen{Statistics}{PointSetToListSampleAdaptor} in significant ways.
+// \itksubref{Statistics}{ListSample},
+// \itksubref{Statistics}{ImageToListSampleAdaptor}, or
+// \itksubref{Statistics}{PointSetToListSampleAdaptor} in significant ways.
 // Histograms can have a variable number of values (\code{float}
 // type) for each measurement vector, while the three other classes
 // have a fixed value (one) for all measurement vectors. Also
