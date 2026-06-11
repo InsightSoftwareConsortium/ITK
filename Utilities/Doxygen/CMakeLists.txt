@@ -166,6 +166,11 @@ if(ITK_BUILD_DOCUMENTATION)
       "${ITK_SOURCE_DIR}/Examples"
       "${ITK_SOURCE_DIR}/Utilities/Doxygen/GenerateExamplesDox.cmake"
   )
+  add_custom_target(
+    ITKDoxygenExamplesDox
+    DEPENDS
+      "${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox"
+  )
 
   set(
     ITK_DOXYGEN_INPUT
@@ -190,6 +195,7 @@ if(ITK_BUILD_DOCUMENTATION)
     COMMENT "-- Building ITK Doxygen."
   )
   unset(ITK_DOXYGEN_INPUT)
+  add_dependencies(Documentation ITKDoxygenExamplesDox)
 
   #  add_custom_target(Documentation ALL
   #    COMMAND ${DOXYGEN_EXECUTABLE} ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config
