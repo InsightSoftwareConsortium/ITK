@@ -56,7 +56,7 @@ vnl_symmetric_eigensystem_compute_eigenvals(T M11, T M12, T M13, T M22, T M23, T
   // complex conjugate roots as numerically inaccurate repeated roots.
 
   // first check we are not too numerically inaccurate
-  assert((g2 - f3) / vnl_math::sqr(vnl_math::cube(b)) < 1e-8);
+  assert((g2 - f3) / vnl_math::detail::sqr(vnl_math::detail::cube(b)) < 1e-8);
 
   if (g2 >= f3)
   {
@@ -78,8 +78,8 @@ vnl_symmetric_eigensystem_compute_eigenvals(T M11, T M12, T M13, T M22, T M23, T
   const T k = std::acos(g / sqrt_f3) / 3;
   const T j = 2 * sqrt_f;
   l1 = j * std::cos(k) - b_3;
-  l2 = j * std::cos(k + T(vnl_math::twopi / 3.0)) - b_3;
-  l3 = j * std::cos(k - T(vnl_math::twopi / 3.0)) - b_3;
+  l2 = j * std::cos(k + T(vnl_math::detail::twopi / 3.0)) - b_3;
+  l3 = j * std::cos(k - T(vnl_math::detail::twopi / 3.0)) - b_3;
 
   if (l2 < l1)
     std::swap(l2, l1);

@@ -27,7 +27,7 @@ public:
     , p0_(p0)
     , oneoversr2_(1.0 / sr_ / sr_)
     , oneoversz2_(1.0 / sz_ / sz_)
-    , normalizer_(-sr_ * sr_ / (sz_ * 2 * vnl_math::sqrt2pi))
+    , normalizer_(-sr_ * sr_ / (sz_ * 2 * vnl_math::detail::sqrt2pi))
   {}
 
   void

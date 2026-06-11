@@ -169,7 +169,7 @@ vnl_powell::minimize(vnl_vector<double> & p)
     report_eval(fret);
     if (fptt < fp)
     {
-      const double t = 2.0 * (fp - 2.0 * fret + fptt) * vnl_math::sqr(fp - fret - del) - del * vnl_math::sqr(fp - fptt);
+      const double t = 2.0 * (fp - 2.0 * fret + fptt) * vnl_math::detail::sqr(fp - fret - del) - del * vnl_math::detail::sqr(fp - fptt);
       if (t < 0.0)
       {
         f1d.init(p, xit);

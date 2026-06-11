@@ -90,7 +90,7 @@ struct vnl_amoebaFit : public vnl_amoeba
 int
 vnl_amoeba_SimplexCorner::compare(const vnl_amoeba_SimplexCorner & s1, const vnl_amoeba_SimplexCorner & s2)
 {
-  return vnl_math::sgn(s1.fv - s2.fv);
+  return vnl_math::detail::sgn(s1.fv - s2.fv);
 }
 
 static int
@@ -112,7 +112,7 @@ maxabsdiff(const vnl_vector<double> & a, const vnl_vector<double> & b)
   double v = 0;
   for (unsigned i = 0; i < a.size(); ++i)
   {
-    const double ad = vnl_math::abs(a[i] - b[i]);
+    const double ad = vnl_math::detail::abs(a[i] - b[i]);
     if (ad > v)
       v = ad;
   }
@@ -180,7 +180,7 @@ vnl_amoebaFit::set_up_simplex_relative(std::vector<vnl_amoeba_SimplexCorner> & s
     s->v = x;
 
     // perturb s->v(j)
-    if (vnl_math::abs(s->v[j]) > zero_term_delta)
+    if (vnl_math::detail::abs(s->v[j]) > zero_term_delta)
       s->v[j] = (1 + usual_delta) * s->v[j];
     else
       s->v[j] = zero_term_delta;

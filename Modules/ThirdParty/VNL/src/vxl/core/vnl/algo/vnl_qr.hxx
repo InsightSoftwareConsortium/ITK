@@ -14,7 +14,7 @@
 #  include <vcl_msvc_warnings.h>
 #endif
 #include <vnl/vnl_math.h>
-#include <vnl/vnl_complex.h> // vnl_math::squared_magnitude()
+#include <vnl/vnl_complex.h> // vnl_math::detail::squared_magnitude()
 #include <vnl/vnl_matlab_print.h>
 #include <vnl/vnl_complex_traits.h>
 #include <vnl/algo/vnl_netlib.h> // dqrdc_(), dqrsl_()
@@ -124,11 +124,11 @@ vnl_qr<T>::Q() const
         continue;
       // Make housevec v, and accumulate norm at the same time.
       v[k] = qraux_[k];
-      abs_t sq = vnl_math::squared_magnitude(v[k]);
+      abs_t sq = vnl_math::detail::squared_magnitude(v[k]);
       for (int j = k + 1; j < m; ++j)
       {
         v[j] = qrdc_out_(k, j);
-        sq += vnl_math::squared_magnitude(v[j]);
+        sq += vnl_math::detail::squared_magnitude(v[j]);
       }
       if (verbose)
         vnl_matlab_print(std::cerr, v, "v");

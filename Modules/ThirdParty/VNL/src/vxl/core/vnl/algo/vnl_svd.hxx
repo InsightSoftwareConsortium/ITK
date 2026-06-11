@@ -146,7 +146,7 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const & M, double zero_out_tol)
     using abs_t = typename vnl_numeric_traits<T>::abs_t;
     const abs_t recomposition_residual = std::abs((recompose() - M).fro_norm());
     const abs_t n = std::abs(M.fro_norm());
-    const abs_t thresh = abs_t(m_) * abs_t(vnl_math::eps) * n;
+    const abs_t thresh = abs_t(m_) * abs_t(vnl_math::detail::eps) * n;
     if (recomposition_residual > thresh)
     {
       std::cerr << "vnl_svd<T>::vnl_svd<T>() -- Warning, recomposition_residual = " << recomposition_residual
