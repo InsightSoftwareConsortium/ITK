@@ -132,6 +132,52 @@ cmd = "ctest -j3 --test-dir build"
 description = "Test ITK for CI"
 depends-on = ["build-ci"]
 
+[tool.pixi.feature.doxygen.dependencies]
+doxygen = ">=1.13,<2"
+
+# \cite resolution shells out to perl and bibtex; explicit \dot commands need graphviz.
+# texlive-core (the bibtex provider, ~100 MB but linux-only on conda-forge) resolves
+# only in the linux targets; manual macOS/Windows runs need bibtex on PATH from a
+# system TeX distribution (MacTeX, MiKTeX).
+[tool.pixi.feature.doxygen.target.linux-64.dependencies]
+perl = ">=5.32"
+texlive-core = ">=20220321"
+graphviz = ">=9"
+
+[tool.pixi.feature.doxygen.target.linux-aarch64.dependencies]
+perl = ">=5.32"
+texlive-core = ">=20220321"
+graphviz = ">=9"
+
+[tool.pixi.feature.doxygen.target.osx-64.dependencies]
+perl = ">=5.32"
+graphviz = ">=9"
+
+[tool.pixi.feature.doxygen.target.osx-arm64.dependencies]
+perl = ">=5.32"
+graphviz = ">=9"
+
+[tool.pixi.feature.doxygen.target.win-64.dependencies]
+perl = ">=5.32"
+graphviz = ">=9"
+
+[tool.pixi.feature.doxygen.tasks.configure-doxygen-ci]
+cmd = '''cmake \
+  -Bbuild-doxygen \
+  -S. \
+  -GNinja \
+  -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DBUILD_TESTING:BOOL=OFF \
+  -DITK_FORBID_DOWNLOADS:BOOL=ON \
+  -DITK_BUILD_DOCUMENTATION:BOOL=ON \
+  -DITK_DOXYGEN_WARNINGS_ONLY:BOOL=ON'''
+description = "Configure ITK for the Doxygen warnings check"
+
+[tool.pixi.feature.doxygen.tasks.doxygen-ci]
+cmd = "cmake --build build-doxygen --target Documentation"
+description = "Warnings-only Doxygen pass; fails on any warning (warning log: build-doxygen/doxygen-warnings.log)"
+depends-on = ["configure-doxygen-ci"]
+
 [tool.pixi.feature.cxx.tasks.configure-debug]
 cmd = '''cmake \
   -Bbuild-debug \
@@ -236,3 +282,4 @@ cxx = ["dev", "cxx"]
 python = ["python", "dev"]
 pre-commit = ["pre-commit"]
 external-data-upload = ["external-data-upload"]
+doxygen = ["dev", "doxygen"]

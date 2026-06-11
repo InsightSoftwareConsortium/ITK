@@ -106,6 +106,14 @@ cmake_dependent_option(
   OFF
 )
 
+cmake_dependent_option(
+  ITK_DOXYGEN_WARNINGS_ONLY
+  "Doxygen emits warnings as errors without generating output formats or implicit graphs"
+  OFF
+  "ITK_BUILD_DOCUMENTATION"
+  OFF
+)
+
 mark_as_advanced(
   ITK_DOXYGEN_HTML
   ITK_DOXYGEN_DOCSET
@@ -116,6 +124,7 @@ mark_as_advanced(
   ITK_DOXYGEN_RTF
   ITK_DOXYGEN_XML
   ITK_DOXYGEN_SERVER_BASED_SEARCH
+  ITK_DOXYGEN_WARNINGS_ONLY
 )
 
 # -------------------------------------------------------------
@@ -166,6 +175,11 @@ if(ITK_BUILD_DOCUMENTATION)
       "${ITK_SOURCE_DIR}/Examples"
       "${ITK_SOURCE_DIR}/Utilities/Doxygen/GenerateExamplesDox.cmake"
   )
+  add_custom_target(
+    ITKDoxygenExamplesDox
+    DEPENDS
+      "${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox"
+  )
 
   set(
     ITK_DOXYGEN_INPUT
@@ -181,6 +195,40 @@ if(ITK_BUILD_DOCUMENTATION)
   # The DoxygenConfig.cmake is a replacement for configuring a doxygen.config.in file
   # https://cmake.org/cmake/help/v3.16/module/FindDoxygen.html
   include(${CMAKE_CURRENT_LIST_DIR}/DoxygenConfig.cmake)
+  if(ITK_DOXYGEN_WARNINGS_ONLY)
+    foreach(
+      _format
+      ITEMS
+        HTML
+        DOCSET
+        CHM
+        QHP
+        ECLIPSEHELP
+        LATEX
+        RTF
+        XML
+    )
+      set(DOXYGEN_GENERATE_${_format} "NO")
+    endforeach()
+    # Explicit \dot commands still render; only the implicit graph classes are disabled.
+    foreach(
+      _graph
+      ITEMS
+        CLASS_GRAPH
+        COLLABORATION_GRAPH
+        INCLUDE_GRAPH
+        INCLUDED_BY_GRAPH
+        CALL_GRAPH
+        CALLER_GRAPH
+        GRAPHICAL_HIERARCHY
+        DIRECTORY_GRAPH
+    )
+      set(DOXYGEN_${_graph} "NO")
+    endforeach()
+    set(DOXYGEN_WARN_AS_ERROR "FAIL_ON_WARNINGS")
+    set(DOXYGEN_WARN_LOGFILE "${ITK_BINARY_DIR}/doxygen-warnings.log")
+    # GENERATE_TAGFILE stays: doxygen requires at least one output and the tag file is the cheapest.
+  endif()
   doxygen_add_docs(
     Documentation
     ${ITK_DOXYGEN_INPUT}
@@ -190,6 +238,7 @@ if(ITK_BUILD_DOCUMENTATION)
     COMMENT "-- Building ITK Doxygen."
   )
   unset(ITK_DOXYGEN_INPUT)
+  add_dependencies(Documentation ITKDoxygenExamplesDox)
 
   #  add_custom_target(Documentation ALL
   #    COMMAND ${DOXYGEN_EXECUTABLE} ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config
@@ -202,14 +251,16 @@ if(ITK_BUILD_DOCUMENTATION)
   # Somehow the logo image is not copied into the html folder.
   # Here we ensure that the logo image ends up in the right directory
   # where html pages could find it.
-  add_custom_command(
-    TARGET Documentation
-    POST_BUILD
-    COMMAND
-      ${CMAKE_COMMAND} -E copy
-      ${ITK_SOURCE_DIR}/Documentation/Art/itkLogoSmall.png # logo
-      ${ITK_DOXYGEN_OUTPUT_DIR}/html # output doxygen directory
-  )
+  if(DOXYGEN_GENERATE_HTML STREQUAL "YES")
+    add_custom_command(
+      TARGET Documentation
+      POST_BUILD
+      COMMAND
+        ${CMAKE_COMMAND} -E copy
+        ${ITK_SOURCE_DIR}/Documentation/Art/itkLogoSmall.png # logo
+        ${ITK_DOXYGEN_OUTPUT_DIR}/html # output doxygen directory
+    )
+  endif()
 
   message(
     STATUS
