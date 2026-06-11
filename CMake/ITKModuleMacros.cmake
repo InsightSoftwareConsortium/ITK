@@ -21,7 +21,8 @@ include(GenerateExportHeader)
 # dependent modules:
 #  DEPENDS = Modules that will be publicly linked to this module
 #  PRIVATE_DEPENDS = Modules that will be privately linked to this module
-#  COMPILE_DEPENDS = Modules that are needed at compile time by this module
+#  COMPILE_DEPENDS = (deprecated) Modules that are needed at compile time by
+#    this module; prefer DEPENDS or PRIVATE_DEPENDS
 #  TEST_DEPENDS = Modules that are needed by this modules testing executables
 #  DESCRIPTION = Free text description of the module
 #  FACTORY_NAMES = List of <factories>::<formats> to register
