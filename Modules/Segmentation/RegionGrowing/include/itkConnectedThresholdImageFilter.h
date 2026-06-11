@@ -89,6 +89,7 @@ public:
   using InputImagePixelType = typename InputImageType::PixelType;
   using IndexType = typename InputImageType::IndexType;
   using SeedContainerType = std::vector<IndexType>;
+  using SeedsContainerType = SeedContainerType;
   using SizeType = typename InputImageType::SizeType;
 
   using OutputImageType = TOutputImage;
@@ -110,9 +111,11 @@ public:
   void
   ClearSeeds();
 
-  /** Method to access seed container. */
-  virtual const SeedContainerType &
-  GetSeeds() const;
+  /** Set/Get the seed container. */
+  /** @ITKStartGrouping */
+  itkSetMacro(Seeds, SeedsContainerType);
+  itkGetConstReferenceMacro(Seeds, SeedsContainerType);
+  /** @ITKEndGrouping */
 
   /** Set/Get value to replace thresholded pixels. Pixels that lie *
    *  within Lower and Upper (inclusive) will be replaced with this

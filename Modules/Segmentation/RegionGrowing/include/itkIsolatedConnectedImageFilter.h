@@ -144,10 +144,10 @@ public:
 
   /** Method to access seed container */
   /** @ITKStartGrouping */
-  virtual const SeedsContainerType &
-  GetSeeds1() const;
-  virtual const SeedsContainerType &
-  GetSeeds2() const;
+  itkSetMacro(Seeds1, SeedsContainerType);
+  itkGetConstReferenceMacro(Seeds1, SeedsContainerType);
+  itkSetMacro(Seeds2, SeedsContainerType);
+  itkGetConstReferenceMacro(Seeds2, SeedsContainerType);
   /** @ITKEndGrouping */
   /** Set/Get the limit on the lower threshold value. The default is
    * the NonpositiveMin() for the InputPixelType. */

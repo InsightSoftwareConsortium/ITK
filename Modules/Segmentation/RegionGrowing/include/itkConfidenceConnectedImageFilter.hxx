@@ -70,14 +70,6 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::AddSeed(const IndexTy
 }
 
 template <typename TInputImage, typename TOutputImage>
-auto
-ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GetSeeds() const -> const SeedsContainerType &
-{
-  itkDebugMacro("returning Seeds");
-  return this->m_Seeds;
-}
-
-template <typename TInputImage, typename TOutputImage>
 void
 ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {

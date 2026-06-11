@@ -70,13 +70,6 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>::ClearSeeds()
 }
 
 template <typename TInputImage, typename TOutputImage>
-auto
-ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GetSeeds() const -> const SeedContainerType &
-{
-  return this->m_Seeds;
-}
-
-template <typename TInputImage, typename TOutputImage>
 void
 ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {

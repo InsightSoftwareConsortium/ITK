@@ -141,9 +141,11 @@ public:
    * executed using the Update() method. */
   itkGetConstReferenceMacro(Variance, InputRealType);
 
-  /** Method to access seed container. */
-  virtual const SeedsContainerType &
-  GetSeeds() const;
+  /** Set/Get the seed container. */
+  /** @ITKStartGrouping */
+  itkSetMacro(Seeds, SeedsContainerType);
+  itkGetConstReferenceMacro(Seeds, SeedsContainerType);
+  /** @ITKEndGrouping */
 
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputImagePixelType>));
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputImagePixelType>));

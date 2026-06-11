@@ -138,22 +138,6 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::ClearSeeds2()
 }
 
 template <typename TInputImage, typename TOutputImage>
-auto
-IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GetSeeds1() const -> const SeedsContainerType &
-{
-  itkDebugMacro("returning Seeds1");
-  return this->m_Seeds1;
-}
-
-template <typename TInputImage, typename TOutputImage>
-auto
-IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GetSeeds2() const -> const SeedsContainerType &
-{
-  itkDebugMacro("returning Seeds2");
-  return this->m_Seeds2;
-}
-
-template <typename TInputImage, typename TOutputImage>
 void
 IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 {

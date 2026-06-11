@@ -75,6 +75,29 @@ itkIsolatedConnectedImageFilterTest(int argc, char * argv[])
     filter->AddSeed2(seed1);
   }
 
+  // Exercise the seed-container accessors. Round-trip the populated
+  // containers through SetSeeds/GetSeeds, leaving the filter unchanged.
+  const FilterType::SeedsContainerType seeds1 = filter->GetSeeds1();
+  const FilterType::SeedsContainerType seeds2 = filter->GetSeeds2();
+
+  filter->ClearSeeds1();
+  filter->ClearSeeds2();
+  if (!filter->GetSeeds1().empty() || !filter->GetSeeds2().empty())
+  {
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Seed containers were not cleared by ClearSeeds." << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  filter->SetSeeds1(seeds1);
+  filter->SetSeeds2(seeds2);
+  if (filter->GetSeeds1() != seeds1 || filter->GetSeeds2() != seeds2)
+  {
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Seed containers retrieved by GetSeeds do not match those set by SetSeeds." << std::endl;
+    return EXIT_FAILURE;
+  }
+
   // The min and max values for a .png image
   constexpr FilterType::InputImagePixelType lower{ 0 };
   filter->SetLower(lower);
