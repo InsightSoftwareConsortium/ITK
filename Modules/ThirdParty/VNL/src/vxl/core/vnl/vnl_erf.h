@@ -34,7 +34,7 @@ vnl_erfc(double x);
 inline double
 vnl_scaled_erfc(double x)
 {
-  return (vnl_math::two_over_sqrtpi / 2.) * (1. / x);
+  return (vnl_math::detail::two_over_sqrtpi / 2.) * (1. / x);
 }
 
 #endif // vnl_erf_h_

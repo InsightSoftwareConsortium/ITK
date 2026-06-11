@@ -941,7 +941,7 @@ vnl_sparse_matrix<T>::normalize_rows()
     for (typename row::iterator col_iter = this_row.begin(); col_iter != this_row.end(); ++col_iter)
     {
       const vnl_sparse_matrix_pair<T> & entry = *col_iter;
-      norm += vnl_math::squared_magnitude(entry.second);
+      norm += vnl_math::detail::squared_magnitude(entry.second);
     }
     if (norm != 0)
     {

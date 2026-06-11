@@ -34,7 +34,7 @@ vnl_c_vector<T>::normalize(T * v, unsigned n)
 {
   using real_abs_t = typename vnl_numeric_traits<abs_t>::real_t;
   abs_t tmp =
-    std::accumulate(v, v + n, abs_t(0), [](abs_t s, const T & x) { return s + vnl_math::squared_magnitude(x); });
+    std::accumulate(v, v + n, abs_t(0), [](abs_t s, const T & x) { return s + vnl_math::detail::squared_magnitude(x); });
   if (tmp != 0)
   {
     tmp = abs_t(real_abs_t(1) / std::sqrt(real_abs_t(tmp)));
@@ -327,7 +327,7 @@ vnl_c_vector_two_norm_squared(const T * p, unsigned n, S * out)
   S val = S(0);
   const T * end = p + n;
   while (p != end)
-    val += S(vnl_math::squared_magnitude(*p++));
+    val += S(vnl_math::detail::squared_magnitude(*p++));
   *out = val;
 }
 
@@ -348,7 +348,7 @@ vnl_c_vector_one_norm(const T * p, unsigned n, S * out)
   *out = 0;
   const T * end = p + n;
   while (p != end)
-    *out += vnl_math::abs(*p++);
+    *out += vnl_math::detail::abs(*p++);
 }
 
 template <class T, class S>
@@ -368,7 +368,7 @@ vnl_c_vector_inf_norm(const T * p, unsigned n, S * out)
   const T * end = p + n;
   while (p != end)
   {
-    S v = vnl_math::abs(*p++);
+    S v = vnl_math::detail::abs(*p++);
     if (v > *out)
       *out = v;
   }

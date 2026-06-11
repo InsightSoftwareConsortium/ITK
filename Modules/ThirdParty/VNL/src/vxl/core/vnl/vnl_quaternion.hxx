@@ -183,7 +183,7 @@ vnl_quaternion<T>::rotation_euler_angles() const
   vnl_vector_fixed<T, 3> angles;
 
   vnl_matrix_fixed<T, 4, 4> rotM = rotation_matrix_transpose_4();
-  T xy = T(std::sqrt(double(vnl_math::sqr(rotM(0, 0)) + vnl_math::sqr(rotM(0, 1)))));
+  T xy = T(std::sqrt(double(vnl_math::detail::sqr(rotM(0, 0)) + vnl_math::detail::sqr(rotM(0, 1)))));
   if (xy > std::numeric_limits<T>::epsilon() * T(8))
   {
     angles(0) = T(std::atan2(double(rotM(1, 2)), double(rotM(2, 2))));

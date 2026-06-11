@@ -89,7 +89,7 @@ test_cosine()
   vnl_random rng(1234567);
   for (int i = 0; i < 20; ++i)
   {
-    const double u = rng.drand32(vnl_math::pi_over_2);
+    const double u = rng.drand32(vnl_math::detail::pi_over_2);
     const double v = rng.drand32(2.0);
     const std::complex<double> c(u, v);
     const std::complex<double> d = std::cos(c);

@@ -2,6 +2,7 @@
 //:
 // \file
 
+#include <cmath>
 #include <istream>
 #include <sstream>
 #include <cctype>
@@ -94,14 +95,14 @@ vnl_na_isna(float x)
 double
 vnl_na_nan_to_na(double v)
 {
-  return vnl_math::isnan(v) ? vnl_na(double()) : v;
+  return std::isnan(v) ? vnl_na(double()) : v;
 }
 
 //: Replace NaNs with NA, leave other values alone.
 float
 vnl_na_nan_to_na(float v)
 {
-  return vnl_math::isnan(v) ? vnl_na(float()) : v;
+  return std::isnan(v) ? vnl_na(float()) : v;
 }
 
 //: Read a floating point number or "NA" from a stream.

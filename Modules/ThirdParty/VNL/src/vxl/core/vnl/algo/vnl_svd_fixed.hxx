@@ -136,7 +136,7 @@ vnl_svd_fixed<T, R, C>::vnl_svd_fixed(vnl_matrix_fixed<T, R, C> const & M, doubl
     using abs_t = typename vnl_numeric_traits<T>::abs_t;
     const abs_t recomposition_residual = std::abs((recompose() - M).fro_norm());
     const abs_t n = std::abs(M.fro_norm());
-    const abs_t thresh = abs_t(R) * abs_t(vnl_math::eps) * n;
+    const abs_t thresh = abs_t(R) * abs_t(vnl_math::detail::eps) * n;
     if (recomposition_residual > thresh)
     {
       std::cerr << "vnl_svd_fixed<T>::vnl_svd_fixed<T>() -- Warning, recomposition_residual = "
