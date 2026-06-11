@@ -234,7 +234,8 @@ TEST(itkMathVnlParity, Constants)
   EXPECT_EQ(itk::Math::eps, vnl_math::eps);
   EXPECT_EQ(itk::Math::float_eps, vnl_math::float_eps);
   EXPECT_EQ(itk::Math::float_sqrteps, vnl_math::float_sqrteps);
-  // Intentional 1 ULP divergence: itk::Math::sqrteps is the exact sqrt(eps) = 2^-26,
-  // vnl_math::sqrteps rounds 1 ULP above it (see the ITKv6 migration guide).
-  EXPECT_EQ(std::nextafter(itk::Math::sqrteps, 1.0), vnl_math::sqrteps);
+  // itk::Math::sqrteps is the exact sqrt(eps) = 2^-26; vnl_math::sqrteps rounds
+  // 1 ULP above it before the VNL deprecation-campaign pin and matches exactly after.
+  EXPECT_TRUE(vnl_math::sqrteps == itk::Math::sqrteps || vnl_math::sqrteps == std::nextafter(itk::Math::sqrteps, 1.0))
+    << "vnl_math::sqrteps=" << vnl_math::sqrteps;
 }
