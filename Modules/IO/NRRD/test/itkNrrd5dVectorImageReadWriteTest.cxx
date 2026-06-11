@@ -356,7 +356,7 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
 {
   if (argc < 7)
   {
-    std::cerr << "Usage: " << argc << itkNameOfTestExecutableMacro(argv)
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " 2d-double-vector.seq.nrrd 3d-double-vector.seq.nrrd"
               << " 2d-displacement-field-vector.seq.nrrd 3d-displacement-field-vector.seq.nrrd"
               << " 2d-color-image-vector.seq.nrrd 3d-color-image-vector.seq.nrrd\n";
