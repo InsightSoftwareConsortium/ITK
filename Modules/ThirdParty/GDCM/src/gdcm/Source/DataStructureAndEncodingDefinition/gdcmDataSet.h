@@ -227,6 +227,10 @@ public:
   /// Returns if the dataset is empty
   bool IsEmpty() const { return DES.empty(); }
 
+  DataSet() = default;
+
+  DataSet(DataSet const &) = default;
+
   DataSet& operator=(DataSet const &)
   = default;
 
