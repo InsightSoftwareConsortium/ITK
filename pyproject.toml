@@ -155,16 +155,13 @@ cmd = '''cmake \
   -DCMAKE_BUILD_TYPE:STRING=Release \
   -DBUILD_TESTING:BOOL=OFF \
   -DITK_FORBID_DOWNLOADS:BOOL=ON \
-  -DITK_BUILD_DOCUMENTATION:BOOL=ON'''
+  -DITK_BUILD_DOCUMENTATION:BOOL=ON \
+  -DITK_DOXYGEN_WARNINGS_ONLY:BOOL=ON'''
 description = "Configure ITK for the Doxygen warnings check"
-outputs = ["build-doxygen/CMakeFiles/"]
 
 [tool.pixi.feature.doxygen.tasks.doxygen-ci]
-cmd = '''cmake -D "PROJECT_SOURCE_DIR:PATH=$PIXI_PROJECT_ROOT" -D "OUTPUT_FILE:PATH=$PIXI_PROJECT_ROOT/build-doxygen/Documentation/Doxygen/Examples.dox" -P Utilities/Doxygen/GenerateExamplesDox.cmake \
-&& cat build-doxygen/Utilities/Doxygen/Doxyfile.Documentation > build-doxygen/Doxyfile.warnings-check \
-&& printf 'GENERATE_HTML=NO\nGENERATE_LATEX=NO\nCLASS_GRAPH=NO\nCOLLABORATION_GRAPH=NO\nINCLUDE_GRAPH=NO\nINCLUDED_BY_GRAPH=NO\nCALL_GRAPH=NO\nCALLER_GRAPH=NO\nGRAPHICAL_HIERARCHY=NO\nDIRECTORY_GRAPH=NO\nQUIET=YES\nWARN_AS_ERROR=FAIL_ON_WARNINGS\nWARN_LOGFILE=build-doxygen/doxygen-warnings.log\n' >> build-doxygen/Doxyfile.warnings-check \
-&& doxygen build-doxygen/Doxyfile.warnings-check'''
-description = "Warnings-only Doxygen pass; fails on any warning"
+cmd = "cmake --build build-doxygen --target Documentation"
+description = "Warnings-only Doxygen pass; fails on any warning (warning log: build-doxygen/doxygen-warnings.log)"
 depends-on = ["configure-doxygen-ci"]
 
 [tool.pixi.feature.cxx.tasks.configure-debug]
