@@ -19,6 +19,8 @@ itk_add_test(
     0
     4
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest1Grey.png
 )
 itk_add_test(
   NAME itkPNGImageIOTest1Color
@@ -30,6 +32,8 @@ itk_add_test(
     0
     4
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest1Color.png
 )
 itk_add_test(
   NAME itkPNGImageIOTest1Palette
@@ -41,6 +45,8 @@ itk_add_test(
     0
     4
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest1Palette.png
 )
 itk_add_test(
   NAME itkPNGImageIOTest1Palette2Scalar
@@ -52,6 +58,8 @@ itk_add_test(
     1
     9
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest1Palette2Scalar.png
 )
 itk_add_test(
   NAME itkPNGImageIOTest1PaletteExpanded
@@ -63,6 +71,8 @@ itk_add_test(
     1
     9
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest1PaletteExpanded.png
 )
 itk_add_test(
   NAME itkPNGImageIOTest2GreyAlpha
@@ -77,6 +87,8 @@ itk_add_test(
     0
     4
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest2GreyAlpha.png
 )
 itk_add_test(
   NAME itkPNGImageIOTest2Palette
@@ -91,6 +103,8 @@ itk_add_test(
     1
     9
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest2Palette.png
 )
 
 # expand + RGB image
@@ -106,6 +120,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3RGBExpanded.png
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3RGBExpanded.png
 )
 
 # not expand + RGB image
@@ -121,6 +137,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3RGBNotExpanded.png
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3RGBNotExpanded.png
 )
 
 # not expand + palette
@@ -136,6 +154,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3PaletteNotExpanded.png
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3PaletteNotExpanded.png
 )
 
 # expand + palette image
@@ -151,6 +171,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3PaletteExpanded.png
     1
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3PaletteExpanded.png
 )
 
 # not expand + grey palette image
@@ -166,6 +188,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3GreyPaletteNotExpandedGrey.png
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3GreyPaletteNotExpandedGrey.png
 )
 
 # expand + grey palette image
@@ -181,6 +205,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3GreyPaletteExpandedGrey.png
     1
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3GreyPaletteExpandedGrey.png
 )
 
 itk_add_test(

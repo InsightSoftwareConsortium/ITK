@@ -28,6 +28,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_red.png
     red
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_red.png
 )
 itk_add_test(
   NAME RGBColormapTest_green
@@ -41,6 +43,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_green.png
     green
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_green.png
 )
 itk_add_test(
   NAME RGBColormapTest_blue
@@ -54,6 +58,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_blue.png
     blue
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_blue.png
 )
 itk_add_test(
   NAME RGBColormapTest_hot
@@ -67,6 +73,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_hot.png
     hot
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_hot.png
 )
 itk_add_test(
   NAME RGBColormapTest_cool
@@ -80,6 +88,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_cool.png
     cool
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_cool.png
 )
 itk_add_test(
   NAME RGBColormapTest_spring
@@ -93,6 +103,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_spring.png
     spring
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_spring.png
 )
 itk_add_test(
   NAME RGBColormapTest_summer
@@ -106,6 +118,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_summer.png
     summer
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_summer.png
 )
 itk_add_test(
   NAME RGBColormapTest_autumn
@@ -119,6 +133,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_autumn.png
     autumn
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_autumn.png
 )
 itk_add_test(
   NAME RGBColormapTest_winter
@@ -132,6 +148,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_winter.png
     winter
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_winter.png
 )
 itk_add_test(
   NAME RGBColormapTest_copper
@@ -145,6 +163,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_copper.png
     copper
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_copper.png
 )
 itk_add_test(
   NAME RGBColormapTest_hsv
@@ -158,6 +178,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_hsv.png
     hsv
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_hsv.png
 )
 itk_add_test(
   NAME RGBColormapTest_jet
@@ -171,6 +193,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_jet.png
     jet
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_jet.png
 )
 itk_add_test(
   NAME RGBColormapTest_overunder
@@ -184,4 +208,6 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_overunder.png
     overunder
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_overunder.png
 )

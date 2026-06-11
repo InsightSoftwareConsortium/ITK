@@ -20,6 +20,8 @@ itk_add_test(
     itkPhilipsRECImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/T1_MEASUREMENT_4_1.PAR,T1_MEASUREMENT_4_1.REC}
     ${ITK_TEST_OUTPUT_DIR}/itkPhilipsRECImageIOTest1.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPhilipsRECImageIOTest1.mha
 )
 itk_add_test(
   NAME itkPhilipsRECImageIOOrientationTest1
@@ -31,6 +33,8 @@ itk_add_test(
     itkPhilipsRECImageIOOrientationTest
     DATA{Input/Test_Orientation_2_3.PAR}
     DATA{Input/Test_Orientation_2_1.PAR}
+    ${ITK_TEST_OUTPUT_DIR}/itkPhilipsRECImageIOOrientationTest1.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkPhilipsRECImageIOOrientationTest1.mha
 )
 itk_add_test(
@@ -44,6 +48,8 @@ itk_add_test(
     DATA{Input/Test_Orientation_2_5.PAR}
     DATA{Input/Test_Orientation_2_1.REC.gz}
     ${ITK_TEST_OUTPUT_DIR}/itkPhilipsRECImageIOOrientationTest2.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPhilipsRECImageIOOrientationTest2.mha
 )
 itk_add_test(
   NAME itkPhilipsRECImageIOOrientationTest3
@@ -56,6 +62,8 @@ itk_add_test(
     DATA{Input/Test_Orientation_2_5.REC.gz}
     DATA{Input/Test_Orientation_2_3.REC.gz}
     ${ITK_TEST_OUTPUT_DIR}/itkPhilipsRECImageIOOrientationTest3.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPhilipsRECImageIOOrientationTest3.mha
 )
 itk_add_test(
   NAME itkPhilipsRECImageIOTest2
@@ -63,6 +71,8 @@ itk_add_test(
     ITKIOPhilipsRECTestDriver
     itkPhilipsRECImageIOTest
     DATA{Input/Test_Cardiac_Phase_7_1.REC.gz}
+    ${ITK_TEST_OUTPUT_DIR}/itkPhilipsRECImageIOTest2.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkPhilipsRECImageIOTest2.mha
 )
 itk_add_test(

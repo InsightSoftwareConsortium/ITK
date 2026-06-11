@@ -209,6 +209,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest2PixelCentered.png
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest2DeformationFieldPixelCentered.mhd
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest2PixelCentered.png
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest2DeformationFieldPixelCentered.{mhd,raw}
 )
 itk_add_test(
   NAME itkBSplineDeformableTransformTest3
@@ -224,6 +227,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest3PixelCentered.png
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest3DeformationFieldPixelCentered.mhd
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest3PixelCentered.png
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest3DeformationFieldPixelCentered.{mhd,raw}
 )
 itk_add_test(
   NAME itkBSplineDeformableTransformTest4
@@ -239,6 +245,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest4PixelCentered.png
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest4DeformationFieldPixelCentered.mhd
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest4PixelCentered.png
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest4DeformationFieldPixelCentered.{mhd,raw}
 )
 itk_add_test(
   NAME itkBSplineDeformableTransformTest5
@@ -254,6 +263,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest5PixelCentered.png
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest5DeformationFieldPixelCentered.mhd
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest5PixelCentered.png
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest5DeformationFieldPixelCentered.{mhd,raw}
 )
 itk_add_test(
   NAME itkBSplineDeformableTransformTest6
@@ -269,6 +281,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest6PixelCentered.png
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest6DeformationFieldPixelCentered.mhd
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest6PixelCentered.png
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest6DeformationFieldPixelCentered.{mhd,raw}
 )
 itk_add_test(
   NAME itkBSplineDeformableTransformTest7
@@ -284,6 +299,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7PixelCentered.png
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7DeformationFieldPixelCentered.mhd
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7PixelCentered.png
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineDeformableTransformTest7DeformationFieldPixelCentered.{mhd,raw}
 )
 
 ## Tests for ITKv4 version of BSplineTransforms
@@ -307,6 +325,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest2PixelCentered.png
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest2DeformationFieldPixelCentered.mhd
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest2PixelCentered.png
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest2DeformationFieldPixelCentered.{mhd,raw}
 )
 itk_add_test(
   NAME itkBSplineTransformTest3
@@ -322,6 +343,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest3PixelCentered.png
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest3DeformationFieldPixelCentered.mhd
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest3PixelCentered.png
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest3DeformationFieldPixelCentered.{mhd,raw}
 )
 itk_add_test(
   NAME itkBSplineTransformTest4
@@ -337,6 +361,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest4PixelCentered.png
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest4DeformationFieldPixelCentered.mhd
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest4PixelCentered.png
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest4DeformationFieldPixelCentered.{mhd,raw}
 )
 itk_add_test(
   NAME itkBSplineTransformTest5
@@ -352,6 +379,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest5PixelCentered.png
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest5DeformationFieldPixelCentered.mhd
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest5PixelCentered.png
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest5DeformationFieldPixelCentered.{mhd,raw}
 )
 itk_add_test(
   NAME itkBSplineTransformTest6
@@ -367,6 +397,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest6PixelCentered.png
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest6DeformationFieldPixelCentered.mhd
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest6PixelCentered.png
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest6DeformationFieldPixelCentered.{mhd,raw}
 )
 itk_add_test(
   NAME itkBSplineTransformTest7
@@ -382,6 +415,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest7PixelCentered.png
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest7DeformationFieldPixelCentered.mhd
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest7PixelCentered.png
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformTest7DeformationFieldPixelCentered.{mhd,raw}
 )
 itk_add_test(
   NAME itkBSplineTransformInitializerTest1
@@ -393,6 +429,9 @@ itk_add_test(
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformInitializerTest1.png
     ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformInitializerTest1DeformationField.mhd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformInitializerTest1.png
+    ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformInitializerTest1DeformationField.{mhd,raw}
 )
 itk_add_test(
   NAME itkBSplineTransformInitializerTest2
@@ -466,6 +505,8 @@ itk_add_test(
     itkTransformGeometryImageFilterTest
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensity3Slices.mha
     DATA{Baseline/BrainProtonDensity3SlicesHardened.mha}
+    ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensity3SlicesHardened.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensity3SlicesHardened.mha
 )
 

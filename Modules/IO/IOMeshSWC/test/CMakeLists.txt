@@ -11,6 +11,8 @@ itk_add_test(
     itkMeshFileReadWriteTest
     DATA{Input/17109_4101-X6753-Y6197_reg.swc}
     ${ITK_TEST_OUTPUT_DIR}/17109_4101-X6753-Y6197_reg.swc.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/17109_4101-X6753-Y6197_reg.swc.vtk
 )
 
 itk_add_test(
@@ -19,6 +21,8 @@ itk_add_test(
     IOMeshSWCTestDriver
     itkMeshFileReadWriteTest
     DATA{Input/17109_4101-X6753-Y6197_reg.swc}
+    ${ITK_TEST_OUTPUT_DIR}/17109_4101-X6753-Y6197_reg.swc
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/17109_4101-X6753-Y6197_reg.swc
 )
 
@@ -29,6 +33,8 @@ itk_add_test(
     itkMeshFileReadWriteTest
     DATA{Input/18453_3564-X30226-Y9677_reg.swc}
     ${ITK_TEST_OUTPUT_DIR}/18453_3564-X30226-Y9677_reg.swc.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/18453_3564-X30226-Y9677_reg.swc.vtk
 )
 
 itk_add_test(
@@ -37,6 +43,8 @@ itk_add_test(
     IOMeshSWCTestDriver
     itkMeshFileReadWriteTest
     DATA{Input/18453_3564-X30226-Y9677_reg.swc}
+    ${ITK_TEST_OUTPUT_DIR}/18453_3564-X30226-Y9677_reg.swc
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/18453_3564-X30226-Y9677_reg.swc
 )
 
@@ -47,6 +55,8 @@ itk_add_test(
     itkMeshFileReadWriteTest
     DATA{Input/11706c2.CNG.swc}
     ${ITK_TEST_OUTPUT_DIR}/11706c2.CNG.swc.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/11706c2.CNG.swc.vtk
 )
 
 itk_add_test(
@@ -55,6 +65,8 @@ itk_add_test(
     IOMeshSWCTestDriver
     itkMeshFileReadWriteTest
     DATA{Input/11706c2.CNG.swc}
+    ${ITK_TEST_OUTPUT_DIR}/11706c2.CNG.swc
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/11706c2.CNG.swc
 )
 

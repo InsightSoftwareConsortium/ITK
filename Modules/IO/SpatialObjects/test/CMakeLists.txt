@@ -16,6 +16,8 @@ itk_add_test(
     ITKIOSpatialObjectsTestDriver
     itkReadWriteSpatialObjectTest
     ${ITK_TEST_OUTPUT_DIR}/Objects.meta
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/Objects.meta
 )
 itk_add_test(
   NAME itkReadWriteSpatialObjectTest1
@@ -24,6 +26,8 @@ itk_add_test(
     itkReadWriteSpatialObjectTest
     ${ITK_TEST_OUTPUT_DIR}/Objects1.meta
     binary
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/Objects1.meta
 )
 itk_add_test(
   NAME itkReadWriteSpatialObjectTest2
@@ -32,6 +36,8 @@ itk_add_test(
     itkReadWriteSpatialObjectTest
     ${ITK_TEST_OUTPUT_DIR}/Objects2.meta
     DATA{${ITK_DATA_ROOT}/Input/SpatialObjects.meta}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/Objects2.meta
 )
 itk_add_test(
   NAME itkPolygonGroupSpatialObjectXMLFileTest

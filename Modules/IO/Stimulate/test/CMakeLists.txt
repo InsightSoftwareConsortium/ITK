@@ -14,6 +14,9 @@ itk_add_test(
     itkStimulateImageIOTest
     ${ITK_TEST_OUTPUT_DIR}/test1.spr
     ${ITK_TEST_OUTPUT_DIR}/test2.spr
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/test1.spr
+    ${ITK_TEST_OUTPUT_DIR}/test2.spr
 )
 itk_add_test(
   NAME itkStimulateImageIOTest2

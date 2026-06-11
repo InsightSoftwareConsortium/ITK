@@ -23,11 +23,15 @@ itk_add_test(
     ITKIOCSVTestDriver
     itkCSVNumericObjectFileWriterTest
     ${TEMP}/NumericObjectToCSVFileWriterOutput.csv
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/NumericObjectToCSVFileWriterOutput.csv
 )
 itk_add_test(
   NAME itkCSVArray2DFileReaderWriterTest
   COMMAND
     ITKIOCSVTestDriver
     itkCSVArray2DFileReaderWriterTest
+    ${TEMP}/csvFileArray2DReaderWriterTestOutput.csv
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/csvFileArray2DReaderWriterTestOutput.csv
 )

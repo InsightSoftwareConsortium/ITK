@@ -186,6 +186,8 @@ itk_add_test(
     DATA{Baseline/BrainProtonDensitySlice_singleSeed.nii.gz}
     150
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/test_Brain2D_singleSeed_NoTopo.nii.gz
 )
 
 itk_add_test(
@@ -202,6 +204,8 @@ itk_add_test(
     DATA{Baseline/BrainProtonDensitySlice_singleSeed.nii.gz}
     150
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/test_Brain2D_singleSeed_StrictTopo.nii.gz
 )
 
 itk_add_test(
@@ -218,6 +222,8 @@ itk_add_test(
     DATA{Baseline/BrainProtonDensitySlice_singleSeed.nii.gz}
     150
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/test_Brain2D_singleSeed_NoHandlesTopo.nii.gz
 )
 
 itk_add_test(
@@ -234,6 +240,8 @@ itk_add_test(
     DATA{Baseline/BrainProtonDensitySlice_multipleSeeds.nii.gz}
     150
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/test_Brain2D_multipleSeeds_NoTopo.nii.gz
 )
 
 itk_add_test(
@@ -250,6 +258,8 @@ itk_add_test(
     DATA{Baseline/BrainProtonDensitySlice_multipleSeeds.nii.gz}
     150
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/test_Brain2D_multipleSeeds_StrictTopo.nii.gz
 )
 
 itk_add_test(
@@ -266,6 +276,8 @@ itk_add_test(
     DATA{Baseline/BrainProtonDensitySlice_multipleSeeds.nii.gz}
     150
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/test_Brain2D_multipleSeeds_NoHandlesTopo.nii.gz
 )
 
 # ************************************************************************
@@ -284,6 +296,8 @@ itk_add_test(
     DATA{Baseline/torus_multipleSeeds.nii.gz}
     150
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/test_torus_multipleSeeds_NoTopo.nii.gz
 )
 
 itk_add_test(
@@ -300,6 +314,8 @@ itk_add_test(
     DATA{Baseline/torus_multipleSeeds.nii.gz}
     150
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/test_torus_multipleSeeds_StrictTopo.nii.gz
 )
 
 itk_add_test(
@@ -316,6 +332,8 @@ itk_add_test(
     DATA{Baseline/torus_multipleSeeds.nii.gz}
     150
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/test_torus_multipleSeeds_NoHandlesTopo.nii.gz
 )
 
 itk_add_test(
@@ -332,6 +350,8 @@ itk_add_test(
     DATA{Baseline/wm_multipleSeeds.nii.gz}
     150
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/test_wm_multipleSeeds_NoTopo.nii.gz
 )
 set_property(
   TEST
@@ -356,6 +376,8 @@ itk_add_test(
     DATA{Baseline/wm_multipleSeeds.nii.gz}
     150
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/test_wm_multipleSeeds_StrictTopo.nii.gz
 )
 set_property(
   TEST
@@ -380,6 +402,8 @@ itk_add_test(
     DATA{Baseline/wm_multipleSeeds.nii.gz}
     150
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/test_wm_multipleSeeds_NoHandlesTopo.nii.gz
 )
 set_property(
   TEST

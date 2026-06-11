@@ -18,6 +18,8 @@ itk_add_test(
     GE4
     DATA{${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001,REGEX:19771\\.002\\.00[1-6]}
     ${ITK_TEST_OUTPUT_DIR}/19771.002.001.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/19771.002.001.mha
 )
 itk_add_test(
   NAME itkGE5
@@ -34,6 +36,8 @@ itk_add_test(
     GE5
     DATA{${ITK_DATA_ROOT}/Input/test_ge5/113766.003.001,REGEX:113766\\.003\\.00[1-6]}
     ${ITK_TEST_OUTPUT_DIR}/113766.003.001.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/113766.003.001.mha
 )
 itk_add_test(
   NAME itkGE5Test2
@@ -47,6 +51,8 @@ itk_add_test(
     true
     GE5
     DATA{Input/c_vf1122.fre}
+    ${ITK_TEST_OUTPUT_DIR}/c_vf1122.fre.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/c_vf1122.fre.mha
 )
 itk_add_test(
@@ -62,6 +68,8 @@ itk_add_test(
     GE5
     DATA{Input/c_vf1123.fre}
     ${ITK_TEST_OUTPUT_DIR}/c_vf1123.fre.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/c_vf1123.fre.mha
 )
 itk_add_test(
   NAME itkGE5Test4
@@ -75,6 +83,8 @@ itk_add_test(
     true
     GE5
     DATA{Input/c_vf1210.fre}
+    ${ITK_TEST_OUTPUT_DIR}/c_vf1210.fre.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/c_vf1210.fre.mha
 )
 itk_add_test(
@@ -90,6 +100,8 @@ itk_add_test(
     GE5
     DATA{Input/c_vf1211.fre}
     ${ITK_TEST_OUTPUT_DIR}/c_vf1211.fre.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/c_vf1211.fre.mha
 )
 itk_add_test(
   NAME itkGEAdw
@@ -104,6 +116,8 @@ itk_add_test(
     GEAdw
     DATA{${ITK_DATA_ROOT}/Input/test_geadw/I.001,REGEX:I\\.00[1-6]}
     ${ITK_TEST_OUTPUT_DIR}/I.001.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/I.001.mha
 )
 itk_add_test(
   NAME itkSiemens
@@ -117,6 +131,8 @@ itk_add_test(
     true
     Siemens
     DATA{${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima,REGEX:3868-2-10[0-5]\\.ima}
+    ${ITK_TEST_OUTPUT_DIR}/3868-2-100.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/3868-2-100.mha
 )
 itk_add_test(

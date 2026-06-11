@@ -172,6 +172,8 @@ itk_add_test(
     ${TEMP}/itkColorTableTest1.txt
     itkColorTableTest
     8
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkColorTableTest1.txt
 )
 set_tests_properties(
   itkColorTableTest1
@@ -187,6 +189,8 @@ itk_add_test(
     ${TEMP}/itkColorTableTest2.txt
     itkColorTableTest
     16
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkColorTableTest2.txt
 )
 set_tests_properties(
   itkColorTableTest2
@@ -207,6 +211,8 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     itkMultipleLogOutputTest
+    ${TEMP}/test_multi.txt
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/test_multi.txt
 )
 itk_add_test(
@@ -256,6 +262,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/sf4.png}
     0
     ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionHorizTest.tiff
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionHorizTest.tiff
 )
 itk_add_test(
   NAME itkSobelOperatorImageFilterHorizTest
@@ -268,6 +276,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/sf4.png}
     0
     ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterHorizTest.tiff
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterHorizTest.tiff
 )
 itk_add_test(
   NAME itkSobelOperatorImageConvolutionVertTest
@@ -279,6 +289,8 @@ itk_add_test(
     itkSobelOperatorImageConvolutionTest
     DATA{${ITK_DATA_ROOT}/Input/sf4.png}
     1
+    ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionVertTest.tiff
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionVertTest.tiff
 )
 
@@ -294,6 +306,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/circle.png}
     1
     ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionVertCircleTest.tiff
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionVertCircleTest.tiff
 )
 
 itk_add_test(
@@ -307,6 +321,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/sf4.png}
     1
     ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterVertTest.tiff
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterVertTest.tiff
 )
 
 itk_add_test(
@@ -316,6 +332,8 @@ itk_add_test(
     --redirectOutput
     ${TEMP}/itkConstNeighborhoodIteratorTest.txt
     itkConstNeighborhoodIteratorTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkConstNeighborhoodIteratorTest.txt
 )
 set_tests_properties(
   itkConstNeighborhoodIteratorTest
@@ -331,6 +349,8 @@ itk_add_test(
     --redirectOutput
     ${TEMP}/itkShapedNeighborhoodIteratorTest.txt
     itkShapedNeighborhoodIteratorTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkShapedNeighborhoodIteratorTest.txt
 )
 set_tests_properties(
   itkShapedNeighborhoodIteratorTest
@@ -431,6 +451,8 @@ itk_add_test(
     itkImageDuplicatorTest2
     DATA{${ITK_DATA_ROOT}/Input/vol-raw-big.nrrd}
     ${ITK_TEST_OUTPUT_DIR}/vol-raw-big-dup2.nrrd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/vol-raw-big-dup2.nrrd
 )
 itk_add_test(
   NAME itkImageIteratorsForwardBackwardTest
@@ -455,6 +477,8 @@ itk_add_test(
   COMMAND
     ITKCommon1TestDriver
     itkImageRandomIteratorTest2
+    ${ITK_TEST_OUTPUT_DIR}/itkImageRandomIteratorTest2Output.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkImageRandomIteratorTest2Output.mha
 )
 itk_add_test(
@@ -488,12 +512,16 @@ itk_add_test(
     ITKCommon1TestDriver
     itkLoggerTest
     ${TEMP}/test_logger.txt
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/test_logger.txt
 )
 itk_add_test(
   NAME itkLoggerOutputTest
   COMMAND
     ITKCommon2TestDriver
     itkLoggerOutputTest
+    ${TEMP}/test_loggerOutput.txt
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/test_loggerOutput.txt
 )
 itk_add_test(
@@ -502,12 +530,16 @@ itk_add_test(
     ITKCommon2TestDriver
     itkLoggerManagerTest
     ${TEMP}/test_LoggerManager.txt
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/test_LoggerManager.txt
 )
 itk_add_test(
   NAME itkLoggerThreadWrapperTest
   COMMAND
     ITKCommon2TestDriver
     itkLoggerThreadWrapperTest
+    ${TEMP}/test_LoggerThreadWrapper.txt
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/test_LoggerThreadWrapper.txt
 )
 itk_add_test(
@@ -561,6 +593,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkPointSetToImageFilterTest1.png
     itkPointSetToImageFilterTest1
     ${ITK_TEST_OUTPUT_DIR}/itkPointSetToImageFilterTest1.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPointSetToImageFilterTest1.png
 )
 itk_add_test(
   NAME itkPointSetToImageFilterTest2
@@ -571,6 +605,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkPointSetToImageFilterTest2.mha
     itkPointSetToImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/VascularTreePointSet.txt}
+    ${ITK_TEST_OUTPUT_DIR}/itkPointSetToImageFilterTest2.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkPointSetToImageFilterTest2.mha
 )
 itk_add_test(
@@ -977,6 +1013,8 @@ itk_add_test(
     --redirectOutput
     ${TEMP}/itkSliceIteratorTest.txt
     itkSliceIteratorTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkSliceIteratorTest.txt
 )
 set_tests_properties(
   itkSliceIteratorTest
@@ -996,12 +1034,16 @@ itk_add_test(
     ITKCommon2TestDriver
     itkStdStreamLogOutputTest
     ${TEMP}/testStreamLogOutput.txt
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/testStreamLogOutput.txt
 )
 itk_add_test(
   NAME itkThreadLoggerTest
   COMMAND
     ITKCommon2TestDriver
     itkThreadLoggerTest
+    ${TEMP}/test_threadLogger.txt
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/test_threadLogger.txt
 )
 itk_add_test(
@@ -1022,12 +1064,16 @@ itk_add_test(
     ITKCommon1TestDriver
     itkSymmetricSecondRankTensorImageReadTest
     ${ITK_TEST_OUTPUT_DIR}/testSymmetricTensor.nrrd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/testSymmetricTensor.nrrd
 )
 itk_add_test(
   NAME itkSymmetricSecondRankTensorImageWriteReadTest
   COMMAND
     ITKCommon1TestDriver
     itkSymmetricSecondRankTensorImageWriteReadTest
+    ${ITK_TEST_OUTPUT_DIR}/testSymmetricTensorWriteRead.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/testSymmetricTensorWriteRead.mha
 )
 itk_add_test(
@@ -1071,6 +1117,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_1.png
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_1.png
 )
 itk_add_test(
   NAME itkStreamingImageFilterTest3_2
@@ -1083,6 +1131,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_2.png
     1000
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_2.png
 )
 itk_add_test(
   NAME itkVariableLengthVectorTest
@@ -1285,6 +1335,8 @@ itk_add_test(
     ITKCommon2TestDriver
     itkXMLFileOutputWindowTest
     ${ITK_TEST_OUTPUT_DIR}/itkXMLFileOutputWindowTest.xml
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkXMLFileOutputWindowTest.xml
 )
 
 itk_add_test(
@@ -1295,6 +1347,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkXMLFilterWatcherTest.txt
     itkXMLFilterWatcherTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkXMLFilterWatcherTest.txt
 )
 
 if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)

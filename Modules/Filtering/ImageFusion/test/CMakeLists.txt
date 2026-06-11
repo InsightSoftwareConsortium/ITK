@@ -27,6 +27,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
     0.0
     ${ITK_TEST_OUTPUT_DIR}/cthead1-0_0Overlay.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-0_0Overlay.png
 )
 itk_add_test(
   NAME itkLabelOverlayImageFilterTest-Opacity-0_1
@@ -39,6 +41,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
     0.1
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-0_1Overlay.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/cthead1-0_1Overlay.png
 )
 itk_add_test(
@@ -53,6 +57,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
     0.2
     ${ITK_TEST_OUTPUT_DIR}/cthead1-0_2Overlay.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-0_2Overlay.png
 )
 itk_add_test(
   NAME itkLabelOverlayImageFilterTest-Opacity-0_3
@@ -65,6 +71,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
     0.3
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-0_3Overlay.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/cthead1-0_3Overlay.png
 )
 itk_add_test(
@@ -79,6 +87,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
     0.4
     ${ITK_TEST_OUTPUT_DIR}/cthead1-0_4Overlay.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-0_4Overlay.png
 )
 itk_add_test(
   NAME itkLabelOverlayImageFilterTest-Opacity-0_5
@@ -91,6 +101,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
     0.5
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-0_5Overlay.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/cthead1-0_5Overlay.png
 )
 itk_add_test(
@@ -105,6 +117,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
     0.6
     ${ITK_TEST_OUTPUT_DIR}/cthead1-0_6Overlay.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-0_6Overlay.png
 )
 itk_add_test(
   NAME itkLabelOverlayImageFilterTest-Opacity-0_7
@@ -117,6 +131,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
     0.7
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-0_7Overlay.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/cthead1-0_7Overlay.png
 )
 itk_add_test(
@@ -131,6 +147,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
     0.8
     ${ITK_TEST_OUTPUT_DIR}/cthead1-0_8Overlay.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-0_8Overlay.png
 )
 itk_add_test(
   NAME itkLabelOverlayImageFilterTest-Opacity-0_9
@@ -143,6 +161,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
     0.9
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-0_9Overlay.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/cthead1-0_9Overlay.png
 )
 itk_add_test(
@@ -157,6 +177,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
     1.0
     ${ITK_TEST_OUTPUT_DIR}/cthead1-1_0Overlay.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-1_0Overlay.png
 )
 itk_add_test(
   NAME itkLabelToRGBImageFilterTest
@@ -167,6 +189,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/cthead1Label-color.png
     itkLabelToRGBImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
+    ${ITK_TEST_OUTPUT_DIR}/cthead1Label-color.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/cthead1Label-color.png
 )
 itk_add_test(
@@ -179,6 +203,8 @@ itk_add_test(
     itkLabelMapToRGBImageFilterTest1
     DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png}
     ${ITK_TEST_OUTPUT_DIR}/itkLabelMapToRGBImageFilterTest1.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapToRGBImageFilterTest1.png
 )
 itk_add_test(
   NAME itkLabelMapToRGBImageFilterTest2
@@ -189,6 +215,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkLabelMapToRGBImageFilterTest2.png
     itkLabelMapToRGBImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapToRGBImageFilterTest2.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkLabelMapToRGBImageFilterTest2.png
 )
 itk_add_test(
@@ -208,6 +236,8 @@ itk_add_test(
     10
     1
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest0.png
 )
 itk_add_test(
   NAME itkLabelMapContourOverlayImageFilterTest1
@@ -226,6 +256,8 @@ itk_add_test(
     15
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest1.png
 )
 itk_add_test(
   NAME itkLabelMapContourOverlayImageFilterTest2
@@ -244,6 +276,8 @@ itk_add_test(
     12
     1
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest2.png
 )
 itk_add_test(
   NAME itkLabelMapContourOverlayImageFilterTest3
@@ -261,6 +295,8 @@ itk_add_test(
     3
     12
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest3.png
 )
 itk_add_test(
   NAME itkLabelMapContourOverlayImageFilterTest4
@@ -278,6 +314,8 @@ itk_add_test(
     2
     15
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest4.png
 )
 
 itk_add_test(
@@ -292,6 +330,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkLabelMapOverlayImageFilterTest1.png
     0.3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapOverlayImageFilterTest1.png
 )
 itk_add_test(
   NAME itkLabelMapOverlayImageFilterTest2
@@ -305,6 +345,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkLabelMapOverlayImageFilterTest2.png
     0.3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapOverlayImageFilterTest2.png
 )
 itk_add_test(
   NAME itkLabelMapOverlayImageFilterTest3
@@ -318,6 +360,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkLabelMapOverlayImageFilterTest3.png
     0.3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapOverlayImageFilterTest3.png
 )
 
 set(ITKImageFusionGTests itkScalarToRGBPixelFunctorGTest.cxx)

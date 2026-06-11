@@ -32,6 +32,8 @@ itk_add_test(
     DATA{Input/itkDeconvolutionImageFilterTestKernel.png}
     ${ITK_TEST_OUTPUT_DIR}/itkRichardsonLucyDeconvolutionImageFilterGaussianKernelTest.nrrd
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkRichardsonLucyDeconvolutionImageFilterGaussianKernelTest.nrrd
 )
 itk_add_test(
   NAME itkRichardsonLucyDeconvolutionImageFilterIrregularKernelTest
@@ -45,6 +47,8 @@ itk_add_test(
     DATA{Input/itkDeconvolutionImageFilterTestKernelIrregular.tif}
     ${ITK_TEST_OUTPUT_DIR}/itkRichardsonLucyDeconvolutionImageFilterIrregularKernelTest.nrrd
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkRichardsonLucyDeconvolutionImageFilterIrregularKernelTest.nrrd
 )
 itk_add_test(
   NAME itkRichardsonLucyDeconvolutionImageFilterNonNullImageOriginTest
@@ -58,6 +62,8 @@ itk_add_test(
     DATA{Input/itkDeconvolutionImageFilterTestKernel.png}
     ${ITK_TEST_OUTPUT_DIR}/itkRichardsonLucyDeconvolutionImageFilterNonNullImageOriginTest.nrrd
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkRichardsonLucyDeconvolutionImageFilterNonNullImageOriginTest.nrrd
 )
 itk_add_test(
   NAME itkLandweberDeconvolutionImageFilterGaussianKernelTest
@@ -72,6 +78,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkLandweberDeconvolutionImageFilterGaussianKernelTest.nrrd
     1
     2.0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLandweberDeconvolutionImageFilterGaussianKernelTest.nrrd
 )
 itk_add_test(
   NAME itkLandweberDeconvolutionImageFilterIrregularKernelTest
@@ -86,6 +94,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkLandweberDeconvolutionImageFilterIrregularKernelTest.nrrd
     1
     2.0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLandweberDeconvolutionImageFilterIrregularKernelTest.nrrd
 )
 itk_add_test(
   NAME itkProjectedLandweberDeconvolutionImageFilterGaussianKernelTest
@@ -100,6 +110,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkProjectedLandweberDeconvolutionImageFilterGaussianKernelTest.nrrd
     1
     2.0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkProjectedLandweberDeconvolutionImageFilterGaussianKernelTest.nrrd
 )
 itk_add_test(
   NAME itkProjectedLandweberDeconvolutionImageFilterIrregularKernelTest
@@ -114,6 +126,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkProjectedLandweberDeconvolutionImageFilterIrregularKernelTest.nrrd
     1
     2.0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkProjectedLandweberDeconvolutionImageFilterIrregularKernelTest.nrrd
 )
 itk_add_test(
   NAME itkInverseDeconvolutionImageFilterGaussianKernelTest
@@ -127,6 +141,8 @@ itk_add_test(
     DATA{Input/itkDeconvolutionImageFilterTestKernel.png}
     ${ITK_TEST_OUTPUT_DIR}/itkInverseDeconvolutionImageFilterGaussianKernelTest.nrrd
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkInverseDeconvolutionImageFilterGaussianKernelTest.nrrd
 )
 itk_add_test(
   NAME itkInverseDeconvolutionImageFilterIrregularKernelTest
@@ -140,6 +156,8 @@ itk_add_test(
     DATA{Input/itkDeconvolutionImageFilterTestKernelIrregular.tif}
     ${ITK_TEST_OUTPUT_DIR}/itkInverseDeconvolutionImageFilterIrregularKernelTest.nrrd
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkInverseDeconvolutionImageFilterIrregularKernelTest.nrrd
 )
 itk_add_test(
   NAME itkTikhonovDeconvolutionImageFilterGaussianKernelTest
@@ -153,6 +171,8 @@ itk_add_test(
     DATA{Input/itkDeconvolutionImageFilterTestKernel.png}
     ${ITK_TEST_OUTPUT_DIR}/itkTikhonovDeconvolutionImageFilterGaussianKernelTest.nrrd
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTikhonovDeconvolutionImageFilterGaussianKernelTest.nrrd
 )
 itk_add_test(
   NAME itkTikhonovDeconvolutionImageFilterIrregularKernelTest
@@ -166,6 +186,8 @@ itk_add_test(
     DATA{Input/itkDeconvolutionImageFilterTestKernelIrregular.tif}
     ${ITK_TEST_OUTPUT_DIR}/itkTikhonovDeconvolutionImageFilterIrregularKernelTest.nrrd
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTikhonovDeconvolutionImageFilterIrregularKernelTest.nrrd
 )
 itk_add_test(
   NAME itkWienerDeconvolutionImageFilterGaussianKernelTest
@@ -179,6 +201,8 @@ itk_add_test(
     DATA{Input/itkDeconvolutionImageFilterTestKernel.png}
     ${ITK_TEST_OUTPUT_DIR}/itkWienerDeconvolutionImageFilterGaussianKernelTest.nrrd
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkWienerDeconvolutionImageFilterGaussianKernelTest.nrrd
 )
 itk_add_test(
   NAME itkWienerDeconvolutionImageFilterIrregularKernelTest
@@ -192,6 +216,8 @@ itk_add_test(
     DATA{Input/itkDeconvolutionImageFilterTestKernelIrregular.tif}
     ${ITK_TEST_OUTPUT_DIR}/itkWienerDeconvolutionImageFilterIrregularKernelTest.nrrd
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkWienerDeconvolutionImageFilterIrregularKernelTest.nrrd
 )
 itk_add_test(
   NAME itkParametricBlindLeastSquaresDeconvolutionImageFilterTest
@@ -206,5 +232,8 @@ itk_add_test(
     1
     1
     0.5
+    ${ITK_TEST_OUTPUT_DIR}/itkParametricBlindLeastSquaresDeconvolutionImageFilterTestInput.nrrd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkParametricBlindLeastSquaresDeconvolutionImageFilterTest.nrrd
     ${ITK_TEST_OUTPUT_DIR}/itkParametricBlindLeastSquaresDeconvolutionImageFilterTestInput.nrrd
 )

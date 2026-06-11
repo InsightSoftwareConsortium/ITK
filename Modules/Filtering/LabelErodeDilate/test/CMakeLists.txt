@@ -19,6 +19,8 @@ itk_add_test(
     DATA{Input/axial.png}
     5
     ${ITK_TEST_OUTPUT_DIR}/axialdilate5.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/axialdilate5.png
 )
 
 itk_add_test(
@@ -31,6 +33,8 @@ itk_add_test(
     itkLabelSetDilateTest
     DATA{Input/HarvardOxford-cort-maxprob-thr50-1mm.nii.gz}
     5
+    ${ITK_TEST_OUTPUT_DIR}/cortdilate_5.nii.gz
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/cortdilate_5.nii.gz
 )
 
@@ -45,6 +49,8 @@ itk_add_test(
     DATA{Input/dot.nii.gz}
     41
     ${ITK_TEST_OUTPUT_DIR}/dotdilate_41.nii.gz
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/dotdilate_41.nii.gz
 )
 
 itk_add_test(
@@ -57,6 +63,8 @@ itk_add_test(
     itkLabelSetErodeTest
     DATA{Input/axial.png}
     3
+    ${ITK_TEST_OUTPUT_DIR}/axialerode3.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/axialerode3.png
 )
 
@@ -71,6 +79,8 @@ itk_add_test(
     DATA{Input/HarvardOxford-cort-maxprob-thr50-1mm.nii.gz}
     3
     ${ITK_TEST_OUTPUT_DIR}/corterode_3.nii.gz
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/corterode_3.nii.gz
 )
 
 itk_add_test(
@@ -83,5 +93,7 @@ itk_add_test(
     itkLabelSetErodeTest
     DATA{Input/hole.nii.gz}
     41
+    ${ITK_TEST_OUTPUT_DIR}/holeerode_41.nii.gz
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/holeerode_41.nii.gz
 )

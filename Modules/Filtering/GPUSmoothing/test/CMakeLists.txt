@@ -20,6 +20,8 @@ if(ITK_USE_GPU)
       DATA{Input/BrainProtonDensitySlice.png}
       ${ITK_TEST_OUTPUT_DIR}/gpuMeanImageFilterTest2D.png
       2
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/gpuMeanImageFilterTest2D.png
   )
 
   itk_add_test(
@@ -33,6 +35,8 @@ if(ITK_USE_GPU)
       DATA{Input/HeadMRVolume.mha}
       ${ITK_TEST_OUTPUT_DIR}/gpuMeanImageFilterTest3D.mha
       3
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/gpuMeanImageFilterTest3D.mha
   )
 
   itk_add_test(
@@ -43,6 +47,8 @@ if(ITK_USE_GPU)
       DATA{Input/BrainProtonDensitySlice.png}
       ${ITK_TEST_OUTPUT_DIR}/gpuGradientDiscreteGaussianImageFilterTest2D.mha
       2
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/gpuGradientDiscreteGaussianImageFilterTest2D.mha
   )
 
   itk_add_test(
@@ -53,5 +59,7 @@ if(ITK_USE_GPU)
       DATA{Input/HeadMRVolume.mha}
       ${ITK_TEST_OUTPUT_DIR}/gpuGradientDiscreteGaussianImageFilterTest3D.mha
       3
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/gpuGradientDiscreteGaussianImageFilterTest3D.mha
   )
 endif()

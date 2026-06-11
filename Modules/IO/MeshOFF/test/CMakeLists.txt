@@ -15,6 +15,8 @@ itk_add_test(
     itkMeshFileReadWriteTest
     DATA{Baseline/octa.off}
     ${ITK_TEST_OUTPUT_DIR}/octa.off
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/octa.off
 )
 itk_add_test(
   NAME itkOFFMeshIOTest
@@ -34,4 +36,7 @@ itk_add_test(
     0
     8
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/offmeshioocta.off
+    ${ITK_TEST_OUTPUT_DIR}/off2vtkocta.vtk
 )

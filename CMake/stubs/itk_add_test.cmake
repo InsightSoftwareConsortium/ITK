@@ -12,7 +12,7 @@ function(itk_add_test)
     ARG
     "COMMAND_EXPAND_LISTS"
     "NAME;WORKING_DIRECTORY"
-    "COMMAND;CONFIGURATIONS"
+    "COMMAND;CONFIGURATIONS;ITK_REMOVE_TEMPORARY_TEST_FILES"
   )
 
   # This is a stub function to assist code formatting

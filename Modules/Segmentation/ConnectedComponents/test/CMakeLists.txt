@@ -27,6 +27,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/RelabelComponentImageFilterTest.png
     130
     145
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/RelabelComponentImageFilterTest.png
 )
 itk_add_test(
   NAME itkHardConnectedComponentImageFilterTest
@@ -40,6 +42,10 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/HardConnectedComponentImageFilterTestUnsignedShort.png
     itkHardConnectedComponentImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/HardConnectedComponentImageFilterTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/HardConnectedComponentImageFilterTestUnsignedChar.png
+    ${ITK_TEST_OUTPUT_DIR}/HardConnectedComponentImageFilterTestUnsignedShort.png
+    ${ITK_TEST_OUTPUT_DIR}/HardConnectedComponentImageFilterTestUnsigned*.png
 )
 itk_add_test(
   NAME itkConnectedComponentImageFilterTestRGB
@@ -53,6 +59,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTestRGB.png
     130
     145
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTestRGB.png
 )
 itk_add_test(
   NAME itkConnectedComponentImageFilterTest
@@ -66,6 +74,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest.png
     130
     145
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest.png
 )
 itk_add_test(
   NAME itkConnectedComponentImageFilterTest2
@@ -80,6 +90,8 @@ itk_add_test(
     128
     255
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest2.png
 )
 itk_add_test(
   NAME itkConnectedComponentImageFilterTest3
@@ -94,6 +106,8 @@ itk_add_test(
     128
     255
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest3.png
 )
 itk_add_test(
   NAME itkConnectedComponentImageFilterBackgroundTest1
@@ -120,6 +134,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkThresholdMaximumConnectedComponentsImageFilterTest1.png
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkThresholdMaximumConnectedComponentsImageFilterTest1.png
 )
 itk_add_test(
   NAME itkThresholdMaximumConnectedComponentsImageFilterTest2
@@ -132,6 +148,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence2.png}
     ${ITK_TEST_OUTPUT_DIR}/itkThresholdMaximumConnectedComponentsImageFilterTest2.png
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkThresholdMaximumConnectedComponentsImageFilterTest2.png
 )
 itk_add_test(
   NAME itkScalarConnectedComponentImageFilterTest
@@ -145,6 +163,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/ScalarConnectedComponentImageFilterTest.png
     20
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ScalarConnectedComponentImageFilterTest.png
 )
 itk_add_test(
   NAME itkVectorConnectedComponentImageFilterTest
@@ -154,6 +174,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorConnectedComponentImageFilterTest.png,:}
     ${ITK_TEST_OUTPUT_DIR}/VectorConnectedComponentImageFilterTest.png
     itkVectorConnectedComponentImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/VectorConnectedComponentImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/VectorConnectedComponentImageFilterTest.png
 )
 itk_add_test(
@@ -174,6 +196,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/MaskConnectedComponentImageFilterTest.png
     130
     145
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/MaskConnectedComponentImageFilterTest.png
 )
 
 set(

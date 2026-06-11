@@ -30,6 +30,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/blob0-01.vtk
 )
 
 itk_add_test(
@@ -48,6 +50,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/blob1-01.vtk
 )
 
 itk_add_test(
@@ -66,6 +70,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/blob2-01.vtk
 )
 
 itk_add_test(
@@ -84,6 +90,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/blob3-01.vtk
 )
 
 itk_add_test(
@@ -102,6 +110,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/blob4-01.vtk
 )
 
 itk_add_test(
@@ -120,6 +130,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     200 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/marschnerlobb-01.vtk
 )
 
 itk_add_test(
@@ -138,6 +150,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/fuel-01.vtk
 )
 
 itk_add_test(
@@ -156,6 +170,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/fuel-02.vtk
 )
 
 itk_add_test(
@@ -174,6 +190,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/fuel-03.vtk
 )
 
 itk_add_test(
@@ -192,6 +210,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/hydrogenAtom-01.vtk
 )
 
 itk_add_test(
@@ -210,6 +230,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/neghip-01.vtk
 )
 
 itk_add_test(
@@ -228,6 +250,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/neghip-02.vtk
 )
 
 itk_add_test(
@@ -246,6 +270,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/neghip-03.vtk
 )
 
 itk_add_test(
@@ -264,6 +290,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/nucleon-01.vtk
 )
 
 itk_add_test(
@@ -282,6 +310,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/nucleon-02.vtk
 )
 
 itk_add_test(
@@ -300,6 +330,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/nucleon-03.vtk
 )
 
 itk_add_test(
@@ -318,6 +350,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/silicium-01.vtk
 )
 
 itk_add_test(
@@ -336,6 +370,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/silicium-02.vtk
 )
 
 itk_add_test(
@@ -354,6 +390,8 @@ itk_add_test(
     0.24 # Step length
     0.95 # Step length relaxation factor
     100 # Maximum number of steps
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/silicium-03.vtk
 )
 
 #add_test(
@@ -405,6 +443,8 @@ itk_add_test(
     1 # Generate triangle faces
     1 # Project vertices to iso-surface
     0.05 # Surface distance threshold
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/tibial_cartilage_cropped_0.1.vtk
 )
 
 itk_add_test(
@@ -421,6 +461,8 @@ itk_add_test(
     1 # Generate triangle faces
     1 # Project vertices to iso-surface
     0.05 # Surface distance threshold
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/tibial_cartilage_cropped_0.5.vtk
 )
 
 itk_add_test(
@@ -437,6 +479,8 @@ itk_add_test(
     1 # Generate triangle faces
     1 # Project vertices to iso-surface
     0.05 # Surface distance threshold
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/prostate_00.vtk
 )
 # Serialized: segfaults under `ctest -j3` memory pressure on constrained CI
 # runners (RAM over-subscribed via ITK_COMPUTER_MEMORY_SIZE); see issue #6301.

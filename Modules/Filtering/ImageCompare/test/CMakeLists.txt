@@ -34,6 +34,8 @@ itk_add_test(
     277faa96444775070dcc8f6be2d71eb2
     itkCheckerBoardImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkCheckerBoardImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkCheckerBoardImageFilterTest.png
 )
 itk_add_test(
   NAME itkConstrainedValueDifferenceImageFilterTest
@@ -43,6 +45,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueDifferenceImageFilterTest.png
     87028680dd2bbc12f57b141f7272d295
     itkConstrainedValueDifferenceImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueDifferenceImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueDifferenceImageFilterTest.png
 )
 itk_add_test(
@@ -68,6 +72,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/STAPLE2.png}
     DATA{${ITK_DATA_ROOT}/Input/STAPLE3.png}
     DATA{${ITK_DATA_ROOT}/Input/STAPLE4.png}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/STAPLEImageFilterTest.mha
 )
 itk_add_test(
   NAME itkTestingComparisonImageFilterTest
@@ -88,6 +94,8 @@ itk_add_test(
     66
     16.2999
     26846
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTestingComparisonImageFilterTest.png
 )
 itk_add_test(
   NAME itkImageFileReaderIOToRequestedRegionMismatchTest

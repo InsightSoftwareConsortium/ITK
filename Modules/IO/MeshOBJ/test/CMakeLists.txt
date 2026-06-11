@@ -15,6 +15,8 @@ itk_add_test(
     itkMeshFileReadWriteTest
     DATA{Baseline/box.obj}
     ${ITK_TEST_OUTPUT_DIR}/box.obj
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/box.obj
 )
 
 itk_add_test(
@@ -23,6 +25,8 @@ itk_add_test(
     ITKIOMeshOBJTestDriver
     itkMeshFileReadWriteTest
     DATA{Baseline/bunny.obj}
+    ${ITK_TEST_OUTPUT_DIR}/bunny.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/bunny.vtk
 )
 
@@ -44,6 +48,9 @@ itk_add_test(
     0
     6
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/objmeshiobox.obj
+    ${ITK_TEST_OUTPUT_DIR}/obj2vtkbox.vtk
 )
 
 itk_add_test(
@@ -64,4 +71,7 @@ itk_add_test(
     4968
     4968
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/objmeshiobunny.obj
+    ${ITK_TEST_OUTPUT_DIR}/obj2vtkbunny.vtk
 )

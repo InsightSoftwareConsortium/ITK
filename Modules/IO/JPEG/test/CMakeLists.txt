@@ -20,6 +20,8 @@ itk_add_test(
     itkJPEGImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.jpg}
     ${ITK_TEST_OUTPUT_DIR}/cthead1.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1.png
 )
 itk_add_test(
   NAME itkJPEGImageIOTest2
@@ -31,12 +33,16 @@ itk_add_test(
     itkJPEGImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.jpg}
     ${ITK_TEST_OUTPUT_DIR}/cthead1.jpg
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1.jpg
 )
 itk_add_test(
   NAME itkJPEGImageIOSpacing
   COMMAND
     ITKIOJPEGTestDriver
     itkJPEGImageIOTest2
+    ${ITK_TEST_OUTPUT_DIR}/itkJPEGImageIOSpacing.jpg
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkJPEGImageIOSpacing.jpg
 )
 itk_add_test(

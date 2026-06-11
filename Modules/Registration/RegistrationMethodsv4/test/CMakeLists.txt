@@ -57,6 +57,8 @@ itk_add_test(
     ${TEMP}/itkSimpleImageRegistrationTestDouble.nii
     100 # number of affine iterations
     10 # number of deformable iterations
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkSimpleImageRegistrationTestDouble.nii
 )
 set_property(
   TEST
@@ -94,6 +96,8 @@ itk_add_test(
     ${TEMP}/itkSimpleImageRegistrationTestFloat.nii
     100 # number of affine iterations
     10 # number of deformable iterations
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkSimpleImageRegistrationTestFloat.nii
 )
 set_property(
   TEST
@@ -124,6 +128,8 @@ itk_add_test(
     ${TEMP}/itkSimpleImageRegistrationTestWithMaskAndSamplingDouble.nii.gz
     100 # number of affine iterations
     10 # number of deformable iterations
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkSimpleImageRegistrationTestWithMaskAndSamplingDouble.nii.gz
 )
 set_property(
   TEST
@@ -148,6 +154,8 @@ itk_add_test(
     ${TEMP}/itkSimpleImageRegistrationTestWithMaskAndSamplingFloat.nii.gz
     100 # number of affine iterations
     10 # number of deformable iterations
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkSimpleImageRegistrationTestWithMaskAndSamplingFloat.nii.gz
 )
 set_property(
   TEST
@@ -170,6 +178,8 @@ itk_add_test(
     DATA{Input/r64slice.nii.gz}
     ${TEMP}/itkSimpleImageRegistrationTest2New.nii.gz
     100 # number of affine iterations
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkSimpleImageRegistrationTest2New.nii.gz
 )
 set_property(
   TEST
@@ -190,6 +200,8 @@ itk_add_test(
     2 # number of dimensions
     DATA{Input/r16slice_rigid.nii.gz}
     DATA{Input/r64slice.nii.gz}
+    ${TEMP}/itkSimpleImageRegistrationTest3New.nii.gz
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/itkSimpleImageRegistrationTest3New.nii.gz
 )
 set_property(
@@ -302,6 +314,8 @@ itk_add_test(
     0.0
     1.0
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkExponentialImageRegistrationTestNew.nii.gz
 )
 set_property(
   TEST
@@ -331,6 +345,8 @@ itk_add_test(
     ${TEMP}/itkBSplineExponentialImageRegistrationTestNew.nii.gz
     100 # number of affine iterations
     10 # number of deformable iterations
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkBSplineExponentialImageRegistrationTestNew.nii.gz
 )
 set_property(
   TEST
@@ -355,6 +371,8 @@ itk_add_test(
     1 # number of iterations for second level of the displacement field
     1 # number of iterations for third level of the displacement field
     0.5 # learning rate
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkTimeVaryingVelocityFieldImageRegistrationTest*.nii.gz
 )
 set_property(
   TEST
@@ -381,6 +399,8 @@ itk_add_test(
     0.5 # learning rate
     1.0e-7
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkTimeVaryingBSplineVelocityFieldImageRegistrationTest*.nii.gz
 )
 
 set_property(
@@ -403,6 +423,8 @@ itk_add_test(
     ${TEMP}/itkSyNImageRegistrationTest
     10 # number of optimization iterations of the displacement field
     0.5 # learning rate
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkSyNImageRegistrationTest*.nii.gz
 )
 
 itk_add_test(
@@ -416,6 +438,8 @@ itk_add_test(
     ${TEMP}/itkBSplineSyNImageRegistrationTest
     10 # number of optimization iterations of the displacement field
     0.5 # learning rate
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkBSplineSyNImageRegistrationTest*.nii.gz
 )
 
 itk_add_test(
@@ -430,6 +454,8 @@ itk_add_test(
     ${TEMP}/itkQuasiNewtonOptimizerv4RegistrationTest1.nii.gz
     5
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkQuasiNewtonOptimizerv4RegistrationTest1.nii.gz
 )
 
 itk_add_test(
@@ -444,6 +470,8 @@ itk_add_test(
     ${TEMP}/itkQuasiNewtonOptimizerv4RegistrationTest2.nii.gz
     5
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkQuasiNewtonOptimizerv4RegistrationTest2.nii.gz
 )
 
 itk_add_test(
@@ -458,6 +486,8 @@ itk_add_test(
     ${TEMP}/itkQuasiNewtonOptimizerv4RegistrationTest3.nii.gz
     5
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkQuasiNewtonOptimizerv4RegistrationTest3.nii.gz
 )
 
 itk_add_test(
@@ -479,6 +509,8 @@ itk_add_test(
     ${TEMP}/itkBSplineImageRegistrationTestNew.nii.gz
     100 # number of affine iterations
     10 # number of deformable iterations
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkBSplineImageRegistrationTestNew.nii.gz
 )
 set_property(
   TEST

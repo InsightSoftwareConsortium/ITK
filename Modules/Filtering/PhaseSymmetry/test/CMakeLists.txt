@@ -21,6 +21,8 @@ itk_add_test(
     itkPhaseSymmetryImageFilterTest
     DATA{Input/HeartUltrasound.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkPhaseSymmetryImageFilterTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPhaseSymmetryImageFilterTest.mha
 )
 
 itk_add_test(
@@ -36,6 +38,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkButterworthFilterFreqImageSourceTestOutput.mha
     ${ITK_TEST_OUTPUT_DIR}/itkButterworthFilterFreqImageSourceTestInputFFT.mha
     ${ITK_TEST_OUTPUT_DIR}/itkButterworthFilterFreqImageSourceTestOutputFFT.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkButterworthFilterFreqImageSourceTestFilter.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkButterworthFilterFreqImageSourceTestOutput.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkButterworthFilterFreqImageSourceTestInputFFT.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkButterworthFilterFreqImageSourceTestOutputFFT.mha
 )
 
 itk_add_test(
@@ -47,6 +54,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkLogGaborFreqImageSourceTestFilter.mha
     itkLogGaborFreqImageSourceTest
     DATA{Input/SinusoidImage.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkLogGaborFreqImageSourceTestFilter.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkLogGaborFreqImageSourceTestOutput.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkLogGaborFreqImageSourceTestInputFFT.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkLogGaborFreqImageSourceTestOutputFFT.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkLogGaborFreqImageSourceTestFilter.mha
     ${ITK_TEST_OUTPUT_DIR}/itkLogGaborFreqImageSourceTestOutput.mha
     ${ITK_TEST_OUTPUT_DIR}/itkLogGaborFreqImageSourceTestInputFFT.mha
@@ -73,4 +85,6 @@ itk_add_test(
     0.1
     0.2
     0.2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSinusoidImageSourceTest.mha
 )

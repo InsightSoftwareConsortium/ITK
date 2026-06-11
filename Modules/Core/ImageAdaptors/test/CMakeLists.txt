@@ -29,6 +29,9 @@ itk_add_test(
     itkVectorImageTest
     ${ITK_TEST_OUTPUT_DIR}/VectorImage.nrrd
     ${ITK_TEST_OUTPUT_DIR}/VectorImage.mhd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/VectorImage.nrrd
+    ${ITK_TEST_OUTPUT_DIR}/VectorImage.{mhd,raw}
 )
 itk_add_test(
   NAME itkComplexConjugateImageAdaptorTest

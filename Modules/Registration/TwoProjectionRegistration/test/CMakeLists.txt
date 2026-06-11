@@ -30,6 +30,9 @@ itk_add_test(
     DATA{Input/boxheadDRRDev1_G90.tif}
     90
     DATA{Input/BoxheadCT.img,BoxheadCT.hdr}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/boxheadDRRDev1_G0_Reg.tif
+    ${ITK_TEST_OUTPUT_DIR}/boxheadDRRDev1_G90_Reg.tif
 )
 
 # Disabled: BoxheadCTFull.img is orphaned (404 from gh-pages, Girder, itk.org).
@@ -74,6 +77,8 @@ itk_add_test(
     -o
     ${ITK_TEST_OUTPUT_DIR}/boxheadDRRDev1_G0.tif
     DATA{Input/BoxheadCT.img,BoxheadCT.hdr}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/boxheadDRRDev1_G0.tif
 )
 
 itk_add_test(
@@ -106,6 +111,8 @@ itk_add_test(
     -o
     ${ITK_TEST_OUTPUT_DIR}/boxheadDRRDev1_G90.tif
     DATA{Input/BoxheadCT.img,BoxheadCT.hdr}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/boxheadDRRDev1_G90.tif
 )
 
 # Disabled: BoxheadCTFull.img is orphaned (404 from gh-pages, Girder, itk.org).

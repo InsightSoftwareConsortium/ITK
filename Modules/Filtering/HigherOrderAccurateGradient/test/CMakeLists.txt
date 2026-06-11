@@ -18,6 +18,10 @@ itk_add_test(
     itkHigherOrderAccurateGradientImageFilterTest
     DATA{Input/foot.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkHigherOrderAccurateGradientImageFilterTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkHigherOrderAccurateGradientImageFilterTest_Accuracy1_Magnitude.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkHigherOrderAccurateGradientImageFilterTest_GradientImageFilter_Magnitude.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkHigherOrderAccurateGradientImageFilterTest_*_Magnitude.mha
 )
 
 itk_add_test(
@@ -33,4 +37,10 @@ itk_add_test(
     itkHigherOrderAccurateDerivativeImageFilterTest
     DATA{Input/foot.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkHigherOrderAccurateDerivativeImageFilterTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkHigherOrderAccurateDerivativeImageFilterTest_Accuracy1_Direction0.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkHigherOrderAccurateDerivativeImageFilterTest_DerivativeImageFilter_Direction0.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkHigherOrderAccurateDerivativeImageFilterTest_Accuracy1_Direction1.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkHigherOrderAccurateDerivativeImageFilterTest_DerivativeImageFilter_Direction1.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkHigherOrderAccurateDerivativeImageFilterTest_*_Direction[01].mha
 )

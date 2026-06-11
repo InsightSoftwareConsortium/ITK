@@ -21,6 +21,9 @@ itk_add_test(
     DATA{Input/LineLoadDisplacement.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterTest
     "INFINITESIMAL"
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterTestOutput.vtk
+    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterTestComponent*.mha
 )
 
 itk_add_test(
@@ -34,6 +37,9 @@ itk_add_test(
     DATA{Input/LineLoadDisplacement.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterLagrangianTest
     "GREENLAGRANGIAN"
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterLagrangianTestOutput.vtk
+    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterLagrangianTestComponent*.mha
 )
 
 itk_add_test(
@@ -47,6 +53,9 @@ itk_add_test(
     DATA{Input/LineLoadDisplacement.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterEulerianTest
     "EULERIANALMANSI"
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterEulerianTestOutput.vtk
+    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterEulerianTestComponent*.mha
 )
 
 itk_add_test(
@@ -59,6 +68,9 @@ itk_add_test(
     itkStrainImageFilterDoGTest
     DATA{Input/LineLoadDisplacement.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterDoGTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterDoGTestOutput.vtk
+    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterDoGTestComponent*.mha
 )
 
 itk_add_test(
@@ -71,6 +83,9 @@ itk_add_test(
     itkStrainImageFilterRecursiveGaussianTest
     DATA{Input/LineLoadDisplacement.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterRecursiveGaussianTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterRecursiveGaussianTestOutput.vtk
+    ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterRecursiveGaussianTestComponent*.mha
 )
 
 # BSplineTransform has not yet implemented
@@ -95,6 +110,10 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestInfinitesimalAffine.mha
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestInfinitesimalAffineToDisplacementField.mha
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestInfinitesimalAffineToDisplacementFieldStrain.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestInfinitesimalAffine.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestInfinitesimalAffineToDisplacementFieldStrain.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestInfinitesimalAffineToDisplacementField.mha
 )
 
 itk_add_test(
@@ -110,6 +129,10 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestGreenLagrangianAffine.mha
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestGreenLagrangianAffineToDisplacementField.mha
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestGreenLagrangianAffineToDisplacementFieldStrain.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestGreenLagrangianAffine.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestGreenLagrangianAffineToDisplacementFieldStrain.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestGreenLagrangianAffineToDisplacementField.mha
 )
 
 itk_add_test(
@@ -125,6 +148,10 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestEulerianAlmansiAffine.mha
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestEulerianAlmansiAffineToDisplacementField.mha
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestEulerianAlmansiAffineToDisplacementFieldStrain.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestEulerianAlmansiAffine.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestEulerianAlmansiAffineToDisplacementFieldStrain.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestEulerianAlmansiAffineToDisplacementField.mha
 )
 
 itk_add_test(
@@ -140,6 +167,10 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestInfinitesimalSimilarity.mha
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestInfinitesimalSimilarityToDisplacementField.mha
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestInfinitesimalSimilarityToDisplacementFieldStrain.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestInfinitesimalSimilarity.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestInfinitesimalSimilarityToDisplacementFieldStrain.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestInfinitesimalSimilarityToDisplacementField.mha
 )
 
 itk_add_test(
@@ -155,6 +186,10 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestGreenLagrangianSimilarity.mha
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestGreenLagrangianSimilarityToDisplacementField.mha
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestGreenLagrangianSimilarityToDisplacementFieldStrain.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestGreenLagrangianSimilarity.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestGreenLagrangianSimilarityToDisplacementFieldStrain.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestGreenLagrangianSimilarityToDisplacementField.mha
 )
 
 itk_add_test(
@@ -170,4 +205,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestEulerianAlmansiSimilarity.mha
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestEulerianAlmansiSimilarityToDisplacementField.mha
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestEulerianAlmansiSimilarityToDisplacementFieldStrain.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestEulerianAlmansiSimilarity.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestEulerianAlmansiSimilarityToDisplacementFieldStrain.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestEulerianAlmansiSimilarityToDisplacementField.mha
 )

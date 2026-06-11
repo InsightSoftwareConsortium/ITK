@@ -113,6 +113,9 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/circle.png}
     ${ITK_TEST_OUTPUT_DIR}/output_binary_whitaker_adaptor.mha
     ${ITK_TEST_OUTPUT_DIR}/status_binary_whitaker_adaptor.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/output_binary_whitaker_adaptor.mha
+    ${ITK_TEST_OUTPUT_DIR}/status_binary_whitaker_adaptor.mha
 )
 itk_add_test(
   NAME itkBinaryImageToMalcolmSparseLevelSetsv4AdaptorTest
@@ -121,6 +124,8 @@ itk_add_test(
     itkBinaryImageToMalcolmSparseLevelSetAdaptorTest
     DATA{${ITK_DATA_ROOT}/Input/circle.png}
     ${ITK_TEST_OUTPUT_DIR}/output_binary_malcolm_adaptor.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/output_binary_malcolm_adaptor.mha
 )
 itk_add_test(
   NAME itkBinaryImageToShiSparseLevelSetsv4AdaptorTest
@@ -128,6 +133,8 @@ itk_add_test(
     ITKLevelSetsv4TestDriver
     itkBinaryImageToShiSparseLevelSetAdaptorTest
     DATA{${ITK_DATA_ROOT}/Input/circle.png}
+    ${ITK_TEST_OUTPUT_DIR}/output_binary_shi_adaptor.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/output_binary_shi_adaptor.mha
 )
 # domain partition classes
@@ -182,6 +189,8 @@ itk_add_test(
     25
     25
     ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_dense_single.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_dense_single.mha
 )
 
 itk_add_test(
@@ -197,6 +206,8 @@ itk_add_test(
     25
     ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_dense_advection_single_5.mha
     5
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_dense_advection_single_5.mha
 )
 
 itk_add_test(
@@ -209,6 +220,8 @@ itk_add_test(
     itkSingleLevelSetWhitakerImage2DTest
     DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
     50
+    ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_sparse_single.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_sparse_single.mha
 )
 itk_add_test(
@@ -224,6 +237,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
     50
     ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_sparse_single_threads.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_sparse_single_threads.mha
 )
 
 itk_add_test(
@@ -237,6 +252,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
     15
     ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_malcolm_single.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_malcolm_single.mha
 )
 itk_add_test(
   NAME itkSingleLevelSetsv4ShiImage2DTest
@@ -248,6 +265,8 @@ itk_add_test(
     itkSingleLevelSetShiImage2DTest
     DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
     15
+    ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_shi_single.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_shi_single.mha
 )
 itk_add_test(
@@ -307,6 +326,8 @@ itk_add_test(
     25
     10
     ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_dense_two.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_dense_two.mha
 )
 
 itk_add_test(
@@ -319,6 +340,8 @@ itk_add_test(
     itkTwoLevelSetWhitakerImage2DTest
     DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
     1
+    ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_sparse_two.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_sparse_two.mha
 )
 
@@ -333,6 +356,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
     1
     ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_malcolm_two.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_malcolm_two.mha
 )
 
 itk_add_test(
@@ -345,6 +370,8 @@ itk_add_test(
     itkTwoLevelSetShiImage2DTest
     DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
     1
+    ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_shi_two.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_shi_two.mha
 )
 

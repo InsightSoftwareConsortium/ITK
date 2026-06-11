@@ -42,6 +42,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.mha
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTestRescaled.dcm
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTestRescaled.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTestRescaled.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTestRescaled.dcm
 )
 itk_add_test(
   NAME itkGDCMImageIOTest2
@@ -59,6 +64,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.mha
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2Rescaled.dcm
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2Rescaled.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2Rescaled.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest2Rescaled.dcm
 )
 itk_add_test(
   NAME itkGDCMImageIOTest3
@@ -76,6 +86,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.mha
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3Rescaled.dcm
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3Rescaled.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3Rescaled.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3Rescaled.dcm
 )
 itk_add_test(
   NAME itkGDCMImageIOTest4
@@ -93,6 +108,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.mha
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4Rescaled.dcm
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4Rescaled.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4Rescaled.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest4Rescaled.dcm
 )
 itk_add_test(
   NAME itkGDCMImageIOSecondaryCaptureSpacingTest
@@ -107,6 +127,11 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOSecondaryCaptureSpacingTest.mha
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOSecondaryCaptureSpacingTestRescaled.dcm
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOSecondaryCaptureSpacingTestRescaled.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOSecondaryCaptureSpacingTest.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOSecondaryCaptureSpacingTest.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOSecondaryCaptureSpacingTestRescaled.dcm
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOSecondaryCaptureSpacingTestRescaled.mha
 )
 itk_add_test(
   NAME itkGDCMImageIOTest5
@@ -115,6 +140,8 @@ itk_add_test(
     itkGDCMImageIOTest2
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest5
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest5-*.dcm
 )
 
 itk_add_test(
@@ -132,6 +159,8 @@ itk_add_test(
     0
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWriteTest1.{mhd,raw}
 )
 
 set_property(
@@ -158,6 +187,8 @@ itk_add_test(
     0
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWriteTest2.{mhd,raw}
 )
 
 set_property(
@@ -188,6 +219,9 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadSeriesWriteTest
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadSeriesWriteTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadSeriesWriteTest.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadSeriesWriteTest/image*.dcm
 )
 
 itk_add_test(
@@ -248,6 +282,8 @@ itk_add_test(
     # https://discourse.slicer.org/t/dicom-multiframe-support/4806/9
     DATA{Input/LegacyMultiFrame.dcm}
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMLegacyMultiFrameTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMLegacyMultiFrameTest.mha
 )
 
 itk_add_test(
@@ -279,6 +315,8 @@ itk_add_test(
     DATA{Input/030658_001.dcm}
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTestIntToUint.mha
     scalar
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTestIntToUint.mha
 )
 
 itk_add_test(
@@ -300,6 +338,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/RGBDicomTest.dcm}
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_RGB.mha
     rgb
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_RGB.mha
 )
 
 itk_add_test(
@@ -313,6 +353,8 @@ itk_add_test(
     DATA{Input/visible-male-rgb-slice.dcm}
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_SC_RGB.nrrd
     rgb
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_SC_RGB.nrrd
 )
 
 itk_add_test(
@@ -326,6 +368,8 @@ itk_add_test(
     DATA{Input/US1_J2KI.dcm}
     ${ITK_TEST_OUTPUT_DIR}/itkGDCM_ComplianceTestRGB_JPEG2000ICT.mha
     rgb
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCM_ComplianceTestRGB_JPEG2000ICT.mha
 )
 
 itk_add_test(
@@ -339,6 +383,8 @@ itk_add_test(
     DATA{Input/US1_J2KR.dcm}
     ${ITK_TEST_OUTPUT_DIR}/itkGDCM_ComplianceTestRGB_JPEG2000RCT.mha
     rgb
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCM_ComplianceTestRGB_JPEG2000RCT.mha
 )
 
 itk_add_test(
@@ -356,6 +402,8 @@ itk_add_test(
     DATA{Input/JPEGBaseline1DicomTest.dcm}
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_JPEGBaseline1.mha
     rgb
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_JPEGBaseline1.mha
 )
 itk_add_test(
   NAME itkGDCMImageReadWriteTest_MultiFrameMRIZSpacing
@@ -368,6 +416,8 @@ itk_add_test(
     DATA{Input/MultiFrameMRIZSpacing.dcm}
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_MultiFrameMRIZSpacing.mha
     scalar
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadWriteTest_MultiFrameMRIZSpacing.mha
 )
 
 itk_add_test(
@@ -382,6 +432,8 @@ itk_add_test(
     DATA{Input/itkGDCMImageIOTest3_mono1.dcm}
     ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3_mono1.mha
     scalar
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest3_mono1.mha
 )
 
 itk_add_test(
@@ -395,6 +447,8 @@ itk_add_test(
     DATA{Input/single-bit.dcm}
     ${ITK_TEST_OUTPUT_DIR}/single-bit.mha
     scalar
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/single-bit.mha
 )
 
 itk_add_test(
@@ -408,6 +462,8 @@ itk_add_test(
     DATA{Input/preamble.dcm}
     ${ITK_TEST_OUTPUT_DIR}/preamble.mha
     scalar
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/preamble.mha
 )
 
 itk_add_test(
@@ -421,6 +477,8 @@ itk_add_test(
     DATA{Input/no_preamble.dcm}
     ${ITK_TEST_OUTPUT_DIR}/no_preamble.mha
     scalar
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/no_preamble.mha
 )
 
 function(AddComplianceTest fileName)

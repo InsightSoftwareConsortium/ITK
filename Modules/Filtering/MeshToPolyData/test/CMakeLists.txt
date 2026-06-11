@@ -19,6 +19,8 @@ itk_add_test(
     itkMeshToPolyDataFilterTest
     DATA{Input/cow.vtk}
     ${ITK_TEST_OUTPUT_DIR}/itkMeshToPolyDataFilterTest.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMeshToPolyDataFilterTest.vtk
 )
 
 itk_add_test(
@@ -48,6 +50,8 @@ itk_add_test(
     MeshToPolyDataTestDriver
     itkImageToPointSetFilterTest
     DATA{Input/foot.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkImageToPointSetFilterTestOutput.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkImageToPointSetFilterTestOutput.vtk
 )
 

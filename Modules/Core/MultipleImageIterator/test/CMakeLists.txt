@@ -16,4 +16,6 @@ itk_add_test(
     DATA{img1.png}
     DATA{img2.png}
     DATA{img3.png}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/randOut.nrrd
 )

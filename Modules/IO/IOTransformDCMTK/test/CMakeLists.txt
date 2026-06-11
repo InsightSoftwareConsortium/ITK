@@ -40,4 +40,7 @@ itk_add_test(
     DATA{Input/rect-offset-sro-rigid/transform.dcm}
     ${TEMP}/DicomTransformFixedOutput.mha
     ${TEMP}/DicomTransformResampledMovingOutput.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/DicomTransformResampledMovingOutput.mha
+    ${TEMP}/DicomTransformFixedOutput.mha
 )

@@ -54,6 +54,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkLaplacianImageFilterTest.png
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLaplacianImageFilterTest.png
 )
 itk_add_test(
   NAME itkLaplacianImageFilterWithSpacingTest
@@ -66,6 +68,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkLaplacianImageFilterWithSpacingTest.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLaplacianImageFilterWithSpacingTest.png
 )
 itk_add_test(
   NAME itkSobelEdgeDetectionImageFilterTest
@@ -76,6 +80,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkSobelEdgeDetectionImageFilterTest.png
     itkSobelEdgeDetectionImageFilterTest
     DATA{Input/Swirled.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkSobelEdgeDetectionImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkSobelEdgeDetectionImageFilterTest.png
 )
 itk_add_test(
@@ -97,6 +103,8 @@ itk_add_test(
     uchar
     DATA{Input/Swirled.png}
     ${TEMP}/SwirledUSM_Defaults.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/SwirledUSM_Defaults.png
 )
 itk_add_test(
   NAME itkUnsharpMaskImageFilterTest_DefaultsFloat
@@ -110,6 +118,8 @@ itk_add_test(
     itkUnsharpMaskImageFilterTest
     float
     DATA{Input/Swirled.png}
+    ${TEMP}/SwirledUSM_Defaults.nrrd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/SwirledUSM_Defaults.nrrd
 )
 itk_add_test(
@@ -128,6 +138,8 @@ itk_add_test(
     3.0
     3.0
     15
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/SwirledUSM_3-3-15.nrrd.nrrd
 )
 itk_add_test(
   NAME itkHessian3DToVesselnessMeasureImageFilterTest
@@ -152,6 +164,8 @@ itk_add_test(
     ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput.mha
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput.mha
 )
 itk_add_test(
   NAME itkHessianToObjectnessMeasureImageFilterTest2
@@ -167,6 +181,8 @@ itk_add_test(
     ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput2.mha
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput2.mha
 )
 itk_add_test(
   NAME itkHessianRecursiveGaussianFilterScaleSpaceTest
@@ -184,6 +200,8 @@ itk_add_test(
     itkHessianRecursiveGaussianFilterTest
     2.5
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkHessianRecursiveGaussianFilterTest.txt
 )
 set_tests_properties(
   itkHessianRecursiveGaussianFilterTest
@@ -214,6 +232,8 @@ itk_add_test(
     itkCannyEdgeDetectionImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkCannyEdgeDetectionImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkCannyEdgeDetectionImageFilterTest.png
 )
 itk_add_test(
   NAME itkBilateralImageFilterTest
@@ -231,6 +251,8 @@ itk_add_test(
     itkBilateralImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/cake_easy.png}
     ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest2.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest2.png
 )
 itk_add_test(
   NAME itkBilateralImageFilterTest3
@@ -241,6 +263,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest3.png
     itkBilateralImageFilterTest3
     DATA{${ITK_DATA_ROOT}/Input/cake_easy.png}
+    ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest3.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest3.png
 )
 itk_add_test(
@@ -258,6 +282,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/SimpleContourExtractorImageFilterTest.png
     itkSimpleContourExtractorImageFilterTest
     DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/BinaryThresholdImageFilterTest2.png}
+    ${ITK_TEST_OUTPUT_DIR}/SimpleContourExtractorImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/SimpleContourExtractorImageFilterTest.png
 )
 itk_add_test(
@@ -277,6 +303,9 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkCannyEdgeDetectionImageFilterTest2_A.png
     ${ITK_TEST_OUTPUT_DIR}/itkCannyEdgeDetectionImageFilterTest2_B.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkCannyEdgeDetectionImageFilterTest2_A.png
+    ${ITK_TEST_OUTPUT_DIR}/itkCannyEdgeDetectionImageFilterTest2_B.png
 )
 itk_add_test(
   NAME itkDerivativeImageFilterTest1x
@@ -291,6 +320,8 @@ itk_add_test(
     1
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest1x.png
 )
 itk_add_test(
   NAME itkDerivativeImageFilterTest1y
@@ -305,6 +336,8 @@ itk_add_test(
     1
     1
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest1y.png
 )
 itk_add_test(
   NAME itkDerivativeImageFilterTest2x
@@ -319,6 +352,8 @@ itk_add_test(
     2
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest2x.png
 )
 itk_add_test(
   NAME itkDerivativeImageFilterTest2y
@@ -333,6 +368,8 @@ itk_add_test(
     2
     1
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest2y.png
 )
 itk_add_test(
   NAME itkLaplacianRecursiveGaussianImageFilterTest
@@ -343,6 +380,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png
     itkLaplacianRecursiveGaussianImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png
 )
 itk_add_test(
@@ -356,6 +395,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/sf4.png}
     ${ITK_TEST_OUTPUT_DIR}/itkLaplacianSharpeningImageFilterTest.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLaplacianSharpeningImageFilterTest.png
 )
 itk_add_test(
   NAME itkMaskFeaturePointSelectionFilterTest
@@ -371,6 +412,8 @@ itk_add_test(
     2
     0
     0.01
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTest.mha
 )
 itk_add_test(
   NAME itkMaskFeaturePointSelectionFilterTestTensors
@@ -386,6 +429,8 @@ itk_add_test(
     2
     1
     0.01
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTestTensors.mha
 )
 itk_add_test(
   NAME itkMaskFeaturePointSelectionFilterTestMask
@@ -402,6 +447,8 @@ itk_add_test(
     1
     0.01
     DATA{Input/HeadMRVolumeMaskImage.mha}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTestMask.mha
 )
 itk_add_test(
   NAME itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest
@@ -422,6 +469,8 @@ itk_add_test(
     0
     1
     3.0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest01.png
 )
 itk_add_test(
   NAME itkDiscreteGaussianDerivativeImageFilterTest10
@@ -436,6 +485,8 @@ itk_add_test(
     1
     0
     3.0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest10.png
 )
 itk_add_test(
   NAME itkDiscreteGaussianDerivativeImageFilterTest11
@@ -450,6 +501,8 @@ itk_add_test(
     1
     1
     3.0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest11.png
 )
 itk_add_test(
   NAME itkDiscreteGaussianDerivativeImageFilterTest20
@@ -464,6 +517,8 @@ itk_add_test(
     2
     0
     3.0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest20.png
 )
 itk_add_test(
   NAME itkDiscreteGaussianDerivativeImageFilterTest02
@@ -478,6 +533,8 @@ itk_add_test(
     0
     2
     3.0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest02.png
 )
 itk_add_test(
   NAME itkDiscreteGaussianDerivativeImageFilterTest21
@@ -492,6 +549,8 @@ itk_add_test(
     2
     1
     3.0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest21.png
 )
 itk_add_test(
   NAME itkDiscreteGaussianDerivativeImageFilterTest12
@@ -506,6 +565,8 @@ itk_add_test(
     1
     2
     3.0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest12.png
 )
 itk_add_test(
   NAME itkDiscreteGaussianDerivativeImageFilterTest30
@@ -520,6 +581,8 @@ itk_add_test(
     3
     0
     3.0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest30.png
 )
 itk_add_test(
   NAME itkDiscreteGaussianDerivativeImageFilterTest03
@@ -534,6 +597,8 @@ itk_add_test(
     0
     3
     3.0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFilterTest03.png
 )
 itk_add_test(
   NAME itkMultiScaleHessianBasedMeasureImageFilterTest
@@ -551,6 +616,10 @@ itk_add_test(
     10
     1
     0
+    ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput2.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestScalesOutput.mha
     ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput2.mha
 )
 

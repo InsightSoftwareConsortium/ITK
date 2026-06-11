@@ -113,6 +113,8 @@ itk_add_test(
     --redirectOutput
     ${TEMP}/itkCommonPrintTest.txt
     itkCommonPrintTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkCommonPrintTest.txt
 )
 set_tests_properties(
   itkCommonPrintTest
@@ -128,6 +130,8 @@ itk_add_test(
     --redirectOutput
     ${TEMP}/itkBasicFiltersPrintTest.txt
     itkBasicFiltersPrintTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkBasicFiltersPrintTest.txt
 )
 set_tests_properties(
   itkBasicFiltersPrintTest

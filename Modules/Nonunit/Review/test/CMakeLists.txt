@@ -66,6 +66,8 @@ itk_add_test(
     1000
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkAreaClosingImageFilterTest0.png
 )
 itk_add_test(
   NAME itkAreaOpeningImageFilterTest0
@@ -80,6 +82,8 @@ itk_add_test(
     1000
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkAreaOpeningImageFilterTest0.png
 )
 itk_add_test(
   NAME itkConformalFlatteningMeshFilterTest1
@@ -89,6 +93,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk}
     ${ITK_TEST_OUTPUT_DIR}/genusZeroMesh01ConformalFlattenedToSphere.vtk
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/genusZeroMesh01ConformalFlattenedToSphere.vtk
 )
 itk_add_test(
   NAME itkConformalFlatteningMeshFilterTest2
@@ -98,6 +104,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk}
     ${ITK_TEST_OUTPUT_DIR}/genusZeroMesh01ConformalFlattenedToPlane.vtk
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/genusZeroMesh01ConformalFlattenedToPlane.vtk
 )
 itk_add_test(
   NAME itkConformalFlatteningQuadEdgeMeshFilterTest1
@@ -109,6 +117,8 @@ itk_add_test(
     3
     100.0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/genusZeroQuadEdgeMesh01ConformalFlattenedToSphere.vtk
 )
 itk_add_test(
   NAME itkConformalFlatteningQuadEdgeMeshFilterTest2
@@ -120,6 +130,8 @@ itk_add_test(
     3
     100.0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/genusZeroQuadEdgeMesh01ConformalFlattenedToPlane.vtk
 )
 itk_add_test(
   NAME itkDirectFourierReconstructionImageToImageFilterTest
@@ -146,6 +158,8 @@ itk_add_test(
     64
     2
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/reconstruct.mha
 )
 itk_add_test(
   NAME itkFastApproximateRankImageFilterTest3
@@ -158,6 +172,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkFastApproximateRankImageFilter3.png
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkFastApproximateRankImageFilter3.png
 )
 itk_add_test(
   NAME itkFastApproximateRankImageFilterTest10
@@ -170,6 +186,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkFastApproximateRankImageFilter10.png
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkFastApproximateRankImageFilter10.png
 )
 itk_add_test(
   NAME itkGridForwardWarpImageFilterTest
@@ -179,6 +197,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkGridForwardWarpImageFilterTest.mha
     7dea362b3fac8e00956a4952a3d4f474
     itkGridForwardWarpImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkGridForwardWarpImageFilterTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkGridForwardWarpImageFilterTest.mha
 )
 itk_add_test(
@@ -200,6 +220,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkLabelGeometryImageFilterTest.png
     ${ITK_TEST_OUTPUT_DIR}/itkLabelGeometryImageFilterTest.csv
     DATA{${BASELINE}/itkLabelGeometryImageFilterTest.csv}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelGeometryImageFilterTest.png
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelGeometryImageFilterTest.csv
 )
 itk_add_test(
   NAME itkLabelGeometryImageFilterTest3D
@@ -214,6 +237,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkLabelGeometryImageFilterTest3D.mhd
     ${ITK_TEST_OUTPUT_DIR}/itkLabelGeometryImageFilterTest3D.csv
     DATA{${BASELINE}/itkLabelGeometryImageFilterTest3D.csv}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelGeometryImageFilterTest3D.{mhd,raw}
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelGeometryImageFilterTest3D.csv
 )
 itk_add_test(
   NAME itkMultiphaseDenseFiniteDifferenceImageFilterTest
@@ -243,6 +269,8 @@ itk_add_test(
     itkOptImageToImageMetricsTest
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkOptImageToImageMetricsTest01.txt
 )
 set_tests_properties(
   itkOptImageToImageMetricsTest01
@@ -262,6 +290,8 @@ itk_add_test(
     itkOptImageToImageMetricsTest
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkOptImageToImageMetricsTest02.txt
 )
 set_tests_properties(
   itkOptImageToImageMetricsTest02
@@ -280,6 +310,8 @@ itk_add_test(
     itkOptImageToImageMetricsTest
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkOptImageToImageMetricsTest03.txt
 )
 set_tests_properties(
   itkOptImageToImageMetricsTest03
@@ -326,6 +358,8 @@ itk_add_test(
     65535
     0
     94
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkRobustAutomaticThresholdImageFilterTest.png
 )
 itk_add_test(
   NAME itkRobustAutomaticThresholdCalculatorTest
@@ -358,6 +392,8 @@ itk_add_test(
     0
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
 )
 itk_add_test(
   NAME itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1
@@ -375,6 +411,8 @@ itk_add_test(
     1
     1
     200
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1.mha
 )
 itk_add_test(
   NAME itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2
@@ -392,6 +430,8 @@ itk_add_test(
     1
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha
 )
 itk_add_test(
   NAME itkScalarChanAndVeseDenseLevelSetImageFilterTest2_3
@@ -406,6 +446,8 @@ itk_add_test(
     0
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_3.mha
 )
 itk_add_test(
   NAME itkScalarChanAndVeseDenseLevelSetImageFilterTest3
@@ -429,6 +471,8 @@ itk_add_test(
     0
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseDenseLevelSetImageFilterTest4.mha
 )
 itk_add_test(
   NAME itkScalarChanAndVeseLevelSetFunctionTest1
@@ -458,6 +502,8 @@ itk_add_test(
     itkScalarChanAndVeseSparseLevelSetImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Baseline/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png,:}
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png
+    ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
 )
 itk_add_test(
@@ -497,6 +543,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/TreeBarkTexture.png}
     ${ITK_TEST_OUTPUT_DIR}/itkStochasticFractalDimensionImageFilterTest1.mha
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkStochasticFractalDimensionImageFilterTest1.mha
 )
 itk_add_test(
   NAME itkStochasticFractalDimensionImageFilterTest2
@@ -512,6 +560,8 @@ itk_add_test(
     2
     DATA{${ITK_DATA_ROOT}/Input/circle100.png}
     255
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkStochasticFractalDimensionImageFilterTest2.mha
 )
 itk_add_test(
   NAME itkTimeAndMemoryProbeTest1
@@ -526,6 +576,8 @@ itk_add_test(
     itkVoxBoCUBImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
     ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.cub
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.cub
 )
 itk_add_test(
   NAME itkVoxBoCUBImageIOTest2
@@ -533,6 +585,8 @@ itk_add_test(
     ITKReviewTestDriver
     itkVoxBoCUBImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.cub}
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume1.cub
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume1.cub
 )
 itk_add_test(
@@ -542,6 +596,8 @@ itk_add_test(
     itkVoxBoCUBImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume1.cub}
     ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume1.cub.gz
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume1.cub.gz
 )
 itk_add_test(
   NAME itkVoxBoCUBImageIOTest4
@@ -550,6 +606,8 @@ itk_add_test(
     itkVoxBoCUBImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume1.cub.gz}
     ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume2.cub.gz
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume2.cub.gz
 )
 itk_add_test(
   NAME itkVoxBoCUBImageIOTest5
@@ -557,6 +615,8 @@ itk_add_test(
     ITKReviewTestDriver
     itkVoxBoCUBImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume2.cub.gz}
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume2.cub
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume2.cub
 )
 itk_add_test(
@@ -569,6 +629,8 @@ itk_add_test(
     itkVoxBoCUBImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume2.cub}
     ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB2.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB2.mha
 )
 itk_add_test(
   NAME itkVoxBoCUBImageIOTest7
@@ -579,6 +641,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB3.mha
     itkVoxBoCUBImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume2.cub.gz}
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB3.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB3.mha
 )
 itk_add_test(

@@ -23,6 +23,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkLabelContourImageFilterTest0.png
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelContourImageFilterTest0.png
 )
 itk_add_test(
   NAME itkLabelContourImageFilterTest1
@@ -36,6 +38,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkLabelContourImageFilterTest1.png
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelContourImageFilterTest1.png
 )
 itk_add_test(
   NAME itkBinaryContourImageFilterTest0
@@ -50,6 +54,8 @@ itk_add_test(
     0
     200
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryContourImageFilterTest0.png
 )
 itk_add_test(
   NAME itkBinaryContourImageFilterTest1
@@ -64,4 +70,6 @@ itk_add_test(
     1
     200
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryContourImageFilterTest1.png
 )

@@ -82,6 +82,8 @@ itk_add_test(
     ITKQuadEdgeMeshTestDriver
     itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1
     ${ITK_TEST_OUTPUT_DIR}/sphere.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/sphere.vtk
 )
 itk_add_test(
   NAME itkQuadEdgeTest1
@@ -262,6 +264,8 @@ itk_add_test(
     ITKQuadEdgeMeshTestDriver
     itkVTKPolyDataIOQuadEdgeMeshTest
     DATA{${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk}
+    ${ITK_TEST_OUTPUT_DIR}/VTKPolyDataIOTest.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/VTKPolyDataIOTest.vtk
 )
 itk_add_test(

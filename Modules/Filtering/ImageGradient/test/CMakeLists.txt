@@ -36,6 +36,8 @@ itk_add_test(
     itkGradientImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/GradientMagnitudeImageFilterTest2.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/GradientMagnitudeImageFilterTest2.mha
 )
 
 itk_add_test(
@@ -52,6 +54,8 @@ itk_add_test(
     1.0
     1.0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest1a.png
 )
 itk_add_test(
   NAME itkVectorGradientMagnitudeImageFilterTest1b
@@ -67,6 +71,8 @@ itk_add_test(
     1.0
     1.0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest1b.png
 )
 itk_add_test(
   NAME itkVectorGradientMagnitudeImageFilterTest2
@@ -80,6 +86,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest2.png
     0
     5
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest2.png
 )
 itk_add_test(
   NAME itkVectorGradientMagnitudeImageFilterTest2b
@@ -93,6 +101,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest2b.png
     1
     5
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest2b.png
 )
 itk_add_test(
   NAME itkGradientMagnitudeImageFilterTest1
@@ -116,6 +126,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw}
     ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest3.mha
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest3.mha
 )
 itk_add_test(
   NAME itkGradientMagnitudeRecursiveGaussianFilterTest
@@ -167,6 +179,14 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkGradientRecursiveGaussianFilterTest3e.nii.gz
     ${ITK_TEST_OUTPUT_DIR}/itkGradientRecursiveGaussianFilterTest3f.nii.gz
     ${ITK_TEST_OUTPUT_DIR}/itkGradientRecursiveGaussianFilterTest3g.nii.gz
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGradientRecursiveGaussianFilterTest3a.nii.gz
+    ${ITK_TEST_OUTPUT_DIR}/itkGradientRecursiveGaussianFilterTest3b.nii.gz
+    ${ITK_TEST_OUTPUT_DIR}/itkGradientRecursiveGaussianFilterTest3c.nii.gz
+    ${ITK_TEST_OUTPUT_DIR}/itkGradientRecursiveGaussianFilterTest3d.nii.gz
+    ${ITK_TEST_OUTPUT_DIR}/itkGradientRecursiveGaussianFilterTest3e.nii.gz
+    ${ITK_TEST_OUTPUT_DIR}/itkGradientRecursiveGaussianFilterTest3f.nii.gz
+    ${ITK_TEST_OUTPUT_DIR}/itkGradientRecursiveGaussianFilterTest3g.nii.gz
 )
 
 itk_add_test(
@@ -178,6 +198,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkGradientRecursiveGaussianFilterTest4.mha
     itkGradientRecursiveGaussianFilterTest4
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkGradientRecursiveGaussianFilterTest4.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkGradientRecursiveGaussianFilterTest4.mha
 )
 

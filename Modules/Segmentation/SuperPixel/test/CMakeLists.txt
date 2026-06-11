@@ -19,6 +19,8 @@ itk_add_test(
     "${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput1.png"
     25
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput1.png
 )
 
 itk_add_test(
@@ -33,6 +35,8 @@ itk_add_test(
     "${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput2.png"
     25
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput2.png
 )
 
 itk_add_test(
@@ -47,6 +51,8 @@ itk_add_test(
     "${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput3.png"
     25
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput3.png
 )
 
 set(${itk-module}GTests itkSLICImageFilterGTest.cxx)

@@ -22,6 +22,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/NeighborhoodConnectedImageFilterTest.png
     146
     167
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/NeighborhoodConnectedImageFilterTest.png
 )
 itk_add_test(
   NAME itkIsolatedConnectedImageFilterTest
@@ -38,6 +40,8 @@ itk_add_test(
     85
     107
     110
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/IsolatedConnectedImageFilterTest.png
 )
 itk_add_test(
   NAME itkIsolatedConnectedImageFilterTest2
@@ -58,6 +62,8 @@ itk_add_test(
     125
     101
     170
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/IsolatedConnectedImageFilterTest2.png
 )
 itk_add_test(
   NAME itkConfidenceConnectedImageFilterTest
@@ -71,6 +77,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest.png
     165
     165
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest.png
 )
 itk_add_test(
   NAME itkConfidenceConnectedImageFilterTest2
@@ -84,6 +92,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest2.png
     9999
     9999
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest2.png
 )
 itk_add_test(
   NAME itkVectorConfidenceConnectedImageFilterTest
@@ -101,6 +111,8 @@ itk_add_test(
     67
     5.0
     6
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/VectorConfidenceConnectedImageFilterTest.png
 )
 itk_add_test(
   NAME itkVectorConfidenceConnectedImageFilterTest2
@@ -118,6 +130,8 @@ itk_add_test(
     9999
     5.0
     6
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/VectorConfidenceConnectedImageFilterTest2.png
 )
 itk_add_test(
   NAME itkConnectedThresholdImageFilterTest
@@ -133,6 +147,8 @@ itk_add_test(
     165
     0
     150
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ConnectedThresholdImageFilterTest.png
 )
 itk_add_test(
   NAME itkConnectedThresholdImageFilterTest2
@@ -149,4 +165,6 @@ itk_add_test(
     200
     255
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ConnectedThresholdImageFilterTest2.png
 )

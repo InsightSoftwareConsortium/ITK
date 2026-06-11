@@ -74,6 +74,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/SpotsInverted.png}
     DATA{${ITK_DATA_ROOT}/Input/SpotsInverted.png}
     ${ITK_TEST_OUTPUT_DIR}/ImageToVectorImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ImageToVectorImageFilterTest.png
 )
 itk_add_test(
   NAME itkImageReadRealAndImaginaryWriteComplexTest
@@ -82,6 +84,8 @@ itk_add_test(
     itkImageReadRealAndImaginaryWriteComplexTest
     ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png
     ${ITK_EXAMPLE_DATA_ROOT}/BrainT1Slice.png
+    ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkBrainSliceComplex.mha
 )
 itk_add_test(
@@ -94,6 +98,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/Number2inText.png}
     DATA{${ITK_DATA_ROOT}/Input/Number3inText.png}
     DATA{${ITK_DATA_ROOT}/Input/IntensityRamp64.png}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkComposeRGBAImageFilterTestOutput.png
 )
 itk_add_test(
   NAME itkJoinSeriesImageFilterTest
@@ -110,6 +116,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkJoinSeriesImageFilterStreamingTest.mha
     itkJoinSeriesImageFilterStreamingTest
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
+    ${ITK_TEST_OUTPUT_DIR}/itkJoinSeriesImageFilterStreamingTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkJoinSeriesImageFilterStreamingTest.mha
 )
 itk_add_test(

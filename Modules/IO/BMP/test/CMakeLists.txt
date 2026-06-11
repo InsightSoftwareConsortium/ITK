@@ -24,6 +24,8 @@ itk_add_test(
     itkBMPImageIOTest2
     DATA{${ITK_DATA_ROOT}/Input/smallRGBA.bmp}
     ${ITK_TEST_OUTPUT_DIR}/smallRGBA.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/smallRGBA.mha
 )
 itk_add_test(
   NAME itkBMPImageIOTest6
@@ -34,6 +36,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/smallRGBA.bmp
     itkBMPImageIOTest2
     DATA{${ITK_DATA_ROOT}/Input/smallRGBA.bmp}
+    ${ITK_TEST_OUTPUT_DIR}/smallRGBA.bmp
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/smallRGBA.bmp
 )
 itk_add_test(
@@ -46,6 +50,8 @@ itk_add_test(
     itkBMPImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.bmp}
     ${ITK_TEST_OUTPUT_DIR}/cthead1.bmp
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1.bmp
 )
 itk_add_test(
   NAME itkBMPImageIOTest2
@@ -56,6 +62,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/cthead254x254.bmp
     itkBMPImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/cthead254x254.bmp}
+    ${ITK_TEST_OUTPUT_DIR}/cthead254x254.bmp
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/cthead254x254.bmp
 )
 itk_add_test(
@@ -68,6 +76,8 @@ itk_add_test(
     itkBMPImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/image_grayscale.bmp}
     ${ITK_TEST_OUTPUT_DIR}/image_grayscale.bmp
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/image_grayscale.bmp
 )
 itk_add_test(
   NAME itkBMPImageIOTest4
@@ -78,6 +88,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/image_color.bmp
     itkBMPImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/image_color.bmp}
+    ${ITK_TEST_OUTPUT_DIR}/image_color.bmp
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/image_color.bmp
 )
 itk_add_test(
@@ -117,6 +129,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteExpanded.bmp
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteExpanded.bmp
 )
 itk_add_test(
   NAME itkBMPImageIOTestPaletteNotExpanded
@@ -130,6 +144,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpanded.bmp
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpanded.bmp
 )
 itk_add_test(
   NAME itkBMPImageIOTestPaletteNotExpandedGrey
@@ -143,6 +159,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpandedGrey.bmp
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpandedGrey.bmp
 )
 
 itk_add_test(

@@ -137,6 +137,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkGaussianRandomSubsamplingTest.mha
     itkGaussianRandomSpatialNeighborSubsamplerTest
     ${ITK_TEST_OUTPUT_DIR}/itkGaussianRandomSubsamplingTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkGaussianRandomSubsamplingTest.mha
 )
 itk_add_test(
   NAME itkKalmanLinearEstimatorTest
@@ -174,6 +176,8 @@ itk_add_test(
     100
     1
     ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest1_100.dot
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkKdTreeTest1.txt
 )
 set_tests_properties(
   itkKdTreeTest1
@@ -192,6 +196,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/pointsForKdTree.txt}
     1
     ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest2.dot
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkKdTreeTest2.txt
 )
 set_tests_properties(
   itkKdTreeTest2
@@ -210,6 +216,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/pointsForKdTree2.txt}
     1
     ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.dot
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkKdTreeTest3.txt
 )
 set_tests_properties(
   itkKdTreeTest3
@@ -228,6 +236,8 @@ itk_add_test(
     1000
     1000
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkKdTreeTest4.txt
 )
 set_tests_properties(
   itkKdTreeTest4
@@ -246,6 +256,8 @@ itk_add_test(
     1000
     1000
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkKdTreeTest5.txt
 )
 set_tests_properties(
   itkKdTreeTest5
@@ -264,6 +276,8 @@ itk_add_test(
     1000
     1000
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkKdTreeTest6.txt
 )
 set_tests_properties(
   itkKdTreeTest6
@@ -282,6 +296,8 @@ itk_add_test(
     1000
     1000
     5
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkKdTreeTest7.txt
 )
 set_tests_properties(
   itkKdTreeTest7
@@ -300,6 +316,8 @@ itk_add_test(
     1000
     1000
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkKdTreeTest8.txt
 )
 set_tests_properties(
   itkKdTreeTest8
@@ -318,6 +336,8 @@ itk_add_test(
     1000
     1000
     20
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkKdTreeTest9.txt
 )
 set_tests_properties(
   itkKdTreeTest9
@@ -336,6 +356,8 @@ itk_add_test(
     1000
     1000
     100
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkKdTreeTest10.txt
 )
 set_tests_properties(
   itkKdTreeTest10
@@ -355,6 +377,8 @@ itk_add_test(
     100
     20
     16
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkKdTreeTest11.txt
 )
 set_tests_properties(
   itkKdTreeTest11
@@ -380,6 +404,8 @@ if(DOXYGEN_DOT_EXECUTABLE)
       -o
       ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest1_100.png
       ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest1_100.dot
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest1_100.png
   )
   set_tests_properties(
     itkKdTreeTest1Plot
@@ -395,6 +421,8 @@ if(DOXYGEN_DOT_EXECUTABLE)
       -o
       ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest2.png
       ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest2.dot
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest2.png
   )
   set_tests_properties(
     itkKdTreeTest2Plot
@@ -410,6 +438,8 @@ if(DOXYGEN_DOT_EXECUTABLE)
       -o
       ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.png
       ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.dot
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.png
   )
   set_tests_properties(
     itkKdTreeTest3Plot
@@ -908,6 +938,8 @@ itk_add_test(
     itkUniformRandomSpatialNeighborSubsamplerTest
     0
     ${ITK_TEST_OUTPUT_DIR}/itkUniformRandomSubsamplingTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkUniformRandomSubsamplingTest.mha
 )
 itk_add_test(
   NAME itkImageToHistogramFilterTest
@@ -922,6 +954,8 @@ itk_add_test(
     itkImageToHistogramFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
     ${ITK_TEST_OUTPUT_DIR}/itkImageToHistogramFilterTest2.txt
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkImageToHistogramFilterTest2.txt
 )
 itk_add_test(
   NAME itkImageToHistogramFilterTest2_Auto
@@ -931,6 +965,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
     ${ITK_TEST_OUTPUT_DIR}/itkImageToHistogramFilterTest2_Auto.txt
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkImageToHistogramFilterTest2_Auto.txt
 )
 itk_add_test(
   NAME itkScalarImageToHistogramGeneratorTest
@@ -938,6 +974,8 @@ itk_add_test(
     ITKStatisticsTestDriver
     itkScalarImageToHistogramGeneratorTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkScalarImageToHistogramGeneratorTest.txt
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkScalarImageToHistogramGeneratorTest.txt
 )
 

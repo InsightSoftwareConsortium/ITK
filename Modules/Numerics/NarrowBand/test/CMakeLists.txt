@@ -19,4 +19,6 @@ itk_add_test(
     ITKNarrowBandTestDriver
     itkNarrowBandImageFilterBaseTest
     ${ITK_TEST_OUTPUT_DIR}/itkNarrowBandImageFilterBaseTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkNarrowBandImageFilterBaseTest.png
 )

@@ -27,6 +27,9 @@ itk_add_test(
     320
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/fsmeshiosphere.fsa
+    ${ITK_TEST_OUTPUT_DIR}/fsa2fsbsphere.fsb
 )
 itk_add_test(
   NAME itkFreeSurferMeshIOTestBinary
@@ -47,6 +50,9 @@ itk_add_test(
     320
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/fsmeshiosphere.fsb
+    ${ITK_TEST_OUTPUT_DIR}/fsb2fsasphere.fsa
 )
 itk_add_test(
   NAME itkMeshFileReadWriteTestFreeSurfer1
@@ -55,6 +61,8 @@ itk_add_test(
     itkMeshFileReadWriteTest
     DATA{Baseline/sphere.fsb}
     ${ITK_TEST_OUTPUT_DIR}/sphere.fsb
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/sphere.fsb
 )
 itk_add_test(
   NAME itkMeshFileReadWriteTestFreeSurfer2
@@ -62,5 +70,7 @@ itk_add_test(
     ITKIOMeshFreeSurferTestDriver
     itkMeshFileReadWriteTest
     DATA{Baseline/sphere.fsa}
+    ${ITK_TEST_OUTPUT_DIR}/sphere.fsa
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/sphere.fsa
 )

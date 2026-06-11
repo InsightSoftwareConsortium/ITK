@@ -23,6 +23,12 @@ itk_add_test(
     1
     24
     MP42
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/frame0.png
+    ${ITK_TEST_OUTPUT_DIR}/frame1.png
+    ${ITK_TEST_OUTPUT_DIR}/frame2.png
+    ${ITK_TEST_OUTPUT_DIR}/frame3.png
+    ${ITK_TEST_OUTPUT_DIR}/frame4.png
 )
 
 # FileListVideoIO:
@@ -43,6 +49,13 @@ itk_add_test(
     240
     5
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/filelistvideoio_frame0.png
+    ${ITK_TEST_OUTPUT_DIR}/filelistvideoio_frame1.png
+    ${ITK_TEST_OUTPUT_DIR}/filelistvideoio_frame2.png
+    ${ITK_TEST_OUTPUT_DIR}/filelistvideoio_frame3.png
+    ${ITK_TEST_OUTPUT_DIR}/filelistvideoio_frame4.png
+    ${ITK_TEST_OUTPUT_DIR}/FileListVideoIOTest_CameraOut.mha
 )
 
 # FileListVideoIOFactory:
@@ -58,4 +71,10 @@ itk_add_test(
     DATA{Input/frame4.jpg}
     "${ITK_TEST_OUTPUT_DIR}/filelistfactory_frame0.png,${ITK_TEST_OUTPUT_DIR}/filelistfactory_frame1.png,${ITK_TEST_OUTPUT_DIR}/filelistfactory_frame2.png,${ITK_TEST_OUTPUT_DIR}/filelistfactory_frame3.png,${ITK_TEST_OUTPUT_DIR}/filelistfactory_frame4.png"
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/filelistfactory_frame0.png
+    ${ITK_TEST_OUTPUT_DIR}/filelistfactory_frame1.png
+    ${ITK_TEST_OUTPUT_DIR}/filelistfactory_frame2.png
+    ${ITK_TEST_OUTPUT_DIR}/filelistfactory_frame3.png
+    ${ITK_TEST_OUTPUT_DIR}/filelistfactory_frame4.png
 )

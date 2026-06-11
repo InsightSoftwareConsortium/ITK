@@ -44,6 +44,8 @@ itk_add_test(
     itkNiftiImageIOTest
     ${ITK_TEST_OUTPUT_DIR}/itkNiftisform2DirectionDefNiiGzTest.nii.gz
     DATA{${ITK_DATA_ROOT}/Input/itkNiftisform2DirectionDef.nii.gz}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkNiftisform2DirectionDefNiiGzTest.nii.gz
 )
 
 itk_add_test(
@@ -54,6 +56,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkNiftiIOBigEndianCompressedHdrTest.nii.gz
     itkNiftiIOBigEndianCompressed.hdr
     DATA{${ITK_DATA_ROOT}/Input/BigEndianCompressed.hdr}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkNiftiIOBigEndianCompressedHdrTest.nii.gz
 )
 itk_add_test(
   NAME itkNiftiIOBigEndianCompressed.img
@@ -63,6 +67,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkNiftiIOBigEndianCompressedImgTest.nii.gz
     itkNiftiIOBigEndianCompressed.img
     DATA{${ITK_DATA_ROOT}/Input/BigEndianCompressed.img}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkNiftiIOBigEndianCompressedImgTest.nii.gz
 )
 itk_add_test(
   NAME itkNiftiIOBigEndianCompressed.img.gz
@@ -72,6 +78,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkNiftiIOBigEndianCompressedImgGz.nii.gz
     itkNiftiIOBigEndianCompressed.img.gz
     DATA{${ITK_DATA_ROOT}/Input/BigEndianCompressed.img.gz}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkNiftiIOBigEndianCompressedImgGz.nii.gz
 )
 itk_add_test(
   NAME itkNiftiIOBigEndian
@@ -81,6 +89,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkNiftiIOBigEndianTest.nii.gz
     itkNiftiIOBigEndian
     DATA{${ITK_DATA_ROOT}/Input/BigEndian.hdr,BigEndian.mhd,BigEndian.img}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkNiftiIOBigEndianTest.nii.gz
 )
 itk_add_test(
   NAME itkNiftiIOLittleEndianCompressed
@@ -90,6 +100,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkNiftiIOLittleEndianCompressedTest.nii.gz
     itkNiftiImageIOTest
     DATA{${ITK_DATA_ROOT}/Input/LittleEndianCompressed.hdr,LittleEndianCompressed.img.gz}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkNiftiIOLittleEndianCompressedTest.nii.gz
 )
 itk_add_test(
   NAME itkNiftiIOLittleEndian
@@ -99,12 +111,16 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkNiftiIOLittleEndianTest.nii.gz
     itkNiftiIOLittleEndian
     DATA{${ITK_DATA_ROOT}/Input/LittleEndian.hdr,LittleEndian.mhd,LittleEndian.img}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkNiftiIOLittleEndianTest.nii.gz
 )
 itk_add_test(
   NAME itkNiftiIOInternalTests
   COMMAND
     ITKIONIFTITestDriver
     itkNiftiImageIOTest
+    ${ITK_TEST_OUTPUT_DIR}/itkNiftiIOInternalTestsTest.nii.gz
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkNiftiIOInternalTestsTest.nii.gz
 )
 itk_add_test(
@@ -218,6 +234,8 @@ itk_add_test(
     itkExtractSlice
     DATA{Input/SlopeInterceptUCHAR.nii.gz}
     ${ITK_TEST_OUTPUT_DIR}/SlopeInterceptUCHAR-midSlice.nrrd
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/SlopeInterceptUCHAR-midSlice.nrrd
 )
 
 itk_add_test(
@@ -264,6 +282,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/xyzt_units_output_check.nii
     DATA{Input/xyzt_units_test_scl_mm_s.nii.gz}
     DATA{Input/xyzt_units_test_scl.nii.gz}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/xyzt_units_output_check.nii
 )
 
 itk_add_test(
@@ -274,6 +294,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/xyzt_units_output_check2.nii
     DATA{Input/xyzt_units_test_scl_mm_s.nii.gz}
     DATA{Input/xyzt_units_test_scl_mm_s.nii.gz}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/xyzt_units_output_check2.nii
 )
 
 itk_add_test(
@@ -289,6 +311,8 @@ itk_add_test(
   COMMAND
     ITKIONIFTITestDriver
     itkNiftiLargeImageRegionReadTest
+    ${ITK_TEST_OUTPUT_DIR}/itkNiftiLargeImageRegionReadTest.nii.gz
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkNiftiLargeImageRegionReadTest.nii.gz
 )
 

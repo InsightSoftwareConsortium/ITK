@@ -28,6 +28,8 @@ itk_add_test(
     itkTobogganImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkTobogganImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTobogganImageFilterTest.png
 )
 itk_add_test(
   NAME itkIsolatedWatershedImageFilterTest
@@ -45,6 +47,8 @@ itk_add_test(
     99
     0.001
     .0001
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkIsolatedWatershedImageFilterTest.png
 )
 itk_add_test(
   NAME itkIsolatedWatershedImageFilterTestCloseThresholds
@@ -62,6 +66,8 @@ itk_add_test(
     99
     0.1
     1.0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkIsolatedWatershedImageFilterTestCloseThresholds.png
 )
 itk_add_test(
   NAME itkWatershedImageFilterTest
@@ -83,6 +89,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedFromMarkersImageFilterTestM0F0.png
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedFromMarkersImageFilterTestM0F0.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedFromMarkersImageFilterTestM0F1
@@ -97,6 +105,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedFromMarkersImageFilterTestM0F1.png
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedFromMarkersImageFilterTestM0F1.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedFromMarkersImageFilterTestM1F0
@@ -111,6 +121,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedFromMarkersImageFilterTestM1F0.png
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedFromMarkersImageFilterTestM1F0.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedFromMarkersImageFilterTestM1F1
@@ -125,6 +137,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedFromMarkersImageFilterTestM1F1.png
     1
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedFromMarkersImageFilterTestM1F1.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestButtonHoleM0F0
@@ -139,6 +153,8 @@ itk_add_test(
     0
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestButtonHoleM0F0.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestPassValuesM0F0
@@ -153,6 +169,8 @@ itk_add_test(
     0
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPassValuesM0F0.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestPlateauM0F0
@@ -167,6 +185,8 @@ itk_add_test(
     0
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPlateauM0F0.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestThickLinesM0F0
@@ -181,6 +201,8 @@ itk_add_test(
     0
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestThickLinesM0F0.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestButtonHoleM0F1
@@ -195,6 +217,8 @@ itk_add_test(
     0
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestButtonHoleM0F1.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestPassValuesM0F1
@@ -209,6 +233,8 @@ itk_add_test(
     0
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPassValuesM0F1.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestPlateauM0F1
@@ -223,6 +249,8 @@ itk_add_test(
     0
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPlateauM0F1.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestThickLinesM0F1
@@ -237,6 +265,8 @@ itk_add_test(
     0
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestThickLinesM0F1.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestButtonHoleM1F0
@@ -251,6 +281,8 @@ itk_add_test(
     1
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestButtonHoleM1F0.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestPassValuesM1F0
@@ -265,6 +297,8 @@ itk_add_test(
     1
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPassValuesM1F0.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestPlateauM1F0
@@ -279,6 +313,8 @@ itk_add_test(
     1
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPlateauM1F0.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestThickLinesM1F0
@@ -293,6 +329,8 @@ itk_add_test(
     1
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestThickLinesM1F0.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestButtonHoleM1F1
@@ -307,6 +345,8 @@ itk_add_test(
     1
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestButtonHoleM1F1.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestPassValuesM1F1
@@ -321,6 +361,8 @@ itk_add_test(
     1
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPassValuesM1F1.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestPlateauM1F1
@@ -335,6 +377,8 @@ itk_add_test(
     1
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPlateauM1F1.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestThickLinesM1F1
@@ -349,6 +393,8 @@ itk_add_test(
     1
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestThickLinesM1F1.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestLevel00
@@ -363,6 +409,8 @@ itk_add_test(
     1
     0
     00
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel00.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestLevel10
@@ -377,6 +425,8 @@ itk_add_test(
     1
     0
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel10.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestLevel20
@@ -391,6 +441,8 @@ itk_add_test(
     1
     0
     20
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel20.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestLevel30
@@ -405,6 +457,8 @@ itk_add_test(
     1
     0
     30
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel30.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestLevel40
@@ -419,6 +473,8 @@ itk_add_test(
     1
     0
     40
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel40.png
 )
 itk_add_test(
   NAME itkMorphologicalWatershedImageFilterTestLevel50
@@ -433,4 +489,6 @@ itk_add_test(
     1
     0
     50
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel50.png
 )

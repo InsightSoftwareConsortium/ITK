@@ -94,6 +94,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/ExtractOrthogonalSwath2DImageFilterTest.png
     itkExtractOrthogonalSwath2DImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/ExtractOrthogonalSwath2DImageFilterTest.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ExtractOrthogonalSwath2DImageFilterTest.png
 )
 itk_add_test(
   NAME itkOrthogonalSwath2DPathFilterTest

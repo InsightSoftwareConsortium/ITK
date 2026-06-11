@@ -23,6 +23,8 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
       itkScancoImageIOTest
       DATA{Input/C0004255.ISQ}
       ${ITK_TEST_OUTPUT_DIR}/C0004255.mha
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/C0004255.mha
   )
   set_tests_properties(
     itkScancoImageIOISQConvertTest
@@ -42,6 +44,8 @@ itk_add_test(
     itkScancoImageIOTest
     DATA{Input/AIMIOTestImage.AIM}
     ${ITK_TEST_OUTPUT_DIR}/AIMIOTestImage.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/AIMIOTestImage.mha
 )
 
 if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
@@ -53,6 +57,8 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
       DATA{Input/C0004255.ISQ}
       ${ITK_TEST_OUTPUT_DIR}/C0003665.isq
       1
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/C0003665.isq
   )
   set_tests_properties(
     itkScancoImageIOISQHeaderCheckTest
@@ -70,6 +76,8 @@ itk_add_test(
     DATA{Input/AIMIOTestImage.AIM}
     ${ITK_TEST_OUTPUT_DIR}/AIMIOTestImage2.isq
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/AIMIOTestImage2.isq
 )
 
 if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
@@ -82,6 +90,8 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
       ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.mha
       itkScancoImageIOTest2
       DATA{Input/C0004255.ISQ}
+      ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.mha
+    ITK_REMOVE_TEMPORARY_TEST_FILES
       ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.mha
   )
 
@@ -116,6 +126,8 @@ itk_add_test(
     itkScancoImageIOTest3
     DATA{Input/AIMIOTestImage.AIM}
     ${ITK_TEST_OUTPUT_DIR}/AIMIOTestImageTest3.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/AIMIOTestImageTest3.mha
 )
 set_property(
   TEST
@@ -133,6 +145,8 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
       IOScancoTestDriver
       itkScancoImageIOTest2
       ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.isq
+      ${ITK_TEST_OUTPUT_DIR}/ISQWrite.ISQ
+    ITK_REMOVE_TEMPORARY_TEST_FILES
       ${ITK_TEST_OUTPUT_DIR}/ISQWrite.ISQ
   )
   set_property(
@@ -170,6 +184,8 @@ itk_add_test(
     itkScancoImageIOTest3
     ${ITK_TEST_OUTPUT_DIR}/AIMIOTestWrite.aim
     ${ITK_TEST_OUTPUT_DIR}/AIMIOTestWrite2.aim
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/AIMIOTestWrite2.aim
 )
 
 set_property(
@@ -193,4 +209,6 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/AIMIOTestWritev030.aim
     0
     "AIMDATA_V030   "
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/AIMIOTestWritev030.aim
 )

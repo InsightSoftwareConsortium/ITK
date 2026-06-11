@@ -82,6 +82,8 @@ if(NOT VTK_RENDERING_BACKEND STREQUAL "None")
       QuickViewTest
       DATA{${ITK_DATA_ROOT}/Input/peppers.png}
       ${ITK_TEST_OUTPUT_DIR}
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/QuickViewTest0.png
   )
   set_property(
     TEST

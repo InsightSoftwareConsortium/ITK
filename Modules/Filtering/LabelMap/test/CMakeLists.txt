@@ -88,6 +88,8 @@ itk_add_test(
     itkAggregateLabelMapFilterTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
     ${ITK_TEST_OUTPUT_DIR}/cthead1-labelAggregate.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-labelAggregate.mha
 )
 itk_add_test(
   NAME itkAttributeKeepNObjectsLabelMapFilterTest0
@@ -101,6 +103,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkAttributeKeepNObjectsLabelMapFilterTest0.png
     2
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkAttributeKeepNObjectsLabelMapFilterTest0.png
 )
 itk_add_test(
   NAME itkAttributeKeepNObjectsLabelMapFilterTest1
@@ -114,6 +118,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkAttributeKeepNObjectsLabelMapFilterTest1.png
     2
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkAttributeKeepNObjectsLabelMapFilterTest1.png
 )
 itk_add_test(
   NAME itkAttributeLabelObjectAccessorsTest1
@@ -135,6 +141,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkAttributeOpeningLabelMapFilterTest0.png
     2
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkAttributeOpeningLabelMapFilterTest0.png
 )
 itk_add_test(
   NAME itkAttributeOpeningLabelMapFilterTest1
@@ -148,6 +156,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkAttributeOpeningLabelMapFilterTest1.png
     2
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkAttributeOpeningLabelMapFilterTest1.png
 )
 itk_add_test(
   NAME itkAttributePositionLabelMapFilterTest1
@@ -158,6 +168,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkAttributePositionLabelMapFilterTest1.png
     itkAttributePositionLabelMapFilterTest1
     DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkAttributePositionLabelMapFilterTest1.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkAttributePositionLabelMapFilterTest1.png
 )
 itk_add_test(
@@ -171,6 +183,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
     ${ITK_TEST_OUTPUT_DIR}/itkAttributeRelabelLabelMapFilterTest0.png
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkAttributeRelabelLabelMapFilterTest0.png
 )
 itk_add_test(
   NAME itkAttributeRelabelLabelMapFilterTest1
@@ -183,6 +197,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
     ${ITK_TEST_OUTPUT_DIR}/itkAttributeRelabelLabelMapFilterTest1.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkAttributeRelabelLabelMapFilterTest1.png
 )
 itk_add_test(
   NAME itkAttributeUniqueLabelMapFilterTest0
@@ -195,6 +211,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png}
     ${ITK_TEST_OUTPUT_DIR}/itkAttributeUniqueLabelMapFilterTest0.png
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkAttributeUniqueLabelMapFilterTest0.png
 )
 itk_add_test(
   NAME itkAttributeUniqueLabelMapFilterTest1
@@ -207,6 +225,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png}
     ${ITK_TEST_OUTPUT_DIR}/itkAttributeUniqueLabelMapFilterTest1.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkAttributeUniqueLabelMapFilterTest1.png
 )
 itk_add_test(
   NAME itkAutoCropLabelMapFilterTest1
@@ -221,6 +241,8 @@ itk_add_test(
     176
     4
     4
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-label-autocrop.mha
 )
 itk_add_test(
   NAME itkBinaryFillholeImageFilterTest1
@@ -234,6 +256,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBinaryFillholeImageFilterTest1.png
     1
     255
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryFillholeImageFilterTest1.png
 )
 itk_add_test(
   NAME itkBinaryFillholeImageFilterTest3D_0
@@ -247,6 +271,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBinaryFillholeImageFilterTest3D_0.nrrd
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryFillholeImageFilterTest3D_0.nrrd
 )
 itk_add_test(
   NAME itkBinaryFillholeImageFilterTest3D_1
@@ -260,6 +286,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBinaryFillholeImageFilterTest3D_1.nrrd
     1
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryFillholeImageFilterTest3D_1.nrrd
 )
 itk_add_test(
   NAME itkBinaryGrindPeakImageFilterTest1
@@ -274,6 +302,8 @@ itk_add_test(
     1
     255
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryGrindPeakImageFilterTest1.png
 )
 itk_add_test(
   NAME itkBinaryGrindPeakImageFilterTest2
@@ -288,6 +318,8 @@ itk_add_test(
     0
     255
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryGrindPeakImageFilterTest2.png
 )
 itk_add_test(
   NAME itkBinaryImageToLabelMapFilterTest1
@@ -303,6 +335,8 @@ itk_add_test(
     255
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-labeled.mha
 )
 itk_add_test(
   NAME itkBinaryImageToLabelMapFilterTest2
@@ -318,6 +352,8 @@ itk_add_test(
     255
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/connected0lines-0.png
 )
 itk_add_test(
   NAME itkBinaryImageToLabelMapFilterTest3
@@ -333,6 +369,8 @@ itk_add_test(
     255
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/connected0lines-1.png
 )
 itk_add_test(
   NAME itkBinaryImageToLabelMapFilterTest4
@@ -345,6 +383,8 @@ itk_add_test(
     255
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/tooManyObjects.png
 )
 itk_add_test(
   NAME itkBinaryImageToLabelMapFilterTest5
@@ -360,6 +400,8 @@ itk_add_test(
     255
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/nonConnected3DLines-0.tif
 )
 itk_add_test(
   NAME itkBinaryImageToLabelMapFilterTest6
@@ -371,6 +413,8 @@ itk_add_test(
     255
     0
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/LabelImage1Row.bmp
 )
 itk_add_test(
   NAME itkBinaryImageToLabelMapFilterTest7
@@ -382,6 +426,8 @@ itk_add_test(
     255
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/LabelImage1Row_Test7.bmp
 )
 itk_add_test(
   NAME itkBinaryImageToShapeLabelMapFilterTest1
@@ -399,6 +445,8 @@ itk_add_test(
     1
     1
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/Spots-binaryimage-to-shapelabel.mha
 )
 itk_add_test(
   NAME itkBinaryImageToStatisticsLabelMapFilterTest1
@@ -418,6 +466,8 @@ itk_add_test(
     1
     1
     128
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/Spots-binaryimage-to-statisticslabel.mha
 )
 itk_add_test(
   NAME itkBinaryNotImageFilterTest
@@ -429,6 +479,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkBinaryNotImageFilterTest.png
     255
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryNotImageFilterTest.png
 )
 itk_add_test(
   NAME itkBinaryReconstructionByDilationImageFilterTest
@@ -444,6 +496,8 @@ itk_add_test(
     255
     100
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionByDilationImageFilterTest.png
 )
 itk_add_test(
   NAME itkBinaryReconstructionByErosionImageFilterTest
@@ -459,6 +513,8 @@ itk_add_test(
     0
     255
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionByErosionImageFilterTest.png
 )
 itk_add_test(
   NAME itkBinaryReconstructionLabelMapFilterTest
@@ -472,6 +528,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1-markers.png}
     ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionLabelMapFilterTest.png
     94
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionLabelMapFilterTest.png
 )
 itk_add_test(
   NAME itkBinaryShapeKeepNObjectsImageFilterTest1
@@ -489,6 +547,8 @@ itk_add_test(
     0
     1
     Label
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryShapeKeepNObjectsImageFilterTest1.png
 )
 itk_add_test(
   NAME itkBinaryShapeOpeningImageFilterTest1
@@ -506,6 +566,8 @@ itk_add_test(
     1
     1
     100
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-binary-shape-opening.mha
 )
 itk_add_test(
   NAME itkBinaryStatisticsKeepNObjectsImageFilterTest1
@@ -524,6 +586,8 @@ itk_add_test(
     0
     0
     200
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryStatisticsKeepNObjectsImageFilterTest1.png
 )
 itk_add_test(
   NAME itkBinaryStatisticsOpeningImageFilterTest1
@@ -542,6 +606,8 @@ itk_add_test(
     0
     0
     202
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryStatisticsOpeningImageFilterTest1.png
 )
 itk_add_test(
   NAME itkChangeLabelLabelMapFilterTest1
@@ -559,6 +625,8 @@ itk_add_test(
     163
     176
     176
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-label-changed.mha
 )
 itk_add_test(
   NAME itkChangeLabelLabelMapFilterTest2
@@ -576,6 +644,8 @@ itk_add_test(
     50
     92
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-label-changed2.mha
 )
 itk_add_test(
   NAME itkChangeLabelLabelMapFilterTest3
@@ -589,6 +659,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/cthead1-label-changed3.png
     0
     94
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-label-changed3.png
 )
 itk_add_test(
   NAME itkChangeRegionLabelMapFilterTest1
@@ -604,6 +676,8 @@ itk_add_test(
     100
     120
     150
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-label-changeregion.mha
 )
 itk_add_test(
   NAME itkConvertLabelMapFilterTest1
@@ -615,6 +689,8 @@ itk_add_test(
     itkConvertLabelMapFilterTest1
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
     ${ITK_TEST_OUTPUT_DIR}/cthead1-convert.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-convert.png
 )
 itk_add_test(
   NAME itkConvertLabelMapFilterTest2
@@ -625,6 +701,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/cthead1-convert-short.png
     itkConvertLabelMapFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-convert-short.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/cthead1-convert-short.png
 )
 itk_add_test(
@@ -639,6 +717,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/cthead1-label-crop.mha
     40
     50
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-label-crop.mha
 )
 itk_add_test(
   NAME itkLabelImageToLabelMapFilterTest
@@ -659,6 +739,8 @@ itk_add_test(
     90
     1
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/simple-label-to-shapelabelmap.mha
 )
 itk_add_test(
   NAME itkLabelImageToStatisticsLabelMapFilterTest1
@@ -676,6 +758,8 @@ itk_add_test(
     1
     1
     256
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/Spots-labelimage-to-statisticslabel.png
 )
 itk_add_test(
   NAME itkLabelMapFilterTest
@@ -699,6 +783,8 @@ itk_add_test(
     0
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-0-0-0.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTestCrop-0-0-0-0
@@ -716,6 +802,8 @@ itk_add_test(
     0
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-0-0-0.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTestCrop-0-0-0-10
@@ -733,6 +821,8 @@ itk_add_test(
     0
     1
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-0-0-10.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTest-0-0-1
@@ -750,6 +840,8 @@ itk_add_test(
     1
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-0-0-1.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTestCrop-0-0-1-0
@@ -767,6 +859,8 @@ itk_add_test(
     1
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-0-1-0.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTestCrop-0-0-1-10
@@ -784,6 +878,8 @@ itk_add_test(
     1
     1
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-0-1-10.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTest-0-1-0
@@ -801,6 +897,8 @@ itk_add_test(
     0
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-0-1-0.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTestCrop-0-1-0-0
@@ -818,6 +916,8 @@ itk_add_test(
     0
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-1-0-0.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTestCrop-0-1-0-10
@@ -835,6 +935,8 @@ itk_add_test(
     0
     1
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-1-0-10.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTest-0-1-1
@@ -852,6 +954,8 @@ itk_add_test(
     1
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-0-1-1.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTestCrop-0-1-1-0
@@ -869,6 +973,8 @@ itk_add_test(
     1
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-1-1-0.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTestCrop-0-1-1-10
@@ -886,6 +992,8 @@ itk_add_test(
     1
     1
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-0-1-1-10.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTest-100-0-0
@@ -903,6 +1011,8 @@ itk_add_test(
     0
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-100-0-0.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTestCrop-100-0-0-0
@@ -920,6 +1030,8 @@ itk_add_test(
     0
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-0-0-0.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTestCrop-100-0-0-10
@@ -937,6 +1049,8 @@ itk_add_test(
     0
     1
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-0-0-10.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTest-100-0-1
@@ -954,6 +1068,8 @@ itk_add_test(
     1
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-100-0-1.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTestCrop-100-0-1-0
@@ -971,6 +1087,8 @@ itk_add_test(
     1
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-0-1-0.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTestCrop-100-0-1-10
@@ -988,6 +1106,8 @@ itk_add_test(
     1
     1
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-0-1-10.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTest-100-1-0
@@ -1005,6 +1125,8 @@ itk_add_test(
     0
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-100-1-0.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTestCrop-100-1-0-0
@@ -1022,6 +1144,8 @@ itk_add_test(
     0
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-1-0-0.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTestCrop-100-1-0-10
@@ -1039,6 +1163,8 @@ itk_add_test(
     0
     1
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-1-0-10.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTest-100-1-1
@@ -1056,6 +1182,8 @@ itk_add_test(
     1
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTest-100-1-1.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTestCrop-100-1-1-0
@@ -1073,6 +1201,8 @@ itk_add_test(
     1
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-1-1-0.png
 )
 itk_add_test(
   NAME itkLabelMapMaskImageFilterTestCrop-100-1-1-10
@@ -1090,6 +1220,8 @@ itk_add_test(
     1
     1
     10
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapMaskImageFilterTestCrop-100-1-1-10.png
 )
 itk_add_test(
   NAME itkLabelMapTest
@@ -1113,6 +1245,8 @@ itk_add_test(
     itkLabelMapToAttributeImageFilterTest1
     DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png}
     ${ITK_TEST_OUTPUT_DIR}/itkLabelMapToAttributeImageFilterTest1.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelMapToAttributeImageFilterTest1.png
 )
 itk_add_test(
   NAME itkLabelMapToBinaryImageFilterTest1
@@ -1126,6 +1260,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/cthead1-label-binary.mha
     255
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-label-binary.mha
 )
 itk_add_test(
   NAME itkLabelMapToLabelImageFilterTest
@@ -1163,6 +1299,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkLabelSelectionLabelMapFilterTest0.png
     0
     94
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelSelectionLabelMapFilterTest0.png
 )
 itk_add_test(
   NAME itkLabelSelectionLabelMapFilterTest1
@@ -1176,6 +1314,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkLabelSelectionLabelMapFilterTest1.png
     1
     94
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelSelectionLabelMapFilterTest1.png
 )
 itk_add_test(
   NAME itkLabelShapeKeepNObjectsImageFilterTest1
@@ -1191,6 +1331,8 @@ itk_add_test(
     1
     0
     Label
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelShapeKeepNObjectsImageFilterTest1.png
 )
 itk_add_test(
   NAME itkLabelShapeOpeningImageFilterTest1
@@ -1206,6 +1348,8 @@ itk_add_test(
     4000
     0
     100
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelShapeOpeningImageFilterTest1.png
 )
 itk_add_test(
   NAME itkLabelStatisticsKeepNObjectsImageFilterTest1
@@ -1222,6 +1366,8 @@ itk_add_test(
     7
     0
     203
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelStatisticsKeepNObjectsImageFilterTest1.png
 )
 itk_add_test(
   NAME itkLabelStatisticsOpeningImageFilterTest1
@@ -1238,6 +1384,8 @@ itk_add_test(
     98
     0
     Label
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelStatisticsOpeningImageFilterTest1.png
 )
 itk_add_test(
   NAME itkLabelUniqueLabelMapFilterTest0
@@ -1250,6 +1398,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png}
     ${ITK_TEST_OUTPUT_DIR}/itkLabelUniqueLabelMapFilterTest0.png
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelUniqueLabelMapFilterTest0.png
 )
 itk_add_test(
   NAME itkLabelUniqueLabelMapFilterTest1
@@ -1262,6 +1412,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png}
     ${ITK_TEST_OUTPUT_DIR}/itkLabelUniqueLabelMapFilterTest1.png
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLabelUniqueLabelMapFilterTest1.png
 )
 itk_add_test(
   NAME itkMergeLabelMapFilterTest1a
@@ -1278,6 +1430,8 @@ itk_add_test(
     50
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/simple-label-merge-keep.mha
 )
 itk_add_test(
   NAME itkMergeLabelMapFilterTest1b
@@ -1294,6 +1448,8 @@ itk_add_test(
     50
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/simple-label-merge-aggregate.mha
 )
 itk_add_test(
   NAME itkMergeLabelMapFilterTest1c
@@ -1310,6 +1466,8 @@ itk_add_test(
     50
     2
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/simple-label-merge-pack.mha
 )
 itk_add_test(
   NAME itkMergeLabelMapFilterTest1d
@@ -1323,6 +1481,8 @@ itk_add_test(
     50
     3
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/thisFileShouldNotExist.mha
 )
 itk_add_test(
   NAME itkMergeLabelMapFilterTest1e
@@ -1339,6 +1499,8 @@ itk_add_test(
     50
     3
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/simple-label-merge-strict.mha
 )
 itk_add_test(
   NAME itkMergeLabelMapFilterTest1f
@@ -1352,6 +1514,8 @@ itk_add_test(
     50
     10
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/simple-label-merge-wrong.mha
 )
 itk_add_test(
   NAME itkObjectByObjectLabelMapFilterTest0
@@ -1366,6 +1530,8 @@ itk_add_test(
     0
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkObjectByObjectLabelMapFilterTest0.png
 )
 itk_add_test(
   NAME itkObjectByObjectLabelMapFilterTest1
@@ -1380,6 +1546,8 @@ itk_add_test(
     1
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkObjectByObjectLabelMapFilterTest1.png
 )
 itk_add_test(
   NAME itkPadLabelMapFilterTest1
@@ -1393,6 +1561,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/cthead1-label-pad.mha
     40
     50
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-label-pad.mha
 )
 itk_add_test(
   NAME itkRegionFromReferenceLabelMapFilterTest1
@@ -1405,6 +1575,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
     DATA{${ITK_DATA_ROOT}/Input/circle.png}
     ${ITK_TEST_OUTPUT_DIR}/cthead1-label-regionreference.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-label-regionreference.mha
 )
 itk_add_test(
   NAME itkRelabelLabelMapFilterTest1
@@ -1415,6 +1587,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/cthead1-label-relabeled.mha
     itkRelabelLabelMapFilterTest1
     DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-label-relabeled.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/cthead1-label-relabeled.mha
 )
 itk_add_test(
@@ -1430,6 +1604,8 @@ itk_add_test(
     0
     0
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-shape-keep-n-objects.mha
 )
 itk_add_test(
   NAME itkShapeLabelObjectAccessorsTest1
@@ -1451,6 +1627,8 @@ itk_add_test(
     140
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-shape-opening.mha
 )
 itk_add_test(
   NAME itkShapePositionLabelMapFilterTest1
@@ -1463,6 +1641,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png}
     ${ITK_TEST_OUTPUT_DIR}/itkShapePositionLabelMapFilterTest1.png
     Centroid
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkShapePositionLabelMapFilterTest1.png
 )
 itk_add_test(
   NAME itkShapeRelabelLabelMapFilterTest1
@@ -1476,6 +1656,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/cthead1-shape-relabel-labelmap.mha
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-shape-relabel-labelmap.mha
 )
 itk_add_test(
   NAME itkShapeUniqueLabelMapFilterTest1
@@ -1489,6 +1671,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/cthead1-shape-unique-labelmap.mha
     1
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-shape-unique-labelmap.mha
 )
 itk_add_test(
   NAME itkShiftScaleLabelMapFilterTest1
@@ -1503,6 +1687,8 @@ itk_add_test(
     10
     0.5
     true
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/cthead1-label-shiftscaled.mha
 )
 itk_add_test(
   NAME itkStatisticsPositionLabelMapFilterTest1
@@ -1516,6 +1702,8 @@ itk_add_test(
     DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png}
     ${ITK_TEST_OUTPUT_DIR}/itkStatisticsPositionLabelMapFilterTest1.png
     CenterOfGravity
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkStatisticsPositionLabelMapFilterTest1.png
 )
 itk_add_test(
   NAME itkShapeRelabelImageFilterTest1
@@ -1530,6 +1718,8 @@ itk_add_test(
     255
     0
     Label
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkShapeRelabelImageFilterTest1.png
 )
 itk_add_test(
   NAME itkStatisticsRelabelImageFilterTest1
@@ -1545,6 +1735,8 @@ itk_add_test(
     0
     0
     202
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkStatisticsRelabelImageFilterTest1.png
 )
 itk_add_test(
   NAME itkAutoCropLabelMapFilterTest2
@@ -1562,6 +1754,9 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkAutoCropLabelMapFilterTest2-163.png
     92
     163
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkAutoCropLabelMapFilterTest2-92.png
+    ${ITK_TEST_OUTPUT_DIR}/itkAutoCropLabelMapFilterTest2-163.png
 )
 itk_add_test(
   NAME itkStatisticsUniqueLabelMapFilterTest1
@@ -1576,6 +1771,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkStatisticsUniqueLabelMapFilterTest1.png
     0
     100
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkStatisticsUniqueLabelMapFilterTest1.png
 )
 itk_add_test(
   NAME itkStatisticsUniqueLabelMapFilterTest2
@@ -1592,6 +1789,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkStatisticsUniqueLabelMapFilterTest2.png
     1
     100
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkStatisticsUniqueLabelMapFilterTest2.png
 )
 
 set(

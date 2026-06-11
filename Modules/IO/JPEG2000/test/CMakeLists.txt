@@ -44,6 +44,8 @@ itk_add_test(
     itkJPEG2000ImageIOTest03
     DATA{Input/Bretagne1.j2k}
     ${ITK_TEST_OUTPUT_DIR}/Bretagne1_01.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/Bretagne1_01.png
 )
 itk_add_test(
   NAME itkJPEG2000Test02
@@ -52,6 +54,8 @@ itk_add_test(
     itkJPEG2000ImageIOTest03
     DATA{Input/Cevennes2.jp2}
     ${ITK_TEST_OUTPUT_DIR}/Cevennes2_01.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/Cevennes2_01.png
 )
 itk_add_test(
   NAME itkJPEG2000Test03
@@ -59,6 +63,8 @@ itk_add_test(
     ITKIOJPEG2000TestDriver
     itkJPEG2000ImageIOTest03
     ${ITK_TEST_OUTPUT_DIR}/Bretagne1_RegionTest01.tif
+    ${ITK_TEST_OUTPUT_DIR}/Bretagne1_02.j2k
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/Bretagne1_02.j2k
 )
 set_tests_properties(
@@ -88,5 +94,7 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkJPEG2000Test06_cthead1.tif
     itkJPEG2000ImageIOTest06
     DATA{Input/cthead1.j2k}
+    ${ITK_TEST_OUTPUT_DIR}/itkJPEG2000Test06_cthead1.tif
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkJPEG2000Test06_cthead1.tif
 )

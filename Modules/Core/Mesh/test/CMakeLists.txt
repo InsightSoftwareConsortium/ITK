@@ -144,12 +144,16 @@ itk_add_test(
     ITKMeshTestDriver
     itkTriangleMeshToBinaryImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest.mha
 )
 itk_add_test(
   NAME itkTriangleMeshToBinaryImageFilterTest1
   COMMAND
     ITKMeshTestDriver
     itkTriangleMeshToBinaryImageFilterTest1
+    ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest1.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest1.mha
 )
 itk_add_test(
@@ -164,6 +168,9 @@ itk_add_test(
     --compareIntensityTolerance
     0
     itkTriangleMeshToBinaryImageFilterTest2
+    ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest2.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest2.txt
     ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest2.mha
 )
 set_tests_properties(
@@ -188,6 +195,8 @@ itk_add_test(
     0.01
     0.01
     0.01
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest3.mha
 )
 itk_add_test(
   NAME itkTriangleMeshToBinaryImageFilterTest4
@@ -205,6 +214,8 @@ itk_add_test(
     0.01
     0.01
     0.01
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest4.mha
 )
 itk_add_test(
   NAME itkTriangleMeshToSimplexMeshFilterTest
@@ -358,12 +369,16 @@ itk_add_test(
     ITKMeshTestDriver
     itkVTKPolyDataWriterTest01
     ${ITK_TEST_OUTPUT_DIR}/VTKPolyDataWriterTest01.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/VTKPolyDataWriterTest01.vtk
 )
 itk_add_test(
   NAME itkVTKPolyDataWriterTest02
   COMMAND
     ITKMeshTestDriver
     itkVTKPolyDataWriterTest02
+    ${ITK_TEST_OUTPUT_DIR}/VTKPolyDataWriterTest02.vtk
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/VTKPolyDataWriterTest02.vtk
 )
 itk_add_test(
@@ -399,6 +414,8 @@ itk_add_test(
     ITKMeshTestDriver
     itkMeshFstreamTest
     ${ITK_TEST_OUTPUT_DIR}/testMeshFstream.txt
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/testMeshFstream.txt
 )
 itk_add_test(
   NAME itkMeshSourceGraftOutputTest
@@ -412,6 +429,8 @@ itk_add_test(
     ITKMeshTestDriver
     itkMeshSpatialObjectIOTest
     ${ITK_TEST_OUTPUT_DIR}/metameshIOTest.txt
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/metameshIOTest.txt
 )
 itk_add_test(
   NAME itkMeshSpatialObjectIOTest1
@@ -420,6 +439,8 @@ itk_add_test(
     itkMeshSpatialObjectIOTest
     ${ITK_TEST_OUTPUT_DIR}/metameshIOTest1.txt
     binary
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/metameshIOTest1.txt
 )
 itk_add_test(
   NAME itkMeshSpatialObjectIOTest2
@@ -428,6 +449,8 @@ itk_add_test(
     itkMeshSpatialObjectIOTest
     ${ITK_TEST_OUTPUT_DIR}/metameshIOTest2.txt
     DATA{${ITK_DATA_ROOT}/Input/metamesh.txt}
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/metameshIOTest2.txt
 )
 itk_add_test(
   NAME itkParametricSpaceToImageSpaceMeshFilterTest

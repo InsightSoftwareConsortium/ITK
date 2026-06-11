@@ -75,6 +75,8 @@ itk_add_test(
     itkImageToVideoFilterTest
     DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha}
     ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume_Frame0.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume_Frame0.mha
 )
 
 itk_add_test(
@@ -86,6 +88,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/RGBTestImage_Slice0.png
     itkVectorImageToVideoTest
     DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
+    ${ITK_TEST_OUTPUT_DIR}/RGBTestImage_Slice0.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/RGBTestImage_Slice0.png
 )
 

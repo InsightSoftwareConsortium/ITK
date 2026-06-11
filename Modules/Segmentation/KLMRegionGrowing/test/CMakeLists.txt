@@ -12,6 +12,8 @@ itk_add_test(
     --redirectOutput
     ${TEMP}/itkRegionGrow2DTest.txt
     itkRegionGrow2DTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkRegionGrow2DTest.txt
 )
 set_tests_properties(
   itkRegionGrow2DTest

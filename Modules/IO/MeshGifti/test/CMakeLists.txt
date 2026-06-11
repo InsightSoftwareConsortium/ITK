@@ -30,6 +30,9 @@ itk_add_test(
     0
     0
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/giftimeshioaparc.gii
+    ${ITK_TEST_OUTPUT_DIR}/gifti2vtkaparc.vtk
 )
 itk_add_test(
   NAME itkGiftiMeshIOTest2
@@ -53,6 +56,9 @@ itk_add_test(
     44264
     0
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/giftimeshiowhite.gii
+    ${ITK_TEST_OUTPUT_DIR}/gifti2vtkwhite.vtk
 )
 itk_add_test(
   NAME itkMeshFileReadWriteTestGifti1
@@ -61,6 +67,8 @@ itk_add_test(
     itkMeshFileReadWriteTest
     DATA{Baseline/white.gii}
     ${ITK_TEST_OUTPUT_DIR}/white.gii
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/white.gii
 )
 itk_add_test(
   NAME itkMeshFileReadWriteTestGifti2
@@ -68,5 +76,7 @@ itk_add_test(
     ITKIOMeshGiftiTestDriver
     itkMeshFileReadWriteTest
     DATA{Baseline/aparc.gii}
+    ${ITK_TEST_OUTPUT_DIR}/aparc.gii
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/aparc.gii
 )

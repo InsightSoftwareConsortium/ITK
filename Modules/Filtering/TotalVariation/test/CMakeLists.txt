@@ -14,4 +14,7 @@ itk_add_test(
     itkProxTVImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkProxTVImageFilterTestOutput2D.mha
     ${ITK_TEST_OUTPUT_DIR}/itkProxTVImageFilterTestOutput3D.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkProxTVImageFilterTestOutput2D.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkProxTVImageFilterTestOutput3D.mha
 )

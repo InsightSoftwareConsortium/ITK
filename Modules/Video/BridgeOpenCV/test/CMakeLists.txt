@@ -33,6 +33,9 @@ itk_add_test(
     # Width Height
     320
     240
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoCaptureTest_ScalarOut.avi
+    ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoCaptureTest_RGBOut.avi
 )
 
 # OpenCVImageBridge:
@@ -82,6 +85,9 @@ itk_add_test(
     240
     30
     14.985
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoIOTest_Out.avi
+    ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoIOTest_CameraOut.mha
 )
 
 # OpenCVVideoIOFactory:
@@ -96,6 +102,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoIOFactoryTest_Out.avi
     # Webcam Number:
     0
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoIOFactoryTest_Out.avi
 )
 
 # OpenCVBasicTypeBridgeTest

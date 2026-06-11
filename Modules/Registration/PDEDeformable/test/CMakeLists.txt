@@ -33,6 +33,10 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestFixedImage.mha
     ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestMovingImage.mha
     ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestResampledImage.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestFixedImage.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestMovingImage.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestResampledImage.mha
 )
 itk_add_test(
   NAME itkSymmetricForcesDemonsRegistrationFilterTest
@@ -51,6 +55,8 @@ itk_add_test(
     --compareNumberOfPixelsTolerance
     20
     itkMultiResolutionPDEDeformableRegistrationTest
+    ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png
 )
 itk_add_test(
@@ -86,6 +92,8 @@ itk_add_test(
     0.9
     10
     70
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest02.txt
 )
 set_tests_properties(
   itkDiffeomorphicDemonsRegistrationFilterTest02
@@ -141,6 +149,8 @@ itk_add_test(
     0.08
     5
     70
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest05.txt
 )
 set_tests_properties(
   itkDiffeomorphicDemonsRegistrationFilterTest05
@@ -176,6 +186,8 @@ itk_add_test(
     0
     0.001
     0.1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest07.mha
 )
 itk_add_test(
   NAME itkDiffeomorphicDemonsRegistrationFilterTest08
@@ -189,6 +201,8 @@ itk_add_test(
     0
     0.001
     0.1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest08.mha
 )
 itk_add_test(
   NAME itkDiffeomorphicDemonsRegistrationFilterTest09
@@ -202,6 +216,8 @@ itk_add_test(
     0
     0.001
     0.1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest09.mha
 )
 itk_add_test(
   NAME itkDiffeomorphicDemonsRegistrationFilterTest10
@@ -215,6 +231,8 @@ itk_add_test(
     0
     0.001
     0.1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest10.mha
 )
 itk_add_test(
   NAME itkDiffeomorphicDemonsRegistrationFilterTest11
@@ -228,6 +246,8 @@ itk_add_test(
     1
     0.001
     0.1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest11.mha
 )
 itk_add_test(
   NAME itkFastSymmetricForcesDemonsRegistrationFilterTest

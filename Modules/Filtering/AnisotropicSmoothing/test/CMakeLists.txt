@@ -44,4 +44,6 @@ itk_add_test(
     itkGradientAnisotropicDiffusionImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/cake_easy.png}
     ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTest2.png
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTest2.png
 )

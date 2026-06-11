@@ -21,6 +21,8 @@ itk_add_test(
     itkBinaryThinningImageFilter3DTest
     DATA{Input/input.tiff}
     ${ITK_TEST_OUTPUT_DIR}/skeleton.tiff
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/skeleton.tiff
 )
 
 itk_add_test(
@@ -32,5 +34,7 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/medial_thickness.tiff
     itkMedialThicknessImageFilter3DTest
     DATA{Input/input.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/medial_thickness.tiff
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/medial_thickness.tiff
 )

@@ -107,6 +107,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyFilterBankGeneratorTest1.tiff
     1
     "Held"
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyFilterBankGeneratorTest1.tiff
 )
 itk_add_test(
   NAME itkWaveletFrequencyFilterBankGeneratorTest2
@@ -117,6 +119,8 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyFilterBankGeneratorTest2.tiff
     2
     "Held"
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyFilterBankGeneratorTest2.tiff
 )
 # 2D:
 # DISABLED: checkershadow_Lch_512x512.tiff is orphaned (404 from gh-pages,
@@ -169,6 +173,8 @@ itk_add_test(
     DATA{Input/collagen_64x64x16.tiff}
     ${ITK_TEST_OUTPUT_DIR}/itkRieszFrequencyFilterBankGeneratorTest1.tiff
     1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkRieszFrequencyFilterBankGeneratorTest1.tiff
 )
 itk_add_test(
   NAME itkRieszFrequencyFilterBankGeneratorTest2
@@ -178,6 +184,8 @@ itk_add_test(
     DATA{Input/collagen_64x64x16.tiff}
     ${ITK_TEST_OUTPUT_DIR}/itkRieszFrequencyFilterBankGeneratorTest2.tiff
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkRieszFrequencyFilterBankGeneratorTest2.tiff
 )
 # Riesz Steerable framework
 itk_add_test(
@@ -202,6 +210,8 @@ itk_add_test(
     itkMonogenicSignalFrequencyImageFilterTest
     DATA{Input/collagen_32x32x16.tiff}
     ${ITK_TEST_OUTPUT_DIR}/itkMonogenicSignalFrequencyImageFilterTest.tiff
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkMonogenicSignalFrequencyImageFilterTest.tiff
 )
 
 itk_add_test(
@@ -216,6 +226,8 @@ itk_add_test(
     10044.513
     5020.3013
     20085.115
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPhaseAnalysisSoftThresholdImageFilterTest.tiff
 )
 # StructureTensor
 itk_add_test(
@@ -243,6 +255,8 @@ itk_add_test(
     1
     1
     "Vow"
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyForwardTest.tiff
 )
 
 # DISABLED: checkershadow_Lch_512x512.tiff is orphaned (404 from gh-pages,
@@ -264,6 +278,8 @@ itk_add_test(
     2
     1
     "Simoncelli"
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyForwardUndecimatedTest.tiff
 )
 
 #Wavelet Inverse
@@ -280,6 +296,8 @@ itk_add_test(
     1
     1
     "Held"
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyInverseTest.tiff
 )
 
 itk_add_test(
@@ -295,6 +313,8 @@ itk_add_test(
     2
     5
     "Held"
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyInverseTestMultiLevelMultiBand.tiff
 )
 # Wavelet Inverse Undecimated
 itk_add_test(
@@ -312,6 +332,8 @@ itk_add_test(
     "Held"
     "noFilterBankPyramid"
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyInverseUndecimatedTest.tiff
 )
 #2D
 # DISABLED: checkershadow_Lch_512x512.tiff is orphaned (404 from gh-pages,
@@ -364,6 +386,8 @@ itk_add_test(
     1
     Apply
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkStructureTensorWithGeneralizedRieszTest.tiff
 )
 # DISABLED: checkershadow_Lch_512x512.tiff is orphaned (404 from gh-pages,
 # Girder, and itk.org). TODO: re-enable when a replacement baseline is
@@ -386,6 +410,8 @@ itk_add_test(
     ${DefaultWavelet}
     3
     Apply
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkRieszWaveletPhaseAnalysisTest.tiff
 )
 itk_add_test(
   NAME itkRieszWaveletPhaseAnalysisTestMultiLevelMultiBand
@@ -399,6 +425,8 @@ itk_add_test(
     ${DefaultWavelet}
     3
     Apply
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkRieszWaveletPhaseAnalysisTestMultiLevelMultiBand.tiff
 )
 ###
 # DISABLED: checkershadow_Lch_512x512.tiff is orphaned (404 from gh-pages,
@@ -428,6 +456,8 @@ itk_add_test(
     1
     "Held"
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/profileMotherWaveletHeld_*
 )
 itk_add_test(
   NAME itkIsotropicWaveletFrequencyFunctionShannonTest
@@ -439,6 +469,8 @@ itk_add_test(
     1
     "Shannon"
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/profileMotherWaveletShannon_*
 )
 itk_add_test(
   NAME itkIsotropicWaveletFrequencyFunctionSimoncelliTest
@@ -450,6 +482,8 @@ itk_add_test(
     1
     "Simoncelli"
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/profileMotherWaveletSimoncelli_*
 )
 itk_add_test(
   NAME itkIsotropicWaveletFrequencyFunctionVowTest
@@ -461,6 +495,8 @@ itk_add_test(
     1
     "Vow"
     2
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/profileMotherWaveletVow_*
 )
 
 itk_add_test(
@@ -543,6 +579,8 @@ itk_add_test(
     DATA{Input/collagen_32x32x16.tiff}
     ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandAndShrinkTest3D.tiff
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandAndShrinkTest3D.tiff
 )
 ## Even input
 #Expand
@@ -556,6 +594,8 @@ itk_add_test(
     itkFrequencyExpandTest
     DATA{Input/collagen_32x32x16.tiff}
     ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandEvenTest.tiff
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandEvenTest.tiff
 )
 ##Shrink
 itk_add_test(
@@ -567,6 +607,8 @@ itk_add_test(
     #   ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkEvenTest.tiff
     itkFrequencyShrinkTest
     DATA{Input/collagen_32x32x16.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkEvenTest.tiff
+  ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkEvenTest.tiff
 )
 # DISABLED: checkershadow_Lch_512x512.tiff is orphaned (404 from gh-pages,
@@ -605,6 +647,9 @@ itk_add_test(
     Simoncelli
     3
     NoApply
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/vol11-16_16_16_L2_B2_S2.nrrd
+    ${ITK_TEST_OUTPUT_DIR}/vol11-16_16_16.nrrd
 )
 ## WaveletCoeffsSpatialDomain
 itk_add_test(
@@ -621,6 +666,8 @@ itk_add_test(
     2
     Simoncelli
     3
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/vol11-16_16_16_SpatialDomain.nrrd
 )
 
 ## Odd input
@@ -640,6 +687,8 @@ if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
       itkFrequencyExpandTest
       DATA{Input/collagen_21x21x9.tiff}
       ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandOddTest.tiff
+    ITK_REMOVE_TEMPORARY_TEST_FILES
+      ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandOddTest.tiff
   )
   #Shrink
   itk_add_test(
@@ -648,6 +697,8 @@ if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
       IsotropicWaveletsTestDriver
       itkFrequencyShrinkTest
       DATA{Input/collagen_21x21x9.tiff}
+      ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkOddTest.tiff
+    ITK_REMOVE_TEMPORARY_TEST_FILES
       ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkOddTest.tiff
   )
   list(

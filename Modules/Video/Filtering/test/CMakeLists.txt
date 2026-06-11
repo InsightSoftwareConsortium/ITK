@@ -20,6 +20,10 @@ itk_add_test(
     #,DATA{Input/frame2.jpg},DATA{Input/frame3.jpg},DATA{Input/frame4.jpg}"
     # Output
     "${ITK_TEST_OUTPUT_DIR}/avg_frame0.png,${ITK_TEST_OUTPUT_DIR}/avg_frame1.png,${ITK_TEST_OUTPUT_DIR}/avg_frame2.png"
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/avg_frame0.png
+    ${ITK_TEST_OUTPUT_DIR}/avg_frame1.png
+    ${ITK_TEST_OUTPUT_DIR}/avg_frame2.png
 )
 
 # DecimateFramesVideoFilter
@@ -32,6 +36,9 @@ itk_add_test(
     "DATA{Input/frame0.jpg},DATA{Input/frame1.jpg},DATA{Input/frame2.jpg},DATA{Input/frame3.jpg},DATA{Input/frame4.jpg}"
     # Output
     "${ITK_TEST_OUTPUT_DIR}/dec_frame0.png,${ITK_TEST_OUTPUT_DIR}/dec_frame1.png"
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/dec_frame0.png
+    ${ITK_TEST_OUTPUT_DIR}/dec_frame1.png
 )
 
 # ImageFilterToVideoFilterWrapperTest
@@ -44,6 +51,12 @@ itk_add_test(
     "DATA{Input/frame0.jpg},DATA{Input/frame1.jpg},DATA{Input/frame2.jpg},DATA{Input/frame3.jpg},DATA{Input/frame4.jpg}"
     # Output
     "${ITK_TEST_OUTPUT_DIR}/wrapper_frame0.png,${ITK_TEST_OUTPUT_DIR}/wrapper_frame1.png,${ITK_TEST_OUTPUT_DIR}/wrapper_frame2.png,${ITK_TEST_OUTPUT_DIR}/wrapper_frame3.png,${ITK_TEST_OUTPUT_DIR}/wrapper_frame4.png"
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/wrapper_frame0.png
+    ${ITK_TEST_OUTPUT_DIR}/wrapper_frame1.png
+    ${ITK_TEST_OUTPUT_DIR}/wrapper_frame2.png
+    ${ITK_TEST_OUTPUT_DIR}/wrapper_frame3.png
+    ${ITK_TEST_OUTPUT_DIR}/wrapper_frame4.png
 )
 
 # FrameDifferenceVideoFilter
