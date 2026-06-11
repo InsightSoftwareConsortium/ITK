@@ -135,6 +135,18 @@ depends-on = ["build-ci"]
 [tool.pixi.feature.doxygen.dependencies]
 doxygen = ">=1.13,<2"
 
+# \cite resolution shells out to perl and bibtex; explicit \dot commands need graphviz.
+# texlive-core only resolves on linux here.
+[tool.pixi.feature.doxygen.target.linux-64.dependencies]
+perl = ">=5.32"
+texlive-core = ">=20220321"
+graphviz = ">=9"
+
+[tool.pixi.feature.doxygen.target.linux-aarch64.dependencies]
+perl = ">=5.32"
+texlive-core = ">=20220321"
+graphviz = ">=9"
+
 [tool.pixi.feature.doxygen.tasks.configure-doxygen-ci]
 cmd = '''cmake \
   -Bbuild-doxygen \
