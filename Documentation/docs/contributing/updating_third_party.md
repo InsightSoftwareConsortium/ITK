@@ -10,6 +10,12 @@ patches to the third party projects are tracked externally and available for
 Any updates to projects not listed there should first convert over to this
 framework.
 
+This document covers the *procedure*. How each fork is named and structured
+(the `welcome` branch, the two overlay branch-naming grammars for the two fork
+types, and the branches-not-tags anchor rule) is defined
+in [Third-Party Fork Conventions]. Follow that document for naming; follow this
+one for the mechanics.
+
 Updating a Project
 ------------------
 
@@ -17,29 +23,22 @@ Once converted, a project should be updated by applying patches to the
 repository specified in its `UpdateFromUpstream.sh` script. Once the upstream
 changes are merged, pulling the changes involves running the
 `UpdateFromUpstream.sh` script. This will update the local copy of the project
-to the version specified in `UpdateFromUpstream.sh` (usually a `for/foo`
-branch, like `for/itk` for example, but may be `main` or any other Git
+to the reference specified in `UpdateFromUpstream.sh` (an overlay branch named
+per [Third-Party Fork Conventions], but may be `main` or any other Git
 reference) and merge it into the main tree.
 
 This requires a Git 2.5 or higher due the `worktree` tool being used to
 simplify the availability of the commits to the main checkout.
 
-Here's an example of updating the `DoubleConversion` project from tag 1.1.6 to
-3.0.0, starting with updating the third-party repo
+For an ITK-overlay fork (for example
+[eigen](https://github.com/InsightSoftwareConsortium/eigen)), the authoritative,
+current step-by-step for advancing the overlay branch lives in that fork's
+`welcome` branch README; follow it there rather than a copy duplicated here.
+Once the overlay branch has been advanced, import it into ITK:
 
 ```bash
-cd ./Modules/ThirdParty/DoubleConversion
-git checkout for/itk
-git fetch origin
-git rebase --onto doubleconversion-1.1.6 doubleconversion-3.0.0
-git push
-```
-
-Now import into ITK
-
-```bash
-cd ./Modules/ThirdParty/twisted
-git checkout -b update_doubleconversion
+cd ./Modules/ThirdParty/Eigen3
+git checkout -b update_eigen
 ./UpdateFromUpstream.sh
 ```
 
@@ -92,12 +91,12 @@ to track it. If the upstream project does not use Git, it should be imported
 into Git (there may be existing conversions available on GitHub already). The
 project's description should indicate where the source repository lives.
 
-Once a mirror of the project is created, a branch named `for/foo` should be
-created where patches for the `foo` project will be applied (i.e., `for/itk`
-for ITK's patches to the project). Usually, changes to the build system, the
-source code for mangling, the addition of `.gitattributes` files, and other
-changes belong here. Functional changes should be submitted upstream (but may
-still be tracked so that they may be used).
+Once a mirror of the project is created, an overlay branch named per
+[Third-Party Fork Conventions] should be created where patches for the project
+will be applied. Usually, changes to the build system, the source code for
+mangling, the addition of `.gitattributes` files, and other changes belong
+here. Functional changes should be submitted upstream (but may still be tracked
+so that they may be used).
 
 The basic steps to import a project `foo` based on the tag `foo-3.0.0` looks
 like this:
@@ -109,8 +108,8 @@ git remote add insight git@github.com:InsightSoftwareConsortium/ITK.git:Modules/
 git push -u insight
 git push -u insight --tags
 git checkout foo-3.0.0
-git checkout -b for/itk
-git push --set-upstream insight for/itk
+git checkout -b for/itk-foo-3.0.0-<shaN>   # see Third-Party Fork Conventions
+git push --set-upstream insight for/itk-foo-3.0.0-<shaN>
 ```
 
 Making the initial import involves filling out the project's
@@ -153,5 +152,6 @@ if necessary.
 
 
 
+[Third-Party Fork Conventions]: https://github.com/InsightSoftwareConsortium/ITK/blob/main/Documentation/Maintenance/ThirdPartyForkConventions.md
 [update-third-party.bash]: https://github.com/InsightSoftwareConsortium/ITK/blob/main/Utilities/Maintenance/update-third-party.bash
 [update-third-party skill]: https://github.com/InsightSoftwareConsortium/ITK/blob/main/.github/skills/update-third-party/SKILL.md

@@ -25,6 +25,7 @@ the minimum set for the task at hand.
 | Creating a **COMP:** commit | [git-commits.md](./Documentation/AI/git-commits.md), [compiler-cautions.md](./Documentation/AI/compiler-cautions.md) |
 | Commit or PR attribution | [attribution.md](./Documentation/AI/attribution.md) |
 | Opening or updating a pull request | [pull-requests.md](./Documentation/AI/pull-requests.md), [attribution.md](./Documentation/AI/attribution.md) |
+| Updating a vendored ThirdParty dependency or its fork (eigen, DCMTK, VNL/vxl) | [ThirdPartyForkConventions.md](./Documentation/Maintenance/ThirdPartyForkConventions.md), [updating_third_party.md](./Documentation/docs/contributing/updating_third_party.md) |
 
 ## Critical Pitfalls
 
