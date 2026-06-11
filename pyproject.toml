@@ -154,6 +154,7 @@ cmd = '''cmake \
   -GNinja \
   -DCMAKE_BUILD_TYPE:STRING=Release \
   -DBUILD_TESTING:BOOL=OFF \
+  -DITK_FORBID_DOWNLOADS:BOOL=ON \
   -DITK_BUILD_DOCUMENTATION:BOOL=ON'''
 description = "Configure ITK for the Doxygen warnings check"
 outputs = ["build-doxygen/CMakeFiles/"]
