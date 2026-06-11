@@ -20,6 +20,11 @@
 // the vnl_math functions they superseded: identical results, bit-for-bit,
 // over the inputs each contract supports.
 
+// Comparing against vnl_math is this test's purpose; opt out of the vnl_math
+// deprecation attributes (no-ops before the deprecation campaign lands).
+#define VNL_MATH_DEPRECATE_CONSTANTS 0
+#define VNL_MATH_DEPRECATE_FUNCTIONS 0
+
 #include "itkMath.h"
 #include "itkGTest.h"
 #include <vnl/vnl_math.h>
