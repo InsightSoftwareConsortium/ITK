@@ -1482,6 +1482,7 @@ set(
   itkMathCastWithRangeCheckGTest.cxx
   itkMathGTest.cxx
   itkMathRoundGTest.cxx
+  itkMathVnlParityGTest.cxx
   itkMatrixGTest.cxx
   itkMersenneTwisterRandomVariateGeneratorGTest.cxx
   itkMetaDataDictionaryGTest.cxx

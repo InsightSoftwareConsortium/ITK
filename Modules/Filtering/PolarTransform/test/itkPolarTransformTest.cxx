@@ -59,7 +59,7 @@ itkPolarTransformTest(int, char *[])
   tmp = p2c->TransformPoint(p);
   for (unsigned int i = 0; i < Dimension; ++i)
   {
-    if (itk::Math::abs(tmp[i] - c[i]) > epsilon)
+    if (itk::Math::Absolute(tmp[i] - c[i]) > epsilon)
     {
       return EXIT_FAILURE;
     }
@@ -69,7 +69,7 @@ itkPolarTransformTest(int, char *[])
   tmp = c2p->TransformPoint(c);
   for (unsigned int i = 0; i < Dimension; ++i)
   {
-    if (itk::Math::abs(tmp[i] - p[i]) > epsilon)
+    if (itk::Math::Absolute(tmp[i] - p[i]) > epsilon)
     {
       std::cout << "Invalid cartesian to polar computed." << std::endl;
       return EXIT_FAILURE;
@@ -80,7 +80,7 @@ itkPolarTransformTest(int, char *[])
   tmp = c2p->TransformPoint(p2c->TransformPoint(p));
   for (unsigned int i = 0; i < Dimension; ++i)
   {
-    if (itk::Math::abs(tmp[i] - p[i]) > epsilon)
+    if (itk::Math::Absolute(tmp[i] - p[i]) > epsilon)
     {
       std::cout << "Invalid polar to cartesian and back computed." << std::endl;
       return EXIT_FAILURE;
@@ -91,7 +91,7 @@ itkPolarTransformTest(int, char *[])
   tmp = p2c->TransformPoint(c2p->TransformPoint(c));
   for (unsigned int i = 0; i < Dimension; ++i)
   {
-    if (itk::Math::abs(tmp[i] - c[i]) > epsilon)
+    if (itk::Math::Absolute(tmp[i] - c[i]) > epsilon)
     {
       std::cout << "Invalid cartesian to polar and back computed." << std::endl;
       return EXIT_FAILURE;
@@ -147,7 +147,7 @@ itkPolarTransformTest(int, char *[])
     tmp = p2cOff->TransformPoint(c2pOff->TransformPoint(c));
     for (unsigned int i = 0; i < Dimension; ++i)
     {
-      if (itk::Math::abs(tmp[i] - c[i]) > epsilon)
+      if (itk::Math::Absolute(tmp[i] - c[i]) > epsilon)
       {
         std::cout << "Round-trip failed with non-zero center in pass-through dim." << std::endl;
         return EXIT_FAILURE;

@@ -116,8 +116,8 @@ PhaseCorrelationRegistrationFiles(int argc, char * argv[])
       std::cout << finalParameters[ii] << " == " << actualParameters[ii] << " == " << transformParameters[ii]
                 << std::endl;
 
-      if ((itk::Math::abs(finalParameters[ii] - actualParameters[ii]) > tolerance * spacing[ii]) ||
-          (itk::Math::abs(transformParameters[ii] - actualParameters[ii]) > tolerance * spacing[ii]))
+      if ((itk::Math::Absolute(finalParameters[ii] - actualParameters[ii]) > tolerance * spacing[ii]) ||
+          (itk::Math::Absolute(transformParameters[ii] - actualParameters[ii]) > tolerance * spacing[ii]))
       {
         std::cerr << "Tolerance exceeded at component " << ii << std::endl;
         pass = false;

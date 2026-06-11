@@ -181,7 +181,7 @@ KrcahEigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>::Calcula
   RealType trace = 0;
   for (unsigned int i = 0; i < pixel.Length; ++i)
   {
-    trace += itk::Math::abs(pixel[i]);
+    trace += itk::Math::Absolute(pixel[i]);
   }
   return trace;
 }

@@ -476,8 +476,8 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVert
       // Compute which direction moves vertex closer to iso-surface value
       value[0] = m_Interpolator->Evaluate(temp[0]);
       value[1] = m_Interpolator->Evaluate(temp[1]);
-      diff[0] = itk::Math::abs(value[0] - m_IsoSurfaceValue);
-      diff[1] = itk::Math::abs(value[1] - m_IsoSurfaceValue);
+      diff[0] = itk::Math::Absolute(value[0] - m_IsoSurfaceValue);
+      diff[1] = itk::Math::Absolute(value[1] - m_IsoSurfaceValue);
       i = (diff[0] <= diff[1]) ? 0 : 1;
       if (previousi < 0)
       {
@@ -537,7 +537,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVert
         }
         // Compute metric (combination of difference and distance)
         value = m_Interpolator->Evaluate(temp);
-        metric = itk::Math::abs(value - m_IsoSurfaceValue); // Difference
+        metric = itk::Math::Absolute(value - m_IsoSurfaceValue); // Difference
 
         // Determine if current position is the "best"
         if (metric < bestMetric)
@@ -570,7 +570,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVert
 
       // Compute whether vertex is close enough to iso-surface value
       value = m_Interpolator->Evaluate(vertex);
-      done |= itk::Math::abs(value - m_IsoSurfaceValue) < m_ProjectVertexSurfaceDistanceThreshold;
+      done |= itk::Math::Absolute(value - m_IsoSurfaceValue) < m_ProjectVertexSurfaceDistanceThreshold;
       if (done)
       {
         break;

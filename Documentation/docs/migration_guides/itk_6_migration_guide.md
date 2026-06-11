@@ -227,6 +227,12 @@ ITKVNL module. The ITKVNLInstantiation library was an empty library used for
 compatibility and provided transitive linking to ITKVNL.
 
 
+`itk::Math::sqrteps` changed by 1 ULP for accuracy
+--------------------------------------------------
+
+`itk::Math::sqrteps` is now `0x1p-26`, the exact `sqrt(eps)`;
+`vnl_math::sqrteps` (`1.490116119384766e-08`) was 1 ULP higher.
+
 Prefer itk::AnatomicalOrientation over itk::SpatialOrientation
 ------------------------------------------------
 

@@ -39,7 +39,7 @@ namespace itk::fem
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FEMRegistrationFilter()
-  : m_MinE(vnl_huge_val(0))
+  : m_MinE(NumericTraits<Float>::max())
 {
   this->SetNumberOfRequiredInputs(2);
 
@@ -487,7 +487,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::IterativeSolve(Sol
 
   bool         Done = false;
   unsigned int iters = 0;
-  m_MinE = 10.e99;
+  m_MinE = NumericTraits<Float>::max();
   Float deltE = 0;
   while (!Done && iters < m_Maxiters[m_CurrentLevel])
   {

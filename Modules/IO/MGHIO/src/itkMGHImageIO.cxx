@@ -771,7 +771,7 @@ MGHImageIO ::GetOrientation(itk::Matrix<double> directions)
     const double sag = directions(0, cAxes); // LR axis
     const double cor = directions(1, cAxes); // PA axis
     const double ax = directions(2, cAxes);  // IS axis
-    if (itk::Math::abs(sag) > itk::Math::abs(cor) && itk::Math::abs(sag) > itk::Math::abs(ax))
+    if (itk::Math::Absolute(sag) > itk::Math::Absolute(cor) && itk::Math::Absolute(sag) > itk::Math::Absolute(ax))
     {
       if (sag > 0)
       {
@@ -783,7 +783,7 @@ MGHImageIO ::GetOrientation(itk::Matrix<double> directions)
       }
       continue;
     }
-    if (itk::Math::abs(cor) > itk::Math::abs(ax))
+    if (itk::Math::Absolute(cor) > itk::Math::Absolute(ax))
     {
       if (cor > 0)
       {

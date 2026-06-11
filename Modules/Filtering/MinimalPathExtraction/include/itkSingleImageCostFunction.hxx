@@ -136,7 +136,7 @@ SingleImageCostFunction<TImage>::GetDerivative(const ParametersType & parameters
     //           (indicated by very large values) which may skew the gradient.
     //           To avoid this skewing effect, we reset gradient values larger
     //           than a given threshold.
-    if (itk::Math::abs(derivative[i]) > m_DerivativeThreshold)
+    if (itk::Math::Absolute(derivative[i]) > m_DerivativeThreshold)
     {
       derivative[i] = 0.0;
     }

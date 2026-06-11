@@ -159,7 +159,7 @@ VariationalRegistrationDemonsFunction<TFixedImage, TMovingImage, TDisplacementFi
 
   // Calculate update
   PixelType update;
-  if (itk::Math::abs(speedValue) < m_IntensityDifferenceThreshold)
+  if (itk::Math::Absolute(speedValue) < m_IntensityDifferenceThreshold)
   {
     update = m_ZeroUpdateReturn;
   }

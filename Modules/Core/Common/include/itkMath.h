@@ -33,72 +33,96 @@
 #include <cmath>
 #include <limits>
 #include <type_traits>
+// _MSVC_LANG tracks /std: even when __cplusplus stays 199711L (no /Zc:__cplusplus),
+// matching the STL condition under which <limits> defines __cpp_lib_math_constants.
+#if (defined(__cplusplus) && __cplusplus >= 202002L) || (defined(_MSVC_LANG) && _MSVC_LANG >= 202002L)
+#  include <numbers>
+#endif
 #include "itkMathDetail.h"
 #include "itkConceptChecking.h"
-#include <vnl/vnl_math.h>
-
-/* Only maintain backwards compatibility with old versions
- * of VXL back to the point where vnl_math:: was introduced
- * versions of VXL where only vnl_math_ was available are not
- * supported.
- */
-#include <vxl_version.h>
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+// itk::Math no longer uses vnl_math; kept transitionally for downstream vnl_math:: users.
+#  include <vnl/vnl_math.h>
+#endif
 
 namespace itk::Math
 {
-// These constants originate from VXL's vnl_math.h. They are exposed as
-// inline constexpr namespace-scope constants so they are usable in
-// constant expressions with a single shared definition across translation
-// units.
-
+// These mathematical constants originate from VXL's vnl_math.h: correctly-rounded
+// double-precision literals (OEIS references in vnl_math.h), defined identically under
+// every C++ standard level and verified against C++20 <numbers> below.
 
 /** \brief \f[e\f] The base of the natural logarithm or Euler's number */
-inline constexpr double e = vnl_math::e;
+inline constexpr double e = 2.71828182845904523536;
 /** \brief  \f[ \log_2 e \f] */
-inline constexpr double log2e = vnl_math::log2e;
+inline constexpr double log2e = 1.44269504088896340736;
 /** \brief \f[ \log_{10} e \f] */
-inline constexpr double log10e = vnl_math::log10e;
+inline constexpr double log10e = 0.43429448190325182765;
 /** \brief \f[ \log_e 2 \f] */
-inline constexpr double ln2 = vnl_math::ln2;
+inline constexpr double ln2 = 0.69314718055994530942;
 /** \brief \f[ \log_e 10 \f] */
-inline constexpr double ln10 = vnl_math::ln10;
+inline constexpr double ln10 = 2.30258509299404568402;
 /** \brief \f[ \pi \f]  */
-inline constexpr double pi = vnl_math::pi;
+inline constexpr double pi = 3.14159265358979323846;
 /** \brief \f[ 2\pi \f]  */
-inline constexpr double twopi = vnl_math::twopi;
+inline constexpr double twopi = 6.28318530717958647693;
 /** \brief \f[ \frac{\pi}{2} \f]  */
-inline constexpr double pi_over_2 = vnl_math::pi_over_2;
+inline constexpr double pi_over_2 = 1.57079632679489661923;
 /** \brief \f[ \frac{\pi}{4} \f]  */
-inline constexpr double pi_over_4 = vnl_math::pi_over_4;
+inline constexpr double pi_over_4 = 0.78539816339744830962;
 /** \brief \f[ \frac{\pi}{180} \f]  */
-inline constexpr double pi_over_180 = vnl_math::pi_over_180;
+inline constexpr double pi_over_180 = 0.01745329251994329577;
 /** \brief \f[ \frac{1}{\pi} \f]  */
-inline constexpr double one_over_pi = vnl_math::one_over_pi;
+inline constexpr double one_over_pi = 0.31830988618379067154;
 /** \brief \f[ \frac{2}{\pi} \f]  */
-inline constexpr double two_over_pi = vnl_math::two_over_pi;
+inline constexpr double two_over_pi = 0.63661977236758134308;
 /** \brief \f[ \frac{180}{\pi} \f]  */
-inline constexpr double deg_per_rad = vnl_math::deg_per_rad;
+inline constexpr double deg_per_rad = 57.2957795130823208768;
 /** \brief \f[ \sqrt{2\pi} \f]  */
-inline constexpr double sqrt2pi = vnl_math::sqrt2pi;
+inline constexpr double sqrt2pi = 2.50662827463100050242;
 /** \brief \f[ \frac{2}{\sqrt{\pi}} \f]  */
-inline constexpr double two_over_sqrtpi = vnl_math::two_over_sqrtpi;
+inline constexpr double two_over_sqrtpi = 1.12837916709551257390;
 /** \brief \f[ \frac{1}{\sqrt{2\pi}} \f]  */
-inline constexpr double one_over_sqrt2pi = vnl_math::one_over_sqrt2pi;
+inline constexpr double one_over_sqrt2pi = 0.39894228040143267794;
 /** \brief \f[ \sqrt{2} \f]  */
-inline constexpr double sqrt2 = vnl_math::sqrt2;
+inline constexpr double sqrt2 = 1.41421356237309504880;
 /** \brief \f[ \sqrt{ \frac{1}{2}} \f] */
-inline constexpr double sqrt1_2 = vnl_math::sqrt1_2;
+inline constexpr double sqrt1_2 = 0.70710678118654752440;
 /** \brief \f[ \sqrt{ \frac{1}{3}} \f] */
-inline constexpr double sqrt1_3 = vnl_math::sqrt1_3;
+inline constexpr double sqrt1_3 = 0.57735026918962576451;
 /** \brief euler constant */
-inline constexpr double euler = vnl_math::euler;
+inline constexpr double euler = 0.57721566490153286061;
+
+#if defined(__cpp_lib_math_constants)
+// Bit-exactness proof against C++20 <numbers>. sqrt2pi and one_over_sqrt2pi have no
+// exact std::numbers identity (inv_sqrtpi / sqrt2 double-rounds 1 ULP off).
+static_assert(e == std::numbers::e);
+static_assert(log2e == std::numbers::log2e);
+static_assert(log10e == std::numbers::log10e);
+static_assert(ln2 == std::numbers::ln2);
+static_assert(ln10 == std::numbers::ln10);
+static_assert(pi == std::numbers::pi);
+static_assert(twopi == 2 * std::numbers::pi);
+static_assert(pi_over_2 == std::numbers::pi / 2);
+static_assert(pi_over_4 == std::numbers::pi / 4);
+static_assert(pi_over_180 == std::numbers::pi / 180);
+static_assert(one_over_pi == std::numbers::inv_pi);
+static_assert(two_over_pi == 2 * std::numbers::inv_pi);
+static_assert(deg_per_rad == 180 * std::numbers::inv_pi);
+static_assert(two_over_sqrtpi == 2 * std::numbers::inv_sqrtpi);
+static_assert(sqrt2 == std::numbers::sqrt2);
+static_assert(sqrt1_2 == std::numbers::sqrt2 / 2);
+static_assert(sqrt1_3 == std::numbers::inv_sqrt3);
+static_assert(euler == std::numbers::egamma);
+#endif
 
 //: IEEE double machine precision
-inline constexpr double eps = vnl_math::eps;
-inline constexpr double sqrteps = vnl_math::sqrteps;
+inline constexpr double eps = std::numeric_limits<double>::epsilon();
+// sqrt(2^-52) = 2^-26 = 1.490116119384765625e-8 exactly, matching C++26 constexpr std::sqrt(eps);
+// vnl_math::sqrteps used 1.490116119384766e-08, which rounds 1 ULP above (2^-26 + 2^-78).
+inline constexpr double sqrteps = 0x1p-26;
 //: IEEE single machine precision
-inline constexpr float float_eps = vnl_math::float_eps;
-inline constexpr float float_sqrteps = vnl_math::float_sqrteps;
+inline constexpr float float_eps = std::numeric_limits<float>::epsilon();
+inline constexpr float float_sqrteps = 3.4526698300e-4F;
 
 /** A useful macro to generate a template floating point to integer
  *  conversion templated on the return type and using either the 32
@@ -832,8 +856,8 @@ UnsignedPower(const uintmax_t base, const uintmax_t exponent) noexcept -> TRetur
 
 
 /*==========================================
- * Alias the vnl_math functions in the itk::Math
- * namespace. If possible, use the std:: equivalents
+ * itk::Math utility functions. std:: equivalents are used where they exist;
+ * the remainder are native definitions providing the historical interface.
  */
 using std::isnan;
 using std::isinf;
@@ -841,20 +865,248 @@ using std::isfinite;
 using std::isnormal;
 using std::cbrt;
 using std::hypot;
-using vnl_math::angle_0_to_2pi;
-using vnl_math::angle_minuspi_to_pi;
-using vnl_math::rnd_halfinttoeven;
-using vnl_math::rnd_halfintup;
-using vnl_math::rnd;
-using vnl_math::floor;
-using vnl_math::ceil;
-using vnl_math::sgn;
-using vnl_math::sgn0;
-using vnl_math::remainder_truncated;
-using vnl_math::remainder_floored;
-using vnl_math::sqr;
-using vnl_math::cube;
-using vnl_math::squared_magnitude;
+
+/** \brief Sign of a value: -1, 0, or +1. */
+template <typename T, std::enable_if_t<std::is_arithmetic_v<T>, int> = 0>
+constexpr int
+sgn(T x)
+{
+  return (x != T{}) ? ((x > T{}) ? 1 : -1) : 0;
+}
+
+/** \brief Sign of a value in {-1, +1}; zero maps to +1. */
+template <typename T, std::enable_if_t<std::is_arithmetic_v<T>, int> = 0>
+constexpr int
+sgn0(T x)
+{
+  return (x >= T{}) ? 1 : -1;
+}
+
+/** \brief Square of a value. */
+constexpr bool
+sqr(bool x)
+{
+  return x;
+}
+template <typename T, std::enable_if_t<std::is_arithmetic_v<T>, int> = 0>
+constexpr T
+sqr(T x)
+{
+  return x * x;
+}
+
+/** \brief Cube of a value. */
+constexpr bool
+cube(bool x)
+{
+  return x;
+}
+template <typename T, std::enable_if_t<std::is_arithmetic_v<T>, int> = 0>
+constexpr T
+cube(T x)
+{
+  return x * x * x;
+}
+
+/** \brief Squared magnitude; integer results are unsigned. */
+constexpr unsigned int
+squared_magnitude(char x)
+{
+  return static_cast<unsigned int>(static_cast<int>(x) * static_cast<int>(x));
+}
+constexpr unsigned int
+squared_magnitude(unsigned char x)
+{
+  return static_cast<unsigned int>(static_cast<int>(x) * static_cast<int>(x));
+}
+constexpr unsigned int
+squared_magnitude(int x)
+{
+  // Multiply in unsigned: avoids the signed-overflow UB of vnl_math's x * x.
+  const auto ux = static_cast<unsigned int>(x);
+  return ux * ux;
+}
+constexpr unsigned int
+squared_magnitude(unsigned int x)
+{
+  return x * x;
+}
+constexpr unsigned long
+squared_magnitude(long x)
+{
+  const auto ux = static_cast<unsigned long>(x);
+  return ux * ux;
+}
+constexpr unsigned long
+squared_magnitude(unsigned long x)
+{
+  return x * x;
+}
+constexpr unsigned long long
+squared_magnitude(long long x)
+{
+  const auto ux = static_cast<unsigned long long>(x);
+  return ux * ux;
+}
+constexpr unsigned long long
+squared_magnitude(unsigned long long x)
+{
+  return x * x;
+}
+constexpr float
+squared_magnitude(float x)
+{
+  return x * x;
+}
+constexpr double
+squared_magnitude(double x)
+{
+  return x * x;
+}
+constexpr long double
+squared_magnitude(long double x)
+{
+  return x * x;
+}
+
+/** \brief Truncated remainder: quotient truncated toward zero, result has the sign of x. */
+template <typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+constexpr T
+remainder_truncated(T x, T y)
+{
+  return x % y;
+}
+inline float
+remainder_truncated(float x, float y)
+{
+  return std::fmod(x, y);
+}
+inline double
+remainder_truncated(double x, double y)
+{
+  return std::fmod(x, y);
+}
+inline long double
+remainder_truncated(long double x, long double y)
+{
+  return std::fmod(x, y);
+}
+
+/** \brief Floored remainder: quotient rounded toward minus infinity, result has the sign of y. */
+template <typename T, std::enable_if_t<std::is_integral_v<T> && std::is_signed_v<T>, int> = 0>
+constexpr T
+remainder_floored(T x, T y)
+{
+  // Conditional add: vnl_math's ((x % y) + y) % y overflows for |y| > max/2.
+  const T r = x % y;
+  return (r != 0 && ((r < 0) != (y < 0))) ? r + y : r;
+}
+template <typename T, std::enable_if_t<std::is_integral_v<T> && std::is_unsigned_v<T>, int> = 0>
+constexpr T
+remainder_floored(T x, T y)
+{
+  return x % y;
+}
+inline float
+remainder_floored(float x, float y)
+{
+  return std::fmod(std::fmod(x, y) + y, y);
+}
+inline double
+remainder_floored(double x, double y)
+{
+  return std::fmod(std::fmod(x, y) + y, y);
+}
+inline long double
+remainder_floored(long double x, long double y)
+{
+  return std::fmod(std::fmod(x, y) + y, y);
+}
+
+/** \brief Round to nearest integer, halfway cases to the nearest even integer. */
+inline int
+rnd_halfinttoeven(float x)
+{
+  return static_cast<int>(std::lrint(x));
+}
+inline int
+rnd_halfinttoeven(double x)
+{
+  return static_cast<int>(std::lrint(x));
+}
+
+/** \brief Round to nearest integer, halfway cases upward (toward plus infinity).
+ *  Valid only for |x| < INT_MAX / 2. */
+inline int
+rnd_halfintup(float x)
+{
+  return rnd_halfinttoeven(2 * x + 0.5f) >> 1;
+}
+inline int
+rnd_halfintup(double x)
+{
+  return rnd_halfinttoeven(2 * x + 0.5) >> 1;
+}
+
+/** \brief Round to nearest integer; halfway cases follow round-half-to-even. */
+inline int
+rnd(float x)
+{
+  return static_cast<int>(std::lrint(x));
+}
+inline int
+rnd(double x)
+{
+  return static_cast<int>(std::lrint(x));
+}
+
+/** \brief Round toward minus infinity. */
+inline int
+floor(float x)
+{
+  return static_cast<int>(std::floor(x));
+}
+inline int
+floor(double x)
+{
+  return static_cast<int>(std::floor(x));
+}
+
+/** \brief Round toward plus infinity. */
+inline int
+ceil(float x)
+{
+  return static_cast<int>(std::ceil(x));
+}
+inline int
+ceil(double x)
+{
+  return static_cast<int>(std::ceil(x));
+}
+
+/** \brief Normalize an angle (radians) into [0, 2*pi). */
+inline double
+angle_0_to_2pi(double angle)
+{
+  angle = std::fmod(angle, twopi);
+  if (angle >= 0)
+    return angle;
+  const double a = angle + twopi;
+  // Guard the boundary: tiny negative inputs round a up to exactly twopi; clamp 1 ULP below.
+  return (a < twopi) ? a : 6.28318530717958575;
+}
+
+/** \brief Normalize an angle (radians) into (-pi, pi]. */
+inline double
+angle_minuspi_to_pi(double angle)
+{
+  angle = std::fmod(angle, twopi);
+  if (angle > pi)
+    angle -= twopi;
+  if (angle < -pi)
+    angle += twopi;
+  return angle;
+}
 
 
 /**
