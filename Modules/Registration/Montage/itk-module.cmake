@@ -17,6 +17,7 @@ itk_module(
     ITKIOImageBase
     ITKImageFrequency
     ITKDoubleConversion
+    ITKEigen3
   TEST_DEPENDS
     ITKIOTransformInsightLegacy
     ITKTestKernel
