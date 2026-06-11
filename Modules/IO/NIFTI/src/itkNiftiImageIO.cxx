@@ -1665,7 +1665,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
     // Commonly the 4x4 double precision dicom information is stored in
     // the 4x4 single precision sform fields, and that original representation
     // is converted (with lossy conversion) into the qform representation.
-    const bool qform_sform_are_similar = [=]() -> bool {
+    const bool qform_sform_are_similar = [this]() -> bool {
       const vnl_matrix_fixed<float, 4, 4> sto_xyz{ &(m_Holder->ptr->sto_xyz.m[0][0]) };
       const vnl_matrix_fixed<float, 4, 4> qto_xyz{ &(m_Holder->ptr->qto_xyz.m[0][0]) };
 
