@@ -13,6 +13,7 @@ set(
   itkInverse1DFFTImageFilterTest.cxx
   itkVnlComplexToComplexFFTImageFilterTest.cxx
   itkVnlFFTTest.cxx
+  itkPocketFFTTest.cxx
   itkVnlRealFFTTest.cxx
 )
 
@@ -45,6 +46,23 @@ endif()
 createtestdriver(ITKFFT "${ITKFFT-Test_LIBRARIES}" "${ITKFFTTests}")
 
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
+
+itk_add_test(
+  NAME itkPocketFFTTest
+  COMMAND
+    ITKFFTTestDriver
+    --redirectOutput
+    ${TEMP}/itkPocketFFTTest.txt
+    itkPocketFFTTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkPocketFFTTest.txt
+)
+set_tests_properties(
+  itkPocketFFTTest
+  PROPERTIES
+    ATTACHED_FILES_ON_FAIL
+      ${TEMP}/itkPocketFFTTest.txt
+)
 
 itk_add_test(
   NAME itkVnlFFTTest
