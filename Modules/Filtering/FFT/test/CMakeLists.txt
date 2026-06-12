@@ -14,6 +14,8 @@ set(
   itkVnlComplexToComplexFFTImageFilterTest.cxx
   itkVnlFFTTest.cxx
   itkPocketFFTTest.cxx
+  itkPocketFFTRealFFTTest.cxx
+  itkPocketFFTComplexToComplexFFTImageFilterTest.cxx
   itkVnlRealFFTTest.cxx
 )
 
@@ -62,6 +64,23 @@ set_tests_properties(
   PROPERTIES
     ATTACHED_FILES_ON_FAIL
       ${TEMP}/itkPocketFFTTest.txt
+)
+
+itk_add_test(
+  NAME itkPocketFFTRealFFTTest
+  COMMAND
+    ITKFFTTestDriver
+    --redirectOutput
+    ${TEMP}/itkPocketFFTRealFFTTest.txt
+    itkPocketFFTRealFFTTest
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${TEMP}/itkPocketFFTRealFFTTest.txt
+)
+set_tests_properties(
+  itkPocketFFTRealFFTTest
+  PROPERTIES
+    ATTACHED_FILES_ON_FAIL
+      ${TEMP}/itkPocketFFTRealFFTTest.txt
 )
 
 itk_add_test(
@@ -376,6 +395,62 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkComplexToComplexFFTImageFilter3DDoubleTest.mha
 )
 
+itk_add_test(
+  NAME itkPocketFFTComplexToComplexFFTImageFilter2DFloatTest
+  COMMAND
+    ITKFFTTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter2DFloatTest.mha
+    itkPocketFFTComplexToComplexFFTImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter2DFloatTest.mha
+    float
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter2DFloatTest.mha
+)
+itk_add_test(
+  NAME itkPocketFFTComplexToComplexFFTImageFilter3DFloatTest
+  COMMAND
+    ITKFFTTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter3DFloatTest.mha
+    itkPocketFFTComplexToComplexFFTImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter3DFloatTest.mha
+    float
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter3DFloatTest.mha
+)
+itk_add_test(
+  NAME itkPocketFFTComplexToComplexFFTImageFilter2DDoubleTest
+  COMMAND
+    ITKFFTTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter2DDoubleTest.mha
+    itkPocketFFTComplexToComplexFFTImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter2DDoubleTest.mha
+    double
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter2DDoubleTest.mha
+)
+itk_add_test(
+  NAME itkPocketFFTComplexToComplexFFTImageFilter3DDoubleTest
+  COMMAND
+    ITKFFTTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter3DDoubleTest.mha
+    itkPocketFFTComplexToComplexFFTImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter3DDoubleTest.mha
+    double
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter3DDoubleTest.mha
+)
 itk_add_test(
   NAME itkVnlComplexToComplexFFTImageFilter2DFloatTest
   COMMAND
