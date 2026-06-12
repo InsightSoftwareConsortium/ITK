@@ -49,7 +49,7 @@ checkField(itk::MetaDataDictionary & metadata, const std::string & key, const T 
 int
 itkNrrdVectorImageUnitLabelReadTest(int argc, char * argv[])
 {
-  if (argc < 1)
+  if (argc < 2)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Input\n";
     return EXIT_FAILURE;
@@ -127,18 +127,6 @@ itkNrrdVectorImageUnitLabelReadTest(int argc, char * argv[])
   checkField<std::string>(thisDic, "NRRD_units[pixel]", "s");
 
   checkField<int>(thisDic, "NRRD_pixel_original_axis", 0);
-
-  /* std::string key = "NRRD_original_component_axis";
-  int value{ -1 };
-  const int expectedValue = 0; // The expected value for the original component axis
-  itk::ExposeMetaData<int>(thisDic, key, value);
-  if (value != expectedValue)
-  {
-    std::cerr << "Metadata test failed: '" << key << "' value is expected to be '" << expectedValue << "', got '"
-              << value << "' instead" << std::endl;
-    exit(EXIT_FAILURE);
-  }
-  */
 
   // Test that additional metadata stored in the NRRD file is added to the metadata dictionary
   checkField<std::string>(thisDic, "axis 0 index type", "numeric");
