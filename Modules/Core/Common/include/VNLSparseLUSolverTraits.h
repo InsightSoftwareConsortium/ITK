@@ -36,7 +36,7 @@
  *
  * \ingroup ITKCommon
  *
- * \sa VNLIterativeSparseSolverTraits:w
+ * \sa VNLIterativeSparseSolverTraits
  */
 template <typename T = double>
 class VNLSparseLUSolverTraits
@@ -47,7 +47,7 @@ public:
   using VectorType = vnl_vector<ValueType>;
   using SolverType = vnl_sparse_lu;
 
-  /** \return false (it is not a direct solver, it is an iterative solver) */
+  /** \return true (it is a direct solver) */
   static bool
   IsDirectSolver()
   {
