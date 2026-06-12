@@ -170,6 +170,10 @@ cmd = '''cmake \
   -DBUILD_TESTING:BOOL=OFF \
   -DITK_FORBID_DOWNLOADS:BOOL=ON \
   -DITK_BUILD_DOCUMENTATION:BOOL=ON \
+  -DModule_ITKReview:BOOL=ON \
+  -DModule_MGHIO:BOOL=ON \
+  -DModule_GenericLabelInterpolator:BOOL=ON \
+  -DModule_AdaptiveDenoising:BOOL=ON \
   -DITK_DOXYGEN_WARNINGS_ONLY:BOOL=ON'''
 description = "Configure ITK for the Doxygen warnings check"
 
