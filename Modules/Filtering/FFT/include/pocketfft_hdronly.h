@@ -58,7 +58,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #ifndef POCKETFFT_CACHE_SIZE
-#define POCKETFFT_CACHE_SIZE 0
+// ITK default: save up to 16 plans so repeated same-size transforms (e.g. the
+// per-iteration N3/N4 histogram FFT) reuse a plan instead of rebuilding it.
+// Any nonzero size is a robust choice: it gives a significant speedup over 0
+// across every tested ITK environment (including the ANTs and BRAINSTools
+// test suites); 16 covers typical multi-size pipelines with no measured cost.
+#define POCKETFFT_CACHE_SIZE 16
 #endif
 
 #include <cmath>
