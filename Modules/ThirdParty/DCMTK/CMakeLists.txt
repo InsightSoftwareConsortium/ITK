@@ -91,7 +91,14 @@ if(ITK_USE_SYSTEM_DCMTK)
   set(ITKDCMTK_SYSTEM_INCLUDE_DIRS ${DCMTK_INCLUDE_DIRS})
 
   # Module standard library var
-  set(ITKDCMTK_LIBRARIES ${DCMTK_LIBRARIES})
+  set(ITKDCMTK_LIBRARIES)
+  foreach(lib IN LISTS DCMTK_LIBRARIES)
+    if(TARGET DCMTK::${lib})
+      list(APPEND ITKDCMTK_LIBRARIES DCMTK::${lib})
+    else()
+      list(APPEND ITKDCMTK_LIBRARIES ${lib})
+    endif()
+  endforeach()
 
   # When this module is loaded by an app, load DCMTK too.
   set(ITKDCMTK_EXPORT_CODE_INSTALL "

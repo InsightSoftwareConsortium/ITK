@@ -1,2 +1,7 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkNrrdImageIO.h")
+itk_wrap_include("itkNrrdImageIOFactory.h")
+
+itk_wrap_simple_class("itk::NrrdImageIOEnums")
 itk_wrap_simple_class("itk::NrrdImageIO" POINTER)
 itk_wrap_simple_class("itk::NrrdImageIOFactory" POINTER)
