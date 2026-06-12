@@ -63,7 +63,7 @@ public:
   /** Customized object creation methods that support configuration-based
    * selection of FFT implementation.
    *
-   * Default implementation is VnlFFT1D.
+   * Default implementation is PocketFFT1D.
    */
   itkFactoryOnlyNewMacro(Self);
 

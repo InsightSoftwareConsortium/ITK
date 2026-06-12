@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkVnlForwardFFTImageFilter.h"
-#include "itkVnlInverseFFTImageFilter.h"
-#include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
-#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
+#include "itkPocketFFTForwardFFTImageFilter.h"
+#include "itkPocketFFTInverseFFTImageFilter.h"
+#include "itkPocketFFTRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkPocketFFTHalfHermitianToRealInverseFFTImageFilter.h"
 
 #if defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD)
 #  include "itkFFTWForwardFFTImageFilter.h"
@@ -48,28 +48,28 @@ itkForwardInverseFFTImageFilterTest(int argc, char * argv[])
 
   bool success = true;
 
-  using FloatVnlFullFFTType = itk::VnlForwardFFTImageFilter<FloatImageType>;
-  using FloatVnlFullIFFTType = itk::VnlInverseFFTImageFilter<FloatVnlFullFFTType::OutputImageType>;
-  if (!ForwardInverseFullFFTTest<FloatVnlFullFFTType, FloatVnlFullIFFTType>(argv[1]))
+  using FloatPocketFFTFullFFTType = itk::PocketFFTForwardFFTImageFilter<FloatImageType>;
+  using FloatPocketFFTFullIFFTType = itk::PocketFFTInverseFFTImageFilter<FloatPocketFFTFullFFTType::OutputImageType>;
+  if (!ForwardInverseFullFFTTest<FloatPocketFFTFullFFTType, FloatPocketFFTFullIFFTType>(argv[1]))
   {
     success = false;
-    std::cerr << "Test failed for FloatVnlFullFFTType" << std::endl;
+    std::cerr << "Test failed for FloatPocketFFTFullFFTType" << std::endl;
   }
   else
   {
-    std::cout << "Test passed for FloatVnlFullFFTType" << std::endl;
+    std::cout << "Test passed for FloatPocketFFTFullFFTType" << std::endl;
   }
 
-  using DoubleVnlFullFFTType = itk::VnlForwardFFTImageFilter<DoubleImageType>;
-  using DoubleVnlFullIFFTType = itk::VnlInverseFFTImageFilter<DoubleVnlFullFFTType::OutputImageType>;
-  if (!ForwardInverseFullFFTTest<DoubleVnlFullFFTType, DoubleVnlFullIFFTType>(argv[1]))
+  using DoublePocketFFTFullFFTType = itk::PocketFFTForwardFFTImageFilter<DoubleImageType>;
+  using DoublePocketFFTFullIFFTType = itk::PocketFFTInverseFFTImageFilter<DoublePocketFFTFullFFTType::OutputImageType>;
+  if (!ForwardInverseFullFFTTest<DoublePocketFFTFullFFTType, DoublePocketFFTFullIFFTType>(argv[1]))
   {
     success = false;
-    std::cerr << "Test failed for DoubleVnlFullFFTType" << std::endl;
+    std::cerr << "Test failed for DoublePocketFFTFullFFTType" << std::endl;
   }
   else
   {
-    std::cout << "Test passed for DoubleVnlFullFFTType" << std::endl;
+    std::cout << "Test passed for DoublePocketFFTFullFFTType" << std::endl;
   }
 
 #if defined(ITK_USE_FFTWF)
@@ -102,28 +102,30 @@ itkForwardInverseFFTImageFilterTest(int argc, char * argv[])
 #endif
 
 
-  using FloatVnlHalfFFTType = itk::VnlRealToHalfHermitianForwardFFTImageFilter<FloatImageType>;
-  using FloatVnlHalfIFFTType = itk::VnlHalfHermitianToRealInverseFFTImageFilter<FloatVnlHalfFFTType::OutputImageType>;
-  if (!ForwardInverseHalfFFTTest<FloatVnlHalfFFTType, FloatVnlHalfIFFTType>(argv[1]))
+  using FloatPocketFFTHalfFFTType = itk::PocketFFTRealToHalfHermitianForwardFFTImageFilter<FloatImageType>;
+  using FloatPocketFFTHalfIFFTType =
+    itk::PocketFFTHalfHermitianToRealInverseFFTImageFilter<FloatPocketFFTHalfFFTType::OutputImageType>;
+  if (!ForwardInverseHalfFFTTest<FloatPocketFFTHalfFFTType, FloatPocketFFTHalfIFFTType>(argv[1]))
   {
     success = false;
-    std::cerr << "Test failed for FloatVnlHalfFFTType" << std::endl;
+    std::cerr << "Test failed for FloatPocketFFTHalfFFTType" << std::endl;
   }
   else
   {
-    std::cout << "Test passed for FloatVnlHalfFFTType" << std::endl;
+    std::cout << "Test passed for FloatPocketFFTHalfFFTType" << std::endl;
   }
 
-  using DoubleVnlHalfFFTType = itk::VnlRealToHalfHermitianForwardFFTImageFilter<DoubleImageType>;
-  using DoubleVnlHalfIFFTType = itk::VnlHalfHermitianToRealInverseFFTImageFilter<DoubleVnlHalfFFTType::OutputImageType>;
-  if (!ForwardInverseHalfFFTTest<DoubleVnlHalfFFTType, DoubleVnlHalfIFFTType>(argv[1]))
+  using DoublePocketFFTHalfFFTType = itk::PocketFFTRealToHalfHermitianForwardFFTImageFilter<DoubleImageType>;
+  using DoublePocketFFTHalfIFFTType =
+    itk::PocketFFTHalfHermitianToRealInverseFFTImageFilter<DoublePocketFFTHalfFFTType::OutputImageType>;
+  if (!ForwardInverseHalfFFTTest<DoublePocketFFTHalfFFTType, DoublePocketFFTHalfIFFTType>(argv[1]))
   {
     success = false;
-    std::cerr << "Test failed for DoubleVnlHalfFFTType" << std::endl;
+    std::cerr << "Test failed for DoublePocketFFTHalfFFTType" << std::endl;
   }
   else
   {
-    std::cout << "Test passed for DoubleVnlHalfFFTType" << std::endl;
+    std::cout << "Test passed for DoublePocketFFTHalfFFTType" << std::endl;
   }
 
 #if defined(ITK_USE_FFTWF)

@@ -19,7 +19,7 @@
 #define itkPocketFFTForwardFFTImageFilter_hxx
 
 #include "itkProgressReporter.h"
-#include "itk_pocketfft_hdronly.h"
+#include "pocketfft_hdronly.h"
 
 namespace itk
 {

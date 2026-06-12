@@ -8,7 +8,7 @@ computations of Fast Fourier Transforms based on
 implementation you must comply with the GPL license."
 )
 
-set(_fft_backends "FFTImageFilterInit::Vnl")
+set(_fft_backends "FFTImageFilterInit::Pocket")
 if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
   # Prepend so that FFTW constructor is preferred
   list(PREPEND _fft_backends "FFTImageFilterInit::FFTW")

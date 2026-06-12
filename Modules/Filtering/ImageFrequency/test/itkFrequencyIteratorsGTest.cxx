@@ -280,8 +280,9 @@ TEST_F(FrequencyIterators, Even3D)
   constexpr unsigned int ImageDimension{ 3 };
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
-  auto             image = CreateImage<ImageType>(16);
-  constexpr double differenceHermitianThreshold{ 0.00001 };
+  auto image = CreateImage<ImageType>(16);
+  // 1e-4 not 1e-5: aarch64 float r2c/c2r margin; see ITK 6 migration guide
+  constexpr double differenceHermitianThreshold{ 0.0001 };
   compareAllTypesOfIterators<ImageType>(image, differenceHermitianThreshold);
 }
 
@@ -290,8 +291,9 @@ TEST_F(FrequencyIterators, Even2D)
   constexpr unsigned int ImageDimension{ 2 };
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
-  auto             image = CreateImage<ImageType>(16);
-  constexpr double differenceHermitianThreshold{ 0.00001 };
+  auto image = CreateImage<ImageType>(16);
+  // 1e-4 not 1e-5: aarch64 float r2c/c2r margin; see ITK 6 migration guide
+  constexpr double differenceHermitianThreshold{ 0.0001 };
   compareAllTypesOfIterators<ImageType>(image, differenceHermitianThreshold);
 }
 
@@ -300,8 +302,9 @@ TEST_F(FrequencyIterators, Odd3D)
   constexpr unsigned int ImageDimension{ 3 };
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
-  auto             image = CreateImage<ImageType>(15);
-  constexpr double differenceHermitianThreshold{ 0.00001 };
+  auto image = CreateImage<ImageType>(15);
+  // 1e-4 not 1e-5: aarch64 float r2c/c2r margin; see ITK 6 migration guide
+  constexpr double differenceHermitianThreshold{ 0.0001 };
   compareAllTypesOfIterators<ImageType>(image, differenceHermitianThreshold);
 }
 

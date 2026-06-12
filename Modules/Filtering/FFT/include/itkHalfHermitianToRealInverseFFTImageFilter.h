@@ -80,7 +80,7 @@ public:
   /** Customized object creation methods that support configuration-based
    * selection of FFT implementation.
    *
-   * Default implementation is VnlFFT. */
+   * Default implementation is PocketFFT. */
   itkFactoryOnlyNewMacro(Self);
 
   /** Was the original truncated dimension size odd? */

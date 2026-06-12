@@ -22,7 +22,7 @@
 #include "itkRealFFTTest.h"
 
 
-// Test FFT using VNL Libraries. The test is performed for two 3D
+// Test FFT using PocketFFT libraries. The test is performed for two 3D
 // arrays, one of them having the same dimension(4,4,4) and the other
 // having different dimensions (3,4,5).  Images are created with
 // different dimensions in the test function based on the second
@@ -50,8 +50,7 @@ itkPocketFFTRealFFTTest(int, char *[])
   unsigned int SizeOfDimensions1[] = { 4, 4, 4, 4 };
   unsigned int SizeOfDimensions2[] = { 3, 5, 4 };
   unsigned int SizeOfDimensions3[] = { 7, 6, 4 }; // Supported by PocketFFT (prime 7)
-                                                  // (illegal prime factor)
-  int rval = 0;
+  int          rval = 0;
   std::cerr << "PocketFFT float,1 (4,4,4)" << std::endl;
   if ((test_fft<float,
                 1,

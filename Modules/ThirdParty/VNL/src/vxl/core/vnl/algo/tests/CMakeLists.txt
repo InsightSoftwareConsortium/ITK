@@ -10,11 +10,7 @@ add_executable( vnl_algo_test_all
   test_amoeba.cxx
   test_cholesky.cxx
   test_complex_algo.cxx
-  test_convolve.cxx
   test_determinant.cxx
-  test_fft.cxx
-  test_fft1d.cxx
-  test_fft2d.cxx
   test_generalized_eigensystem.cxx
   test_ldl_cholesky.cxx
   test_levenberg_marquardt.cxx
@@ -42,11 +38,7 @@ add_test( NAME vnl_algo_test_algo COMMAND vnl_algo_test_all test_algo           
 add_test( NAME vnl_algo_test_amoeba COMMAND vnl_algo_test_all test_amoeba                  )
 add_test( NAME vnl_algo_test_cholesky COMMAND vnl_algo_test_all test_cholesky                )
 add_test( NAME vnl_algo_test_complex_algo COMMAND vnl_algo_test_all test_complex_algo            )
-add_test( NAME vnl_algo_test_convolve COMMAND vnl_algo_test_all test_convolve                )
 add_test( NAME vnl_algo_test_determinant COMMAND vnl_algo_test_all test_determinant             )
-add_test( NAME vnl_algo_test_fft COMMAND vnl_algo_test_all test_fft                     )
-add_test( NAME vnl_algo_test_fft1d COMMAND vnl_algo_test_all test_fft1d                   )
-add_test( NAME vnl_algo_test_fft2d COMMAND vnl_algo_test_all test_fft2d                   )
 add_test( NAME vnl_algo_test_generalized_eigensystem COMMAND vnl_algo_test_all test_generalized_eigensystem )
 add_test( NAME vnl_algo_test_ldl_cholesky COMMAND vnl_algo_test_all test_ldl_cholesky            )
 add_test( NAME vnl_algo_test_levenberg_marquardt COMMAND vnl_algo_test_all test_levenberg_marquardt     )

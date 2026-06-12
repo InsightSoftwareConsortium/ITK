@@ -1,7 +1,7 @@
 set(
   ITKFFT_SRCS
   itkComplexToComplexFFTImageFilter.cxx
-  itkVnlFFTImageFilterInitFactory.cxx
+  itkPocketFFTImageFilterInitFactory.cxx
 )
 
 if(ITK_USE_FFTWF OR ITK_USE_FFTWD)

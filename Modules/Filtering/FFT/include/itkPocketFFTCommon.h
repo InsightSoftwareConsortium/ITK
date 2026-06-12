@@ -18,7 +18,7 @@
 #ifndef itkPocketFFTCommon_h
 #define itkPocketFFTCommon_h
 
-#include "itk_pocketfft_hdronly.h"
+#include "pocketfft_hdronly.h"
 
 namespace itk
 {
@@ -68,6 +68,16 @@ MakeAxes(const unsigned int dimension)
     axes[i] = i;
   }
   return axes;
+}
+
+/** In-place 1D complex transform of a contiguous line buffer. */
+template <typename TValue>
+inline void
+Transform1D(std::complex<TValue> * data, const size_t lineLength, const bool forward, const TValue scale)
+{
+  const pocketfft::shape_t  shape{ lineLength };
+  const pocketfft::stride_t stride{ static_cast<ptrdiff_t>(sizeof(std::complex<TValue>)) };
+  pocketfft::c2c(shape, stride, stride, { 0 }, forward, data, data, scale);
 }
 
 } // namespace PocketFFTCommon

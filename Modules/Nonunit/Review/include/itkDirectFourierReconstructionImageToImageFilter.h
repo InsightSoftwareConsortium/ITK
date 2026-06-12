@@ -21,8 +21,8 @@
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
 
-#include "itkVnlForwardFFTImageFilter.h"
-#include "itkVnlInverseFFTImageFilter.h"
+#include "itkPocketFFTForwardFFTImageFilter.h"
+#include "itkPocketFFTInverseFFTImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageSliceConstIteratorWithIndex.h"
@@ -143,7 +143,7 @@ private:
 
   /** 1D FFT filter type */
   using LineImageType = Image<double, 1>;
-  using FFTLineFilterType = VnlForwardFFTImageFilter<LineImageType>;
+  using FFTLineFilterType = PocketFFTForwardFFTImageFilter<LineImageType>;
   /** Derived 1D FFT image type */
   using FFTLineType = FFTLineFilterType::OutputImageType;
   /** Derived 1D input image type */
@@ -155,7 +155,7 @@ private:
 
   /** 2D inverse FFT filter type */
   using IFFTImageType = Image<std::complex<double>, 2>;
-  using IFFTSliceFilterType = VnlInverseFFTImageFilter<IFFTImageType>;
+  using IFFTSliceFilterType = PocketFFTInverseFFTImageFilter<IFFTImageType>;
   /** Derived 2D FFT image type */
   using FFTSliceType = IFFTSliceFilterType::InputImageType;
   /** Derived 2D output slice type */

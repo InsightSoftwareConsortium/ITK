@@ -127,18 +127,6 @@ set(V3P_NETLIB_linpack_SOURCES
      linpack/dpofa.c linpack/dpofa.h
      linpack/dposl.c linpack/dposl.h
    )
-set(V3P_NETLIB_temperton_SOURCES
-     temperton/dgpfa.c temperton/dgpfa.h
-     temperton/dgpfa2f.c temperton/dgpfa2f.h
-     temperton/dgpfa3f.c temperton/dgpfa3f.h
-     temperton/dgpfa5f.c temperton/dgpfa5f.h
-     temperton/gpfa.c temperton/gpfa.h
-     temperton/gpfa2f.c temperton/gpfa2f.h
-     temperton/gpfa3f.c temperton/gpfa3f.h
-     temperton/gpfa5f.c temperton/gpfa5f.h
-     temperton/setdgpfa.c temperton/setdgpfa.h
-     temperton/setgpfa.c temperton/setgpfa.h
-   )
 set(V3P_NETLIB_eispack_SOURCES
      eispack/balanc.c eispack/balanc.h
      eispack/balbak.c eispack/balbak.h
@@ -291,7 +279,6 @@ set(v3p_netlib_sources
      ${V3P_NETLIB_libf2c_SOURCES}
      ${V3P_NETLIB_blas_SOURCES}
      ${V3P_NETLIB_linpack_SOURCES}
-     ${V3P_NETLIB_temperton_SOURCES}
      ${V3P_NETLIB_eispack_SOURCES}
      ${V3P_NETLIB_lapack_SOURCES}
      ${V3P_NETLIB_napack_SOURCES}

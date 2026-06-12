@@ -23,8 +23,8 @@
 #include "itkConfigure.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
-#include "itkVnlForwardFFTImageFilter.h"
-#include "itkVnlInverseFFTImageFilter.h"
+#include "itkPocketFFTForwardFFTImageFilter.h"
+#include "itkPocketFFTInverseFFTImageFilter.h"
 #if defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD)
 #  include "itkFFTWInverseFFTImageFilter.h"
 #  include "itkFFTWForwardFFTImageFilter.h"

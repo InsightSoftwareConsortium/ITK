@@ -55,10 +55,6 @@ nm libv3p_netlib.a |grep " [TR] "
 #define dggbal_ v3p_netlib_dggbal_
 #define dgges_ v3p_netlib_dgges_
 #define dgghrd_ v3p_netlib_dgghrd_
-#define dgpfa2f_ v3p_netlib_dgpfa2f_
-#define dgpfa3f_ v3p_netlib_dgpfa3f_
-#define dgpfa5f_ v3p_netlib_dgpfa5f_
-#define dgpfa_ v3p_netlib_dgpfa_
 #define dhgeqz_ v3p_netlib_dhgeqz_
 #define dlabad_ v3p_netlib_dlabad_
 #define dlabax_ v3p_netlib_dlabax_
@@ -169,10 +165,6 @@ nm libv3p_netlib.a |grep " [TR] "
 #define fv_ v3p_netlib_fv_
 #define fvd_ v3p_netlib_fvd_
 #define fxshfr_ v3p_netlib_fxshfr_
-#define gpfa2f_ v3p_netlib_gpfa2f_
-#define gpfa3f_ v3p_netlib_gpfa3f_
-#define gpfa5f_ v3p_netlib_gpfa5f_
-#define gpfa_ v3p_netlib_gpfa_
 #define hpsolb_ v3p_netlib_hpsolb_
 #define hqr2_ v3p_netlib_hqr2_
 #define hqr_ v3p_netlib_hqr_
@@ -231,8 +223,6 @@ nm libv3p_netlib.a |grep " [TR] "
 #define sdiff_ v3p_netlib_sdiff_
 #define sdot_ v3p_netlib_sdot_
 #define second_ v3p_netlib_second_
-#define setdgpfa_ v3p_netlib_setdgpfa_
-#define setgpfa_ v3p_netlib_setgpfa_
 #define setulb_ v3p_netlib_setulb_
 #define sgbmv_ v3p_netlib_sgbmv_
 #define sgemv_ v3p_netlib_sgemv_

@@ -46,10 +46,6 @@
 #undef dggbal_
 #undef dgges_
 #undef dgghrd_
-#undef dgpfa2f_
-#undef dgpfa3f_
-#undef dgpfa5f_
-#undef dgpfa_
 #undef dhgeqz_
 #undef dlabad_
 #undef dlabax_
@@ -160,10 +156,6 @@
 #undef fv_
 #undef fvd_
 #undef fxshfr_
-#undef gpfa2f_
-#undef gpfa3f_
-#undef gpfa5f_
-#undef gpfa_
 #undef hpsolb_
 #undef hqr2_
 #undef hqr_
@@ -222,8 +214,6 @@
 #undef sdiff_
 #undef sdot_
 #undef second_
-#undef setdgpfa_
-#undef setgpfa_
 #undef setulb_
 #undef sgbmv_
 #undef sgemv_

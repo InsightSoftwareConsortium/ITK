@@ -16,11 +16,11 @@
  *
  *=========================================================================*/
 #include "itkImage.h"
-#include "itkVnlComplexToComplexFFTImageFilter.h"
-#include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
-#include "itkVnlInverseFFTImageFilter.h"
-#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
-#include "itkVnlForwardFFTImageFilter.h"
+#include "itkPocketFFTComplexToComplexFFTImageFilter.h"
+#include "itkPocketFFTRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkPocketFFTInverseFFTImageFilter.h"
+#include "itkPocketFFTHalfHermitianToRealInverseFFTImageFilter.h"
+#include "itkPocketFFTForwardFFTImageFilter.h"
 
 #if defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD)
 #  include "itkFFTWComplexToComplexFFTImageFilter.h"
@@ -61,31 +61,31 @@ FFTW()
 
 template <typename T>
 void
-Vnl()
+PocketFFT()
 {
   using PixelType = T;
   using CplxPixelType = std::complex<PixelType>;
   using RealImageType = itk::Image<PixelType, 3>;
   using CplxImageType = itk::Image<CplxPixelType, 3>;
 
-  using VnlComplexToComplexFilterType = itk::VnlComplexToComplexFFTImageFilter<CplxImageType>;
-  auto vnlCplxToCplxFFT = VnlComplexToComplexFilterType::New();
+  using PocketFFTComplexToComplexFilterType = itk::PocketFFTComplexToComplexFFTImageFilter<CplxImageType>;
+  auto vnlCplxToCplxFFT = PocketFFTComplexToComplexFilterType::New();
 
-  using VnlRealToHalfHermitianForwardFFTImageFilterType =
-    itk::VnlRealToHalfHermitianForwardFFTImageFilter<RealImageType, CplxImageType>;
-  const typename VnlRealToHalfHermitianForwardFFTImageFilterType::Pointer vRlToHlfHrmtnFwrdFFT =
-    VnlRealToHalfHermitianForwardFFTImageFilterType::New();
+  using PocketFFTRealToHalfHermitianForwardFFTImageFilterType =
+    itk::PocketFFTRealToHalfHermitianForwardFFTImageFilter<RealImageType, CplxImageType>;
+  const typename PocketFFTRealToHalfHermitianForwardFFTImageFilterType::Pointer vRlToHlfHrmtnFwrdFFT =
+    PocketFFTRealToHalfHermitianForwardFFTImageFilterType::New();
 
-  using VnlInverseFFTImageFilterType = itk::VnlInverseFFTImageFilter<CplxImageType, RealImageType>;
-  auto vNvrsFFT = VnlInverseFFTImageFilterType::New();
+  using PocketFFTInverseFFTImageFilterType = itk::PocketFFTInverseFFTImageFilter<CplxImageType, RealImageType>;
+  auto vNvrsFFT = PocketFFTInverseFFTImageFilterType::New();
 
-  using VnlHalfHermitianToRealInverseFFTImageFilterType =
-    itk::VnlHalfHermitianToRealInverseFFTImageFilter<CplxImageType, RealImageType>;
-  const typename VnlHalfHermitianToRealInverseFFTImageFilterType::Pointer fHlfHrmtnToRlnvrs =
-    VnlHalfHermitianToRealInverseFFTImageFilterType::New();
+  using PocketFFTHalfHermitianToRealInverseFFTImageFilterType =
+    itk::PocketFFTHalfHermitianToRealInverseFFTImageFilter<CplxImageType, RealImageType>;
+  const typename PocketFFTHalfHermitianToRealInverseFFTImageFilterType::Pointer fHlfHrmtnToRlnvrs =
+    PocketFFTHalfHermitianToRealInverseFFTImageFilterType::New();
 
-  using VnlForwardFFTImageFilterType = itk::VnlForwardFFTImageFilter<RealImageType, CplxImageType>;
-  auto vFrwrdFFT = VnlForwardFFTImageFilterType::New();
+  using PocketFFTForwardFFTImageFilterType = itk::PocketFFTForwardFFTImageFilter<RealImageType, CplxImageType>;
+  auto vFrwrdFFT = PocketFFTForwardFFTImageFilterType::New();
 }
 
 int
@@ -97,7 +97,7 @@ main()
 #if defined(ITK_USE_FFTWD)
   FFTW<double>();
 #endif
-  Vnl<float>();
-  Vnl<double>();
+  PocketFFT<float>();
+  PocketFFT<double>();
   return 0;
 }

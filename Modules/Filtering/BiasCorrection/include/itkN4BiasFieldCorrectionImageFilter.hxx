@@ -34,7 +34,7 @@
 
 ITK_GCC_PRAGMA_PUSH
 ITK_GCC_SUPPRESS_Wfloat_equal
-#include "vnl/algo/vnl_fft_1d.h"
+#include "itkPocketFFTCommon.h"
 #include "vnl/vnl_complex_traits.h"
 #include "complex"
 #include "itkPrintHelper.h"
@@ -341,13 +341,9 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Sharpen
     V[n + histogramOffset] = H[n];
   }
 
-  // Instantiate the 1-d vnl fft routine.
-
-  vnl_fft_1d<FFTComputationType> fft(paddedHistogramSize);
-
   vnl_vector<FFTComplexType> Vf(V);
 
-  fft.fwd_transform(Vf);
+  PocketFFTCommon::Transform1D(Vf.data_block(), paddedHistogramSize, false, FFTComputationType{ 1 });
 
   // Create the Gaussian filter.
 
@@ -372,7 +368,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Sharpen
 
   vnl_vector<FFTComplexType> Ff(F);
 
-  fft.fwd_transform(Ff);
+  PocketFFTCommon::Transform1D(Ff.data_block(), paddedHistogramSize, false, FFTComputationType{ 1 });
 
   // Create the Wiener deconvolution filter.
 
@@ -394,7 +390,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Sharpen
 
   vnl_vector<FFTComplexType> U(Uf);
 
-  fft.bwd_transform(U);
+  PocketFFTCommon::Transform1D(U.data_block(), paddedHistogramSize, true, FFTComputationType{ 1 });
   for (unsigned int n = 0; n < paddedHistogramSize; ++n)
   {
     U[n] = FFTComplexType(std::max(U[n].real(), static_cast<FFTComputationType>(0.0)), 0.0);
@@ -409,21 +405,21 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Sharpen
     numerator[n] =
       FFTComplexType((binMinimum + (static_cast<RealType>(n) - histogramOffset) * histogramSlope) * U[n].real(), 0.0);
   }
-  fft.fwd_transform(numerator);
+  PocketFFTCommon::Transform1D(numerator.data_block(), paddedHistogramSize, false, FFTComputationType{ 1 });
   for (unsigned int n = 0; n < paddedHistogramSize; ++n)
   {
     numerator[n] *= Ff[n];
   }
-  fft.bwd_transform(numerator);
+  PocketFFTCommon::Transform1D(numerator.data_block(), paddedHistogramSize, true, FFTComputationType{ 1 });
 
   vnl_vector<FFTComplexType> denominator(U);
 
-  fft.fwd_transform(denominator);
+  PocketFFTCommon::Transform1D(denominator.data_block(), paddedHistogramSize, false, FFTComputationType{ 1 });
   for (unsigned int n = 0; n < paddedHistogramSize; ++n)
   {
     denominator[n] *= Ff[n];
   }
-  fft.bwd_transform(denominator);
+  PocketFFTCommon::Transform1D(denominator.data_block(), paddedHistogramSize, true, FFTComputationType{ 1 });
 
   vnl_vector<RealType> E(paddedHistogramSize);
 

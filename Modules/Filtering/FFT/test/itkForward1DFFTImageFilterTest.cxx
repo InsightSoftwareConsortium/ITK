@@ -25,7 +25,7 @@
 #include "itkImageFileWriter.h"
 
 #include "itkForward1DFFTImageFilter.h"
-#include "itkVnlForward1DFFTImageFilter.h"
+#include "itkPocketFFTForward1DFFTImageFilter.h"
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 #  include "itkFFTWForward1DFFTImageFilter.h"
 #endif
@@ -115,11 +115,11 @@ itkForward1DFFTImageFilterTest(int argc, char * argv[])
   }
   if (backend == 1)
   {
-    using FFTForwardType = itk::VnlForward1DFFTImageFilter<ImageType, ComplexImageType>;
+    using FFTForwardType = itk::PocketFFTForward1DFFTImageFilter<ImageType, ComplexImageType>;
 
     // Instantiate a filter to exercise basic object methods
     auto fft = FFTForwardType::New();
-    ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, VnlForward1DFFTImageFilter, Forward1DFFTImageFilter);
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, PocketFFTForward1DFFTImageFilter, Forward1DFFTImageFilter);
 
 
     return doTest<FFTForwardType>(argv[1], argv[2]);

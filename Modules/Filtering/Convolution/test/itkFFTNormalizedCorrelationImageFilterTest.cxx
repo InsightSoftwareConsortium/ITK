@@ -24,10 +24,10 @@
 #include "itkTestingMacros.h"
 
 #include "itkObjectFactoryBase.h"
-#include "itkVnlForwardFFTImageFilter.h"
-#include "itkVnlInverseFFTImageFilter.h"
-#include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
-#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
+#include "itkPocketFFTForwardFFTImageFilter.h"
+#include "itkPocketFFTInverseFFTImageFilter.h"
+#include "itkPocketFFTRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkPocketFFTHalfHermitianToRealInverseFFTImageFilter.h"
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 #  include "itkFFTWForwardFFTImageFilter.h"
 #  include "itkFFTWInverseFFTImageFilter.h"

@@ -25,8 +25,8 @@
 #include "itkForward1DFFTImageFilter.h"
 #include "itkInverse1DFFTImageFilter.h"
 
-#include "itkVnlForward1DFFTImageFilter.h"
-#include "itkVnlInverse1DFFTImageFilter.h"
+#include "itkPocketFFTForward1DFFTImageFilter.h"
+#include "itkPocketFFTInverse1DFFTImageFilter.h"
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 #  include "itkFFTWForward1DFFTImageFilter.h"
 #  include "itkFFTWInverse1DFFTImageFilter.h"
@@ -105,15 +105,15 @@ itkFFT1DImageFilterTest(int argc, char * argv[])
   if (backend == 0) // Default backend
   {
     // When FFTW is configured it auto-registers a 1D factory for the pixel
-    // type and is the default backend; otherwise Vnl is the default.
+    // type and is the default backend; otherwise PocketFFT is the default.
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
     using DefaultForwardSubtype = itk::FFTWForward1DFFTImageFilter<ImageType, ComplexImageType>;
     using DefaultInverseSubtype = itk::FFTWInverse1DFFTImageFilter<ComplexImageType, ImageType>;
     const char * const defaultBackendName = "FFTW";
 #else
-    using DefaultForwardSubtype = itk::VnlForward1DFFTImageFilter<ImageType, ComplexImageType>;
-    using DefaultInverseSubtype = itk::VnlInverse1DFFTImageFilter<ComplexImageType, ImageType>;
-    const char * const defaultBackendName = "Vnl";
+    using DefaultForwardSubtype = itk::PocketFFTForward1DFFTImageFilter<ImageType, ComplexImageType>;
+    using DefaultInverseSubtype = itk::PocketFFTInverse1DFFTImageFilter<ComplexImageType, ImageType>;
+    const char * const defaultBackendName = "PocketFFT";
 #endif
 
     auto forward = FFTForwardType::New();
@@ -130,12 +130,12 @@ itkFFT1DImageFilterTest(int argc, char * argv[])
     }
     return doTest<FFTForwardType, FFTInverseType>(argv[1], argv[2]);
   }
-  if (backend == 1) // Vnl backend
+  if (backend == 1) // PocketFFT backend
   {
     // Verify object factory returns expected type
-    using VnlForwardType = itk::VnlForward1DFFTImageFilter<ImageType, ComplexImageType>;
-    using VnlInverseType = itk::VnlInverse1DFFTImageFilter<ComplexImageType, ImageType>;
-    return doTest<VnlForwardType, VnlInverseType>(argv[1], argv[2]);
+    using PocketFFTForwardType = itk::PocketFFTForward1DFFTImageFilter<ImageType, ComplexImageType>;
+    using PocketFFTInverseType = itk::PocketFFTInverse1DFFTImageFilter<ComplexImageType, ImageType>;
+    return doTest<PocketFFTForwardType, PocketFFTInverseType>(argv[1], argv[2]);
   }
   else if (backend == 2) // FFTW backend
   {
