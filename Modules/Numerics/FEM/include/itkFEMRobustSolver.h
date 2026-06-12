@@ -350,8 +350,7 @@ private:
  *
  * \ingroup ITKFEM
 */
-class CompareLandmarkDisplacementError :
-    public std::binary_function<const Load::Pointer &, const Load::Pointer &, bool>
+class CompareLandmarkDisplacementError
 {
 public:
     bool operator()(const Load::Pointer & L1 , const Load::Pointer & L2)
