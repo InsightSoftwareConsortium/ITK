@@ -3,8 +3,14 @@ name: ITK.Windows
 trigger:
   branches:
     include:
-    - master
     - release*
+  paths:
+    exclude:
+    - '*.md'
+    - LICENSE
+    - NOTICE
+    - Documentation/**
+    - Utilities/Maintenance/**
 variables:
   ExternalDataVersion: 4.13.2
 jobs:
@@ -12,7 +18,7 @@ jobs:
   timeoutInMinutes: 0
   cancelTimeoutInMinutes: 300
   pool:
-    vmImage: 'vs2017-win2016'
+    vmImage: 'windows-latest'
   steps:
     - checkout: self
       clean: true
@@ -20,12 +26,15 @@ jobs:
 
     - script: |
         if DEFINED SYSTEM_PULLREQUEST_SOURCECOMMITID git checkout $(System.PullRequest.SourceCommitId)
-      displayName: Checkout pull request HEAD
+      displayName: 'Checkout pull request HEAD'
+
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.x'
+        architecture: 'x64'
 
     - script: |
-        pip3 install ninja
-        pip3 install --upgrade setuptools
-        pip3 install scikit-ci-addons
+        python -m pip install ninja lxml scikit-ci-addons
       displayName: 'Install dependencies'
 
     - script: |
@@ -44,9 +53,12 @@ jobs:
         set(ENV{CC} cl.exe)
         set(ENV{CXX} cl.exe)
         set(dashboard_cache "
-          BUILD_SHARED_LIBS:BOOL=ON
+          BUILD_SHARED_LIBS:BOOL=OFF
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=OFF
+          ITK_USE_KWSTYLE:BOOL=OFF
+          CMAKE_C_FLAGS:STRING=/DWIN32 /D_WINDOWS /w
+          CMAKE_CXX_FLAGS:STRING=/DWIN32 /D_WINDOWS /EHsc /w
         ")
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
         EOF
@@ -56,8 +68,12 @@ jobs:
 
     - script: |
         cmake --version
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4
+        for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do call "%%i\VC\Auxiliary\Build\vcvars64.bat"
+        if not defined VCINSTALLDIR (
+          echo ##[error]vswhere found no Visual Studio installation with the C++ x64 toolset; vcvars64.bat was not called.
+          exit /b 1
+        )
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -V -j 4
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1

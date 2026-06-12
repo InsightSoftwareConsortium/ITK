@@ -1,54 +1,92 @@
+# ITK 4.x Python wrapping does not build with modern Python/toolchains;
+# this pipeline provides a shared-library C++ build variant instead.
 trigger:
   branches:
     include:
-    - master
     - release*
+  paths:
+    exclude:
+    - '*.md'
+    - LICENSE
+    - NOTICE
+    - Documentation/**
+    - Utilities/Maintenance/**
 variables:
-  ExternalDataVersion: 4.13.1
+  ExternalDataVersion: 4.13.2
 jobs:
 - job: Windows
   timeoutInMinutes: 0
   cancelTimeoutInMinutes: 300
   pool:
-    vmImage: 'vs2017-win2016'
+    vmImage: 'windows-latest'
   steps:
     - checkout: self
       clean: true
       fetchDepth: 5
+
     - script: |
         if DEFINED SYSTEM_PULLREQUEST_SOURCECOMMITID git checkout $(System.PullRequest.SourceCommitId)
-      displayName: Checkout pull request HEAD
+      displayName: 'Checkout pull request HEAD'
 
     - task: UsePythonVersion@0
       inputs:
-        versionSpec: '3.7'
+        versionSpec: '3.x'
+        architecture: 'x64'
 
     - script: |
-        pip3 install ninja numpy
+        python -m pip install ninja lxml scikit-ci-addons
+      displayName: 'Install dependencies'
 
-      displayName: Install dependencies
     - script: |
         git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
 
         curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v$(ExternalDataVersion)/InsightData-$(ExternalDataVersion).tar.gz -O
         cmake -E tar xfz InsightData-$(ExternalDataVersion).tar.gz
         cmake -E rename InsightToolkit-$(ExternalDataVersion)/.ExternalData/MD5 $(Build.SourcesDirectory)/.ExternalData/MD5
-
-      displayName: Download dashboard script and testing data
       workingDirectory: $(Agent.BuildDirectory)
+      displayName: 'Download dashboard script and testing data'
+
+    - bash: |
+        cat > dashboard.cmake << EOF
+        set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
+        set(CTEST_CMAKE_GENERATOR "Ninja")
+        set(ENV{CC} cl.exe)
+        set(ENV{CXX} cl.exe)
+        set(BUILD_NAME_SUFFIX "-SharedLibs")
+        set(dashboard_cache "
+          BUILD_SHARED_LIBS:BOOL=ON
+          BUILD_EXAMPLES:BOOL=OFF
+          ITK_WRAP_PYTHON:BOOL=OFF
+          ITK_USE_KWSTYLE:BOOL=OFF
+          CMAKE_C_FLAGS:STRING=/DWIN32 /D_WINDOWS /w
+          CMAKE_CXX_FLAGS:STRING=/DWIN32 /D_WINDOWS /EHsc /w
+        ")
+        include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
+        EOF
+        cat dashboard.cmake
+      workingDirectory: $(Agent.BuildDirectory)/ITK-dashboard
+      displayName: 'Configure CTest script'
+
     - script: |
         cmake --version
+        for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do call "%%i\VC\Auxiliary\Build\vcvars64.bat"
+        if not defined VCINSTALLDIR (
+          echo ##[error]vswhere found no Visual Studio installation with the C++ x64 toolset; vcvars64.bat was not called.
+          exit /b 1
+        )
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -V -j 4
+      displayName: 'Build and test'
+      env:
+        CTEST_OUTPUT_ON_FAILURE: 1
 
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        set BUILD_EXAMPLES=OFF
-        set CTEST_BUILD_CONFIGURATION=MinSizeRel
-        set BUILD_SHARED_LIBS=ON
-        set ITK_WRAP_PYTHON=ON
-        set ITK_BUILD_DEFAULT_MODULES=OFF
-        set CC=cl.exe
-        set CXX=cl.exe
-        set CTEST_OUTPUT_ON_FAILURE=1
+    - script: |
+        ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml
+      condition: succeededOrFailed()
+      displayName: 'Format CTest output in JUnit format'
 
-        ctest -S ITK-dashboard/azure_dashboard.cmake -V -j 4
-      displayName: Build and test
-      workingDirectory: $(Agent.BuildDirectory)
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFiles: "$(Agent.BuildDirectory)/JUnitTestResults.xml"
+        testRunTitle: 'CTest $(Agent.OS) SharedLibs'
+      condition: succeededOrFailed()
+      displayName: 'Publish test results'
