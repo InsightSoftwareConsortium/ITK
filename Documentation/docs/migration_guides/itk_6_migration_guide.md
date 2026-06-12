@@ -708,6 +708,9 @@ removed. The default (non-FFTW) FFT backend is now PocketFFT
 - Code calling `vnl_fft_1d`/`vnl_fft_2d`/`vnl_convolve` directly must move
   to another FFT (e.g. `pocketfft_hdronly.h` via `itkPocketFFTCommon.h`,
   as `itkN4BiasFieldCorrectionImageFilter.hxx` now does).
+- `vnl_fft_1d` is retained as a deprecated PocketFFT-backed shim, but it now
+  pulls in `pocketfft_hdronly.h`: any consumer that includes
+  `vnl/algo/vnl_fft_1d.h` must depend on the ITKFFT module.
 
 ### Concerns
 

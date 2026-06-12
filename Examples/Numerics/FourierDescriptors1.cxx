@@ -62,6 +62,9 @@
 //  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
+// vnl_fft_1d is a deprecated compatibility alias routing to PocketFFT; this
+// example intentionally exercises it and requires the ITKFFT module.
+#define ITK_LEGACY_SILENT
 #include "vnl/algo/vnl_fft_1d.h"
 // Software Guide : EndCodeSnippet
 
