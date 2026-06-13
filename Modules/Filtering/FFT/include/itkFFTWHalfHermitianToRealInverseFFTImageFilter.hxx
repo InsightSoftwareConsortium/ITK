@@ -101,7 +101,7 @@ FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::BeforeT
                                      in,
                                      out,
                                      m_PlanRigor,
-                                     MultiThreaderBase::GetGlobalDefaultNumberOfThreads(),
+                                     this->GetMultiThreader()->GetMaximumNumberOfThreads(),
                                      !m_CanUseDestructiveAlgorithm);
   if (!m_CanUseDestructiveAlgorithm)
   {

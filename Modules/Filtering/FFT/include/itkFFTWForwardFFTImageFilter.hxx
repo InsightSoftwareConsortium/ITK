@@ -112,7 +112,7 @@ FFTWForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
                                      in,
                                      (typename FFTWProxyType::ComplexType *)fftwOutput->GetBufferPointer(),
                                      flags,
-                                     MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
+                                     this->GetMultiThreader()->GetMaximumNumberOfThreads());
   FFTWProxyType::Execute(plan);
   FFTWProxyType::DestroyPlan(plan);
 

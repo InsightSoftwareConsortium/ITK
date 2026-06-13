@@ -92,7 +92,7 @@ FFTWInverseFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData
   }
 
   plan = FFTWProxyType::Plan_dft_c2r(
-    ImageDimension, sizes, in, out, m_PlanRigor, MultiThreaderBase::GetGlobalDefaultNumberOfThreads(), false);
+    ImageDimension, sizes, in, out, m_PlanRigor, this->GetMultiThreader()->GetMaximumNumberOfThreads(), false);
   FFTWProxyType::Execute(plan);
 
   // Some cleanup.
