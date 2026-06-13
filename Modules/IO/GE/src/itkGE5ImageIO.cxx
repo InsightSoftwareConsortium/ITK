@@ -298,7 +298,7 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
 
   // patient id
   std::string tmpId(buffer+VOff(84,88), 13);
-  std::remove(tmpId.begin(), tmpId.end(), '-');
+  tmpId.erase(std::remove(tmpId.begin(), tmpId.end(), '-'), tmpId.end());
   strncpy(curImage->patientId, tmpId.c_str(), sizeof(curImage->patientId)-1);
   curImage->patientId[sizeof(curImage->patientId)-1] = '\0';
 
