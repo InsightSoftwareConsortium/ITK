@@ -35,8 +35,8 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
-#include "itkVnlForwardFFTImageFilter.h"
-#include "itkVnlInverseFFTImageFilter.h"
+#include "itkPocketFFTForwardFFTImageFilter.h"
+#include "itkPocketFFTInverseFFTImageFilter.h"
 
 int
 main(int argc, char * argv[])
@@ -106,7 +106,7 @@ main(int argc, char * argv[])
   inputresampler->SetInput(inputreader->GetOutput());
 
   // Forward FFT filter
-  using FFTFilterType = itk::VnlForwardFFTImageFilter<WorkImageType>;
+  using FFTFilterType = itk::PocketFFTForwardFFTImageFilter<WorkImageType>;
   auto fftinput = FFTFilterType::New();
   fftinput->SetInput(inputresampler->GetOutput());
 
@@ -114,7 +114,8 @@ main(int argc, char * argv[])
   using ComplexImageType = FFTFilterType::OutputImageType;
 
   // Do the inverse transform = forward transform / num voxels
-  using invFFTFilterType = itk::VnlInverseFFTImageFilter<ComplexImageType>;
+  using invFFTFilterType =
+    itk::PocketFFTInverseFFTImageFilter<ComplexImageType>;
   auto fftoutput = invFFTFilterType::New();
   fftoutput->SetInput(
     fftinput->GetOutput()); // try to recover the input image

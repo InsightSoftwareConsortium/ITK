@@ -29,7 +29,7 @@
 //  This typical process is illustrated in the example below.
 //
 //  \index{itk::Forward\-FFT\-Image\-Filter}
-//  \index{itk::Vnl\-Forward\-FFT\-Image\-Filter}
+//  \index{itk::Forward\-FFT\-Image\-Filter}
 //  \index{itk::FFTW\-Forward\-FFT\-Image\-Filter}
 //  \index{itk::Mask\-Image\-Filter}
 //
@@ -53,8 +53,8 @@
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkVnlForwardFFTImageFilter.h"
-#include "itkVnlInverseFFTImageFilter.h"
+#include "itkPocketFFTForwardFFTImageFilter.h"
+#include "itkPocketFFTInverseFFTImageFilter.h"
 #include "itkMaskImageFilter.h"
 // Software Guide : EndCodeSnippet
 
@@ -115,7 +115,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Now the \itkref{VnlForwardFFTImageFilter} can be instantiated.
+  // Now the \itkref{ForwardFFTImageFilter} can be instantiated.
   // Like most ITK filters, the FFT filter is instantiated using the full
   // image type. By not setting the output image type, we decide to use the
   // default one provided by the filter. Using this type we construct one
@@ -124,7 +124,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FFTFilterType = itk::VnlForwardFFTImageFilter<InputImageType>;
+  using FFTFilterType = itk::PocketFFTForwardFFTImageFilter<InputImageType>;
 
   auto fftFilter = FFTFilterType::New();
 
@@ -192,7 +192,8 @@ main(int argc, char * argv[])
 
 
   // Software Guide : BeginCodeSnippet
-  using IFFTFilterType = itk::VnlInverseFFTImageFilter<SpectralImageType>;
+  using IFFTFilterType =
+    itk::PocketFFTInverseFFTImageFilter<SpectralImageType>;
 
   auto fftInverseFilter = IFFTFilterType::New();
 
