@@ -19,6 +19,7 @@
 #define itkPocketFFTInverseFFTImageFilter_hxx
 
 #include "itkProgressReporter.h"
+#include "itkPocketFFTCommon.h"
 #include "pocketfft_hdronly.h"
 
 #include <vector>
@@ -45,30 +46,24 @@ PocketFFTInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
   outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
   outputPtr->Allocate();
 
-  // pocketfft shape is listed slowest-varying axis first; the ITK buffer is
-  // x-fastest, so dimension i maps to shape index (ImageDimension - 1 - i).
-  pocketfft::shape_t  shape(ImageDimension);
-  pocketfft::stride_t stride(ImageDimension);
-  pocketfft::shape_t  axes(ImageDimension);
-  ptrdiff_t           byteStride = sizeof(InputPixelType);
-  SizeValueType       totalSize = 1;
-  for (unsigned int i = 0; i < ImageDimension; ++i)
-  {
-    shape[ImageDimension - 1 - i] = outputSize[i];
-    stride[ImageDimension - 1 - i] = byteStride;
-    byteStride *= static_cast<ptrdiff_t>(outputSize[i]);
-    totalSize *= outputSize[i];
-  }
-  for (unsigned int i = 0; i < ImageDimension; ++i)
-  {
-    axes[i] = i;
-  }
+  const pocketfft::shape_t  shape = PocketFFTCommon::MakeShape(outputSize, ImageDimension);
+  const pocketfft::stride_t stride = PocketFFTCommon::MakeStride(outputSize, ImageDimension, sizeof(InputPixelType));
+  const pocketfft::shape_t  axes = PocketFFTCommon::MakeAxes(ImageDimension);
+  const SizeValueType       totalSize = outputPtr->GetLargestPossibleRegion().GetNumberOfPixels();
 
   const InputPixelType *      in = inputPtr->GetBufferPointer();
   std::vector<InputPixelType> work(in, in + totalSize);
 
   const OutputPixelType scale = OutputPixelType{ 1 } / static_cast<OutputPixelType>(totalSize);
-  pocketfft::c2c(shape, stride, stride, axes, pocketfft::BACKWARD, work.data(), work.data(), scale);
+  pocketfft::c2c(shape,
+                 stride,
+                 stride,
+                 axes,
+                 pocketfft::BACKWARD,
+                 work.data(),
+                 work.data(),
+                 scale,
+                 this->GetMultiThreader()->GetMaximumNumberOfThreads());
 
   OutputPixelType * out = outputPtr->GetBufferPointer();
   for (SizeValueType i = 0; i < totalSize; ++i)

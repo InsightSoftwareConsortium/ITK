@@ -59,8 +59,15 @@ PocketFFTComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::GenerateData
   const auto scale =
     inverse ? ValueType{ 1 } / static_cast<ValueType>(bufferedRegion.GetNumberOfPixels()) : ValueType{ 1 };
 
-  pocketfft::c2c(
-    shape, stride, stride, axes, inverse ? pocketfft::BACKWARD : pocketfft::FORWARD, buffer, buffer, scale);
+  pocketfft::c2c(shape,
+                 stride,
+                 stride,
+                 axes,
+                 inverse ? pocketfft::BACKWARD : pocketfft::FORWARD,
+                 buffer,
+                 buffer,
+                 scale,
+                 this->GetMultiThreader()->GetMaximumNumberOfThreads());
 }
 
 } // namespace itk

@@ -19,6 +19,7 @@
 #define itkPocketFFTForwardFFTImageFilter_hxx
 
 #include "itkProgressReporter.h"
+#include "itkPocketFFTCommon.h"
 #include "pocketfft_hdronly.h"
 
 namespace itk
@@ -43,19 +44,9 @@ PocketFFTForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
   outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
   outputPtr->Allocate();
 
-  // pocketfft shape is listed slowest-varying axis first; the ITK buffer is
-  // x-fastest, so dimension i maps to shape index (ImageDimension - 1 - i).
-  pocketfft::shape_t  shape(ImageDimension);
-  pocketfft::stride_t stride(ImageDimension);
-  pocketfft::shape_t  axes(ImageDimension);
-  ptrdiff_t           byteStride = sizeof(OutputPixelType);
-  for (unsigned int i = 0; i < ImageDimension; ++i)
-  {
-    shape[ImageDimension - 1 - i] = inputSize[i];
-    stride[ImageDimension - 1 - i] = byteStride;
-    byteStride *= static_cast<ptrdiff_t>(inputSize[i]);
-    axes[i] = i;
-  }
+  const pocketfft::shape_t  shape = PocketFFTCommon::MakeShape(inputSize, ImageDimension);
+  const pocketfft::stride_t stride = PocketFFTCommon::MakeStride(inputSize, ImageDimension, sizeof(OutputPixelType));
+  const pocketfft::shape_t  axes = PocketFFTCommon::MakeAxes(ImageDimension);
 
   const SizeValueType    totalSize = inputPtr->GetLargestPossibleRegion().GetNumberOfPixels();
   const InputPixelType * in = inputPtr->GetBufferPointer();
@@ -65,7 +56,15 @@ PocketFFTForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
     out[i] = OutputPixelType(in[i], 0);
   }
 
-  pocketfft::c2c(shape, stride, stride, axes, pocketfft::FORWARD, out, out, InputPixelType{ 1 });
+  pocketfft::c2c(shape,
+                 stride,
+                 stride,
+                 axes,
+                 pocketfft::FORWARD,
+                 out,
+                 out,
+                 InputPixelType{ 1 },
+                 this->GetMultiThreader()->GetMaximumNumberOfThreads());
 }
 
 template <typename TInputImage, typename TOutputImage>

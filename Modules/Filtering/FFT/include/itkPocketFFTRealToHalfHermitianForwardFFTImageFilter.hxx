@@ -57,7 +57,8 @@ PocketFFTRealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::Ge
                  pocketfft::FORWARD,
                  inputPtr->GetBufferPointer(),
                  outputPtr->GetBufferPointer(),
-                 InputPixelType{ 1 });
+                 InputPixelType{ 1 },
+                 this->GetMultiThreader()->GetMaximumNumberOfThreads());
 }
 
 template <typename TInputImage, typename TOutputImage>

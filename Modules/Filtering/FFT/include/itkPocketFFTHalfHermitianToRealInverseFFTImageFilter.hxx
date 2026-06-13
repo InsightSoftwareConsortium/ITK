@@ -61,7 +61,8 @@ PocketFFTHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::Ge
                  pocketfft::BACKWARD,
                  inputPtr->GetBufferPointer(),
                  outputPtr->GetBufferPointer(),
-                 scale);
+                 scale,
+                 this->GetMultiThreader()->GetMaximumNumberOfThreads());
 }
 
 template <typename TInputImage, typename TOutputImage>
