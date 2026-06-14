@@ -924,7 +924,7 @@ protected:
   static inline constexpr float
   progressFixedToFloat(uint32_t fixed)
   {
-    return static_cast<double>(fixed) / static_cast<double>(std::numeric_limits<uint32_t>::max());
+    return static_cast<float>(static_cast<double>(fixed) / static_cast<double>(std::numeric_limits<uint32_t>::max()));
   }
 
   /**

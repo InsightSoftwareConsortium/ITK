@@ -402,6 +402,13 @@ TEST(FixedArray, CArrayInteropAndIndexTypes)
     EXPECT_EQ(array20.GetElement(k), k);
   }
 
+  // operator[](unsigned int) narrows wide index types by design here; the
+  // test exercises that implicit conversion, so suppress MSVC C4244 for it.
+#if defined(_MSC_VER)
+#  pragma warning(push)
+#  pragma warning(disable : 4244)
+#endif
+
   // Test various index types (const access)
 #define TRY_INDEX_CONST(T)       \
   {                              \
@@ -435,4 +442,7 @@ TEST(FixedArray, CArrayInteropAndIndexTypes)
   TRY_INDEX(unsigned long);
   TRY_INDEX(long long);
   TRY_INDEX(unsigned long long);
+#if defined(_MSC_VER)
+#  pragma warning(pop)
+#endif
 }

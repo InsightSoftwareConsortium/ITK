@@ -109,7 +109,7 @@ Win32OutputWindow::DisplayText(const char * text)
      *  and add the buffer with a control new line */
     else
     {
-      int len = NewLinePos - text;
+      int len = static_cast<int>(NewLinePos - text);
       strncpy(buffer.get(), text, len);
       buffer[len] = 0;
       text = NewLinePos + 1;
