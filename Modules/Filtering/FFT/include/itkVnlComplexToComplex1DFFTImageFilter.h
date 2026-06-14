@@ -18,40 +18,40 @@
 #ifndef itkVnlComplexToComplex1DFFTImageFilter_h
 #define itkVnlComplexToComplex1DFFTImageFilter_h
 
-#include "itkComplexToComplex1DFFTImageFilter.h"
+#include "itkPocketFFTComplexToComplex1DFFTImageFilter.h"
 
-#include <complex>
-#include "itkFFTImageFilterFactory.h"
+#if defined(ITK_LEGACY_SILENT)
+#  define ITK_VNL_FFT_DEPRECATED
+#else
+#  define ITK_VNL_FFT_DEPRECATED                                                        \
+    [[deprecated("VnlComplexToComplex1DFFTImageFilter is deprecated; it now routes to " \
+                 "itk::PocketFFTComplexToComplex1DFFTImageFilter.")]]
+#endif
 
+#if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
 namespace itk
 {
-
 /** \class VnlComplexToComplex1DFFTImageFilter
+ * \brief Deprecated compatibility wrapper that routes to PocketFFTComplexToComplex1DFFTImageFilter.
  *
- * \brief Perform the FFT along one dimension of an image using Vnl as a
- * backend.
+ * \deprecated The VNL/Temperton FFT backend was removed; this name now derives
+ * from itk::PocketFFTComplexToComplex1DFFTImageFilter. Migrate to the PocketFFT class or the
+ * factory-default itk::ComplexToComplex1DFFTImageFilter.
  *
- * \ingroup ITKFFT
  * \ingroup FourierTransform
+ * \ingroup ITKFFT
  */
 template <typename TInputImage, typename TOutputImage = TInputImage>
-class ITK_TEMPLATE_EXPORT VnlComplexToComplex1DFFTImageFilter
-  : public ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>
+class ITK_VNL_FFT_DEPRECATED ITK_TEMPLATE_EXPORT VnlComplexToComplex1DFFTImageFilter
+  : public PocketFFTComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(VnlComplexToComplex1DFFTImageFilter);
 
-  /** Standard class type alias. */
   using Self = VnlComplexToComplex1DFFTImageFilter;
-  using Superclass = ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>;
+  using Superclass = PocketFFTComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
-
-  using InputImageType = typename Superclass::InputImageType;
-  using OutputImageType = typename Superclass::OutputImageType;
-  using OutputImageRegionType = typename OutputImageType::RegionType;
-
-  using TransformDirectionType = typename Superclass::TransformDirectionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -62,25 +62,23 @@ public:
 protected:
   VnlComplexToComplex1DFFTImageFilter() = default;
   ~VnlComplexToComplex1DFFTImageFilter() override = default;
-
-  void
-  GenerateData() override;
 };
 
+/** \cond HIDE_SPECIALIZATION */
+#  if defined(__GNUC__) || defined(__clang__)
+#    pragma GCC diagnostic push
+#    pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#  endif
 template <>
 struct FFTImageFilterTraits<VnlComplexToComplex1DFFTImageFilter>
-{
-  template <typename TUnderlying>
-  using InputPixelType = std::complex<TUnderlying>;
-  template <typename TUnderlying>
-  using OutputPixelType = std::complex<TUnderlying>;
-  using FilterDimensions = std::integer_sequence<unsigned int, 4, 3, 2, 1>;
-};
+  : public FFTImageFilterTraits<PocketFFTComplexToComplex1DFFTImageFilter>
+{};
+#  if defined(__GNUC__) || defined(__clang__)
+#    pragma GCC diagnostic pop
+#  endif
+/** \endcond */
+} // namespace itk
+#endif // !ITK_LEGACY_REMOVE && !ITK_FUTURE_LEGACY_REMOVE
 
-} // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkVnlComplexToComplex1DFFTImageFilter.hxx"
-#endif
-
-#endif
+#undef ITK_VNL_FFT_DEPRECATED
+#endif // itkVnlComplexToComplex1DFFTImageFilter_h

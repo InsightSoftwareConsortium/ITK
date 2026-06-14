@@ -94,7 +94,7 @@ public:
   /** Customized object creation methods that support configuration-based
    * selection of FFT implementation.
    *
-   * Default implementation is VnlFFT.
+   * Default implementation is PocketFFT.
    */
   itkFactoryOnlyNewMacro(Self);
 
@@ -121,6 +121,9 @@ protected:
 
   void
   GenerateInputRequestedRegion() override;
+
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
   TransformDirectionEnum m_TransformDirection{ TransformDirectionEnum::FORWARD };

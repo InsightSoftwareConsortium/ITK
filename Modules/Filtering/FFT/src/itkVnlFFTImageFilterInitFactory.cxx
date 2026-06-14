@@ -15,6 +15,13 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
+// This translation unit intentionally instantiates the deprecated Vnl FFT
+// compatibility filters; silence their deprecation warnings here.
+#ifndef ITK_LEGACY_SILENT
+#define ITK_LEGACY_SILENT
+#endif
+
 #include "itkVnlFFTImageFilterInitFactory.h"
 
 #include "itkVnlComplexToComplex1DFFTImageFilter.h"
@@ -26,10 +33,11 @@
 #include "itkVnlInverseFFTImageFilter.h"
 #include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
 
-#include "itkCreateObjectFunction.h"
+#include "itkFFTImageFilterFactory.h"
 #include "itkVersion.h"
 #include "itkObjectFactoryBase.h"
 
+#if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
 namespace itk
 {
 VnlFFTImageFilterInitFactory::VnlFFTImageFilterInitFactory() { VnlFFTImageFilterInitFactory::RegisterFactories(); }
@@ -50,12 +58,10 @@ VnlFFTImageFilterInitFactory::RegisterFactories()
 }
 
 // Undocumented API used to register during static initialization.
-// DO NOT CALL DIRECTLY.
-// TODO CMake parsing currently does not allow "InitFactory"
 void ITKFFT_EXPORT
 VnlFFTImageFilterInitFactoryRegister__Private()
 {
   VnlFFTImageFilterInitFactory::RegisterFactories();
 }
-
 } // end namespace itk
+#endif // !ITK_LEGACY_REMOVE && !ITK_FUTURE_LEGACY_REMOVE

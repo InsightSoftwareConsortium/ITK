@@ -25,7 +25,7 @@
 #include "itkImageFileWriter.h"
 
 #include "itkComplexToComplex1DFFTImageFilter.h"
-#include "itkVnlComplexToComplex1DFFTImageFilter.h"
+#include "itkPocketFFTComplexToComplex1DFFTImageFilter.h"
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 #  include "itkFFTWComplexToComplex1DFFTImageFilter.h"
 #endif
@@ -119,7 +119,7 @@ itkComplexToComplex1DFFTImageFilterTest(int argc, char * argv[])
   }
   if (backend == 1)
   {
-    using FFTInverseType = itk::VnlComplexToComplex1DFFTImageFilter<ComplexImageType, ComplexImageType>;
+    using FFTInverseType = itk::PocketFFTComplexToComplex1DFFTImageFilter<ComplexImageType, ComplexImageType>;
     return doTest<FFTInverseType>(argv[1], argv[2], argv[3]);
   }
   else if (backend == 2)

@@ -27,8 +27,8 @@
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 
 #include "itkObjectFactoryBase.h"
-#include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
-#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
+#include "itkPocketFFTRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkPocketFFTHalfHermitianToRealInverseFFTImageFilter.h"
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 #  include "itkFFTWRealToHalfHermitianForwardFFTImageFilter.h"
 #  include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.h"

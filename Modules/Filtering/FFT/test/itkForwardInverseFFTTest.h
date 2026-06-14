@@ -20,6 +20,7 @@
 
 #include "itkAbsoluteValueDifferenceImageFilter.h"
 #include "itkImageFileReader.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
 
 template <typename TForwardFFT, typename TInverseFFT>
 bool

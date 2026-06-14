@@ -1,6 +1,7 @@
 set(
   ITKFFT_SRCS
   itkComplexToComplexFFTImageFilter.cxx
+  itkPocketFFTImageFilterInitFactory.cxx
   itkVnlFFTImageFilterInitFactory.cxx
 )
 

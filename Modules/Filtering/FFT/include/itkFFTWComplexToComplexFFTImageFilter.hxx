@@ -93,8 +93,8 @@ FFTWComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGen
     sizes[(ImageDimension - 1) - i] = inputSize[i];
   }
 
-  plan =
-    FFTWProxyType::Plan_dft(ImageDimension, sizes, in, out, transformDirection, flags, this->GetNumberOfWorkUnits());
+  plan = FFTWProxyType::Plan_dft(
+    ImageDimension, sizes, in, out, transformDirection, flags, this->GetMultiThreader()->GetMaximumNumberOfThreads());
 
   FFTWProxyType::Execute(plan);
   FFTWProxyType::DestroyPlan(plan);

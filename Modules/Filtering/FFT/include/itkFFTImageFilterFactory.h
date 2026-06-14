@@ -91,7 +91,7 @@ struct FFTImageFilterTraits
  * factory tailored to their particular instantiation requirements.
  *
  * \sa FFTImageFilterTraits
- * \sa VnlFFTImageFilterInitFactory
+ * \sa PocketFFTImageFilterInitFactory
  *
  * \ingroup FourierTransform
  * \ingroup ITKFFT

@@ -15,6 +15,7 @@ itk_module(
   PRIVATE_DEPENDS
     ITKCommon
   COMPILE_DEPENDS
+    ITKFFT
     ITKOptimizers
     ITKImageGrid
     ITKPolynomials

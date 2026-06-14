@@ -21,16 +21,16 @@
 
 #include "itkLightObject.h"
 
+#if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
 namespace itk
 {
 /**
  * \class VnlFFTImageFilterInitFactory
- * \brief Initialize Vnl FFT image filter factory backends.
+ * \brief Deprecated. Registers the (now PocketFFT-backed) Vnl FFT filters.
  *
- * The purpose of VnlFFTImageFilterInitFactory is to perform
- * one-time registration of factory objects that handle
- * creation of Vnl-backend FFT image filter classes
- * through the ITK object factory singleton mechanism.
+ * \deprecated The VNL FFT backend was removed; the Vnl* FFT filters are
+ * deprecated aliases of the PocketFFT* filters. Use
+ * PocketFFTImageFilterInitFactory (registered by default).
  *
  * \ingroup ITKFFT
  */
@@ -39,16 +39,12 @@ class ITKFFT_EXPORT VnlFFTImageFilterInitFactory : public LightObject
 public:
   ITK_DISALLOW_COPY_AND_MOVE(VnlFFTImageFilterInitFactory);
 
-  /** Standard class type aliases. */
   using Self = VnlFFTImageFilterInitFactory;
   using Superclass = LightObject;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
-
-  /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(VnlFFTImageFilterInitFactory);
 
   /** Mimic factory interface for Python initialization  */
@@ -58,7 +54,6 @@ public:
     RegisterFactories();
   }
 
-  /** Register all Vnl FFT factories */
   static void
   RegisterFactories();
 
@@ -67,5 +62,6 @@ protected:
   ~VnlFFTImageFilterInitFactory() override;
 };
 } // end namespace itk
+#endif // !ITK_LEGACY_REMOVE && !ITK_FUTURE_LEGACY_REMOVE
 
 #endif

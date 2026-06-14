@@ -24,7 +24,7 @@
 #include "itkImageFileWriter.h"
 
 #include "itkInverse1DFFTImageFilter.h"
-#include "itkVnlInverse1DFFTImageFilter.h"
+#include "itkPocketFFTInverse1DFFTImageFilter.h"
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 #  include "itkFFTWInverse1DFFTImageFilter.h"
 #endif
@@ -112,11 +112,11 @@ itkInverse1DFFTImageFilterTest(int argc, char * argv[])
   }
   if (backend == 1)
   {
-    using FFTInverseType = itk::VnlInverse1DFFTImageFilter<ComplexImageType, ImageType>;
+    using FFTInverseType = itk::PocketFFTInverse1DFFTImageFilter<ComplexImageType, ImageType>;
 
     // Instantiate a filter to exercise basic object methods
     auto fft = FFTInverseType::New();
-    ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, VnlInverse1DFFTImageFilter, Inverse1DFFTImageFilter);
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, PocketFFTInverse1DFFTImageFilter, Inverse1DFFTImageFilter);
 
 
     return doTest<FFTInverseType>(argv[1], argv[2], argv[3]);

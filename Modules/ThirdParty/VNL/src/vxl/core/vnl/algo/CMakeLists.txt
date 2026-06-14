@@ -40,15 +40,8 @@ set( vnl_algo_sources
   # equation solvers
   vnl_fit_parabola.h
 
-  # fft
-  vnl_fft.cxx vnl_fft.h
-  vnl_fft_base.hxx vnl_fft_base.h
-  vnl_fft_1d.hxx vnl_fft_1d.h
-  vnl_fft_2d.hxx vnl_fft_2d.h
-  vnl_fft_prime_factors.hxx vnl_fft_prime_factors.h
 
   # stuff
-  vnl_convolve.hxx vnl_convolve.h
   vnl_determinant.cxx vnl_determinant.hxx vnl_determinant.h
   vnl_matrix_update.h
 

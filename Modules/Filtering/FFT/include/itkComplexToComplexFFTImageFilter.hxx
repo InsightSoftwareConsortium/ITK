@@ -46,6 +46,14 @@ ComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::GenerateInputRequeste
   input->SetRequestedRegionToLargestPossibleRegion();
 }
 
+template <typename TInputImage, typename TOutputImage>
+void
+ComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * output)
+{
+  Superclass::EnlargeOutputRequestedRegion(output);
+  output->SetRequestedRegionToLargestPossibleRegion();
+}
+
 } // end namespace itk
 
 #endif

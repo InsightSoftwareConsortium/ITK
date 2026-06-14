@@ -18,48 +18,39 @@
 #ifndef itkVnlRealToHalfHermitianForwardFFTImageFilter_h
 #define itkVnlRealToHalfHermitianForwardFFTImageFilter_h
 
-#include "itkRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkPocketFFTRealToHalfHermitianForwardFFTImageFilter.h"
 
-#include "itkVnlFFTCommon.h"
-#include "vnl/algo/vnl_fft_base.h"
+#if defined(ITK_LEGACY_SILENT)
+#  define ITK_VNL_FFT_DEPRECATED
+#else
+#  define ITK_VNL_FFT_DEPRECATED                                                                \
+    [[deprecated("VnlRealToHalfHermitianForwardFFTImageFilter is deprecated; it now routes to " \
+                 "itk::PocketFFTRealToHalfHermitianForwardFFTImageFilter.")]]
+#endif
 
-#include "itkFFTImageFilterFactory.h"
-
+#if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
 namespace itk
 {
-/**
- * \class VnlRealToHalfHermitianForwardFFTImageFilter
+/** \class VnlRealToHalfHermitianForwardFFTImageFilter
+ * \brief Deprecated compatibility wrapper that routes to PocketFFTRealToHalfHermitianForwardFFTImageFilter.
  *
- * \brief VNL-based forward Fast Fourier Transform.
- *
- * The input image size in all dimensions must have a prime
- * factorization consisting of 2s, 3s, and 5s.
+ * \deprecated The VNL/Temperton FFT backend was removed; this name now derives
+ * from itk::PocketFFTRealToHalfHermitianForwardFFTImageFilter. Migrate to the PocketFFT class or the
+ * factory-default itk::RealToHalfHermitianForwardFFTImageFilter.
  *
  * \ingroup FourierTransform
- *
- * \sa RealToHalfHermitianForwardFFTImageFilter
  * \ingroup ITKFFT
- *
  */
 template <typename TInputImage,
           typename TOutputImage = Image<std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension>>
-class ITK_TEMPLATE_EXPORT VnlRealToHalfHermitianForwardFFTImageFilter
-  : public RealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>
+class ITK_VNL_FFT_DEPRECATED ITK_TEMPLATE_EXPORT VnlRealToHalfHermitianForwardFFTImageFilter
+  : public PocketFFTRealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(VnlRealToHalfHermitianForwardFFTImageFilter);
 
-  /** Standard class type aliases. */
-  using InputImageType = TInputImage;
-  using InputPixelType = typename InputImageType::PixelType;
-  using InputSizeType = typename InputImageType::SizeType;
-  using InputSizeValueType = typename InputImageType::SizeValueType;
-  using OutputImageType = TOutputImage;
-  using OutputPixelType = typename OutputImageType::PixelType;
-  using OutputSizeType = typename OutputImageType::SizeType;
-
   using Self = VnlRealToHalfHermitianForwardFFTImageFilter;
-  using Superclass = RealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>;
+  using Superclass = PocketFFTRealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -69,45 +60,26 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(VnlRealToHalfHermitianForwardFFTImageFilter);
 
-  /** Extract the dimensionality of the images. They are assumed to be
-   * the same. */
-  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
-  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
-  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
-
-  [[nodiscard]] SizeValueType
-  GetSizeGreatestPrimeFactor() const override;
-
-  itkConceptMacro(ImageDimensionsMatchCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-
 protected:
   VnlRealToHalfHermitianForwardFFTImageFilter() = default;
   ~VnlRealToHalfHermitianForwardFFTImageFilter() override = default;
-
-  void
-  GenerateData() override;
-
-private:
-  using SignalVectorType = vnl_vector<std::complex<InputPixelType>>;
 };
 
-
-// Describe whether input/output are real- or complex-valued
-// for factory registration
+/** \cond HIDE_SPECIALIZATION */
+#  if defined(__GNUC__) || defined(__clang__)
+#    pragma GCC diagnostic push
+#    pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#  endif
 template <>
 struct FFTImageFilterTraits<VnlRealToHalfHermitianForwardFFTImageFilter>
-{
-  template <typename TUnderlying>
-  using InputPixelType = TUnderlying;
-  template <typename TUnderlying>
-  using OutputPixelType = std::complex<TUnderlying>;
-  using FilterDimensions = std::integer_sequence<unsigned int, 4, 3, 2, 1>;
-};
-
+  : public FFTImageFilterTraits<PocketFFTRealToHalfHermitianForwardFFTImageFilter>
+{};
+#  if defined(__GNUC__) || defined(__clang__)
+#    pragma GCC diagnostic pop
+#  endif
+/** \endcond */
 } // namespace itk
+#endif // !ITK_LEGACY_REMOVE && !ITK_FUTURE_LEGACY_REMOVE
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkVnlRealToHalfHermitianForwardFFTImageFilter.hxx"
-#endif
-
-#endif
+#undef ITK_VNL_FFT_DEPRECATED
+#endif // itkVnlRealToHalfHermitianForwardFFTImageFilter_h

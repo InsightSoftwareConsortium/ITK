@@ -33,7 +33,7 @@ namespace itk
  * and relies on the ITK object factory to select a viable backend to generate data.
  * Forward1DFFTImageFilter does not itself implement FFT.
  *
- * \sa itkVnlForward1DFFTImageFilter
+ * \sa itkPocketFFTForward1DFFTImageFilter
  * \sa itkFFTWForward1DFFTImageFilter
  *
  * \ingroup ITKFFT
@@ -64,7 +64,7 @@ public:
   /** Customized object creation methods that support configuration-based
    * selection of FFT implementation.
    *
-   * Default implementation is VnlFFT1D.
+   * Default implementation is PocketFFT1D.
    */
   itkFactoryOnlyNewMacro(Self);
 

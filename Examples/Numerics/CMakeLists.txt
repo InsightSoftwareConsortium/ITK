@@ -1,4 +1,9 @@
 project(NumericsExamples)
 
 add_executable(FourierDescriptors1 FourierDescriptors1.cxx)
-target_link_libraries(FourierDescriptors1 PRIVATE ITK::ITKCommonModule)
+target_link_libraries(
+  FourierDescriptors1
+  PRIVATE
+    ITK::ITKCommonModule
+    ITK::ITKFFT
+)

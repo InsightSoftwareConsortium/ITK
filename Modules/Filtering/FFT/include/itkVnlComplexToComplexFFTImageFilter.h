@@ -18,44 +18,40 @@
 #ifndef itkVnlComplexToComplexFFTImageFilter_h
 #define itkVnlComplexToComplexFFTImageFilter_h
 
-#include "itkComplexToComplexFFTImageFilter.h"
-#include "itkFFTImageFilterFactory.h"
+#include "itkPocketFFTComplexToComplexFFTImageFilter.h"
 
+#if defined(ITK_LEGACY_SILENT)
+#  define ITK_VNL_FFT_DEPRECATED
+#else
+#  define ITK_VNL_FFT_DEPRECATED                                                      \
+    [[deprecated("VnlComplexToComplexFFTImageFilter is deprecated; it now routes to " \
+                 "itk::PocketFFTComplexToComplexFFTImageFilter.")]]
+#endif
+
+#if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
 namespace itk
 {
-/**
- * \class VnlComplexToComplexFFTImageFilter
+/** \class VnlComplexToComplexFFTImageFilter
+ * \brief Deprecated compatibility wrapper that routes to PocketFFTComplexToComplexFFTImageFilter.
  *
- * \brief VNL based complex to complex Fast Fourier Transform.
- *
- * This filter requires input images with sizes which are a power of two.
+ * \deprecated The VNL/Temperton FFT backend was removed; this name now derives
+ * from itk::PocketFFTComplexToComplexFFTImageFilter. Migrate to the PocketFFT class or the
+ * factory-default itk::ComplexToComplexFFTImageFilter.
  *
  * \ingroup FourierTransform
  * \ingroup ITKFFT
- *
- * \sa ComplexToComplexFFTImageFilter
- * \sa FFTWComplexToComplexFFTImageFilter
- * \sa VnlForwardFFTImageFilter
- * \sa VnlInverseFFTImageFilter
  */
 template <typename TInputImage, typename TOutputImage = TInputImage>
-class ITK_TEMPLATE_EXPORT VnlComplexToComplexFFTImageFilter
-  : public ComplexToComplexFFTImageFilter<TInputImage, TOutputImage>
+class ITK_VNL_FFT_DEPRECATED ITK_TEMPLATE_EXPORT VnlComplexToComplexFFTImageFilter
+  : public PocketFFTComplexToComplexFFTImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(VnlComplexToComplexFFTImageFilter);
 
-  /** Standard class type aliases. */
   using Self = VnlComplexToComplexFFTImageFilter;
-  using Superclass = ComplexToComplexFFTImageFilter<TInputImage, TOutputImage>;
+  using Superclass = PocketFFTComplexToComplexFFTImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
-
-  using typename Superclass::ImageType;
-  using PixelType = typename ImageType::PixelType;
-  using typename Superclass::InputImageType;
-  using typename Superclass::OutputImageType;
-  using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -63,32 +59,26 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(VnlComplexToComplexFFTImageFilter);
 
-  static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
-
 protected:
-  VnlComplexToComplexFFTImageFilter();
+  VnlComplexToComplexFFTImageFilter() = default;
   ~VnlComplexToComplexFFTImageFilter() override = default;
-
-  void
-  BeforeThreadedGenerateData() override;
-  void
-  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 };
 
+/** \cond HIDE_SPECIALIZATION */
+#  if defined(__GNUC__) || defined(__clang__)
+#    pragma GCC diagnostic push
+#    pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#  endif
 template <>
 struct FFTImageFilterTraits<VnlComplexToComplexFFTImageFilter>
-{
-  template <typename TUnderlying>
-  using InputPixelType = std::complex<TUnderlying>;
-  template <typename TUnderlying>
-  using OutputPixelType = std::complex<TUnderlying>;
-  using FilterDimensions = std::integer_sequence<unsigned int, 4, 3, 2, 1>;
-};
+  : public FFTImageFilterTraits<PocketFFTComplexToComplexFFTImageFilter>
+{};
+#  if defined(__GNUC__) || defined(__clang__)
+#    pragma GCC diagnostic pop
+#  endif
+/** \endcond */
+} // namespace itk
+#endif // !ITK_LEGACY_REMOVE && !ITK_FUTURE_LEGACY_REMOVE
 
-} // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkVnlComplexToComplexFFTImageFilter.hxx"
-#endif
-
+#undef ITK_VNL_FFT_DEPRECATED
 #endif // itkVnlComplexToComplexFFTImageFilter_h

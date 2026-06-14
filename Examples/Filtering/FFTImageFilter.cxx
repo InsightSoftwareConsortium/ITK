@@ -35,12 +35,12 @@
 //  this reason ITK provides a base abstract class that factorizes the
 //  interface to multiple specific implementations of FFT. This base class is
 //  the \itkref{ForwardFFTImageFilter}, and two of its derived classes are
-//  \itkref{VnlForwardFFTImageFilter} and
+//  \itkref{ForwardFFTImageFilter} and
 //  \itkref{FFTWRealToComplexConjugateImageFilter}.
 //
 //
 //  \index{itk::Forward\-FFT\-Image\-Filter}
-//  \index{itk::Vnl\-Forward\-FFT\-Image\-Filter}
+//  \index{itk::Forward\-FFT\-Image\-Filter}
 //  \index{itk::FFTW\-Forward\-FFT\-Image\-Filter}
 //
 //  Software Guide : EndLatex
@@ -55,7 +55,7 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkImage.h"
-#include "itkVnlForwardFFTImageFilter.h"
+#include "itkPocketFFTForwardFFTImageFilter.h"
 #include "itkComplexToRealImageFilter.h"
 #include "itkComplexToImaginaryImageFilter.h"
 // Software Guide : EndCodeSnippet
@@ -94,7 +94,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // We use the same image type in order to instantiate the FFT filter, in
-  // this case the \itkref{VnlForwardFFTImageFilter}. Once the filter type is
+  // this case the \itkref{ForwardFFTImageFilter}. Once the filter type is
   // instantiated, we can use it for creating one object by invoking the
   // \code{New()} method and assigning the result to a SmartPointer.
   //
@@ -102,7 +102,7 @@ main(int argc, char * argv[])
 
 
   // Software Guide : BeginCodeSnippet
-  using FFTFilterType = itk::VnlForwardFFTImageFilter<ImageType>;
+  using FFTFilterType = itk::PocketFFTForwardFFTImageFilter<ImageType>;
 
   auto fftFilter = FFTFilterType::New();
   // Software Guide : EndCodeSnippet

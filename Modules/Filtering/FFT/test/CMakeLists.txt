@@ -11,9 +11,9 @@ set(
   itkFullToHalfHermitianImageFilterTest.cxx
   itkHalfToFullHermitianImageFilterTest.cxx
   itkInverse1DFFTImageFilterTest.cxx
-  itkVnlComplexToComplexFFTImageFilterTest.cxx
-  itkVnlFFTTest.cxx
-  itkVnlRealFFTTest.cxx
+  itkPocketFFTTest.cxx
+  itkPocketFFTRealFFTTest.cxx
+  itkPocketFFTComplexToComplexFFTImageFilterTest.cxx
 )
 
 if(ITK_USE_FFTWF)
@@ -22,8 +22,8 @@ if(ITK_USE_FFTWF)
     ITKFFTTests
     itkFFTWF_FFTTest.cxx
     itkFFTWF_RealFFTTest.cxx
-    itkVnlFFTWF_FFTTest.cxx
-    itkVnlFFTWF_RealFFTTest.cxx
+    itkPocketFFTFFTWF_FFTTest.cxx
+    itkPocketFFTFFTWF_RealFFTTest.cxx
   )
 endif()
 
@@ -33,8 +33,8 @@ if(ITK_USE_FFTWD)
     ITKFFTTests
     itkFFTWD_FFTTest.cxx
     itkFFTWD_RealFFTTest.cxx
-    itkVnlFFTWD_FFTTest.cxx
-    itkVnlFFTWD_RealFFTTest.cxx
+    itkPocketFFTFFTWD_FFTTest.cxx
+    itkPocketFFTFFTWD_RealFFTTest.cxx
   )
 endif()
 
@@ -47,37 +47,37 @@ createtestdriver(ITKFFT "${ITKFFT-Test_LIBRARIES}" "${ITKFFTTests}")
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 itk_add_test(
-  NAME itkVnlFFTTest
+  NAME itkPocketFFTTest
   COMMAND
     ITKFFTTestDriver
     --redirectOutput
-    ${TEMP}/itkVnlFFTTest.txt
-    itkVnlFFTTest
+    ${TEMP}/itkPocketFFTTest.txt
+    itkPocketFFTTest
   ITK_REMOVE_TEMPORARY_TEST_FILES
-    ${TEMP}/itkVnlFFTTest.txt
+    ${TEMP}/itkPocketFFTTest.txt
 )
 set_tests_properties(
-  itkVnlFFTTest
+  itkPocketFFTTest
   PROPERTIES
     ATTACHED_FILES_ON_FAIL
-      ${TEMP}/itkVnlFFTTest.txt
+      ${TEMP}/itkPocketFFTTest.txt
 )
 
 itk_add_test(
-  NAME itkVnlRealFFTTest
+  NAME itkPocketFFTRealFFTTest
   COMMAND
     ITKFFTTestDriver
     --redirectOutput
-    ${TEMP}/itkVnlRealFFTTest.txt
-    itkVnlRealFFTTest
+    ${TEMP}/itkPocketFFTRealFFTTest.txt
+    itkPocketFFTRealFFTTest
   ITK_REMOVE_TEMPORARY_TEST_FILES
-    ${TEMP}/itkVnlRealFFTTest.txt
+    ${TEMP}/itkPocketFFTRealFFTTest.txt
 )
 set_tests_properties(
-  itkVnlRealFFTTest
+  itkPocketFFTRealFFTTest
   PROPERTIES
     ATTACHED_FILES_ON_FAIL
-      ${TEMP}/itkVnlRealFFTTest.txt
+      ${TEMP}/itkPocketFFTRealFFTTest.txt
 )
 
 if(ITK_USE_FFTWF)
@@ -96,20 +96,20 @@ if(ITK_USE_FFTWF)
       ${ITK_TEST_OUTPUT_DIR}
   )
   itk_add_test(
-    NAME itkVnlFFTWF_FFTTest
+    NAME itkPocketFFTFFTWF_FFTTest
     COMMAND
       ITKFFTTestDriver
-      itkVnlFFTWF_FFTTest
+      itkPocketFFTFFTWF_FFTTest
   )
   itk_add_test(
-    NAME itkVnlFFTWF_RealFFTTest
+    NAME itkPocketFFTFFTWF_RealFFTTest
     COMMAND
       ITKFFTTestDriver
-      itkVnlFFTWF_RealFFTTest
+      itkPocketFFTFFTWF_RealFFTTest
   )
   set_tests_properties(
-    itkVnlFFTWF_FFTTest
-    itkVnlFFTWF_RealFFTTest
+    itkPocketFFTFFTWF_FFTTest
+    itkPocketFFTFFTWF_RealFFTTest
     PROPERTIES
       ENVIRONMENT
         "ITK_FFTW_READ_WISDOM_CACHE=oN;ITK_FFTW_WRITE_WISDOM_CACHE=oN;ITK_FFTW_WISDOM_CACHE_FILE=${ITK_TEST_OUTPUT_DIR}/.wisdom_from_ITK_FFTW_WISDOM_CACHE_FILE;ITK_FFTW_PLAN_RIGOR=FFTW_EXHAUSTIVE"
@@ -132,20 +132,20 @@ if(ITK_USE_FFTWD)
       ${ITK_TEST_OUTPUT_DIR}
   )
   itk_add_test(
-    NAME itkVnlFFTWD_FFTTest
+    NAME itkPocketFFTFFTWD_FFTTest
     COMMAND
       ITKFFTTestDriver
-      itkVnlFFTWD_FFTTest
+      itkPocketFFTFFTWD_FFTTest
   )
   itk_add_test(
-    NAME itkVnlFFTWD_RealFFTTest
+    NAME itkPocketFFTFFTWD_RealFFTTest
     COMMAND
       ITKFFTTestDriver
-      itkVnlFFTWD_RealFFTTest
+      itkPocketFFTFFTWD_RealFFTTest
   )
   set_tests_properties(
-    itkVnlFFTWD_FFTTest
-    itkVnlFFTWD_RealFFTTest
+    itkPocketFFTFFTWD_FFTTest
+    itkPocketFFTFFTWD_RealFFTTest
     PROPERTIES
       ENVIRONMENT
         "ITK_FFTW_READ_WISDOM_CACHE=oN;ITK_FFTW_WISDOM_CACHE_BASE=${ITK_TEST_OUTPUT_DIR};ITK_FFTW_PLAN_RIGOR=FFTW_EXHAUSTIVE;ITK_FFTW_WRITE_WISDOM_CACHE=oN"
@@ -359,62 +359,61 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME itkVnlComplexToComplexFFTImageFilter2DFloatTest
+  NAME itkPocketFFTComplexToComplexFFTImageFilter2DFloatTest
   COMMAND
     ITKFFTTestDriver
     --compare
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter2DFloatTest.mha
-    itkVnlComplexToComplexFFTImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter2DFloatTest.mha
+    itkPocketFFTComplexToComplexFFTImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter2DFloatTest.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter2DFloatTest.mha
     float
   ITK_REMOVE_TEMPORARY_TEST_FILES
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter2DFloatTest.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter2DFloatTest.mha
 )
 itk_add_test(
-  NAME itkVnlComplexToComplexFFTImageFilter3DFloatTest
+  NAME itkPocketFFTComplexToComplexFFTImageFilter3DFloatTest
   COMMAND
     ITKFFTTestDriver
     --compare
     DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter3DFloatTest.mha
-    itkVnlComplexToComplexFFTImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter3DFloatTest.mha
+    itkPocketFFTComplexToComplexFFTImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter3DFloatTest.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter3DFloatTest.mha
     float
   ITK_REMOVE_TEMPORARY_TEST_FILES
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter3DFloatTest.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter3DFloatTest.mha
 )
 itk_add_test(
-  NAME itkVnlComplexToComplexFFTImageFilter2DDoubleTest
+  NAME itkPocketFFTComplexToComplexFFTImageFilter2DDoubleTest
   COMMAND
     ITKFFTTestDriver
     --compare
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter2DDoubleTest.mha
-    itkVnlComplexToComplexFFTImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter2DDoubleTest.mha
+    itkPocketFFTComplexToComplexFFTImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter2DDoubleTest.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter2DDoubleTest.mha
     double
   ITK_REMOVE_TEMPORARY_TEST_FILES
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter2DDoubleTest.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter2DDoubleTest.mha
 )
 itk_add_test(
-  NAME itkVnlComplexToComplexFFTImageFilter3DDoubleTest
+  NAME itkPocketFFTComplexToComplexFFTImageFilter3DDoubleTest
   COMMAND
     ITKFFTTestDriver
     --compare
     DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter3DDoubleTest.mha
-    itkVnlComplexToComplexFFTImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter3DDoubleTest.mha
+    itkPocketFFTComplexToComplexFFTImageFilterTest
     DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter3DDoubleTest.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter3DDoubleTest.mha
     double
   ITK_REMOVE_TEMPORARY_TEST_FILES
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplexFFTImageFilter3DDoubleTest.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplexFFTImageFilter3DDoubleTest.mha
 )
-
 if(ITK_USE_FFTWF)
   itk_add_test(
     NAME itkFFTWComplexToComplexFFTImageFilter2DFloatTest
@@ -539,66 +538,66 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkFFT1DImageFilterTestOutput.mha
 )
 itk_add_test(
-  NAME itkVnlComplexToComplex1DFFTImageFilterTest
+  NAME itkPocketFFTComplexToComplex1DFFTImageFilterTest
   COMMAND
     ITKFFTTestDriver
     --compare
     DATA{Input/TreeBarkTexture.png}
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplex1DFFTImageFilterTestOutput.mhd
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplex1DFFTImageFilterTestOutput.mhd
     itkComplexToComplex1DFFTImageFilterTest
     DATA{Input/itkForward1DFFTImageFilterTestBaselineRealFull.mhd,itkForward1DFFTImageFilterTestBaselineRealFull.raw}
     DATA{Input/itkForward1DFFTImageFilterTestBaselineImaginaryFull.mhd,itkForward1DFFTImageFilterTestBaselineImaginaryFull.raw}
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplex1DFFTImageFilterTestOutput.mhd
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplex1DFFTImageFilterTestOutput.mhd
     1
   ITK_REMOVE_TEMPORARY_TEST_FILES
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplex1DFFTImageFilterTestOutput.{mhd,raw}
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTComplexToComplex1DFFTImageFilterTestOutput.{mhd,raw}
 )
 itk_add_test(
-  NAME itkVnlForward1DFFTImageFilterTest
+  NAME itkPocketFFTForward1DFFTImageFilterTest
   COMMAND
     ITKFFTTestDriver
     --compare
     DATA{Input/itkForward1DFFTImageFilterTestBaselineRealFull.mhd,itkForward1DFFTImageFilterTestBaselineRealFull.raw}
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlForward1DFFTImageFilterTestOutputReal.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTForward1DFFTImageFilterTestOutputReal.mha
     --compare
     DATA{Input/itkForward1DFFTImageFilterTestBaselineImaginaryFull.mhd,itkForward1DFFTImageFilterTestBaselineImaginaryFull.raw}
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlForward1DFFTImageFilterTestOutputImaginary.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTForward1DFFTImageFilterTestOutputImaginary.mha
     itkForward1DFFTImageFilterTest
     DATA{Input/TreeBarkTexture.png}
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlForward1DFFTImageFilterTestOutput
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTForward1DFFTImageFilterTestOutput
     1
   ITK_REMOVE_TEMPORARY_TEST_FILES
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlForward1DFFTImageFilterTestOutputReal.mha
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlForward1DFFTImageFilterTestOutputImaginary.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTForward1DFFTImageFilterTestOutputReal.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTForward1DFFTImageFilterTestOutputImaginary.mha
 )
 itk_add_test(
-  NAME itkVnlInverse1DFFTImageFilterTest
+  NAME itkPocketFFTInverse1DFFTImageFilterTest
   COMMAND
     ITKFFTTestDriver
     --compare
     DATA{Input/TreeBarkTexture.png}
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlInverse1DFFTImageFilterTestOutput.mhd
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTInverse1DFFTImageFilterTestOutput.mhd
     itkInverse1DFFTImageFilterTest
     DATA{Input/itkForward1DFFTImageFilterTestBaselineRealFull.mhd,itkForward1DFFTImageFilterTestBaselineRealFull.raw}
     DATA{Input/itkForward1DFFTImageFilterTestBaselineImaginaryFull.mhd,itkForward1DFFTImageFilterTestBaselineImaginaryFull.raw}
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlInverse1DFFTImageFilterTestOutput.mhd
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTInverse1DFFTImageFilterTestOutput.mhd
     1
   ITK_REMOVE_TEMPORARY_TEST_FILES
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlInverse1DFFTImageFilterTestOutput.{mhd,raw}
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTInverse1DFFTImageFilterTestOutput.{mhd,raw}
 )
 itk_add_test(
-  NAME itkVnlFFT1DImageFilterTest
+  NAME itkPocketFFTFFT1DImageFilterTest
   COMMAND
     ITKFFTTestDriver
     --compare
     DATA{Input/TreeBarkTexture.png}
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlFFT1DImageFilterTestOutput.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTFFT1DImageFilterTestOutput.mha
     itkFFT1DImageFilterTest
     DATA{Input/TreeBarkTexture.png}
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlFFT1DImageFilterTestOutput.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTFFT1DImageFilterTestOutput.mha
     1
   ITK_REMOVE_TEMPORARY_TEST_FILES
-    ${ITK_TEST_OUTPUT_DIR}/itkVnlFFT1DImageFilterTestOutput.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkPocketFFTFFT1DImageFilterTestOutput.mha
 )
 
 if(ITK_USE_FFTWF OR ITK_USE_FFTWD)

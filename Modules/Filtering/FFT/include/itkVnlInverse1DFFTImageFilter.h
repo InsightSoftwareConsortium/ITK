@@ -18,39 +18,42 @@
 #ifndef itkVnlInverse1DFFTImageFilter_h
 #define itkVnlInverse1DFFTImageFilter_h
 
-#include "itkInverse1DFFTImageFilter.h"
-#include <complex>
+#include "itkPocketFFTInverse1DFFTImageFilter.h"
 
-#include "itkFFTImageFilterFactory.h"
+#if defined(ITK_LEGACY_SILENT)
+#  define ITK_VNL_FFT_DEPRECATED
+#else
+#  define ITK_VNL_FFT_DEPRECATED                                               \
+    [[deprecated("VnlInverse1DFFTImageFilter is deprecated; it now routes to " \
+                 "itk::PocketFFTInverse1DFFTImageFilter.")]]
+#endif
 
+#if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
 namespace itk
 {
-
 /** \class VnlInverse1DFFTImageFilter
+ * \brief Deprecated compatibility wrapper that routes to PocketFFTInverse1DFFTImageFilter.
  *
- * \brief Perform the FFT along one dimension of an image using Vnl as a
- * backend.
+ * \deprecated The VNL/Temperton FFT backend was removed; this name now derives
+ * from itk::PocketFFTInverse1DFFTImageFilter. Migrate to the PocketFFT class or the
+ * factory-default itk::Inverse1DFFTImageFilter.
  *
- * \ingroup ITKFFT
  * \ingroup FourierTransform
+ * \ingroup ITKFFT
  */
 template <typename TInputImage,
           typename TOutputImage =
             Image<typename NumericTraits<typename TInputImage::PixelType>::ValueType, TInputImage::ImageDimension>>
-class ITK_TEMPLATE_EXPORT VnlInverse1DFFTImageFilter : public Inverse1DFFTImageFilter<TInputImage, TOutputImage>
+class ITK_VNL_FFT_DEPRECATED ITK_TEMPLATE_EXPORT VnlInverse1DFFTImageFilter
+  : public PocketFFTInverse1DFFTImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(VnlInverse1DFFTImageFilter);
 
-  /** Standard class type alias. */
   using Self = VnlInverse1DFFTImageFilter;
-  using Superclass = Inverse1DFFTImageFilter<TInputImage, TOutputImage>;
+  using Superclass = PocketFFTInverse1DFFTImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
-
-  using InputImageType = typename Superclass::InputImageType;
-  using OutputImageType = typename Superclass::OutputImageType;
-  using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -59,30 +62,24 @@ public:
   itkOverrideGetNameOfClassMacro(VnlInverse1DFFTImageFilter);
 
 protected:
-  void
-  GenerateData() override;
-
   VnlInverse1DFFTImageFilter() = default;
   ~VnlInverse1DFFTImageFilter() override = default;
 };
 
-
-// Describe whether input/output are real- or complex-valued
-// for factory registration
+/** \cond HIDE_SPECIALIZATION */
+#  if defined(__GNUC__) || defined(__clang__)
+#    pragma GCC diagnostic push
+#    pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#  endif
 template <>
-struct FFTImageFilterTraits<VnlInverse1DFFTImageFilter>
-{
-  template <typename TUnderlying>
-  using InputPixelType = std::complex<TUnderlying>;
-  template <typename TUnderlying>
-  using OutputPixelType = TUnderlying;
-  using FilterDimensions = std::integer_sequence<unsigned int, 4, 3, 2, 1>;
-};
+struct FFTImageFilterTraits<VnlInverse1DFFTImageFilter> : public FFTImageFilterTraits<PocketFFTInverse1DFFTImageFilter>
+{};
+#  if defined(__GNUC__) || defined(__clang__)
+#    pragma GCC diagnostic pop
+#  endif
+/** \endcond */
+} // namespace itk
+#endif // !ITK_LEGACY_REMOVE && !ITK_FUTURE_LEGACY_REMOVE
 
-} // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkVnlInverse1DFFTImageFilter.hxx"
-#endif
-
-#endif
+#undef ITK_VNL_FFT_DEPRECATED
+#endif // itkVnlInverse1DFFTImageFilter_h

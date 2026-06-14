@@ -9,8 +9,6 @@
 // Currently, the following classes or functions are tested here:
 // - vnl_svd_economy
 // - vnl_matrix_inverse
-// - vnl_fft_1d
-// - vnl_fft_2d
 // - vnl_conjugate_gradient
 // - vnl_lbfgs
 // - vnl_powell
@@ -23,8 +21,6 @@
 
 #include <vnl/algo/vnl_conjugate_gradient.h>
 #include <vnl/algo/vnl_discrete_diff.h>
-#include <vnl/algo/vnl_fft_1d.h>
-#include <vnl/algo/vnl_fft_2d.h>
 #include <vnl/algo/vnl_lbfgs.h>
 #include <vnl/algo/vnl_lbfgsb.h>
 #include <vnl/algo/vnl_lsqr.h>
@@ -50,26 +46,6 @@ test_matrix_inverse()
   vnl_matrix<double> identity(4, 4);
   identity.set_identity();
   TEST_NEAR("vnl_matrix_inverse", (m * inv - identity).array_inf_norm(), 0, 1e-6);
-}
-
-static void
-test_fft()
-{
-  std::vector<std::complex<double>> v(256);
-  for (int i = 0; i < 256; ++i)
-    v[i] = 0.5 + i;
-  vnl_fft_1d<double> fft1d(256);
-  fft1d.fwd_transform(v);
-  fft1d.bwd_transform(v);
-  TEST_NEAR("vnl_fft_1d", v[10], 256 * 10.5, 1e-6);
-  vnl_matrix<std::complex<double>> m(10, 9);
-  for (int i = 0; i < 10; ++i)
-    for (int j = 0; j < 9; ++j)
-      m[i][j] = 0.5 + i + j;
-  vnl_fft_2d<double> fft2d(10, 9);
-  fft2d.fwd_transform(m);
-  fft2d.bwd_transform(m);
-  TEST_NEAR("vnl_fft_2d", m[5][5], 10 * 9 * 10.5, 1e-6);
 }
 
 class F_test_powell : public vnl_cost_function
@@ -215,7 +191,6 @@ void
 test_algo()
 {
   test_matrix_inverse();
-  test_fft();
   test_powell();
   test_lsqr();
   test_discrete_diff();

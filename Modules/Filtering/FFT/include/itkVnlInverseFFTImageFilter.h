@@ -18,49 +18,38 @@
 #ifndef itkVnlInverseFFTImageFilter_h
 #define itkVnlInverseFFTImageFilter_h
 
-#include "itkInverseFFTImageFilter.h"
+#include "itkPocketFFTInverseFFTImageFilter.h"
 
-#include "itkImage.h"
-#include "vnl/algo/vnl_fft_base.h"
+#if defined(ITK_LEGACY_SILENT)
+#  define ITK_VNL_FFT_DEPRECATED
+#else
+#  define ITK_VNL_FFT_DEPRECATED \
+    [[deprecated("VnlInverseFFTImageFilter is deprecated; it now routes to itk::PocketFFTInverseFFTImageFilter.")]]
+#endif
 
-#include "itkFFTImageFilterFactory.h"
-
+#if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
 namespace itk
 {
-/**
- * \class VnlInverseFFTImageFilter
+/** \class VnlInverseFFTImageFilter
+ * \brief Deprecated compatibility wrapper that routes to PocketFFTInverseFFTImageFilter.
  *
- * \brief VNL-based reverse Fast Fourier Transform.
- *
- * The input image size must be a multiple of combinations of 2s, 3s,
- * and/or 5s in all dimensions (2, 3, and 5 should be the only prime
- * factors of the image size along each dimension).
+ * \deprecated The VNL/Temperton FFT backend was removed; this name now derives
+ * from itk::PocketFFTInverseFFTImageFilter. Migrate to the PocketFFT class or the
+ * factory-default itk::InverseFFTImageFilter.
  *
  * \ingroup FourierTransform
- *
- * \sa InverseFFTImageFilter
  * \ingroup ITKFFT
- *
- *
  */
 template <typename TInputImage,
           typename TOutputImage = Image<typename TInputImage::PixelType::value_type, TInputImage::ImageDimension>>
-class ITK_TEMPLATE_EXPORT VnlInverseFFTImageFilter : public InverseFFTImageFilter<TInputImage, TOutputImage>
+class ITK_VNL_FFT_DEPRECATED ITK_TEMPLATE_EXPORT VnlInverseFFTImageFilter
+  : public PocketFFTInverseFFTImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(VnlInverseFFTImageFilter);
 
-  /** Standard class type aliases. */
-  using InputImageType = TInputImage;
-  using InputPixelType = typename InputImageType::PixelType;
-  using InputSizeType = typename InputImageType::SizeType;
-  using InputSizeValueType = typename InputImageType::SizeValueType;
-  using OutputImageType = TOutputImage;
-  using OutputPixelType = typename OutputImageType::PixelType;
-  using OutputSizeType = typename OutputImageType::SizeType;
-
   using Self = VnlInverseFFTImageFilter;
-  using Superclass = InverseFFTImageFilter<TInputImage, TOutputImage>;
+  using Superclass = PocketFFTInverseFFTImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -70,46 +59,25 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(VnlInverseFFTImageFilter);
 
-  /** Extract the dimensionality of the images. They must be the
-   * same. */
-  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
-  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
-  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
-
-  [[nodiscard]] SizeValueType
-  GetSizeGreatestPrimeFactor() const override;
-
-  itkConceptMacro(PixelUnsignedIntDivisionOperatorsCheck, (Concept::DivisionOperators<OutputPixelType, unsigned int>));
-  itkConceptMacro(ImageDimensionsMatchCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-
 protected:
   VnlInverseFFTImageFilter() = default;
   ~VnlInverseFFTImageFilter() override = default;
-
-  void
-  GenerateData() override; // generates output from input
-
-private:
-  using SignalVectorType = vnl_vector<InputPixelType>;
 };
 
-
-// Describe whether input/output are real- or complex-valued
-// for factory registration
+/** \cond HIDE_SPECIALIZATION */
+#  if defined(__GNUC__) || defined(__clang__)
+#    pragma GCC diagnostic push
+#    pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#  endif
 template <>
-struct FFTImageFilterTraits<VnlInverseFFTImageFilter>
-{
-  template <typename TUnderlying>
-  using InputPixelType = std::complex<TUnderlying>;
-  template <typename TUnderlying>
-  using OutputPixelType = TUnderlying;
-  using FilterDimensions = std::integer_sequence<unsigned int, 4, 3, 2, 1>;
-};
-
+struct FFTImageFilterTraits<VnlInverseFFTImageFilter> : public FFTImageFilterTraits<PocketFFTInverseFFTImageFilter>
+{};
+#  if defined(__GNUC__) || defined(__clang__)
+#    pragma GCC diagnostic pop
+#  endif
+/** \endcond */
 } // namespace itk
+#endif // !ITK_LEGACY_REMOVE && !ITK_FUTURE_LEGACY_REMOVE
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkVnlInverseFFTImageFilter.hxx"
-#endif
-
-#endif
+#undef ITK_VNL_FFT_DEPRECATED
+#endif // itkVnlInverseFFTImageFilter_h

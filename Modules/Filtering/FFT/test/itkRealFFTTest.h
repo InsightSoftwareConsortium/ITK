@@ -24,8 +24,8 @@
 #include "itkConfigure.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
-#include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
-#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
+#include "itkPocketFFTRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkPocketFFTHalfHermitianToRealInverseFFTImageFilter.h"
 
 #if defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD)
 #  include "itkFFTWRealToHalfHermitianForwardFFTImageFilter.h"

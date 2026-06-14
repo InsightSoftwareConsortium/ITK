@@ -91,7 +91,7 @@ FFTWRealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::Generat
   }
 
   plan = FFTWProxyType::Plan_dft_r2c(
-    ImageDimension, sizes, in, out, flags, MultiThreaderBase::GetGlobalDefaultNumberOfThreads());
+    ImageDimension, sizes, in, out, flags, this->GetMultiThreader()->GetMaximumNumberOfThreads());
   FFTWProxyType::Execute(plan);
   FFTWProxyType::DestroyPlan(plan);
 }

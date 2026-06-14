@@ -18,45 +18,38 @@
 #ifndef itkVnlForwardFFTImageFilter_h
 #define itkVnlForwardFFTImageFilter_h
 
-#include "itkForwardFFTImageFilter.h"
+#include "itkPocketFFTForwardFFTImageFilter.h"
 
-#include "vnl/algo/vnl_fft_base.h"
-#include "itkFFTImageFilterFactory.h"
+#if defined(ITK_LEGACY_SILENT)
+#  define ITK_VNL_FFT_DEPRECATED
+#else
+#  define ITK_VNL_FFT_DEPRECATED \
+    [[deprecated("VnlForwardFFTImageFilter is deprecated; it now routes to itk::PocketFFTForwardFFTImageFilter.")]]
+#endif
 
+#if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
 namespace itk
 {
-/**
- * \class VnlForwardFFTImageFilter
+/** \class VnlForwardFFTImageFilter
+ * \brief Deprecated compatibility wrapper that routes to PocketFFTForwardFFTImageFilter.
  *
- * \brief VNL based forward Fast Fourier Transform.
- *
- * The input image size must be a multiple of combinations of 2s, 3s,
- * and/or 5s in all dimensions (2, 3, and 5 should be the only prime
- * factors of the image size along each dimension).
+ * \deprecated The VNL/Temperton FFT backend was removed; this name now derives
+ * from itk::PocketFFTForwardFFTImageFilter. Migrate to the PocketFFT class or the
+ * factory-default itk::ForwardFFTImageFilter.
  *
  * \ingroup FourierTransform
- *
- * \sa ForwardFFTImageFilter
  * \ingroup ITKFFT
- *
  */
 template <typename TInputImage,
           typename TOutputImage = Image<std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension>>
-class ITK_TEMPLATE_EXPORT VnlForwardFFTImageFilter : public ForwardFFTImageFilter<TInputImage, TOutputImage>
+class ITK_VNL_FFT_DEPRECATED ITK_TEMPLATE_EXPORT VnlForwardFFTImageFilter
+  : public PocketFFTForwardFFTImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(VnlForwardFFTImageFilter);
 
-  /** Standard class type aliases. */
-  using InputImageType = TInputImage;
-  using InputPixelType = typename InputImageType::PixelType;
-  using InputSizeType = typename InputImageType::SizeType;
-  using InputSizeValueType = typename InputImageType::SizeValueType;
-  using OutputImageType = TOutputImage;
-  using OutputPixelType = typename OutputImageType::PixelType;
-
   using Self = VnlForwardFFTImageFilter;
-  using Superclass = ForwardFFTImageFilter<TInputImage, TOutputImage>;
+  using Superclass = PocketFFTForwardFFTImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -66,43 +59,25 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(VnlForwardFFTImageFilter);
 
-  /** Extract the dimensionality of the images. They are assumed to be
-   * the same. */
-  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
-  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
-  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
-
-  [[nodiscard]] SizeValueType
-  GetSizeGreatestPrimeFactor() const override;
-
-  itkConceptMacro(ImageDimensionsMatchCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-
 protected:
   VnlForwardFFTImageFilter() = default;
   ~VnlForwardFFTImageFilter() override = default;
-
-  void
-  GenerateData() override;
-
-private:
-  using SignalVectorType = vnl_vector<std::complex<InputPixelType>>;
 };
 
-// Describe whether input/output are real- or complex-valued
-// for factory registration
+/** \cond HIDE_SPECIALIZATION */
+#  if defined(__GNUC__) || defined(__clang__)
+#    pragma GCC diagnostic push
+#    pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#  endif
 template <>
-struct FFTImageFilterTraits<VnlForwardFFTImageFilter>
-{
-  template <typename TUnderlying>
-  using InputPixelType = TUnderlying;
-  template <typename TUnderlying>
-  using OutputPixelType = std::complex<TUnderlying>;
-  using FilterDimensions = std::integer_sequence<unsigned int, 4, 3, 2, 1>;
-};
+struct FFTImageFilterTraits<VnlForwardFFTImageFilter> : public FFTImageFilterTraits<PocketFFTForwardFFTImageFilter>
+{};
+#  if defined(__GNUC__) || defined(__clang__)
+#    pragma GCC diagnostic pop
+#  endif
+/** \endcond */
 } // namespace itk
+#endif // !ITK_LEGACY_REMOVE && !ITK_FUTURE_LEGACY_REMOVE
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkVnlForwardFFTImageFilter.hxx"
-#endif
-
-#endif
+#undef ITK_VNL_FFT_DEPRECATED
+#endif // itkVnlForwardFFTImageFilter_h

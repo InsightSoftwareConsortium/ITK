@@ -57,14 +57,14 @@
 
 // FFT
 #include "itkFFTImageFilterFactory.h"
-#include "itkVnlComplexToComplex1DFFTImageFilter.h"
-#include "itkVnlComplexToComplexFFTImageFilter.h"
-#include "itkVnlForward1DFFTImageFilter.h"
-#include "itkVnlForwardFFTImageFilter.h"
-#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
-#include "itkVnlInverse1DFFTImageFilter.h"
-#include "itkVnlInverseFFTImageFilter.h"
-#include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkPocketFFTComplexToComplex1DFFTImageFilter.h"
+#include "itkPocketFFTComplexToComplexFFTImageFilter.h"
+#include "itkPocketFFTForward1DFFTImageFilter.h"
+#include "itkPocketFFTForwardFFTImageFilter.h"
+#include "itkPocketFFTHalfHermitianToRealInverseFFTImageFilter.h"
+#include "itkPocketFFTInverse1DFFTImageFilter.h"
+#include "itkPocketFFTInverseFFTImageFilter.h"
+#include "itkPocketFFTRealToHalfHermitianForwardFFTImageFilter.h"
 
 #ifdef __EMSCRIPTEN__
 #  include <emscripten.h>
@@ -120,16 +120,18 @@ RegisterRequiredFFTFactories()
     itk::FFTImageFilterFactory<itk::FFTWRealToHalfHermitianForwardFFTImageFilter>::New());
 #endif
 
-  itk::ObjectFactoryBase::RegisterFactory(itk::FFTImageFilterFactory<itk::VnlComplexToComplex1DFFTImageFilter>::New());
-  itk::ObjectFactoryBase::RegisterFactory(itk::FFTImageFilterFactory<itk::VnlComplexToComplexFFTImageFilter>::New());
-  itk::ObjectFactoryBase::RegisterFactory(itk::FFTImageFilterFactory<itk::VnlForward1DFFTImageFilter>::New());
-  itk::ObjectFactoryBase::RegisterFactory(itk::FFTImageFilterFactory<itk::VnlForwardFFTImageFilter>::New());
   itk::ObjectFactoryBase::RegisterFactory(
-    itk::FFTImageFilterFactory<itk::VnlHalfHermitianToRealInverseFFTImageFilter>::New());
-  itk::ObjectFactoryBase::RegisterFactory(itk::FFTImageFilterFactory<itk::VnlInverse1DFFTImageFilter>::New());
-  itk::ObjectFactoryBase::RegisterFactory(itk::FFTImageFilterFactory<itk::VnlInverseFFTImageFilter>::New());
+    itk::FFTImageFilterFactory<itk::PocketFFTComplexToComplex1DFFTImageFilter>::New());
   itk::ObjectFactoryBase::RegisterFactory(
-    itk::FFTImageFilterFactory<itk::VnlRealToHalfHermitianForwardFFTImageFilter>::New());
+    itk::FFTImageFilterFactory<itk::PocketFFTComplexToComplexFFTImageFilter>::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::FFTImageFilterFactory<itk::PocketFFTForward1DFFTImageFilter>::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::FFTImageFilterFactory<itk::PocketFFTForwardFFTImageFilter>::New());
+  itk::ObjectFactoryBase::RegisterFactory(
+    itk::FFTImageFilterFactory<itk::PocketFFTHalfHermitianToRealInverseFFTImageFilter>::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::FFTImageFilterFactory<itk::PocketFFTInverse1DFFTImageFilter>::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::FFTImageFilterFactory<itk::PocketFFTInverseFFTImageFilter>::New());
+  itk::ObjectFactoryBase::RegisterFactory(
+    itk::FFTImageFilterFactory<itk::PocketFFTRealToHalfHermitianForwardFFTImageFilter>::New());
 }
 
 void

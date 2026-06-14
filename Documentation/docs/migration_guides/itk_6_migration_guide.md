@@ -687,3 +687,50 @@ to inspect:
   `GetImageFromArray` already silences the warning internally because
   it always deep-copies via `ImageDuplicator`; the kwarg is not exposed
   on that API.
+
+## Vnl FFT backend replaced by PocketFFT
+
+The `VnlFFT*` image filter family, `vnl_fft`/`vnl_convolve` in the vendored
+vxl, and the Temperton GPFA sources (`v3p/netlib/temperton/`) have been
+removed. The default (non-FFTW) FFT backend is now PocketFFT
+(`PocketFFT*ImageFilter`), which supports images of **any** size — the
+2^a·3^b·5^c size restriction is gone.
+
+### What you need to do
+
+- Replace `Vnl<X>FFTImageFilter` with `PocketFFT<X>FFTImageFilter`
+  (Forward, Inverse, RealToHalfHermitian, HalfHermitianToReal,
+  ComplexToComplex, and the 1D variants). Factory-based instantiation
+  (`ForwardFFTImageFilter::New()` etc.) requires no change.
+- `VnlFFTImageFilterInitFactory` is now `PocketFFTImageFilterInitFactory`;
+  the CMake backend key changed from `FFTImageFilterInit::Vnl` to
+  `FFTImageFilterInit::Pocket`.
+- Code calling `vnl_fft_1d`/`vnl_fft_2d`/`vnl_convolve` directly must move
+  to another FFT (e.g. `pocketfft_hdronly.h` via `itkPocketFFTCommon.h`,
+  as `itkN4BiasFieldCorrectionImageFilter.hxx` now does).
+- `vnl_fft_1d` is retained as a deprecated PocketFFT-backed shim, but it now
+  pulls in `pocketfft_hdronly.h`: any consumer that includes
+  `vnl/algo/vnl_fft_1d.h` must depend on the ITKFFT module.
+
+### Concerns
+
+- Numerical results differ from the Vnl backend at the ULP level;
+  bit-exact baselines must move to tolerance-based comparison.
+- One-platform precision concession (`aarch64`-Linux only): for a `float`
+  image, PocketFFT's half-Hermitian (r2c/c2r) reconstruction and its
+  full-complex reconstruction of the same transform agree to ~1e-4 rather
+  than ~1e-5 — a handful of pixels (1–13 of thousands) cross 1e-5 from the
+  aarch64-Linux libm/FMA rounding of the two distinct algorithms. The same
+  builds on x86-64 Linux and on aarch64 macOS agree exactly (0 ULP), and the
+  result is bit-identical regardless of thread count (PocketFFT parallelizes
+  independent 1-D lines), so this is neither a multithreading effect nor a
+  layout error — the reconstruction is correct (round-trip ~1e-14). Only
+  `FrequencyIterators.{Even2D,Even3D,Odd3D}` are affected; they use a 1e-4
+  Hermitian tolerance, matching the pre-existing `Odd2D` test.
+- PocketFFT real transforms use native r2c/c2r (half-complex), not the
+  full-complex emulation Vnl used — faster and less memory, same results.
+- The deletions under `Modules/ThirdParty/VNL/src/vxl/` (temperton/,
+  vnl_fft*, vnl_convolve*) diverge from upstream vxl and must be re-applied
+  or upstreamed on the next vnl pin update.
+- `vnl_fft_prime_factors`, `gpfa`-family symbols, and the vxl
+  `vnl_algo_test_fft*`/`test_convolve` tests are gone from the vendored tree.
