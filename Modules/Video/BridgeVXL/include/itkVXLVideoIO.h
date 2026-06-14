@@ -23,10 +23,6 @@
 #  define ITK_VIDEO_USE_VXL
 #endif
 
-#ifdef _MSC_VER
-#  pragma warning(disable : 4786)
-#endif
-
 #include "itkVideoIOBase.h"
 #include "vidl/vidl_ffmpeg_istream.h"
 #include "vidl/vidl_ffmpeg_ostream.h"

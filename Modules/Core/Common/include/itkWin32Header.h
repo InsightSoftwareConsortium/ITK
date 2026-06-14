@@ -31,12 +31,6 @@
 /** Disable some common warnings in MS VC++ */
 #if defined(_MSC_VER)
 
-// conditional expression is constant
-#  pragma warning(disable : 4127)
-
-// 'conversion' conversion from 'type1' to 'type2', possible loss of data
-#  pragma warning(disable : 4244)
-
 // 'identifier' : class 'type' needs to have dll-interface to be used by
 // clients of class 'type2'
 #  pragma warning(disable : 4251)
@@ -46,12 +40,6 @@
 
 // non dll-interface class 'type' used as base for dll-interface class 'type2'
 #  pragma warning(disable : 4275)
-
-// 'identifier' : truncation from 'type1' to 'type2'
-#  pragma warning(disable : 4305)
-
-// 'conversion' : truncation of constant value
-#  pragma warning(disable : 4309)
 
 // unreferenced local function has been removed
 #  pragma warning(disable : 4505)
