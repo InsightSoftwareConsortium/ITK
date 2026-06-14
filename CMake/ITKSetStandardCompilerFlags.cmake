@@ -122,12 +122,10 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
     -Wextra
     -Wformat=2
     -Winvalid-pch
-    -Wno-format-nonliteral
     -Wpointer-arith
     -Wshadow
     -Wunused
     -Wwrite-strings
-    -Wno-strict-overflow
   )
 
   # Check this list on C++ compiler only
