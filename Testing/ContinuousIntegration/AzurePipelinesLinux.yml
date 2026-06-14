@@ -3,16 +3,27 @@ name: ITK.Linux
 trigger:
   branches:
     include:
-    - master
     - release*
+  paths:
+    exclude:
+    - '*.md'
+    - LICENSE
+    - NOTICE
+    - Documentation/**
+    - Utilities/Maintenance/**
 variables:
   ExternalDataVersion: 4.13.2
+  CCACHE_DIR: $(Pipeline.Workspace)/.ccache
+  CCACHE_BASEDIR: $(Build.SourcesDirectory)
+  CCACHE_COMPILERCHECK: content
+  CCACHE_NOHASHDIR: 'true'
+  CCACHE_SLOPPINESS: pch_defines,time_macros
 jobs:
 - job: Linux
   timeoutInMinutes: 0
   cancelTimeoutInMinutes: 300
   pool:
-    vmImage: ubuntu-16.04
+    vmImage: ubuntu-latest
   steps:
     - checkout: self
       clean: true
@@ -24,13 +35,16 @@ jobs:
         fi
       displayName: 'Checkout pull request HEAD'
 
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.x'
+        architecture: 'x64'
+
     - bash: |
         set -x
-        sudo pip3 install ninja
         sudo apt-get update
-        sudo apt-get install -y python3-venv
-        sudo python3 -m pip install --upgrade setuptools
-        sudo python3 -m pip install scikit-ci-addons
+        sudo apt-get install -y ccache
+        python3 -m pip install ninja lxml scikit-ci-addons
       displayName: 'Install dependencies'
 
     - bash: |
@@ -43,6 +57,20 @@ jobs:
       workingDirectory: $(Agent.BuildDirectory)
       displayName: 'Download dashboard script and testing data'
 
+    - task: Cache@2
+      inputs:
+        key: '"ccache-v1" | "$(Agent.OS)" | "Linux414" | "$(Build.SourceVersion)"'
+        restoreKeys: |
+          "ccache-v1" | "$(Agent.OS)" | "Linux414"
+        path: $(CCACHE_DIR)
+      displayName: 'Restore ccache'
+
+    - bash: |
+        set -x
+        ccache --zero-stats
+        ccache --evict-older-than 7d
+      displayName: 'ccache maintenance'
+
     - bash: |
         cat > dashboard.cmake << EOF
         set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
@@ -51,6 +79,11 @@ jobs:
           BUILD_SHARED_LIBS:BOOL=OFF
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=OFF
+          ITK_USE_KWSTYLE:BOOL=OFF
+          CMAKE_C_FLAGS:STRING=-w
+          CMAKE_CXX_FLAGS:STRING=-w
+          CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
+          CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
         ")
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
         EOF
@@ -64,10 +97,15 @@ jobs:
         c++ --version
         cmake --version
 
-        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -V -j 4
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
+        CCACHE_MAXSIZE: 4.5G
+
+    - bash: ccache --show-stats
+      condition: always()
+      displayName: 'ccache stats'
 
     - script: |
         ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml

@@ -203,11 +203,11 @@ ResourceProbe< ValueType, MeanType >
 {
   this->m_MeanValue = this->GetMean();
   std::vector<ValueType> diff(this->m_ProbeValueList.size());
+  const ValueType meanValue = static_cast<ValueType>( this->m_MeanValue );
   std::transform(this->m_ProbeValueList.begin(),
                  this->m_ProbeValueList.end(),
                  diff.begin(),
-                 std::bind2nd(std::minus<ValueType>(),
-                              static_cast<ValueType>(this->m_MeanValue ) ));
+                 [meanValue](const ValueType v) { return v - meanValue; });
   ValueType sqsum =
     std::inner_product(diff.begin(),diff.end(),
                        diff.begin(),

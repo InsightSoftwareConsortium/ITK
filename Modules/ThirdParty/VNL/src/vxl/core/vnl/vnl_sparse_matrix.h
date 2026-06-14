@@ -94,7 +94,7 @@ class VNL_TEMPLATE_EXPORT vnl_sparse_matrix_pair
     return *this;
   }
 
-  struct less : public std::binary_function<vnl_sparse_matrix_pair, vnl_sparse_matrix_pair, bool>
+  struct less
   {
     bool operator() (vnl_sparse_matrix_pair const& p1, vnl_sparse_matrix_pair const& p2) {
       return p1.first < p2.first;
