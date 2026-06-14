@@ -209,7 +209,9 @@ cmd = '''cmake \
   -S. \
   -GNinja \
   -DCMAKE_BUILD_TYPE:STRING=Release \
-  -DBUILD_TESTING:BOOL=ON'''
+  -DBUILD_TESTING:BOOL=ON \
+  -DCMAKE_C_COMPILER_LAUNCHER:STRING=ccache \
+  -DCMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache'''
 description = "Configure ITK - Release"
 outputs = ["build-release/CMakeFiles/"]
 
