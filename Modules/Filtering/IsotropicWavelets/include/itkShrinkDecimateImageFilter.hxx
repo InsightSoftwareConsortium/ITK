@@ -18,7 +18,7 @@
 #ifndef itkShrinkDecimateImageFilter_hxx
 #define itkShrinkDecimateImageFilter_hxx
 
-#include "itkImageScanlineIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include <numeric>
 #include <functional>
 
@@ -102,41 +102,25 @@ ShrinkDecimateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDat
   const InputImageType * inputPtr = this->GetInput();
 
   // Iterator for walking the output
-  using OutputIterator = ImageScanlineIterator<TOutputImage>;
+  using OutputIterator = ImageRegionIteratorWithIndex<TOutputImage>;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
-  // Report progress on a per scanline basis
   const SizeValueType size0 = outputRegionForThread.GetSize(0);
   if (size0 == 0)
   {
     return;
   }
 
-  // const typename OutputImageType::IndexType outputOriginIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
-  // const typename InputImageType::IndexType  inputOriginIndex  = inputPtr->GetLargestPossibleRegion().GetIndex();
-  // Walk the output region, and interpolate the input image
-  while (!outIt.IsAtEnd())
+  for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
   {
-    while (!outIt.IsAtEndOfLine())
+    const typename OutputImageType::IndexType outputIndex = outIt.GetIndex();
+    typename InputImageType::IndexType        inputIndex;
+    for (unsigned int j = 0; j < ImageDimension; j++)
     {
-      const typename OutputImageType::IndexType outputIndex = outIt.GetIndex();
-      // Determine the input pixel location associated with this output
-      // pixel at the start of the scanline.
-      //
-      // Don't need to check for division by zero because the factors are
-      // clamped to be minimum for 1.
-      typename InputImageType::IndexType inputIndex;
-      for (unsigned int j = 0; j < ImageDimension; j++)
-      {
-        // inputIndex[j] = (outputIndex[j] -  outputOriginIndex[j]) * m_ShrinkFactors[j] + inputOriginIndex[j];
-        inputIndex[j] = outputIndex[j] * m_ShrinkFactors[j];
-      }
-      outIt.Set(static_cast<typename TOutputImage::PixelType>(inputPtr->GetPixel(inputIndex)));
-      ++outIt;
+      inputIndex[j] = outputIndex[j] * m_ShrinkFactors[j];
     }
-
-    outIt.NextLine();
+    outIt.Set(static_cast<typename TOutputImage::PixelType>(inputPtr->GetPixel(inputIndex)));
   }
 }
 
