@@ -82,7 +82,6 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
   set(
     c_and_cxx_flags
     ${VerboseWarningsFlag}
-    -Wno-long-double #Needed on APPLE
     -Wcast-align
     -Wdisabled-optimization
     -Wextra
