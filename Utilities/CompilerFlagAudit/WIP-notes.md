@@ -1,10 +1,31 @@
 # WIP: Compiler Flag Suppression Audit
 
-**Branch:** compiler-suppression-audit
-**WIP PR:** InsightSoftwareConsortium/ITK#6442 (draft, CI-triage only — do not merge)
+**Branch:** compiler-suppression-audit (#6442, WIP umbrella superset — do not merge)
 **Status:** investigation in progress — this directory is removed before PR merge
 
+### PR landscape (2026-06-15)
+
+- **#6443 — MERGED**: SunOS flags, GCC/Clang `-Wno-strict-overflow` + `-Wno-format-nonliteral`,
+  MSVC pragmas 4127/4244/4305/4309/4786/4996, and the C4244 code fixes (`itkProcessObject`
+  `static_cast<float>`, `itkCSVFileReaderBase` `std::streamoff`, scoped MSVC suppression in
+  the FixedArray index test).
+- **#6444 — open (draft)**: dead Intel ICC cmake block, `-Wno-long-double`, `-Wno-uninitialized`,
+  the `__INTEL_COMPILER` source blocks, and `-Wno-invalid-offsetof`.
+- **#6442 — this branch**: superset of #6444 + the audit tooling (this directory + the ccache task).
+
 CI watch target for MSVC warnings: `Pixi-Cxx (windows-2022)` GitHub Actions job.
+
+### Iteration-4 findings
+
+- **`__INTEL_COMPILER` source blocks removed** (#6444): `itkMacro.h` convenience macros +
+  Intel<19.1 `#error` + two simplified GCC guards; `itkMultiThreaderBase.h`, `itkArray.h`,
+  `itkCompensatedSummation.hxx` Intel pragmas. Built + tested locally; no-op on all CI compilers.
+- **`-Wno-invalid-offsetof` is dead** (#6444): full GCC 14 rebuild → 0 `-Winvalid-offsetof`
+  warnings; ITK proper does not use `offsetof`. Removed.
+- **Retained-flag scope review**: source-level `ITK_GCC/CLANG_SUPPRESS_*` macros are
+  compiler-guarded + single-site (exemplary); MSVC 4251/4273/4275 are blanket-but-justified
+  (DLL-export); the global cmake `-Wno-*` are the broadest remaining surface.
+- **Sole open item: MSVC 4505** — needs a Windows-CI exposure cycle (can't test locally).
 
 ---
 
