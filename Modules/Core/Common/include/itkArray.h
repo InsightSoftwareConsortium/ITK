@@ -184,9 +184,6 @@ public:
   void
   SetData(TValue * datain, SizeValueType sz, bool LetArrayManageMemory = false);
 
-#ifdef __INTEL_COMPILER
-#  pragma warning disable 444 // destructor for base class "itk::Array<>" is not virtual
-#endif
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
   ~Array() override;

@@ -29,9 +29,6 @@ CompensatedSummationAddElement(double & compensation, double & sum, const double
 
 #ifndef itkCompensatedSummation_cxx
 // We try the looser pragma guards if we don't have an explicit instantiation.
-#  ifdef __INTEL_COMPILER
-#    pragma optimize("", off)
-#  endif // __INTEL_COMPILER
 #  ifdef _MSC_VER
 #    pragma float_control(push)
 #    pragma float_control(precise, on)
@@ -50,9 +47,6 @@ CompensatedSummationAddElement(TFloat & compensation, TFloat & sum, const TFloat
   sum = static_cast<TFloat>(tempSum);
 }
 #ifndef itkCompensatedSummation_cxx
-#  ifdef __INTEL_COMPILER
-#    pragma optimize("", on)
-#  endif // __INTEL_COMPILER
 #  ifdef _MSC_VER
 #    pragma float_control(pop)
 #  endif // _MSC_VER
