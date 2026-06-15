@@ -92,7 +92,6 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
   # Check this list on C++ compiler only
   set(
     cxx_flags
-    -Wno-invalid-offsetof
     -Wno-undefined-var-template # suppress invalid warning when explicitly instantiated in another translation unit
     -Woverloaded-virtual
     -Wctad-maybe-unsupported
