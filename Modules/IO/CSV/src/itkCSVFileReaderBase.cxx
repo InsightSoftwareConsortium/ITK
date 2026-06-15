@@ -151,11 +151,11 @@ CSVFileReaderBase::GetDataDimension(SizeValueType & rows, SizeValueType & cols)
     ++rows;
 
     // Determine the max #columns and #rows
-    current_cols = cols;
+    current_cols = static_cast<unsigned int>(cols);
     if (!this->m_HasColumnHeaders && rows == 1)
     {
-      prev_cols = cols;
-      max_cols = cols;
+      prev_cols = static_cast<unsigned int>(cols);
+      max_cols = static_cast<unsigned int>(cols);
     }
     if (current_cols != prev_cols)
     {

@@ -122,12 +122,10 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
     -Wextra
     -Wformat=2
     -Winvalid-pch
-    -Wno-format-nonliteral
     -Wpointer-arith
     -Wshadow
     -Wunused
     -Wwrite-strings
-    -Wno-strict-overflow
   )
 
   # Check this list on C++ compiler only
@@ -346,38 +344,6 @@ macro(check_compiler_platform_flags)
       ITK_REQUIRED_CXX_FLAGS
       "${ITK_REQUIRED_CXX_FLAGS} ${ITK_SSE2_CFLAGS_IF_AVAILABLE}"
     )
-  endif()
-
-  #-----------------------------------------------------------------------------
-
-  # for the gnu compiler a -D_PTHREADS is needed on sun
-  # for the native compiler a -mt flag is needed on the sun
-  if(CMAKE_SYSTEM MATCHES "SunOS.*")
-    if(CMAKE_COMPILER_IS_GNUCXX)
-      set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -D_PTHREADS")
-      set(ITK_REQUIRED_LINK_FLAGS "${ITK_REQUIRED_LINK_FLAGS} -lrt")
-    else()
-      set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -mt")
-      set(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -mt")
-    endif()
-    # Add flags for the SUN compiler to provide all the methods for std::allocator.
-    #
-    check_cxx_source_compiles(
-      "-features=no%anachronisms"
-      SUN_COMPILER
-    )
-    if(SUN_COMPILER)
-      check_cxx_source_compiles(
-        "-library=stlport4"
-        SUN_COMPILER_HAS_STL_PORT_4
-      )
-      if(SUN_COMPILER_HAS_STL_PORT_4)
-        set(
-          ITK_REQUIRED_CXX_FLAGS
-          "${ITK_REQUIRED_CXX_FLAGS} -library=stlport4"
-        )
-      endif()
-    endif()
   endif()
 
   # mingw thread support

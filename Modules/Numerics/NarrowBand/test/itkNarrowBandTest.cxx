@@ -41,7 +41,7 @@ itkNarrowBandTest(int, char *[])
   band->SetInnerRadius(5);
   for (unsigned int i = 0; i < 20; ++i)
   {
-    node.m_Data = i * 5.0;
+    node.m_Data = static_cast<DataType>(i * 5.0);
     node.m_Index = i;
     node.m_NodeState = 0;
     // Fill the band

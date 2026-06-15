@@ -15,11 +15,8 @@
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.  See the above copyright notices for more information.
 =========================================================================*/
-
-#if defined(_MSC_VER)
-// Warning about: identifier was truncated to '255' characters in the debug information (MVC6.0 Debug)
-#  pragma warning(disable : 4786)
-#endif
+#ifndef MinimalPathTest_h
+#define MinimalPathTest_h
 
 // General includes
 #include <string>
@@ -165,7 +162,7 @@ ReadPathImage(const char * PathImagename, typename PathFilterType::Pointer pathF
 
   /* for (unsigned ii = 0; ii < pmap[1].size(); ++ii) */
   /*   { */
-  /* 	std::cout << pmap[1][ii] << std::endl; */
+  /*   std::cout << pmap[1][ii] << std::endl; */
   /*   } */
 
   info->SetStartPoint(pmap[1]);
@@ -740,3 +737,5 @@ Test_SpeedToPath_IterateNeighborhood_ExtendedSeed_ND(int argc, char * argv[])
   // Return
   return EXIT_SUCCESS;
 }
+
+#endif
