@@ -75,41 +75,7 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
     ## and then disable warnings one by one
     ## set(VerboseWarningsFlag -Wall -wd4820 -wd4682)
   else()
-    ## with Intel compiler, the -Wall compiler options
-    ## is reporting 1000's of remarks of trivial items
-    ## that will only slow day-to-day operations
-    ## specify -w2 to restrict to only warnings and errors
-    if(${CMAKE_C_COMPILER} MATCHES "icc.*$")
-      set(USING_INTEL_ICC_COMPILER TRUE)
-    endif()
-    if(${CMAKE_CXX_COMPILER} MATCHES "icpc.*$")
-      set(USING_INTEL_ICC_COMPILER TRUE)
-    endif()
-    if(USING_INTEL_ICC_COMPILER)
-      # NOTE -w2 is close to gcc's -Wall warning level, -w5 is intels -Wall warning level, and it is too verbose.
-      set(
-        VerboseWarningsFlag
-        -w2
-        -wd1268
-        -wd981
-        -wd383
-        -wd1418
-        -wd1419
-        -wd2259
-        -wd1572
-        -wd424
-      )
-      #-wd424  #Needed for Intel compilers with remarki  #424: extra ";" ignored
-      #-wd383  #Needed for Intel compilers with remark   #383: value copied to temporary, reference to temporary used
-      #-wd981  #Needed for Intel compilers with remark   #981: operands are evaluated in unspecified order
-      #-wd1418 #Needed for Intel compilers with remark  #1418: external function definition with no prior declaration
-      #-wd1419 #Needed for Intel compilers with remark  #1419: external declaration in primary source file
-      #-wd1572 #Needed for Intel compilers with remark  #1572: floating-point equality and inequality comparisons are unreliable
-      #-wd2259 #Needed for Intel compilers with remark  #2259: non-pointer conversion from "itk::SizeValueType={unsigned long}" to "double" may lose significant bits
-      #-wd1268 #Needed for Intel compilers with warning #1268: support for exported templates is disabled
-    else()
-      set(VerboseWarningsFlag -Wall)
-    endif()
+    set(VerboseWarningsFlag -Wall)
   endif()
 
   # Check this list on both C and C++ compilers
