@@ -59,11 +59,7 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
   set(${cxx_warning_flags_var} "" PARENT_SCOPE)
 
   # Check this list on C compiler only
-  set(
-    c_flags
-    -Wno-uninitialized
-    -Wno-unused-parameter
-  )
+  set(c_flags -Wno-unused-parameter)
 
   ## On windows, the most verbose compiler options
   ## is reporting 1000's of wanings in windows
