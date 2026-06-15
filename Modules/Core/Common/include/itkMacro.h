@@ -166,17 +166,6 @@ namespace itk
       CLANG_SUPPRESS_Wcpp14_extensions = nullptr;
 #endif
 
-// Intel compiler convenience macros
-#if defined(__INTEL_COMPILER)
-#  define INTEL_PRAGMA_WARN_PUSH ITK_PRAGMA(warning push)
-#  define INTEL_PRAGMA_WARN_POP ITK_PRAGMA(warning pop)
-#  define INTEL_SUPPRESS_warning_1292 ITK_PRAGMA(warning disable 1292)
-#else
-#  define INTEL_PRAGMA_WARN_PUSH
-#  define INTEL_PRAGMA_WARN_POP
-#  define INTEL_SUPPRESS_warning_1292
-#endif
-
 // Define ITK_GCC_PRAGMA_DIAG(param1 [param2 [...]]) macro.
 //
 // This macro sets a pragma diagnostic
@@ -185,7 +174,7 @@ namespace itk
 //
 // These macros respectively push and pop the diagnostic context
 //
-#if defined(__GNUC__) && !defined(__INTEL_COMPILER)
+#if defined(__GNUC__)
 #  define ITK_GCC_PRAGMA_DIAG(x) ITK_PRAGMA(GCC diagnostic x)
 #  define ITK_GCC_PRAGMA_DIAG_PUSH() ITK_GCC_PRAGMA_DIAG(push)
 #  define ITK_GCC_PRAGMA_DIAG_POP() ITK_GCC_PRAGMA_DIAG(pop)
@@ -214,7 +203,7 @@ namespace itk
 #if defined(__MWERKS__)
 #  error "The MetroWerks compiler is not supported"
 #endif
-#if defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER) && (__GNUC__ < 7)
+#if defined(__GNUC__) && !defined(__clang__) && (__GNUC__ < 7)
 #  error "GCC < 7 is not supported"
 #endif
 #if defined(__sgi)
@@ -227,9 +216,6 @@ namespace itk
 #  error "AppleClang < Xcode 12.4 is not supported"
 #elif defined(__clang__) && (__clang_major__ < 5)
 #  error "Clang < 5 is not supported"
-#endif
-#if defined(__INTEL_COMPILER) && (__INTEL_COMPILER < 1910)
-#  error "Intel C++ < 19.1 is not supported4"
 #endif
 
 // Setup symbol exports
