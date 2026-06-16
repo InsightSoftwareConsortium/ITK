@@ -1483,6 +1483,7 @@ set(
   itkMathGTest.cxx
   itkMathRoundGTest.cxx
   itkMathVnlParityGTest.cxx
+  itkMatrixExponentialGTest.cxx
   itkMatrixGTest.cxx
   itkMersenneTwisterRandomVariateGeneratorGTest.cxx
   itkMetaDataDictionaryGTest.cxx
