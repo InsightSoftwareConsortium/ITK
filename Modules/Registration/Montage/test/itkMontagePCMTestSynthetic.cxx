@@ -21,6 +21,7 @@
 #include "itkMontageTestHelper.hxx" //for WriteTransform
 #include "itkNumericTraits.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
+#include "itkTestingMacros.h"
 #include <array>
 
 namespace itk
@@ -152,7 +153,7 @@ PhaseCorrelationRegistration(int argc, char * argv[])
   typename FixedImageSourceType::Pointer  fixedImageSource = FixedImageSourceType::New();
   typename MovingImageSourceType::Pointer movingImageSource = MovingImageSourceType::New();
 
-  bool pass = true;
+  int testStatus = EXIT_SUCCESS;
   itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New());
 
   using TestCoefficientsType = std::array<double, 5>;
@@ -224,25 +225,11 @@ PhaseCorrelationRegistration(int argc, char * argv[])
           // so its modification does not cause a pipeline update automatically
           std::cout << "Peak interpolation method " << static_cast<int>(peakMethod) << std::endl;
 
-          try
-          {
-            pcm->Update();
-            if (pcm->GetFixedImageFFT()->GetLargestPossibleRegion().GetSize(0) == 0)
-            {
-              std::cout << "Fixed FFT cache's size[0] must be positive!" << std::endl;
-              pass = false;
-            }
-            if (pcm->GetMovingImageFFT()->GetLargestPossibleRegion().GetSize(0) == 0)
-            {
-              std::cout << "Moving FFT cache's size[0] must be positive!" << std::endl;
-              pass = false;
-            }
-          }
-          catch (itk::ExceptionObject & e)
-          {
-            std::cerr << e << std::endl;
-            pass = false;
-          }
+          ITK_TRY_EXPECT_NO_EXCEPTION(pcm->Update());
+          ITK_TEST_EXPECT_TRUE_STATUS_VALUE(pcm->GetFixedImageFFT()->GetLargestPossibleRegion().GetSize(0) > 0,
+                                            testStatus);
+          ITK_TEST_EXPECT_TRUE_STATUS_VALUE(pcm->GetMovingImageFFT()->GetLargestPossibleRegion().GetSize(0) > 0,
+                                            testStatus);
 
           // Get registration result and validate it.
           ParametersType finalParameters = pcm->GetTransformParameters();
@@ -254,54 +241,27 @@ PhaseCorrelationRegistration(int argc, char * argv[])
           // Validate the translation parameters
           for (unsigned int i = 0; i < numberOfParameters; i++)
           {
-            std::cout << finalParameters[i] << " == " << actualParameters[i] << " == " << transformParameters[i];
-
-            if ((itk::Math::Absolute(finalParameters[i] - actualParameters[i]) > tolerance) ||
-                (itk::Math::Absolute(transformParameters[i] - actualParameters[i]) > tolerance))
-            {
-              std::cout << "    Tolerance exceeded at component " << i << std::endl;
-              pass = false;
-            }
-            else
-            {
-              std::cout << std::endl;
-            }
+            std::cout << finalParameters[i] << " == " << actualParameters[i] << " == " << transformParameters[i]
+                      << std::endl;
+            ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
+              itk::Math::Absolute(finalParameters[i] - actualParameters[i]) <= tolerance, testStatus);
+            ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
+              itk::Math::Absolute(transformParameters[i] - actualParameters[i]) <= tolerance, testStatus);
           }
 
           // All other parameters must be 0
           for (unsigned int i = numberOfParameters; i < VDimension; i++)
           {
-            if ((itk::Math::Absolute(finalParameters[i]) > tolerance) ||
-                (itk::Math::Absolute(transformParameters[i]) > tolerance))
-            {
-              std::cout << "Tolerance exceeded at component " << i << std::endl;
-              pass = false;
-            }
+            ITK_TEST_EXPECT_TRUE_STATUS_VALUE(itk::Math::Absolute(finalParameters[i]) <= tolerance, testStatus);
+            ITK_TEST_EXPECT_TRUE_STATUS_VALUE(itk::Math::Absolute(transformParameters[i]) <= tolerance, testStatus);
           }
 
           using WriterType = itk::ImageFileWriter<typename PCMType::RealImageType>;
           typename WriterType::Pointer writer = WriterType::New();
           writer->SetFileName(phaseCorrelationFile);
           writer->SetInput(pcm->GetPhaseCorrelationImage());
-          try
-          {
-            writer->Update();
-          }
-          catch (itk::ExceptionObject & e)
-          {
-            std::cerr << e << std::endl;
-            pass = false;
-          }
-
-          try
-          {
-            WriteTransform(pcm->GetOutput()->Get(), argv[3]);
-          }
-          catch (itk::ExceptionObject & e)
-          {
-            std::cerr << e << std::endl;
-            pass = false;
-          }
+          ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+          ITK_TRY_EXPECT_NO_EXCEPTION(WriteTransform(pcm->GetOutput()->Get(), argv[3]));
         } // for peakMethod
       } // for padMethod
     } // for testCoefficients
@@ -309,14 +269,7 @@ PhaseCorrelationRegistration(int argc, char * argv[])
 
   std::cout << *pcm;
 
-  if (!pass)
-  {
-    std::cout << "Test FAILED." << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  std::cout << "Test PASSED." << std::endl;
-  return EXIT_SUCCESS;
+  return testStatus;
 }
 
 
