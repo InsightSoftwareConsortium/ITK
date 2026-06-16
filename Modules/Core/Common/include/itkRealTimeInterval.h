@@ -57,9 +57,6 @@ public:
   /** Constructor with values. Intentionally made public */
   RealTimeInterval(SecondsDifferenceType, MicroSecondsDifferenceType);
 
-  /** Destructor */
-  ~RealTimeInterval();
-
   /** Native type used to represent the time in different time units. */
   using TimeRepresentationType = double;
 

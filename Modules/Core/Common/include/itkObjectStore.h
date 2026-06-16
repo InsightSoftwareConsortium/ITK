@@ -183,14 +183,13 @@ protected:
       , Size(n)
     {}
 
-    ~MemoryBlock() = default; // Purposely does *not* free memory
-
     void
     Delete()
     {
       delete[] Begin;
     }
 
+    // Owns the allocation but is freed manually via Delete(), never in a destructor.
     ObjectType *  Begin{};
     SizeValueType Size{ 0 };
   };
