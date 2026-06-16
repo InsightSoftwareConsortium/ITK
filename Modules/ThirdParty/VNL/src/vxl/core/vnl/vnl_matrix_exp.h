@@ -1,0 +1,59 @@
+// This is core/vnl/vnl_matrix_exp.h
+#ifndef vnl_matrix_exp_h_
+#define vnl_matrix_exp_h_
+
+// ITK compatibility shim: vnl_matrix_exp was removed upstream in VXL. ITK
+// restores it as a deprecated bridge to itk::Math::MatrixExponential (Eigen).
+// The guard is active only when itkConfigure.h is reachable (i.e. compiled by
+// an ITK consumer such as elastix), so ITK's own VXL build is unaffected.
+#if __has_include(<itkConfigure.h>)
+#  include <itkConfigure.h>
+#  if defined(ITK_FUTURE_LEGACY_REMOVE)
+#    error \
+      "vnl/vnl_matrix_exp.h was removed upstream in VXL; migrate to itk::Math::MatrixExponential (itkMatrixExponential.h, Eigen-backed)."
+#  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT)
+#    if defined(_MSC_VER)
+#      pragma message( \
+        "vnl/vnl_matrix_exp.h is deprecated (removed upstream in VXL); migrate to itk::Math::MatrixExponential (itkMatrixExponential.h, Eigen-backed).")
+#    else
+#      warning \
+        "vnl/vnl_matrix_exp.h is deprecated (removed upstream in VXL); migrate to itk::Math::MatrixExponential (itkMatrixExponential.h, Eigen-backed)."
+#    endif
+#  endif
+#endif
+
+#include "vnl/vnl_export.h"
+
+//:
+// \file
+// \brief Compute the exponential of a square matrix
+//
+// Compute the exponential of a square matrix, by summing its
+// exponential series $\exp(X) = \displaystyle\sum_{n \ge 0} X^n/n!$
+// till a convergence requirement is met.
+//
+// Many improvements are possible.
+//
+//  \author fsm
+//
+// \verbatim
+//  Modifications:
+//   14-Jan-2007 Peter Vanroose - added vnl_matrix_fixed interface
+// \endverbatim
+
+//: Compute the exponential of a square matrix - fiddly form
+// \relatesalso vnl_matrix
+// \relatesalso vnl_matrix_fixed
+template <class SquareMatrix>
+VNL_EXPORT bool
+vnl_matrix_exp(const SquareMatrix & X, SquareMatrix & expX, double max_err);
+
+//: Compute the exponential of a square matrix - easy form.
+// \relatesalso vnl_matrix
+// \relatesalso vnl_matrix_fixed
+template <class SquareMatrix>
+VNL_EXPORT SquareMatrix
+vnl_matrix_exp(const SquareMatrix & X);
+
+
+#endif // vnl_matrix_exp_h_

@@ -35,6 +35,7 @@ set( vnl_sources
                                vnl_matrix_ref.h
   vnl_matrix_fixed.hxx         vnl_matrix_fixed.h
   vnl_matrix_fixed_ref.hxx     vnl_matrix_fixed_ref.h
+  vnl_matrix_exp.hxx           vnl_matrix_exp.h
   vnl_diag_matrix.hxx          vnl_diag_matrix.h
   vnl_diag_matrix_fixed.hxx    vnl_diag_matrix_fixed.h
   vnl_sparse_matrix.hxx        vnl_sparse_matrix.h
