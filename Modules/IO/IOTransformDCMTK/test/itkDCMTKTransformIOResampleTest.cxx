@@ -20,8 +20,8 @@
 #include "itkDCMTKTransformIOFactory.h"
 #include "itkTransformFileReader.h"
 #include "itkImageSeriesReader.h"
-#include "itkGDCMImageIO.h"
-#include "itkGDCMSeriesFileNames.h"
+#include "itkDCMTKImageIO.h"
+#include "itkDCMTKSeriesFileNames.h"
 #include "itkCompositeTransform.h"
 #include "itkImageFileWriter.h"
 #include "itkMetaDataObject.h"
@@ -52,8 +52,8 @@ itkDCMTKTransformIOResampleTest(int argc, char * argv[])
   using ScalarType = float;
 
   using ReaderType = itk::ImageSeriesReader<ImageType>;
-  using ImageIOType = itk::GDCMImageIO;
-  using SeriesFileNamesType = itk::GDCMSeriesFileNames;
+  using ImageIOType = itk::DCMTKImageIO;
+  using SeriesFileNamesType = itk::DCMTKSeriesFileNames;
   using FileNamesContainerType = SeriesFileNamesType::FileNamesContainerType;
 
   auto fixedReader = ReaderType::New();
