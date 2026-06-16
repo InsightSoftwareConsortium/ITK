@@ -244,6 +244,7 @@ if(EIGEN_BUILD_PKGCONFIG)
 endif()
 
 install(DIRECTORY Eigen DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel)
+install(DIRECTORY unsupported DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel)
 # Replace the "Version" header file with the generated one.
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/Eigen/Version
     DESTINATION ${INCLUDE_INSTALL_DIR}/Eigen/ COMPONENT Devel)
@@ -867,4 +868,8 @@ install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/Eigen3Config.cmake
 install(
   DIRECTORY   "${CMAKE_CURRENT_SOURCE_DIR}/Eigen/"
   DESTINATION "${ITK3P_INSTALL_INCLUDE_DIR}/itkeigen/Eigen"
+  PATTERN "*.txt" EXCLUDE)
+install(
+  DIRECTORY   "${CMAKE_CURRENT_SOURCE_DIR}/unsupported/"
+  DESTINATION "${ITK3P_INSTALL_INCLUDE_DIR}/itkeigen/unsupported"
   PATTERN "*.txt" EXCLUDE)

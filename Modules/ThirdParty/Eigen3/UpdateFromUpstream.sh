@@ -45,6 +45,8 @@ Eigen/ThreadPool
 Eigen/UmfPackSupport
 Eigen/Version
 Eigen/src
+unsupported/Eigen/MatrixFunctions
+unsupported/Eigen/src/MatrixFunctions
 
 COPYING.BSD
 COPYING.MINPACK
