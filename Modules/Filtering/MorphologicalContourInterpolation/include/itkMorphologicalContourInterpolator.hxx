@@ -1584,17 +1584,19 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
     {
       if (this->m_Label == 0) // examine all labels
       {
-        for (unsigned l = 0; l < m_LabeledSlices[i].size(); l++)
+        for (const auto & labelSlices : m_LabeledSlices[i])
         {
-          if (m_LabeledSlices[i][l].size() > 1)
+          if (labelSlices.second.size() > 1)
           {
             aggregate[i] = true;
+            break;
           }
         }
       }
       else // we only care about this label
       {
-        if (m_LabeledSlices[i][m_Label].size() > 1)
+        const auto labelSlices = m_LabeledSlices[i].find(m_Label);
+        if (labelSlices != m_LabeledSlices[i].end() && labelSlices->second.size() > 1)
         {
           aggregate[i] = true;
         }

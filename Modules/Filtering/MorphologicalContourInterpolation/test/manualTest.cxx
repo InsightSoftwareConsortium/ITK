@@ -17,6 +17,8 @@
  *=========================================================================*/
 
 #include "itkTestDriverIncludeRequiredIOFactories.h"
+#include <cstdlib>
+#include <iostream>
 
 extern int
 itkMorphologicalContourInterpolationTest(int argc, char * argv[]);
@@ -24,6 +26,19 @@ itkMorphologicalContourInterpolationTest(int argc, char * argv[]);
 int
 main(int argc, char * argv[])
 {
-  RegisterRequiredFactories();
-  itkMorphologicalContourInterpolationTest(argc, argv);
+  try
+  {
+    RegisterRequiredFactories();
+    return itkMorphologicalContourInterpolationTest(argc, argv);
+  }
+  catch (const itk::ExceptionObject & error)
+  {
+    std::cerr << "Error: " << error << std::endl;
+    return EXIT_FAILURE;
+  }
+  catch (const std::exception & error)
+  {
+    std::cerr << "Error: " << error.what() << std::endl;
+    return EXIT_FAILURE;
+  }
 }
