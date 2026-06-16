@@ -128,7 +128,7 @@ outputs = ["build/lib/**"]
 depends-on = ["configure-ci"]
 
 [tool.pixi.feature.cxx.tasks.test-ci]
-cmd = "ctest -j3 --test-dir build"
+cmd = "ctest -j3 --test-dir build --output-on-failure"
 description = "Test ITK for CI"
 depends-on = ["build-ci"]
 
