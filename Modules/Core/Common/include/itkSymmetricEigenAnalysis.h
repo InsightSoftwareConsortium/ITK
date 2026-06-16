@@ -107,8 +107,8 @@ permuteColumnsWithSortIndices(QMatrix & eigenVectors, const std::vector<int> & i
   EigenLibPermutationMatrix perm(numberOfElements);
   perm.setIdentity();
   std::copy(indicesSortPermutations.begin(), indicesSortPermutations.end(), perm.indices().data());
-  // Apply it
-  eigenVectors = eigenVectors * perm;
+  // .eval() avoids a GCC -Wmaybe-uninitialized false positive on assignment.
+  eigenVectors = (eigenVectors * perm).eval();
 }
 
 } // end namespace detail
