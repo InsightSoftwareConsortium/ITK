@@ -21,6 +21,7 @@ target_link_libraries(
   FFTImageFilter
   PRIVATE
     ITK::ITKFFTModule
+    ITK::ITKFFTImageFilterInit
     ITK::ITKImageIntensityModule
     ITK::ITKImageIO
 )
@@ -30,6 +31,7 @@ if(ITK_USE_FFTWF)
     FFTDirectInverse2
     PRIVATE
       ITK::ITKFFTModule
+      ITK::ITKFFTImageFilterInit
       ITK::ITKImageIntensityModule
       ITK::ITKImageIO
   )
@@ -454,6 +456,7 @@ target_link_libraries(
   FFTImageFilterFourierDomainFiltering
   PRIVATE
     ITK::ITKFFTModule
+    ITK::ITKFFTImageFilterInit
     ITK::ITKImageIntensityModule
     ITK::ITKImageIO
 )
@@ -617,6 +620,7 @@ target_link_libraries(
   FFTDirectInverse
   PRIVATE
     ITK::ITKFFTModule
+    ITK::ITKFFTImageFilterInit
     ITK::ITKImageGridModule
     ITK::ITKImageIO
 )
