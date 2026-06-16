@@ -21,6 +21,7 @@
 #include "itkMorphologicalContourInterpolator.h"
 #include "itkTestDriverIncludeRequiredIOFactories.h"
 #include "itkTimeProbe.h"
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -122,77 +123,90 @@ main(int argc, char * argv[])
     outFilenameBase = argv[2];
     fout.open((outFilenameBase + ".csv").c_str(), std::ios::out);
   }
-  RegisterRequiredFactories();
-
-  using ReaderType = itk::ImageFileReader<TestImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName(argv[1]);
-  reader->Update();
-  TestImageType::Pointer inImage = reader->GetOutput();
-  inImage->DisconnectPipeline();
-
-  using mciType = itk::MorphologicalContourInterpolator<TestImageType>;
-  mciType::Pointer mci = mciType::New();
-  mci->SetUseBallStructuringElement(true); // test cross?
-
-  using WriterType = itk::ImageFileWriter<TestImageType>;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetUseCompression(true);
-
-  const TestImageType::RegionType & lpr = inImage->GetLargestPossibleRegion();
-  TestImageType::IndexType          maxInd;
-  for (unsigned axis = 0; axis < testDim; axis++)
+  try
   {
-    maxInd[axis] = itk::IndexValueType(lpr.GetSize(axis));
-  }
-  fout << "Image, nth, axis, time, TP, FP, FN, TN\n";
-  // the big for loop which does the work
-  for (int sparsity = 2; sparsity <= 8; sparsity++)
-  {
-    unsigned long long tpCount, fpCount, fnCount;
-    for (int axis = -1; axis < int(testDim); axis++)
+    RegisterRequiredFactories();
+
+    using ReaderType = itk::ImageFileReader<TestImageType>;
+    ReaderType::Pointer reader = ReaderType::New();
+    reader->SetFileName(argv[1]);
+    reader->Update();
+    TestImageType::Pointer inImage = reader->GetOutput();
+    inImage->DisconnectPipeline();
+
+    using mciType = itk::MorphologicalContourInterpolator<TestImageType>;
+    mciType::Pointer mci = mciType::New();
+    mci->SetUseBallStructuringElement(true); // test cross?
+
+    using WriterType = itk::ImageFileWriter<TestImageType>;
+    WriterType::Pointer writer = WriterType::New();
+    writer->SetUseCompression(true);
+
+    const TestImageType::RegionType & lpr = inImage->GetLargestPossibleRegion();
+    TestImageType::IndexType          maxInd;
+    for (unsigned axis = 0; axis < testDim; axis++)
     {
-      mci->SetAxis(axis);
-      TestImageType::IndexType axisSparsity = maxInd;
-      if (axis < 0) // all axes
+      maxInd[axis] = itk::IndexValueType(lpr.GetSize(axis));
+    }
+    fout << "Image, nth, axis, time, TP, FP, FN, TN\n";
+    // the big for loop which does the work
+    for (int sparsity = 2; sparsity <= 8; sparsity++)
+    {
+      unsigned long long tpCount, fpCount, fnCount;
+      for (int axis = -1; axis < int(testDim); axis++)
       {
-        for (unsigned a = 0; a < testDim; a++)
+        mci->SetAxis(axis);
+        TestImageType::IndexType axisSparsity = maxInd;
+        if (axis < 0) // all axes
         {
-          axisSparsity[a] = sparsity;
+          for (unsigned a = 0; a < testDim; a++)
+          {
+            axisSparsity[a] = sparsity;
+          }
+        }
+        else // just one axis
+        {
+          axisSparsity[axis] = sparsity;
+        }
+
+        TestImageType::Pointer sparseImage = createSparseCopy(inImage, axisSparsity);
+        mci->SetInput(sparseImage);
+        itk::TimeProbe timeProbe;
+        timeProbe.Start();
+        mci->Update();
+        timeProbe.Stop();
+        TestImageType::Pointer result = mci->GetOutput();
+        result->DisconnectPipeline();
+        calcOverlap(result, inImage, tpCount, fpCount, fnCount);
+
+        fout << argv[1] << ", " << sparsity << ", " << axis << ", " << timeProbe.GetMean();
+        fout << ", " << tpCount << ", " << fpCount << ", " << fnCount << ", ";
+        fout << (lpr.GetNumberOfPixels() - tpCount - fpCount - fnCount) << std::endl;
+
+        if (saveImages)
+        {
+          std::cout << outFilenameBase + '_' + char(sparsity + '0') + char(axis + 'X') + "\nWriting sparse... ";
+          writer->SetInput(sparseImage);
+          writer->SetFileName(outFilenameBase + "_in" + char(sparsity + '0') + char(axis + 'X') + ".mha");
+          writer->Update();
+          std::cout << "interpolated... ";
+          writer->SetInput(result);
+          writer->SetFileName(outFilenameBase + "_out" + char(sparsity + '0') + char(axis + 'X') + ".mha");
+          writer->Update();
+          std::cout << "finished." << std::endl;
         }
       }
-      else // just one axis
-      {
-        axisSparsity[axis] = sparsity;
-      }
-
-      TestImageType::Pointer sparseImage = createSparseCopy(inImage, axisSparsity);
-      mci->SetInput(sparseImage);
-      itk::TimeProbe timeProbe;
-      timeProbe.Start();
-      mci->Update();
-      timeProbe.Stop();
-      TestImageType::Pointer result = mci->GetOutput();
-      result->DisconnectPipeline();
-      calcOverlap(result, inImage, tpCount, fpCount, fnCount);
-
-      fout << argv[1] << ", " << sparsity << ", " << axis << ", " << timeProbe.GetMean();
-      fout << ", " << tpCount << ", " << fpCount << ", " << fnCount << ", ";
-      fout << (lpr.GetNumberOfPixels() - tpCount - fpCount - fnCount) << std::endl;
-
-      if (saveImages)
-      {
-        std::cout << outFilenameBase + '_' + char(sparsity + '0') + char(axis + 'X') + "\nWriting sparse... ";
-        writer->SetInput(sparseImage);
-        writer->SetFileName(outFilenameBase + "_in" + char(sparsity + '0') + char(axis + 'X') + ".mha");
-        writer->Update();
-        std::cout << "interpolated... ";
-        writer->SetInput(result);
-        writer->SetFileName(outFilenameBase + "_out" + char(sparsity + '0') + char(axis + 'X') + ".mha");
-        writer->Update();
-        std::cout << "finished." << std::endl;
-      }
     }
+    return EXIT_SUCCESS;
   }
-  return 0;
+  catch (const itk::ExceptionObject & error)
+  {
+    std::cerr << "Error: " << error << std::endl;
+    return EXIT_FAILURE;
+  }
+  catch (const std::exception & error)
+  {
+    std::cerr << "Error: " << error.what() << std::endl;
+    return EXIT_FAILURE;
+  }
 }
