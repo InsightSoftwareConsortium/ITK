@@ -23,6 +23,7 @@
 #include "itkPhaseCorrelationOptimizer.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkResampleImageFilter.h"
+#include "itkTestingMacros.h"
 
 namespace itk
 {
@@ -31,7 +32,7 @@ template <unsigned int VDimension, typename TFixedImagePixel, typename TMovingIm
 int
 PhaseCorrelationRegistrationFiles(int argc, char * argv[])
 {
-  bool pass = true;
+  int testStatus = EXIT_SUCCESS;
 
   constexpr unsigned int Dimension = VDimension;
   using FixedPixelType = TFixedImagePixel;
@@ -92,7 +93,7 @@ PhaseCorrelationRegistrationFiles(int argc, char * argv[])
   {
     phaseCorrelationMethod->SetPaddingMethod(padMethod);
     std::cout << "Padding method " << static_cast<int>(padMethod) << std::endl;
-    phaseCorrelationMethod->Update();
+    ITK_TRY_EXPECT_NO_EXCEPTION(phaseCorrelationMethod->Update());
 
     // Get registration result and validate it.
     ParametersType finalParameters = phaseCorrelationMethod->GetTransformParameters();
@@ -116,30 +117,21 @@ PhaseCorrelationRegistrationFiles(int argc, char * argv[])
       std::cout << finalParameters[ii] << " == " << actualParameters[ii] << " == " << transformParameters[ii]
                 << std::endl;
 
-      if ((itk::Math::Absolute(finalParameters[ii] - actualParameters[ii]) > tolerance * spacing[ii]) ||
-          (itk::Math::Absolute(transformParameters[ii] - actualParameters[ii]) > tolerance * spacing[ii]))
-      {
-        std::cerr << "Tolerance exceeded at component " << ii << std::endl;
-        pass = false;
-      }
+      ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
+        itk::Math::Absolute(finalParameters[ii] - actualParameters[ii]) <= tolerance * spacing[ii], testStatus);
+      ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
+        itk::Math::Absolute(transformParameters[ii] - actualParameters[ii]) <= tolerance * spacing[ii], testStatus);
     }
 
     using WriterType = itk::ImageFileWriter<typename PhaseCorrelationMethodType::RealImageType>;
     typename WriterType::Pointer writer = WriterType::New();
     writer->SetFileName(argv[3]);
     writer->SetInput(phaseCorrelationMethod->GetPhaseCorrelationImage());
-    writer->Update();
+    ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
   }
 
   std::cout << std::endl;
-  if (!pass)
-  {
-    std::cout << "Test FAILED." << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  std::cout << "Test PASSED." << std::endl;
-  return EXIT_SUCCESS;
+  return testStatus;
 }
 
 } // namespace itk
