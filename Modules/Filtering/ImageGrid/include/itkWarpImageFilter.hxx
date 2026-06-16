@@ -287,7 +287,6 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThreadedG
   PointType                    point{};
   DisplacementType             displacement{};
   NumericTraits<DisplacementType>::SetLength(displacement, ImageDimension);
-  const unsigned int numberOfDisplacementComponents = NumericTraits<DisplacementType>::GetLength(displacement);
   static_assert(PointType::Dimension == ImageDimension, "ERROR: Point type and ImageDimension must be the same!");
   if (this->m_DefFieldSameInformation)
   {
@@ -304,7 +303,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThreadedG
       displacement = fieldIt.Get();
 
       // compute the required input image point
-      for (unsigned int j = 0; j < numberOfDisplacementComponents; ++j)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         point[j] += displacement[j];
       }
@@ -334,7 +333,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThreadedG
 
       this->EvaluateDisplacementAtPhysicalPoint(point, fieldPtr, displacement);
       // compute the required input image point
-      for (unsigned int j = 0; j < numberOfDisplacementComponents; ++j)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         point[j] += displacement[j];
       }
