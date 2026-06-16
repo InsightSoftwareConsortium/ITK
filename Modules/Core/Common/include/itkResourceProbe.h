@@ -56,6 +56,13 @@ public:
   /** Destructor */
   virtual ~ResourceProbe() = default;
 
+  ResourceProbe(const ResourceProbe &) = default;
+  ResourceProbe(ResourceProbe &&) = default;
+  ResourceProbe &
+  operator=(const ResourceProbe &) = default;
+  ResourceProbe &
+  operator=(ResourceProbe &&) = default;
+
   /** Returns the type probed value */
   [[nodiscard]] std::string
   GetType() const;

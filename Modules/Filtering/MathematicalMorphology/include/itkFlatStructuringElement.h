@@ -123,6 +123,13 @@ public:
   /** Default destructor. */
   ~FlatStructuringElement() override = default;
 
+  FlatStructuringElement(const FlatStructuringElement &) = default;
+  FlatStructuringElement(FlatStructuringElement &&) = default;
+  FlatStructuringElement &
+  operator=(const FlatStructuringElement &) = default;
+  FlatStructuringElement &
+  operator=(FlatStructuringElement &&) = default;
+
   /** Default constructor. */
   FlatStructuringElement() = default;
 

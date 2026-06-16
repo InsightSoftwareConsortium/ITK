@@ -107,6 +107,13 @@ public:
 
   virtual ~ImageBoundaryCondition() = default;
 
+  ImageBoundaryCondition(const ImageBoundaryCondition &) = default;
+  ImageBoundaryCondition(ImageBoundaryCondition &&) = default;
+  ImageBoundaryCondition &
+  operator=(const ImageBoundaryCondition &) = default;
+  ImageBoundaryCondition &
+  operator=(ImageBoundaryCondition &&) = default;
+
   /** Tell if the boundary condition can index to any location within
    * the associated iterator's neighborhood or if it has some limited
    * subset (such as none) that it relies upon.
