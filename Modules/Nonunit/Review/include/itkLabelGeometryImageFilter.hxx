@@ -30,6 +30,11 @@
 
 namespace itk
 {
+// This class is deprecated; its own implementation legitimately references it.
+#if defined(__GNUC__) || defined(__clang__)
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
 
 namespace
 {
@@ -1000,5 +1005,8 @@ LabelGeometryImageFilter<TImage, TLabelImage>::PrintSelf(std::ostream & os, Inde
     os << "\n\n";
   }
 }
+#if defined(__GNUC__) || defined(__clang__)
+#  pragma GCC diagnostic pop
+#endif
 } // end namespace itk
 #endif

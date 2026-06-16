@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+// Exercise the deprecated LabelGeometryImageFilter without warnings.
+#define ITK_LEGACY_SILENT
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
