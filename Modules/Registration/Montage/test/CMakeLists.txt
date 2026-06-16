@@ -7,21 +7,17 @@ set(
   itkInMemoryMontageTest2D.cxx
   itkMontagePCMTestSynthetic.cxx
   itkMontagePCMTestFiles.cxx
-  itkMontageGenericTests.cxx
   itkMontageTest.cxx
   itkMontageTruthCreator.cxx
 )
 
 createtestdriver(Montage "${Montage-Test_LIBRARIES}" "${MontageTests}")
 
-set(TESTING_OUTPUT_PATH "${CMAKE_BINARY_DIR}/Testing/Temporary")
+set(MontageGTests itkMontageGenericGTests.cxx)
 
-itk_add_test(
-  NAME itkMontageGenericTests
-  COMMAND
-    MontageTestDriver
-    itkMontageGenericTests
-)
+creategoogletestdriver(Montage "${Montage-Test_LIBRARIES}" "${MontageGTests}")
+
+set(TESTING_OUTPUT_PATH "${CMAKE_BINARY_DIR}/Testing/Temporary")
 
 set(SyntheticOutputPath "${TESTING_OUTPUT_PATH}/synthetic")
 file(MAKE_DIRECTORY ${SyntheticOutputPath})
