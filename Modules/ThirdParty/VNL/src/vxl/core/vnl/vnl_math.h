@@ -38,6 +38,7 @@
 #include <algorithm>
 #include <complex>
 #include <limits>
+#include <type_traits>
 #include <utility>
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
@@ -179,29 +180,54 @@ namespace numeric_predicates
 {
 // Wrap the <cmath> classification functions to guarantee a bool return type;
 // some standard libraries returned a signed integer from these.
+// Integral arguments are short-circuited: an integer is always finite, never
+// inf/NaN, and normal when non-zero. This also avoids an ambiguous fpclassify
+// overload in older Windows SDK <corecrt_math.h> integer templates.
+// ITK-local patch (not yet upstream in VXL): the `if constexpr` integral
+// branches below; remove if a future VXL sync fixes this upstream.
 template <typename TArg>
 inline bool
 isinf(TArg arg)
 {
-  return bool(std::isinf(arg));
+  // Integral branch: works around an ambiguous fpclassify overload in old
+  // Windows SDK <corecrt_math.h>; an integer is never inf.
+  if constexpr (std::is_integral_v<TArg>)
+    return false;
+  else
+    return bool(std::isinf(arg));
 }
 template <typename TArg>
 inline bool
 isnan(TArg arg)
 {
-  return bool(std::isnan(arg));
+  // Integral branch: works around an ambiguous fpclassify overload in old
+  // Windows SDK <corecrt_math.h>; an integer is never NaN.
+  if constexpr (std::is_integral_v<TArg>)
+    return false;
+  else
+    return bool(std::isnan(arg));
 }
 template <typename TArg>
 inline bool
 isfinite(TArg arg)
 {
-  return bool(std::isfinite(arg));
+  // Integral branch: works around an ambiguous fpclassify overload in old
+  // Windows SDK <corecrt_math.h>; an integer is always finite.
+  if constexpr (std::is_integral_v<TArg>)
+    return true;
+  else
+    return bool(std::isfinite(arg));
 }
 template <typename TArg>
 inline bool
 isnormal(TArg arg)
 {
-  return bool(std::isnormal(arg));
+  // Integral branch: works around an ambiguous fpclassify overload in old
+  // Windows SDK <corecrt_math.h>; a non-zero integer is normal.
+  if constexpr (std::is_integral_v<TArg>)
+    return arg != TArg(0);
+  else
+    return bool(std::isnormal(arg));
 }
 } // namespace numeric_predicates
 
