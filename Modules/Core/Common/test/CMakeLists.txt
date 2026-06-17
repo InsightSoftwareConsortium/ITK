@@ -1538,6 +1538,7 @@ set(
   itkZeroFluxBoundaryConditionGTest.cxx
   VNLSparseLUSolverTraitsGTest.cxx
   EigenSparseLUSolverTraitsGTest.cxx
+  VnlEigenSparseLUEquivalenceGTest.cxx
 )
 creategoogletestdriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
 # If `-static` was passed to CMAKE_EXE_LINKER_FLAGS, compilation fails. No need to
