@@ -21,14 +21,10 @@
 #include "itkProcessObject.h"
 #include "itkObjectFactory.h"
 #include "itkMacro.h"
+#include <map>
+#include <utility>
 #include <vector>
 #include "ITKIOGDCMExport.h"
-
-// forward declaration, to remove compile dependency on GDCM library
-namespace gdcm
-{
-class SerieHelper;
-}
 
 namespace itk
 {
@@ -172,9 +168,9 @@ public:
   void
   AddSeriesRestriction(const std::string & tag);
 
-  /** Parse any sequences in the DICOM file. Defaults to false
-   *  to skip sequences. This makes loading DICOM files faster when
-   *  sequences are not needed.
+  /** No effect with the gdcm::Scanner backend (retained for source
+   *  compatibility). Series enumeration reads only the grouping and
+   *  ordering tags, so sequences are never parsed during the scan.
    */
   /** @ITKStartGrouping */
   itkSetMacro(LoadSequences, bool);
@@ -182,9 +178,9 @@ public:
   itkBooleanMacro(LoadSequences);
   /** @ITKEndGrouping */
 
-  /** Parse any private tags in the DICOM file. Defaults to false
-   * to skip private tags. This makes loading DICOM files faster when
-   * private tags are not needed.
+  /** No effect with the gdcm::Scanner backend (retained for source
+   *  compatibility). Series enumeration reads only the grouping and
+   *  ordering tags, so private tags are never parsed during the scan.
    */
   /** @ITKStartGrouping */
   itkSetMacro(LoadPrivateTags, bool);
@@ -208,8 +204,21 @@ private:
   FileNamesContainerType m_InputFileNames{};
   FileNamesContainerType m_OutputFileNames{};
 
-  /** Internal structure to order series from one directory */
-  std::unique_ptr<gdcm::SerieHelper> m_SerieHelper;
+  /** Parse the input directory into the per-series file-name map. */
+  void
+  BuildSeriesMap();
+
+  /** Ordered file names per distinct series identifier. */
+  std::map<std::string, FileNamesContainerType> m_SeriesFiles{};
+
+  /** (group,element) tags appended to the series identifier when
+   * UseSeriesDetails is enabled; seeded with the GDCM default detail tags and
+   * extended by AddSeriesRestriction. */
+  std::vector<std::pair<unsigned short, unsigned short>> m_RefineTags{};
+
+  /** Modified time of the last directory parse; the cache is rebuilt only
+   * when the object has been Modified() since. */
+  TimeStamp m_CacheBuildTime{};
 
   /** Internal structure to keep the list of series UIDs */
   SeriesUIDContainerType m_SeriesUIDs{};
