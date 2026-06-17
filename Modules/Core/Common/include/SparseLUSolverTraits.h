@@ -95,9 +95,9 @@ public:
   static bool
   Solve(const MatrixType & iA, const VectorType & iB, VectorType & oX)
   {
-    MatrixType A(iA);
-    A.makeCompressed();
-    SolverType solver(A);
+    // Eigen::SparseLU copies and compresses the matrix internally
+    // (analyzePattern), so no manual copy/compress is needed here.
+    SolverType solver(iA);
     oX = solver.solve(iB);
     return solver.info() == Eigen::Success;
   }
@@ -113,9 +113,8 @@ public:
         VectorType &       oY,
         VectorType &       oZ)
   {
-    MatrixType A(iA);
-    A.makeCompressed();
-    SolverType solver(A);
+    // Eigen::SparseLU copies and compresses the matrix internally.
+    SolverType solver(iA);
     Solve(solver, iBx, iBy, iBz, oX, oY, oZ);
     return solver.info() == Eigen::Success;
   }
@@ -124,9 +123,8 @@ public:
   static bool
   Solve(const MatrixType & iA, const VectorType & iBx, const VectorType & iBy, VectorType & oX, VectorType & oY)
   {
-    MatrixType A(iA);
-    A.makeCompressed();
-    SolverType solver(A);
+    // Eigen::SparseLU copies and compresses the matrix internally.
+    SolverType solver(iA);
     Solve(solver, iBx, iBy, oX, oY);
     return solver.info() == Eigen::Success;
   }
