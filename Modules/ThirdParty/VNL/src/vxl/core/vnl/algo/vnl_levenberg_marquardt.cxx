@@ -4,21 +4,100 @@
 // \author Andrew W. Fitzgibbon, Oxford RRG
 // \date 31 Aug 96
 //
-//-----------------------------------------------------------------------------
+// ITK: minimization uses Eigen's NonLinearOptimization Levenberg-Marquardt.
 
 #include <iostream>
 #include <cassert>
+#include <cmath>
 #include "vnl_levenberg_marquardt.h"
 #include "vnl/vnl_fastops.h"
 #include "vnl/vnl_matrix_ref.h"
+#include "vnl/vnl_vector_ref.h"
 #include "vnl/vnl_least_squares_function.h"
-#include <vnl/algo/vnl_netlib.h> // lmdif_()
+
+#include "itkeigen/unsupported/Eigen/NonLinearOptimization"
+#include "itkeigen/unsupported/Eigen/NumericalDiff"
+
+namespace
+{
+//: Eigen functor adapting a vnl_least_squares_function.
+struct vnl_lsf_functor
+{
+  using Scalar = double;
+  using InputType = Eigen::VectorXd;
+  using ValueType = Eigen::VectorXd;
+  using JacobianType = Eigen::MatrixXd;
+  enum
+  {
+    InputsAtCompileTime = Eigen::Dynamic,
+    ValuesAtCompileTime = Eigen::Dynamic
+  };
+
+  vnl_least_squares_function * f_;
+  int                          m_; // residuals
+  int                          n_; // unknowns
+
+  int
+  inputs() const
+  {
+    return n_;
+  }
+  int
+  values() const
+  {
+    return m_;
+  }
+
+  int
+  operator()(const Eigen::VectorXd & x, Eigen::VectorXd & fx) const
+  {
+    const vnl_vector_ref<double> rx(n_, const_cast<double *>(x.data()));
+    vnl_vector_ref<double>       rfx(m_, fx.data());
+    f_->f(rx, rfx);
+    if (f_->failure)
+    {
+      f_->clear_failure();
+      return -1;
+    }
+    return 0;
+  }
+
+  // Eigen wants fjac(i,j) = d r_i / d x_j (m-by-n). vnl gradf fills the same
+  // residual-by-unknown layout.
+  int
+  df(const Eigen::VectorXd & x, Eigen::MatrixXd & fjac) const
+  {
+    const vnl_vector_ref<double> rx(n_, const_cast<double *>(x.data()));
+    vnl_matrix<double>           jac(m_, n_);
+    f_->gradf(rx, jac);
+    for (int i = 0; i < m_; ++i)
+    {
+      for (int j = 0; j < n_; ++j)
+      {
+        fjac(i, j) = jac(i, j);
+      }
+    }
+    if (f_->failure)
+    {
+      f_->clear_failure();
+      return -1;
+    }
+    return 0;
+  }
+};
+
+double
+rms_of(const vnl_vector<double> & v)
+{
+  return v.size() ? v.magnitude() / std::sqrt(static_cast<double>(v.size())) : 0.0;
+}
+} // namespace
 
 // see header
 vnl_vector<double>
 vnl_levenberg_marquardt_minimize(vnl_least_squares_function & f, const vnl_vector<double> & initial_estimate)
 {
-  vnl_vector<double> x = initial_estimate;
+  vnl_vector<double>      x = initial_estimate;
   vnl_levenberg_marquardt lm(f);
   lm.minimize(x);
   return x;
@@ -48,81 +127,40 @@ vnl_levenberg_marquardt::init(vnl_least_squares_function * f)
   ipvt_.fill(0);
   inv_covar_.set_size(n, n);
   inv_covar_.fill(0.0);
-  // fdjac_ = new vnl_matrix<double>(n,m);
-  // ipvt_ = new vnl_vector<int>(n);
-  // covariance_ = new vnl_matrix<double>(n,n);
 }
 
-vnl_levenberg_marquardt::~vnl_levenberg_marquardt()
-{
-  // delete covariance_;
-  // delete fdjac_;
-  // delete ipvt_;
-}
+vnl_levenberg_marquardt::~vnl_levenberg_marquardt() = default;
 
 //--------------------------------------------------------------------------------
 
-void
-vnl_levenberg_marquardt::lmdif_lsqfun(long * n,     // I   Number of residuals
-                                      long * p,     // I   Number of unknowns
-                                      double * x,   // I   Solution vector, size p
-                                      double * fx,  // O   Residual vector f(x)
-                                      long * iflag, // IO  0 ==> print, -1 ==> terminate
-                                      void * userdata)
+namespace
 {
-  auto * self = static_cast<vnl_levenberg_marquardt *>(userdata);
-  vnl_least_squares_function * f = self->f_;
-  assert(*p == (int)f->get_number_of_unknowns());
-  assert(*n == (int)f->get_number_of_residuals());
-  assert(*p > 0);
-  assert(*n >= *p);
-  const vnl_vector_ref<double> ref_x(*p, const_cast<double *>(x));
-  vnl_vector_ref<double> ref_fx(*n, fx);
-
-  if (*iflag == 0)
+//: Store the R factor and permutation from an Eigen LM solve into the vnl
+// members consumed by get_JtJ(). Eigen's fjac holds R in its top n-by-n; vnl
+// get_JtJ() expects fdjac_.extract(n,n).transpose() to be that R, so store the
+// transpose. ipvt_ is 1-based.
+template <typename TEigenMatrix, typename TPermutation>
+void
+store_r_and_permutation(const TEigenMatrix &  fjac,
+                        const TPermutation &  permutation,
+                        unsigned int          n,
+                        vnl_matrix<double> &  fdjac,
+                        vnl_vector<long> &    ipvt)
+{
+  for (unsigned int a = 0; a < n; ++a)
   {
-    if (self->trace)
+    for (unsigned int b = 0; b < n; ++b)
     {
-      std::cerr << "lmdif: iter " << self->num_iterations_ << " err [" << x[0];
-      if (*p > 1)
-        std::cerr << ", " << x[1];
-      if (*p > 2)
-        std::cerr << ", " << x[2];
-      if (*p > 3)
-        std::cerr << ", " << x[3];
-      if (*p > 4)
-        std::cerr << ", " << x[4];
-      if (*p > 5)
-        std::cerr << ", ... ";
-      std::cerr << "] = " << ref_fx.magnitude() << '\n';
+      fdjac(a, b) = fjac(b, a);
     }
-
-    f->trace(static_cast<int>(self->num_iterations_), ref_x, ref_fx);
-    ++(self->num_iterations_);
   }
-  else
+  for (unsigned int i = 0; i < n; ++i)
   {
-    f->f(ref_x, ref_fx);
-  }
-
-  if (self->start_error_ == 0)
-    self->start_error_ = ref_fx.rms();
-
-  if (f->failure)
-  {
-    f->clear_failure();
-    *iflag = -1; // fsm
+    ipvt[i] = permutation.indices()[i] + 1;
   }
 }
+} // namespace
 
-
-// This function shouldn't be inlined, because (1) modification of the
-// body will not cause the timestamp on the header to change, and so
-// others will not be forced to recompile, and (2) the cost of making
-// one more function call is far, far less than the cost of actually
-// performing the minimisation, so the inline doesn't gain you
-// anything.
-//
 bool
 vnl_levenberg_marquardt::minimize(vnl_vector<double> & x)
 {
@@ -132,20 +170,16 @@ vnl_levenberg_marquardt::minimize(vnl_vector<double> & x)
     return minimize_without_gradient(x);
 }
 
-
-//
 bool
 vnl_levenberg_marquardt::minimize_without_gradient(vnl_vector<double> & x)
 {
-  // fsm
   if (f_->has_gradient())
   {
     std::cerr << __FILE__ " : WARNING. calling minimize_without_gradient(), but f_ has gradient.\n";
   }
 
-  // e04fcf
-  long m = f_->get_number_of_residuals(); // I  Number of residuals, must be > #unknowns
-  long n = f_->get_number_of_unknowns();  // I  Number of unknowns
+  const long m = f_->get_number_of_residuals();
+  const long n = f_->get_number_of_unknowns();
 
   if (m < n)
   {
@@ -153,8 +187,7 @@ vnl_levenberg_marquardt::minimize_without_gradient(vnl_vector<double> & x)
     failure_code_ = ERROR_DODGY_INPUT;
     return false;
   }
-
-  if (int(x.size()) != n)
+  if (long(x.size()) != n)
   {
     std::cerr << "vnl_levenberg_marquardt: Input vector length (" << x.size() << ") not equal to num unknowns (" << n
               << ")\n";
@@ -162,186 +195,69 @@ vnl_levenberg_marquardt::minimize_without_gradient(vnl_vector<double> & x)
     return false;
   }
 
-  vnl_vector<double> fx(m, 0.0);        // W m   Storage for target vector
-  vnl_vector<double> diag(n, 0);        // I     Multiplicative scale factors for variables
-  long user_provided_scale_factors = 1; // 1 is no, 2 is yes
-  double factor = 100;
-  long nprint = 1;
+  vnl_lsf_functor                       functor{ f_, static_cast<int>(m), static_cast<int>(n) };
+  Eigen::NumericalDiff<vnl_lsf_functor> numdiff(functor, epsfcn);
+  Eigen::LevenbergMarquardt<Eigen::NumericalDiff<vnl_lsf_functor>> lm(numdiff);
+  lm.parameters.ftol = ftol;
+  lm.parameters.xtol = xtol;
+  lm.parameters.gtol = gtol;
+  lm.parameters.maxfev = maxfev;
+  lm.parameters.factor = 100;
+  lm.parameters.epsfcn = epsfcn;
 
-  vnl_vector<double> qtf(n, 0);
-  vnl_vector<double> wa1(n, 0);
-  vnl_vector<double> wa2(n, 0);
-  vnl_vector<double> wa3(n, 0);
-  vnl_vector<double> wa4(m, 0);
-
-#ifdef DEBUG
-  std::cerr << "STATUS: " << failure_code_ << '\n';
-#endif
+  Eigen::VectorXd ex(n);
+  for (long i = 0; i < n; ++i)
+    ex[i] = x[i];
 
   num_iterations_ = 0;
   set_covariance_ = false;
-  long info = 0;
-  start_error_ = 0; // Set to 0 so first call to lmdif_lsqfun will know to set it.
-  v3p_netlib_lmdif_(lmdif_lsqfun,
-                    &m,
-                    &n,
-                    x.data_block(),
-                    fx.data_block(),
-                    &ftol,
-                    &xtol,
-                    &gtol,
-                    &maxfev,
-                    &epsfcn,
-                    &diag[0],
-                    &user_provided_scale_factors,
-                    &factor,
-                    &nprint,
-                    &info,
-                    &num_evaluations_,
-                    fdjac_.data_block(),
-                    &m,
-                    ipvt_.data_block(),
-                    &qtf[0],
-                    &wa1[0],
-                    &wa2[0],
-                    &wa3[0],
-                    &wa4[0],
-                    this);
-  failure_code_ = (ReturnCodes)info;
+  start_error_ = 0;
 
-  // One more call to compute final error.
-  lmdif_lsqfun(&m,              // I    Number of residuals
-               &n,              // I    Number of unknowns
-               x.data_block(),  // I    Solution vector, size n
-               fx.data_block(), // O    Residual vector f(x)
-               &info,
-               this);
-  end_error_ = fx.rms();
-
-  // Translate status code
-  switch ((int)failure_code_)
+  Eigen::LevenbergMarquardtSpace::Status status = lm.minimizeInit(ex);
+  if (lm.fvec.size() > 0)
+    start_error_ = lm.fvec.norm() / std::sqrt(static_cast<double>(lm.fvec.size()));
+  if (status != Eigen::LevenbergMarquardtSpace::ImproperInputParameters)
   {
-    case 1: // ftol
-    case 2: // xtol
-    case 3: // both
-    case 4: // gtol
+    do
+    {
+      status = lm.minimizeOneStep(ex);
+      ++num_iterations_;
+    } while (status == Eigen::LevenbergMarquardtSpace::Running);
+  }
+
+  for (long i = 0; i < n; ++i)
+    x[i] = ex[i];
+  num_evaluations_ = static_cast<long>(lm.nfev);
+  failure_code_ = (static_cast<int>(status) < 0) ? ERROR_FAILURE : static_cast<ReturnCodes>(status);
+  store_r_and_permutation(lm.fjac, lm.permutation, static_cast<unsigned int>(n), fdjac_, ipvt_);
+
+  vnl_vector<double> fx(m, 0.0);
+  f_->f(x, fx);
+  end_error_ = rms_of(fx);
+
+  switch (static_cast<int>(failure_code_))
+  {
+    case 1:
+    case 2:
+    case 3:
+    case 4:
       return true;
     default:
       return false;
   }
 }
 
-//--------------------------------------------------------------------------------
-
-void
-vnl_levenberg_marquardt::lmder_lsqfun(long * n,    // I   Number of residuals
-                                      long * p,    // I   Number of unknowns
-                                      double * x,  // I   Solution vector, size p
-                                      double * fx, // O   Residual vector f(x)
-                                      double * fJ, // O   m * n Jacobian f(x)
-                                      long *,
-                                      long * iflag, // I   1 -> calc fx, 2 -> calc fjac
-                                      void * userdata)
-{
-  auto * self = static_cast<vnl_levenberg_marquardt *>(userdata);
-  vnl_least_squares_function * f = self->f_;
-  assert(*p == (int)f->get_number_of_unknowns());
-  assert(*n == (int)f->get_number_of_residuals());
-  assert(*p > 0);
-  assert(*n >= *p);
-  const vnl_vector_ref<double> ref_x(*p, (double *)x); // const violation!
-  vnl_vector_ref<double> ref_fx(*n, fx);
-  vnl_matrix_ref<double> ref_fJ(*n, *p, fJ);
-
-  if (*iflag == 0)
-  {
-    if (self->trace)
-    {
-      std::cerr << "lmder: iter " << self->num_iterations_ << " err [" << x[0];
-      if (*p > 1)
-        std::cerr << ", " << x[1];
-      if (*p > 2)
-        std::cerr << ", " << x[2];
-      if (*p > 3)
-        std::cerr << ", " << x[3];
-      if (*p > 4)
-        std::cerr << ", " << x[4];
-      if (*p > 5)
-        std::cerr << ", ... ";
-      std::cerr << "] = " << ref_fx.magnitude() << '\n';
-    }
-    f->trace(static_cast<int>(self->num_iterations_), ref_x, ref_fx);
-  }
-  else if (*iflag == 1)
-  {
-    f->f(ref_x, ref_fx);
-    if (self->start_error_ == 0)
-      self->start_error_ = ref_fx.rms();
-    ++(self->num_iterations_);
-  }
-  else if (*iflag == 2)
-  {
-    f->gradf(ref_x, ref_fJ);
-    ref_fJ.inplace_transpose();
-
-    // check derivative?
-    if (self->check_derivatives_ > 0)
-    {
-      self->check_derivatives_--;
-
-      // use finite difference to compute Jacobian
-      vnl_vector<double> feval(*n);
-      vnl_matrix<double> finite_jac(*p, *n, 0.0);
-      vnl_vector<double> wa1(*n);
-      long info = 1;
-      f->f(ref_x, feval);
-      v3p_netlib_fdjac2_(lmdif_lsqfun,
-                         n,
-                         p,
-                         x,
-                         feval.data_block(),
-                         finite_jac.data_block(),
-                         n,
-                         &info,
-                         &(self->epsfcn),
-                         wa1.data_block(),
-                         self);
-      // compute difference
-      for (unsigned i = 0; i < ref_fJ.cols(); ++i)
-        for (unsigned j = 0; j < ref_fJ.rows(); ++j)
-        {
-          double diff = ref_fJ(j, i) - finite_jac(j, i);
-          diff = diff * diff;
-          if (diff > self->epsfcn)
-          {
-            std::cout << "Jac(" << i << ", " << j << ") diff: " << ref_fJ(j, i) << "  " << finite_jac(j, i) << "  "
-                      << ref_fJ(j, i) - finite_jac(j, i) << '\n';
-          }
-        }
-    }
-  }
-
-  if (f->failure)
-  {
-    f->clear_failure();
-    *iflag = -1; // fsm
-  }
-}
-
-
-//
 bool
 vnl_levenberg_marquardt::minimize_using_gradient(vnl_vector<double> & x)
 {
-  // fsm
   if (!f_->has_gradient())
   {
     std::cerr << __FILE__ ": called method minimize_using_gradient(), but f_ has no gradient.\n";
     return false;
   }
 
-  long m = f_->get_number_of_residuals(); // I  Number of residuals, must be > #unknowns
-  long n = f_->get_number_of_unknowns();  // I  Number of unknowns
+  const long m = f_->get_number_of_residuals();
+  const long n = f_->get_number_of_unknowns();
 
   if (m < n)
   {
@@ -350,68 +266,50 @@ vnl_levenberg_marquardt::minimize_using_gradient(vnl_vector<double> & x)
     return false;
   }
 
-  vnl_vector<double> fx(m, 0.0); // W m   Explicitly set target to 0.0
+  vnl_lsf_functor                            functor{ f_, static_cast<int>(m), static_cast<int>(n) };
+  Eigen::LevenbergMarquardt<vnl_lsf_functor> lm(functor);
+  lm.parameters.ftol = ftol;
+  lm.parameters.xtol = xtol;
+  lm.parameters.gtol = gtol;
+  lm.parameters.maxfev = maxfev;
+  lm.parameters.factor = 100;
+
+  Eigen::VectorXd ex(n);
+  for (long i = 0; i < n; ++i)
+    ex[i] = x[i];
 
   num_iterations_ = 0;
   set_covariance_ = false;
-  long info = 0;
-  start_error_ = 0; // Set to 0 so first call to lmder_lsqfun will know to set it.
+  start_error_ = 0;
 
-
-  double factor = 100;
-  long nprint = 1;
-  long mode = 1;
-  long nfev = 0;
-  long njev = 0;
-
-  vnl_vector<double> diag(n, 0);
-  vnl_vector<double> qtf(n, 0);
-  vnl_vector<double> wa1(n, 0);
-  vnl_vector<double> wa2(n, 0);
-  vnl_vector<double> wa3(n, 0);
-  vnl_vector<double> wa4(m, 0);
-
-
-  v3p_netlib_lmder_(lmder_lsqfun,
-                    &m,
-                    &n,
-                    x.data_block(),
-                    fx.data_block(),
-                    fdjac_.data_block(),
-                    &m,
-                    &ftol,
-                    &xtol,
-                    &gtol,
-                    &maxfev,
-                    diag.data_block(),
-                    &mode,
-                    &factor,
-                    &nprint,
-                    &info,
-                    &nfev,
-                    &njev,
-                    ipvt_.data_block(),
-                    qtf.data_block(),
-                    wa1.data_block(),
-                    wa2.data_block(),
-                    wa3.data_block(),
-                    wa4.data_block(),
-                    this);
-
-
-  num_evaluations_ = num_iterations_; // for lmder, these are the same.
-  if (info < 0)
-    info = ERROR_FAILURE;
-  failure_code_ = (ReturnCodes)info;
-  end_error_ = fx.rms();
-
-  // Translate status code
-  switch (failure_code_)
+  Eigen::LevenbergMarquardtSpace::Status status = lm.minimizeInit(ex);
+  if (lm.fvec.size() > 0)
+    start_error_ = lm.fvec.norm() / std::sqrt(static_cast<double>(lm.fvec.size()));
+  if (status != Eigen::LevenbergMarquardtSpace::ImproperInputParameters)
   {
-    case 1: // ftol
-    case 2: // xtol
-    case 3: // both
-    case 4: // gtol
+    do
+    {
+      status = lm.minimizeOneStep(ex);
+      ++num_iterations_;
+    } while (status == Eigen::LevenbergMarquardtSpace::Running);
+  }
+
+  for (long i = 0; i < n; ++i)
+    x[i] = ex[i];
+  num_evaluations_ = num_iterations_; // for lmder, these are the same.
+  failure_code_ = (static_cast<int>(status) < 0) ? ERROR_FAILURE : static_cast<ReturnCodes>(status);
+  store_r_and_permutation(lm.fjac, lm.permutation, static_cast<unsigned int>(n), fdjac_, ipvt_);
+
+  vnl_vector<double> fx(m, 0.0);
+  f_->f(x, fx);
+  end_error_ = rms_of(fx);
+
+  switch (static_cast<int>(failure_code_))
+  {
+    case 1:
+    case 2:
+    case 3:
+    case 4:
       return true;
     default:
       return false;
@@ -432,12 +330,8 @@ void
 vnl_levenberg_marquardt::diagnose_outcome(std::ostream & s) const
 {
 #define whoami "vnl_levenberg_marquardt"
-  // if (!verbose_) return;
   switch (failure_code_)
   {
-      //  case -1:
-      // have already warned.
-      //    return;
     case ERROR_FAILURE:
       s << (whoami ": OIOIOI -- failure in leastsquares function\n");
       break;
