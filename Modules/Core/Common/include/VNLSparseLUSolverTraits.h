@@ -89,6 +89,13 @@ public:
     iA(iR, iC) += iV;
   }
 
+  /** \brief oX = iA * iB */
+  static void
+  MatVecMult(const MatrixType & iA, const VectorType & iB, VectorType & oX)
+  {
+    iA.mult(iB, oX);
+  }
+
   /** \brief Solve the linear system \f$ iA \cdot oX = iB \f$ */
   static bool
   Solve(const MatrixType & iA, const VectorType & iB, VectorType & oX)
