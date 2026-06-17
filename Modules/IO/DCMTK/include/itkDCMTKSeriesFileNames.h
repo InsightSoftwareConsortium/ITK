@@ -216,6 +216,10 @@ private:
   /** Internal structure to keep the list of series UIDs */
   SeriesUIDContainerType m_SeriesUIDs{};
 
+  /** Modified time of the last directory parse; the cache is rebuilt only
+   * when the object has been Modified() since. */
+  TimeStamp m_CacheBuildTime{};
+
   bool m_UseSeriesDetails{};
   bool m_Recursive{};
   bool m_LoadSequences{};

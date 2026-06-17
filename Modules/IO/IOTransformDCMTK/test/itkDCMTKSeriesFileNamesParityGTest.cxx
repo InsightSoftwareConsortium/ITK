@@ -16,11 +16,7 @@
  *
  *=========================================================================*/
 
-// Parity tests for itk::DCMTKSeriesFileNames (issue #2735): recursive scan,
-// distinct series-UID enumeration / grouping, UseSeriesDetails restrictions,
-// and cache invalidation. Fixtures are built at runtime by copying the
-// rect-centered / rect-offset DICOM series into temporary layouts, so no new
-// committed test data is required.
+// Parity tests for itk::DCMTKSeriesFileNames: recursive scan, series grouping, restrictions, caching.
 
 #include "gtest/gtest.h"
 #include "itkDCMTKSeriesFileNames.h"
@@ -34,8 +30,7 @@
 
 namespace
 {
-// Copy every *.dcm file from srcDir into dstDir (created if needed), optionally
-// prefixing the destination file name so two series can share one flat dir.
+// Copy *.dcm from srcDir into dstDir, optionally prefixing names so two series can share a flat dir.
 unsigned int
 CopyDicomSlices(const std::string & srcDir, const std::string & dstDir, const std::string & prefix = "")
 {
@@ -70,7 +65,7 @@ FreshDir(const std::string & name)
 }
 } // namespace
 
-// B (issue #2735): the Recursive flag must control descent into subdirectories.
+// The Recursive flag must control descent into subdirectories.
 TEST(DCMTKSeriesFileNamesParity, RecursiveFlagHonored)
 {
   const std::string root = FreshDir("recursive");
@@ -88,9 +83,7 @@ TEST(DCMTKSeriesFileNamesParity, RecursiveFlagHonored)
   EXPECT_FALSE(recursive->GetInputFileNames().empty()) << "Recursive scan must descend into seriesA / seriesB";
 }
 
-// A (issue #2735): GetSeriesUIDs() must return one entry per distinct series,
-// not one per file; files must be grouped by series; GetInputFileNames() must
-// return a single series, not the union.
+// GetSeriesUIDs() returns one entry per distinct series (grouped), not one per file.
 TEST(DCMTKSeriesFileNamesParity, DistinctSeriesGroupedNoDuplicates)
 {
   const std::string  root = FreshDir("grouping");
@@ -118,10 +111,7 @@ TEST(DCMTKSeriesFileNamesParity, DistinctSeriesGroupedNoDuplicates)
   EXPECT_LT(first.size(), grouped) << "GetInputFileNames returns a single series, not the union";
 }
 
-// C (issue #2735): AddSeriesRestriction must no longer be a NOOP, and only
-// applies when UseSeriesDetails is on. rect-centered is one series whose
-// ImagePositionPatient (0020,0032) differs per slice, so restricting on it
-// over-splits the series into one identifier per slice.
+// rect-centered's ImagePositionPatient (0020,0032) varies per slice, so restricting on it over-splits the series.
 TEST(DCMTKSeriesFileNamesParity, AddSeriesRestrictionSplitsByVaryingTag)
 {
   const std::string  root = FreshDir("restriction");
@@ -145,4 +135,32 @@ TEST(DCMTKSeriesFileNamesParity, AddSeriesRestrictionSplitsByVaryingTag)
   restrictionOffDetails->AddSeriesRestriction("0020|0032");
   EXPECT_EQ(restrictionOffDetails->GetSeriesUIDs().size(), 1u)
     << "Restrictions must be ignored when UseSeriesDetails is off";
+}
+
+// The parse is cached across calls and invalidated when the object is modified.
+TEST(DCMTKSeriesFileNamesParity, CacheReusedAndInvalidatedOnModify)
+{
+  const std::string dirA = FreshDir("cacheA");
+  const std::string dirB = FreshDir("cacheB");
+  ASSERT_GT(CopyDicomSlices(TOSTRING(RECT_CENTERED_DIR), dirA), 0u);
+  ASSERT_GT(CopyDicomSlices(TOSTRING(RECT_OFFSET_DIR), dirB), 0u);
+
+  auto sf = itk::DCMTKSeriesFileNames::New();
+  sf->SetInputDirectory(dirA);
+  const std::vector<std::string> first = sf->GetInputFileNames();
+  const std::vector<std::string> again = sf->GetInputFileNames();
+  EXPECT_EQ(first, again) << "Repeated calls without modification return the cached result";
+
+  // Changing the directory must invalidate the cache.
+  sf->SetInputDirectory(dirB);
+  const std::vector<std::string> afterDirChange = sf->GetInputFileNames();
+  ASSERT_FALSE(afterDirChange.empty());
+  EXPECT_NE(first, afterDirChange) << "SetInputDirectory must invalidate the cache";
+
+  // Adding a per-slice-varying restriction must invalidate and re-split.
+  sf->SetInputDirectory(dirA);
+  EXPECT_EQ(sf->GetSeriesUIDs().size(), 1u);
+  sf->SetUseSeriesDetails(true);
+  sf->AddSeriesRestriction("0020|0032");
+  EXPECT_GT(sf->GetSeriesUIDs().size(), 1u) << "AddSeriesRestriction must invalidate the cache";
 }

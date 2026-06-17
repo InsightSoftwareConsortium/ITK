@@ -189,6 +189,12 @@ DCMTKSeriesFileNames::CreateSeriesIdentifier(DCMTKFileReader * reader) const
 void
 DCMTKSeriesFileNames::BuildSeriesMap()
 {
+  // Reuse the previous parse unless the object has been modified since.
+  if (m_CacheBuildTime.GetMTime() > this->GetMTime())
+  {
+    return;
+  }
+
   this->m_SeriesUIDs.clear();
   this->m_SeriesFiles.clear();
 
@@ -241,6 +247,8 @@ DCMTKSeriesFileNames::BuildSeriesMap()
     }
     this->m_SeriesFiles[id] = std::move(names);
   }
+
+  m_CacheBuildTime.Modified();
 }
 
 const DCMTKSeriesFileNames::FileNamesContainerType &
