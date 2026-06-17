@@ -158,6 +158,10 @@ test2d(VariationalRegistrationSymDiff2DTest "" -r 1 -a 1.5 -s 2 -e 2)
 #####################################
 
 function(Test3D TestName)
+  set(npixels_tol ${VR_NPIXELS_TOL})
+  if(DEFINED ${TestName}_NPIXELS_TOL)
+    set(npixels_tol ${${TestName}_NPIXELS_TOL})
+  endif()
   itk_add_test(
     NAME ${TestName}
     COMMAND
@@ -167,7 +171,7 @@ function(Test3D TestName)
       --compareIntensityTolerance
       ${VR_INTENSITY_TOL}
       --compareNumberOfPixelsTolerance
-      ${VR_NPIXELS_TOL}
+      ${npixels_tol}
       --compare
       DATA{Baseline/${TestName}.nii.gz}
       ${TEMP}/${TestName}.nii.gz
@@ -219,8 +223,9 @@ itk_add_test(
 )
 
 # Active Thirion forces and gaussian smoothing
-# Disabled: baseline diverges on native macOS ARM64 (issue #6305).
-# test3d(VariationalRegistrationGaussian3DTest -r 0 -v 1.5 -u 0)
+# ~0.08% of voxels diverge on native macOS ARM64 (issue #6459).
+set(VariationalRegistrationGaussian3DTest_NPIXELS_TOL "400")
+test3d(VariationalRegistrationGaussian3DTest -r 0 -v 1.5 -u 0)
 
 # Active Thirion forces and diffusive regularization
 test3d(VariationalRegistrationDiffusive3DTest -r 1 -a 1)
@@ -239,8 +244,9 @@ endif()
 test3d(VariationalRegistrationSSD3DTest -f 1 -t 0.00001 -a 1)
 
 # NCC forces and gaussian smoothing
-# Disabled: baseline diverges on native macOS ARM64 (issue #6305).
-# test3d(VariationalRegistrationNCC3DTest -f 2 -t 40 -r 0 -v 1 -u 0 -q 2 -p 1)
+# ~0.09% of voxels diverge on native macOS ARM64 (issue #6459).
+set(VariationalRegistrationNCC3DTest_NPIXELS_TOL "400")
+test3d(VariationalRegistrationNCC3DTest -f 2 -t 40 -r 0 -v 1 -u 0 -q 2 -p 1)
 
 # Active Thirion forces and diffusive regularization, diffeomorphic transform
 test3d(VariationalRegistrationDiffeomorph3DTest -r 1 -a 1 -s 1 -e 2)
