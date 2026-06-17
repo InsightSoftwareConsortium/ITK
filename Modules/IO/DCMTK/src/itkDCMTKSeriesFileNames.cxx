@@ -23,6 +23,7 @@
 #include "itkPrintHelper.h"
 #include "itksys/Directory.hxx"
 #include <algorithm>
+#include <exception>
 #include <vector>
 
 namespace itk
@@ -126,10 +127,10 @@ DCMTKSeriesFileNames::DCMTKSeriesFileNames()
 {
   m_InputDirectory = "";
   m_OutputDirectory = "";
-  m_UseSeriesDetails = true;
   m_Recursive = false;
   m_LoadSequences = false;
   m_LoadPrivateTags = false;
+  this->SetUseSeriesDetails(true); // seeds the default series-detail restrictions
 }
 
 DCMTKSeriesFileNames::~DCMTKSeriesFileNames() = default;
@@ -170,9 +171,19 @@ DCMTKSeriesFileNames::SetInputDirectory(const std::string & name)
 std::string
 DCMTKSeriesFileNames::CreateSeriesIdentifier(DCMTKFileReader * reader) const
 {
-  std::string uid;
-  reader->GetElementUI(0x0020, 0x000e, uid); // Series Instance UID
-  return uid;
+  std::string id;
+  reader->GetElementUI(0x0020, 0x000e, id, false); // Series Instance UID
+  if (m_UseSeriesDetails)
+  {
+    for (const auto & [group, element] : m_Restrictions)
+    {
+      std::string value;
+      reader->GetElementAsString(group, element, value, false);
+      id += '_';
+      id += value;
+    }
+  }
+  return id;
 }
 
 void
@@ -310,7 +321,47 @@ void
 DCMTKSeriesFileNames::SetUseSeriesDetails(bool useSeriesDetails)
 {
   m_UseSeriesDetails = useSeriesDetails;
-  //  m_SerieHelper->SetUseSeriesDetails(m_UseSeriesDetails);
-  //  m_SerieHelper->CreateDefaultUniqueSeriesIdentifier();
+  m_Restrictions.clear();
+  if (m_UseSeriesDetails)
+  {
+    // Default detail tags, matching gdcm::SerieHelper::CreateDefaultUniqueSeriesIdentifier.
+    m_Restrictions.emplace_back(0x0020, 0x0011); // Series Number
+    m_Restrictions.emplace_back(0x0018, 0x0024); // Sequence Name
+    m_Restrictions.emplace_back(0x0018, 0x0050); // Slice Thickness
+    m_Restrictions.emplace_back(0x0028, 0x0010); // Rows
+    m_Restrictions.emplace_back(0x0028, 0x0011); // Columns
+  }
+  this->Modified();
+}
+
+void
+DCMTKSeriesFileNames::AddSeriesRestriction(const std::string & tag)
+{
+  // Parse a "group|element" tag (hex) and append it to the identifier criteria.
+  const std::string::size_type bar = tag.find('|');
+  if (bar == std::string::npos || bar == 0 || bar + 1 >= tag.size())
+  {
+    itkWarningMacro("Ignoring malformed series restriction tag '" << tag << "' (expected \"group|element\")");
+    return;
+  }
+  unsigned long group = 0;
+  unsigned long element = 0;
+  try
+  {
+    group = std::stoul(tag.substr(0, bar), nullptr, 16);
+    element = std::stoul(tag.substr(bar + 1), nullptr, 16);
+  }
+  catch (const std::exception &)
+  {
+    itkWarningMacro("Ignoring malformed series restriction tag '" << tag << "' (expected \"group|element\")");
+    return;
+  }
+  if (group > 0xFFFF || element > 0xFFFF)
+  {
+    itkWarningMacro("Ignoring out-of-range series restriction tag '" << tag << "' (group/element exceed 16 bits)");
+    return;
+  }
+  m_Restrictions.emplace_back(static_cast<unsigned short>(group), static_cast<unsigned short>(element));
+  this->Modified();
 }
 } // namespace itk

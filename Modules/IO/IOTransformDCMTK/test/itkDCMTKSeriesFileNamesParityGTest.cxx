@@ -117,3 +117,32 @@ TEST(DCMTKSeriesFileNamesParity, DistinctSeriesGroupedNoDuplicates)
   const std::vector<std::string> first = sf->GetInputFileNames();
   EXPECT_LT(first.size(), grouped) << "GetInputFileNames returns a single series, not the union";
 }
+
+// C (issue #2735): AddSeriesRestriction must no longer be a NOOP, and only
+// applies when UseSeriesDetails is on. rect-centered is one series whose
+// ImagePositionPatient (0020,0032) differs per slice, so restricting on it
+// over-splits the series into one identifier per slice.
+TEST(DCMTKSeriesFileNamesParity, AddSeriesRestrictionSplitsByVaryingTag)
+{
+  const std::string  root = FreshDir("restriction");
+  const unsigned int n = CopyDicomSlices(TOSTRING(RECT_CENTERED_DIR), root);
+  ASSERT_GT(n, 1u);
+
+  auto plain = itk::DCMTKSeriesFileNames::New();
+  plain->SetInputDirectory(root);
+  EXPECT_EQ(plain->GetSeriesUIDs().size(), 1u) << "rect-centered is a single series by default";
+
+  auto restricted = itk::DCMTKSeriesFileNames::New();
+  restricted->SetInputDirectory(root);
+  restricted->SetUseSeriesDetails(true);
+  restricted->AddSeriesRestriction("0020|0032"); // ImagePositionPatient varies per slice
+  EXPECT_EQ(restricted->GetSeriesUIDs().size(), static_cast<std::size_t>(n))
+    << "Restricting on a per-slice-varying tag must split into one series per slice";
+
+  auto restrictionOffDetails = itk::DCMTKSeriesFileNames::New();
+  restrictionOffDetails->SetInputDirectory(root);
+  restrictionOffDetails->SetUseSeriesDetails(false);
+  restrictionOffDetails->AddSeriesRestriction("0020|0032");
+  EXPECT_EQ(restrictionOffDetails->GetSeriesUIDs().size(), 1u)
+    << "Restrictions must be ignored when UseSeriesDetails is off";
+}

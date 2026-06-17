@@ -23,6 +23,7 @@
 #include "itkObjectFactory.h"
 #include "itkMacro.h"
 #include <map>
+#include <utility>
 #include <vector>
 
 namespace itk
@@ -162,10 +163,7 @@ public:
    * \warning UseSeriesDetails needs to be set to true.
    */
   void
-  AddSeriesRestriction(const std::string & /* tag */)
-  {
-    // m_SeriesHelper->AddRestriction(tag);
-  }
+  AddSeriesRestriction(const std::string & tag);
 
   /** Parse any sequences in the DICOM file. Defaults to false
    *  to skip sequences. This makes loading DICOM files faster when
@@ -210,6 +208,10 @@ private:
 
   /** Ordered file names per distinct series identifier. */
   std::map<std::string, FileNamesContainerType> m_SeriesFiles{};
+
+  /** Extra (group,element) tags appended to the series identifier when
+   * UseSeriesDetails is enabled. */
+  std::vector<std::pair<unsigned short, unsigned short>> m_Restrictions{};
 
   /** Internal structure to keep the list of series UIDs */
   SeriesUIDContainerType m_SeriesUIDs{};
