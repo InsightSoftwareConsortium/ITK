@@ -45,7 +45,7 @@ OrderFileReadersByPosition(std::vector<DCMTKFileReader *> & headers)
   // Derive the slice normal from the first slice that carries a valid
   // orientation; a single mis-globbed entry without one must not suppress
   // geometric ordering for the whole series.
-  double dircos[6];
+  double dircos[6] = {};
   bool   haveOrientation = false;
   for (auto * reader : headers)
   {
