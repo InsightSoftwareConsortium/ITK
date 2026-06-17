@@ -22,6 +22,7 @@
 // direct LU solvers for the same A x = b, so agreement to tight tolerance is
 // required before the Eigen algorithm may be placed behind the vnl_* API.
 
+#define ITK_LEGACY_TEST // intentionally exercises the deprecated VNLSparseLUSolverTraits for equivalence
 #include "VNLSparseLUSolverTraits.h"
 #include "EigenSparseLUSolverTraits.h"
 #include "itkGTest.h"

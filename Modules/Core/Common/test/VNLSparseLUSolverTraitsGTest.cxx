@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#define ITK_LEGACY_TEST // exercises the deprecated VNLSparseLUSolverTraits on purpose
 #include "VNLSparseLUSolverTraits.h"
 #include "itkGTest.h"
 #include "itkMath.h" // itk::Math::Absolute
