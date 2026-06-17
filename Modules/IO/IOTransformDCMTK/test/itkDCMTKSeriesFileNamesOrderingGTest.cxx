@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-// Regression for PR #6456: itk::DCMTKSeriesFileNames must order slices
+// Regression for issue #6463: itk::DCMTKSeriesFileNames must order slices
 // geometrically (ImagePositionPatient projected on the slice normal), matching
 // itk::GDCMSeriesFileNames, even when InstanceNumber (0020,0013) is absent or
 // constant. The rect-centered / rect-offset fixtures all carry InstanceNumber

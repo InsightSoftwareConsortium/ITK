@@ -42,8 +42,19 @@ OrderFileReadersByPosition(std::vector<DCMTKFileReader *> & headers)
     return;
   }
 
-  double       dircos[6];
-  const bool   haveOrientation = headers.front()->GetDirCosArray(dircos) == EXIT_SUCCESS;
+  // Derive the slice normal from the first slice that carries a valid
+  // orientation; a single mis-globbed entry without one must not suppress
+  // geometric ordering for the whole series.
+  double dircos[6];
+  bool   haveOrientation = false;
+  for (auto * reader : headers)
+  {
+    if (reader->GetDirCosArray(dircos) == EXIT_SUCCESS)
+    {
+      haveOrientation = true;
+      break;
+    }
+  }
   const double normal[3] = { dircos[1] * dircos[5] - dircos[2] * dircos[4],
                              dircos[2] * dircos[3] - dircos[0] * dircos[5],
                              dircos[0] * dircos[4] - dircos[1] * dircos[3] };
