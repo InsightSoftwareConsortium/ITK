@@ -15,14 +15,14 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef EigenSparseLUSolverTraits_h
-#define EigenSparseLUSolverTraits_h
+#ifndef SparseLUSolverTraits_h
+#define SparseLUSolverTraits_h
 
 #include "itk_eigen.h"
 #include ITK_EIGEN(Sparse)
 #include ITK_EIGEN(SparseLU)
 
-/** \class EigenSparseLUSolverTraits
+/** \class SparseLUSolverTraits
  * \brief Generic interface for sparse LU solver backed by Eigen::SparseLU.
  *
  * This generic interface (common to several sparse solvers), allow to
@@ -35,7 +35,7 @@
  * \sa VNLIterativeSparseSolverTraits
  */
 template <typename T = double>
-class EigenSparseLUSolverTraits
+class SparseLUSolverTraits
 {
 public:
   using ValueType = T;

@@ -18,13 +18,13 @@
 
 // Equivalence gate for swapping the vnl_sparse_lu engine to Eigen::SparseLU:
 // solving the same logical system through VNLSparseLUSolverTraits and
-// EigenSparseLUSolverTraits must yield the same solution. Both traits are
+// SparseLUSolverTraits must yield the same solution. Both traits are
 // direct LU solvers for the same A x = b, so agreement to tight tolerance is
 // required before the Eigen algorithm may be placed behind the vnl_* API.
 
 #define ITK_LEGACY_TEST // intentionally exercises the deprecated VNLSparseLUSolverTraits for equivalence
 #include "VNLSparseLUSolverTraits.h"
-#include "EigenSparseLUSolverTraits.h"
+#include "SparseLUSolverTraits.h"
 #include "itkGTest.h"
 
 #include <cmath>
@@ -100,7 +100,7 @@ expectEquivalent(unsigned int n, double shift, double tol)
     rhs[i] = std::sin(0.013 * (i + 1)) + 0.25;
 
   const auto xVnl = solveWith<VNLSparseLUSolverTraits<double>>(trips, rhs, N);
-  const auto xEig = solveWith<EigenSparseLUSolverTraits<double>>(trips, rhs, N);
+  const auto xEig = solveWith<SparseLUSolverTraits<double>>(trips, rhs, N);
 
   ASSERT_EQ(xVnl.size(), xEig.size());
   // Relative agreement: an ill-conditioned A makes ||x|| huge for an arbitrary

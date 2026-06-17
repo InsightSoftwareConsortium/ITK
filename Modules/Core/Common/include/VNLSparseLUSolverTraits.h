@@ -19,20 +19,19 @@
 #define VNLSparseLUSolverTraits_h
 
 // Deprecation bridge: VNLSparseLUSolverTraits (vnl_sparse_lu engine) is being
-// replaced by EigenSparseLUSolverTraits (Eigen::SparseLU), proven faster and
+// replaced by SparseLUSolverTraits (Eigen::SparseLU), proven faster and
 // more accurate. Eigen remains always available; only this VNL spelling is
 // gated. The guard is silent by default, warns under ITK_LEGACY_REMOVE, and
 // errors under ITK_FUTURE_LEGACY_REMOVE; ITK_LEGACY_TEST/SILENT opt out.
 #if __has_include(<itkConfigure.h>)
 #  include <itkConfigure.h>
 #  if defined(ITK_FUTURE_LEGACY_REMOVE)
-#    error \
-      "VNLSparseLUSolverTraits is removed; use EigenSparseLUSolverTraits (EigenSparseLUSolverTraits.h, Eigen::SparseLU)."
+#    error "VNLSparseLUSolverTraits is removed; use SparseLUSolverTraits (SparseLUSolverTraits.h, Eigen::SparseLU)."
 #  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_LEGACY_TEST)
 #    if defined(_MSC_VER)
-#      pragma message("VNLSparseLUSolverTraits is deprecated; migrate to EigenSparseLUSolverTraits (Eigen::SparseLU).")
+#      pragma message("VNLSparseLUSolverTraits is deprecated; migrate to SparseLUSolverTraits (Eigen::SparseLU).")
 #    else
-#      warning "VNLSparseLUSolverTraits is deprecated; migrate to EigenSparseLUSolverTraits (Eigen::SparseLU)."
+#      warning "VNLSparseLUSolverTraits is deprecated; migrate to SparseLUSolverTraits (Eigen::SparseLU)."
 #    endif
 #  endif
 #endif

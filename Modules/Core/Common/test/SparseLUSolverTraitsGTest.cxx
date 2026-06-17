@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "EigenSparseLUSolverTraits.h"
+#include "SparseLUSolverTraits.h"
 #include "itkGTest.h"
 #include "itkMath.h" // itk::Math::Absolute
 
@@ -48,10 +48,10 @@ VectorsEquals(const TVector & v1, const TVector & v2, const typename TVector::Sc
 namespace
 {
 int
-DoEigenSparseLUSolverTraitsTest(int, char *[])
+DoSparseLUSolverTraitsTest(int, char *[])
 {
   using CoordinateType = double;
-  using SolverTraits = EigenSparseLUSolverTraits<CoordinateType>;
+  using SolverTraits = SparseLUSolverTraits<CoordinateType>;
   using MatrixType = SolverTraits::MatrixType;
   using VectorType = SolverTraits::VectorType;
 
@@ -218,7 +218,7 @@ DoEigenSparseLUSolverTraitsTest(int, char *[])
 } // namespace
 
 
-TEST(EigenSparseLUSolverTraits, ConvertedLegacyTest) { EXPECT_EQ(0, DoEigenSparseLUSolverTraitsTest(0, nullptr)); }
+TEST(SparseLUSolverTraits, ConvertedLegacyTest) { EXPECT_EQ(0, DoSparseLUSolverTraitsTest(0, nullptr)); }
 
 // The following cases mirror vxl core/vnl/algo/tests/test_sparse_lu.cxx for the
 // functionality reachable through Eigen::SparseLU. vnl_sparse_lu::rcond() and
@@ -226,14 +226,14 @@ TEST(EigenSparseLUSolverTraits, ConvertedLegacyTest) { EXPECT_EQ(0, DoEigenSpars
 
 namespace
 {
-using SolverTraits = EigenSparseLUSolverTraits<double>;
+using SolverTraits = SparseLUSolverTraits<double>;
 using MatrixType = SolverTraits::MatrixType;
 using VectorType = SolverTraits::VectorType;
 using SolverType = SolverTraits::SolverType;
 } // namespace
 
 // mat0 of Kenneth S. Kundert's Sparse 1.3a release
-TEST(EigenSparseLUSolverTraits, Mat0SolveDeterminantTranspose)
+TEST(SparseLUSolverTraits, Mat0SolveDeterminantTranspose)
 {
   MatrixType A = SolverTraits::InitializeSparseMatrix(4, 4);
   SolverTraits::FillMatrix(A, 0, 0, 2.0);
@@ -266,7 +266,7 @@ TEST(EigenSparseLUSolverTraits, Mat0SolveDeterminantTranspose)
 }
 
 // mat5 of sparse test data: a permutation matrix
-TEST(EigenSparseLUSolverTraits, PermutationMatrixSolve)
+TEST(SparseLUSolverTraits, PermutationMatrixSolve)
 {
   MatrixType A = SolverTraits::InitializeSparseMatrix(3);
   SolverTraits::FillMatrix(A, 0, 1, 1.0);
@@ -284,7 +284,7 @@ TEST(EigenSparseLUSolverTraits, PermutationMatrixSolve)
 }
 
 // matrix derived from a Poisson birth-death queue (near-singular, s = -0.01)
-TEST(EigenSparseLUSolverTraits, BirthDeathQueueSolve)
+TEST(SparseLUSolverTraits, BirthDeathQueueSolve)
 {
   constexpr double s = -0.01;
   constexpr double l = 0.5;

@@ -1537,7 +1537,7 @@ set(
   itkWeakPointerGTest.cxx
   itkZeroFluxBoundaryConditionGTest.cxx
   VNLSparseLUSolverTraitsGTest.cxx
-  EigenSparseLUSolverTraitsGTest.cxx
+  SparseLUSolverTraitsGTest.cxx
   VnlEigenSparseLUEquivalenceGTest.cxx
 )
 creategoogletestdriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")

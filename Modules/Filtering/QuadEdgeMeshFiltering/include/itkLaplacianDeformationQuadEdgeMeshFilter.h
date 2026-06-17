@@ -106,7 +106,7 @@ operator<<(std::ostream & out, const LaplacianDeformationQuadEdgeMeshFilterEnums
  *
  * \tparam TInputMesh Input Mesh Type
  * \tparam TOutputMesh Output Mesh Type
- * \tparam TSolverTraits Linear Sparse Solver Traits see VNLIterativeSparseSolverTraits and EigenSparseLUSolverTraits
+ * \tparam TSolverTraits Linear Sparse Solver Traits see VNLIterativeSparseSolverTraits and SparseLUSolverTraits
  *
  *  For details, see https://doi.org/10.54294/s91axg
  *
