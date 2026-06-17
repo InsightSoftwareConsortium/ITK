@@ -167,26 +167,31 @@ DCMTKSeriesFileNames::SetInputDirectory(const std::string & name)
   this->Modified();
 }
 
-void
-DCMTKSeriesFileNames::GetDicomData(const std::string & series, bool saveFileNames)
+std::string
+DCMTKSeriesFileNames::CreateSeriesIdentifier(DCMTKFileReader * reader) const
 {
-  if (saveFileNames)
-  {
-    this->m_InputFileNames.clear();
-  }
+  std::string uid;
+  reader->GetElementUI(0x0020, 0x000e, uid); // Series Instance UID
+  return uid;
+}
+
+void
+DCMTKSeriesFileNames::BuildSeriesMap()
+{
   this->m_SeriesUIDs.clear();
+  this->m_SeriesFiles.clear();
 
   // make an absolute path from whatever is passed in
   std::string fullPath = itksys::SystemTools::CollapseFullPath(m_InputDirectory.c_str());
-
   // work in Unix filename conventions, but convert to actually use filename
   itksys::SystemTools::ConvertToUnixSlashes(fullPath);
 
   std::vector<std::string> candidateFiles;
   CollectCandidateFiles(fullPath, m_Recursive, candidateFiles);
 
-  std::vector<DCMTKFileReader *> allHeaders;
-
+  // Group readers by series identifier, preserving first-encountered order
+  // of the distinct identifiers.
+  std::map<std::string, std::vector<DCMTKFileReader *>> groups;
   for (const std::string & localFilePath : candidateFiles)
   {
     if (!DCMTKFileReader::IsImageFile(localFilePath))
@@ -204,50 +209,50 @@ DCMTKSeriesFileNames::GetDicomData(const std::string & series, bool saveFileName
       delete reader;
       continue;
     }
-    std::string uid;
-    reader->GetElementUI(0x0020, 0x000e, uid);
-    //
-    // if you've restricted it to a particular series instance ID
-    if (series.empty() || series == uid)
+    const std::string id = this->CreateSeriesIdentifier(reader);
+    if (groups.find(id) == groups.end())
     {
-      allHeaders.push_back(reader);
+      this->m_SeriesUIDs.push_back(id);
     }
-    else
-    {
-      delete reader;
-    }
-    //
-    // save the UID at any rate
-    this->m_SeriesUIDs.push_back(uid);
+    groups[id].push_back(reader);
   }
 
-  if (saveFileNames)
+  // Order each series geometrically and store its file names; free the headers.
+  for (auto & [id, readers] : groups)
   {
-    OrderFileReadersByPosition(allHeaders);
-  }
-  //
-  // save the filenames, and delete the headers
-  for (auto & allHeader : allHeaders)
-  {
-    if (saveFileNames)
+    OrderFileReadersByPosition(readers);
+    FileNamesContainerType names;
+    names.reserve(readers.size());
+    for (auto * reader : readers)
     {
-      m_InputFileNames.push_back(allHeader->GetFileName());
+      names.push_back(reader->GetFileName());
+      delete reader;
     }
-    delete allHeader;
+    this->m_SeriesFiles[id] = std::move(names);
   }
 }
 
 const DCMTKSeriesFileNames::FileNamesContainerType &
 DCMTKSeriesFileNames::GetFileNames(const std::string series)
 {
-  this->GetDicomData(series, true);
+  this->BuildSeriesMap();
+  const auto it = m_SeriesFiles.find(series);
+  if (it == m_SeriesFiles.end())
+  {
+    itkWarningMacro("No files were found for series " << series);
+    m_InputFileNames.clear();
+  }
+  else
+  {
+    m_InputFileNames = it->second;
+  }
   return m_InputFileNames;
 }
 
 const DCMTKSeriesFileNames::SeriesUIDContainerType &
 DCMTKSeriesFileNames::GetSeriesUIDs()
 {
-  this->GetDicomData("", false);
+  this->BuildSeriesMap();
   return this->m_SeriesUIDs;
 }
 
@@ -255,8 +260,14 @@ DCMTKSeriesFileNames::GetSeriesUIDs()
 const DCMTKSeriesFileNames::FileNamesContainerType &
 DCMTKSeriesFileNames::GetInputFileNames()
 {
-  // Do not specify any UID
-  this->GetDicomData("", true);
+  this->BuildSeriesMap();
+  // Return the first series encountered (single-series assumption), matching
+  // itk::GDCMSeriesFileNames.
+  m_InputFileNames.clear();
+  if (!m_SeriesUIDs.empty())
+  {
+    m_InputFileNames = m_SeriesFiles[m_SeriesUIDs.front()];
+  }
   return this->m_InputFileNames;
 }
 

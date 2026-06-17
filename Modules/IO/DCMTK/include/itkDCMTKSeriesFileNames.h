@@ -22,10 +22,12 @@
 #include "itkProcessObject.h"
 #include "itkObjectFactory.h"
 #include "itkMacro.h"
+#include <map>
 #include <vector>
 
 namespace itk
 {
+class DCMTKFileReader;
 /**
  * \class DCMTKSeriesFileNames
  * \brief Generate a sequence of filenames from a DICOM series.
@@ -188,9 +190,14 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  /** internal method for reading out filenames and UID lists */
+  /** Parse the input directory into the per-series file-name map. */
   void
-  GetDicomData(const std::string & series, bool saveFileNames);
+  BuildSeriesMap();
+
+  /** Build the identifier that groups files into one series. */
+  std::string
+  CreateSeriesIdentifier(DCMTKFileReader * reader) const;
+
   /** Contains the input directory where the DICOM series is found */
   std::string m_InputDirectory{};
 
@@ -201,7 +208,8 @@ private:
   FileNamesContainerType m_InputFileNames{};
   FileNamesContainerType m_OutputFileNames{};
 
-  /** Internal structure to order series from one directory */
+  /** Ordered file names per distinct series identifier. */
+  std::map<std::string, FileNamesContainerType> m_SeriesFiles{};
 
   /** Internal structure to keep the list of series UIDs */
   SeriesUIDContainerType m_SeriesUIDs{};

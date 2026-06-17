@@ -34,9 +34,10 @@
 
 namespace
 {
-// Copy every *.dcm file from srcDir into dstDir (created if needed).
+// Copy every *.dcm file from srcDir into dstDir (created if needed), optionally
+// prefixing the destination file name so two series can share one flat dir.
 unsigned int
-CopyDicomSlices(const std::string & srcDir, const std::string & dstDir)
+CopyDicomSlices(const std::string & srcDir, const std::string & dstDir, const std::string & prefix = "")
 {
   itksys::SystemTools::MakeDirectory(dstDir);
   itksys::Directory directory;
@@ -50,7 +51,7 @@ CopyDicomSlices(const std::string & srcDir, const std::string & dstDir)
       continue;
     }
     const std::string src = srcDir + '/' + name;
-    const std::string dst = dstDir + '/' + name;
+    const std::string dst = dstDir + '/' + prefix + name;
     if (itksys::SystemTools::CopyFileAlways(src, dst))
     {
       ++copied;
@@ -85,4 +86,34 @@ TEST(DCMTKSeriesFileNamesParity, RecursiveFlagHonored)
   recursive->SetInputDirectory(root);
   recursive->RecursiveOn();
   EXPECT_FALSE(recursive->GetInputFileNames().empty()) << "Recursive scan must descend into seriesA / seriesB";
+}
+
+// A (issue #2735): GetSeriesUIDs() must return one entry per distinct series,
+// not one per file; files must be grouped by series; GetInputFileNames() must
+// return a single series, not the union.
+TEST(DCMTKSeriesFileNamesParity, DistinctSeriesGroupedNoDuplicates)
+{
+  const std::string  root = FreshDir("grouping");
+  const unsigned int nA = CopyDicomSlices(TOSTRING(RECT_CENTERED_DIR), root, "a_");
+  const unsigned int nB = CopyDicomSlices(TOSTRING(RECT_OFFSET_DIR), root, "b_");
+  ASSERT_GT(nA, 0u);
+  ASSERT_GT(nB, 0u);
+
+  auto sf = itk::DCMTKSeriesFileNames::New();
+  sf->SetInputDirectory(root);
+
+  const std::vector<std::string> uids = sf->GetSeriesUIDs();
+  EXPECT_EQ(uids.size(), 2u) << "Two distinct SeriesInstanceUIDs, no per-file duplicates";
+
+  std::size_t grouped = 0;
+  for (const std::string & uid : uids)
+  {
+    const std::vector<std::string> files = sf->GetFileNames(uid);
+    EXPECT_FALSE(files.empty()) << "Each series UID must resolve to its files";
+    grouped += files.size();
+  }
+  EXPECT_EQ(grouped, static_cast<std::size_t>(nA) + nB);
+
+  const std::vector<std::string> first = sf->GetInputFileNames();
+  EXPECT_LT(first.size(), grouped) << "GetInputFileNames returns a single series, not the union";
 }
