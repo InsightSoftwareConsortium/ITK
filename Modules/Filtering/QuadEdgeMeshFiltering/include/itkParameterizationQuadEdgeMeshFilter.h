@@ -40,7 +40,7 @@ namespace itk
  *  and computation can be set by the means of TSolverTraits. Since for 3D
  *  meshes, this filter solves for similar sparse linear systems for the three
  *  dimensions, it is highly recommended to use one direct solver which would
- *  first decompose sparse matrix (e.g. VNLSparseLUSolverTraits).
+ *  first decompose sparse matrix (e.g. EigenSparseLUSolverTraits).
  *
  *
  *  This implementation was taken from the Insight Journal paper:

@@ -18,7 +18,7 @@
 #include "itkMeshFileReader.h"
 #include "itkMeshFileWriter.h"
 
-#include "VNLSparseLUSolverTraits.h"
+#include "EigenSparseLUSolverTraits.h"
 #include "VNLIterativeSparseSolverTraits.h"
 
 #include "itkParameterizationQuadEdgeMeshFilter.h"
@@ -163,7 +163,7 @@ itkParameterizationQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   using TCoord = double;
   using IterativeSolverTraits = VNLIterativeSparseSolverTraits<TCoord>;
-  using LUSolverTraits = VNLSparseLUSolverTraits<TCoord>;
+  using LUSolverTraits = EigenSparseLUSolverTraits<TCoord>;
 
   if (std::stoi(argv[4]) == 0)
   {
