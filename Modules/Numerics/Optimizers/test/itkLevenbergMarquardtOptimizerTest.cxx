@@ -233,8 +233,6 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
 
   using OptimizerType = itk::LevenbergMarquardtOptimizer;
 
-  using vnlOptimizerType = OptimizerType::InternalOptimizerType;
-
   // Declaration of an itkOptimizer
   auto optimizer = OptimizerType::New();
 
@@ -266,13 +264,13 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   optimizer->SetUseCostFunctionGradient(useGradient);
 
 
-  vnlOptimizerType * vnlOptimizer = optimizer->GetOptimizer();
-
-  vnlOptimizer->set_f_tolerance(fTolerance);
-  vnlOptimizer->set_g_tolerance(gTolerance);
-  vnlOptimizer->set_x_tolerance(xTolerance);
-  vnlOptimizer->set_epsilon_function(epsilonFunction);
-  vnlOptimizer->set_max_function_evals(maxIterations);
+  // fTolerance is mirrored internally by the Eigen-backed engine and has no
+  // separate setter on the ITK optimizer.
+  (void)fTolerance;
+  optimizer->SetGradientTolerance(gTolerance);
+  optimizer->SetValueTolerance(xTolerance);
+  optimizer->SetEpsilonFunction(epsilonFunction);
+  optimizer->SetNumberOfIterations(maxIterations);
 
   // We start not so far from the solution
   using ParametersType = LMCostFunction::ParametersType;
@@ -306,56 +304,7 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   }
 
 
-  // Error codes taken from vxl/vnl/vnl_nonlinear_minimizer.h
-  std::cout << "End condition   = ";
-  switch (vnlOptimizer->get_failure_code())
-  {
-    case vnl_nonlinear_minimizer::ERROR_FAILURE:
-      std::cout << " Error Failure";
-      break;
-    case vnl_nonlinear_minimizer::ERROR_DODGY_INPUT:
-      std::cout << " Error Dogy Input";
-      break;
-#if VXL_VERSION_MAJOR >= 4
-    // ABNORMAL_TERMINATION_IN_LNSRCH stop condition added in VXL 4.0
-    case vnl_nonlinear_minimizer::ABNORMAL_TERMINATION_IN_LNSRCH:
-      std::cout << "Abnormal termination in line search.  Often caused by "
-                << "rounding errors dominating computation.  This can occur if the function is a very "
-                << "flat surface, or has oscillations.";
-      break;
-#endif
-    case vnl_nonlinear_minimizer::CONVERGED_FTOL:
-      std::cout << " Converged F  Tolerance";
-      break;
-    case vnl_nonlinear_minimizer::CONVERGED_XTOL:
-      std::cout << " Converged X  Tolerance";
-      break;
-    case vnl_nonlinear_minimizer::CONVERGED_XFTOL:
-      std::cout << " Converged XF Tolerance";
-      break;
-    case vnl_nonlinear_minimizer::CONVERGED_GTOL:
-      std::cout << " Converged G  Tolerance";
-      break;
-    case vnl_nonlinear_minimizer::FAILED_TOO_MANY_ITERATIONS:
-      std::cout << " Too many iterations   ";
-      break;
-    case vnl_nonlinear_minimizer::FAILED_FTOL_TOO_SMALL:
-      std::cout << " Failed F Tolerance too small ";
-      break;
-    case vnl_nonlinear_minimizer::FAILED_XTOL_TOO_SMALL:
-      std::cout << " Failed X Tolerance too small ";
-      break;
-    case vnl_nonlinear_minimizer::FAILED_GTOL_TOO_SMALL:
-      std::cout << " Failed G Tolerance too small ";
-      break;
-    case vnl_nonlinear_minimizer::FAILED_USER_REQUEST:
-      std::cout << " Failed user request ";
-      break;
-  }
-  std::cout << std::endl;
   std::cout << "Stop description   = " << optimizer->GetStopConditionDescription() << std::endl;
-  std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations() << std::endl;
-  std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;
   std::cout << std::endl;
 
 

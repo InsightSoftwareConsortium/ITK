@@ -143,3 +143,6 @@ itk_add_test(
     ITKOptimizersTestDriver
     itkOnePlusOneEvolutionaryOptimizerTest
 )
+
+set(ITKOptimizersGTests itkLevenbergMarquardtOptimizerGTest.cxx)
+creategoogletestdriver(ITKOptimizers "${ITKOptimizers-Test_LIBRARIES}" "${ITKOptimizersGTests}")

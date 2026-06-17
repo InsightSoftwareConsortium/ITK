@@ -4,6 +4,7 @@ set(
   itkConjugateGradientOptimizer.cxx
   itkCumulativeGaussianCostFunction.cxx
   itkCumulativeGaussianOptimizer.cxx
+  itkEigenLevenbergMarquardtEngine.cxx
   itkExhaustiveOptimizer.cxx
   itkFRPROptimizer.cxx
   itkGradientDescentOptimizer.cxx

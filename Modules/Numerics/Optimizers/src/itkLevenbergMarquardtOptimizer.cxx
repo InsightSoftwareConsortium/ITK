@@ -17,23 +17,20 @@
  *=========================================================================*/
 
 #include "itkLevenbergMarquardtOptimizer.h"
+#include "itkEigenLevenbergMarquardtEngine.h"
+
+#include <algorithm>
+#include <sstream>
 
 namespace itk
 {
-/**
- * Constructor
- */
 LevenbergMarquardtOptimizer::LevenbergMarquardtOptimizer()
-  : m_VnlOptimizer(nullptr)
-  , m_NumberOfIterations(2000)
+  : m_NumberOfIterations(2000)
   , m_ValueTolerance(1e-8)
   , m_GradientTolerance(1e-5)
   , m_EpsilonFunction(1e-11)
 {}
 
-/**
- * Destructor
- */
 LevenbergMarquardtOptimizer::~LevenbergMarquardtOptimizer() = default;
 
 /**
@@ -46,17 +43,8 @@ LevenbergMarquardtOptimizer::SetCostFunction(MultipleValuedCostFunction * costFu
   const unsigned int numberOfValues = costFunction->GetNumberOfValues();
 
   auto * adaptor = new CostFunctionAdaptorType(numberOfParameters, numberOfValues);
-
   adaptor->SetCostFunction(costFunction);
-
   this->SetCostFunctionAdaptor(adaptor);
-
-  m_VnlOptimizer = std::make_unique<vnl_levenberg_marquardt>(*adaptor);
-
-  this->SetNumberOfIterations(m_NumberOfIterations);
-  this->SetValueTolerance(m_ValueTolerance);
-  this->SetGradientTolerance(m_GradientTolerance);
-  this->SetEpsilonFunction(m_EpsilonFunction);
 
   m_OptimizerInitialized = true;
 }
@@ -117,14 +105,43 @@ LevenbergMarquardtOptimizer::StartOptimization()
     }
   }
 
-  if (this->GetCostFunctionAdaptor()->GetUseGradient())
+  CostFunctionAdaptorType * adaptor = this->GetNonConstCostFunctionAdaptor();
+  const unsigned int        numberOfParameters = parameters.size();
+  const unsigned int        numberOfResiduals = adaptor->get_number_of_residuals();
+
+  auto residual = [adaptor, numberOfParameters, numberOfResiduals](const double * x, double * r) {
+    const vnl_vector<double> vx(x, numberOfParameters);
+    vnl_vector<double>       vr(numberOfResiduals);
+    adaptor->f(vx, vr);
+    std::copy_n(vr.data_block(), numberOfResiduals, r);
+  };
+
+  std::function<void(const double *, double *)> jacobian;
+  if (adaptor->GetUseGradient())
   {
-    m_VnlOptimizer->minimize_using_gradient(parameters);
+    jacobian = [adaptor, numberOfParameters, numberOfResiduals](const double * x, double * j) {
+      const vnl_vector<double> vx(x, numberOfParameters);
+      vnl_matrix<double>       vj(numberOfResiduals, numberOfParameters);
+      adaptor->gradf(vx, vj);
+      // vnl_matrix and the engine both store the Jacobian row-major (m-by-n).
+      std::copy_n(vj.data_block(), static_cast<size_t>(numberOfResiduals) * numberOfParameters, j);
+    };
   }
-  else
-  {
-    m_VnlOptimizer->minimize_without_gradient(parameters);
-  }
+
+  detail::EigenLevenbergMarquardtOptions options;
+  options.maxFunctionEvaluations = m_NumberOfIterations;
+  options.xTolerance = m_ValueTolerance;
+  options.gradientTolerance = m_GradientTolerance;
+  options.epsilonFunction = m_EpsilonFunction;
+  // Fixed ftol matching vnl_nonlinear_minimizer's default (xtol 1e-8 * 0.01).
+  options.functionTolerance = 1e-10;
+
+  const detail::EigenLevenbergMarquardtResult result = detail::EigenLevenbergMarquardtSolve(
+    numberOfParameters, numberOfResiduals, residual, jacobian, parameters, options);
+
+  parameters = result.solution;
+  m_StopConditionDescription = result.converged ? "Levenberg-Marquardt converged"
+                                                : "Levenberg-Marquardt did not converge (iteration/tolerance limit)";
 
   // we scale the parameters down if scales are defined
   if (m_ScalesInitialized)
@@ -141,72 +158,44 @@ LevenbergMarquardtOptimizer::StartOptimization()
   this->InvokeEvent(EndEvent());
 }
 
-/** Set the maximum number of iterations */
 void
 LevenbergMarquardtOptimizer::SetNumberOfIterations(unsigned int iterations)
 {
-  if (m_VnlOptimizer)
-  {
-    m_VnlOptimizer->set_max_function_evals(iterations);
-  }
-
   m_NumberOfIterations = iterations;
 }
 
-/** Set the maximum number of iterations */
 void
 LevenbergMarquardtOptimizer::SetValueTolerance(double tol)
 {
-  if (m_VnlOptimizer)
-  {
-    m_VnlOptimizer->set_x_tolerance(tol);
-  }
-
   m_ValueTolerance = tol;
 }
 
-/** Set Gradient Tolerance */
 void
 LevenbergMarquardtOptimizer::SetGradientTolerance(double tol)
 {
-  if (m_VnlOptimizer)
-  {
-    m_VnlOptimizer->set_g_tolerance(tol);
-  }
-
   m_GradientTolerance = tol;
 }
 
-/** Set Epsilon function */
 void
 LevenbergMarquardtOptimizer::SetEpsilonFunction(double epsilon)
 {
-  if (m_VnlOptimizer)
-  {
-    m_VnlOptimizer->set_epsilon_function(epsilon);
-  }
-
   m_EpsilonFunction = epsilon;
 }
 
-/** Get the Optimizer */
+#if !defined(ITK_LEGACY_REMOVE)
 vnl_levenberg_marquardt *
 LevenbergMarquardtOptimizer::GetOptimizer() const
 {
-  return m_VnlOptimizer.get();
+  // Eigen-engine based; no vnl_levenberg_marquardt instance is exposed.
+  return nullptr;
 }
+#endif
 
 std::string
 LevenbergMarquardtOptimizer::GetStopConditionDescription() const
 {
-  std::ostringstream outcome;
-  outcome.str("");
-  if (GetOptimizer())
-  {
-    GetOptimizer()->diagnose_outcome(outcome);
-  }
   std::ostringstream reason;
-  reason << this->GetNameOfClass() << ": " << ((!outcome.str().empty()) ? outcome.str().c_str() : "");
+  reason << this->GetNameOfClass() << ": " << m_StopConditionDescription;
   return reason.str();
 }
 } // end namespace itk
