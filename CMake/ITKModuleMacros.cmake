@@ -275,7 +275,18 @@ endif()
   # and thus do not have separate install interface paths.
   if(${itk-module}_SYSTEM_INCLUDE_DIRS)
     foreach(_dir ${${itk-module}_SYSTEM_INCLUDE_DIRS})
-      list(APPEND ${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS ${_dir})
+      # Build-tree paths (e.g. fetched header-only deps) are build-only; wrap for install(EXPORT).
+      string(FIND "${_dir}" "${CMAKE_BINARY_DIR}" _itk_bin_prefix)
+      string(FIND "${_dir}" "${PROJECT_BINARY_DIR}" _itk_proj_prefix)
+      if(_itk_bin_prefix EQUAL 0 OR _itk_proj_prefix EQUAL 0)
+        list(
+          APPEND
+          ${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS
+          "$<BUILD_INTERFACE:${_dir}>"
+        )
+      else()
+        list(APPEND ${itk-module}_SYSTEM_GENEX_INCLUDE_DIRS ${_dir})
+      endif()
     endforeach()
   endif()
 
