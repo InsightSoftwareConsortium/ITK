@@ -167,6 +167,8 @@ struct TBBImageRegionSplitter : public itk::ImageIORegion
   // specialization.
   static constexpr bool is_splittable_in_proportion = true;
   TBBImageRegionSplitter(const TBBImageRegionSplitter &) = default;
+  TBBImageRegionSplitter &
+  operator=(const TBBImageRegionSplitter &) = default;
   TBBImageRegionSplitter(const itk::ImageIORegion & region)
     : itk::ImageIORegion(region) // use itk::ImageIORegion's copy constructor
   {}

@@ -90,8 +90,6 @@ public:
     : m_Pointer(p)
   {}
 
-  ~ConstSparseFieldLayerIterator() = default;
-
 protected:
   TNodeType * m_Pointer;
 };

@@ -61,6 +61,13 @@ public:
   /** Destructor */
   ~TimeProbe() override;
 
+  TimeProbe(const TimeProbe &) = default;
+  TimeProbe(TimeProbe &&) = default;
+  TimeProbe &
+  operator=(const TimeProbe &) = default;
+  TimeProbe &
+  operator=(TimeProbe &&) = default;
+
   void
   Print(std::ostream & os, Indent indent) const override;
 

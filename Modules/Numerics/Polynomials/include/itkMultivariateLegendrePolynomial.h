@@ -90,6 +90,13 @@ public:
   /** Destructor. */
   virtual ~MultivariateLegendrePolynomial();
 
+  MultivariateLegendrePolynomial(const MultivariateLegendrePolynomial &) = default;
+  MultivariateLegendrePolynomial(MultivariateLegendrePolynomial &&) = default;
+  MultivariateLegendrePolynomial &
+  operator=(const MultivariateLegendrePolynomial &) = default;
+  MultivariateLegendrePolynomial &
+  operator=(MultivariateLegendrePolynomial &&) = default;
+
   /** Gets the dimension. */
   [[nodiscard]] unsigned int
   GetDimension() const

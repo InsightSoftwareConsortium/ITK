@@ -316,6 +316,8 @@ CumulativeGaussianOptimizer::StartOptimization()
   delete sampledGaussianArray;
   delete cumGaussianArrayCopy;
   delete derivative;
+  // m_CumulativeGaussianArray aliased derivative; clear it so PrintSelf does not dereference freed memory.
+  m_CumulativeGaussianArray = nullptr;
 }
 
 void

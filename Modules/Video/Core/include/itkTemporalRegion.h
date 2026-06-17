@@ -90,6 +90,13 @@ public:
   /** Destructor */
   ~TemporalRegion() override;
 
+  TemporalRegion(const TemporalRegion &) = default;
+  TemporalRegion(TemporalRegion &&) = default;
+  TemporalRegion &
+  operator=(const TemporalRegion &) = default;
+  TemporalRegion &
+  operator=(TemporalRegion &&) = default;
+
   /** Compare two temporal regions in Frame space */
   [[nodiscard]] virtual bool
   IsEqualInFrames(const Self & region) const;

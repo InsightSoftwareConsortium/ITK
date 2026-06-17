@@ -62,11 +62,6 @@ RealTimeInterval::RealTimeInterval(SecondsDifferenceType seconds, MicroSecondsDi
 }
 
 /**
- * Destructor.
- */
-RealTimeInterval::~RealTimeInterval() = default;
-
-/**
  * Set the interval to a given combination of seconds and micro seconds.
  */
 void
