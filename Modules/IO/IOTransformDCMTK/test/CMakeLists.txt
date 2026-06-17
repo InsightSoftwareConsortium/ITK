@@ -10,7 +10,11 @@ createtestdriver(IOTransformDCMTK "${IOTransformDCMTK-Test_LIBRARIES}" "${IOTran
 
 set(TEMP ${PROJECT_BINARY_DIR}/Testing/Temporary)
 
-set(IOTransformDCMTKGTests itkDCMTKSeriesFileNamesOrderingGTest.cxx)
+set(
+  IOTransformDCMTKGTests
+  itkDCMTKSeriesFileNamesOrderingGTest.cxx
+  itkDCMTKSeriesFileNamesParityGTest.cxx
+)
 creategoogletestdriver(IOTransformDCMTK "${IOTransformDCMTK-Test_LIBRARIES}" "${IOTransformDCMTKGTests}")
 
 ExternalData_Expand_Arguments(
@@ -28,6 +32,7 @@ target_compile_definitions(
   PRIVATE
     "RECT_CENTERED_DIR=${_rect_centered_dir}"
     "RECT_OFFSET_DIR=${_rect_offset_dir}"
+    "ITK_TEST_OUTPUT_DIR=${ITK_TEST_OUTPUT_DIR}"
 )
 set_property(
   TARGET

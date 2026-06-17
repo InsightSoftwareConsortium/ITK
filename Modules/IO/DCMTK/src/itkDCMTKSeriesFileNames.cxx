@@ -90,6 +90,36 @@ OrderFileReadersByPosition(std::vector<DCMTKFileReader *> & headers)
 
   std::transform(keys.begin(), keys.end(), headers.begin(), [](const SortKey & k) { return k.reader; });
 }
+
+// Collect file paths under dir, descending into subdirectories when recursive.
+void
+CollectCandidateFiles(const std::string & dir, bool recursive, std::vector<std::string> & out)
+{
+  itksys::Directory directory;
+  directory.Load(dir.c_str());
+  for (unsigned int i = 0; i < directory.GetNumberOfFiles(); ++i)
+  {
+    const std::string curFile = directory.GetFile(i);
+    if (curFile == "." || curFile == "..")
+    {
+      continue;
+    }
+    std::string path = dir;
+    path += '/';
+    path += curFile;
+    if (itksys::SystemTools::FileIsDirectory(path.c_str()))
+    {
+      if (recursive)
+      {
+        CollectCandidateFiles(path, recursive, out);
+      }
+    }
+    else
+    {
+      out.push_back(path);
+    }
+  }
+}
 } // namespace
 
 DCMTKSeriesFileNames::DCMTKSeriesFileNames()
@@ -152,59 +182,43 @@ DCMTKSeriesFileNames::GetDicomData(const std::string & series, bool saveFileName
   // work in Unix filename conventions, but convert to actually use filename
   itksys::SystemTools::ConvertToUnixSlashes(fullPath);
 
-  std::string localFilePath = fullPath;
-
-  // load the directory
-  itksys::Directory directory;
-  directory.Load(localFilePath.c_str());
-
-  unsigned int numFiles = directory.GetNumberOfFiles();
+  std::vector<std::string> candidateFiles;
+  CollectCandidateFiles(fullPath, m_Recursive, candidateFiles);
 
   std::vector<DCMTKFileReader *> allHeaders;
 
-  for (unsigned int i = 0; i < numFiles; ++i)
+  for (const std::string & localFilePath : candidateFiles)
   {
-    std::string curFile = directory.GetFile(i);
-    if (curFile == "." || curFile == "..")
+    if (!DCMTKFileReader::IsImageFile(localFilePath))
     {
       continue;
     }
-    localFilePath = fullPath;
-    localFilePath += '/';
-    localFilePath += curFile;
-    if (!itksys::SystemTools::FileIsDirectory(localFilePath.c_str()))
+    auto * reader = new DCMTKFileReader;
+    try
     {
-      if (!DCMTKFileReader::IsImageFile(localFilePath))
-      {
-        continue;
-      }
-      auto * reader = new DCMTKFileReader;
-      try
-      {
-        reader->SetFileName(localFilePath);
-        reader->LoadFile();
-      }
-      catch (...)
-      {
-        delete reader;
-        continue;
-      }
-      std::string uid;
-      reader->GetElementUI(0x0020, 0x000e, uid);
-      //
-      // if you've restricted it to a particular series instance ID
-      if (series.empty() || series == uid)
-      {
-        allHeaders.push_back(reader);
-      }
-      else
-      {
-        delete reader;
-      }
-      //
-      // save the UID at any rate
-      this->m_SeriesUIDs.push_back(uid);
+      reader->SetFileName(localFilePath);
+      reader->LoadFile();
     }
+    catch (...)
+    {
+      delete reader;
+      continue;
+    }
+    std::string uid;
+    reader->GetElementUI(0x0020, 0x000e, uid);
+    //
+    // if you've restricted it to a particular series instance ID
+    if (series.empty() || series == uid)
+    {
+      allHeaders.push_back(reader);
+    }
+    else
+    {
+      delete reader;
+    }
+    //
+    // save the UID at any rate
+    this->m_SeriesUIDs.push_back(uid);
   }
 
   if (saveFileNames)
