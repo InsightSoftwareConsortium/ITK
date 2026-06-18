@@ -10,6 +10,34 @@ createtestdriver(IOTransformDCMTK "${IOTransformDCMTK-Test_LIBRARIES}" "${IOTran
 
 set(TEMP ${PROJECT_BINARY_DIR}/Testing/Temporary)
 
+set(IOTransformDCMTKGTests itkDCMTKSeriesFileNamesOrderingGTest.cxx)
+creategoogletestdriver(IOTransformDCMTK "${IOTransformDCMTK-Test_LIBRARIES}" "${IOTransformDCMTKGTests}")
+
+ExternalData_Expand_Arguments(
+  ITKData
+  _rect_centered_dir
+  "DATA{Input/rect-centered/,REGEX:image[0-9]+.dcm}"
+)
+ExternalData_Expand_Arguments(
+  ITKData
+  _rect_offset_dir
+  "DATA{Input/rect-offset/,REGEX:image[0-9]+.dcm}"
+)
+target_compile_definitions(
+  IOTransformDCMTKGTestDriver
+  PRIVATE
+    "RECT_CENTERED_DIR=${_rect_centered_dir}"
+    "RECT_OFFSET_DIR=${_rect_offset_dir}"
+)
+set_property(
+  TARGET
+    IOTransformDCMTKGTestDriver
+  APPEND
+  PROPERTY
+    DEPENDS
+      ITKData
+)
+
 itk_add_test(
   NAME itkDCMTKTransformIOTest
   COMMAND

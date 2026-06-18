@@ -23,9 +23,64 @@
 #include "itkPrintHelper.h"
 #include "itksys/Directory.hxx"
 #include <algorithm>
+#include <vector>
 
 namespace itk
 {
+namespace
+{
+// Order slices by geometric position (ImagePositionPatient projected on the
+// slice normal), matching itk::GDCMSeriesFileNames / gdcm::SerieHelper.
+// Falls back to InstanceNumber then file name when orientation/position is
+// absent, so an unset or constant InstanceNumber can no longer scramble the
+// order via an unstable sort.
+void
+OrderFileReadersByPosition(std::vector<DCMTKFileReader *> & headers)
+{
+  if (headers.size() < 2)
+  {
+    return;
+  }
+
+  double       dircos[6];
+  const bool   haveOrientation = headers.front()->GetDirCosArray(dircos) == EXIT_SUCCESS;
+  const double normal[3] = { dircos[1] * dircos[5] - dircos[2] * dircos[4],
+                             dircos[2] * dircos[3] - dircos[0] * dircos[5],
+                             dircos[0] * dircos[4] - dircos[1] * dircos[3] };
+
+  struct SortKey
+  {
+    DCMTKFileReader * reader;
+    double            distance;
+    long              instanceNumber;
+  };
+  std::vector<SortKey> keys;
+  keys.reserve(headers.size());
+  bool useGeometry = haveOrientation;
+  for (auto * reader : headers)
+  {
+    double origin[3] = { 0.0, 0.0, 0.0 };
+    useGeometry = (reader->GetOrigin(origin) == EXIT_SUCCESS) && useGeometry;
+    const double distance = normal[0] * origin[0] + normal[1] * origin[1] + normal[2] * origin[2];
+    keys.push_back({ reader, distance, reader->GetFileNumber() });
+  }
+
+  std::stable_sort(keys.begin(), keys.end(), [useGeometry](const SortKey & a, const SortKey & b) {
+    if (useGeometry && a.distance != b.distance)
+    {
+      return a.distance < b.distance;
+    }
+    if (a.instanceNumber != b.instanceNumber)
+    {
+      return a.instanceNumber < b.instanceNumber;
+    }
+    return a.reader->GetFileName() < b.reader->GetFileName();
+  });
+
+  std::transform(keys.begin(), keys.end(), headers.begin(), [](const SortKey & k) { return k.reader; });
+}
+} // namespace
+
 DCMTKSeriesFileNames::DCMTKSeriesFileNames()
 {
   m_InputDirectory = "";
@@ -143,7 +198,7 @@ DCMTKSeriesFileNames::GetDicomData(const std::string & series, bool saveFileName
 
   if (saveFileNames)
   {
-    std::sort(allHeaders.begin(), allHeaders.end(), CompareDCMTKFileReaders);
+    OrderFileReadersByPosition(allHeaders);
   }
   //
   // save the filenames, and delete the headers
