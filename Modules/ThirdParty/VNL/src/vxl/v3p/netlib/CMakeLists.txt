@@ -166,10 +166,6 @@ set(V3P_NETLIB_linalg_SOURCES
      linalg/lsmrBase.cxx linalg/lsmrBase.h
      linalg/lsmrDense.cxx linalg/lsmrDense.h
    )
-set(V3P_NETLIB_mathews_SOURCES
-     mathews/simpson.c mathews/simpson.h
-     mathews/trapezod.c mathews/trapezod.h
-   )
 set(V3P_NETLIB_sparse_SOURCES
      sparse/spAllocate.c
      sparse/spBuild.c
@@ -192,7 +188,6 @@ set(v3p_netlib_sources
      ${V3P_NETLIB_napack_SOURCES}
      ${V3P_NETLIB_opt_SOURCES}
      ${V3P_NETLIB_linalg_SOURCES}
-     ${V3P_NETLIB_mathews_SOURCES}
      ${V3P_NETLIB_sparse_SOURCES}
    )
 

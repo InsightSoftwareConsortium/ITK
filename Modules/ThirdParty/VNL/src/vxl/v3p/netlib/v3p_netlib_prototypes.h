@@ -94,5 +94,3 @@
 #include "napack/cg.h"
 #include "opt/lbfgs.h"
 #include "opt/lbfgsb.h"
-#include "mathews/simpson.h"
-#include "mathews/trapezod.h"

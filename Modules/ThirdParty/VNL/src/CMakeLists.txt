@@ -26,7 +26,6 @@ endforeach()
 
 foreach(
   exe
-  netlib_integral_test
   netlib_lbfgs_example
   netlib_lbfgsb_example
   netlib_slamch_test

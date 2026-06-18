@@ -23,8 +23,4 @@ if(BUILD_TESTING)
   add_executable( netlib_slamch_test slamch-test.c )
   add_test( NAME netlib_test_slamch COMMAND netlib_slamch_test )
   target_link_libraries(netlib_slamch_test itkv3p_netlib)
-  # test
-  add_executable( netlib_integral_test integral-test.c )
-  add_test( NAME netlib_test_integral COMMAND netlib_integral_test )
-  target_link_libraries(netlib_integral_test itkv3p_netlib)
 endif()
