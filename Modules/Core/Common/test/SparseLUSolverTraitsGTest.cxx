@@ -16,8 +16,7 @@
  *
  *=========================================================================*/
 
-#define ITK_LEGACY_TEST // exercises the deprecated VNLSparseLUSolverTraits on purpose
-#include "VNLSparseLUSolverTraits.h"
+#include "SparseLUSolverTraits.h"
 #include "itkGTest.h"
 #include "itkMath.h" // itk::Math::Absolute
 
@@ -26,7 +25,7 @@
 
 template <class TVector>
 bool
-VectorsEquals(const TVector & v1, const TVector & v2, const typename TVector::element_type & tolerance)
+VectorsEquals(const TVector & v1, const TVector & v2, const typename TVector::Scalar & tolerance)
 {
   if (v1.size() != v2.size())
   {
@@ -49,20 +48,13 @@ VectorsEquals(const TVector & v1, const TVector & v2, const typename TVector::el
 namespace
 {
 int
-DoVNLSparseLUSolverTraitsTest(int, char *[])
+DoSparseLUSolverTraitsTest(int, char *[])
 {
-  /**
-   * Define an sparse LU solver traits type that operates over sparse matrices and
-   * vectors of type "double"
-   */
   using CoordinateType = double;
-  using SolverTraits = VNLSparseLUSolverTraits<CoordinateType>;
+  using SolverTraits = SparseLUSolverTraits<CoordinateType>;
   using MatrixType = SolverTraits::MatrixType;
   using VectorType = SolverTraits::VectorType;
 
-  /**
-   * Build the linear system to solve
-   */
   constexpr unsigned int N{ 3 };
   VectorType             Bx = SolverTraits::InitializeVector(N);
   Bx.fill(0.);
@@ -87,9 +79,6 @@ DoVNLSparseLUSolverTraitsTest(int, char *[])
   SolverTraits::FillMatrix(A, 2, 1, -1);
   SolverTraits::FillMatrix(A, 2, 2, 2);
 
-  /**
-   * Define the tolerance and expected results
-   */
   constexpr CoordinateType tolerance{ 1e-9 };
 
   VectorType Xexpected(N);
@@ -125,8 +114,7 @@ DoVNLSparseLUSolverTraitsTest(int, char *[])
   {
     VectorType X = SolverTraits::InitializeVector(N);
     VectorType Y = SolverTraits::InitializeVector(N);
-    SolverTraits::Solve(A, Bx, X);
-    SolverTraits::Solve(A, By, Y);
+    SolverTraits::Solve(A, Bx, By, X, Y);
     if (!VectorsEquals(X, Xexpected, tolerance) || !VectorsEquals(Y, Yexpected, tolerance))
     {
       return EXIT_FAILURE;
@@ -140,9 +128,7 @@ DoVNLSparseLUSolverTraitsTest(int, char *[])
     VectorType X = SolverTraits::InitializeVector(N);
     VectorType Y = SolverTraits::InitializeVector(N);
     VectorType Z = SolverTraits::InitializeVector(N);
-    SolverTraits::Solve(A, Bx, X);
-    SolverTraits::Solve(A, By, Y);
-    SolverTraits::Solve(A, Bz, Z);
+    SolverTraits::Solve(A, Bx, By, Bz, X, Y, Z);
     if (!VectorsEquals(X, Xexpected, tolerance) || !VectorsEquals(Y, Yexpected, tolerance) ||
         !VectorsEquals(Z, Zexpected, tolerance))
     {
@@ -154,7 +140,8 @@ DoVNLSparseLUSolverTraitsTest(int, char *[])
    * Test 4: Check the result of A * X = Bx (reuse the decomposed matrix for multiple back-substitutions)
    */
   {
-    VectorType               X = SolverTraits::InitializeVector(N);
+    VectorType X = SolverTraits::InitializeVector(N);
+    A.makeCompressed();
     SolverTraits::SolverType solver(A);
 
     // First back-substitution
@@ -176,8 +163,9 @@ DoVNLSparseLUSolverTraitsTest(int, char *[])
    * Test 5: Check the result of A * X = Bx, A * Y = By (reuse the decomposed matrix for multiple back-substitutions)
    */
   {
-    VectorType               X = SolverTraits::InitializeVector(N);
-    VectorType               Y = SolverTraits::InitializeVector(N);
+    VectorType X = SolverTraits::InitializeVector(N);
+    VectorType Y = SolverTraits::InitializeVector(N);
+    A.makeCompressed();
     SolverTraits::SolverType solver(A);
 
     // First back-substitution
@@ -202,15 +190,14 @@ DoVNLSparseLUSolverTraitsTest(int, char *[])
    * back-substitutions)
    */
   {
-    VectorType               X = SolverTraits::InitializeVector(N);
-    VectorType               Y = SolverTraits::InitializeVector(N);
-    VectorType               Z = SolverTraits::InitializeVector(N);
+    VectorType X = SolverTraits::InitializeVector(N);
+    VectorType Y = SolverTraits::InitializeVector(N);
+    VectorType Z = SolverTraits::InitializeVector(N);
+    A.makeCompressed();
     SolverTraits::SolverType solver(A);
 
     // First back-substitution
-    SolverTraits::Solve(solver, Bx, X);
-    SolverTraits::Solve(solver, By, Y);
-    SolverTraits::Solve(solver, Bz, Z);
+    SolverTraits::Solve(solver, Bx, By, Bz, X, Y, Z);
     if (!VectorsEquals(X, Xexpected, tolerance) || !VectorsEquals(Y, Yexpected, tolerance) ||
         !VectorsEquals(Z, Zexpected, tolerance))
     {
@@ -218,9 +205,7 @@ DoVNLSparseLUSolverTraitsTest(int, char *[])
     }
 
     // Second back-substitution (reusing the already factored matrix)
-    SolverTraits::Solve(solver, Bx, X);
-    SolverTraits::Solve(solver, By, Y);
-    SolverTraits::Solve(solver, Bz, Z);
+    SolverTraits::Solve(solver, Bx, By, Bz, X, Y, Z);
     if (!VectorsEquals(X, Xexpected, tolerance) || !VectorsEquals(Y, Yexpected, tolerance) ||
         !VectorsEquals(Z, Zexpected, tolerance))
     {
@@ -233,4 +218,100 @@ DoVNLSparseLUSolverTraitsTest(int, char *[])
 } // namespace
 
 
-TEST(VNLSparseLUSolverTraits, ConvertedLegacyTest) { EXPECT_EQ(0, DoVNLSparseLUSolverTraitsTest(0, nullptr)); }
+TEST(SparseLUSolverTraits, ConvertedLegacyTest) { EXPECT_EQ(0, DoSparseLUSolverTraitsTest(0, nullptr)); }
+
+// The following cases mirror vxl core/vnl/algo/tests/test_sparse_lu.cxx for the
+// functionality reachable through Eigen::SparseLU. vnl_sparse_lu::rcond() and
+// max_error_bound() have no Eigen::SparseLU equivalent and are not ported.
+
+namespace
+{
+using SolverTraits = SparseLUSolverTraits<double>;
+using MatrixType = SolverTraits::MatrixType;
+using VectorType = SolverTraits::VectorType;
+using SolverType = SolverTraits::SolverType;
+} // namespace
+
+// mat0 of Kenneth S. Kundert's Sparse 1.3a release
+TEST(SparseLUSolverTraits, Mat0SolveDeterminantTranspose)
+{
+  MatrixType A = SolverTraits::InitializeSparseMatrix(4, 4);
+  SolverTraits::FillMatrix(A, 0, 0, 2.0);
+  SolverTraits::FillMatrix(A, 0, 1, -1.0);
+  SolverTraits::FillMatrix(A, 1, 0, -1.0);
+  SolverTraits::FillMatrix(A, 1, 1, 3.0);
+  SolverTraits::FillMatrix(A, 1, 2, -1.0);
+  SolverTraits::FillMatrix(A, 2, 1, -1.0);
+  SolverTraits::FillMatrix(A, 2, 2, 3.0);
+  SolverTraits::FillMatrix(A, 2, 3, -1.0);
+  SolverTraits::FillMatrix(A, 3, 2, -1.0);
+  SolverTraits::FillMatrix(A, 3, 3, 3.0);
+
+  VectorType b = SolverTraits::InitializeVector(4);
+  b.fill(0.0);
+  b[0] = 34.0;
+
+  VectorType x = SolverTraits::InitializeVector(4);
+  EXPECT_TRUE(SolverTraits::Solve(A, b, x));
+  EXPECT_NEAR(x[0], 21.0, 1.e-3);
+
+  A.makeCompressed();
+  SolverType solver(A);
+  ASSERT_EQ(solver.info(), Eigen::Success);
+  EXPECT_NEAR(solver.determinant(), 34.0, 1.e-3);
+
+  // vnl_sparse_lu::solve_transpose equivalent
+  const VectorType xt = solver.transpose().solve(b);
+  EXPECT_NEAR(xt[2], 3.0, 1.e-3);
+}
+
+// mat5 of sparse test data: a permutation matrix
+TEST(SparseLUSolverTraits, PermutationMatrixSolve)
+{
+  MatrixType A = SolverTraits::InitializeSparseMatrix(3);
+  SolverTraits::FillMatrix(A, 0, 1, 1.0);
+  SolverTraits::FillMatrix(A, 1, 2, 1.0);
+  SolverTraits::FillMatrix(A, 2, 0, 1.0);
+
+  VectorType b = SolverTraits::InitializeVector(3);
+  b[0] = 2.0;
+  b[1] = 3.0;
+  b[2] = 1.0;
+
+  VectorType x = SolverTraits::InitializeVector(3);
+  EXPECT_TRUE(SolverTraits::Solve(A, b, x));
+  EXPECT_NEAR(x[2], 3.0, 1.e-3);
+}
+
+// matrix derived from a Poisson birth-death queue (near-singular, s = -0.01)
+TEST(SparseLUSolverTraits, BirthDeathQueueSolve)
+{
+  constexpr double s = -0.01;
+  constexpr double l = 0.5;
+  constexpr double m = 0.5;
+
+  MatrixType S = SolverTraits::InitializeSparseMatrix(6);
+  SolverTraits::FillMatrix(S, 0, 0, s + l);
+  SolverTraits::FillMatrix(S, 0, 1, -l);
+  SolverTraits::FillMatrix(S, 1, 0, -m);
+  SolverTraits::FillMatrix(S, 1, 1, s + l + m);
+  SolverTraits::FillMatrix(S, 1, 2, -l);
+  SolverTraits::FillMatrix(S, 2, 1, -m);
+  SolverTraits::FillMatrix(S, 2, 2, s + l + m);
+  SolverTraits::FillMatrix(S, 3, 3, s + l + m);
+  SolverTraits::FillMatrix(S, 3, 4, -l);
+  SolverTraits::FillMatrix(S, 4, 3, -m);
+  SolverTraits::FillMatrix(S, 4, 4, s + l + m);
+  SolverTraits::FillMatrix(S, 4, 5, -l);
+  SolverTraits::FillMatrix(S, 5, 4, -m);
+  SolverTraits::FillMatrix(S, 5, 5, m + s);
+
+  VectorType b = SolverTraits::InitializeVector(6);
+  b.fill(0.0);
+  b[2] = l;
+  b[3] = m;
+
+  VectorType x = SolverTraits::InitializeVector(6);
+  EXPECT_TRUE(SolverTraits::Solve(S, b, x));
+  EXPECT_NEAR(x[2], 1.06622, 1.e-4);
+}

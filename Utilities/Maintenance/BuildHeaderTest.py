@@ -56,6 +56,7 @@ BANNED_HEADERS = {
     "itkViewImage.h",  # Depends on VTK_RENDERING_BACKEND
     "QuickView.h",  # Depends on VTK_RENDERING_BACKEND
     "itkBSplineDeformableTransformInitializer.h",
+    "VNLSparseLUSolverTraits.h",  # deprecated
 }
 
 HEADER = """/*=========================================================================

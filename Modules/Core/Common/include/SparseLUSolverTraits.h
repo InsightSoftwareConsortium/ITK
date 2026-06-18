@@ -15,57 +15,34 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef VNLSparseLUSolverTraits_h
-#define VNLSparseLUSolverTraits_h
+#ifndef SparseLUSolverTraits_h
+#define SparseLUSolverTraits_h
 
-// Deprecation bridge: VNLSparseLUSolverTraits (vnl_sparse_lu engine) is being
-// replaced by SparseLUSolverTraits (Eigen::SparseLU), proven faster and
-// more accurate. Eigen remains always available; only this VNL spelling is
-// gated. The guard is silent by default, warns under ITK_LEGACY_REMOVE, and
-// errors under ITK_FUTURE_LEGACY_REMOVE; ITK_LEGACY_TEST/SILENT opt out.
-#if __has_include(<itkConfigure.h>)
-#  include <itkConfigure.h>
-#  if defined(ITK_FUTURE_LEGACY_REMOVE)
-#    error "VNLSparseLUSolverTraits is removed; use SparseLUSolverTraits (SparseLUSolverTraits.h, Eigen::SparseLU)."
-#  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_LEGACY_TEST)
-#    if defined(_MSC_VER)
-#      pragma message("VNLSparseLUSolverTraits is deprecated; migrate to SparseLUSolverTraits (Eigen::SparseLU).")
-#    else
-#      warning "VNLSparseLUSolverTraits is deprecated; migrate to SparseLUSolverTraits (Eigen::SparseLU)."
-#    endif
-#  endif
-#endif
+#include "itk_eigen.h"
+#include ITK_EIGEN(Sparse)
+#include ITK_EIGEN(SparseLU)
 
-#include "vnl/vnl_vector.h"
-#include "vnl/vnl_sparse_matrix.h"
-#include "vnl/algo/vnl_sparse_lu.h"
-
-/** \class VNLSparseLUSolverTraits
- * \brief Generic interface for sparse LU solver.
+/** \class SparseLUSolverTraits
+ * \brief Generic interface for sparse LU solver backed by Eigen::SparseLU.
  *
  * This generic interface (common to several sparse solvers), allow to
  * interchange solver solutions when dealing with sparse linear systems. See
  * itk::ParameterizationQuadEdgeMeshFilter for reference.
  *
- * It internally uses the VNL library to represent and deal with vectors
- * (vnl_vector) and sparse matrices (vnl_sparse_matrix). The solver by itself
- * is made of a sparse LU decomposition followed by solving upper triangular
- * system.  see vnl_sparse_lu for more details on the method used.
- *
  * \ingroup ITKCommon
  *
+ * \sa VNLSparseLUSolverTraits
  * \sa VNLIterativeSparseSolverTraits
  */
 template <typename T = double>
-class VNLSparseLUSolverTraits
+class SparseLUSolverTraits
 {
 public:
   using ValueType = T;
-  using MatrixType = vnl_sparse_matrix<ValueType>;
-  using VectorType = vnl_vector<ValueType>;
-  using SolverType = vnl_sparse_lu;
+  using MatrixType = Eigen::SparseMatrix<ValueType>;
+  using VectorType = Eigen::Matrix<ValueType, Eigen::Dynamic, 1>;
+  using SolverType = Eigen::SparseLU<MatrixType>;
 
-  /** \return true (it is a direct solver) */
   static bool
   IsDirectSolver()
   {
@@ -97,31 +74,32 @@ public:
   static void
   FillMatrix(MatrixType & iA, const unsigned int & iR, const unsigned int & iC, const ValueType & iV)
   {
-    iA(iR, iC) = iV;
+    iA.coeffRef(iR, iC) = iV;
   }
 
   /** \brief iA[iR][iC] += iV */
   static void
   AddToMatrix(MatrixType & iA, const unsigned int & iR, const unsigned int & iC, const ValueType & iV)
   {
-    iA(iR, iC) += iV;
+    iA.coeffRef(iR, iC) += iV;
   }
 
   /** \brief oX = iA * iB */
   static void
   MatVecMult(const MatrixType & iA, const VectorType & iB, VectorType & oX)
   {
-    iA.mult(iB, oX);
+    oX = iA * iB;
   }
 
   /** \brief Solve the linear system \f$ iA \cdot oX = iB \f$ */
   static bool
   Solve(const MatrixType & iA, const VectorType & iB, VectorType & oX)
   {
+    // Eigen::SparseLU copies and compresses the matrix internally
+    // (analyzePattern), so no manual copy/compress is needed here.
     SolverType solver(iA);
-    Solve(solver, iB, oX);
-
-    return true;
+    oX = solver.solve(iB);
+    return solver.info() == Eigen::Success;
   }
 
   /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$, \f$ iA \cdot oY = iBy \f$, \f$ iA \cdot oZ = iBz \f$
@@ -135,23 +113,23 @@ public:
         VectorType &       oY,
         VectorType &       oZ)
   {
+    // Eigen::SparseLU copies and compresses the matrix internally.
     SolverType solver(iA);
     Solve(solver, iBx, iBy, iBz, oX, oY, oZ);
-
-    return true;
+    return solver.info() == Eigen::Success;
   }
 
   /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$, \f$ iA \cdot oY = iBy \f$ */
   static bool
   Solve(const MatrixType & iA, const VectorType & iBx, const VectorType & iBy, VectorType & oX, VectorType & oY)
   {
+    // Eigen::SparseLU copies and compresses the matrix internally.
     SolverType solver(iA);
     Solve(solver, iBx, iBy, oX, oY);
-
-    return true;
+    return solver.info() == Eigen::Success;
   }
 
-  /** \brief Solve the linear system \f$ iA \cdot oX = iB \f$ factoring the internal matrix if needed */
+  /** \brief Solve the linear system \f$ iA \cdot oX = iB \f$ reusing the factored matrix */
   static void
   Solve(SolverType & solver, const VectorType & iB, VectorType & oX)
   {
@@ -159,7 +137,7 @@ public:
   }
 
   /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$, \f$ iA \cdot oY = iBy \f$, \f$ iA \cdot oZ = iBz \f$
-   * factoring the internal matrix if needed */
+   * reusing the factored matrix */
   static void
   Solve(SolverType &       solver,
         const VectorType & iBx,
@@ -174,8 +152,8 @@ public:
     oZ = solver.solve(iBz);
   }
 
-  /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$, \f$ iA \cdot oY = iBy \f$ factoring the internal
-   * matrix if needed */
+  /** \brief Solve the linear systems: \f$ iA \cdot oX = iBx \f$, \f$ iA \cdot oY = iBy \f$ reusing the factored
+   * matrix */
   static void
   Solve(SolverType & solver, const VectorType & iBx, const VectorType & iBy, VectorType & oX, VectorType & oY)
   {

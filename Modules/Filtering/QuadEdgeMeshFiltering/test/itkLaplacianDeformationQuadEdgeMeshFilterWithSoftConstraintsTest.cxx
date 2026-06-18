@@ -21,7 +21,7 @@
 #include "itkMeshFileWriter.h"
 #include "itkQuadEdgeMeshParamMatrixCoefficients.h"
 #include "itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints.h"
-#include "VNLSparseLUSolverTraits.h"
+#include "SparseLUSolverTraits.h"
 #include "itkTestingMacros.h"
 
 int
@@ -45,7 +45,7 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest(int argc, char 
   reader->SetFileName(argv[1]);
   reader->Update();
 
-  using SolverType = VNLSparseLUSolverTraits<CoordType>;
+  using SolverType = SparseLUSolverTraits<CoordType>;
 
   using FilterType = itk::LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints<MeshType, MeshType, SolverType>;
   auto filter = FilterType::New();
