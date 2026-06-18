@@ -10,7 +10,7 @@ endif()
 #----------------------------------------------------------------------------
 
 project(GDCM
-  VERSION 3.3.0
+  VERSION 3.2.8
   LANGUAGES CXX C
 )
 ## NOTE: the "DESCRIPTION" feature of project() was introduced in cmake 3.10.0
@@ -86,7 +86,10 @@ if(GDCM_VERSION_MINOR MATCHES "[02468]$")
   # So unless the user *specifically* requested a particular cmake_build_type
   # do the work internally and append the NDEBUG def flag (hopefully portable)
   if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNDEBUG")
+    get_cmake_property(is_multi_config_generator GENERATOR_IS_MULTI_CONFIG)
+    if (NOT is_multi_config_generator)
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNDEBUG")
+    endif()
   endif()
   # Since we are on a release branch, chance is that people don't care about testing
   # let's disable it for them
@@ -334,8 +337,7 @@ option(GDCM_USE_SYSTEM_JSON "Use system json" OFF)
 option(GDCM_USE_SYSTEM_PAPYRUS3 "Use system papyrus3" OFF)
 option(GDCM_USE_SYSTEM_SOCKETXX "Use system socket++" OFF)
 option(GDCM_USE_SYSTEM_LJPEG "Use system ljpeg (ijg lib)" OFF)
-option(GDCM_USE_SYSTEM_OPENJPEG "Use system openjpeg" OFF)
-option(GDCM_USE_SYSTEM_CHARLS "Use system charls" OFF)
+option(GDCM_USE_JPEGTURBO "Use libjpeg-turbo instead of IJG for JPEG codec" OFF)
 mark_as_advanced(
   GDCM_USE_SYSTEM_ZLIB
   GDCM_USE_SYSTEM_OPENSSL
@@ -347,6 +349,7 @@ mark_as_advanced(
   GDCM_USE_SYSTEM_LJPEG
   GDCM_USE_SYSTEM_OPENJPEG
   GDCM_USE_SYSTEM_CHARLS
+  GDCM_USE_JPEGTURBO
   )
 option(GDCM_USE_SYSTEM_POPPLER "Use system poppler (pdf)" OFF)
 if(GDCM_USE_SYSTEM_POPPLER)
@@ -360,7 +363,41 @@ if(GDCM_USE_SYSTEM_LIBXML2)
 endif()
 mark_as_advanced(GDCM_USE_SYSTEM_LIBXML2)
 
-if(GDCM_USE_SYSTEM_LJPEG)
+if(GDCM_USE_JPEGTURBO)
+  # libjpeg-turbo >= 3.0 is required for lossless JPEG and 12/16-bit support
+  set(_gdcm_jpegturbo_min_version "3.0")
+  find_package(libjpeg-turbo ${_gdcm_jpegturbo_min_version} QUIET)
+  if(libjpeg-turbo_FOUND)
+    set(GDCM_JPEGTURBO_INCLUDE_DIRS ${libjpeg-turbo_INCLUDE_DIRS})
+    set(GDCM_JPEGTURBO_LIBRARIES ${libjpeg-turbo_LIBRARIES})
+    # Modern config uses imported targets for libraries
+    if(NOT GDCM_JPEGTURBO_LIBRARIES AND TARGET libjpeg-turbo::jpeg)
+      set(GDCM_JPEGTURBO_LIBRARIES libjpeg-turbo::jpeg)
+    endif()
+  else()
+    # Fall back to CMake's FindJPEG which works with system libjpeg-turbo
+    find_package(JPEG REQUIRED)
+    include(CheckSymbolExists)
+    set(CMAKE_REQUIRED_INCLUDES ${JPEG_INCLUDE_DIRS})
+    check_symbol_exists(LIBJPEG_TURBO_VERSION "jconfig.h" JPEG_IS_TURBO)
+    if(NOT JPEG_IS_TURBO)
+      message(FATAL_ERROR "GDCM_USE_JPEGTURBO requires libjpeg-turbo, but found plain libjpeg")
+    endif()
+    # Verify version >= 3.0 by checking for jpeg_enable_lossless (added in 3.0)
+    include(CheckSymbolExists)
+    set(CMAKE_REQUIRED_INCLUDES ${JPEG_INCLUDE_DIRS})
+    set(CMAKE_REQUIRED_LIBRARIES ${JPEG_LIBRARIES})
+    check_symbol_exists(jpeg12_read_scanlines "jpeglib.h" JPEG_HAS_12BIT_API)
+    if(NOT JPEG_HAS_12BIT_API)
+      message(FATAL_ERROR
+        "GDCM_USE_JPEGTURBO requires libjpeg-turbo >= ${_gdcm_jpegturbo_min_version} "
+        "(for lossless JPEG and 12/16-bit support), but the installed version is too old.")
+    endif()
+    set(GDCM_JPEGTURBO_INCLUDE_DIRS ${JPEG_INCLUDE_DIRS})
+    set(GDCM_JPEGTURBO_LIBRARIES JPEG::JPEG)
+  endif()
+  set(GDCM_LJPEG_LIBRARIES "")
+elseif(GDCM_USE_SYSTEM_LJPEG)
   find_package(LJPEG REQUIRED)
   set(GDCM_LJPEG_LIBRARIES ${LJPEG_LIBRARIES})
 else()
@@ -374,6 +411,9 @@ if(GDCM_USE_SYSTEM_CHARLS)
 else()
   set(GDCM_CHARLS_LIBRARIES gdcmcharls)
 endif()
+
+option(GDCM_USE_SYSTEM_OPENJPEG "Use system openjpeg" OFF)
+option(GDCM_USE_SYSTEM_CHARLS "Use system charls" OFF)
 
 if(GDCM_USE_SYSTEM_OPENJPEG)
   find_package(OpenJPEG 2.0.0 REQUIRED)
@@ -814,9 +854,11 @@ include(CMake/InstallRequiredVTKLibraries.cmake)
 endif()
 endif()
 
-# Make sure to run doxygen after everything else (in particular vtkgdcm):
-if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/Utilities/doxygen)
-  add_subdirectory(Utilities/doxygen)
+if(GDCM_DOCUMENTATION)
+  # Make sure to run doxygen after everything else (in particular vtkgdcm):
+  if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/Utilities/doxygen)
+    add_subdirectory(Utilities/doxygen)
+  endif()
 endif()
 
 #-----------------------------------------------------------------------------

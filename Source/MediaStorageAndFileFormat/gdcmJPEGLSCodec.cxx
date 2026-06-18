@@ -16,6 +16,7 @@
 #include "gdcmSequenceOfFragments.h"
 #include "gdcmDataElement.h"
 #include "gdcmSwapper.h"
+#include "gdcmUnpacker12Bits.h"
 
 #include <numeric>
 #include <cstring> // memcpy
@@ -328,6 +329,28 @@ bool JPEGLSCodec::CodeFrameIntoBuffer(char * outdata, size_t outlen, size_t & co
   int bitsallocated = pf.GetBitsAllocated();
   int bitsstored = pf.GetBitsStored();
 
+  // Handle 12-bit packed format: need to unpack first
+  const char * actual_indata = indata;
+  char * unpacked_buffer = nullptr;
+  size_t actual_inlen = inlen;
+  if( bitsallocated == 12 && bitsstored == 12 )
+    {
+    // Input is packed (3 bytes for 2 pixels), need to unpack to 16-bit
+    size_t npixels = (size_t)image_width * image_height * sample_pixel;
+    size_t unpacked_size = npixels * 2; // 16-bit per pixel
+    unpacked_buffer = new char[unpacked_size];
+    bool unpack_ok = Unpacker12Bits::Unpack(unpacked_buffer, indata, inlen);
+    if( !unpack_ok )
+      {
+      delete[] unpacked_buffer;
+      return false;
+      }
+    actual_indata = unpacked_buffer;
+    actual_inlen = unpacked_size;
+    // Update bitsallocated for encoder - 12-bit uses 16-bit container
+    bitsallocated = 16;
+    }
+
   JlsParameters params = {};
   /*
   The fields in JlsCustomParameters do not control lossy/lossless. They
@@ -390,14 +413,18 @@ bool JPEGLSCodec::CodeFrameIntoBuffer(char * outdata, size_t outlen, size_t & co
       params.interleaveMode = InterleaveMode::None;
 
 
-  ApiResult error = JpegLsEncode(outdata, outlen, &complen, indata, inlen, &params, nullptr);
+  ApiResult error = JpegLsEncode(outdata, outlen, &complen, actual_indata, actual_inlen, &params, nullptr);
   if( error != ApiResult::OK )
     {
     gdcmErrorMacro( "Error compressing: " << (int)error );
+    delete[] unpacked_buffer;
     return false;
     }
 
   gdcm_assert( complen < outlen );
+
+  // Clean up unpacked buffer if it was allocated
+  delete[] unpacked_buffer;
 
   return true;
 #endif
