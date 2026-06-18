@@ -12,7 +12,94 @@
 #include <cassert>
 #include <iostream>
 #include "vnl_ldl_cholesky.h"
-#include <vnl/algo/vnl_netlib.h> // dpofa_(), dposl_(), dpoco_(), dpodi_()
+
+// Native Cholesky engine producing the plain lower factor L (M = L L') that the
+// ctor rescales into the unit-lower L and diagonal D of M = L D L'.
+namespace
+{
+//: In-place lower Cholesky factor; returns 0 on success or the 1-based order of
+//  the first leading minor that is not positive definite.
+long
+ldl_plain_factor(vnl_matrix<double> & A, long n)
+{
+  for (long j = 0; j < n; ++j)
+  {
+    double diag = A(j, j);
+    for (long k = 0; k < j; ++k)
+      diag -= A(j, k) * A(j, k);
+    if (diag <= 0.0)
+      return j + 1;
+    const double Ljj = std::sqrt(diag);
+    A(j, j) = Ljj;
+    for (long i = j + 1; i < n; ++i)
+    {
+      double off = A(i, j);
+      for (long k = 0; k < j; ++k)
+        off -= A(i, k) * A(j, k);
+      A(i, j) = off / Ljj;
+    }
+  }
+  return 0;
+}
+
+//: Solve A x = b in place (x holds b on entry) using the plain factor A = L L'.
+void
+ldl_plain_solve(const vnl_matrix<double> & A, long n, double * x)
+{
+  for (long i = 0; i < n; ++i)
+  {
+    double s = x[i];
+    for (long k = 0; k < i; ++k)
+      s -= A(i, k) * x[k];
+    x[i] = s / A(i, i);
+  }
+  for (long i = n - 1; i >= 0; --i)
+  {
+    double s = x[i];
+    for (long k = i + 1; k < n; ++k)
+      s -= A(k, i) * x[k];
+    x[i] = s / A(i, i);
+  }
+}
+
+//: Higham/Hager 1-norm estimate of the reciprocal condition number using the
+//  plain factor and the original-matrix 1-norm anorm.
+double
+ldl_estimate_rcond(const vnl_matrix<double> & A, long n, double anorm)
+{
+  vnl_vector<double> x(n, 1.0 / static_cast<double>(n));
+  vnl_vector<double> y(n);
+  vnl_vector<double> xi(n);
+  double             est = 0.0;
+  for (int iter = 0; iter < 5; ++iter)
+  {
+    y = x;
+    ldl_plain_solve(A, n, y.data_block());
+    est = y.one_norm();
+    for (long i = 0; i < n; ++i)
+      xi[i] = (y[i] >= 0.0) ? 1.0 : -1.0;
+    vnl_vector<double> z = xi;
+    ldl_plain_solve(A, n, z.data_block());
+    long   jmax = 0;
+    double zmax = std::fabs(z[0]);
+    for (long i = 1; i < n; ++i)
+      if (std::fabs(z[i]) > zmax)
+      {
+        zmax = std::fabs(z[i]);
+        jmax = i;
+      }
+    if (zmax <= dot_product(z, x))
+      break;
+    x.fill(0.0);
+    x[jmax] = 1.0;
+  }
+  const double denom = anorm * est;
+  double       rcond = (denom > 0.0) ? 1.0 / denom : 0.0;
+  if (rcond > 1.0)
+    rcond = 1.0;
+  return rcond;
+}
+} // namespace
 
 //: Cholesky decomposition.
 // Make cholesky decomposition of M optionally computing
@@ -38,14 +125,23 @@ vnl_ldl_cholesky::vnl_ldl_cholesky(const vnl_matrix<double> & M, Operation mode)
   if (mode != estimate_condition)
   {
     // Quick factorization
-    v3p_netlib_dpofa_(L_.data_block(), &n, &n, &num_dims_rank_def_);
+    num_dims_rank_def_ = ldl_plain_factor(L_, n);
     if (mode == verbose && num_dims_rank_def_ != 0)
       std::cerr << "vnl_ldl_cholesky: " << num_dims_rank_def_ << " dimensions of non-posdeffness\n";
   }
   else
   {
-    vnl_vector<double> nullvec(n);
-    v3p_netlib_dpoco_(L_.data_block(), &n, &n, &rcond_, nullvec.data_block(), &num_dims_rank_def_);
+    double anorm = 0.0; // 1-norm of the symmetric M, computed before factoring
+    for (long j = 0; j < n; ++j)
+    {
+      double colsum = 0.0;
+      for (long i = 0; i < n; ++i)
+        colsum += std::fabs(M(i, j));
+      if (colsum > anorm)
+        anorm = colsum;
+    }
+    num_dims_rank_def_ = ldl_plain_factor(L_, n);
+    rcond_ = (num_dims_rank_def_ == 0) ? ldl_estimate_rcond(L_, n, anorm) : 0.0;
     if (num_dims_rank_def_ != 0)
       std::cerr << "vnl_ldl_cholesky: rcond=" << rcond_ << " so " << num_dims_rank_def_
                 << " dimensions of non-posdeffness\n";
