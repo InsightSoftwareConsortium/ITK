@@ -19,9 +19,10 @@
 #define itkLevenbergMarquardtOptimizer_h
 
 #include "itkMultipleValuedNonLinearVnlOptimizer.h"
-#include "vnl/algo/vnl_levenberg_marquardt.h"
 #include "ITKOptimizersExport.h"
-#include <memory> // For unique_ptr.
+#include <string>
+
+class vnl_levenberg_marquardt;
 
 namespace itk
 {
@@ -55,12 +56,17 @@ public:
   /** InternalParameters type alias. */
   using InternalParametersType = vnl_vector<double>;
 
-  /** Internal optimizer type. */
+#if !defined(ITK_LEGACY_REMOVE)
+  /** Internal optimizer type.
+   * \deprecated The minimization is performed by an Eigen-backed engine; this
+   * alias is retained only for source compatibility. */
   using InternalOptimizerType = vnl_levenberg_marquardt;
 
-  /** Method for getting access to the internal optimizer. */
-  vnl_levenberg_marquardt *
-  GetOptimizer() const;
+  /** \deprecated Access to the former internal vnl_levenberg_marquardt is no
+   * longer meaningful: the optimizer is backed by the Eigen MINPACK-port
+   * Levenberg-Marquardt. Returns nullptr. */
+  itkLegacyMacro(vnl_levenberg_marquardt * GetOptimizer() const);
+#endif
 
   /** Start optimization with an initial value. */
   void
@@ -96,12 +102,12 @@ protected:
   using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
 private:
-  bool                                   m_OptimizerInitialized{};
-  std::unique_ptr<InternalOptimizerType> m_VnlOptimizer;
-  unsigned int                           m_NumberOfIterations{};
-  double                                 m_ValueTolerance{};
-  double                                 m_GradientTolerance{};
-  double                                 m_EpsilonFunction{};
+  bool         m_OptimizerInitialized{};
+  unsigned int m_NumberOfIterations{};
+  double       m_ValueTolerance{};
+  double       m_GradientTolerance{};
+  double       m_EpsilonFunction{};
+  std::string  m_StopConditionDescription{};
 };
 } // end namespace itk
 

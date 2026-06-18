@@ -48,6 +48,13 @@ Eigen/src
 unsupported/Eigen/MatrixFunctions
 unsupported/Eigen/src/MatrixFunctions
 
+unsupported/Eigen/NonLinearOptimization
+unsupported/Eigen/LevenbergMarquardt
+unsupported/Eigen/NumericalDiff
+unsupported/Eigen/src/NonLinearOptimization
+unsupported/Eigen/src/LevenbergMarquardt
+unsupported/Eigen/src/NumericalDiff
+
 COPYING.BSD
 COPYING.MINPACK
 COPYING.MPL2
