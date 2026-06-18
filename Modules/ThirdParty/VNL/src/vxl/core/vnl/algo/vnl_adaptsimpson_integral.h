@@ -1,5 +1,18 @@
 #ifndef VNL_ADAPTSIMPSON_INTEGRAL_H_
 #define VNL_ADAPTSIMPSON_INTEGRAL_H_
+
+#if __has_include(<itkConfigure.h>)
+#  include <itkConfigure.h>
+#  if defined(ITK_FUTURE_LEGACY_REMOVE)
+#    error "vnl_adaptsimpson_integral was removed; supply an adaptive Simpson rule directly."
+#  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_LEGACY_TEST)
+#    if defined(_MSC_VER)
+#      pragma message("vnl_adaptsimpson_integral is deprecated; supply an adaptive Simpson rule directly.")
+#    else
+#      warning "vnl_adaptsimpson_integral is deprecated; supply an adaptive Simpson rule directly."
+#    endif
+#  endif
+#endif
 //:
 // \file
 // \author Kongbin Kang at Brown

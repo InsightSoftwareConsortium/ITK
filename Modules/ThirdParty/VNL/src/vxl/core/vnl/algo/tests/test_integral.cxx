@@ -1,3 +1,4 @@
+#define ITK_LEGACY_TEST
 // not used? #include <iostream>
 #include <cmath>
 #include <utility>

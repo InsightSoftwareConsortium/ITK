@@ -1,5 +1,18 @@
 #ifndef VNL_SIMPSON_INTEGRAL_H_
 #define VNL_SIMPSON_INTEGRAL_H_
+
+#if __has_include(<itkConfigure.h>)
+#  include <itkConfigure.h>
+#  if defined(ITK_FUTURE_LEGACY_REMOVE)
+#    error "vnl_simpson_integral was removed; supply a composite Simpson rule (Mathews Algorithm 7.2) directly."
+#  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_LEGACY_TEST)
+#    if defined(_MSC_VER)
+#      pragma message("vnl_simpson_integral is deprecated; supply a composite Simpson rule directly.")
+#    else
+#      warning "vnl_simpson_integral is deprecated; supply a composite Simpson rule directly."
+#    endif
+#  endif
+#endif
 //:
 // \file
 // \author Kongbin Kang at Brown
