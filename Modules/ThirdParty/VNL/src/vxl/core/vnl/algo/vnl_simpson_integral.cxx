@@ -1,5 +1,4 @@
 #include "vnl_simpson_integral.h"
-#include <vnl/algo/vnl_netlib.h>
 
 double
 vnl_simpson_integral::int_fnct_(double * x)
@@ -10,13 +9,25 @@ vnl_simpson_integral::int_fnct_(double * x)
 double
 vnl_simpson_integral::integral(vnl_integrant_fnct * f, double a, double b, long n)
 {
-
-  double res = 0;
-
   // set the function
   pfnct_ = f;
 
-  v3p_netlib_simpru_(&vnl_simpson_integral::int_fnct_, &a, &b, &n, &res);
+  // Composite Simpson rule (Mathews Algorithm 7.2): n intervals, 2n subintervals.
+  const double h = (b - a) / (2 * n);
 
-  return res;
+  double sumeven = 0.0;
+  for (long k = 1; k <= n - 1; ++k)
+  {
+    double x = a + h * 2 * k;
+    sumeven += int_fnct_(&x);
+  }
+
+  double sumodd = 0.0;
+  for (long k = 1; k <= n; ++k)
+  {
+    double x = a + h * (2 * k - 1);
+    sumodd += int_fnct_(&x);
+  }
+
+  return h * (int_fnct_(&a) + int_fnct_(&b) + 2 * sumeven + 4 * sumodd) / 3;
 }
