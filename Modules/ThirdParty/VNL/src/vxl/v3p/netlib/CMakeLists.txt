@@ -52,39 +52,24 @@ set(V3P_NETLIB_libf2c_SOURCES
 set(V3P_NETLIB_blas_SOURCES
      blas/lsame.c blas/lsame.h
      blas/caxpy.c blas/caxpy.h
-     blas/ccopy.c blas/ccopy.h
      blas/cdotc.c blas/cdotc.h
      blas/cscal.c blas/cscal.h
      blas/csrot.c blas/csrot.h
      blas/cswap.c blas/cswap.h
-     blas/dasum.c blas/dasum.h
      blas/daxpy.c blas/daxpy.h
      blas/dcabs1.c blas/dcabs1.h
      blas/dcopy.c blas/dcopy.h
      blas/ddot.c blas/ddot.h
-     blas/dgemm.c blas/dgemm.h
-     blas/dgemv.c blas/dgemv.h
-     blas/dger.c blas/dger.h
      blas/dlamch.c blas/dlamch.h
      blas/dnrm2.c blas/dnrm2.h
      blas/drot.c blas/drot.h
      blas/drotg.c blas/drotg.h
      blas/dscal.c blas/dscal.h
      blas/dswap.c blas/dswap.h
-     blas/dtrmm.c blas/dtrmm.h
-     blas/dtrmv.c blas/dtrmv.h
-     blas/dtrsv.c blas/dtrsv.h
-     blas/dzasum.c blas/dzasum.h
      blas/dznrm2.c blas/dznrm2.h
-     blas/idamax.c blas/idamax.h
-     blas/isamax.c blas/isamax.h
-     blas/izamax.c blas/izamax.h
      blas/saxpy.c blas/saxpy.h
      blas/scnrm2.c blas/scnrm2.h
-     blas/scopy.c blas/scopy.h
      blas/sdot.c blas/sdot.h
-     blas/sgemv.c blas/sgemv.h
-     blas/sger.c blas/sger.h
      blas/slamch.c blas/slamch.h
      blas/snrm2.c blas/snrm2.h
      blas/srot.c blas/srot.h
@@ -93,40 +78,16 @@ set(V3P_NETLIB_blas_SOURCES
      blas/sswap.c blas/sswap.h
      blas/xerbla.c blas/xerbla.h
      blas/zaxpy.c blas/zaxpy.h
-     blas/zcopy.c blas/zcopy.h
      blas/zdotc.c blas/zdotc.h
-     blas/zdotu.c blas/zdotu.h
      blas/zdrot.c blas/zdrot.h
-     blas/zdscal.c blas/zdscal.h
-     blas/zgemm.c blas/zgemm.h
-     blas/zgemv.c blas/zgemv.h
-     blas/zgerc.c blas/zgerc.h
-     blas/zgeru.c blas/zgeru.h
      blas/zscal.c blas/zscal.h
      blas/zswap.c blas/zswap.h
-     blas/ztrmm.c blas/ztrmm.h
-     blas/ztrmv.c blas/ztrmv.h
-     blas/ztrsv.c blas/ztrsv.h
    )
 set(V3P_NETLIB_linpack_SOURCES
-     linpack/sqrdc.c linpack/sqrdc.h
-     linpack/dqrdc.c linpack/dqrdc.h
-     linpack/cqrdc.c linpack/cqrdc.h
-     linpack/zqrdc.c linpack/zqrdc.h
-     linpack/sqrsl.c linpack/sqrsl.h
-     linpack/dqrsl.c linpack/dqrsl.h
-     linpack/cqrsl.c linpack/cqrsl.h
-     linpack/zqrsl.c linpack/zqrsl.h
-
      linpack/csvdc.c linpack/csvdc.h
      linpack/dsvdc.c linpack/dsvdc.h
      linpack/ssvdc.c linpack/ssvdc.h
      linpack/zsvdc.c linpack/zsvdc.h
-
-     linpack/dpoco.c linpack/dpoco.h
-     linpack/dpodi.c linpack/dpodi.h
-     linpack/dpofa.c linpack/dpofa.h
-     linpack/dposl.c linpack/dposl.h
    )
 set(V3P_NETLIB_eispack_SOURCES
      eispack/balanc.c eispack/balanc.h

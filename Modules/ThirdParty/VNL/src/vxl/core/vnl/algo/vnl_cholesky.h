@@ -1,6 +1,27 @@
 // This is core/vnl/algo/vnl_cholesky.h
 #ifndef vnl_cholesky_h_
 #define vnl_cholesky_h_
+
+// ITK deprecation shim: the netlib LINPACK engine behind vnl_cholesky was
+// retired in favor of a native factor; itk::Math::SolveSymmetricPositiveDefinite
+// / CholeskyLowerTriangle (Eigen-backed) are the supported replacements. The
+// guard is active only when itkConfigure.h is reachable (an ITK consumer), so
+// ITK's own VXL build is unaffected.
+#if __has_include(<itkConfigure.h>)
+#  include <itkConfigure.h>
+#  if defined(ITK_FUTURE_LEGACY_REMOVE)
+#    error \
+      "vnl/algo/vnl_cholesky.h is deprecated; migrate to itk::Math::SolveSymmetricPositiveDefinite / CholeskyLowerTriangle (itkCholeskySolve.h, Eigen-backed)."
+#  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_LEGACY_TEST)
+#    if defined(_MSC_VER)
+#      pragma message( \
+        "vnl/algo/vnl_cholesky.h is deprecated; migrate to itk::Math::SolveSymmetricPositiveDefinite / CholeskyLowerTriangle (itkCholeskySolve.h, Eigen-backed).")
+#    else
+#      warning \
+        "vnl/algo/vnl_cholesky.h is deprecated; migrate to itk::Math::SolveSymmetricPositiveDefinite / CholeskyLowerTriangle (itkCholeskySolve.h, Eigen-backed)."
+#    endif
+#  endif
+#endif
 //:
 // \file
 // \brief Decomposition of symmetric matrix

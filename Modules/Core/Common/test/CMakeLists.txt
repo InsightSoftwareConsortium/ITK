@@ -1429,6 +1429,7 @@ set(
   itkBSplineKernelFunctionGTest.cxx
   itkBuildInformationGTest.cxx
   itkByteSwapGTest.cxx
+  itkCholeskySolveGTest.cxx
   itkCommandObserverObjectGTest.cxx
   itkCommonTypeTraitsGTest.cxx
   itkCompensatedSummationGTest.cxx
@@ -1502,6 +1503,7 @@ set(
   itkPointSetGTest.cxx
   itkPrintHelperGTest.cxx
   itkPriorityQueueGTest.cxx
+  itkQRDecompositionGTest.cxx
   itkRealTimeClockGTest.cxx
   itkRealTimeIntervalGTest.cxx
   itkRealTimeStampGTest.cxx
