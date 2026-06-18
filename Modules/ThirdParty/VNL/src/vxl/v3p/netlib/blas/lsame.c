@@ -1,3 +1,6 @@
+/* Cherry-picked from lapack/util/ into blas/: lsame_ is the ONLY routine the
+   retained netlib code (BLAS) requires from LAPACK. The rest of the LAPACK
+   directory had no consumer in ITK's compile closure and was removed. */
 /* lapack/util/lsame.f -- translated by f2c (version 20050501).
    You must link the resulting object file with libf2c:
         on Microsoft Windows system, link with libf2c.lib;
