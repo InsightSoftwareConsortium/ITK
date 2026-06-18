@@ -18,7 +18,6 @@ add_executable( vnl_algo_test_all
   test_minimizers.cxx
   test_powell.cxx
   test_qr.cxx
-  test_qsvd.cxx
   test_rank.cxx
   test_real_eigensystem.cxx
   test_sparse_matrix.cxx
@@ -46,7 +45,6 @@ add_test( NAME vnl_algo_test_matrix_update COMMAND vnl_algo_test_all test_matrix
 add_test( NAME vnl_algo_test_minimizers COMMAND vnl_algo_test_all test_minimizers              )
 add_test( NAME vnl_algo_test_powell COMMAND vnl_algo_test_all test_powell                  )
 add_test( NAME vnl_algo_test_qr COMMAND vnl_algo_test_all test_qr                      )
-add_test( NAME vnl_algo_test_qsvd COMMAND vnl_algo_test_all test_qsvd                    )
 add_test( NAME vnl_algo_test_rank COMMAND vnl_algo_test_all test_rank                    )
 add_test( NAME vnl_algo_test_real_eigensystem COMMAND vnl_algo_test_all test_real_eigensystem        )
 add_test( NAME vnl_algo_test_integral COMMAND vnl_algo_test_all test_integral                )

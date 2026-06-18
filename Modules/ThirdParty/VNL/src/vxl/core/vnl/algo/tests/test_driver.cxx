@@ -11,7 +11,6 @@ DECLARE(test_matrix_update);
 DECLARE(test_minimizers);
 DECLARE(test_powell);
 DECLARE(test_qr);
-DECLARE(test_qsvd);
 DECLARE(test_rational);
 DECLARE(test_real_eigensystem);
 DECLARE(test_sparse_matrix);
@@ -40,7 +39,6 @@ register_tests()
   REGISTER(test_minimizers);
   REGISTER(test_powell);
   REGISTER(test_qr);
-  REGISTER(test_qsvd);
   REGISTER(test_real_eigensystem);
   REGISTER(test_integral);
   REGISTER(test_sparse_matrix);

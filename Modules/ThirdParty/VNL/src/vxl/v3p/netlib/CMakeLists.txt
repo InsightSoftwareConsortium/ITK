@@ -50,6 +50,7 @@ set(V3P_NETLIB_libf2c_SOURCES
      libf2c/z_sqrt.c
    )
 set(V3P_NETLIB_blas_SOURCES
+     blas/lsame.c blas/lsame.h
      blas/caxpy.c blas/caxpy.h
      blas/ccopy.c blas/ccopy.h
      blas/cdotc.c blas/cdotc.h
@@ -148,91 +149,6 @@ set(V3P_NETLIB_eispack_SOURCES
      eispack/tred1.c eispack/tred1.h
      eispack/tred2.c eispack/tred2.h
    )
-set(V3P_NETLIB_lapack_SOURCES
-     lapack/double/dgecon.c lapack/double/dgecon.h
-     lapack/double/dgeqr2.c lapack/double/dgeqr2.h
-     lapack/double/dgeqrf.c lapack/double/dgeqrf.h
-     lapack/double/dgerq2.c lapack/double/dgerq2.h
-     lapack/double/dgesc2.c lapack/double/dgesc2.h
-     lapack/double/dgetc2.c lapack/double/dgetc2.h
-     lapack/double/dggbak.c lapack/double/dggbak.h
-     lapack/double/dggbal.c lapack/double/dggbal.h
-     lapack/double/dgges.c lapack/double/dgges.h
-     lapack/double/dgghrd.c lapack/double/dgghrd.h
-     lapack/double/dhgeqz.c lapack/double/dhgeqz.h
-     lapack/double/dlabad.c lapack/double/dlabad.h
-     lapack/double/dlacon.c lapack/double/dlacon.h
-     lapack/double/dlacpy.c lapack/double/dlacpy.h
-     lapack/double/dladiv.c lapack/double/dladiv.h
-     lapack/double/dlaev2.c lapack/double/dlaev2.h
-     lapack/double/dlag2.c lapack/double/dlag2.h
-     lapack/double/dlagv2.c lapack/double/dlagv2.h
-     lapack/double/dlange.c lapack/double/dlange.h
-     lapack/double/dlanhs.c lapack/double/dlanhs.h
-     lapack/double/dlapy2.c lapack/double/dlapy2.h
-     lapack/double/dlapy3.c lapack/double/dlapy3.h
-     lapack/double/dlarf.c lapack/double/dlarf.h
-     lapack/double/dlarfb.c lapack/double/dlarfb.h
-     lapack/double/dlarfg.c lapack/double/dlarfg.h
-     lapack/double/dlarft.c lapack/double/dlarft.h
-     lapack/double/dlartg.c lapack/double/dlartg.h
-     lapack/double/dlascl.c lapack/double/dlascl.h
-     lapack/double/dlaset.c lapack/double/dlaset.h
-     lapack/double/dlassq.c lapack/double/dlassq.h
-     lapack/double/dlasv2.c lapack/double/dlasv2.h
-     lapack/double/dlaswp.c lapack/double/dlaswp.h
-     lapack/double/dlatdf.c lapack/double/dlatdf.h
-     lapack/double/dlatrs.c lapack/double/dlatrs.h
-     lapack/double/dorg2r.c lapack/double/dorg2r.h
-     lapack/double/dorgqr.c lapack/double/dorgqr.h
-     lapack/double/dorgr2.c lapack/double/dorgr2.h
-     lapack/double/dorm2r.c lapack/double/dorm2r.h
-     lapack/double/dormqr.c lapack/double/dormqr.h
-     lapack/double/dormr2.c lapack/double/dormr2.h
-     lapack/double/drscl.c lapack/double/drscl.h
-     lapack/double/dsptrf.c lapack/double/dsptrf.h
-     lapack/double/dsptrs.c lapack/double/dsptrs.h
-     lapack/double/dspr.c lapack/double/dspr.h
-     lapack/double/dtgex2.c lapack/double/dtgex2.h
-     lapack/double/dtgexc.c lapack/double/dtgexc.h
-     lapack/double/dtgsen.c lapack/double/dtgsen.h
-     lapack/double/dtgsy2.c lapack/double/dtgsy2.h
-     lapack/double/dtgsyl.c lapack/double/dtgsyl.h
-     lapack/double/dlae2.c lapack/double/dlae2.h
-     lapack/double/dlanst.c lapack/double/dlanst.h
-     lapack/double/dlarnv.c lapack/double/dlarnv.h
-     lapack/double/dlaruv.c lapack/double/dlaruv.h
-     lapack/double/dlasr.c lapack/double/dlasr.h
-     lapack/double/dlasrt.c lapack/double/dlasrt.h
-     lapack/double/dsteqr.c lapack/double/dsteqr.h
-     lapack/double/dzsum1.c lapack/double/dzsum1.h
-     lapack/single/sgeqpf.c lapack/single/sgeqpf.h
-     lapack/single/sgeqr2.c lapack/single/sgeqr2.h
-     lapack/single/sgerq2.c lapack/single/sgerq2.h
-     lapack/single/sggsvd.c lapack/single/sggsvd.h
-     lapack/single/sggsvp.c lapack/single/sggsvp.h
-     lapack/single/slacpy.c lapack/single/slacpy.h
-     lapack/single/slags2.c lapack/single/slags2.h
-     lapack/single/slange.c lapack/single/slange.h
-     lapack/single/slapll.c lapack/single/slapll.h
-     lapack/single/slapmt.c lapack/single/slapmt.h
-     lapack/single/slapy2.c lapack/single/slapy2.h
-     lapack/single/slarf.c lapack/single/slarf.h
-     lapack/single/slarfg.c lapack/single/slarfg.h
-     lapack/single/slartg.c lapack/single/slartg.h
-     lapack/single/slas2.c lapack/single/slas2.h
-     lapack/single/slaset.c lapack/single/slaset.h
-     lapack/single/slassq.c lapack/single/slassq.h
-     lapack/single/slasv2.c lapack/single/slasv2.h
-     lapack/single/sorg2r.c lapack/single/sorg2r.h
-     lapack/single/sorm2r.c lapack/single/sorm2r.h
-     lapack/single/sormr2.c lapack/single/sormr2.h
-     lapack/single/stgsja.c lapack/single/stgsja.h
-     lapack/util/ieeeck.c lapack/util/ieeeck.h
-     lapack/util/ilaenv.c lapack/util/ilaenv.h
-     lapack/util/izmax1.c lapack/util/izmax1.h
-     lapack/util/lsame.c lapack/util/lsame.h
-   )
 set(V3P_NETLIB_napack_SOURCES
      napack/cg.c napack/cg.h
    )
@@ -273,7 +189,6 @@ set(v3p_netlib_sources
      ${V3P_NETLIB_blas_SOURCES}
      ${V3P_NETLIB_linpack_SOURCES}
      ${V3P_NETLIB_eispack_SOURCES}
-     ${V3P_NETLIB_lapack_SOURCES}
      ${V3P_NETLIB_napack_SOURCES}
      ${V3P_NETLIB_opt_SOURCES}
      ${V3P_NETLIB_linalg_SOURCES}
