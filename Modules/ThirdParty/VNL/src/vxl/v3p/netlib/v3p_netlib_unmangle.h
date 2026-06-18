@@ -160,7 +160,6 @@
 #undef sgbmv_
 #undef sgemv_
 #undef sger_
-#undef simpru_
 #undef slamc1_
 #undef slamc2_
 #undef slamc3_
@@ -197,13 +196,10 @@
 #undef tql1_
 #undef tql2_
 #undef tqlrat_
-#undef trapru_
 #undef tred1_
 #undef tred2_
 #undef urand_
 #undef xerbla_
-#undef xsimpru_
-#undef xtrapru_
 #undef zaxpy_
 #undef zcopy_
 #undef zdotc_

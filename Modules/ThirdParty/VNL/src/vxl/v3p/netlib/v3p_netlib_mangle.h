@@ -169,7 +169,6 @@ nm libv3p_netlib.a |grep " [TR] "
 #define sgbmv_ v3p_netlib_sgbmv_
 #define sgemv_ v3p_netlib_sgemv_
 #define sger_ v3p_netlib_sger_
-#define simpru_ v3p_netlib_simpru_
 #define slamc1_ v3p_netlib_slamc1_
 #define slamc2_ v3p_netlib_slamc2_
 #define slamc3_ v3p_netlib_slamc3_
@@ -206,13 +205,10 @@ nm libv3p_netlib.a |grep " [TR] "
 #define tql1_ v3p_netlib_tql1_
 #define tql2_ v3p_netlib_tql2_
 #define tqlrat_ v3p_netlib_tqlrat_
-#define trapru_ v3p_netlib_trapru_
 #define tred1_ v3p_netlib_tred1_
 #define tred2_ v3p_netlib_tred2_
 #define urand_ v3p_netlib_urand_
 #define xerbla_ v3p_netlib_xerbla_
-#define xsimpru_ v3p_netlib_xsimpru_
-#define xtrapru_ v3p_netlib_xtrapru_
 #define zaxpy_ v3p_netlib_zaxpy_
 #define zcopy_ v3p_netlib_zcopy_
 #define zdotc_ v3p_netlib_zdotc_

@@ -73,7 +73,7 @@ respecitve sources.
 5. Convert the sources to C using `f2c` and replace the `f2c.h` header
 inclusion with `v3p_netlib.h`:
     ```bash
-    for d in blas linpack temperton eispack laso arpack lapack/complex16 lapack/double lapack/single lapack/util napack minpack opt linalg toms datapac mathews; do
+    for d in blas linpack temperton eispack laso arpack lapack/complex16 lapack/double lapack/single lapack/util napack minpack opt linalg toms datapac; do
       for f in ${d}/*.f; do
         b=`echo "$f" | sed 's/.f$//'`
         if [ ! -f "${b}.c" ]; then
@@ -120,7 +120,7 @@ be left alone.
 with the mangled interface.  Include them all in `v3p_netlib_prototypes.h`.
     ```bash
     echo "/* Include prototype headers. */" > v3p_netlib_prototypes.h
-    for f in blas/*.P linpack/*.P temperton/*.P eispack/*.P laso/*.P arpack/*.P lapack/*/*.P napack/*.P minpack/*.P opt/*.P linalg/*.P toms/*.P datapac/*.P mathews/*.P; do
+    for f in blas/*.P linpack/*.P temperton/*.P eispack/*.P laso/*.P arpack/*.P lapack/*/*.P napack/*.P minpack/*.P opt/*.P linalg/*.P toms/*.P datapac/*.P; do
       b=`echo "$f" | sed 's/.P//'`
       if [ ! -f "${b}.h" ] ; then
         echo "Converting prototype $b"
