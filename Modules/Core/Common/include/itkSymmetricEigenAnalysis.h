@@ -195,6 +195,11 @@ inline constexpr EigenValueOrderEnum DoNotOrder = EigenValueOrderEnum::DoNotOrde
  * For algorithmic descriptions see \cite bowdler1968 and
  * \cite bowdler1971.
  *
+ * \sa SymmetricEigenDecomposition, a single-shot stored eigendecomposition
+ * (construct once, read V / D) that is the Eigen-backed drop-in for
+ * vnl_symmetric_eigensystem. Prefer this configurable solver object for
+ * high-throughput fixed-size tensor work.
+ *
  * \ingroup ITKCommon
  */
 

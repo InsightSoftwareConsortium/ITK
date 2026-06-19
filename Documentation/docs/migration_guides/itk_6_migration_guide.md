@@ -734,3 +734,52 @@ removed. The default (non-FFTW) FFT backend is now PocketFFT
   or upstreamed on the next vnl pin update.
 - `vnl_fft_prime_factors`, `gpfa`-family symbols, and the vxl
   `vnl_algo_test_fft*`/`test_convolve` tests are gone from the vendored tree.
+
+## Eigen-backed eigendecompositions replace netlib EISPACK `vnl_*_eigensystem`
+
+`vnl_real_eigensystem`, `vnl_symmetric_eigensystem`, and
+`vnl_generalized_eigensystem` (netlib EISPACK `rg`/`rs`/`rsg`), and the only
+other client `vnl_scatter_3x3`, are deprecated in favor of Eigen-backed
+`itk::RealEigenDecomposition`, `itk::SymmetricEigenDecomposition`, and
+`itk::GeneralizedEigenDecomposition`. Under `ITK_FUTURE_LEGACY_REMOVE` these
+classes and the entire `v3p/netlib/eispack/` subdirectory are excluded from the
+build.
+
+### What you need to do
+
+- Replace `vnl_symmetric_eigensystem<T>` with `itk::SymmetricEigenDecomposition<T>`
+  (it mirrors the `V`/`D` members and `get_eigenvector`/`get_eigenvalue`
+  accessors, so most call sites change only the type name and the include:
+  `itkSymmetricEigenDecomposition.h`). Use `itk::RealEigenDecomposition` and
+  `itk::GeneralizedEigenDecomposition` for the non-symmetric and
+  symmetric-definite generalized problems.
+- For the eigenvalues/eigenvectors of a 3x3 scatter matrix, build the matrix
+  directly and feed `itk::SymmetricEigenDecomposition`.
+
+### A different correct representation — not a regression
+
+An eigenvector is only defined up to sign (and a complex one up to phase), so the
+sign returned is mathematically arbitrary. The new symmetric/generalized classes
+**canonicalize** real eigenvector columns to a deterministic convention
+(largest-magnitude entry positive), which is reproducible across platforms and
+SIMD widths — unlike the EISPACK signs the old baselines were implicitly locked
+to. Opt out per call with the `canonicalizeSigns = false` constructor argument.
+
+Because of this, a few filters that consume an eigenvector's raw direction emit
+**the same geometric result expressed from a different, equally-valid
+representative**:
+
+- `LabelGeometryImageFilter`: the oriented bounding-box *image* is anchored at
+  the opposite corner (its origin shifts); the rendered region is identical.
+- `ShapeLabelMapFilter` / `StatisticsLabelMapFilter`:
+  `GetOrientedBoundingBoxOrigin()` reports the opposite corner for
+  non-axis-aligned directions.
+
+In every case the underlying quantity is unchanged — bounding-box **size**,
+principal **moments**, elongation, eccentricity, orientation angle, and the
+principal **axes** themselves (which flip sign consistently) are all the same.
+The origin, axes, and size together still describe the identical box. **If a
+baseline or expected value changed, it is a selection of a different correct
+representation of the same result, not an indication of a failure.** Update such
+expected values to the new (now platform-stable) representatives; the migrated
+ITK tests have been updated this way.

@@ -25,8 +25,8 @@
 #include "itkConstantBoundaryCondition.h"
 #include "itkGeometryUtilities.h"
 #include "itkConnectedComponentAlgorithm.h"
-#include "vnl/algo/vnl_real_eigensystem.h"
-#include "vnl/algo/vnl_symmetric_eigensystem.h"
+#include "itkRealEigenDecomposition.h"
+#include "itkSymmetricEigenDecomposition.h"
 #include "itkMath.h"
 #include "itkLexicographicCompare.h"
 #include <deque>
@@ -306,9 +306,9 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
   }
 
   // Compute principal moments and axes
-  VectorType                              principalMoments;
-  const vnl_symmetric_eigensystem<double> eigen{ centralMoments.GetVnlMatrix().as_matrix() };
-  vnl_diag_matrix<double>                 pm = eigen.D;
+  VectorType                                     principalMoments;
+  const itk::SymmetricEigenDecomposition<double> eigen{ centralMoments.GetVnlMatrix().as_matrix() };
+  vnl_diag_matrix<double>                        pm = eigen.D;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     // Clamp to zero: near-zero negative eigenvalues from numerical precision cause FPE in std::pow(edet, ...)
@@ -318,9 +318,9 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
 
   // Add a final reflection if needed for a proper rotation,
   // by multiplying the last row by the determinant
-  const vnl_real_eigensystem            eigenrot{ principalAxes.GetVnlMatrix().as_matrix() };
-  vnl_diag_matrix<std::complex<double>> eigenval{ eigenrot.D };
-  std::complex<double>                  det(1.0, 0.0);
+  const itk::RealEigenDecomposition<double> eigenrot{ principalAxes.GetVnlMatrix().as_matrix() };
+  const vnl_vector<std::complex<double>> &  eigenval = eigenrot.GetEigenvalues();
+  std::complex<double>                      det(1.0, 0.0);
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {

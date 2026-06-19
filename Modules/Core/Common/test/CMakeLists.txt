@@ -1503,7 +1503,10 @@ set(
   itkPointSetGTest.cxx
   itkPrintHelperGTest.cxx
   itkPriorityQueueGTest.cxx
+  itkGeneralizedEigenDecompositionGTest.cxx
   itkQRDecompositionGTest.cxx
+  itkRealEigenDecompositionGTest.cxx
+  itkSymmetricEigenDecompositionGTest.cxx
   itkRealTimeClockGTest.cxx
   itkRealTimeIntervalGTest.cxx
   itkRealTimeStampGTest.cxx

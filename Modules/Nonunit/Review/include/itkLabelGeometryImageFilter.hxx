@@ -43,7 +43,7 @@ namespace
 //
 template <unsigned int VDimension>
 inline vnl_matrix<double>
-CalculateRotationMatrix(const vnl_symmetric_eigensystem<double> & eig)
+CalculateRotationMatrix(const itk::SymmetricEigenDecomposition<double> & eig)
 {
   vnl_matrix<double> rotationMatrix(VDimension, VDimension, 0);
   for (unsigned int i = 0; i < VDimension; ++i)
@@ -87,7 +87,7 @@ CalculateRotationMatrix(const vnl_symmetric_eigensystem<double> & eig)
 
 template <typename TLabelImage, typename TIntensityImage, typename TInputImage>
 inline bool
-CalculateOrientedImage(const vnl_symmetric_eigensystem<double> &                                        eig,
+CalculateOrientedImage(const itk::SymmetricEigenDecomposition<double> &                                 eig,
                        typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::LabelGeometry & labelGeometry,
                        bool                                                                             useLabelImage,
                        const TInputImage *                                                              inputImage)
@@ -365,7 +365,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
     // Compute the eigenvalues/eigenvectors of the covariance matrix.
     // The result is stored in increasing eigenvalues with
     // corresponding eigenvectors.
-    vnl_symmetric_eigensystem<double> eig(normalizedSecondOrderCentralMoments);
+    itk::SymmetricEigenDecomposition<double> eig(normalizedSecondOrderCentralMoments);
 
     // Calculate the eigenvalues/eigenvectors
     VectorType eigenvalues(ImageDimension, 0);
@@ -421,8 +421,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
 template <typename TLabelImage, typename TIntensityImage>
 bool
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::CalculateOrientedBoundingBoxVertices(
-  vnl_symmetric_eigensystem<double> eig,
-  LabelGeometry &                   labelGeometry)
+  itk::SymmetricEigenDecomposition<double> eig,
+  LabelGeometry &                          labelGeometry)
 {
   // Calculate the oriented bounding box using the eigenvectors.
   // For each label, the pixels are rotated to the new coordinate

@@ -341,9 +341,9 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::EstimatePCAShapeModelPar
 
   identityMatrix.set_identity();
 
-  const vnl_generalized_eigensystem eigenVectors_eigenValues(m_InnerProduct, identityMatrix);
+  const itk::GeneralizedEigenDecomposition<double> eigenVectors_eigenValues(m_InnerProduct, identityMatrix);
 
-  MatrixOfDoubleType eigenVectorsOfInnerProductMatrix = eigenVectors_eigenValues.V;
+  MatrixOfDoubleType eigenVectorsOfInnerProductMatrix = eigenVectors_eigenValues.GetEigenvectors();
 
   // Calculate the principal shape variations
   //
@@ -375,11 +375,10 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::EstimatePCAShapeModelPar
 
   m_EigenValues.set_size(m_NumberOfTrainingImages);
 
-  // Extract the diagonal elements into the Eigen value vector
-  m_EigenValues = (eigenVectors_eigenValues.D).diagonal();
+  // Eigenvalues are returned in ascending order.
+  m_EigenValues = eigenVectors_eigenValues.GetEigenvalues();
 
-  // Flip the eigen values since the eigen vectors output
-  // is ordered in descending order of their corresponding eigen values.
+  // Flip to descending so the largest principal variation is first.
   m_EigenValues.flip();
 
   // Normalize the eigen values

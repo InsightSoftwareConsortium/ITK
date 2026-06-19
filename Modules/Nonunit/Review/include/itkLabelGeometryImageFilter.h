@@ -24,7 +24,7 @@
 #include "itkSimpleDataObjectDecorator.h"
 #include <map>
 #include <vector>
-#include "vnl/algo/vnl_symmetric_eigensystem.h"
+#include "itkSymmetricEigenDecomposition.h"
 #include "vnl/vnl_det.h"
 #include "itkMath.h"
 
@@ -500,7 +500,7 @@ protected:
 
 private:
   bool
-  CalculateOrientedBoundingBoxVertices(vnl_symmetric_eigensystem<double> eig, LabelGeometry & m_LabelGeometry);
+  CalculateOrientedBoundingBoxVertices(itk::SymmetricEigenDecomposition<double> eig, LabelGeometry & m_LabelGeometry);
 
   bool m_CalculatePixelIndices{};
   bool m_CalculateOrientedBoundingBox{};

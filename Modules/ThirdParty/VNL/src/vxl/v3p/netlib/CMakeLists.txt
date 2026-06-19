@@ -110,6 +110,12 @@ set(V3P_NETLIB_eispack_SOURCES
      eispack/tred1.c eispack/tred1.h
      eispack/tred2.c eispack/tred2.h
    )
+# eispack (rs/rg/rsg) backs only the deprecated vnl_real_eigensystem,
+# vnl_symmetric_eigensystem, vnl_generalized_eigensystem and vnl_scatter_3x3.
+# Drop the dead engine once those APIs are removed.
+if(ITK_FUTURE_LEGACY_REMOVE)
+  set(V3P_NETLIB_eispack_SOURCES "")
+endif()
 set(V3P_NETLIB_napack_SOURCES
      napack/cg.c napack/cg.h
    )

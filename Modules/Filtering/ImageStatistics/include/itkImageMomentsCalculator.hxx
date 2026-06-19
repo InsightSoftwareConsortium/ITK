@@ -18,8 +18,8 @@
 #ifndef itkImageMomentsCalculator_hxx
 #define itkImageMomentsCalculator_hxx
 
-#include "vnl/algo/vnl_real_eigensystem.h"
-#include "vnl/algo/vnl_symmetric_eigensystem.h"
+#include "itkRealEigenDecomposition.h"
+#include "itkSymmetricEigenDecomposition.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk
@@ -146,8 +146,8 @@ ImageMomentsCalculator<TImage>::Compute()
   }
 
   // Compute principal moments and axes
-  const vnl_symmetric_eigensystem<double> eigen{ m_Cm.GetVnlMatrix().as_matrix() };
-  vnl_diag_matrix<double>                 pm{ eigen.D };
+  const itk::SymmetricEigenDecomposition<double> eigen{ m_Cm.GetVnlMatrix().as_matrix() };
+  vnl_diag_matrix<double>                        pm{ eigen.D };
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_Pm[i] = pm(i) * m_M0;
@@ -156,9 +156,9 @@ ImageMomentsCalculator<TImage>::Compute()
 
   // Add a final reflection if needed for a proper rotation,
   // by multiplying the last row by the determinant
-  const vnl_real_eigensystem            eigenrot{ m_Pa.GetVnlMatrix().as_matrix() };
-  vnl_diag_matrix<std::complex<double>> eigenval{ eigenrot.D };
-  std::complex<double>                  det(1.0, 0.0);
+  const itk::RealEigenDecomposition<double> eigenrot{ m_Pa.GetVnlMatrix().as_matrix() };
+  const vnl_vector<std::complex<double>> &  eigenval = eigenrot.GetEigenvalues();
+  std::complex<double>                      det(1.0, 0.0);
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {

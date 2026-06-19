@@ -19,7 +19,7 @@
 #ifndef itkVectorFieldPCA_hxx
 #define itkVectorFieldPCA_hxx
 
-#include "vnl/algo/vnl_symmetric_eigensystem.h"
+#include "itkSymmetricEigenDecomposition.h"
 #include "vnl/vnl_c_vector.h"
 #include "itkMath.h"
 
@@ -254,7 +254,7 @@ VectorFieldPCA<TVectorFieldElementType,
     }
   }
 
-  vnl_symmetric_eigensystem<TPCType> eigs(K0);
+  itk::SymmetricEigenDecomposition<TPCType> eigs(K0);
 
   m_PCAEigenValues = eigs.D.diagonal();
 
