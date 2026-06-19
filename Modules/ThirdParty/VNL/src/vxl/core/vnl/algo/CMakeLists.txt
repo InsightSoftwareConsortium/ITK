@@ -15,13 +15,9 @@ set( vnl_algo_sources
   vnl_svd_fixed.hxx vnl_svd_fixed.h
   vnl_matrix_inverse.hxx vnl_matrix_inverse.h
   vnl_qr.hxx vnl_qr.h
-  vnl_scatter_3x3.hxx vnl_scatter_3x3.h
   vnl_cholesky.cxx vnl_cholesky.h
   vnl_ldl_cholesky.cxx vnl_ldl_cholesky.h
   vnl_sparse_lu.cxx vnl_sparse_lu.h
-  vnl_real_eigensystem.cxx vnl_real_eigensystem.h
-  vnl_symmetric_eigensystem.hxx vnl_symmetric_eigensystem.h
-  vnl_generalized_eigensystem.cxx vnl_generalized_eigensystem.h
 
   # optimisation
   vnl_discrete_diff.cxx vnl_discrete_diff.h
@@ -50,7 +46,25 @@ set( vnl_algo_sources
   vnl_adaptsimpson_integral.cxx vnl_adaptsimpson_integral.h
 )
 
+# EISPACK-backed legacy: the *_eigensystem classes and vnl_scatter_3x3 (their
+# only non-deprecated client) are the sole consumers of the netlib eispack
+# engine. They are deprecated; drop them and their template instantiations once
+# the APIs are removed, leaving no eispack dependency to build.
+if(NOT ITK_FUTURE_LEGACY_REMOVE)
+  list(APPEND vnl_algo_sources
+    vnl_scatter_3x3.hxx vnl_scatter_3x3.h
+    vnl_real_eigensystem.cxx vnl_real_eigensystem.h
+    vnl_symmetric_eigensystem.hxx vnl_symmetric_eigensystem.h
+    vnl_generalized_eigensystem.cxx vnl_generalized_eigensystem.h
+  )
+endif()
+
 aux_source_directory(Templates vnl_algo_sources)
+
+if(ITK_FUTURE_LEGACY_REMOVE)
+  list(FILTER vnl_algo_sources EXCLUDE REGEX "vnl_symmetric_eigensystem\\+")
+  list(FILTER vnl_algo_sources EXCLUDE REGEX "vnl_scatter_3x3\\+")
+endif()
 
 # If VXL_INSTALL_INCLUDE_DIR is the default value
 if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")

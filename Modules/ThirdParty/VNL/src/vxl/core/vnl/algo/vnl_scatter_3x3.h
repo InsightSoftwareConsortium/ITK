@@ -1,6 +1,25 @@
 // This is core/vnl/algo/vnl_scatter_3x3.h
 #ifndef vnl_scatter_3x3_h_
 #define vnl_scatter_3x3_h_
+
+// ITK deprecation shim: vnl_scatter_3x3 is the only non-deprecated client of the
+// netlib EISPACK symmetric eigensolver; it is deprecated alongside the
+// vnl_*_eigensystem classes so the dead engine can be retired. Build a 3x3
+// scatter matrix directly and use itk::SymmetricEigenDecomposition for its
+// eigensystem. The guard is active only when itkConfigure.h is reachable (an ITK
+// consumer), so ITK's own VXL build is unaffected.
+#if __has_include(<itkConfigure.h>)
+#  include <itkConfigure.h>
+#  if defined(ITK_FUTURE_LEGACY_REMOVE)
+#    error "vnl/algo/vnl_scatter_3x3.h is deprecated; build a 3x3 scatter matrix directly and use itk::SymmetricEigenDecomposition (itkSymmetricEigenDecomposition.h, Eigen-backed) for its eigensystem."
+#  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_LEGACY_TEST)
+#    if defined(_MSC_VER)
+#      pragma message("vnl/algo/vnl_scatter_3x3.h is deprecated; use itk::SymmetricEigenDecomposition (itkSymmetricEigenDecomposition.h) for the eigensystem.")
+#    else
+#      warning "vnl/algo/vnl_scatter_3x3.h is deprecated; use itk::SymmetricEigenDecomposition (itkSymmetricEigenDecomposition.h) for the eigensystem."
+#    endif
+#  endif
+#endif
 //:
 // \file
 // \brief  3x3 scatter matrix
