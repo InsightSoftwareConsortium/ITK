@@ -130,8 +130,6 @@ set(V3P_NETLIB_opt_SOURCES
 set(V3P_NETLIB_linalg_SOURCES
      linalg/lsqrBase.cxx linalg/lsqrBase.h
      linalg/lsqrDense.cxx linalg/lsqrDense.h
-     linalg/lsmrBase.cxx linalg/lsmrBase.h
-     linalg/lsmrDense.cxx linalg/lsmrDense.h
    )
 set(V3P_NETLIB_sparse_SOURCES
      sparse/spAllocate.c
@@ -192,7 +190,7 @@ vxl_add_library(
 )
 
 target_link_libraries(itkv3p_netlib PRIVATE ${VXL_PLATFORM_MATH_LIBRARIES})
-# The linalg/ subdirectory holds the lsqr/lsmr C++ headers that consumers
+# The linalg/ subdirectory holds the lsqr C++ headers that consumers
 # (e.g. vnl_lsqr) include directly; expose it so they need no manual path.
 target_include_directories(itkv3p_netlib PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/linalg>")
