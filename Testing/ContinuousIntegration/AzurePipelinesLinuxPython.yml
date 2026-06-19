@@ -55,6 +55,7 @@ jobs:
         df -h /
       displayName: 'Free preinstalled software'
 
+
     - checkout: self
       clean: true
       fetchDepth: 5
