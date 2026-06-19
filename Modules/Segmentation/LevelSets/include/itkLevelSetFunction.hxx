@@ -18,7 +18,7 @@
 #ifndef itkLevelSetFunction_hxx
 #define itkLevelSetFunction_hxx
 
-#include "vnl/algo/vnl_symmetric_eigensystem.h"
+#include "itkSymmetricEigenDecomposition.h"
 
 namespace itk
 {
@@ -95,7 +95,7 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
   }
 
   // Eigensystem
-  const vnl_symmetric_eigensystem<ScalarValueType> eig{ Curve.as_matrix() };
+  const itk::SymmetricEigenDecomposition<ScalarValueType> eig{ Curve.as_matrix() };
 
   constexpr ScalarValueType MIN_EIG{ NumericTraits<ScalarValueType>::min() };
   ScalarValueType           mincurve = itk::Math::Absolute(eig.get_eigenvalue(ImageDimension - 1));

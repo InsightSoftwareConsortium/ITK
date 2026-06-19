@@ -33,8 +33,7 @@
 #include "itkImageShapeModelEstimatorBase.h"
 #include "itkConceptChecking.h"
 #include "itkImage.h"
-#include "vnl/algo/vnl_generalized_eigensystem.h"
-#include "vnl/algo/vnl_symmetric_eigensystem.h"
+#include "itkGeneralizedEigenDecomposition.h"
 
 namespace itk
 {

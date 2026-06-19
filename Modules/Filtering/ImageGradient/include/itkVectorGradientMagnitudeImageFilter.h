@@ -24,7 +24,7 @@
 #include "itkVector.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector_fixed.h"
-#include "vnl/algo/vnl_symmetric_eigensystem.h"
+#include "itkSymmetricEigenDecomposition.h"
 #include "itkMath.h"
 
 namespace itk
@@ -468,7 +468,7 @@ protected:
     }
 
     // Find the eigenvalues of g
-    const vnl_symmetric_eigensystem<TRealType> E(g);
+    const itk::SymmetricEigenDecomposition<TRealType> E(g);
 
     // Return the difference in length between the first two principle axes.
     // Note that other edge strength metrics may be appropriate here instead..

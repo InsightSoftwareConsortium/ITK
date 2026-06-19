@@ -1,6 +1,24 @@
 // This is core/vnl/algo/vnl_symmetric_eigensystem.h
 #ifndef vnl_symmetric_eigensystem_h_
 #define vnl_symmetric_eigensystem_h_
+
+// ITK deprecation shim: the netlib EISPACK engine (rs) behind
+// vnl_symmetric_eigensystem is being retired; itk::SymmetricEigenDecomposition
+// (Eigen-backed) is the supported replacement. The guard is active only when
+// itkConfigure.h is reachable (an ITK consumer), so ITK's own VXL build is
+// unaffected.
+#if __has_include(<itkConfigure.h>)
+#  include <itkConfigure.h>
+#  if defined(ITK_FUTURE_LEGACY_REMOVE)
+#    error "vnl/algo/vnl_symmetric_eigensystem.h is deprecated; migrate to itk::SymmetricEigenDecomposition (itkSymmetricEigenDecomposition.h, Eigen-backed)."
+#  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_LEGACY_TEST)
+#    if defined(_MSC_VER)
+#      pragma message("vnl/algo/vnl_symmetric_eigensystem.h is deprecated; migrate to itk::SymmetricEigenDecomposition (itkSymmetricEigenDecomposition.h, Eigen-backed).")
+#    else
+#      warning "vnl/algo/vnl_symmetric_eigensystem.h is deprecated; migrate to itk::SymmetricEigenDecomposition (itkSymmetricEigenDecomposition.h, Eigen-backed)."
+#    endif
+#  endif
+#endif
 //:
 // \file
 // \brief Find eigenvalues of a symmetric matrix
