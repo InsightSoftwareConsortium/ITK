@@ -311,7 +311,8 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
   vnl_diag_matrix<double>                 pm = eigen.D;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    principalMoments[i] = pm(i);
+    // Clamp to zero: near-zero negative eigenvalues from numerical precision cause FPE in std::pow(edet, ...)
+    principalMoments[i] = std::max(pm(i), 0.0);
   }
   MatrixType principalAxes(eigen.V.transpose());
 
