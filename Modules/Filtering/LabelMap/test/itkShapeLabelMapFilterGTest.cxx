@@ -22,6 +22,8 @@
 #include "itkLabelImageToShapeLabelMapFilter.h"
 #include "itkTestingMacros.h"
 
+#include <cmath>
+
 
 namespace Math = itk::Math;
 
@@ -533,4 +535,56 @@ TEST_F(ShapeLabelMapFixture, 2D_T2x4)
   {
     labelObject->Print(std::cout);
   }
+}
+
+
+TEST_F(ShapeLabelMapFixture, 3D_DegenerateFlatObject_NumericallyStableEllipsoidDiameter)
+{
+  using namespace itk::GTest::TypedefsAndConstructors::Dimension3;
+
+  using Utils = FixtureUtilities<3>;
+
+  auto image = Utils::ImageType::New();
+
+  Utils::ImageType::SizeType imageSize;
+  imageSize.Fill(64);
+  image->SetRegions(Utils::ImageType::RegionType(imageSize));
+  image->AllocateInitialized();
+
+  const double  d[9] = { 0.7950707161543119,     -0.44533237368675166, 0.41175433605536305,
+                         -0.6065167008084678,    -0.5840224148057925,  0.5394954222649374,
+                         0.00021898465942798317, -0.6786728931900383,  -0.7344406416415056 };
+  DirectionType direction = DirectionType::InternalMatrixType(d);
+
+  image->SetDirection(direction);
+  image->SetSpacing(itk::MakeVector(0.9, 1.1, 1.7));
+  image->SetOrigin(itk::MakePoint(1.0e8, -1.0e8, 0.5e8));
+
+  // 1D line with large physical coordinates amplifies numerical cancellation in moment computation.
+  for (unsigned int x = 8; x < 56; ++x)
+  {
+    image->SetPixel(itk::MakeIndex(static_cast<itk::IndexValueType>(x), 32, 31), 1);
+  }
+
+  Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(image, 1);
+
+  const auto & principalMoments = labelObject->GetPrincipalMoments();
+  const auto & ellipsoidDiameter = labelObject->GetEquivalentEllipsoidDiameter();
+
+  for (unsigned int i = 0; i < 3; ++i)
+  {
+    EXPECT_TRUE(std::isfinite(principalMoments[i])) << "Principal moment " << i << " is not finite";
+    EXPECT_GE(principalMoments[i], 0.0) << "Principal moment " << i << " should be non-negative";
+    EXPECT_TRUE(std::isfinite(ellipsoidDiameter[i])) << "Ellipsoid diameter[" << i << "] is not finite";
+    EXPECT_GE(ellipsoidDiameter[i], 0.0) << "Ellipsoid diameter[" << i << "] should be non-negative";
+  }
+
+  const double maxAbsPrincipalMoment =
+    std::max(std::max(std::abs(principalMoments[0]), std::abs(principalMoments[1])), std::abs(principalMoments[2]));
+
+  EXPECT_GT(maxAbsPrincipalMoment, 0.0) << "At least one principal moment should be non-zero";
+
+  const double rawDeterminant = principalMoments[0] * principalMoments[1] * principalMoments[2];
+  EXPECT_TRUE(std::isfinite(rawDeterminant)) << "Determinant of principal moments should be finite";
+  EXPECT_GE(rawDeterminant, 0.0) << "Product of non-negative principal moments should be non-negative";
 }
