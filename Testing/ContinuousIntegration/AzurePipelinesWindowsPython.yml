@@ -16,6 +16,8 @@ trigger:
     - Utilities/Maintenance/*
     - Modules/Remote/*.remote.cmake
 pr:
+  # Validate draft PRs (Azure default) so contributors see all gating results while iterating.
+  drafts: true
   paths:
     exclude:
     - '*.md'
