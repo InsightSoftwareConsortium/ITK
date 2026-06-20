@@ -40,6 +40,18 @@ jobs:
   pool:
     vmImage: ubuntu-24.04
   steps:
+    - bash: |
+        set -e
+        set -x
+        sudo rm -rf /usr/local/lib/android
+        sudo rm -rf /opt/ghc /usr/local/.ghcup
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /usr/share/swift /opt/hostedtoolcache/CodeQL
+        sudo rm -rf /usr/local/include/boost /usr/local/lib/libboost_* /usr/local/share/boost
+        docker image prune -af || true
+        df -h /
+      displayName: 'Free preinstalled software'
+
     - checkout: self
       clean: true
       fetchDepth: 5
