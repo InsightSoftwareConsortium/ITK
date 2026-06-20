@@ -1,17 +1,8 @@
 name: ITK.Performance
 
+# WIP(SWIG-4.4.1 pixi-python): disabled so only ITK.Pixi.Python runs; revert this commit to re-enable
 on:
-  pull_request:
-    paths-ignore:
-      - '*.md'
-      - LICENSE
-      - NOTICE
-      - 'Documentation/**'
-      - 'Utilities/Debugger/**'
-      - 'Utilities/ITKv5Preparation/**'
-      - 'Utilities/Maintenance/**'
   workflow_dispatch:
-
 concurrency:
   group: '${{ github.workflow }}@${{ github.head_ref || github.ref }}'
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}

@@ -240,6 +240,34 @@ cmd = '''cmake \
 description = "Configure ITK Python"
 outputs = ["build-python/CMakeFiles/"]
 
+[tool.pixi.feature.python.tasks.configure-python-ci]
+cmd = '''cmake \
+  -Bbuild-python \
+  -S. \
+  -GNinja \
+  -DITK_WRAP_PYTHON:BOOL=ON \
+  -DITK_USE_SYSTEM_SWIG:BOOL=ON \
+  -DITK_USE_SYSTEM_CASTXML:BOOL=ON \
+  -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DBUILD_TESTING:BOOL=ON \
+  -DITK_USE_CCACHE:BOOL=ON \
+  -DCMAKE_C_COMPILER_LAUNCHER:STRING=ccache \
+  -DCMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache \
+  -DITK_COMPUTER_MEMORY_SIZE:STRING=5'''
+description = "Configure ITK Python wrapping for CI (system SWIG/CastXML + ccache)"
+outputs = ["build-python/CMakeFiles/"]
+
+[tool.pixi.feature.python.tasks.build-python-ci]
+cmd = "cmake --build build-python"
+description = "Build ITK Python wrapping for CI"
+outputs = ["build-python/lib/**"]
+depends-on = ["configure-python-ci"]
+
+[tool.pixi.feature.python.tasks.test-python-ci]
+cmd = "ctest -j3 --test-dir build-python --output-on-failure -R Python"
+description = "Test ITK Python wrapping for CI"
+depends-on = ["build-python-ci"]
+
 [tool.pixi.feature.python.tasks.build-python]
 cmd = "cmake --build build-python"
 description = "Build ITK Python"

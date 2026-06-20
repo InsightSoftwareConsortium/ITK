@@ -1,6 +1,10 @@
 name: ITK.Pixi
 
+# WIP(SWIG-4.4.1 pixi-python): temporarily co-opted to build/test the Python
+# wrapping (configure/build/test-python-ci) instead of the cxx env. Revert this
+# commit to restore the normal cxx CI.
 on:
+    workflow_dispatch:
     push:
         branches:
             - main
@@ -24,7 +28,6 @@ on:
             - 'Utilities/ITKv5Preparation/**'
             - 'Utilities/Maintenance/**'
             - 'Modules/Remote/*.remote.cmake'
-
 concurrency:
   group: '${{ github.workflow }}@${{ github.head_ref || github.ref }}'
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -64,9 +67,9 @@ jobs:
           uses: actions/cache/restore@v5
           with:
             path: ${{ runner.temp }}/ccache
-            key: ccache-v4-${{ runner.os }}-pixi-cxx-${{ github.sha }}
+            key: ccache-v4-${{ runner.os }}-pixi-python-${{ github.sha }}
             restore-keys: |
-              ccache-v4-${{ runner.os }}-pixi-cxx-
+              ccache-v4-${{ runner.os }}-pixi-python-
 
         - name: Restore ExternalData object store
           id: restore-externaldata
@@ -127,21 +130,21 @@ jobs:
         - name: Show ccache configuration, stats and maintenance
           shell: bash
           run: |
-            pixi run -e cxx ccache --zero-stats
-            pixi run -e cxx ccache --evict-older-than 7d
-            pixi run -e cxx ccache --show-config
+            pixi run -e python ccache --zero-stats
+            pixi run -e python ccache --evict-older-than 7d
+            pixi run -e python ccache --show-config
 
         - name: Configure
-          run: pixi run configure-ci
+          run: pixi run configure-python-ci
 
         - name: Fetch ExternalData
-          run: pixi run --skip-deps build-external-data-ci
+          run: pixi run -e python cmake --build build-python --target ITKData
 
         - name: Build
           run: |
             echo "****** df -h /  -- pre build"
             df -h /
-            pixi run --skip-deps build-ci
+            pixi run --skip-deps build-python-ci
             echo "****** df -h /  -- post build"
             df -h /
 
@@ -152,16 +155,16 @@ jobs:
             # .obj/.lib also name Wavefront-mesh and Makefile test data, so match
             # only compiled objects in intermediate dirs (CMakeFiles/ for Ninja,
             # *.dir/ for Visual Studio) and archives under lib/.
-            find build -type f \( -path '*/CMakeFiles/*' -o -path '*.dir/*' \) \( -name "*.o" -o -name "*.obj" \) -delete
-            find build/lib -type f \( -name "*.a" -o -name "*.lib" \) -delete 2>/dev/null || true
+            find build-python -type f \( -path '*/CMakeFiles/*' -o -path '*.dir/*' \) \( -name "*.o" -o -name "*.obj" \) -delete
+            find build-python/lib -type f \( -name "*.a" -o -name "*.lib" \) -delete 2>/dev/null || true
             # Trim ccache to stay within CCACHE_MAXSIZE and remove orphaned entries
-            pixi run -e cxx ccache --evict-older-than 1d 2>/dev/null || true
-            pixi run -e cxx ccache --cleanup 2>/dev/null || true
+            pixi run -e python ccache --evict-older-than 1d 2>/dev/null || true
+            pixi run -e python ccache --cleanup 2>/dev/null || true
             echo "****** df -h /  -- post cleanup"
             df -h /
 
         - name: Test
-          run: pixi run --skip-deps test-ci
+          run: pixi run --skip-deps test-python-ci
 
         - name: Disk space reporting AFTER (optimize free-disk-space)
           run: |
@@ -176,7 +179,7 @@ jobs:
           uses: actions/cache/save@v5
           with:
             path: ${{ runner.temp }}/ccache
-            key: ccache-v4-${{ runner.os }}-pixi-cxx-${{ github.sha }}
+            key: ccache-v4-${{ runner.os }}-pixi-python-${{ github.sha }}
 
         # ExternalData object store is populated by
         # .github/workflows/populate-externaldata-cache.yml — a dedicated
@@ -188,7 +191,7 @@ jobs:
 
         - name: ccache stats
           if: always()
-          run: pixi run -e cxx ccache --show-stats
+          run: pixi run -e python ccache --show-stats
 
     prune-superseded-caches:
       # Background housekeeping: removes ccache entries whose SHA-suffixed

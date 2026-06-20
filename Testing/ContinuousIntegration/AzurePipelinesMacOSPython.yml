@@ -15,19 +15,8 @@ trigger:
     - Utilities/ITKv5Preparation/*
     - Utilities/Maintenance/*
     - Modules/Remote/*.remote.cmake
-pr:
-  # Validate draft PRs (Azure default) so contributors see all gating results while iterating.
-  drafts: true
-  paths:
-    exclude:
-    - '*.md'
-    - LICENSE
-    - NOTICE
-    - Documentation/*
-    - Utilities/Debugger/*
-    - Utilities/ITKv5Preparation/*
-    - Utilities/Maintenance/*
-    - Modules/Remote/*.remote.cmake
+# WIP(SWIG-4.4.1 pixi-python): co-opting ITK.Pixi for the Python build; revert this commit to re-enable.
+pr: none
 variables:
   ExternalData_OBJECT_STORES: $(Pipeline.Workspace)/ExternalData
   CCACHE_DIR: $(Pipeline.Workspace)/.ccache

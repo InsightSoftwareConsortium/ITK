@@ -2,22 +2,9 @@ name: ITK.Doxygen.Warnings
 
 # pull_request intentionally has no paths-ignore: the check always runs, so it
 # can safely be made a required status without stranding filtered PRs.
+# WIP(SWIG-4.4.1 pixi-python): disabled so only ITK.Pixi.Python runs; revert this commit to re-enable
 on:
-    push:
-        branches:
-            - main
-            - 'release*'
-        tags:
-            - 'v*'
-        paths-ignore:
-            - '*.md'
-            - LICENSE
-            - NOTICE
-            - 'Utilities/Debugger/**'
-            - 'Utilities/ITKv5Preparation/**'
-            - 'Utilities/Maintenance/**'
-    pull_request:
-
+  workflow_dispatch:
 concurrency:
   group: '${{ github.workflow }}@${{ github.head_ref || github.ref }}'
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}

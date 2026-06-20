@@ -1,8 +1,8 @@
 name: pre-commit
 
+# WIP(SWIG-4.4.1 pixi-python): disabled so only ITK.Pixi.Python runs; revert this commit to re-enable
 on:
-  pull_request:
-
+  workflow_dispatch:
 jobs:
   pre-commit:
     runs-on: ubuntu-24.04
