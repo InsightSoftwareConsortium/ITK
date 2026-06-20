@@ -33,6 +33,7 @@ variables:
   CCACHE_COMPILERCHECK: content
   CCACHE_NOHASHDIR: 'true'
   CCACHE_SLOPPINESS: pch_defines,time_macros
+  CCACHE_MAXSIZE: 8G
 jobs:
 - job: macOS
   timeoutInMinutes: 0
@@ -40,6 +41,14 @@ jobs:
   pool:
     vmImage: macos-15
   steps:
+    - bash: |
+        set -e
+        set -x
+        sudo rm -rf /usr/local/share/dotnet
+        sudo rm -rf /Library/Developer/CoreSimulator/Profiles/Runtimes
+        df -h /
+      displayName: 'Free preinstalled software'
+
     - checkout: self
       clean: true
       fetchDepth: 5
@@ -133,10 +142,16 @@ jobs:
         cmake --version
 
         ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -V -j 3
+        ctest_rc=$?
+        if [ $ctest_rc -eq 0 ]; then
+          ccache --evict-older-than 3d || true
+        else
+          ccache --evict-older-than 14d || true
+        fi
+        exit $ctest_rc
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
-        CCACHE_MAXSIZE: 8G
 
     - bash: ccache --show-stats
       condition: always()
@@ -157,3 +172,13 @@ jobs:
         testRunTitle: 'CTest $(Agent.OS)'
       condition: succeededOrFailed()
       displayName: 'Publish test results'
+
+    - bash: |
+        set -e
+        set -x
+        ccache -c || true
+        rm -rf $(Build.SourcesDirectory)-build
+        rm -rf $(Agent.BuildDirectory)/ITK-dashboard
+        df -h /
+      condition: always()
+      displayName: 'Free build tree before post-job cache save'
