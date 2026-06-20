@@ -19,8 +19,8 @@ option(
 )
 mark_as_advanced(ITK_USE_SYSTEM_SWIG)
 
-# Minimal swig version
-set(swig_version_min 4.2.0)
+# Minimal swig version (4.3.0 first ships the SWIG_Py_DECREF runtime macro the generated wrappers require)
+set(swig_version_min 4.3.0)
 # Version used in vendored binary or source build configured in this file.
 set(ITK_SWIG_VERSION 2024-03-26-master)
 
