@@ -137,8 +137,8 @@ if(ITK_USE_SYSTEM_SWIG)
   # Check for the swig version
   if(${SWIG_VERSION} VERSION_LESS ${swig_version_min})
     message(
-      WARNING
-      "Swig version less than ${swig_version_min}: \"${SWIG_VERSION}\"."
+      FATAL_ERROR
+      "Swig version less than ${swig_version_min}: \"${SWIG_VERSION}\". Set ITK_USE_SYSTEM_SWIG=OFF or provide a newer swig."
     )
   endif()
 else()
