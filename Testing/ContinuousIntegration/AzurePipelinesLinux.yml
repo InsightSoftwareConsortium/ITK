@@ -33,6 +33,7 @@ variables:
   CCACHE_COMPILERCHECK: content
   CCACHE_NOHASHDIR: 'true'
   CCACHE_SLOPPINESS: pch_defines,time_macros
+  CCACHE_MAXSIZE: 8G
 jobs:
 - job: LinuxLegacyRemovedDebugCxx20
   timeoutInMinutes: 0
@@ -136,19 +137,17 @@ jobs:
         c++ --version
         cmake --version
 
-        # ccache refreshes timestamps on hit; evict-older-than prunes untouched entries (1d on pass keeps it lean, 4d on fail retains fix-retry objects).
         ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -V -j 2
         ctest_rc=$?
         if [ $ctest_rc -eq 0 ]; then
-          ccache --evict-older-than 1d
+          ccache --evict-older-than 3d || true
         else
-          ccache --evict-older-than 4d
+          ccache --evict-older-than 14d || true
         fi
         exit $ctest_rc
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
-        CCACHE_MAXSIZE: 4.5G
 
     - bash: ccache --show-stats
       condition: always()
@@ -170,11 +169,12 @@ jobs:
       condition: succeededOrFailed()
       displayName: 'Publish test results'
 
-    # The Debug+Examples build tree fills the agent's free space; remove it so
-    # the post-job ccache/ExternalData Cache@2 save has room to write its tar.
     - bash: |
+        set -e
         set -x
+        ccache -c || true
         rm -rf $(Build.SourcesDirectory)-build
+        rm -rf $(Agent.BuildDirectory)/ITK-dashboard
         df -h /
       condition: always()
       displayName: 'Free build tree before post-job cache save'
