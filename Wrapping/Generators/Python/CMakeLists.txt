@@ -288,8 +288,9 @@ macro(
   endif()
 
   set(_swig_depend)
-  if(NOT ITK_USE_SYSTEM_SWIG)
-    # The ExternalProject SWIG install.
+  if(NOT ITK_USE_SYSTEM_SWIG AND TARGET swig)
+    # Build-order against the source-build ExternalProject SWIG target. Prebuilt
+    # binaries are fetched at configure time (FetchContent) and need no target.
     set(_swig_depend swig)
   endif()
 
