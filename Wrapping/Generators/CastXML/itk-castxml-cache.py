@@ -59,9 +59,9 @@ import sys
 import tempfile
 import time
 
-# Bump when the key algorithm or storage format changes so old entries are
-# automatically orphaned rather than misread.
-_CACHE_FMT = b"v3\x00"
+# Bump when the key algorithm changes; old entries become unreachable orphans
+# (different hash → different L2 path) and are pruned by LRU eviction.
+_KEY_VERSION = b"v3\x00"
 
 # Matches C preprocessor line markers: "# N "  (where N is an integer).
 # These carry only source-file locations — not C++ semantics — so stripping
@@ -400,7 +400,7 @@ def _compute_l2_key(castxml_bin, passthrough_flags):
         if result.returncode != 0:
             _log(f"castxml -E failed (exit {result.returncode})")
             return None
-        h = hashlib.sha256(_CACHE_FMT)
+        h = hashlib.sha256(_KEY_VERSION)
         with open(pre_path, "rb") as f:
             h.update(_strip_line_markers(f.read()))
         return h.hexdigest()
