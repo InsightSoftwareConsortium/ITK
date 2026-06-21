@@ -243,6 +243,31 @@ cmd = '''cmake \
 description = "Configure ITK Python"
 outputs = ["build-python/CMakeFiles/"]
 
+[tool.pixi.feature.python.tasks.configure-python-ci]
+cmd = '''cmake \
+  -Bbuild-python \
+  -S. \
+  -GNinja \
+  -DITK_WRAP_PYTHON:BOOL=ON \
+  -DITK_WRAP_CASTXML_CACHE:BOOL=ON \
+  -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DBUILD_TESTING:BOOL=ON \
+  -DCMAKE_C_COMPILER_LAUNCHER:STRING=ccache \
+  -DCMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache'''
+description = "Configure ITK Python for CI (castxml cache enabled; set ITK_WRAP_CACHE before building)"
+outputs = ["build-python/CMakeFiles/"]
+
+[tool.pixi.feature.python.tasks.build-python-ci]
+cmd = "cmake --build build-python"
+description = "Build ITK Python for CI"
+outputs = ["build-python/lib/**"]
+depends-on = ["configure-python-ci"]
+
+[tool.pixi.feature.python.tasks.test-python-ci]
+cmd = "ctest -j3 --test-dir build-python --output-on-failure"
+description = "Test ITK Python for CI"
+depends-on = ["build-python-ci"]
+
 [tool.pixi.feature.python.tasks.configure-python-local]
 cmd = '''cmake \
   -B$HOME/src/ITK-wrap-testbed \
@@ -260,8 +285,8 @@ cmd = '''cmake \
 description = "Configure ITK Python wrapping testbed ($HOME/src/ITK-wrap-testbed)"
 
 [tool.pixi.feature.python.tasks.build-python-local]
-cmd = "cmake --build $HOME/src/ITK-wrap-testbed --parallel 72"
-description = "Build ITK Python wrapping testbed with all 72 cores"
+cmd = "cmake --build $HOME/src/ITK-wrap-testbed"
+description = "Build ITK Python wrapping testbed"
 depends-on = ["configure-python-local"]
 
 [tool.pixi.feature.python.tasks.build-python]

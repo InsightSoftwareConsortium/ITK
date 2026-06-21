@@ -1,0 +1,174 @@
+name: ITK.Pixi.Python
+
+on:
+    push:
+        branches:
+            - main
+            - 'release*'
+        paths-ignore:
+            - '*.md'
+            - LICENSE
+            - NOTICE
+            - 'Documentation/**'
+            - 'Utilities/Debugger/**'
+            - 'Utilities/ITKv5Preparation/**'
+            - 'Utilities/Maintenance/**'
+            - 'Modules/Remote/*.remote.cmake'
+    pull_request:
+        paths-ignore:
+            - '*.md'
+            - LICENSE
+            - NOTICE
+            - 'Documentation/**'
+            - 'Utilities/Debugger/**'
+            - 'Utilities/ITKv5Preparation/**'
+            - 'Utilities/Maintenance/**'
+            - 'Modules/Remote/*.remote.cmake'
+
+concurrency:
+  group: '${{ github.workflow }}@${{ github.head_ref || github.ref }}'
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+    Pixi-Python:
+      runs-on: ${{ matrix.os }}
+      timeout-minutes: 360
+      strategy:
+        fail-fast: false
+        matrix:
+          os: [ubuntu-24.04, windows-2022, macos-15]
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v5
+          with:
+            fetch-depth: 5
+            clean: true
+
+        - name: Configure ccache environment
+          shell: bash
+          run: |
+            echo "CCACHE_BASEDIR=${GITHUB_WORKSPACE}" >> "$GITHUB_ENV"
+            echo "CCACHE_COMPILERCHECK=content" >> "$GITHUB_ENV"
+            echo "CCACHE_NOHASHDIR=true" >> "$GITHUB_ENV"
+            echo "CCACHE_SLOPPINESS=pch_defines,time_macros" >> "$GITHUB_ENV"
+            echo "CCACHE_DIR=${{ runner.temp }}/ccache" >> "$GITHUB_ENV"
+            echo "CCACHE_MAXSIZE=5G" >> "$GITHUB_ENV"
+            if [ "$RUNNER_OS" == "Linux" ]; then
+              sudo apt-get update -qq && sudo apt-get install -y locales
+              sudo locale-gen de_DE.UTF-8
+            fi
+
+        - name: Configure CastXML cache environment
+          shell: bash
+          run: |
+            echo "ITK_WRAP_CACHE=${{ runner.temp }}/itk-castxml-cache" >> "$GITHUB_ENV"
+
+        - name: Restore compiler cache
+          id: restore-ccache
+          uses: actions/cache/restore@v5
+          with:
+            path: ${{ runner.temp }}/ccache
+            key: ccache-v4-${{ runner.os }}-pixi-python-${{ github.sha }}
+            restore-keys: |
+              ccache-v4-${{ runner.os }}-pixi-python-
+
+        - name: Restore CastXML cache
+          id: restore-castxml-cache
+          uses: actions/cache/restore@v5
+          with:
+            path: ${{ runner.temp }}/itk-castxml-cache
+            key: castxml-v1-${{ runner.os }}-pixi-python-${{ github.sha }}
+            restore-keys: |
+              castxml-v1-${{ runner.os }}-pixi-python-
+
+        - name: Restore ExternalData object store
+          id: restore-externaldata
+          uses: actions/cache/restore@v5
+          with:
+            path: ${{ runner.temp }}/ExternalData
+            key: externaldata-v1-${{ hashFiles('**/*.cid') }}
+            restore-keys: |
+              externaldata-v1-
+
+        - name: Disk space before build (Ubuntu)
+          if: matrix.os == 'ubuntu-24.04'
+          run: df -h /
+
+        - name: Free Disk Space (Ubuntu)
+          if: matrix.os == 'ubuntu-24.04'
+          uses: BRAINSia/free-disk-space@v2
+          with:
+            removalmode: "rmz"
+            swap-storage:   "true"
+            haskell:        "true"
+            dotnet:         "true"
+            docker-images:  "false"
+            tool-cache:     "true"
+            android:        "false"
+            large-packages: "true"
+            mandb:          "true"
+
+        - name: Export ExternalData_OBJECT_STORES
+          shell: bash
+          run: |
+            echo "ExternalData_OBJECT_STORES=${{ runner.temp }}/ExternalData" >> "$GITHUB_ENV"
+
+        - name: Set up Pixi
+          uses: prefix-dev/setup-pixi@v0.9.5
+
+        - name: Show ccache configuration, stats and maintenance
+          shell: bash
+          run: |
+            pixi run -e python ccache --zero-stats
+            pixi run -e python ccache --evict-older-than 7d
+            pixi run -e python ccache --show-config
+
+        - name: Configure
+          run: pixi run configure-python-ci
+
+        - name: Fetch ExternalData
+          shell: bash
+          run: pixi run -e python cmake --build build-python --target ITKData
+
+        - name: Build
+          run: |
+            df -h / || true
+            pixi run build-python-ci
+            df -h / || true
+
+        - name: Free disk space after build
+          shell: bash
+          run: |
+            find build-python -type f \( -path '*/CMakeFiles/*' -o -path '*.dir/*' \) \( -name "*.o" -o -name "*.obj" \) -delete
+            find build-python/lib -type f \( -name "*.a" -o -name "*.lib" \) -delete 2>/dev/null || true
+            pixi run -e python ccache --evict-older-than 1d 2>/dev/null || true
+            pixi run -e python ccache --cleanup 2>/dev/null || true
+            df -h / || true
+
+        - name: Test
+          run: pixi run test-python-ci
+
+        - name: Save compiler cache
+          if: ${{ !cancelled() }}
+          uses: actions/cache/save@v5
+          with:
+            path: ${{ runner.temp }}/ccache
+            key: ccache-v4-${{ runner.os }}-pixi-python-${{ github.sha }}
+
+        - name: Save CastXML cache
+          if: ${{ !cancelled() }}
+          uses: actions/cache/save@v5
+          with:
+            path: ${{ runner.temp }}/itk-castxml-cache
+            key: castxml-v1-${{ runner.os }}-pixi-python-${{ github.sha }}
+
+        - name: Save ExternalData object store
+          if: ${{ !cancelled() }}
+          uses: actions/cache/save@v5
+          with:
+            path: ${{ runner.temp }}/ExternalData
+            key: externaldata-v1-${{ hashFiles('**/*.cid') }}
+
+        - name: ccache stats
+          if: always()
+          run: pixi run -e python ccache --show-stats
