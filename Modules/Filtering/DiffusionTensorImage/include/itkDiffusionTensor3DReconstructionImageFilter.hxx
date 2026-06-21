@@ -154,10 +154,6 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   }
 }
 
-// POTENTIAL WARNING:
-//
-// Until we fix netlib svd routines, we will need to set the number of thread
-// to 1.
 template <typename TReferenceImagePixelType,
           typename TGradientImagePixelType,
           typename TTensorPixelType,
@@ -262,14 +258,13 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
           ++(*gradientItContainer[i]);
         }
 
-        vnl_svd<double> pseudoInverseSolver{ m_TensorBasis.as_matrix() };
         if (m_NumberOfGradientDirections > 6)
         {
-          D = pseudoInverseSolver.solve(m_BMatrix * B);
+          D = m_TensorBasisInverse * (m_BMatrix * B);
         }
         else
         {
-          D = pseudoInverseSolver.solve(B);
+          D = m_TensorBasisInverse * B;
         }
 
         tensor(0, 0) = D[0];
@@ -376,14 +371,13 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
           }
         }
 
-        vnl_svd<double> pseudoInverseSolver{ m_TensorBasis.as_matrix() };
         if (m_NumberOfGradientDirections > 6)
         {
-          D = pseudoInverseSolver.solve(m_BMatrix * B);
+          D = m_TensorBasisInverse * (m_BMatrix * B);
         }
         else
         {
-          D = pseudoInverseSolver.solve(B);
+          D = m_TensorBasisInverse * B;
         }
 
         tensor(0, 0) = D[0];
@@ -450,6 +444,12 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   {
     m_TensorBasis = m_BMatrix;
   }
+
+  // The tensor basis is constant over the image, so compute its pseudo-inverse
+  // (the dual tensor basis) once here. The per-voxel loop then applies it as a
+  // matrix-vector product instead of constructing an SVD per voxel, which both
+  // removes redundant work and makes the loop thread-safe.
+  m_TensorBasisInverse = vnl_svd<double>{ m_TensorBasis.as_matrix() }.pinverse();
 
   m_BMatrix.inplace_transpose();
 }

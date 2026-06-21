@@ -330,6 +330,10 @@ private:
   /* Tensor basis coeffs */
   TensorBasisMatrixType m_TensorBasis{};
 
+  /* Pseudo-inverse (dual tensor basis) of m_TensorBasis, precomputed once so the
+   * per-voxel loop is a matrix-vector product rather than a fresh SVD per voxel. */
+  vnl_matrix<double> m_TensorBasisInverse{};
+
   CoefficientMatrixType m_BMatrix{};
 
   /** container to hold gradient directions */
