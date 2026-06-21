@@ -18,6 +18,8 @@
 #ifndef itkKernelTransform_hxx
 #define itkKernelTransform_hxx
 
+#include "itkMathSVD.h"
+
 namespace itk
 {
 
@@ -141,12 +143,14 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 KernelTransform<TParametersValueType, VDimension>::ComputeWMatrix()
 {
-  using SVDSolverType = vnl_svd<TParametersValueType>;
-
   this->ComputeL();
   this->ComputeY();
-  const SVDSolverType svd(this->m_LMatrix, 1e-8);
-  this->m_WMatrix = svd.solve(this->m_YMatrix);
+  const auto svd = itk::Math::SVD(this->m_LMatrix, /*canonicalizeSigns=*/false);
+  // Absolute 1e-8 singular-value tolerance; guard the degenerate all-zero L.
+  const auto wmax = svd.W[0];
+  const auto rcond =
+    (wmax > TParametersValueType{ 0 }) ? static_cast<TParametersValueType>(1e-8) / wmax : TParametersValueType{ 0 };
+  this->m_WMatrix = svd.pinverse(rcond) * this->m_YMatrix;
 
   this->ReorganizeW();
 }

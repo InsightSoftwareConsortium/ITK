@@ -21,7 +21,7 @@
 #include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkImageToImageFilter.h"
 
-#include "vnl/algo/vnl_matrix_inverse.h"
+#include "itkMathSVD.h"
 #include "itkCastImageFilter.h"
 #include <algorithm> // For min and max.
 #include "itkPrintHelper.h"
@@ -189,14 +189,8 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::GetInverseJacobian
   if (useSVD)
   {
     this->ComputeJacobianWithRespectToPositionInternal(index, jacobian, false);
-    const vnl_svd<typename JacobianPositionType::element_type> svd{ jacobian.as_ref() };
-    for (unsigned int i = 0; i < jacobian.rows(); ++i)
-    {
-      for (unsigned int j = 0; j < jacobian.cols(); ++j)
-      {
-        jacobian(i, j) = svd.inverse()(i, j);
-      }
-    }
+    // rcond = 0 keeps every nonzero singular value (no truncation).
+    jacobian = itk::Math::SVD(jacobian, /*canonicalizeSigns=*/false).pinverse(0);
   }
   else
   {
