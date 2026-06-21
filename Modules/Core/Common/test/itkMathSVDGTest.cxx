@@ -387,3 +387,26 @@ TEST(MathSVD, DegenerateSpectrumReconstructs)
     }
   EXPECT_LT(err, 1e-12);
 }
+
+// recompose() with no truncation reconstructs A; a threshold zeroes the small
+// singular value, yielding the rank-reduced reconstruction.
+TEST(MathSVD, Recompose)
+{
+  const auto A = MakeFixed<double, 4>();
+  const auto recon = itk::Math::SVD(A).recompose();
+  double     err = 0.0;
+  for (unsigned int i = 0; i < 4; ++i)
+    for (unsigned int j = 0; j < 4; ++j)
+      err = std::max(err, std::abs(recon(i, j) - A(i, j)));
+  EXPECT_LT(err, 1e-12);
+
+  // diag(5, 3, 1e-9): a relative threshold of 1e-6 drops the 1e-9 singular value.
+  vnl_matrix<double> B(3, 3, 0.0);
+  B(0, 0) = 5.0;
+  B(1, 1) = 3.0;
+  B(2, 2) = 1e-9;
+  const auto truncated = itk::Math::SVD(B).recompose(1e-6);
+  EXPECT_NEAR(truncated(0, 0), 5.0, 1e-10);
+  EXPECT_NEAR(truncated(1, 1), 3.0, 1e-10);
+  EXPECT_NEAR(truncated(2, 2), 0.0, 1e-12);
+}

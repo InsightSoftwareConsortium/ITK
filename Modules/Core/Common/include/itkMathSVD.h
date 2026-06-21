@@ -97,6 +97,26 @@ NumericalRank(const TVector & W, TReal rcond)
   }
   return count;
 }
+
+// Reconstruct U diag(w) V^T, treating singular values at or below rcond*max(w) as
+// zero (a truncated, rank-reduced reconstruction of A).
+template <typename TMatrix, typename TVector, typename TReal>
+TMatrix
+Recompose(const TMatrix & U, const TVector & W, const TMatrix & V, TReal rcond)
+{
+  const unsigned int n = W.size();
+  const TReal        tol = ResolveRcond(rcond, n) * W.max_value();
+  TMatrix            scaledU = U;
+  for (unsigned int k = 0; k < n; ++k)
+  {
+    const TReal s = (W[k] > tol) ? W[k] : TReal{ 0 };
+    for (unsigned int i = 0; i < n; ++i)
+    {
+      scaledU(i, k) *= s;
+    }
+  }
+  return scaledU * V.transpose();
+}
 } // namespace detail
 
 /** Result of a fixed-size square SVD: A == U * diag(W) * V^T, W descending.
@@ -128,6 +148,13 @@ struct FixedSquareSVDResult
   {
     return detail::NumericalRank(W, rcond);
   }
+
+  /** Reconstruct A with singular values at or below rcond*max(w) zeroed. */
+  vnl_matrix_fixed<TReal, VDim, VDim>
+  recompose(TReal rcond = TReal{ -1 }) const
+  {
+    return detail::Recompose(U, W, V, rcond);
+  }
 };
 
 /** Result of a runtime-sized square SVD: A == U * diag(W) * V^T, W descending.
@@ -158,6 +185,13 @@ struct SquareSVDResult
   rank(TReal rcond = TReal{ -1 }) const
   {
     return detail::NumericalRank(W, rcond);
+  }
+
+  /** Reconstruct A with singular values at or below rcond*max(w) zeroed. */
+  vnl_matrix<TReal>
+  recompose(TReal rcond = TReal{ -1 }) const
+  {
+    return detail::Recompose(U, W, V, rcond);
   }
 };
 

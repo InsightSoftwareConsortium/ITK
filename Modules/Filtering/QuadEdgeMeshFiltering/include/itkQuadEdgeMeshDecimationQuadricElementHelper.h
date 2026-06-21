@@ -19,9 +19,10 @@
 #define itkQuadEdgeMeshDecimationQuadricElementHelper_h
 
 #include "itkPoint.h"
+#include "itkMathSVD.h"
 #include "vnl/vnl_vector_fixed.h"
 #include "vnl/vnl_matrix.h"
-#include "vnl/algo/vnl_matrix_inverse.h"
+#include <algorithm>
 
 #include "itkTriangleHelper.h"
 
@@ -99,9 +100,12 @@ public:
   ComputeError(const PointType & iP) const
   {
     //     ComputeAMatrixAndBVector();
-    vnl_svd<CoordType> svd(m_A, m_SVDAbsoluteThreshold);
-    svd.zero_out_relative(m_SVDRelativeThreshold);
-    const CoordType oError = inner_product(iP.GetVnlVector(), svd.recompose() * iP.GetVnlVector());
+    const auto      svd = itk::Math::SVD(m_A, /*canonicalizeSigns=*/false);
+    const CoordType wmax = svd.W[0];
+    // Fold the absolute and relative singular-value tolerances into one rcond.
+    const CoordType rcond =
+      (wmax > CoordType{}) ? std::max(m_SVDAbsoluteThreshold / wmax, m_SVDRelativeThreshold) : m_SVDRelativeThreshold;
+    const CoordType oError = inner_product(iP.GetVnlVector(), svd.recompose(rcond) * iP.GetVnlVector());
 
     return this->m_Coefficients.back() - oError;
     /*
@@ -145,14 +149,16 @@ public:
   {
     ComputeAMatrixAndBVector();
 
-    vnl_svd<CoordType> svd(m_A, m_SVDAbsoluteThreshold);
-    svd.zero_out_relative(m_SVDRelativeThreshold);
+    const auto      svd = itk::Math::SVD(m_A, /*canonicalizeSigns=*/false);
+    const CoordType wmax = svd.W[0];
+    const CoordType rcond =
+      (wmax > CoordType{}) ? std::max(m_SVDAbsoluteThreshold / wmax, m_SVDRelativeThreshold) : m_SVDRelativeThreshold;
 
-    m_Rank = svd.rank();
+    m_Rank = svd.rank(rcond);
 
     const auto y = (m_B.as_vector() - m_A * iP.GetVnlVector());
 
-    VNLVectorType displacement = svd.solve(y);
+    VNLVectorType displacement = svd.Solve(y, rcond);
 
     PointType oP;
     for (unsigned int dim = 0; dim < PointDimension; ++dim)
