@@ -36,6 +36,7 @@ variables:
   CCACHE_NOHASHDIR: 'true'
   CCACHE_SLOPPINESS: pch_defines,time_macros
   CCACHE_MAXSIZE: 8G
+  ITK_WRAP_CACHE: $(Pipeline.Workspace)/.castxml-cache
 jobs:
 - job: Windows
   timeoutInMinutes: 0
@@ -83,6 +84,14 @@ jobs:
           "ccache-v4" | "$(Agent.OS)" | "WindowsPython"
         path: $(CCACHE_DIR)
       displayName: 'Restore ccache'
+
+    - task: Cache@2
+      inputs:
+        key: '"castxml-v1" | "$(Agent.OS)" | "WindowsPython" | "$(Build.SourceVersion)"'
+        restoreKeys: |
+          "castxml-v1" | "$(Agent.OS)" | "WindowsPython"
+        path: $(ITK_WRAP_CACHE)
+      displayName: 'Restore CastXML cache'
 
     - bash: |
         set -x
