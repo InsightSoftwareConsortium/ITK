@@ -16,18 +16,33 @@ Cache key hierarchy:
       making L2 keys path-independent across build directories.
 
 Lookup:
-  L1 HIT  → stored L2 key → L2 entry exists → restore gz → DONE (no subprocess)
+  L1 HIT  → stored L2 key → L2 entry exists → restore → DONE (no subprocess)
   L1 miss → run castxml -E → compute L2 key
-              L2 HIT  → restore gz; refresh L1 map
-              L2 miss → run full castxml; store gz; write L1 map
+              L2 HIT  → restore; refresh L1 map
+              L2 miss → run full castxml; store; write L1 map
 
-Stored XML files are gzip-compressed (~10x smaller than raw XML).
+Storage formats (ITK_WRAP_CACHE_FORMAT):
+  gzip (default): output.xml.gz, ~10x smaller, decompressed on restore.
+  uncompressed:   output.xml, restored via hardlink when cache and build share
+      a filesystem.  Multiple build directories (A/B/C/D testing) each get a
+      hardlink to the same L2 inode — no per-build disk duplication.  Falls
+      back to a plain copy on cross-device links or permission errors.
+
+Multi-path cascade (ITK_WRAP_CACHE, colon-separated):
+  Reads search all paths in order, returning the first hit.  Writes go to the
+  first path that accepts them (atomic rename succeeds).  A read-only shared
+  NFS cache can be listed after the user's writable local SSD cache, e.g.:
+      export ITK_WRAP_CACHE=/local/ssd/cache:/nfs/lab/shared-cache
+  Students benefit from the lab cache for L2 hits (saving the full castxml
+  run) while writing L1 maps only to their own writable local cache.
 
 Eviction: LRU via background fork after each write (rate-limited to once/60s).
   _ok sentinel mtime tracks "last useful" time; oldest entries evicted first.
+  --evict only touches the first writable cache in the list.
 
 Environment:
-  ITK_WRAP_CACHE          cache root (default: ~/.cache/itk-wrap)
+  ITK_WRAP_CACHE          colon-separated cache roots (default: ~/.cache/itk-wrap)
+  ITK_WRAP_CACHE_FORMAT   storage format: gzip (default) or uncompressed
   ITK_WRAP_CACHE_VERBOSE  set to 1 for hit/miss logging to stderr
   ITK_WRAP_CACHE_BYPASS   set to 1 to bypass all caching (same as --no-cache)
   ITK_WRAP_CACHE_MAX_SIZE max cache size before LRU eviction (default: 2G)
@@ -60,9 +75,17 @@ def _strip_line_markers(data: bytes) -> bytes:
     )
 
 
-def _cache_root():
-    env = os.environ.get("ITK_WRAP_CACHE", "")
-    return env if env else os.path.join(os.path.expanduser("~"), ".cache", "itk-wrap")
+def _cache_roots():
+    """Return ordered list of cache root directories from ITK_WRAP_CACHE.
+
+    The env var is a colon-separated list (like PATH).  Reads search all
+    roots in order; writes go to the first root that accepts them.
+    """
+    raw = os.environ.get("ITK_WRAP_CACHE", "")
+    if not raw:
+        return [os.path.join(os.path.expanduser("~"), ".cache", "itk-wrap")]
+    sep = ";" if sys.platform == "win32" else ":"
+    return [p for p in raw.split(sep) if p]
 
 
 def _verbose():
@@ -72,6 +95,15 @@ def _verbose():
 def _log(msg):
     if _verbose():
         print(f"itk-castxml-cache: {msg}", file=sys.stderr)
+
+
+def _use_uncompressed():
+    """Return True when uncompressed storage + hardlink restore is requested."""
+    return os.environ.get("ITK_WRAP_CACHE_FORMAT", "").lower() in (
+        "uncompressed",
+        "raw",
+        "plain",
+    )
 
 
 def _max_cache_bytes():
@@ -227,12 +259,13 @@ def _parse_args(argv):
     return castxml_bin, output_xml, inc_file, cxx_file, passthrough_flags, no_cache
 
 
-def _castxml_content_hash(castxml_bin, cache_root):
+def _castxml_content_hash(castxml_bin, primary_root):
     """Return a stable SHA-256 of the castxml binary, cached on disk.
 
     Sidecar file stores "size mtime_ns sha256" so re-hashing only happens when
     size or mtime changes.  After `ninja -t clean`, castxml is re-linked with
     the same content → same hash → stable L1 key → L1 hits on warm rebuilds.
+    Sidecar lives in the first (writable) cache root.
     """
     try:
         st = os.stat(castxml_bin)
@@ -241,7 +274,7 @@ def _castxml_content_hash(castxml_bin, cache_root):
 
     # One sidecar per binary path (path key avoids slashes in filename)
     path_key = hashlib.sha256(castxml_bin.encode()).hexdigest()[:16]
-    sidecar = os.path.join(cache_root, "_binhash", path_key)
+    sidecar = os.path.join(primary_root, "_binhash", path_key)
 
     try:
         with open(sidecar) as f:
@@ -276,13 +309,13 @@ def _castxml_content_hash(castxml_bin, cache_root):
     return content_hash
 
 
-def _l1_key(castxml_bin, inc_file, cxx_file, passthrough_flags, cache_root):
+def _l1_key(castxml_bin, inc_file, cxx_file, passthrough_flags, primary_root):
     """Compute L1 cache key from direct inputs only (~0.2s, no subprocess)."""
     h = hashlib.sha256()
 
     # Stable content fingerprint — survives re-link with unchanged binary.
     h.update(
-        f"castxml\x00{_castxml_content_hash(castxml_bin, cache_root)}\x00".encode()
+        f"castxml\x00{_castxml_content_hash(castxml_bin, primary_root)}\x00".encode()
     )
 
     # Response file: include dirs + defines passed via @file
@@ -389,17 +422,41 @@ def _l2_dir(cache_root, l2_key):
 
 
 def _restore_xml(cache_root, l2_key, output_xml):
-    """Decompress cached .xml.gz to output_xml. Returns True on success."""
+    """Restore cached XML to output_xml from one cache root.  Returns True on success.
+
+    When ITK_WRAP_CACHE_FORMAT=uncompressed, tries os.link() first (zero-copy,
+    zero-disk-duplication for A/B builds sharing a filesystem), falling back to
+    a plain copy.  For gzip entries, decompresses as before.
+    """
     entry = _l2_dir(cache_root, l2_key)
     ok_file = os.path.join(entry, "_ok")
+    xml_plain = os.path.join(entry, "output.xml")
     xml_gz = os.path.join(entry, "output.xml.gz")
 
-    if not (os.path.isfile(ok_file) and os.path.isfile(xml_gz)):
+    if not os.path.isfile(ok_file):
         return False
+
     try:
         os.makedirs(os.path.dirname(os.path.abspath(output_xml)), exist_ok=True)
-        with gzip.open(xml_gz, "rb") as src, open(output_xml, "wb") as dst:
-            shutil.copyfileobj(src, dst)
+
+        if os.path.isfile(xml_plain):
+            # Hardlink (zero-copy) when cache and build share a filesystem.
+            try:
+                try:
+                    os.unlink(output_xml)
+                except OSError:
+                    pass
+                os.link(xml_plain, output_xml)
+            except OSError:
+                shutil.copy2(xml_plain, output_xml)
+
+        elif os.path.isfile(xml_gz):
+            with gzip.open(xml_gz, "rb") as src, open(output_xml, "wb") as dst:
+                shutil.copyfileobj(src, dst)
+
+        else:
+            return False
+
         # Touch _ok to record "last useful" time for LRU eviction.
         os.utime(ok_file, None)
         return True
@@ -407,36 +464,71 @@ def _restore_xml(cache_root, l2_key, output_xml):
         return False
 
 
-def _store(cache_root, l1_key, l2_key, output_xml):
-    """Store output_xml to L2 cache and write L1→L2 mapping atomically."""
-    # L2 entry
-    entry = _l2_dir(cache_root, l2_key)
-    tmp = entry + ".tmp"
-    try:
-        if os.path.exists(tmp):
-            shutil.rmtree(tmp)
-        os.makedirs(tmp, exist_ok=True)
-        if os.path.isfile(output_xml):
-            with (
-                open(output_xml, "rb") as src,
-                gzip.open(
-                    os.path.join(tmp, "output.xml.gz"), "wb", compresslevel=6
-                ) as dst,
-            ):
-                shutil.copyfileobj(src, dst)
-        with open(os.path.join(tmp, "_meta.json"), "w") as f:
-            json.dump({"l1_key": l1_key, "l2_key": l2_key}, f)
-        open(os.path.join(tmp, "_ok"), "w").close()
-        if os.path.exists(entry):
-            shutil.rmtree(entry)
-        os.rename(tmp, entry)
-    except OSError as exc:
-        _log(f"L2 store failed: {exc}")
-        shutil.rmtree(tmp, ignore_errors=True)
+def _restore_from_caches(roots, l2_key, output_xml):
+    """Search all cache roots for l2_key, restore on first hit."""
+    for root in roots:
+        if _restore_xml(root, l2_key, output_xml):
+            return root  # return the root that had the hit
+    return None
+
+
+def _store(roots, l1_key, l2_key, output_xml):
+    """Store output_xml to L2 cache and write L1→L2 mapping atomically.
+
+    Tries each root in order and writes to the first that accepts an atomic
+    rename.  Read-only roots (e.g. a shared NFS lab cache) are silently
+    skipped.
+    """
+    uncompressed = _use_uncompressed()
+
+    # L2 entry — write to first writable root
+    write_root = None
+    for root in roots:
+        entry = _l2_dir(root, l2_key)
+        tmp = entry + ".tmp"
+        try:
+            if os.path.exists(tmp):
+                shutil.rmtree(tmp)
+            os.makedirs(tmp, exist_ok=True)
+
+            if os.path.isfile(output_xml):
+                if uncompressed:
+                    shutil.copy2(output_xml, os.path.join(tmp, "output.xml"))
+                else:
+                    with (
+                        open(output_xml, "rb") as src,
+                        gzip.open(
+                            os.path.join(tmp, "output.xml.gz"), "wb", compresslevel=6
+                        ) as dst,
+                    ):
+                        shutil.copyfileobj(src, dst)
+
+            with open(os.path.join(tmp, "_meta.json"), "w") as f:
+                json.dump(
+                    {
+                        "l1_key": l1_key,
+                        "l2_key": l2_key,
+                        "format": "uncompressed" if uncompressed else "gzip",
+                    },
+                    f,
+                )
+            open(os.path.join(tmp, "_ok"), "w").close()  # noqa: WPS515
+
+            if os.path.exists(entry):
+                shutil.rmtree(entry)
+            os.rename(tmp, entry)
+            write_root = root
+            break
+        except OSError as exc:
+            _log(f"L2 store failed for {root}: {exc}")
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    if write_root is None:
+        _log("L2 store failed in all cache roots — no entry written")
         return
 
-    # L1→L2 mapping
-    l1f = _l1_file(cache_root, l1_key)
+    # L1→L2 mapping — write to same root that accepted the L2 entry
+    l1f = _l1_file(write_root, l1_key)
     try:
         os.makedirs(os.path.dirname(l1f), exist_ok=True)
         with open(l1f + ".tmp", "w") as f:
@@ -445,7 +537,21 @@ def _store(cache_root, l1_key, l2_key, output_xml):
     except OSError as exc:
         _log(f"L1 map store failed: {exc}")
 
-    _evict_async(cache_root)
+    _evict_async(write_root)
+
+
+def _store_l1_mapping(roots, l1_key, l2_key):
+    """Write an L1→L2 mapping to the first writable root (no L2 write)."""
+    for root in roots:
+        l1f = _l1_file(root, l1_key)
+        try:
+            os.makedirs(os.path.dirname(l1f), exist_ok=True)
+            with open(l1f + ".tmp", "w") as f:
+                f.write(l2_key)
+            os.rename(l1f + ".tmp", l1f)
+            return
+        except OSError:
+            continue
 
 
 def _run_castxml(castxml_bin, passthrough_flags):
@@ -473,10 +579,10 @@ def main():
             "--cache-dir", default=None, help="Cache root (overrides ITK_WRAP_CACHE)"
         )
         args = p.parse_args(argv[1:])
-        root = args.cache_dir or _cache_root()
+        roots = [args.cache_dir] if args.cache_dir else _cache_roots()
         if args.max_size:
             os.environ["ITK_WRAP_CACHE_MAX_SIZE"] = args.max_size
-        _evict_lru(root, _max_cache_bytes())
+        _evict_lru(roots[0], _max_cache_bytes())
         return 0
 
     castxml_bin, output_xml, inc_file, cxx_file, passthrough_flags, no_cache = (
@@ -486,23 +592,29 @@ def main():
     if no_cache or _bypass_mode() or not output_xml or not cxx_file:
         return _run_castxml(castxml_bin, passthrough_flags)
 
-    cache_root = _cache_root()
+    roots = _cache_roots()
+    # primary_root is used for binary sidecar storage; writes go to first writable
+    primary_root = roots[0]
 
     # ── L1 check (fast, no subprocess) ──────────────────────────────────────
-    l1_key = _l1_key(castxml_bin, inc_file, cxx_file, passthrough_flags, cache_root)
-    l1f = _l1_file(cache_root, l1_key)
+    l1_key = _l1_key(castxml_bin, inc_file, cxx_file, passthrough_flags, primary_root)
 
     stored_l2_key = None
-    if os.path.isfile(l1f):
-        try:
-            with open(l1f) as f:
-                stored_l2_key = f.read().strip() or None
-        except OSError:
-            pass
+    for root in roots:
+        l1f = _l1_file(root, l1_key)
+        if os.path.isfile(l1f):
+            try:
+                with open(l1f) as f:
+                    stored_l2_key = f.read().strip() or None
+                if stored_l2_key:
+                    break
+            except OSError:
+                pass
 
     # ── L1 HIT: skip castxml -E entirely ────────────────────────────────────
     if stored_l2_key is not None:
-        if _restore_xml(cache_root, stored_l2_key, output_xml):
+        hit_root = _restore_from_caches(roots, stored_l2_key, output_xml)
+        if hit_root is not None:
             _log(f"HIT  {os.path.basename(cxx_file)} (l1→l2={stored_l2_key[:8]})")
             return 0
         # L2 entry missing or corrupt despite L1 hit — fall through to -E check.
@@ -516,16 +628,24 @@ def main():
         return _run_castxml(castxml_bin, passthrough_flags)
 
     # ── L2 store lookup (handles cross-dir hits: L1 miss, L2 populated) ─────
-    if _restore_xml(cache_root, actual_l2_key, output_xml):
+    hit_root = _restore_from_caches(roots, actual_l2_key, output_xml)
+    if hit_root is not None:
         _log(f"HIT  {os.path.basename(cxx_file)} (l2={actual_l2_key[:8]})")
-        _store(cache_root, l1_key, actual_l2_key, output_xml)  # populate L1 map
+        # Populate L1 map so the next rebuild skips castxml -E
+        _store_l1_mapping(roots, l1_key, actual_l2_key)
         return 0
 
     # ── Full castxml run ─────────────────────────────────────────────────────
     _log(f"MISS {os.path.basename(cxx_file)}")
+    # Unlink before write: severs any prior hardlink to the L2 store so
+    # castxml's write does not corrupt a shared inode.
+    try:
+        os.unlink(output_xml)
+    except OSError:
+        pass
     rc = _run_castxml(castxml_bin, passthrough_flags)
     if rc == 0:
-        _store(cache_root, l1_key, actual_l2_key, output_xml)
+        _store(roots, l1_key, actual_l2_key, output_xml)
     return rc
 
 
