@@ -783,3 +783,50 @@ baseline or expected value changed, it is a selection of a different correct
 representation of the same result, not an indication of a failure.** Update such
 expected values to the new (now platform-stable) representatives; the migrated
 ITK tests have been updated this way.
+
+## Optional Eigen-backed `itk::Math::SVD` for square matrices
+
+A new opt-in, header-only `itk::Math::SVD` (`itkMathSVD.h`) provides an
+Eigen-backed singular value decomposition for **square** matrices. It returns
+`U`, `W`, `V` as vnl types plus `pinverse()`, `Solve()` and `rank()` -- the
+dominant `vnl_svd` operations. This is purely additive: `vnl_svd` is unchanged
+and is **not** deprecated.
+
+### What you need to do
+
+Nothing is required. For **square** decompositions you may prefer
+`itk::Math::SVD` for the performance and reproducibility below. `vnl_svd` remains
+the path for rectangular matrices and for operations the new API does not yet
+expose (`recompose`, `nullvector`, `well_condition`, `singularities`, ...).
+
+### Performance: faster on the common and critical paths, at equal accuracy
+
+Accuracy is equivalent to `vnl_svd` -- reconstruction and singular values agree
+to machine precision (BDCSVD is marginally more accurate at large sizes). Speed
+is size-dependent (idle, single-thread, AppleClang arm64; ratio > 1 means the
+Eigen path is faster):
+
+| Square size | Eigen vs vnl_svd |
+|---|---|
+| 3x3 | ~2.2x faster |
+| 4x4 | ~2.0x faster |
+| 6x6 | ~parity |
+| 8x8 - 16x16 | slower (~0.5-0.8x) -- `vnl_svd`/LINPACK wins |
+| >= 50x50 | ~1.5-2.3x faster (BDCSVD) |
+
+The **rare** cases where Eigen is similar or slightly slower are mid-sized dense
+square matrices (roughly 8-16). These are uncommon across the ITK and downstream
+call sites, which are dominated by 3x3/4x4 transform and image-orientation
+problems (where Eigen is ~2x faster) plus occasional large dense systems (where
+BDCSVD wins). On the common and critical paths the Eigen path is a significant
+performance improvement with no loss of accuracy.
+
+### Deterministic signs -- a different correct representation
+
+Like the eigendecomposition classes above, `itk::Math::SVD` canonicalizes the
+singular-vector signs by default (reproducible across platforms and SIMD width),
+whereas `vnl_svd`'s signs depend on solver internals. Sign-invariant operations
+-- `U * V^T`, `pinverse()`, `Solve()` -- are stable across the swap; code that
+reads individual `U`/`V` columns as directions may see the same geometry from a
+different, equally-valid representative. Pass `canonicalizeSigns = false` to
+reproduce `vnl_svd`'s raw signs (e.g. for equivalence testing).

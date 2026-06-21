@@ -51,6 +51,37 @@ CanonicalizeEigenvectorColumnSigns(vnl_matrix<T> & V)
   }
 }
 
+/** Same canonicalization as above, applied to \a u, with the identical per-column
+ * flip mirrored onto \a paired so a factor pair (e.g. the U and V of an SVD) stays
+ * consistent. Templated on the matrix type so it serves vnl_matrix and
+ * vnl_matrix_fixed; the sign is well-defined only when the leading per-column
+ * magnitude is unambiguous (distinct singular values). */
+template <typename TMatrix>
+void
+CanonicalizeColumnSignsPaired(TMatrix & u, TMatrix & paired)
+{
+  const unsigned int rows = u.rows();
+  for (unsigned int j = 0; j < u.cols(); ++j)
+  {
+    unsigned int pivot = 0;
+    for (unsigned int i = 1; i < rows; ++i)
+    {
+      if (std::abs(u(i, j)) > std::abs(u(pivot, j)))
+      {
+        pivot = i;
+      }
+    }
+    if (u(pivot, j) < 0)
+    {
+      for (unsigned int i = 0; i < rows; ++i)
+      {
+        u(i, j) = -u(i, j);
+        paired(i, j) = -paired(i, j);
+      }
+    }
+  }
+}
+
 } // namespace itk::detail
 
 #endif // itkEigenDecompositionSignConvention_h
