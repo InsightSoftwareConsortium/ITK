@@ -105,6 +105,22 @@ elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
   )
 endif()
 
+# Emit the canonical mirror URL list for a content-addressed archive:
+# data.kitware.com (keyed by SHA512) primary, then ITKTestingData over the
+# GitHub Pages CDN and the IPFS gateways by content id. URL_HASH validates
+# whichever responds.
+function(itk_swig_mirror_urls _out_var _hash _cid)
+  set(
+    ${_out_var}
+    "https://data.kitware.com/api/v1/file/hashsum/sha512/${_hash}/download"
+    "https://insightsoftwareconsortium.github.io/ITKTestingData/CID/${_cid}"
+    "https://dweb.link/ipfs/${_cid}"
+    "https://ipfs.io/ipfs/${_cid}"
+    "https://gateway.pinata.cloud/ipfs/${_cid}"
+    PARENT_SCOPE
+  )
+endfunction()
+
 # Assert a prebuilt/system swig satisfies swig_version_min at configure time, so
 # a wrong or corrupt upload fails here rather than thousands of lines into the
 # build.
@@ -197,17 +213,11 @@ elseif(swig_prebuilt)
       )
     endif()
 
-    # data.kitware.com (keyed by SHA512) is the primary; ITKTestingData serves the
-    # same bytes by content id over the GitHub Pages CDN, and the IPFS gateways
-    # provide further fallback once pinned. URL_HASH validates whichever responds.
+    itk_swig_mirror_urls(swig_urls "${swig_archive_hash}" "${swig_archive_cid}")
     FetchContent_Declare(
       itkswig
       URL
-        "https://data.kitware.com/api/v1/file/hashsum/sha512/${swig_archive_hash}/download"
-        "https://insightsoftwareconsortium.github.io/ITKTestingData/CID/${swig_archive_cid}"
-        "https://dweb.link/ipfs/${swig_archive_cid}"
-        "https://ipfs.io/ipfs/${swig_archive_cid}"
-        "https://gateway.pinata.cloud/ipfs/${swig_archive_cid}"
+        ${swig_urls}
       URL_HASH SHA512=${swig_archive_hash}
       ${swig_extract_timestamp}
     )
@@ -228,16 +238,17 @@ elseif(swig_prebuilt)
       FORCE
     )
     mark_as_advanced(SWIG_DIR)
-
-    if(NOT EXISTS "${SWIG_DIR}/swig.swg")
-      message(
-        FATAL_ERROR
-        "Vendored swig library not found at \"${SWIG_DIR}\" (expected swig.swg). The archive layout may not match share/swig/${ITK_SWIG_VERSION}."
-      )
-    endif()
-
-    itk_assert_swig_version("${SWIG_EXECUTABLE}" ${swig_version_min})
   endif()
+
+  # Verify on every configure, not only when downloading, so a stale cached
+  # SWIG_EXECUTABLE (e.g. an older prebuilt left in _deps) is still caught.
+  if(NOT EXISTS "${SWIG_DIR}/swig.swg")
+    message(
+      FATAL_ERROR
+      "Vendored swig library not found at \"${SWIG_DIR}\" (expected swig.swg). The archive layout may not match share/swig/${ITK_SWIG_VERSION}."
+    )
+  endif()
+  itk_assert_swig_version("${SWIG_EXECUTABLE}" ${swig_version_min})
   mark_as_advanced(SWIG_EXECUTABLE)
 else()
   # No prebuilt binary for this host: build swig from source.
@@ -322,14 +333,11 @@ else()
       itk_download_attempt_check(SWIG)
     endif()
 
+    itk_swig_mirror_urls(swig_source_urls "${swig_hash}" "${swig_cid}")
     ExternalProject_Add(
       swig
       URL
-        "https://data.kitware.com/api/v1/file/hashsum/sha512/${swig_hash}/download"
-        "https://insightsoftwareconsortium.github.io/ITKTestingData/CID/${swig_cid}"
-        "https://dweb.link/ipfs/${swig_cid}"
-        "https://ipfs.io/ipfs/${swig_cid}"
-        "https://gateway.pinata.cloud/ipfs/${swig_cid}"
+        ${swig_source_urls}
       URL_HASH SHA512=${swig_hash}
       CMAKE_GENERATOR "${CMAKE_GENERATOR}"
       CMAKE_CACHE_ARGS
