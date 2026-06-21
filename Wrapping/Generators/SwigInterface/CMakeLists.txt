@@ -23,8 +23,6 @@ mark_as_advanced(ITK_USE_SYSTEM_SWIG)
 set(swig_version_min 4.3.0)
 # Version of the vendored prebuilt binary or source build configured here.
 set(ITK_SWIG_VERSION 4.4.1)
-# Layout version of the share/swig/<dir> directory inside the vendored binary.
-set(swig_cmake_version 4.4.1)
 
 # The prebuilt binary's version is verified against swig_version_min after
 # download; the source build produces exactly ITK_SWIG_VERSION, so assert here
@@ -39,7 +37,7 @@ endif()
 # Select the prebuilt binary for this host. The vendored swig<os>-<arch>-${VER}.zip
 # archives are repackaged from the official, broadly-portable SWIG PyPI wheels
 # (manylinux / macOS universal2 / Windows) so every archive shares the same
-# bin/swig[.exe] + share/swig/${swig_cmake_version} layout. They are downloaded
+# bin/swig[.exe] + share/swig/${ITK_SWIG_VERSION} layout. They are downloaded
 # from data.kitware.com keyed by their SHA512 hash.
 set(swig_prebuilt 0)
 if(WIN32)
@@ -47,7 +45,7 @@ if(WIN32)
 else()
   set(swig_exe_subpath "bin/swig")
 endif()
-set(swig_dir_subpath "share/swig/${swig_cmake_version}")
+set(swig_dir_subpath "share/swig/${ITK_SWIG_VERSION}")
 if(WIN32)
   set(swig_prebuilt 1)
   set(
@@ -234,7 +232,7 @@ elseif(swig_prebuilt)
     if(NOT EXISTS "${SWIG_DIR}/swig.swg")
       message(
         FATAL_ERROR
-        "Vendored swig library not found at \"${SWIG_DIR}\" (expected swig.swg). The archive layout may not match share/swig/${swig_cmake_version}."
+        "Vendored swig library not found at \"${SWIG_DIR}\" (expected swig.swg). The archive layout may not match share/swig/${ITK_SWIG_VERSION}."
       )
     endif()
 
