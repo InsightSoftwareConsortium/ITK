@@ -257,11 +257,11 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
 
         if (m_NumberOfGradientDirections > 6)
         {
-          D = m_TensorBasisSvd->solve(m_BMatrix * B);
+          D = m_TensorBasisInverse * (m_BMatrix * B);
         }
         else
         {
-          D = m_TensorBasisSvd->solve(B);
+          D = m_TensorBasisInverse * B;
         }
 
         tensor(0, 0) = D[0];
@@ -363,11 +363,11 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
 
         if (m_NumberOfGradientDirections > 6)
         {
-          D = m_TensorBasisSvd->solve(m_BMatrix * B);
+          D = m_TensorBasisInverse * (m_BMatrix * B);
         }
         else
         {
-          D = m_TensorBasisSvd->solve(B);
+          D = m_TensorBasisInverse * B;
         }
 
         tensor(0, 0) = D[0];
@@ -435,11 +435,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
     m_TensorBasis = m_BMatrix;
   }
 
-  // The tensor basis is constant over the image, so compute its SVD once here.
-  // The per-voxel loop reuses it via solve() instead of constructing a fresh SVD
-  // per voxel, which removes redundant work and makes the loop thread-safe
-  // (solve() is const, so concurrent per-voxel calls are safe).
-  m_TensorBasisSvd.emplace(m_TensorBasis.as_matrix());
+  m_TensorBasisInverse = vnl_svd<double>{ m_TensorBasis.as_matrix() }.pinverse();
 
   m_BMatrix.inplace_transpose();
 }
