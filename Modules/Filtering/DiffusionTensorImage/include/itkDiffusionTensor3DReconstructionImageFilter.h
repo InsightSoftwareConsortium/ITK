@@ -28,6 +28,7 @@
 #include "itkVectorContainer.h"
 #include "itkVectorImage.h"
 #include "ITKDiffusionTensorImageExport.h"
+#include <optional>
 
 namespace itk
 {
@@ -326,6 +327,10 @@ protected:
 private:
   /* Tensor basis coeffs */
   TensorBasisMatrixType m_TensorBasis{};
+
+  /* SVD of the constant tensor basis, computed once so the per-voxel loop reuses
+   * it via solve() instead of constructing a fresh SVD per voxel. */
+  std::optional<vnl_svd<double>> m_TensorBasisSvd{};
 
   CoefficientMatrixType m_BMatrix{};
 
