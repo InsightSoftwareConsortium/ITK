@@ -50,7 +50,6 @@ endif()
 set(swig_dir_subpath "share/swig/${swig_cmake_version}")
 if(WIN32)
   set(swig_prebuilt 1)
-  set(swig_archive "swigwin-amd64")
   set(
     swig_archive_hash
     "700bd4deed1abc33800efb70fd7ba7e59fc7e2b330e32e41165c942521b55ca752153558e1ccf2e5930b214db368d22b00dcfef06b07e4086e2ec55e338f3892"
@@ -76,7 +75,6 @@ elseif(
 )
   set(swig_prebuilt 1)
   if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
-    set(swig_archive "swiglinux-arm64")
     set(
       swig_archive_hash
       "44a6d174c73a5f2e3ccbae4283e9888c55f88bc40df972abd27c7f041cb29cf03806067e8585fb08d01be7e858203a675f0c13d769f566a6517a0cb4c8902d24"
@@ -86,7 +84,6 @@ elseif(
       "bafybeifaqaus3yzp5oujxupxk422hfmcg2idf3oyvdtsppzq7ymn64nvze"
     )
   else()
-    set(swig_archive "swiglinux-amd64")
     set(
       swig_archive_hash
       "6447a7b965077ceec0980daabe8628cc88fe1956bb2488a9edf569ad25ab8aa9ba2b568f4384e9dc3a213d58bc330e9d585f806461eb826ee2340b450d88ca11"
@@ -98,13 +95,8 @@ elseif(
   endif()
 elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
   set(swig_prebuilt 1)
-  # macOS archives are the universal2 (x86_64 + arm64) wheel; both host
+  # macOS archive is the universal2 (x86_64 + arm64) wheel; both host
   # architectures resolve to the same content.
-  if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
-    set(swig_archive "swigmacos-arm64")
-  else()
-    set(swig_archive "swigmacos-amd64")
-  endif()
   set(
     swig_archive_hash
     "17c4637d49ab26dfe3442d668a6fc95068b9ee4a743fa45a90448bf28062bf4554b7fc4eeb4b8c19b620677e4017ae4491b59b7629a9eb11af4d6d191ce3cef9"
