@@ -22,11 +22,11 @@ Lookup:
               L2 miss → run full castxml; store; write L1 map
 
 Storage formats (ITK_WRAP_CACHE_FORMAT):
-  gzip (default): output.xml.gz, ~10x smaller, decompressed on restore.
-  uncompressed:   output.xml, restored via hardlink when cache and build share
-      a filesystem.  Multiple build directories (A/B/C/D testing) each get a
-      hardlink to the same L2 inode — no per-build disk duplication.  Falls
-      back to a plain copy on cross-device links or permission errors.
+  gzip (default): output.xml.gz, ~8x smaller than raw XML.  Decompressed on
+      restore.  253 MB for a full 807-module ITK build; each build directory
+      gets its own decompressed copy (copy is nearly as fast as a hardlink).
+  uncompressed: output.xml, plain copy on restore.  ~2.2 G per full build.
+      Set ITK_WRAP_CACHE_FORMAT=uncompressed to opt in.
 
 Multi-path cascade (ITK_WRAP_CACHE, colon-separated):
   Reads search all paths in order, returning the first hit.  Writes go to the
@@ -98,7 +98,7 @@ def _log(msg):
 
 
 def _use_uncompressed():
-    """Return True when uncompressed storage + hardlink restore is requested."""
+    """Return True when uncompressed storage is explicitly requested via ITK_WRAP_CACHE_FORMAT."""
     return os.environ.get("ITK_WRAP_CACHE_FORMAT", "").lower() in (
         "uncompressed",
         "raw",
@@ -422,12 +422,7 @@ def _l2_dir(cache_root, l2_key):
 
 
 def _restore_xml(cache_root, l2_key, output_xml):
-    """Restore cached XML to output_xml from one cache root.  Returns True on success.
-
-    When ITK_WRAP_CACHE_FORMAT=uncompressed, tries os.link() first (zero-copy,
-    zero-disk-duplication for A/B builds sharing a filesystem), falling back to
-    a plain copy.  For gzip entries, decompresses as before.
-    """
+    """Restore cached XML to output_xml from one cache root.  Returns True on success."""
     entry = _l2_dir(cache_root, l2_key)
     ok_file = os.path.join(entry, "_ok")
     xml_plain = os.path.join(entry, "output.xml")
@@ -440,20 +435,10 @@ def _restore_xml(cache_root, l2_key, output_xml):
         os.makedirs(os.path.dirname(os.path.abspath(output_xml)), exist_ok=True)
 
         if os.path.isfile(xml_plain):
-            # Hardlink (zero-copy) when cache and build share a filesystem.
-            try:
-                try:
-                    os.unlink(output_xml)
-                except OSError:
-                    pass
-                os.link(xml_plain, output_xml)
-            except OSError:
-                shutil.copy2(xml_plain, output_xml)
-
+            shutil.copy2(xml_plain, output_xml)
         elif os.path.isfile(xml_gz):
             with gzip.open(xml_gz, "rb") as src, open(output_xml, "wb") as dst:
                 shutil.copyfileobj(src, dst)
-
         else:
             return False
 
@@ -637,8 +622,6 @@ def main():
 
     # ── Full castxml run ─────────────────────────────────────────────────────
     _log(f"MISS {os.path.basename(cxx_file)}")
-    # Unlink before write: severs any prior hardlink to the L2 store so
-    # castxml's write does not corrupt a shared inode.
     try:
         os.unlink(output_xml)
     except OSError:

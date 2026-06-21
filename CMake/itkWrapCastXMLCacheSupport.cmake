@@ -20,7 +20,7 @@ set(
 option(
   ITK_WRAP_CASTXML_CACHE
   "Use a content-addressed two-level cache for CastXML wrapping steps."
-  OFF
+  ON
 )
 mark_as_advanced(ITK_WRAP_CASTXML_CACHE)
 
