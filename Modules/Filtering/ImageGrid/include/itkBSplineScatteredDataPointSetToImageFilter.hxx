@@ -24,8 +24,8 @@
 #include "itkCastImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
+#include "itkMathSVD.h"
 #include "itkPrintHelper.h"
-#include "vnl/algo/vnl_matrix_inverse.h"
 
 namespace itk
 {
@@ -120,7 +120,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::SetSpli
       S = S.transpose();
       S.flipud();
 
-      this->m_RefinedLatticeCoefficients[i] = (vnl_svd<RealType>(R).solve(S)).extract(2, S.cols());
+      // rcond = 0 keeps every nonzero singular value (no truncation).
+      this->m_RefinedLatticeCoefficients[i] =
+        (itk::Math::SVD(R, /*canonicalizeSigns=*/false).pinverse(0) * S).extract(2, S.cols());
     }
   }
   this->Modified();
