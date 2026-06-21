@@ -51,8 +51,9 @@ CanonicalizeEigenvectorColumnSigns(vnl_matrix<T> & V)
   }
 }
 
-/** Same canonicalization as above, applied to \a u, with the identical per-column
- * flip mirrored onto \a paired so a factor pair (e.g. the U and V of an SVD) stays
+/** Same canonicalization as \c CanonicalizeEigenvectorColumnSigns, applied to \a u,
+ * with the identical per-column flip mirrored onto \a paired so a factor pair (e.g.
+ * the U and V of an SVD) stays
  * consistent. Templated on the matrix type so it serves vnl_matrix and
  * vnl_matrix_fixed; the sign is well-defined only when the leading per-column
  * magnitude is unambiguous (distinct singular values). */
@@ -60,11 +61,14 @@ template <typename TMatrix>
 void
 CanonicalizeColumnSignsPaired(TMatrix & u, TMatrix & paired)
 {
-  const unsigned int rows = u.rows();
+  // u and paired share a column count but may differ in row count (an SVD's
+  // thin U is rows x k, V is cols x k), so each is flipped over its own rows.
+  const unsigned int uRows = u.rows();
+  const unsigned int pairedRows = paired.rows();
   for (unsigned int j = 0; j < u.cols(); ++j)
   {
     unsigned int pivot = 0;
-    for (unsigned int i = 1; i < rows; ++i)
+    for (unsigned int i = 1; i < uRows; ++i)
     {
       if (std::abs(u(i, j)) > std::abs(u(pivot, j)))
       {
@@ -73,9 +77,12 @@ CanonicalizeColumnSignsPaired(TMatrix & u, TMatrix & paired)
     }
     if (u(pivot, j) < 0)
     {
-      for (unsigned int i = 0; i < rows; ++i)
+      for (unsigned int i = 0; i < uRows; ++i)
       {
         u(i, j) = -u(i, j);
+      }
+      for (unsigned int i = 0; i < pairedRows; ++i)
+      {
         paired(i, j) = -paired(i, j);
       }
     }

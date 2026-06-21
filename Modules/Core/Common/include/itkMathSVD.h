@@ -52,15 +52,15 @@ template <typename TMatrix, typename TVector, typename TReal>
 TMatrix
 PseudoInverse(const TMatrix & U, const TVector & W, const TMatrix & V, TReal rcond)
 {
-  const unsigned int n = W.size();
-  const TReal        tol = ResolveRcond(rcond, n) * W.max_value();
+  const unsigned int k = W.size();
+  const TReal        tol = ResolveRcond(rcond, k) * W.max_value();
   TMatrix            scaledV = V;
-  for (unsigned int k = 0; k < n; ++k)
+  for (unsigned int col = 0; col < k; ++col)
   {
-    const TReal s = (W[k] > tol) ? TReal{ 1 } / W[k] : TReal{ 0 };
-    for (unsigned int i = 0; i < n; ++i)
+    const TReal s = (W[col] > tol) ? TReal{ 1 } / W[col] : TReal{ 0 };
+    for (unsigned int i = 0; i < scaledV.rows(); ++i)
     {
-      scaledV(i, k) *= s;
+      scaledV(i, col) *= s;
     }
   }
   return scaledV * U.transpose();
@@ -104,15 +104,15 @@ template <typename TMatrix, typename TVector, typename TReal>
 TMatrix
 Recompose(const TMatrix & U, const TVector & W, const TMatrix & V, TReal rcond)
 {
-  const unsigned int n = W.size();
-  const TReal        tol = ResolveRcond(rcond, n) * W.max_value();
+  const unsigned int k = W.size();
+  const TReal        tol = ResolveRcond(rcond, k) * W.max_value();
   TMatrix            scaledU = U;
-  for (unsigned int k = 0; k < n; ++k)
+  for (unsigned int col = 0; col < k; ++col)
   {
-    const TReal s = (W[k] > tol) ? W[k] : TReal{ 0 };
-    for (unsigned int i = 0; i < n; ++i)
+    const TReal s = (W[col] > tol) ? W[col] : TReal{ 0 };
+    for (unsigned int i = 0; i < scaledU.rows(); ++i)
     {
-      scaledU(i, k) *= s;
+      scaledU(i, col) *= s;
     }
   }
   return scaledU * V.transpose();
@@ -157,10 +157,11 @@ struct FixedSquareSVDResult
   }
 };
 
-/** Result of a runtime-sized square SVD: A == U * diag(W) * V^T, W descending.
- * For all solver methods, \a rcond < 0 auto-selects an n*epsilon threshold. */
+/** Result of a runtime-sized SVD (square or rectangular): A == U diag(W) V^T,
+ * W descending. For an m x n input, U is m x k, V is n x k and W has length
+ * k = min(m, n) (thin factors). \a rcond < 0 auto-selects a k*epsilon threshold. */
 template <typename TReal>
-struct SquareSVDResult
+struct SVDResult
 {
   vnl_matrix<TReal> U{};
   vnl_vector<TReal> W{};
@@ -275,6 +276,39 @@ SquareSVDEigen(const TReal * inData, TReal * uData, TReal * wData, TReal * vData
     }
   }
 }
+
+// Rectangular SVD via BDCSVD with thin U/V (Eigen's general engine for non-square
+// inputs). For an m x n input: U is m x k, V is n x k, W has length k = min(m, n).
+// Throws on a failed decomposition.
+template <typename TReal>
+void
+RectangularSVDEigen(const TReal * inData,
+                    unsigned int  rows,
+                    unsigned int  cols,
+                    TReal *       uData,
+                    TReal *       wData,
+                    TReal *       vData)
+{
+  using RowMajor = Eigen::Matrix<TReal, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
+  using ColMajor = Eigen::Matrix<TReal, Eigen::Dynamic, Eigen::Dynamic>;
+  constexpr int      thin = Eigen::ComputeThinU | Eigen::ComputeThinV;
+  const unsigned int k = (rows < cols) ? rows : cols;
+
+  const Eigen::Map<const RowMajor>    inMap(inData, rows, cols);
+  const Eigen::BDCSVD<ColMajor, thin> svd(inMap);
+  if (svd.info() != Eigen::Success)
+  {
+    itkGenericExceptionMacro("itk::Math::SVD failed; input is likely non-finite (NaN/Inf).");
+  }
+  Eigen::Map<RowMajor> uMap(uData, rows, k);
+  Eigen::Map<RowMajor> vMap(vData, cols, k);
+  uMap = svd.matrixU();
+  vMap = svd.matrixV();
+  for (unsigned int i = 0; i < k; ++i)
+  {
+    wData[i] = svd.singularValues()[i];
+  }
+}
 } // namespace detail
 
 /** \brief Singular value decomposition A = U diag(W) V^T, backed by Eigen.
@@ -288,8 +322,10 @@ SquareSVDEigen(const TReal * inData, TReal * uData, TReal * wData, TReal * vData
  * singular value.
  *
  * Fixed compile-time sizes use JacobiSVD with NoQRPreconditioner (valid for
- * square inputs) over a zero-copy Eigen::Map; runtime sizes select JacobiSVD for
- * small n and BDCSVD for larger n.
+ * square inputs) over a zero-copy Eigen::Map; runtime square sizes select JacobiSVD
+ * for small n and BDCSVD for larger n. Runtime rectangular inputs use BDCSVD with
+ * thin U/V (the dispatch is a single dimension comparison, so the square fast path
+ * is unaffected). Fixed-size overloads are square-only by signature.
  *
  * Singular vectors are defined only up to a sign (and, for repeated singular
  * values, a rotation within the shared subspace). With \a canonicalizeSigns
@@ -326,23 +362,34 @@ SVD(const Matrix<TReal, VDim, VDim> & A, bool canonicalizeSigns = true)
   return SVD<TReal, VDim>(A.GetVnlMatrix(), canonicalizeSigns);
 }
 
-/** SVD of a runtime-sized square vnl_matrix. */
+/** SVD of a runtime-sized vnl_matrix (square or rectangular). Square inputs take
+ * the fast square path (JacobiSVD+NoQRPreconditioner / BDCSVD); rectangular inputs
+ * use BDCSVD with thin U/V. The dispatch is a single dimension comparison. */
 template <typename TReal>
-SquareSVDResult<TReal>
+SVDResult<TReal>
 SVD(const vnl_matrix<TReal> & A, bool canonicalizeSigns = true)
 {
-  if (A.rows() == 0 || A.rows() != A.cols())
+  const unsigned int rows = A.rows();
+  const unsigned int cols = A.cols();
+  if (rows == 0 || cols == 0)
   {
-    itkGenericExceptionMacro("itk::Math::SVD requires a non-empty square matrix; got " << A.rows() << 'x' << A.cols()
-                                                                                       << '.');
+    itkGenericExceptionMacro("itk::Math::SVD requires a non-empty matrix.");
   }
-  const unsigned int     n = A.rows();
-  SquareSVDResult<TReal> result;
-  result.U.set_size(n, n);
-  result.V.set_size(n, n);
-  result.W.set_size(n);
-  detail::DynamicSquareSVDEigen<TReal>(
-    A.data_block(), n, result.U.data_block(), result.W.data_block(), result.V.data_block());
+  const unsigned int k = (rows < cols) ? rows : cols;
+  SVDResult<TReal>   result;
+  result.U.set_size(rows, k);
+  result.V.set_size(cols, k);
+  result.W.set_size(k);
+  if (rows == cols)
+  {
+    detail::DynamicSquareSVDEigen<TReal>(
+      A.data_block(), rows, result.U.data_block(), result.W.data_block(), result.V.data_block());
+  }
+  else
+  {
+    detail::RectangularSVDEigen<TReal>(
+      A.data_block(), rows, cols, result.U.data_block(), result.W.data_block(), result.V.data_block());
+  }
   if (canonicalizeSigns)
   {
     itk::detail::CanonicalizeColumnSignsPaired(result.U, result.V);

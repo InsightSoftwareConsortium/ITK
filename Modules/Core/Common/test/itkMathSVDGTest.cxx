@@ -192,13 +192,6 @@ TEST(MathSVD, DynamicReconstructs)
   }
 }
 
-// A non-square runtime input is rejected.
-TEST(MathSVD, DynamicRejectsNonSquare)
-{
-  const vnl_matrix<double> A(3, 4, 1.0);
-  EXPECT_THROW(itk::Math::SVD(A), itk::ExceptionObject);
-}
-
 // An empty runtime input is rejected.
 TEST(MathSVD, DynamicRejectsEmpty)
 {
@@ -409,4 +402,76 @@ TEST(MathSVD, Recompose)
   EXPECT_NEAR(truncated(0, 0), 5.0, 1e-10);
   EXPECT_NEAR(truncated(1, 1), 3.0, 1e-10);
   EXPECT_NEAR(truncated(2, 2), 0.0, 1e-12);
+}
+
+// Rectangular (tall and wide): thin factors reconstruct A, shapes are correct,
+// and pinverse()/Solve() match vnl_svd and satisfy the Moore-Penrose identity.
+TEST(MathSVD, Rectangular)
+{
+  const unsigned int dims[2][2] = { { 5, 3 }, { 3, 5 } }; // tall, wide
+  for (const auto & d : dims)
+  {
+    const unsigned int m = d[0];
+    const unsigned int n = d[1];
+    const unsigned int k = std::min(m, n);
+    vnl_matrix<double> A(m, n);
+    for (unsigned int i = 0; i < m; ++i)
+      for (unsigned int j = 0; j < n; ++j)
+        A(i, j) = std::sin(0.6 * i + 1.1 * j) + (i == j ? 1.0 : 0.0);
+
+    const auto r = itk::Math::SVD(A);
+    EXPECT_EQ(r.U.rows(), m);
+    EXPECT_EQ(r.U.cols(), k);
+    EXPECT_EQ(r.V.rows(), n);
+    EXPECT_EQ(r.V.cols(), k);
+    EXPECT_EQ(r.W.size(), k);
+
+    // A == U diag(W) V^T (thin)
+    double reconErr = 0.0;
+    for (unsigned int i = 0; i < m; ++i)
+      for (unsigned int j = 0; j < n; ++j)
+      {
+        double acc = 0.0;
+        for (unsigned int c = 0; c < k; ++c)
+          acc += r.U(i, c) * r.W[c] * r.V(j, c);
+        reconErr = std::max(reconErr, std::abs(acc - A(i, j)));
+      }
+    EXPECT_LT(reconErr, 1e-12) << "m=" << m << " n=" << n;
+
+    // pinverse is n x m and matches vnl_svd
+    const auto               pinv = r.pinverse();
+    const vnl_matrix<double> pinvVnl = vnl_svd<double>(A).pinverse();
+    EXPECT_EQ(pinv.rows(), n);
+    EXPECT_EQ(pinv.cols(), m);
+    double pinvErr = 0.0;
+    for (unsigned int i = 0; i < n; ++i)
+      for (unsigned int j = 0; j < m; ++j)
+        pinvErr = std::max(pinvErr, std::abs(pinv(i, j) - pinvVnl(i, j)));
+    EXPECT_LT(pinvErr, 1e-10) << "m=" << m << " n=" << n;
+
+    // Moore-Penrose: A A^+ A == A
+    const vnl_matrix<double> recon = A * pinv * A;
+    double                   mpErr = 0.0;
+    for (unsigned int i = 0; i < m; ++i)
+      for (unsigned int j = 0; j < n; ++j)
+        mpErr = std::max(mpErr, std::abs(recon(i, j) - A(i, j)));
+    EXPECT_LT(mpErr, 1e-10) << "m=" << m << " n=" << n;
+  }
+}
+
+// Rectangular least-squares Solve() matches vnl_svd (the BSpline refinement use).
+TEST(MathSVD, RectangularSolveMatchesVnl)
+{
+  vnl_matrix<double> A(5, 3); // overdetermined
+  for (unsigned int i = 0; i < 5; ++i)
+    for (unsigned int j = 0; j < 3; ++j)
+      A(i, j) = std::cos(0.4 * i + 0.9 * j) + (i == j ? 2.0 : 0.0);
+  vnl_vector<double> b(5);
+  for (unsigned int i = 0; i < 5; ++i)
+    b[i] = static_cast<double>(i) - 1.5;
+
+  const vnl_vector<double> x = itk::Math::SVD(A).Solve(b);
+  const vnl_vector<double> xVnl = vnl_svd<double>(A).solve(b);
+  EXPECT_EQ(x.size(), 3u);
+  EXPECT_LT((x - xVnl).inf_norm(), 1e-10);
 }
