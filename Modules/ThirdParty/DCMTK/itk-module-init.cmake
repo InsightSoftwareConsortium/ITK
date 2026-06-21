@@ -32,31 +32,10 @@ else()
     "Embed oficonv data files into oficonv library"
     ON
   )
-  # Copied and mofified from DCMTK/CMake/3rdparty.cmake
+  # ICU creates problems on macOS and Windows, so it is disabled by default;
+  # DCMTK's in-scope configuration selects builtin oficonv otherwise.
   if(NOT DEFINED DCMTK_USE_ICU)
-    include(CheckCXXSourceCompiles)
-    check_cxx_source_compiles(
-      "#include <iconv.h>\nint main(){iconv_t cd = iconv_open(\"\",\"\");iconv(cd,0,0,0,0);iconv_close(cd);return 0;}"
-      WITH_STDLIBC_ICONV
-    )
-    if(WITH_STDLIBC_ICONV)
-      message(
-        STATUS
-        "Info: found builtin ICONV support inside the C standard library."
-      )
-      set(
-        CHARSET_CONVERSION_ARGS
-        -DDCMTK_WITH_STDLIBC_ICONV:BOOL=ON
-        -DDCMTK_WITH_ICU:BOOL=OFF
-        "-DDCMTK_ENABLE_CHARSET_CONVERSION:STRING=stdlibc (iconv)"
-        CACHE INTERNAL
-        "DCMTK Internal arguments"
-      )
-    endif()
-    # ICU creates problems on MacOS and Windows, so by default it is disabled.
-    # On Linux, the C standard library can have builtin ICONV support. We
-    # disable building ICU by default.
-    option(DCMTK_USE_ICU "Downloads and compile ICU for DCMTK" OFF)
+    option(DCMTK_USE_ICU "Use system ICU for DCMTK charset conversion" OFF)
   endif()
   if(DCMTK_USE_ICU)
     if(ITK_USE_SYSTEM_ICU)
