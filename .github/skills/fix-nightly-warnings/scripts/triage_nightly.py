@@ -25,7 +25,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from get_build_warnings import extract_flag, fetch_entries
 from list_nightly_warnings import graphql, INSIGHT_PROJECT_ID, QUERY_TEMPLATE
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 
 def main() -> None:
@@ -78,12 +78,12 @@ def main() -> None:
     # Determine time window
     if args.since is None:
         CTEST_NIGHTLY_START = "01:00:00+00:00"
-        today = datetime.now(timezone.utc).date()
+        today = datetime.now(UTC).date()
         dt = datetime.fromisoformat(f"{today.isoformat()}T{CTEST_NIGHTLY_START}")
-        now_utc = datetime.now(timezone.utc)
+        now_utc = datetime.now(UTC)
         since_dt = dt if now_utc >= dt else dt - timedelta(days=1)
     else:
-        since_dt = datetime.now(timezone.utc) - timedelta(hours=args.since)
+        since_dt = datetime.now(UTC) - timedelta(hours=args.since)
 
     since_str = since_dt.strftime("%Y-%m-%dT%H:%M:%S+00:00")
 
