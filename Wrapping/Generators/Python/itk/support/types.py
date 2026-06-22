@@ -16,6 +16,8 @@
 #
 # ==========================================================================
 
+from __future__ import annotations
+
 import importlib
 from importlib.metadata import metadata
 from typing import TypeAlias, Union, TYPE_CHECKING
@@ -47,7 +49,7 @@ class itkCType:
     # import locally to facilitate dynamic loading in itk/__init__.py
     import numpy as np
 
-    __c_types__: dict[str, "itkCType"] = {}
+    __c_types__: dict[str, itkCType] = {}
     __c_types_for_dtype__: dict[str, np.dtype] = {}
 
     def __init__(
@@ -72,7 +74,7 @@ class itkCType:
         return f"<itkCType {self.name}>"
 
     @staticmethod
-    def GetCType(name: str) -> "itkCType | None":
+    def GetCType(name: str) -> itkCType | None:
         # import locally to facilitate dynamic loading in itk/__init__.py
 
         """Get the type corresponding to the provided C primitive type name."""
@@ -91,7 +93,7 @@ class itkCType:
             return None
 
     @staticmethod
-    def GetCTypeForDType(np_dtype: np.dtype) -> "itkCType | None":
+    def GetCTypeForDType(np_dtype: np.dtype) -> itkCType | None:
         """Get the type corresponding to the provided numpy.dtype."""
         try:
             return itkCType.__c_types_for_dtype__[np_dtype]
@@ -99,29 +101,29 @@ class itkCType:
             return None
 
     @staticmethod
-    def initialize_c_types_once() -> "tuple[itkCType, ...]":
+    def initialize_c_types_once() -> tuple[itkCType, ...]:
         """
         This function is intended to be run only one time
         """
         import numpy as np
 
-        _F: "itkCType" = itkCType("float", "F", np.dtype(np.float32))
-        _D: "itkCType" = itkCType("double", "D", np.dtype(np.float64))
-        _UC: "itkCType" = itkCType("unsigned char", "UC", np.dtype(np.uint8))
-        _US: "itkCType" = itkCType("unsigned short", "US", np.dtype(np.uint16))
-        _UI: "itkCType" = itkCType("unsigned int", "UI", np.dtype(np.uint32))
+        _F: itkCType = itkCType("float", "F", np.dtype(np.float32))
+        _D: itkCType = itkCType("double", "D", np.dtype(np.float64))
+        _UC: itkCType = itkCType("unsigned char", "UC", np.dtype(np.uint8))
+        _US: itkCType = itkCType("unsigned short", "US", np.dtype(np.uint16))
+        _UI: itkCType = itkCType("unsigned int", "UI", np.dtype(np.uint32))
         if os.name == "nt":
-            _UL: "itkCType" = itkCType("unsigned long", "UL", np.dtype(np.uint32))
-            _SL: "itkCType" = itkCType("signed long", "SL", np.dtype(np.int32))
+            _UL: itkCType = itkCType("unsigned long", "UL", np.dtype(np.uint32))
+            _SL: itkCType = itkCType("signed long", "SL", np.dtype(np.int32))
         else:
-            _UL: "itkCType" = itkCType("unsigned long", "UL", np.dtype(np.uint64))
-            _SL: "itkCType" = itkCType("signed long", "SL", np.dtype(np.int64))
-        _ULL: "itkCType" = itkCType("unsigned long long", "ULL", np.dtype(np.uint64))
-        _SC: "itkCType" = itkCType("signed char", "SC", np.dtype(np.int8))
-        _SS: "itkCType" = itkCType("signed short", "SS", np.dtype(np.int16))
-        _SI: "itkCType" = itkCType("signed int", "SI", np.dtype(np.int32))
-        _SLL: "itkCType" = itkCType("signed long long", "SLL", np.dtype(np.int64))
-        _B: "itkCType" = itkCType("bool", "B", np.dtype(np.bool_))
+            _UL: itkCType = itkCType("unsigned long", "UL", np.dtype(np.uint64))
+            _SL: itkCType = itkCType("signed long", "SL", np.dtype(np.int64))
+        _ULL: itkCType = itkCType("unsigned long long", "ULL", np.dtype(np.uint64))
+        _SC: itkCType = itkCType("signed char", "SC", np.dtype(np.int8))
+        _SS: itkCType = itkCType("signed short", "SS", np.dtype(np.int16))
+        _SI: itkCType = itkCType("signed int", "SI", np.dtype(np.int32))
+        _SLL: itkCType = itkCType("signed long long", "SLL", np.dtype(np.int64))
+        _B: itkCType = itkCType("bool", "B", np.dtype(np.bool_))
         return _F, _D, _UC, _US, _UI, _UL, _SL, _ULL, _SC, _SS, _SI, _SLL, _B
 
 
