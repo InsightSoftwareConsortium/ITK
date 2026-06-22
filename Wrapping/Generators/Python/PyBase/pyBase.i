@@ -685,7 +685,7 @@ str = str
 
               On Python 3.12+ this is called automatically by
               ``memoryview(image)`` and ``numpy.asarray(image)``.
-              On Python 3.10-3.11 it can be called explicitly.
+              On Python 3.11 it can be called explicitly.
 
               The returned memoryview shares memory with the image
               (zero-copy).  A reference to the image is stored on the
@@ -794,7 +794,7 @@ str = str
               """NumPy array protocol -- zero-copy view of image data.
 
               On Python 3.12+, NumPy prefers ``__buffer__`` (PEP 688)
-              over this method.  On Python 3.10-3.11, NumPy uses
+              over this method.  On Python 3.11, NumPy uses
               ``__array_interface__`` (which sets arr.base = self) for
               ``np.asarray()``, so this method is only called for
               explicit ``image.__array__()`` or ``np.array(image)``.

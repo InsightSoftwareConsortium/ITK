@@ -155,7 +155,7 @@ def run_lifetime_and_leak_tests():
     gc.collect()
 
     # ==============================================================
-    #  Section 2: __array__ zero-copy (3.10-3.11 primary path)
+    #  Section 2: __array__ zero-copy (3.11 primary path)
     # ==============================================================
     print()
     print("=" * 60)
