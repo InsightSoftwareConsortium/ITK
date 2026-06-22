@@ -14,9 +14,23 @@ if(ITK_USE_SYSTEM_EXPAT)
     ITKExpat_INCLUDE_DIRS
     ${ITKExpat_BINARY_DIR} # <- for itk_expat.h
   )
-  set(ITKExpat_SYSTEM_INCLUDE_DIRS "${EXPAT_INCLUDE_DIR}")
-  set(ITKExpat_LIBRARIES "${EXPAT_LIBRARY}")
+  set(ITKExpat_LIBRARIES "EXPAT::EXPAT")
   set(ITKExpat_NO_SRC 1)
+
+  set(
+    ITKExpat_EXPORT_CODE_INSTALL
+    "
+find_package(EXPAT REQUIRED)
+"
+  )
+  set(
+    ITKExpat_EXPORT_CODE_BUILD
+    "
+if(NOT ITK_BINARY_DIR)
+  find_package(EXPAT REQUIRED)
+endif()
+"
+  )
 else()
   set(
     ITKExpat_INCLUDE_DIRS

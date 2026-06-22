@@ -11,13 +11,23 @@ mark_as_advanced(ITK_USE_SYSTEM_PNG)
 if(ITK_USE_SYSTEM_PNG)
   find_package(PNG REQUIRED)
   set(ITKPNG_INCLUDE_DIRS ${ITKPNG_BINARY_DIR}/src)
-  set(
-    ITKPNG_SYSTEM_INCLUDE_DIRS
-    ${PNG_INCLUDE_DIRS}
-    ${PNG_INCLUDE_DIR}
-  )
-  set(ITKPNG_LIBRARIES "${PNG_LIBRARIES}")
+  set(ITKPNG_LIBRARIES "PNG::PNG")
   set(ITKPNG_NO_SRC 1)
+
+  set(
+    ITKPNG_EXPORT_CODE_INSTALL
+    "
+find_package(PNG REQUIRED)
+"
+  )
+  set(
+    ITKPNG_EXPORT_CODE_BUILD
+    "
+if(NOT ITK_BINARY_DIR)
+  find_package(PNG REQUIRED)
+endif()
+"
+  )
 else()
   set(
     ITKPNG_INCLUDE_DIRS
