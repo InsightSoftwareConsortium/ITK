@@ -18,7 +18,7 @@
 
 import importlib
 from importlib.metadata import metadata
-from typing import Union, TYPE_CHECKING
+from typing import TypeAlias, Union, TYPE_CHECKING
 import os
 
 try:
@@ -97,22 +97,7 @@ class itkCType:
             return None
 
     @staticmethod
-    def initialize_c_types_once() -> (
-        "itkCType",
-        "itkCType",
-        "itkCType",
-        "itkCType",
-        "itkCType",
-        "itkCType",
-        "itkCType",
-        "itkCType",
-        "itkCType",
-        "itkCType",
-        "itkCType",
-        "itkCType",
-        "itkCType",
-        "itkCType",
-    ):
+    def initialize_c_types_once() -> "tuple[itkCType, ...]":
         """
         This function is intended to be run only one time
         """
@@ -182,19 +167,20 @@ if os.name == "nt":
 if TYPE_CHECKING:
     import itk
 
-# These should eventually explicitly be marked as TypeAlias's per PEP 613, available in CPython 3.10
-ImageBase = "itk.ImageBase"
-Image = "itk.Image"
-VectorImage = "itk.VectorImage"
+# Marked as TypeAlias per PEP 613 so type checkers resolve the string
+# forward references instead of rejecting them as plain variables.
+ImageBase: TypeAlias = "itk.ImageBase"
+Image: TypeAlias = "itk.Image"
+VectorImage: TypeAlias = "itk.VectorImage"
 
-RGBPixel = "itk.RGBPixel"
-Vector = "itk.Vector"
-CovariantVector = "itk.CovariantVector"
-SymmetricSecondRankTensor = "itk.SymmetricSecondRankTensor"
-Offset = "itk.Offset"
-FixedArray = "itk.FixedArray"
-VariableLengthVector = "itk.VariableLengthVector"
-complex_ = "itk.complex"
+RGBPixel: TypeAlias = "itk.RGBPixel"
+Vector: TypeAlias = "itk.Vector"
+CovariantVector: TypeAlias = "itk.CovariantVector"
+SymmetricSecondRankTensor: TypeAlias = "itk.SymmetricSecondRankTensor"
+Offset: TypeAlias = "itk.Offset"
+FixedArray: TypeAlias = "itk.FixedArray"
+VariableLengthVector: TypeAlias = "itk.VariableLengthVector"
+complex_: TypeAlias = "itk.complex"
 
 PixelTypes = Union[
     itkCType,
@@ -207,7 +193,7 @@ PixelTypes = Union[
     complex_,
 ]
 
-ImageSource = "itk.ImageSource"
+ImageSource: TypeAlias = "itk.ImageSource"
 
 ImageOrImageSource = Union[ImageBase, ImageSource]
 # Can be coerced into an itk.ImageBase
@@ -220,28 +206,28 @@ elif _HAVE_TORCH:
 else:
     ImageLike = Union[ImageBase, ArrayLike]
 
-ImageIOBase = "itk.ImageIOBase"
+ImageIOBase: TypeAlias = "itk.ImageIOBase"
 
-LightObject = "itk.LightObject"
-Object = "itk.Object"
-DataObject = "itk.DataObject"
+LightObject: TypeAlias = "itk.LightObject"
+Object: TypeAlias = "itk.Object"
+DataObject: TypeAlias = "itk.DataObject"
 
-PointSet = "itk.PointSet"
-Mesh = "itk.Mesh"
-QuadEdgeMesh = "itk.QuadEdgeMesh"
+PointSet: TypeAlias = "itk.PointSet"
+Mesh: TypeAlias = "itk.Mesh"
+QuadEdgeMesh: TypeAlias = "itk.QuadEdgeMesh"
 
-Path = "itk.Path"
-ParametricPath = "itk.ParametricPath"
-PolyLineParametricPath = "itk.PolyLineParametricPath"
-SpatialObject = "itk.SpatialObject"
+Path: TypeAlias = "itk.Path"
+ParametricPath: TypeAlias = "itk.ParametricPath"
+PolyLineParametricPath: TypeAlias = "itk.PolyLineParametricPath"
+SpatialObject: TypeAlias = "itk.SpatialObject"
 
-TransformBase = "itk.TransformBaseTemplate"
-Transform = "itk.Transform"
+TransformBase: TypeAlias = "itk.TransformBaseTemplate"
+Transform: TypeAlias = "itk.Transform"
 
-ImageRegion = "itk.ImageRegion"
+ImageRegion: TypeAlias = "itk.ImageRegion"
 
-VectorContainer = "itk.VectorContainer"
-Matrix = "itk.Matrix"
+VectorContainer: TypeAlias = "itk.VectorContainer"
+Matrix: TypeAlias = "itk.Matrix"
 
 # Return types for the functional interfaces to ProcessObject's.
 # When there is a single indexed output, it is returned directly.
@@ -251,7 +237,7 @@ ImageSourceReturn = Union[ImageLike, tuple[ImageLike, ...]]
 MeshSourceReturn = Union[Mesh, tuple[Mesh, ...]]
 PathSourceReturn = Union[Path, tuple[Path, ...]]
 
-InterpolateImageFunction = "itk.InterpolateImageFunction"
-ExtrapolateImageFunction = "itk.ExtrapolateImageFunction"
-ImageBoundaryCondition = "itk.ImageBoundaryCondition"
-FlatStructuringElement = "itk.FlatStructuringElement"
+InterpolateImageFunction: TypeAlias = "itk.InterpolateImageFunction"
+ExtrapolateImageFunction: TypeAlias = "itk.ExtrapolateImageFunction"
+ImageBoundaryCondition: TypeAlias = "itk.ImageBoundaryCondition"
+FlatStructuringElement: TypeAlias = "itk.FlatStructuringElement"
