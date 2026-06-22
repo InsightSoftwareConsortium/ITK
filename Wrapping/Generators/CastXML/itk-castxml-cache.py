@@ -61,7 +61,7 @@ import time
 
 # Bump when the key algorithm changes; old entries become unreachable orphans
 # (different hash → different L2 path) and are pruned by LRU eviction.
-_KEY_VERSION = b"v3\x00"
+_KEY_VERSION = b"v4\x00"
 
 # Matches C preprocessor line markers: "# N "  (where N is an integer).
 # These carry only source-file locations — not C++ semantics — so stripping
