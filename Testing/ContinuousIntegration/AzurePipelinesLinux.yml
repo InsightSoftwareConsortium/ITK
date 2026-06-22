@@ -67,7 +67,7 @@ jobs:
 
     - task: UsePythonVersion@0
       inputs:
-        versionSpec: '3.10'
+        versionSpec: '3.11'
         architecture: 'x64'
 
     - bash: |

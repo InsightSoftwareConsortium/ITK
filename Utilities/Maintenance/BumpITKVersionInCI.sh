@@ -30,7 +30,8 @@ echo $itkWheelTag
 # Update ITK version in CI .yml pipeline files.
 # Updating from old CI (ITK < 6.0.0) requires a few changes:
 # - Update ITK and ITK Python tags;
-# - Deprecate Python 3.9 and add Python 3.10 3.11 wheels
+# - Deprecate all python versions less than 3.11
+# - make packages for python 3.11 and python 3.12 (no sabi) to be compatible with VTKGlue module
 # - Bug fix for PATH string in Windows builds
 find . -type f | \
     fgrep ".yml" | \
@@ -38,6 +39,6 @@ find . -type f | \
 	-e "s#itk-git-tag: .*#itk-git-tag: \"$itkGitTag\"#g" \
 	-e "s#- itk-python-git-tag: .*#- itk-python-git-tag: \"$itkWheelTag\"#g" \
 	-e "s#itk-wheel-tag: .*#itk-wheel-tag: \"$itkWheelTag\"#g" \
-	-e 's#python-version: \[.*#python-version: [310, 311]#g' \
-	-e 's#python-version-minor: \[.*#python-version-minor: [10, 11]#g' \
+	-e 's#python-version: \[.*#python-version: [311, 312]#g' \
+	-e 's#python-version-minor: \[.*#python-version-minor: [11, 12]#g' \
         -e 's#set PATH="C:\\P\\grep;%PATH%"#set PATH=C:\\P\\grep;%PATH%#g'
