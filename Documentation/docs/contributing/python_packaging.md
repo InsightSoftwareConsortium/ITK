@@ -20,7 +20,7 @@ Building ITK Python wheels requires the following:
 - CMake >= 3.16
 - Git
 - C++ Compiler (see [scikit-build platform specific requirements](https://scikit-build.readthedocs.io/en/latest/generators.html))
-- Python >= 3.10
+- Python >= 3.11
 
 ## Automated Platform Scripts
 
@@ -40,12 +40,14 @@ git clone https://github.com/InsightSoftwareConsortium/ITKPythonPackage.git
 
 pushd ITKPythonPackage
 export MANYLINUX_VERSION=2014
-./scripts/dockcross-manylinux-build-wheels.sh cp310
+./scripts/dockcross-manylinux-build-wheels.sh cp311
 [...]
 
 ls -1 dist/
-itk-6.0.0.dev20260401-cp310-cp310-manylinux2014_x86_64.whl
+itk-<ITK_VERSION>-cp<PYTAG>-cp<PYTAG>-manylinux<MANYLINUX_VERSION>_<ARCH>.whl
 ```
+
+The wheel name follows the [binary distribution format](https://packaging.python.org/en/latest/specifications/binary-distribution-format/#file-name-convention) `itk-<ITK_VERSION>-cp<PYTAG>-cp<PYTAG>-<PLATFORM_TAG>.whl`, where `<ITK_VERSION>` is the release (`X.Y.Z`) or development build (`X.Y.Z.devYYYYMMDD`), `<PYTAG>` is the CPython version (`311` for the `cp311` argument above), and the platform tag encodes the ABI baseline, OS, and architecture (e.g. `manylinux2014_x86_64`, `macosx_11_0_arm64`).
 
 ### macOS
 
@@ -61,11 +63,11 @@ Then, run [macpython-build-wheels.sh](https://github.com/InsightSoftwareConsorti
 git clone https://github.com/InsightSoftwareConsortium/ITKPythonPackage.git
 [...]
 
-./scripts/macpython-build-wheels.sh cp310
+./scripts/macpython-build-wheels.sh cp311
 [...]
 
 ls -1 dist/
-itk-6.0.0.dev20260401-cp310-cp310-macosx_11_0_arm64.whl
+itk-<ITK_VERSION>-cp<PYTAG>-cp<PYTAG>-macosx_<MACOS_VERSION>_<ARCH>.whl
 ```
 
 ### Windows
