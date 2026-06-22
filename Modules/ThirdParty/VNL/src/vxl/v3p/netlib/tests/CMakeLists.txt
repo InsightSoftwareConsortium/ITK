@@ -16,10 +16,6 @@ if(BUILD_TESTING)
   add_test( NAME netlib_test2_lsqr COMMAND netlib_lsqrTest2 )
   target_link_libraries(netlib_lsqrTest2 itkv3p_netlib)
   # test
-  add_executable( netlib_lsmrTest2 lsmrTest2.cxx )
-  add_test( NAME netlib_test2_lsmr COMMAND netlib_lsmrTest2 )
-  target_link_libraries(netlib_lsmrTest2 itkv3p_netlib)
-  # test
   add_executable( netlib_slamch_test slamch-test.c )
   add_test( NAME netlib_test_slamch COMMAND netlib_slamch_test )
   target_link_libraries(netlib_slamch_test itkv3p_netlib)
