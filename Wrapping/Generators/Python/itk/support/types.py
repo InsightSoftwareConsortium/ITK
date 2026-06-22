@@ -50,7 +50,9 @@ class itkCType:
     __c_types__: dict[str, "itkCType"] = {}
     __c_types_for_dtype__: dict[str, np.dtype] = {}
 
-    def __init__(self, name: str, short_name: str, np_dtype: np.dtype = None) -> None:
+    def __init__(
+        self, name: str, short_name: str, np_dtype: np.dtype | None = None
+    ) -> None:
         # Remove potential white space around type names
         self.name = name.strip()
         self.short_name = short_name.strip()
