@@ -36,7 +36,12 @@ jobs:
       strategy:
         fail-fast: false
         matrix:
-          os: [ubuntu-24.04, windows-2022, macos-15]
+          # windows-2022 excluded: itk_end_wrap_module.cmake generates an
+          # igenerator command that exceeds cmd.exe's 8191-char batch-file
+          # line limit for large modules (e.g. ITKImageIntensity, 59
+          # submodules). Fix requires response-file support in cmake custom
+          # command, tracked separately.
+          os: [ubuntu-24.04, macos-15]
       steps:
         - name: Checkout
           uses: actions/checkout@v5

@@ -152,6 +152,10 @@ endif()
 
 include(ConfigureWrapping.cmake)
 
+if(ITK_WRAP_PYTHON)
+  include(itkWrapCastXMLCacheSupport)
+endif()
+
 ###############################################################################
 # Configure specific wrapper modules
 ###############################################################################

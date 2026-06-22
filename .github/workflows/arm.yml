@@ -102,6 +102,7 @@ jobs:
           echo "CCACHE_SLOPPINESS=pch_defines,time_macros" >> "$GITHUB_ENV"
           echo "CCACHE_DIR=${{ runner.temp }}/ccache" >> "$GITHUB_ENV"
           echo "CCACHE_MAXSIZE=5G" >> "$GITHUB_ENV"
+          echo "ITK_WRAP_CACHE=${{ runner.temp }}/itk-castxml-cache" >> "$GITHUB_ENV"
           if [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt-get update -qq && sudo apt-get install -y ccache locales
             sudo locale-gen de_DE.UTF-8
@@ -117,6 +118,16 @@ jobs:
           key: ccache-v4-${{ runner.os }}-${{ matrix.name }}-${{ github.sha }}
           restore-keys: |
             ccache-v4-${{ runner.os }}-${{ matrix.name }}-
+
+      - name: Restore CastXML cache
+        if: matrix.python-version != ''
+        id: restore-castxml-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ runner.temp }}/itk-castxml-cache
+          key: castxml-v1-${{ runner.os }}-arm-python-${{ github.sha }}
+          restore-keys: |
+            castxml-v1-${{ runner.os }}-arm-python-
 
       - name: Restore ExternalData object store
         id: restore-externaldata
@@ -201,6 +212,13 @@ jobs:
         with:
           path: ${{ runner.temp }}/ccache
           key: ccache-v4-${{ runner.os }}-${{ matrix.name }}-${{ github.sha }}
+
+      - name: Save CastXML cache
+        if: ${{ !cancelled() && matrix.python-version != '' }}
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ runner.temp }}/itk-castxml-cache
+          key: castxml-v1-${{ runner.os }}-arm-python-${{ github.sha }}
 
       # ExternalData object store is populated by
       # .github/workflows/populate-externaldata-cache.yml — a dedicated
