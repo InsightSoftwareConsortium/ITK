@@ -18,8 +18,7 @@
 
 from __future__ import annotations
 
-import importlib
-from importlib.metadata import metadata
+import importlib.util
 from typing import Self, TypeAlias, Union, TYPE_CHECKING
 import os
 
@@ -28,20 +27,8 @@ try:
 except ImportError:
     from numpy import ndarray as ArrayLike
 
-_HAVE_XARRAY = False
-try:
-    metadata("xarray")
-
-    _HAVE_XARRAY = True
-except importlib.metadata.PackageNotFoundError:
-    pass
-_HAVE_TORCH = False
-try:
-    metadata("torch")
-
-    _HAVE_TORCH = True
-except importlib.metadata.PackageNotFoundError:
-    pass
+_HAVE_XARRAY = importlib.util.find_spec("xarray") is not None
+_HAVE_TORCH = importlib.util.find_spec("torch") is not None
 
 
 # noinspection PyPep8Naming
