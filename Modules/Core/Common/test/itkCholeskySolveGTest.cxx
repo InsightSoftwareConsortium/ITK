@@ -20,8 +20,11 @@
 #include "itkCholeskySolve.h"
 
 // Exercise the deprecated VNL engine for the old-vs-new equivalence checks.
-#define ITK_LEGACY_TEST
-#include "vnl/algo/vnl_cholesky.h"
+// The VNL symbol is unavailable under ITK_FUTURE_LEGACY_REMOVE.
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+#  define ITK_LEGACY_TEST
+#  include "vnl/algo/vnl_cholesky.h"
+#endif
 
 #include <gtest/gtest.h>
 #include <cmath>
@@ -77,6 +80,7 @@ TEST(CholeskySolve, LowerTriangleReconstructsMatrix)
 }
 
 
+#ifndef ITK_FUTURE_LEGACY_REMOVE
 // The Eigen-backed itk:: solve agrees with the native vnl_cholesky engine.
 TEST(CholeskySolve, EquivalentToVnlCholesky)
 {
@@ -93,6 +97,7 @@ TEST(CholeskySolve, EquivalentToVnlCholesky)
 
   EXPECT_LT((xItk - xVnl).two_norm() / xVnl.two_norm(), 1e-10);
 }
+#endif
 
 
 // Single-precision path solves correctly.
