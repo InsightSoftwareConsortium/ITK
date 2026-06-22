@@ -199,11 +199,11 @@ TEST(MathSVD, DynamicRejectsEmpty)
   EXPECT_THROW(itk::Math::SVD(A), itk::ExceptionObject);
 }
 
-// pinverse() agrees with vnl_svd and satisfies the Moore-Penrose identity.
+// PseudoInverse() agrees with vnl_svd and satisfies the Moore-Penrose identity.
 TEST(MathSVD, PseudoInverseMatchesVnl)
 {
   const auto               A = MakeFixed<double, 6>();
-  const auto               pinv = itk::Math::SVD(A).pinverse();
+  const auto               pinv = itk::Math::SVD(A).PseudoInverse();
   const vnl_matrix<double> pinvVnl = vnl_svd<double>(A.as_matrix()).pinverse();
   double                   dInv = 0.0;
   for (unsigned int i = 0; i < 6; ++i)
@@ -243,7 +243,7 @@ TEST(MathSVD, SolveMatchesVnl)
 // a deliberately rank-deficient one.
 TEST(MathSVD, Rank)
 {
-  EXPECT_EQ(itk::Math::SVD(MakeFixed<double, 6>()).rank(), 6u);
+  EXPECT_EQ(itk::Math::SVD(MakeFixed<double, 6>()).Rank(), 6u);
 
   // Two identical rows -> rank 2 for a 3x3.
   vnl_matrix<double> A(3, 3, 0.0);
@@ -256,7 +256,7 @@ TEST(MathSVD, Rank)
   A(2, 0) = 4.0;
   A(2, 1) = 0.0;
   A(2, 2) = 1.0;
-  EXPECT_EQ(itk::Math::SVD(A).rank(), 2u);
+  EXPECT_EQ(itk::Math::SVD(A).Rank(), 2u);
 }
 
 // Ill-conditioned input (6x6 Hilbert, condition ~1e7): reconstruction stays
@@ -381,12 +381,12 @@ TEST(MathSVD, DegenerateSpectrumReconstructs)
   EXPECT_LT(err, 1e-12);
 }
 
-// recompose() with no truncation reconstructs A; a threshold zeroes the small
+// Recompose() with no truncation reconstructs A; a threshold zeroes the small
 // singular value, yielding the rank-reduced reconstruction.
 TEST(MathSVD, Recompose)
 {
   const auto A = MakeFixed<double, 4>();
-  const auto recon = itk::Math::SVD(A).recompose();
+  const auto recon = itk::Math::SVD(A).Recompose();
   double     err = 0.0;
   for (unsigned int i = 0; i < 4; ++i)
     for (unsigned int j = 0; j < 4; ++j)
@@ -398,14 +398,14 @@ TEST(MathSVD, Recompose)
   B(0, 0) = 5.0;
   B(1, 1) = 3.0;
   B(2, 2) = 1e-9;
-  const auto truncated = itk::Math::SVD(B).recompose(1e-6);
+  const auto truncated = itk::Math::SVD(B).Recompose(1e-6);
   EXPECT_NEAR(truncated(0, 0), 5.0, 1e-10);
   EXPECT_NEAR(truncated(1, 1), 3.0, 1e-10);
   EXPECT_NEAR(truncated(2, 2), 0.0, 1e-12);
 }
 
 // Rectangular (tall and wide): thin factors reconstruct A, shapes are correct,
-// and pinverse()/Solve() match vnl_svd and satisfy the Moore-Penrose identity.
+// and PseudoInverse()/Solve() match vnl_svd and satisfy the Moore-Penrose identity.
 TEST(MathSVD, Rectangular)
 {
   const unsigned int dims[2][2] = { { 5, 3 }, { 3, 5 } }; // tall, wide
@@ -438,8 +438,8 @@ TEST(MathSVD, Rectangular)
       }
     EXPECT_LT(reconErr, 1e-12) << "m=" << m << " n=" << n;
 
-    // pinverse is n x m and matches vnl_svd
-    const auto               pinv = r.pinverse();
+    // PseudoInverse is n x m and matches vnl_svd
+    const auto               pinv = r.PseudoInverse();
     const vnl_matrix<double> pinvVnl = vnl_svd<double>(A).pinverse();
     EXPECT_EQ(pinv.rows(), n);
     EXPECT_EQ(pinv.cols(), m);

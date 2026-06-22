@@ -788,7 +788,7 @@ ITK tests have been updated this way.
 
 A new opt-in, header-only `itk::Math::SVD` (`itkMathSVD.h`) provides an
 Eigen-backed singular value decomposition. It returns `U`, `W`, `V` as vnl types
-plus `pinverse()`, `Solve()`, `rank()` and `recompose()` -- the dominant `vnl_svd`
+plus `PseudoInverse()`, `Solve()`, `Rank()` and `Recompose()` -- the dominant `vnl_svd`
 operations. `vnl_svd` is unchanged by this addition, but the direction is to
 migrate ITK and downstream code onto `itk::Math::SVD` and ultimately **deprecate
 and remove** the `vnl_svd` path. Prefer `itk::Math::SVD` in new code.
@@ -820,13 +820,12 @@ AppleClang arm64; ratio > 1 means the Eigen path is faster):
 | 3x3 | ~2.2x faster |
 | 4x4 | ~2.0x faster |
 | 6x6 | ~parity |
-| 7x7 | not benchmarked |
 | 8x8 | slower (~0.5-0.8x) -- `vnl_svd`/LINPACK wins ([rarely used](#midsize-rarity)) |
 | 16x16 | slower (~0.5-0.8x) -- `vnl_svd`/LINPACK wins ([rarely used](#midsize-rarity)) |
 | >= 50x50 | ~1.5-2.3x faster (BDCSVD) |
 
-The 7x7 size was not benchmarked, and LINPACK may have a hardware-alignment
-advantage at these mid sizes that has not been explored.
+LINPACK may have a hardware-alignment advantage at these mid sizes that has not
+been explored.
 
 <a id="midsize-rarity"></a>
 The **rare** cases where Eigen is similar or slightly slower are mid-sized dense
@@ -842,7 +841,7 @@ accuracy.
 Like the eigendecomposition classes above, `itk::Math::SVD` canonicalizes the
 singular-vector signs by default (reproducible across platforms and SIMD width),
 whereas `vnl_svd`'s signs depend on solver internals. Sign-invariant operations
--- `U * V^T`, `pinverse()`, `Solve()` -- are stable across the swap; code that
+-- `U * V^T`, `PseudoInverse()`, `Solve()` -- are stable across the swap; code that
 reads individual `U`/`V` columns as directions may see the same geometry from a
 different, equally-valid representative. Pass `canonicalizeSigns = false` to
 reproduce `vnl_svd`'s raw signs (e.g. for equivalence testing).

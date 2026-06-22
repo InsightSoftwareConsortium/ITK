@@ -190,7 +190,7 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::GetInverseJacobian
   {
     this->ComputeJacobianWithRespectToPositionInternal(index, jacobian, false);
     // rcond = 0 keeps every nonzero singular value (no truncation).
-    jacobian = itk::Math::SVD(jacobian, /*canonicalizeSigns=*/false).pinverse(0);
+    jacobian = itk::Math::SVD(jacobian, /*canonicalizeSigns=*/false).PseudoInverse(0);
   }
   else
   {

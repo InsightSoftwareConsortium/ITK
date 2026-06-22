@@ -53,8 +53,9 @@ TMatrix
 PseudoInverse(const TMatrix & U, const TVector & W, const TMatrix & V, TReal rcond)
 {
   const unsigned int k = W.size();
-  const TReal        tol = ResolveRcond(rcond, k) * W.max_value();
-  TMatrix            scaledV = V;
+  // W is sorted descending (Eigen guarantee), so W[0] is the max without an O(k) scan.
+  const TReal tol = ResolveRcond(rcond, k) * W[0];
+  TMatrix     scaledV = V;
   for (unsigned int col = 0; col < k; ++col)
   {
     const TReal s = (W[col] > tol) ? TReal{ 1 } / W[col] : TReal{ 0 };
@@ -72,7 +73,7 @@ TVector
 SolveLinear(const TMatrix & U, const TVector & W, const TMatrix & V, const TVector & b, TReal rcond)
 {
   const unsigned int n = W.size();
-  const TReal        tol = ResolveRcond(rcond, n) * W.max_value();
+  const TReal        tol = ResolveRcond(rcond, n) * W[0]; // W sorted descending; W[0] == max
   TVector            utb = U.transpose() * b;
   for (unsigned int k = 0; k < n; ++k)
   {
@@ -86,7 +87,7 @@ unsigned int
 NumericalRank(const TVector & W, TReal rcond)
 {
   const unsigned int n = W.size();
-  const TReal        tol = ResolveRcond(rcond, n) * W.max_value();
+  const TReal        tol = ResolveRcond(rcond, n) * W[0]; // W sorted descending; W[0] == max
   unsigned int       count = 0;
   for (unsigned int k = 0; k < n; ++k)
   {
@@ -105,7 +106,7 @@ TMatrix
 Recompose(const TMatrix & U, const TVector & W, const TMatrix & V, TReal rcond)
 {
   const unsigned int k = W.size();
-  const TReal        tol = ResolveRcond(rcond, k) * W.max_value();
+  const TReal        tol = ResolveRcond(rcond, k) * W[0]; // W sorted descending; W[0] == max
   TMatrix            scaledU = U;
   for (unsigned int col = 0; col < k; ++col)
   {
@@ -130,7 +131,7 @@ struct FixedSquareSVDResult
 
   /** Moore-Penrose pseudo-inverse A^+. */
   vnl_matrix_fixed<TReal, VDim, VDim>
-  pinverse(TReal rcond = TReal{ -1 }) const
+  PseudoInverse(TReal rcond = TReal{ -1 }) const
   {
     return detail::PseudoInverse(U, W, V, rcond);
   }
@@ -144,14 +145,14 @@ struct FixedSquareSVDResult
 
   /** Numerical rank (count of singular values above rcond*max(w)). */
   unsigned int
-  rank(TReal rcond = TReal{ -1 }) const
+  Rank(TReal rcond = TReal{ -1 }) const
   {
     return detail::NumericalRank(W, rcond);
   }
 
   /** Reconstruct A with singular values at or below rcond*max(w) zeroed. */
   vnl_matrix_fixed<TReal, VDim, VDim>
-  recompose(TReal rcond = TReal{ -1 }) const
+  Recompose(TReal rcond = TReal{ -1 }) const
   {
     return detail::Recompose(U, W, V, rcond);
   }
@@ -169,7 +170,7 @@ struct SVDResult
 
   /** Moore-Penrose pseudo-inverse A^+. */
   vnl_matrix<TReal>
-  pinverse(TReal rcond = TReal{ -1 }) const
+  PseudoInverse(TReal rcond = TReal{ -1 }) const
   {
     return detail::PseudoInverse(U, W, V, rcond);
   }
@@ -183,14 +184,14 @@ struct SVDResult
 
   /** Numerical rank (count of singular values above rcond*max(w)). */
   unsigned int
-  rank(TReal rcond = TReal{ -1 }) const
+  Rank(TReal rcond = TReal{ -1 }) const
   {
     return detail::NumericalRank(W, rcond);
   }
 
   /** Reconstruct A with singular values at or below rcond*max(w) zeroed. */
   vnl_matrix<TReal>
-  recompose(TReal rcond = TReal{ -1 }) const
+  Recompose(TReal rcond = TReal{ -1 }) const
   {
     return detail::Recompose(U, W, V, rcond);
   }
@@ -255,6 +256,9 @@ SquareSVDEigen(const TReal * inData, TReal * uData, TReal * wData, TReal * vData
   }
   else
   {
+    // Compile-time sizes ≤ kFixedSVDMaxDim always take JacobiSVD: it stack-allocates,
+    // fully unrolls, and beats BDCSVD's dynamic setup at these sizes (kJacobiMaxDim
+    // gates only the runtime path, where BDCSVD's allocation pays off for larger n).
     using RowMajor = Eigen::Matrix<TReal, VDim, VDim, Eigen::RowMajor>;
     using ColMajor = Eigen::Matrix<TReal, VDim, VDim>;
     constexpr int options = Eigen::ComputeFullU | Eigen::ComputeFullV | Eigen::NoQRPreconditioner;
@@ -317,7 +321,7 @@ RectangularSVDEigen(const TReal * inData,
  * competitive with vnl_svd at the small fixed sizes that dominate ITK usage and
  * at large sizes (via BDCSVD), at equal accuracy. Factors are returned as vnl
  * matrices/vectors, so no Eigen type appears in the interface. The result offers
- * pinverse(), Solve(), rank() and recompose(); their default rcond truncates
+ * PseudoInverse(), Solve(), Rank() and Recompose(); their default rcond truncates
  * singular values at k*epsilon*max(W), so pass rcond = 0 to keep every nonzero
  * singular value.
  *

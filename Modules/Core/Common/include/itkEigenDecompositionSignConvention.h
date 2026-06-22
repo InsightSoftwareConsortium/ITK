@@ -75,7 +75,7 @@ CanonicalizeColumnSignsPaired(TMatrix & u, TMatrix & paired)
         pivot = i;
       }
     }
-    if (u(pivot, j) < 0)
+    if (u(pivot, j) < typename TMatrix::element_type{ 0 })
     {
       for (unsigned int i = 0; i < uRows; ++i)
       {

@@ -150,7 +150,7 @@ KernelTransform<TParametersValueType, VDimension>::ComputeWMatrix()
   const auto wmax = svd.W[0];
   const auto rcond =
     (wmax > TParametersValueType{ 0 }) ? static_cast<TParametersValueType>(1e-8) / wmax : TParametersValueType{ 0 };
-  this->m_WMatrix = svd.pinverse(rcond) * this->m_YMatrix;
+  this->m_WMatrix = svd.PseudoInverse(rcond) * this->m_YMatrix;
 
   this->ReorganizeW();
 }

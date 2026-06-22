@@ -105,7 +105,7 @@ public:
     // Fold the absolute and relative singular-value tolerances into one rcond.
     const CoordType rcond =
       (wmax > CoordType{}) ? std::max(m_SVDAbsoluteThreshold / wmax, m_SVDRelativeThreshold) : m_SVDRelativeThreshold;
-    const CoordType oError = inner_product(iP.GetVnlVector(), svd.recompose(rcond) * iP.GetVnlVector());
+    const CoordType oError = inner_product(iP.GetVnlVector(), svd.Recompose(rcond) * iP.GetVnlVector());
 
     return this->m_Coefficients.back() - oError;
     /*
@@ -154,7 +154,7 @@ public:
     const CoordType rcond =
       (wmax > CoordType{}) ? std::max(m_SVDAbsoluteThreshold / wmax, m_SVDRelativeThreshold) : m_SVDRelativeThreshold;
 
-    m_Rank = svd.rank(rcond);
+    m_Rank = svd.Rank(rcond);
 
     const auto y = (m_B.as_vector() - m_A * iP.GetVnlVector());
 

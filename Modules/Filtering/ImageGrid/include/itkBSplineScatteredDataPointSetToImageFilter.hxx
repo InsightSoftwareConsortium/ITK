@@ -122,7 +122,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::SetSpli
 
       // rcond = 0 keeps every nonzero singular value (no truncation).
       this->m_RefinedLatticeCoefficients[i] =
-        (itk::Math::SVD(R, /*canonicalizeSigns=*/false).pinverse(0) * S).extract(2, S.cols());
+        (itk::Math::SVD(R, /*canonicalizeSigns=*/false).PseudoInverse(0) * S).extract(2, S.cols());
     }
   }
   this->Modified();
