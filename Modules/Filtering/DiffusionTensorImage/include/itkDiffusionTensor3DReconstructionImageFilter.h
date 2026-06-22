@@ -327,6 +327,9 @@ private:
   /* Tensor basis coeffs */
   TensorBasisMatrixType m_TensorBasis{};
 
+  /* Pseudo-inverse of m_TensorBasis (dual tensor basis), precomputed in BeforeThreadedGenerateData. */
+  vnl_matrix<double> m_TensorBasisInverse{};
+
   CoefficientMatrixType m_BMatrix{};
 
   /** container to hold gradient directions */
