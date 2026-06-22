@@ -1551,8 +1551,8 @@ def {snake_case}_init_docstring():
 import collections
 
 from sys import version_info as _version_info
-if _version_info < (3, 10, 0):
-    raise RuntimeError("Python 3.10 or later required")
+if _version_info < (3, 11, 0):
+    raise RuntimeError("Python 3.11 or later required")
 
 from . import _ITKCommonPython
 %}
