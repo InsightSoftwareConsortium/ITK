@@ -64,31 +64,10 @@ endif()
       hdf5::hdf5_hl_cpp
     )
   else()
-    if(BUILD_SHARED_LIBS)
-      set(
-        ITKHDF5_LIBRARIES
-        ${HDF5_C_SHARED_LIBRARY}
-        ${HDF5_CXX_SHARED_LIBRARY}
-        ${HDF5_CXX_LIBRARY_NAMES}
-        ${HDF5_HL_SHARED_LIBRARY}
-        ${HDF5_LIBRARIES}
-      )
-    else()
-      set(
-        ITKHDF5_LIBRARIES
-        ${HDF5_C_STATIC_LIBRARY}
-        ${HDF5_CXX_STATIC_LIBRARY}
-        ${HDF5_CXX_LIBRARY_NAMES}
-        ${HDF5_HL_STATIC_LIBRARY}
-        ${HDF5_LIBRARIES}
-      )
-    endif()
-    set(
-      ITKHDF5_SYSTEM_INCLUDE_DIRS
-      ${HDF5_INCLUDE_DIR}
-      ${HDF5_INCLUDE_DIR_HL}
-      ${HDF5_INCLUDE_DIRS}
-      ${HDF5_INCLUDE_DIR_CPP}
+    message(
+      FATAL_ERROR
+      "ITK_USE_SYSTEM_HDF5 is ON but the HDF5 targets were not found. "
+      "Please set HDF5_DIR to the directory containing HDF5Config.cmake."
     )
   endif()
 
