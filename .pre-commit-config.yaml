@@ -82,7 +82,7 @@ repos:
     hooks:
     -   id: pyupgrade
         exclude: ".*build.*|\\/ThirdParty\\/|\\/Data\\/"
-        args: [--py310-plus]
+        args: [--py311-plus]
 - repo: https://github.com/SimpleITK/CommentSpellCheck.git
   rev: v0.4.4
   hooks:
