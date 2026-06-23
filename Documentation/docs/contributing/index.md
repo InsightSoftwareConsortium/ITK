@@ -461,6 +461,7 @@ CDash Dashboard <https://open.cdash.org/index.php?project=Insight>
 dashboard.md
 updating_third_party.md
 python_packaging.md
+wrapping_architecture.md
 ../README.md
 ```
 
