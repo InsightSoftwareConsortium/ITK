@@ -6,18 +6,18 @@
 // Work-around CMake dependency scanning limitation.  This must
 // duplicate the above list of headers.
 #if 0
-#include "CommandLineArguments.hxx.in"
+#  include "CommandLineArguments.hxx.in"
 #endif
 
 #include <iostream>
 #include <vector>
 
-#include <stddef.h> /* size_t */
-#include <string.h> /* strcmp */
+#include <cstddef> /* size_t */
+#include <cstring> /* strcmp */
 
 static void* random_ptr = reinterpret_cast<void*>(0x123);
 
-static int argument(const char* arg, const char* value, void* call_data)
+static int argument(char const* arg, char const* value, void* call_data)
 {
   std::cout << "Got argument: \"" << arg << "\" value: \""
             << (value ? value : "(null)") << "\"" << std::endl;
@@ -28,7 +28,7 @@ static int argument(const char* arg, const char* value, void* call_data)
   return 1;
 }
 
-static int unknown_argument(const char* argument, void* call_data)
+static int unknown_argument(char const* argument, void* call_data)
 {
   std::cout << "Got unknown argument: \"" << argument << "\"" << std::endl;
   if (call_data != random_ptr) {
@@ -50,11 +50,11 @@ static bool CompareTwoItemsOnList(double i1, double i2)
 {
   return i1 == i2;
 }
-static bool CompareTwoItemsOnList(const char* i1, const char* i2)
+static bool CompareTwoItemsOnList(char const* i1, char const* i2)
 {
   return strcmp(i1, i2) == 0;
 }
-static bool CompareTwoItemsOnList(const std::string& i1, const std::string& i2)
+static bool CompareTwoItemsOnList(std::string const& i1, std::string const& i2)
 {
   return i1 == i2;
 }
@@ -76,8 +76,8 @@ int testCommandLineArguments(int argc, char* argv[])
 
   int some_int_variable = 10;
   double some_double_variable = 10.10;
-  char* some_string_variable = 0;
-  std::string some_stl_string_variable = "";
+  char* some_string_variable = nullptr;
+  std::string some_stl_string_variable;
   bool some_bool_variable = false;
   bool some_bool_variable1 = false;
   bool bool_arg1 = false;
@@ -93,12 +93,12 @@ int testCommandLineArguments(int argc, char* argv[])
   bool valid_bools[] = { true, true, false };
 
   std::vector<char*> strings_argument;
-  const char* valid_strings[] = { "andy", "bill", "brad", "ken" };
+  char const* valid_strings[] = { "andy", "bill", "brad", "ken" };
 
   std::vector<std::string> stl_strings_argument;
   std::string valid_stl_strings[] = { "ken", "brad", "bill", "andy" };
 
-  typedef kwsys::CommandLineArguments argT;
+  using argT = kwsys::CommandLineArguments;
 
   arg.AddArgument("--some-int-variable", argT::SPACE_ARGUMENT,
                   &some_int_variable, "Set some random int variable");
@@ -136,7 +136,7 @@ int testCommandLineArguments(int argc, char* argv[])
   arg.AddCallback("-C", argT::EQUAL_ARGUMENT, argument, random_ptr,
                   "Option -C takes argument after =");
   arg.AddCallback("-D", argT::CONCAT_ARGUMENT, argument, random_ptr,
-                  "This option takes concatinated argument");
+                  "This option takes concatenated argument");
   arg.AddCallback("--long1", argT::NO_ARGUMENT, argument, random_ptr, "-A");
   arg.AddCallback("--long2", argT::SPACE_ARGUMENT, argument, random_ptr, "-B");
   arg.AddCallback("--long3", argT::EQUAL_ARGUMENT, argument, random_ptr,
@@ -165,25 +165,26 @@ int testCommandLineArguments(int argc, char* argv[])
   }
   size_t cc;
 #define CompareTwoLists(list1, list_valid, lsize)                             \
-  if (list1.size() != lsize) {                                                \
-    std::cerr << "Problem setting " #list1 ". Size is: " << list1.size()      \
-              << " should be: " << lsize << std::endl;                        \
-    res = 1;                                                                  \
-  } else {                                                                    \
-    std::cout << #list1 " argument set:";                                     \
-    for (cc = 0; cc < lsize; ++cc) {                                          \
-      std::cout << " " << list1[cc];                                          \
-      if (!CompareTwoItemsOnList(list1[cc], list_valid[cc])) {                \
-        std::cerr << "Problem setting " #list1 ". Value of " << cc            \
-                  << " is: [" << list1[cc] << "] <> [" << list_valid[cc]      \
-                  << "]" << std::endl;                                        \
-        res = 1;                                                              \
-        break;                                                                \
+  do {                                                                        \
+    if (list1.size() != lsize) {                                              \
+      std::cerr << "Problem setting " #list1 ". Size is: " << list1.size()    \
+                << " should be: " << lsize << std::endl;                      \
+      res = 1;                                                                \
+    } else {                                                                  \
+      std::cout << #list1 " argument set:";                                   \
+      for (cc = 0; cc < lsize; ++cc) {                                        \
+        std::cout << " " << list1[cc];                                        \
+        if (!CompareTwoItemsOnList(list1[cc], list_valid[cc])) {              \
+          std::cerr << "Problem setting " #list1 ". Value of " << cc          \
+                    << " is: [" << list1[cc] << "] <> [" << list_valid[cc]    \
+                    << "]" << std::endl;                                      \
+          res = 1;                                                            \
+          break;                                                              \
+        }                                                                     \
       }                                                                       \
+      std::cout << std::endl;                                                 \
     }                                                                         \
-    std::cout << std::endl;                                                   \
-  }
-
+  } while (0)
   CompareTwoLists(numbers_argument, valid_numbers, 10);
   CompareTwoLists(doubles_argument, valid_doubles, 3);
   CompareTwoLists(bools_argument, valid_bools, 3);
@@ -202,7 +203,7 @@ int testCommandLineArguments(int argc, char* argv[])
 
   for (cc = 0; cc < strings_argument.size(); ++cc) {
     delete[] strings_argument[cc];
-    strings_argument[cc] = 0;
+    strings_argument[cc] = nullptr;
   }
   return res;
 }

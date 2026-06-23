@@ -6,20 +6,20 @@
 /* Work-around CMake dependency scanning limitation.  This must
    duplicate the above list of headers.  */
 #if 0
-#include "MD5.h.in"
+#  include "MD5.h.in"
 #endif
 
 #include <stdio.h>
 #include <string.h>
 
-static const unsigned char testMD5input1[] =
+static unsigned char const testMD5input1[] =
   "  A quick brown fox jumps over the lazy dog.\n"
   "  This is sample text for MD5 sum input.\n";
-static const char testMD5output1[] = "8f146af46ed4f267921bb937d4d3500c";
+static char const testMD5output1[] = "8f146af46ed4f267921bb937d4d3500c";
 
-static const int testMD5input2len = 28;
-static const unsigned char testMD5input2[] = "the cow jumped over the moon";
-static const char testMD5output2[] = "a2ad137b746138fae4e5adca9c85d3ae";
+static int const testMD5input2len = 28;
+static unsigned char const testMD5input2[] = "the cow jumped over the moon";
+static char const testMD5output2[] = "a2ad137b746138fae4e5adca9c85d3ae";
 
 static int testMD5_1(kwsysMD5* md5)
 {

@@ -3,7 +3,7 @@
 #include "kwsysPrivate.h"
 
 #if defined(_MSC_VER)
-#pragma warning(disable : 4786)
+#  pragma warning(disable : 4786)
 #endif
 
 #include KWSYS_HEADER(FStream.hxx)
@@ -12,47 +12,63 @@
 // Work-around CMake dependency scanning limitation.  This must
 // duplicate the above list of headers.
 #if 0
-#include "FStream.hxx.in"
-#include "SystemTools.hxx.in"
+#  include "FStream.hxx.in"
+#  include "SystemTools.hxx.in"
 #endif
 
 // Include with <> instead of "" to avoid getting any in-source copy
 // left on disk.
 #include <testSystemTools.h>
 
+#include <cstdlib> /* free */
+#include <cstring> /* strcmp */
 #include <iostream>
 #include <sstream>
-#include <stdlib.h> /* free */
-#include <string.h> /* strcmp */
 #if defined(_WIN32) && !defined(__CYGWIN__)
-#include <io.h> /* _umask (MSVC) / umask (Borland) */
-#ifdef _MSC_VER
-#define umask _umask // Note this is still umask on Borland
-#endif
+#  include <io.h> /* _umask (MSVC) */
+#  ifdef _MSC_VER
+#    define umask _umask
+#  endif
+#  include <windows.h>
 #endif
 #include <sys/stat.h> /* umask (POSIX), _S_I* constants (Windows) */
-// Visual C++ does not define mode_t (note that Borland does, however).
+// Visual C++ does not define mode_t.
 #if defined(_MSC_VER)
 typedef unsigned short mode_t;
 #endif
 
-static const char* toUnixPaths[][2] = {
+static char const* toUnixPaths[][2] = {
   { "/usr/local/bin/passwd", "/usr/local/bin/passwd" },
   { "/usr/lo cal/bin/pa sswd", "/usr/lo cal/bin/pa sswd" },
-  { "/usr/lo\\ cal/bin/pa\\ sswd", "/usr/lo\\ cal/bin/pa\\ sswd" },
+  { "/usr/lo\\ cal/bin/pa\\ sswd", "/usr/lo/ cal/bin/pa/ sswd" },
   { "c:/usr/local/bin/passwd", "c:/usr/local/bin/passwd" },
   { "c:/usr/lo cal/bin/pa sswd", "c:/usr/lo cal/bin/pa sswd" },
-  { "c:/usr/lo\\ cal/bin/pa\\ sswd", "c:/usr/lo\\ cal/bin/pa\\ sswd" },
+  { "c:/usr/lo\\ cal/bin/pa\\ sswd", "c:/usr/lo/ cal/bin/pa/ sswd" },
   { "\\usr\\local\\bin\\passwd", "/usr/local/bin/passwd" },
   { "\\usr\\lo cal\\bin\\pa sswd", "/usr/lo cal/bin/pa sswd" },
-  { "\\usr\\lo\\ cal\\bin\\pa\\ sswd", "/usr/lo\\ cal/bin/pa\\ sswd" },
+  { "\\usr\\lo\\ cal\\bin\\pa\\ sswd", "/usr/lo/ cal/bin/pa/ sswd" },
   { "c:\\usr\\local\\bin\\passwd", "c:/usr/local/bin/passwd" },
   { "c:\\usr\\lo cal\\bin\\pa sswd", "c:/usr/lo cal/bin/pa sswd" },
-  { "c:\\usr\\lo\\ cal\\bin\\pa\\ sswd", "c:/usr/lo\\ cal/bin/pa\\ sswd" },
+  { "c:\\usr\\lo\\ cal\\bin\\pa\\ sswd", "c:/usr/lo/ cal/bin/pa/ sswd" },
   { "\\\\usr\\local\\bin\\passwd", "//usr/local/bin/passwd" },
   { "\\\\usr\\lo cal\\bin\\pa sswd", "//usr/lo cal/bin/pa sswd" },
-  { "\\\\usr\\lo\\ cal\\bin\\pa\\ sswd", "//usr/lo\\ cal/bin/pa\\ sswd" },
-  { 0, 0 }
+  { "\\\\usr\\lo\\ cal\\bin\\pa\\ sswd", "//usr/lo/ cal/bin/pa/ sswd" },
+  { "\\", "/" },
+  { "/", "/" },
+  { "\\\\", "//" },
+  { "//", "//" },
+  { "\\\\\\", "/" },
+  { "///", "/" },
+  { "C:\\", "C:/" },
+  { "C:\\\\", "C:/" },
+  { "C:\\\\\\", "C:/" },
+  { "\\\\UNC\\path", "//UNC/path" },
+  { "//UNC/path", "//UNC/path" },
+  { "\\\\\\triple\\\\back\\\\\\slash\\\\\\", "/triple/back/slash" },
+  { "///triple//back///slash///", "/triple/back/slash" },
+  { "///////ex treme/////////", "/ex treme" },
+  { "~__nonexistent_username__", "~__nonexistent_username__" },
+  { nullptr, nullptr }
 };
 
 static bool CheckConvertToUnixSlashes(std::string const& input,
@@ -68,13 +84,14 @@ static bool CheckConvertToUnixSlashes(std::string const& input,
   return true;
 }
 
-static const char* checkEscapeChars[][4] = { { "1 foo 2 bar 2", "12", "\\",
-                                               "\\1 foo \\2 bar \\2" },
-                                             { " {} ", "{}", "#", " #{#} " },
-                                             { 0, 0, 0, 0 } };
+static char const* checkEscapeChars[][4] = {
+  { "1 foo 2 bar 2", "12", "\\", "\\1 foo \\2 bar \\2" },
+  { " {} ", "{}", "#", " #{#} " },
+  { nullptr, nullptr, nullptr, nullptr }
+};
 
 static bool CheckEscapeChars(std::string const& input,
-                             const char* chars_to_escape, char escape_char,
+                             char const* chars_to_escape, char escape_char,
                              std::string const& output)
 {
   std::string result = kwsys::SystemTools::EscapeChars(
@@ -90,16 +107,16 @@ static bool CheckEscapeChars(std::string const& input,
 static bool CheckFileOperations()
 {
   bool res = true;
-  const std::string testNonExistingFile(TEST_SYSTEMTOOLS_SOURCE_DIR
+  std::string const testNonExistingFile(TEST_SYSTEMTOOLS_SOURCE_DIR
                                         "/testSystemToolsNonExistingFile");
-  const std::string testDotFile(TEST_SYSTEMTOOLS_SOURCE_DIR "/.");
-  const std::string testBinFile(TEST_SYSTEMTOOLS_SOURCE_DIR
+  std::string const testDotFile(TEST_SYSTEMTOOLS_SOURCE_DIR "/.");
+  std::string const testBinFile(TEST_SYSTEMTOOLS_SOURCE_DIR
                                 "/testSystemTools.bin");
-  const std::string testTxtFile(TEST_SYSTEMTOOLS_SOURCE_DIR
+  std::string const testTxtFile(TEST_SYSTEMTOOLS_SOURCE_DIR
                                 "/testSystemTools.cxx");
-  const std::string testNewDir(TEST_SYSTEMTOOLS_BINARY_DIR
+  std::string const testNewDir(TEST_SYSTEMTOOLS_BINARY_DIR
                                "/testSystemToolsNewDir");
-  const std::string testNewFile(testNewDir + "/testNewFile.txt");
+  std::string const testNewFile(testNewDir + "/testNewFile.txt");
 
   if (kwsys::SystemTools::DetectFileType(testNonExistingFile.c_str()) !=
       kwsys::SystemTools::FileTypeUnknown) {
@@ -159,7 +176,7 @@ static bool CheckFileOperations()
     res = false;
   }
   // calling with 0 pointer should return false
-  if (kwsys::SystemTools::MakeDirectory(0)) {
+  if (kwsys::SystemTools::MakeDirectory(nullptr)) {
     std::cerr << "Problem with MakeDirectory(0)" << std::endl;
     res = false;
   }
@@ -205,7 +222,7 @@ static bool CheckFileOperations()
     res = false;
   }
 
-  if (!kwsys::SystemTools::Touch(testNewFile.c_str(), true)) {
+  if (!kwsys::SystemTools::Touch(testNewFile, true)) {
     std::cerr << "Problem with Touch for: " << testNewFile << std::endl;
     res = false;
   }
@@ -217,11 +234,11 @@ static bool CheckFileOperations()
   }
 
   // calling with 0 pointer should return false
-  if (kwsys::SystemTools::FileExists(0)) {
+  if (kwsys::SystemTools::FileExists(nullptr)) {
     std::cerr << "Problem with FileExists(0)" << std::endl;
     res = false;
   }
-  if (kwsys::SystemTools::FileExists(0, true)) {
+  if (kwsys::SystemTools::FileExists(nullptr, true)) {
     std::cerr << "Problem with FileExists(0) as file" << std::endl;
     res = false;
   }
@@ -289,15 +306,20 @@ static bool CheckFileOperations()
     res = false;
   }
 
+  std::cerr << std::oct;
 // Reset umask
-#if defined(_WIN32) && !defined(__CYGWIN__)
+#ifdef __MSYS__
+  mode_t fullMask = S_IWRITE;
+  mode_t testPerm = S_IREAD;
+#elif defined(_WIN32) && !defined(__CYGWIN__)
   // NOTE:  Windows doesn't support toggling _S_IREAD.
   mode_t fullMask = _S_IWRITE;
+  mode_t testPerm = 0;
 #else
   // On a normal POSIX platform, we can toggle all permissions.
   mode_t fullMask = S_IRWXU | S_IRWXG | S_IRWXO;
+  mode_t testPerm = S_IRUSR;
 #endif
-  mode_t orig_umask = umask(fullMask);
 
   // Test file permissions without umask
   mode_t origPerm, thisPerm;
@@ -307,7 +329,7 @@ static bool CheckFileOperations()
     res = false;
   }
 
-  if (!kwsys::SystemTools::SetPermissions(testNewFile, 0)) {
+  if (!kwsys::SystemTools::SetPermissions(testNewFile, testPerm)) {
     std::cerr << "Problem with SetPermissions (1) for: " << testNewFile
               << std::endl;
     res = false;
@@ -319,15 +341,23 @@ static bool CheckFileOperations()
     res = false;
   }
 
-  if ((thisPerm & fullMask) != 0) {
+  if ((thisPerm & fullMask) != testPerm) {
     std::cerr << "SetPermissions failed to set permissions (1) for: "
               << testNewFile << ": actual = " << thisPerm
-              << "; expected = " << 0 << std::endl;
+              << "; expected = " << testPerm << std::endl;
     res = false;
   }
 
   // While we're at it, check proper TestFileAccess functionality.
-  if (kwsys::SystemTools::TestFileAccess(testNewFile,
+  bool do_write_test = true;
+#if defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) ||     \
+  defined(__NetBSD__) || defined(__DragonFly__) || defined(_AIX)
+  // If we are running as root on POSIX-ish systems (Linux and the BSDs,
+  // at least), ignore this check, as root can always write to files.
+  do_write_test = (getuid() != 0);
+#endif
+  if (do_write_test &&
+      kwsys::SystemTools::TestFileAccess(testNewFile,
                                          kwsys::TEST_FILE_WRITE)) {
     std::cerr
       << "TestFileAccess incorrectly indicated that this is a writable file:"
@@ -362,6 +392,7 @@ static bool CheckFileOperations()
     res = false;
   }
 
+  mode_t orig_umask = umask(fullMask);
   // Test setting file permissions while honoring umask
   if (!kwsys::SystemTools::SetPermissions(testNewFile, fullMask, true)) {
     std::cerr << "Problem with SetPermissions (3) for: " << testNewFile
@@ -414,7 +445,13 @@ static bool CheckFileOperations()
     res = false;
   }
 
-  kwsys::SystemTools::Touch(testNewFile.c_str(), true);
+  if (!kwsys::SystemTools::Touch(testNewDir, false)) {
+    std::cerr << "Problem with Touch (no create) for: " << testNewDir
+              << std::endl;
+    res = false;
+  }
+
+  kwsys::SystemTools::Touch(testNewFile, true);
   if (!kwsys::SystemTools::RemoveADirectory(testNewDir)) {
     std::cerr << "Problem with RemoveADirectory for: " << testNewDir
               << std::endl;
@@ -425,7 +462,7 @@ static bool CheckFileOperations()
   // Perform the same file and directory creation and deletion tests but
   // with paths > 256 characters in length.
 
-  const std::string testNewLongDir(
+  std::string const testNewLongDir(
     TEST_SYSTEMTOOLS_BINARY_DIR
     "/"
     "012345678901234567890123456789012345678901234567890123456789"
@@ -433,7 +470,7 @@ static bool CheckFileOperations()
     "012345678901234567890123456789012345678901234567890123456789"
     "012345678901234567890123456789012345678901234567890123456789"
     "01234567890123");
-  const std::string testNewLongFile(
+  std::string const testNewLongFile(
     testNewLongDir +
     "/"
     "012345678901234567890123456789012345678901234567890123456789"
@@ -466,12 +503,28 @@ static bool CheckFileOperations()
   }
 #endif
 
+  std::cerr << std::dec;
   return res;
 }
 
 static bool CheckStringOperations()
 {
   bool res = true;
+
+  // Case conversion should only affect ASCII bytes.
+  // Test using a UTF-8 Copyright Symbol because its leading byte
+  // is transformed by MSVC's tolower in a US-ASCII locale.
+  static std::string const sampleUTF8 = "y\xC2\xA9Z"; // Copyright Symbol
+  if (kwsys::SystemTools::LowerCase(sampleUTF8) != "y\xC2\xA9z") {
+    std::cerr << "Problem with LowerCase " << '"' << sampleUTF8 << '"'
+              << std::endl;
+    res = false;
+  }
+  if (kwsys::SystemTools::UpperCase(sampleUTF8) != "Y\xC2\xA9Z") {
+    std::cerr << "Problem with UpperCase " << '"' << sampleUTF8 << '"'
+              << std::endl;
+    res = false;
+  }
 
   std::string test = "mary had a little lamb.";
   if (kwsys::SystemTools::CapitalizedWords(test) !=
@@ -499,7 +552,7 @@ static bool CheckStringOperations()
 
   char* cres =
     kwsys::SystemTools::AppendStrings("Mary Had A", " Little Lamb.");
-  if (strcmp(cres, "Mary Had A Little Lamb.")) {
+  if (strcmp(cres, "Mary Had A Little Lamb.") != 0) {
     std::cerr << "Problem with AppendStrings "
               << "\"Mary Had A\" \" Little Lamb.\"" << std::endl;
     res = false;
@@ -507,7 +560,7 @@ static bool CheckStringOperations()
   delete[] cres;
 
   cres = kwsys::SystemTools::AppendStrings("Mary Had", " A ", "Little Lamb.");
-  if (strcmp(cres, "Mary Had A Little Lamb.")) {
+  if (strcmp(cres, "Mary Had A Little Lamb.") != 0) {
     std::cerr << "Problem with AppendStrings "
               << "\"Mary Had\" \" A \" \"Little Lamb.\"" << std::endl;
     res = false;
@@ -521,7 +574,7 @@ static bool CheckStringOperations()
   }
 
   cres = kwsys::SystemTools::RemoveChars("Mary Had A Little Lamb.", "aeiou");
-  if (strcmp(cres, "Mry Hd A Lttl Lmb.")) {
+  if (strcmp(cres, "Mry Hd A Lttl Lmb.") != 0) {
     std::cerr << "Problem with RemoveChars "
               << "\"Mary Had A Little Lamb.\"" << std::endl;
     res = false;
@@ -529,7 +582,7 @@ static bool CheckStringOperations()
   delete[] cres;
 
   cres = kwsys::SystemTools::RemoveCharsButUpperHex("Mary Had A Little Lamb.");
-  if (strcmp(cres, "A")) {
+  if (strcmp(cres, "A") != 0) {
     std::cerr << "Problem with RemoveCharsButUpperHex "
               << "\"Mary Had A Little Lamb.\"" << std::endl;
     res = false;
@@ -538,7 +591,7 @@ static bool CheckStringOperations()
 
   char* cres2 = strdup("Mary Had A Little Lamb.");
   kwsys::SystemTools::ReplaceChars(cres2, "aeiou", 'X');
-  if (strcmp(cres2, "MXry HXd A LXttlX LXmb.")) {
+  if (strcmp(cres2, "MXry HXd A LXttlX LXmb.") != 0) {
     std::cerr << "Problem with ReplaceChars "
               << "\"Mary Had A Little Lamb.\"" << std::endl;
     res = false;
@@ -560,7 +613,7 @@ static bool CheckStringOperations()
   }
 
   cres = kwsys::SystemTools::DuplicateString("Mary Had A Little Lamb.");
-  if (strcmp(cres, "Mary Had A Little Lamb.")) {
+  if (strcmp(cres, "Mary Had A Little Lamb.") != 0) {
     std::cerr << "Problem with DuplicateString "
               << "\"Mary Had A Little Lamb.\"" << std::endl;
     res = false;
@@ -580,6 +633,16 @@ static bool CheckStringOperations()
       lines[3] != "Little" || lines[4] != "Lamb.") {
     std::cerr << "Problem with Split "
               << "\"Mary Had A Little Lamb.\"" << std::endl;
+    res = false;
+  }
+
+  std::vector<std::string> linesToJoin = { "Mary", "Had", "A", "Little",
+                                           "Lamb." };
+  std::string joinResult = kwsys::SystemTools::Join(linesToJoin, " ");
+  if (joinResult != "Mary Had A Little Lamb.") {
+    std::cerr << "Problem with Join "
+                 "\"Mary Had A Little Lamb.\""
+              << std::endl;
     res = false;
   }
 
@@ -611,8 +674,8 @@ static bool CheckStringOperations()
   return res;
 }
 
-static bool CheckPutEnv(const std::string& env, const char* name,
-                        const char* value)
+static bool CheckPutEnv(std::string const& env, char const* name,
+                        char const* value)
 {
   if (!kwsys::SystemTools::PutEnv(env)) {
     std::cerr << "PutEnv(\"" << env << "\") failed!" << std::endl;
@@ -625,10 +688,16 @@ static bool CheckPutEnv(const std::string& env, const char* name,
               << value << "\"!" << std::endl;
     return false;
   }
+  bool bv = kwsys::SystemTools::HasEnv(name);
+  if (!bv) {
+    std::cerr << "HasEnv(\"" << name << "\") returned \"" << bv
+              << "\", not \"true\"!" << std::endl;
+    return false;
+  }
   return true;
 }
 
-static bool CheckUnPutEnv(const char* env, const char* name)
+static bool CheckUnPutEnv(char const* env, char const* name)
 {
   if (!kwsys::SystemTools::UnPutEnv(env)) {
     std::cerr << "UnPutEnv(\"" << env << "\") failed!" << std::endl;
@@ -638,6 +707,12 @@ static bool CheckUnPutEnv(const char* env, const char* name)
   if (kwsys::SystemTools::GetEnv(name, v)) {
     std::cerr << "GetEnv(\"" << name << "\") returned \"" << v
               << "\", not (null)!" << std::endl;
+    return false;
+  }
+  bool bv = kwsys::SystemTools::HasEnv(name);
+  if (bv) {
+    std::cerr << "HasEnv(\"" << name << "\") returned \"" << bv
+              << "\", not \"false\"!" << std::endl;
     return false;
   }
   return true;
@@ -650,6 +725,7 @@ static bool CheckEnvironmentOperations()
   res &= CheckPutEnv("B=C", "B", "C");
   res &= CheckPutEnv("C=D", "C", "D");
   res &= CheckPutEnv("D=E", "D", "E");
+  res &= CheckPutEnv("F=", "F", "");
   res &= CheckUnPutEnv("A", "A");
   res &= CheckUnPutEnv("B=", "B");
   res &= CheckUnPutEnv("C=D", "C");
@@ -657,9 +733,9 @@ static bool CheckEnvironmentOperations()
   return res;
 }
 
-static bool CheckRelativePath(const std::string& local,
-                              const std::string& remote,
-                              const std::string& expected)
+static bool CheckRelativePath(std::string const& local,
+                              std::string const& remote,
+                              std::string const& expected)
 {
   std::string result = kwsys::SystemTools::RelativePath(local, remote);
   if (!kwsys::SystemTools::ComparePath(expected, result)) {
@@ -682,10 +758,11 @@ static bool CheckRelativePaths()
   return res;
 }
 
-static bool CheckCollapsePath(const std::string& path,
-                              const std::string& expected)
+static bool CheckCollapsePath(std::string const& path,
+                              std::string const& expected,
+                              char const* base = nullptr)
 {
-  std::string result = kwsys::SystemTools::CollapseFullPath(path);
+  std::string result = kwsys::SystemTools::CollapseFullPath(path, base);
   if (!kwsys::SystemTools::ComparePath(expected, result)) {
     std::cerr << "CollapseFullPath(" << path << ")  yielded " << result
               << " instead of " << expected << std::endl;
@@ -699,15 +776,27 @@ static bool CheckCollapsePath()
   bool res = true;
   res &= CheckCollapsePath("/usr/share/*", "/usr/share/*");
   res &= CheckCollapsePath("C:/Windows/*", "C:/Windows/*");
+  res &= CheckCollapsePath("/usr/share/../lib", "/usr/lib");
+  res &= CheckCollapsePath("/usr/share/./lib", "/usr/share/lib");
+  res &= CheckCollapsePath("/usr/share/../../lib", "/lib");
+  res &= CheckCollapsePath("/usr/share/.././../lib", "/lib");
+  res &= CheckCollapsePath("/../lib", "/lib");
+  res &= CheckCollapsePath("/../lib/", "/lib");
+  res &= CheckCollapsePath("/", "/");
+  res &= CheckCollapsePath("C:/", "C:/");
+  res &= CheckCollapsePath("C:/../", "C:/");
+  res &= CheckCollapsePath("C:/../../", "C:/");
+  res &= CheckCollapsePath("../b", "../../b", "../");
+  res &= CheckCollapsePath("../a/../b", "../b", "../rel");
+  res &= CheckCollapsePath("a/../b", "../rel/b", "../rel");
   return res;
 }
 
-static std::string StringVectorToString(const std::vector<std::string>& vec)
+static std::string StringVectorToString(std::vector<std::string> const& vec)
 {
   std::stringstream ss;
   ss << "vector(";
-  for (std::vector<std::string>::const_iterator i = vec.begin();
-       i != vec.end(); ++i) {
+  for (auto i = vec.begin(); i != vec.end(); ++i) {
     if (i != vec.begin()) {
       ss << ", ";
     }
@@ -719,37 +808,37 @@ static std::string StringVectorToString(const std::vector<std::string>& vec)
 
 static bool CheckGetPath()
 {
-  const char* envName = "S";
+  char const* envName = "S";
 #ifdef _WIN32
-  const char* envValue = "C:\\Somewhere\\something;D:\\Temp";
+  char const* envValue = "C:\\Somewhere\\something;D:\\Temp";
 #else
-  const char* envValue = "/Somewhere/something:/tmp";
+  char const* envValue = "/Somewhere/something:/tmp";
 #endif
-  const char* registryPath = "[HKEY_LOCAL_MACHINE\\SOFTWARE\\MyApp; MyKey]";
+  char const* registryPath = "[HKEY_LOCAL_MACHINE\\SOFTWARE\\MyApp; MyKey]";
 
-  std::vector<std::string> originalPathes;
-  originalPathes.push_back(registryPath);
+  std::vector<std::string> originalPaths;
+  originalPaths.emplace_back(registryPath);
 
-  std::vector<std::string> expectedPathes;
-  expectedPathes.push_back(registryPath);
+  std::vector<std::string> expectedPaths;
+  expectedPaths.emplace_back(registryPath);
 #ifdef _WIN32
-  expectedPathes.push_back("C:/Somewhere/something");
-  expectedPathes.push_back("D:/Temp");
+  expectedPaths.push_back("C:/Somewhere/something");
+  expectedPaths.push_back("D:/Temp");
 #else
-  expectedPathes.push_back("/Somewhere/something");
-  expectedPathes.push_back("/tmp");
+  expectedPaths.emplace_back("/Somewhere/something");
+  expectedPaths.emplace_back("/tmp");
 #endif
 
   bool res = true;
   res &= CheckPutEnv(std::string(envName) + "=" + envValue, envName, envValue);
 
-  std::vector<std::string> pathes = originalPathes;
-  kwsys::SystemTools::GetPath(pathes, envName);
+  std::vector<std::string> paths = originalPaths;
+  kwsys::SystemTools::GetPath(paths, envName);
 
-  if (pathes != expectedPathes) {
-    std::cerr << "GetPath(" << StringVectorToString(originalPathes) << ", "
-              << envName << ")  yielded " << StringVectorToString(pathes)
-              << " instead of " << StringVectorToString(expectedPathes)
+  if (paths != expectedPaths) {
+    std::cerr << "GetPath(" << StringVectorToString(originalPaths) << ", "
+              << envName << ")  yielded " << StringVectorToString(paths)
+              << " instead of " << StringVectorToString(expectedPaths)
               << std::endl;
     res = false;
   }
@@ -760,23 +849,29 @@ static bool CheckGetPath()
 
 static bool CheckGetFilenameName()
 {
-  const char* windowsFilepath = "C:\\somewhere\\something";
-  const char* unixFilepath = "/somewhere/something";
+  char const* windowsFilepath = "C:\\somewhere\\something";
+  char const* unixFilepath = "/somewhere/something";
 
-  std::string expectedFilename = "something";
+#if defined(_WIN32) || defined(KWSYS_SYSTEMTOOLS_SUPPORT_WINDOWS_SLASHES)
+  std::string expectedWindowsFilename = "something";
+#else
+  std::string expectedWindowsFilename = "C:\\somewhere\\something";
+#endif
+  std::string expectedUnixFilename = "something";
 
   bool res = true;
   std::string filename = kwsys::SystemTools::GetFilenameName(windowsFilepath);
-  if (filename != expectedFilename) {
+  if (filename != expectedWindowsFilename) {
     std::cerr << "GetFilenameName(" << windowsFilepath << ") yielded "
-              << filename << " instead of " << expectedFilename << std::endl;
+              << filename << " instead of " << expectedWindowsFilename
+              << std::endl;
     res = false;
   }
 
   filename = kwsys::SystemTools::GetFilenameName(unixFilepath);
-  if (filename != expectedFilename) {
+  if (filename != expectedUnixFilename) {
     std::cerr << "GetFilenameName(" << unixFilepath << ") yielded " << filename
-              << " instead of " << expectedFilename << std::endl;
+              << " instead of " << expectedUnixFilename << std::endl;
     res = false;
   }
   return res;
@@ -785,18 +880,18 @@ static bool CheckGetFilenameName()
 static bool CheckFind()
 {
   bool res = true;
-  const std::string testFindFileName("testFindFile.txt");
-  const std::string testFindFile(TEST_SYSTEMTOOLS_BINARY_DIR "/" +
+  std::string const testFindFileName("testFindFile.txt");
+  std::string const testFindFile(TEST_SYSTEMTOOLS_BINARY_DIR "/" +
                                  testFindFileName);
 
-  if (!kwsys::SystemTools::Touch(testFindFile.c_str(), true)) {
+  if (!kwsys::SystemTools::Touch(testFindFile, true)) {
     std::cerr << "Problem with Touch for: " << testFindFile << std::endl;
     // abort here as the existence of the file only makes the test meaningful
     return false;
   }
 
   std::vector<std::string> searchPaths;
-  searchPaths.push_back(TEST_SYSTEMTOOLS_BINARY_DIR);
+  searchPaths.emplace_back(TEST_SYSTEMTOOLS_BINARY_DIR);
   if (kwsys::SystemTools::FindFile(testFindFileName, searchPaths, true)
         .empty()) {
     std::cerr << "Problem with FindFile without system paths for: "
@@ -813,9 +908,42 @@ static bool CheckFind()
   return res;
 }
 
+static bool CheckIsSubDirectory()
+{
+  bool res = true;
+
+  if (kwsys::SystemTools::IsSubDirectory("/foo", "/") == false) {
+    std::cerr << "Problem with IsSubDirectory (root - unix): " << std::endl;
+    res = false;
+  }
+  if (kwsys::SystemTools::IsSubDirectory("c:/foo", "c:/") == false) {
+    std::cerr << "Problem with IsSubDirectory (root - dos): " << std::endl;
+    res = false;
+  }
+  if (kwsys::SystemTools::IsSubDirectory("/foo/bar", "/foo") == false) {
+    std::cerr << "Problem with IsSubDirectory (deep): " << std::endl;
+    res = false;
+  }
+  if (kwsys::SystemTools::IsSubDirectory("/foo", "/foo") == true) {
+    std::cerr << "Problem with IsSubDirectory (identity): " << std::endl;
+    res = false;
+  }
+  if (kwsys::SystemTools::IsSubDirectory("/fooo", "/foo") == true) {
+    std::cerr << "Problem with IsSubDirectory (substring): " << std::endl;
+    res = false;
+  }
+  if (kwsys::SystemTools::IsSubDirectory("/foo/", "/foo") == true) {
+    std::cerr << "Problem with IsSubDirectory (prepended slash): "
+              << std::endl;
+    res = false;
+  }
+
+  return res;
+}
+
 static bool CheckGetLineFromStream()
 {
-  const std::string fileWithFiveCharsOnFirstLine(TEST_SYSTEMTOOLS_SOURCE_DIR
+  std::string const fileWithFiveCharsOnFirstLine(TEST_SYSTEMTOOLS_SOURCE_DIR
                                                  "/README.rst");
 
   kwsys::ifstream file(fileWithFiveCharsOnFirstLine.c_str(), std::ios::in);
@@ -831,7 +959,8 @@ static bool CheckGetLineFromStream()
   bool result;
 
   file.seekg(0, std::ios::beg);
-  result = kwsys::SystemTools::GetLineFromStream(file, line, &has_newline, -1);
+  result = kwsys::SystemTools::GetLineFromStream(file, line, &has_newline,
+                                                 std::string::npos);
   if (!result || line.size() != 5) {
     std::cerr << "First line does not have five characters: " << line.size()
               << std::endl;
@@ -839,7 +968,8 @@ static bool CheckGetLineFromStream()
   }
 
   file.seekg(0, std::ios::beg);
-  result = kwsys::SystemTools::GetLineFromStream(file, line, &has_newline, -1);
+  result = kwsys::SystemTools::GetLineFromStream(file, line, &has_newline,
+                                                 std::string::npos);
   if (!result || line.size() != 5) {
     std::cerr << "First line does not have five characters after rewind: "
               << line.size() << std::endl;
@@ -848,10 +978,10 @@ static bool CheckGetLineFromStream()
 
   bool ret = true;
 
-  for (size_t size = 1; size <= 5; ++size) {
+  for (std::string::size_type size = 1; size <= 5; ++size) {
     file.seekg(0, std::ios::beg);
-    result = kwsys::SystemTools::GetLineFromStream(file, line, &has_newline,
-                                                   static_cast<long>(size));
+    result =
+      kwsys::SystemTools::GetLineFromStream(file, line, &has_newline, size);
     if (!result || line.size() != size) {
       std::cerr << "Should have read " << size << " characters but got "
                 << line.size() << std::endl;
@@ -862,7 +992,369 @@ static bool CheckGetLineFromStream()
   return ret;
 }
 
-int testSystemTools(int, char* [])
+static bool CheckGetLineFromStreamLongLine()
+{
+  std::string const fileWithLongLine("longlines.txt");
+  std::string firstLine, secondLine;
+  // First line: large buffer, containing a carriage return for some reason.
+  firstLine.assign(2050, ' ');
+  firstLine += "\rfirst";
+  secondLine.assign(2050, 'y');
+  secondLine += "second";
+
+  // Create file with long lines.
+  {
+    kwsys::ofstream out(fileWithLongLine.c_str(), std::ios::binary);
+    if (!out) {
+      std::cerr << "Problem opening for write: " << fileWithLongLine
+                << std::endl;
+      return false;
+    }
+    out << firstLine << "\r\n\n" << secondLine << "\n";
+  }
+
+  kwsys::ifstream file(fileWithLongLine.c_str(), std::ios::binary);
+  if (!file) {
+    std::cerr << "Problem opening: " << fileWithLongLine << std::endl;
+    return false;
+  }
+
+  std::string line;
+  bool has_newline = false;
+  bool result;
+
+  // Read first line.
+  result = kwsys::SystemTools::GetLineFromStream(file, line, &has_newline,
+                                                 std::string::npos);
+  if (!result || line != firstLine) {
+    std::cerr << "First line does not match, expected " << firstLine.size()
+              << " characters, got " << line.size() << std::endl;
+    return false;
+  }
+  if (!has_newline) {
+    std::cerr << "Expected new line to be read from first line" << std::endl;
+    return false;
+  }
+
+  // Read empty line.
+  has_newline = false;
+  result = kwsys::SystemTools::GetLineFromStream(file, line, &has_newline,
+                                                 std::string::npos);
+  if (!result || !line.empty()) {
+    std::cerr << "Expected successful read with an empty line, got "
+              << line.size() << " characters" << std::endl;
+    return false;
+  }
+  if (!has_newline) {
+    std::cerr << "Expected new line to be read for an empty line" << std::endl;
+    return false;
+  }
+
+  // Read second line.
+  has_newline = false;
+  result = kwsys::SystemTools::GetLineFromStream(file, line, &has_newline,
+                                                 std::string::npos);
+  if (!result || line != secondLine) {
+    std::cerr << "Second line does not match, expected " << secondLine.size()
+              << " characters, got " << line.size() << std::endl;
+    return false;
+  }
+  if (!has_newline) {
+    std::cerr << "Expected new line to be read from second line" << std::endl;
+    return false;
+  }
+
+  return true;
+}
+
+static bool writeFile(char const* fileName, char const* data)
+{
+  kwsys::ofstream out(fileName, std::ios::binary);
+  out << data;
+  if (!out) {
+    std::cerr << "Failed to write file: " << fileName << std::endl;
+    return false;
+  }
+  return true;
+}
+
+static std::string readFile(char const* fileName)
+{
+  kwsys::ifstream in(fileName, std::ios::binary);
+  std::stringstream sstr;
+  sstr << in.rdbuf();
+  std::string data = sstr.str();
+  if (!in) {
+    std::cerr << "Failed to read file: " << fileName << std::endl;
+    return std::string();
+  }
+  return data;
+}
+
+struct
+{
+  char const* a;
+  char const* b;
+  bool differ;
+} diff_test_cases[] = { { "one", "one", false },
+                        { "one", "two", true },
+                        { "", "", false },
+                        { "\n", "\r\n", false },
+                        { "one\n", "one\n", false },
+                        { "one\r\n", "one\n", false },
+                        { "one\n", "one", false },
+                        { "one\ntwo", "one\ntwo", false },
+                        { "one\ntwo", "one\r\ntwo", false } };
+
+static bool CheckTextFilesDiffer()
+{
+  int const num_test_cases =
+    sizeof(diff_test_cases) / sizeof(diff_test_cases[0]);
+  for (int i = 0; i < num_test_cases; ++i) {
+    if (!writeFile("file_a", diff_test_cases[i].a) ||
+        !writeFile("file_b", diff_test_cases[i].b)) {
+      return false;
+    }
+    if (kwsys::SystemTools::TextFilesDiffer("file_a", "file_b") !=
+        diff_test_cases[i].differ) {
+      std::cerr << "Incorrect TextFilesDiffer result for test case " << i + 1
+                << "." << std::endl;
+      return false;
+    }
+  }
+
+  return true;
+}
+
+static bool CheckCopyFileIfDifferent()
+{
+  bool ret = true;
+  int const num_test_cases =
+    sizeof(diff_test_cases) / sizeof(diff_test_cases[0]);
+  for (int i = 0; i < num_test_cases; ++i) {
+    if (!writeFile("file_a", diff_test_cases[i].a) ||
+        !writeFile("file_b", diff_test_cases[i].b)) {
+      return false;
+    }
+    char const* cptarget =
+      i < 4 ? TEST_SYSTEMTOOLS_BINARY_DIR "/file_b" : "file_b";
+    if (!kwsys::SystemTools::CopyFileIfDifferent("file_a", cptarget)) {
+      std::cerr << "CopyFileIfDifferent() returned false for test case "
+                << i + 1 << "." << std::endl;
+      ret = false;
+      continue;
+    }
+    std::string bdata = readFile(cptarget);
+    if (diff_test_cases[i].a != bdata) {
+      std::cerr << "Incorrect CopyFileIfDifferent file contents in test case "
+                << i + 1 << "." << std::endl;
+      ret = false;
+      continue;
+    }
+  }
+
+  if (!kwsys::SystemTools::MakeDirectory("dir_a") ||
+      !kwsys::SystemTools::MakeDirectory("dir_b")) {
+    return false;
+  }
+
+  if (!kwsys::SystemTools::CopyFileIfDifferent("dir_a/", "dir_b")) {
+    ret = false;
+  }
+
+  return ret;
+}
+
+static bool CheckCopyFileIfNewer()
+{
+  bool ret = true;
+
+  // Prepare "older" files.
+  if (!writeFile("older_source.txt", "old content")) {
+    return false;
+  }
+  if (!writeFile("older_dest.txt", "old content")) {
+    return false;
+  }
+
+  // Small delay to ensure different timestamps
+#if defined(_WIN32)
+  Sleep(1125); // Sleep for 1.125 seconds on Windows
+#else
+  usleep(1125000); // Sleep for 1.125 seconds on Unix
+#endif
+
+  // Prepare "newer" files.
+  if (!writeFile("newer_source.txt", "test content")) {
+    return false;
+  }
+  if (!writeFile("newer_source2.txt", "newer content")) {
+    return false;
+  }
+  if (!writeFile("newer_dest2.txt", "new content")) {
+    return false;
+  }
+  if (!kwsys::SystemTools::MakeDirectory("newer_dir_a") ||
+      !kwsys::SystemTools::MakeDirectory("newer_dir_b")) {
+    return false;
+  }
+
+  // Test case 1: Copy when destination doesn't exist
+  if (!kwsys::SystemTools::CopyFileIfNewer("newer_source.txt",
+                                           "newer_dest1.txt")) {
+    std::cerr << "CopyFileIfNewer() failed when destination doesn't exist."
+              << std::endl;
+    ret = false;
+  } else {
+    std::string dest_content = readFile("newer_dest1.txt");
+    if (dest_content != "test content") {
+      std::cerr << "CopyFileIfNewer() incorrect content when destination "
+                   "doesn't exist."
+                << std::endl;
+      ret = false;
+    }
+  }
+
+  // Test case 2: Don't copy when source is older
+  auto copy_result =
+    kwsys::SystemTools::CopyFileIfNewer("older_source.txt", "newer_dest2.txt");
+  if (!copy_result) {
+    std::cerr << "CopyFileIfNewer() failed when source is older." << std::endl;
+    ret = false;
+  } else {
+    std::string dest_content = readFile("newer_dest2.txt");
+    if (dest_content != "new content") {
+      std::cerr
+        << "CopyFileIfNewer() should not have copied when source is older."
+        << std::endl;
+      ret = false;
+    }
+  }
+
+  // Test case 3: Copy when source is newer
+  if (!kwsys::SystemTools::CopyFileIfNewer("newer_source2.txt",
+                                           "older_dest.txt")) {
+    std::cerr << "CopyFileIfNewer() failed when source is newer." << std::endl;
+    ret = false;
+  } else {
+    std::string dest_content = readFile("older_dest.txt");
+    if (dest_content != "newer content") {
+      std::cerr << "CopyFileIfNewer() incorrect content when source is newer."
+                << std::endl;
+      ret = false;
+    }
+  }
+
+  // Test case 4: Directory to directory copy
+  if (!kwsys::SystemTools::CopyFileIfNewer("newer_dir_a/", "newer_dir_b")) {
+    ret = false;
+  }
+
+  return ret;
+}
+
+static bool CheckURLParsing()
+{
+  bool ret = true;
+  std::string url = "https://user:pw@hostname:42/full/url.com";
+
+  std::string protocol, username, password, hostname, dataport, database;
+  kwsys::SystemTools::ParseURL(url, protocol, username, password, hostname,
+                               dataport, database);
+  if (protocol != "https" || username != "user" || password != "pw" ||
+      hostname != "hostname" || dataport != "42" ||
+      database != "full/url.com") {
+    std::cerr << "Incorrect URL parsing" << std::endl;
+    ret = false;
+  }
+
+  std::string uri =
+    "file://hostname/path/to/"
+    "a%20file%20with%20str%C3%A0ng%C3%A8%20ch%40r%20and%20s%C2%B5aces";
+  kwsys::SystemTools::ParseURL(uri, protocol, username, password, hostname,
+                               dataport, database, true);
+  if (protocol != "file" || hostname != "hostname" ||
+      database != "path/to/a file with stràngè ch@r and sµaces") {
+    std::cerr << "Incorrect URL parsing or decoding" << std::endl;
+    ret = false;
+  }
+  return ret;
+}
+
+static bool CheckSplitString()
+{
+  bool ret = true;
+
+  auto check_split = [](std::string const& input,
+                        std::initializer_list<char const*> expected) -> bool {
+    auto const components = kwsys::SystemTools::SplitString(input, '/');
+    if (components.size() != expected.size()) {
+      std::cerr << "Incorrect split count for " << input << ": "
+                << components.size() << std::endl;
+      return false;
+    }
+    size_t i = 0;
+    for (auto& part : expected) {
+      if (components[i] != part) {
+        std::cerr << "Incorrect split component " << i << " for " << input
+                  << ": " << components[i] << std::endl;
+        return false;
+      }
+      ++i;
+    }
+    return true;
+  };
+
+  // No separators
+  ret &= check_split("nosep", { "nosep" });
+  // Simple
+  ret &= check_split("first/second", { "first", "second" });
+  // Separator at beginning
+  ret &= check_split("/starts/sep", { "", "starts", "sep" });
+  // Separator at end
+  ret &= check_split("ends/sep/", { "ends", "sep", "" });
+
+  return ret;
+}
+
+static bool CheckStringComparisons()
+{
+  if (!(kwsys::SystemTools::Strucmp("", "") == 0))
+    return false;
+  if (!(kwsys::SystemTools::Strucmp("bob", "bob") == 0))
+    return false;
+  if (!(kwsys::SystemTools::Strucmp("bob", "BOB") == 0))
+    return false;
+  if (!(kwsys::SystemTools::Strucmp("bob1", "BoB2") < 0))
+    return false;
+  if (!(kwsys::SystemTools::Strucmp("bOb4", "Bob3") > 0))
+    return false;
+  if (!(kwsys::SystemTools::Strucmp("aaa", "aaaaaaaaa") < 0))
+    return false;
+  if (!(kwsys::SystemTools::Strucmp("aaaaaaaaa", "aaa") > 1))
+    return false;
+
+  if (!(kwsys::SystemTools::Strnucmp("", "", 0) == 0))
+    return false;
+  if (!(kwsys::SystemTools::Strnucmp("", "", 3000) == 0))
+    return false;
+  if (!(kwsys::SystemTools::Strnucmp("bob", "Bobby", 3) == 0))
+    return false;
+  if (!(kwsys::SystemTools::Strnucmp("Bob", "boBBy", 3) == 0))
+    return false;
+  if (!(kwsys::SystemTools::Strnucmp("bob", "Bobby", 3000) < 0))
+    return false;
+  if (!(kwsys::SystemTools::Strnucmp("bobbY", "BOB", 3000) > 0))
+    return false;
+  if (!(kwsys::SystemTools::Strnucmp("bobb", "Bobby", 5) < 0))
+    return false;
+  if (!(kwsys::SystemTools::Strnucmp("bobbY", "BOBb", 5) > 0))
+    return false;
+
+  return true;
+}
+
+int testSystemTools(int, char*[])
 {
   bool res = true;
 
@@ -897,9 +1389,25 @@ int testSystemTools(int, char* [])
 
   res &= CheckFind();
 
+  res &= CheckIsSubDirectory();
+
   res &= CheckGetLineFromStream();
 
+  res &= CheckGetLineFromStreamLongLine();
+
   res &= CheckGetFilenameName();
+
+  res &= CheckTextFilesDiffer();
+
+  res &= CheckCopyFileIfDifferent();
+
+  res &= CheckCopyFileIfNewer();
+
+  res &= CheckURLParsing();
+
+  res &= CheckSplitString();
+
+  res &= CheckStringComparisons();
 
   return res ? 0 : 1;
 }
