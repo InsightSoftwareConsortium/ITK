@@ -208,6 +208,15 @@ def argument_parser():
         help="The directory for .pyi files to be generated",
     )
     cmdln_arg_parser.add_argument(
+        "--pkl_stamp",
+        action="store",
+        dest="pkl_stamp",
+        default="",
+        type=str,
+        help="Stamp file written after all pkl files are complete; declared as a "
+        "CMake OUTPUT so ninja re-runs igenerator when pkl files are missing.",
+    )
+    cmdln_arg_parser.add_argument(
         "-d",
         action="store_true",
         dest="debug_code",
@@ -2053,6 +2062,9 @@ def main():
             for function in sorted_snake_case_process_object_functions:
                 ff.write("'" + function + "', ")
             ff.write(")\n")
+
+    if options.pkl_stamp:
+        Path(options.pkl_stamp).touch()
 
 
 if __name__ == "__main__":
