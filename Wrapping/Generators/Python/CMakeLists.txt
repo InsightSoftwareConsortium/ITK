@@ -288,8 +288,9 @@ macro(
   endif()
 
   set(_swig_depend)
-  if(NOT ITK_USE_SYSTEM_SWIG)
-    # The ExternalProject SWIG install.
+  if(NOT ITK_USE_SYSTEM_SWIG AND TARGET swig)
+    # Build-order against the source-build ExternalProject SWIG target. Prebuilt
+    # binaries are fetched at configure time (FetchContent) and need no target.
     set(_swig_depend swig)
   endif()
 
@@ -495,10 +496,48 @@ macro(itk_end_wrap_submodule_python group_name)
   PyObject * ${base_name}AlreadyImported = PyDict_GetItemString(sysModules, \"itk._${base_name}Python\");
   if(${base_name}AlreadyImported == NULL)
     {
-    PyImport_AddModule(\"itk._${base_name}Python\");
-    PyObject * ${base_name}Module = PyInit__${base_name}Python();
-    PyDict_SetItemString(sysModules, \"itk._${base_name}Python\", ${base_name}Module);
-    SWIG_Py_DECREF( ${base_name}Module);
+    PyObject * ${base_name}Init = PyInit__${base_name}Python();
+    PyObject * ${base_name}Module = ${base_name}Init;
+    if (${base_name}Init != NULL && !PyModule_Check(${base_name}Init))
+      {
+      // SWIG >= 4.4 uses PEP 489 multi-phase init: PyInit_* returns a
+      // PyModuleDef that must be instantiated against a spec, not used directly.
+      ${base_name}Module = NULL;
+      PyObject * ${base_name}Spec = NULL;
+      PyObject * ${base_name}Machinery = PyImport_ImportModule(\"importlib.machinery\");
+      if (${base_name}Machinery != NULL)
+        {
+        PyObject * ${base_name}SpecType = PyObject_GetAttrString(${base_name}Machinery, \"ModuleSpec\");
+        if (${base_name}SpecType != NULL)
+          {
+          ${base_name}Spec = PyObject_CallFunction(${base_name}SpecType, \"sO\", \"itk._${base_name}Python\", Py_None);
+          SWIG_Py_DECREF(${base_name}SpecType);
+          }
+        SWIG_Py_DECREF(${base_name}Machinery);
+        }
+      if (${base_name}Spec != NULL)
+        {
+        ${base_name}Module = PyModule_FromDefAndSpec((PyModuleDef *)${base_name}Init, ${base_name}Spec);
+        SWIG_Py_DECREF(${base_name}Spec);
+        if (${base_name}Module != NULL && PyModule_ExecDef(${base_name}Module, (PyModuleDef *)${base_name}Init) != 0)
+          {
+          // Exec failed: drop the half-initialized module so it is not cached.
+          SWIG_Py_DECREF(${base_name}Module);
+          ${base_name}Module = NULL;
+          }
+        }
+      if (${base_name}Module == NULL)
+        {
+        // Surface the init failure (prints + clears the exception) so the root
+        // cause is visible and a later submodule init is not poisoned.
+        PyErr_WriteUnraisable(${base_name}Init);
+        }
+      }
+    if (${base_name}Module != NULL)
+      {
+      PyDict_SetItemString(sysModules, \"itk._${base_name}Python\", ${base_name}Module);
+      SWIG_Py_DECREF(${base_name}Module);
+      }
     }
 "
   )

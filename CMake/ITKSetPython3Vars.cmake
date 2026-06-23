@@ -58,7 +58,14 @@ else()
   set(ITK_WRAP_PYTHON_VERSION "${Python3_VERSION}")
 
   # start section to define package components based on LIMITED_API support and choices
-  set(_ITK_MINIMUM_SUPPORTED_LIMITED_API_VERSION 3.11)
+  # Cached so the abi3 floor is a single source of truth shared with the module
+  # wrapping macros (itk_end_wrap_module.cmake USE_SABI).
+  set(
+    _ITK_MINIMUM_SUPPORTED_LIMITED_API_VERSION
+    3.11
+    CACHE INTERNAL
+    "Minimum Python minor version for the abi3 / Limited API floor"
+  )
 
   # Force ITK_WRAP_PYTHON_VERSION if SKBUILD_SABI_COMPONENT requests it
   string(
@@ -173,7 +180,8 @@ else()
   endif()
   unset(_missing_required_component)
   unset(_python_find_components)
-  unset(_ITK_MINIMUM_SUPPORTED_LIMITED_API_VERSION)
+  # _ITK_MINIMUM_SUPPORTED_LIMITED_API_VERSION is cached (INTERNAL) and intentionally
+  # left set so itk_end_wrap_module.cmake can pin USE_SABI to the same floor.
   # end section to define package components based on LIMITED_API support and choices
   if(DEFINED _specified_Python3_EXECUTABLE)
     set(

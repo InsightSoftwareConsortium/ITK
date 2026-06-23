@@ -487,7 +487,7 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
       set(
         _Python3_ABI_SETTINGS
         USE_SABI
-        ${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}
+        ${_ITK_MINIMUM_SUPPORTED_LIMITED_API_VERSION}
         WITH_SOABI
       )
     else()
