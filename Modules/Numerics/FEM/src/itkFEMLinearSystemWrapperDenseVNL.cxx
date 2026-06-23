@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
+#include "itkMathSVD.h"
 
 namespace itk::fem
 {
@@ -177,8 +178,9 @@ LinearSystemWrapperDenseVNL::Solve()
    * Here we use the SVD method.
    */
 
-  vnl_svd<Float> svd((*((*m_Matrices)[0])));
-  (*((*m_Solutions)[0])) = svd.solve((*((*m_Vectors)[0])));
+  const auto svd = itk::Math::SVD(*((*m_Matrices)[0]), /*canonicalizeSigns=*/false);
+  // rcond = 0 keeps every nonzero singular value (no truncation).
+  (*((*m_Solutions)[0])) = svd.Solve(*((*m_Vectors)[0]), 0);
 }
 
 void

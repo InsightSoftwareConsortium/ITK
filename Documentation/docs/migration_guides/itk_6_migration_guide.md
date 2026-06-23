@@ -783,3 +783,65 @@ baseline or expected value changed, it is a selection of a different correct
 representation of the same result, not an indication of a failure.** Update such
 expected values to the new (now platform-stable) representatives; the migrated
 ITK tests have been updated this way.
+
+## Optional Eigen-backed `itk::Math::SVD`
+
+A new opt-in, header-only `itk::Math::SVD` (`itkMathSVD.h`) provides an
+Eigen-backed singular value decomposition. It returns `U`, `W`, `V` as vnl types
+plus `PseudoInverse()`, `Solve()`, `Rank()` and `Recompose()` -- the dominant `vnl_svd`
+operations. `vnl_svd` is unchanged by this addition, but the direction is to
+migrate ITK and downstream code onto `itk::Math::SVD` and ultimately **deprecate
+and remove** the `vnl_svd` path. Prefer `itk::Math::SVD` in new code.
+
+A runtime-sized `vnl_matrix` of any shape is accepted: square inputs take a fast
+JacobiSVD/BDCSVD path; rectangular inputs use BDCSVD with thin U/V (`U` is m x k,
+`V` is n x k, `k = min(m, n)`). The square-vs-rectangular choice is a single
+runtime dimension comparison, so the square fast path is unaffected. The
+fixed-size overloads (`vnl_matrix_fixed`, `itk::Matrix`) are square-only by
+signature.
+
+### What you need to do
+
+Nothing is required immediately, but prefer `itk::Math::SVD` in new code. The
+`vnl_svd`-only operations (`nullvector`, `well_condition`, `singularities`) have
+no remaining callers in ITK, so the new API already covers every ITK use; the few
+remaining `vnl_svd` call sites are slated for migration as part of the broader
+vnl-to-Eigen deprecation effort.
+
+### Performance: faster on the common and critical paths, at equal accuracy
+
+Accuracy is equivalent to `vnl_svd` -- reconstruction and singular values agree
+to machine precision (the newer BDCSVD divide-and-conquer engine is marginally
+more accurate at large sizes). Speed is size-dependent (idle, single-thread,
+AppleClang arm64; ratio > 1 means the Eigen path is faster):
+
+| Square size | Eigen vs vnl_svd |
+|---|---|
+| 3x3 | ~2.2x faster |
+| 4x4 | ~2.0x faster |
+| 6x6 | ~parity |
+| 8x8 | slower (~0.5-0.8x) -- `vnl_svd`/LINPACK wins ([rarely used](#midsize-rarity)) |
+| 16x16 | slower (~0.5-0.8x) -- `vnl_svd`/LINPACK wins ([rarely used](#midsize-rarity)) |
+| >= 50x50 | ~1.5-2.3x faster (BDCSVD) |
+
+LINPACK may have a hardware-alignment advantage at these mid sizes that has not
+been explored.
+
+<a id="midsize-rarity"></a>
+The **rare** cases where Eigen is similar or slightly slower are mid-sized dense
+square matrices (8x8 and 16x16). These are seldom -- perhaps never -- exercised in
+practice across the ITK and downstream call sites, which are dominated by 3x3/4x4
+transform and image-orientation problems (where Eigen is ~2x faster) plus
+occasional large dense systems (where BDCSVD wins). On the common and critical
+paths the Eigen path is a significant performance improvement with no loss of
+accuracy.
+
+### Deterministic signs -- a different correct representation
+
+Like the eigendecomposition classes above, `itk::Math::SVD` canonicalizes the
+singular-vector signs by default (reproducible across platforms and SIMD width),
+whereas `vnl_svd`'s signs depend on solver internals. Sign-invariant operations
+-- `U * V^T`, `PseudoInverse()`, `Solve()` -- are stable across the swap; code that
+reads individual `U`/`V` columns as directions may see the same geometry from a
+different, equally-valid representative. Pass `canonicalizeSigns = false` to
+reproduce `vnl_svd`'s raw signs (e.g. for equivalence testing).
