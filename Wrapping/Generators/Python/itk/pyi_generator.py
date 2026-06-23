@@ -5,6 +5,8 @@ pyi_generator.py \
 """
 
 import os
+import sys
+import sqlite3
 from os import remove
 from argparse import ArgumentParser
 from io import StringIO
@@ -13,6 +15,27 @@ import pickle
 import glob
 import re
 from collections import defaultdict
+
+PKL_DB_SCHEMA_VERSION = 1
+
+
+def _pkl_db_path(fallback_dir: str = "") -> Path:
+    """Return the pkl DB path.
+
+    Priority:
+    1. $ITK_WRAP_CACHE (first path in colon/semicolon-separated list)
+    2. fallback_dir (build-tree itk-pkl/ directory passed via --pkl_dir)
+
+    Developers must explicitly set ITK_WRAP_CACHE to opt into a shared or
+    home-directory location; the build tree is the default.
+    """
+    raw = os.environ.get("ITK_WRAP_CACHE", "")
+    if raw:
+        sep = ";" if sys.platform == "win32" else ":"
+        cache_root = raw.split(sep)[0]
+    else:
+        cache_root = fallback_dir
+    return Path(cache_root) / f"itk-pkl-v{PKL_DB_SCHEMA_VERSION}.db"
 
 
 # The ITKClass is duplicated in igenerator.py
@@ -379,13 +402,17 @@ def write_class_proxy_pyi(
         pyi_file.write(interfaces_code)
 
 
-def unpack(file_names: [str], save_dir: str) -> str | None:
+def unpack(keys: list[str], db_conn: sqlite3.Connection, save_dir: str) -> str | None:
     class_definitions = []
 
-    for file_name in file_names:
-        with open(file_name, "rb") as pickled_file:
-            itk_class = pickle.load(pickled_file)
-            class_definitions.append(itk_class)
+    for key in keys:
+        row = db_conn.execute(
+            "SELECT data FROM pkl_data WHERE key=?", (key,)
+        ).fetchone()
+        if row is None:
+            print(f"WARNING: pkl key {key!r} not found in database, skipping.")
+            continue
+        class_definitions.append(pickle.loads(row[0]))
 
     base = merge(class_definitions)
 
@@ -556,7 +583,6 @@ if __name__ == "__main__":
             remove(invalid_index_file)
 
     for missing_index_file in missing_index_files:
-        # continue on without missing file, display warning
         print(
             f"WARNING: index file {missing_index_file} is missing,  "
             f"Python stub hints will not be generated for this file. "
@@ -568,51 +594,37 @@ if __name__ == "__main__":
         print(f"Exception: {except_comment}")
         raise Exception(except_comment)
 
-    indexed_pickled_files = set()
+    # Collect DB keys from all .index.txt manifests (keys, not file paths).
+    indexed_pkl_keys: set[str] = set()
     for index_file in sorted(index_files):
         with open(index_file) as file:
             for line in file:
-                indexed_pickled_files.add(line.strip())
+                key = line.strip()
+                if key:
+                    indexed_pkl_keys.add(key)
 
-    existing_pickled_files = {
-        filepath.replace(os.sep, "/")
-        for filepath in glob.glob(f"{options.pkl_dir}/*.pkl")
-    }
+    if len(indexed_pkl_keys) == 0:
+        raise Exception(f"No pkl keys were found in index files in '{options.pkl_dir}'")
 
-    invalid_pickled_files = existing_pickled_files - indexed_pickled_files
-    missing_pickled_files = indexed_pickled_files - existing_pickled_files
-
-    if options.debug_code:
-        for invalid_pickle_file in invalid_pickled_files:
-            print(
-                f"WARNING: Outdated pickle file {invalid_pickle_file} has been removed"
-            )
-            remove(invalid_pickle_file)
-
-    for missing_file in missing_pickled_files:
-        # continue on without missing file, display warning
-        print(
-            f"WARNING: pickle file {missing_file} is missing, Python stub hints will not be generated for this file."
-        )
-        indexed_pickled_files.remove(missing_file)
-
-    if len(indexed_pickled_files) == 0:
-        raise Exception(f"No pickle files were found in directory {options.pkl_dir}")
-
-    indexed_pickled_files = sorted(list(indexed_pickled_files))
+    indexed_pkl_keys_sorted = sorted(indexed_pkl_keys)
     output_template_import_list: list[str] = []
     output_proxy_import_list: list[str] = []
 
-    class_name_dict = defaultdict(list)
-    for file in indexed_pickled_files:
-        current_class_name = re.split(r"\.", PurePath(file).parts[-1])[0]
-        class_name_dict[current_class_name].append(file)
+    class_name_dict: defaultdict[str, list[str]] = defaultdict(list)
+    for key in indexed_pkl_keys_sorted:
+        current_class_name = key.split(".")[0]
+        class_name_dict[current_class_name].append(key)
 
-    for current_class_name, class_files in class_name_dict.items():
-        class_name = unpack(class_files, options.pyi_dir)
+    db_conn = sqlite3.connect(_pkl_db_path(options.pkl_dir))
+    db_conn.execute("PRAGMA journal_mode=WAL")
+
+    for current_class_name, class_keys in class_name_dict.items():
+        class_name = unpack(class_keys, db_conn, options.pyi_dir)
         if class_name is not None:
             output_template_import_list.append(f"from .{class_name}Template import *\n")
             output_proxy_import_list.append(f"from .{class_name}Proxy import *\n")
+
+    db_conn.close()
 
     output_init_import_file = init_init_import_file()
     output_proxy_import_file = init_proxy_import_file()
