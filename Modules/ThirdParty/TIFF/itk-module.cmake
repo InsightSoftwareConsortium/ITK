@@ -10,7 +10,7 @@ if(ITK_USE_SYSTEM_TIFF)
 else()
   itk_module(
     ITKTIFF
-    DEPENDS
+    PRIVATE_DEPENDS
       ITKZLIB
       ITKJPEG
     DESCRIPTION "${DOCUMENTATION}"
