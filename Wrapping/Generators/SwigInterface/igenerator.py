@@ -62,11 +62,13 @@ import os
 import re
 from argparse import ArgumentParser
 from io import StringIO
-from os.path import exists
 from pathlib import Path
 from keyword import iskeyword
 from typing import Any
 import logging
+
+sys.path.insert(0, str(Path(__file__).parents[1]))
+from pkl_db import open_pkl_db  # noqa: E402
 
 
 def argument_parser():
@@ -205,7 +207,7 @@ def argument_parser():
         dest="pkl_dir",
         default="",
         type=str,
-        help="The directory for .pyi files to be generated",
+        help="Directory for per-submodule .index.txt manifests and per-module stamp files.",
     )
     cmdln_arg_parser.add_argument(
         "--pkl_stamp",
@@ -213,8 +215,8 @@ def argument_parser():
         dest="pkl_stamp",
         default="",
         type=str,
-        help="Stamp file written after all pkl files are complete; declared as a "
-        "CMake OUTPUT so ninja re-runs igenerator when pkl files are missing.",
+        help="Stamp file touched after the pkl DB transaction commits; "
+        "declared as a CMake OUTPUT so ninja re-runs igenerator when stale.",
     )
     cmdln_arg_parser.add_argument(
         "-d",
@@ -1910,7 +1912,7 @@ global_submodule_cache = GLBSubmoduleNamespaceCache()
 
 def generate_swig_input(
     submodule_name,
-    pkl_dir,
+    pkl_db_rows,
     pygccxml_config,
     options,
     snake_case_process_object_functions,
@@ -1933,45 +1935,23 @@ def generate_swig_input(
         swig_input_generator.snakeCaseProcessObjectFunctions
     )
 
-    # Write index list of generated .pkl files
     index_file_contents: StringIO = StringIO()
     all_keys = swig_input_generator.classes.keys()
     if len(all_keys):
         for itk_class in all_keys:
-            # Future problem will be that a few files will be empty
-            # Can either somehow detect this or accept it
-            # pickle class here
             class_name: str = swig_input_generator.classes[itk_class].class_name
             submodule_name: str = swig_input_generator.classes[itk_class].submodule_name
-            pickled_filename: str = f"{pkl_dir}/{class_name}.{submodule_name}.pkl"
-
-            # Only write to the pickle file if it does not match what is already saved.
-            overwrite: bool = False
-            pickle_exists: bool = exists(pickled_filename)
-            if pickle_exists:
-                with open(pickled_filename, "rb") as pickled_file:
-                    existing_itk_class = pickle.load(pickled_file)
-                    overwrite = not (
-                        existing_itk_class == swig_input_generator.classes[itk_class]
-                    )
-            if overwrite or not pickle_exists:
-                with open(pickled_filename, "wb") as pickled_file:
-                    pickle.dump(swig_input_generator.classes[itk_class], pickled_file)
-
-            index_file_contents.write(pickled_filename + "\n")
+            key: str = f"{class_name}.{submodule_name}"
+            pkl_db_rows.append(
+                (key, pickle.dumps(swig_input_generator.classes[itk_class]))
+            )
+            index_file_contents.write(key + "\n")
     else:
-        # The following warning is useful for debugging, and eventually we
-        # may wish to find a way to remove modules that are not currently part
-        # of the build.  For example, currently all *.wrap files are processed and listed
-        # as module dependencies. If FFTW is not enabled, that causes empty submodules
-        # to be created as dependencies unnecessarily.
-        # Changing that behavior will require structural code changes, or alternate
-        # mechanisms to be implemented.
         if glb_options.debug_code:
             print(
                 f"WARNING: {submodule_name} has no classes identified, but was listed as a dependent submodule."
             )
-    generate_pyi_index_files(submodule_name, index_file_contents, pkl_dir)
+    generate_pyi_index_files(submodule_name, index_file_contents, options.pkl_dir)
 
 
 def main():
@@ -1980,7 +1960,7 @@ def main():
         raise ValueError(f"Required directory missing '{options.pyi_dir}'")
 
     if options.pkl_dir == "":
-        raise ValueError(f"Required directory missing '{options.pkl_dir}'")
+        raise ValueError("--pkl_dir is required for .index.txt manifests")
 
     # Ensure that the requested stub file directory exists
     if options.pyi_dir != "":
@@ -2041,14 +2021,25 @@ def main():
                 ordered_submodule_list.append(submodule_name)
     del submodule_names_list
 
+    pkl_db_rows: list[tuple[str, bytes]] = []
     for submodule_name in ordered_submodule_list:
         generate_swig_input(
             submodule_name,
-            options.pkl_dir,
+            pkl_db_rows,
             pygccxml_config,
             options,
             snake_case_process_object_functions,
         )
+
+    if pkl_db_rows:
+        conn = open_pkl_db(options.pkl_dir)
+        with conn:
+            conn.executemany(
+                "INSERT INTO pkl_data(key, data) VALUES(?,?)"
+                " ON CONFLICT(key) DO UPDATE SET data=excluded.data",
+                pkl_db_rows,
+            )
+        conn.close()
 
     snake_case_file = options.snake_case_file
     if len(snake_case_file) > 1:

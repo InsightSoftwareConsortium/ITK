@@ -397,6 +397,13 @@ set(
   "igenerator.py path"
   FORCE
 )
+set(
+  IGENERATOR_PKL_DB
+  "${CMAKE_CURRENT_SOURCE_DIR}/../pkl_db.py"
+  CACHE INTERNAL
+  "pkl_db.py path (shared module imported by igenerator.py)"
+  FORCE
+)
 
 macro(itk_wrap_simple_type_swig_interface wrap_class swig_name)
   string(APPEND SWIG_INTERFACE_TYPEDEFS "using ${swig_name} = ${wrap_class};\n")
