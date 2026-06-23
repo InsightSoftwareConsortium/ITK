@@ -56,8 +56,6 @@ Also appears to be affected by the itk_end_wrap_submodule_swig_interface
 """
 # -*- coding: utf-8 -*-
 import collections
-import hashlib
-import json
 import pickle
 import shutil
 import sys
@@ -1977,197 +1975,6 @@ def generate_swig_input(
     generate_pyi_index_files(submodule_name, index_file_contents, pkl_dir)
 
 
-def _igenerator_cache_root():
-    env = os.environ.get("ITK_IGENERATOR_CACHE", "")
-    return (
-        env
-        if env
-        else os.path.join(os.path.expanduser("~"), ".cache", "itk-igenerator")
-    )
-
-
-def _igenerator_compute_key(options, submodule_names_list):
-    """Return (igenerator_sha, full_cache_key) for this invocation."""
-    with open(__file__, "rb") as f:
-        script_bytes = f.read()
-    script_sha = hashlib.sha256(script_bytes).hexdigest()
-
-    h = hashlib.sha256(script_bytes)
-    h.update(b"\x00options\x00")
-    h.update((options.submodule_order or "").encode())
-    h.update(b"\x00swig_includes\x00")
-    for name in sorted(options.swig_includes):
-        h.update(name.encode())
-        h.update(b"\x00")
-    lib_dir = options.library_output_dir
-    for submodule in sorted(submodule_names_list):
-        h.update(b"\x00xml\x00")
-        h.update(submodule.encode())
-        for suffix in (".xml", "SwigInterface.h.in"):
-            path = os.path.join(lib_dir, "castxml_inputs", submodule + suffix)
-            try:
-                with open(path, "rb") as f:
-                    h.update(f.read())
-            except OSError:
-                h.update(b"\x00miss\x00")
-    for mdx in sorted(options.mdx):
-        h.update(b"\x00mdx\x00")
-        try:
-            with open(mdx, "rb") as f:
-                h.update(f.read())
-        except OSError:
-            h.update(b"\x00miss\x00")
-    return script_sha, h.hexdigest()
-
-
-def _igenerator_restore(cache_dir, options):
-    """Copy cached outputs to their build destinations. Returns True on full hit."""
-    if not os.path.isfile(os.path.join(cache_dir, "_ok")):
-        return False
-    iface_dir = options.interface_output_dir
-    pkl_dir = options.pkl_dir
-    try:
-        for name in os.listdir(cache_dir):
-            if name.startswith("_"):
-                continue
-            src = os.path.join(cache_dir, name)
-            if (
-                name.endswith("SwigInterface.h")
-                or name.endswith(".i")
-                or name.endswith(".idx")
-            ):
-                dst = os.path.join(iface_dir, name)
-            elif name.endswith(".index.txt"):
-                dst = os.path.join(pkl_dir, name)
-            elif name.endswith("_snake_case.py"):
-                dst = options.snake_case_file
-            else:
-                continue
-            os.makedirs(os.path.dirname(dst), exist_ok=True)
-            shutil.copy2(src, dst)
-    except OSError:
-        return False
-    # Touch _ok so LRU eviction knows this entry was used.
-    try:
-        ok = os.path.join(cache_dir, "_ok")
-        os.utime(ok, None)
-    except OSError:
-        pass
-    return True
-
-
-def _igenerator_evict_lru(cache_root, max_bytes):
-    """Remove least-recently-used igenerator cache entries (by _ok mtime)."""
-    entries = []
-    total = 0
-    try:
-        for shard in os.listdir(cache_root):
-            shard_dir = os.path.join(cache_root, shard)
-            if not os.path.isdir(shard_dir) or shard.startswith("_"):
-                continue
-            for key in os.listdir(shard_dir):
-                entry = os.path.join(shard_dir, key)
-                ok = os.path.join(entry, "_ok")
-                try:
-                    mtime = os.stat(ok).st_mtime
-                    entry_bytes = sum(
-                        os.path.getsize(os.path.join(entry, fn))
-                        for fn in os.listdir(entry)
-                    )
-                    entries.append((mtime, entry_bytes, entry))
-                    total += entry_bytes
-                except OSError:
-                    pass
-    except OSError:
-        return
-
-    if total <= max_bytes:
-        return
-
-    entries.sort(key=lambda x: x[0])
-    for _mtime, entry_bytes, entry in entries:
-        if total <= max_bytes:
-            break
-        try:
-            shutil.rmtree(entry)
-            total -= entry_bytes
-        except OSError:
-            pass
-
-
-def _igenerator_evict_async(cache_root):
-    """Fork a background LRU eviction process (rate-limited to once per minute)."""
-    max_bytes_env = (
-        os.environ.get("ITK_IGENERATOR_CACHE_MAX_SIZE", "500M").strip().upper()
-    )
-    mult = {"T": 1 << 40, "G": 1 << 30, "M": 1 << 20, "K": 1 << 10}
-    max_bytes = 500 * (1 << 20)  # default 500 MiB
-    for suffix, m in mult.items():
-        if max_bytes_env.endswith(suffix):
-            try:
-                max_bytes = int(max_bytes_env[:-1]) * m
-            except ValueError:
-                pass
-            break
-    else:
-        try:
-            max_bytes = int(max_bytes_env)
-        except ValueError:
-            pass
-
-    sentinel = os.path.join(cache_root, "_evict_ts")
-    try:
-        if time.time() - os.stat(sentinel).st_mtime < 60:
-            return
-    except OSError:
-        pass
-    try:
-        open(sentinel, "w").close()  # noqa: WPS515
-    except OSError:
-        return
-    if sys.platform == "win32":
-        return
-    pid = os.fork()
-    if pid == 0:
-        try:
-            _igenerator_evict_lru(cache_root, max_bytes)
-        finally:
-            os._exit(0)
-
-
-def _igenerator_save(cache_dir, script_sha, options, submodule_names_list):
-    """Save all outputs to the cache atomically."""
-    tmp = cache_dir + ".tmp"
-    try:
-        if os.path.exists(tmp):
-            shutil.rmtree(tmp)
-        os.makedirs(tmp, exist_ok=True)
-        iface_dir = options.interface_output_dir
-        pkl_dir = options.pkl_dir
-        for submodule in submodule_names_list:
-            for suffix in (".i", ".idx", "SwigInterface.h"):
-                src = os.path.join(iface_dir, submodule + suffix)
-                if os.path.exists(src):
-                    shutil.copy2(src, os.path.join(tmp, submodule + suffix))
-            if submodule not in ("stdcomplex", "stdnumeric_limits"):
-                src = os.path.join(pkl_dir, submodule + ".index.txt")
-                if os.path.exists(src):
-                    shutil.copy2(src, os.path.join(tmp, submodule + ".index.txt"))
-        if options.snake_case_file and os.path.exists(options.snake_case_file):
-            shutil.copy2(
-                options.snake_case_file,
-                os.path.join(tmp, os.path.basename(options.snake_case_file)),
-            )
-        with open(os.path.join(tmp, "_meta.json"), "w") as f:
-            json.dump({"igenerator_sha": script_sha}, f)
-        open(os.path.join(tmp, "_ok"), "w").close()
-        if os.path.exists(cache_dir):
-            shutil.rmtree(cache_dir)
-        os.rename(tmp, cache_dir)
-    except OSError:
-        shutil.rmtree(tmp, ignore_errors=True)
-
-
 def main():
     options = glb_options
     if options.pyi_dir == "":
@@ -2201,18 +2008,6 @@ def main():
                 submodule_name = submodule_name.strip('"')
                 if submodule_name not in submodule_names_list:
                     submodule_names_list.append(submodule_name)
-
-    _igenerator_bypass = os.environ.get("ITK_IGENERATOR_CACHE_BYPASS", "") == "1"
-    _igenerator_cache_dir = None
-    if not _igenerator_bypass:
-        _igenerator_script_sha, _igenerator_cache_key = _igenerator_compute_key(
-            options, submodule_names_list
-        )
-        _igenerator_cache_dir = os.path.join(
-            _igenerator_cache_root(), _igenerator_cache_key[:2], _igenerator_cache_key
-        )
-        if _igenerator_restore(_igenerator_cache_dir, options):
-            return
 
     _load_pygccxml()
 
@@ -2268,15 +2063,6 @@ def main():
             for function in sorted_snake_case_process_object_functions:
                 ff.write("'" + function + "', ")
             ff.write(")\n")
-
-    if not _igenerator_bypass and _igenerator_cache_dir is not None:
-        _igenerator_save(
-            _igenerator_cache_dir,
-            _igenerator_script_sha,
-            options,
-            ordered_submodule_list,
-        )
-        _igenerator_evict_async(_igenerator_cache_root())
 
 
 if __name__ == "__main__":
