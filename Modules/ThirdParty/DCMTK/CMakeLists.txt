@@ -127,12 +127,7 @@ else(ITK_USE_SYSTEM_DCMTK)
     set(DCMTK_ENABLE_CHARSET_CONVERSION "oficonv" CACHE INTERNAL "")
   endif()
 
-  if(MSVC)
-    set(DCMTK_OVERWRITE_WIN32_COMPILER_FLAGS OFF)
-    # MSVC underreports __cplusplus (read by DCMTK's STL probes) without this;
-    # directory-scoped so it does not leak to sibling ITK modules.
-    string(APPEND CMAKE_CXX_FLAGS " /Zc:__cplusplus")
-  endif()
+  set(DCMTK_OVERWRITE_WIN32_COMPILER_FLAGS OFF)
 
   # Silence DCMTK third-party warnings here because add_subdirectory() runs
   # before itk_module_impl() would disable them.
