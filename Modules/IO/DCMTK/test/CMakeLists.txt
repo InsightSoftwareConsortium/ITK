@@ -18,11 +18,20 @@ set(
 
 createtestdriver(ITKIODCMTK "${ITKIODCMTK-Test_LIBRARIES}" "${ITKIODCMTKTests}")
 
-# itkDCMTKFileReader.h transitively #include's dcmtk/dcmdata/*.h.  ITKIODCMTK
-# declares ITKDCMTK as a PRIVATE_DEPENDS (so consumers don't see DCMTK
-# headers), but the test driver consumes the public itkDCMTKFileReader.h
-# directly and therefore needs the DCMTK include path on its compile line.
-# Tracks issue #3820.  Reconstruct the include path the same way
+# itkDCMTKFileReader.h is a private implementation header in src/ (not
+# installed).  itkDCMTKGetDicomTagsTest.cxx includes it directly, so the test
+# driver needs the src/ directory on its compile line.
+target_include_directories(
+  ITKIODCMTKTestDriver
+  PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/../src"
+)
+
+# itkDCMTKFileReader.h transitively #include's dcmtk/dcmdata/*.h.  ITKDCMTK
+# is a PRIVATE_DEPENDS of ITKIODCMTK (so consumers don't see DCMTK headers),
+# but the test driver includes itkDCMTKFileReader.h directly and therefore
+# needs the DCMTK include path on its compile line.
+# Reconstruct the include path the same way
 # Modules/ThirdParty/DCMTK/CMakeLists.txt populates ITKDCMTK_INCLUDE_DIRS,
 # since that variable is not in scope here.
 if(NOT ITK_USE_SYSTEM_DCMTK)
