@@ -13,8 +13,8 @@ with one `.wrap` file per submodule. A `.wrap` file is a CMake script that
 calls macros such as `itk_wrap_class()` and `itk_wrap_template()` to declare
 which C++ template instantiations should be exposed to Python.
 
-CMake processes every `.wrap` file at configure time and writes three files
-per submodule into `<build>/Wrapping/castxml_inputs/`:
+CMake processes every `.wrap` file at configure time and writes three
+files per submodule into `<build>/Wrapping/castxml_inputs/`:
 
 | Generated file | How | Contents |
 |---|---|---|
@@ -62,18 +62,22 @@ castxml_inputs/itkOffset.xml         ──┤  igenerator.py [ITKImageIntensity
                     ┌──────────────────────────┼─────────────────────────────┐
                     │  per submodule (×N)       │                             │
                     ▼                           ▼                             ▼
-         Typedefs/<sub>.i            itk-pkl/<sub>.index.txt      itk-pkl/<Class>.<sub>.pkl
-         Typedefs/<sub>.idx          (lists .pkl paths; byproduct) (pickle of class metadata)
+         Typedefs/<sub>.i            itk-pkl/<sub>.index.txt      itk-pkl-v1.db  (SQLite)
+         Typedefs/<sub>.idx          (lists DB keys; byproduct)   (class metadata; WAL mode)
          Typedefs/<sub>SwigInterface.h
                                           + per module (×1):
-                                            itk-pkl/<Module>.pkl.stamp
+                                            itk-pkl/<Module>.stamp
                                             itk/Configuration/<Module>_snake_case.py
 ```
 
 `igenerator.py` uses `pygccxml` to parse each `.xml` file and emit SWIG
-interface (`.i`) and index (`.idx`) files, pickle (`.pkl`) class-metadata
-files consumed later by `pyi_generator.py`, and a `.index.txt` manifest
-that lists the `.pkl` paths for each submodule.
+interface (`.i`) and index (`.idx`) files, class-metadata rows in a shared
+SQLite database consumed later by `pyi_generator.py`, and a `.index.txt`
+manifest listing the DB keys for each submodule.
+
+The SQLite database (`itk-pkl-v1.db`) is written to the `itk-pkl/` directory
+inside the build tree by default.  Set `ITK_WRAP_CACHE` to redirect it to a
+shared location (e.g. a CI cache volume).
 
 **Ninja scheduling**: an `igenerator.py` job for module A starts as soon
 as all of A's CastXML jobs are complete, even while CastXML is still
@@ -93,12 +97,12 @@ Modules/.../<sub>Python.cpp  ──▶  ccache + g++  ──▶  .o  ──▶  
 ### Step 4 — `pyi_generator.py` (one global job)
 
 After **all** 816 `.index.txt` files exist, `pyi_generator.py` reads every
-`.index.txt`, loads the referenced `.pkl` files, and writes the type-stub
-files used by IDEs:
+`.index.txt`, queries the SQLite database for each key, and writes the
+type-stub files used by IDEs:
 
 ```
 itk-pkl/<sub>.index.txt (×816) ──▶  pyi_generator.py  ──▶  _proxies.pyi
-itk-pkl/<Class>.<sub>.pkl            (reads .pkl via .index.txt)   __init__.pyi
+itk-pkl-v1.db (SQLite)               (queries DB via keys in .index.txt)  __init__.pyi
 ```
 
 ## Key file reference
@@ -111,8 +115,8 @@ itk-pkl/<Class>.<sub>.pkl            (reads .pkl via .index.txt)   __init__.pyi
 | `Wrapping/Typedefs/<sub>.i` | `igenerator.py` | SWIG |
 | `Wrapping/Typedefs/<sub>.idx` | `igenerator.py` | SWIG |
 | `Wrapping/Generators/Python/itk-pkl/<sub>.index.txt` | `igenerator.py` | `pyi_generator.py` |
-| `Wrapping/Generators/Python/itk-pkl/<Class>.<sub>.pkl` | `igenerator.py` | `pyi_generator.py` |
-| `Wrapping/Generators/Python/itk-pkl/<Module>.pkl.stamp` | `igenerator.py` | ninja (tracks pkl completeness) |
+| `Wrapping/Generators/Python/itk-pkl/itk-pkl-v1.db` | `igenerator.py` | `pyi_generator.py` |
+| `Wrapping/Generators/Python/itk-pkl/<Module>.stamp` | `igenerator.py` | ninja (tracks DB write completeness) |
 | `Wrapping/Generators/Python/itk/_<Module>Python.abi3.so` | linker | Python `import itk` |
 | `Wrapping/Generators/Python/itk/_proxies.pyi` | `pyi_generator.py` | IDEs |
 
@@ -124,12 +128,32 @@ Controls via environment:
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `ITK_WRAP_CACHE` | `~/.cache/itk-wrap` | Cache root directory |
+| `ITK_WRAP_CACHE` | `~/.cache/itk-wrap` | Cache root for CastXML `.xml.gz` files |
 | `ITK_WRAP_CACHE_VERBOSE` | unset | Set to `1` to log HIT/MISS per file |
 
-The cache is content-addressed and generator-version-stamped (`_KEY_VERSION`
-in `itk-castxml-cache.py`). It is shared across build directories, so a
-fresh configure reuses XML from a previous build on the same machine.
+The CastXML cache is content-addressed and generator-version-stamped
+(`_KEY_VERSION` in `itk-castxml-cache.py`). It is shared across build
+directories; a fresh configure reuses XML from a previous build on the same
+machine.
+
+### pkl SQLite database (`igenerator.py` / `pyi_generator.py`)
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `ITK_WRAP_CACHE` | *(build tree `itk-pkl/`)* | Redirect pkl DB to a shared location |
+
+The pkl database (`itk-pkl-v1.db`) defaults to the build tree's `itk-pkl/`
+directory and is a build artifact, not a user-level cache.  Developers who
+want to share it across build trees (or populate it from CI) must opt in by
+setting `ITK_WRAP_CACHE` explicitly:
+
+```bash
+export ITK_WRAP_CACHE=~/.cache/itk-wrap        # personal shared cache
+export ITK_WRAP_CACHE=$(dirname "$CCACHE_DIR")  # CI: same root as ccache
+```
+
+Both the CastXML cache and the pkl database use the same `ITK_WRAP_CACHE`
+root, so a single variable covers both.
 
 ### ccache
 
@@ -151,7 +175,7 @@ castxml_inputs/<sub>.xml          (write-once; never mutated after creation)
     │ igenerator.py  [96 per-module jobs; starts per-module, not globally gated]
     ▼
 Typedefs/<sub>.i + .idx + SwigInterface.h
-itk-pkl/<sub>.index.txt + <Class>.<sub>.pkl + <Module>.pkl.stamp
+itk-pkl/<sub>.index.txt (DB keys) + itk-pkl-v1.db (SQLite) + <Module>.stamp
     │ swig + ccache compile + link  [parallel per submodule]
     ▼
 _<Module>Python.abi3.so
@@ -162,13 +186,12 @@ _proxies.pyi + __init__.pyi
 
 ## Troubleshooting
 
-**`No pickle files were found in directory itk-pkl`**
-: The `.index.txt` file exists (so ninja considers `igenerator.py`
-  up-to-date) but the `.pkl` files it references are absent. Delete the
-  stale `.index.txt` and `<Module>.pkl.stamp` files to force `igenerator.py`
-  to re-run:
+**`No pkl keys were found in index files in itk-pkl`**
+: The `.index.txt` manifests exist (so ninja considers `igenerator.py`
+  up-to-date) but the pkl database is absent or stale. Delete the stamp
+  files to force `igenerator.py` to re-run and repopulate the DB:
   ```bash
-  find <build>/Wrapping/Generators/Python/itk-pkl -name "*.index.txt" -o -name "*.pkl.stamp" | xargs rm -f
+  find <build>/Wrapping/Generators/Python/itk-pkl -name "*.index.txt" -o -name "*.stamp" | xargs rm -f
   ninja -C <build>
   ```
 
