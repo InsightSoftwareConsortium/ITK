@@ -161,11 +161,13 @@ macro(itk_end_wrap_module)
     # Set up outputs and byproducts for custom command
     set(igenerator_outputs "")
     set(igenerator_byproducts "")
+    set(pkl_stamp_file "${ITK_PKL_DIR}/${WRAPPER_LIBRARY_NAME}.pkl.stamp")
 
     list(APPEND igenerator_outputs "${i_files}") # Typedefs/<class>.i
     list(APPEND igenerator_outputs "${typedef_files}") # Typedefs/<class>SwigInterface.h
     list(APPEND igenerator_outputs "${idx_files}") # Typedefs/<class>.idx
     list(APPEND igenerator_outputs "${snake_case_config_file}") # Generators/Python/itk/Configuration/<module>_snake_case.py
+    list(APPEND igenerator_outputs "${pkl_stamp_file}") # itk-pkl/<module>.pkl.stamp
     if(CMAKE_GENERATOR STREQUAL "Ninja")
       # Ninja generator requires byproduct for correct dependency handling
       # See https://cmake.org/cmake/help/latest/policy/CMP0058.html
@@ -188,7 +190,7 @@ macro(itk_end_wrap_module)
         --library-output-dir "${WRAPPER_LIBRARY_OUTPUT_DIR}" --submodule-order
         "${THIS_MODULE_SUBMODULE_ORDER}" --pyi_index_list
         "${ITK_PYI_INDEX_FILES}" --pyi_dir "${ITK_STUB_DIR}" --pkl_dir
-        "${ITK_PKL_DIR}"
+        "${ITK_PKL_DIR}" --pkl_stamp "${pkl_stamp_file}"
       DEPENDS
         ${IGENERATOR}
         ${ITK_WRAP_DOC_DOCSTRING_FILES}
@@ -202,6 +204,7 @@ macro(itk_end_wrap_module)
       VERBATIM
     )
 
+    unset(pkl_stamp_file)
     unset(snake_case_config_file)
   else()
     #message(FATAL_ERROR "Number of interface files is 0 :${WRAPPER_LIBRARY_NAME}:")
