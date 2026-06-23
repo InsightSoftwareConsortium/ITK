@@ -1,13 +1,6 @@
 project(ITKPNG)
 set(ITKPNG_THIRD_PARTY 1)
 
-option(
-  ITK_USE_SYSTEM_PNG
-  "Use system-installed png"
-  ${ITK_USE_SYSTEM_LIBRARIES}
-)
-mark_as_advanced(ITK_USE_SYSTEM_PNG)
-
 if(ITK_USE_SYSTEM_PNG)
   find_package(PNG REQUIRED)
   set(ITKPNG_INCLUDE_DIRS ${ITKPNG_BINARY_DIR}/src)
