@@ -68,13 +68,13 @@ public:
 #endif
 
   /** Runtime information support. */
-  itkTypeMacro(SmoothingRecursiveYvvGaussianImageFilter, InPlaceImageFilter);
+  itkOverrideGetNameOfClassMacro(SmoothingRecursiveYvvGaussianImageFilter);
 
   /** Image dimension. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Define the type for the sigma array */
-  using SigmaArrayType = FixedArray<ScalarRealType, itkGetStaticConstMacro(ImageDimension)>;
+  using SigmaArrayType = FixedArray<ScalarRealType, Self::ImageDimension>;
 
   /** Define the image type for internal computations
    RealType is usually 'double' in NumericTraits.
@@ -152,7 +152,7 @@ protected:
    * the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   void
-  GenerateInputRequestedRegion() ITK_NOEXCEPT override;
+  GenerateInputRequestedRegion() noexcept override;
 
   // Override since the filter produces the entire dataset
   void

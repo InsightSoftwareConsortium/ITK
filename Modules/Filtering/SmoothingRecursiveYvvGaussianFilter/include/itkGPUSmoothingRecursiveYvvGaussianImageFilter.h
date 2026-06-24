@@ -86,20 +86,20 @@ public:
   using GPUOutputImage = typename itk::GPUTraits<TOutputImage>::Type;
 
   /** Runtime information support. */
-  itkTypeMacro(GPUSmoothingRecursiveYvvGaussianImageFilter, GPUImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(GPUSmoothingRecursiveYvvGaussianImageFilter);
 
   /** Image dimension. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Define the type for the sigma array */
-  using SigmaArrayType = FixedArray<ScalarRealType, itkGetStaticConstMacro(ImageDimension)>;
+  using SigmaArrayType = FixedArray<ScalarRealType, Self::ImageDimension>;
 
   /** Define the image type for internal computations
    RealType is usually 'double' in NumericTraits.
    Here we prefer float in order to save memory.  */
 
   using InternalRealType = typename NumericTraits<PixelType>::FloatType;
-  using RealImageType = GPUImage<InternalRealType, itkGetStaticConstMacro(ImageDimension)>;
+  using RealImageType = GPUImage<InternalRealType, Self::ImageDimension>;
 
   /**  Pointer to the Output Image */
   using OutputImagePointer = typename OutputImageType::Pointer;
@@ -159,7 +159,7 @@ protected:
    * the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   void
-  GenerateInputRequestedRegion() ITK_NOEXCEPT override;
+  GenerateInputRequestedRegion() noexcept override;
 
   // Override since the filter produces the entire dataset
   void
