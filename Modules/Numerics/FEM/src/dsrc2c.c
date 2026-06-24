@@ -26,6 +26,7 @@
 
 #define V3P_NETLIB_SRC
 #include "v3p_netlib.h"
+#include "itkfem_eispack.h"
 
 /* Modified by Peter Vanroose, Oct 2003: manual optimisation and clean-up */
 
@@ -37,8 +38,6 @@ time(long * timer); /* #include <time.h> */
 
 extern doublereal
 cheby_(doublereal *, doublereal *, doublereal *, integer *, doublereal *, doublereal *);
-extern doublereal
-determ_(integer *, doublereal *, doublereal *);
 extern doublereal
 eigvns_(integer *, doublereal *, doublereal *, doublereal *, integer *);
 extern doublereal
@@ -4433,39 +4432,6 @@ L70:
   return ret_val;
 } /* itpackddot_ */
 
-doublereal
-determ_(integer * n, doublereal * tri, doublereal * xlmda)
-{
-  /* Local variables */
-  static integer    l;
-  static doublereal d1, d2, d3;
-  static integer    icnt;
-
-  /*     THIS SUBROUTINE COMPUTES THE DETERMINANT OF A SYMMETRIC */
-  /*     TRIDIAGONAL MATRIX GIVEN BY TRI. DET(TRI - XLMDA*I) = 0 */
-
-  /* ... PARAMETER LIST */
-
-  /*          N      ORDER OF TRIDIAGONAL SYSTEM */
-  /*          TRI    SYMMETRIC TRIDIAGONAL MATRIX OF ORDER N */
-  /*          XLMDA  ARGUMENT FOR CHARACTERISTIC EQUATION */
-
-  d2 = tri[(*n << 1) - 2] - *xlmda;
-  d1 = d2 * (tri[(*n << 1) - 4] - *xlmda) - tri[(*n << 1) - 1];
-  if (*n == 2)
-    return d1;
-
-  for (icnt = 2; icnt < *n; ++icnt)
-  {
-    l = *n - icnt + 1;
-    d3 = d2;
-    d2 = d1;
-    d1 = (tri[((l - 1) << 1) - 2] - *xlmda) * d2 - d3 * tri[(l << 1) - 1];
-  }
-
-  return d1;
-} /* determ_ */
-
 /* Subroutine */
 int
 dfault_(integer * iparm, doublereal * rparm)
@@ -4782,7 +4748,7 @@ eigvns_(integer * n, doublereal * tri, doublereal * d, doublereal * e2, integer 
   }
 
   // eqrt1s_(d, e2, n, &c__1, &c__0, ier);
-  v3p_netlib_tqlrat_(n, d, e2, ier);
+  itkfem_tqlrat_(n, d, e2, ier);
 
   return -d[0];
 } /* eigvns_ */
