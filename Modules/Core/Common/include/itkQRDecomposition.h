@@ -139,6 +139,18 @@ public:
     return out;
   }
 
+  /** Inverse of a square A, computed as the solution of A X = I. Requires A to
+   *  be square and full rank; a rank-deficient A yields a non-finite result. */
+  MatrixType
+  Inverse() const
+  {
+    const unsigned int rows = m_Q.rows();
+    itkAssertOrThrowMacro(rows == m_R.cols(), "QRDecomposition::Inverse requires a square matrix");
+    MatrixType identity(rows, rows);
+    identity.set_identity();
+    return this->Solve(identity);
+  }
+
   /** Determinant of a square A (zero-initialized value for non-square A). */
   T
   GetDeterminant() const
