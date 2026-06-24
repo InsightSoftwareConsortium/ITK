@@ -45,7 +45,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ParabolicOpenCloseSafeBorderImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ParabolicOpenCloseSafeBorderImageFilter);
 
   /** Pixel Type of the input image */
   using InputImageType = TInputImage;

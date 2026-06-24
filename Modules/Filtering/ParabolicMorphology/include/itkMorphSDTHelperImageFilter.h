@@ -113,7 +113,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MorphSDTHelperImageFilter, TernaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(MorphSDTHelperImageFilter);
 
   void
   SetVal(double val)

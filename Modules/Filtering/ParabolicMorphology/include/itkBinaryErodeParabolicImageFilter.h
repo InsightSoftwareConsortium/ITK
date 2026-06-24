@@ -81,7 +81,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryErodeParabolicImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryErodeParabolicImageFilter);
 
   /** Pixel Type of the input image */
   using InputImageType = TInputImage;

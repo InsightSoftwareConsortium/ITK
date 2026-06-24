@@ -82,7 +82,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BinaryCloseParabolicImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BinaryCloseParabolicImageFilter);
 
   /** Pixel Type of the input image */
   using InputImageType = TInputImage;
