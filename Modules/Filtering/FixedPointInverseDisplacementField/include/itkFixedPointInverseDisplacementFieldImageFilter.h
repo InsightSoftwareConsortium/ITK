@@ -24,6 +24,7 @@
 #include "itkWarpVectorImageFilter.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkTimeProbe.h"
 
 namespace itk
@@ -70,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FixedPointInverseDisplacementFieldImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(FixedPointInverseDisplacementFieldImageFilter);
 
 
   /** Some type alias. */
@@ -101,7 +102,7 @@ public:
   using InputConstIterator = ImageRegionConstIterator<InputImageType>;
   using InputIterator = ImageRegionIterator<InputImageType>;
   using OutputConstIterator = ImageRegionConstIterator<OutputImageType>;
-  using OutputIterator = ImageRegionIterator<OutputImageType>;
+  using OutputIterator = ImageRegionIteratorWithIndex<OutputImageType>;
 
   using VectorWarperType = WarpVectorImageFilter<TOutputImage, TInputImage, TOutputImage>;
   using InterpolatorVectorType = typename NumericTraits<typename TOutputImage::PixelType>::RealType;

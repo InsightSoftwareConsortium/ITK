@@ -50,7 +50,7 @@ public:
   using PointsLocatorType = itk::PointsLocator<itk::VectorContainer<IdentifierType, itk::Point<double, 3>>>;
   using PointsContainer = itk::VectorContainer<IdentifierType, itk::Point<double, 3>>;
 
-  itkTypeMacro(LandmarkRegistrationEstimator, ParametersEstimator);
+  itkOverrideGetNameOfClassMacro(LandmarkRegistrationEstimator);
   /** New method for creating an object using a factory. */
   itkNewMacro(Self);
 

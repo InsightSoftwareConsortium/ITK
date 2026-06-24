@@ -55,7 +55,7 @@ public:
   typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
-  itkTypeMacro(ParametersEstimator, Object);
+  itkOverrideGetNameOfClassMacro(ParametersEstimator);
 
   /**
    * Exact estimation of parameters.

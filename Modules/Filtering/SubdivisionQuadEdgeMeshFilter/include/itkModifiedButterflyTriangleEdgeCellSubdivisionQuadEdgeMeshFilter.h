@@ -76,8 +76,7 @@ public:
   using OutputPointIdIterator = typename Superclass::OutputPointIdIterator;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter,
-               TriangleEdgeCellSubdivisionQuadEdgeMeshFilter);
+  itkOverrideGetNameOfClassMacro(ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter);
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
