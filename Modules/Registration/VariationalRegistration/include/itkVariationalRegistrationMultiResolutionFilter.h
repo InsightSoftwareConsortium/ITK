@@ -93,7 +93,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VariationalRegistrationMultiResolutionFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(VariationalRegistrationMultiResolutionFilter);
 
   /** Fixed image type. */
   using FixedImageType = TFixedImage;
@@ -119,7 +119,7 @@ public:
   using MaskImageConstPointer = typename MaskImageType::ConstPointer;
 
   /** Internal float image type. */
-  using FloatImageType = Image<TRealType, itkGetStaticConstMacro(ImageDimension)>;
+  using FloatImageType = Image<TRealType, Self::ImageDimension>;
 
   /** The internal registration type. */
   using RegistrationType = VariationalRegistrationFilter<FixedImageType, MovingImageType, DisplacementFieldType>;

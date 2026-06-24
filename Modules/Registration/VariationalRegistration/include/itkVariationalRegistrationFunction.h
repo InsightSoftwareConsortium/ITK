@@ -63,7 +63,7 @@ public:
   using TimeStepType = typename Superclass::TimeStepType;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(VariationalRegistrationFunction, FiniteDifferenceFunction);
+  itkOverrideGetNameOfClassMacro(VariationalRegistrationFunction);
 
   /** Get image dimension. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;

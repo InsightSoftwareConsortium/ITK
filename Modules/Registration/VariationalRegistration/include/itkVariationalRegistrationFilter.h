@@ -111,7 +111,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(VariationalRegistrationFilter, DenseFiniteDifferenceImageFilter);
+  itkOverrideGetNameOfClassMacro(VariationalRegistrationFilter);
 
   /** Get image dimension. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;

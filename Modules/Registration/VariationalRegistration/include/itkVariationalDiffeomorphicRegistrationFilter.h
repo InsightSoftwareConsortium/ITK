@@ -95,7 +95,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(VariationalDiffeomorphicRegistrationFilter, VariationalRegistrationFilter);
+  itkOverrideGetNameOfClassMacro(VariationalDiffeomorphicRegistrationFilter);
 
   /** Get image dimension. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
