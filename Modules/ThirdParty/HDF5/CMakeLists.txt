@@ -34,87 +34,46 @@ endif()
   )
 
   if(BUILD_SHARED_LIBS)
-    if(TARGET hdf5-shared)
-      set(
-        ITKHDF5_LIBRARIES
-        hdf5_cpp-shared
-        hdf5-shared
-        hdf5_hl-shared
-        hdf5_hl_cpp-shared
-      )
-    elseif(TARGET hdf5::hdf5-shared)
-      set(
-        ITKHDF5_LIBRARIES
-        hdf5::hdf5_cpp-shared
-        hdf5::hdf5-shared
-        hdf5::hdf5_hl-shared
-        hdf5::hdf5_hl_cpp-shared
-      )
-    elseif(TARGET hdf5::hdf5)
-      set(
-        ITKHDF5_LIBRARIES
-        hdf5::hdf5_cpp
-        hdf5::hdf5
-        hdf5::hdf5_hl
-        hdf5::hdf5_hl_cpp
-      )
-    else()
-      set(
-        ITKHDF5_LIBRARIES
-        ${HDF5_C_SHARED_LIBRARY}
-        ${HDF5_CXX_SHARED_LIBRARY}
-        ${HDF5_CXX_LIBRARY_NAMES}
-        ${HDF5_HL_SHARED_LIBRARY}
-        ${HDF5_LIBRARIES}
-      )
-    endif()
+    set(_hdf5_type -shared)
   else()
-    if(TARGET hdf5-static)
-      set(
-        ITKHDF5_LIBRARIES
-        hdf5_cpp-static
-        hdf5-static
-        hdf5_hl-static
-        hdf5_hl_cpp-static
-      )
-    elseif(TARGET hdf5::hdf5-static)
-      set(
-        ITKHDF5_LIBRARIES
-        hdf5::hdf5_cpp-static
-        hdf5::hdf5-static
-        hdf5::hdf5_hl-static
-        hdf5::hdf5_hl_cpp-static
-      )
-    elseif(TARGET hdf5::hdf5)
-      set(
-        ITKHDF5_LIBRARIES
-        hdf5::hdf5_cpp
-        hdf5::hdf5
-        hdf5::hdf5_hl
-        hdf5::hdf5_hl_cpp
-      )
-    else()
-      set(
-        ITKHDF5_LIBRARIES
-        ${HDF5_C_STATIC_LIBRARY}
-        ${HDF5_CXX_STATIC_LIBRARY}
-        ${HDF5_CXX_LIBRARY_NAMES}
-        ${HDF5_HL_STATIC_LIBRARY}
-        ${HDF5_LIBRARIES}
-      )
-    endif()
+    set(_hdf5_type -static)
+  endif()
+
+  if(TARGET hdf5::hdf5${_hdf5_type})
+    set(
+      ITKHDF5_LIBRARIES
+      hdf5::hdf5_cpp${_hdf5_type}
+      hdf5::hdf5${_hdf5_type}
+      hdf5::hdf5_hl${_hdf5_type}
+      hdf5::hdf5_hl_cpp${_hdf5_type}
+    )
+  elseif(TARGET hdf5${_hdf5_type})
+    set(
+      ITKHDF5_LIBRARIES
+      hdf5_cpp${_hdf5_type}
+      hdf5${_hdf5_type}
+      hdf5_hl${_hdf5_type}
+      hdf5_hl_cpp${_hdf5_type}
+    )
+  elseif(TARGET hdf5::hdf5)
+    set(
+      ITKHDF5_LIBRARIES
+      hdf5::hdf5_cpp
+      hdf5::hdf5
+      hdf5::hdf5_hl
+      hdf5::hdf5_hl_cpp
+    )
+  else()
+    message(
+      FATAL_ERROR
+      "ITK_USE_SYSTEM_HDF5 is ON but the HDF5 targets were not found. "
+      "Please set HDF5_DIR to the directory containing HDF5Config.cmake."
+    )
   endif()
 
   set(
     ITKHDF5_INCLUDE_DIRS
     ${ITKHDF5_BINARY_DIR}/src # itk_hdf5.h and itk_H5Cpp.h
-  )
-  set(
-    ITKHDF5_SYSTEM_INCLUDE_DIRS
-    ${HDF5_INCLUDE_DIR}
-    ${HDF5_INCLUDE_DIR_HL}
-    ${HDF5_INCLUDE_DIRS}
-    ${HDF5_INCLUDE_DIR_CPP}
   )
 
   set(ITKHDF5_NO_SRC 1)
