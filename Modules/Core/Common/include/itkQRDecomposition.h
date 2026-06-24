@@ -109,6 +109,36 @@ public:
     return out;
   }
 
+  /** Solve A X = B for a multi-column right-hand side. Each column of B is an
+   *  independent system sharing the single stored factorization, so the result
+   *  X has one solution column per column of B (X.cols() == B.cols()); column j
+   *  equals Solve(B.get_column(j)). B.rows() must match the row count and A must
+   *  have full column rank, as in the vector overload. */
+  MatrixType
+  Solve(const MatrixType & B) const
+  {
+    using RowMajor = Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
+    const unsigned int rows = m_Q.rows();
+    const unsigned int cols = m_R.cols();
+    const unsigned int nrhs = B.cols();
+    itkAssertOrThrowMacro(B.rows() == rows, "QRDecomposition::Solve requires B row count to match the row count");
+    if (cols > rows)
+    {
+      itkGenericExceptionMacro("QRDecomposition::Solve supports square or overdetermined systems only (rows >= cols)");
+    }
+
+    Eigen::Map<const RowMajor> qMap(m_Q.data_block(), rows, rows);
+    Eigen::Map<const RowMajor> rMap(m_R.data_block(), rows, cols);
+    Eigen::Map<const RowMajor> bMap(B.data_block(), rows, nrhs);
+
+    const RowMajor qtb = qMap.adjoint() * bMap;
+    const RowMajor x = rMap.topLeftCorner(cols, cols).template triangularView<Eigen::Upper>().solve(qtb.topRows(cols));
+
+    MatrixType out(cols, nrhs);
+    Eigen::Map<RowMajor>(out.data_block(), cols, nrhs) = x;
+    return out;
+  }
+
   /** Determinant of a square A (zero-initialized value for non-square A). */
   T
   GetDeterminant() const
