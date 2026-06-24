@@ -20,7 +20,7 @@
 
 #include "itkFEMElement3DC0LinearTriangular.h"
 
-#include "vnl/algo/vnl_qr.h"
+#include "itkQRDecomposition.h"
 
 namespace itk::fem
 {
@@ -267,7 +267,7 @@ Element3DC0LinearTriangular::JacobianInverse(const VectorType & pt, MatrixType &
   }
 
   //  invJ=vnl_svd_inverse<Float>(*pJ);
-  invJ = vnl_qr<Float>(*pJ).inverse();
+  invJ = itk::QRDecomposition<Float>(*pJ).Inverse();
 
   /*
 // Note that inverse of Jacobian is not quadratic matrix

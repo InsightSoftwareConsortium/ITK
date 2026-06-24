@@ -160,6 +160,24 @@ TEST(QRDecomposition, MatrixRHSEquivalentToVnlQR)
     EXPECT_LT((xItk - xVnl).fro_norm() / xVnl.fro_norm(), 1e-10);
   }
 }
+
+
+// Inverse matches legacy vnl_qr.inverse(). This is the operation itk::fem::Element
+// (JacobianInverse / JacobianDeterminant) relies on.
+TEST(QRDecomposition, InverseEquivalentToVnlQR)
+{
+  for (const unsigned int n : { 2u, 3u, 5u })
+  {
+    const vnl_matrix<double> A = MakeMatrix<double>(n, n);
+    const vnl_matrix<double> invItk = itk::QRDecomposition<double>(A).Inverse();
+    const vnl_matrix<double> invVnl = vnl_qr<double>(A).inverse();
+    EXPECT_LT((invItk - invVnl).fro_norm() / invVnl.fro_norm(), 1e-10);
+
+    vnl_matrix<double> ident(n, n);
+    ident.set_identity();
+    EXPECT_LT((A * invItk - ident).fro_norm(), 1e-10);
+  }
+}
 #endif
 
 
