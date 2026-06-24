@@ -185,7 +185,7 @@ SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetNormaliz
 
 template <typename TInputImage, typename TOutputImage>
 void
-SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion() ITK_NOEXCEPT
+SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion() noexcept
 {
   // call the superclass' implementation of this method. this should
   // copy the output requested region to the input requested region

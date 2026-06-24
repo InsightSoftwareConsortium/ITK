@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Type macro that defines a name for this class. */
-  itkTypeMacro(RecursiveLineYvvGaussianImageFilter, InPlaceImageFilter);
+  itkOverrideGetNameOfClassMacro(RecursiveLineYvvGaussianImageFilter);
 
   /** Smart pointer type alias support.  */
   using InputImagePointer = typename TInputImage::Pointer;
