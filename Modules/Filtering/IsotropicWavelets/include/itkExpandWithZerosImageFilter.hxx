@@ -113,12 +113,6 @@ ExpandWithZerosImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDa
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
-  const SizeValueType size0 = outputRegionForThread.GetSize(0);
-  if (size0 == 0)
-  {
-    return;
-  }
-
   const typename OutputImageType::IndexType outputOriginIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
   for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
   {
