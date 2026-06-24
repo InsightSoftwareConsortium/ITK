@@ -10,7 +10,7 @@ if(ITK_USE_SYSTEM_DCMTK)
 else()
   itk_module(
     ITKDCMTK
-    DEPENDS
+    PRIVATE_DEPENDS
       ITKZLIB
       ITKJPEG
       ITKTIFF

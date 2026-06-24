@@ -5,10 +5,14 @@ set(
 total variation proximity operators, for use by the TotalVariation module."
 )
 
-itk_module(
-  ITKproxTV
-  DEPENDS
-    ITKEigen3
-  DESCRIPTION "${DOCUMENTATION}"
-  EXCLUDE_FROM_DEFAULT
-)
+if(ITK_USE_SYSTEM_proxTV)
+  itk_module(ITKproxTV DESCRIPTION "${DOCUMENTATION}" EXCLUDE_FROM_DEFAULT)
+else()
+  itk_module(
+    ITKproxTV
+    DEPENDS
+      ITKEigen3
+    DESCRIPTION "${DOCUMENTATION}"
+    EXCLUDE_FROM_DEFAULT
+  )
+endif()

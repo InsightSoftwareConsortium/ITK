@@ -5,10 +5,14 @@ href=\"http://www.libtiff.org/\">Tag Image File Format (TIFF)</a>
 image file format library."
 )
 
-itk_module(
-  ITKTIFF
-  DEPENDS
-    ITKZLIB
-    ITKJPEG
-  DESCRIPTION "${DOCUMENTATION}"
-)
+if(ITK_USE_SYSTEM_TIFF)
+  itk_module(ITKTIFF DESCRIPTION "${DOCUMENTATION}")
+else()
+  itk_module(
+    ITKTIFF
+    PRIVATE_DEPENDS
+      ITKZLIB
+      ITKJPEG
+    DESCRIPTION "${DOCUMENTATION}"
+  )
+endif()
