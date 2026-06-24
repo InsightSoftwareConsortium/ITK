@@ -23,7 +23,7 @@
 #include "itkPrintHelper.h"
 
 #include <cmath>
-#include "vnl/algo/vnl_qr.h"
+#include "itkQRDecomposition.h"
 
 namespace itk
 {
@@ -314,7 +314,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   // [Solve Qa=C]
   // :: Solving code is from
   // https://www.itk.org/pipermail/insight-users/2008-December/028207.html
-  const vnl_matrix<ParametersValueType> transposeAffine = vnl_qr<ParametersValueType>(Q).solve(C);
+  const vnl_matrix<ParametersValueType> transposeAffine = QRDecomposition<ParametersValueType>(Q).Solve(C);
   vnl_matrix<ParametersValueType>       Affine = transposeAffine.transpose();
 
   const vnl_matrix<ParametersValueType> AffineRotation(Affine.get_n_columns(0, ImageDimension));

@@ -22,13 +22,17 @@
 // direct LU solvers for the same A x = b, so agreement to tight tolerance is
 // required before the Eigen algorithm may be placed behind the vnl_* API.
 
-#define ITK_LEGACY_TEST // intentionally exercises the deprecated VNLSparseLUSolverTraits for equivalence
-#include "VNLSparseLUSolverTraits.h"
-#include "SparseLUSolverTraits.h"
-#include "itkGTest.h"
+#include "itkConfigure.h" // defines ITK_FUTURE_LEGACY_REMOVE before the guard below
+// The vnl_sparse_lu equivalence comparison is unavailable under
+// ITK_FUTURE_LEGACY_REMOVE, where VNLSparseLUSolverTraits is removed.
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+#  define ITK_LEGACY_TEST // intentionally exercises the deprecated VNLSparseLUSolverTraits for equivalence
+#  include "VNLSparseLUSolverTraits.h"
+#  include "SparseLUSolverTraits.h"
+#  include "itkGTest.h"
 
-#include <cmath>
-#include <vector>
+#  include <cmath>
+#  include <vector>
 
 namespace
 {
@@ -131,3 +135,4 @@ TEST(VnlEigenSparseLUEquivalence, WellConditioned)
 // Ill-conditioned system: tolerance is looser because both solvers amplify the
 // conditioning, but they must still track each other closely.
 TEST(VnlEigenSparseLUEquivalence, IllConditioned) { expectEquivalent(24, 1e-9, 1e-6); }
+#endif
