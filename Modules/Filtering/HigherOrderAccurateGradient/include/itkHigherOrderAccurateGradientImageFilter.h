@@ -68,8 +68,8 @@ public:
   /** Convenient type alias for simplifying declarations. */
   using InputImageType = TInputImage;
   using InputImagePointer = typename InputImageType::Pointer;
-  using OutputImageType = Image<CovariantVector<TOutputValueType, itkGetStaticConstMacro(OutputImageDimension)>,
-                                itkGetStaticConstMacro(OutputImageDimension)>;
+  using OutputImageType =
+    Image<CovariantVector<TOutputValueType, Self::OutputImageDimension>, Self::OutputImageDimension>;
   using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** Standard class type alias. */
@@ -81,13 +81,13 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HigherOrderAccurateGradientImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(HigherOrderAccurateGradientImageFilter);
 
   /** Image type alias support. */
   using InputPixelType = typename InputImageType::PixelType;
   using OperatorValueType = TOperatorValueType;
   using OutputValueType = TOutputValueType;
-  using OutputPixelType = CovariantVector<OutputValueType, itkGetStaticConstMacro(OutputImageDimension)>;
+  using OutputPixelType = CovariantVector<OutputValueType, Self::OutputImageDimension>;
   using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Set/Get whether or not the filter will use the spacing of the input

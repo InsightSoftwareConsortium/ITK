@@ -69,7 +69,7 @@ public:
   using PixelRealType = typename Superclass::PixelRealType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HigherOrderAccurateDerivativeOperator, NeighborhoodOperator);
+  itkOverrideGetNameOfClassMacro(HigherOrderAccurateDerivativeOperator);
 
   /** Constructor. */
   HigherOrderAccurateDerivativeOperator() = default;

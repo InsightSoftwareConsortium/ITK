@@ -76,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HigherOrderAccurateDerivativeImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(HigherOrderAccurateDerivativeImageFilter);
 
   /** The output pixel type must be signed. */
 #ifdef ITK_USE_CONCEPT_CHECKING
