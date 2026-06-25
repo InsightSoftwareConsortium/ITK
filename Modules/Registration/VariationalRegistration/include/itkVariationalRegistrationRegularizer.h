@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(VariationalRegistrationRegularizer, InPlaceImageFilter);
+  itkOverrideGetNameOfClassMacro(VariationalRegistrationRegularizer);
 
   static constexpr unsigned int ImageDimension = TDisplacementField::ImageDimension;
 

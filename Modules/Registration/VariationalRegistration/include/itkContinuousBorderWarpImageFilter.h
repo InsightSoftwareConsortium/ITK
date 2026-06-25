@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(ContinuousBorderWarpImageFilter, WarpImageFilter);
+  itkOverrideGetNameOfClassMacro(ContinuousBorderWarpImageFilter);
 
   /** Typedef to describe the output image region type. */
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;

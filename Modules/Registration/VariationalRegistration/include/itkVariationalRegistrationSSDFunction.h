@@ -66,7 +66,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VariationalRegistrationSSDFunction, VariationalRegistrationFunction);
+  itkOverrideGetNameOfClassMacro(VariationalRegistrationSSDFunction);
 
   /** Get image dimension. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;

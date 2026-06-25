@@ -58,6 +58,7 @@ extern "C"
 #include "itkConfigure.h"
 #include "itkVariationalRegistrationIncludeRequiredIOFactories.h"
 
+#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkExponentialDisplacementFieldImageFilter.h"
 
 #include "itkVariationalRegistrationMultiResolutionFilter.h"
@@ -918,8 +919,8 @@ main(int argc, char * argv[])
 
       writeField->Allocate();
 
-      ImageRegionConstIterator<DisplacementFieldType> defIterator(outputDisplacementField,
-                                                                  outputDisplacementField->GetRequestedRegion());
+      ImageRegionConstIteratorWithIndex<DisplacementFieldType> defIterator(
+        outputDisplacementField, outputDisplacementField->GetRequestedRegion());
 
       while (!defIterator.IsAtEnd())
       {
