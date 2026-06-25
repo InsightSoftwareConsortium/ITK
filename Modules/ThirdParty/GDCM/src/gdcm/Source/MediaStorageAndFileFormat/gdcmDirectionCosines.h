@@ -43,6 +43,9 @@ public:
   /// Compute Dot
   static double Dot(const double x[3], const double y[3]);
 
+  /// Compute Distance
+  static double Distance(const double x[3], const double y[3]);
+
   /// Normalize in-place
   void Normalize();
 

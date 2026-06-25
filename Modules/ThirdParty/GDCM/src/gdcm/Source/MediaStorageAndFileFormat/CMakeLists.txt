@@ -42,6 +42,7 @@ set(MSFF_SRCS
   gdcmDICOMDIR.cxx
   gdcmSpectroscopy.cxx
   gdcmEncapsulatedDocument.cxx
+  gdcmSplitGridFilter.cxx
   gdcmSplitMosaicFilter.cxx
   gdcmFiducials.cxx
   gdcmWaveform.cxx
@@ -99,7 +100,7 @@ set(MSFF_SRCS
   gdcmJPEG2000Codec.cxx
   )
 
-# Old per-bitdepth IJG codecs needed when not using libjpeg-turbo
+# Per-bitdepth IJG codecs or single libjpeg-turbo codec
 if(GDCM_USE_JPEGTURBO)
   list(APPEND MSFF_SRCS
     gdcmJPEGTurboCodec.cxx

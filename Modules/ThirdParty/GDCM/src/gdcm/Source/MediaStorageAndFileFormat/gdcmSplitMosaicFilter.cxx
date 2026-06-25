@@ -363,7 +363,7 @@ bool SplitMosaicFilter::ComputeMOSAICImagePositionPatient( double ret[3],
       if( size ) {
         // two cases:
         if( size == mosaic_dims[2] ) {
-          // all mosaic have there own slice position, always pick the first one for computation:
+          // all mosaic have their own slice position, always pick the first one for computation:
           size_t index = 0;
           MrProtocol::Slice & slice = sa.Slices[index];
           MrProtocol::Vector3 & p = slice.Position;
@@ -460,6 +460,14 @@ bool SplitMosaicFilter::Split()
 {
   bool success = true;
   DataSet& ds = GetFile().GetDataSet();
+  // sentinel
+  Attribute<0x0008, 0x0008> imtype;
+  imtype.SetFromDataSet( ds );
+  const unsigned int nvalues = imtype.GetNumberOfValues();
+  if( nvalues < 2 || imtype[nvalues-1].Trim() != "MOSAIC" ) {
+    gdcmErrorMacro("Unhandled MOSAIC");
+    return false;
+  }
 
   unsigned int dims[3] = {0,0,0};
   if( ! ComputeMOSAICDimensions( dims ) )

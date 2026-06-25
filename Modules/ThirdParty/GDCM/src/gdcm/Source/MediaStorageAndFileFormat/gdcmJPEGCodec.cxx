@@ -17,6 +17,7 @@
 #include "gdcmDataElement.h"
 #include "gdcmSequenceOfFragments.h"
 #include "gdcmSwapper.h"
+#include "gdcmUnpacker12Bits.h"
 #ifdef GDCM_USE_JPEGTURBO
 #include "gdcmJPEGTurboCodec.h"
 #else
@@ -106,7 +107,6 @@ void JPEGCodec::SetupJPEGBitCodec(int bit)
   BitSample = bit;
   delete Internal; Internal = nullptr;
 #ifdef GDCM_USE_JPEGTURBO
-  // libjpeg-turbo handles 8/12/16-bit in a single codec
   if ( bit >= 1 && bit <= 16 )
     {
     gdcmDebugMacro( "Using JPEGTurbo" );
@@ -189,6 +189,8 @@ bool JPEGCodec::Decode(DataElement const &in, DataElement &out)
       if( !r )
         {
         gdcmDebugMacro( "Failed to decompress Frag #" << i );
+        if( !Internal )
+          return false;
         const bool suspended = Internal->IsStateSuspension();
         const size_t nfrags = sf0->GetNumberOfFragments();
         // In case of chunked-jpeg, this is always an error
@@ -347,13 +349,36 @@ bool JPEGCodec::Code(DataElement const &in, DataElement &out)
   Internal->SetLossless( this->GetLossless() );
   Internal->SetQuality( this->GetQuality() );
 
+  // Handle 12-bit packed format: need to unpack first
+  char * unpacked_buffer = nullptr;
+  const char * actual_input = input;
+  unsigned long actual_image_len = image_len;
+  const PixelFormat &pf = this->GetPixelFormat();
+  if( pf.GetBitsAllocated() == 12 && pf.GetBitsStored() == 12 )
+    {
+    // Input is packed (3 bytes for 2 pixels), need to unpack to 16-bit
+    size_t npixels_per_frame = (size_t)dims[0] * dims[1] * pf.GetSamplesPerPixel();
+    size_t unpacked_frame_size = npixels_per_frame * 2; // 16-bit per pixel
+    size_t unpacked_size = unpacked_frame_size * dims[2]; // all frames
+    unpacked_buffer = new char[unpacked_size];
+    bool unpack_ok = Unpacker12Bits::Unpack(unpacked_buffer, input, len);
+    if( !unpack_ok )
+      {
+      delete[] unpacked_buffer;
+      return false;
+      }
+    actual_input = unpacked_buffer;
+    actual_image_len = (unsigned long)unpacked_frame_size;
+    }
+
   for(unsigned int dim = 0; dim < dims[2]; ++dim)
     {
     std::stringstream os;
-    const char *p = input + dim * image_len;
-    bool r = Internal->InternalCode(p, image_len, os);
+    const char *p = actual_input + dim * actual_image_len;
+    bool r = Internal->InternalCode(p, actual_image_len, os);
     if( !r )
       {
+      delete[] unpacked_buffer;
       return false;
       }
 
@@ -370,6 +395,9 @@ bool JPEGCodec::Code(DataElement const &in, DataElement &out)
   gdcm_assert( sq->GetNumberOfFragments() == dims[2] );
   out.SetValue( *sq );
 
+  // Clean up unpacked buffer if it was allocated
+  delete[] unpacked_buffer;
+
   return true;
 }
 
@@ -377,6 +405,8 @@ bool JPEGCodec::Code(DataElement const &in, DataElement &out)
 bool JPEGCodec::DecodeByStreams(std::istream &is, std::ostream &os)
 {
   std::stringstream tmpos;
+  if ( !Internal )
+    return false;
   if ( !Internal->DecodeByStreams(is,tmpos) )
     {
 #ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
@@ -668,6 +698,27 @@ bool JPEGCodec::EncodeBuffer( std::ostream & out,
     const char *inbuffer, size_t inlen)
 {
   gdcm_assert( Internal );
+
+  // Handle 12-bit packed format: need to unpack first
+  const PixelFormat &pf = this->GetPixelFormat();
+  if( pf.GetBitsAllocated() == 12 && pf.GetBitsStored() == 12 )
+    {
+    // Input is packed (3 bytes for 2 pixels), need to unpack to 16-bit
+    const unsigned int *dims = this->GetDimensions();
+    size_t npixels = (size_t)dims[0] * dims[1] * pf.GetSamplesPerPixel();
+    size_t unpacked_size = npixels * 2; // 16-bit per pixel
+    char * unpacked_buffer = new char[unpacked_size];
+    bool unpack_ok = Unpacker12Bits::Unpack(unpacked_buffer, inbuffer, inlen);
+    if( !unpack_ok )
+      {
+      delete[] unpacked_buffer;
+      return false;
+      }
+    bool result = Internal->EncodeBuffer(out, unpacked_buffer, unpacked_size);
+    delete[] unpacked_buffer;
+    return result;
+    }
+
   return Internal->EncodeBuffer(out, inbuffer, inlen);
 }
 
