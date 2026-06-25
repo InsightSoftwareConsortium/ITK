@@ -18,7 +18,7 @@
 #ifndef itkExpandWithZerosImageFilter_hxx
 #define itkExpandWithZerosImageFilter_hxx
 
-#include "itkImageScanlineIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
@@ -109,57 +109,38 @@ ExpandWithZerosImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDa
   const InputImageType * inputPtr = this->GetInput();
 
   // Iterator for walking the output
-  using OutputIterator = ImageScanlineIterator<TOutputImage>;
+  using OutputIterator = ImageRegionIteratorWithIndex<TOutputImage>;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
-  // Report progress on a per scanline basis
-  const SizeValueType size0 = outputRegionForThread.GetSize(0);
-  if (size0 == 0)
-  {
-    return;
-  }
-
   const typename OutputImageType::IndexType outputOriginIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
-  // Walk the output region, and interpolate the input image
-  while (!outIt.IsAtEnd())
+  for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
   {
-    while (!outIt.IsAtEndOfLine())
+    const typename OutputImageType::IndexType outputIndex = outIt.GetIndex();
+    bool                                      indexIsMultipleOfFactor(true);
+    for (unsigned int j = 0; j < ImageDimension; j++)
     {
-      const typename OutputImageType::IndexType outputIndex = outIt.GetIndex();
-      bool                                      indexIsMultipleOfFactor(true);
+      // Normalize the index to a zero origin before the multiple-of-factor test.
+      if ((outputIndex[j] - outputOriginIndex[j]) % m_ExpandFactors[j] != 0)
+      {
+        indexIsMultipleOfFactor = false;
+        break;
+      }
+    }
+    if (indexIsMultipleOfFactor)
+    {
+      // m_ExpandFactors are clamped >= 1, so no division-by-zero guard is needed.
+      typename InputImageType::IndexType inputIndex;
       for (unsigned int j = 0; j < ImageDimension; j++)
       {
-        // Check that index (normalized to start with zero) is multiple of ExpandFactors
-        if ((outputIndex[j] - outputOriginIndex[j]) % m_ExpandFactors[j] != 0)
-        {
-          indexIsMultipleOfFactor = false;
-          break;
-        }
+        inputIndex[j] = outputIndex[j] / m_ExpandFactors[j];
       }
-      // Copy value from input if index is multiplo, or set it to zero otherwise.
-      if (indexIsMultipleOfFactor)
-      {
-        // Determine the input pixel location associated with this output
-        // pixel at the start of the scanline.
-        //
-        // Don't need to check for division by zero because the factors are
-        // clamped to be minimum for 1.
-        typename InputImageType::IndexType inputIndex;
-        for (unsigned int j = 0; j < ImageDimension; j++)
-        {
-          inputIndex[j] = outputIndex[j] / m_ExpandFactors[j];
-        }
-        outIt.Set(static_cast<OutputPixelType>(inputPtr->GetPixel(inputIndex)));
-      }
-      else
-      {
-        outIt.Set(NumericTraits<OutputPixelType>::ZeroValue());
-      }
-      ++outIt;
+      outIt.Set(static_cast<OutputPixelType>(inputPtr->GetPixel(inputIndex)));
     }
-
-    outIt.NextLine();
+    else
+    {
+      outIt.Set(NumericTraits<OutputPixelType>::ZeroValue());
+    }
   }
 }
 

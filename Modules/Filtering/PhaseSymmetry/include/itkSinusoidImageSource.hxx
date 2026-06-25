@@ -19,7 +19,7 @@
 #define itkSinusoidImageSource_hxx
 
 #include "itkSinusoidSpatialFunction.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressReporter.h"
 
 namespace itk
@@ -111,7 +111,7 @@ SinusoidImageSource<TOutputImage>::GenerateData()
   sinusoid->SetPhaseOffset(m_PhaseOffset);
 
   // Create an iterator that will walk the output region
-  using OutputIterator = ImageRegionIterator<TOutputImage>;
+  using OutputIterator = ImageRegionIteratorWithIndex<TOutputImage>;
   const typename OutputImageType::RegionType requestedRegion = outputPtr->GetRequestedRegion();
   OutputIterator                             outIt = OutputIterator(outputPtr, outputPtr->GetRequestedRegion());
 

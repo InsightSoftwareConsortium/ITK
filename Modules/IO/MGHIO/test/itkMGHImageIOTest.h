@@ -260,8 +260,12 @@ itkMGHImageIOTestReadWriteTest(std::string fn, unsigned int size, std::string in
   bool isFailingSpacing = false;
   bool isFailingDirection = false;
   // Compare input and output images.
-  itk::ImageRegionIterator<ImageType> a(reference_image, reference_image->GetRequestedRegion());
-  itk::ImageRegionIterator<ImageType> b(test_image, test_image->GetRequestedRegion());
+  const auto referenceRegion = reference_image->GetRequestedRegion();
+  const auto testRegion = test_image->GetRequestedRegion();
+  itkAssertOrThrowMacro(referenceRegion.GetSize() == testRegion.GetSize(),
+                        "Reference and test image regions differ in size");
+  itk::ImageRegionIterator<ImageType>          a(reference_image, referenceRegion);
+  itk::ImageRegionIteratorWithIndex<ImageType> b(test_image, testRegion);
   for (a.GoToBegin(), b.GoToBegin(); !a.IsAtEnd(); ++a, ++b)
   {
     if (b.Get() != a.Get())

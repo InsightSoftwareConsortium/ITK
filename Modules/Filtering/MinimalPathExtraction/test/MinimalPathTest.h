@@ -37,6 +37,7 @@
 #include "itkSpeedFunctionToPathFilter.h"
 #include "itkSpeedFunctionPathInformation.h"
 #include "itkPathIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkGradientDescentOptimizer.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkIterateNeighborhoodOptimizer.h"
@@ -143,7 +144,7 @@ ReadPathImage(const char * PathImagename, typename PathFilterType::Pointer pathF
 
   PointMapType pmap;
 
-  using IteratorType = typename itk::ImageRegionIterator<ImageType>;
+  using IteratorType = typename itk::ImageRegionIteratorWithIndex<ImageType>;
   IteratorType it(labelIm, labelIm->GetLargestPossibleRegion());
 
   while (!it.IsAtEnd())
