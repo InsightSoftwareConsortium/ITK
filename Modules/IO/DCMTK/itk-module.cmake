@@ -14,6 +14,7 @@ itk_module(
   TEST_DEPENDS
     ITKTestKernel
     ITKImageIntensity
+    ITKDCMTK
   FACTORY_NAMES
     ImageIO::DCMTK
   DESCRIPTION "${DOCUMENTATION}"

@@ -27,60 +27,6 @@ target_include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}/../src"
 )
 
-# itkDCMTKFileReader.h transitively #include's dcmtk/dcmdata/*.h.  ITKDCMTK
-# is a PRIVATE_DEPENDS of ITKIODCMTK (so consumers don't see DCMTK headers),
-# but the test driver includes itkDCMTKFileReader.h directly and therefore
-# needs the DCMTK include path on its compile line.
-# Reconstruct the include path the same way
-# Modules/ThirdParty/DCMTK/CMakeLists.txt populates ITKDCMTK_INCLUDE_DIRS,
-# since that variable is not in scope here.
-if(NOT ITK_USE_SYSTEM_DCMTK)
-  set(
-    _dcmtk_ep_inc
-    "${CMAKE_BINARY_DIR}/Modules/ThirdParty/DCMTK/ITKDCMTK_ExtProject"
-  )
-  set(
-    _dcmtk_libs
-    dcmdata
-    dcmpstat
-    dcmsr
-    dcmqrdb
-    dcmimgle
-    dcmimage
-    dcmjpeg
-    dcmjpls
-    dcmnet
-    dcmiod
-    dcmfg
-    dcmseg
-    dcmpmap
-    ofstd
-    oflog
-  )
-  # IS_DIRECTORY guards were dropped: the ExtProject source/build trees are
-  # only materialized at build time, not at CMake configure time, so any
-  # IS_DIRECTORY check here returns false on a clean checkout (issue #6189
-  # greptile P1). The paths below are deterministic, and CMake is fine with
-  # -I flags that name not-yet-existing directories — they just need to
-  # exist by the time the test driver is compiled, which is guaranteed by
-  # ITKDCMTK_ExtProject being a transitive build dependency of the test
-  # driver via the ITKIODCMTK module's PRIVATE_DEPENDS.
-  foreach(_lib IN LISTS _dcmtk_libs)
-    target_include_directories(
-      ITKIODCMTKTestDriver
-      PRIVATE
-        "${_dcmtk_ep_inc}/${_lib}/include"
-    )
-  endforeach()
-  target_include_directories(
-    ITKIODCMTKTestDriver
-    PRIVATE
-      "${CMAKE_BINARY_DIR}/Modules/ThirdParty/DCMTK/ITKDCMTK_ExtProject-build/config/include"
-  )
-  unset(_dcmtk_libs)
-  unset(_dcmtk_ep_inc)
-endif()
-
 itk_add_test(
   NAME itkDCMTKGetDicomTagsTest
   COMMAND
