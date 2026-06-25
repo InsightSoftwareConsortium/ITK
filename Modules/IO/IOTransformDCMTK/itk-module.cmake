@@ -11,6 +11,7 @@ itk_module(
   ENABLE_SHARED
   DEPENDS
     ITKIOTransformBase
+  PRIVATE_DEPENDS
     ITKDCMTK
   TEST_DEPENDS
     ITKIOTransformBase
