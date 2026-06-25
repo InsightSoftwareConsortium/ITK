@@ -48,8 +48,7 @@ set(
   "This group of modules address the registration
 problem: find the spatial transformation between two images. This is a high
 level group that makes use of many lower level modules such as
-\\ref ITKTransform, \\ref ITKOptimizers, \\ref ITKFiniteDifference, and
-\\ref ITKFEM."
+\\ref ITKTransform, \\ref ITKOptimizers, and \\ref ITKFiniteDifference."
 )
 
 set(

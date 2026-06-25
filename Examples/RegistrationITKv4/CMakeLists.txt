@@ -416,26 +416,6 @@ target_link_libraries(
     ITK::ITKTransformModule
 )
 
-if(ITKFEMRegistration_ENABLED)
-  add_executable(DeformableRegistration1 DeformableRegistration1.cxx)
-  target_link_libraries(
-    DeformableRegistration1
-    PRIVATE
-      ITK::ITKImageIO
-      ITK::ITKFEMRegistrationModule
-      ITK::ITKImageIntensityModule
-  )
-
-  add_executable(DeformableRegistration11 DeformableRegistration11.cxx)
-  target_link_libraries(
-    DeformableRegistration11
-    PRIVATE
-      ITK::ITKImageIO
-      ITK::ITKFEMRegistrationModule
-      ITK::ITKImageIntensityModule
-  )
-endif()
-
 add_executable(DeformableRegistration2 DeformableRegistration2.cxx)
 target_link_libraries(
   DeformableRegistration2

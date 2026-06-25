@@ -120,14 +120,12 @@ They are:
 > Copyright: Richard J. Wagner
 > under a BSD-Like license.
 
-8. Code/Numerics/FEM/dsrc2c.c
+8. The FEM module (including Code/Numerics/FEM/dsrc2c.c) has been removed.
 
-> Copyright: 1977 IMSL Inc, no license available.
-> Stephen Aylward removed the specific functions
-> in this file that were copyrighted by IMSL and
-> replaced them with other functions available in
-> netlib. The file is now cleared from copyright
-> concerns.
+> The ITKFEM and ITKFEMRegistration modules were
+> removed. This removed dsrc2c.c, whose IMSL-derived
+> functions had previously been replaced with netlib
+> equivalents.
 
 9. Code/Numerics/cvsrmvend
 

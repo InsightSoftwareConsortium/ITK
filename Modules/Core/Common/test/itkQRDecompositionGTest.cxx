@@ -162,8 +162,7 @@ TEST(QRDecomposition, MatrixRHSEquivalentToVnlQR)
 }
 
 
-// Inverse matches legacy vnl_qr.inverse(). This is the operation itk::fem::Element
-// (JacobianInverse / JacobianDeterminant) relies on.
+// Inverse matches legacy vnl_qr.inverse().
 TEST(QRDecomposition, InverseEquivalentToVnlQR)
 {
   for (const unsigned int n : { 2u, 3u, 5u })

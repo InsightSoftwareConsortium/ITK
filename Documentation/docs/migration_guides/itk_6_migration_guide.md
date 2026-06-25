@@ -207,16 +207,23 @@ enabled. Similarly, `InputCoordinateType`, `OutputCoordinateType`, and
 and `ImagePointCoordRepType`, respectively.
 
 
-FEM LinearSystemWrapperDenseVNL public type aliases removed
--------------------------------------------------------------
+ITKFEM and ITKFEMRegistration modules removed
+---------------------------------------------
 
-These two nested type aliases are removed from the public interface of
-`fem::LinearSystemWrapperDenseVNL`:
+The `ITKFEM` (`Modules/Numerics/FEM`) and `ITKFEMRegistration`
+(`Modules/Registration/FEM`) modules are removed from the ITK main tree.
+Both were opt-in (`EXCLUDE_FROM_DEFAULT`) and no in-tree module depended
+on them.
 
-```cpp
-using MatrixRepresentation = vnl_matrix<Float>;
-using MatrixHolder = std::vector<MatrixRepresentation *>;
-```
+The modules, with their full history, are preserved as the unmaintained
+remote module `InsightSoftwareConsortium/ITKFEM`. Projects that enabled
+`Module_ITKFEM` / `Module_ITKFEMRegistration`, linked `ITKFEM` /
+`ITKFEMRegistration`, or used `itk::fem::*` classes (including
+`FEMRegistrationFilter` and the `LinearSystemWrapper*` family) can re-enable
+it via `Module_FEM` (a `Modules/Remote/FEM.remote.cmake` breadcrumb). It is
+unmaintained and scheduled for removal in ITK 7 (see
+[InsightSoftwareConsortium/ITK#6511](https://github.com/InsightSoftwareConsortium/ITK/issues/6511));
+if you depend on it, comment on that issue.
 
 
 ITKVNLInstantiation library is removed
