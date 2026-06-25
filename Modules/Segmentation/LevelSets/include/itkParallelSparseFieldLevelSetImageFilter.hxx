@@ -25,6 +25,8 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include <iostream>
 #include <fstream>
+#include <exception>
+#include <thread>
 #include "itkMath.h"
 #include "itkPlatformMultiThreader.h"
 #include "itkPrintHelper.h"
@@ -1163,16 +1165,42 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Iterate()
       return;
     }
 
-    mt->ParallelizeArray(
-      0,
-      m_NumOfWorkUnits,
-      [this](SizeValueType threadId) {
-        this->ThreadedApplyUpdate(m_TimeStep, threadId);
-        // We only need to wait for neighbors because ThreadedCalculateChange
-        // requires information only from the neighbors.
-        this->SignalNeighborsAndWait(threadId);
-      },
-      nullptr);
+    // SignalNeighborsAndWait blocks each work unit on its boundary neighbors, so
+    // all work units must run concurrently; a work pool (e.g. TBB) can leave a
+    // neighbor queued behind the blocked unit and deadlock. Run this phase with
+    // one dedicated thread per work unit.
+    {
+      std::vector<std::exception_ptr> applyErrors(m_NumOfWorkUnits, nullptr);
+      auto                            applyUpdate = [this, &applyErrors](ThreadIdType threadId) {
+        try
+        {
+          this->ThreadedApplyUpdate(m_TimeStep, threadId);
+          this->SignalNeighborsAndWait(threadId);
+        }
+        catch (...)
+        {
+          applyErrors[threadId] = std::current_exception();
+        }
+      };
+      std::vector<std::thread> applyThreads;
+      applyThreads.reserve(m_NumOfWorkUnits - 1);
+      for (ThreadIdType threadId = 1; threadId < m_NumOfWorkUnits; ++threadId)
+      {
+        applyThreads.emplace_back(applyUpdate, threadId);
+      }
+      applyUpdate(0);
+      for (auto & t : applyThreads)
+      {
+        t.join();
+      }
+      for (const auto & e : applyErrors)
+      {
+        if (e)
+        {
+          std::rethrow_exception(e);
+        }
+      }
+    }
 
 
     if (this->GetElapsedIterations() % LOAD_BALANCE_ITERATION_FREQUENCY == 0)
