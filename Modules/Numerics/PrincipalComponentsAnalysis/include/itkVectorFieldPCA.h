@@ -62,7 +62,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GaussianDistanceKernel, KernelFunction);
+  itkOverrideGetNameOfClassMacro(GaussianDistanceKernel);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -123,7 +123,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VectorFieldPCA, Object);
+  itkOverrideGetNameOfClassMacro(VectorFieldPCA);
 
   /** Type definitions for the PointSet. */
   using InputPointSetType = TPointSetType;
@@ -144,7 +144,7 @@ public:
   /**
    * \brief Input PointSet dimension
    */
-  itkStaticConstMacro(InputMeshDimension, unsigned int, TPointSetType::PointDimension);
+  static constexpr unsigned int InputMeshDimension = TPointSetType::PointDimension;
 
   /** type for the vector fields. */
   using VectorFieldType = vnl_matrix<TVectorFieldElementType>;
