@@ -16,13 +16,16 @@
  *
  *=========================================================================*/
 
-#define ITK_LEGACY_TEST // exercises the deprecated VNLSparseLUSolverTraits on purpose
-#include "VNLSparseLUSolverTraits.h"
-#include "itkGTest.h"
-#include "itkMath.h" // itk::Math::Absolute
+#include "itkConfigure.h" // defines ITK_FUTURE_LEGACY_REMOVE before the guard below
+// VNLSparseLUSolverTraits is unavailable under ITK_FUTURE_LEGACY_REMOVE.
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+#  define ITK_LEGACY_TEST // exercises the deprecated VNLSparseLUSolverTraits on purpose
+#  include "VNLSparseLUSolverTraits.h"
+#  include "itkGTest.h"
+#  include "itkMath.h" // itk::Math::Absolute
 
-#include <iostream>
-#include <cstdlib>
+#  include <iostream>
+#  include <cstdlib>
 
 template <class TVector>
 bool
@@ -234,3 +237,4 @@ DoVNLSparseLUSolverTraitsTest(int, char *[])
 
 
 TEST(VNLSparseLUSolverTraits, ConvertedLegacyTest) { EXPECT_EQ(0, DoVNLSparseLUSolverTraitsTest(0, nullptr)); }
+#endif

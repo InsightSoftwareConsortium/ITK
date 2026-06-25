@@ -1,6 +1,9 @@
 set(
   ITKFEM_SRCS
   dsrc2c.c
+  itkfem_tqlrat.c
+  itkfem_pythag.c
+  itkfem_epslon.c
   itkFEMElement2DC0LinearLine.cxx
   itkFEMElement2DC0LinearLineStress.cxx
   itkFEMElement2DC0LinearQuadrilateral.cxx

@@ -526,16 +526,6 @@ extern "C"
   ddot_(integer * n, doublereal * dx, integer * incx, doublereal * dy, integer * incy);
 
   /**
-   * Subroutine that computes the determinant of a symmetric tridiagonal matrix
-   * given by tri. det(tri - xlmda*i) = 0
-   * \param n order of tridiagonal system
-   * \param tri symmetric tridiagonal matrix of order n
-   * \param xlmda argument for characteristic equation
-   */
-  extern doublereal
-  determ_(integer * n, doublereal * tri, doublereal * xlmda);
-
-  /**
    * Obtain default parameters
    * \param iparm array of 12 integer parameters
    * \param rparm array of 12 double parameters

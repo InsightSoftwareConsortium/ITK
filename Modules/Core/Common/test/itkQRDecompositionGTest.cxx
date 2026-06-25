@@ -20,8 +20,11 @@
 #include "itkQRDecomposition.h"
 
 // Exercise the deprecated VNL engine for the old-vs-new equivalence checks.
-#define ITK_LEGACY_TEST
-#include "vnl/algo/vnl_qr.h"
+// The VNL symbol is unavailable under ITK_FUTURE_LEGACY_REMOVE.
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+#  define ITK_LEGACY_TEST
+#  include "vnl/algo/vnl_qr.h"
+#endif
 
 #include <gtest/gtest.h>
 #include <cmath>
@@ -77,6 +80,51 @@ TEST(QRDecomposition, SolveResidual)
 }
 
 
+// Multi-column RHS: each column solves against the one shared factorization.
+TEST(QRDecomposition, SolveMatrixRHS)
+{
+  const unsigned int       n = 5;
+  const unsigned int       k = 3;
+  const vnl_matrix<double> A = MakeMatrix<double>(n, n);
+  vnl_matrix<double>       B(n, k);
+  for (unsigned int i = 0; i < n; ++i)
+    for (unsigned int j = 0; j < k; ++j)
+      B(i, j) = std::cos(0.3 * (i + 1) * (j + 2));
+
+  const itk::QRDecomposition<double> qr(A);
+  const vnl_matrix<double>           X = qr.Solve(B);
+  ASSERT_EQ(X.rows(), n);
+  ASSERT_EQ(X.cols(), k);
+  EXPECT_LT((A * X - B).fro_norm() / B.fro_norm(), 1e-10);
+  for (unsigned int j = 0; j < k; ++j)
+    EXPECT_LT((X.get_column(j) - qr.Solve(B.get_column(j))).two_norm(), 1e-12);
+}
+
+
+// Overdetermined (rows > cols) multi-column solve yields the least-squares
+// solution, characterized by the normal equations A^T (A X - B) == 0.
+TEST(QRDecomposition, SolveMatrixRHSOverdetermined)
+{
+  const unsigned int       m = 6;
+  const unsigned int       n = 3;
+  const unsigned int       k = 2;
+  const vnl_matrix<double> A = MakeMatrix<double>(m, n);
+  vnl_matrix<double>       B(m, k);
+  for (unsigned int i = 0; i < m; ++i)
+    for (unsigned int j = 0; j < k; ++j)
+      B(i, j) = std::cos(0.35 * (i + 1) * (j + 2)) - 0.2 * (j + 1);
+
+  const itk::QRDecomposition<double> qr(A);
+  const vnl_matrix<double>           X = qr.Solve(B);
+  ASSERT_EQ(X.rows(), n);
+  ASSERT_EQ(X.cols(), k);
+  EXPECT_LT((A.transpose() * (A * X - B)).fro_norm() / (A.transpose() * B).fro_norm(), 1e-10);
+  for (unsigned int j = 0; j < k; ++j)
+    EXPECT_LT((X.get_column(j) - qr.Solve(B.get_column(j))).two_norm(), 1e-12);
+}
+
+
+#ifndef ITK_FUTURE_LEGACY_REMOVE
 // itk:: solve and determinant agree with the (sign-stable) legacy vnl_qr.
 TEST(QRDecomposition, EquivalentToVnlQR)
 {
@@ -92,6 +140,45 @@ TEST(QRDecomposition, EquivalentToVnlQR)
   EXPECT_LT((qrItk.Solve(b) - qrVnl.solve(b)).two_norm() / qrVnl.solve(b).two_norm(), 1e-10);
   EXPECT_NEAR(qrItk.GetDeterminant(), qrVnl.determinant(), 1e-9 * std::abs(qrVnl.determinant()) + 1e-12);
 }
+
+
+// Multi-column solve matches legacy vnl_qr column-for-column. This is the exact
+// operation itkLandmarkBasedTransformInitializer relies on (square Q, matrix C).
+TEST(QRDecomposition, MatrixRHSEquivalentToVnlQR)
+{
+  for (const unsigned int n : { 3u, 4u, 6u })
+  {
+    const unsigned int       k = n - 1;
+    const vnl_matrix<double> A = MakeMatrix<double>(n, n);
+    vnl_matrix<double>       B(n, k);
+    for (unsigned int i = 0; i < n; ++i)
+      for (unsigned int j = 0; j < k; ++j)
+        B(i, j) = std::cos(0.4 * (i + 1) * (j + 2)) - 0.3 * (j + 1);
+
+    const vnl_matrix<double> xItk = itk::QRDecomposition<double>(A).Solve(B);
+    const vnl_matrix<double> xVnl = vnl_qr<double>(A).solve(B);
+    EXPECT_LT((xItk - xVnl).fro_norm() / xVnl.fro_norm(), 1e-10);
+  }
+}
+
+
+// Inverse matches legacy vnl_qr.inverse(). This is the operation itk::fem::Element
+// (JacobianInverse / JacobianDeterminant) relies on.
+TEST(QRDecomposition, InverseEquivalentToVnlQR)
+{
+  for (const unsigned int n : { 2u, 3u, 5u })
+  {
+    const vnl_matrix<double> A = MakeMatrix<double>(n, n);
+    const vnl_matrix<double> invItk = itk::QRDecomposition<double>(A).Inverse();
+    const vnl_matrix<double> invVnl = vnl_qr<double>(A).inverse();
+    EXPECT_LT((invItk - invVnl).fro_norm() / invVnl.fro_norm(), 1e-10);
+
+    vnl_matrix<double> ident(n, n);
+    ident.set_identity();
+    EXPECT_LT((A * invItk - ident).fro_norm(), 1e-10);
+  }
+}
+#endif
 
 
 // Single-precision path reconstructs.
