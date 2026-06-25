@@ -249,13 +249,15 @@ private:
   typedef _Hashtable_node<_Val> _Node;
 
 public:
-  typedef typename _Alloc::template rebind<_Val>::other allocator_type;
+  typedef typename std::allocator_traits<_Alloc>::template rebind_alloc<_Val>
+    allocator_type;
   allocator_type get_allocator() const { return _M_node_allocator; }
 private:
+  typedef typename std::allocator_traits<_Alloc>::template rebind_alloc<_Node>
+    _M_node_allocator_type;
   typedef
-    typename _Alloc::template rebind<_Node>::other _M_node_allocator_type;
-  typedef
-    typename _Alloc::template rebind<_Node*>::other _M_node_ptr_allocator_type;
+    typename std::allocator_traits<_Alloc>::template rebind_alloc<_Node*>
+      _M_node_ptr_allocator_type;
   typedef std::vector<_Node*, _M_node_ptr_allocator_type> _M_buckets_type;
 
 private:
