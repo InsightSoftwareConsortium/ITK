@@ -8,9 +8,9 @@ file Copyright.txt or https://cmake.org/licensing#kwsys for details.  */
 // Work-around CMake dependency scanning limitation.  This must
 // duplicate the above list of headers.
 #if 0
-#include "Directory.hxx.in"
-#include "Encoding.hxx.in"
-#include "SystemTools.hxx.in"
+#  include "Directory.hxx.in"
+#  include "Encoding.hxx.in"
+#  include "SystemTools.hxx.in"
 #endif
 
 #include <fstream>
@@ -19,10 +19,10 @@ file Copyright.txt or https://cmake.org/licensing#kwsys for details.  */
 
 #include <testSystemTools.h>
 
-int _doLongPathTest()
+static int doLongPathTest()
 {
   using namespace kwsys;
-  static const int LONG_PATH_THRESHOLD = 512;
+  static int const LONG_PATH_THRESHOLD = 512;
   int res = 0;
   std::string topdir(TEST_SYSTEMTOOLS_BINARY_DIR "/directory_testing/");
   std::stringstream testpathstrm;
@@ -57,7 +57,11 @@ int _doLongPathTest()
 
     Directory testdir;
     // Set res to failure if the directory doesn't load
-    res += !testdir.Load(testdirpath);
+    std::string errorMessage = "";
+    res += !testdir.Load(testdirpath, &errorMessage);
+    if (errorMessage != "") {
+      std::cerr << "Failed to list directory: " << errorMessage << std::endl;
+    }
     // Increment res failure if the directory appears empty
     res += testdir.GetNumberOfFiles() == 0;
     // Increment res failures if the path has changed from
@@ -73,7 +77,66 @@ int _doLongPathTest()
   return res;
 }
 
-int testDirectory(int, char* [])
+static int nonExistentDirectoryTest()
 {
-  return _doLongPathTest();
+  using namespace kwsys;
+  int res = 0;
+  std::string testdirpath(TEST_SYSTEMTOOLS_BINARY_DIR
+                          "/directory_testing/doesnt_exist/");
+  std::string errorMessage;
+  Directory testdir;
+
+  errorMessage = "foo";
+  // Increment res failure if directory lists
+  res += testdir.Load(testdirpath, &errorMessage) ? 1 : 0;
+#if !defined(_WIN32) || defined(__CYGWIN__)
+  // Increment res failure if errorMessage is unmodified
+  res += (errorMessage == "foo");
+#endif
+
+  errorMessage = "foo";
+  // Increment res failure if directory has files
+  res += (testdir.GetNumberOfFilesInDirectory(testdirpath, &errorMessage) > 0);
+#if !defined(_WIN32) || defined(__CYGWIN__)
+  // Increment res failure if errorMessage is unmodified
+  res += (errorMessage == "foo");
+#endif
+
+  return res;
+}
+
+static int copyDirectoryTest()
+{
+  using namespace kwsys;
+  std::string const source(TEST_SYSTEMTOOLS_BINARY_DIR
+                           "/directory_testing/copyDirectoryTestSrc");
+  if (SystemTools::PathExists(source)) {
+    std::cerr << source << " shouldn't exist before test" << std::endl;
+    return 1;
+  }
+  std::string const destination(TEST_SYSTEMTOOLS_BINARY_DIR
+                                "/directory_testing/copyDirectoryTestDst");
+  if (SystemTools::PathExists(destination)) {
+    std::cerr << destination << " shouldn't exist before test" << std::endl;
+    return 2;
+  }
+  Status const copysuccess = SystemTools::CopyADirectory(source, destination);
+  bool const destinationexists = SystemTools::PathExists(destination);
+  if (copysuccess.IsSuccess()) {
+    std::cerr << "CopyADirectory should have returned false" << std::endl;
+    SystemTools::RemoveADirectory(destination);
+    return 3;
+  }
+  if (destinationexists) {
+    std::cerr << "CopyADirectory returned false, but destination directory"
+              << " has been created" << std::endl;
+    SystemTools::RemoveADirectory(destination);
+    return 4;
+  }
+  return 0;
+}
+
+int testDirectory(int, char*[])
+{
+  return doLongPathTest() + nonExistentDirectoryTest() + copyDirectoryTest();
 }

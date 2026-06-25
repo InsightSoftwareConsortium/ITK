@@ -6,26 +6,10 @@
 // Work-around CMake dependency scanning limitation.  This must
 // duplicate the above list of headers.
 #if 0
-#include "SystemInformation.hxx.in"
+#  include "SystemInformation.hxx.in"
 #endif
 
 #include <iostream>
-
-#if defined(KWSYS_USE_LONG_LONG)
-#if defined(KWSYS_IOS_HAS_OSTREAM_LONG_LONG)
-#define iostreamLongLong(x) (x)
-#else
-#define iostreamLongLong(x) ((long)x)
-#endif
-#elif defined(KWSYS_USE___INT64)
-#if defined(KWSYS_IOS_HAS_OSTREAM___INT64)
-#define iostreamLongLong(x) (x)
-#else
-#define iostreamLongLong(x) ((long)x)
-#endif
-#else
-#error "No Long Long"
-#endif
 
 #define printMethod(info, m) std::cout << #m << ": " << info.m() << "\n"
 
@@ -33,9 +17,9 @@
   std::cout << #m << ": " << info.m() << " " << unit << "\n"
 
 #define printMethod3(info, m, unit)                                           \
-  std::cout << #m << ": " << iostreamLongLong(info.m) << " " << unit << "\n"
+  std::cout << #m << ": " << info.m << " " << unit << "\n"
 
-int testSystemInformation(int, char* [])
+int testSystemInformation(int, char*[])
 {
   std::cout << "CTEST_FULL_OUTPUT\n"; // avoid truncation
 
@@ -86,7 +70,7 @@ int testSystemInformation(int, char* [])
   }
 
   /* test stack trace
-  */
+   */
   std::cout << "Program Stack:" << std::endl
             << kwsys::SystemInformation::GetProgramStack(0, 0) << std::endl
             << std::endl;

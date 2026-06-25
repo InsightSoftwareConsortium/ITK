@@ -6,10 +6,11 @@
 /* Work-around CMake dependency scanning limitation.  This must
    duplicate the above list of headers.  */
 #if 0
-#include "MD5.h.in"
+#  include "MD5.h.in"
 #endif
 
 #include <stddef.h> /* size_t */
+#include <stdint.h> /* uintptr_t */
 #include <stdlib.h> /* malloc, free */
 #include <string.h> /* memcpy, strlen */
 
@@ -19,8 +20,8 @@
    implementation file.  */
 
 #if defined(__clang__) && !defined(__INTEL_COMPILER)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wcast-align"
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wcast-align"
 #endif
 
 /*
@@ -51,7 +52,7 @@
 
   This code implements the MD5 Algorithm defined in RFC 1321, whose
   text is available at
-        http://www.ietf.org/rfc/rfc1321.txt
+        https://www.ietf.org/rfc/rfc1321.txt
   The code is derived from the text of the RFC, including the test suite
   (section A.5) but excluding the rest of Appendix A.  It does not include
   any code or documentation that is identified in the RFC as being
@@ -98,9 +99,9 @@ typedef struct md5_state_s
 
 #undef BYTE_ORDER /* 1 = big-endian, -1 = little-endian, 0 = unknown */
 #ifdef ARCH_IS_BIG_ENDIAN
-#define BYTE_ORDER (ARCH_IS_BIG_ENDIAN ? 1 : -1)
+#  define BYTE_ORDER (ARCH_IS_BIG_ENDIAN ? 1 : -1)
 #else
-#define BYTE_ORDER 0
+#  define BYTE_ORDER 0
 #endif
 
 #define T_MASK ((md5_word_t)~0)
@@ -169,10 +170,12 @@ typedef struct md5_state_s
 #define T63 0x2ad7d2bb
 #define T64 /* 0xeb86d391 */ (T_MASK ^ 0x14792c6e)
 
-static void md5_process(md5_state_t* pms, const md5_byte_t* data /*[64]*/)
+static void md5_process(md5_state_t* pms, md5_byte_t const* data /*[64]*/)
 {
-  md5_word_t a = pms->abcd[0], b = pms->abcd[1], c = pms->abcd[2],
-             d = pms->abcd[3];
+  md5_word_t a = pms->abcd[0];
+  md5_word_t b = pms->abcd[1];
+  md5_word_t c = pms->abcd[2];
+  md5_word_t d = pms->abcd[3];
   md5_word_t t;
 #if BYTE_ORDER > 0
   /* Define storage only for big-endian CPUs. */
@@ -180,7 +183,7 @@ static void md5_process(md5_state_t* pms, const md5_byte_t* data /*[64]*/)
 #else
   /* Define storage for little-endian or both types of CPUs. */
   md5_word_t xbuf[16];
-  const md5_word_t* X;
+  md5_word_t const* X;
 #endif
 
   {
@@ -190,9 +193,9 @@ static void md5_process(md5_state_t* pms, const md5_byte_t* data /*[64]*/)
      * little-endian machine, since we can use a more efficient
      * algorithm on the latter.
      */
-    static const int w = 1;
+    static int const w = 1;
 
-    if (*((const md5_byte_t*)&w)) /* dynamic little-endian */
+    if (*((md5_byte_t const*)&w)) /* dynamic little-endian */
 #endif
 #if BYTE_ORDER <= 0 /* little-endian */
     {
@@ -200,9 +203,9 @@ static void md5_process(md5_state_t* pms, const md5_byte_t* data /*[64]*/)
        * On little-endian machines, we can process properly aligned
        * data without copying it.
        */
-      if (!((data - (const md5_byte_t*)0) & 3)) {
+      if (!((uintptr_t)data & 3)) {
         /* data are properly aligned */
-        X = (const md5_word_t*)data;
+        X = (md5_word_t const*)data;
       } else {
         /* not aligned */
         memcpy(xbuf, data, 64);
@@ -219,17 +222,18 @@ static void md5_process(md5_state_t* pms, const md5_byte_t* data /*[64]*/)
        * On big-endian machines, we must arrange the bytes in the
        * right order.
        */
-      const md5_byte_t* xp = data;
+      md5_byte_t const* xp = data;
       int i;
 
-#if BYTE_ORDER == 0
+#  if BYTE_ORDER == 0
       X = xbuf; /* (dynamic only) */
-#else
-#define xbuf X /* (static only) */
-#endif
-      for (i = 0; i < 16; ++i, xp += 4)
+#  else
+#    define xbuf X /* (static only) */
+#  endif
+      for (i = 0; i < 16; ++i, xp += 4) {
         xbuf[i] =
           (md5_word_t)(xp[0] + (xp[1] << 8) + (xp[2] << 16) + (xp[3] << 24));
+      }
     }
 #endif
   }
@@ -360,47 +364,52 @@ static void md5_init(md5_state_t* pms)
 }
 
 /* Append a string to the message. */
-static void md5_append(md5_state_t* pms, const md5_byte_t* data, size_t nbytes)
+static void md5_append(md5_state_t* pms, md5_byte_t const* data, size_t nbytes)
 {
-  const md5_byte_t* p = data;
+  md5_byte_t const* p = data;
   size_t left = nbytes;
   size_t offset = (pms->count[0] >> 3) & 63;
   md5_word_t nbits = (md5_word_t)(nbytes << 3);
 
-  if (nbytes <= 0)
+  if (nbytes <= 0) {
     return;
+  }
 
   /* Update the message length. */
   pms->count[1] += (md5_word_t)(nbytes >> 29);
   pms->count[0] += nbits;
-  if (pms->count[0] < nbits)
+  if (pms->count[0] < nbits) {
     pms->count[1]++;
+  }
 
   /* Process an initial partial block. */
   if (offset) {
     size_t copy = (offset + nbytes > 64 ? 64 - offset : nbytes);
 
     memcpy(pms->buf + offset, p, copy);
-    if (offset + copy < 64)
+    if (offset + copy < 64) {
       return;
+    }
     p += copy;
     left -= copy;
     md5_process(pms, pms->buf);
   }
 
   /* Process full blocks. */
-  for (; left >= 64; p += 64, left -= 64)
+  for (; left >= 64; p += 64, left -= 64) {
     md5_process(pms, p);
+  }
 
   /* Process a final partial block. */
-  if (left)
+  if (left) {
     memcpy(pms->buf, p, left);
+  }
 }
 
 /* Finish the message and return the digest. */
 static void md5_finish(md5_state_t* pms, md5_byte_t digest[16])
 {
-  static const md5_byte_t pad[64] = { 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  static md5_byte_t const pad[64] = { 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                       0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                       0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                       0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -409,18 +418,20 @@ static void md5_finish(md5_state_t* pms, md5_byte_t digest[16])
   int i;
 
   /* Save the length before padding. */
-  for (i = 0; i < 8; ++i)
+  for (i = 0; i < 8; ++i) {
     data[i] = (md5_byte_t)(pms->count[i >> 2] >> ((i & 3) << 3));
+  }
   /* Pad to 56 bytes mod 64. */
   md5_append(pms, pad, ((55 - (pms->count[0] >> 3)) & 63) + 1);
   /* Append the length. */
   md5_append(pms, data, 8);
-  for (i = 0; i < 16; ++i)
+  for (i = 0; i < 16; ++i) {
     digest[i] = (md5_byte_t)(pms->abcd[i >> 2] >> ((i & 3) << 3));
+  }
 }
 
 #if defined(__clang__) && !defined(__INTEL_COMPILER)
-#pragma clang diagnostic pop
+#  pragma clang diagnostic pop
 #endif
 
 /* Wrap up the MD5 state in our opaque structure.  */

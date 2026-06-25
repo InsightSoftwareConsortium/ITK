@@ -4,88 +4,82 @@
 #include KWSYS_HEADER(CommandLineArguments.hxx)
 
 #include KWSYS_HEADER(Configure.hxx)
-#include KWSYS_HEADER(String.hxx)
 
 // Work-around CMake dependency scanning limitation.  This must
 // duplicate the above list of headers.
 #if 0
-#include "CommandLineArguments.hxx.in"
-#include "Configure.hxx.in"
-#include "String.hxx.in"
+#  include "CommandLineArguments.hxx.in"
+#  include "Configure.hxx.in"
 #endif
 
 #include <iostream>
 #include <map>
 #include <set>
 #include <sstream>
+#include <string>
 #include <vector>
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 #ifdef _MSC_VER
-#pragma warning(disable : 4786)
+#  pragma warning(disable : 4786)
 #endif
 
 #if defined(__sgi) && !defined(__GNUC__)
-#pragma set woff 1375 /* base class destructor not virtual */
+#  pragma set woff 1375 /* base class destructor not virtual */
 #endif
 
 #if 0
-#define CommandLineArguments_DEBUG(x)                                         \
-  std::cout << __LINE__ << " CLA: " << x << std::endl
+#  define CommandLineArguments_DEBUG(x)                                       \
+    std::cout << __LINE__ << " CLA: " << x << std::endl
 #else
-#define CommandLineArguments_DEBUG(x)
+#  define CommandLineArguments_DEBUG(x)
 #endif
 
 namespace KWSYS_NAMESPACE {
 
 struct CommandLineArgumentsCallbackStructure
 {
-  const char* Argument;
+  char const* Argument;
   int ArgumentType;
   CommandLineArguments::CallbackType Callback;
   void* CallData;
   void* Variable;
   int VariableType;
-  const char* Help;
+  char const* Help;
 };
 
-class CommandLineArgumentsVectorOfStrings : public std::vector<kwsys::String>
+class CommandLineArgumentsVectorOfStrings : public std::vector<std::string>
 {
 };
-class CommandLineArgumentsSetOfStrings : public std::set<kwsys::String>
+class CommandLineArgumentsSetOfStrings : public std::set<std::string>
 {
 };
 class CommandLineArgumentsMapOfStrucs
-  : public std::map<kwsys::String, CommandLineArgumentsCallbackStructure>
+  : public std::map<std::string, CommandLineArgumentsCallbackStructure>
 {
 };
 
 class CommandLineArgumentsInternal
 {
 public:
-  CommandLineArgumentsInternal()
-  {
-    this->UnknownArgumentCallback = 0;
-    this->ClientData = 0;
-    this->LastArgument = 0;
-  }
+  CommandLineArgumentsInternal() = default;
 
-  typedef CommandLineArgumentsVectorOfStrings VectorOfStrings;
-  typedef CommandLineArgumentsMapOfStrucs CallbacksMap;
-  typedef kwsys::String String;
-  typedef CommandLineArgumentsSetOfStrings SetOfStrings;
+  using VectorOfStrings = CommandLineArgumentsVectorOfStrings;
+  using CallbacksMap = CommandLineArgumentsMapOfStrucs;
+  using String = std::string;
+  using SetOfStrings = CommandLineArgumentsSetOfStrings;
 
   VectorOfStrings Argv;
   String Argv0;
   CallbacksMap Callbacks;
 
-  CommandLineArguments::ErrorCallbackType UnknownArgumentCallback;
-  void* ClientData;
+  CommandLineArguments::ErrorCallbackType UnknownArgumentCallback{ nullptr };
+  void* ClientData{ nullptr };
 
-  VectorOfStrings::size_type LastArgument;
+  VectorOfStrings::size_type LastArgument{ 0 };
 
   VectorOfStrings UnusedArguments;
 };
@@ -103,7 +97,7 @@ CommandLineArguments::~CommandLineArguments()
   delete this->Internals;
 }
 
-void CommandLineArguments::Initialize(int argc, const char* const argv[])
+void CommandLineArguments::Initialize(int argc, char const* const argv[])
 {
   int cc;
 
@@ -116,7 +110,7 @@ void CommandLineArguments::Initialize(int argc, const char* const argv[])
 
 void CommandLineArguments::Initialize(int argc, char* argv[])
 {
-  this->Initialize(argc, static_cast<const char* const*>(argv));
+  this->Initialize(argc, static_cast<char const* const*>(argv));
 }
 
 void CommandLineArguments::Initialize()
@@ -125,21 +119,21 @@ void CommandLineArguments::Initialize()
   this->Internals->LastArgument = 0;
 }
 
-void CommandLineArguments::ProcessArgument(const char* arg)
+void CommandLineArguments::ProcessArgument(char const* arg)
 {
   this->Internals->Argv.push_back(arg);
 }
 
 bool CommandLineArguments::GetMatchedArguments(
-  std::vector<std::string>* matches, const std::string& arg)
+  std::vector<std::string>* matches, std::string const& arg)
 {
   matches->clear();
   CommandLineArguments::Internal::CallbacksMap::iterator it;
 
   // Does the argument match to any we know about?
   for (it = this->Internals->Callbacks.begin();
-       it != this->Internals->Callbacks.end(); it++) {
-    const CommandLineArguments::Internal::String& parg = it->first;
+       it != this->Internals->Callbacks.end(); ++it) {
+    CommandLineArguments::Internal::String const& parg = it->first;
     CommandLineArgumentsCallbackStructure* cs = &it->second;
     if (cs->ArgumentType == CommandLineArguments::NO_ARGUMENT ||
         cs->ArgumentType == CommandLineArguments::SPACE_ARGUMENT) {
@@ -161,7 +155,7 @@ int CommandLineArguments::Parse()
     this->Internals->UnusedArguments.clear();
   }
   for (cc = 0; cc < this->Internals->Argv.size(); cc++) {
-    const std::string& arg = this->Internals->Argv[cc];
+    std::string const& arg = this->Internals->Argv[cc];
     CommandLineArguments_DEBUG("Process argument: " << arg);
     this->Internals->LastArgument = cc;
     if (this->GetMatchedArguments(&matches, arg)) {
@@ -180,14 +174,14 @@ int CommandLineArguments::Parse()
       // additional value
       CommandLineArgumentsCallbackStructure* cs =
         &this->Internals->Callbacks[matches[maxidx]];
-      const std::string& sarg = matches[maxidx];
+      std::string const& sarg = matches[maxidx];
       if (cs->Argument != sarg) {
         abort();
       }
       switch (cs->ArgumentType) {
         case NO_ARGUMENT:
           // No value
-          if (!this->PopulateVariable(cs, 0)) {
+          if (!this->PopulateVariable(cs, nullptr)) {
             return 0;
           }
           break;
@@ -226,7 +220,7 @@ int CommandLineArguments::Parse()
           // Suck in all the rest of the arguments
           CommandLineArguments_DEBUG("This is a multi argument: " << arg);
           for (cc++; cc < this->Internals->Argv.size(); ++cc) {
-            const std::string& marg = this->Internals->Argv[cc];
+            std::string const& marg = this->Internals->Argv[cc];
             CommandLineArguments_DEBUG(
               " check multi argument value: " << marg);
             if (this->GetMatchedArguments(&matches, marg)) {
@@ -248,7 +242,7 @@ int CommandLineArguments::Parse()
           break;
         default:
           std::cerr << "Got unknown argument type: \"" << cs->ArgumentType
-                    << "\"" << std::endl;
+                    << '"' << std::endl;
           this->Internals->LastArgument--;
           return 0;
       }
@@ -265,7 +259,7 @@ int CommandLineArguments::Parse()
         CommandLineArguments_DEBUG("Store unused argument " << arg);
         this->Internals->UnusedArguments.push_back(arg);
       } else {
-        std::cerr << "Got unknown argument: \"" << arg << "\"" << std::endl;
+        std::cerr << "Got unknown argument: \"" << arg << '"' << std::endl;
         this->Internals->LastArgument--;
         return 0;
       }
@@ -311,7 +305,7 @@ void CommandLineArguments::GetUnusedArguments(int* argc, char*** argv)
 
   // Copy everything after the LastArgument, since that was not parsed.
   for (cc = 0; cc < this->Internals->UnusedArguments.size(); cc++) {
-    kwsys::String& str = this->Internals->UnusedArguments[cc];
+    std::string& str = this->Internals->UnusedArguments[cc];
     args[cnt] = new char[str.size() + 1];
     strcpy(args[cnt], str.c_str());
     cnt++;
@@ -324,15 +318,15 @@ void CommandLineArguments::DeleteRemainingArguments(int argc, char*** argv)
 {
   int cc;
   for (cc = 0; cc < argc; ++cc) {
-    delete[](*argv)[cc];
+    delete[] (*argv)[cc];
   }
-  delete[] * argv;
+  delete[] *argv;
 }
 
-void CommandLineArguments::AddCallback(const char* argument,
+void CommandLineArguments::AddCallback(char const* argument,
                                        ArgumentTypeEnum type,
                                        CallbackType callback, void* call_data,
-                                       const char* help)
+                                       char const* help)
 {
   CommandLineArgumentsCallbackStructure s;
   s.Argument = argument;
@@ -340,23 +334,23 @@ void CommandLineArguments::AddCallback(const char* argument,
   s.Callback = callback;
   s.CallData = call_data;
   s.VariableType = CommandLineArguments::NO_VARIABLE_TYPE;
-  s.Variable = 0;
+  s.Variable = nullptr;
   s.Help = help;
 
   this->Internals->Callbacks[argument] = s;
   this->GenerateHelp();
 }
 
-void CommandLineArguments::AddArgument(const char* argument,
+void CommandLineArguments::AddArgument(char const* argument,
                                        ArgumentTypeEnum type,
                                        VariableTypeEnum vtype, void* variable,
-                                       const char* help)
+                                       char const* help)
 {
   CommandLineArgumentsCallbackStructure s;
   s.Argument = argument;
   s.ArgumentType = type;
-  s.Callback = 0;
-  s.CallData = 0;
+  s.Callback = nullptr;
+  s.CallData = nullptr;
   s.VariableType = vtype;
   s.Variable = variable;
   s.Help = help;
@@ -422,20 +416,18 @@ void CommandLineArguments::SetUnknownArgumentCallback(
   this->Internals->UnknownArgumentCallback = callback;
 }
 
-const char* CommandLineArguments::GetHelp(const char* arg)
+char const* CommandLineArguments::GetHelp(char const* arg)
 {
-  CommandLineArguments::Internal::CallbacksMap::iterator it =
-    this->Internals->Callbacks.find(arg);
+  auto it = this->Internals->Callbacks.find(arg);
   if (it == this->Internals->Callbacks.end()) {
-    return 0;
+    return nullptr;
   }
 
   // Since several arguments may point to the same argument, find the one this
   // one point to if this one is pointing to another argument.
   CommandLineArgumentsCallbackStructure* cs = &(it->second);
   for (;;) {
-    CommandLineArguments::Internal::CallbacksMap::iterator hit =
-      this->Internals->Callbacks.find(cs->Help);
+    auto hit = this->Internals->Callbacks.find(cs->Help);
     if (hit == this->Internals->Callbacks.end()) {
       break;
     }
@@ -453,7 +445,7 @@ void CommandLineArguments::SetLineLength(unsigned int ll)
   this->GenerateHelp();
 }
 
-const char* CommandLineArguments::GetArgv0()
+char const* CommandLineArguments::GetArgv0()
 {
   return this->Internals->Argv0.c_str();
 }
@@ -470,13 +462,12 @@ void CommandLineArguments::GenerateHelp()
   // Collapse all arguments into the map of vectors of all arguments that do
   // the same thing.
   CommandLineArguments::Internal::CallbacksMap::iterator it;
-  typedef std::map<CommandLineArguments::Internal::String,
-                   CommandLineArguments::Internal::SetOfStrings>
-    MapArgs;
+  using MapArgs = std::map<CommandLineArguments::Internal::String,
+                           CommandLineArguments::Internal::SetOfStrings>;
   MapArgs mp;
   MapArgs::iterator mpit, smpit;
   for (it = this->Internals->Callbacks.begin();
-       it != this->Internals->Callbacks.end(); it++) {
+       it != this->Internals->Callbacks.end(); ++it) {
     CommandLineArgumentsCallbackStructure* cs = &(it->second);
     mpit = mp.find(cs->Help);
     if (mpit != mp.end()) {
@@ -487,14 +478,14 @@ void CommandLineArguments::GenerateHelp()
     }
   }
   for (it = this->Internals->Callbacks.begin();
-       it != this->Internals->Callbacks.end(); it++) {
+       it != this->Internals->Callbacks.end(); ++it) {
     CommandLineArgumentsCallbackStructure* cs = &(it->second);
     mpit = mp.find(cs->Help);
     if (mpit != mp.end()) {
       mpit->second.insert(it->first);
       smpit = mp.find(it->first);
       CommandLineArguments::Internal::SetOfStrings::iterator sit;
-      for (sit = smpit->second.begin(); sit != smpit->second.end(); sit++) {
+      for (sit = smpit->second.begin(); sit != smpit->second.end(); ++sit) {
         mpit->second.insert(*sit);
       }
       mp.erase(smpit);
@@ -505,9 +496,9 @@ void CommandLineArguments::GenerateHelp()
 
   // Find the length of the longest string
   CommandLineArguments::Internal::String::size_type maxlen = 0;
-  for (mpit = mp.begin(); mpit != mp.end(); mpit++) {
+  for (mpit = mp.begin(); mpit != mp.end(); ++mpit) {
     CommandLineArguments::Internal::SetOfStrings::iterator sit;
-    for (sit = mpit->second.begin(); sit != mpit->second.end(); sit++) {
+    for (sit = mpit->second.begin(); sit != mpit->second.end(); ++sit) {
       CommandLineArguments::Internal::String::size_type clen = sit->size();
       switch (this->Internals->Callbacks[*sit].ArgumentType) {
         case CommandLineArguments::NO_ARGUMENT:
@@ -522,6 +513,8 @@ void CommandLineArguments::GenerateHelp()
         case CommandLineArguments::EQUAL_ARGUMENT:
           clen += 4;
           break;
+        default:
+          break;
       }
       if (clen > maxlen) {
         maxlen = clen;
@@ -533,9 +526,9 @@ void CommandLineArguments::GenerateHelp()
   maxlen += 4; // For the space before and after the option
 
   // Print help for each option
-  for (mpit = mp.begin(); mpit != mp.end(); mpit++) {
+  for (mpit = mp.begin(); mpit != mp.end(); ++mpit) {
     CommandLineArguments::Internal::SetOfStrings::iterator sit;
-    for (sit = mpit->second.begin(); sit != mpit->second.end(); sit++) {
+    for (sit = mpit->second.begin(); sit != mpit->second.end(); ++sit) {
       str << std::endl;
       std::string argument = *sit;
       switch (this->Internals->Callbacks[*sit].ArgumentType) {
@@ -553,10 +546,12 @@ void CommandLineArguments::GenerateHelp()
         case CommandLineArguments::MULTI_ARGUMENT:
           argument += " opt opt ...";
           break;
+        default:
+          break;
       }
       str << "  " << argument.substr(0, maxstrlen) << "  ";
     }
-    const char* ptr = this->Internals->Callbacks[mpit->first].Help;
+    char const* ptr = this->Internals->Callbacks[mpit->first].Help;
     size_t len = strlen(ptr);
     int cnt = 0;
     while (len > 0) {
@@ -571,7 +566,7 @@ void CommandLineArguments::GenerateHelp()
       }
       if (cnt > 0) {
         for (cc = 0; cc < maxlen; cc++) {
-          str << " ";
+          str << ' ';
         }
       }
       CommandLineArguments::Internal::String::size_type skip = len;
@@ -607,7 +602,7 @@ void CommandLineArguments::GenerateHelp()
 }
 
 void CommandLineArguments::PopulateVariable(bool* variable,
-                                            const std::string& value)
+                                            std::string const& value)
 {
   if (value == "1" || value == "ON" || value == "on" || value == "On" ||
       value == "TRUE" || value == "true" || value == "True" ||
@@ -619,9 +614,9 @@ void CommandLineArguments::PopulateVariable(bool* variable,
 }
 
 void CommandLineArguments::PopulateVariable(int* variable,
-                                            const std::string& value)
+                                            std::string const& value)
 {
-  char* res = 0;
+  char* res = nullptr;
   *variable = static_cast<int>(strtol(value.c_str(), &res, 10));
   // if ( res && *res )
   //  {
@@ -630,9 +625,9 @@ void CommandLineArguments::PopulateVariable(int* variable,
 }
 
 void CommandLineArguments::PopulateVariable(double* variable,
-                                            const std::string& value)
+                                            std::string const& value)
 {
-  char* res = 0;
+  char* res = nullptr;
   *variable = strtod(value.c_str(), &res);
   // if ( res && *res )
   //  {
@@ -641,21 +636,21 @@ void CommandLineArguments::PopulateVariable(double* variable,
 }
 
 void CommandLineArguments::PopulateVariable(char** variable,
-                                            const std::string& value)
+                                            std::string const& value)
 {
-  delete[] * variable;
+  delete[] *variable;
   *variable = new char[value.size() + 1];
   strcpy(*variable, value.c_str());
 }
 
 void CommandLineArguments::PopulateVariable(std::string* variable,
-                                            const std::string& value)
+                                            std::string const& value)
 {
   *variable = value;
 }
 
 void CommandLineArguments::PopulateVariable(std::vector<bool>* variable,
-                                            const std::string& value)
+                                            std::string const& value)
 {
   bool val = false;
   if (value == "1" || value == "ON" || value == "on" || value == "On" ||
@@ -667,9 +662,9 @@ void CommandLineArguments::PopulateVariable(std::vector<bool>* variable,
 }
 
 void CommandLineArguments::PopulateVariable(std::vector<int>* variable,
-                                            const std::string& value)
+                                            std::string const& value)
 {
-  char* res = 0;
+  char* res = nullptr;
   variable->push_back(static_cast<int>(strtol(value.c_str(), &res, 10)));
   // if ( res && *res )
   //  {
@@ -678,9 +673,9 @@ void CommandLineArguments::PopulateVariable(std::vector<int>* variable,
 }
 
 void CommandLineArguments::PopulateVariable(std::vector<double>* variable,
-                                            const std::string& value)
+                                            std::string const& value)
 {
-  char* res = 0;
+  char* res = nullptr;
   variable->push_back(strtod(value.c_str(), &res));
   // if ( res && *res )
   //  {
@@ -689,7 +684,7 @@ void CommandLineArguments::PopulateVariable(std::vector<double>* variable,
 }
 
 void CommandLineArguments::PopulateVariable(std::vector<char*>* variable,
-                                            const std::string& value)
+                                            std::string const& value)
 {
   char* var = new char[value.size() + 1];
   strcpy(var, value.c_str());
@@ -697,19 +692,19 @@ void CommandLineArguments::PopulateVariable(std::vector<char*>* variable,
 }
 
 void CommandLineArguments::PopulateVariable(std::vector<std::string>* variable,
-                                            const std::string& value)
+                                            std::string const& value)
 {
   variable->push_back(value);
 }
 
 bool CommandLineArguments::PopulateVariable(
-  CommandLineArgumentsCallbackStructure* cs, const char* value)
+  CommandLineArgumentsCallbackStructure* cs, char const* value)
 {
   // Call the callback
   if (cs->Callback) {
     if (!cs->Callback(cs->Argument, value, cs->CallData)) {
       this->Internals->LastArgument--;
-      return 0;
+      return false;
     }
   }
   CommandLineArguments_DEBUG("Set argument: " << cs->Argument << " to "
@@ -756,13 +751,13 @@ bool CommandLineArguments::PopulateVariable(
           static_cast<std::vector<std::string>*>(cs->Variable), var);
         break;
       default:
-        std::cerr << "Got unknown variable type: \"" << cs->VariableType
-                  << "\"" << std::endl;
+        std::cerr << "Got unknown variable type: \"" << cs->VariableType << '"'
+                  << std::endl;
         this->Internals->LastArgument--;
-        return 0;
+        return false;
     }
   }
-  return 1;
+  return true;
 }
 
 } // namespace KWSYS_NAMESPACE

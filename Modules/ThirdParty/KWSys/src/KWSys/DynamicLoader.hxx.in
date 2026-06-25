@@ -8,16 +8,16 @@
 #include <string>
 
 #if defined(__hpux)
-#include <dl.h>
+#  include <dl.h>
 #elif defined(_WIN32) && !defined(__CYGWIN__)
-#include <windows.h>
+#  include <windows.h>
 #elif defined(__APPLE__)
-#include <AvailabilityMacros.h>
-#if MAC_OS_X_VERSION_MAX_ALLOWED < 1030
-#include <mach-o/dyld.h>
-#endif
+#  include <AvailabilityMacros.h>
+#  if MAC_OS_X_VERSION_MAX_ALLOWED < 1030
+#    include <mach-o/dyld.h>
+#  endif
 #elif defined(__BEOS__)
-#include <be/kernel/image.h>
+#  include <be/kernel/image.h>
 #endif
 
 namespace @KWSYS_NAMESPACE@ {
@@ -35,7 +35,7 @@ namespace @KWSYS_NAMESPACE@ {
  * or absolute) pathname.  Otherwise, the dynamic linker searches for the
  * library as follows : see ld.so(8) for further details):
  * Whereas this distinction does not exist on Win32. Therefore ideally you
- * should be doing full path to garantee to have a consistent way of dealing
+ * should be doing full path to guarantee to have a consistent way of dealing
  * with dynamic loading of shared library.
  *
  * \warning the Cygwin implementation do not use the Win32 HMODULE. Put extra
@@ -52,11 +52,11 @@ public:
 #elif defined(_WIN32) && !defined(__CYGWIN__)
   typedef HMODULE LibraryHandle;
 #elif defined(__APPLE__)
-#if MAC_OS_X_VERSION_MAX_ALLOWED < 1030
+#  if MAC_OS_X_VERSION_MAX_ALLOWED < 1030
   typedef NSModule LibraryHandle;
-#else
+#  else
   typedef void* LibraryHandle;
-#endif
+#  endif
 #elif defined(__BEOS__)
   typedef image_id LibraryHandle;
 #else // POSIX
@@ -66,26 +66,44 @@ public:
   // Return type from DynamicLoader::GetSymbolAddress.
   typedef void (*SymbolPointer)();
 
+  enum OpenFlags
+  {
+    // Search for dependent libraries beside the library being loaded.
+    //
+    // This is currently only supported on Windows.
+    SearchBesideLibrary = 0x00000001,
+
+    // Make loaded symbols visible globally
+    //
+    // This is currently only supported on *nix systems.
+    RTLDGlobal = 0x00000002,
+
+    AllOpenFlags = SearchBesideLibrary | RTLDGlobal
+  };
+
   /** Load a dynamic library into the current process.
    * The returned LibraryHandle can be used to access the symbols in the
-   * library. */
-  static LibraryHandle OpenLibrary(const std::string&);
+   * library. The optional second argument is a set of flags to use when
+   * opening the library. If unrecognized or unsupported flags are specified,
+   * the library is not opened. */
+  static LibraryHandle OpenLibrary(std::string const&);
+  static LibraryHandle OpenLibrary(std::string const&, int);
 
   /** Attempt to detach a dynamic library from the
-   * process.  A value of true is returned if it is sucessful. */
+   * process.  A value of true is returned if it is successful. */
   static int CloseLibrary(LibraryHandle);
 
   /** Find the address of the symbol in the given library. */
-  static SymbolPointer GetSymbolAddress(LibraryHandle, const std::string&);
+  static SymbolPointer GetSymbolAddress(LibraryHandle, std::string const&);
 
   /** Return the default module prefix for the current platform.  */
-  static const char* LibPrefix() { return "@KWSYS_DynamicLoader_PREFIX@"; }
+  static char const* LibPrefix() { return "@KWSYS_DynamicLoader_PREFIX@"; }
 
   /** Return the default module suffix for the current platform.  */
-  static const char* LibExtension() { return "@KWSYS_DynamicLoader_SUFFIX@"; }
+  static char const* LibExtension() { return "@KWSYS_DynamicLoader_SUFFIX@"; }
 
   /** Return the last error produced from a calls made on this class. */
-  static const char* LastError();
+  static char const* LastError();
 }; // End Class: DynamicLoader
 
 } // namespace @KWSYS_NAMESPACE@

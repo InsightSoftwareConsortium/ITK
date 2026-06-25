@@ -5,13 +5,32 @@
 #include KWSYS_HEADER(DynamicLoader.hxx)
 
 #if defined(__BEOS__) || defined(__HAIKU__)
-#include <be/kernel/OS.h> /* disable_debugger() API. */
+#  include <be/kernel/OS.h> /* disable_debugger() API. */
+#endif
+
+// Needed for __GLIBC__ test macro.
+#ifdef __linux__
+#  include <features.h>
+
+// Will define LIBDL_SO macro on systems with glibc.
+#  ifdef __GLIBC__
+#    include <gnu/lib-names.h>
+// Define to LIBC_SO, if not defined by above header.
+#    ifndef LIBDL_SO
+#      define LIBDL_SO LIBC_SO
+#    endif
+#  endif
+
+// Define the LIBDL_SO macro, if not defined above.
+#  ifndef LIBDL_SO
+#    define LIBDL_SO "libdl.so"
+#  endif
 #endif
 
 // Work-around CMake dependency scanning limitation.  This must
 // duplicate the above list of headers.
 #if 0
-#include "DynamicLoader.hxx.in"
+#  include "DynamicLoader.hxx.in"
 #endif
 
 #include <iostream>
@@ -21,14 +40,22 @@
 // left on disk.
 #include <testSystemTools.h>
 
-static std::string GetLibName(const char* lname)
+// For TestDynamicLoaderData, which, though not referenced literally,
+// is referenced semantically.
+#include "testDynload.h"
+
+static std::string GetLibName(char const* lname, char const* subdir = nullptr)
 {
   // Construct proper name of lib
   std::string slname;
-  slname = EXECUTABLE_OUTPUT_PATH;
-#ifdef CMAKE_INTDIR
+  slname = RUNTIME_OUTPUT_DIRECTORY;
+  if (subdir) {
+    slname += "/";
+    slname += subdir;
+  }
+#ifdef BUILD_CONFIG
   slname += "/";
-  slname += CMAKE_INTDIR;
+  slname += BUILD_CONFIG;
 #endif
   slname += "/";
   slname += kwsys::DynamicLoader::LibPrefix();
@@ -44,27 +71,30 @@ static std::string GetLibName(const char* lname)
  * r2: should GetSymbolAddress succeed ?
  * r3: should CloseLibrary succeed ?
  */
-static int TestDynamicLoader(const char* libname, const char* symbol, int r1,
-                             int r2, int r3)
+static int TestDynamicLoader(char const* libname, char const* symbol, int r1,
+                             int r2, int r3, int flags = 0)
 {
   std::cerr << "Testing: " << libname << std::endl;
   kwsys::DynamicLoader::LibraryHandle l =
-    kwsys::DynamicLoader::OpenLibrary(libname);
+    kwsys::DynamicLoader::OpenLibrary(libname, flags);
   // If result is incompatible with expectation just fails (xor):
   if ((r1 && !l) || (!r1 && l)) {
-    std::cerr << kwsys::DynamicLoader::LastError() << std::endl;
+    std::cerr << "OpenLibrary: " << kwsys::DynamicLoader::LastError()
+              << std::endl;
     return 1;
   }
   kwsys::DynamicLoader::SymbolPointer f =
     kwsys::DynamicLoader::GetSymbolAddress(l, symbol);
   if ((r2 && !f) || (!r2 && f)) {
-    std::cerr << kwsys::DynamicLoader::LastError() << std::endl;
+    std::cerr << "GetSymbolAddress: " << kwsys::DynamicLoader::LastError()
+              << std::endl;
     return 1;
   }
 #ifndef __APPLE__
   int s = kwsys::DynamicLoader::CloseLibrary(l);
   if ((r3 && !s) || (!r3 && s)) {
-    std::cerr << kwsys::DynamicLoader::LastError() << std::endl;
+    std::cerr << "CloseLibrary: " << kwsys::DynamicLoader::LastError()
+              << std::endl;
     return 1;
   }
 #else
@@ -100,8 +130,8 @@ int testDynamicLoader(int argc, char* argv[])
   // This one is actually fun to test, since dlopen is by default
   // loaded...wonder why :)
   res += TestDynamicLoader("foobar.lib", "dlopen", 0, 1, 0);
-  res += TestDynamicLoader("libdl.so", "dlopen", 1, 1, 1);
-  res += TestDynamicLoader("libdl.so", "TestDynamicLoader", 1, 0, 1);
+  res += TestDynamicLoader(LIBDL_SO, "dlopen", 1, 1, 1);
+  res += TestDynamicLoader(LIBDL_SO, "TestDynamicLoader", 1, 0, 1);
 #endif
   // Now try on the generated library
   std::string libname = GetLibName(KWSYS_NAMESPACE_STRING "TestDynload");
@@ -112,6 +142,15 @@ int testDynamicLoader(int argc, char* argv[])
                            1, 0, 1);
   res += TestDynamicLoader(libname.c_str(), "TestDynamicLoaderData", 1, 1, 1);
   res += TestDynamicLoader(libname.c_str(), "_TestDynamicLoaderData", 1, 0, 1);
+
+#ifdef _WIN32
+  libname = GetLibName(KWSYS_NAMESPACE_STRING "TestDynloadUse", "dynloaddir");
+  res += TestDynamicLoader(libname.c_str(), "dummy", 0, 0, 0);
+  res += TestDynamicLoader(libname.c_str(), "TestLoad", 1, 1, 1,
+                           kwsys::DynamicLoader::SearchBesideLibrary);
+  res += TestDynamicLoader(libname.c_str(), "_TestLoad", 1, 0, 1,
+                           kwsys::DynamicLoader::SearchBesideLibrary);
+#endif
 
   return res;
 }

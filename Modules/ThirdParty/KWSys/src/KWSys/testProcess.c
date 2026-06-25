@@ -1,5 +1,9 @@
 /* Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
    file Copyright.txt or https://cmake.org/licensing#kwsys for details.  */
+#if !defined(_WIN32) && !defined(__APPLE__) && !defined(__OpenBSD__)
+/* NOLINTNEXTLINE(bugprone-reserved-identifier) */
+#  define _XOPEN_SOURCE 600
+#endif
 #include "kwsysPrivate.h"
 #include KWSYS_HEADER(Process.h)
 #include KWSYS_HEADER(Encoding.h)
@@ -7,8 +11,8 @@
 /* Work-around CMake dependency scanning limitation.  This must
    duplicate the above list of headers.  */
 #if 0
-#include "Encoding.h.in"
-#include "Process.h.in"
+#  include "Encoding.h.in"
+#  include "Process.h.in"
 #endif
 
 #include <assert.h>
@@ -18,21 +22,17 @@
 #include <string.h>
 
 #if defined(_WIN32)
-#include <windows.h>
+#  include <windows.h>
 #else
-#include <signal.h>
-#include <unistd.h>
-#endif
-
-#if defined(__BORLANDC__)
-#pragma warn - 8060 /* possibly incorrect assignment */
+#  include <signal.h>
+#  include <unistd.h>
 #endif
 
 /* Platform-specific sleep functions. */
 
 #if defined(__BEOS__) && !defined(__ZETA__)
 /* BeOS 5 doesn't have usleep(), but it has snooze(), which is identical. */
-#include <be/kernel/OS.h>
+#  include <be/kernel/OS.h>
 static inline void testProcess_usleep(unsigned int usec)
 {
   snooze(usec);
@@ -44,7 +44,7 @@ static void testProcess_usleep(unsigned int usec)
   Sleep(usec / 1000);
 }
 #else
-#define testProcess_usleep usleep
+#  define testProcess_usleep usleep
 #endif
 
 #if defined(_WIN32)
@@ -59,11 +59,11 @@ static void testProcess_sleep(unsigned int sec)
 }
 #endif
 
-int runChild(const char* cmd[], int state, int exception, int value, int share,
+int runChild(char const* cmd[], int state, int exception, int value, int share,
              int output, int delay, double timeout, int poll, int repeat,
              int disown, int createNewGroup, unsigned int interruptDelay);
 
-static int test1(int argc, const char* argv[])
+static int test1(int argc, char const* argv[])
 {
   /* This is a very basic functional test of kwsysProcess.  It is repeated
      numerous times to verify that there are no resource leaks in kwsysProcess
@@ -82,7 +82,7 @@ static int test1(int argc, const char* argv[])
   return 0;
 }
 
-static int test2(int argc, const char* argv[])
+static int test2(int argc, char const* argv[])
 {
   (void)argc;
   (void)argv;
@@ -91,7 +91,7 @@ static int test2(int argc, const char* argv[])
   return 123;
 }
 
-static int test3(int argc, const char* argv[])
+static int test3(int argc, char const* argv[])
 {
   (void)argc;
   (void)argv;
@@ -105,15 +105,17 @@ static int test3(int argc, const char* argv[])
   return 0;
 }
 
-static int test4(int argc, const char* argv[])
+static int test4(int argc, char const* argv[])
 {
+#ifndef CRASH_USING_ABORT
   /* Prepare a pointer to an invalid address.  Don't use null, because
   dereferencing null is undefined behaviour and compilers are free to
   do whatever they want. ex: Clang will warn at compile time, or even
   optimize away the write. We hope to 'outsmart' them by using
   'volatile' and a slightly larger address, based on a runtime value. */
-  volatile int* invalidAddress = 0;
+  int volatile* invalidAddress = 0;
   invalidAddress += argc ? 1 : 2;
+#endif
 
 #if defined(_WIN32)
   /* Avoid error diagnostic popups since we are crashing on purpose.  */
@@ -128,18 +130,29 @@ static int test4(int argc, const char* argv[])
   fprintf(stderr, "Output before crash on stderr from crash test.\n");
   fflush(stdout);
   fflush(stderr);
+#ifdef CRASH_USING_ABORT
+  abort();
+#else
+#  if defined(__GNUC__) || defined(__clang__)
+#    pragma GCC diagnostic push
+#    pragma GCC diagnostic ignored "-Warray-bounds"
+#  endif
   assert(invalidAddress); /* Quiet Clang scan-build. */
   /* Provoke deliberate crash by writing to the invalid address. */
   *invalidAddress = 0;
+#  if defined(__GNUC__) || defined(__clang__)
+#    pragma GCC diagnostic pop
+#  endif
+#endif
   fprintf(stdout, "Output after crash on stdout from crash test.\n");
   fprintf(stderr, "Output after crash on stderr from crash test.\n");
   return 0;
 }
 
-static int test5(int argc, const char* argv[])
+static int test5(int argc, char const* argv[])
 {
   int r;
-  const char* cmd[4];
+  char const* cmd[4];
   (void)argc;
   cmd[0] = argv[0];
   cmd[1] = "run";
@@ -149,7 +162,12 @@ static int test5(int argc, const char* argv[])
   fprintf(stderr, "Output on stderr before recursive test.\n");
   fflush(stdout);
   fflush(stderr);
-  r = runChild(cmd, kwsysProcess_State_Exception, kwsysProcess_Exception_Fault,
+  r = runChild(cmd, kwsysProcess_State_Exception,
+#ifdef CRASH_USING_ABORT
+               kwsysProcess_Exception_Other,
+#else
+               kwsysProcess_Exception_Fault,
+#endif
                1, 1, 1, 0, 15, 0, 1, 0, 0, 0);
   fprintf(stdout, "Output on stdout after recursive test.\n");
   fprintf(stderr, "Output on stderr after recursive test.\n");
@@ -159,7 +177,7 @@ static int test5(int argc, const char* argv[])
 }
 
 #define TEST6_SIZE (4096 * 2)
-static void test6(int argc, const char* argv[])
+static void test6(int argc, char const* argv[])
 {
   int i;
   char runaway[TEST6_SIZE + 1];
@@ -182,7 +200,7 @@ static void test6(int argc, const char* argv[])
    delaying 1/10th of a second should ever have to poll.  */
 #define MINPOLL 5
 #define MAXPOLL 20
-static int test7(int argc, const char* argv[])
+static int test7(int argc, char const* argv[])
 {
   (void)argc;
   (void)argv;
@@ -199,12 +217,12 @@ static int test7(int argc, const char* argv[])
   return 0;
 }
 
-static int test8(int argc, const char* argv[])
+static int test8(int argc, char const* argv[])
 {
   /* Create a disowned grandchild to test handling of processes
      that exit before their children.  */
   int r;
-  const char* cmd[4];
+  char const* cmd[4];
   (void)argc;
   cmd[0] = argv[0];
   cmd[1] = "run";
@@ -223,7 +241,7 @@ static int test8(int argc, const char* argv[])
   return r;
 }
 
-static int test8_grandchild(int argc, const char* argv[])
+static int test8_grandchild(int argc, char const* argv[])
 {
   (void)argc;
   (void)argv;
@@ -241,7 +259,7 @@ static int test8_grandchild(int argc, const char* argv[])
   return 0;
 }
 
-static int test9(int argc, const char* argv[])
+static int test9(int argc, char const* argv[])
 {
   /* Test Ctrl+C behavior: the root test program will send a Ctrl+C to this
      process.  Here, we start a child process that sleeps for a long time
@@ -251,7 +269,7 @@ static int test9(int argc, const char* argv[])
      WARNING:  This test will falsely pass if the share parameter of runChild
      was set to 0 when invoking the test9 process.  */
   int r;
-  const char* cmd[4];
+  char const* cmd[4];
   (void)argc;
   cmd[0] = argv[0];
   cmd[1] = "run";
@@ -285,7 +303,7 @@ static BOOL WINAPI test9_grandchild_handler(DWORD dwCtrlType)
 }
 #endif
 
-static int test9_grandchild(int argc, const char* argv[])
+static int test9_grandchild(int argc, char const* argv[])
 {
   /* The grandchild just sleeps for a few seconds while ignoring signals.  */
   (void)argc;
@@ -316,7 +334,7 @@ static int test9_grandchild(int argc, const char* argv[])
   return 0;
 }
 
-static int test10(int argc, const char* argv[])
+static int test10(int argc, char const* argv[])
 {
   /* Test Ctrl+C behavior: the root test program will send a Ctrl+C to this
      process.  Here, we start a child process that sleeps for a long time and
@@ -324,7 +342,7 @@ static int test10(int argc, const char* argv[])
      process group - ensuring that Ctrl+C we receive is sent to our process
      groups.  We make sure it exits anyway.  */
   int r;
-  const char* cmd[4];
+  char const* cmd[4];
   (void)argc;
   cmd[0] = argv[0];
   cmd[1] = "run";
@@ -344,7 +362,7 @@ static int test10(int argc, const char* argv[])
   return r;
 }
 
-static int test10_grandchild(int argc, const char* argv[])
+static int test10_grandchild(int argc, char const* argv[])
 {
   /* The grandchild just sleeps for a few seconds and handles signals.  */
   (void)argc;
@@ -362,7 +380,7 @@ static int test10_grandchild(int argc, const char* argv[])
   return 0;
 }
 
-static int runChild2(kwsysProcess* kp, const char* cmd[], int state,
+static int runChild2(kwsysProcess* kp, char const* cmd[], int state,
                      int exception, int value, int share, int output,
                      int delay, double timeout, int poll, int disown,
                      int createNewGroup, unsigned int interruptDelay)
@@ -443,47 +461,53 @@ static int runChild2(kwsysProcess* kp, const char* cmd[], int state,
       printf("The process is still executing.\n");
       break;
     case kwsysProcess_State_Expired:
-      printf("Child was killed when timeout expired.\n");
+      printf("Subprocess was killed when timeout expired.\n");
       break;
     case kwsysProcess_State_Exited:
-      printf("Child exited with value = %d\n", kwsysProcess_GetExitValue(kp));
+      printf("Subprocess exited with value = %d\n",
+             kwsysProcess_GetExitValue(kp));
       result = ((exception != kwsysProcess_GetExitException(kp)) ||
                 (value != kwsysProcess_GetExitValue(kp)));
       break;
     case kwsysProcess_State_Killed:
-      printf("Child was killed by parent.\n");
+      printf("Subprocess was killed by parent.\n");
       break;
     case kwsysProcess_State_Exception:
-      printf("Child terminated abnormally: %s\n",
+      printf("Subprocess terminated abnormally: %s\n",
              kwsysProcess_GetExceptionString(kp));
       result = ((exception != kwsysProcess_GetExitException(kp)) ||
                 (value != kwsysProcess_GetExitValue(kp)));
       break;
     case kwsysProcess_State_Disowned:
-      printf("Child was disowned.\n");
+      printf("Subprocess was disowned.\n");
       break;
     case kwsysProcess_State_Error:
       printf("Error in administrating child process: [%s]\n",
              kwsysProcess_GetErrorString(kp));
       break;
-  };
+    default:
+      break;
+  }
 
   if (result) {
     if (exception != kwsysProcess_GetExitException(kp)) {
-      fprintf(stderr, "Mismatch in exit exception.  "
-                      "Should have been %d, was %d.\n",
+      fprintf(stderr,
+              "Mismatch in exit exception.  "
+              "Should have been %d, was %d.\n",
               exception, kwsysProcess_GetExitException(kp));
     }
     if (value != kwsysProcess_GetExitValue(kp)) {
-      fprintf(stderr, "Mismatch in exit value.  "
-                      "Should have been %d, was %d.\n",
+      fprintf(stderr,
+              "Mismatch in exit value.  "
+              "Should have been %d, was %d.\n",
               value, kwsysProcess_GetExitValue(kp));
     }
   }
 
   if (kwsysProcess_GetState(kp) != state) {
-    fprintf(stderr, "Mismatch in state.  "
-                    "Should have been %d, was %d.\n",
+    fprintf(stderr,
+            "Mismatch in state.  "
+            "Should have been %d, was %d.\n",
             state, kwsysProcess_GetState(kp));
     result = 1;
   }
@@ -526,7 +550,7 @@ static int runChild2(kwsysProcess* kp, const char* cmd[], int state,
  *                  BEFORE any reading/polling of pipes occurs and before any
  *                  detachment occurs.
  */
-int runChild(const char* cmd[], int state, int exception, int value, int share,
+int runChild(char const* cmd[], int state, int exception, int value, int share,
              int output, int delay, double timeout, int poll, int repeat,
              int disown, int createNewGroup, unsigned int interruptDelay)
 {
@@ -547,7 +571,7 @@ int runChild(const char* cmd[], int state, int exception, int value, int share,
   return result;
 }
 
-int main(int argc, const char* argv[])
+int main(int argc, char const* argv[])
 {
   int n = 0;
 
@@ -614,10 +638,13 @@ int main(int argc, const char* argv[])
         return test9_grandchild(argc, argv);
       case 110:
         return test10_grandchild(argc, argv);
+      default:
+        break;
     }
     fprintf(stderr, "Invalid test number %d.\n", n);
     return 1;
-  } else if (n >= 1 && n <= 10) {
+  }
+  if (n >= 1 && n <= 10) {
     /* This is the parent process for a requested test number.  */
     int states[10] = {
       kwsysProcess_State_Exited,   kwsysProcess_State_Exited,
@@ -628,11 +655,16 @@ int main(int argc, const char* argv[])
       kwsysProcess_State_Exception /* Process group test */
     };
     int exceptions[10] = {
-      kwsysProcess_Exception_None, kwsysProcess_Exception_None,
-      kwsysProcess_Exception_None, kwsysProcess_Exception_Fault,
-      kwsysProcess_Exception_None, kwsysProcess_Exception_None,
-      kwsysProcess_Exception_None, kwsysProcess_Exception_None,
-      kwsysProcess_Exception_None, kwsysProcess_Exception_Interrupt
+      kwsysProcess_Exception_None,  kwsysProcess_Exception_None,
+      kwsysProcess_Exception_None,
+#ifdef CRASH_USING_ABORT
+      kwsysProcess_Exception_Other,
+#else
+      kwsysProcess_Exception_Fault,
+#endif
+      kwsysProcess_Exception_None,  kwsysProcess_Exception_None,
+      kwsysProcess_Exception_None,  kwsysProcess_Exception_None,
+      kwsysProcess_Exception_None,  kwsysProcess_Exception_Interrupt
     };
     int values[10] = { 0, 123, 1, 1, 0, 0, 0, 0, 1, 1 };
     int shares[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 };
@@ -644,7 +676,7 @@ int main(int argc, const char* argv[])
     int createNewGroups[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 };
     unsigned int interruptDelays[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 3, 2 };
     int r;
-    const char* cmd[4];
+    char const* cmd[4];
 #ifdef _WIN32
     char* argv0 = 0;
 #endif
@@ -690,10 +722,11 @@ int main(int argc, const char* argv[])
     free(argv0);
 #endif
     return r;
-  } else if (argc > 2 && strcmp(argv[1], "0") == 0) {
+  }
+  if (argc > 2 && strcmp(argv[1], "0") == 0) {
     /* This is the special debugging test to run a given command
        line.  */
-    const char** cmd = argv + 2;
+    char const** cmd = argv + 2;
     int state = kwsysProcess_State_Exited;
     int exception = kwsysProcess_Exception_None;
     int value = 0;
@@ -701,9 +734,8 @@ int main(int argc, const char* argv[])
     int r =
       runChild(cmd, state, exception, value, 0, 1, 0, timeout, 0, 1, 0, 0, 0);
     return r;
-  } else {
-    /* Improper usage.  */
-    fprintf(stdout, "Usage: %s <test number>\n", argv[0]);
-    return 1;
   }
+  /* Improper usage.  */
+  fprintf(stdout, "Usage: %s <test number>\n", argv[0]);
+  return 1;
 }

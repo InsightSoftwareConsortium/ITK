@@ -6,14 +6,14 @@
 // Work-around CMake dependency scanning limitation.  This must
 // duplicate the above list of headers.
 #if 0
-#include "CommandLineArguments.hxx.in"
+#  include "CommandLineArguments.hxx.in"
 #endif
 
 #include <iostream>
 #include <vector>
 
-#include <assert.h> /* assert */
-#include <string.h> /* strcmp */
+#include <cassert> /* assert */
+#include <cstring> /* strcmp */
 
 int testCommandLineArguments1(int argc, char* argv[])
 {
@@ -21,11 +21,11 @@ int testCommandLineArguments1(int argc, char* argv[])
   arg.Initialize(argc, argv);
 
   int n = 0;
-  char* m = 0;
+  char* m = nullptr;
   std::string p;
   int res = 0;
 
-  typedef kwsys::CommandLineArguments argT;
+  using argT = kwsys::CommandLineArguments;
   arg.AddArgument("-n", argT::SPACE_ARGUMENT, &n, "Argument N");
   arg.AddArgument("-m", argT::EQUAL_ARGUMENT, &m, "Argument M");
   arg.AddBooleanArgument("-p", &p, "Argument P");
@@ -51,15 +51,13 @@ int testCommandLineArguments1(int argc, char* argv[])
   std::cout << "Value of N: " << n << std::endl;
   std::cout << "Value of M: " << m << std::endl;
   std::cout << "Value of P: " << p << std::endl;
-  if (m) {
-    delete[] m;
-  }
+  delete[] m;
 
-  char** newArgv = 0;
+  char** newArgv = nullptr;
   int newArgc = 0;
   arg.GetUnusedArguments(&newArgc, &newArgv);
   int cc;
-  const char* valid_unused_args[9] = { 0,
+  char const* valid_unused_args[9] = { nullptr,
                                        "--ignored",
                                        "--second-ignored",
                                        "third-ignored",
