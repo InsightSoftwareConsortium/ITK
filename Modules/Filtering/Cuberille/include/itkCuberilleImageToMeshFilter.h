@@ -127,7 +127,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CuberilleImageToMeshFilter, ImageToMeshFilter);
+  itkOverrideGetNameOfClassMacro(CuberilleImageToMeshFilter);
 
   /** Compile-time configuration flags (formerly preprocessor macros).
    * Flip a flag to true and rebuild to enable the corresponding alternative

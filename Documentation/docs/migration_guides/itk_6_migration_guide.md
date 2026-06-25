@@ -845,3 +845,24 @@ whereas `vnl_svd`'s signs depend on solver internals. Sign-invariant operations
 reads individual `U`/`V` columns as directions may see the same geometry from a
 different, equally-valid representative. Pass `canonicalizeSigns = false` to
 reproduce `vnl_svd`'s raw signs (e.g. for equivalence testing).
+
+## `FixedPointInverseDisplacementFieldImageFilter::OutputIterator` is now `ImageRegionIteratorWithIndex`
+
+The public nested type alias
+`FixedPointInverseDisplacementFieldImageFilter<...>::OutputIterator` changed from
+`ImageRegionIterator<OutputImageType>` to
+`ImageRegionIteratorWithIndex<OutputImageType>`. The filter calls `GetIndex()` on
+this iterator, which `ImageRegionIterator` only provides under the removed
+`ITK_FUTURE_LEGACY_REMOVE` API; `ImageRegionIteratorWithIndex` supplies it
+natively.
+
+### What you need to do
+
+Downstream code that names the concrete alias explicitly -- e.g. a template
+specialization or overload keyed on `ImageRegionIterator<OutputImageType>`, or a
+variable declared as `FilterType::OutputIterator` and then passed where an
+`ImageRegionIterator` is required -- must accept
+`ImageRegionIteratorWithIndex<OutputImageType>` instead. The two iterators are
+siblings in the iterator hierarchy, not subclasses, so such uses do not convert
+implicitly. Code that only iterates (`GoToBegin`/`IsAtEnd`/`Get`/`Set`) needs no
+change.

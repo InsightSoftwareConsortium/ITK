@@ -86,7 +86,7 @@ public:
   using ParametersEstimatorPointer = typename itk::ParametersEstimator<T, SType>::Pointer;
   using ParametersEstimatorType = typename itk::ParametersEstimator<T, SType>;
 
-  itkTypeMacro(RANSAC, Object);
+  itkOverrideGetNameOfClassMacro(RANSAC);
   /** New method for creating an object using a factory. */
   itkNewMacro(Self);
 
