@@ -19,12 +19,8 @@
 #include "itkGaussianDistribution.h"
 #include "vnl/vnl_erf.h"
 #include "itkMath.h"
-
-extern "C" double
-dbetai_(double * x, double * pin, double * qin);
-
-extern "C" double
-dgamma_(double * x);
+#include "itkSpecialFunctions.h"
+#include <cmath>
 
 namespace itk::Statistics
 {
@@ -76,11 +72,12 @@ TDistribution::GetDegreesOfFreedom() const
 double
 TDistribution::PDF(double x, SizeValueType degreesOfFreedom)
 {
-  auto         dof = static_cast<double>(degreesOfFreedom);
-  double       dofplusoneon2 = 0.5 * (dof + 1.0);
-  double       dofon2 = 0.5 * dof;
-  const double pdf = (dgamma_(&dofplusoneon2) / dgamma_(&dofon2)) /
-                     (std::sqrt(dof * itk::Math::pi) * std::pow(1.0 + ((x * x) / dof), dofplusoneon2));
+  auto   dof = static_cast<double>(degreesOfFreedom);
+  double dofplusoneon2 = 0.5 * (dof + 1.0);
+  double dofon2 = 0.5 * dof;
+  // exp(lgamma-lgamma) avoids overflowing the individual Γ values at large dof.
+  const double gammaRatio = std::exp(std::lgamma(dofplusoneon2) - std::lgamma(dofon2));
+  const double pdf = gammaRatio / (std::sqrt(dof * itk::Math::pi) * std::pow(1.0 + ((x * x) / dof), dofplusoneon2));
 
   return pdf;
 }
@@ -130,10 +127,10 @@ TDistribution::CDF(double x, SizeValueType degreesOfFreedom)
 
   if (x >= 0.0)
   {
-    return 1.0 - 0.5 * dbetai_(&bx, &pin, &qin);
+    return 1.0 - 0.5 * Math::RegularizedIncompleteBeta(pin, qin, bx);
   }
 
-  return 0.5 * dbetai_(&bx, &pin, &qin);
+  return 0.5 * Math::RegularizedIncompleteBeta(pin, qin, bx);
 }
 
 double
