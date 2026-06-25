@@ -42,14 +42,6 @@ if(ITK_USE_CCACHE)
     message(STATUS "ccache version: ${CCACHE_VERSION} at ${CCACHE_EXECUTABLE}")
     set(CMAKE_C_COMPILER_LAUNCHER "${CCACHE_EXECUTABLE}")
     set(CMAKE_CXX_COMPILER_LAUNCHER "${CCACHE_EXECUTABLE}")
-    # ccache hashes absolute source and include paths into the cache key.
-    # ITK developers utilizing ccache often will be using git worktrees
-    # where the absolute paths differ, producing cache misses.
-    # By setting CCACHE_BASEDIR, increased cache hits occur based on
-    # hits relative to the ITK_SOURCE_DIR.
-    # Export CCACHE_BASEDIR for all build commands to the base of the
-    set(ENV{CCACHE_BASEDIR} "${ITK_SOURCE_DIR}")
-    message(STATUS "Set CCACHE_BASEDIR = $ENV{CCACHE_BASEDIR}")
   else()
     message(FATAL_ERROR "ccache not found, turn off ITK_USE_CCACHE")
   endif()
