@@ -115,7 +115,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(SharpenOpImageFilter, TernaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(SharpenOpImageFilter);
 
 protected:
   SharpenOpImageFilter() = default;

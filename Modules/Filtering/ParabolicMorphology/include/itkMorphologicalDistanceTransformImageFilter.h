@@ -72,7 +72,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MorphologicalDistanceTransformImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(MorphologicalDistanceTransformImageFilter);
 
   /** Pixel Type of the input image */
   using InputImageType = TInputImage;
@@ -121,9 +121,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(SameDimension,
-                  (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),
-                                          itkGetStaticConstMacro(OutputImageDimension)>));
+  itkConceptMacro(SameDimension, (Concept::SameDimension<Self::InputImageDimension, Self::OutputImageDimension>));
 
   itkConceptMacro(Comparable, (Concept::Comparable<InputPixelType>));
 

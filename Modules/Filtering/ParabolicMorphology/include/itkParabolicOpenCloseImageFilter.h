@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ParabolicOpenCloseImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ParabolicOpenCloseImageFilter);
 
   /** Pixel Type of the input image */
   using InputImageType = TInputImage;
@@ -98,7 +98,7 @@ public:
 
   using InternalRealType = typename NumericTraits<PixelType>::FloatType;
   // using RealImageType = typename Image<InternalRealType,
-  // itkGetStaticConstMacro(ImageDimension) >;
+  // Self::ImageDimension >;
 
   // set all of the scales the same
   void
@@ -131,9 +131,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(SameDimension,
-                  (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),
-                                          itkGetStaticConstMacro(OutputImageDimension)>));
+  itkConceptMacro(SameDimension, (Concept::SameDimension<Self::InputImageDimension, Self::OutputImageDimension>));
 
   itkConceptMacro(Comparable, (Concept::Comparable<PixelType>));
 
