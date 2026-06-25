@@ -76,7 +76,6 @@ set(
   itkSubsampleTest.cxx
   itkSubsampleTest2.cxx
   itkSubsampleTest3.cxx
-  itkTDistributionTest.cxx
   itkUniformRandomSpatialNeighborSubsamplerTest.cxx
   itkWeightedCentroidKdTreeGeneratorTest1.cxx
   itkWeightedCentroidKdTreeGeneratorTest8.cxx
@@ -911,12 +910,6 @@ itk_add_test(
     itkSubsampleTest3
 )
 itk_add_test(
-  NAME itkTDistributionTest
-  COMMAND
-    ITKStatisticsTestDriver
-    itkTDistributionTest
-)
-itk_add_test(
   NAME itkStatisticsAlgorithmTest
   COMMAND
     ITKStatisticsTestDriver
@@ -991,6 +984,7 @@ set(
   itkNormalVariateGeneratorGTest1.cxx
   itkRandomVariateGeneratorBaseGTest.cxx
   itkStatisticsTypesGTest.cxx
+  itkTDistributionGTest.cxx
   itkVectorContainerToListSampleAdaptorGTest.cxx
 )
 creategoogletestdriver(ITKStatistics "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisticsGTests}")
