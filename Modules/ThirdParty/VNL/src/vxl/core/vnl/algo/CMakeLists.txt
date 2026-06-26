@@ -75,11 +75,8 @@ endif()
 vxl_add_library(LIBRARY_NAME itkvnl_algo
   LIBRARY_SOURCES ${vnl_algo_sources}
   HEADER_INSTALL_DIR vnl/algo)
-target_link_libraries( itkvnl_algo PUBLIC itkv3p_netlib itkvnl )
+target_link_libraries( itkvnl_algo PUBLIC itkv3p_netlib itkvnl ITK::ITKEigen3Module )
 
-# Eigen-backed vnl_levenberg_marquardt needs the vendored Eigen headers (private, header-only).
-target_include_directories( itkvnl_algo
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../../../../../Eigen3/src )
 set(CURR_LIB_NAME vnl_algo)
 set_vxl_library_properties(
    TARGET_NAME itk${CURR_LIB_NAME}

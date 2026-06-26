@@ -19,9 +19,9 @@
 #include "itkEigenLevenbergMarquardtEngine.h"
 
 #include "itk_eigen.h"
-#include "itkeigen/Eigen/Core"
-#include "itkeigen/unsupported/Eigen/NonLinearOptimization"
-#include "itkeigen/unsupported/Eigen/NumericalDiff"
+#include ITK_EIGEN(Core)
+#include ITK_EIGEN_UNSUPPORTED(NonLinearOptimization)
+#include ITK_EIGEN_UNSUPPORTED(NumericalDiff)
 
 #include <vector>
 

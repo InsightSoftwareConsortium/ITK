@@ -19,8 +19,9 @@
 #define itkMatrixExponential_h
 
 #include "itkMatrix.h"
+#include "itk_eigen.h"
 // Eigen's matrix exponential lives in the unsupported MatrixFunctions module.
-#include "itkeigen/unsupported/Eigen/MatrixFunctions"
+#include ITK_EIGEN_UNSUPPORTED(MatrixFunctions)
 
 namespace itk
 {

@@ -38,6 +38,7 @@
 #cmakedefine ITK_USE_SYSTEM_EIGEN
 #ifdef ITK_USE_SYSTEM_EIGEN
 #define ITK_EIGEN(x) ITK_EIGEN_STR(Eigen/x)
+#define ITK_EIGEN_UNSUPPORTED(x) ITK_EIGEN_STR(unsupported/Eigen/x)
 #else
 // ITK should only be using MPL2 Eigen code internally.
 #cmakedefine ITK_USE_EIGEN_MPL2_ONLY
@@ -47,6 +48,7 @@
 #endif
 #endif
 #define ITK_EIGEN(x) ITK_EIGEN_STR(itkeigen/Eigen/x)
+#define ITK_EIGEN_UNSUPPORTED(x) ITK_EIGEN_STR(itkeigen/unsupported/Eigen/x)
 #endif
 
 // Disable these warnings which occur only in Eigen and not elsewhere in ITK.
