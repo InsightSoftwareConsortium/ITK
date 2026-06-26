@@ -103,6 +103,14 @@ static inline double NormImpl(const double x[3])
   return sqrt(x[0]*x[0] + x[1]*x[1] + x[2]*x[2]);
 }
 
+double DirectionCosines::Distance(const double x[3], const double y[3])
+{
+    const double dx = x[0] - y[0];
+    const double dy = x[1] - y[1];
+    const double dz = x[2] - y[2];
+    return std::sqrt(dx * dx + dy * dy + dz * dz);
+}
+
 double DirectionCosines::Norm(const double v[3])
 {
   return NormImpl(v);

@@ -888,13 +888,13 @@ bool Bitmap::TryJPEG2000Codec(char *buffer, bool &lossyflag) const
     DataElement out;
     bool r = codec.Decode(PixelData, out);
     if(!r) return false;
-    gdcm_assert( r );
     const ByteValue *outbv = out.GetByteValue();
-    gdcm_assert( outbv );
-    unsigned long check = outbv->GetLength();  // FIXME
-    (void)check;
-    gdcm_assert( len <= outbv->GetLength() );
-    memcpy(buffer, outbv->GetPointer(), len /*outbv->GetLength()*/ );  // FIXME
+    // A missing or short decoded buffer is a runtime condition (e.g. an
+    // allocation failed while decoding), not a logic invariant: fail gracefully
+    // rather than throwing out of GetBuffer, which is uncatchable across the
+    // SWIG language bindings and aborts the host process.
+    if( !outbv || outbv->GetLength() < len ) return false;
+    memcpy(buffer, outbv->GetPointer(), len);
 
     lossyflag = codec.IsLossy();
     if( codec.IsLossy() && !ts.IsLossy() )

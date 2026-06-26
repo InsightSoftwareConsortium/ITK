@@ -248,7 +248,7 @@ void Overlay::Update(const DataElement & de)
 
 bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
 {
-  const unsigned int ovlength = Internal->Rows * Internal->Columns / 8;
+  const unsigned int ovlength = (Internal->Rows * Internal->Columns + 7) / 8;
   Internal->Data.resize( ovlength ); // set to 0
   if( Internal->BitsAllocated == 8 )
     {
@@ -287,7 +287,7 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
     while( p != end )
       {
       const uint8_t val = *p & pmask;
-      gdcm_assert( val == 0x0 || val == pmask );
+      //gdcm_assert( val == 0x0 || val == pmask );
       // 128 -> 0x80
       if( val )
         {
@@ -332,7 +332,7 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
     const uint16_t *p = (const uint16_t*)(const void*)array;
     const uint16_t *end = (const uint16_t*)(const void*)(array + length);
     //const unsigned int ovlength = length / (8*2);
-    gdcm_assert( 8 * ovlength == (unsigned int)Internal->Rows * Internal->Columns );
+    gdcm_assert( 8 * ovlength >= (unsigned int)Internal->Rows * Internal->Columns );
     if( Internal->Data.empty() )
       {
       gdcmWarningMacro("Internal Data is empty." );
@@ -345,7 +345,7 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
     while( p != end )
       {
       const uint16_t val = *p & pmask;
-      gdcm_assert( val == 0x0 || val == pmask );
+      //gdcm_assert( val == 0x0 || val == pmask );
       // 128 -> 0x80
       if( val )
         {

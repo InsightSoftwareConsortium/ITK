@@ -19,6 +19,7 @@
 #include "gdcmSequenceOfFragments.h"
 #include "gdcmSmartPointer.h"
 #include "gdcmSwapper.h"
+#include "gdcmUnpacker12Bits.h"
 
 #include <algorithm> // req C++11
 #include <cstddef> // ptrdiff_t fix
@@ -365,11 +366,33 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
   unsigned long bvl = bv->GetLength();
   unsigned long image_len = bvl / dims[2];
 
+  // Handle 12-bit packed format: need to unpack first
+  char * unpacked_buffer = nullptr;
+  int bitsallocated = GetPixelFormat().GetBitsAllocated();
+  if( bitsallocated == 12 && GetPixelFormat().GetBitsStored() == 12 )
+    {
+    // Input is packed (3 bytes for 2 pixels), need to unpack to 16-bit
+    size_t npixels_per_frame = (size_t)dims[0] * dims[1] * GetPixelFormat().GetSamplesPerPixel();
+    size_t unpacked_frame_size = npixels_per_frame * 2; // 16-bit per pixel
+    size_t unpacked_size = unpacked_frame_size * dims[2]; // all frames
+    unpacked_buffer = new char[unpacked_size];
+    bool unpack_ok = Unpacker12Bits::Unpack(unpacked_buffer, input, bvl);
+    if( !unpack_ok )
+      {
+      delete[] unpacked_buffer;
+      return false;
+      }
+    // Reassign to use unpacked data for the rest of the function
+    input = unpacked_buffer;
+    image_len = (unsigned long)unpacked_frame_size;
+    bitsallocated = 16; // After unpacking, treat as 16-bit
+    }
+
   // If 16bits, need to do the padded composite...
   char *buffer = nullptr;
   // if rgb (3 comp) need to the planar configuration
   char *bufferrgb = nullptr;
-  if( GetPixelFormat().GetBitsAllocated() > 8 )
+  if( bitsallocated > 8 )
     {
     //RequestPaddedCompositePixelCode = true;
     buffer = new char [ image_len ];
@@ -384,15 +407,15 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
     }
 
   unsigned int MaxNumSegments = 1;
-  if( GetPixelFormat().GetBitsAllocated() == 8 )
+  if( bitsallocated == 8 )
     {
     MaxNumSegments *= 1;
     }
-  else if( GetPixelFormat().GetBitsAllocated() == 16 )
+  else if( bitsallocated == 16 )
     {
     MaxNumSegments *= 2;
     }
-  else if( GetPixelFormat().GetBitsAllocated() == 32 )
+  else if( bitsallocated == 32 )
     {
     MaxNumSegments *= 4;
     }
@@ -400,6 +423,7 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
     {
     delete[] buffer;
     delete[] bufferrgb;
+    delete[] unpacked_buffer;
     return false;
     }
 
@@ -411,8 +435,8 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
     MaxNumSegments *= 3;
     }
 
-  gdcm_assert( GetPixelFormat().GetBitsAllocated() == 8 || GetPixelFormat().GetBitsAllocated() == 16
-    || GetPixelFormat().GetBitsAllocated() == 32 );
+  gdcm_assert( bitsallocated == 8 || bitsallocated == 16
+    || bitsallocated == 32 );
   if( GetPixelFormat().GetSamplesPerPixel() == 3 )
     {
     gdcm_assert( MaxNumSegments % 3 == 0 );
@@ -433,17 +457,17 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
     const char *ptr_img = input + dim * image_len;
     if( GetPlanarConfiguration() == 0 && GetPixelFormat().GetSamplesPerPixel() == 3 )
       {
-      if( GetPixelFormat().GetBitsAllocated() == 8 )
+      if( bitsallocated == 8 )
         {
         DoInvertPlanarConfiguration<char>(bufferrgb, ptr_img, (uint32_t)(image_len / sizeof(char)));
         }
-      else if ( GetPixelFormat().GetBitsAllocated() == 16 )
+      else if ( bitsallocated == 16 )
         {
         DoInvertPlanarConfiguration<short>((short*)(void*)bufferrgb, (const short*)(const void*)ptr_img, (uint32_t)(image_len / sizeof(short)));
         }
-      else /* ( GetPixelFormat().GetBitsAllocated() == 32 ) */
+      else /* ( bitsallocated == 32 ) */
         {
-        gdcm_assert( GetPixelFormat().GetBitsAllocated() == 32 );
+        gdcm_assert( bitsallocated == 32 );
         DoInvertPlanarConfiguration<int32_t>(
           (int32_t*)(void*)bufferrgb,
           (const int32_t*)(const void*)ptr_img,
@@ -452,7 +476,7 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
         }
       ptr_img = bufferrgb;
       }
-    if( GetPixelFormat().GetBitsAllocated() == 32 )
+    if( bitsallocated == 32 )
       {
       gdcm_assert( !(image_len % 4) );
       //gdcm_assert( image_len % 3 == 0 );
@@ -498,7 +522,7 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
         }
       ptr_img = buffer;
       }
-    else if( GetPixelFormat().GetBitsAllocated() == 16 )
+    else if( bitsallocated == 16 )
       {
       gdcm_assert( !(image_len % 2) );
       //gdcm_assert( image_len % 3 == 0 );
@@ -555,6 +579,7 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
           gdcmErrorMacro( "RLE compressor error" );
           delete[] buffer;
           delete[] bufferrgb;
+          delete[] unpacked_buffer;
           return false;
           }
         gdcm_assert( llength );
@@ -583,6 +608,7 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
 
   delete[] buffer;
   delete[] bufferrgb;
+  delete[] unpacked_buffer;
 
   return true;
 }
@@ -1022,9 +1048,32 @@ bool RLECodec::AppendFrameEncode( std::ostream & out, const char * data, size_t 
 {
   try {
   const PixelFormat & pf = this->GetPixelFormat();
+
+  // Handle 12-bit packed format: need to unpack first
+  char * unpacked_buffer = nullptr;
+  int bitsallocated = pf.GetBitsAllocated();
+  if( bitsallocated == 12 && pf.GetBitsStored() == 12 )
+    {
+    // Input is packed (3 bytes for 2 pixels), need to unpack to 16-bit
+    const unsigned int * dimensions = this->GetDimensions();
+    size_t npixels = (size_t)dimensions[0] * dimensions[1] * pf.GetSamplesPerPixel();
+    size_t unpacked_size = npixels * 2; // 16-bit per pixel
+    unpacked_buffer = new char[unpacked_size];
+    bool unpack_ok = Unpacker12Bits::Unpack(unpacked_buffer, data, datalen);
+    if( !unpack_ok )
+      {
+      delete[] unpacked_buffer;
+      return false;
+      }
+    // Reassign to use unpacked data for the rest of the function
+    data = unpacked_buffer;
+    datalen = unpacked_size;
+    bitsallocated = 16; // After unpacking, treat as 16-bit
+    }
+
   unsigned int pc = this->GetPlanarConfiguration();
   bool isLittleEndian = !this->GetNeedByteSwap();
-  rle::pixel_info pi((unsigned char)pf.GetSamplesPerPixel(), (unsigned char)(pf.GetBitsAllocated()));
+  rle::pixel_info pi((unsigned char)pf.GetSamplesPerPixel(), (unsigned char)(bitsallocated));
 
   const unsigned int * dimensions = this->GetDimensions();
   rle::image_info ii(dimensions[0], dimensions[1], pi, pc ? true : false, isLittleEndian);
@@ -1038,6 +1087,7 @@ bool RLECodec::AppendFrameEncode( std::ostream & out, const char * data, size_t 
   if( !re.write_header( fd ) )
     {
     gdcmErrorMacro( "could not write header" );
+    delete[] unpacked_buffer;
     return false;
     }
 
@@ -1047,9 +1097,14 @@ bool RLECodec::AppendFrameEncode( std::ostream & out, const char * data, size_t 
     if( ret < 0 )
       {
       gdcmErrorMacro( "problem at row: " << y );
+      delete[] unpacked_buffer;
       return false;
       }
     }
+
+    // Clean up unpacked buffer if it was allocated
+    delete[] unpacked_buffer;
+
   } catch( std::exception &  ) {
     gdcmErrorMacro( "invalid compression params (not supported for now)." );
     return false;

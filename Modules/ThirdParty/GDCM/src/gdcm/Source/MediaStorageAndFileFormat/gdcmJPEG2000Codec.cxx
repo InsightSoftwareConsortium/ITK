@@ -17,6 +17,7 @@
 #include "gdcmDataElement.h"
 #include "gdcmSequenceOfFragments.h"
 #include "gdcmSwapper.h"
+#include "gdcmUnpacker12Bits.h"
 
 #include <cstring>
 #include <cstdio> // snprintf
@@ -1076,14 +1077,29 @@ opj_image_t* rawtoimage(const char *inputbuffer8, opj_cparameters_t *parameters,
     color_space = CLRSPC_SRGB;
     /* Does OpenJPEg support: CLRSPC_SYCC ?? */
     }
-  if( bitsallocated % 8 != 0 )
+  if( bitsallocated % 8 != 0 && bitsallocated != 12 )
     {
-    gdcmDebugMacro( "BitsAllocated is not % 8" );
+    gdcmDebugMacro( "BitsAllocated is not % 8 and is not 12" );
     return nullptr;
     }
-  gdcm_assert( bitsallocated % 8 == 0 );
+  gdcm_assert( bitsallocated % 8 == 0 || bitsallocated == 12 );
   // eg. fragment_size == 63532 and 181 * 117 * 3 * 8 == 63531 ...
-  gdcm_assert( ((fragment_size + 1)/2 ) * 2 == (((size_t)image_height * image_width * numcomps * (bitsallocated/8) + 1)/ 2 )* 2 );
+  // Special handling for 12-bit allocated: data is PACKED (3 bytes for 2 pixels)
+  // When BitsAllocated==12 and BitsStored==12, input is packed format
+  // When BitsAllocated==16 and BitsStored==12, input is 16-bit container format
+  size_t expected_fragment_size;
+  if( bitsallocated == 12 && bitsstored == 12 )
+    {
+    // Packed format: 2 pixels = 3 bytes, so N pixels = N*3/2 bytes
+    size_t npixels = (size_t)image_height * image_width * numcomps;
+    expected_fragment_size = (npixels * 3) / 2;
+    }
+  else
+    {
+    size_t bytes_per_pixel = (bitsallocated / 8);
+    expected_fragment_size = (size_t)image_height * image_width * numcomps * bytes_per_pixel;
+    }
+  gdcm_assert( ((fragment_size + 1)/2 ) * 2 == ((expected_fragment_size + 1)/ 2 )* 2 );
   int subsampling_dx = parameters->subsampling_dx;
   int subsampling_dy = parameters->subsampling_dy;
 
@@ -1095,9 +1111,8 @@ opj_image_t* rawtoimage(const char *inputbuffer8, opj_cparameters_t *parameters,
   memset(&cmptparm[0], 0, 3 * sizeof(opj_image_cmptparm_t));
   //gdcm_assert( bitsallocated == 8 );
   for(int i = 0; i < numcomps; i++) {
-    cmptparm[i].prec = bitsstored;
-    cmptparm[i].prec = bitsallocated; // FIXME
-    cmptparm[i].bpp = bitsallocated;
+    cmptparm[i].prec = bitsstored;  // Use actual bits stored for precision
+    cmptparm[i].bpp = (bitsallocated == 12) ? 16 : bitsallocated;  // 12-bit uses 16-bit container
     cmptparm[i].sgnd = sign;
     cmptparm[i].dx = subsampling_dx;
     cmptparm[i].dy = subsampling_dy;
@@ -1118,40 +1133,61 @@ opj_image_t* rawtoimage(const char *inputbuffer8, opj_cparameters_t *parameters,
 
   /* set image data */
 
+  // Handle 12-bit packed format: need to unpack first
+  const void * actual_inputbuffer = inputbuffer;
+  char * unpacked_buffer = nullptr;
+  if( bitsallocated == 12 && bitsstored == 12 )
+    {
+    // Input is packed (3 bytes for 2 pixels), need to unpack to 16-bit
+    size_t npixels = (size_t)w * h * numcomps;
+    size_t unpacked_size = npixels * 2; // 16-bit per pixel
+    unpacked_buffer = new char[unpacked_size];
+    bool unpack_ok = Unpacker12Bits::Unpack(unpacked_buffer, (const char*)inputbuffer, fragment_size);
+    if( !unpack_ok )
+      {
+      delete[] unpacked_buffer;
+      opj_image_destroy(image);
+      return nullptr;
+      }
+    actual_inputbuffer = unpacked_buffer;
+    }
+
   //gdcm_assert( fragment_size == numcomps*w*h*(bitsallocated/8) );
   if (bitsallocated <= 8)
     {
     if( sign )
       {
-      rawtoimage_fill<int8_t>((const int8_t*)inputbuffer,w,h,numcomps,image,pc);
+      rawtoimage_fill<int8_t>((const int8_t*)actual_inputbuffer,w,h,numcomps,image,pc);
       }
     else
       {
-      rawtoimage_fill<uint8_t>((const uint8_t*)inputbuffer,w,h,numcomps,image,pc);
+      rawtoimage_fill<uint8_t>((const uint8_t*)actual_inputbuffer,w,h,numcomps,image,pc);
       }
     }
-  else if (bitsallocated <= 16)
+  else if (bitsallocated <= 16 || bitsallocated == 12)
     {
     if( bitsallocated != bitsstored )
       {
+      // For 12-bit allocated, treat as 16-bit container with 12-bit stored
+      int effective_bitsallocated = (bitsallocated == 12) ? 16 : bitsallocated;
       if( sign )
         {
-        rawtoimage_fill2<int16_t>((const int16_t*)inputbuffer,w,h,numcomps,image,pc, bitsallocated, bitsstored, highbit, sign);
+        rawtoimage_fill2<int16_t>((const int16_t*)actual_inputbuffer,w,h,numcomps,image,pc, effective_bitsallocated, bitsstored, highbit, sign);
         }
       else
         {
-        rawtoimage_fill2<uint16_t>((const uint16_t*)inputbuffer,w,h,numcomps,image,pc, bitsallocated, bitsstored, highbit, sign);
+        rawtoimage_fill2<uint16_t>((const uint16_t*)actual_inputbuffer,w,h,numcomps,image,pc, effective_bitsallocated, bitsstored, highbit, sign);
         }
        }
     else
       {
       if( sign )
         {
-        rawtoimage_fill<int16_t>((const int16_t*)inputbuffer,w,h,numcomps,image,pc);
+        rawtoimage_fill<int16_t>((const int16_t*)actual_inputbuffer,w,h,numcomps,image,pc);
         }
       else
         {
-        rawtoimage_fill<uint16_t>((const uint16_t*)inputbuffer,w,h,numcomps,image,pc);
+        rawtoimage_fill<uint16_t>((const uint16_t*)actual_inputbuffer,w,h,numcomps,image,pc);
         }
       }
     }
@@ -1159,11 +1195,11 @@ opj_image_t* rawtoimage(const char *inputbuffer8, opj_cparameters_t *parameters,
     {
     if( sign )
       {
-      rawtoimage_fill<int32_t>((const int32_t*)inputbuffer,w,h,numcomps,image,pc);
+      rawtoimage_fill<int32_t>((const int32_t*)actual_inputbuffer,w,h,numcomps,image,pc);
       }
     else
       {
-      rawtoimage_fill<uint32_t>((const uint32_t*)inputbuffer,w,h,numcomps,image,pc);
+      rawtoimage_fill<uint32_t>((const uint32_t*)actual_inputbuffer,w,h,numcomps,image,pc);
       }
     }
   else // dead branch ?
@@ -1171,6 +1207,9 @@ opj_image_t* rawtoimage(const char *inputbuffer8, opj_cparameters_t *parameters,
     opj_image_destroy(image);
     return nullptr;
     }
+
+  // Clean up unpacked buffer if it was allocated
+  delete[] unpacked_buffer;
 
   return image;
 }
