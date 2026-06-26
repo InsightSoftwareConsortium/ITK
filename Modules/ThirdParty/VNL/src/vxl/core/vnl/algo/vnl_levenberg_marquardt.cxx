@@ -15,8 +15,9 @@
 #include "vnl/vnl_vector_ref.h"
 #include "vnl/vnl_least_squares_function.h"
 
-#include "itkeigen/unsupported/Eigen/NonLinearOptimization"
-#include "itkeigen/unsupported/Eigen/NumericalDiff"
+#include "itk_eigen.h"
+#include ITK_EIGEN_UNSUPPORTED(NonLinearOptimization)
+#include ITK_EIGEN_UNSUPPORTED(NumericalDiff)
 
 namespace
 {
