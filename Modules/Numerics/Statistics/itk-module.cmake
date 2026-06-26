@@ -13,7 +13,6 @@ itk_module(
   ENABLE_SHARED
   DEPENDS
     ITKCommon
-    ITKNetlib
   TEST_DEPENDS
     ITKGoogleTest
     ITKTestKernel

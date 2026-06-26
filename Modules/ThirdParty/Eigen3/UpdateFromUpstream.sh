@@ -48,6 +48,9 @@ Eigen/src
 unsupported/Eigen/MatrixFunctions
 unsupported/Eigen/src/MatrixFunctions
 
+unsupported/Eigen/SpecialFunctions
+unsupported/Eigen/src/SpecialFunctions
+
 unsupported/Eigen/NonLinearOptimization
 unsupported/Eigen/LevenbergMarquardt
 unsupported/Eigen/NumericalDiff

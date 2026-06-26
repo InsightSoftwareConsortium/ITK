@@ -18,12 +18,8 @@
 #include "itkChiSquareDistribution.h"
 #include "itkGaussianDistribution.h"
 #include "itkMath.h"
-
-extern "C" double
-dgami_(double * a, double * x);
-
-extern "C" double
-dgamma_(double * x);
+#include "itkSpecialFunctions.h"
+#include <cmath>
 
 namespace itk::Statistics
 {
@@ -81,7 +77,7 @@ ChiSquareDistribution::PDF(double x, SizeValueType degreesOfFreedom)
 
   if (x >= 0.0)
   {
-    pdf = std::exp(-0.5 * x) * std::pow(x, dofon2 - 1.0) / (std::pow(2.0, dofon2) * dgamma_(&dofon2));
+    pdf = std::exp(-0.5 * x) * std::pow(x, dofon2 - 1.0) / (std::pow(2.0, dofon2) * std::tgamma(dofon2));
   }
 
   return pdf;
@@ -112,7 +108,7 @@ ChiSquareDistribution::CDF(double x, SizeValueType degreesOfFreedom)
   double dofon2 = 0.5 * degreesOfFreedom;
   double xon2 = 0.5 * x;
 
-  return dgami_(&dofon2, &xon2) / dgamma_(&dofon2);
+  return Math::IncompleteGammaP(dofon2, xon2);
 }
 
 double

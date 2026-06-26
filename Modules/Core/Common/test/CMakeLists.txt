@@ -1523,6 +1523,7 @@ set(
   itkSpatialFunctionGTest.cxx
   itkSpatialOrientationAdaptorGTest.cxx
   itkSpatialOrientationGTest.cxx
+  itkSpecialFunctionsGTest.cxx
   itkStdStreamStateSaveGTest.cxx
   itkSTLContainerAdaptorGTest.cxx
   itkStringConvertGTest.cxx
