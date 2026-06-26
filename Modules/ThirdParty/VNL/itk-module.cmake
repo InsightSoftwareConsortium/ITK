@@ -5,4 +5,4 @@ href=\"http://vxl.sourceforge.net\">VNL</a> numeric library from the VXL vision
 library suite."
 )
 
-itk_module(ITKVNL DESCRIPTION "${DOCUMENTATION}")
+itk_module(ITKVNL DEPENDS ITKEigen3 DESCRIPTION "${DOCUMENTATION}")
