@@ -25,8 +25,12 @@
 
 # libLerc
 set(LERC_SUPPORT FALSE)
+set(LERC_STATIC FALSE)
 find_package(LERC)
 option(lerc "use libLerc (required for LERC compression)" ${LERC_FOUND})
 if (lerc AND LERC_FOUND AND ZIP_SUPPORT)
     set(LERC_SUPPORT TRUE)
+    if(NOT BUILD_SHARED_LIBS)
+        set(LERC_STATIC TRUE)
+    endif()
 endif()

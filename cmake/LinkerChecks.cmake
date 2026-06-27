@@ -29,22 +29,32 @@ include(CheckCSourceCompiles)
 
 option(ld-version-script "Enable linker version script" ON)
 
-# Check if LD supports linker scripts.
-file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/conftest.map" "VERS_1 {
-        global: sym;
-};
-
-VERS_2 {
-        global: sym;
-} VERS_1;
-")
-set(CMAKE_REQUIRED_FLAGS_SAVE ${CMAKE_REQUIRED_FLAGS})
-set(CMAKE_REQUIRED_FLAGS ${CMAKE_REQUIRED_FLAGS} "-Wl,--version-script=${CMAKE_CURRENT_BINARY_DIR}/conftest.map")
-check_c_source_compiles("int main(void){return 0;}" HAVE_LD_VERSION_SCRIPT)
-set(CMAKE_REQUIRED_FLAGS ${CMAKE_REQUIRED_FLAGS_SAVE})
-file(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/conftest.map")
-if (ld-version-script AND HAVE_LD_VERSION_SCRIPT)
-    set(HAVE_LD_VERSION_SCRIPT TRUE)
-else()
+# Apple's linker (ld64) does not support --version-script.
+if(APPLE)
     set(HAVE_LD_VERSION_SCRIPT FALSE)
+else()
+    # Check if LD supports linker scripts.
+    file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/conftest.map" "VERS_1 {
+            global: sym;
+    };
+
+    VERS_2 {
+            global: sym;
+    } VERS_1;
+    ")
+    set(CMAKE_REQUIRED_FLAGS_SAVE ${CMAKE_REQUIRED_FLAGS})
+    if (CMAKE_VERSION GREATER_EQUAL 3.29 AND CMAKE_C_COMPILER_LINKER_ID STREQUAL "LLD" AND CMAKE_C_COMPILER_LINKER_VERSION GREATER_EQUAL 17)
+        set(CMAKE_REQUIRED_FLAGS ${CMAKE_REQUIRED_FLAGS} -Wl,--undefined-version "-Wl,--version-script=${CMAKE_CURRENT_BINARY_DIR}/conftest.map")
+    else()
+        set(CMAKE_REQUIRED_FLAGS ${CMAKE_REQUIRED_FLAGS} "-Wl,--version-script=${CMAKE_CURRENT_BINARY_DIR}/conftest.map")
+    endif()
+
+    check_c_source_compiles("int main(void){return 0;}" HAVE_LD_VERSION_SCRIPT)
+    set(CMAKE_REQUIRED_FLAGS ${CMAKE_REQUIRED_FLAGS_SAVE})
+    file(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/conftest.map")
+    if (ld-version-script AND HAVE_LD_VERSION_SCRIPT)
+        set(HAVE_LD_VERSION_SCRIPT TRUE)
+    else()
+        set(HAVE_LD_VERSION_SCRIPT FALSE)
+    endif()
 endif()

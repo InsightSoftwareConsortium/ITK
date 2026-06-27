@@ -39,6 +39,9 @@ if(NOT HAVE_GETOPT)
             ${CMAKE_CURRENT_SOURCE_DIR}/getopt.c)
   endif()
 
+  # Apply C++ compatibility mode if enabled
+  tiff_target_compile_as_cxx(tiff_port)
+
   target_include_directories(tiff_port PUBLIC
           ${CMAKE_CURRENT_BINARY_DIR}
           ${CMAKE_CURRENT_SOURCE_DIR})

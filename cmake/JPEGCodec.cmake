@@ -26,7 +26,59 @@
 
 # JPEG
 set(JPEG_SUPPORT FALSE)
-find_package(JPEG)
+
+# Option to prefer standard JPEG over TurboJPEG
+option(jpeg-prefer-standard "prefer standard JPEG library over libjpeg-turbo" OFF)
+
+# Try to find libjpeg-turbo first using CONFIG mode (more reliable, cross-platform)
+# Only do this if we're not explicitly preferring standard JPEG
+if(NOT jpeg-prefer-standard)
+    find_package(libjpeg-turbo CONFIG QUIET)
+    if(libjpeg-turbo_FOUND)
+        # libjpeg-turbo was found via CONFIG
+        # It provides targets like libjpeg-turbo::jpeg and libjpeg-turbo::turbojpeg
+        # IMPORTANT: We need libjpeg-turbo::jpeg (standard libjpeg API), NOT turbojpeg
+        # The turbojpeg target only provides the TurboJPEG API, which libtiff doesn't use
+        # Create an alias to JPEG::JPEG for consistent usage throughout the project
+        if(TARGET libjpeg-turbo::jpeg AND NOT TARGET JPEG::JPEG)
+            add_library(JPEG::JPEG ALIAS libjpeg-turbo::jpeg)
+            set(JPEG_FOUND TRUE)
+            # Set JPEG_LIBRARIES to the target name
+            set(JPEG_LIBRARIES libjpeg-turbo::jpeg)
+            # For JPEG_INCLUDE_DIRS, try to get the property, but it's OK if it's not set
+            get_target_property(_jpeg_includes libjpeg-turbo::jpeg INTERFACE_INCLUDE_DIRECTORIES)
+            if(_jpeg_includes)
+                set(JPEG_INCLUDE_DIRS "${_jpeg_includes}")
+            else()
+                set(JPEG_INCLUDE_DIRS "")
+            endif()
+            unset(_jpeg_includes)
+        elseif(TARGET libjpeg-turbo::turbojpeg AND NOT TARGET JPEG::JPEG)
+            # Only use turbojpeg as a fallback if jpeg target doesn't exist
+            # This is unlikely to work correctly but better than nothing
+            add_library(JPEG::JPEG ALIAS libjpeg-turbo::turbojpeg)
+            set(JPEG_FOUND TRUE)
+            # Set JPEG_LIBRARIES to the target name - CMake will handle includes automatically
+            # when this is used in CMAKE_REQUIRED_LIBRARIES
+            set(JPEG_LIBRARIES libjpeg-turbo::turbojpeg)
+            # For JPEG_INCLUDE_DIRS, try to get the property, but it's OK if it's not set
+            # since the target will provide the includes when used
+            get_target_property(_jpeg_includes libjpeg-turbo::turbojpeg INTERFACE_INCLUDE_DIRECTORIES)
+            if(_jpeg_includes)
+                set(JPEG_INCLUDE_DIRS "${_jpeg_includes}")
+            else()
+                set(JPEG_INCLUDE_DIRS "")
+            endif()
+            unset(_jpeg_includes)
+        endif()
+    endif()
+endif()
+
+# Fall back to Find module if CONFIG didn't work
+if(NOT JPEG_FOUND)
+    find_package(JPEG)
+endif()
+
 option(jpeg "use libjpeg (required for JPEG compression)" ${JPEG_FOUND})
 if (jpeg AND JPEG_FOUND)
     set(JPEG_SUPPORT TRUE)
@@ -40,26 +92,37 @@ if (old-jpeg AND JPEG_SUPPORT)
 endif()
 
 if (JPEG_SUPPORT)
-    # Check for jpeg12_read_scanlines() which has been added in libjpeg-turbo 2.2
+    # Check for jpeg12_read_scanlines() which has been added in libjpeg-turbo 3.0
     # for dual 8/12 bit mode.
-    include(CheckCSourceCompiles)
+    include(CheckSymbolExists)
     include(CMakePushCheckState)
     cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_INCLUDES "${JPEG_INCLUDE_DIRS}")
+
+    # Set up includes and libraries for the check
+    # For targets, we need to explicitly get the include directories
+    if(TARGET ${JPEG_LIBRARIES})
+        # It's an imported target - extract properties
+        get_target_property(_jpeg_includes ${JPEG_LIBRARIES} INTERFACE_INCLUDE_DIRECTORIES)
+        if(_jpeg_includes)
+            set(CMAKE_REQUIRED_INCLUDES "${_jpeg_includes}")
+        endif()
+        unset(_jpeg_includes)
+    elseif(JPEG_INCLUDE_DIRS)
+        # It's a plain library - use the provided includes
+        set(CMAKE_REQUIRED_INCLUDES "${JPEG_INCLUDE_DIRS}")
+    endif()
+
     set(CMAKE_REQUIRED_LIBRARIES "${JPEG_LIBRARIES}")
-    check_c_source_compiles(
-        "
-        #include <stddef.h>
-        #include <stdio.h>
-        #include \"jpeglib.h\"
-        int main()
-        {
-            jpeg_read_scanlines(0,0,0);
-            jpeg12_read_scanlines(0,0,0);
-            return 0;
-        }
-        "
-        HAVE_JPEGTURBO_DUAL_MODE_8_12)
+
+    # Check if the jpeg12_read_scanlines symbol exists in jpeglib.h
+    # This is more reliable than trying to compile code that calls it
+    check_symbol_exists(jpeg_read_scanlines "stdio.h;jpeglib.h" HAVE_JPEGTURBO_DUAL_MODE_8)
+    check_symbol_exists(jpeg12_read_scanlines "stdio.h;jpeglib.h" HAVE_JPEGTURBO_DUAL_MODE_12)
+    set(HAVE_JPEGTURBO_DUAL_MODE_8_12 OFF)
+    if (HAVE_JPEGTURBO_DUAL_MODE_8 AND HAVE_JPEGTURBO_DUAL_MODE_12)
+        set(HAVE_JPEGTURBO_DUAL_MODE_8_12 ON)
+    endif()
+
     cmake_pop_check_state()
 endif()
 
