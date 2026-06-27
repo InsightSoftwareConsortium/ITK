@@ -18,7 +18,8 @@
 #ifndef itkSpecialFunctions_h
 #define itkSpecialFunctions_h
 
-#include "itkeigen/unsupported/Eigen/SpecialFunctions"
+#include "itk_eigen.h"
+#include ITK_EIGEN_UNSUPPORTED(SpecialFunctions)
 #include <type_traits>
 
 namespace itk
