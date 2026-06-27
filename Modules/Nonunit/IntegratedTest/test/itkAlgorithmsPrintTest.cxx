@@ -85,10 +85,6 @@ main(int, char *[])
     itk::ExtensionVelocitiesImageFilter<InputType, float, 1>::New();
   std::cout << "-------------ExtensionVelocitiesImageFilter " << ExtensionVelocitiesImageFilterObj;
 
-  //  itk::fem::FEMRegistrationFilter<InputType,InputType>::Pointer FEMRegistrationFilterObj =
-  //    itk::fem::FEMRegistrationFilter<InputType,InputType>::New();
-  //  std:: cout << "-------------FEMRegistrationFilter " << FEMRegistrationFilterObj;
-
   const itk::FastMarchingExtensionImageFilter<InputType, float>::Pointer FastMarchingExtensionImageFilterObj =
     itk::FastMarchingExtensionImageFilter<InputType, float>::New();
   std::cout << "-------------FastMarchingExtensionImageFilter " << FastMarchingExtensionImageFilterObj;
