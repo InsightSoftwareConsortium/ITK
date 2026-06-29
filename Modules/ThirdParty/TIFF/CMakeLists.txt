@@ -8,9 +8,23 @@ if(ITK_USE_SYSTEM_TIFF)
     ${ITKTIFF_BINARY_DIR}/src
     ${TIFF_INCLUDE_DIRS}
   )
-  set(ITKTIFF_SYSTEM_INCLUDE_DIRS)
-  set(ITKTIFF_LIBRARIES "${TIFF_LIBRARIES}")
+  set(ITKTIFF_LIBRARIES "TIFF::TIFF")
   set(ITKTIFF_NO_SRC 1)
+
+  set(
+    ITKTIFF_EXPORT_CODE_INSTALL
+    "
+  find_package(TIFF REQUIRED)
+  "
+  )
+  set(
+    ITKTIFF_EXPORT_CODE_BUILD
+    "
+  if(NOT ITK_BINARY_DIR)
+    find_package(TIFF REQUIRED)
+  endif()
+  "
+  )
 else()
   set(
     ITKTIFF_INCLUDE_DIRS
