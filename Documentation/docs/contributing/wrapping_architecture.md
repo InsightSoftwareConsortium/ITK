@@ -162,6 +162,19 @@ but are slow. The CastXML cache eliminates that cost. For the C++ compilation
 steps (Step 3), ccache caches compiled `.o` files keyed on source content.
 Both caches are independent and complement each other.
 
+### Build-phase timing on 2-core CI runners
+
+On a 2-core CI runner (cold caches throughout):
+
+| Phase | Approx. time | Notes |
+|---|---|---|
+| CastXML (816 jobs, 2 cores) | ~32 min | Eliminated on warm-cache runs |
+| igenerator + SWIG + C++ compile | ~225 min | Reduced by ccache on subsequent runs |
+| Tests | ~44 min | |
+
+CastXML is ~10 % of the cold-cache total.  The C++ compilation phase
+dominates; `ccache` is the primary lever there.
+
 ## Ninja dependency graph summary
 
 ```
