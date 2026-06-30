@@ -23,13 +23,16 @@
 
 #include "gtest/gtest.h"
 
+#include "itkCommand.h"
 #include "itkLevelSetFunction.h"
 #include "itkParallelSparseFieldLevelSetImageFilter.h"
 
 #include <algorithm>
+#include <atomic>
 #include <chrono>
 #include <cmath>
 #include <condition_variable>
+#include <cstdint>
 #include <future>
 #include <iostream>
 #include <mutex>
@@ -42,26 +45,34 @@ namespace PSFLSIFR
 constexpr unsigned int DIM = 32;
 constexpr int          RADIUS = DIM / 4;
 
-// Abort the process if body does not finish within the deadline, so a
-// ParallelizeArray dispatch deadlock fails the test instead of hanging the
-// driver. The watchdog runs on its own OS thread, outside the work-unit pool
-// that the deadlock pins.
+// Abort if `body` makes no forward progress for `stallSeconds`: a real
+// dispatch deadlock freezes the heartbeat, while valgrind/TSan/Debug runs keep
+// advancing it however slowly. `body` bumps the heartbeat as it completes
+// work. The watchdog runs on its own OS thread, outside the work-unit pool
+// that a deadlock pins.
 template <typename TFunctor>
 void
-runWithDeadline(unsigned int seconds, TFunctor && body)
+runWithStallDeadline(unsigned int stallSeconds, TFunctor && body)
 {
-  std::mutex              m;
-  std::condition_variable cv;
-  bool                    done = false;
-  std::thread             watchdog([&] {
+  std::mutex                 m;
+  std::condition_variable    cv;
+  bool                       done = false;
+  std::atomic<std::uint64_t> heartbeat{ 0 };
+  std::thread                watchdog([&] {
+    std::uint64_t                last = heartbeat.load();
     std::unique_lock<std::mutex> lk(m);
-    if (!cv.wait_for(lk, std::chrono::seconds(seconds), [&] { return done; }))
+    while (!cv.wait_for(lk, std::chrono::seconds(stallSeconds), [&] { return done; }))
     {
-      std::cerr << "Deadline exceeded (" << seconds << "s): ParallelizeArray dispatch deadlock\n";
-      std::abort();
+      const std::uint64_t current = heartbeat.load();
+      if (current == last)
+      {
+        std::cerr << "No progress for " << stallSeconds << "s: ParallelizeArray dispatch deadlock\n";
+        std::abort();
+      }
+      last = current;
     }
   });
-  body();
+  body(heartbeat);
   {
     const std::lock_guard<std::mutex> lk(m);
     done = true;
@@ -218,8 +229,41 @@ make_target_image()
   return im;
 }
 
+// Bumps a heartbeat counter on each solver IterationEvent so the stall
+// watchdog sees continuous progress even when valgrind serializes the
+// concurrent pipelines' threads.
+class HeartbeatCommand : public itk::Command
+{
+public:
+  using Self = HeartbeatCommand;
+  using Pointer = itk::SmartPointer<Self>;
+  itkNewMacro(Self);
+
+  std::atomic<std::uint64_t> * m_Heartbeat{ nullptr };
+
+  void
+  Execute(itk::Object *, const itk::EventObject &) override
+  {
+    if (m_Heartbeat != nullptr)
+    {
+      ++(*m_Heartbeat);
+    }
+  }
+  void
+  Execute(const itk::Object *, const itk::EventObject &) override
+  {
+    if (m_Heartbeat != nullptr)
+    {
+      ++(*m_Heartbeat);
+    }
+  }
+
+protected:
+  HeartbeatCommand() = default;
+};
+
 ImageType::Pointer
-run_one(unsigned int workUnits, unsigned int iterations)
+run_one(unsigned int workUnits, unsigned int iterations, std::atomic<std::uint64_t> * heartbeat = nullptr)
 {
   auto init = make_init_image();
   auto target = make_target_image();
@@ -230,6 +274,12 @@ run_one(unsigned int workUnits, unsigned int iterations)
   mf->SetNumberOfWorkUnits(workUnits);
   mf->SetNumberOfLayers(3);
   mf->SetIsoSurfaceValue(0.0);
+  if (heartbeat != nullptr)
+  {
+    auto cmd = HeartbeatCommand::New();
+    cmd->m_Heartbeat = heartbeat;
+    mf->AddObserver(itk::IterationEvent(), cmd);
+  }
   mf->Update();
   ImageType::Pointer out = mf->GetOutput();
   out->DisconnectPipeline();
@@ -274,7 +324,7 @@ images_identical(ImageType * a, ImageType * b)
 TEST(ParallelSparseFieldLevelSetRobustness, SweepRepeat)
 {
   using namespace PSFLSIFR;
-  runWithDeadline(300, [] {
+  runWithStallDeadline(120, [](std::atomic<std::uint64_t> & heartbeat) {
     const std::vector<unsigned int> sweep{ 1, 2, 4, 8, 11, 16, 32 };
     constexpr unsigned int          kSweepRepeats = 10;
     constexpr unsigned int          kSweepIterations = 30;
@@ -282,7 +332,7 @@ TEST(ParallelSparseFieldLevelSetRobustness, SweepRepeat)
     {
       for (const unsigned int wu : sweep)
       {
-        auto         out = run_one(wu, kSweepIterations);
+        auto         out = run_one(wu, kSweepIterations, &heartbeat);
         const double summary = image_summary(out);
         EXPECT_TRUE(std::isfinite(summary));
         EXPECT_GT(summary, 0.0);
@@ -296,11 +346,11 @@ TEST(ParallelSparseFieldLevelSetRobustness, SweepRepeat)
 TEST(ParallelSparseFieldLevelSetRobustness, Determinism)
 {
   using namespace PSFLSIFR;
-  runWithDeadline(300, [] {
-    auto run0 = run_one(11, 100);
+  runWithStallDeadline(120, [](std::atomic<std::uint64_t> & heartbeat) {
+    auto run0 = run_one(11, 100, &heartbeat);
     for (unsigned int rep = 1; rep < 3; ++rep)
     {
-      auto runN = run_one(11, 100);
+      auto runN = run_one(11, 100, &heartbeat);
       EXPECT_TRUE(images_identical(run0, runN)) << "run " << rep << " differs from run 0";
     }
   });
@@ -311,7 +361,7 @@ TEST(ParallelSparseFieldLevelSetRobustness, Determinism)
 TEST(ParallelSparseFieldLevelSetRobustness, ConcurrentMultiPipeline)
 {
   using namespace PSFLSIFR;
-  runWithDeadline(300, [] {
+  runWithStallDeadline(120, [](std::atomic<std::uint64_t> & heartbeat) {
     constexpr unsigned int kConcurrentReps = 6;
     constexpr unsigned int kConcurrentPipelines = 8;
     for (unsigned int rep = 0; rep < kConcurrentReps; ++rep)
@@ -320,7 +370,7 @@ TEST(ParallelSparseFieldLevelSetRobustness, ConcurrentMultiPipeline)
       futures.reserve(kConcurrentPipelines);
       for (unsigned int p = 0; p < kConcurrentPipelines; ++p)
       {
-        futures.emplace_back(std::async(std::launch::async, [] { return run_one(11, 60); }));
+        futures.emplace_back(std::async(std::launch::async, [&heartbeat] { return run_one(11, 60, &heartbeat); }));
       }
       for (auto & f : futures)
       {
