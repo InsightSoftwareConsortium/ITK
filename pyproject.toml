@@ -39,6 +39,7 @@ libopenblas = ">=0.3.30,<0.4"
 libgfortran5 = ">=15.2.0,<16"
 swig = ">=4.4.1"
 castxml = ">=0.7.0,<0.8"
+ccache = ">=4.13.6,<5"
 
 [tool.pixi.feature.cxx.tasks.configure]
 cmd = '''cmake \
@@ -236,9 +237,36 @@ cmd = '''cmake \
   -DITK_USE_SYSTEM_SWIG:BOOL=ON \
   -DITK_USE_SYSTEM_CASTXML:BOOL=ON \
   -DCMAKE_BUILD_TYPE:STRING=Release \
-  -DBUILD_TESTING:BOOL=ON'''
+  -DBUILD_TESTING:BOOL=ON \
+  -DCMAKE_C_COMPILER_LAUNCHER:STRING=ccache \
+  -DCMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache'''
 description = "Configure ITK Python"
 outputs = ["build-python/CMakeFiles/"]
+
+[tool.pixi.feature.python.tasks.configure-python-ci]
+cmd = '''cmake \
+  -Bbuild-python \
+  -S. \
+  -GNinja \
+  -DITK_WRAP_PYTHON:BOOL=ON \
+  -DITK_WRAP_CASTXML_CACHE:BOOL=ON \
+  -DCMAKE_BUILD_TYPE:STRING=Release \
+  -DBUILD_TESTING:BOOL=ON \
+  -DCMAKE_C_COMPILER_LAUNCHER:STRING=ccache \
+  -DCMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache'''
+description = "Configure ITK Python for CI (castxml cache enabled; set ITK_WRAP_CACHE before building)"
+outputs = ["build-python/CMakeFiles/"]
+
+[tool.pixi.feature.python.tasks.build-python-ci]
+cmd = "cmake --build build-python"
+description = "Build ITK Python for CI"
+outputs = ["build-python/lib/**"]
+depends-on = ["configure-python-ci"]
+
+[tool.pixi.feature.python.tasks.test-python-ci]
+cmd = "ctest -j3 --test-dir build-python --output-on-failure"
+description = "Test ITK Python for CI"
+depends-on = ["build-python-ci"]
 
 [tool.pixi.feature.python.tasks.build-python]
 cmd = "cmake --build build-python"
