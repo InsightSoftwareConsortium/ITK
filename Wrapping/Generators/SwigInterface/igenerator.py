@@ -230,8 +230,16 @@ def argument_parser():
 
 
 glb_options = argument_parser()
-sys.path.insert(1, glb_options.pygccxml_path)
-import pygccxml  # noqa: E402
+pygccxml = None  # populated lazily by _load_pygccxml()
+
+
+def _load_pygccxml():
+    """Import pygccxml into the global namespace; loaded lazily, not at import time."""
+    global pygccxml
+    import importlib
+
+    sys.path.insert(1, glb_options.pygccxml_path)
+    pygccxml = importlib.import_module("pygccxml")
 
 
 # Global debugging variables
@@ -1968,18 +1976,6 @@ def main():
     if options.pkl_dir != "":
         Path(options.pkl_dir).mkdir(exist_ok=True, parents=True)
 
-    # init the pygccxml stuff
-    pygccxml.utils.loggers.cxx_parser.setLevel(logging.CRITICAL)
-    pygccxml.declarations.scopedef_t.RECURSIVE_DEFAULT = False
-    pygccxml.declarations.scopedef_t.ALLOW_EMPTY_MDECL_WRAPPER = True
-
-    pygccxml_config = pygccxml.parser.config.xml_generator_configuration_t(
-        xml_generator_path=options.castxml_path,
-        xml_generator="castxml",
-        # Use castxml-output=1 to take advantage of the newer XML format
-        flags=["--castxml-output=1"],
-    )
-
     submodule_names_list: list[str] = []
     # The first mdx file is the master index file for this module.
     master_mdx_filename: Path = Path(options.mdx[0])
@@ -1999,6 +1995,18 @@ def main():
                 submodule_name = submodule_name.strip('"')
                 if submodule_name not in submodule_names_list:
                     submodule_names_list.append(submodule_name)
+
+    _load_pygccxml()
+
+    pygccxml.utils.loggers.cxx_parser.setLevel(logging.CRITICAL)
+    pygccxml.declarations.scopedef_t.RECURSIVE_DEFAULT = False
+    pygccxml.declarations.scopedef_t.ALLOW_EMPTY_MDECL_WRAPPER = True
+
+    pygccxml_config = pygccxml.parser.config.xml_generator_configuration_t(
+        xml_generator_path=options.castxml_path,
+        xml_generator="castxml",
+        flags=["--castxml-output=1"],
+    )
 
     for submodule_name in submodule_names_list:
         wrappers_namespace: Any = global_submodule_cache.get_submodule_namespace(
