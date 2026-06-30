@@ -51,6 +51,9 @@ set(CTEST_CUSTOM_COVERAGE_EXCLUDE
  ".*/ThirdParty/.*"
  ".*/Utilities/.*"
 
+ # Exclude FetchContent-downloaded dependencies (e.g. DCMTK via _deps)
+ ".*/_deps/.*"
+
  # Exclude files from the Wrapping directories
  ".*/Wrapping/.*"
  )
