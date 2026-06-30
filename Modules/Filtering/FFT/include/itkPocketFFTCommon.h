@@ -18,7 +18,7 @@
 #ifndef itkPocketFFTCommon_h
 #define itkPocketFFTCommon_h
 
-#include "pocketfft_hdronly.h"
+#include "itk_pocketfft.h"
 
 namespace itk
 {
@@ -31,10 +31,10 @@ namespace PocketFFTCommon
 /** pocketfft shape is listed slowest-varying axis first; the ITK buffer is
  * x-fastest, so ITK dimension i maps to shape index (Dimension - 1 - i). */
 template <typename TSize>
-inline pocketfft::shape_t
+inline itk::detail::pocketfft::shape_t
 MakeShape(const TSize & itkSize, const unsigned int dimension)
 {
-  pocketfft::shape_t shape(dimension);
+  itk::detail::pocketfft::shape_t shape(dimension);
   for (unsigned int i = 0; i < dimension; ++i)
   {
     shape[dimension - 1 - i] = itkSize[i];
@@ -44,11 +44,11 @@ MakeShape(const TSize & itkSize, const unsigned int dimension)
 
 /** Contiguous-buffer strides in bytes for a pixel of size pixelBytes. */
 template <typename TSize>
-inline pocketfft::stride_t
+inline itk::detail::pocketfft::stride_t
 MakeStride(const TSize & itkSize, const unsigned int dimension, const size_t pixelBytes)
 {
-  pocketfft::stride_t stride(dimension);
-  ptrdiff_t           byteStride = static_cast<ptrdiff_t>(pixelBytes);
+  itk::detail::pocketfft::stride_t stride(dimension);
+  ptrdiff_t                        byteStride = static_cast<ptrdiff_t>(pixelBytes);
   for (unsigned int i = 0; i < dimension; ++i)
   {
     stride[dimension - 1 - i] = byteStride;
@@ -59,10 +59,10 @@ MakeStride(const TSize & itkSize, const unsigned int dimension, const size_t pix
 
 /** All axes, ordered so axes.back() is the ITK x dimension (the axis
  * pocketfft halves in r2c/c2r). */
-inline pocketfft::shape_t
+inline itk::detail::pocketfft::shape_t
 MakeAxes(const unsigned int dimension)
 {
-  pocketfft::shape_t axes(dimension);
+  itk::detail::pocketfft::shape_t axes(dimension);
   for (unsigned int i = 0; i < dimension; ++i)
   {
     axes[i] = i;
@@ -75,9 +75,9 @@ template <typename TValue>
 inline void
 Transform1D(std::complex<TValue> * data, const size_t lineLength, const bool forward, const TValue scale)
 {
-  const pocketfft::shape_t  shape{ lineLength };
-  const pocketfft::stride_t stride{ static_cast<ptrdiff_t>(sizeof(std::complex<TValue>)) };
-  pocketfft::c2c(shape, stride, stride, { 0 }, forward, data, data, scale);
+  const itk::detail::pocketfft::shape_t  shape{ lineLength };
+  const itk::detail::pocketfft::stride_t stride{ static_cast<ptrdiff_t>(sizeof(std::complex<TValue>)) };
+  itk::detail::pocketfft::c2c(shape, stride, stride, { 0 }, forward, data, data, scale);
 }
 
 } // namespace PocketFFTCommon

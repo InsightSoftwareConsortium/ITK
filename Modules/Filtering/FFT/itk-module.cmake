@@ -19,6 +19,7 @@ itk_module(
   ENABLE_SHARED
   DEPENDS
     ITKCommon
+    ITKPocketFFT
   COMPILE_DEPENDS
     ITKImageGrid
   TEST_DEPENDS

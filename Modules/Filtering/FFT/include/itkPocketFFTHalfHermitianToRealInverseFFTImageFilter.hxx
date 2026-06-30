@@ -45,24 +45,25 @@ PocketFFTHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::Ge
   const OutputSizeType outputSize = outputPtr->GetLargestPossibleRegion().GetSize();
 
   // c2r takes the shape of the real (output) image.
-  const pocketfft::shape_t  shape = PocketFFTCommon::MakeShape(outputSize, ImageDimension);
-  const pocketfft::stride_t strideIn = PocketFFTCommon::MakeStride(inputSize, ImageDimension, sizeof(InputPixelType));
-  const pocketfft::stride_t strideOut =
+  const itk::detail::pocketfft::shape_t  shape = PocketFFTCommon::MakeShape(outputSize, ImageDimension);
+  const itk::detail::pocketfft::stride_t strideIn =
+    PocketFFTCommon::MakeStride(inputSize, ImageDimension, sizeof(InputPixelType));
+  const itk::detail::pocketfft::stride_t strideOut =
     PocketFFTCommon::MakeStride(outputSize, ImageDimension, sizeof(OutputPixelType));
-  const pocketfft::shape_t axes = PocketFFTCommon::MakeAxes(ImageDimension);
+  const itk::detail::pocketfft::shape_t axes = PocketFFTCommon::MakeAxes(ImageDimension);
 
   const SizeValueType   totalOutputSize = outputPtr->GetLargestPossibleRegion().GetNumberOfPixels();
   const OutputPixelType scale = OutputPixelType{ 1 } / static_cast<OutputPixelType>(totalOutputSize);
 
-  pocketfft::c2r(shape,
-                 strideIn,
-                 strideOut,
-                 axes,
-                 pocketfft::BACKWARD,
-                 inputPtr->GetBufferPointer(),
-                 outputPtr->GetBufferPointer(),
-                 scale,
-                 this->GetMultiThreader()->GetMaximumNumberOfThreads());
+  itk::detail::pocketfft::c2r(shape,
+                              strideIn,
+                              strideOut,
+                              axes,
+                              itk::detail::pocketfft::BACKWARD,
+                              inputPtr->GetBufferPointer(),
+                              outputPtr->GetBufferPointer(),
+                              scale,
+                              this->GetMultiThreader()->GetMaximumNumberOfThreads());
 }
 
 template <typename TInputImage, typename TOutputImage>

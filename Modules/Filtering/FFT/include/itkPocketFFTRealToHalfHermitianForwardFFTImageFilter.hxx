@@ -44,21 +44,22 @@ PocketFFTRealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::Ge
   outputPtr->Allocate();
   const OutputSizeType outputSize = outputPtr->GetLargestPossibleRegion().GetSize();
 
-  const pocketfft::shape_t  shape = PocketFFTCommon::MakeShape(inputSize, ImageDimension);
-  const pocketfft::stride_t strideIn = PocketFFTCommon::MakeStride(inputSize, ImageDimension, sizeof(InputPixelType));
-  const pocketfft::stride_t strideOut =
+  const itk::detail::pocketfft::shape_t  shape = PocketFFTCommon::MakeShape(inputSize, ImageDimension);
+  const itk::detail::pocketfft::stride_t strideIn =
+    PocketFFTCommon::MakeStride(inputSize, ImageDimension, sizeof(InputPixelType));
+  const itk::detail::pocketfft::stride_t strideOut =
     PocketFFTCommon::MakeStride(outputSize, ImageDimension, sizeof(OutputPixelType));
-  const pocketfft::shape_t axes = PocketFFTCommon::MakeAxes(ImageDimension);
+  const itk::detail::pocketfft::shape_t axes = PocketFFTCommon::MakeAxes(ImageDimension);
 
-  pocketfft::r2c(shape,
-                 strideIn,
-                 strideOut,
-                 axes,
-                 pocketfft::FORWARD,
-                 inputPtr->GetBufferPointer(),
-                 outputPtr->GetBufferPointer(),
-                 InputPixelType{ 1 },
-                 this->GetMultiThreader()->GetMaximumNumberOfThreads());
+  itk::detail::pocketfft::r2c(shape,
+                              strideIn,
+                              strideOut,
+                              axes,
+                              itk::detail::pocketfft::FORWARD,
+                              inputPtr->GetBufferPointer(),
+                              outputPtr->GetBufferPointer(),
+                              InputPixelType{ 1 },
+                              this->GetMultiThreader()->GetMaximumNumberOfThreads());
 }
 
 template <typename TInputImage, typename TOutputImage>

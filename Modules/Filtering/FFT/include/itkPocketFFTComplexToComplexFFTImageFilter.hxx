@@ -48,9 +48,10 @@ PocketFFTComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::GenerateData
   // Copy the input to the output and transform in place on the output.
   ImageAlgorithm::Copy<InputImageType, OutputImageType>(input, output, bufferedRegion, bufferedRegion);
 
-  const pocketfft::shape_t  shape = PocketFFTCommon::MakeShape(imageSize, ImageDimension);
-  const pocketfft::stride_t stride = PocketFFTCommon::MakeStride(imageSize, ImageDimension, sizeof(PixelType));
-  const pocketfft::shape_t  axes = PocketFFTCommon::MakeAxes(ImageDimension);
+  const itk::detail::pocketfft::shape_t  shape = PocketFFTCommon::MakeShape(imageSize, ImageDimension);
+  const itk::detail::pocketfft::stride_t stride =
+    PocketFFTCommon::MakeStride(imageSize, ImageDimension, sizeof(PixelType));
+  const itk::detail::pocketfft::shape_t axes = PocketFFTCommon::MakeAxes(ImageDimension);
 
   using ValueType = typename PixelType::value_type;
   PixelType * buffer = output->GetBufferPointer();
@@ -59,15 +60,15 @@ PocketFFTComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::GenerateData
   const auto scale =
     inverse ? ValueType{ 1 } / static_cast<ValueType>(bufferedRegion.GetNumberOfPixels()) : ValueType{ 1 };
 
-  pocketfft::c2c(shape,
-                 stride,
-                 stride,
-                 axes,
-                 inverse ? pocketfft::BACKWARD : pocketfft::FORWARD,
-                 buffer,
-                 buffer,
-                 scale,
-                 this->GetMultiThreader()->GetMaximumNumberOfThreads());
+  itk::detail::pocketfft::c2c(shape,
+                              stride,
+                              stride,
+                              axes,
+                              inverse ? itk::detail::pocketfft::BACKWARD : itk::detail::pocketfft::FORWARD,
+                              buffer,
+                              buffer,
+                              scale,
+                              this->GetMultiThreader()->GetMaximumNumberOfThreads());
 }
 
 } // namespace itk
