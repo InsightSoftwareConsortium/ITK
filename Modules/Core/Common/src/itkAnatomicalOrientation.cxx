@@ -70,7 +70,12 @@ AnatomicalOrientation::GetAsPositiveStringEncoding() const
 std::string
 AnatomicalOrientation::GetAsNegativeStringEncoding() const
 {
-  return ConvertStringEncoding(GetAsPositiveStringEncoding());
+  const std::string positive = GetAsPositiveStringEncoding();
+  if (positive == "INVALID")
+  {
+    return "INVALID";
+  }
+  return ConvertStringEncoding(positive);
 }
 
 

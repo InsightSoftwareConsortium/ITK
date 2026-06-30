@@ -25,6 +25,7 @@
 #include "itkAnatomicalOrientation.h"
 #include "itkImage.h"
 #include <sstream>
+#include <string>
 
 
 TEST(AnatomicalOrientation, ConstructionAndValues)
@@ -267,3 +268,74 @@ TEST(AnatomicalOrientation, LegacyInteroperability)
   EXPECT_EQ(itk_rai.GetAsPositiveStringEncoding(), "LPS");
 }
 #endif
+
+TEST(AnatomicalOrientation, StreamingCoordinateEnum)
+{
+  using CE = itk::AnatomicalOrientation::CoordinateEnum;
+
+  auto stream = [](CE c) -> std::string {
+    std::ostringstream oss;
+    oss << c;
+    return oss.str();
+  };
+
+  EXPECT_EQ("right-to-left", stream(CE::RightToLeft));
+  EXPECT_EQ("left-to-right", stream(CE::LeftToRight));
+  EXPECT_EQ("anterior-to-posterior", stream(CE::AnteriorToPosterior));
+  EXPECT_EQ("posterior-to-anterior", stream(CE::PosteriorToAnterior));
+  EXPECT_EQ("inferior-to-superior", stream(CE::InferiorToSuperior));
+  EXPECT_EQ("superior-to-inferior", stream(CE::SuperiorToInferior));
+  EXPECT_EQ("unknown", stream(CE::UNKNOWN));
+}
+
+TEST(AnatomicalOrientation, StreamingPositiveEnum)
+{
+  using OE = itk::AnatomicalOrientation::PositiveEnum;
+
+  std::ostringstream oss;
+  oss << OE::LPS;
+  EXPECT_EQ("LPS", oss.str());
+
+  oss.str("");
+  oss << OE::RAS;
+  EXPECT_EQ("RAS", oss.str());
+}
+
+TEST(AnatomicalOrientation, StreamingNegativeEnum)
+{
+  using NOE = itk::AnatomicalOrientation::NegativeEnum;
+
+  std::ostringstream oss;
+  oss << NOE::LPI;
+  EXPECT_EQ("LPI", oss.str());
+
+  oss.str("");
+  oss << NOE::RAI;
+  EXPECT_EQ("RAI", oss.str());
+}
+
+TEST(AnatomicalOrientation, StreamingOrientation)
+{
+  using OE = itk::AnatomicalOrientation::PositiveEnum;
+
+  // operator<<(ostream, AnatomicalOrientation) outputs each CoordinateEnum term space-separated
+  const itk::AnatomicalOrientation lps(OE::LPS);
+  std::ostringstream               oss;
+  oss << lps;
+  EXPECT_EQ("right-to-left anterior-to-posterior inferior-to-superior", oss.str());
+
+  oss.str("");
+  oss << itk::AnatomicalOrientation(OE::RAS);
+  EXPECT_EQ("left-to-right posterior-to-anterior inferior-to-superior", oss.str());
+}
+
+TEST(AnatomicalOrientation, InvalidNegativeStringEncoding)
+{
+  // GetAsNegativeStringEncoding on INVALID orientation exercises the
+  // default branch of ConvertStringEncoding (non-orientation characters)
+  const itk::AnatomicalOrientation invalid = itk::AnatomicalOrientation::CreateFromPositiveStringEncoding("bad");
+  EXPECT_EQ(itk::AnatomicalOrientation::PositiveEnum::INVALID, invalid.GetAsPositiveOrientation());
+
+  const std::string negStr = invalid.GetAsNegativeStringEncoding();
+  EXPECT_EQ("INVALID", negStr);
+}
