@@ -21,6 +21,7 @@ itk_module(
   TEST_DEPENDS
     ITKIOTransformInsightLegacy
     ITKTestKernel
+    ITKGoogleTest
   DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
   ENABLE_SHARED
