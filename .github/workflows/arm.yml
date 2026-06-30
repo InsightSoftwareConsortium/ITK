@@ -80,6 +80,7 @@ jobs:
               BUILD_SHARED_LIBS:BOOL=OFF
               BUILD_EXAMPLES:BOOL=OFF
               ITK_WRAP_PYTHON:BOOL=ON
+              ITK_WRAP_CASTXML_CACHE:BOOL=ON
               ITK_USE_CLANG_FORMAT:BOOL=OFF
               ITK_COMPUTER_MEMORY_SIZE:STRING=11
             ctest-options: "-E itkPyBufferMemoryLeakTest"
