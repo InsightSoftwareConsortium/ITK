@@ -199,12 +199,33 @@ function(generate_castxml_commandline_flags)
   endforeach()
 
   # ===== Run the castxml command
+  if(
+    ITK_WRAP_CASTXML_CACHE
+    AND
+      Python3_EXECUTABLE
+    AND
+      ITK_WRAP_CASTXML_CACHE_SCRIPT
+  )
+    set(
+      _castxml_cmd
+      ${Python3_EXECUTABLE}
+      "${ITK_WRAP_CASTXML_CACHE_SCRIPT}"
+      ${CASTXML_EXECUTABLE}
+    )
+    list(APPEND _castxml_depends "${ITK_WRAP_CASTXML_CACHE_SCRIPT}")
+  else()
+    set(
+      _castxml_cmd
+      ${_ccache_cmd}
+      ${CASTXML_EXECUTABLE}
+    )
+  endif()
   add_custom_command(
     OUTPUT
       ${xml_file}
     COMMAND
-      ${_build_env} ${_ccache_cmd} ${CASTXML_EXECUTABLE} -o ${xml_file}
-      --castxml-output=1 ${_target} --castxml-start _wrapping_ ${_castxml_cc} -w
+      ${_build_env} ${_castxml_cmd} -o ${xml_file} --castxml-output=1 ${_target}
+      --castxml-start _wrapping_ ${_castxml_cc} -w
       -c # needed for ccache to think we are not calling for link
       @${castxml_inc_file} ${cxx_file}
     VERBATIM
@@ -214,6 +235,7 @@ function(generate_castxml_commandline_flags)
       ${castxml_inc_file}
       ${_hdrs}
   )
+  unset(_castxml_cmd)
   unset(cxx_file)
   unset(castxml_inc_file)
   unset(_build_env)

@@ -152,6 +152,12 @@ endif()
 
 include(ConfigureWrapping.cmake)
 
+# The cache support module is not installed and its script lives in the ITK
+# source tree, so external wrap projects build without the CastXML cache.
+if(ITK_WRAP_PYTHON AND NOT EXTERNAL_WRAP_ITK_PROJECT)
+  include(itkWrapCastXMLCacheSupport)
+endif()
+
 ###############################################################################
 # Configure specific wrapper modules
 ###############################################################################
@@ -271,6 +277,19 @@ if(ITK_WRAP_PYTHON)
       add_dependencies(itk-stub-files ${WRAPPER_LIBRARY_NAME}Swig)
     endif()
   endforeach()
+
+  if(ITK_WRAP_CASTXML_CACHE)
+    add_custom_command(
+      TARGET itk-stub-files
+      POST_BUILD
+      COMMAND
+        ${Python3_EXECUTABLE} "${ITK_WRAP_CASTXML_CACHE_SCRIPT}" --evict
+        "${ITK_WRAP_CASTXML_CACHE_MAX_DAYS}"
+      COMMENT
+        "CastXML cache: evicting entries older than ${ITK_WRAP_CASTXML_CACHE_MAX_DAYS} days, then trimming to the size cap"
+      VERBATIM
+    )
+  endif()
 
   unset(ITK_STUB_DIR CACHE)
   unset(ITK_PKL_DIR CACHE)
