@@ -68,12 +68,17 @@ protected:
 #  if defined(__GNUC__) || defined(__clang__)
 #    pragma GCC diagnostic push
 #    pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#  elif defined(_MSC_VER)
+#    pragma warning(push)
+#    pragma warning(disable : 4996)
 #  endif
 template <>
 struct FFTImageFilterTraits<VnlForwardFFTImageFilter> : public FFTImageFilterTraits<PocketFFTForwardFFTImageFilter>
 {};
 #  if defined(__GNUC__) || defined(__clang__)
 #    pragma GCC diagnostic pop
+#  elif defined(_MSC_VER)
+#    pragma warning(pop)
 #  endif
 /** \endcond */
 } // namespace itk
