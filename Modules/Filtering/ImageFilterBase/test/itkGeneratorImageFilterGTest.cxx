@@ -439,3 +439,48 @@ TEST(TernaryGeneratorImageFilter, Constants)
 
   EXPECT_NEAR(103.0, outputImage->GetPixel(idx), 1e-8);
 }
+
+
+TEST(TernaryGeneratorImageFilter, GetInputWithConstants)
+{
+  // Verify that GetInput1/2/3() and GetInput() return nullptr (rather than
+  // throwing) when the corresponding input is set as a constant. This tests
+  // the fix for itkDynamicCastInDebugMode throwing when the input slot holds
+  // a SimpleDataObjectDecorator instead of an image.
+
+  using Utils = Utilities<3>;
+  using FilterType =
+    itk::TernaryGeneratorImageFilter<Utils::ImageType, Utils::ImageType, Utils::ImageType, Utils::ImageType>;
+
+  auto image = Utils::CreateImage();
+  auto filter = FilterType::New();
+
+  // Input 1: image → then constant
+  filter->SetInput1(image);
+  EXPECT_EQ(image, filter->GetInput1());
+  EXPECT_EQ(image, filter->GetInput());
+  EXPECT_ANY_THROW(filter->GetConstant1());
+
+  filter->SetConstant1(1.0f);
+  EXPECT_EQ(nullptr, filter->GetInput1());
+  EXPECT_EQ(nullptr, filter->GetInput());
+  EXPECT_EQ(1.0f, filter->GetConstant1());
+
+  // Input 2: image → then constant
+  filter->SetInput2(image);
+  EXPECT_EQ(image, filter->GetInput2());
+  EXPECT_ANY_THROW(filter->GetConstant2());
+
+  filter->SetConstant2(2.0f);
+  EXPECT_EQ(nullptr, filter->GetInput2());
+  EXPECT_EQ(2.0f, filter->GetConstant2());
+
+  // Input 3: image → then constant
+  filter->SetInput3(image);
+  EXPECT_EQ(image, filter->GetInput3());
+  EXPECT_ANY_THROW(filter->GetConstant3());
+
+  filter->SetConstant3(3.0f);
+  EXPECT_EQ(nullptr, filter->GetInput3());
+  EXPECT_EQ(3.0f, filter->GetConstant3());
+}

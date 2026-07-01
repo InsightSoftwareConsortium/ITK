@@ -182,6 +182,34 @@ const typename TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputIma
   return input->Get();
 }
 
+template <typename TInputImage1, typename TInputImage2, typename TInputImage3, typename TOutputImage>
+const typename TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage>::Input1ImageType *
+TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage>::GetInput1() const
+{
+  return dynamic_cast<const Input1ImageType *>(this->ProcessObject::GetInput(0));
+}
+
+template <typename TInputImage1, typename TInputImage2, typename TInputImage3, typename TOutputImage>
+const typename TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage>::Input2ImageType *
+TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage>::GetInput2() const
+{
+  return dynamic_cast<const Input2ImageType *>(this->ProcessObject::GetInput(1));
+}
+
+template <typename TInputImage1, typename TInputImage2, typename TInputImage3, typename TOutputImage>
+const typename TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage>::Input3ImageType *
+TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage>::GetInput3() const
+{
+  return dynamic_cast<const Input3ImageType *>(this->ProcessObject::GetInput(2));
+}
+
+template <typename TInputImage1, typename TInputImage2, typename TInputImage3, typename TOutputImage>
+const typename TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage>::Input1ImageType *
+TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage>::GetInput() const
+{
+  return this->GetInput1();
+}
+
 /**
  * BeforeThreadedGenerateData function. Validate inputs
  */

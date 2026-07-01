@@ -155,6 +155,21 @@ public:
   virtual const Input3ImagePixelType &
   GetConstant3() const;
 
+  /** Get the first input image, or nullptr if it is set as a constant. */
+  const Input1ImageType *
+  GetInput1() const;
+
+  /** Get the second input image, or nullptr if it is set as a constant. */
+  const Input2ImageType *
+  GetInput2() const;
+
+  /** Get the third input image, or nullptr if it is set as a constant. */
+  const Input3ImageType *
+  GetInput3() const;
+
+  /** Override to return nullptr (instead of throwing) if input 1 is set as a constant. */
+  const Input1ImageType *
+  GetInput() const;
 
 #if !defined(ITK_WRAPPING_PARSER)
   /** Set the pixel functor
