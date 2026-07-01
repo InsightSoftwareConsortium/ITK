@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # /// script
-# requires-python = ">=3.8"
+# requires-python = ">=3.11"
 # ///
 """
 get_build_warnings.py — Fetch and summarize warnings or errors for a CDash build.

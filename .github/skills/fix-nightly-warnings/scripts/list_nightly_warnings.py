@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # /// script
-# requires-python = ">=3.8"
+# requires-python = ">=3.11"
 # ///
 """
 list_nightly_warnings.py — List ITK CDash builds that have warnings or errors.
