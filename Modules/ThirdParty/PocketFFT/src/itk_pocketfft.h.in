@@ -1,0 +1,53 @@
+/*=========================================================================
+ *
+ *  Copyright NumFOCUS
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+
+#ifndef itk_pocketfft_h
+#define itk_pocketfft_h
+
+// The single entry point for pocketfft in ITK: this header is the only place
+// that includes pocketfft_hdronly.h.  All ITK code includes itk_pocketfft.h.
+//
+// ITK-specific configuration is applied here (not in the vendored upstream
+// copy) so the fork stays a faithful mirror of upstream.
+
+// Must be included before any pocketfft_hdronly.h: if pocketfft was already
+// pulled in (e.g. a system copy via another library) its symbols are in
+// ::pocketfft and ITK's itk::detail::pocketfft API will not resolve.
+#ifdef POCKETFFT_HDRONLY_H
+#  error "pocketfft_hdronly.h was included before itk_pocketfft.h; include itk_pocketfft.h first so ITK's namespace isolation applies."
+#endif
+
+// Confine pocketfft to an ITK-private namespace so its symbols never collide
+// with a ::pocketfft from another library (mreineck/pocketfft#30).
+#ifndef POCKETFFT_NAMESPACE
+#  define POCKETFFT_NAMESPACE itk::detail::pocketfft
+#endif
+
+// Reuse up to 16 cached plans for repeated same-size transforms.
+#ifndef POCKETFFT_CACHE_SIZE
+#  define POCKETFFT_CACHE_SIZE 16
+#endif
+
+#cmakedefine ITK_USE_SYSTEM_POCKETFFT
+#ifdef ITK_USE_SYSTEM_POCKETFFT
+#  include <pocketfft_hdronly.h>
+#else
+#  include "itkpocketfft/pocketfft_hdronly.h"
+#endif
+
+#endif
