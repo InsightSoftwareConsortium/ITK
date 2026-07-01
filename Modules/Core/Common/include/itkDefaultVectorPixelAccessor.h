@@ -124,6 +124,7 @@ public:
   {}
 
   ~DefaultVectorPixelAccessor() = default;
+  ITK_DEFAULT_COPY_AND_MOVE(DefaultVectorPixelAccessor);
 
 private:
   VectorLengthType m_VectorLength{ 0 };
