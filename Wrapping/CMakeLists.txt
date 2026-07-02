@@ -293,4 +293,38 @@ if(ITK_WRAP_PYTHON)
 
   unset(ITK_STUB_DIR CACHE)
   unset(ITK_PKL_DIR CACHE)
+
+  # Wrapping infrastructure suite (Generators/Tests): registered only when
+  # pytest is available in the build interpreter; needs no built ITK.
+  if(BUILD_TESTING AND NOT EXTERNAL_WRAP_ITK_PROJECT)
+    execute_process(
+      COMMAND
+        ${Python3_EXECUTABLE} -m pytest --version
+      RESULT_VARIABLE _pytest_missing
+      OUTPUT_QUIET
+      ERROR_QUIET
+    )
+    if(_pytest_missing)
+      message(
+        STATUS
+        "pytest not found for ${Python3_EXECUTABLE}: WrappingInfrastructure test not registered"
+      )
+    else()
+      add_test(
+        NAME WrappingInfrastructure
+        COMMAND
+          ${Python3_EXECUTABLE} -m pytest -q -p no:cacheprovider
+          ${CMAKE_CURRENT_SOURCE_DIR}/Generators/Tests
+      )
+      set_tests_properties(
+        WrappingInfrastructure
+        PROPERTIES
+          TIMEOUT
+            300
+          LABELS
+            Python
+      )
+    endif()
+    unset(_pytest_missing)
+  endif()
 endif()

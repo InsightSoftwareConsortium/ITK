@@ -81,7 +81,7 @@ jobs:
         sudo pip3 install ninja numpy>=1.20 typing-extensions
         sudo python3 -m pip install --upgrade setuptools
         sudo python3 -m pip install scikit-ci-addons
-        sudo python3 -m pip install lxml dask distributed
+        sudo python3 -m pip install lxml dask distributed pytest
         brew install ccache
       displayName: 'Install dependencies'
 
