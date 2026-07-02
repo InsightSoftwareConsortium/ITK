@@ -23,6 +23,7 @@
 #include "itkPrintHelper.h"
 #include "itksys/Directory.hxx"
 #include <algorithm>
+#include <exception>
 #include <vector>
 
 namespace itk
@@ -45,7 +46,7 @@ OrderFileReadersByPosition(std::vector<DCMTKFileReader *> & headers)
   // Derive the slice normal from the first slice that carries a valid
   // orientation; a single mis-globbed entry without one must not suppress
   // geometric ordering for the whole series.
-  double dircos[6];
+  double dircos[6] = {};
   bool   haveOrientation = false;
   for (auto * reader : headers)
   {
@@ -90,16 +91,46 @@ OrderFileReadersByPosition(std::vector<DCMTKFileReader *> & headers)
 
   std::transform(keys.begin(), keys.end(), headers.begin(), [](const SortKey & k) { return k.reader; });
 }
+
+// Collect file paths under dir, descending into subdirectories when recursive.
+void
+CollectCandidateFiles(const std::string & dir, bool recursive, std::vector<std::string> & out)
+{
+  itksys::Directory directory;
+  directory.Load(dir.c_str());
+  for (unsigned int i = 0; i < directory.GetNumberOfFiles(); ++i)
+  {
+    const std::string curFile = directory.GetFile(i);
+    if (curFile == "." || curFile == "..")
+    {
+      continue;
+    }
+    std::string path = dir;
+    path += '/';
+    path += curFile;
+    if (itksys::SystemTools::FileIsDirectory(path.c_str()))
+    {
+      if (recursive)
+      {
+        CollectCandidateFiles(path, recursive, out);
+      }
+    }
+    else
+    {
+      out.push_back(path);
+    }
+  }
+}
 } // namespace
 
 DCMTKSeriesFileNames::DCMTKSeriesFileNames()
 {
   m_InputDirectory = "";
   m_OutputDirectory = "";
-  m_UseSeriesDetails = true;
   m_Recursive = false;
   m_LoadSequences = false;
   m_LoadPrivateTags = false;
+  this->SetUseSeriesDetails(true); // seeds the default series-detail restrictions
 }
 
 DCMTKSeriesFileNames::~DCMTKSeriesFileNames() = default;
@@ -137,103 +168,110 @@ DCMTKSeriesFileNames::SetInputDirectory(const std::string & name)
   this->Modified();
 }
 
-void
-DCMTKSeriesFileNames::GetDicomData(const std::string & series, bool saveFileNames)
+std::string
+DCMTKSeriesFileNames::CreateSeriesIdentifier(DCMTKFileReader * reader) const
 {
-  if (saveFileNames)
+  std::string id;
+  reader->GetElementUI(0x0020, 0x000e, id, false); // Series Instance UID
+  if (m_UseSeriesDetails)
   {
-    this->m_InputFileNames.clear();
+    for (const auto & [group, element] : m_Restrictions)
+    {
+      std::string value;
+      reader->GetElementAsString(group, element, value, false);
+      id += '_';
+      id += value;
+    }
   }
+  return id;
+}
+
+void
+DCMTKSeriesFileNames::BuildSeriesMap()
+{
+  // Reuse the previous parse unless the object has been modified since.
+  if (m_CacheBuildTime.GetMTime() > this->GetMTime())
+  {
+    return;
+  }
+
   this->m_SeriesUIDs.clear();
+  this->m_SeriesFiles.clear();
 
   // make an absolute path from whatever is passed in
   std::string fullPath = itksys::SystemTools::CollapseFullPath(m_InputDirectory.c_str());
-
   // work in Unix filename conventions, but convert to actually use filename
   itksys::SystemTools::ConvertToUnixSlashes(fullPath);
 
-  std::string localFilePath = fullPath;
+  std::vector<std::string> candidateFiles;
+  CollectCandidateFiles(fullPath, m_Recursive, candidateFiles);
 
-  // load the directory
-  itksys::Directory directory;
-  directory.Load(localFilePath.c_str());
-
-  unsigned int numFiles = directory.GetNumberOfFiles();
-
-  std::vector<DCMTKFileReader *> allHeaders;
-
-  for (unsigned int i = 0; i < numFiles; ++i)
+  // Group readers by series identifier, preserving first-encountered order
+  // of the distinct identifiers.
+  std::map<std::string, std::vector<DCMTKFileReader *>> groups;
+  for (const std::string & localFilePath : candidateFiles)
   {
-    std::string curFile = directory.GetFile(i);
-    if (curFile == "." || curFile == "..")
+    if (!DCMTKFileReader::IsImageFile(localFilePath))
     {
       continue;
     }
-    localFilePath = fullPath;
-    localFilePath += '/';
-    localFilePath += curFile;
-    if (!itksys::SystemTools::FileIsDirectory(localFilePath.c_str()))
+    auto * reader = new DCMTKFileReader;
+    try
     {
-      if (!DCMTKFileReader::IsImageFile(localFilePath))
-      {
-        continue;
-      }
-      auto * reader = new DCMTKFileReader;
-      try
-      {
-        reader->SetFileName(localFilePath);
-        reader->LoadFile();
-      }
-      catch (...)
-      {
-        delete reader;
-        continue;
-      }
-      std::string uid;
-      reader->GetElementUI(0x0020, 0x000e, uid);
-      //
-      // if you've restricted it to a particular series instance ID
-      if (series.empty() || series == uid)
-      {
-        allHeaders.push_back(reader);
-      }
-      else
-      {
-        delete reader;
-      }
-      //
-      // save the UID at any rate
-      this->m_SeriesUIDs.push_back(uid);
+      reader->SetFileName(localFilePath);
+      reader->LoadFile();
     }
+    catch (...)
+    {
+      delete reader;
+      continue;
+    }
+    const std::string id = this->CreateSeriesIdentifier(reader);
+    if (groups.find(id) == groups.end())
+    {
+      this->m_SeriesUIDs.push_back(id);
+    }
+    groups[id].push_back(reader);
   }
 
-  if (saveFileNames)
+  // Order each series geometrically and store its file names; free the headers.
+  for (auto & [id, readers] : groups)
   {
-    OrderFileReadersByPosition(allHeaders);
-  }
-  //
-  // save the filenames, and delete the headers
-  for (auto & allHeader : allHeaders)
-  {
-    if (saveFileNames)
+    OrderFileReadersByPosition(readers);
+    FileNamesContainerType names;
+    names.reserve(readers.size());
+    for (auto * reader : readers)
     {
-      m_InputFileNames.push_back(allHeader->GetFileName());
+      names.push_back(reader->GetFileName());
+      delete reader;
     }
-    delete allHeader;
+    this->m_SeriesFiles[id] = std::move(names);
   }
+
+  m_CacheBuildTime.Modified();
 }
 
 const DCMTKSeriesFileNames::FileNamesContainerType &
 DCMTKSeriesFileNames::GetFileNames(const std::string series)
 {
-  this->GetDicomData(series, true);
+  this->BuildSeriesMap();
+  const auto it = m_SeriesFiles.find(series);
+  if (it == m_SeriesFiles.end())
+  {
+    itkWarningMacro("No files were found for series " << series);
+    m_InputFileNames.clear();
+  }
+  else
+  {
+    m_InputFileNames = it->second;
+  }
   return m_InputFileNames;
 }
 
 const DCMTKSeriesFileNames::SeriesUIDContainerType &
 DCMTKSeriesFileNames::GetSeriesUIDs()
 {
-  this->GetDicomData("", false);
+  this->BuildSeriesMap();
   return this->m_SeriesUIDs;
 }
 
@@ -241,8 +279,14 @@ DCMTKSeriesFileNames::GetSeriesUIDs()
 const DCMTKSeriesFileNames::FileNamesContainerType &
 DCMTKSeriesFileNames::GetInputFileNames()
 {
-  // Do not specify any UID
-  this->GetDicomData("", true);
+  this->BuildSeriesMap();
+  // Return the first series encountered (single-series assumption), matching
+  // itk::GDCMSeriesFileNames.
+  m_InputFileNames.clear();
+  if (!m_SeriesUIDs.empty())
+  {
+    m_InputFileNames = m_SeriesFiles[m_SeriesUIDs.front()];
+  }
   return this->m_InputFileNames;
 }
 
@@ -285,7 +329,47 @@ void
 DCMTKSeriesFileNames::SetUseSeriesDetails(bool useSeriesDetails)
 {
   m_UseSeriesDetails = useSeriesDetails;
-  //  m_SerieHelper->SetUseSeriesDetails(m_UseSeriesDetails);
-  //  m_SerieHelper->CreateDefaultUniqueSeriesIdentifier();
+  m_Restrictions.clear();
+  if (m_UseSeriesDetails)
+  {
+    // Default detail tags, matching gdcm::SerieHelper::CreateDefaultUniqueSeriesIdentifier.
+    m_Restrictions.emplace_back(0x0020, 0x0011); // Series Number
+    m_Restrictions.emplace_back(0x0018, 0x0024); // Sequence Name
+    m_Restrictions.emplace_back(0x0018, 0x0050); // Slice Thickness
+    m_Restrictions.emplace_back(0x0028, 0x0010); // Rows
+    m_Restrictions.emplace_back(0x0028, 0x0011); // Columns
+  }
+  this->Modified();
+}
+
+void
+DCMTKSeriesFileNames::AddSeriesRestriction(const std::string & tag)
+{
+  // Parse a "group|element" tag (hex) and append it to the identifier criteria.
+  const std::string::size_type bar = tag.find('|');
+  if (bar == std::string::npos || bar == 0 || bar + 1 >= tag.size())
+  {
+    itkWarningMacro("Ignoring malformed series restriction tag '" << tag << "' (expected \"group|element\")");
+    return;
+  }
+  unsigned long group = 0;
+  unsigned long element = 0;
+  try
+  {
+    group = std::stoul(tag.substr(0, bar), nullptr, 16);
+    element = std::stoul(tag.substr(bar + 1), nullptr, 16);
+  }
+  catch (const std::exception &)
+  {
+    itkWarningMacro("Ignoring malformed series restriction tag '" << tag << "' (expected \"group|element\")");
+    return;
+  }
+  if (group > 0xFFFF || element > 0xFFFF)
+  {
+    itkWarningMacro("Ignoring out-of-range series restriction tag '" << tag << "' (group/element exceed 16 bits)");
+    return;
+  }
+  m_Restrictions.emplace_back(static_cast<unsigned short>(group), static_cast<unsigned short>(element));
+  this->Modified();
 }
 } // namespace itk

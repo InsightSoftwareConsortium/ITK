@@ -446,6 +446,13 @@ public:
                std::string &        target,
                const bool           throwException = true) const;
 
+  /** Read any element as its string representation, regardless of VR. */
+  int
+  GetElementAsString(const unsigned short group,
+                     const unsigned short element,
+                     std::string &        target,
+                     const bool           throwException = true) const;
+
   int
   GetElementDA(const unsigned short group,
                const unsigned short element,

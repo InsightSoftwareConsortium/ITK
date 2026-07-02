@@ -925,6 +925,22 @@ DCMTKFileReader::GetElementUI(const unsigned short group,
 }
 
 int
+DCMTKFileReader::GetElementAsString(const unsigned short group,
+                                    const unsigned short element,
+                                    std::string &        target,
+                                    const bool           throwException) const
+{
+  DcmTagKey tagKey(group, element);
+  OFString  ofString;
+  if (this->m_Dataset->findAndGetOFStringArray(tagKey, ofString) != EC_Normal)
+  {
+    DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex << group << ' ' << std::hex << element << std::dec);
+  }
+  target.assign(ofString.c_str(), ofString.length());
+  return EXIT_SUCCESS;
+}
+
+int
 DCMTKFileReader::GetElementDA(const unsigned short group,
                               const unsigned short element,
                               std::string &        target,
