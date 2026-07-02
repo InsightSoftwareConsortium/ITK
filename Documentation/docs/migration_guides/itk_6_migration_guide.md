@@ -873,3 +873,37 @@ variable declared as `FilterType::OutputIterator` and then passed where an
 siblings in the iterator hierarchy, not subclasses, so such uses do not convert
 implicitly. Code that only iterates (`GoToBegin`/`IsAtEnd`/`Get`/`Set`) needs no
 change.
+
+## `GDCMSeriesFileNames` reimplemented on `gdcm::Scanner`/`IPPSorter`
+
+`itk::GDCMSeriesFileNames` no longer uses the GDCM-deprecated
+`gdcm::SerieHelper`. It now enumerates with `gdcm::Directory`, groups series
+with `gdcm::Scanner` (replicating `SerieHelper::CreateUniqueSeriesIdentifier`),
+and orders slices geometrically with `gdcm::IPPSorter`. The public API is
+unchanged; consumers compile without modification.
+
+### What you need to do
+
+- Nothing for the common case: single-series directories enumerate, group, and
+  order as before.
+- If you relied on file ordering for **duplicate-`ImagePositionPatient`** or
+  **gantry-tilted** acquisitions, re-check it. `gdcm::IPPSorter` is strict and
+  fails to sort those; on failure the input (filesystem) order is left
+  unchanged rather than fabricated. First-class support is tracked in
+  [#6468](https://github.com/InsightSoftwareConsortium/ITK/issues/6468).
+- Tags passed to `AddSeriesRestriction` now refine the series identifier
+  (sub-dividing a `SeriesInstanceUID`, the documented intent, e.g.
+  `"0008|0021"`) instead of `SerieHelper`'s largely-inert file-restriction
+  list. Malformed tags are warned-and-ignored rather than honored.
+- `SetLoadSequences`/`SetLoadPrivateTags` have no effect with the
+  `gdcm::Scanner` backend (the scan reads only the grouping/ordering tags).
+  They are retained for source compatibility but no longer alter enumeration.
+
+### Concerns
+
+- Repeated `GetSeriesUIDs`/`GetFileNames`/`GetInputFileNames` calls no longer
+  re-scan the directory (lazy parse cached by a `TimeStamp`); a directory
+  mutated on disk between calls without an intervening `Modified()` is not
+  re-read.
+- The vendored `gdcm::SerieHelper` is untouched (GDCM still uses it
+  internally); it may be removed once upstream GDCM drops it.

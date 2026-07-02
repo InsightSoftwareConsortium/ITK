@@ -519,6 +519,7 @@ set(
   ITKGDCMImageIOGTests
   itkGDCMImageIOGTest.cxx
   itkGDCMSeriesDirectionGTest.cxx
+  itkGDCMSeriesFileNamesContractGTest.cxx
 )
 creategoogletestdriver(ITKGDCMImageIO "${ITKIOGDCM-Test_LIBRARIES}" "${ITKGDCMImageIOGTests}")
 
