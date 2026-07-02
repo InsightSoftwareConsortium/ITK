@@ -5,17 +5,20 @@ pyi_generator.py \
 """
 
 import os
+import sys
+import sqlite3
 from os import remove
 from argparse import ArgumentParser
 from io import StringIO
 from pathlib import Path, PurePath
 import pickle
 import glob
-import re
 from collections import defaultdict
 
+sys.path.insert(0, str(Path(__file__).parents[2]))
+from pkl_db import open_pkl_db  # noqa: E402
 
-# The ITKClass is duplicated in igenerator.py
+
 class ITKClass:
     def __init__(self, l_class_name):
         # Structure
@@ -379,13 +382,21 @@ def write_class_proxy_pyi(
         pyi_file.write(interfaces_code)
 
 
-def unpack(file_names: [str], save_dir: str) -> str | None:
-    class_definitions = []
+def unpack(keys: list[str], db_conn: sqlite3.Connection, save_dir: str) -> str | None:
+    placeholders = ",".join("?" * len(keys))
+    rows = {
+        k: data
+        for k, data in db_conn.execute(
+            f"SELECT key, data FROM pkl_data WHERE key IN ({placeholders})", keys
+        )
+    }
 
-    for file_name in file_names:
-        with open(file_name, "rb") as pickled_file:
-            itk_class = pickle.load(pickled_file)
-            class_definitions.append(itk_class)
+    class_definitions = []
+    for key in keys:
+        if key not in rows:
+            print(f"WARNING: pkl key {key!r} not found in database, skipping.")
+            continue
+        class_definitions.append(pickle.loads(rows[key]))
 
     base = merge(class_definitions)
 
@@ -419,9 +430,9 @@ def unpack(file_names: [str], save_dir: str) -> str | None:
         return base.class_name
 
     else:
-        files = "\n\t".join(file_names)
+        files = "\n\t".join(keys)
         print(
-            f"WARNING: The following files do not contain a class definition for Python stub wrapping:\n"
+            f"WARNING: The following keys do not contain a class definition for Python stub wrapping:\n"
             f"\t{files}"
         )
 
@@ -523,6 +534,13 @@ if __name__ == "__main__":
         help="Configured file listing the index files containing pickle file references",
     )
     cmdln_arg_parser.add_argument(
+        "--prune",
+        action="store_true",
+        dest="prune",
+        help="Delete pkl DB rows whose keys are absent from the index manifests. "
+        "Only safe when the manifests cover every module sharing the DB.",
+    )
+    cmdln_arg_parser.add_argument(
         "-d",
         action="store_true",
         dest="debug_code",
@@ -530,7 +548,7 @@ if __name__ == "__main__":
     )
 
     options = cmdln_arg_parser.parse_args()
-    if not Path(options.pkl_dir).exists:
+    if not Path(options.pkl_dir).exists():
         except_comment = f"Invalid directory provided '{options.pkl_dir}'"
         raise Exception(except_comment)
 
@@ -556,7 +574,6 @@ if __name__ == "__main__":
             remove(invalid_index_file)
 
     for missing_index_file in missing_index_files:
-        # continue on without missing file, display warning
         print(
             f"WARNING: index file {missing_index_file} is missing,  "
             f"Python stub hints will not be generated for this file. "
@@ -568,51 +585,83 @@ if __name__ == "__main__":
         print(f"Exception: {except_comment}")
         raise Exception(except_comment)
 
-    indexed_pickled_files = set()
+    # Collect DB keys from all .index.txt manifests (keys, not file paths).
+    indexed_pkl_keys: set[str] = set()
     for index_file in sorted(index_files):
         with open(index_file) as file:
             for line in file:
-                indexed_pickled_files.add(line.strip())
+                key = line.strip()
+                if key:
+                    indexed_pkl_keys.add(key)
 
-    existing_pickled_files = {
-        filepath.replace(os.sep, "/")
-        for filepath in glob.glob(f"{options.pkl_dir}/*.pkl")
-    }
+    if len(indexed_pkl_keys) == 0:
+        raise Exception(f"No pkl keys were found in index files in '{options.pkl_dir}'")
 
-    invalid_pickled_files = existing_pickled_files - indexed_pickled_files
-    missing_pickled_files = indexed_pickled_files - existing_pickled_files
-
-    if options.debug_code:
-        for invalid_pickle_file in invalid_pickled_files:
-            print(
-                f"WARNING: Outdated pickle file {invalid_pickle_file} has been removed"
-            )
-            remove(invalid_pickle_file)
-
-    for missing_file in missing_pickled_files:
-        # continue on without missing file, display warning
-        print(
-            f"WARNING: pickle file {missing_file} is missing, Python stub hints will not be generated for this file."
-        )
-        indexed_pickled_files.remove(missing_file)
-
-    if len(indexed_pickled_files) == 0:
-        raise Exception(f"No pickle files were found in directory {options.pkl_dir}")
-
-    indexed_pickled_files = sorted(list(indexed_pickled_files))
+    indexed_pkl_keys_sorted = sorted(indexed_pkl_keys)
     output_template_import_list: list[str] = []
     output_proxy_import_list: list[str] = []
 
-    class_name_dict = defaultdict(list)
-    for file in indexed_pickled_files:
-        current_class_name = re.split(r"\.", PurePath(file).parts[-1])[0]
-        class_name_dict[current_class_name].append(file)
+    class_name_dict: defaultdict[str, list[str]] = defaultdict(list)
+    for key in indexed_pkl_keys_sorted:
+        current_class_name = key.split(".")[0]
+        class_name_dict[current_class_name].append(key)
 
-    for current_class_name, class_files in class_name_dict.items():
-        class_name = unpack(class_files, options.pyi_dir)
+    db_conn = open_pkl_db(options.pkl_dir)
+
+    # Indexed keys absent from the DB mean it was deleted or damaged while the
+    # stamp files stayed fresh, so ninja would never re-run igenerator; drop
+    # the stamps and fail so the next build regenerates the database.
+    present_keys: set[str] = set()
+    for chunk_start in range(0, len(indexed_pkl_keys_sorted), 500):
+        chunk = indexed_pkl_keys_sorted[chunk_start : chunk_start + 500]
+        placeholders = ",".join("?" * len(chunk))
+        present_keys.update(
+            row[0]
+            for row in db_conn.execute(
+                f"SELECT key FROM pkl_data WHERE key IN ({placeholders})", chunk
+            )
+        )
+    absent_keys = set(indexed_pkl_keys_sorted) - present_keys
+    if absent_keys:
+        db_conn.close()
+        for stamp_file in glob.glob(f"{options.pkl_dir}/*.stamp"):
+            remove(stamp_file)
+        raise Exception(
+            f"{len(absent_keys)} indexed pkl keys are missing from the pkl "
+            f"database in '{options.pkl_dir}'. The igenerator stamp files "
+            "were removed; re-run the build to regenerate the database."
+        )
+
+    for current_class_name, class_keys in class_name_dict.items():
+        class_name = unpack(class_keys, db_conn, options.pyi_dir)
         if class_name is not None:
             output_template_import_list.append(f"from .{class_name}Template import *\n")
             output_proxy_import_list.append(f"from .{class_name}Proxy import *\n")
+
+    if not output_template_import_list:
+        raise Exception(
+            f"No Python stub classes were generated from pkl keys in '{options.pkl_dir}'"
+        )
+
+    if options.prune:
+        if missing_index_files:
+            print(
+                "WARNING: skipping pkl DB pruning: the index manifest set is "
+                "incomplete, so live keys cannot be determined safely."
+            )
+        else:
+            with db_conn:
+                db_conn.execute("CREATE TEMP TABLE _live_keys (key TEXT PRIMARY KEY)")
+                db_conn.executemany(
+                    "INSERT OR IGNORE INTO _live_keys VALUES(?)",
+                    [(k,) for k in indexed_pkl_keys_sorted],
+                )
+                db_conn.execute(
+                    "DELETE FROM pkl_data WHERE key NOT IN (SELECT key FROM _live_keys)"
+                )
+                db_conn.execute("DROP TABLE _live_keys")
+
+    db_conn.close()
 
     output_init_import_file = init_init_import_file()
     output_proxy_import_file = init_proxy_import_file()

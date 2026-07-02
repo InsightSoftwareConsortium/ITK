@@ -36,6 +36,7 @@ variables:
   CCACHE_NOHASHDIR: 'true'
   CCACHE_SLOPPINESS: pch_defines,time_macros
   CCACHE_MAXSIZE: 8G
+  ITK_WRAP_CACHE: $(Pipeline.Workspace)/.castxml-cache
 jobs:
 - job: macOS
   timeoutInMinutes: 0
@@ -106,6 +107,14 @@ jobs:
         path: $(CCACHE_DIR)
       displayName: 'Restore ccache'
 
+    - task: Cache@2
+      inputs:
+        key: '"castxml-v1" | "$(Agent.OS)" | "macOSPython" | "$(Build.SourceVersion)"'
+        restoreKeys: |
+          "castxml-v1" | "$(Agent.OS)" | "macOSPython"
+        path: $(ITK_WRAP_CACHE)
+      displayName: 'Restore CastXML cache'
+
     - bash: |
         set -x
         ccache --zero-stats
@@ -127,6 +136,7 @@ jobs:
           BUILD_SHARED_LIBS:BOOL=ON
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=ON
+          ITK_WRAP_CASTXML_CACHE:BOOL=ON
           CMAKE_C_COMPILER_LAUNCHER:STRING=ccache
           CMAKE_CXX_COMPILER_LAUNCHER:STRING=ccache
           ITK_COMPUTER_MEMORY_SIZE:STRING=11
