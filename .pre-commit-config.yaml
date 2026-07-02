@@ -116,14 +116,14 @@ repos:
       stages: [pre-commit]
     - id: kw-commit-msg
       name: 'kw commit-msg'
-      entry: 'Utilities/Hooks/run-pixi-python.sh Utilities/Hooks/kw-commit-msg.py'
-      language: system
+      entry: python Utilities/Hooks/kw-commit-msg.py
+      language: python
       stages: [commit-msg]
       exclude: "\\/ThirdParty\\/"
     - id: kw-prose-budget
       name: 'kw prose-budget (advisory)'
-      entry: 'Utilities/Hooks/run-pixi-python.sh Utilities/Hooks/kw-prose-budget.py'
-      language: system
+      entry: python Utilities/Hooks/kw-prose-budget.py
+      language: python
       stages: [commit-msg]
       exclude: "\\/ThirdParty\\/"
     - id: kw-pre-commit
