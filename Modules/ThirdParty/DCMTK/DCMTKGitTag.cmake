@@ -38,7 +38,9 @@ set(
 #COMP: fix WASI compiler errors
 #COMP: fix missing <csetjmp> header issue
 
-#Bradley Lowekamp (1):
+#Bradley Lowekamp (3):
 #COMP: prefix CMake check commands with DCMTK_ to avoid leaking
+#COMP: Add printf format attribute to OFFile printf wrappers
+#COMP: Use single export() call to fix namespace corruption
 
-set(DCMTK_GIT_TAG "4ac9b4489d8f8fb1873a943dd214824bd2b11a6d") # for/itk-dcmtk-3.7.0-ccfd10b
+set(DCMTK_GIT_TAG "554b74475ba1734655c61988b94bc69daf6690c7") # for/itk-dcmtk-3.7.0-ccfd10b
