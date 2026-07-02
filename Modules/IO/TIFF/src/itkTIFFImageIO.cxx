@@ -72,6 +72,14 @@ TIFFImageIO::ReadGenericImage(void * out, unsigned int width, unsigned int heigh
   {
     this->ReadGenericImage<short>(out, width, height);
   }
+  else if (m_ComponentType == IOComponentEnum::UINT)
+  {
+    this->ReadGenericImage<unsigned int>(out, width, height);
+  }
+  else if (m_ComponentType == IOComponentEnum::INT)
+  {
+    this->ReadGenericImage<int>(out, width, height);
+  }
   else if (m_ComponentType == IOComponentEnum::FLOAT)
   {
     this->ReadGenericImage<float>(out, width, height);
@@ -603,11 +611,16 @@ TIFFImageIO::InternalWrite(const void * buffer)
     case IOComponentEnum::SHORT:
       bps = 16;
       break;
+    case IOComponentEnum::UINT:
+    case IOComponentEnum::INT:
+      bps = 32;
+      break;
     case IOComponentEnum::FLOAT:
       bps = 32;
       break;
     default:
-      itkExceptionMacro("TIFF supports unsigned/signed char, unsigned/signed short, and float");
+      itkExceptionMacro(
+        "TIFF supports unsigned/signed char, unsigned/signed short, unsigned/signed int (32-bit), and float");
   }
 
   uint16_t predictor;
@@ -638,9 +651,15 @@ TIFFImageIO::InternalWrite(const void * buffer)
                                                                       << itksys::SystemTools::GetLastSystemError());
   }
 
-  if (this->GetComponentType() == IOComponentEnum::SHORT || this->GetComponentType() == IOComponentEnum::CHAR)
+  if (this->GetComponentType() == IOComponentEnum::SHORT || this->GetComponentType() == IOComponentEnum::CHAR ||
+      this->GetComponentType() == IOComponentEnum::INT)
   {
     TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_INT);
+  }
+  else if (this->GetComponentType() == IOComponentEnum::UCHAR || this->GetComponentType() == IOComponentEnum::USHORT ||
+           this->GetComponentType() == IOComponentEnum::UINT)
+  {
+    TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_UINT);
   }
   else if (this->GetComponentType() == IOComponentEnum::FLOAT)
   {
@@ -663,9 +682,15 @@ TIFFImageIO::InternalWrite(const void * buffer)
     TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, scomponents);
     TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, bps); // Fix for stype
     TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
-    if (this->GetComponentType() == IOComponentEnum::SHORT || this->GetComponentType() == IOComponentEnum::CHAR)
+    if (this->GetComponentType() == IOComponentEnum::SHORT || this->GetComponentType() == IOComponentEnum::CHAR ||
+        this->GetComponentType() == IOComponentEnum::INT)
     {
       TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_INT);
+    }
+    else if (this->GetComponentType() == IOComponentEnum::UCHAR ||
+             this->GetComponentType() == IOComponentEnum::USHORT || this->GetComponentType() == IOComponentEnum::UINT)
+    {
+      TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_UINT);
     }
     else if (this->GetComponentType() == IOComponentEnum::FLOAT)
     {
@@ -814,11 +839,16 @@ TIFFImageIO::InternalWrite(const void * buffer)
       case IOComponentEnum::SHORT:
         rowLength = sizeof(short);
         break;
+      case IOComponentEnum::UINT:
+      case IOComponentEnum::INT:
+        rowLength = sizeof(unsigned int);
+        break;
       case IOComponentEnum::FLOAT:
         rowLength = sizeof(float);
         break;
       default:
-        itkExceptionMacro("TIFF supports unsigned/signed char, unsigned/signed short, and float");
+        itkExceptionMacro(
+          "TIFF supports unsigned/signed char, unsigned/signed short, unsigned/signed int (32-bit), and float");
     }
 
     rowLength *= this->GetNumberOfComponents();
@@ -1327,6 +1357,18 @@ TIFFImageIO::ReadCurrentPage(void * buffer, size_t pixelOffset)
     else if (m_ComponentType == IOComponentEnum::SHORT)
     {
       auto * volume = static_cast<short *>(buffer);
+      volume += pixelOffset;
+      this->ReadGenericImage(volume, width, height);
+    }
+    else if (m_ComponentType == IOComponentEnum::UINT)
+    {
+      auto * volume = static_cast<unsigned int *>(buffer);
+      volume += pixelOffset;
+      this->ReadGenericImage(volume, width, height);
+    }
+    else if (m_ComponentType == IOComponentEnum::INT)
+    {
+      auto * volume = static_cast<int *>(buffer);
       volume += pixelOffset;
       this->ReadGenericImage(volume, width, height);
     }
