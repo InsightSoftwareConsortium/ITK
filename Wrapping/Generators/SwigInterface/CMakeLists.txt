@@ -189,6 +189,23 @@ if(ITK_USE_SYSTEM_SWIG)
       "Swig version less than ${swig_version_min}: \"${SWIG_VERSION}\". Set ITK_USE_SYSTEM_SWIG=OFF or provide a newer swig."
     )
   endif()
+
+  # Known-broken combination: system SWIG 4.4+ with Python Limited API emits
+  # wrappers that fail at import time (missing delete_SwigPyIterator on moduledef).
+  if(
+    ITK_WRAP_PYTHON
+    AND
+      ITK_USE_PYTHON_LIMITED_API
+    AND
+      SWIG_VERSION
+        VERSION_GREATER_EQUAL
+        4.4.0
+  )
+    message(
+      FATAL_ERROR
+      "System SWIG ${SWIG_VERSION} with ITK_USE_PYTHON_LIMITED_API=ON is currently unsupported due to import-time wrapper failures. Use system SWIG 4.3.x, set ITK_USE_PYTHON_LIMITED_API=OFF, or set ITK_USE_SYSTEM_SWIG=OFF."
+    )
+  endif()
 elseif(swig_prebuilt)
   # Download and extract the prebuilt swig binary at configure time via
   # FetchContent so SWIG_EXECUTABLE exists immediately and can be verified.
