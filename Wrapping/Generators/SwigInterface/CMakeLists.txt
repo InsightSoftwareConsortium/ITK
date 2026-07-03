@@ -22,7 +22,7 @@ if(WIN32)
   set(swigwin_hash
       "cec9eeebfec7f2a8ccf7b166a11cf8dbbc5e1eacca35563e4f0882b2b261658f394f6607243813d7083e7e2a2bbec23c5cf8b4dd92ad85838c6eb971f3833715"
   )
-  set(swigwin_cid "bafybeibljxzip2irc3q3w5qlh2ae5ns27xpi7mo6iskxni45dcmwtk2x6a")
+  set(swigwin_cid "bafybeibavyfwb5fenlrjxvhd4pj55brbbvphcgpuwlmbyusrwn44rs2hcq")
 
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-amd64-${ITK_SWIG_VERSION}/bin/swig.exe")
 elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64"))
@@ -31,13 +31,13 @@ elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND (CMAKE_HOST_SYSTEM_PROCESSOR S
     set(swiglinux_hash
         "9a3cfa330235ac78799c7401299506db5ea7459314b781bf27f2db8ddb582508ec5b15c2fa96fc241d5b832c4f702cd9ef043a61e37a574cac7ca78e4aba8f78"
     )
-    set(swiglinux_cid "bafybeiaa2xv7oxnvaz6qupdaykgwakldrmahk54n2pp2z2ianuvq57uvmy")
+    set(swiglinux_cid "bafybeiasuvglbnjji24hiqpzry65kpqszjxyg4bup5ophfel4noykqemwy")
     set(swiglinux_arch "arm64")
   else()
     set(swiglinux_hash
         "bdf82ad5281dfdba4b24c83b0d15c76e83cd58c6c78ecfc7a449f869f524d12fad9ad7f517995f864c2c00e61e7cd04132a442038197b92821b4011673a7d4fe"
     )
-    set(swiglinux_cid "bafybeihp7hk4ljxuf7duqzei2h7y7xshzyhahxaot5mapv2xevkvwuci5m")
+    set(swiglinux_cid "bafybeiemc7gbf6bgh4yopzudhp56dsb36ks6eltq7m5sny4ifr5n2vrulu")
     set(swiglinux_arch "amd64")
   endif()
 
@@ -48,13 +48,13 @@ elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
     set(swigmacos_hash
       "96eec93fd9e1df35813f8cc194a8811c8c84f265284c1515ec81aa7e696aee2c952f426e5155c011c163376e76245f5d7f479525f0d1ea8396524629ed6b8aec"
     )
-    set(swigmacos_cid "bafybeialov6ur5q2yli4mtclrvqoirk2nsteum3vgnswjypquwejwomxnm")
+    set(swigmacos_cid "bafybeihhw3wktwsi4evq3sfy4rujb5eia4shzqtw7dvgt6s2zsag2ealmm")
     set(swigmacos_arch "arm64")
   else()
     set(swigmacos_hash
       "169760d2a34c2a95a907e80d93c1dc7ebc33a7dd34eb7ed7a9841866db3e25f7d7e93bf49ea28db01843aca5c2c6712756c1f01f6531d6ee027dc6eb293d95d7"
     )
-    set(swigmacos_cid "bafybeifkl5wfscum7pnsjdmwhshrv5v6srilinkrftunq5g4gqzgqmyqf4")
+    set(swigmacos_cid "bafybeiegnvdxavxc7gcf5nfkalpej64p6stn54mzv7nfdwtr5k4vkjvbte")
     set(swigmacos_arch "amd64")
   endif()
 
@@ -63,7 +63,7 @@ else()
   # Build from source
 
   set(swig_hash "9292f6786abed379278b8024f91b91f293f1be9764fe3c1a19023f7891c4e40587f965680ac6a595a5610cfb6650a73fd2f3932a83d5effad83f351fa70810a9")
-  set(swig_cid "bafybeib56uexrqtccgzxjgmlammjii5ntwush4732kbkr6okbtjhzcmvia")
+  set(swig_cid "bafybeidevegcr53m6hrfhvel2ahpyla5rfddu5ycsxsjv5ylmzo4czuubu")
 
   # follow the standard EP_PREFIX locations
   set(swig_binary_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig-build)
@@ -114,9 +114,11 @@ else()
       ExternalProject_Add(
         swig
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swigwin_hash}/download"
-            "https://dweb.link/ipfs/${swigwin_cid}/swigwin-amd64-${SWIG_VERSION}.zip"
-            "https://itk.mypinata.cloud/ipfs/${swigwin_cid}/swigwin-amd64-${SWIG_VERSION}.zip"
-            "https://w3s.link/ipfs/${swigwin_cid}/swigwin-amd64-${SWIG_VERSION}.zip"
+            "https://itk.mypinata.cloud/ipfs/${swigwin_cid}"
+            "https://ipfs.io/ipfs/${swigwin_cid}"
+            "https://gateway.pinata.cloud/ipfs/${swigwin_cid}"
+            "https://insightsoftwareconsortium.github.io/ITKTestingData/CID/${swigwin_cid}"
+            "https://ipfs.filebase.io/ipfs/${swigwin_cid}"
         URL_HASH SHA512=${swigwin_hash}
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-amd64-${SWIG_VERSION}
         CONFIGURE_COMMAND ""
@@ -131,9 +133,11 @@ else()
       ExternalProject_Add(
         swig
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swiglinux_hash}/download"
-            "https://dweb.link/ipfs/${swiglinux_cid}/swiglinux-${swiglinux_arch}-${SWIG_VERSION}.zip"
-            "https://itk.mypinata.cloud/ipfs/${swiglinux_cid}/swiglinux-${swiglinux_arch}-${SWIG_VERSION}.zip"
-            "https://w3s.link/ipfs/${swiglinux_cid}/swiglinux-${swiglinux_arch}-${SWIG_VERSION}.zip"
+            "https://itk.mypinata.cloud/ipfs/${swiglinux_cid}"
+            "https://ipfs.io/ipfs/${swiglinux_cid}"
+            "https://gateway.pinata.cloud/ipfs/${swiglinux_cid}"
+            "https://insightsoftwareconsortium.github.io/ITKTestingData/CID/${swiglinux_cid}"
+            "https://ipfs.filebase.io/ipfs/${swiglinux_cid}"
         URL_HASH SHA512=${swiglinux_hash}
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${swiglinux_arch}-${SWIG_VERSION}
         CONFIGURE_COMMAND ""
@@ -150,9 +154,11 @@ else()
       ExternalProject_Add(
         swig
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swigmacos_hash}/download"
-            "https://dweb.link/ipfs/${swigmacos_cid}/swigmacos-${swigmacos_arch}-${SWIG_VERSION}.zip"
-            "https://itk.mypinata.cloud/ipfs/${swigmacos_cid}/swigmacos-${swigmacos_arch}-${SWIG_VERSION}.zip"
-            "https://w3s.link/ipfs/${swigmacos_cid}/swigmacos-${swigmacos_arch}-${SWIG_VERSION}.zip"
+            "https://itk.mypinata.cloud/ipfs/${swigmacos_cid}"
+            "https://ipfs.io/ipfs/${swigmacos_cid}"
+            "https://gateway.pinata.cloud/ipfs/${swigmacos_cid}"
+            "https://insightsoftwareconsortium.github.io/ITKTestingData/CID/${swigmacos_cid}"
+            "https://ipfs.filebase.io/ipfs/${swigmacos_cid}"
         URL_HASH SHA512=${swigmacos_hash}
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigmacos-${swigmacos_arch}-${SWIG_VERSION}
         CONFIGURE_COMMAND ""
@@ -183,13 +189,15 @@ else()
       set(pcre_hash
           "e1183226ea3e56a1c7ec97e2c7d7ad5a163b9b576930c997e6ac4c26f1c92fc7e9491b5b297b1dd68d43432f7fbbddcc6207a189beb37ef158ad68bad5598988"
       )
-      set(pcre_cid "bafybeicnpyjts3vq4lpdfhktr5qioq4qdifmtjkbemyyqpkayxjsqtwz74")
+      set(pcre_cid "bafybeig5jsstzxtwy4g3ap6rplfsnpcuptgi7uxzw2kftjnkly6tbnbiwi")
       ExternalProject_Add(
         PCRE
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${pcre_hash}/download"
-            "https://dweb.link/ipfs/${pcre_cid}/pcre-10.43.tar.gz"
-            "https://itk.pinata.cloud/ipfs/${pcre_cid}/pcre-10.43.tar.gz"
-            "https://w3s.link/ipfs/${pcre_cid}/pcre-10.43.tar.gz"
+            "https://itk.mypinata.cloud/ipfs/${pcre_cid}"
+            "https://ipfs.io/ipfs/${pcre_cid}"
+            "https://gateway.pinata.cloud/ipfs/${pcre_cid}"
+            "https://insightsoftwareconsortium.github.io/ITKTestingData/CID/${pcre_cid}"
+            "https://ipfs.filebase.io/ipfs/${pcre_cid}"
         URL_HASH SHA512=${pcre_hash}
         CMAKE_GENERATOR "${CMAKE_GENERATOR}"
         CMAKE_CACHE_ARGS
@@ -215,9 +223,11 @@ else()
       ExternalProject_Add(
         swig
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swig_hash}/download"
-            "https://dweb.link/ipfs/${swig_cid}/swig-4.0.2.tar.gz"
-            "https://itk.pinata.cloud/ipfs/${swig_cid}/swig-4.0.2.tar.gz"
-            "https://w3s.link/ipfs/${swig_cid}/swig-4.0.2.tar.gz"
+            "https://itk.mypinata.cloud/ipfs/${swig_cid}"
+            "https://ipfs.io/ipfs/${swig_cid}"
+            "https://gateway.pinata.cloud/ipfs/${swig_cid}"
+            "https://insightsoftwareconsortium.github.io/ITKTestingData/CID/${swig_cid}"
+            "https://ipfs.filebase.io/ipfs/${swig_cid}"
         URL_HASH SHA512=${swig_hash}
         CMAKE_GENERATOR "${CMAKE_GENERATOR}"
         CMAKE_CACHE_ARGS
