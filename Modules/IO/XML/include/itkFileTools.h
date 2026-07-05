@@ -19,6 +19,8 @@
 #ifndef itkFileTools_h
 #define itkFileTools_h
 
+#include "itkMacro.h"
+
 #include <string>
 
 namespace itk
@@ -46,8 +48,6 @@ public:
 // here comes the implementation
 
 #include "itksys/SystemTools.hxx"
-#include "itkMacro.h"
-
 namespace itk
 {
 
