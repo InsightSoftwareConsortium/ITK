@@ -41,7 +41,14 @@ set(OPENJPEG_INCLUDE_DIRS "")
 set(OPENJPEG_LIBRARIES "ITK::ITKOpenJPEGModule")
 # ZLIB:
 set(GDCM_USE_SYSTEM_ZLIB ON CACHE INTERNAL "")
-set(ZLIB_INCLUDE_DIRS "")
+if(ITK_USE_SYSTEM_ZLIB)
+  # ZLIB_INCLUDE_DIR is populated by find_package(ZLIB) in ITK's ZLIB module.
+  # Pass it explicitly so GDCM's root CMakeLists can find the real system <zlib.h>
+  set(ZLIB_INCLUDE_DIRS "${ZLIB_INCLUDE_DIR}")
+else()
+  # ITK's bundled zlib is provided through the target's INTERFACE_INCLUDE_DIRECTORIES
+  set(ZLIB_INCLUDE_DIRS "")
+endif()
 set(ZLIB_LIBRARIES "ITK::ITKZLIBModule")
 
 # Configure GDCM privately so its options do not appear to the user.
