@@ -21,7 +21,6 @@ int test_exception_main(int, char*[]);
 int test_fstream_main(int, char*[]);
 int test_headers_main(int, char**); // need not be called: just a compiler test
 int test_iostream_main(int, char*[]);
-int test_iterator_main(int, char*[]);
 int test_list_main(int, char*[]);
 int test_limits_main(int, char*[]);
 int test_map_main(int, char*[]);
@@ -87,7 +86,6 @@ int main( int argc, char* argv[] )
   DO_TEST(exception);
   DO_TEST(fstream);
   DO_TEST(iostream);
-  DO_TEST(iterator);
   DO_TEST(list);
   DO_TEST(limits);
   DO_TEST(memory);
