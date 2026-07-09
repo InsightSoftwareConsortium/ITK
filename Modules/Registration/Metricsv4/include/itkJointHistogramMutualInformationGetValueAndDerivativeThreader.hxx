@@ -20,6 +20,9 @@
 
 #include "itkMakeUniqueForOverwrite.h"
 
+#include <algorithm> // For clamp.
+#include <cmath>     // For log.
+
 namespace itk
 {
 
@@ -75,6 +78,12 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<TDomainPartitioner,
     this->m_JointHistogramMIPerThreadVariables[i].MovingImageMarginalPDFInterpolator->SetInputImage(
       this->m_JointAssociate->m_MovingImageMarginalPDF);
   }
+
+  constexpr InternalComputationValueType eps{ 1.e-16 };
+  // Steepest log-slope the eps-guarded PDF can represent across one bin.
+  this->m_MaxSlope = -std::log(eps) / this->m_JointAssociate->m_JointPDFSpacing[1];
+  this->m_MovingIntensityRange =
+    this->m_JointAssociate->m_MovingImageTrueMax - this->m_JointAssociate->m_MovingImageTrueMin;
 }
 
 template <typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric>
@@ -144,9 +153,10 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
   constexpr InternalComputationValueType eps{ 1.e-16 };
   if (jointPDFValue > eps && movingImagePDFValue > eps)
   {
-    const InternalComputationValueType term1 = dJPDF / jointPDFValue;
-    const InternalComputationValueType term2 = dMmPDF / movingImagePDFValue;
-    scalingfactor = (term1 - term2) / this->m_JointAssociate->m_Log2;
+    const InternalComputationValueType term1 = std::clamp(dJPDF / jointPDFValue, -m_MaxSlope, m_MaxSlope);
+    const InternalComputationValueType term2 = std::clamp(dMmPDF / movingImagePDFValue, -m_MaxSlope, m_MaxSlope);
+    // Chain rule for ComputeJointPDFPoint's intensity -> [0,1] bin-axis normalization.
+    scalingfactor = (term1 - term2) / (this->m_JointAssociate->m_Log2 * m_MovingIntensityRange);
   } // end if-block to check non-zero bin contribution
   else
   {

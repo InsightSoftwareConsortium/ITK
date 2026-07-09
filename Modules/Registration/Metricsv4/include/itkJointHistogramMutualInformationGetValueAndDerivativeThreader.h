@@ -129,6 +129,10 @@ private:
   /** Internal pointer to the metric object in use by this threader.
    *  This will avoid costly dynamic casting in tight loops. */
   TJointHistogramMetric * m_JointAssociate{};
+
+  /** Per-iteration derivative constants, hoisted out of the per-point loop. */
+  InternalComputationValueType m_MaxSlope{};
+  InternalComputationValueType m_MovingIntensityRange{};
 };
 
 } // end namespace itk
