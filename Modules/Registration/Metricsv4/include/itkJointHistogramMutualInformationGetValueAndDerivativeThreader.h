@@ -104,9 +104,6 @@ protected:
                const ThreadIdType              threadId) const override;
 
   inline InternalComputationValueType
-  ComputeFixedImageMarginalPDFDerivative(const MarginalPDFPointType & margPDFpoint, const ThreadIdType threadId) const;
-
-  inline InternalComputationValueType
   ComputeMovingImageMarginalPDFDerivative(const MarginalPDFPointType & margPDFpoint, const ThreadIdType threadId) const;
 
   inline InternalComputationValueType
@@ -116,7 +113,6 @@ protected:
   struct JointHistogramMIPerThreadStruct
   {
     JointPDFInterpolatorPointer    JointPDFInterpolator;
-    MarginalPDFInterpolatorPointer FixedImageMarginalPDFInterpolator;
     MarginalPDFInterpolatorPointer MovingImageMarginalPDFInterpolator;
   };
   itkPadStruct(ITK_CACHE_LINE_ALIGNMENT, JointHistogramMIPerThreadStruct, PaddedJointHistogramMIPerThreadStruct);
