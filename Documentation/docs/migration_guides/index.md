@@ -8,4 +8,5 @@ These migration guides explain how to update major versions of ITK, whic may con
 
 itk_6_migration_guide
 itk_5_migration_guide
+joint_histogram_mutual_information_metric_correction
 ```
