@@ -251,30 +251,12 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
     this->m_JointPDF = (dg->GetOutput());
   }
 
-  // Compute moving image marginal PDF by summing over fixed image bins.
+  // Summing joint-PDF axis 0 (fixed bins) yields the moving marginal.
   ImageLinearIteratorWithIndex linearIter(m_JointPDF, m_JointPDF->GetBufferedRegion());
   linearIter.SetDirection(0);
   linearIter.GoToBegin();
-  unsigned int                                        fixedIndex = 0;
+  unsigned int                                        movingIndex = 0;
   CompensatedSummation<TInternalComputationValueType> sum;
-  while (!linearIter.IsAtEnd())
-  {
-    sum.ResetToZero();
-    while (!linearIter.IsAtEndOfLine())
-    {
-      sum += linearIter.Get();
-      ++linearIter;
-    }
-    MarginalPDFIndexType mind;
-    mind[0] = fixedIndex;
-    m_FixedImageMarginalPDF->SetPixel(mind, static_cast<PDFValueType>(sum.GetSum()));
-    linearIter.NextLine();
-    ++fixedIndex;
-  }
-
-  linearIter.SetDirection(1);
-  linearIter.GoToBegin();
-  unsigned int movingIndex = 0;
   while (!linearIter.IsAtEnd())
   {
     sum.ResetToZero();
@@ -288,6 +270,25 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
     m_MovingImageMarginalPDF->SetPixel(mind, static_cast<PDFValueType>(sum.GetSum()));
     linearIter.NextLine();
     ++movingIndex;
+  }
+
+  // Compute fixed image marginal PDF by summing over moving image bins.
+  linearIter.SetDirection(1);
+  linearIter.GoToBegin();
+  unsigned int fixedIndex = 0;
+  while (!linearIter.IsAtEnd())
+  {
+    sum.ResetToZero();
+    while (!linearIter.IsAtEndOfLine())
+    {
+      sum += linearIter.Get();
+      ++linearIter;
+    }
+    MarginalPDFIndexType mind;
+    mind[0] = fixedIndex;
+    m_FixedImageMarginalPDF->SetPixel(mind, static_cast<PDFValueType>(sum.GetSum()));
+    linearIter.NextLine();
+    ++fixedIndex;
   }
 }
 

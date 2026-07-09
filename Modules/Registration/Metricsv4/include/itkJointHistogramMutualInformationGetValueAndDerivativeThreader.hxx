@@ -144,11 +144,9 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
   constexpr InternalComputationValueType eps{ 1.e-16 };
   if (jointPDFValue > eps && movingImagePDFValue > eps)
   {
-    const InternalComputationValueType   pRatio = std::log(jointPDFValue) - std::log(movingImagePDFValue);
-    const InternalComputationValueType & term1 = dJPDF * pRatio;
-    const InternalComputationValueType & term2 =
-      this->m_JointAssociate->m_Log2 * dMmPDF * jointPDFValue / movingImagePDFValue;
-    scalingfactor = (term2 - term1);
+    const InternalComputationValueType term1 = dJPDF / jointPDFValue;
+    const InternalComputationValueType term2 = dMmPDF / movingImagePDFValue;
+    scalingfactor = (term1 - term2) / this->m_JointAssociate->m_Log2;
   } // end if-block to check non-zero bin contribution
   else
   {
