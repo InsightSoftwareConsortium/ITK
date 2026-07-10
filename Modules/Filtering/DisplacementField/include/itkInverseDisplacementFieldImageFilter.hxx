@@ -117,13 +117,13 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrepareKernelBas
   const InputImageType * inputImage = this->GetInput();
 
   resampler->SetInput(inputImage);
-  resampler->SetOutputOrigin(inputImage->GetOrigin());
   resampler->SetOutputDirection(inputImage->GetDirection());
 
   typename InputImageType::SpacingType spacing = inputImage->GetSpacing();
 
   using InputRegionType = typename InputImageType::RegionType;
   using InputSizeType = typename InputImageType::SizeType;
+  using InputIndexType = typename InputImageType::IndexType;
 
   const InputRegionType region = inputImage->GetLargestPossibleRegion();
 
@@ -135,7 +135,20 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrepareKernelBas
     spacing[i] *= m_SubsamplingFactor;
   }
 
-  const InputRegionType subsampledRegion(region.GetIndex(), size);
+  // Center the landmark lattice: start at fine index (k-1)/2 past the input
+  // region start so the unsampled margins are balanced while landmarks stay
+  // exactly on input voxel centers. The lattice runs on a zero-based grid so
+  // the origin (physical location of index 0) maps to the first landmark.
+  InputIndexType latticeStart = region.GetIndex();
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+  {
+    latticeStart[i] += static_cast<IndexValueType>((m_SubsamplingFactor - 1) / 2);
+  }
+  typename InputImageType::PointType latticeOrigin;
+  inputImage->TransformIndexToPhysicalPoint(latticeStart, latticeOrigin);
+  resampler->SetOutputOrigin(latticeOrigin);
+
+  const InputRegionType subsampledRegion(InputIndexType{}, size);
 
   resampler->SetSize(size);
   resampler->SetOutputStartIndex(subsampledRegion.GetIndex());
