@@ -41,4 +41,7 @@ set(
 #Bradley Lowekamp (1):
 #COMP: prefix CMake check commands with DCMTK_ to avoid leaking
 
-set(DCMTK_GIT_TAG "4ac9b4489d8f8fb1873a943dd214824bd2b11a6d") # for/itk-dcmtk-3.7.0-ccfd10b
+#Hans Johnson (1):
+#COMP: Add printf format attribute to OFFile printf wrappers
+
+set(DCMTK_GIT_TAG "84c8047dbb02a6d59807eb08e08598186a13b57e") # for/itk-dcmtk-3.7.0-ccfd10b
