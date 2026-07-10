@@ -470,7 +470,12 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::ApplyToImage
                     << this->GetNameOfClass() << ". This might produce unexpected results.");
   }
 
-  typename Self::Pointer inverse = this->GetInverseTransform();
+  const typename Self::Pointer inverse = this->GetInverseTransform();
+  if (inverse.IsNull())
+  {
+    itkExceptionMacro(
+      "ApplyToImageMetadata was invoked with non-invertible transform of type: " << this->GetNameOfClass());
+  }
 
   // transform origin
   typename ImageType::PointType origin = image->GetOrigin();
