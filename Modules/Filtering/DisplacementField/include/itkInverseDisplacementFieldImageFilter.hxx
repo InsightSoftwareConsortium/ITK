@@ -35,6 +35,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::InverseDisplacem
 {
   m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
+  m_OutputDirection.SetIdentity();
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_Size[i] = 0;
@@ -61,6 +62,8 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrintSelf(std::o
   os << indent << "Size:              " << m_Size << std::endl;
   os << indent << "OutputSpacing:     " << m_OutputSpacing << std::endl;
   os << indent << "OutputOrigin:      " << m_OutputOrigin << std::endl;
+  os << indent << "OutputDirection:   " << m_OutputDirection << std::endl;
+  itkPrintSelfBooleanMacro(OutputDirectionSpecified);
   os << indent << "KernelTransform:   " << m_KernelTransform.GetPointer() << std::endl;
   os << indent << "SubsamplingFactor: " << m_SubsamplingFactor << std::endl;
 }
@@ -89,6 +92,21 @@ void
 InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::SetOutputOrigin(const double * origin)
 {
   this->SetOutputOrigin(OriginPointType(origin));
+}
+
+/**
+ * Set the output image direction.
+ */
+template <typename TInputImage, typename TOutputImage>
+void
+InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::SetOutputDirection(const DirectionType & direction)
+{
+  if (!m_OutputDirectionSpecified || m_OutputDirection != direction)
+  {
+    m_OutputDirection = direction;
+    m_OutputDirectionSpecified = true;
+    this->Modified();
+  }
 }
 
 /**
@@ -315,6 +333,10 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateOutputIn
   // Set spacing and origin
   outputPtr->SetSpacing(m_OutputSpacing);
   outputPtr->SetOrigin(m_OutputOrigin);
+  if (m_OutputDirectionSpecified)
+  {
+    outputPtr->SetDirection(m_OutputDirection);
+  }
 }
 
 /**

@@ -111,6 +111,7 @@ public:
   /** Image spacing type alias */
   using SpacingType = typename TOutputImage::SpacingType;
   using OriginPointType = typename TOutputImage::PointType;
+  using DirectionType = typename TOutputImage::DirectionType;
 
   /** Get/Set the coordinate transformation.
    * Set the KernelBase spline used for resampling the displacement grid.
@@ -142,6 +143,14 @@ public:
   /** @ITKEndGrouping */
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, OriginPointType);
+
+  /** Set/Get the output image direction cosines. Unless explicitly set, the
+   * output inherits the direction of the input displacement field. */
+  /** @ITKStartGrouping */
+  virtual void
+  SetOutputDirection(const DirectionType & direction);
+  itkGetConstReferenceMacro(OutputDirection, DirectionType);
+  /** @ITKEndGrouping */
 
   /** Set/Get the factor used for subsampling the input displacement field.  A
    * large value in this factor will produce a fast computation of the inverse
@@ -199,6 +208,8 @@ private:
                                                   // use
   SpacingType     m_OutputSpacing{};              // output image spacing
   OriginPointType m_OutputOrigin{};               // output image origin
+  DirectionType   m_OutputDirection{};            // output image direction cosines
+  bool            m_OutputDirectionSpecified{ false };
 
   unsigned int m_SubsamplingFactor{}; // factor to subsample the
                                       // input field.
