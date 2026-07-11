@@ -97,6 +97,8 @@ protected:
  *         similar directions if one minus their dot product is less than a
  *         threshold.  Vectors that are 180 degrees out of phase
  *         are similar.  Assumes that vectors are normalized.
+ *         A zero vector is similar to every neighbor under the default
+ *         threshold; mask out such regions if that is not intended.
  * \ingroup ITKConnectedComponents
  */
 template <typename TInputImage, typename TOutputImage, typename TMaskImage = TInputImage>
@@ -140,7 +142,7 @@ public:
   }
 
   itkConceptMacro(InputValueHasNumericTraitsCheck, (Concept::HasNumericTraits<InputValueType>));
-  itkConceptMacro(InputValyeTypeIsFloatingCheck, (Concept::IsFloatingPoint<InputValueType>));
+  itkConceptMacro(InputValueTypeIsFloatingCheck, (Concept::IsFloatingPoint<InputValueType>));
 
 protected:
   VectorConnectedComponentImageFilter() = default;
