@@ -798,7 +798,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::IsChangeWellComposed3D(const NodeT
 
   constexpr auto radius = MakeFilled<NeighborhoodRadiusType>(1);
 
-  NeighborhoodIteratorType It(radius, this->m_LabelImage, this->m_LabelImage->GetRequestedRegion());
+  NeighborhoodIteratorType It(radius, this->m_LabelImage, this->m_LabelImage->GetBufferedRegion());
 
   It.SetLocation(idx);
 
