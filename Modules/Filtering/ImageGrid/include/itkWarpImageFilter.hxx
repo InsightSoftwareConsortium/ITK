@@ -384,6 +384,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::GenerateInputReq
       this->GetCoordinateTolerance() * outputPtr->GetSpacing()[0]; // use first dimension spacing
 
     this->m_DefFieldSameInformation =
+      (outputPtr->GetLargestPossibleRegion() == fieldPtr->GetLargestPossibleRegion()) &&
       (outputPtr->GetOrigin().GetVnlVector().is_equal(fieldPtr->GetOrigin().GetVnlVector(), coordinateTol)) &&
       (outputPtr->GetSpacing().GetVnlVector().is_equal(fieldPtr->GetSpacing().GetVnlVector(), coordinateTol)) &&
       (outputPtr->GetDirection().GetVnlMatrix().is_equal(fieldPtr->GetDirection().GetVnlMatrix(),
