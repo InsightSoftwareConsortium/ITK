@@ -104,7 +104,9 @@ public:
   void
   SetCovariance(const CovarianceMatrixType & cov);
 
-  /** Get the covariance matrix. Covariance matrix is a
+  /** Get the covariance matrix. Returns the matrix passed to SetCovariance
+   * even when it is singular and evaluation uses a diagonal substitute for
+   * the (non-invertible) inverse covariance. Covariance matrix is a
    * VariableSizeMatrix of doubles. */
   itkGetConstReferenceMacro(Covariance, CovarianceMatrixType);
 
