@@ -62,7 +62,9 @@ operator<<(std::ostream & out, const ESMDemonsRegistrationFunctionEnums::Gradien
  * image.
  *
  * Note that this class also enables the use of fixed, mapped moving
- * and warped moving images forces by using a call to SetUseGradientType
+ * and warped moving images forces by using a call to SetUseGradientType.
+ * The WarpedMoving and MappedMoving gradients coincide wherever the
+ * displacement field is zero.
  *
  * The moving image should not be saturated. We indeed use
  * NumericTraits<MovingPixelType>::Max() as a special value.

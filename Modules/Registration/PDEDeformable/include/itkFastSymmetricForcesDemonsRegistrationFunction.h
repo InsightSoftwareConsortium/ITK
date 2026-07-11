@@ -34,6 +34,9 @@ namespace itk
  * symmetric demons registration force. Speed is improved by keeping
  * a deformed copy of the moving image for gradient evaluation.
  *
+ * Note that FastSymmetricForcesDemonsRegistrationFilter does not use this
+ * class; it uses ESMDemonsRegistrationFunction.
+ *
  * \sa SymmetricForcesDemonsRegistrationFunction
  * \sa SymmetricForcesDemonsRegistrationFilter
  * \sa DemonsRegistrationFilter
