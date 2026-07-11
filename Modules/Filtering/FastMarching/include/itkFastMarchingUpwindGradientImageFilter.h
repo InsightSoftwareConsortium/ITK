@@ -319,6 +319,9 @@ private:
   double m_TargetValue{};
 
   SizeValueType m_NumberOfTargets{};
+
+  // Distinct target count; duplicates must not make AllTargets unreachable.
+  SizeValueType m_TotalDistinctTargets{};
 };
 } // namespace itk
 

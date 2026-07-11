@@ -21,6 +21,7 @@
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 #include <algorithm>
+#include <set>
 #include "itkPrintHelper.h"
 
 namespace itk
@@ -99,6 +100,21 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelS
   // Even if there are no targets, a new NodeContainer should be created
   // so that querying this structure does not crash.
   m_ReachedTargetPoints = NodeContainer::New();
+
+  // Each index is reached at most once, so AllTargets must compare against the
+  // distinct target count rather than the container size.
+  m_TotalDistinctTargets = 0;
+  if (m_TargetPoints)
+  {
+    std::set<IndexType> distinctTargetIndices;
+    for (typename NodeContainer::ConstIterator pointsIter = m_TargetPoints->Begin();
+         pointsIter != m_TargetPoints->End();
+         ++pointsIter)
+    {
+      distinctTargetIndices.insert(pointsIter.Value().GetIndex());
+    }
+    m_TotalDistinctTargets = static_cast<SizeValueType>(distinctTargetIndices.size());
+  }
 }
 
 template <typename TLevelSet, typename TSpeedImage>
@@ -201,7 +217,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::UpdateNeighbors(c
         }
       }
 
-      if (m_ReachedTargetPoints->Size() == m_TargetPoints->Size())
+      if (m_ReachedTargetPoints->Size() == m_TotalDistinctTargets)
       {
         targetReached = true;
       }
