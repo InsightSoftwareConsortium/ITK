@@ -187,6 +187,8 @@ public:
   itkGetConstReferenceMacro(OutputDirection, DirectionType);
   /** @ITKEndGrouping */
   /** Set the edge padding value */
+  /** Only used when the interpolator reports points outside its buffer; an
+   * extrapolating interpolator never does, making this value unused. */
   itkSetMacro(EdgePaddingValue, PixelType);
 
   /** Get the edge padding value */

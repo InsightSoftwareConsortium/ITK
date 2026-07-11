@@ -48,6 +48,9 @@ namespace itk
  * The output displacement field can be obtained via methods GetOutput
  * or GetDisplacementField.
  *
+ * A run configured for zero iterations reports a RMS change of zero
+ * while the metric keeps its NumericTraits max initialization.
+ *
  * The PDE algorithm is run for a user defined number of iterations.
  * Typically the PDE algorithm requires period Gaussian smoothing of the
  * displacement field to enforce an elastic-like condition. The amount
