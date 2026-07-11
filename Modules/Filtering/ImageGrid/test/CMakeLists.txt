@@ -747,6 +747,7 @@ itk_add_test(
 set(
   ITKImageGridGTests
   itkChangeInformationImageFilterGTest.cxx
+  itkWarpImageFilterGTest.cxx
   itkPasteImageFilterGTest.cxx
   itkResampleImageFilterGTest.cxx
   itkSliceImageFilterTest.cxx
