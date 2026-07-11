@@ -190,7 +190,8 @@ public:
   /** Get the start index of the output largest possible region. */
   itkGetConstReferenceMacro(OutputStartIndex, IndexType);
 
-  /** Set the size of the output image. */
+  /** Set the size of the output image. A first element of zero leaves the size
+   * unset, taking the output region from the displacement field. */
   itkSetMacro(OutputSize, SizeType);
 
   /** Get the size of the output image. */
