@@ -43,6 +43,10 @@ namespace itk
  *
  * This method was discussed in the users-list during February 2004.
  *
+ * The coordinate-descent probe step starts at the spacing of axis 0 on every
+ * axis and is halved whenever no probe improves the residual; the annealing
+ * makes the starting scale benign even for anisotropic fields.
+ *
  * \author  Corinne Mattmann
  *
  * \ingroup ITKDisplacementField
