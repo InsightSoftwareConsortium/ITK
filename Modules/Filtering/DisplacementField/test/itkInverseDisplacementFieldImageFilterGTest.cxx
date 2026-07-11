@@ -168,6 +168,31 @@ TEST(InverseDisplacementFieldImageFilter, CenteredSubsamplingBoundsHighEdgeError
   EXPECT_LT(maxError, 0.06);
 }
 
+// An input smaller than the subsampling factor yields a zero-size landmark lattice; the
+// filter must reject it up front instead of building a spline with no landmarks.
+TEST(InverseDisplacementFieldImageFilter, RejectsInputSmallerThanSubsamplingFactor)
+{
+  auto field = FieldType::New();
+  field->SetRegions(FieldType::RegionType{ FieldType::IndexType{}, FieldType::SizeType::Filled(8) });
+  field->Allocate();
+  field->FillBuffer(itk::MakeVector(0.0F, 0.0F));
+
+  auto filter = FilterType::New();
+  filter->SetInput(field);
+  filter->SetKernelTransform(itk::ThinPlateSplineKernelTransform<double, 2>::New());
+  filter->SetSubsamplingFactor(16);
+  filter->SetSize(FieldType::SizeType::Filled(8));
+  filter->SetOutputSpacing(itk::MakeFilled<FieldType::SpacingType>(1.0));
+  filter->SetOutputOrigin(itk::MakePoint(0.0, 0.0));
+  EXPECT_THROW(filter->UpdateLargestPossibleRegion(), itk::ExceptionObject);
+
+  filter->SetSubsamplingFactor(0);
+  EXPECT_THROW(filter->UpdateLargestPossibleRegion(), itk::ExceptionObject);
+
+  filter->SetSubsamplingFactor(4);
+  EXPECT_NO_THROW(filter->UpdateLargestPossibleRegion());
+}
+
 // The centered lattice must account for a non-zero input region start index: the
 // landmarks are placed relative to the region start, not the absolute index 0, so a
 // cropped/non-zero-start input inverts as accurately as a zero-start one (issue #6582

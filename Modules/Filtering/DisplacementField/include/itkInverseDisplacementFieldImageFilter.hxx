@@ -339,6 +339,35 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateOutputIn
   }
 }
 
+template <typename TInputImage, typename TOutputImage>
+void
+InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::VerifyPreconditions() const
+{
+  Superclass::VerifyPreconditions();
+
+  if (m_SubsamplingFactor == 0)
+  {
+    itkExceptionMacro("SubsamplingFactor must be non-zero.");
+  }
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
+InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
+{
+  Superclass::VerifyInputInformation();
+
+  const typename InputImageType::SizeType inputSize = this->GetInput()->GetLargestPossibleRegion().GetSize();
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+  {
+    if (inputSize[i] < m_SubsamplingFactor)
+    {
+      itkExceptionMacro("Input size " << inputSize << " must be at least SubsamplingFactor (" << m_SubsamplingFactor
+                                      << ") along every axis to produce landmarks.");
+    }
+  }
+}
+
 /**
  * Verify if any of the components has been modified.
  */

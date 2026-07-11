@@ -181,6 +181,15 @@ public:
   [[nodiscard]] ModifiedTimeType
   GetMTime() const override;
 
+  /** Verify that SubsamplingFactor is non-zero. */
+  void
+  VerifyPreconditions() const override;
+
+  /** Verify that the input is large enough to produce at least one landmark
+   * per axis after subsampling. */
+  void
+  VerifyInputInformation() const override;
+
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelComponentType>));
 
 protected:
