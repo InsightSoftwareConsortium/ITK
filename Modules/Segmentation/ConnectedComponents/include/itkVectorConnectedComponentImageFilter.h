@@ -53,8 +53,6 @@ class SimilarVectorsFunctor
 public:
   SimilarVectorsFunctor() = default;
 
-  ~SimilarVectorsFunctor() = default;
-
   void
   SetDistanceThreshold(const typename TInput::ValueType & thresh)
   {
