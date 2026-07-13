@@ -14,6 +14,7 @@ itk_module(
     ITKThresholding
   TEST_DEPENDS
     ITKTestKernel
+    ITKGoogleTest
     ITKMetaIO
     ITKDoubleConversion
   DESCRIPTION "${DOCUMENTATION}"

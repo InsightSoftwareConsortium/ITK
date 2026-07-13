@@ -41,6 +41,20 @@ MakeRaterImage(const std::array<unsigned char, 4> & labels)
   }
   return image;
 }
+
+using WideImageType = itk::Image<unsigned short, 2>;
+using WideFilterType = itk::MultiLabelSTAPLEImageFilter<WideImageType>;
+
+template <typename TImage>
+typename TImage::Pointer
+MakeUniformImage(typename TImage::PixelType value)
+{
+  auto image = TImage::New();
+  image->SetRegions(TImage::SizeType::Filled(2));
+  image->Allocate();
+  image->FillBuffer(value);
+  return image;
+}
 } // namespace
 
 // Voting-tie pixels carry the undecided label (one past the confusion matrix's last column)
@@ -77,4 +91,24 @@ TEST(MultiLabelSTAPLEImageFilter, VotingUndecidedPixelsDoNotCorruptSeededConfusi
     EXPECT_EQ(out.Get(), expectedLabel);
     ++out;
   }
+}
+
+TEST(MultiLabelSTAPLEImageFilter, ThrowsWhenUndecidedLabelDoesNotFitOutputType)
+{
+  auto filter = FilterType::New();
+  filter->SetInput(0, MakeUniformImage<ImageType>(0));
+  filter->SetInput(1, MakeUniformImage<ImageType>(255));
+
+  EXPECT_THROW(filter->Update(), itk::ExceptionObject);
+}
+
+TEST(MultiLabelSTAPLEImageFilter, DefaultUndecidedLabelWhenRepresentable)
+{
+  auto filter = WideFilterType::New();
+  filter->SetInput(0, MakeUniformImage<WideImageType>(0));
+  filter->SetInput(1, MakeUniformImage<WideImageType>(255));
+  filter->SetMaximumNumberOfIterations(0);
+
+  EXPECT_NO_THROW(filter->Update());
+  EXPECT_EQ(256, filter->GetLabelForUndecidedPixels());
 }

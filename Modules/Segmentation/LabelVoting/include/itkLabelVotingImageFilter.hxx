@@ -70,7 +70,11 @@ LabelVotingImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
   {
     if (this->m_TotalLabelCount > itk::NumericTraits<OutputPixelType>::max())
     {
-      itkWarningMacro("No new label for undecided pixels, using zero.");
+      itkExceptionMacro(
+        "No label available for undecided pixels: total label count ("
+        << this->m_TotalLabelCount << ") exceeds the output pixel type maximum ("
+        << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(NumericTraits<OutputPixelType>::max())
+        << "). Call SetLabelForUndecidedPixels() to choose one explicitly.");
     }
     this->m_LabelForUndecidedPixels = static_cast<OutputPixelType>(this->m_TotalLabelCount);
   }
