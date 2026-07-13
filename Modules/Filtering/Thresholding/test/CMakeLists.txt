@@ -433,7 +433,7 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkMaximumEntropyThresholdImageFilterTestNoAutoMinMax.png
     32
     0
-    -31744
+    1023
   ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkMaximumEntropyThresholdImageFilterTestNoAutoMinMax.png
 )
@@ -1155,6 +1155,7 @@ itk_add_test(
 
 set(
   ITKThresholdingGTests
+  itkMaximumEntropyThresholdCalculatorGTest.cxx
   itkRenyiEntropyThresholdCalculatorGTest.cxx
 )
 

@@ -13,6 +13,7 @@ itk_module(
   COMPILE_DEPENDS
     ITKImageStatistics
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKSignedDistanceFunction
   DESCRIPTION "${DOCUMENTATION}"
