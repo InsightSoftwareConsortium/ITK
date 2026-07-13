@@ -439,37 +439,35 @@ void
 ReadTensorBuffer(std::istream & is, TComponent * buffer, const ImageIOBase::SizeType num)
 {
   using PrintType = typename itk::NumericTraits<TComponent>::PrintType;
-  PrintType             temp;
   TComponent *          ptr = buffer;
   ImageIOBase::SizeType i = 0;
   // More than the resulting components because of symmetry.
   const ImageIOBase::SizeType fileComponents = num / 6 * 9;
+
+  auto readComponent = [&is]() {
+    PrintType temp{};
+    is >> temp;
+    if (is.fail())
+    {
+      itkGenericExceptionMacro("Failed reading ASCII tensor component");
+    }
+    return static_cast<TComponent>(temp);
+  };
+
   while (i < fileComponents)
   {
     // First row: hit hit hit
-    is >> temp;
-    *ptr = static_cast<TComponent>(temp);
-    ++ptr;
-    is >> temp;
-    *ptr = static_cast<TComponent>(temp);
-    ++ptr;
-    is >> temp;
-    *ptr = static_cast<TComponent>(temp);
-    ++ptr;
+    *ptr++ = readComponent();
+    *ptr++ = readComponent();
+    *ptr++ = readComponent();
     // Second row: skip hit hit
-    is >> temp;
-    is >> temp;
-    *ptr = static_cast<TComponent>(temp);
-    ++ptr;
-    is >> temp;
-    *ptr = static_cast<TComponent>(temp);
-    ++ptr;
+    static_cast<void>(readComponent());
+    *ptr++ = readComponent();
+    *ptr++ = readComponent();
     // Third row: skip skip hit
-    is >> temp;
-    is >> temp;
-    is >> temp;
-    *ptr = static_cast<TComponent>(temp);
-    ++ptr;
+    static_cast<void>(readComponent());
+    static_cast<void>(readComponent());
+    *ptr++ = readComponent();
     i += 9;
   }
 }

@@ -19,6 +19,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"
+#include "itkSymmetricSecondRankTensor.h"
 #include "itkVTKImageIO.h"
 #include "itkGTest.h"
 
@@ -186,4 +187,31 @@ TEST(VTKImageIO, CanReadFileReturnsFalseOnShortFile)
   bool canRead = true;
   EXPECT_NO_THROW(canRead = vtkIO->CanReadFile(path.c_str()));
   EXPECT_FALSE(canRead);
+}
+
+TEST(VTKImageIO, TensorOverflowingFieldThrowsOnRead)
+{
+  using TensorType = itk::SymmetricSecondRankTensor<float, 3>;
+  using ImageType = itk::Image<TensorType, 2>;
+
+  const std::string path = std::string(::testing::TempDir()) + "/itkVTKImageIOGTest_tensor_bad_field.vtk";
+  {
+    std::ofstream ofs(path);
+    ofs << "# vtk DataFile Version 3.0\n"
+        << "tensor fixture with a malformed field\n"
+        << "ASCII\n"
+        << "DATASET STRUCTURED_POINTS\n"
+        << "DIMENSIONS 2 1 1\n"
+        << "SPACING 1 1 1\n"
+        << "ORIGIN 0 0 0\n"
+        << "POINT_DATA 2\n"
+        << "TENSORS tensors float\n"
+        << "1 2 3 2 bad 5 3 5 6\n"
+        << "10 20 30 20 40 50 30 50 60\n";
+  }
+
+  auto reader = itk::ImageFileReader<ImageType>::New();
+  reader->SetImageIO(itk::VTKImageIO::New());
+  reader->SetFileName(path);
+  EXPECT_THROW(reader->Update(), itk::ExceptionObject);
 }
