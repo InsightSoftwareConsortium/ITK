@@ -83,17 +83,17 @@ VTKImageIO::CanReadFile(const char * filename)
   try
   {
     this->OpenFileForReading(file, fname);
+
+    // Check to see if its a vtk structured points file
+    this->GetNextLine(file, fname);
+    this->GetNextLine(file, fname);
+    this->GetNextLine(file, fname);
+    this->GetNextLine(file, fname);
   }
   catch (...)
   {
     return false;
   }
-
-  // Check to see if its a vtk structured points file
-  this->GetNextLine(file, fname);
-  this->GetNextLine(file, fname);
-  this->GetNextLine(file, fname);
-  this->GetNextLine(file, fname);
 
   if (fname.find("structured_points") < fname.length())
   {

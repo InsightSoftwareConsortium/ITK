@@ -172,3 +172,18 @@ TEST(VTKImageIO, AsciiWriteRetainsDoublePrecision)
     EXPECT_NEAR(readIt.Get(), writtenIt.Get(), 1e-10 * std::abs(writtenIt.Get()) + 1e-12);
   }
 }
+
+TEST(VTKImageIO, CanReadFileReturnsFalseOnShortFile)
+{
+  const std::string path = std::string(::testing::TempDir()) + "/itkVTKImageIOGTest_short.vtk";
+  {
+    std::ofstream ofs(path);
+    ofs << "# vtk DataFile Version 3.0\n"
+        << "only two lines\n";
+  }
+
+  auto vtkIO = itk::VTKImageIO::New();
+  bool canRead = true;
+  EXPECT_NO_THROW(canRead = vtkIO->CanReadFile(path.c_str()));
+  EXPECT_FALSE(canRead);
+}
