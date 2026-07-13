@@ -229,7 +229,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::CalculateDistance(IndexType & index)
       typename LevelSetImageType::PixelType neighValue = inputPixel;
       neighValue -= m_LevelSetValue;
 
-      if ((neighValue > 0 && inside) || (neighValue < 0 && !inside))
+      if ((neighValue > 0 && inside) || (neighValue <= 0 && !inside))
       {
         SpacePrecisionType distance = centerValue / (centerValue - neighValue) * spacing;
 
