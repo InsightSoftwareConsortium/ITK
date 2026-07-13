@@ -153,3 +153,7 @@ itk_add_test(
   ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/KmeansTest_T1KmeansPrelimSegmentation.nii.gz
 )
+
+set(ITKClassifiersGTests itkScalarImageKmeansImageFilterGTest.cxx)
+
+creategoogletestdriver(ITKClassifiers "${ITKClassifiers-Test_LIBRARIES}" "${ITKClassifiersGTests}")

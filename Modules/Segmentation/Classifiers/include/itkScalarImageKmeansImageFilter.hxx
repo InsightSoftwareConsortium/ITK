@@ -20,6 +20,8 @@
 
 #include "itkImageRegionExclusionIteratorWithIndex.h"
 
+#include <cstdint>
+
 #include "itkDistanceToCentroidMembershipFunction.h"
 
 #include "itkProgressReporter.h"
@@ -44,6 +46,15 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::VerifyPreconditions() c
   if (this->m_InitialMeans.empty())
   {
     itkExceptionStringMacro("At least one InitialMean is required.");
+  }
+
+  // Non-contiguous labels need 2*N <= max() (the interval max()/N - 1 must stay >= 1);
+  // contiguous labels plus the out-of-region sentinel at N need N <= max().
+  const auto numberOfClasses = static_cast<std::uintmax_t>(this->m_InitialMeans.size());
+  const auto maxLabel = static_cast<std::uintmax_t>(NumericTraits<OutputPixelType>::max());
+  if (m_UseNonContiguousLabels ? (2 * numberOfClasses > maxLabel) : (numberOfClasses > maxLabel))
+  {
+    itkExceptionStringMacro("Too many classes to produce distinct labels in the output pixel type.");
   }
 }
 
@@ -109,18 +120,18 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::GenerateData()
   classLabels.resize(numberOfClasses);
 
   // Spread the labels over the intensity range
-  unsigned int labelInterval = 1;
+  std::uintmax_t labelInterval = 1;
   if (m_UseNonContiguousLabels)
   {
-    labelInterval = (NumericTraits<OutputPixelType>::max() / numberOfClasses) - 1;
+    labelInterval = static_cast<std::uintmax_t>(NumericTraits<OutputPixelType>::max() / numberOfClasses) - 1;
   }
 
-  unsigned int                 label = 0;
+  std::uintmax_t               label = 0;
   MembershipFunctionVectorType membershipFunctions;
 
   for (unsigned int k = 0; k < numberOfClasses; ++k)
   {
-    classLabels[k] = label;
+    classLabels[k] = static_cast<typename ClassLabelVectorType::value_type>(label);
     label += labelInterval;
     const MembershipFunctionPointer membershipFunction = MembershipFunctionType::New();
     MembershipFunctionOriginType    origin(adaptor->GetMeasurementVectorSize());
@@ -186,7 +197,7 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::GenerateData()
     exIt.GoToBegin();
     if (m_UseNonContiguousLabels)
     {
-      const OutputPixelType outsideLabel = labelInterval * numberOfClasses;
+      const auto outsideLabel = static_cast<OutputPixelType>(labelInterval * numberOfClasses);
       while (!exIt.IsAtEnd())
       {
         exIt.Set(outsideLabel);

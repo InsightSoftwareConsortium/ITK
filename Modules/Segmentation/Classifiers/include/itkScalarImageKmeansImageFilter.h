@@ -146,6 +146,7 @@ public:
   itkGetConstReferenceMacro(ImageRegion, ImageRegionType);
 
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
+  itkConceptMacro(OutputPixelTypeIsInteger, (Concept::IsInteger<OutputPixelType>));
 
 protected:
   ScalarImageKmeansImageFilter() = default;

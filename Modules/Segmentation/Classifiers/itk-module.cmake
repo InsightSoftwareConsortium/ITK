@@ -15,6 +15,7 @@ itk_module(
     ITKStatistics
     ITKConnectedComponents
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKAnisotropicSmoothing
   DESCRIPTION "${DOCUMENTATION}"
