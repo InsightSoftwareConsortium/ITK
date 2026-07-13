@@ -710,7 +710,7 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkRenyiEntropyThresholdImageFilterTestNoAutoMinMax.png
     32
     0
-    -31744
+    1023
   ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkRenyiEntropyThresholdImageFilterTestNoAutoMinMax.png
 )
@@ -1152,3 +1152,10 @@ itk_add_test(
   ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/itkKappaSigmaThresholdImageFilterTest02.png
 )
+
+set(
+  ITKThresholdingGTests
+  itkRenyiEntropyThresholdCalculatorGTest.cxx
+)
+
+creategoogletestdriver(ITKThresholding "${ITKThresholding-Test_LIBRARIES}" "${ITKThresholdingGTests}")
