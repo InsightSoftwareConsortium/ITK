@@ -117,10 +117,14 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::InitializeConf
 {
   const auto numberOfInputs = static_cast<const unsigned int>(this->GetNumberOfInputs());
 
-  using LabelVotingFilterType = LabelVotingImageFilter<TInputImage, TOutputImage>;
+  // The undecided sentinel (one past the last label) must be representable and distinct.
+  using VotingLabelType = typename NumericTraits<InputPixelType>::AccumulateType;
+  using VotingImageType = Image<VotingLabelType, ImageDimension>;
+  using LabelVotingFilterType = LabelVotingImageFilter<TInputImage, VotingImageType>;
   using LabelVotingFilterPointer = typename LabelVotingFilterType::Pointer;
 
-  typename OutputImageType::Pointer votingOutput;
+  typename VotingImageType::Pointer votingOutput;
+  VotingLabelType                   votingUndecidedLabel{};
 
   { // begin scope for local filter allocation
     const LabelVotingFilterPointer votingFilter = LabelVotingFilterType::New();
@@ -131,9 +135,11 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::InitializeConf
     }
     votingFilter->Update();
     votingOutput = votingFilter->GetOutput();
+    votingUndecidedLabel = votingFilter->GetLabelForUndecidedPixels();
   } // begin scope for local filter allocation; de-allocate filter
 
-  OutputIteratorType out(votingOutput, votingOutput->GetRequestedRegion());
+  using VotingIteratorType = ImageRegionConstIterator<VotingImageType>;
+  VotingIteratorType out(votingOutput, votingOutput->GetRequestedRegion());
 
   for (unsigned int k = 0; k < numberOfInputs; ++k)
   {
@@ -143,8 +149,7 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::InitializeConf
 
     for (out.GoToBegin(); !out.IsAtEnd(); ++out, ++in)
     {
-      // Voting-undecided pixels carry the label m_TotalLabelCount, one past the last matrix column.
-      if (static_cast<size_t>(out.Get()) < this->m_TotalLabelCount)
+      if (out.Get() != votingUndecidedLabel)
       {
         ++(this->m_ConfusionMatrixArray[k][in.Get()][out.Get()]);
       }
@@ -226,7 +231,7 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
 
   if (!this->m_HasLabelForUndecidedPixels)
   {
-    if (this->m_TotalLabelCount > itk::NumericTraits<OutputPixelType>::max())
+    if (this->m_TotalLabelCount > static_cast<size_t>(NumericTraits<OutputPixelType>::max()))
     {
       itkExceptionMacro(
         "No label available for undecided pixels: total label count ("

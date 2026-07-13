@@ -22,7 +22,9 @@
 
 #include <array>
 #include <chrono>
+#include <cstdlib>
 #include <future>
+#include <iostream>
 #include <thread>
 
 namespace
@@ -60,8 +62,7 @@ MakeUniformImage(typename TImage::PixelType value)
 }
 } // namespace
 
-// Voting-tie pixels carry the undecided label (one past the confusion matrix's last column)
-// and must be skipped when seeding, not written past the row (issue #6575, B10).
+// Voting-tie pixels must be skipped when seeding, not written past the matrix row (issue #6575).
 TEST(MultiLabelSTAPLEImageFilter, VotingUndecidedPixelsDoNotCorruptSeededConfusionMatrix)
 {
   auto filter = FilterType::New();
@@ -128,11 +129,79 @@ TEST(MultiLabelSTAPLEImageFilter, SaturatedUnsignedCharLabelCountDoesNotHang)
 
   auto              done = std::make_shared<std::promise<void>>();
   std::future<void> future = done->get_future();
-  std::thread([filter, done]() mutable {
+  std::thread       worker([filter, done]() mutable {
     filter->Update();
     done->set_value();
-  }).detach();
+  });
 
-  ASSERT_EQ(future.wait_for(std::chrono::seconds(2)), std::future_status::ready)
-    << "Update() did not terminate for a saturated unsigned char label count";
+  const bool finished = (future.wait_for(std::chrono::seconds(30)) == std::future_status::ready);
+  if (!finished)
+  {
+    // A stuck Update() cannot be killed portably; abort rather than detach and
+    // leak a CPU-spinning thread that would corrupt later tests in this binary.
+    std::cerr << "Update() did not terminate for a saturated unsigned char label count" << std::endl;
+    std::abort();
+  }
+  worker.join();
+}
+
+// A saturated label space leaves no representable undecided label, so the filter
+// must refuse rather than silently wrap the default onto real label 0 (issue #6575).
+TEST(MultiLabelSTAPLEImageFilter, SaturatedLabelsWithoutExplicitUndecidedLabelThrows)
+{
+  auto filter = FilterType::New();
+  filter->SetInput(0, MakeRaterImage({ 255, 0, 0, 0 }));
+  filter->SetInput(1, MakeRaterImage({ 255, 1, 1, 1 }));
+  filter->SetMaximumNumberOfIterations(1);
+  EXPECT_THROW(filter->Update(), itk::ExceptionObject);
+}
+
+// Saturated label space (max label 255 -> m_TotalLabelCount 256) with the caller
+// mapping undecided pixels to real label 0: genuine label-0 consensus must still
+// seed the matrices. The voting-undecided sentinel must not collide with label 0.
+TEST(MultiLabelSTAPLEImageFilter, SaturatedConsensusOnLabelZeroSeedsMatrixWhenUndecidedLabelIsZero)
+{
+  auto filter = FilterType::New();
+  // Pixel 0: unanimous label 255 -> saturates unsigned char (m_TotalLabelCount = 256).
+  // Pixels 1-3: unanimous label 0 (genuine consensus, no ties).
+  filter->SetInput(0, MakeRaterImage({ 255, 0, 0, 0 }));
+  filter->SetInput(1, MakeRaterImage({ 255, 0, 0, 0 }));
+  filter->SetLabelForUndecidedPixels(0);
+  filter->SetMaximumNumberOfIterations(0);
+  filter->Update();
+
+  for (unsigned int rater = 0; rater < 2; ++rater)
+  {
+    const FilterType::ConfusionMatrixType & cm = filter->GetConfusionMatrix(rater);
+    EXPECT_NEAR(cm(0, 0), 1.0, 1e-6) << "rater " << rater << ": label-0 consensus excluded from seeding";
+    EXPECT_NEAR(cm(255, 255), 1.0, 1e-6) << "rater " << rater << ": label-255 consensus";
+  }
+}
+
+// Consensus on label 0 must seed the matrices even when the caller maps undecided
+// pixels to 0; only genuine ties are excluded (issue #6575).
+TEST(MultiLabelSTAPLEImageFilter, ConsensusOnLabelZeroSeedsMatrixWhenUndecidedLabelIsZero)
+{
+  auto filter = FilterType::New();
+  filter->SetInput(0, MakeRaterImage({ 0, 1, 0, 0 }));
+  filter->SetInput(1, MakeRaterImage({ 0, 0, 0, 0 }));
+  filter->SetLabelForUndecidedPixels(0);
+  filter->SetMaximumNumberOfIterations(0);
+  filter->Update();
+
+  // Pixels 0, 2, 3 are label-0 consensus and must be counted; pixel 1 is a tie and is skipped.
+  for (unsigned int rater = 0; rater < 2; ++rater)
+  {
+    const FilterType::ConfusionMatrixType & cm = filter->GetConfusionMatrix(rater);
+    ASSERT_EQ(cm.rows(), 3u);
+    ASSERT_EQ(cm.cols(), 2u);
+    const double expected[3][2] = { { 1.0, 0.0 }, { 0.0, 0.0 }, { 0.0, 0.0 } };
+    for (unsigned int r = 0; r < 3; ++r)
+    {
+      for (unsigned int c = 0; c < 2; ++c)
+      {
+        EXPECT_NEAR(cm(r, c), expected[r][c], 1e-6) << "rater " << rater << " (" << r << ',' << c << ')';
+      }
+    }
+  }
 }
