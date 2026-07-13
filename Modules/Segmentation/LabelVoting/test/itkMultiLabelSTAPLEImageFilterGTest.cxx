@@ -21,6 +21,9 @@
 #include "itkGTest.h"
 
 #include <array>
+#include <chrono>
+#include <future>
+#include <thread>
 
 namespace
 {
@@ -111,4 +114,25 @@ TEST(MultiLabelSTAPLEImageFilter, DefaultUndecidedLabelWhenRepresentable)
 
   EXPECT_NO_THROW(filter->Update());
   EXPECT_EQ(256, filter->GetLabelForUndecidedPixels());
+}
+
+// Loop counters bounded by m_TotalLabelCount must not be pixel-typed: a saturated
+// unsigned char label space (issue #6575, B84) wraps such a counter and never terminates.
+TEST(MultiLabelSTAPLEImageFilter, SaturatedUnsignedCharLabelCountDoesNotHang)
+{
+  auto filter = FilterType::New();
+  filter->SetInput(0, MakeRaterImage({ 255, 0, 0, 0 }));
+  filter->SetInput(1, MakeRaterImage({ 255, 1, 1, 1 }));
+  filter->SetLabelForUndecidedPixels(0);
+  filter->SetMaximumNumberOfIterations(1);
+
+  auto              done = std::make_shared<std::promise<void>>();
+  std::future<void> future = done->get_future();
+  std::thread([filter, done]() mutable {
+    filter->Update();
+    done->set_value();
+  }).detach();
+
+  ASSERT_EQ(future.wait_for(std::chrono::seconds(2)), std::future_status::ready)
+    << "Update() did not terminate for a saturated unsigned char label count";
 }
