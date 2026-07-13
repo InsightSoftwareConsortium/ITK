@@ -70,3 +70,59 @@ TEST(VTKImageIO, MalformedDimensionsLineThrows)
   vtkIO->SetFileName(path);
   EXPECT_THROW(vtkIO->ReadImageInformation(), itk::ExceptionObject);
 }
+
+TEST(VTKImageIO, ScalarsNameContainingVectorSubstringParsesAsScalars)
+{
+  const std::string path = std::string(::testing::TempDir()) + "/itkVTKImageIOGTest_scalars_vector_substr.vtk";
+  {
+    std::ofstream ofs(path);
+    ofs << "# vtk DataFile Version 3.0\n"
+        << "scalars array name containing the substring vector\n"
+        << "ASCII\n"
+        << "DATASET STRUCTURED_POINTS\n"
+        << "DIMENSIONS 2 1 1\n"
+        << "SPACING 1 1 1\n"
+        << "ORIGIN 0 0 0\n"
+        << "POINT_DATA 2\n"
+        << "SCALARS vector_field float\n"
+        << "LOOKUP_TABLE default\n"
+        << "1.0 2.0\n";
+  }
+
+  auto vtkIO = itk::VTKImageIO::New();
+  vtkIO->SetFileName(path);
+  ASSERT_NO_THROW(vtkIO->ReadImageInformation());
+
+  EXPECT_EQ(vtkIO->GetPixelType(), itk::IOPixelEnum::SCALAR);
+  EXPECT_EQ(vtkIO->GetNumberOfComponents(), 1u);
+}
+
+TEST(VTKImageIO, IndentedAttributeKeywordsParse)
+{
+  const std::string path = std::string(::testing::TempDir()) + "/itkVTKImageIOGTest_indented_keywords.vtk";
+  {
+    std::ofstream ofs(path);
+    ofs << "# vtk DataFile Version 3.0\n"
+        << "attribute keywords with leading whitespace\n"
+        << "ASCII\n"
+        << "DATASET STRUCTURED_POINTS\n"
+        << "DIMENSIONS 2 1 1\n"
+        << "  SPACING 2 3 1\n"
+        << "\tORIGIN 5 6 0\n"
+        << "POINT_DATA 2\n"
+        << " \t SCALARS scalars float 1\n"
+        << "LOOKUP_TABLE default\n"
+        << "1.0 2.0\n";
+  }
+
+  auto vtkIO = itk::VTKImageIO::New();
+  vtkIO->SetFileName(path);
+  ASSERT_NO_THROW(vtkIO->ReadImageInformation());
+
+  EXPECT_EQ(vtkIO->GetPixelType(), itk::IOPixelEnum::SCALAR);
+  EXPECT_EQ(vtkIO->GetNumberOfComponents(), 1u);
+  EXPECT_DOUBLE_EQ(vtkIO->GetSpacing(0), 2.0);
+  EXPECT_DOUBLE_EQ(vtkIO->GetSpacing(1), 3.0);
+  EXPECT_DOUBLE_EQ(vtkIO->GetOrigin(0), 5.0);
+  EXPECT_DOUBLE_EQ(vtkIO->GetOrigin(1), 6.0);
+}

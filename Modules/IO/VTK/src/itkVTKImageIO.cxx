@@ -235,7 +235,12 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
   {
     this->GetNextLine(file, text);
 
-    if (text.find("spacing") < text.length() || text.find("aspect_ratio") < text.length())
+    const auto        keywordStart = text.find_first_not_of(" \t");
+    const auto        keywordEnd = text.find_first_of(" \t", keywordStart);
+    const std::string keyword =
+      (keywordStart == std::string::npos) ? std::string() : text.substr(keywordStart, keywordEnd - keywordStart);
+
+    if (keyword == "spacing" || keyword == "aspect_ratio")
     {
       double spacing[3]{};
       // save and reset old locale
@@ -253,7 +258,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       }
     }
 
-    else if (text.find("origin") < text.length())
+    else if (keyword == "origin")
     {
       double origin[3]{};
       // save and reset old locale
@@ -271,7 +276,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       }
     }
 
-    else if (text.find("vector") < text.length())
+    else if (keyword == "vectors")
     {
       readAttribute = true;
 
@@ -287,7 +292,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       this->SetPixelTypeFromString(text);
     }
 
-    else if (text.find("color_scalars") < text.length())
+    else if (keyword == "color_scalars")
     {
       readAttribute = true;
 
@@ -321,7 +326,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       }
     }
 
-    else if (text.find("scalars") < text.length())
+    else if (keyword == "scalars")
     {
       readAttribute = true;
 
@@ -355,7 +360,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       }
     } // found scalars
 
-    else if (text.find("tensors") < text.length())
+    else if (keyword == "tensors")
     {
       readAttribute = true;
 
