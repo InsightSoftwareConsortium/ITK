@@ -1,6 +1,5 @@
 ITK v6 Migration Guide
-===============
-This guide documents the changes required to migrate a code base
+========This guide documents the changes required to migrate a code base
 which uses ITK v5 to use ITK v6. The migration guide for transition
 from v4 to v5 can be found [here](./itk_5_migration_guide.md).
 
@@ -988,3 +987,25 @@ optimum), and hand-tuned fixed learning rates must be re-tuned. Details, the
 downstream-consumer impact survey (SimpleITK, BRAINSFit, ANTs), and the
 re-baselining checklist are in the companion guide:
 [JointHistogramMutualInformation metric correction](./joint_histogram_mutual_information_metric_correction.md).
+## Projection and accumulate filters: collapsed-axis output origin centered
+
+`ProjectionImageFilter` (and its `Maximum`/`Mean`/`Minimum`/`Sum`/`Median`/
+`StandardDeviation`/`Binary` subclasses), `AccumulateImageFilter`, and
+`GetAverageSliceImageFilter` place the single output pixel of the collapsed
+axis at the physical center of the collapsed input extent. The previous
+`inOrigin[i] + (i - 1) * inSpacing[i] / 2` expression did not depend on the
+collapsed axis and produced an incorrect origin. For a same-dimension
+projection the output origin now shifts by `(size - 1) / 2 * spacing` along
+the collapsed axis, transformed through the input direction cosines.
+`AccumulateImageFilter` now also throws on an out-of-range
+`AccumulateDimension`, matching `ProjectionImageFilter`'s long-standing
+behavior.
+
+### What you need to do
+
+Nothing in your code needs to change. If you read the physical origin of a
+projected or accumulated output, or compare it against a stored `.mha`/`.nrrd`
+baseline that encodes origin, re-verify that value -- it now reflects the
+corrected collapsed-axis center. Formats that do not store an origin (`.tif`,
+`.png`) and dimension-reducing projections (output dimension less than input)
+are unaffected.

@@ -85,7 +85,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateOutputIn
         outputSize[i] = 1;
         outputIndex[i] = 0;
         outSpacing[i] = inSpacing[i] * inputSize[i];
-        outOrigin[i] = inOrigin[i] + (i - 1) * inSpacing[i] / 2;
+        outOrigin[i] = inOrigin[i];
       }
       // Can't directly copy the matrices: In the case the dimensions
       // are different, this part of the function still needs to be able
@@ -94,6 +94,15 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateOutputIn
       {
         outDirection[i][j] = inDirection[i][j];
       }
+    }
+
+    // The single output pixel sits at the center of the collapsed input extent.
+    const double centerIndex = static_cast<double>(inputIndex[m_ProjectionDimension]) +
+                               (static_cast<double>(inputSize[m_ProjectionDimension]) - 1.0) / 2.0;
+    const double centerOffset = centerIndex * inSpacing[m_ProjectionDimension];
+    for (unsigned int d = 0; d < InputImageDimension; ++d)
+    {
+      outOrigin[d] += inDirection[d][m_ProjectionDimension] * centerOffset;
     }
   }
   else

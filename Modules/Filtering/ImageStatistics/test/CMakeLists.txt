@@ -470,6 +470,7 @@ set(
   itkAdaptiveHistogramEqualizationImageFilterGTest.cxx
   itkLabelOverlapMeasuresImageFilterGTest.cxx
   itkMinimumMaximumImageFilterGTest.cxx
+  itkProjectionImageFilterGTest.cxx
 )
 
 creategoogletestdriver(ITKImageStatistics "${ITKImageStatistics-Test_LIBRARIES}" "${ITKImageStatisticsGTests}")
