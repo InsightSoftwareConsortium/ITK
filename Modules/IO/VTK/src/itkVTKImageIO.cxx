@@ -594,7 +594,10 @@ VTKImageIO::Read(void * buffer)
       }
       else
       {
-        this->ReadBufferAsBinary(file, buffer, this->GetImageSizeInBytes());
+        if (!this->ReadBufferAsBinary(file, buffer, this->GetImageSizeInBytes()))
+        {
+          itkExceptionMacro("Failed reading binary pixel data: " << m_FileName);
+        }
       }
 
       switch (this->GetComponentSize())
