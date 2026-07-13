@@ -22,6 +22,7 @@
 #include "itkForwardFFTImageFilter.h"
 #include "itkInverseFFTImageFilter.h"
 #include "itkImageRegionIterator.h"
+#include "itkSquareImageFilter.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkDivideImageFilter.h"
 #include "itkSubtractImageFilter.h"
@@ -198,8 +199,8 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   rotatedMovingFFT = nullptr; // No longer needed
 
   // Calculate the fixed part of the masked FFT NCC denominator.
-  FFTImagePointer fixedSquaredFFT = this->CalculateForwardFFT<RealImageType, FFTImageType>(
-    this->ElementProduct<InputImageType, RealImageType>(fixedImage, fixedImage), FFTImageSize);
+  FFTImagePointer fixedSquaredFFT =
+    this->CalculateForwardFFT<RealImageType, FFTImageType>(this->ElementSquareToReal(fixedImage), FFTImageSize);
   fixedImage = nullptr; // No longer needed
   RealImagePointer fixedDenom = this->ElementSubtraction<RealImageType>(
     this->CalculateInverseFFT<FFTImageType, RealImageType>(
@@ -214,8 +215,8 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   fixedDenom = this->ElementPositive<RealImageType>(fixedDenom);
 
   // Calculate the moving part of the masked FFT NCC denominator.
-  FFTImagePointer rotatedMovingSquaredFFT = this->CalculateForwardFFT<RealImageType, FFTImageType>(
-    this->ElementProduct<InputImageType, RealImageType>(rotatedMovingImage, rotatedMovingImage), FFTImageSize);
+  FFTImagePointer rotatedMovingSquaredFFT =
+    this->CalculateForwardFFT<RealImageType, FFTImageType>(this->ElementSquareToReal(rotatedMovingImage), FFTImageSize);
   rotatedMovingImage = nullptr; // No longer needed
   RealImagePointer rotatedMovingDenom = this->ElementSubtraction<RealImageType>(
     this->CalculateInverseFFT<FFTImageType, RealImageType>(
@@ -449,6 +450,21 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   multiplier->SetInput2(inputImage2);
   multiplier->Update();
   typename LocalOutputImageType::Pointer outputImage = multiplier->GetOutput();
+  outputImage->DisconnectPipeline();
+  return outputImage;
+}
+
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
+typename MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>::RealImagePointer
+MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>::ElementSquareToReal(
+  const InputImageType * inputImage)
+{
+  // Functor::Square promotes each pixel to its real type before multiplying, so integer pixels cannot overflow.
+  using SquareType = itk::SquareImageFilter<InputImageType, RealImageType>;
+  auto squarer = SquareType::New();
+  squarer->SetInput(inputImage);
+  squarer->Update();
+  RealImagePointer outputImage = squarer->GetOutput();
   outputImage->DisconnectPipeline();
   return outputImage;
 }

@@ -285,6 +285,9 @@ protected:
   CalculateInverseFFT(LocalInputImageType * inputImage, RealSizeType & combinedImageSize);
 
   // Helper math methods.
+  RealImagePointer
+  ElementSquareToReal(const InputImageType * inputImage);
+
   template <typename LocalInputImageType, typename LocalOutputImageType>
   typename LocalOutputImageType::Pointer
   ElementProduct(LocalInputImageType * inputImage1, LocalInputImageType * inputImage2);
