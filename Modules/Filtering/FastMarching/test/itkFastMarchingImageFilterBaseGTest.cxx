@@ -72,3 +72,29 @@ TEST(FastMarchingImageFilterBaseGTest, NoHandlesAllowsMergeOfSeparatelyMarchedRe
 
   EXPECT_EQ(marcher->GetLabelImage()->GetPixel(itk::MakeIndex(2, 0)), FastMarchingType::Traits::Alive);
 }
+
+TEST(FastMarchingImageFilterBaseGTest, ZeroSpeedPixelStaysUnreachable)
+{
+  auto marcher = FastMarchingType::New();
+
+  constexpr ImageType::SizeType size{ { 2, 1 } };
+
+  auto speedImage = ImageType::New();
+  speedImage->SetRegions(size);
+  speedImage->Allocate();
+  speedImage->FillBuffer(1.0f);
+  speedImage->SetPixel(itk::MakeIndex(1, 0), 0.0f);
+  marcher->SetInput(speedImage);
+
+  auto criterion = CriterionType::New();
+  criterion->SetThreshold(1e30);
+  marcher->SetStoppingCriterion(criterion);
+
+  auto trial = NodePairContainerType::New();
+  trial->push_back(NodePairType(itk::MakeIndex(0, 0), 0.0));
+  marcher->SetTrialPoints(trial);
+
+  marcher->Update();
+
+  EXPECT_EQ(marcher->GetLabelImage()->GetPixel(itk::MakeIndex(1, 0)), FastMarchingType::Traits::Far);
+}

@@ -261,14 +261,11 @@ FastMarchingImageFilterBase<TInput, TOutput>::Solve(OutputImageType *           
   if (m_InputCache)
   {
     cc = static_cast<double>(m_InputCache->GetPixel(iNode)) / this->m_NormalizationFactor;
-    if (itk::Math::FloatAlmostEqual<double>(cc, 0.0))
+    if (itk::Math::ExactlyEquals(cc, 0.0))
     {
-      cc = -1.0 * itk::Math::sqr(1.0 / (cc + itk::Math::eps));
+      return this->m_LargeValue;
     }
-    else
-    {
-      cc = -1.0 * itk::Math::sqr(1.0 / cc);
-    }
+    cc = -1.0 * itk::Math::sqr(1.0 / cc);
   }
 
   for (const auto & neighbor : iNeighbors)
@@ -300,7 +297,8 @@ FastMarchingImageFilterBase<TInput, TOutput>::Solve(OutputImageType *           
     }
   }
 
-  return oSolution;
+  // Bound tiny-speed solutions so the cast to OutputPixelType cannot overflow.
+  return std::min(oSolution, static_cast<double>(this->m_LargeValue));
 }
 
 template <typename TInput, typename TOutput>
