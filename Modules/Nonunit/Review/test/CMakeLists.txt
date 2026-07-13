@@ -668,5 +668,6 @@ set(
   ITKReviewGTests
   itkAreaOpeningImageFilterGTest.cxx
   itkFastApproximateRankImageFilterGTest.cxx
+  itkRegionBasedLevelSetFunctionGTest.cxx
 )
 creategoogletestdriver(ITKReview "${ITKReview-Test_LIBRARIES}" "${ITKReviewGTests}")

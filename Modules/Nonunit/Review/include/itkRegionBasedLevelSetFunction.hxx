@@ -250,11 +250,18 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeUpdate(const 
 
   ScalarValueType dh = m_DomainFunction->EvaluateDerivative(-inputValue);
 
-  // Computing the curvature term
-  // Used to regularized using the length of contour
-  if ((dh != 0.) && (this->m_CurvatureWeight != ScalarValueType{}))
+  const bool useCurvatureTerm = (dh != 0.) && (this->m_CurvatureWeight != ScalarValueType{});
+  const bool useReinitializationTerm = (this->m_ReinitializationSmoothingWeight != ScalarValueType{});
+
+  if (useCurvatureTerm || useReinitializationTerm)
   {
     curvature = this->ComputeCurvature(it, offset, gd);
+  }
+
+  // Computing the curvature term
+  // Used to regularized using the length of contour
+  if (useCurvatureTerm)
+  {
     curvature_term = this->m_CurvatureWeight * curvature * this->CurvatureSpeed(it, offset, gd) * dh;
 
     gd->m_MaxCurvatureChange = std::max(gd->m_MaxCurvatureChange, itk::Math::Absolute(curvature_term));
@@ -262,7 +269,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeUpdate(const 
 
   // Computing the laplacian term
   // Used in maintaining squared distance function
-  if (this->m_ReinitializationSmoothingWeight != ScalarValueType{})
+  if (useReinitializationTerm)
   {
     laplacian_term = this->ComputeLaplacian(gd) - curvature;
 
