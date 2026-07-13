@@ -107,13 +107,8 @@ IterativeDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInte
   auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  const typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
-  const typename Superclass::OutputImagePointer     outputPtr = this->GetOutput(0);
-
-  outputPtr->SetRequestedRegion(inputPtr->GetRequestedRegion());
-  outputPtr->SetBufferedRegion(inputPtr->GetBufferedRegion());
-  outputPtr->SetLargestPossibleRegion(inputPtr->GetLargestPossibleRegion());
-  outputPtr->Allocate();
+  const typename Superclass::OutputImagePointer outputPtr = this->GetOutput(0);
+  outputPtr->SetRequestedRegion(outputPtr->GetLargestPossibleRegion());
 
   // Set up progress tracking
   const float iterationWeight = 0.8f / static_cast<float>(m_NumberOfIterations);
