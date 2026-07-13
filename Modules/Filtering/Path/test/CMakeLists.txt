@@ -110,3 +110,7 @@ itk_add_test(
     itkContourExtractor2DImageFilterTest
     DATA{Input/ContourExtractor2DTest.tif}
 )
+
+set(ITKPathGTests itkContourExtractor2DImageFilterGTest.cxx)
+
+creategoogletestdriver(ITKPath "${ITKPath-Test_LIBRARIES}" "${ITKPathGTests}")

@@ -33,7 +33,7 @@ namespace itk
 template <typename TInputImage>
 ContourExtractor2DImageFilter<TInputImage>::ContourExtractor2DImageFilter()
   : m_ContourValue(InputRealType{})
-  , m_UnusedLabel(NumericTraits<InputPixelType>::min())
+  , m_UnusedLabel(NumericTraits<InputPixelType>::NonpositiveMin())
 {
   // We do not need to initialize this->m_RequestedRegion because m_UseCustomRegion == false.
 }
@@ -303,7 +303,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
   }
 
   // Find an unused label
-  m_UnusedLabel = NumericTraits<InputPixelType>::min();
+  m_UnusedLabel = NumericTraits<InputPixelType>::NonpositiveMin();
   for (LabelsConstIterator checkedLabel{ allLabels.cbegin() };
        checkedLabel != allLabels.cend() && m_UnusedLabel == *checkedLabel;
        ++checkedLabel)
