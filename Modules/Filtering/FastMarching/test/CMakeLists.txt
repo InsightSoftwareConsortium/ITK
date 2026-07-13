@@ -413,3 +413,6 @@ set_property(
     LABELS
       RUNS_LONG
 )
+
+set(ITKFastMarchingGTests itkFastMarchingImageFilterBaseGTest.cxx)
+creategoogletestdriver(ITKFastMarching "${ITKFastMarching-Test_LIBRARIES}" "${ITKFastMarchingGTests}")

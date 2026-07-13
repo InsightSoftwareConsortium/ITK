@@ -151,10 +151,12 @@ FastMarchingImageFilterBase<TInput, TOutput>::UpdateNeighbors(OutputImageType * 
     NodeType neighIndex = iNode;
     for (int s = -1; s < 2; s += 2)
     {
-      if ((v > start) && (v < last))
+      const typename NodeType::IndexValueType temp = v + s;
+      if ((temp < start) || (temp > last))
       {
-        neighIndex[j] = v + s;
+        continue;
       }
+      neighIndex[j] = temp;
       const unsigned char label = m_LabelImage->GetPixel(neighIndex);
 
       if ((label != Traits::Alive) && (label != Traits::InitialTrial) && (label != Traits::Forbidden))

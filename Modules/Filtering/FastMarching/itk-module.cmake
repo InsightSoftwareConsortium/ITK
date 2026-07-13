@@ -16,5 +16,6 @@ itk_module(
     ITKTestKernel
     ITKImageLabel
     ITKIOMesh
+    ITKGoogleTest
   DESCRIPTION "${DOCUMENTATION}"
 )
