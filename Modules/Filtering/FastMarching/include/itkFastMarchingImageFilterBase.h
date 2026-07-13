@@ -184,6 +184,7 @@ protected:
 
   LabelImagePointer              m_LabelImage{};
   ConnectedComponentImagePointer m_ConnectedComponentImage{};
+  unsigned int                   m_NextConnectedComponentLabel{ 1 };
 
   [[nodiscard]] IdentifierType
   GetTotalNumberOfNodes() const override;

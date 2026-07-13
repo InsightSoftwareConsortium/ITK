@@ -50,3 +50,25 @@ TEST(FastMarchingImageFilterBaseGTest, CornerSeedPropagatesAlongBothBoundaryAxes
   EXPECT_LT(output->GetPixel(itk::MakeIndex(1, 0)), 100.0f);
   EXPECT_LT(output->GetPixel(itk::MakeIndex(0, 1)), 100.0f);
 }
+
+TEST(FastMarchingImageFilterBaseGTest, NoHandlesAllowsMergeOfSeparatelyMarchedRegions)
+{
+  auto marcher = FastMarchingType::New();
+
+  constexpr ImageType::SizeType size{ { 5, 1 } };
+  marcher->SetOutputSize(size);
+  marcher->SetTopologyCheck(FastMarchingType::TopologyCheckEnum::NoHandles);
+
+  auto criterion = CriterionType::New();
+  criterion->SetThreshold(100.0);
+  marcher->SetStoppingCriterion(criterion);
+
+  auto trial = NodePairContainerType::New();
+  trial->push_back(NodePairType(itk::MakeIndex(0, 0), 0.0));
+  trial->push_back(NodePairType(itk::MakeIndex(4, 0), 0.0));
+  marcher->SetTrialPoints(trial);
+
+  marcher->Update();
+
+  EXPECT_EQ(marcher->GetLabelImage()->GetPixel(itk::MakeIndex(2, 0)), FastMarchingType::Traits::Alive);
+}
