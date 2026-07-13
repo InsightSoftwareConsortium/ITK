@@ -24,6 +24,10 @@
 #include "itkConnectedComponentImageFilter.h"
 #include "itkRelabelComponentImageFilter.h"
 
+#include <algorithm>
+#include <array>
+#include <cmath>
+
 namespace itk
 {
 
@@ -266,6 +270,11 @@ FastMarchingImageFilterBase<TInput, TOutput>::Solve(OutputImageType *           
       return this->m_LargeValue;
     }
     cc = -1.0 * itk::Math::sqr(1.0 / cc);
+    // Near-zero speeds overflow the reciprocal; treat them as unreachable.
+    if (!std::isfinite(cc))
+    {
+      return this->m_LargeValue;
+    }
   }
 
   for (const auto & neighbor : iNeighbors)
@@ -329,78 +338,66 @@ FastMarchingImageFilterBase<TInput, TOutput>::CheckTopology(OutputImageType * oI
           m_LabelImage->SetPixel(iNode, Traits::Topology);
           return false;
         }
-        auto                     radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
-        NeighborhoodIteratorType ItL(radius, this->m_LabelImage, this->m_LabelImage->GetBufferedRegion());
-        ItL.SetLocation(iNode);
-
-        NeighborhoodIterator<ConnectedComponentImageType> ItC(
-          radius, this->m_ConnectedComponentImage, this->m_ConnectedComponentImage->GetBufferedRegion());
-        ItC.SetLocation(iNode);
+        // Component labels of the Alive face neighbors (0 = not Alive or outside).
+        constexpr unsigned int                      numFaceNeighbors = 2 * ImageDimension;
+        std::array<unsigned int, numFaceNeighbors>  aliveLabel{};
+        const typename LabelImageType::RegionType & region = this->m_LabelImage->GetBufferedRegion();
+        for (unsigned int d = 0; d < ImageDimension; ++d)
+        {
+          for (unsigned int s = 0; s < 2; ++s)
+          {
+            NodeType neighIndex = iNode;
+            neighIndex[d] += (s == 0) ? -1 : 1;
+            if (region.IsInside(neighIndex) && this->m_LabelImage->GetPixel(neighIndex) == Traits::Alive)
+            {
+              aliveLabel[2 * d + s] = this->m_ConnectedComponentImage->GetPixel(neighIndex);
+            }
+          }
+        }
 
         if (strictTopologyViolation)
         {
-          // Check for handles
-          unsigned int minLabel = 0;
-          unsigned int otherLabel = 0;
-
-          bool doesChangeCreateHandle = false;
-
+          // Opposite Alive neighbors from the same component: accepting would close a loop.
           for (unsigned int d = 0; d < ImageDimension; ++d)
           {
-            if (ItL.GetNext(d) == Traits::Alive && ItL.GetPrevious(d) == Traits::Alive)
+            if (aliveLabel[2 * d] != 0 && aliveLabel[2 * d] == aliveLabel[2 * d + 1])
             {
-              if (ItC.GetNext(d) == ItC.GetPrevious(d))
-              {
-                doesChangeCreateHandle = true;
-              }
-              else
-              {
-                minLabel = std::min(ItC.GetNext(d), ItC.GetPrevious(d));
-                otherLabel = std::max(ItC.GetNext(d), ItC.GetPrevious(d));
-              }
-              break;
+              oImage->SetPixel(iNode, this->m_TopologyValue);
+              this->m_LabelImage->SetPixel(iNode, Traits::Topology);
+              return false;
             }
           }
-          if (doesChangeCreateHandle)
-          {
-            oImage->SetPixel(iNode, this->m_TopologyValue);
-            this->m_LabelImage->SetPixel(iNode, Traits::Topology);
-            return false;
-          }
-
-          ItC.GoToBegin();
-
-          while (!ItC.IsAtEnd())
-          {
-            if (ItC.GetCenterPixel() == otherLabel)
-            {
-              ItC.SetCenterPixel(minLabel);
-            }
-            ++ItC;
-          }
-
-          // The relabel scan above walks ItC to the end; re-center it on iNode.
-          ItC.SetLocation(iNode);
         }
 
-        // Every Alive node must carry a connected-component label.
         unsigned int nodeLabel = 0;
-        for (unsigned int d = 0; d < ImageDimension; ++d)
+        for (const unsigned int label : aliveLabel)
         {
-          if (ItL.GetNext(d) == Traits::Alive)
+          if (label != 0 && (nodeLabel == 0 || label < nodeLabel))
           {
-            nodeLabel = ItC.GetNext(d);
-            break;
-          }
-          if (ItL.GetPrevious(d) == Traits::Alive)
-          {
-            nodeLabel = ItC.GetPrevious(d);
-            break;
+            nodeLabel = label;
           }
         }
         if (nodeLabel == 0)
         {
           nodeLabel = m_NextConnectedComponentLabel++;
+        }
+        else if (std::any_of(aliveLabel.begin(), aliveLabel.end(), [nodeLabel](unsigned int label) {
+                   return label != 0 && label != nodeLabel;
+                 }))
+        {
+          // Accepting the node joins every distinct neighbor component into one.
+          for (ImageRegionIterator<ConnectedComponentImageType> it(
+                 this->m_ConnectedComponentImage, this->m_ConnectedComponentImage->GetBufferedRegion());
+               !it.IsAtEnd();
+               ++it)
+          {
+            const unsigned int current = it.Get();
+            if (current != 0 && current != nodeLabel &&
+                std::find(aliveLabel.begin(), aliveLabel.end(), current) != aliveLabel.end())
+            {
+              it.Set(nodeLabel);
+            }
+          }
         }
         m_ConnectedComponentImage->SetPixel(iNode, nodeLabel);
       }
@@ -529,7 +526,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
     }
 
     this->m_ConnectedComponentImage = relabeler->GetOutput();
-    m_NextConnectedComponentLabel = relabeler->GetNumberOfObjects() + 1;
+    m_NextConnectedComponentLabel = static_cast<unsigned int>(relabeler->GetNumberOfObjects() + 1);
   }
 
   // Process the input trial points

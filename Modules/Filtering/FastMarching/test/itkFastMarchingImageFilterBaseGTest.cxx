@@ -73,6 +73,55 @@ TEST(FastMarchingImageFilterBaseGTest, NoHandlesAllowsMergeOfSeparatelyMarchedRe
   EXPECT_EQ(marcher->GetLabelImage()->GetPixel(itk::MakeIndex(2, 0)), FastMarchingType::Traits::Alive);
 }
 
+TEST(FastMarchingImageFilterBaseGTest, NoHandlesRejectsLoopAroundObstacle)
+{
+  auto marcher = FastMarchingType::New();
+
+  constexpr ImageType::SizeType size{ { 7, 7 } };
+
+  auto speedImage = ImageType::New();
+  speedImage->SetRegions(size);
+  speedImage->Allocate();
+  speedImage->FillBuffer(1.0f);
+  for (int x = 2; x <= 4; ++x)
+  {
+    for (int y = 2; y <= 4; ++y)
+    {
+      speedImage->SetPixel(itk::MakeIndex(x, y), 0.0f);
+    }
+  }
+  marcher->SetInput(speedImage);
+  marcher->SetTopologyCheck(FastMarchingType::TopologyCheckEnum::NoHandles);
+
+  auto criterion = CriterionType::New();
+  criterion->SetThreshold(1e30);
+  marcher->SetStoppingCriterion(criterion);
+
+  auto trial = NodePairContainerType::New();
+  trial->push_back(NodePairType(itk::MakeIndex(0, 3), 0.0));
+  trial->push_back(NodePairType(itk::MakeIndex(6, 3), 0.0));
+  marcher->SetTrialPoints(trial);
+
+  marcher->Update();
+
+  // The fronts wrap around the zero-speed block; completing the ring would
+  // create a handle, so at least one ring pixel must stay non-Alive.
+  const auto * labels = marcher->GetLabelImage();
+  unsigned int nonAlive = 0;
+  for (int x = 0; x < 7; ++x)
+  {
+    for (int y = 0; y < 7; ++y)
+    {
+      const bool obstacle = (x >= 2 && x <= 4 && y >= 2 && y <= 4);
+      if (!obstacle && labels->GetPixel(itk::MakeIndex(x, y)) != FastMarchingType::Traits::Alive)
+      {
+        ++nonAlive;
+      }
+    }
+  }
+  EXPECT_GE(nonAlive, 1u);
+}
+
 TEST(FastMarchingImageFilterBaseGTest, ZeroSpeedPixelStaysUnreachable)
 {
   auto marcher = FastMarchingType::New();
