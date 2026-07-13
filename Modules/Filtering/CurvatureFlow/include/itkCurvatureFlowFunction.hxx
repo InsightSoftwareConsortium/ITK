@@ -61,11 +61,20 @@ CurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
   // get the center pixel position
   const IdentifierType center = it.Size() / 2;
 
-  const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
-  PixelRealType                magnitudeSqr = 0.0;
-  PixelRealType                firstderiv[ImageDimension];
-  PixelRealType                secderiv[ImageDimension];
-  PixelRealType                crossderiv[ImageDimension][ImageDimension] = {};
+  // Derivatives below sample adjacent pixels, one voxel apart in each dimension.
+  PixelRealType neighborhoodScales[ImageDimension];
+  this->GetScaleCoefficients(neighborhoodScales);
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+  {
+    if (it.GetRadius()[i] == 0)
+    {
+      neighborhoodScales[i] = 0.0;
+    }
+  }
+  PixelRealType magnitudeSqr = 0.0;
+  PixelRealType firstderiv[ImageDimension];
+  PixelRealType secderiv[ImageDimension];
+  PixelRealType crossderiv[ImageDimension][ImageDimension] = {};
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     // compute first order derivatives

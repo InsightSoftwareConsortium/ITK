@@ -7,7 +7,11 @@ set(
 
 createtestdriver(ITKCurvatureFlow "${ITKCurvatureFlow-Test_LIBRARIES}" "${ITKCurvatureFlowTests}")
 
-set(ITKCurvatureFlowGTests itkMinMaxCurvatureFlowFunctionGTest.cxx)
+set(
+  ITKCurvatureFlowGTests
+  itkCurvatureFlowFunctionGTest.cxx
+  itkMinMaxCurvatureFlowFunctionGTest.cxx
+)
 
 creategoogletestdriver(ITKCurvatureFlow "${ITKCurvatureFlow-Test_LIBRARIES}" "${ITKCurvatureFlowGTests}")
 
