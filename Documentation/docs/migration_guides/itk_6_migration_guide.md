@@ -1021,3 +1021,51 @@ written through the standard writer pipeline are **uncompressed by default**.
 
 Call `writer->UseCompressionOn()` to restore compressed output. To control the
 deflate level (1–9, default 5), also call `writer->SetCompressionLevel(N)`.
+
+## `StructureTensorImageFilter`: feature-scale smoothing is now isotropic
+
+`StructureTensorImageFilter` computes the structure tensor
+`J_rho = K_rho * (grad(u_sigma) (x) grad(u_sigma))`, where `K_rho` is a Gaussian
+of standard deviation `rho` (the *feature scale*). The defining property of that
+smoothing step is that it is **isotropic**: the outer-product tensor field is
+convolved with the *same* Gaussian along every spatial axis, so that the tensor
+at each voxel aggregates gradient orientations from a rotationally-symmetric
+neighborhood. That symmetry is what lets the tensor's eigenvectors report the
+locally-dominant structure direction irrespective of how the image is oriented
+on the grid.
+
+The implementation built the `K_rho` smoother — and, on one unreachable branch,
+the noise-scale `K_sigma` smoother — from `RecursiveGaussianImageFilter`. That
+filter derives from `RecursiveSeparableImageFilter` and smooths a **single**
+axis, the one named by `SetDirection()`, which was never called and defaults to
+`0`. The tensor field was therefore blurred along the first axis only. The
+result was not a rotationally-symmetric structure tensor at all: it was
+axis-dependent, and rotating the input image changed the tensor field by more
+than the rotation alone. The fix replaces both smoothers with
+`SmoothingRecursiveGaussianImageFilter`, which chains one recursive Gaussian per
+axis and so realizes the intended isotropic `K_rho`. (The gradient smoother in
+the same filter already used `GradientRecursiveGaussianImageFilter`, which loops
+`SetDirection()` over every axis, and was always correct — the defect was
+confined to the two feature/noise-scale smoothers.)
+
+### What you need to do
+
+- **Nothing in your code changes.** The public API of
+  `StructureTensorImageFilter` is unchanged and consumers compile unmodified.
+- **Expect different output** from `StructureTensorImageFilter` and from the two
+  public filters built on it —
+  `CoherenceEnhancingDiffusionImageFilter` (CED/EED) and
+  `AnisotropicDiffusionLBRImageFilter`. The new tensors are isotropic, so
+  coherence-enhancing and edge-enhancing diffusion now steer along genuinely
+  orientation-independent structure directions. On most inputs the change is
+  visible but modest; on strongly anisotropic or diagonally-oriented structures
+  it can be large, because the previous axis-0-only smoothing biased the flow
+  toward the first grid axis.
+- **Re-baseline** any regression tests or downstream pipelines that pin the exact
+  output of these filters. All 16 `AnisotropicDiffusionLBR` image-comparison
+  baselines were regenerated for this change; if you maintain your own baselines
+  for CED/EED or LBR diffusion, regenerate them the same way.
+- If you *depended* on the old single-axis behavior (for example, to smooth the
+  tensor field along one axis only), it was never expressible through the public
+  API — there is no setter for the smoothing direction — so no supported code
+  path is removed.

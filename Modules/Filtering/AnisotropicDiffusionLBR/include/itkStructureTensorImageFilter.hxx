@@ -25,6 +25,7 @@
 #define itkStructureTensorImageFilter_hxx
 
 #include "itkMinimumMaximumImageCalculator.h"
+#include "itkSmoothingRecursiveGaussianImageFilter.h"
 
 namespace itk
 {
@@ -72,7 +73,7 @@ StructureTensorImageFilter<TImage, TTensorImage>::IntermediateFilter(const Dispa
     selectionFilter->SetIndex(index);
     selectionFilter->SetInput(input);
 
-    using GaussianFilterType = RecursiveGaussianImageFilter<Self::ScalarImageType>;
+    using GaussianFilterType = SmoothingRecursiveGaussianImageFilter<Self::ScalarImageType>;
     using GradientFilterType =
       GradientImageFilter<Self::ScalarImageType, Self::ScalarType, Self::ScalarType, Self::CovariantImageType>;
     using GradientGaussianFilterType =
@@ -121,7 +122,7 @@ StructureTensorImageFilter<TImage, TTensorImage>::GenerateData()
 {
   this->IntermediateFilter(Dispatch<std::numeric_limits<PixelType>::is_specialized>());
 
-  using GaussianFilterType = RecursiveGaussianImageFilter<TensorImageType>;
+  using GaussianFilterType = SmoothingRecursiveGaussianImageFilter<TensorImageType>;
   typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
   gaussianFilter->SetInput(m_IntermediateResult);
   gaussianFilter->SetSigma(m_FeatureScale);

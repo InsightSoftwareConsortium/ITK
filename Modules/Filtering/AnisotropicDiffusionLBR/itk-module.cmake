@@ -15,6 +15,7 @@ itk_module(
     ITKCommon
     ITKIOImageBase
     ITKImageGradient
+    ITKSmoothing
   TEST_DEPENDS
     ITKTestKernel
     ITKGoogleTest
