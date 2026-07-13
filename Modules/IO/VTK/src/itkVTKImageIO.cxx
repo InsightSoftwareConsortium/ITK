@@ -1038,6 +1038,8 @@ VTKImageIO::Write(const void * buffer)
     // Write the actual pixel data
     if (m_FileType == IOFileEnum::ASCII)
     {
+      file.setf(std::ios::scientific, std::ios::floatfield);
+      file.precision(16);
       this->WriteBufferAsASCII(file, buffer, this->GetComponentType(), this->GetImageSizeInComponents());
     }
     else // binary

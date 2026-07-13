@@ -17,9 +17,12 @@
  *=========================================================================*/
 
 #include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
+#include "itkImageRegionIterator.h"
 #include "itkVTKImageIO.h"
 #include "itkGTest.h"
 
+#include <cmath>
 #include <fstream>
 #include <string>
 
@@ -125,4 +128,47 @@ TEST(VTKImageIO, IndentedAttributeKeywordsParse)
   EXPECT_DOUBLE_EQ(vtkIO->GetSpacing(1), 3.0);
   EXPECT_DOUBLE_EQ(vtkIO->GetOrigin(0), 5.0);
   EXPECT_DOUBLE_EQ(vtkIO->GetOrigin(1), 6.0);
+}
+
+TEST(VTKImageIO, AsciiWriteRetainsDoublePrecision)
+{
+  using ImageType = itk::Image<double, 2>;
+
+  auto                image = ImageType::New();
+  ImageType::SizeType size;
+  size.Fill(2);
+  const ImageType::RegionType region(size);
+  image->SetRegions(region);
+  image->Allocate();
+
+  itk::ImageRegionIterator<ImageType> initIt(image, region);
+  initIt.Set(1.0 / 3.0);
+  ++initIt;
+  initIt.Set(2.0 / 3.0);
+  ++initIt;
+  initIt.Set(-1.0 / 7.0);
+  ++initIt;
+  initIt.Set(123456.0 / 9.0);
+
+  const std::string path = std::string(::testing::TempDir()) + "/itkVTKImageIOGTest_ascii_precision.vtk";
+
+  auto writer = itk::ImageFileWriter<ImageType>::New();
+  auto writeIO = itk::VTKImageIO::New();
+  writeIO->SetFileTypeToASCII();
+  writer->SetImageIO(writeIO);
+  writer->SetFileName(path);
+  writer->SetInput(image);
+  ASSERT_NO_THROW(writer->Update());
+
+  auto reader = itk::ImageFileReader<ImageType>::New();
+  reader->SetImageIO(itk::VTKImageIO::New());
+  reader->SetFileName(path);
+  ASSERT_NO_THROW(reader->Update());
+
+  itk::ImageRegionIterator<ImageType> writtenIt(image, region);
+  itk::ImageRegionIterator<ImageType> readIt(reader->GetOutput(), region);
+  for (; !writtenIt.IsAtEnd(); ++writtenIt, ++readIt)
+  {
+    EXPECT_NEAR(readIt.Get(), writtenIt.Get(), 1e-10 * std::abs(writtenIt.Get()) + 1e-12);
+  }
 }
