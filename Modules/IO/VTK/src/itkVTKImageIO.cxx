@@ -204,8 +204,11 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
 
   if (text.find("dimensions") < text.length())
   {
-    unsigned int dims[3];
-    sscanf(text.c_str(), "%*s %u %u %u", dims, dims + 1, dims + 2);
+    unsigned int dims[3]{};
+    if (sscanf(text.c_str(), "%*s %u %u %u", dims, dims + 1, dims + 2) != 3)
+    {
+      itkExceptionMacro("Malformed DIMENSIONS line: " << text);
+    }
     if (dims[1] <= 1 && dims[2] <= 1)
     {
       this->SetNumberOfDimensions(2);
@@ -234,12 +237,16 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
 
     if (text.find("spacing") < text.length() || text.find("aspect_ratio") < text.length())
     {
-      double spacing[3];
+      double spacing[3]{};
       // save and reset old locale
       const std::locale currentLocale = std::locale::global(std::locale::classic());
-      sscanf(text.c_str(), "%*s %lf %lf %lf", spacing, spacing + 1, spacing + 2);
+      const int numSpacingFieldsRead = sscanf(text.c_str(), "%*s %lf %lf %lf", spacing, spacing + 1, spacing + 2);
       // reset locale
       std::locale::global(currentLocale);
+      if (numSpacingFieldsRead != 3)
+      {
+        itkExceptionMacro("Malformed SPACING line: " << text);
+      }
       for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
       {
         this->SetSpacing(i, spacing[i]);
@@ -248,12 +255,16 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
 
     else if (text.find("origin") < text.length())
     {
-      double origin[3];
+      double origin[3]{};
       // save and reset old locale
       const std::locale currentLocale = std::locale::global(std::locale::classic());
-      sscanf(text.c_str(), "%*s %lf %lf %lf", origin, origin + 1, origin + 2);
+      const int         numOriginFieldsRead = sscanf(text.c_str(), "%*s %lf %lf %lf", origin, origin + 1, origin + 2);
       // reset locale
       std::locale::global(currentLocale);
+      if (numOriginFieldsRead != 3)
+      {
+        itkExceptionMacro("Malformed ORIGIN line: " << text);
+      }
       for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
       {
         this->SetOrigin(i, origin[i]);
@@ -266,8 +277,11 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
 
       this->SetNumberOfComponents(3);
       this->SetPixelType(IOPixelEnum::VECTOR);
-      char pixelType[256];
-      sscanf(text.c_str(), "%*s %*s %255s", pixelType);
+      char pixelType[256]{};
+      if (sscanf(text.c_str(), "%*s %*s %255s", pixelType) != 1)
+      {
+        itkExceptionMacro("Malformed VECTORS line: " << text);
+      }
       text = pixelType;
 
       this->SetPixelTypeFromString(text);
@@ -311,10 +325,13 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
     {
       readAttribute = true;
 
-      char         pixelType[256];
+      char         pixelType[256]{};
       unsigned int numComp = 1;
       // numComp is optional
-      sscanf(text.c_str(), "%*s %*s %255s %u", pixelType, &numComp);
+      if (sscanf(text.c_str(), "%*s %*s %255s %u", pixelType, &numComp) < 1)
+      {
+        itkExceptionMacro("Malformed SCALARS line: " << text);
+      }
       text = pixelType;
       if (numComp == 1)
       {
@@ -342,8 +359,11 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
     {
       readAttribute = true;
 
-      char pixelType[256];
-      sscanf(text.c_str(), "%*s %*s %255s", pixelType);
+      char pixelType[256]{};
+      if (sscanf(text.c_str(), "%*s %*s %255s", pixelType) != 1)
+      {
+        itkExceptionMacro("Malformed TENSORS line: " << text);
+      }
       text = pixelType;
       this->SetPixelType(IOPixelEnum::SYMMETRICSECONDRANKTENSOR);
       this->SetNumberOfComponents(6);

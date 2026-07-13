@@ -48,3 +48,25 @@ TEST(VTKImageIO, TruncatedBinaryFileThrowsOnRead)
   reader->SetFileName(path);
   EXPECT_THROW(reader->Update(), itk::ExceptionObject);
 }
+
+TEST(VTKImageIO, MalformedDimensionsLineThrows)
+{
+  const std::string path = std::string(::testing::TempDir()) + "/itkVTKImageIOGTest_malformed_dims.vtk";
+  {
+    std::ofstream ofs(path);
+    ofs << "# vtk DataFile Version 3.0\n"
+        << "malformed dimensions fixture\n"
+        << "ASCII\n"
+        << "DATASET STRUCTURED_POINTS\n"
+        << "DIMENSIONS 5\n"
+        << "SPACING 1 1 1\n"
+        << "ORIGIN 0 0 0\n"
+        << "SCALARS scalars float 1\n"
+        << "LOOKUP_TABLE default\n"
+        << "1 2 3 4 5\n";
+  }
+
+  auto vtkIO = itk::VTKImageIO::New();
+  vtkIO->SetFileName(path);
+  EXPECT_THROW(vtkIO->ReadImageInformation(), itk::ExceptionObject);
+}
