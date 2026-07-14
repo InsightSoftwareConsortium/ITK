@@ -75,6 +75,28 @@ TEST(VTKImageIO, MalformedDimensionsLineThrows)
   EXPECT_THROW(vtkIO->ReadImageInformation(), itk::ExceptionObject);
 }
 
+TEST(VTKImageIO, NegativeDimensionsLineThrows)
+{
+  const std::string path = std::string(::testing::TempDir()) + "/itkVTKImageIOGTest_negative_dims.vtk";
+  {
+    std::ofstream ofs(path);
+    ofs << "# vtk DataFile Version 3.0\n"
+        << "negative dimensions fixture\n"
+        << "ASCII\n"
+        << "DATASET STRUCTURED_POINTS\n"
+        << "DIMENSIONS 10 -2 1\n"
+        << "SPACING 1 1 1\n"
+        << "ORIGIN 0 0 0\n"
+        << "SCALARS scalars float 1\n"
+        << "LOOKUP_TABLE default\n"
+        << "1 2 3\n";
+  }
+
+  auto vtkIO = itk::VTKImageIO::New();
+  vtkIO->SetFileName(path);
+  EXPECT_THROW(vtkIO->ReadImageInformation(), itk::ExceptionObject);
+}
+
 TEST(VTKImageIO, ScalarsNameContainingVectorSubstringParsesAsScalars)
 {
   const std::string path = std::string(::testing::TempDir()) + "/itkVTKImageIOGTest_scalars_vector_substr.vtk";
@@ -189,7 +211,7 @@ TEST(VTKImageIO, CanReadFileReturnsFalseOnShortFile)
   EXPECT_FALSE(canRead);
 }
 
-TEST(VTKImageIO, TensorOverflowingFieldThrowsOnRead)
+TEST(VTKImageIO, TensorNonNumericFieldThrowsOnRead)
 {
   using TensorType = itk::SymmetricSecondRankTensor<float, 3>;
   using ImageType = itk::Image<TensorType, 2>;

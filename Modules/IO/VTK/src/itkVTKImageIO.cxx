@@ -24,6 +24,21 @@
 
 namespace itk
 {
+namespace
+{
+std::string
+FirstToken(const std::string & line)
+{
+  const auto start = line.find_first_not_of(" \t");
+  if (start == std::string::npos)
+  {
+    return {};
+  }
+  const auto end = line.find_first_of(" \t", start);
+  return line.substr(start, end - start);
+}
+} // namespace
+
 VTKImageIO::VTKImageIO()
 {
   this->SetNumberOfDimensions(2);
@@ -204,11 +219,15 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
 
   if (text.find("dimensions") < text.length())
   {
-    unsigned int dims[3]{};
-    if (sscanf(text.c_str(), "%*s %u %u %u", dims, dims + 1, dims + 2) != 3)
+    long long signedDims[3]{};
+    if (sscanf(text.c_str(), "%*s %lld %lld %lld", signedDims, signedDims + 1, signedDims + 2) != 3 ||
+        signedDims[0] < 1 || signedDims[1] < 1 || signedDims[2] < 1)
     {
       itkExceptionMacro("Malformed DIMENSIONS line: " << text);
     }
+    unsigned int dims[3]{ static_cast<unsigned int>(signedDims[0]),
+                          static_cast<unsigned int>(signedDims[1]),
+                          static_cast<unsigned int>(signedDims[2]) };
     if (dims[1] <= 1 && dims[2] <= 1)
     {
       this->SetNumberOfDimensions(2);
@@ -235,10 +254,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
   {
     this->GetNextLine(file, text);
 
-    const auto        keywordStart = text.find_first_not_of(" \t");
-    const auto        keywordEnd = text.find_first_of(" \t", keywordStart);
-    const std::string keyword =
-      (keywordStart == std::string::npos) ? std::string() : text.substr(keywordStart, keywordEnd - keywordStart);
+    const std::string keyword = FirstToken(text);
 
     if (keyword == "spacing" || keyword == "aspect_ratio")
     {
@@ -403,8 +419,8 @@ VTKImageIO::ReadHeaderSize(std::ifstream & file)
   {
     this->GetNextLine(file, text); // SPACING|ORIGIN|COLOR_SCALARS|SCALARS|VECTOR|TENSORS
 
-    if (text.find("scalars") < text.length() || text.find("vector") < text.length() ||
-        text.find("color_scalars") < text.length() || text.find("tensors") < text.length())
+    const std::string keyword = FirstToken(text);
+    if (keyword == "scalars" || keyword == "vectors" || keyword == "color_scalars" || keyword == "tensors")
     {
       readAttribute = true;
 
