@@ -113,13 +113,13 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
   auto                      num = static_cast<OutputPixelRealType>(this->GetOperator().Size());
   const OutputPixelRealType mean = sum / num;
   const OutputPixelRealType var = (sumOfSquares - (sum * sum / num)) / (num - 1.0);
-  const OutputPixelRealType std = std::sqrt(var);
+  const OutputPixelRealType standardDeviation = std::sqrt(var);
 
-  // convert std to a scaling factor k such that
+  // convert standardDeviation to a scaling factor k such that
   //
   //        || (coeff - mean) / k || = 1.0
   //
-  const double k = std * std::sqrt(num - 1.0);
+  const double k = standardDeviation * std::sqrt(num - 1.0);
 
   // A zero-variance (constant) template has no defined direction to normalize
   // toward and correlates to zero everywhere; cancellation in the variance can

@@ -28,9 +28,10 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
   if (argc != 9)
   {
     std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " mean std meanTolerance stdTolerance numberOfSeeds steps meanPercentError stdPercentError"
-              << std::endl;
+    std::cerr
+      << "Usage: " << itkNameOfTestExecutableMacro(argv)
+      << " mean standardDeviation meanTolerance stdTolerance numberOfSeeds steps meanPercentError stdPercentError"
+      << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -101,9 +102,9 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
   voronoiSegmenter->SetMean(mean);
   ITK_TEST_SET_GET_VALUE(mean, voronoiSegmenter->GetMean());
 
-  auto std = std::stod(argv[2]);
-  voronoiSegmenter->SetSTD(std);
-  ITK_TEST_SET_GET_VALUE(std, voronoiSegmenter->GetSTD());
+  auto standardDeviation = std::stod(argv[2]);
+  voronoiSegmenter->SetSTD(standardDeviation);
+  ITK_TEST_SET_GET_VALUE(standardDeviation, voronoiSegmenter->GetSTD());
 
   auto meanTolerance = std::stod(argv[3]);
   voronoiSegmenter->SetMeanTolerance(meanTolerance);
