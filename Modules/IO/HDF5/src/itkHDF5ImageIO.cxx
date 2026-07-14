@@ -42,6 +42,7 @@ HDF5ImageIO::HDF5ImageIO()
   }
   this->Self::SetMaximumCompressionLevel(9);
   this->Self::SetCompressionLevel(5);
+  this->Self::UseCompressionOn();
 }
 
 HDF5ImageIO::~HDF5ImageIO() { this->ResetToInitialState(); }
@@ -1187,8 +1188,10 @@ HDF5ImageIO::WriteImageInformation()
     // region
     const H5::DSetCreatPropList plist;
 
-    // we have implicit compression enabled here?
-    plist.setDeflate(this->GetCompressionLevel());
+    if (this->GetUseCompression())
+    {
+      plist.setDeflate(this->GetCompressionLevel());
+    }
 
     dims[0] = 1;
     plist.setChunk(numDims, dims.get());
