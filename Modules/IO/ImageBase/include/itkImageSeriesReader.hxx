@@ -157,8 +157,12 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
       position1[j] = static_cast<SpacingScalarType>(origin[j]);
     }
     // Override the position if there is an ITK_ImageOrigin
-    ExposeMetaData<Array<SpacingScalarType>>(firstReader->GetImageIO()->GetMetaDataDictionary(), key, position1);
-
+    if (ExposeMetaData<Array<SpacingScalarType>>(firstReader->GetImageIO()->GetMetaDataDictionary(), key, position1) &&
+        position1.GetSize() != TOutputImage::ImageDimension)
+    {
+      itkExceptionMacro("ITK_ImageOrigin of " << m_FileNames[firstFileName] << " has " << position1.GetSize()
+                                              << " elements; expected " << TOutputImage::ImageDimension);
+    }
 
     // last of multiple slices
     lastReader->UpdateOutputInformation();
@@ -170,7 +174,12 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
       positionN[j] = static_cast<SpacingScalarType>(last->GetOrigin()[j]);
     }
     // Override the position if there is an ITK_ImageOrigin
-    ExposeMetaData<Array<SpacingScalarType>>(lastReader->GetImageIO()->GetMetaDataDictionary(), key, positionN);
+    if (ExposeMetaData<Array<SpacingScalarType>>(lastReader->GetImageIO()->GetMetaDataDictionary(), key, positionN) &&
+        positionN.GetSize() != TOutputImage::ImageDimension)
+    {
+      itkExceptionMacro("ITK_ImageOrigin of " << m_FileNames[lastFileName] << " has " << positionN.GetSize()
+                                              << " elements; expected " << TOutputImage::ImageDimension);
+    }
 
     // Compute and set the inter-slice spacing
     // and last (usually third) axis of a direction
