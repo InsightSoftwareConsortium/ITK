@@ -709,13 +709,32 @@ HDF5ImageIO::ReadImageInformation()
 
     std::vector<std::vector<double>> directions = this->ReadDirections(DirectionsName);
 
-    auto numDims = static_cast<int>(directions.size());
+    const auto numDims = static_cast<int>(directions.size());
+    if (numDims < 1)
+    {
+      itkExceptionMacro("Directions has no rows in HDF5 File, expected at least 1");
+    }
+    for (const std::vector<double> & direction : directions)
+    {
+      if (direction.size() != static_cast<size_t>(numDims))
+      {
+        itkExceptionMacro("Directions row has " << direction.size() << " entries in HDF5 File, expected " << numDims);
+      }
+    }
     this->SetNumberOfDimensions(numDims);
 
     // H5::Group instanceGroup(m_H5File->openGroup(groupName));
     std::string OriginName(groupName);
     OriginName += Origin;
-    this->m_Origin = this->ReadVector<double>(OriginName);
+    const std::vector<double> origin = this->ReadVector<double>(OriginName);
+    if (origin.size() != static_cast<size_t>(numDims))
+    {
+      itkExceptionMacro("Origin has " << origin.size() << " entries in HDF5 File, expected " << numDims);
+    }
+    for (int i = 0; i < numDims; ++i)
+    {
+      this->SetOrigin(i, origin[i]);
+    }
 
     for (int i = 0; i < numDims; ++i)
     {
@@ -724,7 +743,11 @@ HDF5ImageIO::ReadImageInformation()
 
     std::string SpacingName(groupName);
     SpacingName += Spacing;
-    std::vector<double> spacing = this->ReadVector<double>(SpacingName);
+    const std::vector<double> spacing = this->ReadVector<double>(SpacingName);
+    if (spacing.size() != static_cast<size_t>(numDims))
+    {
+      itkExceptionMacro("Spacing has " << spacing.size() << " entries in HDF5 File, expected " << numDims);
+    }
     for (int i = 0; i < numDims; ++i)
     {
       this->SetSpacing(i, spacing[i]);
@@ -735,6 +758,10 @@ HDF5ImageIO::ReadImageInformation()
 
     {
       std::vector<ImageIOBase::SizeValueType> Dims = this->ReadVector<ImageIOBase::SizeValueType>(DimensionsName);
+      if (Dims.size() != static_cast<size_t>(numDims))
+      {
+        itkExceptionMacro("Dimension has " << Dims.size() << " entries in HDF5 File, expected " << numDims);
+      }
       for (int i = 0; i < numDims; ++i)
       {
         this->SetDimensions(i, Dims[i]);
@@ -921,6 +948,11 @@ HDF5ImageIO::ReadImageInformation()
       }
     }
     imageSet.close();
+  }
+  // Preserve the description of exceptions thrown by ITK itself.
+  catch (const ExceptionObject &)
+  {
+    throw;
   }
   // catch failure caused by the H5File operations
   catch (const H5::AttributeIException & error)

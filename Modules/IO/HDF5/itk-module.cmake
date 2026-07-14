@@ -16,6 +16,7 @@ itk_module(
     ITKGoogleTest
     ITKTestKernel
     ITKImageSources
+    ITKHDF5
   FACTORY_NAMES
     ImageIO::HDF5
   DESCRIPTION "${DOCUMENTATION}"
