@@ -10,7 +10,11 @@ set(
 
 createtestdriver(ITKImageSources "${ITKImageSources-Test_LIBRARIES}" "${ITKImageSourcesTests}")
 
-set(ITKImageSourcesGTests itkGaborKernelFunctionGTest.cxx)
+set(
+  ITKImageSourcesGTests
+  itkGaborKernelFunctionGTest.cxx
+  itkGridImageSourceGTest.cxx
+)
 
 creategoogletestdriver(ITKImageSources "${ITKImageSources-Test_LIBRARIES}" "${ITKImageSourcesGTests}")
 

@@ -59,10 +59,21 @@ GridImageSource<TOutputImage>::BeforeThreadedGenerateData()
       ImageLinearIteratorWithIndex It(output, output->GetRequestedRegion());
       It.SetDirection(i);
 
-      // Add two extra functions in the front and one in the back to ensure
-      // coverage.
-      const unsigned int numberOfGaussians =
-        Math::Ceil<unsigned int>(this->GetSize()[i] * output->GetSpacing()[i] / this->m_GridSpacing[i]) + 4u;
+      // Cover the line's physical extent plus two grid periods of margin on each side.
+      const typename ImageType::RegionType & region = output->GetRequestedRegion();
+      typename ImageType::IndexType          firstIndex = region.GetIndex();
+      typename ImageType::IndexType          lastIndex = firstIndex;
+      lastIndex[i] += static_cast<IndexValueType>(region.GetSize()[i]) - 1;
+      typename ImageType::PointType firstPoint;
+      typename ImageType::PointType lastPoint;
+      output->TransformIndexToPhysicalPoint(firstIndex, firstPoint);
+      output->TransformIndexToPhysicalPoint(lastIndex, lastPoint);
+      const RealType lowestCoordinate = std::min(firstPoint[i], lastPoint[i]);
+      const RealType highestCoordinate = std::max(firstPoint[i], lastPoint[i]);
+      const auto     firstGridLine =
+        Math::Floor<IndexValueType>((lowestCoordinate - this->m_GridOffset[i]) / this->m_GridSpacing[i]) - 2;
+      const auto lastGridLine =
+        Math::Ceil<IndexValueType>((highestCoordinate - this->m_GridOffset[i]) / this->m_GridSpacing[i]) + 2;
       for (It.GoToBegin(); !It.IsAtEndOfLine(); ++It)
       {
         typename ImageType::IndexType index = It.GetIndex();
@@ -70,10 +81,9 @@ GridImageSource<TOutputImage>::BeforeThreadedGenerateData()
         output->TransformIndexToPhysicalPoint(index, point);
 
         RealType val = 0;
-        for (unsigned int j = 0; j < numberOfGaussians; ++j)
+        for (IndexValueType j = firstGridLine; j <= lastGridLine; ++j)
         {
-          const RealType num = point[i] - static_cast<RealType>(j - 2) * this->m_GridSpacing[i] -
-                               output->GetOrigin()[i] - this->m_GridOffset[i];
+          const RealType num = point[i] - static_cast<RealType>(j) * this->m_GridSpacing[i] - this->m_GridOffset[i];
           val += this->m_KernelFunction->Evaluate(num / this->m_Sigma[i]);
         }
         pixels[index[i]] = val;
