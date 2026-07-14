@@ -132,6 +132,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
+  VerifyPreconditions() const override;
+
+  void
   GenerateInputRequestedRegion() override;
 
   void

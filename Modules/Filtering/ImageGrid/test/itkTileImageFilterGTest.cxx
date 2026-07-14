@@ -191,3 +191,30 @@ TEST_F(TileImageFixture, VectorImage)
 
   EXPECT_ANY_THROW(filter->Update());
 }
+
+
+TEST_F(TileImageFixture, RejectsZeroInNonLastLayoutAxis)
+{
+  using Utils = FixtureUtilities<itk::Image<unsigned char, 2>>;
+
+  auto filter = Utils::FilterType::New();
+  filter->SetInput(0, Utils::CreateImage(4));
+
+  Utils::FilterType::LayoutArrayType layout{};
+  layout[0] = 0;
+  layout[1] = 3;
+  filter->SetLayout(layout);
+
+  EXPECT_THROW(filter->UpdateOutputInformation(), itk::ExceptionObject);
+}
+
+
+TEST_F(TileImageFixture, RejectsDefaultZeroLayout)
+{
+  using Utils = FixtureUtilities<itk::Image<unsigned char, 2>>;
+
+  auto filter = Utils::FilterType::New();
+  filter->SetInput(0, Utils::CreateImage(4));
+
+  EXPECT_THROW(filter->UpdateOutputInformation(), itk::ExceptionObject);
+}
