@@ -1260,6 +1260,21 @@ TIFFImageIO::ReadCurrentPage(void * buffer, size_t pixelOffset)
   const uint32_t width = m_InternalImage->m_Width;
   const uint32_t height = m_InternalImage->m_Height;
 
+  uint32_t currentWidth = 0;
+  uint32_t currentHeight = 0;
+  uint16_t currentSamplesPerPixel = 0;
+  uint16_t currentBitsPerSample = 0;
+  TIFFGetField(m_InternalImage->m_Image, TIFFTAG_IMAGEWIDTH, &currentWidth);
+  TIFFGetField(m_InternalImage->m_Image, TIFFTAG_IMAGELENGTH, &currentHeight);
+  TIFFGetFieldDefaulted(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &currentSamplesPerPixel);
+  TIFFGetFieldDefaulted(m_InternalImage->m_Image, TIFFTAG_BITSPERSAMPLE, &currentBitsPerSample);
+  if (currentWidth != width || currentHeight != height ||
+      currentSamplesPerPixel != m_InternalImage->m_SamplesPerPixel ||
+      currentBitsPerSample != m_InternalImage->m_BitsPerSample)
+  {
+    itkExceptionStringMacro(
+      "This reader requires every page to share the first page's width, height, SamplesPerPixel, and BitsPerSample.");
+  }
 
   if (!m_InternalImage->CanRead())
   {

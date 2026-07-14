@@ -152,3 +152,38 @@ TEST(TIFFImageIOGTest, ReadVolumeExcludesUntaggedPageWhenSubFileTypeIsUsed)
   EXPECT_EQ(buffer[1 * sliceBytes], 20) << "second SUBFILETYPE==0 page must land at slice 1";
   EXPECT_EQ(buffer[2 * sliceBytes], sentinel) << "read must not write past the logical volume depth";
 }
+
+// Per-page geometry is pinned from the first page; a mismatched later page must be rejected.
+TEST(TIFFImageIOGTest, ReadVolumeRejectsPageWithDifferentGeometry)
+{
+  constexpr uint32_t firstWidth = 8;
+  constexpr uint32_t secondWidth = 4;
+  constexpr uint32_t height = 4;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_NarrowerPage.tif");
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  WriteUniformDirectory(tif, firstWidth, height, 1, false, 0);
+  WriteUniformDirectory(tif, secondWidth, height, 2, false, 0);
+  TIFFClose(tif);
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->ReadImageInformation();
+
+  ASSERT_EQ(tiffImageIO->GetNumberOfDimensions(), 3u);
+  ASSERT_EQ(tiffImageIO->GetDimensions(2), 2u);
+
+  itk::ImageIORegion ioRegion(3);
+  for (unsigned int d = 0; d < 3; ++d)
+  {
+    ioRegion.SetIndex(d, 0);
+    ioRegion.SetSize(d, tiffImageIO->GetDimensions(d));
+  }
+  tiffImageIO->SetIORegion(ioRegion);
+
+  std::vector<unsigned char> buffer(static_cast<size_t>(firstWidth) * height * 2, 0);
+
+  EXPECT_THROW(tiffImageIO->Read(buffer.data()), itk::ExceptionObject);
+}
