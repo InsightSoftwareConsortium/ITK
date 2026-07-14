@@ -149,27 +149,27 @@ TIFFImageIO::ReadVolume(void * buffer)
 {
   const size_t width{ m_InternalImage->m_Width };
   const size_t height{ m_InternalImage->m_Height };
+  const bool   onlyPrimarySubFiles = m_InternalImage->m_SubFiles > 0;
 
+  size_t slice = 0;
   for (uint16_t page = 0; page < m_InternalImage->m_NumberOfPages; ++page)
   {
-    if (m_InternalImage->m_IgnoredSubFiles > 0)
+    int32_t    subfiletype = 6;
+    const bool hasSubfiletype = TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SUBFILETYPE, &subfiletype) != 0;
+    const bool skipPage = onlyPrimarySubFiles
+                            ? !(hasSubfiletype && subfiletype == 0)
+                            : (hasSubfiletype && (subfiletype & FILETYPE_REDUCEDIMAGE || subfiletype & FILETYPE_MASK));
+
+    if (skipPage)
     {
-      int32_t subfiletype = 6;
-      if (TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SUBFILETYPE, &subfiletype))
-      {
-        if (subfiletype & FILETYPE_REDUCEDIMAGE || subfiletype & FILETYPE_MASK)
-        {
-          // skip subfile
-          TIFFReadDirectory(m_InternalImage->m_Image);
-          continue;
-        }
-      }
+      TIFFReadDirectory(m_InternalImage->m_Image);
+      continue;
     }
 
-
-    const size_t pixelOffset = width * height * this->GetNumberOfComponents() * page;
+    const size_t pixelOffset = width * height * this->GetNumberOfComponents() * slice;
 
     ReadCurrentPage(buffer, pixelOffset);
+    ++slice;
 
     TIFFReadDirectory(m_InternalImage->m_Image);
   }

@@ -14,6 +14,7 @@ itk_module(
   TEST_DEPENDS
     ITKGoogleTest
     ITKTestKernel
+    ITKTIFF
   FACTORY_NAMES
     ImageIO::TIFF
   DESCRIPTION "${DOCUMENTATION}"
