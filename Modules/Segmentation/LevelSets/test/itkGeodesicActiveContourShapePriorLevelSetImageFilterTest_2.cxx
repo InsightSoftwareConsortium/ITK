@@ -289,7 +289,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2(int, char *[])
   CostFunctionType::ArrayType mean(shape->GetNumberOfShapeParameters());
   CostFunctionType::ArrayType stddev(shape->GetNumberOfShapeParameters());
 
-  // Assume the pca component has a mean value of -15.0 and std dev of 3
+  // Assume the pca component has a mean value of -15.0 and standard deviation of 3
   mean[0] = -15.0;
   stddev[0] = 3.0;
 

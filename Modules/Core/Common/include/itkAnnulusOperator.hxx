@@ -157,13 +157,13 @@ AnnulusOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients() -> Coeff
     auto         num = static_cast<double>(countNotExterior);
     const double mean = sumNotExterior / num;
     const double var = (sumNotExteriorSq - (sumNotExterior * sumNotExterior / num)) / (num - 1.0);
-    const double std = std::sqrt(var);
+    const double standardDeviation = std::sqrt(var);
 
-    // convert std to a scaling factor k such that
+    // convert standardDeviation to a scaling factor k such that
     //
     //        || (coeffP - mean) / k || = 1.0
     //
-    const double k = std * std::sqrt(num - 1.0);
+    const double k = standardDeviation * std::sqrt(num - 1.0);
 
     // Run through the kernel again, shifting and normalizing the
     // elements that are not exterior to the annulus.  This forces the

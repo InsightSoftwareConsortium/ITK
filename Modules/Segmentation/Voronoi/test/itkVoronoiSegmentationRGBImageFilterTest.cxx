@@ -210,8 +210,8 @@ TestNoPrior(ImageType::Pointer inputImage)
   std::cout << "Setting filter input" << std::endl;
   filter->SetInput(inputImage);
 
-  // explicitly set mean and std
-  std::cout << "Setting up mean and std for filter" << std::endl;
+  // explicitly set mean and standard deviation
+  std::cout << "Setting up mean and standard deviation for filter" << std::endl;
   double mean[6];
   mean[0] = fgMean;
   mean[1] = fgMean;
@@ -220,14 +220,14 @@ TestNoPrior(ImageType::Pointer inputImage)
   mean[4] = 0;
   mean[5] = 50;
   filter->SetMean(mean);
-  double std[6];
-  std[0] = fgStd;
-  std[1] = fgStd;
-  std[2] = fgStd;
-  std[3] = 255;
-  std[4] = 10;
-  std[5] = 10;
-  filter->SetSTD(std);
+  double standardDeviation[6];
+  standardDeviation[0] = fgStd;
+  standardDeviation[1] = fgStd;
+  standardDeviation[2] = fgStd;
+  standardDeviation[3] = 255;
+  standardDeviation[4] = 10;
+  standardDeviation[5] = 10;
+  filter->SetSTD(standardDeviation);
   filter->SetNumberOfSeeds(400);
   filter->SetSteps(5);
   filter->SetMaxValueOfRGB(255);

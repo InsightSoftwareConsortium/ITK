@@ -213,8 +213,8 @@ itkMutualInformationMetricTest(int, char *[])
   //-------------------------------------------------------
   std::cout << "Name of class: " << metric->GetNameOfClass() << std::endl;
   std::cout << "No. of samples used = " << metric->GetNumberOfSpatialSamples() << std::endl;
-  std::cout << "Fixed image std dev = " << metric->GetFixedImageStandardDeviation() << std::endl;
-  std::cout << "Moving image std dev = " << metric->GetMovingImageStandardDeviation() << std::endl;
+  std::cout << "Fixed image standard deviation = " << metric->GetFixedImageStandardDeviation() << std::endl;
+  std::cout << "Moving image standard deviation = " << metric->GetMovingImageStandardDeviation() << std::endl;
 
   metric->Print(std::cout);
 
@@ -222,7 +222,7 @@ itkMutualInformationMetricTest(int, char *[])
   metric->SetKernelFunction(theKernel);
   theKernel->Print(std::cout);
 
-  std::cout << "Try causing an exception by making std dev too small";
+  std::cout << "Try causing an exception by making standard deviation too small";
   std::cout << std::endl;
   metric->SetFixedImageStandardDeviation(0.001);
   try

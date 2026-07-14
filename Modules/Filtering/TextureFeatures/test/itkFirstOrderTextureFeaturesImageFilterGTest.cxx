@@ -95,7 +95,7 @@ TEST(TextureFeatures, FirstOrder_Test1)
 
     print_feature(p);
 
-    // The following is for a Gaussian sample with std dev of .1
+    // The following is for a Gaussian sample with standard deviation of .1
     // The expected value was analytically computed, while the
     // tolerances were estimated based on 10,000 different sample set
     // distributions in numpy.
@@ -165,7 +165,7 @@ TEST(TextureFeatures, FirstOrder_Test2)
 
     print_feature(p);
 
-    // The following is for a Gaussian sample with std dev of .1
+    // The following is for a Gaussian sample with standard deviation of .1
     // The expected value was analytically computed, while the
     // tolerances were estimated based on 10,000 different sample set
     // distributions in numpy.
