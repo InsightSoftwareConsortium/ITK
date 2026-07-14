@@ -2049,7 +2049,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
 
               const RealValueType gradientFidelity = (inVal - outVal) / (outVal + 0.00001);
               // Prevent large unstable updates when out[pc] less than 1
-              const RealValueType stepSizeFidelity = std::min(outVal, static_cast<PixelValueType>(0.99999)) + 0.00001;
+              const RealValueType stepSizeFidelity =
+                std::min(static_cast<RealValueType>(outVal), static_cast<RealValueType>(0.99999)) + 0.00001;
               // Update
               const RealValueType noiseVal = fidelityWeight * (stepSizeFidelity * gradientFidelity);
               // Ensure that the result is positive
