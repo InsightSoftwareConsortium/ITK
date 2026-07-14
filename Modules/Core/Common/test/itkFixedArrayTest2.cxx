@@ -100,12 +100,12 @@ itkFixedArrayTest2(int, char *[])
   std::cout << "Execution time: " << time2 << "ms\n";
 
 
+  const bool sameptr = (vec == vec2);
+
   // Free up the memory
   delete[] vec;
 
   const double ratio = 100.0 * (time1 - time2) / time2;
-
-  const bool sameptr = (vec == vec2);
   if (sameptr)
   {
     std::cout << "Same pointers: true" << std::endl;
