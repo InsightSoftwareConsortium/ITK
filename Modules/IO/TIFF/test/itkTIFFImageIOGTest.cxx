@@ -187,3 +187,36 @@ TEST(TIFFImageIOGTest, ReadVolumeRejectsPageWithDifferentGeometry)
 
   EXPECT_THROW(tiffImageIO->Read(buffer.data()), itk::ExceptionObject);
 }
+
+// SAMPLEFORMAT_VOID has no defined component type; the ladder must reject it explicitly.
+TEST(TIFFImageIOGTest, ReadImageInformationRejects32BitSampleFormatVoid)
+{
+  constexpr uint32_t width = 4;
+  constexpr uint32_t height = 4;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_32BitVoid.tif");
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 32);
+  TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_VOID);
+  TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+  TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+  TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, height);
+
+  const std::vector<uint32_t> row(width, 0);
+  for (uint32_t r = 0; r < height; ++r)
+  {
+    TIFFWriteScanline(tif, const_cast<uint32_t *>(row.data()), r, 0);
+  }
+  TIFFWriteDirectory(tif);
+  TIFFClose(tif);
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+
+  EXPECT_THROW(tiffImageIO->ReadImageInformation(), itk::ExceptionObject);
+}

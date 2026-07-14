@@ -414,6 +414,8 @@ TIFFImageIO::ReadImageInformation()
       case 3:
         m_ComponentType = IOComponentEnum::FLOAT;
         break;
+      default:
+        itkExceptionMacro("Sorry, can not handle 32-bit samples with SampleFormat " << m_InternalImage->m_SampleFormat);
     }
   }
   else
