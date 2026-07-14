@@ -131,6 +131,21 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateData()
 
 template <typename TInputImage, typename TOutputImage>
 void
+TileImageFilter<TInputImage, TOutputImage>::VerifyPreconditions() const
+{
+  Superclass::VerifyPreconditions();
+
+  for (unsigned int d = 0; d < OutputImageDimension - 1; ++d)
+  {
+    if (m_Layout[d] == 0)
+    {
+      itkExceptionMacro("Layout[" << d << "] is 0; only the last dimension may be 0.");
+    }
+  }
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
 TileImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   for (unsigned int i = 0; i < this->GetNumberOfIndexedInputs(); ++i)
