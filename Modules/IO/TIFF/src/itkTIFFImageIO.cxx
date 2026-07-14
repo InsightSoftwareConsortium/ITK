@@ -680,14 +680,14 @@ TIFFImageIO::InternalWrite(const void * buffer)
     }
     TIFFSetField(tif, TIFFTAG_SOFTWARE, "InsightToolkit");
 
-    if (scomponents > 3)
+    // MINISBLACK has 1 color channel, RGB has 3; samples beyond that need EXTRASAMPLES.
+    const uint16_t colorComponents = (scomponents <= 2) ? 1 : 3;
+    if (scomponents > colorComponents)
     {
-      // if number of scalar components is greater than 3, that means we assume
-      // there is alpha.
-      const uint16_t extra_samples = scomponents - 3;
-      const auto     sample_info = make_unique_for_overwrite<uint16_t[]>(scomponents - 3);
+      const uint16_t extra_samples = scomponents - colorComponents;
+      const auto     sample_info = make_unique_for_overwrite<uint16_t[]>(extra_samples);
       sample_info[0] = EXTRASAMPLE_ASSOCALPHA;
-      for (uint16_t cc = 1; cc < scomponents - 3; ++cc)
+      for (uint16_t cc = 1; cc < extra_samples; ++cc)
       {
         sample_info[cc] = EXTRASAMPLE_UNSPECIFIED;
       }
@@ -747,7 +747,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
       {
         itkWarningMacro("Could not write this image as palette because pixel is not scalar");
       }
-      TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+      TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, colorComponents == 1 ? PHOTOMETRIC_MINISBLACK : PHOTOMETRIC_RGB);
     }
     if (compression == COMPRESSION_JPEG)
     {

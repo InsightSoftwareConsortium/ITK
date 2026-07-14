@@ -311,3 +311,48 @@ TEST(TIFFImageIOGTest, ReadGrayscaleWithExtraSamplePreservesAllComponents)
     EXPECT_EQ(buffer[i * samplesPerPixel + 1], 200) << "extra sample at pixel " << i;
   }
 }
+
+// 2-component images must get MINISBLACK + 1 EXTRASAMPLES entry, not incomplete RGB.
+TEST(TIFFImageIOGTest, WriteTwoComponentImageDeclaresMinIsBlackWithExtraSample)
+{
+  constexpr uint32_t width = 4;
+  constexpr uint32_t height = 2;
+  constexpr uint16_t samplesPerPixel = 2;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_WriteGrayAlpha.tif");
+
+  std::vector<unsigned char> buffer(static_cast<size_t>(width) * height * samplesPerPixel);
+  for (size_t i = 0; i < buffer.size(); i += samplesPerPixel)
+  {
+    buffer[i + 0] = 100;
+    buffer[i + 1] = 200;
+  }
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->SetNumberOfDimensions(2);
+  tiffImageIO->SetDimensions(0, width);
+  tiffImageIO->SetDimensions(1, height);
+  tiffImageIO->SetPixelType(itk::IOPixelEnum::VECTOR);
+  tiffImageIO->SetNumberOfComponents(samplesPerPixel);
+  tiffImageIO->SetComponentType(itk::IOComponentEnum::UCHAR);
+  tiffImageIO->Write(buffer.data());
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "r");
+  ASSERT_NE(tif, nullptr);
+
+  uint16_t photometric = 0;
+  ASSERT_TRUE(TIFFGetField(tif, TIFFTAG_PHOTOMETRIC, &photometric));
+  EXPECT_EQ(photometric, PHOTOMETRIC_MINISBLACK) << "2-component image must not be tagged incomplete RGB";
+
+  uint16_t writtenSamplesPerPixel = 0;
+  ASSERT_TRUE(TIFFGetField(tif, TIFFTAG_SAMPLESPERPIXEL, &writtenSamplesPerPixel));
+  EXPECT_EQ(writtenSamplesPerPixel, samplesPerPixel);
+
+  uint16_t   extraSamplesCount = 0;
+  uint16_t * extraSamplesTypes = nullptr;
+  ASSERT_TRUE(TIFFGetField(tif, TIFFTAG_EXTRASAMPLES, &extraSamplesCount, &extraSamplesTypes));
+  EXPECT_EQ(extraSamplesCount, 1) << "the non-color sample must be declared as EXTRASAMPLES";
+
+  TIFFClose(tif);
+}
