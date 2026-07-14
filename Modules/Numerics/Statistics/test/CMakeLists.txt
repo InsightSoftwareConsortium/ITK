@@ -985,6 +985,7 @@ set(
   itkRandomVariateGeneratorBaseGTest.cxx
   itkStatisticsTypesGTest.cxx
   itkTDistributionGTest.cxx
+  itkUniformRandomSpatialNeighborSubsamplerGTest.cxx
   itkVectorContainerToListSampleAdaptorGTest.cxx
 )
 creategoogletestdriver(ITKStatistics "${ITKStatistics-Test_LIBRARIES}" "${ITKStatisticsGTests}")

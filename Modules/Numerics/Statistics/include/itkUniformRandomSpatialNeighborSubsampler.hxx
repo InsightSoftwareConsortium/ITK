@@ -112,6 +112,14 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceI
     return;
   }
 
+  // A region of size 1 is just the query point; !CanSelectQuery has nothing to pick.
+  if (!this->m_CanSelectQuery && numberOfPoints <= 1)
+  {
+    itkWarningMacro("Search region around query point (" << query << ") contains only the query point itself."
+                                                         << "  No matching points found.");
+    return;
+  }
+
   if (!this->m_RequestMaximumNumberOfResults && (m_NumberOfResultsRequested < numberOfPoints))
   {
     numberOfPoints = m_NumberOfResultsRequested;
