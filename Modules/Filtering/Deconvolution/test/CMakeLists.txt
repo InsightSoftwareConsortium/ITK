@@ -14,6 +14,7 @@ createtestdriver(ITKDeconvolution "${ITKDeconvolution-Test_LIBRARIES}" "${ITKDec
 
 set(
   ITKDeconvolutionGTests
+  itkIterativeDeconvolutionImageFilterGTest.cxx
   itkProjectedIterativeDeconvolutionImageFilterGTest.cxx
   itkWienerDeconvolutionImageFilterGTest.cxx
 )
