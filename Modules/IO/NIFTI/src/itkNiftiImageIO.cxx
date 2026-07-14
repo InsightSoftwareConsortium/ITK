@@ -377,44 +377,49 @@ NiftiImageIO::Read(void * buffer)
   // ImageFileReader, we have to up-promote the data to float
   // before doing the rescale.
   //
+  // NIfTI fuses COMPLEX/RGB/RGBA (and scalar) into one element; vectors split by component.
+  const bool packedPixel = numComponents == 1 || this->GetPixelType() == IOPixelEnum::COMPLEX ||
+                           this->GetPixelType() == IOPixelEnum::RGB || this->GetPixelType() == IOPixelEnum::RGBA;
   if (this->MustRescale() && this->m_ComponentType != this->m_OnDiskComponentType)
   {
-    pixelSize = static_cast<unsigned int>(this->GetNumberOfComponents()) * static_cast<unsigned int>(sizeof(float));
+    pixelSize = static_cast<unsigned int>(sizeof(float)) * (packedPixel ? numComponents : 1);
 
+    // numElts is a voxel count; casting must cover every component of every voxel.
+    const size_t numComponentValues = numElts * numComponents;
     // allocate new buffer for floats. Malloc instead of new to
     // be consistent with allocation used in niftilib
-    auto * _data = static_cast<float *>(malloc(numElts * sizeof(float)));
+    auto * _data = static_cast<float *>(malloc(numComponentValues * sizeof(float)));
     switch (this->m_OnDiskComponentType)
     {
       case IOComponentEnum::SCHAR:
-        CastCopy<char>(_data, data, numElts);
+        CastCopy<char>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::UCHAR:
-        CastCopy<unsigned char>(_data, data, numElts);
+        CastCopy<unsigned char>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::SHORT:
-        CastCopy<short>(_data, data, numElts);
+        CastCopy<short>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::USHORT:
-        CastCopy<unsigned short>(_data, data, numElts);
+        CastCopy<unsigned short>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::INT:
-        CastCopy<int>(_data, data, numElts);
+        CastCopy<int>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::UINT:
-        CastCopy<unsigned int>(_data, data, numElts);
+        CastCopy<unsigned int>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::LONG:
-        CastCopy<long>(_data, data, numElts);
+        CastCopy<long>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::ULONG:
-        CastCopy<unsigned long>(_data, data, numElts);
+        CastCopy<unsigned long>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::LONGLONG:
-        CastCopy<long long>(_data, data, numElts);
+        CastCopy<long long>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::ULONGLONG:
-        CastCopy<unsigned long long>(_data, data, numElts);
+        CastCopy<unsigned long long>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::FLOAT:
         itkExceptionStringMacro("FLOAT pixels do not need Casting to float");
@@ -436,8 +441,7 @@ NiftiImageIO::Read(void * buffer)
   }
   //
   // if single or complex, nifti layout == itk layout
-  if (numComponents == 1 || this->GetPixelType() == IOPixelEnum::COMPLEX || this->GetPixelType() == IOPixelEnum::RGB ||
-      this->GetPixelType() == IOPixelEnum::RGBA)
+  if (packedPixel)
   {
     const size_t NumBytes = numElts * pixelSize;
     memcpy(buffer, data, NumBytes);
