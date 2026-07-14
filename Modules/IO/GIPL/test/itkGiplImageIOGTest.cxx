@@ -140,6 +140,28 @@ TEST(GiplImageIO, ReadOfTruncatedCompressedFileThrows)
   ExpectTruncatedReadThrows(path, fullSize / 2);
 }
 
+TEST(GiplImageIO, ReadImageInformationOfHeaderTruncatedUncompressedFileThrows)
+{
+  const std::string path = OutputPath("gipl_b86_header_truncated.gipl");
+  WriteWithGiplIO(MakeScalarImage(8).GetPointer(), path);
+  std::filesystem::resize_file(path, 100);
+
+  const itk::GiplImageIO::Pointer io = itk::GiplImageIO::New();
+  io->SetFileName(path);
+  EXPECT_THROW(io->ReadImageInformation(), itk::ExceptionObject);
+}
+
+TEST(GiplImageIO, ReadImageInformationOfHeaderTruncatedCompressedFileThrows)
+{
+  const std::string path = OutputPath("gipl_b86_header_truncated.gipl.gz");
+  WriteWithGiplIO(MakeScalarImage(8).GetPointer(), path);
+  std::filesystem::resize_file(path, 20);
+
+  const itk::GiplImageIO::Pointer io = itk::GiplImageIO::New();
+  io->SetFileName(path);
+  EXPECT_THROW(io->ReadImageInformation(), itk::ExceptionObject);
+}
+
 TEST(GiplImageIO, WriteOfMultiComponentImageThrows)
 {
   using VectorPixelType = itk::Vector<float, 3>;
