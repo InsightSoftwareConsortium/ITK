@@ -671,12 +671,18 @@ GDCMImageIO::InternalReadImageInformation()
         // TODO throw an exception that VM is not compatible.
         m_El.SetLength(16);
         m_El.Read(m_Ss);
-        assert(m_El.GetLength() == 2);
-        for (unsigned long i = 0; i < m_El.GetLength(); ++i)
+        // GetValue(1) is uninitialized unless the tag carries a second backslash-separated value.
+        if (s.find('\\') != std::string::npos)
         {
-          sp.push_back(m_El.GetValue(i));
+          sp.push_back(m_El.GetValue(0));
+          sp.push_back(m_El.GetValue(1));
+          std::swap(sp[0], sp[1]);
         }
-        std::swap(sp[0], sp[1]);
+        else
+        {
+          sp.push_back(m_El.GetValue(0));
+          sp.push_back(m_El.GetValue(0));
+        }
         assert(sp.size() == 2);
         spacing[0] = sp[0];
         spacing[1] = sp[1];

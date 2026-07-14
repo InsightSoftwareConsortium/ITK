@@ -249,6 +249,60 @@ WriteSingleBitDicom(const std::string & dir, size_t width, size_t height, const 
   return outPath;
 }
 
+std::string
+WriteHardcopyDicomWithSingleValuePixelSpacing(const std::string & dir)
+{
+  using ImageType = itk::Image<unsigned char, 2>;
+  auto                image = ImageType::New();
+  ImageType::SizeType size{ { 4, 4 } };
+  image->SetRegions(ImageType::RegionType(size));
+  image->Allocate();
+  image->FillBuffer(0);
+
+  auto & dict = image->GetMetaDataDictionary();
+  itk::EncapsulateMetaData<std::string>(dict, "0008|0060", "OT");
+  itk::EncapsulateMetaData<std::string>(dict, "0010|0010", "Test^Patient");
+  itk::EncapsulateMetaData<std::string>(dict, "0010|0020", "12345");
+
+  auto gdcmIO = itk::GDCMImageIO::New();
+  auto writer = itk::ImageFileWriter<ImageType>::New();
+  writer->SetImageIO(gdcmIO);
+  writer->SetInput(image);
+  const std::string basePath = dir + "/pixelspacing_base.dcm";
+  writer->SetFileName(basePath);
+  writer->Update();
+
+  gdcm::Reader reader;
+  reader.SetFileName(basePath.c_str());
+  if (!reader.Read())
+  {
+    return {};
+  }
+  gdcm::DataSet & ds = reader.GetFile().GetDataSet();
+
+  const std::string sopClassUIDValue = "1.2.840.10008.5.1.1.29"; // HardcopyGrayscaleImageStorage
+  gdcm::DataElement sopClassUID{ gdcm::Tag(0x0008, 0x0016) };
+  sopClassUID.SetVR(gdcm::VR::UI);
+  sopClassUID.SetByteValue(sopClassUIDValue.c_str(), static_cast<uint32_t>(sopClassUIDValue.size()));
+  ds.Replace(sopClassUID);
+
+  const std::string pixelSpacingValue = "0.5 "; // single value, no second component
+  gdcm::DataElement pixelSpacing{ gdcm::Tag(0x0028, 0x0030) };
+  pixelSpacing.SetVR(gdcm::VR::DS);
+  pixelSpacing.SetByteValue(pixelSpacingValue.c_str(), static_cast<uint32_t>(pixelSpacingValue.size()));
+  ds.Replace(pixelSpacing);
+
+  const std::string outPath = dir + "/pixelspacing.dcm";
+  gdcm::Writer      gdcmWriter;
+  gdcmWriter.SetFileName(outPath.c_str());
+  gdcmWriter.SetFile(reader.GetFile());
+  if (!gdcmWriter.Write())
+  {
+    return {};
+  }
+  return outPath;
+}
+
 } // namespace
 
 TEST_F(ITKGDCMSeriesTestData, ReadSlicesReverseOrder)
@@ -460,4 +514,20 @@ TEST_F(ITKGDCMImageIO, SingleBitRowsRespectBytePadding)
       EXPECT_EQ(image->GetPixel(idx), 255) << "row " << row << " col " << col;
     }
   }
+}
+
+TEST_F(ITKGDCMImageIO, SingleValuePixelSpacingIsIsotropic)
+{
+  const std::string path = WriteHardcopyDicomWithSingleValuePixelSpacing(m_TempDir);
+  ASSERT_FALSE(path.empty());
+
+  using ImageType = itk::Image<unsigned char, 2>;
+  auto reader = itk::ImageFileReader<ImageType>::New();
+  reader->SetImageIO(itk::GDCMImageIO::New());
+  reader->SetFileName(path);
+  ASSERT_NO_THROW(reader->Update());
+
+  const ImageType::Pointer image = reader->GetOutput();
+  EXPECT_DOUBLE_EQ(image->GetSpacing()[0], 0.5);
+  EXPECT_DOUBLE_EQ(image->GetSpacing()[1], 0.5);
 }
