@@ -357,21 +357,19 @@ GDCMImageIO::Read(void * pointer)
 
   if (m_SingleBit)
   {
-    const auto copy = make_unique_for_overwrite<unsigned char[]>(len);
-    auto *     t = reinterpret_cast<unsigned char *>(pointer);
-    size_t     j = 0;
-    for (size_t i = 0; i < len / 8; ++i)
+    const auto   copy = make_unique_for_overwrite<unsigned char[]>(len);
+    const auto * t = reinterpret_cast<const unsigned char *>(pointer);
+    const size_t width = m_Dimensions[0];
+    const size_t bytesPerRow = (width + 7) / 8;
+    const size_t rowCount = len / width;
+    size_t       outIndex = 0;
+    for (size_t row = 0; row < rowCount; ++row)
     {
-      const unsigned char c = t[i];
-      copy[j + 0] = (c & 0x01) ? 255 : 0;
-      copy[j + 1] = (c & 0x02) ? 255 : 0;
-      copy[j + 2] = (c & 0x04) ? 255 : 0;
-      copy[j + 3] = (c & 0x08) ? 255 : 0;
-      copy[j + 4] = (c & 0x10) ? 255 : 0;
-      copy[j + 5] = (c & 0x20) ? 255 : 0;
-      copy[j + 6] = (c & 0x40) ? 255 : 0;
-      copy[j + 7] = (c & 0x80) ? 255 : 0;
-      j += 8;
+      const unsigned char * rowBytes = t + (row * bytesPerRow);
+      for (size_t col = 0; col < width; ++col)
+      {
+        copy[outIndex++] = (rowBytes[col / 8] & (1 << (col % 8))) ? 255 : 0;
+      }
     }
     memcpy(static_cast<char *>(pointer), copy.get(), len);
   }
