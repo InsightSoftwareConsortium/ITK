@@ -18,6 +18,7 @@
 #include "gtest/gtest.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkMetaDataObject.h"
 #include "itkNiftiImageIO.h"
 #include "itkVectorImage.h"
 
@@ -136,4 +137,73 @@ TEST(NiftiImageIO, RescaleAppliesToEveryComponentOfEveryVoxel)
       EXPECT_FLOAT_EQ(rescaled.Get()[c], original.Get()[c] * slope + intercept);
     }
   }
+}
+
+TEST(NiftiImageIO, RASConversionRejectsNonThreeComponentVector)
+{
+  using ImageType = itk::VectorImage<float, 3>;
+  constexpr unsigned int numComponents = 2;
+
+  const itk::Size<3>   size{ { 3, 2, 2 } };
+  auto                 image = MakeVectorImage<float>(size, numComponents);
+  ImageType::PixelType fillPixel(numComponents);
+  fillPixel.Fill(1.0f);
+  image->FillBuffer(fillPixel);
+
+  const std::string path = OutputPath("b50_ras_non_3_component.nii");
+  {
+    auto writer = itk::ImageFileWriter<ImageType>::New();
+    writer->SetImageIO(itk::NiftiImageIO::New());
+    writer->SetInput(image);
+    writer->SetFileName(path);
+    ASSERT_NO_THROW(writer->Update());
+  }
+
+  auto reader = itk::ImageFileReader<ImageType>::New();
+  auto io = itk::NiftiImageIO::New();
+  io->SetConvertRASVectors(true);
+  reader->SetImageIO(io);
+  reader->SetFileName(path);
+  EXPECT_THROW(reader->Update(), itk::ExceptionObject);
+}
+
+// m_ConvertRASDisplacementVectors defaults to true, so a 2-D displacement
+// field (a legitimate, common layout) must not throw on a plain read with
+// no explicit opt-in: the RAS<->LPS flip only applies to 3-component data
+// and must simply not trigger for 2-component data (issue #6575, B50).
+TEST(NiftiImageIO, TwoComponentDisplacementFieldReadsWithoutRASConversion)
+{
+  using ImageType = itk::VectorImage<float, 3>;
+  constexpr unsigned int numComponents = 2;
+
+  const itk::Size<3>   size{ { 3, 2, 2 } };
+  auto                 image = MakeVectorImage<float>(size, numComponents);
+  ImageType::PixelType fillPixel(numComponents);
+  fillPixel[0] = 1.0f;
+  fillPixel[1] = 2.0f;
+  image->FillBuffer(fillPixel);
+  itk::EncapsulateMetaData<std::string>(image->GetMetaDataDictionary(), "intent_code", "1006"); // NIFTI_INTENT_DISPVECT
+
+  const std::string path = OutputPath("b50_dispvect_2_component.nii");
+  {
+    auto writer = itk::ImageFileWriter<ImageType>::New();
+    writer->SetImageIO(itk::NiftiImageIO::New());
+    writer->SetInput(image);
+    writer->SetFileName(path);
+    ASSERT_NO_THROW(writer->Update());
+  }
+
+  // Default-constructed IO: SetConvertRASDisplacementVectors is never called,
+  // exercising the true default.
+  auto reader = itk::ImageFileReader<ImageType>::New();
+  reader->SetImageIO(itk::NiftiImageIO::New());
+  reader->SetFileName(path);
+  ASSERT_NO_THROW(reader->Update());
+
+  const ImageType::Pointer output = reader->GetOutput();
+  ASSERT_EQ(output->GetNumberOfComponentsPerPixel(), numComponents);
+  const ImageType::IndexType idx{ { 0, 0, 0 } };
+  const ImageType::PixelType readPixel = output->GetPixel(idx);
+  EXPECT_FLOAT_EQ(readPixel[0], 1.0f);
+  EXPECT_FLOAT_EQ(readPixel[1], 2.0f);
 }
