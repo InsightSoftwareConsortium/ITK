@@ -97,3 +97,7 @@ itk_add_test(
   ITK_REMOVE_TEMPORARY_TEST_FILES
     ${ITK_TEST_OUTPUT_DIR}/holeerode_41.nii.gz
 )
+
+set(LabelErodeDilateGTests itkLabelSetMorphBaseImageFilterGTest.cxx)
+
+creategoogletestdriver(LabelErodeDilate "${LabelErodeDilate-Test_LIBRARIES}" "${LabelErodeDilateGTests}")
