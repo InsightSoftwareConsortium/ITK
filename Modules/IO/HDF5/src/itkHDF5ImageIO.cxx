@@ -1325,15 +1325,15 @@ HDF5ImageIO::WriteImageInformation()
       // C String Arrays
       {
         auto * cstringObj = dynamic_cast<MetaDataObject<char *> *>(metaObj);
-        auto * constCstringObj = dynamic_cast<MetaDataObject<const char *> *>(metaObj);
-        if (cstringObj != nullptr || constCstringObj != nullptr)
+        if (cstringObj != nullptr)
         {
-          const char * val = constCstringObj->GetMetaDataObjectValue();
-          if (cstringObj != nullptr)
-          {
-            val = cstringObj->GetMetaDataObjectValue();
-          }
-          this->WriteString(objName, val);
+          this->WriteString(objName, cstringObj->GetMetaDataObjectValue());
+          continue;
+        }
+        auto * constCstringObj = dynamic_cast<MetaDataObject<const char *> *>(metaObj);
+        if (constCstringObj != nullptr)
+        {
+          this->WriteString(objName, constCstringObj->GetMetaDataObjectValue());
           continue;
         }
       }

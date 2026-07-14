@@ -13,6 +13,7 @@ itk_module(
   PRIVATE_DEPENDS
     ITKHDF5
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKImageSources
   FACTORY_NAMES

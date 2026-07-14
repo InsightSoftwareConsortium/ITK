@@ -7,6 +7,12 @@ set(
 
 createtestdriver(ITKIOHDF5 "${ITKIOHDF5-Test_LIBRARIES}" "${ITKIOHDF5Tests}")
 
+set(
+  ITKIOHDF5GTests
+  itkHDF5ImageIOGTest.cxx
+)
+creategoogletestdriver(ITKIOHDF5 "${ITKIOHDF5-Test_LIBRARIES}" "${ITKIOHDF5GTests}")
+
 itk_add_test(
   NAME itkHDF5ImageIOTest
   COMMAND
