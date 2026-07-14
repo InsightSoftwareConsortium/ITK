@@ -21,8 +21,6 @@
 #include "itkMath.h"
 #include "itkMathDeterminant.h"
 
-#include "vnl/vnl_inverse.h"
-
 namespace itk
 {
 // Constructor with default arguments
