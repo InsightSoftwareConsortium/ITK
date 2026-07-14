@@ -436,8 +436,11 @@ TIFFImageIO::ReadImageInformation()
   switch (this->GetFormat())
   {
     case TIFFImageIO::PALETTE_GRAYSCALE:
-    case TIFFImageIO::GRAYSCALE:
       this->SetNumberOfComponents(1);
+      this->SetPixelType(IOPixelEnum::SCALAR);
+      break;
+    case TIFFImageIO::GRAYSCALE:
+      this->SetNumberOfComponents(m_InternalImage->m_SamplesPerPixel);
       this->SetPixelType(IOPixelEnum::SCALAR);
       break;
     case TIFFImageIO::RGB_:
@@ -1371,9 +1374,11 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
 
   switch (this->GetFormat())
   {
-    case TIFFImageIO::GRAYSCALE:
     case TIFFImageIO::PALETTE_GRAYSCALE:
       inc = 1;
+      break;
+    case TIFFImageIO::GRAYSCALE:
+      inc = m_InternalImage->m_SamplesPerPixel;
       break;
     case TIFFImageIO::RGB_:
       inc = m_InternalImage->m_SamplesPerPixel;
@@ -1488,6 +1493,9 @@ TIFFImageIO::PutGrayscale(TType *      to,
                           unsigned int toskew,
                           unsigned int fromskew)
 {
+  const size_t samplesPerPixel = m_InternalImage->m_SamplesPerPixel;
+  const size_t linesize = samplesPerPixel * xsize;
+
   // PHOTOMETRIC_MINISWHITE stores 0 as white; samples must be inverted to min-is-black.
   if constexpr (std::is_integral_v<TType>)
   {
@@ -1495,13 +1503,14 @@ TIFFImageIO::PutGrayscale(TType *      to,
     {
       for (unsigned int y = ysize; y-- > 0;)
       {
-        for (unsigned int x = 0; x < xsize; ++x)
+        for (size_t x = 0; x < linesize; x += samplesPerPixel)
         {
           to[x] = static_cast<TType>(~from[x]);
+          std::copy_n(from + x + 1, samplesPerPixel - 1, to + x + 1);
         }
-        to += xsize;
+        to += linesize;
         to += toskew;
-        from += xsize;
+        from += linesize;
         from += fromskew;
       }
       return;
@@ -1510,10 +1519,10 @@ TIFFImageIO::PutGrayscale(TType *      to,
 
   for (unsigned int y = ysize; y-- > 0;)
   {
-    std::copy_n(from, xsize, to);
-    to += xsize;
+    std::copy_n(from, linesize, to);
+    to += linesize;
     to += toskew;
-    from += xsize;
+    from += linesize;
     from += fromskew;
   }
 }

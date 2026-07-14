@@ -261,3 +261,53 @@ TEST(TIFFImageIOGTest, ReadInvertsMinIsWhitePhotometric)
     EXPECT_EQ(sample, expected) << "MINISWHITE samples must be inverted, not copied verbatim";
   }
 }
+
+// GRAYSCALE component count must follow SamplesPerPixel, not assume 1.
+TEST(TIFFImageIOGTest, ReadGrayscaleWithExtraSamplePreservesAllComponents)
+{
+  constexpr uint32_t width = 4;
+  constexpr uint32_t height = 2;
+  constexpr uint16_t samplesPerPixel = 2;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_GrayAlpha.tif");
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 8);
+  TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, samplesPerPixel);
+  TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+  TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, height);
+  const uint16_t extraSampleTypes[1] = { EXTRASAMPLE_UNSPECIFIED };
+  TIFFSetField(tif, TIFFTAG_EXTRASAMPLES, 1, extraSampleTypes);
+
+  std::vector<unsigned char> row(static_cast<size_t>(width) * samplesPerPixel);
+  for (uint32_t x = 0; x < width; ++x)
+  {
+    row[x * samplesPerPixel + 0] = 100;
+    row[x * samplesPerPixel + 1] = 200;
+  }
+  for (uint32_t r = 0; r < height; ++r)
+  {
+    TIFFWriteScanline(tif, row.data(), r, 0);
+  }
+  TIFFWriteDirectory(tif);
+  TIFFClose(tif);
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->ReadImageInformation();
+
+  ASSERT_EQ(tiffImageIO->GetNumberOfComponents(), samplesPerPixel);
+
+  std::vector<unsigned char> buffer(static_cast<size_t>(width) * height * samplesPerPixel, 0);
+  tiffImageIO->Read(buffer.data());
+
+  for (uint32_t i = 0; i < width * height; ++i)
+  {
+    EXPECT_EQ(buffer[i * samplesPerPixel + 0], 100) << "grayscale sample at pixel " << i;
+    EXPECT_EQ(buffer[i * samplesPerPixel + 1], 200) << "extra sample at pixel " << i;
+  }
+}
