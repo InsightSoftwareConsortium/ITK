@@ -17,5 +17,6 @@ itk_module(
     ITKGoogleTest
     ITKTestKernel
     ITKImageSources
+    ITKGoogleTest
   DESCRIPTION "${DOCUMENTATION}"
 )
