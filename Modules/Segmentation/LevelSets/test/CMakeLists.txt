@@ -35,6 +35,7 @@ createtestdriver(ITKLevelSets "${ITKLevelSets-Test_LIBRARIES}" "${ITKLevelSetsTe
 
 set(
   ITKLevelSetsGTests
+  itkLevelSetNeighborhoodExtractorGTest.cxx
   itkParallelSparseFieldLevelSetImageFilterRobustnessGTest.cxx
 )
 creategoogletestdriver(ITKLevelSets "${ITKLevelSets-Test_LIBRARIES}" "${ITKLevelSetsGTests}")
