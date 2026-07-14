@@ -221,7 +221,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   CostFunctionType::ArrayType mean(shape->GetNumberOfShapeParameters());
   CostFunctionType::ArrayType stddev(shape->GetNumberOfShapeParameters());
 
-  // Assume the sphere radius has a mean value of 25 and std dev of 3
+  // Assume the sphere radius has a mean value of 25 and standard deviation of 3
   mean[0] = 25.0;
   stddev[0] = 3.0;
 
