@@ -63,7 +63,9 @@ namespace itk
  * \par PARAMETERS
  * The label used for "undecided" labels can be set using
  * SetLabelForUndecidedPixels. This functionality can be unset by calling
- * UnsetLabelForUndecidedPixels.
+ * UnsetLabelForUndecidedPixels. If no label is set and the automatically
+ * chosen one does not fit in the output pixel type, Update() throws an
+ * exception.
  *
  * \author Torsten Rohlfing, SRI International, Neuroscience Program
  *
