@@ -24,6 +24,21 @@
 
 namespace itk
 {
+namespace
+{
+std::string
+FirstToken(const std::string & line)
+{
+  const auto start = line.find_first_not_of(" \t");
+  if (start == std::string::npos)
+  {
+    return {};
+  }
+  const auto end = line.find_first_of(" \t", start);
+  return line.substr(start, end - start);
+}
+} // namespace
+
 VTKImageIO::VTKImageIO()
 {
   this->SetNumberOfDimensions(2);
@@ -83,17 +98,17 @@ VTKImageIO::CanReadFile(const char * filename)
   try
   {
     this->OpenFileForReading(file, fname);
+
+    // Check to see if its a vtk structured points file
+    this->GetNextLine(file, fname);
+    this->GetNextLine(file, fname);
+    this->GetNextLine(file, fname);
+    this->GetNextLine(file, fname);
   }
   catch (...)
   {
     return false;
   }
-
-  // Check to see if its a vtk structured points file
-  this->GetNextLine(file, fname);
-  this->GetNextLine(file, fname);
-  this->GetNextLine(file, fname);
-  this->GetNextLine(file, fname);
 
   if (fname.find("structured_points") < fname.length())
   {
@@ -204,8 +219,15 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
 
   if (text.find("dimensions") < text.length())
   {
-    unsigned int dims[3];
-    sscanf(text.c_str(), "%*s %u %u %u", dims, dims + 1, dims + 2);
+    long long signedDims[3]{};
+    if (sscanf(text.c_str(), "%*s %lld %lld %lld", signedDims, signedDims + 1, signedDims + 2) != 3 ||
+        signedDims[0] < 1 || signedDims[1] < 1 || signedDims[2] < 1)
+    {
+      itkExceptionMacro("Malformed DIMENSIONS line: " << text);
+    }
+    unsigned int dims[3]{ static_cast<unsigned int>(signedDims[0]),
+                          static_cast<unsigned int>(signedDims[1]),
+                          static_cast<unsigned int>(signedDims[2]) };
     if (dims[1] <= 1 && dims[2] <= 1)
     {
       this->SetNumberOfDimensions(2);
@@ -232,48 +254,61 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
   {
     this->GetNextLine(file, text);
 
-    if (text.find("spacing") < text.length() || text.find("aspect_ratio") < text.length())
+    const std::string keyword = FirstToken(text);
+
+    if (keyword == "spacing" || keyword == "aspect_ratio")
     {
-      double spacing[3];
+      double spacing[3]{};
       // save and reset old locale
       const std::locale currentLocale = std::locale::global(std::locale::classic());
-      sscanf(text.c_str(), "%*s %lf %lf %lf", spacing, spacing + 1, spacing + 2);
+      const int numSpacingFieldsRead = sscanf(text.c_str(), "%*s %lf %lf %lf", spacing, spacing + 1, spacing + 2);
       // reset locale
       std::locale::global(currentLocale);
+      if (numSpacingFieldsRead != 3)
+      {
+        itkExceptionMacro("Malformed SPACING line: " << text);
+      }
       for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
       {
         this->SetSpacing(i, spacing[i]);
       }
     }
 
-    else if (text.find("origin") < text.length())
+    else if (keyword == "origin")
     {
-      double origin[3];
+      double origin[3]{};
       // save and reset old locale
       const std::locale currentLocale = std::locale::global(std::locale::classic());
-      sscanf(text.c_str(), "%*s %lf %lf %lf", origin, origin + 1, origin + 2);
+      const int         numOriginFieldsRead = sscanf(text.c_str(), "%*s %lf %lf %lf", origin, origin + 1, origin + 2);
       // reset locale
       std::locale::global(currentLocale);
+      if (numOriginFieldsRead != 3)
+      {
+        itkExceptionMacro("Malformed ORIGIN line: " << text);
+      }
       for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
       {
         this->SetOrigin(i, origin[i]);
       }
     }
 
-    else if (text.find("vector") < text.length())
+    else if (keyword == "vectors")
     {
       readAttribute = true;
 
       this->SetNumberOfComponents(3);
       this->SetPixelType(IOPixelEnum::VECTOR);
-      char pixelType[256];
-      sscanf(text.c_str(), "%*s %*s %255s", pixelType);
+      char pixelType[256]{};
+      if (sscanf(text.c_str(), "%*s %*s %255s", pixelType) != 1)
+      {
+        itkExceptionMacro("Malformed VECTORS line: " << text);
+      }
       text = pixelType;
 
       this->SetPixelTypeFromString(text);
     }
 
-    else if (text.find("color_scalars") < text.length())
+    else if (keyword == "color_scalars")
     {
       readAttribute = true;
 
@@ -307,14 +342,17 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       }
     }
 
-    else if (text.find("scalars") < text.length())
+    else if (keyword == "scalars")
     {
       readAttribute = true;
 
-      char         pixelType[256];
+      char         pixelType[256]{};
       unsigned int numComp = 1;
       // numComp is optional
-      sscanf(text.c_str(), "%*s %*s %255s %u", pixelType, &numComp);
+      if (sscanf(text.c_str(), "%*s %*s %255s %u", pixelType, &numComp) < 1)
+      {
+        itkExceptionMacro("Malformed SCALARS line: " << text);
+      }
       text = pixelType;
       if (numComp == 1)
       {
@@ -338,12 +376,15 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       }
     } // found scalars
 
-    else if (text.find("tensors") < text.length())
+    else if (keyword == "tensors")
     {
       readAttribute = true;
 
-      char pixelType[256];
-      sscanf(text.c_str(), "%*s %*s %255s", pixelType);
+      char pixelType[256]{};
+      if (sscanf(text.c_str(), "%*s %*s %255s", pixelType) != 1)
+      {
+        itkExceptionMacro("Malformed TENSORS line: " << text);
+      }
       text = pixelType;
       this->SetPixelType(IOPixelEnum::SYMMETRICSECONDRANKTENSOR);
       this->SetNumberOfComponents(6);
@@ -378,8 +419,8 @@ VTKImageIO::ReadHeaderSize(std::ifstream & file)
   {
     this->GetNextLine(file, text); // SPACING|ORIGIN|COLOR_SCALARS|SCALARS|VECTOR|TENSORS
 
-    if (text.find("scalars") < text.length() || text.find("vector") < text.length() ||
-        text.find("color_scalars") < text.length() || text.find("tensors") < text.length())
+    const std::string keyword = FirstToken(text);
+    if (keyword == "scalars" || keyword == "vectors" || keyword == "color_scalars" || keyword == "tensors")
     {
       readAttribute = true;
 
@@ -414,37 +455,35 @@ void
 ReadTensorBuffer(std::istream & is, TComponent * buffer, const ImageIOBase::SizeType num)
 {
   using PrintType = typename itk::NumericTraits<TComponent>::PrintType;
-  PrintType             temp;
   TComponent *          ptr = buffer;
   ImageIOBase::SizeType i = 0;
   // More than the resulting components because of symmetry.
   const ImageIOBase::SizeType fileComponents = num / 6 * 9;
+
+  auto readComponent = [&is]() {
+    PrintType temp{};
+    is >> temp;
+    if (is.fail())
+    {
+      itkGenericExceptionMacro("Failed reading ASCII tensor component");
+    }
+    return static_cast<TComponent>(temp);
+  };
+
   while (i < fileComponents)
   {
     // First row: hit hit hit
-    is >> temp;
-    *ptr = static_cast<TComponent>(temp);
-    ++ptr;
-    is >> temp;
-    *ptr = static_cast<TComponent>(temp);
-    ++ptr;
-    is >> temp;
-    *ptr = static_cast<TComponent>(temp);
-    ++ptr;
+    *ptr++ = readComponent();
+    *ptr++ = readComponent();
+    *ptr++ = readComponent();
     // Second row: skip hit hit
-    is >> temp;
-    is >> temp;
-    *ptr = static_cast<TComponent>(temp);
-    ++ptr;
-    is >> temp;
-    *ptr = static_cast<TComponent>(temp);
-    ++ptr;
+    static_cast<void>(readComponent());
+    *ptr++ = readComponent();
+    *ptr++ = readComponent();
     // Third row: skip skip hit
-    is >> temp;
-    is >> temp;
-    is >> temp;
-    *ptr = static_cast<TComponent>(temp);
-    ++ptr;
+    static_cast<void>(readComponent());
+    static_cast<void>(readComponent());
+    *ptr++ = readComponent();
     i += 9;
   }
 }
@@ -594,7 +633,10 @@ VTKImageIO::Read(void * buffer)
       }
       else
       {
-        this->ReadBufferAsBinary(file, buffer, this->GetImageSizeInBytes());
+        if (!this->ReadBufferAsBinary(file, buffer, this->GetImageSizeInBytes()))
+        {
+          itkExceptionMacro("Failed reading binary pixel data: " << m_FileName);
+        }
       }
 
       switch (this->GetComponentSize())
@@ -1010,6 +1052,8 @@ VTKImageIO::Write(const void * buffer)
     // Write the actual pixel data
     if (m_FileType == IOFileEnum::ASCII)
     {
+      file.setf(std::ios::scientific, std::ios::floatfield);
+      file.precision(16);
       this->WriteBufferAsASCII(file, buffer, this->GetComponentType(), this->GetImageSizeInComponents());
     }
     else // binary

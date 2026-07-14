@@ -20,6 +20,7 @@ set(
   itkVTIImageIOFutureFeaturesGTest.cxx
   itkVTIImageIOGeneratedFixturesGTest.cxx
   itkVTIImageIOSwapBufferGTest.cxx
+  itkVTKImageIOGTest.cxx
 )
 creategoogletestdriver(ITKIOVTK "${ITKIOVTK-Test_LIBRARIES}" "${ITKIOVTKGTests}")
 
