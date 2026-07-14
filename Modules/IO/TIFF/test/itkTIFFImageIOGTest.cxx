@@ -220,3 +220,44 @@ TEST(TIFFImageIOGTest, ReadImageInformationRejects32BitSampleFormatVoid)
 
   EXPECT_THROW(tiffImageIO->ReadImageInformation(), itk::ExceptionObject);
 }
+
+// MINISWHITE samples must be inverted to min-is-black, not copied verbatim.
+TEST(TIFFImageIOGTest, ReadInvertsMinIsWhitePhotometric)
+{
+  constexpr uint32_t      width = 4;
+  constexpr uint32_t      height = 4;
+  constexpr unsigned char storedValue = 70;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_MinIsWhite.tif");
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 8);
+  TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+  TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISWHITE);
+  TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, height);
+
+  const std::vector<unsigned char> row(width, storedValue);
+  for (uint32_t r = 0; r < height; ++r)
+  {
+    TIFFWriteScanline(tif, const_cast<unsigned char *>(row.data()), r, 0);
+  }
+  TIFFWriteDirectory(tif);
+  TIFFClose(tif);
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->ReadImageInformation();
+
+  std::vector<unsigned char> buffer(static_cast<size_t>(width) * height, 0);
+  tiffImageIO->Read(buffer.data());
+
+  constexpr unsigned char expected = static_cast<unsigned char>(~storedValue);
+  for (const unsigned char sample : buffer)
+  {
+    EXPECT_EQ(sample, expected) << "MINISWHITE samples must be inverted, not copied verbatim";
+  }
+}

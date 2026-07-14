@@ -24,6 +24,8 @@
 
 #include "itk_tiff.h"
 
+#include <type_traits>
+
 namespace itk
 {
 
@@ -1486,6 +1488,26 @@ TIFFImageIO::PutGrayscale(TType *      to,
                           unsigned int toskew,
                           unsigned int fromskew)
 {
+  // PHOTOMETRIC_MINISWHITE stores 0 as white; samples must be inverted to min-is-black.
+  if constexpr (std::is_integral_v<TType>)
+  {
+    if (m_InternalImage->m_Photometrics == PHOTOMETRIC_MINISWHITE)
+    {
+      for (unsigned int y = ysize; y-- > 0;)
+      {
+        for (unsigned int x = 0; x < xsize; ++x)
+        {
+          to[x] = static_cast<TType>(~from[x]);
+        }
+        to += xsize;
+        to += toskew;
+        from += xsize;
+        from += fromskew;
+      }
+      return;
+    }
+  }
+
   for (unsigned int y = ysize; y-- > 0;)
   {
     std::copy_n(from, xsize, to);
