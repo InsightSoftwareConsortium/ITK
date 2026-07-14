@@ -58,8 +58,6 @@ public:
     : m_Threshold(TInput{})
   {}
 
-  ~SimilarPixelsFunctor() = default;
-
   bool
   operator==(const SimilarPixelsFunctor & other) const
   {

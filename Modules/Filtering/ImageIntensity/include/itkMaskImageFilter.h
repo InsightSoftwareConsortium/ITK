@@ -40,7 +40,6 @@ public:
 
   MaskInput() = default;
 
-  ~MaskInput() = default;
   bool
   operator==(const MaskInput &) const
   {
