@@ -520,41 +520,60 @@ NiftiImageIO::Read(void * buffer)
     switch (this->m_ComponentType)
     {
       case IOComponentEnum::SCHAR:
-        RescaleFunction(static_cast<char *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(
+          static_cast<char *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts * numComponents);
         break;
       case IOComponentEnum::UCHAR:
-        RescaleFunction(static_cast<unsigned char *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(static_cast<unsigned char *>(buffer),
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,
+                        numElts * numComponents);
         break;
       case IOComponentEnum::SHORT:
-        RescaleFunction(static_cast<short *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(
+          static_cast<short *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts * numComponents);
         break;
       case IOComponentEnum::USHORT:
-        RescaleFunction(static_cast<unsigned short *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(static_cast<unsigned short *>(buffer),
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,
+                        numElts * numComponents);
         break;
       case IOComponentEnum::INT:
-        RescaleFunction(static_cast<int *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(
+          static_cast<int *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts * numComponents);
         break;
       case IOComponentEnum::UINT:
-        RescaleFunction(static_cast<unsigned int *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(
+          static_cast<unsigned int *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts * numComponents);
         break;
       case IOComponentEnum::LONG:
-        RescaleFunction(static_cast<long *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(
+          static_cast<long *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts * numComponents);
         break;
       case IOComponentEnum::ULONG:
-        RescaleFunction(static_cast<unsigned long *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(static_cast<unsigned long *>(buffer),
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,
+                        numElts * numComponents);
         break;
       case IOComponentEnum::LONGLONG:
-        RescaleFunction(static_cast<long long *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(
+          static_cast<long long *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts * numComponents);
         break;
       case IOComponentEnum::ULONGLONG:
-        RescaleFunction(
-          static_cast<unsigned long long *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(static_cast<unsigned long long *>(buffer),
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,
+                        numElts * numComponents);
         break;
       case IOComponentEnum::FLOAT:
-        RescaleFunction(static_cast<float *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(
+          static_cast<float *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts * numComponents);
         break;
       case IOComponentEnum::DOUBLE:
-        RescaleFunction(static_cast<double *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(
+          static_cast<double *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts * numComponents);
         break;
       default:
         if (this->GetPixelType() == IOPixelEnum::SCALAR)

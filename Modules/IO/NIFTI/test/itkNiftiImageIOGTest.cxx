@@ -99,3 +99,41 @@ TEST(NiftiImageIO, RescaleCastOfMultiComponentImageStaysWithinCastBuffer)
   ASSERT_EQ(readBack->GetNumberOfComponentsPerPixel(), numComponents);
   ASSERT_EQ(readBack->GetLargestPossibleRegion().GetSize(), image->GetLargestPossibleRegion().GetSize());
 }
+
+TEST(NiftiImageIO, RescaleAppliesToEveryComponentOfEveryVoxel)
+{
+  using ImageType = itk::VectorImage<float, 3>;
+  constexpr unsigned int numComponents = 3;
+  constexpr double       slope = 2.0;
+  constexpr double       intercept = 1.0;
+
+  const itk::Size<3>                  size{ { 4, 3, 2 } };
+  auto                                image = MakeVectorImage<float>(size, numComponents);
+  itk::ImageRegionIterator<ImageType> it(image, image->GetLargestPossibleRegion());
+  float                               value = 0.0f;
+  for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+  {
+    ImageType::PixelType pixel(numComponents);
+    for (unsigned int c = 0; c < numComponents; ++c)
+    {
+      pixel[c] = value++;
+    }
+    it.Set(pixel);
+  }
+
+  const std::string path = OutputPath("b49_rescale_all_components.nii");
+  WriteWithRescale(image.GetPointer(), path, slope, intercept);
+
+  const auto readBack = ReadVectorImage<ImageType>(path);
+  ASSERT_EQ(readBack->GetNumberOfComponentsPerPixel(), numComponents);
+
+  itk::ImageRegionIterator<ImageType> original(image, image->GetLargestPossibleRegion());
+  itk::ImageRegionIterator<ImageType> rescaled(readBack, readBack->GetLargestPossibleRegion());
+  for (original.GoToBegin(), rescaled.GoToBegin(); !original.IsAtEnd(); ++original, ++rescaled)
+  {
+    for (unsigned int c = 0; c < numComponents; ++c)
+    {
+      EXPECT_FLOAT_EQ(rescaled.Get()[c], original.Get()[c] * slope + intercept);
+    }
+  }
+}
