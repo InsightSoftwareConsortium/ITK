@@ -21,6 +21,7 @@
 
 #include "itk_jpeg.h"
 
+#include <algorithm>
 #include <array>
 #include <csetjmp>
 
@@ -540,15 +541,19 @@ JPEGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
     jpeg_simple_progression(&cinfo);
   }
 
-  if (m_Spacing[0] > 0 && m_Spacing[1] > 0)
+  // Spacing (1,1) is ITK's default for images that were never given a
+  // physical resolution; writing a fabricated density for it would assert
+  // precision the image does not have.
+  if (m_Spacing[0] > 0 && m_Spacing[1] > 0 && (m_Spacing[0] != 1.0 || m_Spacing[1] != 1.0))
   {
     // store the spacing information as pixels per inch or cm, depending on which option
-    // retains as much precision as possible
-    const std::array<UINT16, 2> densityPerInch{ static_cast<UINT16>(25.4 / m_Spacing[0] + 0.5),
-                                                static_cast<UINT16>(25.4 / m_Spacing[1] + 0.5) };
+    // retains as much precision as possible. Clamp to [1, 65535]: a JFIF
+    // density of 0 is invalid, and a value exceeding UINT16_MAX would be
+    // undefined behavior to cast.
+    const auto clampDensity = [](double value) { return static_cast<UINT16>(std::clamp(value + 0.5, 1.0, 65535.0)); };
 
-    const std::array<UINT16, 2> densityPerCm{ static_cast<UINT16>(10.0 / m_Spacing[0] + 0.5),
-                                              static_cast<UINT16>(10.0 / m_Spacing[1] + 0.5) };
+    const std::array<UINT16, 2> densityPerInch{ clampDensity(25.4 / m_Spacing[0]), clampDensity(25.4 / m_Spacing[1]) };
+    const std::array<UINT16, 2> densityPerCm{ clampDensity(10.0 / m_Spacing[0]), clampDensity(10.0 / m_Spacing[1]) };
 
     if (itk::Math::Absolute(25.4 / m_Spacing[0] - densityPerInch[0]) +
           itk::Math::Absolute(25.4 / m_Spacing[1] - densityPerInch[1]) <=
@@ -561,7 +566,7 @@ JPEGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
     }
     else
     {
-      cinfo.density_unit = 0;
+      cinfo.density_unit = 2;
       cinfo.X_density = densityPerCm[0];
       cinfo.Y_density = densityPerCm[1];
     }

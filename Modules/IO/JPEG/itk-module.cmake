@@ -12,7 +12,9 @@ itk_module(
   PRIVATE_DEPENDS
     ITKJPEG
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
+    ITKJPEG
   FACTORY_NAMES
     ImageIO::JPEG
   DESCRIPTION "${DOCUMENTATION}"

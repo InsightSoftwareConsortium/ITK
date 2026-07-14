@@ -18,6 +18,7 @@
 
 #include "itkJPEGImageIO.h"
 #include "itkImageFileReader.h"
+#include "itkRGBPixel.h"
 #include "itkTestingMacros.h"
 
 int
@@ -64,6 +65,32 @@ itkJPEGImageIOCMYKTest(int argc, char * argv[])
     ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
     ITK_TEST_EXPECT_TRUE(io->GetPixelType() == itk::CommonEnums::IOPixel::VECTOR);
+  }
+
+  {
+    // Pin actual color values, not just pixel type: a CMYK/YCCK conversion
+    // defect can invert colors while every type check above still passes.
+    // Expected values (row 100, columns 0-3) cross-checked against Pillow's
+    // independent CMYK/YCCK decoder. Tolerance allows for lossy-JPEG DCT
+    // rounding differences across libjpeg builds.
+    using RGBImageType = itk::Image<itk::RGBPixel<unsigned char>, Dimension>;
+    const itk::ImageFileReader<RGBImageType>::Pointer reader = itk::ImageFileReader<RGBImageType>::New();
+    reader->SetFileName(argv[1]);
+    ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+    const RGBImageType::Pointer image = reader->GetOutput();
+    const unsigned char         expected[4][3]{ { 55, 96, 16 }, { 53, 90, 16 }, { 55, 92, 15 }, { 56, 94, 15 } };
+    constexpr int               tolerance = 5;
+    for (int x = 0; x < 4; ++x)
+    {
+      const RGBImageType::IndexType      idx{ { x, 100 } };
+      const itk::RGBPixel<unsigned char> pixel = image->GetPixel(idx);
+      for (unsigned int c = 0; c < 3; ++c)
+      {
+        const int diff = static_cast<int>(pixel[c]) - static_cast<int>(expected[x][c]);
+        ITK_TEST_EXPECT_TRUE(diff >= -tolerance && diff <= tolerance);
+      }
+    }
   }
 
   std::cout << "Test finished." << std::endl;
