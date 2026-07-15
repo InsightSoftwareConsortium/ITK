@@ -103,7 +103,18 @@ jobs:
           echo "CCACHE_DIR=${{ runner.temp }}/ccache" >> "$GITHUB_ENV"
           echo "CCACHE_MAXSIZE=5G" >> "$GITHUB_ENV"
           if [ "$RUNNER_OS" == "Linux" ]; then
-            sudo apt-get update -qq && sudo apt-get install -y ccache locales
+            sudo mkdir -p /etc/apt/apt.conf.d
+            echo 'Acquire::ForceIPv4 "true";' | sudo tee /etc/apt/apt.conf.d/99force-ipv4 >/dev/null
+            echo 'Acquire::Retries "5";'      | sudo tee /etc/apt/apt.conf.d/80-retries >/dev/null
+
+            for i in 1 2 3; do
+              sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends ccache locales && break
+              echo "apt attempt $i failed; retrying..."
+              [ "$i" -lt 3 ] && sleep $((i * 10))
+            done
+
+            command -v ccache >/dev/null || { echo "ccache install failed"; exit 1; }
+            command -v locale-gen >/dev/null || { echo "locales install failed"; exit 1; }
             sudo locale-gen de_DE.UTF-8
           elif [ "$RUNNER_OS" == "macOS" ]; then
             brew install ccache
