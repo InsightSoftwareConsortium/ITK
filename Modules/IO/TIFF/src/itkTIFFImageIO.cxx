@@ -71,6 +71,14 @@ TIFFImageIO::ReadGenericImage(void * out, unsigned int width, unsigned int heigh
   {
     this->ReadGenericImage<short>(out, width, height);
   }
+  else if (m_ComponentType == IOComponentEnum::UINT)
+  {
+    this->ReadGenericImage<unsigned int>(out, width, height);
+  }
+  else if (m_ComponentType == IOComponentEnum::INT)
+  {
+    this->ReadGenericImage<int>(out, width, height);
+  }
   else if (m_ComponentType == IOComponentEnum::FLOAT)
   {
     this->ReadGenericImage<float>(out, width, height);
@@ -158,8 +166,11 @@ TIFFImageIO::ReadVolume(void * buffer)
   {
     int32_t    subfiletype = 6;
     const bool hasSubfiletype = TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SUBFILETYPE, &subfiletype) != 0;
+    // An untagged page defaults to NewSubfileType==0 (TIFF 6.0) and must be
+    // treated as primary, matching the m_SubFiles count computed in
+    // TIFFReaderInternal::Initialize().
     const bool skipPage = onlyPrimarySubFiles
-                            ? !(hasSubfiletype && subfiletype == 0)
+                            ? !(!hasSubfiletype || subfiletype == 0)
                             : (hasSubfiletype && (subfiletype & FILETYPE_REDUCEDIMAGE || subfiletype & FILETYPE_MASK));
 
     if (skipPage)
@@ -1271,16 +1282,30 @@ TIFFImageIO::ReadCurrentPage(void * buffer, size_t pixelOffset)
   uint32_t currentHeight = 0;
   uint16_t currentSamplesPerPixel = 0;
   uint16_t currentBitsPerSample = 0;
+  uint16_t currentPhotometrics = 0;
+  uint16_t currentSampleFormat = 1;
+  uint16_t currentPlanarConfig = 0;
+  uint16_t currentOrientation = ORIENTATION_TOPLEFT;
   TIFFGetField(m_InternalImage->m_Image, TIFFTAG_IMAGEWIDTH, &currentWidth);
   TIFFGetField(m_InternalImage->m_Image, TIFFTAG_IMAGELENGTH, &currentHeight);
   TIFFGetFieldDefaulted(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &currentSamplesPerPixel);
   TIFFGetFieldDefaulted(m_InternalImage->m_Image, TIFFTAG_BITSPERSAMPLE, &currentBitsPerSample);
+  TIFFGetField(m_InternalImage->m_Image, TIFFTAG_PHOTOMETRIC, &currentPhotometrics);
+  TIFFGetFieldDefaulted(m_InternalImage->m_Image, TIFFTAG_SAMPLEFORMAT, &currentSampleFormat);
+  TIFFGetFieldDefaulted(m_InternalImage->m_Image, TIFFTAG_PLANARCONFIG, &currentPlanarConfig);
+  TIFFGetFieldDefaulted(m_InternalImage->m_Image, TIFFTAG_ORIENTATION, &currentOrientation);
+  // The first page's geometry and format fields are cached and reused for every
+  // page; reject any later page that differs rather than read it with stale values.
   if (currentWidth != width || currentHeight != height ||
       currentSamplesPerPixel != m_InternalImage->m_SamplesPerPixel ||
-      currentBitsPerSample != m_InternalImage->m_BitsPerSample)
+      currentBitsPerSample != m_InternalImage->m_BitsPerSample ||
+      currentPhotometrics != m_InternalImage->m_Photometrics ||
+      currentSampleFormat != m_InternalImage->m_SampleFormat ||
+      currentPlanarConfig != m_InternalImage->m_PlanarConfig || currentOrientation != m_InternalImage->m_Orientation)
   {
-    itkExceptionStringMacro(
-      "This reader requires every page to share the first page's width, height, SamplesPerPixel, and BitsPerSample.");
+    itkExceptionStringMacro("This reader requires every page to share the first page's width, height, "
+                            "SamplesPerPixel, BitsPerSample, Photometric, SampleFormat, PlanarConfig, and "
+                            "Orientation.");
   }
 
   if (!m_InternalImage->CanRead())
@@ -1331,6 +1356,18 @@ TIFFImageIO::ReadCurrentPage(void * buffer, size_t pixelOffset)
     else if (m_ComponentType == IOComponentEnum::FLOAT)
     {
       auto * volume = static_cast<float *>(buffer);
+      volume += pixelOffset;
+      this->ReadGenericImage(volume, width, height);
+    }
+    else if (m_ComponentType == IOComponentEnum::UINT)
+    {
+      auto * volume = static_cast<unsigned int *>(buffer);
+      volume += pixelOffset;
+      this->ReadGenericImage(volume, width, height);
+    }
+    else if (m_ComponentType == IOComponentEnum::INT)
+    {
+      auto * volume = static_cast<int *>(buffer);
       volume += pixelOffset;
       this->ReadGenericImage(volume, width, height);
     }

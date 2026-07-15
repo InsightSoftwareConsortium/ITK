@@ -235,18 +235,20 @@ TIFFReaderInternal::Initialize()
 
       for (unsigned int page = 0; page < this->m_NumberOfPages; ++page)
       {
-        int32_t subfiletype = 6;
-        if (TIFFGetField(this->m_Image, TIFFTAG_SUBFILETYPE, &subfiletype))
+        int32_t    subfiletype = 6;
+        const bool hasSubfiletype = TIFFGetField(this->m_Image, TIFFTAG_SUBFILETYPE, &subfiletype) != 0;
+        // TIFF 6.0 defines NewSubfileType to default to 0 (a primary image);
+        // an untagged page must count as a subfile the same as an explicit
+        // subfiletype==0, or it becomes invisible to both this count and the
+        // matching skip decision in ReadVolume().
+        if (!hasSubfiletype || subfiletype == 0)
         {
-          if (subfiletype == 0)
-          {
-            this->m_SubFiles += 1;
-          }
-          // ignored flags
-          else if (subfiletype & FILETYPE_REDUCEDIMAGE || subfiletype & FILETYPE_MASK)
-          {
-            ++this->m_IgnoredSubFiles;
-          }
+          this->m_SubFiles += 1;
+        }
+        // ignored flags
+        else if (subfiletype & FILETYPE_REDUCEDIMAGE || subfiletype & FILETYPE_MASK)
+        {
+          ++this->m_IgnoredSubFiles;
         }
         TIFFReadDirectory(this->m_Image);
       }
@@ -289,7 +291,13 @@ TIFFReaderInternal::CanRead()
           (this->m_BitsPerSample == 8 || this->m_BitsPerSample == 16 ||
            (this->m_BitsPerSample == 32 &&
             (this->m_SampleFormat == SAMPLEFORMAT_UINT || this->m_SampleFormat == SAMPLEFORMAT_INT ||
-             this->m_SampleFormat == SAMPLEFORMAT_IEEEFP))));
+             this->m_SampleFormat == SAMPLEFORMAT_IEEEFP))) &&
+          // PutGrayscale's MINISWHITE inversion only handles integral sample
+          // types (bitwise NOT). Floating-point data has no fixed maximum to
+          // invert against, so a MINISWHITE + IEEEFP page cannot be read
+          // without guessing at that convention; reject rather than
+          // silently return un-inverted (photo-negative) data.
+          !(this->m_Photometrics == PHOTOMETRIC_MINISWHITE && this->m_SampleFormat == SAMPLEFORMAT_IEEEFP));
 }
 
 } // namespace itk

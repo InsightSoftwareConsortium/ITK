@@ -113,7 +113,10 @@ TEST(TIFFImageIOGTest, ReadVolumeSkipsReducedImageAndPacksSlicesSequentially)
 }
 
 // An untagged page must be excluded once SUBFILETYPE tagging is in use.
-TEST(TIFFImageIOGTest, ReadVolumeExcludesUntaggedPageWhenSubFileTypeIsUsed)
+// TIFF 6.0 defines NewSubfileType to default to 0 (a primary image); an
+// untagged page in a file that also has explicitly-tagged pages must still
+// count as a kept slice, not be silently dropped.
+TEST(TIFFImageIOGTest, ReadVolumeKeepsUntaggedPageAsPrimary)
 {
   constexpr uint32_t width = 4;
   constexpr uint32_t height = 4;
@@ -132,7 +135,7 @@ TEST(TIFFImageIOGTest, ReadVolumeExcludesUntaggedPageWhenSubFileTypeIsUsed)
   tiffImageIO->ReadImageInformation();
 
   ASSERT_EQ(tiffImageIO->GetNumberOfDimensions(), 3u);
-  ASSERT_EQ(tiffImageIO->GetDimensions(2), 2u);
+  ASSERT_EQ(tiffImageIO->GetDimensions(2), 3u);
 
   itk::ImageIORegion ioRegion(3);
   for (unsigned int d = 0; d < 3; ++d)
@@ -143,14 +146,13 @@ TEST(TIFFImageIOGTest, ReadVolumeExcludesUntaggedPageWhenSubFileTypeIsUsed)
   tiffImageIO->SetIORegion(ioRegion);
 
   const size_t               sliceBytes = static_cast<size_t>(width) * height;
-  constexpr unsigned char    sentinel = 111;
-  std::vector<unsigned char> buffer(sliceBytes * 3, sentinel); // 1 padding slice past the logical depth
+  std::vector<unsigned char> buffer(sliceBytes * 3);
 
   tiffImageIO->Read(buffer.data());
 
-  EXPECT_EQ(buffer[0 * sliceBytes], 10) << "untagged page must not consume a slice slot";
-  EXPECT_EQ(buffer[1 * sliceBytes], 20) << "second SUBFILETYPE==0 page must land at slice 1";
-  EXPECT_EQ(buffer[2 * sliceBytes], sentinel) << "read must not write past the logical volume depth";
+  EXPECT_EQ(buffer[0 * sliceBytes], 200) << "untagged page must be kept as the first primary slice";
+  EXPECT_EQ(buffer[1 * sliceBytes], 10) << "first SUBFILETYPE==0 page must land at slice 1";
+  EXPECT_EQ(buffer[2 * sliceBytes], 20) << "second SUBFILETYPE==0 page must land at slice 2";
 }
 
 // Per-page geometry is pinned from the first page; a mismatched later page must be rejected.
@@ -211,6 +213,42 @@ TEST(TIFFImageIOGTest, ReadImageInformationRejects32BitSampleFormatVoid)
   for (uint32_t r = 0; r < height; ++r)
   {
     TIFFWriteScanline(tif, const_cast<uint32_t *>(row.data()), r, 0);
+  }
+  TIFFWriteDirectory(tif);
+  TIFFClose(tif);
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+
+  EXPECT_THROW(tiffImageIO->ReadImageInformation(), itk::ExceptionObject);
+}
+
+// A MINISWHITE page with IEEEFP samples has no fixed maximum to invert
+// against, so PutGrayscale's integral-only inversion would silently pass it
+// through photo-negative. CanRead() excludes the combination; the read must
+// fail loudly rather than return un-inverted float data.
+TEST(TIFFImageIOGTest, ReadImageInformationRejectsMinIsWhiteFloat)
+{
+  constexpr uint32_t width = 4;
+  constexpr uint32_t height = 4;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_MinIsWhiteFloat.tif");
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 32);
+  TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_IEEEFP);
+  TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+  TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISWHITE);
+  TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, height);
+
+  const std::vector<float> row(width, 0.25f);
+  for (uint32_t r = 0; r < height; ++r)
+  {
+    TIFFWriteScanline(tif, const_cast<float *>(row.data()), r, 0);
   }
   TIFFWriteDirectory(tif);
   TIFFClose(tif);
@@ -355,4 +393,124 @@ TEST(TIFFImageIOGTest, WriteTwoComponentImageDeclaresMinIsBlackWithExtraSample)
   EXPECT_EQ(extraSamplesCount, 1) << "the non-color sample must be declared as EXTRASAMPLES";
 
   TIFFClose(tif);
+}
+
+// ReadGenericImage's dispatch previously had no branch for
+// IOComponentEnum::UINT/INT even though CanRead() (and the SampleFormat
+// switch in ReadImageInformation) accepted 32-bit UINT/INT pages: the read
+// silently no-op'd, leaving the output buffer untouched. Exercise the full
+// decode path, not just component-type detection.
+TEST(TIFFImageIOGTest, ReadDecodes32BitUnsignedIntPixels)
+{
+  constexpr uint32_t width = 4;
+  constexpr uint32_t height = 4;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_32BitUInt.tif");
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 32);
+  TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_UINT);
+  TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+  TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+  TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, height);
+
+  std::vector<uint32_t> row(width);
+  for (uint32_t r = 0; r < height; ++r)
+  {
+    for (uint32_t c = 0; c < width; ++c)
+    {
+      row[c] = 1000u * r + c;
+    }
+    TIFFWriteScanline(tif, row.data(), r, 0);
+  }
+  TIFFWriteDirectory(tif);
+  TIFFClose(tif);
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->ReadImageInformation();
+  ASSERT_EQ(tiffImageIO->GetComponentType(), itk::IOComponentEnum::UINT);
+
+  std::vector<uint32_t> buffer(static_cast<size_t>(width) * height, 0xDEADBEEFu);
+  ASSERT_NO_THROW(tiffImageIO->Read(buffer.data()));
+
+  for (uint32_t r = 0; r < height; ++r)
+  {
+    for (uint32_t c = 0; c < width; ++c)
+    {
+      EXPECT_EQ(buffer[(r * width) + c], 1000u * r + c) << "row " << r << " col " << c;
+    }
+  }
+}
+
+// ReadCurrentPage advances the per-slice buffer offset using the component
+// type; the 32-bit UINT/INT arms must advance by 4 bytes per element, not the
+// default 1-byte (unsigned char) stride, or every slice past the first lands
+// at the wrong offset. Single-slice reads (offset 0) do not exercise this.
+TEST(TIFFImageIOGTest, ReadDecodesMultiSlice32BitIntegerVolume)
+{
+  constexpr uint32_t width = 4;
+  constexpr uint32_t height = 4;
+  constexpr uint32_t pages = 3;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_32BitIntVolume.tif");
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  for (uint32_t p = 0; p < pages; ++p)
+  {
+    TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width);
+    TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height);
+    TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 32);
+    TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_INT);
+    TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+    TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+    TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+    TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, height);
+    std::vector<int32_t> row(width);
+    for (uint32_t r = 0; r < height; ++r)
+    {
+      for (uint32_t c = 0; c < width; ++c)
+      {
+        row[c] = static_cast<int32_t>(100000 * p + 1000 * r + c) - 50000;
+      }
+      TIFFWriteScanline(tif, row.data(), r, 0);
+    }
+    TIFFWriteDirectory(tif);
+  }
+  TIFFClose(tif);
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->ReadImageInformation();
+  ASSERT_EQ(tiffImageIO->GetComponentType(), itk::IOComponentEnum::INT);
+  ASSERT_EQ(tiffImageIO->GetNumberOfDimensions(), 3u);
+
+  itk::ImageIORegion ioRegion(3);
+  for (unsigned int d = 0; d < 3; ++d)
+  {
+    ioRegion.SetIndex(d, 0);
+    ioRegion.SetSize(d, tiffImageIO->GetDimensions(d));
+  }
+  tiffImageIO->SetIORegion(ioRegion);
+
+  std::vector<int32_t> buffer(static_cast<size_t>(width) * height * pages, static_cast<int32_t>(0xDEADBEEF));
+  ASSERT_NO_THROW(tiffImageIO->Read(buffer.data()));
+
+  for (uint32_t p = 0; p < pages; ++p)
+  {
+    for (uint32_t r = 0; r < height; ++r)
+    {
+      for (uint32_t c = 0; c < width; ++c)
+      {
+        const size_t  idx = ((static_cast<size_t>(p) * height) + r) * width + c;
+        const int32_t expected = static_cast<int32_t>(100000 * p + 1000 * r + c) - 50000;
+        EXPECT_EQ(buffer[idx], expected) << "page " << p << " row " << r << " col " << c;
+      }
+    }
+  }
 }
