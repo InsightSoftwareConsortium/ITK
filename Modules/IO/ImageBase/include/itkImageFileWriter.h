@@ -225,7 +225,6 @@ private:
   std::string m_FileName{};
 
   ImageIOBase::Pointer m_ImageIO{};
-  bool                 m_UserSpecifiedImageIO{ false };
 
   ImageIORegion m_PasteIORegion{ TInputImage::ImageDimension };
   unsigned int  m_NumberOfStreamDivisions{ 1 };
