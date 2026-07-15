@@ -20,6 +20,7 @@
 #include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkDiffusionTensor3D.h"
 #include "itkGTest.h"
 
 namespace
@@ -75,4 +76,38 @@ TEST(PatchBasedDenoisingImageFilter, PoissonFidelityAffectsIntegerPixelOutput)
   }
 
   EXPECT_GT(sumAbsDiff, 400);
+}
+
+// NumericTraits<T>::min() is the smallest positive value, so it cannot seed a running max.
+TEST(PatchBasedDenoisingImageFilter, ConstantTensorImageRejectedAsNonconstant)
+{
+  constexpr unsigned int Dimension = 3;
+  using PixelType = itk::DiffusionTensor3D<double>;
+  using ImageType = itk::Image<PixelType, Dimension>;
+
+  auto image = ImageType::New();
+  image->SetRegions(ImageType::RegionType{ ImageType::IndexType{}, ImageType::SizeType::Filled(16) });
+  image->Allocate();
+
+  PixelType identity{};
+  identity(0, 0) = 1.0;
+  identity(1, 1) = 1.0;
+  identity(2, 2) = 1.0;
+  image->FillBuffer(identity);
+
+  using FilterType = itk::PatchBasedDenoisingImageFilter<ImageType, ImageType>;
+  auto filter = FilterType::New();
+  filter->SetInput(image);
+
+  bool threw = false;
+  try
+  {
+    filter->Update();
+  }
+  catch (const itk::ExceptionObject & e)
+  {
+    threw = true;
+    EXPECT_NE(std::string(e.GetDescription()).find("nonconstant"), std::string::npos);
+  }
+  EXPECT_TRUE(threw);
 }
