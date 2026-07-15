@@ -66,3 +66,11 @@ itk_add_test(
     itkJPEGImageIOCMYKTest
     DATA{Input/cmyk.jpg}
 )
+
+set(ITKIOJPEGGTests itkJPEGImageIOGTest.cxx)
+creategoogletestdriver(ITKIOJPEG "${ITKIOJPEG-Test_LIBRARIES}" "${ITKIOJPEGGTests}")
+target_compile_definitions(
+  ITKIOJPEGGTestDriver
+  PRIVATE
+    "ITK_TEST_OUTPUT_DIR=${ITK_TEST_OUTPUT_DIR}"
+)
