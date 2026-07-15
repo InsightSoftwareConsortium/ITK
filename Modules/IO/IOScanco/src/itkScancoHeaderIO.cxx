@@ -35,13 +35,13 @@ ScancoHeaderIO::ScancoHeaderIO(itkScancoHeaderData * headerData, std::string fil
 }
 
 unsigned long
-ScancoHeaderIO::ReadHeader(std::ifstream & infile)
+ScancoHeaderIO::ReadHeader(std::ifstream &)
 {
   throw std::runtime_error("ScancoHeaderIO::ReadHeader(std::ifstream&) not implemented.");
 }
 
 unsigned long
-ScancoHeaderIO::WriteHeader(std::ofstream & outfile, unsigned long imageSize)
+ScancoHeaderIO::WriteHeader(std::ofstream &, unsigned long)
 {
   throw std::runtime_error("ScancoHeaderIO::WriteHeader(std::ofstream&) not implemented.");
 }

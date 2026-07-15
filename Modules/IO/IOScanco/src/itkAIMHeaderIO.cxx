@@ -235,7 +235,8 @@ AIMHeaderIO::WriteHeader(std::ofstream & outfile, unsigned long imageSize)
 
   outfile.write(processingLog.c_str(), this->m_ProcessingLogSize);
 
-  if (outfile.tellp() != bytesWritten + this->m_PreHeaderSize + this->m_ImgStructSize + this->m_ProcessingLogSize)
+  if (outfile.tellp() != static_cast<std::streamoff>(bytesWritten + this->m_PreHeaderSize + this->m_ImgStructSize +
+                                                     this->m_ProcessingLogSize))
   {
     throw std::runtime_error("Error: write size mismatch");
   }
@@ -247,8 +248,6 @@ AIMHeaderIO::WriteHeader(std::ofstream & outfile, unsigned long imageSize)
 int
 AIMHeaderIO::ReadPreHeader(std::ifstream & file, size_t offset)
 {
-  unsigned long bytesRead = this->m_IntSize; // We assume the pre-header length (int) has already been read
-
   if (!file.is_open())
   {
     return -1;
@@ -321,7 +320,7 @@ AIMHeaderIO::ReadImgStructHeader(AIMV020StructHeader * headerData)
   }
 
   // Set the pixel data origin
-  for (int i = 0; i < 3; ++i)
+  for (i = 0; i < 3; ++i)
   {
     this->m_HeaderData->m_PixelData.m_Origin[i] =
       DecodeInt(headerData->m_Position[i]) * this->m_HeaderData->m_PixelData.m_Spacing[i];
@@ -353,7 +352,7 @@ AIMHeaderIO::ReadImgStructHeader(AIMV030StructHeader * headerData)
   }
 
   // Set the pixel data origin
-  for (int i = 0; i < 3; ++i)
+  for (i = 0; i < 3; ++i)
   {
     this->m_HeaderData->m_PixelData.m_Origin[i] =
       DecodeInt(headerData->m_Position[i]) * this->m_HeaderData->m_PixelData.m_Spacing[i];
@@ -540,7 +539,7 @@ AIMHeaderIO::ReadProcessingLog(std::ifstream & infile, size_t offset, size_t len
 AIMV020StructHeader
 AIMHeaderIO::WriteStructHeaderV020()
 {
-  AIMV020StructHeader structHeader{ 0 };
+  AIMV020StructHeader structHeader{};
   EncodeInt(this->m_HeaderData->m_PixelData.m_ComponentType, structHeader.m_Type);
 
   EncodeFloat(AIM020WriteVersion, structHeader.m_Version);
@@ -561,7 +560,7 @@ AIMHeaderIO::WriteStructHeaderV020()
   }
 
   // pixel data origin
-  for (int i = 0; i < 3; ++i)
+  for (i = 0; i < 3; ++i)
   {
     EncodeInt(this->m_HeaderData->m_PixelData.m_Origin[i] / (float)this->m_HeaderData->m_PixelData.m_Spacing[i],
               structHeader.m_Position[i]);
@@ -572,7 +571,7 @@ AIMHeaderIO::WriteStructHeaderV020()
 AIMV030StructHeader
 AIMHeaderIO::WriteStructHeaderV030()
 {
-  AIMV030StructHeader structHeader{ 0 };
+  AIMV030StructHeader structHeader{};
   EncodeInt(this->m_HeaderData->m_PixelData.m_ComponentType, structHeader.m_Type);
 
   int i = 0;
@@ -591,7 +590,7 @@ AIMHeaderIO::WriteStructHeaderV030()
   }
 
   // Set the pixel data origin
-  for (int i = 0; i < 3; ++i)
+  for (i = 0; i < 3; ++i)
   {
     EncodeInt64(this->m_HeaderData->m_PixelData.m_Origin[i] / (float)this->m_HeaderData->m_PixelData.m_Spacing[i],
                 structHeader.m_Position[i]);
@@ -666,7 +665,7 @@ AIMHeaderIO::WritePreHeader(std::ofstream & outfile, size_t imageSize, ScancoFil
 
   if (version == ScancoFileVersions::AIM_020)
   {
-    AIMPreHeaderV020 preHeader{ 0 };
+    AIMPreHeaderV020 preHeader{};
     EncodeInt((int)sizeof(AIMPreHeaderV020), preHeader.m_PreHeaderLength);
     EncodeInt((int)this->m_ImgStructSize, preHeader.m_ImageStructLength);
     EncodeInt((int)this->m_ProcessingLogSize, preHeader.m_ProcessingLogLength);
@@ -677,7 +676,7 @@ AIMHeaderIO::WritePreHeader(std::ofstream & outfile, size_t imageSize, ScancoFil
   }
   else if (version == ScancoFileVersions::AIM_030)
   {
-    AIMPreHeaderV030 preHeader{ 0 };
+    AIMPreHeaderV030 preHeader{};
     EncodeInt64(sizeof(AIMPreHeaderV030), preHeader.m_PreHeaderLength);
     EncodeInt64(this->m_ImgStructSize, preHeader.m_ImageStructLength);
     EncodeInt64(this->m_ProcessingLogSize, preHeader.m_ProcessingLogLength);

@@ -197,7 +197,7 @@ ISQHeaderIO::WriteHeader(std::ofstream & outfile, unsigned long imageSize)
     return 0;
   }
 
-  ISQEncodedHeaderBlock header = { 0 };
+  ISQEncodedHeaderBlock header{};
 
   PadString(header.m_PreHeader.m_Version, this->m_HeaderData->m_Version, ScancoHeaderField::VersionDiskWidth);
   EncodeInt(3, header.m_PreHeader.m_DataType);
@@ -261,8 +261,6 @@ ISQHeaderIO::ReadDateValues(const int year,
 {
   // Convert date information into a string
   month = ((month > 12 || month < 1) ? 0 : month);
-  static const char * months[] = { "XXX", "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-                                   "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
   DateToString(this->m_HeaderData->m_CreationDate, year, month, day, hour, minute, second, milli);
   DateToString(this->m_HeaderData->m_ModificationDate, year, month, day, hour, minute, second, milli);
 }
@@ -433,7 +431,7 @@ ISQHeaderIO::ReadExtendedHeader(const char * buffer, unsigned long length)
 unsigned long
 ISQHeaderIO::WriteExtendedHeader(std::ofstream & outfile)
 {
-  ISQCalibrationHeaderBlock calHeader = { 0 };
+  ISQCalibrationHeaderBlock calHeader{};
   outfile.seekp(ScancoHeaderBlockSize, std::ios::beg); // seek past first header block
 
   // First block adds multiheader

@@ -56,7 +56,7 @@ public:
   ScancoHeaderIO(itkScancoHeaderData * headerData, std::string filename = "");
 
   /** Destructor */
-  ~ScancoHeaderIO() = default;
+  virtual ~ScancoHeaderIO() = default;
 
   void
   SetFilename(const std::string filename);
