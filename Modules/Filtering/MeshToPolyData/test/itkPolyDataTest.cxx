@@ -111,7 +111,7 @@ itkPolyDataTest(int, char *[])
   pointDataContainer->InsertElement(0, 2.0);
   pointDataContainer->InsertElement(1, 7.0);
   polyData->SetPointData(pointDataContainer);
-  double pointData;
+  double pointData{};
   polyData->GetPointData(1, &pointData);
   ITK_TEST_SET_GET_VALUE(7.0, pointData);
   polyData->SetPointData(2, 9.9);
@@ -122,7 +122,7 @@ itkPolyDataTest(int, char *[])
   cellDataContainer->InsertElement(0, 2.0);
   cellDataContainer->InsertElement(1, 7.0);
   polyData->SetCellData(cellDataContainer);
-  double cellData;
+  double cellData{};
   polyData->GetCellData(1, &cellData);
   ITK_TEST_SET_GET_VALUE(7.0, cellData);
   polyData->SetCellData(2, 9.9);

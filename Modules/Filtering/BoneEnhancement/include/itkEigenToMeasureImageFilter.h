@@ -22,6 +22,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkSpatialObject.h"
+#include "itkSymmetricEigenAnalysis.h"
 
 namespace itk
 {
@@ -85,20 +86,8 @@ public:
   itkSetInputMacro(Mask, MaskSpatialObjectType);
   itkGetInputMacro(Mask, MaskSpatialObjectType);
 
-  /**\class EigenValueOrderEnum
-   * Template the EigenValueOrderEnum. Methods that inherit from this class can override this function
-   * to produce a different eigenvalue ordering. Ideally, the enum EigenValueOrderEnum should come from
-   * itkSymmetricEigenAnalysisImageFilter.h or itkSymmetricEigenAnalysis.h. That turns out to be non-trivial
-   * because the enumeration is hidden within the templated class. Therefore, you would need the hessian type
-   * and eigenvalue type to do such an operation. We do not necessarily have the hessian type information.
-   * \ingroup BoneEnhancement
-   */
-  enum class EigenValueOrderEnum : uint8_t
-  {
-    OrderByValue = 1,
-    OrderByMagnitude,
-    DoNotOrder
-  };
+  /** Eigenvalue ordering, shared with itkSymmetricEigenAnalysis.h. */
+  using EigenValueOrderEnum = SymmetricEigenAnalysisEnums::EigenValueOrder;
 /**Exposes enums values for backwards compatibility*/
 #if !defined(ITK_LEGACY_REMOVE)
   static constexpr EigenValueOrderEnum OrderByValue = EigenValueOrderEnum::OrderByValue;

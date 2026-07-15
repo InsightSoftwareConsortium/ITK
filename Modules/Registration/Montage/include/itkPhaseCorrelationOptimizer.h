@@ -22,6 +22,7 @@
 #include "itkNumericTraits.h"
 #include "itkProcessObject.h"
 #include "itkSimpleDataObjectDecorator.h"
+#include <array>
 #include <vector>
 #include "MontageExport.h"
 #include "itkNMinimaMaximaImageCalculator.h"
@@ -51,17 +52,16 @@ public:
   };
 
   // For iteration
-  static const std::initializer_list<PeakInterpolationMethod>
+  static constexpr auto
   AllPeakInterpolationMethods()
   {
-    static constexpr std::initializer_list<PeakInterpolationMethod> methods{
+    return std::array{
       PeakInterpolationMethod::None,
       PeakInterpolationMethod::Parabolic,
       PeakInterpolationMethod::Cosine,
       PeakInterpolationMethod::WeightedMeanPhase,
       // PeakInterpolationMethod::PhaseFrequencySlope
     };
-    return methods;
   }
 };
 

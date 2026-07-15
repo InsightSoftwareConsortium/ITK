@@ -276,7 +276,8 @@ LandmarkRegistrationEstimator<Dimension, TTransform>::SetAgreeData(std::vector<P
 template <unsigned int Dimension, typename TTransform>
 bool
 LandmarkRegistrationEstimator<Dimension, TTransform>::CheckCorresspondenceEdgeLength(
-  std::vector<double> &                     parameters,
+  // Unused by this estimator; part of the polymorphic ParametersEstimator interface.
+  [[maybe_unused]] std::vector<double> &    parameters,
   std::vector<Point<double, Dimension> *> & data,
   double                                    inputEdgeLength)
 {

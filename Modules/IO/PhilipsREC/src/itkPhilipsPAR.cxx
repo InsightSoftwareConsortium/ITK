@@ -539,16 +539,16 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
     {
       // Start at line 12 and work through PAR file.
       // Line numbers are hard-coded on purpose.
-      strncpy(pPar->patient_name, this->GetGeneralInfoString(parFile, 12).c_str(), sizeof(pPar->patient_name));
-      strncpy(pPar->exam_name, this->GetGeneralInfoString(parFile, 13).c_str(), sizeof(pPar->exam_name));
-      strncpy(pPar->protocol_name, this->GetGeneralInfoString(parFile, 14).c_str(), sizeof(pPar->protocol_name));
+      strncpy(pPar->patient_name, this->GetGeneralInfoString(parFile, 12).c_str(), sizeof(pPar->patient_name) - 1);
+      strncpy(pPar->exam_name, this->GetGeneralInfoString(parFile, 13).c_str(), sizeof(pPar->exam_name) - 1);
+      strncpy(pPar->protocol_name, this->GetGeneralInfoString(parFile, 14).c_str(), sizeof(pPar->protocol_name) - 1);
       strncpy(pPar->exam_date,
               this->GetGeneralInfoString(parFile, 15).c_str(),
               this->GetGeneralInfoString(parFile, 15).find('/'));
       strncpy(
         pPar->exam_time,
         this->GetGeneralInfoString(parFile, 15).substr(this->GetGeneralInfoString(parFile, 15).find('/') + 1).c_str(),
-        sizeof(pPar->exam_time));
+        sizeof(pPar->exam_time) - 1);
       inString.str(this->GetGeneralInfoString(parFile, 16));
       inString >> pPar->scno;
       inString.clear();
@@ -576,8 +576,8 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
       inString.str(this->GetGeneralInfoString(parFile, 24));
       inString >> pPar->bit;
       inString.clear();
-      strncpy(pPar->technique, this->GetGeneralInfoString(parFile, 25).c_str(), sizeof(pPar->technique));
-      strncpy(pPar->scan_mode, this->GetGeneralInfoString(parFile, 26).c_str(), sizeof(pPar->scan_mode));
+      strncpy(pPar->technique, this->GetGeneralInfoString(parFile, 25).c_str(), sizeof(pPar->technique) - 1);
+      strncpy(pPar->scan_mode, this->GetGeneralInfoString(parFile, 26).c_str(), sizeof(pPar->scan_mode) - 1);
       inString.str(this->GetGeneralInfoString(parFile, 27));
       inString >> pPar->scan_resolution[0];
       inString >> pPar->scan_resolution[1];
@@ -1031,17 +1031,17 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
     {
       // Start at line 12 and work through PAR file.
       // Line numbers are hard-coded on purpose.
-      strncpy(pPar->patient_name, this->GetGeneralInfoString(parFile, 12).c_str(), sizeof(pPar->patient_name));
-      strncpy(pPar->exam_name, this->GetGeneralInfoString(parFile, 13).c_str(), sizeof(pPar->exam_name));
-      strncpy(pPar->protocol_name, this->GetGeneralInfoString(parFile, 14).c_str(), sizeof(pPar->protocol_name));
+      strncpy(pPar->patient_name, this->GetGeneralInfoString(parFile, 12).c_str(), sizeof(pPar->patient_name) - 1);
+      strncpy(pPar->exam_name, this->GetGeneralInfoString(parFile, 13).c_str(), sizeof(pPar->exam_name) - 1);
+      strncpy(pPar->protocol_name, this->GetGeneralInfoString(parFile, 14).c_str(), sizeof(pPar->protocol_name) - 1);
       strncpy(pPar->exam_date,
               this->GetGeneralInfoString(parFile, 15).c_str(),
               this->GetGeneralInfoString(parFile, 15).find('/'));
       strncpy(
         pPar->exam_time,
         this->GetGeneralInfoString(parFile, 15).substr(this->GetGeneralInfoString(parFile, 15).find('/') + 1).c_str(),
-        sizeof(pPar->exam_time));
-      strncpy(pPar->series_type, this->GetGeneralInfoString(parFile, 16).c_str(), sizeof(pPar->series_type));
+        sizeof(pPar->exam_time) - 1);
+      strncpy(pPar->series_type, this->GetGeneralInfoString(parFile, 16).c_str(), sizeof(pPar->series_type) - 1);
       inString.str(this->GetGeneralInfoString(parFile, 17));
       inString >> pPar->scno;
       inString.clear();
@@ -1066,9 +1066,10 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
       inString.str(this->GetGeneralInfoString(parFile, 24));
       inString >> pPar->mixes;
       inString.clear();
-      strncpy(pPar->patient_position, this->GetGeneralInfoString(parFile, 25).c_str(), sizeof(pPar->patient_position));
-      strncpy(pPar->prep_direction, this->GetGeneralInfoString(parFile, 26).c_str(), sizeof(pPar->prep_direction));
-      strncpy(pPar->technique, this->GetGeneralInfoString(parFile, 27).c_str(), sizeof(pPar->technique));
+      strncpy(
+        pPar->patient_position, this->GetGeneralInfoString(parFile, 25).c_str(), sizeof(pPar->patient_position) - 1);
+      strncpy(pPar->prep_direction, this->GetGeneralInfoString(parFile, 26).c_str(), sizeof(pPar->prep_direction) - 1);
+      strncpy(pPar->technique, this->GetGeneralInfoString(parFile, 27).c_str(), sizeof(pPar->technique) - 1);
       inString.str(this->GetGeneralInfoString(parFile, 28));
       inString >> pPar->scan_resolution[0];
       inString >> pPar->scan_resolution[1];
@@ -1087,7 +1088,7 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
         inString >> pPar->repetition_time[repTime];
       }
       inString.clear();
-      struct image_info_defV4 tempInfo;
+      struct image_info_defV4 tempInfo{};
       switch (pPar->ResToolsVersion)
       {
         case RESEARCH_IMAGE_EXPORT_TOOL_V4:
@@ -1214,7 +1215,7 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
         int                     lineIncrement = 92;
         int                     echoIndex = 0;
         int                     cardiacIndex = 0;
-        struct image_info_defV4 tempInfo1;
+        struct image_info_defV4 tempInfo1{};
         switch (pPar->ResToolsVersion)
         {
           case RESEARCH_IMAGE_EXPORT_TOOL_V4:
