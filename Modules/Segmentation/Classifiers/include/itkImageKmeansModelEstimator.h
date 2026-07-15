@@ -19,9 +19,6 @@
 #define itkImageKmeansModelEstimator_h
 
 #include <ctime>
-#if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
-#  include "vnl/algo/vnl_matrix_inverse.h" // transitional transitive include; dropped on ITK legacy removal
-#endif
 #include <cmath>
 #include <cfloat>
 
@@ -31,6 +28,9 @@
 
 #include "itkImageRegionIterator.h"
 #include "itkMacro.h"
+#if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
+#  include "vnl/algo/vnl_matrix_inverse.h" // transitional transitive include; dropped on ITK legacy removal
+#endif
 
 #include "itkImageModelEstimatorBase.h"
 
