@@ -1047,6 +1047,7 @@ set(
   itkImageFileReaderGTest1.cxx
   itkImageIOBaseGTest.cxx
   itkImageIOFileNameExtensionsGTests.cxx
+  itkImageSeriesReaderOriginOverrideGTest.cxx
   itkNumericSeriesFileNamesGTest.cxx
   itkWriteImageFunctionGTest.cxx
 )
