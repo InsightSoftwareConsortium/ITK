@@ -216,10 +216,18 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   if (m_Layout[OutputImageDimension - 1] == 0)
   {
-    int used = 1;
+    // SizeValueType (64-bit on most platforms), not int: the product of the
+    // other axes' layout counts can exceed INT_MAX, and computing it in a
+    // 32-bit int can wrap to 0, turning the division below into a
+    // division-by-zero (SIGFPE on architectures whose idiv traps).
+    SizeValueType used = 1;
     for (unsigned int d = 0; d < OutputImageDimension - 1; ++d)
     {
       used *= m_Layout[d];
+    }
+    if (used == 0)
+    {
+      itkExceptionMacro("Layout has a zero entry on a non-last axis; only the last axis may be zero (auto-sized).");
     }
     outputSize[OutputImageDimension - 1] =
       (static_cast<SizeValueType>(this->GetNumberOfIndexedInputs()) - 1) / used + 1;
