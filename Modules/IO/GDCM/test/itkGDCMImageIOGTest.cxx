@@ -18,12 +18,19 @@
 
 #include "itkImage.h"
 #include "itkImageFileWriter.h"
+#include "itkImageFileReader.h"
 #include "itkGDCMImageIO.h"
 #include "itkGDCMSeriesFileNames.h"
 #include "itkMetaDataObject.h"
 #include "itkGTest.h"
 #include "itksys/SystemTools.hxx"
 #include "itkImageSeriesReader.h"
+#include "gdcmReader.h"
+#include "gdcmWriter.h"
+#include "gdcmAttribute.h"
+#include "gdcmDataSet.h"
+#include "gdcmDataElement.h"
+#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -39,6 +46,10 @@ struct ITKGDCMImageIO : public ::testing::Test
   void
   SetUp() override
   {
+    // Concurrently-run tests must not share a scratch directory: one test's
+    // TearDown would remove the directory another test is still writing into.
+    const auto * info = ::testing::UnitTest::GetInstance()->current_test_info();
+    m_TempDir = TOSTRING(ITK_TEST_OUTPUT_DIR) + "/ITKGDCMImageIO_" + info->name();
     itksys::SystemTools::MakeDirectory(m_TempDir);
   }
 
@@ -48,7 +59,7 @@ struct ITKGDCMImageIO : public ::testing::Test
     itksys::SystemTools::RemoveADirectory(m_TempDir);
   }
 
-  const std::string m_TempDir{ TOSTRING(ITK_TEST_OUTPUT_DIR) + "/ITKGDCMImageIO" };
+  std::string       m_TempDir;
   const std::string m_DicomSeriesInput{ TOSTRING(DICOM_SERIES_INPUT) };
 };
 
@@ -151,6 +162,146 @@ private:
     }
   }
 };
+
+std::vector<uint8_t>
+PackRowPaddedBits(const std::vector<uint8_t> & pixels, size_t width, size_t height)
+{
+  const size_t         bytesPerRow = (width + 7) / 8;
+  std::vector<uint8_t> packed(bytesPerRow * height, 0);
+  for (size_t row = 0; row < height; ++row)
+  {
+    for (size_t col = 0; col < width; ++col)
+    {
+      if (pixels[(row * width) + col] != 0)
+      {
+        packed[(row * bytesPerRow) + (col / 8)] |= static_cast<uint8_t>(1u << (col % 8));
+      }
+    }
+  }
+  return packed;
+}
+
+std::string
+WriteSingleBitDicom(const std::string & dir, size_t width, size_t height, const std::vector<uint8_t> & pixels)
+{
+  using ImageType = itk::Image<unsigned char, 2>;
+  auto                image = ImageType::New();
+  ImageType::SizeType size{ { static_cast<itk::SizeValueType>(width), static_cast<itk::SizeValueType>(height) } };
+  image->SetRegions(ImageType::RegionType(size));
+  image->Allocate();
+  image->FillBuffer(0);
+
+  auto & dict = image->GetMetaDataDictionary();
+  itk::EncapsulateMetaData<std::string>(dict, "0008|0060", "OT");
+  itk::EncapsulateMetaData<std::string>(dict, "0010|0010", "Test^Patient");
+  itk::EncapsulateMetaData<std::string>(dict, "0010|0020", "12345");
+
+  auto gdcmIO = itk::GDCMImageIO::New();
+  auto writer = itk::ImageFileWriter<ImageType>::New();
+  writer->SetImageIO(gdcmIO);
+  writer->SetInput(image);
+  const std::string basePath = dir + "/singlebit_base.dcm";
+  writer->SetFileName(basePath);
+  writer->Update();
+
+  gdcm::Reader reader;
+  reader.SetFileName(basePath.c_str());
+  if (!reader.Read())
+  {
+    return {};
+  }
+  gdcm::DataSet & ds = reader.GetFile().GetDataSet();
+
+  gdcm::Attribute<0x0028, 0x0002> samplesPerPixel;
+  samplesPerPixel.SetValue(1);
+  ds.Replace(samplesPerPixel.GetAsDataElement());
+
+  gdcm::Attribute<0x0028, 0x0100> bitsAllocated;
+  bitsAllocated.SetValue(1);
+  ds.Replace(bitsAllocated.GetAsDataElement());
+
+  gdcm::Attribute<0x0028, 0x0101> bitsStored;
+  bitsStored.SetValue(1);
+  ds.Replace(bitsStored.GetAsDataElement());
+
+  gdcm::Attribute<0x0028, 0x0102> highBit;
+  highBit.SetValue(0);
+  ds.Replace(highBit.GetAsDataElement());
+
+  gdcm::Attribute<0x0028, 0x0103> pixelRepresentation;
+  pixelRepresentation.SetValue(0);
+  ds.Replace(pixelRepresentation.GetAsDataElement());
+
+  const std::vector<uint8_t> packed = PackRowPaddedBits(pixels, width, height);
+  gdcm::DataElement          pixelData{ gdcm::Tag(0x7fe0, 0x0010) };
+  pixelData.SetVR(gdcm::VR::OB);
+  pixelData.SetByteValue(reinterpret_cast<const char *>(packed.data()), static_cast<uint32_t>(packed.size()));
+  ds.Replace(pixelData);
+
+  const std::string outPath = dir + "/singlebit.dcm";
+  gdcm::Writer      gdcmWriter;
+  gdcmWriter.SetFileName(outPath.c_str());
+  gdcmWriter.SetFile(reader.GetFile());
+  if (!gdcmWriter.Write())
+  {
+    return {};
+  }
+  return outPath;
+}
+
+std::string
+WriteHardcopyDicomWithSingleValuePixelSpacing(const std::string & dir)
+{
+  using ImageType = itk::Image<unsigned char, 2>;
+  auto                image = ImageType::New();
+  ImageType::SizeType size{ { 4, 4 } };
+  image->SetRegions(ImageType::RegionType(size));
+  image->Allocate();
+  image->FillBuffer(0);
+
+  auto & dict = image->GetMetaDataDictionary();
+  itk::EncapsulateMetaData<std::string>(dict, "0008|0060", "OT");
+  itk::EncapsulateMetaData<std::string>(dict, "0010|0010", "Test^Patient");
+  itk::EncapsulateMetaData<std::string>(dict, "0010|0020", "12345");
+
+  auto gdcmIO = itk::GDCMImageIO::New();
+  auto writer = itk::ImageFileWriter<ImageType>::New();
+  writer->SetImageIO(gdcmIO);
+  writer->SetInput(image);
+  const std::string basePath = dir + "/pixelspacing_base.dcm";
+  writer->SetFileName(basePath);
+  writer->Update();
+
+  gdcm::Reader reader;
+  reader.SetFileName(basePath.c_str());
+  if (!reader.Read())
+  {
+    return {};
+  }
+  gdcm::DataSet & ds = reader.GetFile().GetDataSet();
+
+  const std::string sopClassUIDValue = "1.2.840.10008.5.1.1.29"; // HardcopyGrayscaleImageStorage
+  gdcm::DataElement sopClassUID{ gdcm::Tag(0x0008, 0x0016) };
+  sopClassUID.SetVR(gdcm::VR::UI);
+  sopClassUID.SetByteValue(sopClassUIDValue.c_str(), static_cast<uint32_t>(sopClassUIDValue.size()));
+  ds.Replace(sopClassUID);
+
+  const std::string pixelSpacingValue = "0.5 "; // single value, no second component
+  gdcm::DataElement pixelSpacing{ gdcm::Tag(0x0028, 0x0030) };
+  pixelSpacing.SetVR(gdcm::VR::DS);
+  pixelSpacing.SetByteValue(pixelSpacingValue.c_str(), static_cast<uint32_t>(pixelSpacingValue.size()));
+  ds.Replace(pixelSpacing);
+
+  const std::string outPath = dir + "/pixelspacing.dcm";
+  gdcm::Writer      gdcmWriter;
+  gdcmWriter.SetFileName(outPath.c_str());
+  gdcmWriter.SetFile(reader.GetFile());
+  if (!gdcmWriter.Write())
+  {
+    return {};
+  }
+  return outPath;
+}
 
 } // namespace
 
@@ -336,4 +487,47 @@ TEST_F(ITKGDCMSeriesTestData, ReadSeriesBottomToTop)
   EXPECT_GT(image2->GetSpacing()[2], 0.0);
   // and the direction should have a positive Z component
   EXPECT_GT(image2->GetDirection()[2][2], 0.0);
+}
+
+TEST_F(ITKGDCMImageIO, SingleBitRowsRespectBytePadding)
+{
+  constexpr size_t           width = 10;
+  constexpr size_t           height = 4;
+  const std::vector<uint8_t> pixels(width * height, 1);
+
+  const std::string path = WriteSingleBitDicom(m_TempDir, width, height, pixels);
+  ASSERT_FALSE(path.empty());
+
+  using ImageType = itk::Image<unsigned char, 2>;
+  auto reader = itk::ImageFileReader<ImageType>::New();
+  reader->SetImageIO(itk::GDCMImageIO::New());
+  reader->SetFileName(path);
+  ASSERT_NO_THROW(reader->Update());
+
+  const ImageType::Pointer image = reader->GetOutput();
+  for (size_t row = 0; row < height; ++row)
+  {
+    for (size_t col = 0; col < width; ++col)
+    {
+      const ImageType::IndexType idx{ { static_cast<itk::IndexValueType>(col),
+                                        static_cast<itk::IndexValueType>(row) } };
+      EXPECT_EQ(image->GetPixel(idx), 255) << "row " << row << " col " << col;
+    }
+  }
+}
+
+TEST_F(ITKGDCMImageIO, SingleValuePixelSpacingIsIsotropic)
+{
+  const std::string path = WriteHardcopyDicomWithSingleValuePixelSpacing(m_TempDir);
+  ASSERT_FALSE(path.empty());
+
+  using ImageType = itk::Image<unsigned char, 2>;
+  auto reader = itk::ImageFileReader<ImageType>::New();
+  reader->SetImageIO(itk::GDCMImageIO::New());
+  reader->SetFileName(path);
+  ASSERT_NO_THROW(reader->Update());
+
+  const ImageType::Pointer image = reader->GetOutput();
+  EXPECT_DOUBLE_EQ(image->GetSpacing()[0], 0.5);
+  EXPECT_DOUBLE_EQ(image->GetSpacing()[1], 0.5);
 }
