@@ -13,8 +13,10 @@ itk_module(
   PRIVATE_DEPENDS
     ITKHDF5
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKImageSources
+    ITKHDF5
   FACTORY_NAMES
     ImageIO::HDF5
   DESCRIPTION "${DOCUMENTATION}"
