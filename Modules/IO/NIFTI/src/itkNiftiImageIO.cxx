@@ -377,44 +377,49 @@ NiftiImageIO::Read(void * buffer)
   // ImageFileReader, we have to up-promote the data to float
   // before doing the rescale.
   //
+  // NIfTI fuses COMPLEX/RGB/RGBA (and scalar) into one element; vectors split by component.
+  const bool packedPixel = numComponents == 1 || this->GetPixelType() == IOPixelEnum::COMPLEX ||
+                           this->GetPixelType() == IOPixelEnum::RGB || this->GetPixelType() == IOPixelEnum::RGBA;
   if (this->MustRescale() && this->m_ComponentType != this->m_OnDiskComponentType)
   {
-    pixelSize = static_cast<unsigned int>(this->GetNumberOfComponents()) * static_cast<unsigned int>(sizeof(float));
+    pixelSize = static_cast<unsigned int>(sizeof(float)) * (packedPixel ? numComponents : 1);
 
+    // numElts is a voxel count; casting must cover every component of every voxel.
+    const size_t numComponentValues = numElts * numComponents;
     // allocate new buffer for floats. Malloc instead of new to
     // be consistent with allocation used in niftilib
-    auto * _data = static_cast<float *>(malloc(numElts * sizeof(float)));
+    auto * _data = static_cast<float *>(malloc(numComponentValues * sizeof(float)));
     switch (this->m_OnDiskComponentType)
     {
       case IOComponentEnum::SCHAR:
-        CastCopy<char>(_data, data, numElts);
+        CastCopy<char>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::UCHAR:
-        CastCopy<unsigned char>(_data, data, numElts);
+        CastCopy<unsigned char>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::SHORT:
-        CastCopy<short>(_data, data, numElts);
+        CastCopy<short>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::USHORT:
-        CastCopy<unsigned short>(_data, data, numElts);
+        CastCopy<unsigned short>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::INT:
-        CastCopy<int>(_data, data, numElts);
+        CastCopy<int>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::UINT:
-        CastCopy<unsigned int>(_data, data, numElts);
+        CastCopy<unsigned int>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::LONG:
-        CastCopy<long>(_data, data, numElts);
+        CastCopy<long>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::ULONG:
-        CastCopy<unsigned long>(_data, data, numElts);
+        CastCopy<unsigned long>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::LONGLONG:
-        CastCopy<long long>(_data, data, numElts);
+        CastCopy<long long>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::ULONGLONG:
-        CastCopy<unsigned long long>(_data, data, numElts);
+        CastCopy<unsigned long long>(_data, data, numComponentValues);
         break;
       case IOComponentEnum::FLOAT:
         itkExceptionStringMacro("FLOAT pixels do not need Casting to float");
@@ -436,8 +441,7 @@ NiftiImageIO::Read(void * buffer)
   }
   //
   // if single or complex, nifti layout == itk layout
-  if (numComponents == 1 || this->GetPixelType() == IOPixelEnum::COMPLEX || this->GetPixelType() == IOPixelEnum::RGB ||
-      this->GetPixelType() == IOPixelEnum::RGBA)
+  if (packedPixel)
   {
     const size_t NumBytes = numElts * pixelSize;
     memcpy(buffer, data, NumBytes);
@@ -516,41 +520,60 @@ NiftiImageIO::Read(void * buffer)
     switch (this->m_ComponentType)
     {
       case IOComponentEnum::SCHAR:
-        RescaleFunction(static_cast<char *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(
+          static_cast<char *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts * numComponents);
         break;
       case IOComponentEnum::UCHAR:
-        RescaleFunction(static_cast<unsigned char *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(static_cast<unsigned char *>(buffer),
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,
+                        numElts * numComponents);
         break;
       case IOComponentEnum::SHORT:
-        RescaleFunction(static_cast<short *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(
+          static_cast<short *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts * numComponents);
         break;
       case IOComponentEnum::USHORT:
-        RescaleFunction(static_cast<unsigned short *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(static_cast<unsigned short *>(buffer),
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,
+                        numElts * numComponents);
         break;
       case IOComponentEnum::INT:
-        RescaleFunction(static_cast<int *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(
+          static_cast<int *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts * numComponents);
         break;
       case IOComponentEnum::UINT:
-        RescaleFunction(static_cast<unsigned int *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(
+          static_cast<unsigned int *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts * numComponents);
         break;
       case IOComponentEnum::LONG:
-        RescaleFunction(static_cast<long *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(
+          static_cast<long *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts * numComponents);
         break;
       case IOComponentEnum::ULONG:
-        RescaleFunction(static_cast<unsigned long *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(static_cast<unsigned long *>(buffer),
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,
+                        numElts * numComponents);
         break;
       case IOComponentEnum::LONGLONG:
-        RescaleFunction(static_cast<long long *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(
+          static_cast<long long *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts * numComponents);
         break;
       case IOComponentEnum::ULONGLONG:
-        RescaleFunction(
-          static_cast<unsigned long long *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(static_cast<unsigned long long *>(buffer),
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept,
+                        numElts * numComponents);
         break;
       case IOComponentEnum::FLOAT:
-        RescaleFunction(static_cast<float *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(
+          static_cast<float *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts * numComponents);
         break;
       case IOComponentEnum::DOUBLE:
-        RescaleFunction(static_cast<double *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
+        RescaleFunction(
+          static_cast<double *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts * numComponents);
         break;
       default:
         if (this->GetPixelType() == IOPixelEnum::SCALAR)
@@ -563,7 +586,8 @@ NiftiImageIO::Read(void * buffer)
 
   if (this->m_ConvertRAS)
   {
-    if (this->GetPixelType() != IOPixelEnum::VECTOR && this->GetPixelType() != IOPixelEnum::POINT)
+    if ((this->GetPixelType() != IOPixelEnum::VECTOR && this->GetPixelType() != IOPixelEnum::POINT) ||
+        numComponents != 3)
     {
       itkExceptionMacro("RAS conversion requires pixel to be 3-component vector or point. Current pixel type is "
                         << numComponents << "-component " << this->GetPixelType() << '.');
@@ -935,7 +959,12 @@ NiftiImageIO::ReadImageInformation()
       break;
     case NIFTI_INTENT_DISPVECT:
       this->SetPixelType(IOPixelEnum::VECTOR);
-      this->m_ConvertRAS = m_ConvertRASDisplacementVectors;
+      // m_ConvertRASDisplacementVectors defaults to true, so this would
+      // otherwise auto-enable RAS conversion for any displacement field
+      // regardless of component count. A 2-D displacement field (a common,
+      // legitimate layout) has 2 components; the RAS<->LPS sign flip only
+      // applies to 3-component data, so only enable it when it can apply.
+      this->m_ConvertRAS = m_ConvertRASDisplacementVectors && (this->GetNumberOfComponents() == 3);
       break;
     case NIFTI_INTENT_VECTOR:
       this->SetPixelType(IOPixelEnum::VECTOR);
@@ -1496,9 +1525,14 @@ NiftiImageIO::WriteImageInformation()
     }
   }
 
-  // Enable RAS conversion based on metadata and flags
+  // Enable RAS conversion based on metadata and flags. The DISPVECT term is
+  // additionally gated on component count: m_ConvertRASDisplacementVectors
+  // defaults to true, so without this a legitimate 2-D displacement field
+  // (2 components) would auto-enable a conversion that only applies to
+  // 3-component data.
   this->m_ConvertRAS = (m_ConvertRASVectors && m_Holder->ptr->intent_code == NIFTI_INTENT_VECTOR) ||
-                       (m_ConvertRASDisplacementVectors && m_Holder->ptr->intent_code == NIFTI_INTENT_DISPVECT);
+                       (m_ConvertRASDisplacementVectors && m_Holder->ptr->intent_code == NIFTI_INTENT_DISPVECT &&
+                        this->GetNumberOfComponents() == 3);
 }
 
 namespace
@@ -2173,9 +2207,14 @@ NiftiImageIO::Write(const void * buffer)
       }
     }
 
+    // vecOrder is not used past this point; free it before any RAS-conversion
+    // exception below so it cannot leak on the throw path.
+    delete[] vecOrder;
+
     if (this->m_ConvertRAS)
     {
-      if (this->GetPixelType() != IOPixelEnum::VECTOR && this->GetPixelType() != IOPixelEnum::POINT)
+      if ((this->GetPixelType() != IOPixelEnum::VECTOR && this->GetPixelType() != IOPixelEnum::POINT) ||
+          numComponents != 3)
       {
         itkExceptionMacro("RAS conversion requires pixel to be 3-component vector or point. Current pixel type is "
                           << numComponents << "-component " << this->GetPixelType() << '.');
@@ -2194,7 +2233,6 @@ NiftiImageIO::Write(const void * buffer)
       }
     }
 
-    delete[] vecOrder;
     // Need a const cast here so that we don't have to copy the memory for
     // writing.
     m_Holder->ptr->data = static_cast<void *>(nifti_buf.get());

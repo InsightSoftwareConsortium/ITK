@@ -13,6 +13,7 @@ itk_module(
     ITKTransform
     ITKNIFTI
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKNIFTI
     ITKTransform

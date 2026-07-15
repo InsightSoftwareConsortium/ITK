@@ -323,3 +323,11 @@ itk_add_test(
     itkNiftiWriteCoerceOrthogonalDirectionTest
     ${ITK_TEST_OUTPUT_DIR}
 )
+
+set(ITKIONIFTIGTests itkNiftiImageIOGTest.cxx)
+creategoogletestdriver(ITKIONIFTI "${ITKIONIFTI-Test_LIBRARIES}" "${ITKIONIFTIGTests}")
+target_compile_definitions(
+  ITKIONIFTIGTestDriver
+  PRIVATE
+    "ITK_TEST_OUTPUT_DIR=${ITK_TEST_OUTPUT_DIR}"
+)
