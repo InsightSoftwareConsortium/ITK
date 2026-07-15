@@ -142,6 +142,9 @@ protected:
   int  m_CurrentDimension;
   bool m_FirstPassDone;
 
+  // last dimension index with m_Scale > 0; the erosion output commits here
+  int m_LastActiveDimension{ 0 };
+
   // this is the first non-zero entry in the radius. Needed to
   // support elliptical operations
   RealType m_BaseSigma;

@@ -100,7 +100,7 @@ LabelSetErodeImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
     // RealType magnitude = 1.0/(2.0 * m_Scale[0]);
     unsigned long LineLength = region.GetSize()[this->m_CurrentDimension];
     RealType      image_scale = this->GetInput()->GetSpacing()[this->m_CurrentDimension];
-    bool          lastpass = (this->m_CurrentDimension == ImageDimension - 1);
+    bool          lastpass = (this->m_CurrentDimension == this->m_LastActiveDimension);
 
     if (!this->m_FirstPassDone)
     {

@@ -181,19 +181,50 @@ LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::GenerateData(
   // Subsequent non zero values are scaled by the first non zero
   // value to support elliptical operations.
   // The first value needs to be recorded for use by the erosion operation.
+  //
+  // Keyed on m_Scale (not m_Radius): with UseImageSpacing()==false the "+1"
+  // margin means a zero radius still yields a positive scale, so the two
+  // conditions diverge and only m_Scale reflects which axis actually runs
+  // a pass.
   unsigned firstval = 0;
+  bool     firstValFound = false;
   for (unsigned P = 0; P < InputImageType::ImageDimension; P++)
   {
-    if (m_Radius[P] != 0)
+    if (m_Scale[P] > 0)
     {
       firstval = P;
+      firstValFound = true;
       break;
     }
   }
-  m_BaseSigma = m_Scale[firstval];
-  for (unsigned P = firstval + 1; P < InputImageType::ImageDimension; P++)
+  m_BaseSigma = firstValFound ? m_Scale[firstval] : 0;
+  if (firstValFound)
   {
-    m_Scale[P] = m_Scale[P] / m_Scale[firstval];
+    for (unsigned P = firstval + 1; P < InputImageType::ImageDimension; P++)
+    {
+      m_Scale[P] = m_Scale[P] / m_Scale[firstval];
+    }
+  }
+
+  m_LastActiveDimension = 0;
+  for (unsigned P = 0; P < InputImageType::ImageDimension; P++)
+  {
+    if (m_Scale[P] > 0)
+    {
+      m_LastActiveDimension = static_cast<int>(P);
+    }
+  }
+
+  if (!firstValFound)
+  {
+    // no axis pass will run at all, so output stays as AllocateOutputs left it unless seeded here
+    ImageRegionConstIterator<TInputImage> identityInputIt(inputImage, outputImage->GetRequestedRegion());
+    ImageRegionIterator<TOutputImage>     identityOutputIt(outputImage, outputImage->GetRequestedRegion());
+    for (identityInputIt.GoToBegin(), identityOutputIt.GoToBegin(); !identityInputIt.IsAtEnd();
+         ++identityInputIt, ++identityOutputIt)
+    {
+      identityOutputIt.Set(static_cast<OutputPixelType>(identityInputIt.Get()));
+    }
   }
 
   m_FirstPassDone = false;

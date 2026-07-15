@@ -14,6 +14,7 @@ itk_module(
     ITKImageGrid
     ITKTestKernel
     ITKSmoothing
+    ITKGoogleTest
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "${DOCUMENTATION}"
 )
