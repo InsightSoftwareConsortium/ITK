@@ -623,7 +623,7 @@ public:
     {
       m_Identifiers[m_FarthestNeighborIndex] = id;
       m_Distances[m_FarthestNeighborIndex] = distance;
-      double     farthestDistance = NumericTraits<double>::min();
+      double     farthestDistance = NumericTraits<double>::NonpositiveMin();
       const auto size = static_cast<unsigned int>(m_Distances.size());
       for (unsigned int i = 0; i < size; ++i)
       {

@@ -35,8 +35,13 @@ public:
 
   Digitizer()
     : m_MaskValue(1)
-    , m_Min(NumericTraits<PixelType>::min())
-    , m_Max(NumericTraits<PixelType>::max())
+    // Halved so that m_Max - m_Min (computed in operator()) stays within the
+    // representable range: for PixelType == double, RealType is also double,
+    // so NonpositiveMin() and max() have no headroom left and their
+    // difference would overflow to +inf, silently mapping every pixel to
+    // bin 0.
+    , m_Min(NumericTraits<PixelType>::NonpositiveMin() / 2)
+    , m_Max(NumericTraits<PixelType>::max() / 2)
   {}
 
   Digitizer(unsigned int numberOfBinsPerAxis, MaskPixelType maskValue, PixelType min, PixelType max)

@@ -30,7 +30,7 @@ template <typename TInputImage, typename TOutputImage>
 ApproximateSignedDistanceMapImageFilter<TInputImage, TOutputImage>::ApproximateSignedDistanceMapImageFilter()
   : m_IsoContourFilter(IsoContourType::New())
   , m_ChamferFilter(ChamferType::New())
-  , m_InsideValue(NumericTraits<InputPixelType>::min())
+  , m_InsideValue(NumericTraits<InputPixelType>::NonpositiveMin())
   , m_OutsideValue(NumericTraits<InputPixelType>::max())
 {}
 

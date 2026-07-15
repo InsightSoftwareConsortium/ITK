@@ -226,6 +226,7 @@ itk_add_test(
 )
 set(
   ITKDistanceMapGTests
+  itkApproximateSignedDistanceMapImageFilterGTest.cxx
   itkContourDirectedMeanDistanceImageFilterGTest.cxx
   itkContourMeanDistanceImageFilterGTest.cxx
   itkDanielssonDistanceMapImageFilterGTest.cxx

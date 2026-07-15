@@ -976,6 +976,7 @@ set(
   ITKStatisticsGTests
   itkChiSquareDistributionGTest.cxx
   itkHistogramToTextureFeaturesFilterNaNGTest.cxx
+  itkKdTreeGTest.cxx
   itkMaximumDecisionRuleGTest.cxx
   itkMaximumRatioDecisionRuleGTest.cxx
   itkMembershipFunctionBaseGTest.cxx

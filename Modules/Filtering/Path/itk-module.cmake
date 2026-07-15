@@ -13,6 +13,7 @@ itk_module(
   COMPILE_DEPENDS
     ITKImageFunction
   TEST_DEPENDS
+    ITKGoogleTest
     ITKTestKernel
     ITKImageIntensity
     ITKSmoothing

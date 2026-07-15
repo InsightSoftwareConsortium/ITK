@@ -1088,7 +1088,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
 {
   // Determine the maximum spacing to set the background pixel values
   // outside the sparse field
-  float            maxSpacing = NumericTraits<float>::min();
+  float            maxSpacing = NumericTraits<float>::NonpositiveMin();
   InputSpacingType spacing = this->m_LevelSet[0]->GetSpacing();
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
