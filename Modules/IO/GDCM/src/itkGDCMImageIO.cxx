@@ -357,19 +357,21 @@ GDCMImageIO::Read(void * pointer)
 
   if (m_SingleBit)
   {
-    const auto   copy = make_unique_for_overwrite<unsigned char[]>(len);
-    const auto * t = reinterpret_cast<const unsigned char *>(pointer);
-    const size_t width = m_Dimensions[0];
-    const size_t bytesPerRow = (width + 7) / 8;
-    const size_t rowCount = len / width;
-    size_t       outIndex = 0;
-    for (size_t row = 0; row < rowCount; ++row)
+    const auto copy = make_unique_for_overwrite<unsigned char[]>(len);
+    auto *     t = reinterpret_cast<unsigned char *>(pointer);
+    size_t     j = 0;
+    for (size_t i = 0; i < len / 8; ++i)
     {
-      const unsigned char * rowBytes = t + (row * bytesPerRow);
-      for (size_t col = 0; col < width; ++col)
-      {
-        copy[outIndex++] = (rowBytes[col / 8] & (1 << (col % 8))) ? 255 : 0;
-      }
+      const unsigned char c = t[i];
+      copy[j + 0] = (c & 0x01) ? 255 : 0;
+      copy[j + 1] = (c & 0x02) ? 255 : 0;
+      copy[j + 2] = (c & 0x04) ? 255 : 0;
+      copy[j + 3] = (c & 0x08) ? 255 : 0;
+      copy[j + 4] = (c & 0x10) ? 255 : 0;
+      copy[j + 5] = (c & 0x20) ? 255 : 0;
+      copy[j + 6] = (c & 0x40) ? 255 : 0;
+      copy[j + 7] = (c & 0x80) ? 255 : 0;
+      j += 8;
     }
     memcpy(static_cast<char *>(pointer), copy.get(), len);
   }
@@ -671,18 +673,12 @@ GDCMImageIO::InternalReadImageInformation()
         // TODO throw an exception that VM is not compatible.
         m_El.SetLength(16);
         m_El.Read(m_Ss);
-        // GetValue(1) is uninitialized unless the tag carries a second backslash-separated value.
-        if (s.find('\\') != std::string::npos)
+        assert(m_El.GetLength() == 2);
+        for (unsigned long i = 0; i < m_El.GetLength(); ++i)
         {
-          sp.push_back(m_El.GetValue(0));
-          sp.push_back(m_El.GetValue(1));
-          std::swap(sp[0], sp[1]);
+          sp.push_back(m_El.GetValue(i));
         }
-        else
-        {
-          sp.push_back(m_El.GetValue(0));
-          sp.push_back(m_El.GetValue(0));
-        }
+        std::swap(sp[0], sp[1]);
         assert(sp.size() == 2);
         spacing[0] = sp[0];
         spacing[1] = sp[1];
