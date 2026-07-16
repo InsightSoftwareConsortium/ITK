@@ -117,10 +117,14 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::InitializeConf
 {
   const auto numberOfInputs = static_cast<const unsigned int>(this->GetNumberOfInputs());
 
-  using LabelVotingFilterType = LabelVotingImageFilter<TInputImage, TOutputImage>;
+  // The undecided sentinel (one past the last label) must be representable and distinct.
+  using VotingLabelType = typename NumericTraits<InputPixelType>::AccumulateType;
+  using VotingImageType = Image<VotingLabelType, ImageDimension>;
+  using LabelVotingFilterType = LabelVotingImageFilter<TInputImage, VotingImageType>;
   using LabelVotingFilterPointer = typename LabelVotingFilterType::Pointer;
 
-  typename OutputImageType::Pointer votingOutput;
+  typename VotingImageType::Pointer votingOutput;
+  VotingLabelType                   votingUndecidedLabel{};
 
   { // begin scope for local filter allocation
     const LabelVotingFilterPointer votingFilter = LabelVotingFilterType::New();
@@ -131,9 +135,11 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::InitializeConf
     }
     votingFilter->Update();
     votingOutput = votingFilter->GetOutput();
+    votingUndecidedLabel = votingFilter->GetLabelForUndecidedPixels();
   } // begin scope for local filter allocation; de-allocate filter
 
-  OutputIteratorType out(votingOutput, votingOutput->GetRequestedRegion());
+  using VotingIteratorType = ImageRegionConstIterator<VotingImageType>;
+  VotingIteratorType out(votingOutput, votingOutput->GetRequestedRegion());
 
   for (unsigned int k = 0; k < numberOfInputs; ++k)
   {
@@ -143,8 +149,7 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::InitializeConf
 
     for (out.GoToBegin(); !out.IsAtEnd(); ++out, ++in)
     {
-      // Voting-undecided pixels carry the label m_TotalLabelCount, one past the last matrix column.
-      if (static_cast<size_t>(out.Get()) < this->m_TotalLabelCount)
+      if (out.Get() != votingUndecidedLabel)
       {
         ++(this->m_ConfusionMatrixArray[k][in.Get()][out.Get()]);
       }
@@ -154,21 +159,22 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::InitializeConf
   // normalize matrix rows to unit probability sum
   for (unsigned int k = 0; k < numberOfInputs; ++k)
   {
-    for (InputPixelType inLabel = 0; inLabel < this->m_TotalLabelCount + 1; ++inLabel)
+    for (size_t inLabel = 0; inLabel < this->m_TotalLabelCount + 1; ++inLabel)
     {
+      const auto inRow = static_cast<unsigned int>(inLabel);
       // compute sum over all output labels for given input label
       WeightsType sum = 0;
-      for (OutputPixelType outLabel = 0; outLabel < this->m_TotalLabelCount; ++outLabel)
+      for (size_t outLabel = 0; outLabel < this->m_TotalLabelCount; ++outLabel)
       {
-        sum += this->m_ConfusionMatrixArray[k][inLabel][outLabel];
+        sum += this->m_ConfusionMatrixArray[k][inRow][outLabel];
       }
       // make sure that this input label did in fact show up in the input!!
       if (sum > 0)
       {
         // normalize
-        for (OutputPixelType outLabel = 0; outLabel < this->m_TotalLabelCount; ++outLabel)
+        for (size_t outLabel = 0; outLabel < this->m_TotalLabelCount; ++outLabel)
         {
-          this->m_ConfusionMatrixArray[k][inLabel][outLabel] /= sum;
+          this->m_ConfusionMatrixArray[k][inRow][outLabel] /= sum;
         }
       }
     }
@@ -205,11 +211,11 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::InitializePrio
     }
 
     WeightsType totalProbMass = 0.0;
-    for (InputPixelType l = 0; l < this->m_TotalLabelCount; ++l)
+    for (size_t l = 0; l < this->m_TotalLabelCount; ++l)
     {
       totalProbMass += this->m_PriorProbabilities[l];
     }
-    for (InputPixelType l = 0; l < this->m_TotalLabelCount; ++l)
+    for (size_t l = 0; l < this->m_TotalLabelCount; ++l)
     {
       this->m_PriorProbabilities[l] /= totalProbMass;
     }
@@ -225,7 +231,7 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
 
   if (!this->m_HasLabelForUndecidedPixels)
   {
-    if (this->m_TotalLabelCount > itk::NumericTraits<OutputPixelType>::max())
+    if (this->m_TotalLabelCount > static_cast<size_t>(NumericTraits<OutputPixelType>::max()))
     {
       itkExceptionMacro(
         "No label available for undecided pixels: total label count ("
@@ -281,14 +287,14 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
     while (!it[0].IsAtEnd())
     {
       // the following is the E step
-      for (OutputPixelType ci = 0; ci < this->m_TotalLabelCount; ++ci)
+      for (size_t ci = 0; ci < this->m_TotalLabelCount; ++ci)
       {
         W[ci] = this->m_PriorProbabilities[ci];
       }
       for (unsigned int k = 0; k < numberOfInputs; ++k)
       {
         const InputPixelType j = it[k].Get();
-        for (OutputPixelType ci = 0; ci < this->m_TotalLabelCount; ++ci)
+        for (size_t ci = 0; ci < this->m_TotalLabelCount; ++ci)
         {
           W[ci] *= this->m_ConfusionMatrixArray[k][j][ci];
         }
@@ -296,14 +302,14 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
 
       // the following is the M step
       WeightsType sumW = W[0];
-      for (OutputPixelType ci = 1; ci < this->m_TotalLabelCount; ++ci)
+      for (size_t ci = 1; ci < this->m_TotalLabelCount; ++ci)
       {
         sumW += W[ci];
       }
 
       if (sumW)
       {
-        for (OutputPixelType ci = 0; ci < this->m_TotalLabelCount; ++ci)
+        for (size_t ci = 0; ci < this->m_TotalLabelCount; ++ci)
         {
           W[ci] /= sumW;
         }
@@ -312,7 +318,7 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
       for (unsigned int k = 0; k < numberOfInputs; ++k)
       {
         const InputPixelType j = it[k].Get();
-        for (OutputPixelType ci = 0; ci < this->m_TotalLabelCount; ++ci)
+        for (size_t ci = 0; ci < this->m_TotalLabelCount; ++ci)
         {
           this->m_UpdatedConfusionMatrixArray[k][j][ci] += W[ci];
         }
@@ -327,20 +333,20 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
     for (unsigned int k = 0; k < numberOfInputs; ++k)
     {
       // compute sum over all output classifications
-      for (OutputPixelType ci = 0; ci < this->m_TotalLabelCount; ++ci)
+      for (size_t ci = 0; ci < this->m_TotalLabelCount; ++ci)
       {
         WeightsType sumW = this->m_UpdatedConfusionMatrixArray[k][0][ci];
-        for (InputPixelType j = 1; j < 1 + this->m_TotalLabelCount; ++j)
+        for (size_t j = 1; j < 1 + this->m_TotalLabelCount; ++j)
         {
-          sumW += this->m_UpdatedConfusionMatrixArray[k][j][ci];
+          sumW += this->m_UpdatedConfusionMatrixArray[k][static_cast<unsigned int>(j)][ci];
         }
 
         // normalize with for each class ci
         if (sumW)
         {
-          for (InputPixelType j = 0; j < 1 + this->m_TotalLabelCount; ++j)
+          for (size_t j = 0; j < 1 + this->m_TotalLabelCount; ++j)
           {
-            this->m_UpdatedConfusionMatrixArray[k][j][ci] /= sumW;
+            this->m_UpdatedConfusionMatrixArray[k][static_cast<unsigned int>(j)][ci] /= sumW;
           }
         }
       }
@@ -351,16 +357,17 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
     WeightsType maximumUpdate = 0;
     for (unsigned int k = 0; k < numberOfInputs; ++k)
     {
-      for (InputPixelType j = 0; j < 1 + this->m_TotalLabelCount; ++j)
+      for (size_t j = 0; j < 1 + this->m_TotalLabelCount; ++j)
       {
-        for (OutputPixelType ci = 0; ci < this->m_TotalLabelCount; ++ci)
+        const auto row = static_cast<unsigned int>(j);
+        for (size_t ci = 0; ci < this->m_TotalLabelCount; ++ci)
         {
-          const WeightsType thisParameterUpdate =
-            itk::Math::Absolute(this->m_UpdatedConfusionMatrixArray[k][j][ci] - this->m_ConfusionMatrixArray[k][j][ci]);
+          const WeightsType thisParameterUpdate = itk::Math::Absolute(this->m_UpdatedConfusionMatrixArray[k][row][ci] -
+                                                                      this->m_ConfusionMatrixArray[k][row][ci]);
 
           maximumUpdate = std::max(maximumUpdate, thisParameterUpdate);
 
-          this->m_ConfusionMatrixArray[k][j][ci] = this->m_UpdatedConfusionMatrixArray[k][j][ci];
+          this->m_ConfusionMatrixArray[k][row][ci] = this->m_UpdatedConfusionMatrixArray[k][row][ci];
         }
       }
     }
@@ -393,7 +400,7 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
   for (OutputIteratorType out(output, output->GetRequestedRegion()); !out.IsAtEnd(); ++out)
   {
     // basically, we'll repeat the E step from above
-    for (OutputPixelType ci = 0; ci < this->m_TotalLabelCount; ++ci)
+    for (size_t ci = 0; ci < this->m_TotalLabelCount; ++ci)
     {
       W[ci] = this->m_PriorProbabilities[ci];
     }
@@ -401,7 +408,7 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
     for (unsigned int k = 0; k < numberOfInputs; ++k)
     {
       const InputPixelType j = it[k].Get();
-      for (OutputPixelType ci = 0; ci < this->m_TotalLabelCount; ++ci)
+      for (size_t ci = 0; ci < this->m_TotalLabelCount; ++ci)
       {
         W[ci] *= this->m_ConfusionMatrixArray[k][j][ci];
       }
@@ -411,12 +418,12 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
     // now determine the label with the maximum W
     auto        winningLabel = this->m_LabelForUndecidedPixels;
     WeightsType winningLabelW = 0;
-    for (OutputPixelType ci = 0; ci < this->m_TotalLabelCount; ++ci)
+    for (size_t ci = 0; ci < this->m_TotalLabelCount; ++ci)
     {
       if (W[ci] > winningLabelW)
       {
         winningLabelW = W[ci];
-        winningLabel = ci;
+        winningLabel = static_cast<OutputPixelType>(ci);
       }
       else if (!(W[ci] < winningLabelW))
       {
