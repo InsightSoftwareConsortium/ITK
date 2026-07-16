@@ -8,7 +8,7 @@
 // reachable (an ITK consumer), so ITK's own VXL build is unaffected.
 #if __has_include(<itkConfigure.h>)
 #  include <itkConfigure.h>
-#  if defined(ITK_FUTURE_LEGACY_REMOVE)
+#  if defined(ITK_FUTURE_LEGACY_REMOVE) && !defined(ITK_LEGACY_TEST)
 #    error "vnl/algo/vnl_qr.h is deprecated; migrate to itk::QRDecomposition (itkQRDecomposition.h, Eigen-backed)."
 #  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_LEGACY_TEST)
 #    if defined(_MSC_VER)
