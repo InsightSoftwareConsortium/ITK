@@ -739,7 +739,11 @@ itk_add_test(
 )
 
 # Add GTest for TIFF module
-set(ITKIOTIFFGTests itkImageSeriesReaderReverse.cxx)
+set(
+  ITKIOTIFFGTests
+  itkImageSeriesReaderReverse.cxx
+  itkTIFFImageIOGTest.cxx
+)
 creategoogletestdriver(ITKIOTIFF "${ITKIOTIFF-Test_LIBRARIES}" "${ITKIOTIFFGTests}")
 
 target_compile_definitions(

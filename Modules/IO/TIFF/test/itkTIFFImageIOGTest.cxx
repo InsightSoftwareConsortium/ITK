@@ -1,0 +1,516 @@
+/*=========================================================================
+ *
+ *  Copyright NumFOCUS
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+
+#include "itkTIFFImageIO.h"
+#include "itkImageIORegion.h"
+#include "itksys/SystemTools.hxx"
+
+#include "itkGTest.h"
+
+#include "itk_tiff.h"
+
+#include <vector>
+#include <string>
+
+#define _STRING(s) #s
+#define TOSTRING(s) std::string(_STRING(s))
+
+namespace
+{
+
+std::string
+TIFFImageIOGTestOutputPath(const std::string & name)
+{
+  const std::string dir = TOSTRING(ITK_TEST_OUTPUT_DIR);
+  itksys::SystemTools::MakeDirectory(dir);
+  return dir + "/" + name;
+}
+
+void
+WriteUniformDirectory(TIFF *        tif,
+                      uint32_t      width,
+                      uint32_t      height,
+                      unsigned char value,
+                      bool          hasSubfiletype,
+                      uint32_t      subfiletype)
+{
+  TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 8);
+  TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+  TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+  TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, height);
+  if (hasSubfiletype)
+  {
+    TIFFSetField(tif, TIFFTAG_SUBFILETYPE, subfiletype);
+  }
+
+  const std::vector<unsigned char> row(width, value);
+  for (uint32_t r = 0; r < height; ++r)
+  {
+    TIFFWriteScanline(tif, const_cast<unsigned char *>(row.data()), r, 0);
+  }
+  TIFFWriteDirectory(tif);
+}
+
+} // namespace
+
+// Kept pages must land at sequential slice index, not raw TIFF directory index.
+TEST(TIFFImageIOGTest, ReadVolumeSkipsReducedImageAndPacksSlicesSequentially)
+{
+  constexpr uint32_t width = 4;
+  constexpr uint32_t height = 4;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_ReducedImage.tif");
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  WriteUniformDirectory(tif, width, height, 200, true, FILETYPE_REDUCEDIMAGE);
+  WriteUniformDirectory(tif, width, height, 10, true, 0);
+  WriteUniformDirectory(tif, width, height, 20, true, 0);
+  TIFFClose(tif);
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->ReadImageInformation();
+
+  ASSERT_EQ(tiffImageIO->GetNumberOfDimensions(), 3u);
+  ASSERT_EQ(tiffImageIO->GetDimensions(2), 2u);
+
+  itk::ImageIORegion ioRegion(3);
+  for (unsigned int d = 0; d < 3; ++d)
+  {
+    ioRegion.SetIndex(d, 0);
+    ioRegion.SetSize(d, tiffImageIO->GetDimensions(d));
+  }
+  tiffImageIO->SetIORegion(ioRegion);
+
+  const size_t               sliceBytes = static_cast<size_t>(width) * height;
+  constexpr unsigned char    sentinel = 111;
+  std::vector<unsigned char> buffer(sliceBytes * 3, sentinel); // 1 padding slice past the logical depth
+
+  tiffImageIO->Read(buffer.data());
+
+  EXPECT_EQ(buffer[0 * sliceBytes], 10) << "first SUBFILETYPE==0 page must land at slice 0";
+  EXPECT_EQ(buffer[1 * sliceBytes], 20) << "second SUBFILETYPE==0 page must land at slice 1";
+  EXPECT_EQ(buffer[2 * sliceBytes], sentinel) << "read must not write past the logical volume depth";
+}
+
+// An untagged page must be excluded once SUBFILETYPE tagging is in use.
+// TIFF 6.0 defines NewSubfileType to default to 0 (a primary image); an
+// untagged page in a file that also has explicitly-tagged pages must still
+// count as a kept slice, not be silently dropped.
+TEST(TIFFImageIOGTest, ReadVolumeKeepsUntaggedPageAsPrimary)
+{
+  constexpr uint32_t width = 4;
+  constexpr uint32_t height = 4;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_UntaggedPage.tif");
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  WriteUniformDirectory(tif, width, height, 200, false, 0); // no SUBFILETYPE tag at all
+  WriteUniformDirectory(tif, width, height, 10, true, 0);
+  WriteUniformDirectory(tif, width, height, 20, true, 0);
+  TIFFClose(tif);
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->ReadImageInformation();
+
+  ASSERT_EQ(tiffImageIO->GetNumberOfDimensions(), 3u);
+  ASSERT_EQ(tiffImageIO->GetDimensions(2), 3u);
+
+  itk::ImageIORegion ioRegion(3);
+  for (unsigned int d = 0; d < 3; ++d)
+  {
+    ioRegion.SetIndex(d, 0);
+    ioRegion.SetSize(d, tiffImageIO->GetDimensions(d));
+  }
+  tiffImageIO->SetIORegion(ioRegion);
+
+  const size_t               sliceBytes = static_cast<size_t>(width) * height;
+  std::vector<unsigned char> buffer(sliceBytes * 3);
+
+  tiffImageIO->Read(buffer.data());
+
+  EXPECT_EQ(buffer[0 * sliceBytes], 200) << "untagged page must be kept as the first primary slice";
+  EXPECT_EQ(buffer[1 * sliceBytes], 10) << "first SUBFILETYPE==0 page must land at slice 1";
+  EXPECT_EQ(buffer[2 * sliceBytes], 20) << "second SUBFILETYPE==0 page must land at slice 2";
+}
+
+// Per-page geometry is pinned from the first page; a mismatched later page must be rejected.
+TEST(TIFFImageIOGTest, ReadVolumeRejectsPageWithDifferentGeometry)
+{
+  constexpr uint32_t firstWidth = 8;
+  constexpr uint32_t secondWidth = 4;
+  constexpr uint32_t height = 4;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_NarrowerPage.tif");
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  WriteUniformDirectory(tif, firstWidth, height, 1, false, 0);
+  WriteUniformDirectory(tif, secondWidth, height, 2, false, 0);
+  TIFFClose(tif);
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->ReadImageInformation();
+
+  ASSERT_EQ(tiffImageIO->GetNumberOfDimensions(), 3u);
+  ASSERT_EQ(tiffImageIO->GetDimensions(2), 2u);
+
+  itk::ImageIORegion ioRegion(3);
+  for (unsigned int d = 0; d < 3; ++d)
+  {
+    ioRegion.SetIndex(d, 0);
+    ioRegion.SetSize(d, tiffImageIO->GetDimensions(d));
+  }
+  tiffImageIO->SetIORegion(ioRegion);
+
+  std::vector<unsigned char> buffer(static_cast<size_t>(firstWidth) * height * 2, 0);
+
+  EXPECT_THROW(tiffImageIO->Read(buffer.data()), itk::ExceptionObject);
+}
+
+// SAMPLEFORMAT_VOID has no defined component type; the ladder must reject it explicitly.
+TEST(TIFFImageIOGTest, ReadImageInformationRejects32BitSampleFormatVoid)
+{
+  constexpr uint32_t width = 4;
+  constexpr uint32_t height = 4;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_32BitVoid.tif");
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 32);
+  TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_VOID);
+  TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+  TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+  TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, height);
+
+  const std::vector<uint32_t> row(width, 0);
+  for (uint32_t r = 0; r < height; ++r)
+  {
+    TIFFWriteScanline(tif, const_cast<uint32_t *>(row.data()), r, 0);
+  }
+  TIFFWriteDirectory(tif);
+  TIFFClose(tif);
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+
+  EXPECT_THROW(tiffImageIO->ReadImageInformation(), itk::ExceptionObject);
+}
+
+// A MINISWHITE page with IEEEFP samples has no fixed maximum to invert
+// against, so PutGrayscale's integral-only inversion would silently pass it
+// through photo-negative. CanRead() excludes the combination; the read must
+// fail loudly rather than return un-inverted float data.
+TEST(TIFFImageIOGTest, ReadImageInformationRejectsMinIsWhiteFloat)
+{
+  constexpr uint32_t width = 4;
+  constexpr uint32_t height = 4;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_MinIsWhiteFloat.tif");
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 32);
+  TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_IEEEFP);
+  TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+  TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISWHITE);
+  TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, height);
+
+  const std::vector<float> row(width, 0.25f);
+  for (uint32_t r = 0; r < height; ++r)
+  {
+    TIFFWriteScanline(tif, const_cast<float *>(row.data()), r, 0);
+  }
+  TIFFWriteDirectory(tif);
+  TIFFClose(tif);
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+
+  EXPECT_THROW(tiffImageIO->ReadImageInformation(), itk::ExceptionObject);
+}
+
+// MINISWHITE samples must be inverted to min-is-black, not copied verbatim.
+TEST(TIFFImageIOGTest, ReadInvertsMinIsWhitePhotometric)
+{
+  constexpr uint32_t      width = 4;
+  constexpr uint32_t      height = 4;
+  constexpr unsigned char storedValue = 70;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_MinIsWhite.tif");
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 8);
+  TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+  TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISWHITE);
+  TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, height);
+
+  const std::vector<unsigned char> row(width, storedValue);
+  for (uint32_t r = 0; r < height; ++r)
+  {
+    TIFFWriteScanline(tif, const_cast<unsigned char *>(row.data()), r, 0);
+  }
+  TIFFWriteDirectory(tif);
+  TIFFClose(tif);
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->ReadImageInformation();
+
+  std::vector<unsigned char> buffer(static_cast<size_t>(width) * height, 0);
+  tiffImageIO->Read(buffer.data());
+
+  constexpr unsigned char expected = static_cast<unsigned char>(~storedValue);
+  for (const unsigned char sample : buffer)
+  {
+    EXPECT_EQ(sample, expected) << "MINISWHITE samples must be inverted, not copied verbatim";
+  }
+}
+
+// GRAYSCALE component count must follow SamplesPerPixel, not assume 1.
+TEST(TIFFImageIOGTest, ReadGrayscaleWithExtraSamplePreservesAllComponents)
+{
+  constexpr uint32_t width = 4;
+  constexpr uint32_t height = 2;
+  constexpr uint16_t samplesPerPixel = 2;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_GrayAlpha.tif");
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 8);
+  TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, samplesPerPixel);
+  TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+  TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, height);
+  const uint16_t extraSampleTypes[1] = { EXTRASAMPLE_UNSPECIFIED };
+  TIFFSetField(tif, TIFFTAG_EXTRASAMPLES, 1, extraSampleTypes);
+
+  std::vector<unsigned char> row(static_cast<size_t>(width) * samplesPerPixel);
+  for (uint32_t x = 0; x < width; ++x)
+  {
+    row[x * samplesPerPixel + 0] = 100;
+    row[x * samplesPerPixel + 1] = 200;
+  }
+  for (uint32_t r = 0; r < height; ++r)
+  {
+    TIFFWriteScanline(tif, row.data(), r, 0);
+  }
+  TIFFWriteDirectory(tif);
+  TIFFClose(tif);
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->ReadImageInformation();
+
+  ASSERT_EQ(tiffImageIO->GetNumberOfComponents(), samplesPerPixel);
+
+  std::vector<unsigned char> buffer(static_cast<size_t>(width) * height * samplesPerPixel, 0);
+  tiffImageIO->Read(buffer.data());
+
+  for (uint32_t i = 0; i < width * height; ++i)
+  {
+    EXPECT_EQ(buffer[i * samplesPerPixel + 0], 100) << "grayscale sample at pixel " << i;
+    EXPECT_EQ(buffer[i * samplesPerPixel + 1], 200) << "extra sample at pixel " << i;
+  }
+}
+
+// 2-component images must get MINISBLACK + 1 EXTRASAMPLES entry, not incomplete RGB.
+TEST(TIFFImageIOGTest, WriteTwoComponentImageDeclaresMinIsBlackWithExtraSample)
+{
+  constexpr uint32_t width = 4;
+  constexpr uint32_t height = 2;
+  constexpr uint16_t samplesPerPixel = 2;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_WriteGrayAlpha.tif");
+
+  std::vector<unsigned char> buffer(static_cast<size_t>(width) * height * samplesPerPixel);
+  for (size_t i = 0; i < buffer.size(); i += samplesPerPixel)
+  {
+    buffer[i + 0] = 100;
+    buffer[i + 1] = 200;
+  }
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->SetNumberOfDimensions(2);
+  tiffImageIO->SetDimensions(0, width);
+  tiffImageIO->SetDimensions(1, height);
+  tiffImageIO->SetPixelType(itk::IOPixelEnum::VECTOR);
+  tiffImageIO->SetNumberOfComponents(samplesPerPixel);
+  tiffImageIO->SetComponentType(itk::IOComponentEnum::UCHAR);
+  tiffImageIO->Write(buffer.data());
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "r");
+  ASSERT_NE(tif, nullptr);
+
+  uint16_t photometric = 0;
+  ASSERT_TRUE(TIFFGetField(tif, TIFFTAG_PHOTOMETRIC, &photometric));
+  EXPECT_EQ(photometric, PHOTOMETRIC_MINISBLACK) << "2-component image must not be tagged incomplete RGB";
+
+  uint16_t writtenSamplesPerPixel = 0;
+  ASSERT_TRUE(TIFFGetField(tif, TIFFTAG_SAMPLESPERPIXEL, &writtenSamplesPerPixel));
+  EXPECT_EQ(writtenSamplesPerPixel, samplesPerPixel);
+
+  uint16_t   extraSamplesCount = 0;
+  uint16_t * extraSamplesTypes = nullptr;
+  ASSERT_TRUE(TIFFGetField(tif, TIFFTAG_EXTRASAMPLES, &extraSamplesCount, &extraSamplesTypes));
+  EXPECT_EQ(extraSamplesCount, 1) << "the non-color sample must be declared as EXTRASAMPLES";
+
+  TIFFClose(tif);
+}
+
+// ReadGenericImage's dispatch previously had no branch for
+// IOComponentEnum::UINT/INT even though CanRead() (and the SampleFormat
+// switch in ReadImageInformation) accepted 32-bit UINT/INT pages: the read
+// silently no-op'd, leaving the output buffer untouched. Exercise the full
+// decode path, not just component-type detection.
+TEST(TIFFImageIOGTest, ReadDecodes32BitUnsignedIntPixels)
+{
+  constexpr uint32_t width = 4;
+  constexpr uint32_t height = 4;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_32BitUInt.tif");
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width);
+  TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height);
+  TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 32);
+  TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_UINT);
+  TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+  TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+  TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+  TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, height);
+
+  std::vector<uint32_t> row(width);
+  for (uint32_t r = 0; r < height; ++r)
+  {
+    for (uint32_t c = 0; c < width; ++c)
+    {
+      row[c] = 1000u * r + c;
+    }
+    TIFFWriteScanline(tif, row.data(), r, 0);
+  }
+  TIFFWriteDirectory(tif);
+  TIFFClose(tif);
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->ReadImageInformation();
+  ASSERT_EQ(tiffImageIO->GetComponentType(), itk::IOComponentEnum::UINT);
+
+  std::vector<uint32_t> buffer(static_cast<size_t>(width) * height, 0xDEADBEEFu);
+  ASSERT_NO_THROW(tiffImageIO->Read(buffer.data()));
+
+  for (uint32_t r = 0; r < height; ++r)
+  {
+    for (uint32_t c = 0; c < width; ++c)
+    {
+      EXPECT_EQ(buffer[(r * width) + c], 1000u * r + c) << "row " << r << " col " << c;
+    }
+  }
+}
+
+// ReadCurrentPage advances the per-slice buffer offset using the component
+// type; the 32-bit UINT/INT arms must advance by 4 bytes per element, not the
+// default 1-byte (unsigned char) stride, or every slice past the first lands
+// at the wrong offset. Single-slice reads (offset 0) do not exercise this.
+TEST(TIFFImageIOGTest, ReadDecodesMultiSlice32BitIntegerVolume)
+{
+  constexpr uint32_t width = 4;
+  constexpr uint32_t height = 4;
+  constexpr uint32_t pages = 3;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_32BitIntVolume.tif");
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  for (uint32_t p = 0; p < pages; ++p)
+  {
+    TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width);
+    TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height);
+    TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 32);
+    TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_INT);
+    TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+    TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+    TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+    TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, height);
+    std::vector<int32_t> row(width);
+    for (uint32_t r = 0; r < height; ++r)
+    {
+      for (uint32_t c = 0; c < width; ++c)
+      {
+        row[c] = static_cast<int32_t>(100000 * p + 1000 * r + c) - 50000;
+      }
+      TIFFWriteScanline(tif, row.data(), r, 0);
+    }
+    TIFFWriteDirectory(tif);
+  }
+  TIFFClose(tif);
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+  tiffImageIO->ReadImageInformation();
+  ASSERT_EQ(tiffImageIO->GetComponentType(), itk::IOComponentEnum::INT);
+  ASSERT_EQ(tiffImageIO->GetNumberOfDimensions(), 3u);
+
+  itk::ImageIORegion ioRegion(3);
+  for (unsigned int d = 0; d < 3; ++d)
+  {
+    ioRegion.SetIndex(d, 0);
+    ioRegion.SetSize(d, tiffImageIO->GetDimensions(d));
+  }
+  tiffImageIO->SetIORegion(ioRegion);
+
+  std::vector<int32_t> buffer(static_cast<size_t>(width) * height * pages, static_cast<int32_t>(0xDEADBEEF));
+  ASSERT_NO_THROW(tiffImageIO->Read(buffer.data()));
+
+  for (uint32_t p = 0; p < pages; ++p)
+  {
+    for (uint32_t r = 0; r < height; ++r)
+    {
+      for (uint32_t c = 0; c < width; ++c)
+      {
+        const size_t  idx = ((static_cast<size_t>(p) * height) + r) * width + c;
+        const int32_t expected = static_cast<int32_t>(100000 * p + 1000 * r + c) - 50000;
+        EXPECT_EQ(buffer[idx], expected) << "page " << p << " row " << r << " col " << c;
+      }
+    }
+  }
+}

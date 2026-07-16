@@ -24,6 +24,8 @@
 
 #include "itk_tiff.h"
 
+#include <type_traits>
+
 namespace itk
 {
 
@@ -68,6 +70,14 @@ TIFFImageIO::ReadGenericImage(void * out, unsigned int width, unsigned int heigh
   else if (m_ComponentType == IOComponentEnum::SHORT)
   {
     this->ReadGenericImage<short>(out, width, height);
+  }
+  else if (m_ComponentType == IOComponentEnum::UINT)
+  {
+    this->ReadGenericImage<unsigned int>(out, width, height);
+  }
+  else if (m_ComponentType == IOComponentEnum::INT)
+  {
+    this->ReadGenericImage<int>(out, width, height);
   }
   else if (m_ComponentType == IOComponentEnum::FLOAT)
   {
@@ -149,27 +159,30 @@ TIFFImageIO::ReadVolume(void * buffer)
 {
   const size_t width{ m_InternalImage->m_Width };
   const size_t height{ m_InternalImage->m_Height };
+  const bool   onlyPrimarySubFiles = m_InternalImage->m_SubFiles > 0;
 
+  size_t slice = 0;
   for (uint16_t page = 0; page < m_InternalImage->m_NumberOfPages; ++page)
   {
-    if (m_InternalImage->m_IgnoredSubFiles > 0)
+    int32_t    subfiletype = 6;
+    const bool hasSubfiletype = TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SUBFILETYPE, &subfiletype) != 0;
+    // An untagged page defaults to NewSubfileType==0 (TIFF 6.0) and must be
+    // treated as primary, matching the m_SubFiles count computed in
+    // TIFFReaderInternal::Initialize().
+    const bool skipPage = onlyPrimarySubFiles
+                            ? !(!hasSubfiletype || subfiletype == 0)
+                            : (hasSubfiletype && (subfiletype & FILETYPE_REDUCEDIMAGE || subfiletype & FILETYPE_MASK));
+
+    if (skipPage)
     {
-      int32_t subfiletype = 6;
-      if (TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SUBFILETYPE, &subfiletype))
-      {
-        if (subfiletype & FILETYPE_REDUCEDIMAGE || subfiletype & FILETYPE_MASK)
-        {
-          // skip subfile
-          TIFFReadDirectory(m_InternalImage->m_Image);
-          continue;
-        }
-      }
+      TIFFReadDirectory(m_InternalImage->m_Image);
+      continue;
     }
 
-
-    const size_t pixelOffset = width * height * this->GetNumberOfComponents() * page;
+    const size_t pixelOffset = width * height * this->GetNumberOfComponents() * slice;
 
     ReadCurrentPage(buffer, pixelOffset);
+    ++slice;
 
     TIFFReadDirectory(m_InternalImage->m_Image);
   }
@@ -414,6 +427,8 @@ TIFFImageIO::ReadImageInformation()
       case 3:
         m_ComponentType = IOComponentEnum::FLOAT;
         break;
+      default:
+        itkExceptionMacro("Sorry, can not handle 32-bit samples with SampleFormat " << m_InternalImage->m_SampleFormat);
     }
   }
   else
@@ -432,8 +447,11 @@ TIFFImageIO::ReadImageInformation()
   switch (this->GetFormat())
   {
     case TIFFImageIO::PALETTE_GRAYSCALE:
-    case TIFFImageIO::GRAYSCALE:
       this->SetNumberOfComponents(1);
+      this->SetPixelType(IOPixelEnum::SCALAR);
+      break;
+    case TIFFImageIO::GRAYSCALE:
+      this->SetNumberOfComponents(m_InternalImage->m_SamplesPerPixel);
       this->SetPixelType(IOPixelEnum::SCALAR);
       break;
     case TIFFImageIO::RGB_:
@@ -673,14 +691,14 @@ TIFFImageIO::InternalWrite(const void * buffer)
     }
     TIFFSetField(tif, TIFFTAG_SOFTWARE, "InsightToolkit");
 
-    if (scomponents > 3)
+    // MINISBLACK has 1 color channel, RGB has 3; samples beyond that need EXTRASAMPLES.
+    const uint16_t colorComponents = (scomponents <= 2) ? 1 : 3;
+    if (scomponents > colorComponents)
     {
-      // if number of scalar components is greater than 3, that means we assume
-      // there is alpha.
-      const uint16_t extra_samples = scomponents - 3;
-      const auto     sample_info = make_unique_for_overwrite<uint16_t[]>(scomponents - 3);
+      const uint16_t extra_samples = scomponents - colorComponents;
+      const auto     sample_info = make_unique_for_overwrite<uint16_t[]>(extra_samples);
       sample_info[0] = EXTRASAMPLE_ASSOCALPHA;
-      for (uint16_t cc = 1; cc < scomponents - 3; ++cc)
+      for (uint16_t cc = 1; cc < extra_samples; ++cc)
       {
         sample_info[cc] = EXTRASAMPLE_UNSPECIFIED;
       }
@@ -740,7 +758,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
       {
         itkWarningMacro("Could not write this image as palette because pixel is not scalar");
       }
-      TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
+      TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, colorComponents == 1 ? PHOTOMETRIC_MINISBLACK : PHOTOMETRIC_RGB);
     }
     if (compression == COMPRESSION_JPEG)
     {
@@ -1260,6 +1278,35 @@ TIFFImageIO::ReadCurrentPage(void * buffer, size_t pixelOffset)
   const uint32_t width = m_InternalImage->m_Width;
   const uint32_t height = m_InternalImage->m_Height;
 
+  uint32_t currentWidth = 0;
+  uint32_t currentHeight = 0;
+  uint16_t currentSamplesPerPixel = 0;
+  uint16_t currentBitsPerSample = 0;
+  uint16_t currentPhotometrics = 0;
+  uint16_t currentSampleFormat = 1;
+  uint16_t currentPlanarConfig = 0;
+  uint16_t currentOrientation = ORIENTATION_TOPLEFT;
+  TIFFGetField(m_InternalImage->m_Image, TIFFTAG_IMAGEWIDTH, &currentWidth);
+  TIFFGetField(m_InternalImage->m_Image, TIFFTAG_IMAGELENGTH, &currentHeight);
+  TIFFGetFieldDefaulted(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &currentSamplesPerPixel);
+  TIFFGetFieldDefaulted(m_InternalImage->m_Image, TIFFTAG_BITSPERSAMPLE, &currentBitsPerSample);
+  TIFFGetField(m_InternalImage->m_Image, TIFFTAG_PHOTOMETRIC, &currentPhotometrics);
+  TIFFGetFieldDefaulted(m_InternalImage->m_Image, TIFFTAG_SAMPLEFORMAT, &currentSampleFormat);
+  TIFFGetFieldDefaulted(m_InternalImage->m_Image, TIFFTAG_PLANARCONFIG, &currentPlanarConfig);
+  TIFFGetFieldDefaulted(m_InternalImage->m_Image, TIFFTAG_ORIENTATION, &currentOrientation);
+  // The first page's geometry and format fields are cached and reused for every
+  // page; reject any later page that differs rather than read it with stale values.
+  if (currentWidth != width || currentHeight != height ||
+      currentSamplesPerPixel != m_InternalImage->m_SamplesPerPixel ||
+      currentBitsPerSample != m_InternalImage->m_BitsPerSample ||
+      currentPhotometrics != m_InternalImage->m_Photometrics ||
+      currentSampleFormat != m_InternalImage->m_SampleFormat ||
+      currentPlanarConfig != m_InternalImage->m_PlanarConfig || currentOrientation != m_InternalImage->m_Orientation)
+  {
+    itkExceptionStringMacro("This reader requires every page to share the first page's width, height, "
+                            "SamplesPerPixel, BitsPerSample, Photometric, SampleFormat, PlanarConfig, and "
+                            "Orientation.");
+  }
 
   if (!m_InternalImage->CanRead())
   {
@@ -1312,6 +1359,18 @@ TIFFImageIO::ReadCurrentPage(void * buffer, size_t pixelOffset)
       volume += pixelOffset;
       this->ReadGenericImage(volume, width, height);
     }
+    else if (m_ComponentType == IOComponentEnum::UINT)
+    {
+      auto * volume = static_cast<unsigned int *>(buffer);
+      volume += pixelOffset;
+      this->ReadGenericImage(volume, width, height);
+    }
+    else if (m_ComponentType == IOComponentEnum::INT)
+    {
+      auto * volume = static_cast<int *>(buffer);
+      volume += pixelOffset;
+      this->ReadGenericImage(volume, width, height);
+    }
     else
     {
       auto * volume = static_cast<unsigned char *>(buffer);
@@ -1352,9 +1411,11 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
 
   switch (this->GetFormat())
   {
-    case TIFFImageIO::GRAYSCALE:
     case TIFFImageIO::PALETTE_GRAYSCALE:
       inc = 1;
+      break;
+    case TIFFImageIO::GRAYSCALE:
+      inc = m_InternalImage->m_SamplesPerPixel;
       break;
     case TIFFImageIO::RGB_:
       inc = m_InternalImage->m_SamplesPerPixel;
@@ -1469,12 +1530,36 @@ TIFFImageIO::PutGrayscale(TType *      to,
                           unsigned int toskew,
                           unsigned int fromskew)
 {
+  const size_t samplesPerPixel = m_InternalImage->m_SamplesPerPixel;
+  const size_t linesize = samplesPerPixel * xsize;
+
+  // PHOTOMETRIC_MINISWHITE stores 0 as white; samples must be inverted to min-is-black.
+  if constexpr (std::is_integral_v<TType>)
+  {
+    if (m_InternalImage->m_Photometrics == PHOTOMETRIC_MINISWHITE)
+    {
+      for (unsigned int y = ysize; y-- > 0;)
+      {
+        for (size_t x = 0; x < linesize; x += samplesPerPixel)
+        {
+          to[x] = static_cast<TType>(~from[x]);
+          std::copy_n(from + x + 1, samplesPerPixel - 1, to + x + 1);
+        }
+        to += linesize;
+        to += toskew;
+        from += linesize;
+        from += fromskew;
+      }
+      return;
+    }
+  }
+
   for (unsigned int y = ysize; y-- > 0;)
   {
-    std::copy_n(from, xsize, to);
-    to += xsize;
+    std::copy_n(from, linesize, to);
+    to += linesize;
     to += toskew;
-    from += xsize;
+    from += linesize;
     from += fromskew;
   }
 }
