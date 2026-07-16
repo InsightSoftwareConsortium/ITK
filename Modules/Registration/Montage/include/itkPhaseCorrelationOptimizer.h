@@ -51,11 +51,11 @@ public:
     // PhaseFrequencySlope = 4,
   };
 
-  // For iteration
-  static constexpr auto
+  // For iteration. Type is spelled out: igenerator emits "?unknown?" for a deduced return.
+  static constexpr std::array<PeakInterpolationMethod, 4>
   AllPeakInterpolationMethods()
   {
-    return std::array{
+    return {
       PeakInterpolationMethod::None,
       PeakInterpolationMethod::Parabolic,
       PeakInterpolationMethod::Cosine,
