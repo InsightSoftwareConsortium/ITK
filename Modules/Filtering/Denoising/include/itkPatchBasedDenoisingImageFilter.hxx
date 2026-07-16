@@ -691,7 +691,9 @@ typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadDataSt
   RealArrayType tmpNorm(m_NumIndependentComponents);
   RealArrayType minNorm(m_NumIndependentComponents);
   RealArrayType maxNorm(m_NumIndependentComponents);
-  maxNorm.Fill(NumericTraits<RealValueType>::min());
+  // Squared geodesic differences are non-negative, so 0 keeps std::sqrt(maxNorm[0])
+  // below in-domain even when every comparison this loop sees is a NaN comparison.
+  maxNorm.Fill(RealValueType{ 0 });
   minNorm.Fill(NumericTraits<RealValueType>::max());
 
   FaceCalculatorType faceCalculator;
@@ -755,7 +757,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ResolveRiemannianMinM
   const size_t numThreads = m_ThreadData.size();
 
   m_ImageMin.Fill(NumericTraits<PixelValueType>::max());
-  m_ImageMax.Fill(NumericTraits<PixelValueType>::min());
+  // Same non-negative sqrt-of-norm domain as maxNorm above: 0 is the correct seed.
+  m_ImageMax.Fill(PixelValueType{ 0 });
 
   for (unsigned int threadNum = 0; threadNum < numThreads; ++threadNum)
   {
@@ -2013,7 +2016,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
           {
             for (unsigned int pc = 0; pc < m_NumPixelComponents; ++pc)
             {
-              const RealValueType gradientFidelity = 2.0 * (this->GetComponent(in, pc) - this->GetComponent(out, pc));
+              // RealValueType avoids wraparound subtracting in an unsigned PixelValueType.
+              const RealValueType     inVal = this->GetComponent(in, pc);
+              const RealValueType     outVal = this->GetComponent(out, pc);
+              const RealValueType     gradientFidelity = 2.0 * (inVal - outVal);
               constexpr RealValueType stepSizeFidelity{ 0.5 };
               const RealValueType     noiseVal = fidelityWeight * (stepSizeFidelity * gradientFidelity);
               this->SetComponent(result, pc, this->GetComponent(result, pc) + noiseVal);
@@ -2024,9 +2030,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
           {
             for (unsigned int pc = 0; pc < m_NumPixelComponents; ++pc)
             {
-              const PixelValueType inVal = this->GetComponent(in, pc);
-              const PixelValueType outVal = this->GetComponent(out, pc);
-              const RealValueType  sigmaSquared = this->GetComponent(m_NoiseSigmaSquared, pc);
+              // RealValueType avoids overflow/wraparound multiplying in an unsigned PixelValueType.
+              const RealValueType inVal = this->GetComponent(in, pc);
+              const RealValueType outVal = this->GetComponent(out, pc);
+              const RealValueType sigmaSquared = this->GetComponent(m_NoiseSigmaSquared, pc);
 
               const RealValueType alpha = inVal * outVal / sigmaSquared;
               const RealValueType gradientFidelity =
@@ -2044,12 +2051,13 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
           {
             for (unsigned int pc = 0; pc < m_NumPixelComponents; ++pc)
             {
-              const PixelValueType inVal = this->GetComponent(in, pc);
-              const PixelValueType outVal = this->GetComponent(out, pc);
+              // RealValueType avoids wraparound when outVal > inVal in an unsigned PixelValueType.
+              const RealValueType inVal = this->GetComponent(in, pc);
+              const RealValueType outVal = this->GetComponent(out, pc);
 
               const RealValueType gradientFidelity = (inVal - outVal) / (outVal + 0.00001);
               // Prevent large unstable updates when out[pc] less than 1
-              const RealValueType stepSizeFidelity = std::min(outVal, static_cast<PixelValueType>(0.99999)) + 0.00001;
+              const RealValueType stepSizeFidelity = std::min(outVal, static_cast<RealValueType>(0.99999)) + 0.00001;
               // Update
               const RealValueType noiseVal = fidelityWeight * (stepSizeFidelity * gradientFidelity);
               // Ensure that the result is positive

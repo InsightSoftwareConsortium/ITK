@@ -7,6 +7,10 @@ set(
 
 createtestdriver(ITKDenoising "${ITKDenoising-Test_LIBRARIES}" "${ITKDenoisingTests}")
 
+set(ITKDenoisingGTests itkPatchBasedDenoisingImageFilterGTest.cxx)
+
+creategoogletestdriver(ITKDenoising "${ITKDenoising-Test_LIBRARIES}" "${ITKDenoisingGTests}")
+
 itk_add_test(
   NAME itkPatchBasedDenoisingImageFilterDefaultTest
   COMMAND
