@@ -111,6 +111,7 @@ public:
   /** Image spacing type alias */
   using SpacingType = typename TOutputImage::SpacingType;
   using OriginPointType = typename TOutputImage::PointType;
+  using DirectionType = typename TOutputImage::DirectionType;
 
   /** Get/Set the coordinate transformation.
    * Set the KernelBase spline used for resampling the displacement grid.
@@ -143,6 +144,14 @@ public:
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, OriginPointType);
 
+  /** Set/Get the output image direction cosines. Unless explicitly set, the
+   * output inherits the direction of the input displacement field. */
+  /** @ITKStartGrouping */
+  virtual void
+  SetOutputDirection(const DirectionType & direction);
+  itkGetConstReferenceMacro(OutputDirection, DirectionType);
+  /** @ITKEndGrouping */
+
   /** Set/Get the factor used for subsampling the input displacement field.  A
    * large value in this factor will produce a fast computation of the inverse
    * field but with low precision. A small value of this factor will produce a
@@ -172,6 +181,15 @@ public:
   [[nodiscard]] ModifiedTimeType
   GetMTime() const override;
 
+  /** Verify that SubsamplingFactor is non-zero. */
+  void
+  VerifyPreconditions() const override;
+
+  /** Verify that the input is large enough to produce at least one landmark
+   * per axis after subsampling. */
+  void
+  VerifyInputInformation() const override;
+
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelComponentType>));
 
 protected:
@@ -199,6 +217,8 @@ private:
                                                   // use
   SpacingType     m_OutputSpacing{};              // output image spacing
   OriginPointType m_OutputOrigin{};               // output image origin
+  DirectionType   m_OutputDirection{};            // output image direction cosines
+  bool            m_OutputDirectionSpecified{ false };
 
   unsigned int m_SubsamplingFactor{}; // factor to subsample the
                                       // input field.

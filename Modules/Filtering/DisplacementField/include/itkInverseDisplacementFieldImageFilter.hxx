@@ -35,6 +35,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::InverseDisplacem
 {
   m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
+  m_OutputDirection.SetIdentity();
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_Size[i] = 0;
@@ -61,6 +62,8 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrintSelf(std::o
   os << indent << "Size:              " << m_Size << std::endl;
   os << indent << "OutputSpacing:     " << m_OutputSpacing << std::endl;
   os << indent << "OutputOrigin:      " << m_OutputOrigin << std::endl;
+  os << indent << "OutputDirection:   " << m_OutputDirection << std::endl;
+  itkPrintSelfBooleanMacro(OutputDirectionSpecified);
   os << indent << "KernelTransform:   " << m_KernelTransform.GetPointer() << std::endl;
   os << indent << "SubsamplingFactor: " << m_SubsamplingFactor << std::endl;
 }
@@ -92,6 +95,21 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::SetOutputOrigin(
 }
 
 /**
+ * Set the output image direction.
+ */
+template <typename TInputImage, typename TOutputImage>
+void
+InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::SetOutputDirection(const DirectionType & direction)
+{
+  if (!m_OutputDirectionSpecified || m_OutputDirection != direction)
+  {
+    m_OutputDirection = direction;
+    m_OutputDirectionSpecified = true;
+    this->Modified();
+  }
+}
+
+/**
  * Sub-sample the input displacement field and prepare the KernelBase
  * BSpline
  */
@@ -117,13 +135,13 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrepareKernelBas
   const InputImageType * inputImage = this->GetInput();
 
   resampler->SetInput(inputImage);
-  resampler->SetOutputOrigin(inputImage->GetOrigin());
   resampler->SetOutputDirection(inputImage->GetDirection());
 
   typename InputImageType::SpacingType spacing = inputImage->GetSpacing();
 
   using InputRegionType = typename InputImageType::RegionType;
   using InputSizeType = typename InputImageType::SizeType;
+  using InputIndexType = typename InputImageType::IndexType;
 
   const InputRegionType region = inputImage->GetLargestPossibleRegion();
 
@@ -135,7 +153,20 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrepareKernelBas
     spacing[i] *= m_SubsamplingFactor;
   }
 
-  const InputRegionType subsampledRegion(region.GetIndex(), size);
+  // Center the landmark lattice: start at fine index (k-1)/2 past the input
+  // region start so the unsampled margins are balanced while landmarks stay
+  // exactly on input voxel centers. The lattice runs on a zero-based grid so
+  // the origin (physical location of index 0) maps to the first landmark.
+  InputIndexType latticeStart = region.GetIndex();
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+  {
+    latticeStart[i] += static_cast<IndexValueType>((m_SubsamplingFactor - 1) / 2);
+  }
+  typename InputImageType::PointType latticeOrigin;
+  inputImage->TransformIndexToPhysicalPoint(latticeStart, latticeOrigin);
+  resampler->SetOutputOrigin(latticeOrigin);
+
+  const InputRegionType subsampledRegion(InputIndexType{}, size);
 
   resampler->SetSize(size);
   resampler->SetOutputStartIndex(subsampledRegion.GetIndex());
@@ -302,6 +333,39 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateOutputIn
   // Set spacing and origin
   outputPtr->SetSpacing(m_OutputSpacing);
   outputPtr->SetOrigin(m_OutputOrigin);
+  if (m_OutputDirectionSpecified)
+  {
+    outputPtr->SetDirection(m_OutputDirection);
+  }
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
+InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::VerifyPreconditions() const
+{
+  Superclass::VerifyPreconditions();
+
+  if (m_SubsamplingFactor == 0)
+  {
+    itkExceptionMacro("SubsamplingFactor must be non-zero.");
+  }
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
+InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
+{
+  Superclass::VerifyInputInformation();
+
+  const typename InputImageType::SizeType inputSize = this->GetInput()->GetLargestPossibleRegion().GetSize();
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+  {
+    if (inputSize[i] < m_SubsamplingFactor)
+    {
+      itkExceptionMacro("Input size " << inputSize << " must be at least SubsamplingFactor (" << m_SubsamplingFactor
+                                      << ") along every axis to produce landmarks.");
+    }
+  }
 }
 
 /**
