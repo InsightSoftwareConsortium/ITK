@@ -21,17 +21,15 @@
 #include "itkTranslationTransform.h"
 #include "itkTestingMacros.h"
 
-/* Simple test to verify that class builds and runs.
- * Results are not verified. See ImageToImageMetricv4Test
- * for verification of basic metric functionality.
- *
- * TODO Numerical verification.
- */
+/* Checks value/derivative path consistency, agreement of the analytic
+ * derivative with a central finite difference of the value, and the
+ * non-overlap contract. See ImageToImageMetricv4Test for basic metric
+ * functionality. */
 
 int
 itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
 {
-  constexpr unsigned int imageSize{ 10 };
+  constexpr unsigned int imageSize{ 20 };
   constexpr unsigned int imageDimensionality{ 3 };
   using ImageType = itk::Image<double, imageDimensionality>;
 
@@ -47,24 +45,22 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
   movingImage->SetRegions(region);
   movingImage->Allocate();
 
-  /* Fill images */
-  itk::ImageRegionIterator<ImageType> itFixed(fixedImage, region);
-  itFixed.GoToBegin();
-  unsigned int count = 1;
-  while (!itFixed.IsAtEnd())
+  /* Fill with a smooth blob plus gradients; moving is a monotone nonlinear
+   * remap of fixed so the marginals differ and MI varies with alignment. */
+  itk::ImageRegionIteratorWithIndex<ImageType> itFixed(fixedImage, region);
+  itk::ImageRegionIterator<ImageType>          itMoving(movingImage, region);
+  constexpr double                             center = (imageSize - 1) / 2.0;
+  for (itFixed.GoToBegin(), itMoving.GoToBegin(); !itFixed.IsAtEnd(); ++itFixed, ++itMoving)
   {
-    itFixed.Set(count * count);
-    count++;
-    ++itFixed;
-  }
-  itk::ImageRegionIteratorWithIndex<ImageType> itMoving(movingImage, region);
-  itMoving.GoToBegin();
-  count = 1;
-  while (!itMoving.IsAtEnd())
-  {
-    itMoving.Set((count));
-    count++;
-    ++itMoving;
+    const ImageType::IndexType index = itFixed.GetIndex();
+    double                     radius2 = 0.0;
+    for (unsigned int dim = 0; dim < imageDimensionality; ++dim)
+    {
+      radius2 += ((index[dim] - center) / (imageSize / 3.0)) * ((index[dim] - center) / (imageSize / 3.0));
+    }
+    const double value = std::exp(-radius2) + 0.3 * index[0] / imageSize + 0.15 * index[1] / imageSize;
+    itFixed.Set(value);
+    itMoving.Set(value * value * value);
   }
 
   /* Transforms */
@@ -81,7 +77,8 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, JointHistogramMutualInformationImageToImageMetricv4, ImageToImageMetricv4);
 
-  constexpr itk::SizeValueType numberOfHistogramBins{ 6 };
+  // Fewer than 7 bins degenerates the padded-PDF derivative stencils to zero.
+  constexpr itk::SizeValueType numberOfHistogramBins{ 20 };
   metric->SetNumberOfHistogramBins(numberOfHistogramBins);
   ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, metric->GetNumberOfHistogramBins());
 
@@ -110,6 +107,39 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
   if (itk::Math::NotExactlyEquals(valueReturn1, valueReturn2))
   {
     std::cerr << "Value return results are not identical: " << valueReturn1 << ", " << valueReturn2 << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Analytic derivative must point downhill and match a central finite difference.
+  {
+    constexpr double                    detune = 1.0;
+    constexpr double                    h = 0.5;
+    MovingTransformType::ParametersType offsetParameters(movingTransform->GetNumberOfParameters(), 0.0);
+    offsetParameters[0] = detune;
+    movingTransform->SetParameters(offsetParameters);
+    MetricType::MeasureType    detunedValue = NAN;
+    MetricType::DerivativeType detunedDerivative;
+    metric->GetValueAndDerivative(detunedValue, detunedDerivative);
+    offsetParameters[0] = detune + h;
+    movingTransform->SetParameters(offsetParameters);
+    const MetricType::MeasureType valuePlus = metric->GetValue();
+    offsetParameters[0] = detune - h;
+    movingTransform->SetParameters(offsetParameters);
+    const MetricType::MeasureType valueMinus = metric->GetValue();
+    movingTransform->SetIdentity();
+    const double finiteDifference = (valuePlus - valueMinus) / (2.0 * h);
+    const double analytic = detunedDerivative[0];
+    // Band brackets the measured analytic/central-difference ratio (~1.08 at h=0.5)
+    // tightly enough to trip on a lost 1/log2 or stray factor-of-2 scale regression.
+    if (itk::Math::abs(finiteDifference) < 1e-10 || analytic * finiteDifference >= 0.0 ||
+        itk::Math::abs(analytic) < 0.7 * itk::Math::abs(finiteDifference) ||
+        itk::Math::abs(analytic) > 1.4 * itk::Math::abs(finiteDifference))
+    {
+      std::cerr << "Analytic derivative disagrees with finite difference of the value:" << std::endl
+                << "  analytic[0]: " << analytic << std::endl
+                << "  central finite difference: " << finiteDifference << std::endl;
+      return EXIT_FAILURE;
+    }
   }
 
   std::cout << "JointPDF: " << metric->GetJointPDF() << std::endl;
@@ -128,6 +158,7 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
               << "  Number of valid points: " << metric->GetNumberOfValidPoints() << std::endl
               << "  Metric value: " << valueReturn2 << std::endl
               << "  Expected metric max value: " << expectedMetricMax << std::endl;
+    return EXIT_FAILURE;
   }
   movingTransform->SetIdentity();
 

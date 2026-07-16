@@ -104,9 +104,6 @@ protected:
                const ThreadIdType              threadId) const override;
 
   inline InternalComputationValueType
-  ComputeFixedImageMarginalPDFDerivative(const MarginalPDFPointType & margPDFpoint, const ThreadIdType threadId) const;
-
-  inline InternalComputationValueType
   ComputeMovingImageMarginalPDFDerivative(const MarginalPDFPointType & margPDFpoint, const ThreadIdType threadId) const;
 
   inline InternalComputationValueType
@@ -116,7 +113,6 @@ protected:
   struct JointHistogramMIPerThreadStruct
   {
     JointPDFInterpolatorPointer    JointPDFInterpolator;
-    MarginalPDFInterpolatorPointer FixedImageMarginalPDFInterpolator;
     MarginalPDFInterpolatorPointer MovingImageMarginalPDFInterpolator;
   };
   itkPadStruct(ITK_CACHE_LINE_ALIGNMENT, JointHistogramMIPerThreadStruct, PaddedJointHistogramMIPerThreadStruct);
@@ -129,6 +125,10 @@ private:
   /** Internal pointer to the metric object in use by this threader.
    *  This will avoid costly dynamic casting in tight loops. */
   TJointHistogramMetric * m_JointAssociate{};
+
+  /** Per-iteration derivative constants, hoisted out of the per-point loop. */
+  InternalComputationValueType m_MaxSlope{};
+  InternalComputationValueType m_MovingIntensityRange{};
 };
 
 } // end namespace itk

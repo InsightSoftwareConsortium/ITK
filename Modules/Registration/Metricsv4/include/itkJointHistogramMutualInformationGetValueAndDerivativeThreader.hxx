@@ -20,6 +20,9 @@
 
 #include "itkMakeUniqueForOverwrite.h"
 
+#include <algorithm> // For clamp.
+#include <cmath>     // For log.
+
 namespace itk
 {
 
@@ -60,13 +63,6 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<TDomainPartitioner,
     }
     this->m_JointHistogramMIPerThreadVariables[i].JointPDFInterpolator->SetInputImage(
       this->m_JointAssociate->m_JointPDF);
-    if (this->m_JointHistogramMIPerThreadVariables[i].FixedImageMarginalPDFInterpolator.IsNull())
-    {
-      this->m_JointHistogramMIPerThreadVariables[i].FixedImageMarginalPDFInterpolator =
-        MarginalPDFInterpolatorType::New();
-    }
-    this->m_JointHistogramMIPerThreadVariables[i].FixedImageMarginalPDFInterpolator->SetInputImage(
-      this->m_JointAssociate->m_FixedImageMarginalPDF);
     if (this->m_JointHistogramMIPerThreadVariables[i].MovingImageMarginalPDFInterpolator.IsNull())
     {
       this->m_JointHistogramMIPerThreadVariables[i].MovingImageMarginalPDFInterpolator =
@@ -75,6 +71,12 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<TDomainPartitioner,
     this->m_JointHistogramMIPerThreadVariables[i].MovingImageMarginalPDFInterpolator->SetInputImage(
       this->m_JointAssociate->m_MovingImageMarginalPDF);
   }
+
+  constexpr InternalComputationValueType eps{ 1.e-16 };
+  // Steepest log-slope the eps-guarded PDF can represent across one bin.
+  this->m_MaxSlope = -std::log(eps) / this->m_JointAssociate->m_JointPDFSpacing[1];
+  this->m_MovingIntensityRange =
+    this->m_JointAssociate->m_MovingImageTrueMax - this->m_JointAssociate->m_MovingImageTrueMin;
 }
 
 template <typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric>
@@ -144,11 +146,10 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
   constexpr InternalComputationValueType eps{ 1.e-16 };
   if (jointPDFValue > eps && movingImagePDFValue > eps)
   {
-    const InternalComputationValueType   pRatio = std::log(jointPDFValue) - std::log(movingImagePDFValue);
-    const InternalComputationValueType & term1 = dJPDF * pRatio;
-    const InternalComputationValueType & term2 =
-      this->m_JointAssociate->m_Log2 * dMmPDF * jointPDFValue / movingImagePDFValue;
-    scalingfactor = (term2 - term1);
+    const InternalComputationValueType term1 = std::clamp(dJPDF / jointPDFValue, -m_MaxSlope, m_MaxSlope);
+    const InternalComputationValueType term2 = std::clamp(dMmPDF / movingImagePDFValue, -m_MaxSlope, m_MaxSlope);
+    // Chain rule for ComputeJointPDFPoint's intensity -> [0,1] bin-axis normalization.
+    scalingfactor = (term1 - term2) / (this->m_JointAssociate->m_Log2 * m_MovingIntensityRange);
   } // end if-block to check non-zero bin contribution
   else
   {
@@ -175,51 +176,6 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
     localDerivativeReturn[par] = sum;
   }
   return true;
-}
-
-template <typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric>
-typename JointHistogramMutualInformationGetValueAndDerivativeThreader<
-  TDomainPartitioner,
-  TImageToImageMetric,
-  TJointHistogramMetric>::InternalComputationValueType
-JointHistogramMutualInformationGetValueAndDerivativeThreader<
-  TDomainPartitioner,
-  TImageToImageMetric,
-  TJointHistogramMetric>::ComputeFixedImageMarginalPDFDerivative(const MarginalPDFPointType & margPDFpoint,
-                                                                 const ThreadIdType           threadId) const
-{
-  InternalComputationValueType offset = 0.5 * this->m_JointPDFSpacing[0];
-  InternalComputationValueType eps = this->m_JointPDFSpacing[0];
-  MarginalPDFPointType         leftpoint = margPDFpoint;
-  leftpoint[0] -= offset;
-  MarginalPDFPointType rightpoint = margPDFpoint;
-  rightpoint[0] += offset;
-  if (leftpoint[0] < eps)
-  {
-    leftpoint[0] = eps;
-  }
-  if (rightpoint[0] < eps)
-  {
-    rightpoint[0] = eps;
-  }
-  if (leftpoint[0] > 1.0)
-  {
-    leftpoint[0] = 1.0;
-  }
-  if (rightpoint[0] > 1.0)
-  {
-    rightpoint[0] = 1.0;
-  }
-  InternalComputationValueType delta = rightpoint[0] - leftpoint[0];
-  if (delta > InternalComputationValueType{})
-  {
-    InternalComputationValueType deriv =
-      this->m_ThreaderFixedImageMarginalPDFInterpolator[threadId]->Evaluate(rightpoint) -
-      this->m_ThreaderFixedImageMarginalPDFInterpolator[threadId]->Evaluate(leftpoint);
-    return deriv / delta;
-  }
-
-  return InternalComputationValueType{};
 }
 
 template <typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric>

@@ -1,6 +1,5 @@
 ITK v6 Migration Guide
-======================
-
+===============
 This guide documents the changes required to migrate a code base
 which uses ITK v5 to use ITK v6. The migration guide for transition
 from v4 to v5 can be found [here](./itk_5_migration_guide.md).
@@ -978,3 +977,14 @@ configured min/max range wider than the image's actual intensity range,
 re-verify that threshold -- it may now differ (correctly) from the
 previous ITK release. The common case, `AutoMinimumMaximum` on (the
 default) with a non-degenerate histogram, is unaffected.
+## `JointHistogramMutualInformationImageToImageMetricv4` corrected
+
+The JointHistogram mutual-information metric's marginal PDFs were swapped
+(since introduction) and its analytic derivative was not an MI gradient; both
+are fixed, and the derivative is now unit-consistent with a bounded per-sample
+weight. The public API is unchanged and code compiles unmodified, but
+registration values and convergence with this metric change (toward the true
+optimum), and hand-tuned fixed learning rates must be re-tuned. Details, the
+downstream-consumer impact survey (SimpleITK, BRAINSFit, ANTs), and the
+re-baselining checklist are in the companion guide:
+[JointHistogramMutualInformation metric correction](./joint_histogram_mutual_information_metric_correction.md).
