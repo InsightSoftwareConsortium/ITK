@@ -10,7 +10,7 @@
 // consumer), so ITK's own VXL build is unaffected.
 #if __has_include(<itkConfigure.h>)
 #  include <itkConfigure.h>
-#  if defined(ITK_FUTURE_LEGACY_REMOVE)
+#  if defined(ITK_FUTURE_LEGACY_REMOVE) && !defined(ITK_LEGACY_TEST)
 #    error "vnl/algo/vnl_scatter_3x3.h is deprecated; build a 3x3 scatter matrix directly and use itk::SymmetricEigenDecomposition (itkSymmetricEigenDecomposition.h, Eigen-backed) for its eigensystem."
 #  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_LEGACY_TEST)
 #    if defined(_MSC_VER)

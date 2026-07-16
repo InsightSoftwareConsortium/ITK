@@ -8,10 +8,10 @@
 // an ITK consumer such as elastix), so ITK's own VXL build is unaffected.
 #if __has_include(<itkConfigure.h>)
 #  include <itkConfigure.h>
-#  if defined(ITK_FUTURE_LEGACY_REMOVE)
+#  if defined(ITK_FUTURE_LEGACY_REMOVE) && !defined(ITK_LEGACY_TEST)
 #    error \
       "vnl/vnl_matrix_exp.h was removed upstream in VXL; migrate to itk::Math::MatrixExponential (itkMatrixExponential.h, Eigen-backed)."
-#  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT)
+#  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_LEGACY_TEST)
 #    if defined(_MSC_VER)
 #      pragma message( \
         "vnl/vnl_matrix_exp.h is deprecated (removed upstream in VXL); migrate to itk::Math::MatrixExponential (itkMatrixExponential.h, Eigen-backed).")

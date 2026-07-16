@@ -3,7 +3,7 @@
 
 #if __has_include(<itkConfigure.h>)
 #  include <itkConfigure.h>
-#  if defined(ITK_FUTURE_LEGACY_REMOVE)
+#  if defined(ITK_FUTURE_LEGACY_REMOVE) && !defined(ITK_LEGACY_TEST)
 #    error "vnl_simpson_integral was removed; supply a composite Simpson rule (Mathews Algorithm 7.2) directly."
 #  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_LEGACY_TEST)
 #    if defined(_MSC_VER)
