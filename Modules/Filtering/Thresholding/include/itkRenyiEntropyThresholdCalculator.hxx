@@ -181,7 +181,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding(con
 
   InstanceIdentifier threshold =
     0; // was MIN_INT in original code, but if an empty image is processed it gives an error later on.
-  double max_ent = NumericTraits<double>::min(); // max entropy
+  double max_ent = NumericTraits<double>::NonpositiveMin(); // max entropy
 
   for (InstanceIdentifier it = m_FirstBin; it <= m_LastBin; ++it)
   {
@@ -232,7 +232,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding2(
 
   InstanceIdentifier threshold =
     0; // was MIN_INT in original code, but if an empty image is processed it gives an error later on.
-  double           max_ent = NumericTraits<double>::min();
+  double           max_ent = NumericTraits<double>::NonpositiveMin();
   constexpr double alpha{ 0.5 };
   const double     term = 1.0 / (1.0 - alpha);
 
@@ -281,7 +281,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding3(
 {
   InstanceIdentifier threshold =
     0; // was MIN_INT in original code, but if an empty image is processed it gives an error later on.
-  double           max_ent = 0.0;
+  double           max_ent = NumericTraits<double>::NonpositiveMin();
   constexpr double alpha{ 2.0 };
   const double     term = 1.0 / (1.0 - alpha);
   for (InstanceIdentifier it = m_FirstBin; it <= m_LastBin; ++it)

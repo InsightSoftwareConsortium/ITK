@@ -954,3 +954,27 @@ unchanged; consumers compile without modification.
   re-read.
 - The vendored `gdcm::SerieHelper` is untouched (GDCM still uses it
   internally); it may be removed once upstream GDCM drops it.
+
+## `RenyiEntropyThresholdCalculator`/`MaximumEntropyThresholdCalculator`: max-entropy seed corrected
+
+Both calculators seeded their running-maximum entropy accumulator with
+`NumericTraits<double>::min()` -- the smallest *positive* double, not the
+most negative representable value. These entropy formulas are provably
+non-negative, but legitimately reach exactly `0` for a degenerate or
+tied sub-histogram split (common with `AutoMinimumMaximum` off, since
+the fixed bin range then often extends past the image's actual data) --
+and `0` does not exceed `min()`. The reported threshold could then stick
+at its pre-loop initial value instead of the bin that actually maximizes
+entropy. The seed is now `NumericTraits<double>::NonpositiveMin()`, which
+is guaranteed to compare less than any real entropy value, including `0`.
+
+### What you need to do
+
+Nothing in your code needs to change -- the fix is internal to the
+calculators. But if you depend on an exact threshold from either
+calculator, or from `RenyiEntropyThresholdImageFilter` /
+`MaximumEntropyThresholdImageFilter`, with `AutoMinimumMaximum` off and a
+configured min/max range wider than the image's actual intensity range,
+re-verify that threshold -- it may now differ (correctly) from the
+previous ITK release. The common case, `AutoMinimumMaximum` on (the
+default) with a non-degenerate histogram, is unaffected.

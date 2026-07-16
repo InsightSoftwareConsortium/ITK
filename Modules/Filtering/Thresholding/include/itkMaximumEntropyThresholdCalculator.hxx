@@ -87,7 +87,7 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   // Calculate the total entropy each gray-level and find the threshold that
   // maximizes it
-  double max_ent = itk::NumericTraits<double>::min(); // max entropy
+  double max_ent = itk::NumericTraits<double>::NonpositiveMin(); // max entropy
 
   for (int it = first_bin; it <= last_bin; ++it)
   {
