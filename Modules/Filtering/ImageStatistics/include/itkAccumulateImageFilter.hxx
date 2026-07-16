@@ -54,6 +54,12 @@ AccumulateImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     return;
   }
 
+  if (m_AccumulateDimension >= TInputImage::ImageDimension)
+  {
+    itkExceptionMacro(
+      "AccumulateImageFilter: invalid dimension to accumulate. AccumulateDimension = " << m_AccumulateDimension);
+  }
+
   inputIndex = input->GetLargestPossibleRegion().GetIndex();
   inputSize = input->GetLargestPossibleRegion().GetSize();
   inSpacing = input->GetSpacing();
@@ -76,8 +82,17 @@ AccumulateImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
       outputSize[i] = 1;
       outputIndex[i] = 0;
       outSpacing[i] = inSpacing[i] * inputSize[i];
-      outOrigin[i] = inOrigin[i] + (i - 1) * inSpacing[i] / 2;
+      outOrigin[i] = inOrigin[i];
     }
+  }
+
+  // The single output pixel sits at the center of the collapsed input extent.
+  const double centerIndex = static_cast<double>(inputIndex[m_AccumulateDimension]) +
+                             (static_cast<double>(inputSize[m_AccumulateDimension]) - 1.0) / 2.0;
+  const double centerOffset = centerIndex * inSpacing[m_AccumulateDimension];
+  for (unsigned int d = 0; d < InputImageDimension; ++d)
+  {
+    outOrigin[d] += outDirection[d][m_AccumulateDimension] * centerOffset;
   }
 
   const typename TOutputImage::RegionType outputRegion(outputIndex, outputSize);
