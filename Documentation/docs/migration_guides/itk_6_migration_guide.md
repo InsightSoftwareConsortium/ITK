@@ -1009,3 +1009,15 @@ baseline that encodes origin, re-verify that value -- it now reflects the
 corrected collapsed-axis center. Formats that do not store an origin (`.tif`,
 `.png`) and dimension-reducing projections (output dimension less than input)
 are unaffected.
+
+## `HDF5ImageIO` no longer compresses by default
+
+`HDF5ImageIO` previously applied deflate compression unconditionally,
+ignoring the `UseCompression` flag. The flag is now respected.
+`ImageFileWriter` defaults `UseCompression` to `false`, so HDF5 files
+written through the standard writer pipeline are **uncompressed by default**.
+
+### What you need to do
+
+Call `writer->UseCompressionOn()` to restore compressed output. To control the
+deflate level (1–9, default 5), also call `writer->SetCompressionLevel(N)`.
