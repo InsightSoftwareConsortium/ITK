@@ -38,8 +38,8 @@
 /* Useful in particular for loadshared where the full path
  * to the lib is needed */
 #define GDCM_SOURCE_DIR "@GDCM_SOURCE_DIR@"
-#define GDCM_EXECUTABLE_OUTPUT_PATH "@EXECUTABLE_OUTPUT_PATH@"
-#define GDCM_LIBRARY_OUTPUT_PATH    "@LIBRARY_OUTPUT_PATH@"
+#define GDCM_EXECUTABLE_OUTPUT_PATH "@CMAKE_RUNTIME_OUTPUT_DIRECTORY@"
+#define GDCM_LIBRARY_OUTPUT_PATH    "@GDCM_LIBRARY_OUTPUT_DIR@"
 
 #cmakedefine GDCM_BUILD_TESTING
 
