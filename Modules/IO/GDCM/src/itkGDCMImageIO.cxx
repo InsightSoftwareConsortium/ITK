@@ -357,10 +357,15 @@ GDCMImageIO::Read(void * pointer)
 
   if (m_SingleBit)
   {
-    const auto copy = make_unique_for_overwrite<unsigned char[]>(len);
-    auto *     t = reinterpret_cast<unsigned char *>(pointer);
-    size_t     j = 0;
-    for (size_t i = 0; i < len / 8; ++i)
+    // DICOM PS3.5 packs 1-bit Pixel Data contiguously (no per-row byte padding):
+    // bit i of the pixel stream is bit (i % 8) of byte (i / 8). `len` pixels
+    // require ceil(len / 8) source bytes; the final byte may be only partially
+    // used when `len` is not a multiple of 8.
+    const auto   copy = make_unique_for_overwrite<unsigned char[]>(len);
+    const auto * t = reinterpret_cast<const unsigned char *>(pointer);
+    const size_t fullBytes = len / 8;
+    size_t       j = 0;
+    for (size_t i = 0; i < fullBytes; ++i)
     {
       const unsigned char c = t[i];
       copy[j + 0] = (c & 0x01) ? 255 : 0;
@@ -372,6 +377,15 @@ GDCMImageIO::Read(void * pointer)
       copy[j + 6] = (c & 0x40) ? 255 : 0;
       copy[j + 7] = (c & 0x80) ? 255 : 0;
       j += 8;
+    }
+    const size_t remainder = len % 8;
+    if (remainder > 0)
+    {
+      const unsigned char c = t[fullBytes];
+      for (size_t bit = 0; bit < remainder; ++bit)
+      {
+        copy[j + bit] = (c & (1 << bit)) ? 255 : 0;
+      }
     }
     memcpy(static_cast<char *>(pointer), copy.get(), len);
   }
@@ -662,26 +676,45 @@ GDCMImageIO::InternalReadImageInformation()
       const gdcm::Tag     spacingTag(0x0028, 0x0030);
       if (const gdcm::DataElement & de = ds.GetDataElement(spacingTag); !de.IsEmpty())
       {
-        std::stringstream                            m_Ss;
-        gdcm::Element<gdcm::VR::DS, gdcm::VM::VM1_n> m_El;
-        const gdcm::ByteValue *                      bv = de.GetByteValue();
+        const gdcm::ByteValue * bv = de.GetByteValue();
         assert(bv);
-        const std::string s(bv->GetPointer(), bv->GetLength());
-        m_Ss.str(s);
-        // Erroneous file CT-MONO2-8-abdo.dcm,
-        // The spacing is something like that [0.2\0\0.200000],
-        // TODO throw an exception that VM is not compatible.
-        m_El.SetLength(16);
-        m_El.Read(m_Ss);
-        assert(m_El.GetLength() == 2);
-        for (unsigned long i = 0; i < m_El.GetLength(); ++i)
+        const size_t numberOfValues = gdcm::VM::GetNumberOfElementsFromArray(bv->GetPointer(), bv->GetLength());
+        if (numberOfValues == 1)
         {
-          sp.push_back(m_El.GetValue(i));
+          // Isotropic spacing encoded as a single value rather than the usual two.
+          const std::string  singleValue(bv->GetPointer(), bv->GetLength());
+          std::istringstream iss(singleValue.substr(0, singleValue.find('\\')));
+          double             value = 0.0;
+          if (!(iss >> value) || value <= 0.0 || !(iss >> std::ws).eof())
+          {
+            itkExceptionMacro("PixelSpacing (0028,0030) single value '" << singleValue
+                                                                        << "' is not a positive number.");
+          }
+          spacing[0] = value;
+          spacing[1] = value;
         }
-        std::swap(sp[0], sp[1]);
-        assert(sp.size() == 2);
-        spacing[0] = sp[0];
-        spacing[1] = sp[1];
+        else if (numberOfValues == 2)
+        {
+          std::stringstream                            m_Ss;
+          gdcm::Element<gdcm::VR::DS, gdcm::VM::VM1_n> m_El;
+          m_Ss.str(std::string(bv->GetPointer(), bv->GetLength()));
+          m_El.SetLength(16);
+          m_El.Read(m_Ss);
+          for (unsigned long i = 0; i < m_El.GetLength(); ++i)
+          {
+            sp.push_back(m_El.GetValue(i));
+          }
+          std::swap(sp[0], sp[1]);
+          spacing[0] = sp[0];
+          spacing[1] = sp[1];
+        }
+        else
+        {
+          // Erroneous file CT-MONO2-8-abdo.dcm has PixelSpacing values like
+          // [0.2\0\0.200000] (three, one of them empty): VM is not compatible.
+          itkExceptionMacro("PixelSpacing (0028,0030) has " << numberOfValues
+                                                            << " values; expected 1 (isotropic) or 2.");
+        }
       }
       else
       {
