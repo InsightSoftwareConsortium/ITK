@@ -7,7 +7,9 @@
 # may become less reliable with newer versions of CMake (as opposed setting FindPython3 HINTS).  Current
 # implementation gives preference to active virtualenvs.
 cmake_policy(SET CMP0094 NEW) # makes FindPython3 prefer activated virtualenv Python to latest version
-set(PYTHON_VERSION_MIN 3.11)
+# Canonical floor; a specified Python3_EXECUTABLE narrows PYTHON_VERSION_MIN below, so keep it separate.
+set(ITK_WRAP_PYTHON_MINIMUM_VERSION 3.11)
+set(PYTHON_VERSION_MIN ${ITK_WRAP_PYTHON_MINIMUM_VERSION})
 set(PYTHON_VERSION_MAX 3.999)
 if(DEFINED Python3_EXECUTABLE) # if already specified
   set(_specified_Python3_EXECUTABLE ${Python3_EXECUTABLE})
@@ -22,6 +24,22 @@ if(DEFINED Python3_EXECUTABLE) # if already specified
     OUTPUT_STRIP_TRAILING_WHITESPACE
   )
   if(_specified_Python3_VERSION_MM)
+    # execute_process re-runs every configure, so this also rejects incremental
+    # reconfigures of a cached below-floor tree, before any wrapping work.
+    if(
+      PYTHON_DEVELOPMENT_REQUIRED
+      AND
+        _specified_Python3_VERSION_MM
+          VERSION_LESS
+          ${ITK_WRAP_PYTHON_MINIMUM_VERSION}
+    )
+      message(
+        FATAL_ERROR
+        "ITK Python wrapping (ITK_WRAP_PYTHON=ON) requires Python >= ${ITK_WRAP_PYTHON_MINIMUM_VERSION}, "
+        "but the specified Python3_EXECUTABLE=${_specified_Python3_EXECUTABLE} is Python ${_specified_Python3_VERSION_MM}. "
+        "Provide a Python >= ${ITK_WRAP_PYTHON_MINIMUM_VERSION} interpreter, or set ITK_WRAP_PYTHON=OFF."
+      )
+    endif()
     set(PYTHON_VERSION_MIN ${_specified_Python3_VERSION_MM})
     set(PYTHON_VERSION_MAX ${_specified_Python3_VERSION_MM})
   endif()
@@ -56,6 +74,25 @@ else()
       NumPy
   )
   set(ITK_WRAP_PYTHON_VERSION "${Python3_VERSION}")
+
+  # An empty Python3_VERSION means the range found nothing; otherwise the second
+  # find_package below runs unversioned and silently accepts a below-floor Python.
+  if(
+    NOT
+      Python3_VERSION
+    OR
+      Python3_VERSION
+        VERSION_LESS
+        ${ITK_WRAP_PYTHON_MINIMUM_VERSION}
+  )
+    message(
+      FATAL_ERROR
+      "ITK Python wrapping (ITK_WRAP_PYTHON=ON) requires Python >= ${ITK_WRAP_PYTHON_MINIMUM_VERSION}, "
+      "but no such interpreter was found in range ${PYTHON_VERSION_MIN}...${PYTHON_VERSION_MAX} "
+      "(resolved version '${Python3_VERSION}', Python3_EXECUTABLE='${Python3_EXECUTABLE}'). "
+      "Provide a Python >= ${ITK_WRAP_PYTHON_MINIMUM_VERSION} interpreter, or set ITK_WRAP_PYTHON=OFF."
+    )
+  endif()
 
   # start section to define package components based on LIMITED_API support and choices
   # Cached so the abi3 floor is a single source of truth shared with the module
