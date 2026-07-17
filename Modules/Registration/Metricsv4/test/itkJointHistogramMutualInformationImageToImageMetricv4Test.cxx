@@ -131,9 +131,9 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
     const double analytic = detunedDerivative[0];
     // Band brackets the measured analytic/central-difference ratio (~1.08 at h=0.5)
     // tightly enough to trip on a lost 1/log2 or stray factor-of-2 scale regression.
-    if (itk::Math::abs(finiteDifference) < 1e-10 || analytic * finiteDifference >= 0.0 ||
-        itk::Math::abs(analytic) < 0.7 * itk::Math::abs(finiteDifference) ||
-        itk::Math::abs(analytic) > 1.4 * itk::Math::abs(finiteDifference))
+    if (itk::Math::Absolute(finiteDifference) < 1e-10 || analytic * finiteDifference >= 0.0 ||
+        itk::Math::Absolute(analytic) < 0.7 * itk::Math::Absolute(finiteDifference) ||
+        itk::Math::Absolute(analytic) > 1.4 * itk::Math::Absolute(finiteDifference))
     {
       std::cerr << "Analytic derivative disagrees with finite difference of the value:" << std::endl
                 << "  analytic[0]: " << analytic << std::endl
