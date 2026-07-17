@@ -162,7 +162,7 @@ TEST(InverseDisplacementFieldImageFilter, CenteredSubsamplingBoundsHighEdgeError
     {
       back[i] = point[i] + it.Get()[i];
       back[i] += 0.002 * back[i] * back[i];
-      maxError = std::max(maxError, itk::Math::abs(back[i] - point[i]));
+      maxError = std::max(maxError, itk::Math::Absolute(back[i] - point[i]));
     }
   }
   EXPECT_LT(maxError, 0.06);
@@ -231,7 +231,7 @@ TEST(InverseDisplacementFieldImageFilter, NonZeroStartRegionInvertsCorrectly)
     {
       back[i] = point[i] + it.Get()[i];
       back[i] += 0.002 * back[i] * back[i];
-      maxError = std::max(maxError, itk::Math::abs(back[i] - point[i]));
+      maxError = std::max(maxError, itk::Math::Absolute(back[i] - point[i]));
     }
   }
   EXPECT_LT(maxError, 0.06);
