@@ -85,7 +85,6 @@ set(nrrdio_SRCS
     preamble.c
     read.c
     reorder.c
-    sampleIO.c
     sane.c
     simple.c
     string.c
