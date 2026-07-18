@@ -162,31 +162,50 @@ if(ITK_BUILD_DOCUMENTATION)
 
   find_package(LATEX)
 
+  file(
+    GLOB_RECURSE EXAMPLES_LIST
+    CONFIGURE_DEPENDS
+    "${ITK_SOURCE_DIR}/Examples/*.cxx"
+    "${ITK_SOURCE_DIR}/Examples/*.py"
+    "${ITK_SOURCE_DIR}/Examples/*.java"
+  )
+  set(ITK_EXAMPLES ${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox)
+
+  # Removing an example changes only EXAMPLES_LIST, which cannot make
+  # Examples.dox out of date; depend on a stamp holding the list itself so a
+  # deletion is seen. file(CONFIGURE) rewrites only when the content differs.
+  set(
+    ITK_EXAMPLES_LIST_STAMP
+    ${ITK_BINARY_DIR}/Documentation/Doxygen/ExamplesList.txt
+  )
+  string(REPLACE ";" "\n" ITK_EXAMPLES_LIST_CONTENT "${EXAMPLES_LIST}")
+  file(
+    CONFIGURE
+    OUTPUT ${ITK_EXAMPLES_LIST_STAMP}
+    CONTENT "${ITK_EXAMPLES_LIST_CONTENT}\n"
+  )
+
   # Custom command to generate a examples page which include all ITK examples
   add_custom_command(
     OUTPUT
-      "${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox"
+      ${ITK_EXAMPLES}
     COMMAND
       ${CMAKE_COMMAND} -D "PROJECT_SOURCE_DIR:PATH=${ITK_SOURCE_DIR}" -D
-      "OUTPUT_FILE:PATH=${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox" -P
+      "OUTPUT_FILE:PATH=${ITK_EXAMPLES}" -P
       "${ITK_SOURCE_DIR}/Utilities/Doxygen/GenerateExamplesDox.cmake"
-    WORKING_DIRECTORY "${ITK_SOURCE_DIR}/Examples"
     DEPENDS
-      "${ITK_SOURCE_DIR}/Examples"
+      ${EXAMPLES_LIST}
+      ${ITK_EXAMPLES_LIST_STAMP}
       "${ITK_SOURCE_DIR}/Utilities/Doxygen/GenerateExamplesDox.cmake"
   )
-  add_custom_target(
-    ITKDoxygenExamplesDox
-    DEPENDS
-      "${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox"
-  )
+  add_custom_target(ITKDoxygenExamplesDox ALL DEPENDS ${ITK_EXAMPLES})
 
   set(
     ITK_DOXYGEN_INPUT
     ${DOXYGEN_INCLUDE_DIRS}
     ${ITK_SOURCE_DIR}/Documentation/Doxygen
     ${ITK_BINARY_DIR}/Documentation/Doxygen
-    ${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox
+    ${ITK_EXAMPLES}
     ${ITK_BINARY_DIR}/Utilities/Doxygen/Modules
     ${ITK_DOXYGEN_INPUT}
   )
