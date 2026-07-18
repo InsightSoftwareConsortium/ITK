@@ -1,23 +1,30 @@
 #include "vnl/vnl_matrix.h"
-#include <vnl/algo/vnl_svd.h>
+#ifndef VNL_SVD_REMOVED
+#  include <vnl/algo/vnl_svd.h>
+#endif
 #include "vnl/vnl_rank.h"
 #include "testlib/testlib_test.h"
 
+#ifndef VNL_SVD_REMOVED
 inline int
 svd_rank(const vnl_matrix<double> & M)
 {
   return vnl_svd<double>(M, 1e-8).rank();
 }
+#  define TEST_SVD_RANK(msg, m, expected) TEST(msg, svd_rank(m), expected)
+#else
+#  define TEST_SVD_RANK(msg, m, expected) /* vnl_svd removed */
+#endif
 
 void
 test_rank()
 {
   // 1x1 double
   vnl_matrix<double> m11(1, 1, 0.0); // all zero matrix
-  TEST("zero_1x1.vnl_svd().rank()", svd_rank(m11), 0);
+  TEST_SVD_RANK("zero_1x1.vnl_svd().rank()", m11, 0);
   TEST("vnl_rank(zero_1x1)", vnl_rank(m11), 0);
   m11[0][0] = -3.0;
-  TEST("-3_1x1.vnl_svd().rank()", svd_rank(m11), 1);
+  TEST_SVD_RANK("-3_1x1.vnl_svd().rank()", m11, 1);
   TEST("vnl_rank(-3_1x1)", vnl_rank(m11), 1);
   TEST("vnl_rank(-3_1x1, vnl_rank_row)", vnl_rank(m11, vnl_rank_row), 1);
   TEST("vnl_rank(-3_1x1, vnl_rank_column)", vnl_rank(m11, vnl_rank_column), 1);
@@ -32,17 +39,17 @@ test_rank()
 
   // 1x2 double
   vnl_matrix<double> m12(1, 2, 0.0); // all zero matrix
-  TEST("zero_1x2.vnl_svd().rank()", svd_rank(m12), 0);
+  TEST_SVD_RANK("zero_1x2.vnl_svd().rank()", m12, 0);
   TEST("vnl_rank(zero_1x2)", vnl_rank(m12), 0);
   TEST("vnl_rank(zero_1x2, vnl_rank_row)", vnl_rank(m12, vnl_rank_row), 0);
   TEST("vnl_rank(zero_1x2, vnl_rank_column)", vnl_rank(m12, vnl_rank_column), 0);
   m12[0][1] = -2.0;
-  TEST("0-2_1x2.vnl_svd().rank()", svd_rank(m12), 1);
+  TEST_SVD_RANK("0-2_1x2.vnl_svd().rank()", m12, 1);
   TEST("vnl_rank(0-2_1x2)", vnl_rank(m12), 1);
   TEST("vnl_rank(0-2_1x2, vnl_rank_row)", vnl_rank(m12, vnl_rank_row), 1);
   TEST("vnl_rank(0-2_1x2, vnl_rank_column)", vnl_rank(m12, vnl_rank_column), 1);
   m12[0][0] = 1.0;
-  TEST("1-2_1x2.vnl_svd().rank()", svd_rank(m12), 1);
+  TEST_SVD_RANK("1-2_1x2.vnl_svd().rank()", m12, 1);
   TEST("vnl_rank(1-2_1x2)", vnl_rank(m12), 1);
   TEST("vnl_rank(1-2_1x2, vnl_rank_row)", vnl_rank(m12, vnl_rank_row), 1);
   TEST("vnl_rank(1-2_1x2, vnl_rank_column)", vnl_rank(m12, vnl_rank_column), 1);
@@ -63,34 +70,34 @@ test_rank()
 
   // 2x2 double
   vnl_matrix<double> m22(2, 2, 0.0); // all zero matrix
-  TEST("zero_2x2.vnl_svd().rank()", svd_rank(m22), 0);
+  TEST_SVD_RANK("zero_2x2.vnl_svd().rank()", m22, 0);
   TEST("vnl_rank(zero_2x2)", vnl_rank(m22), 0);
   TEST("vnl_rank(zero_2x2, vnl_rank_row)", vnl_rank(m22, vnl_rank_row), 0);
   TEST("vnl_rank(zero_2x2, vnl_rank_column)", vnl_rank(m22, vnl_rank_column), 0);
   m22[0][1] = 6.0;
-  TEST("0300_2x2.vnl_svd().rank()", svd_rank(m22), 1);
+  TEST_SVD_RANK("0300_2x2.vnl_svd().rank()", m22, 1);
   TEST("vnl_rank(0600_2x2)", vnl_rank(m22), 1);
   TEST("vnl_rank(0600_2x2, vnl_rank_row)", vnl_rank(m22, vnl_rank_row), 1);
   TEST("vnl_rank(0600_2x2, vnl_rank_column)", vnl_rank(m22, vnl_rank_column), 1);
   m22[1][0] = -1.0;
-  TEST("06-10_2x2.vnl_svd().rank()", svd_rank(m22), 2);
+  TEST_SVD_RANK("06-10_2x2.vnl_svd().rank()", m22, 2);
   TEST("vnl_rank(06-10_2x2)", vnl_rank(m22), 2);
   TEST("vnl_rank(06-10_2x2, vnl_rank_row)", vnl_rank(m22, vnl_rank_row), 2);
   TEST("vnl_rank(06-10_2x2, vnl_rank_column)", vnl_rank(m22, vnl_rank_column), 2);
   m22[0][0] = -2.0;
   m22[1][1] = 3.0;
-  TEST("-26-13_2x2.vnl_svd().rank()", svd_rank(m22), 1);
+  TEST_SVD_RANK("-26-13_2x2.vnl_svd().rank()", m22, 1);
   TEST("vnl_rank(-26-13_2x2)", vnl_rank(m22), 1);
   TEST("vnl_rank(-26-13_2x2, vnl_rank_row)", vnl_rank(m22, vnl_rank_row), 1);
   TEST("vnl_rank(-26-13_2x2, vnl_rank_column)", vnl_rank(m22, vnl_rank_column), 1);
   m22[1][0] = -3.0;
   m22[1][1] = 9.0;
-  TEST("-26-39_2x2.vnl_svd().rank()", svd_rank(m22), 1);
+  TEST_SVD_RANK("-26-39_2x2.vnl_svd().rank()", m22, 1);
   TEST("vnl_rank(-26-39_2x2)", vnl_rank(m22), 1);
   TEST("vnl_rank(-26-39_2x2, vnl_rank_row)", vnl_rank(m22, vnl_rank_row), 1);
   TEST("vnl_rank(-26-39_2x2, vnl_rank_column)", vnl_rank(m22, vnl_rank_column), 1);
   m22 *= 2.0; // now the pivot element will never be 1
-  TEST("-4_12_-6_18_2x2.vnl_svd().rank()", svd_rank(m22), 1);
+  TEST_SVD_RANK("-4_12_-6_18_2x2.vnl_svd().rank()", m22, 1);
   TEST("vnl_rank(-4_12_-6_18_2x2)", vnl_rank(m22), 1);
   TEST("vnl_rank(-4_12_-6_18_2x2, vnl_rank_row)", vnl_rank(m22, vnl_rank_row), 1);
   TEST("vnl_rank(-4_12_-6_18_2x2, vnl_rank_column)", vnl_rank(m22, vnl_rank_column), 1);
@@ -125,34 +132,34 @@ test_rank()
 
   // 3x2 double
   vnl_matrix<double> m32(3, 2, 0.0); // all zero matrix
-  TEST("zero_3x2.vnl_svd().rank()", svd_rank(m32), 0);
+  TEST_SVD_RANK("zero_3x2.vnl_svd().rank()", m32, 0);
   TEST("vnl_rank(zero_3x2)", vnl_rank(m32), 0);
   TEST("vnl_rank(zero_3x2, vnl_rank_row)", vnl_rank(m32, vnl_rank_row), 0);
   TEST("vnl_rank(zero_3x2, vnl_rank_column)", vnl_rank(m32, vnl_rank_column), 0);
   m32[0][1] = 6.0;
-  TEST("3x2.vnl_svd().rank()", svd_rank(m32), 1);
+  TEST_SVD_RANK("3x2.vnl_svd().rank()", m32, 1);
   TEST("vnl_rank(3x2)", vnl_rank(m32), 1);
   TEST("vnl_rank(3x2, vnl_rank_row)", vnl_rank(m32, vnl_rank_row), 1);
   TEST("vnl_rank(3x2, vnl_rank_column)", vnl_rank(m32, vnl_rank_column), 1);
   m32[2][0] = -1.0;
-  TEST("3x2.vnl_svd().rank()", svd_rank(m32), 2);
+  TEST_SVD_RANK("3x2.vnl_svd().rank()", m32, 2);
   TEST("vnl_rank(3x2)", vnl_rank(m32), 2);
   TEST("vnl_rank(3x2, vnl_rank_row)", vnl_rank(m32, vnl_rank_row), 2);
   TEST("vnl_rank(3x2, vnl_rank_column)", vnl_rank(m32, vnl_rank_column), 2);
   m32[1][0] = 3.0;
   m32[2][1] = 1.0;
-  TEST("3x2.vnl_svd().rank()", svd_rank(m32), 2);
+  TEST_SVD_RANK("3x2.vnl_svd().rank()", m32, 2);
   TEST("vnl_rank(3x2)", vnl_rank(m32), 2);
   TEST("vnl_rank(3x2, vnl_rank_row)", vnl_rank(m32, vnl_rank_row), 2);
   TEST("vnl_rank(3x2, vnl_rank_column)", vnl_rank(m32, vnl_rank_column), 2);
   m32[0][0] = -6.0;
   m32[1][1] = -3.0;
-  TEST("3x2.vnl_svd().rank()", svd_rank(m32), 1);
+  TEST_SVD_RANK("3x2.vnl_svd().rank()", m32, 1);
   TEST("vnl_rank(3x2)", vnl_rank(m32), 1);
   TEST("vnl_rank(3x2, vnl_rank_row)", vnl_rank(m32, vnl_rank_row), 1);
   TEST("vnl_rank(3x2, vnl_rank_column)", vnl_rank(m32, vnl_rank_column), 1);
   m32 *= 2.0;
-  TEST("3x2.vnl_svd().rank()", svd_rank(m32), 1);
+  TEST_SVD_RANK("3x2.vnl_svd().rank()", m32, 1);
   TEST("vnl_rank(3x2)", vnl_rank(m32), 1);
 
   // 3x2 int
@@ -183,33 +190,33 @@ test_rank()
 
   // 3x3 double
   vnl_matrix<double> m33(3, 3, 0.0); // all zero matrix
-  TEST("zero_3x3.vnl_svd().rank()", svd_rank(m33), 0);
+  TEST_SVD_RANK("zero_3x3.vnl_svd().rank()", m33, 0);
   TEST("vnl_rank(zero_3x3)", vnl_rank(m33), 0);
   TEST("vnl_rank(zero_3x3, vnl_rank_row)", vnl_rank(m33, vnl_rank_row), 0);
   TEST("vnl_rank(zero_3x3, vnl_rank_column)", vnl_rank(m33, vnl_rank_column), 0);
   m33[0][1] = 6.0;
   m33[0][2] = -2.0;
-  TEST("3x3.vnl_svd().rank()", svd_rank(m33), 1);
+  TEST_SVD_RANK("3x3.vnl_svd().rank()", m33, 1);
   TEST("vnl_rank(3x3)", vnl_rank(m33), 1);
   TEST("vnl_rank(3x3, vnl_rank_row)", vnl_rank(m33, vnl_rank_row), 1);
   TEST("vnl_rank(3x3, vnl_rank_column)", vnl_rank(m33, vnl_rank_column), 1);
   m33[1][2] = -1.0;
   m33[1][0] = 7.0;
-  TEST("3x3.vnl_svd().rank()", svd_rank(m33), 2);
+  TEST_SVD_RANK("3x3.vnl_svd().rank()", m33, 2);
   TEST("vnl_rank(3x3)", vnl_rank(m33), 2);
   TEST("vnl_rank(3x3, vnl_rank_row)", vnl_rank(m33, vnl_rank_row), 2);
   TEST("vnl_rank(3x3, vnl_rank_column)", vnl_rank(m33, vnl_rank_column), 2);
   m33[2][0] = 7.0;
-  TEST("3x3.vnl_svd().rank()", svd_rank(m33), 3);
+  TEST_SVD_RANK("3x3.vnl_svd().rank()", m33, 3);
   TEST("vnl_rank(3x3)", vnl_rank(m33), 3);
   TEST("vnl_rank(3x3, vnl_rank_row)", vnl_rank(m33, vnl_rank_row), 3);
   TEST("vnl_rank(3x3, vnl_rank_column)", vnl_rank(m33, vnl_rank_column), 3);
   m33[2][1] = 6.0;
   m33[2][2] = -3.0;
-  TEST("3x3.vnl_svd().rank()", svd_rank(m33), 2);
+  TEST_SVD_RANK("3x3.vnl_svd().rank()", m33, 2);
   TEST("vnl_rank(3x3)", vnl_rank(m33), 2);
   m33 *= 2.0;
-  TEST("3x3.vnl_svd().rank()", svd_rank(m33), 2);
+  TEST_SVD_RANK("3x3.vnl_svd().rank()", m33, 2);
   TEST("vnl_rank(3x3)", vnl_rank(m33), 2);
 
   // 3x3 int

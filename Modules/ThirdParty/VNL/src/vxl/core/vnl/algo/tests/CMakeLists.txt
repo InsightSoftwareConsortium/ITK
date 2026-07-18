@@ -19,10 +19,7 @@ set(vnl_algo_test_sources
   test_qr.cxx
   test_rank.cxx
   test_sparse_matrix.cxx
-  test_svd.cxx
-  test_svd_fixed.cxx
   test_integral.cxx
-  test_solve_qp.cxx
   test_sparse_lu.cxx
   test_bracket_minimum.cxx
   test_brent_minimizer.cxx
@@ -38,9 +35,25 @@ if(NOT ITK_FUTURE_LEGACY_REMOVE)
   )
 endif()
 
+# The LINPACK-svdc-backed vnl_svd family and vnl_solve_qp are excluded from the
+# build under ITK_FUTURE_LEGACY_REMOVE, so their tests cannot link there.
+if(NOT ITK_FUTURE_LEGACY_REMOVE)
+  list(APPEND vnl_algo_test_sources
+    test_svd.cxx
+    test_svd_fixed.cxx
+    test_solve_qp.cxx
+  )
+endif()
+
 add_executable( vnl_algo_test_all ${vnl_algo_test_sources} )
 if(ITK_FUTURE_LEGACY_REMOVE)
-  target_compile_definitions( vnl_algo_test_all PRIVATE VNL_EISPACK_REMOVED )
+  # The ThirdParty VXL compile cannot see itkConfigure.h, so the removed-API
+  # state is conveyed to the test sources as explicit compile definitions.
+  target_compile_definitions( vnl_algo_test_all PRIVATE
+    VNL_EISPACK_REMOVED
+    VNL_SVD_REMOVED
+    VNL_MATRIX_INVERSE_REMOVED
+  )
 endif()
 
 target_link_libraries( vnl_algo_test_all itkvnl_algo itktestlib ${CMAKE_THREAD_LIBS} )
@@ -58,18 +71,18 @@ add_test( NAME vnl_algo_test_powell COMMAND vnl_algo_test_all test_powell       
 add_test( NAME vnl_algo_test_qr COMMAND vnl_algo_test_all test_qr                      )
 add_test( NAME vnl_algo_test_rank COMMAND vnl_algo_test_all test_rank                    )
 add_test( NAME vnl_algo_test_integral COMMAND vnl_algo_test_all test_integral                )
-add_test( NAME vnl_algo_test_solve_qp COMMAND vnl_algo_test_all test_solve_qp                )
 add_test( NAME vnl_algo_test_sparse_lu COMMAND vnl_algo_test_all test_sparse_lu               )
 add_test( NAME vnl_algo_test_bracket_minimum COMMAND vnl_algo_test_all test_bracket_minimum         )
 add_test( NAME vnl_algo_test_brent_minimizer COMMAND vnl_algo_test_all test_brent_minimizer         )
 add_test( NAME vnl_algo_test_sparse_matrix COMMAND vnl_algo_test_all test_sparse_matrix           )
-add_test( NAME vnl_algo_test_svd COMMAND vnl_algo_test_all test_svd                     )
-add_test( NAME vnl_algo_test_svd_fixed COMMAND vnl_algo_test_all test_svd_fixed               )
 
 if(NOT ITK_FUTURE_LEGACY_REMOVE)
   add_test( NAME vnl_algo_test_generalized_eigensystem COMMAND vnl_algo_test_all test_generalized_eigensystem )
   add_test( NAME vnl_algo_test_real_eigensystem COMMAND vnl_algo_test_all test_real_eigensystem )
   add_test( NAME vnl_algo_test_symmetric_eigensystem COMMAND vnl_algo_test_all test_symmetric_eigensystem )
+  add_test( NAME vnl_algo_test_svd COMMAND vnl_algo_test_all test_svd )
+  add_test( NAME vnl_algo_test_svd_fixed COMMAND vnl_algo_test_all test_svd_fixed )
+  add_test( NAME vnl_algo_test_solve_qp COMMAND vnl_algo_test_all test_solve_qp )
 endif()
 
 add_executable( vnl_algo_test_include test_include.cxx )
