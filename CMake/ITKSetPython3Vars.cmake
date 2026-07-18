@@ -168,6 +168,7 @@ else()
     list(APPEND _python_find_components NumPy)
   endif()
   set(_missing_required_component FALSE)
+  set(_missing_python_components "")
   find_package(
     Python3
     ${ITK_WRAP_PYTHON_VERSION}
@@ -183,6 +184,7 @@ else()
         " o Python3 Missing COMPONENT: Python3_${_required_component}_FOUND: ${Python3_${_required_component}_FOUND}"
       )
       set(_missing_required_component TRUE)
+      list(APPEND _missing_python_components ${_required_component})
     else()
       message(
         STATUS
@@ -192,9 +194,39 @@ else()
   endforeach()
   unset(_required_component)
   if(_missing_required_component)
+    set(_missing_component_remedy "")
+    if(NumPy IN_LIST _missing_python_components)
+      string(
+        APPEND
+        _missing_component_remedy
+        "
+          NumPy: ${Python3_EXECUTABLE} -m pip install numpy"
+      )
+    endif()
+    if(
+      Development.Module
+        IN_LIST
+        _missing_python_components
+      OR
+        Development.SABIModule
+          IN_LIST
+          _missing_python_components
+    )
+      string(
+        APPEND
+        _missing_component_remedy
+        "
+          Development: install the development headers matching this interpreter
+                       (Debian/Ubuntu: apt install python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}-dev)"
+      )
+    endif()
     message(
       FATAL_ERROR
-      "At least 1 required Python3 COMPONENT could not be found from : ${_python_find_components}
+      "Missing required Python3 COMPONENT(s): ${_missing_python_components}${_missing_component_remedy}
+
+          Or set ITK_WRAP_PYTHON=OFF to build without Python wrapping.
+          ---
+          Searched for : ${_python_find_components}
           in range ${PYTHON_VERSION_MIN}...${PYTHON_VERSION_MAX}:
           Python3_EXECUTABLE=:${Python3_EXECUTABLE}:
           ITK_WRAP_PYTHON_VERSION=:${ITK_WRAP_PYTHON_VERSION}:
@@ -210,12 +242,14 @@ else()
           Python3_NumPy_FOUND=${Python3_NumPy_FOUND}
     "
     )
+    unset(_missing_component_remedy)
   else()
     message(STATUS " o Python3_EXECUTABLE=${Python3_EXECUTABLE}")
     message(STATUS " o Python3_ROOT_DIR=${Python3_ROOT_DIR}")
     message(STATUS " o ITK_WRAP_PYTHON_VERSION=${ITK_WRAP_PYTHON_VERSION}")
   endif()
   unset(_missing_required_component)
+  unset(_missing_python_components)
   unset(_python_find_components)
   # _ITK_MINIMUM_SUPPORTED_LIMITED_API_VERSION is cached (INTERNAL) and intentionally
   # left set so itk_end_wrap_module.cmake can pin USE_SABI to the same floor.
