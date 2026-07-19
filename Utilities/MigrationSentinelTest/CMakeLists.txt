@@ -34,3 +34,31 @@ itk_add_test(
     -P
     ${CMAKE_CURRENT_SOURCE_DIR}/ConsumerTest.cmake
 )
+
+if(Python3_EXECUTABLE)
+  itk_add_test(
+    NAME MigrationSentinelValidate
+    COMMAND
+      ${Python3_EXECUTABLE}
+      ${ITK_SOURCE_DIR}/Utilities/Maintenance/MigrationSentinels.py
+      validate
+      --sentinel-dir
+      ${ITK_SOURCE_DIR}/CMake/MigrationSentinels
+  )
+
+  itk_add_test(
+    NAME MigrationSentinelValidateRejects
+    COMMAND
+      ${Python3_EXECUTABLE}
+      ${ITK_SOURCE_DIR}/Utilities/Maintenance/MigrationSentinels.py
+      validate
+      --sentinel-dir
+      ${ITK_SOURCE_DIR}/Utilities/MigrationSentinelTest/Fixtures/Invalid
+  )
+  set_tests_properties(
+    MigrationSentinelValidateRejects
+    PROPERTIES
+      WILL_FAIL
+        TRUE
+  )
+endif()

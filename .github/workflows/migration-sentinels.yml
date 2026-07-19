@@ -1,0 +1,28 @@
+name: Migration sentinels
+
+# A malformed sentinel is silently ignored by the CMake glob, so it would never
+# be published to downstream projects. Validate on every PR that touches one.
+
+on:
+  pull_request:
+    paths:
+      - 'CMake/MigrationSentinels/**'
+      - 'Utilities/Maintenance/MigrationSentinels.py'
+      - '.github/workflows/migration-sentinels.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Validate migration sentinels
+        run: |
+          python3 Utilities/Maintenance/MigrationSentinels.py validate \
+            || {
+              echo "::error::A migration sentinel is malformed. See" \
+                   "Documentation/docs/contributing/migration_sentinels.md"
+              exit 1
+            }
