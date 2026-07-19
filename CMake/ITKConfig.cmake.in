@@ -26,6 +26,12 @@ set(ITK_VERSION_MAJOR "@ITK_VERSION_MAJOR@")
 set(ITK_VERSION_MINOR "@ITK_VERSION_MINOR@")
 set(ITK_VERSION_PATCH "@ITK_VERSION_PATCH@")
 
+# Migration sentinels present in this ITK. Each entry asserts that one
+# downstream-visible change is in the code. Intended only for fine-grained
+# configure-time decisions between tagged releases; see
+# Documentation/docs/contributing/migration_sentinels.md
+set(ITK_MIGRATION_SENTINELS "@ITK_MIGRATION_SENTINELS@")
+
 # Remove all legacy code completely.
 set(ITK_LEGACY_REMOVE "@ITK_LEGACY_REMOVE@")
 

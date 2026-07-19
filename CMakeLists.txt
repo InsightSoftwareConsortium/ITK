@@ -56,6 +56,15 @@ set(
   ITK_VERSION
   "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}"
 )
+
+# Migration sentinels: exported through ITKConfig.cmake only, never into a
+# compiled header (see CMake/itkMigrationSentinels.cmake).
+include(itkMigrationSentinels)
+itk_collect_migration_sentinels(
+  "${CMAKE_CURRENT_SOURCE_DIR}/CMake/MigrationSentinels"
+  ITK_MIGRATION_SENTINELS
+)
+
 project(
   ITK
   VERSION ${ITK_VERSION}
@@ -903,6 +912,7 @@ if(BUILD_TESTING)
   )
   mark_as_advanced(CTEST_COST_DATA_FILE)
   add_subdirectory(Utilities/InstallTest)
+  add_subdirectory(Utilities/MigrationSentinelTest)
 endif()
 
 #-----------------------------------------------------------------------------
