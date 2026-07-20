@@ -35,7 +35,13 @@ the minimum set for the task at hand.
 4. **`Update()` is required** — filters don't execute until called; parameter changes after `Update()` need another call.
 5. **Link errors → check `itk-module.cmake`** — missing `DEPENDS` or `PRIVATE_DEPENDS` is the usual cause.
 6. **Licensing** — verify AI output does not reproduce third-party code in conflict with Apache 2.0.
-7. **Verbose committed text is a review-blocking defect** — not a stylistic preference. Reviewers reject PRs whose commit messages, in-source comments, or PR bodies exceed the budgets in [prose-budget.md](./Documentation/AI/prose-budget.md). Cut prose, not code.
+7. **Migration or API changes MUST bump `ITK_VERSION_TWEAK`** — any change
+   that requires a migration-guide entry or alters public API must also set
+   `ITK_VERSION_TWEAK` in `CMake/itkVersion.cmake` to the landing date
+   (`YYYYMMDD`, UTC); other key changes may bump it. The tweak component
+   gives downstream projects fine-grained version gating between release
+   tags (see `Documentation/docs/migration_guides/index.md`).
+8. **Verbose committed text is a review-blocking defect** — not a stylistic preference. Reviewers reject PRs whose commit messages, in-source comments, or PR bodies exceed the budgets in [prose-budget.md](./Documentation/AI/prose-budget.md). Cut prose, not code.
 
 ## Resources
 

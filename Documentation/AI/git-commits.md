@@ -51,6 +51,15 @@ authoring any commit body.
 > work-in-progress, add `[WIP]` to the **PR title** — the GitHub "WIP" app
 > gates merging on that string; remove it when the PR is ready.
 
+## Migration / API changes: tweak version bump required
+
+A commit that adds a migration-guide entry or changes public API MUST also
+update `ITK_VERSION_TWEAK` in `CMake/itkVersion.cmake` to the landing date
+(`YYYYMMDD`, UTC) — run `Utilities/Maintenance/BumpVersionTweak.py`.
+Other key changes MAY bump it. The tweak enables
+fine-grained downstream version gating between release tags; it is never
+reset (see `Documentation/docs/migration_guides/index.md`).
+
 ## Commit Message Length
 
 Keep commit messages concise. A 1-line subject plus a short body

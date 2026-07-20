@@ -56,9 +56,10 @@ set(
   ITK_VERSION
   "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}"
 )
+set(ITK_VERSION_FULL "${ITK_VERSION}.${ITK_VERSION_TWEAK}")
 project(
   ITK
-  VERSION ${ITK_VERSION}
+  VERSION ${ITK_VERSION_FULL}
   DESCRIPTION
     "The Insight Toolkit (ITK) is an open-source, cross-platform toolkit for N-dimensional scientific image processing, segmentation, and registration."
   HOMEPAGE_URL "https://itk.org"

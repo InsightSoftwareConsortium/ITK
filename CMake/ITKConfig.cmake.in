@@ -25,6 +25,13 @@ set(ITK_REQUIRED_LINK_FLAGS "@ITK_REQUIRED_LINK_FLAGS@")
 set(ITK_VERSION_MAJOR "@ITK_VERSION_MAJOR@")
 set(ITK_VERSION_MINOR "@ITK_VERSION_MINOR@")
 set(ITK_VERSION_PATCH "@ITK_VERSION_PATCH@")
+# Tweak is the YYYYMMDD date of the newest migration/API change; enables
+# fine-grained downstream gating between release tags via ITK_VERSION_FULL.
+set(ITK_VERSION_TWEAK "@ITK_VERSION_TWEAK@")
+set(
+  ITK_VERSION_FULL
+  "@ITK_VERSION_MAJOR@.@ITK_VERSION_MINOR@.@ITK_VERSION_PATCH@.@ITK_VERSION_TWEAK@"
+)
 
 # Remove all legacy code completely.
 set(ITK_LEGACY_REMOVE "@ITK_LEGACY_REMOVE@")
