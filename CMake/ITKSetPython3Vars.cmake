@@ -7,7 +7,9 @@
 # may become less reliable with newer versions of CMake (as opposed setting FindPython3 HINTS).  Current
 # implementation gives preference to active virtualenvs.
 cmake_policy(SET CMP0094 NEW) # makes FindPython3 prefer activated virtualenv Python to latest version
-set(PYTHON_VERSION_MIN 3.11)
+# Canonical floor; a specified Python3_EXECUTABLE narrows PYTHON_VERSION_MIN below, so keep it separate.
+set(ITK_WRAP_PYTHON_MINIMUM_VERSION 3.11)
+set(PYTHON_VERSION_MIN ${ITK_WRAP_PYTHON_MINIMUM_VERSION})
 set(PYTHON_VERSION_MAX 3.999)
 if(DEFINED Python3_EXECUTABLE) # if already specified
   set(_specified_Python3_EXECUTABLE ${Python3_EXECUTABLE})
@@ -22,6 +24,22 @@ if(DEFINED Python3_EXECUTABLE) # if already specified
     OUTPUT_STRIP_TRAILING_WHITESPACE
   )
   if(_specified_Python3_VERSION_MM)
+    # execute_process re-runs every configure, so this also rejects incremental
+    # reconfigures of a cached below-floor tree, before any wrapping work.
+    if(
+      PYTHON_DEVELOPMENT_REQUIRED
+      AND
+        _specified_Python3_VERSION_MM
+          VERSION_LESS
+          ${ITK_WRAP_PYTHON_MINIMUM_VERSION}
+    )
+      message(
+        FATAL_ERROR
+        "ITK Python wrapping (ITK_WRAP_PYTHON=ON) requires Python >= ${ITK_WRAP_PYTHON_MINIMUM_VERSION}, "
+        "but the specified Python3_EXECUTABLE=${_specified_Python3_EXECUTABLE} is Python ${_specified_Python3_VERSION_MM}. "
+        "Provide a Python >= ${ITK_WRAP_PYTHON_MINIMUM_VERSION} interpreter, or set ITK_WRAP_PYTHON=OFF."
+      )
+    endif()
     set(PYTHON_VERSION_MIN ${_specified_Python3_VERSION_MM})
     set(PYTHON_VERSION_MAX ${_specified_Python3_VERSION_MM})
   endif()
@@ -56,6 +74,25 @@ else()
       NumPy
   )
   set(ITK_WRAP_PYTHON_VERSION "${Python3_VERSION}")
+
+  # An empty Python3_VERSION means the range found nothing; otherwise the second
+  # find_package below runs unversioned and silently accepts a below-floor Python.
+  if(
+    NOT
+      Python3_VERSION
+    OR
+      Python3_VERSION
+        VERSION_LESS
+        ${ITK_WRAP_PYTHON_MINIMUM_VERSION}
+  )
+    message(
+      FATAL_ERROR
+      "ITK Python wrapping (ITK_WRAP_PYTHON=ON) requires Python >= ${ITK_WRAP_PYTHON_MINIMUM_VERSION}, "
+      "but no such interpreter was found in range ${PYTHON_VERSION_MIN}...${PYTHON_VERSION_MAX} "
+      "(resolved version '${Python3_VERSION}', Python3_EXECUTABLE='${Python3_EXECUTABLE}'). "
+      "Provide a Python >= ${ITK_WRAP_PYTHON_MINIMUM_VERSION} interpreter, or set ITK_WRAP_PYTHON=OFF."
+    )
+  endif()
 
   # start section to define package components based on LIMITED_API support and choices
   # Cached so the abi3 floor is a single source of truth shared with the module
@@ -131,6 +168,7 @@ else()
     list(APPEND _python_find_components NumPy)
   endif()
   set(_missing_required_component FALSE)
+  set(_missing_python_components "")
   find_package(
     Python3
     ${ITK_WRAP_PYTHON_VERSION}
@@ -146,6 +184,7 @@ else()
         " o Python3 Missing COMPONENT: Python3_${_required_component}_FOUND: ${Python3_${_required_component}_FOUND}"
       )
       set(_missing_required_component TRUE)
+      list(APPEND _missing_python_components ${_required_component})
     else()
       message(
         STATUS
@@ -155,9 +194,39 @@ else()
   endforeach()
   unset(_required_component)
   if(_missing_required_component)
+    set(_missing_component_remedy "")
+    if(NumPy IN_LIST _missing_python_components)
+      string(
+        APPEND
+        _missing_component_remedy
+        "
+          NumPy: ${Python3_EXECUTABLE} -m pip install numpy"
+      )
+    endif()
+    if(
+      Development.Module
+        IN_LIST
+        _missing_python_components
+      OR
+        Development.SABIModule
+          IN_LIST
+          _missing_python_components
+    )
+      string(
+        APPEND
+        _missing_component_remedy
+        "
+          Development: install the development headers matching this interpreter
+                       (Debian/Ubuntu: apt install python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}-dev)"
+      )
+    endif()
     message(
       FATAL_ERROR
-      "At least 1 required Python3 COMPONENT could not be found from : ${_python_find_components}
+      "Missing required Python3 COMPONENT(s): ${_missing_python_components}${_missing_component_remedy}
+
+          Or set ITK_WRAP_PYTHON=OFF to build without Python wrapping.
+          ---
+          Searched for : ${_python_find_components}
           in range ${PYTHON_VERSION_MIN}...${PYTHON_VERSION_MAX}:
           Python3_EXECUTABLE=:${Python3_EXECUTABLE}:
           ITK_WRAP_PYTHON_VERSION=:${ITK_WRAP_PYTHON_VERSION}:
@@ -173,12 +242,14 @@ else()
           Python3_NumPy_FOUND=${Python3_NumPy_FOUND}
     "
     )
+    unset(_missing_component_remedy)
   else()
     message(STATUS " o Python3_EXECUTABLE=${Python3_EXECUTABLE}")
     message(STATUS " o Python3_ROOT_DIR=${Python3_ROOT_DIR}")
     message(STATUS " o ITK_WRAP_PYTHON_VERSION=${ITK_WRAP_PYTHON_VERSION}")
   endif()
   unset(_missing_required_component)
+  unset(_missing_python_components)
   unset(_python_find_components)
   # _ITK_MINIMUM_SUPPORTED_LIMITED_API_VERSION is cached (INTERNAL) and intentionally
   # left set so itk_end_wrap_module.cmake can pin USE_SABI to the same floor.
