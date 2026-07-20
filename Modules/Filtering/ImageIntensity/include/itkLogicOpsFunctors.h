@@ -63,8 +63,6 @@ public:
     , m_BackgroundValue(TOutput{})
   {}
 
-  ~LogicOpBase() = default;
-
   bool
   operator==(const Self &) const
   {
