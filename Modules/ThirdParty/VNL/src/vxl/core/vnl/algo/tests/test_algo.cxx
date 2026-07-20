@@ -24,34 +24,40 @@
 #include <vnl/algo/vnl_lbfgs.h>
 #include <vnl/algo/vnl_lbfgsb.h>
 #include <vnl/algo/vnl_lsqr.h>
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#ifndef VNL_MATRIX_INVERSE_REMOVED
 #  define ITK_LEGACY_TEST // exercising the deprecated vnl_matrix_inverse
 #  include <vnl/algo/vnl_matrix_inverse.h>
 #endif
 #include <vnl/algo/vnl_powell.h>
-#include <vnl/algo/vnl_svd_economy.h>
-#include <vnl/algo/vnl_svd.h>
+#ifndef VNL_SVD_REMOVED
+#  include <vnl/algo/vnl_svd_economy.h>
+#  include <vnl/algo/vnl_svd.h>
+#endif
 #include "vnl/vnl_sparse_matrix_linear_system.h"
 #include "vnl/vnl_least_squares_function.h"
 
+#if !defined(VNL_SVD_REMOVED) || !defined(VNL_MATRIX_INVERSE_REMOVED)
 static void
 test_matrix_inverse()
 {
   double data[] = { 1., -1., 1., -1., 1., 1., -1., -1., 1., 1., 1., 1., 1., -1., -1., 1. };
   const vnl_matrix<double> m(data, 4, 4);
+#  ifndef VNL_SVD_REMOVED
   vnl_svd_economy<double> svde(m);
   vnl_matrix<double> V = svde.V();
   vnl_svd<double> svd(m);
   vnl_matrix<double> V0 = svd.V();
   TEST_NEAR("vnl_svd_economy", V[0][1], V0[0][1], 1e-6);
+#  endif
 
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#  ifndef VNL_MATRIX_INVERSE_REMOVED
   const vnl_matrix<double> inv{ vnl_matrix_inverse<double>(m).as_matrix() };
   vnl_matrix<double> identity(4, 4);
   identity.set_identity();
   TEST_NEAR("vnl_matrix_inverse", (m * inv - identity).array_inf_norm(), 0, 1e-6);
-#endif
+#  endif
 }
+#endif
 
 class F_test_powell : public vnl_cost_function
 {
@@ -195,7 +201,9 @@ test_discrete_diff()
 void
 test_algo()
 {
+#if !defined(VNL_SVD_REMOVED) || !defined(VNL_MATRIX_INVERSE_REMOVED)
   test_matrix_inverse();
+#endif
   test_powell();
   test_lsqr();
   test_discrete_diff();
