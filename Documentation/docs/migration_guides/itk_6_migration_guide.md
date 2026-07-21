@@ -640,6 +640,14 @@ target_link_libraries(MyExample ITK::MyModuleModule)
 
 For backward compatibility, non-namespaced aliases are created with deprecation warnings. However, new code should use the namespaced `ITK::` targets exclusively.
 
+## Minimum wrapped Python raised to 3.11
+
+ITK 6 requires Python 3.11 or newer for Python wrapping; the previous floor was 3.10. Configuring the wrapping against an older interpreter now fails early.
+
+### What you need to do
+
+Use Python 3.11+ when building or installing the ITK Python wrapping. The prebuilt `itk` wheels already target 3.11 and newer.
+
 ## NumPy bridge: `image_from_array(arr.T)` is no longer transpose-equivalent to `image_from_array(arr)`
 
 ### Rationale
