@@ -74,6 +74,17 @@ public:
   using NeighborhoodAccessorFunctorType = NeighborhoodAccessorFunctor<Self>;
   // NeighborhoodAccessorFunctorType;
 
+  /** Creates an image with the specified region, allocating a zero-initialized pixel buffer.
+   * Reimplemented so the returned pointer has this derived GPU image type, not the base itk::Image type. */
+  static Pointer
+  CreateInitialized(const RegionType & region)
+  {
+    const auto image = Self::New();
+    image->SetRegions(region);
+    image->AllocateInitialized();
+    return image;
+  }
+
   //
   // Allocate CPU and GPU memory space
   //
