@@ -23,8 +23,21 @@
 #include "itkObjectFactoryBase.h"
 #include "itkVersion.h"
 
+#include <type_traits>
+
 namespace itk
 {
+
+// Compile-time predicates selecting which precisions a templated FFT filter
+// is registered for. Both default to enabled; an FFT backend specializes the
+// relevant predicate to std::false_type when its matching precision is
+// unavailable (e.g. FFTW without ITK_USE_FFTWD).
+template <template <typename, typename> class TFFTImageFilter>
+struct FFTImageFilterEnableFloat : std::true_type
+{};
+template <template <typename, typename> class TFFTImageFilter>
+struct FFTImageFilterEnableDouble : std::true_type
+{};
 
 /** \class FFTImageFilterTraits
  *
@@ -151,13 +164,19 @@ protected:
   /** @ITKEndGrouping */
   FFTImageFilterFactory()
   {
-    OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<float>,
-                               typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<float>>(
-      typename FFTImageFilterTraits<TFFTImageFilter>::FilterDimensions{});
+    if constexpr (FFTImageFilterEnableFloat<TFFTImageFilter>::value)
+    {
+      OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<float>,
+                                 typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<float>>(
+        typename FFTImageFilterTraits<TFFTImageFilter>::FilterDimensions{});
+    }
 
-    OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<double>,
-                               typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<double>>(
-      typename FFTImageFilterTraits<TFFTImageFilter>::FilterDimensions{});
+    if constexpr (FFTImageFilterEnableDouble<TFFTImageFilter>::value)
+    {
+      OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<double>,
+                                 typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<double>>(
+        typename FFTImageFilterTraits<TFFTImageFilter>::FilterDimensions{});
+    }
   }
 };
 

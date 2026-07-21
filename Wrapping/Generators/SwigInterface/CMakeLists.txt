@@ -30,7 +30,7 @@ if(WIN32)
     swigwin_hash
     "cec9eeebfec7f2a8ccf7b166a11cf8dbbc5e1eacca35563e4f0882b2b261658f394f6607243813d7083e7e2a2bbec23c5cf8b4dd92ad85838c6eb971f3833715"
   )
-  set(swigwin_cid "bafybeibljxzip2irc3q3w5qlh2ae5ns27xpi7mo6iskxni45dcmwtk2x6a")
+  set(swigwin_cid "bafybeibavyfwb5fenlrjxvhd4pj55brbbvphcgpuwlmbyusrwn44rs2hcq")
 
   set(
     swig_ep

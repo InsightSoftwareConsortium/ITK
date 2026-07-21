@@ -84,6 +84,7 @@ itkForward1DFFTImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+#if defined(ITK_USE_FFTWD)
   using PixelType = double;
   constexpr unsigned int Dimension{ 2 };
 

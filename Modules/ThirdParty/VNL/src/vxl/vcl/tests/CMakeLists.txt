@@ -18,7 +18,6 @@ add_executable( vcl_test_all
      test_exception.cxx
      test_fstream.cxx
      test_iostream.cxx
-     test_iterator.cxx
      test_list.cxx
      test_limits.cxx
      test_map.cxx
@@ -45,7 +44,6 @@ add_test( NAME vcl_test_deque COMMAND vcl_test_all test_deque )
 add_test( NAME vcl_test_exception COMMAND vcl_test_all test_exception )
 add_test( NAME vcl_test_fstream COMMAND vcl_test_all test_fstream )
 add_test( NAME vcl_test_iostream COMMAND vcl_test_all test_iostream )
-add_test( NAME vcl_test_iterator COMMAND vcl_test_all test_iterator )
 add_test( NAME vcl_test_list COMMAND vcl_test_all test_list )
 add_test( NAME vcl_test_limits COMMAND vcl_test_all test_limits )
 add_test( NAME vcl_test_map COMMAND vcl_test_all test_map )

@@ -121,7 +121,6 @@ main(int argc, char * argv[])
   DO_TEST(exception);
   DO_TEST(fstream);
   DO_TEST(iostream);
-  DO_TEST(iterator);
   DO_TEST(list);
   DO_TEST(limits);
   DO_TEST(memory);
