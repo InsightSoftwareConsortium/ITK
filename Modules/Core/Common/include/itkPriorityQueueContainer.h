@@ -43,6 +43,7 @@ public:
 
   ElementWrapperInterface() = default;
   virtual ~ElementWrapperInterface() = default;
+  ITK_DEFAULT_COPY_AND_MOVE(ElementWrapperInterface);
 
   [[nodiscard]] virtual ElementIdentifierType
   GetLocation(const ElementType & element) const = 0;
@@ -76,6 +77,7 @@ public:
 
   ElementWrapperPointerInterface() = default;
   virtual ~ElementWrapperPointerInterface() = default;
+  ITK_DEFAULT_COPY_AND_MOVE(ElementWrapperPointerInterface);
 
   TElementIdentifier
   GetLocation(const ElementWrapperPointerType & element) const;
@@ -118,8 +120,6 @@ public:
   MinPriorityQueueElementWrapper() = default;
 
   MinPriorityQueueElementWrapper(ElementType element, ElementPriorityType priority);
-
-  ~MinPriorityQueueElementWrapper() override = default;
 
   bool
   operator>(const MinPriorityQueueElementWrapper & other) const;
@@ -165,8 +165,6 @@ public:
   MaxPriorityQueueElementWrapper() = default;
 
   MaxPriorityQueueElementWrapper(ElementType element, ElementPriorityType priority);
-
-  ~MaxPriorityQueueElementWrapper() override = default;
 
   virtual bool
   is_less(const MaxPriorityQueueElementWrapper & element1, const MaxPriorityQueueElementWrapper & element2) const;

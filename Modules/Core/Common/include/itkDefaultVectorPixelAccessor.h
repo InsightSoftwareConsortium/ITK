@@ -123,8 +123,6 @@ public:
     , m_OffsetMultiplier(l - 1)
   {}
 
-  ~DefaultVectorPixelAccessor() = default;
-
 private:
   VectorLengthType m_VectorLength{ 0 };
   VectorLengthType m_OffsetMultiplier{ 0 };
