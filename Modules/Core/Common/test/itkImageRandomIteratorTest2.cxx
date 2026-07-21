@@ -43,16 +43,13 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
 
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  auto image = ImageType::New();
-
   auto size = ImageType::SizeType::Filled(1000);
 
   const unsigned long numberOfSamples = size[0] * size[1];
 
   const ImageType::RegionType region{ size };
 
-  image->SetRegions(region);
-  image->AllocateInitialized();
+  auto image = ImageType::CreateInitialized(region);
 
   using RandomIteratorType = itk::ImageRandomIteratorWithIndex<ImageType>;
 

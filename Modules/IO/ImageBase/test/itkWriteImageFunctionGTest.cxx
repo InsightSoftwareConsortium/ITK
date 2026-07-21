@@ -44,14 +44,7 @@ struct ITKWriteImageFunctionTest : public ::testing::Test
   ImageType::Pointer
   MakeImage()
   {
-    auto image = ImageType::New();
-
-    const RegionType region(SizeType{ { 3, 2 } });
-
-    image->SetRegions(region);
-
-    image->AllocateInitialized();
-    return image;
+    return ImageType::CreateInitialized(SizeType{ 3, 2 });
   }
 };
 

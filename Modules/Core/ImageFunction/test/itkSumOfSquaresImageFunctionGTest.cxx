@@ -56,9 +56,7 @@ template <typename TImage>
 void
 Expect_EvaluateAtIndex_returns_zero_when_all_pixels_are_zero(const typename TImage::SizeType & imageSize)
 {
-  const auto image = TImage::New();
-  image->SetRegions(imageSize);
-  image->AllocateInitialized();
+  const auto image = TImage::CreateInitialized(imageSize);
 
   const auto imageFunction = itk::SumOfSquaresImageFunction<TImage>::New();
 

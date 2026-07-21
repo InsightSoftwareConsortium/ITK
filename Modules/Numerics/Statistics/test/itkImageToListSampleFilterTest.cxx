@@ -62,14 +62,12 @@ CreateImage()
 static MaskImageType::Pointer
 CreateMaskImage()
 {
-  auto                     image = MaskImageType::New();
   MaskImageType::IndexType start{};
   auto                     size = itk::MakeFilled<MaskImageType::SizeType>(10);
 
 
   const MaskImageType::RegionType region(start, size);
-  image->SetRegions(region);
-  image->AllocateInitialized();
+  auto                            image = MaskImageType::CreateInitialized(region);
 
   MaskImageType::IndexType startMask;
   MaskImageType::SizeType  sizeMask;
@@ -97,8 +95,6 @@ CreateMaskImage()
 static MaskImageType::Pointer
 CreateLargerMaskImage()
 {
-  auto image = MaskImageType::New();
-
   MaskImageType::IndexType start;
   MaskImageType::SizeType  size;
 
@@ -109,9 +105,7 @@ CreateLargerMaskImage()
   size[1] = 17;
 
   const MaskImageType::RegionType region(start, size);
-  image->SetRegions(region);
-  image->AllocateInitialized();
-  return image;
+  return MaskImageType::CreateInitialized(region);
 }
 
 

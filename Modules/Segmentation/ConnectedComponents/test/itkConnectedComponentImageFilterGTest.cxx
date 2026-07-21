@@ -38,9 +38,7 @@ CreateTestImageA()
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, Dimension>;
 
-  auto image = ImageType::New();
-  image->SetRegions(ImageType::RegionType(itk::MakeSize(2u, 2u, 2u)));
-  image->AllocateInitialized();
+  auto image = ImageType::CreateInitialized(itk::MakeSize(2u, 2u, 2u));
 
   for (size_t i = 0; i < 8; ++i)
   {

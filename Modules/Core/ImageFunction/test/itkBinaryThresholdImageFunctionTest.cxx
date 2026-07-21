@@ -29,14 +29,12 @@ itkBinaryThresholdImageFunctionTest(int, char *[])
 
   using FloatImage = itk::Image<float, 3>;
 
-  auto                  image = FloatImage::New();
   auto                  size = FloatImage::SizeType::Filled(64);
   FloatImage::IndexType index{};
 
   FloatImage::RegionType region = { index, size };
 
-  image->SetRegions(region);
-  image->AllocateInitialized();
+  auto image = FloatImage::CreateInitialized(region);
 
   for (unsigned int i = 0; i < FloatImage::ImageDimension; ++i)
   {

@@ -35,14 +35,11 @@ itkTIFFImageIOTest2(int argc, char * argv[])
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, Dimension>;
 
-  auto image = ImageType::New();
-
   ImageType::IndexType  start{};
   ImageType::SizeType   size{ 157, 129 };
   ImageType::RegionType region = { start, size };
 
-  image->SetRegions(region);
-  image->AllocateInitialized();
+  auto image = ImageType::CreateInitialized(region);
 
   ImageType::SpacingType spacing;
 
