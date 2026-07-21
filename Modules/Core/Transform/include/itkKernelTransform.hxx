@@ -26,9 +26,6 @@ namespace itk
 template <typename TParametersValueType, unsigned int VDimension>
 KernelTransform<TParametersValueType, VDimension>::KernelTransform()
   : Superclass(VDimension)
-  , m_Displacements(VectorSetType::New())
-  , m_SourceLandmarks(PointSetType::New())
-  , m_TargetLandmarks(PointSetType::New())
 // the second VDimension is associated is provided as
 // a tentative number for initializing the Jacobian.
 // The matrix can be resized at run time so this number

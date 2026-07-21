@@ -334,7 +334,7 @@ protected:
 
   /** The list of displacements.
    * d[i] = q[i] - p[i]; */
-  VectorSetPointer m_Displacements{};
+  VectorSetPointer m_Displacements{ VectorSetType::New() };
 
   /** The L matrix. */
   LMatrixType m_LMatrix{};
@@ -376,10 +376,10 @@ protected:
   IMatrixType m_I{};
 
   /** The list of source landmarks, denoted 'p'. */
-  PointSetPointer m_SourceLandmarks{};
+  PointSetPointer m_SourceLandmarks{ PointSetType::New() };
 
   /** The list of target landmarks, denoted 'q'. */
-  PointSetPointer m_TargetLandmarks{};
+  PointSetPointer m_TargetLandmarks{ PointSetType::New() };
 };
 } // end namespace itk
 
