@@ -414,5 +414,9 @@ set_property(
       RUNS_LONG
 )
 
-set(ITKFastMarchingGTests itkFastMarchingImageFilterBaseGTest.cxx)
+set(
+  ITKFastMarchingGTests
+  itkFastMarchingImageFilterBaseGTest.cxx
+  itkFastMarchingUpwindGradientImageFilterGTest.cxx
+)
 creategoogletestdriver(ITKFastMarching "${ITKFastMarching-Test_LIBRARIES}" "${ITKFastMarchingGTests}")
