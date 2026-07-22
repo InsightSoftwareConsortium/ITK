@@ -85,6 +85,24 @@ TransformTest()
   td.m_Transform = TTransform::New();
   td.m_Inverse = TTransform::New();
   std::cout << "Testing " << td.m_Transform->GetNameOfClass() << std::endl;
+
+  // Test that GetInverseTransform() preserves the concrete transform type
+  auto inverseBase = td.m_Transform->GetInverseTransform();
+  if (inverseBase.IsNull())
+  {
+    std::cerr << "GetInverseTransform() returned null for " << td.m_Transform->GetNameOfClass() << std::endl;
+    return 1;
+  }
+  const auto * inverseConcrete = dynamic_cast<const TTransform *>(inverseBase.GetPointer());
+  if (inverseConcrete == nullptr)
+  {
+    std::cerr << "ERROR: GetInverseTransform() did not preserve concrete type for " << td.m_Transform->GetNameOfClass()
+              << std::endl;
+    std::cerr << "  Expected type: " << td.m_Transform->GetNameOfClass() << std::endl;
+    std::cerr << "  Actual type: " << inverseBase->GetNameOfClass() << std::endl;
+    return 1;
+  }
+
   itk::ThreadFunctionType pFunc = TestGetInverseThreadFunction<TTransform>;
   threader->SetSingleMethod(pFunc, &td);
   try
