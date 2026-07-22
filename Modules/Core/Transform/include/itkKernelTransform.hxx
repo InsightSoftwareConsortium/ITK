@@ -26,9 +26,6 @@ namespace itk
 template <typename TParametersValueType, unsigned int VDimension>
 KernelTransform<TParametersValueType, VDimension>::KernelTransform()
   : Superclass(VDimension)
-  , m_Displacements(VectorSetType::New())
-  , m_SourceLandmarks(PointSetType::New())
-  , m_TargetLandmarks(PointSetType::New())
 // the second VDimension is associated is provided as
 // a tentative number for initializing the Jacobian.
 // The matrix can be resized at run time so this number
@@ -505,6 +502,40 @@ KernelTransform<TParametersValueType, VDimension>::GetFixedParameters() const ->
   return this->m_FixedParameters;
 }
 
+
+template <typename TParametersValueType, unsigned int VDimension>
+template <typename TTransform>
+bool
+KernelTransform<TParametersValueType, VDimension>::GetInverse(TTransform * inverseTransform) const
+{
+  if (!inverseTransform)
+  {
+    return false;
+  }
+
+  inverseTransform->m_Stiffness = m_Stiffness;
+
+  if (m_SourceLandmarks->GetNumberOfPoints() > 0 || m_TargetLandmarks->GetNumberOfPoints() > 0)
+  {
+    // make a deep copy of the source and target landmarks
+    const auto sourceLandmarks = PointSetType::New();
+    const auto targetLandmarks = PointSetType::New();
+
+    sourceLandmarks->GetPoints()->CastToSTLContainer() = m_SourceLandmarks->GetPoints()->CastToSTLConstContainer();
+    targetLandmarks->GetPoints()->CastToSTLContainer() = m_TargetLandmarks->GetPoints()->CastToSTLConstContainer();
+
+    // inversion comes from reversing the landmarks
+    inverseTransform->m_SourceLandmarks = targetLandmarks;
+    inverseTransform->m_TargetLandmarks = sourceLandmarks;
+
+    inverseTransform->UpdateParameters();
+    inverseTransform->ComputeWMatrix();
+  }
+
+  inverseTransform->Modified();
+
+  return true;
+}
 
 template <typename TParametersValueType, unsigned int VDimension>
 void

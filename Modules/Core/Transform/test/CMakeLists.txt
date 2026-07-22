@@ -33,6 +33,7 @@ set(
   itkSimilarity3DTransformTest.cxx
   itkSplineKernelTransformTest.cxx
   itkTestTransformGetInverse.cxx
+  itkThinPlateSplineKernelTransformTest.cxx
   itkTransformCloneTest.cxx
   itkTransformGeometryImageFilterTest.cxx
   itkTransformsSetParametersTest.cxx
@@ -457,6 +458,12 @@ itk_add_test(
   COMMAND
     ITKTransformTestDriver
     itkSplineKernelTransformTest
+)
+itk_add_test(
+  NAME itkThinPlateSplineKernelTransformTest
+  COMMAND
+    ITKTransformTestDriver
+    itkThinPlateSplineKernelTransformTest
 )
 itk_add_test(
   NAME itkCompositeTransformTest

@@ -225,6 +225,30 @@ public:
     return Self::TransformCategoryEnum::Spline;
   }
 
+  /** Returns a boolean indicating whether it is possible or not to compute the
+   * inverse of this current Transform. If it is possible, then the inverse of
+   * the transform is returned in the inverseTransform variable passed by the
+   * user. Inverting is possible if the variable is not a null pointer.
+   */
+  template <typename TTransform>
+  bool
+  GetInverse(TTransform * inverseTransform) const;
+  template <typename TTransform>
+  bool
+  GetInverse(SmartPointer<TTransform> inverseTransform) const
+  {
+    return this->GetInverse(inverseTransform.GetPointer());
+  }
+
+  using InverseTransformBasePointer = typename Superclass::InverseTransformBasePointer;
+
+  /** Return an inverse of this transform. */
+  InverseTransformBasePointer
+  GetInverseTransform() const override
+  {
+    return Superclass::InvertTransform(*this);
+  }
+
   /** Stiffness of the spline.  A stiffness of zero results in the
    * standard interpolating spline.  A non-zero stiffness allows the
    * spline to approximate rather than interpolate the landmarks.
@@ -334,7 +358,7 @@ protected:
 
   /** The list of displacements.
    * d[i] = q[i] - p[i]; */
-  VectorSetPointer m_Displacements{};
+  VectorSetPointer m_Displacements{ VectorSetType::New() };
 
   /** The L matrix. */
   LMatrixType m_LMatrix{};
@@ -376,10 +400,10 @@ protected:
   IMatrixType m_I{};
 
   /** The list of source landmarks, denoted 'p'. */
-  PointSetPointer m_SourceLandmarks{};
+  PointSetPointer m_SourceLandmarks{ PointSetType::New() };
 
   /** The list of target landmarks, denoted 'q'. */
-  PointSetPointer m_TargetLandmarks{};
+  PointSetPointer m_TargetLandmarks{ PointSetType::New() };
 };
 } // end namespace itk
 

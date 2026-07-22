@@ -84,6 +84,14 @@ public:
   using typename Superclass::InputCovariantVectorType;
   using typename Superclass::OutputCovariantVectorType;
 
+  /** Return an inverse of this transform. */
+  using InverseTransformBasePointer = typename Superclass::InverseTransformBasePointer;
+  InverseTransformBasePointer
+  GetInverseTransform() const override
+  {
+    return Superclass::InvertTransform(*this);
+  }
+
 protected:
   ElasticBodySplineKernelTransform();
   ~ElasticBodySplineKernelTransform() override = default;
