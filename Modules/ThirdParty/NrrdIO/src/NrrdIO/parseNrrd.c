@@ -268,7 +268,7 @@ static int /* Biff: maybe:4:1 */
 rnParse_sizes(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "rnParse_sizes";
   unsigned int ret;
-  size_t val[NRRD_DIM_MAX];
+  size_t val[NRRD_DIM_MAX + 1];
   char *info;
 
   AIR_UNUSED(file);
@@ -294,7 +294,7 @@ static int /* Biff: maybe:4:1 */
 rnParse_spacings(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "rnParse_spacings";
   unsigned int ret;
-  double val[NRRD_DIM_MAX];
+  double val[NRRD_DIM_MAX + 1];
   char *info;
 
   AIR_UNUSED(file);
@@ -320,7 +320,7 @@ static int /* Biff: maybe:4:1 */
 rnParse_thicknesses(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "rnParse_thicknesses";
   unsigned int ret;
-  double val[NRRD_DIM_MAX];
+  double val[NRRD_DIM_MAX + 1];
   char *info;
 
   AIR_UNUSED(file);
@@ -346,7 +346,7 @@ static int /* Biff: maybe:4:1 */
 rnParse_axis_mins(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "rnParse_axis_mins";
   unsigned int ret;
-  double val[NRRD_DIM_MAX];
+  double val[NRRD_DIM_MAX + 1];
   char *info;
 
   AIR_UNUSED(file);
@@ -372,7 +372,7 @@ static int /* Biff: maybe:4:1 */
 rnParse_axis_maxs(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "rnParse_axis_maxs";
   unsigned int ret;
-  double val[NRRD_DIM_MAX];
+  double val[NRRD_DIM_MAX + 1];
   char *info;
 
   AIR_UNUSED(file);
@@ -619,7 +619,7 @@ rnParse_kinds(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
       continue;
     }
     if (!strcmp(tok, NRRD_NONE)) {
-      nrrd->axis[ai].center = nrrdKindUnknown;
+      nrrd->axis[ai].kind = nrrdKindUnknown;
       continue;
     }
     if (!(nrrd->axis[ai].kind = airEnumVal(nrrdKind, tok))) {
@@ -1420,40 +1420,40 @@ rnParse_data_file(FILE *ffile, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
 **
 ** These are all for parsing the stuff AFTER the colon
 */
-int (*const nrrdFieldInfoParse[NRRD_FIELD_MAX + 1])(FILE *, Nrrd *, NrrdIoState *, int)
-  = {rnParse_nonfield,
-     rnParse_comment,
-     rnParse_content,
-     rnParse_number,
-     rnParse_type,
-     rnParse_block_size,
-     rnParse_dimension,
-     rnParse_space,
-     rnParse_space_dimension,
-     rnParse_sizes,
-     rnParse_spacings,
-     rnParse_thicknesses,
-     rnParse_axis_mins,
-     rnParse_axis_maxs,
-     rnParse_space_directions,
-     rnParse_centers,
-     rnParse_kinds,
-     rnParse_labels,
-     rnParse_units,
-     rnParse_min,
-     rnParse_max,
-     rnParse_old_min,
-     rnParse_old_max,
-     rnParse_endian,
-     rnParse_encoding,
-     rnParse_line_skip,
-     rnParse_byte_skip,
-     rnParse_keyvalue,
-     rnParse_sample_units,
-     rnParse_space_units,
-     rnParse_space_origin,
-     rnParse_measurement_frame,
-     rnParse_data_file};
+int (*const nrrdFieldInfoParse[NRRD_FIELD_MAX + 1])(FILE *, Nrrd *, NrrdIoState *,
+                                                    int) = {rnParse_nonfield,
+                                                            rnParse_comment,
+                                                            rnParse_content,
+                                                            rnParse_number,
+                                                            rnParse_type,
+                                                            rnParse_block_size,
+                                                            rnParse_dimension,
+                                                            rnParse_space,
+                                                            rnParse_space_dimension,
+                                                            rnParse_sizes,
+                                                            rnParse_spacings,
+                                                            rnParse_thicknesses,
+                                                            rnParse_axis_mins,
+                                                            rnParse_axis_maxs,
+                                                            rnParse_space_directions,
+                                                            rnParse_centers,
+                                                            rnParse_kinds,
+                                                            rnParse_labels,
+                                                            rnParse_units,
+                                                            rnParse_min,
+                                                            rnParse_max,
+                                                            rnParse_old_min,
+                                                            rnParse_old_max,
+                                                            rnParse_endian,
+                                                            rnParse_encoding,
+                                                            rnParse_line_skip,
+                                                            rnParse_byte_skip,
+                                                            rnParse_keyvalue,
+                                                            rnParse_sample_units,
+                                                            rnParse_space_units,
+                                                            rnParse_space_origin,
+                                                            rnParse_measurement_frame,
+                                                            rnParse_data_file};
 
 /* kernel parsing is all in kernel.c */
 

@@ -252,16 +252,8 @@ popd
 if [ -n "$basehash" ]; then
     git merge --log -s recursive "-Xsubtree=$subtree/" --no-commit "upstream-$name"
 else
-    # Note: on Windows 'git merge --help' will open a browser, and the check
-    # will fail, so use the flag by default. Apple opens an editor instead;
-    # assume the flag is understood there too.
-    unrelated_histories_flag=""
-    if git --version | grep -q -E 'windows|Apple'; then
-        unrelated_histories_flag="--allow-unrelated-histories"
-    elif git merge --help | grep -q -e allow-unrelated-histories; then
-        unrelated_histories_flag="--allow-unrelated-histories"
-    fi
-    readonly unrelated_histories_flag
+    # Supported by every git >= 2.9.
+    readonly unrelated_histories_flag="--allow-unrelated-histories"
 
     git fetch "$extractdir" "+upstream-$name:upstream-$name"
     git merge --log -s ours --no-commit $unrelated_histories_flag "upstream-$name"

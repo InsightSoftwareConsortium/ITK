@@ -271,7 +271,7 @@ nrrdOriginCalculate(const Nrrd *nrrd, unsigned int *axisIdx, unsigned int axisId
 
   gotMin = AIR_TRUE;
   for (ai = 0; ai < axisIdxNum; ai++) {
-    gotMin &= AIR_EXISTS(axis[0]->min);
+    gotMin &= AIR_EXISTS(axis[ai]->min);
   }
   if (!gotMin) {
     ERROR;
