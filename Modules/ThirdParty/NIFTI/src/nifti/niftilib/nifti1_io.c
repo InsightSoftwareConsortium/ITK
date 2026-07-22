@@ -358,7 +358,8 @@ static const char gni_version[] = NIFTI1_IO_SOURCE_VERSION " (16 Jun, 2022)";
 static nifti_global_options g_opts = {
         1, /* debug level                                         */
         0, /* skip_blank_ext    - skip extender if no extensions  */
-        1  /* allow_upper_fext  - allow uppercase file extensions */
+        1, /* allow_upper_fext  - allow uppercase file extensions */
+        1  /* fix_floats        - replace non-finite data with 0  */
 };
 
 /*! global nifti types structure list (per type, ordered oldest to newest) */
@@ -424,7 +425,7 @@ static int  nifti_fill_extension(nifti1_extension * ext, const char * data,
 
 /* NBL routines */
 static int  nifti_load_NBL_bricks(nifti_image * nim , const int * slist, const int * sindex,                                  nifti_brick_list * NBL, znzFile fp );
-static int  nifti_alloc_NBL_mem(  nifti_image * nim, int nbricks,
+static int  nifti_alloc_NBL_mem(  const nifti_image * nim, int nbricks,
                                   nifti_brick_list * nbl);
 static int  nifti_copynsort(int nbricks, const int *blist, int **slist,
                             int **sindex);
@@ -433,10 +434,10 @@ static int  nifti_NBL_matches_nim(const nifti_image *nim,
 
 /* for nifti_read_collapsed_image: */
 static int  rci_read_data(nifti_image *nim, int *pivots, int *prods, int nprods,
-                  const int dims[], char *data, znzFile fp, size_t base_offset);
+                  const int dims[8], char *data, znzFile fp, size_t base_offset);
 static int  rci_alloc_mem(void ** data, const int prods[8], int nprods, int nbyper );
-static int  make_pivot_list(nifti_image * nim, const int dims[], int pivots[],
-                            int prods[], int * nprods );
+static int  make_pivot_list(nifti_image * nim, const int dims[8], int pivots[8],
+                            int prods[8], int * nprods );
 
 /* misc */
 static int   compare_strlist   (const char * str, char ** strlist, int len);
@@ -901,7 +902,7 @@ static int nifti_load_NBL_bricks( nifti_image * nim , const int * slist, const i
  *
  * return 0 on success, -1 on failure
  *----------------------------------------------------------------------*/
-static int nifti_alloc_NBL_mem(nifti_image * nim, int nbricks,
+static int nifti_alloc_NBL_mem(const nifti_image * nim, int nbricks,
                                nifti_brick_list * nbl)
 {
    int c;
@@ -2730,6 +2731,21 @@ void nifti_set_skip_blank_ext( int skip )
 void nifti_set_allow_upper_fext( int allow )
 {
     g_opts.allow_upper_fext = allow ? 1 : 0;
+}
+
+/*----------------------------------------------------------------------*/
+/*! set nifti's global fix_floats flag
+
+    When set, nifti_read_buffer() replaces every non-finite value in
+    floating-point and complex data with 0.  Clear it to read NaN and
+    +/-Inf verbatim; they are legal IEEE-754 values and carry meaning in
+    many data sets (e.g. out-of-mask voxels of a statistical map).
+
+    explicitly set to 0 or 1
+*//*--------------------------------------------------------------------*/
+void nifti_set_fix_floats( int fix )
+{
+    g_opts.fix_floats = fix ? 1 : 0;
 }
 
 /*----------------------------------------------------------------------*/
@@ -5034,6 +5050,7 @@ size_t nifti_read_buffer(znzFile fp, void* dataptr, size_t ntot,
   }
 
 #ifdef isfinite
+if( g_opts.fix_floats )
 {
   /* check input float arrays for goodness, and fix bad floats */
   int fix_count = 0 ;
@@ -5348,7 +5365,7 @@ nifti_image* nifti_simple_init_nim(void)
 
    \return pointer to allocated nifti_1_header struct
 *//*--------------------------------------------------------------------*/
-nifti_1_header * nifti_make_new_header(const int arg_dims[], int arg_dtype)
+nifti_1_header * nifti_make_new_header(const int arg_dims[8], int arg_dtype)
 {
    nifti_1_header * nhdr;
    const int        default_dims[8] = { 3, 1, 1, 1, 0, 0, 0, 0 };
@@ -5427,7 +5444,7 @@ nifti_1_header * nifti_make_new_header(const int arg_dims[], int arg_dtype)
 
    \return pointer to allocated nifti_image struct
 *//*--------------------------------------------------------------------*/
-nifti_image * nifti_make_new_nim(const int dims[], int datatype, int data_fill)
+nifti_image * nifti_make_new_nim(const int dims[8], int datatype, int data_fill)
 {
    nifti_image    * nim;
    nifti_1_header * nhdr;
@@ -7282,7 +7299,7 @@ int nifti_read_subregion_image( nifti_image * nim,
    return 0 on success, < 0 on failure
 */
 static int rci_read_data(nifti_image * nim, int * pivots, int * prods,
-      int nprods, const int dims[], char * data, znzFile fp, size_t base_offset)
+      int nprods, const int dims[8], char * data, znzFile fp, size_t base_offset)
 {
    size_t sublen, offset, read_size;
    int    c;
@@ -7396,8 +7413,8 @@ static int rci_alloc_mem(void ** data, const int prods[8], int nprods, int nbype
    wants to collapse a dimension.  The last pivot should always be zero
    (note that we have space for that in the lists).
 */
-static int make_pivot_list(nifti_image * nim, const int dims[], int pivots[],
-                                              int prods[], int * nprods )
+static int make_pivot_list(nifti_image * nim, const int dims[8], int pivots[8],
+                                              int prods[8], int * nprods )
 {
    int len, dim_index;
 

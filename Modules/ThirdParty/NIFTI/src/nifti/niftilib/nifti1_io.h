@@ -358,6 +358,7 @@ NIO_API int    disp_nifti_1_header(const char * info, const nifti_1_header * hp 
 NIO_API void   nifti_set_debug_level( int level ) ;
 NIO_API void   nifti_set_skip_blank_ext( int skip ) ;
 NIO_API void   nifti_set_allow_upper_fext( int allow ) ;
+NIO_API void   nifti_set_fix_floats( int fix ) ;
 
 NIO_API int    valid_nifti_brick_list( nifti_image * nim , int nbricks,
                                        const int * blist, int disp_error);
@@ -421,10 +422,10 @@ NIO_API char * nifti_makebasename(const char* fname);
 
 /* other routines */
 NIO_API struct nifti_1_header   nifti_convert_nim2nhdr(const nifti_image* nim);
-NIO_API nifti_1_header * nifti_make_new_header(const int arg_dims[], int arg_dtype);
+NIO_API nifti_1_header * nifti_make_new_header(const int arg_dims[8], int arg_dtype);
 NIO_API nifti_1_header * nifti_read_header(const char *hname, int *swapped, int check);
 NIO_API nifti_image    * nifti_copy_nim_info(const nifti_image * src);
-NIO_API nifti_image    * nifti_make_new_nim(const int dims[], int datatype,
+NIO_API nifti_image    * nifti_make_new_nim(const int dims[8], int datatype,
                                                       int data_fill);
 NIO_API nifti_image    * nifti_simple_init_nim(void);
 NIO_API nifti_image    * nifti_convert_nhdr2nim(struct nifti_1_header nhdr,
@@ -536,6 +537,7 @@ typedef struct {
     int debug;               /*!< debug level for status reports  */
     int skip_blank_ext;      /*!< skip extender if no extensions  */
     int allow_upper_fext;    /*!< allow uppercase file extensions */
+    int fix_floats;          /*!< replace non-finite data with 0  */
 } nifti_global_options;
 
 typedef struct {

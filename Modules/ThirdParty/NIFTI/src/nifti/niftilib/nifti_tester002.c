@@ -21,7 +21,7 @@ int main (int argc, const char *argv[])
   /*
    * add an extension to the dummy
    */
-  static char ext[] = "THIS IS A TEST";
+  const char ext[] = "THIS IS A TEST";
   nifti_add_extension(i1,ext,sizeof(ext),NIFTI_ECODE_COMMENT);
   /*
    * make a new nim from the dummy

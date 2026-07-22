@@ -31,7 +31,7 @@ typedef struct{
    int      new_datatype;        /* datatype for new image        */
    int      debug, keep_hist;    /* debug level and history flag  */
    int      overwrite;           /* overwrite flag                */
-   char *   prefix;              /* for output file               */
+   const char *   prefix;              /* for output file               */
    str_list elist;               /* extension strings             */
    int_list etypes;              /* extension type list           */
    str_list flist;               /* fields (to display or modify) */
@@ -135,18 +135,18 @@ int disp_field       ( const char *mesg,field_s *fieldp,void *str,int nfields,in
 int disp_field_s_list( const char *mesg, field_s *, int nfields);
 int disp_nt_opts     ( const char *mesg, nt_opts * opts);
 int disp_raw_data    (void * data, int type, int nvals, char space,int newline);
-int fill_cmd_string  (nt_opts * opts, int argc, char * argv[]);
+int fill_cmd_string  (nt_opts * opts, int argc, const char * argv[]);
 int fill_field       (field_s *fp, int type, int offset, int num, const char *name);
 int fill_hdr_field_array(field_s * nh_fields);
 int fill_nim_field_array(field_s * nim_fields);
 int fill_ana_field_array(field_s * ah_fields);
 int modify_all_fields(void *basep, nt_opts *opts, field_s *fields, int flen);
 int modify_field     (void * basep, field_s * field, const char * data);
-int process_opts     (int argc, char * argv[], nt_opts * opts);
+int process_opts     (int argc, const char * argv[], nt_opts * opts);
 int remove_ext_list  (nifti_image * nim, const char ** elist, int len);
 int usage            (const char * prog, int level);
 int use_full         (const char * prog);
-int verify_opts      (nt_opts * opts, char * prog);
+int verify_opts      (nt_opts * opts, const char * prog);
 int write_hdr_to_file(nifti_1_header * nhdr, const char * fname);
 
 /* wrappers for nifti reading functions (allow MAKE_IM) */
