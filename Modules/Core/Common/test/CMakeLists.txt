@@ -1487,6 +1487,7 @@ set(
   itkMathSVDGTest.cxx
   itkMathLDLTGTest.cxx
   itkVnlCholeskyEngineGTest.cxx
+  itkVnlMatlabReadGTest.cxx
   itkMathDeterminantGTest.cxx
   itkVnlSVDEngineGTest.cxx
   itkMatrixExponentialGTest.cxx
