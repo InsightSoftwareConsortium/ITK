@@ -100,11 +100,6 @@ MahalanobisDistanceMembershipFunction<TVector>::SetCovariance(const CovarianceMa
   // the determinant is then costless this way
   const double det = inv_cov.DeterminantMagnitude();
 
-  if (det < 0.)
-  {
-    itkExceptionStringMacro("det( m_Covariance ) < 0");
-  }
-
   // 1e-6 is an arbitrary value!!!
   constexpr double singularThreshold{ 1.0e-6 };
   m_CovarianceNonsingular = (det > singularThreshold);

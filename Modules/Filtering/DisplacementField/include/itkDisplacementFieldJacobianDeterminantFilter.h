@@ -78,7 +78,9 @@ namespace itk
  * SetDerivativeWeights method.  Note that if UseImageSpacing is set to TRUE
  * (ON), then these weights will be overridden by weights derived from the
  * image spacing when the filter is updated.  The argument to this method is a
- * C array of TRealValue type.
+ * C array of TRealValue type.  SetDerivativeWeights turns UseImageSpacing
+ * OFF, so the effective precedence between the two parameters is
+ * last-writer-wins.
  *
  * \par Constraints
  * The vector dimension of the input image values must equal the image

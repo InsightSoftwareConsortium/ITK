@@ -47,6 +47,15 @@ namespace itk
  * \warning This filter assumes that the fixed image type, moving image type
  * and deformation field type all have the same number of dimensions.
  *
+ * Implementation caveats:
+ * \li The time step 1/max(|grad|*speed) makes the governing-pixel update
+ *     independent of Alpha.
+ * \li Gradient differences step by index-axis spacing, exact only for
+ *     identity direction cosines.
+ * \li The moving image is smoothed in its own pixel type, so integer inputs
+ *     are re-quantized before gradient evaluation.
+ * \li Every axis must be at least 4 pixels long.
+ *
  * \sa LevelSetMotionRegistrationFilter
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ITKPDEDeformableRegistration
