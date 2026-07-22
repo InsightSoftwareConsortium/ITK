@@ -209,6 +209,7 @@ NiftiImageIO::PrintSelf(std::ostream & os, Indent indent) const
   itkPrintSelfBooleanMacro(ConvertRAS);
   itkPrintSelfBooleanMacro(ConvertRASVectors);
   itkPrintSelfBooleanMacro(ConvertRASDisplacementVectors);
+  itkPrintSelfBooleanMacro(ZeroNonFinitePixels);
   os << indent << "OnDiskComponentType: " << m_OnDiskComponentType << std::endl;
   os << indent << "LegacyAnalyze75Mode: " << m_LegacyAnalyze75Mode << std::endl;
   os << indent << "SFORM permissive: " << (m_SFORM_Permissive ? "On" : "Off") << std::endl;
@@ -232,6 +233,10 @@ NiftiImageIO::MustRescale() const
 
 namespace
 {
+
+// Argument values for niftilib's nifti_set_fix_floats().
+constexpr int niftiOverwriteNonFinitePixels{ 1 };
+constexpr int niftiPreserveNonFinitePixels{ 0 };
 
 // Internal function to rescale pixel according to Rescale Slope/Intercept
 template <typename TBuffer>
@@ -293,6 +298,9 @@ void
 NiftiImageIO::Read(void * buffer)
 {
   void * data = nullptr;
+
+  // The niftilib setting is global, so apply this instance's choice per read.
+  nifti_set_fix_floats(m_ZeroNonFinitePixels ? niftiOverwriteNonFinitePixels : niftiPreserveNonFinitePixels);
 
   const ImageIORegion      regionToRead = this->GetIORegion();
   ImageIORegion::SizeType  size = regionToRead.GetSize();
