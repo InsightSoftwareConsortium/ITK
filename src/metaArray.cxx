@@ -979,19 +979,27 @@ MetaArray::M_ReadElements(METAIO_STREAM::ifstream * _fstream, void * _data, int 
   // If compressed we inflate
   if (m_CompressedData)
   {
-    // if m_CompressedElementDataSize is not defined we assume the size of the
-    // file is the size of the compressed data
+    // if m_CompressedElementDataSize is not defined we assume the compressed
+    // data runs from the current position to the end of the file
     if (m_CompressedElementDataSize == 0)
     {
+      const std::streampos dataPos = _fstream->tellg();
       _fstream->seekg(0, std::ios::end);
-      m_CompressedElementDataSize = _fstream->tellg();
-      _fstream->seekg(0, std::ios::beg);
+      m_CompressedElementDataSize = static_cast<std::streamoff>(_fstream->tellg() - dataPos);
+      _fstream->seekg(dataPos);
     }
 
     auto * compr = new unsigned char[static_cast<size_t>(m_CompressedElementDataSize)];
     _fstream->read(reinterpret_cast<char *>(compr), static_cast<size_t>(m_CompressedElementDataSize));
 
-    MET_PerformUncompression(compr, m_CompressedElementDataSize, static_cast<unsigned char *>(_data), readSize);
+    const bool uncompressed =
+      MET_PerformUncompression(compr, m_CompressedElementDataSize, static_cast<unsigned char *>(_data), readSize);
+    delete[] compr;
+    if (!uncompressed)
+    {
+      std::cerr << "MetaArray: M_ReadElements: could not uncompress element data" << '\n';
+      return false;
+    }
   }
   else // if not compressed
   {

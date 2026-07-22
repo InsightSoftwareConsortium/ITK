@@ -209,16 +209,16 @@ MetaObject ::ClearUserFields()
 
     if (!deleted)
     {
-      auto it2 = m_Fields.begin();
-      auto end2 = m_Fields.end();
-      while (it2 != end2)
+      auto fieldit2 = m_Fields.begin();
+      auto fieldend2 = m_Fields.end();
+      while (fieldit2 != fieldend2)
       {
-        if (*it2 == field)
+        if (*fieldit2 == field)
         {
-          m_Fields.erase(it2);
+          m_Fields.erase(fieldit2);
           break;
         }
-        ++it2;
+        ++fieldit2;
       }
       delete field;
     }
@@ -1750,7 +1750,7 @@ MetaObject::M_Read()
         ++it;
         continue;
     }
-    
+
     // Don't add a read field to the write fields if it is already in the write fields
     bool found = false;
     FieldsContainerType::iterator dup;
