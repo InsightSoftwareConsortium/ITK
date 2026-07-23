@@ -220,135 +220,135 @@ TEST(SmartPointer, ConvertingRegisterCount)
   // Copy constructor to const
   {
     const Derived1Pointer d1ptr = Derived1::New();
-    EXPECT_EQ(1, d1ptr->GetRegisterCount());
+    EXPECT_EQ(1u, d1ptr->GetRegisterCount());
 
     const ConstDerived1Pointer cd1ptr = d1ptr;
-    EXPECT_EQ(2, d1ptr->GetRegisterCount());
-    EXPECT_EQ(2, cd1ptr->GetRegisterCount());
+    EXPECT_EQ(2u, d1ptr->GetRegisterCount());
+    EXPECT_EQ(2u, cd1ptr->GetRegisterCount());
   }
 
   // Copy constructor to base
   {
     const Derived1Pointer d1ptr = Derived1::New();
-    EXPECT_EQ(1, d1ptr->GetRegisterCount());
+    EXPECT_EQ(1u, d1ptr->GetRegisterCount());
 
     const BasePointer bptr = d1ptr;
-    EXPECT_EQ(2, d1ptr->GetRegisterCount());
-    EXPECT_EQ(2, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount());
+    EXPECT_EQ(2u, d1ptr->GetRegisterCount());
+    EXPECT_EQ(2u, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount());
   }
 
   // Assignment operator
   {
     const Derived1Pointer d1ptr = Derived1::New();
-    EXPECT_EQ(1, d1ptr->GetRegisterCount());
+    EXPECT_EQ(1u, d1ptr->GetRegisterCount());
 
     const Derived1Pointer d1ptr2 = d1ptr;
 
-    EXPECT_EQ(2, d1ptr->GetRegisterCount());
-    EXPECT_EQ(2, d1ptr2->GetRegisterCount());
+    EXPECT_EQ(2u, d1ptr->GetRegisterCount());
+    EXPECT_EQ(2u, d1ptr2->GetRegisterCount());
   }
 
   // Assignment to const pointer
   {
     const Derived1Pointer d1ptr = Derived1::New();
-    EXPECT_EQ(1, d1ptr->GetRegisterCount());
+    EXPECT_EQ(1u, d1ptr->GetRegisterCount());
 
     const ConstDerived1Pointer cd1ptr = d1ptr;
 
-    EXPECT_EQ(2, d1ptr->GetRegisterCount());
-    EXPECT_EQ(2, cd1ptr->GetRegisterCount());
+    EXPECT_EQ(2u, d1ptr->GetRegisterCount());
+    EXPECT_EQ(2u, cd1ptr->GetRegisterCount());
   }
 
   // Assignment to base pointer
   {
     const Derived1Pointer d1ptr = Derived1::New();
-    EXPECT_EQ(1, d1ptr->GetRegisterCount());
+    EXPECT_EQ(1u, d1ptr->GetRegisterCount());
 
     const BasePointer bptr = d1ptr;
 
-    EXPECT_EQ(2, d1ptr->GetRegisterCount());
-    EXPECT_EQ(2, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount());
+    EXPECT_EQ(2u, d1ptr->GetRegisterCount());
+    EXPECT_EQ(2u, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount());
   }
 
   // Assignment to raw pointer
   {
     const Derived1Pointer d1ptr = Derived1::New();
-    EXPECT_EQ(1, d1ptr->GetRegisterCount());
+    EXPECT_EQ(1u, d1ptr->GetRegisterCount());
 
     Derived1 * rptr = d1ptr;
-    EXPECT_EQ(1, d1ptr->GetRegisterCount());
+    EXPECT_EQ(1u, d1ptr->GetRegisterCount());
     EXPECT_TRUE(rptr != nullptr);
   }
 
   // Assignment to raw const pointer
   {
     const Derived1Pointer d1ptr = Derived1::New();
-    EXPECT_EQ(1, d1ptr->GetRegisterCount());
+    EXPECT_EQ(1u, d1ptr->GetRegisterCount());
 
     const Derived1 * rptr = d1ptr;
-    EXPECT_EQ(1, d1ptr->GetRegisterCount());
+    EXPECT_EQ(1u, d1ptr->GetRegisterCount());
     EXPECT_TRUE(rptr != nullptr);
   }
 
   // Move constructor
   {
     Derived1Pointer d1ptr = Derived1::New();
-    EXPECT_EQ(1, d1ptr->GetRegisterCount());
+    EXPECT_EQ(1u, d1ptr->GetRegisterCount());
 
     const Derived1Pointer d1ptr2(std::move(d1ptr));
-    EXPECT_EQ(1, d1ptr2->GetRegisterCount());
+    EXPECT_EQ(1u, d1ptr2->GetRegisterCount());
     EXPECT_TRUE(d1ptr.IsNull());
   }
 
   // Move constructor to const
   {
     Derived1Pointer d1ptr = Derived1::New();
-    EXPECT_EQ(1, d1ptr->GetRegisterCount());
+    EXPECT_EQ(1u, d1ptr->GetRegisterCount());
 
     const ConstDerived1Pointer cd1ptr(std::move(d1ptr));
-    EXPECT_EQ(1, cd1ptr->GetRegisterCount());
+    EXPECT_EQ(1u, cd1ptr->GetRegisterCount());
     EXPECT_TRUE(d1ptr.IsNull());
   }
 
   // Move constructor to base
   {
     Derived1Pointer d1ptr = Derived1::New();
-    EXPECT_EQ(1, d1ptr->GetRegisterCount());
+    EXPECT_EQ(1u, d1ptr->GetRegisterCount());
 
     const BasePointer bptr(std::move(d1ptr));
-    EXPECT_EQ(1, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount());
+    EXPECT_EQ(1u, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount());
     EXPECT_TRUE(d1ptr.IsNull());
   }
 
   // Move assignment
   {
     Derived1Pointer d1ptr = Derived1::New();
-    EXPECT_EQ(1, d1ptr->GetRegisterCount());
+    EXPECT_EQ(1u, d1ptr->GetRegisterCount());
 
     const Derived1Pointer d1ptr2 = std::move(d1ptr);
-    EXPECT_EQ(1, d1ptr2->GetRegisterCount());
+    EXPECT_EQ(1u, d1ptr2->GetRegisterCount());
     EXPECT_TRUE(d1ptr.IsNull());
   }
 
   // Move assignment to const
   {
     Derived1Pointer d1ptr = Derived1::New();
-    EXPECT_EQ(1, d1ptr->GetRegisterCount());
+    EXPECT_EQ(1u, d1ptr->GetRegisterCount());
 
     const ConstDerived1Pointer cd1ptr = std::move(d1ptr);
 
-    EXPECT_EQ(1, cd1ptr->GetRegisterCount());
+    EXPECT_EQ(1u, cd1ptr->GetRegisterCount());
     EXPECT_TRUE(d1ptr.IsNull());
   }
 
   // Move assignment to base
   {
     Derived1Pointer d1ptr = Derived1::New();
-    EXPECT_EQ(1, d1ptr->GetRegisterCount());
+    EXPECT_EQ(1u, d1ptr->GetRegisterCount());
 
     const BasePointer bptr = std::move(d1ptr);
 
-    EXPECT_EQ(1, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount());
+    EXPECT_EQ(1u, static_cast<const Derived1 *>(bptr.GetPointer())->GetRegisterCount());
     EXPECT_TRUE(d1ptr.IsNull());
   }
 }

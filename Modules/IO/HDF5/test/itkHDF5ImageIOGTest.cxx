@@ -109,7 +109,7 @@ TEST(HDF5ImageIO, ReadImageInformationAcceptsConsistentGeometry)
   auto io = itk::HDF5ImageIO::New();
   io->SetFileName(path);
   ASSERT_NO_THROW(io->ReadImageInformation());
-  EXPECT_EQ(io->GetNumberOfDimensions(), 2);
+  EXPECT_EQ(io->GetNumberOfDimensions(), 2u);
 }
 
 TEST(HDF5ImageIO, ReadImageInformationRejectsTruncatedOrigin)

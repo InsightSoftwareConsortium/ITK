@@ -52,7 +52,7 @@ TEST(MaximumRatioDecisionRule, ConvertedLegacyTest)
     EXPECT_EQ(value, decisionRule->GetPriorProbabilities()[index]);
   }
 
-  EXPECT_EQ(decisionRule->Evaluate(discriminantScores), 2);
+  EXPECT_EQ(decisionRule->Evaluate(discriminantScores), 2u);
 
   // run with uniform prior
   aPrioris.clear();
@@ -63,5 +63,5 @@ TEST(MaximumRatioDecisionRule, ConvertedLegacyTest)
     EXPECT_EQ(value, decisionRule->GetPriorProbabilities()[index]);
   }
 
-  EXPECT_EQ(decisionRule->Evaluate(discriminantScores), 1);
+  EXPECT_EQ(decisionRule->Evaluate(discriminantScores), 1u);
 }

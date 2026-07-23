@@ -55,7 +55,7 @@ TEST(itkTestingComparisonImageFilterTest, TestZeroImages)
   filter->Update();
 
   // Check all statistics are zero
-  EXPECT_EQ(filter->GetNumberOfPixelsWithDifferences(), 0);
+  EXPECT_EQ(filter->GetNumberOfPixelsWithDifferences(), 0u);
   // EXPECT_EQ(filter->GetMinimumDifference(), 0);
   // because no pixel has a difference the minimum is not updated
   EXPECT_EQ(filter->GetMaximumDifference(), 0);
@@ -86,7 +86,7 @@ TEST(itkTestingComparisonImageFilterTest, TestOneDifferentPixel)
   filter->Update();
 
   // Check all statistics
-  EXPECT_EQ(filter->GetNumberOfPixelsWithDifferences(), 2);
+  EXPECT_EQ(filter->GetNumberOfPixelsWithDifferences(), 2u);
   EXPECT_EQ(filter->GetMinimumDifference(), 1);
   EXPECT_EQ(filter->GetMaximumDifference(), 1);
   EXPECT_EQ(filter->GetMeanDifference(), 1);
@@ -95,7 +95,7 @@ TEST(itkTestingComparisonImageFilterTest, TestOneDifferentPixel)
   // then check with a radius of 1
   filter->SetToleranceRadius(2);
   filter->Update();
-  EXPECT_EQ(filter->GetNumberOfPixelsWithDifferences(), 0);
+  EXPECT_EQ(filter->GetNumberOfPixelsWithDifferences(), 0u);
   //  EXPECT_EQ(filter->GetMinimumDifference(), 0);
   // because no pixel has a difference the minimum is not updated
   EXPECT_EQ(filter->GetMaximumDifference(), 0);

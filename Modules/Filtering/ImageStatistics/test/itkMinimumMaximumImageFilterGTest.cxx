@@ -139,7 +139,7 @@ TEST_F(MinimumMaximumFixture, test1)
   EXPECT_EQ(filter->GetMinimum(), 0);
   EXPECT_EQ(filter->GetMaximum(), 2);
 
-  EXPECT_EQ(monitor->GetNumberOfUpdates(), 1) << monitor;
+  EXPECT_EQ(monitor->GetNumberOfUpdates(), 1u) << monitor;
 }
 
 

@@ -257,72 +257,72 @@ TEST(ImageIOBase, ConvertedLegacyTest)
     const itk::MetaImageIO::Pointer imageIO = itk::MetaImageIO::New();
 
     imageIO->SetPixelTypeInfo(static_cast<const unsigned char *>(nullptr));
-    EXPECT_EQ(imageIO->GetNumberOfComponents(), 1);
+    EXPECT_EQ(imageIO->GetNumberOfComponents(), 1u);
     EXPECT_EQ(imageIO->GetPixelType(), IOPixelEnum::SCALAR);
     EXPECT_EQ(imageIO->GetComponentType(), IOComponentEnum::UCHAR);
 
     imageIO->SetPixelTypeInfo(static_cast<const float *>(nullptr));
-    EXPECT_EQ(imageIO->GetNumberOfComponents(), 1);
+    EXPECT_EQ(imageIO->GetNumberOfComponents(), 1u);
     EXPECT_EQ(imageIO->GetPixelType(), IOPixelEnum::SCALAR);
     EXPECT_EQ(imageIO->GetComponentType(), IOComponentEnum::FLOAT);
 
     imageIO->SetPixelTypeInfo(static_cast<const itk::RGBPixel<unsigned char> *>(nullptr));
-    EXPECT_EQ(imageIO->GetNumberOfComponents(), 3);
+    EXPECT_EQ(imageIO->GetNumberOfComponents(), 3u);
     EXPECT_EQ(imageIO->GetPixelType(), IOPixelEnum::RGB);
     EXPECT_EQ(imageIO->GetComponentType(), IOComponentEnum::UCHAR);
 
     imageIO->SetPixelTypeInfo(static_cast<const itk::RGBAPixel<unsigned char> *>(nullptr));
-    EXPECT_EQ(imageIO->GetNumberOfComponents(), 4);
+    EXPECT_EQ(imageIO->GetNumberOfComponents(), 4u);
     EXPECT_EQ(imageIO->GetPixelType(), IOPixelEnum::RGBA);
     EXPECT_EQ(imageIO->GetComponentType(), IOComponentEnum::UCHAR);
 
     imageIO->SetPixelTypeInfo(static_cast<const itk::Vector<float, 3> *>(nullptr));
-    EXPECT_EQ(imageIO->GetNumberOfComponents(), 3);
+    EXPECT_EQ(imageIO->GetNumberOfComponents(), 3u);
     EXPECT_EQ(imageIO->GetPixelType(), IOPixelEnum::VECTOR);
     EXPECT_EQ(imageIO->GetComponentType(), IOComponentEnum::FLOAT);
 
     imageIO->SetPixelTypeInfo(static_cast<const itk::VariableLengthVector<unsigned char> *>(nullptr));
-    EXPECT_EQ(imageIO->GetNumberOfComponents(), 1);
+    EXPECT_EQ(imageIO->GetNumberOfComponents(), 1u);
     EXPECT_EQ(imageIO->GetPixelType(), IOPixelEnum::VARIABLELENGTHVECTOR);
     EXPECT_EQ(imageIO->GetComponentType(), IOComponentEnum::UCHAR);
 
     imageIO->SetPixelTypeInfo(static_cast<const itk::CovariantVector<float, 2> *>(nullptr));
-    EXPECT_EQ(imageIO->GetNumberOfComponents(), 2);
+    EXPECT_EQ(imageIO->GetNumberOfComponents(), 2u);
     EXPECT_EQ(imageIO->GetPixelType(), IOPixelEnum::COVARIANTVECTOR);
     EXPECT_EQ(imageIO->GetComponentType(), IOComponentEnum::FLOAT);
 
     imageIO->SetPixelTypeInfo(static_cast<const itk::SymmetricSecondRankTensor<float, 2> *>(nullptr));
-    EXPECT_EQ(imageIO->GetNumberOfComponents(), 3);
+    EXPECT_EQ(imageIO->GetNumberOfComponents(), 3u);
     EXPECT_EQ(imageIO->GetPixelType(), IOPixelEnum::SYMMETRICSECONDRANKTENSOR);
     EXPECT_EQ(imageIO->GetComponentType(), IOComponentEnum::FLOAT);
 
     imageIO->SetPixelTypeInfo(static_cast<const itk::DiffusionTensor3D<double> *>(nullptr));
-    EXPECT_EQ(imageIO->GetNumberOfComponents(), 6);
+    EXPECT_EQ(imageIO->GetNumberOfComponents(), 6u);
     EXPECT_EQ(imageIO->GetPixelType(), IOPixelEnum::DIFFUSIONTENSOR3D);
     EXPECT_EQ(imageIO->GetComponentType(), IOComponentEnum::DOUBLE);
 
     imageIO->SetPixelTypeInfo(static_cast<const itk::Matrix<float, 2, 2> *>(nullptr));
-    EXPECT_EQ(imageIO->GetNumberOfComponents(), 4);
+    EXPECT_EQ(imageIO->GetNumberOfComponents(), 4u);
     EXPECT_EQ(imageIO->GetPixelType(), IOPixelEnum::MATRIX);
     EXPECT_EQ(imageIO->GetComponentType(), IOComponentEnum::FLOAT);
 
     imageIO->SetPixelTypeInfo(static_cast<const std::complex<double> *>(nullptr));
-    EXPECT_EQ(imageIO->GetNumberOfComponents(), 2);
+    EXPECT_EQ(imageIO->GetNumberOfComponents(), 2u);
     EXPECT_EQ(imageIO->GetPixelType(), IOPixelEnum::COMPLEX);
     EXPECT_EQ(imageIO->GetComponentType(), IOComponentEnum::DOUBLE);
 
     imageIO->SetPixelTypeInfo(static_cast<const itk::Offset<3> *>(nullptr));
-    EXPECT_EQ(imageIO->GetNumberOfComponents(), 3);
+    EXPECT_EQ(imageIO->GetNumberOfComponents(), 3u);
     EXPECT_EQ(imageIO->GetPixelType(), IOPixelEnum::OFFSET);
     EXPECT_EQ(imageIO->GetComponentType(), IOComponentEnum::LONG);
 
     imageIO->SetPixelTypeInfo(static_cast<const itk::Array<float> *>(nullptr));
-    EXPECT_EQ(imageIO->GetNumberOfComponents(), 1);
+    EXPECT_EQ(imageIO->GetNumberOfComponents(), 1u);
     EXPECT_EQ(imageIO->GetPixelType(), IOPixelEnum::ARRAY);
     EXPECT_EQ(imageIO->GetComponentType(), IOComponentEnum::FLOAT);
 
     imageIO->SetPixelTypeInfo(static_cast<const itk::VariableSizeMatrix<double> *>(nullptr));
-    EXPECT_EQ(imageIO->GetNumberOfComponents(), 1);
+    EXPECT_EQ(imageIO->GetNumberOfComponents(), 1u);
     EXPECT_EQ(imageIO->GetPixelType(), IOPixelEnum::VARIABLESIZEMATRIX);
     EXPECT_EQ(imageIO->GetComponentType(), IOComponentEnum::DOUBLE);
   }

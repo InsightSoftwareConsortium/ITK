@@ -148,7 +148,7 @@ TEST(VnlSVDEngine, RankAndNullspace)
 
   EXPECT_NEAR((svd.recompose() - P).fro_norm(), 0.0, 1e-12);
   EXPECT_EQ(svd.singularities(), 2);
-  EXPECT_EQ(svd.rank(), 2);
+  EXPECT_EQ(svd.rank(), 2u);
 
   const vnl_matrix<double> nullSpace = svd.nullspace();
   EXPECT_EQ(nullSpace.columns(), 2u);

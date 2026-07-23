@@ -101,7 +101,7 @@ TEST(NeighborhoodAllocator, DeallocateSetsSizeToZero)
 
     neighborhoodAllocator.set_size(i);
     neighborhoodAllocator.Deallocate();
-    EXPECT_EQ(neighborhoodAllocator.size(), 0);
+    EXPECT_EQ(neighborhoodAllocator.size(), 0u);
   }
 }
 
@@ -109,7 +109,7 @@ TEST(NeighborhoodAllocator, DeallocateSetsSizeToZero)
 // Tests that neighborhoodAllocator.Allocate(i) constructs the specified number of objects.
 TEST(NeighborhoodAllocator, AllocateConstructsTheSpecifiedNumberOfObjects)
 {
-  ASSERT_EQ(ObjectCounter::GetCount(), 0);
+  ASSERT_EQ(ObjectCounter::GetCount(), 0u);
 
   for (unsigned int i{}; i <= 3; ++i)
   {
@@ -125,7 +125,7 @@ TEST(NeighborhoodAllocator, AllocateConstructsTheSpecifiedNumberOfObjects)
 // Tests that neighborhoodAllocator.Deallocate() destructs all objects that were there.
 TEST(NeighborhoodAllocator, DeallocateDestructsAllObjects)
 {
-  ASSERT_EQ(ObjectCounter::GetCount(), 0);
+  ASSERT_EQ(ObjectCounter::GetCount(), 0u);
 
   for (unsigned int i{}; i <= 3; ++i)
   {
@@ -136,6 +136,6 @@ TEST(NeighborhoodAllocator, DeallocateDestructsAllObjects)
     neighborhoodAllocator.Deallocate();
 
     // Expect that there are zero objects left, after Deallocate():
-    EXPECT_EQ(ObjectCounter::GetCount(), 0);
+    EXPECT_EQ(ObjectCounter::GetCount(), 0u);
   }
 }

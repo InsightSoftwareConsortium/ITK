@@ -352,7 +352,7 @@ TEST(itkMath, Abs)
   EXPECT_EQ(itk::Math::Absolute<long long>(-5LL), 5ull);
   EXPECT_EQ(itk::Math::Absolute<double>(-5.0), 5.0);
   EXPECT_EQ(itk::Math::Absolute<float>(-5.0f), 5.0f);
-  EXPECT_EQ(itk::Math::Absolute(-5), 5);
+  EXPECT_EQ(itk::Math::Absolute(-5), 5u);
 
   // Check using the minimum possible value of signed integer types as argument:
   {

@@ -32,14 +32,15 @@ TEST(OptimizerParameters, ConstructWithSpecifiedSizeAndInitialValue)
 
   for (double initialValue{ -1.0 }; initialValue <= 1.0; ++initialValue)
   {
-    EXPECT_EQ(OptimizerParametersType(0, initialValue).size(), 0);
+    EXPECT_EQ(OptimizerParametersType(0, initialValue).size(), 0u);
 
     for (size_t size{ 1 }; size <= 4; ++size)
     {
       const OptimizerParametersType optimizerParameters(size, initialValue);
 
       EXPECT_EQ(optimizerParameters.size(), size);
-      EXPECT_EQ(std::count(optimizerParameters.begin(), optimizerParameters.end(), initialValue), size);
+      EXPECT_EQ(static_cast<size_t>(std::count(optimizerParameters.begin(), optimizerParameters.end(), initialValue)),
+                size);
     }
   }
 }

@@ -55,7 +55,7 @@ public:
   ExpectZeroSizeWhenRangeIsDefaultConstructed()
   {
     TRange defaultConstructedRange;
-    EXPECT_EQ(defaultConstructedRange.size(), 0);
+    EXPECT_EQ(defaultConstructedRange.size(), 0u);
   }
 
 

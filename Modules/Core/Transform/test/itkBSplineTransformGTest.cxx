@@ -113,7 +113,7 @@ TEST(ITKBSplineTransform, CopyingClone)
 
   BSplineType::CoefficientImageArray coeffImageArray;
 
-  ASSERT_EQ(coeffImageArray.Size(), 2);
+  ASSERT_EQ(coeffImageArray.Size(), 2u);
 
   const SizeType imageSize = itk::MakeSize(10, 10);
   DirectionType  imageDirection; // filled with zeros

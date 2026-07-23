@@ -41,7 +41,7 @@ TEST(TransformInitializers, CheckNewBSplineTransformInitializer)
 
   for (const auto sizeValue : transformInitializer->GetTransformDomainMeshSize())
   {
-    EXPECT_EQ(sizeValue, 1);
+    EXPECT_EQ(sizeValue, 1u);
   }
 }
 

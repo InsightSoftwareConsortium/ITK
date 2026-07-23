@@ -501,7 +501,7 @@ TEST_F(ShapeLabelMapFixture, 2D_T1_2_Direction)
 
   auto obbVertices = labelObject->GetOrientedBoundingBoxVertices();
 
-  EXPECT_EQ(obbVertices.Size(), 4);
+  EXPECT_EQ(obbVertices.Size(), 4u);
 
   EXPECT_TRUE(Utils::TestListHasPoint(obbVertices, itk::MakePoint(8.5, 4.5)));
   EXPECT_TRUE(Utils::TestListHasPoint(obbVertices, itk::MakePoint(8.5, 5.5)));

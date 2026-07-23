@@ -74,5 +74,5 @@ TEST(UniformRandomSpatialNeighborSubsampler, SearchTerminatesWhenOnlyQueryPointI
     worker.detach();
   }
   ASSERT_TRUE(finished) << "Search did not terminate for a single-point search region";
-  EXPECT_EQ(results->GetTotalFrequency(), 0);
+  EXPECT_EQ(results->GetTotalFrequency(), 0u);
 }
