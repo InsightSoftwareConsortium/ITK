@@ -46,5 +46,5 @@ itk_fetch_module(
   "ITK ImageIO for OpenSlide library supported file formats. These are generally TIFF-based microscopy formats."
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKIOOpenSlide.git
-  GIT_TAG f568b480f1789e88fd64e5b54cc3a860b6824108
+  GIT_TAG 368a7d6e05939100efb069a36f6f61c316735320
   )
