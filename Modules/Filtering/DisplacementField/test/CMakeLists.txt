@@ -201,6 +201,7 @@ itk_add_test(
 
 set(
   ITKDisplacementFieldGTests
+  itkExponentialDisplacementFieldImageFilterGTest.cxx
   itkInverseDisplacementFieldImageFilterGTest.cxx
   itkIterativeInverseDisplacementFieldImageFilterGTest.cxx
 )

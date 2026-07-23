@@ -20,6 +20,7 @@
 
 #include "itkProgressReporter.h"
 #include "itkImageRegionConstIterator.h"
+#include <cmath> // For ceil and ldexp.
 
 namespace itk
 {
@@ -102,18 +103,15 @@ ExponentialDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData
     // Divide the norm by the minimum pixel spacing
     maxnorm2 /= itk::Math::sqr(minpixelspacing);
 
-    // Protect against maxnorm2 being zero.
-    const InputPixelRealValueType numiterfloat = (maxnorm2 > 0) ? 2.0 + 0.5 * std::log(maxnorm2) / itk::Math::ln2
-                                                                : itk::NumericTraits<InputPixelRealValueType>::min();
-
-    if (numiterfloat >= 0.0)
+    // A zero field needs no squaring: numiter keeps its zero initialization.
+    if (maxnorm2 > 0)
     {
-      // take the ceil and threshold
-      numiter = std::min(static_cast<unsigned int>(numiterfloat + 1.0), m_MaximumNumberOfIterations);
-    }
-    else
-    {
-      // numiter will keep the zero to which it was initialized
+      const InputPixelRealValueType numiterfloat = 2.0 + 0.5 * std::log(maxnorm2) / itk::Math::ln2;
+      if (numiterfloat >= 0.0)
+      {
+        // take the ceil and threshold
+        numiter = std::min(static_cast<unsigned int>(std::ceil(numiterfloat)), m_MaximumNumberOfIterations);
+      }
     }
   }
   else
@@ -155,14 +153,9 @@ ExponentialDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData
   // Get the first order approximation (division by 2^numiter)
   m_Divider->SetInput(inputPtr);
   m_Divider->GraftOutput(this->GetOutput());
-  if (!this->m_ComputeInverse)
-  {
-    m_Divider->SetInput2(static_cast<InputPixelRealValueType>(1 << numiter));
-  }
-  else
-  {
-    m_Divider->SetInput2(-static_cast<InputPixelRealValueType>(1 << numiter));
-  }
+  // ldexp forms 2^numiter in floating point, valid for the full iteration cap.
+  const auto scale = static_cast<InputPixelRealValueType>(std::ldexp(1.0, static_cast<int>(numiter)));
+  m_Divider->SetInput2(this->m_ComputeInverse ? -scale : scale);
 
   m_Divider->Update();
 
