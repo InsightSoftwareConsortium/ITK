@@ -1,6 +1,9 @@
 .git*            export-ignore
 .hooks*          export-ignore
 .mailmap         export-ignore
+# Override the .git* export-ignore above: this file MUST ship in archives, and
+# git substitutes the describe string into it so tarballs compute the tweak.
+.git_archival.txt -export-ignore export-subst
 
 *.bat           -crlf
 *.bin           -crlf

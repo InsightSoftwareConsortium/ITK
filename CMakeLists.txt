@@ -67,6 +67,11 @@ project(
     C
 )
 
+# Fourth (tweak) version component, auto-computed as the YYYYMMDD date of the
+# most recent commit. Enables downstream between-tag gating via
+# ITK_VERSION_FULL; see Documentation/docs/migration_guides/index.md.
+include(itkVersionTweak)
+
 # Required as a cache variable for FetchContent parent projects can
 # resolve ITK's CMake macros and config paths.
 set(
