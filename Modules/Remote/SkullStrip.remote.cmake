@@ -46,5 +46,5 @@ itk_fetch_module(
   "A class to perform automatic skull-stripping for neuroimage analysis."
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKSkullStrip.git
-  GIT_TAG d3390ce7eb9884c9143420d4acf7a53f9031d931
+  GIT_TAG 1dab60549eb1a0a830d1b7af92546fa369afd12f
   )
