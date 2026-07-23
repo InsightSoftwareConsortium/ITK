@@ -12,7 +12,7 @@
 
 if(METAIO_FOR_VTK)
   set(METAIO_NAMESPACE "vtkmetaio")
-  set(METAIO_TARGET "metaio")
+  set(METAIO_TARGET "vtkmetaio")
   set(METAIO_INSTALL_NO_LIBRARIES TRUE)
   set(METAIO_INSTALL_NO_DEVELOPMENT TRUE)
   if(BUILD_SHARED_LIBS)
@@ -124,6 +124,9 @@ if (METAIO_FOR_VTK)
     SOURCES ${sources}
     HEADERS ${headers}
     HEADERS_SUBDIR "vtkmetaio")
+  vtk_module_set_property(VTK::metaio
+    PROPERTY  DEFINE_SYMBOL
+    VALUE     metaio_EXPORTS)
 else ()
   add_library(${METAIO_TARGET}
     ${sources}

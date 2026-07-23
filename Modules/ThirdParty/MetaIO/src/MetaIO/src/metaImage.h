@@ -263,7 +263,7 @@ public:
   // direction that the fastest moving index in the image traverses in
   // physical space while the last column defines the direction that the
   // slowest moving index in the image traverses in physical space.
-  // 
+  //
   // Set the direction cosines of the image. The direction cosines
   // are vectors that point from one pixel to the next.
   //
@@ -438,7 +438,7 @@ protected:
 
   double m_ElementOrigin[10]{};     // "ElementOrigin = "          0,0,0
   double m_ElementDirection[100]{}; // "ElementDirection = " 1,0,0,0,1,0,0,0,1
-                                   
+
   bool m_AutoFreeElementData{};
 
   void * m_ElementData{};
