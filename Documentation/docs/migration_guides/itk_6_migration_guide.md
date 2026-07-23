@@ -1120,3 +1120,42 @@ reader->SetImageIO(imageIO);
 Note that `NaN` never compares equal to itself, so a test written as
 `pixel == std::numeric_limits<PixelType>::quiet_NaN()` is always false;
 use `std::isnan(pixel)`.
+## `GetInverseTransform()` returns the concrete transform type for more 3D transforms
+
+`Transform::GetInverseTransform()` returns an inverse wrapped in an
+`InverseTransformBasePointer`. For several 3D transforms the *runtime* type of
+that inverse was the parent class rather than the transform's own type: an
+`Euler3DTransform` inverse came back as a `MatrixOffsetTransformBase`, a
+`ScaleLogarithmicTransform` inverse as a `ScaleTransform`, and so on. The 2D
+transform family (`Rigid2DTransform`, `Euler2DTransform`, `Similarity2DTransform`,
+and the centered variants) already overrode `GetInverseTransform()` to preserve
+the concrete type; their 3D counterparts did not.
+
+The following transforms now return an inverse of their own concrete type:
+`Euler3DTransform`, `QuaternionRigidTransform`, `Similarity3DTransform`,
+`VersorRigid3DTransform`, `VersorTransform`,
+`FixedCenterOfRotationAffineTransform`, and `ScaleLogarithmicTransform`. The
+inverse is still computed by the inherited `GetInverse()`, which re-extracts the
+constrained parameters (Euler angles, versor, log-scales) through the virtual
+`ComputeMatrixParameters()`; only the returned pointer's concrete type changed.
+
+`BSplineTransform` (no closed-form global inverse; returns `nullptr`) and
+`AzimuthElevationToCartesianTransform` (nonlinear; its inverse is an affine
+approximation) are unchanged and intentionally do not return their own type.
+
+### What you need to do
+
+- **Nothing in most code.** Calls that use the inverse through the
+  `InverseTransformBasePointer` base interface, or that `dynamic_cast`/`static_cast`
+  the inverse to a *base* type (for example `MatrixOffsetTransformBase` to read
+  `GetMatrix()`), continue to work: the returned object is now *more* derived, so
+  every upcast still succeeds.
+- **Re-baseline serialized inverses.** A transform inverse written to disk
+  (`.tfm`, `.h5`) now records the derived class name (e.g.
+  `Euler3DTransform_double_3_3` instead of `MatrixOffsetTransformBase_double_3_3`).
+  Factory-based readers load either form, but regression tests that byte- or
+  string-compare stored transform files must be regenerated.
+- If you relied on the inverse being *exactly* the parent type (an exact
+  `typeid` comparison, or a `static_cast` to a sibling type), update that code to
+  the new concrete type. Such a dependency is uncommon and was not found in a
+  survey of downstream ITK consumers.
