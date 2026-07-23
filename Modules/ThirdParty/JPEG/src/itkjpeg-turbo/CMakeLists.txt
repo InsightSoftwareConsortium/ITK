@@ -65,8 +65,9 @@ if(UNIX)
         res |= 0xFFFFFFFFL << (32-4);
         if (res == -0x7F7E80CL)
           return 0; /* right shift is unsigned */
-        printf(\"Right shift isn't acting as I expect it to.\\\\n\");
-        printf(\"I fear the JPEG software will not work at all.\\\\n\\\\n\");
+        puts(\"Right shift isn't acting as I expect it to.\");
+        puts(\"I fear the JPEG software will not work at all.\");
+        puts(\"\");
         return 0; /* try it with unsigned anyway */
       }
       int main (void) {
