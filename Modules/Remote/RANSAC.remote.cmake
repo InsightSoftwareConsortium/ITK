@@ -52,5 +52,5 @@ https://github.com/InsightSoftwareConsortium/ITKRANSAC
 "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKRANSAC.git
-  GIT_TAG ed350fbabaf82c81167f41c6996e779425e87de4
+  GIT_TAG 0a5b2273b34ee4e94c8ff6a3bda37c6c9e0bd943
   )
