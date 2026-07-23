@@ -21,7 +21,11 @@
 #include "itkMetaDataObject.h"
 #include "itkNiftiImageIO.h"
 #include "itkVectorImage.h"
+#include "itkImageRegionIterator.h"
 
+#include <array>
+#include <cmath>
+#include <limits>
 #include <string>
 
 #define _STRING(s) #s
@@ -206,4 +210,107 @@ TEST(NiftiImageIO, TwoComponentDisplacementFieldReadsWithoutRASConversion)
   const ImageType::PixelType readPixel = output->GetPixel(idx);
   EXPECT_FLOAT_EQ(readPixel[0], 1.0f);
   EXPECT_FLOAT_EQ(readPixel[1], 2.0f);
+}
+
+// Issue #6575 item B52: nifti_read_buffer() replaced every non-finite value
+// with 0.  NaN and +/-Inf are legal IEEE-754 values that carry meaning (e.g.
+// out-of-mask voxels of a statistical map), so they must survive a round trip.
+template <typename TPixel>
+void
+ExpectNonFiniteRoundTrip(const std::string & fileName)
+{
+  using ImageType = itk::Image<TPixel, 3>;
+  constexpr auto quietNaN = std::numeric_limits<TPixel>::quiet_NaN();
+  constexpr auto infinity = std::numeric_limits<TPixel>::infinity();
+
+  auto image = ImageType::New();
+  image->SetRegions(typename ImageType::RegionType(itk::Size<3>{ { 4, 1, 1 } }));
+  image->Allocate();
+
+  const std::array<TPixel, 4> written{ TPixel{ 1.5 }, quietNaN, infinity, -infinity };
+  {
+    itk::ImageRegionIterator<ImageType> it(image, image->GetLargestPossibleRegion());
+    for (size_t i = 0; !it.IsAtEnd(); ++it, ++i)
+    {
+      it.Set(written[i]);
+    }
+  }
+
+  const std::string path = OutputPath(fileName);
+  {
+    auto writer = itk::ImageFileWriter<ImageType>::New();
+    writer->SetImageIO(itk::NiftiImageIO::New());
+    writer->SetInput(image);
+    writer->SetFileName(path);
+    ASSERT_NO_THROW(writer->Update());
+  }
+
+  auto reader = itk::ImageFileReader<ImageType>::New();
+  reader->SetImageIO(itk::NiftiImageIO::New());
+  reader->SetFileName(path);
+  ASSERT_NO_THROW(reader->Update());
+
+  const typename ImageType::Pointer        output = reader->GetOutput();
+  itk::ImageRegionConstIterator<ImageType> it(output, output->GetLargestPossibleRegion());
+
+  EXPECT_EQ(it.Get(), written[0]);
+  ++it;
+  EXPECT_TRUE(std::isnan(it.Get())) << "NaN was overwritten with " << it.Get();
+  ++it;
+  EXPECT_EQ(it.Get(), infinity) << "+Inf was overwritten with " << it.Get();
+  ++it;
+  EXPECT_EQ(it.Get(), -infinity) << "-Inf was overwritten with " << it.Get();
+}
+
+TEST(NiftiImageIO, NonFiniteFloatPixelsSurviveRoundTrip) { ExpectNonFiniteRoundTrip<float>("b52_nonfinite_float.nii"); }
+
+TEST(NiftiImageIO, NonFiniteDoublePixelsSurviveRoundTrip)
+{
+  ExpectNonFiniteRoundTrip<double>("b52_nonfinite_double.nii");
+}
+
+// ZeroNonFinitePixels restores the pre-ITK-6 behavior for callers that relied on it.
+TEST(NiftiImageIO, ZeroNonFinitePixelsOverwritesNonFiniteValues)
+{
+  using ImageType = itk::Image<float, 3>;
+  constexpr auto quietNaN = std::numeric_limits<float>::quiet_NaN();
+  constexpr auto infinity = std::numeric_limits<float>::infinity();
+
+  auto image = ImageType::New();
+  image->SetRegions(ImageType::RegionType(itk::Size<3>{ { 4, 1, 1 } }));
+  image->Allocate();
+  {
+    const std::array<float, 4>          written{ 1.5f, quietNaN, infinity, -infinity };
+    itk::ImageRegionIterator<ImageType> it(image, image->GetLargestPossibleRegion());
+    for (size_t i = 0; !it.IsAtEnd(); ++it, ++i)
+    {
+      it.Set(written[i]);
+    }
+  }
+
+  const std::string path = OutputPath("b52_nonfinite_zeroed.nii");
+  {
+    auto writer = itk::ImageFileWriter<ImageType>::New();
+    writer->SetImageIO(itk::NiftiImageIO::New());
+    writer->SetInput(image);
+    writer->SetFileName(path);
+    ASSERT_NO_THROW(writer->Update());
+  }
+
+  auto imageIO = itk::NiftiImageIO::New();
+  EXPECT_FALSE(imageIO->GetZeroNonFinitePixels()) << "preserving non-finite values must be the default";
+  imageIO->ZeroNonFinitePixelsOn();
+
+  auto reader = itk::ImageFileReader<ImageType>::New();
+  reader->SetImageIO(imageIO);
+  reader->SetFileName(path);
+  ASSERT_NO_THROW(reader->Update());
+
+  const ImageType::Pointer                 output = reader->GetOutput();
+  itk::ImageRegionConstIterator<ImageType> it(output, output->GetLargestPossibleRegion());
+  EXPECT_EQ(it.Get(), 1.5f);
+  for (++it; !it.IsAtEnd(); ++it)
+  {
+    EXPECT_EQ(it.Get(), 0.0f) << "opting in should overwrite every non-finite value";
+  }
 }

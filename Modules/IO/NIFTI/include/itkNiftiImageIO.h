@@ -233,6 +233,17 @@ public:
   itkGetConstMacro(ConvertRASDisplacementVectors, bool);
   itkBooleanMacro(ConvertRASDisplacementVectors);
   /** @ITKEndGrouping */
+  /** Replace every non-finite floating-point or complex component with 0 while reading.
+   *
+   * This flag is disabled by default: NaN and +/-Inf are valid IEEE-754 values and carry
+   * meaning in many data sets, such as the out-of-mask voxels of a statistical map. Enable
+   * it to restore the behavior of ITK 5 and earlier, which overwrote them silently.
+   */
+  /** @ITKStartGrouping */
+  itkSetMacro(ZeroNonFinitePixels, bool);
+  itkGetConstMacro(ZeroNonFinitePixels, bool);
+  itkBooleanMacro(ZeroNonFinitePixels);
+  /** @ITKEndGrouping */
   /** Allow to read nifti files with non-orthogonal sform*/
   /** @ITKStartGrouping */
   itkSetMacro(SFORM_Permissive, bool);
@@ -291,6 +302,8 @@ private:
   IOComponentEnum m_OnDiskComponentType{ IOComponentEnum::UNKNOWNCOMPONENTTYPE };
 
   NiftiImageIOEnums::Analyze75Flavor m_LegacyAnalyze75Mode{};
+
+  bool m_ZeroNonFinitePixels{ false };
 
   bool m_SFORM_Permissive{ false };
   bool m_SFORM_Corrected{ false };

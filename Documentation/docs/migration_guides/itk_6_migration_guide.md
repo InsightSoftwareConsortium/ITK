@@ -1077,3 +1077,46 @@ confined to the two feature/noise-scale smoothers.)
   tensor field along one axis only), it was never expressible through the public
   API — there is no setter for the smoothing direction — so no supported code
   path is removed.
+
+## `NiftiImageIO` preserves NaN and infinite pixel values
+
+Reading a floating-point or complex NIfTI image previously replaced every
+non-finite value with `0`. A file whose voxels were `1.5 NaN Inf -Inf 2.5`
+was returned as `1.5 0 0 0 2.5`, with no warning. Non-finite values are now
+read verbatim.
+
+NaN and ±Inf are valid IEEE-754 values that carry meaning — the out-of-mask
+voxels of a statistical map are the common case — and `0` is a valid
+intensity, so the substitution was both lossy and indistinguishable from
+real data.
+
+### What you need to do
+
+For most pipelines, nothing: the values that now survive were previously
+destroyed, so any file that read correctly before still does. The change is
+only observable for images that actually contain non-finite voxels, which
+previously could not be read faithfully at all.
+
+Code that relied on the reader to sanitize its input should filter
+explicitly, which is clearer than depending on an I/O side effect:
+
+```cpp
+using ThresholdType = itk::ThresholdImageFilter<ImageType>;
+auto sanitizer = ThresholdType::New();
+sanitizer->SetInput(reader->GetOutput());
+sanitizer->ThresholdOutside(lowerBound, upperBound); // non-finite values fail both tests
+sanitizer->SetOutsideValue(0);
+```
+
+To restore the previous behavior at the reader instead, set the new flag on
+the IO object:
+
+```cpp
+auto imageIO = itk::NiftiImageIO::New();
+imageIO->ZeroNonFinitePixelsOn();
+reader->SetImageIO(imageIO);
+```
+
+Note that `NaN` never compares equal to itself, so a test written as
+`pixel == std::numeric_limits<PixelType>::quiet_NaN()` is always false;
+use `std::isnan(pixel)`.
