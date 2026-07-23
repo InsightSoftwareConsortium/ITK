@@ -40,9 +40,7 @@ TEST(SignedDanielssonDistanceMapImageFilter, Test)
   myImageType2D1::IndexType          index2D = { { 0, 0 } };
   const myImageType2D1::RegionType   region2D{ index2D, size2D };
 
-  auto inputImage2D = myImageType2D1::New();
-  inputImage2D->SetRegions(region2D);
-  inputImage2D->AllocateInitialized();
+  auto inputImage2D = myImageType2D1::CreateInitialized(region2D);
 
   /* Set pixel (4,4) with the value 1
    * The SignedDanielsson Distance is performed for each pixel with a value > 0

@@ -42,8 +42,9 @@ itkImageMaskSpatialObjectTest3(int, char *[])
   using PixelType = ImageMaskSpatialObjectType::PixelType;
   using ImageType = itk::Image<PixelType, VDimension>;
 
-  auto                           image = ImageType::New();
   constexpr ImageType::SizeType  size{ 5, 5, 5 };
+  const ImageType::RegionType    region{ size };
+  auto                           image = ImageType::CreateInitialized(region);
   constexpr ImageType::PointType origin{};
   image->SetOrigin(origin);
 
@@ -55,10 +56,6 @@ itkImageMaskSpatialObjectTest3(int, char *[])
   direction[1][0] = 1;
   direction[2][2] = 1;
   image->SetDirection(direction);
-
-  ImageType::RegionType region{ size };
-  image->SetRegions(region);
-  image->AllocateInitialized();
 
   auto imageMaskSpatialObject = ImageMaskSpatialObjectType::New();
   imageMaskSpatialObject->SetImage(image);

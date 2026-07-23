@@ -29,12 +29,10 @@ itkGaussianBlurImageFunctionTest(int, char *[])
   using GFunctionType = itk::GaussianBlurImageFunction<ImageType>;
 
   // Create and allocate the image
-  auto                          image = ImageType::New();
   constexpr ImageType::SizeType size{ 50, 50 };
   ImageType::RegionType         region = { size };
 
-  image->SetRegions(region);
-  image->AllocateInitialized();
+  auto image = ImageType::CreateInitialized(region);
 
   // Fill the image with a straight line
   for (unsigned int i = 0; i < 50; ++i)

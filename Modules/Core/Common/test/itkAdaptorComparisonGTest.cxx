@@ -164,11 +164,8 @@ TEST(AdaptorComparison, IteratorOperationsComplete)
   itk::ImageRegion<3>    region{ size };
 
   // Set up some images
-  auto scalar_image = ScalarImageType::New();
+  auto scalar_image = ScalarImageType::CreateInitialized(region);
   auto vector_image = VectorImageType::New();
-
-  scalar_image->SetRegions(region);
-  scalar_image->AllocateInitialized();
 
   vector_image->SetRegions(region);
   vector_image->Allocate();

@@ -58,9 +58,7 @@ test(int testIdx)
 
   const myImageType2D1::RegionType region2D{ index2D, size2D };
 
-  auto inputImage2D = myImageType2D1::New();
-  inputImage2D->SetRegions(region2D);
-  inputImage2D->AllocateInitialized();
+  auto inputImage2D = myImageType2D1::CreateInitialized(region2D);
 
   if (!testIdx)
   {

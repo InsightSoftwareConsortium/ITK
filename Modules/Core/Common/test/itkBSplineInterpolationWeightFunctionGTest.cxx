@@ -275,11 +275,9 @@ DoBSplineInterpolationWeightFunctionTest(int, char *[])
     auto kernel = KernelType::New();
 
     using ImageType = itk::Image<signed char, SpaceDimension>;
-    auto                        image = ImageType::New();
     const ImageType::RegionType region{ startIndex, size };
 
-    image->SetRegions(region);
-    image->AllocateInitialized();
+    auto image = ImageType::CreateInitialized(region);
 
     using IteratorType = itk::ImageRegionConstIteratorWithIndex<ImageType>;
     IteratorType  iter(image, image->GetBufferedRegion());
