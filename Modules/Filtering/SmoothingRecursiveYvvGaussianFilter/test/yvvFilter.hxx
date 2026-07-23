@@ -279,7 +279,11 @@ testImage(std::string inputFilename, float sigma, itk::TimeProbesCollectorBase *
       gpuYvvLabel, inputFilename, size, sigma, parameterStream.str(), timeCollector, true);
     /* Stress tests (e.g. high ntests) may cause CL_MEM_OBJECT_ALLOCATION_FAILURE,
      * even when re-instantiating input _and_ filter. Not all GPUs support resetting, so adding a sleep helps.*/
+#  if WIN32
+    Sleep(1000);
+#  else
     sleep(1);
+#  endif
   }
 
   std::string gpuYvvLabelNoSync = "gpu_Yvv_NoSyn";
@@ -287,7 +291,11 @@ testImage(std::string inputFilename, float sigma, itk::TimeProbesCollectorBase *
   {
     testGpuFilter<GPUrecursiveYVVFilterType>(
       gpuYvvLabelNoSync, inputFilename, size, sigma, parameterStream.str(), timeCollector, false);
+#  if WIN32
+    Sleep(1000); // helps for stress tests
+#  else
     sleep(1); // helps for stress tests
+#  endif
   }
 
 #endif
@@ -341,7 +349,11 @@ testWhite(typename ImageType::SizeType   size,
       gpuYvvLabelSync, emptyFilename, size, sigma, parameterStream.str(), timeCollector, true);
     /* Stress tests (e.g. high ntests) may cause CL_MEM_OBJECT_ALLOCATION_FAILURE,
      * even when re-instantiating input _and_ filter. Not all GPUs support resetting, so adding a sleep helps.*/
+#  if WIN32
+    Sleep(1000);
+#  else
     sleep(1);
+#  endif
   }
 
   std::string gpuYvvLabelNoSync = "gpu_Yvv_NoSyn";
@@ -349,7 +361,11 @@ testWhite(typename ImageType::SizeType   size,
   {
     testGpuFilter<GPUrecursiveYVVFilterType>(
       gpuYvvLabelNoSync, emptyFilename, size, sigma, parameterStream.str(), timeCollector, false);
+#  if WIN32
+    Sleep(1000); // helps for stress tests
+#  else
     sleep(1); // helps for stress tests
+#  endif
   }
 #endif
   return EXIT_SUCCESS;
