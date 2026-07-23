@@ -550,7 +550,7 @@ MetaImage::InitializeEssential(int               _nDims,
           m_ElementDirection[i*m_NDims+j] = 1;
         }
       }
-    } 
+    }
   }
 
   if (_elementData != nullptr)
@@ -1330,10 +1330,13 @@ MetaImage::ReadStream(int _nDims, METAIO_STREAM::ifstream * _stream, bool _readE
         delete[] wrds[i];
       }
       delete[] wrds;
-      if ((fileImageDim == 0) || (fileImageDim > m_NDims))
+      if ((fileImageDim <= 0) || (fileImageDim >= m_NDims))
       {
-        // if optional file dimension size is not given or is larger than
-        // overall dimension then default to a size of m_NDims - 1.
+        // if optional file dimension size is not given, is not positive, or
+        // does not leave a dimension to iterate files over, then default to
+        // a size of m_NDims - 1.  m_DimSize and m_SubQuantity are only
+        // indexable over [0, m_NDims), so out-of-range values must not reach
+        // the loops below.
         fileImageDim = m_NDims - 1;
       }
       std::string s;
@@ -1346,6 +1349,7 @@ MetaImage::ReadStream(int _nDims, METAIO_STREAM::ifstream * _stream, bool _readE
       {
         totalFiles *= m_DimSize[i - 1];
       }
+      int filesRead = 0;
       for (i = 0; i < totalFiles && !_stream->eof(); i++)
       {
         std::getline(*_stream, s);
@@ -1382,9 +1386,17 @@ MetaImage::ReadStream(int _nDims, METAIO_STREAM::ifstream * _stream, bool _readE
           }
 
           readStreamTemp->close();
+          filesRead++;
         }
       }
       delete readStreamTemp;
+      if (filesRead < totalFiles)
+      {
+        // The list ended early, so the tail of m_ElementData was never read.
+        std::cerr << "MetaImage: Read: LIST names " << filesRead << " file(s), but " << totalFiles << " are required"
+                  << '\n';
+        return false;
+      }
     }
     else if (m_ElementDataFileName.find('%') != std::string::npos)
     {
@@ -2475,7 +2487,7 @@ MetaImage::M_Read()
           m_Offset[i] = mF->value[i];
         }
       }
-    
+
       mF = MET_GetFieldRecord("ElementDirection", &m_Fields);
       if (mF && mF->defined)
       {
@@ -2496,7 +2508,7 @@ MetaImage::M_Read()
           m_ElementOrigin[i] = mF->value[i];
         }
       }
-    
+
       mF = MET_GetFieldRecord("ElementDirection", &m_Fields);
       if (mF && mF->defined)
       {
@@ -2610,15 +2622,16 @@ MetaImage::M_ReadElements(METAIO_STREAM::ifstream * _fstream, void * _data, std:
   // If compressed we inflate
   if (m_BinaryData && m_CompressedData)
   {
-    // if m_CompressedDataSize is not defined we assume the size of the
-    // file is the size of the compressed data
+    // if m_CompressedDataSize is not defined we assume the compressed data
+    // runs from the current position to the end of the file
     bool compressedDataDeterminedFromFile = false;
     if (m_CompressedDataSize == 0)
     {
       compressedDataDeterminedFromFile = true;
+      const std::streampos dataPos = _fstream->tellg();
       _fstream->seekg(0, std::ios::end);
-      m_CompressedDataSize = _fstream->tellg();
-      _fstream->seekg(0, std::ios::beg);
+      m_CompressedDataSize = static_cast<std::streamoff>(_fstream->tellg() - dataPos);
+      _fstream->seekg(dataPos);
     }
 
     auto * compr = new unsigned char[static_cast<size_t>(m_CompressedDataSize)];
@@ -2629,7 +2642,8 @@ MetaImage::M_ReadElements(METAIO_STREAM::ifstream * _fstream, void * _data, std:
       return false;
     }
 
-    MET_PerformUncompression(compr, m_CompressedDataSize, static_cast<unsigned char *>(_data), readSize);
+    const bool uncompressed =
+      MET_PerformUncompression(compr, m_CompressedDataSize, static_cast<unsigned char *>(_data), readSize);
 
     if (compressedDataDeterminedFromFile)
     {
@@ -2637,6 +2651,12 @@ MetaImage::M_ReadElements(METAIO_STREAM::ifstream * _fstream, void * _data, std:
     }
 
     delete[] compr;
+
+    if (!uncompressed)
+    {
+      std::cerr << "MetaImage: M_ReadElements: could not uncompress element data" << '\n';
+      return false;
+    }
   }
   else // if not compressed
   {

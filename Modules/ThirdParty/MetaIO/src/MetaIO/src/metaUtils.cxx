@@ -876,6 +876,10 @@ MET_PerformUncompression(const unsigned char * sourceCompressed,
       d_stream.next_out = uncompressedData + dest_pos;
       d_stream.avail_out = cur_remain_chunk;
       err = inflate(&d_stream, Z_NO_FLUSH);
+      // Account for this call's output before any exit, including the final
+      // call that reports Z_STREAM_END.
+      uInt count_uncompressed = cur_remain_chunk - d_stream.avail_out;
+      dest_pos += count_uncompressed;
       if (err == Z_STREAM_END || err < 0)
       {
         if (err != Z_STREAM_END && err != Z_BUF_ERROR) // Z_BUF_ERROR means there is still data to uncompress,
@@ -884,11 +888,15 @@ MET_PerformUncompression(const unsigned char * sourceCompressed,
         }
         break;
       }
-      uInt count_uncompressed = cur_remain_chunk - d_stream.avail_out;
-      dest_pos += count_uncompressed;
     } while (d_stream.avail_out == 0);
   } while (err != Z_STREAM_END && err >= 0);
   inflateEnd(&d_stream);
+  if (dest_pos != uncompressedDataSize)
+  {
+    std::cerr << "MET_PerformUncompression: expected " << uncompressedDataSize << " bytes, produced " << dest_pos
+              << '\n';
+    return false;
+  }
   return true;
 }
 
