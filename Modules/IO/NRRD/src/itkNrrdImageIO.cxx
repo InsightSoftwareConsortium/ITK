@@ -284,10 +284,10 @@ constexpr NrrdReservedField kNrrdReservedFields[] = {
 
 // Look up `keyField` (the text after the "NRRD_" prefix) in the reserved
 // field table and invoke the matching handler.  Returns true if `keyField`
-// began with the name of any known reserved field (even if a per-axis index
-// was out of range -- that mirrors the original behavior: the key is
-// considered "consumed" as a reserved field and must not leak into the
-// custom key/value fallback).
+// named a known reserved field: scalar fields require an exact name match,
+// per-axis fields require the name followed by an "[axis]" suffix (even if
+// the axis index is out of range -- the key is considered "consumed" as a
+// reserved field and must not leak into the custom key/value fallback).
 bool
 TryDispatchNrrdReservedField(NrrdWriteReservedFieldCtx & ctx, const char * keyField)
 {
@@ -301,12 +301,25 @@ TryDispatchNrrdReservedField(NrrdWriteReservedFieldCtx & ctx, const char * keyFi
     }
     if (rf.perAxis != nullptr)
     {
+      if (keyField[nameLen] != '[')
+      {
+        continue;
+      }
       unsigned int axi{ 0 };
-      if (std::sscanf(keyField + nameLen, "[%u]", &axi) == 1 && axi + ctx.numberOfPixelAxis_nrrd < ctx.nrrd->dim)
+      int          consumed{ 0 };
+      if (std::sscanf(keyField + nameLen, "[%u]%n", &axi, &consumed) != 1 || keyField[nameLen + consumed] != '\0')
+      {
+        continue;
+      }
+      if (axi + ctx.numberOfPixelAxis_nrrd < ctx.nrrd->dim)
       {
         rf.perAxis(ctx, axi);
       }
       return true;
+    }
+    if (keyField[nameLen] != '\0')
+    {
+      continue;
     }
     rf.scalar(ctx);
     return true;
@@ -783,6 +796,11 @@ NrrdImageIO::ReadImageInformation()
       default:
         // we're not coming from a space for which the conversion
         // to LPS is well-defined
+        if (nrrd->space != nrrdSpaceUnknown)
+        {
+          itkWarningMacro("NRRD space \"" << airEnumStr(nrrdSpace, nrrd->space)
+                                          << "\" is not converted to LPS; using its geometry verbatim.");
+        }
         break;
     }
 
@@ -1375,13 +1393,14 @@ NrrdImageIO::Write(const void * buffer)
   const std::vector<std::string> keys = thisDic.GetKeys();
   for (const std::string & metaKey : keys)
   {
+    bool consumedAsReservedField = false;
     if (!std::strncmp(NRRD_KEY_PREFIX.c_str(), metaKey.c_str(), NRRD_KEY_PREFIX.size()))
     {
       const char *              keyField = metaKey.c_str() + NRRD_KEY_PREFIX.size();
       NrrdWriteReservedFieldCtx ctx{ thisDic, metaKey, nrrd, numberOfPixelAxis_nrrd };
-      TryDispatchNrrdReservedField(ctx, keyField);
+      consumedAsReservedField = TryDispatchNrrdReservedField(ctx, keyField);
     }
-    else
+    if (!consumedAsReservedField)
     {
       // not a NRRD field packed into meta data; just a regular key/value
       // convert to string and dump to the file

@@ -420,3 +420,6 @@ itk_add_test(
     itkNrrdLocaleTest
     ${ITK_TEST_OUTPUT_DIR}
 )
+
+set(ITKIONRRDGTests itkNrrdImageIOGTest.cxx)
+creategoogletestdriver(ITKIONRRD "${ITKIONRRD-Test_LIBRARIES}" "${ITKIONRRDGTests}")
