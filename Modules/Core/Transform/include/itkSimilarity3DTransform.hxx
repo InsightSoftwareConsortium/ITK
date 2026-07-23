@@ -308,6 +308,13 @@ Similarity3DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent
   print_helper::PrintNumericTrait(os, indent, "Scale", m_Scale);
 }
 
+template <typename TParametersValueType>
+auto
+Similarity3DTransform<TParametersValueType>::GetInverseTransform() const -> InverseTransformBasePointer
+{
+  return Superclass::InvertTransform(*this);
+}
+
 } // namespace itk
 
 #endif

@@ -209,6 +209,13 @@ QuaternionRigidTransform<TParametersValueType>::ComputeMatrixParameters()
   m_Rotation = quat.conjugate();
 }
 
+template <typename TParametersValueType>
+auto
+QuaternionRigidTransform<TParametersValueType>::GetInverseTransform() const -> InverseTransformBasePointer
+{
+  return Superclass::InvertTransform(*this);
+}
+
 } // namespace itk
 
 #endif

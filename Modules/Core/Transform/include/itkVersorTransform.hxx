@@ -191,6 +191,13 @@ VersorTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent inden
   os << indent << "Versor: " << m_Versor << std::endl;
 }
 
+template <typename TParametersValueType>
+auto
+VersorTransform<TParametersValueType>::GetInverseTransform() const -> InverseTransformBasePointer
+{
+  return Superclass::InvertTransform(*this);
+}
+
 } // namespace itk
 
 #endif

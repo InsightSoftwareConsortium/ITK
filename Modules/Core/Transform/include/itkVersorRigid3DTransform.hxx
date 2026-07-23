@@ -275,6 +275,13 @@ VersorRigid3DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Inden
   Superclass::PrintSelf(os, indent);
 }
 
+template <typename TParametersValueType>
+auto
+VersorRigid3DTransform<TParametersValueType>::GetInverseTransform() const -> InverseTransformBasePointer
+{
+  return Superclass::InvertTransform(*this);
+}
+
 } // namespace itk
 
 #endif

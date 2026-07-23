@@ -49,6 +49,12 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ScaleLogarithmicTransform);
 
+  using typename Superclass::InverseTransformBasePointer;
+
+  /** Return an inverse of this transform. */
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
+
   /** Dimension of the domain space. */
   static constexpr unsigned int SpaceDimension = VDimension;
   static constexpr unsigned int ParametersDimension = VDimension;

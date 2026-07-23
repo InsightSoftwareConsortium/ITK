@@ -62,6 +62,12 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(QuaternionRigidTransform);
 
+  using typename Superclass::InverseTransformBasePointer;
+
+  /** Return an inverse of this transform. */
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
+
   /** Dimension of parameters   */
   static constexpr unsigned int InputSpaceDimension = 3;
   static constexpr unsigned int OutputSpaceDimension = 3;

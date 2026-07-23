@@ -90,6 +90,13 @@ ScaleLogarithmicTransform<TParametersValueType, VDimension>::ComputeJacobianWith
   }
 }
 
+template <typename TParametersValueType, unsigned int VDimension>
+auto
+ScaleLogarithmicTransform<TParametersValueType, VDimension>::GetInverseTransform() const -> InverseTransformBasePointer
+{
+  return Superclass::InvertTransform(*this);
+}
+
 } // namespace itk
 
 #endif
