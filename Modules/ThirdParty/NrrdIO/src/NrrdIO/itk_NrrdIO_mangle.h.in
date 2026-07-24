@@ -113,6 +113,7 @@ number, from inclusion.
 #define airTeemReleaseDone @MANGLE_PREFIX@_airTeemReleaseDone
 #define airTeemVersion @MANGLE_PREFIX@_airTeemVersion
 #define airTeemVersionSprint @MANGLE_PREFIX@_airTeemVersionSprint
+#define air__CLocale @MANGLE_PREFIX@_air__CLocale
 #define air__SanityHelper @MANGLE_PREFIX@_air__SanityHelper
 #define biffAdd @MANGLE_PREFIX@_biffAdd
 #define biffAddf @MANGLE_PREFIX@_biffAddf

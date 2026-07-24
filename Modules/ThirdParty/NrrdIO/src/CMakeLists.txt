@@ -14,6 +14,10 @@ set(ZLIB_LIBRARY ITK::ITKZLIBModule)
 list(APPEND NRRDIO_COMPRESSION_LIBRARIES ITK::ITKZLIBModule)
 if(UNIX)
   list(APPEND NRRDIO_COMPRESSION_LIBRARIES m)
+  # parseAir.c uses pthread_once for its cached "C" locale; on glibc < 2.34
+  # pthread_once lives in libpthread, not libc.
+  find_package(Threads REQUIRED)
+  list(APPEND NRRDIO_COMPRESSION_LIBRARIES Threads::Threads)
   list(REMOVE_DUPLICATES NRRDIO_COMPRESSION_LIBRARIES)
 endif()
 
