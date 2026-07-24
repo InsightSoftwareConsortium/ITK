@@ -77,7 +77,7 @@ template <unsigned int TDimension>
 int
 PerformBSplineSyNImageRegistration(int argc, char * argv[])
 {
-  ITK_TEST_EXPECT_TRUE(argc == 4);
+  ITK_TEST_EXPECT_TRUE(argc == 7);
   const unsigned int ImageDimension = TDimension;
 
   using PixelType = double;
@@ -361,26 +361,29 @@ PerformBSplineSyNImageRegistration(int argc, char * argv[])
 int
 itkBSplineSyNImageRegistrationTest(int argc, char * argv[])
 {
-  if (argc < 5)
+  if (argc != 7)
   {
-    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Incorrect number of parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " imageDimension fixedImage movingImage outputPrefix numberOfDeformableIterations learningRate"
               << std::endl;
     return EXIT_FAILURE;
   }
 
+  int testStatus = EXIT_SUCCESS;
   switch (std::stoi(argv[1]))
   {
     case 2:
-      PerformBSplineSyNImageRegistration<2>(argc, argv);
+      testStatus = PerformBSplineSyNImageRegistration<2>(argc, argv);
       break;
     case 3:
-      PerformBSplineSyNImageRegistration<3>(argc, argv);
+      testStatus = PerformBSplineSyNImageRegistration<3>(argc, argv);
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
       return EXIT_FAILURE;
   }
-  return EXIT_SUCCESS;
+
+  std::cout << "Test finished." << std::endl;
+  return testStatus;
 }
