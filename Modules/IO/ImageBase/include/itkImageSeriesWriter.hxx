@@ -351,7 +351,6 @@ ImageSeriesWriter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inden
 
   itkPrintSelfObjectMacro(ImageIO);
 
-  itkPrintSelfBooleanMacro(UserSpecifiedImageIO);
   for (unsigned int i = 0; i < m_FileNames.size(); ++i)
   {
     os << indent << "FileNames[" << i << "]: " << m_FileNames[i] << std::endl;

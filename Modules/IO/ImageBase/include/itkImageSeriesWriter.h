@@ -229,9 +229,6 @@ protected:
 
   ImageIOBase::Pointer m_ImageIO{};
 
-  // track whether the ImageIO is user specified
-  bool m_UserSpecifiedImageIO{ false };
-
 private:
   /** A list of filenames to be processed. */
   FileNamesContainer m_FileNames{};
