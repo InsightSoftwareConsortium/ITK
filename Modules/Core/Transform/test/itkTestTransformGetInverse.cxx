@@ -165,7 +165,7 @@ InverseRoundTripTest(const TTransform * forward)
   return 0;
 }
 
-// Non-trivial coverage for every concrete-type inverse override.
+// Non-trivial coverage for some concrete-type inverse overrides.
 unsigned
 NonIdentityInverseTests()
 {
