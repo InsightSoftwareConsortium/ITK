@@ -119,11 +119,7 @@ PerformBSplineSyNImageRegistration(int argc, char * argv[])
   using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
   auto * optimizer = dynamic_cast<GradientDescentOptimizerv4Type *>(affineSimple->GetModifiableOptimizer());
   ITK_TEST_EXPECT_TRUE(optimizer != nullptr);
-#ifdef NDEBUG
   optimizer->SetNumberOfIterations(100);
-#else
-  optimizer->SetNumberOfIterations(1);
-#endif
 
   using AffineCommandType = CommandIterationUpdate<AffineRegistrationType>;
   auto affineObserver = AffineCommandType::New();
@@ -215,15 +211,9 @@ PerformBSplineSyNImageRegistration(int argc, char * argv[])
 
   typename DisplacementFieldRegistrationType::NumberOfIterationsArrayType numberOfIterationsPerLevel;
   numberOfIterationsPerLevel.SetSize(3);
-#ifdef NDEBUG
   numberOfIterationsPerLevel[0] = std::stoi(argv[5]);
   numberOfIterationsPerLevel[1] = 2;
   numberOfIterationsPerLevel[2] = 1;
-#else
-  numberOfIterationsPerLevel[0] = 1;
-  numberOfIterationsPerLevel[1] = 1;
-  numberOfIterationsPerLevel[2] = 1;
-#endif
   typename DisplacementFieldRegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
   shrinkFactorsPerLevel.SetSize(3);
   shrinkFactorsPerLevel[0] = 3;
