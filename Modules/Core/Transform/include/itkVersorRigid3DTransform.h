@@ -60,6 +60,12 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(VersorRigid3DTransform);
 
+  using typename Superclass::InverseTransformBasePointer;
+
+  /** Return an inverse of this transform. */
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
+
   /** Dimension of parameters. */
   static constexpr unsigned int SpaceDimension = 3;
   static constexpr unsigned int InputSpaceDimension = 3;

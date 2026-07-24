@@ -365,6 +365,13 @@ Euler3DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent inde
   itkPrintSelfBooleanMacro(ComputeZYX);
 }
 
+template <typename TParametersValueType>
+auto
+Euler3DTransform<TParametersValueType>::GetInverseTransform() const -> InverseTransformBasePointer
+{
+  return Superclass::InvertTransform(*this);
+}
+
 } // namespace itk
 
 #endif

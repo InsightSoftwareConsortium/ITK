@@ -62,6 +62,12 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(Euler3DTransform);
 
+  using typename Superclass::InverseTransformBasePointer;
+
+  /** Return an inverse of this transform. */
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
+
   /** Dimension of the space. */
   static constexpr unsigned int SpaceDimension = 3;
   static constexpr unsigned int InputSpaceDimension = 3;

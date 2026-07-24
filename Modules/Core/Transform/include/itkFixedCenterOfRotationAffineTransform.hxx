@@ -48,6 +48,14 @@ FixedCenterOfRotationAffineTransform<TParametersValueType, VDimension>::FixedCen
 {}
 #endif
 
+template <typename TParametersValueType, unsigned int VDimension>
+auto
+FixedCenterOfRotationAffineTransform<TParametersValueType, VDimension>::GetInverseTransform() const
+  -> InverseTransformBasePointer
+{
+  return Superclass::InvertTransform(*this);
+}
+
 } // namespace itk
 
 #endif

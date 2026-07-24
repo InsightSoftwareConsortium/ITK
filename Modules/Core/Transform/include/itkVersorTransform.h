@@ -58,6 +58,12 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(VersorTransform);
 
+  using typename Superclass::InverseTransformBasePointer;
+
+  /** Return an inverse of this transform. */
+  InverseTransformBasePointer
+  GetInverseTransform() const override;
+
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
 
