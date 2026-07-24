@@ -154,7 +154,7 @@ InverseRoundTripTest(const TTransform * forward)
     const auto roundTrip = inverse->TransformPoint(forward->TransformPoint(p));
     for (unsigned int d = 0; d < 3; ++d)
     {
-      if (itk::Math::abs(roundTrip[d] - p[d]) > 1e-6)
+      if (itk::Math::Absolute(roundTrip[d] - p[d]) > 1e-6)
       {
         std::cerr << "ERROR: " << name << " inverse round-trip failed: got " << roundTrip << " expected " << p
                   << std::endl;
