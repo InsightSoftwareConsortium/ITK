@@ -22,8 +22,8 @@
 #include "itkAffineTransform.h"
 #include "itkCompositeTransform.h"
 #include "itkEuler3DTransform.h"
-#include "itkNumericLocale.h"
 #include "itkSimilarity3DTransform.h"
+#include "itkStringConvert.h"
 
 #include <dcmtk/dcmdata/dcfilefo.h>
 #include <dcmtk/dcmdata/dcdeftag.h>
@@ -90,9 +90,7 @@ template <typename TInternalComputationValueType>
 void
 DCMTKTransformIO<TInternalComputationValueType>::Read()
 {
-  // DICOM Decimal-String values use '.' as decimal separator regardless
-  // of system locale; force LC_NUMERIC=C for std::stod parsing below.
-  const NumericLocale cLocale;
+  constexpr auto matrixEntryContext = "DICOM FrameOfReferenceTransformationMatrix entry";
 
   TransformListType & transformList = this->GetReadTransformList();
   transformList.clear();
@@ -215,7 +213,7 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
                     itkExceptionMacro("Could not get expected matrix entry.");
                   }
                   ++matrixEntryIndex;
-                  transformParameters[row * Dimension + col] = std::stod(matrixString.c_str());
+                  transformParameters[row * Dimension + col] = StringToDouble(matrixString.c_str(), matrixEntryContext);
                 }
                 result = currentMatrixSequenceItem->findAndGetOFString(
                   DCM_FrameOfReferenceTransformationMatrix, matrixString, matrixEntryIndex);
@@ -224,7 +222,8 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
                   itkExceptionMacro("Could not get expected matrix entry.");
                 }
                 ++matrixEntryIndex;
-                transformParameters[Dimension * Dimension + row] = std::stod(matrixString.c_str());
+                transformParameters[Dimension * Dimension + row] =
+                  StringToDouble(matrixString.c_str(), matrixEntryContext);
               }
               affineTransform->SetParameters(transformParameters);
 

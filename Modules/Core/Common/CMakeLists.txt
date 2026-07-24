@@ -158,7 +158,7 @@ try_compile(
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasSchedGetAffinity.cxx
 )
 
-# Check for thread-local locale functions for NumericLocale
+# Check for thread-safe locale functions (locale-independent parsing in itkStringConvert)
 try_compile(
   ITK_HAS_NEWLOCALE
   ${ITK_BINARY_DIR}
