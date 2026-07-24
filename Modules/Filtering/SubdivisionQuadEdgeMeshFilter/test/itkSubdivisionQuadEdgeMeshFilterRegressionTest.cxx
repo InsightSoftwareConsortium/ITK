@@ -166,8 +166,8 @@ itkSubdivisionQuadEdgeMeshFilterRegressionTest(int, char *[])
     unsigned int nMoved = 0;
     for (MeshType::PointIdentifier pid = 0; pid < 4; ++pid)
     {
-      MeshType::PointType ipt;
-      MeshType::PointType opt;
+      MeshType::PointType ipt{};
+      MeshType::PointType opt{};
       mesh->GetPoint(pid, &ipt);
       out->GetPoint(pid, &opt);
       if (PointMoved(ipt, opt))

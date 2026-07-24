@@ -203,8 +203,8 @@ TYPED_TEST(ITKIOTransformMatlabTest, WriteAndReadEmptyCompositeTransform)
   ASSERT_NE(list, nullptr);
   // Check the first item is a composite transform
   ASSERT_FALSE(list->empty());
-  EXPECT_EQ(list->size(), 1);
-  EXPECT_EQ(list->front()->GetNumberOfParameters(), 0);
+  EXPECT_EQ(list->size(), 1u);
+  EXPECT_EQ(list->front()->GetNumberOfParameters(), 0u);
   EXPECT_STREQ(list->front()->GetNameOfClass(), "CompositeTransform");
 }
 

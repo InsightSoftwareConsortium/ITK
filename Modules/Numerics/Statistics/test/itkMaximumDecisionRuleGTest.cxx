@@ -35,7 +35,7 @@ TEST(MaximumDecisionRule, ConvertedLegacyTest)
   discriminantScores[1] = 1.0;
   discriminantScores[2] = 2.0;
 
-  EXPECT_EQ(decisionRule->Evaluate(discriminantScores), 2);
+  EXPECT_EQ(decisionRule->Evaluate(discriminantScores), 2u);
 
   DecisionRuleType::MembershipVectorType discriminantScores2;
   discriminantScores2.resize(3);
@@ -44,5 +44,5 @@ TEST(MaximumDecisionRule, ConvertedLegacyTest)
   discriminantScores2[1] = 1.0;
   discriminantScores2[2] = 2.0;
 
-  EXPECT_EQ(decisionRule->Evaluate(discriminantScores2), 2);
+  EXPECT_EQ(decisionRule->Evaluate(discriminantScores2), 2u);
 }

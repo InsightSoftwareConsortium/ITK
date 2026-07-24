@@ -957,7 +957,7 @@ TEST(ShapedImageNeighborhoodRange, ConstructorSupportsRValueShapeOffsets)
   // Note that the expression 'std::vector<OffsetType>{1}' is an rvalue.
   // The code is carefully written so that this rvalue remains alive while
   // the range 'RangeType{...}' is being used.
-  ASSERT_EQ((RangeType{ *image, location, std::vector<OffsetType>{ 1 } }).size(), 1);
+  ASSERT_EQ((RangeType{ *image, location, std::vector<OffsetType>{ 1 } }).size(), 1u);
 }
 
 

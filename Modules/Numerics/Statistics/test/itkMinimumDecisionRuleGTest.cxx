@@ -35,7 +35,7 @@ TEST(MinimumDecisionRule, ConvertedLegacyTest)
   discriminantScores[1] = 1.0;
   discriminantScores[2] = 2.0;
 
-  EXPECT_EQ(decisionRule->Evaluate(discriminantScores), 0);
+  EXPECT_EQ(decisionRule->Evaluate(discriminantScores), 0u);
 
   DecisionRuleType::MembershipVectorType discriminantScores2;
   discriminantScores2.resize(3);
@@ -44,7 +44,7 @@ TEST(MinimumDecisionRule, ConvertedLegacyTest)
   discriminantScores2[1] = 1.0;
   discriminantScores2[2] = 2.0;
 
-  EXPECT_EQ(decisionRule->Evaluate(discriminantScores2), 0);
+  EXPECT_EQ(decisionRule->Evaluate(discriminantScores2), 0u);
 
 
   DecisionRuleType::MembershipVectorType discriminantScores3;
@@ -54,5 +54,5 @@ TEST(MinimumDecisionRule, ConvertedLegacyTest)
   discriminantScores3[1] = 1.0;
   discriminantScores3[2] = 2.0;
 
-  EXPECT_EQ(decisionRule->Evaluate(discriminantScores3), 0);
+  EXPECT_EQ(decisionRule->Evaluate(discriminantScores3), 0u);
 }

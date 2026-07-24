@@ -68,7 +68,7 @@ TEST(RelabelComponentImageFilter, NoSortNoSize)
   filter->SetMinimumObjectSize(0);
   filter->Update();
 
-  EXPECT_EQ(filter->GetNumberOfObjects(), 3);
+  EXPECT_EQ(filter->GetNumberOfObjects(), 3u);
   const std::vector<unsigned int> expected({ 1u, 2u, 3u });
   ITK_EXPECT_VECTOR_NEAR(filter->GetSizeOfObjectsInPixels(), expected, 0);
   EXPECT_EQ(filter->GetOutput()->GetPixel({ { 2, 2 } }), 3u);
@@ -86,7 +86,7 @@ TEST(RelabelComponentImageFilter, NoSortSize)
   filter->SetMinimumObjectSize(2);
   filter->Update();
 
-  EXPECT_EQ(filter->GetNumberOfObjects(), 2);
+  EXPECT_EQ(filter->GetNumberOfObjects(), 2u);
   const std::vector<unsigned int> expected({ 2u, 3u });
   ITK_EXPECT_VECTOR_NEAR(filter->GetSizeOfObjectsInPixels(), expected, 0);
   EXPECT_EQ(filter->GetOutput()->GetPixel({ { 2, 2 } }), 2u);

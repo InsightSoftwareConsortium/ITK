@@ -330,7 +330,7 @@ TEST(FixedArray, StdMemberFunctionsWork)
   d3arr[1] = 2;
   d3arr[2] = 3;
   // size
-  EXPECT_EQ(d3arr.size(), 3);
+  EXPECT_EQ(d3arr.size(), 3u);
   // const and non-const data
   const auto cdata = d3arr.data();
   EXPECT_EQ(cdata[0], 1);

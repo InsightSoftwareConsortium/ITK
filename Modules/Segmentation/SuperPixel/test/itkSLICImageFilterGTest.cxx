@@ -101,7 +101,7 @@ TEST_F(SLICFixture, SetGet)
   ITK_EXPECT_VECTOR_NEAR(Utils::FilterType::SuperGridSizeType(4), filter->GetSuperGridSize(), 0);
 
   EXPECT_NO_THROW(filter->SetMaximumNumberOfIterations(6));
-  EXPECT_EQ(6, filter->GetMaximumNumberOfIterations());
+  EXPECT_EQ(6u, filter->GetMaximumNumberOfIterations());
 
   EXPECT_NO_THROW(filter->SetSpatialProximityWeight(9.1));
   EXPECT_EQ(9.1, filter->GetSpatialProximityWeight());

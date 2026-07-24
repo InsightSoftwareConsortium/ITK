@@ -314,9 +314,9 @@ TEST(SliceImageFilterTests, Sizes)
   filter->SetInput(source->GetOutput());
   filter->SetStep(2);
   EXPECT_NO_THROW(filter->Update()) << "Check same start and stop";
-  EXPECT_EQ(10, filter->GetOutput()->GetLargestPossibleRegion().GetSize(0));
-  EXPECT_EQ(9, filter->GetOutput()->GetLargestPossibleRegion().GetSize(1));
-  EXPECT_EQ(6, filter->GetOutput()->GetLargestPossibleRegion().GetSize(2));
+  EXPECT_EQ(10u, filter->GetOutput()->GetLargestPossibleRegion().GetSize(0));
+  EXPECT_EQ(9u, filter->GetOutput()->GetLargestPossibleRegion().GetSize(1));
+  EXPECT_EQ(6u, filter->GetOutput()->GetLargestPossibleRegion().GetSize(2));
 
   source->SetSize(itk::MakeSize(5, 2, 3));
 
@@ -326,9 +326,9 @@ TEST(SliceImageFilterTests, Sizes)
   filter->SetInput(source->GetOutput());
   filter->SetStep(2);
   EXPECT_NO_THROW(filter->Update()) << "Check same start and stop";
-  EXPECT_EQ(3, filter->GetOutput()->GetLargestPossibleRegion().GetSize(0));
-  EXPECT_EQ(1, filter->GetOutput()->GetLargestPossibleRegion().GetSize(1));
-  EXPECT_EQ(2, filter->GetOutput()->GetLargestPossibleRegion().GetSize(2));
+  EXPECT_EQ(3u, filter->GetOutput()->GetLargestPossibleRegion().GetSize(0));
+  EXPECT_EQ(1u, filter->GetOutput()->GetLargestPossibleRegion().GetSize(1));
+  EXPECT_EQ(2u, filter->GetOutput()->GetLargestPossibleRegion().GetSize(2));
 }
 
 TEST(SliceImageFilterTests, ExceptionalCases)

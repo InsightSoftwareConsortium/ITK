@@ -151,7 +151,7 @@ TEST_F(TileImageFixture, VectorImage)
 
   EXPECT_NO_THROW(filter->Update());
   EXPECT_EQ("2258f8cfbd7395bea0bc09ab3f69b058", MD5Hash(filter->GetOutput()));
-  EXPECT_EQ(5, filter->GetOutput()->GetNumberOfComponentsPerPixel());
+  EXPECT_EQ(5u, filter->GetOutput()->GetNumberOfComponentsPerPixel());
 
   layout[0] = 4;
   layout[1] = 1;
@@ -160,7 +160,7 @@ TEST_F(TileImageFixture, VectorImage)
 
   EXPECT_NO_THROW(filter->UpdateLargestPossibleRegion());
   EXPECT_EQ("2258f8cfbd7395bea0bc09ab3f69b058", MD5Hash(filter->GetOutput()));
-  EXPECT_EQ(5, filter->GetOutput()->GetNumberOfComponentsPerPixel());
+  EXPECT_EQ(5u, filter->GetOutput()->GetNumberOfComponentsPerPixel());
 
 
   layout[0] = 1;
@@ -170,7 +170,7 @@ TEST_F(TileImageFixture, VectorImage)
 
   EXPECT_NO_THROW(filter->UpdateLargestPossibleRegion());
   EXPECT_EQ("2258f8cfbd7395bea0bc09ab3f69b058", MD5Hash(filter->GetOutput()));
-  EXPECT_EQ(5, filter->GetOutput()->GetNumberOfComponentsPerPixel());
+  EXPECT_EQ(5u, filter->GetOutput()->GetNumberOfComponentsPerPixel());
 
 
   layout[0] = 1;
@@ -180,7 +180,7 @@ TEST_F(TileImageFixture, VectorImage)
 
   EXPECT_NO_THROW(filter->UpdateLargestPossibleRegion());
   EXPECT_EQ("dd8552dd79d605d653872af827f2d1a5", MD5Hash(filter->GetOutput()));
-  EXPECT_EQ(5, filter->GetOutput()->GetNumberOfComponentsPerPixel());
+  EXPECT_EQ(5u, filter->GetOutput()->GetNumberOfComponentsPerPixel());
 
 
   auto image2 = ImageType::New();

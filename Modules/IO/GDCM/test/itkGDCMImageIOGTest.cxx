@@ -454,7 +454,7 @@ TEST_F(ITKGDCMSeriesTestData, ReadSlicesReverseOrder)
 TEST_F(ITKGDCMSeriesTestData, CreateAndReadTestSeries)
 {
   // Verify that the DICOM files were created
-  ASSERT_EQ(m_DicomFiles.size(), 3);
+  ASSERT_EQ(m_DicomFiles.size(), 3u);
 
   for (const auto & filename : m_DicomFiles)
   {
@@ -468,7 +468,7 @@ TEST_F(ITKGDCMSeriesTestData, CreateAndReadTestSeries)
   namesGenerator->SetUseSeriesDetails(true);
 
   std::vector<std::string> fileNames = namesGenerator->GetInputFileNames();
-  ASSERT_EQ(fileNames.size(), 3);
+  ASSERT_EQ(fileNames.size(), 3u);
 
   // Read the series
   using ImageType3D = itk::Image<uint16_t, 3>;

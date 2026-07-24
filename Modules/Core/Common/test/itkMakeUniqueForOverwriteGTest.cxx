@@ -37,7 +37,7 @@ TEST(MakeUniqueForOverwrite, CreatesAnArrayThatCanBeWrittenTo)
     // Check that each value is correctly written to the corresponding element.
     for (std::size_t i = 0; i < numberOfElements; ++i)
     {
-      EXPECT_EQ(data[i], i);
+      EXPECT_EQ(data[i], static_cast<int>(i));
     }
   }
 }

@@ -134,11 +134,11 @@ public:
     const AggregateType knownAll6s{ { 6, 6, 6, 6 } };
 
     EXPECT_EQ((std::is_standard_layout_v<AggregateType> && std::is_trivial_v<AggregateType>), true);
-    EXPECT_EQ(AggregateType::Dimension, 4);
+    EXPECT_EQ(AggregateType::Dimension, 4u);
 
     AggregateType index1 = { { 10, 20, 30, 40 } };
-    EXPECT_EQ(index1.size(), 4);
-    EXPECT_EQ(index1.max_size(), 4);
+    EXPECT_EQ(index1.size(), 4u);
+    EXPECT_EQ(index1.max_size(), 4u);
     EXPECT_EQ(index1.empty(), false);
 
     for (auto i : { 0, 1, 2, 3 })
@@ -167,9 +167,10 @@ public:
     index2.back() = 6; // Non const ref
     ITK_EXPECT_VECTOR_NEAR(index2, knownAll6s, 0);
     index2.Fill(7);
-    EXPECT_EQ(index2.back(), 7);
-    EXPECT_EQ(index2.back(), 7);
-    EXPECT_EQ(index2.data()[3], 7); // Test const data access
+    using ValueType = typename AggregateType::value_type;
+    EXPECT_EQ(index2.back(), ValueType{ 7 });
+    EXPECT_EQ(index2.back(), ValueType{ 7 });
+    EXPECT_EQ(index2.data()[3], ValueType{ 7 }); // Test const data access
 
     index2.swap(index1);
     ITK_EXPECT_VECTOR_NEAR(index1, knownAll7s, 0);
@@ -325,7 +326,7 @@ TEST(Specialized, IndexOffset)
 TEST(Specialized, Index)
 {
   EXPECT_EQ((std::is_standard_layout_v<itk::Index<13>> && std::is_trivial_v<itk::Index<13>>), true);
-  EXPECT_EQ(itk::Index<2>::GetIndexDimension(), 2);
+  EXPECT_EQ(itk::Index<2>::GetIndexDimension(), 2u);
 
   using IndexType = itk::Index<4>;
 
@@ -349,7 +350,7 @@ TEST(Specialized, Offset)
 {
 
   EXPECT_EQ((std::is_standard_layout_v<itk::Offset<13>> && std::is_trivial_v<itk::Offset<13>>), true);
-  EXPECT_EQ(itk::Offset<13>::GetOffsetDimension(), 13);
+  EXPECT_EQ(itk::Offset<13>::GetOffsetDimension(), 13u);
 
   using OffsetType = itk::Offset<4>;
 
@@ -372,7 +373,7 @@ TEST(Specialized, Offset)
 TEST(Specialized, Size)
 {
   EXPECT_EQ((std::is_standard_layout_v<itk::Size<13>> && std::is_trivial_v<itk::Size<13>>), true);
-  EXPECT_EQ(itk::Size<7>::GetSizeDimension(), 7);
+  EXPECT_EQ(itk::Size<7>::GetSizeDimension(), 7u);
 
   using SizeType = itk::Size<4>;
   constexpr SizeType                known3s{ 3, 3, 3, 3 };
