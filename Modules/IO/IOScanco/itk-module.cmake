@@ -15,7 +15,8 @@ itk_module(
     ITKIOMeta
   FACTORY_NAMES
     ImageIO::Scanco
-  DESCRIPTION "Module ingested from upstream."
+  DESCRIPTION
+    "ITK Image IO for Scanco microCT files: reads ISQ, RSQ, RAD and AIM; writes ISQ and AIM."
   EXCLUDE_FROM_DEFAULT
   ENABLE_SHARED
 )
