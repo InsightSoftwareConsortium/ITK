@@ -21,7 +21,7 @@
 
 namespace
 {
-int
+[[nodiscard]] int
 DoEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
 {
   std::cout << "itkEllipsoidInteriorExteriorSpatialFunction test start" << std::endl;

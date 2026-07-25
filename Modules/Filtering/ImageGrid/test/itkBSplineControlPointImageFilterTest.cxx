@@ -24,7 +24,7 @@
 
 
 template <unsigned int ImageDimension>
-int
+[[nodiscard]] int
 BSpline(int argc, char * argv[])
 {
   using RealType = float;

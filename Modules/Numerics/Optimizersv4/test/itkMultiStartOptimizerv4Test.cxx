@@ -153,7 +153,7 @@ private:
 };
 
 ///////////////////////////////////////////////////////////
-int
+[[nodiscard]] int
 MultiStartOptimizerv4RunTest(itk::MultiStartOptimizerv4::Pointer & itkOptimizer)
 {
   try

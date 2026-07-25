@@ -68,7 +68,7 @@ public:
 
 // Test the cell interface
 template <typename TCell>
-int
+[[nodiscard]] int
 TestCellInterface(const std::string_view name, TCell * aCell)
 {
 
@@ -177,7 +177,7 @@ TestCellInterface(const std::string_view name, TCell * aCell)
 // Test the QEcell interface
 
 template <typename TCell>
-int
+[[nodiscard]] int
 TestQECellInterface(const std::string_view name, TCell * aCell)
 {
   std::cout << "-------- " << name << '(' << aCell->GetNameOfClass() << ')' << std::endl;

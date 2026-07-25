@@ -34,7 +34,7 @@
 #endif
 
 template <unsigned int VDimension>
-int
+[[nodiscard]] int
 runStructureTensorImageFilterTest()
 {
   const unsigned int Dimension = VDimension;

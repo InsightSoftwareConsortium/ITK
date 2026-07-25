@@ -35,7 +35,7 @@
  * This module test the functionality of the BSplineTransform class.
  *
  */
-int
+[[nodiscard]] int
 itkBSplineTransformTest1()
 {
 
@@ -458,7 +458,7 @@ itkBSplineTransformTest1()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 itkBSplineTransformTest2()
 {
   /**
@@ -574,7 +574,7 @@ itkBSplineTransformTest2()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 itkBSplineTransformTest3()
 {
 

@@ -29,7 +29,7 @@
 #include "itkTestingMacros.h"
 
 template <typename TTriangleCellSubdivisionFilter>
-int
+[[nodiscard]] int
 TriangleCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
 {
   using TriangleCellSubdivisionFilterType = TTriangleCellSubdivisionFilter;

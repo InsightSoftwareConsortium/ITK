@@ -25,7 +25,7 @@
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 
 template <typename ImageType>
-int
+[[nodiscard]] int
 itkFFTDiscreteGaussianImageFilterTestProcedure(int argc, char ** argv)
 {
   const float        sigma = (argc > 4) ? std::stof(argv[4]) : 0.0;
@@ -121,18 +121,19 @@ itkFFTDiscreteGaussianImageFilterTest(int argc, char * argv[])
 
   const unsigned int ImageDimension = static_cast<unsigned int>(std::stoi(argv[1]));
 
+  int testStatus = EXIT_SUCCESS;
   if (ImageDimension == 2)
   {
-    itkFFTDiscreteGaussianImageFilterTestProcedure<itk::Image<float, 2>>(argc, &argv[0]);
+    testStatus = itkFFTDiscreteGaussianImageFilterTestProcedure<itk::Image<float, 2>>(argc, &argv[0]);
   }
   else if (ImageDimension == 3)
   {
-    itkFFTDiscreteGaussianImageFilterTestProcedure<itk::Image<float, 3>>(argc, &argv[0]);
+    testStatus = itkFFTDiscreteGaussianImageFilterTestProcedure<itk::Image<float, 3>>(argc, &argv[0]);
   }
   else
   {
     std::cout << "Did not recognize image dimension argument!" << std::endl;
     return EXIT_FAILURE;
   }
-  return EXIT_SUCCESS;
+  return testStatus;
 }

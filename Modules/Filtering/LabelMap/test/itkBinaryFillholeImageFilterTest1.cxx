@@ -25,7 +25,7 @@
 namespace // Anonymous namespace avoids name collisions
 {
 template <unsigned Dimension>
-int
+[[nodiscard]] int
 DoIt(char * argv[])
 {
   using PixelType = unsigned char;

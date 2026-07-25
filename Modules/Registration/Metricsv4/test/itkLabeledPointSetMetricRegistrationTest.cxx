@@ -63,7 +63,7 @@ public:
 };
 
 template <class PointSetMetricType>
-int
+[[nodiscard]] int
 itkLabeledPointSetMetricRegistrationTestPerMetric(unsigned int numberOfIterations, PointSetMetricType * pointSetMetric)
 {
   using PointSetType = typename PointSetMetricType::FixedPointSetType;

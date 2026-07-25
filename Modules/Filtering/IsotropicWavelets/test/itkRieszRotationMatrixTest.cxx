@@ -25,7 +25,7 @@
 #include "itkTestingComparisonImageFilter.h"
 
 template <typename TImage>
-int
+[[nodiscard]] int
 compareRealImagesAndReport(typename TImage::Pointer validImage, typename TImage::Pointer testImage)
 {
   using ImageType = TImage;
@@ -63,7 +63,7 @@ compareRealImagesAndReport(typename TImage::Pointer validImage, typename TImage:
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 runRieszRotationMatrixInterfaceWithRieszFrequencyFilterBankGeneratorTest()
 {
   constexpr unsigned int Dimension = 2;
@@ -220,7 +220,7 @@ runRieszRotationMatrixInterfaceWithRieszFrequencyFilterBankGeneratorTest()
 }
 
 template <unsigned int VDimension>
-int
+[[nodiscard]] int
 runRieszRotationMatrixTest()
 {
   bool               testPassed = true;

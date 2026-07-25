@@ -83,7 +83,7 @@ protected:
 
 namespace
 {
-int
+[[nodiscard]] int
 DoSimpleFilterWatcherTest(int, char *[])
 {
   // Test out the code

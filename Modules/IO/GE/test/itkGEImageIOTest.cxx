@@ -35,7 +35,7 @@ using ImagePointer = ImageType::Pointer;
 using ImageReaderType = itk::ImageFileReader<ImageType>;
 using ImageWriterType = itk::ImageFileWriter<ImageType>;
 
-int
+[[nodiscard]] int
 itkGEImageIOFactoryTest(int argc, char * argv[])
 {
   static bool firstTime = true;

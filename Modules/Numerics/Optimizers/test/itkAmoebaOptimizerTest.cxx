@@ -231,13 +231,13 @@ private:
 /**
  * Test Amoeba with a 2D quadratic function - happy day scenario.
  */
-int
+[[nodiscard]] int
 AmoebaTest1();
 
 /**
  * Test Amoeba and Amoeba with restarts on a function with two minima.
  */
-int
+[[nodiscard]] int
 AmoebaTest2();
 
 int
@@ -257,7 +257,7 @@ itkAmoebaOptimizerTest(int, char *[])
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 AmoebaTest1()
 {
 
@@ -462,7 +462,7 @@ AmoebaTest1()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 AmoebaTest2()
 {
   std::cout << "Amoeba Optimizer Test 2\n \n";

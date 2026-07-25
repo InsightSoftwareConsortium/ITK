@@ -84,7 +84,7 @@ private:
 
 using DescriptionListType = std::vector<std::string>;
 
-int
+[[nodiscard]] int
 ListRegisteredFactories(const std::string & TestName, const DescriptionListType & expectedList)
 {
   using FactoryListType = std::list<itk::ObjectFactoryBase *>;

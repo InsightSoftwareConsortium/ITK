@@ -27,7 +27,7 @@ namespace
 {
 
 template <typename TFilter>
-int
+[[nodiscard]] int
 InPlaceTest(char * inputFilename, bool normalizeAcrossScale, typename TFilter::SigmaArrayType::ValueType sigmaValue)
 {
   // Read the input image

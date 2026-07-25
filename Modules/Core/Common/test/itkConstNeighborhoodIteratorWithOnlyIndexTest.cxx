@@ -38,7 +38,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestGetTestImage(int d1, int d2, int d3
 }
 
 template <typename TImage>
-int
+[[nodiscard]] int
 itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
 {
   const typename TImage::Pointer img = itkConstNeighborhoodIteratorWithOnlyIndexTestGetTestImage<TImage>(10, 10, 5, 3);

@@ -32,7 +32,7 @@
 #include "itkTestingMacros.h"
 
 template <typename FFTType>
-int
+[[nodiscard]] int
 doTest(const char * inputImage, const char * outputImagePrefix)
 {
   using ImageType = typename FFTType::InputImageType;

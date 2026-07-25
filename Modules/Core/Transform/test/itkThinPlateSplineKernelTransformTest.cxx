@@ -38,7 +38,7 @@ namespace
 // - the inverse transform correctly maps every target back to its source,
 // - unsupported operations correctly throw exceptions.
 template <unsigned int VDimension>
-int
+[[nodiscard]] int
 TestThinPlateSplineKernelTransform()
 {
   constexpr double epsilon{ 1e-12 };

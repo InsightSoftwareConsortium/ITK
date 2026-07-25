@@ -42,7 +42,7 @@ public:
 constexpr unsigned int MAXRUNS{ 5 }; // maximum number of runs
 
 template <unsigned int VImageDimension>
-int
+[[nodiscard]] int
 testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,
                               double                       threshold,
                               double                       radius,
@@ -83,7 +83,7 @@ itkBinaryMinMaxCurvatureFlowImageFilterTest(int, char *[])
 
 
 template <unsigned int VImageDimension>
-int
+[[nodiscard]] int
 testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image size
                               double                       threshold,
                               double                       radius,       // ND-sphere radius

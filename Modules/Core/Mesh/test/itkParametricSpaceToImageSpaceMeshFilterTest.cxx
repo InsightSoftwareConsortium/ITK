@@ -60,7 +60,7 @@ struct helper<itk::Point<TCoord, VDimension>>
 
 
 template <class TPosition>
-int
+[[nodiscard]] int
 InternalTest(int argc, char * argv[])
 {
   if (argc != 2)

@@ -34,7 +34,7 @@
  */
 
 template <typename TMovingTransform>
-int
+[[nodiscard]] int
 itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int                 numberOfIterations,
                                                               double              shiftOfStep,
                                                               const std::string & scalesOption)

@@ -97,7 +97,7 @@ public:
 };
 
 template <unsigned int VImageDimension>
-int
+[[nodiscard]] int
 PerformBSplineImageRegistration(int argc, char * argv[])
 {
   if (argc < 6)

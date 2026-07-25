@@ -123,7 +123,7 @@ ImagesEqual(const TImage * img1, const TImage * img2)
  * compares the original image with the read image.
  */
 template <class TScalar, unsigned int TDimension>
-int
+[[nodiscard]] int
 TestStreamWrite(char * file1, unsigned int numberOfStreams = 0)
 {
   using ImageType = itk::Image<TScalar, TDimension>;
@@ -193,7 +193,7 @@ TestStreamWrite(char * file1, unsigned int numberOfStreams = 0)
  * compares the original image with the read image.
  */
 template <class TScalar, unsigned int TDimension>
-int
+[[nodiscard]] int
 TestStreamRead(char * file1, unsigned int numberOfStreams = 0)
 {
   using ImageType = itk::Image<TScalar, TDimension>;

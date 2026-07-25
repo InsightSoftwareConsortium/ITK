@@ -277,7 +277,7 @@ private:
  *  we expect an average result with solution @ (1.5,-1.5)
  */
 ///////////////////////////////////////////////////////////
-int
+[[nodiscard]] int
 MultiGradientOptimizerv4RunTest(itk::MultiGradientOptimizerv4::Pointer & itkOptimizer)
 {
   try

@@ -25,7 +25,7 @@
 using PixelType = unsigned long long;
 using ImageType = itk::Image<PixelType, 3>;
 
-int
+[[nodiscard]] int
 verifyContent(ImageType::Pointer image)
 {
   itk::ImageRegionConstIterator<ImageType> it(image, image->GetBufferedRegion());

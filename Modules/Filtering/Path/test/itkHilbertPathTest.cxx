@@ -22,7 +22,7 @@
 
 
 template <typename PathType>
-int
+[[nodiscard]] int
 HilbertPathTestHelper(unsigned int maxHilbertPathOder)
 {
   int testStatus = EXIT_SUCCESS;

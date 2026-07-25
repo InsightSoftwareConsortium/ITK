@@ -138,7 +138,7 @@ ConvertIplImageDataType(IplImage * in)
 
 // Templated test function to do the heavy lifting for RGB case
 template <typename TValue, unsigned int VDimension>
-int
+[[nodiscard]] int
 itkOpenCVImageBridgeTestTemplatedRGB(char * argv0, char * argv1)
 {
   // type alias
@@ -234,7 +234,7 @@ itkOpenCVImageBridgeTestTemplatedRGB(char * argv0, char * argv1)
 }
 
 template <typename TValue>
-int
+[[nodiscard]] int
 itkRunRGBTest(char * argv0, char * argv1)
 {
   if (itkOpenCVImageBridgeTestTemplatedRGB<TValue, 2>(argv0, argv1) == EXIT_FAILURE)

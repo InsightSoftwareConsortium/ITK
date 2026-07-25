@@ -29,7 +29,7 @@
  */
 
 template <unsigned int Dimension>
-int
+[[nodiscard]] int
 itkEuclideanDistancePointSetMetricTest2Run()
 {
   using PointSetType = itk::PointSet<unsigned char, Dimension>;

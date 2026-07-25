@@ -28,7 +28,7 @@
 #include "itkPocketFFTInverseFFTImageFilter.h"
 
 template <typename TPixel, unsigned int VDimension>
-int
+[[nodiscard]] int
 transformImage(const char * inputImageFileName, const char * outputImageFileName)
 {
   using RealPixelType = TPixel;

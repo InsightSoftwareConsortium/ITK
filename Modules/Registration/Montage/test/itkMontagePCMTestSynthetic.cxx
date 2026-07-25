@@ -118,7 +118,7 @@ public:
 
 
 template <unsigned int VDimension, typename TFixedImagePixel, typename TMovingImagePixel>
-int
+[[nodiscard]] int
 PhaseCorrelationRegistration(int argc, char * argv[])
 {
   if (argc < 6)

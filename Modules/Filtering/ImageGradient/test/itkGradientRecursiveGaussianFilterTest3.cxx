@@ -33,7 +33,7 @@
  */
 
 template <typename TImageType, typename TGradImageType, unsigned int TComponents>
-int
+[[nodiscard]] int
 itkGradientRecursiveGaussianFilterTest3Run(typename TImageType::PixelType &   myPixelBorder,
                                            typename TImageType::PixelType &   myPixelFill,
                                            typename TGradImageType::Pointer & outputImage,
@@ -137,7 +137,7 @@ itkGradientRecursiveGaussianFilterTest3Run(typename TImageType::PixelType &   my
 }
 
 template <typename TGradImage1DType, typename TGradImageVectorType>
-int
+[[nodiscard]] int
 itkGradientRecursiveGaussianFilterTest3Compare(typename TGradImage1DType::Pointer     scalarPixelGradImage,
                                                typename TGradImageVectorType::Pointer vectorPixelGradImage,
                                                unsigned int                           numDimensions)

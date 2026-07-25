@@ -30,7 +30,7 @@
 #include "itkObjectByObjectLabelMapFilter.h"
 
 template <typename TLabelMap>
-int
+[[nodiscard]] int
 CheckLabelMapOverlap(TLabelMap * labelMap)
 {
   int exitCode = EXIT_SUCCESS;

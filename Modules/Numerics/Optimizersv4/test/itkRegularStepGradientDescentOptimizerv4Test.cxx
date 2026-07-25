@@ -154,7 +154,7 @@ private:
 };
 
 template <typename OptimizerType>
-int
+[[nodiscard]] int
 RegularStepGradientDescentOptimizerv4TestHelper(
   itk::SizeValueType                                   numberOfIterations,
   bool                                                 doEstimateLearningRateAtEachIteration,

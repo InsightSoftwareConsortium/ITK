@@ -36,7 +36,7 @@
  */
 
 template <unsigned int VImageDimension>
-int
+[[nodiscard]] int
 runGPUDiscreteGaussianImageFilterTest(const std::string & inFile, const std::string & outFile)
 {
 

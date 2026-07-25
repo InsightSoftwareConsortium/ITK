@@ -25,7 +25,7 @@
 #include "itkMath.h"
 
 template <unsigned int Dimension>
-int
+[[nodiscard]] int
 itkLabeledPointSetMetricTestRun()
 {
   using LabelType = unsigned int;

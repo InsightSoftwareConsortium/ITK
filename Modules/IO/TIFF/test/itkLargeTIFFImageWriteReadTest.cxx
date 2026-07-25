@@ -28,7 +28,7 @@ namespace
 {
 
 template <typename TImage>
-int
+[[nodiscard]] int
 itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::SizeType size)
 {
   using ImageType = TImage;

@@ -48,7 +48,7 @@
 #endif
 
 template <unsigned int VDimension>
-int
+[[nodiscard]] int
 runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::string & outputImage)
 {
   bool               testPassed = true;

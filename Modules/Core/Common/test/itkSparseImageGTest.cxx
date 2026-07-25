@@ -41,7 +41,7 @@ public:
 
 namespace
 {
-int
+[[nodiscard]] int
 DoSparseImageTest(int, char *[])
 {
   using DummyImageType = itk::Image<int, 2>;

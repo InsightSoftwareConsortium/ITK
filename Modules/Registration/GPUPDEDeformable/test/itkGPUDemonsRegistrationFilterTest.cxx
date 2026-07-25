@@ -81,7 +81,7 @@ itk::TimeProbe m_GPUTime;
 itk::TimeProbe m_CPUTime;
 
 template <unsigned int VDimension>
-int
+[[nodiscard]] int
 GPUDemonsRegistrationFilterTestTemplate(int argc, char * argv[]);
 
 template <unsigned int VDimension, typename TDisplacementFieldPointer>
@@ -139,7 +139,7 @@ itkGPUDemonsRegistrationFilterTest(int argc, char * argv[])
 namespace
 {
 template <unsigned int VDimension>
-int
+[[nodiscard]] int
 GPUDemonsRegistrationFilterTestTemplate(int argc, char * argv[])
 {
   bool         passed;

@@ -76,7 +76,7 @@ public:
 };
 
 template <unsigned int TDimension>
-int
+[[nodiscard]] int
 ImageRegistration(int argc, char * argv[])
 {
   ITK_TEST_EXPECT_TRUE(argc == 4);

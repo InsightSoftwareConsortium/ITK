@@ -43,7 +43,7 @@ using ObjectToObjectMultiMetricv4TestMultiMetricType =
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int
+[[nodiscard]] int
 itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiMetricType::Pointer & multiVariateMetric,
                                            bool useDisplacementTransform)
 {
@@ -198,7 +198,7 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
 
 ////////////////////////////////////////////////////////////
 
-int
+[[nodiscard]] int
 itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
 {
   // Create two simple images

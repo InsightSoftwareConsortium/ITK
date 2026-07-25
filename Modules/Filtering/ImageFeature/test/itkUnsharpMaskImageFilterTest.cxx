@@ -25,7 +25,7 @@
 namespace
 {
 template <typename OutPixelType>
-int
+[[nodiscard]] int
 RunTest(int argc, char * argv[])
 {
   constexpr unsigned int Dimension{ 2 };

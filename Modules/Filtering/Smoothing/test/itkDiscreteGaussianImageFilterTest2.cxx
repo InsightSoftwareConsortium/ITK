@@ -25,7 +25,7 @@
 /** Execute the filter on user-provided input */
 
 template <typename TIMAGE>
-int
+[[nodiscard]] int
 itkDiscreteGaussianImageFilterTestA(const char *       inputFilename,
                                     const char *       outputFilename,
                                     const float        sigma,
@@ -94,26 +94,27 @@ itkDiscreteGaussianImageFilterTest2(int argc, char * argv[])
   using ScalarPixelType = float;
   using VectorPixelType = itk::Vector<ScalarPixelType, 3>;
 
+  int testStatus = EXIT_SUCCESS;
   if (img_dim == 2 && vec_dim == 1)
   {
-    itkDiscreteGaussianImageFilterTestA<itk::Image<ScalarPixelType, 2>>(
+    testStatus = itkDiscreteGaussianImageFilterTestA<itk::Image<ScalarPixelType, 2>>(
       argv[3], argv[4], sigma, kernelError, kernelWidth, filterDimensionality);
   }
   else if (img_dim == 2 && vec_dim == 3)
   {
-    itkDiscreteGaussianImageFilterTestA<itk::Image<VectorPixelType, 2>>(
+    testStatus = itkDiscreteGaussianImageFilterTestA<itk::Image<VectorPixelType, 2>>(
       argv[3], argv[4], sigma, kernelError, kernelWidth, filterDimensionality);
   }
   else if (img_dim == 3 && vec_dim == 1)
   {
-    itkDiscreteGaussianImageFilterTestA<itk::Image<ScalarPixelType, 3>>(
+    testStatus = itkDiscreteGaussianImageFilterTestA<itk::Image<ScalarPixelType, 3>>(
       argv[3], argv[4], sigma, kernelError, kernelWidth, filterDimensionality);
   }
   else if (img_dim == 3 && vec_dim == 3)
   {
-    itkDiscreteGaussianImageFilterTestA<itk::Image<VectorPixelType, 3>>(
+    testStatus = itkDiscreteGaussianImageFilterTestA<itk::Image<VectorPixelType, 3>>(
       argv[3], argv[4], sigma, kernelError, kernelWidth, filterDimensionality);
   }
 
-  return EXIT_SUCCESS;
+  return testStatus;
 }

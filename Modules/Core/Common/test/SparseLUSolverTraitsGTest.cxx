@@ -47,7 +47,7 @@ VectorsEquals(const TVector & v1, const TVector & v2, const typename TVector::Sc
 
 namespace
 {
-int
+[[nodiscard]] int
 DoSparseLUSolverTraitsTest(int, char *[])
 {
   using CoordinateType = double;

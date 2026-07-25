@@ -73,7 +73,7 @@ public:
 };
 
 template <unsigned int TDimension>
-int
+[[nodiscard]] int
 PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
 {
 

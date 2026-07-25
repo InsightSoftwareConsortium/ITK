@@ -22,7 +22,7 @@
 
 namespace
 {
-int
+[[nodiscard]] int
 DoVariableSizeMatrixTest(int, char *[])
 {
   using FloatVariableSizeMatrixType = itk::VariableSizeMatrix<float>;

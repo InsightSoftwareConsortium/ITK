@@ -82,7 +82,7 @@ ConvertIplImageDataType(IplImage * in)
 
 // Templated test function to do the heavy lifting for scalar case
 template <typename TPixelType, unsigned int VDimension>
-int
+[[nodiscard]] int
 itkOpenCVImageBridgeTestTemplatedScalar(char * argv)
 {
   // type alias
@@ -207,7 +207,7 @@ itkOpenCVImageBridgeTestTemplatedScalar(char * argv)
 }
 
 template <typename TPixel>
-int
+[[nodiscard]] int
 itkRunScalarTest(char * argv)
 {
   if (itkOpenCVImageBridgeTestTemplatedScalar<TPixel, 2>(argv) == EXIT_FAILURE)

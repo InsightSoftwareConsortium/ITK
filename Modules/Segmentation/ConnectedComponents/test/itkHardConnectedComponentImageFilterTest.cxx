@@ -22,7 +22,7 @@
 #include "itkTestingMacros.h"
 
 template <typename TPixel>
-int
+[[nodiscard]] int
 DoIt(int argc, char * argv[], const std::string & pixelType)
 {
   if (argc < 2)

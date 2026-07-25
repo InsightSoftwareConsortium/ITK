@@ -32,7 +32,7 @@
 #include "itkTestingMacros.h"
 
 template <typename TVectorImage>
-int
+[[nodiscard]] int
 itkImageToHistogramFilterTest4Templated(int argc, char * argv[])
 {
 

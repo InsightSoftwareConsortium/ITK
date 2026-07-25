@@ -51,7 +51,7 @@ VectorsEquals(const TVector & v1, const TVector & v2, const typename TVector::el
 
 namespace
 {
-int
+[[nodiscard]] int
 DoVNLSparseLUSolverTraitsTest(int, char *[])
 {
   /**

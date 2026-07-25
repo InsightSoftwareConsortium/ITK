@@ -24,7 +24,7 @@
 #include "read_info.cxx"
 
 template <class MaskPixType, int Dim>
-int
+[[nodiscard]] int
 doDilate(char * In, char * Out, int radius)
 {
   using MaskImType = typename itk::Image<MaskPixType, Dim>;

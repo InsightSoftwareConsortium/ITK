@@ -76,7 +76,7 @@ DoConvolution(typename ImageType::Pointer inputImage, unsigned long int directio
 }
 
 template <typename PixelType, unsigned long Dimension>
-int
+[[nodiscard]] int
 DoSimpleConvolutionTest(unsigned long direction, const std::string & pixelType)
 {
   using ImageType = typename itk::Image<PixelType, Dimension>;

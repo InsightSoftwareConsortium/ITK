@@ -28,7 +28,7 @@ using Polygon3DType = itk::PolygonSpatialObject<3>;
 using PolygonGroup3DType = itk::GroupSpatialObject<3>;
 using PolygonGroup3DPointer = PolygonGroup3DType::Pointer;
 
-int
+[[nodiscard]] int
 buildPolygonGroup(PolygonGroup3DPointer & PolygonGroup)
 {
   try
@@ -64,7 +64,7 @@ buildPolygonGroup(PolygonGroup3DPointer & PolygonGroup)
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 testPolygonGroupEquivalence(PolygonGroup3DPointer & p1, PolygonGroup3DPointer & p2)
 {
   //

@@ -35,7 +35,7 @@
 
 namespace
 {
-int
+[[nodiscard]] int
 Test3dImageMask()
 {
   using BoxType = itk::BoxSpatialObject<3>;
@@ -166,7 +166,7 @@ Test3dImageMask()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 Test2dImageMask()
 {
   using BoxType = itk::BoxSpatialObject<2>;

@@ -66,7 +66,7 @@ using itkEuclideanDistancePointSetMetricRegistrationTestTransformType = itk::Tra
 
 /////////////////////////////////////////////////////////
 template <typename TTransform, typename TMetric, typename TPointSet>
-int
+[[nodiscard]] int
 itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int                   numberOfIterations,
                                                       double                         maximumPhysicalStepSize,
                                                       double                         pointMax,

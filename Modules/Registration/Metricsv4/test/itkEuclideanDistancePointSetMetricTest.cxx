@@ -23,7 +23,7 @@
 #include "itkMath.h"
 
 template <unsigned int Dimension>
-int
+[[nodiscard]] int
 itkEuclideanDistancePointSetMetricTestRun()
 {
   using PointSetType = itk::PointSet<unsigned char, Dimension>;

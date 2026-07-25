@@ -38,7 +38,7 @@
  * Testing GPU Mean Image Filter
  */
 template <unsigned int VImageDimension>
-int
+[[nodiscard]] int
 runGPUMeanImageFilterTest(const std::string & inFile, const std::string & outFile)
 {
   using InputPixelType = unsigned char;

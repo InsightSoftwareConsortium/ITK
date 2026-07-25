@@ -123,7 +123,7 @@ const unsigned char LittleEndian_img[] = {
 /** WriteFile
  * Write out a char array as binary
  */
-int
+[[nodiscard]] int
 WriteFile(const std::string & name, const unsigned char * buf, size_t buflen)
 {
   std::ofstream f(name.c_str(), std::ios::binary | std::ios::out);
@@ -175,7 +175,7 @@ ReadImage(const std::string &                     fileName,
 } // namespace
 
 
-int
+[[nodiscard]] int
 itkNiftiAnalyzeContentsAndCoordinatesTest(char *                                  argv[],
                                           unsigned char                           hist_orient_code,
                                           itk::AnatomicalOrientation              expected_code,

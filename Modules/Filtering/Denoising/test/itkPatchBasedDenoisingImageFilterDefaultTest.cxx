@@ -25,7 +25,7 @@
 
 
 template <typename ImageT>
-int
+[[nodiscard]] int
 doDenoising(const std::string & inputFileName, const std::string & outputFileName)
 {
   using ReaderType = itk::ImageFileReader<ImageT>;

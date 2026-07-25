@@ -23,7 +23,7 @@
 #include <fstream>
 
 template <unsigned int Dimension>
-int
+[[nodiscard]] int
 itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
 {
   using PointSetType = itk::PointSet<unsigned char, Dimension>;

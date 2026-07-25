@@ -48,7 +48,7 @@
  *
  */
 template <typename TImage, typename TInterpolator>
-int
+[[nodiscard]] int
 TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bool useSampling, const size_t imageSize)
 {
 

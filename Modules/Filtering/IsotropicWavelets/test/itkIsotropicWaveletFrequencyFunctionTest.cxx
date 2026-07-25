@@ -55,7 +55,7 @@ linSpaceForIWFF(double init = 0.0, double end = 1.0, size_t points = 1000)
 } // namespace itk
 
 template <unsigned int VDimension, typename TWaveletFunction>
-int
+[[nodiscard]] int
 runIsotropicWaveletFrequencyFunctionTest(const std::string & profileDataRootPath,
                                          const std::string &, // outputImage,
                                          const unsigned int & inputBands,
