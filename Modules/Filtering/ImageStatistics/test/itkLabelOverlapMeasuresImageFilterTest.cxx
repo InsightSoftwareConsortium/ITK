@@ -23,7 +23,7 @@
 #include <iomanip>
 
 template <unsigned int VImageDimension>
-int
+[[nodiscard]] int
 LabelOverlapMeasures(int, char * argv[])
 {
   using PixelType = unsigned int;
@@ -38,7 +38,7 @@ LabelOverlapMeasures(int, char * argv[])
   using FilterType = itk::LabelOverlapMeasuresImageFilter<ImageType>;
   auto filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, LabelOverlapMeasuresImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, LabelOverlapMeasuresImageFilter, ImageSink);
 
 
   filter->SetSourceImage(reader1->GetOutput());
