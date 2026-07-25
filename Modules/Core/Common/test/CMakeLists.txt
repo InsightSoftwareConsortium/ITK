@@ -117,6 +117,10 @@ if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
   list(APPEND ITKCommon2Tests itkDownCastTest.cxx)
 endif()
 
+if(NOT ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
+  list(APPEND ITKCommon2Tests itkThreadPoolSingletonSharingTest.cxx)
+endif()
+
 # Note: Tests are arbitrarily split into two drivers to avoid memory issues.
 createtestdriver(
   ITKCommon1
@@ -1407,6 +1411,48 @@ if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
       ITKCommon2TestDriver
       itkDownCastTest
       $<TARGET_FILE:ClientTestLibraryB>
+  )
+endif()
+
+# Each library statically links its own copy of ITKCommon, as every wrapped Python module does.
+if(NOT ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
+  foreach(_name IN ITEMS A B)
+    add_library(
+      ThreadPoolSingletonLibrary${_name}
+      MODULE
+      ThreadPoolSingletonLibrary${_name}.cxx
+    )
+    itk_module_target_label(ThreadPoolSingletonLibrary${_name})
+    target_link_libraries(
+      ThreadPoolSingletonLibrary${_name}
+      LINK_PUBLIC
+        ${ITKCommon-Test_LIBRARIES}
+    )
+    set_property(
+      TARGET
+        ThreadPoolSingletonLibrary${_name}
+      PROPERTY
+        LIBRARY_OUTPUT_DIRECTORY
+          ${ITK_TEST_OUTPUT_DIR}
+    )
+    set_target_properties(
+      ThreadPoolSingletonLibrary${_name}
+      PROPERTIES
+        CXX_VISIBILITY_PRESET
+          hidden
+        VISIBILITY_INLINES_HIDDEN
+          1
+    )
+    add_dependencies(ITKCommon2TestDriver ThreadPoolSingletonLibrary${_name})
+  endforeach()
+
+  itk_add_test(
+    NAME itkThreadPoolSingletonSharingTest
+    COMMAND
+      ITKCommon2TestDriver
+      itkThreadPoolSingletonSharingTest
+      $<TARGET_FILE:ThreadPoolSingletonLibraryA>
+      $<TARGET_FILE:ThreadPoolSingletonLibraryB>
   )
 endif()
 
