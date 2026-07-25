@@ -32,6 +32,38 @@
 
 namespace itk
 {
+namespace
+{
+// C++20 std::atomic_flag is guaranteed lock-free and, since C++20, has a non-modifying test().
+// C++17 has no atomic_flag::test(), so std::atomic<bool> is used and asserted lock-free instead.
+// The feature-test macro is used rather than __cplusplus because MSVC misreports the latter.
+#if defined(__cpp_lib_atomic_flag_test) && (__cpp_lib_atomic_flag_test >= 201907L)
+using SingletonGuard = std::atomic_flag;
+inline bool
+IsGuardSet(const SingletonGuard & guard, std::memory_order order)
+{
+  return guard.test(order);
+}
+inline void
+SetGuard(SingletonGuard & guard)
+{
+  guard.test_and_set(std::memory_order_release);
+}
+#else
+using SingletonGuard = std::atomic<bool>;
+static_assert(SingletonGuard::is_always_lock_free, "The ThreadPool singleton guard must be lock-free.");
+inline bool
+IsGuardSet(const SingletonGuard & guard, std::memory_order order)
+{
+  return guard.load(order);
+}
+inline void
+SetGuard(SingletonGuard & guard)
+{
+  guard.store(true, std::memory_order_release);
+}
+#endif
+} // namespace
 
 struct ThreadPoolGlobals
 {
@@ -40,8 +72,8 @@ struct ThreadPoolGlobals
   // To lock on the various internal variables.
   std::mutex m_Mutex;
 
-  // To allow singleton creation of ThreadPool.
-  std::once_flag m_ThreadPoolOnceFlag;
+  // Guards singleton creation. Lives here so every ITK library instance shares one guard.
+  SingletonGuard m_IsSingletonCreated{};
 
   // The singleton instance of ThreadPool.
   ThreadPool::Pointer m_ThreadPoolInstance;
@@ -75,17 +107,24 @@ ThreadPool::GetInstance()
   // initialized.
   itkInitGlobalsMacro(PimplGlobals);
 
-  // Create a singleton ThreadPool.
-  std::call_once(m_PimplGlobals->m_ThreadPoolOnceFlag, []() {
-    m_PimplGlobals->m_ThreadPoolInstance = ObjectFactory<Self>::Create();
-    if (m_PimplGlobals->m_ThreadPoolInstance.IsNull())
+  // Acquire pairs with the release in SetGuard, so seeing the guard set implies seeing the pool.
+  if (!IsGuardSet(m_PimplGlobals->m_IsSingletonCreated, std::memory_order_acquire))
+  {
+    const std::lock_guard<std::mutex> lockGuard(m_PimplGlobals->m_Mutex);
+
+    if (!IsGuardSet(m_PimplGlobals->m_IsSingletonCreated, std::memory_order_relaxed))
     {
-      new ThreadPool(); // constructor sets m_PimplGlobals->m_ThreadPoolInstance
-    }
+      m_PimplGlobals->m_ThreadPoolInstance = ObjectFactory<Self>::Create();
+      if (m_PimplGlobals->m_ThreadPoolInstance.IsNull())
+      {
+        new ThreadPool(); // constructor sets m_PimplGlobals->m_ThreadPoolInstance
+      }
 #if defined(ITK_USE_PTHREADS)
-    pthread_atfork(ThreadPool::PrepareForFork, ThreadPool::ResumeFromFork, ThreadPool::ResumeFromFork);
+      pthread_atfork(ThreadPool::PrepareForFork, ThreadPool::ResumeFromFork, ThreadPool::ResumeFromFork);
 #endif
-  });
+      SetGuard(m_PimplGlobals->m_IsSingletonCreated);
+    }
+  }
 
   return m_PimplGlobals->m_ThreadPoolInstance;
 }
@@ -106,8 +145,7 @@ ThreadPool::SetDoNotWaitForThreads(bool doNotWaitForThreads)
 
 ThreadPool::ThreadPool()
 {
-  // m_PimplGlobals->m_Mutex not needed to be acquired here because construction only occurs via GetInstance which is
-  // protected by call_once.
+  // m_PimplGlobals->m_Mutex is already held by GetInstance while this constructor runs.
 
   m_PimplGlobals->m_ThreadPoolInstance = this;        // threads need this
   m_PimplGlobals->m_ThreadPoolInstance->UnRegister(); // Remove extra reference
