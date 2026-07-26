@@ -62,4 +62,9 @@ if(ITK_WRAP_PYTHON)
     itkImageLifetimePythonTest
     COMMAND
     ${CMAKE_CURRENT_SOURCE_DIR}/itkImageLifetimeTest.py)
+  itk_python_add_test(
+    NAME
+    itkOptimizerParametersOwnershipPythonTest
+    COMMAND
+    ${CMAKE_CURRENT_SOURCE_DIR}/itkOptimizerParametersOwnershipTest.py)
 endif()

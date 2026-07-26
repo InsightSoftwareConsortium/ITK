@@ -7,6 +7,10 @@ itk_end_wrap_class()
 
 itk_wrap_class("itk::OptimizerParameters")
 foreach(t ${types})
+  # SetHelper stores the argument in a unique_ptr member.
+  string(APPEND ITK_WRAP_PYTHON_SWIG_EXT
+         "%apply SWIGTYPE *DISOWN { itkOptimizerParametersHelper${ITKM_${t}} * helper };\n")
+
   itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
 endforeach()
 itk_end_wrap_class()
