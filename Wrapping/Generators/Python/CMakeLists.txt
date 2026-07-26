@@ -165,6 +165,12 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     ${ITK_PYTHON_PACKAGE_DIR}
   )
 
+  if(ITK_FUTURE_LEGACY_REMOVE)
+    set(ITK_WRAP_PYTHON_FUTURE_LEGACY_REMOVE "True")
+  else()
+    set(ITK_WRAP_PYTHON_FUTURE_LEGACY_REMOVE "False")
+  endif()
+
   configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/itkConfig.template.in.py"
     "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itkConfig.py"
