@@ -16,7 +16,7 @@ itk_module(
   FACTORY_NAMES
     ImageIO::Scanco
   DESCRIPTION
-    "ITK Image IO for Scanco microCT files: reads ISQ, RSQ, RAD and AIM; writes ISQ and AIM."
+    "ITK Image IO for Scanco microCT files: reads ISQ, RSQ, RAD and AIM, writes ISQ and AIM."
   EXCLUDE_FROM_DEFAULT
   ENABLE_SHARED
 )
