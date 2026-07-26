@@ -19,12 +19,16 @@
 // First include the header file to be tested:
 #include "itkGradientImageFilter.h"
 
+#include "itkConstNeighborhoodIterator.h"
 #include "itkDeref.h"
 #include "itkImage.h"
 #include "itkImageBufferRange.h"
 #include "itkIndexRange.h"
+#include "itkNeighborhoodOperatorImageFilter.h"
+#include "itkZeroFluxNeumannBoundaryCondition.h"
 
 #include <gtest/gtest.h>
+#include <memory>
 
 
 // Tests the output for a uniform input image.
@@ -115,3 +119,133 @@ TEST(GradientImageFilter, ConstantGradientInputImage)
     }
   }
 }
+
+
+namespace
+{
+// Counts its own destructions, so tests can observe who owns it.
+template <typename TImage>
+class DestructionCountingBoundaryCondition : public itk::ZeroFluxNeumannBoundaryCondition<TImage>
+{
+public:
+  explicit DestructionCountingBoundaryCondition(unsigned int & counter)
+    : m_Counter(&counter)
+  {}
+
+  ~DestructionCountingBoundaryCondition() override { ++(*m_Counter); }
+
+private:
+  unsigned int * m_Counter{};
+};
+} // namespace
+
+
+// The unique_ptr overload takes ownership: the filter destroys the boundary condition.
+TEST(GradientImageFilter, SetBoundaryConditionTakesOwnership)
+{
+  using ImageType = itk::Image<int>;
+  using BoundaryConditionType = DestructionCountingBoundaryCondition<ImageType>;
+
+  unsigned int destructionCount{ 0 };
+  {
+    const auto filter = itk::GradientImageFilter<ImageType>::New();
+    filter->SetBoundaryCondition(std::make_unique<BoundaryConditionType>(destructionCount));
+    EXPECT_EQ(destructionCount, 0u);
+  }
+  EXPECT_EQ(destructionCount, 1u);
+}
+
+
+// Get returns what was set; Reset restores the default and destroys the previous one.
+TEST(GradientImageFilter, GetAndResetBoundaryCondition)
+{
+  using ImageType = itk::Image<int>;
+  using BoundaryConditionType = DestructionCountingBoundaryCondition<ImageType>;
+
+  unsigned int destructionCount{ 0 };
+  const auto   filter = itk::GradientImageFilter<ImageType>::New();
+
+  auto       boundaryCondition = std::make_unique<BoundaryConditionType>(destructionCount);
+  const auto rawPointer = boundaryCondition.get();
+  filter->SetBoundaryCondition(std::move(boundaryCondition));
+  EXPECT_EQ(filter->GetBoundaryCondition(), rawPointer);
+
+  filter->ResetBoundaryCondition();
+  EXPECT_EQ(destructionCount, 1u);
+  EXPECT_NE(filter->GetBoundaryCondition(), nullptr);
+  EXPECT_NE(filter->GetBoundaryCondition(), rawPointer);
+}
+
+
+// Changing the boundary condition must invalidate an already computed output.
+TEST(GradientImageFilter, SetBoundaryConditionModifiesFilter)
+{
+  using ImageType = itk::Image<int>;
+
+  const auto inputImage = ImageType::New();
+  inputImage->SetRegions(itk::Size<2>::Filled(4));
+  inputImage->Allocate(true);
+
+  const auto filter = itk::GradientImageFilter<ImageType>::New();
+  filter->SetInput(inputImage);
+  filter->Update();
+  const auto modifiedTimeAfterUpdate = filter->GetMTime();
+
+  filter->SetBoundaryCondition(std::make_unique<itk::ZeroFluxNeumannBoundaryCondition<ImageType>>());
+  EXPECT_GT(filter->GetMTime(), modifiedTimeAfterUpdate);
+
+  filter->ResetBoundaryCondition();
+  EXPECT_GT(filter->GetMTime(), modifiedTimeAfterUpdate);
+}
+
+
+// A null boundary condition would be dereferenced while processing boundary faces.
+TEST(GradientImageFilter, SetBoundaryConditionRejectsNull)
+{
+  using ImageType = itk::Image<int>;
+
+  const auto filter = itk::GradientImageFilter<ImageType>::New();
+  EXPECT_THROW(filter->SetBoundaryCondition(nullptr), itk::ExceptionObject);
+  EXPECT_NE(filter->GetBoundaryCondition(), nullptr);
+}
+
+
+// The rest of the OverrideBoundaryCondition family does not take ownership.
+TEST(GradientImageFilter, OverrideBoundaryConditionDoesNotTakeOwnership)
+{
+  using ImageType = itk::Image<int>;
+  using BoundaryConditionType = DestructionCountingBoundaryCondition<ImageType>;
+
+  unsigned int destructionCount{ 0 };
+  {
+    BoundaryConditionType boundaryCondition(destructionCount);
+
+    itk::ConstNeighborhoodIterator<ImageType> iterator;
+    iterator.OverrideBoundaryCondition(&boundaryCondition);
+
+    const auto neighborhoodFilter = itk::NeighborhoodOperatorImageFilter<ImageType, ImageType>::New();
+    neighborhoodFilter->OverrideBoundaryCondition(&boundaryCondition);
+
+    EXPECT_EQ(destructionCount, 0u);
+  }
+  // Destroyed exactly once, by leaving scope -- not by either consumer.
+  EXPECT_EQ(destructionCount, 1u);
+}
+
+
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+// The deprecated overload keeps its original ownership semantics.
+TEST(GradientImageFilter, DeprecatedOverrideBoundaryConditionStillTakesOwnership)
+{
+  using ImageType = itk::Image<int>;
+  using BoundaryConditionType = DestructionCountingBoundaryCondition<ImageType>;
+
+  unsigned int destructionCount{ 0 };
+  {
+    const auto filter = itk::GradientImageFilter<ImageType>::New();
+    filter->OverrideBoundaryCondition(new BoundaryConditionType(destructionCount));
+    EXPECT_EQ(destructionCount, 0u);
+  }
+  EXPECT_EQ(destructionCount, 1u);
+}
+#endif

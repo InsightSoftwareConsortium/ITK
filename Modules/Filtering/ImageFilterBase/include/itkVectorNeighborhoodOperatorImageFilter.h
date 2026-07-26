@@ -105,11 +105,8 @@ public:
     this->Modified();
   }
 
-  /** Allows a user to override the internal boundary condition. Care should be
-   * be taken to ensure that the overriding boundary condition is a persistent
-   * object during the time it is referenced.  The overriding condition
-   * can be of a different type than the default type as long as it is
-   * a subclass of ImageBoundaryCondition. */
+  /** Overrides the internal boundary condition. Does not take ownership; the
+   * caller must keep the object alive while it is referenced. */
   void
   OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
   {

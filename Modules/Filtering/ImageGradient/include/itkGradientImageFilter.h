@@ -139,9 +139,36 @@ public:
   }
 #endif
 
-  /** Allows to change the default boundary condition */
+  using BoundaryConditionType = ImageBoundaryCondition<TInputImage, TInputImage>;
+
+  /** Replaces the default boundary condition. The filter takes ownership.
+   * Throws when the argument is empty, as the boundary condition is dereferenced
+   * unconditionally while processing boundary faces. */
+  void
+  SetBoundaryCondition(std::unique_ptr<BoundaryConditionType> boundaryCondition);
+
+  /** Returns the boundary condition in use. The filter retains ownership. */
+  [[nodiscard]] const BoundaryConditionType *
+  GetBoundaryCondition() const
+  {
+    return m_BoundaryCondition.get();
+  }
+
+  /** Restores the default ZeroFluxNeumann boundary condition. */
+  void
+  ResetBoundaryCondition()
+  {
+    m_BoundaryCondition = std::make_unique<ZeroFluxNeumannBoundaryCondition<TInputImage>>();
+    this->Modified();
+  }
+
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+  /** Allows to change the default boundary condition. The filter takes ownership.
+     \deprecated Use GradientImageFilter::SetBoundaryCondition instead, whose
+     `unique_ptr` parameter states the ownership transfer. */
   void
   OverrideBoundaryCondition(ImageBoundaryCondition<TInputImage> * boundaryCondition);
+#endif
 
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputValueType>));
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputValueType>));

@@ -39,11 +39,27 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
 
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValue, typename TOutputImage>
 void
+GradientImageFilter<TInputImage, TOperatorValueType, TOutputValue, TOutputImage>::SetBoundaryCondition(
+  std::unique_ptr<BoundaryConditionType> boundaryCondition)
+{
+  if (boundaryCondition == nullptr)
+  {
+    itkExceptionMacro("The boundary condition should not be null!");
+  }
+  m_BoundaryCondition = std::move(boundaryCondition);
+  this->Modified();
+}
+
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+template <typename TInputImage, typename TOperatorValueType, typename TOutputValue, typename TOutputImage>
+void
 GradientImageFilter<TInputImage, TOperatorValueType, TOutputValue, TOutputImage>::OverrideBoundaryCondition(
   ImageBoundaryCondition<TInputImage> * boundaryCondition)
 {
   m_BoundaryCondition.reset(boundaryCondition);
+  this->Modified();
 }
+#endif
 
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType, typename TOutputImageType>
 void

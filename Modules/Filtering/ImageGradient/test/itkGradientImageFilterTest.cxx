@@ -24,6 +24,8 @@
 
 #include "itkPeriodicBoundaryCondition.h"
 
+#include <memory>
+
 inline std::ostream &
 operator<<(std::ostream & o, const itk::CovariantVector<float, 3> & v)
 {
@@ -88,8 +90,7 @@ itkGradientImageFilterTest(int argc, char * argv[])
   auto filter2 = FilterType2::New();
 
   using PeriodicBoundaryType = itk::PeriodicBoundaryCondition<InputImageType2>;
-  // Test the OverrideBoundaryCondition setting;
-  filter2->OverrideBoundaryCondition(new PeriodicBoundaryType);
+  filter2->SetBoundaryCondition(std::make_unique<PeriodicBoundaryType>());
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter2, GradientImageFilter, ImageToImageFilter);
 
