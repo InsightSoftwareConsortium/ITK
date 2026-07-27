@@ -21,7 +21,7 @@
 
 
 template <typename TImage>
-int
+[[nodiscard]] int
 itkRandomImageSourceAttributesTestHelper(const typename TImage::SizeType      size,
                                          const typename TImage::SpacingType   spacing,
                                          const typename TImage::PointType     origin,

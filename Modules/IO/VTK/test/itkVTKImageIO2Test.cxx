@@ -301,7 +301,7 @@ public:
 };
 
 template <typename TScalar>
-int
+[[nodiscard]] int
 Test1AsciiBinary(std::string         filePrefix,
                  std::string         outputPath,
                  const std::string & typeName,

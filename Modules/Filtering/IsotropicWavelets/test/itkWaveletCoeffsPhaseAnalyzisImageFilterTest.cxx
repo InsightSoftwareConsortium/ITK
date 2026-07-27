@@ -33,7 +33,7 @@ AppendToOutputFilename(const std::string & filename, const std::string & appendi
 }
 
 template <unsigned int VDimension, typename TWavelet>
-int
+[[nodiscard]] int
 runWaveletCoeffsPhaseAnalyzisImageFilterTest(const std::string &  inputImage,
                                              const std::string &  outputImage,
                                              const unsigned int & inputLevels,

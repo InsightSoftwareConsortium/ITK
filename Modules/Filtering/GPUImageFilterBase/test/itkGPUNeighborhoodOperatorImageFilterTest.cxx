@@ -33,7 +33,7 @@
  */
 
 template <unsigned int VImageDimension>
-int
+[[nodiscard]] int
 runGPUNeighborhoodOperatorImageFilterTest(const std::string & inFile, const std::string & outFile)
 {
 

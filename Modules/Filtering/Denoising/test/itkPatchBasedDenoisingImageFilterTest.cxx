@@ -66,7 +66,7 @@ ParseKernelBandwidthSigma(char * kernelBandwidthSigmaIn, unsigned int numIndepen
 }
 
 template <typename ImageT>
-int
+[[nodiscard]] int
 doDenoising(const std::string & inputFileName,
             const std::string & outputFileName,
             const unsigned int  numIterations,

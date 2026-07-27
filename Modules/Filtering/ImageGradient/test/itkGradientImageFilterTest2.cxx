@@ -27,7 +27,7 @@ namespace
 {
 
 template <typename TInputImage>
-int
+[[nodiscard]] int
 DoIt(const std::string & infname, const std::string & outfname)
 {
   using InputImageType = TInputImage;

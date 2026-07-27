@@ -29,7 +29,7 @@
  *
  */
 
-int
+[[nodiscard]] int
 itkImageRegistrationMethodTest_5_Func(int argc, char * argv[], bool subtractMean)
 {
 

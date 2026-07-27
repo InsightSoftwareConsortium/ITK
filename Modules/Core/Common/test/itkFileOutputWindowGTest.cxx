@@ -24,7 +24,7 @@
 
 namespace
 {
-int
+[[nodiscard]] int
 DoFileOutputWindowTest(int, char *[])
 {
 

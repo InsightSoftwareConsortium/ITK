@@ -29,7 +29,7 @@ namespace
 {
 
 template <typename TImageType>
-int
+[[nodiscard]] int
 ActualTest(std::string filename, typename TImageType::SizeType size)
 {
   using ImageType = TImageType;

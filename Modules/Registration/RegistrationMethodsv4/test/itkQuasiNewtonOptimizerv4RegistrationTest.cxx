@@ -50,7 +50,7 @@
 #include "itkTestingMacros.h"
 
 template <unsigned int Dimension, typename TAffineTransform>
-int
+[[nodiscard]] int
 itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char * argv[])
 {
   const std::string metricString = argv[2];

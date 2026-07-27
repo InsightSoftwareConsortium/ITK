@@ -26,7 +26,7 @@
 
 
 template <typename TPixel>
-int
+[[nodiscard]] int
 HDF5ReadWriteTest(const char * fileName)
 {
   std::cout << fileName << std::endl;
@@ -247,7 +247,7 @@ HDF5ReadWriteTest(const char * fileName)
   return success;
 }
 
-int
+[[nodiscard]] int
 HDF5ReuseReadWriteTest(const char * fileName)
 {
   constexpr int success{ EXIT_SUCCESS };

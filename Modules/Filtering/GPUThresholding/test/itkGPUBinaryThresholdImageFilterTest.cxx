@@ -34,7 +34,7 @@
 #include "itkGPUBinaryThresholdImageFilter.h"
 
 template <unsigned int VImageDimension>
-int
+[[nodiscard]] int
 runGPUBinaryThresholdImageFilterTest(const std::string & inFile, const std::string & outFile)
 {
   using InputPixelType = unsigned char;

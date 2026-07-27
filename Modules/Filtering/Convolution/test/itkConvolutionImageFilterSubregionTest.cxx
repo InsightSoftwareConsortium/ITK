@@ -44,7 +44,7 @@ GenerateGaussianKernelForSubregionTest()
 }
 
 template <typename ConvolutionFilterType>
-int
+[[nodiscard]] int
 doConvolutionImageFilterSubregionTest(int argc, char * argv[])
 {
   constexpr int ImageDimension{ 2 };

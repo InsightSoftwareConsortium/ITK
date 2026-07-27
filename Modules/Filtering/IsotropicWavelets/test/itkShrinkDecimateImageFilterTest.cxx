@@ -29,7 +29,7 @@
 #endif
 
 template <unsigned int VDimension>
-int
+[[nodiscard]] int
 runShrinkDecimateImageFilterTest()
 {
   using PixelType = float;

@@ -29,7 +29,7 @@
 using SizeValueType = itk::SizeValueType;
 
 
-int
+[[nodiscard]] int
 test_FileListVideoIO(const char *  input,
                      char *        nonVideoInput,
                      char *        output,

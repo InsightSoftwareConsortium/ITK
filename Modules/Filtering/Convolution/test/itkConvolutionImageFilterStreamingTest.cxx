@@ -45,7 +45,7 @@ GenerateKernelForStreamingTest()
 }
 
 template <typename ConvolutionFilterType>
-int
+[[nodiscard]] int
 doConvolutionImageFilterStreamingTest(int argc, char * argv[])
 {
   constexpr int ImageDimension{ 2 };

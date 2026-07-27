@@ -24,7 +24,7 @@
 
 namespace
 {
-int
+[[nodiscard]] int
 DoSpatialFunctionTest(int, char *[])
 {
   // Change this parameter (and the positions, below) to work in higher or lower dimensions

@@ -29,7 +29,7 @@
 
 // Helper function declaration.
 template <const unsigned int VDimension>
-int
+[[nodiscard]] int
 LabelGeometryImageFilterTest(std::string labelImageName,
                              std::string intensityImageName,
                              std::string outputImageName,
@@ -86,7 +86,7 @@ itkLabelGeometryImageFilterTest(int argc, char * argv[])
 }
 
 template <const unsigned int VDimension>
-int
+[[nodiscard]] int
 LabelGeometryImageFilterTest(std::string labelImageName,
                              std::string intensityImageName,
                              std::string outputImageName,

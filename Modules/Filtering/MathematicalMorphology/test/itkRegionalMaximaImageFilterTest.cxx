@@ -26,7 +26,7 @@
 
 
 template <typename TInputImage, typename TOutputImage>
-int
+[[nodiscard]] int
 RegionalMaximaImageFilterTestHelper(std::string inputImageFile,
                                     std::string outputImageFile,
                                     std::string outputImageFile2,

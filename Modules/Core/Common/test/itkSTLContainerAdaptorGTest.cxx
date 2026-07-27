@@ -26,7 +26,7 @@
 
 namespace
 {
-int
+[[nodiscard]] int
 DoSTLContainerAdaptorTest(int, char *[])
 {
 

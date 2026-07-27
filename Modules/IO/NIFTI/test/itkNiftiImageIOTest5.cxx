@@ -21,7 +21,7 @@
 
 
 template <typename PixelType, unsigned int TType>
-int
+[[nodiscard]] int
 SlopeInterceptTest()
 {
   //
@@ -134,7 +134,7 @@ SlopeInterceptTest()
 }
 
 template <typename PixelType>
-int
+[[nodiscard]] int
 SlopeInterceptWriteTest()
 {
   //

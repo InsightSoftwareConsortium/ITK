@@ -36,7 +36,7 @@
  */
 
 template <typename TMovingTransform>
-int
+[[nodiscard]] int
 itkQuasiNewtonOptimizerv4TestTemplated(int                 numberOfIterations,
                                        double              shiftOfStep,
                                        const std::string & scalesOption,

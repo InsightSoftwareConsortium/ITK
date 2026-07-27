@@ -31,7 +31,7 @@
 
 namespace
 {
-int
+[[nodiscard]] int
 runOne(const std::string & xmlPath, const std::string & xmlBody)
 {
   {

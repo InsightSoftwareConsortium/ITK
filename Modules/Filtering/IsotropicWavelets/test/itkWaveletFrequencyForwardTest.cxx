@@ -48,7 +48,7 @@ AppendToFilename(const std::string & filename, const std::string & appendix)
 }
 
 template <unsigned int VDimension, typename TWaveletFunction>
-int
+[[nodiscard]] int
 runWaveletFrequencyForwardTest(const std::string &  inputImage,
                                const std::string &  outputImage,
                                const unsigned int & inputLevels,

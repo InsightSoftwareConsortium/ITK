@@ -43,7 +43,7 @@ static_assert((itk::BSplineInterpolationWeightFunction<float, 2, 1>::NumberOfWei
  */
 namespace
 {
-int
+[[nodiscard]] int
 DoBSplineInterpolationWeightFunctionTest(int, char *[])
 {
 

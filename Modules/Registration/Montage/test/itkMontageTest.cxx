@@ -23,7 +23,7 @@
 #include "itkNumericTraits.h"
 
 template <typename PixelType, typename AccumulatePixelType, unsigned Dimension>
-int
+[[nodiscard]] int
 itkMontageTestHelper2(int                               argc,
                       char *                            argv[],
                       const std::string &               inputPath,

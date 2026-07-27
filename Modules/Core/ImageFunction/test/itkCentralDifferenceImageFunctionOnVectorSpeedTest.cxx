@@ -21,7 +21,7 @@
 #include "itkTestingMacros.h"
 
 template <unsigned int vecLength>
-int
+[[nodiscard]] int
 itkCentralDifferenceImageFunctionOnVectorSpeedTestRun(char * argv[])
 {
   const int  imageSize = std::stoi(argv[1]);
@@ -130,41 +130,42 @@ itkCentralDifferenceImageFunctionOnVectorSpeedTest(int argc, char * argv[])
   }
   const int vecLength = std::stoi(argv[6]);
 
+  int testStatus = EXIT_SUCCESS;
   switch (vecLength)
   {
     case 1:
-      itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<1>(argv);
+      testStatus = itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<1>(argv);
       break;
     case 2:
-      itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<2>(argv);
+      testStatus = itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<2>(argv);
       break;
     case 3:
-      itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<3>(argv);
+      testStatus = itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<3>(argv);
       break;
     case 4:
-      itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<4>(argv);
+      testStatus = itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<4>(argv);
       break;
     case 5:
-      itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<5>(argv);
+      testStatus = itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<5>(argv);
       break;
     case 6:
-      itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<6>(argv);
+      testStatus = itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<6>(argv);
       break;
     case 7:
-      itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<7>(argv);
+      testStatus = itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<7>(argv);
       break;
     case 8:
-      itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<8>(argv);
+      testStatus = itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<8>(argv);
       break;
     case 9:
-      itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<9>(argv);
+      testStatus = itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<9>(argv);
       break;
     case 10:
-      itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<10>(argv);
+      testStatus = itkCentralDifferenceImageFunctionOnVectorSpeedTestRun<10>(argv);
       break;
     default:
       std::cout << "Invalid vecLength" << std::endl;
       break;
   }
-  return EXIT_SUCCESS;
+  return testStatus;
 }

@@ -30,7 +30,7 @@
 #endif
 
 template <unsigned int VDimension>
-int
+[[nodiscard]] int
 runExpandWithZerosImageFilterTest(unsigned int expandFactor)
 {
   using PixelType = float;

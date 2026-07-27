@@ -152,7 +152,7 @@ private:
 };
 
 ///////////////////////////////////////////////////////////
-int
+[[nodiscard]] int
 GradientDescentOptimizerv4RunTest(itk::GradientDescentOptimizerv4::Pointer &             itkOptimizer,
                                   GradientDescentOptimizerv4TestMetric::ParametersType & trueParameters)
 {

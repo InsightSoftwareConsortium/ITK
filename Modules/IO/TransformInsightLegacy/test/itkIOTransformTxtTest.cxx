@@ -197,7 +197,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
 // This test will exercise this reported bug:
 // https://public.kitware.com/Bug/view.php?id=7028
 template <typename ScalarType>
-int
+[[nodiscard]] int
 secondTest(const std::string & outputDirectory)
 {
   std::filebuf fb;
@@ -240,7 +240,7 @@ secondTest(const std::string & outputDirectory)
 }
 
 
-int
+[[nodiscard]] int
 templatelessTest(const std::string & outputDirectory)
 {
   const std::string outputFile = outputDirectory + "itkIOTransformTxtTestRigid2DTransform.tfm";

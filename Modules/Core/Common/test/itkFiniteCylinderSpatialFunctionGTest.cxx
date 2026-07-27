@@ -22,7 +22,7 @@
 
 namespace
 {
-int
+[[nodiscard]] int
 DoFiniteCylinderSpatialFunctionTest(int, char *[])
 {
   std::cout << "itkFiniteCylinderSpatialFunction test start" << std::endl;

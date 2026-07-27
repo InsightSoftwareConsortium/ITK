@@ -199,7 +199,7 @@ CheckResults(SegmentationType::Pointer outputImage)
 //
 // Test with no prior
 //
-int
+[[nodiscard]] int
 TestNoPrior(ImageType::Pointer inputImage)
 {
 
@@ -261,7 +261,7 @@ TestNoPrior(ImageType::Pointer inputImage)
 //
 // Test with a prior
 //
-int
+[[nodiscard]] int
 TestWithPrior(ImageType::Pointer inputImage)
 {
   // set up the filter

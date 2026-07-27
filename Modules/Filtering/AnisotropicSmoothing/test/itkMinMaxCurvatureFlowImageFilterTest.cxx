@@ -41,7 +41,7 @@ public:
 constexpr unsigned int MAXRUNS{ 5 }; // maximum number of runs
 
 template <unsigned int VImageDimension>
-int
+[[nodiscard]] int
 testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,
                         double                       radius,
                         int                          numberOfRuns,
@@ -115,7 +115,7 @@ itkMinMaxCurvatureFlowImageFilterTest(int, char *[])
 
 
 template <unsigned int VImageDimension>
-int
+[[nodiscard]] int
 testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image size
                         double                       radius,       // ND-sphere radius
                         int                          numberOfRuns, // number of times to run the filter

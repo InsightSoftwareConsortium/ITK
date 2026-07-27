@@ -193,7 +193,7 @@ videosMatch(char * file1, char * file2)
 // Usage: [Video Input] [Non-Video Input] [Video Output] [Width] [Height]
 //            [Num Frames] [FpS]
 
-int
+[[nodiscard]] int
 test_OpenCVVideoIO(char *          input,
                    char *          nonVideoInput,
                    char *          output,

@@ -119,7 +119,7 @@ CuberilleTest03Helper(TImage::Pointer image)
   }
 }
 
-int
+[[nodiscard]] int
 CuberilleTest03Parameters(const bool triangles, const bool project)
 {
 

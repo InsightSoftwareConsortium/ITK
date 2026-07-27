@@ -28,7 +28,7 @@
 #include "itkTestingMacros.h"
 
 template <typename TTriangleEdgeCellSubdivisionFilter>
-int
+[[nodiscard]] int
 CriterionTriangleEdgeCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
 {
 

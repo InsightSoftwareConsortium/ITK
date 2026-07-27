@@ -28,7 +28,7 @@
  */
 
 template <unsigned int Dimension>
-int
+[[nodiscard]] int
 itkEuclideanDistancePointSetMetricTest3Run(double distanceThreshold)
 {
   using PointSetType = itk::PointSet<float, Dimension>;

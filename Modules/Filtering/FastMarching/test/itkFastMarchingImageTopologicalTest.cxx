@@ -27,7 +27,7 @@
 
 
 template <unsigned int VDimension>
-int
+[[nodiscard]] int
 FastMarchingImageFilter(unsigned int argc, char * argv[])
 {
   using InternalPixelType = float;

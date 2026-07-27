@@ -22,7 +22,7 @@
 #include "itkTestingMacros.h"
 
 template <typename TMetaData>
-int
+[[nodiscard]] int
 testMetaData(const TMetaData & value)
 {
   using MetaDataType = TMetaData;

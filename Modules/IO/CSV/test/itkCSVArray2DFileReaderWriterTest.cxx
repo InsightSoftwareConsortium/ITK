@@ -63,7 +63,7 @@ testArray(const itk::Array2D<T> & m1, const itk::Array2D<T> & m2)
   return pass;
 }
 
-int
+[[nodiscard]] int
 itkCSVFileReaderWriterTest_Func(int argc, char * argv[], bool headers)
 {
   constexpr double nan{ std::numeric_limits<double>::quiet_NaN() };

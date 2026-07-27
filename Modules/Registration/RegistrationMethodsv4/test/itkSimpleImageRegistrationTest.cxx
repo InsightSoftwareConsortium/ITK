@@ -113,7 +113,7 @@ public:
 };
 
 template <unsigned int VImageDimension, typename TPixel>
-int
+[[nodiscard]] int
 PerformSimpleImageRegistration(int argc, char * argv[])
 {
   if (argc < 7)

@@ -33,7 +33,7 @@ AppendToDifferentOutputFilename(const std::string & filename, const std::string 
 }
 
 template <unsigned int VDimension, typename TWavelet>
-int
+[[nodiscard]] int
 runWaveletCoeffsSpatialDomainImageFilterTest(const std::string &  inputImage,
                                              const std::string &  outputImage,
                                              const unsigned int & inputLevels,

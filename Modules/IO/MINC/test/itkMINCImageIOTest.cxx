@@ -190,7 +190,7 @@ eql_vector_diff(const itk::Point<TPixel, 3> & v1, const itk::Point<TPixel, 3> & 
 
 // TODO: properly implement storage type in MINC2 IO
 template <typename TPixel, int VDimension>
-int
+[[nodiscard]] int
 MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double tolerance = 0.0)
 {
   int success(EXIT_SUCCESS);
@@ -449,7 +449,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
 }
 
 template <typename TPixel, int VDimension>
-int
+[[nodiscard]] int
 MINCReadWriteTestVector(const char * fileName,
                         size_t       vector_length,
                         const char * minc_storage_type,

@@ -37,7 +37,7 @@
 #include "itkTestingMacros.h"
 
 template <typename ImageType, typename MeshType>
-int
+[[nodiscard]] int
 CuberilleTest01Helper(int argc, char * argv[])
 {
 

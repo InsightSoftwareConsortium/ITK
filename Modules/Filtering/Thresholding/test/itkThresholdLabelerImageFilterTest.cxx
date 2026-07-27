@@ -22,7 +22,7 @@
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkTestingMacros.h"
 
-int
+[[nodiscard]] int
 ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
 {
   //

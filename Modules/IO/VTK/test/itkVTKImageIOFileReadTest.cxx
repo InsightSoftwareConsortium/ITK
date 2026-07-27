@@ -22,7 +22,7 @@
 #include "itkTestingMacros.h"
 
 template <class TImage>
-int
+[[nodiscard]] int
 ReadImage(const std::string & fileName, typename TImage::Pointer image)
 {
 

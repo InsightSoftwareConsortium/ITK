@@ -34,7 +34,7 @@
 #include "itkTestingMacros.h"
 
 template <typename FFTForwardType, typename FFTInverseType>
-int
+[[nodiscard]] int
 doTest(const char * inputImage, const char * outputImage)
 {
   constexpr unsigned int direction{ 1 };

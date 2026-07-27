@@ -30,7 +30,7 @@ namespace
 {
 
 template <typename TImage>
-int
+[[nodiscard]] int
 itkTIFFImageIOCompressionTestHelper(int, char * argv[], int JPEGQuality)
 {
   using ImageType = TImage;

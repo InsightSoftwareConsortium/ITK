@@ -23,7 +23,7 @@
 
 
 template <typename TComponent>
-int
+[[nodiscard]] int
 ColorTableTestExpectedConditionChecker(typename itk::ColorTable<TComponent>::Pointer colors,
                                        unsigned int                                  colorId,
                                        itk::RGBPixel<TComponent>                     rgbPixel,
@@ -62,7 +62,7 @@ ColorTableTestExpectedConditionChecker(typename itk::ColorTable<TComponent>::Poi
 }
 
 template <typename TComponent>
-int
+[[nodiscard]] int
 ColorTableTestSpecialConditionChecker(typename itk::ColorTable<TComponent>::Pointer colors, unsigned int numberOfColors)
 {
   using RGBPixelType = itk::RGBPixel<TComponent>;
@@ -132,7 +132,7 @@ ColorTableTestSpecialConditionChecker(typename itk::ColorTable<TComponent>::Poin
 }
 
 template <typename TComponent>
-int
+[[nodiscard]] int
 ColorTableTestHelper(const char * name, unsigned int numberOfColors)
 {
   int testStatus = EXIT_SUCCESS;

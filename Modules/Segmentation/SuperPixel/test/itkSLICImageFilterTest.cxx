@@ -44,7 +44,7 @@ iterationEventCallback(itk::Object * object, const itk::EventObject & event, voi
 
 
 template <typename TInputImageType>
-int
+[[nodiscard]] int
 itkSLICImageFilterTestHelper(const std::string & inFileName,
                              const std::string & outFileName,
                              const unsigned int  gridSize,
@@ -117,28 +117,31 @@ itkSLICImageFilterTest(int argc, char * argv[])
 
   const unsigned int Dimension = reader->GetImageIO()->GetNumberOfDimensions();
   const unsigned int numberOfComponents = reader->GetImageIO()->GetNumberOfComponents();
+  int                testStatus = EXIT_SUCCESS;
   switch (Dimension)
   {
     case 1:
     case 2:
       if (numberOfComponents == 1)
       {
-        itkSLICImageFilterTestHelper<itk::Image<float, 2>>(inFileName, outFileName, gridSize, enforceConnectivity);
+        testStatus =
+          itkSLICImageFilterTestHelper<itk::Image<float, 2>>(inFileName, outFileName, gridSize, enforceConnectivity);
       }
       else
       {
-        itkSLICImageFilterTestHelper<itk::VectorImage<float, 2>>(
+        testStatus = itkSLICImageFilterTestHelper<itk::VectorImage<float, 2>>(
           inFileName, outFileName, gridSize, enforceConnectivity);
       }
       break;
     case 3:
       if (numberOfComponents == 1)
       {
-        itkSLICImageFilterTestHelper<itk::Image<float, 3>>(inFileName, outFileName, gridSize, enforceConnectivity);
+        testStatus =
+          itkSLICImageFilterTestHelper<itk::Image<float, 3>>(inFileName, outFileName, gridSize, enforceConnectivity);
       }
       else
       {
-        itkSLICImageFilterTestHelper<itk::VectorImage<float, 3>>(
+        testStatus = itkSLICImageFilterTestHelper<itk::VectorImage<float, 3>>(
           inFileName, outFileName, gridSize, enforceConnectivity);
       }
       break;
@@ -149,5 +152,5 @@ itkSLICImageFilterTest(int argc, char * argv[])
 
 
   std::cout << "Test finished." << std::endl;
-  return EXIT_SUCCESS;
+  return testStatus;
 }

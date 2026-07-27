@@ -22,7 +22,7 @@
 #include "itkMath.h"
 
 template <typename TImage>
-int
+[[nodiscard]] int
 itkImageToListSampleAdaptorTestTemplate()
 {
   using ImageType = TImage;

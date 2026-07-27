@@ -30,7 +30,7 @@
 
 
 template <typename ImageType>
-int
+[[nodiscard]] int
 test_image_moments(const char * input_image,
                    const char * output_image,
                    double       total,

@@ -39,7 +39,7 @@
  */
 
 template <unsigned int Dimension, typename TImage, typename TMetric>
-int
+[[nodiscard]] int
 ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
                                         int                        numberOfIterations,
                                         typename TImage::PixelType maximumStepSize,
@@ -207,7 +207,7 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
 
 //////////////////////////////////////////////////////////////
 template <unsigned int Dimension>
-int
+[[nodiscard]] int
 itkImageToImageMetricv4RegistrationTestRunAll(int argc, char * argv[])
 {
   using ImageType = itk::Image<double, Dimension>;

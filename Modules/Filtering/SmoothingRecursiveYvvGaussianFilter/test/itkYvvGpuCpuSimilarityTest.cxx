@@ -48,7 +48,7 @@ using PixelType = float;
 #endif
 
 template <typename ImageType>
-int
+[[nodiscard]] int
 runYvvGpuCpuSimilarityTest(const std::string & inFile, float mySigma)
 {
   using InputPixelType = PixelType;

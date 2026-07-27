@@ -19,7 +19,7 @@
 
 namespace FromOpenCV
 {
-int
+[[nodiscard]] int
 Point2ConversionTest()
 {
   using ITKPoint2iType = itk::Point<int, 2>;
@@ -53,7 +53,7 @@ Point2ConversionTest()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 Point3ConversionTest()
 {
   using ITKPoint3iType = itk::Point<int, 3>;
@@ -87,7 +87,7 @@ Point3ConversionTest()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 PointToVectorConversionTest()
 {
   using ITKPoint3dType = itk::Point<double, 3>;
@@ -111,7 +111,7 @@ PointToVectorConversionTest()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 Index2ConversionTest()
 {
   using ITKIndexType = itk::Index<2>;
@@ -129,7 +129,7 @@ Index2ConversionTest()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 Index3ConversionTest()
 {
   using ITKIndexType = itk::Index<3>;
@@ -147,7 +147,7 @@ Index3ConversionTest()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 Size2ConversionTest()
 {
   using ITKSizeType = itk::Size<2>;
@@ -166,7 +166,7 @@ Size2ConversionTest()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 MatrixConversionTest()
 {
   constexpr unsigned int NumberOfRows{ 2 };
@@ -208,7 +208,7 @@ MatrixConversionTest()
   return oResult;
 }
 
-int
+[[nodiscard]] int
 VectorConversionTest()
 {
   constexpr unsigned int Dimension{ 10 };
@@ -242,7 +242,7 @@ VectorConversionTest()
   return oResult;
 }
 
-int
+[[nodiscard]] int
 ToITK()
 {
   if (Point2ConversionTest() != EXIT_SUCCESS)
@@ -292,7 +292,7 @@ ToITK()
 
 namespace FromITK
 {
-int
+[[nodiscard]] int
 Point2ConversionTest()
 {
   using ITKPoint2iType = itk::Point<int, 2>;
@@ -333,7 +333,7 @@ Point2ConversionTest()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 Point3ConversionTest()
 {
   using ITKPoint3iType = itk::Point<int, 3>;
@@ -378,7 +378,7 @@ Point3ConversionTest()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 Index2ConversionTest()
 {
   using ITKIndexType = itk::Index<2>;
@@ -398,7 +398,7 @@ Index2ConversionTest()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 Index3ConversionTest()
 {
   using ITKIndexType = itk::Index<3>;
@@ -419,7 +419,7 @@ Index3ConversionTest()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 Size2ConversionTest()
 {
   using ITKSizeType = itk::Size<2>;
@@ -439,7 +439,7 @@ Size2ConversionTest()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 MatrixConversionTest()
 {
   constexpr unsigned int NumberOfRows{ 2 };
@@ -481,7 +481,7 @@ MatrixConversionTest()
   return oResult;
 }
 
-int
+[[nodiscard]] int
 VectorConversionTest()
 {
   constexpr unsigned int Dimension{ 10 };
@@ -515,7 +515,7 @@ VectorConversionTest()
   return oResult;
 }
 
-int
+[[nodiscard]] int
 PointToVectorConversionTest()
 {
   using ITKPoint3dType = itk::Point<double, 3>;
@@ -539,7 +539,7 @@ PointToVectorConversionTest()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 ToOpenCV()
 {
   if (Point2ConversionTest() != EXIT_SUCCESS)

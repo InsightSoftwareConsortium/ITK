@@ -25,7 +25,7 @@
 
 /* Allows testing up to TDimension=4 */
 template <unsigned int TDimension>
-int
+[[nodiscard]] int
 RunLinearInterpolateTest()
 {
   using PixelType = float;

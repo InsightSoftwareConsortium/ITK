@@ -28,19 +28,19 @@ namespace
 
 using namespace itk;
 
-int
+[[nodiscard]] int
 Execute(int argc, char * argv[]);
 
 template <int VDimension>
-int
+[[nodiscard]] int
 Execute(int argc, char * argv[], itk::ImageIOBase::IOComponentEnum, int nComponents);
 
 template <int VDimension, typename ScalarType, typename ComponentType>
-int
+[[nodiscard]] int
 Execute(int argc, char * argv[], int nComponents);
 
 template <int VDimension, typename ScalarType, typename PixelType, typename ExportPixelType>
-int
+[[nodiscard]] int
 Execute(int argc, char * argv[]);
 
 
@@ -94,7 +94,7 @@ Execute(int argc, char * argv[])
 }
 
 template <int Dimension>
-int
+[[nodiscard]] int
 Execute(int argc, char * argv[], itk::IOComponentEnum componentType, int nComponents)
 {
   switch (componentType)
@@ -111,7 +111,7 @@ Execute(int argc, char * argv[], itk::IOComponentEnum componentType, int nCompon
 }
 
 template <int Dimension, typename ScalarType, typename ComponentType>
-int
+[[nodiscard]] int
 Execute(int argc, char * argv[], int nComponents)
 {
   switch (nComponents)
@@ -128,7 +128,7 @@ Execute(int argc, char * argv[], int nComponents)
 }
 
 template <int Dimension, typename ScalarType, typename PixelType, typename ExportPixelType>
-int
+[[nodiscard]] int
 Execute(int argc, char * argv[])
 {
   using ImageType = Image<PixelType, Dimension>;
@@ -228,7 +228,9 @@ Execute(int argc, char * argv[])
 int
 CoherenceEnhancingDiffusionTest(int argc, char * argv[])
 {
-  ITK_TRY_EXPECT_NO_EXCEPTION(Execute(argc, argv));
+  int testStatus = EXIT_SUCCESS;
 
-  return EXIT_SUCCESS;
+  ITK_TRY_EXPECT_NO_EXCEPTION(testStatus = Execute(argc, argv));
+
+  return testStatus;
 }

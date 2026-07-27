@@ -82,7 +82,7 @@ set3DData();
 /** test2DInterpolateImagePointsFilter() Tests InterpolateImagePointsFilter for
  * expected results at a handful of index locations.
  */
-int
+[[nodiscard]] int
 test2DInterpolateImagePointsFilter()
 {
   int testStatus = EXIT_SUCCESS;
@@ -188,7 +188,7 @@ test2DInterpolateImagePointsFilter()
   return testStatus;
 }
 
-int
+[[nodiscard]] int
 test3DInterpolateImagePointsFilter()
 {
   int testStatus = EXIT_SUCCESS;

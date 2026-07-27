@@ -28,7 +28,7 @@
 #include "itkMetaImageIO.h"
 
 template <typename PixelType, unsigned int Dimension>
-int
+[[nodiscard]] int
 ReadWriteCompare(PixelType value, const std::string & type)
 {
   std::cout << "Testing: " << type << std::endl;

@@ -24,7 +24,7 @@
 
 namespace
 {
-int
+[[nodiscard]] int
 DoFrustumSpatialFunctionTest(int, char *[])
 {
 
