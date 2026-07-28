@@ -86,23 +86,20 @@
     </Expand>
   </Type>
 
-  <Type Name="itk::FixedArray&lt;double,1&gt;" Inheritable="true">
-    <AlternativeType Name="itk::FixedArray&lt;float,1&gt;" Inheritable="true"/>
+  <Type Name="itk::FixedArray&lt;*,1&gt;" Inheritable="true">
     <DisplayString>[{m_InternalArray[0],g}]</DisplayString>
     <Expand>
       <Item Name="i">m_InternalArray[0]</Item>
     </Expand>
   </Type>
-  <Type Name="itk::FixedArray&lt;double,2&gt;" Inheritable="true">
-    <AlternativeType Name="itk::FixedArray&lt;float,2&gt;" Inheritable="true"/>
+  <Type Name="itk::FixedArray&lt;*,2&gt;" Inheritable="true">
     <DisplayString>[{m_InternalArray[0],g}, {m_InternalArray[1],g}]</DisplayString>
     <Expand>
       <Item Name="i">m_InternalArray[0]</Item>
       <Item Name="j">m_InternalArray[1]</Item>
     </Expand>
   </Type>
-  <Type Name="itk::FixedArray&lt;double,3&gt;" Inheritable="true">
-    <AlternativeType Name="itk::FixedArray&lt;float,3&gt;" Inheritable="true"/>
+  <Type Name="itk::FixedArray&lt;*,3&gt;" Inheritable="true">
     <DisplayString>[{m_InternalArray[0],g}, {m_InternalArray[1],g}, {m_InternalArray[2],g}]</DisplayString>
     <Expand>
       <Item Name="i">m_InternalArray[0]</Item>
@@ -110,13 +107,153 @@
       <Item Name="k">m_InternalArray[2]</Item>
     </Expand>
   </Type>
-  <Type Name="itk::FixedArray&lt;double,*&gt;" Inheritable="true">
-    <AlternativeType Name="itk::FixedArray&lt;float,*&gt;" Inheritable="true"/>
+  <Type Name="itk::FixedArray&lt;*,*&gt;" Inheritable="true">
     <DisplayString>{m_InternalArray}</DisplayString>
     <Expand>
       <ArrayItems>
-        <Size>$T1</Size>
+        <Size>$T2</Size>
         <ValuePointer>m_InternalArray</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <!-- Point, Vector and CovariantVector are all subclasses of FixedArray and inherit
+       its visualizers automatically; these entries only override the display name. -->
+  <Type Name="itk::Point&lt;*,1&gt;" Inheritable="true">
+    <DisplayString>Point[{m_InternalArray[0],g}]</DisplayString>
+    <Expand>
+      <Item Name="x">m_InternalArray[0]</Item>
+    </Expand>
+  </Type>
+  <Type Name="itk::Point&lt;*,2&gt;" Inheritable="true">
+    <DisplayString>Point[{m_InternalArray[0],g}, {m_InternalArray[1],g}]</DisplayString>
+    <Expand>
+      <Item Name="x">m_InternalArray[0]</Item>
+      <Item Name="y">m_InternalArray[1]</Item>
+    </Expand>
+  </Type>
+  <Type Name="itk::Point&lt;*,3&gt;" Inheritable="true">
+    <DisplayString>Point[{m_InternalArray[0],g}, {m_InternalArray[1],g}, {m_InternalArray[2],g}]</DisplayString>
+    <Expand>
+      <Item Name="x">m_InternalArray[0]</Item>
+      <Item Name="y">m_InternalArray[1]</Item>
+      <Item Name="z">m_InternalArray[2]</Item>
+    </Expand>
+  </Type>
+  <Type Name="itk::Point&lt;*,*&gt;" Inheritable="true">
+    <DisplayString>Point{m_InternalArray}</DisplayString>
+    <Expand>
+      <ArrayItems>
+        <Size>$T2</Size>
+        <ValuePointer>m_InternalArray</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="itk::Vector&lt;*,*&gt;" Inheritable="true">
+    <DisplayString>Vector{m_InternalArray}</DisplayString>
+    <Expand>
+      <ArrayItems>
+        <Size>$T2</Size>
+        <ValuePointer>m_InternalArray</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="itk::CovariantVector&lt;*,*&gt;" Inheritable="true">
+    <DisplayString>CovariantVector{m_InternalArray}</DisplayString>
+    <Expand>
+      <ArrayItems>
+        <Size>$T2</Size>
+        <ValuePointer>m_InternalArray</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="itk::ContinuousIndex&lt;*,1&gt;" Inheritable="true">
+    <DisplayString>ContinuousIndex[{m_InternalArray[0]}]</DisplayString>
+    <Expand>
+      <Item Name="i">m_InternalArray[0]</Item>
+    </Expand>
+  </Type>
+  <Type Name="itk::ContinuousIndex&lt;*,2&gt;" Inheritable="true">
+    <DisplayString>ContinuousIndex[{m_InternalArray[0]}, {m_InternalArray[1]}]</DisplayString>
+    <Expand>
+      <Item Name="i">m_InternalArray[0]</Item>
+      <Item Name="j">m_InternalArray[1]</Item>
+    </Expand>
+  </Type>
+  <Type Name="itk::ContinuousIndex&lt;*,3&gt;" Inheritable="true">
+    <DisplayString>ContinuousIndex[{m_InternalArray[0]}, {m_InternalArray[1]}, {m_InternalArray[2]}]</DisplayString>
+    <Expand>
+      <Item Name="i">m_InternalArray[0]</Item>
+      <Item Name="j">m_InternalArray[1]</Item>
+      <Item Name="k">m_InternalArray[2]</Item>
+    </Expand>
+  </Type>
+  <Type Name="itk::ContinuousIndex&lt;*,*&gt;" Inheritable="true">
+    <DisplayString>ContinuousIndex{m_InternalArray}</DisplayString>
+    <Expand>
+      <ArrayItems>
+        <Size>$T2</Size>
+        <ValuePointer>m_InternalArray</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="itk::RGBPixel&lt;*&gt;" Inheritable="true">
+    <DisplayString>RGB({m_InternalArray[0]}, {m_InternalArray[1]}, {m_InternalArray[2]})</DisplayString>
+    <Expand>
+      <Item Name="Red">m_InternalArray[0]</Item>
+      <Item Name="Green">m_InternalArray[1]</Item>
+      <Item Name="Blue">m_InternalArray[2]</Item>
+    </Expand>
+  </Type>
+
+  <Type Name="itk::RGBAPixel&lt;*&gt;" Inheritable="true">
+    <DisplayString>RGBA({m_InternalArray[0]}, {m_InternalArray[1]}, {m_InternalArray[2]}, {m_InternalArray[3]})</DisplayString>
+    <Expand>
+      <Item Name="Red">m_InternalArray[0]</Item>
+      <Item Name="Green">m_InternalArray[1]</Item>
+      <Item Name="Blue">m_InternalArray[2]</Item>
+      <Item Name="Alpha">m_InternalArray[3]</Item>
+    </Expand>
+  </Type>
+
+  <Type Name="itk::VariableLengthVector&lt;*&gt;">
+    <DisplayString Condition="m_Data == 0">empty</DisplayString>
+    <DisplayString>{m_Data,[m_NumElements]}</DisplayString>
+    <Expand>
+      <Item Name="Size">m_NumElements</Item>
+      <Item Name="ManagesMemory">m_LetArrayManageMemory</Item>
+      <ArrayItems>
+        <Size>m_NumElements</Size>
+        <ValuePointer>m_Data</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="itk::Array&lt;*&gt;">
+    <DisplayString Condition="data == 0">empty</DisplayString>
+    <DisplayString>{data,[num_elmts]}</DisplayString>
+    <Expand>
+      <Item Name="Size">num_elmts</Item>
+      <ArrayItems>
+        <Size>num_elmts</Size>
+        <ValuePointer>data</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="itk::Matrix&lt;*,*,*&gt;">
+    <DisplayString>Matrix {$T2}x{$T3}</DisplayString>
+    <Expand>
+      <ArrayItems>
+        <Direction>Forward</Direction>
+        <Rank>2</Rank>
+        <Size>$T2</Size>
+        <Size>$T3</Size>
+        <ValuePointer>m_Matrix.data_[0]</ValuePointer>
       </ArrayItems>
     </Expand>
   </Type>
