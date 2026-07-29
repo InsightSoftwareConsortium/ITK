@@ -14,4 +14,10 @@ if(ITK_WRAP_PYTHON AND ITK_WRAP_float AND wrap_2_index GREATER -1)
       ${ITK_TEST_OUTPUT_DIR}/GradientMagnitudeRecursiveGaussianImageFilterTest.png
       5
   )
+
+  itk_python_add_test(
+    NAME itkGradientImageFilterOwnershipPythonTest
+    COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/itkGradientImageFilterOwnershipTest.py
+  )
 endif()
