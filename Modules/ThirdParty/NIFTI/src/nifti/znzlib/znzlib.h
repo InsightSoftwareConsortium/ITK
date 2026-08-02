@@ -36,6 +36,9 @@ NB: seeks for writable files with compression are quite restricted
 */
 
 
+// Name mangling, specific to the version of znzlib included with ITK.
+#include "itk_znzlib_mangle.h"
+
 /*=================*/
 #ifdef  __cplusplus
 extern "C" {
