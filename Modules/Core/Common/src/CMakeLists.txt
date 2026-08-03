@@ -278,3 +278,43 @@ if(ITK_USE_TBB)
   #      Define TBB_USE_CAPTURED_EXCEPTION=0 to request rethrow of the exact exception.
   target_compile_definitions(ITKCommon PUBLIC TBB_USE_CAPTURED_EXCEPTION=0)
 endif()
+
+if(MSVC)
+  set(ITK_NATVIS_FILE "${ITK_SOURCE_DIR}/Utilities/Debugger/ITK.natvis")
+  if(CMAKE_GENERATOR MATCHES "Ninja")
+    # Ninja/Makefiles Generator support (embeds directly inside the executable's PDB)
+    target_link_options(
+      ITKCommon
+      INTERFACE
+        "$<BUILD_INTERFACE:/NATVIS:${ITK_NATVIS_FILE}>"
+        "$<INSTALL_INTERFACE:/NATVIS:$<INSTALL_PREFIX>/${ITK_INSTALL_DATA_DIR}/Debugger/ITK.natvis>"
+    )
+    # Force Ninja to re-link if the .natvis file changes
+    set_property(
+      TARGET
+        ITKCommon
+      APPEND
+      PROPERTY
+        LINK_DEPENDS
+          "${ITK_NATVIS_FILE}"
+    )
+  else()
+    # Visual Studio Generator support (shows up in the Solution Explorer)
+    target_sources(
+      ITKCommon
+      INTERFACE
+        "$<BUILD_INTERFACE:${ITK_NATVIS_FILE}>"
+        "$<BUILD_INTERFACE:${ITK_SOURCE_DIR}/Utilities/Debugger/ITK.natstepfilter>"
+        "$<INSTALL_INTERFACE:${ITK_INSTALL_DATA_DIR}/Debugger/ITK.natvis>"
+        "$<INSTALL_INTERFACE:${ITK_INSTALL_DATA_DIR}/Debugger/ITK.natstepfilter>"
+    )
+  endif()
+
+  install(
+    FILES
+      "${ITK_NATVIS_FILE}"
+      "${ITK_SOURCE_DIR}/Utilities/Debugger/ITK.natstepfilter"
+    DESTINATION ${ITK_INSTALL_DATA_DIR}/Debugger
+    COMPONENT Development
+  )
+endif()
