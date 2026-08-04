@@ -20,4 +20,10 @@ if(ITK_WRAP_PYTHON
     DATA{${test_input_dir}/BrainProtonDensitySlice.png}
     ${ITK_TEST_OUTPUT_DIR}/GradientMagnitudeRecursiveGaussianImageFilterTest.png
     5)
+
+  itk_python_add_test(
+    NAME
+    itkGradientImageFilterOwnershipPythonTest
+    COMMAND
+    ${CMAKE_CURRENT_SOURCE_DIR}/itkGradientImageFilterOwnershipTest.py)
 endif()
