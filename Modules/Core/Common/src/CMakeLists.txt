@@ -106,7 +106,6 @@ set(
   itkMultipleLogOutput.cxx
   itkMultiThreaderBase.cxx
   itkNumberToString.cxx
-  itkNumericLocale.cxx
   itkNumericTraits.cxx
   itkNumericTraitsCovariantVectorPixel.cxx
   itkNumericTraitsDiffusionTensor3DPixel.cxx
