@@ -121,18 +121,6 @@ if(BUILD_SHARED_LIBS)
 endif()
 
 #-----------------------------------------------------------------------------
-# Compatibility with older usage of EXECUTABLE_OUTPUT_PATH and LIBRARY_OUTPUT_PATH.
-# This should be removed in the future.
-if(EXECUTABLE_OUTPUT_PATH)
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${EXECUTABLE_OUTPUT_PATH})
-  message(WARNING "EXECUTABLE_OUTPUT_PATH is deprecated. Use CMAKE_RUNTIME_OUTPUT_DIRECTORY instead.")
-endif()
-if(LIBRARY_OUTPUT_PATH)
-  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIBRARY_OUTPUT_PATH})
-  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${LIBRARY_OUTPUT_PATH})
-  message(WARNING "LIBRARY_OUTPUT_PATH is deprecated. Use CMAKE_LIBRARY_OUTPUT_DIRECTORY and CMAKE_ARCHIVE_OUTPUT_DIRECTORY instead.")
-endif()
-
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin)
 endif()
@@ -143,16 +131,11 @@ if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin)
 endif()
 
-# Set for legacy internal usage of EXECUTABLE_OUTPUT_PATH and LIBRARY_OUTPUT_PATH
-if (NOT EXECUTABLE_OUTPUT_PATH)
-  set(EXECUTABLE_OUTPUT_PATH ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-endif()
-if (NOT LIBRARY_OUTPUT_PATH)
-  if (BUILD_SHARED_LIBS)
-    set(LIBRARY_OUTPUT_PATH ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-  else()
-    set(LIBRARY_OUTPUT_PATH ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
-  endif()
+# Shared libraries land in the library directory, static ones in the archive directory.
+if(BUILD_SHARED_LIBS)
+  set(GDCM_LIBRARY_OUTPUT_DIR ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+else()
+  set(GDCM_LIBRARY_OUTPUT_DIR ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 endif()
 
 #-----------------------------------------------------------------------------
@@ -616,8 +599,8 @@ if(GDCM_STANDALONE)
   endif()
 endif()
 
-set(GDCM_LIBRARY_DIR ${LIBRARY_OUTPUT_PATH}/${CMAKE_CFG_INTDIR})
-set(GDCM_EXECUTABLE_DIR ${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR})
+set(GDCM_LIBRARY_DIR ${GDCM_LIBRARY_OUTPUT_DIR}/${CMAKE_CFG_INTDIR})
+set(GDCM_EXECUTABLE_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CMAKE_CFG_INTDIR})
 
 #-----------------------------------------------------------------------------
 # we need to link against CoreFoundation so that we can use CFBundle to get the executable path.
@@ -1212,7 +1195,7 @@ if(GDCM_USE_VTK)
       "${GDCM_SOURCE_DIR}/Utilities/VTK"
       )
 endif()
-set(GDCM_LIBRARY_DIRS ${LIBRARY_OUTPUT_PATH})
+set(GDCM_LIBRARY_DIRS ${GDCM_LIBRARY_OUTPUT_DIR})
 if(GDCM_STANDALONE)
 add_subdirectory(CMake/ExportConfiguration)
 endif()

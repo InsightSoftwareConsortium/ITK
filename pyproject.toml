@@ -227,6 +227,10 @@ cmd = "ctest -j3 --test-dir build-release"
 description = "Test ITK - Release"
 depends-on = ["build-release"]
 
+[tool.pixi.feature.cxx.tasks.ccache-stats]
+cmd = "ccache --show-stats"
+description = "Show ccache statistics (runs in the cxx env where ccache is installed)"
+
 [tool.pixi.feature.python.tasks.configure-python]
 cmd = '''cmake \
   -Bbuild-python \

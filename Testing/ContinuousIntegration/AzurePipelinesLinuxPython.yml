@@ -80,6 +80,20 @@ jobs:
         python3 -m pip install lxml scikit-ci-addons dask distributed
       displayName: 'Install dependencies'
 
+    - task: Cache@2
+      inputs:
+        key: 'ccache | rel54 | "$(Agent.OS)" | "LinuxPython" | "$(Build.SourceVersion)"'
+        restoreKeys: |
+          ccache | rel54 | "$(Agent.OS)" | "LinuxPython"
+        path: $(CCACHE_DIR)
+      displayName: 'ccache'
+
+    - bash: |
+        set -x
+        ccache --zero-stats
+        ccache --show-config
+      displayName: 'ccache config'
+
     - bash: |
         set -x
         git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard

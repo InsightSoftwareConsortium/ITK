@@ -141,6 +141,14 @@ jobs:
             pixi run -e cxx ccache --evict-older-than 7d
             pixi run -e cxx ccache --show-config
 
+        - name: Cache ccache
+          uses: actions/cache@v4
+          with:
+            path: ${{ github.workspace }}/.ccache
+            key: ccache-rel54-${{ matrix.os }}-${{ github.run_id }}
+            restore-keys: |
+              ccache-rel54-${{ matrix.os }}-
+
         - name: Configure
           run: pixi run configure-ci
 
