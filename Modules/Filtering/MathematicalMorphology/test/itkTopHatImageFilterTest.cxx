@@ -27,7 +27,7 @@
 
 
 template <typename TKernelImageFilter>
-int
+[[nodiscard]] int
 itkTopHatImageFilterTestHelper(TKernelImageFilter *                              filter,
                                typename TKernelImageFilter::KernelType           ball,
                                const bool                                        safeBorder,

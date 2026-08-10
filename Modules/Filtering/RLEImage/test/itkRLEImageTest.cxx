@@ -123,7 +123,7 @@ roiTest(itk::SmartPointer<itk::RLEImage<typename ImageType::PixelType, ImageType
 }
 
 template <typename ImageType>
-int
+[[nodiscard]] int
 doTest(std::string inFilename, std::string outFilename)
 {
   using ReaderType = itk::ImageFileReader<ImageType>;

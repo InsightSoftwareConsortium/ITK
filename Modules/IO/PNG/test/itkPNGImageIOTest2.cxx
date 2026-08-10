@@ -28,7 +28,7 @@
 
 namespace
 {
-int
+[[nodiscard]] int
 CompareExtensions(itk::ImageIOBase::ArrayOfExtensionsType & a1, itk::ImageIOBase::ArrayOfExtensionsType & a2)
 {
   std::sort(a1.begin(), a1.end());

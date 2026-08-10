@@ -24,7 +24,7 @@
 
 
 template <int VDimension>
-int
+[[nodiscard]] int
 itkDiscreteGradientMagnitudeGaussianImageFunctionTestND(int argc, char * argv[])
 {
   using PixelType = float;

@@ -30,7 +30,7 @@
 
 
 template <typename TInputImage, typename TBayesianClassifierInitializer, typename TBayesianClassifierFilter>
-int
+[[nodiscard]] int
 TestBayesianClassifierImageFilterWithNoPriors(typename TInputImage::Pointer image,
                                               unsigned int                  numberOfClasses,
                                               unsigned int                  numberOfSmoothingIterations,
@@ -97,7 +97,7 @@ TestBayesianClassifierImageFilterWithNoPriors(typename TInputImage::Pointer imag
 
 
 template <typename TInputImage, typename TBayesianClassifierInitializer, typename TBayesianClassifierFilter>
-int
+[[nodiscard]] int
 TestBayesianClassifierImageFilterWithPriors(typename TInputImage::Pointer                                image,
                                             typename TBayesianClassifierFilter::PriorsImageType::Pointer priorsImage,
                                             unsigned int numberOfClasses,

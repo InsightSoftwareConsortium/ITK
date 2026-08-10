@@ -25,7 +25,7 @@
  */
 
 template <typename TMetric>
-int
+[[nodiscard]] int
 itkMeanSquaresImageToImageMetricv4OnVectorTest2Run(typename TMetric::MeasureType &    measureReturn,
                                                    typename TMetric::DerivativeType & derivativeReturn)
 {
@@ -138,10 +138,12 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
   using VectorMetricType =
     itk::MeanSquaresImageToImageMetricv4<VectorImageType, VectorImageType, VectorImageType, double, MetricTraitsType>;
 
+  int testStatus = EXIT_SUCCESS;
+
   VectorMetricType::MeasureType    vectorMeasure = 0.0;
   VectorMetricType::DerivativeType vectorDerivative{};
 
-  itkMeanSquaresImageToImageMetricv4OnVectorTest2Run<VectorMetricType>(vectorMeasure, vectorDerivative);
+  testStatus |= itkMeanSquaresImageToImageMetricv4OnVectorTest2Run<VectorMetricType>(vectorMeasure, vectorDerivative);
   std::cout << "vectorMeasure: " << vectorMeasure << " vectorDerivative: " << vectorDerivative << std::endl;
 
   /* The scalar metric */
@@ -151,7 +153,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
   ScalarMetricType::MeasureType    scalarMeasure = 0.0;
   ScalarMetricType::DerivativeType scalarDerivative{};
 
-  itkMeanSquaresImageToImageMetricv4OnVectorTest2Run<ScalarMetricType>(scalarMeasure, scalarDerivative);
+  testStatus |= itkMeanSquaresImageToImageMetricv4OnVectorTest2Run<ScalarMetricType>(scalarMeasure, scalarDerivative);
   std::cout << "scalarMeasure: " << scalarMeasure << " scalarDerivative: " << scalarDerivative << std::endl;
 
   /* Compare */
@@ -177,5 +179,5 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
   std::cout << "Derivative values match." << std::endl;
 
   std::cout << "Test passed." << std::endl;
-  return EXIT_SUCCESS;
+  return testStatus;
 }

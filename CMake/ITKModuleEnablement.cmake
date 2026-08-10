@@ -8,6 +8,8 @@ macro(itk_module_load_dag)
     RELATIVE "${ITK_SOURCE_DIR}"
     "${ITK_SOURCE_DIR}/*/*/*/itk-module.cmake" # grouped modules
   )
+  # Dot-directories hold tool state (worktrees, environments, caches), not ITK source.
+  list(FILTER meta EXCLUDE REGEX "(^|/)\\.")
   foreach(f ${meta})
     include(${ITK_SOURCE_DIR}/${f})
     list(APPEND ITK_MODULES_ALL ${itk-module})

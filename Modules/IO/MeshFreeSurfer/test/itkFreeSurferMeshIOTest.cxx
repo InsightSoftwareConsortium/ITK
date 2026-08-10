@@ -23,7 +23,7 @@
 
 
 template <typename TMeshIO>
-int
+[[nodiscard]] int
 itkFreeSurferMeshIOTestHelper(typename TMeshIO::Pointer       fsMeshIO,
                               typename TMeshIO::Pointer       readWritefsMeshIO,
                               char *                          inputFileName,

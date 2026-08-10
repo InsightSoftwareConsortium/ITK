@@ -27,7 +27,7 @@
 #include <string>
 
 template <unsigned int VDimension>
-int
+[[nodiscard]] int
 runZeroDCImageFilterTest(const std::string & inputImage)
 {
   const unsigned int Dimension = VDimension;

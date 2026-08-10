@@ -159,7 +159,7 @@ private:
 };
 
 ///////////////////////////////////////////////////////////
-int
+[[nodiscard]] int
 GradientDescentLineSearchOptimizerv4RunTest(itk::GradientDescentLineSearchOptimizerv4::Pointer & itkOptimizer)
 {
   try

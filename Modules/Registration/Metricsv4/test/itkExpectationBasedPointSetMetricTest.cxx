@@ -24,7 +24,7 @@
 #include "itkTestingMacros.h"
 
 template <unsigned int Dimension>
-int
+[[nodiscard]] int
 itkExpectationBasedPointSetMetricTestRun()
 {
   using PointSetType = itk::PointSet<unsigned char, Dimension>;

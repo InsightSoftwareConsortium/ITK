@@ -29,7 +29,7 @@
 namespace
 {
 
-int
+[[nodiscard]] int
 TestUnknowMetaDataBug(const std::string & fname)
 {
   std::cout << "Testing for unknown meta data entry bug." << std::endl;

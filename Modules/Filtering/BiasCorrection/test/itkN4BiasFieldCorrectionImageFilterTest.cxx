@@ -112,7 +112,7 @@ ConvertVector(const std::string & optionString)
 }
 
 template <unsigned int ImageDimension>
-int
+[[nodiscard]] int
 N4(int argc, char * argv[])
 {
   using RealType = float;

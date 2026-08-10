@@ -43,7 +43,7 @@
 #endif
 
 template <unsigned int VDimension, typename TWaveletFunction>
-int
+[[nodiscard]] int
 runWaveletFrequencyFilterBankGeneratorDownsampleTest(const std::string & inputImage,
                                                      const std::string &,
                                                      const unsigned int & inputBands)

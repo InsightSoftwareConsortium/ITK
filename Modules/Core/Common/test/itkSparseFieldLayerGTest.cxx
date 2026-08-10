@@ -31,7 +31,7 @@ struct node_type
 
 namespace
 {
-int
+[[nodiscard]] int
 DoSparseFieldLayerTest(int, char *[])
 {
   auto * store = new node_type[4000];

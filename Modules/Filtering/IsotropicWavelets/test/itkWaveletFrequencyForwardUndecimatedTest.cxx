@@ -48,7 +48,7 @@ AppendToFilenameUndecimated(const std::string & filename, const std::string & ap
 }
 
 template <unsigned int VDimension, typename TWaveletFunction>
-int
+[[nodiscard]] int
 runWaveletFrequencyForwardUndecimatedTest(const std::string &  inputImage,
                                           const std::string &  outputImage,
                                           const unsigned int & inputLevels,

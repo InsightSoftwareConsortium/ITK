@@ -135,7 +135,7 @@ ObjectToObjectMultiMetricv4RegistrationTestCreateImages(typename TImage::Pointer
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <typename TMetric>
-int
+[[nodiscard]] int
 ObjectToObjectMultiMetricv4RegistrationTestRun(typename TMetric::Pointer &                    metric,
                                                int                                            numberOfIterations,
                                                typename TMetric::MeasureType &                valueResult,
@@ -224,10 +224,12 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
 
   translationTransform->SetIdentity();
 
+  int testStatus = EXIT_SUCCESS;
+
   std::cout << std::endl << "*** Single image metric: " << std::endl;
   CorrelationMetricType::MeasureType    singleValueResult = 0.0;
   CorrelationMetricType::DerivativeType singleDerivativeResult{};
-  ObjectToObjectMultiMetricv4RegistrationTestRun<CorrelationMetricType>(
+  testStatus |= ObjectToObjectMultiMetricv4RegistrationTestRun<CorrelationMetricType>(
     correlationMetric, numberOfIterations, singleValueResult, singleDerivativeResult, 1.0, true);
 
   std::cout << "*** multi-variate metric: " << std::endl;
@@ -247,7 +249,7 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
 
   CorrelationMetricType::MeasureType    multiValueResult = 0.0;
   CorrelationMetricType::DerivativeType multiDerivativeResult{};
-  ObjectToObjectMultiMetricv4RegistrationTestRun<MultiMetricType>(
+  testStatus |= ObjectToObjectMultiMetricv4RegistrationTestRun<MultiMetricType>(
     multiMetric, numberOfIterations, multiValueResult, multiDerivativeResult, 1.0, true);
 
   // Comparison between single-metric and multi-variate metric registrations
@@ -283,12 +285,12 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
   //
   std::cout << std::endl << "*** Single image metric 2: " << std::endl;
   translationTransform->SetIdentity();
-  ObjectToObjectMultiMetricv4RegistrationTestRun<CorrelationMetricType>(
+  testStatus |= ObjectToObjectMultiMetricv4RegistrationTestRun<CorrelationMetricType>(
     correlationMetric, numberOfIterations, singleValueResult, singleDerivativeResult, 0.25, false);
 
   std::cout << std::endl << "*** Multi-variate image metric 2: " << std::endl;
   translationTransform->SetIdentity();
-  ObjectToObjectMultiMetricv4RegistrationTestRun<MultiMetricType>(
+  testStatus |= ObjectToObjectMultiMetricv4RegistrationTestRun<MultiMetricType>(
     multiMetric, numberOfIterations, multiValueResult, multiDerivativeResult, 0.25, false);
 
   if (itk::Math::Absolute(multiDerivativeResult[0] - singleDerivativeResult[0]) > tolerance ||
@@ -331,7 +333,7 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
 
   translationTransform->SetIdentity();
   std::cout << "*** Multi-metric with different metric types: " << std::endl;
-  ObjectToObjectMultiMetricv4RegistrationTestRun<MultiMetricType>(
+  testStatus |= ObjectToObjectMultiMetricv4RegistrationTestRun<MultiMetricType>(
     multiMetric2, numberOfIterations, multiValueResult, multiDerivativeResult, 1.0, true);
 
   // compare results with truth
@@ -344,5 +346,5 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  return EXIT_SUCCESS;
+  return testStatus;
 }

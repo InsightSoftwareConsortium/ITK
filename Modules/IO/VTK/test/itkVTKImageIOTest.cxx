@@ -28,7 +28,7 @@
 // Specific ImageIO test
 
 template <typename TScalar, unsigned int TDimension>
-int
+[[nodiscard]] int
 ReadWrite(TScalar low, TScalar hi, char * file1, char * file2, bool ascii)
 {
   using ImageType = itk::Image<TScalar, TDimension>;

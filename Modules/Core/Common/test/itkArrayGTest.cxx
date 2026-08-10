@@ -78,12 +78,12 @@ TEST(Array, MemoryManagement)
   float                  buffer[n];
   FloatArrayType         notMyOwnBoss;
   notMyOwnBoss.SetSize(n);
-  notMyOwnBoss.SetData(buffer, false);
+  notMyOwnBoss.SetData(buffer, n, false);
   notMyOwnBoss.Fill(4.0);
 
   FloatArrayType notMyOwnBossToo;
   notMyOwnBossToo.SetSize(n);
-  notMyOwnBossToo.SetData(buffer, false);
+  notMyOwnBossToo.SetData(buffer, n, false);
 
   // Copy an itk::Array which manages its own memory
   const FloatArrayType test1 = myOwnBoss;

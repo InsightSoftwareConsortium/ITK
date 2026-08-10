@@ -23,7 +23,7 @@
 
 namespace
 {
-int
+[[nodiscard]] int
 DoTorusInteriorExteriorSpatialFunctionTest(int, char *[])
 {
 

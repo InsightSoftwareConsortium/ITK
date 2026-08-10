@@ -21,7 +21,7 @@
 #include "itkTestingMacros.h"
 
 template <typename TPointsContainer>
-int
+[[nodiscard]] int
 testPointsLocatorTest()
 {
   /**

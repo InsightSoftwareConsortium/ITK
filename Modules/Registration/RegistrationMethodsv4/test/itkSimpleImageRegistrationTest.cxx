@@ -113,7 +113,7 @@ public:
 };
 
 template <unsigned int VImageDimension, typename TPixel>
-int
+[[nodiscard]] int
 PerformSimpleImageRegistration(int argc, char * argv[])
 {
   if (argc < 7)
@@ -225,11 +225,7 @@ PerformSimpleImageRegistration(int argc, char * argv[])
   {
     itkGenericExceptionMacro("Error dynamic_cast failed");
   }
-#ifdef NDEBUG
   affineOptimizer->SetNumberOfIterations(std::stoi(argv[6]));
-#else
-  affineOptimizer->SetNumberOfIterations(1);
-#endif
   affineOptimizer->SetDoEstimateLearningRateOnce(false); // true by default
   affineOptimizer->SetDoEstimateLearningRateAtEachIteration(true);
   affineOptimizer->SetScalesEstimator(scalesEstimator1);
@@ -293,11 +289,7 @@ PerformSimpleImageRegistration(int argc, char * argv[])
 
   auto optimizer = GradientDescentOptimizerv4Type::New();
   optimizer->SetLearningRate(1.0);
-#ifdef NDEBUG
   optimizer->SetNumberOfIterations(std::stoi(argv[7]));
-#else
-  optimizer->SetNumberOfIterations(1);
-#endif
   optimizer->SetScalesEstimator(scalesEstimator);
   optimizer->SetDoEstimateLearningRateOnce(false); // true by default
   optimizer->SetDoEstimateLearningRateAtEachIteration(true);

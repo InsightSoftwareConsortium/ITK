@@ -8,31 +8,19 @@ set(
 
 createtestdriver(IOScanco  "${IOScanco-Test_LIBRARIES}" "${IOScancoTests}")
 
-# C0004255.ISQ is a 107 MB input + 67 MB baseline fixture hosted on
-# data.kitware.com via SHA512 (exceeds GitHub's 100 MB single-file limit so
-# cannot live in ITKTestingData). Gate on ITK_COMPUTER_MEMORY_SIZE to match
-# Modules/IO/TIFF/test/CMakeLists.txt itkLargeTIFFImageWriteReadTest* pattern.
-if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
-  itk_add_test(
-    NAME itkScancoImageIOISQConvertTest
-    COMMAND
-      IOScancoTestDriver
-      --compare
-      DATA{Baseline/C0004255.mha}
-      ${ITK_TEST_OUTPUT_DIR}/C0004255.mha
-      itkScancoImageIOTest
-      DATA{Input/C0004255.ISQ}
-      ${ITK_TEST_OUTPUT_DIR}/C0004255.mha
-    ITK_REMOVE_TEMPORARY_TEST_FILES
-      ${ITK_TEST_OUTPUT_DIR}/C0004255.mha
-  )
-  set_tests_properties(
-    itkScancoImageIOISQConvertTest
-    PROPERTIES
-      LABELS
-        "BigIO;RUNS_LONG"
-  )
-endif()
+itk_add_test(
+  NAME itkScancoImageIOISQConvertTest
+  COMMAND
+    IOScancoTestDriver
+    --compare
+    DATA{Baseline/ScancoQCPhantomSmall.mha}
+    ${ITK_TEST_OUTPUT_DIR}/ScancoQCPhantomSmall.mha
+    itkScancoImageIOTest
+    DATA{Input/ScancoQCPhantomSmall.ISQ}
+    ${ITK_TEST_OUTPUT_DIR}/ScancoQCPhantomSmall.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ScancoQCPhantomSmall.mha
+)
 
 itk_add_test(
   NAME itkScancoImageIOAIMConvertTest
@@ -48,25 +36,17 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/AIMIOTestImage.mha
 )
 
-if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
-  itk_add_test(
-    NAME itkScancoImageIOISQHeaderCheckTest
-    COMMAND
-      IOScancoTestDriver
-      itkScancoImageIOTest2
-      DATA{Input/C0004255.ISQ}
-      ${ITK_TEST_OUTPUT_DIR}/C0003665.isq
-      1
-    ITK_REMOVE_TEMPORARY_TEST_FILES
-      ${ITK_TEST_OUTPUT_DIR}/C0003665.isq
-  )
-  set_tests_properties(
-    itkScancoImageIOISQHeaderCheckTest
-    PROPERTIES
-      LABELS
-        "BigIO;RUNS_LONG"
-  )
-endif()
+itk_add_test(
+  NAME itkScancoImageIOISQHeaderCheckTest
+  COMMAND
+    IOScancoTestDriver
+    itkScancoImageIOTest2
+    DATA{Input/ScancoQCPhantomSmall.ISQ}
+    ${ITK_TEST_OUTPUT_DIR}/ScancoQCPhantomSmallHeaderCheck.isq
+    1
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ScancoQCPhantomSmallHeaderCheck.isq
+)
 
 itk_add_test(
   NAME itkScancoImageIOAIMHeaderCheckTest
@@ -80,41 +60,31 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/AIMIOTestImage2.isq
 )
 
-if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
-  itk_add_test(
-    NAME itkScancoImageIOISQHeaderCheckTest2
-    COMMAND
-      IOScancoTestDriver
-      --compare
-      DATA{Baseline/C0004255.mha}
-      ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.mha
-      itkScancoImageIOTest2
-      DATA{Input/C0004255.ISQ}
-      ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.mha
-    ITK_REMOVE_TEMPORARY_TEST_FILES
-      ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.mha
-  )
+itk_add_test(
+  NAME itkScancoImageIOISQHeaderCheckTest2
+  COMMAND
+    IOScancoTestDriver
+    --compare
+    DATA{Baseline/ScancoQCPhantomSmall.mha}
+    ${ITK_TEST_OUTPUT_DIR}/ScancoQCPhantomSmallTest2.mha
+    itkScancoImageIOTest2
+    DATA{Input/ScancoQCPhantomSmall.ISQ}
+    ${ITK_TEST_OUTPUT_DIR}/ScancoQCPhantomSmallTest2.mha
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ScancoQCPhantomSmallTest2.mha
+)
 
-  itk_add_test(
-    NAME itkScancoImageIOISQHeaderWriteTest2
-    COMMAND
-      IOScancoTestDriver
-      --compare
-      DATA{Baseline/C0004255.mha}
-      ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.isq
-      itkScancoImageIOTest2
-      DATA{Input/C0004255.ISQ}
-      ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.isq
-  )
-
-  set_tests_properties(
-    itkScancoImageIOISQHeaderCheckTest2
-    itkScancoImageIOISQHeaderWriteTest2
-    PROPERTIES
-      LABELS
-        "BigIO;RUNS_LONG"
-  )
-endif()
+itk_add_test(
+  NAME itkScancoImageIOISQHeaderWriteTest2
+  COMMAND
+    IOScancoTestDriver
+    --compare
+    DATA{Baseline/ScancoQCPhantomSmall.mha}
+    ${ITK_TEST_OUTPUT_DIR}/ScancoQCPhantomSmallTest2.isq
+    itkScancoImageIOTest2
+    DATA{Input/ScancoQCPhantomSmall.ISQ}
+    ${ITK_TEST_OUTPUT_DIR}/ScancoQCPhantomSmallTest2.isq
+)
 
 itk_add_test(
   NAME itkScancoImageIOAIMHeaderCheckTest2
@@ -138,32 +108,24 @@ set_property(
       itkScancoImageIOAIMHeaderCheckTest
 )
 
-if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
-  itk_add_test(
-    NAME itkScancoImageIOISQReadWritten
-    COMMAND
-      IOScancoTestDriver
-      itkScancoImageIOTest2
-      ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.isq
-      ${ITK_TEST_OUTPUT_DIR}/ISQWrite.ISQ
-    ITK_REMOVE_TEMPORARY_TEST_FILES
-      ${ITK_TEST_OUTPUT_DIR}/ISQWrite.ISQ
-  )
-  set_property(
-    TEST
-      itkScancoImageIOISQReadWritten
-    APPEND
-    PROPERTY
-      DEPENDS
-        itkScancoImageIOISQHeaderWriteTest2
-  )
-  set_tests_properties(
+itk_add_test(
+  NAME itkScancoImageIOISQReadWritten
+  COMMAND
+    IOScancoTestDriver
+    itkScancoImageIOTest2
+    ${ITK_TEST_OUTPUT_DIR}/ScancoQCPhantomSmallTest2.isq
+    ${ITK_TEST_OUTPUT_DIR}/ISQWrite.ISQ
+  ITK_REMOVE_TEMPORARY_TEST_FILES
+    ${ITK_TEST_OUTPUT_DIR}/ISQWrite.ISQ
+)
+set_property(
+  TEST
     itkScancoImageIOISQReadWritten
-    PROPERTIES
-      LABELS
-        "BigIO;RUNS_LONG"
-  )
-endif()
+  APPEND
+  PROPERTY
+    DEPENDS
+      itkScancoImageIOISQHeaderWriteTest2
+)
 
 itk_add_test(
   NAME itkScancoImageIOAIMWriteTest

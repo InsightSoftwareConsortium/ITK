@@ -21,7 +21,7 @@
 #include <type_traits> // For std::is_same.
 
 template <typename TPixel>
-int
+[[nodiscard]] int
 TestGaussianDerivativeImageFunction()
 {
   constexpr unsigned int Dimension{ 2 };

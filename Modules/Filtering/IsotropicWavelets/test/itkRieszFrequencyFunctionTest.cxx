@@ -34,7 +34,7 @@
 #endif
 
 template <unsigned int VDimension>
-int
+[[nodiscard]] int
 runRieszFrequencyFunctionTest(unsigned int inputOrder)
 {
   bool               testPassed = true;

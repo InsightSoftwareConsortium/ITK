@@ -59,7 +59,7 @@ TestMultipleReads(const std::string & fname, TImage *)
 // Specific ImageIO test
 
 template <typename TImage>
-int
+[[nodiscard]] int
 itkTIFFImageIOTestHelper(int, char * argv[])
 {
   using ImageType = TImage;

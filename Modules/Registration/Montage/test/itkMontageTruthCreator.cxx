@@ -26,7 +26,7 @@
 
 
 template <typename PixelType, unsigned Dimension>
-int
+[[nodiscard]] int
 CreateGroundTruth(char *                        inFilename,
                   const std::vector<unsigned> & montageSize,
                   const std::vector<double> &   overlap,
@@ -129,7 +129,7 @@ CreateGroundTruth(char *                        inFilename,
 }
 
 template <typename PixelType>
-int
+[[nodiscard]] int
 CreateGroundTruth(int argc, char * argv[], unsigned dimension)
 {
   std::string outputPath = argv[2];
@@ -172,7 +172,7 @@ CreateGroundTruth(int argc, char * argv[], unsigned dimension)
 }
 
 template <typename ComponentType>
-int
+[[nodiscard]] int
 CreateGroundTruth(int argc, char * argv[], unsigned dimension, itk::IOPixelEnum pixelType)
 {
   if (pixelType == itk::IOPixelEnum::RGB) // possibly add RGBA

@@ -42,7 +42,7 @@ Decrement(ScalarType & value, std::enable_if_t<std::numeric_limits<ScalarType>::
 }
 
 template <typename ScalarType, unsigned int TVecLength, unsigned int TDimension>
-int
+[[nodiscard]] int
 TestImageOfVectors(const std::string & fname, const std::string & intentCode = "")
 {
   constexpr int dimsize{ 2 };
@@ -296,7 +296,7 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
  *
  *  This test FAILS without the ConvertNumberToString fix in itkNiftiImageIO.cxx.
  */
-int
+[[nodiscard]] int
 TestNiftiFloatMetadataPrecision(const std::string & fname)
 {
   using ImageType = itk::Image<float, 3>;

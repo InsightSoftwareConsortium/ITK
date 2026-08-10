@@ -39,7 +39,7 @@ IsEqual(T & m1, T & m2)
 }
 
 template <unsigned int VectorLength>
-int
+[[nodiscard]] int
 itkCentralDifferenceImageFunctionOnVectorTestRun()
 {
   std::cout << "\n**************************" << std::endl

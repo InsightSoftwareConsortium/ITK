@@ -39,16 +39,18 @@ testFancyStringWithItkArray();
 void
 testFancyStringForStringOperations();
 
-int
+[[nodiscard]] int
 testFancyStringUnequalOperator();
 
-int
+[[nodiscard]] int
 testFancyStringEqualOperator();
 
 
 int
 itkFancyStringTest(int, char *[])
 {
+  int testStatus = EXIT_SUCCESS;
+
   ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringWithBasicType());
 
   ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringWithStdVector());
@@ -57,13 +59,13 @@ itkFancyStringTest(int, char *[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringForStringOperations());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringUnequalOperator());
+  ITK_TRY_EXPECT_NO_EXCEPTION(testStatus |= testFancyStringUnequalOperator());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(testFancyStringEqualOperator());
+  ITK_TRY_EXPECT_NO_EXCEPTION(testStatus |= testFancyStringEqualOperator());
 
 
   std::cout << "Test finished." << std::endl;
-  return EXIT_SUCCESS;
+  return testStatus;
 }
 
 // test for basic data type
@@ -435,7 +437,7 @@ testFancyStringForStringOperations()
   // all testings were successful if reached here
 }
 
-int
+[[nodiscard]] int
 testFancyStringUnequalOperator()
 {
   {
@@ -474,7 +476,7 @@ testFancyStringUnequalOperator()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 testFancyStringEqualOperator()
 {
   {

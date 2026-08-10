@@ -1499,7 +1499,6 @@ set(
   itkNeighborhoodAllocatorGTest.cxx
   itkNeighborhoodIteratorsGTest.cxx
   itkNumberToStringGTest.cxx
-  itkNumericLocaleGTest.cxx
   itkNumericsGTest.cxx
   itkObjectFactoryBaseGTest.cxx
   itkOffsetGTest.cxx

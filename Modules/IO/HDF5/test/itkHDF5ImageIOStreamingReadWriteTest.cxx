@@ -88,7 +88,7 @@ private:
 } // namespace itk
 
 template <typename TPixel>
-int
+[[nodiscard]] int
 HDF5ReadWriteTest2(const char * fileName)
 {
   { // START an isolation block for the streaming readers and writers.

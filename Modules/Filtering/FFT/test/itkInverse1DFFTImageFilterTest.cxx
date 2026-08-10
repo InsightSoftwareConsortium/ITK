@@ -31,7 +31,7 @@
 #include "itkTestingMacros.h"
 
 template <typename FFTType>
-int
+[[nodiscard]] int
 doTest(const char * inputRealFullImage, const char * inputImaginaryFullImage, const char * outputImage)
 {
   using ImageType = typename FFTType::OutputImageType;

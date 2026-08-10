@@ -48,7 +48,7 @@
 #endif
 
 template <unsigned int VDimension, typename TWaveletFunction>
-int
+[[nodiscard]] int
 runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
                                            const std::string &, // outputImage
                                            const unsigned int & inputLevels,

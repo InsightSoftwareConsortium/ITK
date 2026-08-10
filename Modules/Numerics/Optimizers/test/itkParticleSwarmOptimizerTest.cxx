@@ -30,7 +30,7 @@ static OptimizerType::RandomVariateGeneratorType::IntegerType seedOffset = 0;
  * domain of either parabolas (runs the optimizer once with initial guess in
  * each of the domains).
  */
-int
+[[nodiscard]] int
 PSOTest1();
 
 
@@ -38,14 +38,14 @@ PSOTest1();
  * Test using a 2D quadratic function (single minimum), check that converges
  * correctly.
  */
-int
+[[nodiscard]] int
 PSOTest2();
 
 
 /**
  * Test using the 2D Rosenbrock function.
  */
-int
+[[nodiscard]] int
 PSOTest3();
 
 namespace
@@ -104,7 +104,7 @@ itkParticleSwarmOptimizerTest(int argc, char * argv[])
 }
 
 
-int
+[[nodiscard]] int
 PSOTest1()
 {
   std::cout << "Particle Swarm Optimizer Test 1 [f(x) = if(x<0) x^2+4x; else 2x^2-8x]\n";
@@ -201,7 +201,7 @@ PSOTest1()
 }
 
 
-int
+[[nodiscard]] int
 PSOTest2()
 {
   std::cout << "Particle Swarm Optimizer Test 2 [f(x) = 1/2 x^T A x - b^T x]\n";
@@ -277,7 +277,7 @@ PSOTest2()
 }
 
 
-int
+[[nodiscard]] int
 PSOTest3()
 {
   std::cout << "Particle Swarm Optimizer Test 3 [f(x,y) = (1-x)^2 + 100(y-x^2)^2]\n";

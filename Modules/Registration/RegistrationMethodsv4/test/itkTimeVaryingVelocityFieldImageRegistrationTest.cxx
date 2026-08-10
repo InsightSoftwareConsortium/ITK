@@ -73,7 +73,7 @@ public:
 };
 
 template <unsigned int TDimension>
-int
+[[nodiscard]] int
 PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
 {
 
@@ -423,17 +423,18 @@ itkTimeVaryingVelocityFieldImageRegistrationTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  int testStatus = EXIT_SUCCESS;
   switch (std::stoi(argv[1]))
   {
     case 2:
-      PerformTimeVaryingVelocityFieldImageRegistration<2>(argc, argv);
+      testStatus = PerformTimeVaryingVelocityFieldImageRegistration<2>(argc, argv);
       break;
     case 3:
-      PerformTimeVaryingVelocityFieldImageRegistration<3>(argc, argv);
+      testStatus = PerformTimeVaryingVelocityFieldImageRegistration<3>(argc, argv);
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
       return EXIT_FAILURE;
   }
-  return EXIT_SUCCESS;
+  return testStatus;
 }

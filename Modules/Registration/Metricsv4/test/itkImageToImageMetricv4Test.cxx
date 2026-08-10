@@ -306,7 +306,7 @@ ImageToImageMetricv4TestComputeIdentityTruthValues(const ImageToImageMetricv4Tes
 // Useful for establishing a relative truth for multiple runs.
 // Otherwise, this will compare the results of calling the metric
 // with truthValue and truthDerivative.
-int
+[[nodiscard]] int
 ImageToImageMetricv4TestRunSingleTest(const ImageToImageMetricv4TestMetricPointer &        metric,
                                       ImageToImageMetricv4TestMetricType::MeasureType &    truthValue,
                                       ImageToImageMetricv4TestMetricType::DerivativeType & truthDerivative,

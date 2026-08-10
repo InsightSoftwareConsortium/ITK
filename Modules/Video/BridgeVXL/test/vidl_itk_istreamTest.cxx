@@ -49,7 +49,7 @@ TestFormat(vidl_pixel_format expectedFormat)
 
 
 template <typename TPixelType>
-int
+[[nodiscard]] int
 vidl_itk_istreamTestWithPixelType(char * argv[], vidl_pixel_format expectedFormat)
 {
   // type alias

@@ -121,7 +121,7 @@ CheckInputRequestedRegion(const RegionType & imageRegion,
 
 namespace
 {
-int
+[[nodiscard]] int
 DoZeroFluxBoundaryConditionTest(int, char *[])
 {
   // Test an image to cover one operator() method.

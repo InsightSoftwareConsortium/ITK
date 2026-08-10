@@ -28,7 +28,7 @@ namespace
 {
 
 template <typename TImageType>
-int
+[[nodiscard]] int
 ReadWrite(const std::string & inputImage, const std::string & outputImage)
 {
   using ImageType = TImageType;
@@ -54,7 +54,7 @@ ReadWrite(const std::string & inputImage, const std::string & outputImage)
 }
 
 template <unsigned int Dimension>
-int
+[[nodiscard]] int
 internalMain(const std::string &       inputImage,
              const std::string &       outputImage,
              const std::string &       expectedPixelType,

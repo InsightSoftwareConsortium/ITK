@@ -46,7 +46,7 @@ using CellAutoPointer = CellType::CellAutoPointer;
 // Test the cell interface
 
 template <typename TCell>
-int
+[[nodiscard]] int
 TestCellInterface(const std::string_view name, TCell * aCell)
 {
   const CellAutoPointer cell(aCell, true);

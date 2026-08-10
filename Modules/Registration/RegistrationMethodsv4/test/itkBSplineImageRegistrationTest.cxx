@@ -97,7 +97,7 @@ public:
 };
 
 template <unsigned int VImageDimension>
-int
+[[nodiscard]] int
 PerformBSplineImageRegistration(int argc, char * argv[])
 {
   if (argc < 6)
@@ -355,13 +355,14 @@ itkBSplineImageRegistrationTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  int testStatus = EXIT_SUCCESS;
   switch (std::stoi(argv[1]))
   {
     case 2:
-      PerformBSplineImageRegistration<2>(argc, argv);
+      testStatus = PerformBSplineImageRegistration<2>(argc, argv);
       break;
     case 3:
-      PerformBSplineImageRegistration<3>(argc, argv);
+      testStatus = PerformBSplineImageRegistration<3>(argc, argv);
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
@@ -379,5 +380,5 @@ itkBSplineImageRegistrationTest(int argc, char * argv[])
     std::cout << "STREAMED ENUM VALUE ImageRegistrationMethodv4Enums::MetricSamplingStrategy: " << ee << std::endl;
   }
 
-  return EXIT_SUCCESS;
+  return testStatus;
 }

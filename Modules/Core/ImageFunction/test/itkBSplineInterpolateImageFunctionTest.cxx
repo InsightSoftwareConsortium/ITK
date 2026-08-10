@@ -611,7 +611,7 @@ testInteger3DSpline()
 
 // Test to verify that EvaluateDerivativeAtContinuousIndex and EvaluateValueAndDerivativeAtContinuousIndex
 // produce identical results.
-int
+[[nodiscard]] int
 testEvaluateValueAndDerivative()
 {
   constexpr unsigned int ImageDimension{ 2 };

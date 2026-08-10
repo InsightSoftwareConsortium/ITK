@@ -38,7 +38,7 @@
 #include <string>
 
 template <unsigned int VImageDimension>
-int
+[[nodiscard]] int
 runGPUImageFilterTest(const std::string & inFile, const std::string & outFile)
 {
   using InputPixelType = unsigned char;

@@ -111,11 +111,7 @@ template <unsigned int TDimension>
 int
 PerformDisplacementFieldImageRegistration(int argc, char * argv[])
 {
-  if (argc != 5)
-  {
-    std::cout << "ERROR: incorrect number of arguments" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_TRUE(argc == 7);
   const unsigned int ImageDimension = TDimension;
 
   using PixelType = double;
@@ -157,11 +153,7 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
   using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
   auto * optimizer = dynamic_cast<GradientDescentOptimizerv4Type *>(affineSimple->GetModifiableOptimizer());
   ITK_TEST_EXPECT_TRUE(optimizer != nullptr);
-#ifdef NDEBUG
   optimizer->SetNumberOfIterations(100);
-#else
-  optimizer->SetNumberOfIterations(1);
-#endif
 
   std::cout << "Affine transform" << std::endl;
 
@@ -265,15 +257,9 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
 
   typename DisplacementFieldRegistrationType::NumberOfIterationsArrayType numberOfIterationsPerLevel;
   numberOfIterationsPerLevel.SetSize(3);
-#ifdef NDEBUG
   numberOfIterationsPerLevel[0] = std::stoi(argv[5]);
   numberOfIterationsPerLevel[1] = 2;
   numberOfIterationsPerLevel[2] = 1;
-#else
-  numberOfIterationsPerLevel[0] = 1;
-  numberOfIterationsPerLevel[1] = 1;
-  numberOfIterationsPerLevel[2] = 1;
-#endif
   constexpr RealType varianceForUpdateField{ 1.75 };
   constexpr RealType varianceForTotalField{ 0.5 };
 
@@ -464,7 +450,7 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
 int
 itkSyNImageRegistrationTest(int argc, char * argv[])
 {
-  if (argc < 5)
+  if (argc != 7)
   {
     std::cout << itkNameOfTestExecutableMacro(argv)
               << " imageDimension fixedImage movingImage outputPrefix numberOfDeformableIterations learningRate"
@@ -488,13 +474,14 @@ itkSyNImageRegistrationTest(int argc, char * argv[])
     displacementFieldRegistration, SyNImageRegistrationMethod, ImageRegistrationMethodv4);
 
 
+  int testStatus = EXIT_SUCCESS;
   switch (std::stoi(argv[1]))
   {
     case 2:
-      PerformDisplacementFieldImageRegistration<2>(argc, argv);
+      testStatus = PerformDisplacementFieldImageRegistration<2>(argc, argv);
       break;
     case 3:
-      PerformDisplacementFieldImageRegistration<3>(argc, argv);
+      testStatus = PerformDisplacementFieldImageRegistration<3>(argc, argv);
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
@@ -503,5 +490,5 @@ itkSyNImageRegistrationTest(int argc, char * argv[])
 
 
   std::cout << "Test finished." << std::endl;
-  return EXIT_SUCCESS;
+  return testStatus;
 }

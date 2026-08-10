@@ -55,6 +55,10 @@ typedef unsigned int uint; /* uint is just more concise */
 /* miscAir.c */
 extern double air__SanityHelper(double val);
 
+/* parseAir.c: cached "C" LC_NUMERIC locale as an opaque pointer (locale_t or
+   _locale_t); NULL when unavailable. For locale-independent numeric I/O. */
+extern void *air__CLocale(void);
+
 #ifdef __cplusplus
 }
 #endif

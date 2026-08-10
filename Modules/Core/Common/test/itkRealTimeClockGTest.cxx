@@ -26,7 +26,7 @@
 
 namespace
 {
-int
+[[nodiscard]] int
 DoRealTimeClockTest(int, char *[])
 {
   // Save the format stream variables for std::cout

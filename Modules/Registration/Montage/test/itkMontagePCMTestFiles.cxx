@@ -29,7 +29,7 @@ namespace itk
 {
 
 template <unsigned int VDimension, typename TFixedImagePixel, typename TMovingImagePixel>
-int
+[[nodiscard]] int
 PhaseCorrelationRegistrationFiles(int argc, char * argv[])
 {
   int testStatus = EXIT_SUCCESS;

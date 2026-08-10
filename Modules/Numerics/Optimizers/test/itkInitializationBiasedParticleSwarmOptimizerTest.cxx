@@ -31,29 +31,29 @@ static OptimizerType::RandomVariateGeneratorType::IntegerType seedOffset = 0;
  * domain of either parabolas (runs the optimizer once with initial guess in
  * each of the domains).
  */
-int IBPSOTest1(OptimizerType::CoefficientType,
-               OptimizerType::CoefficientType,
-               OptimizerType::CoefficientType,
-               OptimizerType::CoefficientType);
+[[nodiscard]] int IBPSOTest1(OptimizerType::CoefficientType,
+                             OptimizerType::CoefficientType,
+                             OptimizerType::CoefficientType,
+                             OptimizerType::CoefficientType);
 
 
 /**
  * Test using a 2D quadratic function (single minimum), check that converges
  * correctly.
  */
-int IBPSOTest2(OptimizerType::CoefficientType,
-               OptimizerType::CoefficientType,
-               OptimizerType::CoefficientType,
-               OptimizerType::CoefficientType);
+[[nodiscard]] int IBPSOTest2(OptimizerType::CoefficientType,
+                             OptimizerType::CoefficientType,
+                             OptimizerType::CoefficientType,
+                             OptimizerType::CoefficientType);
 
 
 /**
  * Test using the 2D Rosenbrock function.
  */
-int IBPSOTest3(OptimizerType::CoefficientType,
-               OptimizerType::CoefficientType,
-               OptimizerType::CoefficientType,
-               OptimizerType::CoefficientType);
+[[nodiscard]] int IBPSOTest3(OptimizerType::CoefficientType,
+                             OptimizerType::CoefficientType,
+                             OptimizerType::CoefficientType,
+                             OptimizerType::CoefficientType);
 
 bool initalizationBasedTestVerboseFlag = false;
 
@@ -126,7 +126,7 @@ itkInitializationBiasedParticleSwarmOptimizerTest(int argc, char * argv[])
 }
 
 
-int
+[[nodiscard]] int
 IBPSOTest1(OptimizerType::CoefficientType inertiaCoefficient,
            OptimizerType::CoefficientType personalCoefficient,
            OptimizerType::CoefficientType globalCoefficient,
@@ -250,7 +250,7 @@ IBPSOTest1(OptimizerType::CoefficientType inertiaCoefficient,
 }
 
 
-int
+[[nodiscard]] int
 IBPSOTest2(OptimizerType::CoefficientType inertiaCoefficient,
            OptimizerType::CoefficientType personalCoefficient,
            OptimizerType::CoefficientType globalCoefficient,
@@ -349,7 +349,7 @@ IBPSOTest2(OptimizerType::CoefficientType inertiaCoefficient,
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 IBPSOTest3(OptimizerType::CoefficientType inertiaCoefficient,
            OptimizerType::CoefficientType personalCoefficient,
            OptimizerType::CoefficientType globalCoefficient,

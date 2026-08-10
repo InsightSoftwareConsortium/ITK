@@ -221,7 +221,7 @@ private:
   itk::GradientEvaluationIterationEvent m_GradientEvent;
 };
 
-int
+[[nodiscard]] int
 itkRunLevenbergMarquardOptimization(bool   useGradient,
                                     double fTolerance,
                                     double gTolerance,

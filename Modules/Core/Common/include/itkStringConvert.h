@@ -43,6 +43,10 @@ namespace itk
  * `context` describing what was being parsed (e.g.
  * ``"NRRD header field 'sizes'"``) plus the offending input string.
  *
+ * The floating-point helpers parse with an explicit "C" locale, so `.` is the
+ * decimal separator regardless of the ambient `LC_NUMERIC` locale. Underflow to
+ * a subnormal or zero is a valid value; only overflow throws.
+ *
  * **Fixed-width integer return types** are used (`int32_t`, `int64_t`,
  * `uint32_t`, `uint64_t`) rather than the platform-dependent C++
  * spellings (`int`, `long`, `unsigned long`). The C++ Standard only

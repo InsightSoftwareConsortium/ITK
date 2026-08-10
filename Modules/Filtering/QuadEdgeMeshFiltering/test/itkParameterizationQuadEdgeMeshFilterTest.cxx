@@ -25,7 +25,7 @@
 #include "itkTestingMacros.h"
 
 template <typename TSolver>
-int
+[[nodiscard]] int
 ParameterizationQuadEdgeMeshFilterTest(const char * inputFilename,
                                        unsigned int borderType,
                                        unsigned int coefficientType,

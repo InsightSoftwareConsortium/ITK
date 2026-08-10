@@ -46,7 +46,7 @@ itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(TIndexType         
 }
 
 template <typename TMetricPointer, typename TValue, typename TDerivativeType>
-int
+[[nodiscard]] int
 itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(TMetricPointer &  metric,
                                                             TValue &          value,
                                                             TDerivativeType & derivative)

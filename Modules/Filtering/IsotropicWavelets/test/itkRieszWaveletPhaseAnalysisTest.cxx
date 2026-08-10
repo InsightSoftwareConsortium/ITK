@@ -63,7 +63,7 @@ AppendToFilenameRiesz(const std::string & filename, const std::string & appendix
 // 5. The result of the reconstruction will be an image that uses phase information at each level/band for improving
 // local structure information, and can also work as an equalization of brightness.
 template <unsigned int VDimension, typename TWaveletFunction>
-int
+[[nodiscard]] int
 runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
                                  const std::string &  outputImage,
                                  const unsigned int & inputLevels,

@@ -117,7 +117,7 @@ public:
 };
 
 template <unsigned int TDimension>
-int
+[[nodiscard]] int
 PerformCompositeImageRegistration(int argc, char * argv[])
 {
   if (argc != 5)

@@ -26,7 +26,7 @@ namespace
 {
 
 template <typename TInputImageType>
-int
+[[nodiscard]] int
 itkVotingBinaryImageFilterTestImp(const std::string & infname,
                                   const std::string & outfname,
                                   itk::SizeValueType  radius,

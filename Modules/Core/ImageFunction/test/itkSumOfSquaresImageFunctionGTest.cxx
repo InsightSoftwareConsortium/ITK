@@ -93,7 +93,7 @@ Expect_EvaluateAtIndex_returns_number_of_neigbors_when_all_pixels_are_one(const 
 }
 
 template <typename TImage>
-int
+[[nodiscard]] int
 TestBasicObjectProperties()
 {
   const auto imageFunction = itk::SumOfSquaresImageFunction<TImage>::New();

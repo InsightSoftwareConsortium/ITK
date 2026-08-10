@@ -26,7 +26,7 @@
 namespace
 {
 template <typename TImageType>
-int
+[[nodiscard]] int
 ReadWrite(const std::string & inputImage, const std::string & outputImage, bool compress)
 {
   auto image = itk::ReadImage<TImageType>(inputImage);
@@ -35,7 +35,7 @@ ReadWrite(const std::string & inputImage, const std::string & outputImage, bool 
 }
 
 template <unsigned int Dimension>
-int
+[[nodiscard]] int
 internalMain(const std::string &       inputImage,
              const std::string &       outputImage,
              itk::ImageIOBase::Pointer imageIO,

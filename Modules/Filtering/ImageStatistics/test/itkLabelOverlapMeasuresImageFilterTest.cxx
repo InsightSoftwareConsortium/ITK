@@ -23,7 +23,7 @@
 #include <iomanip>
 
 template <unsigned int VImageDimension>
-int
+[[nodiscard]] int
 LabelOverlapMeasures(int, char * argv[])
 {
   using PixelType = unsigned int;
@@ -38,7 +38,7 @@ LabelOverlapMeasures(int, char * argv[])
   using FilterType = itk::LabelOverlapMeasuresImageFilter<ImageType>;
   auto filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, LabelOverlapMeasuresImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, LabelOverlapMeasuresImageFilter, ImageSink);
 
 
   filter->SetSourceImage(reader1->GetOutput());
@@ -178,17 +178,18 @@ itkLabelOverlapMeasuresImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(labelOverlapMeasuresImageFilter, LabelOverlapMeasuresImageFilter, ImageSink);
 
 
+  int testStatus = EXIT_SUCCESS;
   switch (std::stoi(argv[1]))
   {
     case 2:
-      LabelOverlapMeasures<2>(argc, argv);
+      testStatus = LabelOverlapMeasures<2>(argc, argv);
       break;
     case 3:
-      LabelOverlapMeasures<3>(argc, argv);
+      testStatus = LabelOverlapMeasures<3>(argc, argv);
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
       return EXIT_FAILURE;
   }
-  return EXIT_SUCCESS;
+  return testStatus;
 }

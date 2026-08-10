@@ -24,7 +24,7 @@
 
 
 template <typename TPixel, typename TMesh, typename TVectorContainer>
-int
+[[nodiscard]] int
 ParseVectorFields(std::vector<std::string> vectorFieldFilenames, typename TVectorContainer::Pointer vectorFieldSet)
 {
   int testStatus = EXIT_SUCCESS;

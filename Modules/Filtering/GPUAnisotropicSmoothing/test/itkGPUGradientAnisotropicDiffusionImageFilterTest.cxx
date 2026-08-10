@@ -34,7 +34,7 @@
 #include "itkGPUGradientAnisotropicDiffusionImageFilter.h"
 
 template <unsigned int VImageDimension>
-int
+[[nodiscard]] int
 runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, const std::string & outFile)
 {
   using InputPixelType = float;

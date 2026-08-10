@@ -19,7 +19,9 @@
 #include "itkGTest.h"
 #include "itkStringConvert.h"
 #include "itkMacro.h"
+#include "itkTestNumericLocale.h"
 
+#include <clocale>
 #include <cstdint>
 #include <limits>
 #include <string>
@@ -235,6 +237,48 @@ TEST(StringTools, StringToDouble_Bad_Throws)
 {
   EXPECT_THROW(itk::StringToDouble("", "ctx"), itk::ExceptionObject);
   EXPECT_THROW(itk::StringToDouble("abc", "ctx"), itk::ExceptionObject);
+}
+
+TEST(StringTools, StringToDouble_OverflowThrows_UnderflowAccepted)
+{
+  EXPECT_THROW(itk::StringToDouble("1e9999", "ctx"), itk::ExceptionObject);
+  EXPECT_THROW(itk::StringToDouble("-1e9999", "ctx"), itk::ExceptionObject);
+  // ERANGE underflow yields a representable subnormal or zero: accepted.
+  EXPECT_NEAR(itk::StringToDouble("1e-320", "ctx"), 1e-320, 1e-321);
+  EXPECT_DOUBLE_EQ(itk::StringToDouble("1e-400", "ctx"), 0.0);
+}
+
+// Parsing must honor '.' as decimal separator under decimal-comma locales,
+// where a locale-aware parse would truncate "0.878906" to 0 (issue #5683).
+TEST(StringTools, StringToDouble_LocaleIndependent)
+{
+  unsigned int tested = 0;
+  for (const char * const commaLocale : itk::test::commaDecimalLocales)
+  {
+    if (setlocale(LC_NUMERIC, commaLocale) == nullptr)
+    {
+      continue;
+    }
+    ++tested;
+    EXPECT_NEAR(itk::StringToDouble("0.878906", "ctx"), 0.878906, 1e-9);
+    EXPECT_NEAR(itk::StringToFloat("3.5", "ctx"), 3.5f, 1e-6);
+    // The overflow/underflow contract must hold under a comma locale too.
+    EXPECT_THROW(itk::StringToDouble("1e9999", "ctx"), itk::ExceptionObject);
+    EXPECT_THROW(itk::StringToFloat("1e9999", "ctx"), itk::ExceptionObject);
+    EXPECT_DOUBLE_EQ(itk::StringToDouble("1e-400", "ctx"), 0.0);
+    // A comma is a separator, not a decimal point: parse stops before it.
+    EXPECT_DOUBLE_EQ(itk::StringToDouble("0,878906", "ctx"), 0.0);
+  }
+  setlocale(LC_NUMERIC, "C");
+  EXPECT_DOUBLE_EQ(itk::StringToDouble("2.25", "ctx"), 2.25);
+  if (tested == 0)
+  {
+    if (itk::test::CommaDecimalLocaleIsExpected())
+    {
+      FAIL() << itk::test::NoCommaDecimalLocaleMessage();
+    }
+    GTEST_SKIP() << itk::test::NoCommaDecimalLocaleMessage();
+  }
 }
 
 

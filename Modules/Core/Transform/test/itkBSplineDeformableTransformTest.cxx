@@ -37,7 +37,7 @@
  * This module test the functionality of the BSplineDeformableTransform class.
  *
  */
-int
+[[nodiscard]] int
 itkBSplineDeformableTransformTest1()
 {
 
@@ -428,7 +428,7 @@ itkBSplineDeformableTransformTest1()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 itkBSplineDeformableTransformTest2()
 {
   /**
@@ -557,7 +557,7 @@ itkBSplineDeformableTransformTest2()
   return EXIT_SUCCESS;
 }
 
-int
+[[nodiscard]] int
 itkBSplineDeformableTransformTest3()
 {
 

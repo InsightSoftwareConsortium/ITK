@@ -107,7 +107,7 @@ ImagesEqual(const TImage * a, const TImage * b)
 }
 
 template <typename TImage>
-int
+[[nodiscard]] int
 RoundTripCompressed(const std::string & filename, const typename TImage::SizeType & size)
 {
   using ReaderType = itk::ImageFileReader<TImage>;
@@ -140,7 +140,7 @@ RoundTripCompressed(const std::string & filename, const typename TImage::SizeTyp
 }
 
 template <typename TImage>
-int
+[[nodiscard]] int
 RoundTrip(const std::string & filename, const typename TImage::SizeType & size, itk::IOFileEnum fileType)
 {
   using ReaderType = itk::ImageFileReader<TImage>;

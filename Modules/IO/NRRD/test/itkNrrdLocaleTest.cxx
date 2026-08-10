@@ -22,6 +22,7 @@
 #include "itkImageFileWriter.h"
 #include "itkNrrdImageIO.h"
 #include "itkTestingMacros.h"
+#include "itkTestNumericLocale.h"
 
 // Test that NRRD reader handles locale-dependent parsing correctly.
 // This test verifies the fix for: https://github.com/InsightSoftwareConsortium/ITK/issues/5683
@@ -123,11 +124,16 @@ itkNrrdLocaleTest(int argc, char * argv[])
     }
   }
 
-  // Test 2: Read with de_DE locale (the problematic case)
-  // Try to set German locale; if not available, skip this part
-  if (setlocale(LC_NUMERIC, "de_DE.UTF-8") != nullptr)
+  // Test 2: read under a decimal-comma locale, the only path exercising the parse.
+  unsigned int localesTested = 0;
+  for (const char * const commaLocale : itk::test::commaDecimalLocales)
   {
-    std::cout << "Testing with de_DE.UTF-8 locale..." << std::endl;
+    if (setlocale(LC_NUMERIC, commaLocale) == nullptr)
+    {
+      continue;
+    }
+    ++localesTested;
+    std::cout << "Testing with " << commaLocale << " locale..." << std::endl;
 
     using ReaderType = itk::ImageFileReader<ImageType>;
     auto reader = ReaderType::New();
@@ -140,15 +146,15 @@ itkNrrdLocaleTest(int argc, char * argv[])
     ImageType::SpacingType readSpacing = readImage->GetSpacing();
     ImageType::PointType   readOrigin = readImage->GetOrigin();
 
-    std::cout << "de_DE locale - Read spacing: " << readSpacing << std::endl;
-    std::cout << "de_DE locale - Read origin: " << readOrigin << std::endl;
+    std::cout << commaLocale << " - Read spacing: " << readSpacing << std::endl;
+    std::cout << commaLocale << " - Read origin: " << readOrigin << std::endl;
 
     // Verify spacing - this is the critical test
     for (unsigned int i = 0; i < Dimension; ++i)
     {
       if (itk::Math::Absolute(readSpacing[i] - spacing[i]) > 1e-6)
       {
-        std::cerr << "Spacing mismatch in de_DE locale at index " << i << std::endl;
+        std::cerr << "Spacing mismatch in " << commaLocale << " locale at index " << i << std::endl;
         std::cerr << "Expected: " << spacing[i] << ", Got: " << readSpacing[i] << std::endl;
         std::cerr << "This indicates locale-dependent parsing is still occurring!" << std::endl;
         return EXIT_FAILURE;
@@ -160,19 +166,60 @@ itkNrrdLocaleTest(int argc, char * argv[])
     {
       if (itk::Math::Absolute(readOrigin[i] - origin[i]) > 1e-6)
       {
-        std::cerr << "Origin mismatch in de_DE locale at index " << i << std::endl;
+        std::cerr << "Origin mismatch in " << commaLocale << " locale at index " << i << std::endl;
         std::cerr << "Expected: " << origin[i] << ", Got: " << readOrigin[i] << std::endl;
         std::cerr << "This indicates locale-dependent parsing is still occurring!" << std::endl;
         return EXIT_FAILURE;
       }
     }
-
-    // Restore C locale
-    setlocale(LC_NUMERIC, "C");
   }
-  else
+  setlocale(LC_NUMERIC, "C");
+
+  // Test 3: WRITE under a decimal-comma locale, read back under "C". A
+  // locale-dependent writer would emit "0,878906" and corrupt the file.
+  for (const char * const commaLocale : itk::test::commaDecimalLocales)
   {
-    std::cout << "de_DE.UTF-8 locale not available, skipping locale-specific test" << std::endl;
+    if (setlocale(LC_NUMERIC, commaLocale) == nullptr)
+    {
+      continue;
+    }
+    const std::string commaFilename = std::string(argv[1]) + "/locale_test_written_under_comma.nrrd";
+    auto              commaWriter = WriterType::New();
+    commaWriter->SetFileName(commaFilename);
+    commaWriter->SetInput(image);
+    commaWriter->SetImageIO(itk::NrrdImageIO::New());
+    ITK_TRY_EXPECT_NO_EXCEPTION(commaWriter->Update());
+    setlocale(LC_NUMERIC, "C");
+
+    using ReaderType = itk::ImageFileReader<ImageType>;
+    auto reader = ReaderType::New();
+    reader->SetFileName(commaFilename);
+    reader->SetImageIO(itk::NrrdImageIO::New());
+    ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+    const ImageType::SpacingType readSpacing = reader->GetOutput()->GetSpacing();
+    for (unsigned int i = 0; i < Dimension; ++i)
+    {
+      if (itk::Math::Absolute(readSpacing[i] - spacing[i]) > 1e-6)
+      {
+        std::cerr << "Spacing mismatch after writing under " << commaLocale << " at index " << i << std::endl;
+        std::cerr << "Expected: " << spacing[i] << ", Got: " << readSpacing[i] << std::endl;
+        std::cerr << "This indicates locale-dependent FORMATTING during write!" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+    break; // one comma locale suffices for the write path
+  }
+  setlocale(LC_NUMERIC, "C");
+
+  if (localesTested == 0)
+  {
+    if (itk::test::CommaDecimalLocaleIsExpected())
+    {
+      std::cerr << itk::test::NoCommaDecimalLocaleMessage() << std::endl;
+      return EXIT_FAILURE;
+    }
+    std::cout << "WARNING: " << itk::test::NoCommaDecimalLocaleMessage() << std::endl;
   }
 
   std::cout << "Test finished successfully." << std::endl;

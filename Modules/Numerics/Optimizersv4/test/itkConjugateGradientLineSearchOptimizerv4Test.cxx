@@ -157,7 +157,7 @@ private:
 };
 
 ///////////////////////////////////////////////////////////
-int
+[[nodiscard]] int
 ConjugateGradientLineSearchOptimizerv4RunTest(itk::ConjugateGradientLineSearchOptimizerv4::Pointer & itkOptimizer)
 {
   try

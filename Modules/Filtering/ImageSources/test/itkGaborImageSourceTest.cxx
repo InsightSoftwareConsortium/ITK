@@ -22,7 +22,7 @@
 
 
 template <int ImageDimension>
-int
+[[nodiscard]] int
 itkGaborImageSourceTestHelper(char * outputFilename, bool calculcateImaginaryPart)
 {
   using PixelType = float;
