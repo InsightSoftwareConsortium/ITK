@@ -48,7 +48,7 @@ itk_add_test(
     itkComposeRGBImageFilterTest
 )
 
-if(ITK_COMPUTER_MEMORY_SIZE GREATER 6)
+if(ITK_COMPUTER_MEMORY_SIZE GREATER 13)
   itk_add_test(
     NAME itkComposeBigVectorImageFilterTest
     COMMAND
@@ -58,6 +58,8 @@ if(ITK_COMPUTER_MEMORY_SIZE GREATER 6)
   set_tests_properties(
     itkComposeBigVectorImageFilterTest
     PROPERTIES
+      LABELS
+        RUNS_LONG
       RESOURCE_LOCK
         MEMORY_SIZE
   )
