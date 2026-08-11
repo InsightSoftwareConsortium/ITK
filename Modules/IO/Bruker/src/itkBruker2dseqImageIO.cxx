@@ -225,9 +225,22 @@ ExpandRLE(const std::string & s)
         const std::string::size_type close = s.find(')', j + 2);
         if (close != std::string::npos)
         {
-          const int         count = std::stoi(s.substr(i + 1, j - (i + 1)));
+          // The repetition count comes from the file; bound it so a corrupt or
+          // hostile record cannot exhaust memory
+          constexpr std::string::size_type maxExpandedSize = std::string::size_type{ 1 } << 26;
+          if (j - (i + 1) > 9)
+          {
+            itkGenericExceptionMacro("Bruker JCAMPDX RLE count out of range: " << s.substr(i, close + 1 - i));
+          }
+          const auto        count = static_cast<std::string::size_type>(std::stoi(s.substr(i + 1, j - (i + 1))));
           const std::string value = s.substr(j + 2, close - (j + 2));
-          for (int c = 0; c < count; ++c)
+          const std::string::size_type remaining =
+            (expanded.size() < maxExpandedSize) ? maxExpandedSize - expanded.size() : 0;
+          if (count > remaining / (value.size() + 1))
+          {
+            itkGenericExceptionMacro("Bruker JCAMPDX RLE expansion exceeds " << maxExpandedSize << " bytes");
+          }
+          for (std::string::size_type c = 0; c < count; ++c)
           {
             expanded += value;
             expanded += ' ';

@@ -177,3 +177,27 @@ TEST(Bruker2dseqImageIO, ReadParaVision360Dataset)
   ASSERT_EQ(slicePacksDef.size(), 1u);
   EXPECT_EQ(slicePacksDef[0], std::vector<double>({ 1.0, 1.0 }));
 }
+
+TEST(Bruker2dseqImageIO, RejectOversizedRLEExpansion)
+{
+  const std::string dir = testing::TempDir() + "/bruker2dseq_rle/pdata/1";
+  ASSERT_TRUE(itksys::SystemTools::MakeDirectory(dir));
+  std::string                  visu = MakeVisuPars();
+  const std::string::size_type slopePos = visu.find("@12*(2)");
+  ASSERT_NE(slopePos, std::string::npos);
+  visu.replace(slopePos, 7, "@999999999*(2)");
+  {
+    std::ofstream visuStream(dir + "/visu_pars");
+    visuStream << visu;
+  }
+  {
+    std::ofstream dataStream(dir + "/2dseq", std::ios::binary);
+    dataStream << '\0';
+  }
+
+  auto io = itk::Bruker2dseqImageIO::New();
+  auto reader = itk::ImageFileReader<itk::Image<float, 4>>::New();
+  reader->SetImageIO(io);
+  reader->SetFileName(dir + "/2dseq");
+  EXPECT_THROW(reader->Update(), itk::ExceptionObject);
+}
