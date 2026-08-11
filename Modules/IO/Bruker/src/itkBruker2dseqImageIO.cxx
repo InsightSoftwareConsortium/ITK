@@ -65,7 +65,7 @@ ReadScaling(const MetaDataDictionary & dict, const char * name, double defaultVa
   }
   double value = defaultValue;
   ExposeMetaData(dict, name, value);
-  return std::vector<double>{ value };
+  return std::vector<double>(1, value);
 }
 
 // Internal function to rescale pixel according to slope & intercept
