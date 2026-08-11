@@ -309,7 +309,7 @@ private:
   InitializePriorProbabilities();
 
   std::vector<ConfusionMatrixType> m_ConfusionMatrixArray{};
-  std::vector<ConfusionMatrixType> m_UpdatedConfusionMatrixArray{};
+  std::vector<Array2D<double>>     m_UpdatedConfusionMatrixArray{};
 
   void
   AllocateConfusionMatrixArray();
