@@ -135,7 +135,7 @@ private:
   void
   SwapBytesIfNecessary(void * buff, SizeValueType components);
 
-  IOComponentEnum m_OnDiskComponentType{ IOComponentEnum::UCHAR };
+  IOComponentEnum m_OnDiskComponentType = IOComponentEnum::UCHAR;
   IOByteOrderEnum m_MachineByteOrder{};
 };
 
