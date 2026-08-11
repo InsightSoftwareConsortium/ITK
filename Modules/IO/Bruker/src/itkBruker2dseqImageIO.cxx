@@ -24,6 +24,8 @@
 #include "itkStringConvert.h"
 #include "itkPrintHelper.h"
 
+#include <cctype>
+
 namespace itk
 {
 
@@ -159,6 +161,272 @@ CastCopy(float * to, void * from, size_t pixelCount)
   }
 }
 
+// Marks every character inside a <...> string, brackets included
+std::vector<bool>
+MaskStrings(const std::string & s)
+{
+  std::vector<bool> mask(s.size(), false);
+  bool              inString = false;
+  for (std::string::size_type i = 0; i < s.size(); ++i)
+  {
+    if (s[i] == '<')
+    {
+      inString = true;
+    }
+    mask[i] = inString;
+    if (s[i] == '>')
+    {
+      inString = false;
+    }
+  }
+  return mask;
+}
+
+// Expands ParaVision 360 run-length encoded tokens: @N*(value) -> N copies of value
+std::string
+ExpandRLE(const std::string & s)
+{
+  if (s.find("*(") == std::string::npos)
+  {
+    return s;
+  }
+  const std::vector<bool> mask = MaskStrings(s);
+  std::string             expanded;
+  expanded.reserve(s.size());
+  std::string::size_type i = 0;
+  while (i < s.size())
+  {
+    if (s[i] == '@' && !mask[i])
+    {
+      std::string::size_type j = i + 1;
+      while (j < s.size() && std::isdigit(static_cast<unsigned char>(s[j])))
+      {
+        ++j;
+      }
+      if (j > i + 1 && j + 1 < s.size() && s[j] == '*' && s[j + 1] == '(')
+      {
+        const std::string::size_type close = s.find(')', j + 2);
+        if (close != std::string::npos)
+        {
+          const int         count = std::stoi(s.substr(i + 1, j - (i + 1)));
+          const std::string value = s.substr(j + 2, close - (j + 2));
+          for (int c = 0; c < count; ++c)
+          {
+            expanded += value;
+            expanded += ' ';
+          }
+          i = close + 1;
+          continue;
+        }
+      }
+    }
+    expanded += s[i];
+    ++i;
+  }
+  return expanded;
+}
+
+std::string
+Trim(const std::string & s)
+{
+  const std::string::size_type begin = s.find_first_not_of(" \t");
+  if (begin == std::string::npos)
+  {
+    return {};
+  }
+  return s.substr(begin, s.find_last_not_of(" \t") - begin + 1);
+}
+
+// Splits a struct array into its parenthesized tuples, ignoring characters inside strings
+std::vector<std::string>
+SplitTuples(const std::string & s)
+{
+  const std::vector<bool>  mask = MaskStrings(s);
+  std::vector<std::string> tuples;
+  int                      depth = 0;
+  std::string::size_type   start = 0;
+  for (std::string::size_type i = 0; i < s.size(); ++i)
+  {
+    if (mask[i])
+    {
+      continue;
+    }
+    if (s[i] == '(')
+    {
+      if (depth == 0)
+      {
+        start = i + 1;
+      }
+      ++depth;
+    }
+    else if (s[i] == ')' && depth > 0)
+    {
+      --depth;
+      if (depth == 0)
+      {
+        tuples.push_back(s.substr(start, i - start));
+      }
+    }
+  }
+  return tuples;
+}
+
+// Splits struct fields on commas, ignoring commas inside strings
+std::vector<std::string>
+SplitFields(const std::string & s)
+{
+  const std::vector<bool>  mask = MaskStrings(s);
+  std::vector<std::string> fields;
+  std::string::size_type   start = 0;
+  for (std::string::size_type i = 0; i <= s.size(); ++i)
+  {
+    if (i == s.size() || (s[i] == ',' && !mask[i]))
+    {
+      fields.push_back(Trim(s.substr(start, i - start)));
+      start = i + 1;
+    }
+  }
+  return fields;
+}
+
+std::vector<double>
+ParseDoubles(const std::string & s)
+{
+  std::istringstream  stream(s);
+  std::vector<double> values;
+  double              value = 0.0;
+  while (stream >> value)
+  {
+    values.push_back(value);
+    if (stream.peek() == ',')
+    {
+      stream.ignore();
+    }
+  }
+  return values;
+}
+
+void
+ParseJCAMPDXRecord(const std::string & record, MetaDataDictionary & dict)
+{
+  const std::string::size_type epos = record.find('=');
+  if (epos == std::string::npos)
+  {
+    itkGenericExceptionMacro("Invalid Bruker JCAMPDX parameter record (Missing =): " << record);
+  }
+  const std::string parname = record.substr(0, epos);
+  std::string       value = record.substr(epos + 1);
+
+  // A leading "( N )" or "( N, M )" written with spaces is a dimension indicator;
+  // "(v, v)" without them is a scalar struct value
+  bool hasDims = false;
+  if (value.compare(0, 2, "( ") == 0)
+  {
+    const std::string::size_type close = value.find(')');
+    if (close != std::string::npos && value.find_first_not_of("0123456789, ", 2) == close)
+    {
+      hasDims = true;
+      value = value.substr(close + 1);
+    }
+  }
+  value = Trim(ExpandRLE(value));
+
+  const std::vector<bool> mask = MaskStrings(value);
+  bool                    hasStruct = false;
+  for (std::string::size_type i = 0; i < value.size(); ++i)
+  {
+    if (value[i] == '(' && !mask[i])
+    {
+      hasStruct = true;
+      break;
+    }
+  }
+
+  if (hasStruct)
+  {
+    const std::vector<std::string> tuples = SplitTuples(value);
+    if (value.find('<') != std::string::npos)
+    {
+      std::vector<std::vector<std::string>> stringArrayArray;
+      for (const std::string & tuple : tuples)
+      {
+        stringArrayArray.push_back(SplitFields(tuple));
+      }
+      EncapsulateMetaData(dict, parname, stringArrayArray);
+    }
+    else
+    {
+      std::vector<std::vector<double>> doubleArrayArray;
+      for (const std::string & tuple : tuples)
+      {
+        doubleArrayArray.push_back(ParseDoubles(tuple));
+      }
+      EncapsulateMetaData(dict, parname, doubleArrayArray);
+    }
+  }
+  else if (hasDims && value.find('<') != std::string::npos)
+  {
+    std::vector<std::string> stringArray;
+    std::string::size_type   left = value.find('<');
+    while (left != std::string::npos)
+    {
+      const std::string::size_type right = value.find('>', left + 1);
+      if (right == std::string::npos)
+      {
+        break;
+      }
+      stringArray.push_back(value.substr(left + 1, right - (left + 1)));
+      left = value.find('<', right + 1);
+    }
+    EncapsulateMetaData(dict, parname, stringArray);
+  }
+  else if (hasDims)
+  {
+    const std::vector<double> values = ParseDoubles(value);
+    if (values.empty() && !value.empty())
+    {
+      // Enum arrays hold bare symbolic names, e.g. ( 3 ) spatial spatial spatial
+      std::istringstream       stream(value);
+      std::vector<std::string> tokens;
+      std::string              token;
+      while (stream >> token)
+      {
+        tokens.push_back(token);
+      }
+      if (tokens.size() == 1)
+      {
+        EncapsulateMetaData(dict, parname, tokens[0]);
+      }
+      else
+      {
+        EncapsulateMetaData(dict, parname, tokens);
+      }
+    }
+    else
+    {
+      EncapsulateMetaData(dict, parname, values);
+    }
+  }
+  else
+  {
+    const std::vector<double> values = ParseDoubles(value);
+    const bool                allNumeric = value.find_first_not_of("0123456789+-.eE, \t") == std::string::npos;
+    if (allNumeric && values.size() == 1)
+    {
+      EncapsulateMetaData(dict, parname, values[0]);
+    }
+    else if (allNumeric && values.size() > 1)
+    {
+      // Fixed-length array with omitted dimension indicator (legacy datasets)
+      EncapsulateMetaData(dict, parname, values);
+    }
+    else
+    {
+      EncapsulateMetaData(dict, parname, value);
+    }
+  }
+}
+
 // Internal function to read a JCAMPDX parameter file
 void
 ReadJCAMPDX(const std::string & filename, MetaDataDictionary & dict)
@@ -166,165 +434,49 @@ ReadJCAMPDX(const std::string & filename, MetaDataDictionary & dict)
   std::ifstream paramsStream(filename.c_str());
 
   std::string line;
-  // First five lines are 'comments' starting with ##
-  std::getline(paramsStream, line);
-  std::getline(paramsStream, line);
-  std::getline(paramsStream, line);
-  std::getline(paramsStream, line);
-  std::getline(paramsStream, line);
-
-  // Then three lines starting with $$
-  std::getline(paramsStream, line);
-  std::getline(paramsStream, line);
-  std::getline(paramsStream, line);
-
-  // Now process parameters starting with ##$
+  std::string record;
   while (std::getline(paramsStream, line))
   {
-    // Check start of line
-    if (line.substr(0, 2) == "$$")
+    if (!line.empty() && line.back() == '\r')
     {
-      // Comment line
+      line.pop_back();
+    }
+    if (line.compare(0, 2, "$$") == 0)
+    {
+      // Comment lines may appear anywhere, including inside a wrapped value block
       continue;
     }
-    if (line.substr(0, 5) == "##END")
+    if (line.compare(0, 2, "##") == 0)
     {
-      // There should be one comment line after this line in the file
-      continue;
+      if (!record.empty())
+      {
+        ParseJCAMPDXRecord(record, dict);
+        record.clear();
+      }
+      if (line.compare(0, 5, "##END") == 0)
+      {
+        // The file may continue after ##END= with a "$$ File finished" trailer
+        break;
+      }
+      if (line.compare(0, 3, "##$") == 0)
+      {
+        record = line.substr(3);
+      }
+      // Standard JCAMP labels (##TITLE= etc.) carry no image information
     }
-    else if (line.substr(0, 3) != "##$")
+    else if (!record.empty())
     {
-      itkGenericExceptionMacro("Failed to parse Bruker JCAMPDX: " + line);
+      // Values wrap near column 80; wrapped lines keep their trailing space
+      if (record.back() != ' ')
+      {
+        record += ' ';
+      }
+      record += line;
     }
-
-    const std::string::size_type epos = line.find('=', 3);
-    if (epos == std::string::npos)
-    {
-      itkGenericExceptionMacro("Invalid Bruker JCAMPDX parameter line (Missing =): " << line);
-    }
-
-    const std::string parname = line.substr(3, epos - 3);
-    std::string       par = line.substr(epos + 1);
-    if (par[0] == '(')
-    {
-      // Array value
-      // The array sizes appear to be entirely meaningless. 65 means a string, except when it doesn't and actually gives
-      // the length of the string Skip to next line, process lines until we hit a comment or new parameter Then process
-      // all lines together and look for strings or numbers
-      par.clear();
-      std::string lines;
-      while (paramsStream.peek() != '#' && paramsStream.peek() != '$')
-      {
-        std::getline(paramsStream, line);
-        lines.append(line);
-      }
-
-      std::string::size_type leftBracket = lines.find('(');
-      if (leftBracket == std::string::npos)
-      {
-        // Now check for array of strings marked with <>
-        std::string::size_type left = lines.find('<');
-        if (left != std::string::npos)
-        {
-          std::vector<std::string> stringArray;
-          while (left != std::string::npos)
-          {
-            const std::string::size_type right = lines.find('>', left + 1);
-            stringArray.push_back(lines.substr(left + 1, right - (left + 1)));
-            left = lines.find('<', right + 1);
-          }
-          EncapsulateMetaData(dict, parname, stringArray);
-        }
-        else
-        {
-          // An array of numbers
-          std::stringstream   lineStream(lines);
-          double              doubleValue = NAN;
-          std::vector<double> doubleArray;
-          while (lineStream >> doubleValue)
-          {
-            doubleArray.push_back(doubleValue);
-            if (lineStream.peek() == ',')
-            {
-              // Ignore commas
-              lineStream.ignore();
-            }
-          }
-          EncapsulateMetaData(dict, parname, doubleArray);
-        }
-      }
-      else
-      {
-        // An array of arrays
-        std::string::size_type rightBracket = lines.find(')', leftBracket);
-
-        if (lines.find('<') != std::string::npos)
-        {
-          // Array of array of strings (and maybe doubles, but let's keep it sane)
-          std::vector<std::vector<std::string>> stringArrayArray;
-          while (leftBracket != std::string::npos)
-          {
-            std::string::size_type   stringStart = leftBracket + 1;
-            std::string::size_type   stringEnd = lines.find(',', stringStart);
-            std::vector<std::string> stringArray;
-            while (stringStart < rightBracket)
-            {
-              stringArray.push_back(lines.substr(stringStart, stringEnd - stringStart));
-              stringStart = stringEnd + 2; // Eat comma + space character
-              stringEnd = lines.find(',', stringStart + 1);
-              if (stringEnd > rightBracket)
-              {
-                stringEnd = rightBracket;
-              }
-            }
-            stringArrayArray.push_back(stringArray);
-            leftBracket = lines.find('(', rightBracket);
-            rightBracket = lines.find(')', leftBracket);
-          }
-          EncapsulateMetaData(dict, parname, stringArrayArray);
-        }
-        else
-        {
-          // Array of array of numbers
-          std::vector<std::vector<double>> doubleArrayArray;
-          while (leftBracket != std::string::npos)
-          {
-            std::istringstream  arrayStream(lines.substr(leftBracket, rightBracket - leftBracket));
-            std::vector<double> doubleArray;
-            double              doubleValue = NAN;
-            while (arrayStream >> doubleValue)
-            {
-              doubleArray.push_back(doubleValue);
-              if (arrayStream && (arrayStream.peek() == ','))
-              {
-                // Ignore commas. Some arrays have them, others don't
-                arrayStream.ignore();
-              }
-            }
-            doubleArrayArray.push_back(doubleArray);
-            leftBracket = lines.find('(', rightBracket);
-            rightBracket = lines.find(')', leftBracket);
-          }
-          EncapsulateMetaData(dict, parname, doubleArrayArray);
-        }
-      }
-    }
-    else
-    {
-      // A single value
-      std::istringstream streamPar(par);
-      double             value = NAN;
-      streamPar >> value;
-      if (streamPar.fail())
-      {
-        // Didn't read a valid number, so it's a string
-        EncapsulateMetaData(dict, parname, par);
-      }
-      else
-      {
-        EncapsulateMetaData(dict, parname, value);
-      }
-    }
+  }
+  if (!record.empty())
+  {
+    ParseJCAMPDXRecord(record, dict);
   }
 }
 } // namespace
