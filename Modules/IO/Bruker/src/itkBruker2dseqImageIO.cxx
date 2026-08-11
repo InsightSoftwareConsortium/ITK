@@ -54,6 +54,20 @@ GetParameter(const itk::MetaDataDictionary & dict, const std::string & name)
   return value;
 }
 
+// Scaling parameters may be absent, hold a single value for all frames, or one value per frame
+std::vector<double>
+ReadScaling(const MetaDataDictionary & dict, const char * name, double defaultValue)
+{
+  std::vector<double> values;
+  if (ExposeMetaData(dict, name, values) && !values.empty())
+  {
+    return values;
+  }
+  double value = defaultValue;
+  ExposeMetaData(dict, name, value);
+  return std::vector<double>{ value };
+}
+
 // Internal function to rescale pixel according to slope & intercept
 template <typename T>
 void
@@ -66,9 +80,12 @@ Rescale(T *                         buffer,
   SizeType i = 0;
   for (SizeType f = 0; f < frameCount; ++f)
   {
+    // A single slope/offset value applies to every frame
+    const double slope = (f < static_cast<SizeType>(slopes.size())) ? slopes[f] : slopes.front();
+    const double offset = (f < static_cast<SizeType>(offsets.size())) ? offsets[f] : offsets.front();
     for (SizeType v = 0; v < frameSize; ++v, ++i)
     {
-      const double tmp = static_cast<double>(buffer[i]) * slopes[f] + offsets[f];
+      const double tmp = static_cast<double>(buffer[i]) * slope + offset;
       buffer[i] = static_cast<T>(tmp);
     }
   }
@@ -695,8 +712,8 @@ Bruker2dseqImageIO::Read(void * buffer)
   }
 
   const MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  const auto                 slopes = GetParameter<std::vector<double>>(dict, "VisuCoreDataSlope");
-  const auto                 offsets = GetParameter<std::vector<double>>(dict, "VisuCoreDataOffs");
+  const std::vector<double>  slopes = ReadScaling(dict, "VisuCoreDataSlope", 1.0);
+  const std::vector<double>  offsets = ReadScaling(dict, "VisuCoreDataOffs", 0.0);
   const SizeType             frameCount = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreFrameCount"));
   const SizeType             frameDim = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreDim"));
   SizeType                   frameSize = this->GetDimensions(0) * this->GetDimensions(1);
