@@ -3,6 +3,10 @@ set(ITKIOBrukerTests itkBrukerImageTest.cxx)
 
 createtestdriver(ITKIOBruker "${ITKIOBruker-Test_LIBRARIES}" "${ITKIOBrukerTests}")
 
+set(ITKIOBrukerGTests itkBruker2dseqImageIOGTest.cxx)
+
+creategoogletestdriver(ITKIOBruker "${ITKIOBruker-Test_LIBRARIES}" "${ITKIOBrukerGTests}")
+
 ExternalData_Expand_Arguments(
   ITKData
   ExpandedData # Ignore output variable
