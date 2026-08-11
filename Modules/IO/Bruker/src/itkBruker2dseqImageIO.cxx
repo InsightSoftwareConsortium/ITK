@@ -973,64 +973,65 @@ Bruker2dseqImageIO::ReadImageInformation()
     vnl_vector<double> halfStep(3);
     halfStep[0] = FoV[0] / (2 * size[0]);
     halfStep[1] = FoV[1] / (2 * size[1]);
-    SizeType sizeZ = 1;
-    SizeType sizeT = 1;
-    double   spacingZ = 1;
-    double   reverseZ = 1;
+    SizeType           sizeZ = 1;
+    SizeType           sizeT = 1;
+    double             spacingZ = 0;
+    vnl_vector<double> sliceDiff(3, 0.0);
     if (brukerDim == 2)
     {
-      // The obvious way to get number of slices is sum of SlicePacksSlices - but single-slice images do not store this!
-      // The easiest way is divide the length of Position by 3 (3 co-ordinates per slice position)
-      sizeZ = position.size() / 3;
-      if (sizeZ == 1)
-      { // Special case for single-slice, because that doesn't store SliceDist
-        spacingZ = GetParameter<std::vector<double>>(dict, "VisuCoreFrameThickness")[0];
-      }
-      else
-      {
-        // FrameThickness does not include slice gap
-        // You would think that we could use the SliceDist field for multi-slice, but ParaVision
-        // has a bug that sometimes sets SliceDist to 0
-        // So - calculate this manually from the SlicePosition field
-        const vnl_vector<double> slice1(&position[0], 3);
-        const vnl_vector<double> slice2(&position[3], 3);
-        const vnl_vector<double> diff = slice2 - slice1;
-        spacingZ = diff.magnitude();
-      }
+      SizeType sliceLength = 0;
+      SizeType framesPerSlice = 1;
       if (dict.HasKey("VisuFGOrderDesc"))
       {
-        // Find the FG_CYCLE field
-        sizeT = 1;
         for (auto & i : GetParameter<std::vector<std::vector<std::string>>>(dict, "VisuFGOrderDesc"))
         {
-          // Anything dimension that isn't a slice needs to be collapsed into the 4th dimension
-          if (i[1] != "<FG_SLICE>")
+          const auto length = static_cast<SizeType>(StringToInt32(i[0], "Bruker 2dseq VisuFGOrderDesc size"));
+          if (i[1] == "<FG_SLICE>")
           {
-            sizeT *= itk::StringToInt32(i[0], "Bruker 2dseq VisuFGOrderDesc non-slice size");
+            sliceLength = length;
+          }
+          else
+          {
+            // Any dimension that isn't a slice is collapsed into the 4th dimension
+            sizeT *= length;
+            if (sliceLength == 0)
+            {
+              framesPerSlice *= length;
+            }
           }
         }
       }
+      // Frame groups without FG_SLICE (e.g. FG_ISA maps) describe one slice;
+      // without frame groups fall back to the position count (3 coordinates each)
+      const SizeType positionCount = position.size() / 3;
+      if (sliceLength > 0)
+      {
+        sizeZ = sliceLength;
+      }
       else
       {
-        itkGenericExceptionMacro("Could not find order description field");
+        sizeZ = dict.HasKey("VisuFGOrderDesc") ? 1 : positionCount;
       }
-      halfStep[2] = 0; // Slice position will be correct
-
-      if (sizeZ > 1)
-      { // There appears to be a bug in 2dseq orientations for Coronal 2D slices.
-        // This code checks if we have coronal slices and reverses the Z-direction
-        // further down, which makes the images appear correct in FSL View.
-        // The acquisition orientation is not stored in visu_pars so work out if
-        // this is coronal by checking if the Y component of the slice positions is
-        // changing.
-        const vnl_vector<double> corner1(&position[0], 3);
-        const vnl_vector<double> corner2(&position[3], 3);
-        vnl_vector<double>       diff = corner2 - corner1;
-        if (diff[1] != 0)
+      if (sizeZ > 1 && positionCount > 1)
+      {
+        // FrameThickness does not include the slice gap and ParaVision sometimes
+        // writes SliceDist as 0, so measure the step between slice positions.
+        // Positions may be stored per-slice or per-frame (frame groups before
+        // FG_SLICE vary faster), so step by the frame count per slice increment.
+        const SizeType positionStride = (positionCount > sizeZ) ? framesPerSlice : 1;
+        if (3 * (positionStride + 1) <= static_cast<SizeType>(position.size()))
         {
-          reverseZ = -1;
+          const vnl_vector<double> slice1(&position[0], 3);
+          const vnl_vector<double> slice2(&position[3 * positionStride], 3);
+          sliceDiff = slice2 - slice1;
+          spacingZ = sliceDiff.magnitude();
         }
       }
+      if (spacingZ == 0)
+      {
+        spacingZ = GetParameter<std::vector<double>>(dict, "VisuCoreFrameThickness")[0];
+      }
+      halfStep[2] = 0; // Slice position will be correct
     }
     else
     {
@@ -1070,7 +1071,8 @@ Bruker2dseqImageIO::ReadImageInformation()
     const vnl_matrix<double> dirMatrix(&orient[0], 3, 3);
     this->SetDirection(0, dirMatrix.get_row(0));
     this->SetDirection(1, dirMatrix.get_row(1));
-    // See note above for apparent bug in 2D coronal acquisitions
+    // 2D slices are sometimes stored against the orientation's slice axis; flip to match
+    const double reverseZ = (dot_product(sliceDiff, dirMatrix.get_row(2)) < 0) ? -1 : 1;
     this->SetDirection(2, reverseZ * dirMatrix.get_row(2));
 
     // Now work out the correct ITK origin including the half-voxel offset
