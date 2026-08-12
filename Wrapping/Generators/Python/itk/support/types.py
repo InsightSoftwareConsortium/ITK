@@ -145,6 +145,18 @@ B: itkCType
     B,
 ) = itkCType.initialize_c_types_once()
 
+# Aliases for numeric types of specific sizes (specified by their number of bits)
+float32_t = F
+float64_t = D
+uint8_t = UC
+uint16_t = US
+uint32_t = UI
+uint64_t = UL if UL.dtype.itemsize == 8 else ULL
+int8_t = SC
+int16_t = SS
+int32_t = SI
+int64_t = SL if SL.dtype.itemsize == 8 else SLL
+
 # Aliases for SizeValueType, IdentifierType, OffsetType
 ST = UL
 IT = UL
