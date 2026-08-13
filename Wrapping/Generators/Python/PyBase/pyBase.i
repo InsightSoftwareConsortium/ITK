@@ -599,17 +599,43 @@ str = str
                 These keys are used in the dictionary resulting from dict(image).
 
                 These keys include MetaDataDictionary keys along with
-                'origin', 'spacing', and 'direction' keys, which
-                correspond to the image's Origin, Spacing, and Direction. However,
-                they are in (z, y, x) order as opposed to (x, y, z) order to
-                correspond to the indexing of the shape of the pixel buffer
-                array resulting from np.array(image).
+                order-explicit spatial keys: 'origin_xyz', 'spacing_xyz',
+                'direction_xyz', 'index_xyz', 'size_xyz' in ITK (x, y, z)
+                order, and 'origin_zyx', 'spacing_zyx', 'direction_zyx',
+                'index_zyx', 'size_zyx' in NumPy (z, y, x) order matching
+                the indexing of np.array(image). 'index' and 'size' describe
+                the LargestPossibleRegion; writing them calls SetRegions()
+                and Allocate(), and a size change discards previous pixel data.
+                'direction_zyx' is
+                np.flip(direction_xyz, axis=None), the change-of-basis with
+                physical coordinates also listed in (z, y, x) order.
+
+                The bare 'origin', 'spacing', and 'direction' keys are
+                deprecated aliases of the '_zyx' keys; the same bare names in
+                SimpleITK follow (x, y, z) order, so order-ambiguous bare
+                keys are being retired (see issue #6706).
                 """
                 meta_keys = self.GetMetaDataDictionary().GetKeys()
                 # Ignore deprecated, legacy members that cause issues
                 result = list(filter(lambda k: not k.startswith('ITK_original'), meta_keys))
                 result.extend(['origin', 'spacing', 'direction'])
+                result.extend(['origin_xyz', 'spacing_xyz', 'direction_xyz', 'index_xyz', 'size_xyz'])
+                result.extend(['origin_zyx', 'spacing_zyx', 'direction_zyx', 'index_zyx', 'size_zyx'])
                 return result
+
+            def _warn_bare_spatial_key(self, key):
+                import warnings
+                import itkConfig
+                category = FutureWarning if itkConfig.FutureLegacyRemove else DeprecationWarning
+                warnings.warn(
+                    f"itk.Image['{key}'] is deprecated because the bare key is "
+                    f"order-ambiguous across toolkits: ITK returns NumPy (z,y,x) "
+                    f"order while SimpleITK returns (x,y,z) order for the same "
+                    f"key. Use '{key}_zyx' (same values as this key) or "
+                    f"'{key}_xyz' (GetOrigin()/GetSpacing()/GetDirection() "
+                    f"order). See the Python spatial key migration guide and "
+                    f"issue #6706.",
+                    category, stacklevel=3)
 
             def __getitem__(self, key):
                 """Access metadata keys, see help(image.keys), for string
@@ -619,14 +645,24 @@ str = str
                 import itk
                 if isinstance(key, str):
                     import numpy as np
-                    if key == 'origin':
-                        return np.flip(np.asarray(self.GetOrigin()), axis=None)
-                    elif key == 'spacing':
-                        return np.flip(np.asarray(self.GetSpacing()), axis=None)
-                    elif key == 'direction':
-                        return np.flip(itk.array_from_matrix(self.GetDirection()), axis=None)
-                    else:
-                        return self.GetMetaDataDictionary()[key]
+                    region = self.GetLargestPossibleRegion()
+                    xyz_getters = {
+                        'origin_xyz': lambda: np.asarray(self.GetOrigin()),
+                        'spacing_xyz': lambda: np.asarray(self.GetSpacing()),
+                        'direction_xyz': lambda: itk.array_from_matrix(self.GetDirection()),
+                        'index_xyz': lambda: np.asarray(region.GetIndex()),
+                        'size_xyz': lambda: np.asarray(region.GetSize()),
+                    }
+                    if key in xyz_getters:
+                        return xyz_getters[key]()
+                    if key.endswith('_zyx') and key[:-4] + '_xyz' in xyz_getters:
+                        return np.flip(xyz_getters[key[:-4] + '_xyz'](), axis=None)
+                    if key in ('origin', 'spacing', 'direction'):
+                        self._warn_bare_spatial_key(key)
+                        if key == 'direction':
+                            return np.flip(itk.array_from_matrix(self.GetDirection()), axis=None)
+                        return np.flip(np.asarray(getattr(self, 'Get' + key.capitalize())()), axis=None)
+                    return self.GetMetaDataDictionary()[key]
                 else:
                     return itk.array_view_from_image(self).__getitem__(key)
 
@@ -637,12 +673,38 @@ str = str
                 order, i.e. [z, y, x] versus [x, y, z]."""
                 if isinstance(key, str):
                     import numpy as np
-                    if key == 'origin':
-                        self.SetOrigin(np.flip(value, axis=None))
-                    elif key == 'spacing':
-                        self.SetSpacing(np.flip(value, axis=None))
-                    elif key == 'direction':
-                        self.SetDirection(np.flip(value, axis=None))
+                    if key == 'origin_xyz':
+                        self.SetOrigin(np.asarray(value, dtype=float))
+                    elif key == 'spacing_xyz':
+                        self.SetSpacing(np.asarray(value, dtype=float))
+                    elif key == 'direction_xyz':
+                        self.SetDirection(np.asarray(value, dtype=float))
+                    elif key == 'origin_zyx':
+                        self.SetOrigin(np.flip(np.asarray(value, dtype=float)))
+                    elif key == 'spacing_zyx':
+                        self.SetSpacing(np.flip(np.asarray(value, dtype=float)))
+                    elif key == 'direction_zyx':
+                        self.SetDirection(np.flip(np.asarray(value, dtype=float), axis=None))
+                    elif key in ('index_xyz', 'size_xyz', 'index_zyx', 'size_zyx'):
+                        arr = np.asarray(value).astype(int)
+                        if key.endswith('_zyx'):
+                            arr = np.flip(arr)
+                        region = self.GetLargestPossibleRegion()
+                        if key.startswith('index'):
+                            region.SetIndex([int(v) for v in arr])
+                        else:
+                            region.SetSize([int(v) for v in arr])
+                        self.SetRegions(region)
+                        # SetRegions leaves the pixel container unsized; buffer exports would otherwise read past it.
+                        self.Allocate()
+                    elif key in ('origin', 'spacing', 'direction'):
+                        self._warn_bare_spatial_key(key)
+                        if key == 'origin':
+                            self.SetOrigin(np.flip(value, axis=None))
+                        elif key == 'spacing':
+                            self.SetSpacing(np.flip(value, axis=None))
+                        else:
+                            self.SetDirection(np.flip(value, axis=None))
                     else:
                         self.GetMetaDataDictionary()[key] = value
                 else:

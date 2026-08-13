@@ -78,6 +78,9 @@ DefaultFactoryLoading: bool = _get_environment_boolean(
     "ITK_PYTHON_DEFAULTFACTORYLOADING", "True"
 )
 NotInPlace: bool = _get_environment_boolean("ITK_PYTHON_NOTINPLACE", "False")
+FutureLegacyRemove: bool = _get_environment_boolean(
+    "ITK_PYTHON_FUTURE_LEGACY_REMOVE", "@ITK_WRAP_PYTHON_FUTURE_LEGACY_REMOVE@"
+)
 
 from os import environ as _environ
 

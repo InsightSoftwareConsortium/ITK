@@ -36,5 +36,6 @@ advances with every commit.
 
 itk_6_migration_guide
 itk_5_migration_guide
+python_spatial_key_migration
 joint_histogram_mutual_information_metric_correction
 ```

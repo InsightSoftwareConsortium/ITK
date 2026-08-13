@@ -145,6 +145,7 @@ itk_python_add_test(
 
 # some tests will fail if dim=2 and unsigned short are not wrapped
 intersection(WRAP_2 2 "${ITK_WRAP_IMAGE_DIMS}")
+intersection(WRAP_3 3 "${ITK_WRAP_IMAGE_DIMS}")
 if(ITK_WRAP_unsigned_char AND WRAP_2)
   if(ITK_BUILD_DEFAULT_MODULES)
     itk_python_add_test(
@@ -186,6 +187,14 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
         DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
         5
     )
+    # geometry_protocol.py builds itk.Image[itk.F, 3]
+    if(ITK_WRAP_float AND WRAP_3)
+      itk_python_add_test(
+        NAME PythonGeometryProtocolTest
+        COMMAND
+          ${CMAKE_CURRENT_SOURCE_DIR}/geometry_protocol.py
+      )
+    endif()
     itk_python_add_test(
       NAME PythonExtrasTest
       COMMAND
