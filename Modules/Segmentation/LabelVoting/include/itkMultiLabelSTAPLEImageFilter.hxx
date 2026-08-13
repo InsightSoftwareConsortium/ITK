@@ -141,9 +141,13 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::InitializeConf
   using VotingIteratorType = ImageRegionConstIterator<VotingImageType>;
   VotingIteratorType out(votingOutput, votingOutput->GetRequestedRegion());
 
+  const SizeValueType    numRows = static_cast<SizeValueType>(this->m_TotalLabelCount) + 1;
+  const SizeValueType    numCols = static_cast<SizeValueType>(this->m_TotalLabelCount);
+  Array2D<SizeValueType> counts(numRows, numCols);
+
   for (unsigned int k = 0; k < numberOfInputs; ++k)
   {
-    this->m_ConfusionMatrixArray[k].Fill(0.0);
+    counts.Fill(0);
 
     InputConstIteratorType in(this->GetInput(k), votingOutput->GetRequestedRegion());
 
@@ -151,30 +155,32 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::InitializeConf
     {
       if (out.Get() != votingUndecidedLabel)
       {
-        ++(this->m_ConfusionMatrixArray[k][in.Get()][out.Get()]);
+        ++counts[in.Get()][out.Get()];
       }
     }
-  }
 
-  // normalize matrix rows to unit probability sum
-  for (unsigned int k = 0; k < numberOfInputs; ++k)
-  {
-    for (size_t inLabel = 0; inLabel < this->m_TotalLabelCount + 1; ++inLabel)
+    // convert counts to normalized row probabilities
+    for (SizeValueType inRow = 0; inRow < numRows; ++inRow)
     {
-      const auto inRow = static_cast<unsigned int>(inLabel);
-      // compute sum over all output labels for given input label
-      WeightsType sum = 0;
-      for (size_t outLabel = 0; outLabel < this->m_TotalLabelCount; ++outLabel)
+      SizeValueType rowSum = 0;
+      for (SizeValueType outLabel = 0; outLabel < numCols; ++outLabel)
       {
-        sum += this->m_ConfusionMatrixArray[k][inRow][outLabel];
+        rowSum += counts[inRow][outLabel];
       }
-      // make sure that this input label did in fact show up in the input!!
-      if (sum > 0)
+      if (rowSum > 0)
       {
-        // normalize
-        for (size_t outLabel = 0; outLabel < this->m_TotalLabelCount; ++outLabel)
+        const auto rowSumW = static_cast<WeightsType>(rowSum);
+        for (SizeValueType outLabel = 0; outLabel < numCols; ++outLabel)
         {
-          this->m_ConfusionMatrixArray[k][inRow][outLabel] /= sum;
+          this->m_ConfusionMatrixArray[k][inRow][outLabel] =
+            static_cast<WeightsType>(counts[inRow][outLabel]) / rowSumW;
+        }
+      }
+      else
+      {
+        for (SizeValueType outLabel = 0; outLabel < numCols; ++outLabel)
+        {
+          this->m_ConfusionMatrixArray[k][inRow][outLabel] = 0;
         }
       }
     }
@@ -197,27 +203,31 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::InitializePrio
   }
   else
   {
-    this->m_PriorProbabilities.SetSize(1 + static_cast<SizeValueType>(this->m_TotalLabelCount));
-    this->m_PriorProbabilities.Fill(0.0);
+    const auto totalLabelCount = this->m_TotalLabelCount;
 
-    const size_t numberOfInputs = this->GetNumberOfInputs();
-    for (size_t k = 0; k < numberOfInputs; ++k)
+    std::vector<SizeValueType> labelCounts(1 + totalLabelCount, 0);
+
+    const SizeValueType numberOfInputs = this->GetNumberOfInputs();
+    for (SizeValueType k = 0; k < numberOfInputs; ++k)
     {
       InputConstIteratorType in(this->GetInput(k), this->GetOutput()->GetRequestedRegion());
       for (in.GoToBegin(); !in.IsAtEnd(); ++in)
       {
-        ++(this->m_PriorProbabilities[in.Get()]);
+        ++labelCounts[in.Get()];
       }
     }
 
-    WeightsType totalProbMass = 0.0;
-    for (size_t l = 0; l < this->m_TotalLabelCount; ++l)
+    SizeValueType totalCount = 0;
+    for (SizeValueType l = 0; l < totalLabelCount; ++l)
     {
-      totalProbMass += this->m_PriorProbabilities[l];
+      totalCount += labelCounts[l];
     }
-    for (size_t l = 0; l < this->m_TotalLabelCount; ++l)
+
+    this->m_PriorProbabilities.SetSize(1 + static_cast<SizeValueType>(totalLabelCount));
+    this->m_PriorProbabilities.Fill(0.0);
+    for (SizeValueType l = 0; l < totalLabelCount; ++l)
     {
-      this->m_PriorProbabilities[l] /= totalProbMass;
+      this->m_PriorProbabilities[l] = static_cast<WeightsType>(labelCounts[l]) / static_cast<WeightsType>(totalCount);
     }
   }
 }
@@ -335,7 +345,7 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
       // compute sum over all output classifications
       for (size_t ci = 0; ci < this->m_TotalLabelCount; ++ci)
       {
-        WeightsType sumW = this->m_UpdatedConfusionMatrixArray[k][0][ci];
+        double sumW = this->m_UpdatedConfusionMatrixArray[k][0][ci];
         for (size_t j = 1; j < 1 + this->m_TotalLabelCount; ++j)
         {
           sumW += this->m_UpdatedConfusionMatrixArray[k][static_cast<unsigned int>(j)][ci];
