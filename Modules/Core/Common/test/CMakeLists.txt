@@ -1479,6 +1479,7 @@ set(
   itkIndexRangeGTest.cxx
   itkIntTypesGTest.cxx
   itkLightObjectGTest.cxx
+  itkLinearReduceAlgorithmGTest.cxx
   itkMakeUniqueForOverwriteGTest.cxx
   itkMathCastWithRangeCheckGTest.cxx
   itkMathGTest.cxx
