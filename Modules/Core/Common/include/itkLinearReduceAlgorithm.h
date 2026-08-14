@@ -26,17 +26,13 @@
 namespace itk
 {
 /** \class LinearReduceAlgorithm
- * \brief Deterministic parallel reduce using an ordered linear merge strategy.
+ * \brief Deterministic reduce using an ordered linear merge strategy.
  *
  * Each work unit deposits its partial result into a chunk-indexed array.
  * The actual merge is deferred until GetResult() is called: it walks the
  * array once, in ascending chunk-ID order, and combines the values under a
  * single lock.  Because the merge order is fixed by chunk ID rather than by
- * thread scheduling, the final result is bit-identical across runs.  This
- * mirrors the strategy of buffering per-work-unit partial results and
- * merging them afterward in ascending work-unit order, as used to make
- * Mattes mutual information derivatives deterministic (ITK pull request
- * #6622).
+ * thread scheduling, the final result is bit-identical across runs.
  *
  * \par Usage
  * Call SetNumberOfWorkUnits() \em before any Merge() calls; this allocates
