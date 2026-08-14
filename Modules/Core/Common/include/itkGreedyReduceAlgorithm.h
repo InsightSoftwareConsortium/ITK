@@ -81,6 +81,10 @@ public:
   /** The value type being reduced. */
   using typename Superclass::ValueType;
 
+  /** Bring the chunk-ID overload into scope; Greedy ignores the ID and
+   * forwards to Merge(T&&) (see ReduceAlgorithm::Merge(SizeValueType, T&&)). */
+  using Superclass::Merge;
+
   /** Merge a per-thread \p localResult into the accumulated output.
    * This method is thread-safe; multiple threads may call it concurrently. */
   void
