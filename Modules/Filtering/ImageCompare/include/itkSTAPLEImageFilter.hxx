@@ -107,8 +107,8 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Divide sum by num of files, calculate the estimate of g_t
 
-  double N = 0.0;
-  double g_t = 0.0;
+  const SizeValueType N = W->GetRequestedRegion().GetNumberOfPixels();
+  double              g_t = 0.0;
   {
     ImageScanlineIterator out(W, W->GetRequestedRegion());
     while (!out.IsAtEnd())
@@ -117,12 +117,11 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
       {
         out.Set(out.Get() / static_cast<double>(number_of_input_files));
         g_t += out.Get();
-        N = N + 1.0;
         ++out;
       } // end of scanline
       out.NextLine();
     }
-    g_t = (g_t / N) * m_ConfidenceWeight;
+    g_t = (g_t / static_cast<double>(N)) * m_ConfidenceWeight;
   }
   unsigned int iter = 0;
   for (; iter < m_MaximumIterations; ++iter)
