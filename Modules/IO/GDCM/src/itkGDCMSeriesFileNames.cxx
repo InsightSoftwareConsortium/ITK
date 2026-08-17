@@ -218,7 +218,12 @@ GDCMSeriesFileNames::OrderSeries(SeriesEntry & entry)
   // acquisitions (see issue #6468).
   gdcm::IPPSorter sorter;
   sorter.SetComputeZSpacing(false);
-  if (sorter.Sort(entry.Files))
+  bool wasSortingAchieved = sorter.Sort(entry.Files);
+
+  // Set a public flag so that callers know this fallback occurred, and can show a warning.
+  m_DidUseAmbiguousOrdering = !wasSortingAchieved;
+
+  if (wasSortingAchieved)
   {
     entry.Files = sorter.GetFilenames();
     entry.Ordered = true;
@@ -230,6 +235,7 @@ GDCMSeriesFileNames::OrderSeries(SeriesEntry & entry)
                       "orientation, see issue #6468). Set FailOnAmbiguousOrdering to false to accept the legacy "
                       "non-standard ordering heuristics.");
   }
+
   // Legacy SerieHelper heuristics (Instance Number, then lexicographic),
   // kept only for determinism and backward compatibility: an untrustworthy,
   // non-standard hack whose output should not be trusted.
@@ -412,6 +418,7 @@ GDCMSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
 
   itkPrintSelfBooleanMacro(UseSeriesDetails);
   itkPrintSelfBooleanMacro(FailOnAmbiguousOrdering);
+  itkPrintSelfBooleanMacro(DidUseAmbiguousOrdering);
   itkPrintSelfBooleanMacro(Recursive);
   itkPrintSelfBooleanMacro(LoadSequences);
   itkPrintSelfBooleanMacro(LoadPrivateTags);
