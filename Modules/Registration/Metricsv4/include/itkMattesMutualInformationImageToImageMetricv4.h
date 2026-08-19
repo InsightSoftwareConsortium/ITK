@@ -25,7 +25,6 @@
 #include "itkBSplineDerivativeKernelFunction.h"
 #include "itkArray2D.h"
 #include "itkThreadedIndexedContainerPartitioner.h"
-#include <mutex>
 
 namespace itk
 {
@@ -185,9 +184,6 @@ public:
     return this->m_JointPDFDerivatives;
   }
 
-  void
-  FinalizeThread(const ThreadIdType threadId) override;
-
 protected:
   MattesMutualInformationImageToImageMetricv4();
   ~MattesMutualInformationImageToImageMetricv4() override = default;
@@ -260,98 +256,10 @@ protected:
   mutable std::vector<std::vector<PDFValueType>> m_ThreaderFixedImageMarginalPDF{};
 
   /** The joint PDF and PDF derivatives. */
-  typename std::vector<typename JointPDFType::Pointer> m_ThreaderJointPDF{};
+  std::vector<typename JointPDFType::Pointer> m_ThreaderJointPDF{};
 
-  /* \class DerivativeBufferManager
-   * A helper class to manage complexities of minimizing memory
-   * needs for mattes mutual information derivative computations
-   * per thread.
-   *
-   * Thread safety note:
-   * A separate object is used locally per each thread. Only the members
-   * m_ParentJointPDFDerivativesMutexPtr and m_ParentJointPDFDerivatives
-   * are shared between threads and access to m_ParentJointPDFDerivatives
-   * is controlled with the m_ParentJointPDFDerivativesMutexPtr mutex lock.
-   * \ingroup ITKMetricsv4
-   */
-  class DerivativeBufferManager
-  {
-    using Self = DerivativeBufferManager;
-
-  public:
-    /* All these methods are thread safe except ReduceBuffer */
-
-    void
-    Initialize(size_t                                    maxBufferLength,
-               const size_t                              cachedNumberOfLocalParameters,
-               std::mutex *                              parentDerivativeMutexPtr,
-               typename JointPDFDerivativesType::Pointer parentJointPDFDerivatives);
-
-    void
-    DoubleBufferSize();
-
-    DerivativeBufferManager()
-      : m_MemoryBlock(0)
-    {}
-
-    ~DerivativeBufferManager() = default;
-
-    [[nodiscard]] size_t
-    GetCachedNumberOfLocalParameters() const
-    {
-      return this->m_CachedNumberOfLocalParameters;
-    }
-
-    /**
-     * Attempt to dump the buffer if it is full.
-     * If the attempt to acquire the lock fails, double the buffer size and try again.
-     */
-    void
-    CheckAndReduceIfNecessary();
-
-    /**
-     * Force the buffer to dump by blocking.
-     */
-    void
-    BlockAndReduce();
-
-    // If offset is same as previous offset, then accumulate with previous
-    PDFValueType *
-    GetNextElementAndAddOffset(const OffsetValueType & offset)
-    {
-      m_BufferOffsetContainer[m_CurrentFillSize] = offset;
-      PDFValueType * PDFBufferForWriting = m_BufferPDFValuesContainer[m_CurrentFillSize];
-      ++m_CurrentFillSize;
-      return PDFBufferForWriting;
-    }
-
-    /**
-     * Apply the operations stored in the buffer.
-     * This method is not thread safe and requires a lock while threading.
-     */
-    void
-    ReduceBuffer();
-
-  private:
-    // How many AccumulatorElements used
-    size_t m_CurrentFillSize{ 0 };
-    // Contiguous chunk of memory for efficiency
-    std::vector<PDFValueType> m_MemoryBlock;
-    // The (number of lines in the buffer) * (cells per line)
-    size_t                       m_MemoryBlockSize;
-    std::vector<PDFValueType *>  m_BufferPDFValuesContainer;
-    std::vector<OffsetValueType> m_BufferOffsetContainer;
-    size_t                       m_CachedNumberOfLocalParameters;
-    size_t                       m_MaxBufferSize;
-    // Pointer handle to parent version
-    std::mutex * m_ParentJointPDFDerivativesMutexPtr;
-    // Smart pointer handle to parent version
-    typename JointPDFDerivativesType::Pointer m_ParentJointPDFDerivatives;
-  };
-
-  std::vector<DerivativeBufferManager>      m_ThreaderDerivativeManager{};
-  std::mutex                                m_JointPDFDerivativesLock{};
-  typename JointPDFDerivativesType::Pointer m_JointPDFDerivatives{};
+  std::vector<typename JointPDFDerivativesType::Pointer> m_ThreaderJointPDFDerivatives{};
+  typename JointPDFDerivativesType::Pointer              m_JointPDFDerivatives{};
 
   PDFValueType m_JointPDFSum{};
 
