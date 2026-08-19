@@ -35,7 +35,7 @@
 #include "itkImageShapeModelEstimatorBase.h"
 #include "itkConceptChecking.h"
 #include "itkImage.h"
-#include "itkGeneralizedEigenDecomposition.h"
+#include "itkBridgeGeneralizedEigenDecomposition.h"
 
 namespace itk
 {

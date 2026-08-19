@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 // First include the header file to be tested:
-#include "itkMathLDLT.h"
+#include "itkBridgeMathLDLT.h"
 
 // Exercise the deprecated VNL engines as cross-check oracles.
 // They are unavailable under ITK_FUTURE_LEGACY_REMOVE.
@@ -55,11 +55,11 @@ MakeSPD(unsigned int n, T shift)
 } // namespace
 
 // The capability macro must be defined by the header.
-#ifndef ITK_MATH_HAS_SOLVE_SYMMETRIC
-#  error "itkMathLDLT.h must define ITK_MATH_HAS_SOLVE_SYMMETRIC"
+#ifndef ITK_BRIDGE_MATH_HAS_SOLVE_SYMMETRIC
+#  error "itkBridgeMathLDLT.h must define ITK_BRIDGE_MATH_HAS_SOLVE_SYMMETRIC"
 #endif
 
-TEST(MathLDLT, DynamicMatchesVnlCholeskyOnSPD)
+TEST(BridgeMathLDLT, DynamicMatchesVnlCholeskyOnSPD)
 {
   for (unsigned int n : { 1u, 2u, 3u, 6u, 12u, 20u })
   {
@@ -70,7 +70,7 @@ TEST(MathLDLT, DynamicMatchesVnlCholeskyOnSPD)
       b[i] = std::cos(0.3 * i + 1.0);
     }
 
-    const itk::Array<double> x = itk::Math::SolveSymmetric(A, b);
+    const itk::Array<double> x = itk::bridge::Math::SolveSymmetric(A, b);
     ASSERT_EQ(x.size(), n);
 #ifndef ITK_FUTURE_LEGACY_REMOVE
     // Reference: itk::Array2D / itk::Array upcast to their vnl bases.
@@ -86,7 +86,7 @@ TEST(MathLDLT, DynamicMatchesVnlCholeskyOnSPD)
   }
 }
 
-TEST(MathLDLT, FixedMatchesDynamic)
+TEST(BridgeMathLDLT, FixedMatchesDynamic)
 {
   constexpr unsigned int     VDim = 4;
   const itk::Array2D<double> Ad = MakeSPD<double>(VDim, 0.3);
@@ -103,8 +103,8 @@ TEST(MathLDLT, FixedMatchesDynamic)
     bf[i] = bd[i] = std::cos(0.3 * i + 1.0);
   }
 
-  const itk::Vector<double, VDim> xf = itk::Math::SolveSymmetric(Af, bf);
-  const itk::Array<double>        xd = itk::Math::SolveSymmetric(Ad, bd);
+  const itk::Vector<double, VDim> xf = itk::bridge::Math::SolveSymmetric(Af, bf);
+  const itk::Array<double>        xd = itk::bridge::Math::SolveSymmetric(Ad, bd);
   for (unsigned int i = 0; i < VDim; ++i)
   {
     EXPECT_NEAR(xf[i], xd[i], 1e-12) << "i=" << i;
@@ -113,7 +113,7 @@ TEST(MathLDLT, FixedMatchesDynamic)
 
 // LDLT solves indefinite symmetric systems where a plain Cholesky (SPD-only)
 // would fail -- the key robustness property motivating the JLF adoption.
-TEST(MathLDLT, HandlesIndefiniteSymmetric)
+TEST(BridgeMathLDLT, HandlesIndefiniteSymmetric)
 {
   constexpr unsigned int    n = 3;
   itk::Matrix<double, n, n> A;
@@ -127,14 +127,14 @@ TEST(MathLDLT, HandlesIndefiniteSymmetric)
   b[1] = 2.0;
   b[2] = -1.0;
 
-  const itk::Vector<double, n> x = itk::Math::SolveSymmetric(A, b);
+  const itk::Vector<double, n> x = itk::bridge::Math::SolveSymmetric(A, b);
   const itk::Vector<double, n> r = A * x - b;
   EXPECT_LT(r.GetNorm(), 1e-10);
 }
 
 // The vnl convenience overload (for consumers still holding vnl types, e.g. the
 // ANTs joint-label-fusion MxBar) must agree with the ITK-typed path.
-TEST(MathLDLT, VnlConvenienceMatchesItkTyped)
+TEST(BridgeMathLDLT, VnlConvenienceMatchesItkTyped)
 {
   constexpr unsigned int     n = 8;
   const itk::Array2D<double> A = MakeSPD<double>(n, 0.5);
@@ -147,8 +147,8 @@ TEST(MathLDLT, VnlConvenienceMatchesItkTyped)
   // vnl overload: A / b upcast to their vnl bases.
   const vnl_matrix<double> & Avnl = A;
   const vnl_vector<double> & bvnl = b;
-  const vnl_vector<double>   xvnl = itk::Math::SolveSymmetric(Avnl, bvnl);
-  const itk::Array<double>   xitk = itk::Math::SolveSymmetric(A, b);
+  const vnl_vector<double>   xvnl = itk::bridge::Math::SolveSymmetric(Avnl, bvnl);
+  const itk::Array<double>   xitk = itk::bridge::Math::SolveSymmetric(A, b);
 
   ASSERT_EQ(xvnl.size(), n);
   for (unsigned int i = 0; i < n; ++i)
@@ -157,12 +157,12 @@ TEST(MathLDLT, VnlConvenienceMatchesItkTyped)
   }
 }
 
-TEST(MathLDLT, InverseSymmetricMatchesVnl)
+TEST(BridgeMathLDLT, InverseSymmetricMatchesVnl)
 {
   for (unsigned int n : { 1u, 3u, 6u, 12u })
   {
     const itk::Array2D<double> A = MakeSPD<double>(n, 0.5);
-    const itk::Array2D<double> inv = itk::Math::InverseSymmetric(A);
+    const itk::Array2D<double> inv = itk::bridge::Math::InverseSymmetric(A);
     ASSERT_EQ(inv.rows(), n);
 #ifndef ITK_FUTURE_LEGACY_REMOVE
     const vnl_matrix<double> ref = vnl_matrix_inverse<double>(A).inverse();
@@ -186,24 +186,24 @@ TEST(MathLDLT, InverseSymmetricMatchesVnl)
   }
 }
 
-TEST(MathLDLT, InverseSymmetricThrowsOnSingular)
+TEST(BridgeMathLDLT, InverseSymmetricThrowsOnSingular)
 {
   // Rank-1 symmetric matrix [[1,2],[2,4]] is exactly singular.
   itk::Array2D<double> A(2, 2);
   A(0, 0) = 1.0;
   A(0, 1) = A(1, 0) = 2.0;
   A(1, 1) = 4.0;
-  EXPECT_THROW(itk::Math::InverseSymmetric(A), itk::ExceptionObject);
+  EXPECT_THROW(itk::bridge::Math::InverseSymmetric(A), itk::ExceptionObject);
 
   const vnl_matrix<double> & Avnl = A;
-  EXPECT_THROW(itk::Math::InverseSymmetric(Avnl), itk::ExceptionObject);
+  EXPECT_THROW(itk::bridge::Math::InverseSymmetric(Avnl), itk::ExceptionObject);
 
   itk::Array2D<double> zero(3, 3);
   zero.fill(0.0);
-  EXPECT_THROW(itk::Math::InverseSymmetric(zero), itk::ExceptionObject);
+  EXPECT_THROW(itk::bridge::Math::InverseSymmetric(zero), itk::ExceptionObject);
 }
 
-TEST(MathLDLT, MatrixRhsSolveMatchesColumnwise)
+TEST(BridgeMathLDLT, MatrixRhsSolveMatchesColumnwise)
 {
   constexpr unsigned int     n = 6;
   const itk::Array2D<double> A = MakeSPD<double>(n, 0.4);
@@ -216,7 +216,7 @@ TEST(MathLDLT, MatrixRhsSolveMatchesColumnwise)
     }
   }
 
-  const itk::Array2D<double> X = itk::Math::SolveSymmetric(A, B);
+  const itk::Array2D<double> X = itk::bridge::Math::SolveSymmetric(A, B);
   // A X == B
   const vnl_matrix<double> prod = A * X;
   for (unsigned int i = 0; i < n; ++i)
@@ -228,7 +228,7 @@ TEST(MathLDLT, MatrixRhsSolveMatchesColumnwise)
   }
 }
 
-TEST(MathLDLT, FloatPrecision)
+TEST(BridgeMathLDLT, FloatPrecision)
 {
   const itk::Array2D<float> A = MakeSPD<float>(5, 0.5f);
   itk::Array<float>         b(5);
@@ -236,7 +236,7 @@ TEST(MathLDLT, FloatPrecision)
   {
     b[i] = static_cast<float>(std::cos(0.3 * i));
   }
-  const itk::Array<float> x = itk::Math::SolveSymmetric(A, b);
+  const itk::Array<float> x = itk::bridge::Math::SolveSymmetric(A, b);
   const vnl_vector<float> r = A * x - b;
   EXPECT_LT(r.inf_norm(), 1e-4f);
 }

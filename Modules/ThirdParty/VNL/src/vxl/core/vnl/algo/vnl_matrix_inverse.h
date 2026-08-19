@@ -3,18 +3,18 @@
 #define vnl_matrix_inverse_h_
 
 // ITK deprecation shim: vnl_matrix_inverse is a thin vnl_svd wrapper being
-// retired; itk::Math::SVD (PseudoInverse/Solve, Eigen-backed) is the supported
+// retired; itk::bridge::Math::SVD (PseudoInverse/Solve, Eigen-backed) is the supported
 // replacement. The guard is active only when itkConfigure.h is reachable (an
 // ITK consumer), so ITK's own VXL build is unaffected.
 #if __has_include(<itkConfigure.h>)
 #  include <itkConfigure.h>
 #  if defined(ITK_FUTURE_LEGACY_REMOVE) && !defined(ITK_LEGACY_TEST)
-#    error "vnl/algo/vnl_matrix_inverse.h is deprecated; migrate to itk::Math::SVD (itkMathSVD.h, Eigen-backed)."
+#    error "vnl/algo/vnl_matrix_inverse.h is deprecated; migrate to itk::bridge::Math::SVD (itkBridgeMathSVD.h, Eigen-backed)."
 #  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_LEGACY_TEST)
 #    if defined(_MSC_VER)
-#      pragma message("vnl/algo/vnl_matrix_inverse.h is deprecated; migrate to itk::Math::SVD (itkMathSVD.h, Eigen-backed).")
+#      pragma message("vnl/algo/vnl_matrix_inverse.h is deprecated; migrate to itk::bridge::Math::SVD (itkBridgeMathSVD.h, Eigen-backed).")
 #    else
-#      warning "vnl/algo/vnl_matrix_inverse.h is deprecated; migrate to itk::Math::SVD (itkMathSVD.h, Eigen-backed)."
+#      warning "vnl/algo/vnl_matrix_inverse.h is deprecated; migrate to itk::bridge::Math::SVD (itkBridgeMathSVD.h, Eigen-backed)."
 #    endif
 #  endif
 #endif

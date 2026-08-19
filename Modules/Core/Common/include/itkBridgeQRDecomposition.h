@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkQRDecomposition_h
-#define itkQRDecomposition_h
+#ifndef itkBridgeQRDecomposition_h
+#define itkBridgeQRDecomposition_h
 
 #include "itkMacro.h"
 #include "vnl/vnl_matrix.h"
@@ -24,7 +24,7 @@
 #include "itk_eigen.h"
 #include ITK_EIGEN(Dense)
 
-namespace itk
+namespace itk::bridge
 {
 
 /** \class QRDecomposition
@@ -165,6 +165,6 @@ private:
   bool       m_Square{ false };
 };
 
-} // namespace itk
+} // namespace itk::bridge
 
-#endif // itkQRDecomposition_h
+#endif // itkBridgeQRDecomposition_h

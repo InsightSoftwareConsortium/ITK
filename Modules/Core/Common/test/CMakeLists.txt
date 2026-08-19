@@ -1429,7 +1429,7 @@ set(
   itkBSplineKernelFunctionGTest.cxx
   itkBuildInformationGTest.cxx
   itkByteSwapGTest.cxx
-  itkCholeskySolveGTest.cxx
+  itkBridgeCholeskySolveGTest.cxx
   itkCommandObserverObjectGTest.cxx
   itkCommonTypeTraitsGTest.cxx
   itkCompensatedSummationGTest.cxx
@@ -1484,11 +1484,11 @@ set(
   itkMathGTest.cxx
   itkMathRoundGTest.cxx
   itkMathVnlParityGTest.cxx
-  itkMathSVDGTest.cxx
-  itkMathLDLTGTest.cxx
+  itkBridgeMathSVDGTest.cxx
+  itkBridgeMathLDLTGTest.cxx
   itkVnlCholeskyEngineGTest.cxx
   itkVnlMatlabReadGTest.cxx
-  itkMathDeterminantGTest.cxx
+  itkBridgeMathDeterminantGTest.cxx
   itkVnlSVDEngineGTest.cxx
   itkMatrixExponentialGTest.cxx
   itkMatrixGTest.cxx
@@ -1508,10 +1508,10 @@ set(
   itkPointSetGTest.cxx
   itkPrintHelperGTest.cxx
   itkPriorityQueueGTest.cxx
-  itkGeneralizedEigenDecompositionGTest.cxx
-  itkQRDecompositionGTest.cxx
-  itkRealEigenDecompositionGTest.cxx
-  itkSymmetricEigenDecompositionGTest.cxx
+  itkBridgeGeneralizedEigenDecompositionGTest.cxx
+  itkBridgeQRDecompositionGTest.cxx
+  itkBridgeRealEigenDecompositionGTest.cxx
+  itkBridgeSymmetricEigenDecompositionGTest.cxx
   itkRealTimeClockGTest.cxx
   itkRealTimeIntervalGTest.cxx
   itkRealTimeStampGTest.cxx

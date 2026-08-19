@@ -15,19 +15,19 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkSymmetricEigenDecomposition_h
-#define itkSymmetricEigenDecomposition_h
+#ifndef itkBridgeSymmetricEigenDecomposition_h
+#define itkBridgeSymmetricEigenDecomposition_h
 
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_diag_matrix.h"
-#include "itkEigenDecompositionSignConvention.h"
-#include "itkEigenDecompositionSolverInfo.h"
+#include "itkBridgeEigenDecompositionSignConvention.h"
+#include "itkBridgeEigenDecompositionSolverInfo.h"
 #include "itkMacro.h"
 #include "itk_eigen.h"
 #include ITK_EIGEN(Dense)
 
-namespace itk
+namespace itk::bridge
 {
 
 /** \class SymmetricEigenDecomposition
@@ -125,6 +125,6 @@ public:
   }
 };
 
-} // namespace itk
+} // namespace itk::bridge
 
-#endif // itkSymmetricEigenDecomposition_h
+#endif // itkBridgeSymmetricEigenDecomposition_h

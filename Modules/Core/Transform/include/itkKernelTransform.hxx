@@ -18,7 +18,7 @@
 #ifndef itkKernelTransform_hxx
 #define itkKernelTransform_hxx
 
-#include "itkMathSVD.h"
+#include "itkBridgeMathSVD.h"
 
 namespace itk
 {
@@ -142,7 +142,7 @@ KernelTransform<TParametersValueType, VDimension>::ComputeWMatrix()
 {
   this->ComputeL();
   this->ComputeY();
-  const auto svd = itk::Math::SVD(this->m_LMatrix, /*canonicalizeSigns=*/false);
+  const auto svd = itk::bridge::Math::SVD(this->m_LMatrix, /*canonicalizeSigns=*/false);
   // Absolute 1e-8 singular-value tolerance; guard the degenerate all-zero L.
   const auto wmax = svd.W[0];
   const auto rcond =

@@ -20,7 +20,7 @@
 
 #include "itkNumericTraits.h"
 #include "itkMath.h"
-#include "itkMathDeterminant.h"
+#include "itkBridgeMathDeterminant.h"
 
 namespace itk
 {
@@ -327,12 +327,13 @@ Versor<T>::Set(const MatrixType & mat)
       itk::Math::Absolute(I[2][0]) > epsilon || itk::Math::Absolute(I[2][1]) > epsilon ||
       itk::Math::Absolute(I[0][0] - itk::NumericTraits<T>::OneValue()) > epsilonDiff ||
       itk::Math::Absolute(I[1][1] - itk::NumericTraits<T>::OneValue()) > epsilonDiff ||
-      itk::Math::Absolute(I[2][2] - itk::NumericTraits<T>::OneValue()) > epsilonDiff || Math::Determinant(I) < 0)
+      itk::Math::Absolute(I[2][2] - itk::NumericTraits<T>::OneValue()) > epsilonDiff ||
+      bridge::Math::Determinant(I) < 0)
   {
     itkGenericExceptionMacro("The following matrix does not represent rotation to within an epsion of "
                              << epsilon << '.' << std::endl
                              << m << std::endl
-                             << "det(m * m transpose) is: " << Math::Determinant(I) << std::endl
+                             << "det(m * m transpose) is: " << bridge::Math::Determinant(I) << std::endl
                              << "m * m transpose is:" << std::endl
                              << I);
   }

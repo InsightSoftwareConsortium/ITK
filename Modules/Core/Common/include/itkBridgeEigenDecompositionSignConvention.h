@@ -15,13 +15,13 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkEigenDecompositionSignConvention_h
-#define itkEigenDecompositionSignConvention_h
+#ifndef itkBridgeEigenDecompositionSignConvention_h
+#define itkBridgeEigenDecompositionSignConvention_h
 
 #include "vnl/vnl_matrix.h"
 #include <cmath>
 
-namespace itk::detail
+namespace itk::bridge::detail
 {
 
 /** Canonicalize the sign of every eigenvector column of \a V so that its
@@ -90,6 +90,6 @@ CanonicalizeColumnSignsPaired(TMatrixU & u, TMatrixV & paired)
   }
 }
 
-} // namespace itk::detail
+} // namespace itk::bridge::detail
 
-#endif // itkEigenDecompositionSignConvention_h
+#endif // itkBridgeEigenDecompositionSignConvention_h

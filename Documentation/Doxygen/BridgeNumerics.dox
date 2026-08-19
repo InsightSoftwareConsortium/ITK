@@ -1,0 +1,57 @@
+/**
+   \page BridgeNumericsPage The itk::bridge Numerics Namespace
+
+   \section BridgeNumericsIntent Intent
+
+   \c itk::bridge holds convenience wrappers over third-party numerical
+   solvers, currently Eigen. They exist to ease the initial migration of code
+   away from the deprecated VNL algorithms: a call site that used
+   \c vnl_svd can be moved to \c itk::bridge::Math::SVD as a mechanical,
+   low-risk edit, without the caller first learning Eigen's API.
+
+   \section BridgeNumericsNotCore Not part of the core ITK mission
+
+   These are a migration aid, not a numerics library. ITK does not undertake to
+   maintain, validate, optimize, or preserve the API or ABI of anything in
+   \c itk::bridge to the standard it applies to the rest of the toolkit.
+   Specifically:
+
+   \li The interfaces may change or be removed between releases without the
+       deprecation cycle that core ITK API changes receive.
+   \li The numerical behavior is that of the underlying backend. ITK does not
+       independently validate accuracy, conditioning, or convergence, and does
+       not guarantee bit-for-bit stability across backend versions.
+   \li Coverage is limited to what ITK's own migration needed. Absent
+       functionality will not necessarily be added.
+
+   \section BridgeNumericsDownstream Guidance for downstream users
+
+   \b Prefer \b calling \b Eigen \b directly. Downstream projects should depend
+   on Eigen (or another numerical library of their choosing) rather than on the
+   API or ABI of these convenience wrappers. Using \c itk::bridge as a
+   transitional step while retiring VNL is reasonable; treating it as a
+   permanent dependency is not.
+
+   Code that needs a long-lived, supported numerical interface should call the
+   backend directly, where the API contract, versioning policy, and
+   documentation are those of the numerical library itself.
+
+   \sa itk::bridge::Math::SVD
+   \sa itk::bridge::SymmetricEigenDecomposition
+*/
+
+/**
+   \namespace itk::bridge
+   \brief Convenience wrappers over third-party numerical backends, provided as
+   a migration aid rather than as supported ITK API.
+
+   Anything in this namespace eases the initial move off the deprecated VNL
+   algorithms. It is not part of the core ITK mission to maintain or validate:
+   the API and ABI may change without the usual deprecation cycle, and the
+   numerical behavior is the backend's, not ITK's.
+
+   Downstream users should prefer calling Eigen (or another numerical library)
+   directly rather than depending on these wrappers.
+
+   \see \ref BridgeNumericsPage
+*/

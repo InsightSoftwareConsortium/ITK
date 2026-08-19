@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 // First include the header file to be tested:
-#include "itkCholeskySolve.h"
+#include "itkBridgeCholeskySolve.h"
 
 // Exercise the deprecated VNL engine for the old-vs-new equivalence checks.
 // The VNL symbol is unavailable under ITK_FUTURE_LEGACY_REMOVE.
@@ -55,7 +55,7 @@ MakeSPD(unsigned int n)
 
 
 // A x = b is recovered: residual ||A x - b|| is tiny.
-TEST(CholeskySolve, SolveResidual)
+TEST(BridgeCholeskySolve, SolveResidual)
 {
   const unsigned int       n = 5;
   const vnl_matrix<double> A = MakeSPD<double>(n);
@@ -65,18 +65,18 @@ TEST(CholeskySolve, SolveResidual)
     b[i] = static_cast<double>(i) - 1.5;
   }
 
-  const vnl_vector<double> x = itk::Math::SolveSymmetricPositiveDefinite(A, b);
+  const vnl_vector<double> x = itk::bridge::Math::SolveSymmetricPositiveDefinite(A, b);
   const vnl_vector<double> residual = A * x - b;
   EXPECT_LT(residual.two_norm() / b.two_norm(), 1e-12);
 }
 
 
 // CholeskyLowerTriangle returns L with A == L L'.
-TEST(CholeskySolve, LowerTriangleReconstructsMatrix)
+TEST(BridgeCholeskySolve, LowerTriangleReconstructsMatrix)
 {
   const unsigned int       n = 4;
   const vnl_matrix<double> A = MakeSPD<double>(n);
-  const vnl_matrix<double> L = itk::Math::CholeskyLowerTriangle(A);
+  const vnl_matrix<double> L = itk::bridge::Math::CholeskyLowerTriangle(A);
 
   // L is lower triangular.
   for (unsigned int i = 0; i < n; ++i)
@@ -94,7 +94,7 @@ TEST(CholeskySolve, LowerTriangleReconstructsMatrix)
 
 #ifndef ITK_FUTURE_LEGACY_REMOVE
 // The Eigen-backed itk:: solve agrees with the native vnl_cholesky engine.
-TEST(CholeskySolve, EquivalentToVnlCholesky)
+TEST(BridgeCholeskySolve, EquivalentToVnlCholesky)
 {
   const unsigned int       n = 6;
   const vnl_matrix<double> A = MakeSPD<double>(n);
@@ -104,7 +104,7 @@ TEST(CholeskySolve, EquivalentToVnlCholesky)
     b[i] = std::cos(0.5 * (i + 1));
   }
 
-  const vnl_vector<double> xItk = itk::Math::SolveSymmetricPositiveDefinite(A, b);
+  const vnl_vector<double> xItk = itk::bridge::Math::SolveSymmetricPositiveDefinite(A, b);
 
   const vnl_cholesky       chol(A, vnl_cholesky::quiet);
   const vnl_vector<double> xVnl = chol.solve(b);
@@ -115,7 +115,7 @@ TEST(CholeskySolve, EquivalentToVnlCholesky)
 
 
 // Single-precision path solves correctly.
-TEST(CholeskySolve, FloatResidual)
+TEST(BridgeCholeskySolve, FloatResidual)
 {
   const unsigned int      n = 4;
   const vnl_matrix<float> A = MakeSPD<float>(n);
@@ -125,19 +125,19 @@ TEST(CholeskySolve, FloatResidual)
     b[i] = static_cast<float>(i) + 0.25f;
   }
 
-  const vnl_vector<float> x = itk::Math::SolveSymmetricPositiveDefinite(A, b);
+  const vnl_vector<float> x = itk::bridge::Math::SolveSymmetricPositiveDefinite(A, b);
   const vnl_vector<float> residual = A * x - b;
   EXPECT_LT(residual.two_norm() / b.two_norm(), 1e-4f);
 }
 
 
 // CholeskyLowerTriangle rejects a non-positive-definite matrix instead of returning a garbage factor.
-TEST(CholeskySolve, LowerTriangleRejectsNonPositiveDefinite)
+TEST(BridgeCholeskySolve, LowerTriangleRejectsNonPositiveDefinite)
 {
   vnl_matrix<double> A(2, 2);
   A(0, 0) = 1.0;
   A(0, 1) = 2.0;
   A(1, 0) = 2.0;
   A(1, 1) = 1.0; // symmetric but indefinite (eigenvalues 3, -1)
-  EXPECT_THROW(itk::Math::CholeskyLowerTriangle(A), itk::ExceptionObject);
+  EXPECT_THROW(itk::bridge::Math::CholeskyLowerTriangle(A), itk::ExceptionObject);
 }

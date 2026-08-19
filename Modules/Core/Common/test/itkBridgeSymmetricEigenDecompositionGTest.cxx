@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkSymmetricEigenDecomposition.h"
+#include "itkBridgeSymmetricEigenDecomposition.h"
 #include "itkConfigure.h"
 #ifndef ITK_FUTURE_LEGACY_REMOVE
 #  define ITK_LEGACY_TEST // exercise the deprecated vnl class for equivalence
@@ -30,7 +30,7 @@ namespace
 
 template <typename T>
 T
-EigenResidual(const vnl_matrix<T> & A, const itk::SymmetricEigenDecomposition<T> & eig)
+EigenResidual(const vnl_matrix<T> & A, const itk::bridge::SymmetricEigenDecomposition<T> & eig)
 {
   vnl_matrix<T> D(A.rows(), A.cols(), T{ 0 });
   for (unsigned int i = 0; i < A.rows(); ++i)
@@ -50,10 +50,10 @@ MakeSymmetric()
 } // namespace
 
 // Scavenged coverage: eigenvalues ascending, A V == V D, V orthonormal.
-TEST(SymmetricEigenDecomposition, DecompositionIdentity)
+TEST(BridgeSymmetricEigenDecomposition, DecompositionIdentity)
 {
-  const vnl_matrix<double>                       A = MakeSymmetric();
-  const itk::SymmetricEigenDecomposition<double> eig(A);
+  const vnl_matrix<double>                               A = MakeSymmetric();
+  const itk::bridge::SymmetricEigenDecomposition<double> eig(A);
 
   for (unsigned int i = 1; i < 3; ++i)
   {
@@ -71,14 +71,14 @@ TEST(SymmetricEigenDecomposition, DecompositionIdentity)
   }
 }
 
-// itk::SymmetricEigenDecomposition and the legacy vnl class agree on eigenvalues
+// itk::bridge::SymmetricEigenDecomposition and the legacy vnl class agree on eigenvalues
 // exactly and on eigenvectors up to per-column sign.
 #ifndef ITK_FUTURE_LEGACY_REMOVE
-TEST(SymmetricEigenDecomposition, EquivalenceWithVnl)
+TEST(BridgeSymmetricEigenDecomposition, EquivalenceWithVnl)
 {
-  const vnl_matrix<double>                       A = MakeSymmetric();
-  const itk::SymmetricEigenDecomposition<double> eigNew(A);
-  const vnl_symmetric_eigensystem<double>        eigVnl(A);
+  const vnl_matrix<double>                               A = MakeSymmetric();
+  const itk::bridge::SymmetricEigenDecomposition<double> eigNew(A);
+  const vnl_symmetric_eigensystem<double>                eigVnl(A);
 
   for (unsigned int i = 0; i < 3; ++i)
   {
@@ -94,10 +94,10 @@ TEST(SymmetricEigenDecomposition, EquivalenceWithVnl)
 // The deterministic sign convention: each eigenvector column's
 // largest-magnitude entry is positive. This makes the decomposition
 // reproducible across solver/SIMD differences.
-TEST(SymmetricEigenDecomposition, CanonicalSignConvention)
+TEST(BridgeSymmetricEigenDecomposition, CanonicalSignConvention)
 {
-  const vnl_matrix<double>                       A = MakeSymmetric();
-  const itk::SymmetricEigenDecomposition<double> eig(A);
+  const vnl_matrix<double>                               A = MakeSymmetric();
+  const itk::bridge::SymmetricEigenDecomposition<double> eig(A);
 
   for (unsigned int j = 0; j < 3; ++j)
   {
@@ -116,11 +116,11 @@ TEST(SymmetricEigenDecomposition, CanonicalSignConvention)
 
 // canonicalizeSigns=false keeps the solver's raw signs but stays a valid
 // decomposition; the default (true) enforces largest-magnitude-positive.
-TEST(SymmetricEigenDecomposition, CanonicalizationIsOptOut)
+TEST(BridgeSymmetricEigenDecomposition, CanonicalizationIsOptOut)
 {
-  const vnl_matrix<double>                       A = MakeSymmetric();
-  const itk::SymmetricEigenDecomposition<double> canon(A); // default true
-  const itk::SymmetricEigenDecomposition<double> raw(A, false);
+  const vnl_matrix<double>                               A = MakeSymmetric();
+  const itk::bridge::SymmetricEigenDecomposition<double> canon(A); // default true
+  const itk::bridge::SymmetricEigenDecomposition<double> raw(A, false);
 
   EXPECT_LT(EigenResidual(A, canon), 1e-12);
   EXPECT_LT(EigenResidual(A, raw), 1e-12);
@@ -131,10 +131,10 @@ TEST(SymmetricEigenDecomposition, CanonicalizationIsOptOut)
   }
 }
 
-TEST(SymmetricEigenDecomposition, NullvectorAndRecompose)
+TEST(BridgeSymmetricEigenDecomposition, NullvectorAndRecompose)
 {
-  const vnl_matrix<double>                       A = MakeSymmetric();
-  const itk::SymmetricEigenDecomposition<double> eig(A);
+  const vnl_matrix<double>                               A = MakeSymmetric();
+  const itk::bridge::SymmetricEigenDecomposition<double> eig(A);
 
   // nullvector is the smallest-eigenvalue eigenvector (column 0).
   EXPECT_NEAR(dot_product(eig.nullvector(), eig.get_eigenvector(0)), 1.0, 1e-12);
@@ -143,17 +143,17 @@ TEST(SymmetricEigenDecomposition, NullvectorAndRecompose)
   EXPECT_LT((eig.recompose() - A).fro_norm(), 1e-12);
 }
 
-TEST(SymmetricEigenDecomposition, FloatInstantiation)
+TEST(BridgeSymmetricEigenDecomposition, FloatInstantiation)
 {
-  float                                         data[4] = { 2.0f, 0.5f, 0.5f, 3.0f };
-  const vnl_matrix<float>                       A(data, 2, 2);
-  const itk::SymmetricEigenDecomposition<float> eig(A);
+  float                                                 data[4] = { 2.0f, 0.5f, 0.5f, 3.0f };
+  const vnl_matrix<float>                               A(data, 2, 2);
+  const itk::bridge::SymmetricEigenDecomposition<float> eig(A);
   EXPECT_LT(EigenResidual(A, eig), 1e-5f);
 }
 
 // Non-finite input leaves the Eigen solver in a non-Success state; the wrapper
 // surfaces that as an exception rather than returning a garbage decomposition.
-TEST(SymmetricEigenDecomposition, NonFiniteInputThrows)
+TEST(BridgeSymmetricEigenDecomposition, NonFiniteInputThrows)
 {
   const double       nan = std::numeric_limits<double>::quiet_NaN();
   vnl_matrix<double> M(2, 2, 0.0);
@@ -162,7 +162,7 @@ TEST(SymmetricEigenDecomposition, NonFiniteInputThrows)
   M(0, 1) = M(1, 0) = nan;
   try
   {
-    const itk::SymmetricEigenDecomposition<double> eig{ M };
+    const itk::bridge::SymmetricEigenDecomposition<double> eig{ M };
     FAIL() << "expected an exception for non-finite input";
   }
   catch (const itk::ExceptionObject & e)

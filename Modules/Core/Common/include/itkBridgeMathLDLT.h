@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkMathLDLT_h
-#define itkMathLDLT_h
+#ifndef itkBridgeMathLDLT_h
+#define itkBridgeMathLDLT_h
 
 #include "itkMacro.h"
 #include "itkArray.h"
@@ -36,19 +36,19 @@
 /** Capability macro. Downstream code selects the Eigen-backed symmetric solve
  * with, e.g.:
  * \code
- *   #if __has_include(<itkMathLDLT.h>)
- *   #  include <itkMathLDLT.h>
+ *   #if __has_include(<itkBridgeMathLDLT.h>)
+ *   #  include <itkBridgeMathLDLT.h>
  *   #endif
- *   #ifdef ITK_MATH_HAS_SOLVE_SYMMETRIC
- *     x = itk::Math::SolveSymmetric(A, b);        // itk::Array2D, itk::Array
+ *   #ifdef ITK_BRIDGE_MATH_HAS_SOLVE_SYMMETRIC
+ *     x = itk::bridge::Math::SolveSymmetric(A, b);        // itk::Array2D, itk::Array
  *   #else
  *     x = vnl_cholesky(A.as_ref()).solve(b);      // legacy vnl fallback
  *   #endif
  * \endcode
  */
-#define ITK_MATH_HAS_SOLVE_SYMMETRIC 1
+#define ITK_BRIDGE_MATH_HAS_SOLVE_SYMMETRIC 1
 
-namespace itk
+namespace itk::bridge
 {
 namespace Math
 {
@@ -71,7 +71,7 @@ SolveSymmetricLDLTEigen(const TReal * aData, const TReal * bData, unsigned int n
   const Eigen::LDLT<ColMajor> ldlt(aMap);
   if (ldlt.info() != Eigen::Success)
   {
-    itkGenericExceptionMacro("itk::Math::SolveSymmetric failed; input is likely non-finite (NaN/Inf).");
+    itkGenericExceptionMacro("itk::bridge::Math::SolveSymmetric failed; input is likely non-finite (NaN/Inf).");
   }
   Eigen::Map<Vector>(xData, n) = ldlt.solve(bMap);
 }
@@ -93,7 +93,7 @@ SolveSymmetricMatrixLDLTEigen(const TReal * aData, const TReal * bData, unsigned
   const Eigen::LDLT<ColMajor> ldlt(aMap);
   if (ldlt.info() != Eigen::Success)
   {
-    itkGenericExceptionMacro("itk::Math::SolveSymmetric failed; input is likely non-finite (NaN/Inf).");
+    itkGenericExceptionMacro("itk::bridge::Math::SolveSymmetric failed; input is likely non-finite (NaN/Inf).");
   }
   Eigen::Map<RowMajor>(xData, n, m) = ldlt.solve(bMap);
 }
@@ -112,13 +112,13 @@ InverseSymmetricLDLTEigen(const TReal * aData, unsigned int n, TReal * invData)
   const Eigen::LDLT<ColMajor> ldlt(aMap);
   if (ldlt.info() != Eigen::Success)
   {
-    itkGenericExceptionMacro("itk::Math::InverseSymmetric failed; input is likely non-finite (NaN/Inf).");
+    itkGenericExceptionMacro("itk::bridge::Math::InverseSymmetric failed; input is likely non-finite (NaN/Inf).");
   }
   const auto  dAbs = ldlt.vectorD().cwiseAbs().eval();
   const TReal dMax = dAbs.maxCoeff();
   if (dMax == TReal{ 0 } || dAbs.minCoeff() <= dMax * static_cast<TReal>(n) * std::numeric_limits<TReal>::epsilon())
   {
-    itkGenericExceptionMacro("itk::Math::InverseSymmetric failed; input matrix is singular.");
+    itkGenericExceptionMacro("itk::bridge::Math::InverseSymmetric failed; input matrix is singular.");
   }
   Eigen::Map<RowMajor>(invData, n, n) = ldlt.solve(ColMajor::Identity(n, n));
 }
@@ -148,7 +148,7 @@ SolveSymmetric(const Array2D<TReal> & A, const Array<TReal> & b)
   const unsigned int n = A.rows();
   if (n == 0 || A.cols() != n || b.size() != n)
   {
-    itkGenericExceptionMacro("itk::Math::SolveSymmetric requires a non-empty square A and a matching b.");
+    itkGenericExceptionMacro("itk::bridge::Math::SolveSymmetric requires a non-empty square A and a matching b.");
   }
   Array<TReal> x(n);
   detail::SolveSymmetricLDLTEigen<TReal>(A.data_block(), b.data_block(), n, x.data_block());
@@ -179,7 +179,7 @@ SolveSymmetric(const vnl_matrix<TReal> & A, const vnl_vector<TReal> & b)
   const unsigned int n = A.rows();
   if (n == 0 || A.cols() != n || b.size() != n)
   {
-    itkGenericExceptionMacro("itk::Math::SolveSymmetric requires a non-empty square A and a matching b.");
+    itkGenericExceptionMacro("itk::bridge::Math::SolveSymmetric requires a non-empty square A and a matching b.");
   }
   vnl_vector<TReal> x(n);
   detail::SolveSymmetricLDLTEigen<TReal>(A.data_block(), b.data_block(), n, x.data_block());
@@ -208,7 +208,7 @@ SolveSymmetric(const Array2D<TReal> & A, const Array2D<TReal> & B)
   const unsigned int n = A.rows();
   if (n == 0 || A.cols() != n || B.rows() != n)
   {
-    itkGenericExceptionMacro("itk::Math::SolveSymmetric requires a non-empty square A and a matching B.");
+    itkGenericExceptionMacro("itk::bridge::Math::SolveSymmetric requires a non-empty square A and a matching B.");
   }
   Array2D<TReal> X(n, B.cols());
   detail::SolveSymmetricMatrixLDLTEigen<TReal>(A.data_block(), B.data_block(), n, B.cols(), X.data_block());
@@ -231,7 +231,7 @@ InverseSymmetric(const Array2D<TReal> & A)
   const unsigned int n = A.rows();
   if (n == 0 || A.cols() != n)
   {
-    itkGenericExceptionMacro("itk::Math::InverseSymmetric requires a non-empty square A.");
+    itkGenericExceptionMacro("itk::bridge::Math::InverseSymmetric requires a non-empty square A.");
   }
   Array2D<TReal> inv(n, n);
   detail::InverseSymmetricLDLTEigen<TReal>(A.data_block(), n, inv.data_block());
@@ -246,7 +246,7 @@ SolveSymmetric(const vnl_matrix<TReal> & A, const vnl_matrix<TReal> & B)
   const unsigned int n = A.rows();
   if (n == 0 || A.cols() != n || B.rows() != n)
   {
-    itkGenericExceptionMacro("itk::Math::SolveSymmetric requires a non-empty square A and a matching B.");
+    itkGenericExceptionMacro("itk::bridge::Math::SolveSymmetric requires a non-empty square A and a matching B.");
   }
   vnl_matrix<TReal> X(n, B.cols());
   detail::SolveSymmetricMatrixLDLTEigen<TReal>(A.data_block(), B.data_block(), n, B.cols(), X.data_block());
@@ -261,7 +261,7 @@ InverseSymmetric(const vnl_matrix<TReal> & A)
   const unsigned int n = A.rows();
   if (n == 0 || A.cols() != n)
   {
-    itkGenericExceptionMacro("itk::Math::InverseSymmetric requires a non-empty square A.");
+    itkGenericExceptionMacro("itk::bridge::Math::InverseSymmetric requires a non-empty square A.");
   }
   vnl_matrix<TReal> inv(n, n);
   detail::InverseSymmetricLDLTEigen<TReal>(A.data_block(), n, inv.data_block());
@@ -269,6 +269,6 @@ InverseSymmetric(const vnl_matrix<TReal> & A)
 }
 
 } // namespace Math
-} // namespace itk
+} // namespace itk::bridge
 
-#endif // itkMathLDLT_h
+#endif // itkBridgeMathLDLT_h

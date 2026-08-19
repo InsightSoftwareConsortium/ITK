@@ -15,12 +15,12 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkMathSVD.h"
+#include "itkBridgeMathSVD.h"
 
-// Define once here the Eigen JacobiSVD/BDCSVD specializations that itkMathSVD.h
+// Define once here the Eigen JacobiSVD/BDCSVD specializations that itkBridgeMathSVD.h
 // declares extern, so consumer translation units link instead of paying the
 // per-TU Eigen instantiation cost.
-namespace itk
+namespace itk::bridge
 {
 namespace Math
 {
@@ -47,4 +47,4 @@ RectangularSVDEigen<double>(const double *, unsigned int, unsigned int, double *
 ITK_GCC_PRAGMA_DIAG_POP()
 } // namespace detail
 } // namespace Math
-} // namespace itk
+} // namespace itk::bridge

@@ -21,7 +21,7 @@
 #include "itkMetaDataObject.h"
 #include "itkNumberToString.h"
 #include "itkAnatomicalOrientation.h"
-#include "itkMathSVD.h"
+#include "itkBridgeMathSVD.h"
 #include <nifti1_io.h>
 #include "itkNiftiImageIOConfigurePrivate.h"
 #include "itkMakeUniqueForOverwrite.h"
@@ -1597,7 +1597,7 @@ IsAffine(const mat44 & nifti_mat)
     }
   }
 
-  const double condition = itk::Math::SVD(mat.as_matrix()).WellCondition();
+  const double condition = itk::bridge::Math::SVD(mat.as_matrix()).WellCondition();
   // Check matrix is invertible by testing condition number of inverse
   if (!(condition > std::numeric_limits<double>::epsilon()))
   {
@@ -1606,14 +1606,15 @@ IsAffine(const mat44 & nifti_mat)
 
   // Calculate the inverse and separate the inverse translation component
   // and the top 3x3 part of the inverse matrix
-  const vnl_matrix_fixed<double, 4, 4> inv4x4Matrix = itk::Math::SVD(mat.as_matrix()).PseudoInverse();
+  const vnl_matrix_fixed<double, 4, 4> inv4x4Matrix = itk::bridge::Math::SVD(mat.as_matrix()).PseudoInverse();
   const vnl_vector_fixed<double, 3>    inv4x4Translation(inv4x4Matrix[0][3], inv4x4Matrix[1][3], inv4x4Matrix[2][3]);
   const vnl_matrix_fixed<double, 3, 3> inv4x4Top3x3 = inv4x4Matrix.extract(3, 3, 0, 0);
 
   // Grab just the top 3x3 matrix
   const vnl_matrix_fixed<double, 3, 3> top3x3Matrix = mat.extract(3, 3, 0, 0);
-  const vnl_matrix_fixed<double, 3, 3> invTop3x3Matrix = itk::Math::SVD(top3x3Matrix.as_matrix()).PseudoInverse();
-  const vnl_vector_fixed<double, 3>    inv3x3Translation = -(invTop3x3Matrix * mat.get_column(3).extract(3));
+  const vnl_matrix_fixed<double, 3, 3> invTop3x3Matrix =
+    itk::bridge::Math::SVD(top3x3Matrix.as_matrix()).PseudoInverse();
+  const vnl_vector_fixed<double, 3> inv3x3Translation = -(invTop3x3Matrix * mat.get_column(3).extract(3));
 
   // Make sure we adhere to the conditions of a 4x4 invertible affine transform matrix
   const double     diff_matrix_array_one_norm = (inv4x4Top3x3 - invTop3x3Matrix).array_one_norm();
@@ -1809,8 +1810,8 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
             // extract rotation matrix
             const vnl_matrix_fixed<float, 3, 3> sform_3x3 = sform_as_matrix.extract(3, 3, 0, 0);
             const vnl_matrix_fixed<float, 3, 3> qform_3x3 = qform_as_matrix.extract(3, 3, 0, 0);
-            const auto                          sform_svd = itk::Math::SVD(sform_3x3);
-            const auto                          qform_svd = itk::Math::SVD(qform_3x3);
+            const auto                          sform_svd = itk::bridge::Math::SVD(sform_3x3);
+            const auto                          qform_svd = itk::bridge::Math::SVD(qform_3x3);
 
             // extract offset
             const vnl_vector<float> sform_offset{ sform_as_matrix.get_column(3).extract(3, 0) };
@@ -1848,7 +1849,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
             mat[i][j] = double{ m_Holder->ptr->sto_xyz.m[i][j] };
           }
 
-        const auto svd = itk::Math::SVD(mat);
+        const auto svd = itk::bridge::Math::SVD(mat);
 
         if (svd.W.min_value() > 1e-8)
         {

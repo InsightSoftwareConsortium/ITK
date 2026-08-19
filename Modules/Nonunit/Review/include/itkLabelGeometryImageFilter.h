@@ -24,8 +24,8 @@
 #include "itkSimpleDataObjectDecorator.h"
 #include <map>
 #include <vector>
-#include "itkSymmetricEigenDecomposition.h"
-#include "itkMathDeterminant.h"
+#include "itkBridgeSymmetricEigenDecomposition.h"
+#include "itkBridgeMathDeterminant.h"
 #include "itkMath.h"
 
 namespace itk
@@ -500,7 +500,8 @@ protected:
 
 private:
   bool
-  CalculateOrientedBoundingBoxVertices(itk::SymmetricEigenDecomposition<double> eig, LabelGeometry & m_LabelGeometry);
+  CalculateOrientedBoundingBoxVertices(itk::bridge::SymmetricEigenDecomposition<double> eig,
+                                       LabelGeometry &                                  m_LabelGeometry);
 
   bool m_CalculatePixelIndices{};
   bool m_CalculateOrientedBoundingBox{};

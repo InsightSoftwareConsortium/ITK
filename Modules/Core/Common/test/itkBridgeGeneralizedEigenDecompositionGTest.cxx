@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkGeneralizedEigenDecomposition.h"
+#include "itkBridgeGeneralizedEigenDecomposition.h"
 #include "itkConfigure.h"
 #ifndef ITK_FUTURE_LEGACY_REMOVE
 #  define ITK_LEGACY_TEST
@@ -31,9 +31,9 @@ namespace
 // Frobenius residual of the generalized identity A V == B V D.
 template <typename TReal>
 TReal
-GeneralizedResidual(const vnl_matrix<TReal> &                         A,
-                    const vnl_matrix<TReal> &                         B,
-                    const itk::GeneralizedEigenDecomposition<TReal> & ge)
+GeneralizedResidual(const vnl_matrix<TReal> &                                 A,
+                    const vnl_matrix<TReal> &                                 B,
+                    const itk::bridge::GeneralizedEigenDecomposition<TReal> & ge)
 {
   const vnl_matrix<TReal> & V = ge.GetEigenvectors();
   vnl_matrix<TReal>         D(V.rows(), V.cols(), TReal{ 0 });
@@ -49,7 +49,7 @@ GeneralizedResidual(const vnl_matrix<TReal> &                         A,
 // Scavenged from VXL test_generalized_eigensystem: A x = lambda B x with A
 // symmetric, B symmetric positive-definite. (Roles match the vnl ctor's
 // (A, B) order; the VXL test's residual is C V - S V D for gev(C, S).)
-TEST(GeneralizedEigenDecomposition, SymmetricDefinitePencil)
+TEST(BridgeGeneralizedEigenDecomposition, SymmetricDefinitePencil)
 {
   const double Adata[36] = {
     30.0000, -3.4273, 13.9254, 13.7049, -2.4446, 20.2380, -3.4273, 13.7049, -2.4446, 1.3659,  3.6702,  -0.2282,
@@ -67,7 +67,7 @@ TEST(GeneralizedEigenDecomposition, SymmetricDefinitePencil)
   B(0, 1) = B(1, 0) = 1.0;
   B(2, 3) = B(3, 2) = -2.0;
 
-  const itk::GeneralizedEigenDecomposition<double> ge(A, B);
+  const itk::bridge::GeneralizedEigenDecomposition<double> ge(A, B);
 
   // Eigenvalues are real and ascending.
   for (unsigned int i = 1; i < 6; ++i)
@@ -79,7 +79,7 @@ TEST(GeneralizedEigenDecomposition, SymmetricDefinitePencil)
 
 // B = I reduces to the ordinary symmetric eigenproblem; this mirrors how
 // ImagePCAShapeModelEstimator invokes the solver.
-TEST(GeneralizedEigenDecomposition, IdentityPencilMatchesStandard)
+TEST(BridgeGeneralizedEigenDecomposition, IdentityPencilMatchesStandard)
 {
   vnl_matrix<double> A(3, 3, 0.0);
   A(0, 0) = 2.0;
@@ -94,7 +94,7 @@ TEST(GeneralizedEigenDecomposition, IdentityPencilMatchesStandard)
     I(i, i) = 1.0;
   }
 
-  const itk::GeneralizedEigenDecomposition<double> ge(A, I);
+  const itk::bridge::GeneralizedEigenDecomposition<double> ge(A, I);
   EXPECT_LT(GeneralizedResidual(A, I, ge), 1e-12);
 
   // For B = I the eigenvectors are orthonormal: V^T V == I.
@@ -108,7 +108,7 @@ TEST(GeneralizedEigenDecomposition, IdentityPencilMatchesStandard)
   }
 }
 
-TEST(GeneralizedEigenDecomposition, FloatInstantiation)
+TEST(BridgeGeneralizedEigenDecomposition, FloatInstantiation)
 {
   vnl_matrix<float> A(2, 2);
   A(0, 0) = 3.0f;
@@ -118,14 +118,14 @@ TEST(GeneralizedEigenDecomposition, FloatInstantiation)
   B(0, 0) = 2.0f;
   B(1, 1) = 4.0f;
 
-  const itk::GeneralizedEigenDecomposition<float> ge(A, B);
+  const itk::bridge::GeneralizedEigenDecomposition<float> ge(A, B);
   EXPECT_LT(GeneralizedResidual(A, B, ge), 1e-5f);
 }
 
 // Non-finite input leaves the Eigen solver in a non-Success state; the wrapper
 // turns that into an exception so callers do not silently consume a garbage
 // decomposition.
-TEST(GeneralizedEigenDecomposition, NonFiniteInputThrows)
+TEST(BridgeGeneralizedEigenDecomposition, NonFiniteInputThrows)
 {
   const double       nan = std::numeric_limits<double>::quiet_NaN();
   vnl_matrix<double> A(2, 2, 0.0);
@@ -137,7 +137,7 @@ TEST(GeneralizedEigenDecomposition, NonFiniteInputThrows)
   B(0, 1) = B(1, 0) = nan;
   try
   {
-    const itk::GeneralizedEigenDecomposition<double> ge(A, B);
+    const itk::bridge::GeneralizedEigenDecomposition<double> ge(A, B);
     FAIL() << "expected an exception for non-finite input";
   }
   catch (const itk::ExceptionObject & e)
@@ -155,7 +155,7 @@ TEST(GeneralizedEigenDecomposition, NonFiniteInputThrows)
 #ifndef ITK_FUTURE_LEGACY_REMOVE
 // Equivalence: the Eigen-backed solver reproduces the eigenvalues of the
 // deprecated netlib vnl_generalized_eigensystem it replaces (both ascending).
-TEST(GeneralizedEigenDecomposition, MatchesDeprecatedVnlEngine)
+TEST(BridgeGeneralizedEigenDecomposition, MatchesDeprecatedVnlEngine)
 {
   vnl_matrix<double> A(3, 3, 0.0);
   A(0, 0) = 2.0;
@@ -169,8 +169,8 @@ TEST(GeneralizedEigenDecomposition, MatchesDeprecatedVnlEngine)
   B(2, 2) = 4.0;
   B(0, 1) = B(1, 0) = 0.5;
 
-  const vnl_generalized_eigensystem                vnlEngine(A, B);
-  const itk::GeneralizedEigenDecomposition<double> itkEngine(A, B);
+  const vnl_generalized_eigensystem                        vnlEngine(A, B);
+  const itk::bridge::GeneralizedEigenDecomposition<double> itkEngine(A, B);
 
   const vnl_vector<double>   vnlEigenvalues = vnlEngine.D.get_diagonal();
   const vnl_vector<double> & itkEigenvalues = itkEngine.GetEigenvalues();

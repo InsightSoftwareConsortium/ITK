@@ -15,13 +15,13 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkEigenDecompositionSolverInfo_h
-#define itkEigenDecompositionSolverInfo_h
+#ifndef itkBridgeEigenDecompositionSolverInfo_h
+#define itkBridgeEigenDecompositionSolverInfo_h
 
 #include "itk_eigen.h"
 #include ITK_EIGEN(Dense)
 
-namespace itk::detail
+namespace itk::bridge::detail
 {
 
 /** Human-readable name and likely cause for an Eigen solver status, so a
@@ -43,6 +43,6 @@ EigenComputationInfoString(Eigen::ComputationInfo info)
   return "an unrecognized Eigen::ComputationInfo value";
 }
 
-} // namespace itk::detail
+} // namespace itk::bridge::detail
 
-#endif // itkEigenDecompositionSolverInfo_h
+#endif // itkBridgeEigenDecompositionSolverInfo_h

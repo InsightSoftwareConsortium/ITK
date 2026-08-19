@@ -27,7 +27,7 @@
 
 #include "itkMath.h"
 #include "itkPrintHelper.h"
-#include "itkMathDeterminant.h"
+#include "itkBridgeMathDeterminant.h"
 
 namespace itk
 {
@@ -251,7 +251,7 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
   }
 
   // Return determinant of physical Jacobian:
-  return Math::Determinant(physicalGrad);
+  return bridge::Math::Determinant(physicalGrad);
 }
 
 template <typename TInputImage, typename TRealType, typename TOutputImage>

@@ -18,7 +18,7 @@
 #ifndef itkVideoStream_hxx
 #define itkVideoStream_hxx
 
-#include "itkMathDeterminant.h"
+#include "itkBridgeMathDeterminant.h"
 
 
 namespace itk
@@ -176,7 +176,7 @@ void
 VideoStream<TFrameType>::SetFrameDirection(SizeValueType frameNumber, typename TFrameType::DirectionType direction)
 {
   // Determinant is non-zero
-  if (itk::Math::Absolute(Math::Determinant(direction.GetVnlMatrix())) <= itk::Math::eps)
+  if (itk::Math::Absolute(bridge::Math::Determinant(direction.GetVnlMatrix())) <= itk::Math::eps)
   {
     itkExceptionMacro("Bad direction, determinant is 0. Direction is " << direction);
   }

@@ -22,7 +22,7 @@
 #include "vnl/vnl_vector_ref.h"
 #include "vnl/vnl_transpose.h"
 #include "vnl/vnl_matrix.h"
-#include "itkMathSVD.h"
+#include "itkBridgeMathSVD.h"
 #if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
 #  include "vnl/algo/vnl_matrix_inverse.h" // transitional transitive include; dropped on ITK legacy removal
 #endif

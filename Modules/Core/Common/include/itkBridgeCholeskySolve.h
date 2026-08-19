@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkCholeskySolve_h
-#define itkCholeskySolve_h
+#ifndef itkBridgeCholeskySolve_h
+#define itkBridgeCholeskySolve_h
 
 #include "itkMacro.h"
 #include "vnl/vnl_matrix.h"
@@ -24,7 +24,7 @@
 #include "itk_eigen.h"
 #include ITK_EIGEN(Dense)
 
-namespace itk
+namespace itk::bridge
 {
 namespace Math
 {
@@ -85,6 +85,6 @@ CholeskyLowerTriangle(const vnl_matrix<T> & A)
 }
 
 } // namespace Math
-} // namespace itk
+} // namespace itk::bridge
 
-#endif // itkCholeskySolve_h
+#endif // itkBridgeCholeskySolve_h

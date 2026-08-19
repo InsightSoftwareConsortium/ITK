@@ -17,7 +17,7 @@
  *=========================================================================*/
 #include "itkFDFImageIO.h"
 #include "itkFDFCommonImageIO.h"
-#include "itkMathDeterminant.h"
+#include "itkBridgeMathDeterminant.h"
 
 #include "itkByteSwapper.h"
 #include "itkRGBPixel.h"
@@ -176,7 +176,7 @@ FDFImageIO::ReadImageInformation()
         // direction matrix in the file is 3x3.
         // if direction matrix is degenerate, punt and set
         // directions to identity
-        if (itk::Math::Determinant(testDirections) == 0)
+        if (itk::bridge::Math::Determinant(testDirections) == 0)
         {
           for (unsigned int i = 0; i < numDim; i++)
           {

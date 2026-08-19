@@ -34,7 +34,7 @@
 #include "itkSpatialOrientation.h"
 #include <cstring>
 #include "itkMath.h"
-#include "itkMathDeterminant.h"
+#include "itkBridgeMathDeterminant.h"
 
 namespace itk
 {
@@ -134,7 +134,7 @@ ImageBase<VImageDimension>::SetDirection(const DirectionType & direction)
 {
   bool modified = false;
 
-  if (Math::Determinant(direction.GetVnlMatrix()) == 0.0)
+  if (bridge::Math::Determinant(direction.GetVnlMatrix()) == 0.0)
   {
     itkExceptionMacro("Bad direction, determinant is 0. Refusing to change direction from " << this->m_Direction
                                                                                             << " to " << direction);

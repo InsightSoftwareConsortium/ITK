@@ -18,7 +18,7 @@
 #ifndef itkRigid2DTransform_hxx
 #define itkRigid2DTransform_hxx
 
-#include "itkMathSVD.h"
+#include "itkBridgeMathSVD.h"
 #include "itkPrintHelper.h"
 
 namespace itk
@@ -90,7 +90,7 @@ void
 Rigid2DTransform<TParametersValueType>::ComputeMatrixParameters()
 {
   // Extract the orthogonal part of the matrix (U V^T is the closest rotation).
-  const auto                       svd = itk::Math::SVD(this->GetMatrix());
+  const auto                       svd = itk::bridge::Math::SVD(this->GetMatrix());
   vnl_matrix<TParametersValueType> r{ (svd.U * svd.V.transpose()).as_matrix() };
 
   m_Angle = std::acos(r[0][0]);

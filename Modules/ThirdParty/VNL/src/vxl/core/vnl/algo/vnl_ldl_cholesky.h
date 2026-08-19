@@ -3,7 +3,7 @@
 #define vnl_ldl_cholesky_h_
 
 // ITK deprecation shim: the netlib LINPACK engine behind vnl_ldl_cholesky was
-// retired in favor of a native factor; itk::Math::SolveSymmetricPositiveDefinite
+// retired in favor of a native factor; itk::bridge::Math::SolveSymmetricPositiveDefinite
 // / CholeskyLowerTriangle (Eigen-backed) are the supported replacements. The
 // guard is active only when itkConfigure.h is reachable (an ITK consumer), so
 // ITK's own VXL build is unaffected.
@@ -11,14 +11,14 @@
 #  include <itkConfigure.h>
 #  if defined(ITK_FUTURE_LEGACY_REMOVE) && !defined(ITK_LEGACY_TEST)
 #    error \
-      "vnl/algo/vnl_ldl_cholesky.h is deprecated; migrate to itk::Math::SolveSymmetricPositiveDefinite / CholeskyLowerTriangle (itkCholeskySolve.h, Eigen-backed)."
+      "vnl/algo/vnl_ldl_cholesky.h is deprecated; migrate to itk::bridge::Math::SolveSymmetricPositiveDefinite / CholeskyLowerTriangle (itkBridgeCholeskySolve.h, Eigen-backed)."
 #  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_LEGACY_TEST)
 #    if defined(_MSC_VER)
 #      pragma message( \
-        "vnl/algo/vnl_ldl_cholesky.h is deprecated; migrate to itk::Math::SolveSymmetricPositiveDefinite / CholeskyLowerTriangle (itkCholeskySolve.h, Eigen-backed).")
+        "vnl/algo/vnl_ldl_cholesky.h is deprecated; migrate to itk::bridge::Math::SolveSymmetricPositiveDefinite / CholeskyLowerTriangle (itkBridgeCholeskySolve.h, Eigen-backed).")
 #    else
 #      warning \
-        "vnl/algo/vnl_ldl_cholesky.h is deprecated; migrate to itk::Math::SolveSymmetricPositiveDefinite / CholeskyLowerTriangle (itkCholeskySolve.h, Eigen-backed)."
+        "vnl/algo/vnl_ldl_cholesky.h is deprecated; migrate to itk::bridge::Math::SolveSymmetricPositiveDefinite / CholeskyLowerTriangle (itkBridgeCholeskySolve.h, Eigen-backed)."
 #    endif
 #  endif
 #endif

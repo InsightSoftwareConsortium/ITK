@@ -2,7 +2,7 @@
 #ifndef vnl_svd_h_
 #define vnl_svd_h_
 
-// ITK deprecation shim: the Eigen-backed itk::Math::SVD (itkMathSVD.h) is the
+// ITK deprecation shim: the Eigen-backed itk::bridge::Math::SVD (itkBridgeMathSVD.h) is the
 // supported replacement for vnl_svd, offering PseudoInverse()/Solve()/Rank()/
 // Recompose() with fixed- and runtime-sized overloads. The guard is active only
 // when itkConfigure.h is reachable (an ITK consumer), so ITK's own VXL build is
@@ -11,14 +11,14 @@
 #  include <itkConfigure.h>
 #  if defined(ITK_FUTURE_LEGACY_REMOVE) && !defined(ITK_LEGACY_TEST)
 #    error \
-      "vnl/algo/vnl_svd.h is deprecated; migrate to itk::Math::SVD (itkMathSVD.h, Eigen-backed)."
+      "vnl/algo/vnl_svd.h is deprecated; migrate to itk::bridge::Math::SVD (itkBridgeMathSVD.h, Eigen-backed)."
 #  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_LEGACY_TEST)
 #    if defined(_MSC_VER)
 #      pragma message( \
-        "vnl/algo/vnl_svd.h is deprecated; migrate to itk::Math::SVD (itkMathSVD.h, Eigen-backed).")
+        "vnl/algo/vnl_svd.h is deprecated; migrate to itk::bridge::Math::SVD (itkBridgeMathSVD.h, Eigen-backed).")
 #    else
 #      warning \
-        "vnl/algo/vnl_svd.h is deprecated; migrate to itk::Math::SVD (itkMathSVD.h, Eigen-backed)."
+        "vnl/algo/vnl_svd.h is deprecated; migrate to itk::bridge::Math::SVD (itkBridgeMathSVD.h, Eigen-backed)."
 #    endif
 #  endif
 #endif

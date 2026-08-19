@@ -21,7 +21,7 @@
 // core/vnl/algo/tests/test_cholesky.cxx so the coverage runs in ITK CI and
 // guards any future change of the underlying Cholesky engine.
 
-#include "itkCholeskySolve.h"
+#include "itkBridgeCholeskySolve.h"
 
 // The deprecated VNL engine under test is unavailable under ITK_FUTURE_LEGACY_REMOVE.
 #ifndef ITK_FUTURE_LEGACY_REMOVE
@@ -182,7 +182,7 @@ TEST(VnlCholeskyEngine, EquivalentToItkCholeskySolve)
 
   const vnl_cholesky       chol(A, vnl_cholesky::quiet);
   const vnl_vector<double> xVnl = chol.solve(b);
-  const vnl_vector<double> xItk = itk::Math::SolveSymmetricPositiveDefinite(A, b);
+  const vnl_vector<double> xItk = itk::bridge::Math::SolveSymmetricPositiveDefinite(A, b);
   EXPECT_LT((xItk - xVnl).two_norm() / xVnl.two_norm(), 1e-10);
 }
 

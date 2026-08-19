@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkMathDeterminant_h
-#define itkMathDeterminant_h
+#ifndef itkBridgeMathDeterminant_h
+#define itkBridgeMathDeterminant_h
 
 #include "itkMacro.h"
 #include "vnl/vnl_matrix.h"
@@ -31,7 +31,10 @@ namespace itk
 // with itkMatrix.h; its body instantiates only where itk::Matrix is complete.
 template <typename T, unsigned int VRows, unsigned int VColumns>
 class Matrix;
+} // namespace itk
 
+namespace itk::bridge
+{
 namespace Math
 {
 namespace detail
@@ -104,7 +107,7 @@ Determinant(const vnl_matrix<TReal> & A)
   const unsigned int rows = A.rows();
   if (rows != A.cols())
   {
-    itkGenericExceptionMacro("itk::Math::Determinant requires a square matrix.");
+    itkGenericExceptionMacro("itk::bridge::Math::Determinant requires a square matrix.");
   }
   return detail::DynamicDeterminantEigen<TReal>(A.data_block(), rows);
 }
@@ -121,6 +124,6 @@ Determinant(const vnl_matrix_fixed<TReal, VRows, VColumns> & A)
 }
 
 } // namespace Math
-} // namespace itk
+} // namespace itk::bridge
 
-#endif // itkMathDeterminant_h
+#endif // itkBridgeMathDeterminant_h

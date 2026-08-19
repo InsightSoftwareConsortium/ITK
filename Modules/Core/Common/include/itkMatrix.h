@@ -24,10 +24,10 @@
 #include <vxl_version.h>
 #include "vnl/vnl_matrix_fixed.hxx" // Get the templates
 #include "vnl/vnl_transpose.h"
-#include "itkMathSVD.h"
+#include "itkBridgeMathSVD.h"
 #include "vnl/vnl_matrix.h"
 
-// GetInverse is Eigen-backed via itk::Math::SVD, but ITK 5.4 exposed
+// GetInverse is Eigen-backed via itk::bridge::Math::SVD, but ITK 5.4 exposed
 // vnl_matrix_inverse (and through it vnl_svd / vnl_diag_matrix) transitively to
 // every itkMatrix.h consumer. Retain that surface for release-5.4 source
 // compatibility in default builds; ITK proper includes what it uses, so
@@ -38,8 +38,8 @@
 #  include "vnl/algo/vnl_matrix_inverse.h"
 #  undef ITK_VNL_SVD_TRANSITIONAL_INCLUDE
 #endif
-#include "itkMathDeterminant.h"
-// GetInverse's singular check is Eigen-backed via itk::Math::Determinant, but
+#include "itkBridgeMathDeterminant.h"
+// GetInverse's singular check is Eigen-backed via itk::bridge::Math::Determinant, but
 // ITK 5.4 exposed vnl_determinant transitively through this header; keep it
 // reachable during the deprecation window so downstream code still compiles.
 #if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
@@ -329,11 +329,11 @@ public:
   [[nodiscard]] inline vnl_matrix_fixed<T, VColumns, VRows>
   GetInverse() const
   {
-    if (Math::Determinant(m_Matrix) == T{})
+    if (bridge::Math::Determinant(m_Matrix) == T{})
     {
       itkGenericExceptionMacro("Singular matrix. Determinant is 0.");
     }
-    return vnl_matrix_fixed<T, VColumns, VRows>{ Math::SVD(m_Matrix.as_ref()).PseudoInverse() };
+    return vnl_matrix_fixed<T, VColumns, VRows>{ bridge::Math::SVD(m_Matrix.as_ref()).PseudoInverse() };
   }
 
   /** Return the transposed matrix. */

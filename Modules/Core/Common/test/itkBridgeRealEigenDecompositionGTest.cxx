@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkRealEigenDecomposition.h"
+#include "itkBridgeRealEigenDecomposition.h"
 #include "itkConfigure.h"
 #ifndef ITK_FUTURE_LEGACY_REMOVE
 #  define ITK_LEGACY_TEST // exercise the deprecated vnl class for equivalence
@@ -36,7 +36,7 @@ namespace
 // assert against (individual eigenvector signs are arbitrary).
 template <typename TReal>
 TReal
-EigenResidual(const vnl_matrix<TReal> & A, const itk::RealEigenDecomposition<TReal> & eig)
+EigenResidual(const vnl_matrix<TReal> & A, const itk::bridge::RealEigenDecomposition<TReal> & eig)
 {
   using Complex = std::complex<TReal>;
   const auto &       lambda = eig.GetEigenvalues();
@@ -62,15 +62,15 @@ EigenResidual(const vnl_matrix<TReal> & A, const itk::RealEigenDecomposition<TRe
 } // namespace
 
 // Scavenged from VXL test_real_eigensystem::test_6x6 (real spectrum).
-TEST(RealEigenDecomposition, SymmetricInputRealSpectrum)
+TEST(BridgeRealEigenDecomposition, SymmetricInputRealSpectrum)
 {
   const double Sdata[36] = {
     30.0000, -3.4273, 13.9254, 13.7049, -2.4446, 20.2380, -3.4273, 13.7049, -2.4446, 1.3659,  3.6702,  -0.2282,
     13.9254, -2.4446, 20.2380, 3.6702,  -0.2282, 28.6779, 13.7049, 1.3659,  3.6702,  12.5273, -1.6045, 3.9419,
     -2.4446, 3.6702,  -0.2282, -1.6045, 3.9419,  2.5821,  20.2380, -0.2282, 28.6779, 3.9419,  2.5821,  44.0636,
   };
-  const vnl_matrix<double>                  S(Sdata, 6, 6);
-  const itk::RealEigenDecomposition<double> eig(S);
+  const vnl_matrix<double>                          S(Sdata, 6, 6);
+  const itk::bridge::RealEigenDecomposition<double> eig(S);
 
   for (unsigned int i = 0; i < 6; ++i)
   {
@@ -80,17 +80,17 @@ TEST(RealEigenDecomposition, SymmetricInputRealSpectrum)
 }
 
 // Scavenged from VXL test_real_eigensystem::test_4x4 (general/unsympathetic).
-TEST(RealEigenDecomposition, GeneralMatrix)
+TEST(BridgeRealEigenDecomposition, GeneralMatrix)
 {
   const double             Xdata[16] = { 686, 526, 701, 47, 588, 91, 910, 736, 930, 653, 762, 328, 846, 415, 262, 632 };
   const vnl_matrix<double> X(Xdata, 4, 4);
-  const itk::RealEigenDecomposition<double> eig(X);
+  const itk::bridge::RealEigenDecomposition<double> eig(X);
   EXPECT_LT(EigenResidual(X, eig), 1e-10);
 }
 
 // A real matrix with a genuinely complex spectrum: 2-D rotation by theta has
 // eigenvalues exp(+/- i theta). Exercises the complex-conjugate path.
-TEST(RealEigenDecomposition, ComplexSpectrumRotation)
+TEST(BridgeRealEigenDecomposition, ComplexSpectrumRotation)
 {
   const double       theta = 0.7;
   vnl_matrix<double> R(2, 2);
@@ -99,7 +99,7 @@ TEST(RealEigenDecomposition, ComplexSpectrumRotation)
   R(1, 0) = std::sin(theta);
   R(1, 1) = std::cos(theta);
 
-  const itk::RealEigenDecomposition<double> eig(R);
+  const itk::bridge::RealEigenDecomposition<double> eig(R);
   EXPECT_LT(EigenResidual(R, eig), 1e-13);
 
   double maxImag = 0;
@@ -110,14 +110,14 @@ TEST(RealEigenDecomposition, ComplexSpectrumRotation)
   EXPECT_NEAR(maxImag, std::sin(theta), 1e-13);
 }
 
-TEST(RealEigenDecomposition, Identity)
+TEST(BridgeRealEigenDecomposition, Identity)
 {
   vnl_matrix<double> I(3, 3, 0.0);
   for (unsigned int i = 0; i < 3; ++i)
   {
     I(i, i) = 1.0;
   }
-  const itk::RealEigenDecomposition<double> eig(I);
+  const itk::bridge::RealEigenDecomposition<double> eig(I);
   for (unsigned int i = 0; i < 3; ++i)
   {
     EXPECT_NEAR(std::real(eig.GetEigenvalues()[i]), 1.0, 1e-14);
@@ -125,17 +125,17 @@ TEST(RealEigenDecomposition, Identity)
   }
 }
 
-TEST(RealEigenDecomposition, FloatInstantiation)
+TEST(BridgeRealEigenDecomposition, FloatInstantiation)
 {
-  const float                              data[4] = { 2.0f, 0.0f, 0.0f, 3.0f };
-  const vnl_matrix<float>                  A(data, 2, 2);
-  const itk::RealEigenDecomposition<float> eig(A);
+  const float                                      data[4] = { 2.0f, 0.0f, 0.0f, 3.0f };
+  const vnl_matrix<float>                          A(data, 2, 2);
+  const itk::bridge::RealEigenDecomposition<float> eig(A);
   EXPECT_LT(EigenResidual(A, eig), 1e-5f);
 }
 
 // Non-finite input leaves the Eigen solver in a non-Success state; the wrapper
 // surfaces that as an exception rather than returning a garbage decomposition.
-TEST(RealEigenDecomposition, NonFiniteInputThrows)
+TEST(BridgeRealEigenDecomposition, NonFiniteInputThrows)
 {
   const double       nan = std::numeric_limits<double>::quiet_NaN();
   vnl_matrix<double> M(2, 2, 0.0);
@@ -144,7 +144,7 @@ TEST(RealEigenDecomposition, NonFiniteInputThrows)
   M(0, 1) = M(1, 0) = nan;
   try
   {
-    const itk::RealEigenDecomposition<double> eig{ M };
+    const itk::bridge::RealEigenDecomposition<double> eig{ M };
     FAIL() << "expected an exception for non-finite input";
   }
   catch (const itk::ExceptionObject & e)
@@ -163,13 +163,13 @@ TEST(RealEigenDecomposition, NonFiniteInputThrows)
 // Equivalence: the Eigen-backed solver yields the same (complex) spectrum as
 // the deprecated netlib vnl_real_eigensystem. General eigenvalues are unsorted,
 // so compare as multisets.
-TEST(RealEigenDecomposition, EquivalenceWithVnl)
+TEST(BridgeRealEigenDecomposition, EquivalenceWithVnl)
 {
   const double             data[9] = { 0.0, -1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 2.0 }; // spectrum {i, -i, 2}
   const vnl_matrix<double> A(data, 3, 3);
 
-  const vnl_real_eigensystem                vnlEngine(A);
-  const itk::RealEigenDecomposition<double> itkEngine(A);
+  const vnl_real_eigensystem                        vnlEngine(A);
+  const itk::bridge::RealEigenDecomposition<double> itkEngine(A);
 
   auto sorted = [](std::vector<std::complex<double>> v) {
     std::sort(v.begin(), v.end(), [](const std::complex<double> & a, const std::complex<double> & b) {
