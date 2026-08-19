@@ -268,18 +268,12 @@ def _get_itk_pixelid(numpy_array_type):
 
     import itk
 
-    def _long_type():
-        if os.name == "nt":
-            return itk.ULL
-        else:
-            return itk.UL
-
     # This is a Mapping from numpy array types to itk pixel types.
     _np_itk = {
         np.dtype(np.uint8): itk.UC,
         np.dtype(np.uint16): itk.US,
         np.dtype(np.uint32): itk.UI,
-        np.dtype(np.uint64): _long_type(),
+        np.dtype(np.uint64): itk.uint64_t,
         np.dtype(np.int8): itk.SC,
         np.dtype(np.int16): itk.SS,
         np.dtype(np.int32): itk.SI,
@@ -551,10 +545,7 @@ def vector_container_from_array(arr: ArrayLike, ttype=None) -> itkt.VectorContai
         arr = np.asarray(arr)
 
     # Return VectorContainer with 64-bit index type
-    if os.name == "nt":
-        IndexType = itk.ULL
-    else:
-        IndexType = itk.UL
+    IndexType = itk.uint64_t
 
     # Find container type
     if ttype is not None:
@@ -907,10 +898,7 @@ def dict_from_mesh(mesh: itkt.Mesh) -> dict:
     else:
         cell_data_numpy = itk.array_from_vector_container(cell_data)
 
-    if os.name == "nt":
-        cell_component_type = python_to_js(itk.ULL)
-    else:
-        cell_component_type = python_to_js(itk.UL)
+    cell_component_type = python_to_js(itk.uint64_t)
 
     point_component_type = python_to_js(itk.F)
 
@@ -982,10 +970,7 @@ def dict_from_pointset(pointset: itkt.PointSet) -> dict:
     else:
         point_data_numpy = itk.array_from_vector_container(point_data)
 
-    if os.name == "nt":
-        cell_component_type = python_to_js(itk.ULL)
-    else:
-        cell_component_type = python_to_js(itk.UL)
+    cell_component_type = python_to_js(itk.uint64_t)
 
     point_component_type = python_to_js(itk.F)
 

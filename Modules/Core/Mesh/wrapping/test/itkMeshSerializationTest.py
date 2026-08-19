@@ -45,10 +45,7 @@ def test_mesh_serialization(use_unsafe_SetPoints_overload: bool = False):
 
     # Set Points in the Mesh
     PointType = itk.Point[itk.F, 3]
-    if os.name == "nt":
-        v_point = itk.VectorContainer[itk.ULL, PointType].New()
-    else:
-        v_point = itk.VectorContainer[itk.UL, PointType].New()
+    v_point = itk.VectorContainer[itk.uint64_t, PointType].New()
     v_point.Reserve(NumberOfPoints)
 
     point = PointType()

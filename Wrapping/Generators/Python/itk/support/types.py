@@ -158,13 +158,9 @@ int32_t = SI
 int64_t = SL if SL.dtype.itemsize == 8 else SLL
 
 # Aliases for SizeValueType, IdentifierType, OffsetType
-ST = UL
-IT = UL
-OT = SL
-if os.name == "nt":
-    ST = ULL
-    IT = ULL
-    OT = SLL
+ST = uint64_t
+IT = uint64_t
+OT = int64_t
 
 # Type aliases to avoid expensive import, circular references. Use with forward references.
 if TYPE_CHECKING:
