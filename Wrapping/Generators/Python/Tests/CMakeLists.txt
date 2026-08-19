@@ -290,3 +290,9 @@ itk_python_add_test(
   COMMAND
     ${CMAKE_CURRENT_SOURCE_DIR}/test_gil_release_safety.py
 )
+
+itk_python_add_test(
+  NAME CTypeTest
+  COMMAND
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_ctype.py
+)
