@@ -22,6 +22,8 @@ import importlib.util
 from typing import Self, TypeAlias, Union, TYPE_CHECKING
 import os
 
+from itkConfig import ITK_GLOBAL_WRAPPING_TYPE_ALIASES
+
 try:
     from numpy.typing import ArrayLike
 except ImportError:
@@ -157,10 +159,19 @@ int16_t = SS
 int32_t = SI
 int64_t = SL if SL.dtype.itemsize == 8 else SLL
 
-# Aliases for SizeValueType, IdentifierType, OffsetType
-ST = uint64_t
-IT = uint64_t
-OT = int64_t
+# Aliases for SizeValueType, IdentifierType, OffsetType, resolved from the
+# C types the wrapping actually instantiated rather than re-derived here.
+_c_type_by_mangled_name: dict[str, itkCType] = {
+    "UL": UL,
+    "ULL": ULL,
+    "SL": SL,
+    "SLL": SLL,
+}
+ST = _c_type_by_mangled_name[ITK_GLOBAL_WRAPPING_TYPE_ALIASES["ST"]]
+IT = _c_type_by_mangled_name[ITK_GLOBAL_WRAPPING_TYPE_ALIASES["IT"]]
+OT = _c_type_by_mangled_name[ITK_GLOBAL_WRAPPING_TYPE_ALIASES["OT"]]
+del _c_type_by_mangled_name
+del ITK_GLOBAL_WRAPPING_TYPE_ALIASES
 
 # Type aliases to avoid expensive import, circular references. Use with forward references.
 if TYPE_CHECKING:
