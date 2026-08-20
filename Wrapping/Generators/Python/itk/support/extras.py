@@ -277,7 +277,7 @@ def _get_itk_pixelid(numpy_array_type):
         np.dtype(np.int8): itk.SC,
         np.dtype(np.int16): itk.SS,
         np.dtype(np.int32): itk.SI,
-        np.dtype(np.int64): itk.SL,
+        np.dtype(np.int64): itk.int64_t,
         np.dtype(np.float32): itk.F,
         np.dtype(np.float64): itk.D,
         np.dtype(np.complex64): itk.complex[itk.F],
