@@ -25,7 +25,7 @@
 #include "itkImageAlgorithm.h"
 #include "itkMetaDataObject.h"
 #include "itkArray.h"
-#include "itkMathDeterminant.h"
+#include "itkBridgeMathDeterminant.h"
 #include <cstdio>
 
 namespace itk
@@ -214,7 +214,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
   // therefore, replacing the orientation with an identity
   // is as arbitrary as any other choice.
   //
-  if (Math::Determinant(direction.GetVnlMatrix()) == 0.0)
+  if (bridge::Math::Determinant(direction.GetVnlMatrix()) == 0.0)
   {
     direction.SetIdentity();
   }

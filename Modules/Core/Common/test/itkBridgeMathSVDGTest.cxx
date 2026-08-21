@@ -18,7 +18,7 @@
 
 // First include the header file to be tested:
 #include "itkMatrix.h"
-#include "itkMathSVD.h"
+#include "itkBridgeMathSVD.h"
 
 // This test cross-checks against the vnl_svd reference engine; mark it so it keeps
 // compiling once vnl_svd is deprecated under ITK_LEGACY_REMOVE. The oracle is
@@ -48,11 +48,11 @@ MakeFixed()
 } // namespace
 
 // A == U diag(W) V^T for fixed-size square matrices, float and double.
-TEST(MathSVD, FixedReconstructs)
+TEST(BridgeMathSVD, FixedReconstructs)
 {
   {
     const auto A = MakeFixed<double, 3>();
-    const auto r = itk::Math::SVD(A);
+    const auto r = itk::bridge::Math::SVD(A);
     double     err{};
     for (unsigned int i = 0; i < 3; ++i)
       for (unsigned int j = 0; j < 3; ++j)
@@ -66,7 +66,7 @@ TEST(MathSVD, FixedReconstructs)
   }
   {
     const auto A = MakeFixed<float, 6>();
-    const auto r = itk::Math::SVD(A);
+    const auto r = itk::bridge::Math::SVD(A);
     float      err{};
     for (unsigned int i = 0; i < 6; ++i)
       for (unsigned int j = 0; j < 6; ++j)
@@ -82,10 +82,10 @@ TEST(MathSVD, FixedReconstructs)
 
 #ifndef ITK_FUTURE_LEGACY_REMOVE
 // Singular values agree with vnl_svd (the engine being supplemented).
-TEST(MathSVD, SingularValuesMatchVnl)
+TEST(BridgeMathSVD, SingularValuesMatchVnl)
 {
   const auto            A = MakeFixed<double, 6>();
-  const auto            r = itk::Math::SVD(A);
+  const auto            r = itk::bridge::Math::SVD(A);
   const vnl_svd<double> ref(A.as_matrix());
   for (unsigned int i = 0; i < 6; ++i)
     EXPECT_NEAR(r.W[i], ref.W()(i, i), 1e-12);
@@ -94,10 +94,10 @@ TEST(MathSVD, SingularValuesMatchVnl)
 
 // Default canonicalization makes the largest-magnitude element of each U column
 // positive, giving a deterministic, build-independent sign convention.
-TEST(MathSVD, SignsCanonical)
+TEST(BridgeMathSVD, SignsCanonical)
 {
   const auto A = MakeFixed<double, 4>();
-  const auto r = itk::Math::SVD(A);
+  const auto r = itk::bridge::Math::SVD(A);
   for (unsigned int j = 0; j < 4; ++j)
   {
     unsigned int pivot = 0;
@@ -116,7 +116,7 @@ TEST(MathSVD, SignsCanonical)
 // U V^T is invariant to the SVD sign/basis ambiguity: it matches vnl_svd even
 // for a degenerate (repeated singular value) matrix. This is the property the
 // geometry call sites (orthogonalization) rely on.
-TEST(MathSVD, UVtransposeInvariantOnDegenerate)
+TEST(BridgeMathSVD, UVtransposeInvariantOnDegenerate)
 {
   // Rotation * diag(1,1,3): two equal singular values (degenerate subspace).
   vnl_matrix_fixed<double, 3, 3> R;
@@ -140,7 +140,7 @@ TEST(MathSVD, UVtransposeInvariantOnDegenerate)
     A(i, 2) = R(i, 2) * 3.0;
   }
 
-  const auto                           r = itk::Math::SVD(A, /*canonicalizeSigns=*/false);
+  const auto                           r = itk::bridge::Math::SVD(A, /*canonicalizeSigns=*/false);
   const vnl_svd<double>                ref(A.as_matrix());
   const vnl_matrix_fixed<double, 3, 3> rotEig = r.U * r.V.transpose();
   const vnl_matrix<double>             rotVnl = ref.U() * ref.V().transpose();
@@ -153,12 +153,12 @@ TEST(MathSVD, UVtransposeInvariantOnDegenerate)
 #endif // ITK_FUTURE_LEGACY_REMOVE
 
 // The itk::Matrix overload forwards to the same computation.
-TEST(MathSVD, ItkMatrixOverload)
+TEST(BridgeMathSVD, ItkMatrixOverload)
 {
   itk::Matrix<double, 3, 3> A;
   A.SetIdentity();
   A(0, 2) = 0.5;
-  const auto r = itk::Math::SVD(A);
+  const auto r = itk::bridge::Math::SVD(A);
   double     err{};
   for (unsigned int i = 0; i < 3; ++i)
     for (unsigned int j = 0; j < 3; ++j)
@@ -173,7 +173,7 @@ TEST(MathSVD, ItkMatrixOverload)
 
 // Runtime-sized square overload, exercising both the small (JacobiSVD) and large
 // (BDCSVD) engine branches.
-TEST(MathSVD, DynamicReconstructs)
+TEST(BridgeMathSVD, DynamicReconstructs)
 {
   for (const unsigned int n : { 3u, 6u, 7u, 20u }) // 6 -> JacobiSVD, 7 -> BDCSVD (crossover)
   {
@@ -182,7 +182,7 @@ TEST(MathSVD, DynamicReconstructs)
       for (unsigned int j = 0; j < n; ++j)
         A(i, j) = std::sin(0.7 * i + 1.3 * j) + (i == j ? 3.0 : 0.0);
 
-    const auto r = itk::Math::SVD(A);
+    const auto r = itk::bridge::Math::SVD(A);
     double     err{};
     for (unsigned int i = 0; i < n; ++i)
       for (unsigned int j = 0; j < n; ++j)
@@ -203,17 +203,17 @@ TEST(MathSVD, DynamicReconstructs)
 }
 
 // An empty runtime input is rejected.
-TEST(MathSVD, DynamicRejectsEmpty)
+TEST(BridgeMathSVD, DynamicRejectsEmpty)
 {
   const vnl_matrix<double> A(0, 0);
-  EXPECT_THROW(itk::Math::SVD(A), itk::ExceptionObject);
+  EXPECT_THROW(itk::bridge::Math::SVD(A), itk::ExceptionObject);
 }
 
 // PseudoInverse() agrees with vnl_svd and satisfies the Moore-Penrose identity.
-TEST(MathSVD, PseudoInverseMatchesVnl)
+TEST(BridgeMathSVD, PseudoInverseMatchesVnl)
 {
   const auto A = MakeFixed<double, 6>();
-  const auto pinv = itk::Math::SVD(A).PseudoInverse();
+  const auto pinv = itk::bridge::Math::SVD(A).PseudoInverse();
 #ifndef ITK_FUTURE_LEGACY_REMOVE
   const vnl_matrix<double> pinvVnl = vnl_svd<double>(A.as_matrix()).pinverse();
   double                   dInv = 0.0;
@@ -233,14 +233,14 @@ TEST(MathSVD, PseudoInverseMatchesVnl)
 }
 
 // Solve() returns the solution of A x = b for a well-conditioned A.
-TEST(MathSVD, SolveMatchesVnl)
+TEST(BridgeMathSVD, SolveMatchesVnl)
 {
   const auto                  A = MakeFixed<double, 4>();
   vnl_vector_fixed<double, 4> b;
   for (unsigned int i = 0; i < 4; ++i)
     b[i] = static_cast<double>(i + 1);
 
-  const auto x = itk::Math::SVD(A).Solve(b);
+  const auto x = itk::bridge::Math::SVD(A).Solve(b);
 
   // residual A x - b is ~0 for a full-rank A
   const vnl_vector_fixed<double, 4> residual = A * x - b;
@@ -256,18 +256,18 @@ TEST(MathSVD, SolveMatchesVnl)
 #ifndef ITK_FUTURE_LEGACY_REMOVE
 // WellCondition() (sigma_min/sigma_max) agrees with vnl_svd::well_condition(),
 // the accessor the NIfTI direction-cosine check migrated onto.
-TEST(MathSVD, WellConditionMatchesVnl)
+TEST(BridgeMathSVD, WellConditionMatchesVnl)
 {
   const auto A = MakeFixed<double, 5>();
-  EXPECT_NEAR(itk::Math::SVD(A).WellCondition(), vnl_svd<double>(A.as_matrix()).well_condition(), 1e-12);
+  EXPECT_NEAR(itk::bridge::Math::SVD(A).WellCondition(), vnl_svd<double>(A.as_matrix()).well_condition(), 1e-12);
 }
 
 // DeterminantMagnitude() (product of singular values) agrees with
 // vnl_svd::determinant_magnitude(), the accessor the Mahalanobis check migrated onto.
-TEST(MathSVD, DeterminantMagnitudeMatchesVnl)
+TEST(BridgeMathSVD, DeterminantMagnitudeMatchesVnl)
 {
   const auto   A = MakeFixed<double, 5>();
-  const double itkDet = itk::Math::SVD(A).DeterminantMagnitude();
+  const double itkDet = itk::bridge::Math::SVD(A).DeterminantMagnitude();
   const double vnlDet = vnl_svd<double>(A.as_matrix()).determinant_magnitude();
   EXPECT_NEAR(itkDet, vnlDet, 1e-10 * std::abs(vnlDet));
 }
@@ -275,9 +275,9 @@ TEST(MathSVD, DeterminantMagnitudeMatchesVnl)
 
 // rank() reports full rank for a well-conditioned matrix and the reduced rank of
 // a deliberately rank-deficient one.
-TEST(MathSVD, Rank)
+TEST(BridgeMathSVD, Rank)
 {
-  EXPECT_EQ(itk::Math::SVD(MakeFixed<double, 6>()).Rank(), 6u);
+  EXPECT_EQ(itk::bridge::Math::SVD(MakeFixed<double, 6>()).Rank(), 6u);
 
   // Two identical rows -> rank 2 for a 3x3.
   vnl_matrix<double> A(3, 3, 0.0);
@@ -290,13 +290,13 @@ TEST(MathSVD, Rank)
   A(2, 0) = 4.0;
   A(2, 1) = 0.0;
   A(2, 2) = 1.0;
-  EXPECT_EQ(itk::Math::SVD(A).Rank(), 2u);
+  EXPECT_EQ(itk::bridge::Math::SVD(A).Rank(), 2u);
 }
 
 // Ill-conditioned input (6x6 Hilbert, condition ~1e7): reconstruction stays
 // accurate and the singular values still agree with vnl_svd. Stresses the engines
 // where Jacobi and BDC can diverge, which the well-conditioned fixtures do not.
-TEST(MathSVD, IllConditionedMatchesVnl)
+TEST(BridgeMathSVD, IllConditionedMatchesVnl)
 {
   constexpr unsigned int N = 6;
   vnl_matrix<double>     A(N, N);
@@ -304,7 +304,7 @@ TEST(MathSVD, IllConditionedMatchesVnl)
     for (unsigned int j = 0; j < N; ++j)
       A(i, j) = 1.0 / (i + j + 1.0); // Hilbert
 
-  const auto r = itk::Math::SVD(A);
+  const auto r = itk::bridge::Math::SVD(A);
 
 #ifndef ITK_FUTURE_LEGACY_REMOVE
   // singular values agree relative to the largest
@@ -329,7 +329,7 @@ TEST(MathSVD, IllConditionedMatchesVnl)
 
 // canonicalizeSigns actually controls the output (a test that fails if the flag
 // were ignored): true yields canonical signs and differs from the raw false result.
-TEST(MathSVD, CanonicalizeFlagControlsSigns)
+TEST(BridgeMathSVD, CanonicalizeFlagControlsSigns)
 {
   // Scan several matrices: true must always be canonical, false must preserve
   // Eigen's raw signs, and at least one raw column must be non-canonical (proving
@@ -344,8 +344,8 @@ TEST(MathSVD, CanonicalizeFlagControlsSigns)
       for (unsigned int j = 0; j < 4; ++j)
         A(i, j) = std::sin(0.37 * seed + 0.7 * i + 1.9 * j) + (i == j ? 1.0 : 0.0);
 
-    const auto rTrue = itk::Math::SVD(A, true);
-    const auto rFalse = itk::Math::SVD(A, false);
+    const auto rTrue = itk::bridge::Math::SVD(A, true);
+    const auto rFalse = itk::bridge::Math::SVD(A, false);
 
     for (unsigned int j = 0; j < 4; ++j)
     {
@@ -376,14 +376,14 @@ TEST(MathSVD, CanonicalizeFlagControlsSigns)
 }
 
 // The runtime overload also canonicalizes (the dynamic SvdFlip path).
-TEST(MathSVD, DynamicSignsCanonical)
+TEST(BridgeMathSVD, DynamicSignsCanonical)
 {
   vnl_matrix<double> A(5, 5);
   for (unsigned int i = 0; i < 5; ++i)
     for (unsigned int j = 0; j < 5; ++j)
       A(i, j) = std::sin(0.9 * i + 1.7 * j) + (i == j ? 2.0 : 0.0);
 
-  const auto r = itk::Math::SVD(A);
+  const auto r = itk::bridge::Math::SVD(A);
   for (unsigned int j = 0; j < 5; ++j)
   {
     unsigned int pivot = 0;
@@ -396,7 +396,7 @@ TEST(MathSVD, DynamicSignsCanonical)
 
 // Repeated singular values (degenerate spectrum) still reconstruct exactly, even
 // though the singular-vector basis within the degenerate subspace is arbitrary.
-TEST(MathSVD, DegenerateSpectrumReconstructs)
+TEST(BridgeMathSVD, DegenerateSpectrumReconstructs)
 {
   // diag(2,2,2,5): a triply-repeated singular value.
   vnl_matrix<double> A(4, 4, 0.0);
@@ -404,7 +404,7 @@ TEST(MathSVD, DegenerateSpectrumReconstructs)
   A(1, 1) = 2.0;
   A(2, 2) = 2.0;
   A(3, 3) = 5.0;
-  const auto r = itk::Math::SVD(A);
+  const auto r = itk::bridge::Math::SVD(A);
   double     err = 0.0;
   for (unsigned int i = 0; i < 4; ++i)
     for (unsigned int j = 0; j < 4; ++j)
@@ -419,10 +419,10 @@ TEST(MathSVD, DegenerateSpectrumReconstructs)
 
 // Recompose() with no truncation reconstructs A; a threshold zeroes the small
 // singular value, yielding the rank-reduced reconstruction.
-TEST(MathSVD, Recompose)
+TEST(BridgeMathSVD, Recompose)
 {
   const auto A = MakeFixed<double, 4>();
-  const auto recon = itk::Math::SVD(A).Recompose();
+  const auto recon = itk::bridge::Math::SVD(A).Recompose();
   double     err = 0.0;
   for (unsigned int i = 0; i < 4; ++i)
     for (unsigned int j = 0; j < 4; ++j)
@@ -434,7 +434,7 @@ TEST(MathSVD, Recompose)
   B(0, 0) = 5.0;
   B(1, 1) = 3.0;
   B(2, 2) = 1e-9;
-  const auto truncated = itk::Math::SVD(B).Recompose(1e-6);
+  const auto truncated = itk::bridge::Math::SVD(B).Recompose(1e-6);
   EXPECT_NEAR(truncated(0, 0), 5.0, 1e-10);
   EXPECT_NEAR(truncated(1, 1), 3.0, 1e-10);
   EXPECT_NEAR(truncated(2, 2), 0.0, 1e-12);
@@ -442,7 +442,7 @@ TEST(MathSVD, Recompose)
 
 // Rectangular (tall and wide): thin factors reconstruct A, shapes are correct,
 // and PseudoInverse()/Solve() match vnl_svd and satisfy the Moore-Penrose identity.
-TEST(MathSVD, Rectangular)
+TEST(BridgeMathSVD, Rectangular)
 {
   const unsigned int dims[2][2] = { { 5, 3 }, { 3, 5 } }; // tall, wide
   for (const auto & d : dims)
@@ -455,7 +455,7 @@ TEST(MathSVD, Rectangular)
       for (unsigned int j = 0; j < n; ++j)
         A(i, j) = std::sin(0.6 * i + 1.1 * j) + (i == j ? 1.0 : 0.0);
 
-    const auto r = itk::Math::SVD(A);
+    const auto r = itk::bridge::Math::SVD(A);
     EXPECT_EQ(r.U.rows(), m);
     EXPECT_EQ(r.U.cols(), k);
     EXPECT_EQ(r.V.rows(), n);
@@ -498,7 +498,7 @@ TEST(MathSVD, Rectangular)
 }
 
 // Rectangular least-squares Solve() matches vnl_svd (the BSpline refinement use).
-TEST(MathSVD, RectangularSolveMatchesVnl)
+TEST(BridgeMathSVD, RectangularSolveMatchesVnl)
 {
   vnl_matrix<double> A(5, 3); // overdetermined
   for (unsigned int i = 0; i < 5; ++i)
@@ -508,7 +508,7 @@ TEST(MathSVD, RectangularSolveMatchesVnl)
   for (unsigned int i = 0; i < 5; ++i)
     b[i] = static_cast<double>(i) - 1.5;
 
-  const vnl_vector<double> x = itk::Math::SVD(A).Solve(b);
+  const vnl_vector<double> x = itk::bridge::Math::SVD(A).Solve(b);
   EXPECT_EQ(x.size(), 3u);
 #ifndef ITK_FUTURE_LEGACY_REMOVE
   const vnl_vector<double> xVnl = vnl_svd<double>(A).solve(b);
@@ -517,7 +517,7 @@ TEST(MathSVD, RectangularSolveMatchesVnl)
 }
 
 // NullVector() matches vnl_svd::nullvector() up to sign, and lies in the nullspace.
-TEST(MathSVD, NullVector)
+TEST(BridgeMathSVD, NullVector)
 {
   // Rank-2 square 3x3: third row = row0 + row1.
   vnl_matrix<double> A(3, 3);
@@ -530,7 +530,7 @@ TEST(MathSVD, NullVector)
   for (unsigned int j = 0; j < 3; ++j)
     A(2, j) = A(0, j) + A(1, j);
 
-  const vnl_vector<double> nv = itk::Math::SVD(A).NullVector();
+  const vnl_vector<double> nv = itk::bridge::Math::SVD(A).NullVector();
   EXPECT_LT((A * nv).inf_norm(), 1e-12);
 
 #ifndef ITK_FUTURE_LEGACY_REMOVE
@@ -542,25 +542,25 @@ TEST(MathSVD, NullVector)
   // Fixed-size overload agrees.
   vnl_matrix_fixed<double, 3, 3> Af;
   Af.copy_in(A.data_block());
-  const vnl_vector_fixed<double, 3> nvf = itk::Math::SVD(Af).NullVector();
+  const vnl_vector_fixed<double, 3> nvf = itk::bridge::Math::SVD(Af).NullVector();
   EXPECT_LT((A * nvf.as_vector()).inf_norm(), 1e-12);
 }
 
 // NullVector() refuses an underdetermined input whose thin V cannot span the nullspace.
-TEST(MathSVD, NullVectorRejectsUnderdetermined)
+TEST(BridgeMathSVD, NullVectorRejectsUnderdetermined)
 {
   vnl_matrix<double> A(2, 4);
   A.fill(1.0);
   A(0, 1) = 2.0;
   A(1, 3) = 3.0;
-  EXPECT_THROW(itk::Math::SVD(A).NullVector(), itk::ExceptionObject);
+  EXPECT_THROW(itk::bridge::Math::SVD(A).NullVector(), itk::ExceptionObject);
 }
 
 // RecomposeWith() reproduces A for unmodified W and honors hand-edited values.
-TEST(MathSVD, RecomposeWith)
+TEST(BridgeMathSVD, RecomposeWith)
 {
   const auto Af = MakeFixed<double, 4>();
-  const auto r = itk::Math::SVD(Af);
+  const auto r = itk::bridge::Math::SVD(Af);
 
   const vnl_matrix_fixed<double, 4, 4> same = r.RecomposeWith(r.W);
   double                               err = 0.0;
@@ -593,7 +593,7 @@ TEST(MathSVD, RecomposeWith)
 
 // Fixed rectangular overload: factors match the dynamic path and the
 // pseudo-inverse matches the vnl_svd reference (the itkTransform Jacobian use).
-TEST(MathSVD, FixedRectangular)
+TEST(BridgeMathSVD, FixedRectangular)
 {
   constexpr unsigned int               rows = 5;
   constexpr unsigned int               cols = 3;
@@ -602,8 +602,8 @@ TEST(MathSVD, FixedRectangular)
     for (unsigned int j = 0; j < cols; ++j)
       Af(i, j) = std::cos(0.4 * i + 0.9 * j) + (i == j ? 2.0 : 0.0);
 
-  const auto rf = itk::Math::SVD(Af);
-  const auto rd = itk::Math::SVD(vnl_matrix<double>(Af.as_matrix()));
+  const auto rf = itk::bridge::Math::SVD(Af);
+  const auto rd = itk::bridge::Math::SVD(vnl_matrix<double>(Af.as_matrix()));
   for (unsigned int k = 0; k < 3; ++k)
     EXPECT_NEAR(rf.W[k], rd.W[k], 1e-12);
 
@@ -620,6 +620,6 @@ TEST(MathSVD, FixedRectangular)
   vnl_matrix_fixed<double, rows, cols> Adef = Af;
   for (unsigned int i = 0; i < rows; ++i)
     Adef(i, 2) = Adef(i, 0) + Adef(i, 1);
-  const vnl_vector_fixed<double, cols> nv = itk::Math::SVD(Adef).NullVector();
+  const vnl_vector_fixed<double, cols> nv = itk::bridge::Math::SVD(Adef).NullVector();
   EXPECT_LT((Adef.as_matrix() * nv.as_vector()).inf_norm(), 1e-12);
 }

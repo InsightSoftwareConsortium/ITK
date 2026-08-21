@@ -3,19 +3,19 @@
 #define vnl_generalized_eigensystem_h_
 
 // ITK deprecation shim: the netlib EISPACK engine (rsg) behind
-// vnl_generalized_eigensystem is being retired; itk::GeneralizedEigenDecomposition
+// vnl_generalized_eigensystem is being retired; itk::bridge::GeneralizedEigenDecomposition
 // (Eigen-backed) is the supported replacement. The guard is active only when
 // itkConfigure.h is reachable (an ITK consumer), so ITK's own VXL build is
 // unaffected.
 #if __has_include(<itkConfigure.h>)
 #  include <itkConfigure.h>
 #  if defined(ITK_FUTURE_LEGACY_REMOVE) && !defined(ITK_LEGACY_TEST)
-#    error "vnl/algo/vnl_generalized_eigensystem.h is deprecated; migrate to itk::GeneralizedEigenDecomposition (itkGeneralizedEigenDecomposition.h, Eigen-backed)."
+#    error "vnl/algo/vnl_generalized_eigensystem.h is deprecated; migrate to itk::bridge::GeneralizedEigenDecomposition (itkBridgeGeneralizedEigenDecomposition.h, Eigen-backed)."
 #  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_LEGACY_TEST)
 #    if defined(_MSC_VER)
-#      pragma message("vnl/algo/vnl_generalized_eigensystem.h is deprecated; migrate to itk::GeneralizedEigenDecomposition (itkGeneralizedEigenDecomposition.h, Eigen-backed).")
+#      pragma message("vnl/algo/vnl_generalized_eigensystem.h is deprecated; migrate to itk::bridge::GeneralizedEigenDecomposition (itkBridgeGeneralizedEigenDecomposition.h, Eigen-backed).")
 #    else
-#      warning "vnl/algo/vnl_generalized_eigensystem.h is deprecated; migrate to itk::GeneralizedEigenDecomposition (itkGeneralizedEigenDecomposition.h, Eigen-backed)."
+#      warning "vnl/algo/vnl_generalized_eigensystem.h is deprecated; migrate to itk::bridge::GeneralizedEigenDecomposition (itkBridgeGeneralizedEigenDecomposition.h, Eigen-backed)."
 #    endif
 #  endif
 #endif

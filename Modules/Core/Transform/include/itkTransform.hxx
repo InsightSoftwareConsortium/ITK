@@ -19,7 +19,7 @@
 #define itkTransform_hxx
 
 #include "itkCrossHelper.h"
-#include "itkMathSVD.h"
+#include "itkBridgeMathSVD.h"
 #if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
 #  include "vnl/algo/vnl_svd_fixed.h" // transitional transitive include; dropped on ITK legacy removal
 #endif
@@ -543,11 +543,11 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::ComputeInver
   if constexpr (VOutputDimension == VInputDimension)
   {
     // Square: fixed-size pseudo-inverse avoids the dynamic as_matrix() round-trip.
-    jacobian = Math::SVD(forward_jacobian).PseudoInverse();
+    jacobian = bridge::Math::SVD(forward_jacobian).PseudoInverse();
   }
   else
   {
-    jacobian.set(Math::SVD(forward_jacobian.as_matrix()).PseudoInverse().data_block());
+    jacobian.set(bridge::Math::SVD(forward_jacobian.as_matrix()).PseudoInverse().data_block());
   }
 }
 

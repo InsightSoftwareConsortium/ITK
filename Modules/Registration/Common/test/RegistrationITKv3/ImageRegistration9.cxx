@@ -65,7 +65,7 @@
 //  that will monitor the evolution of the registration process.
 //
 #include "itkCommand.h"
-#include "itkMathSVD.h"
+#include "itkBridgeMathSVD.h"
 class CommandIterationUpdate : public itk::Command
 {
 public:
@@ -105,7 +105,7 @@ public:
     p[0][1] = static_cast<double>(optimizer->GetCurrentPosition()[1]);
     p[1][0] = static_cast<double>(optimizer->GetCurrentPosition()[2]);
     p[1][1] = static_cast<double>(optimizer->GetCurrentPosition()[3]);
-    const auto         svd = itk::Math::SVD(p);
+    const auto         svd = itk::bridge::Math::SVD(p);
     vnl_matrix<double> r(2, 2);
     r = svd.U * svd.V.transpose();
     const double angle = std::asin(r[1][0]);
@@ -360,7 +360,7 @@ main(int argc, char * argv[])
   p[0][1] = static_cast<double>(finalParameters[1]);
   p[1][0] = static_cast<double>(finalParameters[2]);
   p[1][1] = static_cast<double>(finalParameters[3]);
-  const auto         svd = itk::Math::SVD(p);
+  const auto         svd = itk::bridge::Math::SVD(p);
   vnl_matrix<double> r(2, 2);
   r = svd.U * svd.V.transpose();
   const double angle = std::asin(r[1][0]);

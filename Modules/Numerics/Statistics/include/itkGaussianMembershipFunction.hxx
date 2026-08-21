@@ -18,7 +18,7 @@
 #ifndef itkGaussianMembershipFunction_hxx
 #define itkGaussianMembershipFunction_hxx
 
-#include "itkMathDeterminant.h"
+#include "itkBridgeMathDeterminant.h"
 
 namespace itk::Statistics
 {
@@ -102,11 +102,11 @@ GaussianMembershipFunction<TMeasurementVector>::SetCovariance(const CovarianceMa
   }
 
   // the inverse of the covariance matrix is first computed by SVD
-  const auto inv_cov = itk::Math::SVD(cov.GetVnlMatrix());
+  const auto inv_cov = itk::bridge::Math::SVD(cov.GetVnlMatrix());
 
   // Signed determinant of the covariance: a magnitude-only determinant is
   // always non-negative and cannot detect a non-positive-definite matrix.
-  const double det = itk::Math::Determinant(cov.GetVnlMatrix());
+  const double det = itk::bridge::Math::Determinant(cov.GetVnlMatrix());
 
   if (det <= 0.0)
   {

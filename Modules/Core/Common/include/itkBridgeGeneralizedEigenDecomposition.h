@@ -15,18 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkGeneralizedEigenDecomposition_h
-#define itkGeneralizedEigenDecomposition_h
+#ifndef itkBridgeGeneralizedEigenDecomposition_h
+#define itkBridgeGeneralizedEigenDecomposition_h
 
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
-#include "itkEigenDecompositionSignConvention.h"
-#include "itkEigenDecompositionSolverInfo.h"
+#include "itkBridgeEigenDecompositionSignConvention.h"
+#include "itkBridgeEigenDecompositionSolverInfo.h"
 #include "itkMacro.h"
 #include "itk_eigen.h"
 #include ITK_EIGEN(Dense)
 
-namespace itk
+namespace itk::bridge
 {
 
 /** \class GeneralizedEigenDecomposition
@@ -105,6 +105,6 @@ private:
   MatrixType m_Eigenvectors;
 };
 
-} // namespace itk
+} // namespace itk::bridge
 
-#endif // itkGeneralizedEigenDecomposition_h
+#endif // itkBridgeGeneralizedEigenDecomposition_h

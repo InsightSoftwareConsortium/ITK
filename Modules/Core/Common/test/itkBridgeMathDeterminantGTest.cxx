@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 // First include the header file to be tested:
-#include "itkMathDeterminant.h"
+#include "itkBridgeMathDeterminant.h"
 
 #include "itkMatrix.h"
 
@@ -52,41 +52,41 @@ FillMatrix(const double src[VDim][VDim])
 } // namespace
 
 // Closed-form 2x2 reference: ad - bc.
-TEST(MathDeterminant, TwoByTwoAnalytic)
+TEST(BridgeMathDeterminant, TwoByTwoAnalytic)
 {
   const auto   A = FillMatrix<double, 2>(kM2);
   const double expected = kM2[0][0] * kM2[1][1] - kM2[0][1] * kM2[1][0];
-  EXPECT_NEAR(itk::Math::Determinant(A), expected, 1e-14);
+  EXPECT_NEAR(itk::bridge::Math::Determinant(A), expected, 1e-14);
 }
 
 // Closed-form 3x3 reference: cofactor expansion along the first row.
-TEST(MathDeterminant, ThreeByThreeAnalytic)
+TEST(BridgeMathDeterminant, ThreeByThreeAnalytic)
 {
   const auto   A = FillMatrix<double, 3>(kM3);
   const double expected = kM3[0][0] * (kM3[1][1] * kM3[2][2] - kM3[1][2] * kM3[2][1]) -
                           kM3[0][1] * (kM3[1][0] * kM3[2][2] - kM3[1][2] * kM3[2][0]) +
                           kM3[0][2] * (kM3[1][0] * kM3[2][1] - kM3[1][1] * kM3[2][0]);
-  EXPECT_NEAR(itk::Math::Determinant(A), expected, 1e-14);
+  EXPECT_NEAR(itk::bridge::Math::Determinant(A), expected, 1e-14);
 }
 
 // The three overloads (itk::Matrix, vnl_matrix_fixed, vnl_matrix) return the
 // same value for the same data.
-TEST(MathDeterminant, OverloadConsistency)
+TEST(BridgeMathDeterminant, OverloadConsistency)
 {
   const auto                           A = FillMatrix<double, 3>(kM3);
   const vnl_matrix_fixed<double, 3, 3> fixedA = A.GetVnlMatrix();
   const vnl_matrix<double>             dynA = fixedA.as_matrix();
 
-  const double d = itk::Math::Determinant(A);
-  EXPECT_DOUBLE_EQ(itk::Math::Determinant(fixedA), d);
-  EXPECT_NEAR(itk::Math::Determinant(dynA), d, 1e-14);
+  const double d = itk::bridge::Math::Determinant(A);
+  EXPECT_DOUBLE_EQ(itk::bridge::Math::Determinant(fixedA), d);
+  EXPECT_NEAR(itk::bridge::Math::Determinant(dynA), d, 1e-14);
 }
 
 // Identity has unit determinant; a diagonal matrix yields the product of its
 // diagonal; both stress the direct fixed-size path.
-TEST(MathDeterminant, IdentityAndDiagonal)
+TEST(BridgeMathDeterminant, IdentityAndDiagonal)
 {
-  EXPECT_DOUBLE_EQ(itk::Math::Determinant(itk::Matrix<double, 4, 4>::GetIdentity()), 1.0);
+  EXPECT_DOUBLE_EQ(itk::bridge::Math::Determinant(itk::Matrix<double, 4, 4>::GetIdentity()), 1.0);
 
   itk::Matrix<double, 4, 4> D;
   D.SetIdentity();
@@ -94,11 +94,11 @@ TEST(MathDeterminant, IdentityAndDiagonal)
   D(1, 1) = -3.0;
   D(2, 2) = 0.5;
   D(3, 3) = 4.0;
-  EXPECT_DOUBLE_EQ(itk::Math::Determinant(D), 2.0 * -3.0 * 0.5 * 4.0);
+  EXPECT_DOUBLE_EQ(itk::bridge::Math::Determinant(D), 2.0 * -3.0 * 0.5 * 4.0);
 }
 
 // A rank-deficient matrix (two identical rows) has a zero determinant.
-TEST(MathDeterminant, SingularIsZero)
+TEST(BridgeMathDeterminant, SingularIsZero)
 {
   itk::Matrix<double, 3, 3> A;
   A(0, 0) = 1.0;
@@ -110,12 +110,12 @@ TEST(MathDeterminant, SingularIsZero)
   A(2, 0) = 4.0;
   A(2, 1) = 5.0;
   A(2, 2) = 6.0;
-  EXPECT_NEAR(itk::Math::Determinant(A), 0.0, 1e-14);
+  EXPECT_NEAR(itk::bridge::Math::Determinant(A), 0.0, 1e-14);
 }
 
 // Upper-triangular determinant is the product of the diagonal; exercises the
 // runtime PartialPivLU path at a size beyond the direct formulas.
-TEST(MathDeterminant, LargeTriangular)
+TEST(BridgeMathDeterminant, LargeTriangular)
 {
   constexpr unsigned int N = 6;
   vnl_matrix<double>     A(N, N, 0.0);
@@ -129,44 +129,44 @@ TEST(MathDeterminant, LargeTriangular)
       A(i, j) = 0.3 * (i + 1) + 0.7 * j; // upper triangle does not affect det
     }
   }
-  EXPECT_NEAR(itk::Math::Determinant(A), expected, 1e-10 * std::abs(expected));
+  EXPECT_NEAR(itk::bridge::Math::Determinant(A), expected, 1e-10 * std::abs(expected));
 }
 
 // det(cA) = c^n det(A) for an n x n matrix.
-TEST(MathDeterminant, ScalingLaw)
+TEST(BridgeMathDeterminant, ScalingLaw)
 {
   const auto                A = FillMatrix<double, 3>(kM3);
-  const double              base = itk::Math::Determinant(A);
+  const double              base = itk::bridge::Math::Determinant(A);
   itk::Matrix<double, 3, 3> scaled = A * 2.0;
-  EXPECT_NEAR(itk::Math::Determinant(scaled), 8.0 * base, 1e-13);
+  EXPECT_NEAR(itk::bridge::Math::Determinant(scaled), 8.0 * base, 1e-13);
 }
 
 // float instantiation computes with float precision.
-TEST(MathDeterminant, FloatType)
+TEST(BridgeMathDeterminant, FloatType)
 {
   const auto  A = FillMatrix<float, 2>(kM2);
   const float expected = static_cast<float>(kM2[0][0] * kM2[1][1] - kM2[0][1] * kM2[1][0]);
-  EXPECT_NEAR(itk::Math::Determinant(A), expected, 1e-6f);
+  EXPECT_NEAR(itk::bridge::Math::Determinant(A), expected, 1e-6f);
 }
 
 // A non-square dynamic matrix is a usage error.
-TEST(MathDeterminant, NonSquareThrows)
+TEST(BridgeMathDeterminant, NonSquareThrows)
 {
   const vnl_matrix<double> rect(2, 3, 1.0);
-  EXPECT_THROW(itk::Math::Determinant(rect), itk::ExceptionObject);
+  EXPECT_THROW(itk::bridge::Math::Determinant(rect), itk::ExceptionObject);
 }
 
 // Equivalence with the vnl engines being supplemented, on well- and
 // ill-conditioned inputs, by relative agreement.
-TEST(MathDeterminant, MatchesVnl)
+TEST(BridgeMathDeterminant, MatchesVnl)
 {
   const auto                           A3 = FillMatrix<double, 3>(kM3);
   const vnl_matrix_fixed<double, 3, 3> f3 = A3.GetVnlMatrix();
-  EXPECT_NEAR(itk::Math::Determinant(A3), vnl_det(f3), 1e-13);
+  EXPECT_NEAR(itk::bridge::Math::Determinant(A3), vnl_det(f3), 1e-13);
 
   const vnl_matrix<double> d3 = f3.as_matrix();
   const double             ref = vnl_determinant(d3);
-  EXPECT_NEAR(itk::Math::Determinant(d3), ref, 1e-13 * std::max(1.0, std::abs(ref)));
+  EXPECT_NEAR(itk::bridge::Math::Determinant(d3), ref, 1e-13 * std::max(1.0, std::abs(ref)));
 
   // Ill-conditioned: a scaled Hilbert-like matrix.
   constexpr unsigned int N = 8;
@@ -175,5 +175,5 @@ TEST(MathDeterminant, MatchesVnl)
     for (unsigned int j = 0; j < N; ++j)
       H(i, j) = 1.0 / (i + j + 1.0);
   const double refH = vnl_determinant(H);
-  EXPECT_NEAR(itk::Math::Determinant(H), refH, 1e-9 * std::max(1.0, std::abs(refH)));
+  EXPECT_NEAR(itk::bridge::Math::Determinant(H), refH, 1e-9 * std::max(1.0, std::abs(refH)));
 }

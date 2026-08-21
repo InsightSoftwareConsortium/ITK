@@ -15,11 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkMathSVD_h
-#define itkMathSVD_h
+#ifndef itkBridgeMathSVD_h
+#define itkBridgeMathSVD_h
 
 #include "itkMacro.h"
-#include "itkEigenDecompositionSignConvention.h"
+#include "itkBridgeEigenDecompositionSignConvention.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_matrix_fixed.h"
 #include "vnl/vnl_vector.h"
@@ -33,12 +33,15 @@
 
 namespace itk
 {
-// Forward-declared to break the itkMatrix.h <-> itkMathSVD.h include cycle; the
-// itk::Matrix SVD overload needs the complete type only at instantiation, where
-// the caller has already included itkMatrix.h.
+// Forward-declared to break the itkMatrix.h <-> itkBridgeMathSVD.h include
+// cycle; the itk::Matrix SVD overload needs the complete type only at
+// instantiation, where the caller has already included itkMatrix.h.
 template <typename T, unsigned int VRows, unsigned int VColumns>
 class Matrix;
+} // namespace itk
 
+namespace itk::bridge
+{
 namespace Math
 {
 
@@ -410,7 +413,7 @@ DynamicSquareSVDEigen(const TReal * inData, unsigned int n, TReal * uData, TReal
   const auto extract = [&](const auto & svd) {
     if (svd.info() != Eigen::Success)
     {
-      itkGenericExceptionMacro("itk::Math::SVD failed; input is likely non-finite (NaN/Inf).");
+      itkGenericExceptionMacro("itk::bridge::Math::SVD failed; input is likely non-finite (NaN/Inf).");
     }
     uMap = svd.matrixU();
     vMap = svd.matrixV();
@@ -453,7 +456,7 @@ SquareSVDEigen(const TReal * inData, TReal * uData, TReal * wData, TReal * vData
     const Eigen::JacobiSVD<ColMajor, options> svd(inMap);
     if (svd.info() != Eigen::Success)
     {
-      itkGenericExceptionMacro("itk::Math::SVD failed; input is likely non-finite (NaN/Inf).");
+      itkGenericExceptionMacro("itk::bridge::Math::SVD failed; input is likely non-finite (NaN/Inf).");
     }
 
     Eigen::Map<RowMajor> uMap(uData);
@@ -488,7 +491,7 @@ RectangularSVDEigen(const TReal * inData,
   const Eigen::BDCSVD<ColMajor, thin> svd(inMap);
   if (svd.info() != Eigen::Success)
   {
-    itkGenericExceptionMacro("itk::Math::SVD failed; input is likely non-finite (NaN/Inf).");
+    itkGenericExceptionMacro("itk::bridge::Math::SVD failed; input is likely non-finite (NaN/Inf).");
   }
   Eigen::Map<RowMajor> uMap(uData, rows, k);
   Eigen::Map<RowMajor> vMap(vData, cols, k);
@@ -504,7 +507,7 @@ RectangularSVDEigen(const TReal * inData,
 // The Eigen JacobiSVD/BDCSVD instantiations behind the detail engines dominate
 // compile memory: without pre-instantiation, GCC needs ~2 GB per translation unit
 // that inverts an itk::Matrix. Declare the common specializations extern and define
-// them once in itkMathSVD.cxx so consumers link instead of re-instantiating them.
+// them once in itkBridgeMathSVD.cxx so consumers link instead of re-instantiating them.
 #if defined(ITKCommon_EXPORTS)
 #  define ITKCommon_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
 #else
@@ -577,7 +580,7 @@ SVD(const vnl_matrix_fixed<TReal, VDim, VDim> & A, bool canonicalizeSigns = true
   detail::SquareSVDEigen<VDim>(A.data_block(), result.U.data_block(), result.W.data_block(), result.V.data_block());
   if (canonicalizeSigns)
   {
-    itk::detail::CanonicalizeColumnSignsPaired(result.U, result.V);
+    itk::bridge::detail::CanonicalizeColumnSignsPaired(result.U, result.V);
   }
   return result;
 }
@@ -602,7 +605,7 @@ SVD(const vnl_matrix_fixed<TReal, VRows, VCols> & A, bool canonicalizeSigns = tr
     A.data_block(), VRows, VCols, result.U.data_block(), result.W.data_block(), result.V.data_block());
   if (canonicalizeSigns)
   {
-    itk::detail::CanonicalizeColumnSignsPaired(result.U, result.V);
+    itk::bridge::detail::CanonicalizeColumnSignsPaired(result.U, result.V);
   }
   return result;
 }
@@ -626,7 +629,7 @@ SVD(const vnl_matrix<TReal> & A, bool canonicalizeSigns = true)
   const unsigned int cols = A.cols();
   if (rows == 0 || cols == 0)
   {
-    itkGenericExceptionMacro("itk::Math::SVD requires a non-empty matrix.");
+    itkGenericExceptionMacro("itk::bridge::Math::SVD requires a non-empty matrix.");
   }
   const unsigned int k = (rows < cols) ? rows : cols;
   SVDResult<TReal>   result;
@@ -645,12 +648,12 @@ SVD(const vnl_matrix<TReal> & A, bool canonicalizeSigns = true)
   }
   if (canonicalizeSigns)
   {
-    itk::detail::CanonicalizeColumnSignsPaired(result.U, result.V);
+    itk::bridge::detail::CanonicalizeColumnSignsPaired(result.U, result.V);
   }
   return result;
 }
 
 } // namespace Math
-} // namespace itk
+} // namespace itk::bridge
 
-#endif // itkMathSVD_h
+#endif // itkBridgeMathSVD_h

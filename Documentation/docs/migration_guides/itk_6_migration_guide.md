@@ -751,26 +751,51 @@ removed. The default (non-FFTW) FFT backend is now PocketFFT
 - `vnl_fft_prime_factors`, `gpfa`-family symbols, and the vxl
   `vnl_algo_test_fft*`/`test_convolve` tests are gone from the vendored tree.
 
+## The `itk::bridge` namespace: a migration aid, not supported ITK API
+
+The Eigen-backed replacements named throughout this guide live in
+`itk::bridge`. That namespace holds **convenience wrappers intended to ease the
+initial burden of moving off the deprecated VNL algorithms** — a `vnl_svd` call
+site can become `itk::bridge::Math::SVD` as a mechanical edit, without the
+caller first learning Eigen's API.
+
+These wrappers are **not part of the core ITK mission to maintain or validate**:
+
+- The API and ABI may change, or be removed, without the deprecation cycle that
+  core ITK API changes receive.
+- The numerical behavior is the backend's. ITK does not independently validate
+  accuracy, conditioning, or convergence, and does not guarantee bit-for-bit
+  stability across backend versions.
+- Coverage extends only to what ITK's own migration required; missing
+  functionality will not necessarily be added.
+
+**Downstream users should prefer depending on Eigen (or another numerical
+library) directly** rather than on the API/ABI of these wrappers. Using
+`itk::bridge` as a transitional step while retiring VNL is reasonable; treating
+it as a permanent dependency is not. Code that needs a long-lived, supported
+numerical interface should call the backend directly, where the API contract,
+versioning policy, and documentation are the numerical library's own.
+
 ## Eigen-backed eigendecompositions replace netlib EISPACK `vnl_*_eigensystem`
 
 `vnl_real_eigensystem`, `vnl_symmetric_eigensystem`, and
 `vnl_generalized_eigensystem` (netlib EISPACK `rg`/`rs`/`rsg`), and the only
 other client `vnl_scatter_3x3`, are deprecated in favor of Eigen-backed
-`itk::RealEigenDecomposition`, `itk::SymmetricEigenDecomposition`, and
-`itk::GeneralizedEigenDecomposition`. Under `ITK_FUTURE_LEGACY_REMOVE` these
+`itk::bridge::RealEigenDecomposition`, `itk::bridge::SymmetricEigenDecomposition`, and
+`itk::bridge::GeneralizedEigenDecomposition`. Under `ITK_FUTURE_LEGACY_REMOVE` these
 classes and the entire `v3p/netlib/eispack/` subdirectory are excluded from the
 build.
 
 ### What you need to do
 
-- Replace `vnl_symmetric_eigensystem<T>` with `itk::SymmetricEigenDecomposition<T>`
+- Replace `vnl_symmetric_eigensystem<T>` with `itk::bridge::SymmetricEigenDecomposition<T>`
   (it mirrors the `V`/`D` members and `get_eigenvector`/`get_eigenvalue`
   accessors, so most call sites change only the type name and the include:
-  `itkSymmetricEigenDecomposition.h`). Use `itk::RealEigenDecomposition` and
-  `itk::GeneralizedEigenDecomposition` for the non-symmetric and
+  `itkBridgeSymmetricEigenDecomposition.h`). Use `itk::bridge::RealEigenDecomposition` and
+  `itk::bridge::GeneralizedEigenDecomposition` for the non-symmetric and
   symmetric-definite generalized problems.
 - For the eigenvalues/eigenvectors of a 3x3 scatter matrix, build the matrix
-  directly and feed `itk::SymmetricEigenDecomposition`.
+  directly and feed `itk::bridge::SymmetricEigenDecomposition`.
 
 ### A different correct representation — not a regression
 
@@ -800,14 +825,14 @@ representation of the same result, not an indication of a failure.** Update such
 expected values to the new (now platform-stable) representatives; the migrated
 ITK tests have been updated this way.
 
-## Optional Eigen-backed `itk::Math::SVD`
+## Optional Eigen-backed `itk::bridge::Math::SVD`
 
-A new opt-in, header-only `itk::Math::SVD` (`itkMathSVD.h`) provides an
+A new opt-in, header-only `itk::bridge::Math::SVD` (`itkBridgeMathSVD.h`) provides an
 Eigen-backed singular value decomposition. It returns `U`, `W`, `V` as vnl types
 plus `PseudoInverse()`, `Solve()`, `Rank()` and `Recompose()` -- the dominant `vnl_svd`
 operations. `vnl_svd` is unchanged by this addition, but the direction is to
-migrate ITK and downstream code onto `itk::Math::SVD` and ultimately **deprecate
-and remove** the `vnl_svd` path. Prefer `itk::Math::SVD` in new code.
+migrate ITK and downstream code onto `itk::bridge::Math::SVD` and ultimately **deprecate
+and remove** the `vnl_svd` path. Prefer `itk::bridge::Math::SVD` in new code.
 
 A runtime-sized `vnl_matrix` of any shape is accepted: square inputs take a fast
 JacobiSVD/BDCSVD path; rectangular inputs use BDCSVD with thin U/V (`U` is m x k,
@@ -818,7 +843,7 @@ signature.
 
 ### What you need to do
 
-Nothing is required immediately, but prefer `itk::Math::SVD` in new code. The
+Nothing is required immediately, but prefer `itk::bridge::Math::SVD` in new code. The
 `vnl_svd`-only operations (`nullvector`, `well_condition`, `singularities`) have
 no remaining callers in ITK, so the new API already covers every ITK use; the few
 remaining `vnl_svd` call sites are slated for migration as part of the broader
@@ -854,7 +879,7 @@ accuracy.
 
 ### Deterministic signs -- a different correct representation
 
-Like the eigendecomposition classes above, `itk::Math::SVD` canonicalizes the
+Like the eigendecomposition classes above, `itk::bridge::Math::SVD` canonicalizes the
 singular-vector signs by default (reproducible across platforms and SIMD width),
 whereas `vnl_svd`'s signs depend on solver internals. Sign-invariant operations
 -- `U * V^T`, `PseudoInverse()`, `Solve()` -- are stable across the swap; code that

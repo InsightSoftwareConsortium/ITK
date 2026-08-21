@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef itkTetrahedronCell_hxx
 #define itkTetrahedronCell_hxx
-#include "itkMathDeterminant.h"
+#include "itkBridgeMathDeterminant.h"
 
 #include <algorithm> // For copy_n.
 
@@ -106,7 +106,7 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
     mat.put(1, i, c2[i]);
     mat.put(2, i, c3[i]);
   }
-  const double det = Math::Determinant(mat);
+  const double det = bridge::Math::Determinant(mat);
   if (det == 0.0)
   {
     return false;
@@ -119,7 +119,7 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
     mat.put(2, i, c3[i]);
   }
 
-  pcoords[0] = Math::Determinant(mat) / det;
+  pcoords[0] = bridge::Math::Determinant(mat) / det;
 
   for (unsigned int i = 0; i < PointDimension; ++i)
   {
@@ -128,7 +128,7 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
     mat.put(2, i, c3[i]);
   }
 
-  pcoords[1] = Math::Determinant(mat) / det;
+  pcoords[1] = bridge::Math::Determinant(mat) / det;
 
   for (unsigned int i = 0; i < PointDimension; ++i)
   {
@@ -137,7 +137,7 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
     mat.put(2, i, rhs[i]);
   }
 
-  pcoords[2] = Math::Determinant(mat) / det;
+  pcoords[2] = bridge::Math::Determinant(mat) / det;
 
   const double p4 = 1.0 - pcoords[0] - pcoords[1] - pcoords[2];
 

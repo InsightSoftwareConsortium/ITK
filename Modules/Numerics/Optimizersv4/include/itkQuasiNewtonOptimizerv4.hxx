@@ -386,7 +386,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::ComputeHessianAnd
 
   TInternalComputationValueType threshold = NumericTraits<TInternalComputationValueType>::epsilon();
 
-  if (itk::Math::Absolute(Math::Determinant(newHessian)) <= threshold)
+  if (itk::Math::Absolute(bridge::Math::Determinant(newHessian)) <= threshold)
   {
     return false;
   }
@@ -398,7 +398,9 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::ComputeHessianAnd
       gradient[p] = this->m_Gradient[offset + p];
     }
 
-    const vnl_matrix<TInternalComputationValueType> hessianInverse{ itk::Math::SVD(newHessian).PseudoInverse() };
+    const vnl_matrix<TInternalComputationValueType> hessianInverse{
+      itk::bridge::Math::SVD(newHessian).PseudoInverse()
+    };
     // gradient is already negated
     const DerivativeType newtonStep{ hessianInverse * gradient };
     for (SizeValueType p = 0; p < numLocalPara; ++p)

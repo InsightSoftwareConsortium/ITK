@@ -21,7 +21,7 @@
 #include "itkPoint.h"
 #include "itkCovariantVector.h"
 #include "vnl/vnl_matrix_fixed.h"
-#include "itkMathSVD.h"
+#include "itkBridgeMathSVD.h"
 #if !defined(ITK_LEGACY_REMOVE) && !defined(ITK_FUTURE_LEGACY_REMOVE)
 #  include "vnl/algo/vnl_matrix_inverse.h" // transitional transitive include; dropped on ITK legacy removal
 #endif
@@ -212,7 +212,7 @@ public:
   [[nodiscard]] inline vnl_matrix<T>
   GetInverse() const
   {
-    return itk::Math::SVD(m_Matrix).PseudoInverse();
+    return itk::bridge::Math::SVD(m_Matrix).PseudoInverse();
   }
 
   /** Return the transposed matrix. */

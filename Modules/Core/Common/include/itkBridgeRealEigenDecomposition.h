@@ -15,18 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkRealEigenDecomposition_h
-#define itkRealEigenDecomposition_h
+#ifndef itkBridgeRealEigenDecomposition_h
+#define itkBridgeRealEigenDecomposition_h
 
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
 #include <complex>
-#include "itkEigenDecompositionSolverInfo.h"
+#include "itkBridgeEigenDecompositionSolverInfo.h"
 #include "itkMacro.h"
 #include "itk_eigen.h"
 #include ITK_EIGEN(Dense)
 
-namespace itk
+namespace itk::bridge
 {
 
 /** \class RealEigenDecomposition
@@ -98,6 +98,6 @@ private:
   ComplexMatrixType m_Eigenvectors;
 };
 
-} // namespace itk
+} // namespace itk::bridge
 
-#endif // itkRealEigenDecomposition_h
+#endif // itkBridgeRealEigenDecomposition_h

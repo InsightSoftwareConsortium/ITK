@@ -21,7 +21,7 @@
 #include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkImageToImageFilter.h"
 
-#include "itkMathSVD.h"
+#include "itkBridgeMathSVD.h"
 #include "itkCastImageFilter.h"
 #include <algorithm> // For min and max.
 #include "itkPrintHelper.h"
@@ -190,7 +190,7 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::GetInverseJacobian
   {
     this->ComputeJacobianWithRespectToPositionInternal(index, jacobian, false);
     // rcond = 0 keeps every nonzero singular value (no truncation).
-    jacobian = itk::Math::SVD(jacobian, /*canonicalizeSigns=*/false).PseudoInverse(0);
+    jacobian = itk::bridge::Math::SVD(jacobian, /*canonicalizeSigns=*/false).PseudoInverse(0);
   }
   else
   {

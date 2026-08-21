@@ -19,7 +19,7 @@
 #define itkQuadEdgeMeshDecimationQuadricElementHelper_h
 
 #include "itkPoint.h"
-#include "itkMathSVD.h"
+#include "itkBridgeMathSVD.h"
 #include "vnl/vnl_vector_fixed.h"
 #include "vnl/vnl_matrix.h"
 #include <algorithm>
@@ -100,7 +100,7 @@ public:
   ComputeError(const PointType & iP) const
   {
     //     ComputeAMatrixAndBVector();
-    const auto      svd = itk::Math::SVD(m_A, /*canonicalizeSigns=*/false);
+    const auto      svd = itk::bridge::Math::SVD(m_A, /*canonicalizeSigns=*/false);
     const CoordType wmax = svd.W[0];
     // Fold the absolute and relative singular-value tolerances into one rcond.
     const CoordType rcond =
@@ -149,7 +149,7 @@ public:
   {
     ComputeAMatrixAndBVector();
 
-    const auto      svd = itk::Math::SVD(m_A, /*canonicalizeSigns=*/false);
+    const auto      svd = itk::bridge::Math::SVD(m_A, /*canonicalizeSigns=*/false);
     const CoordType wmax = svd.W[0];
     const CoordType rcond =
       (wmax > CoordType{}) ? std::max(m_SVDAbsoluteThreshold / wmax, m_SVDRelativeThreshold) : m_SVDRelativeThreshold;

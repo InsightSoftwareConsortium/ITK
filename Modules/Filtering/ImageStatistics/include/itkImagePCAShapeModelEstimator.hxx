@@ -340,7 +340,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::EstimatePCAShapeModelPar
 
   identityMatrix.set_identity();
 
-  const itk::GeneralizedEigenDecomposition<double> eigenVectors_eigenValues(m_InnerProduct, identityMatrix);
+  const itk::bridge::GeneralizedEigenDecomposition<double> eigenVectors_eigenValues(m_InnerProduct, identityMatrix);
 
   MatrixOfDoubleType eigenVectorsOfInnerProductMatrix = eigenVectors_eigenValues.GetEigenvectors();
 

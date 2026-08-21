@@ -19,7 +19,7 @@
 #define itkComposeScaleSkewVersor3DTransform_hxx
 
 #include "itkMath.h"
-#include "itkMathDeterminant.h"
+#include "itkBridgeMathDeterminant.h"
 
 namespace itk
 {
@@ -279,7 +279,7 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeMatrixParameters
   M(2, 2) /= m_Scale[2];
   m_Skew[1] = ortho0 / m_Scale[0];
   m_Skew[2] = ortho1 / m_Scale[1];
-  if (Math::Determinant(M.GetVnlMatrix()) < 0)
+  if (bridge::Math::Determinant(M.GetVnlMatrix()) < 0)
   {
     m_Scale[0] *= -1;
     M(0, 0) *= -1;

@@ -54,7 +54,7 @@ if(NOT ITK_FUTURE_LEGACY_REMOVE)
   )
 endif()
 
-# vnl_matrix_inverse is a thin vnl_svd wrapper deprecated for itk::Math::SVD;
+# vnl_matrix_inverse is a thin vnl_svd wrapper deprecated for itk::bridge::Math::SVD;
 # drop it and its template instantiations under ITK_FUTURE_LEGACY_REMOVE.
 if(NOT ITK_FUTURE_LEGACY_REMOVE)
   list(APPEND vnl_algo_sources
@@ -64,7 +64,7 @@ endif()
 
 # LINPACK-svdc-backed legacy: vnl_svd{,_economy,_fixed} and vnl_solve_qp (its
 # only client outside the deprecated eigensystem/matrix_inverse wrappers) are
-# the consumers of the netlib svdc engine. They are deprecated for itk::Math::SVD;
+# the consumers of the netlib svdc engine. They are deprecated for itk::bridge::Math::SVD;
 # drop them and their template instantiations once the APIs are removed, leaving
 # no svdc dependency to build.
 if(NOT ITK_FUTURE_LEGACY_REMOVE)

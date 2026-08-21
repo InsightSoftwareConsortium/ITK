@@ -20,7 +20,7 @@
 
 
 #include "itkMath.h"
-#include "itkMathSVD.h"
+#include "itkBridgeMathSVD.h"
 #include "itkImageDuplicator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
@@ -135,7 +135,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::SetSplineOrder(ArrayT
 
       // rcond = 0 keeps every nonzero singular value (no truncation).
       this->m_RefinedLatticeCoefficients[i] =
-        (itk::Math::SVD(R, /*canonicalizeSigns=*/false).PseudoInverse(0) * S).extract(2, S.cols());
+        (itk::bridge::Math::SVD(R, /*canonicalizeSigns=*/false).PseudoInverse(0) * S).extract(2, S.cols());
     }
   }
   this->Modified();

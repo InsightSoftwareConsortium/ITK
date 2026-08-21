@@ -22,7 +22,7 @@
 #include "vnl/vnl_vector.h"
 #include "itkMetaDataObject.h"
 #include "itkArray.h"
-#include "itkMathSVD.h"
+#include "itkBridgeMathSVD.h"
 #include "itkPrintHelper.h"
 #include "itkMakeUniqueForOverwrite.h"
 
@@ -983,7 +983,7 @@ MINCImageIO::WriteImageInformation()
     origin[i] = this->GetOrigin(i);
   }
 
-  const vnl_matrix<double> inverseDirectionCosines{ itk::Math::SVD(directionCosineMatrix).PseudoInverse() };
+  const vnl_matrix<double> inverseDirectionCosines{ itk::bridge::Math::SVD(directionCosineMatrix).PseudoInverse() };
   origin *= inverseDirectionCosines; // transform to minc convention
 
 

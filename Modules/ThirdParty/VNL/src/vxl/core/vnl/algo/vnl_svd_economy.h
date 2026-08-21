@@ -2,21 +2,21 @@
 #ifndef vnl_svd_economy_h_
 #define vnl_svd_economy_h_
 
-// ITK deprecation shim: the Eigen-backed itk::Math::SVD (itkMathSVD.h) is the
+// ITK deprecation shim: the Eigen-backed itk::bridge::Math::SVD (itkBridgeMathSVD.h) is the
 // supported replacement. The guard is active only when itkConfigure.h is
 // reachable (an ITK consumer); ITK's own VXL build is unaffected.
 #if __has_include(<itkConfigure.h>)
 #  include <itkConfigure.h>
 #  if defined(ITK_FUTURE_LEGACY_REMOVE) && !defined(ITK_LEGACY_TEST)
 #    error \
-      "vnl/algo/vnl_svd_economy.h is deprecated; migrate to itk::Math::SVD (itkMathSVD.h, Eigen-backed)."
+      "vnl/algo/vnl_svd_economy.h is deprecated; migrate to itk::bridge::Math::SVD (itkBridgeMathSVD.h, Eigen-backed)."
 #  elif defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_LEGACY_TEST)
 #    if defined(_MSC_VER)
 #      pragma message( \
-        "vnl/algo/vnl_svd_economy.h is deprecated; migrate to itk::Math::SVD (itkMathSVD.h, Eigen-backed).")
+        "vnl/algo/vnl_svd_economy.h is deprecated; migrate to itk::bridge::Math::SVD (itkBridgeMathSVD.h, Eigen-backed).")
 #    else
 #      warning \
-        "vnl/algo/vnl_svd_economy.h is deprecated; migrate to itk::Math::SVD (itkMathSVD.h, Eigen-backed)."
+        "vnl/algo/vnl_svd_economy.h is deprecated; migrate to itk::bridge::Math::SVD (itkBridgeMathSVD.h, Eigen-backed)."
 #    endif
 #  endif
 #endif
