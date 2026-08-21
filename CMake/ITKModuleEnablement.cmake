@@ -213,6 +213,12 @@ macro(itk_module_enable itk-module _needed_by)
   endif()
 endmacro()
 
+# Any module's test kit may create a GoogleTest driver, so testing needs
+# ITKGoogleTest whatever the module selection is.
+if(BUILD_TESTING AND NOT DISABLE_MODULE_TESTS)
+  itk_module_enable(ITKGoogleTest "")
+endif()
+
 foreach(itk-module ${ITK_MODULES_ALL})
   if(Module_${itk-module} OR ITK_MODULE_${itk-module}_IN_DEFAULT)
     itk_module_enable("${itk-module}" "")
