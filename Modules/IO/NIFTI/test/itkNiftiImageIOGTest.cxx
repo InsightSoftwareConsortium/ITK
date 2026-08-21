@@ -22,6 +22,7 @@
 #include "itkNiftiImageIO.h"
 #include "itkVectorImage.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 
 #include <array>
 #include <cmath>
@@ -141,6 +142,68 @@ TEST(NiftiImageIO, RescaleAppliesToEveryComponentOfEveryVoxel)
       EXPECT_FLOAT_EQ(rescaled.Get()[c], original.Get()[c] * slope + intercept);
     }
   }
+}
+
+// Issue #6750: Ensure that scl_slope can make a read/write round trip and
+// be recovered with full precision. Regression test for Issue #6003.
+TEST(NiftiImageIO, SclSlopeInterceptRoundTripsAtFullPrecision)
+{
+  using WriteImageType = itk::Image<unsigned char, 3>;
+  constexpr float slope = 1.0 / 3.0;
+  constexpr float intercept = 5.333333;
+
+  const std::string path = OutputPath("nifti_scl_slope_precision.nii");
+
+  auto                     writeImage = WriteImageType::New();
+  WriteImageType::SizeType size;
+  size.Fill(10);
+  WriteImageType::IndexType index;
+  index.Fill(0);
+
+  WriteImageType::RegionType region;
+  region.SetIndex(index);
+  region.SetSize(size);
+
+  writeImage->SetRegions(region);
+  writeImage->Allocate();
+
+  writeImage->FillBuffer(231);
+
+  auto writer = itk::ImageFileWriter<WriteImageType>::New();
+  auto writerIo = itk::NiftiImageIO::New();
+  writerIo->SetRescaleSlope(slope);
+  writerIo->SetRescaleIntercept(intercept);
+  writer->SetImageIO(writerIo);
+  writer->SetInput(writeImage);
+  writer->SetFileName(path);
+  ASSERT_NO_THROW(writer->Update());
+
+  using ReadImageType = itk::Image<float, 3>;
+  auto reader = itk::ImageFileReader<ReadImageType>::New();
+  auto readerIo = itk::NiftiImageIO::New();
+  reader->SetImageIO(readerIo);
+  reader->SetFileName(path);
+  ASSERT_NO_THROW(reader->Update());
+
+  ReadImageType::Pointer readImage = reader->GetOutput();
+
+  using IteratorType = itk::ImageRegionConstIterator<ReadImageType>;
+  IteratorType it(readImage, readImage->GetLargestPossibleRegion());
+
+  for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+  {
+    ASSERT_EQ(it.Get(), static_cast<float>(231) * slope + intercept);
+  }
+
+  const auto & metadata = reader->GetOutput()->GetMetaDataDictionary();
+
+  std::string slopeString;
+  ASSERT_TRUE(itk::ExposeMetaData<std::string>(metadata, "scl_slope", slopeString));
+  EXPECT_EQ(std::stof(slopeString), slope);
+
+  std::string interceptString;
+  ASSERT_TRUE(itk::ExposeMetaData<std::string>(metadata, "scl_inter", interceptString));
+  EXPECT_EQ(std::stof(interceptString), intercept);
 }
 
 TEST(NiftiImageIO, RASConversionRejectsNonThreeComponentVector)
