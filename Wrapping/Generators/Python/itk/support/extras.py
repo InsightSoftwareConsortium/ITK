@@ -270,18 +270,18 @@ def _get_itk_pixelid(numpy_array_type):
 
     # This is a Mapping from numpy array types to itk pixel types.
     _np_itk = {
-        np.dtype(np.uint8): itk.UC,
-        np.dtype(np.uint16): itk.US,
-        np.dtype(np.uint32): itk.UI,
+        np.dtype(np.uint8): itk.uint8_t,
+        np.dtype(np.uint16): itk.uint16_t,
+        np.dtype(np.uint32): itk.uint32_t,
         np.dtype(np.uint64): itk.uint64_t,
-        np.dtype(np.int8): itk.SC,
-        np.dtype(np.int16): itk.SS,
-        np.dtype(np.int32): itk.SI,
+        np.dtype(np.int8): itk.int8_t,
+        np.dtype(np.int16): itk.int16_t,
+        np.dtype(np.int32): itk.int32_t,
         np.dtype(np.int64): itk.int64_t,
-        np.dtype(np.float32): itk.F,
-        np.dtype(np.float64): itk.D,
-        np.dtype(np.complex64): itk.complex[itk.F],
-        np.dtype(np.complex128): itk.complex[itk.D],
+        np.dtype(np.float32): itk.float32_t,
+        np.dtype(np.float64): itk.float64_t,
+        np.dtype(np.complex64): itk.complex[itk.float32_t],
+        np.dtype(np.complex128): itk.complex[itk.float64_t],
     }
     try:
         return _np_itk[numpy_array_type.dtype]
