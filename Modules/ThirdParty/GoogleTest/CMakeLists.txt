@@ -13,6 +13,13 @@ if(NOT ITK_BINARY_DIR)
 endif()
 "
     )
+    set(
+      ITKGoogleTest_EXPORT_CODE_INSTALL
+      "
+set(GTEST_ROOT \"${GTEST_ROOT}\")
+find_package(GTest REQUIRED)
+"
+    )
   endif()
 endif()
 
