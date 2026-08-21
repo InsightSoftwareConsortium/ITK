@@ -1184,3 +1184,33 @@ approximation) are unchanged and intentionally do not return their own type.
   `typeid` comparison, or a `static_cast` to a sibling type), update that code to
   the new concrete type. Such a dependency is uncommon and was not found in a
   survey of downstream ITK consumers.
+
+## `GradientImageFilter::OverrideBoundaryCondition` deprecated in favor of `SetBoundaryCondition`
+
+`GradientImageFilter` is the only ITK class whose `OverrideBoundaryCondition` *takes
+ownership* of its argument; every other class of that name stores a non-owning
+pointer. Because the two share a signature, passing a stack object to a
+`GradientImageFilter` compiled silently and then double-freed.
+
+The owning API now says so in its name and its type:
+
+```cpp
+// ITKv6
+filter->SetBoundaryCondition(std::make_unique<itk::PeriodicBoundaryCondition<ImageType>>());
+
+// ITKv5 (deprecated, removed when ITK_FUTURE_LEGACY_REMOVE is enabled)
+filter->OverrideBoundaryCondition(new itk::PeriodicBoundaryCondition<ImageType>);
+```
+
+`GetBoundaryCondition()` and `ResetBoundaryCondition()` were added to complete the
+interface, matching the rest of the family.
+
+### What you need to do
+
+Replace `OverrideBoundaryCondition(new X)` with `SetBoundaryCondition(std::make_unique<X>())`
+on `GradientImageFilter`. In Python, pass the boundary condition to
+`SetBoundaryCondition`; ownership moves to the filter, and re-using that object
+afterwards raises `RuntimeError` rather than crashing.
+
+Calls to `OverrideBoundaryCondition` on any *other* class are unaffected — those
+never took ownership and keep their current behavior.

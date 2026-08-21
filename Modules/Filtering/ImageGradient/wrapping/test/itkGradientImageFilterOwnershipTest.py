@@ -35,10 +35,27 @@ assert (
     boundaryCondition.thisown
 ), "Python should own a freshly constructed boundary condition"
 
-filt.OverrideBoundaryCondition(boundaryCondition)
+filt.SetBoundaryCondition(boundaryCondition)
 
 assert (
     not boundaryCondition.thisown
+), "SetBoundaryCondition must transfer ownership away from Python"
+
+# Re-offering an already-adopted object must be refused, not silently double-freed.
+try:
+    filt.SetBoundaryCondition(boundaryCondition)
+except RuntimeError:
+    pass
+else:
+    raise AssertionError("SetBoundaryCondition must reject a non-owned object")
+
+# The deprecated overload keeps its ownership semantics while it still exists.
+legacyFilter = itk.GradientImageFilter[ImageType, itk.F, itk.F].New()
+legacyBoundaryCondition = itk.PeriodicBoundaryCondition[ImageType]()
+legacyFilter.OverrideBoundaryCondition(legacyBoundaryCondition)
+
+assert (
+    not legacyBoundaryCondition.thisown
 ), "OverrideBoundaryCondition must transfer ownership away from Python"
 
 # The filter must remain usable with the adopted boundary condition.

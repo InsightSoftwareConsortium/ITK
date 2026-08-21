@@ -1,13 +1,17 @@
+# Defines the %unique_ptr macro used per instantiation below.
+string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "%include <std_unique_ptr.i>\n")
+
 itk_wrap_class("itk::GradientImageFilter" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
 
   set(vector_dim ${d}) # Wrap only vector dimensions which are the same as image dimensions
   foreach(t ${WRAP_ITK_SCALAR})
 
-    # OverrideBoundaryCondition stores the argument in a unique_ptr member.
+    # SetBoundaryCondition and OverrideBoundaryCondition both adopt their argument.
     string(
       APPEND
       ITK_WRAP_PYTHON_SWIG_EXT
+      "%unique_ptr(itkImageBoundaryCondition${ITKM_I${t}${vector_dim}})\n"
       "%apply SWIGTYPE *DISOWN { itkImageBoundaryCondition${ITKM_I${t}${vector_dim}} * boundaryCondition };\n"
     )
 
