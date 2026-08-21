@@ -194,6 +194,14 @@ ITK_GLOBAL_WRAPPING_BUILD_OPTIONS: dict[str, list[str]] = {
     "ITK_WRAP_PYTHON_COMPLEX_REAL": "@ITK_WRAP_PYTHON_COMPLEX_REAL@".split(";"),
 }
 
+# Mangled names of the C types the wrapping instantiated for itk::SizeValueType,
+# itk::IdentifierType and itk::OffsetValueType, from Wrapping/WrapBasicTypes.cmake.
+ITK_GLOBAL_WRAPPING_TYPE_ALIASES: dict[str, str] = {
+    "ST": "@ITKM_ST@",
+    "IT": "@ITKM_IT@",
+    "OT": "@ITKM_OT@",
+}
+
 (swig_lib, swig_py, config_py, doxygen_root, path) = _initialize()
 del _initialize
 del warnings
