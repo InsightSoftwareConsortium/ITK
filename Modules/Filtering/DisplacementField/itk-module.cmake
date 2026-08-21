@@ -17,5 +17,6 @@ itk_module(
     ITKImageGrid
   TEST_DEPENDS
     ITKTestKernel
+    ITKGoogleTest
   DESCRIPTION "${DOCUMENTATION}"
 )

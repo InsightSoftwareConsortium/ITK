@@ -16,6 +16,7 @@ itk_module(
     ITKImageCompose
     ITKImageGrid
     ITKTestKernel
+    ITKGoogleTest
   FACTORY_NAMES
     ImageIO::Nrrd
   DESCRIPTION "${DOCUMENTATION}"
