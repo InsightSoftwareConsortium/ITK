@@ -12,4 +12,23 @@ set(
   WINDOWS_EXPORT_ALL_SYMBOLS
   FALSE
 )
+
+if(UNIX)
+  # ITKNrrdIO's exported link interface names Threads::Threads.
+  set(
+    ITKNrrdIO_EXPORT_CODE_INSTALL
+    "
+find_package(Threads REQUIRED)
+"
+  )
+  set(
+    ITKNrrdIO_EXPORT_CODE_BUILD
+    "
+if(NOT ITK_BINARY_DIR)
+  find_package(Threads REQUIRED)
+endif()
+"
+  )
+endif()
+
 itk_module_impl()
