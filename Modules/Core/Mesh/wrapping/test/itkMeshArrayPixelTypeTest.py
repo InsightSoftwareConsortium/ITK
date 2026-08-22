@@ -27,13 +27,7 @@ MeshType = itk.Mesh[PixelType, Dimension]
 mesh = MeshType.New()
 
 # Create Vector Container and Store values in it for each Point
-# For windows use itk.ULL
-if hasattr(itk.VectorContainer, "ULAD"):
-    IdentifierType = itk.UL
-else:
-    IdentifierType = itk.ULL
-
-v = itk.VectorContainer[IdentifierType, PixelType].New()
+v = itk.VectorContainer[itk.IT, PixelType].New()
 v.Reserve(NumberOfPoints)
 
 for i in range(NumberOfPoints):
