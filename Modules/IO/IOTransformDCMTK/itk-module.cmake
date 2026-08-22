@@ -19,6 +19,7 @@ itk_module(
     ITKIODCMTK
     ITKIOGDCM
     ITKImageGrid
+    ITKGoogleTest
   FACTORY_NAMES
     TransformIO::DCMTK
   EXCLUDE_FROM_DEFAULT

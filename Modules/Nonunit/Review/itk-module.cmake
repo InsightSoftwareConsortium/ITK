@@ -95,6 +95,7 @@ itk_module(
     ITKIOCSV
     ITKIOLSM
     ITKRegistrationCommon
+    ITKGoogleTest
   DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
 )

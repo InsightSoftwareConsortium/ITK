@@ -13,5 +13,6 @@ itk_module(
     ITKThresholding
   TEST_DEPENDS
     ITKTestKernel
+    ITKGoogleTest
   DESCRIPTION "${DOCUMENTATION}"
 )

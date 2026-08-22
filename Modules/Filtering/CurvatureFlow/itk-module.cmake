@@ -16,5 +16,6 @@ itk_module(
   TEST_DEPENDS
     ITKTestKernel
     ITKIOVTK
+    ITKGoogleTest
   DESCRIPTION "${DOCUMENTATION}"
 )

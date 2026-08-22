@@ -315,6 +315,13 @@ function(itk_python_expression_add_test)
 endfunction()
 
 function(CreateGoogleTestDriver KIT KIT_LIBS KitTests)
+  # KIT names the driver, not necessarily the module, so key the check on itk-module.
+  if(NOT "ITKGoogleTest" IN_LIST ITK_MODULE_${itk-module}-Test_DEPENDS)
+    message(
+      FATAL_ERROR
+      "${itk-module} builds a GoogleTest driver: add ITKGoogleTest to its TEST_DEPENDS"
+    )
+  endif()
   set(exe "${KIT}GTestDriver")
   add_executable(${exe} ${KitTests})
   target_link_libraries(
