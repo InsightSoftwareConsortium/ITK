@@ -70,6 +70,23 @@ class CTypeTestCase(unittest.TestCase):
                 itk.UL,
             )
 
+    def test_itk_ctype_numpy_dtype_roundtrip(self) -> None:
+        """Tests round-trip from itkCType to NumPy dtype and back, for the itkCType aliases with a specified size"""
+
+        for itk_ctype in (
+            itk.float32_t,
+            itk.float64_t,
+            itk.uint8_t,
+            itk.uint16_t,
+            itk.uint32_t,
+            itk.uint64_t,
+            itk.int8_t,
+            itk.int16_t,
+            itk.int32_t,
+            itk.int64_t,
+        ):
+            self.assertEqual(itk.itkCType.GetCTypeForDType(itk_ctype.dtype), itk_ctype)
+
 
 if __name__ == "__main__":
     unittest.main()
