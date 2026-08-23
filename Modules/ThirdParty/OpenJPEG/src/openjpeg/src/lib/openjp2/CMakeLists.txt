@@ -1,6 +1,6 @@
 include_regular_expression("^.*$")
 
-set(MANGLE_PREFIX slicer_itk)
+set(MANGLE_PREFIX ${ITK_NAMESPACE})
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/openjpeg_mangle.h.in
         ${CMAKE_CURRENT_BINARY_DIR}/openjpeg_mangle.h
         @ONLY)

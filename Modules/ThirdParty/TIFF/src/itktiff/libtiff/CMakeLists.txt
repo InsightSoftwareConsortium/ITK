@@ -34,7 +34,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/tiffvers.h.cmake.in
                ${CMAKE_CURRENT_BINARY_DIR}/tiffvers.h
                @ONLY)
 
-set(MANGLE_PREFIX slicer_itk)
+set(MANGLE_PREFIX ${ITK_NAMESPACE})
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/itk_tiff_mangle.h.in
                ${CMAKE_CURRENT_BINARY_DIR}/itk_tiff_mangle.h
                @ONLY)

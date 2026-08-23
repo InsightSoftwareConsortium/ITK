@@ -168,7 +168,7 @@ endif ()
 # configure name mangling to allow multiple libraries to coexist
 # peacefully
 if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/openjpeg_mangle.h.in)
-set(MANGLE_PREFIX slicer_itk)
+set(MANGLE_PREFIX ${ITK_NAMESPACE})
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/openjpeg_mangle.h.in
                ${CMAKE_CURRENT_BINARY_DIR}/openjpeg_mangle.h
                @ONLY)

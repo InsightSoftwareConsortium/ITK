@@ -222,6 +222,12 @@ mark_as_advanced(ITK_TEMPLATE_VISIBILITY_DEFAULT)
 # TBB module name (Module_ITKTBB) for code readability.
 set(ITK_USE_TBB ${Module_ITKTBB})
 
+set(ITK_NAMESPACE "itk" CACHE STRING "Namespace prefix used by ITK symbols.")
+if(NOT ITK_NAMESPACE STREQUAL "itk")
+  set(ITK_NAMESPACE_IS_NOT_ITK 1)
+endif()
+mark_as_advanced(ITK_NAMESPACE)
+
 configure_file(src/itkConfigure.h.in itkConfigure.h)
 configure_file(src/itkConfigurePrivate.h.in itkConfigurePrivate.h)
 configure_file(src/itkNamespace.h.in itkNamespace.h)

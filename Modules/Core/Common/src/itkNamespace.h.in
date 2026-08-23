@@ -18,8 +18,8 @@
 #ifndef itkNamespace_h
 #define itkNamespace_h
 
-#define ITK_NAMESPACE_IS_NOT_ITK
-#define ITK_NAMESPACE slicer_itk
+#cmakedefine ITK_NAMESPACE_IS_NOT_ITK
+#define ITK_NAMESPACE @ITK_NAMESPACE@
 
 #if defined(ITK_NAMESPACE_IS_NOT_ITK) && !defined(itk)
 #define itk ITK_NAMESPACE
