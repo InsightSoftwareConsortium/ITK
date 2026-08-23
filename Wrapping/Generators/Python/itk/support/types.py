@@ -96,6 +96,10 @@ class itkCType:
         """
         import numpy as np
 
+        # Note: The order in which the following itkCType objects are created
+        # is relevant! For each NumPy `dtype`, only the last created itkCType
+        # object for that particular `dtype` is stored in the mapping from
+        # `dtype` to itkCType (using the Python dict `__c_types_for_dtype__`).
         _F: itkCType = cls("float", "F", np.dtype(np.float32))
         _D: itkCType = cls("double", "D", np.dtype(np.float64))
         _UC: itkCType = cls("unsigned char", "UC", np.dtype(np.uint8))
