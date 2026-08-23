@@ -104,13 +104,13 @@ class itkCType:
         _D: itkCType = cls("double", "D", np.dtype(np.float64))
         _UC: itkCType = cls("unsigned char", "UC", np.dtype(np.uint8))
         _US: itkCType = cls("unsigned short", "US", np.dtype(np.uint16))
-        _UI: itkCType = cls("unsigned int", "UI", np.dtype(np.uint32))
         if os.name == "nt":
             _UL: itkCType = cls("unsigned long", "UL", np.dtype(np.uint32))
             _SL: itkCType = cls("signed long", "SL", np.dtype(np.int32))
         else:
             _UL: itkCType = cls("unsigned long", "UL", np.dtype(np.uint64))
             _SL: itkCType = cls("signed long", "SL", np.dtype(np.int64))
+        _UI: itkCType = cls("unsigned int", "UI", np.dtype(np.uint32))
         _ULL: itkCType = cls("unsigned long long", "ULL", np.dtype(np.uint64))
         _SC: itkCType = cls("signed char", "SC", np.dtype(np.int8))
         _SS: itkCType = cls("signed short", "SS", np.dtype(np.int16))
