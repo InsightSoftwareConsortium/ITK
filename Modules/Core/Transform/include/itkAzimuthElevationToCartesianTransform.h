@@ -178,6 +178,14 @@ public:
     return Self::TransformCategoryEnum::UnknownTransformCategory;
   }
 
+  /** The spherical to cartesian mapping is not linear: T(a*P) != a*T(P).
+   *  MatrixOffsetTransformBase::IsLinear() would return true for this class. */
+  bool
+  IsLinear() const override
+  {
+    return false;
+  }
+
   /** Defines that the forward transform goes from azimuth,elevation to
    *  cartesian. */
   void

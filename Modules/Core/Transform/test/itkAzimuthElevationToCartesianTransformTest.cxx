@@ -185,6 +185,47 @@ itkAzimuthElevationToCartesianTransformTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  // The transform derives from AffineTransform but is not linear.
+  ITK_TEST_EXPECT_TRUE(!transform->IsLinear());
+
+  // Neither direction of the mapping scales linearly, so the IsLinear() override stays justified.
+  // The loop above left the transform in the cartesian to azimuth-elevation direction.
+  for (const bool forwardAzimuthElevationToCartesian : { true, false })
+  {
+    if (forwardAzimuthElevationToCartesian)
+    {
+      transform->SetForwardAzimuthElevationToCartesian();
+    }
+    else
+    {
+      transform->SetForwardCartesianToAzimuthElevation();
+    }
+
+    AzimuthElevationToCartesianTransformType::InputPointType point;
+    point[0] = 1.0;
+    point[1] = 2.0;
+    point[2] = 3.0;
+    AzimuthElevationToCartesianTransformType::InputPointType doubledPoint;
+    doubledPoint[0] = 2.0;
+    doubledPoint[1] = 4.0;
+    doubledPoint[2] = 6.0;
+    const AzimuthElevationToCartesianTransformType::OutputPointType transformedPoint = transform->TransformPoint(point);
+    const AzimuthElevationToCartesianTransformType::OutputPointType transformedDoubledPoint =
+      transform->TransformPoint(doubledPoint);
+
+    bool scalesLinearly = true;
+    for (unsigned int i = 0; i < 3; ++i)
+    {
+      scalesLinearly &= (itk::Math::abs(transformedDoubledPoint[i] - 2.0 * transformedPoint[i]) < ACCEPTABLE_ERROR);
+    }
+    if (scalesLinearly)
+    {
+      std::cout << "Test failed: TransformPoint scales linearly with ForwardAzimuthElevationToCartesian = "
+                << forwardAzimuthElevationToCartesian << ", IsLinear() should not be overridden" << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+
   std::cout << "itkAzimuthElevationToCartesianTransformTest passed" << std::endl;
   return EXIT_SUCCESS;
 }
