@@ -96,22 +96,26 @@ class itkCType:
         """
         import numpy as np
 
+        # Note: The order in which the following itkCType objects are created
+        # is relevant! For each NumPy `dtype`, only the last created itkCType
+        # object for that particular `dtype` is stored in the mapping from
+        # `dtype` to itkCType (using the Python dict `__c_types_for_dtype__`).
         _F: itkCType = cls("float", "F", np.dtype(np.float32))
         _D: itkCType = cls("double", "D", np.dtype(np.float64))
         _UC: itkCType = cls("unsigned char", "UC", np.dtype(np.uint8))
         _US: itkCType = cls("unsigned short", "US", np.dtype(np.uint16))
-        _UI: itkCType = cls("unsigned int", "UI", np.dtype(np.uint32))
+        _ULL: itkCType = cls("unsigned long long", "ULL", np.dtype(np.uint64))
+        _SLL: itkCType = cls("signed long long", "SLL", np.dtype(np.int64))
         if os.name == "nt":
             _UL: itkCType = cls("unsigned long", "UL", np.dtype(np.uint32))
             _SL: itkCType = cls("signed long", "SL", np.dtype(np.int32))
         else:
             _UL: itkCType = cls("unsigned long", "UL", np.dtype(np.uint64))
             _SL: itkCType = cls("signed long", "SL", np.dtype(np.int64))
-        _ULL: itkCType = cls("unsigned long long", "ULL", np.dtype(np.uint64))
+        _UI: itkCType = cls("unsigned int", "UI", np.dtype(np.uint32))
         _SC: itkCType = cls("signed char", "SC", np.dtype(np.int8))
         _SS: itkCType = cls("signed short", "SS", np.dtype(np.int16))
         _SI: itkCType = cls("signed int", "SI", np.dtype(np.int32))
-        _SLL: itkCType = cls("signed long long", "SLL", np.dtype(np.int64))
         _B: itkCType = cls("bool", "B", np.dtype(np.bool_))
         return _F, _D, _UC, _US, _UI, _UL, _SL, _ULL, _SC, _SS, _SI, _SLL, _B
 
