@@ -7,7 +7,8 @@
 # "statically" : This is the mechanism described below and supported by UseITK.
 #
 # "dynamically": This corresponds to the runtime loading of shared libraries
-#                exporting the "itkLoad" symbol and available in directory
+#                exporting the ITK_LOAD_FUNCTION_NAME symbol ("itkLoad" by
+#                default) and available in directory
 #                associated with the `ITK_AUTOLOAD_PATH` environment variable.
 #
 #
