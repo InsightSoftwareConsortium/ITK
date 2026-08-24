@@ -42,7 +42,8 @@ namespace itk
  *      orientation), an exception is thrown by default; see
  *      FailOnAmbiguousOrdering. When FailOnAmbiguousOrdering is false, the
  *      ordering falls back to 'Instance Number' when unique, else to
- *      lexicographic filename order.
+ *      lexicographic filename order (and in either case, DidUseAmbiguousOrdering
+ *      is set to true).
  *
  *  If multiple volumes are being grouped as a single series for your
  *    DICOM objects, you may want to try calling SetUseSeriesDetails(true)
@@ -172,7 +173,7 @@ public:
   void
   AddSeriesRestriction(const std::string & tag);
 
-  /** Throw an exception when a series cannot be ordered geometrically by
+  /** When true, throw an exception when a series cannot be ordered geometrically by
    * gdcm::IPPSorter (duplicate ImagePositionPatient, inconsistent
    * orientation). When false, fall back to the legacy SerieHelper
    * heuristics: Instance Number when unique, else lexicographic filename
@@ -182,6 +183,11 @@ public:
   itkSetMacro(FailOnAmbiguousOrdering, bool);
   itkGetConstMacro(FailOnAmbiguousOrdering, bool);
   itkBooleanMacro(FailOnAmbiguousOrdering);
+  /** @ITKEndGrouping */
+
+  /** If ambiguous ordering is encountered, this is set to true. */
+  /** @ITKStartGrouping */
+  itkGetConstMacro(DidUseAmbiguousOrdering, bool);
   /** @ITKEndGrouping */
 
   /** No effect with the gdcm::Scanner backend (retained for source
@@ -256,6 +262,7 @@ private:
 
   bool m_UseSeriesDetails = false;
   bool m_FailOnAmbiguousOrdering = true;
+  bool m_DidUseAmbiguousOrdering = false;
   bool m_Recursive = false;
   bool m_LoadSequences = false;
   bool m_LoadPrivateTags = false;
