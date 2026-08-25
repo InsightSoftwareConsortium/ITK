@@ -21,6 +21,10 @@
 #include "itkGTest.h"
 
 #include <iostream>
+#include <type_traits> // For is_same_v.
+
+
+static_assert(std::is_same_v<itk::IdentifierType, itk::SizeValueType>);
 
 namespace
 {

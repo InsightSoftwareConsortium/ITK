@@ -68,10 +68,6 @@ using std::ptrdiff_t;
  *  points) (it is unsigned) */
 using SizeValueType = uint64_t;
 
-/** Same type as SizeValueType but when used as an Id (pointId, cellId,
- *  labelObjectId..)(it is unsigned) */
-using IdentifierType = SizeValueType;
-
 /** The components of the Index array (they are signed) */
 using IndexValueType = int64_t;
 
@@ -85,10 +81,6 @@ using OffsetValueType = int64_t;
  *  points) (it is unsigned) */
 using SizeValueType = unsigned long;
 
-/** Same type as SizeValueType but when used as an Id (pointId, cellId,
- *  labelObjectId..)(it is unsigned) */
-using IdentifierType = SizeValueType;
-
 /** The components of the Index array (they are signed) */
 using IndexValueType = long;
 
@@ -97,6 +89,10 @@ using IndexValueType = long;
 using OffsetValueType = long;
 
 #endif
+
+/** Same type as SizeValueType but when used as an Id (pointId, cellId,
+ *  labelObjectId..)(it is unsigned) */
+using IdentifierType = SizeValueType;
 
 /** Type to count and reference number of threads */
 using ThreadIdType = unsigned int;
