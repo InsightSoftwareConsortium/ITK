@@ -129,7 +129,6 @@ public:
     m_RGBFunctor.AddColor(r, g, b);
   }
 
-protected:
 private:
   double m_Opacity{ 1.0 };
   TLabel m_BackgroundValue;

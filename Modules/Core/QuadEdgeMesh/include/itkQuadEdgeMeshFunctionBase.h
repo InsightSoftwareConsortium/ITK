@@ -93,7 +93,6 @@ protected:
 
   ~QuadEdgeMeshFunctionBase() override = default;
 
-private:
 protected:
   /** Mesh on which to apply the modification */
   MeshType * m_Mesh{};

@@ -172,7 +172,6 @@ protected:
     throw ex;
   }
 
-private:
 protected:
   DerivativeType m_Gradient{};
   DerivativeType m_PreviousGradient{};

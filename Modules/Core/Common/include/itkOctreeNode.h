@@ -125,7 +125,6 @@ public:
     m_Parent = parent;
   }
 
-protected:
 private:
   /**
    * Removes all children from this node down, and sets the value
