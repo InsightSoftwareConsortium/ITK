@@ -241,7 +241,6 @@ protected:
   BeforeThreadedGenerateData() override;
 
 private:
-private:
   typename ColormapType::Pointer m_Colormap{};
 
   bool m_UseInputImageExtremaForScaling{};

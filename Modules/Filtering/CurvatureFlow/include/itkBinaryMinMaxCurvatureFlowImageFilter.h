@@ -112,7 +112,6 @@ public:
                   (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
 
 protected:
-protected:
   BinaryMinMaxCurvatureFlowImageFilter();
   ~BinaryMinMaxCurvatureFlowImageFilter() override = default;
   void

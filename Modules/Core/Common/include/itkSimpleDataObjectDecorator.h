@@ -106,7 +106,6 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-protected:
 private:
   ComponentType m_Component{};
   bool          m_Initialized{};
