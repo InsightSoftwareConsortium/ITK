@@ -31,7 +31,7 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
 
     def test_NumPyBridge_VectorContainer(self):
         "Try to convert a itk.VectorContainer into a Numpy array and back."
-        v1 = itk.VectorContainer[itk.UL, itk.F].New()
+        v1 = itk.VectorContainer[itk.IT, itk.F].New()
         v1.Reserve(4)
         v1.SetElement(0, 1.2)
         v1.SetElement(1, 2)
@@ -64,7 +64,7 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
         self.assertNotEqual(v2_cp.GetElement(0), arr_cp[0])
 
         PointType = itk.Point[itk.F, 3]
-        v_point = itk.VectorContainer[itk.UL, PointType].New()
+        v_point = itk.VectorContainer[itk.IT, PointType].New()
         v_point.Reserve(2)
         point = PointType()
         point[0] = 1.0
@@ -81,7 +81,7 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
         )
 
         PointType = itk.Point[itk.F, 2]
-        v_point = itk.VectorContainer[itk.UL, PointType].New()
+        v_point = itk.VectorContainer[itk.IT, PointType].New()
         v_point.Reserve(2)
         point = PointType()
         point[0] = 1.0
