@@ -39,11 +39,15 @@ ImageToVTKImageFilter<TInputImage>::ImageToVTKImageFilter()
   m_Importer->SetScalarTypeCallback(m_Exporter->GetScalarTypeCallback());
   m_Importer->SetNumberOfComponentsCallback(m_Exporter->GetNumberOfComponentsCallback());
   // Adapt the exporter callback to vtkImageImport's VTK_FUTURE_CONST extent
-  // signature; the const_cast is safe because the callback only reads the extent.
+  // signature starting with VTK 9.7; the const_cast is safe because the callback only reads the extent.
+#if VTK_MAJOR_VERSION > 9 || (VTK_MAJOR_VERSION == 9 && VTK_MINOR_VERSION >= 7)
   m_Importer->SetPropagateUpdateExtentCallback([](void * userData, VTK_FUTURE_CONST int * extent) {
     static_cast<VTKImageExportBase *>(userData)->GetPropagateUpdateExtentCallback()(userData,
                                                                                     const_cast<int *>(extent));
   });
+#else
+  m_Importer->SetPropagateUpdateExtentCallback(m_Exporter->GetPropagateUpdateExtentCallback());
+#endif
   m_Importer->SetUpdateDataCallback(m_Exporter->GetUpdateDataCallback());
   m_Importer->SetDataExtentCallback(m_Exporter->GetDataExtentCallback());
   m_Importer->SetBufferPointerCallback(m_Exporter->GetBufferPointerCallback());
