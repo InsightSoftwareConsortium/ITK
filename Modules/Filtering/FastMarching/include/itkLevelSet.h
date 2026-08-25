@@ -58,7 +58,7 @@ public:
   using NodeType = LevelSetNode<PixelType, Self::SetDimension>;
 
   /** NodeContainer type alias support */
-  using NodeContainer = VectorContainer<unsigned int, NodeType>;
+  using NodeContainer = VectorContainer<NodeType>;
 
   /** NodeContainerPointer type alias support */
   using NodeContainerPointer = typename NodeContainer::Pointer;

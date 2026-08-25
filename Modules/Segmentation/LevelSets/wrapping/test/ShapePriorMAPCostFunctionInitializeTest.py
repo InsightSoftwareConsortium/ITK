@@ -111,7 +111,7 @@ cost_function.SetShapeFunction(shape_function)
 # fills them in from the fast-marching output and the sigmoid
 # edge-potential map.
 NodeType = itk.LevelSetNode[InternalPixelType, Dimension]
-NodeContainerType = itk.VectorContainer[itk.UI, NodeType]
+NodeContainerType = itk.VectorContainer[itk.IT, NodeType]
 active_region = NodeContainerType.New()
 cost_function.SetActiveRegion(active_region)
 
