@@ -339,7 +339,7 @@ CreateFullPath(const char * path, const char * file)
  * A file scope type alias to make the cast code to the load
  * function cleaner to read.
  */
-using ITK_LOAD_FUNCTION = ObjectFactoryBase * (*)();
+using AutoloadFunctionType = ObjectFactoryBase * (*)();
 
 /**
  * A file scoped function to determine if a file has
@@ -404,9 +404,10 @@ ObjectFactoryBase::LoadLibrariesInPath(const char * path)
       if (lib)
       {
         /**
-         * Look for the symbol itkLoad in the library
+         * Look for the autoload symbol in the library
          */
-        auto loadfunction = (ITK_LOAD_FUNCTION)DynamicLoader::GetSymbolAddress(lib, "itkLoad");
+        auto loadfunction =
+          (AutoloadFunctionType)DynamicLoader::GetSymbolAddress(lib, ITK_STRINGIFY(ITK_LOAD_FUNCTION_NAME));
         /**
          * if the symbol is found call it to create the factory
          * from the library

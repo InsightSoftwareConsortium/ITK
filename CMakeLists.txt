@@ -206,6 +206,21 @@ if(NOT DEFINED ITK_LIBRARY_NAMESPACE)
   set(ITK_LIBRARY_NAMESPACE "ITK")
 endif()
 
+# extern "C" names carry no C++ namespace, so a renamed build must set this explicitly.
+set(
+  ITK_LOAD_FUNCTION_NAME
+  "itkLoad"
+  CACHE STRING
+  "Name of the C entry point ObjectFactoryBase looks up in each autoloaded library."
+)
+mark_as_advanced(ITK_LOAD_FUNCTION_NAME)
+if(NOT ITK_LOAD_FUNCTION_NAME MATCHES "^[A-Za-z_][A-Za-z0-9_]*$")
+  message(
+    FATAL_ERROR
+    "ITK_LOAD_FUNCTION_NAME must be a valid C identifier, got '${ITK_LOAD_FUNCTION_NAME}'"
+  )
+endif()
+
 if(NOT CMAKE_INSTALL_LIBDIR)
   set(CMAKE_INSTALL_LIBDIR lib)
 endif()

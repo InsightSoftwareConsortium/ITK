@@ -190,4 +190,7 @@
 
 #cmakedefine ITK_HAS_SCHED_GETAFFINITY
 
+// Name of the C entry point ObjectFactoryBase looks up in each autoloaded library.
+#define ITK_LOAD_FUNCTION_NAME @ITK_LOAD_FUNCTION_NAME@
+
 #endif //itkConfigure_h
