@@ -95,6 +95,8 @@ __all__ = [
     "image_from_xarray",
     "vtk_image_from_image",
     "image_from_vtk_image",
+    "image_from_simpleitk",
+    "simpleitk_from_image",
     "dict_from_image",
     "image_from_dict",
     "image_intensity_min_max",
@@ -784,6 +786,138 @@ def image_from_vtk_image(vtk_image: vtk.vtkImageData) -> itkt.ImageBase:
         l_direction = itk.matrix_from_array(direction_array)
         l_image.SetDirection(l_direction)
     return l_image
+
+
+# Explicit rather than built from the name: an unknown name must fail loudly,
+# not resolve to a missing accessor and silently leave ITK defaults in place.
+_SPATIAL_ACCESSORS = {
+    "spacing": "GetSpacing",
+    "origin": "GetOrigin",
+    "direction": "GetDirection",
+}
+
+
+def _spatial_from_order_explicit(obj, name: str):
+    """Read one xyz-ordered spatial attribute, never the order-ambiguous bare key (#6706)."""
+    accessor_name = _SPATIAL_ACCESSORS[name]
+    if hasattr(obj, "__getitem__"):
+        try:
+            return obj[f"{name}_xyz"]
+        except KeyError:
+            pass
+    accessor = getattr(obj, accessor_name, None)
+    return None if accessor is None else accessor()
+
+
+def image_from_simpleitk(sitk_image) -> itkt.ImageBase:
+    """Convert a SimpleITK Image to an itk.Image.
+
+    Geometry is read in ITK (x, y, z) order, via the order-explicit
+    ``spacing_xyz``/``origin_xyz``/``direction_xyz`` keys when the object
+    provides them and otherwise via ``GetSpacing()``/``GetOrigin()``/
+    ``GetDirection()``. Pixels are copied through SimpleITK's array API.
+    Multi-component images become an itk.VectorImage. Entries reported by
+    ``GetMetaDataKeys()`` are copied into the MetaDataDictionary.
+
+    Parameters
+    ----------
+    sitk_image :
+        A SimpleITK.Image.
+
+    Returns
+    -------
+    image :
+        The resulting itk.Image, or itk.VectorImage for multi-component pixels.
+    """
+    import itk
+    import SimpleITK as sitk
+
+    dim = sitk_image.GetDimension()
+    number_of_components = sitk_image.GetNumberOfComponentsPerPixel()
+    is_vector = number_of_components != 1
+
+    array = sitk.GetArrayFromImage(sitk_image)
+
+    l_image = itk.image_view_from_array(array, is_vector=is_vector)
+
+    spacing = _spatial_from_order_explicit(sitk_image, "spacing")
+    if spacing is not None:
+        l_image.SetSpacing([float(s) for s in spacing])
+    origin = _spatial_from_order_explicit(sitk_image, "origin")
+    if origin is not None:
+        l_image.SetOrigin([float(o) for o in origin])
+    direction = _spatial_from_order_explicit(sitk_image, "direction")
+    if direction is not None:
+        l_image.SetDirection(np.asarray(direction, dtype=np.float64).reshape(dim, dim))
+
+    metadata = l_image.GetMetaDataDictionary()
+    for key in sitk_image.GetMetaDataKeys():
+        metadata[key] = sitk_image.GetMetaData(key)
+
+    return l_image
+
+
+def simpleitk_from_image(image: itkt.ImageOrImageSource):
+    """Convert an itk.Image to a SimpleITK Image.
+
+    The inverse of :func:`image_from_simpleitk`. Geometry is transferred in ITK
+    (x, y, z) order and the MetaDataDictionary is copied across.
+
+    SimpleITK images always start at index 0. The origin is set to the physical
+    location of the first buffered voxel, so the pixels keep their position; the
+    ITK start index itself is not carried over.
+
+    Raises
+    ------
+    ValueError
+        If the buffered region differs from the largest possible region. A
+        SimpleITK image carries a single extent, so the distinction would be
+        lost without notice.
+    """
+    import itk
+    import SimpleITK as sitk
+
+    image = itk.output(image)
+
+    # Updates the image, so the regions compared below are the ones just read.
+    array = itk.array_from_image(image)
+
+    buffered_region = image.GetBufferedRegion()
+    largest_region = image.GetLargestPossibleRegion()
+    if buffered_region != largest_region:
+        raise ValueError(
+            "cannot convert an image whose buffered region differs from its "
+            "largest possible region: buffered index "
+            f"{list(buffered_region.GetIndex())} size {list(buffered_region.GetSize())}, "
+            f"largest index {list(largest_region.GetIndex())} size "
+            f"{list(largest_region.GetSize())}. A SimpleITK image holds one "
+            "extent, so the difference cannot be represented. Update the image "
+            "over its largest possible region before converting."
+        )
+
+    is_vector = image.GetNumberOfComponentsPerPixel() != 1
+    sitk_image = sitk.GetImageFromArray(array, isVector=is_vector)
+
+    start_index = tuple(buffered_region.GetIndex())
+
+    sitk_image.SetSpacing([float(s) for s in image.GetSpacing()])
+    # The first stored voxel becomes index 0, so the origin moves with it and
+    # the pixels keep their physical location.
+    sitk_image.SetOrigin(
+        [float(o) for o in image.TransformIndexToPhysicalPoint(list(start_index))]
+    )
+    sitk_image.SetDirection(
+        [float(d) for d in np.asarray(image.GetDirection()).ravel()]
+    )
+
+    metadata = image.GetMetaDataDictionary()
+    for key in metadata.GetKeys():
+        try:
+            sitk_image.SetMetaData(key, str(metadata[key]))
+        except (RuntimeError, TypeError):
+            # SimpleITK stores strings only; entries that do not render are skipped.
+            pass
+    return sitk_image
 
 
 def dict_from_image(image: itkt.Image) -> dict:
