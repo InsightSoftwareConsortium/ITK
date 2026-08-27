@@ -29,6 +29,6 @@ add_subdirectory(testlib)
 
 # Tests that check and output the vxl configuration
 # NOTE: some external projects remove the tests directory (aka ITK)
-if( BUILD_TESTING AND EXISTS "tests")
+if( BUILD_TESTING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests")
   add_subdirectory(tests)
 endif()
