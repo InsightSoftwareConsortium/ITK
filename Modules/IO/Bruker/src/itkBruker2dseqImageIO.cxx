@@ -54,9 +54,9 @@ GetParameter(const itk::MetaDataDictionary & dict, const std::string & name)
   return value;
 }
 
-// Scaling parameters may be absent, hold a single value for all frames, or one value per frame
+// Parameter may be absent, hold a single value for all frames, or one value per frame
 std::vector<double>
-ReadScaling(const MetaDataDictionary & dict, const char * name, double defaultValue)
+ReadDoubleArray(const MetaDataDictionary & dict, const char * name, double defaultValue)
 {
   std::vector<double> values;
   if (ExposeMetaData(dict, name, values) && !values.empty())
@@ -80,9 +80,8 @@ Rescale(T *                         buffer,
   SizeType i = 0;
   for (SizeType f = 0; f < frameCount; ++f)
   {
-    // A single slope/offset value applies to every frame
-    const double slope = (f < static_cast<SizeType>(slopes.size())) ? slopes[f] : slopes.front();
-    const double offset = (f < static_cast<SizeType>(offsets.size())) ? offsets[f] : offsets.front();
+    const double slope = slopes[slopes.size() == 1 ? 0 : f];
+    const double offset = offsets[offsets.size() == 1 ? 0 : f];
     for (SizeType v = 0; v < frameSize; ++v, ++i)
     {
       const double tmp = static_cast<double>(buffer[i]) * slope + offset;
@@ -725,11 +724,20 @@ Bruker2dseqImageIO::Read(void * buffer)
   }
 
   const MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  const std::vector<double>  slopes = ReadScaling(dict, "VisuCoreDataSlope", 1.0);
-  const std::vector<double>  offsets = ReadScaling(dict, "VisuCoreDataOffs", 0.0);
+  const std::vector<double>  slopes = ReadDoubleArray(dict, "VisuCoreDataSlope", 1.0);
+  const std::vector<double>  offsets = ReadDoubleArray(dict, "VisuCoreDataOffs", 0.0);
   const SizeType             frameCount = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreFrameCount"));
   const SizeType             frameDim = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreDim"));
   SizeType                   frameSize = this->GetDimensions(0) * this->GetDimensions(1);
+
+  if (slopes.size() != 1 && slopes.size() != frameCount)
+  {
+    itkExceptionMacro("VisuCoreDataSlope has " << slopes.size() << " values, expected 1 or " << frameCount);
+  }
+  if (offsets.size() != 1 && offsets.size() != frameCount)
+  {
+    itkExceptionMacro("VisuCoreDataOffs has " << offsets.size() << " values, expected 1 or " << frameCount);
+  }
 
   if (frameDim == 3)
   {

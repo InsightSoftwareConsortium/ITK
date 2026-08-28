@@ -28,8 +28,36 @@
 #include <string>
 #include <vector>
 
+#define _STRING(s) #s
+#define TOSTRING(s) std::string(_STRING(s))
+
 namespace
 {
+// Writes a minimal ParaVision reconstruction and returns the path of its 2dseq
+std::string
+WriteDataset(const std::string & name, const std::string & visu, int frameCount)
+{
+  const std::string dir = TOSTRING(ITK_TEST_OUTPUT_DIR) + "/" + name + "/pdata/1";
+  if (!itksys::SystemTools::MakeDirectory(dir))
+  {
+    return std::string();
+  }
+  {
+    std::ofstream visuStream(dir + "/visu_pars");
+    visuStream << visu;
+  }
+  {
+    // int16 little-endian pixels of 4x2 frames, values counting up from zero
+    std::ofstream dataStream(dir + "/2dseq", std::ios::binary);
+    for (int i = 0; i < 8 * frameCount; ++i)
+    {
+      const char bytes[2] = { static_cast<char>(i & 0xff), static_cast<char>((i >> 8) & 0xff) };
+      dataStream.write(bytes, 2);
+    }
+  }
+  return dir + "/2dseq";
+}
+
 // A minimal ParaVision 360 style visu_pars: run-length encoded arrays, enum
 // arrays, a value block interrupted by a $$ comment, a string wrapped across
 // lines (trailing space kept), a comma inside a string, and a trailer after
@@ -94,31 +122,40 @@ MakeVisuPars()
   visu += "$$ File finished by PARX at 2024-07-25 09:18:04.417 +0200\n";
   return visu;
 }
+
+// Replaces the run-length encoded slope array of the ParaVision 360 dataset
+std::string
+VisuParsWithSlope(const std::string & slopeRecord)
+{
+  std::string                  visu = MakeVisuPars();
+  const std::string::size_type slopePos = visu.find("@12*(2)");
+  visu.replace(slopePos, 7, slopeRecord);
+  return visu;
+}
+
+void
+ExpectReadThrows(const std::string & name, const std::string & visu)
+{
+  const std::string path = WriteDataset(name, visu, 12);
+  ASSERT_FALSE(path.empty());
+  auto io = itk::Bruker2dseqImageIO::New();
+  auto reader = itk::ImageFileReader<itk::Image<float, 4>>::New();
+  reader->SetImageIO(io);
+  reader->SetFileName(path);
+  EXPECT_THROW(reader->Update(), itk::ExceptionObject);
+}
 } // namespace
 
 TEST(Bruker2dseqImageIO, ReadParaVision360Dataset)
 {
-  const std::string dir = testing::TempDir() + "/bruker2dseq_pv360/pdata/1";
-  ASSERT_TRUE(itksys::SystemTools::MakeDirectory(dir));
-  {
-    std::ofstream visuStream(dir + "/visu_pars");
-    visuStream << MakeVisuPars();
-  }
-  {
-    // 12 frames of 4x2 int16 little-endian pixels, values 0..95
-    std::ofstream dataStream(dir + "/2dseq", std::ios::binary);
-    for (int i = 0; i < 96; ++i)
-    {
-      const char bytes[2] = { static_cast<char>(i & 0xff), static_cast<char>((i >> 8) & 0xff) };
-      dataStream.write(bytes, 2);
-    }
-  }
+  const std::string path = WriteDataset("bruker2dseq_pv360", MakeVisuPars(), 12);
+  ASSERT_FALSE(path.empty());
 
   using ImageType = itk::Image<float, 4>;
   auto io = itk::Bruker2dseqImageIO::New();
   auto reader = itk::ImageFileReader<ImageType>::New();
   reader->SetImageIO(io);
-  reader->SetFileName(dir + "/2dseq");
+  reader->SetFileName(path);
   ASSERT_NO_THROW(reader->Update());
 
   const ImageType::Pointer image = reader->GetOutput();
@@ -180,24 +217,11 @@ TEST(Bruker2dseqImageIO, ReadParaVision360Dataset)
 
 TEST(Bruker2dseqImageIO, RejectOversizedRLEExpansion)
 {
-  const std::string dir = testing::TempDir() + "/bruker2dseq_rle/pdata/1";
-  ASSERT_TRUE(itksys::SystemTools::MakeDirectory(dir));
-  std::string                  visu = MakeVisuPars();
-  const std::string::size_type slopePos = visu.find("@12*(2)");
-  ASSERT_NE(slopePos, std::string::npos);
-  visu.replace(slopePos, 7, "@999999999*(2)");
-  {
-    std::ofstream visuStream(dir + "/visu_pars");
-    visuStream << visu;
-  }
-  {
-    std::ofstream dataStream(dir + "/2dseq", std::ios::binary);
-    dataStream << '\0';
-  }
+  ExpectReadThrows("bruker2dseq_rle_bytes", VisuParsWithSlope("@999999999*(2)"));
+  ExpectReadThrows("bruker2dseq_rle_digits", VisuParsWithSlope("@1000000000*(2)"));
+}
 
-  auto io = itk::Bruker2dseqImageIO::New();
-  auto reader = itk::ImageFileReader<itk::Image<float, 4>>::New();
-  reader->SetImageIO(io);
-  reader->SetFileName(dir + "/2dseq");
-  EXPECT_THROW(reader->Update(), itk::ExceptionObject);
+TEST(Bruker2dseqImageIO, RejectScalingArrayOfUnexpectedLength)
+{
+  ExpectReadThrows("bruker2dseq_slope_count", VisuParsWithSlope("@3*(2)"));
 }
