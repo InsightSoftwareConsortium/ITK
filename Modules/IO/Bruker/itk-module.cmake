@@ -8,6 +8,7 @@ itk_module(
   TEST_DEPENDS
     ITKTestKernel
     ITKIOMeta
+    ITKGoogleTest
   FACTORY_NAMES
     ImageIO::Bruker2dseq
   DESCRIPTION "${DOCUMENTATION}"
