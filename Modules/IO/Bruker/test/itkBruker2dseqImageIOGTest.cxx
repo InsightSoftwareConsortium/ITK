@@ -225,3 +225,26 @@ TEST(Bruker2dseqImageIO, RejectScalingArrayOfUnexpectedLength)
 {
   ExpectReadThrows("bruker2dseq_slope_count", VisuParsWithSlope("@3*(2)"));
 }
+
+TEST(Bruker2dseqImageIO, IgnoreSliceStepSmallerThanThickness)
+{
+  std::string visu = MakeVisuPars();
+  // Slice positions a ten-thousandth of the 1.5 mm thickness apart carry no direction
+  const std::string::size_type positionPos = visu.find("0 0 -1.5 \n");
+  ASSERT_NE(positionPos, std::string::npos);
+  visu.replace(positionPos, 10, "0 0 -0.0001 \n");
+  const std::string::size_type lastPos = visu.find("0 0 -3\n");
+  ASSERT_NE(lastPos, std::string::npos);
+  visu.replace(lastPos, 7, "0 0 -0.0002\n");
+
+  const std::string path = WriteDataset("bruker2dseq_flat_slices", visu, 12);
+  ASSERT_FALSE(path.empty());
+  auto io = itk::Bruker2dseqImageIO::New();
+  auto reader = itk::ImageFileReader<itk::Image<float, 4>>::New();
+  reader->SetImageIO(io);
+  reader->SetFileName(path);
+  ASSERT_NO_THROW(reader->Update());
+
+  EXPECT_DOUBLE_EQ(reader->GetOutput()->GetSpacing()[2], 1.5);
+  EXPECT_DOUBLE_EQ(reader->GetOutput()->GetDirection()(2, 2), 1.0);
+}

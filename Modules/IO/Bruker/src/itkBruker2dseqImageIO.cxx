@@ -1022,8 +1022,7 @@ Bruker2dseqImageIO::ReadImageInformation()
           }
         }
       }
-      // Frame groups without FG_SLICE (e.g. FG_ISA maps) describe one slice;
-      // without frame groups fall back to the position count (3 coordinates each)
+      // Frame groups without FG_SLICE (e.g. FG_ISA maps) describe a single slice
       const SizeType positionCount = position.size() / 3;
       if (sliceLength > 0)
       {
@@ -1035,10 +1034,7 @@ Bruker2dseqImageIO::ReadImageInformation()
       }
       if (sizeZ > 1 && positionCount > 1)
       {
-        // FrameThickness does not include the slice gap and ParaVision sometimes
-        // writes SliceDist as 0, so measure the step between slice positions.
-        // Positions may be stored per-slice or per-frame (frame groups before
-        // FG_SLICE vary faster), so step by the frame count per slice increment.
+        // Frame groups before FG_SLICE vary faster than the slice index, so step over them
         const SizeType positionStride = (positionCount > sizeZ) ? framesPerSlice : 1;
         if (3 * (positionStride + 1) <= static_cast<SizeType>(position.size()))
         {
@@ -1048,8 +1044,15 @@ Bruker2dseqImageIO::ReadImageInformation()
           spacingZ = sliceDiff.magnitude();
         }
       }
+      // A step well below the slice thickness lies inside one slice, so its sign is noise
+      if (spacingZ < 0.5 * ReadDoubleArray(dict, "VisuCoreFrameThickness", 0.0)[0])
+      {
+        sliceDiff.fill(0.0);
+        spacingZ = 0;
+      }
       if (spacingZ == 0)
       {
+        // FrameThickness excludes the slice gap, so it is only a fallback
         spacingZ = GetParameter<std::vector<double>>(dict, "VisuCoreFrameThickness")[0];
       }
       halfStep[2] = 0; // Slice position will be correct
