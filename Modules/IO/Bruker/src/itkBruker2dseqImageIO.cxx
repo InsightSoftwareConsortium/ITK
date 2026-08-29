@@ -730,13 +730,15 @@ Bruker2dseqImageIO::Read(void * buffer)
   const SizeType             frameDim = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreDim"));
   SizeType                   frameSize = this->GetDimensions(0) * this->GetDimensions(1);
 
-  if (slopes.size() != 1 && slopes.size() != frameCount)
+  const auto slopeCount = static_cast<SizeType>(slopes.size());
+  const auto offsetCount = static_cast<SizeType>(offsets.size());
+  if (slopeCount != 1 && slopeCount != frameCount)
   {
-    itkExceptionMacro("VisuCoreDataSlope has " << slopes.size() << " values, expected 1 or " << frameCount);
+    itkExceptionMacro("VisuCoreDataSlope has " << slopeCount << " values, expected 1 or " << frameCount);
   }
-  if (offsets.size() != 1 && offsets.size() != frameCount)
+  if (offsetCount != 1 && offsetCount != frameCount)
   {
-    itkExceptionMacro("VisuCoreDataOffs has " << offsets.size() << " values, expected 1 or " << frameCount);
+    itkExceptionMacro("VisuCoreDataOffs has " << offsetCount << " values, expected 1 or " << frameCount);
   }
 
   if (frameDim == 3)
