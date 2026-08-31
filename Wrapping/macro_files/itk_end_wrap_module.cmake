@@ -415,7 +415,8 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
 
       if(MSVC)
         # Disables 'conversion from 'type1' to 'type2', possible loss of data warnings
-        set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "/wd4244")
+        # /Zc:__cplusplus: Make MSVC correctly report __cplusplus version
+        set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "/wd4244 /Zc:__cplusplus")
       endif()
     else()
       if (ITK_USE_PYTHON_LIMITED_API)
