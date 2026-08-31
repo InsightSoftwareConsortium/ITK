@@ -84,6 +84,7 @@ nm lib/libitkpng-5.4.a 2> /dev/null | grep " T \| D \| R " |
 #define png_error @MANGLE_PREFIX@_error
 #define png_fixed @MANGLE_PREFIX@_fixed
 #define png_fixed_error @MANGLE_PREFIX@_fixed_error
+#define png_fixed_ITU @MANGLE_PREFIX@_fixed_ITU
 #define png_flush @MANGLE_PREFIX@_flush
 #define png_format_number @MANGLE_PREFIX@_format_number
 #define png_formatted_warning @MANGLE_PREFIX@_formatted_warning
@@ -182,6 +183,7 @@ nm lib/libitkpng-5.4.a 2> /dev/null | grep " T \| D \| R " |
 #define png_handle_IHDR @MANGLE_PREFIX@_handle_IHDR
 #define png_handle_PLTE @MANGLE_PREFIX@_handle_PLTE
 #define png_handle_as_unknown @MANGLE_PREFIX@_handle_as_unknown
+#define png_handle_chunk @MANGLE_PREFIX@_handle_chunk
 #define png_handle_bKGD @MANGLE_PREFIX@_handle_bKGD
 #define png_handle_cHRM @MANGLE_PREFIX@_handle_cHRM
 #define png_handle_eXIf @MANGLE_PREFIX@_handle_eXIf
@@ -248,6 +250,13 @@ nm lib/libitkpng-5.4.a 2> /dev/null | grep " T \| D \| R " |
 #define png_read_data @MANGLE_PREFIX@_read_data
 #define png_read_end @MANGLE_PREFIX@_read_end
 #define png_read_filter_row @MANGLE_PREFIX@_read_filter_row
+#define png_read_filter_row_avg3_neon @MANGLE_PREFIX@_read_filter_row_avg3_neon
+#define png_read_filter_row_avg4_neon @MANGLE_PREFIX@_read_filter_row_avg4_neon
+#define png_read_filter_row_paeth3_neon @MANGLE_PREFIX@_read_filter_row_paeth3_neon
+#define png_read_filter_row_paeth4_neon @MANGLE_PREFIX@_read_filter_row_paeth4_neon
+#define png_read_filter_row_sub3_neon @MANGLE_PREFIX@_read_filter_row_sub3_neon
+#define png_read_filter_row_sub4_neon @MANGLE_PREFIX@_read_filter_row_sub4_neon
+#define png_read_filter_row_up_neon @MANGLE_PREFIX@_read_filter_row_up_neon
 #define png_read_finish_IDAT @MANGLE_PREFIX@_read_finish_IDAT
 #define png_read_finish_row @MANGLE_PREFIX@_read_finish_row
 #define png_read_image @MANGLE_PREFIX@_read_image
@@ -265,6 +274,7 @@ nm lib/libitkpng-5.4.a 2> /dev/null | grep " T \| D \| R " |
 #define png_reciprocal2 @MANGLE_PREFIX@_reciprocal2
 #define png_reset_crc @MANGLE_PREFIX@_reset_crc
 #define png_reset_zstream @MANGLE_PREFIX@_reset_zstream
+#define png_resolve_file_gamma @MANGLE_PREFIX@_resolve_file_gamma
 #define png_riffle_palette_neon @MANGLE_PREFIX@_riffle_palette_neon
 #define png_sRGB_base @MANGLE_PREFIX@_sRGB_base
 #define png_sRGB_delta @MANGLE_PREFIX@_sRGB_delta
@@ -343,6 +353,7 @@ nm lib/libitkpng-5.4.a 2> /dev/null | grep " T \| D \| R " |
 #define png_set_read_status_fn @MANGLE_PREFIX@_set_read_status_fn
 #define png_set_read_user_chunk_fn @MANGLE_PREFIX@_set_read_user_chunk_fn
 #define png_set_read_user_transform_fn @MANGLE_PREFIX@_set_read_user_transform_fn
+#define png_set_rgb_coefficients @MANGLE_PREFIX@_set_rgb_coefficients
 #define png_set_rgb_to_gray @MANGLE_PREFIX@_set_rgb_to_gray
 #define png_set_rgb_to_gray_fixed @MANGLE_PREFIX@_set_rgb_to_gray_fixed
 #define png_set_rows @MANGLE_PREFIX@_set_rows
@@ -393,6 +404,8 @@ nm lib/libitkpng-5.4.a 2> /dev/null | grep " T \| D \| R " |
 #define png_write_chunk_data @MANGLE_PREFIX@_write_chunk_data
 #define png_write_chunk_end @MANGLE_PREFIX@_write_chunk_end
 #define png_write_chunk_start @MANGLE_PREFIX@_write_chunk_start
+#define png_write_cICP @MANGLE_PREFIX@_write_cICP
+#define png_write_cLLI_fixed @MANGLE_PREFIX@_write_cLLI_fixed
 #define png_write_data @MANGLE_PREFIX@_write_data
 #define png_write_eXIf @MANGLE_PREFIX@_write_eXIf
 #define png_write_end @MANGLE_PREFIX@_write_end
@@ -403,6 +416,7 @@ nm lib/libitkpng-5.4.a 2> /dev/null | grep " T \| D \| R " |
 #define png_write_hIST @MANGLE_PREFIX@_write_hIST
 #define png_write_iCCP @MANGLE_PREFIX@_write_iCCP
 #define png_write_iTXt @MANGLE_PREFIX@_write_iTXt
+#define png_write_mDCV_fixed @MANGLE_PREFIX@_write_mDCV_fixed
 #define png_write_image @MANGLE_PREFIX@_write_image
 #define png_write_info @MANGLE_PREFIX@_write_info
 #define png_write_info_before_PLTE @MANGLE_PREFIX@_write_info_before_PLTE
@@ -422,16 +436,11 @@ nm lib/libitkpng-5.4.a 2> /dev/null | grep " T \| D \| R " |
 #define png_write_tIME @MANGLE_PREFIX@_write_tIME
 #define png_write_tRNS @MANGLE_PREFIX@_write_tRNS
 #define png_write_zTXt @MANGLE_PREFIX@_write_zTXt
+#define png_xy_from_XYZ @MANGLE_PREFIX@_xy_from_XYZ
+#define png_XYZ_from_xy @MANGLE_PREFIX@_XYZ_from_xy
 #define png_zalloc @MANGLE_PREFIX@_zalloc
 #define png_zfree @MANGLE_PREFIX@_zfree
 #define png_zlib_inflate @MANGLE_PREFIX@_zlib_inflate
 #define png_zstream_error @MANGLE_PREFIX@_zstream_error
-#define _png_read_filter_row_avg3_neon @MANGLE_PREFIX@___png_read_filter_row_avg3_neon
-#define _png_read_filter_row_avg4_neon @MANGLE_PREFIX@___png_read_filter_row_avg4_neon
-#define _png_read_filter_row_paeth3_neon @MANGLE_PREFIX@___png_read_filter_row_paeth3_neon
-#define _png_read_filter_row_paeth4_neon @MANGLE_PREFIX@___png_read_filter_row_paeth4_neon
-#define _png_read_filter_row_sub3_neon @MANGLE_PREFIX@___png_read_filter_row_sub3_neon
-#define _png_read_filter_row_sub4_neon @MANGLE_PREFIX@___png_read_filter_row_sub4_neon
-#define _png_read_filter_row_up_neon @MANGLE_PREFIX@___png_read_filter_row_up_neon
 
 #endif
