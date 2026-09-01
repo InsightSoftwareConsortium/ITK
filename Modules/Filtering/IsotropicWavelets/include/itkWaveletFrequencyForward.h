@@ -67,7 +67,7 @@ public:
   using InputImageConstPointer = typename Superclass::InputImageConstPointer;
 
   using OutputsType = typename std::vector<OutputImagePointer>;
-  // using OutputsType = typename itk::VectorContainer<int, OutputImagePointer>;
+  // using OutputsType = typename itk::VectorContainer<OutputImagePointer>;
 
   using OutputRegionIterator = typename itk::ImageRegionIterator<OutputImageType>;
   using InputRegionConstIterator = typename itk::ImageRegionConstIterator<InputImageType>;

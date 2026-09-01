@@ -79,7 +79,7 @@ public:
   using FunctionValueType = typename WaveletFunctionType::FunctionValueType;
 
   using OutputsType = typename std::vector<OutputImagePointer>;
-  // using OutputsType = typename itk::VectorContainer<int, OutputImagePointer>;
+  // using OutputsType = typename itk::VectorContainer<OutputImagePointer>;
 
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 

@@ -132,7 +132,7 @@ public:
   using GaussianSourceType = GaussianImageSource<FloatImageType>;
 
   using InputsType = typename std::vector<InputImagePointer>;
-  // using InputsType = typename itk::VectorContainer<int, InputImagePointer>;
+  // using InputsType = typename itk::VectorContainer<InputImagePointer>;
   //
   void
   SetInputs(const InputsType & inputs);

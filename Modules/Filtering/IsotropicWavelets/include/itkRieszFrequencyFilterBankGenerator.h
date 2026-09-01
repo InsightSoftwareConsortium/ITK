@@ -68,7 +68,7 @@ public:
   using FunctionValueType = typename RieszFunctionType::FunctionValueType;
 
   using OutputsType = typename std::vector<OutputImagePointer>;
-  // using OutputsType = typename itk::VectorContainer<int, OutputImagePointer>;
+  // using OutputsType = typename itk::VectorContainer<OutputImagePointer>;
 
   /** Dimension */
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
