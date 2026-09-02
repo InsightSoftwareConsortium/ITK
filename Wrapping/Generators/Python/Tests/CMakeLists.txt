@@ -194,6 +194,11 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
         COMMAND
           ${CMAKE_CURRENT_SOURCE_DIR}/geometry_protocol.py
       )
+      itk_python_add_test(
+        NAME PythonSimpleITKProtocolTest
+        COMMAND
+          ${CMAKE_CURRENT_SOURCE_DIR}/simpleitk_protocol.py
+      )
     endif()
     itk_python_add_test(
       NAME PythonExtrasTest

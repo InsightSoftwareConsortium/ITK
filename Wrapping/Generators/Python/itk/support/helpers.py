@@ -39,6 +39,13 @@ try:
 except importlib.metadata.PackageNotFoundError:
     pass
 
+_HAVE_SIMPLEITK = False
+try:
+    metadata("SimpleITK")
+    _HAVE_SIMPLEITK = True
+except importlib.metadata.PackageNotFoundError:
+    pass
+
 
 def snake_to_camel_case(keyword: str):
     # Helpers for set_inputs snake case to CamelCase keyword argument conversion
@@ -105,6 +112,13 @@ def accept_array_like_xarray_torch(image_filter):
         import xarray as xr
     if _HAVE_TORCH:
         import torch
+    sitk = None
+    if _HAVE_SIMPLEITK:
+        try:
+            # A half-installed SimpleITK must not take down `import itk`.
+            import SimpleITK as sitk
+        except ImportError:
+            pass
 
     @functools.wraps(image_filter)
     def image_filter_wrapper(*args, **kwargs):
@@ -126,6 +140,9 @@ def accept_array_like_xarray_torch(image_filter):
                     arr = move_last_dimension_to_first(arr)
                 image = itk.image_view_from_array(arr, is_vector=channels > 1)
                 args_list[index] = image
+            elif sitk is not None and isinstance(arg, sitk.Image):
+                # Not flagged as array input: outputs stay itk.Image.
+                args_list[index] = itk.image_from_simpleitk(arg)
             elif not isinstance(arg, itk.Object) and is_arraylike(arg):
                 have_array_input = True
                 array = np.asarray(arg)
@@ -149,6 +166,8 @@ def accept_array_like_xarray_torch(image_filter):
                         arr = move_last_dimension_to_first(arr)
                     image = itk.image_view_from_array(arr, is_vector=channels > 1)
                     kwargs[key] = image
+                elif sitk is not None and isinstance(value, sitk.Image):
+                    kwargs[key] = itk.image_from_simpleitk(value)
                 elif not isinstance(value, itk.Object) and is_arraylike(value):
                     have_array_input = True
                     array = np.asarray(value)
@@ -194,7 +213,8 @@ def accept_array_like_xarray_torch(image_filter):
                         output = itk.array_view_from_image(output)
                 return output
         else:
-            return image_filter(*args, **kwargs)
+            # args_list carries conversions that do not request output conversion back.
+            return image_filter(*tuple(args_list), **kwargs)
 
     return image_filter_wrapper
 
