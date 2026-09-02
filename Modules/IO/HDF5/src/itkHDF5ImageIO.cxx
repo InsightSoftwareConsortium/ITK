@@ -789,6 +789,15 @@ HDF5ImageIO::ReadImageInformation()
       if (nDims > this->GetNumberOfDimensions())
       {
         this->SetNumberOfComponents(Dims[nDims - 1]);
+        this->SetPixelType(IOPixelEnum::VECTOR);
+      }
+      else
+      {
+        // Explicitly reset scalar state, so that reusing this IO object to
+        // read a scalar dataset after a vector one does not retain the
+        // previous NumberOfComponents/PixelType.
+        this->SetNumberOfComponents(1);
+        this->SetPixelType(IOPixelEnum::SCALAR);
       }
     }
     //

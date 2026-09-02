@@ -44,7 +44,8 @@ WriteGeometryFixture(const std::string &                path,
                      const std::vector<double> &        spacing,
                      const std::vector<std::uint64_t> & dimensions,
                      const hsize_t                      directionRows = 2,
-                     const hsize_t                      directionColumns = 2)
+                     const hsize_t                      directionColumns = 2,
+                     const hsize_t                      numberOfComponents = 1)
 {
   H5::H5File file(path, H5F_ACC_TRUNC);
   file.createGroup("/ITKImage");
@@ -76,11 +77,22 @@ WriteGeometryFixture(const std::string &                path,
 
   file.createGroup("/ITKImage/0/MetaData");
 
-  const unsigned char voxels[4] = { 0, 0, 0, 0 };
-  const hsize_t       voxelDims[2] = { 2, 2 };
-  const H5::DataSpace voxelSpace(2, voxelDims);
-  H5::DataSet         voxelSet = file.createDataSet("/ITKImage/0/VoxelData", H5::PredType::NATIVE_UCHAR, voxelSpace);
-  voxelSet.write(voxels, H5::PredType::NATIVE_UCHAR);
+  // HDF5 dimensions are listed slowest moving first (reverse of ITK), with
+  // an optional trailing component dimension, matching WriteImageInformation.
+  std::vector<hsize_t> voxelDims(dimensions.rbegin(), dimensions.rend());
+  if (numberOfComponents > 1)
+  {
+    voxelDims.push_back(numberOfComponents);
+  }
+  hsize_t voxelCount = 1;
+  for (const hsize_t d : voxelDims)
+  {
+    voxelCount *= d;
+  }
+  const std::vector<unsigned char> voxels(voxelCount, 0);
+  const H5::DataSpace              voxelSpace(static_cast<int>(voxelDims.size()), voxelDims.data());
+  H5::DataSet voxelSet = file.createDataSet("/ITKImage/0/VoxelData", H5::PredType::NATIVE_UCHAR, voxelSpace);
+  voxelSet.write(voxels.data(), H5::PredType::NATIVE_UCHAR);
 }
 
 // Returns the description of the exception thrown by ReadImageInformation, or an empty string when it does not throw.
@@ -142,6 +154,42 @@ TEST(HDF5ImageIO, ReadImageInformationRejectsNonSquareDirections)
   ASSERT_NO_THROW(WriteGeometryFixture(path, { 0.0, 0.0 }, { 1.0, 1.0 }, { 2, 2 }, 2, 1));
 
   EXPECT_NE(ReadImageInformationDescription(path).find("Directions row has 1 entries"), std::string::npos);
+}
+
+// Regression test for https://github.com/SimpleITK/SimpleITK/issues/2702
+TEST(HDF5ImageIO, ReadImageInformationInfersVectorPixelType)
+{
+  const std::string path = TestFilePath("vector_pixel_type");
+  ASSERT_NO_THROW(WriteGeometryFixture(path, { 0.0, 0.0 }, { 1.0, 1.0 }, { 2, 2 }, 2, 2, 3));
+
+  auto io = itk::HDF5ImageIO::New();
+  io->SetFileName(path);
+  ASSERT_NO_THROW(io->ReadImageInformation());
+  EXPECT_EQ(io->GetNumberOfComponents(), 3u);
+  EXPECT_EQ(io->GetPixelType(), itk::IOPixelEnum::VECTOR);
+}
+
+// Regression test: reusing one HDF5ImageIO instance to read a scalar dataset
+// after a vector one must not retain the previous NumberOfComponents/PixelType.
+TEST(HDF5ImageIO, ReadImageInformationResetsPixelTypeOnReuse)
+{
+  const std::string vectorPath = TestFilePath("reuse_vector");
+  ASSERT_NO_THROW(WriteGeometryFixture(vectorPath, { 0.0, 0.0 }, { 1.0, 1.0 }, { 2, 2 }, 2, 2, 3));
+
+  const std::string scalarPath = TestFilePath("reuse_scalar");
+  ASSERT_NO_THROW(WriteGeometryFixture(scalarPath, { 0.0, 0.0 }, { 1.0, 1.0 }, { 2, 2 }));
+
+  auto io = itk::HDF5ImageIO::New();
+
+  io->SetFileName(vectorPath);
+  ASSERT_NO_THROW(io->ReadImageInformation());
+  ASSERT_EQ(io->GetNumberOfComponents(), 3u);
+  ASSERT_EQ(io->GetPixelType(), itk::IOPixelEnum::VECTOR);
+
+  io->SetFileName(scalarPath);
+  ASSERT_NO_THROW(io->ReadImageInformation());
+  EXPECT_EQ(io->GetNumberOfComponents(), 1u);
+  EXPECT_EQ(io->GetPixelType(), itk::IOPixelEnum::SCALAR);
 }
 
 TEST(HDF5ImageIO, WriteImageInformationCStringMetaDataRoundTrips)
