@@ -59,7 +59,7 @@ public:
   using InputImageConstPointer = typename Superclass::InputImageConstPointer;
 
   using InputsType = typename std::vector<InputImagePointer>;
-  // using InputsType = typename itk::VectorContainer<int, InputImagePointer>;
+  // using InputsType = typename itk::VectorContainer<InputImagePointer>;
 
   using WaveletFilterBankType = TWaveletFilterBank;
   using WaveletFilterBankPointer = typename WaveletFilterBankType::Pointer;
