@@ -81,7 +81,7 @@ public:
   using NodeType = LevelSetNode<PixelType, Self::ImageDimension>;
 
   /** Type of container used to store the level set nodes. */
-  using NodeContainerType = VectorContainer<unsigned int, NodeType>;
+  using NodeContainerType = VectorContainer<NodeType>;
   using NodeContainerPointer = typename NodeContainerType::ConstPointer;
 
   /** Type of the shape signed distance function. */

@@ -101,7 +101,7 @@ thresholder.SetInput(thresholdSegmentation.GetOutput())
 writer.SetInput(thresholder.GetOutput())
 
 NodeType = itk.LevelSetNode[InternalPixelType, Dimension]
-NodeContainer = itk.VectorContainer[itk.UI, NodeType]
+NodeContainer = itk.VectorContainer[itk.IT, NodeType]
 seeds = NodeContainer.New()
 seedPosition = [int(argv[3]), int(argv[4])]
 

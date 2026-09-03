@@ -103,7 +103,7 @@ def main():
     node.SetIndex(seedPosition)
 
     seeds = itk.VectorContainer[
-        itk.UI, itk.LevelSetNode[InternalPixelType, Dimension]
+        itk.IT, itk.LevelSetNode[InternalPixelType, Dimension]
     ].New()
     seeds.Initialize()
     seeds.InsertElement(0, node)
