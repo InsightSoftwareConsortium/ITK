@@ -307,8 +307,6 @@ MetaObject::ReadStream(int _nDims, std::ifstream * _stream)
 
 MetaObject::M_Destroy();
 
-  fflush(nullptr);
-
   Clear();
 
   M_SetupReadFields();
