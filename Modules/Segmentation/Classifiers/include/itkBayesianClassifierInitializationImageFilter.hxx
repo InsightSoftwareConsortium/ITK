@@ -78,10 +78,9 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   using ClassCountArrayType = Array<double>;
 
   using GaussianMembershipFunctionType = Statistics::GaussianMembershipFunction<MeasurementVectorType>;
-  using MeanEstimatorsContainerType =
-    VectorContainer<unsigned short, typename GaussianMembershipFunctionType::MeanVectorType *>;
+  using MeanEstimatorsContainerType = VectorContainer<typename GaussianMembershipFunctionType::MeanVectorType *>;
   using CovarianceEstimatorsContainerType =
-    VectorContainer<unsigned short, typename GaussianMembershipFunctionType::CovarianceMatrixType *>;
+    VectorContainer<typename GaussianMembershipFunctionType::CovarianceMatrixType *>;
 
   // Run k means to get the means from the input image
   auto kmeansFilter = KMeansFilterType::New();
