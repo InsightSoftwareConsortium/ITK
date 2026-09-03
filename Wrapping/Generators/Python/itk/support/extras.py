@@ -815,9 +815,11 @@ def image_from_simpleitk(sitk_image) -> itkt.ImageBase:
     Geometry is read in ITK (x, y, z) order, via the order-explicit
     ``spacing_xyz``/``origin_xyz``/``direction_xyz`` keys when the object
     provides them and otherwise via ``GetSpacing()``/``GetOrigin()``/
-    ``GetDirection()``. Pixels are copied through SimpleITK's array API.
-    Multi-component images become an itk.VectorImage. Entries reported by
-    ``GetMetaDataKeys()`` are copied into the MetaDataDictionary.
+    ``GetDirection()``. Pixels are deep-copied into a buffer the returned
+    image owns, so it is independent of ``sitk_image`` and safe for
+    grafting or in-place filters. Multi-component images become an
+    itk.VectorImage. Entries reported by ``GetMetaDataKeys()`` are copied
+    into the MetaDataDictionary.
 
     Parameters
     ----------
@@ -836,9 +838,9 @@ def image_from_simpleitk(sitk_image) -> itkt.ImageBase:
     number_of_components = sitk_image.GetNumberOfComponentsPerPixel()
     is_vector = number_of_components != 1
 
-    array = sitk.GetArrayFromImage(sitk_image)
+    array = sitk.GetArrayViewFromImage(sitk_image)
 
-    l_image = itk.image_view_from_array(array, is_vector=is_vector)
+    l_image = itk.image_from_array(array, is_vector=is_vector)
 
     spacing = _spatial_from_order_explicit(sitk_image, "spacing")
     if spacing is not None:
@@ -879,8 +881,8 @@ def simpleitk_from_image(image: itkt.ImageOrImageSource):
 
     image = itk.output(image)
 
-    # Updates the image, so the regions compared below are the ones just read.
-    array = itk.array_from_image(image)
+    # Updates the image; a view is safe since GetImageFromArray deep-copies.
+    array = itk.array_view_from_image(image)
 
     buffered_region = image.GetBufferedRegion()
     largest_region = image.GetLargestPossibleRegion()
