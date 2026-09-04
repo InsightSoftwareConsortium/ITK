@@ -25,10 +25,11 @@ main(int, char *[])
   for (i = 0; i < 10; i++)
   {
     pnt = new TubePnt(3);
-    pnt->m_X[0] = i;
-    pnt->m_X[1] = i;
-    pnt->m_X[2] = i;
-    pnt->m_R = i;
+    float i_f = static_cast<float>(i);
+    pnt->m_X[0] = i_f;
+    pnt->m_X[1] = i_f;
+    pnt->m_X[2] = i_f;
+    pnt->m_R = i_f;
     tube1->GetPoints().push_back(pnt);
   }
 
@@ -38,10 +39,11 @@ main(int, char *[])
   for (i = 0; i < 5; i++)
   {
     pnt = new TubePnt(3);
-    pnt->m_X[0] = i;
-    pnt->m_X[1] = i;
-    pnt->m_X[2] = i;
-    pnt->m_R = i;
+    float i_f = static_cast<float>(i);
+    pnt->m_X[0] = i_f;
+    pnt->m_X[1] = i_f;
+    pnt->m_X[2] = i_f;
+    pnt->m_R = i_f;
     tube2->GetPoints().push_back(pnt);
   }
 

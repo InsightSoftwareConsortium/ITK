@@ -338,7 +338,7 @@ MetaContour::M_Read()
   MET_FieldRecordType * mF;
 
   mF = MET_GetFieldRecord("Closed", &m_Fields);
-  if (mF->defined)
+  if (mF && mF->defined)
   {
     if (mF->value[0] != 0.0)
     {
@@ -347,7 +347,7 @@ MetaContour::M_Read()
   }
 
   mF = MET_GetFieldRecord("DisplayOrientation", &m_Fields);
-  if (mF->defined)
+  if (mF && mF->defined)
   {
     if (mF->value[0] != 0.0)
     {
@@ -356,7 +356,7 @@ MetaContour::M_Read()
   }
 
   mF = MET_GetFieldRecord("PinToSlice", &m_Fields);
-  if (mF->defined)
+  if (mF && mF->defined)
   {
     if (mF->value[0] != 0.0)
     {
@@ -365,13 +365,13 @@ MetaContour::M_Read()
   }
 
   mF = MET_GetFieldRecord("NControlPoints", &m_Fields);
-  if (mF->defined)
+  if (mF && mF->defined)
   {
     m_NControlPoints = static_cast<int>(mF->value[0]);
   }
 
   mF = MET_GetFieldRecord("ControlPointDim", &m_Fields);
-  if (mF->defined)
+  if (mF && mF->defined)
   {
     strcpy(m_ControlPointDim, reinterpret_cast<char *>(mF->value));
   }
@@ -690,7 +690,7 @@ MetaContour::M_Read()
       delete[] v;
 
       char c = ' ';
-      while ((c != '\n') && (!m_ReadStream->eof()))
+      while ((c != '\n') && (c != -1) && (!m_ReadStream->eof()))
       {
         c = static_cast<char>(m_ReadStream->get()); // to avoid unrecognize charactere
       }

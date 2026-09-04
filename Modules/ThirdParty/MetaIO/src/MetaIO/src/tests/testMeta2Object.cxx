@@ -40,25 +40,31 @@ main(int, char *[])
   float myMatrix[4];
   for (i = 0; i < 4; i++)
   {
-    myMatrix[i] = i;
+    myMatrix[i] = static_cast<float>(i);
   }
   tObj.AddUserField("MyMatrix", MET_FLOAT_MATRIX, 2, myMatrix);
 
+  std::cout << "*** Writing this info..." << std::endl;
   tObj.PrintInfo();
   tObj.Write();
 
   tObj.Clear();
   tObj.ClearUserFields();
 
+  std::cout << "*** Adding user fields..." << std::endl;
   tObj.AddUserField("MyName", MET_STRING);
   tObj.AddUserField("MyArray", MET_INT_ARRAY, 3);
   tObj.AddUserField("MyMatrix", MET_FLOAT_MATRIX, 2);
 
+  std::cout << "*** Pre-reading..." << std::endl;
+  tObj.PrintInfo();
+  std::cout << "*** Reading..." << std::endl;
   tObj.Read();
+  std::cout << "*** Reading results..." << std::endl;
   tObj.PrintInfo();
 
   char * name = static_cast<char *>(tObj.GetUserField("MyName"));
-  if (strcmp(name, "Julien") != 0)
+  if (name == nullptr || strcmp(name, "Julien") != 0)
   {
     std::cout << "MyName: FAIL" << '\n';
     return EXIT_FAILURE;
@@ -69,7 +75,7 @@ main(int, char *[])
   int * array = static_cast<int *>(tObj.GetUserField("MyArray"));
   for (i = 0; i < 3; i++)
   {
-    if (array[i] != i + 1)
+    if (array == nullptr || array[i] != i + 1)
     {
       std::cout << "MyArray: FAIL" << '\n';
       delete[] array;
@@ -82,7 +88,7 @@ main(int, char *[])
   auto * matrix = static_cast<float *>(tObj.GetUserField("MyMatrix"));
   for (i = 0; i < 4; i++)
   {
-    if (matrix[i] != i)
+    if (matrix == nullptr || matrix[i] != i)
     {
       std::cout << "MyMatrix: FAIL" << '\n';
       delete[] matrix;

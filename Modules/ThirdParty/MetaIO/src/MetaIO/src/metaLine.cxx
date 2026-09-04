@@ -255,19 +255,19 @@ MetaLine::M_Read()
   MET_FieldRecordType * mF;
 
   mF = MET_GetFieldRecord("NPoints", &m_Fields);
-  if (mF->defined)
+  if (mF && mF->defined)
   {
     m_NPoints = static_cast<int>(mF->value[0]);
   }
 
   mF = MET_GetFieldRecord("ElementType", &m_Fields);
-  if (mF->defined)
+  if (mF && mF->defined)
   {
     MET_StringToType(reinterpret_cast<char *>(mF->value), &m_ElementType);
   }
 
   mF = MET_GetFieldRecord("PointDim", &m_Fields);
-  if (mF->defined)
+  if (mF && mF->defined)
   {
     strcpy(m_PointDim, reinterpret_cast<char *>(mF->value));
   }
