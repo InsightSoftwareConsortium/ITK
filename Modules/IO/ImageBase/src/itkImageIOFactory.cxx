@@ -34,20 +34,26 @@ ImageIOFactory::CreateImageIO(const char * path, IOFileModeEnum mode)
 {
   std::list<ImageIOBase::Pointer> possibleImageIO;
 
-  const std::lock_guard<std::mutex> lockGuard(createImageIOMutex);
-
-  for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkImageIOBase"))
   {
-    auto * io = dynamic_cast<ImageIOBase *>(allobject.GetPointer());
-    if (io)
+    // Lock the mutex while creating all instances of ImageIOBase, to
+    // ensure thread safety during intialization of third-party libraries.
+    const std::lock_guard<std::mutex> lockGuard(createImageIOMutex);
+
+    for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkImageIOBase"))
     {
-      possibleImageIO.emplace_back(io);
-    }
-    else
-    {
-      std::cerr << "Error ImageIO factory did not return an ImageIOBase: " << allobject->GetNameOfClass() << std::endl;
+      auto * io = dynamic_cast<ImageIOBase *>(allobject.GetPointer());
+      if (io)
+      {
+        possibleImageIO.emplace_back(io);
+      }
+      else
+      {
+        std::cerr << "Error ImageIO factory did not return an ImageIOBase: " << allobject->GetNameOfClass()
+                  << std::endl;
+      }
     }
   }
+
   for (auto & k : possibleImageIO)
   {
     if (mode == IOFileModeEnum::ReadMode)
