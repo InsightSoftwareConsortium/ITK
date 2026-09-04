@@ -1,0 +1,8 @@
+# .pre-commit-config.yaml
+# for details see https://pre-commit.com
+#
+# No hooks are configured on this branch. This empty file prevents
+# pre-commit from erroring when backporting commits after pre-commit
+# hooks have been configured.
+
+repos: []
