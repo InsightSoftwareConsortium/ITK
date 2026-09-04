@@ -531,6 +531,7 @@ class SwigInputGenerator:
         r"itk::ObjectFactoryBasePrivate",
         r"itk::ThreadPoolGlobals",
         r"itk::MultiThreaderBaseGlobals",
+        r"itk::GenericCUBFileAdaptor",  # private implementation detail of VoxBoCUBImageIO
         ".+[(][*][)][(].+",  # functor functions
     ]
 
