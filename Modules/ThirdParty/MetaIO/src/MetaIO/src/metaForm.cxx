@@ -591,8 +591,6 @@ MetaForm::ReadStream(METAIO_STREAM::ifstream * _stream)
 
   MetaForm::M_Destroy();
 
-  fflush(nullptr);
-
   Clear();
 
   M_SetupReadFields();
