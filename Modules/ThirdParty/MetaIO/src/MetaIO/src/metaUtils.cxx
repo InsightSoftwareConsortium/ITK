@@ -891,6 +891,12 @@ MET_PerformUncompression(const unsigned char * sourceCompressed,
     } while (d_stream.avail_out == 0);
   } while (err != Z_STREAM_END && err >= 0);
   inflateEnd(&d_stream);
+  if (err != Z_STREAM_END)
+  {
+    std::cerr << "MET_PerformUncompression: compressed stream did not terminate cleanly (zlib error " << err << ")"
+              << '\n';
+    return false;
+  }
   if (dest_pos != uncompressedDataSize)
   {
     std::cerr << "MET_PerformUncompression: expected " << uncompressedDataSize << " bytes, produced " << dest_pos
