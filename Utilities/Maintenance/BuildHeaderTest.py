@@ -58,6 +58,7 @@ BANNED_HEADERS = {
     "QuickView.h",  # Depends on VTK_RENDERING_BACKEND
     "itkBSplineDeformableTransformInitializer.h",
     "VNLSparseLUSolverTraits.h",  # deprecated
+    "itkLabelGeometryImageFilter.h",  # deprecated, triggers MSVC C4996 in its own .hxx
 }
 
 HEADER = """/*=========================================================================
