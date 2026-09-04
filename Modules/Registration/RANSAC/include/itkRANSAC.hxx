@@ -199,10 +199,10 @@ RANSAC<T, SType, TTransform>::Compute(std::vector<SType> & parameters, double de
 
 
   // STEP3: least squares estimate using largest consensus set and cleanup
-  using PointsLocatorType = itk::PointsLocator<itk::VectorContainer<IdentifierType, itk::Point<double, 3>>>;
+  using PointsLocatorType = itk::PointsLocator<itk::VectorContainer<itk::Point<double, 3>>>;
   auto pointsLocator = PointsLocatorType::New();
 
-  using PointsContainer = itk::VectorContainer<IdentifierType, itk::Point<double, 3>>;
+  using PointsContainer = itk::VectorContainer<itk::Point<double, 3>>;
   auto                  points = PointsContainer::New();
   itk::Point<double, 3> testPoint;
   itk::Point<double, 6> inlierPoint;

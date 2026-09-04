@@ -47,8 +47,8 @@ public:
 
   using KdTreeT = KDTreeVectorOfVectorsAdaptor<VectorofVectorsT, double>;
 
-  using PointsLocatorType = itk::PointsLocator<itk::VectorContainer<IdentifierType, itk::Point<double, 3>>>;
-  using PointsContainer = itk::VectorContainer<IdentifierType, itk::Point<double, 3>>;
+  using PointsLocatorType = itk::PointsLocator<itk::VectorContainer<itk::Point<double, 3>>>;
+  using PointsContainer = itk::VectorContainer<itk::Point<double, 3>>;
 
   itkOverrideGetNameOfClassMacro(LandmarkRegistrationEstimator);
   /** New method for creating an object using a factory. */

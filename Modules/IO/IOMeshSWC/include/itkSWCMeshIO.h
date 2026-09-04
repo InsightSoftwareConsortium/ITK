@@ -153,10 +153,10 @@ public:
   // For Python wrapping
   using ParentIdentifierType = float;
 
-  using SampleIdentifierContainerType = VectorContainer<IdentifierType, SampleIdentifierType>;
-  using TypeIdentifierContainerType = VectorContainer<IdentifierType, TypeIdentifierType>;
-  using RadiusContainerType = VectorContainer<IdentifierType, RadiusType>;
-  using ParentIdentifierContainerType = VectorContainer<IdentifierType, ParentIdentifierType>;
+  using SampleIdentifierContainerType = VectorContainer<SampleIdentifierType>;
+  using TypeIdentifierContainerType = VectorContainer<TypeIdentifierType>;
+  using RadiusContainerType = VectorContainer<RadiusType>;
+  using ParentIdentifierContainerType = VectorContainer<ParentIdentifierType>;
 
   /** Set/Get the sample identifiers. */
   void
@@ -310,8 +310,8 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  using PointsBufferContainerType = VectorContainer<IdentifierType, float>;
-  using CellsBufferContainerType = VectorContainer<IdentifierType, uint32_t>;
+  using PointsBufferContainerType = VectorContainer<float>;
+  using CellsBufferContainerType = VectorContainer<uint32_t>;
   using SampleIdentifierToPointIndexType = std::unordered_map<SampleIdentifierType, IdentifierType>;
   using PointIndexToParentPointIndexType = std::unordered_map<IdentifierType, IdentifierType>;
   using PointIndexToSampleIdentifierType = std::unordered_map<IdentifierType, SampleIdentifierType>;
