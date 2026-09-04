@@ -188,7 +188,7 @@ MetaEllipse::M_Read()
   MET_FieldRecordType * mF;
 
   mF = MET_GetFieldRecord("Radius", &m_Fields);
-  if (mF->defined)
+  if (mF && mF->defined)
   {
     for (int i = 0; i < m_NDims; i++)
     {

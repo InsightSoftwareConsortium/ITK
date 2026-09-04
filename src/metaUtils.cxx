@@ -57,7 +57,7 @@ bool META_DEBUG = false;
 
 static char MET_SeperatorChar = '=';
 
-static const std::streamoff MET_MaxChunkSize = 1024 * 1024 * 1024;
+constexpr static std::streamoff MET_MaxChunkSize = 1024 * 1024 * 1024;
 
 MET_FieldRecordType *
 MET_GetFieldRecord(const char * _fieldName, std::vector<MET_FieldRecordType *> * _fields)
@@ -110,7 +110,7 @@ MET_SizeOfType(MET_ValueEnumType _vType, int * s)
 bool
 MET_SystemByteOrderMSB()
 {
-  const int    l = 1;
+  constexpr int    l = 1;
   const char * u = reinterpret_cast<const char *>(&l);
 
   if (u[0])
@@ -162,11 +162,10 @@ MET_ReadType(std::istream & _fp)
   std::vector<MET_FieldRecordType *> fields;
   auto *                             mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "ObjectType", MET_STRING, false);
-  mF->required = false;
   mF->terminateRead = true;
   fields.push_back(mF);
 
-  MET_Read(_fp, &fields, '=', true);
+  MET_Read(_fp, &fields, '=', true, false);
   _fp.seekg(pos);
 
   if (mF->defined)
@@ -183,35 +182,29 @@ MET_ReadType(std::istream & _fp)
 //
 // Read the subtype of the object
 //
-char *
+std::string
 MET_ReadSubType(std::istream & _fp)
 {
   std::streampos                     pos = _fp.tellg();
   std::vector<MET_FieldRecordType *> fields;
   MET_FieldRecordType *              mF;
   mF = new MET_FieldRecordType;
-  MET_InitReadField(mF, "ObjectType", MET_STRING, false);
-  mF->required = false;
+  MET_InitReadField(mF, "ObjectSubType", MET_STRING, false);
+  mF->terminateRead = true;
   fields.push_back(mF);
 
-  MET_Read(_fp, &fields, '=', true);
-
-  // Find the line right after the ObjectType
-  char s[1024];
-  _fp.getline(s, 500);
-  std::string value = s;
-  size_t      position = value.find('=');
-  if (position != std::string::npos)
-  {
-    value = value.substr(position + 2, value.size() - position);
-  }
+  MET_Read(_fp, &fields, '=', true, false);
   _fp.seekg(pos);
 
-  char * ret = new char[value.size() + 1];
-  strncpy(ret, value.c_str(), value.size());
-  ret[value.size()] = '\0';
+  if (mF->defined)
+  {
+    std::string value = reinterpret_cast<char *>(mF->value);
+    delete mF;
+    return value;
+  }
+
   delete mF;
-  return ret;
+  return std::string();
 }
 
 
@@ -590,7 +583,7 @@ MET_ValueToValue(MET_ValueEnumType _fromType,
 // Uncompress a stream given an uncompressedSeekPosition
 METAIO_EXPORT
 std::streamoff
-MET_UncompressStream(std::ifstream *            stream,
+MET_UncompressStream(METAIO_STREAM::ifstream *            stream,
                      std::streamoff             uncompressedSeekPosition,
                      unsigned char *            uncompressedData,
                      std::streamoff             uncompressedDataSize,
@@ -883,6 +876,10 @@ MET_PerformUncompression(const unsigned char * sourceCompressed,
       d_stream.next_out = uncompressedData + dest_pos;
       d_stream.avail_out = cur_remain_chunk;
       err = inflate(&d_stream, Z_NO_FLUSH);
+      // Account for this call's output before any exit, including the final
+      // call that reports Z_STREAM_END.
+      uInt count_uncompressed = cur_remain_chunk - d_stream.avail_out;
+      dest_pos += count_uncompressed;
       if (err == Z_STREAM_END || err < 0)
       {
         if (err != Z_STREAM_END && err != Z_BUF_ERROR) // Z_BUF_ERROR means there is still data to uncompress,
@@ -891,11 +888,21 @@ MET_PerformUncompression(const unsigned char * sourceCompressed,
         }
         break;
       }
-      uInt count_uncompressed = cur_remain_chunk - d_stream.avail_out;
-      dest_pos += count_uncompressed;
     } while (d_stream.avail_out == 0);
   } while (err != Z_STREAM_END && err >= 0);
   inflateEnd(&d_stream);
+  if (err != Z_STREAM_END)
+  {
+    std::cerr << "MET_PerformUncompression: compressed stream did not terminate cleanly (zlib error " << err << ")"
+              << '\n';
+    return false;
+  }
+  if (dest_pos != uncompressedDataSize)
+  {
+    std::cerr << "MET_PerformUncompression: expected " << uncompressedDataSize << " bytes, produced " << dest_pos
+              << '\n';
+    return false;
+  }
   return true;
 }
 
@@ -1165,6 +1172,7 @@ MET_Read(std::istream &                       fp,
 
   MET_SeperatorChar = _met_SeperatorChar;
 
+  unsigned int linecount = 0;
   while (!fp.eof())
   {
     int i = 0;
@@ -1426,7 +1434,7 @@ MET_Read(std::istream &                       fp,
         fp.getline(s, 500);
       }
     }
-    if (oneLine)
+    if (oneLine && ++linecount > 3)
     {
       return MET_IsComplete(fields);
     }
@@ -1909,6 +1917,66 @@ MET_SwapByteIfSystemMSB(void * val, MET_ValueEnumType _type)
     }
   }
 }
+
+
+void MET_PrintFieldRecord(std::ostream & _fp, MET_FieldRecordType * _mf)
+{
+  if (_mf == nullptr)
+  {
+    _fp << "NULL Field Record" << '\n';
+    return;
+  }
+  _fp << "Name = " << _mf->name << '\n';
+  _fp << "Type = " << MET_ValueTypeName[_mf->type] << '\n';
+  _fp << "Defined = " << _mf->defined << '\n';
+  _fp << "Length = " << _mf->length << '\n';
+  _fp << "DependsOn = " << _mf->dependsOn << '\n';
+  _fp << "Required = " << _mf->required << '\n';
+  _fp << "TerminateRead = " << _mf->terminateRead << '\n';
+  _fp << "Value = ";
+  if (!_mf->defined)
+  {
+    _fp << "Undefined" << '\n';
+    return;
+  }
+  if (_mf->type == MET_STRING)
+  {
+    _fp << reinterpret_cast<char *>(_mf->value) << '\n';
+  }
+  else if (_mf->type == MET_ASCII_CHAR || _mf->type == MET_CHAR || _mf->type == MET_UCHAR ||
+           _mf->type == MET_SHORT || _mf->type == MET_USHORT || _mf->type == MET_LONG ||
+           _mf->type == MET_ULONG || _mf->type == MET_INT || _mf->type == MET_UINT ||
+           _mf->type == MET_FLOAT || _mf->type == MET_DOUBLE)
+  {
+    _fp << _mf->name << " : " << _mf->value[0] << '\n';
+  }
+  else if (_mf->type == MET_CHAR_ARRAY || _mf->type == MET_UCHAR_ARRAY || _mf->type == MET_SHORT_ARRAY ||
+           _mf->type == MET_USHORT_ARRAY || _mf->type == MET_INT_ARRAY || _mf->type == MET_UINT_ARRAY ||
+           _mf->type == MET_FLOAT_ARRAY || _mf->type == MET_DOUBLE_ARRAY)
+  {
+    _fp << _mf->value[0];
+    for (int i = 1; i < _mf->length; i++)
+    {
+      _fp << ", " << _mf->value[i];
+    }
+    _fp << '\n';
+  }
+  else if (_mf->type == MET_FLOAT_MATRIX)
+  {
+    _fp << '\n';
+    int count = 0;
+    for (int i = 0; i < _mf->length; i++)
+    {
+      _fp << _mf->value[count++];
+      for (int j = 1; j < _mf->length; j++)
+      {
+        _fp << ", " << _mf->value[count++];
+      }
+      _fp << '\n';
+    }
+  }
+}
+
 
 #if (METAIO_USE_NAMESPACE)
 };
