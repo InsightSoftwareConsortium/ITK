@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # \author Hans J. Johnson
 # The following python script was used to make the ITK code consistent.
 

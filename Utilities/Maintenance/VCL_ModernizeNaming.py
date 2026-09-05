@@ -1,4 +1,4 @@
-#!python
+#!/usr/bin/env python3
 # \author Hans J. Johnson
 #
 # Now that all supported compilers simply

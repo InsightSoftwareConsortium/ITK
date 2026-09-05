@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/usr/bin/env python3
 # \author Hans J. Johnson
 #
 # Prepare for the future by recommending

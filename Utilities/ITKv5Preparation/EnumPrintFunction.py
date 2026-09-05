@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # \author Mathew J. Seng
 # This python script helps transition existing enumerations to ITKv5's strongly typed enumerations.
 
