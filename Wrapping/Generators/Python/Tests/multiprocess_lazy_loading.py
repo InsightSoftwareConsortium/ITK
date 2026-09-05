@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Lazy module loading must be threadsafe
 #
 # The loading of modules in python *must* occur as a
