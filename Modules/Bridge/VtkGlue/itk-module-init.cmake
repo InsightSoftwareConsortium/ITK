@@ -37,7 +37,6 @@ if(ITK_WRAP_PYTHON)
   list(
     APPEND
     _required_vtk_libraries
-    VTK::WrappingPythonCore
     VTK::CommonCore
     VTK::CommonDataModel
     VTK::CommonExecutionModel
