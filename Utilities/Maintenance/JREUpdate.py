@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 description = """
 Update the JRE tarballs to be bundled with the SCIFIOImageIO plugin.
