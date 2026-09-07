@@ -23,7 +23,7 @@
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkHistogram.h"
 #include "itkPrintHelper.h"
-#include <mutex>
+#include "itkGreedyReduceAlgorithm.h"
 #include <unordered_map>
 #include <vector>
 
@@ -380,6 +380,7 @@ protected:
   {
     this->AllocateOutputs();
     m_LabelStatistics.clear();
+    m_Reducer->Clear();
   }
 
   /** Do final mean and variance computation from data accumulated in threads.
@@ -404,7 +405,7 @@ private:
   RealType m_LowerBound{};
   RealType m_UpperBound{};
 
-  std::mutex m_Mutex{};
+  typename GreedyReduceAlgorithm<MapType>::Pointer m_Reducer{};
 
 }; // end of class
 } // end namespace itk
