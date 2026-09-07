@@ -440,12 +440,14 @@ MINCImageIO::ReadImageInformation()
     itkExceptionStringMacro(" minc files without spatial dimensions are not supported!");
   }
 
-  if (m_MINCPImpl->m_DimensionIndices[0] != -1 && m_MINCPImpl->m_DimensionIndices[4] != -1)
-  {
-    itkExceptionStringMacro(" 4D minc files vector dimension are not supported currently");
-  }
+  const bool haveTimeDimension = (m_MINCPImpl->m_DimensionIndices[4] != -1);
 
-  this->SetNumberOfDimensions(spatial_dimension_count);
+  // The MINC time dimension becomes an additional (highest) ITK dimension, while
+  // the MINC vector_dimension is mapped to ITK components. The two are
+  // independent and may coexist (e.g. a 4D vector image).
+  const unsigned int itkDimensionCount = spatial_dimension_count + (haveTimeDimension ? 1 : 0);
+
+  this->SetNumberOfDimensions(itkDimensionCount);
 
   int          numberOfComponents = 1;
   unsigned int usableDimensions = 0;
@@ -457,10 +459,36 @@ MINCImageIO::ReadImageInformation()
   auto RAStofromLPS = Matrix<double, 3, 3>::GetIdentity();
   RAStofromLPS(0, 0) = -1.0;
   RAStofromLPS(1, 1) = -1.0;
-  std::vector<double> dir_cos_temp(3);
+  std::vector<double> dir_cos_temp(itkDimensionCount, 0.0);
 
   Vector<double, 3> origin{};
   Vector<double, 3> oOrigin{};
+
+  // Build the MINC apparent dimension order slowest-varying first. The time
+  // dimension is the slowest, matching the ITK buffer layout used by
+  // Read()/Write() where it is the highest ITK dimension.
+  if (haveTimeDimension)
+  {
+    m_MINCPImpl->m_MincApparentDims[usableDimensions] = m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]];
+    // always use positive
+    miset_dimension_apparent_voxel_order(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_POSITIVE);
+    misize_t _sz = 0;
+    miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_sz);
+    double _sep = NAN;
+    miget_dimension_separation(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_ORDER_APPARENT, &_sep);
+    double _start = NAN;
+    miget_dimension_start(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_ORDER_APPARENT, &_start);
+
+    this->SetDimensions(spatial_dimension_count, static_cast<unsigned int>(_sz));
+    this->SetSpacing(spatial_dimension_count, _sep);
+    this->SetOrigin(spatial_dimension_count, _start);
+
+    std::vector<double> time_dir(itkDimensionCount, 0.0);
+    time_dir[spatial_dimension_count] = 1.0;
+    this->SetDirection(spatial_dimension_count, time_dir);
+
+    ++usableDimensions;
+  }
 
   // minc api uses inverse order of dimensions , fastest varying are last
   Vector<double, 3> sep;
@@ -511,7 +539,7 @@ MINCImageIO::ReadImageInformation()
   for (int i = 0; i < spatial_dimension_count; ++i)
   {
     this->SetOrigin(i, oOrigin[i]);
-    for (unsigned int j = 0; j < 3; j++)
+    for (unsigned int j = 0; j < static_cast<unsigned int>(spatial_dimension_count); ++j)
     {
       dir_cos_temp[j] = dir_cos[j][i];
     }
@@ -524,18 +552,6 @@ MINCImageIO::ReadImageInformation()
     m_MINCPImpl->m_MincApparentDims[usableDimensions] = m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[0]];
     // always use positive, vector dimension does not supposed to have notion of positive step size, so leaving as is
     // miset_dimension_apparent_voxel_order(m_MINCPImpl->m_MincApparentDims[usable_dimensions],MI_POSITIVE);
-    misize_t _sz = 0;
-    miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_sz);
-    numberOfComponents = _sz;
-    ++usableDimensions;
-  }
-
-  if (m_MINCPImpl->m_DimensionIndices[4] != -1) // have time dimension
-  {
-    // micopy_dimension(hdim[m_MINCPImpl->m_DimensionIndices[4]],&apparent_dimension_order[usable_dimensions]);
-    m_MINCPImpl->m_MincApparentDims[usableDimensions] = m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]];
-    // always use positive
-    miset_dimension_apparent_voxel_order(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_POSITIVE);
     misize_t _sz = 0;
     miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_sz);
     numberOfComponents = _sz;
@@ -893,33 +909,9 @@ MINCImageIO::WriteImageInformation()
   MetaDataDictionary & thisDic = GetMetaDataDictionary();
 
   unsigned int minc_dimensions = 0;
-  if (nComp > 3) // last dimension will be either vector or time
-  {
-    micreate_dimension(MItime,
-                       MI_DIMCLASS_TIME,
-                       MI_DIMATTR_REGULARLY_SAMPLED,
-                       nComp,
-                       &m_MINCPImpl->m_MincApparentDims[m_MINCPImpl->m_NDims - minc_dimensions - 1]);
-
-    double tstart = 0.0;
-    if (!ExposeMetaData<double>(thisDic, "tstart", tstart))
-    {
-      tstart = 0.0;
-    }
-
-    miset_dimension_start(m_MINCPImpl->m_MincApparentDims[m_MINCPImpl->m_NDims - minc_dimensions - 1], tstart);
-
-    double tstep = 1.0;
-    if (!ExposeMetaData<double>(thisDic, "tstep", tstep))
-    {
-      tstep = 1.0;
-    }
-
-    miset_dimension_separation(m_MINCPImpl->m_MincApparentDims[m_MINCPImpl->m_NDims - minc_dimensions - 1], tstep);
-
-    ++minc_dimensions;
-  }
-  else if (nComp > 1)
+  // ITK components are always written as a MINC vector_dimension (fastest
+  // varying). A time series is an ITK dimension, not components (see below).
+  if (nComp > 1)
   {
     micreate_dimension(MIvector_dimension,
                        MI_DIMCLASS_RECORD,
@@ -956,10 +948,20 @@ MINCImageIO::WriteImageInformation()
     ++minc_dimensions;
   }
 
-  if (nDims > 3)
+  if (nDims > 4)
   {
     MINCIOFreeTmpDimHandle(minc_dimensions, m_MINCPImpl->m_MincApparentDims);
-    itkExceptionStringMacro("Unfortunately, only up to 3D volume are supported now.");
+    itkExceptionStringMacro("Unfortunately, only up to 4D volumes (3 spatial + time) are supported.");
+  }
+
+  if (nDims > 3) // the 4th ITK dimension is written as a MINC time dimension (slowest varying)
+  {
+    micreate_dimension(MItime,
+                       MI_DIMCLASS_TIME,
+                       MI_DIMATTR_REGULARLY_SAMPLED,
+                       this->GetDimensions(3),
+                       &m_MINCPImpl->m_MincApparentDims[m_MINCPImpl->m_NDims - minc_dimensions - 1]);
+    ++minc_dimensions;
   }
 
   // allocating dimensions
@@ -994,21 +996,18 @@ MINCImageIO::WriteImageInformation()
   for (unsigned int i = 0; i < nDims; ++i)
   {
     const unsigned int j = i + (nComp > 1 ? 1 : 0);
-    double             dir_cos[3];
-    for (unsigned int k = 0; k < 3; ++k)
+    const unsigned int apparentIndex = minc_dimensions - j - 1;
+    miset_dimension_separation(m_MINCPImpl->m_MincApparentDims[apparentIndex], this->GetSpacing(i));
+    miset_dimension_start(m_MINCPImpl->m_MincApparentDims[apparentIndex], origin[i]);
+    if (i < 3) // spatial dimension: also set the direction cosines (time has none)
     {
-      if (k < nDims)
+      double dir_cos[3];
+      for (unsigned int k = 0; k < 3; ++k)
       {
-        dir_cos[k] = directionCosineMatrix[i][k];
+        dir_cos[k] = (k < nDims) ? directionCosineMatrix[i][k] : 0.0;
       }
-      else
-      {
-        dir_cos[k] = 0.0;
-      }
+      miset_dimension_cosines(m_MINCPImpl->m_MincApparentDims[apparentIndex], dir_cos);
     }
-    miset_dimension_separation(m_MINCPImpl->m_MincApparentDims[minc_dimensions - j - 1], this->GetSpacing(i));
-    miset_dimension_start(m_MINCPImpl->m_MincApparentDims[minc_dimensions - j - 1], origin[i]);
-    miset_dimension_cosines(m_MINCPImpl->m_MincApparentDims[minc_dimensions - j - 1], dir_cos);
   }
 
   // TODO: fix this to appropriate
@@ -1107,14 +1106,14 @@ MINCImageIO::WriteImageInformation()
             break;
           case 't':
           case 'T':
-            if (nComp <= 1)
+            if (nDims <= 3) // no time dimension present
             {
               itkDebugMacro("Dimension order is incorrect " << dimension_order);
               dimorder_good = false;
             }
             else
             {
-              j = m_MINCPImpl->m_NDims - 1;
+              j = 0; // time is the slowest-varying apparent dimension
             }
             break;
           case 'x':
