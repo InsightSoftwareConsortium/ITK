@@ -16,8 +16,13 @@ set(VERSION_MIN "9.1.0")
 
 find_package(VTK ${VERSION_MIN} NO_MODULE REQUIRED)
 
+# VTK 9 omits VTK_RENDERING_BACKEND; infer rendering support from its OpenGL2 target.
 if(NOT VTK_RENDERING_BACKEND)
-  set(VTK_RENDERING_BACKEND OpenGL2)
+  if(TARGET VTK::RenderingOpenGL2)
+    set(VTK_RENDERING_BACKEND OpenGL2)
+  else()
+    set(VTK_RENDERING_BACKEND None)
+  endif()
 endif()
 
 set(_target_freetypeopengl)
