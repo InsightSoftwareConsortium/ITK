@@ -299,7 +299,7 @@ protected:
 private:
   /** Construct control point grid size from transform domain information in the fixed parameters. */
   void
-  SetCoefficientImageInformationFromFixedParameters() override;
+  SetCoefficientImageInformationFromFixedParameters() final;
 
   /** Methods have empty implementations */
   /** @ITKStartGrouping */
