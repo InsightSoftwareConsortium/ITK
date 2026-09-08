@@ -324,19 +324,19 @@ protected:
 private:
   /** Construct control point grid size from transform domain information */
   void
-  SetFixedParametersGridSizeFromTransformDomainInformation() const override;
+  SetFixedParametersGridSizeFromTransformDomainInformation() const;
 
   /** Construct control point grid origin from transform domain information */
   void
-  SetFixedParametersGridOriginFromTransformDomainInformation() const override;
+  SetFixedParametersGridOriginFromTransformDomainInformation() const;
 
   /** Construct control point grid spacing from transform domain information */
   void
-  SetFixedParametersGridSpacingFromTransformDomainInformation() const override;
+  SetFixedParametersGridSpacingFromTransformDomainInformation() const;
 
   /** Construct control point grid direction from transform domain information */
   void
-  SetFixedParametersGridDirectionFromTransformDomainInformation() const override;
+  SetFixedParametersGridDirectionFromTransformDomainInformation() const;
 
   /** Construct control point grid size from transform domain information */
   void
