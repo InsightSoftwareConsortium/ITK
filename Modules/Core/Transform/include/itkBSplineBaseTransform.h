@@ -353,26 +353,6 @@ protected:
   WrapAsImages();
 
 protected:
-  /** Construct control point grid from transform domain information */
-  void
-  SetFixedParametersFromTransformDomainInformation() const;
-
-  /** Construct control point grid size from transform domain information */
-  virtual void
-  SetFixedParametersGridSizeFromTransformDomainInformation() const = 0;
-
-  /** Construct control point grid origin from transform domain information */
-  virtual void
-  SetFixedParametersGridOriginFromTransformDomainInformation() const = 0;
-
-  /** Construct control point grid spacing from transform domain information */
-  virtual void
-  SetFixedParametersGridSpacingFromTransformDomainInformation() const = 0;
-
-  /** Construct control point grid direction from transform domain information */
-  virtual void
-  SetFixedParametersGridDirectionFromTransformDomainInformation() const = 0;
-
   /** Construct control point grid size from transform domain information */
   virtual void
   SetCoefficientImageInformationFromFixedParameters() = 0;

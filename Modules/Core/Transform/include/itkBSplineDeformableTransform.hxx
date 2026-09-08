@@ -48,13 +48,13 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::BSpl
   this->m_ValidRegionFirst.Fill(0);
   this->m_ValidRegionLast.Fill(1);
 
-  /** Fixed Parameters store the following information:
-   *     Grid Size
-   *     Grid Origin
-   *     Grid Spacing
-   *     Grid Direction
-   *  The size of these is equal to the  NInputDimensions
-   */
+  //  Fixed Parameters store the following information:
+  //  Grid Size
+  //  Grid Origin
+  //  Grid Spacing
+  //  Grid Direction
+  //  The size of each of these is equal to VDimension
+  //
   // For example 3D image has FixedParameters of:
   // [size[0],size[1],size[2],
   // origin[0],origin[1],origin[2],
@@ -63,7 +63,14 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::BSpl
   // dir[0][1],dir[1][1],dir[2][1],
   // dir[0][2],dir[1][2],dir[2][2]]
 
-  this->SetFixedParametersFromTransformDomainInformation();
+  this->m_FixedParameters.SetSize(VDimension * (VDimension + 3));
+
+  this->SetFixedParametersGridSizeFromTransformDomainInformation();
+  this->SetFixedParametersGridOriginFromTransformDomainInformation();
+  this->SetFixedParametersGridSpacingFromTransformDomainInformation();
+  this->SetFixedParametersGridDirectionFromTransformDomainInformation();
+
+  this->Modified();
 }
 
 // Get the number of parameters

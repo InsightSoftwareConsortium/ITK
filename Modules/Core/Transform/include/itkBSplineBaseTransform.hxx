@@ -89,28 +89,6 @@ BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::SetParamet
 }
 
 
-template <typename TParametersValueType, unsigned int VDimension, unsigned int VSplineOrder>
-void
-BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::SetFixedParametersFromTransformDomainInformation()
-  const
-{
-  //  Fixed Parameters store the following information:
-  //  Grid Size
-  //  Grid Origin
-  //  Grid Spacing
-  //  Grid Direction
-  //  The size of each of these is equal to VDimension
-
-  this->m_FixedParameters.SetSize(VDimension * (VDimension + 3));
-
-  this->SetFixedParametersGridSizeFromTransformDomainInformation();
-  this->SetFixedParametersGridOriginFromTransformDomainInformation();
-  this->SetFixedParametersGridSpacingFromTransformDomainInformation();
-  this->SetFixedParametersGridDirectionFromTransformDomainInformation();
-
-  this->Modified();
-}
-
 /**
  * UpdateTransformParameters
  */
