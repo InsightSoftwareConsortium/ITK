@@ -29,17 +29,16 @@
 // Define a macro for CellInterface sub-classes to use
 // to define the Accept and GetTopologyId virtuals used
 // by the MultiVisitor class
-#define itkCellVisitMacro(TopologyId)                                                                          \
-  static constexpr CellGeometryEnum GetTopologyId() { return TopologyId; }                                     \
-  virtual void Accept(CellIdentifier cellid, typename CellInterface<PixelType, CellTraits>::MultiVisitor * mv) \
-    override                                                                                                   \
-  {                                                                                                            \
-    typename CellInterfaceVisitor<PixelType, CellTraits>::Pointer v = mv->GetVisitor(TopologyId);              \
-    if (v)                                                                                                     \
-    {                                                                                                          \
-      v->VisitFromCell(cellid, this);                                                                          \
-    }                                                                                                          \
-  }                                                                                                            \
+#define itkCellVisitMacro(TopologyId)                                                                           \
+  static constexpr CellGeometryEnum GetTopologyId() { return TopologyId; }                                      \
+  void Accept(CellIdentifier cellid, typename CellInterface<PixelType, CellTraits>::MultiVisitor * mv) override \
+  {                                                                                                             \
+    typename CellInterfaceVisitor<PixelType, CellTraits>::Pointer v = mv->GetVisitor(TopologyId);               \
+    if (v)                                                                                                      \
+    {                                                                                                           \
+      v->VisitFromCell(cellid, this);                                                                           \
+    }                                                                                                           \
+  }                                                                                                             \
   ITK_MACROEND_NOOP_STATEMENT
 
 // Define a macro for the common type alias required by the

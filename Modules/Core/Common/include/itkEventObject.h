@@ -128,12 +128,12 @@ operator<<(std::ostream & os, const EventObject & e)
     using Superclass = super;                              \
     classname() = default;                                 \
     classname(const Self & s);                             \
-    virtual ~classname() override;                         \
-    virtual const char *                                   \
+    ~classname() override;                                 \
+    const char *                                           \
     GetEventName() const override;                         \
-    virtual bool                                           \
+    bool                                                   \
     CheckEvent(const itk::EventObject * e) const override; \
-    virtual itk::EventObject *                             \
+    itk::EventObject *                                     \
     MakeObject() const override;                           \
                                                            \
   private:                                                 \
