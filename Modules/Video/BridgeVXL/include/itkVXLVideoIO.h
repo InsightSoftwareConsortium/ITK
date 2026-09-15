@@ -146,7 +146,7 @@ public:
 
 protected:
   VXLVideoIO();
-  ~VXLVideoIO();
+  ~VXLVideoIO() override;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

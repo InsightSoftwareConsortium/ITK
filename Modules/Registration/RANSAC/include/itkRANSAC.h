@@ -167,7 +167,7 @@ protected:
    *
    */
   RANSAC();
-  ~RANSAC();
+  ~RANSAC() override;
 
 private:
   /**

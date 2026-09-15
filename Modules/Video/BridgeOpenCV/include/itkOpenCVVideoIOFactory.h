@@ -42,11 +42,11 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char *
-  GetITKSourceVersion() const;
+  const char *
+  GetITKSourceVersion() const override;
 
-  virtual const char *
-  GetDescription() const;
+  const char *
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -65,7 +65,7 @@ public:
 
 protected:
   OpenCVVideoIOFactory();
-  ~OpenCVVideoIOFactory();
+  ~OpenCVVideoIOFactory() override;
 };
 } // end namespace itk
 

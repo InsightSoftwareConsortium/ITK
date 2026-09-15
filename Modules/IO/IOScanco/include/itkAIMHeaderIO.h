@@ -31,7 +31,7 @@ class AIMHeaderIO : public ScancoHeaderIO
 public:
   using ScancoHeaderIO::ScancoHeaderIO;
 
-  ~AIMHeaderIO();
+  ~AIMHeaderIO() override;
 
   /** Read the header from an infile.
    * Fills in the m_HeaderData structure with the header information.

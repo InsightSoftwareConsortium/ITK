@@ -64,7 +64,7 @@ public:
 
   /** Destructor that does nothing. The VideoStream will be freed by the source
    * that generated it. */
-  virtual ~OpenCVVideoCapture() {}
+  ~OpenCVVideoCapture() override {}
 
   /** \see LightObject::GetNameOfClass() */
   itkVirtualGetNameOfClassMacro(OpenCVVideoCapture);
@@ -92,22 +92,22 @@ public:
   open(VideoStreamType * videoStream);
 
   /** Check if the VideoStream is null */
-  virtual bool
-  isOpened() const
+  bool
+  isOpened() const override
   {
     return m_VideoStream == 0;
   }
 
   /** Just set the internal pointer to null. Let the upstream filters take care
    * of actually freeing the memory */
-  virtual void
-  release();
+  void
+  release() override;
 
   // Frame access
 
   /** Grab the next frame from the VideoStream */
-  virtual bool
-  grab();
+  bool
+  grab() override;
 
   /** Access the current frame of the VideoStream */
   virtual bool
@@ -115,8 +115,8 @@ public:
 
   /** Stream the next frame into the provided image.
    * Equivalent to grab() + retrieve(image, 0) */
-  virtual Self &
-  operator>>(cv::Mat & image);
+  Self &
+  operator>>(cv::Mat & image) override;
 
   /** Non-operator version of >>'s functionality */
   virtual bool
@@ -125,8 +125,8 @@ public:
   // Properties
 
   /** Set a property */
-  virtual bool
-  set(int propId, double value);
+  bool
+  set(int propId, double value) override;
 
   /** Get a property */
   virtual double

@@ -108,7 +108,7 @@ public:
 
 protected:
   ParametersEstimator() { this->minForEstimate = 0; }
-  ~ParametersEstimator() {}
+  ~ParametersEstimator() override {}
 
   // minimal number of data objects required for an exact estimate
   unsigned int minForEstimate;
