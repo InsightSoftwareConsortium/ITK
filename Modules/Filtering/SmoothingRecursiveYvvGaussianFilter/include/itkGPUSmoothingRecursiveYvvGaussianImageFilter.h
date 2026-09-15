@@ -127,7 +127,11 @@ public:
   void
   SetNormalizeAcrossScale(bool normalizeInScaleSpace);
 
-  itkGetConstMacro(NormalizeAcrossScale, bool);
+  bool
+  GetNormalizeAcrossScale() const override
+  {
+    return m_NormalizeAcrossScale;
+  }
 
   virtual void
   SetUp(ScalarRealType spacing);
