@@ -56,58 +56,58 @@ public:
   itkOverrideGetNameOfClassMacro(OpenCVVideoIO);
 
   /** Close the reader and writer and reset members */
-  virtual void
-  FinishReadingOrWriting();
+  void
+  FinishReadingOrWriting() override;
 
   //
   // Data reading-related methods
   //
 
   /** Set to reading from file */
-  virtual void
-  SetReadFromFile();
+  void
+  SetReadFromFile() override;
 
   /** Set to reading from a camera */
-  virtual void
-  SetReadFromCamera();
+  void
+  SetReadFromCamera() override;
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool
-  CanReadFile(const char *);
+  bool
+  CanReadFile(const char *) override;
 
   /** Return whether or not the VideoIO can read from a camera */
-  virtual bool
-  CanReadCamera(CameraIDType cameraID) const;
+  bool
+  CanReadCamera(CameraIDType cameraID) const override;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void
-  ReadImageInformation();
+  void
+  ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void
-  Read(void * buffer);
+  void
+  Read(void * buffer) override;
 
   /** Set the next frame that should be read. Return true if you operation
    * successful. */
-  virtual bool
-  SetNextFrameToRead(FrameOffsetType frameNumber);
+  bool
+  SetNextFrameToRead(FrameOffsetType frameNumber) override;
 
   /** Virtual accessor functions to be implemented in each derived class. */
-  virtual TemporalOffsetType
-  GetPositionInMSec() const;
-  virtual TemporalRatioType
-  GetRatio() const;
-  virtual FrameOffsetType
-  GetFrameTotal() const;
-  virtual TemporalRatioType
-  GetFramesPerSecond() const;
-  virtual FrameOffsetType
-  GetCurrentFrame() const;
+  TemporalOffsetType
+  GetPositionInMSec() const override;
+  TemporalRatioType
+  GetRatio() const override;
+  FrameOffsetType
+  GetFrameTotal() const override;
+  TemporalRatioType
+  GetFramesPerSecond() const override;
+  FrameOffsetType
+  GetCurrentFrame() const override;
   virtual FrameOffsetType
   GetIFrameInterval() const;
-  virtual FrameOffsetType
-  GetLastIFrame() const;
+  FrameOffsetType
+  GetLastIFrame() const override;
 
   //
   // Data writing-related methods
@@ -121,48 +121,48 @@ public:
 
   /** Override Accessors to pass default values since OpenCV doesn't handle
    * this type of meta data. */
-  virtual double
-  GetSpacing(unsigned int itkNotUsed(i)) const
+  double
+  GetSpacing(unsigned int itkNotUsed(i)) const override
   {
     return 1.0;
   }
-  virtual double
-  GetOrigin(unsigned int itkNotUsed(i)) const
+  double
+  GetOrigin(unsigned int itkNotUsed(i)) const override
   {
     return 0.0;
   }
-  virtual std::vector<double>
-  GetDirection(unsigned int i) const
+  std::vector<double>
+  GetDirection(unsigned int i) const override
   {
     return this->GetDefaultDirection(i);
   }
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  virtual bool
-  CanWriteFile(const char *);
+  bool
+  CanWriteFile(const char *) override;
 
   /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
-  virtual void
-  WriteImageInformation();
+  void
+  WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  virtual void
-  Write(const void * buffer);
+  void
+  Write(const void * buffer) override;
 
   /** Set Writer parameters. */
-  virtual void
+  void
   SetWriterParameters(TemporalRatioType                  fps,
                       const std::vector<SizeValueType> & dim,
                       const char *                       fourCC,
                       unsigned int                       nChannels,
-                      IOComponentEnum                    componentType);
+                      IOComponentEnum                    componentType) override;
 
 protected:
   OpenCVVideoIO();
-  ~OpenCVVideoIO();
+  ~OpenCVVideoIO() override;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

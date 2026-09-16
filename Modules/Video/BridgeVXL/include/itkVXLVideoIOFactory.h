@@ -64,7 +64,7 @@ public:
 
 protected:
   VXLVideoIOFactory();
-  ~VXLVideoIOFactory();
+  ~VXLVideoIOFactory() override;
 };
 } // end namespace itk
 
