@@ -29,81 +29,60 @@ namespace itk
 {
 /**
  * \class StructuralSimilarityImageFilter
- * \brief Computes the Structural Similarity Index Measure (SSIM) between two images.
+ * \brief Computes the (multi-scale) Structural Similarity Index Measure between two images.
  *
- * This filter computes the Structural Similarity Index Measure
- * \cite wang2004image between two input images of identical geometry.  The
- * output image stores the per-pixel SSIM map.  The scalar mean SSIM over the
- * valid (non-boundary) region is available via GetMeanSSIM() after Update().
+ * This filter computes the Structural Similarity Index Measure (SSIM)
+ * \cite wang2004image and its multi-scale extension (MS-SSIM)
+ * \cite wang2003multiscale between two input images of identical geometry.
+ * The output image stores the per-pixel SSIM map at the original resolution.
+ * The scalar (MS-)SSIM is available via GetMeanSSIM() after Update().
  *
- * \par Algorithm
- * For two images \f$x\f$ and \f$y\f$, local statistics are computed by
- * convolving with a discrete Gaussian kernel of standard deviation
- * \f$\sigma\f$ (default 1.5):
+ * \par Local statistics
+ * With \f$G_\sigma\f$ the DiscreteGaussianImageFilter kernel of standard
+ * deviation \f$\sigma\f$ (in physical units), \f$\mu_x = G_\sigma * x\f$,
+ * \f$\sigma_x^2 = G_\sigma * x^2 - \mu_x^2\f$ (likewise for \f$y\f$) and
+ * \f$\sigma_{xy} = G_\sigma * (xy) - \mu_x\mu_y\f$, the luminance and
+ * contrast-structure terms are
  * \f[
- *   \mu_x = G_\sigma * x, \quad \mu_y = G_\sigma * y,
+ *   l = \frac{2\mu_x\mu_y + C_1}{\mu_x^2 + \mu_y^2 + C_1}, \qquad
+ *   cs = \frac{2\sigma_{xy} + C_2}{\sigma_x^2 + \sigma_y^2 + C_2}, \qquad
+ *   \mathrm{ssim} = l \cdot cs,
  * \f]
+ * with \f$C_1 = (K_1 L)^2\f$, \f$C_2 = (K_2 L)^2\f$ and \f$L\f$ the dynamic
+ * range.  If any of \c LuminanceExponent (\f$\alpha\f$), \c ContrastExponent
+ * (\f$\beta\f$) or \c StructureExponent (\f$\gamma\f$) differs from 1,
+ * \f$cs = c^\beta s^\gamma\f$ and \f$\mathrm{ssim} = l^\alpha c^\beta s^\gamma\f$
+ * with the separate contrast and structure terms of \cite wang2004image and
+ * \f$C_3 = C_2/2\f$.
+ *
+ * \par Multi-scale combination
+ * Scale \f$j = 0, \dots, M-1\f$ uses the inputs downsampled \f$j\f$ times
+ * by BinShrinkImageFilter (averaging of 2x2...2 blocks) and a window of
+ * \f$\sigma_j = 2^j \sigma\f$, i.e. the same number of pixels at every scale.
+ * Each map is averaged over the whole image at its scale, giving
+ * \f$\overline{cs}_j\f$ and \f$\overline{\mathrm{ssim}}_j\f$.  With weights
+ * \f$w_j\f$ (\c ScaleWeights),
  * \f[
- *   \sigma_x^2 = G_\sigma * x^2 - \mu_x^2,\quad
- *   \sigma_y^2 = G_\sigma * y^2 - \mu_y^2,\quad
- *   \sigma_{xy} = G_\sigma * (xy) - \mu_x \mu_y .
+ *   \mathrm{MS\mbox{-}SSIM}(x,y) =
+ *     \max(\overline{\mathrm{ssim}}_{M-1}, \epsilon)^{w_{M-1}}
+ *     \prod_{j=0}^{M-2} \max(\overline{cs}_j, \epsilon)^{w_j},
+ *     \qquad \epsilon = 10^{-6}.
  * \f]
+ * The floor keeps the product finite and away from zero when a per-scale
+ * mean is not positive.  The default weights are
+ * WangEtAl2003ScaleWeights().  With a single scale (\f$M = 1\f$) the result
+ * is the plain, unfloored mean SSIM \f$\overline{\mathrm{ssim}}_0\f$, which
+ * can be negative, and the weight value is not used.  Weights must be finite
+ * and non-negative.  Each image dimension must survive \f$M-1\f$
+ * BinShrinkImageFilter halvings, i.e. have at least \f$2^{M-1}\f$ pixels
+ * (more when the region's start index is not a multiple of \f$2^{M-1}\f$).
  *
- * The three SSIM components are
- * \f[
- *   l(x,y) = \frac{2\mu_x\mu_y + C_1}{\mu_x^2 + \mu_y^2 + C_1}, \qquad
- *   c(x,y) = \frac{2\sigma_x\sigma_y + C_2}{\sigma_x^2 + \sigma_y^2 + C_2}, \qquad
- *   s(x,y) = \frac{\sigma_{xy} + C_3}{\sigma_x\sigma_y + C_3}
- * \f]
- * with \f$C_1 = (K_1 L)^2\f$, \f$C_2 = (K_2 L)^2\f$, \f$C_3 = C_2/2\f$,
- * and \f$L\f$ the dynamic range of the pixel values.
- *
- * The combined SSIM is
- * \f[
- *   \mathrm{SSIM}(x,y) = [l(x,y)]^{\alpha}\,[c(x,y)]^{\beta}\,[s(x,y)]^{\gamma}.
- * \f]
- *
- * With the default exponents \f$\alpha = \beta = \gamma = 1\f$ and the
- * convention \f$C_3 = C_2/2\f$, this collapses to the simplified form
- * \f[
- *   \mathrm{SSIM}(x,y) =
- *     \frac{(2\mu_x\mu_y + C_1)\,(2\sigma_{xy} + C_2)}
- *          {(\mu_x^2 + \mu_y^2 + C_1)\,(\sigma_x^2 + \sigma_y^2 + C_2)}
- * \f]
- * which matches the reference implementation distributed by Wang et al.
- * and the default behavior of \c skimage.metrics.structural_similarity .
- *
- * \par Properties
- * - For identical images, the per-pixel SSIM is exactly 1 and the mean SSIM
- *   is exactly 1 (subject to floating-point precision).
- * - The SSIM index is symmetric: \f$\mathrm{SSIM}(x,y) = \mathrm{SSIM}(y,x)\f$.
- * - The SSIM index is bounded above by 1.  In typical cases it is
- *   non-negative; values can be slightly negative for anti-correlated
- *   regions.
- *
- * \par Parameters
- * - \c GaussianSigma: standard deviation of the Gaussian window
- *   (default 1.5, matching Wang et al.).
- * - \c MaximumKernelWidth: hard limit on the discrete Gaussian kernel width
- *   (default 11, matching the canonical 11x11 window).
- * - \c K1, \c K2: stability constants (defaults 0.01 and 0.03).
- * - \c DynamicRange: \f$L\f$ in the formulas above; defaults to the dynamic
- *   range of the input pixel type via NumericTraits (e.g. 255 for
- *   \c unsigned char, 1.0 for \c float / \c double).  For arbitrary
- *   floating-point images, set this explicitly to the actual data range.
- * - \c LuminanceExponent (\f$\alpha\f$), \c ContrastExponent (\f$\beta\f$),
- *   \c StructureExponent (\f$\gamma\f$): defaults all 1.0.
- * - \c ScaleWeights: array of per-scale weights for multi-scale SSIM
- *   (MS-SSIM, \cite wang2003multiscale).  When the array contains a single
- *   element (the default), the filter computes ordinary single-scale SSIM.
- *   Multi-scale evaluation with more than one scale is not yet implemented
- *   and will raise an exception in BeforeGenerate.
- *
- * The filter is N-dimensional, multi-threaded, and templated over the input
- * and output image types.  The output pixel type defaults to \c float.
+ * The filter is N-dimensional and multi-threaded.  The output pixel type
+ * defaults to \c float.
  *
  * \sa SimilarityIndexImageFilter
  * \sa DiscreteGaussianImageFilter
+ * \sa BinShrinkImageFilter
  *
  * \ingroup MultiThreaded
  * \ingroup StructuralSimilarity
@@ -141,8 +120,9 @@ public:
   /** Floating-point type used for all SSIM computations. */
   using RealType = typename NumericTraits<InputPixelType>::RealType;
 
-  /** Type used for the user-specified array of multi-scale weights. */
+  /** Type used for the multi-scale weights and the per-scale results. */
   using ScaleWeightsType = Array<RealType>;
+  using ScaleValuesType = Array<RealType>;
 
   /** Set/Get the first input image. */
   /** @ITKStartGrouping */
@@ -166,18 +146,11 @@ public:
   GetInput2() const;
   /** @ITKEndGrouping */
 
-  /** Standard deviation \f$\sigma\f$ of the Gaussian window used to compute
-   *  local statistics.  Default 1.5 (matching Wang et al. 2004). */
+  /** Standard deviation \f$\sigma\f$ of the Gaussian window at the finest
+   *  scale, in physical units.  Default 1.5. */
   /** @ITKStartGrouping */
   itkSetMacro(GaussianSigma, double);
   itkGetConstMacro(GaussianSigma, double);
-  /** @ITKEndGrouping */
-
-  /** Maximum width (per dimension) of the discrete Gaussian kernel.
-   *  Default 11, giving an 11x11 window in 2D when sigma=1.5. */
-  /** @ITKStartGrouping */
-  itkSetMacro(MaximumKernelWidth, unsigned int);
-  itkGetConstMacro(MaximumKernelWidth, unsigned int);
   /** @ITKEndGrouping */
 
   /** \f$K_1\f$ stability constant.  Default 0.01. */
@@ -219,19 +192,36 @@ public:
   itkGetConstMacro(StructureExponent, double);
   /** @ITKEndGrouping */
 
-  /** Per-scale weights for multi-scale SSIM (MS-SSIM).  An array of size 1
-   *  (the default) requests ordinary single-scale SSIM and is the only
-   *  configuration currently supported.  Setting an array of length greater
-   *  than 1 will currently raise an exception in BeforeGenerate. */
+  /** Per-scale exponents \f$w_j\f$; the number of elements is the number of
+   *  scales.  A single element requests single-scale SSIM.
+   *  Default WangEtAl2003ScaleWeights(). */
   /** @ITKStartGrouping */
   void
   SetScaleWeights(const ScaleWeightsType & weights);
   itkGetConstReferenceMacro(ScaleWeights, ScaleWeightsType);
   /** @ITKEndGrouping */
 
-  /** Mean SSIM over the valid (non-Gaussian-padded) region.  Available
-   *  after Update(). */
+  /** Returns the 5-scale MS-SSIM weights of Wang et al. 2003
+   *  \cite wang2003multiscale
+   *  \f$(0.0448,\ 0.2856,\ 0.3001,\ 0.2363,\ 0.1333)\f$. */
+  static ScaleWeightsType
+  WangEtAl2003ScaleWeights();
+
+  /** Returns \c size samples of a Gaussian of standard deviation \c sigma,
+   *  centered on the middle element and normalized to sum to 1.
+   *  Throws if \c sigma is not finite and strictly positive. */
+  static ScaleWeightsType
+  GaussianScaleWeights(unsigned int size, double sigma);
+
+  /** Mean (MS-)SSIM.  Available after Update(). */
   itkGetConstMacro(MeanSSIM, double);
+
+  /** Per-scale means \f$\overline{\mathrm{ssim}}_j\f$ and \f$\overline{cs}_j\f$,
+   *  finest scale first, before flooring.  Available after Update(). */
+  /** @ITKStartGrouping */
+  itkGetConstReferenceMacro(SSIMPerScale, ScaleValuesType);
+  itkGetConstReferenceMacro(ContrastStructurePerScale, ScaleValuesType);
+  /** @ITKEndGrouping */
 
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
 
@@ -250,16 +240,13 @@ protected:
   void
   EnlargeOutputRequestedRegion(DataObject * data) override;
 
-  /** Composite-filter-style: drives the internal sub-pipeline (5 Gaussian
-   *  convolutions plus a parallelized SSIM combination). */
   void
   GenerateData() override;
 
 private:
-  double       m_GaussianSigma{ 1.5 };
-  unsigned int m_MaximumKernelWidth{ 11 };
-  double       m_K1{ 0.01 };
-  double       m_K2{ 0.03 };
+  double m_GaussianSigma{ 1.5 };
+  double m_K1{ 0.01 };
+  double m_K2{ 0.03 };
 
   /** Default dynamic range: 1.0 for floating-point pixels (assume normalized
    *  data), and \c NumericTraits::max() - \c NumericTraits::min() for integer
@@ -282,9 +269,11 @@ private:
   double m_ContrastExponent{ 1.0 };
   double m_StructureExponent{ 1.0 };
 
-  ScaleWeightsType m_ScaleWeights{ 1, static_cast<RealType>(1.0) };
+  ScaleWeightsType m_ScaleWeights{ WangEtAl2003ScaleWeights() };
 
-  double m_MeanSSIM{ 0.0 };
+  double          m_MeanSSIM{ 0.0 };
+  ScaleValuesType m_SSIMPerScale{};
+  ScaleValuesType m_ContrastStructurePerScale{};
 };
 } // end namespace itk
 
