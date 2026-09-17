@@ -172,7 +172,7 @@ public:
 #endif
 protected:
   MorphologicalSignedDistanceTransformImageFilter();
-  virtual ~MorphologicalSignedDistanceTransformImageFilter() {}
+  virtual ~MorphologicalSignedDistanceTransformImageFilter() = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 

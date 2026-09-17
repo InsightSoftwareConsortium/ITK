@@ -27,7 +27,7 @@ OpenCVVideoIOFactory::OpenCVVideoIOFactory()
     "itkVideoIOBase", "itkOpenCVVideoIO", "OpenCV Video IO", 1, CreateObjectFunction<OpenCVVideoIO>::New());
 }
 
-OpenCVVideoIOFactory::~OpenCVVideoIOFactory() {}
+OpenCVVideoIOFactory::~OpenCVVideoIOFactory() = default;
 
 const char *
 OpenCVVideoIOFactory::GetITKSourceVersion() const

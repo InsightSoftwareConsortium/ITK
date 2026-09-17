@@ -102,7 +102,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  OnePlusOneCommandIterationUpdate() {}
+  OnePlusOneCommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::OnePlusOneEvolutionaryOptimizer;

@@ -64,7 +64,7 @@ public:
 
   /** Destructor that does nothing. The VideoStream will be freed by the source
    * that generated it. */
-  ~OpenCVVideoCapture() override {}
+  ~OpenCVVideoCapture() override = default;
 
   /** \see LightObject::GetNameOfClass() */
   itkVirtualGetNameOfClassMacro(OpenCVVideoCapture);

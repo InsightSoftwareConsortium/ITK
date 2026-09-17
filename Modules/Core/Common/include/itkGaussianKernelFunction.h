@@ -64,7 +64,7 @@ public:
   }
 
 protected:
-  GaussianKernelFunction() {}
+  GaussianKernelFunction() = default;
   ~GaussianKernelFunction() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override

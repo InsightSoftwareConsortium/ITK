@@ -335,7 +335,7 @@ MacOSXMemoryUsageObserver::GetMemoryUsage()
 
 /**         ----         Sun Solaris Memory Usage Observer       ----       */
 
-SunSolarisMemoryUsageObserver::~SunSolarisMemoryUsageObserver() {}
+SunSolarisMemoryUsageObserver::~SunSolarisMemoryUsageObserver() = default;
 
 /** On Sun Solaris machines, the system call pmap returns information on process.
  *  Calling "pmap PID", the output shall be like the following:

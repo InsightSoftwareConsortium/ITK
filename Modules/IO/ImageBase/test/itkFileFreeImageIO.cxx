@@ -25,9 +25,9 @@
 namespace itk
 {
 
-FileFreeImageIO::FileFreeImageIO() {}
+FileFreeImageIO::FileFreeImageIO() = default;
 
-FileFreeImageIO::~FileFreeImageIO() {}
+FileFreeImageIO::~FileFreeImageIO() = default;
 
 bool
 FileFreeImageIO::CanReadFile(const char * filename)

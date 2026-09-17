@@ -160,7 +160,7 @@ protected:
 
 // protected:
 //  IsotropicFastMarchingUpwindGradientImageFilterBase() : Superclass() {}
-//  ~IsotropicFastMarchingUpwindGradientImageFilterBase() {}
+//  ~IsotropicFastMarchingUpwindGradientImageFilterBase() = default;
 
 // private:
 //  void operator = ( const Self& );

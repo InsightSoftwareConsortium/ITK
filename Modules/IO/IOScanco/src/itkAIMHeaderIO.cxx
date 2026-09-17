@@ -691,6 +691,6 @@ AIMHeaderIO::WritePreHeader(std::ofstream & outfile, size_t imageSize, ScancoFil
   }
 }
 
-AIMHeaderIO::~AIMHeaderIO() {}
+AIMHeaderIO::~AIMHeaderIO() = default;
 
 } // namespace itk

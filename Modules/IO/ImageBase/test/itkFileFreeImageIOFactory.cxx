@@ -54,7 +54,7 @@ FileFreeImageIOFactory::FileFreeImageIOFactory()
                          CreateObjectFunction<FileFreeImageIO>::New());
 }
 
-FileFreeImageIOFactory::~FileFreeImageIOFactory() {}
+FileFreeImageIOFactory::~FileFreeImageIOFactory() = default;
 
 const char *
 FileFreeImageIOFactory::GetITKSourceVersion() const
