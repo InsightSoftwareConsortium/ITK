@@ -39,7 +39,7 @@ class MorphSDTHelper
 {
 public:
   MorphSDTHelper() {}
-  ~MorphSDTHelper() {}
+  ~MorphSDTHelper() = default;
   void
   SetVal(double i)
   {
@@ -134,7 +134,7 @@ public:
 #endif
 protected:
   MorphSDTHelperImageFilter() {}
-  virtual ~MorphSDTHelperImageFilter() {}
+  virtual ~MorphSDTHelperImageFilter() = default;
 };
 } // end namespace itk
 

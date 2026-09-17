@@ -26,7 +26,7 @@ VXLVideoIOFactory::VXLVideoIOFactory()
   this->RegisterOverride("itkVideoIOBase", "itkVXLVideoIO", "VXL Video IO", 1, CreateObjectFunction<VXLVideoIO>::New());
 }
 
-VXLVideoIOFactory::~VXLVideoIOFactory() {}
+VXLVideoIOFactory::~VXLVideoIOFactory() = default;
 
 const char *
 VXLVideoIOFactory::GetITKSourceVersion() const

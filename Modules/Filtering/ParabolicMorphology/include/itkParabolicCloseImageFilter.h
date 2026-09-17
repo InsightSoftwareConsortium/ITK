@@ -87,7 +87,7 @@ public:
       Here we prefer float in order to save memory.  */
 protected:
   ParabolicCloseImageFilter() {}
-  virtual ~ParabolicCloseImageFilter() {}
+  virtual ~ParabolicCloseImageFilter() = default;
   //   void PrintSelf(std::ostream& os, Indent indent) const;
 };
 } // end namespace itk

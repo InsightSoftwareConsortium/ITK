@@ -44,7 +44,7 @@ base* create(void) __attribute__ ((visibility (\"default\")));
     "
 #include \"base.h\"
 
-base::~base() {}
+base::~base() = default;
 base* create(void) { return new derived<int>(); }
 "
   )
