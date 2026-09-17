@@ -340,6 +340,24 @@ HDF5ReuseReadWriteTest(const char * fileName)
 }
 
 int
+HDF5InferredPixelTypeTest(const char * vectorFileName, const char * scalarFileName)
+{
+  auto io = itk::HDF5ImageIO::New();
+
+  io->SetFileName(vectorFileName);
+  io->ReadImageInformation();
+  ITK_TEST_EXPECT_EQUAL(io->GetNumberOfComponents(), 3u);
+  ITK_TEST_EXPECT_EQUAL(io->GetPixelType(), itk::IOPixelEnum::VECTOR);
+
+  io->SetFileName(scalarFileName);
+  io->ReadImageInformation();
+  ITK_TEST_EXPECT_EQUAL(io->GetNumberOfComponents(), 1u);
+  ITK_TEST_EXPECT_EQUAL(io->GetPixelType(), itk::IOPixelEnum::SCALAR);
+
+  return EXIT_SUCCESS;
+}
+
+int
 itkHDF5ImageIOTest(int argc, char * argv[])
 {
   std::string prefix("");
@@ -362,6 +380,7 @@ itkHDF5ImageIOTest(int argc, char * argv[])
   result += HDF5ReadWriteTest<itk::RGBPixel<unsigned char>>("RGBImage.hdf5");
 
   result += HDF5ReuseReadWriteTest("UCharImage.hdf5");
+  result += HDF5InferredPixelTypeTest("RGBImage.hdf5", "UCharImage.hdf5");
 
   return result != 0;
 }
