@@ -219,7 +219,7 @@ public:
   }
 
 protected:
-  CommandIterationUpdateParticleSwarm() {}
+  CommandIterationUpdateParticleSwarm() = default;
 
 private:
   unsigned long m_IterationNumber{};

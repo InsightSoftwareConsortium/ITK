@@ -222,7 +222,7 @@ public:
   }
 
 protected:
-  CommandIterationUpdateAmoeba() {}
+  CommandIterationUpdateAmoeba() = default;
 
 private:
   unsigned long m_IterationNumber{ 0 };

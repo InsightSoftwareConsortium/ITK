@@ -63,7 +63,7 @@ public:
   }
 
 protected:
-  DeconvolutionIterationCommand() {}
+  DeconvolutionIterationCommand() = default;
 
 private:
   int m_NumberOfIterations{};

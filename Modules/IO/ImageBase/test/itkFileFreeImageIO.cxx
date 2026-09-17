@@ -25,7 +25,7 @@
 namespace itk
 {
 
-FileFreeImageIO::FileFreeImageIO() {}
+FileFreeImageIO::FileFreeImageIO() = default;
 
 FileFreeImageIO::~FileFreeImageIO() = default;
 

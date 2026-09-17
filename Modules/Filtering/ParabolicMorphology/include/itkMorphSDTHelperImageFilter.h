@@ -38,7 +38,7 @@ template <typename TInput1, typename TInput2 = TInput1, typename TInput3 = TInpu
 class MorphSDTHelper
 {
 public:
-  MorphSDTHelper() {}
+  MorphSDTHelper() = default;
   ~MorphSDTHelper() = default;
   void
   SetVal(double i)
@@ -133,7 +133,7 @@ public:
   /** End concept checking */
 #endif
 protected:
-  MorphSDTHelperImageFilter() {}
+  MorphSDTHelperImageFilter() = default;
   virtual ~MorphSDTHelperImageFilter() = default;
 };
 } // end namespace itk

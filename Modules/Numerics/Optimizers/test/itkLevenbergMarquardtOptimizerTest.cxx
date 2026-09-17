@@ -185,7 +185,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  CommandIterationUpdateLevenbergMarquardt() {}
+  CommandIterationUpdateLevenbergMarquardt() = default;
 
 public:
   using OptimizerType = itk::LevenbergMarquardtOptimizer;
