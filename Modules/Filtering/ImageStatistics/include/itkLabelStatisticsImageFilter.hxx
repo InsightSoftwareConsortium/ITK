@@ -34,6 +34,9 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::LabelStatisticsImageFilter
   Self::AddRequiredInputName("LabelInput");
   m_NumBins.SetSize(1);
   m_NumBins[0] = 256;
+
+  m_Reducer = GreedyReduceAlgorithm<MapType>::New();
+  m_Reducer->SetMergeFunction([this](MapType & target, MapType & source) { this->MergeMap(target, source); });
 }
 
 template <typename TInputImage, typename TLabelImage>
@@ -111,6 +114,9 @@ void
 LabelStatisticsImageFilter<TInputImage, TLabelImage>::AfterStreamedGenerateData()
 {
   Superclass::AfterStreamedGenerateData();
+
+  // Retrieve the merged per-label statistics accumulated across all threads.
+  m_LabelStatistics = m_Reducer->GetResult();
 
   // compute the remainder of the statistics
   for (auto & mapValue : m_LabelStatistics)
@@ -241,28 +247,9 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::ThreadedStreamedGenerateDa
   }
 
 
-  // Merge localStatistics and m_LabelStatistics concurrently safe in a
-  // local copy, this thread may do multiple merges.
-  while (true)
-  {
-    MapType tomerge{};
-    {
-      const std::lock_guard<std::mutex> lockGuard(m_Mutex);
-
-      if (m_LabelStatistics.empty())
-      {
-        swap(m_LabelStatistics, localStatistics);
-        break;
-      }
-
-      // Move the data of the output map to the local `tomerge` and clear the output map.
-      swap(m_LabelStatistics, tomerge);
-
-    } // release lock, allow other threads to merge data
-
-    // Merge tomerge into localStatistics, locally
-    MergeMap(localStatistics, tomerge);
-  }
+  // Merge localStatistics into the accumulated per-label statistics,
+  // deterministically ordered is not required here.
+  m_Reducer->Merge(std::move(localStatistics));
 }
 
 template <typename TInputImage, typename TLabelImage>
