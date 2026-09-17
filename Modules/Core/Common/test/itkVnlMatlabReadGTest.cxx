@@ -29,8 +29,9 @@ namespace
 {
 // The writer emits the header in native byte order, so any legal type code read
 // back verbatim means the file is same-endian as the reader.
+template <typename TValue>
 std::stringstream
-MakeNativeStream(const vxl_int_32 typeCode, const std::array<float, 4> & values)
+MakeNativeStream(const vxl_int_32 typeCode, const std::array<TValue, 4> & values)
 {
   vnl_matlab_header hdr;
   std::memset(&hdr, 0, sizeof(hdr));
@@ -43,13 +44,13 @@ MakeNativeStream(const vxl_int_32 typeCode, const std::array<float, 4> & values)
   std::stringstream ss;
   ss.write(reinterpret_cast<const char *>(&hdr), sizeof(hdr));
   ss.write("x", 2);
-  ss.write(reinterpret_cast<const char *>(values.data()), sizeof(float) * values.size());
+  ss.write(reinterpret_cast<const char *>(values.data()), sizeof(TValue) * values.size());
   return ss;
 }
 } // namespace
 
-// All 8 legal single-precision/double-precision code combinations of
-// { little/big endian, column/row wise } must be recognized as native.
+// The 4 legal single-precision codes, over { little/big endian, column/row
+// wise }, must be recognized as native.
 TEST(VnlMatlabRead, NativeSinglePrecisionCodesAreNotSwapped)
 {
   const std::array<float, 4> expected{ 1.5F, -2.25F, 3.0F, 0.125F };
@@ -66,6 +67,35 @@ TEST(VnlMatlabRead, NativeSinglePrecisionCodesAreNotSwapped)
     EXPECT_STREQ(reader.name(), "x") << "type code " << typeCode;
 
     std::array<float, 4> actual{};
+    ASSERT_TRUE(reader.read_data(actual.data())) << "type code " << typeCode;
+    EXPECT_EQ(actual, expected) << "type code " << typeCode;
+  }
+}
+
+// The double-precision codes carry the remaining half of the legal combinations.
+// Code 0 is little-endian, so it is native only on a little-endian host.
+TEST(VnlMatlabRead, NativeDoublePrecisionCodesAreNotSwapped)
+{
+  const std::array<double, 4> expected{ 1.5, -2.25, 3.0, 0.125 };
+
+#if VXL_BIG_ENDIAN
+  const std::array<vxl_int_32, 3> nativeCodes{ 100, 1000, 1100 };
+#else
+  const std::array<vxl_int_32, 4> nativeCodes{ 0, 100, 1000, 1100 };
+#endif
+
+  for (const vxl_int_32 typeCode : nativeCodes)
+  {
+    std::stringstream  ss = MakeNativeStream(typeCode, expected);
+    vnl_matlab_readhdr reader(ss);
+
+    ASSERT_TRUE(static_cast<bool>(reader)) << "type code " << typeCode;
+    EXPECT_FALSE(reader.is_single()) << "type code " << typeCode;
+    EXPECT_EQ(reader.rows(), 1) << "type code " << typeCode;
+    EXPECT_EQ(reader.cols(), 4) << "type code " << typeCode;
+    EXPECT_STREQ(reader.name(), "x") << "type code " << typeCode;
+
+    std::array<double, 4> actual{};
     ASSERT_TRUE(reader.read_data(actual.data())) << "type code " << typeCode;
     EXPECT_EQ(actual, expected) << "type code " << typeCode;
   }
