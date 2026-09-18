@@ -85,11 +85,12 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MINCImageIO);
 
-  /** Right now MINC supports up to 3D with multiple components */
+  /** MINC supports up to 3 spatial dimensions plus a time dimension (4D),
+   * each with multiple components (MINC vector_dimension). */
   bool
   SupportsDimension(unsigned long dim) override
   {
-    return dim < 4;
+    return dim < 5;
   }
 
   /*-------- This part of the interface deals with reading data. ------ */
