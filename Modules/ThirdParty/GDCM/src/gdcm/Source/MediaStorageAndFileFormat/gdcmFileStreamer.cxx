@@ -35,7 +35,7 @@
 #include <io.h>
 typedef int64_t off64_t;
 #else
-#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__EMSCRIPTEN__)
+#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__EMSCRIPTEN__) || !defined(__GLIBC__)
 #  define off64_t off_t
 #endif
 #include <unistd.h> // ftruncate
