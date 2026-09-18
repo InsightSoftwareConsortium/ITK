@@ -69,8 +69,6 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::BSpl
   this->SetFixedParametersGridOriginFromTransformDomainInformation();
   this->SetFixedParametersGridSpacingFromTransformDomainInformation();
   this->SetFixedParametersGridDirectionFromTransformDomainInformation();
-
-  this->Modified();
 }
 
 // Get the number of parameters

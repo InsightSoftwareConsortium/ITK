@@ -545,7 +545,7 @@ Object::Object()
   : LightObject()
   , m_ObjectName()
 {
-  this->Modified();
+  m_MTime.Modified();
 }
 
 Object::~Object() { itkDebugMacro("Destructing!"); }
