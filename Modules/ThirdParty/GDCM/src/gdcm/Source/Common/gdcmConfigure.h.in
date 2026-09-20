@@ -35,11 +35,13 @@
 /* Hard code the path to the public dictionary */
 #define PUB_DICT_PATH "@GDCM_PUB_DICT_PATH@"
 
+#if 0 // BEGIN ITK Omitted:
 /* Useful in particular for loadshared where the full path
  * to the lib is needed */
-#define GDCM_SOURCE_DIR "@GDCM_SOURCE_DIR@"
-#define GDCM_EXECUTABLE_OUTPUT_PATH "@CMAKE_RUNTIME_OUTPUT_DIRECTORY@"
-#define GDCM_LIBRARY_OUTPUT_PATH    "@GDCM_LIBRARY_OUTPUT_DIR@"
+#define GDCM_SOURCE_DIR ".GDCM_SOURCE_DIR@"
+#define GDCM_EXECUTABLE_OUTPUT_PATH ".CMAKE_RUNTIME_OUTPUT_DIRECTORY@"
+#define GDCM_LIBRARY_OUTPUT_PATH    ".GDCM_LIBRARY_OUTPUT_DIR@"
+#endif // END ITK
 
 #cmakedefine GDCM_BUILD_TESTING
 
