@@ -267,3 +267,85 @@ if(ITK_WRAP_PYTHON)
   unset(ITK_STUB_DIR CACHE)
   unset(ITK_PKL_DIR CACHE)
 endif()
+
+# Lands under the package directory, where an installed consumer's ITK_DIR already points.
+if(ITK_INSTALL_WRAPPING_DEVELOPMENT_FILES)
+  set(_itk_wrapping_install_dir "${ITK_INSTALL_PACKAGE_DIR}/Wrapping")
+
+  macro(_itk_install_wrapping_development _source_dir _destination)
+    install(
+      DIRECTORY
+        "${_source_dir}/"
+      DESTINATION "${_destination}"
+      COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}WrappingDevelopment
+      FILES_MATCHING
+      ${ARGN}
+    )
+  endmacro()
+
+  _itk_install_wrapping_development(
+    "${WrapITK_SOURCE_DIR}"
+    "${_itk_wrapping_install_dir}"
+    PATTERN
+    "*.cmake"
+    PATTERN
+    "CMakeLists.txt"
+    PATTERN
+    "*.i"
+    PATTERN
+    "*.in"
+    PATTERN
+    "*.py"
+    PATTERN
+    "*.h"
+    PATTERN
+    "images"
+      EXCLUDE
+    PATTERN
+    "Tests"
+      EXCLUDE
+  )
+
+  _itk_install_wrapping_development(
+    "${WRAP_ITK_TYPEDEFS_DIRECTORY}"
+    "${_itk_wrapping_install_dir}/Typedefs"
+    PATTERN
+    "*.i"
+    PATTERN
+    "*.idx"
+    PATTERN
+    "*.mdx"
+    PATTERN
+    "*.h"
+  )
+
+  _itk_install_wrapping_development(
+    "${ITK_SOURCE_DIR}/Modules/ThirdParty/pygccxml/src/pygccxml"
+    "${_itk_wrapping_install_dir}/ThirdParty/pygccxml/pygccxml"
+    PATTERN
+    "*.py"
+    PATTERN
+    "__pycache__"
+      EXCLUDE
+  )
+
+  # SWIG templates other modules extend, such as ITKBridgeNumPy's PyBuffer.i.init.
+  foreach(_module ${WRAP_ITK_MODULES})
+    _itk_install_wrapping_development(
+      "${${_module}_SOURCE_DIR}/wrapping"
+      "${_itk_wrapping_install_dir}/Modules/${_module}"
+      PATTERN
+      "*.i"
+      PATTERN
+      "*.i.in"
+      PATTERN
+      "*.i.init"
+      PATTERN
+      "test"
+        EXCLUDE
+    )
+  endforeach()
+  unset(_module)
+
+  unset(_itk_wrapping_install_dir)
+endif()

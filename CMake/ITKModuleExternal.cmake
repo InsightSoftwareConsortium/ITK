@@ -255,23 +255,22 @@ if(ITK_WRAPPING)
         "${CMAKE_CURRENT_SOURCE_DIR}/wrapping/CMakeLists.txt"
   )
     set(EXTERNAL_WRAP_ITK_PROJECT ON)
-    set(WRAP_ITK_CMAKE_DIR "${ITK_CMAKE_DIR}/../Wrapping")
-    include("${WRAP_ITK_CMAKE_DIR}/TypedefMacros.cmake")
-    # Build tree
+    # <source>/CMake in a build tree, the installed package directory otherwise.
     if(EXISTS "${ITK_CMAKE_DIR}/../Wrapping/CMakeLists.txt")
-      add_subdirectory(
-        "${ITK_CMAKE_DIR}/../Wrapping"
-        ${CMAKE_CURRENT_BINARY_DIR}/Wrapping
-      )
-      # Install tree
-    elseif(EXISTS"${ITK_CMAKE_DIR}/Wrapping/CMakeLists.txt")
-      add_subdirectory(
-        "${ITK_CMAKE_DIR}/Wrapping"
-        ${CMAKE_CURRENT_BINARY_DIR}/Wrapping
-      )
+      set(WRAP_ITK_CMAKE_DIR "${ITK_CMAKE_DIR}/../Wrapping")
+    elseif(EXISTS "${ITK_CMAKE_DIR}/Wrapping/CMakeLists.txt")
+      set(WRAP_ITK_CMAKE_DIR "${ITK_CMAKE_DIR}/Wrapping")
     else()
-      message(FATAL_ERROR "Could not find wrapping infrastructure.")
+      message(
+        FATAL_ERROR
+        "Could not find wrapping infrastructure at ${ITK_CMAKE_DIR}. To wrap a module against an installed ITK, that ITK must be reconfigured with ITK_INSTALL_WRAPPING_DEVELOPMENT_FILES=ON, then rebuilt and reinstalled."
+      )
     endif()
+    include("${WRAP_ITK_CMAKE_DIR}/TypedefMacros.cmake")
+    add_subdirectory(
+      "${WRAP_ITK_CMAKE_DIR}"
+      ${CMAKE_CURRENT_BINARY_DIR}/Wrapping
+    )
   endif()
 endif()
 # Create target to download data from the ITKData group.  This must come after
