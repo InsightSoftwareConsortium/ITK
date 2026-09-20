@@ -4,6 +4,16 @@
 # primary purpose of this test is to make sure there are not missing module
 # dependencies.
 
+# <source>/CMake in a build tree, the installed package directory otherwise.
+if(EXISTS "${ITK_CMAKE_DIR}/../Utilities/Maintenance/BuildHeaderTest.py")
+  set(
+    ITK_BUILD_HEADER_TEST_SCRIPT
+    "${ITK_CMAKE_DIR}/../Utilities/Maintenance/BuildHeaderTest.py"
+  )
+else()
+  set(ITK_BUILD_HEADER_TEST_SCRIPT "${ITK_CMAKE_DIR}/BuildHeaderTest.py")
+endif()
+
 # Improve performance of MSVC GUI, by reducing number of header tests.
 set(MAXIMUM_NUMBER_OF_HEADERS_default 35)
 if(MSVC)
@@ -114,8 +124,7 @@ macro(itk_module_headertest _name)
         OUTPUT
           ${_header_test_src}
         COMMAND
-          ${Python3_EXECUTABLE}
-          ${ITK_CMAKE_DIR}/../Utilities/Maintenance/BuildHeaderTest.py ${_name}
+          ${Python3_EXECUTABLE} ${ITK_BUILD_HEADER_TEST_SCRIPT} ${_name}
           ${${_name}_SOURCE_DIR} ${${_name}_BINARY_DIR}
           ${MAXIMUM_NUMBER_OF_HEADERS} ${_test_num}
       )
