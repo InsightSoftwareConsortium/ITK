@@ -48,7 +48,7 @@ testlib_register_test(const std::string &, TestMainFunction);
 // This allows the main function to be defined in the driver code
 // itself--instead of in the testlib library--thus avoiding
 // "awf-weirdness". This also means that functionality from the test
-// library, such as testlib_root_dir, can be used even if it is not
+// library can be used even if it is not
 // used to create a test driver.
 #define DEFINE_MAIN                        \
   int testlib_main(int, char *[]);         \

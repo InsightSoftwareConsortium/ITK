@@ -6,14 +6,12 @@ add_executable( testlib_test_all
    test_assert.cxx
    test_macros.cxx
    test_args.cxx
-   test_root_dir.cxx
 )
 target_link_libraries( testlib_test_all itktestlib )
 
 add_test( NAME testlib_assert COMMAND testlib_test_all test_assert )
 add_test( NAME testlib_macros COMMAND testlib_test_all test_macros )
 add_test( NAME testlib_args COMMAND testlib_test_all test_args one two )
-add_test( NAME testlib_root_dir COMMAND testlib_test_all test_root_dir )
 add_test( NAME testlib_all COMMAND testlib_test_all all one two )
 
 add_executable( testlib_test_link

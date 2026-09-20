@@ -1,15 +1,5 @@
 # ./vxl/testlib/CMakeLists.txt
 
-find_file(TESTLIB_VCL_WHERE_ROOT_DIR_H
-          vcl_where_root_dir.h
-          ${VXL_BINARY_DIR}/vcl )
-
-if(TESTLIB_VCL_WHERE_ROOT_DIR_H)
-  add_compile_definitions(VCL_WHERE_ROOT_DIR_H_EXISTS)
-else()
-  unset(TESTLIB_VCL_WHERE_ROOT_DIR_H)
-endif()
-
 set(testlib_sources
 
   # Useful utilities for the tests
@@ -20,9 +10,6 @@ set(testlib_sources
 
   # The main function of the driver executable
   testlib_main.cxx
-
-  # Used to locate test files in source tree
-  testlib_root_dir.h            testlib_root_dir.cxx
 )
 
 vxl_add_library(LIBRARY_NAME itktestlib
