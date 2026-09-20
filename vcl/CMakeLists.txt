@@ -1,7 +1,7 @@
 # vcl/CMakeLists.txt
 #
-# vcl is header-only: it provides the configured vcl_compiler.h /
-# vcl_where_root_dir.h and the vcl_msvc_warnings.h shim. The "vcl" INTERFACE
+# vcl is header-only: it provides the configured vcl_compiler.h and the
+# vcl_msvc_warnings.h shim. The "vcl" INTERFACE
 # target carries the vcl and core include roots (source and generated) so any
 # target that links it resolves <vcl_compiler.h>, <vxl_config.h> and <vnl/...>
 # without a global include_directories.
@@ -15,7 +15,6 @@ else()
   set(_config_destination ${VXL_INSTALL_INCLUDE_DIR})
 endif()
 vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vcl_compiler.h.in ${PROJECT_BINARY_DIR}/vcl_compiler.h ${_config_destination})
-vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vcl_where_root_dir.h.in ${PROJECT_BINARY_DIR}/vcl_where_root_dir.h  ${_config_destination})
 
 install(FILES vcl_msvc_warnings.h
     DESTINATION ${_config_destination}

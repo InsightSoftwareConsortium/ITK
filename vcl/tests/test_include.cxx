@@ -50,7 +50,6 @@
 #  include "vcl_msvc_warnings.h"
 #endif
 
-#include <vcl_where_root_dir.h>
 
 int
 main()
