@@ -13,6 +13,16 @@ else()
   set(ITK_WRAPPING OFF CACHE INTERNAL "Build external languages support" FORCE)
 endif()
 
+# Opt-in: the SWIG type indices are tens of MB.
+cmake_dependent_option(
+  ITK_INSTALL_WRAPPING_DEVELOPMENT_FILES
+  "Install the wrapping infrastructure and SWIG type indices so that external modules can be wrapped against an installed ITK"
+  OFF
+  "ITK_WRAPPING"
+  OFF
+)
+mark_as_advanced(ITK_INSTALL_WRAPPING_DEVELOPMENT_FILES)
+
 cmake_dependent_option(
   ITK_PYTHON_RELEASE_GIL
   "Release Python Global Interpreter Lock (GIL) during ITK operations"

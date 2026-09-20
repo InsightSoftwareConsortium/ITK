@@ -36,6 +36,41 @@ jobs:
       pypi_password: ${{ secrets.pypi_password }}
 ```
 
+## Building an external module against an installed ITK
+
+An external module can be configured, built, and Python-wrapped against an
+installed ITK prefix rather than an ITK build tree. Point `ITK_DIR` at the
+installed package directory, for example
+`<prefix>/lib/cmake/ITK-6.0`, and configure the module as usual.
+
+Wrapping additionally requires the SWIG type indices and the wrapping CMake
+infrastructure, which ITK installs only on request because the payload is
+tens of megabytes. To make an installed prefix usable as a wrapping SDK, the
+ITK being installed must be configured with:
+
+```bash
+cmake -DITK_WRAP_PYTHON:BOOL=ON \
+      -DITK_INSTALL_WRAPPING_DEVELOPMENT_FILES:BOOL=ON <itk-source>
+```
+
+then rebuilt and reinstalled. Configuring a module with `ITK_WRAP_PYTHON=ON`
+against a prefix that lacks these files fails with "Could not find wrapping
+infrastructure"; the remedy is to reconfigure, rebuild, and reinstall the ITK
+the module points at, not to change anything in the module.
+
+A module that extends another module's SWIG templates, as RTK extends
+`ITKBridgeNumPy`'s `PyBuffer.i.init`, finds them in a build tree under that
+module's source `wrapping/` directory and in an install tree under
+`${WRAP_ITK_CMAKE_DIR}/Modules/<Module>/`:
+
+```cmake
+set(_numpy_wrapping "${WRAP_ITK_CMAKE_DIR}/Modules/ITKBridgeNumPy")
+if(NOT EXISTS "${_numpy_wrapping}/PyBuffer.i.init")
+  list(GET ITKBridgeNumPy_INCLUDE_DIRS 0 _numpy_include)
+  set(_numpy_wrapping "${_numpy_include}/../wrapping")
+endif()
+```
+
 ## Further Reading
 
 For more information visit README documentation at the [ITKRemoteModuleBuildTestPackageAction](https://github.com/InsightSoftwareConsortium/ITKRemoteModuleBuildTestPackageAction/blob/main/README.md#itkremotemodulebuildtestpackageaction) project.
