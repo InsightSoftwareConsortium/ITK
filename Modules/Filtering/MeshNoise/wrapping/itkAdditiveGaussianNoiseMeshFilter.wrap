@@ -1,6 +1,7 @@
 itk_wrap_include("itkMesh.h")
 itk_wrap_include("itkDefaultStaticMeshTraits.h")
 itk_wrap_include("itkDefaultDynamicMeshTraits.h")
+itk_wrap_include("itkMapContainer.h")
 
 itk_wrap_class("itk::AdditiveGaussianNoiseMeshFilter" POINTER_WITH_2_SUPERCLASSES)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
@@ -20,6 +21,12 @@ itk_wrap_class("itk::Mesh" POINTER)
       itk_wrap_template("${ITKM_${t}}${d}DT${ITKM_${t}}${d}"
         "${ITKT_${t}},${d},itk::DefaultDynamicMeshTraits<${ITKT_${t}},${d}>")
     endforeach()
+  endforeach()
+itk_end_wrap_class()
+
+itk_wrap_class("itk::PointSetBase" POINTER)
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    itk_wrap_template("MC${ITKM_IT}${ITKM_PF${d}}" "itk::MapContainer<${ITKT_IT}, ${ITKT_PF${d}} >")
   endforeach()
 itk_end_wrap_class()
 
