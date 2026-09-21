@@ -3,13 +3,12 @@ itk_module(
   DEPENDS
     ITKCommon
     ITKIOMeshBase
-  COMPILE_DEPENDS
-    ITKMesh
   PRIVATE_DEPENDS
     ITKZLIB
   TEST_DEPENDS
     ITKTestKernel
     ITKMetaIO
+    ITKMesh
   FACTORY_NAMES
     MeshIO::MZ3
   DESCRIPTION "Read and write MZ3 triangle mesh files."

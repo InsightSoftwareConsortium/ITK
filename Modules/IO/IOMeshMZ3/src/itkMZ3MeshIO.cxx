@@ -18,12 +18,147 @@
 
 #include "itkMZ3MeshIO.h"
 
+#include "itk_zlib.h"
+
 #include "itkMakeUniqueForOverwrite.h"
 #include "itksys/SystemTools.hxx"
 #include "itkCommonEnums.h"
 
 namespace itk
 {
+
+class MZ3MeshIO::MZ3MeshIOInternals
+{
+public:
+  gzFile             m_GzFile;
+  uint16_t           m_Attributes{ 0 };
+  uint32_t           m_Skip{ 0 };
+  std::vector<float> m_VertexBuffer;
+};
+
+template <typename T>
+void
+MZ3MeshIO::WritePoints(T * buffer)
+{
+  SizeValueType index{};
+  float         component{};
+
+  if (m_IsCompressed)
+  {
+    // Write vertex coordinates
+    for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
+    {
+      for (unsigned int jj = 0; jj < 3; ++jj)
+      {
+        component = static_cast<float>(buffer[index]);
+        // Copy for deferred writing
+        m_Internal->m_VertexBuffer[index] = component;
+        ++index;
+      }
+    }
+  }
+  else
+  {
+    // Skip header and optional skip bytes
+    m_Ofstream.seekp(16 + m_Internal->m_Skip);
+    // Skip faces if present
+    if (m_Internal->m_Attributes & 1)
+    {
+      m_Ofstream.seekp(m_NumberOfCells * 12, std::ios::cur);
+    }
+    // Write vertex coordinates
+    for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
+    {
+      for (unsigned int jj = 0; jj < 3; ++jj)
+      {
+        component = static_cast<float>(buffer[index++]);
+        m_Ofstream.write(reinterpret_cast<char *>(&component), sizeof(float));
+      }
+    }
+  }
+}
+
+template <typename T>
+void
+MZ3MeshIO::WriteCells(T * buffer)
+{
+  SizeValueType index{};
+  uint32_t      component;
+
+  if (m_IsCompressed)
+  {
+    // Write face indices
+    for (SizeValueType i = 0; i < m_NumberOfCells; ++i)
+    {
+      [[maybe_unused]] const auto cellType = buffer[index++];
+      const auto                  numberOfPoints = buffer[index++];
+      if (numberOfPoints == 3)
+      {
+        for (unsigned int jj = 0; jj < 3; ++jj)
+        {
+          component = static_cast<uint32_t>(buffer[index++]);
+          gzwrite(m_Internal->m_GzFile, &component, sizeof(uint32_t));
+        }
+      }
+      else
+      {
+        itkExceptionMacro("Only triangles are supported");
+        // index += numberOfPoints;
+      }
+    }
+    // Write vertex coordinates
+    gzwrite(m_Internal->m_GzFile, m_Internal->m_VertexBuffer.data(), m_NumberOfPoints * 3 * sizeof(float));
+  }
+  else
+  {
+    // Skip header and optional skip bytes
+    m_Ofstream.seekp(16 + m_Internal->m_Skip);
+    // Write face indices
+    for (SizeValueType i = 0; i < m_NumberOfCells; ++i)
+    {
+      [[maybe_unused]] const auto cellType = buffer[index++];
+      const auto                  numberOfPoints = buffer[index++];
+      if (numberOfPoints == 3)
+      {
+        for (unsigned int jj = 0; jj < 3; ++jj)
+        {
+          component = static_cast<uint32_t>(buffer[index++]);
+          m_Ofstream.write(reinterpret_cast<char *>(&component), sizeof(uint32_t));
+        }
+      }
+      else
+      {
+        itkExceptionMacro("Only triangles are supported");
+        // index += numberOfPoints;
+      }
+    }
+  }
+}
+
+template <typename T>
+void
+MZ3MeshIO::WritePointData(T * buffer)
+{
+  SizeValueType index{};
+  float         component{};
+
+  if (m_IsCompressed)
+  {
+    for (SizeValueType ii = 0; ii < this->m_NumberOfPointPixels; ++ii)
+    {
+      component = static_cast<float>(buffer[index++]);
+      gzwrite(m_Internal->m_GzFile, &component, sizeof(float));
+    }
+  }
+  else
+  {
+    for (SizeValueType ii = 0; ii < this->m_NumberOfPointPixels; ++ii)
+    {
+      component = static_cast<float>(buffer[index++]);
+      m_Ofstream.write(reinterpret_cast<char *>(&component), sizeof(float));
+    }
+  }
+}
 
 MZ3MeshIO::MZ3MeshIO()
   : m_Internal(std::make_unique<MZ3MeshIOInternals>())
