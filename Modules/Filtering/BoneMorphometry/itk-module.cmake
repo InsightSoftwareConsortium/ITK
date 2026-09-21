@@ -17,6 +17,7 @@ itk_module(
     ITKMathematicalMorphology
   COMPILE_DEPENDS
     ITKImageSources
+    ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
     ITKMetaIO
