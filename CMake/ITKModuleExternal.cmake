@@ -267,6 +267,8 @@ if(ITK_WRAPPING)
       )
     endif()
     include("${WRAP_ITK_CMAKE_DIR}/TypedefMacros.cmake")
+    # Python registers the factories at import; the wrapping library must not.
+    set(ITK_WRAPPING_NO_FACTORY_REGISTER_MANAGER ON)
     add_subdirectory(
       "${WRAP_ITK_CMAKE_DIR}"
       ${CMAKE_CURRENT_BINARY_DIR}/Wrapping
