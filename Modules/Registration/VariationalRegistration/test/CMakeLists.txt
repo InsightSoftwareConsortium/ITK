@@ -232,9 +232,9 @@ test3d(VariationalRegistrationDiffusive3DTest -r 1 -a 1)
 test3d(VariationalRegistrationElastic3DTest -r 2 -m 0.25 -b 0.25)
 
 # Active Thirion forces and curvature regularization
-# Disabled: baseline VariationalRegistrationCurvature3DTest.nii.gz is
-# orphaned (404 from gh-pages, Girder, and itk.org).
-# Test3D(VariationalRegistrationCurvature3DTest -r 3 -a 1)
+# ~0.08% of voxels diverge on native macOS ARM64 (issue #6459).
+set(VariationalRegistrationCurvature3DTest_NPIXELS_TOL "400")
+test3d(VariationalRegistrationCurvature3DTest -r 3 -a 1)
 
 # SSD forces and gaussian smoothing
 test3d(VariationalRegistrationSSD3DTest -f 1 -t 0.00001 -a 1)
