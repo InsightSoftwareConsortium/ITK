@@ -87,6 +87,10 @@ EM_ASM(
       ${KIT_LIBS}
       ${ITKTestKernel_LIBRARIES}
   )
+  # UseITK's register manager references every IO factory the ITK enables.
+  if(NOT ITK_SOURCE_DIR)
+    target_link_libraries(${KIT}TestDriver PRIVATE ${ITK_LIBRARIES})
+  endif()
   target_link_options(
     ${KIT}TestDriver
     PRIVATE
