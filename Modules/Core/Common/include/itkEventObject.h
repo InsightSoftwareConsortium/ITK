@@ -142,11 +142,10 @@ operator<<(std::ostream & os, const EventObject & e)
   };                                                       \
   ITK_MACROEND_NOOP_STATEMENT
 
+// Note: From ITK 6.0, the second parameter of itkEventMacroDefinition (`super`) is ignored.
 #define itkEventMacroDefinition(classname, super)                            \
-  classname::classname(const classname & s)                                  \
-    : super(s)                                                               \
-  {}                                                                         \
-  classname::~classname() {}                                                 \
+  classname::classname(const classname &) = default;                         \
+  classname::~classname() = default;                                         \
   const char * classname::GetEventName() const { return #classname; }        \
   bool         classname::CheckEvent(const itk::EventObject * e) const       \
   {                                                                          \
@@ -173,8 +172,8 @@ operator<<(std::ostream & os, const EventObject & e)
     public:                                              \
       using Self = classname;                            \
       using Superclass = super;                          \
-      classname() {}                                     \
-      virtual ~classname() {}                            \
+      classname() = default;                             \
+      ~classname() override = default;                   \
       virtual const char *                               \
       GetEventName() const                               \
       {                                                  \
@@ -190,8 +189,7 @@ operator<<(std::ostream & os, const EventObject & e)
       {                                                  \
         return new Self;                                 \
       }                                                  \
-      classname(const Self & s)                          \
-        : super(s) {};                                   \
+      classname(const Self &) = default;                 \
                                                          \
     private:                                             \
       void                                               \
