@@ -57,6 +57,12 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::VariationalRegist
   this->m_OutputBuffer = nullptr;
 }
 
+template <typename TDisplacementField>
+VariationalRegistrationElasticRegularizer<TDisplacementField>::~VariationalRegistrationElasticRegularizer()
+{
+  this->FreeData();
+}
+
 /**
  * Generate data
  */
@@ -146,18 +152,17 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::FreeData()
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    if (this->m_MatrixCos[i] != nullptr)
-      delete[] this->m_MatrixCos[i];
-    if (this->m_MatrixSin[i] != nullptr)
-      delete[] this->m_MatrixSin[i];
-
-    if (this->m_ComplexBuffer[i] != nullptr)
-      delete[] this->m_ComplexBuffer[i];
+    delete[] this->m_MatrixCos[i];
+    this->m_MatrixCos[i] = nullptr;
+    delete[] this->m_MatrixSin[i];
+    this->m_MatrixSin[i] = nullptr;
+    delete[] this->m_ComplexBuffer[i];
+    this->m_ComplexBuffer[i] = nullptr;
   }
-  if (this->m_InputBuffer != nullptr)
-    delete[] this->m_InputBuffer;
-  if (this->m_OutputBuffer != nullptr)
-    delete[] this->m_OutputBuffer;
+  delete[] this->m_InputBuffer;
+  this->m_InputBuffer = nullptr;
+  delete[] this->m_OutputBuffer;
+  this->m_OutputBuffer = nullptr;
 }
 
 /**
