@@ -35,6 +35,7 @@ namespace itk
 itkGetGlobalValueMacro(TimeStamp, TimeStamp::GlobalTimeStampType, GlobalTimeStamp, 0);
 
 
+#ifndef ITK_LEGACY_REMOVE
 /**
  * Instance creation.
  */
@@ -43,6 +44,7 @@ TimeStamp::New()
 {
   return new Self;
 }
+#endif
 
 
 /**
