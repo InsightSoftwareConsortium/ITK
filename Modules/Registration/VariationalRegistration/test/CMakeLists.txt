@@ -127,13 +127,11 @@ test2d(VariationalRegistrationGaussian2DTest mha -r 0 -v 1.5 -u 0 -3)
 # Active Thirion forces and diffusive regularization
 test2d(VariationalRegistrationDiffusive2DTest "" -r 1 -a 1.5)
 
-if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
-  # Active Thirion forces and elastic regularization
-  test2d(VariationalRegistrationElastic2DTest "" -r 2 -m 0.5 -b 1.0)
+# Active Thirion forces and elastic regularization
+test2d(VariationalRegistrationElastic2DTest "" -r 2 -m 0.5 -b 1.0)
 
-  # Active Thirion forces and curvature regularization
-  test2d(VariationalRegistrationCurvature2DTest "" -r 3 -a 1)
-endif()
+# Active Thirion forces and curvature regularization
+test2d(VariationalRegistrationCurvature2DTest "" -r 3 -a 1)
 
 # Passive Thirion forces and gaussian smoothing
 test2d(VariationalRegistrationPassiveDemons2D "" -d 1 -a 1.5)
@@ -230,15 +228,13 @@ test3d(VariationalRegistrationGaussian3DTest -r 0 -v 1.5 -u 0)
 # Active Thirion forces and diffusive regularization
 test3d(VariationalRegistrationDiffusive3DTest -r 1 -a 1)
 
-if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
-  # Active Thirion forces and elastic regularization
-  test3d(VariationalRegistrationElastic3DTest -r 2 -m 0.25 -b 0.25)
+# Active Thirion forces and elastic regularization
+test3d(VariationalRegistrationElastic3DTest -r 2 -m 0.25 -b 0.25)
 
-  # Active Thirion forces and curvature regularization
-  # Disabled: baseline VariationalRegistrationCurvature3DTest.nii.gz is
-  # orphaned (404 from gh-pages, Girder, and itk.org).
-  # Test3D(VariationalRegistrationCurvature3DTest -r 3 -a 1)
-endif()
+# Active Thirion forces and curvature regularization
+# Disabled: baseline VariationalRegistrationCurvature3DTest.nii.gz is
+# orphaned (404 from gh-pages, Girder, and itk.org).
+# Test3D(VariationalRegistrationCurvature3DTest -r 3 -a 1)
 
 # SSD forces and gaussian smoothing
 test3d(VariationalRegistrationSSD3DTest -f 1 -t 0.00001 -a 1)
