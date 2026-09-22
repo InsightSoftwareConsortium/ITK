@@ -135,10 +135,8 @@ operator<<(std::ostream & os, const EventObject & e)
     CheckEvent(const itk::EventObject * e) const override; \
     itk::EventObject *                                     \
     MakeObject() const override;                           \
-                                                           \
-  private:                                                 \
-    void                                                   \
-    operator=(const Self &);                               \
+    Self &                                                 \
+    operator=(const Self &) = delete;                      \
   };                                                       \
   ITK_MACROEND_NOOP_STATEMENT
 
@@ -190,10 +188,8 @@ operator<<(std::ostream & os, const EventObject & e)
         return new Self;                                 \
       }                                                  \
       classname(const Self &) = default;                 \
-                                                         \
-    private:                                             \
-      void                                               \
-      operator=(const Self &);                           \
+      Self &                                             \
+      operator=(const Self &) = delete;                  \
     };
 #endif
 /**
