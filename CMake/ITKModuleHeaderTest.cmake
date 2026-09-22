@@ -135,6 +135,10 @@ macro(itk_module_headertest _name)
           ${ITK_MODULE_${_name}_TARGETS_NAMESPACE}${_name}Module
           ${ITK_MODULE_${_name}_TARGETS_NAMESPACE}ITKKWSysModule
       )
+      # UseITK's register manager references every IO factory the ITK enables.
+      if(NOT ITK_SOURCE_DIR)
+        target_link_libraries(${_test_name} PRIVATE ${ITK_LIBRARIES})
+      endif()
 
       target_link_options(
         ${_test_name}

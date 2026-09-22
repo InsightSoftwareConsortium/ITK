@@ -898,6 +898,7 @@ install(
     CMake/ITKModuleCPPCheckTest.cmake
     CMake/CppcheckTargets.cmake
     Utilities/Maintenance/BuildHeaderTest.py
+    Utilities/Doxygen/mcdoc.py
   DESTINATION ${ITK_INSTALL_PACKAGE_DIR}
   COMPONENT Development
 )
