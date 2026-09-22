@@ -3,6 +3,13 @@
 # ${_name}.dot file which defines the local dependency as graph
 # which will be then processed by dot
 
+# <source>/CMake in a build tree, the installed package directory otherwise.
+if(EXISTS "${ITK_CMAKE_DIR}/../Utilities/Doxygen/mcdoc.py")
+  set(ITK_MCDOC_SCRIPT "${ITK_CMAKE_DIR}/../Utilities/Doxygen/mcdoc.py")
+else()
+  set(ITK_MCDOC_SCRIPT "${ITK_CMAKE_DIR}/mcdoc.py")
+endif()
+
 macro(itk_module_doxygen _name)
   # _content defines the content of the ${_name}.dox file
   set(_content "/**\n")
@@ -49,7 +56,7 @@ macro(itk_module_doxygen _name)
         NAME ${_name}InDoxygenGroup
         COMMAND
           ${Python3_EXECUTABLE}
-          "${ITK_CMAKE_DIR}/../Utilities/Doxygen/mcdoc.py"
+          "${ITK_MCDOC_SCRIPT}"
           check
           ${_name}
           ${${_name}_SOURCE_DIR}/include

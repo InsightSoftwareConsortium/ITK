@@ -901,6 +901,7 @@ install(
     CMake/GetGitRevisionDescription.cmake
     CMake/itkVersion.cmake
     Utilities/Maintenance/BuildHeaderTest.py
+    Utilities/Doxygen/mcdoc.py
   DESTINATION ${ITK_INSTALL_PACKAGE_DIR}
   COMPONENT Development
 )
