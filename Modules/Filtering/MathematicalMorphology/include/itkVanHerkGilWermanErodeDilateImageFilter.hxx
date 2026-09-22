@@ -19,7 +19,7 @@
 #define itkVanHerkGilWermanErodeDilateImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
-
+#include "itkTotalProgressReporter.h"
 #include "itkVanHerkGilWermanUtilities.h"
 
 namespace itk
