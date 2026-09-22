@@ -57,6 +57,12 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::VariationalRegist
   this->m_OutputBuffer = nullptr;
 }
 
+template <typename TDisplacementField>
+VariationalRegistrationElasticRegularizer<TDisplacementField>::~VariationalRegistrationElasticRegularizer()
+{
+  this->FreeData();
+}
+
 /**
  * Generate data
  */
@@ -147,17 +153,35 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::FreeData()
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     if (this->m_MatrixCos[i] != nullptr)
+    {
       delete[] this->m_MatrixCos[i];
+      this->m_MatrixCos[i] = nullptr;
+    }
     if (this->m_MatrixSin[i] != nullptr)
+    {
       delete[] this->m_MatrixSin[i];
+      this->m_MatrixSin[i] = nullptr;
+    }
 
     if (this->m_ComplexBuffer[i] != nullptr)
+
+    {
+
       delete[] this->m_ComplexBuffer[i];
+
+      this->m_ComplexBuffer[i] = nullptr;
+    }
   }
   if (this->m_InputBuffer != nullptr)
+  {
     delete[] this->m_InputBuffer;
+    this->m_InputBuffer = nullptr;
+  }
   if (this->m_OutputBuffer != nullptr)
+  {
     delete[] this->m_OutputBuffer;
+    this->m_OutputBuffer = nullptr;
+  }
 }
 
 /**
@@ -195,19 +219,21 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::CreateFFTPlans()
   // Create the plans for the FFT
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    this->m_PlanForward[i] = FFTWProxyType::Plan_dft_r2c(
-      ImageDimension,
-      n,
-      this->m_InputBuffer,
-      reinterpret_cast<typename FFTWProxyType::ComplexType *>(this->m_ComplexBuffer[i]),
-      FFTW_MEASURE, this->GetNumberOfWorkUnits());
+    this->m_PlanForward[i] =
+      FFTWProxyType::Plan_dft_r2c(ImageDimension,
+                                  n,
+                                  this->m_InputBuffer,
+                                  reinterpret_cast<typename FFTWProxyType::ComplexType *>(this->m_ComplexBuffer[i]),
+                                  FFTW_MEASURE,
+                                  this->GetNumberOfWorkUnits());
 
-    this->m_PlanBackward[i] = FFTWProxyType::Plan_dft_c2r(
-      ImageDimension,
-      n,
-      reinterpret_cast<typename FFTWProxyType::ComplexType *>(this->m_ComplexBuffer[i]),
-      this->m_OutputBuffer,
-      FFTW_MEASURE, this->GetNumberOfWorkUnits());
+    this->m_PlanBackward[i] =
+      FFTWProxyType::Plan_dft_c2r(ImageDimension,
+                                  n,
+                                  reinterpret_cast<typename FFTWProxyType::ComplexType *>(this->m_ComplexBuffer[i]),
+                                  this->m_OutputBuffer,
+                                  FFTW_MEASURE,
+                                  this->GetNumberOfWorkUnits());
   }
 
   // delete n
