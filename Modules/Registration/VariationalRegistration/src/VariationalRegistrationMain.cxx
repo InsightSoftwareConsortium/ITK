@@ -75,10 +75,8 @@ extern "C"
 #include "itkVariationalRegistrationRegularizer.h"
 #include "itkVariationalRegistrationGaussianRegularizer.h"
 #include "itkVariationalRegistrationDiffusionRegularizer.h"
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
-#  include "itkVariationalRegistrationElasticRegularizer.h"
-#  include "itkVariationalRegistrationCurvatureRegularizer.h"
-#endif
+#include "itkVariationalRegistrationElasticRegularizer.h"
+#include "itkVariationalRegistrationCurvatureRegularizer.h"
 
 #include "itkVariationalRegistrationStopCriterion.h"
 #include "itkVariationalRegistrationLogger.h"
@@ -715,10 +713,8 @@ main(int argc, char * argv[])
   using RegularizerType = VariationalRegistrationRegularizer<DisplacementFieldType>;
   using GaussianRegularizerType = VariationalRegistrationGaussianRegularizer<DisplacementFieldType>;
   using DiffusionRegularizerType = VariationalRegistrationDiffusionRegularizer<DisplacementFieldType>;
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
   using ElasticRegularizerType = VariationalRegistrationElasticRegularizer<DisplacementFieldType>;
   using CurvatureRegularizerType = VariationalRegistrationCurvatureRegularizer<DisplacementFieldType>;
-#endif
 
   RegularizerType::Pointer regularizer;
   switch (regularizerType)
@@ -739,25 +735,17 @@ main(int argc, char * argv[])
     break;
     case 2:
     {
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
       ElasticRegularizerType::Pointer elasticRegularizer = ElasticRegularizerType::New();
       elasticRegularizer->SetMu(regulMu);
       elasticRegularizer->SetLambda(regulLambda);
       regularizer = elasticRegularizer;
-#else
-      ExceptionMacro(<< "ITK has to be built with ITK_USE_FFTWD set ON for elastic regularisation!");
-#endif
     }
     break;
     case 3:
     {
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
       CurvatureRegularizerType::Pointer curvatureRegularizer = CurvatureRegularizerType::New();
       curvatureRegularizer->SetAlpha(regulAlpha);
       regularizer = curvatureRegularizer;
-#else
-      ExceptionMacro(<< "ITK has to be built with FFTW (ITK_USE_FFTWF or ITK_USE_FFTWD) for curvature regularisation!");
-#endif
     }
     break;
   }

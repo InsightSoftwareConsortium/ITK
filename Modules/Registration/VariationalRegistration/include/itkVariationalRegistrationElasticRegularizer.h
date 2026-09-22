@@ -21,10 +21,13 @@
 #include "itkVariationalRegistrationRegularizer.h"
 #include "itkMultiThreaderBase.h"
 
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+#include <complex>
 
-// other includes:
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 #  include "itkFFTWCommon.h"
+#else
+#  include "itk_pocketfft.h"
+#endif
 
 namespace itk
 {
@@ -84,16 +87,17 @@ public:
   using ValueType = typename Superclass::ValueType;
   typedef typename DisplacementFieldType::SizeType::SizeValueType OffsetValueType;
 
-  /** Types for FFTW proxy */
-
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 #  if defined(ITK_USE_FFTWD)
-  // Prefer double precision when available; otherwise use single precision.
   using RealTypeFFT = double;
 #  else
   using RealTypeFFT = float;
 #  endif
-
   using FFTWProxyType = typename fftw::Proxy<RealTypeFFT>;
+#else
+  using RealTypeFFT = double;
+#endif
+  using FFTComplexType = std::complex<RealTypeFFT>;
 
   /** Set the regularization weight lambda. */
   itkSetMacro(Lambda, ValueType);
@@ -153,6 +157,30 @@ protected:
   typename DisplacementFieldType::IndexType
   CalculateComplexImageIndex(OffsetValueType offset);
 
+  bool
+  CreateFFTPlans();
+
+  void
+  DestroyFFTPlans();
+
+  void
+  ExecuteForwardFFT(unsigned int component);
+
+  void
+  ExecuteBackwardFFT(unsigned int component);
+
+  // Component access in the form [complex.numbers] guarantees for std::complex.
+  static RealTypeFFT &
+  Re(FFTComplexType & z)
+  {
+    return reinterpret_cast<RealTypeFFT(&)[2]>(z)[0];
+  }
+  static RealTypeFFT &
+  Im(FFTComplexType & z)
+  {
+    return reinterpret_cast<RealTypeFFT(&)[2]>(z)[1];
+  }
+
 private:
   /** Weight of the regularization term. */
   ValueType m_Lambda;
@@ -182,12 +210,13 @@ private:
   double * m_MatrixSin[ImageDimension];
 
   /** FFT plans and buffers */
-  typename FFTWProxyType::PlanType m_PlanForward[ImageDimension];  /** FFT forward plan  */
-  typename FFTWProxyType::PlanType m_PlanBackward[ImageDimension]; /** FFT backward plan */
-  typename FFTWProxyType::ComplexType *
-    m_ComplexBuffer[ImageDimension];                  /** memory space for output of forward and input of backward FFT*/
-  typename FFTWProxyType::PixelType * m_InputBuffer;  /** FFT memory space for input data */
-  typename FFTWProxyType::PixelType * m_OutputBuffer; /** FFT memory space for output data */
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+  typename FFTWProxyType::PlanType m_PlanForward[ImageDimension]{};
+  typename FFTWProxyType::PlanType m_PlanBackward[ImageDimension]{};
+#endif
+  FFTComplexType * m_ComplexBuffer[ImageDimension]; /** output of forward and input of backward FFT */
+  RealTypeFFT *    m_InputBuffer;                   /** spatial-domain input */
+  RealTypeFFT *    m_OutputBuffer;                  /** spatial-domain output */
 
   struct ElasticFFTThreadStruct
   {
@@ -201,9 +230,8 @@ private:
 
 } // namespace itk
 
-#  ifndef ITK_MANUAL_INSTANTIATION
-#    include "itkVariationalRegistrationElasticRegularizer.hxx"
-#  endif
-
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkVariationalRegistrationElasticRegularizer.hxx"
 #endif
+
 #endif
