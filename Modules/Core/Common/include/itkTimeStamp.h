@@ -65,17 +65,22 @@ public:
 
   using GlobalTimeStampType = std::atomic<ModifiedTimeType>;
 
+#ifndef ITK_LEGACY_REMOVE
   /** Create an instance of this class. We don't want to use reference
-   * counting. */
-  static Self *
-  New();
+   * counting.
+   \deprecated Please use a more common way to create a new TimeStamp. TimeStamp is default-constructible, so it can be
+   allocated on the stack. */
+  itkLegacyMacro(static Self * New();)
 
-  /** Destroy this instance. */
-  void
-  Delete()
+  /** Destroy this instance.
+   \deprecated Please use C++ `delete` instead, if you really need to manually deallocate a TimeStamp object. In
+   practice, manual deallocation can usually be avoided by using the C++ pattern RAII ("Resource Acquisition Is
+   Initialization"). */
+  itkLegacyMacro(void Delete())
   {
     delete this;
   }
+#endif
 
   /** The class name as a string.  */
   static const char *
