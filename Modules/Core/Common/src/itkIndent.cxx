@@ -34,11 +34,13 @@ namespace itk
 {
 static constexpr char blanks[ITK_NUMBER_OF_BLANKS + 1] = "                                        ";
 
+#ifndef ITK_LEGACY_REMOVE
 Indent *
 Indent::New()
 {
   return new Self;
 }
+#endif
 
 Indent
 Indent::GetNextIndent() const
