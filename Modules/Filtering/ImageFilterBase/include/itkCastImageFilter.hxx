@@ -159,17 +159,31 @@ CastImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDataDispatche
     const InputPixelType & inputPixel = *inputIt;
 
     using OutputPixelValueType = typename OutputPixelType::ValueType;
+    using OutputPixelReferenceType = decltype(*outputIt);
 
     constexpr bool isVariableLengthVector = std::is_same_v<OutputPixelType, VariableLengthVector<OutputPixelValueType>>;
 
-    // If the output pixel type is a VariableLengthVector, it behaves as a "reference" to the internal data. Otherwise
-    // declare outputPixel as a reference, `OutputPixelType &`, to allow it to access the internal buffer directly.
-    std::conditional_t<isVariableLengthVector, OutputPixelType, OutputPixelType &> outputPixel{ *outputIt };
-
-    for (unsigned int k = 0; k < componentsPerPixel; ++k)
+    if constexpr (std::is_reference_v<OutputPixelReferenceType> || isVariableLengthVector)
     {
-      outputPixel[k] = static_cast<OutputPixelValueType>(inputPixel[k]);
+      std::conditional_t<isVariableLengthVector, OutputPixelType, OutputPixelType &> outputPixel{ *outputIt };
+
+      for (unsigned int k = 0; k < componentsPerPixel; ++k)
+      {
+        outputPixel[k] = static_cast<OutputPixelValueType>(inputPixel[k]);
+      }
     }
+    else
+    {
+      OutputPixelType outputPixel;
+
+      for (unsigned int k = 0; k < componentsPerPixel; ++k)
+      {
+        outputPixel[k] = static_cast<OutputPixelValueType>(inputPixel[k]);
+      }
+
+      *outputIt = outputPixel;
+    }
+
     ++inputIt;
     ++outputIt;
   }

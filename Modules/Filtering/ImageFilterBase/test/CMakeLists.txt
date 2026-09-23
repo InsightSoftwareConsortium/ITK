@@ -62,5 +62,9 @@ itk_add_test(
     itkCastImageFilterTest
 )
 
-set(ITKImageFilterBaseGTests itkGeneratorImageFilterGTest.cxx)
+set(
+  ITKImageFilterBaseGTests
+  itkGeneratorImageFilterGTest.cxx
+  itkCastImageFilterGTest.cxx
+)
 creategoogletestdriver(ITKImageFilterBase "${ITKImageFilterBase-Test_LIBRARIES}" "${ITKImageFilterBaseGTests}")
