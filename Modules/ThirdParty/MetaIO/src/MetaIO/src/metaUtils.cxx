@@ -57,7 +57,24 @@ bool META_DEBUG = false;
 
 static char MET_SeperatorChar = '=';
 
-constexpr static std::streamoff MET_MaxChunkSize = 1024 * 1024 * 1024;
+static std::streamoff MET_MaxChunkSize = 1024 * 1024 * 1024;
+
+void
+MET_SetMaxChunkSize(std::streamoff chunkSize)
+{
+  // zlib counts are uInt; a larger value truncates to 0 and the codec loops forever.
+  const std::streamoff maxRepresentable = static_cast<std::streamoff>(std::numeric_limits<uInt>::max());
+  if (chunkSize > 0 && chunkSize <= maxRepresentable)
+  {
+    MET_MaxChunkSize = chunkSize;
+  }
+}
+
+std::streamoff
+MET_GetMaxChunkSize()
+{
+  return MET_MaxChunkSize;
+}
 
 MET_FieldRecordType *
 MET_GetFieldRecord(const char * _fieldName, std::vector<MET_FieldRecordType *> * _fields)
@@ -872,7 +889,7 @@ MET_PerformUncompression(const unsigned char * sourceCompressed,
     source_pos += d_stream.avail_in;
     do
     {
-      uInt cur_remain_chunk = static_cast<uInt>(std::min(uncompressedDataSize - dest_pos, MET_MaxChunkSize));
+      uInt cur_remain_chunk = static_cast<uInt>(std::min(uncompressedDataSize - dest_pos, max_chunk_size));
       d_stream.next_out = uncompressedData + dest_pos;
       d_stream.avail_out = cur_remain_chunk;
       err = inflate(&d_stream, Z_NO_FLUSH);
@@ -890,6 +907,28 @@ MET_PerformUncompression(const unsigned char * sourceCompressed,
       }
     } while (d_stream.avail_out == 0);
   } while (err != Z_STREAM_END && err >= 0);
+  // Keep feeding input after the output fills so zlib can reach the CRC and end the stream.
+  unsigned char trailerScratch[1];
+  while (err == Z_BUF_ERROR && dest_pos == uncompressedDataSize)
+  {
+    if (d_stream.avail_in == 0)
+    {
+      if (source_pos >= sourceCompressedSize)
+      {
+        break;
+      }
+      d_stream.next_in = const_cast<unsigned char *>(sourceCompressed + source_pos);
+      d_stream.avail_in = static_cast<uInt>(std::min(sourceCompressedSize - source_pos, max_chunk_size));
+      source_pos += d_stream.avail_in;
+    }
+    d_stream.next_out = trailerScratch;
+    d_stream.avail_out = 1;
+    err = inflate(&d_stream, Z_NO_FLUSH);
+    if (d_stream.avail_out == 0)
+    {
+      break;
+    }
+  }
   inflateEnd(&d_stream);
   if (err != Z_STREAM_END)
   {
