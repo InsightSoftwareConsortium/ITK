@@ -24,6 +24,9 @@
 
 #include "itk_tiff.h"
 
+#include <algorithm>
+#include <cstdint>
+#include <fstream>
 #include <vector>
 #include <string>
 
@@ -67,6 +70,53 @@ WriteUniformDirectory(TIFF *        tif,
     TIFFWriteScanline(tif, const_cast<unsigned char *>(row.data()), r, 0);
   }
   TIFFWriteDirectory(tif);
+}
+
+void
+WriteU16(unsigned char * dest, uint16_t value, bool bigEndian)
+{
+  if (bigEndian)
+  {
+    dest[0] = static_cast<unsigned char>(value >> 8);
+    dest[1] = static_cast<unsigned char>(value);
+  }
+  else
+  {
+    dest[0] = static_cast<unsigned char>(value);
+    dest[1] = static_cast<unsigned char>(value >> 8);
+  }
+}
+
+// libtiff refuses to write a COMPRESSION value with no registered codec, so an
+// unregistered-codec fixture must be produced by patching the tag's on-disk value.
+bool
+PatchCompressionTag(const std::string & fileName, uint16_t newCompression)
+{
+  std::ifstream              in(fileName, std::ios::binary);
+  std::vector<unsigned char> buf((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+  in.close();
+  if (buf.size() < 2)
+  {
+    return false;
+  }
+  const bool bigEndian = (buf[0] == 'M' && buf[1] == 'M');
+
+  unsigned char pattern[8];
+  WriteU16(pattern + 0, TIFFTAG_COMPRESSION, bigEndian);
+  WriteU16(pattern + 2, TIFF_SHORT, bigEndian);
+  WriteU16(pattern + 4, 1, bigEndian); // field count == 1
+  WriteU16(pattern + 6, 0, bigEndian);
+
+  const auto match = std::search(buf.begin(), buf.end(), pattern, pattern + 8);
+  if (match == buf.end())
+  {
+    return false;
+  }
+  WriteU16(&*match + 8, newCompression, bigEndian);
+
+  std::ofstream out(fileName, std::ios::binary);
+  out.write(reinterpret_cast<const char *>(buf.data()), static_cast<std::streamsize>(buf.size()));
+  return out.good();
 }
 
 } // namespace
@@ -512,5 +562,36 @@ TEST(TIFFImageIOGTest, ReadDecodesMultiSlice32BitIntegerVolume)
         EXPECT_EQ(buffer[idx], expected) << "page " << p << " row " << r << " col " << c;
       }
     }
+  }
+}
+
+// TIFFFindCODEC returns nullptr for schemes with no registered codec (e.g. tag
+// 34712, JPEG2000); the exception must report the numeric tag, not "unknown".
+TEST(TIFFImageIOGTest, ReadImageInformationReportsNumericCodecForUnregisteredCompression)
+{
+  constexpr uint32_t width = 4;
+  constexpr uint32_t height = 4;
+  constexpr uint16_t unregisteredCompression = 34712;
+
+  const std::string fileName = TIFFImageIOGTestOutputPath("itkTIFFImageIOGTest_UnregisteredCodec.tif");
+
+  TIFF * tif = TIFFOpen(fileName.c_str(), "w");
+  ASSERT_NE(tif, nullptr);
+  WriteUniformDirectory(tif, width, height, 5, false, 0);
+  TIFFClose(tif);
+
+  ASSERT_TRUE(PatchCompressionTag(fileName, unregisteredCompression));
+
+  auto tiffImageIO = itk::TIFFImageIO::New();
+  tiffImageIO->SetFileName(fileName);
+
+  try
+  {
+    tiffImageIO->ReadImageInformation();
+    FAIL() << "expected an itk::ExceptionObject for an unregistered TIFF codec";
+  }
+  catch (const itk::ExceptionObject & e)
+  {
+    EXPECT_NE(std::string(e.GetDescription()).find(std::to_string(unregisteredCompression)), std::string::npos);
   }
 }

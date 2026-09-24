@@ -513,9 +513,12 @@ TIFFImageIO::ReadImageInformation()
     if (TIFFIsCODECConfigured(this->m_InternalImage->m_Compression) != 1)
     {
       const TIFFCodec * c = TIFFFindCODEC(this->m_InternalImage->m_Compression);
-      const char *      codecName = (c != nullptr) ? static_cast<const char *>(c->name) : "unknown";
 
-      itkExceptionMacro("TIFF CODEC \"" << codecName << "\" is not supported.");
+      if (c != nullptr)
+      {
+        itkExceptionMacro("TIFF CODEC \"" << c->name << "\" is not supported.");
+      }
+      itkExceptionMacro("TIFF CODEC " << this->m_InternalImage->m_Compression << " is not supported.");
     }
 
     char emsg[1024];
