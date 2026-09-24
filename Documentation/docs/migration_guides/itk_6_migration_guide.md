@@ -207,9 +207,9 @@ and `ImagePointCoordRepType`, respectively.
 itkIsNumber.h got deprecated. To modernize your code base, replace `mpl::IsNumber<X>::Value`
 with `std::is_arithmetic_v<X>`, and `#include "itkIsNumber.h"` with `#include <type_traits>`.
 
-The `itk::TimeStamp` member functions `New()` and `Delete()` are deprecated. If your
-application is still using them, you may replace their use with constructing instances
-of this type directly.
+The member functions `New()` and `Delete()` of `itk::Indent` and `itk::TimeStamp` are
+deprecated. If your application is still using them, you may replace their use with
+constructing instances of these types directly.
 
 
 ITKFEM and ITKFEMRegistration modules removed

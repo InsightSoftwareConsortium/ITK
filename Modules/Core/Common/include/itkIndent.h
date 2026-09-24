@@ -53,16 +53,20 @@ public:
   /** Standard class type aliases. */
   using Self = Indent;
 
-  /** Method for creation through the object factory. */
-  static Self *
-  New();
+#ifndef ITK_LEGACY_REMOVE
+  /** Method for creation.
+  \deprecated Instead of calling `New()`, please simply create an indent by directly constructing the object. Indent is
+  default-constructible, so it can be allocated on the stack. */
+  itkLegacyMacro(static Self * New();)
 
-  /** Destroy this instance. */
-  void
-  Delete()
+  /** Destroy this instance.
+     \deprecated Instead of calling `Delete()`, please use the C++ pattern RAII ("Resource Acquisition Is
+     Initialization"). */
+  itkLegacyMacro(void Delete())
   {
     delete this;
   }
+#endif
 
   /** Construct the object with an initial indentation level. */
   Indent(int ind = 0)
