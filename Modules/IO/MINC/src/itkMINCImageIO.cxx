@@ -486,7 +486,9 @@ MINCImageIO::ReadImageInformation()
     itkExceptionStringMacro(" minc files without spatial dimensions are not supported!");
   }
 
-  const bool haveTimeDimension = (m_MINCPImpl->m_DimensionIndices[4] != -1);
+  // NIfTI-1: "If dim[4]=1 or dim[0] < 4, there is no time axis."
+  const bool haveTimeDimension = (m_MINCPImpl->m_DimensionIndices[4] != -1) &&
+                                 (m_MINCPImpl->m_DimensionSize[m_MINCPImpl->m_DimensionIndices[4]] > 1);
   if (haveTimeDimension)
   {
     // As in NiftiImageIO, time is ITK axis 3; spatial axes absent from the file become size-1 axes.
@@ -538,6 +540,11 @@ MINCImageIO::ReadImageInformation()
     time_dir[spatial_dimension_count] = 1.0;
     this->SetDirection(spatial_dimension_count, time_dir);
 
+    ++usableDimensions;
+  }
+  else if (m_MINCPImpl->m_DimensionIndices[4] != -1)
+  {
+    m_MINCPImpl->m_MincApparentDims[usableDimensions] = m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]];
     ++usableDimensions;
   }
 
