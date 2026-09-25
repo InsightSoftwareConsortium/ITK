@@ -18,6 +18,7 @@
 
 #include <iostream>
 
+#include "itkMINCImageIO.h"
 #include "itkMINCImageIOFactory.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -123,6 +124,31 @@ itkMINCImageIOTest_4D(int argc, char * argv[])
       return EXIT_FAILURE;
     }
   }
+
+  // ImageBase rejects a zero spacing, so write the zero time step through the ImageIO directly.
+  const std::string zeroStep = std::string(argv[2]) + "_zerostep.mnc";
+  {
+    auto               zeroStepIO = itk::MINCImageIO::New();
+    itk::ImageIORegion ioRegion(ImageType::ImageDimension);
+    zeroStepIO->SetNumberOfDimensions(ImageType::ImageDimension);
+    for (unsigned int d = 0; d < ImageType::ImageDimension; ++d)
+    {
+      zeroStepIO->SetDimensions(d, region.GetSize(d));
+      ioRegion.SetSize(d, region.GetSize(d));
+    }
+    zeroStepIO->SetSpacing(3, 0.0);
+    zeroStepIO->SetPixelType(itk::IOPixelEnum::SCALAR);
+    zeroStepIO->SetComponentType(itk::IOComponentEnum::FLOAT);
+    zeroStepIO->SetFileName(zeroStep);
+    zeroStepIO->SetIORegion(ioRegion);
+    ITK_TRY_EXPECT_NO_EXCEPTION(zeroStepIO->Write(synthImage->GetBufferPointer()));
+  }
+
+  auto zeroStepReader = ReaderType::New();
+  zeroStepReader->SetFileName(zeroStep);
+  ITK_TRY_EXPECT_NO_EXCEPTION(zeroStepReader->Update());
+  ITK_TEST_EXPECT_EQUAL(zeroStepReader->GetOutput()->GetSpacing()[3], 1.0);
+  ITK_TEST_EXPECT_EQUAL(zeroStepReader->GetOutput()->GetOrigin()[3], 0.0);
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
