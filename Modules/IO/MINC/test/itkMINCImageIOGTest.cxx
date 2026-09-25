@@ -165,3 +165,35 @@ TEST(MINCImageIO, TimeSeriesWithoutZSpaceKeepsTimeOnAxis3)
   ASSERT_NO_THROW(writer->Update());
   ExpectTimeSeriesWithSingleSlice(ReadWithMINCIO<ImageType>(roundTrip));
 }
+
+TEST(MINCImageIO, SingleFrameTimeSeriesReadsAs3D)
+{
+  // Same dimension layout as mincconcat writes for one volume.
+  constexpr unsigned int nz = 4;
+  const std::string      fileName = OutputPath("itkMINCImageIOGTest_single_frame.mnc");
+  WriteRamp(fileName, { { MItime, 1 }, { MIzspace, nz }, { MIyspace, ny }, { MIxspace, nx } });
+
+  auto io = MakeMINCIO();
+  io->SetFileName(fileName);
+  ASSERT_NO_THROW(io->ReadImageInformation());
+  EXPECT_EQ(io->GetNumberOfDimensions(), 3u);
+
+  // ImageFileReader gives an identity direction when the file has more axes than the image.
+  using Image3DType = itk::Image<float, 3>;
+  const Image3DType::Pointer  image = ReadWithMINCIO<Image3DType>(fileName);
+  const Image3DType::SizeType expectedSize{ { nx, ny, nz } };
+  EXPECT_EQ(image->GetLargestPossibleRegion().GetSize(), expectedSize);
+  const Image3DType::DirectionType direction = image->GetDirection();
+  EXPECT_NEAR(direction[0][0], -0.6, 1e-12);
+  EXPECT_NEAR(direction[1][0], -0.8, 1e-12);
+  EXPECT_NEAR(direction[0][1], 0.8, 1e-12);
+  EXPECT_NEAR(direction[1][1], -0.6, 1e-12);
+  EXPECT_NEAR(direction[2][2], 1.0, 1e-12);
+
+  for (itk::ImageRegionConstIteratorWithIndex<Image3DType> it(image, image->GetLargestPossibleRegion()); !it.IsAtEnd();
+       ++it)
+  {
+    const auto & index = it.GetIndex();
+    ASSERT_EQ(it.Get(), static_cast<float>(index[0] + nx * (index[1] + ny * index[2]))) << "at index " << index;
+  }
+}
