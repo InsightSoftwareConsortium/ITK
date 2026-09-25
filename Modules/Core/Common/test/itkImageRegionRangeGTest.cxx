@@ -48,6 +48,22 @@ using itk::ImageRegionRange;
 
 namespace
 {
+// Minimal subclass of itk::Image.
+class ImageSubclass : public itk::Image<int>
+{
+public:
+  using Self = ImageSubclass;
+  using Superclass = itk::Image<int>;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
+  itkNewMacro(Self);
+
+protected:
+  ImageSubclass() = default;
+  ~ImageSubclass() override = default;
+};
+
+
 // Tells whether or not ImageRegionRange<TImage>::iterator::operator*() returns a reference.
 // (If it does not return a reference, it actually returns a proxy to the pixel.)
 template <typename TImage>
@@ -64,6 +80,12 @@ static_assert(DoesImageRegionRangeIteratorDereferenceOperatorReturnReference<itk
               "ImageRegionRange::iterator::operator*() should return a reference for an itk::Image.");
 static_assert(DoesImageRegionRangeIteratorDereferenceOperatorReturnReference<const itk::Image<int>>(),
               "ImageRegionRange::iterator::operator*() should return a reference for a 'const' itk::Image.");
+static_assert(DoesImageRegionRangeIteratorDereferenceOperatorReturnReference<ImageSubclass>(),
+              "ImageRegionRange::iterator::operator*() should return a reference for a subclass of itk::Image.");
+static_assert(
+  DoesImageRegionRangeIteratorDereferenceOperatorReturnReference<const ImageSubclass>(),
+  "ImageRegionRange::iterator::operator*() should return a reference for a 'const' subclass of itk::Image.");
+
 static_assert(!DoesImageRegionRangeIteratorDereferenceOperatorReturnReference<itk::VectorImage<int>>(),
               "ImageRegionRange::iterator::operator*() should not return a reference for an itk::VectorImage.");
 static_assert(!DoesImageRegionRangeIteratorDereferenceOperatorReturnReference<const itk::VectorImage<int>>(),
