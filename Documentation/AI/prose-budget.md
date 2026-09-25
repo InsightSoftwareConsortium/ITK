@@ -12,7 +12,7 @@ preference.
 
 | Artifact | Audience | Lifetime | Hard cap |
 |---|---|---|---|
-| In-source comment (`// …`) | future reader | forever | 1 short line, ≤ 100 chars; default = none |
+| In-source comment (`// …`) | future reader | forever | 1 line (ColumnLimit from .clang-format, currently ≤ 120 chars); default = none |
 | Commit subject | bisecter / `git log --oneline` reader | forever | ≤ 78 chars (enforced by `kw-commit-msg.py`) |
 | Commit message body | bisecter, archaeologist | forever | ≤ 12 lines, ≤ 72 chars/line; trailers excluded |
 | PR visible summary (above first `<details>`) | reviewer at merge time | until merged | ≤ 3 sentences, ≤ 250 chars |
