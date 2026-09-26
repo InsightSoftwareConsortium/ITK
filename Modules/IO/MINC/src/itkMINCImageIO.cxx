@@ -32,6 +32,30 @@
 #include <memory> // For unique_ptr.
 
 
+namespace
+{
+struct MINCApparentDimensionGeometry
+{
+  misize_t size{ 0 };
+  double   separation{ NAN };
+  double   start{ NAN };
+};
+
+MINCApparentDimensionGeometry
+MINCAttachApparentDimension(midimhandle_t * const apparentDims, const unsigned int slot, const midimhandle_t fileDim)
+{
+  apparentDims[slot] = fileDim;
+  // always use positive
+  miset_dimension_apparent_voxel_order(apparentDims[slot], MI_POSITIVE);
+
+  MINCApparentDimensionGeometry geometry;
+  miget_dimension_size(apparentDims[slot], &geometry.size);
+  miget_dimension_separation(apparentDims[slot], MI_ORDER_APPARENT, &geometry.separation);
+  miget_dimension_start(apparentDims[slot], MI_ORDER_APPARENT, &geometry.start);
+  return geometry;
+}
+} // namespace
+
 static void
 MINCIOFreeTmpDimHandle(unsigned int size, const midimhandle_t * const ptr)
 {
@@ -469,19 +493,14 @@ MINCImageIO::ReadImageInformation()
   // Read()/Write() where it is the highest ITK dimension.
   if (haveTimeDimension)
   {
-    m_MINCPImpl->m_MincApparentDims[usableDimensions] = m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]];
-    // always use positive
-    miset_dimension_apparent_voxel_order(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_POSITIVE);
-    misize_t _sz = 0;
-    miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_sz);
-    double _sep = NAN;
-    miget_dimension_separation(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_ORDER_APPARENT, &_sep);
-    double _start = NAN;
-    miget_dimension_start(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_ORDER_APPARENT, &_start);
+    const MINCApparentDimensionGeometry timeGeometry =
+      MINCAttachApparentDimension(m_MINCPImpl->m_MincApparentDims,
+                                  usableDimensions,
+                                  m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]]);
 
-    this->SetDimensions(spatial_dimension_count, static_cast<unsigned int>(_sz));
-    this->SetSpacing(spatial_dimension_count, _sep);
-    this->SetOrigin(spatial_dimension_count, _start);
+    this->SetDimensions(spatial_dimension_count, static_cast<unsigned int>(timeGeometry.size));
+    this->SetSpacing(spatial_dimension_count, timeGeometry.separation);
+    this->SetOrigin(spatial_dimension_count, timeGeometry.start);
 
     std::vector<double> time_dir(itkDimensionCount, 0.0);
     time_dir[spatial_dimension_count] = 1.0;
@@ -498,30 +517,24 @@ MINCImageIO::ReadImageInformation()
     {
       // MINC2: bad design!
       // micopy_dimension(hdim[m_MINCPImpl->m_DimensionIndices[i]],&apparent_dimension_order[usable_dimensions]);
-      m_MINCPImpl->m_MincApparentDims[usableDimensions] =
-        m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[i]];
-      // always use positive
-      miset_dimension_apparent_voxel_order(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_POSITIVE);
-      misize_t _sz = 0;
-      miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_sz);
+      const MINCApparentDimensionGeometry spatialGeometry =
+        MINCAttachApparentDimension(m_MINCPImpl->m_MincApparentDims,
+                                    usableDimensions,
+                                    m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[i]]);
 
-      double _sep = NAN;
-      miget_dimension_separation(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_ORDER_APPARENT, &_sep);
       std::array<double, 3> _dir{};
       miget_dimension_cosines(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_dir[0]);
-      double _start = NAN;
-      miget_dimension_start(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_ORDER_APPARENT, &_start);
 
       for (int j = 0; j < 3; ++j)
       {
         dir_cos[j][i - 1] = _dir[j];
       }
 
-      origin[i - 1] = _start;
-      sep[i - 1] = _sep;
+      origin[i - 1] = spatialGeometry.start;
+      sep[i - 1] = spatialGeometry.separation;
 
-      this->SetDimensions(i - 1, static_cast<unsigned int>(_sz));
-      this->SetSpacing(i - 1, _sep);
+      this->SetDimensions(i - 1, static_cast<unsigned int>(spatialGeometry.size));
+      this->SetSpacing(i - 1, spatialGeometry.separation);
 
       ++usableDimensions;
     }
