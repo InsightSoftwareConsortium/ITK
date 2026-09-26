@@ -42,6 +42,22 @@ ImageToHistogramFilter<TImage>::ImageToHistogramFilter()
   {
     this->Self::SetAutoMinimumMaximum(true);
   }
+
+  m_Reducer = GreedyReduceAlgorithm<HistogramPointer>::New();
+  m_Reducer->SetMergeFunction([](HistogramPointer & target, HistogramPointer & source) {
+    using HistogramIterator = typename HistogramType::ConstIterator;
+
+    HistogramIterator       hit = source->Begin();
+    const HistogramIterator end = source->End();
+
+    typename HistogramType::IndexType index;
+    while (hit != end)
+    {
+      target->GetIndex(hit.GetMeasurementVector(), index);
+      target->IncreaseFrequencyOfIndex(index, hit.GetFrequency());
+      ++hit;
+    }
+  });
 }
 
 template <typename TImage>
@@ -119,7 +135,7 @@ ImageToHistogramFilter<TImage>::InitializeOutputHistogram()
   m_Minimum.Fill(NumericTraits<ValueType>::max());
   m_Maximum.Fill(NumericTraits<ValueType>::NonpositiveMin());
 
-  m_MergeHistogram = nullptr;
+  m_Reducer->Clear();
 
   HistogramType * outputHistogram = this->GetOutput();
   outputHistogram->SetClipBinsAtEnds(true);
@@ -186,8 +202,8 @@ ImageToHistogramFilter<TImage>::AfterStreamedGenerateData()
   Superclass::AfterStreamedGenerateData();
 
   HistogramType * outputHistogram = this->GetOutput();
-  outputHistogram->Graft(m_MergeHistogram);
-  m_MergeHistogram = nullptr;
+  outputHistogram->Graft(m_Reducer->GetResult());
+  m_Reducer->Clear();
 }
 
 
@@ -257,39 +273,7 @@ template <typename TImage>
 void
 ImageToHistogramFilter<TImage>::ThreadedMergeHistogram(HistogramPointer && histogram)
 {
-  while (true)
-  {
-    HistogramPointer tomergeHistogram{};
-    {
-      const std::lock_guard<std::mutex> lockGuard(m_Mutex);
-
-      if (m_MergeHistogram.IsNull())
-      {
-        m_MergeHistogram = std::move(histogram);
-        return;
-      }
-
-      // merge/reduce the local results with current values in m_MergeHistogram
-
-      // take ownership locally
-      swap(m_MergeHistogram, tomergeHistogram);
-
-    } // release lock, allow other threads to merge data
-
-    using HistogramIterator = typename HistogramType::ConstIterator;
-
-    HistogramIterator       hit = tomergeHistogram->Begin();
-    const HistogramIterator end = tomergeHistogram->End();
-
-    typename HistogramType::IndexType index;
-
-    while (hit != end)
-    {
-      histogram->GetIndex(hit.GetMeasurementVector(), index);
-      histogram->IncreaseFrequencyOfIndex(index, hit.GetFrequency());
-      ++hit;
-    }
-  }
+  m_Reducer->Merge(std::move(histogram));
 }
 
 template <typename TImage>
